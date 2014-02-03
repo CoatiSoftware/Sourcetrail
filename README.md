@@ -2,6 +2,11 @@
 
 #### Setup ####
 
+Run setup script:
+$ ./script/setup.sh
+
+Or
+
 Define commit message template:
 $ git config commit.template .git_commit_template.txt
 
