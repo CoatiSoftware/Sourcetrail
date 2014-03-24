@@ -1,0 +1,3 @@
+void hello();
+
+int one();
