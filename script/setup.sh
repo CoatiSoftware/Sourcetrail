@@ -37,8 +37,8 @@ mkdir -p bin/Release
 # Copy necessary dynamic libraries to bin folder
 if [ $PLATFORM == "Windows" ]; then
 	echo $INFO "copy dynamic libraries"
-	cp -u setup/dynamic_libraries/windows/Debug/* bin/Debug
-	cp -u setup/dynamic_libraries/windows/Release/* bin/Release
+	cp -u -r setup/dynamic_libraries/windows/Debug/* bin/Debug
+	cp -u -r setup/dynamic_libraries/windows/Release/* bin/Release
 fi
 
 # Setup both Debug and Release configuration
