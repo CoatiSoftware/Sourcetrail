@@ -19,7 +19,7 @@ private:
 	const std::weak_ptr<TextLocationFile> m_textLocationFile;
 	const unsigned int m_lineNumber;
 
-	const std::vector<std::shared_ptr<TextLocation>> m_textLocations;
+	const std::vector<std::shared_ptr<TextLocation> > m_textLocations;
 };
 
 

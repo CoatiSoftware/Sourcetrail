@@ -12,7 +12,7 @@ public:
 	~TextLocationStorage();
 
 private:
-	std::vector<std::shared_ptr<TextLocationFile>> m_textLocationFiles;
+	std::vector<std::shared_ptr<TextLocationFile> > m_textLocationFiles;
 };
 
 

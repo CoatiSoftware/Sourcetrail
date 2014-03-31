@@ -15,7 +15,7 @@ public:
 
 private:
 	const std::string m_filePath;
-	std::vector<std::shared_ptr<TextLocationLine>> m_textLocationLine;
+	std::vector<std::shared_ptr<TextLocationLine> > m_textLocationLine;
 };
 
 

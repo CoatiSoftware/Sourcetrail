@@ -13,7 +13,7 @@ public:
 	~ViewManager();
 
 private:
-	std::vector<std::shared_ptr<View>> m_views;
+	std::vector<std::shared_ptr<View> > m_views;
 };
 
 

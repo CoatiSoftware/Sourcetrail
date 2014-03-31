@@ -28,7 +28,7 @@ private:
 
 	std::shared_ptr<ComponentFactory> m_componentFactory;
 
-	std::vector<std::shared_ptr<Component>> m_components;
+	std::vector<std::shared_ptr<Component> > m_components;
 };
 
 

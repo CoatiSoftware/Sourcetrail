@@ -13,8 +13,8 @@ public:
 	~Graph();
 
 private:
-	std::vector<std::shared_ptr<Node>> m_nodes;
-	std::vector<std::shared_ptr<Edge>> m_edges;
+	std::vector<std::shared_ptr<Node> > m_nodes;
+	std::vector<std::shared_ptr<Edge> > m_edges;
 };
 
 
