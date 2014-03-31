@@ -1,16 +1,21 @@
+#include <memory>
+
 #include <QApplication>
 #include <QTextEdit>
 
-#include "utility.h"
+#include "Application.h"
+#include "qt/QtElementFactory.h"
 
 int main(int argv, char **args)
 {
-	hello();
+	QApplication qtApp(argv, args);
+	std::shared_ptr<GuiElementFactory> elementFactory = std::make_shared<QtElementFactory>();
 
-    QApplication app(argv, args);
+	std::shared_ptr<Application> app = Application::create(elementFactory);
+	app->loadProject();
 
-    QTextEdit textEdit;
-    textEdit.show();
+	QTextEdit textEdit;
+	textEdit.show();
 
-    return app.exec();
+	return qtApp.exec();
 }

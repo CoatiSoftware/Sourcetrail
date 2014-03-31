@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8.9)
 
 include(cmake/add_files.cmake)
+include(cmake/create_source_groups.cmake)
 
 
 # Variables --------------------------------------------------------------------
@@ -29,7 +30,24 @@ endif ()
 project(${PROJECT_NAME})
 
 
-# Qt ---------------------------------------------------------------------------
+# Lib --------------------------------------------------------------------------
+
+add_subdirectory(src/lib)
+
+add_library(${LIB_PROJECT_NAME} ${LIB_FILES})
+
+create_source_groups(${LIB_FILES})
+
+set_target_properties(	${LIB_PROJECT_NAME}
+						PROPERTIES 	DEBUG_OUTPUT_NAME ${PROJECT_NAME}_d
+									RELEASE_OUTPUT_NAME ${PROJECT_NAME})
+
+
+# App --------------------------------------------------------------------------
+
+add_subdirectory(src/app)
+include_directories(src/lib src/app)
+
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -42,29 +60,17 @@ set(CMAKE_PREFIX_PATH "$ENV{QT_DIR}/")
 find_package(Qt5Widgets)
 
 
-# Lib --------------------------------------------------------------------------
-
-add_subdirectory(src/lib)
-
-add_library(${LIB_PROJECT_NAME} ${LIB_FILES})
-
-set_target_properties(	${LIB_PROJECT_NAME} 
-						PROPERTIES 	DEBUG_OUTPUT_NAME ${PROJECT_NAME}_d
-									RELEASE_OUTPUT_NAME ${PROJECT_NAME})
-
-
-# App --------------------------------------------------------------------------
-
-
-add_subdirectory(src/app)
-include_directories(src/lib)
-
 add_executable(${APP_PROJECT_NAME} ${APP_FILES})
+
+create_source_groups(${APP_FILES})
 
 target_link_libraries(${APP_PROJECT_NAME} ${LIB_PROJECT_NAME})
 
 # Use the Widgets module from Qt 5.
 qt5_use_modules(${APP_PROJECT_NAME} Widgets)
+
+
+set(CMAKE_AUTOMOC OFF)
 
 
 # CxxTest ----------------------------------------------------------------------
@@ -73,20 +79,22 @@ add_subdirectory(src/test)
 
 set(CXXTEST_INCLUDE_DIR $ENV{CXX_TEST_DIR})
 set(CXXTEST_PYTHON_TESTGEN_EXECUTABLE ${CXXTEST_INCLUDE_DIR}/bin/cxxtestgen)
-set(TESTGEN_FILE ${CMAKE_CURRENT_BINARY_DIR}/temptests.cpp)
+set(TESTGEN_FILE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp)
 
 find_package(CxxTest)
 
 if (CXXTEST_FOUND)
 
     include_directories(${CXXTEST_INCLUDE_DIR})
-	
+
 endif (CXXTEST_FOUND)
 
 find_package(PythonInterp REQUIRED)
 
-add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE})
-									
+add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE} ${TEST_FILES})
+
+create_source_groups(${TEST_FILES})
+
 target_link_libraries(${TEST_PROJECT_NAME} ${LIB_PROJECT_NAME})
 
 if (WIN32)
@@ -95,12 +103,12 @@ if (WIN32)
 					   PRE_BUILD
 					   COMMAND ${PYTHON_EXECUTABLE} ${CXXTEST_PYTHON_TESTGEN_EXECUTABLE} --runner=ParenPrinter -o ${TESTGEN_FILE} ${PROJECT_SOURCE_DIR}/src/test/*.h
 					   COMMENT "Generating unittest code with cxxtestgen")
-					   
+
 	add_custom_command(TARGET ${TEST_PROJECT_NAME}
 					   POST_BUILD
 					   COMMAND $(OutDir)$(TargetName)$(TargetExt)
 					   COMMENT "Running unittest code")
-					   
+
 elseif (UNIX)
 
 	add_custom_command(OUTPUT ${TESTGEN_FILE}

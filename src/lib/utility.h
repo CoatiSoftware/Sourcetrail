@@ -1,3 +1,0 @@
-void hello();
-
-int one();

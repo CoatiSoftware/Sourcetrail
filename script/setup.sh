@@ -39,6 +39,9 @@ if [ $PLATFORM == "Windows" ]; then
 	echo $INFO "copy dynamic libraries"
 	cp -u -r setup/dynamic_libraries/windows/Debug/* bin/Debug
 	cp -u -r setup/dynamic_libraries/windows/Release/* bin/Release
+
+	echo $INFO "copy test_main file"
+	cp -u setup/cxx_test/windows/test_main.cpp build
 fi
 
 # Setup both Debug and Release configuration

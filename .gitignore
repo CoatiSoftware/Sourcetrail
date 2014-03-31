@@ -1,4 +1,6 @@
-build/
-lib/
-bin/Debug/
-bin/Release/
+/build/
+/lib/
+/bin/Debug/
+/bin/Release/
+
+.DS_Store

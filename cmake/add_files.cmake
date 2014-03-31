@@ -15,9 +15,9 @@ macro(add_files var_name)
 
     foreach (_src ${ARGN})
         if (_relPath)
-            list (APPEND ${var_name} "${CMAKE_SOURCE_DIR}/${_relPath}/${_src}")
+            list (APPEND ${var_name} "${_relPath}/${_src}")
         else()
-            list (APPEND ${var_name} "${CMAKE_SOURCE_DIR}/${_src}")
+            list (APPEND ${var_name} "${_src}")
         endif()
     endforeach()
 
