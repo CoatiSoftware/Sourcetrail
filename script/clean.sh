@@ -12,4 +12,4 @@ rm -rf lib
 rm -rf bin/Debug
 rm -rf bin/Release
 
-echo $SUCCESS "clean complete"
+echo -e $SUCCESS "clean complete"
