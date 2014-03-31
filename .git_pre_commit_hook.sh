@@ -8,13 +8,13 @@ BRANCH_NAME=$(git symbolic-ref -q --short HEAD)
 
 if [ -z $BRANCH_NAME ]
 then
-	echo $ABORT "You are not on any branch."
+	echo -e $ABORT "You are not on any branch."
 	exit 1
 fi
 
 if [ $BRANCH_NAME == "master" ]
 then
-	echo $ABORT "Commiting to master is prohibited."
+	echo -e $ABORT "Commiting to master is prohibited."
 	exit 1
 fi
 
