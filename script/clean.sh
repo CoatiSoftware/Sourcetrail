@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SUCCESS="\033[32mSuccess:\033[00m"
 

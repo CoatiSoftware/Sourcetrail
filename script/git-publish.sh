@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ABORT="\033[31mAbort:\033[00m"
 SUCCESS="\033[32mSuccess:\033[00m"
@@ -40,7 +40,7 @@ echo -e $INFO "Checking master"
 # check if master is up to date
 if [[ -n $(git diff origin/master) ]]
 then
-	echo -e $ABORT "Your master is not up-to-date. Run 'sync.sh' to update your master, then run 'git rebase master' to update branch $BRANCH_NAME."
+	echo -e $ABORT "Your master is not up-to-date. Run 'git-sync-master.sh' to update master and rebase $BRANCH_NAME."
 	git checkout -q $BRANCH_NAME
 	exit 1
 fi
@@ -75,6 +75,7 @@ git commit
 
 if [ $? != 0 ]
 then
+	echo -e $ABORT "Commit was aborted."
 	git checkout -q $BRANCH_NAME
 	git branch -q -D $PUBLISH_BRANCH_NAME
 	exit 1
@@ -92,9 +93,9 @@ if [ $? != 0 ]
 then
 	git reset --hard -q HEAD^
 	git checkout -q $BRANCH_NAME
-	echo -e $ABORT "Pushing to origin master has failed, there are new remote changes. Run 'sync.sh' to update your master, then run 'git rebase master' to update branch $BRANCH_NAME."
+	echo -e $ABORT "Pushing to origin master has failed, there are new remote changes. Run 'git-sync-master.sh' to update master and rebase $BRANCH_NAME."
 	exit 1
 fi
 
-echo -e $SUCCESS "Published branch $BRANCH_NAME successfully"
+echo -e $SUCCESS "Published $BRANCH_NAME successfully"
 exit 0
