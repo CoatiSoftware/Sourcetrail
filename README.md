@@ -6,6 +6,7 @@
 
 * QT 5.2.1
 * CxxTest 4.3
+* Valgrind 3.9.0(linux, macOS)
 
 ##### Environment Variables
 

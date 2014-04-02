@@ -18,10 +18,20 @@ endif()
 
 # Settings ---------------------------------------------------------------------
 
+
+
+
+
+
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 
 if (UNIX)
+
+	ADD_DEFINITIONS(
+	    -std=c++11 # Or -std=c++0x
+	    # Other flags
+	)
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
 else ()
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
