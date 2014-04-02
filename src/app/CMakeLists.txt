@@ -3,6 +3,7 @@ add_files(
 
 	qt/QtElementFactory.cpp
 	qt/QtElementFactory.h
-
+	
+	includesWindows.h
 	main.cpp
 )

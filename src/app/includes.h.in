@@ -1,0 +1,7 @@
+#ifndef INCLUDES_H
+#define INCLUDES_H
+
+// platform specific includes
+@PLATFORM_INCLUDES@
+
+#endif // INCLUDES_H

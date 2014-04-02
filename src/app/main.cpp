@@ -4,6 +4,7 @@
 #include <QTextEdit>
 
 #include "Application.h"
+#include "includes.h"
 #include "qt/QtElementFactory.h"
 
 int main(int argv, char **args)
