@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<path>
+		<to>
+			<single_value>42</single_value>
+			<bool_that_is_true>1</bool_that_is_true>
+			<bool_that_is_false>0</bool_that_is_false>
+		</to>
+	</path>
+</config>
+

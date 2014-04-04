@@ -46,23 +46,32 @@ project(${PROJECT_NAME})
 # Lib --------------------------------------------------------------------------
 
 add_subdirectory(src/lib)
+add_subdirectory(src/external)
 
-add_library(${LIB_PROJECT_NAME} ${LIB_FILES})
+
+add_library(${LIB_PROJECT_NAME} ${LIB_FILES} ${EXTERNAL_FILES})
 
 create_source_groups(${LIB_FILES})
+create_source_groups(${EXTERNAL_FILES})
 
 set_target_properties(
 	${LIB_PROJECT_NAME}
-	PROPERTIES 	DEBUG_OUTPUT_NAME ${PROJECT_NAME}_d
-	RELEASE_OUTPUT_NAME ${PROJECT_NAME}
+	PROPERTIES
+		DEBUG_OUTPUT_NAME ${PROJECT_NAME}_d
+		RELEASE_OUTPUT_NAME ${PROJECT_NAME}
+)
+									
+set_property(
+	TARGET ${LIB_PROJECT_NAME} 
+	PROPERTY INCLUDE_DIRECTORIES 
+		"${CMAKE_SOURCE_DIR}/src/lib"
+		"${CMAKE_SOURCE_DIR}/src/external"
 )
 
 
 # App --------------------------------------------------------------------------
 
 add_subdirectory(src/app)
-include_directories(src/lib src/app build/src/app)
-
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -79,6 +88,15 @@ add_executable(${APP_PROJECT_NAME} ${APP_FILES})
 create_source_groups(${APP_FILES})
 
 target_link_libraries(${APP_PROJECT_NAME} ${LIB_PROJECT_NAME})
+
+set_property(
+	TARGET ${APP_PROJECT_NAME} 
+	PROPERTY INCLUDE_DIRECTORIES 
+		"${CMAKE_SOURCE_DIR}/src/lib"
+		"${CMAKE_SOURCE_DIR}/src/app"
+		"${CMAKE_SOURCE_DIR}/build/src/app"
+		"${CMAKE_SOURCE_DIR}/src/external"
+)
 
 # Use the Widgets module from Qt 5.
 qt5_use_modules(${APP_PROJECT_NAME} Widgets)
@@ -99,13 +117,7 @@ set(CXXTEST_INCLUDE_DIR $ENV{CXX_TEST_DIR})
 set(CXXTEST_PYTHON_TESTGEN_EXECUTABLE ${CXXTEST_INCLUDE_DIR}/bin/cxxtestgen)
 set(TESTGEN_FILE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp)
 
-find_package(CxxTest)
-
-if (CXXTEST_FOUND)
-
-    include_directories(${CXXTEST_INCLUDE_DIR})
-
-endif (CXXTEST_FOUND)
+			
 
 find_package(PythonInterp REQUIRED)
 
@@ -114,6 +126,17 @@ add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE} ${TEST_FILES})
 create_source_groups(${TEST_FILES})
 
 target_link_libraries(${TEST_PROJECT_NAME} ${LIB_PROJECT_NAME})
+
+find_package(CxxTest)
+if (CXXTEST_FOUND)
+	set_property(
+		TARGET ${TEST_PROJECT_NAME} 
+		PROPERTY INCLUDE_DIRECTORIES 
+			"${CMAKE_SOURCE_DIR}/src/lib"
+			"${CXXTEST_INCLUDE_DIR}"
+			"${CMAKE_SOURCE_DIR}/src/external"
+	)
+endif (CXXTEST_FOUND)
 
 if (WIN32)
 
@@ -127,7 +150,7 @@ if (WIN32)
 	add_custom_command(
 		TARGET ${TEST_PROJECT_NAME}
 		POST_BUILD
-		COMMAND $(OutDir)$(TargetName)$(TargetExt)
+		COMMAND cd $(ProjectDir)../bin/\n$(OutDir)$(TargetName)$(TargetExt)
 		COMMENT "Running unittest code"
 	)
 
