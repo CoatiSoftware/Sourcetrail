@@ -54,10 +54,17 @@ add_files(
 	gui/GuiElement.h
 	gui/GuiElementFactory.cpp
 	gui/GuiElementFactory.h
-
+	
+	utility/logging/Logger.cpp
+	utility/logging/Logger.h
+	utility/logging/logging.h
+	utility/logging/LogManager.cpp
+	utility/logging/LogManager.h
+	utility/logging/LogMessage.h
+	
 	utility/ConfigManager.cpp
 	utility/ConfigManager.h
-
+	
 	Application.cpp
 	Application.h
 	ApplicationSettings.cpp
