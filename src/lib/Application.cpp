@@ -1,4 +1,7 @@
-#include  "Application.h"
+#include "Application.h"
+
+#include "utility/logging/ConsoleLogger.h"
+#include "utility/logging/LogManager.h"
 
 std::shared_ptr<Application> Application::create(std::shared_ptr<GuiElementFactory> guiElementFactory)
 {
@@ -8,6 +11,10 @@ std::shared_ptr<Application> Application::create(std::shared_ptr<GuiElementFacto
 	ptr->m_graphAccess = std::make_shared<GraphAccess>();
 	ptr->m_componentManager =
 		ComponentManager::create(ptr->m_viewManager, guiElementFactory, ptr->m_codeAccess, ptr->m_graphAccess);
+
+	std::shared_ptr<ConsoleLogger> consoleLogger = std::make_shared<ConsoleLogger>();
+	LogManager::getInstance()->addLogger(consoleLogger);
+
 	return ptr;
 }
 

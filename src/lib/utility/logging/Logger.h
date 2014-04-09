@@ -22,5 +22,4 @@ private:
 	const std::string m_type;
 };
 
-
-#endif
+#endif // LOGGER_H
