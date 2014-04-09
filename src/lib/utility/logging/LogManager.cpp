@@ -1,4 +1,7 @@
 #include "utility/logging/LogManager.h"
+
+#include <algorithm>
+
 #include "utility/logging/LogMessage.h"
 
 std::shared_ptr<LogManager> LogManager::getInstance()
