@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.8.9)
 include(cmake/add_files.cmake)
 include(cmake/create_source_groups.cmake)
 
+
 # Variables --------------------------------------------------------------------
 
 set(PROJECT_NAME masterproject)
@@ -16,22 +17,14 @@ if (WIN32)
 	LINK_DIRECTORIES($ENV{VLD_DIR}/lib/Win32) # this adds the library path for VLD, must be done before the project target is created
 endif()
 
+
 # Settings ---------------------------------------------------------------------
-
-
-
-
-
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 
 if (UNIX)
-
-	ADD_DEFINITIONS(
-	    -std=c++11 # Or -std=c++0x
-	    # Other flags
-	)
+	add_definitions(-std=c++11)
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
 else ()
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
@@ -43,11 +36,18 @@ endif ()
 project(${PROJECT_NAME})
 
 
+# Clang ------------------------------------------------------------------------
+
+find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build/share/llvm/cmake")
+find_package(CLANG REQUIRED PATHS "${CMAKE_SOURCE_DIR}/cmake")
+
+add_definitions(${CLANG_DEFINITIONS})
+
 # Lib --------------------------------------------------------------------------
+
 
 add_subdirectory(src/lib)
 add_subdirectory(src/external)
-
 
 add_library(${LIB_PROJECT_NAME} ${LIB_FILES} ${EXTERNAL_FILES})
 
@@ -60,13 +60,19 @@ set_target_properties(
 		DEBUG_OUTPUT_NAME ${PROJECT_NAME}_d
 		RELEASE_OUTPUT_NAME ${PROJECT_NAME}
 )
-									
+
 set_property(
-	TARGET ${LIB_PROJECT_NAME} 
-	PROPERTY INCLUDE_DIRECTORIES 
+	TARGET ${LIB_PROJECT_NAME}
+	PROPERTY INCLUDE_DIRECTORIES
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/external"
+		${LLVM_INCLUDE_DIRS}
+		${CLANG_INCLUDE_DIRS}
 )
+
+link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS})
+
+target_link_libraries(${LIB_PROJECT_NAME} ${CLANG_LIBRARIES} ${LLVM_AVAILABLE_LIBS})
 
 
 # App --------------------------------------------------------------------------
@@ -90,8 +96,8 @@ create_source_groups(${APP_FILES})
 target_link_libraries(${APP_PROJECT_NAME} ${LIB_PROJECT_NAME})
 
 set_property(
-	TARGET ${APP_PROJECT_NAME} 
-	PROPERTY INCLUDE_DIRECTORIES 
+	TARGET ${APP_PROJECT_NAME}
+	PROPERTY INCLUDE_DIRECTORIES
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/app"
 		"${CMAKE_SOURCE_DIR}/build/src/app"
@@ -109,6 +115,7 @@ configure_file(
 
 set(CMAKE_AUTOMOC OFF)
 
+
 # CxxTest ----------------------------------------------------------------------
 
 add_subdirectory(src/test)
@@ -116,8 +123,6 @@ add_subdirectory(src/test)
 set(CXXTEST_INCLUDE_DIR $ENV{CXX_TEST_DIR})
 set(CXXTEST_PYTHON_TESTGEN_EXECUTABLE ${CXXTEST_INCLUDE_DIR}/bin/cxxtestgen)
 set(TESTGEN_FILE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp)
-
-			
 
 find_package(PythonInterp REQUIRED)
 
@@ -130,8 +135,8 @@ target_link_libraries(${TEST_PROJECT_NAME} ${LIB_PROJECT_NAME})
 find_package(CxxTest)
 if (CXXTEST_FOUND)
 	set_property(
-		TARGET ${TEST_PROJECT_NAME} 
-		PROPERTY INCLUDE_DIRECTORIES 
+		TARGET ${TEST_PROJECT_NAME}
+		PROPERTY INCLUDE_DIRECTORIES
 			"${CMAKE_SOURCE_DIR}/src/lib"
 			"${CXXTEST_INCLUDE_DIR}"
 			"${CMAKE_SOURCE_DIR}/src/external"
@@ -156,7 +161,6 @@ if (WIN32)
 
 elseif (UNIX)
 
-
 	add_custom_command(
 		OUTPUT ${TESTGEN_FILE}
 		PRE_BUILD
@@ -170,6 +174,7 @@ elseif (UNIX)
 
 endif ()
 
+
 # Visual Leak Detector ---------------------------------------------------------
 
 if (WIN32)
@@ -177,3 +182,4 @@ if (WIN32)
 	include_directories($ENV{VLD_DIR}/include)
 
 endif()
+

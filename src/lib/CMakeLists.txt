@@ -25,6 +25,9 @@ add_files(
 	data/access/GraphAccess.cpp
 	data/access/GraphAccess.h
 
+	data/parser/clang.cpp
+	data/parser/clang.h
+
 	data/Edge.cpp
 	data/Edge.h
 	data/Element.cpp
