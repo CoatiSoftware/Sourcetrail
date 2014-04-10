@@ -2,10 +2,9 @@
 
 <description>
 
-reviewer=
-review url=
+review id = <id>
+# bug id = <id>
 
-#bug=
-#test=
+# fortune cookie message = <message>
 
-# line length limit ------------------------------------------------------------
+# modules: build, logic, ui, data, utility
