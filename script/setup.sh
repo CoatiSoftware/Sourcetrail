@@ -50,10 +50,10 @@ if [ $PLATFORM == "Linux" ] || [ $PLATFORM == "MacOS" ]; then
 	mkdir -p build/Release
 
 	echo -e $INFO "run cmake with Debug configuration"
-	cd build/Debug && cmake -DCMAKE_BUILD_TYPE="Debug" ../..
+	cd build/Debug && cmake -G Ninja -DCMAKE_BUILD_TYPE="Debug" ../..
 
 	echo -e $INFO "run cmake with Release configuration"
-	cd ../Release && cmake -DCMAKE_BUILD_TYPE="Release" ../..
+	cd ../Release && cmake -G Ninja -DCMAKE_BUILD_TYPE="Release" ../..
 fi
 
 echo -e $SUCCESS "setup complete"
