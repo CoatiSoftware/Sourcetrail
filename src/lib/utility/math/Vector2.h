@@ -88,8 +88,8 @@ Vector2<T> Vector2<T>::normalize()
 {
 	float length = getLength();
 
-	static_cast<float>(x) /= length;
-	static_cast<float>(y) /= length;
+	x /= length;
+	y /= length;
 
 	return *this;
 }
