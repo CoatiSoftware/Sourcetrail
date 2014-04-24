@@ -67,6 +67,8 @@ add_files(
 	utility/logging/LogManager.h
 	utility/logging/LogMessage.h
 
+	utility/math/Vector2.h
+
 	utility/ConfigManager.cpp
 	utility/ConfigManager.h
 
