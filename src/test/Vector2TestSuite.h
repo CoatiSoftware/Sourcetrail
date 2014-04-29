@@ -43,11 +43,11 @@ public:
 		TS_ASSERT_EQUALS(18.0f, vec0.getLengthSquared());
 		vec0.x = -3.0f;
 		TS_ASSERT_EQUALS(18.0f, vec0.getLengthSquared());
-		TS_ASSERT_EQUALS(std::sqrtf(18.0f), vec0.getLength());
+		TS_ASSERT_EQUALS(std::sqrt(18.0f), vec0.getLength());
 
 		Vec2i vec1(4, 2);
 		TS_ASSERT_EQUALS(20.0f, vec1.getLengthSquared());
-		TS_ASSERT_EQUALS(std::sqrtf(20.0f), vec1.getLength());
+		TS_ASSERT_EQUALS(std::sqrt(20.0f), vec1.getLength());
 	}
 
 
@@ -55,7 +55,7 @@ public:
 	{
 		Vec2f vec0(1.0f, 1.0f);
 
-		float targetXY = 1.0f / std::sqrtf(2.0f);
+		float targetXY = 1.0f / std::sqrt(2.0f);
 
 		TS_ASSERT_EQUALS(targetXY, vec0.normalized().x);
 		TS_ASSERT_EQUALS(targetXY, vec0.normalized().y);
@@ -68,8 +68,8 @@ public:
 		float y = 42.42f;
 		vec0.x = x;
 		vec0.y = y;
-		float targetX = x / std::sqrtf(x * x + y * y);
-		float targetY = y / std::sqrtf(x * x + y * y);
+		float targetX = x / std::sqrt(x * x + y * y);
+		float targetY = y / std::sqrt(x * x + y * y);
 		vec0.normalize();
 		TS_ASSERT_EQUALS(targetX, vec0.x);
 		TS_ASSERT_EQUALS(targetY, vec0.y);
