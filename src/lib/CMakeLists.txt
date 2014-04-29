@@ -1,4 +1,11 @@
 add_files(
+	CLANG_FILES
+
+	data/parser/clang.cpp
+	data/parser/clang.h
+)
+
+add_files(
 	LIB_FILES
 
 	component/controller/CodeController.cpp
@@ -24,9 +31,6 @@ add_files(
 	data/access/CodeAccess.h
 	data/access/GraphAccess.cpp
 	data/access/GraphAccess.h
-
-	data/parser/clang.cpp
-	data/parser/clang.h
 
 	data/Edge.cpp
 	data/Edge.h

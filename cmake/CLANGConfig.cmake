@@ -3,8 +3,6 @@ execute_process(
 	OUTPUT_VARIABLE CLANG_DEFINITIONS
 )
 
-set(CLANG_DEFINITIONS ${CLANG_DEFINITIONS} "-fno-rtti")
-
 set(CLANG_INCLUDE_DIRS
 	"$ENV{CLANG_DIR}/llvm/tools/clang/include"
 	"$ENV{CLANG_DIR}/build/tools/clang/include"
