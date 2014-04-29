@@ -3,6 +3,5 @@ add_files(
 
 	ConfigManagerTestSuite.h
 	LogManagerTestSuite.h
-	UtilityTestSuite.h
 	Vector2TestSuite.h
 )
