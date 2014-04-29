@@ -7,4 +7,4 @@ review id = <id>
 
 # fortune cookie message = <message>
 
-# modules: build, logic, ui, data, utility
+# modules: build, logic, ui, data, utility, test
