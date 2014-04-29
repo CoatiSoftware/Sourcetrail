@@ -2,6 +2,7 @@
 #define LOG_MANAGER_H
 
 #include <memory>
+#include <mutex>
 #include <vector>
 
 #include "utility/logging/Logger.h"
@@ -40,6 +41,7 @@ public:
 
 private:
 	static std::shared_ptr<LogManager> s_instance;
+	static std::mutex s_instanceMutex;
 
 	LogManager();
 	LogManager(const LogManager&);
@@ -48,6 +50,8 @@ private:
 	tm getTime();
 
 	std::vector<std::shared_ptr<Logger> > m_loggers;
+
+	mutable std::mutex m_loggerMutex;
 };
 
 #endif // LOG_MANAGER_H

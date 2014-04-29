@@ -1,5 +1,7 @@
 #include "cxxtest/TestSuite.h"
 
+#include <thread>
+
 #include "utility/logging/logging.h"
 
 class LogManagerTestSuite : public CxxTest::TestSuite
@@ -80,7 +82,79 @@ public:
 		TS_ASSERT_EQUALS(log, lastLog);
 	}
 
+	void test_new_logger_can_be_added_to_manager_threaded()
+	{
+		std::thread thread0(addTestLogger);
+		std::thread thread1(addTestLogger);
+
+		thread0.join();
+		thread1.join();
+
+		TS_ASSERT_EQUALS(200, LogManager::getInstance()->getLoggerCount());
+
+		removeTestLoggers();
+	}
+
+	void test_logger_can_be_removed_from_manager_threaded()
+	{
+		std::thread thread0(addAndRemoveTestLogger);
+		std::thread thread1(addAndRemoveTestLogger);
+
+		thread0.join();
+		thread1.join();
+
+		TS_ASSERT_EQUALS(0, LogManager::getInstance()->getLoggerCount());
+	}
+
+	void test_logger_logs_threaded()
+	{
+		std::shared_ptr<TestLogger> logger = std::make_shared<TestLogger>();
+		LogManager::getInstance()->addLogger(logger);
+
+		std::thread thread0(loggSomeMessages);
+		std::thread thread1(loggSomeMessages);
+
+		thread0.join();
+		thread1.join();
+
+		TS_ASSERT_EQUALS(logger->getLastError(), "foo");
+		TS_ASSERT_EQUALS(600, logger->getErrorCount() + logger->getWarningCount() + logger->getMessageCount());
+
+		removeTestLoggers();
+	}
+
 private:
+	static void addTestLogger()
+	{
+		for(unsigned int i = 0; i < 100; i++)
+		{
+			std::shared_ptr<Logger> logger = std::make_shared<TestLogger>();
+			LogManager::getInstance()->addLogger(logger);
+		}
+	}
+
+	static void removeTestLoggers()
+	{
+		std::shared_ptr<Logger> logger = std::make_shared<TestLogger>();
+		LogManager::getInstance()->removeLoggersByType(logger->getType());
+	}
+
+	static void addAndRemoveTestLogger()
+	{
+		addTestLogger();
+		removeTestLoggers();
+	}
+
+	static void loggSomeMessages()
+	{
+		for(unsigned int i = 0; i < 100; i++)
+		{
+			LOG_INFO("foo");
+			LOG_WARNING("foo");
+			LOG_ERROR("foo");
+		}
+	}
+
 	class TestLogger: public Logger
 	{
 	public:

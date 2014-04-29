@@ -6,6 +6,7 @@
 
 std::shared_ptr<LogManager> LogManager::getInstance()
 {
+	std::lock_guard<std::mutex> lockGuard(s_instanceMutex);
 	if (s_instance.use_count() == 0)
 	{
 		s_instance = std::shared_ptr<LogManager>(new LogManager());
@@ -15,6 +16,7 @@ std::shared_ptr<LogManager> LogManager::getInstance()
 
 void LogManager::destroyInstance()
 {
+	std::lock_guard<std::mutex> lockGuard(s_instanceMutex);
 	s_instance.reset();
 }
 
@@ -24,11 +26,13 @@ LogManager::~LogManager()
 
 void LogManager::addLogger(std::shared_ptr<Logger> logger)
 {
+	std::lock_guard<std::mutex> lockGuard(m_loggerMutex);
 	m_loggers.push_back(logger);
 }
 
 void LogManager::removeLogger(std::shared_ptr<Logger> logger)
 {
+	std::lock_guard<std::mutex> lockGuard(m_loggerMutex);
 	std::vector<std::shared_ptr<Logger>>::iterator it = std::find(m_loggers.begin(), m_loggers.end(), logger);
 	if (it != m_loggers.end())
 	{
@@ -38,9 +42,10 @@ void LogManager::removeLogger(std::shared_ptr<Logger> logger)
 
 void LogManager::removeLoggersByType(const std::string& type)
 {
+	std::lock_guard<std::mutex> lockGuard(m_loggerMutex);
 	for (int i = 0; i < m_loggers.size(); i++)
 	{
-		if (m_loggers[i]->getType().c_str() == type.c_str())
+		if (m_loggers[i]->getType() == type)
 		{
 			m_loggers.erase(m_loggers.begin() + i);
 			i--;
@@ -50,6 +55,7 @@ void LogManager::removeLoggersByType(const std::string& type)
 
 int LogManager::getLoggerCount() const
 {
+	std::lock_guard<std::mutex> lockGuard(m_loggerMutex);
 	return m_loggers.size();
 }
 
@@ -60,6 +66,7 @@ void LogManager::logInfo(
 	const unsigned int line
 )
 {
+	std::lock_guard<std::mutex> lockGuardLogger(m_loggerMutex);
 	for (int i = 0; i < m_loggers.size(); i++)
 	{
 		m_loggers[i]->logInfo(LogMessage(message, file, function, line, getTime()));
@@ -73,6 +80,7 @@ void LogManager::logWarning(
 	const unsigned int line
 )
 {
+	std::lock_guard<std::mutex> lockGuardLogger(m_loggerMutex);
 	for (int i = 0; i < m_loggers.size(); i++)
 	{
 		m_loggers[i]->logWarning(LogMessage(message, file, function, line, getTime()));
@@ -86,6 +94,7 @@ void LogManager::logError(
 	const unsigned int line
 )
 {
+	std::lock_guard<std::mutex> lockGuardLogger(m_loggerMutex);
 	for (int i = 0; i < m_loggers.size(); i++)
 	{
 		m_loggers[i]->logError(LogMessage(message, file, function, line, getTime()));
@@ -93,6 +102,7 @@ void LogManager::logError(
 }
 
 std::shared_ptr<LogManager> LogManager::s_instance;
+std::mutex LogManager::s_instanceMutex;
 
 LogManager::LogManager()
 {
