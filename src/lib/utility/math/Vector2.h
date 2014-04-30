@@ -74,7 +74,7 @@ Vector2<T>::~Vector2()
 template<class T>
 float Vector2<T>::getLengthSquared() const
 {
-	return (x * x) + (y * y);
+	return static_cast<float>(x * x) + static_cast<float>(y * y);
 }
 
 template<class T>

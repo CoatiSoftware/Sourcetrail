@@ -39,7 +39,7 @@ bool ConfigManager::getValue(const std::string& key, float& value) const
 	std::string valueString;
 	if (getValue(key, valueString))
 	{
-		value = atof(valueString.c_str());
+		value = static_cast<float>(atof(valueString.c_str()));
 		return true;
 	}
 	return false;
@@ -82,7 +82,7 @@ void ConfigManager::setValue(const std::string& key, const float value)
 
 void ConfigManager::setValue(const std::string& key, const bool value)
 {
-	setValue(key, value ? "1" : "0");
+	setValue(key, (value ? "1" : "0"));
 }
 
 

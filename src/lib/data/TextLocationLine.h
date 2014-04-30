@@ -11,9 +11,11 @@ class TextLocationFile;
 class TextLocationLine
 {
 public:
-	TextLocationLine(const std::weak_ptr<TextLocationFile>& textLocationFile, unsigned int lineNumber);
+	TextLocationLine(std::weak_ptr<TextLocationFile> textLocationFile, unsigned int lineNumber);
 
 	~TextLocationLine();
+
+	unsigned int getLineNumber() const;
 
 private:
 	const std::weak_ptr<TextLocationFile> m_textLocationFile;

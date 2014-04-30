@@ -4,15 +4,21 @@
 #include "data/TextLocationLine.h"
 
 TextLocation::TextLocation(
-	const std::weak_ptr<TextLocationLine>& textLocationLine,
-	const std::weak_ptr<Element>& element,
-	unsigned int column)
-: m_textLocationLine(textLocationLine)
-, m_element(element)
-, m_column(column)
+	std::weak_ptr<TextLocationLine> textLocationLine,
+	std::weak_ptr<Element> element,
+	unsigned int column
+)
+	: m_element(element)
+	, m_textLocationLine(textLocationLine)
+	, m_column(column)
 {
 }
 
 TextLocation::~TextLocation()
 {
+}
+
+unsigned int TextLocation::getColumn() const
+{
+	return m_column;
 }

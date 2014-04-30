@@ -132,12 +132,12 @@ public:
 		TS_ASSERT_EQUALS(true, vec0.isEqual(vec1));
 		TS_ASSERT_EQUALS(false, vec0.isSame(vec1));
 
-		Vec2i vec2(42.0f, 24.0f);
-		Vec2i vec3(69.0f, 96.0f);
+		Vec2i vec2(42, 24);
+		Vec2i vec3(69, 96);
 
 		vec2 = vec3;
-		TS_ASSERT_EQUALS(69.0f, vec2.x);
-		TS_ASSERT_EQUALS(96.0f, vec2.y);
+		TS_ASSERT_EQUALS(69, vec2.x);
+		TS_ASSERT_EQUALS(96, vec2.y);
 		TS_ASSERT_EQUALS(true, vec3.isEqual(vec2));
 		TS_ASSERT_EQUALS(false, vec3.isSame(vec2));
 	}
@@ -197,7 +197,7 @@ public:
 		TS_ASSERT_EQUALS(84.0f, vec0.y);
 
 		Vec2i vec2(-2, 2);
-		Vec2i vec3 = vec2 * 42.5f; //the float is on purpose
+		Vec2i vec3 = vec2 * float(42.5f);
 
 		TS_ASSERT_EQUALS(-84, vec3.x);
 		TS_ASSERT_EQUALS(84, vec3.y);

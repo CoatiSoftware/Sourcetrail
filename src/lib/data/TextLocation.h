@@ -10,17 +10,19 @@ class TextLocation
 {
 public:
 	TextLocation(
-		const std::weak_ptr<TextLocationLine>& textLocationLine,
-		const std::weak_ptr<Element>& element,
-		unsigned int column);
+		std::weak_ptr<TextLocationLine> textLocationLine,
+		std::weak_ptr<Element> element,
+		unsigned int column
+	);
 
 	~TextLocation();
 
-private:
-	const unsigned int m_column;
-	const std::weak_ptr<TextLocationLine> m_textLocationLine;
-	const std::weak_ptr<Element> m_element;
-};
+	unsigned int getColumn() const;
 
+private:
+	const std::weak_ptr<Element> m_element;
+	const std::weak_ptr<TextLocationLine> m_textLocationLine;
+	const unsigned int m_column;
+};
 
 #endif // TEXT_LOCATION_H
