@@ -5,5 +5,4 @@ class Element
 {
 };
 
-
 #endif // ELEMENT_H

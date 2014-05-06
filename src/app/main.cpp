@@ -7,12 +7,8 @@
 #include "includes.h"
 #include "qt/QtElementFactory.h"
 
-#include "data/parser/clang.h"
-
 int main(int argv, char **args)
 {
-	clang_main(argv, args);
-
 	QApplication qtApp(argv, args);
 	std::shared_ptr<GuiElementFactory> elementFactory = std::make_shared<QtElementFactory>();
 

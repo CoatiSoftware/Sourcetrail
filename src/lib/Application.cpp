@@ -29,4 +29,6 @@ Application::~Application()
 void Application::loadProject()
 {
 	m_project = Project::create(m_codeAccess, m_graphAccess);
+
+	m_project->parseCode();
 }

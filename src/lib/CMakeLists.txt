@@ -1,8 +1,16 @@
 add_files(
 	CLANG_FILES
 
-	data/parser/clang.cpp
-	data/parser/clang.h
+	data/parser/cxx/ASTAction.cpp
+	data/parser/cxx/ASTAction.h
+	data/parser/cxx/ASTActionFactory.cpp
+	data/parser/cxx/ASTActionFactory.h
+	data/parser/cxx/ASTConsumer.cpp
+	data/parser/cxx/ASTConsumer.h
+	data/parser/cxx/ASTVisitor.cpp
+	data/parser/cxx/ASTVisitor.h
+	data/parser/cxx/CxxParser.cpp
+	data/parser/cxx/CxxParser.h
 )
 
 add_files(
@@ -32,6 +40,12 @@ add_files(
 	data/access/GraphAccess.cpp
 	data/access/GraphAccess.h
 
+	data/parser/ParseObject.h
+	data/parser/Parser.cpp
+	data/parser/Parser.h
+	data/parser/ParserClient.cpp
+	data/parser/ParserClient.h
+
 	data/Edge.cpp
 	data/Edge.h
 	data/Element.cpp
@@ -40,22 +54,18 @@ add_files(
 	data/ElementIndex.h
 	data/Graph.cpp
 	data/Graph.h
-	data/GraphStorage.cpp
-	data/GraphStorage.h
 	data/Node.cpp
 	data/Node.h
-	data/Parser.cpp
-	data/Parser.h
 	data/SearchIndex.cpp
 	data/SearchIndex.h
+	data/Storage.cpp
+	data/Storage.h
 	data/TextLocation.cpp
 	data/TextLocation.h
 	data/TextLocationFile.cpp
 	data/TextLocationFile.h
 	data/TextLocationLine.cpp
 	data/TextLocationLine.h
-	data/TextLocationStorage.cpp
-	data/TextLocationStorage.h
 
 	gui/GuiElement.cpp
 	gui/GuiElement.h
