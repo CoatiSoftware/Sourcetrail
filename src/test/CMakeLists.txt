@@ -4,5 +4,7 @@ add_files(
 	ConfigManagerTestSuite.h
 	CxxParserTestSuite.h
 	LogManagerTestSuite.h
+	TestSuiteFixture.cpp
+	TestSuiteFixture.h
 	Vector2TestSuite.h
 )

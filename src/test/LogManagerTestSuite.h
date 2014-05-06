@@ -2,47 +2,50 @@
 
 #include <thread>
 
-#include "utility/logging/logging.h"
+#include "utility/logging/LogManagerImplementation.h"
 
 class LogManagerTestSuite : public CxxTest::TestSuite
 {
 public:
 	void test_new_logger_can_be_added_to_manager()
 	{
+		LogManagerImplementation logManagerImplementation;
+
 		std::shared_ptr<Logger> logger = std::make_shared<TestLogger>();
 
-		int countBeforeAdd = LogManager::getInstance()->getLoggerCount();
-		LogManager::getInstance()->addLogger(logger);
-		int countAfterAdd = LogManager::getInstance()->getLoggerCount();
-		LogManager::getInstance()->removeLogger(logger);
+		int countBeforeAdd = logManagerImplementation.getLoggerCount();
+		logManagerImplementation.addLogger(logger);
+		int countAfterAdd = logManagerImplementation.getLoggerCount();
+		logManagerImplementation.removeLogger(logger);
 
 		TS_ASSERT_EQUALS(1, countAfterAdd - countBeforeAdd);
 	}
 
 	void test_logger_can_be_removed_from_manager()
 	{
+		LogManagerImplementation logManagerImplementation;
+
 		std::shared_ptr<Logger> logger = std::make_shared<TestLogger>();
 
-		int countBeforeAdd = LogManager::getInstance()->getLoggerCount();
-		LogManager::getInstance()->addLogger(logger);
-		LogManager::getInstance()->removeLogger(logger);
-		int countAfterRemove = LogManager::getInstance()->getLoggerCount();
+		int countBeforeAdd = logManagerImplementation.getLoggerCount();
+		logManagerImplementation.addLogger(logger);
+		logManagerImplementation.removeLogger(logger);
+		int countAfterRemove = logManagerImplementation.getLoggerCount();
 
 		TS_ASSERT_EQUALS(countBeforeAdd, countAfterRemove);
 	}
 
 	void test_logger_logs_message()
 	{
+		LogManagerImplementation logManagerImplementation;
+
 		std::string log = "test";
 		std::shared_ptr<TestLogger> logger = std::make_shared<TestLogger>();
 
-		LogManager::getInstance()->addLogger(logger);
-
-		LOG_INFO(log);
+		logManagerImplementation.addLogger(logger);
+		logManagerImplementation.logInfo(log, __FILE__, __FUNCTION__, __LINE__);
 		int logCount = logger->getMessageCount();
 		std::string lastLog = logger->getLastMessage();
-
-		LogManager::getInstance()->removeLogger(logger);
 
 		TS_ASSERT_EQUALS(1, logCount);
 		TS_ASSERT_EQUALS(log, lastLog);
@@ -50,16 +53,16 @@ public:
 
 	void test_logger_logs_warning()
 	{
+		LogManagerImplementation logManagerImplementation;
+
 		std::string log = "test";
 		std::shared_ptr<TestLogger> logger = std::make_shared<TestLogger>();
 
-		LogManager::getInstance()->addLogger(logger);
+		logManagerImplementation.addLogger(logger);
 
-		LOG_WARNING(log);
+		logManagerImplementation.logWarning(log, __FILE__, __FUNCTION__, __LINE__);
 		int logCount = logger->getWarningCount();
 		std::string lastLog = logger->getLastWarning();
-
-		LogManager::getInstance()->removeLogger(logger);
 
 		TS_ASSERT_EQUALS(1, logCount);
 		TS_ASSERT_EQUALS(log, lastLog);
@@ -67,16 +70,16 @@ public:
 
 	void test_logger_logs_error()
 	{
+		LogManagerImplementation logManagerImplementation;
+
 		std::string log = "test";
 		std::shared_ptr<TestLogger> logger = std::make_shared<TestLogger>();
 
-		LogManager::getInstance()->addLogger(logger);
+		logManagerImplementation.addLogger(logger);
 
-		LOG_ERROR(log);
+		logManagerImplementation.logError(log, __FILE__, __FUNCTION__, __LINE__);
 		int logCount = logger->getErrorCount();
 		std::string lastLog = logger->getLastError();
-
-		LogManager::getInstance()->removeLogger(logger);
 
 		TS_ASSERT_EQUALS(1, logCount);
 		TS_ASSERT_EQUALS(log, lastLog);
@@ -84,74 +87,84 @@ public:
 
 	void test_new_logger_can_be_added_to_manager_threaded()
 	{
-		std::thread thread0(addTestLogger);
-		std::thread thread1(addTestLogger);
+		LogManagerImplementation logManagerImplementation;
+		unsigned int loggerCount = 100;
+
+		std::thread thread0(addTestLogger, &logManagerImplementation, loggerCount);
+		std::thread thread1(addTestLogger, &logManagerImplementation, loggerCount);
 
 		thread0.join();
 		thread1.join();
 
-		TS_ASSERT_EQUALS(200, LogManager::getInstance()->getLoggerCount());
-
-		removeTestLoggers();
+		TS_ASSERT_EQUALS(loggerCount * 2, logManagerImplementation.getLoggerCount());
 	}
 
 	void test_logger_can_be_removed_from_manager_threaded()
 	{
-		std::thread thread0(addAndRemoveTestLogger);
-		std::thread thread1(addAndRemoveTestLogger);
+		LogManagerImplementation logManagerImplementation;
+		unsigned int loggerCount = 100;
+
+		std::thread thread0(addAndRemoveTestLogger, &logManagerImplementation, loggerCount);
+		std::thread thread1(addAndRemoveTestLogger, &logManagerImplementation, loggerCount);
 
 		thread0.join();
 		thread1.join();
 
-		TS_ASSERT_EQUALS(0, LogManager::getInstance()->getLoggerCount());
+		TS_ASSERT_EQUALS(0, logManagerImplementation.getLoggerCount());
 	}
 
 	void test_logger_logs_threaded()
 	{
-		std::shared_ptr<TestLogger> logger = std::make_shared<TestLogger>();
-		LogManager::getInstance()->addLogger(logger);
+		LogManagerImplementation logManagerImplementation;
 
-		std::thread thread0(loggSomeMessages);
-		std::thread thread1(loggSomeMessages);
+		std::string log = "foo";
+		unsigned int messageCount = 100;
+		std::shared_ptr<TestLogger> logger = std::make_shared<TestLogger>();
+		logManagerImplementation.addLogger(logger);
+
+		std::thread thread0(logSomeMessages, &logManagerImplementation, log, messageCount);
+		std::thread thread1(logSomeMessages, &logManagerImplementation, log, messageCount);
 
 		thread0.join();
 		thread1.join();
 
-		TS_ASSERT_EQUALS(logger->getLastError(), "foo");
-		TS_ASSERT_EQUALS(600, logger->getErrorCount() + logger->getWarningCount() + logger->getMessageCount());
-
-		removeTestLoggers();
+		TS_ASSERT_EQUALS(logger->getLastError(), log);
+		TS_ASSERT_EQUALS(messageCount * 6, logger->getErrorCount() + logger->getWarningCount() + logger->getMessageCount());
 	}
 
 private:
-	static void addTestLogger()
+	static void addTestLogger(LogManagerImplementation* logManagerImplementation, const unsigned int loggerCount)
 	{
-		for(unsigned int i = 0; i < 100; i++)
+		for(unsigned int i = 0; i < loggerCount; i++)
 		{
 			std::shared_ptr<Logger> logger = std::make_shared<TestLogger>();
-			LogManager::getInstance()->addLogger(logger);
+			logManagerImplementation->addLogger(logger);
 		}
 	}
 
-	static void removeTestLoggers()
+	static void removeTestLoggers(LogManagerImplementation* logManagerImplementation)
 	{
 		std::shared_ptr<Logger> logger = std::make_shared<TestLogger>();
-		LogManager::getInstance()->removeLoggersByType(logger->getType());
+		logManagerImplementation->removeLoggersByType(logger->getType());
 	}
 
-	static void addAndRemoveTestLogger()
+	static void addAndRemoveTestLogger(LogManagerImplementation* logManagerImplementation, const unsigned int loggerCount)
 	{
-		addTestLogger();
-		removeTestLoggers();
+		addTestLogger(logManagerImplementation, loggerCount);
+		removeTestLoggers(logManagerImplementation);
 	}
 
-	static void loggSomeMessages()
+	static void logSomeMessages(
+		LogManagerImplementation* logManagerImplementation,
+		const std::string& message,
+		const unsigned int messageCount
+	)
 	{
-		for(unsigned int i = 0; i < 100; i++)
+		for(unsigned int i = 0; i < messageCount; i++)
 		{
-			LOG_INFO("foo");
-			LOG_WARNING("foo");
-			LOG_ERROR("foo");
+			logManagerImplementation->logInfo(message, __FILE__, __FUNCTION__, __LINE__);
+			logManagerImplementation->logWarning(message, __FILE__, __FUNCTION__, __LINE__);
+			logManagerImplementation->logError(message, __FILE__, __FUNCTION__, __LINE__);
 		}
 	}
 

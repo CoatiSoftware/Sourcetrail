@@ -74,11 +74,15 @@ add_files(
 
 	utility/logging/ConsoleLogger.cpp
 	utility/logging/ConsoleLogger.h
+	utility/logging/FileLogger.cpp
+	utility/logging/FileLogger.h
 	utility/logging/Logger.cpp
 	utility/logging/Logger.h
 	utility/logging/logging.h
 	utility/logging/LogManager.cpp
 	utility/logging/LogManager.h
+	utility/logging/LogManagerImplementation.cpp
+	utility/logging/LogManagerImplementation.h
 	utility/logging/LogMessage.h
 
 	utility/math/Vector2.h

@@ -1,19 +1,24 @@
-#ifndef LOG_MANAGER_H
-#define LOG_MANAGER_H
+#ifndef LOG_MANAGER_IMPLEMENTATION_H
+#define LOG_MANAGER_IMPLEMENTATION_H
 
 #include <memory>
 #include <mutex>
+#include <vector>
 
 #include "utility/logging/Logger.h"
-#include "utility/logging/LogManagerImplementation.h"
 
-class LogManager
+class LogManagerImplementation
 {
 public:
-	static std::shared_ptr<LogManager> getInstance();
-	static void destroyInstance();
+	LogManagerImplementation();
 
-	~LogManager();
+	// Must be implemented because std::mutex is non-copyable, see
+	// http://stackoverflow.com/questions/14263836/why-does-stdmutex-create-a-c2248-when-used-in-a-struct-with-windows-socket
+	// for more details
+	LogManagerImplementation(const LogManagerImplementation& other);
+	void operator=(const LogManagerImplementation& other);
+
+	~LogManagerImplementation();
 
 	void addLogger(std::shared_ptr<Logger> logger);
 	void removeLogger(std::shared_ptr<Logger> logger);
@@ -40,14 +45,11 @@ public:
 	);
 
 private:
-	static std::shared_ptr<LogManager> s_instance;
-	static std::mutex s_instanceMutex;
+	tm getTime();
 
-	LogManager();
-	LogManager(const LogManager&);
-	void operator=(const LogManager&);
+	std::vector<std::shared_ptr<Logger> > m_loggers;
 
-	LogManagerImplementation m_logManagerImplementation;
+	mutable std::mutex m_loggerMutex;
 };
 
-#endif // LOG_MANAGER_H
+#endif // LOG_MANAGER_IMPLEMENTATION_H
