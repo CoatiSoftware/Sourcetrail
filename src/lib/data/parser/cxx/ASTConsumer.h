@@ -4,7 +4,7 @@
 #include "clang/AST/ASTConsumer.h"
 #include "clang/AST/ASTContext.h"
 
-#include "data/parser/cxx/AstVisitor.h"
+#include "data/parser/cxx/ASTVisitor.h"
 
 class ASTConsumer : public clang::ASTConsumer
 {
