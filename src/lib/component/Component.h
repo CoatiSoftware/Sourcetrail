@@ -9,7 +9,7 @@
 class Component
 {
 public:
-	Component(const std::shared_ptr<Controller>& controller, const std::shared_ptr<View>& view);
+	Component(std::shared_ptr<View> view, std::shared_ptr<Controller> controller);
 
 	~Component();
 

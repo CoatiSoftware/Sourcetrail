@@ -20,9 +20,11 @@ add_files(
 	component/controller/CodeController.h
 	component/controller/Controller.cpp
 	component/controller/Controller.h
+	component/controller/DummyController.cpp
+	component/controller/DummyController.h
 
-	component/view/CodeView.cpp
-	component/view/CodeView.h
+	component/view/DummyView.cpp
+	component/view/DummyView.h
 	component/view/View.cpp
 	component/view/View.h
 	component/view/ViewManager.cpp
@@ -67,10 +69,22 @@ add_files(
 	data/TextLocationLine.cpp
 	data/TextLocationLine.h
 
+	gui/GuiArea.cpp
+	gui/GuiArea.h
+	gui/GuiCanvas.cpp
+	gui/GuiCanvas.h
+	gui/GuiContainer.cpp
+	gui/GuiContainer.h
+	gui/GuiControl.cpp
+	gui/GuiControl.h
 	gui/GuiElement.cpp
 	gui/GuiElement.h
 	gui/GuiElementFactory.cpp
 	gui/GuiElementFactory.h
+	gui/GuiWindow.cpp
+	gui/GuiWindow.h
+	gui/WidgetWrapper.cpp
+	gui/WidgetWrapper.h
 
 	utility/logging/ConsoleLogger.cpp
 	utility/logging/ConsoleLogger.h
@@ -84,11 +98,14 @@ add_files(
 	utility/logging/LogManagerImplementation.cpp
 	utility/logging/LogManagerImplementation.h
 	utility/logging/LogMessage.h
-
+	
+	utility/math/Color.h
 	utility/math/Vector2.h
+	utility/math/Vector4.h
 
 	utility/ConfigManager.cpp
 	utility/ConfigManager.h
+	utility/Vector.h
 
 	Application.cpp
 	Application.h

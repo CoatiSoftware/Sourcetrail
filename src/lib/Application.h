@@ -13,7 +13,7 @@
 class Application
 {
 public:
-	static std::shared_ptr<Application> create(std::shared_ptr<GuiElementFactory> guiElementFactory);
+	static std::shared_ptr<Application> create(std::shared_ptr<GuiElementFactory> guiElementFactory, std::shared_ptr<GuiWindow> window);
 
 	~Application();
 

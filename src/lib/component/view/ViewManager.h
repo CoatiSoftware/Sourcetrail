@@ -4,16 +4,21 @@
 #include <memory>
 #include <vector>
 
-#include "component/view/View.h"
+class GuiCanvas;
+class View;
 
 class ViewManager
 {
 public:
-	ViewManager();
+	ViewManager(std::shared_ptr<GuiCanvas> canvas);
 	~ViewManager();
 
+	void addView(View* view);
+	void removeView(View* view);
+
 private:
-	std::vector<std::shared_ptr<View> > m_views;
+	std::shared_ptr<GuiCanvas> m_canvas;
+	std::vector<View*> m_views;
 };
 
 

@@ -15,12 +15,14 @@ class ComponentManager
 {
 public:
 	static std::shared_ptr<ComponentManager> create(
-		const std::shared_ptr<ViewManager>& viewManager,
-		const std::shared_ptr<GuiElementFactory>& guiElementFactory,
-		const std::shared_ptr<CodeAccess>& codeAccess,
-		const std::shared_ptr<GraphAccess>& graphAccess);
+		std::shared_ptr<ViewManager> viewManager,
+		std::shared_ptr<GuiElementFactory> guiElementFactory,
+		std::shared_ptr<CodeAccess> codeAccess,
+		std::shared_ptr<GraphAccess> graphAccess);
 
 	~ComponentManager();
+
+	void setup();
 
 private:
 	ComponentManager();
