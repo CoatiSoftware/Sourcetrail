@@ -1,7 +1,8 @@
 #ifndef VECTOR_2_H
 #define VECTOR_2_H
 
-#include <math.h>
+#include <cmath>
+#include <ostream>
 
 template<class T>
 class Vector2
