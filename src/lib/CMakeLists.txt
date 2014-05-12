@@ -103,6 +103,13 @@ add_files(
 	utility/math/Vector2.h
 	utility/math/Vector4.h
 
+	utility/messaging/Message.h
+	utility/messaging/MessageBase.h
+	utility/messaging/MessageListener.h
+	utility/messaging/MessageListenerBase.h
+	utility/messaging/MessageQueue.cpp
+	utility/messaging/MessageQueue.h
+
 	utility/ConfigManager.cpp
 	utility/ConfigManager.h
 	utility/Vector.h

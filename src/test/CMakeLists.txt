@@ -4,6 +4,7 @@ add_files(
 	ConfigManagerTestSuite.h
 	CxxParserTestSuite.h
 	LogManagerTestSuite.h
+	MessageQueueTestSuite.h
 	TestSuiteFixture.cpp
 	TestSuiteFixture.h
 	Vector2TestSuite.h
