@@ -1,5 +1,7 @@
 #include "component/view/ViewManager.h"
 
+#include <algorithm>
+
 #include "gui/GuiCanvas.h"
 #include "View.h"
 
