@@ -24,7 +24,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 
 if (UNIX)
-	add_definitions(-std=c++11)
+	add_definitions(-std=c++11 -Wno-unknown-warning-option)
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
 else ()
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
@@ -42,6 +42,15 @@ find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build/share/llvm/cmake")
 find_package(CLANG REQUIRED PATHS "${CMAKE_SOURCE_DIR}/cmake")
 
 add_definitions(${CLANG_DEFINITIONS})
+
+# Boost ------------------------------------------------------------------------
+
+set(BOOST_ROOT $ENV{BOOST_155_DIR})
+set(Boost_USE_MULTITHREAD ON)
+set(Boost_USE_STATIC_LIBS OFF)
+set(Boost_USE_STATIC_RUNTIME OFF)
+set(BOOST_LIBRARYDIR $ENV{BOOST_155_DIR})
+find_package( Boost 1.55 COMPONENTS system filesystem REQUIRED )
 
 # Lib --------------------------------------------------------------------------
 
@@ -71,12 +80,12 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/external"
 		${LLVM_INCLUDE_DIRS}
 		${CLANG_INCLUDE_DIRS}
+		${Boost_INCLUDE_DIRS}
 )
 
-link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS})
+link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
 
-target_link_libraries(${LIB_PROJECT_NAME} ${CLANG_LIBRARIES} ${LLVM_AVAILABLE_LIBS})
-
+target_link_libraries(${LIB_PROJECT_NAME} ${CLANG_LIBRARIES} ${LLVM_AVAILABLE_LIBS} ${Boost_LIBRARIES})
 
 # App --------------------------------------------------------------------------
 
@@ -117,7 +126,6 @@ configure_file(
 )
 
 set(CMAKE_AUTOMOC OFF)
-
 
 # CxxTest ----------------------------------------------------------------------
 

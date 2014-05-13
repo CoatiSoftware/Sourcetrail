@@ -98,7 +98,7 @@ add_files(
 	utility/logging/LogManagerImplementation.cpp
 	utility/logging/LogManagerImplementation.h
 	utility/logging/LogMessage.h
-	
+
 	utility/math/Color.h
 	utility/math/Vector2.h
 	utility/math/Vector4.h
@@ -112,6 +112,8 @@ add_files(
 
 	utility/ConfigManager.cpp
 	utility/ConfigManager.h
+	utility/FileSystem.cpp
+	utility/FileSystem.h
 	utility/Vector.h
 
 	Application.cpp
