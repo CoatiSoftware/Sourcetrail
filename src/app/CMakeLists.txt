@@ -5,6 +5,8 @@ add_files(
 	qt/element/QtArea.h
 	qt/element/QtCanvas.cpp
 	qt/element/QtCanvas.h
+	qt/element/QtLayout.cpp
+	qt/element/QtLayout.h
 	
 	qt/QtWidgetWrapper.cpp
 	qt/QtWidgetWrapper.h

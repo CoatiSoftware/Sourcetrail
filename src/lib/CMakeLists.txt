@@ -81,6 +81,8 @@ add_files(
 	gui/GuiElement.h
 	gui/GuiElementFactory.cpp
 	gui/GuiElementFactory.h
+	gui/GuiLayout.cpp
+	gui/GuiLayout.h
 	gui/GuiWindow.cpp
 	gui/GuiWindow.h
 	gui/WidgetWrapper.cpp

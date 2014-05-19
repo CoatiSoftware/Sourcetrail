@@ -9,7 +9,7 @@
 QtCanvas::QtCanvas()
 	: GuiCanvas(std::make_shared<QtWidgetWrapper>(std::make_shared<QGroupBox>()))
 {
-	QBoxLayout *layout = new QBoxLayout(QBoxLayout::TopToBottom); // gets deleted by qt
+	QBoxLayout* layout = new QBoxLayout(QBoxLayout::TopToBottom); // gets deleted by qt
 	getWidget()->setLayout(layout);
 }
 
