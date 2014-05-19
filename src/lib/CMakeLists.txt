@@ -42,11 +42,14 @@ add_files(
 	data/access/GraphAccess.cpp
 	data/access/GraphAccess.h
 
-	data/parser/ParseObject.h
+	data/parser/ParseLocation.cpp
+	data/parser/ParseLocation.h
 	data/parser/Parser.cpp
 	data/parser/Parser.h
 	data/parser/ParserClient.cpp
 	data/parser/ParserClient.h
+	data/parser/ParseVariable.cpp
+	data/parser/ParseVariable.h
 
 	data/Edge.cpp
 	data/Edge.h

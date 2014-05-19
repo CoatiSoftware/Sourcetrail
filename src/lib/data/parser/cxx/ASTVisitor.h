@@ -14,9 +14,31 @@ public:
 	ASTVisitor(clang::ASTContext* context, std::shared_ptr<ParserClient> client);
 	virtual ~ASTVisitor();
 
-	virtual bool VisitCXXRecordDecl(clang::CXXRecordDecl *declaration);
+	// Left for debugging purposes. Uncomment to see a colored ast-dump of the parsed file.
+	// virtual bool VisitDecl(clang::Decl* declaration)
+	// {
+	// 	// declaration->print(llvm::outs());
+	// 	declaration->dump();
+	// 	return false;
+	// }
+
+	virtual bool VisitCXXRecordDecl(clang::CXXRecordDecl* declaration); // classes and structs
+	virtual bool VisitVarDecl(clang::VarDecl* declaration); // global variables and static fields
+	virtual bool VisitFieldDecl(clang::FieldDecl* declaration); // fields
+	virtual bool VisitFunctionDecl(clang::FunctionDecl* declaration); // functions
+	virtual bool VisitCXXMethodDecl(clang::CXXMethodDecl* declaration); // methods
+	virtual bool VisitNamespaceDecl(clang::NamespaceDecl* declaration); // namespaces
+	virtual bool VisitEnumDecl(clang::EnumDecl* declaration); // enums
+	virtual bool VisitEnumConstantDecl(clang::EnumConstantDecl* declaration); // enum fields
 
 private:
+	bool isValidLocation(const clang::SourceLocation& location) const;
+	ParseLocation getParseLocation(const clang::SourceLocation& location) const;
+	ParseVariable getParseVariable(clang::ValueDecl* declaration) const;
+	std::vector<ParseVariable> getParameters(clang::FunctionDecl* declaration) const;
+	std::string getTypeName(const clang::QualType& type) const;
+	ParserClient::AccessType convertAccessType(clang::AccessSpecifier) const;
+
 	clang::ASTContext* m_context;
 	std::shared_ptr<ParserClient> m_client;
 };

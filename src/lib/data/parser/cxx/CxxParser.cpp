@@ -14,8 +14,10 @@ CxxParser::~CxxParser()
 
 void CxxParser::parseFiles(const std::vector<std::string>& filePaths)
 {
-	const char* argv[] = { "app", "--" };
-	int argc = 2;
+	// Fake commandline flags passed to the programm. Everything after '--' will be interpreted by the ClangTool.
+	// The option '-x c++' treats subsequent input files as C++.
+	const char* argv[] = { "app", "--", "-x", "c++" };
+	int argc = 4;
 
 	std::shared_ptr<clang::tooling::FixedCompilationDatabase> compilationDatabase(
 		clang::tooling::FixedCompilationDatabase::loadFromCommandLine(argc, argv)

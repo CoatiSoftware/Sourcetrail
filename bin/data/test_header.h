@@ -1,1 +1,5 @@
-class H;
+class H
+{
+private:
+	int width;
+};
