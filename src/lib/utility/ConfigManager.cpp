@@ -1,8 +1,10 @@
 #include "utility/ConfigManager.h"
 
-std::shared_ptr<ConfigManager> ConfigManager::createAndLoad(const std::string& filePath)
+#include "utility/text/TextAccess.h"
+
+std::shared_ptr<ConfigManager> ConfigManager::createAndLoad(const std::shared_ptr<TextAccess> textAccess)
 {
-	std::shared_ptr<ConfigManager> configManager = std::shared_ptr<ConfigManager>(new ConfigManager(filePath));
+	std::shared_ptr<ConfigManager> configManager = std::shared_ptr<ConfigManager>(new ConfigManager(textAccess));
 	configManager->load();
 	return configManager;
 }
@@ -88,10 +90,11 @@ void ConfigManager::setValue(const std::string& key, const bool value)
 
 void ConfigManager::load()
 {
-	// LOG ("Loading config from file: " + m_filePath)
+	std::string text = m_textAccess->getText();
 
-	TiXmlDocument doc(m_filePath.c_str());
-	if (doc.LoadFile())
+	TiXmlDocument doc;
+	const char* pTest = doc.Parse(text.c_str(), 0, TIXML_ENCODING_UTF8);
+	if (pTest != NULL)
 	{
 		TiXmlHandle docHandle(&doc);
 		TiXmlNode *rootNode = docHandle.FirstChild("config").ToNode();
@@ -111,8 +114,8 @@ void ConfigManager::save()
 	// LOG ("Saving config to file: " + m_filePath)
 }
 
-ConfigManager::ConfigManager(const std::string& filePath)
-	: m_filePath(filePath)
+ConfigManager::ConfigManager(const std::shared_ptr<TextAccess> textAccess)
+	: m_textAccess(textAccess)
 {
 }
 

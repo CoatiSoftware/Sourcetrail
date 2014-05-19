@@ -8,5 +8,6 @@ add_files(
 	MessageQueueTestSuite.h
 	TestSuiteFixture.cpp
 	TestSuiteFixture.h
+	TextAccessTestSuite.h
 	Vector2TestSuite.h
 )

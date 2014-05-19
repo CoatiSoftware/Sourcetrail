@@ -8,11 +8,12 @@
 
 #include "tinyxml/tinyxml.h"
 
+class TextAccess;
 
 class ConfigManager
 {
 public:
-	static std::shared_ptr<ConfigManager> createAndLoad(const std::string& filePath);
+	static std::shared_ptr<ConfigManager> createAndLoad(const std::shared_ptr<TextAccess> textAccess);
 
 	bool getValue(const std::string& key, std::string& value) const;
 	bool getValue(const std::string& key, int& value) const;
@@ -28,13 +29,13 @@ public:
 	void save();
 
 private:
-	ConfigManager(const std::string& filePath);
+	ConfigManager(const std::shared_ptr<TextAccess> textAccess);
 	ConfigManager(const ConfigManager&);
 	ConfigManager operator=(const ConfigManager&);
 
 	void parseSubtree(TiXmlNode* parentElement, const std::string& currentPath);
 
-	const std::string m_filePath;
+	const std::shared_ptr<TextAccess> m_textAccess;
 	std::map<std::string, std::string> m_values;
 };
 

@@ -111,7 +111,10 @@ add_files(
 	utility/messaging/MessageListenerBase.h
 	utility/messaging/MessageQueue.cpp
 	utility/messaging/MessageQueue.h
-
+	
+	utility/text/TextAccess.cpp
+	utility/text/TextAccess.h
+	
 	utility/ConfigManager.cpp
 	utility/ConfigManager.h
 	utility/FileSystem.cpp
