@@ -16,7 +16,7 @@ std::vector<std::string> FileSystem::getSourceFilesFromDirectory(
 		{
 			if (boost::filesystem::is_regular_file(*it) && isValidExtension(it->path().string(), extensions))
 			{
-				files.push_back(it->path().string());
+				files.push_back(it->path().generic_string());
 			}
 			++it;
 		}
