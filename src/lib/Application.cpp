@@ -35,5 +35,6 @@ void Application::loadProject()
 	m_componentManager->setup();
 	m_project = Project::create(m_codeAccess, m_graphAccess);
 
+	m_project->loadProjectSettings("data/test_ProjectSettings.xml");
 	m_project->parseCode();
 }

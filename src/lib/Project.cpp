@@ -1,9 +1,11 @@
 #include "Project.h"
 
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "data/parser/cxx/CxxParser.h"
+#include "utility/FileSystem.h"
+#include "utility/logging/logging.h"
 
 std::shared_ptr<Project> Project::create(
 	std::shared_ptr<CodeAccess> codeAccess,
@@ -27,16 +29,22 @@ Project::~Project()
 {
 }
 
-const ProjectSettings& Project::getProjectSettings() const
+bool Project::loadProjectSettings(const std::string& projectSettingsFile)
 {
-	return m_settings;
+	return ProjectSettings::getInstance()->load(projectSettingsFile);
 }
 
 void Project::parseCode()
 {
-	std::vector<std::string> filePaths;
-	filePaths.push_back("data/test_code.cpp");
+	if (ProjectSettings::getInstance()->getSourcePath() != "")
+	{
+		std::vector<std::string> extension;
+		extension.push_back(".cpp");
+		extension.push_back(".h");
 
-	CxxParser parser(m_storage);
-	parser.parseFiles(filePaths);
+		CxxParser parser(m_storage);
+		parser.parseFiles(
+			FileSystem::getSourceFilesFromDirectory(ProjectSettings::getInstance()->getSourcePath(), extension)
+		);
+	}
 }

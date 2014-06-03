@@ -8,6 +8,7 @@ std::vector<std::string> FileSystem::getSourceFilesFromDirectory(
 )
 {
 	std::vector<std::string> files;
+
 	if (boost::filesystem::is_directory(path))
 	{
 		boost::filesystem::recursive_directory_iterator it(path);
@@ -27,6 +28,7 @@ std::vector<std::string> FileSystem::getSourceFilesFromDirectory(
 bool FileSystem::isValidExtension(const std::string& filepath, const std::vector<std::string>& extensions)
 {
 	boost::filesystem::path path(filepath);
+
 	for(std::string extension : extensions)
 	{
 		if(path.extension() == extension)
@@ -41,3 +43,4 @@ bool FileSystem::exists(const std::string& path)
 {
 	return boost::filesystem::exists(boost::filesystem::path(path));
 }
+

@@ -18,5 +18,4 @@ private:
 	static std::shared_ptr<ApplicationSettings> s_instance;
 };
 
-
 #endif // APPLICATION_SETTINGS_H

@@ -1,5 +1,6 @@
 #include "utility/ConfigManager.h"
 
+#include "logging/logging.h"
 #include "utility/text/TextAccess.h"
 
 std::shared_ptr<ConfigManager> ConfigManager::createAndLoad(const std::shared_ptr<TextAccess> textAccess)
@@ -111,6 +112,7 @@ void ConfigManager::load()
 
 void ConfigManager::save()
 {
+	LOG_ERROR("function: configmanager::save not implemented");
 	// LOG ("Saving config to file: " + m_filePath)
 }
 

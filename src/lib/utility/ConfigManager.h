@@ -1,7 +1,6 @@
 #ifndef CONFIG_MANAGER_H
 #define CONFIG_MANAGER_H
 
-
 #include <map>
 #include <memory>
 #include <string>
@@ -31,13 +30,12 @@ public:
 private:
 	ConfigManager(const std::shared_ptr<TextAccess> textAccess);
 	ConfigManager(const ConfigManager&);
-	ConfigManager operator=(const ConfigManager&);
+	void operator=(const ConfigManager&);
 
 	void parseSubtree(TiXmlNode* parentElement, const std::string& currentPath);
 
 	const std::shared_ptr<TextAccess> m_textAccess;
 	std::map<std::string, std::string> m_values;
 };
-
 
 #endif // CONFIG_MANAGER_H

@@ -18,8 +18,7 @@ public:
 
 	~Project();
 
-	const ProjectSettings& getProjectSettings() const;
-
+	bool loadProjectSettings(const std::string& projectSettingsFile);
 	void parseCode();
 
 private:
@@ -27,10 +26,7 @@ private:
 	Project(const Project&);
 	Project operator=(const Project&);
 
-	ProjectSettings m_settings;
-
 	std::shared_ptr<Storage> m_storage;
-
 	std::shared_ptr<CodeAccess> m_codeAccess;
 	std::shared_ptr<GraphAccess> m_graphAccess;
 };

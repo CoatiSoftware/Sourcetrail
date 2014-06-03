@@ -1,5 +1,7 @@
 #include "LogManagerImplementation.h"
 
+#include <algorithm>
+
 LogManagerImplementation::LogManagerImplementation()
 {
 }
