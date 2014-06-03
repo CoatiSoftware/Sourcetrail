@@ -13,6 +13,23 @@ ASTVisitor::~ASTVisitor()
 {
 }
 
+bool ASTVisitor::VisitTypedefDecl(const clang::TypedefDecl* declaration)
+{
+	const clang::SourceLocation& location = declaration->getLocStart();
+
+	if (isValidLocation(location))
+	{
+		m_client->onTypedefParsed(
+			getParseLocation(location),
+			declaration->getQualifiedNameAsString(),
+			declaration->getUnderlyingType().getAsString(),
+			convertAccessType(declaration->getAccess())
+		);
+	}
+
+	return true;
+}
+
 bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 {
 	const clang::SourceLocation& location = declaration->getLocStart();

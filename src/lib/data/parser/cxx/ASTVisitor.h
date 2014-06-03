@@ -22,6 +22,7 @@ public:
 	// 	return false;
 	// }
 
+	virtual bool VisitTypedefDecl(const clang::TypedefDecl* declaration); // typedefs
 	virtual bool VisitCXXRecordDecl(clang::CXXRecordDecl* declaration); // classes and structs
 	virtual bool VisitVarDecl(clang::VarDecl* declaration); // global variables and static fields
 	virtual bool VisitFieldDecl(clang::FieldDecl* declaration); // fields

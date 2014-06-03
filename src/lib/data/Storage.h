@@ -14,6 +14,10 @@ public:
 	Storage();
 	virtual ~Storage();
 
+	virtual void onTypedefParsed(
+		const ParseLocation& location, const std::string& fullName, const std::string& underlyingFullName,
+		AccessType access
+	);
 	virtual void onClassParsed(const ParseLocation& location, const std::string& fullName, AccessType access);
 	virtual void onStructParsed(const ParseLocation& location, const std::string& fullName, AccessType access);
 

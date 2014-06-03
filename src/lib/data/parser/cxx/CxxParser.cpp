@@ -2,6 +2,7 @@
 
 #include "data/parser/cxx/ASTActionFactory.h"
 #include "utility/logging/logging.h"
+#include "utility/text/TextAccess.h"
 
 CxxParser::CxxParser(std::shared_ptr<ParserClient> client)
 	: Parser(client)
@@ -34,4 +35,10 @@ void CxxParser::parseFiles(const std::vector<std::string>& filePaths)
 	ASTActionFactory actionFactory(m_client);
 
 	tool.run(&actionFactory);
+}
+
+void CxxParser::parseFile(std::shared_ptr<TextAccess> textAccess)
+{
+	ASTActionFactory actionFactory(m_client);
+	clang::tooling::runToolOnCode(actionFactory.create(), textAccess->getText());
 }

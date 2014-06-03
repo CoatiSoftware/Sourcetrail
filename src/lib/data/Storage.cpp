@@ -14,6 +14,14 @@ Storage::~Storage()
 {
 }
 
+void Storage::onTypedefParsed(
+	const ParseLocation& location, const std::string& fullName, const std::string& underlyingFullName,
+	AccessType access
+)
+{
+	log("typedef", fullName + " -> " + underlyingFullName, location);
+}
+
 void Storage::onClassParsed(const ParseLocation& location, const std::string& fullName, AccessType access)
 {
 	log("class", fullName, location);

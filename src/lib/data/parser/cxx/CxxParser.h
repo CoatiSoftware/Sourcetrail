@@ -10,6 +10,7 @@ public:
 	~CxxParser();
 
 	virtual void parseFiles(const std::vector<std::string>& filePaths);
+	virtual void parseFile(std::shared_ptr<TextAccess> textAccess);
 };
 
 #endif // CXX_PARSER_H

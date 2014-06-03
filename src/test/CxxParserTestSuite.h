@@ -4,6 +4,7 @@
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
 #include "data/parser/ParseVariable.h"
+#include "utility/text/TextAccess.h"
 
 class CxxParserTestSuite: public CxxTest::TestSuite
 {
@@ -127,10 +128,63 @@ public:
 		TS_ASSERT_EQUALS(client->enumFields[1], "X::E::Q");
 	}
 
+	void test_cxx_parser_finds_typedef_in_global_namespace()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text = "typedef unsigned int uint;\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
+		TS_ASSERT_EQUALS(client->typedefs[0], "unsigned int -> uint");
+	}
+
+	void test_cxx_parser_finds_typedef_in_named_namespace()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"namespace test\n"
+			"{\n"
+			"	typedef unsigned int uint;\n"
+			"}\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
+		TS_ASSERT_EQUALS(client->typedefs[0], "unsigned int -> test::uint");
+	}
+
+	void test_cxx_parser_finds_typedef_that_uses_type_defined_in_named_namespace()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"namespace test\n"
+			"{\n"
+			"	struct TestStruct{};\n"
+			"}\n"
+			"typedef test::TestStruct globalTestStruct;\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
+		TS_ASSERT_EQUALS(client->typedefs[0], "test::TestStruct -> globalTestStruct");
+	}
+
 private:
 	class TestParserClient: public ParserClient
 	{
 	public:
+		virtual void onTypedefParsed(
+			const ParseLocation& location, const std::string& fullName, const std::string& underlyingFullName,
+			AccessType access
+		)
+		{
+			typedefs.push_back(addAccessPrefix(underlyingFullName + " -> " + fullName, access));
+		}
+
 		virtual void onClassParsed(const ParseLocation& location, const std::string& fullName, AccessType access)
 		{
 			classes.push_back(addAccessPrefix(fullName, access));
@@ -186,6 +240,7 @@ private:
 			enumFields.push_back(fullName);
 		}
 
+		std::vector<std::string> typedefs;
 		std::vector<std::string> classes;
 		std::vector<std::string> enums;
 		std::vector<std::string> enumFields;
