@@ -1,10 +1,8 @@
 #include "ProjectSettings.h"
 
-#include "utility/logging/logging.h"
-
-#include "utility/text/TextAccess.h"
-
 #include "utility/FileSystem.h"
+#include "utility/logging/logging.h"
+#include "utility/text/TextAccess.h"
 
 std::shared_ptr<ProjectSettings> ProjectSettings::s_instance;
 
@@ -20,7 +18,7 @@ std::shared_ptr<ProjectSettings> ProjectSettings::getInstance()
 
 ProjectSettings::ProjectSettings()
 {
-}    
+}
 
 ProjectSettings::~ProjectSettings()
 {
@@ -32,6 +30,7 @@ bool ProjectSettings::load(const std::string& projectSettingsFilePath)
 	if (FileSystem::exists(projectSettingsFilePath))
 	{
 		m_config = ConfigManager::createAndLoad(TextAccess::createFromFile(projectSettingsFilePath));
+		return true;
 	}
 	else
 	{
@@ -42,7 +41,7 @@ bool ProjectSettings::load(const std::string& projectSettingsFilePath)
 
 void ProjectSettings::save(const std::string& projectSettingsFilePath)
 {
-	if(m_config)
+	if (m_config)
 	{
 		m_config->save();
 	}
@@ -50,10 +49,10 @@ void ProjectSettings::save(const std::string& projectSettingsFilePath)
 
 std::string ProjectSettings::getSourcePath() const
 {
-	if(m_config) 
+	if (m_config)
 	{
 		std::string sourcePath;
-		if(m_config->getValue("SourcePath", sourcePath))
+		if (m_config->getValue("SourcePath", sourcePath))
 		{
 			return sourcePath;
 		}
@@ -63,9 +62,8 @@ std::string ProjectSettings::getSourcePath() const
 
 void ProjectSettings::setSourcePath(const std::string& sourcePath)
 {
-	if(m_config)
+	if (m_config)
 	{
 		m_config->setValue("SourcePath", sourcePath);
 	}
-	
 }

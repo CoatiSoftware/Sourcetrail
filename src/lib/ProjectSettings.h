@@ -15,8 +15,7 @@ public:
 	bool load(const std::string& projectSettingsFilePath);
 	void save(const std::string& projectSettingsFilePath);
 
-std::string getSourcePath() const;
-
+	std::string getSourcePath() const;
 	void setSourcePath(const std::string& sourcePath);
 
 private:
