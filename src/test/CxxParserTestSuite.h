@@ -9,123 +9,409 @@
 class CxxParserTestSuite: public CxxTest::TestSuite
 {
 public:
-	void test_cxx_parser_finds_classes()
+	void test_cxx_parser_finds_global_class_definition()
 	{
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
 		CxxParser parser(client);
+		std::string text =
+			"class A\n"
+			"{\n"
+			"};\n";
 
-		std::vector<std::string> filePaths(1, "data/test_code.cpp");
-		parser.parseFiles(filePaths);
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->classes.size(), 1);
+		TS_ASSERT_EQUALS(client->classes[0], "A");
+	}
+
+	void test_cxx_parser_finds_global_class_forward_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"class A;\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->classes.size(), 1);
+		TS_ASSERT_EQUALS(client->classes[0], "A");
+	}
+
+	void test_cxx_parser_finds_nested_class_definition() // TODO: test different access types here
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"class A\n"
+			"{\n"
+			"public:\n"
+			"	class B;\n"
+			"};\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
 
 		TS_ASSERT_EQUALS(client->classes.size(), 2);
-		TS_ASSERT_EQUALS(client->classes[0], "B");
-		TS_ASSERT_EQUALS(client->classes[1], "public B::C");
+		TS_ASSERT_EQUALS(client->classes[0], "A");
+		TS_ASSERT_EQUALS(client->classes[1], "public A::B");
 	}
 
-	void test_cxx_parser_finds_structs()
+	void test_cxx_parser_finds_class_definition_in_namespace()
 	{
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
 		CxxParser parser(client);
+		std::string text =
+			"namespace a\n"
+			"{\n"
+			"	class B;\n"
+			"};\n";
 
-		std::vector<std::string> filePaths(1, "data/test_code.cpp");
-		parser.parseFiles(filePaths);
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->classes.size(), 1);
+		TS_ASSERT_EQUALS(client->classes[0], "a::B");
+	}
+
+	void test_cxx_parser_finds_global_struct_definition()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"struct A\n"
+			"{\n"
+			"};\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
 
 		TS_ASSERT_EQUALS(client->structs.size(), 1);
-		TS_ASSERT_EQUALS(client->structs[0], "X::A");
+		TS_ASSERT_EQUALS(client->structs[0], "A");
 	}
 
-	void test_cxx_parser_finds_globals()
+	void test_cxx_parser_finds_global_struct_forward_declaration()
 	{
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
 		CxxParser parser(client);
+		std::string text =
+			"struct A;\n";
 
-		std::vector<std::string> filePaths(1, "data/test_code.cpp");
-		parser.parseFiles(filePaths);
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->structs.size(), 1);
+		TS_ASSERT_EQUALS(client->structs[0], "A");
+	}
+
+	void test_cxx_parser_finds_struct_definition_in_class()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"class A\n"
+			"{\n"
+			"	struct B\n"
+			"	{\n"
+			"	};\n"
+			"};\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->structs.size(), 1);
+		TS_ASSERT_EQUALS(client->structs[0], "private A::B");
+	}
+
+	void test_cxx_parser_finds_struct_definition_in_namespace()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"namespace A\n"
+			"{\n"
+			"	struct B\n"
+			"	{\n"
+			"	};\n"
+			"};\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->structs.size(), 1);
+		TS_ASSERT_EQUALS(client->structs[0], "A::B");
+	}
+
+	void test_cxx_parser_finds_variable_definitions_in_global_scope()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"int x;\n"
+			"class A;\n"
+			"A* b;";
+
+		parser.parseFile(TextAccess::createFromString(text));
 
 		TS_ASSERT_EQUALS(client->globals.size(), 2);
-		TS_ASSERT_EQUALS(client->globals[0], "char * name");
-		TS_ASSERT_EQUALS(client->globals[1], "H g");
+		TS_ASSERT_EQUALS(client->globals[0], "int x");
+		TS_ASSERT_EQUALS(client->globals[1], "A * b");
 	}
 
-	void test_cxx_parser_finds_fields()
+	void test_cxx_parser_finds_variable_definitions_in_namespace_scope()
 	{
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
 		CxxParser parser(client);
+		std::string text =
+			"namespace n"
+			"{\n"
+			"	int x;\n"
+			"	class A;\n"
+			"	A* b;\n"
+			"}\n";
 
-		std::vector<std::string> filePaths(1, "data/test_code.cpp");
-		parser.parseFiles(filePaths);
+		parser.parseFile(TextAccess::createFromString(text));
 
-		TS_ASSERT_EQUALS(client->fields.size(), 3);
+		TS_ASSERT_EQUALS(client->globals.size(), 2);
+		TS_ASSERT_EQUALS(client->globals[0], "int n::x");
+		TS_ASSERT_EQUALS(client->globals[1], "n::A * n::b");
+	}
+
+	void test_cxx_parser_finds_field_in_nested_class()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"class B\n"
+			"{\n"
+			"public:\n"
+			"	class C\n"
+			"	{\n"
+			"	private:\n"
+			"		static const int amount;\n"
+			"	};\n"
+			"};\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->fields.size(), 1);
 		TS_ASSERT_EQUALS(client->fields[0], "private static const int B::C::amount");
-		TS_ASSERT_EQUALS(client->fields[1], "private const int B::count");
-		TS_ASSERT_EQUALS(client->fields[2], "private H B::h");
 	}
 
-	void test_cxx_parser_finds_functions()
+	void test_cxx_parser_finds_field_in_global_class()
 	{
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
 		CxxParser parser(client);
+		std::string text =
+			"class B\n"
+			"{\n"
+			"public:\n"
+			"	B() : count(0) {};"
+			"private:\n"
+			"	const int count;"
+			"};\n";
 
-		std::vector<std::string> filePaths(1, "data/test_code.cpp");
-		parser.parseFiles(filePaths);
+		parser.parseFile(TextAccess::createFromString(text));
 
-		TS_ASSERT_EQUALS(client->functions.size(), 2);
+		TS_ASSERT_EQUALS(client->fields.size(), 1);
+		TS_ASSERT_EQUALS(client->fields[0], "private const int B::count");
+	}
+
+	void test_cxx_parser_finds_function_in_global_namespace()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"int ceil(float a)\n"
+			"{\n"
+			"	return static_cast<int>(a) + 1;\n"
+			"}\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->functions.size(), 1);
 		TS_ASSERT_EQUALS(client->functions[0], "int ceil(float a)");
-		TS_ASSERT_EQUALS(client->functions[1], "int (anonymous namespace)::sum(int a, int b)");
 	}
 
-	void test_cxx_parser_finds_methods()
+	void test_cxx_parser_finds_function_in_anonymous_namespace()
 	{
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
 		CxxParser parser(client);
+		std::string text =
+			"namespace\n"
+			"{\n"
+			"	int sum(int a, int b);\n"
+			"}\n";
 
-		std::vector<std::string> filePaths(1, "data/test_code.cpp");
-		parser.parseFiles(filePaths);
+		parser.parseFile(TextAccess::createFromString(text));
 
-		TS_ASSERT_EQUALS(client->methods.size(), 5);
+		TS_ASSERT_EQUALS(client->functions.size(), 1);
+		TS_ASSERT_EQUALS(client->functions[0], "int (anonymous namespace)::sum(int a, int b)");
+	}
+
+	void test_cxx_parser_finds_method_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"class B\n"
+			"{\n"
+			"public:\n"
+			"	B();\n"
+			"};\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->methods.size(), 1);
 		TS_ASSERT_EQUALS(client->methods[0], "public void B::B()");
-		TS_ASSERT_EQUALS(client->methods[1], "public virtual void B::~B()");
-		TS_ASSERT_EQUALS(client->methods[2], "protected pure virtual void B::process()");
-		TS_ASSERT_EQUALS(client->methods[3], "private int B::getCount() const");
-		TS_ASSERT_EQUALS(client->methods[4], "public void B::B()");
 	}
 
-	void test_cxx_parser_finds_namespaces()
+	void test_cxx_parser_finds_method_declaration_and_definition()
 	{
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
 		CxxParser parser(client);
+		std::string text =
+			"class B\n"
+			"{\n"
+			"public:\n"
+			"	B();\n"
+			"};\n"
+			"B::B()\n"
+			"{\n"
+			"}\n";
 
-		std::vector<std::string> filePaths(1, "data/test_code.cpp");
-		parser.parseFiles(filePaths);
+		parser.parseFile(TextAccess::createFromString(text));
 
-		TS_ASSERT_EQUALS(client->namespaces.size(), 2);
-		TS_ASSERT_EQUALS(client->namespaces[0], "X");
-		TS_ASSERT_EQUALS(client->namespaces[1], "(anonymous)");
+		TS_ASSERT_EQUALS(client->methods.size(), 2);
+		TS_ASSERT_EQUALS(client->methods[0], "public void B::B()");
+		TS_ASSERT_EQUALS(client->methods[1], "public void B::B()");
 	}
 
-	void test_cxx_parser_finds_enums()
+	void test_cxx_parser_finds_pure_virtual_method()
 	{
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
 		CxxParser parser(client);
+		std::string text =
+			"class B\n"
+			"{\n"
+			"protected:\n"
+			"	virtual void process() = 0;\n"
+			"};\n";
 
-		std::vector<std::string> filePaths(1, "data/test_code.cpp");
-		parser.parseFiles(filePaths);
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->methods.size(), 1);
+		TS_ASSERT_EQUALS(client->methods[0], "protected pure virtual void B::process()");
+	}
+
+	void test_cxx_parser_finds_method_declared_in_nested_class()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"class B\n"
+			"{\n"
+			"	class C\n"
+			"	{\n"
+			"		bool isGreat() const;\n"
+			"	};\n"
+			"};\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->methods.size(), 1);
+		TS_ASSERT_EQUALS(client->methods[0], "private _Bool B::C::isGreat() const");
+	}
+
+	void test_cxx_parser_finds_named_namespace()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"namespace A\n"
+			"{"
+			"}\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->namespaces.size(), 1);
+		TS_ASSERT_EQUALS(client->namespaces[0], "A");
+	}
+
+	void test_cxx_parser_finds_anonymous_namespace()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"namespace\n"
+			"{\n"
+			"}\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->namespaces.size(), 1);
+		TS_ASSERT_EQUALS(client->namespaces[0], "(anonymous)");
+	}
+
+	void test_cxx_parser_finds_enum_defined_in_global_namespace()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"enum E\n"
+			"{\n"
+			"};\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
 
 		TS_ASSERT_EQUALS(client->enums.size(), 1);
-		TS_ASSERT_EQUALS(client->enums[0], "X::E");
+		TS_ASSERT_EQUALS(client->enums[0], "E");
 	}
 
-	void test_cxx_parser_finds_enum_fields()
+	void test_cxx_parser_finds_enum_defined_in_class()
 	{
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
 		CxxParser parser(client);
+		std::string text =
+			"class B\n"
+			"{\n"
+			"public:\n"
+			"	enum Z\n"
+			"	{\n"
+			"	};\n"
+			"};\n";
 
-		std::vector<std::string> filePaths(1, "data/test_code.cpp");
-		parser.parseFiles(filePaths);
+		parser.parseFile(TextAccess::createFromString(text));
 
-		TS_ASSERT_EQUALS(client->enumFields.size(), 2);
-		TS_ASSERT_EQUALS(client->enumFields[0], "X::E::P");
-		TS_ASSERT_EQUALS(client->enumFields[1], "X::E::Q");
+		TS_ASSERT_EQUALS(client->enums.size(), 1);
+		TS_ASSERT_EQUALS(client->enums[0], "public B::Z");
+	}
+
+	void test_cxx_parser_finds_enum_defined_in_namespace()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"namespace n\n"
+			"{\n"
+			"	enum Z\n"
+			"	{\n"
+			"	};\n"
+			"}\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->enums.size(), 1);
+		TS_ASSERT_EQUALS(client->enums[0], "n::Z");
+	}
+
+	void test_cxx_parser_finds_enum_field_in_global_enum()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"enum E\n"
+			"{\n"
+			"	P\n"
+			"};\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->enumFields.size(), 1);
+		TS_ASSERT_EQUALS(client->enumFields[0], "E::P");
 	}
 
 	void test_cxx_parser_finds_typedef_in_global_namespace()
@@ -156,6 +442,22 @@ public:
 		TS_ASSERT_EQUALS(client->typedefs[0], "unsigned int -> test::uint");
 	}
 
+	void test_cxx_parser_finds_typedef_in_anonymous_namespace()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"namespace\n"
+			"{\n"
+			"	typedef unsigned int uint;\n"
+			"}\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
+		TS_ASSERT_EQUALS(client->typedefs[0], "unsigned int -> (anonymous namespace)::uint");
+	}
+
 	void test_cxx_parser_finds_typedef_that_uses_type_defined_in_named_namespace()
 	{
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
@@ -171,6 +473,28 @@ public:
 
 		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
 		TS_ASSERT_EQUALS(client->typedefs[0], "test::TestStruct -> globalTestStruct");
+	}
+
+	void test_cxx_parser_parses_multiple_files()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+
+		std::vector<std::string> filePaths;
+		filePaths.push_back("data/test_header.h");
+		filePaths.push_back("data/test_code.cpp");
+		parser.parseFiles(filePaths);
+
+		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
+		TS_ASSERT_EQUALS(client->classes.size(), 3);
+		TS_ASSERT_EQUALS(client->enums.size(), 1);
+		TS_ASSERT_EQUALS(client->enumFields.size(), 2);
+		TS_ASSERT_EQUALS(client->functions.size(), 2);
+		TS_ASSERT_EQUALS(client->fields.size(), 4);
+		TS_ASSERT_EQUALS(client->globals.size(), 2);
+		TS_ASSERT_EQUALS(client->methods.size(), 5);
+		TS_ASSERT_EQUALS(client->namespaces.size(), 2);
+		TS_ASSERT_EQUALS(client->structs.size(), 1);
 	}
 
 private:
