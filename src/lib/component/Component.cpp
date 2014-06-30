@@ -9,3 +9,13 @@ Component::Component(std::shared_ptr<View> view, std::shared_ptr<Controller> con
 Component::~Component()
 {
 }
+
+Controller* Component::getController() const
+{
+	return m_controller.get();
+}
+
+View* Component::getView() const
+{
+	return m_view.get();
+}

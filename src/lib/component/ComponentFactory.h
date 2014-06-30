@@ -21,6 +21,7 @@ public:
 	~ComponentFactory();
 
 	std::shared_ptr<Component> createDummyComponent();
+	std::shared_ptr<Component> createCodeComponent();
 
 private:
 	ComponentFactory();

@@ -23,6 +23,8 @@ add_files(
 	component/controller/DummyController.cpp
 	component/controller/DummyController.h
 
+	component/view/CodeView.cpp
+	component/view/CodeView.h
 	component/view/DummyView.cpp
 	component/view/DummyView.h
 	component/view/View.cpp
@@ -114,10 +116,10 @@ add_files(
 	utility/messaging/MessageListenerBase.h
 	utility/messaging/MessageQueue.cpp
 	utility/messaging/MessageQueue.h
-	
+
 	utility/text/TextAccess.cpp
 	utility/text/TextAccess.h
-	
+
 	utility/ConfigManager.cpp
 	utility/ConfigManager.h
 	utility/FileSystem.cpp

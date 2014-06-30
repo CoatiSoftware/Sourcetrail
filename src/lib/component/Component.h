@@ -10,12 +10,14 @@ class Component
 {
 public:
 	Component(std::shared_ptr<View> view, std::shared_ptr<Controller> controller);
-
 	~Component();
 
+	Controller* getController() const;
+	View* getView() const;
+
 private:
-	std::shared_ptr<Controller> m_controller;
-	std::shared_ptr<View> m_view;
+	const std::shared_ptr<Controller> m_controller;
+	const std::shared_ptr<View> m_view;
 };
 
 
