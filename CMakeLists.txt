@@ -20,21 +20,13 @@ endif()
 
 # Settings ---------------------------------------------------------------------
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
-
 if (UNIX)
 	add_definitions(-std=c++11 -Wno-unknown-warning-option)
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
-else ()
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 endif ()
-
 
 # Project ----------------------------------------------------------------------
 
 project(${PROJECT_NAME})
-
 
 # Clang ------------------------------------------------------------------------
 
@@ -54,6 +46,8 @@ find_package( Boost 1.55 COMPONENTS system filesystem REQUIRED )
 
 # Lib --------------------------------------------------------------------------
 
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
 
 add_subdirectory(src/lib)
 add_subdirectory(src/external)
@@ -88,6 +82,12 @@ link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS
 target_link_libraries(${LIB_PROJECT_NAME} ${CLANG_LIBRARIES} ${LLVM_AVAILABLE_LIBS} ${Boost_LIBRARIES})
 
 # App --------------------------------------------------------------------------
+
+if (UNIX)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/${CMAKE_BUILD_TYPE})
+else ()
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/)
+endif ()
 
 add_subdirectory(src/app)
 
@@ -129,6 +129,12 @@ set(CMAKE_AUTOMOC OFF)
 
 # CxxTest ----------------------------------------------------------------------
 
+if (UNIX)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/test/${CMAKE_BUILD_TYPE})
+else ()
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/test/)
+endif ()
+
 add_subdirectory(src/test)
 
 set(CXXTEST_INCLUDE_DIR $ENV{CXX_TEST_DIR})
@@ -166,7 +172,7 @@ if (WIN32)
 	add_custom_command(
 		TARGET ${TEST_PROJECT_NAME}
 		POST_BUILD
-		COMMAND cd $(ProjectDir)../bin/\n$(OutDir)$(TargetName)$(TargetExt)
+		COMMAND cd $(ProjectDir)../bin/test/\n$(OutDir)$(TargetName)$(TargetExt)
 		COMMENT "Running unittest code"
 	)
 

@@ -8,8 +8,11 @@ cd $MY_PATH/..
 
 # Remove folders and contents
 rm -rf build
-rm -rf lib
-rm -rf bin/Debug
-rm -rf bin/Release
+rm -rf bin/app/Debug
+rm -rf bin/app/Release
+rm -rf bin/lib/Debug
+rm -rf bin/lib/Release
+rm -rf bin/test/Debug
+rm -rf bin/test/Release
 
 echo -e $SUCCESS "clean complete"

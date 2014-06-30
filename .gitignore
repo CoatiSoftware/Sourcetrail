@@ -1,7 +1,10 @@
 /build/
-/lib/
-/bin/Debug/
-/bin/Release/
-/bin/data/log/
+/bin/app/Debug/
+/bin/app/Release/
+/bin/app/data/log/
+/bin/lib/
+/bin/test/Debug/
+/bin/test/Release/
+/bin/test/data/log/
 
 .DS_Store

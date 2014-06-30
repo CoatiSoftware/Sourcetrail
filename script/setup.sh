@@ -30,15 +30,21 @@ cp .git_pre_commit_hook.sh .git/hooks/pre-commit
 echo -e $INFO "create build folders"
 
 mkdir -p build
-mkdir -p lib
-mkdir -p bin/Debug
-mkdir -p bin/Release
+mkdir -p bin/app/Debug
+mkdir -p bin/app/Release
+mkdir -p bin/lib/Debug
+mkdir -p bin/lib/Release
+mkdir -p bin/test/Debug
+mkdir -p bin/test/Release
 
 # Copy necessary dynamic libraries to bin folder
 if [ $PLATFORM == "Windows" ]; then
 	echo -e $INFO "copy dynamic libraries"
-	cp -u -r setup/dynamic_libraries/windows/Debug/* bin/Debug
-	cp -u -r setup/dynamic_libraries/windows/Release/* bin/Release
+	cp -u -r setup/dynamic_libraries/windows/app/Debug/* bin/app/Debug
+	cp -u -r setup/dynamic_libraries/windows/app/Release/* bin/app/Release
+
+	cp -u -r setup/dynamic_libraries/windows/test/Debug/* bin/test/Debug
+	cp -u -r setup/dynamic_libraries/windows/test/Release/* bin/test/Release
 
 	echo -e $INFO "copy test_main file"
 	cp -u setup/cxx_test/windows/test_main.cpp build
