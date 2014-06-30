@@ -2,9 +2,9 @@
 
 <description>
 
-review id = <id>
 # bug id = <id>
+# review id = <id>
 
 # fortune cookie message = <message>
 
-# modules: build, logic, ui, data, utility, test
+# modules: build, logic, ui, data, utility, test, script

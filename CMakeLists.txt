@@ -37,8 +37,6 @@ add_definitions(${CLANG_DEFINITIONS})
 
 # Boost ------------------------------------------------------------------------
 
-message("quatsch")
-
 set(BOOST_ROOT $ENV{BOOST_155_DIR})
 set(Boost_USE_MULTITHREAD ON)
 set(Boost_USE_STATIC_LIBS OFF)
@@ -47,8 +45,6 @@ set(BOOST_LIBRARYDIR $ENV{BOOST_155_DIR})
 find_package( Boost 1.55 COMPONENTS system filesystem REQUIRED )
 
 message("${BOOST_LIBRARYDIR}")
-
-message("quatsch")
 
 # Lib --------------------------------------------------------------------------
 
