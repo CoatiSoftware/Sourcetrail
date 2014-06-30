@@ -2,6 +2,8 @@
 
 #include "utility/math/Vector2.h"
 
+#include "utility/logging/logging.h"
+
 class Vector2TestSuite : public CxxTest::TestSuite
 {
 public:
@@ -197,10 +199,15 @@ public:
 		TS_ASSERT_EQUALS(84.0f, vec0.y);
 
 		Vec2i vec2(-2, 2);
-		Vec2i vec3 = vec2 * float(42.5f);
+		Vec2i vec3 = vec2 * 42.4f;
 
-		TS_ASSERT_EQUALS(-84, vec3.x);
-		TS_ASSERT_EQUALS(84, vec3.y);
+		TS_ASSERT_EQUALS(-84, (int)vec3.x);
+		TS_ASSERT_EQUALS(84, (int)vec3.y);
+
+		Vec2i vec3b = vec2 * 42.5f;
+
+		TS_ASSERT_EQUALS(-85, (int)vec3b.x);
+		TS_ASSERT_EQUALS(85, (int)vec3b.y);
 
 		TS_ASSERT_EQUALS(-2, vec2.x);
 		TS_ASSERT_EQUALS(2, vec2.y);
@@ -208,6 +215,10 @@ public:
 		vec2 *= 42;
 		TS_ASSERT_EQUALS(-84, vec2.x);
 		TS_ASSERT_EQUALS(84, vec2.y);
+
+		vec2 *= 0.5f;
+		TS_ASSERT_EQUALS(-42, vec2.x);
+		TS_ASSERT_EQUALS(42, vec2.y);
 	}
 
 	void test_dot_product_operator()
@@ -216,15 +227,15 @@ public:
 		Vec2f vec1(3.0f, 6.0f);
 		Vec2f vec2(-2.0f, -1.0f);
 
-		TS_ASSERT_EQUALS(30.0f, vec0*vec1);
-		TS_ASSERT_EQUALS(-8.0f, vec0*vec2);
+		TS_ASSERT_EQUALS(30.0f, vec0.dotProduct(vec1));
+		TS_ASSERT_EQUALS(-8.0f, vec0.dotProduct(vec2));
 
 		Vec2f vec3(2, 4);
 		Vec2f vec4(3, 6);
 		Vec2f vec5(-2, -1);
 
-		TS_ASSERT_EQUALS(30, vec3 * vec4);
-		TS_ASSERT_EQUALS(-8, vec3 * vec5);
+		TS_ASSERT_EQUALS(30, vec3.dotProduct(vec4));
+		TS_ASSERT_EQUALS(-8, vec3.dotProduct(vec5));
 	}
 
 	void test_scalar_division_operators()

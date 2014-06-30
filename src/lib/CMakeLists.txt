@@ -112,6 +112,7 @@ add_files(
 	utility/math/Color.h
 	utility/math/Vector2.h
 	utility/math/Vector4.h
+	utility/math/VectorBase.h
 
 	utility/messaging/Message.h
 	utility/messaging/MessageBase.h
@@ -127,6 +128,7 @@ add_files(
 	utility/ConfigManager.h
 	utility/FileSystem.cpp
 	utility/FileSystem.h
+	utility/Property.h
 	utility/types.h
 	utility/utilityString.cpp
 	utility/utilityString.h
