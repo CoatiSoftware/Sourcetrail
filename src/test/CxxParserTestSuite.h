@@ -481,8 +481,8 @@ public:
 		CxxParser parser(client);
 
 		std::vector<std::string> filePaths;
-		filePaths.push_back("data/test_header.h");
-		filePaths.push_back("data/test_code.cpp");
+		filePaths.push_back("data/CxxParserTestSuite/header.h");
+		filePaths.push_back("data/CxxParserTestSuite/code.cpp");
 		parser.parseFiles(filePaths);
 
 		TS_ASSERT_EQUALS(client->typedefs.size(), 1);

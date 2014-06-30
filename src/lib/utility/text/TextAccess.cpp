@@ -40,7 +40,7 @@ std::string TextAccess::getFilePath() const
 
 std::string TextAccess::getLine(const unsigned int lineNumber) const
 {
-	if(lineNumber < 1)
+	if (lineNumber < 1)
 	{
 		std::stringstream message;
 		message << "Line numbers start with one, is " << lineNumber;
@@ -96,7 +96,7 @@ std::string TextAccess::getText() const
 {
 	std::string result = "";
 
-	for(unsigned int i = 0; i < m_lines.size(); i++)
+	for (unsigned int i = 0; i < m_lines.size(); i++)
 	{
 		result += m_lines[i];
 	}
@@ -110,6 +110,12 @@ std::vector<std::string> TextAccess::readFile(const std::string& filePath)
 
 	std::ifstream srcFile;
 	srcFile.open(filePath);
+
+	if (srcFile.fail())
+	{
+		LOG_ERROR("Could not open file " + filePath);
+		return result;
+	}
 
 	while (!srcFile.eof())
 	{

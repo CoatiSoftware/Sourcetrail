@@ -90,7 +90,7 @@ public:
 
 	void test_textAccessFile_constructor()
 	{
-		std::string filePath = "data/test_text.txt";
+		std::string filePath = "data/TextAccessTestSuite/text.txt";
 
 		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
 
@@ -99,7 +99,7 @@ public:
 
 	void test_textAccessFile_lines_count()
 	{
-		std::string filePath = "data/test_text.txt";
+		std::string filePath = "data/TextAccessTestSuite/text.txt";
 		unsigned int lineCount = 7;
 
 		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
@@ -109,7 +109,7 @@ public:
 
 	void test_textAccessFile_lines_content()
 	{
-		std::string filePath = "data/test_text.txt";
+		std::string filePath = "data/TextAccessTestSuite/text.txt";
 
 		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
 		std::vector<std::string> lines = textAccess->getLines(1, 4);
@@ -123,7 +123,7 @@ public:
 
 	void test_textAccessFile_get_filePath()
 	{
-		std::string filePath = "data/test_text.txt";
+		std::string filePath = "data/TextAccessTestSuite/text.txt";
 		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
 
 		TS_ASSERT_EQUALS(textAccess->getFilePath(), filePath);

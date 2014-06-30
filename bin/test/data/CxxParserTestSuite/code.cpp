@@ -1,4 +1,4 @@
-#include "test_header.h"
+#include "header.h"
 
 char* name;
 H g;
