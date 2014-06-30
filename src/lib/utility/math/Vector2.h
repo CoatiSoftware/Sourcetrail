@@ -4,7 +4,7 @@
 #include "utility/logging/logging.h"
 #include "utility/Property.h"
 
-#include "VectorBase.h"
+#include "utility/math/VectorBase.h"
 
 template<class T>
 class Vector2 : public VectorBase<T, 2>
@@ -37,18 +37,18 @@ protected:
 template<class T>
 Vector2<T>::Vector2()
 	: VectorBase<T, 2>()
-	, x(&m_values[m_xIndex])
-	, y(&m_values[m_yIndex])
+	, x(&VectorBase<T, 2>::m_values[m_xIndex])
+	, y(&VectorBase<T, 2>::m_values[m_yIndex])
 {
-		setValue(m_xIndex, 0);
-		setValue(m_yIndex, 0);
+	setValue(m_xIndex, 0);
+	setValue(m_yIndex, 0);
 }
 
 template<class T>
 Vector2<T>::Vector2(const T& x, const T& y)
 	: VectorBase<T, 2>()
-	, x(&m_values[m_xIndex])
-	, y(&m_values[m_yIndex])
+	, x(&VectorBase<T, 2>::m_values[m_xIndex])
+	, y(&VectorBase<T, 2>::m_values[m_yIndex])
 {
 	setValue(m_xIndex, x);
 	setValue(m_yIndex, y);
@@ -57,8 +57,8 @@ Vector2<T>::Vector2(const T& x, const T& y)
 template<class T>
 Vector2<T>::Vector2(const VectorBase<T, 2>& vector)
 	: VectorBase<T, 2>(vector)
-	, x(&m_values[m_xIndex])
-	, y(&m_values[m_yIndex])
+	, x(&VectorBase<T, 2>::m_values[m_xIndex])
+	, y(&VectorBase<T, 2>::m_values[m_yIndex])
 {
 }
 
@@ -74,7 +74,7 @@ T Vector2<T>::getValue(const unsigned int index) const
 	{
 		return VectorBase<T, 2>::getValue(index);
 	}
-	catch(std::exception& e)
+	catch (std::exception& e)
 	{
 		LOG_ERROR(e.what());
 		return 0;
@@ -88,7 +88,7 @@ void Vector2<T>::setValue(const unsigned int index, const T& value)
 	{
 		VectorBase<T, 2>::setValue(index, value);
 	}
-	catch(std::exception& e)
+	catch (std::exception& e)
 	{
 		LOG_ERROR(e.what());
 	}
@@ -99,9 +99,9 @@ T& Vector2<T>::operator[](const unsigned int index)
 {
 	try
 	{
-		return VectorBase<T, 2>::[index];
+		return VectorBase<T, 2>::getValue(index);
 	}
-	catch(std::exception& e)
+	catch (std::exception& e)
 	{
 		LOG_ERROR(e.what());
 		return 0;

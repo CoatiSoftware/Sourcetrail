@@ -4,7 +4,7 @@
 #include "utility/logging/logging.h"
 #include "utility/Property.h"
 
-#include "VectorBase.h"
+#include "utility/math/VectorBase.h"
 
 template<class T>
 class Vector4 : public VectorBase<T, 4>
@@ -12,7 +12,7 @@ class Vector4 : public VectorBase<T, 4>
 public:
 	Vector4();
 	Vector4(const T& x, const T& y, const T& z, const T& w);
-	Vector4(const VectorBase<T, 2>& vector);
+	Vector4(const VectorBase<T, 4>& vector);
 	virtual ~Vector4();
 
 	T getValue(const unsigned int index) const;
@@ -41,10 +41,10 @@ protected:
 template<class T>
 Vector4<T>::Vector4()
 	: VectorBase<T, 4>()
-	, x(&m_values[m_xIndex])
-	, y(&m_values[m_yIndex])
-	, z(&m_values[m_zIndex])
-	, w(&m_values[m_wIndex])
+	, x(&VectorBase<T, 4>::m_values[m_xIndex])
+	, y(&VectorBase<T, 4>::m_values[m_yIndex])
+	, z(&VectorBase<T, 4>::m_values[m_zIndex])
+	, w(&VectorBase<T, 4>::m_values[m_wIndex])
 {
 		setValue(m_xIndex, 0);
 		setValue(m_yIndex, 0);
@@ -55,10 +55,10 @@ Vector4<T>::Vector4()
 template<class T>
 Vector4<T>::Vector4(const T& x, const T& y, const T& z, const T& w)
 	: VectorBase<T, 4>()
-	, x(&m_values[m_xIndex])
-	, y(&m_values[m_yIndex])
-	, z(&m_values[m_zIndex])
-	, w(&m_values[m_wIndex])
+	, x(&VectorBase<T, 4>::m_values[m_xIndex])
+	, y(&VectorBase<T, 4>::m_values[m_yIndex])
+	, z(&VectorBase<T, 4>::m_values[m_zIndex])
+	, w(&VectorBase<T, 4>::m_values[m_wIndex])
 {
 	setValue(m_xIndex, x);
 	setValue(m_yIndex, y);
@@ -69,10 +69,10 @@ Vector4<T>::Vector4(const T& x, const T& y, const T& z, const T& w)
 template<class T>
 Vector4<T>::Vector4(const VectorBase<T, 4>& vector)
 	: VectorBase<T, 4>(vector)
-	, x(&m_values[m_xIndex])
-	, y(&m_values[m_yIndex])
-	, z(&m_values[m_zIndex])
-	, w(&m_values[m_wIndex])
+	, x(&VectorBase<T, 4>::m_values[m_xIndex])
+	, y(&VectorBase<T, 4>::m_values[m_yIndex])
+	, z(&VectorBase<T, 4>::m_values[m_zIndex])
+	, w(&VectorBase<T, 4>::m_values[m_wIndex])
 {
 }
 
@@ -88,7 +88,7 @@ T Vector4<T>::getValue(const unsigned int index) const
 	{
 		return VectorBase<T, 4>::getValue(index);
 	}
-	catch(std::exception& e)
+	catch (std::exception& e)
 	{
 		LOG_ERROR(e.what());
 		return 0;
@@ -102,7 +102,7 @@ void Vector4<T>::setValue(const unsigned int index, const T& value)
 	{
 		VectorBase<T, 4>::setValue(index, value);
 	}
-	catch(std::exception& e)
+	catch (std::exception& e)
 	{
 		LOG_ERROR(e.what());
 	}
@@ -113,9 +113,9 @@ T& Vector4<T>::operator[](const unsigned int index)
 {
 	try
 	{
-		return VectorBase<T, 4>::[index];
+		return VectorBase<T, 4>::getValue(index);
 	}
-	catch(std::exception& e)
+	catch (std::exception& e)
 	{
 		LOG_ERROR(e.what());
 		return 0;

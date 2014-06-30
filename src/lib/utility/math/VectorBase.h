@@ -2,8 +2,8 @@
 #define VECTOR_BASE_H
 
 #include <cmath>
-#include <exception>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 
 #define VECTOR_CHECK_INDEX(idx) \
@@ -12,7 +12,7 @@
 		unsigned int i((idx)); \
 		checkIndexInRange(i, __FUNCTION__); \
 	} \
-	while(0) \
+	while (0) \
 
 
 template<class T, unsigned int N>
@@ -47,10 +47,10 @@ public:
 	template<class U>
 	T dotProduct(const VectorBase<U, N>& other);
 
-	// checks whether all values are the same
+	// Checks whether all values are the same.
 	template<class U>
 	bool isEqual(const VectorBase<U, N>& other) const;
-	// checks whether it really is the same object (at one and the same memory address)
+	// Checks whether it really is the same object (at one and the same memory address).
 	template<class U>
 	bool isSame(const VectorBase<U, N>& other) const;
 
@@ -79,10 +79,10 @@ public:
 	template<class U>
 	VectorBase<T, N> operator/=(const U& scalar);
 
-	// checks whether all values are the same
+	// Checks whether all values are the same.
 	template<class U>
 	bool operator==(const VectorBase<U, N>& other) const;
-	// checks whether at least one value is different
+	// Checks whether at least one value is different.
 	template<class U>
 	bool operator!=(const VectorBase<U, N>& other) const;
 
@@ -94,16 +94,17 @@ protected:
 private:
 	inline void checkIndexInRange(unsigned int index, const std::string& function) const
 	{
-		if(index >= m_dimensions)
+		if (index >= m_dimensions)
 		{
 			std::stringstream message;
-			message << function << ": index " << index << " is out of range, maximum is " << m_dimensions-1;
-			throw(std::exception(message.str().c_str()));
+			message << function << ": index " << index << " is out of range, maximum is " << m_dimensions - 1;
+			throw std::range_error(message.str());
 		}
 	}
+
 	inline void setValues(const T values[N])
 	{
-		for(unsigned int i = 0; i < m_dimensions; i++)
+		for (unsigned int i = 0; i < m_dimensions; i++)
 		{
 			m_values[i] = values[i];
 		}
@@ -114,20 +115,20 @@ private:
 
 
 template<class T, unsigned int N>
-VectorBase<T, N>::VectorBase():
-	m_dimensions(N)
+VectorBase<T, N>::VectorBase()
+	: m_dimensions(N)
 {}
 
 template<class T, unsigned int N>
-VectorBase<T, N>::VectorBase(const T values[N]):
-	m_dimensions(N)
+VectorBase<T, N>::VectorBase(const T values[N])
+	: m_dimensions(N)
 {
 	setValues(values);
 }
 
 template<class T, unsigned int N>
-VectorBase<T, N>::VectorBase(const VectorBase<T, N>& vector):
-	m_dimensions(vector.m_dimensions)
+VectorBase<T, N>::VectorBase(const VectorBase<T, N>& vector)
+	: m_dimensions(vector.m_dimensions)
 {
 	setValues(vector.m_values);
 }
@@ -161,16 +162,16 @@ unsigned int VectorBase<T, N>::getDimensions() const
 
 template<class T, unsigned int N>
 float VectorBase<T, N>::getLengthSquared() const
+{
+	float result = 0.0f;
+
+	for (unsigned int i = 0; i < m_dimensions; i++)
 	{
-		float result = 0.0f;
-
-		for(unsigned int i = 0; i < m_dimensions; i++)
-		{
-			result += float(m_values[i] * m_values[i]);
-		}
-
-		return result;
+		result += float(m_values[i] * m_values[i]);
 	}
+
+	return result;
+}
 
 template<class T, unsigned int N>
 float VectorBase<T, N>::getLength() const
@@ -186,12 +187,12 @@ VectorBase<T, N> VectorBase<T, N>::normalize()
 	if (length > 0.0f)
 	{
 		T tmpValues[N];
-		for(unsigned int i = 0; i < m_dimensions; i++)
+		for (unsigned int i = 0; i < m_dimensions; i++)
 		{
 			tmpValues[i] = m_values[i] / length;
 		}
 
-		//the values of *this won't be changed until all are in a valid state
+		// The values of *this won't be changed until all are in a valid state.
 		setValues(tmpValues);
 	}
 
@@ -207,14 +208,14 @@ VectorBase<T, N> VectorBase<T, N>::normalized() const
 
 	if (length > 0.0f)
 	{
-		for(unsigned int i = 0; i < m_dimensions; i++)
+		for (unsigned int i = 0; i < m_dimensions; i++)
 		{
 			tmpValues[i] = m_values[i] / length;
 		}
 	}
 	else
 	{
-		for(unsigned int i = 0; i < m_dimensions; i++)
+		for (unsigned int i = 0; i < m_dimensions; i++)
 		{
 			tmpValues[i] = 0;
 		}
@@ -227,12 +228,12 @@ template<class T, unsigned int N>
 template<class U>
 void VectorBase<T, N>::assign(const VectorBase<U, N>& other)
 {
-	if(isSame(other))
+	if (isSame(other))
 	{
 		return;
 	}
 
-	if(isEqual(other))
+	if (isEqual(other))
 	{
 		return;
 	}
@@ -245,12 +246,12 @@ template<class U>
 VectorBase<T, N> VectorBase<T, N>::add(const VectorBase<U, N>& other)
 {
 	T tmpValues[N];
-	for(unsigned int i = 0; i < m_dimensions; i++)
+	for (unsigned int i = 0; i < m_dimensions; i++)
 	{
 		tmpValues[i] = m_values[i] + other.m_values[i];
 	}
 
-	//the values of *this won't be changed until all are in a valid state
+	// The values of *this won't be changed until all are in a valid state.
 	setValues(tmpValues);
 	return *this;
 }
@@ -260,12 +261,12 @@ template<class U>
 VectorBase<T, N> VectorBase<T, N>::subtract(const VectorBase<U, N>& other)
 {
 	T tmpValues[N];
-	for(unsigned int i = 0; i < m_dimensions; i++)
+	for (unsigned int i = 0; i < m_dimensions; i++)
 	{
 		tmpValues[i] = m_values[i] - other.m_values[i];
 	}
 
-	//the values of *this won't be changed until all are in a valid state
+	// The values of *this won't be changed until all are in a valid state.
 	setValues(tmpValues);
 	return *this;
 }
@@ -275,12 +276,12 @@ template<class U>
 VectorBase<T, N> VectorBase<T, N>::scalarMultiplication(const U& scalar)
 {
 	T tmpValues[N];
-	for(unsigned int i = 0; i < m_dimensions; i++)
+	for (unsigned int i = 0; i < m_dimensions; i++)
 	{
 		tmpValues[i] = m_values[i] * scalar;
 	}
 
-	//the values of *this won't be changed until all are in a valid state
+	// The values of *this won't be changed until all are in a valid state.
 	setValues(tmpValues);
 	return *this;
 }
@@ -290,9 +291,9 @@ template<class U>
 T VectorBase<T, N>::dotProduct(const VectorBase<U, N>& other)
 {
 	T result = 0.0f;
-	for(unsigned int i = 0; i < m_dimensions; i++)
+	for (unsigned int i = 0; i < m_dimensions; i++)
 	{
-		result += (m_values[i]*other.m_values[i]);
+		result += (m_values[i] * other.m_values[i]);
 	}
 	return result;
 }
@@ -301,14 +302,14 @@ template<class T, unsigned int N>
 template<class U>
 bool VectorBase<T, N>::isEqual(const VectorBase<U, N>& other) const
 {
-	if(m_dimensions != other.m_dimensions)
+	if (m_dimensions != other.m_dimensions)
 	{
 		return false;
 	}
 
-	for(unsigned int i = 0; i < m_dimensions; i++)
+	for (unsigned int i = 0; i < m_dimensions; i++)
 	{
-		if(m_values[i] != other.m_values[i])
+		if (m_values[i] != other.m_values[i])
 		{
 			return false;
 		}
@@ -375,7 +376,7 @@ template<class U>
 VectorBase<T, N> VectorBase<T, N>::operator/(const U& scalar) const
 {
 	VectorBase<T, N> result(*this);
-	return result.scalarMultiplication(1.0f/scalar);
+	return result.scalarMultiplication(1.0f / scalar);
 }
 
 template<class T, unsigned int N>
@@ -403,7 +404,7 @@ template<class T, unsigned int N>
 template<class U>
 VectorBase<T, N> VectorBase<T, N>::operator/=(const U& scalar)
 {
-	return scalarMultiplication(1.0f/scalar);
+	return scalarMultiplication(1.0f / scalar);
 }
 
 template<class T, unsigned int N>
@@ -426,11 +427,11 @@ std::string VectorBase<T, N>::toString() const
 	std::stringstream result;
 	result << "[";
 
-	for(unsigned int i = 0; i < m_dimensions-1; i++)
+	for (unsigned int i = 0; i < m_dimensions - 1; i++)
 	{
 		result << m_values[i] << ", ";
 	}
-	result << m_values[m_dimensions-1] << "]";
+	result << m_values[m_dimensions - 1] << "]";
 
 	return result.str();
 }
@@ -438,12 +439,6 @@ std::string VectorBase<T, N>::toString() const
 template<class T, unsigned int N>
 std::ostream& operator<<(std::ostream& ostream, const VectorBase<T, N>& vector)
 {
-	/*for(unsigned int i = 0; i < vector.getDimensions()-1; i++)
-	{
-		ostream << vector.getValue(i) << ", ";
-	}
-	ostream << vector.getValue(vector.getDimensions()-1);*/
-
 	ostream << vector.toString();
 
 	return ostream;

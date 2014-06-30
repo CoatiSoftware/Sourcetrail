@@ -1,8 +1,7 @@
 #include "cxxtest/TestSuite.h"
 
-#include "utility/math/Vector2.h"
-
 #include "utility/logging/logging.h"
+#include "utility/math/Vector2.h"
 
 class Vector2TestSuite : public CxxTest::TestSuite
 {
