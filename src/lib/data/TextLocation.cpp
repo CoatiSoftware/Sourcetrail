@@ -1,14 +1,14 @@
 #include "data/TextLocation.h"
 
-#include "data/Element.h"
+#include "data/graph/Token.h"
 #include "data/TextLocationLine.h"
 
 TextLocation::TextLocation(
 	std::weak_ptr<TextLocationLine> textLocationLine,
-	std::weak_ptr<Element> element,
+	std::weak_ptr<Token> token,
 	unsigned int column
 )
-	: m_element(element)
+	: m_token(token)
 	, m_textLocationLine(textLocationLine)
 	, m_column(column)
 {

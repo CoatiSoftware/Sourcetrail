@@ -46,5 +46,6 @@ void Project::parseCode()
 		parser.parseFiles(
 			FileSystem::getSourceFilesFromDirectory(ProjectSettings::getInstance()->getSourcePath(), extension)
 		);
+		m_storage->logGraph();
 	}
 }

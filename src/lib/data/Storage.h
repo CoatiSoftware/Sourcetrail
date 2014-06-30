@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "data/Graph.h"
+#include "data/graph/Graph.h"
 #include "data/parser/ParserClient.h"
 #include "data/TextLocationFile.h"
 
@@ -37,8 +37,11 @@ public:
 	virtual void onEnumParsed(const ParseLocation& location, const std::string& fullName, AccessType access);
 	virtual void onEnumFieldParsed(const ParseLocation& location, const std::string& fullName);
 
+	void logGraph() const;
+
 private:
 	void log(std::string type, std::string str, const ParseLocation& location) const;
+	Edge::AccessType convertAccessType(ParserClient::AccessType access) const;
 
 	Graph m_graph;
 

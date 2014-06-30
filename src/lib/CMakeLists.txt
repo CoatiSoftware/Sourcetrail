@@ -44,6 +44,15 @@ add_files(
 	data/access/GraphAccess.cpp
 	data/access/GraphAccess.h
 
+	data/graph/Edge.cpp
+	data/graph/Edge.h
+	data/graph/Graph.cpp
+	data/graph/Graph.h
+	data/graph/Node.cpp
+	data/graph/Node.h
+	data/graph/Token.cpp
+	data/graph/Token.h
+
 	data/parser/ParseLocation.cpp
 	data/parser/ParseLocation.h
 	data/parser/Parser.cpp
@@ -53,16 +62,8 @@ add_files(
 	data/parser/ParseVariable.cpp
 	data/parser/ParseVariable.h
 
-	data/Edge.cpp
-	data/Edge.h
-	data/Element.cpp
-	data/Element.h
 	data/ElementIndex.cpp
 	data/ElementIndex.h
-	data/Graph.cpp
-	data/Graph.h
-	data/Node.cpp
-	data/Node.h
 	data/SearchIndex.cpp
 	data/SearchIndex.h
 	data/Storage.cpp
@@ -124,6 +125,9 @@ add_files(
 	utility/ConfigManager.h
 	utility/FileSystem.cpp
 	utility/FileSystem.h
+	utility/types.h
+	utility/utilityString.cpp
+	utility/utilityString.h
 	utility/Vector.h
 
 	Application.cpp

@@ -3,7 +3,7 @@
 
 #include <memory>
 
-class Element;
+class Token;
 class TextLocationLine;
 
 class TextLocation
@@ -11,7 +11,7 @@ class TextLocation
 public:
 	TextLocation(
 		std::weak_ptr<TextLocationLine> textLocationLine,
-		std::weak_ptr<Element> element,
+		std::weak_ptr<Token> token,
 		unsigned int column
 	);
 
@@ -20,7 +20,7 @@ public:
 	unsigned int getColumn() const;
 
 private:
-	const std::weak_ptr<Element> m_element;
+	const std::weak_ptr<Token> m_token;
 	const std::weak_ptr<TextLocationLine> m_textLocationLine;
 	const unsigned int m_column;
 };
