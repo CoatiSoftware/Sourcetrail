@@ -15,4 +15,7 @@ rm -rf bin/lib/Release
 rm -rf bin/test/Debug
 rm -rf bin/test/Release
 
+# Remove log files
+find bin/test/data/log -type f -name 'log*' -delete
+
 echo -e $SUCCESS "clean complete"

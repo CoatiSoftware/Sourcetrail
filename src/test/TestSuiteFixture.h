@@ -9,8 +9,8 @@ public:
 	TestSuiteFixture();
 	virtual ~TestSuiteFixture();
 
-	virtual bool setUp();
-	virtual bool tearDown();
+	virtual bool setUpWorld();
+	virtual bool tearDownWorld();
 };
 
 // According to the CxxTest Documentation global fixtures are actually supposed to be implemented as global static instances

@@ -94,6 +94,8 @@ add_files(
 	gui/WidgetWrapper.cpp
 	gui/WidgetWrapper.h
 
+	utility/logging/PlainFileLogger.cpp
+	utility/logging/PlainFileLogger.h
 	utility/logging/ConsoleLogger.cpp
 	utility/logging/ConsoleLogger.h
 	utility/logging/FileLogger.cpp
