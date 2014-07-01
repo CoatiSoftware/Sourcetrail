@@ -3,7 +3,12 @@
 #include "data/location/TokenLocationLine.h"
 
 TokenLocation::TokenLocation(Id tokenId, TokenLocationLine* line, unsigned int columnNumber, bool isStart)
-	: TokenLocation(s_locationId++, tokenId, line, columnNumber, isStart)
+	: m_id(s_locationId++)
+	, m_tokenId(tokenId)
+	, m_line(line)
+	, m_columnNumber(columnNumber)
+	, m_other(nullptr)
+	, m_isStart(isStart)
 {
 }
 

@@ -1,6 +1,7 @@
 #ifndef TOKEN_LOCATION_COLLECTION_H
 #define TOKEN_LOCATION_COLLECTION_H
 
+#include <functional>
 #include <map>
 #include <memory>
 #include <ostream>
