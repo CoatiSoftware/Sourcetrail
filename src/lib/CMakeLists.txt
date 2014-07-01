@@ -53,6 +53,15 @@ add_files(
 	data/graph/Token.cpp
 	data/graph/Token.h
 
+	data/location/TokenLocation.cpp
+	data/location/TokenLocation.h
+	data/location/TokenLocationCollection.cpp
+	data/location/TokenLocationCollection.h
+	data/location/TokenLocationFile.cpp
+	data/location/TokenLocationFile.h
+	data/location/TokenLocationLine.cpp
+	data/location/TokenLocationLine.h
+
 	data/parser/ParseLocation.cpp
 	data/parser/ParseLocation.h
 	data/parser/Parser.cpp
@@ -68,12 +77,6 @@ add_files(
 	data/SearchIndex.h
 	data/Storage.cpp
 	data/Storage.h
-	data/TextLocation.cpp
-	data/TextLocation.h
-	data/TextLocationFile.cpp
-	data/TextLocationFile.h
-	data/TextLocationLine.cpp
-	data/TextLocationLine.h
 
 	gui/GuiArea.cpp
 	gui/GuiArea.h

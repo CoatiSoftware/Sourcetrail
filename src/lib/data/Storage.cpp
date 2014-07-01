@@ -2,6 +2,7 @@
 
 #include <sstream>
 
+#include "data/location/TokenLocation.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParseVariable.h"
 #include "utility/logging/logging.h"
@@ -29,6 +30,8 @@ void Storage::onClassParsed(const ParseLocation& location, const std::string& fu
 	Node* node = m_graph.createNodeHierarchy(fullName);
 	node->setType(Node::NODE_CLASS);
 	node->setAccess(convertAccessType(access));
+
+	addTokenLocation(node, location);
 }
 
 void Storage::onStructParsed(const ParseLocation& location, const std::string& fullName, AccessType access)
@@ -38,6 +41,8 @@ void Storage::onStructParsed(const ParseLocation& location, const std::string& f
 	Node* node = m_graph.createNodeHierarchy(fullName);
 	node->setType(Node::NODE_STRUCT);
 	node->setAccess(convertAccessType(access));
+
+	addTokenLocation(node, location);
 }
 
 void Storage::onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable)
@@ -50,6 +55,8 @@ void Storage::onGlobalVariableParsed(const ParseLocation& location, const ParseV
 	node->setStatic(variable.isStatic);
 
 	m_graph.createEdge(Edge::EDGE_TYPE_OF, node, m_graph.createNodeHierarchy(variable.typeName));
+
+	addTokenLocation(node, location);
 }
 
 void Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access)
@@ -69,6 +76,8 @@ void Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& 
 	node->setAccess(convertAccessType(access));
 
 	m_graph.createEdge(Edge::EDGE_TYPE_OF, node, m_graph.createNodeHierarchy(variable.typeName));
+
+	addTokenLocation(node, location);
 }
 
 void Storage::onFunctionParsed(
@@ -86,6 +95,8 @@ void Storage::onFunctionParsed(
 	{
 		m_graph.createEdge(Edge::EDGE_PARAMETER_OF, node, m_graph.createNodeHierarchy(var.typeName));
 	}
+
+	addTokenLocation(node, location);
 }
 
 void Storage::onMethodParsed(
@@ -113,6 +124,8 @@ void Storage::onMethodParsed(
 	{
 		m_graph.createEdge(Edge::EDGE_PARAMETER_OF, node, m_graph.createNodeHierarchy(parameter.typeName));
 	}
+
+	addTokenLocation(node, location);
 }
 
 void Storage::onNamespaceParsed(const ParseLocation& location, const std::string& fullName)
@@ -121,6 +134,8 @@ void Storage::onNamespaceParsed(const ParseLocation& location, const std::string
 
 	Node* node = m_graph.createNodeHierarchy(fullName);
 	node->setType(Node::NODE_NAMESPACE);
+
+	addTokenLocation(node, location);
 }
 
 void Storage::onEnumParsed(const ParseLocation& location, const std::string& fullName, AccessType access)
@@ -130,6 +145,8 @@ void Storage::onEnumParsed(const ParseLocation& location, const std::string& ful
 	Node* node = m_graph.createNodeHierarchy(fullName);
 	node->setType(Node::NODE_ENUM);
 	node->setAccess(convertAccessType(access));
+
+	addTokenLocation(node, location);
 }
 
 void Storage::onEnumFieldParsed(const ParseLocation& location, const std::string& fullName)
@@ -138,6 +155,8 @@ void Storage::onEnumFieldParsed(const ParseLocation& location, const std::string
 
 	Node* node = m_graph.createNodeHierarchy(fullName);
 	node->setType(Node::NODE_FIELD);
+
+	addTokenLocation(node, location);
 }
 
 void Storage::logGraph() const
@@ -147,11 +166,11 @@ void Storage::logGraph() const
 	LOG_INFO(str.str());
 }
 
-void Storage::log(std::string type, std::string str, const ParseLocation& location) const
+void Storage::logLocations() const
 {
-	std::stringstream info;
-	info << type << ": " << str << " <" << location.file << " " << location.line << ":" << location.column << ">";
-	LOG_INFO(info.str());
+	std::stringstream str;
+	str << "\n" << m_locationCollection;
+	LOG_INFO(str.str());
 }
 
 Edge::AccessType Storage::convertAccessType(ParserClient::AccessType access) const
@@ -167,4 +186,26 @@ Edge::AccessType Storage::convertAccessType(ParserClient::AccessType access) con
 	case ACCESS_NONE:
 		return Edge::ACCESS_NONE;
 	}
+}
+
+TokenLocation* Storage::addTokenLocation(Token* token, const ParseLocation& loc)
+{
+	TokenLocation* location = m_locationCollection.addTokenLocation(
+		token->getId(), loc.filePath,
+		loc.startLineNumber, loc.startColumnNumber,
+		loc.endLineNumber, loc.endColumnNumber
+	);
+
+	token->addLocationId(location->getId());
+	return location;
+}
+
+void Storage::log(std::string type, std::string str, const ParseLocation& location) const
+{
+	std::stringstream info;
+	info << type << ": " << str;
+	info << " <" << location.filePath << " ";
+	info << location.startLineNumber << ":" << location.startColumnNumber << " ";
+	info << location.endLineNumber << ":" << location.endColumnNumber << ">";
+	LOG_INFO(info.str());
 }

@@ -33,8 +33,8 @@ public:
 	virtual bool VisitEnumConstantDecl(clang::EnumConstantDecl* declaration); // enum fields
 
 private:
-	bool isValidLocation(const clang::SourceLocation& location) const;
-	ParseLocation getParseLocation(const clang::SourceLocation& location) const;
+	bool hasValidLocation(const clang::Decl* declaration) const;
+	ParseLocation getParseLocation(const clang::Decl* declaration) const;
 	ParseVariable getParseVariable(clang::ValueDecl* declaration) const;
 	std::vector<ParseVariable> getParameters(clang::FunctionDecl* declaration) const;
 	std::string getTypeName(const clang::QualType& type) const;

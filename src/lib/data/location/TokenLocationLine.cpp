@@ -1,0 +1,113 @@
+#include "data/location/TokenLocationLine.h"
+
+#include "data/location/TokenLocation.h"
+#include "data/location/TokenLocationFile.h"
+#include "utility/logging/logging.h"
+
+TokenLocationLine::TokenLocationLine(TokenLocationFile* file, unsigned int lineNumber)
+	: m_file(file)
+	, m_lineNumber(lineNumber)
+{
+}
+
+TokenLocationLine::~TokenLocationLine()
+{
+}
+
+const TokenLocationLine::TokenLocationMapType& TokenLocationLine::getTokenLocations() const
+{
+	return m_locations;
+}
+
+size_t TokenLocationLine::getTokenLocationCount() const
+{
+	return m_locations.size();
+}
+
+TokenLocationFile* TokenLocationLine::getTokenLocationFile() const
+{
+	return m_file;
+}
+
+const std::string& TokenLocationLine::getFilePath() const
+{
+	return m_file->getFilePath();
+}
+
+unsigned int TokenLocationLine::getLineNumber() const
+{
+	return m_lineNumber;
+}
+
+TokenLocation* TokenLocationLine::addStartTokenLocation(Id tokenId, unsigned int columnNumber)
+{
+	std::shared_ptr<TokenLocation> locationPtr = std::make_shared<TokenLocation>(tokenId, this, columnNumber, true);
+	m_locations.emplace(columnNumber, locationPtr);
+	return locationPtr.get();
+}
+
+TokenLocation* TokenLocationLine::addEndTokenLocation(TokenLocation* start, unsigned int columnNumber)
+{
+	std::shared_ptr<TokenLocation> locationPtr = std::make_shared<TokenLocation>(
+		start->getId(), start->getTokenId(), this, columnNumber, false);
+
+	start->setOtherTokenLocation(locationPtr.get());
+	locationPtr->setOtherTokenLocation(start);
+
+	m_locations.emplace(columnNumber, locationPtr);
+	return locationPtr.get();
+}
+
+void TokenLocationLine::removeTokenLocation(TokenLocation* location)
+{
+	TokenLocationMapType::iterator it = m_locations.find(location->getColumnNumber());
+
+	while (it->first == location->getColumnNumber())
+	{
+		if (it->second.get() == location)
+		{
+			m_locations.erase(it);
+			return;
+		}
+		it++;
+	}
+
+	LOG_ERROR("TokenLocation can't be removed, it's not part of the TokenLocationLine.");
+}
+
+TokenLocation* TokenLocationLine::getTokenLocationById(Id id) const
+{
+	for (const TokenLocationPairType& p : m_locations)
+	{
+		if (p.second->getId() == id)
+		{
+			return p.second.get();
+		}
+	}
+	return nullptr;
+}
+
+void TokenLocationLine::forEachTokenLocation(std::function<void(TokenLocation*)> func) const
+{
+	for (const TokenLocationPairType& location : m_locations)
+	{
+		func(location.second.get());
+	}
+}
+
+TokenLocation* TokenLocationLine::addTokenLocationAsPlainCopy(const TokenLocation* location)
+{
+	std::shared_ptr<TokenLocation> locationPtr = location->createPlainCopy(this);
+	m_locations.emplace(location->getColumnNumber(), locationPtr);
+	return locationPtr.get();
+}
+
+std::ostream& operator<<(std::ostream& ostream, const TokenLocationLine& line)
+{
+	ostream << line.getLineNumber() << ":  ";
+	line.forEachTokenLocation([&ostream](TokenLocation* l)
+	{
+		ostream << *l;
+	});
+	return ostream;
+}

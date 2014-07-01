@@ -11,6 +11,7 @@ add_files(
 	TestSuiteFixture.cpp
 	TestSuiteFixture.h
 	TextAccessTestSuite.h
+	TokenLocationCollectionTestSuite.h
 	UtilityStringTestSuite.h
 	Vector2TestSuite.h
 )

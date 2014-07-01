@@ -5,11 +5,16 @@
 
 struct ParseLocation
 {
-	ParseLocation(const std::string& file, unsigned int line, unsigned int column);
+	ParseLocation(
+		const std::string& filePath,
+		unsigned int startLineNumber, unsigned int startColumnNumber,
+		unsigned int endLineNumber, unsigned int endColumnNumber);
 
-	const std::string file;
-	const unsigned int line;
-	const unsigned int column;
+	const std::string filePath;
+	unsigned int startLineNumber;
+	unsigned int startColumnNumber;
+	unsigned int endLineNumber;
+	unsigned int endColumnNumber;
 };
 
 #endif // PARSE_LOCATION_H

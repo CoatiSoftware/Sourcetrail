@@ -15,12 +15,10 @@ ASTVisitor::~ASTVisitor()
 
 bool ASTVisitor::VisitTypedefDecl(const clang::TypedefDecl* declaration)
 {
-	const clang::SourceLocation& location = declaration->getLocStart();
-
-	if (isValidLocation(location))
+	if (hasValidLocation(declaration))
 	{
 		m_client->onTypedefParsed(
-			getParseLocation(location),
+			getParseLocation(declaration),
 			declaration->getQualifiedNameAsString(),
 			declaration->getUnderlyingType().getAsString(),
 			convertAccessType(declaration->getAccess())
@@ -32,14 +30,12 @@ bool ASTVisitor::VisitTypedefDecl(const clang::TypedefDecl* declaration)
 
 bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 {
-	const clang::SourceLocation& location = declaration->getLocStart();
-
-	if (isValidLocation(location))
+	if (hasValidLocation(declaration))
 	{
 		if (declaration->isClass())
 		{
 			m_client->onClassParsed(
-				getParseLocation(location),
+				getParseLocation(declaration),
 				declaration->getQualifiedNameAsString(),
 				convertAccessType(declaration->getAccess())
 			);
@@ -47,7 +43,7 @@ bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 		else if (declaration->isStruct())
 		{
 			m_client->onStructParsed(
-				getParseLocation(location),
+				getParseLocation(declaration),
 				declaration->getQualifiedNameAsString(),
 				convertAccessType(declaration->getAccess())
 			);
@@ -65,20 +61,18 @@ bool ASTVisitor::VisitVarDecl(clang::VarDecl* declaration)
 		return true;
 	}
 
-	const clang::SourceLocation& location = declaration->getLocStart();
-
-	if (isValidLocation(location))
+	if (hasValidLocation(declaration))
 	{
 		clang::AccessSpecifier access = declaration->getAccess();
 
 		if (access == clang::AS_none)
 		{
-			m_client->onGlobalVariableParsed(getParseLocation(location), getParseVariable(declaration));
+			m_client->onGlobalVariableParsed(getParseLocation(declaration), getParseVariable(declaration));
 		}
 		else
 		{
 			m_client->onFieldParsed(
-				getParseLocation(location),
+				getParseLocation(declaration),
 				getParseVariable(declaration),
 				convertAccessType(declaration->getAccess())
 			);
@@ -90,12 +84,10 @@ bool ASTVisitor::VisitVarDecl(clang::VarDecl* declaration)
 
 bool ASTVisitor::VisitFieldDecl(clang::FieldDecl* declaration)
 {
-	const clang::SourceLocation& location = declaration->getLocStart();
-
-	if (isValidLocation(location))
+	if (hasValidLocation(declaration))
 	{
 		m_client->onFieldParsed(
-			getParseLocation(location),
+			getParseLocation(declaration),
 			getParseVariable(declaration),
 			convertAccessType(declaration->getAccess())
 		);
@@ -112,12 +104,10 @@ bool ASTVisitor::VisitFunctionDecl(clang::FunctionDecl* declaration)
 		return true;
 	}
 
-	const clang::SourceLocation& location = declaration->getLocStart();
-
-	if (isValidLocation(location))
+	if (hasValidLocation(declaration))
 	{
 		m_client->onFunctionParsed(
-			getParseLocation(location),
+			getParseLocation(declaration),
 			declaration->getQualifiedNameAsString(),
 			getTypeName(declaration->getReturnType()),
 			getParameters(declaration)
@@ -129,9 +119,7 @@ bool ASTVisitor::VisitFunctionDecl(clang::FunctionDecl* declaration)
 
 bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 {
-	const clang::SourceLocation& location = declaration->getLocStart();
-
-	if (isValidLocation(location))
+	if (hasValidLocation(declaration))
 	{
 		ParserClient::AbstractionType abstraction = ParserClient::ABSTRACTION_NONE;
 		if (declaration->isPure())
@@ -144,7 +132,7 @@ bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 		}
 
 		m_client->onMethodParsed(
-			getParseLocation(location),
+			getParseLocation(declaration),
 			declaration->getQualifiedNameAsString(),
 			getTypeName(declaration->getReturnType()),
 			getParameters(declaration),
@@ -160,11 +148,9 @@ bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 
 bool ASTVisitor::VisitNamespaceDecl(clang::NamespaceDecl* declaration)
 {
-	const clang::SourceLocation& location = declaration->getLocStart();
-
-	if (isValidLocation(location))
+	if (hasValidLocation(declaration))
 	{
-		m_client->onNamespaceParsed(getParseLocation(location), declaration->getQualifiedNameAsString());
+		m_client->onNamespaceParsed(getParseLocation(declaration), declaration->getQualifiedNameAsString());
 	}
 
 	return true;
@@ -172,12 +158,10 @@ bool ASTVisitor::VisitNamespaceDecl(clang::NamespaceDecl* declaration)
 
 bool ASTVisitor::VisitEnumDecl(clang::EnumDecl* declaration)
 {
-	const clang::SourceLocation& location = declaration->getLocStart();
-
-	if (isValidLocation(location))
+	if (hasValidLocation(declaration))
 	{
 		m_client->onEnumParsed(
-			getParseLocation(location),
+			getParseLocation(declaration),
 			declaration->getQualifiedNameAsString(),
 			convertAccessType(declaration->getAccess())
 		);
@@ -188,28 +172,34 @@ bool ASTVisitor::VisitEnumDecl(clang::EnumDecl* declaration)
 
 bool ASTVisitor::VisitEnumConstantDecl(clang::EnumConstantDecl* declaration)
 {
-	const clang::SourceLocation& location = declaration->getLocStart();
-
-	if (isValidLocation(location))
+	if (hasValidLocation(declaration))
 	{
-		m_client->onEnumFieldParsed(getParseLocation(location), declaration->getQualifiedNameAsString());
+		m_client->onEnumFieldParsed(getParseLocation(declaration), declaration->getQualifiedNameAsString());
 	}
 
 	return true;
 }
 
-bool ASTVisitor::isValidLocation(const clang::SourceLocation& location) const
+bool ASTVisitor::hasValidLocation(const clang::Decl* declaration) const
 {
+	const clang::SourceLocation& location = declaration->getLocStart();
 	return location.isValid() && m_context->getSourceManager().isWrittenInMainFile(location);
 }
 
-ParseLocation ASTVisitor::getParseLocation(const clang::SourceLocation& location) const
+ParseLocation ASTVisitor::getParseLocation(const clang::Decl* declaration) const
 {
-	clang::FullSourceLoc fullLocation = m_context->getFullLoc(location);
+	const clang::SourceRange& sourceRange = declaration->getSourceRange();
+	const clang::SourceManager& sourceManager = m_context->getSourceManager();
+
+	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(sourceRange.getBegin());
+	const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(sourceRange.getEnd());
+
 	return ParseLocation(
-		m_context->getSourceManager().getFilename(location),
-		fullLocation.getSpellingLineNumber(),
-		fullLocation.getSpellingColumnNumber()
+		presumedBegin.getFilename(),
+		presumedBegin.getLine(),
+		presumedBegin.getColumn(),
+		presumedEnd.getLine(),
+		presumedEnd.getColumn()
 	);
 }
 

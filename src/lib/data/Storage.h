@@ -5,8 +5,8 @@
 #include <vector>
 
 #include "data/graph/Graph.h"
+#include "data/location/TokenLocationCollection.h"
 #include "data/parser/ParserClient.h"
-#include "data/TextLocationFile.h"
 
 class Storage: public ParserClient
 {
@@ -38,14 +38,16 @@ public:
 	virtual void onEnumFieldParsed(const ParseLocation& location, const std::string& fullName);
 
 	void logGraph() const;
+	void logLocations() const;
 
 private:
-	void log(std::string type, std::string str, const ParseLocation& location) const;
 	Edge::AccessType convertAccessType(ParserClient::AccessType access) const;
+	TokenLocation* addTokenLocation(Token* token, const ParseLocation& location);
+
+	void log(std::string type, std::string str, const ParseLocation& location) const;
 
 	Graph m_graph;
-
-	std::vector<std::shared_ptr<TextLocationFile> > m_textLocationFiles;
+	TokenLocationCollection m_locationCollection;
 };
 
 #endif // STORAGE_H

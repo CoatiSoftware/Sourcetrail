@@ -1,0 +1,152 @@
+#include "data/location/TokenLocationFile.h"
+
+#include "data/location/TokenLocation.h"
+#include "data/location/TokenLocationLine.h"
+#include "utility/logging/logging.h"
+
+TokenLocationFile::TokenLocationFile(const std::string& filePath)
+	: m_filePath(filePath)
+{
+}
+
+TokenLocationFile::~TokenLocationFile()
+{
+}
+
+const TokenLocationFile::TokenLocationLineMapType& TokenLocationFile::getTokenLocationLines() const
+{
+	return m_lines;
+}
+
+size_t TokenLocationFile::getTokenLocationLineCount() const
+{
+	return m_lines.size();
+}
+
+const std::string& TokenLocationFile::getFilePath() const
+{
+	return m_filePath;
+}
+
+TokenLocation* TokenLocationFile::addTokenLocation(
+	Id tokenId,
+	unsigned int startLineNumber, unsigned int startColumnNumber,
+	unsigned int endLineNumber, unsigned int endColumnNumber)
+{
+	TokenLocationLine* line = createTokenLocationLine(startLineNumber);
+	TokenLocation* start = line->addStartTokenLocation(tokenId, startColumnNumber);
+
+	if (startLineNumber != endLineNumber)
+	{
+		line = createTokenLocationLine(endLineNumber);
+	}
+
+	line->addEndTokenLocation(start, endColumnNumber);
+
+	return start;
+}
+
+void TokenLocationFile::removeTokenLocation(TokenLocation* location)
+{
+	TokenLocationLine* line = location->getTokenLocationLine();
+
+	TokenLocation* otherLocation = location->getOtherTokenLocation();
+	TokenLocationLine* otherLine = otherLocation->getTokenLocationLine();
+
+	line->removeTokenLocation(location);
+	if (!line->getTokenLocationCount())
+	{
+		m_lines.erase(line->getLineNumber());
+	}
+
+	otherLine->removeTokenLocation(otherLocation);
+	if (!otherLine->getTokenLocationCount())
+	{
+		m_lines.erase(otherLine->getLineNumber());
+	}
+}
+
+void TokenLocationFile::forEachTokenLocationLine(std::function<void(TokenLocationLine*)> func) const
+{
+	for (const TokenLocationLinePairType& line : m_lines)
+	{
+		func(line.second.get());
+	}
+}
+
+TokenLocation* TokenLocationFile::addTokenLocationAsPlainCopy(const TokenLocation* location)
+{
+	unsigned int lineNumber = location->getTokenLocationLine()->getLineNumber();
+	TokenLocationLine* line = createTokenLocationLine(lineNumber);
+
+	// Check whether this location was already added or if the other TokenLocation was added.
+	TokenLocation* otherLocation = line->getTokenLocationById(location->getId());
+	if (otherLocation)
+	{
+		if (otherLocation->isStartTokenLocation() == location->isStartTokenLocation())
+		{
+			// The location was already added.
+			return otherLocation;
+		}
+	}
+	else
+	{
+		// Look for the other location in it's line.
+		unsigned int otherLineNumber = location->getOtherTokenLocation()->getTokenLocationLine()->getLineNumber();
+		if (lineNumber != otherLineNumber)
+		{
+			TokenLocationLine* otherLine = findTokenLocationLine(otherLineNumber);
+			if (otherLine)
+			{
+				otherLocation = otherLine->getTokenLocationById(location->getId());
+			}
+		}
+	}
+
+	TokenLocation* copy = line->addTokenLocationAsPlainCopy(location);
+
+	// If the other location was added before, then link them with each other.
+	if (otherLocation)
+	{
+		otherLocation->setOtherTokenLocation(copy);
+		copy->setOtherTokenLocation(otherLocation);
+	}
+
+	return copy;
+}
+
+TokenLocationLine* TokenLocationFile::findTokenLocationLine(unsigned int lineNumber) const
+{
+	TokenLocationLineMapType::const_iterator it = m_lines.find(lineNumber);
+
+	if (it != m_lines.end())
+	{
+		return it->second.get();
+	}
+
+	return nullptr;
+}
+
+TokenLocationLine* TokenLocationFile::createTokenLocationLine(unsigned int lineNumber)
+{
+	TokenLocationLine* line = findTokenLocationLine(lineNumber);
+
+	if (line)
+	{
+		return line;
+	}
+
+	std::shared_ptr<TokenLocationLine> linePtr = std::make_shared<TokenLocationLine>(this, lineNumber);
+	m_lines.emplace(lineNumber, linePtr);
+	return linePtr.get();
+}
+
+std::ostream& operator<<(std::ostream& ostream, const TokenLocationFile& file)
+{
+	ostream << "file \"" << file.getFilePath() << "\"\n";
+	file.forEachTokenLocationLine([&ostream](TokenLocationLine* l)
+	{
+		ostream << *l << '\n';
+	});
+	return ostream;
+}
