@@ -36,7 +36,7 @@ public:
 
 	void test_get_and_set_const_and_static_of_nodes()
 	{
-		Node n(Node::NODE_GLOBAL, "A");
+		Node n(Node::NODE_GLOBAL_VARIABLE, "A");
 		TS_ASSERT(!n.isConst());
 		TS_ASSERT(!n.isStatic());
 

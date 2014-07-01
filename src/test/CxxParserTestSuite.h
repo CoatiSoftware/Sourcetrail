@@ -148,9 +148,9 @@ public:
 
 		parser.parseFile(TextAccess::createFromString(text));
 
-		TS_ASSERT_EQUALS(client->globals.size(), 2);
-		TS_ASSERT_EQUALS(client->globals[0], "int x <1:1 1:5>");
-		TS_ASSERT_EQUALS(client->globals[1], "A * b <3:1 3:4>");
+		TS_ASSERT_EQUALS(client->globalVariables.size(), 2);
+		TS_ASSERT_EQUALS(client->globalVariables[0], "int x <1:1 1:5>");
+		TS_ASSERT_EQUALS(client->globalVariables[1], "A * b <3:1 3:4>");
 	}
 
 	void test_cxx_parser_finds_variable_definitions_in_namespace_scope()
@@ -167,9 +167,9 @@ public:
 
 		parser.parseFile(TextAccess::createFromString(text));
 
-		TS_ASSERT_EQUALS(client->globals.size(), 2);
-		TS_ASSERT_EQUALS(client->globals[0], "int n::x <2:2 2:6>");
-		TS_ASSERT_EQUALS(client->globals[1], "n::A * n::b <4:2 4:5>");
+		TS_ASSERT_EQUALS(client->globalVariables.size(), 2);
+		TS_ASSERT_EQUALS(client->globalVariables[0], "int n::x <2:2 2:6>");
+		TS_ASSERT_EQUALS(client->globalVariables[1], "n::A * n::b <4:2 4:5>");
 	}
 
 	void test_cxx_parser_finds_field_in_nested_class()
@@ -493,7 +493,7 @@ public:
 		TS_ASSERT_EQUALS(client->enumFields.size(), 2);
 		TS_ASSERT_EQUALS(client->functions.size(), 2);
 		TS_ASSERT_EQUALS(client->fields.size(), 4);
-		TS_ASSERT_EQUALS(client->globals.size(), 2);
+		TS_ASSERT_EQUALS(client->globalVariables.size(), 2);
 		TS_ASSERT_EQUALS(client->methods.size(), 5);
 		TS_ASSERT_EQUALS(client->namespaces.size(), 2);
 		TS_ASSERT_EQUALS(client->structs.size(), 1);
@@ -524,7 +524,7 @@ private:
 
 		virtual void onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable)
 		{
-			globals.push_back(addLocationSuffix(variableStr(variable), location));
+			globalVariables.push_back(addLocationSuffix(variableStr(variable), location));
 		}
 
 		virtual void onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access)
@@ -575,7 +575,7 @@ private:
 		std::vector<std::string> enumFields;
 		std::vector<std::string> functions;
 		std::vector<std::string> fields;
-		std::vector<std::string> globals;
+		std::vector<std::string> globalVariables;
 		std::vector<std::string> methods;
 		std::vector<std::string> namespaces;
 		std::vector<std::string> structs;

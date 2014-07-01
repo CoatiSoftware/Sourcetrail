@@ -163,7 +163,7 @@ bool Node::isConst() const
 
 void Node::setConst(bool isConst)
 {
-	if (isConst && m_type != NODE_GLOBAL && m_type != NODE_FIELD && m_type != NODE_METHOD)
+	if (isConst && m_type != NODE_GLOBAL_VARIABLE && m_type != NODE_FIELD && m_type != NODE_METHOD)
 	{
 		LOG_ERROR("Setting const on wrong node of type " + getTypeString(m_type));
 		return;
@@ -179,7 +179,7 @@ bool Node::isStatic() const
 
 void Node::setStatic(bool isStatic)
 {
-	if (isStatic && m_type != NODE_GLOBAL && m_type != NODE_FIELD && m_type != NODE_METHOD)
+	if (isStatic && m_type != NODE_GLOBAL_VARIABLE && m_type != NODE_FIELD && m_type != NODE_METHOD)
 	{
 		LOG_ERROR("Setting static on wrong node of type " + getTypeString(m_type));
 		return;
@@ -198,7 +198,7 @@ std::string Node::getTypeString(NodeType type) const
 		return "class";
 	case NODE_STRUCT:
 		return "struct";
-	case NODE_GLOBAL:
+	case NODE_GLOBAL_VARIABLE:
 		return "global";
 	case NODE_FIELD:
 		return "field";

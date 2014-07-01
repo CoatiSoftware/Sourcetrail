@@ -50,7 +50,7 @@ void Storage::onGlobalVariableParsed(const ParseLocation& location, const ParseV
 	log("global", variable.fullName, location);
 
 	Node* node = m_graph.createNodeHierarchy(variable.fullName);
-	node->setType(Node::NODE_GLOBAL);
+	node->setType(Node::NODE_GLOBAL_VARIABLE);
 	node->setConst(variable.isConst);
 	node->setStatic(variable.isStatic);
 
