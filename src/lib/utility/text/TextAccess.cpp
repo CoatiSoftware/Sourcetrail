@@ -131,18 +131,18 @@ std::vector<std::string> TextAccess::readFile(const std::string& filePath)
 std::vector<std::string> TextAccess::splitStringByLines(const std::string& text)
 {
 	std::vector<std::string> result;
-	int prevIndex = 0;
-	int index = text.find("\n");
+	size_t prevIndex = 0;
+	size_t index = text.find("\n");
 
 	while (index != std::string::npos)
 	{
 		result.push_back(text.substr(prevIndex, index - prevIndex) + "\n");
 
-		prevIndex = index+1;
+		prevIndex = index + 1;
 		index = text.find("\n", prevIndex);
 	}
 
-	if (prevIndex < text.length()-1)
+	if (prevIndex < text.length() - 1)
 	{
 		result.push_back(text.substr(prevIndex));
 	}
