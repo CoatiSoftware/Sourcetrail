@@ -1,23 +1,23 @@
 #include "Application.h"
 
-#include "gui/GuiCanvas.h"
+#include "component/view/MainView.h"
+#include "gui/GuiFactory.h"
 #include "utility/logging/ConsoleLogger.h"
 #include "utility/logging/LogManager.h"
 
-std::shared_ptr<Application> Application::create(std::shared_ptr<GuiElementFactory> guiElementFactory, std::shared_ptr<GuiWindow> window)
+std::shared_ptr<Application> Application::create(GuiFactory* guiFactory)
 {
 	std::shared_ptr<ConsoleLogger> consoleLogger = std::make_shared<ConsoleLogger>();
 	LogManager::getInstance()->addLogger(consoleLogger);
 
-	std::shared_ptr<GuiCanvas> canvas = guiElementFactory->createCanvas(window);
-	canvas->setBackgroundColor(255, 0, 0, 255);
-
 	std::shared_ptr<Application> ptr(new Application());
-	ptr->m_viewManager = std::make_shared<ViewManager>(canvas);
+
 	ptr->m_codeAccess = std::make_shared<CodeAccess>();
 	ptr->m_graphAccess = std::make_shared<GraphAccess>();
+
+	ptr->m_mainView = guiFactory->createMainView();
 	ptr->m_componentManager =
-		ComponentManager::create(ptr->m_viewManager, guiElementFactory, ptr->m_codeAccess, ptr->m_graphAccess);
+		ComponentManager::create(guiFactory, ptr->m_mainView.get(), ptr->m_codeAccess, ptr->m_graphAccess);
 
 	return ptr;
 }

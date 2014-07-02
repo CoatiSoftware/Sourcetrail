@@ -1,22 +1,21 @@
 #include "component/view/View.h"
-#include "component/view/ViewManager.h"
 
-View::View(std::shared_ptr<ViewManager> viewManager, std::shared_ptr<GuiElement> rootElement, const Vec2i& minSize)
-	: m_viewManager(viewManager)
-	, m_rootElement(rootElement)
-	, m_minSize(minSize)
-{
-	m_viewManager->addView(this);
-}
+#include "component/view/ViewLayout.h"
+#include "gui/GuiWidgetWrapper.h"
 
 View::~View()
 {
-	m_viewManager->removeView(this);
+	m_viewLayout->removeView(this);
 }
 
-std::shared_ptr<GuiElement> View::getRootElement()
+void View::setWidgetWrapper(std::shared_ptr<GuiWidgetWrapper> widgetWrapper)
 {
-	return m_rootElement;
+	m_widgetWrapper = widgetWrapper;
+}
+
+GuiWidgetWrapper* View::getWidgetWrapper()
+{
+	return m_widgetWrapper.get();
 }
 
 int View::getMinWidth() const
@@ -32,4 +31,11 @@ int View::getMinHeight() const
 Vec2i View::getMinSize() const
 {
 	return m_minSize;
+}
+
+View::View(ViewLayout* viewLayout, const Vec2i& minSize)
+	: m_viewLayout(viewLayout)
+	, m_widgetWrapper(nullptr)
+	, m_minSize(minSize)
+{
 }

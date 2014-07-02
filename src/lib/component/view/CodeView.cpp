@@ -1,10 +1,15 @@
 #include "component/view/CodeView.h"
 
-CodeView::CodeView(std::shared_ptr<ViewManager> viewManager, std::shared_ptr<GuiElement> rootElement)
-	: View(viewManager, rootElement, Vec2i(100, 100))
+CodeView::CodeView(ViewLayout* viewLayout)
+	: View(viewLayout, Vec2i(100, 100))
 {
 }
 
 CodeView::~CodeView()
 {
+}
+
+std::string CodeView::getName() const
+{
+	return "CodeView";
 }

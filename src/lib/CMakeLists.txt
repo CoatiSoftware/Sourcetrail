@@ -20,17 +20,15 @@ add_files(
 	component/controller/CodeController.h
 	component/controller/Controller.cpp
 	component/controller/Controller.h
-	component/controller/DummyController.cpp
-	component/controller/DummyController.h
 
 	component/view/CodeView.cpp
 	component/view/CodeView.h
-	component/view/DummyView.cpp
-	component/view/DummyView.h
+	component/view/MainView.cpp
+	component/view/MainView.h
 	component/view/View.cpp
 	component/view/View.h
-	component/view/ViewManager.cpp
-	component/view/ViewManager.h
+	component/view/ViewLayout.cpp
+	component/view/ViewLayout.h
 
 	component/Component.cpp
 	component/Component.h
@@ -78,27 +76,11 @@ add_files(
 	data/Storage.cpp
 	data/Storage.h
 
-	gui/GuiArea.cpp
-	gui/GuiArea.h
-	gui/GuiCanvas.cpp
-	gui/GuiCanvas.h
-	gui/GuiContainer.cpp
-	gui/GuiContainer.h
-	gui/GuiControl.cpp
-	gui/GuiControl.h
-	gui/GuiElement.cpp
-	gui/GuiElement.h
-	gui/GuiElementFactory.cpp
-	gui/GuiElementFactory.h
-	gui/GuiLayout.cpp
-	gui/GuiLayout.h
-	gui/GuiWindow.cpp
-	gui/GuiWindow.h
-	gui/WidgetWrapper.cpp
-	gui/WidgetWrapper.h
+	gui/GuiFactory.cpp
+	gui/GuiFactory.h
+	gui/GuiWidgetWrapper.cpp
+	gui/GuiWidgetWrapper.h
 
-	utility/logging/PlainFileLogger.cpp
-	utility/logging/PlainFileLogger.h
 	utility/logging/ConsoleLogger.cpp
 	utility/logging/ConsoleLogger.h
 	utility/logging/FileLogger.cpp
@@ -111,6 +93,8 @@ add_files(
 	utility/logging/LogManagerImplementation.cpp
 	utility/logging/LogManagerImplementation.h
 	utility/logging/LogMessage.h
+	utility/logging/PlainFileLogger.cpp
+	utility/logging/PlainFileLogger.h
 
 	utility/math/Color.h
 	utility/math/Vector2.h

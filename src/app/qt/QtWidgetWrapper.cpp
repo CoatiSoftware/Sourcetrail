@@ -1,26 +1,25 @@
 #include "qt/QtWidgetWrapper.h"
 
-#include "gui/GuiElement.h"
+#include "component/view/View.h"
 #include "utility/logging/logging.h"
 
-std::shared_ptr<QWidget> QtWidgetWrapper::getWidgetOfElement(std::shared_ptr<GuiElement> element)
+QWidget* QtWidgetWrapper::getWidgetOfView(View* view)
 {
-	return getWidgetOfElement(element.get());
-}
+	QtWidgetWrapper* widgetWrapper = dynamic_cast<QtWidgetWrapper*>(view->getWidgetWrapper());
 
-std::shared_ptr<QWidget> QtWidgetWrapper::getWidgetOfElement(GuiElement* element)
-{
-	std::shared_ptr<QWidget> widget;
-	std::shared_ptr<QtWidgetWrapper> qtWidgetWrapper = std::dynamic_pointer_cast<QtWidgetWrapper>(element->getWidgetWrapper());
-	if (!qtWidgetWrapper || qtWidgetWrapper.use_count() == 0)
+	if (!widgetWrapper)
 	{
-		LOG_ERROR("Trying to get the qt widget of non qt gui element.");
+		LOG_ERROR("Trying to get the qt widget of non qt view.");
+		return nullptr;
 	}
-	else
+
+	if (!widgetWrapper->getWidget())
 	{
-		widget = qtWidgetWrapper->getWidget();
+		LOG_ERROR("The QtWidgetWrapper is not holdling a QWidget.");
+		return nullptr;
 	}
-	return widget;
+
+	return widgetWrapper->getWidget();
 }
 
 QtWidgetWrapper::QtWidgetWrapper(std::shared_ptr<QWidget> widget)
@@ -32,7 +31,7 @@ QtWidgetWrapper::~QtWidgetWrapper()
 {
 }
 
-std::shared_ptr<QWidget> QtWidgetWrapper::getWidget()
+QWidget* QtWidgetWrapper::getWidget()
 {
-	return m_widget;
+	return m_widget.get();
 }

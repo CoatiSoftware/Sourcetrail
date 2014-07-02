@@ -3,7 +3,6 @@
 
 #include <memory>
 #include <vector>
-#include <iostream>
 
 #include <QFont>
 
@@ -11,13 +10,16 @@
 
 class QtHighlighter;
 class QTextEdit;
-class ViewManager;
 
 class QtCodeView: public CodeView
 {
 public:
-	QtCodeView(std::shared_ptr<ViewManager> viewManager);
+	QtCodeView(ViewLayout* viewLayout);
 	~QtCodeView();
+
+	// View implementation
+	virtual void createWidgetWrapper();
+	virtual void initGui();
 
 	// CodeView implementation
 	virtual void addCodeSnippet(std::string str);

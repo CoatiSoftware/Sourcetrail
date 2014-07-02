@@ -1,28 +1,23 @@
 add_files(
 	APP_FILES
 
-	qt/element/QtArea.cpp
-	qt/element/QtArea.h
-	qt/element/QtCanvas.cpp
-	qt/element/QtCanvas.h
-	qt/element/QtLayout.cpp
-	qt/element/QtLayout.h
+	qt/element/QtMainWindow.cpp
+	qt/element/QtMainWindow.h
 
 	qt/utility/QtHighLighter.cpp
 	qt/utility/QtHighLighter.h
+	qt/utility/utilityQt.cpp
+	qt/utility/utilityQt.h
 
 	qt/view/QtCodeView.cpp
 	qt/view/QtCodeView.h
+	qt/view/QtMainView.cpp
+	qt/view/QtMainView.h
 
+	qt/QtGuiFactory.cpp
+	qt/QtGuiFactory.h
 	qt/QtWidgetWrapper.cpp
 	qt/QtWidgetWrapper.h
-	qt/QtElementFactory.cpp
-	qt/QtElementFactory.h
-	qt/QtWindow.cpp
-	qt/QtWindow.h
-
-	utility/utilityQt.cpp
-	utility/utilityQt.h
 
 	includesWindows.h
 	main.cpp

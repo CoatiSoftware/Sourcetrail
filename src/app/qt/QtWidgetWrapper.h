@@ -5,20 +5,19 @@
 
 #include <QtWidgets/qwidget.h>
 
-#include "gui/WidgetWrapper.h"
+#include "gui/GuiWidgetWrapper.h"
 
-class GuiElement;
+class View;
 
-class QtWidgetWrapper: public WidgetWrapper
+class QtWidgetWrapper: public GuiWidgetWrapper
 {
 public:
-	static std::shared_ptr<QWidget> getWidgetOfElement(std::shared_ptr<GuiElement> element);
-	static std::shared_ptr<QWidget> getWidgetOfElement(GuiElement* element);
+	static QWidget* getWidgetOfView(View* view);
 
 	QtWidgetWrapper(std::shared_ptr<QWidget> widget);
 	virtual ~QtWidgetWrapper();
 
-	std::shared_ptr<QWidget> getWidget(); // not const because returned widget can be changed.
+	QWidget* getWidget();
 
 private:
 	std::shared_ptr<QWidget> m_widget;

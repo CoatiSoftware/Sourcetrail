@@ -1,22 +1,25 @@
 #include "component/ComponentManager.h"
 
 #include "component/view/CodeView.h"
+#include "component/view/ViewLayout.h"
 
 std::shared_ptr<ComponentManager> ComponentManager::create(
-	std::shared_ptr<ViewManager> viewManager,
-	std::shared_ptr<GuiElementFactory> guiElementFactory,
+	GuiFactory* guiFactory,
+	ViewLayout* viewLayout,
 	std::shared_ptr<CodeAccess> codeAccess,
 	std::shared_ptr<GraphAccess> graphAccess)
 {
 	std::shared_ptr<ComponentManager> ptr(new ComponentManager());
-	ptr->m_componentFactory = ComponentFactory::create(viewManager, guiElementFactory, codeAccess, graphAccess);
+	ptr->m_componentFactory = ComponentFactory::create(guiFactory, viewLayout, codeAccess, graphAccess);
 	return ptr;
+}
+
+ComponentManager::~ComponentManager()
+{
 }
 
 void ComponentManager::setup()
 {
-	m_components.push_back(m_componentFactory->createDummyComponent());
-
 	std::shared_ptr<Component> codeComponent = m_componentFactory->createCodeComponent();
 	m_components.push_back(codeComponent);
 
@@ -27,9 +30,5 @@ void ComponentManager::setup()
 }
 
 ComponentManager::ComponentManager()
-{
-}
-
-ComponentManager::~ComponentManager()
 {
 }

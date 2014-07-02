@@ -8,7 +8,7 @@
 
 namespace utility
 {
-	void setWidgetBackgroundColor(std::shared_ptr<QWidget> widget, const Colori& color);
+	void setWidgetBackgroundColor(QWidget* widget, const Colori& color);
 }
 
 # endif // UTILITY_QT_H

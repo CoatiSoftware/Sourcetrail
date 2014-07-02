@@ -4,17 +4,14 @@
 
 #include "Application.h"
 #include "includes.h"
-#include "qt/QtElementFactory.h"
-#include "qt/QtWindow.h"
+#include "qt/QtGuiFactory.h"
 
 int main(int argc, char *argv[])
 {
 	QApplication qtApp(argc, argv);
-	std::shared_ptr<GuiElementFactory> elementFactory = std::make_shared<QtElementFactory>();
+	QtGuiFactory guiFactory;
 
-	std::shared_ptr<QtWindow> window = std::make_shared<QtWindow>();
-
-	std::shared_ptr<Application> app = Application::create(elementFactory, window);
+	std::shared_ptr<Application> app = Application::create(&guiFactory);
 	app->loadProject();
 
 	return qtApp.exec();
