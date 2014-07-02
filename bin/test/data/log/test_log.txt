@@ -1,6 +1,8 @@
-Graph.cpp removeEdge() ERROR: Can't remove member edge, without removing the child node.
-TextAccess.cpp checkIndexIntervalInRange() WARNING: Index 'firstLine' has to be lower or equal index 'lastLine', is 2 > 1
-TextAccess.cpp checkIndexInRange() WARNING: Tried to access index 9. Maximum index is 7
-TextAccess.cpp checkIndexInRange() WARNING: Tried to access index 9. Maximum index is 7
-TextAccess.cpp getLine() WARNING: Line numbers start with one, is 0
-TextAccess.cpp getLines() WARNING: Line numbers start with one, is 0
+Graph.cpp ERROR: Can't remove member edge, without removing the child node.
+TextAccess.cpp WARNING: Index 'firstLine' has to be lower or equal index 'lastLine', is 2 > 1
+TextAccess.cpp WARNING: Tried to access index 9. Maximum index is 7
+TextAccess.cpp WARNING: Tried to access index 9. Maximum index is 7
+TextAccess.cpp WARNING: Line numbers start with one, is 0
+TextAccess.cpp WARNING: Line numbers start with one, is 0
+TokenLocationCollection.cpp ERROR: Can't create TokenLocation with wrong boundaries.
+TokenLocationCollection.cpp ERROR: Can't create TokenLocation with wrong boundaries.

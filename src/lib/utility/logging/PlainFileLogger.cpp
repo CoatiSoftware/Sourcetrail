@@ -42,6 +42,6 @@ void PlainFileLogger::logError(const LogMessage& message)
 void PlainFileLogger::logMessage(const std::string& type, const LogMessage& message)
 {
 	std::stringstream ss;
-	ss << message.getFileName() << " " << message.functionName << "() " << type << ": " << message.message << std::endl;
+	ss << message.getFileName() << " " << type << ": " << message.message << std::endl;
 	logString(ss.str());
 }
