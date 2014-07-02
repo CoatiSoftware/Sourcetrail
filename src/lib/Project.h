@@ -3,8 +3,6 @@
 
 #include <memory>
 
-#include "data/access/CodeAccess.h"
-#include "data/access/GraphAccess.h"
 #include "data/Storage.h"
 #include "ProjectSettings.h"
 
@@ -12,8 +10,7 @@ class Project
 {
 public:
 	static std::shared_ptr<Project> create(
-		std::shared_ptr<CodeAccess> codeAccess,
-		std::shared_ptr<GraphAccess> graphAccess
+		std::shared_ptr<Storage> storage
 	);
 
 	~Project();
@@ -27,8 +24,6 @@ private:
 	Project operator=(const Project&);
 
 	std::shared_ptr<Storage> m_storage;
-	std::shared_ptr<CodeAccess> m_codeAccess;
-	std::shared_ptr<GraphAccess> m_graphAccess;
 };
 
 #endif // PROJECT_H

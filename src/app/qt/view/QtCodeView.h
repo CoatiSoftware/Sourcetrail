@@ -7,6 +7,7 @@
 #include <QFont>
 
 #include "component/view/CodeView.h"
+#include "qt/utility/QtThreadedFunctor.h"
 
 class QtHighlighter;
 class QTextEdit;
@@ -33,7 +34,13 @@ private:
 	};
 	std::vector<std::shared_ptr<Snippet>> m_snippets;
 
+	void doAddCodeSnippet(std::string str);
+	void doClearCodeSnippets();
+
 	QFont m_font;
+
+	QtThreadedFunctor<void> m_clearCodeSnippetsFunctor;
+	QtThreadedFunctor<std::string> m_addCodeSnippetFunctor;
 };
 
 # endif // QT_CODE_VIEW_H

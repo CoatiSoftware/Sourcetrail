@@ -18,6 +18,11 @@ GuiWidgetWrapper* View::getWidgetWrapper()
 	return m_widgetWrapper.get();
 }
 
+void View::setComponent(Component* component)
+{
+	m_component = component;
+}
+
 int View::getMinWidth() const
 {
 	return m_minSize.x;

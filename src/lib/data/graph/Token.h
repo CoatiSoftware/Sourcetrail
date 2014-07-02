@@ -31,7 +31,7 @@ private:
 	Token(const Token&);
 	void operator=(const Token&);
 
-	const Id m_id;
+	const Id m_id;	// own id
 
 	std::vector<Id> m_locationIds;
 };

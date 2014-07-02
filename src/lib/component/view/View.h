@@ -9,6 +9,7 @@
 
 class GuiWidgetWrapper;
 class ViewLayout;
+class Component;
 
 class View
 {
@@ -26,14 +27,20 @@ public:
 
 	virtual void initGui() = 0;
 
+	void setComponent(Component* component);
+
 	int getMinWidth() const;
 	int getMinHeight() const;
 	Vec2i getMinSize() const;
 
 protected:
-	View(ViewLayout* viewLayout, const Vec2i& minSize);
+	View(ViewLayout* viewLayout, const Vec2i& minSize); // make public
+
+	template <typename ControllerType>
+	ControllerType* getController();
 
 private:
+	Component* m_component;
 	ViewLayout* const m_viewLayout;
 	std::shared_ptr<GuiWidgetWrapper> m_widgetWrapper;
 	Vec2i m_minSize;
@@ -50,6 +57,16 @@ std::shared_ptr<T> View::create(ViewLayout* viewLayout)
 	viewLayout->addView(ptr.get());
 
 	return ptr;
+}
+
+template <typename ControllerType>
+ControllerType* View::getController()
+{
+	if (m_component)
+	{
+		return m_component->getController<ControllerType>();
+	}
+	return NULL;
 }
 
 #endif // VIEW_H

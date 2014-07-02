@@ -6,7 +6,7 @@
 
 #include "component/Component.h"
 #include "component/ComponentFactory.h"
-#include "data/access/CodeAccess.h"
+#include "data/access/LocationAccess.h"
 #include "data/access/GraphAccess.h"
 
 class GuiFactory;
@@ -18,7 +18,7 @@ public:
 	static std::shared_ptr<ComponentManager> create(
 		GuiFactory* guiFactory,
 		ViewLayout* viewLayout,
-		std::shared_ptr<CodeAccess> codeAccess,
+		std::shared_ptr<LocationAccess> locationAccess,
 		std::shared_ptr<GraphAccess> graphAccess);
 
 	~ComponentManager();
@@ -33,6 +33,5 @@ private:
 
 	std::vector<std::shared_ptr<Component> > m_components;
 };
-
 
 #endif // COMPONENT_MANAGER_H

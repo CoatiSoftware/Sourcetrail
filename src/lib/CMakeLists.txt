@@ -20,6 +20,8 @@ add_files(
 	component/controller/CodeController.h
 	component/controller/Controller.cpp
 	component/controller/Controller.h
+	component/controller/GraphController.cpp
+	component/controller/GraphController.h
 
 	component/view/graphElements/GraphNode.cpp
 	component/view/graphElements/GraphNode.h
@@ -42,8 +44,8 @@ add_files(
 	component/ComponentManager.cpp
 	component/ComponentManager.h
 
-	data/access/CodeAccess.cpp
-	data/access/CodeAccess.h
+	data/access/LocationAccess.cpp
+	data/access/LocationAccess.h
 	data/access/GraphAccess.cpp
 	data/access/GraphAccess.h
 
@@ -106,6 +108,8 @@ add_files(
 	utility/math/Vector4.h
 	utility/math/VectorBase.h
 
+	utility/messaging/type/MessageActivateTokenLocation.h
+	
 	utility/messaging/Message.h
 	utility/messaging/MessageBase.h
 	utility/messaging/MessageListener.h

@@ -3,10 +3,10 @@
 
 #include <memory>
 
-#include "component/Component.h"
-#include "data/access/CodeAccess.h"
+#include "data/access/LocationAccess.h"
 #include "data/access/GraphAccess.h"
 
+class Component;
 class GuiFactory;
 class ViewLayout;
 
@@ -16,7 +16,7 @@ public:
 	static std::shared_ptr<ComponentFactory> create(
 		GuiFactory* guiFactory,
 		ViewLayout* viewLayout,
-		std::shared_ptr<CodeAccess> codeAccess,
+		std::shared_ptr<LocationAccess> locationAccess,
 		std::shared_ptr<GraphAccess> graphAccess);
 
 	~ComponentFactory();
@@ -31,7 +31,7 @@ private:
 	GuiFactory* m_guiFactory;
 	ViewLayout* m_viewLayout;
 
-	std::shared_ptr<CodeAccess> m_codeAccess;
+	std::shared_ptr<LocationAccess> m_locationAccess;
 	std::shared_ptr<GraphAccess> m_graphAccess;
 };
 

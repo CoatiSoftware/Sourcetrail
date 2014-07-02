@@ -4,12 +4,11 @@
 #include <memory>
 
 #include "component/ComponentManager.h"
-#include "data/access/CodeAccess.h"
-#include "data/access/GraphAccess.h"
 #include "Project.h"
 
 class GuiFactory;
 class MainView;
+class Storage;
 
 class Application
 {
@@ -24,9 +23,7 @@ private:
 	Application();
 
 	std::shared_ptr<Project> m_project;
-
-	std::shared_ptr<CodeAccess> m_codeAccess;
-	std::shared_ptr<GraphAccess> m_graphAccess;
+	std::shared_ptr<Storage> m_storage;
 
 	std::shared_ptr<MainView> m_mainView;
 	std::shared_ptr<ComponentManager> m_componentManager;

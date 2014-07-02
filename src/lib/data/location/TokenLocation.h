@@ -40,9 +40,9 @@ public:
 	std::shared_ptr<TokenLocation> createPlainCopy(TokenLocationLine* line) const;
 
 private:
-	static Id s_locationId;
+	static Id s_locationId;	// next free own id
 
-	const Id m_id;
+	const Id m_id;			// own id
 	const Id m_tokenId;
 
 	TokenLocationLine* const m_line;

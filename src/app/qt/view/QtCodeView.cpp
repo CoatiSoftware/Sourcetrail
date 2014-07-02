@@ -8,6 +8,8 @@
 
 QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
+	, m_clearCodeSnippetsFunctor(std::bind(&QtCodeView::doClearCodeSnippets, this))
+	, m_addCodeSnippetFunctor(std::bind(&QtCodeView::doAddCodeSnippet, this, std::placeholders::_1))
 {
 }
 
@@ -37,6 +39,16 @@ void QtCodeView::initGui()
 
 void QtCodeView::addCodeSnippet(std::string str)
 {
+	m_addCodeSnippetFunctor(str);
+}
+
+void QtCodeView::clearCodeSnippets()
+{
+	m_clearCodeSnippetsFunctor();
+}
+
+void QtCodeView::doAddCodeSnippet(std::string str)
+{
 	std::shared_ptr<Snippet> snippet = std::make_shared<Snippet>();
 
 	snippet->textField = std::make_shared<QTextEdit>();
@@ -53,7 +65,7 @@ void QtCodeView::addCodeSnippet(std::string str)
 	m_snippets.push_back(snippet);
 }
 
-void QtCodeView::clearCodeSnippets()
+void QtCodeView::doClearCodeSnippets()
 {
 	m_snippets.clear();
 }

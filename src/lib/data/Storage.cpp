@@ -173,6 +173,16 @@ void Storage::logLocations() const
 	LOG_INFO(str.str());
 }
 
+Token* Storage::getToken(Id tokenId)
+{
+	return m_graph.getTokenById(tokenId);
+}
+
+TokenLocation* Storage::getTokenLocation(Id locationId)
+{
+	return m_locationCollection.findTokenLocationById(locationId);
+}
+
 Edge::AccessType Storage::convertAccessType(ParserClient::AccessType access) const
 {
 	switch (access)

@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "component/controller/Controller.h"
-#include "component/view/View.h"
+class View;
+class Controller;
 
 class Component
 {
@@ -12,13 +12,29 @@ public:
 	Component(std::shared_ptr<View> view, std::shared_ptr<Controller> controller);
 	~Component();
 
-	Controller* getController() const;
-	View* getView() const;
+	template <typename ControllerType>
+	ControllerType* getController() const;
+
+	template <typename ViewType>
+	ViewType* getView() const;
 
 private:
 	const std::shared_ptr<Controller> m_controller;
 	const std::shared_ptr<View> m_view;
 };
+
+
+template <typename ControllerType>
+ControllerType* Component::getController() const
+{
+	return dynamic_cast<ControllerType*>(m_controller.get());
+}
+
+template <typename ViewType>
+ViewType* Component::getView() const
+{
+	return dynamic_cast<ViewType*>(m_view.get());
+}
 
 
 #endif // COMPONENT_H

@@ -4,11 +4,13 @@
 #include <memory>
 #include <vector>
 
+#include "data/access/GraphAccess.h"
+#include "data/access/LocationAccess.h"
 #include "data/graph/Graph.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/parser/ParserClient.h"
 
-class Storage: public ParserClient
+class Storage: public ParserClient, public GraphAccess, public LocationAccess
 {
 public:
 	Storage();
@@ -39,6 +41,9 @@ public:
 
 	void logGraph() const;
 	void logLocations() const;
+
+	virtual Token* getToken(Id tokenId);
+	virtual TokenLocation* getTokenLocation(Id locationId);
 
 private:
 	Edge::AccessType convertAccessType(ParserClient::AccessType access) const;
