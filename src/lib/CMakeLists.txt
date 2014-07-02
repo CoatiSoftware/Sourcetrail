@@ -21,15 +21,20 @@ add_files(
 	component/controller/Controller.cpp
 	component/controller/Controller.h
 
+	component/view/graphElements/GraphNode.cpp
+	component/view/graphElements/GraphNode.h
+	
 	component/view/CodeView.cpp
 	component/view/CodeView.h
+	component/view/GraphView.cpp
+	component/view/GraphView.h
 	component/view/MainView.cpp
 	component/view/MainView.h
 	component/view/View.cpp
 	component/view/View.h
 	component/view/ViewLayout.cpp
-	component/view/ViewLayout.h
-
+	component/view/ViewLayout.h		
+	
 	component/Component.cpp
 	component/Component.h
 	component/ComponentFactory.cpp

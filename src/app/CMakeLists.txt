@@ -9,8 +9,13 @@ add_files(
 	qt/utility/utilityQt.cpp
 	qt/utility/utilityQt.h
 
+	qt/view/graphElements/QtGraphNode.cpp
+	qt/view/graphElements/QtGraphNode.h
+	
 	qt/view/QtCodeView.cpp
 	qt/view/QtCodeView.h
+	qt/view/QtGraphView.cpp
+	qt/view/QtGraphView.h
 	qt/view/QtMainView.cpp
 	qt/view/QtMainView.h
 

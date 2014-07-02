@@ -2,6 +2,7 @@
 
 #include "component/controller/CodeController.h"
 #include "component/view/CodeView.h"
+#include "component/view/GraphView.h"
 #include "component/view/ViewLayout.h"
 #include "gui/GuiFactory.h"
 
@@ -26,6 +27,15 @@ ComponentFactory::~ComponentFactory()
 std::shared_ptr<Component> ComponentFactory::createCodeComponent()
 {
 	std::shared_ptr<View> view = m_guiFactory->createCodeView(m_viewLayout);
+	std::shared_ptr<Controller> controller = std::make_shared<CodeController>();
+
+	std::shared_ptr<Component> component = std::make_shared<Component>(view, controller);
+	return component;
+}
+
+std::shared_ptr<Component> ComponentFactory::createGraphComponent()
+{
+	std::shared_ptr<View> view = m_guiFactory->createGraphView(m_viewLayout);
 	std::shared_ptr<Controller> controller = std::make_shared<CodeController>();
 
 	std::shared_ptr<Component> component = std::make_shared<Component>(view, controller);

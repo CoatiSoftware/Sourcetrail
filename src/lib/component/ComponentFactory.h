@@ -22,6 +22,7 @@ public:
 	~ComponentFactory();
 
 	std::shared_ptr<Component> createCodeComponent();
+	std::shared_ptr<Component> createGraphComponent();
 
 private:
 	ComponentFactory();
