@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <QObject>
+#include <QSemaphore>
 
 class QtThreadedFunctorHelper: public QObject
 {
@@ -15,22 +16,26 @@ private slots:
 	void execute()
 	{
 		m_callback();
+		m_freeCallbacks.release();
 	}
 
 public:
 	QtThreadedFunctorHelper()
+		: m_freeCallbacks(1)
 	{
 		QObject::connect(this, SIGNAL(signalExecution()), this, SLOT(execute()));
 	}
 
 	void operator()(std::function<void(void)> callback)
 	{
+		m_freeCallbacks.acquire();
 		m_callback = callback;
 		signalExecution();
 	}
 
 private:
 	std::function<void(void)> m_callback;
+	QSemaphore m_freeCallbacks;
 };
 
 template <typename T1 = void, typename T2 = void, typename T3 = void>

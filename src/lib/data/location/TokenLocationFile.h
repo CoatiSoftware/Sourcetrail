@@ -32,7 +32,10 @@ public:
 		unsigned int endLineNumber, unsigned int endColumnNumber);
 	void removeTokenLocation(TokenLocation* location);
 
+	TokenLocationLine* findTokenLocationLineByNumber(unsigned int lineNumber) const;
+
 	void forEachTokenLocationLine(std::function<void(TokenLocationLine*)> func) const;
+	void forEachTokenLocation(std::function<void(TokenLocation*)> func) const;
 
 	TokenLocation* addTokenLocationAsPlainCopy(const TokenLocation* location);
 

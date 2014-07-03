@@ -3,6 +3,8 @@
 #include <sstream>
 
 #include "data/location/TokenLocation.h"
+#include "data/location/TokenLocationFile.h"
+#include "data/location/TokenLocationLine.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParseVariable.h"
 #include "utility/logging/logging.h"
@@ -173,14 +175,59 @@ void Storage::logLocations() const
 	LOG_INFO(str.str());
 }
 
-Token* Storage::getToken(Id tokenId)
+Token* Storage::getToken(Id tokenId) const
 {
-	return m_graph.getTokenById(tokenId);
+	return m_graph.getTokenById(tokenId); // Todo: copy information.
 }
 
-TokenLocation* Storage::getTokenLocation(Id locationId)
+TokenLocationCollection Storage::getTokenLocationsForTokenId(Id id) const
 {
-	return m_locationCollection.findTokenLocationById(locationId);
+	TokenLocationCollection ret;
+
+	std::vector<Id> locationIds = m_graph.getTokenById(id)->getLocationIds();
+	for (Id locationId: locationIds)
+	{
+		TokenLocation* location = m_locationCollection.findTokenLocationById(locationId);
+		if (location->getOtherTokenLocation())
+		{
+			ret.addTokenLocationAsPlainCopy(location);
+			ret.addTokenLocationAsPlainCopy(location->getOtherTokenLocation());
+		}
+	}
+
+	return ret;
+}
+
+TokenLocationFile Storage::getTokenLocationsForLinesInFile(
+		const std::string& fileName, unsigned int firstLineNumber, unsigned int lastLineNumber
+) const
+{
+	TokenLocationFile ret(fileName);
+
+	TokenLocationFile* locationFile = m_locationCollection.findTokenLocationFileByPath(fileName);
+	if (locationFile)
+	{
+		for (unsigned int i = firstLineNumber; i <= lastLineNumber; i++)
+		{
+			TokenLocationLine* locationLine = locationFile->findTokenLocationLineByNumber(i);
+			if (locationLine)
+			{
+				locationLine->forEachTokenLocation([&] (TokenLocation* tokenLocation) -> void {
+					if (tokenLocation->getOtherTokenLocation() &&
+						tokenLocation->isStartTokenLocation() &&
+						tokenLocation->getLineNumber() >= firstLineNumber &&
+						tokenLocation->getOtherTokenLocation()->isEndTokenLocation() &&
+						tokenLocation->getOtherTokenLocation()->getLineNumber() <= lastLineNumber)
+					{
+						ret.addTokenLocationAsPlainCopy(tokenLocation);
+						ret.addTokenLocationAsPlainCopy(tokenLocation->getOtherTokenLocation());
+					}
+				});
+			}
+		}
+	}
+
+	return ret;
 }
 
 Edge::AccessType Storage::convertAccessType(ParserClient::AccessType access) const

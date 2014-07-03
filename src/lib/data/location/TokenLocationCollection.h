@@ -11,6 +11,7 @@
 
 class TokenLocation;
 class TokenLocationFile;
+class TokenLocationLine;
 
 class TokenLocationCollection
 {
@@ -37,6 +38,8 @@ public:
 	TokenLocationFile* findTokenLocationFileByPath(const std::string& filePath) const;
 
 	void forEachTokenLocationFile(std::function<void(TokenLocationFile*)> func) const;
+	void forEachTokenLocationLine(std::function<void(TokenLocationLine*)> func) const;
+	void forEachTokenLocation(std::function<void(TokenLocation*)> func) const;
 
 	TokenLocation* addTokenLocationAsPlainCopy(const TokenLocation* location);
 

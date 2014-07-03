@@ -8,6 +8,7 @@
 #include "qt/QtWidgetWrapper.h"
 #include "qt/utility/QtHighLighter.h"
 #include "qt/utility/utilityQt.h"
+#include "utility/messaging/type/MessageActivateToken.h"
 
 QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
@@ -52,7 +53,8 @@ void QtCodeView::clearCodeSnippets()
 
 void QtCodeView::activateToken(Id tokenId) const
 {
-	std::cout << "TODO: activate Token: " << tokenId << std::endl;
+	MessageActivateToken message(tokenId);
+	message.dispatch();
 }
 
 void QtCodeView::doAddCodeSnippet(const std::string& str, const TokenLocationFile& locationFile, int startLineNumber)

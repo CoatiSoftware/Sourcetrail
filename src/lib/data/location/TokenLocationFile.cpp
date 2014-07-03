@@ -66,11 +66,24 @@ void TokenLocationFile::removeTokenLocation(TokenLocation* location)
 	}
 }
 
+TokenLocationLine* TokenLocationFile::findTokenLocationLineByNumber(unsigned int lineNumber) const
+{
+	return findTokenLocationLine(lineNumber);
+}
+
 void TokenLocationFile::forEachTokenLocationLine(std::function<void(TokenLocationLine*)> func) const
 {
 	for (const TokenLocationLinePairType& line : m_lines)
 	{
 		func(line.second.get());
+	}
+}
+
+void TokenLocationFile::forEachTokenLocation(std::function<void(TokenLocation*)> func) const
+{
+	for (const TokenLocationLinePairType& line : m_lines)
+	{
+		line.second->forEachTokenLocation(func);
 	}
 }
 

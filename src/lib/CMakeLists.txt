@@ -108,7 +108,7 @@ add_files(
 	utility/math/Vector4.h
 	utility/math/VectorBase.h
 
-	utility/messaging/type/MessageActivateTokenLocation.h
+	utility/messaging/type/MessageActivateToken.h
 	
 	utility/messaging/Message.h
 	utility/messaging/MessageBase.h

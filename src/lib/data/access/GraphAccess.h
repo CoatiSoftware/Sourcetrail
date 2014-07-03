@@ -10,7 +10,7 @@ class GraphAccess
 public:
 	virtual ~GraphAccess();
 
-	virtual Token* getToken(Id tokenId) = 0;
+	virtual Token* getToken(Id tokenId) const = 0;
 };
 
 

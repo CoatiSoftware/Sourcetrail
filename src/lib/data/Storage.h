@@ -10,7 +10,10 @@
 #include "data/location/TokenLocationCollection.h"
 #include "data/parser/ParserClient.h"
 
-class Storage: public ParserClient, public GraphAccess, public LocationAccess
+class Storage
+	: public ParserClient
+	, public GraphAccess
+	, public LocationAccess
 {
 public:
 	Storage();
@@ -42,8 +45,12 @@ public:
 	void logGraph() const;
 	void logLocations() const;
 
-	virtual Token* getToken(Id tokenId);
-	virtual TokenLocation* getTokenLocation(Id locationId);
+	virtual Token* getToken(Id tokenId) const;
+
+	virtual TokenLocationCollection getTokenLocationsForTokenId(Id locationId) const;
+	virtual TokenLocationFile getTokenLocationsForLinesInFile(
+		const std::string& fileName, unsigned int firstLineNumber, unsigned int lastLineNumber
+	) const;
 
 private:
 	Edge::AccessType convertAccessType(ParserClient::AccessType access) const;

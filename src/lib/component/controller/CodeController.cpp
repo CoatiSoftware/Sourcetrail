@@ -3,6 +3,8 @@
 #include "component/view/CodeView.h"
 #include "data/access/LocationAccess.h"
 #include "data/location/TokenLocation.h"
+#include "data/location/TokenLocationCollection.h"
+#include "data/location/TokenLocationFile.h"
 #include "utility/text/TextAccess.h"
 
 #include "utility/logging/logging.h"
@@ -17,20 +19,39 @@ CodeController::~CodeController()
 {
 }
 
-void CodeController::setActiveTokenLocationId(Id id)
+void CodeController::setActiveTokenId(Id id)
 {
-	TokenLocation* tokenLocation = m_locationAccess->getTokenLocation(id);
-	if (tokenLocation)
-	{
-		getView()->clearCodeSnippets();
-		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(tokenLocation->getFilePath());
-		// getView()->addCodeSnippet(textAccess->getText());
-	}
+	const unsigned int lineRadius = 2;
+
+	getView()->clearCodeSnippets();
+
+	TokenLocationCollection collection = m_locationAccess->getTokenLocationsForTokenId(id);
+	collection.forEachTokenLocation([&] (TokenLocation* tokenLocation) -> void {
+		if (tokenLocation->isStartTokenLocation())
+		{
+			const std::string filePath = tokenLocation->getFilePath();
+			std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
+
+			unsigned int firstLineNumber = std::max<int>(1, tokenLocation->getLineNumber() - lineRadius);
+			unsigned int lastLineNumber = std::min<int>(
+				textAccess->getLineCount(), tokenLocation->getEndTokenLocation()->getLineNumber() + lineRadius
+			);
+
+			std::string text;
+			for (std::string line: textAccess->getLines(firstLineNumber, lastLineNumber))
+			{
+				text += line;
+			}
+
+			TokenLocationFile tokenLocationFile = m_locationAccess->getTokenLocationsForLinesInFile(filePath, firstLineNumber, lastLineNumber);
+			getView()->addCodeSnippet(text, tokenLocationFile, firstLineNumber);
+		}
+	});
 }
 
-void CodeController::handleMessage(MessageActivateTokenLocation* message)
+void CodeController::handleMessage(MessageActivateToken* message)
 {
-	setActiveTokenLocationId(1);
+	setActiveTokenId(message->tokenId);
 }
 
 CodeView* CodeController::getView()

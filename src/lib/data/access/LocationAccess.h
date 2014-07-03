@@ -1,16 +1,21 @@
 #ifndef LOCATION_ACCESS_H
 #define LOCATION_ACCESS_H
 
+#include <string>
+
 #include "utility/types.h"
 
-class TokenLocation;
+class TokenLocationCollection;
+class TokenLocationFile;
 
 class LocationAccess
 {
 public:
 	virtual ~LocationAccess();
-	virtual TokenLocation* getTokenLocation(Id locationId) = 0;
-
+	virtual TokenLocationCollection getTokenLocationsForTokenId(Id id) const = 0;
+	virtual TokenLocationFile getTokenLocationsForLinesInFile(
+		const std::string& fileName, unsigned int firstLineNumber, unsigned int lastLineNumber
+	) const = 0;
 };
 
 

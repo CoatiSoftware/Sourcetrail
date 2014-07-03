@@ -5,7 +5,7 @@
 
 #include "component/controller/Controller.h"
 #include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageActivateTokenLocation.h"
+#include "utility/messaging/type/MessageActivateToken.h"
 #include "utility/types.h"
 
 class CodeView;
@@ -17,16 +17,16 @@ struct AnnotatedText
 	Id tokenId;
 };
 
-class CodeController: public Controller, public MessageListener<MessageActivateTokenLocation>
+class CodeController: public Controller, public MessageListener<MessageActivateToken>
 {
 public:
 	CodeController(std::shared_ptr<LocationAccess> locationAccess);
 	~CodeController();
 
-	void setActiveTokenLocationId(Id id);
+	void setActiveTokenId(Id id);
 
 private:
-	virtual void handleMessage(MessageActivateTokenLocation* message);
+	virtual void handleMessage(MessageActivateToken* message);
 	CodeView* getView();
 
 	std::shared_ptr<LocationAccess> m_locationAccess;

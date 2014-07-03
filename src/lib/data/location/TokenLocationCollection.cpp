@@ -103,6 +103,22 @@ void TokenLocationCollection::forEachTokenLocationFile(std::function<void(TokenL
 	}
 }
 
+void TokenLocationCollection::forEachTokenLocationLine(std::function<void(TokenLocationLine*)> func) const
+{
+	for (const TokenLocationFilePairType& file : m_files)
+	{
+		file.second->forEachTokenLocationLine(func);
+	}
+}
+
+void TokenLocationCollection::forEachTokenLocation(std::function<void(TokenLocation*)> func) const
+{
+	for (const TokenLocationFilePairType& file : m_files)
+	{
+		file.second->forEachTokenLocation(func);
+	}
+}
+
 TokenLocation* TokenLocationCollection::addTokenLocationAsPlainCopy(const TokenLocation* location)
 {
 	const std::string& filePath = location->getTokenLocationLine()->getTokenLocationFile()->getFilePath();
