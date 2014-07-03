@@ -12,10 +12,52 @@ std::shared_ptr<ApplicationSettings> ApplicationSettings::getInstance()
 	return s_instance;
 }
 
-ApplicationSettings::ApplicationSettings()
+
+
+ApplicationSettings::~ApplicationSettings()
 {
 }
 
-ApplicationSettings::~ApplicationSettings()
+int ApplicationSettings::getCodeTabWidth() const
+{
+	return getValue<int>("code/TabWidth", 4);
+}
+
+void ApplicationSettings::setCodeTabWidth(int codeTabWidth)
+{
+	setValue<int>("code/TabWidth", codeTabWidth);
+}
+
+std::string ApplicationSettings::getCodeFontName() const
+{
+	return getValue<std::string>("code/FontName", "Courier");
+}
+
+void ApplicationSettings::setCodeFontName(const std::string& codeFontName)
+{
+	setValue<std::string>("code/FontName", codeFontName);
+}
+
+int ApplicationSettings::getCodeFontSize() const
+{
+	return getValue<int>("code/FontSize", 12);
+}
+
+void ApplicationSettings::setCodeFontSize(int codeFontSize)
+{
+	setValue<int>("code/FontSize", codeFontSize);
+}
+
+Colori ApplicationSettings::getCodeLinkColor() const
+{
+	return Colori::fromString(getValue<std::string>("code/LinkColor", Colori(255, 255, 0, 100).toString()));
+}
+
+void ApplicationSettings::setCodeLinkColor(Colori codeLinkColor)
+{
+	setValue<std::string>("code/LinkColor", codeLinkColor.toString());
+}
+
+ApplicationSettings::ApplicationSettings()
 {
 }

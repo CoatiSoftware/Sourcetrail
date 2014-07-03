@@ -25,7 +25,7 @@ add_files(
 
 	component/view/graphElements/GraphNode.cpp
 	component/view/graphElements/GraphNode.h
-	
+
 	component/view/CodeView.cpp
 	component/view/CodeView.h
 	component/view/GraphView.cpp
@@ -35,8 +35,8 @@ add_files(
 	component/view/View.cpp
 	component/view/View.h
 	component/view/ViewLayout.cpp
-	component/view/ViewLayout.h		
-	
+	component/view/ViewLayout.h
+
 	component/Component.cpp
 	component/Component.h
 	component/ComponentFactory.cpp
@@ -109,7 +109,7 @@ add_files(
 	utility/math/VectorBase.h
 
 	utility/messaging/type/MessageActivateToken.h
-	
+
 	utility/messaging/Message.h
 	utility/messaging/MessageBase.h
 	utility/messaging/MessageListener.h
@@ -138,4 +138,6 @@ add_files(
 	Project.h
 	ProjectSettings.cpp
 	ProjectSettings.h
+	Settings.cpp
+	Settings.h
 )

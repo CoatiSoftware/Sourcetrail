@@ -3,12 +3,27 @@
 
 #include <memory>
 
-class ApplicationSettings
+#include "utility/math/Color.h"
+
+#include "Settings.h"
+
+class ApplicationSettings: public Settings
 {
 public:
 	static std::shared_ptr<ApplicationSettings> getInstance();
-
 	~ApplicationSettings();
+
+	int getCodeTabWidth() const;
+	void setCodeTabWidth(int codeTabWidth);
+
+	std::string getCodeFontName() const;
+	void setCodeFontName(const std::string& codeFontName);
+
+	int getCodeFontSize() const;
+	void setCodeFontSize(int codeFontSize);
+
+	Colori getCodeLinkColor() const;
+	void setCodeLinkColor(Colori codeLinkColor);
 
 private:
 	ApplicationSettings();

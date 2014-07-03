@@ -4,7 +4,6 @@
 #include <vector>
 
 #include <QPlainTextEdit>
-#include <QObject>
 
 #include "utility/types.h"
 
@@ -12,6 +11,7 @@ class QPaintEvent;
 class QResizeEvent;
 class QSize;
 class QtCodeView;
+class QtHighlighter;
 class QWidget;
 class TokenLocationFile;
 
@@ -35,7 +35,13 @@ public:
 		QtCodeSnippet *m_codeSnippet;
 	};
 
-	QtCodeSnippet(QtCodeView* parentView, int startLineNumber, QWidget *parent = 0);
+	QtCodeSnippet(
+		QtCodeView* parentView,
+		const std::string& code,
+		const TokenLocationFile& locationFile,
+		int startLineNumber,
+		QWidget *parent = 0
+	);
 	virtual ~QtCodeSnippet();
 
 	void lineNumberAreaPaintEvent(QPaintEvent *event);
@@ -50,6 +56,7 @@ private slots:
 	void updateLineNumberAreaWidth(int newBlockCount);
 	void updateLineNumberArea(const QRect &, int);
 	void clickTokenLocation();
+	void clearSelection();
 
 private:
 	struct Annotation
@@ -61,10 +68,12 @@ private:
 
 	int toTextEditPosition(int lineNumber, int columnNumber) const;
 
-	QWidget *m_lineNumberArea;
 	QtCodeView* m_parentView;
+	QtHighlighter* m_highlighter;
 
+	QWidget *m_lineNumberArea;
 	const int m_startLineNumber;
+
 	std::vector<Annotation> m_annotations;
 };
 

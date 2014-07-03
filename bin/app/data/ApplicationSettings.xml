@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<code>
+		<TabWidth>4</TabWidth>
+		<FontName>Courier</FontName>
+		<FontSize>12</FontSize>
+		<LinkColor>255 255 0 100</LinkColor>
+	</code>
+</config>

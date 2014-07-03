@@ -6,7 +6,6 @@
 #include "data/location/TokenLocationFile.h"
 #include "qt/element/QtCodeSnippet.h"
 #include "qt/QtWidgetWrapper.h"
-#include "qt/utility/QtHighLighter.h"
 #include "qt/utility/utilityQt.h"
 #include "utility/messaging/type/MessageActivateToken.h"
 
@@ -35,10 +34,6 @@ void QtCodeView::initGui()
 	layout->setSpacing(3);
 	layout->setContentsMargins(3, 3, 3, 3);
 	widget->setLayout(layout);
-
-	m_font.setFamily("Courier");
-	m_font.setFixedPitch(true);
-	m_font.setPointSize(10);
 }
 
 void QtCodeView::addCodeSnippet(const std::string& str, const TokenLocationFile& locationFile, int startLineNumber)
@@ -59,18 +54,10 @@ void QtCodeView::activateToken(Id tokenId) const
 
 void QtCodeView::doAddCodeSnippet(const std::string& str, const TokenLocationFile& locationFile, int startLineNumber)
 {
-	std::shared_ptr<Snippet> snippet = std::make_shared<Snippet>();
-
-	snippet->textField = std::make_shared<QtCodeSnippet>(this, startLineNumber);
-	snippet->textField->setReadOnly(true);
-	snippet->textField->setFont(m_font);
-
-	snippet->highlighter = std::make_shared<QtHighlighter>(snippet->textField->document());
-	snippet->textField->setPlainText(QString::fromUtf8(str.c_str()));
-	snippet->textField->annotateText(locationFile);
+	std::shared_ptr<QtCodeSnippet> snippet = std::make_shared<QtCodeSnippet>(this, str, locationFile, startLineNumber);
 
 	QWidget* widget = QtWidgetWrapper::getWidgetOfView(this);
-	widget->layout()->addWidget(snippet->textField.get());
+	widget->layout()->addWidget(snippet.get());
 
 	m_snippets.push_back(snippet);
 }

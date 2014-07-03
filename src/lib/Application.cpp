@@ -1,5 +1,6 @@
 #include "Application.h"
 
+#include "ApplicationSettings.h"
 #include "component/view/MainView.h"
 #include "data/Storage.h"
 #include "gui/GuiFactory.h"
@@ -11,6 +12,8 @@ std::shared_ptr<Application> Application::create(GuiFactory* guiFactory)
 {
 	std::shared_ptr<ConsoleLogger> consoleLogger = std::make_shared<ConsoleLogger>(); // TODO: move to main
 	LogManager::getInstance()->addLogger(consoleLogger);
+
+	ApplicationSettings::getInstance()->load("data/ApplicationSettings.xml");
 
 	std::shared_ptr<Application> ptr(new Application());
 	ptr->m_storage = std::make_shared<Storage>();

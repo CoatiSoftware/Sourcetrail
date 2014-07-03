@@ -1,10 +1,13 @@
 #include "qt/element/QtCodeSnippet.h"
 
+#include <QFont>
 #include <QtWidgets>
 
+#include "ApplicationSettings.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
 #include "data/location/TokenLocationLine.h"
+#include "qt/utility/QtHighLighter.h"
 #include "qt/view/QtCodeView.h"
 
 QtCodeSnippet::LineNumberArea::LineNumberArea(QtCodeSnippet *codeSnippet)
@@ -28,16 +31,39 @@ void QtCodeSnippet::LineNumberArea::paintEvent(QPaintEvent *event)
 }
 
 
-QtCodeSnippet::QtCodeSnippet(QtCodeView* parentView, int startLineNumber, QWidget *parent)
+QtCodeSnippet::QtCodeSnippet(
+	QtCodeView* parentView,
+	const std::string& code,
+	const TokenLocationFile& locationFile,
+	int startLineNumber,
+	QWidget *parent
+)
 	: QPlainTextEdit(parent)
 	, m_parentView(parentView)
 	, m_startLineNumber(startLineNumber)
 {
 	m_lineNumberArea = new LineNumberArea(this);
 
+	setReadOnly(true);
+
+	QFont font;
+	font.setFamily(ApplicationSettings::getInstance()->getCodeFontName().c_str());
+	font.setFixedPitch(true);
+	font.setPointSize(ApplicationSettings::getInstance()->getCodeFontSize());
+	setFont(font);
+
+	int tabWidth = ApplicationSettings::getInstance()->getCodeTabWidth();
+	QFontMetrics metrics(font);
+	setTabStopWidth(tabWidth * metrics.width(' '));
+
+	m_highlighter = new QtHighlighter(document());
+	setPlainText(QString::fromUtf8(code.c_str()));
+	annotateText(locationFile);
+
 	connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
 	connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
 	connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(clickTokenLocation()));
+	connect(this, SIGNAL(selectionChanged()), this, SLOT(clearSelection()));
 
 	updateLineNumberAreaWidth(0);
 }
@@ -111,9 +137,8 @@ void QtCodeSnippet::annotateText(const TokenLocationFile& locationFile)
 
 			QTextEdit::ExtraSelection selection;
 
-			QColor color = QColor(Qt::red);
-			color.setAlphaF(0.3f);
-			selection.format.setBackground(color);
+			Colori color = ApplicationSettings::getInstance()->getCodeLinkColor();
+			selection.format.setBackground(QColor(color.r, color.g, color.b, color.a));
 
 			selection.cursor = textCursor();
 			selection.cursor.clearSelection();
@@ -168,6 +193,13 @@ void QtCodeSnippet::clickTokenLocation()
 			return;
 		}
 	}
+}
+
+void QtCodeSnippet::clearSelection()
+{
+	QTextCursor cursor = textCursor();
+	cursor.clearSelection();
+	setTextCursor(cursor);
 }
 
 int QtCodeSnippet::toTextEditPosition(int lineNumber, int columnNumber) const
