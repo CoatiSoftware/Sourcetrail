@@ -4,6 +4,8 @@
 #include "component/view/GraphView.h"
 #include "component/view/ViewLayout.h"
 
+#include "data/location/TokenLocationFile.h"
+
 std::shared_ptr<ComponentManager> ComponentManager::create(
 	GuiFactory* guiFactory,
 	ViewLayout* viewLayout,
@@ -33,8 +35,36 @@ void ComponentManager::setup()
 	m_components.push_back(codeComponent);
 
 	CodeView* codeView = codeComponent->getView<CodeView>();
-	codeView->addCodeSnippet("class HelloWorld;");
-	codeView->addCodeSnippet("static int n = 42; // the answer.");
+
+	std::string code =
+		"class HelloWorld;\n"
+		"static int n = 42; // the answer.\n"
+		"\n"
+		"int sum(int a, int b)\n"
+		"{\n"
+		"	return a + b;\n"
+		"}\n";
+
+	TokenLocationFile locationFile("test.cpp");
+	locationFile.addTokenLocation(1, 1, 7, 1, 16);
+	locationFile.addTokenLocation(2, 2, 8, 2, 10);
+	locationFile.addTokenLocation(3, 2, 12, 2, 12);
+	locationFile.addTokenLocation(4, 4, 1, 7, 1);
+
+	codeView->addCodeSnippet(code, locationFile, 1);
+
+	std::string code2 =
+		"const char* name = new char[10];\n"
+		"\n"
+		"name = \"MetaVizz\\0\";";
+
+	TokenLocationFile locationFile2("test.cpp");
+	locationFile2.addTokenLocation(5, 123, 1, 123, 11);
+	locationFile2.addTokenLocation(6, 123, 13, 123, 16);
+	locationFile2.addTokenLocation(7, 125, 1, 125, 4);
+
+	codeView->addCodeSnippet(code2, locationFile2, 123);
+
 	// codeView->clearCodeSnippets();
 }
 

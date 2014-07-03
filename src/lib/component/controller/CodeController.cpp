@@ -24,7 +24,7 @@ void CodeController::setActiveTokenLocationId(Id id)
 	{
 		getView()->clearCodeSnippets();
 		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(tokenLocation->getFilePath());
-		getView()->addCodeSnippet(textAccess->getText());
+		// getView()->addCodeSnippet(textAccess->getText());
 	}
 }
 

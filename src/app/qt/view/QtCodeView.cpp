@@ -1,7 +1,10 @@
 #include "qt/view/QtCodeView.h"
 
+#include <iostream>
 #include <QtWidgets>
 
+#include "data/location/TokenLocationFile.h"
+#include "qt/element/QtCodeSnippet.h"
 #include "qt/QtWidgetWrapper.h"
 #include "qt/utility/QtHighLighter.h"
 #include "qt/utility/utilityQt.h"
@@ -9,7 +12,7 @@
 QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
 	, m_clearCodeSnippetsFunctor(std::bind(&QtCodeView::doClearCodeSnippets, this))
-	, m_addCodeSnippetFunctor(std::bind(&QtCodeView::doAddCodeSnippet, this, std::placeholders::_1))
+	, m_addCodeSnippetFunctor(std::bind(&QtCodeView::doAddCodeSnippet, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
 {
 }
 
@@ -37,9 +40,9 @@ void QtCodeView::initGui()
 	m_font.setPointSize(10);
 }
 
-void QtCodeView::addCodeSnippet(std::string str)
+void QtCodeView::addCodeSnippet(const std::string& str, const TokenLocationFile& locationFile, int startLineNumber)
 {
-	m_addCodeSnippetFunctor(str);
+	m_addCodeSnippetFunctor(str, locationFile, startLineNumber);
 }
 
 void QtCodeView::clearCodeSnippets()
@@ -47,17 +50,22 @@ void QtCodeView::clearCodeSnippets()
 	m_clearCodeSnippetsFunctor();
 }
 
-void QtCodeView::doAddCodeSnippet(std::string str)
+void QtCodeView::activateToken(Id tokenId) const
+{
+	std::cout << "TODO: activate Token: " << tokenId << std::endl;
+}
+
+void QtCodeView::doAddCodeSnippet(const std::string& str, const TokenLocationFile& locationFile, int startLineNumber)
 {
 	std::shared_ptr<Snippet> snippet = std::make_shared<Snippet>();
 
-	snippet->textField = std::make_shared<QTextEdit>();
+	snippet->textField = std::make_shared<QtCodeSnippet>(this, startLineNumber);
 	snippet->textField->setReadOnly(true);
 	snippet->textField->setFont(m_font);
 
 	snippet->highlighter = std::make_shared<QtHighlighter>(snippet->textField->document());
-
 	snippet->textField->setPlainText(QString::fromUtf8(str.c_str()));
+	snippet->textField->annotateText(locationFile);
 
 	QWidget* widget = QtWidgetWrapper::getWidgetOfView(this);
 	widget->layout()->addWidget(snippet->textField.get());

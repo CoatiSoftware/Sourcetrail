@@ -8,7 +8,9 @@
 
 #include "component/view/CodeView.h"
 #include "qt/utility/QtThreadedFunctor.h"
+#include "utility/types.h"
 
+class QtCodeSnippet;
 class QtHighlighter;
 class QTextEdit;
 
@@ -23,24 +25,26 @@ public:
 	virtual void initGui();
 
 	// CodeView implementation
-	virtual void addCodeSnippet(std::string str);
+	virtual void addCodeSnippet(const std::string& str, const TokenLocationFile& locationFile, int startLineNumber);
 	virtual void clearCodeSnippets();
+
+	void activateToken(Id tokenId) const;
 
 private:
 	struct Snippet
 	{
-		std::shared_ptr<QTextEdit> textField;
+		std::shared_ptr<QtCodeSnippet> textField;
 		std::shared_ptr<QtHighlighter> highlighter;
 	};
 	std::vector<std::shared_ptr<Snippet>> m_snippets;
 
-	void doAddCodeSnippet(std::string str);
+	void doAddCodeSnippet(const std::string& str, const TokenLocationFile& locationFile, int startLineNumber);
 	void doClearCodeSnippets();
 
 	QFont m_font;
 
 	QtThreadedFunctor<void> m_clearCodeSnippetsFunctor;
-	QtThreadedFunctor<std::string> m_addCodeSnippetFunctor;
+	QtThreadedFunctor<const std::string&, const TokenLocationFile&, int> m_addCodeSnippetFunctor;
 };
 
 # endif // QT_CODE_VIEW_H

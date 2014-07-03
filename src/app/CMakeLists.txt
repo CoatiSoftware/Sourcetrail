@@ -1,6 +1,8 @@
 add_files(
 	APP_FILES
 
+	qt/element/QtCodeSnippet.cpp
+	qt/element/QtCodeSnippet.h
 	qt/element/QtMainWindow.cpp
 	qt/element/QtMainWindow.h
 
@@ -12,7 +14,7 @@ add_files(
 
 	qt/view/graphElements/QtGraphNode.cpp
 	qt/view/graphElements/QtGraphNode.h
-	
+
 	qt/view/QtCodeView.cpp
 	qt/view/QtCodeView.h
 	qt/view/QtGraphView.cpp

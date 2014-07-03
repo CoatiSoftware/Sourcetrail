@@ -4,6 +4,7 @@
 #include "component/view/View.h"
 
 class CodeController;
+class TokenLocationFile;
 
 class CodeView: public View
 {
@@ -13,7 +14,7 @@ public:
 
 	virtual std::string getName() const;
 
-	virtual void addCodeSnippet(std::string str) = 0;
+	virtual void addCodeSnippet(const std::string& str, const TokenLocationFile& locationFile, int startLineNumber) = 0;
 	virtual void clearCodeSnippets() = 0;
 
 private:
