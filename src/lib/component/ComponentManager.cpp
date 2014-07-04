@@ -28,11 +28,13 @@ void ComponentManager::setup()
 	GraphView* graphView = graphComponent->getView<GraphView>();
 	graphView->addNode(Vec2i(-100, -100), "foo");
 	graphView->addNode(Vec2i(50, 50), "bar");
-
 	m_components.push_back(graphComponent);
 
 	std::shared_ptr<Component> codeComponent = m_componentFactory->createCodeComponent();
 	m_components.push_back(codeComponent);
+
+	std::shared_ptr<Component> searchComponent = m_componentFactory->createSearchComponent();
+	m_components.push_back(searchComponent);
 }
 
 ComponentManager::ComponentManager()

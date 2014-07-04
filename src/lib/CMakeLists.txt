@@ -22,6 +22,8 @@ add_files(
 	component/controller/Controller.h
 	component/controller/GraphController.cpp
 	component/controller/GraphController.h
+	component/controller/SearchController.cpp
+	component/controller/SearchController.h
 
 	component/view/graphElements/GraphNode.cpp
 	component/view/graphElements/GraphNode.h
@@ -32,6 +34,8 @@ add_files(
 	component/view/GraphView.h
 	component/view/MainView.cpp
 	component/view/MainView.h
+	component/view/SearchView.cpp
+	component/view/SearchView.h
 	component/view/View.cpp
 	component/view/View.h
 	component/view/ViewLayout.cpp

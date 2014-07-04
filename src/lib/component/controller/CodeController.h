@@ -17,7 +17,9 @@ struct AnnotatedText
 	Id tokenId;
 };
 
-class CodeController: public Controller, public MessageListener<MessageActivateToken>
+class CodeController
+	: public Controller
+	, public MessageListener<MessageActivateToken>
 {
 public:
 	CodeController(std::shared_ptr<LocationAccess> locationAccess);

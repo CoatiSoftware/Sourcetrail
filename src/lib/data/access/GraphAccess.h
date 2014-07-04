@@ -1,6 +1,8 @@
 #ifndef GRAPH_ACCESS_H
 #define GRAPH_ACCESS_H
 
+#include <string>
+
 #include "utility/types.h"
 
 class Token;
@@ -10,7 +12,8 @@ class GraphAccess
 public:
 	virtual ~GraphAccess();
 
-	virtual Token* getToken(Id tokenId) const = 0;
+	virtual Id getIdForNodeWithName(const std::string& name) const = 0;
+	virtual std::string getNameForNodeWithId(Id id) const = 0;
 };
 
 

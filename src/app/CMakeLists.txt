@@ -3,8 +3,12 @@ add_files(
 
 	qt/element/QtCodeFile.cpp
 	qt/element/QtCodeFile.h
+	qt/element/QtButton.cpp
+	qt/element/QtButton.h
 	qt/element/QtCodeSnippet.cpp
 	qt/element/QtCodeSnippet.h
+	qt/element/QtEditBox.cpp
+	qt/element/QtEditBox.h
 	qt/element/QtMainWindow.cpp
 	qt/element/QtMainWindow.h
 
@@ -23,6 +27,8 @@ add_files(
 	qt/view/QtGraphView.h
 	qt/view/QtMainView.cpp
 	qt/view/QtMainView.h
+	qt/view/QtSearchView.cpp
+	qt/view/QtSearchView.h
 
 	qt/QtGuiFactory.cpp
 	qt/QtGuiFactory.h

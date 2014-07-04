@@ -175,9 +175,20 @@ void Storage::logLocations() const
 	LOG_INFO(str.str());
 }
 
-Token* Storage::getToken(Id tokenId) const
+
+Id Storage::getIdForNodeWithName(const std::string& name) const
 {
-	return m_graph.getTokenById(tokenId); // Todo: copy information.
+	Node* node = m_graph.findNode([&](Node* node){
+		return node->getName() == name;
+	});
+
+	return (node ? node->getId() : 0);
+}
+
+std::string Storage::getNameForNodeWithId(Id id) const
+{
+	Node* node = m_graph.getNodeById(id);
+	return (node ? node->getName() : "");
 }
 
 TokenLocationCollection Storage::getTokenLocationsForTokenId(Id id) const

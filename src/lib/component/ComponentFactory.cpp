@@ -3,8 +3,10 @@
 #include "component/Component.h"
 #include "component/controller/CodeController.h"
 #include "component/controller/GraphController.h"
+#include "component/controller/SearchController.h"
 #include "component/view/CodeView.h"
 #include "component/view/GraphView.h"
+#include "component/view/SearchView.h"
 #include "component/view/ViewLayout.h"
 #include "gui/GuiFactory.h"
 
@@ -39,6 +41,15 @@ std::shared_ptr<Component> ComponentFactory::createGraphComponent()
 {
 	std::shared_ptr<View> view = m_guiFactory->createGraphView(m_viewLayout);
 	std::shared_ptr<GraphController> controller = std::make_shared<GraphController>(m_graphAccess);
+
+	std::shared_ptr<Component> component = std::make_shared<Component>(view, controller);
+	return component;
+}
+
+std::shared_ptr<Component> ComponentFactory::createSearchComponent()
+{
+	std::shared_ptr<SearchView> view = m_guiFactory->createSearchView(m_viewLayout);
+	std::shared_ptr<SearchController> controller = std::make_shared<SearchController>(m_graphAccess);
 
 	std::shared_ptr<Component> component = std::make_shared<Component>(view, controller);
 	return component;

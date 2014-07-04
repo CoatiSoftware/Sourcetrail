@@ -45,8 +45,11 @@ public:
 	void logGraph() const;
 	void logLocations() const;
 
-	virtual Token* getToken(Id tokenId) const;
+	// GraphAccess implementation
+	virtual Id getIdForNodeWithName(const std::string& name) const;
+	virtual std::string getNameForNodeWithId(Id id) const;
 
+	// LocationAccess implementation
 	virtual TokenLocationCollection getTokenLocationsForTokenId(Id locationId) const;
 	virtual TokenLocationFile getTokenLocationsForLinesInFile(
 		const std::string& fileName, unsigned int firstLineNumber, unsigned int lastLineNumber

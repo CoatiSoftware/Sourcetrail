@@ -23,6 +23,7 @@ public:
 
 	std::shared_ptr<Component> createCodeComponent();
 	std::shared_ptr<Component> createGraphComponent();
+	std::shared_ptr<Component> createSearchComponent();
 
 private:
 	ComponentFactory();
