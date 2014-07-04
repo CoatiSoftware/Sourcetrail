@@ -44,7 +44,7 @@ private:
 	TokenLocationLine* createTokenLocationLine(unsigned int lineNumber);
 
 	std::map<unsigned int, std::shared_ptr<TokenLocationLine> > m_lines;
-	const std::string m_filePath;
+	std::string m_filePath;
 };
 
 std::ostream& operator<<(std::ostream& ostream, const TokenLocationFile& file);

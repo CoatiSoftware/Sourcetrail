@@ -36,21 +36,26 @@ QtCodeSnippet::QtCodeSnippet(
 	const std::string& code,
 	const TokenLocationFile& locationFile,
 	int startLineNumber,
+	Id activeTokenId,
 	QWidget *parent
 )
 	: QPlainTextEdit(parent)
 	, m_parentView(parentView)
 	, m_startLineNumber(startLineNumber)
+	, m_activeTokenId(activeTokenId)
 {
 	m_lineNumberArea = new LineNumberArea(this);
 
 	setReadOnly(true);
 	setFrameStyle(QFrame::NoFrame);
+	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
+	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	setLineWrapMode(QPlainTextEdit::NoWrap);
 
 	QFont font;
 	font.setFamily(ApplicationSettings::getInstance()->getCodeFontName().c_str());
-	font.setFixedPitch(true);
 	font.setPointSize(ApplicationSettings::getInstance()->getCodeFontSize());
+	font.setFixedPitch(true);
 	setFont(font);
 
 	int tabWidth = ApplicationSettings::getInstance()->getCodeTabWidth();
@@ -58,7 +63,14 @@ QtCodeSnippet::QtCodeSnippet(
 	setTabStopWidth(tabWidth * metrics.width(' '));
 
 	m_highlighter = new QtHighlighter(document());
-	setPlainText(QString::fromUtf8(code.c_str()));
+
+	std::string displayCode = code;
+	if (*code.rbegin() == '\n')
+	{
+		displayCode.pop_back();
+	}
+
+	setPlainText(QString::fromUtf8(displayCode.c_str()));
 	annotateText(locationFile);
 
 	connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
@@ -66,11 +78,20 @@ QtCodeSnippet::QtCodeSnippet(
 	connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(clickTokenLocation()));
 	connect(this, SIGNAL(selectionChanged()), this, SLOT(clearSelection()));
 
+	setMaximumHeight(sizeHint().height());
+
 	updateLineNumberAreaWidth(0);
 }
 
 QtCodeSnippet::~QtCodeSnippet()
 {
+}
+
+QSize QtCodeSnippet::sizeHint() const
+{
+	int width = lineNumberAreaWidth() + document()->size().width();
+	int height = (document()->size().height() + 1) * QFontMetrics(font()).lineSpacing();
+	return QSize(width, height);
 }
 
 void QtCodeSnippet::lineNumberAreaPaintEvent(QPaintEvent *event)
@@ -99,7 +120,7 @@ void QtCodeSnippet::lineNumberAreaPaintEvent(QPaintEvent *event)
 	}
 }
 
-int QtCodeSnippet::lineNumberAreaWidth()
+int QtCodeSnippet::lineNumberAreaWidth() const
 {
 	int digits = 1;
 	int max = qMax(1, m_startLineNumber + blockCount());
@@ -138,7 +159,16 @@ void QtCodeSnippet::annotateText(const TokenLocationFile& locationFile)
 
 			QTextEdit::ExtraSelection selection;
 
-			Colori color = ApplicationSettings::getInstance()->getCodeLinkColor();
+			Colori color;
+			if (location->getTokenId() == m_activeTokenId)
+			{
+				color = ApplicationSettings::getInstance()->getCodeActiveLinkColor();
+			}
+			else
+			{
+				color = ApplicationSettings::getInstance()->getCodeLinkColor();
+			}
+
 			selection.format.setBackground(QColor(color.r, color.g, color.b, color.a));
 
 			selection.cursor = textCursor();

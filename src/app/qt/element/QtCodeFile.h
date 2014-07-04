@@ -7,6 +7,8 @@
 
 #include <QWidget>
 
+#include "utility/types.h"
+
 class QtCodeSnippet;
 class QtCodeView;
 class TokenLocationFile;
@@ -19,7 +21,9 @@ public:
 
 	const std::string& getFileName() const;
 
-	void addCodeSnippet(const std::string& str, const TokenLocationFile& locationFile, int startLineNumber);
+	void addCodeSnippet(
+		const std::string& str, const TokenLocationFile& locationFile, int startLineNumber, Id activeTokenId
+	);
 
 private:
 	QtCodeView* m_parentView;

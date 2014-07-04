@@ -2,6 +2,11 @@
 
 #include "component/controller/CodeController.h"
 
+CodeView::CodeSnippetParams::CodeSnippetParams()
+	: locationFile("")
+{
+}
+
 CodeView::CodeView(ViewLayout* viewLayout)
 	: View(viewLayout, Vec2i(100, 100))
 {

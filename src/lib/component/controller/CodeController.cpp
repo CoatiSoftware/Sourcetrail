@@ -29,6 +29,7 @@ void CodeController::setActiveTokenId(Id id)
 	collection.forEachTokenLocation([&] (TokenLocation* tokenLocation) -> void {
 		if (tokenLocation->isStartTokenLocation())
 		{
+			CodeView::CodeSnippetParams params;
 			const std::string filePath = tokenLocation->getFilePath();
 			std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
 
@@ -37,14 +38,17 @@ void CodeController::setActiveTokenId(Id id)
 				textAccess->getLineCount(), tokenLocation->getEndTokenLocation()->getLineNumber() + lineRadius
 			);
 
-			std::string text;
 			for (std::string line: textAccess->getLines(firstLineNumber, lastLineNumber))
 			{
-				text += line;
+				params.code += line;
 			}
 
-			TokenLocationFile tokenLocationFile = m_locationAccess->getTokenLocationsForLinesInFile(filePath, firstLineNumber, lastLineNumber);
-			getView()->addCodeSnippet(text, tokenLocationFile, firstLineNumber);
+			params.startLineNumber = firstLineNumber;
+			params.locationFile =
+				m_locationAccess->getTokenLocationsForLinesInFile(filePath, firstLineNumber, lastLineNumber);
+			params.activeTokenId = id;
+
+			getView()->addCodeSnippet(params);
 		}
 	});
 }

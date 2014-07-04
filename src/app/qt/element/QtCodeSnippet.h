@@ -40,12 +40,15 @@ public:
 		const std::string& code,
 		const TokenLocationFile& locationFile,
 		int startLineNumber,
+		Id activeTokenId,
 		QWidget *parent = 0
 	);
 	virtual ~QtCodeSnippet();
 
+	QSize sizeHint() const;
+
 	void lineNumberAreaPaintEvent(QPaintEvent *event);
-	int lineNumberAreaWidth();
+	int lineNumberAreaWidth() const;
 
 	void annotateText(const TokenLocationFile& locationFile);
 
@@ -73,6 +76,7 @@ private:
 
 	QWidget *m_lineNumberArea;
 	const int m_startLineNumber;
+	const Id m_activeTokenId;
 
 	std::vector<Annotation> m_annotations;
 };

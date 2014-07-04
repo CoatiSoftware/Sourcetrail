@@ -2,19 +2,30 @@
 #define CODE_VIEW_H
 
 #include "component/view/View.h"
+#include "data/location/TokenLocationFile.h"
+#include "utility/types.h"
 
 class CodeController;
-class TokenLocationFile;
 
 class CodeView: public View
 {
 public:
+	struct CodeSnippetParams
+	{
+		CodeSnippetParams();
+
+		std::string code;
+		TokenLocationFile locationFile;
+		int startLineNumber;
+		Id activeTokenId;
+	};
+
 	CodeView(ViewLayout* viewLayout);
 	virtual ~CodeView();
 
 	virtual std::string getName() const;
 
-	virtual void addCodeSnippet(const std::string& str, const TokenLocationFile& locationFile, int startLineNumber) = 0;
+	virtual void addCodeSnippet(const CodeSnippetParams params) = 0;
 	virtual void clearCodeSnippets() = 0;
 
 private:

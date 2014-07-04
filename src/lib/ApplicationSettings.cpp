@@ -58,6 +58,16 @@ void ApplicationSettings::setCodeLinkColor(Colori codeLinkColor)
 	setValue<std::string>("code/LinkColor", codeLinkColor.toString());
 }
 
+Colori ApplicationSettings::getCodeActiveLinkColor() const
+{
+	return Colori::fromString(getValue<std::string>("code/ActiveLinkColor", Colori(0, 255, 0, 100).toString()));
+}
+
+void ApplicationSettings::setCodeActiveLinkColor(Colori codeLinkColor)
+{
+	setValue<std::string>("code/ActiveLinkColor", codeLinkColor.toString());
+}
+
 ApplicationSettings::ApplicationSettings()
 {
 }

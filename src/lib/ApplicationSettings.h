@@ -25,6 +25,9 @@ public:
 	Colori getCodeLinkColor() const;
 	void setCodeLinkColor(Colori codeLinkColor);
 
+	Colori getCodeActiveLinkColor() const;
+	void setCodeActiveLinkColor(Colori codeLinkColor);
+
 private:
 	ApplicationSettings();
 	ApplicationSettings(const ApplicationSettings&);

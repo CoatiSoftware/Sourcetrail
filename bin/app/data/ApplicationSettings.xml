@@ -5,5 +5,6 @@
 		<FontName>Courier</FontName>
 		<FontSize>12</FontSize>
 		<LinkColor>255 255 0 100</LinkColor>
+		<ActiveLinkColor>0 255 0 100</ActiveLinkColor>
 	</code>
 </config>
