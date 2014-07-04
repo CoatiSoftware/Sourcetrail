@@ -8,7 +8,7 @@
 #include "qt/utility/QtThreadedFunctor.h"
 #include "utility/types.h"
 
-class QtCodeSnippet;
+class QtCodeFile;
 
 class QtCodeView: public CodeView
 {
@@ -30,7 +30,7 @@ private:
 	void doAddCodeSnippet(const std::string& str, const TokenLocationFile& locationFile, int startLineNumber);
 	void doClearCodeSnippets();
 
-	std::vector<std::shared_ptr<QtCodeSnippet> > m_snippets;
+	std::vector<std::shared_ptr<QtCodeFile> > m_files;
 
 	QtThreadedFunctor<void> m_clearCodeSnippetsFunctor;
 	QtThreadedFunctor<const std::string&, const TokenLocationFile&, int> m_addCodeSnippetFunctor;

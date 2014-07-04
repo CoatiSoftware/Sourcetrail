@@ -1,6 +1,8 @@
 add_files(
 	APP_FILES
 
+	qt/element/QtCodeFile.cpp
+	qt/element/QtCodeFile.h
 	qt/element/QtCodeSnippet.cpp
 	qt/element/QtCodeSnippet.h
 	qt/element/QtMainWindow.cpp

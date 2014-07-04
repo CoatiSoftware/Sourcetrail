@@ -45,6 +45,7 @@ QtCodeSnippet::QtCodeSnippet(
 	m_lineNumberArea = new LineNumberArea(this);
 
 	setReadOnly(true);
+	setFrameStyle(QFrame::NoFrame);
 
 	QFont font;
 	font.setFamily(ApplicationSettings::getInstance()->getCodeFontName().c_str());
@@ -88,7 +89,7 @@ void QtCodeSnippet::lineNumberAreaPaintEvent(QPaintEvent *event)
 		{
 			QString number = QString::number(blockNumber + m_startLineNumber);
 			painter.setPen(Qt::black);
-			painter.drawText(0, top, m_lineNumberArea->width() - 1, fontMetrics().height(), Qt::AlignRight, number);
+			painter.drawText(0, top, m_lineNumberArea->width() - 3, fontMetrics().height(), Qt::AlignRight, number);
 		}
 
 		block = block.next();
@@ -109,7 +110,7 @@ int QtCodeSnippet::lineNumberAreaWidth()
 		digits++;
 	}
 
-	int width = 2 + fontMetrics().width(QLatin1Char('9')) * digits;
+	int width = fontMetrics().width(QLatin1Char('9')) * digits + 6;
 	return width;
 }
 

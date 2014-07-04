@@ -4,9 +4,10 @@
 #include <QtWidgets>
 
 #include "data/location/TokenLocationFile.h"
-#include "qt/element/QtCodeSnippet.h"
+#include "qt/element/QtCodeFile.h"
 #include "qt/QtWidgetWrapper.h"
 #include "qt/utility/utilityQt.h"
+#include "utility/FileSystem.h"
 #include "utility/messaging/type/MessageActivateToken.h"
 
 QtCodeView::QtCodeView(ViewLayout* viewLayout)
@@ -54,15 +55,32 @@ void QtCodeView::activateToken(Id tokenId) const
 
 void QtCodeView::doAddCodeSnippet(const std::string& str, const TokenLocationFile& locationFile, int startLineNumber)
 {
-	std::shared_ptr<QtCodeSnippet> snippet = std::make_shared<QtCodeSnippet>(this, str, locationFile, startLineNumber);
+	std::string fileName = FileSystem::fileName(locationFile.getFilePath());
+	QtCodeFile* file = nullptr;
 
-	QWidget* widget = QtWidgetWrapper::getWidgetOfView(this);
-	widget->layout()->addWidget(snippet.get());
+	for (std::shared_ptr<QtCodeFile> filePtr : m_files)
+	{
+		if (filePtr->getFileName() == fileName)
+		{
+			file = filePtr.get();
+			break;
+		}
+	}
 
-	m_snippets.push_back(snippet);
+	if (!file)
+	{
+		QWidget* widget = QtWidgetWrapper::getWidgetOfView(this);
+		std::shared_ptr<QtCodeFile> filePtr = std::make_shared<QtCodeFile>(this, fileName, widget);
+
+		m_files.push_back(filePtr);
+		file = filePtr.get();
+		widget->layout()->addWidget(file);
+	}
+
+	file->addCodeSnippet(str, locationFile, startLineNumber);
 }
 
 void QtCodeView::doClearCodeSnippets()
 {
-	m_snippets.clear();
+	m_files.clear();
 }

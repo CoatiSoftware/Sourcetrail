@@ -60,6 +60,12 @@ public:
 		TS_ASSERT(!FileSystem::exists("data/FileSystemTestSuite/blabla.h"));
 	}
 
+	void test_filesystem_extracts_filename()
+	{
+		TS_ASSERT_EQUALS(FileSystem::fileName("data/FileSystemTestSuite/tictactoe.h"), "tictactoe.h");
+		TS_ASSERT_EQUALS(FileSystem::fileName("data/FileSystemTestSuite/Settings/player.h"), "player.h");
+	}
+
 private:
 	bool isInVector(const std::vector<std::string>& files, const std::string filename)
 	{
