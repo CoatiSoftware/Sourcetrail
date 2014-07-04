@@ -5,7 +5,7 @@
 
 QtMainView::QtMainView()
 {
-	m_window = new QtMainWindow();
+	m_window = std::make_shared<QtMainWindow>();
 	m_window->show();
 }
 

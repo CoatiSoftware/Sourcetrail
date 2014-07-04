@@ -18,6 +18,8 @@ add_files(
 	qt/utility/utilityQt.cpp
 	qt/utility/utilityQt.h
 
+	qt/view/graphElements/QtGraphEdge.cpp
+	qt/view/graphElements/QtGraphEdge.h
 	qt/view/graphElements/QtGraphNode.cpp
 	qt/view/graphElements/QtGraphNode.h
 

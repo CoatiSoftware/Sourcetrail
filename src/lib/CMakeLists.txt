@@ -25,6 +25,8 @@ add_files(
 	component/controller/SearchController.cpp
 	component/controller/SearchController.h
 
+	component/view/graphElements/GraphEdge.cpp
+	component/view/graphElements/GraphEdge.h
 	component/view/graphElements/GraphNode.cpp
 	component/view/graphElements/GraphNode.h
 

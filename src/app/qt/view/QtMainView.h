@@ -20,7 +20,7 @@ public:
 	void removeView(View* view);
 
 private:
-	QtMainWindow* m_window;
+	std::shared_ptr<QtMainWindow> m_window;
 	std::vector<View*> m_views;
 };
 
