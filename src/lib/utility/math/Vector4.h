@@ -13,6 +13,7 @@ public:
 	Vector4();
 	Vector4(const T& x, const T& y, const T& z, const T& w);
 	Vector4(const VectorBase<T, 4>& vector);
+	Vector4(const Vector4<T>& vector);
 	virtual ~Vector4();
 
 	T getValue(const unsigned int index) const;
@@ -68,6 +69,16 @@ Vector4<T>::Vector4(const T& x, const T& y, const T& z, const T& w)
 
 template<class T>
 Vector4<T>::Vector4(const VectorBase<T, 4>& vector)
+	: VectorBase<T, 4>(vector)
+	, x(&VectorBase<T, 4>::m_values[m_xIndex])
+	, y(&VectorBase<T, 4>::m_values[m_yIndex])
+	, z(&VectorBase<T, 4>::m_values[m_zIndex])
+	, w(&VectorBase<T, 4>::m_values[m_wIndex])
+{
+}
+
+template<class T>
+Vector4<T>::Vector4(const Vector4<T>& vector)
 	: VectorBase<T, 4>(vector)
 	, x(&VectorBase<T, 4>::m_values[m_xIndex])
 	, y(&VectorBase<T, 4>::m_values[m_yIndex])

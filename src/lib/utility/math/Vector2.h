@@ -13,12 +13,13 @@ public:
 	Vector2();
 	Vector2(const T& x, const T& y);
 	Vector2(const VectorBase<T, 2>& vector);
+	Vector2(const Vector2<T>& vector);
 	virtual ~Vector2();
 
 	T getValue(const unsigned int index) const;
 	void setValue(const unsigned int index, const T& value);
 
-	T& operator[](const unsigned int index);
+	T operator[](const unsigned int index);
 
 	Property<T> x;
 	Property<T> y;
@@ -63,6 +64,14 @@ Vector2<T>::Vector2(const VectorBase<T, 2>& vector)
 }
 
 template<class T>
+Vector2<T>::Vector2(const Vector2<T>& vector)
+	: VectorBase<T, 2>(vector)
+	, x(&VectorBase<T, 2>::m_values[m_xIndex])
+	, y(&VectorBase<T, 2>::m_values[m_yIndex])
+{
+}
+
+template<class T>
 Vector2<T>::~Vector2()
 {
 }
@@ -95,7 +104,7 @@ void Vector2<T>::setValue(const unsigned int index, const T& value)
 }
 
 template<class T>
-T& Vector2<T>::operator[](const unsigned int index)
+T Vector2<T>::operator[](const unsigned int index)
 {
 	try
 	{

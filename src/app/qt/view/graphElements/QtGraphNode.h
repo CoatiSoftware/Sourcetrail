@@ -3,6 +3,7 @@
 
 #include "qgraphicsitem.h"
 
+#include "utility/messaging/type/MessageActivateToken.h"
 #include "utility/math/Vector2.h"
 
 #include "component/view/graphElements/GraphNode.h"
@@ -14,9 +15,10 @@ class QtGraphNode:
 	public QGraphicsRectItem
 {
 public:
-	QtGraphNode(const Vec2i& position, const std::string& name);
+	QtGraphNode(const Vec2i& position, const std::string& name, const Id tokenId);
 	virtual ~QtGraphNode();
 
+	virtual std::string getName();
 	virtual Vec2i getPosition();
 
 	virtual void addOutEdge(const std::shared_ptr<GraphEdge>& edge);

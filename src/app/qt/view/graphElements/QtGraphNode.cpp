@@ -5,7 +5,8 @@
 
 #include "qt/view/graphElements/QtGraphEdge.h"
 
-QtGraphNode::QtGraphNode(const Vec2i& position, const std::string& name)
+QtGraphNode::QtGraphNode(const Vec2i& position, const std::string& name, const Id tokenId)
+	: GraphNode(tokenId)
 {
 	this->setRect(0, 0, 100, 100);
 	this->setPos(position.x, position.y);
@@ -19,6 +20,11 @@ QtGraphNode::QtGraphNode(const Vec2i& position, const std::string& name)
 
 QtGraphNode::~QtGraphNode()
 {
+}
+
+std::string QtGraphNode::getName()
+{
+	return m_text->toPlainText().toStdString();
 }
 
 Vec2i QtGraphNode::getPosition()
@@ -53,6 +59,9 @@ void QtGraphNode::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 	m_mouseOffset.x = event->pos().x();
 	m_mouseOffset.y = event->pos().y();
+
+	MessageActivateToken message(m_tokenId);
+	message.dispatch();
 }
 
 void QtGraphNode::mouseMoveEvent(QGraphicsSceneMouseEvent *event)

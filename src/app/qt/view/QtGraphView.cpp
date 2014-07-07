@@ -15,6 +15,8 @@
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)
+	, m_rebuildGraph(std::bind(&QtGraphView::doRebuildGraph, this, std::placeholders::_1, std::placeholders::_2))
+	, m_clear(std::bind(&QtGraphView::doClear, this))
 {
 }
 
@@ -45,56 +47,14 @@ void QtGraphView::initGui()
 	widget->layout()->addWidget(view);
 }
 
-std::weak_ptr<GraphNode> QtGraphView::addNode(const Vec2i& position, const std::string& name)
+void QtGraphView::rebuildGraph(const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges)
 {
-	QGraphicsView* view = getView();
-
-	if (view != NULL)
-	{
-		std::shared_ptr<QtGraphNode> node = std::make_shared<QtGraphNode>(position, name);
-		view->scene()->addItem(node.get());
-		node->setFlag(QGraphicsItem::ItemIsMovable);
-
-		m_nodes.push_back(node);
-
-		return node;
-	}
-	else
-	{
-		LOG_WARNING("Unable to retrieve view from widget");
-
-		return std::weak_ptr<QtGraphNode>();
-	}
+	m_rebuildGraph(nodes, edges);
 }
 
-void QtGraphView::addEdge(const std::weak_ptr<GraphNode>& owner, const std::weak_ptr<GraphNode>& target)
+void QtGraphView::clear()
 {
-	QGraphicsView* view = getView();
-
-	if (view != NULL)
-	{
-		std::shared_ptr<GraphNode> o = owner.lock();
-		std::shared_ptr<GraphNode> t = target.lock();
-
-		if (o != NULL && t != NULL)
-		{
-			std::shared_ptr<QtGraphEdge> edge = std::make_shared<QtGraphEdge>(owner, target);
-			view->scene()->addItem(edge.get());
-
-			m_edges.push_back(edge);
-
-			o->addOutEdge(edge);
-			t->addInEdge(edge);
-		}
-		else
-		{
-			LOG_WARNING("Either the owner or target node could not be locked, make sure they still exist!");
-		}
-	}
-	else
-	{
-		LOG_WARNING("Unable to retrieve view from widget");
-	}
+	m_clear();
 }
 
 QGraphicsView* QtGraphView::getView()
@@ -106,4 +66,74 @@ QGraphicsView* QtGraphView::getView()
 	QObjectList children = widget->children();
 
 	return widget->findChild<QGraphicsView*>("");
+}
+
+void QtGraphView::doRebuildGraph(const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges)
+{
+	doClear();
+
+	QGraphicsView* view = getView();
+
+	if (view != NULL)
+	{
+		for(unsigned int i = 0; i < nodes.size(); i++)
+		{
+			std::shared_ptr<GraphNode> newNode = findOrCreateNode(view, nodes[i]);
+		}
+	}
+	else
+	{
+		LOG_WARNING("Failed to get QGraphicsView");
+	}
+}
+
+void QtGraphView::doClear()
+{
+	m_nodes.clear();
+	m_edges.clear();
+}
+
+std::shared_ptr<GraphNode> QtGraphView::findOrCreateNode(QGraphicsView* view, const DummyNode& node)
+{
+	std::shared_ptr<GraphNode> result;
+
+	result = findNode(node);
+
+	if(result == NULL)
+	{
+		result = createNode(view, node);
+	}
+
+	return result;
+}
+
+std::shared_ptr<GraphNode> QtGraphView::findNode(const DummyNode& node)
+{
+	std::list<std::shared_ptr<GraphNode>>::iterator it = m_nodes.begin();
+
+	for(it; it != m_nodes.end(); it++)
+	{
+		if((*it)->getTokenId() == node.tokenId)
+		{
+			return *it;
+		}
+	}
+
+	return NULL;
+}
+
+std::shared_ptr<GraphNode> QtGraphView::createNode(QGraphicsView* view, const DummyNode& node)
+{
+	if(view != NULL)
+	{
+		std::shared_ptr<QtGraphNode> newNode = std::make_shared<QtGraphNode>(node.position, node.name, node.tokenId);
+		view->scene()->addItem(newNode.get());
+		m_nodes.push_back(newNode);
+
+		return newNode;
+	}
+	else
+	{
+		LOG_WARNING("Received pointer to QGraphicsView was NULL. No node created.");
+	}
 }

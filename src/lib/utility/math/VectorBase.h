@@ -54,7 +54,7 @@ public:
 	template<class U>
 	bool isSame(const VectorBase<U, N>& other) const;
 
-	T& operator[](const unsigned int index);
+	T operator[](const unsigned int index);
 
 	template<class U>
 	void operator=(VectorBase<U, N>& other);
@@ -326,7 +326,7 @@ bool VectorBase<T, N>::isSame(const VectorBase<U, N>& other) const
 }
 
 template<class T, unsigned int N>
-T& VectorBase<T, N>::operator[](const unsigned int index)
+T VectorBase<T, N>::operator[](const unsigned int index)
 {
 	VECTOR_CHECK_INDEX(index);
 

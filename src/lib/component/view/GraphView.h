@@ -6,6 +6,8 @@
 
 #include "component/view/View.h"
 
+struct DummyEdge;
+struct DummyNode;
 class GraphEdge;
 class GraphNode;
 
@@ -17,8 +19,9 @@ public:
 
 	virtual std::string getName() const;
 
-	virtual std::weak_ptr<GraphNode> addNode(const Vec2i& position, const std::string& name) = 0;
-	virtual void addEdge(const std::weak_ptr<GraphNode>& owner, const std::weak_ptr<GraphNode>& target) = 0;
+	virtual void rebuildGraph(const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges) = 0;
+
+	virtual void clear() = 0;
 
 protected:
 	std::list<std::shared_ptr<GraphNode> > m_nodes;
