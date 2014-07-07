@@ -9,24 +9,21 @@
 #define LOG_INFO(str) \
 	do \
 	{ \
-		std::string s((str)); \
-		LogManager::getInstance()->logInfo(s, __FILE__, __FUNCTION__, __LINE__); \
+		LogManager::getInstance()->logInfo(str, __FILE__, __FUNCTION__, __LINE__); \
 	} \
 	while(0) \
 
 #define LOG_WARNING(str) \
 	do \
 	{ \
-		std::string s((str)); \
-		LogManager::getInstance()->logWarning(s, __FILE__, __FUNCTION__, __LINE__); \
+		LogManager::getInstance()->logWarning(str, __FILE__, __FUNCTION__, __LINE__); \
 	} \
 	while(0) \
 
 #define LOG_ERROR(str) \
 	do \
 	{ \
-		std::string s((str)); \
-		LogManager::getInstance()->logError(s, __FILE__, __FUNCTION__, __LINE__); \
+		LogManager::getInstance()->logError(str, __FILE__, __FUNCTION__, __LINE__); \
 	} \
 	while(0) \
 

@@ -24,7 +24,7 @@ public:
 	virtual void setAutocompletionList(const std::vector<std::string>& autocompletionList);
 
 private:
-	void onSeachButtonClick();
+	void onSearchButtonClick();
 
 	void doSetText(const std::string& s);
 	void doSetAutocompletionList(const std::vector<std::string>& autocompletionList);

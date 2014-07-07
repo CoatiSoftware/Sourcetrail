@@ -36,7 +36,7 @@ void QtSearchView::initGui()
 
 	m_searchBox = new QtEditBox(widget);
 	m_searchBox->setPlaceholderText("Please enter your search string.");
-	m_searchBox->setCallbackOnReturnPressed(std::bind(&QtSearchView::onSeachButtonClick, this));
+	m_searchBox->setCallbackOnReturnPressed(std::bind(&QtSearchView::onSearchButtonClick, this));
 
 	std::vector<std::string> autocompletionList;
 	autocompletionList.push_back("tralala");
@@ -45,7 +45,7 @@ void QtSearchView::initGui()
 
 	m_searchButton = new QtButton(widget);
 	m_searchButton->setText("Search");
-	m_searchButton->setCallbackOnClick(std::bind(&QtSearchView::onSeachButtonClick, this));
+	m_searchButton->setCallbackOnClick(std::bind(&QtSearchView::onSearchButtonClick, this));
 
 	widget->layout()->addWidget(m_searchBox);
 	widget->layout()->addWidget(m_searchButton);
@@ -61,7 +61,7 @@ void QtSearchView::setAutocompletionList(const std::vector<std::string>& autocom
 	m_setAutocompletionListFunctor(autocompletionList);
 }
 
-void QtSearchView::onSeachButtonClick()
+void QtSearchView::onSearchButtonClick()
 {
 	SearchController* controller = getController();
 	if (controller)
