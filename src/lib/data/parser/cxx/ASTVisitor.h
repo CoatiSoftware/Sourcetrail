@@ -23,7 +23,7 @@ public:
 	// }
 
 	virtual bool VisitTypedefDecl(const clang::TypedefDecl* declaration); // typedefs
-	virtual bool VisitCXXRecordDecl(clang::CXXRecordDecl* declaration); // classes and structs
+	virtual bool VisitCXXRecordDecl(clang::CXXRecordDecl* declaration); // structs, classes and inheritance
 	virtual bool VisitVarDecl(clang::VarDecl* declaration); // global variables and static fields
 	virtual bool VisitFieldDecl(clang::FieldDecl* declaration); // fields
 	virtual bool VisitFunctionDecl(clang::FunctionDecl* declaration); // functions
@@ -34,7 +34,7 @@ public:
 
 private:
 	bool hasValidLocation(const clang::Decl* declaration) const;
-	ParseLocation getParseLocation(const clang::Decl* declaration) const;
+	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
 	ParseVariable getParseVariable(clang::ValueDecl* declaration) const;
 	std::vector<ParseVariable> getParameters(clang::FunctionDecl* declaration) const;
 	std::string getTypeName(const clang::QualType& type) const;

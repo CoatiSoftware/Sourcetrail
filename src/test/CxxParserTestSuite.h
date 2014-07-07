@@ -477,6 +477,67 @@ public:
 		TS_ASSERT_EQUALS(client->typedefs[0], "test::TestStruct -> globalTestStruct <5:1 5:26>");
 	}
 
+	void test_cxx_parser_finds_public_inheritance()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"class A {};\n"
+			"class B : public A {};\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
+		TS_ASSERT_EQUALS(client->inheritances[0], "B : public A <2:11 2:18>");
+	}
+
+	void test_cxx_parser_finds_protected_inheritance()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"class A {};\n"
+			"class B : protected A {};\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
+		TS_ASSERT_EQUALS(client->inheritances[0], "B : protected A <2:11 2:21>");
+	}
+
+	void test_cxx_parser_finds_private_inheritance()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"class A {};\n"
+			"class B : private A {};\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
+		TS_ASSERT_EQUALS(client->inheritances[0], "B : private A <2:11 2:19>");
+	}
+
+	void test_cxx_parser_finds_multiple_inheritance()
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		std::string text =
+			"class A {};\n"
+			"class B {};\n"
+			"class C\n"
+			"	: public A\n"
+			"	, private B\n"
+			"{};\n";
+
+		parser.parseFile(TextAccess::createFromString(text));
+
+		TS_ASSERT_EQUALS(client->inheritances.size(), 2);
+		TS_ASSERT_EQUALS(client->inheritances[0], "C : public A <4:4 4:11>");
+		TS_ASSERT_EQUALS(client->inheritances[1], "C : private B <5:4 5:12>");
+	}
+
 	void test_cxx_parser_parses_multiple_files()
 	{
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
@@ -569,6 +630,13 @@ private:
 			enumFields.push_back(addLocationSuffix(fullName, location));
 		}
 
+		virtual void onInheritanceParsed(
+			const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access)
+		{
+			std::string str = fullName + " : " + addAccessPrefix(baseName, access);
+			inheritances.push_back(addLocationSuffix(str, location));
+		}
+
 		std::vector<std::string> typedefs;
 		std::vector<std::string> classes;
 		std::vector<std::string> enums;
@@ -579,6 +647,7 @@ private:
 		std::vector<std::string> methods;
 		std::vector<std::string> namespaces;
 		std::vector<std::string> structs;
+		std::vector<std::string> inheritances;
 
 	private:
 		std::string addAccessPrefix(const std::string& str, AccessType access)

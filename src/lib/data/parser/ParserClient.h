@@ -47,6 +47,9 @@ public:
 
 	virtual void onEnumParsed(const ParseLocation& location, const std::string& fullName, AccessType access) = 0;
 	virtual void onEnumFieldParsed(const ParseLocation& location, const std::string& fullName) = 0;
+
+	virtual void onInheritanceParsed(
+		const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access) = 0;
 };
 
 #endif // PARSER_CLIENT_H

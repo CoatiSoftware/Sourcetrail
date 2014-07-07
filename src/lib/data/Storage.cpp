@@ -162,6 +162,20 @@ void Storage::onEnumFieldParsed(const ParseLocation& location, const std::string
 	addTokenLocation(node, location);
 }
 
+void Storage::onInheritanceParsed(
+	const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access)
+{
+	log("inheritance", fullName + " : " + baseName, location);
+
+	Node* node = m_graph.createNodeHierarchy(fullName);
+	Node* baseNode = m_graph.createNodeHierarchy(baseName);
+
+	Edge* edge = m_graph.createEdge(Edge::EDGE_INHERITANCE, node, baseNode);
+	edge->setAccess(convertAccessType(access));
+
+	addTokenLocation(edge, location);
+}
+
 void Storage::logGraph() const
 {
 	std::stringstream str;
@@ -210,7 +224,13 @@ TokenLocationCollection Storage::getTokenLocationsForTokenId(Id id) const
 {
 	TokenLocationCollection ret;
 
-	std::vector<Id> locationIds = m_graph.getTokenById(id)->getLocationIds();
+	Token* token = m_graph.getTokenById(id);
+	if (!token)
+	{
+		return ret;
+	}
+
+	std::vector<Id> locationIds = token->getLocationIds();
 	for (Id locationId: locationIds)
 	{
 		TokenLocation* location = m_locationCollection.findTokenLocationById(locationId);

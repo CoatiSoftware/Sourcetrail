@@ -42,6 +42,9 @@ public:
 	virtual void onEnumParsed(const ParseLocation& location, const std::string& fullName, AccessType access);
 	virtual void onEnumFieldParsed(const ParseLocation& location, const std::string& fullName);
 
+	virtual void onInheritanceParsed(
+		const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access);
+
 	void logGraph() const;
 	void logLocations() const;
 

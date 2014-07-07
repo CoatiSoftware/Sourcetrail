@@ -93,6 +93,8 @@ std::string Edge::getTypeString() const
 		return "has return type";
 	case EDGE_PARAMETER_OF:
 		return "has parameter of type";
+	case EDGE_INHERITANCE:
+		return "is derived from";
 	default:
 		LOG_ERROR("TypeString not implemented for edge type.");
 	}
