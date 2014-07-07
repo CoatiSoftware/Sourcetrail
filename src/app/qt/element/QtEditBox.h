@@ -14,12 +14,15 @@ public:
 	~QtEditBox();
 
 	void setCallbackOnReturnPressed(std::function<void(void)> callback);
+	void setCallbackOnTextEdited(std::function<void(const std::string&)> callback);
 
 private slots:
 	void slotOnReturnPressed();
+	void slotOnTextEdited(const QString& text);
 
 private:
 	std::function<void(void)> m_onReturnPressed;
+	std::function<void(const std::string&)> m_onTextEdited;
 };
 
 #endif // QT_EDIT_BOX_H

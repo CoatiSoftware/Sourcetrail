@@ -48,6 +48,7 @@ public:
 	// GraphAccess implementation
 	virtual Id getIdForNodeWithName(const std::string& name) const;
 	virtual std::string getNameForNodeWithId(Id id) const;
+	virtual std::vector<std::string> getNamesForNodesWithNamePrefix(const std::string& prefix) const;
 
 	// LocationAccess implementation
 	virtual TokenLocationCollection getTokenLocationsForTokenId(Id locationId) const;

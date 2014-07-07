@@ -5,7 +5,7 @@
 
 #include "data/parser/cxx/CxxParser.h"
 #include "utility/FileSystem.h"
-#include "utility/messaging/type/MessageActivateToken.h"
+#include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/logging/logging.h"
 
 std::shared_ptr<Project> Project::create(
@@ -46,7 +46,7 @@ void Project::parseCode()
 		m_storage->logGraph();
 		m_storage->logLocations();
 
-		MessageActivateToken message(1);
+		MessageFinishedParsing message;
 		message.dispatch();
 	}
 }

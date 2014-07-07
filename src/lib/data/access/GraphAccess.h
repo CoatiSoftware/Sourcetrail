@@ -2,6 +2,7 @@
 #define GRAPH_ACCESS_H
 
 #include <string>
+#include <vector>
 
 #include "utility/types.h"
 
@@ -14,6 +15,7 @@ public:
 
 	virtual Id getIdForNodeWithName(const std::string& name) const = 0;
 	virtual std::string getNameForNodeWithId(Id id) const = 0;
+	virtual std::vector<std::string> getNamesForNodesWithNamePrefix(const std::string& prefix) const = 0;
 };
 
 

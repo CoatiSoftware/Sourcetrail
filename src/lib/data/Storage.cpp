@@ -8,6 +8,7 @@
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParseVariable.h"
 #include "utility/logging/logging.h"
+#include "utility/utilityString.h"
 
 Storage::Storage()
 {
@@ -189,6 +190,20 @@ std::string Storage::getNameForNodeWithId(Id id) const
 {
 	Node* node = m_graph.getNodeById(id);
 	return (node ? node->getName() : "");
+}
+
+std::vector<std::string> Storage::getNamesForNodesWithNamePrefix(const std::string& prefix) const
+{
+	std::vector<std::string> names;
+	m_graph.forEachNode([&](Node* node){
+		const std::string& nodeName = node->getName();
+		if (utility::isPrefix(prefix, nodeName))
+		{
+			names.push_back(nodeName);
+		}
+	});
+
+	return names;
 }
 
 TokenLocationCollection Storage::getTokenLocationsForTokenId(Id id) const

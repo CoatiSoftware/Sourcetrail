@@ -2,7 +2,6 @@
 
 #include "component/view/SearchView.h"
 #include "data/access/GraphAccess.h"
-#include "utility/messaging/type/MessageActivateToken.h"
 
 SearchController::SearchController(std::shared_ptr<GraphAccess> graphAccess)
 	: m_graphAccess(graphAccess)
@@ -32,6 +31,11 @@ void SearchController::search(const std::string& s)
 void SearchController::handleMessage(MessageActivateToken* message)
 {
 	getView()->setText(m_graphAccess->getNameForNodeWithId(message->tokenId));
+}
+
+void SearchController::handleMessage(MessageFinishedParsing* message)
+{
+	getView()->setAutocompletionList(m_graphAccess->getNamesForNodesWithNamePrefix(""));
 }
 
 SearchView* SearchController::getView()

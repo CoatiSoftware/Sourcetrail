@@ -50,4 +50,35 @@ public:
 		TS_ASSERT_EQUALS(result[2], "B");
 		TS_ASSERT_EQUALS(result[3], "C");
 	}
+
+	void test_empty_string_is_detected_as_prefix_of_any_other_string()
+	{
+		const std::string foo = "foo";
+
+		TS_ASSERT(utility::isPrefix("", foo));
+	}
+
+	void test_prefix_of_bigger_text_is_detected_as_prefix()
+	{
+		const std::string foobar = "foobar";
+		const std::string foo = "foo";
+
+		TS_ASSERT(utility::isPrefix(foo, foobar));
+	}
+
+	void test_prefix_is_detected_as_prefix_of_self()
+	{
+		const std::string foo = "foo";
+
+		TS_ASSERT(utility::isPrefix(foo, foo));
+	}
+
+	void test_different_texts_are_not_detected_of_prefixes_of_each_other()
+	{
+		const std::string foo = "foo";
+		const std::string bar = "bar";
+
+		TS_ASSERT(!utility::isPrefix(foo, bar));
+		TS_ASSERT(!utility::isPrefix(bar, foo));
+	}
 };

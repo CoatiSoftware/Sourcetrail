@@ -6,6 +6,7 @@
 #include "component/controller/Controller.h"
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateToken.h"
+#include "utility/messaging/type/MessageFinishedParsing.h"
 
 class GraphAccess;
 class SearchView;
@@ -13,6 +14,7 @@ class SearchView;
 class SearchController
 	: public Controller
 	, public MessageListener<MessageActivateToken>
+	, public MessageListener<MessageFinishedParsing>
 {
 public:
 	SearchController(std::shared_ptr<GraphAccess> graphAccess);
@@ -23,6 +25,7 @@ public:
 
 private:
 	virtual void handleMessage(MessageActivateToken* message);
+	virtual void handleMessage(MessageFinishedParsing* message);
 	SearchView* getView();
 
 	std::shared_ptr<GraphAccess> m_graphAccess;

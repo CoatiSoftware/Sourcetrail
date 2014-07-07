@@ -17,7 +17,6 @@ public:
 		return "MessageActivateToken";
 	}
 
-public:
 	const Id tokenId;
 };
 

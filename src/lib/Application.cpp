@@ -7,6 +7,7 @@
 #include "utility/logging/ConsoleLogger.h"
 #include "utility/logging/LogManager.h"
 #include "utility/messaging/MessageQueue.h"
+#include "utility/messaging/type/MessageActivateToken.h"
 
 std::shared_ptr<Application> Application::create(GuiFactory* guiFactory)
 {
@@ -42,4 +43,7 @@ void Application::loadProject()
 
 	m_project->loadProjectSettings("data/ProjectSettings.xml");
 	m_project->parseCode();
+
+	MessageActivateToken message(1);
+	message.dispatch();
 }
