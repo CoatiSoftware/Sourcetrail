@@ -141,7 +141,7 @@ bool ASTVisitor::VisitFunctionDecl(clang::FunctionDecl* declaration)
 			getParameters(declaration)
 		);
 
-		if (declaration->hasBody())
+		if (declaration->hasBody() && declaration->isThisDeclarationADefinition())
 		{
 			ASTBodyVisitor bodyVisitor(this, declaration);
 			bodyVisitor.Visit(declaration->getBody());
@@ -176,7 +176,7 @@ bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 			declaration->isStatic()
 		);
 
-		if (declaration->hasBody())
+		if (declaration->hasBody() && declaration->isThisDeclarationADefinition())
 		{
 			ASTBodyVisitor bodyVisitor(this, declaration);
 			bodyVisitor.Visit(declaration->getBody());

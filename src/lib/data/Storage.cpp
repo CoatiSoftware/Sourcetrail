@@ -263,26 +263,25 @@ TokenLocationFile Storage::getTokenLocationsForLinesInFile(
 	TokenLocationFile ret(fileName);
 
 	TokenLocationFile* locationFile = m_locationCollection.findTokenLocationFileByPath(fileName);
-	if (locationFile)
+	if (!locationFile)
 	{
-		for (unsigned int i = firstLineNumber; i <= lastLineNumber; i++)
+		return ret;
+	}
+
+	for (unsigned int i = firstLineNumber; i <= lastLineNumber; i++)
+	{
+		TokenLocationLine* locationLine = locationFile->findTokenLocationLineByNumber(i);
+		if (!locationLine)
 		{
-			TokenLocationLine* locationLine = locationFile->findTokenLocationLineByNumber(i);
-			if (locationLine)
-			{
-				locationLine->forEachTokenLocation([&] (TokenLocation* tokenLocation) -> void {
-					if (tokenLocation->getOtherTokenLocation() &&
-						tokenLocation->isStartTokenLocation() &&
-						tokenLocation->getLineNumber() >= firstLineNumber &&
-						tokenLocation->getOtherTokenLocation()->isEndTokenLocation() &&
-						tokenLocation->getOtherTokenLocation()->getLineNumber() <= lastLineNumber)
-					{
-						ret.addTokenLocationAsPlainCopy(tokenLocation);
-						ret.addTokenLocationAsPlainCopy(tokenLocation->getOtherTokenLocation());
-					}
-				});
-			}
+			continue;
 		}
+
+		locationLine->forEachTokenLocation(
+			[&](TokenLocation* tokenLocation) -> void
+			{
+				ret.addTokenLocationAsPlainCopy(tokenLocation);
+			}
+		);
 	}
 
 	return ret;

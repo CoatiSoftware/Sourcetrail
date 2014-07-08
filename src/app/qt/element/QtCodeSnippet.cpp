@@ -139,25 +139,36 @@ void QtCodeSnippet::annotateText(const TokenLocationFile& locationFile)
 {
 	QList<QTextEdit::ExtraSelection> extraSelections;
 
-	for (const TokenLocationFile::TokenLocationLinePairType& lineItem : locationFile.getTokenLocationLines())
-	{
-		for (const TokenLocationLine::TokenLocationPairType& locationItem : lineItem.second->getTokenLocations())
+	locationFile.forEachTokenLocation(
+		[&](TokenLocation* location)
 		{
-			TokenLocation* location = locationItem.second.get();
-			if (!location->isStartTokenLocation())
+			if (location->isEndTokenLocation() && location->getStartTokenLocation())
 			{
-				continue;
+				return;
 			}
 
 			Annotation annotation;
-			annotation.start = toTextEditPosition(location->getLineNumber(), location->getColumnNumber() - 1);
-			annotation.end = toTextEditPosition(
-				location->getEndTokenLocation()->getLineNumber(),
-				location->getEndTokenLocation()->getColumnNumber());
+			if (location->isStartTokenLocation())
+			{
+				annotation.start = toTextEditPosition(location->getLineNumber(), location->getColumnNumber() - 1);
+			}
+			else
+			{
+				annotation.start = startTextEditPosition();
+			}
+
+			TokenLocation* endLocation = location->getEndTokenLocation();
+			if (endLocation)
+			{
+				annotation.end = toTextEditPosition(endLocation->getLineNumber(), endLocation->getColumnNumber());
+			}
+			else
+			{
+				annotation.end = endTextEditPosition();
+			}
+
 			annotation.tokenId = location->getTokenId();
 			m_annotations.push_back(annotation);
-
-			QTextEdit::ExtraSelection selection;
 
 			Colori color;
 			if (location->getTokenId() == m_activeTokenId)
@@ -169,6 +180,7 @@ void QtCodeSnippet::annotateText(const TokenLocationFile& locationFile)
 				color = ApplicationSettings::getInstance()->getCodeLinkColor();
 			}
 
+			QTextEdit::ExtraSelection selection;
 			selection.format.setBackground(QColor(color.r, color.g, color.b, color.a));
 
 			selection.cursor = textCursor();
@@ -178,7 +190,7 @@ void QtCodeSnippet::annotateText(const TokenLocationFile& locationFile)
 
 			extraSelections.append(selection);
 		}
-	}
+	);
 
 	setExtraSelections(extraSelections);
 }
@@ -216,13 +228,25 @@ void QtCodeSnippet::updateLineNumberArea(const QRect &rect, int dy)
 void QtCodeSnippet::clickTokenLocation()
 {
 	int clickPosition = textCursor().position();
+	int diff = endTextEditPosition() + 1;
+	Id tokenId = 0;
+
 	for (Annotation annotation : m_annotations)
 	{
 		if (clickPosition >= annotation.start && clickPosition <= annotation.end)
 		{
-			m_parentView->activateToken(annotation.tokenId);
-			return;
+			int d = annotation.end - annotation.start;
+			if (d < diff)
+			{
+				diff = d;
+				tokenId = annotation.tokenId;
+			}
 		}
+	}
+
+	if (tokenId)
+	{
+		m_parentView->activateToken(tokenId);
 	}
 }
 
@@ -236,13 +260,30 @@ void QtCodeSnippet::clearSelection()
 int QtCodeSnippet::toTextEditPosition(int lineNumber, int columnNumber) const
 {
 	lineNumber -= m_startLineNumber - 1;
-
 	int position = 0;
+
 	for (int i = 0; i < lineNumber - 1; i++)
 	{
 		position += document()->findBlockByLineNumber(i).length();
 	}
-	position += columnNumber;
 
+	position += columnNumber;
 	return position;
+}
+
+int QtCodeSnippet::startTextEditPosition() const
+{
+	return 0;
+}
+
+int QtCodeSnippet::endTextEditPosition() const
+{
+	int position = 0;
+
+	for (int i = 0; i < document()->blockCount(); i++)
+	{
+		position += document()->findBlockByLineNumber(i).length();
+	}
+
+	return position - 1;
 }

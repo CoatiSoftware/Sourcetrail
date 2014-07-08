@@ -26,31 +26,34 @@ void CodeController::setActiveTokenId(Id id)
 	getView()->clearCodeSnippets();
 
 	TokenLocationCollection collection = m_locationAccess->getTokenLocationsForTokenId(id);
-	collection.forEachTokenLocation([&] (TokenLocation* tokenLocation) -> void {
-		if (tokenLocation->isStartTokenLocation())
+	collection.forEachTokenLocation(
+		[&](TokenLocation* tokenLocation) -> void
 		{
-			CodeView::CodeSnippetParams params;
-			const std::string filePath = tokenLocation->getFilePath();
-			std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
-
-			unsigned int firstLineNumber = std::max<int>(1, tokenLocation->getLineNumber() - lineRadius);
-			unsigned int lastLineNumber = std::min<int>(
-				textAccess->getLineCount(), tokenLocation->getEndTokenLocation()->getLineNumber() + lineRadius
-			);
-
-			for (std::string line: textAccess->getLines(firstLineNumber, lastLineNumber))
+			if (tokenLocation->isStartTokenLocation())
 			{
-				params.code += line;
+				const std::string filePath = tokenLocation->getFilePath();
+				std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
+
+				unsigned int firstLineNumber = std::max<int>(1, tokenLocation->getLineNumber() - lineRadius);
+				unsigned int lastLineNumber = std::min<int>(
+					textAccess->getLineCount(), tokenLocation->getEndTokenLocation()->getLineNumber() + lineRadius
+				);
+
+				CodeView::CodeSnippetParams params;
+				for (const std::string& line: textAccess->getLines(firstLineNumber, lastLineNumber))
+				{
+					params.code += line;
+				}
+
+				params.startLineNumber = firstLineNumber;
+				params.locationFile =
+					m_locationAccess->getTokenLocationsForLinesInFile(filePath, firstLineNumber, lastLineNumber);
+				params.activeTokenId = id;
+
+				getView()->addCodeSnippet(params);
 			}
-
-			params.startLineNumber = firstLineNumber;
-			params.locationFile =
-				m_locationAccess->getTokenLocationsForLinesInFile(filePath, firstLineNumber, lastLineNumber);
-			params.activeTokenId = id;
-
-			getView()->addCodeSnippet(params);
 		}
-	});
+	);
 }
 
 void CodeController::handleMessage(MessageActivateToken* message)

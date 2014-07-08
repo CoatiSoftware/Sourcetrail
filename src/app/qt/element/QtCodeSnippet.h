@@ -70,6 +70,8 @@ private:
 	};
 
 	int toTextEditPosition(int lineNumber, int columnNumber) const;
+	int startTextEditPosition() const;
+	int endTextEditPosition() const;
 
 	QtCodeView* m_parentView;
 	QtHighlighter* m_highlighter;
