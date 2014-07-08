@@ -13,14 +13,11 @@ class CxxParserTestSuite: public CxxTest::TestSuite
 public:
 	void test_cxx_parser_finds_global_class_definition()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class A\n"
 			"{\n"
-			"};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->classes.size(), 1);
 		TS_ASSERT_EQUALS(client->classes[0], "A <1:1 3:1>");
@@ -28,29 +25,23 @@ public:
 
 	void test_cxx_parser_finds_global_class_forward_declaration()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
-			"class A;\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class A;\n"
+		);
 
 		TS_ASSERT_EQUALS(client->classes.size(), 1);
 		TS_ASSERT_EQUALS(client->classes[0], "A <1:1 1:7>");
 	}
 
-	void test_cxx_parser_finds_nested_class_definition() // TODO: test different access types here
+	void test_cxx_parser_finds_nested_class_definition()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class A\n"
 			"{\n"
 			"public:\n"
 			"	class B;\n"
-			"};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->classes.size(), 2);
 		TS_ASSERT_EQUALS(client->classes[0], "A <1:1 5:1>");
@@ -59,15 +50,12 @@ public:
 
 	void test_cxx_parser_finds_class_definition_in_namespace()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"namespace a\n"
 			"{\n"
 			"	class B;\n"
-			"};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->classes.size(), 1);
 		TS_ASSERT_EQUALS(client->classes[0], "a::B <3:2 3:8>");
@@ -75,14 +63,11 @@ public:
 
 	void test_cxx_parser_finds_global_struct_definition()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"struct A\n"
 			"{\n"
-			"};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->structs.size(), 1);
 		TS_ASSERT_EQUALS(client->structs[0], "A <1:1 3:1>");
@@ -90,12 +75,9 @@ public:
 
 	void test_cxx_parser_finds_global_struct_forward_declaration()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
-			"struct A;\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"struct A;\n"
+		);
 
 		TS_ASSERT_EQUALS(client->structs.size(), 1);
 		TS_ASSERT_EQUALS(client->structs[0], "A <1:1 1:8>");
@@ -103,17 +85,14 @@ public:
 
 	void test_cxx_parser_finds_struct_definition_in_class()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class A\n"
 			"{\n"
 			"	struct B\n"
 			"	{\n"
 			"	};\n"
-			"};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->structs.size(), 1);
 		TS_ASSERT_EQUALS(client->structs[0], "private A::B <3:2 5:2>");
@@ -121,17 +100,14 @@ public:
 
 	void test_cxx_parser_finds_struct_definition_in_namespace()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"namespace A\n"
 			"{\n"
 			"	struct B\n"
 			"	{\n"
 			"	};\n"
-			"};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->structs.size(), 1);
 		TS_ASSERT_EQUALS(client->structs[0], "A::B <3:2 5:2>");
@@ -139,14 +115,11 @@ public:
 
 	void test_cxx_parser_finds_variable_definitions_in_global_scope()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"int x;\n"
 			"class A;\n"
-			"A* b;";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"A* b;"
+		);
 
 		TS_ASSERT_EQUALS(client->globalVariables.size(), 2);
 		TS_ASSERT_EQUALS(client->globalVariables[0], "int x <1:1 1:5>");
@@ -155,17 +128,14 @@ public:
 
 	void test_cxx_parser_finds_variable_definitions_in_namespace_scope()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"namespace n"
 			"{\n"
 			"	int x;\n"
 			"	class A;\n"
 			"	A* b;\n"
-			"}\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"}\n"
+		);
 
 		TS_ASSERT_EQUALS(client->globalVariables.size(), 2);
 		TS_ASSERT_EQUALS(client->globalVariables[0], "int n::x <2:2 2:6>");
@@ -174,9 +144,7 @@ public:
 
 	void test_cxx_parser_finds_field_in_nested_class()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class B\n"
 			"{\n"
 			"public:\n"
@@ -185,44 +153,44 @@ public:
 			"	private:\n"
 			"		static const int amount;\n"
 			"	};\n"
-			"};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->fields.size(), 1);
 		TS_ASSERT_EQUALS(client->fields[0], "private static const int B::C::amount <7:3 7:20>");
 	}
 
-	void test_cxx_parser_finds_field_in_global_class()
+	void test_cxx_parser_finds_fields_in_class_with_access_type()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
-			"class B\n"
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class A\n"
 			"{\n"
+			"	int a;"
 			"public:\n"
-			"	B() : count(0) {};\n"
+			"	A() : d(0) {};\n"
+			"	int b;"
+			"protected:\n"
+			"	static int c;\n"
 			"private:\n"
-			"	const int count;\n"
-			"};\n";
+			"	const int d;\n"
+			"};\n"
+		);
 
-		parser.parseFile(TextAccess::createFromString(text));
-
-		TS_ASSERT_EQUALS(client->fields.size(), 1);
-		TS_ASSERT_EQUALS(client->fields[0], "private const int B::count <6:2 6:12>");
+		TS_ASSERT_EQUALS(client->fields.size(), 4);
+		TS_ASSERT_EQUALS(client->fields[0], "private int A::a <3:2 3:6>");
+		TS_ASSERT_EQUALS(client->fields[1], "public int A::b <5:2 5:6>");
+		TS_ASSERT_EQUALS(client->fields[2], "protected static int A::c <6:2 6:13>");
+		TS_ASSERT_EQUALS(client->fields[3], "private const int A::d <8:2 8:12>");
 	}
 
 	void test_cxx_parser_finds_function_in_global_namespace()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"int ceil(float a)\n"
 			"{\n"
 			"	return static_cast<int>(a) + 1;\n"
-			"}\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"}\n"
+		);
 
 		TS_ASSERT_EQUALS(client->functions.size(), 1);
 		TS_ASSERT_EQUALS(client->functions[0], "int ceil(float a) <1:1 4:1>");
@@ -230,15 +198,12 @@ public:
 
 	void test_cxx_parser_finds_function_in_anonymous_namespace()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"namespace\n"
 			"{\n"
 			"	int sum(int a, int b);\n"
-			"}\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"}\n"
+		);
 
 		TS_ASSERT_EQUALS(client->functions.size(), 1);
 		TS_ASSERT_EQUALS(client->functions[0], "int (anonymous namespace)::sum(int a, int b) <3:2 3:22>");
@@ -246,16 +211,13 @@ public:
 
 	void test_cxx_parser_finds_method_declaration()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class B\n"
 			"{\n"
 			"public:\n"
 			"	B();\n"
-			"};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->methods.size(), 1);
 		TS_ASSERT_EQUALS(client->methods[0], "public void B::B() <4:2 4:4>");
@@ -263,9 +225,7 @@ public:
 
 	void test_cxx_parser_finds_method_declaration_and_definition()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class B\n"
 			"{\n"
 			"public:\n"
@@ -273,9 +233,8 @@ public:
 			"};\n"
 			"B::B()\n"
 			"{\n"
-			"}\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"}\n"
+		);
 
 		TS_ASSERT_EQUALS(client->methods.size(), 2);
 		TS_ASSERT_EQUALS(client->methods[0], "public void B::B() <4:2 4:4>");
@@ -284,16 +243,13 @@ public:
 
 	void test_cxx_parser_finds_pure_virtual_method()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class B\n"
 			"{\n"
 			"protected:\n"
 			"	virtual void process() = 0;\n"
-			"};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->methods.size(), 1);
 		TS_ASSERT_EQUALS(client->methods[0], "protected pure virtual void B::process() <4:2 4:27>");
@@ -301,18 +257,15 @@ public:
 
 	void test_cxx_parser_finds_method_declared_in_nested_class()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class B\n"
 			"{\n"
 			"	class C\n"
 			"	{\n"
 			"		bool isGreat() const;\n"
 			"	};\n"
-			"};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->methods.size(), 1);
 		TS_ASSERT_EQUALS(client->methods[0], "private _Bool B::C::isGreat() const <5:3 5:18>");
@@ -320,14 +273,11 @@ public:
 
 	void test_cxx_parser_finds_named_namespace()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"namespace A\n"
 			"{\n"
-			"}\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"}\n"
+		);
 
 		TS_ASSERT_EQUALS(client->namespaces.size(), 1);
 		TS_ASSERT_EQUALS(client->namespaces[0], "A <1:1 3:1>");
@@ -335,14 +285,11 @@ public:
 
 	void test_cxx_parser_finds_anonymous_namespace()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"namespace\n"
 			"{\n"
-			"}\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"}\n"
+		);
 
 		TS_ASSERT_EQUALS(client->namespaces.size(), 1);
 		TS_ASSERT_EQUALS(client->namespaces[0], "(anonymous) <1:1 3:1>");
@@ -350,14 +297,11 @@ public:
 
 	void test_cxx_parser_finds_enum_defined_in_global_namespace()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"enum E\n"
 			"{\n"
-			"};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->enums.size(), 1);
 		TS_ASSERT_EQUALS(client->enums[0], "E <1:1 3:1>");
@@ -365,18 +309,15 @@ public:
 
 	void test_cxx_parser_finds_enum_defined_in_class()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class B\n"
 			"{\n"
 			"public:\n"
 			"	enum Z\n"
 			"	{\n"
 			"	};\n"
-			"};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->enums.size(), 1);
 		TS_ASSERT_EQUALS(client->enums[0], "public B::Z <4:2 6:2>");
@@ -384,17 +325,14 @@ public:
 
 	void test_cxx_parser_finds_enum_defined_in_namespace()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"namespace n\n"
 			"{\n"
 			"	enum Z\n"
 			"	{\n"
 			"	};\n"
-			"}\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"}\n"
+		);
 
 		TS_ASSERT_EQUALS(client->enums.size(), 1);
 		TS_ASSERT_EQUALS(client->enums[0], "n::Z <3:2 5:2>");
@@ -402,15 +340,12 @@ public:
 
 	void test_cxx_parser_finds_enum_field_in_global_enum()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"enum E\n"
 			"{\n"
 			"	P\n"
-			"};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->enumFields.size(), 1);
 		TS_ASSERT_EQUALS(client->enumFields[0], "E::P <3:2 3:2>");
@@ -418,11 +353,9 @@ public:
 
 	void test_cxx_parser_finds_typedef_in_global_namespace()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text = "typedef unsigned int uint;\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"typedef unsigned int uint;\n"
+		);
 
 		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
 		TS_ASSERT_EQUALS(client->typedefs[0], "unsigned int -> uint <1:1 1:22>");
@@ -430,15 +363,12 @@ public:
 
 	void test_cxx_parser_finds_typedef_in_named_namespace()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"namespace test\n"
 			"{\n"
 			"	typedef unsigned int uint;\n"
-			"}\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"}\n"
+		);
 
 		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
 		TS_ASSERT_EQUALS(client->typedefs[0], "unsigned int -> test::uint <3:2 3:23>");
@@ -446,15 +376,12 @@ public:
 
 	void test_cxx_parser_finds_typedef_in_anonymous_namespace()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"namespace\n"
 			"{\n"
 			"	typedef unsigned int uint;\n"
-			"}\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"}\n"
+		);
 
 		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
 		TS_ASSERT_EQUALS(client->typedefs[0], "unsigned int -> (anonymous namespace)::uint <3:2 3:23>");
@@ -462,16 +389,13 @@ public:
 
 	void test_cxx_parser_finds_typedef_that_uses_type_defined_in_named_namespace()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"namespace test\n"
 			"{\n"
 			"	struct TestStruct{};\n"
 			"}\n"
-			"typedef test::TestStruct globalTestStruct;\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"typedef test::TestStruct globalTestStruct;\n"
+		);
 
 		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
 		TS_ASSERT_EQUALS(client->typedefs[0], "test::TestStruct -> globalTestStruct <5:1 5:26>");
@@ -479,13 +403,10 @@ public:
 
 	void test_cxx_parser_finds_public_inheritance()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class A {};\n"
-			"class B : public A {};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"class B : public A {};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : public A <2:11 2:18>");
@@ -493,13 +414,10 @@ public:
 
 	void test_cxx_parser_finds_protected_inheritance()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class A {};\n"
-			"class B : protected A {};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"class B : protected A {};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : protected A <2:11 2:21>");
@@ -507,13 +425,10 @@ public:
 
 	void test_cxx_parser_finds_private_inheritance()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class A {};\n"
-			"class B : private A {};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"class B : private A {};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : private A <2:11 2:19>");
@@ -521,17 +436,14 @@ public:
 
 	void test_cxx_parser_finds_multiple_inheritance()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class A {};\n"
 			"class B {};\n"
 			"class C\n"
 			"	: public A\n"
 			"	, private B\n"
-			"{};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"{};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 2);
 		TS_ASSERT_EQUALS(client->inheritances[0], "C : public A <4:4 4:11>");
@@ -540,9 +452,7 @@ public:
 
 	void test_cxx_parser_finds_call_in_function()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"int sum(int a, int b)\n"
 			"{\n"
 			"	return a + b;\n"
@@ -550,9 +460,8 @@ public:
 			"int main()\n"
 			"{\n"
 			"	sum(1, 2);\n"
-			"}\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"}\n"
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
 		TS_ASSERT_EQUALS(client->calls[0], "main -> sum <7:2 7:10>");
@@ -560,9 +469,7 @@ public:
 
 	void test_cxx_parser_finds_call_within_call_in_function()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"int sum(int a, int b)\n"
 			"{\n"
 			"	return a + b;\n"
@@ -570,9 +477,8 @@ public:
 			"int main()\n"
 			"{\n"
 			"	return sum(1, sum(2, 3));\n"
-			"}\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"}\n"
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
 		TS_ASSERT_EQUALS(client->calls[0], "main -> sum <7:9 7:25>");
@@ -581,9 +487,7 @@ public:
 
 	void test_cxx_parser_finds_call_in_method()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"int sum(int a, int b)\n"
 			"{\n"
 			"	return a + b;\n"
@@ -594,9 +498,8 @@ public:
 			"	{\n"
 			"		return sum(1, 2);\n"
 			"	}\n"
-			"};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
 		TS_ASSERT_EQUALS(client->calls[0], "App::main -> sum <9:10 9:18>");
@@ -604,9 +507,7 @@ public:
 
 	void test_cxx_parser_finds_constructor_call()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class App\n"
 			"{\n"
 			"public:\n"
@@ -615,9 +516,8 @@ public:
 			"int main()\n"
 			"{\n"
 			"	App app;\n"
-			"}\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"}\n"
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
 		TS_ASSERT_EQUALS(client->calls[0], "main -> App::App <8:6 8:6>");
@@ -625,18 +525,15 @@ public:
 
 	void test_cxx_parser_finds_constructor_without_definition_call()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class App\n"
 			"{\n"
 			"};\n"
 			"int main()\n"
 			"{\n"
 			"	App app;\n"
-			"}\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"}\n"
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
 		TS_ASSERT_EQUALS(client->calls[0], "main -> App::App <6:6 6:6>");
@@ -644,9 +541,7 @@ public:
 
 	void test_cxx_parser_finds_constructor_call_of_field()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class Item\n"
 			"{\n"
 			"};\n"
@@ -655,9 +550,8 @@ public:
 			"public:\n"
 			"	App() {}\n"
 			"	Item item;\n"
-			"};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
 		TS_ASSERT_EQUALS(client->calls[0], "App::App -> Item::Item <7:2 7:2>");
@@ -665,9 +559,7 @@ public:
 
 	void test_cxx_parser_finds_constructor_call_of_field_in_initialization_list()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class Item\n"
 			"{\n"
 			"public:\n"
@@ -679,9 +571,8 @@ public:
 			"		: item(1)"
 			"	{}\n"
 			"	Item item;\n"
-			"};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
 		TS_ASSERT_EQUALS(client->calls[0], "App::App -> Item::Item <9:5 9:11>");
@@ -689,9 +580,7 @@ public:
 
 	void test_cxx_parser_finds_function_call_within_constructor_call_of_field_in_initialization_list()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"int one() { return 1; }\n"
 			"class Item\n"
 			"{\n"
@@ -704,9 +593,8 @@ public:
 			"		: item(one())"
 			"	{}\n"
 			"	Item item;\n"
-			"};\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"};\n"
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
 		TS_ASSERT_EQUALS(client->calls[0], "App::App -> Item::Item <10:5 10:15>");
@@ -715,9 +603,7 @@ public:
 
 	void test_cxx_parser_finds_copy_constructor_call()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class App\n"
 			"{\n"
 			"public:\n"
@@ -728,9 +614,8 @@ public:
 			"{\n"
 			"	App app;\n"
 			"	App app2(app);\n"
-			"}\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"}\n"
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
 		TS_ASSERT_EQUALS(client->calls[0], "main -> App::App <9:6 9:6>");
@@ -739,17 +624,14 @@ public:
 
 	void test_cxx_parser_finds_global_constructor_call()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class App\n"
 			"{\n"
 			"public:\n"
 			"	App() {}\n"
 			"};\n"
-			"App app;\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"App app;\n"
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
 		TS_ASSERT_EQUALS(client->calls[0], "app -> App::App <6:5 6:5>");
@@ -757,13 +639,10 @@ public:
 
 	void test_cxx_parser_finds_global_function_call()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"int one() { return 1; }\n"
-			"int a = one();\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"int a = one();\n"
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
 		TS_ASSERT_EQUALS(client->calls[0], "a -> one <2:9 2:13>");
@@ -771,9 +650,7 @@ public:
 
 	void test_cxx_parser_finds_operator_call()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
-		std::string text =
+		std::shared_ptr<TestParserClient> client = parseCode(
 			"class App\n"
 			"{\n"
 			"public:\n"
@@ -785,9 +662,8 @@ public:
 			"{\n"
 			"	App app;\n"
 			"	app + 2;\n"
-			"}\n";
-
-		parser.parseFile(TextAccess::createFromString(text));
+			"}\n"
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
 		TS_ASSERT_EQUALS(client->calls[0], "main -> App::App <10:6 10:6>");
@@ -987,4 +863,12 @@ private:
 			return ss.str();
 		}
 	};
+
+	std::shared_ptr<TestParserClient> parseCode(std::string code) const
+	{
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+		CxxParser parser(client);
+		parser.parseFile(TextAccess::createFromString(code));
+		return client;
+	}
 };
