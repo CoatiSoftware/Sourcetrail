@@ -1,5 +1,6 @@
 #include "data/parser/cxx/ASTVisitor.h"
 
+#include "data/parser/cxx/ASTBodyVisitor.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParseVariable.h"
 
@@ -11,6 +12,11 @@ ASTVisitor::ASTVisitor(clang::ASTContext* context, std::shared_ptr<ParserClient>
 
 ASTVisitor::~ASTVisitor()
 {
+}
+
+bool ASTVisitor::VisitStmt(const clang::Stmt* statement)
+{
+	return true;
 }
 
 bool ASTVisitor::VisitTypedefDecl(const clang::TypedefDecl* declaration)
@@ -84,6 +90,12 @@ bool ASTVisitor::VisitVarDecl(clang::VarDecl* declaration)
 				getParseLocation(declaration->getSourceRange()),
 				getParseVariable(declaration)
 			);
+
+			if (declaration->getInit())
+			{
+				ASTBodyVisitor bodyVisitor(this, declaration);
+				bodyVisitor.Visit(declaration->getInit());
+			}
 		}
 		else
 		{
@@ -128,6 +140,12 @@ bool ASTVisitor::VisitFunctionDecl(clang::FunctionDecl* declaration)
 			getTypeName(declaration->getReturnType()),
 			getParameters(declaration)
 		);
+
+		if (declaration->hasBody())
+		{
+			ASTBodyVisitor bodyVisitor(this, declaration);
+			bodyVisitor.Visit(declaration->getBody());
+		}
 	}
 
 	return true;
@@ -157,6 +175,29 @@ bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 			declaration->isConst(),
 			declaration->isStatic()
 		);
+
+		if (declaration->hasBody())
+		{
+			ASTBodyVisitor bodyVisitor(this, declaration);
+			bodyVisitor.Visit(declaration->getBody());
+		}
+	}
+
+	return true;
+}
+
+bool ASTVisitor::VisitCXXConstructorDecl(clang::CXXConstructorDecl* declaration)
+{
+	if (hasValidLocation(declaration))
+	{
+		for (clang::CXXConstructorDecl::init_const_iterator it = declaration->init_begin(); it != declaration->init_end(); it++)
+		{
+			if ((*it)->getInit())
+			{
+				ASTBodyVisitor bodyVisitor(this, declaration);
+				bodyVisitor.Visit((*it)->getInit());
+			}
+		}
 	}
 
 	return true;
@@ -200,6 +241,38 @@ bool ASTVisitor::VisitEnumConstantDecl(clang::EnumConstantDecl* declaration)
 	}
 
 	return true;
+}
+
+void ASTVisitor::VisitCallExprInDeclBody(clang::NamedDecl* decl, clang::CallExpr* expr)
+{
+	// if (clang::FunctionDecl *CalleeDecl = CE->getDirectCallee())
+	// {
+	// 	return CalleeDecl;
+	// }
+
+	// clang::Expr *CEE = CE->getCallee()->IgnoreParenImpCasts();
+	// if (clang::BlockExpr *Block = clang::dyn_cast<clang::BlockExpr>(CEE))
+	// {
+	// 	NumBlockCallEdges++;
+	// 	return Block->getBlockDecl();
+	// }
+
+	// return nullptr;
+
+	m_client->onCallParsed(
+		getParseLocation(expr->getSourceRange()),
+		decl->getQualifiedNameAsString(),
+		expr->getDirectCallee()->getQualifiedNameAsString()
+	);
+}
+
+void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::NamedDecl* decl, clang::CXXConstructExpr* expr)
+{
+	m_client->onCallParsed(
+		getParseLocation(expr->getSourceRange()),
+		decl->getQualifiedNameAsString(),
+		expr->getConstructor()->getQualifiedNameAsString()
+	);
 }
 
 bool ASTVisitor::hasValidLocation(const clang::Decl* declaration) const

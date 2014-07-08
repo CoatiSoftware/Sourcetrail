@@ -44,6 +44,8 @@ public:
 
 	virtual void onInheritanceParsed(
 		const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access);
+	virtual void onCallParsed(
+		const ParseLocation& location, const std::string& callerName, const std::string& calleeName);
 
 	void logGraph() const;
 	void logLocations() const;

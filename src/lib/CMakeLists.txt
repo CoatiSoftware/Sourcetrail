@@ -5,6 +5,10 @@ add_files(
 	data/parser/cxx/ASTAction.h
 	data/parser/cxx/ASTActionFactory.cpp
 	data/parser/cxx/ASTActionFactory.h
+	data/parser/cxx/ASTBodyVisitor.cpp
+	data/parser/cxx/ASTBodyVisitor.h
+	data/parser/cxx/ASTBodyVisitorClient.cpp
+	data/parser/cxx/ASTBodyVisitorClient.h
 	data/parser/cxx/ASTConsumer.cpp
 	data/parser/cxx/ASTConsumer.h
 	data/parser/cxx/ASTVisitor.cpp

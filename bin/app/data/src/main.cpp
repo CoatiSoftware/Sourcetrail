@@ -7,8 +7,8 @@ int diff(int a, int b);
 
 int main()
 {
-	int a = 6;
-	int b = 7;
+	int a = sum(1, 2);
+	int b = diff(a, 3);
 	int c = a * b;
 	return 0;
 }

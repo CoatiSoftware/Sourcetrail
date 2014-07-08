@@ -50,6 +50,8 @@ public:
 
 	virtual void onInheritanceParsed(
 		const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access) = 0;
+	virtual void onCallParsed(
+		const ParseLocation& location, const std::string& callerName, const std::string& calleeName) = 0;
 };
 
 #endif // PARSER_CLIENT_H

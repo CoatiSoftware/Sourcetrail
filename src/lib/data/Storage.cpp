@@ -176,6 +176,18 @@ void Storage::onInheritanceParsed(
 	addTokenLocation(edge, location);
 }
 
+void Storage::onCallParsed(const ParseLocation& location, const std::string& callerName, const std::string& calleeName)
+{
+	log("call", callerName + " -> " + calleeName, location);
+
+	Node* callerNode = m_graph.createNodeHierarchy(callerName);
+	Node* calleeNode = m_graph.createNodeHierarchy(calleeName);
+
+	Edge* edge = m_graph.createEdge(Edge::EDGE_CALL, callerNode, calleeNode);
+
+	addTokenLocation(edge, location);
+}
+
 void Storage::logGraph() const
 {
 	std::stringstream str;

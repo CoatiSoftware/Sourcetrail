@@ -95,6 +95,8 @@ std::string Edge::getTypeString() const
 		return "has parameter of type";
 	case EDGE_INHERITANCE:
 		return "is derived from";
+	case EDGE_CALL:
+		return "calls";
 	default:
 		LOG_ERROR("TypeString not implemented for edge type.");
 	}
