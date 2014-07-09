@@ -117,13 +117,17 @@ public:
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"int x;\n"
+			"const int y = 0;\n"
+			"static int z;\n"
 			"class A;\n"
 			"A* b;"
 		);
 
-		TS_ASSERT_EQUALS(client->globalVariables.size(), 2);
+		TS_ASSERT_EQUALS(client->globalVariables.size(), 4);
 		TS_ASSERT_EQUALS(client->globalVariables[0], "int x <1:1 1:5>");
-		TS_ASSERT_EQUALS(client->globalVariables[1], "A b <3:1 3:4>");	// Todo: what about the pointer?
+		TS_ASSERT_EQUALS(client->globalVariables[1], "const int y <2:1 2:15>");
+		TS_ASSERT_EQUALS(client->globalVariables[2], "static int z <3:1 3:12>");
+		TS_ASSERT_EQUALS(client->globalVariables[3], "A b <5:1 5:4>"); // Todo: what about the pointer?
 	}
 
 	void test_cxx_parser_finds_variable_definitions_in_namespace_scope()
@@ -139,7 +143,7 @@ public:
 
 		TS_ASSERT_EQUALS(client->globalVariables.size(), 2);
 		TS_ASSERT_EQUALS(client->globalVariables[0], "int n::x <2:2 2:6>");
-		TS_ASSERT_EQUALS(client->globalVariables[1], "n::A n::b <4:2 4:5>");	// Todo: what about the pointer?
+		TS_ASSERT_EQUALS(client->globalVariables[1], "n::A n::b <4:2 4:5>"); // Todo: what about the pointer?
 	}
 
 	void test_cxx_parser_finds_field_in_nested_class()

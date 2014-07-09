@@ -306,7 +306,8 @@ ParseVariable ASTVisitor::getParseVariable(clang::ValueDecl* declaration) const
 	bool isStatic = false;
 	if (clang::isa<clang::VarDecl>(declaration))
 	{
-		isStatic = static_cast<clang::VarDecl*>(declaration)->isStaticDataMember();
+		clang::VarDecl* varDecl = static_cast<clang::VarDecl*>(declaration);
+		isStatic = varDecl->isStaticDataMember() || varDecl->getStorageClass() == clang::SC_Static;
 	}
 
 	return ParseVariable(
