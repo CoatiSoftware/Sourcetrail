@@ -3,6 +3,8 @@
 #include "data/parser/cxx/ASTBodyVisitor.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParseVariable.h"
+#include "utility/utilityClang.h"
+#include "data/type/DataType.h"
 
 ASTVisitor::ASTVisitor(clang::ASTContext* context, std::shared_ptr<ParserClient> client)
 	: m_context(context)
@@ -327,24 +329,10 @@ std::vector<ParseVariable> ASTVisitor::getParameters(clang::FunctionDecl* declar
 	return parameters;
 }
 
-std::string ASTVisitor::getTypeName(const clang::QualType& type) const
+std::string ASTVisitor::getTypeName(const clang::QualType& qualType) const
 {
-	std::string typeName = type.getUnqualifiedType().getAsString();
-
-	// Remove keywords from type.
-	std::string keyword;
-	size_t pos = typeName.find_first_of(' ');
-	if (pos != std::string::npos)
-	{
-		keyword = typeName.substr(0, pos);
-	}
-
-	if (keyword == "class" || keyword == "struct" || keyword == "enum")
-	{
-		typeName = typeName.substr(pos + 1);
-	}
-
-	return typeName;
+	DataType dataType(qualType);
+	return dataType.getRawTypeName();
 }
 
 ParserClient::AccessType ASTVisitor::convertAccessType(clang::AccessSpecifier access) const

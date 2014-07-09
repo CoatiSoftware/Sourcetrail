@@ -86,6 +86,17 @@ add_files(
 	data/parser/ParseVariable.cpp
 	data/parser/ParseVariable.h
 
+	data/type/modifier/DataTypeModifier.cpp
+	data/type/modifier/DataTypeModifier.h
+	data/type/modifier/DataTypeModifierPointer.cpp
+	data/type/modifier/DataTypeModifierPointer.h
+	data/type/DataType.cpp
+	data/type/DataType.h
+	data/type/DataTypeModifierStack.cpp
+	data/type/DataTypeModifierStack.h
+	data/type/DataTypeQualifierList.cpp
+	data/type/DataTypeQualifierList.h
+
 	data/ElementIndex.cpp
 	data/ElementIndex.h
 	data/SearchIndex.cpp
@@ -136,6 +147,8 @@ add_files(
 	utility/FileSystem.h
 	utility/Property.h
 	utility/types.h
+	utility/utilityClang.cpp
+	utility/utilityClang.h
 	utility/utilityString.cpp
 	utility/utilityString.h
 	utility/Vector.h
