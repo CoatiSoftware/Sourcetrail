@@ -239,6 +239,63 @@ std::vector<std::string> Storage::getNamesForNodesWithNamePrefix(const std::stri
 	return names;
 }
 
+std::vector<Id> Storage::getIdsOfNeighbours(const Id id) const
+{
+	std::vector<Id> result;
+
+	Node* node = m_graph.findNode([&](Node* node){
+		return node->getId() == id;
+	});
+
+	if (node != NULL)
+	{
+		std::map<Id, bool> addedIds;
+		addedIds[id] = true;
+
+		node->forEachEdge(
+				[&result, &addedIds](Edge* e)
+				{
+					Id fromId = e->getFrom()->getId();
+					if (addedIds.find(fromId) == addedIds.end())
+					{
+						result.push_back(fromId);
+						addedIds[fromId] = true;
+					}
+
+					Id toId = e->getTo()->getId();
+					if (addedIds.find(toId) == addedIds.end())
+					{
+						result.push_back(toId);
+						addedIds[toId] = true;
+					}
+				}
+			);
+	}
+
+	return result;
+}
+
+std::vector<std::pair<Id, Id>> Storage::getConnectedEdges(const Id id) const
+{
+	std::vector<std::pair<Id, Id>> result;
+
+	Node* node = m_graph.findNode([&](Node* node){
+		return node->getId() == id;
+	});
+
+	if (node != NULL)
+	{
+		node->forEachEdge(
+				[&result, &id](Edge* e)
+				{
+					result.push_back(std::pair<Id, Id>(e->getFrom()->getId(), e->getTo()->getId()));
+				}
+			);
+	}
+
+	return result;
+}
+
 TokenLocationCollection Storage::getTokenLocationsForTokenId(Id id) const
 {
 	TokenLocationCollection ret;

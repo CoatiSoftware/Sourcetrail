@@ -18,10 +18,12 @@ public:
 	Id getTokenId();
 	virtual Vec2i getPosition() = 0;
 
-	virtual void addOutEdge(const std::shared_ptr<GraphEdge>& edge) = 0;
-	virtual void addInEdge(const std::weak_ptr<GraphEdge>& edge) = 0;
+	virtual bool addOutEdge(const std::shared_ptr<GraphEdge>& edge) = 0;
+	virtual bool addInEdge(const std::weak_ptr<GraphEdge>& edge) = 0;
 
-	virtual void removeOutEdge(const std::shared_ptr<GraphEdge>& edge) = 0;
+	virtual void removeOutEdge(GraphEdge* edge) = 0;
+
+	virtual void addSubNode(const std::shared_ptr<GraphNode>& node) = 0;
 
 protected:
 	Id m_tokenId;

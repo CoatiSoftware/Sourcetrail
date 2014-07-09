@@ -12,6 +12,7 @@
 #include "qt/QtWidgetWrapper.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
 #include "qt/view/graphElements/QtGraphNode.h"
+#include "qt/view/graphElements/QtGraphNodeMovable.h"
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)
@@ -70,15 +71,41 @@ QGraphicsView* QtGraphView::getView()
 
 void QtGraphView::doRebuildGraph(const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges)
 {
-	doClear();
-
 	QGraphicsView* view = getView();
 
 	if (view != NULL)
 	{
+		std::map<Id, std::weak_ptr<GraphNode>> weakNodes; // used when creating the edges
+		std::list<std::shared_ptr<GraphNode>> newNodes; // temporary stores all nodes (existing and newly created) needed in the new graph
+														// this is a relatively easy and cheap way to save existing nodes that are still needed
+
+		// create nodes (or find existing nodes for re-use)
 		for(unsigned int i = 0; i < nodes.size(); i++)
 		{
 			std::shared_ptr<GraphNode> newNode = findOrCreateNode(view, nodes[i]);
+			newNodes.push_back(newNode);
+			weakNodes[nodes[i].tokenId] = newNode;
+		}
+
+		doClear();
+		m_nodes = newNodes;
+
+		// create edges
+		for(unsigned int i = 0; i < edges.size(); i++)
+		{
+			if (weakNodes.find(edges[i].ownerId) != weakNodes.end() && weakNodes.find(edges[i].targetId) != weakNodes.end())
+			{
+				if (weakNodes[edges[i].ownerId].expired() == false && weakNodes[edges[i].targetId].expired() == false)
+				{
+					std::shared_ptr<QtGraphEdge> newEdge = std::make_shared<QtGraphEdge>(weakNodes[edges[i].ownerId], weakNodes[edges[i].targetId]);
+					view->scene()->addItem(newEdge.get());
+					if(weakNodes[edges[i].ownerId].lock()->addOutEdge(newEdge))
+					{
+						weakNodes[edges[i].targetId].lock()->addInEdge(newEdge);
+						m_edges.push_back(newEdge);
+					}
+				}
+			}
 		}
 	}
 	else
@@ -126,9 +153,17 @@ std::shared_ptr<GraphNode> QtGraphView::createNode(QGraphicsView* view, const Du
 {
 	if(view != NULL)
 	{
-		std::shared_ptr<QtGraphNode> newNode = std::make_shared<QtGraphNode>(node.position, node.name, node.tokenId);
+		std::shared_ptr<QtGraphNodeMovable> newNode = std::make_shared<QtGraphNodeMovable>(node.position, node.name, node.tokenId);
 		view->scene()->addItem(newNode.get());
 		m_nodes.push_back(newNode);
+
+		// create debug sub node
+		std::shared_ptr<QtGraphNode> subNode = std::make_shared<QtGraphNode>(Vec2i(10, 30), node.name + " member", 666);
+		subNode->setParentItem(newNode.get());
+		view->scene()->addItem(subNode.get());
+		newNode->addSubNode(subNode);
+
+		subNode->setRect(0, 0, 80, 20);
 
 		return newNode;
 	}

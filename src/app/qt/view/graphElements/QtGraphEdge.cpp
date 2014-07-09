@@ -17,7 +17,7 @@ QtGraphEdge::QtGraphEdge(const std::weak_ptr<GraphNode>& owner, const std::weak_
 	}
 	else
 	{
-		LOG_WARNING("Either the owner or the target node could is null.");
+		LOG_WARNING("Either the owner or the target node is null.");
 	}
 
 	QPen blackPen(Qt::black);
@@ -56,4 +56,28 @@ void QtGraphEdge::targetMoved()
 	{
 		LOG_WARNING("Target node is null.");
 	}
+}
+
+void QtGraphEdge::removeEdgeFromScene()
+{
+	std::shared_ptr<GraphNode> node = m_owner.lock();
+
+	if(node != NULL)
+	{
+		node->removeOutEdge(this);
+	}
+	else
+	{
+		LOG_WARNING("Target node is null.");
+	}
+}
+
+std::weak_ptr<GraphNode> QtGraphEdge::getOwner()
+{
+	return m_owner;
+}
+
+std::weak_ptr<GraphNode> QtGraphEdge::getTarget()
+{
+	return m_target;
 }

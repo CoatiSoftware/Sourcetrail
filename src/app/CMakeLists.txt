@@ -22,6 +22,8 @@ add_files(
 	qt/view/graphElements/QtGraphEdge.h
 	qt/view/graphElements/QtGraphNode.cpp
 	qt/view/graphElements/QtGraphNode.h
+	qt/view/graphElements/QtGraphNodeMovable.cpp
+	qt/view/graphElements/QtGraphNodeMovable.h
 
 	qt/view/QtCodeView.cpp
 	qt/view/QtCodeView.h

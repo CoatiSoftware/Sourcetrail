@@ -21,21 +21,23 @@ public:
 	virtual std::string getName();
 	virtual Vec2i getPosition();
 
-	virtual void addOutEdge(const std::shared_ptr<GraphEdge>& edge);
-	virtual void addInEdge(const std::weak_ptr<GraphEdge>& edge);
+	virtual bool addOutEdge(const std::shared_ptr<GraphEdge>& edge);
+	virtual bool addInEdge(const std::weak_ptr<GraphEdge>& edge);
 
-	virtual void removeOutEdge(const std::shared_ptr<GraphEdge>& edge);
+	virtual void removeOutEdge(GraphEdge* edge);
 
-	void mousePressEvent(QGraphicsSceneMouseEvent *event);
-	void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+	virtual void addSubNode(const std::shared_ptr<GraphNode>& node);
+
+	void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event);
+
+protected:
+	std::list<std::shared_ptr<GraphEdge> > m_outEdges;
+	std::list<std::weak_ptr<GraphEdge> > m_inEdges;
 
 private:
 	QGraphicsTextItem* m_text;
 
-	std::list<std::shared_ptr<GraphEdge> > m_outEdges;
-	std::list<std::weak_ptr<GraphEdge> > m_inEdges;
-
-	Vec2i m_mouseOffset;
+	std::list<std::shared_ptr<GraphNode> > m_subNodes;
 };
 
 #endif // QT_GRAPH_NODE_H

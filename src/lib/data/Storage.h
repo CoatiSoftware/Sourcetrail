@@ -57,6 +57,8 @@ public:
 	virtual Id getIdForNodeWithName(const std::string& name) const;
 	virtual std::string getNameForNodeWithId(Id id) const;
 	virtual std::vector<std::string> getNamesForNodesWithNamePrefix(const std::string& prefix) const;
+	virtual std::vector<Id> getIdsOfNeighbours(const Id id) const;
+	virtual std::vector<std::pair<Id, Id>> getConnectedEdges(const Id id) const;
 
 	// LocationAccess implementation
 	virtual TokenLocationCollection getTokenLocationsForTokenId(Id locationId) const;

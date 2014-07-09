@@ -20,6 +20,11 @@ public:
 	virtual void ownerMoved();
 	virtual void targetMoved();
 
+	virtual void removeEdgeFromScene();
+
+	virtual std::weak_ptr<GraphNode> getOwner();
+	virtual std::weak_ptr<GraphNode> getTarget();
+
 private:
 	std::weak_ptr<GraphNode> m_owner;
 	std::weak_ptr<GraphNode> m_target;
