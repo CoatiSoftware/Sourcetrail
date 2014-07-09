@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 	QtGuiFactory guiFactory;
 
 	std::shared_ptr<Application> app = Application::create(&guiFactory);
-	app->loadProject();
+	app->loadProject("data/ProjectSettings.xml");
 
 	return qtApp.exec();
 }

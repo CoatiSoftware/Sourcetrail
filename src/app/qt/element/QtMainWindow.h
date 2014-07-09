@@ -20,7 +20,14 @@ public:
 	void addView(View* view);
 	void removeView(View* view);
 
+public slots:
+    void about();
+    void openProject(const QString &path = QString());
+
 private:
+    void setupProjectMenu();
+    void setupHelpMenu();
+
 	std::vector<std::pair<View*, QDockWidget*> > m_dockWidgets;
 };
 

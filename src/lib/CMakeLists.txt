@@ -130,6 +130,8 @@ add_files(
 	utility/math/VectorBase.h
 
 	utility/messaging/type/MessageActivateToken.h
+	utility/messaging/type/MessageFinishedParsing.h
+	utility/messaging/type/MessageLoadProject.h
 
 	utility/messaging/Message.h
 	utility/messaging/MessageBase.h

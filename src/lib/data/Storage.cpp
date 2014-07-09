@@ -18,6 +18,27 @@ Storage::~Storage()
 {
 }
 
+void Storage::clear()
+{
+	m_graph.clear();
+	m_locationCollection.clear();
+}
+
+void Storage::logGraph() const
+{
+	std::stringstream str;
+	str << "\n" << m_graph;
+	LOG_INFO(str.str());
+}
+
+void Storage::logLocations() const
+{
+	std::stringstream str;
+	str << "\n" << m_locationCollection;
+	LOG_INFO(str.str());
+}
+
+
 void Storage::onTypedefParsed(
 	const ParseLocation& location, const std::string& fullName, const std::string& underlyingFullName,
 	AccessType access
@@ -186,20 +207,6 @@ void Storage::onCallParsed(const ParseLocation& location, const std::string& cal
 	Edge* edge = m_graph.createEdge(Edge::EDGE_CALL, callerNode, calleeNode);
 
 	addTokenLocation(edge, location);
-}
-
-void Storage::logGraph() const
-{
-	std::stringstream str;
-	str << "\n" << m_graph;
-	LOG_INFO(str.str());
-}
-
-void Storage::logLocations() const
-{
-	std::stringstream str;
-	str << "\n" << m_locationCollection;
-	LOG_INFO(str.str());
 }
 
 

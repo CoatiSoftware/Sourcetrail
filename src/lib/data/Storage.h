@@ -19,6 +19,12 @@ public:
 	Storage();
 	virtual ~Storage();
 
+	void clear();
+
+	void logGraph() const;
+	void logLocations() const;
+
+	// ParserClient implementation
 	virtual void onTypedefParsed(
 		const ParseLocation& location, const std::string& fullName, const std::string& underlyingFullName,
 		AccessType access
@@ -46,9 +52,6 @@ public:
 		const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access);
 	virtual void onCallParsed(
 		const ParseLocation& location, const std::string& callerName, const std::string& calleeName);
-
-	void logGraph() const;
-	void logLocations() const;
 
 	// GraphAccess implementation
 	virtual Id getIdForNodeWithName(const std::string& name) const;

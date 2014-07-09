@@ -43,6 +43,8 @@ public:
 
 	TokenLocation* addTokenLocationAsPlainCopy(const TokenLocation* location);
 
+	void clear();
+
 private:
 	TokenLocationFile* createTokenLocationFile(const std::string& filePath);
 

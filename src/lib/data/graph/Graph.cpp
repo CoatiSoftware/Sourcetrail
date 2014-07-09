@@ -223,6 +223,12 @@ void Graph::forEachToken(std::function<void(Token*)> func) const
 	forEachEdge(func);
 }
 
+void Graph::clear()
+{
+	m_edges.clear();
+	m_nodes.clear();
+}
+
 const std::vector<std::shared_ptr<Node> >& Graph::getNodes() const
 {
 	return m_nodes;

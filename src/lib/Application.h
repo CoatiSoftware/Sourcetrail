@@ -5,22 +5,26 @@
 
 #include "component/ComponentManager.h"
 #include "Project.h"
+#include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/MessageLoadProject.h"
 
 class GuiFactory;
 class MainView;
 class Storage;
 
-class Application
+class Application: public MessageListener<MessageLoadProject>
 {
 public:
 	static std::shared_ptr<Application> create(GuiFactory* guiFactory);
 
 	~Application();
 
-	void loadProject();
+	void loadProject(const std::string& projectSettingsFilePath);
 
 private:
 	Application();
+
+	virtual void handleMessage(MessageLoadProject* message);
 
 	std::shared_ptr<Project> m_project;
 	std::shared_ptr<Storage> m_storage;

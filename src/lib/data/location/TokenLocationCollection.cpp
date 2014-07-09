@@ -129,6 +129,12 @@ TokenLocation* TokenLocationCollection::addTokenLocationAsPlainCopy(const TokenL
 	return copy;
 }
 
+void TokenLocationCollection::clear()
+{
+	m_locations.clear();
+	m_files.clear();
+}
+
 TokenLocationFile* TokenLocationCollection::createTokenLocationFile(const std::string& filePath)
 {
 	TokenLocationFile* file = findTokenLocationFileByPath(filePath);

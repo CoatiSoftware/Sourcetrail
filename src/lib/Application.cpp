@@ -23,6 +23,8 @@ std::shared_ptr<Application> Application::create(GuiFactory* guiFactory)
 	ptr->m_componentManager =
 		ComponentManager::create(guiFactory, ptr->m_mainView.get(), ptr->m_storage, ptr->m_storage);
 
+	ptr->m_componentManager->setup();
+
 	return ptr;
 }
 
@@ -36,14 +38,19 @@ Application::~Application()
 	MessageQueue::getInstance()->stopMessageLoop();
 }
 
-void Application::loadProject()
+void Application::loadProject(const std::string& projectSettingsFilePath)
 {
-	m_componentManager->setup();
+	m_storage->clear();
 	m_project = Project::create(m_storage);
 
-	m_project->loadProjectSettings("data/ProjectSettings.xml");
+	m_project->loadProjectSettings(projectSettingsFilePath);
 	m_project->parseCode();
 
 	MessageActivateToken message(1);
 	message.dispatch();
+}
+
+void Application::handleMessage(MessageLoadProject* message)
+{
+	loadProject(message->projectSettingsFilePath);
 }

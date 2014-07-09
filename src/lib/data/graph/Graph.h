@@ -38,6 +38,8 @@ public:
 	Node* addNodeAsPlainCopy(Node* node);
 	Edge* addEdgeAsPlainCopy(Edge* edge);
 
+	void clear();
+
 protected:
 	const std::vector<std::shared_ptr<Node> >& getNodes() const;
 	const std::vector<std::shared_ptr<Edge> >& getEdges() const;
