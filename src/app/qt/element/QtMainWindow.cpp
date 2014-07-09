@@ -1,7 +1,5 @@
 #include "qt/element/QtMainWindow.h"
 
-#include <iostream>
-
 #include <QCoreApplication>
 #include <QFileDialog>
 #include <QDockWidget>
@@ -11,6 +9,7 @@
 #include "component/view/View.h"
 #include "qt/QtWidgetWrapper.h"
 #include "utility/messaging/type/MessageLoadProject.h"
+#include "utility/messaging/type/MessageLoadSource.h"
 
 QtMainWindow::QtMainWindow()
 {
@@ -41,6 +40,16 @@ void QtMainWindow::about()
 	);
 }
 
+void QtMainWindow::newProject()
+{
+	QString sourceDir = QFileDialog::getExistingDirectory(this, tr("Open Directory"));
+
+	if (!sourceDir.isEmpty())
+	{
+		MessageLoadSource(sourceDir.toStdString()).dispatch();
+	}
+}
+
 void QtMainWindow::openProject(const QString &path)
 {
 	QString fileName = path;
@@ -52,9 +61,7 @@ void QtMainWindow::openProject(const QString &path)
 
 	if (!fileName.isEmpty())
 	{
-		std::cout << fileName.toStdString() << std::endl;
-		MessageLoadProject message(fileName.toStdString());
-		message.dispatch();
+		MessageLoadProject(fileName.toStdString()).dispatch();
 	}
 }
 
@@ -81,18 +88,19 @@ void QtMainWindow::removeView(View* view)
 
 void QtMainWindow::setupProjectMenu()
 {
-	QMenu *fileMenu = new QMenu(tr("&Project"), this);
-	menuBar()->addMenu(fileMenu);
+	QMenu *menu = new QMenu(tr("&Project"), this);
+	menuBar()->addMenu(menu);
 
-	fileMenu->addAction(tr("&Open..."), this, SLOT(openProject()), QKeySequence::Open);
-	fileMenu->addAction(tr("E&xit"), QCoreApplication::instance(), SLOT(quit()), QKeySequence::Quit);
+	menu->addAction(tr("&New"), this, SLOT(newProject()), QKeySequence::New);
+	menu->addAction(tr("&Open..."), this, SLOT(openProject()), QKeySequence::Open);
+	menu->addAction(tr("E&xit"), QCoreApplication::instance(), SLOT(quit()), QKeySequence::Quit);
 }
 
 void QtMainWindow::setupHelpMenu()
 {
-	QMenu *helpMenu = new QMenu(tr("&Help"), this);
-	menuBar()->addMenu(helpMenu);
+	QMenu *menu = new QMenu(tr("&Help"), this);
+	menuBar()->addMenu(menu);
 
-	helpMenu->addAction(tr("&About"), this, SLOT(about()));
-	helpMenu->addAction(tr("About &Qt"), QCoreApplication::instance(), SLOT(aboutQt()));
+	menu->addAction(tr("&About"), this, SLOT(about()));
+	menu->addAction(tr("About &Qt"), QCoreApplication::instance(), SLOT(aboutQt()));
 }

@@ -12,7 +12,7 @@ public:
 	~ProjectSettings();
 
 	std::string getSourcePath() const;
-	void setSourcePath(const std::string& sourcePath);
+	bool setSourcePath(const std::string& sourcePath);
 
 private:
 	ProjectSettings();

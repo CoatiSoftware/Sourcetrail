@@ -1,12 +1,19 @@
 #include "utility/ConfigManager.h"
 
-#include "logging/logging.h"
+#include "tinyxml/tinyxml.h"
+
+#include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
+
+std::shared_ptr<ConfigManager> ConfigManager::createEmpty()
+{
+	return std::shared_ptr<ConfigManager>(new ConfigManager());
+}
 
 std::shared_ptr<ConfigManager> ConfigManager::createAndLoad(const std::shared_ptr<TextAccess> textAccess)
 {
-	std::shared_ptr<ConfigManager> configManager = std::shared_ptr<ConfigManager>(new ConfigManager(textAccess));
-	configManager->load();
+	std::shared_ptr<ConfigManager> configManager = std::shared_ptr<ConfigManager>(new ConfigManager());
+	configManager->load(textAccess);
 	return configManager;
 }
 
@@ -14,14 +21,14 @@ bool ConfigManager::getValue(const std::string& key, std::string& value) const
 {
 	std::map<std::string, std::string>::const_iterator it = m_values.find(key);
 
-	if(it != m_values.end())
+	if (it != m_values.end())
 	{
 		value = it->second;
 		return true;
 	}
 	else
 	{
-		// LOG ERROR
+		LOG_ERROR("value " + key + " is not present in config.");
 		return false;
 	}
 }
@@ -63,13 +70,13 @@ void ConfigManager::setValue(const std::string& key, const std::string& value)
 {
 	std::map<std::string, std::string>::iterator it = m_values.find(key);
 
-	if(it != m_values.end())
+	if (it != m_values.end())
 	{
 		it->second = value;
 	}
 	else
 	{
-		// LOG ERROR
+		m_values.emplace(key, value);
 	}
 }
 
@@ -85,13 +92,12 @@ void ConfigManager::setValue(const std::string& key, const float value)
 
 void ConfigManager::setValue(const std::string& key, const bool value)
 {
-	setValue(key, (value ? "1" : "0"));
+	setValue(key, std::string(value ? "1" : "0"));
 }
 
-
-void ConfigManager::load()
+void ConfigManager::load(const std::shared_ptr<TextAccess> textAccess)
 {
-	std::string text = m_textAccess->getText();
+	std::string text = textAccess->getText();
 
 	TiXmlDocument doc;
 	const char* pTest = doc.Parse(text.c_str(), 0, TIXML_ENCODING_UTF8);
@@ -99,25 +105,23 @@ void ConfigManager::load()
 	{
 		TiXmlHandle docHandle(&doc);
 		TiXmlNode *rootNode = docHandle.FirstChild("config").ToNode();
-		for(TiXmlNode *childNode = rootNode->FirstChild(); childNode; childNode = childNode->NextSibling())
+		for (TiXmlNode *childNode = rootNode->FirstChild(); childNode; childNode = childNode->NextSibling())
 		{
 			parseSubtree(childNode, "");
 		}
 	}
 	else
 	{
-		// LOG ERROR Unable to load file.
+		LOG_ERROR("Unable to load file.");
 	}
 }
 
 void ConfigManager::save()
 {
 	LOG_ERROR("function: configmanager::save not implemented");
-	// LOG ("Saving config to file: " + m_filePath)
 }
 
-ConfigManager::ConfigManager(const std::shared_ptr<TextAccess> textAccess)
-	: m_textAccess(textAccess)
+ConfigManager::ConfigManager()
 {
 }
 
@@ -130,7 +134,7 @@ void ConfigManager::parseSubtree(TiXmlNode* currentNode, const std::string& curr
 	}
 	else
 	{
-		for(TiXmlNode *childNode = currentNode->FirstChild(); childNode; childNode = childNode->NextSibling())
+		for (TiXmlNode *childNode = currentNode->FirstChild(); childNode; childNode = childNode->NextSibling())
 		{
 			parseSubtree(childNode, currentPath + std::string(currentNode->Value()) + "/");
 		}

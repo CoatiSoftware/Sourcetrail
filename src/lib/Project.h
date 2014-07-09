@@ -16,6 +16,10 @@ public:
 	~Project();
 
 	bool loadProjectSettings(const std::string& projectSettingsFile);
+	void clearProjectSettings();
+
+	bool setSourceDirectoryPath(const std::string& sourceDirectoryPath);
+
 	void parseCode();
 
 private:

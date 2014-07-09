@@ -25,7 +25,7 @@ std::string ProjectSettings::getSourcePath() const
 	return getValue<std::string>("SourcePath", "");
 }
 
-void ProjectSettings::setSourcePath(const std::string& sourcePath)
+bool ProjectSettings::setSourcePath(const std::string& sourcePath)
 {
-	setValue<std::string>("SourcePath", sourcePath);
+	return setValue<std::string>("SourcePath", sourcePath);
 }

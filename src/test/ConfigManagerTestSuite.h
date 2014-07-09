@@ -71,6 +71,32 @@ public:
 		TS_ASSERT(!value);
 	}
 
+	void test_config_manager_adds_new_key_when_empty()
+	{
+		std::shared_ptr<ConfigManager> config = ConfigManager::createEmpty();
+
+		config->setValue("path/to/true_bool", true);
+
+		bool value = false;
+		bool success(config->getValue("path/to/true_bool", value));
+
+		TS_ASSERT(success);
+		TS_ASSERT(value);
+	}
+
+	void test_config_manager_adds_new_key_when_not_empty()
+	{
+		std::shared_ptr<ConfigManager> config = ConfigManager::createAndLoad(getConfigTextAccess());
+
+		config->setValue("path/to/true_bool", true);
+
+		bool value = false;
+		bool success(config->getValue("path/to/true_bool", value));
+
+		TS_ASSERT(success);
+		TS_ASSERT(value);
+	}
+
 private:
 	std::shared_ptr<TextAccess> getConfigTextAccess()
 	{

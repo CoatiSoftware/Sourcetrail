@@ -5,13 +5,13 @@
 #include <memory>
 #include <string>
 
-#include "tinyxml/tinyxml.h"
-
 class TextAccess;
+class TiXmlNode;
 
 class ConfigManager
 {
 public:
+	static std::shared_ptr<ConfigManager> createEmpty();
 	static std::shared_ptr<ConfigManager> createAndLoad(const std::shared_ptr<TextAccess> textAccess);
 
 	bool getValue(const std::string& key, std::string& value) const;
@@ -24,17 +24,16 @@ public:
 	void setValue(const std::string& key, const float value);
 	void setValue(const std::string& key, const bool value);
 
-	void load();
+	void load(const std::shared_ptr<TextAccess> textAccess);
 	void save();
 
 private:
-	ConfigManager(const std::shared_ptr<TextAccess> textAccess);
+	ConfigManager();
 	ConfigManager(const ConfigManager&);
 	void operator=(const ConfigManager&);
 
 	void parseSubtree(TiXmlNode* parentElement, const std::string& currentPath);
 
-	const std::shared_ptr<TextAccess> m_textAccess;
 	std::map<std::string, std::string> m_values;
 };
 

@@ -14,12 +14,13 @@ public:
 
 	bool load(const std::string& filePath);
 	void save(const std::string& filePath);
+	void clear();
 
 	template<typename T>
 	T getValue(const std::string& key, T defaultValue) const;
 
 	template<typename T>
-	void setValue(const std::string& key, T value);
+	bool setValue(const std::string& key, T value);
 
 private:
 	std::shared_ptr<ConfigManager> m_config;
@@ -40,12 +41,14 @@ T Settings::getValue(const std::string& key, T defaultValue) const
 }
 
 template<typename T>
-void Settings::setValue(const std::string& key, T value)
+bool Settings::setValue(const std::string& key, T value)
 {
 	if (m_config)
 	{
 		m_config->setValue(key, value);
+		return true;
 	}
+	return false;
 }
 
 #endif // SETTINGS_H

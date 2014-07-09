@@ -50,7 +50,25 @@ void Application::loadProject(const std::string& projectSettingsFilePath)
 	message.dispatch();
 }
 
+void Application::loadSource(const std::string& sourceDirectoryPath)
+{
+	m_storage->clear();
+	m_project = Project::create(m_storage);
+
+	m_project->clearProjectSettings();
+	m_project->setSourceDirectoryPath(sourceDirectoryPath);
+	m_project->parseCode();
+
+	MessageActivateToken message(1);
+	message.dispatch();
+}
+
 void Application::handleMessage(MessageLoadProject* message)
 {
 	loadProject(message->projectSettingsFilePath);
+}
+
+void Application::handleMessage(MessageLoadSource* message)
+{
+	loadSource(message->sourceDirectoryPath);
 }

@@ -30,6 +30,16 @@ bool Project::loadProjectSettings(const std::string& projectSettingsFile)
 	return ProjectSettings::getInstance()->load(projectSettingsFile);
 }
 
+void Project::clearProjectSettings()
+{
+	ProjectSettings::getInstance()->clear();
+}
+
+bool Project::setSourceDirectoryPath(const std::string& sourceDirectoryPath)
+{
+	return ProjectSettings::getInstance()->setSourcePath(sourceDirectoryPath);
+}
+
 void Project::parseCode()
 {
 	if (ProjectSettings::getInstance()->getSourcePath() != "")

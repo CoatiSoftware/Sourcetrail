@@ -22,6 +22,7 @@ public:
 
 public slots:
     void about();
+    void newProject();
     void openProject(const QString &path = QString());
 
 private:

@@ -14,8 +14,6 @@ Settings::~Settings()
 
 bool Settings::load(const std::string& filePath)
 {
-	m_config.reset();
-
 	if (FileSystem::exists(filePath))
 	{
 		m_config = ConfigManager::createAndLoad(TextAccess::createFromFile(filePath));
@@ -23,6 +21,7 @@ bool Settings::load(const std::string& filePath)
 	}
 	else
 	{
+		m_config = ConfigManager::createEmpty();
 		LOG_WARNING("File for Settings not found.");
 		return false;
 	}
@@ -38,4 +37,9 @@ void Settings::save(const std::string& filePath)
 	{
 		LOG_WARNING("Settings were not saved.");
 	}
+}
+
+void Settings::clear()
+{
+	m_config = ConfigManager::createEmpty();
 }
