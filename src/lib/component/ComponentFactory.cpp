@@ -11,16 +11,13 @@
 #include "gui/GuiFactory.h"
 
 std::shared_ptr<ComponentFactory> ComponentFactory::create(
-	GuiFactory* guiFactory,
-	ViewLayout* viewLayout,
-	std::shared_ptr<LocationAccess> locationAccess,
-	std::shared_ptr<GraphAccess> graphAccess)
-{
+	GuiFactory* guiFactory, ViewLayout* viewLayout, GraphAccess* graphAccess, LocationAccess* locationAccess
+){
 	std::shared_ptr<ComponentFactory> ptr(new ComponentFactory());
 	ptr->m_guiFactory = guiFactory;
 	ptr->m_viewLayout = viewLayout;
-	ptr->m_locationAccess = locationAccess;
 	ptr->m_graphAccess = graphAccess;
+	ptr->m_locationAccess = locationAccess;
 	return ptr;
 }
 

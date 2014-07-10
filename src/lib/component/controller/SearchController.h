@@ -17,7 +17,7 @@ class SearchController
 	, public MessageListener<MessageFinishedParsing>
 {
 public:
-	SearchController(std::shared_ptr<GraphAccess> graphAccess);
+	SearchController(GraphAccess* graphAccess);
 	~SearchController();
 
 	void search(const std::string& s);
@@ -28,7 +28,7 @@ private:
 	virtual void handleMessage(MessageFinishedParsing* message);
 	SearchView* getView();
 
-	std::shared_ptr<GraphAccess> m_graphAccess;
+	GraphAccess* m_graphAccess;
 };
 
 #endif // SEARCH_CONTROLLER_H

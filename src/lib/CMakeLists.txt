@@ -56,8 +56,12 @@ add_files(
 
 	data/access/LocationAccess.cpp
 	data/access/LocationAccess.h
+	data/access/LocationAccessProxy.cpp
+	data/access/LocationAccessProxy.h
 	data/access/GraphAccess.cpp
 	data/access/GraphAccess.h
+	data/access/GraphAccessProxy.cpp
+	data/access/GraphAccessProxy.h
 
 	data/graph/Edge.cpp
 	data/graph/Edge.h

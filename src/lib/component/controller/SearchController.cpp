@@ -3,7 +3,7 @@
 #include "component/view/SearchView.h"
 #include "data/access/GraphAccess.h"
 
-SearchController::SearchController(std::shared_ptr<GraphAccess> graphAccess)
+SearchController::SearchController(GraphAccess* graphAccess)
 	: m_graphAccess(graphAccess)
 {
 }

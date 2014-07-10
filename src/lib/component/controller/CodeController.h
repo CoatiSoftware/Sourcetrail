@@ -22,7 +22,7 @@ class CodeController
 	, public MessageListener<MessageActivateToken>
 {
 public:
-	CodeController(std::shared_ptr<LocationAccess> locationAccess);
+	CodeController(LocationAccess* locationAccess);
 	~CodeController();
 
 	void setActiveTokenId(Id id);
@@ -31,7 +31,7 @@ private:
 	virtual void handleMessage(MessageActivateToken* message);
 	CodeView* getView();
 
-	std::shared_ptr<LocationAccess> m_locationAccess;
+	LocationAccess* m_locationAccess;
 };
 
 

@@ -2,7 +2,8 @@
 
 #include "ApplicationSettings.h"
 #include "component/view/MainView.h"
-#include "data/Storage.h"
+#include "data/access/GraphAccessProxy.h"
+#include "data/access/LocationAccessProxy.h"
 #include "gui/GuiFactory.h"
 #include "utility/logging/ConsoleLogger.h"
 #include "utility/logging/LogManager.h"
@@ -17,11 +18,13 @@ std::shared_ptr<Application> Application::create(GuiFactory* guiFactory)
 	ApplicationSettings::getInstance()->load("data/ApplicationSettings.xml");
 
 	std::shared_ptr<Application> ptr(new Application());
-	ptr->m_storage = std::make_shared<Storage>();
+
+	ptr->m_graphAccessProxy = std::make_shared<GraphAccessProxy>();
+	ptr->m_locationAccessProxy = std::make_shared<LocationAccessProxy>();
 
 	ptr->m_mainView = guiFactory->createMainView();
-	ptr->m_componentManager =
-		ComponentManager::create(guiFactory, ptr->m_mainView.get(), ptr->m_storage, ptr->m_storage);
+	ptr->m_componentManager = ComponentManager::create(
+		guiFactory, ptr->m_mainView.get(), ptr->m_graphAccessProxy.get(), ptr->m_locationAccessProxy.get());
 
 	ptr->m_componentManager->setup();
 
@@ -40,8 +43,7 @@ Application::~Application()
 
 void Application::loadProject(const std::string& projectSettingsFilePath)
 {
-	m_storage->clear();
-	m_project = Project::create(m_storage);
+	m_project = Project::create(m_graphAccessProxy.get(), m_locationAccessProxy.get());
 
 	m_project->loadProjectSettings(projectSettingsFilePath);
 	m_project->parseCode();
@@ -52,8 +54,7 @@ void Application::loadProject(const std::string& projectSettingsFilePath)
 
 void Application::loadSource(const std::string& sourceDirectoryPath)
 {
-	m_storage->clear();
-	m_project = Project::create(m_storage);
+	m_project = Project::create(m_graphAccessProxy.get(), m_locationAccessProxy.get());
 
 	m_project->clearProjectSettings();
 	m_project->setSourceDirectoryPath(sourceDirectoryPath);

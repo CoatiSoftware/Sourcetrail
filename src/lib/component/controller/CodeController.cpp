@@ -10,7 +10,7 @@
 #include "utility/logging/logging.h"
 
 
-CodeController::CodeController(std::shared_ptr<LocationAccess> locationAccess)
+CodeController::CodeController(LocationAccess* locationAccess)
 	: m_locationAccess(locationAccess)
 {
 }

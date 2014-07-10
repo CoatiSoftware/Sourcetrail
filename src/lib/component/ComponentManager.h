@@ -16,10 +16,8 @@ class ComponentManager
 {
 public:
 	static std::shared_ptr<ComponentManager> create(
-		GuiFactory* guiFactory,
-		ViewLayout* viewLayout,
-		std::shared_ptr<LocationAccess> locationAccess,
-		std::shared_ptr<GraphAccess> graphAccess);
+		GuiFactory* guiFactory, ViewLayout* viewLayout, GraphAccess* graphAccess, LocationAccess* locationAccess
+	);
 
 	~ComponentManager();
 

@@ -3,22 +3,22 @@
 #include <string>
 #include <vector>
 
+#include "data/access/GraphAccessProxy.h"
+#include "data/access/LocationAccessProxy.h"
 #include "data/parser/cxx/CxxParser.h"
 #include "utility/FileSystem.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageFinishedParsing.h"
 
-std::shared_ptr<Project> Project::create(
-	std::shared_ptr<Storage> storage
-)
+std::shared_ptr<Project> Project::create(GraphAccessProxy* graphAccessProxy, LocationAccessProxy* locationAccessProxy)
 {
-	std::shared_ptr<Project> ptr(new Project());
-	ptr->m_storage = storage;
+	std::shared_ptr<Project> ptr(new Project(graphAccessProxy, locationAccessProxy));
+	ptr->m_storage = std::make_shared<Storage>();
+
+	graphAccessProxy->setSubject(ptr->m_storage.get());
+	locationAccessProxy->setSubject(ptr->m_storage.get());
+
 	return ptr;
-}
-
-Project::Project()
-{
 }
 
 Project::~Project()
@@ -59,4 +59,10 @@ void Project::parseCode()
 		MessageFinishedParsing message;
 		message.dispatch();
 	}
+}
+
+Project::Project(GraphAccessProxy* graphAccessProxy, LocationAccessProxy* locationAccessProxy)
+	: m_graphAccessProxy(graphAccessProxy)
+	, m_locationAccessProxy(locationAccessProxy)
+{
 }

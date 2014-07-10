@@ -14,10 +14,8 @@ class ComponentFactory
 {
 public:
 	static std::shared_ptr<ComponentFactory> create(
-		GuiFactory* guiFactory,
-		ViewLayout* viewLayout,
-		std::shared_ptr<LocationAccess> locationAccess,
-		std::shared_ptr<GraphAccess> graphAccess);
+		GuiFactory* guiFactory, ViewLayout* viewLayout, GraphAccess* graphAccess, LocationAccess* locationAccess
+	);
 
 	~ComponentFactory();
 
@@ -32,8 +30,8 @@ private:
 	GuiFactory* m_guiFactory;
 	ViewLayout* m_viewLayout;
 
-	std::shared_ptr<LocationAccess> m_locationAccess;
-	std::shared_ptr<GraphAccess> m_graphAccess;
+	GraphAccess* m_graphAccess;
+	LocationAccess* m_locationAccess;
 };
 
 

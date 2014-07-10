@@ -7,13 +7,10 @@
 #include "data/location/TokenLocationFile.h"
 
 std::shared_ptr<ComponentManager> ComponentManager::create(
-	GuiFactory* guiFactory,
-	ViewLayout* viewLayout,
-	std::shared_ptr<LocationAccess> locationAccess,
-	std::shared_ptr<GraphAccess> graphAccess)
-{
+	GuiFactory* guiFactory, ViewLayout* viewLayout, GraphAccess* graphAccess, LocationAccess* locationAccess
+){
 	std::shared_ptr<ComponentManager> ptr(new ComponentManager());
-	ptr->m_componentFactory = ComponentFactory::create(guiFactory, viewLayout, locationAccess, graphAccess);
+	ptr->m_componentFactory = ComponentFactory::create(guiFactory, viewLayout, graphAccess, locationAccess);
 
 	return ptr;
 }

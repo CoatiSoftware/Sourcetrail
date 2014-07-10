@@ -7,7 +7,7 @@
 
 #include "utility/logging/logging.h"
 
-GraphController::GraphController(std::shared_ptr<GraphAccess> graphAccess)
+GraphController::GraphController(GraphAccess* graphAccess)
 	: m_graphAccess(graphAccess)
 {
 }

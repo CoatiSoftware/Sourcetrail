@@ -14,14 +14,14 @@ class GraphController:
 	public MessageListener<MessageActivateToken>
 {
 public:
-	GraphController(std::shared_ptr<GraphAccess> graphAccess);
+	GraphController(GraphAccess* graphAccess);
 	~GraphController();
 
 private:
 	virtual void handleMessage(MessageActivateToken* message);
 	GraphView* getView();
 
-	std::shared_ptr<GraphAccess> m_graphAccess;
+	GraphAccess* m_graphAccess;
 };
 
 
