@@ -1,9 +1,9 @@
 #include "data/parser/cxx/ASTVisitor.h"
 
 #include "data/parser/cxx/ASTBodyVisitor.h"
+#include "data/parser/cxx/utilityCxx.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParseVariable.h"
-#include "utility/utilityClang.h"
 #include "data/type/DataType.h"
 
 ASTVisitor::ASTVisitor(clang::ASTContext* context, std::shared_ptr<ParserClient> client)
@@ -28,7 +28,7 @@ bool ASTVisitor::VisitTypedefDecl(const clang::TypedefDecl* declaration)
 		m_client->onTypedefParsed(
 			getParseLocation(declaration->getSourceRange()),
 			declaration->getQualifiedNameAsString(),
-			declaration->getUnderlyingType().getAsString(),
+			utility::qualTypeToDataType(declaration->getUnderlyingType()),
 			convertAccessType(declaration->getAccess())
 		);
 	}
@@ -139,7 +139,7 @@ bool ASTVisitor::VisitFunctionDecl(clang::FunctionDecl* declaration)
 		m_client->onFunctionParsed(
 			getParseLocation(declaration->getSourceRange()),
 			declaration->getQualifiedNameAsString(),
-			getTypeName(declaration->getReturnType()),
+			utility::qualTypeToDataType(declaration->getReturnType()),
 			getParameters(declaration)
 		);
 
@@ -170,7 +170,7 @@ bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 		m_client->onMethodParsed(
 			getParseLocation(declaration->getSourceRange()),
 			declaration->getQualifiedNameAsString(),
-			getTypeName(declaration->getReturnType()),
+			utility::qualTypeToDataType(declaration->getReturnType()),
 			getParameters(declaration),
 			convertAccessType(declaration->getAccess()),
 			abstraction,
@@ -301,7 +301,7 @@ ParseLocation ASTVisitor::getParseLocation(const clang::SourceRange& sourceRange
 
 ParseVariable ASTVisitor::getParseVariable(clang::ValueDecl* declaration) const
 {
-	clang::QualType type = declaration->getType();
+	clang::QualType qualType = declaration->getType();
 
 	bool isStatic = false;
 	if (clang::isa<clang::VarDecl>(declaration))
@@ -311,9 +311,8 @@ ParseVariable ASTVisitor::getParseVariable(clang::ValueDecl* declaration) const
 	}
 
 	return ParseVariable(
-		getTypeName(type),
+		utility::qualTypeToDataType(qualType),
 		declaration->getQualifiedNameAsString(),
-		type.isConstQualified(),
 		isStatic
 	);
 }
@@ -332,7 +331,7 @@ std::vector<ParseVariable> ASTVisitor::getParameters(clang::FunctionDecl* declar
 
 std::string ASTVisitor::getTypeName(const clang::QualType& qualType) const
 {
-	DataType dataType(qualType);
+	DataType dataType = utility::qualTypeToDataType(qualType);
 	return dataType.getRawTypeName();
 }
 

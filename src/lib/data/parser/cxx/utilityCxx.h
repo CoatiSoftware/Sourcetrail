@@ -9,6 +9,7 @@ class DataType;
 
 namespace utility
 {
+	DataType qualTypeToDataType(clang::QualType qualType);
 }
 
 #endif // UTILITY_CLANG_H

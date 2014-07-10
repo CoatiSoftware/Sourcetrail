@@ -2,11 +2,13 @@
 
 #include <sstream>
 
+#include "data/graph/edgeComponent/EdgeComponentDataType.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
 #include "data/location/TokenLocationLine.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParseVariable.h"
+#include "data/type/DataType.h"
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
@@ -40,11 +42,11 @@ void Storage::logLocations() const
 
 
 void Storage::onTypedefParsed(
-	const ParseLocation& location, const std::string& fullName, const std::string& underlyingFullName,
+	const ParseLocation& location, const std::string& fullName, const DataType& underlyingType,
 	AccessType access
 )
 {
-	log("typedef", fullName + " -> " + underlyingFullName, location);
+	log("typedef", fullName + " -> " + underlyingType.getFullTypeName(), location);
 }
 
 void Storage::onClassParsed(const ParseLocation& location, const std::string& fullName, AccessType access)
@@ -75,10 +77,14 @@ void Storage::onGlobalVariableParsed(const ParseLocation& location, const ParseV
 
 	Node* node = m_graph.createNodeHierarchy(variable.fullName);
 	node->setType(Node::NODE_GLOBAL_VARIABLE);
-	node->setConst(variable.isConst);
 	node->setStatic(variable.isStatic);
 
-	m_graph.createEdge(Edge::EDGE_TYPE_OF, node, m_graph.createNodeHierarchy(variable.typeName));
+	Edge* edge = m_graph.createEdge(Edge::EDGE_TYPE_OF, node, m_graph.createNodeHierarchy(variable.type.getRawTypeName()));
+	edge->addComponent(std::make_shared<EdgeComponentDataType>(
+		variable.type.getQualifierList(), variable.type.getModifierStack()));
+
+	//bool tttt = edge->hasComponent<EdgeComponentDataType>();
+	//std::string foo = edge->getComponent<EdgeComponentDataType>()->getDataType().getFullTypeName();
 
 	addTokenLocation(node, location);
 }
@@ -89,7 +95,7 @@ void Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& 
 
 	Node* node = m_graph.createNodeHierarchy(variable.fullName);
 	node->setType(Node::NODE_FIELD);
-	node->setConst(variable.isConst);
+	//node->setConst(variable.isConst);
 	node->setStatic(variable.isStatic);
 
 	if (access == ACCESS_NONE)
@@ -99,39 +105,48 @@ void Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& 
 	}
 	node->setAccess(convertAccessType(access));
 
-	m_graph.createEdge(Edge::EDGE_TYPE_OF, node, m_graph.createNodeHierarchy(variable.typeName));
+	Edge* edge = m_graph.createEdge(Edge::EDGE_TYPE_OF, node, m_graph.createNodeHierarchy(variable.type.getRawTypeName()));
+	edge->addComponent(std::make_shared<EdgeComponentDataType>(
+		variable.type.getQualifierList(), variable.type.getModifierStack()));
 
 	addTokenLocation(node, location);
 }
 
 void Storage::onFunctionParsed(
-	const ParseLocation& location, const std::string& fullName, const std::string& returnTypeName,
+	const ParseLocation& location, const std::string& fullName, const DataType& returnType,
 	const std::vector<ParseVariable>& parameters
 )
 {
 	log("function", fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(fullName);
+	Node* node = m_graph.createNodeHierarchy(fullName); // Todo: compare signatures in case of overloading.
 	node->setType(Node::NODE_FUNCTION);
 
-	m_graph.createEdge(Edge::EDGE_RETURN_TYPE_OF, node, m_graph.createNodeHierarchy(returnTypeName));
-	for (const ParseVariable& var : parameters)
+	Edge* returnTypeEdge = m_graph.createEdge(
+		Edge::EDGE_RETURN_TYPE_OF, node, m_graph.createNodeHierarchy(returnType.getRawTypeName()));
+	returnTypeEdge->addComponent(std::make_shared<EdgeComponentDataType>(
+		returnType.getQualifierList(), returnType.getModifierStack()));
+
+	for (const ParseVariable& parameter : parameters)
 	{
-		m_graph.createEdge(Edge::EDGE_PARAMETER_OF, node, m_graph.createNodeHierarchy(var.typeName));
+		Edge* parameterEdge = m_graph.createEdge(
+			Edge::EDGE_PARAMETER_OF, node, m_graph.createNodeHierarchy(parameter.type.getRawTypeName()));
+		parameterEdge->addComponent(std::make_shared<EdgeComponentDataType>(
+			parameter.type.getQualifierList(), parameter.type.getModifierStack()));
 	}
 
 	addTokenLocation(node, location);
 }
 
 void Storage::onMethodParsed(
-	const ParseLocation& location, const std::string& fullName, const std::string& returnTypeName,
+	const ParseLocation& location, const std::string& fullName, const DataType& returnType,
 	const std::vector<ParseVariable>& parameters, AccessType access, AbstractionType abstraction,
 	bool isConst, bool isStatic
 )
 {
 	log("method", fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(fullName);
+	Node* node = m_graph.createNodeHierarchy(fullName);	// Todo: compare signatures in case of overloading.
 	node->setType(Node::NODE_METHOD);
 	node->setConst(isConst);
 	node->setStatic(isStatic);
@@ -143,10 +158,17 @@ void Storage::onMethodParsed(
 	}
 	node->setAccess(convertAccessType(access));
 
-	m_graph.createEdge(Edge::EDGE_RETURN_TYPE_OF, node, m_graph.createNodeHierarchy(returnTypeName));
+	Edge* returnTypeEdge = m_graph.createEdge(
+		Edge::EDGE_RETURN_TYPE_OF, node, m_graph.createNodeHierarchy(returnType.getRawTypeName()));
+	returnTypeEdge->addComponent(std::make_shared<EdgeComponentDataType>(
+		returnType.getQualifierList(), returnType.getModifierStack()));
+
 	for (const ParseVariable& parameter : parameters)
 	{
-		m_graph.createEdge(Edge::EDGE_PARAMETER_OF, node, m_graph.createNodeHierarchy(parameter.typeName));
+		Edge* parameterEdge = m_graph.createEdge(
+			Edge::EDGE_PARAMETER_OF, node, m_graph.createNodeHierarchy(parameter.type.getRawTypeName()));
+		parameterEdge->addComponent(std::make_shared<EdgeComponentDataType>(
+			parameter.type.getQualifierList(), parameter.type.getModifierStack()));
 	}
 
 	addTokenLocation(node, location);

@@ -9,9 +9,8 @@ public:
 	DataTypeModifierPointer();
 	virtual ~DataTypeModifierPointer();
 
-	virtual void applyTo(std::string& typeName) const;
-
-
+private:
+	virtual void doApplyTo(std::string& typeName) const;
 };
 
 #endif // DATA_TYPE_MODIFIER_POINTER_H

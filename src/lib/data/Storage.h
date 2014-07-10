@@ -26,7 +26,7 @@ public:
 
 	// ParserClient implementation
 	virtual void onTypedefParsed(
-		const ParseLocation& location, const std::string& fullName, const std::string& underlyingFullName,
+		const ParseLocation& location, const std::string& fullName, const DataType& underlyingType,
 		AccessType access
 	);
 	virtual void onClassParsed(const ParseLocation& location, const std::string& fullName, AccessType access);
@@ -36,12 +36,13 @@ public:
 	virtual void onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access);
 
 	virtual void onFunctionParsed(
-		const ParseLocation& location, const std::string& fullName, const std::string& returnTypeName,
+		const ParseLocation& location, const std::string& fullName, const DataType& returnType,
 		const std::vector<ParseVariable>& parameters);
 	virtual void onMethodParsed(
-		const ParseLocation& location, const std::string& fullName, const std::string& returnTypeName,
+		const ParseLocation& location, const std::string& fullName, const DataType& returnType,
 		const std::vector<ParseVariable>& parameters, AccessType access, AbstractionType abstraction,
-		bool isConst, bool isStatic);
+		bool isConst, bool isStatic
+	);
 
 	virtual void onNamespaceParsed(const ParseLocation& location, const std::string& fullName);
 

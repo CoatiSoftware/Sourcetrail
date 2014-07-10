@@ -8,7 +8,7 @@ DataTypeModifierPointer::~DataTypeModifierPointer()
 {
 }
 
-void DataTypeModifierPointer::applyTo(std::string& typeName) const
+void DataTypeModifierPointer::doApplyTo(std::string& typeName) const
 {
 	typeName.append(" *");
 }

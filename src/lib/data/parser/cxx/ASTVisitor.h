@@ -47,6 +47,7 @@ private:
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
 	ParseVariable getParseVariable(clang::ValueDecl* declaration) const;
 	std::vector<ParseVariable> getParameters(clang::FunctionDecl* declaration) const;
+	DataType qualTypeToDataType(clang::QualType qualType);
 	std::string getTypeName(const clang::QualType& qualType) const;
 	ParserClient::AccessType convertAccessType(clang::AccessSpecifier) const;
 

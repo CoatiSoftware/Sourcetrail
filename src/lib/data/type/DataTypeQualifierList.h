@@ -4,8 +4,6 @@
 #include <memory>
 #include <string>
 
-#include "clang/AST/Type.h"
-
 class DataTypeQualifierList
 {
 public:

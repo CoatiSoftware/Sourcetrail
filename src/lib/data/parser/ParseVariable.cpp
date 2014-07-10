@@ -1,9 +1,9 @@
 #include "data/parser/ParseVariable.h"
 
-ParseVariable::ParseVariable(const std::string& typeName, const std::string& fullName, bool isConst, bool isStatic)
-	: typeName(typeName)
+
+ParseVariable::ParseVariable(const DataType& type, const std::string& fullName, bool isStatic)
+	: type(type)
 	, fullName(fullName)
-	, isConst(isConst)
 	, isStatic(isStatic)
 {
 }

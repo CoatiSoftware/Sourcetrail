@@ -8,6 +8,12 @@ DataTypeModifier::~DataTypeModifier()
 {
 }
 
+void DataTypeModifier::applyTo(std::string& typeName) const
+{
+	doApplyTo(typeName);
+	typeName = m_qualifierList.applyTo(typeName);
+}
+
 void DataTypeModifier::addQualifier(DataTypeQualifierList::QualifierType qualifier)
 {
 	m_qualifierList.addQualifier(qualifier);

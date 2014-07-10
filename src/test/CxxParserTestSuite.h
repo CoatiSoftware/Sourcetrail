@@ -125,9 +125,9 @@ public:
 
 		TS_ASSERT_EQUALS(client->globalVariables.size(), 4);
 		TS_ASSERT_EQUALS(client->globalVariables[0], "int x <1:1 1:5>");
-		TS_ASSERT_EQUALS(client->globalVariables[1], "const int y <2:1 2:15>");
+		TS_ASSERT_EQUALS(client->globalVariables[1], "int const y <2:1 2:15>");
 		TS_ASSERT_EQUALS(client->globalVariables[2], "static int z <3:1 3:12>");
-		TS_ASSERT_EQUALS(client->globalVariables[3], "A b <5:1 5:4>"); // Todo: what about the pointer?
+		TS_ASSERT_EQUALS(client->globalVariables[3], "A * b <5:1 5:4>");
 	}
 
 	void test_cxx_parser_finds_variable_definitions_in_namespace_scope()
@@ -143,7 +143,7 @@ public:
 
 		TS_ASSERT_EQUALS(client->globalVariables.size(), 2);
 		TS_ASSERT_EQUALS(client->globalVariables[0], "int n::x <2:2 2:6>");
-		TS_ASSERT_EQUALS(client->globalVariables[1], "n::A n::b <4:2 4:5>"); // Todo: what about the pointer?
+		TS_ASSERT_EQUALS(client->globalVariables[1], "n::A * n::b <4:2 4:5>");
 	}
 
 	void test_cxx_parser_finds_field_in_nested_class()
@@ -161,7 +161,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->fields.size(), 1);
-		TS_ASSERT_EQUALS(client->fields[0], "private static const int B::C::amount <7:3 7:20>");
+		TS_ASSERT_EQUALS(client->fields[0], "private static int const B::C::amount <7:3 7:20>");
 	}
 
 	void test_cxx_parser_finds_fields_in_class_with_access_type()
@@ -184,7 +184,7 @@ public:
 		TS_ASSERT_EQUALS(client->fields[0], "private int A::a <3:2 3:6>");
 		TS_ASSERT_EQUALS(client->fields[1], "public int A::b <5:2 5:6>");
 		TS_ASSERT_EQUALS(client->fields[2], "protected static int A::c <6:2 6:13>");
-		TS_ASSERT_EQUALS(client->fields[3], "private const int A::d <8:2 8:12>");
+		TS_ASSERT_EQUALS(client->fields[3], "private int const A::d <8:2 8:12>");
 	}
 
 	void test_cxx_parser_finds_function_in_global_namespace()
@@ -701,11 +701,11 @@ private:
 	{
 	public:
 		virtual void onTypedefParsed(
-			const ParseLocation& location, const std::string& fullName, const std::string& underlyingFullName,
+			const ParseLocation& location, const std::string& fullName, const DataType& underlyingType,
 			AccessType access
 		)
 		{
-			std::string str = addAccessPrefix(underlyingFullName + " -> " + fullName, access);
+			std::string str = addAccessPrefix(underlyingType.getFullTypeName() + " -> " + fullName, access);
 			typedefs.push_back(addLocationSuffix(str, location));
 		}
 
@@ -730,21 +730,21 @@ private:
 		}
 
 		virtual void onFunctionParsed(
-			const ParseLocation& location, const std::string& fullName, const std::string& returnTypeName,
+			const ParseLocation& location, const std::string& fullName, const DataType& returnType,
 			const std::vector<ParseVariable>& parameters
 		)
 		{
-			std::string str = returnTypeName + " " + fullName + parameterStr(parameters);
+			std::string str = returnType.getFullTypeName() + " " + fullName + parameterStr(parameters);
 			functions.push_back(addLocationSuffix(str, location));
 		}
 
 		virtual void onMethodParsed(
-			const ParseLocation& location, const std::string& fullName, const std::string& returnTypeName,
+			const ParseLocation& location, const std::string& fullName, const DataType& returnType,
 			const std::vector<ParseVariable>& parameters, AccessType access, AbstractionType abstraction,
 			bool isConst, bool isStatic
 		)
 		{
-			std::string str = returnTypeName + " " + fullName + parameterStr(parameters);
+			std::string str = returnType.getFullTypeName() + " " + fullName + parameterStr(parameters);
 			str = addStaticPrefix(addAbstractionPrefix(str, abstraction), isStatic);
 			str = addConstPrefix(addAccessPrefix(str, access), isConst, false);
 			str = addLocationSuffix(str, location);
@@ -841,8 +841,8 @@ private:
 
 		std::string variableStr(const ParseVariable& variable)
 		{
-			std::string str = variable.typeName + " " + variable.fullName;
-			return addStaticPrefix(addConstPrefix(str, variable.isConst, true), variable.isStatic);
+			std::string str = variable.type.getFullTypeName() + " " + variable.fullName;
+			return addStaticPrefix(str, variable.isStatic);
 		}
 
 		std::string parameterStr(const std::vector<ParseVariable> parameters)

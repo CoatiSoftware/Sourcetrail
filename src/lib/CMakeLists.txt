@@ -15,6 +15,8 @@ add_files(
 	data/parser/cxx/ASTVisitor.h
 	data/parser/cxx/CxxParser.cpp
 	data/parser/cxx/CxxParser.h
+	data/parser/cxx/utilityCxx.cpp
+	data/parser/cxx/utilityCxx.h
 )
 
 add_files(
@@ -63,6 +65,11 @@ add_files(
 	data/access/GraphAccessProxy.cpp
 	data/access/GraphAccessProxy.h
 
+	data/graph/edgeComponent/EdgeComponent.cpp
+	data/graph/edgeComponent/EdgeComponent.h
+	data/graph/edgeComponent/EdgeComponentDataType.cpp
+	data/graph/edgeComponent/EdgeComponentDataType.h
+	
 	data/graph/Edge.cpp
 	data/graph/Edge.h
 	data/graph/Graph.cpp
@@ -153,8 +160,6 @@ add_files(
 	utility/FileSystem.h
 	utility/Property.h
 	utility/types.h
-	utility/utilityClang.cpp
-	utility/utilityClang.h
 	utility/utilityString.cpp
 	utility/utilityString.h
 	utility/Vector.h

@@ -2,6 +2,7 @@
 
 #include <sstream>
 
+#include "data/graph/edgeComponent/EdgeComponent.h"
 #include "data/graph/Node.h"
 #include "utility/logging/logging.h"
 
@@ -32,6 +33,11 @@ std::shared_ptr<Edge> Edge::createPlainCopy(Node* from, Node* to) const
 	std::shared_ptr<Edge> edge(new Edge(getId(), m_type, from, to));
 
 	edge->setAccess(m_access);
+
+	for (std::shared_ptr<EdgeComponent> component: m_components)
+	{
+		edge->addComponent(component); // Todo: create a deep copy here
+	}
 
 	return edge;
 }
@@ -130,6 +136,12 @@ std::string Edge::getAsString() const
 	}
 
 	return str.str();
+}
+
+void Edge::addComponent(std::shared_ptr<EdgeComponent> component)
+{
+	m_components.push_back(component);
+	component->setEdge(this);
 }
 
 Edge::Edge(Id id, EdgeType type, Node* from, Node* to)

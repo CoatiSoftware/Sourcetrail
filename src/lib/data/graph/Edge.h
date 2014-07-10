@@ -7,6 +7,7 @@
 #include "data/graph/Token.h"
 
 class Node;
+class EdgeComponent;
 
 class Edge: public Token
 {
@@ -53,6 +54,15 @@ public:
 	std::string getAccessString() const;
 	std::string getAsString() const;
 
+
+	void addComponent(std::shared_ptr<EdgeComponent> component);
+
+	template <typename ComponentType>
+	std::shared_ptr<ComponentType> getComponent() const;
+
+	template <typename ComponentType>
+	bool hasComponent() const;
+
 private:
 	// Constructor for plain copies.
 	Edge(Id id, EdgeType type, Node* from, Node* to);
@@ -64,7 +74,28 @@ private:
 
 	// Additional fields for different EdgeTypes.
 	AccessType m_access;
+
+	std::vector<std::shared_ptr<EdgeComponent>> m_components;
 };
+
+template <typename ComponentType>
+std::shared_ptr<ComponentType> Edge::getComponent() const
+{
+	std::shared_ptr<ComponentType> component;
+	for (std::shared_ptr<EdgeComponent> c: m_components)
+	{
+		component = std::dynamic_pointer_cast<ComponentType>(c);
+		if (component)
+			break;
+	}
+	return component;
+}
+
+template <typename ComponentType>
+bool Edge::hasComponent() const
+{
+	return (getComponent<ComponentType>());
+}
 
 std::ostream& operator<<(std::ostream& ostream, const Edge& edge);
 
