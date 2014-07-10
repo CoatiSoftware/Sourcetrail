@@ -22,6 +22,7 @@ public:
 	Token* getTokenById(Id id) const;
 
 	Node* createNodeHierarchy(const std::string& fullName);
+	Node* createNodeHierarchyWithDistinctSignature(const std::string& fullName, const std::string& signature);
 	Edge* createEdge(Edge::EdgeType type, Node* from, Node* to);
 
 	void removeNode(Node* node);
@@ -48,6 +49,7 @@ private:
 	static const std::string DELIMITER;
 
 	Node* insertNodeHierarchy(const std::string& fullName);
+	Node* insertNode(const std::string& fullName, Node* parentNode);
 	Edge* insertEdge(Edge::EdgeType type, Node* from, Node* to);
 	void removeEdgeInternal(Edge* edge);
 

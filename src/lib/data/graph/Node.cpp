@@ -2,6 +2,8 @@
 
 #include <sstream>
 
+// #include "data/graph/edgeComponent/EdgeComponentDataType.h"
+// #include "data/type/DataType.h"
 #include "utility/logging/logging.h"
 
 Node::Node(NodeType type, const std::string& name)
@@ -62,24 +64,24 @@ void Node::removeEdge(Edge* edge)
 	m_edges.erase(find(m_edges.begin(), m_edges.end(), edge));
 }
 
+Node* Node::getParentNode() const
+{
+	Edge* edge = getMemberEdge();
+	if (edge)
+	{
+		return edge->getFrom();
+	}
+	return nullptr;
+}
+
 Edge* Node::getMemberEdge() const
 {
-	Edge* edge = findEdgeOfType(Edge::EDGE_MEMBER,
+	return findEdgeOfType(Edge::EDGE_MEMBER,
 		[this](Edge* e)
 		{
 			return e->getTo() == this;
 		}
 	);
-
-	if (edge)
-	{
-		return edge;
-	}
-	else
-	{
-		LOG_WARNING("Child edge was not found, node " + getName() + " has no parent node.");
-		return nullptr;
-	}
 }
 
 Edge* Node::findEdge(std::function<bool(Edge*)> func) const
@@ -92,6 +94,11 @@ Edge* Node::findEdge(std::function<bool(Edge*)> func) const
 	}
 
 	return NULL;
+}
+
+Edge* Node::findEdgeOfType(Edge::EdgeType type) const
+{
+	return findEdgeOfType(type, [](Edge* e){ return true; });
 }
 
 Edge* Node::findEdgeOfType(Edge::EdgeType type, std::function<bool(Edge*)> func) const
@@ -186,6 +193,55 @@ void Node::setStatic(bool isStatic)
 	}
 
 	m_isStatic = isStatic;
+}
+
+std::string Node::getSignature() const
+{
+	// Signature generation from edges failed, because parameter edges to same type are bundled.
+	// std::string str;
+
+	// Edge* returnTypeEdge = findEdgeOfType(Edge::EDGE_RETURN_TYPE_OF);
+	// str += returnTypeEdge->getComponent<EdgeComponentDataType>()->getDataType().getFullTypeName() + " " + m_name + "(";
+
+	// forEachEdgeOfType(Edge::EDGE_PARAMETER_TYPE_OF,
+	// 	[&str](Edge* edge)
+	// 	{
+	// 		str += edge->getComponent<EdgeComponentDataType>()->getDataType().getFullTypeName() + ", ";
+	// 	}
+	// );
+
+	// if (*str.rbegin() == ' ')
+	// {
+	// 	str.pop_back();
+	// 	str.pop_back();
+	// }
+	// str += ")";
+
+	// if (isConst())
+	// {
+	// 	str += " const";
+	// }
+
+	// return str;
+
+	return m_signature;
+}
+
+void Node::setSignature(const std::string& signature)
+{
+	if (m_type != NODE_FUNCTION && m_type != NODE_METHOD && m_type != NODE_UNDEFINED)
+	{
+		LOG_ERROR("Signature is not supported on node of type " + getTypeString(m_type));
+		return;
+	}
+
+	if (m_signature.size())
+	{
+		LOG_ERROR("Signature was already set before.");
+		return;
+	}
+
+	m_signature = signature;
 }
 
 std::string Node::getTypeString(NodeType type) const

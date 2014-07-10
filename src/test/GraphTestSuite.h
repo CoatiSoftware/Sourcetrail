@@ -105,7 +105,12 @@ public:
 		TS_ASSERT_EQUALS(2, graph.getNodeCount());
 		TS_ASSERT_EQUALS(1, graph.getEdgeCount());
 
+		TS_ASSERT(ab->getMemberEdge());
 		TS_ASSERT(graph.getEdge(Edge::EDGE_MEMBER, a, ab));
+		TS_ASSERT_EQUALS(ab->getMemberEdge(), graph.getEdge(Edge::EDGE_MEMBER, a, ab));
+		TS_ASSERT_EQUALS(ab->getMemberEdge()->getFrom(), a);
+		TS_ASSERT_EQUALS(ab->getMemberEdge()->getTo(), ab);
+		TS_ASSERT_EQUALS(ab->getParentNode(), a);
 	}
 
 	void test_graph_removes_nodes()
@@ -161,7 +166,7 @@ public:
 		TS_ASSERT(graph.getNode("A::C"));
 	}
 
-	void test_graph_creates_multiple_nodes_as_type_nodes()
+	void test_graph_creates_multiple_nodes_as_undefined_nodes()
 	{
 		TestGraph graph;
 		Node* abc = graph.createNodeHierarchy("A::B::C");

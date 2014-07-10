@@ -74,6 +74,27 @@ Node* Graph::createNodeHierarchy(const std::string& fullName)
 	return insertNodeHierarchy(fullName);
 }
 
+Node* Graph::createNodeHierarchyWithDistinctSignature(const std::string& fullName, const std::string& signature)
+{
+	Node* node = getNode(fullName);
+	if (node)
+	{
+		if (node->getSignature() == signature)
+		{
+			return node;
+		}
+
+		node = insertNode(fullName, node->getParentNode());
+	}
+	else
+	{
+		node = insertNodeHierarchy(fullName);
+	}
+
+	node->setSignature(signature);
+	return node;
+}
+
 Edge* Graph::createEdge(Edge::EdgeType type, Node* from, Node* to)
 {
 	Edge* edge = getEdge(type, from, to);
@@ -288,17 +309,25 @@ Node* Graph::insertNodeHierarchy(const std::string& fullName)
 
 		if (!childNode)
 		{
-			std::shared_ptr<Node> childNodePtr = std::make_shared<Node>(Node::NODE_UNDEFINED, name);
-			m_nodes.push_back(childNodePtr);
-			childNode = childNodePtr.get();
-
-			if (node)
-			{
-				createEdge(Edge::EDGE_MEMBER, node, childNode);
-			}
+			childNode = insertNode(name, node);
 		}
 
 		node = childNode;
+	}
+
+	return node;
+}
+
+Node* Graph::insertNode(const std::string& fullName, Node* parentNode)
+{
+	std::shared_ptr<Node> nodePtr = std::make_shared<Node>(Node::NODE_UNDEFINED, fullName);
+	m_nodes.push_back(nodePtr);
+
+	Node* node = nodePtr.get();
+
+	if (parentNode)
+	{
+		createEdge(Edge::EDGE_MEMBER, parentNode, node);
 	}
 
 	return node;

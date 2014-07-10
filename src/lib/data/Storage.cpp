@@ -119,7 +119,11 @@ void Storage::onFunctionParsed(
 {
 	log("function", fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(fullName); // Todo: compare signatures in case of overloading.
+	Node* node = m_graph.createNodeHierarchyWithDistinctSignature(
+		fullName,
+		ParserClient::functionSignatureStr(returnType, fullName, parameters, false)
+	);
+
 	node->setType(Node::NODE_FUNCTION);
 
 	Edge* returnTypeEdge = m_graph.createEdge(
@@ -130,12 +134,22 @@ void Storage::onFunctionParsed(
 	for (const ParseVariable& parameter : parameters)
 	{
 		Edge* parameterEdge = m_graph.createEdge(
-			Edge::EDGE_PARAMETER_OF, node, m_graph.createNodeHierarchy(parameter.type.getRawTypeName()));
+			Edge::EDGE_PARAMETER_TYPE_OF, node, m_graph.createNodeHierarchy(parameter.type.getRawTypeName()));
 		parameterEdge->addComponent(std::make_shared<EdgeComponentDataType>(
 			parameter.type.getQualifierList(), parameter.type.getModifierStack()));
 	}
 
 	addTokenLocation(node, location);
+
+	// TODO: move this into suitable TestSuite
+	if (node->getSignature() != ParserClient::functionSignatureStr(returnType, fullName, parameters, false))
+	{
+		std::stringstream ss;
+		ss << "Parsed and saved signatures don't match: ";
+		ss << node->getSignature() << " - ";
+		ss << ParserClient::functionSignatureStr(returnType, fullName, parameters, false);
+		LOG_ERROR(ss.str());
+	}
 }
 
 void Storage::onMethodParsed(
@@ -146,7 +160,11 @@ void Storage::onMethodParsed(
 {
 	log("method", fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(fullName);	// Todo: compare signatures in case of overloading.
+	Node* node = m_graph.createNodeHierarchyWithDistinctSignature(
+		fullName,
+		ParserClient::functionSignatureStr(returnType, fullName, parameters, isConst)
+	);
+
 	node->setType(Node::NODE_METHOD);
 	node->setConst(isConst);
 	node->setStatic(isStatic);
@@ -166,12 +184,22 @@ void Storage::onMethodParsed(
 	for (const ParseVariable& parameter : parameters)
 	{
 		Edge* parameterEdge = m_graph.createEdge(
-			Edge::EDGE_PARAMETER_OF, node, m_graph.createNodeHierarchy(parameter.type.getRawTypeName()));
+			Edge::EDGE_PARAMETER_TYPE_OF, node, m_graph.createNodeHierarchy(parameter.type.getRawTypeName()));
 		parameterEdge->addComponent(std::make_shared<EdgeComponentDataType>(
 			parameter.type.getQualifierList(), parameter.type.getModifierStack()));
 	}
 
 	addTokenLocation(node, location);
+
+	// TODO: move this into suitable TestSuite
+	if (node->getSignature() != ParserClient::functionSignatureStr(returnType, fullName, parameters, isConst))
+	{
+		std::stringstream ss;
+		ss << "Parsed and saved signatures don't match: ";
+		ss << node->getSignature() << " - ";
+		ss << ParserClient::functionSignatureStr(returnType, fullName, parameters, isConst);
+		LOG_ERROR(ss.str());
+	}
 }
 
 void Storage::onNamespaceParsed(const ParseLocation& location, const std::string& fullName)

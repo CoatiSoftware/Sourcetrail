@@ -24,6 +24,26 @@ public:
 		ABSTRACTION_NONE
 	};
 
+	static std::string addAccessPrefix(const std::string& str, AccessType access);
+	static std::string addAbstractionPrefix(const std::string& str, AbstractionType abstraction);
+	static std::string addStaticPrefix(const std::string& str, bool isStatic);
+	static std::string addConstPrefix(const std::string& str, bool isConst, bool atFront);
+	static std::string addLocationSuffix(const std::string& str, const ParseLocation& location);
+	static std::string variableStr(const ParseVariable& variable, bool withName = true);
+	static std::string parameterStr(const std::vector<ParseVariable> parameters, bool withName = true);
+	static std::string functionStr(
+		const DataType& returnType,
+		const std::string& fullName,
+		const std::vector<ParseVariable>& parameters,
+		bool isConst
+	);
+	static std::string functionSignatureStr(
+		const DataType& returnType,
+		const std::string& fullName,
+		const std::vector<ParseVariable>& parameters,
+		bool isConst
+	);
+
 	ParserClient();
 	virtual ~ParserClient();
 

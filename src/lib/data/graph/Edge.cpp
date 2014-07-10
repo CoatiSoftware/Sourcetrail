@@ -97,7 +97,7 @@ std::string Edge::getTypeString() const
 		return "is type of";
 	case EDGE_RETURN_TYPE_OF:
 		return "has return type";
-	case EDGE_PARAMETER_OF:
+	case EDGE_PARAMETER_TYPE_OF:
 		return "has parameter of type";
 	case EDGE_INHERITANCE:
 		return "is derived from";

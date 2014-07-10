@@ -39,9 +39,11 @@ public:
 	void addEdge(Edge* edge);
 	void removeEdge(Edge* edge);
 
+	Node* getParentNode() const;
 	Edge* getMemberEdge() const;
 
 	Edge* findEdge(std::function<bool(Edge*)> func) const;
+	Edge* findEdgeOfType(Edge::EdgeType type) const;
 	Edge* findEdgeOfType(Edge::EdgeType type, std::function<bool(Edge*)> func) const;
 
 	void forEachEdge(std::function<void(Edge*)> func) const;
@@ -60,6 +62,9 @@ public:
 	bool isStatic() const;
 	void setStatic(bool isStatic);
 
+	std::string getSignature() const;
+	void setSignature(const std::string& signature);
+
 	// Logging.
 	std::string getTypeString(NodeType type) const;
 	std::string getAsString() const;
@@ -76,6 +81,8 @@ private:
 	// Additional fields for different NodeTypes.
 	bool m_isConst;
 	bool m_isStatic;
+
+	std::string m_signature;
 };
 
 std::ostream& operator<<(std::ostream& ostream, const Node& node);

@@ -732,9 +732,8 @@ private:
 		virtual void onFunctionParsed(
 			const ParseLocation& location, const std::string& fullName, const DataType& returnType,
 			const std::vector<ParseVariable>& parameters
-		)
-		{
-			std::string str = returnType.getFullTypeName() + " " + fullName + parameterStr(parameters);
+		){
+			std::string str = functionStr(returnType, fullName, parameters, false);
 			functions.push_back(addLocationSuffix(str, location));
 		}
 
@@ -744,9 +743,9 @@ private:
 			bool isConst, bool isStatic
 		)
 		{
-			std::string str = returnType.getFullTypeName() + " " + fullName + parameterStr(parameters);
+			std::string str = functionStr(returnType, fullName, parameters, isConst);
 			str = addStaticPrefix(addAbstractionPrefix(str, abstraction), isStatic);
-			str = addConstPrefix(addAccessPrefix(str, access), isConst, false);
+			str = addAccessPrefix(str, access);
 			str = addLocationSuffix(str, location);
 			methods.push_back(str);
 		}
@@ -791,81 +790,6 @@ private:
 		std::vector<std::string> structs;
 		std::vector<std::string> inheritances;
 		std::vector<std::string> calls;
-
-	private:
-		std::string addAccessPrefix(const std::string& str, AccessType access)
-		{
-			switch (access)
-			{
-			case ACCESS_PUBLIC:
-				return "public " + str;
-			case ACCESS_PROTECTED:
-				return "protected " + str;
-			case ACCESS_PRIVATE:
-				return "private " + str;
-			case ACCESS_NONE:
-				return str;
-			}
-		}
-
-		std::string addAbstractionPrefix(const std::string& str, AbstractionType abstraction)
-		{
-			switch (abstraction)
-			{
-			case ABSTRACTION_VIRTUAL:
-				return "virtual " + str;
-			case ABSTRACTION_PURE_VIRTUAL:
-				return "pure virtual " + str;
-			case ABSTRACTION_NONE:
-				return str;
-			}
-		}
-
-		std::string addStaticPrefix(const std::string& str, bool isStatic)
-		{
-			if (isStatic)
-			{
-				return "static " + str;
-			}
-			return str;
-		}
-
-		std::string addConstPrefix(const std::string& str, bool isConst, bool atFront)
-		{
-			if (isConst)
-			{
-				return atFront ? "const " + str : str + " const";
-			}
-			return str;
-		}
-
-		std::string variableStr(const ParseVariable& variable)
-		{
-			std::string str = variable.type.getFullTypeName() + " " + variable.fullName;
-			return addStaticPrefix(str, variable.isStatic);
-		}
-
-		std::string parameterStr(const std::vector<ParseVariable> parameters)
-		{
-			std::string str = "(";
-			for (size_t i = 0; i < parameters.size(); i++)
-			{
-				str += variableStr(parameters[i]);
-				if (i < parameters.size() - 1)
-				{
-					str += ", ";
-				}
-			}
-			return str + ")";
-		}
-
-		std::string addLocationSuffix(const std::string& str, const ParseLocation& location)
-		{
-			std::stringstream ss;
-			ss << str << " <" << location.startLineNumber << ":" << location.startColumnNumber << " ";
-			ss << location.endLineNumber << ":" << location.endColumnNumber << ">";
-			return ss.str();
-		}
 	};
 
 	std::shared_ptr<TestParserClient> parseCode(std::string code) const
