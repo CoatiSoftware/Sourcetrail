@@ -36,7 +36,7 @@ std::shared_ptr<Edge> Edge::createPlainCopy(Node* from, Node* to) const
 
 	for (std::shared_ptr<EdgeComponent> component: m_components)
 	{
-		edge->addComponent(component); // Todo: create a deep copy here
+		edge->addComponent(component->copy());
 	}
 
 	return edge;

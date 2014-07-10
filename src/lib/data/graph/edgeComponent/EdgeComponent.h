@@ -10,6 +10,8 @@ public:
 	EdgeComponent();
 	virtual ~EdgeComponent();
 
+	virtual std::shared_ptr<EdgeComponent> copy() const = 0;
+
 	void setEdge(Edge* edge);
 
 protected:

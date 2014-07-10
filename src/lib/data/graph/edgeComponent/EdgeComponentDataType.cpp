@@ -13,6 +13,11 @@ EdgeComponentDataType::~EdgeComponentDataType()
 {
 }
 
+std::shared_ptr<EdgeComponent> EdgeComponentDataType::copy() const
+{
+	return std::make_shared<EdgeComponentDataType>(m_qualifierList, m_modifierStack);
+}
+
 DataType EdgeComponentDataType::getDataType() const
 {
 	return DataType(getEdge()->getTo()->getName(), m_qualifierList, m_modifierStack);

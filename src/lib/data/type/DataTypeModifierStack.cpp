@@ -4,25 +4,22 @@ DataTypeModifierStack::DataTypeModifierStack()
 {
 }
 
-//DataTypeModifierStack::DataTypeModifierStack(const DataTypeModifierStack& o)
-//{
-//	for (std::shared_ptr<DataTypeModifier> modifier: o.m_modifiers)
-//	{
-//		m_modifiers.push_back(modifier.);
-//	}
-//}
-
+DataTypeModifierStack::DataTypeModifierStack(const DataTypeModifierStack& o)
+{
+	for (std::shared_ptr<DataTypeModifier> modifier: o.m_modifiers)
+	{
+		m_modifiers.push_back(modifier->copy());
+	}
+}
 
 DataTypeModifierStack::~DataTypeModifierStack()
 {
 }
 
-
 void DataTypeModifierStack::push(std::shared_ptr<DataTypeModifier> modifier)
 {
 	m_modifiers.push_back(modifier);
 }
-
 
 std::string DataTypeModifierStack::applyTo(const std::string& typeName) const
 {

@@ -1,6 +1,8 @@
 #include "cxxtest/TestSuite.h"
 
 #include "data/graph/Graph.h"
+#include "data/graph/edgeComponent/EdgeComponentDataType.h"
+#include "data/type/modifier/DataTypeModifierPointer.h"
 
 class GraphTestSuite : public CxxTest::TestSuite
 {

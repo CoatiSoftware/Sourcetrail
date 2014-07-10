@@ -14,6 +14,8 @@ public:
 	EdgeComponentDataType(const DataTypeQualifierList qualifierList, const DataTypeModifierStack modifierStack);
 	virtual ~EdgeComponentDataType();
 
+	virtual std::shared_ptr<EdgeComponent> copy() const;
+
 	DataType getDataType() const;
 
 private:

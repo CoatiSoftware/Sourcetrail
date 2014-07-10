@@ -6,7 +6,7 @@
 
 struct ParseLocation;
 struct ParseVariable;
-struct DataType;
+class DataType;
 
 class ParserClient
 {
