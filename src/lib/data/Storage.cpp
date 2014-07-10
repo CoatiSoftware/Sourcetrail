@@ -42,11 +42,11 @@ void Storage::logLocations() const
 
 
 void Storage::onTypedefParsed(
-	const ParseLocation& location, const std::string& fullName, const DataType& underlyingType,
-	AccessType access
-)
-{
+	const ParseLocation& location, const std::string& fullName, const DataType& underlyingType, AccessType access
+){
 	log("typedef", fullName + " -> " + underlyingType.getFullTypeName(), location);
+
+	// TODO: save Typedef
 }
 
 void Storage::onClassParsed(const ParseLocation& location, const std::string& fullName, AccessType access)
@@ -79,12 +79,7 @@ void Storage::onGlobalVariableParsed(const ParseLocation& location, const ParseV
 	node->setType(Node::NODE_GLOBAL_VARIABLE);
 	node->setStatic(variable.isStatic);
 
-	Edge* edge = m_graph.createEdge(Edge::EDGE_TYPE_OF, node, m_graph.createNodeHierarchy(variable.type.getRawTypeName()));
-	edge->addComponent(std::make_shared<EdgeComponentDataType>(
-		variable.type.getQualifierList(), variable.type.getModifierStack()));
-
-	//bool tttt = edge->hasComponent<EdgeComponentDataType>();
-	//std::string foo = edge->getComponent<EdgeComponentDataType>()->getDataType().getFullTypeName();
+	addTypeEdge(node, Edge::EDGE_TYPE_OF, variable.type);
 
 	addTokenLocation(node, location);
 }
@@ -95,7 +90,6 @@ void Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& 
 
 	Node* node = m_graph.createNodeHierarchy(variable.fullName);
 	node->setType(Node::NODE_FIELD);
-	//node->setConst(variable.isConst);
 	node->setStatic(variable.isStatic);
 
 	if (access == ACCESS_NONE)
@@ -105,9 +99,7 @@ void Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& 
 	}
 	node->setAccess(convertAccessType(access));
 
-	Edge* edge = m_graph.createEdge(Edge::EDGE_TYPE_OF, node, m_graph.createNodeHierarchy(variable.type.getRawTypeName()));
-	edge->addComponent(std::make_shared<EdgeComponentDataType>(
-		variable.type.getQualifierList(), variable.type.getModifierStack()));
+	addTypeEdge(node, Edge::EDGE_TYPE_OF, variable.type);
 
 	addTokenLocation(node, location);
 }
@@ -123,33 +115,15 @@ void Storage::onFunctionParsed(
 		fullName,
 		ParserClient::functionSignatureStr(returnType, fullName, parameters, false)
 	);
-
 	node->setType(Node::NODE_FUNCTION);
 
-	Edge* returnTypeEdge = m_graph.createEdge(
-		Edge::EDGE_RETURN_TYPE_OF, node, m_graph.createNodeHierarchy(returnType.getRawTypeName()));
-	returnTypeEdge->addComponent(std::make_shared<EdgeComponentDataType>(
-		returnType.getQualifierList(), returnType.getModifierStack()));
-
+	addTypeEdge(node, Edge::EDGE_RETURN_TYPE_OF, returnType);
 	for (const ParseVariable& parameter : parameters)
 	{
-		Edge* parameterEdge = m_graph.createEdge(
-			Edge::EDGE_PARAMETER_TYPE_OF, node, m_graph.createNodeHierarchy(parameter.type.getRawTypeName()));
-		parameterEdge->addComponent(std::make_shared<EdgeComponentDataType>(
-			parameter.type.getQualifierList(), parameter.type.getModifierStack()));
+		addTypeEdge(node, Edge::EDGE_PARAMETER_TYPE_OF, parameter.type);
 	}
 
 	addTokenLocation(node, location);
-
-	// TODO: move this into suitable TestSuite
-	if (node->getSignature() != ParserClient::functionSignatureStr(returnType, fullName, parameters, false))
-	{
-		std::stringstream ss;
-		ss << "Parsed and saved signatures don't match: ";
-		ss << node->getSignature() << " - ";
-		ss << ParserClient::functionSignatureStr(returnType, fullName, parameters, false);
-		LOG_ERROR(ss.str());
-	}
 }
 
 void Storage::onMethodParsed(
@@ -176,30 +150,13 @@ void Storage::onMethodParsed(
 	}
 	node->setAccess(convertAccessType(access));
 
-	Edge* returnTypeEdge = m_graph.createEdge(
-		Edge::EDGE_RETURN_TYPE_OF, node, m_graph.createNodeHierarchy(returnType.getRawTypeName()));
-	returnTypeEdge->addComponent(std::make_shared<EdgeComponentDataType>(
-		returnType.getQualifierList(), returnType.getModifierStack()));
-
+	addTypeEdge(node, Edge::EDGE_RETURN_TYPE_OF, returnType);
 	for (const ParseVariable& parameter : parameters)
 	{
-		Edge* parameterEdge = m_graph.createEdge(
-			Edge::EDGE_PARAMETER_TYPE_OF, node, m_graph.createNodeHierarchy(parameter.type.getRawTypeName()));
-		parameterEdge->addComponent(std::make_shared<EdgeComponentDataType>(
-			parameter.type.getQualifierList(), parameter.type.getModifierStack()));
+		addTypeEdge(node, Edge::EDGE_PARAMETER_TYPE_OF, parameter.type);
 	}
 
 	addTokenLocation(node, location);
-
-	// TODO: move this into suitable TestSuite
-	if (node->getSignature() != ParserClient::functionSignatureStr(returnType, fullName, parameters, isConst))
-	{
-		std::stringstream ss;
-		ss << "Parsed and saved signatures don't match: ";
-		ss << node->getSignature() << " - ";
-		ss << ParserClient::functionSignatureStr(returnType, fullName, parameters, isConst);
-		LOG_ERROR(ss.str());
-	}
 }
 
 void Storage::onNamespaceParsed(const ParseLocation& location, const std::string& fullName)
@@ -414,6 +371,14 @@ Edge::AccessType Storage::convertAccessType(ParserClient::AccessType access) con
 	case ACCESS_NONE:
 		return Edge::ACCESS_NONE;
 	}
+}
+
+Edge* Storage::addTypeEdge(Node* node, Edge::EdgeType edgeType, const DataType& type)
+{
+	Node* typeNode = m_graph.createNodeHierarchy(type.getRawTypeName());
+	Edge* edge = m_graph.createEdge(edgeType, node, typeNode);
+	edge->addComponent(std::make_shared<EdgeComponentDataType>(type.getQualifierList(), type.getModifierStack()));
+	return edge;
 }
 
 TokenLocation* Storage::addTokenLocation(Token* token, const ParseLocation& loc)

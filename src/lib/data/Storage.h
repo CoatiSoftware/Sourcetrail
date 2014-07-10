@@ -37,7 +37,8 @@ public:
 
 	virtual void onFunctionParsed(
 		const ParseLocation& location, const std::string& fullName, const DataType& returnType,
-		const std::vector<ParseVariable>& parameters);
+		const std::vector<ParseVariable>& parameters
+	);
 	virtual void onMethodParsed(
 		const ParseLocation& location, const std::string& fullName, const DataType& returnType,
 		const std::vector<ParseVariable>& parameters, AccessType access, AbstractionType abstraction,
@@ -50,9 +51,11 @@ public:
 	virtual void onEnumFieldParsed(const ParseLocation& location, const std::string& fullName);
 
 	virtual void onInheritanceParsed(
-		const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access);
+		const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access
+	);
 	virtual void onCallParsed(
-		const ParseLocation& location, const std::string& callerName, const std::string& calleeName);
+		const ParseLocation& location, const std::string& callerName, const std::string& calleeName
+	);
 
 	// GraphAccess implementation
 	virtual Id getIdForNodeWithName(const std::string& name) const;
@@ -69,6 +72,7 @@ public:
 
 private:
 	Edge::AccessType convertAccessType(ParserClient::AccessType access) const;
+	Edge* addTypeEdge(Node* node, Edge::EdgeType edgeType, const DataType& type);
 	TokenLocation* addTokenLocation(Token* token, const ParseLocation& location);
 
 	void log(std::string type, std::string str, const ParseLocation& location) const;
