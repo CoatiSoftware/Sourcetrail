@@ -1,7 +1,9 @@
 #include "data/parser/cxx/utilityCxx.h"
 
 #include "data/type/DataType.h"
+#include "data/type/modifier/DataTypeModifierArray.h"
 #include "data/type/modifier/DataTypeModifierPointer.h"
+#include "data/type/modifier/DataTypeModifierReference.h"
 #include "data/type/DataTypeModifierStack.h"
 #include "data/type/DataTypeQualifierList.h"
 
@@ -21,6 +23,23 @@ namespace utility
 				std::shared_ptr<DataTypeModifier> modifier = std::make_shared<DataTypeModifierPointer>();
 				if (qualType.isConstQualified())
 					modifier->addQualifier(DataTypeQualifierList::QUALIFIER_CONST);
+				modifierStack.push(modifier);
+
+				qualType = type->getPointeeType();
+			}
+			else if (type->isArrayType())
+			{
+				std::shared_ptr<DataTypeModifier> modifier = std::make_shared<DataTypeModifierArray>();
+				if (qualType.isConstQualified())
+					modifier->addQualifier(DataTypeQualifierList::QUALIFIER_CONST);
+				modifierStack.push(modifier);
+
+				qualType = clang::dyn_cast<clang::ArrayType>(type)->getElementType();
+			}
+			else if (type->isReferenceType())
+			{
+				std::shared_ptr<DataTypeModifier> modifier = std::make_shared<DataTypeModifierReference>();
+				// references can not be const qualified
 				modifierStack.push(modifier);
 
 				qualType = type->getPointeeType();

@@ -10,8 +10,10 @@
 class DataType
 {
 public:
+	DataType(const std::string& typeName);
+	DataType(const std::string& typeName, const DataTypeQualifierList& qualifierList);
 	DataType(
-		const std::string& typeName, const DataTypeQualifierList qualifierList, const DataTypeModifierStack modifierStack
+		const std::string& typeName, const DataTypeQualifierList& qualifierList, const DataTypeModifierStack& modifierStack
 	);
 	~DataType();
 

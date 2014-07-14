@@ -3,6 +3,7 @@ add_files(
 
 	ConfigManagerTestSuite.h
 	CxxParserTestSuite.h
+	DataTypeTestSuite.h
 	FileSystemTestSuite.h
 	GraphTestSuite.h
 	LogManagerTestSuite.h

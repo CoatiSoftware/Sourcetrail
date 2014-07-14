@@ -99,8 +99,13 @@ add_files(
 
 	data/type/modifier/DataTypeModifier.cpp
 	data/type/modifier/DataTypeModifier.h
+	data/type/modifier/DataTypeModifierArray.cpp
+	data/type/modifier/DataTypeModifierArray.h
 	data/type/modifier/DataTypeModifierPointer.cpp
 	data/type/modifier/DataTypeModifierPointer.h
+	data/type/modifier/DataTypeModifierReference.cpp
+	data/type/modifier/DataTypeModifierReference.h
+
 	data/type/DataType.cpp
 	data/type/DataType.h
 	data/type/DataTypeModifierStack.cpp

@@ -8,7 +8,7 @@ DataTypeModifierPointer::~DataTypeModifierPointer()
 {
 }
 
-std::shared_ptr<DataTypeModifier> DataTypeModifierPointer::copy() const
+std::shared_ptr<DataTypeModifier> DataTypeModifierPointer::doCopy() const
 {
 	return std::make_shared<DataTypeModifierPointer>();
 }

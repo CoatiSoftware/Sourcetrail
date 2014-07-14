@@ -9,9 +9,8 @@ public:
 	DataTypeModifierPointer();
 	virtual ~DataTypeModifierPointer();
 
-	virtual std::shared_ptr<DataTypeModifier> copy() const;
-
 private:
+	virtual std::shared_ptr<DataTypeModifier> doCopy() const;
 	virtual void doApplyTo(std::string& typeName) const;
 };
 

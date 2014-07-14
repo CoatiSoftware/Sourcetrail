@@ -12,7 +12,9 @@ class DataTypeModifierStack
 public:
 	DataTypeModifierStack();
 	DataTypeModifierStack(const DataTypeModifierStack& o);
+	DataTypeModifierStack& operator=(const DataTypeModifierStack &o);
 	~DataTypeModifierStack();
+
 
 	void push(std::shared_ptr<DataTypeModifier> modifier);
 

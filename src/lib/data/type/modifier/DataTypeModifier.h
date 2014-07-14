@@ -11,7 +11,7 @@ public:
 	DataTypeModifier();
 	virtual ~DataTypeModifier();
 
-	virtual std::shared_ptr<DataTypeModifier> copy() const = 0;
+	std::shared_ptr<DataTypeModifier> copy() const;
 
 	void applyTo(std::string& typeName) const;
 
@@ -20,6 +20,7 @@ public:
 	bool hasQualifier(DataTypeQualifierList::QualifierType qualifier) const;
 
 private:
+	virtual std::shared_ptr<DataTypeModifier> doCopy() const = 0;
 	virtual void doApplyTo(std::string& typeName) const = 0;
 
 	DataTypeQualifierList m_qualifierList;

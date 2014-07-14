@@ -1,7 +1,18 @@
 #include "data/type/DataType.h"
 
+DataType::DataType(const std::string& typeName)
+	: m_typeName(typeName)
+{
+}
+
+DataType::DataType(const std::string& typeName, const DataTypeQualifierList& qualifierList)
+	: m_typeName(typeName)
+	, m_qualifierList(qualifierList)
+{
+}
+
 DataType::DataType(
-		const std::string& typeName, const DataTypeQualifierList qualifierList, const DataTypeModifierStack modifierStack
+		const std::string& typeName, const DataTypeQualifierList& qualifierList, const DataTypeModifierStack& modifierStack
 )
 	: m_typeName(typeName)
 	, m_qualifierList(qualifierList)

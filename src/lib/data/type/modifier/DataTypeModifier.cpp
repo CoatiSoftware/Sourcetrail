@@ -8,6 +8,13 @@ DataTypeModifier::~DataTypeModifier()
 {
 }
 
+std::shared_ptr<DataTypeModifier> DataTypeModifier::copy() const
+{
+	std::shared_ptr<DataTypeModifier> copy = doCopy();
+	copy->m_qualifierList = m_qualifierList;
+	return copy;
+}
+
 void DataTypeModifier::applyTo(std::string& typeName) const
 {
 	doApplyTo(typeName);
