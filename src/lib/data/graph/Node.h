@@ -22,7 +22,8 @@ public:
 		NODE_FUNCTION,
 		NODE_METHOD,
 		NODE_NAMESPACE,
-		NODE_ENUM
+		NODE_ENUM,
+		NODE_TYPEDEF
 	};
 
 	Node(NodeType type, const std::string& name);

@@ -266,6 +266,8 @@ std::string Node::getTypeString(NodeType type) const
 		return "namespace";
 	case NODE_ENUM:
 		return "enum";
+	case NODE_TYPEDEF:
+		return "typedef";
 	}
 	return "";
 }

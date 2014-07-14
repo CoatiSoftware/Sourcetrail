@@ -47,7 +47,13 @@ void Storage::onTypedefParsed(
 ){
 	log("typedef", fullName + " -> " + underlyingType.getFullTypeName(), location);
 
-	// TODO: save Typedef
+	Node* node = m_graph.createNodeHierarchy(fullName);
+	node->setType(Node::NODE_TYPEDEF);
+	node->setAccess(convertAccessType(access));
+
+	addTokenLocation(node, location);
+
+	addTypeEdge(node, Edge::EDGE_TYPEDEF_OF, underlyingType);
 }
 
 void Storage::onClassParsed(const ParseLocation& location, const std::string& fullName, AccessType access)
