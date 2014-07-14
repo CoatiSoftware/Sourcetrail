@@ -45,8 +45,10 @@ public:
 private:
 	bool hasValidLocation(const clang::Decl* declaration) const;
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
+	ParseTypeUsage getParseTypeUsage(clang::ValueDecl* declaration) const;
 	ParseVariable getParseVariable(clang::ValueDecl* declaration) const;
-	std::vector<ParseVariable> getParameters(clang::FunctionDecl* declaration) const;
+	ParseTypeUsage getParseTypeUsageOfReturnType(clang::FunctionDecl* declaration) const;
+	std::vector<ParseTypeUsage> getParameters(clang::FunctionDecl* declaration) const;
 	DataType qualTypeToDataType(clang::QualType qualType);
 	std::string getTypeName(const clang::QualType& qualType) const;
 	ParserClient::AccessType convertAccessType(clang::AccessSpecifier) const;

@@ -10,6 +10,8 @@ struct ParseLocation
 		unsigned int startLineNumber, unsigned int startColumnNumber,
 		unsigned int endLineNumber, unsigned int endColumnNumber);
 
+	bool isValid() const;
+
 	const std::string filePath;
 	unsigned int startLineNumber;
 	unsigned int startColumnNumber;

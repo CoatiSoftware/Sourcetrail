@@ -36,12 +36,12 @@ public:
 	virtual void onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access);
 
 	virtual void onFunctionParsed(
-		const ParseLocation& location, const std::string& fullName, const DataType& returnType,
-		const std::vector<ParseVariable>& parameters
+		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
+		const std::vector<ParseTypeUsage>& parameters
 	);
 	virtual void onMethodParsed(
-		const ParseLocation& location, const std::string& fullName, const DataType& returnType,
-		const std::vector<ParseVariable>& parameters, AccessType access, AbstractionType abstraction,
+		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
+		const std::vector<ParseTypeUsage>& parameters, AccessType access, AbstractionType abstraction,
 		bool isConst, bool isStatic
 	);
 
@@ -73,6 +73,7 @@ public:
 private:
 	Edge::AccessType convertAccessType(ParserClient::AccessType access) const;
 	Edge* addTypeEdge(Node* node, Edge::EdgeType edgeType, const DataType& type);
+	Edge* addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeUsage& typeUsage);
 	TokenLocation* addTokenLocation(Token* token, const ParseLocation& location);
 
 	void log(std::string type, std::string str, const ParseLocation& location) const;

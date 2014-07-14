@@ -12,3 +12,8 @@ ParseLocation::ParseLocation(
 	, endColumnNumber(endColumnNumber)
 {
 }
+
+bool ParseLocation::isValid() const
+{
+	return startLineNumber > 0 && endLineNumber >= startLineNumber;
+}

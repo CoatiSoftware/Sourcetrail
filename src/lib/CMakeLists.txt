@@ -69,7 +69,7 @@ add_files(
 	data/graph/edgeComponent/EdgeComponent.h
 	data/graph/edgeComponent/EdgeComponentDataType.cpp
 	data/graph/edgeComponent/EdgeComponentDataType.h
-	
+
 	data/graph/Edge.cpp
 	data/graph/Edge.h
 	data/graph/Graph.cpp
@@ -94,6 +94,8 @@ add_files(
 	data/parser/Parser.h
 	data/parser/ParserClient.cpp
 	data/parser/ParserClient.h
+	data/parser/ParseTypeUsage.cpp
+	data/parser/ParseTypeUsage.h
 	data/parser/ParseVariable.cpp
 	data/parser/ParseVariable.h
 

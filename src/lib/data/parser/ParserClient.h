@@ -5,6 +5,7 @@
 #include <vector>
 
 struct ParseLocation;
+struct ParseTypeUsage;
 struct ParseVariable;
 class DataType;
 
@@ -29,18 +30,18 @@ public:
 	static std::string addStaticPrefix(const std::string& str, bool isStatic);
 	static std::string addConstPrefix(const std::string& str, bool isConst, bool atFront);
 	static std::string addLocationSuffix(const std::string& str, const ParseLocation& location);
-	static std::string variableStr(const ParseVariable& variable, bool withName = true);
-	static std::string parameterStr(const std::vector<ParseVariable> parameters, bool withName = true);
+	static std::string variableStr(const ParseVariable& variable);
+	static std::string parameterStr(const std::vector<ParseTypeUsage> parameters);
 	static std::string functionStr(
 		const DataType& returnType,
 		const std::string& fullName,
-		const std::vector<ParseVariable>& parameters,
+		const std::vector<ParseTypeUsage>& parameters,
 		bool isConst
 	);
 	static std::string functionSignatureStr(
 		const DataType& returnType,
 		const std::string& fullName,
-		const std::vector<ParseVariable>& parameters,
+		const std::vector<ParseTypeUsage>& parameters,
 		bool isConst
 	);
 
@@ -57,11 +58,11 @@ public:
 	virtual void onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access) = 0;
 
 	virtual void onFunctionParsed(
-		const ParseLocation& location, const std::string& fullName, const DataType& returnType,
-		const std::vector<ParseVariable>& parameters) = 0;
+		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
+		const std::vector<ParseTypeUsage>& parameters) = 0;
 	virtual void onMethodParsed(
-		const ParseLocation& location, const std::string& fullName, const DataType& returnType,
-		const std::vector<ParseVariable>& parameters, AccessType access, AbstractionType abstraction,
+		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
+		const std::vector<ParseTypeUsage>& parameters, AccessType access, AbstractionType abstraction,
 		bool isConst, bool isStatic) = 0;
 
 	virtual void onNamespaceParsed(const ParseLocation& location, const std::string& fullName) = 0;

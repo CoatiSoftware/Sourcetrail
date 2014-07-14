@@ -5,6 +5,7 @@
 #include "data/parser/cxx/CxxParser.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
+#include "data/parser/ParseTypeUsage.h"
 #include "data/parser/ParseVariable.h"
 #include "utility/text/TextAccess.h"
 
@@ -197,7 +198,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->functions.size(), 1);
-		TS_ASSERT_EQUALS(client->functions[0], "int ceil(float a) <1:1 4:1>");
+		TS_ASSERT_EQUALS(client->functions[0], "int ceil(float) <1:1 4:1>");
 	}
 
 	void test_cxx_parser_finds_function_in_anonymous_namespace()
@@ -210,7 +211,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->functions.size(), 1);
-		TS_ASSERT_EQUALS(client->functions[0], "int (anonymous namespace)::sum(int a, int b) <3:2 3:22>");
+		TS_ASSERT_EQUALS(client->functions[0], "int (anonymous namespace)::sum(int, int) <3:2 3:22>");
 	}
 
 	void test_cxx_parser_finds_method_declaration()
@@ -674,6 +675,49 @@ public:
 		TS_ASSERT_EQUALS(client->calls[1], "main -> App::operator+ <11:2 11:8>");
 	}
 
+	void test_cxx_parser_finds_return_type_use_in_function()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"double PI()\n"
+			"{\n"
+			"	return 3.14159265359;\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
+		TS_ASSERT_EQUALS(client->typeUses[0], "double <1:1 1:6>");
+	}
+
+	void test_cxx_parser_finds_return_and_parameter_type_uses_in_function()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"int ceil(float a)\n"
+			"{\n"
+			"	return static_cast<int>(a) + 1;\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
+		TS_ASSERT_EQUALS(client->typeUses[0], "int <1:1 1:3>");
+		TS_ASSERT_EQUALS(client->typeUses[1], "float <1:10 1:16>");
+	}
+
+	void test_cxx_parser_finds_parameter_type_uses_in_constructor()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class A\n"
+			"{\n"
+			"	A(int a, bool b, float c, int d);\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->typeUses.size(), 4);
+		TS_ASSERT_EQUALS(client->typeUses[0], "int <3:4 3:8>");
+		TS_ASSERT_EQUALS(client->typeUses[1], "_Bool <3:11 3:16>");
+		TS_ASSERT_EQUALS(client->typeUses[2], "float <3:19 3:25>");
+		TS_ASSERT_EQUALS(client->typeUses[3], "int <3:28 3:32>");
+	}
+
 	void test_cxx_parser_parses_multiple_files()
 	{
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
@@ -730,24 +774,36 @@ private:
 		}
 
 		virtual void onFunctionParsed(
-			const ParseLocation& location, const std::string& fullName, const DataType& returnType,
-			const std::vector<ParseVariable>& parameters
+			const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
+			const std::vector<ParseTypeUsage>& parameters
 		){
-			std::string str = functionStr(returnType, fullName, parameters, false);
+			std::string str = functionStr(returnType.type, fullName, parameters, false);
 			functions.push_back(addLocationSuffix(str, location));
+
+			addTypeUse(returnType);
+			for (const ParseTypeUsage& parameter : parameters)
+			{
+				addTypeUse(parameter);
+			}
 		}
 
 		virtual void onMethodParsed(
-			const ParseLocation& location, const std::string& fullName, const DataType& returnType,
-			const std::vector<ParseVariable>& parameters, AccessType access, AbstractionType abstraction,
+			const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
+			const std::vector<ParseTypeUsage>& parameters, AccessType access, AbstractionType abstraction,
 			bool isConst, bool isStatic
 		)
 		{
-			std::string str = functionStr(returnType, fullName, parameters, isConst);
+			std::string str = functionStr(returnType.type, fullName, parameters, isConst);
 			str = addStaticPrefix(addAbstractionPrefix(str, abstraction), isStatic);
 			str = addAccessPrefix(str, access);
 			str = addLocationSuffix(str, location);
 			methods.push_back(str);
+
+			addTypeUse(returnType);
+			for (const ParseTypeUsage& parameter : parameters)
+			{
+				addTypeUse(parameter);
+			}
 		}
 
 		virtual void onNamespaceParsed(const ParseLocation& location, const std::string& fullName)
@@ -790,6 +846,16 @@ private:
 		std::vector<std::string> structs;
 		std::vector<std::string> inheritances;
 		std::vector<std::string> calls;
+		std::vector<std::string> typeUses;
+
+	private:
+		void addTypeUse(const ParseTypeUsage& use)
+		{
+			if (use.location.isValid())
+			{
+				typeUses.push_back(addLocationSuffix(use.type.getFullTypeName(), use.location));
+			}
+		}
 	};
 
 	std::shared_ptr<TestParserClient> parseCode(std::string code) const

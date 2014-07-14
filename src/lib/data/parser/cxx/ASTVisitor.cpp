@@ -3,6 +3,7 @@
 #include "data/parser/cxx/ASTBodyVisitor.h"
 #include "data/parser/cxx/utilityCxx.h"
 #include "data/parser/ParseLocation.h"
+#include "data/parser/ParseTypeUsage.h"
 #include "data/parser/ParseVariable.h"
 #include "data/type/DataType.h"
 
@@ -139,7 +140,7 @@ bool ASTVisitor::VisitFunctionDecl(clang::FunctionDecl* declaration)
 		m_client->onFunctionParsed(
 			getParseLocation(declaration->getSourceRange()),
 			declaration->getQualifiedNameAsString(),
-			utility::qualTypeToDataType(declaration->getReturnType()),
+			getParseTypeUsageOfReturnType(declaration),
 			getParameters(declaration)
 		);
 
@@ -170,7 +171,7 @@ bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 		m_client->onMethodParsed(
 			getParseLocation(declaration->getSourceRange()),
 			declaration->getQualifiedNameAsString(),
-			utility::qualTypeToDataType(declaration->getReturnType()),
+			getParseTypeUsageOfReturnType(declaration),
 			getParameters(declaration),
 			convertAccessType(declaration->getAccess()),
 			abstraction,
@@ -285,6 +286,11 @@ bool ASTVisitor::hasValidLocation(const clang::Decl* declaration) const
 
 ParseLocation ASTVisitor::getParseLocation(const clang::SourceRange& sourceRange) const
 {
+	if (sourceRange.isInvalid())
+	{
+		return ParseLocation("", 0, 0, 0, 0);
+	}
+
 	const clang::SourceManager& sourceManager = m_context->getSourceManager();
 
 	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(sourceRange.getBegin());
@@ -299,10 +305,16 @@ ParseLocation ASTVisitor::getParseLocation(const clang::SourceRange& sourceRange
 	);
 }
 
+ParseTypeUsage ASTVisitor::getParseTypeUsage(clang::ValueDecl* declaration) const
+{
+	return ParseTypeUsage(
+		getParseLocation(declaration->getSourceRange()),
+		utility::qualTypeToDataType(declaration->getType())
+	);
+}
+
 ParseVariable ASTVisitor::getParseVariable(clang::ValueDecl* declaration) const
 {
-	clang::QualType qualType = declaration->getType();
-
 	bool isStatic = false;
 	if (clang::isa<clang::VarDecl>(declaration))
 	{
@@ -311,19 +323,43 @@ ParseVariable ASTVisitor::getParseVariable(clang::ValueDecl* declaration) const
 	}
 
 	return ParseVariable(
-		utility::qualTypeToDataType(qualType),
+		utility::qualTypeToDataType(declaration->getType()),
 		declaration->getQualifiedNameAsString(),
 		isStatic
 	);
 }
 
-std::vector<ParseVariable> ASTVisitor::getParameters(clang::FunctionDecl* declaration) const
+ParseTypeUsage ASTVisitor::getParseTypeUsageOfReturnType(clang::FunctionDecl* declaration) const
 {
-	std::vector<ParseVariable> parameters;
+	// TODO: use FunctionDecl::getReturnTypeSourceRange() in newer clang version
+	clang::SourceRange range;
+	const clang::TypeSourceInfo *TSI = declaration->getTypeSourceInfo();
+	if (TSI)
+	{
+		clang::FunctionTypeLoc FTL = TSI->getTypeLoc().IgnoreParens().getAs<clang::FunctionTypeLoc>();
+		if (FTL)
+		{
+			// Skip self-referential return types.
+			range = clang::SourceRange(
+				FTL.getReturnLoc().getLocStart(),
+				declaration->getNameInfo().getLocStart().getLocWithOffset(-2)
+			);
+		}
+	}
+
+	return ParseTypeUsage(
+		getParseLocation(range),
+		utility::qualTypeToDataType(declaration->getReturnType())
+	);
+}
+
+std::vector<ParseTypeUsage> ASTVisitor::getParameters(clang::FunctionDecl* declaration) const
+{
+	std::vector<ParseTypeUsage> parameters;
 
 	for (unsigned i = 0; i < declaration->getNumParams(); i++)
 	{
-		parameters.push_back(getParseVariable(declaration->getParamDecl(i)));
+		parameters.push_back(getParseTypeUsage(declaration->getParamDecl(i)));
 	}
 
 	return parameters;

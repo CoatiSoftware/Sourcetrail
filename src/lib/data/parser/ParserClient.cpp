@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "data/parser/ParseLocation.h"
+#include "data/parser/ParseTypeUsage.h"
 #include "data/parser/ParseVariable.h"
 #include "data/type/DataType.h"
 
@@ -60,22 +61,18 @@ std::string ParserClient::addLocationSuffix(const std::string& str, const ParseL
 	return ss.str();
 }
 
-std::string ParserClient::variableStr(const ParseVariable& variable, bool withName)
+std::string ParserClient::variableStr(const ParseVariable& variable)
 {
-	std::string str = variable.type.getFullTypeName();
-	if (withName)
-	{
-		str += " " + variable.fullName;
-	}
+	std::string str = variable.type.getFullTypeName() + " " + variable.fullName;
 	return addStaticPrefix(str, variable.isStatic);
 }
 
-std::string ParserClient::parameterStr(const std::vector<ParseVariable> parameters, bool withName)
+std::string ParserClient::parameterStr(const std::vector<ParseTypeUsage> parameters)
 {
 	std::string str = "(";
 	for (size_t i = 0; i < parameters.size(); i++)
 	{
-		str += variableStr(parameters[i], withName);
+		str += parameters[i].type.getFullTypeName();
 		if (i < parameters.size() - 1)
 		{
 			str += ", ";
@@ -87,7 +84,7 @@ std::string ParserClient::parameterStr(const std::vector<ParseVariable> paramete
 std::string ParserClient::functionStr(
 	const DataType& returnType,
 	const std::string& fullName,
-	const std::vector<ParseVariable>& parameters,
+	const std::vector<ParseTypeUsage>& parameters,
 	bool isConst
 ){
 	return addConstPrefix(
@@ -100,10 +97,10 @@ std::string ParserClient::functionStr(
 std::string ParserClient::functionSignatureStr(
 	const DataType& returnType,
 	const std::string& fullName,
-	const std::vector<ParseVariable>& parameters,
+	const std::vector<ParseTypeUsage>& parameters,
 	bool isConst
 ){
-	return addConstPrefix(fullName + parameterStr(parameters, false), isConst, false);
+	return addConstPrefix(fullName + parameterStr(parameters), isConst, false);
 }
 
 ParserClient::ParserClient()
