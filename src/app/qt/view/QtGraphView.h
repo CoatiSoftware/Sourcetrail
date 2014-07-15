@@ -3,11 +3,15 @@
 
 #include "qt/utility/QtThreadedFunctor.h"
 
+#include "utility/types.h"
+
 #include "component/view/GraphView.h"
 
 struct DummyEdge;
 struct DummyNode;
 class QGraphicsView;
+class QtGraphEdge;
+class QtGraphNode;
 
 class QtGraphView : public GraphView
 {
@@ -30,8 +34,12 @@ private:
 	void doClear();
 
 	std::shared_ptr<GraphNode> findOrCreateNode(QGraphicsView* view, const DummyNode& node);
-	std::shared_ptr<GraphNode> findNode(const DummyNode& node);
+	std::shared_ptr<GraphNode> findNode(const Id id);
+	std::shared_ptr<GraphNode> findSubNode(const std::shared_ptr<GraphNode> node, const Id id);
 	std::shared_ptr<GraphNode> createNode(QGraphicsView* view, const DummyNode& node);
+	std::shared_ptr<QtGraphNode> createSubNode(QGraphicsView* view, const DummyNode& node);
+
+	std::shared_ptr<QtGraphEdge> createEdge(QGraphicsView* view, const DummyEdge& edge);
 
 	QtThreadedFunctor<const std::vector<DummyNode>&, const std::vector<DummyEdge>&> m_rebuildGraph;
 	QtThreadedFunctor<void> m_clear;

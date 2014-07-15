@@ -9,7 +9,7 @@ GraphNode::~GraphNode()
 {
 }
 
-Id GraphNode::getTokenId()
+Id GraphNode::getTokenId() const
 {
 	return m_tokenId;
 }

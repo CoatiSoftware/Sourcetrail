@@ -32,9 +32,6 @@ public:
 	{
 	}
 
-	Id ownerId;
-	Id targetId;
-
 	bool operator==(const DummyEdge& other) const
 	{
 		if(ownerId == other.ownerId && targetId == other.targetId)
@@ -48,6 +45,27 @@ public:
 	{
 		return !(*this == other);
 	}
+
+	bool operator<(const DummyEdge& other) const
+	{
+		if(ownerId < other.ownerId )
+		{
+			return true;
+		}
+		else if(ownerId == other.ownerId)
+		{
+			return (targetId < other.targetId);
+		}
+		return false;
+	}
+
+	bool operator>(const DummyEdge& other) const
+	{
+		return !(*this < other);
+	}
+
+	Id ownerId;
+	Id targetId;
 };
 
 #endif // GRAPH_EDGE_H

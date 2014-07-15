@@ -28,6 +28,8 @@ add_files(
 	component/controller/Controller.h
 	component/controller/GraphController.cpp
 	component/controller/GraphController.h
+	component/controller/GraphLayouter.cpp
+	component/controller/GraphLayouter.h
 	component/controller/SearchController.cpp
 	component/controller/SearchController.h
 

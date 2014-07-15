@@ -1,5 +1,7 @@
 #include "qt/view/graphElements/QtGraphNode.h"
 
+#include <sstream>
+
 #include "qgraphicsscene.h"
 #include "qgraphicssceneevent.h"
 
@@ -15,7 +17,9 @@ QtGraphNode::QtGraphNode(const Vec2i& position, const std::string& name, const I
 
 	m_text = new QGraphicsTextItem(this);
 	m_text->setPos(0, 0);
-	m_text->setPlainText(QString(name.c_str()));
+	std::stringstream text;
+	text << m_tokenId << " -> " << name;
+	m_text->setPlainText(QString(text.str().c_str()));
 }
 
 QtGraphNode::~QtGraphNode()
@@ -31,14 +35,26 @@ QtGraphNode::~QtGraphNode()
 	}
 }
 
-std::string QtGraphNode::getName()
+std::string QtGraphNode::getName() const
 {
 	return m_text->toPlainText().toStdString();
 }
 
-Vec2i QtGraphNode::getPosition()
+Vec2i QtGraphNode::getPosition() const
 {
 	return Vec2i(this->scenePos().x(), this->scenePos().y());
+}
+
+void QtGraphNode::setPosition(const Vec2i& position)
+{
+	Vec2i currentPosition = getPosition();
+	Vec2i offset = position - currentPosition;
+
+	if(offset.getLength() > 0.0f)
+	{
+		this->moveBy(offset.x, offset.y);
+		notifyEdgesAfterMove();
+	}
 }
 
 bool QtGraphNode::addOutEdge(const std::shared_ptr<GraphEdge>& edge)
@@ -91,6 +107,11 @@ void QtGraphNode::removeOutEdge(GraphEdge* edge)
 	}
 }
 
+std::list<std::shared_ptr<GraphNode> > QtGraphNode::getSubNodes() const
+{
+	return m_subNodes;
+}
+
 void QtGraphNode::addSubNode(const std::shared_ptr<GraphNode>& node)
 {
 	m_subNodes.push_back(node);
@@ -100,4 +121,39 @@ void QtGraphNode::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
 	MessageActivateToken message(m_tokenId);
 	message.dispatch();
+}
+
+void QtGraphNode::notifyParentMoved()
+{
+	notifyEdgesAfterMove();
+}
+
+void QtGraphNode::notifyEdgesAfterMove()
+{
+	std::list<std::shared_ptr<GraphEdge> >::iterator it = m_outEdges.begin();
+	for(it; it != m_outEdges.end(); it++)
+	{
+		(*it)->ownerMoved();
+	}
+
+	std::list<std::weak_ptr<GraphEdge> >::iterator it2 = m_inEdges.begin();
+	while(it2 != m_inEdges.end())
+	{
+		 std::shared_ptr<GraphEdge> edge = it2->lock();
+		 if(edge.get() != NULL)
+		 {
+			 edge->targetMoved();
+			 ++it2;
+		 }
+		 else
+		 {
+			 m_inEdges.erase(it2++);
+		 }
+	}
+
+	std::list<std::shared_ptr<GraphNode> >::iterator it3 = m_subNodes.begin();
+	for(it3; it3 != m_subNodes.end(); it3++)
+	{
+		(*it3)->notifyParentMoved();
+	}
 }

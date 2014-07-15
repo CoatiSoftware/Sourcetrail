@@ -1,6 +1,7 @@
 #ifndef GRAPH_NODE_H
 #define GRAPH_NODE_H
 
+#include <list>
 #include <memory>
 
 #include "utility/math/Vector2.h"
@@ -14,16 +15,20 @@ public:
 	GraphNode(const Id tokenId);
 	virtual ~GraphNode();
 
-	virtual std::string getName() = 0;
-	Id getTokenId();
-	virtual Vec2i getPosition() = 0;
+	virtual std::string getName() const = 0;
+	Id getTokenId() const;
+	virtual Vec2i getPosition() const = 0;
+	virtual void setPosition(const Vec2i& position) = 0;
 
 	virtual bool addOutEdge(const std::shared_ptr<GraphEdge>& edge) = 0;
 	virtual bool addInEdge(const std::weak_ptr<GraphEdge>& edge) = 0;
 
 	virtual void removeOutEdge(GraphEdge* edge) = 0;
 
+	virtual std::list<std::shared_ptr<GraphNode> > getSubNodes() const = 0;
 	virtual void addSubNode(const std::shared_ptr<GraphNode>& node) = 0;
+
+	virtual void notifyParentMoved() = 0;
 
 protected:
 	Id m_tokenId;
@@ -36,12 +41,55 @@ public:
 		: name(n)
 		, tokenId(tId)
 		, position(p)
+		, subNodes()
+		, actualNode()
 	{
+	}
+
+	bool operator==(const DummyNode& other) const
+	{
+		if(tokenId == other.tokenId
+			&& name == other.name
+			&& position == position)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	bool operator!=(const DummyNode& other) const
+	{
+		return !(*this == other);
+	}
+
+	bool operator<(const DummyNode& other) const
+	{
+		if(tokenId < other.tokenId)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	bool operator>(const DummyNode& other) const
+	{
+		return !(*this < other);
+	}
+
+	void operator=(DummyNode& other)
+	{
+		name = other.name;
+		tokenId = other.tokenId;
+		position = other.position;
+		subNodes = other.subNodes;
+		actualNode = other.actualNode;
 	}
 
 	std::string name;
 	Id tokenId;
 	Vec2i position;
+
+	std::vector<DummyNode> subNodes;
 
 	std::weak_ptr<GraphNode> actualNode;
 };

@@ -67,11 +67,71 @@ std::vector<Id> GraphAccessProxy::getIdsOfNeighbours(const Id id) const
 	return std::vector<Id>();
 }
 
-std::vector<std::pair<Id, Id>> GraphAccessProxy::getConnectedEdges(const Id id) const
+std::vector<std::pair<Id, Id>> GraphAccessProxy::getNeighbourEdgesOfNode(const Id id) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getConnectedEdges(id);
+		return m_subject->getNeighbourEdgesOfNode(id);
+	}
+
+	return std::vector<std::pair<Id, Id>>();
+}
+
+std::vector<std::pair<Id, Id>> GraphAccessProxy::getMemberEdgesOfNode(const Id id) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getMemberEdgesOfNode(id);
+	}
+
+	return std::vector<std::pair<Id, Id>>();
+}
+
+std::vector<std::pair<Id, Id>> GraphAccessProxy::getUsageEdgesOfNode(const Id id) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getUsageEdgesOfNode(id);
+	}
+
+	return std::vector<std::pair<Id, Id>>();
+}
+
+std::vector<std::pair<Id, Id>> GraphAccessProxy::getCallEdgesOfNode(const Id id) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getCallEdgesOfNode(id);
+	}
+
+	return std::vector<std::pair<Id, Id>>();
+}
+
+std::vector<std::pair<Id, Id>> GraphAccessProxy::getTypeOfEdgesOfNode(const Id id) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getTypeOfEdgesOfNode(id);
+	}
+
+	return std::vector<std::pair<Id, Id>>();
+}
+
+std::vector<std::pair<Id, Id>> GraphAccessProxy::getReturnTypeOfEdgesOfNode(const Id id) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getReturnTypeOfEdgesOfNode(id);
+	}
+
+	return std::vector<std::pair<Id, Id>>();
+}
+
+std::vector<std::pair<Id, Id>> GraphAccessProxy::getParameterOfEdgesOfNode(const Id id) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getParameterOfEdgesOfNode(id);
 	}
 
 	return std::vector<std::pair<Id, Id>>();

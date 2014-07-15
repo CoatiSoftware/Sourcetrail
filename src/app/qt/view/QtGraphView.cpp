@@ -12,7 +12,7 @@
 #include "qt/QtWidgetWrapper.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
 #include "qt/view/graphElements/QtGraphNode.h"
-#include "qt/view/graphElements/QtGraphNodeMovable.h"
+#include "qt/view/graphElements/QtGraphNodeMouseMovable.h"
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)
@@ -83,6 +83,7 @@ void QtGraphView::doRebuildGraph(const std::vector<DummyNode>& nodes, const std:
 		for(unsigned int i = 0; i < nodes.size(); i++)
 		{
 			std::shared_ptr<GraphNode> newNode = findOrCreateNode(view, nodes[i]);
+			newNode->setPosition(nodes[i].position);
 			newNodes.push_back(newNode);
 			weakNodes[nodes[i].tokenId] = newNode;
 		}
@@ -90,8 +91,17 @@ void QtGraphView::doRebuildGraph(const std::vector<DummyNode>& nodes, const std:
 		doClear();
 		m_nodes = newNodes;
 
-		// create edges
 		for(unsigned int i = 0; i < edges.size(); i++)
+		{
+			std::shared_ptr<GraphEdge> edge = createEdge(view, edges[i]);
+			if(edge != NULL)
+			{
+				m_edges.push_back(edge);
+			}
+		}
+
+		// create edges
+		/*for(unsigned int i = 0; i < edges.size(); i++)
 		{
 			if (weakNodes.find(edges[i].ownerId) != weakNodes.end() && weakNodes.find(edges[i].targetId) != weakNodes.end())
 			{
@@ -106,7 +116,7 @@ void QtGraphView::doRebuildGraph(const std::vector<DummyNode>& nodes, const std:
 					}
 				}
 			}
-		}
+		}*/
 	}
 	else
 	{
@@ -124,7 +134,7 @@ std::shared_ptr<GraphNode> QtGraphView::findOrCreateNode(QGraphicsView* view, co
 {
 	std::shared_ptr<GraphNode> result;
 
-	result = findNode(node);
+	result = findNode(node.tokenId);
 
 	if(result == NULL)
 	{
@@ -134,41 +144,131 @@ std::shared_ptr<GraphNode> QtGraphView::findOrCreateNode(QGraphicsView* view, co
 	return result;
 }
 
-std::shared_ptr<GraphNode> QtGraphView::findNode(const DummyNode& node)
+std::shared_ptr<GraphNode> QtGraphView::findNode(const Id id)
 {
 	std::list<std::shared_ptr<GraphNode>>::iterator it = m_nodes.begin();
 
 	for(it; it != m_nodes.end(); it++)
 	{
-		if((*it)->getTokenId() == node.tokenId)
+		if((*it)->getTokenId() == id)
 		{
 			return *it;
 		}
+		else
+		{
+			std::shared_ptr<GraphNode> result = findSubNode(*it, id);
+			if(result != NULL)
+			{
+				return result;
+			}
+		}
 	}
 
-	return NULL;
+	return std::shared_ptr<GraphNode>();
+}
+
+std::shared_ptr<GraphNode> QtGraphView::findSubNode(const std::shared_ptr<GraphNode> node, const Id id)
+{
+	std::list<std::shared_ptr<GraphNode>> subNodes = node->getSubNodes();
+
+	std::list<std::shared_ptr<GraphNode>>::iterator it = subNodes.begin();
+	for(it; it != subNodes.end(); it++)
+	{
+		if((*it)->getTokenId() == id)
+		{
+			return *it;
+		}
+		else
+		{
+			std::shared_ptr<GraphNode> result = findSubNode(*it, id);
+			if(result != NULL)
+			{
+				return result;
+			}
+		}
+	}
+
+	return std::shared_ptr<GraphNode>();
 }
 
 std::shared_ptr<GraphNode> QtGraphView::createNode(QGraphicsView* view, const DummyNode& node)
 {
 	if(view != NULL)
 	{
-		std::shared_ptr<QtGraphNodeMovable> newNode = std::make_shared<QtGraphNodeMovable>(node.position, node.name, node.tokenId);
+		std::shared_ptr<QtGraphNodeMouseMovable> newNode = std::make_shared<QtGraphNodeMouseMovable>(Vec2i(0, 0), node.name, node.tokenId);
 		view->scene()->addItem(newNode.get());
 		m_nodes.push_back(newNode);
 
-		// create debug sub node
-		std::shared_ptr<QtGraphNode> subNode = std::make_shared<QtGraphNode>(Vec2i(10, 30), node.name + " member", 666);
-		subNode->setParentItem(newNode.get());
-		view->scene()->addItem(subNode.get());
-		newNode->addSubNode(subNode);
+		for(unsigned int i = 0; i < node.subNodes.size(); i++)
+		{
+			std::shared_ptr<QtGraphNode> subNode = createSubNode(view, node.subNodes[i]);
+			subNode->setParentItem(newNode.get());
+			newNode->addSubNode(subNode);
+			subNode->setRect(0, 0, 80, 20);
+			subNode->moveBy(10, (i+1)*30);
+		}
 
-		subNode->setRect(0, 0, 80, 20);
+		newNode->setRect(0, 0, 100, 40 + (node.subNodes.size() * 30));
 
 		return newNode;
 	}
 	else
 	{
 		LOG_WARNING("Received pointer to QGraphicsView was NULL. No node created.");
+		return std::shared_ptr<QtGraphNode>();
+	}
+}
+
+std::shared_ptr<QtGraphNode> QtGraphView::createSubNode(QGraphicsView* view, const DummyNode& node)
+{
+	if(view != NULL)
+	{
+		std::shared_ptr<QtGraphNode> newNode = std::make_shared<QtGraphNode>(Vec2i(0, 0), node.name, node.tokenId);
+		view->scene()->addItem(newNode.get());
+
+		for(unsigned int i = 0; i < node.subNodes.size(); i++)
+		{
+			std::shared_ptr<QtGraphNode> subNode = createSubNode(view, node.subNodes[i]);
+			subNode->setParentItem(newNode.get());
+			newNode->addSubNode(subNode);
+			subNode->setRect(0, 0, 80, 20);
+			subNode->moveBy(10, (i+1)*30);
+		}
+
+		return newNode;
+	}
+	else
+	{
+		LOG_WARNING("Received pointer to QGraphicsView was NULL. No node created.");
+		return std::shared_ptr<QtGraphNode>();
+	}
+}
+
+std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const DummyEdge& edge)
+{
+	if(view != NULL)
+	{
+		std::shared_ptr<GraphNode> owner = findNode(edge.ownerId);
+		std::shared_ptr<GraphNode> target = findNode(edge.targetId);
+
+		if(owner != NULL && target != NULL)
+		{
+			std::shared_ptr<QtGraphEdge> edge = std::make_shared<QtGraphEdge>(owner, target);
+			owner->addOutEdge(edge);
+			target->addInEdge(edge);
+			view->scene()->addItem(edge.get());
+
+			return edge;
+		}
+		else
+		{
+			LOG_WARNING("Couldn't find owner or target node.");
+			return std::shared_ptr<QtGraphEdge>();
+		}
+	}
+	else
+	{
+		LOG_WARNING("Received pointer to QGraphicsView was NULL. No node created.");
+		return std::shared_ptr<QtGraphEdge>();
 	}
 }
