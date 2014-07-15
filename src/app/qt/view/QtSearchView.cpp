@@ -2,11 +2,12 @@
 
 #include <QtWidgets>
 
+#include "component/controller/SearchController.h"
 #include "qt/element/QtButton.h"
 #include "qt/element/QtEditBox.h"
 #include "qt/QtWidgetWrapper.h"
 #include "qt/utility/utilityQt.h"
-#include "component/controller/SearchController.h"
+#include "utility/text/TextAccess.h"
 
 QtSearchView::QtSearchView(ViewLayout* viewLayout)
 	: SearchView(viewLayout)
@@ -27,28 +28,30 @@ void QtSearchView::createWidgetWrapper()
 void QtSearchView::initGui()
 {
 	QWidget* widget = QtWidgetWrapper::getWidgetOfView(this);
-	utility::setWidgetBackgroundColor(widget, Colori(190, 190, 190, 255));
+	utility::setWidgetBackgroundColor(widget, Colori(255, 255, 255, 255));
+	widget->setStyleSheet(TextAccess::createFromFile("data/gui/search_view/search_view.css")->getText().c_str());
+
 
 	QBoxLayout* layout = new QBoxLayout(QBoxLayout::LeftToRight);
-	layout->setSpacing(3);
-	layout->setContentsMargins(3, 3, 3, 3);
+	layout->setSpacing(0);
+	//layout->setContentsMargins(3, 3, 3, 3);
 	widget->setLayout(layout);
+
+	m_searchButton = new QtButton(widget);
+	m_searchButton->setCallbackOnClick(std::bind(&QtSearchView::onSearchButtonClick, this));
+	m_searchButton->setObjectName("search_button");
+	widget->layout()->addWidget(m_searchButton);
 
 	m_searchBox = new QtEditBox(widget);
 	m_searchBox->setPlaceholderText("Please enter your search string.");
 	m_searchBox->setCallbackOnReturnPressed(std::bind(&QtSearchView::onSearchButtonClick, this));
-
-	std::vector<std::string> autocompletionList;
-	autocompletionList.push_back("tralala");
-	autocompletionList.push_back("lalila");
-	setAutocompletionList(autocompletionList);
-
-	m_searchButton = new QtButton(widget);
-	m_searchButton->setText("Search");
-	m_searchButton->setCallbackOnClick(std::bind(&QtSearchView::onSearchButtonClick, this));
-
+	m_searchBox->setObjectName("search_box");
 	widget->layout()->addWidget(m_searchBox);
-	widget->layout()->addWidget(m_searchButton);
+
+	m_caseSensitiveButton = new QtButton(widget);
+	m_caseSensitiveButton->setObjectName("case_sensitive_button");
+	m_caseSensitiveButton->setCheckable(true);
+	widget->layout()->addWidget(m_caseSensitiveButton);
 }
 
 void QtSearchView::setText(const std::string& s)
@@ -84,6 +87,8 @@ void QtSearchView::doSetAutocompletionList(const std::vector<std::string>& autoc
 	for (const std::string& s: autocompletionList)
 		wordList << s.c_str();
 	QCompleter *completer = new QCompleter(wordList, m_searchBox);
+	completer->popup()->setObjectName("search_box_popup");
 	completer->setCaseSensitivity(Qt::CaseInsensitive);
 	m_searchBox->setCompleter(completer);
+	completer->popup()->setStyleSheet(TextAccess::createFromFile("data/gui/search_view/search_view.css")->getText().c_str());
 }

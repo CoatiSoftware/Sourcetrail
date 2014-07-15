@@ -9,6 +9,7 @@
 namespace utility
 {
 	void setWidgetBackgroundColor(QWidget* widget, const Colori& color);
+	void loadFontsFromDirectory(const std::string& path, const std::string& extension = ".otf");
 }
 
 # endif // UTILITY_QT_H

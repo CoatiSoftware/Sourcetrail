@@ -7,9 +7,14 @@
 class FileSystem
 {
 public:
-	static std::vector<std::string> getSourceFilesFromDirectory(
+	static std::vector<std::string> getSourceFilesFromDirectory( // TODO: Replace this with getFileNamesFromDirectory.
 		const std::string& path, const std::vector<std::string>& extensions
 	);
+
+	static std::vector<std::string> getFileNamesFromDirectory(
+		const std::string& path, const std::vector<std::string>& extensions
+	);
+
 	static bool exists(const std::string& path);
 	static std::string fileName(const std::string& path);
 

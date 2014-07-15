@@ -25,6 +25,13 @@ std::vector<std::string> FileSystem::getSourceFilesFromDirectory(
 	return files;
 }
 
+std::vector<std::string> FileSystem::getFileNamesFromDirectory(
+	const std::string& path, const std::vector<std::string>& extensions
+)
+{
+	return getSourceFilesFromDirectory(path, extensions);
+}
+
 bool FileSystem::isValidExtension(const std::string& filepath, const std::vector<std::string>& extensions)
 {
 	boost::filesystem::path path(filepath);
