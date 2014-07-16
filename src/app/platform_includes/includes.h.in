@@ -1,0 +1,9 @@
+#ifndef INCLUDES_H
+#define INCLUDES_H
+
+void setup();
+
+// platform specific include
+#include "platform_includes/@PLATFORM_INCLUDE@"
+
+#endif // INCLUDES_H

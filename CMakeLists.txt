@@ -13,10 +13,13 @@ set(LIB_PROJECT_NAME "${PROJECT_NAME}_lib")
 set(TEST_PROJECT_NAME "${PROJECT_NAME}_test")
 
 if (WIN32)
-	set(PLATFORM_INCLUDES "#include \"includesWindows.h\"")
+	set(PLATFORM_INCLUDE "includesWindows.h")
 	LINK_DIRECTORIES($ENV{VLD_DIR}/lib/Win32) # this adds the library path for VLD, must be done before the project target is created
-endif()
-
+elseif (APPLE)
+	set(PLATFORM_INCLUDE "includesMac.h")
+else ()
+	set(PLATFORM_INCLUDE "includesDefault.h")
+endif ()
 
 # Settings ---------------------------------------------------------------------
 
@@ -42,9 +45,7 @@ set(Boost_USE_MULTITHREAD ON)
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_STATIC_RUNTIME OFF)
 set(BOOST_LIBRARYDIR $ENV{BOOST_155_DIR})
-find_package( Boost 1.55 COMPONENTS system filesystem REQUIRED )
-
-message("${BOOST_LIBRARYDIR}")
+find_package(Boost 1.55 COMPONENTS system filesystem REQUIRED)
 
 # Lib --------------------------------------------------------------------------
 
@@ -123,11 +124,53 @@ qt5_use_modules(${APP_PROJECT_NAME} Widgets)
 
 # configure platform specific include file
 configure_file(
-	"${PROJECT_SOURCE_DIR}/src/app/includes.h.in"
+	"${PROJECT_SOURCE_DIR}/src/app/platform_includes/includes.h.in"
 	"${PROJECT_SOURCE_DIR}/build/src/app/includes.h"
 )
 
+# add platform specific libraries
+if (APPLE)
+	find_library(CORE_FOUNDATION CoreFoundation)
+	target_link_libraries(${APP_PROJECT_NAME} ${CORE_FOUNDATION})
+endif ()
+
 set(CMAKE_AUTOMOC OFF)
+
+# MacOSX Bundle ----------------------------------------------------------------
+
+if (APPLE)
+
+	set(MACOSX_BUNDLE_NAME ${PROJECT_NAME})
+	set(MACOSX_BINARY_NAME ${APP_PROJECT_NAME})
+
+	set(MACOSX_DYNAMIC_LIBRARIES ${Boost_LIBRARIES})
+	string(REPLACE ";" " " MACOSX_DYNAMIC_LIBRARIES "${MACOSX_DYNAMIC_LIBRARIES}")
+
+	get_property(QT_CORE_PATH TARGET ${Qt5Core_LIBRARIES} PROPERTY LOCATION)
+	get_filename_component(QT_CORE_PATH ${QT_CORE_PATH} REALPATH)
+
+	get_property(QT_GUI_PATH TARGET ${Qt5Gui_LIBRARIES} PROPERTY LOCATION)
+	get_filename_component(QT_GUI_PATH ${QT_GUI_PATH} REALPATH)
+
+	get_property(QT_WIDGETS_PATH TARGET ${Qt5Widgets_LIBRARIES} PROPERTY LOCATION)
+	get_filename_component(QT_WIDGETS_PATH ${QT_WIDGETS_PATH} REALPATH)
+
+	list(APPEND MACOSX_FRAMEWORKS ${QT_CORE_PATH} ${QT_GUI_PATH} ${QT_WIDGETS_PATH})
+	string(REPLACE ";" " " MACOSX_FRAMEWORKS "${MACOSX_FRAMEWORKS}")
+
+	configure_file(
+		${PROJECT_SOURCE_DIR}/setup/MacOSX/bundle_install.sh.in
+		${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/bundle_install.sh
+		@ONLY
+	)
+
+	configure_file(
+		${PROJECT_SOURCE_DIR}/setup/MacOSX/Info.plist.in
+		${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/bundle_info.plist
+		@ONLY
+	)
+
+endif ()
 
 # CxxTest ----------------------------------------------------------------------
 
@@ -200,5 +243,4 @@ if (WIN32)
 
 	include_directories($ENV{VLD_DIR}/include)
 
-endif()
-
+endif ()

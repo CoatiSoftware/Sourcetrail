@@ -1,0 +1,78 @@
+#!/bin/bash
+
+ABORT="\033[31mAbort:\033[00m"
+SUCCESS="\033[32mSuccess:\033[00m"
+INFO="\033[33mInfo:\033[00m"
+
+MY_PATH=`dirname "$0"`
+cd $MY_PATH
+
+echo -e $INFO "Creating app bundle for MacOSX."
+
+BUNDLE_NAME="@MACOSX_BUNDLE_NAME@"
+APP_NAME="@MACOSX_BINARY_NAME@"
+DYNLIB_PATHS=(@MACOSX_DYNAMIC_LIBRARIES@)
+FRAMEWORK_PATHS=(@MACOSX_FRAMEWORKS@)
+
+if [ ! -x "$APP_NAME" ]
+then
+	echo -e $ABORT "Executable $APP_NAME does not exist."
+	exit 1
+fi
+
+if [ ! -e "bundle_info.plist" ]
+then
+	echo -e $ABORT "bundle_info.plist does not exist."
+	exit 1
+fi
+
+BUNDLE_PATH=$BUNDLE_NAME.app
+BIN_DIR=$BUNDLE_PATH/Contents/MacOS
+DYNLIB_DIR=$BUNDLE_PATH/Contents/lib
+FRAMEWORK_DIR=$BUNDLE_PATH/Contents/Frameworks
+RES_DIR=$BUNDLE_PATH/Contents/Resources
+APP_PATH=$BIN_DIR/$APP_NAME
+
+if [ -d "$BUNDLE_PATH" ]
+then
+	echo -e $INFO "Removing old bundle."
+	rm -rf $BUNDLE_PATH
+fi
+
+echo -e $INFO "Creating bundle folders."
+mkdir -p $BIN_DIR
+mkdir -p $DYNLIB_DIR
+mkdir -p $FRAMEWORK_DIR
+mkdir -p $RES_DIR
+
+echo -e $INFO "Copying bundle contents."
+cp $APP_NAME $APP_PATH
+cp bundle_info.plist $BUNDLE_PATH/Contents/Info.plist
+cp -R ../data $RES_DIR/data
+
+echo -e $INFO "Copying dynamic libraries."
+for LIB_PATH in ${DYNLIB_PATHS[@]}
+do
+	LIB_NAME=$(basename $LIB_PATH)
+	cp $LIB_PATH $DYNLIB_DIR/$LIB_NAME
+	install_name_tool -change $LIB_NAME @executable_path/../lib/$LIB_NAME $APP_PATH
+
+	echo $LIB_PATH $LIB_NAME
+done
+
+echo -e $INFO "Copying frameworks."
+for FRAMEWORK_BIN_PATH in ${FRAMEWORK_PATHS[@]}
+do
+	FRAMEWORK_PATH=$(echo $FRAMEWORK_BIN_PATH | grep -o "\S*.framework")
+	FRAMEWORK_NAME=$(echo $FRAMEWORK_BIN_PATH | grep -o "\w*.framework")
+	cp -R $FRAMEWORK_PATH $FRAMEWORK_DIR/$FRAMEWORK_NAME
+
+	FRAMEWORK_SUB_PATH=$(echo $FRAMEWORK_BIN_PATH | grep -o "\w*.framework\S*")
+	install_name_tool -change $FRAMEWORK_BIN_PATH @loader_path/../Frameworks/$FRAMEWORK_SUB_PATH $APP_PATH
+
+	echo $FRAMEWORK_BIN_PATH $FRAMEWORK_PATH
+done
+
+otool -L $APP_PATH
+
+echo -e $SUCCESS "Installed bundle successfully!"

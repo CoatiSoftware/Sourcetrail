@@ -1,6 +1,10 @@
 add_files(
 	APP_FILES
 
+	platform_includes/includesDefault.h
+	platform_includes/includesMac.h
+	platform_includes/includesWindows.h
+
 	qt/element/QtCodeFile.cpp
 	qt/element/QtCodeFile.h
 	qt/element/QtButton.cpp
@@ -39,6 +43,5 @@ add_files(
 	qt/QtWidgetWrapper.cpp
 	qt/QtWidgetWrapper.h
 
-	includesWindows.h
 	main.cpp
 )

@@ -3,12 +3,14 @@
 #include <QApplication>
 
 #include "Application.h"
-#include "includes.h"
+#include "includes.h" // defines 'void setup()'
 #include "qt/QtGuiFactory.h"
 #include "qt/utility/utilityQt.h"
 
 int main(int argc, char *argv[])
 {
+	setup();
+
 	QApplication qtApp(argc, argv);
 	QtGuiFactory guiFactory;
 
