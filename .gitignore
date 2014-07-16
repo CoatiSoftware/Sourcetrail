@@ -7,4 +7,6 @@
 /bin/test/Release/
 /bin/test/data/log/
 
+/bin/app/data/window_settings.ini
+
 .DS_Store

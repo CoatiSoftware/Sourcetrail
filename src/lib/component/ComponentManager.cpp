@@ -22,12 +22,6 @@ ComponentManager::~ComponentManager()
 void ComponentManager::setup()
 {
 	std::shared_ptr<Component> graphComponent = m_componentFactory->createGraphComponent();
-
-	GraphView* graphView = graphComponent->getView<GraphView>();
-	/*std::weak_ptr<GraphNode> node0 = graphView->addNode(Vec2i(-50, -50), "foo");
-	graphView->addEdge(node0, graphView->addNode(Vec2i(100, 100), "bar"));
-	graphView->addEdge(node0, graphView->addNode(Vec2i(50, -50), "war production co-ordinating commitee"));*/
-
 	m_components.push_back(graphComponent);
 
 	std::shared_ptr<Component> codeComponent = m_componentFactory->createCodeComponent();

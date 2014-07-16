@@ -19,6 +19,9 @@ public:
 	void addView(View* view);
 	void removeView(View* view);
 
+	virtual void loadLayout();
+	virtual void saveLayout();
+
 private:
 	std::shared_ptr<QtMainWindow> m_window;
 	std::vector<View*> m_views;

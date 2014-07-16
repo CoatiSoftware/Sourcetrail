@@ -27,6 +27,7 @@ std::shared_ptr<Application> Application::create(GuiFactory* guiFactory)
 		guiFactory, ptr->m_mainView.get(), ptr->m_graphAccessProxy.get(), ptr->m_locationAccessProxy.get());
 
 	ptr->m_componentManager->setup();
+	ptr->m_mainView->loadLayout();
 
 	return ptr;
 }
@@ -39,6 +40,7 @@ Application::Application()
 Application::~Application()
 {
 	MessageQueue::getInstance()->stopMessageLoop();
+	m_mainView->saveLayout();
 }
 
 void Application::loadProject(const std::string& projectSettingsFilePath)

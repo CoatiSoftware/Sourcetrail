@@ -31,3 +31,13 @@ void QtMainView::removeView(View* view)
 	m_window->removeView(view);
 	m_views.erase(it);
 }
+
+void QtMainView::loadLayout()
+{
+	m_window->loadLayout();
+}
+
+void QtMainView::saveLayout()
+{
+	m_window->saveLayout();
+}

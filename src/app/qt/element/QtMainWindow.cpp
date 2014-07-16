@@ -5,6 +5,7 @@
 #include <QDockWidget>
 #include <QMenuBar>
 #include <QMessageBox>
+#include <QSettings>
 
 #include "component/view/View.h"
 #include "qt/QtWidgetWrapper.h"
@@ -83,6 +84,60 @@ void QtMainWindow::removeView(View* view)
 			m_dockWidgets.erase(m_dockWidgets.begin() + i);
 			return;
 		}
+	}
+}
+
+void QtMainWindow::loadLayout()
+{
+	QSettings settings("data/window_settings.ini", QSettings::IniFormat);
+
+	settings.beginGroup("MainWindow");
+	resize(settings.value("size", QSize(600, 400)).toSize());
+	move(settings.value("position", QPoint(200, 200)).toPoint());
+	if (settings.value("maximized", false).toBool())
+	{
+		showMaximized();
+	}
+	settings.endGroup();
+
+	for (size_t i = 0; i < m_dockWidgets.size(); i++)
+	{
+		View* view = m_dockWidgets[i].first;
+		QDockWidget* dockWidget = m_dockWidgets[i].second;
+
+		settings.beginGroup(view->getName().c_str());
+		dockWidget->setFloating(settings.value("floating", false).toBool());
+		dockWidget->setHidden(settings.value("hidden", false).toBool());
+		dockWidget->resize(settings.value("size", QSize(400, 400)).toSize());
+		dockWidget->move(settings.value("position", QPoint(200, 200)).toPoint());
+		settings.endGroup();
+	}
+}
+
+void QtMainWindow::saveLayout()
+{
+	QSettings settings("data/window_settings.ini", QSettings::IniFormat);
+
+	settings.beginGroup("MainWindow");
+	settings.setValue("maximized", isMaximized());
+	if (!isMaximized())
+	{
+		settings.setValue("size", size());
+		settings.setValue("position", pos());
+	}
+	settings.endGroup();
+
+	for (size_t i = 0; i < m_dockWidgets.size(); i++)
+	{
+		View* view = m_dockWidgets[i].first;
+		QDockWidget* dockWidget = m_dockWidgets[i].second;
+
+		settings.beginGroup(view->getName().c_str());
+		settings.setValue("floating", dockWidget->isFloating());
+		settings.setValue("hidden", dockWidget->isHidden());
+		settings.setValue("size", dockWidget->size());
+		settings.setValue("position", dockWidget->pos());
+		settings.endGroup();
 	}
 }
 

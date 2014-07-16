@@ -20,6 +20,9 @@ public:
 	void addView(View* view);
 	void removeView(View* view);
 
+	void loadLayout();
+	void saveLayout();
+
 public slots:
     void about();
     void newProject();
