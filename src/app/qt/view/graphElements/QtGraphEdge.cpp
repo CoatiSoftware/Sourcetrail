@@ -1,5 +1,6 @@
 #include "qt/view/graphElements/QtGraphEdge.h"
 
+#include "qgraphicsscene.h"
 #include "qpen.h"
 
 #include "component/view/graphElements/GraphNode.h"
@@ -7,13 +8,15 @@
 QtGraphEdge::QtGraphEdge(const std::weak_ptr<GraphNode>& owner, const std::weak_ptr<GraphNode>& target)
 	: m_owner(owner)
 	, m_target(target)
+	, m_color(0, 0, 0, 0)
 {
 	std::shared_ptr<GraphNode> o = owner.lock();
 	std::shared_ptr<GraphNode> t = target.lock();
 
 	if (o != NULL && t != NULL)
 	{
-		this->setLine(o->getPosition().x, o->getPosition().y,t->getPosition().x, t->getPosition().y);
+		Vec2i ownerPos = o->getPosition();
+		this->setLine(ownerPos.x, ownerPos.y,t->getPosition().x, t->getPosition().y);
 	}
 	else
 	{
@@ -21,7 +24,7 @@ QtGraphEdge::QtGraphEdge(const std::weak_ptr<GraphNode>& owner, const std::weak_
 	}
 
 	QPen blackPen(Qt::black);
-    blackPen.setWidth(3);
+    blackPen.setWidth(2);
 
 	this->setPen(blackPen);
 }
@@ -36,7 +39,8 @@ void QtGraphEdge::ownerMoved()
 
 	if (node != NULL)
 	{
-		this->setLine(node->getPosition().x, node->getPosition().y, this->line().x2(), this->line().y2());
+		Vec2i pos = node->getPosition();
+		this->setLine(pos.x, pos.y, this->line().x2(), this->line().y2());
 	}
 	else
 	{
@@ -80,4 +84,18 @@ std::weak_ptr<GraphNode> QtGraphEdge::getOwner()
 std::weak_ptr<GraphNode> QtGraphEdge::getTarget()
 {
 	return m_target;
+}
+
+void QtGraphEdge::setColor(const Vec4i& color)
+{
+	m_color = color;
+
+	QPen pen(QColor(color.x, color.y, color.z, color.w));
+	pen.setWidth(2);
+	this->setPen(pen);
+}
+
+Vec4i QtGraphEdge::getColor() const
+{
+	return m_color;
 }

@@ -25,9 +25,14 @@ public:
 	virtual std::weak_ptr<GraphNode> getOwner();
 	virtual std::weak_ptr<GraphNode> getTarget();
 
+	virtual void setColor(const Vec4i& color);
+	virtual Vec4i getColor() const;
+
 private:
 	std::weak_ptr<GraphNode> m_owner;
 	std::weak_ptr<GraphNode> m_target;
+
+	Vec4i m_color;
 };
 
 #endif // QT_GRAPH_EDGE_H

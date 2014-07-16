@@ -19,6 +19,11 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	, m_rebuildGraph(std::bind(&QtGraphView::doRebuildGraph, this, std::placeholders::_1, std::placeholders::_2))
 	, m_clear(std::bind(&QtGraphView::doClear, this))
 {
+	m_edgeColors.push_back(Vec4i(100, 100, 100, 255)); // call
+	m_edgeColors.push_back(Vec4i(66, 230, 103, 255)); // usage
+	m_edgeColors.push_back(Vec4i(73, 155, 222, 255)); // type
+	m_edgeColors.push_back(Vec4i(231, 65, 65, 255)); // return
+	m_edgeColors.push_back(Vec4i(227, 180, 68, 255)); // parameter
 }
 
 QtGraphView::~QtGraphView()
@@ -99,24 +104,6 @@ void QtGraphView::doRebuildGraph(const std::vector<DummyNode>& nodes, const std:
 				m_edges.push_back(edge);
 			}
 		}
-
-		// create edges
-		/*for(unsigned int i = 0; i < edges.size(); i++)
-		{
-			if (weakNodes.find(edges[i].ownerId) != weakNodes.end() && weakNodes.find(edges[i].targetId) != weakNodes.end())
-			{
-				if (weakNodes[edges[i].ownerId].expired() == false && weakNodes[edges[i].targetId].expired() == false)
-				{
-					std::shared_ptr<QtGraphEdge> newEdge = std::make_shared<QtGraphEdge>(weakNodes[edges[i].ownerId], weakNodes[edges[i].targetId]);
-					view->scene()->addItem(newEdge.get());
-					if(weakNodes[edges[i].ownerId].lock()->addOutEdge(newEdge))
-					{
-						weakNodes[edges[i].targetId].lock()->addInEdge(newEdge);
-						m_edges.push_back(newEdge);
-					}
-				}
-			}
-		}*/
 	}
 	else
 	{
@@ -253,12 +240,34 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const 
 
 		if(owner != NULL && target != NULL)
 		{
-			std::shared_ptr<QtGraphEdge> edge = std::make_shared<QtGraphEdge>(owner, target);
-			owner->addOutEdge(edge);
-			target->addInEdge(edge);
-			view->scene()->addItem(edge.get());
+			std::shared_ptr<QtGraphEdge> qtEdge = std::make_shared<QtGraphEdge>(owner, target);
 
-			return edge;
+			switch(edge.edgeType)
+			{
+			case Edge::EdgeType::EDGE_CALL:
+				qtEdge->setColor(m_edgeColors[0]);
+				break;
+			case Edge::EdgeType::EDGE_USAGE:
+				qtEdge->setColor(m_edgeColors[1]);
+				break;
+			case Edge::EdgeType::EDGE_TYPE_OF:
+				qtEdge->setColor(m_edgeColors[2]);
+				break;
+			case Edge::EdgeType::EDGE_RETURN_TYPE_OF:
+				qtEdge->setColor(m_edgeColors[3]);
+				break;
+			case Edge::EdgeType::EDGE_PARAMETER_TYPE_OF:
+				qtEdge->setColor(m_edgeColors[4]);
+				break;
+			default:
+				qtEdge->setColor(Vec4i(0, 0, 0, 255));
+			}
+
+			owner->addOutEdge(qtEdge);
+			target->addInEdge(qtEdge);
+			view->scene()->addItem(qtEdge.get());
+
+			return qtEdge;
 		}
 		else
 		{

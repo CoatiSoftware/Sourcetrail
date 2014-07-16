@@ -211,37 +211,31 @@ std::set<DummyEdge> GraphController::getNeighbourEdgesOfNode(const DummyNode& no
 {
 	std::set<DummyEdge> result;
 
-	std::vector<std::pair<Id, Id>> rawEdges;
 	std::vector<std::pair<Id, Id>> callEdges = m_graphAccess->getCallEdgesOfNode(node.tokenId);
 	std::vector<std::pair<Id, Id>> usageEdges = m_graphAccess->getUsageEdgesOfNode(node.tokenId);
 	std::vector<std::pair<Id, Id>> typeOfEdges = m_graphAccess->getTypeOfEdgesOfNode(node.tokenId);
 	std::vector<std::pair<Id, Id>> returnTypeEdges = m_graphAccess->getReturnTypeOfEdgesOfNode(node.tokenId);
 	std::vector<std::pair<Id, Id>> parameterEdges = m_graphAccess->getParameterOfEdgesOfNode(node.tokenId);
 
-	if(callEdges.size() > 0)
+	for(unsigned int i = 0; i < callEdges.size(); i++)
 	{
-		rawEdges.insert(rawEdges.end(), callEdges.begin(), callEdges.end());
+		result.insert(DummyEdge(callEdges[i].first, callEdges[i].second, Edge::EdgeType::EDGE_CALL));
 	}
-	if(usageEdges.size() > 0)
+	for(unsigned int i = 0; i < usageEdges.size(); i++)
 	{
-		rawEdges.insert(rawEdges.end(), usageEdges.begin(), usageEdges.end());
+		result.insert(DummyEdge(usageEdges[i].first, usageEdges[i].second, Edge::EdgeType::EDGE_USAGE));
 	}
-	if(typeOfEdges.size() > 0)
+	for(unsigned int i = 0; i < typeOfEdges.size(); i++)
 	{
-		rawEdges.insert(rawEdges.end(), typeOfEdges.begin(), typeOfEdges.end());
+		result.insert(DummyEdge(typeOfEdges[i].first, typeOfEdges[i].second, Edge::EdgeType::EDGE_TYPE_OF));
 	}
-	if(returnTypeEdges.size() > 0)
+	for(unsigned int i = 0; i < returnTypeEdges.size(); i++)
 	{
-		rawEdges.insert(rawEdges.end(), returnTypeEdges.begin(), returnTypeEdges.end());
+		result.insert(DummyEdge(returnTypeEdges[i].first, returnTypeEdges[i].second, Edge::EdgeType::EDGE_RETURN_TYPE_OF));
 	}
-	if(parameterEdges.size() > 0)
+	for(unsigned int i = 0; i < parameterEdges.size(); i++)
 	{
-		rawEdges.insert(rawEdges.end(), parameterEdges.begin(), parameterEdges.end());
-	}
-
-	for(unsigned int i = 0; i < rawEdges.size(); i++)
-	{
-		result.insert(DummyEdge(rawEdges[i].first, rawEdges[i].second));
+		result.insert(DummyEdge(parameterEdges[i].first, parameterEdges[i].second, Edge::EdgeType::EDGE_PARAMETER_TYPE_OF));
 	}
 
 	for(unsigned int i = 0; i < node.subNodes.size(); i++)

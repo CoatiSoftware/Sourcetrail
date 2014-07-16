@@ -57,7 +57,7 @@ public:
 	T operator[](const unsigned int index);
 
 	template<class U>
-	void operator=(VectorBase<U, N>& other);
+	void operator=(const VectorBase<U, N>& other);
 
 	template<class U>
 	VectorBase<T, N> operator+(const VectorBase<U, N>& other) const;
@@ -325,7 +325,7 @@ T VectorBase<T, N>::operator[](const unsigned int index)
 
 template<class T, unsigned int N>
 template<class U>
-void VectorBase<T, N>::operator=(VectorBase<U, N>& other)
+void VectorBase<T, N>::operator=(const VectorBase<U, N>& other)
 {
 	assign(other);
 }

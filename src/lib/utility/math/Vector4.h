@@ -30,7 +30,7 @@ public:
 	Vector4<T> normalized() const;
 
 	template<class U>
-	void operator=(Vector4<U>& other);
+	void operator=(const Vector4<U>& other);
 
 protected:
 	static const unsigned int m_xIndex = 0;
@@ -145,9 +145,16 @@ Vector4<T> Vector4<T>::normalized() const
 	return VectorBase<T, 4>::normalized();
 }
 
+//template<class T>
+//template<class U>
+//void Vector4<T>::operator=(Vector4<U>& other)
+//{
+//	this->assign(other);
+//}
+
 template<class T>
 template<class U>
-void Vector4<T>::operator=(Vector4<U>& other)
+void Vector4<T>::operator=(const Vector4<U>& other)
 {
 	this->assign(other);
 }

@@ -3,6 +3,7 @@
 
 #include "qt/utility/QtThreadedFunctor.h"
 
+#include "utility/math/Vector4.h"
 #include "utility/types.h"
 
 #include "component/view/GraphView.h"
@@ -43,6 +44,8 @@ private:
 
 	QtThreadedFunctor<const std::vector<DummyNode>&, const std::vector<DummyEdge>&> m_rebuildGraph;
 	QtThreadedFunctor<void> m_clear;
+
+	std::vector<Vec4i> m_edgeColors;
 };
 
 #endif // QT_GRAPH_VIEW_H

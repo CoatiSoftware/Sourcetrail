@@ -28,7 +28,7 @@ public:
 	Vector2<T> normalized() const;
 
 	template<class U>
-	void operator=(Vector2<U>& other);
+	void operator=(const Vector2<U>& other);
 
 protected:
 	static const unsigned int m_xIndex = 0;
@@ -131,7 +131,7 @@ Vector2<T> Vector2<T>::normalized() const
 
 template<class T>
 template<class U>
-void Vector2<T>::operator=(Vector2<U>& other)
+void Vector2<T>::operator=(const Vector2<U>& other)
 {
 	this->assign(other);
 }
