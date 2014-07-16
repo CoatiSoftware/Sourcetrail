@@ -94,41 +94,36 @@ protected:
 private:
 	inline void checkIndexInRange(unsigned int index, const std::string& function) const
 	{
-		if (index >= m_dimensions)
+		if (index >= N)
 		{
 			std::stringstream message;
-			message << function << ": index " << index << " is out of range, maximum is " << m_dimensions - 1;
+			message << function << ": index " << index << " is out of range, maximum is " << N - 1;
 			throw std::range_error(message.str());
 		}
 	}
 
 	inline void setValues(const T values[N])
 	{
-		for (unsigned int i = 0; i < m_dimensions; i++)
+		for (unsigned int i = 0; i < N; i++)
 		{
 			m_values[i] = values[i];
 		}
 	}
-
-	const unsigned int m_dimensions;
 };
 
 
 template<class T, unsigned int N>
 VectorBase<T, N>::VectorBase()
-	: m_dimensions(N)
 {}
 
 template<class T, unsigned int N>
 VectorBase<T, N>::VectorBase(const T values[N])
-	: m_dimensions(N)
 {
 	setValues(values);
 }
 
 template<class T, unsigned int N>
 VectorBase<T, N>::VectorBase(const VectorBase<T, N>& vector)
-	: m_dimensions(vector.m_dimensions)
 {
 	setValues(vector.m_values);
 }
@@ -157,7 +152,7 @@ void VectorBase<T, N>::setValue(const unsigned int index, const T& value)
 template<class T, unsigned int N>
 unsigned int VectorBase<T, N>::getDimensions() const
 {
-	return m_dimensions;
+	return N;
 }
 
 template<class T, unsigned int N>
@@ -165,7 +160,7 @@ float VectorBase<T, N>::getLengthSquared() const
 {
 	float result = 0.0f;
 
-	for (unsigned int i = 0; i < m_dimensions; i++)
+	for (unsigned int i = 0; i < N; i++)
 	{
 		result += float(m_values[i] * m_values[i]);
 	}
@@ -187,7 +182,7 @@ VectorBase<T, N> VectorBase<T, N>::normalize()
 	if (length > 0.0f)
 	{
 		T tmpValues[N];
-		for (unsigned int i = 0; i < m_dimensions; i++)
+		for (unsigned int i = 0; i < N; i++)
 		{
 			tmpValues[i] = m_values[i] / length;
 		}
@@ -208,14 +203,14 @@ VectorBase<T, N> VectorBase<T, N>::normalized() const
 
 	if (length > 0.0f)
 	{
-		for (unsigned int i = 0; i < m_dimensions; i++)
+		for (unsigned int i = 0; i < N; i++)
 		{
 			tmpValues[i] = m_values[i] / length;
 		}
 	}
 	else
 	{
-		for (unsigned int i = 0; i < m_dimensions; i++)
+		for (unsigned int i = 0; i < N; i++)
 		{
 			tmpValues[i] = 0;
 		}
@@ -246,7 +241,7 @@ template<class U>
 VectorBase<T, N> VectorBase<T, N>::add(const VectorBase<U, N>& other)
 {
 	T tmpValues[N];
-	for (unsigned int i = 0; i < m_dimensions; i++)
+	for (unsigned int i = 0; i < N; i++)
 	{
 		tmpValues[i] = m_values[i] + other.m_values[i];
 	}
@@ -261,7 +256,7 @@ template<class U>
 VectorBase<T, N> VectorBase<T, N>::subtract(const VectorBase<U, N>& other)
 {
 	T tmpValues[N];
-	for (unsigned int i = 0; i < m_dimensions; i++)
+	for (unsigned int i = 0; i < N; i++)
 	{
 		tmpValues[i] = m_values[i] - other.m_values[i];
 	}
@@ -276,7 +271,7 @@ template<class U>
 VectorBase<T, N> VectorBase<T, N>::scalarMultiplication(const U& scalar)
 {
 	T tmpValues[N];
-	for (unsigned int i = 0; i < m_dimensions; i++)
+	for (unsigned int i = 0; i < N; i++)
 	{
 		tmpValues[i] = m_values[i] * scalar;
 	}
@@ -291,7 +286,7 @@ template<class U>
 T VectorBase<T, N>::dotProduct(const VectorBase<U, N>& other)
 {
 	T result = 0.0f;
-	for (unsigned int i = 0; i < m_dimensions; i++)
+	for (unsigned int i = 0; i < N; i++)
 	{
 		result += (m_values[i] * other.m_values[i]);
 	}
@@ -302,12 +297,7 @@ template<class T, unsigned int N>
 template<class U>
 bool VectorBase<T, N>::isEqual(const VectorBase<U, N>& other) const
 {
-	if (m_dimensions != other.m_dimensions)
-	{
-		return false;
-	}
-
-	for (unsigned int i = 0; i < m_dimensions; i++)
+	for (unsigned int i = 0; i < N; i++)
 	{
 		if (m_values[i] != other.m_values[i])
 		{
@@ -427,11 +417,11 @@ std::string VectorBase<T, N>::toString() const
 	std::stringstream result;
 	result << "[";
 
-	for (unsigned int i = 0; i < m_dimensions - 1; i++)
+	for (unsigned int i = 0; i < N - 1; i++)
 	{
 		result << m_values[i] << ", ";
 	}
-	result << m_values[m_dimensions - 1] << "]";
+	result << m_values[N - 1] << "]";
 
 	return result.str();
 }

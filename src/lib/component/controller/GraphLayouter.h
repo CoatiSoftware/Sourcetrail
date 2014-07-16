@@ -3,7 +3,7 @@
 
 #include <vector>
 
-class DummyNode;
+struct DummyNode;
 
 typedef void (*LayoutFunction)(std::vector<DummyNode>&);
 

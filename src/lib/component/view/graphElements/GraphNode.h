@@ -76,13 +76,14 @@ public:
 		return !(*this < other);
 	}
 
-	void operator=(DummyNode& other)
+	DummyNode& operator=(const DummyNode& other)
 	{
 		name = other.name;
 		tokenId = other.tokenId;
 		position = other.position;
 		subNodes = other.subNodes;
 		actualNode = other.actualNode;
+		return *this;
 	}
 
 	std::string name;
