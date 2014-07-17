@@ -46,7 +46,6 @@ QtCodeSnippet::QtCodeSnippet(
 	, m_activeTokenId(activeTokenId)
 	, m_digits(0)
 {
-	minimumSizeHint(); // force font loading
 	setObjectName("code_snippet");
 	m_lineNumberArea = new LineNumberArea(this);
 
@@ -55,9 +54,6 @@ QtCodeSnippet::QtCodeSnippet(
 	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setLineWrapMode(QPlainTextEdit::NoWrap);
-
-	int tabWidth = ApplicationSettings::getInstance()->getCodeTabWidth();
-	setTabStopWidth(tabWidth * fontMetrics().width('9'));
 
 	m_highlighter = new QtHighlighter(document());
 
@@ -75,8 +71,6 @@ QtCodeSnippet::QtCodeSnippet(
 	connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(clickTokenLocation()));
 	connect(this, SIGNAL(selectionChanged()), this, SLOT(clearSelection()));
 
-	setMaximumHeight(sizeHint().height());
-
 	m_digits = lineNumberDigits();
 	updateLineNumberAreaWidth(0);
 }
@@ -87,8 +81,8 @@ QtCodeSnippet::~QtCodeSnippet()
 
 QSize QtCodeSnippet::sizeHint() const
 {
-	int width = lineNumberAreaWidth() + document()->size().width();
-	int height = (document()->size().height() + 1) * fontMetrics().lineSpacing() * 1.1f;
+	int width = lineNumberAreaWidth();
+	int height = (document()->size().height() + 0.7f) * fontMetrics().lineSpacing();
 	return QSize(width, height);
 }
 
@@ -207,6 +201,14 @@ void QtCodeSnippet::resizeEvent(QResizeEvent *e)
 
 	QRect cr = contentsRect();
 	m_lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
+}
+
+void QtCodeSnippet::showEvent(QShowEvent* event)
+{
+	int tabWidth = ApplicationSettings::getInstance()->getCodeTabWidth();
+	setTabStopWidth(tabWidth * fontMetrics().width('9'));
+
+	setMaximumHeight(sizeHint().height());
 }
 
 void QtCodeSnippet::updateLineNumberAreaWidth(int /* newBlockCount */)

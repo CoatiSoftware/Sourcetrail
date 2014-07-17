@@ -55,7 +55,8 @@ public:
 	void annotateText(const TokenLocationFile& locationFile);
 
 protected:
-	void resizeEvent(QResizeEvent *event);
+	virtual void resizeEvent(QResizeEvent *event);
+	virtual void showEvent(QShowEvent* event);
 
 private slots:
 	void updateLineNumberAreaWidth(int newBlockCount);
