@@ -1,3 +1,7 @@
+#search_view {
+    background: rgb(255, 255, 255);
+}
+
 QLineEdit#search_box {
 	background: rgb(204, 204, 204);
 	border: 0px;
@@ -34,4 +38,10 @@ QPushButton#case_sensitive_button {
 
 QPushButton#case_sensitive_button:checked {
     border-image: url(data/gui/search_view/images/button_case_sensitive_active.png);
+}
+
+QToolTip {
+    color: rgb(0, 0, 0);
+	border: 1px solid rgb(0, 0, 0);
+	background-color: rgb(204, 204, 204);
 }

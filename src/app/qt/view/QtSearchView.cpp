@@ -29,9 +29,8 @@ void QtSearchView::createWidgetWrapper()
 void QtSearchView::initGui()
 {
 	QWidget* widget = QtWidgetWrapper::getWidgetOfView(this);
-	utility::setWidgetBackgroundColor(widget, Colori(255, 255, 255, 255));
+	widget->setObjectName("search_view");
 	widget->setStyleSheet(TextAccess::createFromFile("data/gui/search_view/search_view.css")->getText().c_str());
-
 
 	QBoxLayout* layout = new QBoxLayout(QBoxLayout::LeftToRight);
 	layout->setSpacing(0);
@@ -39,19 +38,20 @@ void QtSearchView::initGui()
 	widget->setLayout(layout);
 
 	m_searchButton = new QtButton(widget);
-	m_searchButton->setCallbackOnClick(std::bind(&QtSearchView::onSearchButtonClick, this));
 	m_searchButton->setObjectName("search_button");
+	m_searchButton->setCallbackOnClick(std::bind(&QtSearchView::onSearchButtonClick, this));
 	widget->layout()->addWidget(m_searchButton);
 
 	m_searchBox = new QtEditBox(widget);
+	m_searchBox->setObjectName("search_box");
 	m_searchBox->setPlaceholderText("Please enter your search string.");
 	m_searchBox->setCallbackOnReturnPressed(std::bind(&QtSearchView::onSearchButtonClick, this));
-	m_searchBox->setObjectName("search_box");
 	widget->layout()->addWidget(m_searchBox);
 
 	m_caseSensitiveButton = new QtButton(widget);
 	m_caseSensitiveButton->setObjectName("case_sensitive_button");
 	m_caseSensitiveButton->setCheckable(true);
+	m_caseSensitiveButton->setToolTip("case sensitive");
 	widget->layout()->addWidget(m_caseSensitiveButton);
 }
 
