@@ -1,7 +1,13 @@
 #include "component/view/View.h"
 
-#include "component/view/ViewLayout.h"
 #include "gui/GuiWidgetWrapper.h"
+
+View::View(ViewLayout* viewLayout, const Vec2i& minSize)
+	: m_viewLayout(viewLayout)
+	, m_widgetWrapper(nullptr)
+	, m_minSize(minSize)
+{
+}
 
 View::~View()
 {
@@ -38,9 +44,7 @@ Vec2i View::getMinSize() const
 	return m_minSize;
 }
 
-View::View(ViewLayout* viewLayout, const Vec2i& minSize)
-	: m_viewLayout(viewLayout)
-	, m_widgetWrapper(nullptr)
-	, m_minSize(minSize)
+ViewLayout* View::getViewLayout() const
 {
+	return m_viewLayout;
 }

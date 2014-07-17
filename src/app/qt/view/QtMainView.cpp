@@ -32,6 +32,16 @@ void QtMainView::removeView(View* view)
 	m_views.erase(it);
 }
 
+void QtMainView::showView(View* view)
+{
+	m_window->showView(view);
+}
+
+void QtMainView::hideView(View* view)
+{
+	m_window->hideView(view);
+}
+
 void QtMainView::loadLayout()
 {
 	m_window->loadLayout();

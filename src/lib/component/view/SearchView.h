@@ -14,6 +14,7 @@ public:
 	virtual std::string getName() const;
 
 	virtual void setText(const std::string& s) = 0;
+	virtual void setFocus() = 0;
 	virtual void setAutocompletionList(const std::vector<std::string>& autocompletionList) = 0;
 
 protected:

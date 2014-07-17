@@ -16,8 +16,11 @@ public:
 	virtual ~QtMainView();
 
 	// ViewLayout implementation
-	void addView(View* view);
-	void removeView(View* view);
+	virtual void addView(View* view);
+	virtual void removeView(View* view);
+
+	virtual void showView(View* view);
+	virtual void hideView(View* view);
 
 	virtual void loadLayout();
 	virtual void saveLayout();

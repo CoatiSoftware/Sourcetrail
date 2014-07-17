@@ -12,6 +12,7 @@
 QtSearchView::QtSearchView(ViewLayout* viewLayout)
 	: SearchView(viewLayout)
 	, m_setTextFunctor(std::bind(&QtSearchView::doSetText, this, std::placeholders::_1))
+	, m_setFocusFunctor(std::bind(&QtSearchView::doSetFocus, this))
 	, m_setAutocompletionListFunctor(std::bind(&QtSearchView::doSetAutocompletionList, this, std::placeholders::_1))
 {
 }
@@ -59,6 +60,11 @@ void QtSearchView::setText(const std::string& s)
 	m_setTextFunctor(s);
 }
 
+void QtSearchView::setFocus()
+{
+	m_setFocusFunctor();
+}
+
 void QtSearchView::setAutocompletionList(const std::vector<std::string>& autocompletionList)
 {
 	m_setAutocompletionListFunctor(autocompletionList);
@@ -79,6 +85,12 @@ void QtSearchView::doSetText(const std::string& s)
 	{
 		m_searchBox->setText(s.c_str());
 	}
+}
+
+void QtSearchView::doSetFocus()
+{
+	getViewLayout()->showView(this);
+	m_searchBox->setFocus(Qt::ShortcutFocusReason);
 }
 
 void QtSearchView::doSetAutocompletionList(const std::vector<std::string>& autocompletionList)

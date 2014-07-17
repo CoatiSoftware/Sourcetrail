@@ -33,6 +33,11 @@ void SearchController::handleMessage(MessageActivateToken* message)
 	getView()->setText(m_graphAccess->getNameForNodeWithId(message->tokenId));
 }
 
+void SearchController::handleMessage(MessageFind* message)
+{
+	getView()->setFocus();
+}
+
 void SearchController::handleMessage(MessageFinishedParsing* message)
 {
 	getView()->setAutocompletionList(m_graphAccess->getNamesForNodesWithNamePrefix(""));

@@ -21,18 +21,21 @@ public:
 
 	// SearchView implementation
 	virtual void setText(const std::string& s);
+	virtual void setFocus();
 	virtual void setAutocompletionList(const std::vector<std::string>& autocompletionList);
 
 private:
 	void onSearchButtonClick();
 
 	void doSetText(const std::string& s);
+	void doSetFocus();
 	void doSetAutocompletionList(const std::vector<std::string>& autocompletionList);
 
 	QtEditBox* m_searchBox;
 	QtButton* m_searchButton;
 	QtButton* m_caseSensitiveButton;
 	QtThreadedFunctor<const std::string&> m_setTextFunctor;
+	QtThreadedFunctor<> m_setFocusFunctor;
 	QtThreadedFunctor<const std::vector<std::string>&> m_setAutocompletionListFunctor;
 };
 

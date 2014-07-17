@@ -12,6 +12,9 @@ public:
 	virtual void addView(View* view) = 0;
 	virtual void removeView(View* view) = 0;
 
+	virtual void showView(View* view) = 0;
+	virtual void hideView(View* view) = 0;
+
 	virtual void loadLayout() = 0;
 	virtual void saveLayout() = 0;
 };

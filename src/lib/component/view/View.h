@@ -9,7 +9,6 @@
 #include "utility/math/Vector2.h"
 
 class GuiWidgetWrapper;
-class ViewLayout;
 
 class View
 {
@@ -17,6 +16,7 @@ public:
 	template<typename T>
 	static std::shared_ptr<T> create(ViewLayout* viewLayout);
 
+	View(ViewLayout* viewLayout, const Vec2i& minSize);
 	virtual ~View();
 
 	virtual std::string getName() const = 0;
@@ -34,10 +34,10 @@ public:
 	Vec2i getMinSize() const;
 
 protected:
-	View(ViewLayout* viewLayout, const Vec2i& minSize); // make public
-
 	template <typename ControllerType>
 	ControllerType* getController();
+
+	ViewLayout* getViewLayout() const;
 
 private:
 	Component* m_component;

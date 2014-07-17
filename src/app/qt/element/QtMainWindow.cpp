@@ -9,6 +9,8 @@
 
 #include "component/view/View.h"
 #include "qt/QtWidgetWrapper.h"
+#include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageLoadSource.h"
 
@@ -18,6 +20,7 @@ QtMainWindow::QtMainWindow()
 	setCentralWidget(nullptr);
 
 	setupProjectMenu();
+	setupFindMenu();
 	setupHelpMenu();
 }
 
@@ -66,6 +69,11 @@ void QtMainWindow::openProject(const QString &path)
 	}
 }
 
+void QtMainWindow::find()
+{
+	MessageFind().dispatch();
+}
+
 void QtMainWindow::addView(View* view)
 {
 	QDockWidget* dock = new QDockWidget(tr(view->getName().c_str()), this);
@@ -85,6 +93,16 @@ void QtMainWindow::removeView(View* view)
 			return;
 		}
 	}
+}
+
+void QtMainWindow::showView(View* view)
+{
+	getDockWidgetForView(view)->setHidden(false);
+}
+
+void QtMainWindow::hideView(View* view)
+{
+	getDockWidgetForView(view)->setHidden(true);
 }
 
 void QtMainWindow::loadLayout()
@@ -151,6 +169,14 @@ void QtMainWindow::setupProjectMenu()
 	menu->addAction(tr("E&xit"), QCoreApplication::instance(), SLOT(quit()), QKeySequence::Quit);
 }
 
+void QtMainWindow::setupFindMenu()
+{
+	QMenu *menu = new QMenu(tr("&Find"), this);
+	menuBar()->addMenu(menu);
+
+	menu->addAction(tr("&Find"), this, SLOT(find()), QKeySequence::Find);
+}
+
 void QtMainWindow::setupHelpMenu()
 {
 	QMenu *menu = new QMenu(tr("&Help"), this);
@@ -158,4 +184,18 @@ void QtMainWindow::setupHelpMenu()
 
 	menu->addAction(tr("&About"), this, SLOT(about()));
 	menu->addAction(tr("About &Qt"), QCoreApplication::instance(), SLOT(aboutQt()));
+}
+
+QDockWidget* QtMainWindow::getDockWidgetForView(View* view) const
+{
+	for (size_t i = 0; i < m_dockWidgets.size(); i++)
+	{
+		if (m_dockWidgets[i].first == view)
+		{
+			return m_dockWidgets[i].second;
+		}
+	}
+
+	LOG_ERROR("DockWidget was not found for view.");
+	return nullptr;
 }
