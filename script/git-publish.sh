@@ -66,12 +66,18 @@ then
 	exit 1
 fi
 
+# Prepare publish message with commit messages
+GIT_DIR=$(git rev-parse --show-toplevel)/.git
+cat $GIT_DIR/../.git_commit_template.txt > $GIT_DIR/PUBLISH_MSG
+printf "\n# commits:\n" >> $GIT_DIR/PUBLISH_MSG
+git log --graph --format=%B $BASE_COMMIT..HEAD | sed 's/^/#   &/' >> $GIT_DIR/PUBLISH_MSG
+
 # switch to temporary branch for squashing
 git checkout -q -b $PUBLISH_BRANCH_NAME
 
 echo -e $INFO "Squashing commits"
 git reset --soft $BASE_COMMIT
-git commit
+git commit --template=$GIT_DIR/PUBLISH_MSG
 
 if [ $? != 0 ]
 then
