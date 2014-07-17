@@ -13,7 +13,7 @@ class GraphNode;
 class GraphEdge
 {
 public:
-	GraphEdge();
+	GraphEdge(const Id tokenId);
 	virtual ~GraphEdge();
 
 	virtual void ownerMoved() = 0;
@@ -24,17 +24,23 @@ public:
 	virtual std::weak_ptr<GraphNode> getOwner() = 0;
 	virtual std::weak_ptr<GraphNode> getTarget() = 0;
 
+	Id getTokenId() const;
+
 	virtual void setColor(const Vec4i& color) = 0;
 	virtual Vec4i getColor() const = 0;
+
+protected:
+	Id m_tokenId;
 };
 
 // temporary data structure for (visual) graph creation process
 struct DummyEdge
 {
 public:
-	DummyEdge(const Id o, const Id t, Edge::EdgeType type)
+	DummyEdge(const Id o, const Id t, const Id tknId, Edge::EdgeType type)
 		: ownerId(o)
 		, targetId(t)
+		, tokenId(tknId)
 		, edgeType(type)
 	{
 	}
@@ -73,6 +79,7 @@ public:
 
 	Id ownerId;
 	Id targetId;
+	Id tokenId;
 
 	Edge::EdgeType edgeType;
 };

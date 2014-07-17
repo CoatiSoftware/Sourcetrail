@@ -5,8 +5,9 @@
 
 #include "component/view/graphElements/GraphNode.h"
 
-QtGraphEdge::QtGraphEdge(const std::weak_ptr<GraphNode>& owner, const std::weak_ptr<GraphNode>& target)
-	: m_owner(owner)
+QtGraphEdge::QtGraphEdge(const std::weak_ptr<GraphNode>& owner, const std::weak_ptr<GraphNode>& target, const Id id)
+	: GraphEdge(id)
+	, m_owner(owner)
 	, m_target(target)
 	, m_color(0, 0, 0, 0)
 {
@@ -98,4 +99,10 @@ void QtGraphEdge::setColor(const Vec4i& color)
 Vec4i QtGraphEdge::getColor() const
 {
 	return m_color;
+}
+
+void QtGraphEdge::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
+{
+	MessageActivateToken message(m_tokenId);
+	message.dispatch();
 }

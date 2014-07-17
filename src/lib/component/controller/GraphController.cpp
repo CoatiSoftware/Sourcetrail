@@ -34,15 +34,23 @@ void GraphController::createDummyGraph(const Id activeId, const LayoutFunction l
 	if (view != NULL)
 	{
 		std::vector<DummyNode> nodes;
-		std::vector<DummyEdge> edges;
 
-		nodes.push_back(createDummyNode(activeId));
-
-		std::vector<DummyNode> neighbours = createNeighbourNodes(nodes[0]);
-		nodes.insert(nodes.end(), neighbours.begin(), neighbours.end());
+		if(m_graphAccess->checkTokenIsNode(activeId))
+		{
+			nodes.push_back(createDummyNode(activeId));
+			std::vector<DummyNode> neighbours = createNeighbourNodes(nodes[0]);
+			nodes.insert(nodes.end(), neighbours.begin(), neighbours.end());
+		}
+		else
+		{
+			std::pair<Id, Id> nodeIds = m_graphAccess->getNodesOfEdge(activeId);
+			nodes.push_back(createDummyNode(nodeIds.first));
+			nodes.push_back(createDummyNode(nodeIds.second));
+		}
 
 		layoutFunction(nodes);
 
+		std::vector<DummyEdge> edges;
 		edges = createEdges(nodes);
 
 		view->rebuildGraph(nodes, edges);
@@ -62,13 +70,13 @@ DummyNode GraphController::createDummyNode(const Id nodeId)
 
 Id GraphController::findTopLevelNode(const Id nodeId)
 {
-	std::vector<std::pair<Id, Id>> memberEdges = m_graphAccess->getMemberEdgesOfNode(nodeId);
+	std::vector<std::tuple<Id, Id, Id>> memberEdges = m_graphAccess->getMemberEdgesOfNode(nodeId);
 
 	for(unsigned int i = 0; i < memberEdges.size(); i++)
 	{
-		if(memberEdges[i].first != nodeId)
+		if(std::get<0>(memberEdges[i]) != nodeId)
 		{
-			return findTopLevelNode(memberEdges[i].first);
+			return findTopLevelNode(std::get<0>(memberEdges[i]));
 		}
 	}
 
@@ -82,13 +90,12 @@ DummyNode GraphController::buildNodeTopDown(const Id nodeId)
 	result.name = m_graphAccess->getNameForNodeWithId(nodeId);
 	result.tokenId = nodeId;
 
-	std::vector<std::pair<Id, Id>> memberEdges = m_graphAccess->getMemberEdgesOfNode(nodeId);
-
+	std::vector<std::tuple<Id, Id, Id>> memberEdges = m_graphAccess->getMemberEdgesOfNode(nodeId);
 	for(unsigned int i = 0; i < memberEdges.size(); i++)
 	{
-		if(memberEdges[i].second != nodeId)
+		if(std::get<1>(memberEdges[i]) != nodeId)
 		{
-			result.subNodes.push_back(buildNodeTopDown(memberEdges[i].second));
+			result.subNodes.push_back(buildNodeTopDown(std::get<1>(memberEdges[i])));
 		}
 	}
 
@@ -99,12 +106,13 @@ std::vector<DummyNode> GraphController::createNeighbourNodes(const Id nodeId)
 {
 	std::vector<DummyNode> result;
 
-	std::vector<std::pair<Id, Id>> edges;
-	std::vector<std::pair<Id, Id>> callEdges = m_graphAccess->getCallEdgesOfNode(nodeId);
-	std::vector<std::pair<Id, Id>> usageEdges = m_graphAccess->getUsageEdgesOfNode(nodeId);
-	std::vector<std::pair<Id, Id>> typeOfEdges = m_graphAccess->getTypeOfEdgesOfNode(nodeId);
-	std::vector<std::pair<Id, Id>> returnTypeEdges = m_graphAccess->getReturnTypeOfEdgesOfNode(nodeId);
-	std::vector<std::pair<Id, Id>> parameterEdges = m_graphAccess->getParameterOfEdgesOfNode(nodeId);
+	std::vector<std::tuple<Id, Id, Id>> edges;
+	std::vector<std::tuple<Id, Id, Id>> callEdges = m_graphAccess->getCallEdgesOfNode(nodeId);
+	std::vector<std::tuple<Id, Id, Id>> usageEdges = m_graphAccess->getUsageEdgesOfNode(nodeId);
+	std::vector<std::tuple<Id, Id, Id>> typeOfEdges = m_graphAccess->getTypeOfEdgesOfNode(nodeId);
+	std::vector<std::tuple<Id, Id, Id>> returnTypeEdges = m_graphAccess->getReturnTypeOfEdgesOfNode(nodeId);
+	std::vector<std::tuple<Id, Id, Id>> parameterEdges = m_graphAccess->getParameterOfEdgesOfNode(nodeId);
+	std::vector<std::tuple<Id, Id, Id>> inheritanceEdges = m_graphAccess->getInheritanceEdgesOfNode(nodeId);
 
 	if(callEdges.size() > 0)
 	{
@@ -126,16 +134,20 @@ std::vector<DummyNode> GraphController::createNeighbourNodes(const Id nodeId)
 	{
 		edges.insert(edges.end(), parameterEdges.begin(), parameterEdges.end());
 	}
+	if(inheritanceEdges.size() > 0)
+	{
+		edges.insert(edges.end(), inheritanceEdges.begin(), inheritanceEdges.end());
+	}
 
 	for(unsigned int i = 0; i < edges.size(); i++)
 	{
-		if(edges[i].first == nodeId)
+		if(std::get<0>(edges[i]) == nodeId)
 		{
-			result.push_back(createDummyNode(edges[i].second));
+			result.push_back(createDummyNode(std::get<1>(edges[i])));
 		}
 		else
 		{
-			result.push_back(createDummyNode(edges[i].first));
+			result.push_back(createDummyNode(std::get<0>(edges[i])));
 		}
 	}
 
@@ -178,9 +190,23 @@ std::vector<DummyEdge> GraphController::createEdges(const std::vector<DummyNode>
 	std::vector<DummyEdge> result;
 
 	std::unordered_set<Id> nodeIds; // to help discard edges that point to non-existing nodes in the sub-graph
+	std::queue<DummyNode> nodeQueue;
 	for(unsigned int i = 0; i < nodes.size(); i++)
 	{
-		nodeIds.insert(nodes[i].tokenId);
+		nodeQueue.push(nodes[i]);
+	}
+
+	while(nodeQueue.size() > 0)
+	{
+		DummyNode n = nodeQueue.front();
+		nodeQueue.pop();
+
+		for(unsigned int i = 0; i < n.subNodes.size(); i++)
+		{
+			nodeQueue.push(n.subNodes[i]);
+		}
+
+		nodeIds.insert(n.tokenId);
 	}
 
 	std::set<DummyEdge> tmpEdges; // to make it easier to keep the edges unique
@@ -211,31 +237,36 @@ std::set<DummyEdge> GraphController::getNeighbourEdgesOfNode(const DummyNode& no
 {
 	std::set<DummyEdge> result;
 
-	std::vector<std::pair<Id, Id>> callEdges = m_graphAccess->getCallEdgesOfNode(node.tokenId);
-	std::vector<std::pair<Id, Id>> usageEdges = m_graphAccess->getUsageEdgesOfNode(node.tokenId);
-	std::vector<std::pair<Id, Id>> typeOfEdges = m_graphAccess->getTypeOfEdgesOfNode(node.tokenId);
-	std::vector<std::pair<Id, Id>> returnTypeEdges = m_graphAccess->getReturnTypeOfEdgesOfNode(node.tokenId);
-	std::vector<std::pair<Id, Id>> parameterEdges = m_graphAccess->getParameterOfEdgesOfNode(node.tokenId);
+	std::vector<std::tuple<Id, Id, Id>> callEdges = m_graphAccess->getCallEdgesOfNode(node.tokenId);
+	std::vector<std::tuple<Id, Id, Id>> usageEdges = m_graphAccess->getUsageEdgesOfNode(node.tokenId);
+	std::vector<std::tuple<Id, Id, Id>> typeOfEdges = m_graphAccess->getTypeOfEdgesOfNode(node.tokenId);
+	std::vector<std::tuple<Id, Id, Id>> returnTypeEdges = m_graphAccess->getReturnTypeOfEdgesOfNode(node.tokenId);
+	std::vector<std::tuple<Id, Id, Id>> parameterEdges = m_graphAccess->getParameterOfEdgesOfNode(node.tokenId);
+	std::vector<std::tuple<Id, Id, Id>> inheritanceEdges = m_graphAccess->getInheritanceEdgesOfNode(node.tokenId);
 
 	for(unsigned int i = 0; i < callEdges.size(); i++)
 	{
-		result.insert(DummyEdge(callEdges[i].first, callEdges[i].second, Edge::EdgeType::EDGE_CALL));
+		result.insert(DummyEdge(std::get<0>(callEdges[i]), std::get<1>(callEdges[i]), std::get<2>(callEdges[i]), Edge::EdgeType::EDGE_CALL));
 	}
 	for(unsigned int i = 0; i < usageEdges.size(); i++)
 	{
-		result.insert(DummyEdge(usageEdges[i].first, usageEdges[i].second, Edge::EdgeType::EDGE_USAGE));
+		result.insert(DummyEdge(std::get<0>(usageEdges[i]), std::get<1>(usageEdges[i]), std::get<2>(usageEdges[i]), Edge::EdgeType::EDGE_USAGE));
 	}
 	for(unsigned int i = 0; i < typeOfEdges.size(); i++)
 	{
-		result.insert(DummyEdge(typeOfEdges[i].first, typeOfEdges[i].second, Edge::EdgeType::EDGE_TYPE_OF));
+		result.insert(DummyEdge(std::get<0>(typeOfEdges[i]), std::get<1>(typeOfEdges[i]), std::get<2>(typeOfEdges[i]), Edge::EdgeType::EDGE_TYPE_OF));
 	}
 	for(unsigned int i = 0; i < returnTypeEdges.size(); i++)
 	{
-		result.insert(DummyEdge(returnTypeEdges[i].first, returnTypeEdges[i].second, Edge::EdgeType::EDGE_RETURN_TYPE_OF));
+		result.insert(DummyEdge(std::get<0>(returnTypeEdges[i]), std::get<1>(returnTypeEdges[i]), std::get<2>(returnTypeEdges[i]), Edge::EdgeType::EDGE_RETURN_TYPE_OF));
 	}
 	for(unsigned int i = 0; i < parameterEdges.size(); i++)
 	{
-		result.insert(DummyEdge(parameterEdges[i].first, parameterEdges[i].second, Edge::EdgeType::EDGE_PARAMETER_TYPE_OF));
+		result.insert(DummyEdge(std::get<0>(parameterEdges[i]), std::get<1>(parameterEdges[i]), std::get<2>(parameterEdges[i]), Edge::EdgeType::EDGE_PARAMETER_TYPE_OF));
+	}
+	for(unsigned int i = 0; i < inheritanceEdges.size(); i++)
+	{
+		result.insert(DummyEdge(std::get<0>(inheritanceEdges[i]), std::get<1>(inheritanceEdges[i]), std::get<2>(inheritanceEdges[i]), Edge::EdgeType::EDGE_INHERITANCE));
 	}
 
 	for(unsigned int i = 0; i < node.subNodes.size(); i++)

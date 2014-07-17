@@ -289,9 +289,9 @@ std::vector<Id> Storage::getIdsOfNeighbours(const Id id) const
 	return result;
 }
 
-std::vector<std::pair<Id, Id>> Storage::getNeighbourEdgesOfNode(const Id id) const
+std::vector<std::tuple<Id, Id, Id>> Storage::getNeighbourEdgesOfNode(const Id id) const
 {
-	std::vector<std::pair<Id, Id>> result;
+	std::vector<std::tuple<Id, Id, Id>> result;
 
 	Node* node = m_graph.findNode([&](Node* node){
 		return node->getId() == id;
@@ -302,7 +302,7 @@ std::vector<std::pair<Id, Id>> Storage::getNeighbourEdgesOfNode(const Id id) con
 		node->forEachEdge(
 				[&result](Edge* e)
 				{
-					result.push_back(std::pair<Id, Id>(e->getFrom()->getId(), e->getTo()->getId()));
+					result.push_back(std::tuple<Id, Id, Id>(e->getFrom()->getId(), e->getTo()->getId(), e->getId()));
 				}
 			);
 	}
@@ -310,34 +310,70 @@ std::vector<std::pair<Id, Id>> Storage::getNeighbourEdgesOfNode(const Id id) con
 	return result;
 }
 
-std::vector<std::pair<Id, Id>> Storage::getMemberEdgesOfNode(const Id id) const
+std::vector<std::tuple<Id, Id, Id>> Storage::getMemberEdgesOfNode(const Id id) const
 {
 	return getEdgesOfTypeOfNode(id, Edge::EdgeType::EDGE_MEMBER);
 }
 
-std::vector<std::pair<Id, Id>> Storage::getUsageEdgesOfNode(const Id id) const
+std::vector<std::tuple<Id, Id, Id>> Storage::getUsageEdgesOfNode(const Id id) const
 {
 	return getEdgesOfTypeOfNode(id, Edge::EdgeType::EDGE_USAGE);
 }
 
-std::vector<std::pair<Id, Id>> Storage::getCallEdgesOfNode(const Id id) const
+std::vector<std::tuple<Id, Id, Id>> Storage::getCallEdgesOfNode(const Id id) const
 {
 	return getEdgesOfTypeOfNode(id, Edge::EdgeType::EDGE_CALL);
 }
 
-std::vector<std::pair<Id, Id>> Storage::getTypeOfEdgesOfNode(const Id id) const
+std::vector<std::tuple<Id, Id, Id>> Storage::getTypeOfEdgesOfNode(const Id id) const
 {
 	return getEdgesOfTypeOfNode(id, Edge::EdgeType::EDGE_TYPE_OF);
 }
 
-std::vector<std::pair<Id, Id>> Storage::getReturnTypeOfEdgesOfNode(const Id id) const
+std::vector<std::tuple<Id, Id, Id>> Storage::getReturnTypeOfEdgesOfNode(const Id id) const
 {
 	return getEdgesOfTypeOfNode(id, Edge::EdgeType::EDGE_RETURN_TYPE_OF);
 }
 
-std::vector<std::pair<Id, Id>> Storage::getParameterOfEdgesOfNode(const Id id) const
+std::vector<std::tuple<Id, Id, Id>> Storage::getParameterOfEdgesOfNode(const Id id) const
 {
 	return getEdgesOfTypeOfNode(id, Edge::EdgeType::EDGE_PARAMETER_TYPE_OF);
+}
+
+std::vector<std::tuple<Id, Id, Id>> Storage::getInheritanceEdgesOfNode(const Id id) const
+{
+	return getEdgesOfTypeOfNode(id, Edge::EdgeType::EDGE_INHERITANCE);
+}
+
+std::pair<Id, Id> Storage::getNodesOfEdge(const Id id) const
+{
+	std::pair<Id, Id> result;
+
+	Edge* edge = m_graph.findEdge([&](Edge* edge){
+		return edge->getId() == id;
+	});
+
+	if(edge != NULL)
+	{
+		result.first = edge->getFrom()->getId();
+		result.second = edge->getTo()->getId();
+	}
+
+	return result;
+}
+
+bool Storage::checkTokenIsNode(const Id id) const
+{
+	Token* token = m_graph.findToken([&](Token* token){
+		return token->getId() == id;
+	});
+
+	if(token != NULL)
+	{
+		return token->isNode();
+	}
+
+	return false;
 }
 
 TokenLocationCollection Storage::getTokenLocationsForTokenId(Id id) const
@@ -461,9 +497,9 @@ void Storage::log(std::string type, std::string str, const ParseLocation& locati
 	LOG_INFO(info.str());
 }
 
-std::vector<std::pair<Id, Id>> Storage::getEdgesOfTypeOfNode(const Id id, const Edge::EdgeType type) const
+std::vector<std::tuple<Id, Id, Id>> Storage::getEdgesOfTypeOfNode(const Id id, const Edge::EdgeType type) const
 {
-	std::vector<std::pair<Id, Id>> result;
+	std::vector<std::tuple<Id, Id, Id>> result;
 
 	Node* node = m_graph.findNode([&](Node* node){
 		return node->getId() == id;
@@ -476,7 +512,7 @@ std::vector<std::pair<Id, Id>> Storage::getEdgesOfTypeOfNode(const Id id, const 
 				{
 					if(e->getType() == type)
 					{
-						result.push_back(std::pair<Id, Id>(e->getFrom()->getId(), e->getTo()->getId()));
+						result.push_back(std::tuple<Id, Id, Id>(e->getFrom()->getId(), e->getTo()->getId(), e->getId()));
 					}
 				}
 			);

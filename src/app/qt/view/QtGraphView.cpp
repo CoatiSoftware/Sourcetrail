@@ -24,6 +24,7 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	m_edgeColors.push_back(Vec4i(73, 155, 222, 255)); // type
 	m_edgeColors.push_back(Vec4i(231, 65, 65, 255)); // return
 	m_edgeColors.push_back(Vec4i(227, 180, 68, 255)); // parameter
+	m_edgeColors.push_back(Vec4i(113, 96, 191, 255)); // inheritance
 }
 
 QtGraphView::~QtGraphView()
@@ -240,7 +241,7 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const 
 
 		if(owner != NULL && target != NULL)
 		{
-			std::shared_ptr<QtGraphEdge> qtEdge = std::make_shared<QtGraphEdge>(owner, target);
+			std::shared_ptr<QtGraphEdge> qtEdge = std::make_shared<QtGraphEdge>(owner, target, edge.tokenId);
 
 			switch(edge.edgeType)
 			{
@@ -258,6 +259,9 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const 
 				break;
 			case Edge::EdgeType::EDGE_PARAMETER_TYPE_OF:
 				qtEdge->setColor(m_edgeColors[4]);
+				break;
+			case Edge::EdgeType::EDGE_INHERITANCE:
+				qtEdge->setColor(m_edgeColors[5]);
 				break;
 			default:
 				qtEdge->setColor(Vec4i(0, 0, 0, 255));

@@ -5,6 +5,8 @@
 
 #include "qgraphicsitem.h"
 
+#include "utility/messaging/type/MessageActivateToken.h"
+
 #include "component/view/graphElements/GraphEdge.h"
 
 class GraphNode;
@@ -14,7 +16,7 @@ class QtGraphEdge:
 	public QGraphicsLineItem
 {
 public:
-	QtGraphEdge(const std::weak_ptr<GraphNode>& owner, const std::weak_ptr<GraphNode>& target);
+	QtGraphEdge(const std::weak_ptr<GraphNode>& owner, const std::weak_ptr<GraphNode>& target, const Id id);
 	virtual ~QtGraphEdge();
 
 	virtual void ownerMoved();
@@ -27,6 +29,8 @@ public:
 
 	virtual void setColor(const Vec4i& color);
 	virtual Vec4i getColor() const;
+
+	void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event);
 
 private:
 	std::weak_ptr<GraphNode> m_owner;
