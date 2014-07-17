@@ -22,7 +22,7 @@ int diff(int a, int b);
 
 void foo()
 {
-	std::string foo = "bar";
+	const char* foo = "bar";
 }
 
 int diff(int a, int b);

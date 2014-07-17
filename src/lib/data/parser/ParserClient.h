@@ -74,6 +74,10 @@ public:
 		const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access) = 0;
 	virtual void onCallParsed(
 		const ParseLocation& location, const std::string& callerName, const std::string& calleeName) = 0;
+	virtual void onFieldUsageParsed(
+		const ParseLocation& location, const std::string& userName, const std::string& usedName) = 0;
+	virtual void onGlobalVariableUsageParsed(
+		const ParseLocation& location, const std::string& userName, const std::string& usedName) = 0;
 };
 
 #endif // PARSER_CLIENT_H

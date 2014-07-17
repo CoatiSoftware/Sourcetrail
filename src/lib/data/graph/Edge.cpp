@@ -103,6 +103,8 @@ std::string Edge::getTypeString() const
 		return "is derived from";
 	case EDGE_CALL:
 		return "calls";
+	case EDGE_USAGE:
+		return "uses";
 	case EDGE_TYPEDEF_OF:
 		return "is typedef of";
 	default:

@@ -223,6 +223,29 @@ void Storage::onCallParsed(const ParseLocation& location, const std::string& cal
 	addTokenLocation(edge, location);
 }
 
+void Storage::onFieldUsageParsed(const ParseLocation& location, const std::string& userName, const std::string& usedName)
+{
+	log("usage", userName + " -> " + usedName, location);
+
+	Node* userNode = m_graph.createNodeHierarchy(userName);
+	Node* usedNode = m_graph.createNodeHierarchy(usedName);
+
+	Edge* edge = m_graph.createEdge(Edge::EDGE_USAGE, userNode, usedNode);
+	addTokenLocation(edge, location);
+}
+
+void Storage::onGlobalVariableUsageParsed(
+	const ParseLocation& location, const std::string& userName, const std::string& usedName
+)
+{
+	log("usage", userName + " -> " + usedName, location);
+
+	Node* userNode = m_graph.createNodeHierarchy(userName);
+	Node* usedNode = m_graph.createNodeHierarchy(usedName);
+
+	Edge* edge = m_graph.createEdge(Edge::EDGE_USAGE, userNode, usedNode);
+	addTokenLocation(edge, location);
+}
 
 Id Storage::getIdForNodeWithName(const std::string& name) const
 {

@@ -14,6 +14,8 @@ public:
 	void VisitChildren(clang::Stmt* stmt);
 	void VisitCallExpr(clang::CallExpr* expr);
 	void VisitCXXConstructExpr(clang::CXXConstructExpr* expr);
+	void VisitMemberExpr(clang::make_ptr<clang::MemberExpr>::type expr);
+	void VisitDeclRefExpr(clang::make_ptr<clang::DeclRefExpr>::type expr);
 
 private:
 	ASTBodyVisitorClient* m_client;

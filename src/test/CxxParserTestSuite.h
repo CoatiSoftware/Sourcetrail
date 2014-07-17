@@ -675,6 +675,58 @@ public:
 		TS_ASSERT_EQUALS(client->calls[1], "main -> App::operator+ <11:2 11:8>");
 	}
 
+	void test_cxx_parser_finds_usage_of_global_variable_in_function()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"int bar;\n"
+			"\n"
+			"int main()\n"
+			"{\n"
+			"	bar = 1;\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->usages.size(), 1);
+		TS_ASSERT_EQUALS(client->usages[0], "main -> bar <5:2 5:4>");
+	}
+
+	void test_cxx_parser_finds_usage_of_global_variable_in_method()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"int bar;\n"
+			"\n"
+			"class App\n"
+			"{\n"
+			"	void foo()\n"
+			"	{\n"
+			"		bar = 1;\n"
+			"	}\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->usages.size(), 1);
+		TS_ASSERT_EQUALS(client->usages[0], "App::foo -> bar <7:3 7:5>");
+	}
+
+	void test_cxx_parser_finds_usage_of_field_in_method()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class App\n"
+			"{\n"
+			"	void foo()\n"
+			"	{\n"
+			"		bar = 1;\n"
+			"		this->bar = 2;\n"
+			"	}\n"
+			"	int bar;\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->usages.size(), 2);
+		TS_ASSERT_EQUALS(client->usages[0], "App::foo -> App::bar <5:3 5:5>");
+		TS_ASSERT_EQUALS(client->usages[1], "App::foo -> App::bar <6:3 6:11>");
+	}
+
 	void test_cxx_parser_finds_return_type_use_in_function()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -834,6 +886,18 @@ private:
 			calls.push_back(addLocationSuffix(callerName + " -> " + calleeName, location));
 		}
 
+		virtual void onFieldUsageParsed(
+			const ParseLocation& location, const std::string& userName, const std::string& usedName)
+		{
+			usages.push_back(addLocationSuffix(userName + " -> " + usedName, location));
+		}
+
+		virtual void onGlobalVariableUsageParsed(
+			const ParseLocation& location, const std::string& userName, const std::string& usedName)
+		{
+			usages.push_back(addLocationSuffix(userName + " -> " + usedName, location));
+		}
+
 		std::vector<std::string> typedefs;
 		std::vector<std::string> classes;
 		std::vector<std::string> enums;
@@ -846,6 +910,7 @@ private:
 		std::vector<std::string> structs;
 		std::vector<std::string> inheritances;
 		std::vector<std::string> calls;
+		std::vector<std::string> usages;
 		std::vector<std::string> typeUses;
 
 	private:

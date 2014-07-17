@@ -278,6 +278,50 @@ void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::NamedDecl* decl, clang::
 	);
 }
 
+void ASTVisitor::VisitFieldUsageExprInDeclBody(clang::NamedDecl* decl, clang::MemberExpr* expr)
+{
+	const clang::SourceManager& sourceManager = m_context->getSourceManager();
+	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(expr->getSourceRange().getBegin());
+	const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(expr->getSourceRange().getEnd());
+	const std::string exprName = expr->getMemberNameInfo().getAsString();
+
+	ParseLocation parseLocation(
+		presumedBegin.getFilename(),
+		presumedBegin.getLine(),
+		presumedBegin.getColumn(),
+		presumedEnd.getLine(),
+		presumedEnd.getColumn() + exprName.size() - 1
+	);
+
+	m_client->onFieldUsageParsed(
+		parseLocation,
+		decl->getQualifiedNameAsString(),
+		expr->getMemberDecl()->getQualifiedNameAsString()
+	);
+}
+
+void ASTVisitor::VisitGlobalVariableUsageExprInDeclBody(clang::NamedDecl* decl, clang::DeclRefExpr* expr)
+{
+	const clang::SourceManager& sourceManager = m_context->getSourceManager();
+	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(expr->getSourceRange().getBegin());
+	const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(expr->getSourceRange().getEnd());
+	const std::string exprName = expr->getNameInfo().getAsString();
+
+	ParseLocation parseLocation(
+		presumedBegin.getFilename(),
+		presumedBegin.getLine(),
+		presumedBegin.getColumn(),
+		presumedEnd.getLine(),
+		presumedEnd.getColumn() + exprName.size() - 1
+	);
+
+	m_client->onGlobalVariableUsageParsed(
+		parseLocation,
+		decl->getQualifiedNameAsString(),
+		expr->getDecl()->getQualifiedNameAsString()
+	);
+}
+
 bool ASTVisitor::hasValidLocation(const clang::Decl* declaration) const
 {
 	const clang::SourceLocation& location = declaration->getLocStart();

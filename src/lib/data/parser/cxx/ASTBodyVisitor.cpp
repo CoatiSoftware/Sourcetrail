@@ -39,3 +39,21 @@ void ASTBodyVisitor::VisitCXXConstructExpr(clang::CXXConstructExpr* expr)
 
 	VisitStmt(expr);
 }
+
+void ASTBodyVisitor::VisitMemberExpr(clang::make_ptr<clang::MemberExpr>::type expr)
+{
+	if (expr->getMemberDecl()->getKind() == clang::Decl::Kind::Field)
+	{
+		m_client->VisitFieldUsageExprInDeclBody(m_parentDecl, expr);
+	}
+	VisitStmt(expr);
+}
+
+void ASTBodyVisitor::VisitDeclRefExpr(clang::make_ptr<clang::DeclRefExpr>::type expr)
+{
+	if (expr->getDecl()->getKind() == clang::Decl::Var && expr->getDecl()->isDefinedOutsideFunctionOrMethod())
+	{
+		m_client->VisitGlobalVariableUsageExprInDeclBody(m_parentDecl, expr);
+	}
+	VisitStmt(expr);
+}

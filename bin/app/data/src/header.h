@@ -35,28 +35,30 @@ public:
 		, m_importantestValue(3.14159265359f)
 	{
 	}
-	
+
 	~A()
 	{
 	}
-	
+
 	void doImportantStuff()
 	{
 		m_importantValue *= 1;
 	}
-	
+
 	void doModeratelyImportantStuff()
 	{
 		m_importanterValue = 'R';
-		
+
 		sum(21, 21);
 	}
-	
+
 private:
 	int m_importantValue;
 	char m_importanterValue;
 	float m_importantestValue;
 };
+
+A globalA;
 
 class B : public A {};
 
@@ -66,23 +68,22 @@ public:
 	C()
 		: m_valuable(0)
 	{
+		globalA.doImportantStuff();
 	}
-	
+
 	~C()
 	{
 	}
-	
+
 	void solveAllProblems()
 	{
 		A aInstance;
 		aInstance.doImportantStuff();
 		aInstance.doModeratelyImportantStuff();
 	}
-	
+
 private:
 	int m_valuable;
 };
 
-A globalA;
-
-typedef A* C;
+typedef A* D;

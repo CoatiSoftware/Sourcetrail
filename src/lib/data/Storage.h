@@ -56,6 +56,11 @@ public:
 	virtual void onCallParsed(
 		const ParseLocation& location, const std::string& callerName, const std::string& calleeName
 	);
+	virtual void onFieldUsageParsed(
+		const ParseLocation& location, const std::string& userName, const std::string& usedName
+	);
+	virtual void onGlobalVariableUsageParsed(
+		const ParseLocation& location, const std::string& userName, const std::string& usedName);
 
 	// GraphAccess implementation
 	virtual Id getIdForNodeWithName(const std::string& name) const;

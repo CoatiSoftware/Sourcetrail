@@ -41,6 +41,8 @@ public:
 	// ASTBodyVisitorClient implementation
 	virtual void VisitCallExprInDeclBody(clang::NamedDecl* decl, clang::CallExpr* expr); // calls
 	virtual void VisitCXXConstructExprInDeclBody(clang::NamedDecl* decl, clang::CXXConstructExpr* expr); // constructor calls
+	virtual void VisitFieldUsageExprInDeclBody(clang::NamedDecl* decl, clang::MemberExpr* expr); // field usages
+	virtual void VisitGlobalVariableUsageExprInDeclBody(clang::NamedDecl* decl, clang::DeclRefExpr* expr); // global variable usage
 
 private:
 	bool hasValidLocation(const clang::Decl* declaration) const;
