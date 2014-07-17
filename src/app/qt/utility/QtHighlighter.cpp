@@ -1,59 +1,58 @@
 #include "qt/utility/QtHighlighter.h"
 
+#include <QTextCursor>
+#include <QTextDocument>
+
 QtHighlighter::QtHighlighter(QTextDocument *parent)
 	: QSyntaxHighlighter(parent)
 {
-	HighlightingRule rule;
-
-	keywordFormat.setForeground(Qt::darkBlue);
-	keywordFormat.setFontWeight(QFont::Bold);
-
 	QStringList keywordPatterns;
 	keywordPatterns
-		<< "\\bchar\\b" << "\\bclass\\b" << "\\bconst\\b"
-		<< "\\bdouble\\b" << "\\benum\\b" << "\\bexplicit\\b"
-		<< "\\bfriend\\b" << "\\binline\\b" << "\\bint\\b"
-		<< "\\blong\\b" << "\\bnamespace\\b" << "\\boperator\\b"
-		<< "\\bprivate\\b" << "\\bprotected\\b" << "\\bpublic\\b"
-		<< "\\bshort\\b" << "\\bsignals\\b" << "\\bsigned\\b"
-		<< "\\bslots\\b" << "\\bstatic\\b" << "\\bstruct\\b"
-		<< "\\btemplate\\b" << "\\btypedef\\b" << "\\btypename\\b"
-		<< "\\bunion\\b" << "\\bunsigned\\b" << "\\bvirtual\\b"
-		<< "\\bvoid\\b" << "\\bvolatile\\b";
+		<< "break" << "case" << "const" << "continue" << "default"
+		<< "delete" << "do" << "else" << "explicit" << "false" << "for"
+		<< "friend" << "if" << "inline" << "new" << "NULL" << "nullptr" << "operator"
+		<< "private" << "protected" << "public" << "return" << "signals"
+		<< "slots" << "static" << "switch" << "template" << "true" << "typedef"
+		<< "typename" << "virtual" << "volatile" << "while";
+
+	QStringList typePatterns;
+	typePatterns
+		<< "bool" << "char" << "class" << "double"
+		<< "enum" << "float" << "int" << "long"
+		<< "namespace" << "short" << "signed" << "size_t"
+		<< "struct" << "union" << "unsigned" << "void";
+
+	QRegExp directiveRegExp = QRegExp("#[a-z]+\\b");
+	QRegExp commentRegExp = QRegExp("//[^\n]*");
+	QRegExp quotationRegExp = QRegExp("\".*\"");
+	QRegExp quotation2RegExp = QRegExp("<.*>");
+	QRegExp numberRegExp = QRegExp("\\b[0-9]+\\b");
+	QRegExp functionRegExp = QRegExp("\\b[A-Za-z0-9_]+(?=\\()");
+
+	QColor directiveColor = QColor(27,136,86);
+	QColor keywordColor = QColor(27,136,86);
+	QColor typeColor = QColor(208,93,24);
+	QColor commentColor = Qt::gray;
+	QColor numberColor = QColor(153,22,165);
+	QColor quotationColor = QColor(63,169,245);
+	QColor functionColor = QColor(172,150,0);
 
 	foreach (const QString &pattern, keywordPatterns)
 	{
-		rule.pattern = QRegExp(pattern);
-		rule.format = keywordFormat;
-		highlightingRules.append(rule);
+		addHighlightingRule(keywordColor, QRegExp("\\b" + pattern + "\\b"));
 	}
 
-	classFormat.setFontWeight(QFont::Bold);
-	classFormat.setForeground(Qt::darkMagenta);
-	rule.pattern = QRegExp("\\bQ[A-Za-z]+\\b");
-	rule.format = classFormat;
-	highlightingRules.append(rule);
+	foreach (const QString &pattern, typePatterns)
+	{
+		addHighlightingRule(typeColor, QRegExp("\\b" + pattern + "\\b"));
+	}
 
-	singleLineCommentFormat.setForeground(Qt::red);
-	rule.pattern = QRegExp("//[^\n]*");
-	rule.format = singleLineCommentFormat;
-	highlightingRules.append(rule);
-
-	multiLineCommentFormat.setForeground(Qt::red);
-
-	quotationFormat.setForeground(Qt::darkGreen);
-	rule.pattern = QRegExp("\".*\"");
-	rule.format = quotationFormat;
-	highlightingRules.append(rule);
-
-	functionFormat.setFontItalic(true);
-	functionFormat.setForeground(Qt::blue);
-	rule.pattern = QRegExp("\\b[A-Za-z0-9_]+(?=\\()");
-	rule.format = functionFormat;
-	highlightingRules.append(rule);
-
-	commentStartExpression = QRegExp("/\\*");
-	commentEndExpression = QRegExp("\\*/");
+	addHighlightingRule(directiveColor, directiveRegExp);
+	addHighlightingRule(commentColor, commentRegExp);
+	addHighlightingRule(quotationColor, quotationRegExp);
+	addHighlightingRule(quotationColor, quotation2RegExp);
+	addHighlightingRule(numberColor, numberRegExp);
+	addHighlightingRule(functionColor, functionRegExp);
 }
 
 void QtHighlighter::highlightBlock(const QString &text)
@@ -71,11 +70,25 @@ void QtHighlighter::highlightBlock(const QString &text)
 	}
 	setCurrentBlockState(0);
 
+	QRegExp commentStartExpression = QRegExp("/\\*");
+	QRegExp commentEndExpression = QRegExp("\\*/");
+
+	QTextCursor cursorStart = document()->find(commentStartExpression);
+	QTextCursor cursorEnd = document()->find(commentEndExpression);
+
 	int startIndex = 0;
-	if (previousBlockState() != 1)
+	if (!cursorEnd.isNull() && (cursorStart.isNull() || cursorEnd < cursorStart)
+		&& currentBlock().blockNumber() <= cursorEnd.blockNumber())
+	{
+		startIndex = 0;
+	}
+	else if (previousBlockState() != 1)
 	{
 		startIndex = commentStartExpression.indexIn(text);
 	}
+
+	QTextCharFormat multiLineCommentFormat;
+	multiLineCommentFormat.setForeground(Qt::gray);
 
 	while (startIndex >= 0)
 	{
@@ -95,4 +108,12 @@ void QtHighlighter::highlightBlock(const QString &text)
 		setFormat(startIndex, commentLength, multiLineCommentFormat);
 		startIndex = commentStartExpression.indexIn(text, startIndex + commentLength);
 	}
+}
+
+void QtHighlighter::addHighlightingRule(const QColor& color, const QRegExp& regExp)
+{
+	HighlightingRule rule;
+	rule.format.setForeground(color);
+	rule.pattern = regExp;
+	highlightingRules.append(rule);
 }

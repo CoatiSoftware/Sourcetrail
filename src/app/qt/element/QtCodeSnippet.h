@@ -48,7 +48,9 @@ public:
 	QSize sizeHint() const;
 
 	void lineNumberAreaPaintEvent(QPaintEvent *event);
+	int lineNumberDigits() const;
 	int lineNumberAreaWidth() const;
+	void updateLineNumberAreaWidthForDigits(int digits);
 
 	void annotateText(const TokenLocationFile& locationFile);
 
@@ -79,6 +81,7 @@ private:
 	QWidget *m_lineNumberArea;
 	const int m_startLineNumber;
 	const Id m_activeTokenId;
+	int m_digits;
 
 	std::vector<Annotation> m_annotations;
 };

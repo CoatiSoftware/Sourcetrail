@@ -10,17 +10,18 @@ QtCodeFile::QtCodeFile(QtCodeView* parentView, const std::string& fileName, QWid
 	, m_parentView(parentView)
 	, m_fileName(fileName)
 {
+	setObjectName("code_file");
+
 	QVBoxLayout* layout = new QVBoxLayout(this);
 	layout->setMargin(0);
-	layout->setSpacing(2);
+	layout->setSpacing(0);
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
 
 	QLabel* label = new QLabel(fileName.c_str(), this);
-	QFontMetrics metrics(label->font());
-
-	label->setStyleSheet("background-color: #E1E1E1; padding: 3px;");
-	label->setFixedWidth(metrics.boundingRect(fileName.c_str()).width() + 12);
+	label->setObjectName("title_label");
+	label->minimumSizeHint(); // force font loading
+	label->setFixedWidth(label->fontMetrics().width(fileName.c_str()) + 32);
 	label->setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 	layout->addWidget(label);
 }
@@ -42,4 +43,15 @@ void QtCodeFile::addCodeSnippet(
 	);
 	layout()->addWidget(snippet.get());
 	m_snippets.push_back(snippet);
+
+	int maxDigits = 1;
+	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	{
+		maxDigits = qMax(maxDigits, snippet->lineNumberDigits());
+	}
+
+	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	{
+		snippet->updateLineNumberAreaWidthForDigits(maxDigits);
+	}
 }

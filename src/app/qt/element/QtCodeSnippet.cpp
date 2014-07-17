@@ -14,6 +14,7 @@ QtCodeSnippet::LineNumberArea::LineNumberArea(QtCodeSnippet *codeSnippet)
 	: QWidget(codeSnippet)
 	, m_codeSnippet(codeSnippet)
 {
+	setObjectName("line_number_area");
 }
 
 QtCodeSnippet::LineNumberArea::~LineNumberArea()
@@ -43,7 +44,10 @@ QtCodeSnippet::QtCodeSnippet(
 	, m_parentView(parentView)
 	, m_startLineNumber(startLineNumber)
 	, m_activeTokenId(activeTokenId)
+	, m_digits(0)
 {
+	minimumSizeHint(); // force font loading
+	setObjectName("code_snippet");
 	m_lineNumberArea = new LineNumberArea(this);
 
 	setReadOnly(true);
@@ -52,15 +56,8 @@ QtCodeSnippet::QtCodeSnippet(
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setLineWrapMode(QPlainTextEdit::NoWrap);
 
-	QFont font;
-	font.setFamily(ApplicationSettings::getInstance()->getCodeFontName().c_str());
-	font.setPointSize(ApplicationSettings::getInstance()->getCodeFontSize());
-	font.setFixedPitch(true);
-	setFont(font);
-
 	int tabWidth = ApplicationSettings::getInstance()->getCodeTabWidth();
-	QFontMetrics metrics(font);
-	setTabStopWidth(tabWidth * metrics.width(' '));
+	setTabStopWidth(tabWidth * fontMetrics().width('9'));
 
 	m_highlighter = new QtHighlighter(document());
 
@@ -80,6 +77,7 @@ QtCodeSnippet::QtCodeSnippet(
 
 	setMaximumHeight(sizeHint().height());
 
+	m_digits = lineNumberDigits();
 	updateLineNumberAreaWidth(0);
 }
 
@@ -90,14 +88,13 @@ QtCodeSnippet::~QtCodeSnippet()
 QSize QtCodeSnippet::sizeHint() const
 {
 	int width = lineNumberAreaWidth() + document()->size().width();
-	int height = (document()->size().height() + 1) * QFontMetrics(font()).lineSpacing();
+	int height = (document()->size().height() + 1) * fontMetrics().lineSpacing() * 1.1f;
 	return QSize(width, height);
 }
 
 void QtCodeSnippet::lineNumberAreaPaintEvent(QPaintEvent *event)
 {
 	QPainter painter(m_lineNumberArea);
-	painter.fillRect(event->rect(), QColor(225,225,225));
 
 	QTextBlock block = firstVisibleBlock();
 	int blockNumber = block.blockNumber();
@@ -110,7 +107,7 @@ void QtCodeSnippet::lineNumberAreaPaintEvent(QPaintEvent *event)
 		{
 			QString number = QString::number(blockNumber + m_startLineNumber);
 			painter.setPen(Qt::black);
-			painter.drawText(0, top, m_lineNumberArea->width() - 3, fontMetrics().height(), Qt::AlignRight, number);
+			painter.drawText(0, top, m_lineNumberArea->width() - 13, fontMetrics().height(), Qt::AlignRight, number);
 		}
 
 		block = block.next();
@@ -120,7 +117,7 @@ void QtCodeSnippet::lineNumberAreaPaintEvent(QPaintEvent *event)
 	}
 }
 
-int QtCodeSnippet::lineNumberAreaWidth() const
+int QtCodeSnippet::lineNumberDigits() const
 {
 	int digits = 1;
 	int max = qMax(1, m_startLineNumber + blockCount());
@@ -130,9 +127,18 @@ int QtCodeSnippet::lineNumberAreaWidth() const
 		max /= 10;
 		digits++;
 	}
+	return digits;
+}
 
-	int width = fontMetrics().width(QLatin1Char('9')) * digits + 6;
-	return width;
+int QtCodeSnippet::lineNumberAreaWidth() const
+{
+	return fontMetrics().width(QLatin1Char('9')) * m_digits + 30;
+}
+
+void QtCodeSnippet::updateLineNumberAreaWidthForDigits(int digits)
+{
+	m_digits = digits;
+	updateLineNumberAreaWidth(0);
 }
 
 void QtCodeSnippet::annotateText(const TokenLocationFile& locationFile)

@@ -8,31 +8,24 @@ class QTextDocument;
 
 class QtHighlighter : public QSyntaxHighlighter
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    QtHighlighter(QTextDocument *parent = 0);
+	QtHighlighter(QTextDocument *parent = 0);
 
 protected:
-    void highlightBlock(const QString &text);
+	void highlightBlock(const QString &text);
 
 private:
-    struct HighlightingRule
-    {
-        QRegExp pattern;
-        QTextCharFormat format;
-    };
-    QVector<HighlightingRule> highlightingRules;
+	struct HighlightingRule
+	{
+		QRegExp pattern;
+		QTextCharFormat format;
+	};
 
-    QRegExp commentStartExpression;
-    QRegExp commentEndExpression;
+	void addHighlightingRule(const QColor& color, const QRegExp& regExp);
 
-    QTextCharFormat keywordFormat;
-    QTextCharFormat classFormat;
-    QTextCharFormat singleLineCommentFormat;
-    QTextCharFormat multiLineCommentFormat;
-    QTextCharFormat quotationFormat;
-    QTextCharFormat functionFormat;
+	QVector<HighlightingRule> highlightingRules;
 };
 
 #endif // QT_HIGHLIGHTER_H

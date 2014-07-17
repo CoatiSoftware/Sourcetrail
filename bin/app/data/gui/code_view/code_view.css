@@ -1,0 +1,19 @@
+#code_view #code_file QLabel#title_label {
+	background-color: rgb(220,220,220);
+	border-top-right-radius: 10px;
+	font-family: "Source Code Pro";
+	font-size: 14px;
+	padding: 4px 12px;
+}
+
+#code_view #code_file #code_snippet {
+	font-family: "Source Code Pro";
+	font-size: 14px;
+	margin-bottom: 2px;
+}
+
+#code_view #code_file #code_snippet #line_number_area {
+	background-color: white;
+	font-family: "Source Code Pro";
+	font-size: 14px;
+}

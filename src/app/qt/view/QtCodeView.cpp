@@ -10,6 +10,7 @@
 #include "qt/utility/utilityQt.h"
 #include "utility/FileSystem.h"
 #include "utility/messaging/type/MessageActivateToken.h"
+#include "utility/text/TextAccess.h"
 
 QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
@@ -30,14 +31,15 @@ void QtCodeView::createWidgetWrapper()
 void QtCodeView::initGui()
 {
 	QWidget* widget = QtWidgetWrapper::getWidgetOfView(this);
-	utility::setWidgetBackgroundColor(widget, Colori(255, 125, 0, 255));
+	widget->setStyleSheet(TextAccess::createFromFile("data/gui/code_view/code_view.css")->getText().c_str());
+	widget->setObjectName("code_view");
 
 	QScrollArea* scroll = dynamic_cast<QScrollArea*>(widget);
 	m_frame = std::make_shared<QFrame>(scroll);
 
 	QVBoxLayout* layout = new QVBoxLayout(m_frame.get());
 	layout->setSpacing(10);
-	layout->setContentsMargins(3, 3, 3, 3);
+	layout->setContentsMargins(15, 15, 15, 15);
 	layout->setAlignment(Qt::AlignTop);
 	m_frame->setLayout(layout);
 

@@ -4,7 +4,7 @@
 		<TabWidth>4</TabWidth>
 		<FontName>Courier</FontName>
 		<FontSize>12</FontSize>
-		<LinkColor>255 255 0 100</LinkColor>
-		<ActiveLinkColor>0 255 0 100</ActiveLinkColor>
+		<LinkColor>222 222 222 100</LinkColor>
+		<ActiveLinkColor>210 240 70 50</ActiveLinkColor>
 	</code>
 </config>
