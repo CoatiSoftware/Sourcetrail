@@ -3,17 +3,16 @@
 
 #include <memory>
 
-#include "qgraphicsitem.h"
-
-#include "utility/messaging/type/MessageActivateToken.h"
+#include <QGraphicsItem>
 
 #include "component/view/graphElements/GraphEdge.h"
+#include "utility/messaging/type/MessageActivateToken.h"
 
 class GraphNode;
 
-class QtGraphEdge:
-	public GraphEdge,
-	public QGraphicsLineItem
+class QtGraphEdge
+	: public GraphEdge
+	, public QGraphicsLineItem
 {
 public:
 	QtGraphEdge(const std::weak_ptr<GraphNode>& owner, const std::weak_ptr<GraphNode>& target, const Id id);

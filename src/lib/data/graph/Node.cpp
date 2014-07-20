@@ -2,8 +2,6 @@
 
 #include <sstream>
 
-// #include "data/graph/edgeComponent/EdgeComponentDataType.h"
-// #include "data/type/DataType.h"
 #include "utility/logging/logging.h"
 
 Node::Node(NodeType type, const std::string& name)

@@ -2,7 +2,6 @@
 #define EDGE_COMPONENT_DATA_TYPE_H
 
 #include "data/graph/edgeComponent/EdgeComponent.h"
-
 #include "data/type/DataTypeModifierStack.h"
 #include "data/type/DataTypeQualifierList.h"
 
@@ -22,6 +21,5 @@ private:
 	const DataTypeQualifierList m_qualifierList;
 	const DataTypeModifierStack m_modifierStack;
 };
-
 
 #endif // EDGE_COMPONENT_DATA_TYPE_H

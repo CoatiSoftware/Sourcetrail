@@ -3,7 +3,9 @@
 
 class SearchIndex
 {
+public:
+	SearchIndex();
+	virtual ~SearchIndex();
 };
-
 
 #endif // SEARCH_INDEX_H

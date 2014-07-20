@@ -1,7 +1,7 @@
 #include "qt/view/graphElements/QtGraphEdge.h"
 
-#include "qgraphicsscene.h"
-#include "qpen.h"
+#include <QGraphicsScene>
+#include <QPen>
 
 #include "component/view/graphElements/GraphNode.h"
 
@@ -67,7 +67,7 @@ void QtGraphEdge::removeEdgeFromScene()
 {
 	std::shared_ptr<GraphNode> node = m_owner.lock();
 
-	if(node != NULL)
+	if (node != NULL)
 	{
 		node->removeOutEdge(this);
 	}

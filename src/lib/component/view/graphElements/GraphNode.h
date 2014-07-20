@@ -48,7 +48,7 @@ public:
 
 	bool operator==(const DummyNode& other) const
 	{
-		if(tokenId == other.tokenId
+		if (tokenId == other.tokenId
 			&& name == other.name
 			&& position == position)
 		{
@@ -64,7 +64,7 @@ public:
 
 	bool operator<(const DummyNode& other) const
 	{
-		if(tokenId < other.tokenId)
+		if (tokenId < other.tokenId)
 		{
 			return true;
 		}

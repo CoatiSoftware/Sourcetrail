@@ -12,8 +12,6 @@ std::shared_ptr<ApplicationSettings> ApplicationSettings::getInstance()
 	return s_instance;
 }
 
-
-
 ApplicationSettings::~ApplicationSettings()
 {
 }

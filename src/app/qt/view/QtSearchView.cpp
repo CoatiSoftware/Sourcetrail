@@ -97,7 +97,10 @@ void QtSearchView::doSetAutocompletionList(const std::vector<std::string>& autoc
 {
 	QStringList wordList;
 	for (const std::string& s: autocompletionList)
+	{
 		wordList << s.c_str();
+	}
+
 	QCompleter *completer = new QCompleter(wordList, m_searchBox);
 	completer->popup()->setObjectName("search_box_popup");
 	completer->setCaseSensitivity(Qt::CaseInsensitive);

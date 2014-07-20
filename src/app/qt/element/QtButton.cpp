@@ -19,5 +19,7 @@ void QtButton::setCallbackOnClick(std::function<void(void)> callback)
 void QtButton::slotOnClick()
 {
 	if (m_onClick)
+	{
 		m_onClick();
+	}
 }

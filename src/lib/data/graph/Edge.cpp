@@ -2,8 +2,8 @@
 
 #include <sstream>
 
-#include "data/graph/edgeComponent/EdgeComponent.h"
 #include "data/graph/Node.h"
+#include "data/graph/edgeComponent/EdgeComponent.h"
 #include "utility/logging/logging.h"
 
 Edge::Edge(EdgeType type, Node* from, Node* to)
@@ -107,8 +107,6 @@ std::string Edge::getTypeString() const
 		return "uses";
 	case EDGE_TYPEDEF_OF:
 		return "is typedef of";
-	default:
-		LOG_ERROR("TypeString not implemented for edge type.");
 	}
 	return "";
 }

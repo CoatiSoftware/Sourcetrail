@@ -4,20 +4,19 @@
 #include <set>
 #include <vector>
 
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageActivateToken.h"
-
 #include "component/controller/Controller.h"
 #include "component/controller/GraphLayouter.h"
+#include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/MessageActivateToken.h"
 
 struct DummyNode;
 struct DummyEdge;
 class GraphView;
 class GraphAccess;
 
-class GraphController:
-	public Controller,
-	public MessageListener<MessageActivateToken>
+class GraphController
+	: public Controller
+	, public MessageListener<MessageActivateToken>
 {
 public:
 	GraphController(GraphAccess* graphAccess);
@@ -40,6 +39,5 @@ private:
 
 	GraphAccess* m_graphAccess;
 };
-
 
 #endif // GRAPH_CONTROLLER_H

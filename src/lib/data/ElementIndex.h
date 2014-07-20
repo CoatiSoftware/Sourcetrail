@@ -3,7 +3,9 @@
 
 class ElementIndex
 {
+public:
+	ElementIndex();
+	virtual ~ElementIndex();
 };
-
 
 #endif // ELEMENT_INDEX_H

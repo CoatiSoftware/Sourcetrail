@@ -32,5 +32,4 @@ public:
 	virtual bool checkTokenIsNode(const Id id) const = 0;
 };
 
-
 #endif // GRAPH_ACCESS_H

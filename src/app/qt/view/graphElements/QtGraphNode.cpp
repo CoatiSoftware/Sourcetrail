@@ -2,8 +2,8 @@
 
 #include <sstream>
 
-#include "qgraphicsscene.h"
-#include "qgraphicssceneevent.h"
+#include <QGraphicsScene>
+#include <QGraphicsSceneEvent>
 
 #include "qt/view/graphElements/QtGraphEdge.h"
 
@@ -24,11 +24,10 @@ QtGraphNode::QtGraphNode(const Vec2i& position, const std::string& name, const I
 
 QtGraphNode::~QtGraphNode()
 {
-	std::list<std::weak_ptr<GraphEdge> >::iterator it = m_inEdges.begin();
-	for(it; it != m_inEdges.end(); it++)
+	for (std::list<std::weak_ptr<GraphEdge>>::iterator it = m_inEdges.begin(); it != m_inEdges.end(); it++)
 	{
 		std::shared_ptr<GraphEdge> edge = it->lock();
-		if(edge != NULL)
+		if (edge != NULL)
 		{
 			edge->removeEdgeFromScene();
 		}
@@ -50,7 +49,7 @@ void QtGraphNode::setPosition(const Vec2i& position)
 	Vec2i currentPosition = getPosition();
 	Vec2i offset = position - currentPosition;
 
-	if(offset.getLength() > 0.0f)
+	if (offset.getLength() > 0.0f)
 	{
 		this->moveBy(offset.x, offset.y);
 		notifyEdgesAfterMove();
@@ -59,10 +58,10 @@ void QtGraphNode::setPosition(const Vec2i& position)
 
 bool QtGraphNode::addOutEdge(const std::shared_ptr<GraphEdge>& edge)
 {
-	std::list<std::shared_ptr<GraphEdge> >::iterator it = m_outEdges.begin();
-	for(it; it != m_outEdges.end(); it++)
+	for (std::list<std::shared_ptr<GraphEdge>>::iterator it = m_outEdges.begin(); it != m_outEdges.end(); it++)
 	{
-		if ((*it)->getOwner().lock() == edge->getOwner().lock() && (*it)->getTarget().lock() == edge->getTarget().lock())
+		if ((*it)->getOwner().lock() == edge->getOwner().lock() &&
+			(*it)->getTarget().lock() == edge->getTarget().lock())
 		{
 			return false;
 		}
@@ -74,11 +73,10 @@ bool QtGraphNode::addOutEdge(const std::shared_ptr<GraphEdge>& edge)
 
 bool QtGraphNode::addInEdge(const std::weak_ptr<GraphEdge>& edge)
 {
-	std::list<std::weak_ptr<GraphEdge> >::iterator it = m_inEdges.begin();
-	for(it; it != m_inEdges.end(); it++)
+	for (std::list<std::weak_ptr<GraphEdge> >::iterator it = m_inEdges.begin(); it != m_inEdges.end(); it++)
 	{
 		std::shared_ptr<GraphEdge> existingEdge = it->lock();
-		if(existingEdge != NULL)
+		if (existingEdge != NULL)
 		{
 			if (existingEdge->getOwner().lock() == edge.lock()->getOwner().lock() &&
 				existingEdge->getTarget().lock() == edge.lock()->getTarget().lock())
@@ -95,9 +93,9 @@ bool QtGraphNode::addInEdge(const std::weak_ptr<GraphEdge>& edge)
 void QtGraphNode::removeOutEdge(GraphEdge* edge)
 {
 	std::list<std::shared_ptr<GraphEdge> >::iterator it = m_outEdges.begin();
-	while(it != m_outEdges.end())
+	while (it != m_outEdges.end())
 	{
-		if((*it).get() == edge)
+		if ((*it).get() == edge)
 		{
 			m_outEdges.erase(it);
 			break;
@@ -130,17 +128,16 @@ void QtGraphNode::notifyParentMoved()
 
 void QtGraphNode::notifyEdgesAfterMove()
 {
-	std::list<std::shared_ptr<GraphEdge> >::iterator it = m_outEdges.begin();
-	for(it; it != m_outEdges.end(); it++)
+	for (std::list<std::shared_ptr<GraphEdge> >::iterator it = m_outEdges.begin(); it != m_outEdges.end(); it++)
 	{
 		(*it)->ownerMoved();
 	}
 
 	std::list<std::weak_ptr<GraphEdge> >::iterator it2 = m_inEdges.begin();
-	while(it2 != m_inEdges.end())
+	while (it2 != m_inEdges.end())
 	{
 		 std::shared_ptr<GraphEdge> edge = it2->lock();
-		 if(edge.get() != NULL)
+		 if (edge.get() != NULL)
 		 {
 			 edge->targetMoved();
 			 ++it2;
@@ -151,8 +148,7 @@ void QtGraphNode::notifyEdgesAfterMove()
 		 }
 	}
 
-	std::list<std::shared_ptr<GraphNode> >::iterator it3 = m_subNodes.begin();
-	for(it3; it3 != m_subNodes.end(); it3++)
+	for (std::list<std::shared_ptr<GraphNode> >::iterator it3 = m_subNodes.begin(); it3 != m_subNodes.end(); it3++)
 	{
 		(*it3)->notifyParentMoved();
 	}

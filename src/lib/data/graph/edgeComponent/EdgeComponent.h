@@ -3,7 +3,6 @@
 
 #include "data/graph/Edge.h"
 
-
 class EdgeComponent
 {
 public:
@@ -20,6 +19,5 @@ protected:
 private:
 	Edge* m_edge;
 };
-
 
 #endif // EDGE_COMPONENT_H

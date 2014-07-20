@@ -3,9 +3,8 @@
 
 #include <memory>
 
-#include "utility/math/Color.h"
-
 #include "Settings.h"
+#include "utility/math/Color.h"
 
 class ApplicationSettings: public Settings
 {

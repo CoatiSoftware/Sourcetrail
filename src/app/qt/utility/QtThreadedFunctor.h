@@ -2,6 +2,7 @@
 #define QT_THREADED_FUCTOR_H
 
 #include <functional>
+
 #include <QObject>
 #include <QSemaphore>
 

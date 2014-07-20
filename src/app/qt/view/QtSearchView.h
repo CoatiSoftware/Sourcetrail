@@ -34,6 +34,7 @@ private:
 	QtEditBox* m_searchBox;
 	QtButton* m_searchButton;
 	QtButton* m_caseSensitiveButton;
+
 	QtThreadedFunctor<const std::string&> m_setTextFunctor;
 	QtThreadedFunctor<> m_setFocusFunctor;
 	QtThreadedFunctor<const std::vector<std::string>&> m_setAutocompletionListFunctor;

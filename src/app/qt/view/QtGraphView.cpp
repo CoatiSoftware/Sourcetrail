@@ -1,15 +1,12 @@
 #include "QtGraphView.h"
 
-#include "qboxlayout.h"
-#include "qgraphicsitem.h"
-#include "qgraphicsproxywidget.h"
-#include "qgraphicsscene.h"
-#include "qgraphicsview.h"
-#include "qpushbutton.h"
-
-#include "qt/utility/utilityQt.h"
+#include <QBoxLayout>
+#include <QFrame>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
 #include "qt/QtWidgetWrapper.h"
+#include "qt/utility/utilityQt.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
 #include "qt/view/graphElements/QtGraphNode.h"
 #include "qt/view/graphElements/QtGraphNodeMouseMovable.h"
@@ -68,8 +65,6 @@ QGraphicsView* QtGraphView::getView()
 {
 	QWidget* widget = QtWidgetWrapper::getWidgetOfView(this);
 
-	QLayout* layout = widget->layout();
-
 	QObjectList children = widget->children();
 
 	return widget->findChild<QGraphicsView*>("");
@@ -81,12 +76,15 @@ void QtGraphView::doRebuildGraph(const std::vector<DummyNode>& nodes, const std:
 
 	if (view != NULL)
 	{
-		std::map<Id, std::weak_ptr<GraphNode>> weakNodes; // used when creating the edges
-		std::list<std::shared_ptr<GraphNode>> newNodes; // temporary stores all nodes (existing and newly created) needed in the new graph
-														// this is a relatively easy and cheap way to save existing nodes that are still needed
+		// Used when creating the edges.
+		std::map<Id, std::weak_ptr<GraphNode>> weakNodes;
+
+		// Temporary stores all nodes (existing and newly created) needed in the new graph
+		// this is a relatively easy and cheap way to save existing nodes that are still needed
+		std::list<std::shared_ptr<GraphNode>> newNodes;
 
 		// create nodes (or find existing nodes for re-use)
-		for(unsigned int i = 0; i < nodes.size(); i++)
+		for (unsigned int i = 0; i < nodes.size(); i++)
 		{
 			std::shared_ptr<GraphNode> newNode = findOrCreateNode(view, nodes[i]);
 			newNode->setPosition(nodes[i].position);
@@ -97,10 +95,10 @@ void QtGraphView::doRebuildGraph(const std::vector<DummyNode>& nodes, const std:
 		doClear();
 		m_nodes = newNodes;
 
-		for(unsigned int i = 0; i < edges.size(); i++)
+		for (unsigned int i = 0; i < edges.size(); i++)
 		{
 			std::shared_ptr<GraphEdge> edge = createEdge(view, edges[i]);
-			if(edge != NULL)
+			if (edge != NULL)
 			{
 				m_edges.push_back(edge);
 			}
@@ -124,7 +122,7 @@ std::shared_ptr<GraphNode> QtGraphView::findOrCreateNode(QGraphicsView* view, co
 
 	result = findNode(node.tokenId);
 
-	if(result == NULL)
+	if (result == NULL)
 	{
 		result = createNode(view, node);
 	}
@@ -134,18 +132,16 @@ std::shared_ptr<GraphNode> QtGraphView::findOrCreateNode(QGraphicsView* view, co
 
 std::shared_ptr<GraphNode> QtGraphView::findNode(const Id id)
 {
-	std::list<std::shared_ptr<GraphNode>>::iterator it = m_nodes.begin();
-
-	for(it; it != m_nodes.end(); it++)
+	for (std::list<std::shared_ptr<GraphNode>>::iterator it = m_nodes.begin(); it != m_nodes.end(); it++)
 	{
-		if((*it)->getTokenId() == id)
+		if ((*it)->getTokenId() == id)
 		{
 			return *it;
 		}
 		else
 		{
 			std::shared_ptr<GraphNode> result = findSubNode(*it, id);
-			if(result != NULL)
+			if (result != NULL)
 			{
 				return result;
 			}
@@ -159,17 +155,16 @@ std::shared_ptr<GraphNode> QtGraphView::findSubNode(const std::shared_ptr<GraphN
 {
 	std::list<std::shared_ptr<GraphNode>> subNodes = node->getSubNodes();
 
-	std::list<std::shared_ptr<GraphNode>>::iterator it = subNodes.begin();
-	for(it; it != subNodes.end(); it++)
+	for (std::list<std::shared_ptr<GraphNode>>::iterator it = subNodes.begin(); it != subNodes.end(); it++)
 	{
-		if((*it)->getTokenId() == id)
+		if ((*it)->getTokenId() == id)
 		{
 			return *it;
 		}
 		else
 		{
 			std::shared_ptr<GraphNode> result = findSubNode(*it, id);
-			if(result != NULL)
+			if (result != NULL)
 			{
 				return result;
 			}
@@ -181,19 +176,20 @@ std::shared_ptr<GraphNode> QtGraphView::findSubNode(const std::shared_ptr<GraphN
 
 std::shared_ptr<GraphNode> QtGraphView::createNode(QGraphicsView* view, const DummyNode& node)
 {
-	if(view != NULL)
+	if (view != NULL)
 	{
-		std::shared_ptr<QtGraphNodeMouseMovable> newNode = std::make_shared<QtGraphNodeMouseMovable>(Vec2i(0, 0), node.name, node.tokenId);
+		std::shared_ptr<QtGraphNodeMouseMovable> newNode =
+			std::make_shared<QtGraphNodeMouseMovable>(Vec2i(0, 0), node.name, node.tokenId);
 		view->scene()->addItem(newNode.get());
 		m_nodes.push_back(newNode);
 
-		for(unsigned int i = 0; i < node.subNodes.size(); i++)
+		for (unsigned int i = 0; i < node.subNodes.size(); i++)
 		{
 			std::shared_ptr<QtGraphNode> subNode = createSubNode(view, node.subNodes[i]);
 			subNode->setParentItem(newNode.get());
 			newNode->addSubNode(subNode);
 			subNode->setRect(0, 0, 80, 20);
-			subNode->moveBy(10, (i+1)*30);
+			subNode->moveBy(10, (i + 1) * 30);
 		}
 
 		newNode->setRect(0, 0, 100, 40 + (node.subNodes.size() * 30));
@@ -209,18 +205,18 @@ std::shared_ptr<GraphNode> QtGraphView::createNode(QGraphicsView* view, const Du
 
 std::shared_ptr<QtGraphNode> QtGraphView::createSubNode(QGraphicsView* view, const DummyNode& node)
 {
-	if(view != NULL)
+	if (view != NULL)
 	{
 		std::shared_ptr<QtGraphNode> newNode = std::make_shared<QtGraphNode>(Vec2i(0, 0), node.name, node.tokenId);
 		view->scene()->addItem(newNode.get());
 
-		for(unsigned int i = 0; i < node.subNodes.size(); i++)
+		for (unsigned int i = 0; i < node.subNodes.size(); i++)
 		{
 			std::shared_ptr<QtGraphNode> subNode = createSubNode(view, node.subNodes[i]);
 			subNode->setParentItem(newNode.get());
 			newNode->addSubNode(subNode);
 			subNode->setRect(0, 0, 80, 20);
-			subNode->moveBy(10, (i+1)*30);
+			subNode->moveBy(10, (i + 1) * 30);
 		}
 
 		return newNode;
@@ -234,33 +230,33 @@ std::shared_ptr<QtGraphNode> QtGraphView::createSubNode(QGraphicsView* view, con
 
 std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const DummyEdge& edge)
 {
-	if(view != NULL)
+	if (view != NULL)
 	{
 		std::shared_ptr<GraphNode> owner = findNode(edge.ownerId);
 		std::shared_ptr<GraphNode> target = findNode(edge.targetId);
 
-		if(owner != NULL && target != NULL)
+		if (owner != NULL && target != NULL)
 		{
 			std::shared_ptr<QtGraphEdge> qtEdge = std::make_shared<QtGraphEdge>(owner, target, edge.tokenId);
 
-			switch(edge.edgeType)
+			switch (edge.edgeType)
 			{
-			case Edge::EdgeType::EDGE_CALL:
+			case Edge::EDGE_CALL:
 				qtEdge->setColor(m_edgeColors[0]);
 				break;
-			case Edge::EdgeType::EDGE_USAGE:
+			case Edge::EDGE_USAGE:
 				qtEdge->setColor(m_edgeColors[1]);
 				break;
-			case Edge::EdgeType::EDGE_TYPE_OF:
+			case Edge::EDGE_TYPE_OF:
 				qtEdge->setColor(m_edgeColors[2]);
 				break;
-			case Edge::EdgeType::EDGE_RETURN_TYPE_OF:
+			case Edge::EDGE_RETURN_TYPE_OF:
 				qtEdge->setColor(m_edgeColors[3]);
 				break;
-			case Edge::EdgeType::EDGE_PARAMETER_TYPE_OF:
+			case Edge::EDGE_PARAMETER_TYPE_OF:
 				qtEdge->setColor(m_edgeColors[4]);
 				break;
-			case Edge::EdgeType::EDGE_INHERITANCE:
+			case Edge::EDGE_INHERITANCE:
 				qtEdge->setColor(m_edgeColors[5]);
 				break;
 			default:

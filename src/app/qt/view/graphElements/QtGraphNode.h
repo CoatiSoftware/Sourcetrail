@@ -1,18 +1,17 @@
 #ifndef QT_GRAPH_NODE_H
 #define QT_GRAPH_NODE_H
 
-#include "qgraphicsitem.h"
+#include <QGraphicsItem>
 
+#include "component/view/graphElements/GraphNode.h"
 #include "utility/messaging/type/MessageActivateToken.h"
 #include "utility/math/Vector2.h"
 
-#include "component/view/graphElements/GraphNode.h"
-
 class QtGraphEdge;
 
-class QtGraphNode:
-	public GraphNode,
-	public QGraphicsRectItem
+class QtGraphNode
+	: public GraphNode
+	, public QGraphicsRectItem
 {
 public:
 	QtGraphNode(const Vec2i& position, const std::string& name, const Id tokenId);

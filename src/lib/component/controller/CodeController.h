@@ -34,5 +34,4 @@ private:
 	LocationAccess* m_locationAccess;
 };
 
-
 #endif // CODE_CONTROLLER_H

@@ -5,10 +5,8 @@
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/location/TokenLocationFile.h"
-#include "utility/text/TextAccess.h"
-
 #include "utility/logging/logging.h"
-
+#include "utility/text/TextAccess.h"
 
 CodeController::CodeController(LocationAccess* locationAccess)
 	: m_locationAccess(locationAccess)

@@ -3,10 +3,9 @@
 
 #include <memory>
 
+#include "data/graph/Edge.h"
 #include "utility/math/Vector4.h"
 #include "utility/types.h"
-
-#include "data/graph/Edge.h"
 
 class GraphNode;
 
@@ -47,7 +46,7 @@ public:
 
 	bool operator==(const DummyEdge& other) const
 	{
-		if(ownerId == other.ownerId && targetId == other.targetId)
+		if (ownerId == other.ownerId && targetId == other.targetId)
 		{
 			return true;
 		}
@@ -61,11 +60,11 @@ public:
 
 	bool operator<(const DummyEdge& other) const
 	{
-		if(ownerId < other.ownerId )
+		if (ownerId < other.ownerId )
 		{
 			return true;
 		}
-		else if(ownerId == other.ownerId)
+		else if (ownerId == other.ownerId)
 		{
 			return (targetId < other.targetId);
 		}
