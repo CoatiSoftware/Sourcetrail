@@ -7,4 +7,4 @@
 
 # fortune cookie message = <message>
 
-# modules: build, logic, ui, data, utility, test, script
+# modules: build, src, logic, ui, data, utility, test, script

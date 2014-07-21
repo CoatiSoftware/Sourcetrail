@@ -19,7 +19,7 @@ public:
 
 	// View implementation
 	virtual void createWidgetWrapper();
-	virtual void initGui();
+	virtual void initView();
 
 	// CodeView implementation
 	virtual void addCodeSnippet(const CodeSnippetParams params);

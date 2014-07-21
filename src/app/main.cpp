@@ -4,8 +4,8 @@
 
 #include "Application.h"
 #include "includes.h" // defines 'void setup()'
-#include "qt/QtGuiFactory.h"
 #include "qt/utility/utilityQt.h"
+#include "qt/view/QtViewFactory.h"
 #include "utility/logging/ConsoleLogger.h"
 #include "utility/logging/LogManager.h"
 
@@ -21,11 +21,11 @@ int main(int argc, char *argv[])
 	setup();
 
 	QApplication qtApp(argc, argv);
-	QtGuiFactory guiFactory;
 
 	init();
 
-	std::shared_ptr<Application> app = Application::create(&guiFactory);
+	QtViewFactory viewFactory;
+	std::shared_ptr<Application> app = Application::create(&viewFactory);
 	app->loadProject("data/ProjectSettings.xml");
 
 	return qtApp.exec();

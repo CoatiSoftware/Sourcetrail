@@ -5,8 +5,8 @@
 #include "component/controller/SearchController.h"
 #include "qt/element/QtButton.h"
 #include "qt/element/QtEditBox.h"
-#include "qt/QtWidgetWrapper.h"
 #include "qt/utility/utilityQt.h"
+#include "qt/view/QtViewWidgetWrapper.h"
 #include "utility/text/TextAccess.h"
 
 QtSearchView::QtSearchView(ViewLayout* viewLayout)
@@ -23,12 +23,12 @@ QtSearchView::~QtSearchView()
 
 void QtSearchView::createWidgetWrapper()
 {
-	setWidgetWrapper(std::make_shared<QtWidgetWrapper>(std::make_shared<QFrame>()));
+	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(std::make_shared<QFrame>()));
 }
 
-void QtSearchView::initGui()
+void QtSearchView::initView()
 {
-	QWidget* widget = QtWidgetWrapper::getWidgetOfView(this);
+	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 	widget->setObjectName("search_view");
 	widget->setStyleSheet(TextAccess::createFromFile("data/gui/search_view/search_view.css")->getText().c_str());
 

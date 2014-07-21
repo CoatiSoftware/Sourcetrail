@@ -1,13 +1,13 @@
-#ifndef QT_GUI_FACTORY_H
-#define QT_GUI_FACTORY_H
+#ifndef QT_VIEW_FACTORY_H
+#define QT_VIEW_FACTORY_H
 
-#include "gui/GuiFactory.h"
+#include "component/view/ViewFactory.h"
 
-class QtGuiFactory: public GuiFactory
+class QtViewFactory: public ViewFactory
 {
 public:
-	QtGuiFactory();
-	virtual ~QtGuiFactory();
+	QtViewFactory();
+	virtual ~QtViewFactory();
 
 	virtual std::shared_ptr<MainView> createMainView() const;
 	virtual std::shared_ptr<CodeView> createCodeView(ViewLayout* viewLayout) const;
@@ -15,4 +15,4 @@ public:
 	virtual std::shared_ptr<SearchView> createSearchView(ViewLayout* viewLayout) const;
 };
 
-#endif // QT_GUI_FACTORY_H
+#endif // QT_VIEW_FACTORY_H

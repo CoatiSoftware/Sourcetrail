@@ -2,13 +2,13 @@
 
 #include "ApplicationSettings.h"
 #include "component/view/MainView.h"
+#include "component/view/ViewFactory.h"
 #include "data/access/GraphAccessProxy.h"
 #include "data/access/LocationAccessProxy.h"
-#include "gui/GuiFactory.h"
 #include "utility/messaging/MessageQueue.h"
 #include "utility/messaging/type/MessageActivateToken.h"
 
-std::shared_ptr<Application> Application::create(GuiFactory* guiFactory)
+std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 {
 	ApplicationSettings::getInstance()->load("data/ApplicationSettings.xml");
 
@@ -17,9 +17,9 @@ std::shared_ptr<Application> Application::create(GuiFactory* guiFactory)
 	ptr->m_graphAccessProxy = std::make_shared<GraphAccessProxy>();
 	ptr->m_locationAccessProxy = std::make_shared<LocationAccessProxy>();
 
-	ptr->m_mainView = guiFactory->createMainView();
+	ptr->m_mainView = viewFactory->createMainView();
 	ptr->m_componentManager = ComponentManager::create(
-		guiFactory, ptr->m_mainView.get(), ptr->m_graphAccessProxy.get(), ptr->m_locationAccessProxy.get());
+		viewFactory, ptr->m_mainView.get(), ptr->m_graphAccessProxy.get(), ptr->m_locationAccessProxy.get());
 
 	ptr->m_componentManager->setup();
 	ptr->m_mainView->loadLayout();

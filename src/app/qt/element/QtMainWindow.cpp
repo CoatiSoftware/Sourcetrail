@@ -8,7 +8,7 @@
 #include <QSettings>
 
 #include "component/view/View.h"
-#include "qt/QtWidgetWrapper.h"
+#include "qt/view/QtViewWidgetWrapper.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageLoadProject.h"
@@ -77,7 +77,7 @@ void QtMainWindow::find()
 void QtMainWindow::addView(View* view)
 {
 	QDockWidget* dock = new QDockWidget(tr(view->getName().c_str()), this);
-	dock->setWidget(QtWidgetWrapper::getWidgetOfView(view));
+	dock->setWidget(QtViewWidgetWrapper::getWidgetOfView(view));
 	addDockWidget(Qt::TopDockWidgetArea, dock);
 	m_dockWidgets.push_back(std::make_pair(view, dock));
 }

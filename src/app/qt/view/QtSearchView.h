@@ -17,7 +17,7 @@ public:
 
 	// View implementation
 	virtual void createWidgetWrapper();
-	virtual void initGui();
+	virtual void initView();
 
 	// SearchView implementation
 	virtual void setText(const std::string& s);

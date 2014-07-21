@@ -9,14 +9,14 @@
 #include "data/access/LocationAccess.h"
 #include "data/access/GraphAccess.h"
 
-class GuiFactory;
+class ViewFactory;
 class ViewLayout;
 
 class ComponentManager
 {
 public:
 	static std::shared_ptr<ComponentManager> create(
-		GuiFactory* guiFactory, ViewLayout* viewLayout, GraphAccess* graphAccess, LocationAccess* locationAccess
+		ViewFactory* viewFactory, ViewLayout* viewLayout, GraphAccess* graphAccess, LocationAccess* locationAccess
 	);
 
 	~ComponentManager();

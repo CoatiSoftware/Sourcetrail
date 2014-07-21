@@ -9,7 +9,7 @@
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageLoadSource.h"
 
-class GuiFactory;
+class ViewFactory;
 class MainView;
 class GraphAccessProxy;
 class LocationAccessProxy;
@@ -19,7 +19,7 @@ class Application
 	, public MessageListener<MessageLoadSource>
 {
 public:
-	static std::shared_ptr<Application> create(GuiFactory* guiFactory);
+	static std::shared_ptr<Application> create(ViewFactory* viewFactory);
 
 	~Application();
 

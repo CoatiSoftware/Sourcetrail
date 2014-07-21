@@ -48,8 +48,12 @@ add_files(
 	component/view/SearchView.h
 	component/view/View.cpp
 	component/view/View.h
+	component/view/ViewFactory.cpp
+	component/view/ViewFactory.h
 	component/view/ViewLayout.cpp
 	component/view/ViewLayout.h
+	component/view/ViewWidgetWrapper.cpp
+	component/view/ViewWidgetWrapper.h
 
 	component/Component.cpp
 	component/Component.h
@@ -123,11 +127,6 @@ add_files(
 	data/SearchIndex.h
 	data/Storage.cpp
 	data/Storage.h
-
-	gui/GuiFactory.cpp
-	gui/GuiFactory.h
-	gui/GuiWidgetWrapper.cpp
-	gui/GuiWidgetWrapper.h
 
 	utility/logging/ConsoleLogger.cpp
 	utility/logging/ConsoleLogger.h

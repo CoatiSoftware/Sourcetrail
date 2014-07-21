@@ -2,15 +2,12 @@
 
 #include "component/view/CodeView.h"
 #include "component/view/GraphView.h"
-#include "component/view/ViewLayout.h"
-
-#include "data/location/TokenLocationFile.h"
 
 std::shared_ptr<ComponentManager> ComponentManager::create(
-	GuiFactory* guiFactory, ViewLayout* viewLayout, GraphAccess* graphAccess, LocationAccess* locationAccess
+	ViewFactory* viewFactory, ViewLayout* viewLayout, GraphAccess* graphAccess, LocationAccess* locationAccess
 ){
 	std::shared_ptr<ComponentManager> ptr(new ComponentManager());
-	ptr->m_componentFactory = ComponentFactory::create(guiFactory, viewLayout, graphAccess, locationAccess);
+	ptr->m_componentFactory = ComponentFactory::create(viewFactory, viewLayout, graphAccess, locationAccess);
 
 	return ptr;
 }

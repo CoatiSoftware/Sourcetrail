@@ -1,5 +1,5 @@
-#ifndef GUI_FACTORY_H
-#define GUI_FACTORY_H
+#ifndef VIEW_FACTORY_H
+#define VIEW_FACTORY_H
 
 #include <memory>
 
@@ -9,11 +9,11 @@ class MainView;
 class SearchView;
 class ViewLayout;
 
-class GuiFactory
+class ViewFactory
 {
 public:
-	GuiFactory();
-	virtual ~GuiFactory();
+	ViewFactory();
+	virtual ~ViewFactory();
 
 	virtual std::shared_ptr<MainView> createMainView() const = 0;
 	virtual std::shared_ptr<CodeView> createCodeView(ViewLayout* viewLayout) const = 0;
@@ -21,4 +21,4 @@ public:
 	virtual std::shared_ptr<SearchView> createSearchView(ViewLayout* viewLayout) const = 0;
 };
 
-#endif // GUI_FACTORY_H
+#endif // VIEW_FACTORY_H

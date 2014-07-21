@@ -7,14 +7,14 @@
 #include "data/access/GraphAccess.h"
 
 class Component;
-class GuiFactory;
+class ViewFactory;
 class ViewLayout;
 
 class ComponentFactory
 {
 public:
 	static std::shared_ptr<ComponentFactory> create(
-		GuiFactory* guiFactory, ViewLayout* viewLayout, GraphAccess* graphAccess, LocationAccess* locationAccess
+		ViewFactory* viewFactory, ViewLayout* viewLayout, GraphAccess* graphAccess, LocationAccess* locationAccess
 	);
 
 	~ComponentFactory();
@@ -27,7 +27,7 @@ private:
 	ComponentFactory();
 	ComponentFactory(const ComponentFactory&);
 
-	GuiFactory* m_guiFactory;
+	ViewFactory* m_viewFactory;
 	ViewLayout* m_viewLayout;
 
 	GraphAccess* m_graphAccess;

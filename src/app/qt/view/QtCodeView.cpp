@@ -6,8 +6,8 @@
 
 #include "data/location/TokenLocationFile.h"
 #include "qt/element/QtCodeFile.h"
-#include "qt/QtWidgetWrapper.h"
 #include "qt/utility/utilityQt.h"
+#include "qt/view/QtViewWidgetWrapper.h"
 #include "utility/FileSystem.h"
 #include "utility/messaging/type/MessageActivateToken.h"
 #include "utility/text/TextAccess.h"
@@ -25,12 +25,12 @@ QtCodeView::~QtCodeView()
 
 void QtCodeView::createWidgetWrapper()
 {
-	setWidgetWrapper(std::make_shared<QtWidgetWrapper>(std::make_shared<QScrollArea>()));
+	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(std::make_shared<QScrollArea>()));
 }
 
-void QtCodeView::initGui()
+void QtCodeView::initView()
 {
-	QWidget* widget = QtWidgetWrapper::getWidgetOfView(this);
+	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 	widget->setStyleSheet(TextAccess::createFromFile("data/gui/code_view/code_view.css")->getText().c_str());
 	widget->setObjectName("code_view");
 
@@ -79,7 +79,7 @@ void QtCodeView::doAddCodeSnippet(const CodeSnippetParams params)
 
 	if (!file)
 	{
-		QWidget* widget = QtWidgetWrapper::getWidgetOfView(this);
+		QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 		std::shared_ptr<QtCodeFile> filePtr = std::make_shared<QtCodeFile>(this, fileName, widget);
 
 		m_files.push_back(filePtr);

@@ -8,7 +8,7 @@
 #include "component/view/ViewLayout.h"
 #include "utility/math/Vector2.h"
 
-class GuiWidgetWrapper;
+class ViewWidgetWrapper;
 
 class View
 {
@@ -20,14 +20,13 @@ public:
 	virtual ~View();
 
 	virtual std::string getName() const = 0;
-
 	virtual void createWidgetWrapper() = 0;
-	void setWidgetWrapper(std::shared_ptr<GuiWidgetWrapper> widgetWrapper);
-	GuiWidgetWrapper* getWidgetWrapper();
-
-	virtual void initGui() = 0;
+	virtual void initView() = 0;
 
 	void setComponent(Component* component);
+
+	void setWidgetWrapper(std::shared_ptr<ViewWidgetWrapper> widgetWrapper);
+	ViewWidgetWrapper* getWidgetWrapper();
 
 	int getMinWidth() const;
 	int getMinHeight() const;
@@ -42,7 +41,7 @@ protected:
 private:
 	Component* m_component;
 	ViewLayout* const m_viewLayout;
-	std::shared_ptr<GuiWidgetWrapper> m_widgetWrapper;
+	std::shared_ptr<ViewWidgetWrapper> m_widgetWrapper;
 	Vec2i m_minSize;
 };
 
@@ -52,7 +51,7 @@ std::shared_ptr<T> View::create(ViewLayout* viewLayout)
 	std::shared_ptr<T> ptr = std::make_shared<T>(viewLayout);
 
 	ptr->createWidgetWrapper();
-	ptr->initGui();
+	ptr->initView();
 
 	viewLayout->addView(ptr.get());
 

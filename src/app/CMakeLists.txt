@@ -37,11 +37,10 @@ add_files(
 	qt/view/QtMainView.h
 	qt/view/QtSearchView.cpp
 	qt/view/QtSearchView.h
-
-	qt/QtGuiFactory.cpp
-	qt/QtGuiFactory.h
-	qt/QtWidgetWrapper.cpp
-	qt/QtWidgetWrapper.h
+	qt/view/QtViewFactory.cpp
+	qt/view/QtViewFactory.h
+	qt/view/QtViewWidgetWrapper.cpp
+	qt/view/QtViewWidgetWrapper.h
 
 	main.cpp
 )

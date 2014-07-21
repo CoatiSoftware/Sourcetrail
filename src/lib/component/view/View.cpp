@@ -1,6 +1,6 @@
 #include "component/view/View.h"
 
-#include "gui/GuiWidgetWrapper.h"
+#include "component/view/ViewWidgetWrapper.h"
 
 View::View(ViewLayout* viewLayout, const Vec2i& minSize)
 	: m_viewLayout(viewLayout)
@@ -14,12 +14,12 @@ View::~View()
 	m_viewLayout->removeView(this);
 }
 
-void View::setWidgetWrapper(std::shared_ptr<GuiWidgetWrapper> widgetWrapper)
+void View::setWidgetWrapper(std::shared_ptr<ViewWidgetWrapper> widgetWrapper)
 {
 	m_widgetWrapper = widgetWrapper;
 }
 
-GuiWidgetWrapper* View::getWidgetWrapper()
+ViewWidgetWrapper* View::getWidgetWrapper()
 {
 	return m_widgetWrapper.get();
 }

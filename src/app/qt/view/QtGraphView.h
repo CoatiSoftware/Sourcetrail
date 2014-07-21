@@ -20,7 +20,7 @@ public:
 
 	// View implementation
 	virtual void createWidgetWrapper();
-	virtual void initGui();
+	virtual void initView();
 
 	virtual void rebuildGraph(const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);
 

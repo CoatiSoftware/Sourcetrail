@@ -5,8 +5,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
-#include "qt/QtWidgetWrapper.h"
 #include "qt/utility/utilityQt.h"
+#include "qt/view/QtViewWidgetWrapper.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
 #include "qt/view/graphElements/QtGraphNode.h"
 #include "qt/view/graphElements/QtGraphNodeMouseMovable.h"
@@ -30,12 +30,12 @@ QtGraphView::~QtGraphView()
 
 void QtGraphView::createWidgetWrapper()
 {
-	setWidgetWrapper(std::make_shared<QtWidgetWrapper>(std::make_shared<QFrame>()));
+	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(std::make_shared<QFrame>()));
 }
 
-void QtGraphView::initGui()
+void QtGraphView::initView()
 {
-	QWidget* widget = QtWidgetWrapper::getWidgetOfView(this);
+	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 	utility::setWidgetBackgroundColor(widget, Colori(100, 20, 200, 255));
 
 	QBoxLayout* layout = new QBoxLayout(QBoxLayout::TopToBottom);
@@ -63,7 +63,7 @@ void QtGraphView::clear()
 
 QGraphicsView* QtGraphView::getView()
 {
-	QWidget* widget = QtWidgetWrapper::getWidgetOfView(this);
+	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 
 	QObjectList children = widget->children();
 
