@@ -1,6 +1,9 @@
 #include "qt/view/QtSearchView.h"
 
-#include <QtWidgets>
+#include <QAbstractItemView>
+#include <QCompleter>
+#include <QFrame>
+#include <QHBoxLayout>
 
 #include "component/controller/SearchController.h"
 #include "qt/element/QtButton.h"
@@ -32,9 +35,9 @@ void QtSearchView::initView()
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 	widget->setObjectName("search_view");
 
-	QBoxLayout* layout = new QBoxLayout(QBoxLayout::LeftToRight);
+	QBoxLayout* layout = new QHBoxLayout();
 	layout->setSpacing(0);
-	//layout->setContentsMargins(3, 3, 3, 3);
+	layout->setAlignment(Qt::AlignTop);
 	widget->setLayout(layout);
 
 	m_searchButton = new QtButton(widget);

@@ -6,6 +6,8 @@ QtEditBox::QtEditBox(QWidget *parent)
 	, m_onReturnPressed(nullptr)
 	, m_onTextEdited(nullptr)
 {
+	setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+
 	connect(this, SIGNAL(returnPressed()), this, SLOT(slotOnReturnPressed()));
 	connect(this, SIGNAL(textEdited(const QString&)), this, SLOT(slotOnTextEdited(const QString&)));
 }

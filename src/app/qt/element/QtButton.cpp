@@ -4,6 +4,8 @@ QtButton::QtButton(QWidget *parent)
 	: QPushButton(parent)
 	, m_onClick(nullptr)
 {
+	setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+
 	connect(this, SIGNAL(clicked()), this, SLOT(slotOnClick()));
 }
 

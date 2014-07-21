@@ -1,47 +1,45 @@
 #search_view {
-    background: rgb(255, 255, 255);
+	background: rgb(255, 255, 255);
 }
 
 QLineEdit#search_box {
 	background: rgb(204, 204, 204);
-	border: 0px;
-	height: 26px;
+	border: none;
+	font-family: "Source Code Pro";
+	font-size: 16px;
+	font-weight: bold;
 	padding: 0 4px;
+	height: 26px;
 	selection-background-color: rgb(51, 51, 51);
-    font-family: "Source Code Pro";
-    font-size: 16px;
-    font-weight: bold;
 }
 
 QAbstractItemView#search_box_popup {
+	font-family: "Source Code Pro";
+	font-size: 14px;
 	selection-background-color: rgb(51, 51, 51);
-    font-family: "Source Code Pro";
-    font-size: 14px;
-    font-weight: bold;
 }
 
 QPushButton#search_button {
-	border: 0px;
+	border: none;
 	border-image: url(data/gui/search_view/images/button_search.png);
 	height: 26px;
-	height: 26px;
+	width: 26px;
 }
 
 QPushButton#case_sensitive_button {
-    border-image: url(data/gui/search_view/images/button_case_sensitive_inactive.png);
-	border: 0px;
+	border: none;
+	border-image: url(data/gui/search_view/images/button_case_sensitive_inactive.png);
 	height: 26px;
-	height: 26px;
+	width: 26px;
 	margin-left: 4px;
-	margin-right: 4px;
 }
 
 QPushButton#case_sensitive_button:checked {
-    border-image: url(data/gui/search_view/images/button_case_sensitive_active.png);
+	border-image: url(data/gui/search_view/images/button_case_sensitive_active.png);
 }
 
 QToolTip {
-    color: rgb(0, 0, 0);
-	border: 1px solid rgb(0, 0, 0);
 	background-color: rgb(204, 204, 204);
+	border: 1px solid rgb(0, 0, 0);
+	color: rgb(0, 0, 0);
 }
