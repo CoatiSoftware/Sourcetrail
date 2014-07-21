@@ -1,7 +1,5 @@
 #include "data/Storage.h"
 
-#include <sstream>
-
 #include "data/graph/edgeComponent/EdgeComponentDataType.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
@@ -29,16 +27,12 @@ void Storage::clear()
 
 void Storage::logGraph() const
 {
-	std::stringstream str;
-	str << "\n" << m_graph;
-	LOG_INFO(str.str());
+	LOG_INFO_STREAM(<< '\n' << m_graph);
 }
 
 void Storage::logLocations() const
 {
-	std::stringstream str;
-	str << "\n" << m_locationCollection;
-	LOG_INFO(str.str());
+	LOG_INFO_STREAM(<< '\n' << m_locationCollection);
 }
 
 
@@ -512,12 +506,11 @@ TokenLocation* Storage::addTokenLocation(Token* token, const ParseLocation& loc)
 
 void Storage::log(std::string type, std::string str, const ParseLocation& location) const
 {
-	std::stringstream info;
-	info << type << ": " << str;
-	info << " <" << location.filePath << " ";
-	info << location.startLineNumber << ":" << location.startColumnNumber << " ";
-	info << location.endLineNumber << ":" << location.endColumnNumber << ">";
-	LOG_INFO(info.str());
+	LOG_INFO_STREAM(
+		<< type << ": " << str << " <" << location.filePath << " "
+		<< location.startLineNumber << ":" << location.startColumnNumber << " "
+		<< location.endLineNumber << ":" << location.endColumnNumber << ">"
+	);
 }
 
 std::vector<std::tuple<Id, Id, Id>> Storage::getEdgesOfTypeOfNode(const Id id, const Edge::EdgeType type) const
