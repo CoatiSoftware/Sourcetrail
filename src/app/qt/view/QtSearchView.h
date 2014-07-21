@@ -18,6 +18,7 @@ public:
 	// View implementation
 	virtual void createWidgetWrapper();
 	virtual void initView();
+	virtual void refreshView();
 
 	// SearchView implementation
 	virtual void setText(const std::string& s);
@@ -27,14 +28,18 @@ public:
 private:
 	void onSearchButtonClick();
 
+	void doRefreshView();
 	void doSetText(const std::string& s);
 	void doSetFocus();
 	void doSetAutocompletionList(const std::vector<std::string>& autocompletionList);
+
+	void setStyleSheet();
 
 	QtEditBox* m_searchBox;
 	QtButton* m_searchButton;
 	QtButton* m_caseSensitiveButton;
 
+	QtThreadedFunctor<> m_refreshViewFunctor;
 	QtThreadedFunctor<const std::string&> m_setTextFunctor;
 	QtThreadedFunctor<> m_setFocusFunctor;
 	QtThreadedFunctor<const std::vector<std::string>&> m_setAutocompletionListFunctor;

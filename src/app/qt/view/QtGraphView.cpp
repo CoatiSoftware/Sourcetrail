@@ -51,6 +51,10 @@ void QtGraphView::initView()
 	widget->layout()->addWidget(view);
 }
 
+void QtGraphView::refreshView()
+{
+}
+
 void QtGraphView::rebuildGraph(const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges)
 {
 	m_rebuildGraph(nodes, edges);

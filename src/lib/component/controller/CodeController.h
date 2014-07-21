@@ -6,6 +6,7 @@
 #include "component/controller/Controller.h"
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateToken.h"
+#include "utility/messaging/type/MessageRefresh.h"
 #include "utility/types.h"
 
 class CodeView;
@@ -20,6 +21,7 @@ struct AnnotatedText
 class CodeController
 	: public Controller
 	, public MessageListener<MessageActivateToken>
+	, public MessageListener<MessageRefresh>
 {
 public:
 	CodeController(LocationAccess* locationAccess);
@@ -29,6 +31,7 @@ public:
 
 private:
 	virtual void handleMessage(MessageActivateToken* message);
+	virtual void handleMessage(MessageRefresh* message);
 	CodeView* getView();
 
 	LocationAccess* m_locationAccess;

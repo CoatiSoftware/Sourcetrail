@@ -8,6 +8,7 @@
 #include "utility/messaging/type/MessageActivateToken.h"
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/messaging/type/MessageRefresh.h"
 
 class GraphAccess;
 class SearchView;
@@ -17,6 +18,7 @@ class SearchController
 	, public MessageListener<MessageActivateToken>
 	, public MessageListener<MessageFind>
 	, public MessageListener<MessageFinishedParsing>
+	, public MessageListener<MessageRefresh>
 {
 public:
 	SearchController(GraphAccess* graphAccess);
@@ -29,6 +31,7 @@ private:
 	virtual void handleMessage(MessageActivateToken* message);
 	virtual void handleMessage(MessageFind* message);
 	virtual void handleMessage(MessageFinishedParsing* message);
+	virtual void handleMessage(MessageRefresh* message);
 	SearchView* getView();
 
 	GraphAccess* m_graphAccess;

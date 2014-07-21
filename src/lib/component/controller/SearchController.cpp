@@ -43,6 +43,11 @@ void SearchController::handleMessage(MessageFinishedParsing* message)
 	getView()->setAutocompletionList(m_graphAccess->getNamesForNodesWithNamePrefix(""));
 }
 
+void SearchController::handleMessage(MessageRefresh* message)
+{
+	getView()->refreshView();
+}
+
 SearchView* SearchController::getView()
 {
 	return Controller::getView<SearchView>();

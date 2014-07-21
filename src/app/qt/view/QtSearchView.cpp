@@ -11,6 +11,7 @@
 
 QtSearchView::QtSearchView(ViewLayout* viewLayout)
 	: SearchView(viewLayout)
+	, m_refreshViewFunctor(std::bind(&QtSearchView::doRefreshView, this))
 	, m_setTextFunctor(std::bind(&QtSearchView::doSetText, this, std::placeholders::_1))
 	, m_setFocusFunctor(std::bind(&QtSearchView::doSetFocus, this))
 	, m_setAutocompletionListFunctor(std::bind(&QtSearchView::doSetAutocompletionList, this, std::placeholders::_1))
@@ -30,7 +31,6 @@ void QtSearchView::initView()
 {
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 	widget->setObjectName("search_view");
-	widget->setStyleSheet(TextAccess::createFromFile("data/gui/search_view/search_view.css")->getText().c_str());
 
 	QBoxLayout* layout = new QBoxLayout(QBoxLayout::LeftToRight);
 	layout->setSpacing(0);
@@ -53,6 +53,13 @@ void QtSearchView::initView()
 	m_caseSensitiveButton->setCheckable(true);
 	m_caseSensitiveButton->setToolTip("case sensitive");
 	widget->layout()->addWidget(m_caseSensitiveButton);
+
+	setStyleSheet();
+}
+
+void QtSearchView::refreshView()
+{
+	m_refreshViewFunctor();
 }
 
 void QtSearchView::setText(const std::string& s)
@@ -77,6 +84,11 @@ void QtSearchView::onSearchButtonClick()
 	{
 		controller->search(m_searchBox->text().toStdString());
 	}
+}
+
+void QtSearchView::doRefreshView()
+{
+	setStyleSheet();
 }
 
 void QtSearchView::doSetText(const std::string& s)
@@ -105,5 +117,18 @@ void QtSearchView::doSetAutocompletionList(const std::vector<std::string>& autoc
 	completer->popup()->setObjectName("search_box_popup");
 	completer->setCaseSensitivity(Qt::CaseInsensitive);
 	m_searchBox->setCompleter(completer);
-	completer->popup()->setStyleSheet(TextAccess::createFromFile("data/gui/search_view/search_view.css")->getText().c_str());
+	setStyleSheet();
+}
+
+void QtSearchView::setStyleSheet()
+{
+	std::string css = TextAccess::createFromFile("data/gui/search_view/search_view.css")->getText();
+
+	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
+	widget->setStyleSheet(css.c_str());
+
+	if (m_searchBox->completer())
+	{
+		m_searchBox->completer()->popup()->setStyleSheet(css.c_str());
+	}
 }

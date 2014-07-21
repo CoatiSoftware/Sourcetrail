@@ -14,6 +14,7 @@
 
 QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
+	, m_refreshViewFunctor(std::bind(&QtCodeView::doRefreshView, this))
 	, m_clearCodeSnippetsFunctor(std::bind(&QtCodeView::doClearCodeSnippets, this))
 	, m_addCodeSnippetFunctor(std::bind(&QtCodeView::doAddCodeSnippet, this, std::placeholders::_1))
 {
@@ -31,7 +32,6 @@ void QtCodeView::createWidgetWrapper()
 void QtCodeView::initView()
 {
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
-	widget->setStyleSheet(TextAccess::createFromFile("data/gui/code_view/code_view.css")->getText().c_str());
 	widget->setObjectName("code_view");
 
 	QScrollArea* scroll = dynamic_cast<QScrollArea*>(widget);
@@ -45,6 +45,13 @@ void QtCodeView::initView()
 
 	scroll->setWidgetResizable(true);
 	scroll->setWidget(m_frame.get());
+
+	setStyleSheet();
+}
+
+void QtCodeView::refreshView()
+{
+	m_refreshViewFunctor();
 }
 
 void QtCodeView::addCodeSnippet(const CodeSnippetParams params)
@@ -61,6 +68,11 @@ void QtCodeView::activateToken(Id tokenId) const
 {
 	MessageActivateToken message(tokenId);
 	message.dispatch();
+}
+
+void QtCodeView::doRefreshView()
+{
+	setStyleSheet();
 }
 
 void QtCodeView::doAddCodeSnippet(const CodeSnippetParams params)
@@ -93,4 +105,10 @@ void QtCodeView::doAddCodeSnippet(const CodeSnippetParams params)
 void QtCodeView::doClearCodeSnippets()
 {
 	m_files.clear();
+}
+
+void QtCodeView::setStyleSheet()
+{
+	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
+	widget->setStyleSheet(TextAccess::createFromFile("data/gui/code_view/code_view.css")->getText().c_str());
 }

@@ -21,6 +21,7 @@ public:
 	// View implementation
 	virtual void createWidgetWrapper();
 	virtual void initView();
+	virtual void refreshView();
 
 	virtual void rebuildGraph(const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);
 

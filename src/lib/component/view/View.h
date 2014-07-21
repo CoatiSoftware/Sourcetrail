@@ -22,6 +22,7 @@ public:
 	virtual std::string getName() const = 0;
 	virtual void createWidgetWrapper() = 0;
 	virtual void initView() = 0;
+	virtual void refreshView() = 0;
 
 	void setComponent(Component* component);
 

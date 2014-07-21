@@ -13,6 +13,7 @@
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageLoadSource.h"
+#include "utility/messaging/type/MessageRefresh.h"
 
 QtMainWindow::QtMainWindow()
 {
@@ -21,6 +22,7 @@ QtMainWindow::QtMainWindow()
 
 	setupProjectMenu();
 	setupFindMenu();
+	setupViewMenu();
 	setupHelpMenu();
 }
 
@@ -72,6 +74,11 @@ void QtMainWindow::openProject(const QString &path)
 void QtMainWindow::find()
 {
 	MessageFind().dispatch();
+}
+
+void QtMainWindow::refresh()
+{
+	MessageRefresh().dispatch();
 }
 
 void QtMainWindow::addView(View* view)
@@ -175,6 +182,14 @@ void QtMainWindow::setupFindMenu()
 	menuBar()->addMenu(menu);
 
 	menu->addAction(tr("&Find"), this, SLOT(find()), QKeySequence::Find);
+}
+
+void QtMainWindow::setupViewMenu()
+{
+	QMenu *menu = new QMenu(tr("&View"), this);
+	menuBar()->addMenu(menu);
+
+	menu->addAction(tr("&Refresh"), this, SLOT(refresh()), QKeySequence::Refresh);
 }
 
 void QtMainWindow::setupHelpMenu()

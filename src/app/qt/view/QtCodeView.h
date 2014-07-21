@@ -20,6 +20,7 @@ public:
 	// View implementation
 	virtual void createWidgetWrapper();
 	virtual void initView();
+	virtual void refreshView();
 
 	// CodeView implementation
 	virtual void addCodeSnippet(const CodeSnippetParams params);
@@ -28,13 +29,17 @@ public:
 	void activateToken(Id tokenId) const;
 
 private:
+	void doRefreshView();
 	void doAddCodeSnippet(const CodeSnippetParams params);
 	void doClearCodeSnippets();
+
+	void setStyleSheet();
 
 	std::shared_ptr<QFrame> m_frame;
 	std::vector<std::shared_ptr<QtCodeFile> > m_files;
 
-	QtThreadedFunctor<void> m_clearCodeSnippetsFunctor;
+	QtThreadedFunctor<> m_refreshViewFunctor;
+	QtThreadedFunctor<> m_clearCodeSnippetsFunctor;
 	QtThreadedFunctor<const CodeSnippetParams> m_addCodeSnippetFunctor;
 };
 

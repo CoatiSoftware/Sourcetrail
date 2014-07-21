@@ -59,6 +59,11 @@ void CodeController::handleMessage(MessageActivateToken* message)
 	setActiveTokenId(message->tokenId);
 }
 
+void CodeController::handleMessage(MessageRefresh* message)
+{
+	getView()->refreshView();
+}
+
 CodeView* CodeController::getView()
 {
 	return Controller::getView<CodeView>();
