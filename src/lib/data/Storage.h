@@ -64,7 +64,7 @@ public:
 		const ParseLocation& location, const std::string& userName, const std::string& usedName);
 
 	// GraphAccess implementation
-	virtual Id getIdForNodeWithName(const std::string& name) const;
+	virtual Id getIdForNodeWithName(const std::string& fullName) const;
 	virtual std::string getNameForNodeWithId(Id id) const;
 	virtual std::vector<std::string> getNamesForNodesWithNamePrefix(const std::string& prefix) const;
 	virtual std::vector<Id> getIdsOfNeighbours(const Id id) const;

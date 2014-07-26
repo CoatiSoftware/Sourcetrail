@@ -38,6 +38,8 @@ public:
 	void setType(NodeType type);
 
 	const std::string& getName() const;
+	std::string getFullName() const;
+
 	const std::vector<Edge*>& getEdges() const;
 
 	void addEdge(Edge* edge);
@@ -49,9 +51,11 @@ public:
 	Edge* findEdge(std::function<bool(Edge*)> func) const;
 	Edge* findEdgeOfType(Edge::EdgeType type) const;
 	Edge* findEdgeOfType(Edge::EdgeType type, std::function<bool(Edge*)> func) const;
+	Node* findChildNode(std::function<bool(Node*)> func) const;
 
 	void forEachEdge(std::function<void(Edge*)> func) const;
 	void forEachEdgeOfType(Edge::EdgeType type, std::function<void(Edge*)> func) const;
+	void forEachChildNode(std::function<void(Node*)> func) const;
 
 	// Token implementation.
 	virtual bool isNode() const;

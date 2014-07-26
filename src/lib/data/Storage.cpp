@@ -238,26 +238,23 @@ void Storage::onGlobalVariableUsageParsed(
 	addTokenLocation(edge, location);
 }
 
-Id Storage::getIdForNodeWithName(const std::string& name) const
+Id Storage::getIdForNodeWithName(const std::string& fullName) const
 {
-	Node* node = m_graph.findNode([&](Node* node){
-		return node->getName() == name;
-	});
-
+	Node* node = m_graph.getNode(fullName);
 	return (node ? node->getId() : 0);
 }
 
 std::string Storage::getNameForNodeWithId(Id id) const
 {
 	Node* node = m_graph.getNodeById(id);
-	return (node ? node->getName() : "");
+	return (node ? node->getFullName() : "");
 }
 
 std::vector<std::string> Storage::getNamesForNodesWithNamePrefix(const std::string& prefix) const
 {
 	std::vector<std::string> names;
 	m_graph.forEachNode([&](Node* node){
-		const std::string& nodeName = node->getName();
+		const std::string& nodeName = node->getFullName();
 		if (utility::isPrefix(prefix, nodeName))
 		{
 			names.push_back(nodeName);

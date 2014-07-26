@@ -2,8 +2,9 @@
 #define GRAPH_H
 
 #include <memory>
-#include <vector>
 #include <ostream>
+#include <deque>
+#include <vector>
 
 #include "data/graph/Edge.h"
 #include "data/graph/Node.h"
@@ -54,8 +55,9 @@ protected:
 private:
 	static const std::string DELIMITER;
 
-	Node* insertNodeHierarchy(Node::NodeType type, const std::string& fullName);
-	Node* insertNode(Node::NodeType type, const std::string& fullName, Node* parentNode);
+	Node* getLastValidNode(std::deque<std::string>* names) const;
+	Node* insertNodeHierarchy(Node::NodeType type, std::deque<std::string> names, Node* parentNode);
+	Node* insertNode(Node::NodeType type, const std::string& name, Node* parentNode);
 	Edge* insertEdge(Edge::EdgeType type, Node* from, Node* to);
 	void removeEdgeInternal(Edge* edge);
 

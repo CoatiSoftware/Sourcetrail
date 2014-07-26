@@ -46,6 +46,19 @@ const std::string& Node::getName() const
 	return m_name;
 }
 
+std::string Node::getFullName() const
+{
+	Node* parent = getParentNode();
+	if (parent)
+	{
+		return parent->getFullName() + "::" + m_name;
+	}
+	else
+	{
+		return m_name;
+	}
+}
+
 const std::vector<Edge*>& Node::getEdges() const
 {
 	return m_edges;
@@ -90,7 +103,7 @@ Edge* Node::findEdge(std::function<bool(Edge*)> func) const
 		return *it;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 Edge* Node::findEdgeOfType(Edge::EdgeType type) const
@@ -116,7 +129,28 @@ Edge* Node::findEdgeOfType(Edge::EdgeType type, std::function<bool(Edge*)> func)
 		return *it;
 	}
 
-	return NULL;
+	return nullptr;
+}
+
+Node* Node::findChildNode(std::function<bool(Node*)> func) const
+{
+	std::vector<Edge*>::const_iterator it = find_if(m_edges.begin(), m_edges.end(),
+		[&func](Edge* e)
+		{
+			if (e->getType() == Edge::EDGE_MEMBER)
+			{
+				return func(e->getTo());
+			}
+			return false;
+		}
+	);
+
+	if (it != m_edges.end())
+	{
+		return (*it)->getTo();
+	}
+
+	return nullptr;
 }
 
 void Node::forEachEdge(std::function<void(Edge*)> func) const
@@ -133,6 +167,16 @@ void Node::forEachEdgeOfType(Edge::EdgeType type, std::function<void(Edge*)> fun
 			{
 				func(e);
 			}
+		}
+	);
+}
+
+void Node::forEachChildNode(std::function<void(Node*)> func) const
+{
+	forEachEdgeOfType(Edge::EDGE_MEMBER,
+		[func](Edge* e)
+		{
+			func(e->getTo());
 		}
 	);
 }

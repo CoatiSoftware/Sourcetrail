@@ -169,6 +169,64 @@ public:
 		TS_ASSERT_EQUALS(e.getType(), e2.getType());
 	}
 
+	void test_node_finds_child_node()
+	{
+		Node a(Node::NODE_UNDEFINED, "A");
+		Node b(Node::NODE_UNDEFINED, "B");
+		Node c(Node::NODE_UNDEFINED, "C");
+		Edge e(Edge::EDGE_MEMBER, &a, &b);
+		Edge e2(Edge::EDGE_MEMBER, &a, &c);
+
+		Node* x = a.findChildNode(
+			[](Node* n)
+			{
+				return n->getName() == "C";
+			}
+		);
+
+		TS_ASSERT_EQUALS(x, &c);
+		TS_ASSERT_DIFFERS(x, &b);
+	}
+
+	void test_node_can_not_find_child_node()
+	{
+		Node a(Node::NODE_UNDEFINED, "A");
+		Node b(Node::NODE_UNDEFINED, "B");
+		Node c(Node::NODE_UNDEFINED, "C");
+		Edge e(Edge::EDGE_MEMBER, &a, &b);
+		Edge e2(Edge::EDGE_MEMBER, &a, &c);
+
+		Node* x = a.findChildNode(
+			[](Node* n)
+			{
+				return n->getName() == "D";
+			}
+		);
+
+		TS_ASSERT(!x);
+	}
+
+	void test_node_visits_child_nodes()
+	{
+		Node a(Node::NODE_UNDEFINED, "A");
+		Node b(Node::NODE_UNDEFINED, "B");
+		Node c(Node::NODE_UNDEFINED, "C");
+		Edge e(Edge::EDGE_MEMBER, &a, &b);
+		Edge e2(Edge::EDGE_MEMBER, &a, &c);
+
+		std::vector<Node*> children;
+		a.forEachChildNode(
+			[&children](Node* n)
+			{
+				return children.push_back(n);
+			}
+		);
+
+		TS_ASSERT_EQUALS(children.size(), 2);
+		TS_ASSERT_EQUALS(children[0], &b);
+		TS_ASSERT_EQUALS(children[1], &c);
+	}
+
 	void test_graph_saves_nodes()
 	{
 		TestGraph graph;
@@ -284,6 +342,42 @@ public:
 		TS_ASSERT(graph.getNode("A::C"));
 	}
 
+	void test_node_in_graph_finds_child_node()
+	{
+		TestGraph graph;
+		Node* a = graph.createNodeHierarchy("A");
+		Node* b = graph.createNodeHierarchy("A::B");
+		Node* c = graph.createNodeHierarchy("A::C");
+
+		Node* x = a->findChildNode(
+			[](Node* n)
+			{
+				return n->getName() == "C";
+			}
+		);
+
+		TS_ASSERT_EQUALS(x, c);
+		TS_ASSERT_DIFFERS(x, b);
+	}
+
+	void test_graph_saves_nodes_with_distinct_signatures()
+	{
+		TestGraph graph;
+		Node* a1 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, "A", "A1");
+		Node* a2 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, "A", "A2");
+		Node* a3 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, "A", "A2");
+
+		TS_ASSERT_DIFFERS(a1, a2);
+		TS_ASSERT_EQUALS(a2, a3);
+
+		Node* c1 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, "B::C", "C1");
+		Node* c2 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, "B::C", "C2");
+		Node* c3 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, "B::C", "C2");
+
+		TS_ASSERT_DIFFERS(c1, c2);
+		TS_ASSERT_EQUALS(c2, c3);
+	}
+
 	void test_graph_creates_multiple_nodes_as_undefined_nodes()
 	{
 		TestGraph graph;
@@ -295,11 +389,11 @@ public:
 		TS_ASSERT_EQUALS("A", graph.getNode("A")->getName());
 		TS_ASSERT_EQUALS(Node::NODE_UNDEFINED, graph.getNode("A")->getType());
 
-		TS_ASSERT_EQUALS("A::B", graph.getNode("A::B")->getName());
+		TS_ASSERT_EQUALS("A::B", graph.getNode("A::B")->getFullName());
 		TS_ASSERT_EQUALS(Node::NODE_UNDEFINED, graph.getNode("A::B")->getType());
 
 		TS_ASSERT_EQUALS(abc, graph.getNode("A::B::C"));
-		TS_ASSERT_EQUALS("A::B::C", graph.getNode("A::B::C")->getName());
+		TS_ASSERT_EQUALS("A::B::C", graph.getNode("A::B::C")->getFullName());
 		TS_ASSERT_EQUALS(Node::NODE_UNDEFINED, graph.getNode("A::B::C")->getType());
 
 		Node* abcde = graph.createNodeHierarchy("A::B::C::D::E");
@@ -307,11 +401,11 @@ public:
 		TS_ASSERT_EQUALS(5, graph.getNodeCount());
 		TS_ASSERT_EQUALS(4, graph.getEdgeCount());
 
-		TS_ASSERT_EQUALS("A::B::C::D", graph.getNode("A::B::C::D")->getName());
+		TS_ASSERT_EQUALS("A::B::C::D", graph.getNode("A::B::C::D")->getFullName());
 		TS_ASSERT_EQUALS(Node::NODE_UNDEFINED, graph.getNode("A::B::C::D")->getType());
 
 		TS_ASSERT_EQUALS(abcde, graph.getNode("A::B::C::D::E"));
-		TS_ASSERT_EQUALS("A::B::C::D::E", graph.getNode("A::B::C::D::E")->getName());
+		TS_ASSERT_EQUALS("A::B::C::D::E", graph.getNode("A::B::C::D::E")->getFullName());
 		TS_ASSERT_EQUALS(Node::NODE_UNDEFINED, graph.getNode("A::B::C::D::E")->getType());
 	}
 
