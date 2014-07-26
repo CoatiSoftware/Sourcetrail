@@ -45,8 +45,7 @@ void Application::loadProject(const std::string& projectSettingsFilePath)
 	m_project->loadProjectSettings(projectSettingsFilePath);
 	m_project->parseCode();
 
-	MessageActivateToken message(1);
-	message.dispatch();
+	MessageActivateToken(1).dispatch();
 }
 
 void Application::loadSource(const std::string& sourceDirectoryPath)
@@ -57,8 +56,15 @@ void Application::loadSource(const std::string& sourceDirectoryPath)
 	m_project->setSourceDirectoryPath(sourceDirectoryPath);
 	m_project->parseCode();
 
-	MessageActivateToken message(1);
-	message.dispatch();
+	MessageActivateToken(1).dispatch();
+}
+
+void Application::reloadProject()
+{
+	m_project->clearStorage();
+	m_project->parseCode();
+
+	MessageActivateToken(1).dispatch();
 }
 
 void Application::handleMessage(MessageLoadProject* message)
@@ -69,4 +75,9 @@ void Application::handleMessage(MessageLoadProject* message)
 void Application::handleMessage(MessageLoadSource* message)
 {
 	loadSource(message->sourceDirectoryPath);
+}
+
+void Application::handleMessage(MessageRefresh* message)
+{
+	reloadProject();
 }

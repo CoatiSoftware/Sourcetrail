@@ -10,6 +10,8 @@
 class Token
 {
 public:
+	static void resetNextId();
+
 	Token();
 	virtual ~Token();
 

@@ -3,6 +3,11 @@
 #include "data/location/TokenLocation.h"
 #include "utility/logging/logging.h"
 
+void Token::resetNextId()
+{
+	s_nextId = 1;
+}
+
 Token::Token()
 	: m_id(s_nextId++)
 {

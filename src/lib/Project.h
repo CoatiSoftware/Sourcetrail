@@ -21,6 +21,7 @@ public:
 
 	bool setSourceDirectoryPath(const std::string& sourceDirectoryPath);
 
+	void clearStorage();
 	void parseCode();
 
 private:

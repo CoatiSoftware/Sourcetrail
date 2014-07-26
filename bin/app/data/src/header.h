@@ -13,7 +13,7 @@ y fooy();
 z fooz();
 */
 
-const bool *ab(int a, int b);
+const bool *ab(int abc, int bca);
 
 bool const *abc(int a, int b);
 

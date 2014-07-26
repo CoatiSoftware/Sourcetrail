@@ -5,6 +5,7 @@
 
 #include "data/access/GraphAccessProxy.h"
 #include "data/access/LocationAccessProxy.h"
+#include "data/graph/Token.h"
 #include "data/parser/cxx/CxxParser.h"
 #include "utility/FileSystem.h"
 #include "utility/logging/logging.h"
@@ -13,11 +14,7 @@
 std::shared_ptr<Project> Project::create(GraphAccessProxy* graphAccessProxy, LocationAccessProxy* locationAccessProxy)
 {
 	std::shared_ptr<Project> ptr(new Project(graphAccessProxy, locationAccessProxy));
-	ptr->m_storage = std::make_shared<Storage>();
-
-	graphAccessProxy->setSubject(ptr->m_storage.get());
-	locationAccessProxy->setSubject(ptr->m_storage.get());
-
+	ptr->clearStorage();
 	return ptr;
 }
 
@@ -40,13 +37,25 @@ bool Project::setSourceDirectoryPath(const std::string& sourceDirectoryPath)
 	return ProjectSettings::getInstance()->setSourcePath(sourceDirectoryPath);
 }
 
+void Project::clearStorage()
+{
+	m_storage = std::make_shared<Storage>();
+
+	m_graphAccessProxy->setSubject(m_storage.get());
+	m_locationAccessProxy->setSubject(m_storage.get());
+
+	Token::resetNextId();
+}
+
 void Project::parseCode()
 {
 	if (ProjectSettings::getInstance()->getSourcePath() != "")
 	{
 		std::vector<std::string> extensions;
 		extensions.push_back(".cpp");
+		extensions.push_back(".cc");
 		extensions.push_back(".h");
+		extensions.push_back(".hpp");
 
 		CxxParser parser(m_storage);
 		parser.parseFiles(
