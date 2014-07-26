@@ -39,22 +39,22 @@ Edge* Graph::getEdge(Edge::EdgeType type, Node* from, Node* to) const
 
 Node* Graph::getNodeById(Id id) const
 {
-	return findNode(
-		[id](Node* n)
-		{
-			return n->getId() == id;
-		}
-	);
+	std::map<Id, std::shared_ptr<Node>>::const_iterator it = m_nodes.find(id);
+	if (it != m_nodes.end())
+	{
+		return it->second.get();
+	}
+	return nullptr;
 }
 
 Edge* Graph::getEdgeById(Id id) const
 {
-	return findEdge(
-		[id](Edge* e)
-		{
-			return e->getId() == id;
-		}
-	);
+	std::map<Id, std::shared_ptr<Edge>>::const_iterator it = m_edges.find(id);
+	if (it != m_edges.end())
+	{
+		return it->second.get();
+	}
+	return nullptr;
 }
 
 Token* Graph::getTokenById(Id id) const
@@ -158,15 +158,7 @@ Edge* Graph::createEdge(Edge::EdgeType type, Node* from, Node* to)
 
 void Graph::removeNode(Node* node)
 {
-	std::vector<std::shared_ptr<Node> >::const_iterator it;
-	for (it = m_nodes.begin(); it != m_nodes.end(); it++)
-	{
-		if (it->get() == node)
-		{
-			break;
-		}
-	}
-
+	std::map<Id, std::shared_ptr<Node>>::const_iterator it = m_nodes.find(node->getId());
 	if (it == m_nodes.end())
 	{
 		LOG_WARNING("Node was not found in the graph.");
@@ -198,15 +190,7 @@ void Graph::removeNode(Node* node)
 
 void Graph::removeEdge(Edge* edge)
 {
-	std::vector<std::shared_ptr<Edge> >::const_iterator it;
-	for (it = m_edges.begin(); it != m_edges.end(); it++)
-	{
-		if (it->get() == edge)
-		{
-			break;
-		}
-	}
-
+	std::map<Id, std::shared_ptr<Edge>>::const_iterator it = m_edges.find(edge->getId());
 	if (it == m_edges.end())
 	{
 		LOG_WARNING("Edge was not found in the graph.");
@@ -223,16 +207,16 @@ void Graph::removeEdge(Edge* edge)
 
 Node* Graph::findNode(std::function<bool(Node*)> func) const
 {
-	std::vector<std::shared_ptr<Node> >::const_iterator it = find_if(m_nodes.begin(), m_nodes.end(),
-		[&func](const std::shared_ptr<Node>& n)
+	std::map<Id, std::shared_ptr<Node>>::const_iterator it = find_if(m_nodes.begin(), m_nodes.end(),
+		[&func](const std::pair<Id, std::shared_ptr<Node>>& n)
 		{
-			return func(n.get());
+			return func(n.second.get());
 		}
 	);
 
 	if (it != m_nodes.end())
 	{
-		return it->get();
+		return it->second.get();
 	}
 
 	return nullptr;
@@ -240,16 +224,16 @@ Node* Graph::findNode(std::function<bool(Node*)> func) const
 
 Edge* Graph::findEdge(std::function<bool(Edge*)> func) const
 {
-	std::vector<std::shared_ptr<Edge> >::const_iterator it = find_if(m_edges.begin(), m_edges.end(),
-		[func](const std::shared_ptr<Edge>& e)
+	std::map<Id, std::shared_ptr<Edge>>::const_iterator it = find_if(m_edges.begin(), m_edges.end(),
+		[func](const std::pair<Id, std::shared_ptr<Edge>>& e)
 		{
-			return func(e.get());
+			return func(e.second.get());
 		}
 	);
 
 	if (it != m_edges.end())
 	{
-		return it->get();
+		return it->second.get();
 	}
 
 	return nullptr;
@@ -274,17 +258,17 @@ Token* Graph::findToken(std::function<bool(Token*)> func) const
 
 void Graph::forEachNode(std::function<void(Node*)> func) const
 {
-	for (const std::shared_ptr<Node>& node : m_nodes)
+	for (const std::pair<Id, std::shared_ptr<Node>>& node : m_nodes)
 	{
-		func(node.get());
+		func(node.second.get());
 	}
 }
 
 void Graph::forEachEdge(std::function<void(Edge*)> func) const
 {
-	for (const std::shared_ptr<Edge>& edge : m_edges)
+	for (const std::pair<Id, std::shared_ptr<Edge>>& edge : m_edges)
 	{
-		func(edge.get());
+		func(edge.second.get());
 	}
 }
 
@@ -300,12 +284,12 @@ void Graph::clear()
 	m_nodes.clear();
 }
 
-const std::vector<std::shared_ptr<Node> >& Graph::getNodes() const
+const std::map<Id, std::shared_ptr<Node> >& Graph::getNodes() const
 {
 	return m_nodes;
 }
 
-const std::vector<std::shared_ptr<Edge> >& Graph::getEdges() const
+const std::map<Id, std::shared_ptr<Edge> >& Graph::getEdges() const
 {
 	return m_edges;
 }
@@ -319,7 +303,7 @@ Node* Graph::addNodeAsPlainCopy(Node* node)
 	}
 
 	std::shared_ptr<Node> copy = std::make_shared<Node>(*node);
-	m_nodes.push_back(copy);
+	m_nodes.emplace(copy->getId(), copy);
 	return copy.get();
 }
 
@@ -335,7 +319,7 @@ Edge* Graph::addEdgeAsPlainCopy(Edge* edge)
 	Node* to = addNodeAsPlainCopy(edge->getTo());
 
 	std::shared_ptr<Edge> copy = std::make_shared<Edge>(*edge, from, to);
-	m_edges.push_back(copy);
+	m_edges.emplace(copy->getId(), copy);
 	return copy.get();
 }
 
@@ -395,7 +379,7 @@ Node* Graph::insertNodeHierarchy(Node::NodeType type, std::deque<std::string> na
 Node* Graph::insertNode(Node::NodeType type, const std::string& name, Node* parentNode)
 {
 	std::shared_ptr<Node> nodePtr = std::make_shared<Node>(type, name);
-	m_nodes.push_back(nodePtr);
+	m_nodes.emplace(nodePtr->getId(), nodePtr);
 
 	Node* node = nodePtr.get();
 
@@ -410,20 +394,17 @@ Node* Graph::insertNode(Node::NodeType type, const std::string& name, Node* pare
 Edge* Graph::insertEdge(Edge::EdgeType type, Node* from, Node* to)
 {
 	std::shared_ptr<Edge> edgePtr = std::make_shared<Edge>(type, from, to);
-	m_edges.push_back(edgePtr);
+	m_edges.emplace(edgePtr->getId(), edgePtr);
 	return edgePtr.get();
 }
 
 void Graph::removeEdgeInternal(Edge* edge)
 {
-	std::vector<std::shared_ptr<Edge> >::const_iterator it;
-	for (it = m_edges.begin(); it != m_edges.end(); it++)
+	std::map<Id, std::shared_ptr<Edge> >::const_iterator it = m_edges.find(edge->getId());
+	if (it != m_edges.end() && it->second.get() == edge)
 	{
-		if (it->get() == edge)
-		{
-			m_edges.erase(it);
-			return;
-		}
+		m_edges.erase(it);
+		return;
 	}
 }
 

@@ -1,10 +1,10 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+#include <map>
 #include <memory>
 #include <ostream>
 #include <deque>
-#include <vector>
 
 #include "data/graph/Edge.h"
 #include "data/graph/Node.h"
@@ -49,8 +49,8 @@ public:
 	void clear();
 
 protected:
-	const std::vector<std::shared_ptr<Node> >& getNodes() const;
-	const std::vector<std::shared_ptr<Edge> >& getEdges() const;
+	const std::map<Id, std::shared_ptr<Node>>& getNodes() const;
+	const std::map<Id, std::shared_ptr<Edge>>& getEdges() const;
 
 private:
 	static const std::string DELIMITER;
@@ -63,8 +63,8 @@ private:
 
 	const std::string m_delimiter;
 
-	std::vector<std::shared_ptr<Node> > m_nodes;
-	std::vector<std::shared_ptr<Edge> > m_edges;
+	std::map<Id, std::shared_ptr<Node>> m_nodes;
+	std::map<Id, std::shared_ptr<Edge>> m_edges;
 
 	friend std::ostream& operator<<(std::ostream& ostream, const Graph& graph);
 };
