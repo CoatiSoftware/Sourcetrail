@@ -37,10 +37,10 @@ public:
 
 	QtCodeSnippet(
 		QtCodeView* parentView,
+		int startLineNumber,
 		const std::string& code,
 		const TokenLocationFile& locationFile,
-		int startLineNumber,
-		Id activeTokenId,
+		const std::vector<Id>& activeTokenIds,
 		QWidget *parent = 0
 	);
 	virtual ~QtCodeSnippet();
@@ -81,7 +81,7 @@ private:
 
 	QWidget *m_lineNumberArea;
 	const int m_startLineNumber;
-	const Id m_activeTokenId;
+	const std::vector<Id> m_activeTokenIds;
 	int m_digits;
 
 	std::vector<Annotation> m_annotations;

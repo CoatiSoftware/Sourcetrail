@@ -14,10 +14,10 @@ public:
 	{
 		CodeSnippetParams();
 
+		int startLineNumber;
 		std::string code;
 		TokenLocationFile locationFile;
-		int startLineNumber;
-		Id activeTokenId;
+		std::vector<Id> activeTokenIds;
 	};
 
 	CodeView(ViewLayout* viewLayout);

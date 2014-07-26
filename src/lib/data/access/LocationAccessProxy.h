@@ -13,7 +13,7 @@ public:
 	void setSubject(LocationAccess* subject);
 
 	// LocationAccess implementation
-	virtual TokenLocationCollection getTokenLocationsForTokenId(Id id) const;
+	virtual TokenLocationCollection getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const;
 	virtual TokenLocationFile getTokenLocationsForLinesInFile(
 		const std::string& fileName, unsigned int firstLineNumber, unsigned int lastLineNumber
 	) const;

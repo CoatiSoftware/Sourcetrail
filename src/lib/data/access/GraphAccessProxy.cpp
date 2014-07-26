@@ -166,3 +166,23 @@ bool GraphAccessProxy::checkTokenIsNode(const Id id) const
 
 	return false;
 }
+
+std::vector<Id> GraphAccessProxy::getActiveTokenIdsForId(Id tokenId) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getActiveTokenIdsForId(tokenId);
+	}
+
+	return std::vector<Id>();
+}
+
+std::vector<Id> GraphAccessProxy::getLocationIdsForTokenIds(const std::vector<Id>& tokenIds) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getLocationIdsForTokenIds(tokenIds);
+	}
+
+	return std::vector<Id>();
+}

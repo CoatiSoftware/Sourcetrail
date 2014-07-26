@@ -28,7 +28,7 @@ ComponentFactory::~ComponentFactory()
 std::shared_ptr<Component> ComponentFactory::createCodeComponent()
 {
 	std::shared_ptr<CodeView> view = m_viewFactory->createCodeView(m_viewLayout);
-	std::shared_ptr<CodeController> controller = std::make_shared<CodeController>(m_locationAccess);
+	std::shared_ptr<CodeController> controller = std::make_shared<CodeController>(m_graphAccess, m_locationAccess);
 
 	std::shared_ptr<Component> component = std::make_shared<Component>(view, controller);
 	return component;

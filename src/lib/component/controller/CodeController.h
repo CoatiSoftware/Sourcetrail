@@ -10,7 +10,9 @@
 #include "utility/types.h"
 
 class CodeView;
+class GraphAccess;
 class LocationAccess;
+class TokenLocationFile;
 
 struct AnnotatedText
 {
@@ -24,7 +26,7 @@ class CodeController
 	, public MessageListener<MessageRefresh>
 {
 public:
-	CodeController(LocationAccess* locationAccess);
+	CodeController(GraphAccess* graphAccess, LocationAccess* locationAccess);
 	~CodeController();
 
 	void setActiveTokenId(Id id);
@@ -32,8 +34,12 @@ public:
 private:
 	virtual void handleMessage(MessageActivateToken* message);
 	virtual void handleMessage(MessageRefresh* message);
+
 	CodeView* getView();
 
+	std::vector<std::pair<uint, uint>> getSnippetRangesForFile(TokenLocationFile* file, const uint lineRadius) const;
+
+	GraphAccess* m_graphAccess;
 	LocationAccess* m_locationAccess;
 };
 

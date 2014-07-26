@@ -34,16 +34,16 @@ void QtCodeSnippet::LineNumberArea::paintEvent(QPaintEvent *event)
 
 QtCodeSnippet::QtCodeSnippet(
 	QtCodeView* parentView,
+	int startLineNumber,
 	const std::string& code,
 	const TokenLocationFile& locationFile,
-	int startLineNumber,
-	Id activeTokenId,
+	const std::vector<Id>& activeTokenIds,
 	QWidget *parent
 )
 	: QPlainTextEdit(parent)
 	, m_parentView(parentView)
 	, m_startLineNumber(startLineNumber)
-	, m_activeTokenId(activeTokenId)
+	, m_activeTokenIds(activeTokenIds)
 	, m_digits(0)
 {
 	setObjectName("code_snippet");
@@ -171,7 +171,9 @@ void QtCodeSnippet::annotateText(const TokenLocationFile& locationFile)
 			m_annotations.push_back(annotation);
 
 			Colori color;
-			if (location->getTokenId() == m_activeTokenId)
+			const std::vector<Id>& ids = m_activeTokenIds;
+			bool isActive = std::find(ids.begin(), ids.end(), location->getTokenId()) != ids.end();
+			if (isActive)
 			{
 				color = ApplicationSettings::getInstance()->getCodeActiveLinkColor();
 			}

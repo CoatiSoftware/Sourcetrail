@@ -2,6 +2,7 @@
 #define LOCATION_ACCESS_H
 
 #include <string>
+#include <vector>
 
 #include "utility/types.h"
 
@@ -12,7 +13,7 @@ class LocationAccess
 {
 public:
 	virtual ~LocationAccess();
-	virtual TokenLocationCollection getTokenLocationsForTokenId(Id id) const = 0;
+	virtual TokenLocationCollection getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const = 0;
 	virtual TokenLocationFile getTokenLocationsForLinesInFile(
 		const std::string& fileName, unsigned int firstLineNumber, unsigned int lastLineNumber
 	) const = 0;

@@ -22,7 +22,10 @@ public:
 	const std::string& getFileName() const;
 
 	void addCodeSnippet(
-		const std::string& str, const TokenLocationFile& locationFile, int startLineNumber, Id activeTokenId
+		int startLineNumber,
+		const std::string& code,
+		const TokenLocationFile& locationFile,
+		const std::vector<Id>& activeTokenIds
 	);
 
 private:

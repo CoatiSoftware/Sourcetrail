@@ -36,10 +36,13 @@ const std::string& QtCodeFile::getFileName() const
 }
 
 void QtCodeFile::addCodeSnippet(
-	const std::string& str, const TokenLocationFile& locationFile, int startLineNumber, Id activeTokenId
+	int startLineNumber,
+	const std::string& code,
+	const TokenLocationFile& locationFile,
+	const std::vector<Id>& activeTokenIds
 ){
 	std::shared_ptr<QtCodeSnippet> snippet(
-		new QtCodeSnippet(m_parentView, str, locationFile, startLineNumber, activeTokenId, this)
+		new QtCodeSnippet(m_parentView, startLineNumber, code, locationFile, activeTokenIds, this)
 	);
 	layout()->addWidget(snippet.get());
 	m_snippets.push_back(snippet);

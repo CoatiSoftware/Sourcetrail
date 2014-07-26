@@ -81,8 +81,11 @@ public:
 
 	virtual bool checkTokenIsNode(const Id id) const;
 
+	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId) const;
+	virtual std::vector<Id> getLocationIdsForTokenIds(const std::vector<Id>& tokenIds) const;
+
 	// LocationAccess implementation
-	virtual TokenLocationCollection getTokenLocationsForTokenId(Id locationId) const;
+	virtual TokenLocationCollection getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const;
 	virtual TokenLocationFile getTokenLocationsForLinesInFile(
 		const std::string& fileName, unsigned int firstLineNumber, unsigned int lastLineNumber
 	) const;

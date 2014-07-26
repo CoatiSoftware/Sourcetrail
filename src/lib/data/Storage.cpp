@@ -387,17 +387,62 @@ bool Storage::checkTokenIsNode(const Id id) const
 	return false;
 }
 
-TokenLocationCollection Storage::getTokenLocationsForTokenId(Id id) const
+std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId) const
 {
-	TokenLocationCollection ret;
-
-	Token* token = m_graph.getTokenById(id);
+	std::vector<Id> ret;
+	Token* token = m_graph.getTokenById(tokenId);
 	if (!token)
 	{
 		return ret;
 	}
 
-	std::vector<Id> locationIds = token->getLocationIds();
+	Node* node;
+	if (token->isEdge())
+	{
+		node = dynamic_cast<Edge*>(token)->getTo();
+	}
+	else
+	{
+		node = dynamic_cast<Node*>(token);
+	}
+
+	ret.push_back(node->getId());
+
+	node->forEachEdge(
+		[&node, &ret](Edge* e)
+		{
+			if (e->getTo() == node)
+			{
+				ret.push_back(e->getId());
+			}
+		}
+	);
+
+	return ret;
+}
+
+std::vector<Id> Storage::getLocationIdsForTokenIds(const std::vector<Id>& tokenIds) const
+{
+	std::vector<Id> ret;
+
+	for (Id tokenId : tokenIds)
+	{
+		Token* token = m_graph.getTokenById(tokenId);
+		if (!token)
+		{
+			continue;
+		}
+
+		ret.insert(ret.end(), token->getLocationIds().begin(), token->getLocationIds().end());
+	}
+
+	return ret;
+}
+
+TokenLocationCollection Storage::getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const
+{
+	TokenLocationCollection ret;
+
 	for (Id locationId: locationIds)
 	{
 		TokenLocation* location = m_locationCollection.findTokenLocationById(locationId);

@@ -3,4 +3,6 @@
 
 typedef unsigned long Id;
 
+typedef unsigned int uint;
+
 #endif // TYPES_H

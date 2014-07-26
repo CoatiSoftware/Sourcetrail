@@ -30,6 +30,9 @@ public:
 
 	virtual bool checkTokenIsNode(const Id id) const;
 
+	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId) const;
+	virtual std::vector<Id> getLocationIdsForTokenIds(const std::vector<Id>& tokenIds) const;
+
 private:
 	GraphAccess* m_subject;
 };

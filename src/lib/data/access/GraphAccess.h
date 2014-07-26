@@ -30,6 +30,9 @@ public:
 	virtual std::pair<Id, Id> getNodesOfEdge(const Id id) const = 0;
 
 	virtual bool checkTokenIsNode(const Id id) const = 0;
+
+	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId) const = 0;
+	virtual std::vector<Id> getLocationIdsForTokenIds(const std::vector<Id>& tokenIds) const = 0;
 };
 
 #endif // GRAPH_ACCESS_H

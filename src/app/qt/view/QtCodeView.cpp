@@ -99,7 +99,7 @@ void QtCodeView::doAddCodeSnippet(const CodeSnippetParams params)
 		m_frame->layout()->addWidget(file);
 	}
 
-	file->addCodeSnippet(params.code, params.locationFile, params.startLineNumber, params.activeTokenId);
+	file->addCodeSnippet(params.startLineNumber, params.code, params.locationFile, params.activeTokenIds);
 }
 
 void QtCodeView::doClearCodeSnippets()
