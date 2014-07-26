@@ -6,10 +6,10 @@
 
 struct ParseTypeUsage
 {
-	ParseTypeUsage(const ParseLocation& location, const DataType& type);
+	ParseTypeUsage(const ParseLocation& location, const DataType& dataType);
 
 	const ParseLocation location;
-	const DataType type;
+	const DataType dataType;
 };
 
 #endif // PARSE_TYPE_USAGE_H

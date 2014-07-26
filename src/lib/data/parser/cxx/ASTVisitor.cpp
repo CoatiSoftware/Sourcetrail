@@ -90,7 +90,7 @@ bool ASTVisitor::VisitVarDecl(clang::VarDecl* declaration)
 		if (access == clang::AS_none)
 		{
 			m_client->onGlobalVariableParsed(
-				getParseLocation(declaration->getSourceRange()),
+				getParseLocationForNamedDecl(declaration),
 				getParseVariable(declaration)
 			);
 
@@ -103,7 +103,7 @@ bool ASTVisitor::VisitVarDecl(clang::VarDecl* declaration)
 		else
 		{
 			m_client->onFieldParsed(
-				getParseLocation(declaration->getSourceRange()),
+				getParseLocationForNamedDecl(declaration),
 				getParseVariable(declaration),
 				convertAccessType(declaration->getAccess())
 			);
@@ -118,7 +118,7 @@ bool ASTVisitor::VisitFieldDecl(clang::FieldDecl* declaration)
 	if (hasValidLocation(declaration))
 	{
 		m_client->onFieldParsed(
-			getParseLocation(declaration->getSourceRange()),
+			getParseLocationForNamedDecl(declaration),
 			getParseVariable(declaration),
 			convertAccessType(declaration->getAccess())
 		);
@@ -280,18 +280,10 @@ void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::NamedDecl* decl, clang::
 
 void ASTVisitor::VisitFieldUsageExprInDeclBody(clang::NamedDecl* decl, clang::MemberExpr* expr)
 {
-	const clang::SourceManager& sourceManager = m_context->getSourceManager();
-	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(expr->getSourceRange().getBegin());
-	const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(expr->getSourceRange().getEnd());
-	const std::string exprName = expr->getMemberNameInfo().getAsString();
+	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
 
-	ParseLocation parseLocation(
-		presumedBegin.getFilename(),
-		presumedBegin.getLine(),
-		presumedBegin.getColumn(),
-		presumedEnd.getLine(),
-		presumedEnd.getColumn() + exprName.size() - 1
-	);
+	const std::string exprName = expr->getMemberNameInfo().getAsString();
+	parseLocation.endColumnNumber += exprName.size() - 1;
 
 	m_client->onFieldUsageParsed(
 		parseLocation,
@@ -302,18 +294,10 @@ void ASTVisitor::VisitFieldUsageExprInDeclBody(clang::NamedDecl* decl, clang::Me
 
 void ASTVisitor::VisitGlobalVariableUsageExprInDeclBody(clang::NamedDecl* decl, clang::DeclRefExpr* expr)
 {
-	const clang::SourceManager& sourceManager = m_context->getSourceManager();
-	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(expr->getSourceRange().getBegin());
-	const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(expr->getSourceRange().getEnd());
-	const std::string exprName = expr->getNameInfo().getAsString();
+	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
 
-	ParseLocation parseLocation(
-		presumedBegin.getFilename(),
-		presumedBegin.getLine(),
-		presumedBegin.getColumn(),
-		presumedEnd.getLine(),
-		presumedEnd.getColumn() + exprName.size() - 1
-	);
+	const std::string exprName = expr->getNameInfo().getAsString();
+	parseLocation.endColumnNumber += exprName.size() - 1;
 
 	m_client->onGlobalVariableUsageParsed(
 		parseLocation,
@@ -336,7 +320,6 @@ ParseLocation ASTVisitor::getParseLocation(const clang::SourceRange& sourceRange
 	}
 
 	const clang::SourceManager& sourceManager = m_context->getSourceManager();
-
 	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(sourceRange.getBegin());
 	const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(sourceRange.getEnd());
 
@@ -349,15 +332,21 @@ ParseLocation ASTVisitor::getParseLocation(const clang::SourceRange& sourceRange
 	);
 }
 
-ParseTypeUsage ASTVisitor::getParseTypeUsage(clang::ValueDecl* declaration) const
+ParseLocation ASTVisitor::getParseLocationForNamedDecl(clang::NamedDecl* decl) const
 {
-	return ParseTypeUsage(
-		getParseLocation(declaration->getSourceRange()),
-		utility::qualTypeToDataType(declaration->getType())
+	const clang::SourceManager& sourceManager = m_context->getSourceManager();
+	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(decl->getLocation());
+
+	return ParseLocation(
+		presumedBegin.getFilename(),
+		presumedBegin.getLine(),
+		presumedBegin.getColumn(),
+		presumedBegin.getLine(),
+		presumedBegin.getColumn() + decl->getNameAsString().size() - 1
 	);
 }
 
-ParseVariable ASTVisitor::getParseVariable(clang::ValueDecl* declaration) const
+ParseVariable ASTVisitor::getParseVariable(clang::DeclaratorDecl* declaration) const
 {
 	bool isStatic = false;
 	if (clang::isa<clang::VarDecl>(declaration))
@@ -367,34 +356,47 @@ ParseVariable ASTVisitor::getParseVariable(clang::ValueDecl* declaration) const
 	}
 
 	return ParseVariable(
-		utility::qualTypeToDataType(declaration->getType()),
+		getParseTypeUsage(declaration),
 		declaration->getQualifiedNameAsString(),
 		isStatic
 	);
 }
 
+ParseTypeUsage ASTVisitor::getParseTypeUsage(clang::DeclaratorDecl* declaration) const
+{
+	clang::TypeLoc loc = declaration->getTypeSourceInfo()->getTypeLoc();
+
+	while (loc.getNextTypeLoc())
+	{
+		loc = loc.getNextTypeLoc();
+	}
+
+	ParseLocation parseLocation = getParseLocation(loc.getSourceRange());
+	DataType dataType = utility::qualTypeToDataType(declaration->getType());
+
+	parseLocation.endColumnNumber += dataType.getRawTypeName().size() - 1;
+
+	return ParseTypeUsage(parseLocation, dataType);
+}
+
 ParseTypeUsage ASTVisitor::getParseTypeUsageOfReturnType(clang::FunctionDecl* declaration) const
 {
 	// TODO: use FunctionDecl::getReturnTypeSourceRange() in newer clang version
-	clang::SourceRange range;
 	const clang::TypeSourceInfo *TSI = declaration->getTypeSourceInfo();
-	if (TSI)
+	const clang::FunctionTypeLoc FTL = TSI->getTypeLoc().IgnoreParens().getAs<clang::FunctionTypeLoc>();
+	clang::TypeLoc loc = FTL.getReturnLoc();
+
+	while (loc.getNextTypeLoc())
 	{
-		clang::FunctionTypeLoc FTL = TSI->getTypeLoc().IgnoreParens().getAs<clang::FunctionTypeLoc>();
-		if (FTL)
-		{
-			// Skip self-referential return types.
-			range = clang::SourceRange(
-				FTL.getReturnLoc().getLocStart(),
-				declaration->getNameInfo().getLocStart().getLocWithOffset(-2)
-			);
-		}
+		loc = loc.getNextTypeLoc();
 	}
 
-	return ParseTypeUsage(
-		getParseLocation(range),
-		utility::qualTypeToDataType(declaration->getReturnType())
-	);
+	ParseLocation parseLocation = getParseLocation(loc.getSourceRange());
+	DataType dataType = utility::qualTypeToDataType(declaration->getReturnType());
+
+	parseLocation.endColumnNumber += dataType.getRawTypeName().size() - 1;
+
+	return ParseTypeUsage(parseLocation, dataType);
 }
 
 std::vector<ParseTypeUsage> ASTVisitor::getParameters(clang::FunctionDecl* declaration) const

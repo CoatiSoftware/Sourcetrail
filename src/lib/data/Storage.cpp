@@ -113,7 +113,7 @@ void Storage::onFunctionParsed(
 
 	Node* node = m_graph.createNodeHierarchyWithDistinctSignature(
 		Node::NODE_FUNCTION, fullName,
-		ParserClient::functionSignatureStr(returnType.type, fullName, parameters, false)
+		ParserClient::functionSignatureStr(returnType.dataType, fullName, parameters, false)
 	);
 	addTokenLocation(node, location);
 
@@ -134,7 +134,7 @@ void Storage::onMethodParsed(
 
 	Node* node = m_graph.createNodeHierarchyWithDistinctSignature(
 		Node::NODE_METHOD, fullName,
-		ParserClient::functionSignatureStr(returnType.type, fullName, parameters, isConst)
+		ParserClient::functionSignatureStr(returnType.dataType, fullName, parameters, isConst)
 	);
 
 	if (isConst)
@@ -492,7 +492,7 @@ Edge* Storage::addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeU
 		return nullptr;
 	}
 
-	Edge* edge = addTypeEdge(node, edgeType, typeUsage.type);
+	Edge* edge = addTypeEdge(node, edgeType, typeUsage.dataType);
 
 	addTokenLocation(edge, typeUsage.location);
 	return edge;

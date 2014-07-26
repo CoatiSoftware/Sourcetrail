@@ -63,7 +63,7 @@ std::string ParserClient::addLocationSuffix(const std::string& str, const ParseL
 
 std::string ParserClient::variableStr(const ParseVariable& variable)
 {
-	std::string str = variable.type.getFullTypeName() + " " + variable.fullName;
+	std::string str = variable.type.dataType.getFullTypeName() + " " + variable.fullName;
 	return addStaticPrefix(str, variable.isStatic);
 }
 
@@ -72,7 +72,7 @@ std::string ParserClient::parameterStr(const std::vector<ParseTypeUsage> paramet
 	std::string str = "(";
 	for (size_t i = 0; i < parameters.size(); i++)
 	{
-		str += parameters[i].type.getFullTypeName();
+		str += parameters[i].dataType.getFullTypeName();
 		if (i < parameters.size() - 1)
 		{
 			str += ", ";

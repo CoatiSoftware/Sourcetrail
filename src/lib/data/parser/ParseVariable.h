@@ -3,13 +3,13 @@
 
 #include <string>
 
-#include "data/type/DataType.h"
+#include "data/parser/ParseTypeUsage.h"
 
 struct ParseVariable
 {
-	ParseVariable(const DataType& type, const std::string& fullName, bool isStatic);
+	ParseVariable(const ParseTypeUsage& type, const std::string& fullName, bool isStatic);
 
-	const DataType type;
+	const ParseTypeUsage type;
 	const std::string fullName;
 	const bool isStatic;
 };

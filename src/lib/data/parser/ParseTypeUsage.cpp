@@ -1,7 +1,7 @@
 #include "data/parser/ParseTypeUsage.h"
 
-ParseTypeUsage::ParseTypeUsage(const ParseLocation& location, const DataType& type)
+ParseTypeUsage::ParseTypeUsage(const ParseLocation& location, const DataType& dataType)
 	: location(location)
-	, type(type)
+	, dataType(dataType)
 {
 }

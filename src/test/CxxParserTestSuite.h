@@ -125,10 +125,10 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->globalVariables.size(), 4);
-		TS_ASSERT_EQUALS(client->globalVariables[0], "int x <1:1 1:5>");
-		TS_ASSERT_EQUALS(client->globalVariables[1], "int const y <2:1 2:15>");
-		TS_ASSERT_EQUALS(client->globalVariables[2], "static int z <3:1 3:12>");
-		TS_ASSERT_EQUALS(client->globalVariables[3], "A * b <5:1 5:4>");
+		TS_ASSERT_EQUALS(client->globalVariables[0], "int x <1:5 1:5>");
+		TS_ASSERT_EQUALS(client->globalVariables[1], "int const y <2:11 2:11>");
+		TS_ASSERT_EQUALS(client->globalVariables[2], "static int z <3:12 3:12>");
+		TS_ASSERT_EQUALS(client->globalVariables[3], "A * b <5:4 5:4>");
 	}
 
 	void test_cxx_parser_finds_variable_definitions_in_namespace_scope()
@@ -143,8 +143,8 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->globalVariables.size(), 2);
-		TS_ASSERT_EQUALS(client->globalVariables[0], "int n::x <2:2 2:6>");
-		TS_ASSERT_EQUALS(client->globalVariables[1], "n::A * n::b <4:2 4:5>");
+		TS_ASSERT_EQUALS(client->globalVariables[0], "int n::x <2:6 2:6>");
+		TS_ASSERT_EQUALS(client->globalVariables[1], "n::A * n::b <4:5 4:5>");
 	}
 
 	void test_cxx_parser_finds_field_in_nested_class()
@@ -162,7 +162,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->fields.size(), 1);
-		TS_ASSERT_EQUALS(client->fields[0], "private static int const B::C::amount <7:3 7:20>");
+		TS_ASSERT_EQUALS(client->fields[0], "private static int const B::C::amount <7:20 7:25>");
 	}
 
 	void test_cxx_parser_finds_fields_in_class_with_access_type()
@@ -182,10 +182,10 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->fields.size(), 4);
-		TS_ASSERT_EQUALS(client->fields[0], "private int A::a <3:2 3:6>");
-		TS_ASSERT_EQUALS(client->fields[1], "public int A::b <5:2 5:6>");
-		TS_ASSERT_EQUALS(client->fields[2], "protected static int A::c <6:2 6:13>");
-		TS_ASSERT_EQUALS(client->fields[3], "private int const A::d <8:2 8:12>");
+		TS_ASSERT_EQUALS(client->fields[0], "private int A::a <3:6 3:6>");
+		TS_ASSERT_EQUALS(client->fields[1], "public int A::b <5:6 5:6>");
+		TS_ASSERT_EQUALS(client->fields[2], "protected static int A::c <6:13 6:13>");
+		TS_ASSERT_EQUALS(client->fields[3], "private int const A::d <8:12 8:12>");
 	}
 
 	void test_cxx_parser_finds_function_in_global_namespace()
@@ -751,7 +751,7 @@ public:
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
 		TS_ASSERT_EQUALS(client->typeUses[0], "int <1:1 1:3>");
-		TS_ASSERT_EQUALS(client->typeUses[1], "float <1:10 1:16>");
+		TS_ASSERT_EQUALS(client->typeUses[1], "float <1:10 1:14>");
 	}
 
 	void test_cxx_parser_finds_parameter_type_uses_in_constructor()
@@ -764,10 +764,10 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 4);
-		TS_ASSERT_EQUALS(client->typeUses[0], "int <3:4 3:8>");
-		TS_ASSERT_EQUALS(client->typeUses[1], "_Bool <3:11 3:16>");
-		TS_ASSERT_EQUALS(client->typeUses[2], "float <3:19 3:25>");
-		TS_ASSERT_EQUALS(client->typeUses[3], "int <3:28 3:32>");
+		TS_ASSERT_EQUALS(client->typeUses[0], "int <3:4 3:6>");
+		TS_ASSERT_EQUALS(client->typeUses[1], "_Bool <3:11 3:15>");
+		TS_ASSERT_EQUALS(client->typeUses[2], "float <3:19 3:23>");
+		TS_ASSERT_EQUALS(client->typeUses[3], "int <3:28 3:30>");
 	}
 
 	void test_cxx_parser_parses_multiple_files()
@@ -829,7 +829,7 @@ private:
 			const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
 			const std::vector<ParseTypeUsage>& parameters
 		){
-			std::string str = functionStr(returnType.type, fullName, parameters, false);
+			std::string str = functionStr(returnType.dataType, fullName, parameters, false);
 			functions.push_back(addLocationSuffix(str, location));
 
 			addTypeUse(returnType);
@@ -845,7 +845,7 @@ private:
 			bool isConst, bool isStatic
 		)
 		{
-			std::string str = functionStr(returnType.type, fullName, parameters, isConst);
+			std::string str = functionStr(returnType.dataType, fullName, parameters, isConst);
 			str = addStaticPrefix(addAbstractionPrefix(str, abstraction), isStatic);
 			str = addAccessPrefix(str, access);
 			str = addLocationSuffix(str, location);
@@ -918,7 +918,7 @@ private:
 		{
 			if (use.location.isValid())
 			{
-				typeUses.push_back(addLocationSuffix(use.type.getFullTypeName(), use.location));
+				typeUses.push_back(addLocationSuffix(use.dataType.getFullTypeName(), use.location));
 			}
 		}
 	};
