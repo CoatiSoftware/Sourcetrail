@@ -1,4 +1,7 @@
 ConfigManager.cpp ERROR: value path/to/nowhere is not present in config.
+Token.cpp ERROR: Location Id was not referenced by this Token.
+Node.cpp WARNING: Changing NodeType after it was already set, from namespace to class
+Edge.cpp ERROR: Nodes are not plain copies.
 Graph.cpp ERROR: Can't remove member edge, without removing the child node.
 TextAccess.cpp WARNING: Index 'firstLine' has to be lower or equal index 'lastLine', is 3 > 2
 TextAccess.cpp WARNING: Tried to access index 10. Maximum index is 8

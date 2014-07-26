@@ -2,28 +2,26 @@
 
 #include <sstream>
 
+#include "data/graph/token_component/TokenComponentConst.h"
+#include "data/graph/token_component/TokenComponentStatic.h"
+#include "data/graph/token_component/TokenComponentSignature.h"
 #include "utility/logging/logging.h"
 
 Node::Node(NodeType type, const std::string& name)
 	: m_type(type)
 	, m_name(name)
-	, m_isConst(false)
-	, m_isStatic(false)
+{
+}
+
+Node::Node(const Node& other)
+	: Token(other)
+	, m_type(other.m_type)
+	, m_name(other.m_name)
 {
 }
 
 Node::~Node()
 {
-}
-
-std::shared_ptr<Node> Node::createPlainCopy() const
-{
-	std::shared_ptr<Node> node(new Node(getId(), m_type, m_name));
-
-	node->setConst(m_isConst);
-	node->setStatic(m_isStatic);
-
-	return node;
 }
 
 Node::NodeType Node::getType() const
@@ -33,11 +31,12 @@ Node::NodeType Node::getType() const
 
 void Node::setType(NodeType type)
 {
-	if (type != m_type && m_type != NODE_NAMESPACE && m_type != NODE_UNDEFINED)
+	if (type != m_type && m_type != NODE_UNDEFINED)
 	{
 		LOG_WARNING(
 			"Changing NodeType after it was already set, from " + getTypeString(m_type) + " to " + getTypeString(type)
 		);
+		return;
 	}
 	m_type = type;
 }
@@ -148,98 +147,52 @@ bool Node::isEdge() const
 	return false;
 }
 
-void Node::setAccess(Edge::AccessType access)
+void Node::addComponentConst(std::shared_ptr<TokenComponentConst> component)
 {
-	if (access != Edge::ACCESS_NONE)
+	if (getComponent<TokenComponentConst>())
 	{
-		if (!getMemberEdge())
-		{
-			LOG_WARNING("Can't set access on node " + getName() + ", because it is not a child.");
-			return;
-		}
-		getMemberEdge()->setAccess(access);
+		LOG_ERROR("TokenComponentConst has been set before!");
+	}
+	else if (m_type != NODE_METHOD)
+	{
+		LOG_ERROR("TokenComponentConst can't be set on node of type: " + getTypeString(m_type));
+	}
+	else
+	{
+		addComponent(component);
 	}
 }
 
-bool Node::isConst() const
+void Node::addComponentStatic(std::shared_ptr<TokenComponentStatic> component)
 {
-	return m_isConst;
-}
-
-void Node::setConst(bool isConst)
-{
-	if (isConst && m_type != NODE_GLOBAL_VARIABLE && m_type != NODE_FIELD && m_type != NODE_METHOD)
+	if (getComponent<TokenComponentStatic>())
 	{
-		LOG_ERROR("Setting const on wrong node of type " + getTypeString(m_type));
-		return;
+		LOG_ERROR("TokenComponentStatic has been set before!");
 	}
-
-	m_isConst = isConst;
-}
-
-bool Node::isStatic() const
-{
-	return m_isStatic;
-}
-
-void Node::setStatic(bool isStatic)
-{
-	if (isStatic && m_type != NODE_GLOBAL_VARIABLE && m_type != NODE_FIELD && m_type != NODE_METHOD)
+	else if (m_type != NODE_GLOBAL_VARIABLE && m_type != NODE_FIELD && m_type != NODE_FUNCTION && m_type != NODE_METHOD)
 	{
-		LOG_ERROR("Setting static on wrong node of type " + getTypeString(m_type));
-		return;
+		LOG_ERROR("TokenComponentStatic can't be set on node of type: " + getTypeString(m_type));
 	}
-
-	m_isStatic = isStatic;
+	else
+	{
+		addComponent(component);
+	}
 }
 
-std::string Node::getSignature() const
+void Node::addComponentSignature(std::shared_ptr<TokenComponentSignature> component)
 {
-	// Signature generation from edges failed, because parameter edges to same type are bundled.
-	// std::string str;
-
-	// Edge* returnTypeEdge = findEdgeOfType(Edge::EDGE_RETURN_TYPE_OF);
-	// str += returnTypeEdge->getComponent<EdgeComponentDataType>()->getDataType().getFullTypeName() + " " + m_name + "(";
-
-	// forEachEdgeOfType(Edge::EDGE_PARAMETER_TYPE_OF,
-	// 	[&str](Edge* edge)
-	// 	{
-	// 		str += edge->getComponent<EdgeComponentDataType>()->getDataType().getFullTypeName() + ", ";
-	// 	}
-	// );
-
-	// if (*str.rbegin() == ' ')
-	// {
-	// 	str.pop_back();
-	// 	str.pop_back();
-	// }
-	// str += ")";
-
-	// if (isConst())
-	// {
-	// 	str += " const";
-	// }
-
-	// return str;
-
-	return m_signature;
-}
-
-void Node::setSignature(const std::string& signature)
-{
-	if (m_type != NODE_FUNCTION && m_type != NODE_METHOD && m_type != NODE_UNDEFINED)
+	if (getComponent<TokenComponentSignature>())
 	{
-		LOG_ERROR("Signature is not supported on node of type " + getTypeString(m_type));
-		return;
+		LOG_ERROR("TokenComponentSignature has been set before!");
 	}
-
-	if (m_signature.size())
+	else if (m_type != NODE_FUNCTION && m_type != NODE_METHOD)
 	{
-		LOG_ERROR("Signature was already set before.");
-		return;
+		LOG_ERROR("TokenComponentSignature can't be set on node of type: " + getTypeString(m_type));
 	}
-
-	m_signature = signature;
+	else
+	{
+		addComponent(component);
+	}
 }
 
 std::string Node::getTypeString(NodeType type) const
@@ -247,7 +200,7 @@ std::string Node::getTypeString(NodeType type) const
 	switch (type)
 	{
 	case NODE_UNDEFINED:
-		return "type";
+		return "undefined";
 	case NODE_CLASS:
 		return "class";
 	case NODE_STRUCT:
@@ -275,26 +228,17 @@ std::string Node::getAsString() const
 	std::stringstream str;
 	str << "[" << getId() << "] " << getTypeString(m_type) << ": " << "\"" << getName() << "\"";
 
-	if (isStatic())
+	if (getComponent<TokenComponentStatic>())
 	{
 		str << " static";
 	}
 
-	if (isConst())
+	if (getComponent<TokenComponentConst>())
 	{
 		str << " const";
 	}
 
 	return str.str();
-}
-
-Node::Node(Id id, NodeType type, const std::string& name)
-	: Token(id)
-	, m_type(type)
-	, m_name(name)
-	, m_isConst(false)
-	, m_isStatic(false)
-{
 }
 
 std::ostream& operator<<(std::ostream& ostream, const Node& node)

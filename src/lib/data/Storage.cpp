@@ -1,6 +1,8 @@
 #include "data/Storage.h"
 
-#include "data/graph/edgeComponent/EdgeComponentDataType.h"
+#include "data/graph/token_component/TokenComponentConst.h"
+#include "data/graph/token_component/TokenComponentDataType.h"
+#include "data/graph/token_component/TokenComponentStatic.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
 #include "data/location/TokenLocationLine.h"
@@ -41,12 +43,9 @@ void Storage::onTypedefParsed(
 ){
 	log("typedef", fullName + " -> " + underlyingType.getFullTypeName(), location);
 
-	Node* node = m_graph.createNodeHierarchy(fullName);
-	node->setType(Node::NODE_TYPEDEF);
-	node->setAccess(convertAccessType(access));
-
+	Node* node = m_graph.createNodeHierarchy(Node::NODE_TYPEDEF, fullName);
+	addAccess(node, access);
 	addTokenLocation(node, location);
-
 	addTypeEdge(node, Edge::EDGE_TYPEDEF_OF, underlyingType);
 }
 
@@ -54,10 +53,8 @@ void Storage::onClassParsed(const ParseLocation& location, const std::string& fu
 {
 	log("class", fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(fullName);
-	node->setType(Node::NODE_CLASS);
-	node->setAccess(convertAccessType(access));
-
+	Node* node = m_graph.createNodeHierarchy(Node::NODE_CLASS, fullName);
+	addAccess(node, access);
 	addTokenLocation(node, location);
 }
 
@@ -65,10 +62,8 @@ void Storage::onStructParsed(const ParseLocation& location, const std::string& f
 {
 	log("struct", fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(fullName);
-	node->setType(Node::NODE_STRUCT);
-	node->setAccess(convertAccessType(access));
-
+	Node* node = m_graph.createNodeHierarchy(Node::NODE_STRUCT, fullName);
+	addAccess(node, access);
 	addTokenLocation(node, location);
 }
 
@@ -76,12 +71,14 @@ void Storage::onGlobalVariableParsed(const ParseLocation& location, const ParseV
 {
 	log("global", variable.fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(variable.fullName);
-	node->setType(Node::NODE_GLOBAL_VARIABLE);
-	node->setStatic(variable.isStatic);
+	Node* node = m_graph.createNodeHierarchy(Node::NODE_GLOBAL_VARIABLE, variable.fullName);
+
+	if (variable.isStatic)
+	{
+		node->addComponentStatic(std::make_shared<TokenComponentStatic>());
+	}
 
 	addTypeEdge(node, Edge::EDGE_TYPE_OF, variable.type);
-
 	addTokenLocation(node, location);
 }
 
@@ -89,19 +86,21 @@ void Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& 
 {
 	log("field", variable.fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(variable.fullName);
-	node->setType(Node::NODE_FIELD);
-	node->setStatic(variable.isStatic);
+	Node* node = m_graph.createNodeHierarchy(Node::NODE_FIELD, variable.fullName);
+
+	if (variable.isStatic)
+	{
+		node->addComponentStatic(std::make_shared<TokenComponentStatic>());
+	}
 
 	if (access == ACCESS_NONE)
 	{
 		LOG_ERROR("Field needs to have access type [public, protected, private] but has none.");
 		return;
 	}
-	node->setAccess(convertAccessType(access));
+	addAccess(node, access);
 
 	addTypeEdge(node, Edge::EDGE_TYPE_OF, variable.type);
-
 	addTokenLocation(node, location);
 }
 
@@ -113,11 +112,9 @@ void Storage::onFunctionParsed(
 	log("function", fullName, location);
 
 	Node* node = m_graph.createNodeHierarchyWithDistinctSignature(
-		fullName,
+		Node::NODE_FUNCTION, fullName,
 		ParserClient::functionSignatureStr(returnType.type, fullName, parameters, false)
 	);
-	node->setType(Node::NODE_FUNCTION);
-
 	addTokenLocation(node, location);
 
 	addTypeEdge(node, Edge::EDGE_RETURN_TYPE_OF, returnType);
@@ -136,20 +133,26 @@ void Storage::onMethodParsed(
 	log("method", fullName, location);
 
 	Node* node = m_graph.createNodeHierarchyWithDistinctSignature(
-		fullName,
+		Node::NODE_METHOD, fullName,
 		ParserClient::functionSignatureStr(returnType.type, fullName, parameters, isConst)
 	);
 
-	node->setType(Node::NODE_METHOD);
-	node->setConst(isConst);
-	node->setStatic(isStatic);
+	if (isConst)
+	{
+		node->addComponentConst(std::make_shared<TokenComponentConst>());
+	}
+
+	if (isStatic)
+	{
+		node->addComponentStatic(std::make_shared<TokenComponentStatic>());
+	}
 
 	if (access == ACCESS_NONE)
 	{
 		LOG_ERROR("Method needs to have access type [public, protected, private] but has none.");
 		return;
 	}
-	node->setAccess(convertAccessType(access));
+	addAccess(node, access);
 
 	addTokenLocation(node, location);
 
@@ -164,9 +167,7 @@ void Storage::onNamespaceParsed(const ParseLocation& location, const std::string
 {
 	log("namespace", fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(fullName);
-	node->setType(Node::NODE_NAMESPACE);
-
+	Node* node = m_graph.createNodeHierarchy(Node::NODE_NAMESPACE, fullName);
 	addTokenLocation(node, location);
 }
 
@@ -174,10 +175,8 @@ void Storage::onEnumParsed(const ParseLocation& location, const std::string& ful
 {
 	log("enum", fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(fullName);
-	node->setType(Node::NODE_ENUM);
-	node->setAccess(convertAccessType(access));
-
+	Node* node = m_graph.createNodeHierarchy(Node::NODE_ENUM, fullName);
+	addAccess(node, access);
 	addTokenLocation(node, location);
 }
 
@@ -185,9 +184,7 @@ void Storage::onEnumFieldParsed(const ParseLocation& location, const std::string
 {
 	log("enum field", fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(fullName);
-	node->setType(Node::NODE_FIELD);
-
+	Node* node = m_graph.createNodeHierarchy(Node::NODE_FIELD, fullName);
 	addTokenLocation(node, location);
 }
 
@@ -200,7 +197,7 @@ void Storage::onInheritanceParsed(
 	Node* baseNode = m_graph.createNodeHierarchy(baseName);
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_INHERITANCE, node, baseNode);
-	edge->setAccess(convertAccessType(access));
+	edge->addComponentAccess(std::make_shared<TokenComponentAccess>(convertAccessType(access)));
 
 	addTokenLocation(edge, location);
 }
@@ -448,26 +445,46 @@ TokenLocationFile Storage::getTokenLocationsForLinesInFile(
 	return ret;
 }
 
-Edge::AccessType Storage::convertAccessType(ParserClient::AccessType access) const
+TokenComponentAccess::AccessType Storage::convertAccessType(ParserClient::AccessType access) const
 {
 	switch (access)
 	{
 	case ACCESS_PUBLIC:
-		return Edge::ACCESS_PUBLIC;
+		return TokenComponentAccess::ACCESS_PUBLIC;
 	case ACCESS_PROTECTED:
-		return Edge::ACCESS_PROTECTED;
+		return TokenComponentAccess::ACCESS_PROTECTED;
 	case ACCESS_PRIVATE:
-		return Edge::ACCESS_PRIVATE;
+		return TokenComponentAccess::ACCESS_PRIVATE;
 	case ACCESS_NONE:
-		return Edge::ACCESS_NONE;
+		return TokenComponentAccess::ACCESS_NONE;
 	}
+}
+
+TokenComponentAccess* Storage::addAccess(Node* node, ParserClient::AccessType access)
+{
+	if (access != ACCESS_NONE)
+	{
+		std::shared_ptr<TokenComponentAccess> ptr = std::make_shared<TokenComponentAccess>(convertAccessType(access));
+		node->getMemberEdge()->addComponentAccess(ptr);
+		return ptr.get();
+	}
+	return nullptr;
 }
 
 Edge* Storage::addTypeEdge(Node* node, Edge::EdgeType edgeType, const DataType& type)
 {
 	Node* typeNode = m_graph.createNodeHierarchy(type.getRawTypeName());
 	Edge* edge = m_graph.createEdge(edgeType, node, typeNode);
-	edge->addComponent(std::make_shared<EdgeComponentDataType>(type.getQualifierList(), type.getModifierStack()));
+
+	// FIXME: When a function uses the same type multiple times then we still only use one edge to save this,
+	// but we can't store multiple DataTypes on this edge at the moment.
+	if (!edge->getComponent<TokenComponentDataType>())
+	{
+		edge->addComponentDataType(
+			std::make_shared<TokenComponentDataType>(type.getQualifierList(), type.getModifierStack())
+		);
+	}
+
 	return edge;
 }
 
@@ -478,10 +495,7 @@ Edge* Storage::addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeU
 		return nullptr;
 	}
 
-	const DataType& type = typeUsage.type;
-	Node* typeNode = m_graph.createNodeHierarchy(type.getRawTypeName());
-	Edge* edge = m_graph.createEdge(edgeType, node, typeNode);
-	edge->addComponent(std::make_shared<EdgeComponentDataType>(type.getQualifierList(), type.getModifierStack()));
+	Edge* edge = addTypeEdge(node, edgeType, typeUsage.type);
 
 	addTokenLocation(edge, typeUsage.location);
 	return edge;

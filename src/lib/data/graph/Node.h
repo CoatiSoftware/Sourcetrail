@@ -9,6 +9,10 @@
 #include "data/graph/Edge.h"
 #include "data/graph/Token.h"
 
+class TokenComponentConst;
+class TokenComponentStatic;
+class TokenComponentSignature;
+
 class Node: public Token
 {
 public:
@@ -27,9 +31,8 @@ public:
 	};
 
 	Node(NodeType type, const std::string& name);
+	Node(const Node& other);
 	virtual ~Node();
-
-	std::shared_ptr<Node> createPlainCopy() const;
 
 	NodeType getType() const;
 	void setType(NodeType type);
@@ -54,36 +57,22 @@ public:
 	virtual bool isNode() const;
 	virtual bool isEdge() const;
 
-	// Additional field accessors for different NodeTypes.
-	void setAccess(Edge::AccessType access);
-
-	bool isConst() const;
-	void setConst(bool isConst);
-
-	bool isStatic() const;
-	void setStatic(bool isStatic);
-
-	std::string getSignature() const;
-	void setSignature(const std::string& signature);
+	// Component setters.
+	void addComponentConst(std::shared_ptr<TokenComponentConst> component);
+	void addComponentStatic(std::shared_ptr<TokenComponentStatic> component);
+	void addComponentSignature(std::shared_ptr<TokenComponentSignature> component);
 
 	// Logging.
 	std::string getTypeString(NodeType type) const;
 	std::string getAsString() const;
 
 private:
-	// Constructor for plain copies.
-	Node(Id id, NodeType type, const std::string& name);
+	void operator=(const Node&);
 
 	NodeType m_type;
 	std::string m_name;
 
 	std::vector<Edge*> m_edges;
-
-	// Additional fields for different NodeTypes.
-	bool m_isConst;
-	bool m_isStatic;
-
-	std::string m_signature;
 };
 
 std::ostream& operator<<(std::ostream& ostream, const Node& node);

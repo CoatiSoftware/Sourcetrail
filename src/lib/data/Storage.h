@@ -7,6 +7,7 @@
 #include "data/access/GraphAccess.h"
 #include "data/access/LocationAccess.h"
 #include "data/graph/Graph.h"
+#include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/parser/ParserClient.h"
 
@@ -87,7 +88,8 @@ public:
 	) const;
 
 private:
-	Edge::AccessType convertAccessType(ParserClient::AccessType access) const;
+	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;
+	TokenComponentAccess* addAccess(Node* node, ParserClient::AccessType access);
 	Edge* addTypeEdge(Node* node, Edge::EdgeType edgeType, const DataType& type);
 	Edge* addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeUsage& typeUsage);
 	TokenLocation* addTokenLocation(Token* token, const ParseLocation& location);

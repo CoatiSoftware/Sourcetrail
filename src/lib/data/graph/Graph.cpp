@@ -1,5 +1,6 @@
 #include "data/graph/Graph.h"
 
+#include "data/graph/token_component/TokenComponentSignature.h"
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
@@ -65,33 +66,52 @@ Token* Graph::getTokenById(Id id) const
 
 Node* Graph::createNodeHierarchy(const std::string& fullName)
 {
-	Node* node = getNode(fullName);
-	if (node)
-	{
-		return node;
-	}
-
-	return insertNodeHierarchy(fullName);
+	return createNodeHierarchy(Node::NODE_UNDEFINED, fullName);
 }
 
-Node* Graph::createNodeHierarchyWithDistinctSignature(const std::string& fullName, const std::string& signature)
+Node* Graph::createNodeHierarchy(Node::NodeType type, const std::string& fullName)
 {
 	Node* node = getNode(fullName);
 	if (node)
 	{
-		if (node->getSignature() == signature)
+		if (type != Node::NODE_UNDEFINED)
 		{
+			node->setType(type);
+		}
+		return node;
+	}
+
+	return insertNodeHierarchy(type, fullName);
+}
+
+Node* Graph::createNodeHierarchyWithDistinctSignature(const std::string& fullName, const std::string& signature)
+{
+	return createNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED, fullName, signature);
+}
+
+Node* Graph::createNodeHierarchyWithDistinctSignature(
+	Node::NodeType type, const std::string& fullName, const std::string& signature
+){
+	Node* node = getNode(fullName);
+	if (node)
+	{
+		if (node->getComponent<TokenComponentSignature>()->getSignature() == signature)
+		{
+			if (type != Node::NODE_UNDEFINED)
+			{
+				node->setType(type);
+			}
 			return node;
 		}
 
-		node = insertNode(fullName, node->getParentNode());
+		node = insertNode(type, fullName, node->getParentNode());
 	}
 	else
 	{
-		node = insertNodeHierarchy(fullName);
+		node = insertNodeHierarchy(type, fullName);
 	}
 
-	node->setSignature(signature);
+	node->addComponentSignature(std::make_shared<TokenComponentSignature>(signature));
 	return node;
 }
 
@@ -268,7 +288,7 @@ Node* Graph::addNodeAsPlainCopy(Node* node)
 		return n;
 	}
 
-	std::shared_ptr<Node> copy = node->createPlainCopy();
+	std::shared_ptr<Node> copy = std::make_shared<Node>(*node);
 	m_nodes.push_back(copy);
 	return copy.get();
 }
@@ -284,32 +304,39 @@ Edge* Graph::addEdgeAsPlainCopy(Edge* edge)
 	Node* from = addNodeAsPlainCopy(edge->getFrom());
 	Node* to = addNodeAsPlainCopy(edge->getTo());
 
-	std::shared_ptr<Edge> copy = edge->createPlainCopy(from, to);
+	std::shared_ptr<Edge> copy = std::make_shared<Edge>(*edge, from, to);
 	m_edges.push_back(copy);
 	return copy.get();
 }
 
 const std::string Graph::DELIMITER = "::";
 
-Node* Graph::insertNodeHierarchy(const std::string& fullName)
+Node* Graph::insertNodeHierarchy(Node::NodeType type, const std::string& fullName)
 {
 	Node* node = nullptr;
 	std::vector<std::string> names = utility::split(fullName, DELIMITER);
 	std::string name;
 
-	for (std::vector<std::string>::iterator it = names.begin(); it != names.end(); it++)
+	for (size_t i = 0; i < names.size(); i++)
 	{
-		if (name.size() > 0)
+		if (i > 0)
 		{
 			name += DELIMITER;
 		}
-		name += *it;
+		name += names[i];
 
 		Node* childNode = getNode(name);
 
 		if (!childNode)
 		{
-			childNode = insertNode(name, node);
+			if (i == names.size() - 1)
+			{
+				childNode = insertNode(type, name, node);
+			}
+			else
+			{
+				childNode = insertNode(Node::NODE_UNDEFINED, name, node);
+			}
 		}
 
 		node = childNode;
@@ -318,9 +345,9 @@ Node* Graph::insertNodeHierarchy(const std::string& fullName)
 	return node;
 }
 
-Node* Graph::insertNode(const std::string& fullName, Node* parentNode)
+Node* Graph::insertNode(Node::NodeType type, const std::string& fullName, Node* parentNode)
 {
-	std::shared_ptr<Node> nodePtr = std::make_shared<Node>(Node::NODE_UNDEFINED, fullName);
+	std::shared_ptr<Node> nodePtr = std::make_shared<Node>(type, fullName);
 	m_nodes.push_back(nodePtr);
 
 	Node* node = nodePtr.get();

@@ -71,10 +71,18 @@ add_files(
 	data/access/GraphAccessProxy.cpp
 	data/access/GraphAccessProxy.h
 
-	data/graph/edgeComponent/EdgeComponent.cpp
-	data/graph/edgeComponent/EdgeComponent.h
-	data/graph/edgeComponent/EdgeComponentDataType.cpp
-	data/graph/edgeComponent/EdgeComponentDataType.h
+	data/graph/token_component/TokenComponent.cpp
+	data/graph/token_component/TokenComponent.h
+	data/graph/token_component/TokenComponentAccess.cpp
+	data/graph/token_component/TokenComponentAccess.h
+	data/graph/token_component/TokenComponentConst.cpp
+	data/graph/token_component/TokenComponentConst.h
+	data/graph/token_component/TokenComponentDataType.cpp
+	data/graph/token_component/TokenComponentDataType.h
+	data/graph/token_component/TokenComponentSignature.cpp
+	data/graph/token_component/TokenComponentSignature.h
+	data/graph/token_component/TokenComponentStatic.cpp
+	data/graph/token_component/TokenComponentStatic.h
 
 	data/graph/Edge.cpp
 	data/graph/Edge.h
