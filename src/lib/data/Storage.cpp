@@ -246,8 +246,21 @@ Id Storage::getIdForNodeWithName(const std::string& fullName) const
 
 std::string Storage::getNameForNodeWithId(Id id) const
 {
-	Node* node = m_graph.getNodeById(id);
-	return (node ? node->getFullName() : "");
+	Token* token = m_graph.getTokenById(id);
+
+	if (!token)
+	{
+		return "";
+	}
+
+	if (token->isEdge())
+	{
+		return dynamic_cast<Edge*>(token)->getName();
+	}
+	else
+	{
+		return dynamic_cast<Node*>(token)->getFullName();
+	}
 }
 
 std::vector<std::string> Storage::getNamesForNodesWithNamePrefix(const std::string& prefix) const

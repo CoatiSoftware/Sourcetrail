@@ -34,6 +34,8 @@ public:
 	Node* getFrom() const;
 	Node* getTo() const;
 
+	std::string getName() const;
+
 	// Token implementation
 	virtual bool isNode() const;
 	virtual bool isEdge() const;

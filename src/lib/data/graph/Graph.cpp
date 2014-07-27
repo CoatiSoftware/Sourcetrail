@@ -59,12 +59,12 @@ Edge* Graph::getEdgeById(Id id) const
 
 Token* Graph::getTokenById(Id id) const
 {
-	return findToken(
-		[id](Token* t)
-		{
-			return t->getId() == id;
-		}
-	);
+	Token* token = getNodeById(id);
+	if (!token)
+	{
+		token = getEdgeById(id);
+	}
+	return token;
 }
 
 Node* Graph::createNodeHierarchy(const std::string& fullName)

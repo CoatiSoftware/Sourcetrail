@@ -53,6 +53,11 @@ Node* Edge::getTo() const
 	return m_to;
 }
 
+std::string Edge::getName() const
+{
+	return getTypeString() + ":" + getFrom()->getFullName() + "->" + getTo()->getFullName();
+}
+
 bool Edge::isNode() const
 {
 	return false;
@@ -101,21 +106,21 @@ std::string Edge::getTypeString() const
 	switch (m_type)
 	{
 	case EDGE_MEMBER:
-		return "has child";
+		return "child";
 	case EDGE_TYPE_OF:
-		return "is type of";
+		return "type use";
 	case EDGE_RETURN_TYPE_OF:
-		return "has return type";
+		return "return type";
 	case EDGE_PARAMETER_TYPE_OF:
-		return "has parameter of type";
+		return "parameter type";
 	case EDGE_INHERITANCE:
-		return "is derived from";
+		return "inheritance";
 	case EDGE_CALL:
-		return "calls";
+		return "call";
 	case EDGE_USAGE:
-		return "uses";
+		return "usage";
 	case EDGE_TYPEDEF_OF:
-		return "is typedef of";
+		return "typedef";
 	}
 	return "";
 }
@@ -123,7 +128,7 @@ std::string Edge::getTypeString() const
 std::string Edge::getAsString() const
 {
 	std::stringstream str;
-	str << "[" << getId() << "] \"" << m_from->getName() << "\" " << getTypeString() << " \"" + m_to->getName() << "\"";
+	str << "[" << getId() << "] " << getTypeString() << ": \"" << m_from->getName() << "\" -> \"" + m_to->getName() << "\"";
 
 	TokenComponentAccess* component = getComponent<TokenComponentAccess>();
 	if (component)

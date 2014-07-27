@@ -360,6 +360,25 @@ public:
 		TS_ASSERT_DIFFERS(x, b);
 	}
 
+	void test_node_has_name_and_full_name()
+	{
+		TestGraph graph;
+		Node* n = graph.createNodeHierarchy("A::B::C");
+
+		TS_ASSERT_EQUALS(n->getName(), "C");
+		TS_ASSERT_EQUALS(n->getFullName(), "A::B::C");
+	}
+
+	void test_edge_has_name()
+	{
+		TestGraph graph;
+		Node* a = graph.createNodeHierarchy(Node::NODE_FUNCTION, "A");
+		Node* b = graph.createNodeHierarchy(Node::NODE_FUNCTION, "B");
+		Edge* e = graph.createEdge(Edge::EDGE_CALL, a, b);
+
+		TS_ASSERT_EQUALS(e->getName(), "call:A->B");
+	}
+
 	void test_graph_saves_nodes_with_distinct_signatures()
 	{
 		TestGraph graph;
