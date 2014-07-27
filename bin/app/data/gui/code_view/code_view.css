@@ -1,4 +1,4 @@
-#code_view #code_file QLabel#title_label {
+#code_file #title_label {
 	background-color: rgb(220,220,220);
 	border-top-right-radius: 10px;
 	font-family: "Source Code Pro";
@@ -6,14 +6,26 @@
 	padding: 4px 12px;
 }
 
-#code_view #code_file #code_snippet {
+#code_snippet {
 	font-family: "Source Code Pro";
 	font-size: 14px;
 	margin-bottom: 2px;
 }
 
-#code_view #code_file #code_snippet #line_number_area {
+#code_snippet #line_number_area {
 	background-color: white;
 	font-family: "Source Code Pro";
 	font-size: 14px;
+}
+
+#code_snippet #maximize_button {
+	border: none;
+	border-image: none;
+	margin: 5px;
+	max-height: 16px;
+	max-width: 16px;
+}
+
+#code_snippet #maximize_button:enabled {
+	border-image: url(data/gui/code_view/images/button_maximize.png);
 }

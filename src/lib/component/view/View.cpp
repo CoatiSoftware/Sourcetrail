@@ -19,7 +19,7 @@ void View::setWidgetWrapper(std::shared_ptr<ViewWidgetWrapper> widgetWrapper)
 	m_widgetWrapper = widgetWrapper;
 }
 
-ViewWidgetWrapper* View::getWidgetWrapper()
+ViewWidgetWrapper* View::getWidgetWrapper() const
 {
 	return m_widgetWrapper.get();
 }

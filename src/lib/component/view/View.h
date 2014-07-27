@@ -27,7 +27,7 @@ public:
 	void setComponent(Component* component);
 
 	void setWidgetWrapper(std::shared_ptr<ViewWidgetWrapper> widgetWrapper);
-	ViewWidgetWrapper* getWidgetWrapper();
+	ViewWidgetWrapper* getWidgetWrapper() const;
 
 	int getMinWidth() const;
 	int getMinHeight() const;

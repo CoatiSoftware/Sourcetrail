@@ -39,14 +39,23 @@ TokenLocationCollection LocationAccessProxy::getTokenLocationsForLocationIds(con
 	return TokenLocationCollection();
 }
 
+TokenLocationFile LocationAccessProxy::getTokenLocationsForFile(const std::string& filePath) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getTokenLocationsForFile(filePath);
+	}
+
+	return TokenLocationFile("");
+}
 
 TokenLocationFile LocationAccessProxy::getTokenLocationsForLinesInFile(
-	const std::string& fileName, unsigned int firstLineNumber, unsigned int lastLineNumber
+	const std::string& filePath, uint firstLineNumber, uint lastLineNumber
 ) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getTokenLocationsForLinesInFile(fileName, firstLineNumber, lastLineNumber);
+		return m_subject->getTokenLocationsForLinesInFile(filePath, firstLineNumber, lastLineNumber);
 	}
 
 	return TokenLocationFile("");

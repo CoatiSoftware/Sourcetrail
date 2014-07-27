@@ -7,6 +7,8 @@ add_files(
 
 	qt/element/QtCodeFile.cpp
 	qt/element/QtCodeFile.h
+	qt/element/QtCodeFileList.cpp
+	qt/element/QtCodeFileList.h
 	qt/element/QtButton.cpp
 	qt/element/QtButton.h
 	qt/element/QtCodeSnippet.cpp

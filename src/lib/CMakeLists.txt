@@ -162,6 +162,7 @@ add_files(
 	utility/messaging/type/MessageLoadProject.h
 	utility/messaging/type/MessageLoadSource.h
 	utility/messaging/type/MessageRefresh.h
+	utility/messaging/type/MessageShowFile.h
 
 	utility/messaging/Message.h
 	utility/messaging/MessageBase.h

@@ -7,6 +7,7 @@
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateToken.h"
 #include "utility/messaging/type/MessageRefresh.h"
+#include "utility/messaging/type/MessageShowFile.h"
 #include "utility/types.h"
 
 class CodeView;
@@ -24,6 +25,7 @@ class CodeController
 	: public Controller
 	, public MessageListener<MessageActivateToken>
 	, public MessageListener<MessageRefresh>
+	, public MessageListener<MessageShowFile>
 {
 public:
 	CodeController(GraphAccess* graphAccess, LocationAccess* locationAccess);
@@ -34,6 +36,7 @@ public:
 private:
 	virtual void handleMessage(MessageActivateToken* message);
 	virtual void handleMessage(MessageRefresh* message);
+	virtual void handleMessage(MessageShowFile* message);
 
 	CodeView* getView();
 

@@ -469,19 +469,39 @@ TokenLocationCollection Storage::getTokenLocationsForLocationIds(const std::vect
 	return ret;
 }
 
-TokenLocationFile Storage::getTokenLocationsForLinesInFile(
-		const std::string& fileName, unsigned int firstLineNumber, unsigned int lastLineNumber
-) const
+TokenLocationFile Storage::getTokenLocationsForFile(const std::string& filePath) const
 {
-	TokenLocationFile ret(fileName);
+	TokenLocationFile ret(filePath);
 
-	TokenLocationFile* locationFile = m_locationCollection.findTokenLocationFileByPath(fileName);
+	TokenLocationFile* locationFile = m_locationCollection.findTokenLocationFileByPath(filePath);
 	if (!locationFile)
 	{
 		return ret;
 	}
 
-	for (unsigned int i = firstLineNumber; i <= lastLineNumber; i++)
+	locationFile->forEachTokenLocation(
+		[&](TokenLocation* tokenLocation) -> void
+		{
+			ret.addTokenLocationAsPlainCopy(tokenLocation);
+		}
+	);
+
+	return ret;
+}
+
+TokenLocationFile Storage::getTokenLocationsForLinesInFile(
+		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
+) const
+{
+	TokenLocationFile ret(filePath);
+
+	TokenLocationFile* locationFile = m_locationCollection.findTokenLocationFileByPath(filePath);
+	if (!locationFile)
+	{
+		return ret;
+	}
+
+	for (uint i = firstLineNumber; i <= lastLineNumber; i++)
 	{
 		TokenLocationLine* locationLine = locationFile->findTokenLocationLineByNumber(i);
 		if (!locationLine)

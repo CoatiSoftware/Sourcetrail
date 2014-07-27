@@ -5,9 +5,8 @@
 
 #include "qt/element/QtCodeSnippet.h"
 
-QtCodeFile::QtCodeFile(QtCodeView* parentView, const std::string& fileName, QWidget *parent)
+QtCodeFile::QtCodeFile(const std::string& fileName, QWidget *parent)
 	: QWidget(parent)
-	, m_parentView(parentView)
 	, m_fileName(fileName)
 {
 	setObjectName("code_file");
@@ -42,8 +41,7 @@ void QtCodeFile::addCodeSnippet(
 	const std::vector<Id>& activeTokenIds
 ){
 	std::shared_ptr<QtCodeSnippet> snippet(
-		new QtCodeSnippet(m_parentView, startLineNumber, code, locationFile, activeTokenIds, this)
-	);
+		new QtCodeSnippet(startLineNumber, code, locationFile, activeTokenIds, this));
 	layout()->addWidget(snippet.get());
 	m_snippets.push_back(snippet);
 

@@ -67,6 +67,19 @@ void CodeController::handleMessage(MessageRefresh* message)
 	getView()->refreshView();
 }
 
+void CodeController::handleMessage(MessageShowFile* message)
+{
+	CodeView::CodeSnippetParams params;
+	params.startLineNumber = message->lineNumber;
+	params.activeTokenIds = message->activeTokenIds;
+
+	std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(message->filePath);
+	params.code = textAccess->getText();
+
+	params.locationFile = m_locationAccess->getTokenLocationsForFile(message->filePath);
+	getView()->showCodeFile(params);
+}
+
 CodeView* CodeController::getView()
 {
 	return Controller::getView<CodeView>();

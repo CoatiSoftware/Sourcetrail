@@ -9,7 +9,8 @@
 #include "utility/types.h"
 
 class QFrame;
-class QtCodeFile;
+class QtCodeFileList;
+class QWidget;
 
 class QtCodeView: public CodeView
 {
@@ -23,24 +24,25 @@ public:
 	virtual void refreshView();
 
 	// CodeView implementation
-	virtual void addCodeSnippet(const CodeSnippetParams params);
+	virtual void showCodeFile(const CodeSnippetParams& params);
+	virtual void addCodeSnippet(const CodeSnippetParams& params);
 	virtual void clearCodeSnippets();
-
-	void activateToken(Id tokenId) const;
 
 private:
 	void doRefreshView();
-	void doAddCodeSnippet(const CodeSnippetParams params);
+	void doShowCodeFile(const CodeSnippetParams& params);
+	void doAddCodeSnippet(const CodeSnippetParams& params);
 	void doClearCodeSnippets();
 
-	void setStyleSheet();
+	QtCodeFileList* getQtCodeFileList() const;
+	QtCodeFileList* createQtCodeFileList() const;
 
-	std::shared_ptr<QFrame> m_frame;
-	std::vector<std::shared_ptr<QtCodeFile> > m_files;
+	void setStyleSheet(QWidget* widget) const;
 
 	QtThreadedFunctor<> m_refreshViewFunctor;
 	QtThreadedFunctor<> m_clearCodeSnippetsFunctor;
-	QtThreadedFunctor<const CodeSnippetParams> m_addCodeSnippetFunctor;
+	QtThreadedFunctor<const CodeSnippetParams&> m_showCodeFileFunctor;
+	QtThreadedFunctor<const CodeSnippetParams&> m_addCodeSnippetFunctor;
 };
 
 # endif // QT_CODE_VIEW_H

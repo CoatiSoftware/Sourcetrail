@@ -3,7 +3,7 @@
 #include "component/view/View.h"
 #include "utility/logging/logging.h"
 
-QWidget* QtViewWidgetWrapper::getWidgetOfView(View* view)
+QWidget* QtViewWidgetWrapper::getWidgetOfView(const View* view)
 {
 	QtViewWidgetWrapper* widgetWrapper = dynamic_cast<QtViewWidgetWrapper*>(view->getWidgetWrapper());
 

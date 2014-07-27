@@ -25,7 +25,8 @@ public:
 
 	virtual std::string getName() const;
 
-	virtual void addCodeSnippet(const CodeSnippetParams params) = 0;
+	virtual void showCodeFile(const CodeSnippetParams& params) = 0;
+	virtual void addCodeSnippet(const CodeSnippetParams& params) = 0;
 	virtual void clearCodeSnippets() = 0;
 
 private:

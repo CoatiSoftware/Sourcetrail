@@ -1,14 +1,17 @@
 #include "qt/element/QtCodeSnippet.h"
 
 #include <QFont>
-#include <QtWidgets>
+#include <QHBoxLayout>
+#include <QPainter>
+#include <QPushButton>
 
 #include "ApplicationSettings.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
 #include "data/location/TokenLocationLine.h"
 #include "qt/utility/QtHighLighter.h"
-#include "qt/view/QtCodeView.h"
+#include "utility/messaging/type/MessageActivateToken.h"
+#include "utility/messaging/type/MessageShowFile.h"
 
 QtCodeSnippet::LineNumberArea::LineNumberArea(QtCodeSnippet *codeSnippet)
 	: QWidget(codeSnippet)
@@ -33,7 +36,6 @@ void QtCodeSnippet::LineNumberArea::paintEvent(QPaintEvent *event)
 
 
 QtCodeSnippet::QtCodeSnippet(
-	QtCodeView* parentView,
 	int startLineNumber,
 	const std::string& code,
 	const TokenLocationFile& locationFile,
@@ -41,10 +43,10 @@ QtCodeSnippet::QtCodeSnippet(
 	QWidget *parent
 )
 	: QPlainTextEdit(parent)
-	, m_parentView(parentView)
 	, m_startLineNumber(startLineNumber)
 	, m_activeTokenIds(activeTokenIds)
 	, m_digits(0)
+	, m_filePath(locationFile.getFilePath())
 {
 	setObjectName("code_snippet");
 	m_lineNumberArea = new LineNumberArea(this);
@@ -66,9 +68,22 @@ QtCodeSnippet::QtCodeSnippet(
 	setPlainText(QString::fromUtf8(displayCode.c_str()));
 	annotateText(locationFile);
 
+	QHBoxLayout* layout = new QHBoxLayout();
+	layout->setMargin(0);
+	layout->setSpacing(0);
+	layout->setAlignment(Qt::AlignTop);
+	setLayout(layout);
+
+	m_maximizeButton = new QPushButton(this);
+	m_maximizeButton->setObjectName("maximize_button");
+	m_maximizeButton->setEnabled(false);
+	layout->addWidget(m_maximizeButton);
+	layout->setAlignment(m_maximizeButton, Qt::AlignRight);
+	connect(m_maximizeButton, SIGNAL(clicked()), this, SLOT(clickedMaximizeButton()));
+
 	connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
 	connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
-	connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(clickTokenLocation()));
+	connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(clickedTokenLocation()));
 	connect(this, SIGNAL(selectionChanged()), this, SLOT(clearSelection()));
 
 	m_digits = lineNumberDigits();
@@ -213,6 +228,16 @@ void QtCodeSnippet::showEvent(QShowEvent* event)
 	setMaximumHeight(sizeHint().height());
 }
 
+void QtCodeSnippet::enterEvent(QEvent* event)
+{
+	m_maximizeButton->setEnabled(true);
+}
+
+void QtCodeSnippet::leaveEvent(QEvent* event)
+{
+	m_maximizeButton->setEnabled(false);
+}
+
 void QtCodeSnippet::updateLineNumberAreaWidth(int /* newBlockCount */)
 {
 	setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
@@ -235,7 +260,7 @@ void QtCodeSnippet::updateLineNumberArea(const QRect &rect, int dy)
 	}
 }
 
-void QtCodeSnippet::clickTokenLocation()
+void QtCodeSnippet::clickedTokenLocation()
 {
 	int clickPosition = textCursor().position();
 	int diff = endTextEditPosition() + 1;
@@ -256,8 +281,13 @@ void QtCodeSnippet::clickTokenLocation()
 
 	if (tokenId)
 	{
-		m_parentView->activateToken(tokenId);
+		MessageActivateToken(tokenId).dispatch();
 	}
+}
+
+void QtCodeSnippet::clickedMaximizeButton()
+{
+	MessageShowFile(m_filePath, m_startLineNumber, m_activeTokenIds).dispatch();
 }
 
 void QtCodeSnippet::clearSelection()

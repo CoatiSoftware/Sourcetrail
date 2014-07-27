@@ -86,8 +86,9 @@ public:
 
 	// LocationAccess implementation
 	virtual TokenLocationCollection getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const;
+	virtual TokenLocationFile getTokenLocationsForFile(const std::string& filePath) const;
 	virtual TokenLocationFile getTokenLocationsForLinesInFile(
-		const std::string& fileName, unsigned int firstLineNumber, unsigned int lastLineNumber
+		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
 	) const;
 
 private:

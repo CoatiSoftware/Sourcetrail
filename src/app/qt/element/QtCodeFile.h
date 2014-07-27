@@ -10,13 +10,12 @@
 #include "utility/types.h"
 
 class QtCodeSnippet;
-class QtCodeView;
 class TokenLocationFile;
 
 class QtCodeFile : public QWidget
 {
 public:
-	QtCodeFile(QtCodeView* parentView, const std::string& fileName, QWidget *parent);
+	QtCodeFile(const std::string& fileName, QWidget *parent = 0);
 	virtual ~QtCodeFile();
 
 	const std::string& getFileName() const;
@@ -29,7 +28,6 @@ public:
 	);
 
 private:
-	QtCodeView* m_parentView;
 	std::vector<std::shared_ptr<QtCodeSnippet> > m_snippets;
 	const std::string m_fileName;
 };

@@ -8,9 +8,9 @@
 #include "utility/types.h"
 
 class QPaintEvent;
+class QPushButton;
 class QResizeEvent;
 class QSize;
-class QtCodeView;
 class QtHighlighter;
 class QWidget;
 class TokenLocationFile;
@@ -29,14 +29,13 @@ public:
 		QSize sizeHint() const;
 
 	protected:
-		void paintEvent(QPaintEvent *event);
+		void paintEvent(QPaintEvent* event);
 
 	private:
 		QtCodeSnippet *m_codeSnippet;
 	};
 
 	QtCodeSnippet(
-		QtCodeView* parentView,
 		int startLineNumber,
 		const std::string& code,
 		const TokenLocationFile& locationFile,
@@ -57,11 +56,14 @@ public:
 protected:
 	virtual void resizeEvent(QResizeEvent *event);
 	virtual void showEvent(QShowEvent* event);
+	virtual void enterEvent(QEvent* event);
+	virtual void leaveEvent(QEvent* event);
 
 private slots:
 	void updateLineNumberAreaWidth(int newBlockCount);
 	void updateLineNumberArea(const QRect &, int);
-	void clickTokenLocation();
+	void clickedTokenLocation();
+	void clickedMaximizeButton();
 	void clearSelection();
 
 private:
@@ -76,15 +78,17 @@ private:
 	int startTextEditPosition() const;
 	int endTextEditPosition() const;
 
-	QtCodeView* m_parentView;
 	QtHighlighter* m_highlighter;
 
-	QWidget *m_lineNumberArea;
+	QWidget* m_lineNumberArea;
+	QPushButton* m_maximizeButton;
+
 	const int m_startLineNumber;
 	const std::vector<Id> m_activeTokenIds;
+	std::vector<Annotation> m_annotations;
 	int m_digits;
 
-	std::vector<Annotation> m_annotations;
+	const std::string m_filePath;
 };
 
 #endif // QT_CODE_SNIPPET_H
