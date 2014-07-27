@@ -34,15 +34,19 @@ private:
 	void doAddCodeSnippet(const CodeSnippetParams& params);
 	void doClearCodeSnippets();
 
-	QtCodeFileList* getQtCodeFileList() const;
-	QtCodeFileList* createQtCodeFileList() const;
+	std::shared_ptr<QtCodeFileList> createQtCodeFileList() const;
 
 	void setStyleSheet(QWidget* widget) const;
+
+	void clearClosedWindows();
 
 	QtThreadedFunctor<> m_refreshViewFunctor;
 	QtThreadedFunctor<> m_clearCodeSnippetsFunctor;
 	QtThreadedFunctor<const CodeSnippetParams&> m_showCodeFileFunctor;
 	QtThreadedFunctor<const CodeSnippetParams&> m_addCodeSnippetFunctor;
+
+	std::shared_ptr<QtCodeFileList> m_widget;
+	std::vector<std::shared_ptr<QtCodeFileList>> m_windows;
 };
 
 # endif // QT_CODE_VIEW_H

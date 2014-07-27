@@ -29,9 +29,14 @@ public:
 
 	void clearCodeSnippets();
 
+	void setActiveTokenIds(const std::vector<Id>& activeTokenIds);
+	void setShowMaximizeButton(bool show);
+
 private:
 	std::shared_ptr<QFrame> m_frame;
 	std::vector<std::shared_ptr<QtCodeFile> > m_files;
+
+	bool m_showMaximizeButton;
 };
 
 #endif // QT_CODE_FILE_LIST

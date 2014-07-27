@@ -7,9 +7,12 @@
 class MessageShowFile: public Message<MessageShowFile>
 {
 public:
-	MessageShowFile(const std::string& filePath, uint lineNumber, const std::vector<Id>& activeTokenIds)
+	MessageShowFile(
+		const std::string& filePath, uint startLineNumber, uint endLineNumber, const std::vector<Id>& activeTokenIds
+	)
 		: filePath(filePath)
-		, lineNumber(lineNumber)
+		, startLineNumber(startLineNumber)
+		, endLineNumber(endLineNumber)
 		, activeTokenIds(activeTokenIds)
 	{
 	}
@@ -20,7 +23,8 @@ public:
 	}
 
 	const std::string filePath;
-	const uint lineNumber;
+	const uint startLineNumber;
+	const uint endLineNumber;
 	const std::vector<Id> activeTokenIds;
 };
 

@@ -8,7 +8,6 @@
 #include "ApplicationSettings.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
-#include "data/location/TokenLocationLine.h"
 #include "qt/utility/QtHighLighter.h"
 #include "utility/messaging/type/MessageActivateToken.h"
 #include "utility/messaging/type/MessageShowFile.h"
@@ -43,20 +42,20 @@ QtCodeSnippet::QtCodeSnippet(
 	QWidget *parent
 )
 	: QPlainTextEdit(parent)
+	, m_maximizeButton(nullptr)
 	, m_startLineNumber(startLineNumber)
+	, m_filePath(locationFile.getFilePath())
 	, m_activeTokenIds(activeTokenIds)
 	, m_digits(0)
-	, m_filePath(locationFile.getFilePath())
 {
 	setObjectName("code_snippet");
-	m_lineNumberArea = new LineNumberArea(this);
-
 	setReadOnly(true);
 	setFrameStyle(QFrame::NoFrame);
 	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setLineWrapMode(QPlainTextEdit::NoWrap);
 
+	m_lineNumberArea = new LineNumberArea(this);
 	m_highlighter = new QtHighlighter(document());
 
 	std::string displayCode = code;
@@ -66,8 +65,31 @@ QtCodeSnippet::QtCodeSnippet(
 	}
 
 	setPlainText(QString::fromUtf8(displayCode.c_str()));
-	annotateText(locationFile);
+	createAnnotations(locationFile);
+	annotateText();
 
+	m_digits = lineNumberDigits();
+	updateLineNumberAreaWidth(0);
+
+	connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
+	connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
+	connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(clickedTokenLocation()));
+	connect(this, SIGNAL(selectionChanged()), this, SLOT(clearSelection()));
+}
+
+QtCodeSnippet::~QtCodeSnippet()
+{
+}
+
+QSize QtCodeSnippet::sizeHint() const
+{
+	int width = 480;
+	int height = (document()->size().height() + 0.7f) * fontMetrics().lineSpacing();
+	return QSize(width, height);
+}
+
+void QtCodeSnippet::addMaximizeButton()
+{
 	QHBoxLayout* layout = new QHBoxLayout();
 	layout->setMargin(0);
 	layout->setSpacing(0);
@@ -79,26 +101,8 @@ QtCodeSnippet::QtCodeSnippet(
 	m_maximizeButton->setEnabled(false);
 	layout->addWidget(m_maximizeButton);
 	layout->setAlignment(m_maximizeButton, Qt::AlignRight);
+
 	connect(m_maximizeButton, SIGNAL(clicked()), this, SLOT(clickedMaximizeButton()));
-
-	connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
-	connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
-	connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(clickedTokenLocation()));
-	connect(this, SIGNAL(selectionChanged()), this, SLOT(clearSelection()));
-
-	m_digits = lineNumberDigits();
-	updateLineNumberAreaWidth(0);
-}
-
-QtCodeSnippet::~QtCodeSnippet()
-{
-}
-
-QSize QtCodeSnippet::sizeHint() const
-{
-	int width = lineNumberAreaWidth();
-	int height = (document()->size().height() + 0.7f) * fontMetrics().lineSpacing();
-	return QSize(width, height);
 }
 
 void QtCodeSnippet::lineNumberAreaPaintEvent(QPaintEvent *event)
@@ -150,66 +154,10 @@ void QtCodeSnippet::updateLineNumberAreaWidthForDigits(int digits)
 	updateLineNumberAreaWidth(0);
 }
 
-void QtCodeSnippet::annotateText(const TokenLocationFile& locationFile)
+void QtCodeSnippet::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
 {
-	QList<QTextEdit::ExtraSelection> extraSelections;
-
-	locationFile.forEachTokenLocation(
-		[&](TokenLocation* location)
-		{
-			if (location->isEndTokenLocation() && location->getStartTokenLocation())
-			{
-				return;
-			}
-
-			Annotation annotation;
-			if (location->isStartTokenLocation())
-			{
-				annotation.start = toTextEditPosition(location->getLineNumber(), location->getColumnNumber() - 1);
-			}
-			else
-			{
-				annotation.start = startTextEditPosition();
-			}
-
-			TokenLocation* endLocation = location->getEndTokenLocation();
-			if (endLocation)
-			{
-				annotation.end = toTextEditPosition(endLocation->getLineNumber(), endLocation->getColumnNumber());
-			}
-			else
-			{
-				annotation.end = endTextEditPosition();
-			}
-
-			annotation.tokenId = location->getTokenId();
-			m_annotations.push_back(annotation);
-
-			Colori color;
-			const std::vector<Id>& ids = m_activeTokenIds;
-			bool isActive = std::find(ids.begin(), ids.end(), location->getTokenId()) != ids.end();
-			if (isActive)
-			{
-				color = ApplicationSettings::getInstance()->getCodeActiveLinkColor();
-			}
-			else
-			{
-				color = ApplicationSettings::getInstance()->getCodeLinkColor();
-			}
-
-			QTextEdit::ExtraSelection selection;
-			selection.format.setBackground(QColor(color.r, color.g, color.b, color.a));
-
-			selection.cursor = textCursor();
-			selection.cursor.clearSelection();
-			selection.cursor.setPosition(annotation.start);
-			selection.cursor.setPosition(annotation.end, QTextCursor::KeepAnchor);
-
-			extraSelections.append(selection);
-		}
-	);
-
-	setExtraSelections(extraSelections);
+	m_activeTokenIds = activeTokenIds;
+	annotateText();
 }
 
 void QtCodeSnippet::resizeEvent(QResizeEvent *e)
@@ -230,12 +178,26 @@ void QtCodeSnippet::showEvent(QShowEvent* event)
 
 void QtCodeSnippet::enterEvent(QEvent* event)
 {
-	m_maximizeButton->setEnabled(true);
+	if (m_maximizeButton)
+	{
+		m_maximizeButton->setEnabled(true);
+	}
 }
 
 void QtCodeSnippet::leaveEvent(QEvent* event)
 {
-	m_maximizeButton->setEnabled(false);
+	if (m_maximizeButton)
+	{
+		m_maximizeButton->setEnabled(false);
+	}
+}
+
+void QtCodeSnippet::mouseDoubleClickEvent(QMouseEvent* event)
+{
+	if (m_maximizeButton)
+	{
+		clickedMaximizeButton();
+	}
 }
 
 void QtCodeSnippet::updateLineNumberAreaWidth(int /* newBlockCount */)
@@ -287,7 +249,9 @@ void QtCodeSnippet::clickedTokenLocation()
 
 void QtCodeSnippet::clickedMaximizeButton()
 {
-	MessageShowFile(m_filePath, m_startLineNumber, m_activeTokenIds).dispatch();
+	MessageShowFile(
+		m_filePath, m_startLineNumber, m_startLineNumber + document()->blockCount() - 1, m_activeTokenIds
+	).dispatch();
 }
 
 void QtCodeSnippet::clearSelection()
@@ -295,6 +259,75 @@ void QtCodeSnippet::clearSelection()
 	QTextCursor cursor = textCursor();
 	cursor.clearSelection();
 	setTextCursor(cursor);
+}
+
+void QtCodeSnippet::createAnnotations(const TokenLocationFile& locationFile)
+{
+	locationFile.forEachTokenLocation(
+		[&](TokenLocation* location)
+		{
+			if (location->isEndTokenLocation() && location->getStartTokenLocation())
+			{
+				return;
+			}
+
+			Annotation annotation;
+			if (location->isStartTokenLocation())
+			{
+				annotation.start = toTextEditPosition(location->getLineNumber(), location->getColumnNumber() - 1);
+			}
+			else
+			{
+				annotation.start = startTextEditPosition();
+			}
+
+			TokenLocation* endLocation = location->getEndTokenLocation();
+			if (endLocation)
+			{
+				annotation.end = toTextEditPosition(endLocation->getLineNumber(), endLocation->getColumnNumber());
+			}
+			else
+			{
+				annotation.end = endTextEditPosition();
+			}
+
+			annotation.tokenId = location->getTokenId();
+			m_annotations.push_back(annotation);
+		}
+	);
+}
+
+void QtCodeSnippet::annotateText()
+{
+	Colori color;
+	const std::vector<Id>& ids = m_activeTokenIds;
+	QList<QTextEdit::ExtraSelection> extraSelections;
+
+	for (const Annotation& annotation: m_annotations)
+	{
+		bool isActive = std::find(ids.begin(), ids.end(), annotation.tokenId) != ids.end();
+
+		if (isActive)
+		{
+			color = ApplicationSettings::getInstance()->getCodeActiveLinkColor();
+		}
+		else
+		{
+			color = ApplicationSettings::getInstance()->getCodeLinkColor();
+		}
+
+		QTextEdit::ExtraSelection selection;
+		selection.format.setBackground(QColor(color.r, color.g, color.b, color.a));
+
+		selection.cursor = textCursor();
+		selection.cursor.clearSelection();
+		selection.cursor.setPosition(annotation.start);
+		selection.cursor.setPosition(annotation.end, QTextCursor::KeepAnchor);
+
+		extraSelections.append(selection);
+	}
+
+	setExtraSelections(extraSelections);
 }
 
 int QtCodeSnippet::toTextEditPosition(int lineNumber, int columnNumber) const

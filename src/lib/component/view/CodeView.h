@@ -15,6 +15,9 @@ public:
 		CodeSnippetParams();
 
 		int startLineNumber;
+		int endLineNumber;
+		uint lineCount;
+
 		std::string code;
 		TokenLocationFile locationFile;
 		std::vector<Id> activeTokenIds;

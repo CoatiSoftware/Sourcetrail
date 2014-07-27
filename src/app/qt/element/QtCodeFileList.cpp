@@ -8,6 +8,7 @@
 
 QtCodeFileList::QtCodeFileList(QWidget* parent)
 	: QScrollArea(parent)
+	, m_showMaximizeButton(true)
 {
 	m_frame = std::make_shared<QFrame>(this);
 
@@ -52,6 +53,8 @@ void QtCodeFileList::addCodeSnippet(
 
 		file = filePtr.get();
 		m_frame->layout()->addWidget(file);
+
+		file->setShowMaximizeButton(m_showMaximizeButton);
 	}
 
 	file->addCodeSnippet(startLineNumber, code, locationFile, activeTokenIds);
@@ -60,4 +63,17 @@ void QtCodeFileList::addCodeSnippet(
 void QtCodeFileList::clearCodeSnippets()
 {
 	m_files.clear();
+}
+
+void QtCodeFileList::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
+{
+	for (std::shared_ptr<QtCodeFile> file: m_files)
+	{
+		file->setActiveTokenIds(activeTokenIds);
+	}
+}
+
+void QtCodeFileList::setShowMaximizeButton(bool show)
+{
+	m_showMaximizeButton = show;
 }

@@ -46,18 +46,21 @@ public:
 
 	QSize sizeHint() const;
 
+	void addMaximizeButton();
+
 	void lineNumberAreaPaintEvent(QPaintEvent *event);
 	int lineNumberDigits() const;
 	int lineNumberAreaWidth() const;
 	void updateLineNumberAreaWidthForDigits(int digits);
 
-	void annotateText(const TokenLocationFile& locationFile);
+	void setActiveTokenIds(const std::vector<Id>& activeTokenIds);
 
 protected:
 	virtual void resizeEvent(QResizeEvent *event);
 	virtual void showEvent(QShowEvent* event);
 	virtual void enterEvent(QEvent* event);
 	virtual void leaveEvent(QEvent* event);
+	virtual void mouseDoubleClickEvent(QMouseEvent* event);
 
 private slots:
 	void updateLineNumberAreaWidth(int newBlockCount);
@@ -74,21 +77,25 @@ private:
 		Id tokenId;
 	};
 
+	void createAnnotations(const TokenLocationFile& locationFile);
+	void annotateText();
+
 	int toTextEditPosition(int lineNumber, int columnNumber) const;
 	int startTextEditPosition() const;
 	int endTextEditPosition() const;
 
+	QWidget* m_lineNumberArea;
 	QtHighlighter* m_highlighter;
 
-	QWidget* m_lineNumberArea;
 	QPushButton* m_maximizeButton;
+	bool m_showMaximizeButton;
 
 	const int m_startLineNumber;
-	const std::vector<Id> m_activeTokenIds;
+	const std::string m_filePath;
+	std::vector<Id> m_activeTokenIds;
+
 	std::vector<Annotation> m_annotations;
 	int m_digits;
-
-	const std::string m_filePath;
 };
 
 #endif // QT_CODE_SNIPPET_H

@@ -8,6 +8,7 @@
 QtCodeFile::QtCodeFile(const std::string& fileName, QWidget *parent)
 	: QWidget(parent)
 	, m_fileName(fileName)
+	, m_showMaximizeButton(true)
 {
 	setObjectName("code_file");
 
@@ -42,6 +43,12 @@ void QtCodeFile::addCodeSnippet(
 ){
 	std::shared_ptr<QtCodeSnippet> snippet(
 		new QtCodeSnippet(startLineNumber, code, locationFile, activeTokenIds, this));
+
+	if (m_showMaximizeButton)
+	{
+		snippet->addMaximizeButton();
+	}
+
 	layout()->addWidget(snippet.get());
 	m_snippets.push_back(snippet);
 
@@ -55,4 +62,17 @@ void QtCodeFile::addCodeSnippet(
 	{
 		snippet->updateLineNumberAreaWidthForDigits(maxDigits);
 	}
+}
+
+void QtCodeFile::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
+{
+	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	{
+		snippet->setActiveTokenIds(activeTokenIds);
+	}
+}
+
+void QtCodeFile::setShowMaximizeButton(bool show)
+{
+	m_showMaximizeButton = show;
 }

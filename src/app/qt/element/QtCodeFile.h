@@ -27,9 +27,13 @@ public:
 		const std::vector<Id>& activeTokenIds
 	);
 
+	void setActiveTokenIds(const std::vector<Id>& activeTokenIds);
+	void setShowMaximizeButton(bool show);
+
 private:
 	std::vector<std::shared_ptr<QtCodeSnippet> > m_snippets;
 	const std::string m_fileName;
+	bool m_showMaximizeButton;
 };
 
 #endif // QT_CODE_FILE_H

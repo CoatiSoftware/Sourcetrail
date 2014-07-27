@@ -70,10 +70,12 @@ void CodeController::handleMessage(MessageRefresh* message)
 void CodeController::handleMessage(MessageShowFile* message)
 {
 	CodeView::CodeSnippetParams params;
-	params.startLineNumber = message->lineNumber;
+	params.startLineNumber = message->startLineNumber;
+	params.endLineNumber = message->endLineNumber;
 	params.activeTokenIds = message->activeTokenIds;
 
 	std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(message->filePath);
+	params.lineCount = textAccess->getLineCount();
 	params.code = textAccess->getText();
 
 	params.locationFile = m_locationAccess->getTokenLocationsForFile(message->filePath);
