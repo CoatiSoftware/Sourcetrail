@@ -292,6 +292,8 @@ void QtCodeSnippet::createAnnotations(const TokenLocationFile& locationFile)
 			}
 
 			annotation.tokenId = location->getTokenId();
+			annotation.isScope = location->getType() == TokenLocation::LOCATION_SCOPE;
+
 			m_annotations.push_back(annotation);
 		}
 	);
@@ -310,6 +312,10 @@ void QtCodeSnippet::annotateText()
 		if (isActive)
 		{
 			color = ApplicationSettings::getInstance()->getCodeActiveLinkColor();
+		}
+		else if (annotation.isScope)
+		{
+			color = ApplicationSettings::getInstance()->getCodeScopeColor();
 		}
 		else
 		{

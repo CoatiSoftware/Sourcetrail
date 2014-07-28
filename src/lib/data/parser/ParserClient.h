@@ -30,6 +30,9 @@ public:
 	static std::string addStaticPrefix(const std::string& str, bool isStatic);
 	static std::string addConstPrefix(const std::string& str, bool isConst, bool atFront);
 	static std::string addLocationSuffix(const std::string& str, const ParseLocation& location);
+	static std::string addLocationSuffix(
+		const std::string& str, const ParseLocation& location, const ParseLocation& scopeLocation);
+
 	static std::string variableStr(const ParseVariable& variable);
 	static std::string parameterStr(const std::vector<ParseTypeUsage> parameters);
 	static std::string functionStr(
@@ -51,23 +54,30 @@ public:
 	virtual void onTypedefParsed(
 		const ParseLocation& location, const std::string& fullName, const DataType& underlyingType,
 		AccessType access) = 0;
-	virtual void onClassParsed(const ParseLocation& location, const std::string& fullName, AccessType access) = 0;
-	virtual void onStructParsed(const ParseLocation& location, const std::string& fullName, AccessType access) = 0;
+	virtual void onClassParsed(
+		const ParseLocation& location, const std::string& fullName, AccessType access,
+		const ParseLocation& scopeLocation) = 0;
+	virtual void onStructParsed(
+		const ParseLocation& location, const std::string& fullName, AccessType access,
+		const ParseLocation& scopeLocation) = 0;
 
 	virtual void onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable) = 0;
 	virtual void onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access) = 0;
 
 	virtual void onFunctionParsed(
 		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
-		const std::vector<ParseTypeUsage>& parameters) = 0;
+		const std::vector<ParseTypeUsage>& parameters, const ParseLocation& scopeLocation) = 0;
 	virtual void onMethodParsed(
 		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
 		const std::vector<ParseTypeUsage>& parameters, AccessType access, AbstractionType abstraction,
-		bool isConst, bool isStatic) = 0;
+		bool isConst, bool isStatic, const ParseLocation& scopeLocation) = 0;
 
-	virtual void onNamespaceParsed(const ParseLocation& location, const std::string& fullName) = 0;
+	virtual void onNamespaceParsed(
+		const ParseLocation& location, const std::string& fullName, const ParseLocation& scopeLocation) = 0;
 
-	virtual void onEnumParsed(const ParseLocation& location, const std::string& fullName, AccessType access) = 0;
+	virtual void onEnumParsed(
+		const ParseLocation& location, const std::string& fullName, AccessType access,
+		const ParseLocation& scopeLocation) = 0;
 	virtual void onEnumFieldParsed(const ParseLocation& location, const std::string& fullName) = 0;
 
 	virtual void onInheritanceParsed(

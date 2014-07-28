@@ -1,9 +1,18 @@
 #include "data/parser/ParseLocation.h"
 
+ParseLocation::ParseLocation()
+	: filePath("")
+	, startLineNumber(0)
+	, startColumnNumber(0)
+	, endLineNumber(0)
+	, endColumnNumber(0)
+{
+}
+
 ParseLocation::ParseLocation(
 	const std::string& filePath,
-	unsigned int startLineNumber, unsigned int startColumnNumber,
-	unsigned int endLineNumber, unsigned int endColumnNumber
+	uint startLineNumber, uint startColumnNumber,
+	uint endLineNumber, uint endColumnNumber
 )
 	: filePath(filePath)
 	, startLineNumber(startLineNumber)

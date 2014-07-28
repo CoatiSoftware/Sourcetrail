@@ -75,6 +75,7 @@ private:
 		int start;
 		int end;
 		Id tokenId;
+		bool isScope;
 	};
 
 	void createAnnotations(const TokenLocationFile& locationFile);

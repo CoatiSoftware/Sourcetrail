@@ -51,9 +51,19 @@ Colori ApplicationSettings::getCodeLinkColor() const
 	return Colori::fromString(getValue<std::string>("code/LinkColor", Colori(255, 255, 0, 100).toString()));
 }
 
-void ApplicationSettings::setCodeLinkColor(Colori codeLinkColor)
+void ApplicationSettings::setCodeLinkColor(Colori color)
 {
-	setValue<std::string>("code/LinkColor", codeLinkColor.toString());
+	setValue<std::string>("code/LinkColor", color.toString());
+}
+
+Colori ApplicationSettings::getCodeScopeColor() const
+{
+	return Colori::fromString(getValue<std::string>("code/ScopeColor", Colori(255, 255, 0, 100).toString()));
+}
+
+void ApplicationSettings::setCodeScopeColor(Colori color)
+{
+	setValue<std::string>("code/ScopeColor", color.toString());
 }
 
 Colori ApplicationSettings::getCodeActiveLinkColor() const
@@ -61,9 +71,9 @@ Colori ApplicationSettings::getCodeActiveLinkColor() const
 	return Colori::fromString(getValue<std::string>("code/ActiveLinkColor", Colori(0, 255, 0, 100).toString()));
 }
 
-void ApplicationSettings::setCodeActiveLinkColor(Colori codeLinkColor)
+void ApplicationSettings::setCodeActiveLinkColor(Colori color)
 {
-	setValue<std::string>("code/ActiveLinkColor", codeLinkColor.toString());
+	setValue<std::string>("code/ActiveLinkColor", color.toString());
 }
 
 ApplicationSettings::ApplicationSettings()

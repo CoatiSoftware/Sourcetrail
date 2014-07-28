@@ -1,18 +1,3 @@
-/*
-class e
-{
-};
-class x: public e
-{
-};
-struct y;
-enum z;
-
-x foox();
-y fooy();
-z fooz();
-*/
-
 const bool *ab(int abc, int bca);
 
 bool const *abc(int a, int b);
@@ -85,5 +70,23 @@ public:
 private:
 	int m_valuable;
 };
+
+namespace
+{
+	namespace noname
+	{
+		struct V
+		{
+			int x;
+			int y;
+		};
+	}
+
+	enum E
+	{
+		X,
+		Y
+	};
+}
 
 typedef A* D;

@@ -5,6 +5,7 @@
 TokenLocation::TokenLocation(Id tokenId, TokenLocationLine* line, unsigned int columnNumber, bool isStart)
 	: m_id(s_locationId++)
 	, m_tokenId(tokenId)
+	, m_type(LOCATION_TOKEN)
 	, m_line(line)
 	, m_columnNumber(columnNumber)
 	, m_other(nullptr)
@@ -12,13 +13,25 @@ TokenLocation::TokenLocation(Id tokenId, TokenLocationLine* line, unsigned int c
 {
 }
 
-TokenLocation::TokenLocation(Id id, Id tokenId, TokenLocationLine* line, unsigned int columnNumber, bool isStart)
-	: m_id(id)
-	, m_tokenId(tokenId)
+TokenLocation::TokenLocation(TokenLocation *other, TokenLocationLine* line, unsigned int columnNumber, bool isStart)
+	: m_id(other->m_id)
+	, m_tokenId(other->m_tokenId)
+	, m_type(other->m_type)
 	, m_line(line)
 	, m_columnNumber(columnNumber)
-	, m_other(nullptr)
+	, m_other(other)
 	, m_isStart(isStart)
+{
+}
+
+TokenLocation::TokenLocation(const TokenLocation& other, TokenLocationLine* line)
+	: m_id(other.m_id)
+	, m_tokenId(other.m_tokenId)
+	, m_type(other.m_type)
+	, m_line(line)
+	, m_columnNumber(other.m_columnNumber)
+	, m_other(nullptr)
+	, m_isStart(other.m_isStart)
 {
 }
 
@@ -34,6 +47,16 @@ Id TokenLocation::getId() const
 Id TokenLocation::getTokenId() const
 {
 	return m_tokenId;
+}
+
+TokenLocation::LocationType TokenLocation::getType() const
+{
+	return m_type;
+}
+
+void TokenLocation::setType(LocationType type)
+{
+	m_type = type;
 }
 
 TokenLocationLine* TokenLocation::getTokenLocationLine() const
@@ -103,11 +126,6 @@ bool TokenLocation::isStartTokenLocation() const
 bool TokenLocation::isEndTokenLocation() const
 {
 	return !m_isStart;
-}
-
-std::shared_ptr<TokenLocation> TokenLocation::createPlainCopy(TokenLocationLine* line) const
-{
-	return std::shared_ptr<TokenLocation>(new TokenLocation(m_id, m_tokenId, line, m_columnNumber, m_isStart));
 }
 
 Id TokenLocation::s_locationId = 1;

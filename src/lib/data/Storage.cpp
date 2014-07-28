@@ -49,22 +49,26 @@ void Storage::onTypedefParsed(
 	addTypeEdge(node, Edge::EDGE_TYPEDEF_OF, underlyingType);
 }
 
-void Storage::onClassParsed(const ParseLocation& location, const std::string& fullName, AccessType access)
+void Storage::onClassParsed(
+	const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation)
 {
 	log("class", fullName, location);
 
 	Node* node = m_graph.createNodeHierarchy(Node::NODE_CLASS, fullName);
 	addAccess(node, access);
 	addTokenLocation(node, location);
+	addTokenLocation(node, scopeLocation, true);
 }
 
-void Storage::onStructParsed(const ParseLocation& location, const std::string& fullName, AccessType access)
+void Storage::onStructParsed(
+	const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation)
 {
 	log("struct", fullName, location);
 
 	Node* node = m_graph.createNodeHierarchy(Node::NODE_STRUCT, fullName);
 	addAccess(node, access);
 	addTokenLocation(node, location);
+	addTokenLocation(node, scopeLocation, true);
 }
 
 void Storage::onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable)
@@ -106,7 +110,7 @@ void Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& 
 
 void Storage::onFunctionParsed(
 	const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
-	const std::vector<ParseTypeUsage>& parameters
+	const std::vector<ParseTypeUsage>& parameters, const ParseLocation& scopeLocation
 )
 {
 	log("function", fullName, location);
@@ -116,6 +120,7 @@ void Storage::onFunctionParsed(
 		ParserClient::functionSignatureStr(returnType.dataType, fullName, parameters, false)
 	);
 	addTokenLocation(node, location);
+	addTokenLocation(node, scopeLocation, true);
 
 	addTypeEdge(node, Edge::EDGE_RETURN_TYPE_OF, returnType);
 	for (const ParseTypeUsage& parameter : parameters)
@@ -127,7 +132,7 @@ void Storage::onFunctionParsed(
 void Storage::onMethodParsed(
 	const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
 	const std::vector<ParseTypeUsage>& parameters, AccessType access, AbstractionType abstraction,
-	bool isConst, bool isStatic
+	bool isConst, bool isStatic, const ParseLocation& scopeLocation
 )
 {
 	log("method", fullName, location);
@@ -155,6 +160,7 @@ void Storage::onMethodParsed(
 	addAccess(node, access);
 
 	addTokenLocation(node, location);
+	addTokenLocation(node, scopeLocation, true);
 
 	addTypeEdge(node, Edge::EDGE_RETURN_TYPE_OF, returnType);
 	for (const ParseTypeUsage& parameter : parameters)
@@ -163,21 +169,25 @@ void Storage::onMethodParsed(
 	}
 }
 
-void Storage::onNamespaceParsed(const ParseLocation& location, const std::string& fullName)
+void Storage::onNamespaceParsed(
+	const ParseLocation& location, const std::string& fullName, const ParseLocation& scopeLocation)
 {
 	log("namespace", fullName, location);
 
 	Node* node = m_graph.createNodeHierarchy(Node::NODE_NAMESPACE, fullName);
 	addTokenLocation(node, location);
+	addTokenLocation(node, scopeLocation, true);
 }
 
-void Storage::onEnumParsed(const ParseLocation& location, const std::string& fullName, AccessType access)
+void Storage::onEnumParsed(
+	const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation)
 {
 	log("enum", fullName, location);
 
 	Node* node = m_graph.createNodeHierarchy(Node::NODE_ENUM, fullName);
 	addAccess(node, access);
 	addTokenLocation(node, location);
+	addTokenLocation(node, scopeLocation, true);
 }
 
 void Storage::onEnumFieldParsed(const ParseLocation& location, const std::string& fullName)
@@ -595,7 +605,7 @@ Edge* Storage::addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeU
 	return edge;
 }
 
-TokenLocation* Storage::addTokenLocation(Token* token, const ParseLocation& loc)
+TokenLocation* Storage::addTokenLocation(Token* token, const ParseLocation& loc, bool isScope)
 {
 	if (!loc.isValid())
 	{
@@ -607,6 +617,11 @@ TokenLocation* Storage::addTokenLocation(Token* token, const ParseLocation& loc)
 		loc.startLineNumber, loc.startColumnNumber,
 		loc.endLineNumber, loc.endColumnNumber
 	);
+
+	if (isScope)
+	{
+		location->setType(TokenLocation::LOCATION_SCOPE);
+	}
 
 	token->addLocationId(location->getId());
 	return location;

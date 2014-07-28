@@ -21,7 +21,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->classes.size(), 1);
-		TS_ASSERT_EQUALS(client->classes[0], "A <1:1 3:1>");
+		TS_ASSERT_EQUALS(client->classes[0], "A <1:1 <1:7 1:7> 3:1>");
 	}
 
 	void test_cxx_parser_finds_global_class_forward_declaration()
@@ -31,7 +31,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->classes.size(), 1);
-		TS_ASSERT_EQUALS(client->classes[0], "A <1:1 1:7>");
+		TS_ASSERT_EQUALS(client->classes[0], "A <1:7 1:7>");
 	}
 
 	void test_cxx_parser_finds_nested_class_definition()
@@ -45,8 +45,8 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->classes.size(), 2);
-		TS_ASSERT_EQUALS(client->classes[0], "A <1:1 5:1>");
-		TS_ASSERT_EQUALS(client->classes[1], "public A::B <4:2 4:8>");
+		TS_ASSERT_EQUALS(client->classes[0], "A <1:1 <1:7 1:7> 5:1>");
+		TS_ASSERT_EQUALS(client->classes[1], "public A::B <4:8 4:8>");
 	}
 
 	void test_cxx_parser_finds_class_definition_in_namespace()
@@ -59,7 +59,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->classes.size(), 1);
-		TS_ASSERT_EQUALS(client->classes[0], "a::B <3:2 3:8>");
+		TS_ASSERT_EQUALS(client->classes[0], "a::B <3:8 3:8>");
 	}
 
 	void test_cxx_parser_finds_global_struct_definition()
@@ -71,7 +71,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->structs.size(), 1);
-		TS_ASSERT_EQUALS(client->structs[0], "A <1:1 3:1>");
+		TS_ASSERT_EQUALS(client->structs[0], "A <1:1 <1:8 1:8> 3:1>");
 	}
 
 	void test_cxx_parser_finds_global_struct_forward_declaration()
@@ -81,7 +81,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->structs.size(), 1);
-		TS_ASSERT_EQUALS(client->structs[0], "A <1:1 1:8>");
+		TS_ASSERT_EQUALS(client->structs[0], "A <1:8 1:8>");
 	}
 
 	void test_cxx_parser_finds_struct_definition_in_class()
@@ -96,7 +96,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->structs.size(), 1);
-		TS_ASSERT_EQUALS(client->structs[0], "private A::B <3:2 5:2>");
+		TS_ASSERT_EQUALS(client->structs[0], "private A::B <3:2 <3:9 3:9> 5:2>");
 	}
 
 	void test_cxx_parser_finds_struct_definition_in_namespace()
@@ -111,7 +111,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->structs.size(), 1);
-		TS_ASSERT_EQUALS(client->structs[0], "A::B <3:2 5:2>");
+		TS_ASSERT_EQUALS(client->structs[0], "A::B <3:2 <3:9 3:9> 5:2>");
 	}
 
 	void test_cxx_parser_finds_variable_definitions_in_global_scope()
@@ -198,7 +198,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->functions.size(), 1);
-		TS_ASSERT_EQUALS(client->functions[0], "int ceil(float) <1:1 4:1>");
+		TS_ASSERT_EQUALS(client->functions[0], "int ceil(float) <1:1 <1:5 1:8> 4:1>");
 	}
 
 	void test_cxx_parser_finds_function_in_anonymous_namespace()
@@ -211,7 +211,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->functions.size(), 1);
-		TS_ASSERT_EQUALS(client->functions[0], "int (anonymous namespace)::sum(int, int) <3:2 3:22>");
+		TS_ASSERT_EQUALS(client->functions[0], "int (anonymous namespace)::sum(int, int) <3:6 3:8>");
 	}
 
 	void test_cxx_parser_finds_method_declaration()
@@ -225,7 +225,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->methods.size(), 1);
-		TS_ASSERT_EQUALS(client->methods[0], "public void B::B() <4:2 4:4>");
+		TS_ASSERT_EQUALS(client->methods[0], "public void B::B() <4:2 4:2>");
 	}
 
 	void test_cxx_parser_finds_method_declaration_and_definition()
@@ -242,8 +242,8 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->methods.size(), 2);
-		TS_ASSERT_EQUALS(client->methods[0], "public void B::B() <4:2 4:4>");
-		TS_ASSERT_EQUALS(client->methods[1], "public void B::B() <6:1 8:1>");
+		TS_ASSERT_EQUALS(client->methods[0], "public void B::B() <4:2 4:2>");
+		TS_ASSERT_EQUALS(client->methods[1], "public void B::B() <6:1 <6:4 6:4> 8:1>");
 	}
 
 	void test_cxx_parser_finds_pure_virtual_method()
@@ -257,7 +257,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->methods.size(), 1);
-		TS_ASSERT_EQUALS(client->methods[0], "protected pure virtual void B::process() <4:2 4:27>");
+		TS_ASSERT_EQUALS(client->methods[0], "protected pure virtual void B::process() <4:15 4:21>");
 	}
 
 	void test_cxx_parser_finds_method_declared_in_nested_class()
@@ -273,7 +273,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->methods.size(), 1);
-		TS_ASSERT_EQUALS(client->methods[0], "private _Bool B::C::isGreat() const <5:3 5:18>");
+		TS_ASSERT_EQUALS(client->methods[0], "private _Bool B::C::isGreat() const <5:8 5:14>");
 	}
 
 	void test_cxx_parser_finds_named_namespace()
@@ -285,7 +285,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->namespaces.size(), 1);
-		TS_ASSERT_EQUALS(client->namespaces[0], "A <1:1 3:1>");
+		TS_ASSERT_EQUALS(client->namespaces[0], "A <1:1 <1:11 1:11> 3:1>");
 	}
 
 	void test_cxx_parser_finds_anonymous_namespace()
@@ -309,7 +309,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->enums.size(), 1);
-		TS_ASSERT_EQUALS(client->enums[0], "E <1:1 3:1>");
+		TS_ASSERT_EQUALS(client->enums[0], "E <1:1 <1:6 1:6> 3:1>");
 	}
 
 	void test_cxx_parser_finds_enum_defined_in_class()
@@ -325,7 +325,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->enums.size(), 1);
-		TS_ASSERT_EQUALS(client->enums[0], "public B::Z <4:2 6:2>");
+		TS_ASSERT_EQUALS(client->enums[0], "public B::Z <4:2 <4:7 4:7> 6:2>");
 	}
 
 	void test_cxx_parser_finds_enum_defined_in_namespace()
@@ -340,7 +340,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->enums.size(), 1);
-		TS_ASSERT_EQUALS(client->enums[0], "n::Z <3:2 5:2>");
+		TS_ASSERT_EQUALS(client->enums[0], "n::Z <3:2 <3:7 3:7> 5:2>");
 	}
 
 	void test_cxx_parser_finds_enum_field_in_global_enum()
@@ -805,14 +805,18 @@ private:
 			typedefs.push_back(addLocationSuffix(str, location));
 		}
 
-		virtual void onClassParsed(const ParseLocation& location, const std::string& fullName, AccessType access)
+		virtual void onClassParsed(
+			const ParseLocation& location, const std::string& fullName, AccessType access,
+			const ParseLocation& scopeLocation)
 		{
-			classes.push_back(addLocationSuffix(addAccessPrefix(fullName, access), location));
+			classes.push_back(addLocationSuffix(addAccessPrefix(fullName, access), location, scopeLocation));
 		}
 
-		virtual void onStructParsed(const ParseLocation& location, const std::string& fullName, AccessType access)
+		virtual void onStructParsed(
+			const ParseLocation& location, const std::string& fullName, AccessType access,
+			const ParseLocation& scopeLocation)
 		{
-			structs.push_back(addLocationSuffix(addAccessPrefix(fullName, access), location));
+			structs.push_back(addLocationSuffix(addAccessPrefix(fullName, access), location, scopeLocation));
 		}
 
 		virtual void onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable)
@@ -827,10 +831,10 @@ private:
 
 		virtual void onFunctionParsed(
 			const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
-			const std::vector<ParseTypeUsage>& parameters
+			const std::vector<ParseTypeUsage>& parameters, const ParseLocation& scopeLocation
 		){
 			std::string str = functionStr(returnType.dataType, fullName, parameters, false);
-			functions.push_back(addLocationSuffix(str, location));
+			functions.push_back(addLocationSuffix(str, location, scopeLocation));
 
 			addTypeUse(returnType);
 			for (const ParseTypeUsage& parameter : parameters)
@@ -842,13 +846,13 @@ private:
 		virtual void onMethodParsed(
 			const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
 			const std::vector<ParseTypeUsage>& parameters, AccessType access, AbstractionType abstraction,
-			bool isConst, bool isStatic
+			bool isConst, bool isStatic, const ParseLocation& scopeLocation
 		)
 		{
 			std::string str = functionStr(returnType.dataType, fullName, parameters, isConst);
 			str = addStaticPrefix(addAbstractionPrefix(str, abstraction), isStatic);
 			str = addAccessPrefix(str, access);
-			str = addLocationSuffix(str, location);
+			str = addLocationSuffix(str, location, scopeLocation);
 			methods.push_back(str);
 
 			addTypeUse(returnType);
@@ -858,14 +862,17 @@ private:
 			}
 		}
 
-		virtual void onNamespaceParsed(const ParseLocation& location, const std::string& fullName)
+		virtual void onNamespaceParsed(
+			const ParseLocation& location, const std::string& fullName, const ParseLocation& scopeLocation)
 		{
-			namespaces.push_back(addLocationSuffix(fullName, location));
+			namespaces.push_back(addLocationSuffix(fullName, location, scopeLocation));
 		}
 
-		virtual void onEnumParsed(const ParseLocation& location, const std::string& fullName, AccessType access)
+		virtual void onEnumParsed(
+			const ParseLocation& location, const std::string& fullName, AccessType access,
+			const ParseLocation& scopeLocation)
 		{
-			enums.push_back(addLocationSuffix(addAccessPrefix(fullName, access), location));
+			enums.push_back(addLocationSuffix(addAccessPrefix(fullName, access), location, scopeLocation));
 		}
 
 		virtual void onEnumFieldParsed(const ParseLocation& location, const std::string& fullName)

@@ -56,8 +56,30 @@ std::string ParserClient::addConstPrefix(const std::string& str, bool isConst, b
 std::string ParserClient::addLocationSuffix(const std::string& str, const ParseLocation& location)
 {
 	std::stringstream ss;
-	ss << str << " <" << location.startLineNumber << ":" << location.startColumnNumber << " ";
+	ss << str;
+	ss << " <" << location.startLineNumber << ":" << location.startColumnNumber << " ";
 	ss << location.endLineNumber << ":" << location.endColumnNumber << ">";
+	return ss.str();
+}
+
+std::string ParserClient::addLocationSuffix(
+	const std::string& str, const ParseLocation& location, const ParseLocation& scopeLocation
+){
+	if (!location.isValid())
+	{
+		return addLocationSuffix(str, scopeLocation);
+	}
+	else if (!scopeLocation.isValid())
+	{
+		return addLocationSuffix(str, location);
+	}
+
+	std::stringstream ss;
+	ss << str;
+	ss << " <" << scopeLocation.startLineNumber << ":" << scopeLocation.startColumnNumber;
+	ss << " <" << location.startLineNumber << ":" << location.startColumnNumber << " ";
+	ss << location.endLineNumber << ":" << location.endColumnNumber << "> ";
+	ss << scopeLocation.endLineNumber << ":" << scopeLocation.endColumnNumber << ">";
 	return ss.str();
 }
 

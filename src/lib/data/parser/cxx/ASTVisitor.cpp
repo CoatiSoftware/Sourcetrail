@@ -44,9 +44,10 @@ bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 		if (declaration->isClass())
 		{
 			m_client->onClassParsed(
-				getParseLocation(declaration->getSourceRange()),
+				getParseLocationForNamedDecl(declaration),
 				declaration->getQualifiedNameAsString(),
-				convertAccessType(declaration->getAccess())
+				convertAccessType(declaration->getAccess()),
+				getParseLocationOfRecordBody(declaration)
 			);
 
 			if (declaration->hasDefinition() && declaration->getNumBases())
@@ -65,9 +66,10 @@ bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 		else if (declaration->isStruct())
 		{
 			m_client->onStructParsed(
-				getParseLocation(declaration->getSourceRange()),
+				getParseLocationForNamedDecl(declaration),
 				declaration->getQualifiedNameAsString(),
-				convertAccessType(declaration->getAccess())
+				convertAccessType(declaration->getAccess()),
+				getParseLocationOfRecordBody(declaration)
 			);
 		}
 	}
@@ -138,10 +140,11 @@ bool ASTVisitor::VisitFunctionDecl(clang::FunctionDecl* declaration)
 	if (hasValidLocation(declaration))
 	{
 		m_client->onFunctionParsed(
-			getParseLocation(declaration->getSourceRange()),
+			getParseLocationForNamedDecl(declaration),
 			declaration->getQualifiedNameAsString(),
 			getParseTypeUsageOfReturnType(declaration),
-			getParameters(declaration)
+			getParameters(declaration),
+			getParseLocationOfFunctionBody(declaration)
 		);
 
 		if (declaration->hasBody() && declaration->isThisDeclarationADefinition())
@@ -169,14 +172,15 @@ bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 		}
 
 		m_client->onMethodParsed(
-			getParseLocation(declaration->getSourceRange()),
+			getParseLocationForNamedDecl(declaration),
 			declaration->getQualifiedNameAsString(),
 			getParseTypeUsageOfReturnType(declaration),
 			getParameters(declaration),
 			convertAccessType(declaration->getAccess()),
 			abstraction,
 			declaration->isConst(),
-			declaration->isStatic()
+			declaration->isStatic(),
+			getParseLocationOfFunctionBody(declaration)
 		);
 
 		if (declaration->hasBody() && declaration->isThisDeclarationADefinition())
@@ -211,8 +215,9 @@ bool ASTVisitor::VisitNamespaceDecl(clang::NamespaceDecl* declaration)
 	if (hasValidLocation(declaration))
 	{
 		m_client->onNamespaceParsed(
-			getParseLocation(declaration->getSourceRange()),
-			declaration->getQualifiedNameAsString()
+			declaration->isAnonymousNamespace() ? ParseLocation() : getParseLocationForNamedDecl(declaration),
+			declaration->getQualifiedNameAsString(),
+			getParseLocation(declaration->getSourceRange())
 		);
 	}
 
@@ -224,9 +229,10 @@ bool ASTVisitor::VisitEnumDecl(clang::EnumDecl* declaration)
 	if (hasValidLocation(declaration))
 	{
 		m_client->onEnumParsed(
-			getParseLocation(declaration->getSourceRange()),
+			getParseLocationForNamedDecl(declaration),
 			declaration->getQualifiedNameAsString(),
-			convertAccessType(declaration->getAccess())
+			convertAccessType(declaration->getAccess()),
+			getParseLocation(declaration->getSourceRange())
 		);
 	}
 
@@ -316,7 +322,7 @@ ParseLocation ASTVisitor::getParseLocation(const clang::SourceRange& sourceRange
 {
 	if (sourceRange.isInvalid())
 	{
-		return ParseLocation("", 0, 0, 0, 0);
+		return ParseLocation();
 	}
 
 	const clang::SourceManager& sourceManager = m_context->getSourceManager();
@@ -344,6 +350,26 @@ ParseLocation ASTVisitor::getParseLocationForNamedDecl(clang::NamedDecl* decl) c
 		presumedBegin.getLine(),
 		presumedBegin.getColumn() + decl->getNameAsString().size() - 1
 	);
+}
+
+ParseLocation ASTVisitor::getParseLocationOfFunctionBody(clang::FunctionDecl* decl) const
+{
+	if (decl->hasBody() && decl->isThisDeclarationADefinition())
+	{
+		return getParseLocation(decl->getSourceRange());
+	}
+
+	return ParseLocation();
+}
+
+ParseLocation ASTVisitor::getParseLocationOfRecordBody(clang::CXXRecordDecl* decl) const
+{
+	if (decl->hasDefinition() && decl->isThisDeclarationADefinition())
+	{
+		return getParseLocation(decl->getDefinition()->getSourceRange());
+	}
+
+	return ParseLocation();
 }
 
 ParseVariable ASTVisitor::getParseVariable(clang::DeclaratorDecl* declaration) const

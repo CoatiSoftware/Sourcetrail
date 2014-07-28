@@ -48,12 +48,8 @@ TokenLocation* TokenLocationLine::addStartTokenLocation(Id tokenId, unsigned int
 
 TokenLocation* TokenLocationLine::addEndTokenLocation(TokenLocation* start, unsigned int columnNumber)
 {
-	std::shared_ptr<TokenLocation> locationPtr = std::make_shared<TokenLocation>(
-		start->getId(), start->getTokenId(), this, columnNumber, false);
-
+	std::shared_ptr<TokenLocation> locationPtr = std::make_shared<TokenLocation>(start, this, columnNumber, false);
 	start->setOtherTokenLocation(locationPtr.get());
-	locationPtr->setOtherTokenLocation(start);
-
 	m_locations.emplace(columnNumber, locationPtr);
 	return locationPtr.get();
 }
@@ -97,7 +93,7 @@ void TokenLocationLine::forEachTokenLocation(std::function<void(TokenLocation*)>
 
 TokenLocation* TokenLocationLine::addTokenLocationAsPlainCopy(const TokenLocation* location)
 {
-	std::shared_ptr<TokenLocation> locationPtr = location->createPlainCopy(this);
+	std::shared_ptr<TokenLocation> locationPtr = std::make_shared<TokenLocation>(*location, this);
 	m_locations.emplace(location->getColumnNumber(), locationPtr);
 	return locationPtr.get();
 }

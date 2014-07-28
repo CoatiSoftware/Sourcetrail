@@ -30,25 +30,29 @@ public:
 		const ParseLocation& location, const std::string& fullName, const DataType& underlyingType,
 		AccessType access
 	);
-	virtual void onClassParsed(const ParseLocation& location, const std::string& fullName, AccessType access);
-	virtual void onStructParsed(const ParseLocation& location, const std::string& fullName, AccessType access);
+	virtual void onClassParsed(
+		const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation);
+	virtual void onStructParsed(
+		const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation);
 
 	virtual void onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable);
 	virtual void onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access);
 
 	virtual void onFunctionParsed(
 		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
-		const std::vector<ParseTypeUsage>& parameters
+		const std::vector<ParseTypeUsage>& parameters, const ParseLocation& scopeLocation
 	);
 	virtual void onMethodParsed(
 		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
 		const std::vector<ParseTypeUsage>& parameters, AccessType access, AbstractionType abstraction,
-		bool isConst, bool isStatic
+		bool isConst, bool isStatic, const ParseLocation& scopeLocation
 	);
 
-	virtual void onNamespaceParsed(const ParseLocation& location, const std::string& fullName);
+	virtual void onNamespaceParsed(
+		const ParseLocation& location, const std::string& fullName, const ParseLocation& scopeLocation);
 
-	virtual void onEnumParsed(const ParseLocation& location, const std::string& fullName, AccessType access);
+	virtual void onEnumParsed(
+		const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation);
 	virtual void onEnumFieldParsed(const ParseLocation& location, const std::string& fullName);
 
 	virtual void onInheritanceParsed(
@@ -96,7 +100,7 @@ private:
 	TokenComponentAccess* addAccess(Node* node, ParserClient::AccessType access);
 	Edge* addTypeEdge(Node* node, Edge::EdgeType edgeType, const DataType& type);
 	Edge* addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeUsage& typeUsage);
-	TokenLocation* addTokenLocation(Token* token, const ParseLocation& location);
+	TokenLocation* addTokenLocation(Token* token, const ParseLocation& location, bool isScope = false);
 
 	void log(std::string type, std::string str, const ParseLocation& location) const;
 

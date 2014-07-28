@@ -22,10 +22,13 @@ public:
 	void setCodeFontSize(int codeFontSize);
 
 	Colori getCodeLinkColor() const;
-	void setCodeLinkColor(Colori codeLinkColor);
+	void setCodeLinkColor(Colori color);
+
+	Colori getCodeScopeColor() const;
+	void setCodeScopeColor(Colori color);
 
 	Colori getCodeActiveLinkColor() const;
-	void setCodeActiveLinkColor(Colori codeLinkColor);
+	void setCodeActiveLinkColor(Colori color);
 
 private:
 	ApplicationSettings();
