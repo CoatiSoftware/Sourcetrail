@@ -1,6 +1,6 @@
 #include "qt/element/QtMainWindow.h"
 
-#include <QCoreApplication>
+#include <QApplication>
 #include <QFileDialog>
 #include <QDockWidget>
 #include <QMenuBar>
@@ -21,8 +21,8 @@ QtMainWindow::QtMainWindow()
 	setCentralWidget(nullptr);
 
 	setupProjectMenu();
-	setupFindMenu();
 	setupViewMenu();
+	setupFindMenu();
 	setupHelpMenu();
 }
 
@@ -74,6 +74,17 @@ void QtMainWindow::openProject(const QString &path)
 void QtMainWindow::find()
 {
 	MessageFind().dispatch();
+}
+
+void QtMainWindow::closeWindow()
+{
+	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
+
+	QWidget* activeWindow = app->activeWindow();
+	if (activeWindow)
+	{
+		activeWindow->close();
+	}
 }
 
 void QtMainWindow::refresh()
@@ -176,20 +187,21 @@ void QtMainWindow::setupProjectMenu()
 	menu->addAction(tr("E&xit"), QCoreApplication::instance(), SLOT(quit()), QKeySequence::Quit);
 }
 
+void QtMainWindow::setupViewMenu()
+{
+	QMenu *menu = new QMenu(tr("&View"), this);
+	menuBar()->addMenu(menu);
+
+	menu->addAction(tr("&Close Window"), this, SLOT(closeWindow()), QKeySequence::Close);
+	menu->addAction(tr("&Refresh"), this, SLOT(refresh()), QKeySequence::Refresh);
+}
+
 void QtMainWindow::setupFindMenu()
 {
 	QMenu *menu = new QMenu(tr("&Find"), this);
 	menuBar()->addMenu(menu);
 
 	menu->addAction(tr("&Find"), this, SLOT(find()), QKeySequence::Find);
-}
-
-void QtMainWindow::setupViewMenu()
-{
-	QMenu *menu = new QMenu(tr("&View"), this);
-	menuBar()->addMenu(menu);
-
-	menu->addAction(tr("&Refresh"), this, SLOT(refresh()), QKeySequence::Refresh);
 }
 
 void QtMainWindow::setupHelpMenu()

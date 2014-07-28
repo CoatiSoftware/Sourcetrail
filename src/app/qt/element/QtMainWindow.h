@@ -31,12 +31,13 @@ public slots:
 	void newProject();
 	void openProject(const QString &path = QString());
 	void find();
+	void closeWindow();
 	void refresh();
 
 private:
 	void setupProjectMenu();
-	void setupFindMenu();
 	void setupViewMenu();
+	void setupFindMenu();
 	void setupHelpMenu();
 
 	QDockWidget* getDockWidgetForView(View* view) const;
