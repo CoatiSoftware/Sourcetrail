@@ -501,7 +501,9 @@ TokenLocationFile Storage::getTokenLocationsForLinesInFile(
 		return ret;
 	}
 
-	for (uint i = firstLineNumber; i <= lastLineNumber; i++)
+	uint endLineNumber = locationFile->getTokenLocationLines().rbegin()->first;
+
+	for (uint i = firstLineNumber; i <= endLineNumber; i++)
 	{
 		TokenLocationLine* locationLine = locationFile->findTokenLocationLineByNumber(i);
 		if (!locationLine)
@@ -509,12 +511,29 @@ TokenLocationFile Storage::getTokenLocationsForLinesInFile(
 			continue;
 		}
 
-		locationLine->forEachTokenLocation(
-			[&](TokenLocation* tokenLocation) -> void
-			{
-				ret.addTokenLocationAsPlainCopy(tokenLocation);
-			}
-		);
+		if (locationLine->getLineNumber() <= lastLineNumber)
+		{
+			locationLine->forEachTokenLocation(
+				[&](TokenLocation* tokenLocation) -> void
+				{
+					ret.addTokenLocationAsPlainCopy(tokenLocation);
+				}
+			);
+		}
+		else
+		{
+			// Save start locations of TokenLocations that span accross the line range.
+			locationLine->forEachTokenLocation(
+				[&](TokenLocation* tokenLocation) -> void
+				{
+					if (tokenLocation->isEndTokenLocation() &&
+						tokenLocation->getStartTokenLocation()->getLineNumber() < firstLineNumber)
+					{
+						ret.addTokenLocationAsPlainCopy(tokenLocation->getStartTokenLocation());
+					}
+				}
+			);
+		}
 	}
 
 	return ret;

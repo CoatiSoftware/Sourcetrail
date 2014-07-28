@@ -36,7 +36,7 @@ public:
 	};
 
 	QtCodeSnippet(
-		int startLineNumber,
+		uint startLineNumber,
 		const std::string& code,
 		const TokenLocationFile& locationFile,
 		const std::vector<Id>& activeTokenIds,
@@ -90,7 +90,7 @@ private:
 	QPushButton* m_maximizeButton;
 	bool m_showMaximizeButton;
 
-	const int m_startLineNumber;
+	const uint m_startLineNumber;
 	const std::string m_filePath;
 	std::vector<Id> m_activeTokenIds;
 

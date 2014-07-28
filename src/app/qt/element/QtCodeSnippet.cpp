@@ -35,7 +35,7 @@ void QtCodeSnippet::LineNumberArea::paintEvent(QPaintEvent *event)
 
 
 QtCodeSnippet::QtCodeSnippet(
-	int startLineNumber,
+	uint startLineNumber,
 	const std::string& code,
 	const TokenLocationFile& locationFile,
 	const std::vector<Id>& activeTokenIds,
@@ -133,7 +133,7 @@ void QtCodeSnippet::lineNumberAreaPaintEvent(QPaintEvent *event)
 int QtCodeSnippet::lineNumberDigits() const
 {
 	int digits = 1;
-	int max = qMax(1, m_startLineNumber + blockCount());
+	int max = qMax(1, int(m_startLineNumber) + blockCount());
 
 	while (max >= 10)
 	{
@@ -272,7 +272,7 @@ void QtCodeSnippet::createAnnotations(const TokenLocationFile& locationFile)
 			}
 
 			Annotation annotation;
-			if (location->isStartTokenLocation())
+			if (location->isStartTokenLocation() && location->getLineNumber() >= m_startLineNumber)
 			{
 				annotation.start = toTextEditPosition(location->getLineNumber(), location->getColumnNumber() - 1);
 			}

@@ -29,7 +29,7 @@ QtCodeFileList::~QtCodeFileList()
 }
 
 void QtCodeFileList::addCodeSnippet(
-	int startLineNumber,
+	uint startLineNumber,
 	const std::string& code,
 	const TokenLocationFile& locationFile,
 	const std::vector<Id>& activeTokenIds

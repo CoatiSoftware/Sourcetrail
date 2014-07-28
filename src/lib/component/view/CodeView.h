@@ -14,8 +14,8 @@ public:
 	{
 		CodeSnippetParams();
 
-		int startLineNumber;
-		int endLineNumber;
+		uint startLineNumber;
+		uint endLineNumber;
 		uint lineCount;
 
 		std::string code;
