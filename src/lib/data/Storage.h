@@ -60,6 +60,7 @@ public:
 		const ParseLocation& location, const ParseFunction& user, const std::string& usedName);
 	virtual void onGlobalVariableUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const std::string& usedName);
+	virtual void onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function);
 
 	// GraphAccess implementation
 	virtual Id getIdForNodeWithName(const std::string& fullName) const;

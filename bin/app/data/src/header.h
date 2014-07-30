@@ -14,9 +14,9 @@ void funk();
 class A
 {
 public:
-	A()
+	A(char c)
 		: m_importantValue(42)
-		, m_importanterValue('r')
+		, m_importanterValue(c)
 		, m_importantestValue(3.14159265359f)
 	{
 	}
@@ -27,14 +27,14 @@ public:
 
 	void doImportantStuff()
 	{
-		m_importantValue *= 1;
+		int a = 1;
+		m_importantValue *= a;
 	}
 
 	void doModeratelyImportantStuff()
 	{
 		m_importanterValue = 'R';
-
-		sum(21, 21);
+		int answer = sum(21, 21);
 	}
 
 private:
@@ -43,9 +43,16 @@ private:
 	float m_importantestValue;
 };
 
-A globalA;
+A globalA(' ');
 
-class B : public A {};
+class B : public A
+{
+public:
+	B()
+		: A('b')
+	{
+	}
+};
 
 class C
 {
@@ -62,7 +69,7 @@ public:
 
 	void solveAllProblems()
 	{
-		A aInstance;
+		A aInstance('a');
 		aInstance.doImportantStuff();
 		aInstance.doModeratelyImportantStuff();
 	}

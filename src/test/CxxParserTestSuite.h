@@ -871,6 +871,96 @@ public:
 		TS_ASSERT_EQUALS(client->typeUses[3], "int <3:28 3:30>");
 	}
 
+	void test_cxx_parser_finds_type_uses_in_function_body()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"int main()\n"
+			"{\n"
+			"	int a = 42;\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
+		TS_ASSERT_EQUALS(client->typeUses[0], "int <1:1 1:3>");
+		TS_ASSERT_EQUALS(client->typeUses[1], "int main() -> int <3:2 3:4>");
+	}
+
+	void test_cxx_parser_finds_type_uses_in_method_body()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class A\n"
+			"{\n"
+			"	int main()\n"
+			"	{\n"
+			"		int a = 42;\n"
+			"		return a;\n"
+			"	}\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
+		TS_ASSERT_EQUALS(client->typeUses[0], "int <3:2 3:4>");
+		TS_ASSERT_EQUALS(client->typeUses[1], "int A::main() -> int <5:3 5:5>");
+	}
+
+	void test_cxx_parser_finds_type_uses_in_loops_and_conditions()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"int main()\n"
+			"{\n"
+			"	if (true)\n"
+			"	{\n"
+			"		int a = 42;\n"
+			"	}\n"
+			"	for (int i = 0; i < 10; i++)\n"
+			"	{\n"
+			"		int b = i * 2;\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->typeUses.size(), 4);
+		TS_ASSERT_EQUALS(client->typeUses[0], "int <1:1 1:3>");
+		TS_ASSERT_EQUALS(client->typeUses[1], "int main() -> int <5:3 5:5>");
+		TS_ASSERT_EQUALS(client->typeUses[2], "int main() -> int <7:7 7:9>");
+		TS_ASSERT_EQUALS(client->typeUses[3], "int main() -> int <9:3 9:5>");
+	}
+
+	void test_cxx_parser_finds_type_uses_of_classes_in_functions()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class A {};\n"
+			"int main()\n"
+			"{\n"
+			"	A a;\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
+		TS_ASSERT_EQUALS(client->typeUses[0], "int <2:1 2:3>");
+		TS_ASSERT_EQUALS(client->typeUses[1], "int main() -> A <4:2 4:2>");
+	}
+
+	void test_cxx_parser_finds_type_uses_of_base_class_in_derived_constructor()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class A\n"
+			"{\n"
+			"public:\n"
+			"	A(int n) {}"
+			"};\n"
+			"class B : public A\n"
+			"{\n"
+			"public:\n"
+			"	B() : A(42) {}\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
+		TS_ASSERT_EQUALS(client->typeUses[0], "int <4:4 4:6>");
+		TS_ASSERT_EQUALS(client->typeUses[1], "void B::B() -> A <8:8 8:8>");
+	}
+
 	void test_cxx_parser_parses_multiple_files()
 	{
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
@@ -882,7 +972,7 @@ public:
 		parser.parseFiles(filePaths);
 
 		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
-		TS_ASSERT_EQUALS(client->classes.size(), 3);
+		TS_ASSERT_EQUALS(client->classes.size(), 4);
 		TS_ASSERT_EQUALS(client->enums.size(), 1);
 		TS_ASSERT_EQUALS(client->enumFields.size(), 2);
 		TS_ASSERT_EQUALS(client->functions.size(), 2);
@@ -891,6 +981,11 @@ public:
 		TS_ASSERT_EQUALS(client->methods.size(), 5);
 		TS_ASSERT_EQUALS(client->namespaces.size(), 2);
 		TS_ASSERT_EQUALS(client->structs.size(), 1);
+
+		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
+		TS_ASSERT_EQUALS(client->calls.size(), 2);
+		TS_ASSERT_EQUALS(client->usages.size(), 3);
+		TS_ASSERT_EQUALS(client->typeUses.size(), 8);
 	}
 
 private:
@@ -1008,6 +1103,11 @@ private:
 			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + usedName, location));
 		}
 
+		virtual void onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function)
+		{
+			addTypeUse(type, function);
+		}
+
 		std::vector<std::string> typedefs;
 		std::vector<std::string> classes;
 		std::vector<std::string> enums;
@@ -1018,6 +1118,7 @@ private:
 		std::vector<std::string> methods;
 		std::vector<std::string> namespaces;
 		std::vector<std::string> structs;
+
 		std::vector<std::string> inheritances;
 		std::vector<std::string> calls;
 		std::vector<std::string> usages;
@@ -1029,6 +1130,16 @@ private:
 			if (use.location.isValid())
 			{
 				typeUses.push_back(addLocationSuffix(use.dataType.getFullTypeName(), use.location));
+			}
+		}
+
+		void addTypeUse(const ParseTypeUsage& use, const ParseFunction& func)
+		{
+			if (use.location.isValid())
+			{
+				typeUses.push_back(
+					addLocationSuffix(functionStr(func) + " -> " + use.dataType.getFullTypeName(), use.location)
+				);
 			}
 		}
 	};

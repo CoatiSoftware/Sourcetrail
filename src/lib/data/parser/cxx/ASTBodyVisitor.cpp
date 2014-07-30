@@ -66,7 +66,7 @@ void ASTBodyVisitor::VisitMemberExpr(clang::make_ptr<clang::MemberExpr>::type ex
 {
 	if (expr->getMemberDecl()->getKind() == clang::Decl::Kind::Field)
 	{
-		m_client->VisitFieldUsageExprInDeclBody(m_functionDecl, expr);
+		m_client->VisitMemberExprInDeclBody(m_functionDecl, expr);
 	}
 	VisitStmt(expr);
 }
@@ -75,7 +75,19 @@ void ASTBodyVisitor::VisitDeclRefExpr(clang::make_ptr<clang::DeclRefExpr>::type 
 {
 	if (expr->getDecl()->getKind() == clang::Decl::Var && expr->getDecl()->isDefinedOutsideFunctionOrMethod())
 	{
-		m_client->VisitGlobalVariableUsageExprInDeclBody(m_functionDecl, expr);
+		m_client->VisitDeclRefExprInDeclBody(m_functionDecl, expr);
 	}
 	VisitStmt(expr);
+}
+
+void ASTBodyVisitor::VisitDeclStmt(clang::DeclStmt* stmt)
+{
+	for (clang::Decl* decl : stmt->decls())
+	{
+		if (clang::isa<clang::VarDecl>(decl))
+		{
+			m_client->VisitVarDeclInDeclBody(m_functionDecl, clang::dyn_cast<clang::VarDecl>(decl));
+		}
+	}
+	VisitStmt(stmt);
 }

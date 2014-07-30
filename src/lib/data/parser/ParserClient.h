@@ -79,6 +79,7 @@ public:
 		const ParseLocation& location, const ParseFunction& user, const std::string& usedName) = 0;
 	virtual void onGlobalVariableUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const std::string& usedName) = 0;
+	virtual void onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function) = 0;
 };
 
 #endif // PARSER_CLIENT_H

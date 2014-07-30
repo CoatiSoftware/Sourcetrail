@@ -43,8 +43,9 @@ public:
 	virtual void VisitCallExprInDeclBody(clang::VarDecl* decl, clang::CallExpr* expr); // calls in initialization of global variables
 	virtual void VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clang::CXXConstructExpr* expr); // constructor calls
 	virtual void VisitCXXConstructExprInDeclBody(clang::VarDecl* decl, clang::CXXConstructExpr* expr); // constructor calls of global variables
-	virtual void VisitFieldUsageExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr); // field usages
-	virtual void VisitGlobalVariableUsageExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr); // global variable usage
+	virtual void VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr); // field usages
+	virtual void VisitDeclRefExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr); // global variable usage
+	virtual void VisitVarDeclInDeclBody(clang::FunctionDecl* decl, clang::VarDecl* varDecl); // type usages
 
 private:
 	bool hasValidLocation(const clang::Decl* declaration) const;

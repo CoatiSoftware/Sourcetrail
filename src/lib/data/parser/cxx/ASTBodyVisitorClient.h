@@ -15,8 +15,9 @@ public:
 	virtual void VisitCallExprInDeclBody(clang::VarDecl* decl, clang::CallExpr* expr) = 0;
 	virtual void VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clang::CXXConstructExpr* expr) = 0;
 	virtual void VisitCXXConstructExprInDeclBody(clang::VarDecl* decl, clang::CXXConstructExpr* expr) = 0;
-	virtual void VisitFieldUsageExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr) = 0;
-	virtual void VisitGlobalVariableUsageExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr) = 0;
+	virtual void VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr) = 0;
+	virtual void VisitDeclRefExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr) = 0;
+	virtual void VisitVarDeclInDeclBody(clang::FunctionDecl* decl, clang::VarDecl* varDecl) = 0;
 };
 
 #endif // AST_BODY_VISITOR_CLIENT_H

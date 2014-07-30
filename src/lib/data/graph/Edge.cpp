@@ -90,8 +90,9 @@ void Edge::addComponentDataType(std::shared_ptr<TokenComponentDataType> componen
 	{
 		LOG_ERROR("TokenComponentDataType has been set before!");
 	}
-	else if (m_type != EDGE_TYPEDEF_OF && m_type != EDGE_TYPE_OF
-		&& m_type != EDGE_RETURN_TYPE_OF && m_type != EDGE_PARAMETER_TYPE_OF)
+	else if (m_type != EDGE_TYPEDEF_OF && m_type != EDGE_TYPE_OF &&
+		m_type != EDGE_RETURN_TYPE_OF && m_type != EDGE_PARAMETER_TYPE_OF &&
+		m_type != EDGE_TYPE_USAGE)
 	{
 		LOG_ERROR("TokenComponentDataType can't be set on edge of type: " + getTypeString());
 	}
@@ -113,6 +114,8 @@ std::string Edge::getTypeString() const
 		return "return type";
 	case EDGE_PARAMETER_TYPE_OF:
 		return "parameter type";
+	case EDGE_TYPE_USAGE:
+		return "type usage";
 	case EDGE_INHERITANCE:
 		return "inheritance";
 	case EDGE_CALL:

@@ -238,7 +238,7 @@ void Storage::onCallParsed(const ParseLocation& location, const ParseVariable& c
 
 void Storage::onFieldUsageParsed(const ParseLocation& location, const ParseFunction& user, const std::string& usedName)
 {
-	log("usage", user.fullName + " -> " + usedName, location);
+	log("field usage", user.fullName + " -> " + usedName, location);
 
 	Node* userNode =
 		m_graph.createNodeHierarchyWithDistinctSignature(user.fullName, ParserClient::functionSignatureStr(user));
@@ -251,7 +251,7 @@ void Storage::onFieldUsageParsed(const ParseLocation& location, const ParseFunct
 void Storage::onGlobalVariableUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const std::string& usedName
 ){
-	log("usage", user.fullName + " -> " + usedName, location);
+	log("global usage", user.fullName + " -> " + usedName, location);
 
 	Node* userNode =
 		m_graph.createNodeHierarchyWithDistinctSignature(user.fullName, ParserClient::functionSignatureStr(user));;
@@ -259,6 +259,15 @@ void Storage::onGlobalVariableUsageParsed(
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_USAGE, userNode, usedNode);
 	addTokenLocation(edge, location);
+}
+
+void Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function)
+{
+	log("type usage", function.fullName + " -> " + type.dataType.getRawTypeName(), type.location);
+
+	Node* functionNode =
+		m_graph.createNodeHierarchyWithDistinctSignature(function.fullName, ParserClient::functionSignatureStr(function));
+	addTypeEdge(functionNode, Edge::EDGE_TYPE_USAGE, type);
 }
 
 Id Storage::getIdForNodeWithName(const std::string& fullName) const

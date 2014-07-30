@@ -206,6 +206,13 @@ bool ASTVisitor::VisitCXXConstructorDecl(clang::CXXConstructorDecl* declaration)
 						init->getMember()->getQualifiedNameAsString()
 					);
 				}
+				else if (init->isBaseInitializer())
+				{
+					m_client->onTypeUsageParsed(
+						getParseTypeUsage(init->getTypeSourceInfo()->getTypeLoc(), init->getTypeSourceInfo()->getType()),
+						getParseFunction(declaration)
+					);
+				}
 
 				ASTBodyVisitor bodyVisitor(this, declaration);
 				bodyVisitor.Visit(init->getInit());
@@ -308,7 +315,7 @@ void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::VarDecl* decl, clang::CX
 	);
 }
 
-void ASTVisitor::VisitFieldUsageExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr)
+void ASTVisitor::VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr)
 {
 	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
 
@@ -322,7 +329,7 @@ void ASTVisitor::VisitFieldUsageExprInDeclBody(clang::FunctionDecl* decl, clang:
 	);
 }
 
-void ASTVisitor::VisitGlobalVariableUsageExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr)
+void ASTVisitor::VisitDeclRefExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr)
 {
 	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
 
@@ -333,6 +340,14 @@ void ASTVisitor::VisitGlobalVariableUsageExprInDeclBody(clang::FunctionDecl* dec
 		parseLocation,
 		getParseFunction(decl),
 		expr->getDecl()->getQualifiedNameAsString()
+	);
+}
+
+void ASTVisitor::VisitVarDeclInDeclBody(clang::FunctionDecl* decl, clang::VarDecl* varDecl)
+{
+	m_client->onTypeUsageParsed(
+		getParseTypeUsage(varDecl->getTypeSourceInfo()->getTypeLoc(), varDecl->getType()),
+		getParseFunction(decl)
 	);
 }
 

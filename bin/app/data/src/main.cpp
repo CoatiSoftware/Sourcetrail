@@ -7,7 +7,7 @@ int diff(int a, int b);
 
 int main()
 {
-	A aInstance;
+	A aInstance('m');
 	aInstance.doImportantStuff();
 
 	int a = sum(1, 2);
@@ -39,6 +39,6 @@ int diff(int a, int b)
 
 void funk()
 {
-	A aInstance;
+	A aInstance('x');
 	aInstance.doModeratelyImportantStuff();
 }
