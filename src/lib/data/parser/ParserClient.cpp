@@ -2,6 +2,7 @@
 
 #include <sstream>
 
+#include "data/parser/ParseFunction.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParseTypeUsage.h"
 #include "data/parser/ParseVariable.h"
@@ -103,26 +104,16 @@ std::string ParserClient::parameterStr(const std::vector<ParseTypeUsage> paramet
 	return str + ")";
 }
 
-std::string ParserClient::functionStr(
-	const DataType& returnType,
-	const std::string& fullName,
-	const std::vector<ParseTypeUsage>& parameters,
-	bool isConst
-){
-	return addConstPrefix(
-		returnType.getFullTypeName() + " " + fullName + parameterStr(parameters),
-		isConst,
-		false
-	);
+std::string ParserClient::functionStr(const ParseFunction& function)
+{
+	std::string str =
+		function.returnType.dataType.getFullTypeName() + " " + function.fullName + parameterStr(function.parameters);
+	return addConstPrefix(addStaticPrefix(str, function.isStatic), function.isConst, false);
 }
 
-std::string ParserClient::functionSignatureStr(
-	const DataType& returnType,
-	const std::string& fullName,
-	const std::vector<ParseTypeUsage>& parameters,
-	bool isConst
-){
-	return addConstPrefix(fullName + parameterStr(parameters), isConst, false);
+std::string ParserClient::functionSignatureStr(const ParseFunction& function)
+{
+	return addConstPrefix(function.fullName + parameterStr(function.parameters), function.isConst, false);
 }
 
 ParserClient::ParserClient()

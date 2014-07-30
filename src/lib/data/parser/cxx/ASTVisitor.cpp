@@ -2,6 +2,7 @@
 
 #include "data/parser/cxx/ASTBodyVisitor.h"
 #include "data/parser/cxx/utilityCxx.h"
+#include "data/parser/ParseFunction.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParseTypeUsage.h"
 #include "data/parser/ParseVariable.h"
@@ -141,9 +142,7 @@ bool ASTVisitor::VisitFunctionDecl(clang::FunctionDecl* declaration)
 	{
 		m_client->onFunctionParsed(
 			getParseLocationForNamedDecl(declaration),
-			declaration->getQualifiedNameAsString(),
-			getParseTypeUsageOfReturnType(declaration),
-			getParameters(declaration),
+			getParseFunction(declaration),
 			getParseLocationOfFunctionBody(declaration)
 		);
 
@@ -173,13 +172,9 @@ bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 
 		m_client->onMethodParsed(
 			getParseLocationForNamedDecl(declaration),
-			declaration->getQualifiedNameAsString(),
-			getParseTypeUsageOfReturnType(declaration),
-			getParameters(declaration),
+			getParseFunction(declaration),
 			convertAccessType(declaration->getAccess()),
 			abstraction,
-			declaration->isConst(),
-			declaration->isStatic(),
 			getParseLocationOfFunctionBody(declaration)
 		);
 
@@ -206,9 +201,8 @@ bool ASTVisitor::VisitCXXConstructorDecl(clang::CXXConstructorDecl* declaration)
 				if (init->isMemberInitializer())
 				{
 					m_client->onFieldUsageParsed(
-						// getParseLocation(init->getSourceRange()),
 						getParseLocationForNamedDecl(init->getMember(), init->getMemberLocation()),
-						declaration->getQualifiedNameAsString(),
+						getParseFunction(declaration),
 						init->getMember()->getQualifiedNameAsString()
 					);
 				}
@@ -264,7 +258,7 @@ bool ASTVisitor::VisitEnumConstantDecl(clang::EnumConstantDecl* declaration)
 	return true;
 }
 
-void ASTVisitor::VisitCallExprInDeclBody(clang::NamedDecl* decl, clang::CallExpr* expr)
+void ASTVisitor::VisitCallExprInDeclBody(clang::FunctionDecl* decl, clang::CallExpr* expr)
 {
 	// if (clang::FunctionDecl *CalleeDecl = CE->getDirectCallee())
 	// {
@@ -282,21 +276,39 @@ void ASTVisitor::VisitCallExprInDeclBody(clang::NamedDecl* decl, clang::CallExpr
 
 	m_client->onCallParsed(
 		getParseLocation(expr->getSourceRange()),
-		decl->getQualifiedNameAsString(),
-		expr->getDirectCallee()->getQualifiedNameAsString()
+		getParseFunction(decl),
+		getParseFunction(expr->getDirectCallee())
 	);
 }
 
-void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::NamedDecl* decl, clang::CXXConstructExpr* expr)
+void ASTVisitor::VisitCallExprInDeclBody(clang::VarDecl* decl, clang::CallExpr* expr)
 {
 	m_client->onCallParsed(
 		getParseLocation(expr->getSourceRange()),
-		decl->getQualifiedNameAsString(),
-		expr->getConstructor()->getQualifiedNameAsString()
+		getParseVariable(decl),
+		getParseFunction(expr->getDirectCallee())
 	);
 }
 
-void ASTVisitor::VisitFieldUsageExprInDeclBody(clang::NamedDecl* decl, clang::MemberExpr* expr)
+void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clang::CXXConstructExpr* expr)
+{
+	m_client->onCallParsed(
+		getParseLocation(expr->getSourceRange()),
+		getParseFunction(decl),
+		getParseFunction(expr->getConstructor())
+	);
+}
+
+void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::VarDecl* decl, clang::CXXConstructExpr* expr)
+{
+	m_client->onCallParsed(
+		getParseLocation(expr->getSourceRange()),
+		getParseVariable(decl),
+		getParseFunction(expr->getConstructor())
+	);
+}
+
+void ASTVisitor::VisitFieldUsageExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr)
 {
 	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
 
@@ -305,12 +317,12 @@ void ASTVisitor::VisitFieldUsageExprInDeclBody(clang::NamedDecl* decl, clang::Me
 
 	m_client->onFieldUsageParsed(
 		parseLocation,
-		decl->getQualifiedNameAsString(),
+		getParseFunction(decl),
 		expr->getMemberDecl()->getQualifiedNameAsString()
 	);
 }
 
-void ASTVisitor::VisitGlobalVariableUsageExprInDeclBody(clang::NamedDecl* decl, clang::DeclRefExpr* expr)
+void ASTVisitor::VisitGlobalVariableUsageExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr)
 {
 	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
 
@@ -319,7 +331,7 @@ void ASTVisitor::VisitGlobalVariableUsageExprInDeclBody(clang::NamedDecl* decl, 
 
 	m_client->onGlobalVariableUsageParsed(
 		parseLocation,
-		decl->getQualifiedNameAsString(),
+		getParseFunction(decl),
 		expr->getDecl()->getQualifiedNameAsString()
 	);
 }
@@ -328,6 +340,27 @@ bool ASTVisitor::hasValidLocation(const clang::Decl* declaration) const
 {
 	const clang::SourceLocation& location = declaration->getLocStart();
 	return location.isValid() && m_context->getSourceManager().isWrittenInMainFile(location);
+}
+
+std::string ASTVisitor::getTypeName(const clang::QualType& qualType) const
+{
+	DataType dataType = utility::qualTypeToDataType(qualType);
+	return dataType.getRawTypeName();
+}
+
+ParserClient::AccessType ASTVisitor::convertAccessType(clang::AccessSpecifier access) const
+{
+	switch (access)
+	{
+	case clang::AS_public:
+		return ParserClient::ACCESS_PUBLIC;
+	case clang::AS_protected:
+		return ParserClient::ACCESS_PROTECTED;
+	case clang::AS_private:
+		return ParserClient::ACCESS_PRIVATE;
+	case clang::AS_none:
+		return ParserClient::ACCESS_NONE;
+	}
 }
 
 ParseLocation ASTVisitor::getParseLocation(const clang::SourceRange& sourceRange) const
@@ -389,33 +422,21 @@ ParseLocation ASTVisitor::getParseLocationOfRecordBody(clang::CXXRecordDecl* dec
 	return ParseLocation();
 }
 
-ParseVariable ASTVisitor::getParseVariable(clang::DeclaratorDecl* declaration) const
-{
-	bool isStatic = false;
-	if (clang::isa<clang::VarDecl>(declaration))
-	{
-		clang::VarDecl* varDecl = static_cast<clang::VarDecl*>(declaration);
-		isStatic = varDecl->isStaticDataMember() || varDecl->getStorageClass() == clang::SC_Static;
-	}
-
-	return ParseVariable(
-		getParseTypeUsage(declaration->getTypeSourceInfo()->getTypeLoc(), declaration->getType()),
-		declaration->getQualifiedNameAsString(),
-		isStatic
-	);
-}
-
 ParseTypeUsage ASTVisitor::getParseTypeUsage(clang::TypeLoc typeLoc, const clang::QualType& type) const
 {
-	while (typeLoc.getNextTypeLoc())
-	{
-		typeLoc = typeLoc.getNextTypeLoc();
-	}
-
-	ParseLocation parseLocation = getParseLocation(typeLoc.getSourceRange());
 	DataType dataType = utility::qualTypeToDataType(type);
+	ParseLocation parseLocation;
 
-	parseLocation.endColumnNumber += dataType.getRawTypeName().size() - 1;
+	if (!typeLoc.isNull())
+	{
+		while (typeLoc.getNextTypeLoc())
+		{
+			typeLoc = typeLoc.getNextTypeLoc();
+		}
+
+		parseLocation = getParseLocation(typeLoc.getSourceRange());
+		parseLocation.endColumnNumber += dataType.getRawTypeName().size() - 1;
+	}
 
 	return ParseTypeUsage(parseLocation, dataType);
 }
@@ -423,10 +444,16 @@ ParseTypeUsage ASTVisitor::getParseTypeUsage(clang::TypeLoc typeLoc, const clang
 ParseTypeUsage ASTVisitor::getParseTypeUsageOfReturnType(clang::FunctionDecl* declaration) const
 {
 	// TODO: use FunctionDecl::getReturnTypeSourceRange() in newer clang version
-	const clang::TypeSourceInfo *TSI = declaration->getTypeSourceInfo();
-	const clang::FunctionTypeLoc FTL = TSI->getTypeLoc().IgnoreParens().getAs<clang::FunctionTypeLoc>();
+	clang::TypeLoc typeLoc;
 
-	return getParseTypeUsage(FTL.getReturnLoc(), declaration->getReturnType());
+	const clang::TypeSourceInfo *TSI = declaration->getTypeSourceInfo();
+	if (TSI)
+	{
+		const clang::FunctionTypeLoc FTL = TSI->getTypeLoc().IgnoreParens().getAs<clang::FunctionTypeLoc>();
+		typeLoc = FTL.getReturnLoc();
+	}
+
+	return getParseTypeUsage(typeLoc, declaration->getReturnType());
 }
 
 std::vector<ParseTypeUsage> ASTVisitor::getParameters(clang::FunctionDecl* declaration) const
@@ -442,23 +469,42 @@ std::vector<ParseTypeUsage> ASTVisitor::getParameters(clang::FunctionDecl* decla
 	return parameters;
 }
 
-std::string ASTVisitor::getTypeName(const clang::QualType& qualType) const
+ParseVariable ASTVisitor::getParseVariable(clang::DeclaratorDecl* declaration) const
 {
-	DataType dataType = utility::qualTypeToDataType(qualType);
-	return dataType.getRawTypeName();
+	bool isStatic = false;
+	if (clang::isa<clang::VarDecl>(declaration))
+	{
+		clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(declaration);
+		isStatic = varDecl->isStaticDataMember() || varDecl->getStorageClass() == clang::SC_Static;
+	}
+
+	return ParseVariable(
+		getParseTypeUsage(declaration->getTypeSourceInfo()->getTypeLoc(), declaration->getType()),
+		declaration->getQualifiedNameAsString(),
+		isStatic
+	);
 }
 
-ParserClient::AccessType ASTVisitor::convertAccessType(clang::AccessSpecifier access) const
+ParseFunction ASTVisitor::getParseFunction(clang::FunctionDecl* declaration) const
 {
-	switch (access)
+	bool isStatic = false;
+	bool isConst = false;
+	if (clang::isa<clang::CXXMethodDecl>(declaration))
 	{
-	case clang::AS_public:
-		return ParserClient::ACCESS_PUBLIC;
-	case clang::AS_protected:
-		return ParserClient::ACCESS_PROTECTED;
-	case clang::AS_private:
-		return ParserClient::ACCESS_PRIVATE;
-	case clang::AS_none:
-		return ParserClient::ACCESS_NONE;
+		clang::CXXMethodDecl* methodDecl = clang::dyn_cast<clang::CXXMethodDecl>(declaration);
+		isStatic = methodDecl->isStatic();
+		isConst = methodDecl->isConst();
 	}
+	else
+	{
+		isStatic = declaration->getStorageClass() == clang::SC_Static;
+	}
+
+	return ParseFunction(
+		getParseTypeUsageOfReturnType(declaration),
+		declaration->getQualifiedNameAsString(),
+		getParameters(declaration),
+		isStatic,
+		isConst
+	);
 }

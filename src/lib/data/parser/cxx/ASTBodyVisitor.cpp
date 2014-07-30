@@ -1,8 +1,16 @@
 #include "data/parser/cxx/ASTBodyVisitor.h"
 
-ASTBodyVisitor::ASTBodyVisitor(ASTBodyVisitorClient* client, clang::NamedDecl* parentDecl)
+ASTBodyVisitor::ASTBodyVisitor(ASTBodyVisitorClient* client, clang::FunctionDecl* functionDecl)
 	: m_client(client)
-	, m_parentDecl(parentDecl)
+	, m_functionDecl(functionDecl)
+	, m_varDecl(nullptr)
+{
+}
+
+ASTBodyVisitor::ASTBodyVisitor(ASTBodyVisitorClient* client, clang::VarDecl* varDecl)
+	: m_client(client)
+	, m_functionDecl(nullptr)
+	, m_varDecl(varDecl)
 {
 }
 
@@ -28,14 +36,28 @@ void ASTBodyVisitor::VisitChildren(clang::Stmt* stmt)
 
 void ASTBodyVisitor::VisitCallExpr(clang::CallExpr* expr)
 {
-	m_client->VisitCallExprInDeclBody(m_parentDecl, expr);
+	if (m_functionDecl)
+	{
+		m_client->VisitCallExprInDeclBody(m_functionDecl, expr);
+	}
+	else
+	{
+		m_client->VisitCallExprInDeclBody(m_varDecl, expr);
+	}
 
 	VisitStmt(expr);
 }
 
 void ASTBodyVisitor::VisitCXXConstructExpr(clang::CXXConstructExpr* expr)
 {
-	m_client->VisitCXXConstructExprInDeclBody(m_parentDecl, expr);
+	if (m_functionDecl)
+	{
+		m_client->VisitCXXConstructExprInDeclBody(m_functionDecl, expr);
+	}
+	else
+	{
+		m_client->VisitCXXConstructExprInDeclBody(m_varDecl, expr);
+	}
 
 	VisitStmt(expr);
 }
@@ -44,7 +66,7 @@ void ASTBodyVisitor::VisitMemberExpr(clang::make_ptr<clang::MemberExpr>::type ex
 {
 	if (expr->getMemberDecl()->getKind() == clang::Decl::Kind::Field)
 	{
-		m_client->VisitFieldUsageExprInDeclBody(m_parentDecl, expr);
+		m_client->VisitFieldUsageExprInDeclBody(m_functionDecl, expr);
 	}
 	VisitStmt(expr);
 }
@@ -53,7 +75,7 @@ void ASTBodyVisitor::VisitDeclRefExpr(clang::make_ptr<clang::DeclRefExpr>::type 
 {
 	if (expr->getDecl()->getKind() == clang::Decl::Var && expr->getDecl()->isDefinedOutsideFunctionOrMethod())
 	{
-		m_client->VisitGlobalVariableUsageExprInDeclBody(m_parentDecl, expr);
+		m_client->VisitGlobalVariableUsageExprInDeclBody(m_functionDecl, expr);
 	}
 	VisitStmt(expr);
 }

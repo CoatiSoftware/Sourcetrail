@@ -39,25 +39,30 @@ public:
 	virtual bool VisitEnumConstantDecl(clang::EnumConstantDecl* declaration); // enum fields
 
 	// ASTBodyVisitorClient implementation
-	virtual void VisitCallExprInDeclBody(clang::NamedDecl* decl, clang::CallExpr* expr); // calls
-	virtual void VisitCXXConstructExprInDeclBody(clang::NamedDecl* decl, clang::CXXConstructExpr* expr); // constructor calls
-	virtual void VisitFieldUsageExprInDeclBody(clang::NamedDecl* decl, clang::MemberExpr* expr); // field usages
-	virtual void VisitGlobalVariableUsageExprInDeclBody(clang::NamedDecl* decl, clang::DeclRefExpr* expr); // global variable usage
+	virtual void VisitCallExprInDeclBody(clang::FunctionDecl* decl, clang::CallExpr* expr); // calls
+	virtual void VisitCallExprInDeclBody(clang::VarDecl* decl, clang::CallExpr* expr); // calls in initialization of global variables
+	virtual void VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clang::CXXConstructExpr* expr); // constructor calls
+	virtual void VisitCXXConstructExprInDeclBody(clang::VarDecl* decl, clang::CXXConstructExpr* expr); // constructor calls of global variables
+	virtual void VisitFieldUsageExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr); // field usages
+	virtual void VisitGlobalVariableUsageExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr); // global variable usage
 
 private:
 	bool hasValidLocation(const clang::Decl* declaration) const;
+	std::string getTypeName(const clang::QualType& qualType) const;
+	ParserClient::AccessType convertAccessType(clang::AccessSpecifier) const;
+
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
 	ParseLocation getParseLocationForNamedDecl(clang::NamedDecl* decl, const clang::SourceLocation& loc) const;
 	ParseLocation getParseLocationForNamedDecl(clang::NamedDecl* decl) const;
 	ParseLocation getParseLocationOfFunctionBody(clang::FunctionDecl* decl) const;
 	ParseLocation getParseLocationOfRecordBody(clang::CXXRecordDecl* decl) const;
-	ParseVariable getParseVariable(clang::DeclaratorDecl* declaration) const;
+
 	ParseTypeUsage getParseTypeUsage(clang::TypeLoc typeLoc, const clang::QualType& type) const;
 	ParseTypeUsage getParseTypeUsageOfReturnType(clang::FunctionDecl* declaration) const;
 	std::vector<ParseTypeUsage> getParameters(clang::FunctionDecl* declaration) const;
-	DataType qualTypeToDataType(clang::QualType qualType);
-	std::string getTypeName(const clang::QualType& qualType) const;
-	ParserClient::AccessType convertAccessType(clang::AccessSpecifier) const;
+
+	ParseVariable getParseVariable(clang::DeclaratorDecl* declaration) const;
+	ParseFunction getParseFunction(clang::FunctionDecl* declaration) const;
 
 	clang::ASTContext* m_context;
 	std::shared_ptr<ParserClient> m_client;

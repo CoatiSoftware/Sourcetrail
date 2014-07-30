@@ -102,6 +102,8 @@ add_files(
 	data/location/TokenLocationLine.cpp
 	data/location/TokenLocationLine.h
 
+	data/parser/ParseFunction.cpp
+	data/parser/ParseFunction.h
 	data/parser/ParseLocation.cpp
 	data/parser/ParseLocation.h
 	data/parser/Parser.cpp

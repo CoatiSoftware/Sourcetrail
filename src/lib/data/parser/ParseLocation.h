@@ -16,7 +16,7 @@ struct ParseLocation
 
 	bool isValid() const;
 
-	const std::string filePath;
+	std::string filePath;
 	uint startLineNumber;
 	uint startColumnNumber;
 	uint endLineNumber;

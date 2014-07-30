@@ -31,10 +31,10 @@ Node::NodeType Node::getType() const
 
 void Node::setType(NodeType type)
 {
-	if (type != m_type && m_type != NODE_UNDEFINED)
+	if (type != m_type && m_type != NODE_UNDEFINED && m_type != NODE_UNDEFINED_FUNCTION)
 	{
 		LOG_WARNING(
-			"Changing NodeType after it was already set, from " + getTypeString(m_type) + " to " + getTypeString(type)
+			"Cannot change NodeType after it was already set from " + getTypeString(m_type) + " to " + getTypeString(type)
 		);
 		return;
 	}
@@ -229,7 +229,7 @@ void Node::addComponentSignature(std::shared_ptr<TokenComponentSignature> compon
 	{
 		LOG_ERROR("TokenComponentSignature has been set before!");
 	}
-	else if (m_type != NODE_FUNCTION && m_type != NODE_METHOD)
+	else if (m_type != NODE_UNDEFINED_FUNCTION && m_type != NODE_FUNCTION && m_type != NODE_METHOD)
 	{
 		LOG_ERROR("TokenComponentSignature can't be set on node of type: " + getTypeString(m_type));
 	}
@@ -245,6 +245,8 @@ std::string Node::getTypeString(NodeType type) const
 	{
 	case NODE_UNDEFINED:
 		return "undefined";
+	case NODE_UNDEFINED_FUNCTION:
+		return "undefined function";
 	case NODE_CLASS:
 		return "class";
 	case NODE_STRUCT:

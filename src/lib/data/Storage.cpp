@@ -6,6 +6,7 @@
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
 #include "data/location/TokenLocationLine.h"
+#include "data/parser/ParseFunction.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParseTypeUsage.h"
 #include "data/parser/ParseVariable.h"
@@ -109,45 +110,40 @@ void Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& 
 }
 
 void Storage::onFunctionParsed(
-	const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
-	const std::vector<ParseTypeUsage>& parameters, const ParseLocation& scopeLocation
-)
-{
-	log("function", fullName, location);
+	const ParseLocation& location, const ParseFunction& function, const ParseLocation& scopeLocation
+){
+	log("function", function.fullName, location);
 
 	Node* node = m_graph.createNodeHierarchyWithDistinctSignature(
-		Node::NODE_FUNCTION, fullName,
-		ParserClient::functionSignatureStr(returnType.dataType, fullName, parameters, false)
+		Node::NODE_FUNCTION, function.fullName, ParserClient::functionSignatureStr(function)
 	);
+
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
 
-	addTypeEdge(node, Edge::EDGE_RETURN_TYPE_OF, returnType);
-	for (const ParseTypeUsage& parameter : parameters)
+	addTypeEdge(node, Edge::EDGE_RETURN_TYPE_OF, function.returnType);
+	for (const ParseTypeUsage& parameter : function.parameters)
 	{
 		addTypeEdge(node, Edge::EDGE_PARAMETER_TYPE_OF, parameter);
 	}
 }
 
 void Storage::onMethodParsed(
-	const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
-	const std::vector<ParseTypeUsage>& parameters, AccessType access, AbstractionType abstraction,
-	bool isConst, bool isStatic, const ParseLocation& scopeLocation
-)
-{
-	log("method", fullName, location);
+	const ParseLocation& location, const ParseFunction& method, AccessType access, AbstractionType abstraction,
+	const ParseLocation& scopeLocation
+){
+	log("method", method.fullName, location);
 
 	Node* node = m_graph.createNodeHierarchyWithDistinctSignature(
-		Node::NODE_METHOD, fullName,
-		ParserClient::functionSignatureStr(returnType.dataType, fullName, parameters, isConst)
+		Node::NODE_METHOD, method.fullName, ParserClient::functionSignatureStr(method)
 	);
 
-	if (isConst)
+	if (method.isConst)
 	{
 		node->addComponentConst(std::make_shared<TokenComponentConst>());
 	}
 
-	if (isStatic)
+	if (method.isStatic)
 	{
 		node->addComponentStatic(std::make_shared<TokenComponentStatic>());
 	}
@@ -162,8 +158,8 @@ void Storage::onMethodParsed(
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
 
-	addTypeEdge(node, Edge::EDGE_RETURN_TYPE_OF, returnType);
-	for (const ParseTypeUsage& parameter : parameters)
+	addTypeEdge(node, Edge::EDGE_RETURN_TYPE_OF, method.returnType);
+	for (const ParseTypeUsage& parameter : method.parameters)
 	{
 		addTypeEdge(node, Edge::EDGE_PARAMETER_TYPE_OF, parameter);
 	}
@@ -212,23 +208,40 @@ void Storage::onInheritanceParsed(
 	addTokenLocation(edge, location);
 }
 
-void Storage::onCallParsed(const ParseLocation& location, const std::string& callerName, const std::string& calleeName)
+void Storage::onCallParsed(const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee)
 {
-	log("call", callerName + " -> " + calleeName, location);
+	log("call", caller.fullName + " -> " + callee.fullName, location);
 
-	Node* callerNode = m_graph.createNodeHierarchy(callerName);
-	Node* calleeNode = m_graph.createNodeHierarchy(calleeName);
+	Node* callerNode =
+		m_graph.createNodeHierarchyWithDistinctSignature(caller.fullName, ParserClient::functionSignatureStr(caller));
+	Node* calleeNode =
+		m_graph.createNodeHierarchyWithDistinctSignature(callee.fullName, ParserClient::functionSignatureStr(callee));
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_CALL, callerNode, calleeNode);
 
 	addTokenLocation(edge, location);
 }
 
-void Storage::onFieldUsageParsed(const ParseLocation& location, const std::string& userName, const std::string& usedName)
+void Storage::onCallParsed(const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee)
 {
-	log("usage", userName + " -> " + usedName, location);
+	log("call", caller.fullName + " -> " + callee.fullName, location);
 
-	Node* userNode = m_graph.createNodeHierarchy(userName);
+	Node* callerNode =
+		m_graph.createNodeHierarchy(caller.fullName);
+	Node* calleeNode =
+		m_graph.createNodeHierarchyWithDistinctSignature(callee.fullName, ParserClient::functionSignatureStr(callee));
+
+	Edge* edge = m_graph.createEdge(Edge::EDGE_CALL, callerNode, calleeNode);
+
+	addTokenLocation(edge, location);
+}
+
+void Storage::onFieldUsageParsed(const ParseLocation& location, const ParseFunction& user, const std::string& usedName)
+{
+	log("usage", user.fullName + " -> " + usedName, location);
+
+	Node* userNode =
+		m_graph.createNodeHierarchyWithDistinctSignature(user.fullName, ParserClient::functionSignatureStr(user));
 	Node* usedNode = m_graph.createNodeHierarchy(usedName);
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_USAGE, userNode, usedNode);
@@ -236,12 +249,12 @@ void Storage::onFieldUsageParsed(const ParseLocation& location, const std::strin
 }
 
 void Storage::onGlobalVariableUsageParsed(
-	const ParseLocation& location, const std::string& userName, const std::string& usedName
-)
-{
-	log("usage", userName + " -> " + usedName, location);
+		const ParseLocation& location, const ParseFunction& user, const std::string& usedName
+){
+	log("usage", user.fullName + " -> " + usedName, location);
 
-	Node* userNode = m_graph.createNodeHierarchy(userName);
+	Node* userNode =
+		m_graph.createNodeHierarchyWithDistinctSignature(user.fullName, ParserClient::functionSignatureStr(user));;
 	Node* usedNode = m_graph.createNodeHierarchy(usedName);
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_USAGE, userNode, usedNode);

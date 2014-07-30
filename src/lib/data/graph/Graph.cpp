@@ -90,7 +90,7 @@ Node* Graph::createNodeHierarchy(Node::NodeType type, const std::string& fullNam
 
 Node* Graph::createNodeHierarchyWithDistinctSignature(const std::string& fullName, const std::string& signature)
 {
-	return createNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED, fullName, signature);
+	return createNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, fullName, signature);
 }
 
 Node* Graph::createNodeHierarchyWithDistinctSignature(
@@ -103,7 +103,7 @@ Node* Graph::createNodeHierarchyWithDistinctSignature(
 		TokenComponentSignature* sigComponent = node->getComponent<TokenComponentSignature>();
 		if (sigComponent && sigComponent->getSignature() == signature)
 		{
-			if (type != Node::NODE_UNDEFINED)
+			if (type != Node::NODE_UNDEFINED && type != Node::NODE_UNDEFINED_FUNCTION)
 			{
 				node->setType(type);
 			}

@@ -28,8 +28,7 @@ public:
 	// ParserClient implementation
 	virtual void onTypedefParsed(
 		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& underlyingType,
-		AccessType access
-	);
+		AccessType access);
 	virtual void onClassParsed(
 		const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation);
 	virtual void onStructParsed(
@@ -39,14 +38,10 @@ public:
 	virtual void onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access);
 
 	virtual void onFunctionParsed(
-		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
-		const std::vector<ParseTypeUsage>& parameters, const ParseLocation& scopeLocation
-	);
+		const ParseLocation& location, const ParseFunction& function, const ParseLocation& scopeLocation);
 	virtual void onMethodParsed(
-		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
-		const std::vector<ParseTypeUsage>& parameters, AccessType access, AbstractionType abstraction,
-		bool isConst, bool isStatic, const ParseLocation& scopeLocation
-	);
+		const ParseLocation& location, const ParseFunction& method, AccessType access, AbstractionType abstraction,
+		const ParseLocation& scopeLocation);
 
 	virtual void onNamespaceParsed(
 		const ParseLocation& location, const std::string& fullName, const ParseLocation& scopeLocation);
@@ -56,16 +51,15 @@ public:
 	virtual void onEnumFieldParsed(const ParseLocation& location, const std::string& fullName);
 
 	virtual void onInheritanceParsed(
-		const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access
-	);
+		const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access);
 	virtual void onCallParsed(
-		const ParseLocation& location, const std::string& callerName, const std::string& calleeName
-	);
+		const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee);
+	virtual void onCallParsed(
+		const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee);
 	virtual void onFieldUsageParsed(
-		const ParseLocation& location, const std::string& userName, const std::string& usedName
-	);
+		const ParseLocation& location, const ParseFunction& user, const std::string& usedName);
 	virtual void onGlobalVariableUsageParsed(
-		const ParseLocation& location, const std::string& userName, const std::string& usedName);
+		const ParseLocation& location, const ParseFunction& user, const std::string& usedName);
 
 	// GraphAccess implementation
 	virtual Id getIdForNodeWithName(const std::string& fullName) const;

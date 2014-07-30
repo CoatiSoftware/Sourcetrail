@@ -7,7 +7,8 @@
 class ASTBodyVisitor: public clang::StmtVisitor<ASTBodyVisitor>
 {
 public:
-	ASTBodyVisitor(ASTBodyVisitorClient* client, clang::NamedDecl* parentDecl);
+	ASTBodyVisitor(ASTBodyVisitorClient* client, clang::FunctionDecl* functionDecl);
+	ASTBodyVisitor(ASTBodyVisitorClient* client, clang::VarDecl* varDecl);
 	virtual ~ASTBodyVisitor();
 
 	void VisitStmt(clang::Stmt* stmt);
@@ -19,7 +20,8 @@ public:
 
 private:
 	ASTBodyVisitorClient* m_client;
-	clang::NamedDecl* m_parentDecl;
+	clang::FunctionDecl* m_functionDecl;
+	clang::VarDecl* m_varDecl;
 };
 
 #endif // AST_BODY_VISITOR

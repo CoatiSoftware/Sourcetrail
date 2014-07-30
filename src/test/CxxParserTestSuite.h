@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "data/parser/cxx/CxxParser.h"
+#include "data/parser/ParseFunction.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
 #include "data/parser/ParseTypeUsage.h"
@@ -212,6 +213,19 @@ public:
 
 		TS_ASSERT_EQUALS(client->functions.size(), 1);
 		TS_ASSERT_EQUALS(client->functions[0], "int (anonymous namespace)::sum(int, int) <3:6 3:8>");
+	}
+
+	void test_cxx_parser_finds_static_function_in_global_namespace()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"static int ceil(float a)\n"
+			"{\n"
+			"	return static_cast<int>(a) + 1;\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->functions.size(), 1);
+		TS_ASSERT_EQUALS(client->functions[0], "static int ceil(float) <1:1 <1:12 1:15> 4:1>");
 	}
 
 	void test_cxx_parser_finds_method_declaration()
@@ -497,7 +511,50 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "main -> sum <7:2 7:10>");
+		TS_ASSERT_EQUALS(client->calls[0], "int main() -> int sum(int, int) <7:2 7:10>");
+	}
+
+	void test_cxx_parser_finds_call_in_function_with_right_signature()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"int sum(int a, int b)\n"
+			"{\n"
+			"	return a + b;\n"
+			"}\n"
+			"void func()\n"
+			"{\n"
+			"}\n"
+			"void func(bool right)\n"
+			"{\n"
+			"	sum(1, 2);\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->calls.size(), 1);
+		TS_ASSERT_EQUALS(client->calls[0], "void func(_Bool) -> int sum(int, int) <10:2 10:10>");
+	}
+
+	void test_cxx_parser_finds_call_to_function_with_right_signature()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"int sum(int a, int b)\n"
+			"{\n"
+			"	return a + b;\n"
+			"}\n"
+			"float sum(float a, float b)\n"
+			"{\n"
+			"	return a + b;\n"
+			"}\n"
+			"int main()\n"
+			"{\n"
+			"	sum(1, 2);\n"
+			"	sum(1.0f, 0.5f);\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->calls.size(), 2);
+		TS_ASSERT_EQUALS(client->calls[0], "int main() -> int sum(int, int) <11:2 11:10>");
+		TS_ASSERT_EQUALS(client->calls[1], "int main() -> float sum(float, float) <12:2 12:16>");
 	}
 
 	void test_cxx_parser_finds_call_within_call_in_function()
@@ -514,8 +571,8 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
-		TS_ASSERT_EQUALS(client->calls[0], "main -> sum <7:9 7:25>");
-		TS_ASSERT_EQUALS(client->calls[1], "main -> sum <7:16 7:24>");
+		TS_ASSERT_EQUALS(client->calls[0], "int main() -> int sum(int, int) <7:9 7:25>");
+		TS_ASSERT_EQUALS(client->calls[1], "int main() -> int sum(int, int) <7:16 7:24>");
 	}
 
 	void test_cxx_parser_finds_call_in_method()
@@ -535,7 +592,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "App::main -> sum <9:10 9:18>");
+		TS_ASSERT_EQUALS(client->calls[0], "int App::main() -> int sum(int, int) <9:10 9:18>");
 	}
 
 	void test_cxx_parser_finds_constructor_call()
@@ -553,7 +610,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "main -> App::App <8:6 8:6>");
+		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <8:6 8:6>");
 	}
 
 	void test_cxx_parser_finds_constructor_without_definition_call()
@@ -569,7 +626,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "main -> App::App <6:6 6:6>");
+		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <6:6 6:6>");
 	}
 
 	void test_cxx_parser_finds_constructor_call_of_field()
@@ -587,7 +644,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "App::App -> Item::Item <7:2 7:2>");
+		TS_ASSERT_EQUALS(client->calls[0], "void App::App() -> void Item::Item() <7:2 7:2>");
 	}
 
 	void test_cxx_parser_finds_constructor_call_of_field_in_initialization_list()
@@ -608,7 +665,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "App::App -> Item::Item <9:5 9:11>");
+		TS_ASSERT_EQUALS(client->calls[0], "void App::App() -> void Item::Item(int) <9:5 9:11>");
 	}
 
 	void test_cxx_parser_finds_function_call_within_constructor_call_of_field_in_initialization_list()
@@ -630,8 +687,8 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
-		TS_ASSERT_EQUALS(client->calls[0], "App::App -> Item::Item <10:5 10:15>");
-		TS_ASSERT_EQUALS(client->calls[1], "App::App -> one <10:10 10:14>");
+		TS_ASSERT_EQUALS(client->calls[0], "void App::App() -> void Item::Item(int) <10:5 10:15>");
+		TS_ASSERT_EQUALS(client->calls[1], "void App::App() -> int one() <10:10 10:14>");
 	}
 
 	void test_cxx_parser_finds_copy_constructor_call()
@@ -651,8 +708,8 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
-		TS_ASSERT_EQUALS(client->calls[0], "main -> App::App <9:6 9:6>");
-		TS_ASSERT_EQUALS(client->calls[1], "main -> App::App <10:6 10:14>");
+		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <9:6 9:6>");
+		TS_ASSERT_EQUALS(client->calls[1], "int main() -> void App::App(class App const &) <10:6 10:14>");
 	}
 
 	void test_cxx_parser_finds_global_constructor_call()
@@ -667,7 +724,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "app -> App::App <6:5 6:5>");
+		TS_ASSERT_EQUALS(client->calls[0], "app -> void App::App() <6:5 6:5>");
 	}
 
 	void test_cxx_parser_finds_global_function_call()
@@ -678,7 +735,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "a -> one <2:9 2:13>");
+		TS_ASSERT_EQUALS(client->calls[0], "a -> int one() <2:9 2:13>");
 	}
 
 	void test_cxx_parser_finds_operator_call()
@@ -699,8 +756,8 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
-		TS_ASSERT_EQUALS(client->calls[0], "main -> App::App <10:6 10:6>");
-		TS_ASSERT_EQUALS(client->calls[1], "main -> App::operator+ <11:2 11:8>");
+		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <10:6 10:6>");
+		TS_ASSERT_EQUALS(client->calls[1], "int main() -> void App::operator+(int) <11:2 11:8>");
 	}
 
 	void test_cxx_parser_finds_usage_of_global_variable_in_function()
@@ -715,7 +772,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->usages.size(), 1);
-		TS_ASSERT_EQUALS(client->usages[0], "main -> bar <5:2 5:4>");
+		TS_ASSERT_EQUALS(client->usages[0], "int main() -> bar <5:2 5:4>");
 	}
 
 	void test_cxx_parser_finds_usage_of_global_variable_in_method()
@@ -733,7 +790,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->usages.size(), 1);
-		TS_ASSERT_EQUALS(client->usages[0], "App::foo -> bar <7:3 7:5>");
+		TS_ASSERT_EQUALS(client->usages[0], "void App::foo() -> bar <7:3 7:5>");
 	}
 
 	void test_cxx_parser_finds_usage_of_field_in_method()
@@ -751,8 +808,8 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->usages.size(), 2);
-		TS_ASSERT_EQUALS(client->usages[0], "App::foo -> App::bar <5:3 5:5>");
-		TS_ASSERT_EQUALS(client->usages[1], "App::foo -> App::bar <6:3 6:11>");
+		TS_ASSERT_EQUALS(client->usages[0], "void App::foo() -> App::bar <5:3 5:5>");
+		TS_ASSERT_EQUALS(client->usages[1], "void App::foo() -> App::bar <6:3 6:11>");
 	}
 
 	void test_cxx_parser_finds_usage_of_field_in_initialization_list()
@@ -768,7 +825,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->usages.size(), 1);
-		TS_ASSERT_EQUALS(client->usages[0], "App::App -> App::bar <4:5 4:7>");
+		TS_ASSERT_EQUALS(client->usages[0], "void App::App() -> App::bar <4:5 4:7>");
 	}
 
 	void test_cxx_parser_finds_return_type_use_in_function()
@@ -874,33 +931,29 @@ private:
 		}
 
 		virtual void onFunctionParsed(
-			const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
-			const std::vector<ParseTypeUsage>& parameters, const ParseLocation& scopeLocation
+			const ParseLocation& location, const ParseFunction& function, const ParseLocation& scopeLocation
 		){
-			std::string str = functionStr(returnType.dataType, fullName, parameters, false);
-			functions.push_back(addLocationSuffix(str, location, scopeLocation));
+			functions.push_back(addLocationSuffix(functionStr(function), location, scopeLocation));
 
-			addTypeUse(returnType);
-			for (const ParseTypeUsage& parameter : parameters)
+			addTypeUse(function.returnType);
+			for (const ParseTypeUsage& parameter : function.parameters)
 			{
 				addTypeUse(parameter);
 			}
 		}
 
 		virtual void onMethodParsed(
-			const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
-			const std::vector<ParseTypeUsage>& parameters, AccessType access, AbstractionType abstraction,
-			bool isConst, bool isStatic, const ParseLocation& scopeLocation
-		)
-		{
-			std::string str = functionStr(returnType.dataType, fullName, parameters, isConst);
-			str = addStaticPrefix(addAbstractionPrefix(str, abstraction), isStatic);
+			const ParseLocation& location, const ParseFunction& method, AccessType access, AbstractionType abstraction,
+			const ParseLocation& scopeLocation
+		){
+			std::string str = functionStr(method);
+			str = addAbstractionPrefix(str, abstraction);
 			str = addAccessPrefix(str, access);
 			str = addLocationSuffix(str, location, scopeLocation);
 			methods.push_back(str);
 
-			addTypeUse(returnType);
-			for (const ParseTypeUsage& parameter : parameters)
+			addTypeUse(method.returnType);
+			for (const ParseTypeUsage& parameter : method.parameters)
 			{
 				addTypeUse(parameter);
 			}
@@ -932,21 +985,27 @@ private:
 		}
 
 		virtual void onCallParsed(
-			const ParseLocation& location, const std::string& callerName, const std::string& calleeName)
+			const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee)
 		{
-			calls.push_back(addLocationSuffix(callerName + " -> " + calleeName, location));
+			calls.push_back(addLocationSuffix(functionStr(caller) + " -> " + functionStr(callee), location));
+		}
+
+		virtual void onCallParsed(
+			const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee)
+		{
+			calls.push_back(addLocationSuffix(caller.fullName + " -> " + functionStr(callee), location));
 		}
 
 		virtual void onFieldUsageParsed(
-			const ParseLocation& location, const std::string& userName, const std::string& usedName)
+			const ParseLocation& location, const ParseFunction& user, const std::string& usedName)
 		{
-			usages.push_back(addLocationSuffix(userName + " -> " + usedName, location));
+			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + usedName, location));
 		}
 
 		virtual void onGlobalVariableUsageParsed(
-			const ParseLocation& location, const std::string& userName, const std::string& usedName)
+			const ParseLocation& location, const ParseFunction& user, const std::string& usedName)
 		{
-			usages.push_back(addLocationSuffix(userName + " -> " + usedName, location));
+			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + usedName, location));
 		}
 
 		std::vector<std::string> typedefs;

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+struct ParseFunction;
 struct ParseLocation;
 struct ParseTypeUsage;
 struct ParseVariable;
@@ -35,18 +36,8 @@ public:
 
 	static std::string variableStr(const ParseVariable& variable);
 	static std::string parameterStr(const std::vector<ParseTypeUsage> parameters);
-	static std::string functionStr(
-		const DataType& returnType,
-		const std::string& fullName,
-		const std::vector<ParseTypeUsage>& parameters,
-		bool isConst
-	);
-	static std::string functionSignatureStr(
-		const DataType& returnType,
-		const std::string& fullName,
-		const std::vector<ParseTypeUsage>& parameters,
-		bool isConst
-	);
+	static std::string functionStr(const ParseFunction& function);
+	static std::string functionSignatureStr(const ParseFunction& function);
 
 	ParserClient();
 	virtual ~ParserClient();
@@ -65,12 +56,10 @@ public:
 	virtual void onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access) = 0;
 
 	virtual void onFunctionParsed(
-		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
-		const std::vector<ParseTypeUsage>& parameters, const ParseLocation& scopeLocation) = 0;
+		const ParseLocation& location, const ParseFunction& function, const ParseLocation& scopeLocation) = 0;
 	virtual void onMethodParsed(
-		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& returnType,
-		const std::vector<ParseTypeUsage>& parameters, AccessType access, AbstractionType abstraction,
-		bool isConst, bool isStatic, const ParseLocation& scopeLocation) = 0;
+		const ParseLocation& location, const ParseFunction& method, AccessType access, AbstractionType abstraction,
+		const ParseLocation& scopeLocation) = 0;
 
 	virtual void onNamespaceParsed(
 		const ParseLocation& location, const std::string& fullName, const ParseLocation& scopeLocation) = 0;
@@ -83,11 +72,13 @@ public:
 	virtual void onInheritanceParsed(
 		const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access) = 0;
 	virtual void onCallParsed(
-		const ParseLocation& location, const std::string& callerName, const std::string& calleeName) = 0;
+		const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee) = 0;
+	virtual void onCallParsed(
+		const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee) = 0;
 	virtual void onFieldUsageParsed(
-		const ParseLocation& location, const std::string& userName, const std::string& usedName) = 0;
+		const ParseLocation& location, const ParseFunction& user, const std::string& usedName) = 0;
 	virtual void onGlobalVariableUsageParsed(
-		const ParseLocation& location, const std::string& userName, const std::string& usedName) = 0;
+		const ParseLocation& location, const ParseFunction& user, const std::string& usedName) = 0;
 };
 
 #endif // PARSER_CLIENT_H

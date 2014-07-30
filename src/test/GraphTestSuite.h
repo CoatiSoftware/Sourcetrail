@@ -397,6 +397,17 @@ public:
 		TS_ASSERT_EQUALS(c2, c3);
 	}
 
+	void test_graph_saves_nodes_as_undefined_function_when_using_signatures()
+	{
+		TestGraph graph;
+		Node* a1 = graph.createNodeHierarchyWithDistinctSignature("A", "A1");
+		Node* a2 = graph.createNodeHierarchyWithDistinctSignature("A", "A2");
+
+		TS_ASSERT_DIFFERS(a1, a2);
+		TS_ASSERT_EQUALS(a1->getType(), Node::NODE_UNDEFINED_FUNCTION);
+		TS_ASSERT_EQUALS(a2->getType(), Node::NODE_UNDEFINED_FUNCTION);
+	}
+
 	void test_graph_creates_multiple_nodes_as_undefined_nodes()
 	{
 		TestGraph graph;
