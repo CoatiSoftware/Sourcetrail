@@ -51,6 +51,31 @@ public:
 		TS_ASSERT_EQUALS(result[3], "C");
 	}
 
+	void test_substr_after_with_single_delimiter_occurence()
+	{
+		TS_ASSERT_EQUALS(utility::substrAfter("foo bar", ' '), "bar");
+	}
+
+	void test_substr_after_with_multiple_delimiter_occurences()
+	{
+		TS_ASSERT_EQUALS(utility::substrAfter("foo bar foo", ' '), "bar foo");
+	}
+
+	void test_substr_after_with_no_delimiter_occurence()
+	{
+		TS_ASSERT_EQUALS(utility::substrAfter("foobar", ' '), "foobar");
+	}
+
+	void test_substr_after_with_delimiter_at_start()
+	{
+		TS_ASSERT_EQUALS(utility::substrAfter(" foobar", ' '), "foobar");
+	}
+
+	void test_substr_after_with_delimiter_at_end()
+	{
+		TS_ASSERT_EQUALS(utility::substrAfter("foobar ", ' '), "");
+	}
+
 	void test_empty_string_is_detected_as_prefix_of_any_other_string()
 	{
 		const std::string foo = "foo";

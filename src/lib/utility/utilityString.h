@@ -12,6 +12,8 @@ namespace utility
 	template<typename ContainerType = std::vector<std::string>>
 	ContainerType split(const std::string& str, const std::string& delimiter);
 
+	std::string substrAfter(const std::string& str, char delimiter);
+
 	bool isPrefix(const std::string& prefix, const std::string& text);
 }
 

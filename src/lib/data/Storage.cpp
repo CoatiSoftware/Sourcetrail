@@ -39,9 +39,9 @@ void Storage::logLocations() const
 
 
 void Storage::onTypedefParsed(
-	const ParseLocation& location, const std::string& fullName, const DataType& underlyingType, AccessType access
+	const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& underlyingType, AccessType access
 ){
-	log("typedef", fullName + " -> " + underlyingType.getFullTypeName(), location);
+	log("typedef", fullName + " -> " + underlyingType.dataType.getFullTypeName(), location);
 
 	Node* node = m_graph.createNodeHierarchy(Node::NODE_TYPEDEF, fullName);
 	addAccess(node, access);

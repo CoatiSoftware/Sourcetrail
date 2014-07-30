@@ -22,14 +22,14 @@ bool ASTVisitor::VisitStmt(const clang::Stmt* statement)
 	return true;
 }
 
-bool ASTVisitor::VisitTypedefDecl(const clang::TypedefDecl* declaration)
+bool ASTVisitor::VisitTypedefDecl(clang::TypedefDecl* declaration)
 {
 	if (hasValidLocation(declaration))
 	{
 		m_client->onTypedefParsed(
-			getParseLocation(declaration->getSourceRange()),
+			getParseLocationForNamedDecl(declaration),
 			declaration->getQualifiedNameAsString(),
-			utility::qualTypeToDataType(declaration->getUnderlyingType()),
+			getParseTypeUsage(declaration->getTypeSourceInfo()->getTypeLoc(), declaration->getUnderlyingType()),
 			convertAccessType(declaration->getAccess())
 		);
 	}
@@ -382,23 +382,21 @@ ParseVariable ASTVisitor::getParseVariable(clang::DeclaratorDecl* declaration) c
 	}
 
 	return ParseVariable(
-		getParseTypeUsage(declaration),
+		getParseTypeUsage(declaration->getTypeSourceInfo()->getTypeLoc(), declaration->getType()),
 		declaration->getQualifiedNameAsString(),
 		isStatic
 	);
 }
 
-ParseTypeUsage ASTVisitor::getParseTypeUsage(clang::DeclaratorDecl* declaration) const
+ParseTypeUsage ASTVisitor::getParseTypeUsage(clang::TypeLoc typeLoc, const clang::QualType& type) const
 {
-	clang::TypeLoc loc = declaration->getTypeSourceInfo()->getTypeLoc();
-
-	while (loc.getNextTypeLoc())
+	while (typeLoc.getNextTypeLoc())
 	{
-		loc = loc.getNextTypeLoc();
+		typeLoc = typeLoc.getNextTypeLoc();
 	}
 
-	ParseLocation parseLocation = getParseLocation(loc.getSourceRange());
-	DataType dataType = utility::qualTypeToDataType(declaration->getType());
+	ParseLocation parseLocation = getParseLocation(typeLoc.getSourceRange());
+	DataType dataType = utility::qualTypeToDataType(type);
 
 	parseLocation.endColumnNumber += dataType.getRawTypeName().size() - 1;
 
@@ -410,19 +408,8 @@ ParseTypeUsage ASTVisitor::getParseTypeUsageOfReturnType(clang::FunctionDecl* de
 	// TODO: use FunctionDecl::getReturnTypeSourceRange() in newer clang version
 	const clang::TypeSourceInfo *TSI = declaration->getTypeSourceInfo();
 	const clang::FunctionTypeLoc FTL = TSI->getTypeLoc().IgnoreParens().getAs<clang::FunctionTypeLoc>();
-	clang::TypeLoc loc = FTL.getReturnLoc();
 
-	while (loc.getNextTypeLoc())
-	{
-		loc = loc.getNextTypeLoc();
-	}
-
-	ParseLocation parseLocation = getParseLocation(loc.getSourceRange());
-	DataType dataType = utility::qualTypeToDataType(declaration->getReturnType());
-
-	parseLocation.endColumnNumber += dataType.getRawTypeName().size() - 1;
-
-	return ParseTypeUsage(parseLocation, dataType);
+	return getParseTypeUsage(FTL.getReturnLoc(), declaration->getReturnType());
 }
 
 std::vector<ParseTypeUsage> ASTVisitor::getParameters(clang::FunctionDecl* declaration) const
@@ -431,7 +418,8 @@ std::vector<ParseTypeUsage> ASTVisitor::getParameters(clang::FunctionDecl* decla
 
 	for (unsigned i = 0; i < declaration->getNumParams(); i++)
 	{
-		parameters.push_back(getParseTypeUsage(declaration->getParamDecl(i)));
+		clang::ParmVarDecl* paramDecl = declaration->getParamDecl(i);
+		parameters.push_back(getParseTypeUsage(paramDecl->getTypeSourceInfo()->getTypeLoc(), paramDecl->getType()));
 	}
 
 	return parameters;

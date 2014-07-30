@@ -90,3 +90,5 @@ namespace
 }
 
 typedef A* D;
+
+D globalD;

@@ -52,7 +52,7 @@ public:
 	virtual ~ParserClient();
 
 	virtual void onTypedefParsed(
-		const ParseLocation& location, const std::string& fullName, const DataType& underlyingType,
+		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& underlyingType,
 		AccessType access) = 0;
 	virtual void onClassParsed(
 		const ParseLocation& location, const std::string& fullName, AccessType access,

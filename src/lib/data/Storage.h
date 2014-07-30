@@ -27,7 +27,7 @@ public:
 
 	// ParserClient implementation
 	virtual void onTypedefParsed(
-		const ParseLocation& location, const std::string& fullName, const DataType& underlyingType,
+		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& underlyingType,
 		AccessType access
 	);
 	virtual void onClassParsed(

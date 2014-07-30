@@ -363,7 +363,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
-		TS_ASSERT_EQUALS(client->typedefs[0], "unsigned int -> uint <1:1 1:22>");
+		TS_ASSERT_EQUALS(client->typedefs[0], "unsigned int -> uint <1:22 1:25>");
 	}
 
 	void test_cxx_parser_finds_typedef_in_named_namespace()
@@ -376,7 +376,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
-		TS_ASSERT_EQUALS(client->typedefs[0], "unsigned int -> test::uint <3:2 3:23>");
+		TS_ASSERT_EQUALS(client->typedefs[0], "unsigned int -> test::uint <3:23 3:26>");
 	}
 
 	void test_cxx_parser_finds_typedef_in_anonymous_namespace()
@@ -389,7 +389,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
-		TS_ASSERT_EQUALS(client->typedefs[0], "unsigned int -> (anonymous namespace)::uint <3:2 3:23>");
+		TS_ASSERT_EQUALS(client->typedefs[0], "unsigned int -> (anonymous namespace)::uint <3:23 3:26>");
 	}
 
 	void test_cxx_parser_finds_typedef_that_uses_type_defined_in_named_namespace()
@@ -403,7 +403,35 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
-		TS_ASSERT_EQUALS(client->typedefs[0], "test::TestStruct -> globalTestStruct <5:1 5:26>");
+		TS_ASSERT_EQUALS(client->typedefs[0], "test::TestStruct -> globalTestStruct <5:26 5:41>");
+	}
+
+	void test_cxx_parser_finds_global_variable_with_typedef_type()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"typedef unsigned int uint;\n"
+			"uint number;\n"
+		);
+
+		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
+		TS_ASSERT_EQUALS(client->typedefs[0], "unsigned int -> uint <1:22 1:25>");
+
+		TS_ASSERT_EQUALS(client->globalVariables.size(), 1);
+		TS_ASSERT_EQUALS(client->globalVariables[0], "uint number <2:6 2:11>");
+	}
+
+	void test_cxx_parser_finds_global_variable_with_qualified_typedef_type()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"typedef unsigned int* uint;\n"
+			"const uint* number;\n"
+		);
+
+		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
+		TS_ASSERT_EQUALS(client->typedefs[0], "unsigned int * -> uint <1:23 1:26>");
+
+		TS_ASSERT_EQUALS(client->globalVariables.size(), 1);
+		TS_ASSERT_EQUALS(client->globalVariables[0], "uint const * number <2:13 2:18>");
 	}
 
 	void test_cxx_parser_finds_public_inheritance()
@@ -797,11 +825,11 @@ private:
 	{
 	public:
 		virtual void onTypedefParsed(
-			const ParseLocation& location, const std::string& fullName, const DataType& underlyingType,
+			const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& underlyingType,
 			AccessType access
 		)
 		{
-			std::string str = addAccessPrefix(underlyingType.getFullTypeName() + " -> " + fullName, access);
+			std::string str = addAccessPrefix(underlyingType.dataType.getFullTypeName() + " -> " + fullName, access);
 			typedefs.push_back(addLocationSuffix(str, location));
 		}
 

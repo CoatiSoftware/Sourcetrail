@@ -27,7 +27,7 @@ public:
 	// RecursiveASTVisitor implementation
 	virtual bool VisitStmt(const clang::Stmt* statement); // avoid visiting
 
-	virtual bool VisitTypedefDecl(const clang::TypedefDecl* declaration); // typedefs
+	virtual bool VisitTypedefDecl(clang::TypedefDecl* declaration); // typedefs
 	virtual bool VisitCXXRecordDecl(clang::CXXRecordDecl* declaration); // structs, classes and inheritance
 	virtual bool VisitVarDecl(clang::VarDecl* declaration); // global variables and static fields
 	virtual bool VisitFieldDecl(clang::FieldDecl* declaration); // fields
@@ -51,7 +51,7 @@ private:
 	ParseLocation getParseLocationOfFunctionBody(clang::FunctionDecl* decl) const;
 	ParseLocation getParseLocationOfRecordBody(clang::CXXRecordDecl* decl) const;
 	ParseVariable getParseVariable(clang::DeclaratorDecl* declaration) const;
-	ParseTypeUsage getParseTypeUsage(clang::DeclaratorDecl* declaration) const;
+	ParseTypeUsage getParseTypeUsage(clang::TypeLoc typeLoc, const clang::QualType& type) const;
 	ParseTypeUsage getParseTypeUsageOfReturnType(clang::FunctionDecl* declaration) const;
 	std::vector<ParseTypeUsage> getParameters(clang::FunctionDecl* declaration) const;
 	DataType qualTypeToDataType(clang::QualType qualType);

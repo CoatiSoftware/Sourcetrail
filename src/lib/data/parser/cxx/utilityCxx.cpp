@@ -6,6 +6,7 @@
 #include "data/type/modifier/DataTypeModifierReference.h"
 #include "data/type/DataTypeModifierStack.h"
 #include "data/type/DataTypeQualifierList.h"
+#include "utility/utilityString.h"
 
 namespace utility
 {
@@ -18,11 +19,18 @@ namespace utility
 		while (true)
 		{
 			const clang::Type* type = qualType.getTypePtr();
-			if (type->isPointerType())
+			if (type->getAs<clang::TypedefType>())
+			{
+				typeName = utility::substrAfter(qualType.getAsString(), ' ');
+				break;
+			}
+			else if (type->isPointerType())
 			{
 				std::shared_ptr<DataTypeModifier> modifier = std::make_shared<DataTypeModifierPointer>();
 				if (qualType.isConstQualified())
+				{
 					modifier->addQualifier(DataTypeQualifierList::QUALIFIER_CONST);
+				}
 				modifierStack.push(modifier);
 
 				qualType = type->getPointeeType();
@@ -31,7 +39,9 @@ namespace utility
 			{
 				std::shared_ptr<DataTypeModifier> modifier = std::make_shared<DataTypeModifierArray>();
 				if (qualType.isConstQualified())
+				{
 					modifier->addQualifier(DataTypeQualifierList::QUALIFIER_CONST);
+				}
 				modifierStack.push(modifier);
 
 				qualType = clang::dyn_cast<clang::ArrayType>(type)->getElementType();
@@ -46,21 +56,10 @@ namespace utility
 			}
 			else if (type->isStructureOrClassType() || type->isEnumeralType())
 			{
-				typeName = qualType.getAsString();
-
 				// we are working on the string here to not lose the namespace information stored in the name.
-				size_t nameStartPosition = typeName.find(' ');
-				if (nameStartPosition != typeName.npos)
-				{
-					nameStartPosition += 1;
-				}
-				else
-				{
-					nameStartPosition = 0;
-				}
-				typeName = typeName.substr(nameStartPosition, typeName.size());
+				typeName = utility::substrAfter(qualType.getAsString(), ' ');
 
-				//m_typeName = qualType.getBaseTypeIdentifier()->getName(); // this one does not keep namespace information.
+				// typeName = qualType.getBaseTypeIdentifier()->getName(); // this one does not keep namespace information.
 				break;
 			}
 			else
@@ -71,7 +70,9 @@ namespace utility
 		}
 
 		if (qualType.isConstQualified())
+		{
 			qualifierList.addQualifier(DataTypeQualifierList::QUALIFIER_CONST);
+		}
 
 		return DataType(typeName, qualifierList, modifierStack);
 	}
