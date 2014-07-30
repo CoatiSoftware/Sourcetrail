@@ -57,6 +57,11 @@ TokenLocation::LocationType TokenLocation::getType() const
 void TokenLocation::setType(LocationType type)
 {
 	m_type = type;
+
+	if (m_other)
+	{
+		m_other->m_type = type;
+	}
 }
 
 TokenLocationLine* TokenLocation::getTokenLocationLine() const

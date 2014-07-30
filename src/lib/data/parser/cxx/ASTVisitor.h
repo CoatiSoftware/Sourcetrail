@@ -47,6 +47,7 @@ public:
 private:
 	bool hasValidLocation(const clang::Decl* declaration) const;
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
+	ParseLocation getParseLocationForNamedDecl(clang::NamedDecl* decl, const clang::SourceLocation& loc) const;
 	ParseLocation getParseLocationForNamedDecl(clang::NamedDecl* decl) const;
 	ParseLocation getParseLocationOfFunctionBody(clang::FunctionDecl* decl) const;
 	ParseLocation getParseLocationOfRecordBody(clang::CXXRecordDecl* decl) const;

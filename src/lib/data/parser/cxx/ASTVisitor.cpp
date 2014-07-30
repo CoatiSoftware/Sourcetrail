@@ -201,8 +201,20 @@ bool ASTVisitor::VisitCXXConstructorDecl(clang::CXXConstructorDecl* declaration)
 		{
 			if ((*it)->getInit())
 			{
+				clang::CXXCtorInitializer* init = *it;
+
+				if (init->isMemberInitializer())
+				{
+					m_client->onFieldUsageParsed(
+						// getParseLocation(init->getSourceRange()),
+						getParseLocationForNamedDecl(init->getMember(), init->getMemberLocation()),
+						declaration->getQualifiedNameAsString(),
+						init->getMember()->getQualifiedNameAsString()
+					);
+				}
+
 				ASTBodyVisitor bodyVisitor(this, declaration);
-				bodyVisitor.Visit((*it)->getInit());
+				bodyVisitor.Visit(init->getInit());
 			}
 		}
 	}
@@ -338,10 +350,10 @@ ParseLocation ASTVisitor::getParseLocation(const clang::SourceRange& sourceRange
 	);
 }
 
-ParseLocation ASTVisitor::getParseLocationForNamedDecl(clang::NamedDecl* decl) const
+ParseLocation ASTVisitor::getParseLocationForNamedDecl(clang::NamedDecl* decl, const clang::SourceLocation& loc) const
 {
 	const clang::SourceManager& sourceManager = m_context->getSourceManager();
-	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(decl->getLocation());
+	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(loc);
 
 	return ParseLocation(
 		presumedBegin.getFilename(),
@@ -350,6 +362,11 @@ ParseLocation ASTVisitor::getParseLocationForNamedDecl(clang::NamedDecl* decl) c
 		presumedBegin.getLine(),
 		presumedBegin.getColumn() + decl->getNameAsString().size() - 1
 	);
+}
+
+ParseLocation ASTVisitor::getParseLocationForNamedDecl(clang::NamedDecl* decl) const
+{
+	return getParseLocationForNamedDecl(decl, decl->getLocation());
 }
 
 ParseLocation ASTVisitor::getParseLocationOfFunctionBody(clang::FunctionDecl* decl) const

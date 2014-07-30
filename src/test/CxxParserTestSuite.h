@@ -755,6 +755,22 @@ public:
 		TS_ASSERT_EQUALS(client->usages[1], "App::foo -> App::bar <6:3 6:11>");
 	}
 
+	void test_cxx_parser_finds_usage_of_field_in_initialization_list()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class App\n"
+			"{\n"
+			"	App()\n"
+			"		: bar(42)\n"
+			"	{}\n"
+			"	int bar;\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->usages.size(), 1);
+		TS_ASSERT_EQUALS(client->usages[0], "App::App -> App::bar <4:5 4:7>");
+	}
+
 	void test_cxx_parser_finds_return_type_use_in_function()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
