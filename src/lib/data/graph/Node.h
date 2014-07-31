@@ -16,19 +16,20 @@ class TokenComponentSignature;
 class Node: public Token
 {
 public:
-	enum NodeType
+	typedef int NodeTypeMask;
+	enum NodeType : NodeTypeMask
 	{
-		NODE_UNDEFINED,
-		NODE_UNDEFINED_FUNCTION,
-		NODE_CLASS,
-		NODE_STRUCT,
-		NODE_GLOBAL_VARIABLE,
-		NODE_FIELD,
-		NODE_FUNCTION,
-		NODE_METHOD,
-		NODE_NAMESPACE,
-		NODE_ENUM,
-		NODE_TYPEDEF
+		NODE_UNDEFINED          = 0x1,
+		NODE_UNDEFINED_FUNCTION = 0x2,
+		NODE_CLASS              = 0x4,
+		NODE_STRUCT             = 0x8,
+		NODE_GLOBAL_VARIABLE    = 0x10,
+		NODE_FIELD              = 0x20,
+		NODE_FUNCTION           = 0x40,
+		NODE_METHOD             = 0x80,
+		NODE_NAMESPACE          = 0x100,
+		NODE_ENUM               = 0x200,
+		NODE_TYPEDEF            = 0x400
 	};
 
 	Node(NodeType type, const std::string& name);
@@ -37,6 +38,7 @@ public:
 
 	NodeType getType() const;
 	void setType(NodeType type);
+	bool isType(NodeTypeMask mask) const;
 
 	const std::string& getName() const;
 	std::string getFullName() const;
@@ -69,6 +71,7 @@ public:
 
 	// Logging.
 	std::string getTypeString(NodeType type) const;
+	std::string getTypeString() const;
 	std::string getAsString() const;
 
 private:

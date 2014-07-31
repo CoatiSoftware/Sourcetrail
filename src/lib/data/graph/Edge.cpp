@@ -14,6 +14,8 @@ Edge::Edge(EdgeType type, Node* from, Node* to)
 {
 	m_from->addEdge(this);
 	m_to->addEdge(this);
+
+	checkType();
 }
 
 Edge::Edge(const Edge& other, Node* from, Node* to)
@@ -30,6 +32,8 @@ Edge::Edge(const Edge& other, Node* from, Node* to)
 	{
 		LOG_ERROR("Nodes are not plain copies.");
 	}
+
+	checkType();
 }
 
 Edge::~Edge()
@@ -41,6 +45,11 @@ Edge::~Edge()
 Edge::EdgeType Edge::getType() const
 {
 	return m_type;
+}
+
+bool Edge::isType(EdgeTypeMask mask) const
+{
+	return (m_type & mask) > 0;
 }
 
 Node* Edge::getFrom() const
@@ -102,9 +111,9 @@ void Edge::addComponentDataType(std::shared_ptr<TokenComponentDataType> componen
 	}
 }
 
-std::string Edge::getTypeString() const
+std::string Edge::getTypeString(EdgeType type) const
 {
-	switch (m_type)
+	switch (type)
 	{
 	case EDGE_MEMBER:
 		return "child";
@@ -128,6 +137,11 @@ std::string Edge::getTypeString() const
 	return "";
 }
 
+std::string Edge::getTypeString() const
+{
+	return getTypeString(m_type);
+}
+
 std::string Edge::getAsString() const
 {
 	std::stringstream str;
@@ -146,4 +160,74 @@ std::ostream& operator<<(std::ostream& ostream, const Edge& edge)
 {
 	ostream << edge.getAsString();
 	return ostream;
+}
+
+bool Edge::checkType() const
+{
+	Node::NodeTypeMask typeMask = Node::NODE_UNDEFINED | Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM | Node::NODE_TYPEDEF;
+	Node::NodeTypeMask variableMask = Node::NODE_UNDEFINED | Node::NODE_GLOBAL_VARIABLE | Node::NODE_FIELD;
+	Node::NodeTypeMask functionMask = Node::NODE_UNDEFINED_FUNCTION | Node::NODE_FUNCTION | Node::NODE_METHOD;
+
+	switch (m_type)
+	{
+	case EDGE_MEMBER:
+		if (!m_from->isType(Node::NODE_UNDEFINED | Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_NAMESPACE | Node::NODE_ENUM) ||
+			(m_to->isType(Node::NODE_NAMESPACE) && !m_from->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE)) ||
+			(m_from->isType(Node::NODE_ENUM) && !m_to->isType(Node::NODE_FIELD)))
+		{
+			break;
+		}
+		return true;
+
+	case EDGE_TYPE_OF:
+		if (!m_from->isType(variableMask) || !m_to->isType(typeMask))
+		{
+			break;
+		}
+		return true;
+
+	case EDGE_RETURN_TYPE_OF:
+	case EDGE_PARAMETER_TYPE_OF:
+	case EDGE_TYPE_USAGE:
+		if (!m_from->isType(functionMask) || !m_to->isType(typeMask))
+		{
+			break;
+		}
+		return true;
+
+	case EDGE_INHERITANCE:
+		if (!m_from->isType(Node::NODE_CLASS) || !m_to->isType(Node::NODE_UNDEFINED | Node::NODE_CLASS))
+		{
+			break;
+		}
+		return true;
+
+	case EDGE_CALL:
+		if (!m_from->isType(variableMask | functionMask) || !m_to->isType(functionMask))
+		{
+			break;
+		}
+		return true;
+
+	case EDGE_USAGE:
+		if (!m_from->isType(functionMask) || !m_to->isType(variableMask))
+		{
+			break;
+		}
+		return true;
+
+	case EDGE_TYPEDEF_OF:
+		if (!m_from->isType(Node::NODE_TYPEDEF) || !m_to->isType(typeMask))
+		{
+			break;
+		}
+		return true;
+	}
+
+	LOG_ERROR_STREAM(
+		<< "Edge " << getTypeString()
+		<< " can't go from Node " << m_from->getTypeString()
+		<< " to Node " << m_to->getTypeString()
+	);
+	return false;
 }

@@ -3,6 +3,7 @@ Token.cpp ERROR: Location Id was not referenced by this Token.
 Node.cpp WARNING: Cannot change NodeType after it was already set from namespace to class
 Edge.cpp ERROR: Nodes are not plain copies.
 Graph.cpp ERROR: Can't remove member edge, without removing the child node.
+Edge.cpp ERROR: Edge call can't go from Node undefined to Node undefined
 Settings.cpp WARNING: File for Settings not found.
 ConfigManager.cpp ERROR: value Bool is not present in config.
 ConfigManager.cpp ERROR: value Int is not present in config.

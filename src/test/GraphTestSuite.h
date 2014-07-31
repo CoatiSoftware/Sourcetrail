@@ -148,6 +148,13 @@ public:
 		TS_ASSERT_EQUALS(n.getType(), n2.getType());
 	}
 
+	void test_node_type_bit_masking()
+	{
+		Node n(Node::NODE_NAMESPACE, "A");
+		TS_ASSERT(n.isType(Node::NODE_FUNCTION | Node::NODE_NAMESPACE | Node::NODE_CLASS));
+		TS_ASSERT(!n.isType(Node::NODE_FUNCTION | Node::NODE_METHOD | Node::NODE_CLASS));
+	}
+
 	void test_get_type_of_edges()
 	{
 		Node a(Node::NODE_UNDEFINED, "A");
@@ -167,6 +174,16 @@ public:
 		TS_ASSERT_DIFFERS(&e, &e2);
 		TS_ASSERT_EQUALS(e.getId(), e2.getId());
 		TS_ASSERT_EQUALS(e.getType(), e2.getType());
+	}
+
+	void test_edge_type_bit_masking()
+	{
+		Node a(Node::NODE_UNDEFINED, "A");
+		Node b(Node::NODE_UNDEFINED, "B");
+		Edge e(Edge::EDGE_TYPE_OF, &a, &b);
+
+		TS_ASSERT(e.isType(Edge::EDGE_MEMBER | Edge::EDGE_CALL | Edge::EDGE_TYPE_OF));
+		TS_ASSERT(!e.isType(Edge::EDGE_USAGE | Edge::EDGE_MEMBER | Edge::EDGE_CALL));
 	}
 
 	void test_node_finds_child_node()

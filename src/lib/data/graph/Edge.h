@@ -13,17 +13,18 @@ class TokenComponentDataType;
 class Edge: public Token
 {
 public:
-	enum EdgeType
+	typedef int EdgeTypeMask;
+	enum EdgeType : EdgeTypeMask
 	{
-		EDGE_MEMBER,
-		EDGE_TYPE_OF,
-		EDGE_RETURN_TYPE_OF,
-		EDGE_PARAMETER_TYPE_OF,
-		EDGE_TYPE_USAGE,
-		EDGE_USAGE,
-		EDGE_CALL,
-		EDGE_INHERITANCE,
-		EDGE_TYPEDEF_OF
+		EDGE_MEMBER            = 0x1,
+		EDGE_TYPE_OF           = 0x2,
+		EDGE_RETURN_TYPE_OF    = 0x4,
+		EDGE_PARAMETER_TYPE_OF = 0x8,
+		EDGE_TYPE_USAGE        = 0x10,
+		EDGE_USAGE             = 0x20,
+		EDGE_CALL              = 0x40,
+		EDGE_INHERITANCE       = 0x80,
+		EDGE_TYPEDEF_OF        = 0x100
 	};
 
 	Edge(EdgeType type, Node* from, Node* to);
@@ -31,6 +32,7 @@ public:
 	virtual ~Edge();
 
 	EdgeType getType() const;
+	bool isType(EdgeTypeMask mask) const;
 
 	Node* getFrom() const;
 	Node* getTo() const;
@@ -46,11 +48,14 @@ public:
 	void addComponentDataType(std::shared_ptr<TokenComponentDataType> component);
 
 	// Logging.
+	std::string getTypeString(EdgeType type) const;
 	std::string getTypeString() const;
 	std::string getAsString() const;
 
 private:
 	void operator=(const Node&);
+
+	bool checkType() const;
 
 	const EdgeType m_type;
 

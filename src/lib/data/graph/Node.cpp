@@ -31,14 +31,19 @@ Node::NodeType Node::getType() const
 
 void Node::setType(NodeType type)
 {
-	if (type != m_type && m_type != NODE_UNDEFINED && m_type != NODE_UNDEFINED_FUNCTION)
+	if (!isType(type | NODE_UNDEFINED | NODE_UNDEFINED_FUNCTION))
 	{
 		LOG_WARNING(
-			"Cannot change NodeType after it was already set from " + getTypeString(m_type) + " to " + getTypeString(type)
+			"Cannot change NodeType after it was already set from " + getTypeString() + " to " + getTypeString(type)
 		);
 		return;
 	}
 	m_type = type;
+}
+
+bool Node::isType(NodeTypeMask mask) const
+{
+	return (m_type & mask) > 0;
 }
 
 const std::string& Node::getName() const
@@ -197,9 +202,9 @@ void Node::addComponentConst(std::shared_ptr<TokenComponentConst> component)
 	{
 		LOG_ERROR("TokenComponentConst has been set before!");
 	}
-	else if (m_type != NODE_METHOD)
+	else if (!isType(NODE_METHOD))
 	{
-		LOG_ERROR("TokenComponentConst can't be set on node of type: " + getTypeString(m_type));
+		LOG_ERROR("TokenComponentConst can't be set on node of type: " + getTypeString());
 	}
 	else
 	{
@@ -213,9 +218,9 @@ void Node::addComponentStatic(std::shared_ptr<TokenComponentStatic> component)
 	{
 		LOG_ERROR("TokenComponentStatic has been set before!");
 	}
-	else if (m_type != NODE_GLOBAL_VARIABLE && m_type != NODE_FIELD && m_type != NODE_FUNCTION && m_type != NODE_METHOD)
+	else if (!isType(NODE_GLOBAL_VARIABLE | NODE_FIELD | NODE_FUNCTION | NODE_METHOD))
 	{
-		LOG_ERROR("TokenComponentStatic can't be set on node of type: " + getTypeString(m_type));
+		LOG_ERROR("TokenComponentStatic can't be set on node of type: " + getTypeString());
 	}
 	else
 	{
@@ -229,9 +234,9 @@ void Node::addComponentSignature(std::shared_ptr<TokenComponentSignature> compon
 	{
 		LOG_ERROR("TokenComponentSignature has been set before!");
 	}
-	else if (m_type != NODE_UNDEFINED_FUNCTION && m_type != NODE_FUNCTION && m_type != NODE_METHOD)
+	else if (!isType(NODE_UNDEFINED_FUNCTION | NODE_FUNCTION | NODE_METHOD))
 	{
-		LOG_ERROR("TokenComponentSignature can't be set on node of type: " + getTypeString(m_type));
+		LOG_ERROR("TokenComponentSignature can't be set on node of type: " + getTypeString());
 	}
 	else
 	{
@@ -269,10 +274,15 @@ std::string Node::getTypeString(NodeType type) const
 	return "";
 }
 
+std::string Node::getTypeString() const
+{
+	return getTypeString(m_type);
+}
+
 std::string Node::getAsString() const
 {
 	std::stringstream str;
-	str << "[" << getId() << "] " << getTypeString(m_type) << ": " << "\"" << getName() << "\"";
+	str << "[" << getId() << "] " << getTypeString() << ": " << "\"" << getName() << "\"";
 
 	if (getComponent<TokenComponentStatic>())
 	{
