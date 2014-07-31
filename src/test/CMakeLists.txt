@@ -8,7 +8,7 @@ add_files(
 	GraphTestSuite.h
 	LogManagerTestSuite.h
 	MessageQueueTestSuite.h
-	ProjectSettingsTestSuite.h
+	SettingsTestSuite.h
 	TestSuiteFixture.cpp
 	TestSuiteFixture.h
 	TextAccessTestSuite.h

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<Bool>1</Bool>
+	<Int>42</Int>
+	<Float>3.1416</Float>
+	<String>Hello World!</String>
+
 	<SourcePath>data</SourcePath>
 </config>
 

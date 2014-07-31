@@ -16,6 +16,7 @@ public:
 	void save(const std::string& filePath);
 	void clear();
 
+protected:
 	template<typename T>
 	T getValue(const std::string& key, T defaultValue) const;
 
