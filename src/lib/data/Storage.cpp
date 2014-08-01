@@ -174,6 +174,7 @@ Id Storage::onMethodParsed(
 		LOG_ERROR("Method needs to have access type [public, protected, private] but has none.");
 	}
 	addAccess(node, access);
+	addAbstraction(node, abstraction);
 
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
@@ -650,6 +651,31 @@ TokenComponentAccess* Storage::addAccess(Node* node, ParserClient::AccessType ac
 	{
 		std::shared_ptr<TokenComponentAccess> ptr = std::make_shared<TokenComponentAccess>(convertAccessType(access));
 		node->getMemberEdge()->addComponentAccess(ptr);
+		return ptr.get();
+	}
+	return nullptr;
+}
+
+TokenComponentAbstraction::AbstractionType Storage::convertAbstractionType(ParserClient::AbstractionType abstraction) const
+{
+	switch (abstraction)
+	{
+	case ABSTRACTION_VIRTUAL:
+		return TokenComponentAbstraction::ABSTRACTION_VIRTUAL;
+	case ABSTRACTION_PURE_VIRTUAL:
+		return TokenComponentAbstraction::ABSTRACTION_PURE_VIRTUAL;
+	case ABSTRACTION_NONE:
+		return TokenComponentAbstraction::ABSTRACTION_NONE;
+	}
+}
+
+TokenComponentAbstraction* Storage::addAbstraction(Node* node, ParserClient::AbstractionType abstraction)
+{
+	if (abstraction != ABSTRACTION_NONE)
+	{
+		std::shared_ptr<TokenComponentAbstraction> ptr =
+			std::make_shared<TokenComponentAbstraction>(convertAbstractionType(abstraction));
+		node->addComponentAbstraction(ptr);
 		return ptr.get();
 	}
 	return nullptr;

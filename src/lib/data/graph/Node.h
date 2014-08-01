@@ -9,6 +9,7 @@
 #include "data/graph/Edge.h"
 #include "data/graph/Token.h"
 
+class TokenComponentAbstraction;
 class TokenComponentConst;
 class TokenComponentStatic;
 class TokenComponentSignature;
@@ -65,6 +66,7 @@ public:
 	virtual bool isEdge() const;
 
 	// Component setters.
+	void addComponentAbstraction(std::shared_ptr<TokenComponentAbstraction> component);
 	void addComponentConst(std::shared_ptr<TokenComponentConst> component);
 	void addComponentStatic(std::shared_ptr<TokenComponentStatic> component);
 	void addComponentSignature(std::shared_ptr<TokenComponentSignature> component);

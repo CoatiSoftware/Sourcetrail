@@ -1,5 +1,5 @@
-#ifndef TOKEN_COMPONENT_STATIC
-#define TOKEN_COMPONENT_STATIC
+#ifndef TOKEN_COMPONENT_STATIC_H
+#define TOKEN_COMPONENT_STATIC_H
 
 #include "data/graph/token_component/TokenComponent.h"
 
@@ -10,4 +10,4 @@ public:
 	virtual std::shared_ptr<TokenComponent> copy() const;
 };
 
-#endif // TOKEN_COMPONENT_STATIC
+#endif // TOKEN_COMPONENT_STATIC_H

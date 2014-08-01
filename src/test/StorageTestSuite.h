@@ -1,5 +1,6 @@
 #include "cxxtest/TestSuite.h"
 
+#include "data/graph/token_component/TokenComponentAbstraction.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/graph/token_component/TokenComponentSignature.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
@@ -256,6 +257,12 @@ public:
 		TS_ASSERT_EQUALS(node->getName(), "isMethod");
 		TS_ASSERT_EQUALS(node->getFullName(), "Class::isMethod");
 		TS_ASSERT_EQUALS(node->getType(), Node::NODE_METHOD);
+
+		TS_ASSERT(node->getComponent<TokenComponentAbstraction>());
+		TS_ASSERT_EQUALS(
+			node->getComponent<TokenComponentAbstraction>()->getAbstraction(),
+			TokenComponentAbstraction::ABSTRACTION_VIRTUAL
+		);
 
 		Edge* memberEdge = node->getMemberEdge();
 		TS_ASSERT(memberEdge);

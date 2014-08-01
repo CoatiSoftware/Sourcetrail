@@ -258,6 +258,20 @@ public:
 		TS_ASSERT_EQUALS(client->methods[1], "public void B::B() <6:1 <6:4 6:4> 8:1>");
 	}
 
+	void test_cxx_parser_finds_virtual_method()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class B\n"
+			"{\n"
+			"public:\n"
+			"	virtual void process();\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->methods.size(), 1);
+		TS_ASSERT_EQUALS(client->methods[0], "public virtual void B::process() <4:15 4:21>");
+	}
+
 	void test_cxx_parser_finds_pure_virtual_method()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(

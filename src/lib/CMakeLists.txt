@@ -73,6 +73,8 @@ add_files(
 
 	data/graph/token_component/TokenComponent.cpp
 	data/graph/token_component/TokenComponent.h
+	data/graph/token_component/TokenComponentAbstraction.cpp
+	data/graph/token_component/TokenComponentAbstraction.h
 	data/graph/token_component/TokenComponentAccess.cpp
 	data/graph/token_component/TokenComponentAccess.h
 	data/graph/token_component/TokenComponentConst.cpp

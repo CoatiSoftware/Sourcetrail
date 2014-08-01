@@ -1,5 +1,5 @@
-#ifndef TOKEN_COMPONENT_ACCESS
-#define TOKEN_COMPONENT_ACCESS
+#ifndef TOKEN_COMPONENT_ACCESS_H
+#define TOKEN_COMPONENT_ACCESS_H
 
 #include <string>
 
@@ -23,11 +23,10 @@ public:
 	virtual std::shared_ptr<TokenComponent> copy() const;
 
 	AccessType getAccess() const;
-
 	std::string getAccessString() const;
 
 private:
 	const AccessType m_access;
 };
 
-#endif // TOKEN_COMPONENT_ACCESS
+#endif // TOKEN_COMPONENT_ACCESS_H

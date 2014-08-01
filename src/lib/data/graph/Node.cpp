@@ -2,6 +2,7 @@
 
 #include <sstream>
 
+#include "data/graph/token_component/TokenComponentAbstraction.h"
 #include "data/graph/token_component/TokenComponentConst.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
 #include "data/graph/token_component/TokenComponentSignature.h"
@@ -194,6 +195,22 @@ bool Node::isNode() const
 bool Node::isEdge() const
 {
 	return false;
+}
+
+void Node::addComponentAbstraction(std::shared_ptr<TokenComponentAbstraction> component)
+{
+	if (getComponent<TokenComponentAbstraction>())
+	{
+		LOG_ERROR("TokenComponentAbstraction has been set before!");
+	}
+	else if (!isType(NODE_METHOD))
+	{
+		LOG_ERROR("TokenComponentAbstraction can't be set on node of type: " + getTypeString());
+	}
+	else
+	{
+		addComponent(component);
+	}
 }
 
 void Node::addComponentConst(std::shared_ptr<TokenComponentConst> component)

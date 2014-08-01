@@ -7,6 +7,7 @@
 #include "data/access/GraphAccess.h"
 #include "data/access/LocationAccess.h"
 #include "data/graph/Graph.h"
+#include "data/graph/token_component/TokenComponentAbstraction.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/parser/ParserClient.h"
@@ -97,6 +98,10 @@ protected:
 private:
 	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;
 	TokenComponentAccess* addAccess(Node* node, ParserClient::AccessType access);
+
+	TokenComponentAbstraction::AbstractionType convertAbstractionType(ParserClient::AbstractionType abstraction) const;
+	TokenComponentAbstraction* addAbstraction(Node* node, ParserClient::AbstractionType abstraction);
+
 	Edge* addTypeEdge(Node* node, Edge::EdgeType edgeType, const DataType& type);
 	Edge* addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeUsage& typeUsage);
 	TokenLocation* addTokenLocation(Token* token, const ParseLocation& location, bool isScope = false);

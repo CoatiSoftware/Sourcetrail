@@ -1,5 +1,5 @@
-#ifndef TOKEN_COMPONENT_DATA_TYPE
-#define TOKEN_COMPONENT_DATA_TYPE
+#ifndef TOKEN_COMPONENT_DATA_TYPE_H
+#define TOKEN_COMPONENT_DATA_TYPE_H
 
 #include "data/graph/token_component/TokenComponent.h"
 #include "data/type/DataTypeModifierStack.h"
@@ -24,4 +24,4 @@ private:
 	const DataTypeModifierStack m_modifierStack;
 };
 
-#endif // TOKEN_COMPONENT_DATA_TYPE
+#endif // TOKEN_COMPONENT_DATA_TYPE_H

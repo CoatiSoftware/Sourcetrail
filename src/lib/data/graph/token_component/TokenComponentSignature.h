@@ -1,5 +1,5 @@
-#ifndef TOKEN_COMPONENT_SIGNATURE
-#define TOKEN_COMPONENT_SIGNATURE
+#ifndef TOKEN_COMPONENT_SIGNATURE_H
+#define TOKEN_COMPONENT_SIGNATURE_H
 
 #include <string>
 
@@ -20,4 +20,4 @@ private:
 	const std::string m_signature;
 };
 
-#endif // TOKEN_COMPONENT_SIGNATURE
+#endif // TOKEN_COMPONENT_SIGNATURE_H
