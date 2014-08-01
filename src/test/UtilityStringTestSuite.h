@@ -7,7 +7,7 @@ class UtilityStringTestSuite : public CxxTest::TestSuite
 public:
 	void test_split_with_char_delimiter()
 	{
-		std::vector<std::string> result = utility::split("A,B,C", ',');
+		std::vector<std::string> result = utility::split<std::vector<std::string> >("A,B,C", ',');
 
 		TS_ASSERT_EQUALS(result.size(), 3);
 		TS_ASSERT_EQUALS(result[0], "A");
@@ -17,7 +17,7 @@ public:
 
 	void test_split_with_string_delimiter()
 	{
-		std::vector<std::string> result = utility::split("A->B>C", "->");
+		std::vector<std::string> result = utility::split<std::vector<std::string> >("A->B>C", "->");
 
 		TS_ASSERT_EQUALS(result.size(), 2);
 		TS_ASSERT_EQUALS(result[0], "A");
@@ -26,7 +26,7 @@ public:
 
 	void test_split_on_empty_string()
 	{
-		std::vector<std::string> result = utility::split("", "->");
+		std::vector<std::string> result = utility::split<std::vector<std::string> >("", "->");
 
 		TS_ASSERT_EQUALS(result.size(), 1);
 		TS_ASSERT_EQUALS(result[0], "");
@@ -34,7 +34,7 @@ public:
 
 	void test_split_with_unused_delimiter()
 	{
-		std::vector<std::string> result = utility::split("A:B:C", ";");
+		std::vector<std::string> result = utility::split<std::vector<std::string> >("A:B:C", ";");
 
 		TS_ASSERT_EQUALS(result.size(), 1);
 		TS_ASSERT_EQUALS(result[0], "A:B:C");
@@ -42,7 +42,7 @@ public:
 
 	void test_split_with_delimiters_next_to_each()
 	{
-		std::vector<std::string> result = utility::split("A::B:C", ':');
+		std::vector<std::string> result = utility::split<std::vector<std::string> >("A::B:C", ':');
 
 		TS_ASSERT_EQUALS(result.size(), 4);
 		TS_ASSERT_EQUALS(result[0], "A");
