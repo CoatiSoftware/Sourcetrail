@@ -1,8 +1,5 @@
 #include "cxxtest/TestSuite.h"
 
-#include <memory>
-#include <string>
-
 #include "utility/text/TextAccess.h"
 
 class TextAccessTestSuite : public CxxTest::TestSuite

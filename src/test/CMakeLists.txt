@@ -9,6 +9,7 @@ add_files(
 	LogManagerTestSuite.h
 	MessageQueueTestSuite.h
 	SettingsTestSuite.h
+	StorageTestSuite.h
 	TestSuiteFixture.cpp
 	TestSuiteFixture.h
 	TextAccessTestSuite.h

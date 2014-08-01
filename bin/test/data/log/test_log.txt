@@ -19,6 +19,45 @@ ConfigManager.cpp ERROR: value Int is not present in config.
 ConfigManager.cpp ERROR: value Float is not present in config.
 ConfigManager.cpp ERROR: value String is not present in config.
 ConfigManager.cpp ERROR: value NewBool is not present in config.
+Storage.cpp INFO: typedef: type -> int <file.cpp 1:1 1:1>
+Storage.cpp INFO: class: Class <file.cpp 1:1 1:1>
+Storage.cpp INFO: struct: Struct <file.cpp 1:1 1:1>
+Storage.cpp INFO: global: Global <file.cpp 1:42 1:42>
+Storage.cpp INFO: global: Global <file.cpp 1:7 1:7>
+Storage.cpp INFO: field: m_field <file.cpp 1:3 1:3>
+Storage.cpp ERROR: Field is not a member of anything.
+Storage.cpp ERROR: Field needs to have access type [public, protected, private] but has none.
+Storage.cpp INFO: field: Struct::m_field <file.cpp 1:11 1:11>
+Storage.cpp INFO: function: isTrue <file.cpp 1:14 1:14>
+Storage.cpp INFO: method: isMethod <file.cpp 1:9 1:9>
+Storage.cpp ERROR: Method is not a member of anything.
+Storage.cpp ERROR: Method needs to have access type [public, protected, private] but has none.
+Storage.cpp INFO: method: isMethod <file.cpp 1:1 1:1>
+Storage.cpp ERROR: Method is not a member of anything.
+Storage.cpp ERROR: Method needs to have access type [public, protected, private] but has none.
+Storage.cpp INFO: method: Class::isMethod <file.cpp 1:1 1:1>
+Storage.cpp INFO: namespace: utility <file.cpp 1:1 1:1>
+Storage.cpp INFO: enum: Category <file.cpp 1:17 1:17>
+Storage.cpp INFO: enum: Class::Category <file.cpp 1:1 1:1>
+Storage.cpp INFO: enum field: VALUE <file.cpp 1:1 1:1>
+Storage.cpp INFO: class: ClassA <file.cpp 1:0 1:0>
+Storage.cpp INFO: class: ClassB <file.cpp 1:0 1:0>
+Storage.cpp INFO: inheritance: ClassB : ClassA <file.cpp 1:5 1:5>
+Storage.cpp INFO: function: isTrue <file.cpp 1:0 1:0>
+Storage.cpp INFO: function: func <file.cpp 1:0 1:0>
+Storage.cpp INFO: call: isTrue -> func <file.cpp 1:9 1:9>
+Storage.cpp INFO: global: global <file.cpp 1:0 1:0>
+Storage.cpp INFO: function: isTrue <file.cpp 1:0 1:0>
+Storage.cpp INFO: call: global -> isTrue <file.cpp 1:7 1:7>
+Storage.cpp INFO: function: isTrue <file.cpp 1:0 1:0>
+Storage.cpp INFO: field: Foo::m_field <file.cpp 1:0 1:0>
+Storage.cpp INFO: field usage: isTrue -> Foo::m_field <file.cpp 1:7 1:7>
+Storage.cpp INFO: function: isTrue <file.cpp 1:0 1:0>
+Storage.cpp INFO: global: global <file.cpp 1:0 1:0>
+Storage.cpp INFO: global usage: isTrue -> global <file.cpp 1:7 1:7>
+Storage.cpp INFO: function: isTrue <file.cpp 1:0 1:0>
+Storage.cpp INFO: struct: Struct <file.cpp 1:0 1:0>
+Storage.cpp INFO: type usage: isTrue -> Struct <file.cpp 1:0 1:0>
 TextAccess.cpp WARNING: Index 'firstLine' has to be lower or equal index 'lastLine', is 3 > 2
 TextAccess.cpp WARNING: Tried to access index 10. Maximum index is 8
 TextAccess.cpp WARNING: Tried to access index 10. Maximum index is 8

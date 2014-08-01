@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "utility/types.h"
+
 struct ParseFunction;
 struct ParseLocation;
 struct ParseTypeUsage;
@@ -42,44 +44,44 @@ public:
 	ParserClient();
 	virtual ~ParserClient();
 
-	virtual void onTypedefParsed(
+	virtual Id onTypedefParsed(
 		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& underlyingType,
 		AccessType access) = 0;
-	virtual void onClassParsed(
+	virtual Id onClassParsed(
 		const ParseLocation& location, const std::string& fullName, AccessType access,
 		const ParseLocation& scopeLocation) = 0;
-	virtual void onStructParsed(
+	virtual Id onStructParsed(
 		const ParseLocation& location, const std::string& fullName, AccessType access,
 		const ParseLocation& scopeLocation) = 0;
 
-	virtual void onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable) = 0;
-	virtual void onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access) = 0;
+	virtual Id onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable) = 0;
+	virtual Id onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access) = 0;
 
-	virtual void onFunctionParsed(
+	virtual Id onFunctionParsed(
 		const ParseLocation& location, const ParseFunction& function, const ParseLocation& scopeLocation) = 0;
-	virtual void onMethodParsed(
+	virtual Id onMethodParsed(
 		const ParseLocation& location, const ParseFunction& method, AccessType access, AbstractionType abstraction,
 		const ParseLocation& scopeLocation) = 0;
 
-	virtual void onNamespaceParsed(
+	virtual Id onNamespaceParsed(
 		const ParseLocation& location, const std::string& fullName, const ParseLocation& scopeLocation) = 0;
 
-	virtual void onEnumParsed(
+	virtual Id onEnumParsed(
 		const ParseLocation& location, const std::string& fullName, AccessType access,
 		const ParseLocation& scopeLocation) = 0;
-	virtual void onEnumFieldParsed(const ParseLocation& location, const std::string& fullName) = 0;
+	virtual Id onEnumFieldParsed(const ParseLocation& location, const std::string& fullName) = 0;
 
-	virtual void onInheritanceParsed(
+	virtual Id onInheritanceParsed(
 		const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access) = 0;
-	virtual void onCallParsed(
+	virtual Id onCallParsed(
 		const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee) = 0;
-	virtual void onCallParsed(
+	virtual Id onCallParsed(
 		const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee) = 0;
-	virtual void onFieldUsageParsed(
+	virtual Id onFieldUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const std::string& usedName) = 0;
-	virtual void onGlobalVariableUsageParsed(
+	virtual Id onGlobalVariableUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const std::string& usedName) = 0;
-	virtual void onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function) = 0;
+	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function) = 0;
 };
 
 #endif // PARSER_CLIENT_H

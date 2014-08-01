@@ -26,41 +26,41 @@ public:
 	void logLocations() const;
 
 	// ParserClient implementation
-	virtual void onTypedefParsed(
+	virtual Id onTypedefParsed(
 		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& underlyingType,
 		AccessType access);
-	virtual void onClassParsed(
+	virtual Id onClassParsed(
 		const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation);
-	virtual void onStructParsed(
+	virtual Id onStructParsed(
 		const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation);
 
-	virtual void onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable);
-	virtual void onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access);
+	virtual Id onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable);
+	virtual Id onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access);
 
-	virtual void onFunctionParsed(
+	virtual Id onFunctionParsed(
 		const ParseLocation& location, const ParseFunction& function, const ParseLocation& scopeLocation);
-	virtual void onMethodParsed(
+	virtual Id onMethodParsed(
 		const ParseLocation& location, const ParseFunction& method, AccessType access, AbstractionType abstraction,
 		const ParseLocation& scopeLocation);
 
-	virtual void onNamespaceParsed(
+	virtual Id onNamespaceParsed(
 		const ParseLocation& location, const std::string& fullName, const ParseLocation& scopeLocation);
 
-	virtual void onEnumParsed(
+	virtual Id onEnumParsed(
 		const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation);
-	virtual void onEnumFieldParsed(const ParseLocation& location, const std::string& fullName);
+	virtual Id onEnumFieldParsed(const ParseLocation& location, const std::string& fullName);
 
-	virtual void onInheritanceParsed(
+	virtual Id onInheritanceParsed(
 		const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access);
-	virtual void onCallParsed(
+	virtual Id onCallParsed(
 		const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee);
-	virtual void onCallParsed(
+	virtual Id onCallParsed(
 		const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee);
-	virtual void onFieldUsageParsed(
+	virtual Id onFieldUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const std::string& usedName);
-	virtual void onGlobalVariableUsageParsed(
+	virtual Id onGlobalVariableUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const std::string& usedName);
-	virtual void onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function);
+	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function);
 
 	// GraphAccess implementation
 	virtual Id getIdForNodeWithName(const std::string& fullName) const;
@@ -89,6 +89,10 @@ public:
 	virtual TokenLocationFile getTokenLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
 	) const;
+
+protected:
+	Token* getTokenWithId(Id tokenId) const;
+	std::vector<TokenLocation*> getTokenLocationsForId(Id tokenId) const;
 
 private:
 	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;

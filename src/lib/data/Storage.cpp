@@ -39,7 +39,7 @@ void Storage::logLocations() const
 }
 
 
-void Storage::onTypedefParsed(
+Id Storage::onTypedefParsed(
 	const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& underlyingType, AccessType access
 ){
 	log("typedef", fullName + " -> " + underlyingType.dataType.getFullTypeName(), location);
@@ -48,31 +48,37 @@ void Storage::onTypedefParsed(
 	addAccess(node, access);
 	addTokenLocation(node, location);
 	addTypeEdge(node, Edge::EDGE_TYPEDEF_OF, underlyingType);
+
+	return node->getId();
 }
 
-void Storage::onClassParsed(
-	const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation)
-{
+Id Storage::onClassParsed(
+	const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation
+){
 	log("class", fullName, location);
 
 	Node* node = m_graph.createNodeHierarchy(Node::NODE_CLASS, fullName);
 	addAccess(node, access);
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
+
+	return node->getId();
 }
 
-void Storage::onStructParsed(
-	const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation)
-{
+Id Storage::onStructParsed(
+	const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation
+){
 	log("struct", fullName, location);
 
 	Node* node = m_graph.createNodeHierarchy(Node::NODE_STRUCT, fullName);
 	addAccess(node, access);
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
+
+	return node->getId();
 }
 
-void Storage::onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable)
+Id Storage::onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable)
 {
 	log("global", variable.fullName, location);
 
@@ -85,13 +91,20 @@ void Storage::onGlobalVariableParsed(const ParseLocation& location, const ParseV
 
 	addTypeEdge(node, Edge::EDGE_TYPE_OF, variable.type);
 	addTokenLocation(node, location);
+
+	return node->getId();
 }
 
-void Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access)
+Id Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access)
 {
 	log("field", variable.fullName, location);
 
 	Node* node = m_graph.createNodeHierarchy(Node::NODE_FIELD, variable.fullName);
+
+	if (!node->getMemberEdge())
+	{
+		LOG_ERROR("Field is not a member of anything.");
+	}
 
 	if (variable.isStatic)
 	{
@@ -101,15 +114,16 @@ void Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& 
 	if (access == ACCESS_NONE)
 	{
 		LOG_ERROR("Field needs to have access type [public, protected, private] but has none.");
-		return;
 	}
 	addAccess(node, access);
 
 	addTypeEdge(node, Edge::EDGE_TYPE_OF, variable.type);
 	addTokenLocation(node, location);
+
+	return node->getId();
 }
 
-void Storage::onFunctionParsed(
+Id Storage::onFunctionParsed(
 	const ParseLocation& location, const ParseFunction& function, const ParseLocation& scopeLocation
 ){
 	log("function", function.fullName, location);
@@ -126,9 +140,11 @@ void Storage::onFunctionParsed(
 	{
 		addTypeEdge(node, Edge::EDGE_PARAMETER_TYPE_OF, parameter);
 	}
+
+	return node->getId();
 }
 
-void Storage::onMethodParsed(
+Id Storage::onMethodParsed(
 	const ParseLocation& location, const ParseFunction& method, AccessType access, AbstractionType abstraction,
 	const ParseLocation& scopeLocation
 ){
@@ -137,6 +153,11 @@ void Storage::onMethodParsed(
 	Node* node = m_graph.createNodeHierarchyWithDistinctSignature(
 		Node::NODE_METHOD, method.fullName, ParserClient::functionSignatureStr(method)
 	);
+
+	if (!node->getMemberEdge())
+	{
+		LOG_ERROR("Method is not a member of anything.");
+	}
 
 	if (method.isConst)
 	{
@@ -151,7 +172,6 @@ void Storage::onMethodParsed(
 	if (access == ACCESS_NONE)
 	{
 		LOG_ERROR("Method needs to have access type [public, protected, private] but has none.");
-		return;
 	}
 	addAccess(node, access);
 
@@ -163,40 +183,48 @@ void Storage::onMethodParsed(
 	{
 		addTypeEdge(node, Edge::EDGE_PARAMETER_TYPE_OF, parameter);
 	}
+
+	return node->getId();
 }
 
-void Storage::onNamespaceParsed(
-	const ParseLocation& location, const std::string& fullName, const ParseLocation& scopeLocation)
-{
+Id Storage::onNamespaceParsed(
+	const ParseLocation& location, const std::string& fullName, const ParseLocation& scopeLocation
+){
 	log("namespace", fullName, location);
 
 	Node* node = m_graph.createNodeHierarchy(Node::NODE_NAMESPACE, fullName);
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
+
+	return node->getId();
 }
 
-void Storage::onEnumParsed(
-	const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation)
-{
+Id Storage::onEnumParsed(
+	const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation
+){
 	log("enum", fullName, location);
 
 	Node* node = m_graph.createNodeHierarchy(Node::NODE_ENUM, fullName);
 	addAccess(node, access);
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
+
+	return node->getId();
 }
 
-void Storage::onEnumFieldParsed(const ParseLocation& location, const std::string& fullName)
+Id Storage::onEnumFieldParsed(const ParseLocation& location, const std::string& fullName)
 {
 	log("enum field", fullName, location);
 
 	Node* node = m_graph.createNodeHierarchy(Node::NODE_FIELD, fullName);
 	addTokenLocation(node, location);
+
+	return node->getId();
 }
 
-void Storage::onInheritanceParsed(
-	const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access)
-{
+Id Storage::onInheritanceParsed(
+	const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access
+){
 	log("inheritance", fullName + " : " + baseName, location);
 
 	Node* node = m_graph.createNodeHierarchy(fullName);
@@ -206,9 +234,11 @@ void Storage::onInheritanceParsed(
 	edge->addComponentAccess(std::make_shared<TokenComponentAccess>(convertAccessType(access)));
 
 	addTokenLocation(edge, location);
+
+	return edge->getId();
 }
 
-void Storage::onCallParsed(const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee)
+Id Storage::onCallParsed(const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee)
 {
 	log("call", caller.fullName + " -> " + callee.fullName, location);
 
@@ -220,9 +250,11 @@ void Storage::onCallParsed(const ParseLocation& location, const ParseFunction& c
 	Edge* edge = m_graph.createEdge(Edge::EDGE_CALL, callerNode, calleeNode);
 
 	addTokenLocation(edge, location);
+
+	return edge->getId();
 }
 
-void Storage::onCallParsed(const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee)
+Id Storage::onCallParsed(const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee)
 {
 	log("call", caller.fullName + " -> " + callee.fullName, location);
 
@@ -234,9 +266,11 @@ void Storage::onCallParsed(const ParseLocation& location, const ParseVariable& c
 	Edge* edge = m_graph.createEdge(Edge::EDGE_CALL, callerNode, calleeNode);
 
 	addTokenLocation(edge, location);
+
+	return edge->getId();
 }
 
-void Storage::onFieldUsageParsed(const ParseLocation& location, const ParseFunction& user, const std::string& usedName)
+Id Storage::onFieldUsageParsed(const ParseLocation& location, const ParseFunction& user, const std::string& usedName)
 {
 	log("field usage", user.fullName + " -> " + usedName, location);
 
@@ -246,9 +280,11 @@ void Storage::onFieldUsageParsed(const ParseLocation& location, const ParseFunct
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_USAGE, userNode, usedNode);
 	addTokenLocation(edge, location);
+
+	return edge->getId();
 }
 
-void Storage::onGlobalVariableUsageParsed(
+Id Storage::onGlobalVariableUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const std::string& usedName
 ){
 	log("global usage", user.fullName + " -> " + usedName, location);
@@ -259,15 +295,19 @@ void Storage::onGlobalVariableUsageParsed(
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_USAGE, userNode, usedNode);
 	addTokenLocation(edge, location);
+
+	return edge->getId();
 }
 
-void Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function)
+Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function)
 {
 	log("type usage", function.fullName + " -> " + type.dataType.getRawTypeName(), type.location);
 
 	Node* functionNode =
 		m_graph.createNodeHierarchyWithDistinctSignature(function.fullName, ParserClient::functionSignatureStr(function));
-	addTypeEdge(functionNode, Edge::EDGE_TYPE_USAGE, type);
+	Edge* edge = addTypeEdge(functionNode, Edge::EDGE_TYPE_USAGE, type);
+
+	return edge->getId();
 }
 
 Id Storage::getIdForNodeWithName(const std::string& fullName) const
@@ -569,6 +609,24 @@ TokenLocationFile Storage::getTokenLocationsForLinesInFile(
 	}
 
 	return ret;
+}
+
+Token* Storage::getTokenWithId(Id tokenId) const
+{
+	return m_graph.getTokenById(tokenId);
+}
+
+std::vector<TokenLocation*> Storage::getTokenLocationsForId(Id tokenId) const
+{
+	const std::vector<Id>& locationIds = getTokenWithId(tokenId)->getLocationIds();
+
+	std::vector<TokenLocation*> result;
+	for (Id locationId : locationIds)
+	{
+		result.push_back(m_locationCollection.findTokenLocationById(locationId));
+	}
+
+	return result;
 }
 
 TokenComponentAccess::AccessType Storage::convertAccessType(ParserClient::AccessType access) const

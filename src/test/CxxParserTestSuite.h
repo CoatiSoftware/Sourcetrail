@@ -1,7 +1,5 @@
 #include "cxxtest/TestSuite.h"
 
-#include <sstream>
-
 #include "data/parser/cxx/CxxParser.h"
 #include "data/parser/ParseFunction.h"
 #include "data/parser/ParseLocation.h"
@@ -992,40 +990,45 @@ private:
 	class TestParserClient: public ParserClient
 	{
 	public:
-		virtual void onTypedefParsed(
+		virtual Id onTypedefParsed(
 			const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& underlyingType,
 			AccessType access
 		)
 		{
 			std::string str = addAccessPrefix(underlyingType.dataType.getFullTypeName() + " -> " + fullName, access);
 			typedefs.push_back(addLocationSuffix(str, location));
+			return 0;
 		}
 
-		virtual void onClassParsed(
+		virtual Id onClassParsed(
 			const ParseLocation& location, const std::string& fullName, AccessType access,
 			const ParseLocation& scopeLocation)
 		{
 			classes.push_back(addLocationSuffix(addAccessPrefix(fullName, access), location, scopeLocation));
+			return 0;
 		}
 
-		virtual void onStructParsed(
+		virtual Id onStructParsed(
 			const ParseLocation& location, const std::string& fullName, AccessType access,
 			const ParseLocation& scopeLocation)
 		{
 			structs.push_back(addLocationSuffix(addAccessPrefix(fullName, access), location, scopeLocation));
+			return 0;
 		}
 
-		virtual void onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable)
+		virtual Id onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable)
 		{
 			globalVariables.push_back(addLocationSuffix(variableStr(variable), location));
+			return 0;
 		}
 
-		virtual void onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access)
+		virtual Id onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access)
 		{
 			fields.push_back(addLocationSuffix(addAccessPrefix(variableStr(variable), access), location));
+			return 0;
 		}
 
-		virtual void onFunctionParsed(
+		virtual Id onFunctionParsed(
 			const ParseLocation& location, const ParseFunction& function, const ParseLocation& scopeLocation
 		){
 			functions.push_back(addLocationSuffix(functionStr(function), location, scopeLocation));
@@ -1035,9 +1038,10 @@ private:
 			{
 				addTypeUse(parameter);
 			}
+			return 0;
 		}
 
-		virtual void onMethodParsed(
+		virtual Id onMethodParsed(
 			const ParseLocation& location, const ParseFunction& method, AccessType access, AbstractionType abstraction,
 			const ParseLocation& scopeLocation
 		){
@@ -1052,60 +1056,70 @@ private:
 			{
 				addTypeUse(parameter);
 			}
+			return 0;
 		}
 
-		virtual void onNamespaceParsed(
+		virtual Id onNamespaceParsed(
 			const ParseLocation& location, const std::string& fullName, const ParseLocation& scopeLocation)
 		{
 			namespaces.push_back(addLocationSuffix(fullName, location, scopeLocation));
+			return 0;
 		}
 
-		virtual void onEnumParsed(
+		virtual Id onEnumParsed(
 			const ParseLocation& location, const std::string& fullName, AccessType access,
 			const ParseLocation& scopeLocation)
 		{
 			enums.push_back(addLocationSuffix(addAccessPrefix(fullName, access), location, scopeLocation));
+			return 0;
 		}
 
-		virtual void onEnumFieldParsed(const ParseLocation& location, const std::string& fullName)
+		virtual Id onEnumFieldParsed(const ParseLocation& location, const std::string& fullName)
 		{
 			enumFields.push_back(addLocationSuffix(fullName, location));
+			return 0;
 		}
 
-		virtual void onInheritanceParsed(
+		virtual Id onInheritanceParsed(
 			const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access)
 		{
 			std::string str = fullName + " : " + addAccessPrefix(baseName, access);
 			inheritances.push_back(addLocationSuffix(str, location));
+			return 0;
 		}
 
-		virtual void onCallParsed(
+		virtual Id onCallParsed(
 			const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee)
 		{
 			calls.push_back(addLocationSuffix(functionStr(caller) + " -> " + functionStr(callee), location));
+			return 0;
 		}
 
-		virtual void onCallParsed(
+		virtual Id onCallParsed(
 			const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee)
 		{
 			calls.push_back(addLocationSuffix(caller.fullName + " -> " + functionStr(callee), location));
+			return 0;
 		}
 
-		virtual void onFieldUsageParsed(
+		virtual Id onFieldUsageParsed(
 			const ParseLocation& location, const ParseFunction& user, const std::string& usedName)
 		{
 			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + usedName, location));
+			return 0;
 		}
 
-		virtual void onGlobalVariableUsageParsed(
+		virtual Id onGlobalVariableUsageParsed(
 			const ParseLocation& location, const ParseFunction& user, const std::string& usedName)
 		{
 			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + usedName, location));
+			return 0;
 		}
 
-		virtual void onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function)
+		virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function)
 		{
 			addTypeUse(type, function);
+			return 0;
 		}
 
 		std::vector<std::string> typedefs;
