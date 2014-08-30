@@ -8,6 +8,7 @@
 #include "component/controller/GraphLayouter.h"
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateToken.h"
+#include "utility/messaging/type/MessageActivateTokens.h"
 
 struct DummyNode;
 struct DummyEdge;
@@ -17,6 +18,7 @@ class GraphAccess;
 class GraphController
 	: public Controller
 	, public MessageListener<MessageActivateToken>
+	, public MessageListener<MessageActivateTokens>
 {
 public:
 	GraphController(GraphAccess* graphAccess);
@@ -24,6 +26,8 @@ public:
 
 private:
 	virtual void handleMessage(MessageActivateToken* message);
+	virtual void handleMessage(MessageActivateTokens* message);
+
 	GraphView* getView();
 	void createDummyGraph(const Id activeId, const LayoutFunction layoutFunction);
 

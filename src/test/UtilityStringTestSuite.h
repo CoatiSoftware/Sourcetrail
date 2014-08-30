@@ -51,6 +51,71 @@ public:
 		TS_ASSERT_EQUALS(result[3], "C");
 	}
 
+	void test_split_with_delimiter_at_start()
+	{
+		std::vector<std::string> result = utility::split<std::vector<std::string> >(":B:C", ':');
+
+		TS_ASSERT_EQUALS(result.size(), 3);
+		TS_ASSERT_EQUALS(result[0], "");
+		TS_ASSERT_EQUALS(result[1], "B");
+		TS_ASSERT_EQUALS(result[2], "C");
+	}
+
+	void test_split_with_delimiter_at_end()
+	{
+		std::vector<std::string> result = utility::split<std::vector<std::string> >("B:C:", ':');
+
+		TS_ASSERT_EQUALS(result.size(), 3);
+		TS_ASSERT_EQUALS(result[0], "B");
+		TS_ASSERT_EQUALS(result[1], "C");
+		TS_ASSERT_EQUALS(result[2], "");
+	}
+
+	void test_tokenize_with_string()
+	{
+		std::vector<std::string> result = utility::tokenize<std::vector<std::string> >("A->B->C", "->");
+
+		TS_ASSERT_EQUALS(result.size(), 5);
+		TS_ASSERT_EQUALS(result[0], "A");
+		TS_ASSERT_EQUALS(result[1], "->");
+		TS_ASSERT_EQUALS(result[2], "B");
+		TS_ASSERT_EQUALS(result[3], "->");
+		TS_ASSERT_EQUALS(result[4], "C");
+	}
+
+	void test_tokenize_with_string_and_delimiter_at_start()
+	{
+		std::vector<std::string> result = utility::tokenize<std::vector<std::string> >("->B", "->");
+
+		TS_ASSERT_EQUALS(result.size(), 2);
+		TS_ASSERT_EQUALS(result[0], "->");
+		TS_ASSERT_EQUALS(result[1], "B");
+	}
+
+	void test_tokenize_with_string_and_delimiter_at_end()
+	{
+		std::vector<std::string> result = utility::tokenize<std::vector<std::string> >("C+", '+');
+
+		TS_ASSERT_EQUALS(result.size(), 2);
+		TS_ASSERT_EQUALS(result[0], "C");
+		TS_ASSERT_EQUALS(result[1], "+");
+	}
+
+	void test_tokenize_with_vector()
+	{
+		std::vector<std::string> result = utility::tokenize<std::vector<std::string> >("A->B=C->D", "->");
+		result = utility::tokenize<std::vector<std::string>>(result, "=");
+
+		TS_ASSERT_EQUALS(result.size(), 7);
+		TS_ASSERT_EQUALS(result[0], "A");
+		TS_ASSERT_EQUALS(result[1], "->");
+		TS_ASSERT_EQUALS(result[2], "B");
+		TS_ASSERT_EQUALS(result[3], "=");
+		TS_ASSERT_EQUALS(result[4], "C");
+		TS_ASSERT_EQUALS(result[5], "->");
+		TS_ASSERT_EQUALS(result[6], "D");
+	}
+
 	void test_substr_after_with_single_delimiter_occurence()
 	{
 		TS_ASSERT_EQUALS(utility::substrAfter("foo bar", ' '), "bar");

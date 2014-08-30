@@ -33,6 +33,8 @@ public:
 
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId) const = 0;
 	virtual std::vector<Id> getLocationIdsForTokenIds(const std::vector<Id>& tokenIds) const = 0;
+
+	virtual std::vector<Id> getTokenIdsForQuery(std::string query) const = 0;
 };
 
 #endif // GRAPH_ACCESS_H

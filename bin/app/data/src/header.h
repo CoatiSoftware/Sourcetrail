@@ -40,7 +40,7 @@ public:
 private:
 	int m_importantValue;
 	char m_importanterValue;
-	float m_importantestValue;
+	const float m_importantestValue;
 };
 
 A globalA(' ');
@@ -52,6 +52,13 @@ public:
 		: A('b')
 	{
 	}
+
+	virtual ~B()
+	{
+	}
+
+protected:
+	virtual float getNumber() = 0;
 };
 
 class C
@@ -61,13 +68,20 @@ public:
 		: m_valuable(0)
 	{
 		globalA.doImportantStuff();
+		s_count++;
 	}
 
 	~C()
 	{
+		s_count--;
 	}
 
-	void solveAllProblems()
+	static int getCount()
+	{
+		return s_count;
+	}
+
+	void solveAllProblems() const
 	{
 		A aInstance('a');
 		aInstance.doImportantStuff();
@@ -75,6 +89,7 @@ public:
 	}
 
 private:
+	static int s_count;
 	int m_valuable;
 };
 

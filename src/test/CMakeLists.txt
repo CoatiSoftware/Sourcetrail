@@ -1,6 +1,9 @@
 add_files(
 	TEST_FILES
 
+	TestSuiteFixture.cpp
+	TestSuiteFixture.h
+
 	ConfigManagerTestSuite.h
 	CxxParserTestSuite.h
 	DataTypeTestSuite.h
@@ -10,8 +13,6 @@ add_files(
 	MessageQueueTestSuite.h
 	SettingsTestSuite.h
 	StorageTestSuite.h
-	TestSuiteFixture.cpp
-	TestSuiteFixture.h
 	TextAccessTestSuite.h
 	TokenLocationCollectionTestSuite.h
 	UtilityStringTestSuite.h

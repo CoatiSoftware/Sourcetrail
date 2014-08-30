@@ -6,6 +6,7 @@
 #include "component/controller/Controller.h"
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateToken.h"
+#include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageShowFile.h"
 #include "utility/types.h"
@@ -24,6 +25,7 @@ struct AnnotatedText
 class CodeController
 	: public Controller
 	, public MessageListener<MessageActivateToken>
+	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageRefresh>
 	, public MessageListener<MessageShowFile>
 {
@@ -31,10 +33,11 @@ public:
 	CodeController(GraphAccess* graphAccess, LocationAccess* locationAccess);
 	~CodeController();
 
-	void setActiveTokenId(Id id);
+	void setActiveTokenIds(const std::vector<Id>& ids);
 
 private:
 	virtual void handleMessage(MessageActivateToken* message);
+	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageRefresh* message);
 	virtual void handleMessage(MessageShowFile* message);
 

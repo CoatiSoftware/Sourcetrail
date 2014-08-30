@@ -18,14 +18,13 @@ CodeController::~CodeController()
 {
 }
 
-void CodeController::setActiveTokenId(Id id)
+void CodeController::setActiveTokenIds(const std::vector<Id>& ids)
 {
 	const uint lineRadius = 2;
 
 	getView()->clearCodeSnippets();
 
-	std::vector<Id> activeTokenIds = m_graphAccess->getActiveTokenIdsForId(id);
-	std::vector<Id> locationIds = m_graphAccess->getLocationIdsForTokenIds(activeTokenIds);
+	std::vector<Id> locationIds = m_graphAccess->getLocationIdsForTokenIds(ids);
 
 	TokenLocationCollection collection = m_locationAccess->getTokenLocationsForLocationIds(locationIds);
 	collection.forEachTokenLocationFile(
@@ -49,7 +48,7 @@ void CodeController::setActiveTokenId(Id id)
 				params.startLineNumber = firstLineNumber;
 				params.locationFile =
 					m_locationAccess->getTokenLocationsForLinesInFile(filePath, firstLineNumber, lastLineNumber);
-				params.activeTokenIds = activeTokenIds;
+				params.activeTokenIds = ids;
 
 				getView()->addCodeSnippet(params);
 			}
@@ -59,7 +58,21 @@ void CodeController::setActiveTokenId(Id id)
 
 void CodeController::handleMessage(MessageActivateToken* message)
 {
-	setActiveTokenId(message->tokenId);
+	std::vector<Id> activeTokenIds = m_graphAccess->getActiveTokenIdsForId(message->tokenId);
+	setActiveTokenIds(activeTokenIds);
+}
+
+void CodeController::handleMessage(MessageActivateTokens* message)
+{
+	if (message->tokenIds.size() == 1)
+	{
+		std::vector<Id> activeTokenIds = m_graphAccess->getActiveTokenIdsForId(message->tokenIds[0]);
+		setActiveTokenIds(activeTokenIds);
+	}
+	else
+	{
+		setActiveTokenIds(message->tokenIds);
+	}
 }
 
 void CodeController::handleMessage(MessageRefresh* message)

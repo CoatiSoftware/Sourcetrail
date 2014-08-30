@@ -14,6 +14,79 @@ Graph::~Graph()
 	m_nodes.clear();
 }
 
+void Graph::copy(const FilterableGraph* other)
+{
+	clear();
+	add(other);
+}
+
+void Graph::clear()
+{
+	m_edges.clear();
+	m_nodes.clear();
+}
+
+void Graph::add(const FilterableGraph* other)
+{
+	other->forEachNode(std::bind(&Graph::addNode, this, std::placeholders::_1));
+	other->forEachEdge(std::bind(&Graph::addEdge, this, std::placeholders::_1));
+}
+
+void Graph::forEachNode(std::function<void(Node*)> func) const
+{
+	for (const std::pair<Id, std::shared_ptr<Node>>& node : m_nodes)
+	{
+		func(node.second.get());
+	}
+}
+
+void Graph::forEachEdge(std::function<void(Edge*)> func) const
+{
+	for (const std::pair<Id, std::shared_ptr<Edge>>& edge : m_edges)
+	{
+		func(edge.second.get());
+	}
+}
+
+void Graph::forEachToken(std::function<void(Token*)> func) const
+{
+	forEachNode(func);
+	forEachEdge(func);
+}
+
+void Graph::addNode(Node* node)
+{
+	addNodeAsPlainCopy(node);
+}
+
+void Graph::addEdge(Edge* edge)
+{
+	if (getNodeById(edge->getFrom()->getId()) && getNodeById(edge->getTo()->getId()))
+	{
+		addEdgeAsPlainCopy(edge);
+	}
+}
+
+size_t Graph::getNodeCount() const
+{
+	return m_nodes.size();
+}
+
+size_t Graph::getEdgeCount() const
+{
+	return m_edges.size();
+}
+
+const std::map<Id, std::shared_ptr<Node>>& Graph::getNodes() const
+{
+	return m_nodes;
+}
+
+const std::map<Id, std::shared_ptr<Edge>>& Graph::getEdges() const
+{
+	return m_edges;
+}
+
 Node* Graph::getNode(const std::string& fullName) const
 {
 	std::deque<std::string> names = utility::split<std::deque<std::string>>(fullName, DELIMITER);
@@ -256,44 +329,6 @@ Token* Graph::findToken(std::function<bool(Token*)> func) const
 	return nullptr;
 }
 
-void Graph::forEachNode(std::function<void(Node*)> func) const
-{
-	for (const std::pair<Id, std::shared_ptr<Node>>& node : m_nodes)
-	{
-		func(node.second.get());
-	}
-}
-
-void Graph::forEachEdge(std::function<void(Edge*)> func) const
-{
-	for (const std::pair<Id, std::shared_ptr<Edge>>& edge : m_edges)
-	{
-		func(edge.second.get());
-	}
-}
-
-void Graph::forEachToken(std::function<void(Token*)> func) const
-{
-	forEachNode(func);
-	forEachEdge(func);
-}
-
-void Graph::clear()
-{
-	m_edges.clear();
-	m_nodes.clear();
-}
-
-const std::map<Id, std::shared_ptr<Node> >& Graph::getNodes() const
-{
-	return m_nodes;
-}
-
-const std::map<Id, std::shared_ptr<Edge> >& Graph::getEdges() const
-{
-	return m_edges;
-}
-
 Node* Graph::addNodeAsPlainCopy(Node* node)
 {
 	Node* n = getNodeById(node->getId());
@@ -410,22 +445,6 @@ void Graph::removeEdgeInternal(Edge* edge)
 
 std::ostream& operator<<(std::ostream& ostream, const Graph& graph)
 {
-	ostream << "Graph:\n";
-	ostream << "nodes (" << graph.getNodes().size() << ")\n";
-	graph.forEachNode(
-		[&ostream](Node* n)
-		{
-			ostream << *n << '\n';
-		}
-	);
-
-	ostream << "edges (" << graph.getEdges().size() << ")\n";
-	graph.forEachEdge(
-		[&ostream](Edge* e)
-		{
-			ostream << *e << '\n';
-		}
-	);
-
+	graph.print(ostream);
 	return ostream;
 }

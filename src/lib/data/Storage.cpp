@@ -1,8 +1,10 @@
 #include "data/Storage.h"
 
+#include "data/graph/filter/GraphFilterConductor.h"
 #include "data/graph/token_component/TokenComponentConst.h"
 #include "data/graph/token_component/TokenComponentDataType.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
+#include "data/graph/SubGraph.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
 #include "data/location/TokenLocationLine.h"
@@ -10,6 +12,7 @@
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParseTypeUsage.h"
 #include "data/parser/ParseVariable.h"
+#include "data/query/QueryTree.h"
 #include "data/type/DataType.h"
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
@@ -523,6 +526,19 @@ std::vector<Id> Storage::getLocationIdsForTokenIds(const std::vector<Id>& tokenI
 	}
 
 	return ret;
+}
+
+std::vector<Id> Storage::getTokenIdsForQuery(std::string query) const
+{
+	QueryTree tree(query);
+	GraphFilterConductor conductor;
+	SubGraph outGraph;
+
+	conductor.filter(&tree, &m_graph, &outGraph);
+
+	LOG_INFO_STREAM(<< '\n' << tree << '\n' << outGraph);
+
+	return outGraph.getTokenIds();
 }
 
 TokenLocationCollection Storage::getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const

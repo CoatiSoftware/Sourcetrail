@@ -84,6 +84,8 @@ public:
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId) const;
 	virtual std::vector<Id> getLocationIdsForTokenIds(const std::vector<Id>& tokenIds) const;
 
+	virtual std::vector<Id> getTokenIdsForQuery(std::string query) const;
+
 	// LocationAccess implementation
 	virtual TokenLocationCollection getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const;
 	virtual TokenLocationFile getTokenLocationsForFile(const std::string& filePath) const;

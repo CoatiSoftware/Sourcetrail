@@ -71,6 +71,12 @@ add_files(
 	data/access/GraphAccessProxy.cpp
 	data/access/GraphAccessProxy.h
 
+	data/graph/filter/GraphFilter.cpp
+	data/graph/filter/GraphFilter.h
+	data/graph/filter/GraphFilterConductor.cpp
+	data/graph/filter/GraphFilterConductor.h
+	data/graph/filter/GraphFilterImplementations.h
+
 	data/graph/token_component/TokenComponent.cpp
 	data/graph/token_component/TokenComponent.h
 	data/graph/token_component/TokenComponentAbstraction.cpp
@@ -88,10 +94,14 @@ add_files(
 
 	data/graph/Edge.cpp
 	data/graph/Edge.h
+	data/graph/FilterableGraph.cpp
+	data/graph/FilterableGraph.h
 	data/graph/Graph.cpp
 	data/graph/Graph.h
 	data/graph/Node.cpp
 	data/graph/Node.h
+	data/graph/SubGraph.cpp
+	data/graph/SubGraph.h
 	data/graph/Token.cpp
 	data/graph/Token.h
 
@@ -116,6 +126,17 @@ add_files(
 	data/parser/ParseTypeUsage.h
 	data/parser/ParseVariable.cpp
 	data/parser/ParseVariable.h
+
+	data/query/QueryCommand.cpp
+	data/query/QueryCommand.h
+	data/query/QueryNode.cpp
+	data/query/QueryNode.h
+	data/query/QueryOperator.cpp
+	data/query/QueryOperator.h
+	data/query/QueryToken.cpp
+	data/query/QueryToken.h
+	data/query/QueryTree.cpp
+	data/query/QueryTree.h
 
 	data/type/modifier/DataTypeModifier.cpp
 	data/type/modifier/DataTypeModifier.h

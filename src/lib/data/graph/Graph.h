@@ -3,17 +3,37 @@
 
 #include <map>
 #include <memory>
-#include <ostream>
 #include <deque>
 
 #include "data/graph/Edge.h"
+#include "data/graph/FilterableGraph.h"
 #include "data/graph/Node.h"
 
 class Graph
+	: public FilterableGraph
 {
 public:
 	Graph();
 	virtual ~Graph();
+
+	// FilterableGraph implementation
+	virtual void copy(const FilterableGraph* other);
+	virtual void clear();
+
+	virtual void add(const FilterableGraph* other);
+
+	virtual void forEachNode(std::function<void(Node*)> func) const;
+	virtual void forEachEdge(std::function<void(Edge*)> func) const;
+	virtual void forEachToken(std::function<void(Token*)> func) const;
+
+	virtual void addNode(Node* node);
+	virtual void addEdge(Edge* edge);
+
+	virtual size_t getNodeCount() const;
+	virtual size_t getEdgeCount() const;
+
+	const std::map<Id, std::shared_ptr<Node>>& getNodes() const;
+	const std::map<Id, std::shared_ptr<Edge>>& getEdges() const;
 
 	Node* getNode(const std::string& fullName) const;
 	Edge* getEdge(Edge::EdgeType type, Node* from, Node* to) const;
@@ -39,18 +59,8 @@ public:
 	Edge* findEdge(std::function<bool(Edge*)> func) const;
 	Token* findToken(std::function<bool(Token*)> func) const;
 
-	void forEachNode(std::function<void(Node*)> func) const;
-	void forEachEdge(std::function<void(Edge*)> func) const;
-	void forEachToken(std::function<void(Token*)> func) const;
-
 	Node* addNodeAsPlainCopy(Node* node);
 	Edge* addEdgeAsPlainCopy(Edge* edge);
-
-	void clear();
-
-protected:
-	const std::map<Id, std::shared_ptr<Node>>& getNodes() const;
-	const std::map<Id, std::shared_ptr<Edge>>& getEdges() const;
 
 private:
 	static const std::string DELIMITER;
@@ -65,8 +75,6 @@ private:
 
 	std::map<Id, std::shared_ptr<Node>> m_nodes;
 	std::map<Id, std::shared_ptr<Edge>> m_edges;
-
-	friend std::ostream& operator<<(std::ostream& ostream, const Graph& graph);
 };
 
 std::ostream& operator<<(std::ostream& ostream, const Graph& graph);

@@ -2,6 +2,7 @@
 
 #include "component/view/SearchView.h"
 #include "data/access/GraphAccess.h"
+#include "utility/messaging/type/MessageActivateTokens.h"
 
 SearchController::SearchController(GraphAccess* graphAccess)
 	: m_graphAccess(graphAccess)
@@ -15,6 +16,14 @@ SearchController::~SearchController()
 void SearchController::search(const std::string& s)
 {
 	LOG_INFO("searching string: \"" + s + "\"");
+
+	std::vector<Id> ids = m_graphAccess->getTokenIdsForQuery(s);
+	if (ids.size())
+	{
+		MessageActivateTokens(ids).dispatch();
+		return;
+	}
+
 	Id nodeId = m_graphAccess->getIdForNodeWithName(s);
 	if (nodeId > 0)
 	{

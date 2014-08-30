@@ -22,6 +22,11 @@ void GraphController::handleMessage(MessageActivateToken* message)
 	createDummyGraph(message->tokenId, &GraphLayouter::layoutSimpleRing);
 }
 
+void GraphController::handleMessage(MessageActivateTokens* message)
+{
+	createDummyGraph(message->tokenIds[0], &GraphLayouter::layoutSimpleRing);
+}
+
 GraphView* GraphController::getView()
 {
 	return Controller::getView<GraphView>();

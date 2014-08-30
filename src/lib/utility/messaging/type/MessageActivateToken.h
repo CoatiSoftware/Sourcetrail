@@ -20,4 +20,4 @@ public:
 	const Id tokenId;
 };
 
-#endif // MESSAGE_ACTIVATE_TOKEN_LOCATION_H
+#endif // MESSAGE_ACTIVATE_TOKEN_H

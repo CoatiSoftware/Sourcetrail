@@ -186,3 +186,13 @@ std::vector<Id> GraphAccessProxy::getLocationIdsForTokenIds(const std::vector<Id
 
 	return std::vector<Id>();
 }
+
+std::vector<Id> GraphAccessProxy::getTokenIdsForQuery(std::string query) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getTokenIdsForQuery(query);
+	}
+
+	return std::vector<Id>();
+}

@@ -19,6 +19,8 @@ public:
 	DataType getDataType(const std::string& typeName) const;
 	std::string getQualifiedTypeName(const std::string& typeName) const;
 
+	bool isConstQualified() const;
+
 private:
 	const DataTypeQualifierList m_qualifierList;
 	const DataTypeModifierStack m_modifierStack;

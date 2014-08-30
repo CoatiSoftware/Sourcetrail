@@ -28,3 +28,8 @@ std::string TokenComponentDataType::getQualifiedTypeName(const std::string& type
 {
 	return m_modifierStack.applyTo(m_qualifierList.applyTo(typeName));
 }
+
+bool TokenComponentDataType::isConstQualified() const
+{
+	return m_qualifierList.hasQualifier(DataTypeQualifierList::QUALIFIER_CONST);
+}
