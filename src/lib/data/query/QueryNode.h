@@ -21,8 +21,11 @@ public:
 	bool isGroup() const;
 	void setIsGroup(bool isGroup);
 
+	void setIsComplete(bool isComplete);
+
 private:
 	bool m_isGroup;
+	bool m_isComplete;
 };
 
 #endif // QUERY_NODE_H

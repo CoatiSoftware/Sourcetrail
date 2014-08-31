@@ -100,8 +100,11 @@ ContainerType utility::tokenize(const ContainerType& list, const std::string& de
 
 	for (std::string str : list)
 	{
-		ContainerType c2 = tokenize<ContainerType>(str, delimiter);
-		c.insert(c.end(), c2.begin(), c2.end());
+		if (str.size())
+		{
+			ContainerType c2 = tokenize<ContainerType>(str, delimiter);
+			c.insert(c.end(), c2.begin(), c2.end());
+		}
 	}
 
 	return c;

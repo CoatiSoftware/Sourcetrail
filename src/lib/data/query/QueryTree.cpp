@@ -45,7 +45,7 @@ void QueryTree::print(std::ostream& ostream) const
 
 	if (!m_valid)
 	{
-		ostream << " INVALID";
+		ostream << "INVALID";
 	}
 
 	ostream << '\n';
@@ -60,6 +60,12 @@ std::shared_ptr<QueryNode> QueryTree::buildTree(std::deque<std::string>& tokens,
 {
 	std::shared_ptr<QueryNode> node = getNextNode(tokens);
 	std::shared_ptr<QueryOperator> operatorNode = std::dynamic_pointer_cast<QueryOperator>(node);
+
+	if (!node)
+	{
+		m_valid = false;
+		return nullptr;
+	}
 
 	if (frontNode)
 	{
@@ -109,7 +115,7 @@ std::shared_ptr<QueryNode> QueryTree::buildTree(std::deque<std::string>& tokens,
 		}
 	}
 
-	if (!node->isComplete())
+	if (!node || !node->isComplete())
 	{
 		m_valid = false;
 	}
@@ -122,6 +128,8 @@ std::shared_ptr<QueryNode> QueryTree::buildGroup(std::deque<std::string>& tokens
 	std::deque<std::string> group;
 	std::string name;
 	char delimiter = QueryOperator::getOperator(closeType);
+	bool valid = true;
+
 	while (tokens.front() != std::string(1, delimiter) && tokens.size())
 	{
 		group.push_back(tokens.front());
@@ -135,6 +143,7 @@ std::shared_ptr<QueryNode> QueryTree::buildGroup(std::deque<std::string>& tokens
 	}
 	else
 	{
+		valid = false;
 		m_valid = false;
 	}
 
@@ -143,14 +152,18 @@ std::shared_ptr<QueryNode> QueryTree::buildGroup(std::deque<std::string>& tokens
 		return nullptr;
 	}
 
+	std::shared_ptr<QueryNode> groupNode;
 	if (closeType == QueryOperator::OPERATOR_NAME)
 	{
-		return std::make_shared<QueryToken>(name);
+		groupNode = std::make_shared<QueryToken>(name);
+	}
+	else
+	{
+		groupNode = buildTree(group, nullptr);
+		groupNode->setIsGroup(true);
 	}
 
-	std::shared_ptr<QueryNode> groupNode = buildTree(group, nullptr);
-	groupNode->setIsGroup(true);
-
+	groupNode->setIsComplete(valid);
 	return groupNode;
 }
 
@@ -195,6 +208,7 @@ std::shared_ptr<QueryNode> QueryTree::createCommand(std::string name)
 	if (node->getType() == QueryCommand::COMMAND_INVALID)
 	{
 		m_valid = false;
+		return nullptr;
 	}
 
 	return node;

@@ -2,6 +2,7 @@
 
 QueryNode::QueryNode()
 	: m_isGroup(false)
+	, m_isComplete(true)
 {
 }
 
@@ -28,6 +29,11 @@ void QueryNode::print(std::ostream& ostream, int n) const
 		ostream << ')';
 	}
 
+	if (!m_isComplete || !isComplete())
+	{
+		ostream << " INVALID";
+	}
+
 	ostream << '\n';
 }
 
@@ -39,4 +45,9 @@ bool QueryNode::isGroup() const
 void QueryNode::setIsGroup(bool isGroup)
 {
 	m_isGroup = isGroup;
+}
+
+void QueryNode::setIsComplete(bool isComplete)
+{
+	m_isComplete = isComplete;
 }

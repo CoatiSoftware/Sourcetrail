@@ -86,7 +86,7 @@ bool QueryOperator::isComplete() const
 
 void QueryOperator::print(std::ostream& ostream) const
 {
-	ostream << m_type;
+	ostream << getOperator(m_type);
 }
 
 void QueryOperator::print(std::ostream& ostream, int n) const

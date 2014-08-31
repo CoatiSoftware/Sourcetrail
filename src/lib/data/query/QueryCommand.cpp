@@ -40,11 +40,6 @@ bool QueryCommand::isComplete() const
 void QueryCommand::print(std::ostream& ostream) const
 {
 	ostream << m_name;
-
-	if (!isComplete())
-	{
-		ostream << " INVALID";
-	}
 }
 
 QueryCommand::CommandType QueryCommand::getType() const

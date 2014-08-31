@@ -11,6 +11,7 @@ add_files(
 	GraphTestSuite.h
 	LogManagerTestSuite.h
 	MessageQueueTestSuite.h
+	QueryTreeTestSuite.h
 	SettingsTestSuite.h
 	StorageTestSuite.h
 	TextAccessTestSuite.h
