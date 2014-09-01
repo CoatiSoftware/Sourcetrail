@@ -9,7 +9,7 @@
 class ASTConsumer : public clang::ASTConsumer
 {
 public:
-	explicit ASTConsumer(clang::ASTContext* context, std::shared_ptr<ParserClient> client);
+	explicit ASTConsumer(clang::ASTContext* context, ParserClient* client);
 	virtual ~ASTConsumer();
 
 	virtual void HandleTranslationUnit(clang::ASTContext& context);

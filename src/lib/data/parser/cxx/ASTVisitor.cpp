@@ -8,7 +8,7 @@
 #include "data/parser/ParseVariable.h"
 #include "data/type/DataType.h"
 
-ASTVisitor::ASTVisitor(clang::ASTContext* context, std::shared_ptr<ParserClient> client)
+ASTVisitor::ASTVisitor(clang::ASTContext* context, ParserClient* client)
 	: m_context(context)
 	, m_client(client)
 {

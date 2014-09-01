@@ -57,7 +57,7 @@ void Project::parseCode()
 		extensions.push_back(".h");
 		extensions.push_back(".hpp");
 
-		CxxParser parser(m_storage);
+		CxxParser parser(m_storage.get());
 		parser.parseFiles(
 			FileSystem::getSourceFilesFromDirectory(ProjectSettings::getInstance()->getSourcePath(), extensions)
 		);

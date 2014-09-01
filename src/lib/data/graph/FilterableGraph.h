@@ -30,6 +30,7 @@ public:
 	virtual size_t getEdgeCount() const = 0;
 
 	void print(std::ostream& ostream) const;
+	void printBasic(std::ostream& ostream) const;
 };
 
 #endif // FILTERABLE_GRAPH_H

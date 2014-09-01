@@ -15,6 +15,7 @@ class Graph
 public:
 	Graph();
 	virtual ~Graph();
+	Graph& operator=(const Graph& other);
 
 	// FilterableGraph implementation
 	virtual void copy(const FilterableGraph* other);
@@ -70,8 +71,6 @@ private:
 	Node* insertNode(Node::NodeType type, const std::string& name, Node* parentNode);
 	Edge* insertEdge(Edge::EdgeType type, Node* from, Node* to);
 	void removeEdgeInternal(Edge* edge);
-
-	const std::string m_delimiter;
 
 	std::map<Id, std::shared_ptr<Node>> m_nodes;
 	std::map<Id, std::shared_ptr<Edge>> m_edges;

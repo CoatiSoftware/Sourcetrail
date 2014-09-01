@@ -8,13 +8,13 @@
 class ASTActionFactory : public clang::tooling::FrontendActionFactory
 {
 public:
-	explicit ASTActionFactory(std::shared_ptr<ParserClient> client);
+	explicit ASTActionFactory(ParserClient* client);
 	virtual ~ASTActionFactory();
 
 	virtual clang::FrontendAction* create();
 
 private:
-	std::shared_ptr<ParserClient> m_client;
+	ParserClient* m_client;
 };
 
 #endif // AST_ACTION_FACTORY

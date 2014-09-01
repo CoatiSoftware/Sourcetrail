@@ -628,6 +628,11 @@ TokenLocationFile Storage::getTokenLocationsForLinesInFile(
 	return ret;
 }
 
+const Graph& Storage::getGraph() const
+{
+	return m_graph;
+}
+
 Token* Storage::getTokenWithId(Id tokenId) const
 {
 	return m_graph.getTokenById(tokenId);

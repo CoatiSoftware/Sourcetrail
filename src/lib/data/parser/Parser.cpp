@@ -1,6 +1,6 @@
 #include "data/parser/Parser.h"
 
-Parser::Parser(std::shared_ptr<ParserClient> client)
+Parser::Parser(ParserClient* client)
 	: m_client(client)
 {
 }

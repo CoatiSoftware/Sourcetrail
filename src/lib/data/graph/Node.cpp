@@ -268,7 +268,7 @@ std::string Node::getTypeString(NodeType type) const
 	case NODE_UNDEFINED:
 		return "undefined";
 	case NODE_UNDEFINED_FUNCTION:
-		return "undefined function";
+		return "undefined_function";
 	case NODE_CLASS:
 		return "class";
 	case NODE_STRUCT:

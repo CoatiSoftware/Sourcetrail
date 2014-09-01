@@ -9,13 +9,13 @@
 class ASTAction : public clang::ASTFrontendAction
 {
 public:
-	explicit ASTAction(std::shared_ptr<ParserClient> client);
+	explicit ASTAction(ParserClient* client);
 	virtual ~ASTAction();
 
 	virtual clang::ASTConsumer* CreateASTConsumer(clang::CompilerInstance& compiler, llvm::StringRef inFile);
 
 private:
-	std::shared_ptr<ParserClient> m_client;
+	ParserClient* m_client;
 };
 
 #endif // AST_ACTION_H

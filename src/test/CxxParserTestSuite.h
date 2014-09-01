@@ -975,29 +975,29 @@ public:
 
 	void test_cxx_parser_parses_multiple_files()
 	{
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
+		TestParserClient client;
+		CxxParser parser(&client);
 
 		std::vector<std::string> filePaths;
 		filePaths.push_back("data/CxxParserTestSuite/header.h");
 		filePaths.push_back("data/CxxParserTestSuite/code.cpp");
 		parser.parseFiles(filePaths);
 
-		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
-		TS_ASSERT_EQUALS(client->classes.size(), 4);
-		TS_ASSERT_EQUALS(client->enums.size(), 1);
-		TS_ASSERT_EQUALS(client->enumFields.size(), 2);
-		TS_ASSERT_EQUALS(client->functions.size(), 2);
-		TS_ASSERT_EQUALS(client->fields.size(), 4);
-		TS_ASSERT_EQUALS(client->globalVariables.size(), 2);
-		TS_ASSERT_EQUALS(client->methods.size(), 5);
-		TS_ASSERT_EQUALS(client->namespaces.size(), 2);
-		TS_ASSERT_EQUALS(client->structs.size(), 1);
+		TS_ASSERT_EQUALS(client.typedefs.size(), 1);
+		TS_ASSERT_EQUALS(client.classes.size(), 4);
+		TS_ASSERT_EQUALS(client.enums.size(), 1);
+		TS_ASSERT_EQUALS(client.enumFields.size(), 2);
+		TS_ASSERT_EQUALS(client.functions.size(), 2);
+		TS_ASSERT_EQUALS(client.fields.size(), 4);
+		TS_ASSERT_EQUALS(client.globalVariables.size(), 2);
+		TS_ASSERT_EQUALS(client.methods.size(), 5);
+		TS_ASSERT_EQUALS(client.namespaces.size(), 2);
+		TS_ASSERT_EQUALS(client.structs.size(), 1);
 
-		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->calls.size(), 2);
-		TS_ASSERT_EQUALS(client->usages.size(), 3);
-		TS_ASSERT_EQUALS(client->typeUses.size(), 8);
+		TS_ASSERT_EQUALS(client.inheritances.size(), 1);
+		TS_ASSERT_EQUALS(client.calls.size(), 2);
+		TS_ASSERT_EQUALS(client.usages.size(), 3);
+		TS_ASSERT_EQUALS(client.typeUses.size(), 8);
 	}
 
 private:
@@ -1175,7 +1175,7 @@ private:
 	std::shared_ptr<TestParserClient> parseCode(std::string code) const
 	{
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client);
+		CxxParser parser(client.get());
 		parser.parseFile(TextAccess::createFromString(code));
 		return client;
 	}

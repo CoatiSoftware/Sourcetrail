@@ -118,13 +118,13 @@ std::string Edge::getTypeString(EdgeType type) const
 	case EDGE_MEMBER:
 		return "child";
 	case EDGE_TYPE_OF:
-		return "type use";
+		return "type_use";
 	case EDGE_RETURN_TYPE_OF:
-		return "return type";
+		return "return_type";
 	case EDGE_PARAMETER_TYPE_OF:
-		return "parameter type";
+		return "parameter_type";
 	case EDGE_TYPE_USAGE:
-		return "type usage";
+		return "type_usage";
 	case EDGE_INHERITANCE:
 		return "inheritance";
 	case EDGE_CALL:

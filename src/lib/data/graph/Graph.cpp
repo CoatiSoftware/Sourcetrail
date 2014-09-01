@@ -14,6 +14,28 @@ Graph::~Graph()
 	m_nodes.clear();
 }
 
+Graph& Graph::operator=(const Graph& other)
+{
+	if (&other != this)
+	{
+		other.forEachNode(
+			[this](Node* node)
+			{
+				addNodeAsPlainCopy(node);
+			}
+		);
+
+		other.forEachEdge(
+			[this](Edge* edge)
+			{
+				addEdgeAsPlainCopy(edge);
+			}
+		);
+	}
+
+	return *this;
+}
+
 void Graph::copy(const FilterableGraph* other)
 {
 	clear();

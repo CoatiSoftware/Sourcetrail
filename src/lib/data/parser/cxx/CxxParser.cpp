@@ -4,7 +4,7 @@
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
 
-CxxParser::CxxParser(std::shared_ptr<ParserClient> client)
+CxxParser::CxxParser(ParserClient* client)
 	: Parser(client)
 {
 }

@@ -94,6 +94,7 @@ public:
 	) const;
 
 protected:
+	const Graph& getGraph() const;
 	Token* getTokenWithId(Id tokenId) const;
 	std::vector<TokenLocation*> getTokenLocationsForId(Id tokenId) const;
 

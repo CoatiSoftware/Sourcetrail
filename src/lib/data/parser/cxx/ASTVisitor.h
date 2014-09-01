@@ -1,8 +1,6 @@
 #ifndef AST_VISITOR_H
 #define AST_VISITOR_H
 
-#include <memory>
-
 #include "clang/AST/ASTContext.h"
 #include "clang/AST/RecursiveASTVisitor.h"
 
@@ -14,7 +12,7 @@ class ASTVisitor
 	, public ASTBodyVisitorClient
 {
 public:
-	ASTVisitor(clang::ASTContext* context, std::shared_ptr<ParserClient> client);
+	ASTVisitor(clang::ASTContext* context, ParserClient* client);
 	virtual ~ASTVisitor();
 
 	// Left for debugging purposes. Uncomment to see a colored ast-dump of the parsed file.
@@ -66,7 +64,7 @@ private:
 	ParseFunction getParseFunction(clang::FunctionDecl* declaration) const;
 
 	clang::ASTContext* m_context;
-	std::shared_ptr<ParserClient> m_client;
+	ParserClient* m_client;
 };
 
 #endif // AST_VISITOR_H

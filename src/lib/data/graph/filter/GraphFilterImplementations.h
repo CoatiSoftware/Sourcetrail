@@ -56,22 +56,22 @@ class GraphFilterCommandNodeType
 	: public GraphFilter
 {
 public:
-	GraphFilterCommandNodeType(Node::NodeType type)
-		: m_type(type)
+	GraphFilterCommandNodeType(Node::NodeTypeMask mask)
+		: m_mask(mask)
 	{
 	}
 
 protected:
 	virtual void visitNode(Node* node)
 	{
-		if (node->getType() == m_type)
+		if (node->isType(m_mask))
 		{
 			addNode(node);
 		}
 	}
 
 private:
-	const Node::NodeType m_type;
+	const Node::NodeTypeMask m_mask;
 };
 
 class GraphFilterCommandConst
@@ -253,7 +253,6 @@ protected:
 private:
 	const bool m_super;
 };
-
 
 class GraphFilterToken
 	: public GraphFilter

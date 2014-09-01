@@ -1,6 +1,6 @@
 #include "data/parser/cxx/ASTActionFactory.h"
 
-ASTActionFactory::ASTActionFactory(std::shared_ptr<ParserClient> client)
+ASTActionFactory::ASTActionFactory(ParserClient* client)
 	: m_client(client)
 {
 }

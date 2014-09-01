@@ -1,6 +1,6 @@
 #include "data/parser/cxx/ASTConsumer.h"
 
-ASTConsumer::ASTConsumer(clang::ASTContext* context, std::shared_ptr<ParserClient> client)
+ASTConsumer::ASTConsumer(clang::ASTContext* context, ParserClient* client)
 	: m_visitor(context, client)
 {
 }

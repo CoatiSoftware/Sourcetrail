@@ -6,7 +6,7 @@
 class CxxParser: public Parser
 {
 public:
-	CxxParser(std::shared_ptr<ParserClient> client);
+	CxxParser(ParserClient* client);
 	~CxxParser();
 
 	virtual void parseFiles(const std::vector<std::string>& filePaths);

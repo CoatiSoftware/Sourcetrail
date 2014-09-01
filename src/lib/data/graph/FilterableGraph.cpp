@@ -30,3 +30,24 @@ void FilterableGraph::print(std::ostream& ostream) const
 		}
 	);
 }
+
+void FilterableGraph::printBasic(std::ostream& ostream) const
+{
+	ostream << getNodeCount() << " nodes:";
+	forEachNode(
+		[&ostream](Node* n)
+		{
+			ostream << ' ' << n->getTypeString() << ':' << n->getFullName();
+		}
+	);
+	ostream << '\n';
+
+	ostream << getEdgeCount() << " edges:";
+	forEachEdge(
+		[&ostream](Edge* e)
+		{
+			ostream << ' ' << e->getName();
+		}
+	);
+	ostream << '\n';
+}
