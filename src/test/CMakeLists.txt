@@ -4,12 +4,13 @@ add_files(
 	TestSuiteFixture.cpp
 	TestSuiteFixture.h
 
-	utilityTest.cpp
-	utilityTest.h
+	TestStorage.cpp
+	TestStorage.h
 
 	ConfigManagerTestSuite.h
 	CxxParserTestSuite.h
 	DataTypeTestSuite.h
+	DictionaryTestSuite.h
 	FileSystemTestSuite.h
 	GraphTestSuite.h
 	GraphFilterTestSuite.h
@@ -19,6 +20,7 @@ add_files(
 	QueryTreeTestSuite.h
 	SettingsTestSuite.h
 	StorageTestSuite.h
+	StorageGraphTestSuite.h
 	TextAccessTestSuite.h
 	TokenLocationCollectionTestSuite.h
 	UtilityStringTestSuite.h

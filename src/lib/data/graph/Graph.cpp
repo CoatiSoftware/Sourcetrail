@@ -1,8 +1,6 @@
 #include "data/graph/Graph.h"
 
-#include "data/graph/token_component/TokenComponentSignature.h"
 #include "utility/logging/logging.h"
-#include "utility/utilityString.h"
 
 Graph::Graph()
 {
@@ -12,28 +10,6 @@ Graph::~Graph()
 {
 	m_edges.clear();
 	m_nodes.clear();
-}
-
-Graph& Graph::operator=(const Graph& other)
-{
-	if (&other != this)
-	{
-		other.forEachNode(
-			[this](Node* node)
-			{
-				addNodeAsPlainCopy(node);
-			}
-		);
-
-		other.forEachEdge(
-			[this](Edge* edge)
-			{
-				addEdgeAsPlainCopy(edge);
-			}
-		);
-	}
-
-	return *this;
 }
 
 void Graph::copy(const FilterableGraph* other)
@@ -109,29 +85,6 @@ const std::map<Id, std::shared_ptr<Edge>>& Graph::getEdges() const
 	return m_edges;
 }
 
-Node* Graph::getNode(const std::string& fullName) const
-{
-	std::deque<std::string> names = utility::split<std::deque<std::string>>(fullName, DELIMITER);
-	Node* node = getLastValidNode(&names);
-
-	if (node && !names.size())
-	{
-		return node;
-	}
-
-	return nullptr;
-}
-
-Edge* Graph::getEdge(Edge::EdgeType type, Node* from, Node* to) const
-{
-	return from->findEdgeOfType(type,
-		[to](Edge* e)
-		{
-			return e->getTo() == to;
-		}
-	);
-}
-
 Node* Graph::getNodeById(Id id) const
 {
 	std::map<Id, std::shared_ptr<Node>>::const_iterator it = m_nodes.find(id);
@@ -160,95 +113,6 @@ Token* Graph::getTokenById(Id id) const
 		token = getEdgeById(id);
 	}
 	return token;
-}
-
-Node* Graph::createNodeHierarchy(const std::string& fullName)
-{
-	return createNodeHierarchy(Node::NODE_UNDEFINED, fullName);
-}
-
-Node* Graph::createNodeHierarchy(Node::NodeType type, const std::string& fullName)
-{
-	std::deque<std::string> names = utility::split<std::deque<std::string>>(fullName, DELIMITER);
-	Node* node = getLastValidNode(&names);
-	if (node && !names.size())
-	{
-		if (type != Node::NODE_UNDEFINED)
-		{
-			node->setType(type);
-		}
-		return node;
-	}
-
-	return insertNodeHierarchy(type, names, node);
-}
-
-Node* Graph::createNodeHierarchyWithDistinctSignature(const std::string& fullName, const std::string& signature)
-{
-	return createNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, fullName, signature);
-}
-
-Node* Graph::createNodeHierarchyWithDistinctSignature(
-	Node::NodeType type, const std::string& fullName, const std::string& signature
-){
-	std::deque<std::string> names = utility::split<std::deque<std::string>>(fullName, DELIMITER);
-	Node* node = getLastValidNode(&names);
-	if (node && !names.size())
-	{
-		TokenComponentSignature* sigComponent = node->getComponent<TokenComponentSignature>();
-		if (sigComponent && sigComponent->getSignature() == signature)
-		{
-			if (type != Node::NODE_UNDEFINED && type != Node::NODE_UNDEFINED_FUNCTION)
-			{
-				node->setType(type);
-			}
-			return node;
-		}
-
-		Node* parentNode = node->getParentNode();
-		const std::string& name = node->getName();
-
-		std::function<bool(Node*)> findSignature =
-			[&name, &signature](Node* n)
-			{
-				TokenComponentSignature* c = n->getComponent<TokenComponentSignature>();
-				return n->getName() == name && c && c->getSignature() == signature;
-			};
-
-		if (parentNode)
-		{
-			node = parentNode->findChildNode(findSignature);
-		}
-		else
-		{
-			node = findNode(findSignature);
-		}
-
-		if (node)
-		{
-			return node;
-		}
-
-		node = insertNode(type, name, parentNode);
-	}
-	else
-	{
-		node = insertNodeHierarchy(type, names, node);
-	}
-
-	node->addComponentSignature(std::make_shared<TokenComponentSignature>(signature));
-	return node;
-}
-
-Edge* Graph::createEdge(Edge::EdgeType type, Node* from, Node* to)
-{
-	Edge* edge = getEdge(type, from, to);
-	if (edge)
-	{
-		return edge;
-	}
-
-	return insertEdge(type, from, to);
 }
 
 void Graph::removeNode(Node* node)
@@ -378,81 +242,6 @@ Edge* Graph::addEdgeAsPlainCopy(Edge* edge)
 	std::shared_ptr<Edge> copy = std::make_shared<Edge>(*edge, from, to);
 	m_edges.emplace(copy->getId(), copy);
 	return copy.get();
-}
-
-const std::string Graph::DELIMITER = "::";
-
-Node* Graph::getLastValidNode(std::deque<std::string>* names) const
-{
-	const std::string& name = names->front();
-
-	Node* node = findNode(
-		[&name](Node* n)
-		{
-			return n->getName() == name && n->getParentNode() == nullptr;
-		}
-	);
-
-	if (!node)
-	{
-		return nullptr;
-	}
-
-	names->pop_front();
-
-	while (names->size())
-	{
-		const std::string& name = names->front();
-		Node* childNode = node->findChildNode(
-			[&name](Node* n)
-			{
-				return n->getName() == name;
-			}
-		);
-
-		if (!childNode)
-		{
-			break;
-		}
-
-		node = childNode;
-		names->pop_front();
-	}
-
-	return node;
-}
-
-Node* Graph::insertNodeHierarchy(Node::NodeType type, std::deque<std::string> names, Node* parentNode)
-{
-	while (names.size())
-	{
-		parentNode = insertNode(names.size() == 1 ? type : Node::NODE_UNDEFINED, names.front(), parentNode);
-		names.pop_front();
-	}
-
-	return parentNode;
-}
-
-Node* Graph::insertNode(Node::NodeType type, const std::string& name, Node* parentNode)
-{
-	std::shared_ptr<Node> nodePtr = std::make_shared<Node>(type, name);
-	m_nodes.emplace(nodePtr->getId(), nodePtr);
-
-	Node* node = nodePtr.get();
-
-	if (parentNode)
-	{
-		createEdge(Edge::EDGE_MEMBER, parentNode, node);
-	}
-
-	return node;
-}
-
-Edge* Graph::insertEdge(Edge::EdgeType type, Node* from, Node* to)
-{
-	std::shared_ptr<Edge> edgePtr = std::make_shared<Edge>(type, from, to);
-	m_edges.emplace(edgePtr->getId(), edgePtr);
-	return edgePtr.get();
 }
 
 void Graph::removeEdgeInternal(Edge* edge)

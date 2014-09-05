@@ -1,4 +1,4 @@
-const bool *ab(int abc, int bca);
+const bool *abd(int abc, int bca);
 
 bool const *abc(int a, int b);
 

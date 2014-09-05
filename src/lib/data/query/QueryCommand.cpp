@@ -1,52 +1,5 @@
 #include "data/query/QueryCommand.h"
 
-QueryCommand::QueryCommand(const std::string& name)
-	: m_type(COMMAND_INVALID)
-	, m_name(name)
-{
-	std::map<std::string, CommandType> commandMap = getCommandTypeMap();
-	std::map<std::string, CommandType>::iterator it = commandMap.find(name);
-
-	if (it != commandMap.end())
-	{
-		m_type = it->second;
-	}
-}
-
-QueryCommand::~QueryCommand()
-{
-}
-
-bool QueryCommand::isCommand() const
-{
-	return true;
-}
-
-bool QueryCommand::isOperator() const
-{
-	return false;
-}
-
-bool QueryCommand::isToken() const
-{
-	return false;
-}
-
-bool QueryCommand::isComplete() const
-{
-	return m_type != COMMAND_INVALID;
-}
-
-void QueryCommand::print(std::ostream& ostream) const
-{
-	ostream << m_name;
-}
-
-QueryCommand::CommandType QueryCommand::getType() const
-{
-	return m_type;
-}
-
 std::map<std::string, QueryCommand::CommandType> QueryCommand::getCommandTypeMap()
 {
 	static std::map<std::string, CommandType> commandMap;
@@ -93,4 +46,51 @@ std::map<std::string, QueryCommand::CommandType> QueryCommand::getCommandTypeMap
 	commandMap.emplace("subclass", COMMAND_SUB_CLASS);
 
 	return commandMap;
+}
+
+QueryCommand::QueryCommand(const std::string& name)
+	: m_type(COMMAND_INVALID)
+	, m_name(name)
+{
+	std::map<std::string, CommandType> commandMap = getCommandTypeMap();
+	std::map<std::string, CommandType>::iterator it = commandMap.find(name);
+
+	if (it != commandMap.end())
+	{
+		m_type = it->second;
+	}
+}
+
+QueryCommand::~QueryCommand()
+{
+}
+
+bool QueryCommand::isCommand() const
+{
+	return true;
+}
+
+bool QueryCommand::isOperator() const
+{
+	return false;
+}
+
+bool QueryCommand::isToken() const
+{
+	return false;
+}
+
+bool QueryCommand::isComplete() const
+{
+	return m_type != COMMAND_INVALID;
+}
+
+void QueryCommand::print(std::ostream& ostream) const
+{
+	ostream << m_name;
+}
+
+QueryCommand::CommandType QueryCommand::getType() const
+{
+	return m_type;
 }

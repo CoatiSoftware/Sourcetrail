@@ -97,7 +97,11 @@ std::shared_ptr<QueryNode> QueryTree::buildTree(std::deque<std::string>& tokens,
 			std::shared_ptr<QueryNode> rightNode = buildTree(tokens, nullptr);
 			std::shared_ptr<QueryOperator> rightOperatorNode = std::dynamic_pointer_cast<QueryOperator>(rightNode);
 
-			if (rightNode->isOperator() && !rightNode->isGroup() &&
+			if (!rightNode)
+			{
+				m_valid = false;
+			}
+			else if (rightNode->isOperator() && !rightNode->isGroup() &&
 				operatorNode->lowerPrecedence(*rightOperatorNode.get()))
 			{
 				operatorNode->setRight(rightOperatorNode->getLeft());

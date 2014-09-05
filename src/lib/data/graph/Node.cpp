@@ -4,20 +4,27 @@
 
 #include "data/graph/token_component/TokenComponentAbstraction.h"
 #include "data/graph/token_component/TokenComponentConst.h"
+#include "data/graph/token_component/TokenComponentName.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
 #include "data/graph/token_component/TokenComponentSignature.h"
 #include "utility/logging/logging.h"
 
 Node::Node(NodeType type, const std::string& name)
 	: m_type(type)
-	, m_name(name)
+	, m_nameComponent(std::make_shared<TokenComponentNameCached>(name))
+{
+}
+
+Node::Node(NodeType type, std::shared_ptr<TokenComponentName> nameComponent)
+	: m_type(type)
+	, m_nameComponent(nameComponent)
 {
 }
 
 Node::Node(const Node& other)
 	: Token(other)
 	, m_type(other.m_type)
-	, m_name(other.m_name)
+	, m_nameComponent(other.m_nameComponent->copyComponentName())
 {
 }
 
@@ -32,7 +39,7 @@ Node::NodeType Node::getType() const
 
 void Node::setType(NodeType type)
 {
-	if (!isType(type | NODE_UNDEFINED | NODE_UNDEFINED_FUNCTION))
+	if (!isType(type | NODE_UNDEFINED | NODE_UNDEFINED_FUNCTION | NODE_UNDEFINED_VARIABLE | NODE_UNDEFINED_TYPE))
 	{
 		LOG_WARNING(
 			"Cannot change NodeType after it was already set from " + getTypeString() + " to " + getTypeString(type)
@@ -49,20 +56,12 @@ bool Node::isType(NodeTypeMask mask) const
 
 const std::string& Node::getName() const
 {
-	return m_name;
+	return m_nameComponent->getName();
 }
 
 std::string Node::getFullName() const
 {
-	Node* parent = getParentNode();
-	if (parent)
-	{
-		return parent->getFullName() + "::" + m_name;
-	}
-	else
-	{
-		return m_name;
-	}
+	return m_nameComponent->getFullName();
 }
 
 const std::vector<Edge*>& Node::getEdges() const
@@ -269,6 +268,10 @@ std::string Node::getTypeString(NodeType type) const
 		return "undefined";
 	case NODE_UNDEFINED_FUNCTION:
 		return "undefined_function";
+	case NODE_UNDEFINED_VARIABLE:
+		return "undefined_variable";
+	case NODE_UNDEFINED_TYPE:
+		return "undefined_type";
 	case NODE_CLASS:
 		return "class";
 	case NODE_STRUCT:

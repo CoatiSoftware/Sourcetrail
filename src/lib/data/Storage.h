@@ -6,11 +6,12 @@
 
 #include "data/access/GraphAccess.h"
 #include "data/access/LocationAccess.h"
-#include "data/graph/Graph.h"
+#include "data/graph/StorageGraph.h"
 #include "data/graph/token_component/TokenComponentAbstraction.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/parser/ParserClient.h"
+#include "data/SearchIndex.h"
 
 class Storage
 	: public ParserClient
@@ -99,6 +100,11 @@ protected:
 	std::vector<TokenLocation*> getTokenLocationsForId(Id tokenId) const;
 
 private:
+	void initSearchIndex();
+
+	Node* addNodeHierarchy(Node::NodeType type, const std::string& fullName);
+	Node* addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function);
+
 	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;
 	TokenComponentAccess* addAccess(Node* node, ParserClient::AccessType access);
 
@@ -113,8 +119,9 @@ private:
 
 	std::vector<std::tuple<Id, Id, Id>> getEdgesOfTypeOfNode(const Id id, const Edge::EdgeType type) const;
 
-	Graph m_graph;
+	StorageGraph m_graph;
 	TokenLocationCollection m_locationCollection;
+	SearchIndex m_index;
 };
 
 #endif // STORAGE_H

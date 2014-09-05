@@ -2,8 +2,6 @@ ConfigManager.cpp ERROR: value path/to/nowhere is not present in config.
 Token.cpp ERROR: Location Id was not referenced by this Token.
 Node.cpp WARNING: Cannot change NodeType after it was already set from namespace to class
 Edge.cpp ERROR: Nodes are not plain copies.
-Graph.cpp ERROR: Can't remove member edge, without removing the child node.
-Edge.cpp ERROR: Edge call can't go from Node undefined to Node undefined
 Storage.cpp INFO: class: A <input.cc 1:7 1:7>
 Storage.cpp INFO: method: A::A <input.cc 4:2 4:2>
 Storage.cpp INFO: global usage: A::A -> A::count <input.cc 5:3 5:7>
@@ -88,6 +86,7 @@ Storage.cpp INFO: global usage: isTrue -> global <file.cpp 1:7 1:7>
 Storage.cpp INFO: function: isTrue <file.cpp 1:0 1:0>
 Storage.cpp INFO: struct: Struct <file.cpp 1:0 1:0>
 Storage.cpp INFO: type usage: isTrue -> Struct <file.cpp 1:0 1:0>
+Graph.cpp ERROR: Can't remove member edge, without removing the child node.
 TextAccess.cpp WARNING: Index 'firstLine' has to be lower or equal index 'lastLine', is 3 > 2
 TextAccess.cpp WARNING: Tried to access index 10. Maximum index is 8
 TextAccess.cpp WARNING: Tried to access index 10. Maximum index is 8

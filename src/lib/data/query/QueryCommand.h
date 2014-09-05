@@ -44,6 +44,8 @@ public:
 		COMMAND_SUB_CLASS
 	};
 
+	static std::map<std::string, CommandType> getCommandTypeMap();
+
 	QueryCommand(const std::string& name);
 	~QueryCommand();
 
@@ -58,8 +60,6 @@ public:
 	CommandType getType() const;
 
 private:
-	static std::map<std::string, CommandType> getCommandTypeMap();
-
 	CommandType m_type;
 	const std::string m_name;
 };

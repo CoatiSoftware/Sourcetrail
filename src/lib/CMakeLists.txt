@@ -87,6 +87,8 @@ add_files(
 	data/graph/token_component/TokenComponentConst.h
 	data/graph/token_component/TokenComponentDataType.cpp
 	data/graph/token_component/TokenComponentDataType.h
+	data/graph/token_component/TokenComponentName.cpp
+	data/graph/token_component/TokenComponentName.h
 	data/graph/token_component/TokenComponentSignature.cpp
 	data/graph/token_component/TokenComponentSignature.h
 	data/graph/token_component/TokenComponentStatic.cpp
@@ -100,6 +102,8 @@ add_files(
 	data/graph/Graph.h
 	data/graph/Node.cpp
 	data/graph/Node.h
+	data/graph/StorageGraph.cpp
+	data/graph/StorageGraph.h
 	data/graph/SubGraph.cpp
 	data/graph/SubGraph.h
 	data/graph/Token.cpp
@@ -154,8 +158,6 @@ add_files(
 	data/type/DataTypeQualifierList.cpp
 	data/type/DataTypeQualifierList.h
 
-	data/ElementIndex.cpp
-	data/ElementIndex.h
 	data/SearchIndex.cpp
 	data/SearchIndex.h
 	data/Storage.cpp
@@ -196,6 +198,8 @@ add_files(
 	utility/messaging/MessageQueue.cpp
 	utility/messaging/MessageQueue.h
 
+	utility/text/Dictionary.cpp
+	utility/text/Dictionary.h
 	utility/text/TextAccess.cpp
 	utility/text/TextAccess.h
 

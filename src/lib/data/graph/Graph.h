@@ -15,7 +15,6 @@ class Graph
 public:
 	Graph();
 	virtual ~Graph();
-	Graph& operator=(const Graph& other);
 
 	// FilterableGraph implementation
 	virtual void copy(const FilterableGraph* other);
@@ -36,22 +35,9 @@ public:
 	const std::map<Id, std::shared_ptr<Node>>& getNodes() const;
 	const std::map<Id, std::shared_ptr<Edge>>& getEdges() const;
 
-	Node* getNode(const std::string& fullName) const;
-	Edge* getEdge(Edge::EdgeType type, Node* from, Node* to) const;
-
 	Node* getNodeById(Id id) const;
 	Edge* getEdgeById(Id id) const;
 	Token* getTokenById(Id id) const;
-
-	Node* createNodeHierarchy(const std::string& fullName);
-	Node* createNodeHierarchy(Node::NodeType type, const std::string& fullName);
-
-	Node* createNodeHierarchyWithDistinctSignature(const std::string& fullName, const std::string& signature);
-	Node* createNodeHierarchyWithDistinctSignature(
-		Node::NodeType type, const std::string& fullName, const std::string& signature
-	);
-
-	Edge* createEdge(Edge::EdgeType type, Node* from, Node* to);
 
 	void removeNode(Node* node);
 	void removeEdge(Edge* edge);
@@ -63,17 +49,15 @@ public:
 	Node* addNodeAsPlainCopy(Node* node);
 	Edge* addEdgeAsPlainCopy(Edge* edge);
 
-private:
-	static const std::string DELIMITER;
-
-	Node* getLastValidNode(std::deque<std::string>* names) const;
-	Node* insertNodeHierarchy(Node::NodeType type, std::deque<std::string> names, Node* parentNode);
-	Node* insertNode(Node::NodeType type, const std::string& name, Node* parentNode);
-	Edge* insertEdge(Edge::EdgeType type, Node* from, Node* to);
-	void removeEdgeInternal(Edge* edge);
-
+protected:
 	std::map<Id, std::shared_ptr<Node>> m_nodes;
 	std::map<Id, std::shared_ptr<Edge>> m_edges;
+
+private:
+	Graph(const Graph&);
+	void operator=(const Graph&);
+
+	void removeEdgeInternal(Edge* edge);
 };
 
 std::ostream& operator<<(std::ostream& ostream, const Graph& graph);

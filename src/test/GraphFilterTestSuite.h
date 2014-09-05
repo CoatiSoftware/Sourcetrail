@@ -2,7 +2,7 @@
 
 #include "data/graph/filter/GraphFilter.h"
 #include "data/graph/filter/GraphFilterImplementations.h"
-#include "utilityTest.h"
+#include "TestStorage.h"
 
 class GraphFilterTestSuite : public CxxTest::TestSuite
 {
@@ -26,7 +26,9 @@ public:
 		TS_ASSERT_EQUALS(
 			printedFilteredTestGraph(&filter),
 
-			"6 nodes: method:A field:count method:getCount method:process method:process undefined_function:B\n"
+			"6 nodes: "
+				"method:A::A field:A::count method:A::getCount method:A::process method:B::process "
+				"undefined_function:B::B\n"
 			"0 edges:\n"
 		);
 	}
@@ -50,7 +52,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedFilteredTestGraph(&filter),
 
-			"5 nodes: method:A method:getCount method:process method:process function:main\n"
+			"5 nodes: method:A::A method:A::getCount method:A::process method:B::process function:main\n"
 			"0 edges:\n"
 		);
 	}
@@ -62,7 +64,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedFilteredTestGraph(&filter),
 
-			"2 nodes: method:process method:process\n"
+			"2 nodes: method:A::process method:B::process\n"
 			"0 edges:\n"
 		);
 	}
@@ -74,7 +76,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedFilteredTestGraph(&filter),
 
-			"2 nodes: field:count method:getCount\n"
+			"2 nodes: field:A::count method:A::getCount\n"
 			"0 edges:\n"
 		);
 	}
@@ -86,7 +88,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedFilteredTestGraph(&filter),
 
-			"2 nodes: method:process method:process\n"
+			"2 nodes: method:A::process method:B::process\n"
 			"0 edges:\n"
 		);
 	}
@@ -98,7 +100,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedFilteredTestGraph(&filter),
 
-			"1 nodes: method:process\n"
+			"1 nodes: method:A::process\n"
 			"0 edges:\n"
 		);
 	}
@@ -119,7 +121,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedFilteredTestGraph(&filter2),
 
-			"2 nodes: method:getCount undefined_function:B\n"
+			"2 nodes: method:A::getCount undefined_function:B::B\n"
 			"0 edges:\n"
 		);
 	}
@@ -131,7 +133,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedFilteredTestGraph(&filter),
 
-			"6 nodes: method:A field:count method:getCount method:process method:process function:main\n"
+			"6 nodes: method:A::A field:A::count method:A::getCount method:A::process method:B::process function:main\n"
 			"0 edges:\n"
 		);
 	}
@@ -172,24 +174,24 @@ public:
 private:
 	std::string printedFilteredTestGraph(GraphFilter* filter)
 	{
-		createTestGraph();
+		createTestStorage();
 		Graph result;
 
-		filter->apply(&m_graph, &result);
+		filter->apply(&m_storage.getGraph(), &result);
 
 		std::stringstream ss;
 		result.printBasic(ss);
 		return ss.str();
 	}
 
-	void createTestGraph()
+	void createTestStorage()
 	{
-		if (m_graph.getNodeCount())
+		if (m_storage.getGraph().getNodeCount())
 		{
 			return;
 		}
 
-		m_graph = utility::getGraphForCxxCode(
+		m_storage.parseCxxCode(
 			"class A\n"
 			"{\n"
 			"public:\n"
@@ -228,5 +230,5 @@ private:
 		);
 	}
 
-	Graph m_graph;
+	TestStorage m_storage;
 };

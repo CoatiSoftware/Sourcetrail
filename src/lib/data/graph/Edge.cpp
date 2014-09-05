@@ -164,8 +164,9 @@ std::ostream& operator<<(std::ostream& ostream, const Edge& edge)
 
 bool Edge::checkType() const
 {
-	Node::NodeTypeMask typeMask = Node::NODE_UNDEFINED | Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM | Node::NODE_TYPEDEF;
-	Node::NodeTypeMask variableMask = Node::NODE_UNDEFINED | Node::NODE_GLOBAL_VARIABLE | Node::NODE_FIELD;
+	Node::NodeTypeMask complexTypeMask = Node::NODE_UNDEFINED_TYPE | Node::NODE_CLASS | Node::NODE_STRUCT;
+	Node::NodeTypeMask typeMask = Node::NODE_UNDEFINED | Node::NODE_ENUM | Node::NODE_TYPEDEF | complexTypeMask;
+	Node::NodeTypeMask variableMask = Node::NODE_UNDEFINED | Node::NODE_UNDEFINED_VARIABLE | Node::NODE_GLOBAL_VARIABLE | Node::NODE_FIELD;
 	Node::NodeTypeMask functionMask = Node::NODE_UNDEFINED_FUNCTION | Node::NODE_FUNCTION | Node::NODE_METHOD;
 
 	switch (m_type)
@@ -196,7 +197,7 @@ bool Edge::checkType() const
 		return true;
 
 	case EDGE_INHERITANCE:
-		if (!m_from->isType(Node::NODE_CLASS) || !m_to->isType(Node::NODE_UNDEFINED | Node::NODE_CLASS))
+		if (!m_from->isType(complexTypeMask) || !m_to->isType(complexTypeMask))
 		{
 			break;
 		}

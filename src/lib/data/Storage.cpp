@@ -12,13 +12,14 @@
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParseTypeUsage.h"
 #include "data/parser/ParseVariable.h"
+#include "data/query/QueryCommand.h"
 #include "data/query/QueryTree.h"
 #include "data/type/DataType.h"
 #include "utility/logging/logging.h"
-#include "utility/utilityString.h"
 
 Storage::Storage()
 {
+	initSearchIndex();
 }
 
 Storage::~Storage()
@@ -29,6 +30,9 @@ void Storage::clear()
 {
 	m_graph.clear();
 	m_locationCollection.clear();
+
+	m_index.clear();
+	initSearchIndex();
 }
 
 void Storage::logGraph() const
@@ -47,7 +51,7 @@ Id Storage::onTypedefParsed(
 ){
 	log("typedef", fullName + " -> " + underlyingType.dataType.getFullTypeName(), location);
 
-	Node* node = m_graph.createNodeHierarchy(Node::NODE_TYPEDEF, fullName);
+	Node* node = addNodeHierarchy(Node::NODE_TYPEDEF, fullName);
 	addAccess(node, access);
 	addTokenLocation(node, location);
 	addTypeEdge(node, Edge::EDGE_TYPEDEF_OF, underlyingType);
@@ -60,7 +64,7 @@ Id Storage::onClassParsed(
 ){
 	log("class", fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(Node::NODE_CLASS, fullName);
+	Node* node = addNodeHierarchy(Node::NODE_CLASS, fullName);
 	addAccess(node, access);
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
@@ -73,7 +77,7 @@ Id Storage::onStructParsed(
 ){
 	log("struct", fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(Node::NODE_STRUCT, fullName);
+	Node* node = addNodeHierarchy(Node::NODE_STRUCT, fullName);
 	addAccess(node, access);
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
@@ -85,7 +89,7 @@ Id Storage::onGlobalVariableParsed(const ParseLocation& location, const ParseVar
 {
 	log("global", variable.fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(Node::NODE_GLOBAL_VARIABLE, variable.fullName);
+	Node* node = addNodeHierarchy(Node::NODE_GLOBAL_VARIABLE, variable.fullName);
 
 	if (variable.isStatic)
 	{
@@ -102,7 +106,7 @@ Id Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& va
 {
 	log("field", variable.fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(Node::NODE_FIELD, variable.fullName);
+	Node* node = addNodeHierarchy(Node::NODE_FIELD, variable.fullName);
 
 	if (!node->getMemberEdge())
 	{
@@ -131,9 +135,7 @@ Id Storage::onFunctionParsed(
 ){
 	log("function", function.fullName, location);
 
-	Node* node = m_graph.createNodeHierarchyWithDistinctSignature(
-		Node::NODE_FUNCTION, function.fullName, ParserClient::functionSignatureStr(function)
-	);
+	Node* node = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, function);
 
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
@@ -153,9 +155,7 @@ Id Storage::onMethodParsed(
 ){
 	log("method", method.fullName, location);
 
-	Node* node = m_graph.createNodeHierarchyWithDistinctSignature(
-		Node::NODE_METHOD, method.fullName, ParserClient::functionSignatureStr(method)
-	);
+	Node* node = addNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, method);
 
 	if (!node->getMemberEdge())
 	{
@@ -196,7 +196,7 @@ Id Storage::onNamespaceParsed(
 ){
 	log("namespace", fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(Node::NODE_NAMESPACE, fullName);
+	Node* node = addNodeHierarchy(Node::NODE_NAMESPACE, fullName);
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
 
@@ -208,7 +208,7 @@ Id Storage::onEnumParsed(
 ){
 	log("enum", fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(Node::NODE_ENUM, fullName);
+	Node* node = addNodeHierarchy(Node::NODE_ENUM, fullName);
 	addAccess(node, access);
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
@@ -220,7 +220,7 @@ Id Storage::onEnumFieldParsed(const ParseLocation& location, const std::string& 
 {
 	log("enum field", fullName, location);
 
-	Node* node = m_graph.createNodeHierarchy(Node::NODE_FIELD, fullName);
+	Node* node = addNodeHierarchy(Node::NODE_FIELD, fullName);
 	addTokenLocation(node, location);
 
 	return node->getId();
@@ -231,8 +231,8 @@ Id Storage::onInheritanceParsed(
 ){
 	log("inheritance", fullName + " : " + baseName, location);
 
-	Node* node = m_graph.createNodeHierarchy(fullName);
-	Node* baseNode = m_graph.createNodeHierarchy(baseName);
+	Node* node = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, fullName);
+	Node* baseNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, baseName);
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_INHERITANCE, node, baseNode);
 	edge->addComponentAccess(std::make_shared<TokenComponentAccess>(convertAccessType(access)));
@@ -246,10 +246,8 @@ Id Storage::onCallParsed(const ParseLocation& location, const ParseFunction& cal
 {
 	log("call", caller.fullName + " -> " + callee.fullName, location);
 
-	Node* callerNode =
-		m_graph.createNodeHierarchyWithDistinctSignature(caller.fullName, ParserClient::functionSignatureStr(caller));
-	Node* calleeNode =
-		m_graph.createNodeHierarchyWithDistinctSignature(callee.fullName, ParserClient::functionSignatureStr(callee));
+	Node* callerNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, caller);
+	Node* calleeNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, callee);
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_CALL, callerNode, calleeNode);
 
@@ -262,10 +260,8 @@ Id Storage::onCallParsed(const ParseLocation& location, const ParseVariable& cal
 {
 	log("call", caller.fullName + " -> " + callee.fullName, location);
 
-	Node* callerNode =
-		m_graph.createNodeHierarchy(caller.fullName);
-	Node* calleeNode =
-		m_graph.createNodeHierarchyWithDistinctSignature(callee.fullName, ParserClient::functionSignatureStr(callee));
+	Node* callerNode = addNodeHierarchy(Node::NODE_UNDEFINED, caller.fullName);
+	Node* calleeNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, callee);
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_CALL, callerNode, calleeNode);
 
@@ -278,9 +274,8 @@ Id Storage::onFieldUsageParsed(const ParseLocation& location, const ParseFunctio
 {
 	log("field usage", user.fullName + " -> " + usedName, location);
 
-	Node* userNode =
-		m_graph.createNodeHierarchyWithDistinctSignature(user.fullName, ParserClient::functionSignatureStr(user));
-	Node* usedNode = m_graph.createNodeHierarchy(usedName);
+	Node* userNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, user);
+	Node* usedNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedName);
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_USAGE, userNode, usedNode);
 	addTokenLocation(edge, location);
@@ -293,9 +288,8 @@ Id Storage::onGlobalVariableUsageParsed(
 ){
 	log("global usage", user.fullName + " -> " + usedName, location);
 
-	Node* userNode =
-		m_graph.createNodeHierarchyWithDistinctSignature(user.fullName, ParserClient::functionSignatureStr(user));;
-	Node* usedNode = m_graph.createNodeHierarchy(usedName);
+	Node* userNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, user);
+	Node* usedNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedName);
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_USAGE, userNode, usedNode);
 	addTokenLocation(edge, location);
@@ -307,8 +301,7 @@ Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& f
 {
 	log("type usage", function.fullName + " -> " + type.dataType.getRawTypeName(), type.location);
 
-	Node* functionNode =
-		m_graph.createNodeHierarchyWithDistinctSignature(function.fullName, ParserClient::functionSignatureStr(function));
+	Node* functionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, function);
 	Edge* edge = addTypeEdge(functionNode, Edge::EDGE_TYPE_USAGE, type);
 
 	return edge->getId();
@@ -316,8 +309,12 @@ Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& f
 
 Id Storage::getIdForNodeWithName(const std::string& fullName) const
 {
-	Node* node = m_graph.getNode(fullName);
-	return (node ? node->getId() : 0);
+	SearchIndex::SearchNode* node = m_index.getNode(fullName);
+	if (node)
+	{
+		return node->getFirstTokenId();
+	}
+	return 0;
 }
 
 std::string Storage::getNameForNodeWithId(Id id) const
@@ -341,16 +338,7 @@ std::string Storage::getNameForNodeWithId(Id id) const
 
 std::vector<std::string> Storage::getNamesForNodesWithNamePrefix(const std::string& prefix) const
 {
-	std::vector<std::string> names;
-	m_graph.forEachNode([&](Node* node){
-		const std::string& nodeName = node->getFullName();
-		if (utility::isPrefix(prefix, nodeName))
-		{
-			names.push_back(nodeName);
-		}
-	});
-
-	return names;
+	return m_index.findFuzzyMatches(prefix);
 }
 
 std::vector<Id> Storage::getIdsOfNeighbours(const Id id) const
@@ -538,6 +526,8 @@ std::vector<Id> Storage::getTokenIdsForQuery(std::string query) const
 
 	LOG_INFO_STREAM(<< '\n' << tree << '\n' << outGraph);
 
+	m_index.findFuzzyMatches(query);
+
 	return outGraph.getTokenIds();
 }
 
@@ -651,6 +641,38 @@ std::vector<TokenLocation*> Storage::getTokenLocationsForId(Id tokenId) const
 	return result;
 }
 
+void Storage::initSearchIndex()
+{
+	for (const std::pair<std::string, QueryCommand::CommandType>& p : QueryCommand::getCommandTypeMap())
+	{
+		m_index.addNode(p.first);
+	}
+}
+
+Node* Storage::addNodeHierarchy(Node::NodeType type, const std::string& fullName)
+{
+	SearchIndex::SearchNode* searchNode = m_index.addNode(fullName);
+	if (!searchNode)
+	{
+		LOG_ERROR("No SearchNode");
+		return nullptr;
+	}
+
+	return m_graph.createNodeHierarchy(type, searchNode);
+}
+
+Node* Storage::addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function)
+{
+	SearchIndex::SearchNode* searchNode = m_index.addNode(function.fullName);
+	if (!searchNode)
+	{
+		LOG_ERROR("No SearchNode");
+		return nullptr;
+	}
+
+	return m_graph.createNodeHierarchyWithDistinctSignature(type, searchNode, ParserClient::functionSignatureStr(function));
+}
+
 TokenComponentAccess::AccessType Storage::convertAccessType(ParserClient::AccessType access) const
 {
 	switch (access)
@@ -704,7 +726,7 @@ TokenComponentAbstraction* Storage::addAbstraction(Node* node, ParserClient::Abs
 
 Edge* Storage::addTypeEdge(Node* node, Edge::EdgeType edgeType, const DataType& type)
 {
-	Node* typeNode = m_graph.createNodeHierarchy(type.getRawTypeName());
+	Node* typeNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, type.getRawTypeName());
 	Edge* edge = m_graph.createEdge(edgeType, node, typeNode);
 
 	// FIXME: When a function uses the same type multiple times then we still only use one edge to save this,

@@ -11,6 +11,7 @@
 
 class TokenComponentAbstraction;
 class TokenComponentConst;
+class TokenComponentName;
 class TokenComponentStatic;
 class TokenComponentSignature;
 
@@ -22,18 +23,21 @@ public:
 	{
 		NODE_UNDEFINED          = 0x1,
 		NODE_UNDEFINED_FUNCTION = 0x2,
-		NODE_CLASS              = 0x4,
-		NODE_STRUCT             = 0x8,
-		NODE_GLOBAL_VARIABLE    = 0x10,
-		NODE_FIELD              = 0x20,
-		NODE_FUNCTION           = 0x40,
-		NODE_METHOD             = 0x80,
-		NODE_NAMESPACE          = 0x100,
-		NODE_ENUM               = 0x200,
-		NODE_TYPEDEF            = 0x400
+		NODE_UNDEFINED_VARIABLE = 0x4,
+		NODE_UNDEFINED_TYPE     = 0x8,
+		NODE_STRUCT             = 0x10,
+		NODE_CLASS              = 0x20,
+		NODE_GLOBAL_VARIABLE    = 0x40,
+		NODE_FIELD              = 0x80,
+		NODE_FUNCTION           = 0x100,
+		NODE_METHOD             = 0x200,
+		NODE_NAMESPACE          = 0x400,
+		NODE_ENUM               = 0x800,
+		NODE_TYPEDEF            = 0x1000
 	};
 
 	Node(NodeType type, const std::string& name);
+	Node(NodeType type, std::shared_ptr<TokenComponentName> nameComponent);
 	Node(const Node& other);
 	virtual ~Node();
 
@@ -79,10 +83,10 @@ public:
 private:
 	void operator=(const Node&);
 
-	NodeType m_type;
-	std::string m_name;
-
 	std::vector<Edge*> m_edges;
+
+	NodeType m_type;
+	std::shared_ptr<TokenComponentName> m_nameComponent;
 };
 
 std::ostream& operator<<(std::ostream& ostream, const Node& node);

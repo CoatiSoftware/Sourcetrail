@@ -49,7 +49,7 @@ void SearchController::handleMessage(MessageFind* message)
 
 void SearchController::handleMessage(MessageFinishedParsing* message)
 {
-	getView()->setAutocompletionList(m_graphAccess->getNamesForNodesWithNamePrefix(""));
+	getView()->setAutocompletionList(m_graphAccess->getNamesForNodesWithNamePrefix(":"));
 }
 
 void SearchController::handleMessage(MessageRefresh* message)

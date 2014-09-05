@@ -2,7 +2,7 @@
 
 #include "data/graph/filter/GraphFilterConductor.h"
 #include "data/query/QueryTree.h"
-#include "utilityTest.h"
+#include "TestStorage.h"
 
 class GraphFilterConductorTestSuite : public CxxTest::TestSuite
 {
@@ -22,7 +22,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedFilteredTestGraph("method"),
 
-			"4 nodes: method:A method:getCount method:process method:process\n"
+			"4 nodes: method:A::A method:A::getCount method:A::process method:B::process\n"
 			"0 edges:\n"
 		);
 
@@ -40,7 +40,8 @@ public:
 			printedFilteredTestGraph("!method"),
 
 			"7 nodes: "
-				"class:A field:A::count undefined:int undefined:void class:B function:main undefined_function:B::B\n"
+				"class:A field:A::count undefined_type:int undefined_type:void class:B function:main "
+				"undefined_function:B::B\n"
 			"7 edges: "
 				"child:A->A::count type_use:A::count->int inheritance:B->A return_type:main->int type_usage:main->B "
 				"child:B->B::B call:main->B::B\n"
@@ -62,7 +63,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedFilteredTestGraph("\"A\":field"),
 
-			"1 nodes: field:count\n"
+			"1 nodes: field:A::count\n"
 			"0 edges:\n"
 		);
 	}
@@ -72,7 +73,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedFilteredTestGraph("(static|const)"),
 
-			"4 nodes: field:count method:getCount method:process method:process\n"
+			"4 nodes: field:A::count method:A::getCount method:A::process method:B::process\n"
 			"0 edges:\n"
 		);
 	}
@@ -82,7 +83,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedFilteredTestGraph("(static|const).public"),
 
-			"1 nodes: method:getCount\n"
+			"1 nodes: method:A::getCount\n"
 			"0 edges:\n"
 		);
 	}
@@ -93,24 +94,24 @@ private:
 		QueryTree tree(query);
 		GraphFilterConductor conductor;
 
-		createTestGraph();
+		createTestStorage();
 		Graph result;
 
-		conductor.filter(&tree, &m_graph, &result);
+		conductor.filter(&tree, &m_storage.getGraph(), &result);
 
 		std::stringstream ss;
 		result.printBasic(ss);
 		return ss.str();
 	}
 
-	void createTestGraph()
+	void createTestStorage()
 	{
-		if (m_graph.getNodeCount())
+		if (m_storage.getGraph().getNodeCount())
 		{
 			return;
 		}
 
-		m_graph = utility::getGraphForCxxCode(
+		m_storage.parseCxxCode(
 			"class A\n"
 			"{\n"
 			"public:\n"
@@ -149,5 +150,5 @@ private:
 		);
 	}
 
-	Graph m_graph;
+	TestStorage m_storage;
 };
