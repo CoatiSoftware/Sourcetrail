@@ -97,7 +97,7 @@ private:
 		createTestStorage();
 		Graph result;
 
-		conductor.filter(&tree, &m_storage.getGraph(), &result);
+		conductor.filter(&tree, &m_storage->getGraph(), &result);
 
 		std::stringstream ss;
 		result.printBasic(ss);
@@ -106,12 +106,14 @@ private:
 
 	void createTestStorage()
 	{
-		if (m_storage.getGraph().getNodeCount())
+		if (m_storage)
 		{
 			return;
 		}
 
-		m_storage.parseCxxCode(
+		m_storage = std::make_shared<TestStorage>();
+
+		m_storage->parseCxxCode(
 			"class A\n"
 			"{\n"
 			"public:\n"
@@ -150,5 +152,5 @@ private:
 		);
 	}
 
-	TestStorage m_storage;
+	std::shared_ptr<TestStorage> m_storage;
 };
