@@ -37,26 +37,27 @@ public:
 		SearchNode(SearchNode* parent, const std::string& name, Id nameId);
 		~SearchNode();
 
-		void clear();
-
 		const std::string& getName() const;
 		std::string getFullName() const;
 
 		Id getNameId() const;
 
 		Id getFirstTokenId() const;
+		const std::set<Id>& getTokenIds() const;
 		void addTokenId(Id tokenId);
 
 		SearchNode* getParent() const;
 		std::deque<SearchIndex::SearchNode*> getParentsWithoutTokenId();
 
+	private:
+		// Accessed by SearchIndex
 		std::shared_ptr<SearchNode> addNodeRecursive(std::deque<Id>* nameIds);
 		std::shared_ptr<SearchNode> getNodeRecursive(std::deque<Id>* nameIds) const;
-
 		std::vector<SearchIndex::SearchMatch> findFuzzyMatches(const std::string& query) const;
 
-	private:
-		FuzzyMap fuzzyMatches(const std::string& query, size_t pos, size_t weight, size_t size) const;
+		friend class SearchIndex;
+
+		FuzzyMap fuzzyMatchRecursive(const std::string& query, size_t pos, size_t weight, size_t size) const;
 		std::pair<size_t, size_t> fuzzyMatch(
 			const std::string query, size_t start, size_t size, std::vector<size_t>* indices = nullptr) const;
 		SearchMatch fuzzyMatchData(const std::string& query, const SearchNode* parent) const;
@@ -73,6 +74,8 @@ public:
 		const Id m_nameId;
 	};
 
+	static void logMatches(const std::vector<SearchIndex::SearchMatch>& matches, const std::string& query);
+
 	SearchIndex();
 	virtual ~SearchIndex();
 
@@ -81,7 +84,7 @@ public:
 	SearchNode* addNode(const std::string& fullName);
 	SearchNode* getNode(const std::string& fullName) const;
 
-	std::vector<std::string> findFuzzyMatches(const std::string& query) const;
+	std::vector<SearchIndex::SearchMatch> findFuzzyMatches(const std::string& query) const;
 
 	static const std::string DELIMITER;
 

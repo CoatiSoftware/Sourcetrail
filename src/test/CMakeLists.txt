@@ -19,6 +19,7 @@ add_files(
 	MessageQueueTestSuite.h
 	QueryTreeTestSuite.h
 	SettingsTestSuite.h
+	SearchIndexTestSuite.h
 	StorageTestSuite.h
 	StorageGraphTestSuite.h
 	TextAccessTestSuite.h

@@ -338,7 +338,13 @@ std::string Storage::getNameForNodeWithId(Id id) const
 
 std::vector<std::string> Storage::getNamesForNodesWithNamePrefix(const std::string& prefix) const
 {
-	return m_index.findFuzzyMatches(prefix);
+	std::vector<std::string> names;
+	std::vector<SearchIndex::SearchMatch> matches = m_index.findFuzzyMatches(prefix);
+	for (const SearchIndex::SearchMatch& match : matches)
+	{
+		names.push_back(match.node->getFullName());
+	}
+	return names;
 }
 
 std::vector<Id> Storage::getIdsOfNeighbours(const Id id) const
@@ -526,7 +532,7 @@ std::vector<Id> Storage::getTokenIdsForQuery(std::string query) const
 
 	LOG_INFO_STREAM(<< '\n' << tree << '\n' << outGraph);
 
-	m_index.findFuzzyMatches(query);
+	SearchIndex::logMatches(m_index.findFuzzyMatches(query), query);
 
 	return outGraph.getTokenIds();
 }

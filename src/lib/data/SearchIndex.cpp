@@ -48,11 +48,6 @@ SearchIndex::SearchNode::~SearchNode()
 {
 }
 
-void SearchIndex::SearchNode::clear()
-{
-	m_nodes.clear();
-}
-
 const std::string& SearchIndex::SearchNode::getName() const
 {
 	return m_name;
@@ -83,6 +78,11 @@ Id SearchIndex::SearchNode::getFirstTokenId() const
 	}
 
 	return 0;
+}
+
+const std::set<Id>& SearchIndex::SearchNode::getTokenIds() const
+{
+	return m_tokenIds;
 }
 
 void SearchIndex::SearchNode::addTokenId(Id tokenId)
@@ -166,17 +166,14 @@ std::vector<SearchIndex::SearchMatch> SearchIndex::SearchNode::findFuzzyMatches(
 	FuzzySet ordered(&fncomp);
 	for (std::shared_ptr<SearchNode> n: m_nodes)
 	{
-		FuzzyMap m = n->fuzzyMatches(query, 0, 0, 0);
+		FuzzyMap m = n->fuzzyMatchRecursive(query, 0, 0, 0);
 		ordered.insert(m.begin(), m.end());
 	}
 
-	std::stringstream ss;
-	ss << std::endl << ordered.size() << " matches for \"" << query << "\":" << std::endl;
 	for (FuzzySetIterator it = ordered.begin(); it != ordered.end(); it++)
 	{
 		SearchMatch match = it->second->fuzzyMatchData(query, this);
 		result.push_back(match);
-		match.print(ss);
 
 		if (it->first != match.weight)
 		{
@@ -184,12 +181,10 @@ std::vector<SearchIndex::SearchMatch> SearchIndex::SearchNode::findFuzzyMatches(
 		}
 	}
 
-	LOG_INFO(ss.str());
-
 	return result;
 }
 
-SearchIndex::SearchNode::FuzzyMap SearchIndex::SearchNode::fuzzyMatches(
+SearchIndex::SearchNode::FuzzyMap SearchIndex::SearchNode::fuzzyMatchRecursive(
 	const std::string& query, size_t pos, size_t weight, size_t size) const
 {
 	FuzzyMap result;
@@ -212,7 +207,7 @@ SearchIndex::SearchNode::FuzzyMap SearchIndex::SearchNode::fuzzyMatches(
 
 	for (std::shared_ptr<SearchNode> n: m_nodes)
 	{
-		FuzzyMap m = n->fuzzyMatches(query, pos, weight, size + m_name.size() + SearchIndex::DELIMITER.size());
+		FuzzyMap m = n->fuzzyMatchRecursive(query, pos, weight, size + m_name.size() + SearchIndex::DELIMITER.size());
 		result.insert(m.begin(), m.end());
 	}
 
@@ -325,21 +320,26 @@ std::deque<const SearchIndex::SearchNode*> SearchIndex::SearchNode::getNodesToPa
 	std::deque<const SearchIndex::SearchNode*> nodes;
 
 	const SearchNode* node = this;
-	while (node->m_nameId)
+	while (node->m_nameId && node != parent)
 	{
 		nodes.push_front(node);
-
-		if (node == parent)
-		{
-			break;
-		}
-
 		node = node->m_parent;
 	}
 
 	return nodes;
 }
 
+
+void SearchIndex::logMatches(const std::vector<SearchIndex::SearchMatch>& matches, const std::string& query)
+{
+	std::stringstream ss;
+	ss << std::endl << matches.size() << " matches for \"" << query << "\":" << std::endl;
+	for (const SearchIndex::SearchMatch& match : matches)
+	{
+		match.print(ss);
+	}
+	LOG_INFO(ss.str());
+}
 
 SearchIndex::SearchIndex()
 	: m_root(nullptr, DELIMITER, 0)
@@ -352,7 +352,7 @@ SearchIndex::~SearchIndex()
 
 void SearchIndex::clear()
 {
-	m_root.clear();
+	m_root.m_nodes.clear();
 }
 
 SearchIndex::SearchNode* SearchIndex::addNode(const std::string& fullName)
@@ -379,32 +379,22 @@ SearchIndex::SearchNode* SearchIndex::getNode(const std::string& fullName) const
 	return nullptr;
 }
 
-std::vector<std::string> SearchIndex::findFuzzyMatches(const std::string& query) const
+std::vector<SearchIndex::SearchMatch> SearchIndex::findFuzzyMatches(const std::string& query) const
 {
-	std::vector<SearchMatch> matches;
-	std::vector<std::string> pieces = utility::split<std::vector<std::string>>(query, '\"');
+	std::vector<std::string> names = utility::split<std::vector<std::string>>(query, '\"');
 
-	if (pieces.size() == 3 && pieces[0].size() == 0)
+	if (names.size() == 3 && names[0].size() == 0)
 	{
-		SearchNode* node = getNode(pieces[1]);
+		SearchNode* node = getNode(names[1]);
 		if (!node)
 		{
-			LOG_ERROR_STREAM(<< "Couldn't find node with name " << pieces[1] << " in the SearchIndex.");
+			LOG_ERROR_STREAM(<< "Couldn't find node with name " << names[1] << " in the SearchIndex.");
 		}
 
-		matches = node->findFuzzyMatches(pieces[2]);
-	}
-	else
-	{
-		matches = m_root.findFuzzyMatches(query);
+		return node->findFuzzyMatches(names[2]);
 	}
 
-	std::vector<std::string> names;
-	for (const SearchMatch& match : matches)
-	{
-		names.push_back(match.node->getFullName());
-	}
-	return names;
+	return m_root.findFuzzyMatches(query);
 }
 
 const std::string SearchIndex::DELIMITER = "::";
