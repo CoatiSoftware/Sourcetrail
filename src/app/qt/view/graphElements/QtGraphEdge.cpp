@@ -28,6 +28,7 @@ QtGraphEdge::QtGraphEdge(const std::weak_ptr<GraphNode>& owner, const std::weak_
     blackPen.setWidth(2);
 
 	this->setPen(blackPen);
+	this->setZValue(1); // Used to draw edges always on top of nodes.
 }
 
 QtGraphEdge::~QtGraphEdge()

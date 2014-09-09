@@ -1,13 +1,12 @@
 #ifndef GRAPH_ACCESS_H
 #define GRAPH_ACCESS_H
 
+#include <memory>
 #include <string>
 #include <vector>
 
+#include "data/graph/Graph.h"
 #include "utility/types.h"
-
-class Edge;
-class Token;
 
 class GraphAccess
 {
@@ -17,19 +16,8 @@ public:
 	virtual Id getIdForNodeWithName(const std::string& name) const = 0;
 	virtual std::string getNameForNodeWithId(Id id) const = 0;
 	virtual std::vector<std::string> getNamesForNodesWithNamePrefix(const std::string& prefix) const = 0;
-	virtual std::vector<Id> getIdsOfNeighbours(const Id id) const = 0;
-	virtual std::vector<std::tuple<Id, Id, Id>> getNeighbourEdgesOfNode(const Id id) const = 0;
-	virtual std::vector<std::tuple<Id, Id, Id>> getMemberEdgesOfNode(const Id id) const = 0;
-	virtual std::vector<std::tuple<Id, Id, Id>> getUsageEdgesOfNode(const Id id) const = 0;
-	virtual std::vector<std::tuple<Id, Id, Id>> getCallEdgesOfNode(const Id id) const = 0;
-	virtual std::vector<std::tuple<Id, Id, Id>> getTypeOfEdgesOfNode(const Id id) const = 0;
-	virtual std::vector<std::tuple<Id, Id, Id>> getReturnTypeOfEdgesOfNode(const Id id) const = 0;
-	virtual std::vector<std::tuple<Id, Id, Id>> getParameterOfEdgesOfNode(const Id id) const = 0;
-	virtual std::vector<std::tuple<Id, Id, Id>> getInheritanceEdgesOfNode(const Id id) const = 0;
 
-	virtual std::pair<Id, Id> getNodesOfEdge(const Id id) const = 0;
-
-	virtual bool checkTokenIsNode(const Id id) const = 0;
+	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const = 0;
 
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId) const = 0;
 	virtual std::vector<Id> getLocationIdsForTokenIds(const std::vector<Id>& tokenIds) const = 0;

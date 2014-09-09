@@ -244,6 +244,32 @@ Edge* Graph::addEdgeAsPlainCopy(Edge* edge)
 	return copy.get();
 }
 
+Node* Graph::addNodeAndAllChildrenAsPlainCopy(Node* node)
+{
+	Node* n = addNodeAsPlainCopy(node);
+
+	node->forEachEdgeOfType(Edge::EDGE_MEMBER,
+		[node, this](Edge* edge)
+		{
+			if (edge->getFrom() == node)
+			{
+				addEdgeAsPlainCopy(edge);
+				addNodeAndAllChildrenAsPlainCopy(edge->getTo());
+			}
+		}
+	);
+
+	return n;
+}
+
+Edge* Graph::addEdgeAndAllChildrenAsPlainCopy(Edge* edge)
+{
+	addNodeAndAllChildrenAsPlainCopy(edge->getFrom()->getLastParentNode());
+	addNodeAndAllChildrenAsPlainCopy(edge->getTo()->getLastParentNode());
+
+	return addEdgeAsPlainCopy(edge);
+}
+
 void Graph::removeEdgeInternal(Edge* edge)
 {
 	std::map<Id, std::shared_ptr<Edge> >::const_iterator it = m_edges.find(edge->getId());

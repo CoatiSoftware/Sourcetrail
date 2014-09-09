@@ -6,6 +6,7 @@
 #include <QGraphicsView>
 
 #include "qt/utility/utilityQt.h"
+
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
 #include "qt/view/graphElements/QtGraphNode.h"

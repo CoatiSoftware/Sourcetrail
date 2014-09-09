@@ -3,9 +3,10 @@
 
 #include <QGraphicsItem>
 
-#include "component/view/graphElements/GraphNode.h"
-#include "utility/messaging/type/MessageActivateToken.h"
 #include "utility/math/Vector2.h"
+#include "utility/messaging/type/MessageActivateToken.h"
+
+#include "component/view/graphElements/GraphNode.h"
 
 class QtGraphEdge;
 
@@ -26,7 +27,7 @@ public:
 
 	virtual void removeOutEdge(GraphEdge* edge);
 
-	virtual std::list<std::shared_ptr<GraphNode> > getSubNodes() const;
+	virtual std::list<std::shared_ptr<GraphNode>> getSubNodes() const;
 	virtual void addSubNode(const std::shared_ptr<GraphNode>& node);
 
 	void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event);
@@ -36,13 +37,13 @@ public:
 protected:
 	void notifyEdgesAfterMove();
 
-	std::list<std::shared_ptr<GraphEdge> > m_outEdges;
-	std::list<std::weak_ptr<GraphEdge> > m_inEdges;
+	std::list<std::shared_ptr<GraphEdge>> m_outEdges;
+	std::list<std::weak_ptr<GraphEdge>> m_inEdges;
 
 private:
 	QGraphicsTextItem* m_text;
 
-	std::list<std::shared_ptr<GraphNode> > m_subNodes;
+	std::list<std::shared_ptr<GraphNode>> m_subNodes;
 };
 
 #endif // QT_GRAPH_NODE_H

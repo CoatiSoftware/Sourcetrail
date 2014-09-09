@@ -57,114 +57,14 @@ std::vector<std::string> GraphAccessProxy::getNamesForNodesWithNamePrefix(const 
 	return std::vector<std::string>();
 }
 
-std::vector<Id> GraphAccessProxy::getIdsOfNeighbours(const Id id) const
+std::shared_ptr<Graph> GraphAccessProxy::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getIdsOfNeighbours(id);
+		return m_subject->getGraphForActiveTokenIds(tokenIds);
 	}
 
-	return std::vector<Id>();
-}
-
-std::vector<std::tuple<Id, Id, Id>> GraphAccessProxy::getNeighbourEdgesOfNode(const Id id) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getNeighbourEdgesOfNode(id);
-	}
-
-	return std::vector<std::tuple<Id, Id, Id>>();
-}
-
-std::vector<std::tuple<Id, Id, Id>> GraphAccessProxy::getMemberEdgesOfNode(const Id id) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getMemberEdgesOfNode(id);
-	}
-
-	return std::vector<std::tuple<Id, Id, Id>>();
-}
-
-std::vector<std::tuple<Id, Id, Id>> GraphAccessProxy::getUsageEdgesOfNode(const Id id) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getUsageEdgesOfNode(id);
-	}
-
-	return std::vector<std::tuple<Id, Id, Id>>();
-}
-
-std::vector<std::tuple<Id, Id, Id>> GraphAccessProxy::getCallEdgesOfNode(const Id id) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getCallEdgesOfNode(id);
-	}
-
-	return std::vector<std::tuple<Id, Id, Id>>();
-}
-
-std::vector<std::tuple<Id, Id, Id>> GraphAccessProxy::getTypeOfEdgesOfNode(const Id id) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getTypeOfEdgesOfNode(id);
-	}
-
-	return std::vector<std::tuple<Id, Id, Id>>();
-}
-
-std::vector<std::tuple<Id, Id, Id>> GraphAccessProxy::getReturnTypeOfEdgesOfNode(const Id id) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getReturnTypeOfEdgesOfNode(id);
-	}
-
-	return std::vector<std::tuple<Id, Id, Id>>();
-}
-
-std::vector<std::tuple<Id, Id, Id>> GraphAccessProxy::getParameterOfEdgesOfNode(const Id id) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getParameterOfEdgesOfNode(id);
-	}
-
-	return std::vector<std::tuple<Id, Id, Id>>();
-}
-
-std::vector<std::tuple<Id, Id, Id>> GraphAccessProxy::getInheritanceEdgesOfNode(const Id id) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getInheritanceEdgesOfNode(id);
-	}
-
-	return std::vector<std::tuple<Id, Id, Id>>();
-}
-
-std::pair<Id, Id> GraphAccessProxy::getNodesOfEdge(const Id id) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getNodesOfEdge(id);
-	}
-
-	return std::pair<Id, Id>();
-}
-
-bool GraphAccessProxy::checkTokenIsNode(const Id id) const
-{
-	if (hasSubject())
-	{
-		return m_subject->checkTokenIsNode(id);
-	}
-
-	return false;
+	return std::make_shared<Graph>();
 }
 
 std::vector<Id> GraphAccessProxy::getActiveTokenIdsForId(Id tokenId) const

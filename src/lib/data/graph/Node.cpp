@@ -89,6 +89,16 @@ Node* Node::getParentNode() const
 	return nullptr;
 }
 
+Node* Node::getLastParentNode()
+{
+	Node* parent = getParentNode();
+	if (parent)
+	{
+		return parent->getLastParentNode();
+	}
+	return this;
+}
+
 Edge* Node::getMemberEdge() const
 {
 	return findEdgeOfType(Edge::EDGE_MEMBER,
@@ -179,9 +189,12 @@ void Node::forEachEdgeOfType(Edge::EdgeType type, std::function<void(Edge*)> fun
 void Node::forEachChildNode(std::function<void(Node*)> func) const
 {
 	forEachEdgeOfType(Edge::EDGE_MEMBER,
-		[func](Edge* e)
+		[func, this](Edge* e)
 		{
-			func(e->getTo());
+			if (this != e->getTo())
+			{
+				func(e->getTo());
+			}
 		}
 	);
 }

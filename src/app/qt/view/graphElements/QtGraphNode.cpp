@@ -73,7 +73,7 @@ bool QtGraphNode::addOutEdge(const std::shared_ptr<GraphEdge>& edge)
 
 bool QtGraphNode::addInEdge(const std::weak_ptr<GraphEdge>& edge)
 {
-	for (std::list<std::weak_ptr<GraphEdge> >::iterator it = m_inEdges.begin(); it != m_inEdges.end(); it++)
+	for (std::list<std::weak_ptr<GraphEdge>>::iterator it = m_inEdges.begin(); it != m_inEdges.end(); it++)
 	{
 		std::shared_ptr<GraphEdge> existingEdge = it->lock();
 		if (existingEdge != NULL)
@@ -92,7 +92,7 @@ bool QtGraphNode::addInEdge(const std::weak_ptr<GraphEdge>& edge)
 
 void QtGraphNode::removeOutEdge(GraphEdge* edge)
 {
-	std::list<std::shared_ptr<GraphEdge> >::iterator it = m_outEdges.begin();
+	std::list<std::shared_ptr<GraphEdge>>::iterator it = m_outEdges.begin();
 	while (it != m_outEdges.end())
 	{
 		if ((*it).get() == edge)
@@ -105,7 +105,7 @@ void QtGraphNode::removeOutEdge(GraphEdge* edge)
 	}
 }
 
-std::list<std::shared_ptr<GraphNode> > QtGraphNode::getSubNodes() const
+std::list<std::shared_ptr<GraphNode>> QtGraphNode::getSubNodes() const
 {
 	return m_subNodes;
 }
@@ -128,12 +128,12 @@ void QtGraphNode::notifyParentMoved()
 
 void QtGraphNode::notifyEdgesAfterMove()
 {
-	for (std::list<std::shared_ptr<GraphEdge> >::iterator it = m_outEdges.begin(); it != m_outEdges.end(); it++)
+	for (std::list<std::shared_ptr<GraphEdge>>::iterator it = m_outEdges.begin(); it != m_outEdges.end(); it++)
 	{
 		(*it)->ownerMoved();
 	}
 
-	std::list<std::weak_ptr<GraphEdge> >::iterator it2 = m_inEdges.begin();
+	std::list<std::weak_ptr<GraphEdge>>::iterator it2 = m_inEdges.begin();
 	while (it2 != m_inEdges.end())
 	{
 		 std::shared_ptr<GraphEdge> edge = it2->lock();
@@ -148,7 +148,7 @@ void QtGraphNode::notifyEdgesAfterMove()
 		 }
 	}
 
-	for (std::list<std::shared_ptr<GraphNode> >::iterator it3 = m_subNodes.begin(); it3 != m_subNodes.end(); it3++)
+	for (std::list<std::shared_ptr<GraphNode>>::iterator it3 = m_subNodes.begin(); it3 != m_subNodes.end(); it3++)
 	{
 		(*it3)->notifyParentMoved();
 	}

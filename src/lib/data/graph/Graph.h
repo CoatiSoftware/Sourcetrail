@@ -49,6 +49,9 @@ public:
 	Node* addNodeAsPlainCopy(Node* node);
 	Edge* addEdgeAsPlainCopy(Edge* edge);
 
+	Node* addNodeAndAllChildrenAsPlainCopy(Node* node);
+	Edge* addEdgeAndAllChildrenAsPlainCopy(Edge* edge);
+
 protected:
 	std::map<Id, std::shared_ptr<Node>> m_nodes;
 	std::map<Id, std::shared_ptr<Edge>> m_edges;

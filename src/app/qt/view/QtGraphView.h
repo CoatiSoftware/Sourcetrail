@@ -1,10 +1,11 @@
 #ifndef QT_GRAPH_VIEW_H
 #define QT_GRAPH_VIEW_H
 
-#include "component/view/GraphView.h"
 #include "qt/utility/QtThreadedFunctor.h"
 #include "utility/math/Vector4.h"
 #include "utility/types.h"
+
+#include "component/view/GraphView.h"
 
 struct DummyEdge;
 struct DummyNode;

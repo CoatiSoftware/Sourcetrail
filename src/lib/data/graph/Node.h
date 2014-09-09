@@ -54,6 +54,7 @@ public:
 	void removeEdge(Edge* edge);
 
 	Node* getParentNode() const;
+	Node* getLastParentNode();
 	Edge* getMemberEdge() const;
 
 	Edge* findEdge(std::function<bool(Edge*)> func) const;

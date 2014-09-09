@@ -5,8 +5,9 @@
 
 #include <QGraphicsItem>
 
-#include "component/view/graphElements/GraphEdge.h"
 #include "utility/messaging/type/MessageActivateToken.h"
+
+#include "component/view/graphElements/GraphEdge.h"
 
 class GraphNode;
 

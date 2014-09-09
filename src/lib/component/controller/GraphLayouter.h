@@ -5,11 +5,11 @@
 
 struct DummyNode;
 
-typedef void (*LayoutFunction)(std::vector<DummyNode>&);
-
 class GraphLayouter
 {
 public:
+	typedef void (*LayoutFunction)(std::vector<DummyNode>&);
+
 	static void layoutSimpleRaster(std::vector<DummyNode>& nodes);
 	static void layoutSimpleRing(std::vector<DummyNode>& nodes);
 };
