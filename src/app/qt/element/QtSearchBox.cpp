@@ -133,7 +133,7 @@ void QtSearchBox::onSearchCompletionHighlighted(const QModelIndex& index)
 		std::string match = m_matches[index.row()].encodeForQuery();
 		tokens.push_back(match);
 
-		m_query = utility::join<std::deque<std::string>>(tokens, "");
+		m_query = utility::join(tokens, "");
 	}
 
 	setText(m_query);

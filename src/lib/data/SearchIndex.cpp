@@ -400,17 +400,17 @@ SearchIndex::SearchNode* SearchIndex::getNode(const std::string& fullName) const
 
 std::vector<SearchIndex::SearchMatch> SearchIndex::findFuzzyMatches(const std::string& query) const
 {
-	std::vector<std::string> names = utility::split<std::vector<std::string>>(query, '\"');
+	std::deque<std::string> names = utility::split(query, '\"');
 
-	if (names.size() == 3 && names[0].size() == 0)
+	if (names.size() == 3 && names.at(0).size() == 0)
 	{
-		SearchNode* node = getNode(names[1]);
+		SearchNode* node = getNode(names.at(1));
 		if (!node)
 		{
-			LOG_ERROR_STREAM(<< "Couldn't find node with name " << names[1] << " in the SearchIndex.");
+			LOG_ERROR_STREAM(<< "Couldn't find node with name " << names.at(1) << " in the SearchIndex.");
 		}
 
-		return node->findFuzzyMatches(names[2]);
+		return node->findFuzzyMatches(names.at(2));
 	}
 
 	return m_root.findFuzzyMatches(query);

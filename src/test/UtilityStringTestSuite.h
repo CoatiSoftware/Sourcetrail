@@ -7,153 +7,153 @@ class UtilityStringTestSuite : public CxxTest::TestSuite
 public:
 	void test_split_with_char_delimiter()
 	{
-		std::vector<std::string> result = utility::split<std::vector<std::string> >("A,B,C", ',');
+		std::deque<std::string> result = utility::split("A,B,C", ',');
 
 		TS_ASSERT_EQUALS(result.size(), 3);
-		TS_ASSERT_EQUALS(result[0], "A");
-		TS_ASSERT_EQUALS(result[1], "B");
-		TS_ASSERT_EQUALS(result[2], "C");
+		TS_ASSERT_EQUALS(result.at(0), "A");
+		TS_ASSERT_EQUALS(result.at(1), "B");
+		TS_ASSERT_EQUALS(result.at(2), "C");
 	}
 
 	void test_split_with_string_delimiter()
 	{
-		std::vector<std::string> result = utility::split<std::vector<std::string> >("A->B>C", "->");
+		std::deque<std::string> result = utility::split("A->B>C", "->");
 
 		TS_ASSERT_EQUALS(result.size(), 2);
-		TS_ASSERT_EQUALS(result[0], "A");
-		TS_ASSERT_EQUALS(result[1], "B>C");
+		TS_ASSERT_EQUALS(result.at(0), "A");
+		TS_ASSERT_EQUALS(result.at(1), "B>C");
 	}
 
 	void test_split_on_empty_string()
 	{
-		std::vector<std::string> result = utility::split<std::vector<std::string> >("", "->");
+		std::deque<std::string> result = utility::split("", "->");
 
 		TS_ASSERT_EQUALS(result.size(), 1);
-		TS_ASSERT_EQUALS(result[0], "");
+		TS_ASSERT_EQUALS(result.at(0), "");
 	}
 
 	void test_split_with_unused_delimiter()
 	{
-		std::vector<std::string> result = utility::split<std::vector<std::string> >("A:B:C", ";");
+		std::deque<std::string> result = utility::split("A:B:C", ";");
 
 		TS_ASSERT_EQUALS(result.size(), 1);
-		TS_ASSERT_EQUALS(result[0], "A:B:C");
+		TS_ASSERT_EQUALS(result.at(0), "A:B:C");
 	}
 
 	void test_split_with_delimiters_next_to_each()
 	{
-		std::vector<std::string> result = utility::split<std::vector<std::string> >("A::B:C", ':');
+		std::deque<std::string> result = utility::split("A::B:C", ':');
 
 		TS_ASSERT_EQUALS(result.size(), 4);
-		TS_ASSERT_EQUALS(result[0], "A");
-		TS_ASSERT_EQUALS(result[1], "");
-		TS_ASSERT_EQUALS(result[2], "B");
-		TS_ASSERT_EQUALS(result[3], "C");
+		TS_ASSERT_EQUALS(result.at(0), "A");
+		TS_ASSERT_EQUALS(result.at(1), "");
+		TS_ASSERT_EQUALS(result.at(2), "B");
+		TS_ASSERT_EQUALS(result.at(3), "C");
 	}
 
 	void test_split_with_delimiter_at_start()
 	{
-		std::vector<std::string> result = utility::split<std::vector<std::string> >(":B:C", ':');
+		std::deque<std::string> result = utility::split(":B:C", ':');
 
 		TS_ASSERT_EQUALS(result.size(), 3);
-		TS_ASSERT_EQUALS(result[0], "");
-		TS_ASSERT_EQUALS(result[1], "B");
-		TS_ASSERT_EQUALS(result[2], "C");
+		TS_ASSERT_EQUALS(result.at(0), "");
+		TS_ASSERT_EQUALS(result.at(1), "B");
+		TS_ASSERT_EQUALS(result.at(2), "C");
 	}
 
 	void test_split_with_delimiter_at_end()
 	{
-		std::vector<std::string> result = utility::split<std::vector<std::string> >("B:C:", ':');
+		std::deque<std::string> result = utility::split("B:C:", ':');
 
 		TS_ASSERT_EQUALS(result.size(), 3);
-		TS_ASSERT_EQUALS(result[0], "B");
-		TS_ASSERT_EQUALS(result[1], "C");
-		TS_ASSERT_EQUALS(result[2], "");
+		TS_ASSERT_EQUALS(result.at(0), "B");
+		TS_ASSERT_EQUALS(result.at(1), "C");
+		TS_ASSERT_EQUALS(result.at(2), "");
 	}
 
 	void test_join_with_char_delimiter()
 	{
-		std::vector<std::string> list;
+		std::deque<std::string> list;
 		list.push_back("A");
 		list.push_back("B");
 		list.push_back("C");
 
-		std::string result = utility::join<std::vector<std::string> >(list, ',');
+		std::string result = utility::join(list, ',');
 		TS_ASSERT_EQUALS(result, "A,B,C");
 	}
 
 	void test_join_with_string_delimiter()
 	{
-		std::vector<std::string> list;
+		std::deque<std::string> list;
 		list.push_back("A");
 		list.push_back("B");
 		list.push_back("C");
 
-		std::string result = utility::join<std::vector<std::string> >(list, "==");
+		std::string result = utility::join(list, "==");
 		TS_ASSERT_EQUALS(result, "A==B==C");
 	}
 
 	void test_join_on_empty_list()
 	{
-		std::vector<std::string> list;
-		std::string result = utility::join<std::vector<std::string> >(list, ',');
+		std::deque<std::string> list;
+		std::string result = utility::join(list, ',');
 		TS_ASSERT_EQUALS(result, "");
 	}
 
 	void test_join_with_empty_strings_in_list()
 	{
-		std::vector<std::string> list;
+		std::deque<std::string> list;
 		list.push_back("A");
 		list.push_back("");
 		list.push_back("");
 
-		std::string result = utility::join<std::vector<std::string> >(list, ':');
+		std::string result = utility::join(list, ':');
 		TS_ASSERT_EQUALS(result, "A::");
 	}
 
 	void test_tokenize_with_string()
 	{
-		std::vector<std::string> result = utility::tokenize<std::vector<std::string> >("A->B->C", "->");
+		std::deque<std::string> result = utility::tokenize("A->B->C", "->");
 
 		TS_ASSERT_EQUALS(result.size(), 5);
-		TS_ASSERT_EQUALS(result[0], "A");
-		TS_ASSERT_EQUALS(result[1], "->");
-		TS_ASSERT_EQUALS(result[2], "B");
-		TS_ASSERT_EQUALS(result[3], "->");
-		TS_ASSERT_EQUALS(result[4], "C");
+		TS_ASSERT_EQUALS(result.at(0), "A");
+		TS_ASSERT_EQUALS(result.at(1), "->");
+		TS_ASSERT_EQUALS(result.at(2), "B");
+		TS_ASSERT_EQUALS(result.at(3), "->");
+		TS_ASSERT_EQUALS(result.at(4), "C");
 	}
 
 	void test_tokenize_with_string_and_delimiter_at_start()
 	{
-		std::vector<std::string> result = utility::tokenize<std::vector<std::string> >("->B", "->");
+		std::deque<std::string> result = utility::tokenize("->B", "->");
 
 		TS_ASSERT_EQUALS(result.size(), 2);
-		TS_ASSERT_EQUALS(result[0], "->");
-		TS_ASSERT_EQUALS(result[1], "B");
+		TS_ASSERT_EQUALS(result.at(0), "->");
+		TS_ASSERT_EQUALS(result.at(1), "B");
 	}
 
 	void test_tokenize_with_string_and_delimiter_at_end()
 	{
-		std::vector<std::string> result = utility::tokenize<std::vector<std::string> >("C+", '+');
+		std::deque<std::string> result = utility::tokenize("C+", '+');
 
 		TS_ASSERT_EQUALS(result.size(), 2);
-		TS_ASSERT_EQUALS(result[0], "C");
-		TS_ASSERT_EQUALS(result[1], "+");
+		TS_ASSERT_EQUALS(result.at(0), "C");
+		TS_ASSERT_EQUALS(result.at(1), "+");
 	}
 
-	void test_tokenize_with_vector()
+	void test_tokenize_with_deque()
 	{
-		std::vector<std::string> result = utility::tokenize<std::vector<std::string> >("A->B=C->D", "->");
-		result = utility::tokenize<std::vector<std::string>>(result, "=");
+		std::deque<std::string> result = utility::tokenize("A->B=C->D", "->");
+		result = utility::tokenize(result, "=");
 
 		TS_ASSERT_EQUALS(result.size(), 7);
-		TS_ASSERT_EQUALS(result[0], "A");
-		TS_ASSERT_EQUALS(result[1], "->");
-		TS_ASSERT_EQUALS(result[2], "B");
-		TS_ASSERT_EQUALS(result[3], "=");
-		TS_ASSERT_EQUALS(result[4], "C");
-		TS_ASSERT_EQUALS(result[5], "->");
-		TS_ASSERT_EQUALS(result[6], "D");
+		TS_ASSERT_EQUALS(result.at(0), "A");
+		TS_ASSERT_EQUALS(result.at(1), "->");
+		TS_ASSERT_EQUALS(result.at(2), "B");
+		TS_ASSERT_EQUALS(result.at(3), "=");
+		TS_ASSERT_EQUALS(result.at(4), "C");
+		TS_ASSERT_EQUALS(result.at(5), "->");
+		TS_ASSERT_EQUALS(result.at(6), "D");
 	}
 
 	void test_substr_after_with_single_delimiter_occurence()

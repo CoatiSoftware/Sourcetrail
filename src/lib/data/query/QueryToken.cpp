@@ -6,7 +6,7 @@
 
 QueryToken::QueryToken(const std::string& name)
 {
-	std::deque<std::string> names = utility::split<std::deque<std::string>>(name, DELIMITER);
+	std::deque<std::string> names = utility::split(name, DELIMITER);
 
 	m_tokenName = names.front();
 	names.pop_front();

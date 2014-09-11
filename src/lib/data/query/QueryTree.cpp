@@ -8,12 +8,11 @@
 
 std::deque<std::string> QueryTree::tokenizeQuery(const std::string& query)
 {
-	std::deque<std::string> tokensTmp =
-		utility::split<std::deque<std::string>>(query, QueryOperator::getOperator(QueryOperator::OPERATOR_NONE));
+	std::deque<std::string> tokensTmp = utility::split(query, QueryOperator::getOperator(QueryOperator::OPERATOR_NONE));
 
 	for (const std::pair<char, QueryOperator::OperatorType>& p : QueryOperator::getOperatorTypeMap())
 	{
-		tokensTmp = utility::tokenize<std::deque<std::string>>(tokensTmp, p.first);
+		tokensTmp = utility::tokenize(tokensTmp, p.first);
 	}
 
 	char operatorToken = QueryOperator::getOperator(QueryOperator::OPERATOR_TOKEN);
@@ -49,7 +48,7 @@ QueryTree::QueryTree(const std::string& query)
 {
 	std::deque<std::string> tokens = tokenizeQuery(query);
 
-	m_query = utility::join<std::deque<std::string>>(tokens, ' ');
+	m_query = utility::join(tokens, ' ');
 
 	m_root = buildTree(tokens, nullptr);
 }

@@ -32,7 +32,7 @@ Id Dictionary::getWordId(const std::string& word)
 
 std::deque<Id> Dictionary::getWordIds(const std::string& wordList, const std::string& delimiter)
 {
-	std::deque<std::string> words = utility::split<std::deque<std::string>>(wordList, delimiter);
+	std::deque<std::string> words = utility::split(wordList, delimiter);
 	std::deque<Id> ids;
 
 	for (const std::string& word: words)

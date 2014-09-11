@@ -57,7 +57,7 @@ std::shared_ptr<TokenComponent> TokenComponentNameCached::copy() const
 
 const std::string& TokenComponentNameCached::getName() const
 {
-	return utility::split<std::deque<std::string>>(m_fullName, SearchIndex::DELIMITER).back();
+	return utility::split(m_fullName, SearchIndex::DELIMITER).back();
 }
 
 std::string TokenComponentNameCached::getFullName() const
