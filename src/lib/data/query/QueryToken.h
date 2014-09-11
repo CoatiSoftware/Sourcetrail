@@ -1,9 +1,11 @@
 #ifndef QUERY_TOKEN_H
 #define QUERY_TOKEN_H
 
+#include <set>
 #include <string>
 
 #include "data/query/QueryNode.h"
+#include "utility/types.h"
 
 class QueryToken
 	: public QueryNode
@@ -15,14 +17,20 @@ public:
 	virtual bool isCommand() const;
 	virtual bool isOperator() const;
 	virtual bool isToken() const;
-	virtual bool isComplete() const;
+
+	virtual bool derivedIsComplete() const;
 
 	virtual void print(std::ostream& ostream) const;
 
-	const std::string& getName() const;
+	const std::string& getTokenName() const;
+	const std::set<Id>& getTokenIds() const;
+
+	static const char DELIMITER;
+	static const char BOUNDARY;
 
 private:
-	const std::string m_name;
+	std::string m_tokenName;
+	std::set<Id> m_tokenIds;
 };
 
 #endif // QUERY_TOKEN_H

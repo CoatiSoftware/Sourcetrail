@@ -80,7 +80,7 @@ bool QueryCommand::isToken() const
 	return false;
 }
 
-bool QueryCommand::isComplete() const
+bool QueryCommand::derivedIsComplete() const
 {
 	return m_type != COMMAND_INVALID;
 }

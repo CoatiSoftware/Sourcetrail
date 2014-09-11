@@ -13,7 +13,7 @@ public:
 	virtual bool isOperator() const = 0;
 	virtual bool isToken() const = 0;
 
-	virtual bool isComplete() const = 0;
+	virtual bool derivedIsComplete() const = 0;
 
 	virtual void print(std::ostream& ostream) const = 0;
 	virtual void print(std::ostream& ostream, int n) const;
@@ -21,6 +21,7 @@ public:
 	bool isGroup() const;
 	void setIsGroup(bool isGroup);
 
+	bool isComplete() const;
 	void setIsComplete(bool isComplete);
 
 private:

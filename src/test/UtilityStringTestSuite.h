@@ -71,6 +71,46 @@ public:
 		TS_ASSERT_EQUALS(result[2], "");
 	}
 
+	void test_join_with_char_delimiter()
+	{
+		std::vector<std::string> list;
+		list.push_back("A");
+		list.push_back("B");
+		list.push_back("C");
+
+		std::string result = utility::join<std::vector<std::string> >(list, ',');
+		TS_ASSERT_EQUALS(result, "A,B,C");
+	}
+
+	void test_join_with_string_delimiter()
+	{
+		std::vector<std::string> list;
+		list.push_back("A");
+		list.push_back("B");
+		list.push_back("C");
+
+		std::string result = utility::join<std::vector<std::string> >(list, "==");
+		TS_ASSERT_EQUALS(result, "A==B==C");
+	}
+
+	void test_join_on_empty_list()
+	{
+		std::vector<std::string> list;
+		std::string result = utility::join<std::vector<std::string> >(list, ',');
+		TS_ASSERT_EQUALS(result, "");
+	}
+
+	void test_join_with_empty_strings_in_list()
+	{
+		std::vector<std::string> list;
+		list.push_back("A");
+		list.push_back("");
+		list.push_back("");
+
+		std::string result = utility::join<std::vector<std::string> >(list, ':');
+		TS_ASSERT_EQUALS(result, "A::");
+	}
+
 	void test_tokenize_with_string()
 	{
 		std::vector<std::string> result = utility::tokenize<std::vector<std::string> >("A->B->C", "->");

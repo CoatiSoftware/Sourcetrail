@@ -13,30 +13,6 @@ SearchController::~SearchController()
 {
 }
 
-void SearchController::search(const std::string& s)
-{
-	LOG_INFO("searching string: \"" + s + "\"");
-
-	std::vector<Id> ids = m_graphAccess->getTokenIdsForQuery(s);
-	if (ids.size())
-	{
-		MessageActivateTokens(ids).dispatch();
-		return;
-	}
-
-	Id nodeId = m_graphAccess->getIdForNodeWithName(s);
-	if (nodeId > 0)
-	{
-		LOG_INFO("Node with name \"" + s + "\" found.");
-		MessageActivateToken message(nodeId);
-		message.dispatch();
-	}
-	else
-	{
-		LOG_INFO("Node with name \"" + s + "\" not found.");
-	}
-}
-
 void SearchController::handleMessage(MessageActivateToken* message)
 {
 	getView()->setText(m_graphAccess->getNameForNodeWithId(message->tokenId));
@@ -47,14 +23,36 @@ void SearchController::handleMessage(MessageFind* message)
 	getView()->setFocus();
 }
 
-void SearchController::handleMessage(MessageFinishedParsing* message)
-{
-	getView()->setAutocompletionList(m_graphAccess->getNamesForNodesWithNamePrefix(":"));
-}
-
 void SearchController::handleMessage(MessageRefresh* message)
 {
 	getView()->refreshView();
+}
+
+void SearchController::handleMessage(MessageSearch* message)
+{
+	const std::string& query = message->query;
+
+	LOG_INFO("search string: \"" + query + "\"");
+
+	std::vector<Id> ids = m_graphAccess->getTokenIdsForQuery(query);
+	if (ids.size())
+	{
+		MessageActivateTokens(ids).dispatch();
+		return;
+	}
+
+	Id nodeId = m_graphAccess->getIdForNodeWithName(query);
+	if (nodeId > 0)
+	{
+		MessageActivateToken message(nodeId);
+		message.dispatch();
+	}
+}
+
+void SearchController::handleMessage(MessageSearchAutocomplete* message)
+{
+	LOG_INFO("autocomplete string: \"" + message->query + "\"");
+	getView()->setAutocompletionList(m_graphAccess->getAutocompletionMatches(message->query));
 }
 
 SearchView* SearchController::getView()

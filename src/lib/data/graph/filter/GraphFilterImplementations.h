@@ -1,8 +1,11 @@
 #ifndef GRAPH_FILTER_IMPLEMENTATIONS_H
 #define GRAPH_FILTER_IMPLEMENTATIONS_H
 
+#include <set>
+
 #include "data/graph/Edge.h"
 #include "data/graph/filter/GraphFilter.h"
+#include "data/graph/FilterableGraph.h"
 #include "data/graph/Node.h"
 #include "data/graph/token_component/TokenComponentAbstraction.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
@@ -258,22 +261,43 @@ class GraphFilterToken
 	: public GraphFilter
 {
 public:
-	GraphFilterToken(const std::string& name)
-		: m_name(name)
+	GraphFilterToken(const std::string& tokenName, const std::set<Id>& tokenIds)
+		: m_tokenName(tokenName)
+		, m_tokenIds(tokenIds)
 	{
+	}
+
+	void apply(const FilterableGraph* in, FilterableGraph* out)
+	{
+		if (m_tokenIds.size())
+		{
+			for (Id tokenId : m_tokenIds)
+			{
+				Node* node = in->getNodeById(tokenId);
+				if (node)
+				{
+					out->addNode(node);
+				}
+			}
+		}
+		else
+		{
+			GraphFilter::apply(in, out);
+		}
 	}
 
 protected:
 	virtual void visitNode(Node* node)
 	{
-		if (node->getName() == m_name)
+		if (node->getFullName() == m_tokenName)
 		{
 			addNode(node);
 		}
 	}
 
 private:
-	const std::string& m_name;
+	const std::string& m_tokenName;
+	const std::set<Id>& m_tokenIds;
 };
 
 #endif // GRAPH_FILTER_IMPLEMENTATIONS_H

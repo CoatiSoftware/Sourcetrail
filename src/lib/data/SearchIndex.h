@@ -19,7 +19,10 @@ public:
 	{
 		void print(std::ostream& ostream) const;
 
-		const SearchIndex::SearchNode* node;
+		std::string encodeForQuery() const;
+
+		std::string fullName;
+		std::set<Id> tokenIds;
 		std::vector<size_t> indices;
 		size_t weight;
 	};

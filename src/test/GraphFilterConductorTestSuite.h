@@ -17,12 +17,69 @@ public:
 		);
 	}
 
+	void test_token_query_with_id()
+	{
+		std::set<Id> ids = getIdsForNodeWithName("main");
+		std::stringstream ss;
+		ss << "\"main";
+		for (Id id : ids)
+		{
+			ss << ',' << id;
+		}
+		ss << '"';
+
+		TS_ASSERT_EQUALS(
+			printedFilteredTestGraph(ss.str()), // "main,<id>"
+
+			"1 nodes: function:main\n"
+			"0 edges:\n"
+		);
+	}
+
+	void test_token_query_with_id_and_wrong_name_uses_id()
+	{
+		std::set<Id> ids = getIdsForNodeWithName("main");
+		std::stringstream ss;
+		ss << "\"hello";
+		for (Id id : ids)
+		{
+			ss << ',' << id;
+		}
+		ss << '"';
+
+		TS_ASSERT_EQUALS(
+			printedFilteredTestGraph(ss.str()), // "hello,<id>"
+
+			"1 nodes: function:main\n"
+			"0 edges:\n"
+		);
+	}
+
+	void test_token_query_with_ids()
+	{
+		std::set<Id> ids = getIdsForNodeWithName("A::A");
+		std::stringstream ss;
+		ss << "\"A::A";
+		for (Id id : ids)
+		{
+			ss << ',' << id;
+		}
+		ss << '"';
+
+		TS_ASSERT_EQUALS(
+			printedFilteredTestGraph(ss.str()), // "A::A,<id1>,<id2>"
+
+			"2 nodes: method:A::A method:A::A\n"
+			"0 edges:\n"
+		);
+	}
+
 	void test_command_query()
 	{
 		TS_ASSERT_EQUALS(
 			printedFilteredTestGraph("method"),
 
-			"4 nodes: method:A::A method:A::getCount method:A::process method:B::process\n"
+			"5 nodes: method:A::A method:A::A method:A::getCount method:A::process method:B::process\n"
 			"0 edges:\n"
 		);
 
@@ -104,6 +161,19 @@ private:
 		return ss.str();
 	}
 
+	std::set<Id> getIdsForNodeWithName(const std::string& name)
+	{
+		createTestStorage();
+
+		std::vector<SearchIndex::SearchMatch> matches = m_storage->getAutocompletionMatches(name);
+		if (matches.size() && matches[0].fullName == name)
+		{
+			return matches[0].tokenIds;
+		}
+
+		return std::set<Id>();
+	}
+
 	void createTestStorage()
 	{
 		if (m_storage)
@@ -119,6 +189,10 @@ private:
 			"public:\n"
 			"	A() {\n"
 			"		count++;\n"
+			"	}\n"
+			"\n"
+			"	A(int c) {\n"
+			"		count += c;\n"
 			"	}\n"
 			"\n"
 			"	static int getCount()\n"

@@ -71,6 +71,26 @@ size_t SubGraph::getEdgeCount() const
 	return m_edges.size();
 }
 
+Node* SubGraph::getNodeById(Id id) const
+{
+	std::map<Id, Node*>::const_iterator it = m_nodes.find(id);
+	if (it != m_nodes.end())
+	{
+		return it->second;
+	}
+	return nullptr;
+}
+
+Edge* SubGraph::getEdgeById(Id id) const
+{
+	std::map<Id, Edge*>::const_iterator it = m_edges.find(id);
+	if (it != m_edges.end())
+	{
+		return it->second;
+	}
+	return nullptr;
+}
+
 std::vector<Id> SubGraph::getTokenIds() const
 {
 	std::vector<Id> ids;

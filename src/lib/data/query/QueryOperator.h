@@ -20,7 +20,7 @@ public:
 		OPERATOR_AND,
 		OPERATOR_OR,
 
-		OPERATOR_NAME,
+		OPERATOR_TOKEN,
 		OPERATOR_GROUP_OPEN,
 		OPERATOR_GROUP_CLOSE
 	};
@@ -36,7 +36,7 @@ public:
 	virtual bool isOperator() const;
 	virtual bool isToken() const;
 
-	virtual bool isComplete() const;
+	virtual bool derivedIsComplete() const;
 
 	virtual void print(std::ostream& ostream) const;
 	virtual void print(std::ostream& ostream, int n) const;

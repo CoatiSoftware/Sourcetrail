@@ -7,8 +7,9 @@
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateToken.h"
 #include "utility/messaging/type/MessageFind.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageRefresh.h"
+#include "utility/messaging/type/MessageSearch.h"
+#include "utility/messaging/type/MessageSearchAutocomplete.h"
 
 class GraphAccess;
 class SearchView;
@@ -17,21 +18,21 @@ class SearchController
 	: public Controller
 	, public MessageListener<MessageActivateToken>
 	, public MessageListener<MessageFind>
-	, public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageRefresh>
+	, public MessageListener<MessageSearch>
+	, public MessageListener<MessageSearchAutocomplete>
 {
 public:
 	SearchController(GraphAccess* graphAccess);
 	~SearchController();
 
-	void search(const std::string& s);
-	//void autocomplete(const std::string& s);
-
 private:
 	virtual void handleMessage(MessageActivateToken* message);
 	virtual void handleMessage(MessageFind* message);
-	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageRefresh* message);
+	virtual void handleMessage(MessageSearch* message);
+	virtual void handleMessage(MessageSearchAutocomplete* message);
+
 	SearchView* getView();
 
 	GraphAccess* m_graphAccess;

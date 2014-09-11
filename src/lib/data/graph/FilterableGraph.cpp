@@ -11,6 +11,16 @@ FilterableGraph::~FilterableGraph()
 {
 }
 
+Token* FilterableGraph::getTokenById(Id id) const
+{
+	Token* token = getNodeById(id);
+	if (!token)
+	{
+		token = getEdgeById(id);
+	}
+	return token;
+}
+
 void FilterableGraph::print(std::ostream& ostream) const
 {
 	ostream << "Graph:\n";

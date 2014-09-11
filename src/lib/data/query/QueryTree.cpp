@@ -6,21 +6,50 @@
 #include "data/query/QueryToken.h"
 #include "utility/utilityString.h"
 
-QueryTree::QueryTree(std::string query)
-	: m_valid(true)
+std::deque<std::string> QueryTree::tokenizeQuery(const std::string& query)
 {
-	std::deque<std::string> tokens =
+	std::deque<std::string> tokensTmp =
 		utility::split<std::deque<std::string>>(query, QueryOperator::getOperator(QueryOperator::OPERATOR_NONE));
 
 	for (const std::pair<char, QueryOperator::OperatorType>& p : QueryOperator::getOperatorTypeMap())
 	{
-		tokens = utility::tokenize<std::deque<std::string>>(tokens, p.first);
+		tokensTmp = utility::tokenize<std::deque<std::string>>(tokensTmp, p.first);
 	}
 
-	for (std::string str : tokens)
+	char operatorToken = QueryOperator::getOperator(QueryOperator::OPERATOR_TOKEN);
+	bool isToken = false;
+
+	std::string token;
+	std::deque<std::string> tokens;
+
+	while (tokensTmp.size())
 	{
-		m_query += str + ' ';
+		std::string tokenTmp = tokensTmp.front();
+		tokensTmp.pop_front();
+
+		token += tokenTmp;
+
+		if (tokenTmp.size() == 1 && tokenTmp[0] == operatorToken)
+		{
+			isToken = !isToken;
+		}
+
+		if (!isToken || (!tokensTmp.size() && token.size()))
+		{
+			tokens.push_back(token);
+			token.clear();
+		}
 	}
+
+	return tokens;
+}
+
+QueryTree::QueryTree(const std::string& query)
+	: m_valid(true)
+{
+	std::deque<std::string> tokens = tokenizeQuery(query);
+
+	m_query = utility::join<std::deque<std::string>>(tokens, ' ');
 
 	m_root = buildTree(tokens, nullptr);
 }
@@ -45,7 +74,7 @@ void QueryTree::print(std::ostream& ostream) const
 
 	if (!m_valid)
 	{
-		ostream << "INVALID";
+		ostream << " INVALID";
 	}
 
 	ostream << '\n';
@@ -156,18 +185,10 @@ std::shared_ptr<QueryNode> QueryTree::buildGroup(std::deque<std::string>& tokens
 		return nullptr;
 	}
 
-	std::shared_ptr<QueryNode> groupNode;
-	if (closeType == QueryOperator::OPERATOR_NAME)
-	{
-		groupNode = std::make_shared<QueryToken>(name);
-	}
-	else
-	{
-		groupNode = buildTree(group, nullptr);
-		groupNode->setIsGroup(true);
-	}
-
+	std::shared_ptr<QueryNode> groupNode = buildTree(group, nullptr);
+	groupNode->setIsGroup(true);
 	groupNode->setIsComplete(valid);
+
 	return groupNode;
 }
 
@@ -189,8 +210,9 @@ std::shared_ptr<QueryNode> QueryTree::getNextNode(std::deque<std::string>& token
 		case QueryOperator::OPERATOR_OR:
 			return std::make_shared<QueryOperator>(type);
 
-		case QueryOperator::OPERATOR_NAME:
-			return buildGroup(tokens, QueryOperator::OPERATOR_NAME);
+		case QueryOperator::OPERATOR_TOKEN:
+			return createToken(token);
+
 		case QueryOperator::OPERATOR_GROUP_OPEN:
 			return buildGroup(tokens, QueryOperator::OPERATOR_GROUP_CLOSE);
 		case QueryOperator::OPERATOR_GROUP_CLOSE:
@@ -205,7 +227,7 @@ std::shared_ptr<QueryNode> QueryTree::getNextNode(std::deque<std::string>& token
 	return nullptr;
 }
 
-std::shared_ptr<QueryNode> QueryTree::createCommand(std::string name)
+std::shared_ptr<QueryNode> QueryTree::createCommand(const std::string& name)
 {
 	std::shared_ptr<QueryCommand> node = std::make_shared<QueryCommand>(name);
 
@@ -216,6 +238,17 @@ std::shared_ptr<QueryNode> QueryTree::createCommand(std::string name)
 	}
 
 	return node;
+}
+
+std::shared_ptr<QueryNode> QueryTree::createToken(const std::string& name)
+{
+	if (name.size() < 3 || name.front() != QueryToken::BOUNDARY || name.back() != QueryToken::BOUNDARY)
+	{
+		m_valid = false;
+		return nullptr;
+	}
+
+	return std::make_shared<QueryToken>(name.substr(1, name.size() - 2));
 }
 
 std::ostream& operator<<(std::ostream& ostream, const QueryTree& tree)

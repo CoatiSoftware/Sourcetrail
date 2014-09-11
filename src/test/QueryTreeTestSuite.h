@@ -10,7 +10,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree(""),
 
-			"INVALID\n"
+			" INVALID\n"
 		);
 	}
 
@@ -28,7 +28,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("class"),
 
-			"class \n"
+			"class\n"
 			"class\n"
 		);
 	}
@@ -47,7 +47,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("\"A\""),
 
-			"\" A \" \n"
+			"\"A\"\n"
 			"\"A\"\n"
 		);
 	}
@@ -57,14 +57,13 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("\"A"),
 
-			"\" A INVALID\n"
-			"\"A\" INVALID\n"
+			"\"A INVALID\n"
 		);
 
 		TS_ASSERT_EQUALS(
 			printedQueryTree("\"\""),
 
-			"\" \" INVALID\n"
+			"\"\" INVALID\n"
 		);
 
 		TS_ASSERT_EQUALS(
@@ -74,12 +73,32 @@ public:
 		);
 	}
 
+	void test_token_query_with_id()
+	{
+		TS_ASSERT_EQUALS(
+			printedQueryTree("\"A,1\""),
+
+			"\"A,1\"\n"
+			"\"A,1\"\n"
+		);
+	}
+
+	void test_token_query_with_ids()
+	{
+		TS_ASSERT_EQUALS(
+			printedQueryTree("\"A,1,2\""),
+
+			"\"A,1,2\"\n"
+			"\"A,1,2\"\n"
+		);
+	}
+
 	void test_operator_not_query()
 	{
 		TS_ASSERT_EQUALS(
 			printedQueryTree("!field"),
 
-			"! field \n"
+			"! field\n"
 			"!\n"
 			"	field\n"
 		);
@@ -87,7 +106,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("!!field"),
 
-			"! ! field \n"
+			"! ! field\n"
 			"!\n"
 			"	!\n"
 			"		field\n"
@@ -117,7 +136,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("\"A\".\"B\""),
 
-			"\" A \" . \" B \" \n"
+			"\"A\" . \"B\"\n"
 			"	\"A\"\n"
 			".\n"
 			"	\"B\"\n"
@@ -129,7 +148,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("\"A\"."),
 
-			"\" A \" . INVALID\n"
+			"\"A\" . INVALID\n"
 			"	\"A\"\n"
 			". INVALID\n"
 		);
@@ -144,7 +163,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree(".\"A\""),
 
-			". \" A \" INVALID\n"
+			". \"A\" INVALID\n"
 			". INVALID\n"
 			"	\"A\"\n"
 		);
@@ -152,7 +171,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("\"A\"..\"B\""),
 
-			"\" A \" . . \" B \" INVALID\n"
+			"\"A\" . . \"B\" INVALID\n"
 			"	\"A\"\n"
 			".\n"
 			"	. INVALID\n"
@@ -165,7 +184,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("\"A\":\"B\""),
 
-			"\" A \" : \" B \" \n"
+			"\"A\" : \"B\"\n"
 			"	\"A\"\n"
 			":\n"
 			"	\"B\"\n"
@@ -177,7 +196,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("\"A\"&\"B\""),
 
-			"\" A \" & \" B \" \n"
+			"\"A\" & \"B\"\n"
 			"	\"A\"\n"
 			"&\n"
 			"	\"B\"\n"
@@ -189,7 +208,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("\"A\"|\"B\""),
 
-			"\" A \" | \" B \" \n"
+			"\"A\" | \"B\"\n"
 			"	\"A\"\n"
 			"|\n"
 			"	\"B\"\n"
@@ -201,14 +220,14 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("(\"A\")"),
 
-			"( \" A \" ) \n"
+			"( \"A\" )\n"
 			"(\"A\")\n"
 		);
 
 		TS_ASSERT_EQUALS(
 			printedQueryTree("(\"A\"|\"B\")"),
 
-			"( \" A \" | \" B \" ) \n"
+			"( \"A\" | \"B\" )\n"
 			"	\"A\"\n"
 			"(|)\n"
 			"	\"B\"\n"
@@ -226,14 +245,14 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("(\"A\""),
 
-			"( \" A \" INVALID\n"
+			"( \"A\" INVALID\n"
 			"(\"A\") INVALID\n"
 		);
 
 		TS_ASSERT_EQUALS(
 			printedQueryTree("\"A\")"),
 
-			"\" A \" ) INVALID\n"
+			"\"A\" ) INVALID\n"
 		);
 
 		TS_ASSERT_EQUALS(
@@ -248,7 +267,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("\"A\"(\"B\")"),
 
-			"\" A \" ( \" B \" ) \n"
+			"\"A\" ( \"B\" )\n"
 			"	\"A\"\n"
 			".\n"
 			"	(\"B\")\n"
@@ -260,7 +279,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("!method.!const"),
 
-			"! method . ! const \n"
+			"! method . ! const\n"
 			"	!\n"
 			"		method\n"
 			".\n"
@@ -274,7 +293,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("namespace.class:method"),
 
-			"namespace . class : method \n"
+			"namespace . class : method\n"
 			"		namespace\n"
 			"	.\n"
 			"		class\n"
@@ -288,7 +307,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("class:method|field"),
 
-			"class : method | field \n"
+			"class : method | field\n"
 			"		class\n"
 			"	:\n"
 			"		method\n"
@@ -302,7 +321,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("namespace.(class:method)"),
 
-			"namespace . ( class : method ) \n"
+			"namespace . ( class : method )\n"
 			"	namespace\n"
 			".\n"
 			"		class\n"
@@ -313,7 +332,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("class:(method|field)"),
 
-			"class : ( method | field ) \n"
+			"class : ( method | field )\n"
 			"	class\n"
 			":\n"
 			"		method\n"
@@ -327,7 +346,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedQueryTree("  \"Field  \":(method | field)   .const |   public "),
 
-			"\" Field \" : ( method | field ) . const | public \n"
+			"\"Field\" : ( method | field ) . const | public\n"
 			"		\"Field\"\n"
 			"	:\n"
 			"				method\n"

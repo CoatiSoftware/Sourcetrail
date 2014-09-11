@@ -1,5 +1,7 @@
 #include "data/query/QueryOperator.h"
 
+#include "data/query/QueryToken.h"
+
 const std::map<char, QueryOperator::OperatorType>& QueryOperator::getOperatorTypeMap()
 {
 	static std::map<char, OperatorType> operatorMap;
@@ -17,7 +19,8 @@ const std::map<char, QueryOperator::OperatorType>& QueryOperator::getOperatorTyp
 	operatorMap.emplace('&', OPERATOR_AND);
 	operatorMap.emplace('|', OPERATOR_OR);
 
-	operatorMap.emplace('"', OPERATOR_NAME);
+	operatorMap.emplace(QueryToken::BOUNDARY, OPERATOR_TOKEN);
+
 	operatorMap.emplace('(', OPERATOR_GROUP_OPEN);
 	operatorMap.emplace(')', OPERATOR_GROUP_CLOSE);
 
@@ -74,7 +77,7 @@ bool QueryOperator::isToken() const
 	return false;
 }
 
-bool QueryOperator::isComplete() const
+bool QueryOperator::derivedIsComplete() const
 {
 	if (m_type == OPERATOR_NOT)
 	{

@@ -47,14 +47,14 @@ std::string GraphAccessProxy::getNameForNodeWithId(Id id) const
 	return "";
 }
 
-std::vector<std::string> GraphAccessProxy::getNamesForNodesWithNamePrefix(const std::string& prefix) const
+std::vector<SearchIndex::SearchMatch> GraphAccessProxy::getAutocompletionMatches(const std::string& query) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getNamesForNodesWithNamePrefix(prefix);
+		return m_subject->getAutocompletionMatches(query);
 	}
 
-	return std::vector<std::string>();
+	return std::vector<SearchIndex::SearchMatch>();
 }
 
 std::shared_ptr<Graph> GraphAccessProxy::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const

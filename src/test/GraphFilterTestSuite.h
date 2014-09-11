@@ -161,7 +161,7 @@ public:
 
 	void test_GraphFilterToken()
 	{
-		GraphFilterToken filter("main");
+		GraphFilterToken filter("main", std::set<Id>());
 
 		TS_ASSERT_EQUALS(
 			printedFilteredTestGraph(&filter),

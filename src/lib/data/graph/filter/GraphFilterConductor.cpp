@@ -174,5 +174,5 @@ void GraphFilterConductor::filterCommandNode(const QueryCommand* node, const Fil
 
 void GraphFilterConductor::filterTokenNode(const QueryToken* node, const FilterableGraph* in, FilterableGraph* out) const
 {
-	GraphFilterToken(node->getName()).apply(in, out);
+	GraphFilterToken(node->getTokenName(), node->getTokenIds()).apply(in, out);
 }

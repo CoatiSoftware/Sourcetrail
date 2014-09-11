@@ -1,6 +1,7 @@
 #ifndef UTILITY_STRING_H
 #define UTILITY_STRING_H
 
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -11,6 +12,12 @@ namespace utility
 
 	template<typename ContainerType>
 	ContainerType split(const std::string& str, const std::string& delimiter);
+
+	template<typename ContainerType>
+	std::string join(const ContainerType& list, char delimiter);
+
+	template<typename ContainerType>
+	std::string join(const ContainerType& list, const std::string& delimiter);
 
 	template<typename ContainerType>
 	ContainerType tokenize(const std::string& str, char delimiter);
@@ -51,6 +58,30 @@ ContainerType utility::split(const std::string& str, const std::string& delimite
 	while (pos != std::string::npos);
 
 	return c;
+}
+
+template<typename ContainerType>
+std::string utility::join(const ContainerType& list, char delimiter)
+{
+	return join<ContainerType>(list, std::string(1, delimiter));
+}
+
+template<typename ContainerType>
+std::string utility::join(const ContainerType& list, const std::string& delimiter)
+{
+	std::stringstream ss;
+	bool first = true;
+	for (const std::string& str : list)
+	{
+		if (!first)
+		{
+			ss << delimiter;
+		}
+		first = false;
+
+		ss << str;
+	}
+	return ss.str();
 }
 
 template<typename ContainerType>

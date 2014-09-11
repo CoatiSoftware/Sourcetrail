@@ -4,6 +4,8 @@
 #include <functional>
 #include <ostream>
 
+#include "utility/types.h"
+
 class Edge;
 class Node;
 class Token;
@@ -28,6 +30,11 @@ public:
 
 	virtual size_t getNodeCount() const = 0;
 	virtual size_t getEdgeCount() const = 0;
+
+	virtual Node* getNodeById(Id id) const = 0;
+	virtual Edge* getEdgeById(Id id) const = 0;
+
+	Token* getTokenById(Id id) const;
 
 	void print(std::ostream& ostream) const;
 	void printBasic(std::ostream& ostream) const;

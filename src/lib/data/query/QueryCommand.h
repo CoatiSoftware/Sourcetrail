@@ -53,7 +53,7 @@ public:
 	virtual bool isOperator() const;
 	virtual bool isToken() const;
 
-	virtual bool isComplete() const;
+	virtual bool derivedIsComplete() const;
 
 	virtual void print(std::ostream& ostream) const;
 

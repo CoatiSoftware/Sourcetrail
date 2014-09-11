@@ -9,14 +9,12 @@ add_files(
 	qt/element/QtCodeFile.h
 	qt/element/QtCodeFileList.cpp
 	qt/element/QtCodeFileList.h
-	qt/element/QtButton.cpp
-	qt/element/QtButton.h
 	qt/element/QtCodeSnippet.cpp
 	qt/element/QtCodeSnippet.h
-	qt/element/QtEditBox.cpp
-	qt/element/QtEditBox.h
 	qt/element/QtMainWindow.cpp
 	qt/element/QtMainWindow.h
+	qt/element/QtSearchBox.cpp
+	qt/element/QtSearchBox.h
 
 	qt/utility/QtHighLighter.cpp
 	qt/utility/QtHighLighter.h

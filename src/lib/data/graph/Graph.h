@@ -32,12 +32,11 @@ public:
 	virtual size_t getNodeCount() const;
 	virtual size_t getEdgeCount() const;
 
+	virtual Node* getNodeById(Id id) const;
+	virtual Edge* getEdgeById(Id id) const;
+
 	const std::map<Id, std::shared_ptr<Node>>& getNodes() const;
 	const std::map<Id, std::shared_ptr<Edge>>& getEdges() const;
-
-	Node* getNodeById(Id id) const;
-	Edge* getEdgeById(Id id) const;
-	Token* getTokenById(Id id) const;
 
 	void removeNode(Node* node);
 	void removeEdge(Edge* edge);

@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "data/graph/Graph.h"
+#include "data/SearchIndex.h"
 #include "utility/types.h"
 
 class GraphAccess
@@ -15,7 +16,7 @@ public:
 
 	virtual Id getIdForNodeWithName(const std::string& name) const = 0;
 	virtual std::string getNameForNodeWithId(Id id) const = 0;
-	virtual std::vector<std::string> getNamesForNodesWithNamePrefix(const std::string& prefix) const = 0;
+	virtual std::vector<SearchIndex::SearchMatch> getAutocompletionMatches(const std::string& query) const = 0;
 
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const = 0;
 

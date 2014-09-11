@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cctype>
 
+#include "data/query/QueryToken.h"
 #include "utility/logging/logging.h"
 #include "utility/text/Dictionary.h"
 #include "utility/utilityString.h"
@@ -22,7 +23,7 @@ namespace
 
 void SearchIndex::SearchMatch::print(std::ostream& ostream) const
 {
-	ostream << weight << '\t' << node->getFullName() << std::endl << '\t';
+	ostream << weight << '\t' << fullName << std::endl << '\t';
 	size_t i = 0;
 	for (size_t index : indices)
 	{
@@ -35,6 +36,23 @@ void SearchIndex::SearchMatch::print(std::ostream& ostream) const
 		i++;
 	}
 	ostream << std::endl;
+}
+
+std::string SearchIndex::SearchMatch::encodeForQuery() const
+{
+	if (!tokenIds.size())
+	{
+		return fullName;
+	}
+
+	std::stringstream ss;
+	ss << QueryToken::BOUNDARY << fullName;
+	for (Id tokenId : tokenIds)
+	{
+		ss << QueryToken::DELIMITER << tokenId;
+	}
+	ss << QueryToken::BOUNDARY;
+	return ss.str();
 }
 
 SearchIndex::SearchNode::SearchNode(SearchNode* parent, const std::string& name, Id nameId)
@@ -284,7 +302,8 @@ std::pair<size_t, size_t> SearchIndex::SearchNode::fuzzyMatch(
 SearchIndex::SearchMatch SearchIndex::SearchNode::fuzzyMatchData(const std::string& query, const SearchNode* parent) const
 {
 	SearchMatch data;
-	data.node = this;
+	data.fullName = getFullName();
+	data.tokenIds = m_tokenIds;
 	data.weight = 0;
 
 	size_t pos = 0;

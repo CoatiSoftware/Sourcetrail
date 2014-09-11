@@ -75,16 +75,6 @@ size_t Graph::getEdgeCount() const
 	return m_edges.size();
 }
 
-const std::map<Id, std::shared_ptr<Node>>& Graph::getNodes() const
-{
-	return m_nodes;
-}
-
-const std::map<Id, std::shared_ptr<Edge>>& Graph::getEdges() const
-{
-	return m_edges;
-}
-
 Node* Graph::getNodeById(Id id) const
 {
 	std::map<Id, std::shared_ptr<Node>>::const_iterator it = m_nodes.find(id);
@@ -105,14 +95,14 @@ Edge* Graph::getEdgeById(Id id) const
 	return nullptr;
 }
 
-Token* Graph::getTokenById(Id id) const
+const std::map<Id, std::shared_ptr<Node>>& Graph::getNodes() const
 {
-	Token* token = getNodeById(id);
-	if (!token)
-	{
-		token = getEdgeById(id);
-	}
-	return token;
+	return m_nodes;
+}
+
+const std::map<Id, std::shared_ptr<Edge>>& Graph::getEdges() const
+{
+	return m_edges;
 }
 
 void Graph::removeNode(Node* node)

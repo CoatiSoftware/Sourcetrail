@@ -13,7 +13,9 @@ class QueryNode;
 class QueryTree
 {
 public:
-	QueryTree(std::string query);
+	static std::deque<std::string> tokenizeQuery(const std::string& query);
+
+	QueryTree(const std::string& query);
 	~QueryTree();
 
 	std::shared_ptr<QueryNode> getRoot() const;
@@ -26,7 +28,8 @@ private:
 	std::shared_ptr<QueryNode> buildTree(std::deque<std::string>& tokens, std::shared_ptr<QueryNode> frontNode);
 	std::shared_ptr<QueryNode> buildGroup(std::deque<std::string>& tokens, QueryOperator::OperatorType closeType);
 	std::shared_ptr<QueryNode> getNextNode(std::deque<std::string>& tokens);
-	std::shared_ptr<QueryNode> createCommand(std::string name);
+	std::shared_ptr<QueryNode> createCommand(const std::string& name);
+	std::shared_ptr<QueryNode> createToken(const std::string& name);
 
 	std::shared_ptr<QueryNode> m_root;
 	std::string m_query;

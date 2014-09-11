@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "data/graph/FilterableGraph.h"
-#include "utility/types.h"
 
 class Edge;
 class Node;
@@ -34,6 +33,9 @@ public:
 
 	virtual size_t getNodeCount() const;
 	virtual size_t getEdgeCount() const;
+
+	virtual Node* getNodeById(Id id) const;
+	virtual Edge* getEdgeById(Id id) const;
 
 	std::vector<Id> getTokenIds() const;
 

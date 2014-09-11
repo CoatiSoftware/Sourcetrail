@@ -4,10 +4,8 @@
 #include <vector>
 
 #include "component/view/SearchView.h"
+#include "qt/element/QtSearchBox.h"
 #include "qt/utility/QtThreadedFunctor.h"
-
-class QtEditBox;
-class QtButton;
 
 class QtSearchView: public SearchView
 {
@@ -21,28 +19,24 @@ public:
 	virtual void refreshView();
 
 	// SearchView implementation
-	virtual void setText(const std::string& s);
+	virtual void setText(const std::string& text);
 	virtual void setFocus();
-	virtual void setAutocompletionList(const std::vector<std::string>& autocompletionList);
+	virtual void setAutocompletionList(const std::vector<SearchIndex::SearchMatch>& autocompletionList);
 
 private:
-	void onSearchButtonClick();
-
 	void doRefreshView();
-	void doSetText(const std::string& s);
+	void doSetText(const std::string& text);
 	void doSetFocus();
-	void doSetAutocompletionList(const std::vector<std::string>& autocompletionList);
+	void doSetAutocompletionList(const std::vector<SearchIndex::SearchMatch>& autocompletionList);
 
 	void setStyleSheet();
-
-	QtEditBox* m_searchBox;
-	QtButton* m_searchButton;
-	QtButton* m_caseSensitiveButton;
 
 	QtThreadedFunctor<> m_refreshViewFunctor;
 	QtThreadedFunctor<const std::string&> m_setTextFunctor;
 	QtThreadedFunctor<> m_setFocusFunctor;
-	QtThreadedFunctor<const std::vector<std::string>&> m_setAutocompletionListFunctor;
+	QtThreadedFunctor<const std::vector<SearchIndex::SearchMatch>&> m_setAutocompletionListFunctor;
+
+	std::shared_ptr<QtSearchBox> m_widget;
 };
 
 # endif // QT_SEARCH_VIEW_H
