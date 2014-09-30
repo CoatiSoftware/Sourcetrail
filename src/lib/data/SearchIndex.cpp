@@ -5,7 +5,6 @@
 
 #include "data/query/QueryToken.h"
 #include "utility/logging/logging.h"
-#include "utility/text/Dictionary.h"
 #include "utility/utilityString.h"
 
 namespace
@@ -131,21 +130,22 @@ std::deque<SearchIndex::SearchNode*> SearchIndex::SearchNode::getParentsWithoutT
 	return nodes;
 }
 
-std::shared_ptr<SearchIndex::SearchNode> SearchIndex::SearchNode::addNodeRecursive(std::deque<Id>* nameIds)
-{
+std::shared_ptr<SearchIndex::SearchNode> SearchIndex::SearchNode::addNodeRecursive(
+	std::deque<Id>* nameIds, const Dictionary& dictionary
+){
 	Id nameId = nameIds->front();
 	nameIds->pop_front();
 
 	std::shared_ptr<SearchNode> node = getChildWithNameId(nameId);
 	if (!node)
 	{
-		node = std::make_shared<SearchNode>(this, Dictionary::getInstance()->getWord(nameId), nameId);
+		node = std::make_shared<SearchNode>(this, dictionary.getWord(nameId), nameId);
 		m_nodes.insert(node);
 	}
 
 	if (nameIds->size())
 	{
-		return node->addNodeRecursive(nameIds);
+		return node->addNodeRecursive(nameIds, dictionary);
 	}
 
 	return node;
@@ -374,13 +374,23 @@ void SearchIndex::clear()
 	m_root.m_nodes.clear();
 }
 
+Id SearchIndex::getWordId(const std::string& word)
+{
+	return m_dictionary.getWordId(word);
+}
+
+const std::string& SearchIndex::getWord(Id wordId) const
+{
+	return m_dictionary.getWord(wordId);
+}
+
 SearchIndex::SearchNode* SearchIndex::addNode(const std::string& fullName)
 {
-	std::deque<Id> nameIds = Dictionary::getInstance()->getWordIds(fullName, DELIMITER);
+	std::deque<Id> nameIds = m_dictionary.getWordIds(fullName, DELIMITER);
 
 	if (nameIds.size())
 	{
-		return m_root.addNodeRecursive(&nameIds).get();
+		return m_root.addNodeRecursive(&nameIds, m_dictionary).get();
 	}
 
 	return nullptr;
@@ -388,7 +398,7 @@ SearchIndex::SearchNode* SearchIndex::addNode(const std::string& fullName)
 
 SearchIndex::SearchNode* SearchIndex::getNode(const std::string& fullName) const
 {
-	std::deque<Id> nameIds = Dictionary::getInstance()->getWordIds(fullName, DELIMITER);
+	std::deque<Id> nameIds = m_dictionary.getWordIdsConst(fullName, DELIMITER);
 
 	if (nameIds.size())
 	{

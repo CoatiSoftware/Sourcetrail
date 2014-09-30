@@ -85,8 +85,8 @@ public:
 
 protected:
 	const Graph& getGraph() const;
-	Token* getTokenWithId(Id tokenId) const;
-	std::vector<TokenLocation*> getTokenLocationsForId(Id tokenId) const;
+	const TokenLocationCollection& getTokenLocationCollection() const;
+	const SearchIndex& getSearchIndex() const;
 
 private:
 	void initSearchIndex();

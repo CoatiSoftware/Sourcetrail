@@ -8,6 +8,7 @@
 #include <set>
 #include <vector>
 
+#include "utility/text/Dictionary.h"
 #include "utility/types.h"
 
 class SearchIndex
@@ -54,7 +55,7 @@ public:
 
 	private:
 		// Accessed by SearchIndex
-		std::shared_ptr<SearchNode> addNodeRecursive(std::deque<Id>* nameIds);
+		std::shared_ptr<SearchNode> addNodeRecursive(std::deque<Id>* nameIds, const Dictionary& dictionary);
 		std::shared_ptr<SearchNode> getNodeRecursive(std::deque<Id>* nameIds) const;
 		std::vector<SearchIndex::SearchMatch> findFuzzyMatches(const std::string& query) const;
 
@@ -84,6 +85,9 @@ public:
 
 	void clear();
 
+	Id getWordId(const std::string& word);
+	const std::string& getWord(Id wordId) const;
+
 	SearchNode* addNode(const std::string& fullName);
 	SearchNode* getNode(const std::string& fullName) const;
 
@@ -93,6 +97,7 @@ public:
 
 private:
 	SearchNode m_root;
+	Dictionary m_dictionary;
 };
 
 #endif // SEARCH_INDEX_H

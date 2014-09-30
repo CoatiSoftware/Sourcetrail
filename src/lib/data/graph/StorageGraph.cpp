@@ -1,7 +1,6 @@
 #include "data/graph/StorageGraph.h"
 
 #include "data/graph/token_component/TokenComponentName.h"
-#include "data/graph/token_component/TokenComponentSignature.h"
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
@@ -30,11 +29,9 @@ Node* StorageGraph::createNodeHierarchy(Node::NodeType type, SearchIndex::Search
 }
 
 Node* StorageGraph::createNodeHierarchyWithDistinctSignature(
-	Node::NodeType type, SearchIndex::SearchNode* searchNode, const std::string& signature
+	Node::NodeType type, SearchIndex::SearchNode* searchNode, std::shared_ptr<TokenComponentSignature> signature
 ){
 	Node* node = getNodeById(searchNode->getFirstTokenId());
-	std::shared_ptr<TokenComponentSignature> sigPtr = TokenComponentSignature::create(signature);
-
 	if (!node)
 	{
 		node = insertNodeHierarchy(type, searchNode);
@@ -42,10 +39,10 @@ Node* StorageGraph::createNodeHierarchyWithDistinctSignature(
 	else
 	{
 		std::function<bool(Node*)> findSignature =
-			[sigPtr](Node* n)
+			[signature](Node* n)
 			{
-				TokenComponentSignature* c = n->getComponent<TokenComponentSignature>();
-				return c && *c == *sigPtr.get();
+				TokenComponentSignature* sig = n->getComponent<TokenComponentSignature>();
+				return sig && *sig == *signature.get();
 			};
 
 		Node* parentNode = node->getParentNode();
@@ -72,7 +69,7 @@ Node* StorageGraph::createNodeHierarchyWithDistinctSignature(
 		}
 	}
 
-	node->addComponentSignature(sigPtr);
+	node->addComponentSignature(signature);
 	return node;
 }
 

@@ -180,7 +180,7 @@ public:
 		TS_ASSERT_EQUALS(paramEdge->getTo()->getFullName(), "char");
 
 		TS_ASSERT(node->getComponent<TokenComponentSignature>());
-		TS_ASSERT_EQUALS(node->getComponent<TokenComponentSignature>()->getSignature(), "isTrue(char)");
+		TS_ASSERT_EQUALS(storage.getWord(node->getComponent<TokenComponentSignature>()->getWordId()), "isTrue(char)");
 
 		std::vector<TokenLocation*> locations = storage.getLocationsForId(id);
 		TS_ASSERT_EQUALS(locations.size(), 2);
@@ -214,7 +214,7 @@ public:
 		TS_ASSERT_EQUALS(paramEdge->getTo()->getFullName(), "bool");
 
 		TS_ASSERT(node->getComponent<TokenComponentSignature>());
-		TS_ASSERT_EQUALS(node->getComponent<TokenComponentSignature>()->getSignature(), "isMethod(bool)");
+		TS_ASSERT_EQUALS(storage.getWord(node->getComponent<TokenComponentSignature>()->getWordId()), "isMethod(bool)");
 
 		std::vector<TokenLocation*> locations = storage.getLocationsForId(id);
 		TS_ASSERT_EQUALS(locations.size(), 2);
@@ -511,17 +511,30 @@ private:
 	public:
 		Node* getNodeWithId(Id id) const
 		{
-			return dynamic_cast<Node*>(getTokenWithId(id));
+			return dynamic_cast<Node*>(getGraph().getTokenById(id));
 		}
 
 		Edge* getEdgeWithId(Id id) const
 		{
-			return dynamic_cast<Edge*>(getTokenWithId(id));
+			return dynamic_cast<Edge*>(getGraph().getTokenById(id));
 		}
 
 		std::vector<TokenLocation*> getLocationsForId(Id id) const
 		{
-			return getTokenLocationsForId(id);
+			const std::vector<Id>& locationIds = getGraph().getTokenById(id)->getLocationIds();
+
+			std::vector<TokenLocation*> result;
+			for (Id locationId : locationIds)
+			{
+				result.push_back(getTokenLocationCollection().findTokenLocationById(locationId));
+			}
+
+			return result;
+		}
+
+		const std::string& getWord(Id wordId) const
+		{
+			return getSearchIndex().getWord(wordId);
 		}
 	};
 

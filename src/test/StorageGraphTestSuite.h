@@ -167,16 +167,16 @@ public:
 	void test_graph_saves_nodes_with_distinct_signatures()
 	{
 		TestStorageGraph graph;
-		Node* a1 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, "A", "A1");
-		Node* a2 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, "A", "A2");
-		Node* a3 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, "A", "A2");
+		Node* a1 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, "A", 1);
+		Node* a2 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, "A", 2);
+		Node* a3 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, "A", 2);
 
 		TS_ASSERT_DIFFERS(a1, a2);
 		TS_ASSERT_EQUALS(a2, a3);
 
-		Node* c1 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, "B::C", "C1");
-		Node* c2 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, "B::C", "C2");
-		Node* c3 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, "B::C", "C2");
+		Node* c1 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, "B::C", 3);
+		Node* c2 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, "B::C", 4);
+		Node* c3 = graph.createNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, "B::C", 4);
 
 		TS_ASSERT_DIFFERS(c1, c2);
 		TS_ASSERT_EQUALS(c2, c3);
@@ -300,9 +300,10 @@ private:
 		}
 
 		Node* createNodeHierarchyWithDistinctSignature(
-			Node::NodeType type, const std::string& name, const std::string& signature
+			Node::NodeType type, const std::string& name, Id signatureId
 		){
 			SearchIndex::SearchNode* searchNode = m_index.addNode(name);
+			std::shared_ptr<TokenComponentSignature> signature = std::make_shared<TokenComponentSignature>(signatureId);
 			return StorageGraph::createNodeHierarchyWithDistinctSignature(type, searchNode, signature);
 		}
 

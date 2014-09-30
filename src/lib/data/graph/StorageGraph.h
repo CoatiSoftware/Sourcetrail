@@ -2,6 +2,7 @@
 #define STORAGE_GRAPH_H
 
 #include "data/graph/Graph.h"
+#include "data/graph/token_component/TokenComponentSignature.h"
 #include "data/SearchIndex.h"
 
 class StorageGraph
@@ -13,7 +14,7 @@ public:
 
 	Node* createNodeHierarchy(Node::NodeType type, SearchIndex::SearchNode* searchNode);
 	Node* createNodeHierarchyWithDistinctSignature(
-		Node::NodeType type, SearchIndex::SearchNode* searchNode, const std::string& signature);
+		Node::NodeType type, SearchIndex::SearchNode* searchNode, std::shared_ptr<TokenComponentSignature> signature);
 	Edge* createEdge(Edge::EdgeType type, Node* from, Node* to);
 
 private:

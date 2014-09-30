@@ -12,23 +12,22 @@
 class Dictionary
 {
 public:
-	static std::shared_ptr<Dictionary> getInstance();
+	Dictionary();
 	~Dictionary();
 
+	void clear();
+
 	Id getWordId(const std::string& word);
+	Id getWordIdConst(const std::string& word) const;
+
 	std::deque<Id> getWordIds(const std::string& wordList, const std::string& delimiter);
+	std::deque<Id> getWordIdsConst(const std::string& wordList, const std::string& delimiter) const;
 
 	// Note: References to values in an unordered_map don't change on rehashing so they can be saved and used elsewhere.
 	const std::string& getWord(Id id) const;
 	std::string getWord(const std::deque<Id> ids, const std::string& delimiter) const;
 
 private:
-	Dictionary();
-	Dictionary(const Dictionary&);
-	void operator=(const Dictionary&);
-
-	static std::shared_ptr<Dictionary> s_instance;
-	static std::mutex s_instanceMutex;
 	static Id s_nextId;
 
 	std::unordered_map<Id, std::string> m_words;

@@ -535,22 +535,14 @@ const Graph& Storage::getGraph() const
 	return m_graph;
 }
 
-Token* Storage::getTokenWithId(Id tokenId) const
+const TokenLocationCollection& Storage::getTokenLocationCollection() const
 {
-	return m_graph.getTokenById(tokenId);
+	return m_locationCollection;
 }
 
-std::vector<TokenLocation*> Storage::getTokenLocationsForId(Id tokenId) const
+const SearchIndex& Storage::getSearchIndex() const
 {
-	const std::vector<Id>& locationIds = getTokenWithId(tokenId)->getLocationIds();
-
-	std::vector<TokenLocation*> result;
-	for (Id locationId : locationIds)
-	{
-		result.push_back(m_locationCollection.findTokenLocationById(locationId));
-	}
-
-	return result;
+	return m_index;
 }
 
 void Storage::initSearchIndex()
@@ -582,7 +574,11 @@ Node* Storage::addNodeHierarchyWithDistinctSignature(Node::NodeType type, const 
 		return nullptr;
 	}
 
-	return m_graph.createNodeHierarchyWithDistinctSignature(type, searchNode, ParserClient::functionSignatureStr(function));
+	// TODO: Instead of saving the whole signature string, the signature should be just a set of wordIds.
+	Id signatureId = m_index.getWordId(ParserClient::functionSignatureStr(function));
+	std::shared_ptr<TokenComponentSignature> signature = std::make_shared<TokenComponentSignature>(signatureId);
+
+	return m_graph.createNodeHierarchyWithDistinctSignature(type, searchNode, signature);
 }
 
 TokenComponentAccess::AccessType Storage::convertAccessType(ParserClient::AccessType access) const
