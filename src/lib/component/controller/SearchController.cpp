@@ -15,7 +15,10 @@ SearchController::~SearchController()
 
 void SearchController::handleMessage(MessageActivateToken* message)
 {
-	getView()->setText(m_graphAccess->getNameForNodeWithId(message->tokenId));
+	if (message->tokenId)
+	{
+		getView()->setText(m_graphAccess->getNameForNodeWithId(message->tokenId));
+	}
 }
 
 void SearchController::handleMessage(MessageFind* message)
@@ -42,11 +45,7 @@ void SearchController::handleMessage(MessageSearch* message)
 	}
 
 	Id nodeId = m_graphAccess->getIdForNodeWithName(query);
-	if (nodeId > 0)
-	{
-		MessageActivateToken message(nodeId);
-		message.dispatch();
-	}
+	MessageActivateToken(nodeId).dispatch();
 }
 
 void SearchController::handleMessage(MessageSearchAutocomplete* message)
