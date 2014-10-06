@@ -267,7 +267,7 @@ public:
 	{
 	}
 
-	void apply(const FilterableGraph* in, FilterableGraph* out)
+	virtual void apply(const FilterableGraph* in, FilterableGraph* out)
 	{
 		if (m_tokenIds.size())
 		{
@@ -296,8 +296,8 @@ protected:
 	}
 
 private:
-	const std::string& m_tokenName;
-	const std::set<Id>& m_tokenIds;
+	const std::string m_tokenName;
+	const std::set<Id> m_tokenIds;
 };
 
 #endif // GRAPH_FILTER_IMPLEMENTATIONS_H

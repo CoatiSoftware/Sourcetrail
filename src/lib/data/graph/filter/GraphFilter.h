@@ -11,7 +11,7 @@ public:
 	GraphFilter();
 	virtual ~GraphFilter();
 
-	void apply(const FilterableGraph* in, FilterableGraph* out);
+	virtual void apply(const FilterableGraph* in, FilterableGraph* out);
 
 protected:
 	virtual void visitNode(Node* node);

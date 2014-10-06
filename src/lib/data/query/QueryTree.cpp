@@ -162,7 +162,7 @@ std::shared_ptr<QueryNode> QueryTree::buildGroup(std::deque<std::string>& tokens
 	char delimiter = QueryOperator::getOperator(closeType);
 	bool valid = true;
 
-	while (tokens.front() != std::string(1, delimiter) && tokens.size())
+	while (tokens.size() > 0 && tokens.front() != std::string(1, delimiter))
 	{
 		group.push_back(tokens.front());
 		name += tokens.front();
