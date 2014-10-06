@@ -45,7 +45,7 @@ public:
 	void setType(NodeType type);
 	bool isType(NodeTypeMask mask) const;
 
-	const std::string& getName() const;
+	std::string getName() const;
 	std::string getFullName() const;
 
 	const std::vector<Edge*>& getEdges() const;

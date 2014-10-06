@@ -15,7 +15,7 @@ public:
 
 	std::shared_ptr<TokenComponentName> copyComponentName() const;
 
-	virtual const std::string& getName() const = 0;
+	virtual std::string getName() const = 0;
 	virtual std::string getFullName() const = 0;
 };
 
@@ -29,7 +29,7 @@ public:
 
 	virtual std::shared_ptr<TokenComponent> copy() const;
 
-	virtual const std::string& getName() const;
+	virtual std::string getName() const;
 	virtual std::string getFullName() const;
 
 private:
@@ -46,7 +46,7 @@ public:
 
 	virtual std::shared_ptr<TokenComponent> copy() const;
 
-	virtual const std::string& getName() const;
+	virtual std::string getName() const;
 	virtual std::string getFullName() const;
 
 private:

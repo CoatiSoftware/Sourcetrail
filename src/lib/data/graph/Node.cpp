@@ -54,7 +54,7 @@ bool Node::isType(NodeTypeMask mask) const
 	return (m_type & mask) > 0;
 }
 
-const std::string& Node::getName() const
+std::string Node::getName() const
 {
 	return m_nameComponent->getName();
 }

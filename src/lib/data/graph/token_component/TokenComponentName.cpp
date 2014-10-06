@@ -30,7 +30,7 @@ std::shared_ptr<TokenComponent> TokenComponentNameReferenced::copy() const
 	return std::make_shared<TokenComponentNameCached>(getFullName());
 }
 
-const std::string& TokenComponentNameReferenced::getName() const
+std::string TokenComponentNameReferenced::getName() const
 {
 	return m_searchNode->getName();
 }
@@ -55,7 +55,7 @@ std::shared_ptr<TokenComponent> TokenComponentNameCached::copy() const
 	return std::make_shared<TokenComponentNameCached>(m_fullName);
 }
 
-const std::string& TokenComponentNameCached::getName() const
+std::string TokenComponentNameCached::getName() const
 {
 	return utility::split(m_fullName, SearchIndex::DELIMITER).back();
 }
