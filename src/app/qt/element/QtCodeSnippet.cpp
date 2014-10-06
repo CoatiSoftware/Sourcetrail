@@ -8,7 +8,7 @@
 #include "ApplicationSettings.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
-#include "qt/utility/QtHighLighter.h"
+#include "qt/utility/QtHighlighter.h"
 #include "utility/messaging/type/MessageActivateToken.h"
 #include "utility/messaging/type/MessageShowFile.h"
 

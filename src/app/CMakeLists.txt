@@ -16,8 +16,8 @@ add_files(
 	qt/element/QtSearchBox.cpp
 	qt/element/QtSearchBox.h
 
-	qt/utility/QtHighLighter.cpp
-	qt/utility/QtHighLighter.h
+	qt/utility/QtHighlighter.cpp
+	qt/utility/QtHighlighter.h
 	qt/utility/QtThreadedFunctor.h
 	qt/utility/utilityQt.cpp
 	qt/utility/utilityQt.h
