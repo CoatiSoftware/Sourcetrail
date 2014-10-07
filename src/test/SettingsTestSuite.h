@@ -117,6 +117,16 @@ public:
 		TS_ASSERT_EQUALS(ProjectSettings::getInstance()->getSourcePath(), "data");
 	}
 
+	void test_load_header_search_paths_from_file()
+	{
+		ProjectSettings::getInstance()->load("data/SettingsTestSuite/settings.xml");
+		std::vector<std::string> paths = ProjectSettings::getInstance()->getHeaderSearchPaths();
+
+		TS_ASSERT_EQUALS(paths.size(), 2);
+		TS_ASSERT_EQUALS(paths[0], "data/");
+		TS_ASSERT_EQUALS(paths[1], "src/");
+	}
+
 private:
 	class TestSettings
 		: public Settings

@@ -8,5 +8,7 @@
 /bin/test/data/log/
 
 /bin/app/data/window_settings.ini
+/bin/app/data/ApplicationSettings.xml
+/bin/app/data/ProjectSettings.xml
 
 .DS_Store

@@ -304,6 +304,12 @@ Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& f
 	Node* functionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, function);
 	Edge* edge = addTypeEdge(functionNode, Edge::EDGE_TYPE_USAGE, type);
 
+	if (!edge)
+	{
+		LOG_ERROR("Could not create type usage edge.");
+		return 0;
+	}
+
 	return edge->getId();
 }
 
@@ -598,13 +604,21 @@ TokenComponentAccess::AccessType Storage::convertAccessType(ParserClient::Access
 
 TokenComponentAccess* Storage::addAccess(Node* node, ParserClient::AccessType access)
 {
-	if (access != ACCESS_NONE)
+	if (access == ACCESS_NONE)
 	{
-		std::shared_ptr<TokenComponentAccess> ptr = std::make_shared<TokenComponentAccess>(convertAccessType(access));
-		node->getMemberEdge()->addComponentAccess(ptr);
-		return ptr.get();
+		return nullptr;
 	}
-	return nullptr;
+
+	Edge* edge = node->getMemberEdge();
+	if (!edge)
+	{
+		LOG_ERROR_STREAM(<< "Cannot assign access" << access << " to node " << node->getFullName() << " because it is not a child.");
+		return nullptr;
+	}
+
+	std::shared_ptr<TokenComponentAccess> ptr = std::make_shared<TokenComponentAccess>(convertAccessType(access));
+	edge->addComponentAccess(ptr);
+	return ptr.get();
 }
 
 TokenComponentAbstraction::AbstractionType Storage::convertAbstractionType(ParserClient::AbstractionType abstraction) const

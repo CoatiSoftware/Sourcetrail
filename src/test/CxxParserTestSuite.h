@@ -981,7 +981,7 @@ public:
 		std::vector<std::string> filePaths;
 		filePaths.push_back("data/CxxParserTestSuite/header.h");
 		filePaths.push_back("data/CxxParserTestSuite/code.cpp");
-		parser.parseFiles(filePaths);
+		parser.parseFiles(filePaths, std::vector<std::string>(), std::vector<std::string>());
 
 		TS_ASSERT_EQUALS(client.typedefs.size(), 1);
 		TS_ASSERT_EQUALS(client.classes.size(), 4);

@@ -281,6 +281,12 @@ void ASTVisitor::VisitCallExprInDeclBody(clang::FunctionDecl* decl, clang::CallE
 
 	// return nullptr;
 
+	if (!expr->getDirectCallee())
+	{
+		// TODO: Save error at location.
+		return;
+	}
+
 	m_client->onCallParsed(
 		getParseLocation(expr->getSourceRange()),
 		getParseFunction(decl),
@@ -290,6 +296,12 @@ void ASTVisitor::VisitCallExprInDeclBody(clang::FunctionDecl* decl, clang::CallE
 
 void ASTVisitor::VisitCallExprInDeclBody(clang::VarDecl* decl, clang::CallExpr* expr)
 {
+	if (!expr->getDirectCallee())
+	{
+		// TODO: Save error at location.
+		return;
+	}
+
 	m_client->onCallParsed(
 		getParseLocation(expr->getSourceRange()),
 		getParseVariable(decl),
@@ -478,7 +490,10 @@ std::vector<ParseTypeUsage> ASTVisitor::getParameters(clang::FunctionDecl* decla
 	for (unsigned i = 0; i < declaration->getNumParams(); i++)
 	{
 		clang::ParmVarDecl* paramDecl = declaration->getParamDecl(i);
-		parameters.push_back(getParseTypeUsage(paramDecl->getTypeSourceInfo()->getTypeLoc(), paramDecl->getType()));
+		if (paramDecl->getTypeSourceInfo())
+		{
+			parameters.push_back(getParseTypeUsage(paramDecl->getTypeSourceInfo()->getTypeLoc(), paramDecl->getType()));
+		}
 	}
 
 	return parameters;

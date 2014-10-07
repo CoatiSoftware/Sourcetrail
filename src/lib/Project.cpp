@@ -3,12 +3,12 @@
 #include <string>
 #include <vector>
 
+#include "ApplicationSettings.h"
 #include "data/access/GraphAccessProxy.h"
 #include "data/access/LocationAccessProxy.h"
 #include "data/graph/Token.h"
 #include "data/parser/cxx/CxxParser.h"
 #include "utility/FileSystem.h"
-#include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 
 std::shared_ptr<Project> Project::create(GraphAccessProxy* graphAccessProxy, LocationAccessProxy* locationAccessProxy)
@@ -49,7 +49,8 @@ void Project::clearStorage()
 
 void Project::parseCode()
 {
-	if (ProjectSettings::getInstance()->getSourcePath() != "")
+	std::string sourcePath = ProjectSettings::getInstance()->getSourcePath();
+	if (sourcePath.size())
 	{
 		std::vector<std::string> extensions;
 		extensions.push_back(".cpp");
@@ -57,16 +58,21 @@ void Project::parseCode()
 		extensions.push_back(".h");
 		extensions.push_back(".hpp");
 
+		// Add the SourcePath as HeaderSearchPath as well.
+		std::vector<std::string> headerSearchPaths = ProjectSettings::getInstance()->getHeaderSearchPaths();
+		headerSearchPaths.push_back(sourcePath);
+
 		CxxParser parser(m_storage.get());
 		parser.parseFiles(
-			FileSystem::getSourceFilesFromDirectory(ProjectSettings::getInstance()->getSourcePath(), extensions)
+			FileSystem::getSourceFilesFromDirectory(sourcePath, extensions),
+			ApplicationSettings::getInstance()->getHeaderSearchPaths(),
+			headerSearchPaths
 		);
 
 		m_storage->logGraph();
 		m_storage->logLocations();
 
-		MessageFinishedParsing message;
-		message.dispatch();
+		MessageFinishedParsing().dispatch();
 	}
 }
 

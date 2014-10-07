@@ -24,5 +24,12 @@ ParseLocation::ParseLocation(
 
 bool ParseLocation::isValid() const
 {
-	return startLineNumber > 0 && endLineNumber >= startLineNumber;
+	if (startLineNumber == endLineNumber)
+	{
+		return startLineNumber > 0 && startColumnNumber <= endColumnNumber;
+	}
+	else
+	{
+		return startLineNumber > 0 && startLineNumber < endLineNumber;
+	}
 }

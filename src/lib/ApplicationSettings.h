@@ -12,6 +12,10 @@ public:
 	static std::shared_ptr<ApplicationSettings> getInstance();
 	~ApplicationSettings();
 
+	// source
+	std::vector<std::string> getHeaderSearchPaths() const;
+
+	// code
 	int getCodeTabWidth() const;
 	void setCodeTabWidth(int codeTabWidth);
 

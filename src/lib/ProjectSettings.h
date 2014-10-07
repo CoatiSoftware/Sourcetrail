@@ -2,6 +2,7 @@
 #define PROJECT_SETTINGS_H
 
 #include <memory>
+#include <vector>
 
 #include "Settings.h"
 
@@ -11,8 +12,11 @@ public:
 	static std::shared_ptr<ProjectSettings> getInstance();
 	~ProjectSettings();
 
+	// source
 	std::string getSourcePath() const;
 	bool setSourcePath(const std::string& sourcePath);
+
+	std::vector<std::string> getHeaderSearchPaths() const;
 
 private:
 	ProjectSettings();

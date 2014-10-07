@@ -22,10 +22,15 @@ ProjectSettings::~ProjectSettings()
 
 std::string ProjectSettings::getSourcePath() const
 {
-	return getValue<std::string>("SourcePath", "");
+	return getValue<std::string>("source/SourcePath", "");
 }
 
 bool ProjectSettings::setSourcePath(const std::string& sourcePath)
 {
-	return setValue<std::string>("SourcePath", sourcePath);
+	return setValue<std::string>("source/SourcePath", sourcePath);
+}
+
+std::vector<std::string> ProjectSettings::getHeaderSearchPaths() const
+{
+	return getValues("source/HeaderSearchPaths", "");
 }

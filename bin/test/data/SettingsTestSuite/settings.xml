@@ -5,6 +5,9 @@
 	<Float>3.1416</Float>
 	<String>Hello World!</String>
 
-	<SourcePath>data</SourcePath>
+	<source>
+		<SourcePath>data</SourcePath>
+		<HeaderSearchPaths>data/|src/</HeaderSearchPaths>
+	</source>
 </config>
 
