@@ -1,5 +1,7 @@
 #include "data/parser/cxx/ASTVisitor.h"
 
+#include <clang/Lex/Lexer.h>
+
 #include "data/parser/cxx/ASTBodyVisitor.h"
 #include "data/parser/cxx/utilityCxx.h"
 #include "data/parser/ParseFunction.h"
@@ -398,8 +400,8 @@ ParseLocation ASTVisitor::getParseLocation(const clang::SourceRange& sourceRange
 	}
 
 	const clang::SourceManager& sourceManager = m_context->getSourceManager();
-	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(sourceRange.getBegin());
-	const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(sourceRange.getEnd());
+	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(sourceRange.getBegin(), false);
+	const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(sourceRange.getEnd(), false);
 
 	return ParseLocation(
 		presumedBegin.getFilename(),
@@ -456,13 +458,13 @@ ParseTypeUsage ASTVisitor::getParseTypeUsage(clang::TypeLoc typeLoc, const clang
 
 	if (!typeLoc.isNull())
 	{
-		while (typeLoc.getNextTypeLoc())
-		{
-			typeLoc = typeLoc.getNextTypeLoc();
-		}
+		clang::SourceRange sr(
+			typeLoc.getLocStart(),
+			clang::Lexer::getLocForEndOfToken(typeLoc.getLocEnd(), 0, m_context->getSourceManager(), clang::LangOptions())
+		);
 
-		parseLocation = getParseLocation(typeLoc.getSourceRange());
-		parseLocation.endColumnNumber += dataType.getRawTypeName().size() - 1;
+		parseLocation = getParseLocation(sr);
+		parseLocation.endColumnNumber -= 1;
 	}
 
 	return ParseTypeUsage(parseLocation, dataType);

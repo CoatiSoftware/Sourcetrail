@@ -26,6 +26,9 @@ void CxxParser::parseFiles(
 	// verbose
 	// args.push_back("-v");
 
+	// The option -c signals that no executable is built.
+	args.push_back("-c");
+
 	// The option '-x c++' treats subsequent input files as C++.
 	args.push_back("-x");
 	args.push_back("c++");
