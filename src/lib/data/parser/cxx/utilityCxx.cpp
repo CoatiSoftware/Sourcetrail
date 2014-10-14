@@ -74,6 +74,11 @@ namespace utility
 			qualifierList.addQualifier(DataTypeQualifierList::QUALIFIER_CONST);
 		}
 
+		if (typeName == "_Bool")
+		{
+			typeName = "bool";
+		}
+
 		return DataType(typeName, qualifierList, modifierStack);
 	}
 }

@@ -299,7 +299,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->methods.size(), 1);
-		TS_ASSERT_EQUALS(client->methods[0], "private _Bool B::C::isGreat() const <5:8 5:14>");
+		TS_ASSERT_EQUALS(client->methods[0], "private bool B::C::isGreat() const <5:8 5:14>");
 	}
 
 	void test_cxx_parser_finds_named_namespace()
@@ -543,7 +543,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "void func(_Bool) -> int sum(int, int) <10:2 10:10>");
+		TS_ASSERT_EQUALS(client->calls[0], "void func(bool) -> int sum(int, int) <10:2 10:10>");
 	}
 
 	void test_cxx_parser_finds_call_to_function_with_right_signature()
@@ -878,7 +878,7 @@ public:
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 4);
 		TS_ASSERT_EQUALS(client->typeUses[0], "int <3:4 3:6>");
-		TS_ASSERT_EQUALS(client->typeUses[1], "_Bool <3:11 3:15>");
+		TS_ASSERT_EQUALS(client->typeUses[1], "bool <3:11 3:14>");
 		TS_ASSERT_EQUALS(client->typeUses[2], "float <3:19 3:23>");
 		TS_ASSERT_EQUALS(client->typeUses[3], "int <3:28 3:30>");
 	}
