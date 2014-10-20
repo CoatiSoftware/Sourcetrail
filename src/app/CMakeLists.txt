@@ -22,12 +22,17 @@ add_files(
 	qt/utility/utilityQt.cpp
 	qt/utility/utilityQt.h
 
+	qt/view/graphElements/nodeComponents/QtGraphNodeComponent.cpp
+	qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h
+	qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.cpp
+	qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.h
+	qt/view/graphElements/nodeComponents/QtGraphNodeComponentToggleButton.cpp
+	qt/view/graphElements/nodeComponents/QtGraphNodeComponentToggleButton.h
+	
 	qt/view/graphElements/QtGraphEdge.cpp
 	qt/view/graphElements/QtGraphEdge.h
 	qt/view/graphElements/QtGraphNode.cpp
 	qt/view/graphElements/QtGraphNode.h
-	qt/view/graphElements/QtGraphNodeMouseMovable.cpp
-	qt/view/graphElements/QtGraphNodeMouseMovable.h
 
 	qt/view/QtCodeView.cpp
 	qt/view/QtCodeView.h

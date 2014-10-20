@@ -10,7 +10,8 @@
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
 #include "qt/view/graphElements/QtGraphNode.h"
-#include "qt/view/graphElements/QtGraphNodeMouseMovable.h"
+#include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.h"
+#include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentToggleButton.h"
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)
@@ -108,6 +109,12 @@ void QtGraphView::doRebuildGraph(const std::vector<DummyNode>& nodes, const std:
 				m_edges.push_back(edge);
 			}
 		}
+
+		// hide node content by default, must be done after all edges are created to keep subnodes with connections visible
+		for(std::list<std::shared_ptr<GraphNode>>::iterator it = m_nodes.begin(); it != m_nodes.end(); it++)
+		{
+			(*it)->hideContent();
+		}
 	}
 	else
 	{
@@ -183,21 +190,24 @@ std::shared_ptr<GraphNode> QtGraphView::createNode(QGraphicsView* view, const Du
 {
 	if (view != NULL)
 	{
-		std::shared_ptr<QtGraphNodeMouseMovable> newNode =
-			std::make_shared<QtGraphNodeMouseMovable>(Vec2i(0, 0), node.name, node.tokenId);
+		std::shared_ptr<QtGraphNode> newNode =
+			std::make_shared<QtGraphNode>(Vec2i(0, 0), Vec2i(100, 30), node.name, node.tokenId);
 		view->scene()->addItem(newNode.get());
 		m_nodes.push_back(newNode);
 
-		for (unsigned int i = 0; i < node.subNodes.size(); i++)
-		{
-			std::shared_ptr<QtGraphNode> subNode = createSubNode(view, node.subNodes[i]);
-			subNode->setParentItem(newNode.get());
-			newNode->addSubNode(subNode);
-			subNode->setRect(0, 0, 80, 20);
-			subNode->moveBy(10, (i + 1) * 30);
-		}
+		newNode->addComponent(std::make_shared<QtGraphNodeComponentMoveable>(newNode));
 
-		newNode->setRect(0, 0, 100, 40 + (node.subNodes.size() * 30));
+		if(node.subNodes.size() > 0)
+		{
+			newNode->addComponent(std::make_shared<QtGraphNodeComponentToggleButton>(newNode));
+
+			for (unsigned int i = 0; i < node.subNodes.size(); i++)
+			{
+				std::shared_ptr<QtGraphNode> subNode = createSubNode(view, node.subNodes[i]);
+				subNode->setParent(newNode);
+				newNode->addSubNode(subNode);
+			}
+		}
 
 		return newNode;
 	}
@@ -212,16 +222,21 @@ std::shared_ptr<QtGraphNode> QtGraphView::createSubNode(QGraphicsView* view, con
 {
 	if (view != NULL)
 	{
-		std::shared_ptr<QtGraphNode> newNode = std::make_shared<QtGraphNode>(Vec2i(0, 0), node.name, node.tokenId);
+		std::shared_ptr<QtGraphNode> newNode = std::make_shared<QtGraphNode>(Vec2i(0, 0), Vec2i(80, 20), node.name, node.tokenId);
 		view->scene()->addItem(newNode.get());
 
-		for (unsigned int i = 0; i < node.subNodes.size(); i++)
+		if(node.subNodes.size() > 0)
 		{
-			std::shared_ptr<QtGraphNode> subNode = createSubNode(view, node.subNodes[i]);
-			subNode->setParentItem(newNode.get());
-			newNode->addSubNode(subNode);
-			subNode->setRect(0, 0, 80, 20);
-			subNode->moveBy(10, (i + 1) * 30);
+			newNode->addComponent(std::make_shared<QtGraphNodeComponentToggleButton>(newNode));
+
+			for (unsigned int i = 0; i < node.subNodes.size(); i++)
+			{
+				std::shared_ptr<QtGraphNode> subNode = createSubNode(view, node.subNodes[i]);
+				
+				subNode->setParent(newNode);
+
+				newNode->addSubNode(subNode);
+			}
 		}
 
 		return newNode;

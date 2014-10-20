@@ -9,6 +9,7 @@ public:
 	~Property();
 
 	T& operator=(const T& value);
+	T& operator=(const Property& property);
 
 	operator const T&() const;
 
@@ -31,6 +32,13 @@ template<class T>
 T& Property<T>::operator=(const T& value)
 {
 	*m_valuePointer = value;
+	return *m_valuePointer;
+}
+
+template<class T>
+T& Property<T>::operator=(const Property& property)
+{
+	*m_valuePointer = *property.m_valuePointer;
 	return *m_valuePointer;
 }
 

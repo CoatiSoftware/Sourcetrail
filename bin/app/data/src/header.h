@@ -1,8 +1,10 @@
+/*
 #include <string>
 #include <vector>
 #include <map>
 #include <memory>
 #include <functional>
+/* */
 
 const bool *abd(int abc, int bca);
 
@@ -117,6 +119,25 @@ namespace
 	};
 }
 
+noname::V voo;
+
 typedef A* D;
 
 D globalD;
+
+class E
+{
+public:
+	E(){}
+	~E(){}
+
+	class SubE
+	{
+	public:
+		SubE(){}
+		~SubE(){}
+	};
+	
+private:
+	int m_importantInt;
+};
