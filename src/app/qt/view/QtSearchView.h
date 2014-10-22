@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "component/view/SearchView.h"
-#include "qt/element/QtSearchBox.h"
+#include "qt/element/QtSearchBar.h"
 #include "qt/utility/QtThreadedFunctor.h"
 
 class QtSearchView: public SearchView
@@ -36,7 +36,7 @@ private:
 	QtThreadedFunctor<> m_setFocusFunctor;
 	QtThreadedFunctor<const std::vector<SearchIndex::SearchMatch>&> m_setAutocompletionListFunctor;
 
-	std::shared_ptr<QtSearchBox> m_widget;
+	std::shared_ptr<QtSearchBar> m_widget;
 };
 
 # endif // QT_SEARCH_VIEW_H

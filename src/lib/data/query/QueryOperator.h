@@ -21,6 +21,8 @@ public:
 		OPERATOR_OR,
 
 		OPERATOR_TOKEN,
+		OPERATOR_COMMAND,
+
 		OPERATOR_GROUP_OPEN,
 		OPERATOR_GROUP_CLOSE
 	};
@@ -29,7 +31,7 @@ public:
 	static OperatorType getOperatorType(char c);
 	static char getOperator(OperatorType t);
 
-	QueryOperator(OperatorType type);
+	QueryOperator(OperatorType type, bool isImplicit);
 	~QueryOperator();
 
 	virtual bool isCommand() const;
@@ -37,6 +39,8 @@ public:
 	virtual bool isToken() const;
 
 	virtual bool derivedIsComplete() const;
+
+	virtual std::string getName() const;
 
 	virtual void print(std::ostream& ostream) const;
 	virtual void print(std::ostream& ostream, int n) const;
@@ -51,11 +55,14 @@ public:
 
 	bool lowerPrecedence(const QueryOperator& other);
 
+	bool isImplicit() const;
+
 private:
 	std::shared_ptr<QueryNode> m_left;
 	std::shared_ptr<QueryNode> m_right;
 
 	const OperatorType m_type;
+	bool m_isImplicit;
 };
 
 #endif // QUERY_OPERATOR_H

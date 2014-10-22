@@ -6,6 +6,7 @@
 
 SearchController::SearchController(GraphAccess* graphAccess)
 	: m_graphAccess(graphAccess)
+	, m_ignoreNextMessageActivateToken(false)
 {
 }
 
@@ -15,10 +16,12 @@ SearchController::~SearchController()
 
 void SearchController::handleMessage(MessageActivateToken* message)
 {
-	if (message->tokenId)
+	if (!m_ignoreNextMessageActivateToken && message->tokenId)
 	{
 		getView()->setText(m_graphAccess->getNameForNodeWithId(message->tokenId));
 	}
+
+	m_ignoreNextMessageActivateToken = false;
 }
 
 void SearchController::handleMessage(MessageFind* message)
@@ -36,6 +39,8 @@ void SearchController::handleMessage(MessageSearch* message)
 	const std::string& query = message->query;
 
 	LOG_INFO("search string: \"" + query + "\"");
+
+	m_ignoreNextMessageActivateToken = true;
 
 	std::vector<Id> ids = m_graphAccess->getTokenIdsForQuery(query);
 	if (ids.size())

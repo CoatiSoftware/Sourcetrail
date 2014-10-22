@@ -2,7 +2,6 @@
 #define QUERY_COMMAND_H
 
 #include <map>
-#include <string>
 
 #include "data/query/QueryNode.h"
 
@@ -46,7 +45,7 @@ public:
 
 	static std::map<std::string, CommandType> getCommandTypeMap();
 
-	QueryCommand(const std::string& name);
+	QueryCommand(std::string name);
 	~QueryCommand();
 
 	virtual bool isCommand() const;
@@ -55,13 +54,17 @@ public:
 
 	virtual bool derivedIsComplete() const;
 
+	virtual std::string getName() const;
+
 	virtual void print(std::ostream& ostream) const;
 
 	CommandType getType() const;
 
+	static const char BOUNDARY;
+
 private:
 	CommandType m_type;
-	const std::string m_name;
+	std::string m_name;
 };
 
 #endif // QUERY_COMMAND_H

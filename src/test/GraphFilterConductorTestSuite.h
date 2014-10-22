@@ -77,14 +77,14 @@ public:
 	void test_command_query()
 	{
 		TS_ASSERT_EQUALS(
-			printedFilteredTestGraph("method"),
+			printedFilteredTestGraph("'method'"),
 
 			"5 nodes: method:A::A method:A::A method:A::getCount method:A::process method:B::process\n"
 			"0 edges:\n"
 		);
 
 		TS_ASSERT_EQUALS(
-			printedFilteredTestGraph("class"),
+			printedFilteredTestGraph("'class'"),
 
 			"2 nodes: class:A class:B\n"
 			"0 edges:\n"
@@ -94,7 +94,7 @@ public:
 	void test_operator_not()
 	{
 		TS_ASSERT_EQUALS(
-			printedFilteredTestGraph("!method"),
+			printedFilteredTestGraph("!'method'"),
 
 			"7 nodes: "
 				"class:A field:A::count undefined_type:int undefined_type:void class:B function:main "
@@ -108,7 +108,7 @@ public:
 	void test_operator_sub()
 	{
 		TS_ASSERT_EQUALS(
-			printedFilteredTestGraph("class.base"),
+			printedFilteredTestGraph("'class'.'base'"),
 
 			"1 nodes: class:A\n"
 			"0 edges:\n"
@@ -118,7 +118,7 @@ public:
 	void test_operator_has()
 	{
 		TS_ASSERT_EQUALS(
-			printedFilteredTestGraph("\"A\":field"),
+			printedFilteredTestGraph("\"A\">'field'"),
 
 			"1 nodes: field:A::count\n"
 			"0 edges:\n"
@@ -128,7 +128,7 @@ public:
 	void test_operator_or()
 	{
 		TS_ASSERT_EQUALS(
-			printedFilteredTestGraph("(static|const)"),
+			printedFilteredTestGraph("('static'|'const')"),
 
 			"4 nodes: field:A::count method:A::getCount method:A::process method:B::process\n"
 			"0 edges:\n"
@@ -138,7 +138,7 @@ public:
 	void test_operator_group()
 	{
 		TS_ASSERT_EQUALS(
-			printedFilteredTestGraph("(static|const).public"),
+			printedFilteredTestGraph("('static'|'const').'public'"),
 
 			"1 nodes: method:A::getCount\n"
 			"0 edges:\n"

@@ -211,4 +211,29 @@ public:
 		TS_ASSERT(!utility::isPrefix(foo, bar));
 		TS_ASSERT(!utility::isPrefix(bar, foo));
 	}
+
+	void test_equals_case_insensitive_with_different_cases()
+	{
+		const std::string foo = "FooBar";
+		const std::string foo2 = "foobar";
+
+		TS_ASSERT(utility::equalsCaseInsensitive(foo, foo2));
+	}
+
+	void test_equals_case_insensitive_with_same_cases()
+	{
+		const std::string foo = "foobar";
+		const std::string foo2 = "foobar";
+
+		TS_ASSERT(utility::equalsCaseInsensitive(foo, foo2));
+	}
+
+	void test_equals_case_insensitive_with_different_strings()
+	{
+		const std::string foo = "foo";
+		const std::string foo2 = "foobar";
+
+		TS_ASSERT(!utility::equalsCaseInsensitive(foo, foo2));
+	}
+
 };

@@ -1,5 +1,7 @@
 #include "utility/utilityString.h"
 
+#include <strings.h>
+
 namespace utility
 {
 	std::deque<std::string> split(const std::string& str, char delimiter)
@@ -115,5 +117,10 @@ namespace utility
 		ResType res = std::mismatch(prefix.begin(), prefix.end(), text.begin());
 
 		return res.first == prefix.end();
+	}
+
+	bool equalsCaseInsensitive(const std::string& a, const std::string& b)
+	{
+		return strcasecmp(a.c_str(), b.c_str()) == 0;
 	}
 }

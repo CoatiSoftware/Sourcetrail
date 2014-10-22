@@ -8,17 +8,17 @@
 
 #include "data/SearchIndex.h"
 
-class QLineEdit;
 class QPushButton;
+class QtSmartSearchBox;
 
-class QtSearchBox
+class QtSearchBar
 	: public QFrame
 {
 	Q_OBJECT
 
 public:
-	QtSearchBox();
-	virtual ~QtSearchBox();
+	QtSearchBar();
+	virtual ~QtSearchBar();
 
 	void setText(const std::string& text);
 	void setFocus();
@@ -26,23 +26,10 @@ public:
 
 	QAbstractItemView* getCompleterPopup();
 
-private slots:
-	void onSearchButtonClick();
-	void onSearchQueryEdited(const QString& text);
-	void onSearchQueryChanged(const QString& text);
-	void onSearchCompletionHighlighted(const QModelIndex& index);
-	void onSearchCompletionActivated(const QString& text);
-
 private:
-	QLineEdit* m_searchBox;
+	QtSmartSearchBox* m_searchBox;
 	QPushButton* m_searchButton;
 	QPushButton* m_caseSensitiveButton;
-
-	std::string m_query;
-	std::string m_oldQuery;
-	bool m_preventQueryChange;
-
-	std::vector<SearchIndex::SearchMatch> m_matches;
 };
 
 #endif // QT_SEARCH_BOX_H

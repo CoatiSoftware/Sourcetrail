@@ -8,19 +8,22 @@
 
 #include "data/query/QueryOperator.h"
 
-class QueryNode;
-
 class QueryTree
 {
 public:
 	static std::deque<std::string> tokenizeQuery(const std::string& query);
+	static std::string getTokenName(const std::string& token);
+	static std::string getTokenTypeName(const std::string& token);
 
+	QueryTree();
 	QueryTree(const std::string& query);
 	~QueryTree();
 
 	std::shared_ptr<QueryNode> getRoot() const;
 
 	bool isValid() const;
+
+	void build(const std::string& query);
 
 	void print(std::ostream& ostream) const;
 

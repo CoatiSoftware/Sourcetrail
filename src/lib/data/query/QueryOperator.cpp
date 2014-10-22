@@ -1,5 +1,6 @@
 #include "data/query/QueryOperator.h"
 
+#include "data/query/QueryCommand.h"
 #include "data/query/QueryToken.h"
 
 const std::map<char, QueryOperator::OperatorType>& QueryOperator::getOperatorTypeMap()
@@ -15,11 +16,12 @@ const std::map<char, QueryOperator::OperatorType>& QueryOperator::getOperatorTyp
 
 	operatorMap.emplace('!', OPERATOR_NOT);
 	operatorMap.emplace('.', OPERATOR_SUB);
-	operatorMap.emplace(':', OPERATOR_HAS);
+	operatorMap.emplace('>', OPERATOR_HAS);
 	operatorMap.emplace('&', OPERATOR_AND);
 	operatorMap.emplace('|', OPERATOR_OR);
 
 	operatorMap.emplace(QueryToken::BOUNDARY, OPERATOR_TOKEN);
+	operatorMap.emplace(QueryCommand::BOUNDARY, OPERATOR_COMMAND);
 
 	operatorMap.emplace('(', OPERATOR_GROUP_OPEN);
 	operatorMap.emplace(')', OPERATOR_GROUP_CLOSE);
@@ -53,8 +55,9 @@ char QueryOperator::getOperator(OperatorType t)
 	return '\0';
 }
 
-QueryOperator::QueryOperator(OperatorType type)
+QueryOperator::QueryOperator(OperatorType type, bool isImplicit)
 	: m_type(type)
+	, m_isImplicit(isImplicit)
 {
 }
 
@@ -87,9 +90,19 @@ bool QueryOperator::derivedIsComplete() const
 	return getLeft() && getRight();
 }
 
+std::string QueryOperator::getName() const
+{
+	return std::string(1, getOperator(m_type));
+}
+
 void QueryOperator::print(std::ostream& ostream) const
 {
 	ostream << getOperator(m_type);
+
+	if (isImplicit())
+	{
+		ostream << " IMPLICIT";
+	}
 }
 
 void QueryOperator::print(std::ostream& ostream, int n) const
@@ -135,4 +148,9 @@ QueryOperator::OperatorType QueryOperator::getType() const
 bool QueryOperator::lowerPrecedence(const QueryOperator& other)
 {
 	return m_type < other.m_type;
+}
+
+bool QueryOperator::isImplicit() const
+{
+	return m_isImplicit;
 }

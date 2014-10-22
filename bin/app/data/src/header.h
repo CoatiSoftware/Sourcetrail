@@ -1,11 +1,3 @@
-/*
-#include <string>
-#include <vector>
-#include <map>
-#include <memory>
-#include <functional>
-/* */
-
 const bool *abd(int abc, int bca);
 
 bool const *abc(int a, int b);
@@ -137,7 +129,7 @@ public:
 		SubE(){}
 		~SubE(){}
 	};
-	
+
 private:
 	int m_importantInt;
 };

@@ -13,8 +13,10 @@ add_files(
 	qt/element/QtCodeSnippet.h
 	qt/element/QtMainWindow.cpp
 	qt/element/QtMainWindow.h
-	qt/element/QtSearchBox.cpp
-	qt/element/QtSearchBox.h
+	qt/element/QtSearchBar.cpp
+	qt/element/QtSearchBar.h
+	qt/element/QtSmartSearchBox.cpp
+	qt/element/QtSmartSearchBox.h
 
 	qt/utility/QtHighlighter.cpp
 	qt/utility/QtHighlighter.h

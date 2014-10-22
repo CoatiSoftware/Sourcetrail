@@ -48,10 +48,12 @@ std::map<std::string, QueryCommand::CommandType> QueryCommand::getCommandTypeMap
 	return commandMap;
 }
 
-QueryCommand::QueryCommand(const std::string& name)
+QueryCommand::QueryCommand(std::string name)
 	: m_type(COMMAND_INVALID)
-	, m_name(name)
 {
+	name.erase(std::remove(name.begin(), name.end(), BOUNDARY), name.end());
+	m_name = name;
+
 	std::map<std::string, CommandType> commandMap = getCommandTypeMap();
 	std::map<std::string, CommandType>::iterator it = commandMap.find(name);
 
@@ -85,12 +87,19 @@ bool QueryCommand::derivedIsComplete() const
 	return m_type != COMMAND_INVALID;
 }
 
+std::string QueryCommand::getName() const
+{
+	return m_name;
+}
+
 void QueryCommand::print(std::ostream& ostream) const
 {
-	ostream << m_name;
+	ostream << BOUNDARY << m_name << BOUNDARY;
 }
 
 QueryCommand::CommandType QueryCommand::getType() const
 {
 	return m_type;
 }
+
+const char QueryCommand::BOUNDARY = '\'';

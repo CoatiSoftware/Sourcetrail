@@ -36,6 +36,8 @@ private:
 	SearchView* getView();
 
 	GraphAccess* m_graphAccess;
+
+	bool m_ignoreNextMessageActivateToken;
 };
 
 #endif // SEARCH_CONTROLLER_H

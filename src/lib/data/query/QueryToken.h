@@ -2,7 +2,6 @@
 #define QUERY_TOKEN_H
 
 #include <set>
-#include <string>
 
 #include "data/query/QueryNode.h"
 #include "utility/types.h"
@@ -11,7 +10,7 @@ class QueryToken
 	: public QueryNode
 {
 public:
-	QueryToken(const std::string& name);
+	QueryToken(std::string name);
 	~QueryToken();
 
 	virtual bool isCommand() const;
@@ -19,6 +18,8 @@ public:
 	virtual bool isToken() const;
 
 	virtual bool derivedIsComplete() const;
+
+	virtual std::string getName() const;
 
 	virtual void print(std::ostream& ostream) const;
 

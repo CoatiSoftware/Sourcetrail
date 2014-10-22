@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cctype>
 
+#include "data/query/QueryCommand.h"
 #include "data/query/QueryToken.h"
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
@@ -41,7 +42,7 @@ std::string SearchIndex::SearchMatch::encodeForQuery() const
 {
 	if (!tokenIds.size())
 	{
-		return fullName;
+		return QueryCommand::BOUNDARY + fullName + QueryCommand::BOUNDARY;
 	}
 
 	std::stringstream ss;

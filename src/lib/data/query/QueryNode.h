@@ -2,6 +2,7 @@
 #define QUERY_NODE_H
 
 #include <ostream>
+#include <string>
 
 class QueryNode
 {
@@ -14,6 +15,8 @@ public:
 	virtual bool isToken() const = 0;
 
 	virtual bool derivedIsComplete() const = 0;
+
+	virtual std::string getName() const = 0;
 
 	virtual void print(std::ostream& ostream) const = 0;
 	virtual void print(std::ostream& ostream, int n) const;

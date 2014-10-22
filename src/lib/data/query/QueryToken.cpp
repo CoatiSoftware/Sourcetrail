@@ -4,8 +4,9 @@
 
 #include "utility/utilityString.h"
 
-QueryToken::QueryToken(const std::string& name)
+QueryToken::QueryToken(std::string name)
 {
+	name.erase(std::remove(name.begin(), name.end(), BOUNDARY), name.end());
 	std::deque<std::string> names = utility::split(name, DELIMITER);
 
 	m_tokenName = names.front();
@@ -48,6 +49,11 @@ bool QueryToken::isToken() const
 bool QueryToken::derivedIsComplete() const
 {
 	return true;
+}
+
+std::string QueryToken::getName() const
+{
+	return m_tokenName;
 }
 
 void QueryToken::print(std::ostream& ostream) const

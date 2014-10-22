@@ -16,7 +16,10 @@ std::deque<std::string> QueryTree::tokenizeQuery(const std::string& query)
 	}
 
 	char operatorToken = QueryOperator::getOperator(QueryOperator::OPERATOR_TOKEN);
+	char operatorCommand = QueryOperator::getOperator(QueryOperator::OPERATOR_COMMAND);
+
 	bool isToken = false;
+	bool isCommand = false;
 
 	std::string token;
 	std::deque<std::string> tokens;
@@ -28,12 +31,19 @@ std::deque<std::string> QueryTree::tokenizeQuery(const std::string& query)
 
 		token += tokenTmp;
 
-		if (tokenTmp.size() == 1 && tokenTmp[0] == operatorToken)
+		if (tokenTmp.size() == 1)
 		{
-			isToken = !isToken;
+			if (tokenTmp[0] == operatorToken && !isCommand)
+			{
+				isToken = !isToken;
+			}
+			else if (tokenTmp[0] == operatorCommand && !isToken)
+			{
+				isCommand = !isCommand;
+			}
 		}
 
-		if (!isToken || (!tokensTmp.size() && token.size()))
+		if ((!isToken && !isCommand) || (!tokensTmp.size() && token.size()))
 		{
 			tokens.push_back(token);
 			token.clear();
@@ -43,14 +53,47 @@ std::deque<std::string> QueryTree::tokenizeQuery(const std::string& query)
 	return tokens;
 }
 
+std::string QueryTree::getTokenName(const std::string& token)
+{
+	if (token.size() > 2 && token.front() == QueryToken::BOUNDARY && token.back() == QueryToken::BOUNDARY)
+	{
+		return QueryToken(token).getName();
+	}
+	else if (token.size() > 2 && token.front() == QueryCommand::BOUNDARY && token.back() == QueryCommand::BOUNDARY)
+	{
+		return QueryCommand(token).getName();
+	}
+
+	return token;
+}
+
+std::string QueryTree::getTokenTypeName(const std::string& token)
+{
+	if (token.size() > 2 && token.front() == QueryToken::BOUNDARY && token.back() == QueryToken::BOUNDARY)
+	{
+		return "token";
+	}
+	else if (token.size() > 2 && token.front() == QueryCommand::BOUNDARY && token.back() == QueryCommand::BOUNDARY)
+	{
+		return "command";
+	}
+	else if (token.size() == 1 && QueryOperator::getOperatorType(token.front()) != QueryOperator::OPERATOR_NONE)
+	{
+		return "operator";
+	}
+
+	return "none";
+}
+
+QueryTree::QueryTree()
+	: m_valid(true)
+{
+}
+
 QueryTree::QueryTree(const std::string& query)
 	: m_valid(true)
 {
-	std::deque<std::string> tokens = tokenizeQuery(query);
-
-	m_query = utility::join(tokens, ' ');
-
-	m_root = buildTree(tokens, nullptr);
+	build(query);
 }
 
 QueryTree::~QueryTree()
@@ -65,6 +108,16 @@ std::shared_ptr<QueryNode> QueryTree::getRoot() const
 bool QueryTree::isValid() const
 {
 	return m_valid;
+}
+
+void QueryTree::build(const std::string& query)
+{
+	std::deque<std::string> tokens = tokenizeQuery(query);
+
+	m_query = utility::join(tokens, ' ');
+
+	m_valid = true;
+	m_root = buildTree(tokens, nullptr);
 }
 
 void QueryTree::print(std::ostream& ostream) const
@@ -99,7 +152,7 @@ std::shared_ptr<QueryNode> QueryTree::buildTree(std::deque<std::string>& tokens,
 	{
 		if (node->isComplete())
 		{
-			std::shared_ptr<QueryOperator> subNode = std::make_shared<QueryOperator>(QueryOperator::OPERATOR_SUB);
+			std::shared_ptr<QueryOperator> subNode = std::make_shared<QueryOperator>(QueryOperator::OPERATOR_SUB, true);
 			subNode->setLeft(frontNode);
 			subNode->setRight(node);
 			node = subNode;
@@ -207,10 +260,13 @@ std::shared_ptr<QueryNode> QueryTree::getNextNode(std::deque<std::string>& token
 		case QueryOperator::OPERATOR_HAS:
 		case QueryOperator::OPERATOR_AND:
 		case QueryOperator::OPERATOR_OR:
-			return std::make_shared<QueryOperator>(type);
+			return std::make_shared<QueryOperator>(type, false);
 
 		case QueryOperator::OPERATOR_TOKEN:
 			return createToken(token);
+
+		case QueryOperator::OPERATOR_COMMAND:
+			return createCommand(token);
 
 		case QueryOperator::OPERATOR_GROUP_OPEN:
 			return buildGroup(tokens, QueryOperator::OPERATOR_GROUP_CLOSE);
@@ -219,7 +275,7 @@ std::shared_ptr<QueryNode> QueryTree::getNextNode(std::deque<std::string>& token
 			break;
 
 		case QueryOperator::OPERATOR_NONE:
-			return createCommand(token);
+			return createToken(token);
 		}
 	}
 
@@ -228,12 +284,16 @@ std::shared_ptr<QueryNode> QueryTree::getNextNode(std::deque<std::string>& token
 
 std::shared_ptr<QueryNode> QueryTree::createCommand(const std::string& name)
 {
+	if (name.size() < 3 || name.front() != QueryCommand::BOUNDARY || name.back() != QueryCommand::BOUNDARY)
+	{
+		m_valid = false;
+	}
+
 	std::shared_ptr<QueryCommand> node = std::make_shared<QueryCommand>(name);
 
 	if (node->getType() == QueryCommand::COMMAND_INVALID)
 	{
 		m_valid = false;
-		return nullptr;
 	}
 
 	return node;
@@ -244,10 +304,9 @@ std::shared_ptr<QueryNode> QueryTree::createToken(const std::string& name)
 	if (name.size() < 3 || name.front() != QueryToken::BOUNDARY || name.back() != QueryToken::BOUNDARY)
 	{
 		m_valid = false;
-		return nullptr;
 	}
 
-	return std::make_shared<QueryToken>(name.substr(1, name.size() - 2));
+	return std::make_shared<QueryToken>(name);
 }
 
 std::ostream& operator<<(std::ostream& ostream, const QueryTree& tree)
