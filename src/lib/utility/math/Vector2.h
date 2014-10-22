@@ -134,8 +134,8 @@ template<class U>
 void Vector2<T>::operator=(const Vector2<U>& other)
 {
 	this->assign(other);
-	x = Property(&VectorBase<T, 2>::m_values[m_xIndex]);
-	y = Property(&VectorBase<T, 2>::m_values[m_yIndex]);
+	x = Property<T>(&VectorBase<T, 2>::m_values[m_xIndex]);
+	y = Property<T>(&VectorBase<T, 2>::m_values[m_yIndex]);
 }
 
 typedef Vector2<float> Vec2f;

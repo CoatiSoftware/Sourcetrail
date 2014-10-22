@@ -11,7 +11,7 @@ class QtGraphNodeComponent
 {
 public:
 	QtGraphNodeComponent(const std::weak_ptr<QtGraphNode>& graphNode);
-	~QtGraphNodeComponent();
+	virtual ~QtGraphNodeComponent();
 
 	virtual void nodeMousePressEvent(QGraphicsSceneMouseEvent* event) = 0;
 	virtual void nodeMouseMoveEvent(QGraphicsSceneMouseEvent* event) = 0;
