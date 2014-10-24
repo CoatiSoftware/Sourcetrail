@@ -75,7 +75,7 @@ public:
 
 			"A \" INVALID\n"
 			"	\"A\"\n"
-			". IMPLICIT\n"
+			"> IMPLICIT\n"
 			"	\"\"\n"
 		);
 	}
@@ -276,36 +276,36 @@ public:
 
 			"\"A\" ( \"B\" )\n"
 			"	\"A\"\n"
-			". IMPLICIT\n"
+			"> IMPLICIT\n"
 			"	(\"B\")\n"
 		);
 	}
 
-	void test_operator_precedence_not_before_sub()
+	void test_operator_precedence_not_before_has()
 	{
 		TS_ASSERT_EQUALS(
-			printedQueryTree("!'method'.!'const'"),
+			printedQueryTree("!'struct'.!'const'"),
 
-			"! 'method' . ! 'const'\n"
+			"! 'struct' . ! 'const'\n"
 			"	!\n"
-			"		'method'\n"
+			"		'struct'\n"
 			".\n"
 			"	!\n"
 			"		'const'\n"
 		);
 	}
 
-	void test_operator_precedence_sub_before_has()
+	void test_operator_precedence_has_before_sub()
 	{
 		TS_ASSERT_EQUALS(
-			printedQueryTree("'namespace'.'class'>'method'"),
+			printedQueryTree("'namespace'.'class'>'base'"),
 
-			"'namespace' . 'class' > 'method'\n"
+			"'namespace' . 'class' > 'base'\n"
 			"		'namespace'\n"
 			"	.\n"
 			"		'class'\n"
 			">\n"
-			"	'method'\n"
+			"	'base'\n"
 		);
 	}
 

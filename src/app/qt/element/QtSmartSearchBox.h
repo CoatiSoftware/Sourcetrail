@@ -64,6 +64,7 @@ private:
 	void moveCursorTo(int goal);
 
 	void textToToken(std::string text);
+	void setEditText(const QString& text);
 	bool editTextToElement();
 	void editElement(QtQueryElement* element);
 
@@ -80,6 +81,7 @@ private:
 	void updatePlaceholder();
 	void clearLineEdit();
 
+	bool m_allowTextChange;
 	QString m_oldText;
 
 	std::deque<std::string> m_tokens;

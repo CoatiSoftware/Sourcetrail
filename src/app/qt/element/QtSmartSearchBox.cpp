@@ -36,6 +36,7 @@ void QtSmartSearchBox::search()
 
 QtSmartSearchBox::QtSmartSearchBox(QWidget* parent)
 	: QLineEdit(parent)
+	, m_allowTextChange(false)
 	, m_cursorIndex(0)
 	, m_shiftKeyDown(false)
 	, m_mousePressed(false)
@@ -55,6 +56,12 @@ void QtSmartSearchBox::setAutocompletionList(const std::vector<SearchIndex::Sear
 {
 	m_matches = autocompletionList;
 
+	if (!m_matches.size())
+	{
+		setCompleter(0);
+		return;
+	}
+
 	QStringList wordList;
 	for (const SearchIndex::SearchMatch& match: autocompletionList)
 	{
@@ -70,6 +77,8 @@ void QtSmartSearchBox::setAutocompletionList(const std::vector<SearchIndex::Sear
 
 	connect(completer, SIGNAL(highlighted(const QModelIndex&)), this, SLOT(onSearchCompletionHighlighted(const QModelIndex&)), Qt::DirectConnection);
 	connect(completer, SIGNAL(activated(const QModelIndex&)), this, SLOT(onSearchCompletionActivated(const QModelIndex&)), Qt::DirectConnection);
+
+	completer->popup()->setCurrentIndex(completer->completionModel()->index(0, 0));
 }
 
 void QtSmartSearchBox::setQuery(const std::string& text)
@@ -223,7 +232,7 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 	}
 	else if (event->matches(QKeySequence::Paste))
 	{
-		setText(text() + QApplication::clipboard()->text());
+		setEditText(text() + QApplication::clipboard()->text());
 		onTextEdited(text());
 		return;
 	}
@@ -304,7 +313,10 @@ void QtSmartSearchBox::mouseReleaseEvent(QMouseEvent* event)
 
 void QtSmartSearchBox::onTextEdited(const QString& text)
 {
+	m_allowTextChange = true;
 	deleteSelectedElements();
+
+	bool tokensChanged = false;
 
 	std::string token;
 	std::deque<std::string> tokens = QueryTree::tokenizeQuery(text.toStdString());
@@ -317,12 +329,13 @@ void QtSmartSearchBox::onTextEdited(const QString& text)
 		{
 			textToToken(token);
 			token.clear();
+			tokensChanged = true;
 		}
 	}
 
-	if (text.toStdString() != token)
+	if (tokensChanged)
 	{
-		setText(QString::fromStdString(token));
+		setEditText(QString::fromStdString(token));
 		updateElements();
 	}
 	else
@@ -338,18 +351,28 @@ void QtSmartSearchBox::onTextEdited(const QString& text)
 
 void QtSmartSearchBox::onTextChanged(const QString& text)
 {
-	if (m_oldText.size())
+	if (!m_allowTextChange)
 	{
 		setText(m_oldText);
+
+		// This prevents the completer from disappearing while navigating the completion popup.
+		if (completer() && !completer()->signalsBlocked())
+		{
+			completer()->popup()->show();
+		}
+	}
+	else
+	{
+		m_oldText = text;
 	}
 
-	m_oldText.clear();
+	m_allowTextChange = false;
+
 	updatePlaceholder();
 }
 
 void QtSmartSearchBox::onSearchCompletionHighlighted(const QModelIndex& index)
 {
-	m_oldText = text();
 }
 
 void QtSmartSearchBox::onSearchCompletionActivated(const QModelIndex& index)
@@ -443,6 +466,12 @@ void QtSmartSearchBox::textToToken(std::string text)
 	m_cursorIndex++;
 }
 
+void QtSmartSearchBox::setEditText(const QString& text)
+{
+	m_allowTextChange = true;
+	setText(text);
+}
+
 bool QtSmartSearchBox::editTextToElement()
 {
 	if (text().size())
@@ -471,7 +500,7 @@ void QtSmartSearchBox::editElement(QtQueryElement* element)
 	std::string token = QueryTree::getTokenName(m_tokens[m_cursorIndex]);
 	m_tokens.erase(m_tokens.begin() + m_cursorIndex);
 
-	setText(QString::fromStdString(token));
+	setEditText(QString::fromStdString(token));
 	updateElements();
 
 	MessageSearchAutocomplete(token).dispatch();
@@ -631,7 +660,7 @@ void QtSmartSearchBox::updatePlaceholder()
 
 void QtSmartSearchBox::clearLineEdit()
 {
-	setText("");
+	setEditText("");
 
 	if (completer())
 	{
