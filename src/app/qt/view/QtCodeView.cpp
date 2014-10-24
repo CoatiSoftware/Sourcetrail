@@ -67,7 +67,7 @@ void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
 	m_windows.push_back(ptr);
 
 	ptr->setShowMaximizeButton(false);
-	ptr->addCodeSnippet(1, params.code, params.locationFile, params.activeTokenIds);
+	ptr->addCodeSnippet(1, params.code, params.locationFile, m_activeTokenIds);
 
 	ptr->setWindowTitle(FileSystem::fileName(params.locationFile.getFilePath()).c_str());
 	ptr->show();
@@ -81,12 +81,12 @@ void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
 
 void QtCodeView::doAddCodeSnippet(const CodeSnippetParams& params)
 {
-	m_widget->addCodeSnippet(params.startLineNumber, params.code, params.locationFile, params.activeTokenIds);
+	m_widget->addCodeSnippet(params.startLineNumber, params.code, params.locationFile, m_activeTokenIds);
 
 	clearClosedWindows();
 	for (std::shared_ptr<QtCodeFileList> window: m_windows)
 	{
-		window->setActiveTokenIds(params.activeTokenIds);
+		window->setActiveTokenIds(m_activeTokenIds);
 	}
 }
 
@@ -105,6 +105,11 @@ std::shared_ptr<QtCodeFileList> QtCodeView::createQtCodeFileList() const
 void QtCodeView::setStyleSheet(QWidget* widget) const
 {
 	widget->setStyleSheet(TextAccess::createFromFile("data/gui/code_view/code_view.css")->getText().c_str());
+}
+
+void QtCodeView::setActiveTokenIds(std::vector<Id> ids)
+{
+	m_activeTokenIds = ids;		
 }
 
 void QtCodeView::clearClosedWindows()

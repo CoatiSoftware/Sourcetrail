@@ -19,8 +19,14 @@ public:
 		uint lineCount;
 
 		std::string code;
-		TokenLocationFile locationFile;
-		std::vector<Id> activeTokenIds;
+
+		TokenLocationFile locationFile;		
+
+		bool isActive;
+		bool isDeclaration;
+
+		//comparefunctions for snippetsorting
+		static bool sort(CodeSnippetParams a, CodeSnippetParams b);
 	};
 
 	CodeView(ViewLayout* viewLayout);
@@ -31,6 +37,7 @@ public:
 	virtual void showCodeFile(const CodeSnippetParams& params) = 0;
 	virtual void addCodeSnippet(const CodeSnippetParams& params) = 0;
 	virtual void clearCodeSnippets() = 0;
+	virtual void setActiveTokenIds(std::vector<Id> ids) = 0;
 
 private:
 	CodeController* getController();

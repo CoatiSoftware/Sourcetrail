@@ -37,7 +37,7 @@ private:
 	std::shared_ptr<QtCodeFileList> createQtCodeFileList() const;
 
 	void setStyleSheet(QWidget* widget) const;
-
+	void setActiveTokenIds(std::vector<Id> ids);
 	void clearClosedWindows();
 
 	QtThreadedFunctor<> m_refreshViewFunctor;
@@ -47,6 +47,7 @@ private:
 
 	std::shared_ptr<QtCodeFileList> m_widget;
 	std::vector<std::shared_ptr<QtCodeFileList>> m_windows;
+	std::vector<Id> m_activeTokenIds;
 };
 
 # endif // QT_CODE_VIEW_H

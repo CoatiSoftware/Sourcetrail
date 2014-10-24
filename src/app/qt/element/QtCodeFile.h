@@ -15,10 +15,10 @@ class TokenLocationFile;
 class QtCodeFile : public QWidget
 {
 public:
-	QtCodeFile(const std::string& fileName, QWidget *parent = 0);
+	QtCodeFile(const std::string& filePath, QWidget *parent = 0);
 	virtual ~QtCodeFile();
 
-	const std::string& getFileName() const;
+	std::string getFileName() const;
 
 	void addCodeSnippet(
 		uint startLineNumber,
@@ -32,7 +32,7 @@ public:
 
 private:
 	std::vector<std::shared_ptr<QtCodeSnippet> > m_snippets;
-	const std::string m_fileName;
+	const std::string m_filePath;
 	bool m_showMaximizeButton;
 };
 

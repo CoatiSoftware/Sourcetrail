@@ -17,6 +17,8 @@ public:
 
 	static bool exists(const std::string& path);
 	static std::string fileName(const std::string& path);
+	static std::string extension(const std::string& path);
+	static std::string filePathWithoutExtension(const std::string& path);
 
 private:
 	static bool isValidExtension(const std::string& filepath, const std::vector<std::string>& extensions);

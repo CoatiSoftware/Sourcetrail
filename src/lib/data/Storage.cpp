@@ -392,7 +392,7 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 	return graph;
 }
 
-std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId) const
+std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId, Id& declarationId) const
 {
 	std::vector<Id> ret;
 	Token* token = m_graph.getTokenById(tokenId);
@@ -401,17 +401,22 @@ std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId) const
 		return ret;
 	}
 
+	ret.push_back(token->getId());
+
 	Node* node;
 	if (token->isEdge())
 	{
 		node = dynamic_cast<Edge*>(token)->getTo();
+		declarationId = node->getId();
+		ret.push_back(node->getId());
 	}
 	else
-	{
+	{		
 		node = dynamic_cast<Node*>(token);
+		declarationId = node->getId();
 	}
 
-	ret.push_back(node->getId());
+	//ret.push_back(node->getId());
 
 	node->forEachEdge(
 		[&node, &ret](Edge* e)

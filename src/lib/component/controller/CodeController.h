@@ -33,7 +33,7 @@ public:
 	CodeController(GraphAccess* graphAccess, LocationAccess* locationAccess);
 	~CodeController();
 
-	void setActiveTokenIds(const std::vector<Id>& ids);
+	void setActiveTokenIds(const std::vector<Id>& ids, Id activeId, Id declarationId);
 
 private:
 	virtual void handleMessage(MessageActivateToken* message);
@@ -42,6 +42,8 @@ private:
 	virtual void handleMessage(MessageShowFile* message);
 
 	CodeView* getView();
+
+	static const uint s_lineRadius;
 
 	std::vector<std::pair<uint, uint>> getSnippetRangesForFile(TokenLocationFile* file, const uint lineRadius) const;
 

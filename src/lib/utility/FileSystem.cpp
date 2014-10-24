@@ -55,3 +55,13 @@ std::string FileSystem::fileName(const std::string& path)
 {
 	return boost::filesystem::path(path).filename().generic_string();
 }
+
+std::string FileSystem::extension(const std::string& path)
+{
+	return boost::filesystem::path(path).extension().generic_string();
+}
+
+std::string FileSystem::filePathWithoutExtension(const std::string& path)
+{
+	return boost::filesystem::path(path).replace_extension().generic_string();
+}

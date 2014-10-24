@@ -4,10 +4,11 @@
 #include <QVBoxLayout>
 
 #include "qt/element/QtCodeSnippet.h"
+#include "utility/FileSystem.h"
 
-QtCodeFile::QtCodeFile(const std::string& fileName, QWidget *parent)
+QtCodeFile::QtCodeFile(const std::string& filePath, QWidget *parent)
 	: QWidget(parent)
-	, m_fileName(fileName)
+	, m_filePath(filePath)
 	, m_showMaximizeButton(true)
 {
 	setObjectName("code_file");
@@ -18,10 +19,10 @@ QtCodeFile::QtCodeFile(const std::string& fileName, QWidget *parent)
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
 
-	QLabel* label = new QLabel(fileName.c_str(), this);
+	QLabel* label = new QLabel(FileSystem::fileName(filePath).c_str(), this);
 	label->setObjectName("title_label");
 	label->minimumSizeHint(); // force font loading
-	label->setFixedWidth(label->fontMetrics().width(fileName.c_str()) + 32);
+	label->setFixedWidth(label->fontMetrics().width(FileSystem::fileName(filePath).c_str()) + 32);
 	label->setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 	layout->addWidget(label);
 }
@@ -30,9 +31,9 @@ QtCodeFile::~QtCodeFile()
 {
 }
 
-const std::string& QtCodeFile::getFileName() const
+std::string QtCodeFile::getFileName() const
 {
-	return m_fileName;
+	return FileSystem::fileName(m_filePath);
 }
 
 void QtCodeFile::addCodeSnippet(

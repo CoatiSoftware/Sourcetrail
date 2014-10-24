@@ -48,7 +48,7 @@ void QtCodeFileList::addCodeSnippet(
 
 	if (!file)
 	{
-		std::shared_ptr<QtCodeFile> filePtr = std::make_shared<QtCodeFile>(fileName, this);
+		std::shared_ptr<QtCodeFile> filePtr = std::make_shared<QtCodeFile>(locationFile.getFilePath(), this);
 		m_files.push_back(filePtr);
 
 		file = filePtr.get();
