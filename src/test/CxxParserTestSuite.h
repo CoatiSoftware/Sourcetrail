@@ -7,6 +7,7 @@
 #include "data/parser/ParseTypeUsage.h"
 #include "data/parser/ParseVariable.h"
 #include "utility/text/TextAccess.h"
+#include "utility/utilityString.h"
 
 class CxxParserTestSuite: public CxxTest::TestSuite
 {
@@ -1005,28 +1006,28 @@ private:
 	{
 	public:
 		virtual Id onTypedefParsed(
-			const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& underlyingType,
+			const ParseLocation& location, const std::vector<std::string>& nameHierarchy, const ParseTypeUsage& underlyingType,
 			AccessType access
 		)
 		{
-			std::string str = addAccessPrefix(underlyingType.dataType.getFullTypeName() + " -> " + fullName, access);
+			std::string str = addAccessPrefix(underlyingType.dataType.getFullTypeName() + " -> " + utility::join(nameHierarchy, "::"), access);
 			typedefs.push_back(addLocationSuffix(str, location));
 			return 0;
 		}
 
 		virtual Id onClassParsed(
-			const ParseLocation& location, const std::string& fullName, AccessType access,
+			const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
 			const ParseLocation& scopeLocation)
 		{
-			classes.push_back(addLocationSuffix(addAccessPrefix(fullName, access), location, scopeLocation));
+			classes.push_back(addLocationSuffix(addAccessPrefix(utility::join(nameHierarchy, "::"), access), location, scopeLocation));
 			return 0;
 		}
 
 		virtual Id onStructParsed(
-			const ParseLocation& location, const std::string& fullName, AccessType access,
+			const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
 			const ParseLocation& scopeLocation)
 		{
-			structs.push_back(addLocationSuffix(addAccessPrefix(fullName, access), location, scopeLocation));
+			structs.push_back(addLocationSuffix(addAccessPrefix(utility::join(nameHierarchy, "::"), access), location, scopeLocation));
 			return 0;
 		}
 
@@ -1074,30 +1075,30 @@ private:
 		}
 
 		virtual Id onNamespaceParsed(
-			const ParseLocation& location, const std::string& fullName, const ParseLocation& scopeLocation)
+			const ParseLocation& location, const std::vector<std::string>& nameHierarchy, const ParseLocation& scopeLocation)
 		{
-			namespaces.push_back(addLocationSuffix(fullName, location, scopeLocation));
+			namespaces.push_back(addLocationSuffix(utility::join(nameHierarchy, "::"), location, scopeLocation));
 			return 0;
 		}
 
 		virtual Id onEnumParsed(
-			const ParseLocation& location, const std::string& fullName, AccessType access,
+			const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
 			const ParseLocation& scopeLocation)
 		{
-			enums.push_back(addLocationSuffix(addAccessPrefix(fullName, access), location, scopeLocation));
+			enums.push_back(addLocationSuffix(addAccessPrefix(utility::join(nameHierarchy, "::"), access), location, scopeLocation));
 			return 0;
 		}
 
-		virtual Id onEnumFieldParsed(const ParseLocation& location, const std::string& fullName)
+		virtual Id onEnumFieldParsed(const ParseLocation& location, const std::vector<std::string>& nameHierarchy)
 		{
-			enumFields.push_back(addLocationSuffix(fullName, location));
+			enumFields.push_back(addLocationSuffix(utility::join(nameHierarchy, "::"), location));
 			return 0;
 		}
 
 		virtual Id onInheritanceParsed(
-			const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access)
+			const ParseLocation& location, const std::vector<std::string>& nameHierarchy, const std::vector<std::string>& baseNameHierarchy, AccessType access)
 		{
-			std::string str = fullName + " : " + addAccessPrefix(baseName, access);
+			std::string str = utility::join(nameHierarchy, "::") + " : " + addAccessPrefix(utility::join(baseNameHierarchy, "::"), access);
 			inheritances.push_back(addLocationSuffix(str, location));
 			return 0;
 		}
@@ -1112,21 +1113,21 @@ private:
 		virtual Id onCallParsed(
 			const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee)
 		{
-			calls.push_back(addLocationSuffix(caller.fullName + " -> " + functionStr(callee), location));
+			calls.push_back(addLocationSuffix(caller.getFullName() + " -> " + functionStr(callee), location));
 			return 0;
 		}
 
 		virtual Id onFieldUsageParsed(
-			const ParseLocation& location, const ParseFunction& user, const std::string& usedName)
+			const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy)
 		{
-			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + usedName, location));
+			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + utility::join(usedNameHierarchy, "::"), location));
 			return 0;
 		}
 
 		virtual Id onGlobalVariableUsageParsed(
-			const ParseLocation& location, const ParseFunction& user, const std::string& usedName)
+			const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy)
 		{
-			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + usedName, location));
+			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + utility::join(usedNameHierarchy, "::"), location));
 			return 0;
 		}
 

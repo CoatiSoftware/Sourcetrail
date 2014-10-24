@@ -29,12 +29,14 @@ public:
 
 	// ParserClient implementation
 	virtual Id onTypedefParsed(
-		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& underlyingType,
-		AccessType access);
+		const ParseLocation& location, const std::vector<std::string>& nameHierarchy,
+		const ParseTypeUsage& underlyingType, AccessType access);
 	virtual Id onClassParsed(
-		const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation);
+		const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
+		const ParseLocation& scopeLocation);
 	virtual Id onStructParsed(
-		const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation);
+		const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
+		const ParseLocation& scopeLocation);
 
 	virtual Id onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable);
 	virtual Id onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access);
@@ -46,22 +48,24 @@ public:
 		const ParseLocation& scopeLocation);
 
 	virtual Id onNamespaceParsed(
-		const ParseLocation& location, const std::string& fullName, const ParseLocation& scopeLocation);
+		const ParseLocation& location, const std::vector<std::string>& nameHierarchy, const ParseLocation& scopeLocation);
 
 	virtual Id onEnumParsed(
-		const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation);
-	virtual Id onEnumFieldParsed(const ParseLocation& location, const std::string& fullName);
+		const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
+		const ParseLocation& scopeLocation);
+	virtual Id onEnumFieldParsed(const ParseLocation& location, const std::vector<std::string>& nameHierarchy);
 
 	virtual Id onInheritanceParsed(
-		const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access);
+		const ParseLocation& location, const std::vector<std::string>& nameHierarchy,
+		const std::vector<std::string>& baseNameHierarchy, AccessType access);
 	virtual Id onCallParsed(
 		const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee);
 	virtual Id onCallParsed(
 		const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee);
 	virtual Id onFieldUsageParsed(
-		const ParseLocation& location, const ParseFunction& user, const std::string& usedName);
+		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy);
 	virtual Id onGlobalVariableUsageParsed(
-		const ParseLocation& location, const ParseFunction& user, const std::string& usedName);
+		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy);
 	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function);
 
 	// GraphAccess implementation
@@ -90,6 +94,8 @@ protected:
 
 private:
 	void initSearchIndex();
+
+	Node* addNodeHierarchy(Node::NodeType type, std::vector<std::string> nameHierarchy);
 
 	Node* addNodeHierarchy(Node::NodeType type, const std::string& fullName);
 	Node* addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function);

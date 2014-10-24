@@ -1,5 +1,7 @@
 #include "data/Storage.h"
 
+#include "utility/utilityString.h"
+
 #include "data/graph/filter/GraphFilterConductor.h"
 #include "data/graph/token_component/TokenComponentConst.h"
 #include "data/graph/token_component/TokenComponentDataType.h"
@@ -47,11 +49,12 @@ void Storage::logLocations() const
 
 
 Id Storage::onTypedefParsed(
-	const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& underlyingType, AccessType access
+	const ParseLocation& location, const std::vector<std::string>& nameHierarchy, const ParseTypeUsage& underlyingType,
+	AccessType access
 ){
-	log("typedef", fullName + " -> " + underlyingType.dataType.getFullTypeName(), location);
+	log("typedef", utility::join(nameHierarchy, "::") + " -> " + underlyingType.dataType.getFullTypeName(), location);
 
-	Node* node = addNodeHierarchy(Node::NODE_TYPEDEF, fullName);
+	Node* node = addNodeHierarchy(Node::NODE_TYPEDEF, nameHierarchy);
 	addAccess(node, access);
 	addTokenLocation(node, location);
 	addTypeEdge(node, Edge::EDGE_TYPEDEF_OF, underlyingType);
@@ -60,11 +63,12 @@ Id Storage::onTypedefParsed(
 }
 
 Id Storage::onClassParsed(
-	const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation
+	const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
+	const ParseLocation& scopeLocation
 ){
-	log("class", fullName, location);
+	log("class", utility::join(nameHierarchy, "::"), location);
 
-	Node* node = addNodeHierarchy(Node::NODE_CLASS, fullName);
+	Node* node = addNodeHierarchy(Node::NODE_CLASS, nameHierarchy);
 	addAccess(node, access);
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
@@ -73,11 +77,12 @@ Id Storage::onClassParsed(
 }
 
 Id Storage::onStructParsed(
-	const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation
+	const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
+	const ParseLocation& scopeLocation
 ){
-	log("struct", fullName, location);
+	log("struct", utility::join(nameHierarchy, "::"), location);
 
-	Node* node = addNodeHierarchy(Node::NODE_STRUCT, fullName);
+	Node* node = addNodeHierarchy(Node::NODE_STRUCT, nameHierarchy);
 	addAccess(node, access);
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
@@ -87,9 +92,9 @@ Id Storage::onStructParsed(
 
 Id Storage::onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable)
 {
-	log("global", variable.fullName, location);
+	log("global", variable.getFullName(), location);
 
-	Node* node = addNodeHierarchy(Node::NODE_GLOBAL_VARIABLE, variable.fullName);
+	Node* node = addNodeHierarchy(Node::NODE_GLOBAL_VARIABLE, variable.nameHierarchy);
 
 	if (variable.isStatic)
 	{
@@ -104,9 +109,9 @@ Id Storage::onGlobalVariableParsed(const ParseLocation& location, const ParseVar
 
 Id Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access)
 {
-	log("field", variable.fullName, location);
+	log("field", variable.getFullName(), location);
 
-	Node* node = addNodeHierarchy(Node::NODE_FIELD, variable.fullName);
+	Node* node = addNodeHierarchy(Node::NODE_FIELD, variable.nameHierarchy);
 
 	if (!node->getMemberEdge())
 	{
@@ -133,7 +138,7 @@ Id Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& va
 Id Storage::onFunctionParsed(
 	const ParseLocation& location, const ParseFunction& function, const ParseLocation& scopeLocation
 ){
-	log("function", function.fullName, location);
+	log("function", function.getFullName(), location);
 
 	Node* node = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, function);
 
@@ -153,7 +158,7 @@ Id Storage::onMethodParsed(
 	const ParseLocation& location, const ParseFunction& method, AccessType access, AbstractionType abstraction,
 	const ParseLocation& scopeLocation
 ){
-	log("method", method.fullName, location);
+	log("method", method.getFullName(), location);
 
 	Node* node = addNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, method);
 
@@ -192,11 +197,11 @@ Id Storage::onMethodParsed(
 }
 
 Id Storage::onNamespaceParsed(
-	const ParseLocation& location, const std::string& fullName, const ParseLocation& scopeLocation
+	const ParseLocation& location, const std::vector<std::string>& nameHierarchy, const ParseLocation& scopeLocation
 ){
-	log("namespace", fullName, location);
+	log("namespace", utility::join(nameHierarchy, "::"), location);
 
-	Node* node = addNodeHierarchy(Node::NODE_NAMESPACE, fullName);
+	Node* node = addNodeHierarchy(Node::NODE_NAMESPACE, nameHierarchy);
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
 
@@ -204,11 +209,12 @@ Id Storage::onNamespaceParsed(
 }
 
 Id Storage::onEnumParsed(
-	const ParseLocation& location, const std::string& fullName, AccessType access, const ParseLocation& scopeLocation
+	const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
+	const ParseLocation& scopeLocation
 ){
-	log("enum", fullName, location);
+	log("enum", utility::join(nameHierarchy, "::"), location);
 
-	Node* node = addNodeHierarchy(Node::NODE_ENUM, fullName);
+	Node* node = addNodeHierarchy(Node::NODE_ENUM, nameHierarchy);
 	addAccess(node, access);
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
@@ -216,23 +222,24 @@ Id Storage::onEnumParsed(
 	return node->getId();
 }
 
-Id Storage::onEnumFieldParsed(const ParseLocation& location, const std::string& fullName)
+Id Storage::onEnumFieldParsed(const ParseLocation& location, const std::vector<std::string>& nameHierarchy)
 {
-	log("enum field", fullName, location);
+	log("enum field", utility::join(nameHierarchy, "::"), location);
 
-	Node* node = addNodeHierarchy(Node::NODE_FIELD, fullName);
+	Node* node = addNodeHierarchy(Node::NODE_FIELD, nameHierarchy);
 	addTokenLocation(node, location);
 
 	return node->getId();
 }
 
 Id Storage::onInheritanceParsed(
-	const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access
+	const ParseLocation& location, const std::vector<std::string>& nameHierarchy,
+	const std::vector<std::string>& baseNameHierarchy, AccessType access
 ){
-	log("inheritance", fullName + " : " + baseName, location);
+	log("inheritance", utility::join(nameHierarchy, "::") + " : " + utility::join(baseNameHierarchy, "::"), location);
 
-	Node* node = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, fullName);
-	Node* baseNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, baseName);
+	Node* node = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, nameHierarchy);
+	Node* baseNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, baseNameHierarchy);
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_INHERITANCE, node, baseNode);
 	edge->addComponentAccess(std::make_shared<TokenComponentAccess>(convertAccessType(access)));
@@ -244,7 +251,7 @@ Id Storage::onInheritanceParsed(
 
 Id Storage::onCallParsed(const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee)
 {
-	log("call", caller.fullName + " -> " + callee.fullName, location);
+	log("call", caller.getFullName() + " -> " + callee.getFullName(), location);
 
 	Node* callerNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, caller);
 	Node* calleeNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, callee);
@@ -258,9 +265,9 @@ Id Storage::onCallParsed(const ParseLocation& location, const ParseFunction& cal
 
 Id Storage::onCallParsed(const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee)
 {
-	log("call", caller.fullName + " -> " + callee.fullName, location);
+	log("call", caller.getFullName() + " -> " + callee.getFullName(), location);
 
-	Node* callerNode = addNodeHierarchy(Node::NODE_UNDEFINED, caller.fullName);
+	Node* callerNode = addNodeHierarchy(Node::NODE_UNDEFINED, caller.nameHierarchy);
 	Node* calleeNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, callee);
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_CALL, callerNode, calleeNode);
@@ -270,12 +277,13 @@ Id Storage::onCallParsed(const ParseLocation& location, const ParseVariable& cal
 	return edge->getId();
 }
 
-Id Storage::onFieldUsageParsed(const ParseLocation& location, const ParseFunction& user, const std::string& usedName)
+Id Storage::onFieldUsageParsed(
+	const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy)
 {
-	log("field usage", user.fullName + " -> " + usedName, location);
+	log("field usage", user.getFullName() + " -> " + utility::join(usedNameHierarchy, "::"), location);
 
 	Node* userNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, user);
-	Node* usedNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedName);
+	Node* usedNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_USAGE, userNode, usedNode);
 	addTokenLocation(edge, location);
@@ -283,13 +291,13 @@ Id Storage::onFieldUsageParsed(const ParseLocation& location, const ParseFunctio
 	return edge->getId();
 }
 
-Id Storage::onGlobalVariableUsageParsed(
-		const ParseLocation& location, const ParseFunction& user, const std::string& usedName
+Id Storage::onGlobalVariableUsageParsed( // or static variable used
+		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy
 ){
-	log("global usage", user.fullName + " -> " + usedName, location);
+	log("global usage", user.getFullName() + " -> " + utility::join(usedNameHierarchy, "::"), location);
 
 	Node* userNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, user);
-	Node* usedNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedName);
+	Node* usedNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_USAGE, userNode, usedNode);
 	addTokenLocation(edge, location);
@@ -299,7 +307,7 @@ Id Storage::onGlobalVariableUsageParsed(
 
 Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function)
 {
-	log("type usage", function.fullName + " -> " + type.dataType.getRawTypeName(), type.location);
+	log("type usage", function.getFullName() + " -> " + type.dataType.getRawTypeName(), type.location);
 
 	Node* functionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, function);
 	Edge* edge = addTypeEdge(functionNode, Edge::EDGE_TYPE_USAGE, type);
@@ -555,13 +563,15 @@ void Storage::initSearchIndex()
 {
 	for (const std::pair<std::string, QueryCommand::CommandType>& p : QueryCommand::getCommandTypeMap())
 	{
-		m_index.addNode(p.first);
+		std::vector<std::string> nodeHierarchy;
+		nodeHierarchy.push_back(p.first);
+		m_index.addNode(nodeHierarchy);
 	}
 }
 
-Node* Storage::addNodeHierarchy(Node::NodeType type, const std::string& fullName)
+Node* Storage::addNodeHierarchy(Node::NodeType type, std::vector<std::string> nameHierarchy)
 {
-	SearchIndex::SearchNode* searchNode = m_index.addNode(fullName);
+	SearchIndex::SearchNode* searchNode = m_index.addNode(nameHierarchy);
 	if (!searchNode)
 	{
 		LOG_ERROR("No SearchNode");
@@ -573,7 +583,7 @@ Node* Storage::addNodeHierarchy(Node::NodeType type, const std::string& fullName
 
 Node* Storage::addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function)
 {
-	SearchIndex::SearchNode* searchNode = m_index.addNode(function.fullName);
+	SearchIndex::SearchNode* searchNode = m_index.addNode(function.nameHierarchy);
 	if (!searchNode)
 	{
 		LOG_ERROR("No SearchNode");
@@ -648,7 +658,7 @@ TokenComponentAbstraction* Storage::addAbstraction(Node* node, ParserClient::Abs
 
 Edge* Storage::addTypeEdge(Node* node, Edge::EdgeType edgeType, const DataType& type)
 {
-	Node* typeNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, type.getRawTypeName());
+	Node* typeNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, utility::splitToVector(type.getRawTypeName(), "::")); // TODO: do we really need to split here?
 	Edge* edge = m_graph.createEdge(edgeType, node, typeNode);
 
 	// FIXME: When a function uses the same type multiple times then we still only use one edge to save this,

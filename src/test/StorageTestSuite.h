@@ -18,7 +18,7 @@ public:
 	void test_storage_saves_typedef()
 	{
 		TestStorage storage;
-		Id id = storage.onTypedefParsed(validLocation(1), "type", typeUsage("int"), ParserClient::ACCESS_NONE);
+		Id id = storage.onTypedefParsed(validLocation(1), utility::splitToVector("type", "::"), typeUsage("int"), ParserClient::ACCESS_NONE);
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
@@ -37,7 +37,7 @@ public:
 	void test_storage_saves_class()
 	{
 		TestStorage storage;
-		Id id = storage.onClassParsed(validLocation(1), "Class", ParserClient::ACCESS_NONE, validLocation(2));
+		Id id = storage.onClassParsed(validLocation(1), utility::splitToVector("Class", "::"), ParserClient::ACCESS_NONE, validLocation(2));
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
@@ -54,7 +54,7 @@ public:
 	void test_storage_saves_struct()
 	{
 		TestStorage storage;
-		Id id = storage.onStructParsed(validLocation(1), "Struct", ParserClient::ACCESS_NONE, validLocation(2));
+		Id id = storage.onStructParsed(validLocation(1), utility::splitToVector("Struct", "::"), ParserClient::ACCESS_NONE, validLocation(2));
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
@@ -71,7 +71,7 @@ public:
 	void test_storage_saves_global_variable()
 	{
 		TestStorage storage;
-		Id id = storage.onGlobalVariableParsed(validLocation(42), ParseVariable(typeUsage("char"), "Global", false));
+		Id id = storage.onGlobalVariableParsed(validLocation(42), ParseVariable(typeUsage("char"), utility::splitToVector("Global", "::"), false));
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
@@ -91,7 +91,7 @@ public:
 	void test_storage_saves_global_variable_static()
 	{
 		TestStorage storage;
-		Id id = storage.onGlobalVariableParsed(validLocation(7), ParseVariable(typeUsage("char"), "Global", true));
+		Id id = storage.onGlobalVariableParsed(validLocation(7), ParseVariable(typeUsage("char"), utility::splitToVector("Global", "::"), true));
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
@@ -108,7 +108,7 @@ public:
 	{
 		TestStorage storage;
 		Id id = storage.onFieldParsed(
-			validLocation(3), ParseVariable(typeUsage("bool"), "m_field", false), ParserClient::ACCESS_NONE
+			validLocation(3), ParseVariable(typeUsage("bool"), utility::splitToVector("m_field", "::"), false), ParserClient::ACCESS_NONE
 		);
 
 		Node* node = storage.getNodeWithId(id);
@@ -129,7 +129,7 @@ public:
 	{
 		TestStorage storage;
 		Id id = storage.onFieldParsed(
-			validLocation(11), ParseVariable(typeUsage("bool"), "Struct::m_field", false), ParserClient::ACCESS_PUBLIC
+			validLocation(11), ParseVariable(typeUsage("bool"), utility::splitToVector("Struct::m_field", "::"), false), ParserClient::ACCESS_PUBLIC
 		);
 
 		Node* node = storage.getNodeWithId(id);
@@ -163,7 +163,7 @@ public:
 	{
 		TestStorage storage;
 		Id id = storage.onFunctionParsed(
-			validLocation(14), ParseFunction(typeUsage("bool"), "isTrue", parameters("char")), validLocation(41)
+			validLocation(14), ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char")), validLocation(41)
 		);
 
 		Node* node = storage.getNodeWithId(id);
@@ -194,7 +194,7 @@ public:
 		TestStorage storage;
 		Id id = storage.onMethodParsed(
 			validLocation(9),
-			ParseFunction(typeUsage("void"), "isMethod", parameters("bool")),
+			ParseFunction(typeUsage("void"), utility::splitToVector("isMethod", "::"), parameters("bool")),
 			ParserClient::ACCESS_NONE,
 			ParserClient::ABSTRACTION_NONE,
 			validLocation(4)
@@ -228,7 +228,7 @@ public:
 		TestStorage storage;
 		Id id = storage.onMethodParsed(
 			validLocation(1),
-			ParseFunction(typeUsage("void"), "isMethod", parameters("bool"), true),
+			ParseFunction(typeUsage("void"), utility::splitToVector("isMethod", "::"), parameters("bool"), true),
 			ParserClient::ACCESS_NONE,
 			ParserClient::ABSTRACTION_NONE,
 			validLocation(4)
@@ -246,7 +246,7 @@ public:
 		TestStorage storage;
 		Id id = storage.onMethodParsed(
 			validLocation(1),
-			ParseFunction(typeUsage("void"), "Class::isMethod", parameters("bool")),
+			ParseFunction(typeUsage("void"), utility::splitToVector("Class::isMethod", "::"), parameters("bool")),
 			ParserClient::ACCESS_PROTECTED,
 			ParserClient::ABSTRACTION_VIRTUAL,
 			validLocation(4)
@@ -280,7 +280,7 @@ public:
 	void test_storage_saves_namespace()
 	{
 		TestStorage storage;
-		Id id = storage.onNamespaceParsed(validLocation(1), "utility", validLocation(2));
+		Id id = storage.onNamespaceParsed(validLocation(1), utility::splitToVector("utility", "::"), validLocation(2));
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
@@ -297,7 +297,7 @@ public:
 	void test_storage_saves_enum()
 	{
 		TestStorage storage;
-		Id id = storage.onEnumParsed(validLocation(17), "Category", ParserClient::ACCESS_NONE, validLocation(23));
+		Id id = storage.onEnumParsed(validLocation(17), utility::splitToVector("Category", "::"), ParserClient::ACCESS_NONE, validLocation(23));
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
@@ -315,7 +315,9 @@ public:
 	{
 		TestStorage storage;
 		Id id =
-			storage.onEnumParsed(validLocation(1), "Class::Category", ParserClient::ACCESS_PRIVATE, validLocation(2));
+			storage.onEnumParsed(validLocation(1), utility::splitToVector("Class::Category", "::"),
+			ParserClient::ACCESS_PRIVATE, validLocation(2)
+		);
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
@@ -338,7 +340,7 @@ public:
 	void test_storage_saves_enum_field()
 	{
 		TestStorage storage;
-		Id id = storage.onEnumFieldParsed(validLocation(1), "VALUE");
+		Id id = storage.onEnumFieldParsed(validLocation(1), utility::splitToVector("VALUE", "::"));
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
@@ -353,9 +355,12 @@ public:
 	void test_storage_saves_inheritance()
 	{
 		TestStorage storage;
-		storage.onClassParsed(validLocation(), "ClassA", ParserClient::ACCESS_NONE, validLocation());
-		storage.onClassParsed(validLocation(), "ClassB", ParserClient::ACCESS_NONE, validLocation());
-		Id id = storage.onInheritanceParsed(validLocation(5), "ClassB", "ClassA", ParserClient::ACCESS_PUBLIC);
+		storage.onClassParsed(validLocation(), utility::splitToVector("ClassA", "::"), ParserClient::ACCESS_NONE, validLocation());
+		storage.onClassParsed(validLocation(), utility::splitToVector("ClassB", "::"), ParserClient::ACCESS_NONE, validLocation());
+		Id id =
+			storage.onInheritanceParsed(validLocation(5), utility::splitToVector("ClassB", "::"),
+			utility::splitToVector("ClassA", "::"), ParserClient::ACCESS_PUBLIC
+		);
 
 		Edge* edge = storage.getEdgeWithId(id);
 		TS_ASSERT(edge);
@@ -376,15 +381,15 @@ public:
 	{
 		TestStorage storage;
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("bool"), "isTrue", parameters("char")), validLocation()
+			validLocation(), ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char")), validLocation()
 		);
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("void"), "func", parameters("bool")), validLocation()
+			validLocation(), ParseFunction(typeUsage("void"), utility::splitToVector("func", "::"), parameters("bool")), validLocation()
 		);
 		Id id = storage.onCallParsed(
 			validLocation(9),
-			ParseFunction(typeUsage("bool"), "isTrue", parameters("char")),
-			ParseFunction(typeUsage("void"), "func", parameters("bool"))
+			ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char")),
+			ParseFunction(typeUsage("void"), utility::splitToVector("func", "::"), parameters("bool"))
 		);
 
 		Edge* edge = storage.getEdgeWithId(id);
@@ -402,15 +407,15 @@ public:
 	void test_storage_saves_call_in_global_variable_declaration()
 	{
 		TestStorage storage;
-		storage.onGlobalVariableParsed(validLocation(), ParseVariable(typeUsage("bool"), "global", false));
+		storage.onGlobalVariableParsed(validLocation(), ParseVariable(typeUsage("bool"), utility::splitToVector("global", "::"), false));
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("bool"), "isTrue", parameters("char")), validLocation()
+			validLocation(), ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char")), validLocation()
 		);
 
 		Id id = storage.onCallParsed(
 			validLocation(7),
-			ParseVariable(typeUsage("bool"), "global", false),
-			ParseFunction(typeUsage("bool"), "isTrue", parameters("char"))
+			ParseVariable(typeUsage("bool"), utility::splitToVector("global", "::"), false),
+			ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char"))
 		);
 
 		Edge* edge = storage.getEdgeWithId(id);
@@ -429,16 +434,16 @@ public:
 	{
 		TestStorage storage;
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("bool"), "isTrue", parameters("char")), validLocation()
+			validLocation(), ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char")), validLocation()
 		);
 		storage.onFieldParsed(
-			validLocation(), ParseVariable(typeUsage("bool"), "Foo::m_field", false), ParserClient::ACCESS_PRIVATE
+			validLocation(), ParseVariable(typeUsage("bool"), utility::splitToVector("Foo::m_field", "::"), false), ParserClient::ACCESS_PRIVATE
 		);
 
 		Id id = storage.onFieldUsageParsed(
 			validLocation(7),
-			ParseFunction(typeUsage("bool"), "isTrue", parameters("char")),
-			"Foo::m_field"
+			ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char")),
+			utility::splitToVector("Foo::m_field", "::")
 		);
 
 		Edge* edge = storage.getEdgeWithId(id);
@@ -457,14 +462,14 @@ public:
 	{
 		TestStorage storage;
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("bool"), "isTrue", parameters("char")), validLocation()
+			validLocation(), ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char")), validLocation()
 		);
-		storage.onGlobalVariableParsed(validLocation(), ParseVariable(typeUsage("bool"), "global", false));
+		storage.onGlobalVariableParsed(validLocation(), ParseVariable(typeUsage("bool"), utility::splitToVector("global", "::"), false));
 
 		Id id = storage.onGlobalVariableUsageParsed(
 			validLocation(7),
-			ParseFunction(typeUsage("bool"), "isTrue", parameters("char")),
-			"global"
+			ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char")),
+			utility::splitToVector("global", "::")
 		);
 
 		Edge* edge = storage.getEdgeWithId(id);
@@ -483,13 +488,15 @@ public:
 	{
 		TestStorage storage;
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("bool"), "isTrue", parameters("char")), validLocation()
+			validLocation(), ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"),
+			parameters("char")), validLocation()
 		);
-		storage.onStructParsed(validLocation(), "Struct", ParserClient::ACCESS_NONE, validLocation());
+		storage.onStructParsed(
+			validLocation(), utility::splitToVector("Struct", "::"), ParserClient::ACCESS_NONE, validLocation());
 
 		Id id = storage.onTypeUsageParsed(
 			typeUsage("Struct"),
-			ParseFunction(typeUsage("bool"), "isTrue", parameters("char"))
+			ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char"))
 		);
 
 		Edge* edge = storage.getEdgeWithId(id);

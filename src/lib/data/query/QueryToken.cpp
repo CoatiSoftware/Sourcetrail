@@ -1,5 +1,6 @@
 #include "data/query/QueryToken.h"
 
+#include <algorithm>
 #include <deque>
 
 #include "utility/utilityString.h"

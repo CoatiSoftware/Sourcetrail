@@ -1,6 +1,7 @@
 #include "cxxtest/TestSuite.h"
 
 #include "data/SearchIndex.h"
+#include "utility/utilityString.h"
 
 class SearchIndexTestSuite : public CxxTest::TestSuite
 {
@@ -16,7 +17,7 @@ public:
 	void test_add_node()
 	{
 		SearchIndex index;
-		SearchIndex::SearchNode* node = index.addNode("util");
+		SearchIndex::SearchNode* node = index.addNode(utility::splitToVector("util", "::"));
 
 		TS_ASSERT(node);
 		TS_ASSERT_EQUALS("util", node->getName());
@@ -30,7 +31,7 @@ public:
 	void test_get_node()
 	{
 		SearchIndex index;
-		index.addNode("util");
+		index.addNode(utility::splitToVector("util", "::"));
 		SearchIndex::SearchNode* node = index.getNode("util");
 
 		TS_ASSERT(node);
@@ -48,7 +49,7 @@ public:
 	void test_add_hierarchy_node()
 	{
 		SearchIndex index;
-		SearchIndex::SearchNode* node = index.addNode("util::math::pow");
+		SearchIndex::SearchNode* node = index.addNode(utility::splitToVector("util::math::pow", "::"));
 
 		TS_ASSERT(node);
 		TS_ASSERT_EQUALS("pow", node->getName());
@@ -67,23 +68,23 @@ public:
 	void test_reuse_hierarchy_node()
 	{
 		SearchIndex index;
-		SearchIndex::SearchNode* node = index.addNode("math::pow");
-		SearchIndex::SearchNode* node2 = index.addNode("math::floor");
+		SearchIndex::SearchNode* node1 = index.addNode(utility::splitToVector("math::pow", "::"));
+		SearchIndex::SearchNode* node2 = index.addNode(utility::splitToVector("math::floor", "::"));
 
-		TS_ASSERT(node);
+		TS_ASSERT(node1);
 		TS_ASSERT(node2);
 
-		TS_ASSERT_EQUALS("pow", node->getName());
+		TS_ASSERT_EQUALS("pow", node1->getName());
 		TS_ASSERT_EQUALS("floor", node2->getName());
 
-		TS_ASSERT_EQUALS(node->getParent(), node2->getParent());
+		TS_ASSERT_EQUALS(node1->getParent(), node2->getParent());
 	}
 
 	void test_clear()
 	{
 		SearchIndex index;
-		index.addNode("math");
-		index.addNode("string");
+		index.addNode(utility::splitToVector("math", "::"));
+		index.addNode(utility::splitToVector("string", "::"));
 
 		TS_ASSERT(index.getNode("math"));
 
@@ -95,9 +96,9 @@ public:
 	void test_fuzzy_matching()
 	{
 		SearchIndex index;
-		index.addNode("util");
-		index.addNode("math");
-		index.addNode("string");
+		index.addNode(utility::splitToVector("util", "::"));
+		index.addNode(utility::splitToVector("math", "::"));
+		index.addNode(utility::splitToVector("string", "::"));
 
 		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("u");
 
@@ -114,8 +115,8 @@ public:
 	void test_fuzzy_matching_is_case_insensitive()
 	{
 		SearchIndex index;
-		index.addNode("util");
-		index.addNode("MATH");
+		index.addNode(utility::splitToVector("util", "::"));
+		index.addNode(utility::splitToVector("MATH", "::"));
 
 		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("t");
 
@@ -133,9 +134,9 @@ public:
 	void test_fuzzy_matching_wheighs_by_distance_and_alphabet()
 	{
 		SearchIndex index;
-		index.addNode("util");
-		index.addNode("math");
-		index.addNode("string");
+		index.addNode(utility::splitToVector("util", "::"));
+		index.addNode(utility::splitToVector("math", "::"));
+		index.addNode(utility::splitToVector("string", "::"));
 
 		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("t");
 
@@ -157,8 +158,8 @@ public:
 	void test_fuzzy_matching_wheighs_higher_by_uppercase()
 	{
 		SearchIndex index;
-		index.addNode("uTil");
-		index.addNode("string");
+		index.addNode(utility::splitToVector("uTil", "::"));
+		index.addNode(utility::splitToVector("string", "::"));
 
 		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("t");
 
@@ -170,8 +171,8 @@ public:
 	void test_fuzzy_matching_wheighs_higher_on_consecutive_letters()
 	{
 		SearchIndex index;
-		index.addNode("oaabbcc");
-		index.addNode("ocbaabc");
+		index.addNode(utility::splitToVector("oaabbcc", "::"));
+		index.addNode(utility::splitToVector("ocbaabc", "::"));
 
 		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("abc");
 
@@ -183,9 +184,9 @@ public:
 	void test_fuzzy_matching_in_hierarchy()
 	{
 		SearchIndex index;
-		index.addNode("util::math::ceil");
-		index.addNode("util::math::floor");
-		index.addNode("util::string::concat");
+		index.addNode(utility::splitToVector("util::math::ceil", "::"));
+		index.addNode(utility::splitToVector("util::math::floor", "::"));
+		index.addNode(utility::splitToVector("util::string::concat", "::"));
 
 		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("t");
 
@@ -202,9 +203,9 @@ public:
 	void test_fuzzy_matching_in_hierarchy_respects_collin()
 	{
 		SearchIndex index;
-		index.addNode("util::math::ceil");
-		index.addNode("util::math::floor");
-		index.addNode("util::string::concat");
+		index.addNode(utility::splitToVector("util::math::ceil", "::"));
+		index.addNode(utility::splitToVector("util::math::floor", "::"));
+		index.addNode(utility::splitToVector("util::string::concat", "::"));
 
 		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("u:i");
 
@@ -221,8 +222,8 @@ public:
 	void test_fuzzy_matching_in_hierarchy_weighs_front_letters_higher()
 	{
 		SearchIndex index;
-		index.addNode("abc::dfe::ghi");
-		index.addNode("abc::hgi");
+		index.addNode(utility::splitToVector("abc::dfe::ghi", "::"));
+		index.addNode(utility::splitToVector("abc::hgi", "::"));
 
 		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("g");
 
@@ -234,9 +235,9 @@ public:
 	void test_fuzzy_matching_with_defined_start_node()
 	{
 		SearchIndex index;
-		index.addNode("math::ceil");
-		index.addNode("math::floor");
-		index.addNode("string::concat");
+		index.addNode(utility::splitToVector("math::ceil", "::"));
+		index.addNode(utility::splitToVector("math::floor", "::"));
+		index.addNode(utility::splitToVector("string::concat", "::"));
 
 		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("\"math\"c");
 

@@ -1,5 +1,7 @@
 #include "data/query/QueryCommand.h"
 
+#include <algorithm>
+
 std::map<std::string, QueryCommand::CommandType> QueryCommand::getCommandTypeMap()
 {
 	static std::map<std::string, CommandType> commandMap;

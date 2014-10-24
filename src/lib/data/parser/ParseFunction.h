@@ -9,14 +9,16 @@ struct ParseFunction
 {
 	ParseFunction(
 		const ParseTypeUsage& returnType,
-		const std::string& fullName,
+		const std::vector<std::string>& nameHierarchy,
 		const std::vector<ParseTypeUsage>& parameters,
 		bool isStatic = false,
 		bool isConst = false
 	);
 
+	std::string getFullName() const;
+
 	const ParseTypeUsage returnType;
-	const std::string fullName;
+	const std::vector<std::string> nameHierarchy;
 	const std::vector<ParseTypeUsage> parameters;
 	const bool isStatic;
 	const bool isConst;

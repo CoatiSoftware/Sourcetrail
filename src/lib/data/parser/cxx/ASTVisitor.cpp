@@ -9,6 +9,7 @@
 #include "data/parser/ParseTypeUsage.h"
 #include "data/parser/ParseVariable.h"
 #include "data/type/DataType.h"
+#include "utility/utilityString.h"
 
 ASTVisitor::ASTVisitor(clang::ASTContext* context, ParserClient* client)
 	: m_context(context)
@@ -31,7 +32,7 @@ bool ASTVisitor::VisitTypedefDecl(clang::TypedefDecl* declaration)
 	{
 		m_client->onTypedefParsed(
 			getParseLocationForNamedDecl(declaration),
-			declaration->getQualifiedNameAsString(),
+			utility::splitToVector(declaration->getQualifiedNameAsString(), "::"),
 			getParseTypeUsage(declaration->getTypeSourceInfo()->getTypeLoc(), declaration->getUnderlyingType()),
 			convertAccessType(declaration->getAccess())
 		);
@@ -48,7 +49,7 @@ bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 		{
 			m_client->onClassParsed(
 				getParseLocationForNamedDecl(declaration),
-				declaration->getQualifiedNameAsString(),
+				utility::splitToVector(declaration->getQualifiedNameAsString(), "::"),
 				convertAccessType(declaration->getAccess()),
 				getParseLocationOfRecordBody(declaration)
 			);
@@ -59,8 +60,8 @@ bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 				{
 					m_client->onInheritanceParsed(
 						getParseLocation(it.getSourceRange()),
-						declaration->getQualifiedNameAsString(),
-						getTypeName(it.getType()),
+						utility::splitToVector(declaration->getQualifiedNameAsString(), "::"),
+						utility::splitToVector(getTypeName(it.getType()), "::"),
 						convertAccessType(it.getAccessSpecifier())
 					);
 				}
@@ -70,7 +71,7 @@ bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 		{
 			m_client->onStructParsed(
 				getParseLocationForNamedDecl(declaration),
-				declaration->getQualifiedNameAsString(),
+				utility::splitToVector(declaration->getQualifiedNameAsString(), "::"),
 				convertAccessType(declaration->getAccess()),
 				getParseLocationOfRecordBody(declaration)
 			);
@@ -205,7 +206,7 @@ bool ASTVisitor::VisitCXXConstructorDecl(clang::CXXConstructorDecl* declaration)
 					m_client->onFieldUsageParsed(
 						getParseLocationForNamedDecl(init->getMember(), init->getMemberLocation()),
 						getParseFunction(declaration),
-						init->getMember()->getQualifiedNameAsString()
+						utility::splitToVector(init->getMember()->getQualifiedNameAsString(), "::")
 					);
 				}
 				else if (init->isBaseInitializer())
@@ -231,7 +232,7 @@ bool ASTVisitor::VisitNamespaceDecl(clang::NamespaceDecl* declaration)
 	{
 		m_client->onNamespaceParsed(
 			declaration->isAnonymousNamespace() ? ParseLocation() : getParseLocationForNamedDecl(declaration),
-			declaration->getQualifiedNameAsString(),
+			utility::splitToVector(declaration->getQualifiedNameAsString(), "::"),
 			getParseLocation(declaration->getSourceRange())
 		);
 	}
@@ -245,7 +246,7 @@ bool ASTVisitor::VisitEnumDecl(clang::EnumDecl* declaration)
 	{
 		m_client->onEnumParsed(
 			getParseLocationForNamedDecl(declaration),
-			declaration->getQualifiedNameAsString(),
+			utility::splitToVector(declaration->getQualifiedNameAsString(), "::"),
 			convertAccessType(declaration->getAccess()),
 			getParseLocation(declaration->getSourceRange())
 		);
@@ -260,7 +261,7 @@ bool ASTVisitor::VisitEnumConstantDecl(clang::EnumConstantDecl* declaration)
 	{
 		m_client->onEnumFieldParsed(
 			getParseLocation(declaration->getSourceRange()),
-			declaration->getQualifiedNameAsString()
+			utility::splitToVector(declaration->getQualifiedNameAsString(), "::")
 		);
 	}
 
@@ -339,7 +340,7 @@ void ASTVisitor::VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::Mem
 	m_client->onFieldUsageParsed(
 		parseLocation,
 		getParseFunction(decl),
-		expr->getMemberDecl()->getQualifiedNameAsString()
+		utility::splitToVector(expr->getMemberDecl()->getQualifiedNameAsString(), "::")
 	);
 }
 
@@ -353,7 +354,7 @@ void ASTVisitor::VisitDeclRefExprInDeclBody(clang::FunctionDecl* decl, clang::De
 	m_client->onGlobalVariableUsageParsed(
 		parseLocation,
 		getParseFunction(decl),
-		expr->getDecl()->getQualifiedNameAsString()
+		utility::splitToVector(expr->getDecl()->getQualifiedNameAsString(), "::")
 	);
 }
 
@@ -512,7 +513,7 @@ ParseVariable ASTVisitor::getParseVariable(clang::DeclaratorDecl* declaration) c
 
 	return ParseVariable(
 		getParseTypeUsage(declaration->getTypeSourceInfo()->getTypeLoc(), declaration->getType()),
-		declaration->getQualifiedNameAsString(),
+		utility::splitToVector(declaration->getQualifiedNameAsString(), "::"),
 		isStatic
 	);
 }
@@ -534,7 +535,7 @@ ParseFunction ASTVisitor::getParseFunction(clang::FunctionDecl* declaration) con
 
 	return ParseFunction(
 		getParseTypeUsageOfReturnType(declaration),
-		declaration->getQualifiedNameAsString(),
+		utility::splitToVector(declaration->getQualifiedNameAsString(), "::"),
 		getParameters(declaration),
 		isStatic,
 		isConst

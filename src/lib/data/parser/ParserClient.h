@@ -45,13 +45,13 @@ public:
 	virtual ~ParserClient();
 
 	virtual Id onTypedefParsed(
-		const ParseLocation& location, const std::string& fullName, const ParseTypeUsage& underlyingType,
-		AccessType access) = 0;
+		const ParseLocation& location, const std::vector<std::string>& nameHierarchy,
+		const ParseTypeUsage& underlyingType, AccessType access) = 0;
 	virtual Id onClassParsed(
-		const ParseLocation& location, const std::string& fullName, AccessType access,
+		const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
 		const ParseLocation& scopeLocation) = 0;
 	virtual Id onStructParsed(
-		const ParseLocation& location, const std::string& fullName, AccessType access,
+		const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
 		const ParseLocation& scopeLocation) = 0;
 
 	virtual Id onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable) = 0;
@@ -64,23 +64,25 @@ public:
 		const ParseLocation& scopeLocation) = 0;
 
 	virtual Id onNamespaceParsed(
-		const ParseLocation& location, const std::string& fullName, const ParseLocation& scopeLocation) = 0;
+		const ParseLocation& location, const std::vector<std::string>& nameHierarchy,
+		const ParseLocation& scopeLocation) = 0;
 
 	virtual Id onEnumParsed(
-		const ParseLocation& location, const std::string& fullName, AccessType access,
+		const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
 		const ParseLocation& scopeLocation) = 0;
-	virtual Id onEnumFieldParsed(const ParseLocation& location, const std::string& fullName) = 0;
+	virtual Id onEnumFieldParsed(const ParseLocation& location, const std::vector<std::string>& nameHierarchy) = 0;
 
 	virtual Id onInheritanceParsed(
-		const ParseLocation& location, const std::string& fullName, const std::string& baseName, AccessType access) = 0;
+		const ParseLocation& location, const std::vector<std::string>& nameHierarchy,
+		const std::vector<std::string>& baseNameHierarchy, AccessType access) = 0;
 	virtual Id onCallParsed(
 		const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee) = 0;
 	virtual Id onCallParsed(
 		const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee) = 0;
 	virtual Id onFieldUsageParsed(
-		const ParseLocation& location, const ParseFunction& user, const std::string& usedName) = 0;
+		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy) = 0;
 	virtual Id onGlobalVariableUsageParsed(
-		const ParseLocation& location, const ParseFunction& user, const std::string& usedName) = 0;
+		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy) = 0;
 	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function) = 0;
 };
 

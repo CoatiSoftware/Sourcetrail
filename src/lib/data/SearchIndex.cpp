@@ -144,7 +144,7 @@ std::shared_ptr<SearchIndex::SearchNode> SearchIndex::SearchNode::addNodeRecursi
 		m_nodes.insert(node);
 	}
 
-	if (nameIds->size())
+	if (nameIds->size() > 0)
 	{
 		return node->addNodeRecursive(nameIds, dictionary);
 	}
@@ -385,10 +385,13 @@ const std::string& SearchIndex::getWord(Id wordId) const
 	return m_dictionary.getWord(wordId);
 }
 
-SearchIndex::SearchNode* SearchIndex::addNode(const std::string& fullName)
+SearchIndex::SearchNode* SearchIndex::addNode(std::vector<std::string> nameHierarchy)
 {
-	std::deque<Id> nameIds = m_dictionary.getWordIds(fullName, DELIMITER);
-
+	std::deque<Id> nameIds;
+	for (const std::string& name: nameHierarchy)
+	{
+		nameIds.push_back(m_dictionary.getWordId(name));
+	}
 	if (nameIds.size())
 	{
 		return m_root.addNodeRecursive(&nameIds, m_dictionary).get();

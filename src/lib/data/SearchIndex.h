@@ -88,7 +88,7 @@ public:
 	Id getWordId(const std::string& word);
 	const std::string& getWord(Id wordId) const;
 
-	SearchNode* addNode(const std::string& fullName);
+	SearchNode* addNode(std::vector<std::string> nameHierarchy);
 	SearchNode* getNode(const std::string& fullName) const;
 
 	std::vector<SearchIndex::SearchMatch> findFuzzyMatches(const std::string& query) const;

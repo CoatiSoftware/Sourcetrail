@@ -1,8 +1,15 @@
 #include "data/parser/ParseVariable.h"
 
-ParseVariable::ParseVariable(const ParseTypeUsage& type, const std::string& fullName, bool isStatic)
+#include "utility/utilityString.h"
+
+ParseVariable::ParseVariable(const ParseTypeUsage& type, const std::vector<std::string>& nameHierarchy, bool isStatic)
 	: type(type)
-	, fullName(fullName)
+	, nameHierarchy(nameHierarchy)
 	, isStatic(isStatic)
 {
+}
+
+std::string ParseVariable::getFullName() const
+{
+	return utility::join(nameHierarchy, "::");
 }

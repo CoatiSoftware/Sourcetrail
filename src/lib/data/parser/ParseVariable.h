@@ -7,10 +7,12 @@
 
 struct ParseVariable
 {
-	ParseVariable(const ParseTypeUsage& type, const std::string& fullName, bool isStatic);
+	ParseVariable(const ParseTypeUsage& type, const std::vector<std::string>& nameHierarchy, bool isStatic);
+
+	std::string getFullName() const;
 
 	const ParseTypeUsage type;
-	const std::string fullName;
+	const std::vector<std::string> nameHierarchy;
 	const bool isStatic;
 };
 

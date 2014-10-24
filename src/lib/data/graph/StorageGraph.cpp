@@ -107,12 +107,12 @@ Node* StorageGraph::insertNodeHierarchy(Node::NodeType type, SearchIndex::Search
 		parentNode = getNodeById(parentSearchNode->getFirstTokenId());
 	}
 
-	while (searchNodes.size())
+	while (searchNodes.size() > 0)
 	{
 		searchNode = searchNodes.front();
 		searchNodes.pop_front();
 
-		parentNode = insertNode(searchNodes.size() ? Node::NODE_UNDEFINED : type, parentNode, searchNode);
+		parentNode = insertNode(searchNodes.size() > 0 ? Node::NODE_UNDEFINED : type, parentNode, searchNode);
 	}
 
 	return parentNode;

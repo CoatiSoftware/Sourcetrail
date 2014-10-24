@@ -1,16 +1,23 @@
 #include "data/parser/ParseFunction.h"
 
+#include "utility/utilityString.h"
+
 ParseFunction::ParseFunction(
 	const ParseTypeUsage& returnType,
-	const std::string& fullName,
+	const std::vector<std::string>& nameHierarchy,
 	const std::vector<ParseTypeUsage>& parameters,
 	bool isStatic,
 	bool isConst
 )
 	: returnType(returnType)
-	, fullName(fullName)
+	, nameHierarchy(nameHierarchy)
 	, parameters(parameters)
 	, isStatic(isStatic)
 	, isConst(isConst)
 {
+}
+
+std::string ParseFunction::getFullName() const
+{
+	return utility::join(nameHierarchy, "::");
 }

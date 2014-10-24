@@ -295,14 +295,14 @@ private:
 	public:
 		Node* createNodeHierarchy(Node::NodeType type, const std::string& name)
 		{
-			SearchIndex::SearchNode* searchNode = m_index.addNode(name);
+			SearchIndex::SearchNode* searchNode = m_index.addNode(utility::splitToVector(name, "::"));
 			return StorageGraph::createNodeHierarchy(type, searchNode);
 		}
 
 		Node* createNodeHierarchyWithDistinctSignature(
 			Node::NodeType type, const std::string& name, Id signatureId
 		){
-			SearchIndex::SearchNode* searchNode = m_index.addNode(name);
+			SearchIndex::SearchNode* searchNode = m_index.addNode(utility::splitToVector(name, "::"));
 			std::shared_ptr<TokenComponentSignature> signature = std::make_shared<TokenComponentSignature>(signatureId);
 			return StorageGraph::createNodeHierarchyWithDistinctSignature(type, searchNode, signature);
 		}

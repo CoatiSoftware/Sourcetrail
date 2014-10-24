@@ -1,51 +1,48 @@
 #include "utility/utilityString.h"
 
-#include <strings.h>
+#include <cctype>
+#include <string>
 
 namespace utility
 {
 	std::deque<std::string> split(const std::string& str, char delimiter)
 	{
-		return split(str, std::string(1, delimiter));
+		return split<std::deque<std::string>>(str, std::string(1, delimiter));
 	}
 
 	std::deque<std::string> split(const std::string& str, const std::string& delimiter)
 	{
-		size_t pos = 0;
-		size_t oldPos = 0;
-		std::deque<std::string> c;
+		return split<std::deque<std::string>>(str, delimiter);
+	}
 
-		do
-		{
-			pos = str.find(delimiter, oldPos);
-			c.push_back(str.substr(oldPos, pos - oldPos));
-			oldPos = pos + delimiter.size();
-		}
-		while (pos != std::string::npos);
+	std::vector<std::string> splitToVector(const std::string& str, char delimiter)
+	{
+		return split<std::vector<std::string>>(str, std::string(1, delimiter));
+	}
 
-		return c;
+	std::vector<std::string> splitToVector(const std::string& str, const std::string& delimiter)
+	{
+		return split<std::vector<std::string>>(str, delimiter);
 	}
 
 	std::string join(const std::deque<std::string>& list, char delimiter)
 	{
-		return join(list, std::string(1, delimiter));
+		return join<std::deque<std::string> >(list, std::string(1, delimiter));
 	}
 
 	std::string join(const std::deque<std::string>& list, const std::string& delimiter)
 	{
-		std::stringstream ss;
-		bool first = true;
-		for (const std::string& str : list)
-		{
-			if (!first)
-			{
-				ss << delimiter;
-			}
-			first = false;
+		return join<std::deque<std::string> >(list, delimiter);
+	}
 
-			ss << str;
-		}
-		return ss.str();
+	std::string join(const std::vector<std::string>& list, char delimiter)
+	{
+		return join<std::vector<std::string> >(list, std::string(1, delimiter));
+	}
+
+	std::string join(const std::vector<std::string>& list, const std::string& delimiter)
+	{
+		return join<std::vector<std::string> >(list, delimiter);
 	}
 
 	std::deque<std::string> tokenize(const std::string& str, char delimiter)
@@ -121,6 +118,17 @@ namespace utility
 
 	bool equalsCaseInsensitive(const std::string& a, const std::string& b)
 	{
-		return strcasecmp(a.c_str(), b.c_str()) == 0;
+		if (a.size() == b.size())
+		{
+			for (int i = 0; i < a.size(); i++)
+			{
+				if (tolower(a[i]) != tolower(b[i]))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 }
