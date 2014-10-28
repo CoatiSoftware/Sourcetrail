@@ -142,6 +142,15 @@ add_files(
 	data/query/QueryTree.cpp
 	data/query/QueryTree.h
 
+	data/search/SearchIndex.cpp
+	data/search/SearchIndex.h
+	data/search/SearchNode.cpp
+	data/search/SearchNode.h
+	data/search/SearchMatch.cpp
+	data/search/SearchMatch.h
+	data/search/SearchResult.cpp
+	data/search/SearchResult.h
+
 	data/type/modifier/DataTypeModifier.cpp
 	data/type/modifier/DataTypeModifier.h
 	data/type/modifier/DataTypeModifierArray.cpp
@@ -158,8 +167,6 @@ add_files(
 	data/type/DataTypeQualifierList.cpp
 	data/type/DataTypeQualifierList.h
 
-	data/SearchIndex.cpp
-	data/SearchIndex.h
 	data/Storage.cpp
 	data/Storage.h
 

@@ -52,7 +52,7 @@ QtSmartSearchBox::~QtSmartSearchBox()
 {
 }
 
-void QtSmartSearchBox::setAutocompletionList(const std::vector<SearchIndex::SearchMatch>& autocompletionList)
+void QtSmartSearchBox::setAutocompletionList(const std::vector<SearchMatch>& autocompletionList)
 {
 	m_matches = autocompletionList;
 
@@ -63,7 +63,7 @@ void QtSmartSearchBox::setAutocompletionList(const std::vector<SearchIndex::Sear
 	}
 
 	QStringList wordList;
-	for (const SearchIndex::SearchMatch& match: autocompletionList)
+	for (const SearchMatch& match: autocompletionList)
 	{
 		wordList << match.fullName.c_str();
 	}

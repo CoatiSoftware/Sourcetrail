@@ -49,7 +49,7 @@ void QtSearchBar::setFocus()
 	m_searchBox->setFocus();
 }
 
-void QtSearchBar::setAutocompletionList(const std::vector<SearchIndex::SearchMatch>& autocompletionList)
+void QtSearchBar::setAutocompletionList(const std::vector<SearchMatch>& autocompletionList)
 {
 	m_searchBox->setAutocompletionList(autocompletionList);
 }

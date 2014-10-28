@@ -1,6 +1,6 @@
 #include "cxxtest/TestSuite.h"
 
-#include "data/SearchIndex.h"
+#include "data/search/SearchIndex.h"
 #include "utility/utilityString.h"
 
 class SearchIndexTestSuite : public CxxTest::TestSuite
@@ -9,7 +9,7 @@ public:
 	void test_add_node()
 	{
 		SearchIndex index;
-		SearchIndex::SearchNode* node = index.addNode(utility::splitToVector("util", "::"));
+		SearchNode* node = index.addNode(utility::splitToVector("util", "::"));
 
 		TS_ASSERT(node);
 		TS_ASSERT_EQUALS("util", node->getName());
@@ -24,7 +24,7 @@ public:
 	{
 		SearchIndex index;
 		index.addNode(utility::splitToVector("util", "::"));
-		SearchIndex::SearchNode* node = index.getNode("util");
+		SearchNode* node = index.getNode("util");
 
 		TS_ASSERT(node);
 		TS_ASSERT_EQUALS("util", node->getName());
@@ -41,7 +41,7 @@ public:
 	void test_add_hierarchy_node()
 	{
 		SearchIndex index;
-		SearchIndex::SearchNode* node = index.addNode(utility::splitToVector("util::math::pow", "::"));
+		SearchNode* node = index.addNode(utility::splitToVector("util::math::pow", "::"));
 
 		TS_ASSERT(node);
 		TS_ASSERT_EQUALS("pow", node->getName());
@@ -60,8 +60,8 @@ public:
 	void test_reuse_hierarchy_node()
 	{
 		SearchIndex index;
-		SearchIndex::SearchNode* node1 = index.addNode(utility::splitToVector("math::pow", "::"));
-		SearchIndex::SearchNode* node2 = index.addNode(utility::splitToVector("math::floor", "::"));
+		SearchNode* node1 = index.addNode(utility::splitToVector("math::pow", "::"));
+		SearchNode* node2 = index.addNode(utility::splitToVector("math::floor", "::"));
 
 		TS_ASSERT(node1);
 		TS_ASSERT(node2);
@@ -92,7 +92,7 @@ public:
 		index.addNode(utility::splitToVector("math", "::"));
 		index.addNode(utility::splitToVector("string", "::"));
 
-		std::vector<SearchIndex::SearchMatch> matches = index.runFuzzySearchAndGetMatches("u");
+		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("u");
 
 		TS_ASSERT_EQUALS(1, matches.size());
 		TS_ASSERT_EQUALS("util", matches[0].fullName);
@@ -117,7 +117,7 @@ public:
 		index.addNode(utility::splitToVector("util", "::"));
 		index.addNode(utility::splitToVector("MATH", "::"));
 
-		std::vector<SearchIndex::SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
+		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
 		TS_ASSERT_EQUALS(2, matches.size());
 		TS_ASSERT_EQUALS("MATH", matches[0].fullName);
@@ -137,7 +137,7 @@ public:
 		index.addNode(utility::splitToVector("math", "::"));
 		index.addNode(utility::splitToVector("string", "::"));
 
-		std::vector<SearchIndex::SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
+		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
 		TS_ASSERT_EQUALS(3, matches.size());
 		TS_ASSERT_EQUALS("string", matches[0].fullName);
@@ -160,7 +160,7 @@ public:
 		index.addNode(utility::splitToVector("uTil", "::"));
 		index.addNode(utility::splitToVector("string", "::"));
 
-		std::vector<SearchIndex::SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
+		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
 		TS_ASSERT_EQUALS(2, matches.size());
 		TS_ASSERT_EQUALS("uTil", matches[0].fullName);
@@ -173,7 +173,7 @@ public:
 		index.addNode(utility::splitToVector("oaabbcc", "::"));
 		index.addNode(utility::splitToVector("ocbaabc", "::"));
 
-		std::vector<SearchIndex::SearchMatch> matches = index.runFuzzySearchAndGetMatches("abc");
+		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("abc");
 
 		TS_ASSERT_EQUALS(2, matches.size());
 		TS_ASSERT_EQUALS("ocbaabc", matches[0].fullName);
@@ -187,7 +187,7 @@ public:
 		index.addNode(utility::splitToVector("util::math::floor", "::"));
 		index.addNode(utility::splitToVector("util::string::concat", "::"));
 
-		std::vector<SearchIndex::SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
+		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
 		TS_ASSERT_EQUALS(1, matches.size());
 		TS_ASSERT_EQUALS("util", matches[0].fullName);
@@ -206,7 +206,7 @@ public:
 		index.addNode(utility::splitToVector("util::math::floor", "::"));
 		index.addNode(utility::splitToVector("util::string::concat", "::"));
 
-		std::vector<SearchIndex::SearchMatch> matches = index.runFuzzySearchAndGetMatches("u:i");
+		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("u:i");
 
 		TS_ASSERT_EQUALS(2, matches.size());
 		TS_ASSERT_EQUALS("util::string", matches[0].fullName);
@@ -224,7 +224,7 @@ public:
 		index.addNode(utility::splitToVector("abc::dfe::ghi", "::"));
 		index.addNode(utility::splitToVector("abc::hgi", "::"));
 
-		std::vector<SearchIndex::SearchMatch> matches = index.runFuzzySearchAndGetMatches("g");
+		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("g");
 
 		TS_ASSERT_EQUALS(2, matches.size());
 		TS_ASSERT_EQUALS("abc::dfe::ghi", matches[0].fullName);

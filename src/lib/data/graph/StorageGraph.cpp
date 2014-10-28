@@ -12,7 +12,7 @@ StorageGraph::~StorageGraph()
 {
 }
 
-Node* StorageGraph::createNodeHierarchy(Node::NodeType type, SearchIndex::SearchNode* searchNode)
+Node* StorageGraph::createNodeHierarchy(Node::NodeType type, SearchNode* searchNode)
 {
 	Node* node = getNodeById(searchNode->getFirstTokenId());
 	if (!node)
@@ -29,7 +29,7 @@ Node* StorageGraph::createNodeHierarchy(Node::NodeType type, SearchIndex::Search
 }
 
 Node* StorageGraph::createNodeHierarchyWithDistinctSignature(
-	Node::NodeType type, SearchIndex::SearchNode* searchNode, std::shared_ptr<TokenComponentSignature> signature
+	Node::NodeType type, SearchNode* searchNode, std::shared_ptr<TokenComponentSignature> signature
 ){
 	Node* node = getNodeById(searchNode->getFirstTokenId());
 	if (!node)
@@ -90,9 +90,9 @@ Edge* StorageGraph::createEdge(Edge::EdgeType type, Node* from, Node* to)
 	return insertEdge(type, from, to);
 }
 
-Node* StorageGraph::insertNodeHierarchy(Node::NodeType type, SearchIndex::SearchNode* searchNode)
+Node* StorageGraph::insertNodeHierarchy(Node::NodeType type, SearchNode* searchNode)
 {
-	std::deque<SearchIndex::SearchNode*> searchNodes = searchNode->getParentsWithoutTokenId();
+	std::deque<SearchNode*> searchNodes = searchNode->getParentsWithoutTokenId();
 
 	if (!searchNodes.size())
 	{
@@ -101,7 +101,7 @@ Node* StorageGraph::insertNodeHierarchy(Node::NodeType type, SearchIndex::Search
 	}
 
 	Node* parentNode = nullptr;
-	SearchIndex::SearchNode* parentSearchNode = searchNodes.front()->getParent();
+	SearchNode* parentSearchNode = searchNodes.front()->getParent();
 	if (parentSearchNode)
 	{
 		parentNode = getNodeById(parentSearchNode->getFirstTokenId());
@@ -118,7 +118,7 @@ Node* StorageGraph::insertNodeHierarchy(Node::NodeType type, SearchIndex::Search
 	return parentNode;
 }
 
-Node* StorageGraph::insertNode(Node::NodeType type, Node* parentNode, SearchIndex::SearchNode* searchNode)
+Node* StorageGraph::insertNode(Node::NodeType type, Node* parentNode, SearchNode* searchNode)
 {
 	std::shared_ptr<Node> node =
 		std::make_shared<Node>(type, std::make_shared<TokenComponentNameReferenced>(searchNode));

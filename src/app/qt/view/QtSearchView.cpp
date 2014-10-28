@@ -43,7 +43,7 @@ void QtSearchView::setFocus()
 	m_setFocusFunctor();
 }
 
-void QtSearchView::setAutocompletionList(const std::vector<SearchIndex::SearchMatch>& autocompletionList)
+void QtSearchView::setAutocompletionList(const std::vector<SearchMatch>& autocompletionList)
 {
 	m_setAutocompletionListFunctor(autocompletionList);
 }
@@ -64,7 +64,7 @@ void QtSearchView::doSetFocus()
 	m_widget->setFocus();
 }
 
-void QtSearchView::doSetAutocompletionList(const std::vector<SearchIndex::SearchMatch>& autocompletionList)
+void QtSearchView::doSetAutocompletionList(const std::vector<SearchMatch>& autocompletionList)
 {
 	m_widget->setAutocompletionList(autocompletionList);
 	setStyleSheet();

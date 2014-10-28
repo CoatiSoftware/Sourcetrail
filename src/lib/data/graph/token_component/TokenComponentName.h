@@ -4,7 +4,7 @@
 #include <string>
 
 #include "data/graph/token_component/TokenComponent.h"
-#include "data/SearchIndex.h"
+#include "data/search/SearchNode.h"
 
 class TokenComponentName
 	: public TokenComponent
@@ -18,7 +18,7 @@ public:
 	virtual std::string getName() const = 0;
 	virtual std::string getFullName() const = 0;
 
-	virtual const SearchIndex::SearchNode* getSearchNode() const = 0;
+	virtual const SearchNode* getSearchNode() const = 0;
 };
 
 
@@ -26,7 +26,7 @@ class TokenComponentNameReferenced
 	: public TokenComponentName
 {
 public:
-	TokenComponentNameReferenced(const SearchIndex::SearchNode* searchNode);
+	TokenComponentNameReferenced(const SearchNode* searchNode);
 	virtual ~TokenComponentNameReferenced();
 
 	virtual std::shared_ptr<TokenComponent> copy() const;
@@ -34,10 +34,10 @@ public:
 	virtual std::string getName() const;
 	virtual std::string getFullName() const;
 
-	virtual const SearchIndex::SearchNode* getSearchNode() const;
+	virtual const SearchNode* getSearchNode() const;
 
 private:
-	const SearchIndex::SearchNode* m_searchNode;
+	const SearchNode* m_searchNode;
 };
 
 
@@ -53,7 +53,7 @@ public:
 	virtual std::string getName() const;
 	virtual std::string getFullName() const;
 
-	virtual const SearchIndex::SearchNode* getSearchNode() const;
+	virtual const SearchNode* getSearchNode() const;
 
 private:
 	const std::string m_fullName;

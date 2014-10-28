@@ -11,7 +11,7 @@
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/parser/ParserClient.h"
-#include "data/SearchIndex.h"
+#include "data/search/SearchIndex.h"
 
 class Storage
 	: public ParserClient
@@ -71,7 +71,7 @@ public:
 	// GraphAccess implementation
 	virtual Id getIdForNodeWithName(const std::string& fullName) const;
 	virtual std::string getNameForNodeWithId(Id id) const;
-	virtual std::vector<SearchIndex::SearchMatch> getAutocompletionMatches(
+	virtual std::vector<SearchMatch> getAutocompletionMatches(
 		const std::string& query, const std::string& word) const;
 
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const;
@@ -110,7 +110,7 @@ private:
 	TokenLocation* addTokenLocation(Token* token, const ParseLocation& location, bool isScope = false);
 
 	bool getSubQuerySearchResults(
-		const std::string& query, const std::string& word, SearchIndex::SearchResults* results) const;
+		const std::string& query, const std::string& word, SearchResults* results) const;
 
 	void log(std::string type, std::string str, const ParseLocation& location) const;
 

@@ -18,10 +18,11 @@ void SearchController::handleMessage(MessageActivateToken* message)
 {
 	if (!m_ignoreNextMessageActivateToken && message->tokenId)
 	{
-		std::string name = m_graphAccess->getNameForNodeWithId(message->tokenId);
-		std::stringstream ss;
-		ss << '"' << name << ',' << message->tokenId << '"';
-		getView()->setText(ss.str());
+		SearchMatch match;
+		match.fullName = m_graphAccess->getNameForNodeWithId(message->tokenId);
+		match.tokenIds.insert(message->tokenId);
+
+		getView()->setText(match.encodeForQuery());
 	}
 
 	m_ignoreNextMessageActivateToken = false;

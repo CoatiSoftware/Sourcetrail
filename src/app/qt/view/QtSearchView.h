@@ -21,20 +21,20 @@ public:
 	// SearchView implementation
 	virtual void setText(const std::string& text);
 	virtual void setFocus();
-	virtual void setAutocompletionList(const std::vector<SearchIndex::SearchMatch>& autocompletionList);
+	virtual void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList);
 
 private:
 	void doRefreshView();
 	void doSetText(const std::string& text);
 	void doSetFocus();
-	void doSetAutocompletionList(const std::vector<SearchIndex::SearchMatch>& autocompletionList);
+	void doSetAutocompletionList(const std::vector<SearchMatch>& autocompletionList);
 
 	void setStyleSheet();
 
 	QtThreadedFunctor<> m_refreshViewFunctor;
 	QtThreadedFunctor<const std::string&> m_setTextFunctor;
 	QtThreadedFunctor<> m_setFocusFunctor;
-	QtThreadedFunctor<const std::vector<SearchIndex::SearchMatch>&> m_setAutocompletionListFunctor;
+	QtThreadedFunctor<const std::vector<SearchMatch>&> m_setAutocompletionListFunctor;
 
 	std::shared_ptr<QtSearchBar> m_widget;
 };

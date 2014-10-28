@@ -6,7 +6,7 @@
 #include <QAbstractItemView>
 #include <QFrame>
 
-#include "data/SearchIndex.h"
+#include "data/search/SearchMatch.h"
 
 class QPushButton;
 class QtSmartSearchBox;
@@ -22,7 +22,7 @@ public:
 
 	void setText(const std::string& text);
 	void setFocus();
-	void setAutocompletionList(const std::vector<SearchIndex::SearchMatch>& autocompletionList);
+	void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList);
 
 	QAbstractItemView* getCompleterPopup();
 

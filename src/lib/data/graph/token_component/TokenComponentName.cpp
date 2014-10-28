@@ -2,6 +2,8 @@
 
 #include "utility/utilityString.h"
 
+#include "data/search/SearchIndex.h"
+
 TokenComponentName::TokenComponentName()
 {
 }
@@ -16,7 +18,7 @@ std::shared_ptr<TokenComponentName> TokenComponentName::copyComponentName() cons
 }
 
 
-TokenComponentNameReferenced::TokenComponentNameReferenced(const SearchIndex::SearchNode* searchNode)
+TokenComponentNameReferenced::TokenComponentNameReferenced(const SearchNode* searchNode)
 	: m_searchNode(searchNode)
 {
 }
@@ -40,7 +42,7 @@ std::string TokenComponentNameReferenced::getFullName() const
 	return m_searchNode->getFullName();
 }
 
-const SearchIndex::SearchNode* TokenComponentNameReferenced::getSearchNode() const
+const SearchNode* TokenComponentNameReferenced::getSearchNode() const
 {
 	return m_searchNode;
 }
@@ -69,7 +71,7 @@ std::string TokenComponentNameCached::getFullName() const
 	return m_fullName;
 }
 
-const SearchIndex::SearchNode* TokenComponentNameCached::getSearchNode() const
+const SearchNode* TokenComponentNameCached::getSearchNode() const
 {
 	return nullptr;
 }

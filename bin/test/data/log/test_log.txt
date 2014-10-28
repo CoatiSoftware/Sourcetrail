@@ -34,17 +34,17 @@ Storage.cpp INFO: function: main <input.cc 34:5 34:8>
 Storage.cpp INFO: type usage: main -> B <input.cc 36:2 36:2>
 Storage.cpp INFO: call: main -> B::B <input.cc 36:4 36:4>
 Storage.cpp INFO: call: main -> A::getCount <input.cc 38:9 38:21>
-SearchIndex.cpp INFO: 
+SearchMatch.cpp INFO: 
 1 matches for "main":
 474	main
 	^^^^
 
-SearchIndex.cpp INFO: 
+SearchMatch.cpp INFO: 
 1 matches for "main":
 474	main
 	^^^^
 
-SearchIndex.cpp INFO: 
+SearchMatch.cpp INFO: 
 1 matches for "A::A":
 237	A::A
 	^^^^

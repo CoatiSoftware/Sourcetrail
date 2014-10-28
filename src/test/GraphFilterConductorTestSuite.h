@@ -165,7 +165,7 @@ private:
 	{
 		createTestStorage();
 
-		std::vector<SearchIndex::SearchMatch> matches = m_storage->getAutocompletionMatches("", name);
+		std::vector<SearchMatch> matches = m_storage->getAutocompletionMatches("", name);
 		if (matches.size() && matches[0].fullName == name)
 		{
 			return matches[0].tokenIds;

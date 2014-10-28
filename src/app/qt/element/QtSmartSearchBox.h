@@ -1,13 +1,14 @@
 #ifndef QT_SMART_SEARCH_BOX_H
 #define QT_SMART_SEARCH_BOX_H
 
+#include <deque>
 #include <memory>
 #include <vector>
 
 #include <QLineEdit>
 #include <QPushButton>
 
-#include "data/SearchIndex.h"
+#include "data/search/SearchMatch.h"
 
 class QtQueryElement
 	: public QPushButton
@@ -37,7 +38,7 @@ public:
 	QtSmartSearchBox(QWidget* parent);
 	virtual ~QtSmartSearchBox();
 
-	void setAutocompletionList(const std::vector<SearchIndex::SearchMatch>& autocompletionList);
+	void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList);
 	void setQuery(const std::string& text);
 	void setFocus();
 
@@ -90,7 +91,7 @@ private:
 
 	size_t m_cursorIndex;
 
-	std::vector<SearchIndex::SearchMatch> m_matches;
+	std::vector<SearchMatch> m_matches;
 
 	bool m_shiftKeyDown;
 	bool m_mousePressed;

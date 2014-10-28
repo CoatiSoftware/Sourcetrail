@@ -47,7 +47,7 @@ std::string GraphAccessProxy::getNameForNodeWithId(Id id) const
 	return "";
 }
 
-std::vector<SearchIndex::SearchMatch> GraphAccessProxy::getAutocompletionMatches(
+std::vector<SearchMatch> GraphAccessProxy::getAutocompletionMatches(
 	const std::string& query,
 	const std::string& word
 ) const {
@@ -56,7 +56,7 @@ std::vector<SearchIndex::SearchMatch> GraphAccessProxy::getAutocompletionMatches
 		return m_subject->getAutocompletionMatches(query, word);
 	}
 
-	return std::vector<SearchIndex::SearchMatch>();
+	return std::vector<SearchMatch>();
 }
 
 std::shared_ptr<Graph> GraphAccessProxy::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const
