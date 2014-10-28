@@ -35,6 +35,8 @@ namespace utility
 
 	bool equalsCaseInsensitive(const std::string& a, const std::string& b);
 
+	std::string replace(std::string str, const std::string& from, const std::string& to);
+
 
 	template <typename ContainerType>
 	ContainerType split(const std::string& str, const std::string& delimiter)

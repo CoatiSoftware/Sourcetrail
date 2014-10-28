@@ -1,10 +1,12 @@
 #include "data/Storage.h"
 
+#include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
 #include "data/graph/filter/GraphFilterConductor.h"
 #include "data/graph/token_component/TokenComponentConst.h"
 #include "data/graph/token_component/TokenComponentDataType.h"
+#include "data/graph/token_component/TokenComponentName.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
 #include "data/graph/SubGraph.h"
 #include "data/location/TokenLocation.h"
@@ -17,11 +19,13 @@
 #include "data/query/QueryCommand.h"
 #include "data/query/QueryTree.h"
 #include "data/type/DataType.h"
-#include "utility/logging/logging.h"
 
 Storage::Storage()
 {
-	initSearchIndex();
+	for (const std::pair<std::string, QueryCommand::CommandType>& p : QueryCommand::getCommandTypeMap())
+	{
+		m_filterIndex.addNode(std::vector<std::string>({ p.first }));
+	}
 }
 
 Storage::~Storage()
@@ -32,9 +36,7 @@ void Storage::clear()
 {
 	m_graph.clear();
 	m_locationCollection.clear();
-
-	m_index.clear();
-	initSearchIndex();
+	m_tokenIndex.clear();
 }
 
 void Storage::logGraph() const
@@ -323,7 +325,7 @@ Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& f
 
 Id Storage::getIdForNodeWithName(const std::string& fullName) const
 {
-	SearchIndex::SearchNode* node = m_index.getNode(fullName);
+	SearchIndex::SearchNode* node = m_tokenIndex.getNode(fullName);
 	if (node)
 	{
 		return node->getFirstTokenId();
@@ -350,10 +352,30 @@ std::string Storage::getNameForNodeWithId(Id id) const
 	}
 }
 
-std::vector<SearchIndex::SearchMatch> Storage::getAutocompletionMatches(const std::string& query) const
+std::vector<SearchIndex::SearchMatch> Storage::getAutocompletionMatches(
+	const std::string& query, const std::string& word) const
 {
-	std::vector<SearchIndex::SearchMatch> matches = m_index.findFuzzyMatches(query);
-	SearchIndex::logMatches(matches, query);
+	SearchIndex::SearchResults tokenResults;
+
+	bool usedSubquery = false;
+	if (query.size())
+	{
+		usedSubquery = getSubQuerySearchResults(query, word, &tokenResults);
+	}
+
+	if (!usedSubquery && word.size())
+	{
+		tokenResults = m_tokenIndex.runFuzzySearch(word);
+	}
+
+	if (word.size())
+	{
+		SearchIndex::SearchResults filterResults = m_filterIndex.runFuzzySearch(word);
+		tokenResults.insert(filterResults.begin(), filterResults.end());
+	}
+
+	std::vector<SearchIndex::SearchMatch> matches = SearchIndex::getMatches(tokenResults, word);
+	SearchIndex::logMatches(matches, word);
 	return matches;
 }
 
@@ -411,7 +433,7 @@ std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId, Id& declarationId) c
 		ret.push_back(node->getId());
 	}
 	else
-	{		
+	{
 		node = dynamic_cast<Node*>(token);
 		declarationId = node->getId();
 	}
@@ -561,22 +583,12 @@ const TokenLocationCollection& Storage::getTokenLocationCollection() const
 
 const SearchIndex& Storage::getSearchIndex() const
 {
-	return m_index;
-}
-
-void Storage::initSearchIndex()
-{
-	for (const std::pair<std::string, QueryCommand::CommandType>& p : QueryCommand::getCommandTypeMap())
-	{
-		std::vector<std::string> nodeHierarchy;
-		nodeHierarchy.push_back(p.first);
-		m_index.addNode(nodeHierarchy);
-	}
+	return m_tokenIndex;
 }
 
 Node* Storage::addNodeHierarchy(Node::NodeType type, std::vector<std::string> nameHierarchy)
 {
-	SearchIndex::SearchNode* searchNode = m_index.addNode(nameHierarchy);
+	SearchIndex::SearchNode* searchNode = m_tokenIndex.addNode(nameHierarchy);
 	if (!searchNode)
 	{
 		LOG_ERROR("No SearchNode");
@@ -588,7 +600,7 @@ Node* Storage::addNodeHierarchy(Node::NodeType type, std::vector<std::string> na
 
 Node* Storage::addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function)
 {
-	SearchIndex::SearchNode* searchNode = m_index.addNode(function.nameHierarchy);
+	SearchIndex::SearchNode* searchNode = m_tokenIndex.addNode(function.nameHierarchy);
 	if (!searchNode)
 	{
 		LOG_ERROR("No SearchNode");
@@ -596,7 +608,7 @@ Node* Storage::addNodeHierarchyWithDistinctSignature(Node::NodeType type, const 
 	}
 
 	// TODO: Instead of saving the whole signature string, the signature should be just a set of wordIds.
-	Id signatureId = m_index.getWordId(ParserClient::functionSignatureStr(function));
+	Id signatureId = m_tokenIndex.getWordId(ParserClient::functionSignatureStr(function));
 	std::shared_ptr<TokenComponentSignature> signature = std::make_shared<TokenComponentSignature>(signatureId);
 
 	return m_graph.createNodeHierarchyWithDistinctSignature(type, searchNode, signature);
@@ -711,6 +723,73 @@ TokenLocation* Storage::addTokenLocation(Token* token, const ParseLocation& loc,
 
 	token->addLocationId(location->getId());
 	return location;
+}
+
+bool Storage::getSubQuerySearchResults(
+	const std::string& query,
+	const std::string& word,
+	SearchIndex::SearchResults* results
+) const {
+	std::string q = query;
+	bool returnChilds = false;
+
+	if (QueryOperator::getOperatorType(q.back()) == QueryOperator::OPERATOR_SUB)
+	{
+		q.pop_back();
+	}
+	else if (QueryOperator::getOperatorType(q.back()) == QueryOperator::OPERATOR_HAS)
+	{
+		q.pop_back();
+		returnChilds = true;
+	}
+	else if (QueryOperator::getOperatorType(q.back()) != QueryOperator::OPERATOR_NONE)
+	{
+		return false;
+	}
+
+	QueryTree tree(q);
+	if (!tree.isValid())
+	{
+		return false;
+	}
+
+	SubGraph graph;
+	GraphFilterConductor conductor;
+	conductor.filter(&tree, &m_graph, &graph);
+
+	std::vector<const SearchIndex::SearchNode*> searchNodes;
+	graph.forEachNode(
+		[&searchNodes](Node* node)
+		{
+			const TokenComponentName* nameComponent = node->getTokenComponentName();
+			if (nameComponent)
+			{
+				searchNodes.push_back(nameComponent->getSearchNode());
+			}
+		}
+	);
+
+	for (const SearchIndex::SearchNode* node : searchNodes)
+	{
+		if (word.size())
+		{
+			SearchIndex::SearchResults res = node->runFuzzySearch(word, returnChilds);
+			results->insert(res.begin(), res.end());
+		}
+		else if (returnChilds)
+		{
+			for (const std::shared_ptr<SearchIndex::SearchNode>& child : node->getChildren())
+			{
+				results->insert(SearchIndex::SearchResult(0, child.get(), child.get()));
+			}
+		}
+		else if (searchNodes.size() > 1)
+		{
+			results->insert(SearchIndex::SearchResult(0, node, node));
+		}
+	}
+
+	return true;
 }
 
 void Storage::log(std::string type, std::string str, const ParseLocation& location) const

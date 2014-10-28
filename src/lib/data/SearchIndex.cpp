@@ -8,17 +8,29 @@
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
-namespace
+SearchIndex::SearchResult::SearchResult()
 {
-	bool fncomp(const SearchIndex::SearchNode::FuzzySetPair& lhs, const SearchIndex::SearchNode::FuzzySetPair& rhs)
-	{
-		if (lhs.first != rhs.first)
-		{
-			return lhs.first > rhs.first;
-		}
+}
 
-		return lhs.second->getFullName() < rhs.second->getFullName();
+SearchIndex::SearchResult::SearchResult(
+	size_t weight,
+	const SearchIndex::SearchNode* node,
+	const SearchIndex::SearchNode* parent
+)
+	: weight(weight)
+	, node(node)
+	, parent(parent)
+{
+}
+
+bool SearchIndex::SearchResult::operator()(const SearchResult& lhs, const SearchResult& rhs) const
+{
+	if (lhs.weight != rhs.weight)
+	{
+		return lhs.weight > rhs.weight;
 	}
+
+	return lhs.node->getFullName() < rhs.node->getFullName();
 }
 
 void SearchIndex::SearchMatch::print(std::ostream& ostream) const
@@ -131,6 +143,43 @@ std::deque<SearchIndex::SearchNode*> SearchIndex::SearchNode::getParentsWithoutT
 	return nodes;
 }
 
+const std::set<std::shared_ptr<SearchIndex::SearchNode>>& SearchIndex::SearchNode::getChildren() const
+{
+	return m_nodes;
+}
+
+SearchIndex::SearchResults SearchIndex::SearchNode::runFuzzySearch(const std::string& query, bool recursive) const
+{
+	SearchResults result;
+
+	if (recursive)
+	{
+		for (std::shared_ptr<SearchNode> n: m_nodes)
+		{
+			FuzzyMap m = n->fuzzyMatchRecursive(query, 0, 0, 0);
+			for (const std::pair<size_t, const SearchNode*>& p : m)
+			{
+				result.insert(SearchResult(p.first, p.second, this));
+			}
+		}
+	}
+	else
+	{
+		std::pair<size_t, size_t> p = fuzzyMatch(query, 0, 0);
+		size_t pos = p.first;
+		size_t weight = p.second;
+
+		if (pos == query.size())
+		{
+			result.insert(SearchResult(weight, this, this));
+		}
+	}
+
+	// TODO: Currently all matches are added to the ordered set and get compared by their fullName for alphabetical
+	// order. This could be improved by limiting the number of items to e.g. 100.
+	return result;
+}
+
 std::shared_ptr<SearchIndex::SearchNode> SearchIndex::SearchNode::addNodeRecursive(
 	std::deque<Id>* nameIds, const Dictionary& dictionary
 ){
@@ -171,54 +220,15 @@ std::shared_ptr<SearchIndex::SearchNode> SearchIndex::SearchNode::getNodeRecursi
 	return nullptr;
 }
 
-std::vector<SearchIndex::SearchMatch> SearchIndex::SearchNode::findFuzzyMatches(const std::string& query) const
-{
-	std::vector<SearchIndex::SearchMatch> result;
-
-	if (!query.size())
-	{
-		return result;
-	}
-
-	// TODO: Currently all matches are added to the ordered set and get compared by their fullName for alphabetical
-	// order. This should be avoided e.g. by only returning a subset of the best 100 matches in alphabetical order.
-	FuzzySet ordered(&fncomp);
-	for (std::shared_ptr<SearchNode> n: m_nodes)
-	{
-		FuzzyMap m = n->fuzzyMatchRecursive(query, 0, 0, 0);
-		ordered.insert(m.begin(), m.end());
-	}
-
-	for (FuzzySetIterator it = ordered.begin(); it != ordered.end(); it++)
-	{
-		SearchMatch match = it->second->fuzzyMatchData(query, this);
-		result.push_back(match);
-
-		if (it->first != match.weight)
-		{
-			LOG_ERROR("Weight between matching and meta data is different.");
-		}
-	}
-
-	return result;
-}
-
 SearchIndex::SearchNode::FuzzyMap SearchIndex::SearchNode::fuzzyMatchRecursive(
 	const std::string& query, size_t pos, size_t weight, size_t size) const
 {
 	FuzzyMap result;
-
-	size_t length = query.size();
-	if (pos == length)
-	{
-		return result;
-	}
-
 	std::pair<size_t, size_t> p = fuzzyMatch(query, pos, size);
 	pos = p.first;
 	weight += p.second;
 
-	if (pos == length)
+	if (pos == query.size())
 	{
 		result.emplace(weight, this);
 		return result;
@@ -243,6 +253,11 @@ std::pair<size_t, size_t> SearchIndex::SearchNode::fuzzyMatch(
 
 	size_t ql = query.size();
 	size_t ml = m_name.size();
+
+	if (!query.size())
+	{
+		return std::pair<size_t, size_t>(pos, weight);
+	}
 
 	if (query[pos] == ':')
 	{
@@ -311,6 +326,11 @@ SearchIndex::SearchMatch SearchIndex::SearchNode::fuzzyMatchData(const std::stri
 	size_t size = 0;
 
 	std::deque<const SearchNode*> nodes = getNodesToParent(parent);
+	if (!nodes.size())
+	{
+		nodes.push_back(this);
+	}
+
 	for (const SearchNode* node : nodes)
 	{
 		std::pair<size_t, size_t> p = node->fuzzyMatch(query, pos, size, &data.indices);
@@ -349,6 +369,26 @@ std::deque<const SearchIndex::SearchNode*> SearchIndex::SearchNode::getNodesToPa
 	return nodes;
 }
 
+
+std::vector<SearchIndex::SearchMatch> SearchIndex::getMatches(
+	const SearchIndex::SearchResults& searchResults,
+	const std::string& query
+){
+	std::vector<SearchMatch> result;
+
+	for (SearchResultsIterator it = searchResults.begin(); it != searchResults.end(); it++)
+	{
+		SearchMatch match = it->node->fuzzyMatchData(query, it->parent);
+		result.push_back(match);
+
+		if (it->weight != match.weight)
+		{
+			LOG_ERROR("Weight between matching and meta data is different.");
+		}
+	}
+
+	return result;
+}
 
 void SearchIndex::logMatches(const std::vector<SearchIndex::SearchMatch>& matches, const std::string& query)
 {
@@ -412,22 +452,14 @@ SearchIndex::SearchNode* SearchIndex::getNode(const std::string& fullName) const
 	return nullptr;
 }
 
-std::vector<SearchIndex::SearchMatch> SearchIndex::findFuzzyMatches(const std::string& query) const
+SearchIndex::SearchResults SearchIndex::runFuzzySearch(const std::string& query) const
 {
-	std::deque<std::string> names = utility::split(query, '\"');
+	return m_root.runFuzzySearch(query, true);
+}
 
-	if (names.size() == 3 && names.at(0).size() == 0)
-	{
-		SearchNode* node = getNode(names.at(1));
-		if (!node)
-		{
-			LOG_ERROR_STREAM(<< "Couldn't find node with name " << names.at(1) << " in the SearchIndex.");
-		}
-
-		return node->findFuzzyMatches(names.at(2));
-	}
-
-	return m_root.findFuzzyMatches(query);
+std::vector<SearchIndex::SearchMatch> SearchIndex::runFuzzySearchAndGetMatches(const std::string& query) const
+{
+	return getMatches(runFuzzySearch(query), query);
 }
 
 const std::string SearchIndex::DELIMITER = "::";

@@ -47,6 +47,7 @@ public:
 
 	std::string getName() const;
 	std::string getFullName() const;
+	const TokenComponentName* getTokenComponentName() const;
 
 	const std::vector<Edge*>& getEdges() const;
 

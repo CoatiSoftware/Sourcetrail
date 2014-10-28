@@ -236,4 +236,14 @@ public:
 		TS_ASSERT(!utility::equalsCaseInsensitive(foo, foo2));
 	}
 
+	void test_replace()
+	{
+		TS_ASSERT_EQUALS("fubar", utility::replace("foobar", "oo", "u"));
+		TS_ASSERT_EQUALS("fuuuubar", utility::replace("foobar", "o", "uu"));
+		TS_ASSERT_EQUALS("bar", utility::replace("foobar", "foo", ""));
+		TS_ASSERT_EQUALS("foobar", utility::replace("foobar", "", "i"));
+		TS_ASSERT_EQUALS("foobar", utility::replace("foobar", "", ""));
+		TS_ASSERT_EQUALS("", utility::replace("", "foo", "bar"));
+		TS_ASSERT_EQUALS("foobar", utility::replace("foobar", "ba", "ba"));
+	}
 };

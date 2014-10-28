@@ -34,6 +34,8 @@ public:
 	virtual Node* getNodeById(Id id) const = 0;
 	virtual Edge* getEdgeById(Id id) const = 0;
 
+	size_t size() const;
+
 	Token* getTokenById(Id id) const;
 
 	void print(std::ostream& ostream) const;

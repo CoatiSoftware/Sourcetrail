@@ -18,7 +18,10 @@ void SearchController::handleMessage(MessageActivateToken* message)
 {
 	if (!m_ignoreNextMessageActivateToken && message->tokenId)
 	{
-		getView()->setText(m_graphAccess->getNameForNodeWithId(message->tokenId));
+		std::string name = m_graphAccess->getNameForNodeWithId(message->tokenId);
+		std::stringstream ss;
+		ss << '"' << name << ',' << message->tokenId << '"';
+		getView()->setText(ss.str());
 	}
 
 	m_ignoreNextMessageActivateToken = false;
@@ -55,8 +58,8 @@ void SearchController::handleMessage(MessageSearch* message)
 
 void SearchController::handleMessage(MessageSearchAutocomplete* message)
 {
-	LOG_INFO("autocomplete string: \"" + message->query + "\"");
-	getView()->setAutocompletionList(m_graphAccess->getAutocompletionMatches(message->query));
+	LOG_INFO("autocomplete string: \"" + message->word + "\"");
+	getView()->setAutocompletionList(m_graphAccess->getAutocompletionMatches(message->query, message->word));
 }
 
 SearchView* SearchController::getView()

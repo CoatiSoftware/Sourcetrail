@@ -16,6 +16,21 @@ class SearchIndex
 public:
 	class SearchNode;
 
+	struct SearchResult
+	{
+		SearchResult();
+		SearchResult(size_t weight, const SearchIndex::SearchNode* node, const SearchIndex::SearchNode* parent);
+
+		bool operator()(const SearchResult& lhs, const SearchResult& rhs) const;
+
+		size_t weight;
+		const SearchIndex::SearchNode* node;
+		const SearchIndex::SearchNode* parent;
+	};
+
+	typedef std::set<SearchResult, SearchResult> SearchResults;
+	typedef SearchResults::const_iterator SearchResultsIterator;
+
 	struct SearchMatch
 	{
 		void print(std::ostream& ostream) const;
@@ -34,10 +49,6 @@ public:
 		typedef std::multimap<size_t, const SearchIndex::SearchNode*> FuzzyMap;
 		typedef FuzzyMap::const_iterator FuzzyMapIterator;
 
-		typedef std::pair<size_t, const SearchIndex::SearchNode*> FuzzySetPair;
-		typedef std::multiset<FuzzySetPair, bool(*)(const FuzzySetPair&, const FuzzySetPair&)> FuzzySet;
-		typedef FuzzySet::const_iterator FuzzySetIterator;
-
 		SearchNode(SearchNode* parent, const std::string& name, Id nameId);
 		~SearchNode();
 
@@ -53,11 +64,14 @@ public:
 		SearchNode* getParent() const;
 		std::deque<SearchIndex::SearchNode*> getParentsWithoutTokenId();
 
+		const std::set<std::shared_ptr<SearchNode>>& getChildren() const;
+
+		SearchResults runFuzzySearch(const std::string& query, bool recursive) const;
+
 	private:
 		// Accessed by SearchIndex
 		std::shared_ptr<SearchNode> addNodeRecursive(std::deque<Id>* nameIds, const Dictionary& dictionary);
 		std::shared_ptr<SearchNode> getNodeRecursive(std::deque<Id>* nameIds) const;
-		std::vector<SearchIndex::SearchMatch> findFuzzyMatches(const std::string& query) const;
 
 		friend class SearchIndex;
 
@@ -78,7 +92,9 @@ public:
 		const Id m_nameId;
 	};
 
-	static void logMatches(const std::vector<SearchIndex::SearchMatch>& matches, const std::string& query);
+	static std::vector<SearchMatch> getMatches(const SearchResults& searchResults, const std::string& query);
+
+	static void logMatches(const std::vector<SearchMatch>& matches, const std::string& query);
 
 	SearchIndex();
 	virtual ~SearchIndex();
@@ -91,7 +107,8 @@ public:
 	SearchNode* addNode(std::vector<std::string> nameHierarchy);
 	SearchNode* getNode(const std::string& fullName) const;
 
-	std::vector<SearchIndex::SearchMatch> findFuzzyMatches(const std::string& query) const;
+	SearchResults runFuzzySearch(const std::string& query) const;
+	std::vector<SearchMatch> runFuzzySearchAndGetMatches(const std::string& query) const;
 
 	static const std::string DELIMITER;
 

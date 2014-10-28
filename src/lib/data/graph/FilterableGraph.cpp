@@ -11,6 +11,11 @@ FilterableGraph::~FilterableGraph()
 {
 }
 
+size_t FilterableGraph::size() const
+{
+	return getNodeCount() + getEdgeCount();
+}
+
 Token* FilterableGraph::getTokenById(Id id) const
 {
 	Token* token = getNodeById(id);

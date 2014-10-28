@@ -37,6 +37,9 @@ public:
 	virtual Node* getNodeById(Id id) const;
 	virtual Edge* getEdgeById(Id id) const;
 
+	const std::map<Id, Node*>& getNodes() const;
+	const std::map<Id, Edge*>& getEdges() const;
+
 	std::vector<Id> getTokenIds() const;
 
 	void subtract(const SubGraph& other);

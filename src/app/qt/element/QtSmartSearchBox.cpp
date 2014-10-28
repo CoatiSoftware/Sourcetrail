@@ -159,7 +159,7 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 			selectAllElementsWith(false);
 			layoutElements();
 		}
-		else if (cursorPosition() == text().size() && (text().size() || m_cursorIndex < static_cast<int>(m_elements.size())))
+		else if (cursorPosition() == text().size() && (text().size() || m_cursorIndex < m_elements.size()))
 		{
 			if (!editTextToElement())
 			{
@@ -179,7 +179,7 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 	}
 	else if (event->matches(QKeySequence::SelectNextChar))
 	{
-		if (cursorPosition() == text().size() && m_cursorIndex < static_cast<int>(m_elements.size()))
+		if (cursorPosition() == text().size() && m_cursorIndex < m_elements.size())
 		{
 			editTextToElement();
 			m_elements[m_cursorIndex]->setChecked(!m_elements[m_cursorIndex]->isChecked());
@@ -194,7 +194,7 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 	}
 	else if (event->matches(QKeySequence::MoveToEndOfLine))
 	{
-		if (m_cursorIndex < static_cast<int>(m_elements.size()))
+		if (m_cursorIndex < m_elements.size())
 		{
 			editTextToElement();
 			moveCursorTo(m_elements.size());
@@ -343,9 +343,9 @@ void QtSmartSearchBox::onTextEdited(const QString& text)
 		layoutElements();
 	}
 
-	if (token.size())
+	if (token.size() || m_elements.size())
 	{
-		MessageSearchAutocomplete(token).dispatch();
+		requestAutoCompletions();
 	}
 }
 
@@ -398,7 +398,7 @@ void QtSmartSearchBox::onElementSelected(QtQueryElement* element)
 		return;
 	}
 
-	int idx = 0;
+	size_t idx = 0;
 	bool checked = element->isChecked();
 	for (size_t i = 0; i < m_elements.size(); i++)
 	{
@@ -503,7 +503,7 @@ void QtSmartSearchBox::editElement(QtQueryElement* element)
 	setEditText(QString::fromStdString(token));
 	updateElements();
 
-	MessageSearchAutocomplete(token).dispatch();
+	requestAutoCompletions();
 }
 
 void QtSmartSearchBox::updateElements()
@@ -513,6 +513,8 @@ void QtSmartSearchBox::updateElements()
 	for (const std::string& token : m_tokens)
 	{
 		std::string name = QueryTree::getTokenName(token);
+
+		name = utility::replace(name, "&", "&&");
 
 		std::shared_ptr<QtQueryElement> element = std::make_shared<QtQueryElement>(QString::fromStdString(name), this);
 		m_elements.push_back(element);
@@ -538,7 +540,7 @@ void QtSmartSearchBox::layoutElements()
 
 	for (size_t i = 0; i <= m_elements.size(); i++)
 	{
-		if (!hasSelected && static_cast<int>(i) == m_cursorIndex)
+		if (!hasSelected && i == m_cursorIndex)
 		{
 			int left, top, right, bottom;
 			getTextMargins(&left, &top, &right, &bottom);
@@ -597,10 +599,10 @@ void QtSmartSearchBox::selectAllElementsWith(bool selected)
 	}
 }
 
-void QtSmartSearchBox::selectElementsTo(int idx, bool selected)
+void QtSmartSearchBox::selectElementsTo(size_t idx, bool selected)
 {
-	int low = idx < m_cursorIndex ? idx : m_cursorIndex;
-	int hi = idx > m_cursorIndex ? idx + 1 : m_cursorIndex;
+	size_t low = idx < m_cursorIndex ? idx : m_cursorIndex;
+	size_t hi = idx > m_cursorIndex ? idx + 1 : m_cursorIndex;
 
 	while (low < hi)
 	{
@@ -630,13 +632,13 @@ void QtSmartSearchBox::deleteSelectedElements()
 		return;
 	}
 
-	for (int i = m_elements.size() - 1; i >= 0; i--)
+	for (size_t i = m_elements.size(); i > 0; i--)
 	{
-		if (m_elements[i]->isChecked())
+		if (m_elements[i - 1]->isChecked())
 		{
-			m_tokens.erase(m_tokens.begin() + i);
+			m_tokens.erase(m_tokens.begin() + (i - 1));
 
-			if (i < m_cursorIndex)
+			if ((i - 1) < m_cursorIndex)
 			{
 				m_cursorIndex--;
 			}
@@ -666,4 +668,16 @@ void QtSmartSearchBox::clearLineEdit()
 	{
 		completer()->popup()->hide();
 	}
+}
+
+void QtSmartSearchBox::requestAutoCompletions() const
+{
+	std::string query;
+
+	for (size_t i = 0; i < m_tokens.size() && i < m_cursorIndex; i++)
+	{
+		query += m_tokens[i];
+	}
+
+	MessageSearchAutocomplete(query, text().toStdString()).dispatch();
 }

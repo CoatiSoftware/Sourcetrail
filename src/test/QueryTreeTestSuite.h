@@ -75,7 +75,7 @@ public:
 
 			"A \" INVALID\n"
 			"	\"A\"\n"
-			"> IMPLICIT\n"
+			". IMPLICIT\n"
 			"	\"\"\n"
 		);
 	}
@@ -276,7 +276,7 @@ public:
 
 			"\"A\" ( \"B\" )\n"
 			"	\"A\"\n"
-			"> IMPLICIT\n"
+			". IMPLICIT\n"
 			"	(\"B\")\n"
 		);
 	}
@@ -298,13 +298,13 @@ public:
 	void test_operator_precedence_has_before_sub()
 	{
 		TS_ASSERT_EQUALS(
-			printedQueryTree("'namespace'.'class'>'base'"),
+			printedQueryTree("'namespace'>'class'.'base'"),
 
-			"'namespace' . 'class' > 'base'\n"
+			"'namespace' > 'class' . 'base'\n"
 			"		'namespace'\n"
-			"	.\n"
+			"	>\n"
 			"		'class'\n"
-			">\n"
+			".\n"
 			"	'base'\n"
 		);
 	}

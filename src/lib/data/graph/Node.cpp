@@ -64,6 +64,16 @@ std::string Node::getFullName() const
 	return m_nameComponent->getFullName();
 }
 
+const TokenComponentName* Node::getTokenComponentName() const
+{
+	if (m_nameComponent)
+	{
+		return m_nameComponent.get();
+	}
+
+	return nullptr;
+}
+
 const std::vector<Edge*>& Node::getEdges() const
 {
 	return m_edges;

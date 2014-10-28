@@ -17,6 +17,8 @@ public:
 
 	virtual std::string getName() const = 0;
 	virtual std::string getFullName() const = 0;
+
+	virtual const SearchIndex::SearchNode* getSearchNode() const = 0;
 };
 
 
@@ -31,6 +33,8 @@ public:
 
 	virtual std::string getName() const;
 	virtual std::string getFullName() const;
+
+	virtual const SearchIndex::SearchNode* getSearchNode() const;
 
 private:
 	const SearchIndex::SearchNode* m_searchNode;
@@ -48,6 +52,8 @@ public:
 
 	virtual std::string getName() const;
 	virtual std::string getFullName() const;
+
+	virtual const SearchIndex::SearchNode* getSearchNode() const;
 
 private:
 	const std::string m_fullName;

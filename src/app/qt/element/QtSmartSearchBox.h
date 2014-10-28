@@ -75,11 +75,12 @@ private:
 	std::string getSelectedString() const;
 
 	void selectAllElementsWith(bool selected);
-	void selectElementsTo(int idx, bool selected);
+	void selectElementsTo(size_t idx, bool selected);
 	void deleteSelectedElements();
 
 	void updatePlaceholder();
 	void clearLineEdit();
+	void requestAutoCompletions() const;
 
 	bool m_allowTextChange;
 	QString m_oldText;
@@ -87,7 +88,7 @@ private:
 	std::deque<std::string> m_tokens;
 	std::vector<std::shared_ptr<QtQueryElement>> m_elements;
 
-	int m_cursorIndex;
+	size_t m_cursorIndex;
 
 	std::vector<SearchIndex::SearchMatch> m_matches;
 

@@ -15,8 +15,8 @@ const std::map<char, QueryOperator::OperatorType>& QueryOperator::getOperatorTyp
 	operatorMap.emplace(' ', OPERATOR_NONE);
 
 	operatorMap.emplace('!', OPERATOR_NOT);
-	operatorMap.emplace('.', OPERATOR_HAS);
-	operatorMap.emplace('>', OPERATOR_SUB);
+	operatorMap.emplace('>', OPERATOR_HAS);
+	operatorMap.emplace('.', OPERATOR_SUB);
 	operatorMap.emplace('&', OPERATOR_AND);
 	operatorMap.emplace('|', OPERATOR_OR);
 

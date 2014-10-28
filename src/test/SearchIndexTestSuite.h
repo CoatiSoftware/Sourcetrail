@@ -6,14 +6,6 @@
 class SearchIndexTestSuite : public CxxTest::TestSuite
 {
 public:
-
-	// void clear();
-
-	// SearchNode* addNode(const std::string& fullName);
-	// SearchNode* getNode(const std::string& fullName) const;
-
-	// std::vector<std::string> findFuzzyMatches(const std::string& query) const;
-
 	void test_add_node()
 	{
 		SearchIndex index;
@@ -100,7 +92,7 @@ public:
 		index.addNode(utility::splitToVector("math", "::"));
 		index.addNode(utility::splitToVector("string", "::"));
 
-		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("u");
+		std::vector<SearchIndex::SearchMatch> matches = index.runFuzzySearchAndGetMatches("u");
 
 		TS_ASSERT_EQUALS(1, matches.size());
 		TS_ASSERT_EQUALS("util", matches[0].fullName);
@@ -108,8 +100,15 @@ public:
 		TS_ASSERT_EQUALS(1, matches[0].indices.size());
 		TS_ASSERT_EQUALS(0, matches[0].indices[0]);
 
-		matches = index.findFuzzyMatches("");
-		TS_ASSERT_EQUALS(0, matches.size());
+		matches = index.runFuzzySearchAndGetMatches("");
+		TS_ASSERT_EQUALS(3, matches.size());
+		TS_ASSERT_EQUALS("math", matches[0].fullName);
+		TS_ASSERT_EQUALS("string", matches[1].fullName);
+		TS_ASSERT_EQUALS("util", matches[2].fullName);
+
+		TS_ASSERT_EQUALS(0, matches[0].weight);
+		TS_ASSERT_EQUALS(0, matches[1].weight);
+		TS_ASSERT_EQUALS(0, matches[2].weight);
 	}
 
 	void test_fuzzy_matching_is_case_insensitive()
@@ -118,13 +117,13 @@ public:
 		index.addNode(utility::splitToVector("util", "::"));
 		index.addNode(utility::splitToVector("MATH", "::"));
 
-		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("t");
+		std::vector<SearchIndex::SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
 		TS_ASSERT_EQUALS(2, matches.size());
 		TS_ASSERT_EQUALS("MATH", matches[0].fullName);
 		TS_ASSERT_EQUALS("util", matches[1].fullName);
 
-		matches = index.findFuzzyMatches("T");
+		matches = index.runFuzzySearchAndGetMatches("T");
 
 		TS_ASSERT_EQUALS(2, matches.size());
 		TS_ASSERT_EQUALS("MATH", matches[0].fullName);
@@ -138,7 +137,7 @@ public:
 		index.addNode(utility::splitToVector("math", "::"));
 		index.addNode(utility::splitToVector("string", "::"));
 
-		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("t");
+		std::vector<SearchIndex::SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
 		TS_ASSERT_EQUALS(3, matches.size());
 		TS_ASSERT_EQUALS("string", matches[0].fullName);
@@ -161,7 +160,7 @@ public:
 		index.addNode(utility::splitToVector("uTil", "::"));
 		index.addNode(utility::splitToVector("string", "::"));
 
-		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("t");
+		std::vector<SearchIndex::SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
 		TS_ASSERT_EQUALS(2, matches.size());
 		TS_ASSERT_EQUALS("uTil", matches[0].fullName);
@@ -174,7 +173,7 @@ public:
 		index.addNode(utility::splitToVector("oaabbcc", "::"));
 		index.addNode(utility::splitToVector("ocbaabc", "::"));
 
-		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("abc");
+		std::vector<SearchIndex::SearchMatch> matches = index.runFuzzySearchAndGetMatches("abc");
 
 		TS_ASSERT_EQUALS(2, matches.size());
 		TS_ASSERT_EQUALS("ocbaabc", matches[0].fullName);
@@ -188,12 +187,12 @@ public:
 		index.addNode(utility::splitToVector("util::math::floor", "::"));
 		index.addNode(utility::splitToVector("util::string::concat", "::"));
 
-		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("t");
+		std::vector<SearchIndex::SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
 		TS_ASSERT_EQUALS(1, matches.size());
 		TS_ASSERT_EQUALS("util", matches[0].fullName);
 
-		matches = index.findFuzzyMatches("uml");
+		matches = index.runFuzzySearchAndGetMatches("uml");
 
 		TS_ASSERT_EQUALS(2, matches.size());
 		TS_ASSERT_EQUALS("util::math::floor", matches[0].fullName);
@@ -207,13 +206,13 @@ public:
 		index.addNode(utility::splitToVector("util::math::floor", "::"));
 		index.addNode(utility::splitToVector("util::string::concat", "::"));
 
-		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("u:i");
+		std::vector<SearchIndex::SearchMatch> matches = index.runFuzzySearchAndGetMatches("u:i");
 
 		TS_ASSERT_EQUALS(2, matches.size());
 		TS_ASSERT_EQUALS("util::string", matches[0].fullName);
 		TS_ASSERT_EQUALS("util::math::ceil", matches[1].fullName);
 
-		matches = index.findFuzzyMatches("u:t:i");
+		matches = index.runFuzzySearchAndGetMatches("u:t:i");
 
 		TS_ASSERT_EQUALS(1, matches.size());
 		TS_ASSERT_EQUALS("util::math::ceil", matches[0].fullName);
@@ -225,32 +224,10 @@ public:
 		index.addNode(utility::splitToVector("abc::dfe::ghi", "::"));
 		index.addNode(utility::splitToVector("abc::hgi", "::"));
 
-		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("g");
+		std::vector<SearchIndex::SearchMatch> matches = index.runFuzzySearchAndGetMatches("g");
 
 		TS_ASSERT_EQUALS(2, matches.size());
 		TS_ASSERT_EQUALS("abc::dfe::ghi", matches[0].fullName);
 		TS_ASSERT_EQUALS("abc::hgi", matches[1].fullName);
-	}
-
-	void test_fuzzy_matching_with_defined_start_node()
-	{
-		SearchIndex index;
-		index.addNode(utility::splitToVector("math::ceil", "::"));
-		index.addNode(utility::splitToVector("math::floor", "::"));
-		index.addNode(utility::splitToVector("string::concat", "::"));
-
-		std::vector<SearchIndex::SearchMatch> matches = index.findFuzzyMatches("\"math\"c");
-
-		TS_ASSERT_EQUALS(1, matches.size());
-		TS_ASSERT_EQUALS("math::ceil", matches[0].fullName);
-
-		matches = index.findFuzzyMatches("\"mathc");
-		TS_ASSERT_EQUALS(0, matches.size());
-
-		matches = index.findFuzzyMatches("math\"c");
-		TS_ASSERT_EQUALS(0, matches.size());
-
-		matches = index.findFuzzyMatches("\"mat\"h\"c");
-		TS_ASSERT_EQUALS(0, matches.size());
 	}
 };

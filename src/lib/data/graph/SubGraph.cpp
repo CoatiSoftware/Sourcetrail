@@ -91,6 +91,16 @@ Edge* SubGraph::getEdgeById(Id id) const
 	return nullptr;
 }
 
+const std::map<Id, Node*>& SubGraph::getNodes() const
+{
+	return m_nodes;
+}
+
+const std::map<Id, Edge*>& SubGraph::getEdges() const
+{
+	return m_edges;
+}
+
 std::vector<Id> SubGraph::getTokenIds() const
 {
 	std::vector<Id> ids;

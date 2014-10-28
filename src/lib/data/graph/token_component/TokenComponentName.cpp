@@ -40,6 +40,10 @@ std::string TokenComponentNameReferenced::getFullName() const
 	return m_searchNode->getFullName();
 }
 
+const SearchIndex::SearchNode* TokenComponentNameReferenced::getSearchNode() const
+{
+	return m_searchNode;
+}
 
 TokenComponentNameCached::TokenComponentNameCached(const std::string& fullName)
 	: m_fullName(fullName)
@@ -63,4 +67,9 @@ std::string TokenComponentNameCached::getName() const
 std::string TokenComponentNameCached::getFullName() const
 {
 	return m_fullName;
+}
+
+const SearchIndex::SearchNode* TokenComponentNameCached::getSearchNode() const
+{
+	return nullptr;
 }

@@ -120,7 +120,7 @@ namespace utility
 	{
 		if (a.size() == b.size())
 		{
-			for (int i = 0; i < a.size(); i++)
+			for (size_t i = 0; i < a.size(); i++)
 			{
 				if (tolower(a[i]) != tolower(b[i]))
 				{
@@ -130,5 +130,23 @@ namespace utility
 			return true;
 		}
 		return false;
+	}
+
+	std::string replace(std::string str, const std::string& from, const std::string& to)
+	{
+		size_t pos = 0;
+
+		if (from.size() == 0)
+		{
+			return str;
+		}
+
+		while ((pos = str.find(from, pos)) != std::string::npos)
+		{
+			str.replace(pos, from.length(), to);
+			pos += to.length();
+		}
+
+		return str;
 	}
 }

@@ -16,7 +16,8 @@ public:
 
 	virtual Id getIdForNodeWithName(const std::string& name) const = 0;
 	virtual std::string getNameForNodeWithId(Id id) const = 0;
-	virtual std::vector<SearchIndex::SearchMatch> getAutocompletionMatches(const std::string& query) const = 0;
+	virtual std::vector<SearchIndex::SearchMatch> getAutocompletionMatches(
+		const std::string& query, const std::string& word) const = 0;
 
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const = 0;
 
