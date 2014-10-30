@@ -4,6 +4,7 @@
 
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
+#include "utility/utilityString.h"
 
 std::shared_ptr<ConfigManager> ConfigManager::createEmpty()
 {
@@ -19,7 +20,7 @@ std::shared_ptr<ConfigManager> ConfigManager::createAndLoad(const std::shared_pt
 
 bool ConfigManager::getValue(const std::string& key, std::string& value) const
 {
-	std::map<std::string, std::string>::const_iterator it = m_values.find(key);
+	std::multimap<std::string, std::string>::const_iterator it = m_values.find(key);
 
 	if (it != m_values.end())
 	{
@@ -66,9 +67,73 @@ bool ConfigManager::getValue(const std::string& key, bool& value) const
 	return false;
 }
 
+bool ConfigManager::getValues(const std::string& key, std::vector<std::string>& values) const
+{
+	std::pair <std::multimap<std::string, std::string>::const_iterator,
+				std::multimap<std::string, std::string>::const_iterator> ret;
+	ret = m_values.equal_range(key);
+
+	if (ret.first != m_values.end())
+	{
+		std::multimap<std::string, std::string>::const_iterator cit = ret.first;		
+		for(;cit!=ret.second;++cit)
+		{
+			values.push_back(cit->second);
+		}
+		return true;
+	}
+	else
+	{
+		LOG_ERROR("value " + key + " is not present in config.");
+		return false;
+	}
+}
+
+bool ConfigManager::getValues(const std::string& key, std::vector<int>& values) const
+{
+	std::vector<std::string> valuesStringVector;
+	if (getValues(key, valuesStringVector))
+	{
+		for (std::string valueString : valuesStringVector)
+		{
+			values.push_back(atoi(valueString.c_str()));
+		}
+		return true;
+	}
+	return false;
+}
+
+bool ConfigManager::getValues(const std::string& key, std::vector<float>& values) const
+{
+	std::vector<std::string> valuesStringVector;
+	if (getValues(key, valuesStringVector))
+	{
+		for (std::string valueString : valuesStringVector)
+		{
+			values.push_back(static_cast<float>(atof(valueString.c_str())));
+		}
+		return true;
+	}
+	return false;
+}
+
+bool ConfigManager::getValues(const std::string& key, std::vector<bool>& values) const
+{
+	std::vector<std::string> valuesStringVector;
+	if (getValues(key, valuesStringVector))
+	{
+		for (std::string valueString : valuesStringVector)
+		{
+			values.push_back(atoi(valueString.c_str()) != 0);
+		}
+		return true;
+	}
+	return false;
+}
+
 void ConfigManager::setValue(const std::string& key, const std::string& value)
 {
-	std::map<std::string, std::string>::iterator it = m_values.find(key);
+	std::multimap<std::string, std::string>::iterator it = m_values.find(key);
 
 	if (it != m_values.end())
 	{
@@ -95,6 +160,50 @@ void ConfigManager::setValue(const std::string& key, const bool value)
 	setValue(key, std::string(value ? "1" : "0"));
 }
 
+void ConfigManager::setValues(const std::string& key, const std::vector<std::string>& values)
+{
+	std::multimap<std::string, std::string>::iterator it = m_values.find(key);
+
+	if(it != m_values.end())
+	{
+		m_values.erase(key);
+	}
+	for(std::string s : values)
+	{
+		m_values.emplace(key, s);
+	}
+}
+
+void ConfigManager::setValues(const std::string& key, const std::vector<int>& values)
+{
+	std::vector<std::string> stringValues;
+	for(int i : values)
+	{
+		stringValues.push_back(std::to_string(i));
+	}
+	setValues(key, stringValues);
+}
+
+void ConfigManager::setValues(const std::string& key, const std::vector<float>& values)
+{
+	std::vector<std::string> stringValues;
+	for(float f : values)
+	{
+		stringValues.push_back(std::to_string(f));
+	}
+	setValues(key, stringValues);
+}
+
+void ConfigManager::setValues(const std::string& key, const std::vector<bool>& values)
+{
+	std::vector<std::string> stringValues;
+	for(bool b : values)
+	{
+		stringValues.push_back(std::string(b ? "1" : "0"));
+	}
+	setValues(key, stringValues);
+}
+
 void ConfigManager::load(const std::shared_ptr<TextAccess> textAccess)
 {
 	std::string text = textAccess->getText();
@@ -116,13 +225,61 @@ void ConfigManager::load(const std::shared_ptr<TextAccess> textAccess)
 	}
 }
 
-void ConfigManager::save()
+void ConfigManager::save(const std::string filepath)
 {
-	LOG_ERROR("function: configmanager::save not implemented");
+	std::string output("");
+	createXmlDocument(true, filepath, output);
 }
 
 ConfigManager::ConfigManager()
 {
+}
+
+bool ConfigManager::createXmlDocument(bool saveAsFile, const std::string filepath, std::string& output)
+{
+	bool success = true;
+	TiXmlDocument doc;
+	TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "utf-8", "" );
+	doc.LinkEndChild(decl);
+	TiXmlElement *root = new TiXmlElement("config");
+	doc.LinkEndChild(root);
+
+	for(std::multimap<std::string,std::string>::iterator it = m_values.begin(); it != m_values.end(); ++it)
+	{
+		std::vector<std::string> tokens = utility::splitToVector(it->first, "/");
+		TiXmlElement* element = doc.RootElement();
+		TiXmlElement* child;
+		while(tokens.size() > 1)
+		{
+			child = element->FirstChildElement(tokens.front().c_str());
+			if(!child)
+			{
+				child = new TiXmlElement(tokens.front().c_str());
+				element->LinkEndChild(child);
+			}			
+			tokens.erase(tokens.begin());
+			element = child;
+		} 
+
+		child = new TiXmlElement(tokens.front().c_str());
+		element->LinkEndChild(child);
+		TiXmlText* text = new TiXmlText(it->second.c_str());
+		child->LinkEndChild(text);
+	}
+
+	if(saveAsFile)
+	{
+		success = doc.SaveFile(filepath.c_str());
+	}
+	else
+	{
+		TiXmlPrinter printer;
+		doc.Accept(&printer);
+		output = printer.CStr();
+	}
+	success = doc.SaveFile(filepath.c_str());
+	doc.Clear();
+	return success;
 }
 
 void ConfigManager::parseSubtree(TiXmlNode* currentNode, const std::string& currentPath)
@@ -130,7 +287,7 @@ void ConfigManager::parseSubtree(TiXmlNode* currentNode, const std::string& curr
 	if (currentNode->Type() == TiXmlNode::TINYXML_TEXT)
 	{
 		std::string key = currentPath.substr(0, currentPath.size() - 1);
-		m_values[key] = currentNode->ToText()->Value();
+		m_values.insert(std::pair<std::string,std::string>(key,currentNode->ToText()->Value()));
 	}
 	else
 	{
@@ -139,4 +296,11 @@ void ConfigManager::parseSubtree(TiXmlNode* currentNode, const std::string& curr
 			parseSubtree(childNode, currentPath + std::string(currentNode->Value()) + "/");
 		}
 	}
+}
+
+std::string ConfigManager::toString()
+{
+	std::string output;
+	createXmlDocument(false, "", output);
+	return output;
 }

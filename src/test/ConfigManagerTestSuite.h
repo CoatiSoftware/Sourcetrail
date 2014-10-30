@@ -97,21 +97,50 @@ public:
 		TS_ASSERT(value);
 	}
 
+	void test_config_manager_returns_correct_list_for_key()
+	{
+		std::shared_ptr<ConfigManager> config = ConfigManager::createAndLoad(getConfigTextAccess());
+
+		std::vector<int> values;
+
+		bool success(config->getValues("paths/path", values));
+
+		TS_ASSERT(success);
+		TS_ASSERT_EQUALS(values.size(), 3);
+		TS_ASSERT_EQUALS(values[0], 2);
+		TS_ASSERT_EQUALS(values[1], 5);
+		TS_ASSERT_EQUALS(values[2], 8);
+	}
+
+	void test_config_manager_save_and_load_configuration_and_compare()
+	{
+		std::shared_ptr<ConfigManager> config = ConfigManager::createAndLoad(getConfigTextAccess());
+		config->save("temp.xml");
+		std::shared_ptr<ConfigManager> config2 = ConfigManager::createAndLoad(TextAccess::createFromFile("temp.xml"));
+		TS_ASSERT_EQUALS(config->toString(), config2->toString());
+	}
+
 private:
 	std::shared_ptr<TextAccess> getConfigTextAccess()
 	{
 		std::string text =
-			"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 				"<path>\n"
 					"<to>\n"
-						"<single_value>42</single_value>\n"
-							"<bool_that_is_true>1</bool_that_is_true>\n"
 						"<bool_that_is_false>0</bool_that_is_false>\n"
+						"<bool_that_is_true>1</bool_that_is_true>\n"
+						"<single_value>42</single_value>\n"
 					"</to>\n"
 				"</path>\n"
+				"<paths>\n"
+					"<nopath>4</nopath>\n"
+					"<path>2</path>\n"
+					"<path>5</path>\n"
+					"<path>8</path>\n"
+				"</paths>\n"
 			"</config>\n";
-
 		return TextAccess::createFromString(text);
 	}
+
 };

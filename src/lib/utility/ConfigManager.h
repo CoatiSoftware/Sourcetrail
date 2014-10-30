@@ -4,6 +4,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <vector>
 
 class TextAccess;
 class TiXmlNode;
@@ -19,13 +20,24 @@ public:
 	bool getValue(const std::string& key, float& value) const;
 	bool getValue(const std::string& key, bool& value) const;
 
+	bool getValues(const std::string& key, std::vector<std::string>& values) const;
+	bool getValues(const std::string& key, std::vector<int>& values) const;
+	bool getValues(const std::string& key, std::vector<float>& values) const;
+	bool getValues(const std::string& key, std::vector<bool>& values) const;
+
 	void setValue(const std::string& key, const std::string& value);
 	void setValue(const std::string& key, const int value);
 	void setValue(const std::string& key, const float value);
 	void setValue(const std::string& key, const bool value);
 
+	void setValues(const std::string& key, const std::vector<std::string>& values);
+	void setValues(const std::string& key, const std::vector<int>& values);
+	void setValues(const std::string& key, const std::vector<float>& values);
+	void setValues(const std::string& key, const std::vector<bool>& values);
+
 	void load(const std::shared_ptr<TextAccess> textAccess);
-	void save();
+	void save(const std::string filepath);
+	std::string toString();
 
 private:
 	ConfigManager();
@@ -33,8 +45,8 @@ private:
 	void operator=(const ConfigManager&);
 
 	void parseSubtree(TiXmlNode* parentElement, const std::string& currentPath);
-
-	std::map<std::string, std::string> m_values;
+	bool createXmlDocument(bool saveAsFile, std::string filepath, std::string& output);
+	std::multimap<std::string, std::string> m_values;
 };
 
 #endif // CONFIG_MANAGER_H

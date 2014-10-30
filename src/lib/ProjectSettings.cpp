@@ -32,5 +32,7 @@ bool ProjectSettings::setSourcePath(const std::string& sourcePath)
 
 std::vector<std::string> ProjectSettings::getHeaderSearchPaths() const
 {
-	return getValues("source/HeaderSearchPaths", "");
+	//TODO defaultvalues?
+	std::vector<std::string> defaultValues;
+	return getValues("source/HeaderSearchPaths/HeaderSearchPath", defaultValues);
 }

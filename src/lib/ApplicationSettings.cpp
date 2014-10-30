@@ -18,7 +18,9 @@ ApplicationSettings::~ApplicationSettings()
 
 std::vector<std::string> ApplicationSettings::getHeaderSearchPaths() const
 {
-	return getValues("source/HeaderSearchPaths", "");
+	//TODO: defaultValues?
+	std::vector<std::string> defaultValues;
+	return getValues("source/HeaderSearchPaths", defaultValues);
 }
 
 int ApplicationSettings::getCodeTabWidth() const

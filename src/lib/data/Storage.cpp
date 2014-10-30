@@ -24,7 +24,7 @@ Storage::Storage()
 {
 	for (const std::pair<std::string, QueryCommand::CommandType>& p : QueryCommand::getCommandTypeMap())
 	{
-		m_filterIndex.addNode(std::vector<std::string>({ p.first }));
+		m_filterIndex.addNode(std::vector<std::string>(1, p.first));
 	}
 }
 

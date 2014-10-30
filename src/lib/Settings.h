@@ -21,7 +21,8 @@ protected:
 	template<typename T>
 	T getValue(const std::string& key, T defaultValue) const;
 
-	std::vector<std::string> getValues(const std::string& key, std::string defaultValue) const;
+	template<typename T>
+	std::vector<T> getValues(const std::string& key, std::vector<T> defaultValues) const;
 
 	template<typename T>
 	bool setValue(const std::string& key, T value);
@@ -42,6 +43,20 @@ T Settings::getValue(const std::string& key, T defaultValue) const
 		}
 	}
 	return defaultValue;
+}
+
+template<typename T>
+std::vector<T> Settings::getValues(const std::string& key, std::vector<T> defaultValues) const
+{
+	if(m_config)
+	{
+		std::vector<T> values;
+		if(m_config->getValues(key, values))
+		{
+			return values;
+		}
+	}
+	return defaultValues;
 }
 
 template<typename T>

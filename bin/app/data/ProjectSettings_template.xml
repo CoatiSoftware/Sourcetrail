@@ -8,6 +8,8 @@
 <config>
 	<source>
 		<SourcePath><!-- STRING: root folder for source code parsing, also used as header search path --></SourcePath>
-		<HeaderSearchPaths><!-- STRING: header search paths separated by | --></HeaderSearchPaths>
+		<HeaderSearchPaths>
+			<HeaderSearchPath><!-- STRING: header search path for each path a HeaderSearchPaht element--></HeaderSearchPath> 
+		</HeaderSearchPaths>
 	</source>
 </config>
