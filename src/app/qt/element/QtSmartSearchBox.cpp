@@ -2,17 +2,17 @@
 
 #include <stdlib.h>
 
-#include <QAbstractItemView>
 #include <QApplication>
 #include <QClipboard>
-#include <QCompleter>
 #include <QKeyEvent>
 
-#include "data/query/QueryTree.h"
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageSearchAutocomplete.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utilityString.h"
+
+#include "data/query/QueryTree.h"
+#include "qt/element/QtAutocompletionList.h"
 
 QtQueryElement::QtQueryElement(const QString& text, QWidget* parent)
 	: QPushButton(text, parent)
@@ -54,29 +54,18 @@ QtSmartSearchBox::~QtSmartSearchBox()
 
 void QtSmartSearchBox::setAutocompletionList(const std::vector<SearchMatch>& autocompletionList)
 {
-	m_matches = autocompletionList;
-
-	if (!m_matches.size())
+	if (!autocompletionList.size())
 	{
 		setCompleter(0);
 		return;
 	}
 
-	QStringList wordList;
-	for (const SearchMatch& match: autocompletionList)
-	{
-		wordList << match.fullName.c_str();
-	}
-
-	QCompleter *completer = new QCompleter(wordList, this);
-	completer->popup()->setObjectName("search_box_popup");
-	completer->setCaseSensitivity(Qt::CaseInsensitive);
-
+	QCompleter* completer = new QtAutocompletionList(autocompletionList, this);
 	setCompleter(completer);
-	completer->complete();
+	completer->complete(QRect(textMargins().left() + 3, height(), 300, 1));
 
-	connect(completer, SIGNAL(highlighted(const QModelIndex&)), this, SLOT(onSearchCompletionHighlighted(const QModelIndex&)), Qt::DirectConnection);
-	connect(completer, SIGNAL(activated(const QModelIndex&)), this, SLOT(onSearchCompletionActivated(const QModelIndex&)), Qt::DirectConnection);
+	connect(completer, SIGNAL(matchHighlighted(const SearchMatch&)), this, SLOT(onAutocompletionHighlighted(const SearchMatch&)), Qt::DirectConnection);
+	connect(completer, SIGNAL(matchActivated(const SearchMatch&)), this, SLOT(onAutocompletionActivated(const SearchMatch&)), Qt::DirectConnection);
 
 	completer->popup()->setCurrentIndex(completer->completionModel()->index(0, 0));
 }
@@ -94,6 +83,21 @@ void QtSmartSearchBox::setFocus()
 {
 	QLineEdit::setFocus(Qt::ShortcutFocusReason);
 	selectAllElementsWith(true);
+}
+
+bool QtSmartSearchBox::event(QEvent *event)
+{
+	if (event->type() == QEvent::KeyPress)
+	{
+		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+		if (keyEvent->key() == Qt::Key_Tab && completer() && completer()->popup()->isVisible())
+		{
+			onAutocompletionActivated(m_highlightedMatch);
+			return true;
+		}
+	}
+
+	return QWidget::event(event);
 }
 
 void QtSmartSearchBox::resizeEvent(QResizeEvent* event)
@@ -371,19 +375,20 @@ void QtSmartSearchBox::onTextChanged(const QString& text)
 	updatePlaceholder();
 }
 
-void QtSmartSearchBox::onSearchCompletionHighlighted(const QModelIndex& index)
+void QtSmartSearchBox::onAutocompletionHighlighted(const SearchMatch& match)
 {
+	m_highlightedMatch = match;
 }
 
-void QtSmartSearchBox::onSearchCompletionActivated(const QModelIndex& index)
+void QtSmartSearchBox::onAutocompletionActivated(const SearchMatch& match)
 {
-	if (index.row() >= 0 && index.row() < int(m_matches.size()))
+	if (match.fullName.size())
 	{
 		m_oldText.clear();
 		clearLineEdit();
 
-		std::string match = m_matches[index.row()].encodeForQuery();
-		textToToken(match);
+		std::string name = match.encodeForQuery();
+		textToToken(name);
 		updateElements();
 	}
 
@@ -457,9 +462,13 @@ void QtSmartSearchBox::textToToken(std::string text)
 		return;
 	}
 
-	if (m_matches.size() && utility::equalsCaseInsensitive(text, m_matches.front().fullName))
+	if (completer())
 	{
-		text = m_matches.front().encodeForQuery();
+		const SearchMatch* match = dynamic_cast<QtAutocompletionList*>(completer())->getSearchMatchAt(0);
+		if (match && utility::equalsCaseInsensitive(text, match->fullName))
+		{
+			text = match->encodeForQuery();
+		}
 	}
 
 	m_tokens.insert(m_tokens.begin() + m_cursorIndex, text);

@@ -115,8 +115,8 @@ public:
 	void test_config_manager_save_and_load_configuration_and_compare()
 	{
 		std::shared_ptr<ConfigManager> config = ConfigManager::createAndLoad(getConfigTextAccess());
-		config->save("temp.xml");
-		std::shared_ptr<ConfigManager> config2 = ConfigManager::createAndLoad(TextAccess::createFromFile("temp.xml"));
+		config->save("data/temp.xml");
+		std::shared_ptr<ConfigManager> config2 = ConfigManager::createAndLoad(TextAccess::createFromFile("data/temp.xml"));
 		TS_ASSERT_EQUALS(config->toString(), config2->toString());
 	}
 

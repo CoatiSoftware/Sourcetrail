@@ -49,7 +49,7 @@ public:
 
 	// Logging.
 	std::string getTypeString(EdgeType type) const;
-	std::string getTypeString() const;
+	virtual std::string getTypeString() const;
 	std::string getAsString() const;
 
 private:

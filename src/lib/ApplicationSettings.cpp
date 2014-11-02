@@ -20,7 +20,7 @@ std::vector<std::string> ApplicationSettings::getHeaderSearchPaths() const
 {
 	//TODO: defaultValues?
 	std::vector<std::string> defaultValues;
-	return getValues("source/HeaderSearchPaths", defaultValues);
+	return getValues("source/HeaderSearchPaths/HeaderSearchPath", defaultValues);
 }
 
 int ApplicationSettings::getCodeTabWidth() const

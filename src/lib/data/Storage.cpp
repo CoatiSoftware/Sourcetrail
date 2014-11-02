@@ -376,6 +376,18 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(
 
 	std::vector<SearchMatch> matches = SearchIndex::getMatches(tokenResults, word);
 	SearchMatch::log(matches, word);
+
+	for (SearchMatch& match : matches)
+	{
+		if (!match.tokenIds.size())
+		{
+			continue;
+		}
+
+		Token* token = m_graph.getTokenById(*match.tokenIds.cbegin());
+		match.typeName = token->getTypeString();
+	}
+
 	return matches;
 }
 

@@ -31,6 +31,9 @@ public:
 	template <typename ComponentType>
 	std::shared_ptr<ComponentType> removeComponent();
 
+	// Logging.
+	virtual std::string getTypeString() const = 0;
+
 protected:
 	Token(const Token& other);
 

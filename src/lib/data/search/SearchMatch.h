@@ -16,6 +16,7 @@ struct SearchMatch
 	std::string encodeForQuery() const;
 
 	std::string fullName;
+	std::string typeName;
 	std::set<Id> tokenIds;
 	std::vector<size_t> indices;
 	size_t weight;

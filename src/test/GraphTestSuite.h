@@ -326,6 +326,11 @@ private:
 		{
 			return Token::removeComponent<ComponentType>();
 		}
+
+		virtual std::string getTypeString() const
+		{
+			return "";
+		}
 	};
 
 	class TestComponent: public TokenComponent

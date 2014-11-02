@@ -5,6 +5,8 @@ add_files(
 	platform_includes/includesMac.h
 	platform_includes/includesWindows.h
 
+	qt/element/QtAutocompletionList.cpp
+	qt/element/QtAutocompletionList.h
 	qt/element/QtCodeFile.cpp
 	qt/element/QtCodeFile.h
 	qt/element/QtCodeFileList.cpp
@@ -30,7 +32,7 @@ add_files(
 	qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.h
 	qt/view/graphElements/nodeComponents/QtGraphNodeComponentToggleButton.cpp
 	qt/view/graphElements/nodeComponents/QtGraphNodeComponentToggleButton.h
-	
+
 	qt/view/graphElements/QtGraphEdge.cpp
 	qt/view/graphElements/QtGraphEdge.h
 	qt/view/graphElements/QtGraphNode.cpp

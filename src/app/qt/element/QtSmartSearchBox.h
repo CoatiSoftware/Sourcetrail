@@ -43,6 +43,7 @@ public:
 	void setFocus();
 
 protected:
+	virtual bool event(QEvent *event);
 	virtual void resizeEvent(QResizeEvent* event);
 	virtual void keyPressEvent(QKeyEvent* event);
 	virtual void keyReleaseEvent(QKeyEvent* event);
@@ -55,8 +56,8 @@ private slots:
 	void onTextEdited(const QString& text);
 	void onTextChanged(const QString& text);
 
-	void onSearchCompletionHighlighted(const QModelIndex& index);
-	void onSearchCompletionActivated(const QModelIndex& index);
+	void onAutocompletionHighlighted(const SearchMatch& match);
+	void onAutocompletionActivated(const SearchMatch& match);
 
 	void onElementSelected(QtQueryElement* element);
 
@@ -91,7 +92,7 @@ private:
 
 	size_t m_cursorIndex;
 
-	std::vector<SearchMatch> m_matches;
+	SearchMatch m_highlightedMatch;
 
 	bool m_shiftKeyDown;
 	bool m_mousePressed;
