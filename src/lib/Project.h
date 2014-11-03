@@ -17,6 +17,7 @@ public:
 	~Project();
 
 	bool loadProjectSettings(const std::string& projectSettingsFile);
+	bool saveProjectSettings(const std::string& projectSettingsFile);
 	void clearProjectSettings();
 
 	bool setSourceDirectoryPath(const std::string& sourceDirectoryPath);
@@ -28,6 +29,8 @@ private:
 	Project(GraphAccessProxy* graphAccessProxy, LocationAccessProxy* locationAccessProxy);
 	Project(const Project&);
 	Project operator=(const Project&);
+
+	std::string m_projectSettingsFilepath;
 
 	GraphAccessProxy* const m_graphAccessProxy;
 	LocationAccessProxy* const m_locationAccessProxy;

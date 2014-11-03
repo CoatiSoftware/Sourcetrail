@@ -14,6 +14,7 @@
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageLoadSource.h"
 #include "utility/messaging/type/MessageRefresh.h"
+#include "utility/messaging/type/MessageSaveProject.h"
 
 QtMainWindow::QtMainWindow()
 {
@@ -68,6 +69,22 @@ void QtMainWindow::openProject(const QString &path)
 	if (!fileName.isEmpty())
 	{
 		MessageLoadProject(fileName.toStdString()).dispatch();
+	}
+}
+
+void QtMainWindow::saveProject()
+{	
+	MessageSaveProject("").dispatch();	
+}
+
+void QtMainWindow::saveAsProject()
+{
+	QString filename = "";
+	filename = QFileDialog::getSaveFileName(this, "Save File as", "", "XML Files(*.xml)");
+
+	if(!filename.isEmpty())
+	{
+		MessageSaveProject(filename.toStdString()).dispatch();
 	}
 }
 
@@ -184,6 +201,8 @@ void QtMainWindow::setupProjectMenu()
 
 	menu->addAction(tr("&New"), this, SLOT(newProject()), QKeySequence::New);
 	menu->addAction(tr("&Open..."), this, SLOT(openProject()), QKeySequence::Open);
+	menu->addAction(tr("&Save"), this, SLOT(saveProject()), QKeySequence::Save);
+	menu->addAction(tr("Save as"), this, SLOT(saveAsProject()), QKeySequence::SaveAs);
 	menu->addAction(tr("E&xit"), QCoreApplication::instance(), SLOT(quit()), QKeySequence::Quit);
 }
 

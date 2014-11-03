@@ -33,6 +33,8 @@ public slots:
 	void find();
 	void closeWindow();
 	void refresh();
+	void saveProject();
+	void saveAsProject();
 
 private:
 	void setupProjectMenu();

@@ -10,6 +10,7 @@
 #include "data/parser/cxx/CxxParser.h"
 #include "utility/FileSystem.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/logging/logging.h"
 
 std::shared_ptr<Project> Project::create(GraphAccessProxy* graphAccessProxy, LocationAccessProxy* locationAccessProxy)
 {
@@ -24,16 +25,42 @@ Project::~Project()
 
 bool Project::loadProjectSettings(const std::string& projectSettingsFile)
 {
-	return ProjectSettings::getInstance()->load(projectSettingsFile);
+	bool success = ProjectSettings::getInstance()->load(projectSettingsFile);
+	if(success)
+	{
+		m_projectSettingsFilepath = projectSettingsFile;
+	}
+	return success;
+}
+
+bool Project::saveProjectSettings( const std::string& projectSettingsFile )
+{
+	if(!projectSettingsFile.empty())
+	{
+		m_projectSettingsFilepath = projectSettingsFile;
+		ProjectSettings::getInstance()->save(projectSettingsFile);
+	}
+	else if (!m_projectSettingsFilepath.empty())
+	{
+		ProjectSettings::getInstance()->save(m_projectSettingsFilepath);
+	}
+	else
+	{
+		return false;
+	}
+	LOG_INFO_STREAM(<< "Projectsettings saved in File: " << m_projectSettingsFilepath);
+	return true;	
 }
 
 void Project::clearProjectSettings()
 {
+	m_projectSettingsFilepath.clear();
 	ProjectSettings::getInstance()->clear();
 }
 
 bool Project::setSourceDirectoryPath(const std::string& sourceDirectoryPath)
 {
+	m_projectSettingsFilepath = sourceDirectoryPath + "/ProjectSettings.xml";
 	return ProjectSettings::getInstance()->setSourcePath(sourceDirectoryPath);
 }
 

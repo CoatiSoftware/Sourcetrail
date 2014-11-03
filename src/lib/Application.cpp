@@ -5,6 +5,7 @@
 #include "component/view/ViewFactory.h"
 #include "data/access/GraphAccessProxy.h"
 #include "data/access/LocationAccessProxy.h"
+#include "utility/logging/logging.h"
 #include "utility/messaging/MessageQueue.h"
 #include "utility/messaging/type/MessageActivateToken.h"
 
@@ -67,6 +68,14 @@ void Application::reloadProject()
 	MessageActivateToken(1).dispatch();
 }
 
+void Application::saveProject(const std::string& projectSettingsFilePath)
+{
+	if(!m_project->saveProjectSettings(projectSettingsFilePath))
+	{
+		LOG_ERROR("No Project Settings File defined");
+	}
+}
+
 void Application::handleMessage(MessageLoadProject* message)
 {
 	loadProject(message->projectSettingsFilePath);
@@ -80,4 +89,9 @@ void Application::handleMessage(MessageLoadSource* message)
 void Application::handleMessage(MessageRefresh* message)
 {
 	reloadProject();
+}
+
+void Application::handleMessage(MessageSaveProject* message)
+{
+	saveProject(message->projectSettingsFilePath);
 }

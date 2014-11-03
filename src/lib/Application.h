@@ -8,6 +8,7 @@
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageLoadSource.h"
+#include "utility/messaging/type/MessageSaveProject.h"
 #include "utility/messaging/type/MessageRefresh.h"
 
 class ViewFactory;
@@ -19,6 +20,7 @@ class Application
 	: public MessageListener<MessageLoadProject>
 	, public MessageListener<MessageLoadSource>
 	, public MessageListener<MessageRefresh>
+	, public MessageListener<MessageSaveProject>
 {
 public:
 	static std::shared_ptr<Application> create(ViewFactory* viewFactory);
@@ -27,6 +29,7 @@ public:
 
 	void loadProject(const std::string& projectSettingsFilePath);
 	void loadSource(const std::string& sourceDirectoryPath);
+	void saveProject(const std::string& projectSettingsFilePath);
 	void reloadProject();
 
 private:
@@ -35,6 +38,7 @@ private:
 	virtual void handleMessage(MessageLoadProject* message);
 	virtual void handleMessage(MessageLoadSource* message);
 	virtual void handleMessage(MessageRefresh* message);
+	virtual void handleMessage(MessageSaveProject* message);
 
 	std::shared_ptr<Project> m_project;
 	std::shared_ptr<GraphAccessProxy> m_graphAccessProxy;
