@@ -536,6 +536,7 @@ void QtSmartSearchBox::updateElements()
 	setStyleSheet(TextAccess::createFromFile("data/gui/search_view/search_element.css")->getText().c_str());
 
 	updatePlaceholder();
+	hideAutoCompletions();
 
 	layoutElements();
 }
@@ -544,35 +545,57 @@ void QtSmartSearchBox::layoutElements()
 {
 	ensurePolished();
 
-	int x = 7;
 	bool hasSelected = hasSelectedElements();
+
+	QString cursorText = text();
+	cursorText.resize(cursorPosition());
+
+	int x = 7;
+	int editX = x;
+	int cursorX = fontMetrics().width(cursorText) + x + 5;
+	std::vector<int> elementX;
 
 	for (size_t i = 0; i <= m_elements.size(); i++)
 	{
 		if (!hasSelected && i == m_cursorIndex)
 		{
-			int left, top, right, bottom;
-			getTextMargins(&left, &top, &right, &bottom);
-			setTextMargins(x - 9, top, right, bottom);
+			editX = x - 9;
+			cursorX += editX;
 			x += fontMetrics().width(text());
 		}
 
 		if (i < m_elements.size())
 		{
 			QtQueryElement* button = m_elements[i].get();
-			QSize size = button->minimumSizeHint();
-			int y = (rect().height() - size.height()) / 2.0;
-			button->setGeometry(x, y, size.width(), size.height());
-			x += size.width() + 5;
+			elementX.push_back(x);
+			x += button->minimumSizeHint().width() + 5;
 		}
+	}
+
+	int offsetX = 0;
+	if (cursorX > width())
+	{
+		offsetX = width() - cursorX;
+	}
+
+	for (size_t i = 0; i < elementX.size(); i++)
+	{
+		QtQueryElement* button = m_elements[i].get();
+		QSize size = button->minimumSizeHint();
+		int y = (rect().height() - size.height()) / 2.0;
+		button->setGeometry(elementX[i] + offsetX, y, size.width(), size.height());
 	}
 
 	if (hasSelected)
 	{
 		setTextMargins(width() + 10, 0, 0, 0);
 	}
+	else
+	{
+		QMargins margins = textMargins();
+		setTextMargins(editX + offsetX, margins.top(), margins.right(), margins.bottom());
+	}
 }
-
 
 bool QtSmartSearchBox::hasSelectedElements() const
 {
@@ -672,11 +695,7 @@ void QtSmartSearchBox::updatePlaceholder()
 void QtSmartSearchBox::clearLineEdit()
 {
 	setEditText("");
-
-	if (completer())
-	{
-		completer()->popup()->hide();
-	}
+	hideAutoCompletions();
 }
 
 void QtSmartSearchBox::requestAutoCompletions() const
@@ -689,4 +708,12 @@ void QtSmartSearchBox::requestAutoCompletions() const
 	}
 
 	MessageSearchAutocomplete(query, text().toStdString()).dispatch();
+}
+
+void QtSmartSearchBox::hideAutoCompletions()
+{
+	if (completer())
+	{
+		completer()->popup()->hide();
+	}
 }

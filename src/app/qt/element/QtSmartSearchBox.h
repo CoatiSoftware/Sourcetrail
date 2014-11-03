@@ -82,7 +82,9 @@ private:
 
 	void updatePlaceholder();
 	void clearLineEdit();
+
 	void requestAutoCompletions() const;
+	void hideAutoCompletions();
 
 	bool m_allowTextChange;
 	QString m_oldText;

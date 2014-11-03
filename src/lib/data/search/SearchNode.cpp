@@ -169,10 +169,18 @@ SearchMatch SearchNode::fuzzyMatchData(const std::string& query, const SearchNod
 	size_t pos = 0;
 	size_t size = 0;
 
+	const SearchNode* root = parent;
 	std::deque<const SearchNode*> nodes = getNodesToParent(parent);
 	if (!nodes.size())
 	{
 		nodes.push_back(this);
+		root = root->getParent();
+	}
+
+	while (root && root->getNameId())
+	{
+		size += root->getName().size() + SearchIndex::DELIMITER.size();
+		root = root->getParent();
 	}
 
 	for (const SearchNode* node : nodes)
