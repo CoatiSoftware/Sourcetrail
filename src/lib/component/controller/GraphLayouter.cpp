@@ -1,5 +1,7 @@
 #include "component/controller/GraphLayouter.h"
 
+#include <cmath>
+
 #include "component/view/graphElements/GraphNode.h"
 
 void GraphLayouter::layoutSimpleRaster(std::vector<DummyNode>& nodes)
@@ -8,19 +10,19 @@ void GraphLayouter::layoutSimpleRaster(std::vector<DummyNode>& nodes)
 	int y = 0;
 	int offset = 150;
 
+	int w = ceil(sqrt(nodes.size()));
+
 	for (unsigned int i = 0; i < nodes.size(); i++)
 	{
-		nodes[i].position = Vec2i(x, y);
-
-		if (x > 0)
+		if (i > 0 && i % w == 0)
 		{
 			y += offset;
 			x = 0;
 		}
-		else
-		{
-			x += offset;
-		}
+
+		nodes[i].position = Vec2i(x, y);
+
+		x += offset;
 	}
 }
 
@@ -32,7 +34,7 @@ void GraphLayouter::layoutSimpleRing(std::vector<DummyNode>& nodes)
 
 		if (nodes.size() > 1)
 		{
-			float offset = 150.0f;
+			float offset = 200.0f;
 
 			for (unsigned int i = 1; i < nodes.size(); i++)
 			{

@@ -16,20 +16,22 @@ QtGraphNodeComponentMoveable::~QtGraphNodeComponentMoveable()
 
 void QtGraphNodeComponentMoveable::nodeMousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-	m_mouseOffset.x = event->pos().x();
-	m_mouseOffset.y = event->pos().y();
+	std::shared_ptr<GraphNode> node = m_graphNode.lock();
+	if (node != NULL)
+	{
+		m_mouseOffset.x = event->scenePos().x() - node->getPosition().x;
+		m_mouseOffset.y = event->scenePos().y() - node->getPosition().y;
+
+		event->accept();
+	}
 }
 
 void QtGraphNodeComponentMoveable::nodeMouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
 	std::shared_ptr<GraphNode> node = m_graphNode.lock();
-
-	if(node != NULL)
+	if (node != NULL)
 	{
 		node->setPosition(Vec2i(event->scenePos().x() - m_mouseOffset.x, event->scenePos().y() - m_mouseOffset.y));
+		event->accept();
 	}
-}
-
-void QtGraphNodeComponentMoveable::nodeMouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
-{
 }

@@ -24,18 +24,6 @@ QtGraphNodeComponentToggleButton::~QtGraphNodeComponentToggleButton()
 {
 }
 
-void QtGraphNodeComponentToggleButton::nodeMousePressEvent(QGraphicsSceneMouseEvent* event)
-{
-}
-
-void QtGraphNodeComponentToggleButton::nodeMouseMoveEvent(QGraphicsSceneMouseEvent* event)
-{
-}
-
-void QtGraphNodeComponentToggleButton::nodeMouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
-{
-}
-
 void QtGraphNodeComponentToggleButton::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
 	std::shared_ptr<QtGraphNode> node = m_graphNode.lock();
@@ -50,12 +38,4 @@ void QtGraphNodeComponentToggleButton::mousePressEvent(QGraphicsSceneMouseEvent*
 			node->hideContent();
 		}
 	}
-}
-
-void QtGraphNodeComponentToggleButton::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
-{
-}
-
-void QtGraphNodeComponentToggleButton::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
-{
 }

@@ -7,16 +7,23 @@
 #include "utility/math/Vector2.h"
 #include "utility/types.h"
 
+#include "data/graph/Node.h"
+#include "data/graph/token_component/TokenComponentAccess.h"
+
 class GraphEdge;
 
 class GraphNode
 {
 public:
-	GraphNode(const Id tokenId);
+	GraphNode(const Node* data);
 	virtual ~GraphNode();
 
 	virtual std::string getName() const = 0;
 	Id getTokenId() const;
+
+	const Node* getData() const;
+	void setData(const Node* data);
+
 	virtual Vec2i getPosition() const = 0;
 	virtual void setPosition(const Vec2i& position) = 0;
 
@@ -44,71 +51,31 @@ public:
 	virtual unsigned int getOutEdgeCount() const = 0;
 	virtual unsigned int getInEdgeCount() const = 0;
 
-	virtual unsigned int getEdgeCountRecursive() const = 0;
+	virtual unsigned int getEdgeAndActiveCountRecursive() const = 0;
 
 protected:
-	Id m_tokenId;
+	const Node* m_data;
 };
 
 struct DummyNode
 {
-public:
-	DummyNode(const std::string& n, const Id tId, const Vec2i& p)
-		: name(n)
-		, tokenId(tId)
-		, position(p)
-		, subNodes()
-		, actualNode()
+	DummyNode(const Node* data)
+		: data(data)
+		, accessType(TokenComponentAccess::ACCESS_NONE)
 	{
 	}
 
-	bool operator==(const DummyNode& other) const
+	DummyNode(TokenComponentAccess::AccessType accessType)
+		: data(nullptr)
+		, accessType(accessType)
 	{
-		if (tokenId == other.tokenId
-			&& name == other.name
-			&& position == position)
-		{
-			return true;
-		}
-		return false;
 	}
 
-	bool operator!=(const DummyNode& other) const
-	{
-		return !(*this == other);
-	}
+	const Node* data;
+	const TokenComponentAccess::AccessType accessType;
 
-	bool operator<(const DummyNode& other) const
-	{
-		if (tokenId < other.tokenId)
-		{
-			return true;
-		}
-		return false;
-	}
-
-	bool operator>(const DummyNode& other) const
-	{
-		return !(*this < other);
-	}
-
-	DummyNode& operator=(const DummyNode& other)
-	{
-		name = other.name;
-		tokenId = other.tokenId;
-		position = other.position;
-		subNodes = other.subNodes;
-		actualNode = other.actualNode;
-		return *this;
-	}
-
-	std::string name;
-	Id tokenId;
 	Vec2i position;
-
 	std::vector<DummyNode> subNodes;
-
-	std::weak_ptr<GraphNode> actualNode;
 };
 
 #endif // GRAPH_NODE_H

@@ -12,6 +12,7 @@
 
 struct DummyNode;
 struct DummyEdge;
+class Graph;
 class GraphView;
 class GraphAccess;
 class Node;
@@ -31,7 +32,7 @@ private:
 
 	GraphView* getView();
 
-	void createDummyGraphForTokenId(Id tokenId, const GraphLayouter::LayoutFunction layoutFunction);
+	void createDummyGraphForTokenIds(const std::vector<Id>& tokenIds);
 	DummyNode createDummyNodeTopDown(Node* node, std::vector<DummyEdge>* dummyEdges) const;
 
 	GraphAccess* m_graphAccess;

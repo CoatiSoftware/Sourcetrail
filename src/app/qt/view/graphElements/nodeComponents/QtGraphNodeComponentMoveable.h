@@ -14,7 +14,6 @@ public:
 
 	virtual void nodeMousePressEvent(QGraphicsSceneMouseEvent* event);
 	virtual void nodeMouseMoveEvent(QGraphicsSceneMouseEvent* event);
-	virtual void nodeMouseDoubleClickEvent(QGraphicsSceneMouseEvent* event);
 
 private:
 	Vec2i m_mouseOffset;

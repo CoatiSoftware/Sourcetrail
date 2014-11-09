@@ -28,6 +28,8 @@ add_files(
 
 	qt/view/graphElements/nodeComponents/QtGraphNodeComponent.cpp
 	qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h
+	qt/view/graphElements/nodeComponents/QtGraphNodeComponentClickable.cpp
+	qt/view/graphElements/nodeComponents/QtGraphNodeComponentClickable.h
 	qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.cpp
 	qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.h
 	qt/view/graphElements/nodeComponents/QtGraphNodeComponentToggleButton.cpp

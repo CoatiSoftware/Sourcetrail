@@ -17,6 +17,8 @@ public:
 		ACCESS_NONE
 	};
 
+	static std::string getAccessString(AccessType access);
+
 	TokenComponentAccess(AccessType access);
 	virtual ~TokenComponentAccess();
 

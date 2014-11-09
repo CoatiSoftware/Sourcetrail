@@ -16,7 +16,7 @@ class QtGraphNode
 	, public QGraphicsRectItem
 {
 public:
-	QtGraphNode(const Vec2i& position, const Vec2i& size, const std::string& name, const Id tokenId);
+	QtGraphNode(const Node* data, TokenComponentAccess::AccessType accessType);
 	virtual ~QtGraphNode();
 
 	virtual std::string getName() const;
@@ -25,6 +25,10 @@ public:
 
 	virtual Vec2i getSize() const;
 
+	bool getIsActive() const;
+	void setIsActive(bool isActive);
+
+	QtGraphNode* getParent() const;
 	void setParent(std::weak_ptr<QtGraphNode> parentNode);
 
 	void addComponent(const std::shared_ptr<QtGraphNodeComponent>& component);
@@ -36,10 +40,6 @@ public:
 
 	virtual std::list<std::shared_ptr<GraphNode>> getSubNodes() const;
 	virtual void addSubNode(const std::shared_ptr<GraphNode>& node);
-
-	void mousePressEvent(QGraphicsSceneMouseEvent* event);
-	void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
-	void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event);
 
 	virtual void notifyParentMoved();
 
@@ -56,11 +56,20 @@ public:
 	virtual unsigned int getInEdgeCount() const;
 
 	/**
-	 * @brief Returns the count of all connected edges (including edges of sub nodes)
+	 * @brief Returns the count of all connected edges and active nodes (including sub nodes)
 	 */
-	virtual unsigned int getEdgeCountRecursive() const;
+	virtual unsigned int getEdgeAndActiveCountRecursive() const;
+
+	void onClick();
 
 protected:
+	void mousePressEvent(QGraphicsSceneMouseEvent* event);
+	void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
+	void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+
+	void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+	void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+
 	void notifyEdgesAfterMove();
 	void notifyParentNodeAfterSizeChanged();
 
@@ -79,7 +88,9 @@ private:
 
 	std::list<std::shared_ptr<QtGraphNodeComponent>> m_components;
 
-	const Vec2i m_baseSize;
+	bool m_isActive;
+
+	Vec2i m_baseSize;
 	Vec2i m_currentSize;
 
 	Vec2i m_padding;

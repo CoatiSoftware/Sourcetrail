@@ -8,3 +8,15 @@ QtGraphNodeComponent::QtGraphNodeComponent(const std::weak_ptr<QtGraphNode>& gra
 QtGraphNodeComponent::~QtGraphNodeComponent()
 {
 }
+
+void QtGraphNodeComponent::nodeMousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+}
+
+void QtGraphNodeComponent::nodeMouseMoveEvent(QGraphicsSceneMouseEvent* event)
+{
+}
+
+void QtGraphNodeComponent::nodeMouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+{
+}

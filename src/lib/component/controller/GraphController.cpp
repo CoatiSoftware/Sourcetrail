@@ -20,12 +20,13 @@ GraphController::~GraphController()
 
 void GraphController::handleMessage(MessageActivateToken* message)
 {
-	createDummyGraphForTokenId(message->tokenId, &GraphLayouter::layoutSimpleRing);
+	std::vector<Id> activeTokenIds(1, message->tokenId);
+	createDummyGraphForTokenIds(activeTokenIds);
 }
 
 void GraphController::handleMessage(MessageActivateTokens* message)
 {
-	createDummyGraphForTokenId(message->tokenIds[0], &GraphLayouter::layoutSimpleRing);
+	createDummyGraphForTokenIds(message->tokenIds);
 }
 
 GraphView* GraphController::getView()
@@ -33,8 +34,10 @@ GraphView* GraphController::getView()
 	return Controller::getView<GraphView>();
 }
 
-void GraphController::createDummyGraphForTokenId(Id tokenId, const GraphLayouter::LayoutFunction layoutFunction)
+void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenIds)
 {
+	const GraphLayouter::LayoutFunction layoutFunction = &GraphLayouter::layoutSimpleRing;
+
 	GraphView* view = getView();
 	if (!view)
 	{
@@ -42,9 +45,7 @@ void GraphController::createDummyGraphForTokenId(Id tokenId, const GraphLayouter
 		return;
 	}
 
-	std::vector<Id> activeTokenIds;
-	activeTokenIds.push_back(tokenId);
-	std::shared_ptr<Graph> graph = m_graphAccess->getGraphForActiveTokenIds(activeTokenIds);
+	std::shared_ptr<Graph> graph = m_graphAccess->getGraphForActiveTokenIds(tokenIds);
 
 	std::vector<DummyNode> dummyNodes;
 	std::vector<DummyEdge> dummyEdges;
@@ -66,20 +67,47 @@ void GraphController::createDummyGraphForTokenId(Id tokenId, const GraphLayouter
 	);
 
 	layoutFunction(dummyNodes);
-	view->rebuildGraph(dummyNodes, dummyEdges);
+
+	view->rebuildGraph(graph, tokenIds, dummyNodes, dummyEdges);
 }
 
 DummyNode GraphController::createDummyNodeTopDown(Node* node, std::vector<DummyEdge>* dummyEdges) const
 {
-	DummyNode result("invalid", 0, Vec2i());
-
-	result.name = node->getName();
-	result.tokenId = node->getId();
+	DummyNode result(node);
 
 	node->forEachChildNode(
 		[&result, dummyEdges, this](Node* child)
 		{
-			result.subNodes.push_back(createDummyNodeTopDown(child, dummyEdges));
+			DummyNode* container = nullptr;
+
+			Edge* edge = child->getMemberEdge();
+			TokenComponentAccess* access = edge->getComponent<TokenComponentAccess>();
+			if (access)
+			{
+				TokenComponentAccess::AccessType accessType = access->getAccess();
+
+				for (DummyNode& dummy : result.subNodes)
+				{
+					if (dummy.accessType == accessType)
+					{
+						container = &dummy;
+						break;
+					}
+				}
+
+				if (!container)
+				{
+					result.subNodes.push_back(DummyNode(accessType));
+					container = &result.subNodes.back();
+				}
+
+			}
+			else
+			{
+				container = &result;
+			}
+
+			container->subNodes.push_back(createDummyNodeTopDown(child, dummyEdges));
 		}
 	);
 
@@ -93,14 +121,13 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node, std::vector<DummyE
 
 			for (const DummyEdge& dummy : *dummyEdges)
 			{
-				if (dummy.tokenId == edge->getId())
+				if (dummy.data->getId() == edge->getId())
 				{
 					return;
 				}
 			}
 
-			dummyEdges->push_back(
-				DummyEdge(edge->getFrom()->getId(), edge->getTo()->getId(), edge->getId(), edge->getType()));
+			dummyEdges->push_back(DummyEdge(edge->getFrom()->getId(), edge->getTo()->getId(), edge));
 		}
 	);
 

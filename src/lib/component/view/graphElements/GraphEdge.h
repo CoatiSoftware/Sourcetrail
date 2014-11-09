@@ -12,7 +12,7 @@ class GraphNode;
 class GraphEdge
 {
 public:
-	GraphEdge(const Id tokenId);
+	GraphEdge(const Edge* data);
 	virtual ~GraphEdge();
 
 	virtual void ownerMoved() = 0;
@@ -24,63 +24,26 @@ public:
 	virtual std::weak_ptr<GraphNode> getTarget() = 0;
 
 	Id getTokenId() const;
-
-	virtual void setColor(const Vec4i& color) = 0;
-	virtual Vec4i getColor() const = 0;
+	const Edge* getData() const;
 
 protected:
-	Id m_tokenId;
+	const Edge* m_data;
 };
 
 // temporary data structure for (visual) graph creation process
 struct DummyEdge
 {
-public:
-	DummyEdge(const Id o, const Id t, const Id tknId, Edge::EdgeType type)
+	DummyEdge(const Id o, const Id t, const Edge* data)
 		: ownerId(o)
 		, targetId(t)
-		, tokenId(tknId)
-		, edgeType(type)
+		, data(data)
 	{
-	}
-
-	bool operator==(const DummyEdge& other) const
-	{
-		if (ownerId == other.ownerId && targetId == other.targetId)
-		{
-			return true;
-		}
-		return false;
-	}
-
-	bool operator!=(const DummyEdge& other) const
-	{
-		return !(*this == other);
-	}
-
-	bool operator<(const DummyEdge& other) const
-	{
-		if (ownerId < other.ownerId )
-		{
-			return true;
-		}
-		else if (ownerId == other.ownerId)
-		{
-			return (targetId < other.targetId);
-		}
-		return false;
-	}
-
-	bool operator>(const DummyEdge& other) const
-	{
-		return !(*this < other);
 	}
 
 	Id ownerId;
 	Id targetId;
-	Id tokenId;
 
-	Edge::EdgeType edgeType;
+	const Edge* data;
 };
 
 #endif // GRAPH_EDGE_H

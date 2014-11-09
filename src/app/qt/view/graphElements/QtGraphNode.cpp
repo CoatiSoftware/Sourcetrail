@@ -2,29 +2,45 @@
 
 #include <sstream>
 
+#include <QFontMetrics>
 #include <QGraphicsScene>
 #include <QGraphicsSceneEvent>
 
 #include "qt/view/graphElements/QtGraphEdge.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h"
 
-QtGraphNode::QtGraphNode(const Vec2i& position, const Vec2i& size, const std::string& name, const Id tokenId)
-	: GraphNode(tokenId)
-	, m_baseSize(size)
-	, m_currentSize(size)
+QtGraphNode::QtGraphNode(const Node* data, TokenComponentAccess::AccessType accessType)
+	: GraphNode(data)
+	, m_isActive(false)
 	, m_padding(10, 10)
 	, m_contentHidden(false)
 {
-	this->setRect(0, 0, size.x, size.y);
-	this->setPos(position.x, position.y);
-	QBrush brush(Qt::lightGray);
-	this->setBrush(brush);
-
 	m_text = new QGraphicsTextItem(this);
 	m_text->setPos(0, 0);
+
 	std::stringstream text;
-	text << m_tokenId << " -> " << name;
+	QBrush brush(Qt::white);
+
+	if (data)
+	{
+		text << data->getId() << ": " << data->getName();
+		brush.setColor(Qt::lightGray);
+	}
+	else
+	{
+		text << TokenComponentAccess::getAccessString(accessType);
+	}
+
 	m_text->setPlainText(QString(text.str().c_str()));
+	this->setBrush(brush);
+
+	m_baseSize.x = QFontMetrics(m_text->font()).width(m_text->toPlainText()) + 10;
+	m_baseSize.y = 25;
+
+	m_currentSize = m_baseSize;
+
+	this->setRect(0, 0, m_baseSize.x, m_baseSize.y);
+	this->setAcceptHoverEvents(true);
 }
 
 QtGraphNode::~QtGraphNode()
@@ -66,12 +82,38 @@ Vec2i QtGraphNode::getSize() const
 	return m_currentSize;
 }
 
+bool QtGraphNode::getIsActive() const
+{
+	return m_isActive;
+}
+
+void QtGraphNode::setIsActive(bool isActive)
+{
+	m_isActive = isActive;
+
+	QPen p = this->pen();
+	if (isActive)
+	{
+		p.setWidth(2);
+	}
+	else
+	{
+		p.setWidth(1);
+	}
+	this->setPen(p);
+}
+
+QtGraphNode* QtGraphNode::getParent() const
+{
+	return m_parentNode.lock().get();
+}
+
 void QtGraphNode::setParent(std::weak_ptr<QtGraphNode> parentNode)
 {
 	m_parentNode = parentNode;
 
 	std::shared_ptr<QtGraphNode> parent = parentNode.lock();
-	if(parent != NULL)
+	if (parent != NULL)
 	{
 		QGraphicsRectItem::setParentItem(parent.get());
 	}
@@ -143,33 +185,6 @@ void QtGraphNode::addSubNode(const std::shared_ptr<GraphNode>& node)
 	rebuildLayout();
 }
 
-void QtGraphNode::mousePressEvent(QGraphicsSceneMouseEvent* event)
-{
-	for (std::list<std::shared_ptr<QtGraphNodeComponent>>::iterator it = m_components.begin(); it != m_components.end(); it++)
-	{
-		(*it)->nodeMousePressEvent(event);
-	}
-}
-
-void QtGraphNode::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
-{
-	for (std::list<std::shared_ptr<QtGraphNodeComponent>>::iterator it = m_components.begin(); it != m_components.end(); it++)
-	{
-		(*it)->nodeMouseMoveEvent(event);
-	}
-}
-
-void QtGraphNode::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
-{
-	MessageActivateToken message(m_tokenId);
-	message.dispatch();
-
-	for (std::list<std::shared_ptr<QtGraphNodeComponent>>::iterator it = m_components.begin(); it != m_components.end(); it++)
-	{
-		(*it)->nodeMouseDoubleClickEvent(event);
-	}
-}
-
 void QtGraphNode::notifyParentMoved()
 {
 	notifyEdgesAfterMove();
@@ -177,35 +192,31 @@ void QtGraphNode::notifyParentMoved()
 
 void QtGraphNode::hideContent()
 {
-	for (std::list<std::shared_ptr<GraphNode>>::iterator it = m_subNodes.begin(); it != m_subNodes.end(); it++)
+	for (std::shared_ptr<GraphNode> node : m_subNodes)
 	{
-		(*it)->hideContent();
+		node->hideContent();
 
-		if((*it)->getEdgeCountRecursive() <= 0)
+		if (node->getTokenId() && node->getEdgeAndActiveCountRecursive() <= 0)
 		{
-			(*it)->hide();
+			node->hide();
 		}
 	}
 
 	m_contentHidden = true;
 
-	rebuildLayout();
-
-	notifyParentNodeAfterSizeChanged();
+	onChildSizeChanged();
 }
 
 void QtGraphNode::showContent()
 {
-	for (std::list<std::shared_ptr<GraphNode>>::iterator it = m_subNodes.begin(); it != m_subNodes.end(); it++)
+	for (std::shared_ptr<GraphNode> node : m_subNodes)
 	{
-		(*it)->show();
+		node->show();
 	}
 
 	m_contentHidden = false;
 
-	rebuildLayout();
-
-	notifyParentNodeAfterSizeChanged();
+	onChildSizeChanged();
 }
 
 void QtGraphNode::hide()
@@ -238,18 +249,103 @@ unsigned int QtGraphNode::getInEdgeCount() const
 	return m_inEdges.size();
 }
 
-unsigned int QtGraphNode::getEdgeCountRecursive() const
+unsigned int QtGraphNode::getEdgeAndActiveCountRecursive() const
 {
 	unsigned int result = 0;
 
-	for (std::list<std::shared_ptr<GraphNode>>::const_iterator it = m_subNodes.begin(); it != m_subNodes.end(); it++)
+	if (m_isActive)
 	{
-		result += (*it)->getEdgeCountRecursive();
+		result++;
+	}
+
+	for (std::shared_ptr<GraphNode> node : m_subNodes)
+	{
+		result += node->getEdgeAndActiveCountRecursive();
 	}
 
 	result += (getInEdgeCount() + getOutEdgeCount());
 
 	return result;
+}
+
+void QtGraphNode::onClick()
+{
+	if (m_data)
+	{
+		MessageActivateToken(m_data->getId()).dispatch();
+	}
+}
+
+void QtGraphNode::mousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+	event->ignore();
+
+	for (std::shared_ptr<QtGraphNodeComponent> component : m_components)
+	{
+		component->nodeMousePressEvent(event);
+	}
+
+	if (!event->isAccepted())
+	{
+		QtGraphNode* parent = getParent();
+		if (parent)
+		{
+			parent->mousePressEvent(event);
+		}
+	}
+}
+
+void QtGraphNode::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+{
+	event->ignore();
+
+	for (std::shared_ptr<QtGraphNodeComponent> component : m_components)
+	{
+		component->nodeMouseMoveEvent(event);
+	}
+
+	if (!event->isAccepted())
+	{
+		QtGraphNode* parent = getParent();
+		if (parent)
+		{
+			parent->mouseMoveEvent(event);
+		}
+	}
+}
+
+void QtGraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+{
+	event->ignore();
+
+	for (std::shared_ptr<QtGraphNodeComponent> component : m_components)
+	{
+		component->nodeMouseReleaseEvent(event);
+	}
+
+	if (!event->isAccepted())
+	{
+		QtGraphNode* parent = getParent();
+		if (parent)
+		{
+			parent->mouseReleaseEvent(event);
+		}
+	}
+}
+
+void QtGraphNode::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
+{
+	if (m_data)
+	{
+		bool isActive = m_isActive;
+		this->setIsActive(true);
+		m_isActive = isActive;
+	}
+}
+
+void QtGraphNode::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+{
+	this->setIsActive(m_isActive);
 }
 
 void QtGraphNode::notifyEdgesAfterMove()
@@ -284,7 +380,7 @@ void QtGraphNode::notifyParentNodeAfterSizeChanged()
 {
 	std::shared_ptr<QtGraphNode> parentNode = m_parentNode.lock();
 
-	if(parentNode != NULL)
+	if (parentNode != NULL)
 	{
 		parentNode->onChildSizeChanged();
 	}
@@ -302,16 +398,16 @@ void QtGraphNode::rebuildLayout()
 	int nextYPos = m_baseSize.y;
 	int newWidth = m_baseSize.x;
 
-	for (std::list<std::shared_ptr<GraphNode>>::iterator it = m_subNodes.begin(); it != m_subNodes.end(); it++)
+	for (const std::shared_ptr<GraphNode>& node : m_subNodes)
 	{
-		if((*it)->isHidden() == false)
+		if (!node->isHidden())
 		{
-			(*it)->setPosition(this->getPosition() + Vec2i(m_padding.x, nextYPos));
-			nextYPos += (*it)->getSize().y + m_padding.y;
+			node->setPosition(this->getPosition() + Vec2i(m_padding.x, nextYPos));
+			nextYPos += node->getSize().y + m_padding.y;
 
-			int tmpWidth = ((*it)->getPosition().x - getPosition().x) + (*it)->getSize().x + m_padding.x;
+			int tmpWidth = (node->getPosition().x - getPosition().x) + node->getSize().x + m_padding.x;
 
-			if(tmpWidth > newWidth)
+			if (tmpWidth > newWidth)
 			{
 				newWidth = tmpWidth;
 			}
