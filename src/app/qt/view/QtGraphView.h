@@ -42,9 +42,9 @@ private:
 		const std::vector<DummyEdge>& edges);
 	void doClear();
 
-	std::shared_ptr<GraphNode> findNodeRecursive(const std::list<std::shared_ptr<GraphNode>>& nodes, Id tokenId);
+	std::shared_ptr<QtGraphNode> findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId);
 
-	std::shared_ptr<GraphNode> createNodeRecursive(
+	std::shared_ptr<QtGraphNode> createNodeRecursive(
 		QGraphicsView* view, std::shared_ptr<QtGraphNode> parentNode, const DummyNode& node);
 	std::shared_ptr<QtGraphEdge> createEdge(QGraphicsView* view, const DummyEdge& edge);
 
@@ -55,6 +55,12 @@ private:
 	> m_rebuildGraphFunctor;
 
 	QtThreadedFunctor<void> m_clearFunctor;
+
+	std::shared_ptr<Graph> m_graph;
+	std::vector<Id> m_activeTokenIds;
+
+	std::list<std::shared_ptr<QtGraphNode>> m_nodes;
+	std::list<std::weak_ptr<QtGraphEdge>> m_edges;
 };
 
 #endif // QT_GRAPH_VIEW_H

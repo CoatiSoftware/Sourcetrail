@@ -34,24 +34,8 @@ public:
 
 	virtual void removeOutEdge(GraphEdge* edge) = 0;
 
-	virtual std::list<std::shared_ptr<GraphNode> > getSubNodes() const = 0;
-	virtual void addSubNode(const std::shared_ptr<GraphNode>& node) = 0;
-
-	virtual void notifyParentMoved() = 0;
-
-	virtual void hideContent() = 0;
-	virtual void showContent() = 0;
-
-	virtual void hide() = 0;
-	virtual void show() = 0;
-
-	virtual bool isHidden() = 0;
-	virtual bool contentIsHidden() = 0;
-
 	virtual unsigned int getOutEdgeCount() const = 0;
 	virtual unsigned int getInEdgeCount() const = 0;
-
-	virtual unsigned int getEdgeAndActiveCountRecursive() const = 0;
 
 protected:
 	const Node* m_data;

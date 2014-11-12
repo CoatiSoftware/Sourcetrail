@@ -20,6 +20,10 @@ add_files(
 	qt/element/QtSmartSearchBox.cpp
 	qt/element/QtSmartSearchBox.h
 
+	qt/graphics/QtGraphicsRoundedRectItem.cpp
+	qt/graphics/QtGraphicsRoundedRectItem.h
+
+	qt/utility/QtDeviceScaledPixmap.h
 	qt/utility/QtHighlighter.cpp
 	qt/utility/QtHighlighter.h
 	qt/utility/QtThreadedFunctor.h
@@ -32,13 +36,13 @@ add_files(
 	qt/view/graphElements/nodeComponents/QtGraphNodeComponentClickable.h
 	qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.cpp
 	qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.h
-	qt/view/graphElements/nodeComponents/QtGraphNodeComponentToggleButton.cpp
-	qt/view/graphElements/nodeComponents/QtGraphNodeComponentToggleButton.h
 
 	qt/view/graphElements/QtGraphEdge.cpp
 	qt/view/graphElements/QtGraphEdge.h
 	qt/view/graphElements/QtGraphNode.cpp
 	qt/view/graphElements/QtGraphNode.h
+	qt/view/graphElements/QtGraphNodeAccess.cpp
+	qt/view/graphElements/QtGraphNodeAccess.h
 
 	qt/view/QtCodeView.cpp
 	qt/view/QtCodeView.h

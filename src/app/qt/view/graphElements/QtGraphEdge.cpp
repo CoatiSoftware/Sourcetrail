@@ -36,14 +36,14 @@ QtGraphEdge::QtGraphEdge(const std::weak_ptr<GraphNode>& owner, const std::weak_
 	this->setZValue(1); // Used to draw edges always on top of nodes.
 
 	QPen pen(Qt::transparent);
-    pen.setWidth(10);
-    this->setPen(pen);
+	pen.setWidth(10);
+	this->setPen(pen);
 
-    m_child = new QGraphicsLineItem(this);
-    m_child->setLine(ownerPos.x, ownerPos.y, targetPos.x, targetPos.y);
+	m_child = new QGraphicsLineItem(this);
+	m_child->setLine(ownerPos.x, ownerPos.y, targetPos.x, targetPos.y);
 
 	pen.setColor(Qt::black);
-    pen.setWidth(2);
+	pen.setWidth(1);
 
 	switch (data->getType())
 	{
@@ -148,11 +148,11 @@ void QtGraphEdge::setIsActive(bool isActive)
 	QPen p = m_child->pen();
 	if (isActive)
 	{
-		p.setWidth(4);
+		p.setWidth(2);
 	}
 	else
 	{
-		p.setWidth(2);
+		p.setWidth(1);
 	}
 	m_child->setPen(p);
 }

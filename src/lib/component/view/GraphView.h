@@ -11,8 +11,6 @@
 struct DummyEdge;
 struct DummyNode;
 class Graph;
-class GraphEdge;
-class GraphNode;
 
 class GraphView : public View
 {
@@ -29,13 +27,6 @@ public:
 		const std::vector<DummyEdge>& edges) = 0;
 
 	virtual void clear() = 0;
-
-protected:
-	std::shared_ptr<Graph> m_graph;
-	std::vector<Id> m_activeTokenIds;
-
-	std::list<std::shared_ptr<GraphNode> > m_nodes;
-	std::list<std::weak_ptr<GraphEdge> > m_edges;
 };
 
 #endif // GRAPH_VIEW_H

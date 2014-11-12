@@ -36,7 +36,7 @@ GraphView* GraphController::getView()
 
 void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenIds)
 {
-	const GraphLayouter::LayoutFunction layoutFunction = &GraphLayouter::layoutSimpleRing;
+	const GraphLayouter::LayoutFunction layoutFunction = &GraphLayouter::layoutSimpleRaster;
 
 	GraphView* view = getView();
 	if (!view)
