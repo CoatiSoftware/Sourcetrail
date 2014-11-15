@@ -87,41 +87,45 @@ void QtGraphView::doRebuildGraph(
 	m_activeTokenIds = activeTokenIds;
 	QGraphicsView* view = getView();
 
-	if (view != NULL)
-	{
-		// Temporary stores all nodes (existing and newly created) needed in the new graph
-		// this is a relatively easy and cheap way to save existing nodes that are still needed
-		std::list<std::shared_ptr<QtGraphNode>> newNodes;
-
-		// create nodes (or find existing nodes for re-use)
-		for (unsigned int i = 0; i < nodes.size(); i++)
-		{
-			std::shared_ptr<QtGraphNode> newNode = createNodeRecursive(view, NULL, nodes[i]);
-			newNode->setPosition(nodes[i].position);
-			newNodes.push_back(newNode);
-		}
-
-		doClear();
-		m_nodes = newNodes;
-
-		for (unsigned int i = 0; i < edges.size(); i++)
-		{
-			std::shared_ptr<QtGraphEdge> edge = createEdge(view, edges[i]);
-			if (edge != NULL)
-			{
-				m_edges.push_back(edge);
-			}
-		}
-
-		// hide node content by default, must be done after all edges are created to keep subnodes with connections visible
-		for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
-		{
-			node->hideContent();
-		}
-	}
-	else
+	if (view == NULL)
 	{
 		LOG_WARNING("Failed to get QGraphicsView");
+		return;
+	}
+
+	// Temporary stores all nodes (existing and newly created) needed in the new graph
+	// this is a relatively easy and cheap way to save existing nodes that are still needed
+	std::list<std::shared_ptr<QtGraphNode>> newNodes;
+
+	// create nodes (or find existing nodes for re-use)
+	for (unsigned int i = 0; i < nodes.size(); i++)
+	{
+		std::shared_ptr<QtGraphNode> newNode = createNodeRecursive(view, NULL, nodes[i]);
+		newNode->setPosition(nodes[i].position);
+		newNodes.push_back(newNode);
+	}
+
+	doClear();
+	m_nodes = newNodes;
+
+	for (unsigned int i = 0; i < edges.size(); i++)
+	{
+		std::shared_ptr<QtGraphEdge> edge = createEdge(view, edges[i]);
+		if (edge != NULL)
+		{
+			m_edges.push_back(edge);
+		}
+	}
+
+	// hide node content by default, must be done after all edges are created to keep subnodes with connections visible
+	for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
+	{
+		node->hideContent();
+	}
+
+	for (const std::shared_ptr<QtGraphEdge>& edge : m_edges)
+	{
+		edge->updateLine();
 	}
 
 	m_graph = graph;
@@ -155,82 +159,71 @@ std::shared_ptr<QtGraphNode> QtGraphView::findNodeRecursive(const std::list<std:
 std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	QGraphicsView* view, std::shared_ptr<QtGraphNode> parentNode, const DummyNode& node
 ){
-	if (view != NULL)
+	std::shared_ptr<QtGraphNode> newNode;
+	if (node.data)
 	{
-		std::shared_ptr<QtGraphNode> newNode;
-		if (node.data)
-		{
-			newNode = std::make_shared<QtGraphNode>(node.data);
-		}
-		else
-		{
-			newNode = std::make_shared<QtGraphNodeAccess>(node.accessType);
-		}
-
-		newNode->addComponent(std::make_shared<QtGraphNodeComponentClickable>(newNode));
-
-		view->scene()->addItem(newNode.get());
-
-		if (node.data && isActiveTokenId(node.data->getId()))
-		{
-			newNode->setIsActive(true);
-		}
-
-		if (parentNode)
-		{
-			newNode->setParent(parentNode);
-		}
-		else
-		{
-			newNode->addComponent(std::make_shared<QtGraphNodeComponentMoveable>(newNode));
-		}
-
-		for (unsigned int i = 0; i < node.subNodes.size(); i++)
-		{
-			std::shared_ptr<QtGraphNode> subNode = createNodeRecursive(view, newNode, node.subNodes[i]);
-			newNode->addSubNode(subNode);
-		}
-
-		return newNode;
+		newNode = std::make_shared<QtGraphNode>(node.data);
 	}
 	else
 	{
-		LOG_WARNING("Received pointer to QGraphicsView was NULL. No node created.");
-		return std::shared_ptr<QtGraphNode>();
+		newNode = std::make_shared<QtGraphNodeAccess>(node.accessType);
 	}
+
+	newNode->addComponent(std::make_shared<QtGraphNodeComponentClickable>(newNode));
+
+	view->scene()->addItem(newNode.get());
+
+	if (node.data && isActiveTokenId(node.data->getId()))
+	{
+		newNode->setIsActive(true);
+	}
+
+	if (parentNode)
+	{
+		newNode->setParent(parentNode);
+	}
+	else
+	{
+		newNode->addComponent(std::make_shared<QtGraphNodeComponentMoveable>(newNode));
+	}
+
+	for (unsigned int i = 0; i < node.subNodes.size(); i++)
+	{
+		std::shared_ptr<QtGraphNode> subNode = createNodeRecursive(view, newNode, node.subNodes[i]);
+		newNode->addSubNode(subNode);
+	}
+
+	return newNode;
 }
 
 std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const DummyEdge& edge)
 {
-	if (view != NULL)
+	std::shared_ptr<QtGraphNode> owner = findNodeRecursive(m_nodes, edge.ownerId);
+	std::shared_ptr<QtGraphNode> target = findNodeRecursive(m_nodes, edge.targetId);
+
+	if (owner != NULL && target != NULL)
 	{
-		std::shared_ptr<QtGraphNode> owner = findNodeRecursive(m_nodes, edge.ownerId);
-		std::shared_ptr<QtGraphNode> target = findNodeRecursive(m_nodes, edge.targetId);
+		std::shared_ptr<QtGraphEdge> qtEdge = std::make_shared<QtGraphEdge>(owner, target, edge.data);
+		bool added = owner->addOutEdge(qtEdge) | target->addInEdge(qtEdge);
 
-		if (owner != NULL && target != NULL)
+		if (!added)
 		{
-			std::shared_ptr<QtGraphEdge> qtEdge = std::make_shared<QtGraphEdge>(owner, target, edge.data);
-			owner->addOutEdge(qtEdge);
-			target->addInEdge(qtEdge);
-			view->scene()->addItem(qtEdge.get());
-
-			if (isActiveTokenId(edge.data->getId()))
-			{
-				qtEdge->setIsActive(true);
-			}
-
-			return qtEdge;
+			return NULL;
 		}
-		else
+
+		view->scene()->addItem(qtEdge.get());
+
+		if (isActiveTokenId(edge.data->getId()))
 		{
-			LOG_WARNING("Couldn't find owner or target node.");
-			return std::shared_ptr<QtGraphEdge>();
+			qtEdge->setIsActive(true);
 		}
+
+		return qtEdge;
 	}
 	else
 	{
-		LOG_WARNING("Received pointer to QGraphicsView was NULL. No node created.");
-		return std::shared_ptr<QtGraphEdge>();
+		LOG_WARNING("Couldn't find owner or target node.");
+		return NULL;
 	}
 }
 

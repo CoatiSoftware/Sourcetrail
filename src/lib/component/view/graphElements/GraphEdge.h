@@ -15,18 +15,14 @@ public:
 	GraphEdge(const Edge* data);
 	virtual ~GraphEdge();
 
-	virtual void ownerMoved() = 0;
-	virtual void targetMoved() = 0;
-
-	virtual void removeEdgeFromScene() = 0;
-
 	virtual std::weak_ptr<GraphNode> getOwner() = 0;
 	virtual std::weak_ptr<GraphNode> getTarget() = 0;
 
-	Id getTokenId() const;
+	virtual void updateLine() = 0;
+
 	const Edge* getData() const;
 
-protected:
+private:
 	const Edge* m_data;
 };
 

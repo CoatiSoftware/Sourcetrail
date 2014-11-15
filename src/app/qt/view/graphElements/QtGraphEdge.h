@@ -12,21 +12,50 @@
 
 class GraphNode;
 
+class QtStraightConnection
+	: public QGraphicsLineItem
+{
+public:
+	QtStraightConnection(Vec4i ownerRect, Vec4i targetRect, QGraphicsItem* parent);
+	virtual ~QtStraightConnection();
+
+	virtual QPainterPath shape() const;
+};
+
+class QtCorneredConnection
+	: public QGraphicsLineItem
+{
+public:
+	QtCorneredConnection(Vec4i ownerRect, Vec4i targetRect, Vec4i ownerParentRect, Vec4i targetParentRect, QGraphicsItem* parent);
+	virtual ~QtCorneredConnection();
+
+	virtual QPainterPath shape() const;
+	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem* options, QWidget* widget);
+
+private:
+	QPolygon getPath() const;
+	int getDirection(const QPointF& a, const QPointF& b) const;
+
+	Vec4i m_ownerRect;
+	Vec4i m_targetRect;
+
+	Vec4i m_ownerParentRect;
+	Vec4i m_targetParentRect;
+};
+
+
 class QtGraphEdge
 	: public GraphEdge
-	, public QGraphicsLineItem
+	, public QGraphicsItemGroup
 {
 public:
 	QtGraphEdge(const std::weak_ptr<GraphNode>& owner, const std::weak_ptr<GraphNode>& target, const Edge* data);
 	virtual ~QtGraphEdge();
 
-	virtual void ownerMoved();
-	virtual void targetMoved();
-
-	virtual void removeEdgeFromScene();
-
 	virtual std::weak_ptr<GraphNode> getOwner();
 	virtual std::weak_ptr<GraphNode> getTarget();
+
+	virtual void updateLine();
 
 	bool getIsActive() const;
 	void setIsActive(bool isActive);
@@ -34,20 +63,20 @@ public:
 	void onClick();
 
 protected:
-	void mousePressEvent(QGraphicsSceneMouseEvent* event);
-	void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
-	void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+	virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
+	virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
 
-	void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
-	void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
 private:
 	std::weak_ptr<GraphNode> m_owner;
 	std::weak_ptr<GraphNode> m_target;
 
-	bool m_isActive;
-
 	QGraphicsLineItem* m_child;
+
+	bool m_isActive;
 
 	Vec2i m_mousePos;
 	bool m_mouseMoved;

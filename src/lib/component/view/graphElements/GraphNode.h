@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "utility/math/Vector2.h"
+#include "utility/math/Vector4.h"
 #include "utility/types.h"
 
 #include "data/graph/Node.h"
@@ -28,11 +29,11 @@ public:
 	virtual void setPosition(const Vec2i& position) = 0;
 
 	virtual Vec2i getSize() const = 0;
+	virtual Vec4i getBoundingRect() const = 0;
+	virtual Vec4i getParentBoundingRect() const = 0;
 
 	virtual bool addOutEdge(const std::shared_ptr<GraphEdge>& edge) = 0;
 	virtual bool addInEdge(const std::weak_ptr<GraphEdge>& edge) = 0;
-
-	virtual void removeOutEdge(GraphEdge* edge) = 0;
 
 	virtual unsigned int getOutEdgeCount() const = 0;
 	virtual unsigned int getInEdgeCount() const = 0;

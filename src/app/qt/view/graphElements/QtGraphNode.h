@@ -3,9 +3,6 @@
 
 #include <QGraphicsItem>
 
-#include "utility/math/Vector2.h"
-#include "utility/math/Vector4.h"
-
 #include "component/view/graphElements/GraphNode.h"
 
 class QtGraphEdge;
@@ -30,10 +27,11 @@ public:
 	virtual Vec2i getSize() const;
 	virtual void setSize(Vec2i size);
 
+	virtual Vec4i getBoundingRect() const;
+	virtual Vec4i getParentBoundingRect() const;
+
 	virtual bool addOutEdge(const std::shared_ptr<GraphEdge>& edge);
 	virtual bool addInEdge(const std::weak_ptr<GraphEdge>& edge);
-
-	virtual void removeOutEdge(GraphEdge* edge);
 
 	virtual unsigned int getOutEdgeCount() const;
 	virtual unsigned int getInEdgeCount() const;

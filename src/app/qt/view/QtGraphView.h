@@ -59,8 +59,8 @@ private:
 	std::shared_ptr<Graph> m_graph;
 	std::vector<Id> m_activeTokenIds;
 
+	std::list<std::shared_ptr<QtGraphEdge>> m_edges;
 	std::list<std::shared_ptr<QtGraphNode>> m_nodes;
-	std::list<std::weak_ptr<QtGraphEdge>> m_edges;
 };
 
 #endif // QT_GRAPH_VIEW_H

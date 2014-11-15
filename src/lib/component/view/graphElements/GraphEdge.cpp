@@ -9,11 +9,6 @@ GraphEdge::~GraphEdge()
 {
 }
 
-Id GraphEdge::getTokenId() const
-{
-	return m_data->getId();
-}
-
 const Edge* GraphEdge::getData() const
 {
 	return m_data;

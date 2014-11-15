@@ -49,14 +49,6 @@ QtGraphNode::QtGraphNode(const Node* data)
 
 QtGraphNode::~QtGraphNode()
 {
-	for (std::list<std::weak_ptr<GraphEdge>>::iterator it = m_inEdges.begin(); it != m_inEdges.end(); it++)
-	{
-		std::shared_ptr<GraphEdge> edge = it->lock();
-		if (edge != NULL)
-		{
-			edge->removeEdgeFromScene();
-		}
-	}
 }
 
 std::string QtGraphNode::getName() const
@@ -104,6 +96,29 @@ void QtGraphNode::setSize(Vec2i size)
 	}
 }
 
+Vec4i QtGraphNode::getBoundingRect() const
+{
+	Vec2i pos = getPosition();
+	Vec2i size = getSize();
+	return Vec4i(pos.x, pos.y, pos.x + size.x, pos.y + size.y);
+}
+
+Vec4i QtGraphNode::getParentBoundingRect() const
+{
+	const QtGraphNode* node = this;
+	while (true)
+	{
+		const QtGraphNode* parent = dynamic_cast<QtGraphNode*>(node->parentItem());
+		if (!parent)
+		{
+			break;
+		}
+		node = parent;
+
+	}
+	return node->getBoundingRect();
+}
+
 bool QtGraphNode::addOutEdge(const std::shared_ptr<GraphEdge>& edge)
 {
 	for (std::list<std::shared_ptr<GraphEdge>>::iterator it = m_outEdges.begin(); it != m_outEdges.end(); it++)
@@ -136,21 +151,6 @@ bool QtGraphNode::addInEdge(const std::weak_ptr<GraphEdge>& edge)
 
 	m_inEdges.push_back(edge);
 	return true;
-}
-
-void QtGraphNode::removeOutEdge(GraphEdge* edge)
-{
-	std::list<std::shared_ptr<GraphEdge>>::iterator it = m_outEdges.begin();
-	while (it != m_outEdges.end())
-	{
-		if ((*it).get() == edge)
-		{
-			m_outEdges.erase(it);
-			break;
-		}
-
-		++it;
-	}
 }
 
 unsigned int QtGraphNode::getOutEdgeCount() const
@@ -321,7 +321,7 @@ void QtGraphNode::notifyEdgesAfterMove()
 {
 	for (const std::shared_ptr<GraphEdge>& edge : m_outEdges)
 	{
-		edge->ownerMoved();
+		edge->updateLine();
 	}
 
 	for (const std::weak_ptr<GraphEdge>& e : m_inEdges)
@@ -329,7 +329,7 @@ void QtGraphNode::notifyEdgesAfterMove()
 		std::shared_ptr<GraphEdge> edge = e.lock();
 		if (edge)
 		{
-			edge->targetMoved();
+			edge->updateLine();
 		}
 	}
 
