@@ -17,10 +17,7 @@
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)
 	, m_rebuildGraphFunctor(
-		std::bind(
-			&QtGraphView::doRebuildGraph, this,
-			std::placeholders::_1, std::placeholders::_2,
-			std::placeholders::_3, std::placeholders::_4))
+		std::bind(&QtGraphView::doRebuildGraph, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
 	, m_clearFunctor(std::bind(&QtGraphView::doClear, this))
 {
 }
@@ -57,11 +54,10 @@ void QtGraphView::refreshView()
 
 void QtGraphView::rebuildGraph(
 	std::shared_ptr<Graph> graph,
-	std::vector<Id> activeTokenIds,
 	const std::vector<DummyNode>& nodes,
 	const std::vector<DummyEdge>& edges
 ){
-	m_rebuildGraphFunctor(graph, activeTokenIds, nodes, edges);
+	m_rebuildGraphFunctor(graph, nodes, edges);
 }
 
 void QtGraphView::clear()
@@ -69,22 +65,38 @@ void QtGraphView::clear()
 	m_clearFunctor();
 }
 
-QGraphicsView* QtGraphView::getView()
+GraphView::Metrics QtGraphView::getViewMetrics() const
+{
+	GraphView::Metrics metrics;
+
+	QGraphicsView* view = getView();
+	if (view == NULL)
+	{
+		return metrics;
+	}
+
+	metrics.width = view->width();
+	metrics.height = view->height();
+
+	metrics.typeNameCharWidth = QFontMetrics(QtGraphNode::getFontForNodeType(Node::NODE_CLASS)).width("QtGraphNode") / 11.0f;
+	metrics.variableNameCharWidth = QFontMetrics(QtGraphNode::getFontForNodeType(Node::NODE_FIELD)).width("QtGraphNode") / 11.0f;
+	metrics.functionNameCharWidth = QFontMetrics(QtGraphNode::getFontForNodeType(Node::NODE_METHOD)).width("QtGraphNode") / 11.0f;
+
+	return metrics;
+}
+
+QGraphicsView* QtGraphView::getView() const
 {
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
-
-	QObjectList children = widget->children();
 
 	return widget->findChild<QGraphicsView*>("");
 }
 
 void QtGraphView::doRebuildGraph(
 	std::shared_ptr<Graph> graph,
-	std::vector<Id> activeTokenIds,
 	const std::vector<DummyNode>& nodes,
 	const std::vector<DummyEdge>& edges
 ){
-	m_activeTokenIds = activeTokenIds;
 	QGraphicsView* view = getView();
 
 	if (view == NULL)
@@ -100,9 +112,11 @@ void QtGraphView::doRebuildGraph(
 	// create nodes (or find existing nodes for re-use)
 	for (unsigned int i = 0; i < nodes.size(); i++)
 	{
-		std::shared_ptr<QtGraphNode> newNode = createNodeRecursive(view, NULL, nodes[i]);
-		newNode->setPosition(nodes[i].position);
-		newNodes.push_back(newNode);
+		std::shared_ptr<QtGraphNode> node = createNodeRecursive(view, NULL, nodes[i]);
+		if (node)
+		{
+			newNodes.push_back(node);
+		}
 	}
 
 	doClear();
@@ -117,18 +131,23 @@ void QtGraphView::doRebuildGraph(
 		}
 	}
 
-	// hide node content by default, must be done after all edges are created to keep subnodes with connections visible
-	for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
+	if (graph)
 	{
-		node->hideContent();
+		m_graph = graph;
 	}
 
-	for (const std::shared_ptr<QtGraphEdge>& edge : m_edges)
+	// Manually hover the items below the mouse cursor.
+	view->scene()->setSceneRect(view->scene()->itemsBoundingRect());
+	QPointF point = view->mapToScene(view->mapFromGlobal(QCursor::pos()));
+	QGraphicsItem* item = view->scene()->itemAt(point, QTransform());
+	if (item)
 	{
-		edge->updateLine();
+		QtGraphNode* node = dynamic_cast<QtGraphNode*>(item->parentItem());
+		if (node)
+		{
+			node->hoverEnter();
+		}
 	}
-
-	m_graph = graph;
 }
 
 void QtGraphView::doClear()
@@ -159,6 +178,11 @@ std::shared_ptr<QtGraphNode> QtGraphView::findNodeRecursive(const std::list<std:
 std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	QGraphicsView* view, std::shared_ptr<QtGraphNode> parentNode, const DummyNode& node
 ){
+	if (!node.visible)
+	{
+		return NULL;
+	}
+
 	std::shared_ptr<QtGraphNode> newNode;
 	if (node.data)
 	{
@@ -166,17 +190,16 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	}
 	else
 	{
-		newNode = std::make_shared<QtGraphNodeAccess>(node.accessType);
+		newNode = std::make_shared<QtGraphNodeAccess>(node.accessType, node.expanded, node.invisibleSubNodeCount);
 	}
+
+	newNode->setPosition(node.position);
+	newNode->setSize(node.size);
+	newNode->setIsActive(node.active);
 
 	newNode->addComponent(std::make_shared<QtGraphNodeComponentClickable>(newNode));
 
 	view->scene()->addItem(newNode.get());
-
-	if (node.data && isActiveTokenId(node.data->getId()))
-	{
-		newNode->setIsActive(true);
-	}
 
 	if (parentNode)
 	{
@@ -190,8 +213,13 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	for (unsigned int i = 0; i < node.subNodes.size(); i++)
 	{
 		std::shared_ptr<QtGraphNode> subNode = createNodeRecursive(view, newNode, node.subNodes[i]);
-		newNode->addSubNode(subNode);
+		if (subNode)
+		{
+			newNode->addSubNode(subNode);
+		}
 	}
+
+	newNode->setStyle();
 
 	return newNode;
 }
@@ -204,19 +232,15 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const 
 	if (owner != NULL && target != NULL)
 	{
 		std::shared_ptr<QtGraphEdge> qtEdge = std::make_shared<QtGraphEdge>(owner, target, edge.data);
-		bool added = owner->addOutEdge(qtEdge) | target->addInEdge(qtEdge);
+		qtEdge->setIsActive(edge.active);
 
+		bool added = owner->addOutEdge(qtEdge) | target->addInEdge(qtEdge);
 		if (!added)
 		{
 			return NULL;
 		}
 
 		view->scene()->addItem(qtEdge.get());
-
-		if (isActiveTokenId(edge.data->getId()))
-		{
-			qtEdge->setIsActive(true);
-		}
 
 		return qtEdge;
 	}
@@ -225,9 +249,4 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const 
 		LOG_WARNING("Couldn't find owner or target node.");
 		return NULL;
 	}
-}
-
-bool QtGraphView::isActiveTokenId(Id tokenId) const
-{
-	return find(m_activeTokenIds.begin(), m_activeTokenIds.end(), tokenId) != m_activeTokenIds.end();
 }

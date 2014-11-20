@@ -1,6 +1,7 @@
 #ifndef QT_GRAPH_NODE_H
 #define QT_GRAPH_NODE_H
 
+#include <QFontMetrics>
 #include <QGraphicsItem>
 
 #include "component/view/graphElements/GraphNode.h"
@@ -14,6 +15,8 @@ class QtGraphNode
 	, public QGraphicsRectItem
 {
 public:
+	static QFont getFontForNodeType(Node::NodeType type);
+
 	QtGraphNode();
 	QtGraphNode(const Node* data);
 	virtual ~QtGraphNode();
@@ -22,10 +25,11 @@ public:
 	void setName(const std::string& name);
 
 	virtual Vec2i getPosition() const;
-	virtual void setPosition(const Vec2i& position);
+	virtual bool setPosition(const Vec2i& position);
+	virtual void moveTo(const Vec2i& position);
 
 	virtual Vec2i getSize() const;
-	virtual void setSize(Vec2i size);
+	virtual void setSize(const Vec2i& size);
 
 	virtual Vec4i getBoundingRect() const;
 	virtual Vec4i getParentBoundingRect() const;
@@ -45,16 +49,12 @@ public:
 	void addComponent(const std::shared_ptr<QtGraphNodeComponent>& component);
 
 	std::list<std::shared_ptr<QtGraphNode>> getSubNodes() const;
-	void addSubNode(const std::shared_ptr<QtGraphNode>& node);
+	virtual void addSubNode(const std::shared_ptr<QtGraphNode>& node);
 
-	/**
-	 * @brief Returns the count of all connected edges and active nodes (including sub nodes)
-	 */
-	unsigned int getEdgeAndActiveCountRecursive() const;
-
-	virtual void hideContent();
+	void setStyle();
 
 	virtual void onClick();
+	void hoverEnter();
 
 protected:
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
@@ -65,9 +65,6 @@ protected:
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
 	void notifyEdgesAfterMove();
-	void onSizeChanged();
-
-	virtual void rebuildLayout();
 
 	std::list<std::shared_ptr<GraphEdge>> m_outEdges;
 	std::list<std::weak_ptr<GraphEdge>> m_inEdges;
@@ -79,15 +76,9 @@ protected:
 	QtGraphicsRoundedRectItem* m_rect;
 	QtGraphicsRoundedRectItem* m_undefinedRect;
 
-	Vec2i m_baseSize;
-	Vec2i m_currentSize;
-
-	Vec4i m_padding;
-	int m_spacing;
+	Vec2i m_size;
 
 private:
-	void setStyle();
-
 	std::list<std::shared_ptr<QtGraphNodeComponent>> m_components;
 
 	bool m_isActive;

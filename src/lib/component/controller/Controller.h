@@ -13,7 +13,7 @@ public:
 
 protected:
 	template <typename ViewType>
-	ViewType* getView();
+	ViewType* getView() const;
 
 private:
 	Component* m_component;
@@ -22,7 +22,7 @@ private:
 
 
 template <typename ViewType>
-ViewType* Controller::getView()
+ViewType* Controller::getView() const
 {
 	if (m_component)
 		return m_component->getView<ViewType>();

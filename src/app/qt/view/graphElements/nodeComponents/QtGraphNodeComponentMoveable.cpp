@@ -31,7 +31,7 @@ void QtGraphNodeComponentMoveable::nodeMouseMoveEvent(QGraphicsSceneMouseEvent* 
 	std::shared_ptr<GraphNode> node = m_graphNode.lock();
 	if (node != NULL)
 	{
-		node->setPosition(Vec2i(event->scenePos().x() - m_mouseOffset.x, event->scenePos().y() - m_mouseOffset.y));
+		node->moveTo(Vec2i(event->scenePos().x() - m_mouseOffset.x, event->scenePos().y() - m_mouseOffset.y));
 		event->accept();
 	}
 }

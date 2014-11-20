@@ -26,9 +26,12 @@ public:
 	void setData(const Node* data);
 
 	virtual Vec2i getPosition() const = 0;
-	virtual void setPosition(const Vec2i& position) = 0;
+	virtual bool setPosition(const Vec2i& position) = 0;
+	virtual void moveTo(const Vec2i& position) = 0;
 
 	virtual Vec2i getSize() const = 0;
+	virtual void setSize(const Vec2i& size) = 0;
+
 	virtual Vec4i getBoundingRect() const = 0;
 	virtual Vec4i getParentBoundingRect() const = 0;
 
@@ -47,19 +50,39 @@ struct DummyNode
 	DummyNode(const Node* data)
 		: data(data)
 		, accessType(TokenComponentAccess::ACCESS_NONE)
+		, active(false)
+		, connected(false)
+		, expanded(false)
+		, invisibleSubNodeCount(0)
+		, visible(false)
 	{
 	}
 
 	DummyNode(TokenComponentAccess::AccessType accessType)
 		: data(nullptr)
 		, accessType(accessType)
+		, active(false)
+		, connected(false)
+		, expanded(false)
+		, invisibleSubNodeCount(0)
+		, visible(false)
 	{
 	}
 
 	const Node* data;
-	const TokenComponentAccess::AccessType accessType;
+	TokenComponentAccess::AccessType accessType;
 
 	Vec2i position;
+	Vec2i size;
+
+	bool active;
+	bool connected;
+
+	bool expanded;
+	size_t invisibleSubNodeCount;
+
+	bool visible;
+
 	std::vector<DummyNode> subNodes;
 };
 

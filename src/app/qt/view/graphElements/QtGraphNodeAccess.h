@@ -8,14 +8,12 @@ class QtGraphNodeAccess
 	: public QtGraphNode
 {
 public:
-	class QtAccessArrow
+	class QtAccessToggle
 		: public QGraphicsRectItem
 	{
 	public:
-		QtAccessArrow(QGraphicsItem* parent);
-		virtual ~QtAccessArrow();
-
-		int update(bool visible, int number);
+		QtAccessToggle(bool expanded, int invisibleSubNodeCount, QGraphicsItem* parent);
+		virtual ~QtAccessToggle();
 
 	private:
 		QGraphicsPixmapItem* m_icon;
@@ -23,23 +21,22 @@ public:
 	};
 
 
-	QtGraphNodeAccess(TokenComponentAccess::AccessType accessType);
+	QtGraphNodeAccess(TokenComponentAccess::AccessType accessType, bool expanded, int invisibleSubNodeCount);
 	virtual ~QtGraphNodeAccess();
 
-	virtual void hideContent();
-	virtual void showContent();
+	virtual void setSize(const Vec2i& size);
+
+	virtual void addSubNode(const std::shared_ptr<QtGraphNode>& node);
 
 	virtual void onClick();
 
-	virtual void rebuildLayout();
-
 private:
-	bool m_contentHidden;
+	TokenComponentAccess::AccessType m_access;
 
 	QGraphicsPixmapItem* m_accessIcon;
 	int m_accessIconSize;
 
-	QtAccessArrow* m_arrow;
+	QtAccessToggle* m_accessToggle;
 };
 
 #endif // QT_GRAPH_NODE_ACCESS_H

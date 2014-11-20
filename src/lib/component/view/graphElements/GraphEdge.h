@@ -33,6 +33,8 @@ struct DummyEdge
 		: ownerId(o)
 		, targetId(t)
 		, data(data)
+		, visible(false)
+		, active(false)
 	{
 	}
 
@@ -40,6 +42,9 @@ struct DummyEdge
 	Id targetId;
 
 	const Edge* data;
+
+	bool visible;
+	bool active;
 };
 
 #endif // GRAPH_EDGE_H

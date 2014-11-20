@@ -24,22 +24,15 @@ public:
 	virtual void initView();
 	virtual void refreshView();
 
-	virtual void rebuildGraph(
-		std::shared_ptr<Graph> graph,
-		std::vector<Id> activeTokenIds,
-		const std::vector<DummyNode>& nodes,
-		const std::vector<DummyEdge>& edges);
-
+	virtual void rebuildGraph(std::shared_ptr<Graph> graph, const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);
 	virtual void clear();
 
-private:
-	QGraphicsView* getView();
+	virtual GraphView::Metrics getViewMetrics() const;
 
-	void doRebuildGraph(
-		std::shared_ptr<Graph> graph,
-		std::vector<Id> activeTokenIds,
-		const std::vector<DummyNode>& nodes,
-		const std::vector<DummyEdge>& edges);
+private:
+	QGraphicsView* getView() const;
+
+	void doRebuildGraph(std::shared_ptr<Graph> graph, const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);
 	void doClear();
 
 	std::shared_ptr<QtGraphNode> findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId);
@@ -48,16 +41,10 @@ private:
 		QGraphicsView* view, std::shared_ptr<QtGraphNode> parentNode, const DummyNode& node);
 	std::shared_ptr<QtGraphEdge> createEdge(QGraphicsView* view, const DummyEdge& edge);
 
-	bool isActiveTokenId(Id tokenId) const;
-
-	QtThreadedFunctor<
-		std::shared_ptr<Graph>, std::vector<Id>, const std::vector<DummyNode>&, const std::vector<DummyEdge>&
-	> m_rebuildGraphFunctor;
-
+	QtThreadedFunctor<std::shared_ptr<Graph>, const std::vector<DummyNode>&, const std::vector<DummyEdge>&> m_rebuildGraphFunctor;
 	QtThreadedFunctor<void> m_clearFunctor;
 
 	std::shared_ptr<Graph> m_graph;
-	std::vector<Id> m_activeTokenIds;
 
 	std::list<std::shared_ptr<QtGraphEdge>> m_edges;
 	std::list<std::shared_ptr<QtGraphNode>> m_nodes;
