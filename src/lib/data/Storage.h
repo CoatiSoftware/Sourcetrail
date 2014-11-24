@@ -68,6 +68,17 @@ public:
 		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy);
 	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function);
 
+	virtual Id onTemplateRecordParameterTypeParsed(
+		const ParseLocation& location, const std::string& templateParameterTypeName,
+		const std::vector<std::string>& templateRecordNameHierarchy);
+	virtual Id onTemplateRecordSpecializationParsed(
+		const ParseLocation& location, const std::vector<std::string>& specializedRecordNameHierarchy,
+		const RecordType specializedRecordType, const std::vector<std::string>& templateRecordNameHierarchy);
+	virtual Id onTemplateFunctionParameterTypeParsed(
+		const ParseLocation& location, const std::string& templateParameterTypeName, const ParseFunction function);
+	virtual Id onTemplateFunctionSpecializationParsed(
+		const ParseLocation& location, const ParseFunction specializedFunction, const ParseFunction templateFunction);
+
 	// GraphAccess implementation
 	virtual Id getIdForNodeWithName(const std::string& fullName) const;
 	virtual std::string getNameForNodeWithId(Id id) const;
@@ -96,7 +107,6 @@ protected:
 private:
 	Node* addNodeHierarchy(Node::NodeType type, std::vector<std::string> nameHierarchy);
 
-	Node* addNodeHierarchy(Node::NodeType type, const std::string& fullName);
 	Node* addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function);
 
 	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;
@@ -105,7 +115,6 @@ private:
 	TokenComponentAbstraction::AbstractionType convertAbstractionType(ParserClient::AbstractionType abstraction) const;
 	TokenComponentAbstraction* addAbstraction(Node* node, ParserClient::AbstractionType abstraction);
 
-	Edge* addTypeEdge(Node* node, Edge::EdgeType edgeType, const DataType& type);
 	Edge* addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeUsage& typeUsage);
 	TokenLocation* addTokenLocation(Token* token, const ParseLocation& location, bool isScope = false);
 

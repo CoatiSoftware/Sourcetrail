@@ -5,7 +5,6 @@
 
 #include "data/graph/filter/GraphFilterConductor.h"
 #include "data/graph/token_component/TokenComponentConst.h"
-#include "data/graph/token_component/TokenComponentDataType.h"
 #include "data/graph/token_component/TokenComponentName.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
 #include "data/graph/SubGraph.h"
@@ -321,6 +320,77 @@ Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& f
 	}
 
 	return edge->getId();
+}
+
+Id Storage::onTemplateRecordParameterTypeParsed(
+	const ParseLocation& location, const std::string& templateParameterTypeName,
+	const std::vector<std::string>& templateRecordNameHierarchy
+)
+{
+	log("class template type parameter", templateParameterTypeName, location);
+	std::vector<std::string> templateParameterTypeNameHierarchy = templateRecordNameHierarchy;
+	templateParameterTypeNameHierarchy.back() += "::" + templateParameterTypeName;
+	Node* templateParameterNode = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
+	addTokenLocation(templateParameterNode, location);
+
+	Node* templateRecordNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateRecordNameHierarchy);
+
+	Edge* edge = m_graph.createEdge(Edge::EDGE_TEMPLATE_PARAMETER_OF, templateParameterNode, templateRecordNode);
+	//addTokenLocation(edge, location);
+
+
+	return 0;
+}
+
+Id Storage::onTemplateRecordSpecializationParsed(
+	const ParseLocation& location, const std::vector<std::string>& specializedRecordNameHierarchy,
+		const RecordType specializedRecordType, const std::vector<std::string>& templateRecordNameHierarchy)
+{
+	log("class template specialization", utility::join(specializedRecordNameHierarchy, "::") + " -> " + utility::join(templateRecordNameHierarchy, "::"), location);
+
+	Node::NodeType specializedRecordNodeType = Node::NODE_CLASS;
+	if (specializedRecordType == ParserClient::RECORD_STRUCT)
+	{
+		specializedRecordNodeType = Node::NODE_STRUCT;
+	}
+
+	Node* specializedRecordNode = addNodeHierarchy(specializedRecordNodeType, specializedRecordNameHierarchy);
+	Node* templateRecordNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateRecordNameHierarchy);
+	Edge* edge = m_graph.createEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, specializedRecordNode, templateRecordNode);
+	//addTokenLocation(edge, location);
+
+	return 0;
+}
+
+Id Storage::onTemplateFunctionParameterTypeParsed(
+	const ParseLocation& location, const std::string& templateParameterTypeName, const ParseFunction function
+)
+{
+	log("function template type parameter", templateParameterTypeName, location);
+
+	std::vector<std::string> templateParameterTypeNameHierarchy;
+	templateParameterTypeNameHierarchy.push_back(function.getFullName() + "::"+ templateParameterTypeName);
+	Node* templateParameterNode = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
+	addTokenLocation(templateParameterNode, location);
+
+	Node* templateFunctionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, function);
+
+	Edge* edge = m_graph.createEdge(Edge::EDGE_TEMPLATE_PARAMETER_OF, templateParameterNode, templateFunctionNode);
+
+	return 0;
+}
+
+Id Storage::onTemplateFunctionSpecializationParsed(
+	const ParseLocation& location, const ParseFunction specializedFunction, const ParseFunction templateFunction
+)
+{
+	log("function template specialization", specializedFunction.getFullName(), location);
+
+	Node* specializedFunctionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, specializedFunction);
+	Node* templateFunctionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, templateFunction);
+	Edge* edge = m_graph.createEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, specializedFunctionNode, templateFunctionNode);
+
+	return 0;
 }
 
 Id Storage::getIdForNodeWithName(const std::string& fullName) const
@@ -685,23 +755,6 @@ TokenComponentAbstraction* Storage::addAbstraction(Node* node, ParserClient::Abs
 	return nullptr;
 }
 
-Edge* Storage::addTypeEdge(Node* node, Edge::EdgeType edgeType, const DataType& type)
-{
-	Node* typeNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, utility::splitToVector(type.getRawTypeName(), "::")); // TODO: do we really need to split here?
-	Edge* edge = m_graph.createEdge(edgeType, node, typeNode);
-
-	// FIXME: When a function uses the same type multiple times then we still only use one edge to save this,
-	// but we can't store multiple DataTypes on this edge at the moment.
-	if (!edge->getComponent<TokenComponentDataType>())
-	{
-		edge->addComponentDataType(
-			std::make_shared<TokenComponentDataType>(type.getQualifierList(), type.getModifierStack())
-		);
-	}
-
-	return edge;
-}
-
 Edge* Storage::addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeUsage& typeUsage)
 {
 	if (!typeUsage.location.isValid())
@@ -709,9 +762,10 @@ Edge* Storage::addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeU
 		return nullptr;
 	}
 
-	Edge* edge = addTypeEdge(node, edgeType, typeUsage.dataType);
-
+	Node* typeNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, typeUsage.dataType.getTypeNameHierarchy());
+	Edge* edge = m_graph.createEdge(edgeType, node, typeNode);
 	addTokenLocation(edge, typeUsage.location);
+
 	return edge;
 }
 

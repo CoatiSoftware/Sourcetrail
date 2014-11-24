@@ -4,7 +4,6 @@
 
 #include "data/graph/Node.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
-#include "data/graph/token_component/TokenComponentDataType.h"
 #include "utility/logging/logging.h"
 
 Edge::Edge(EdgeType type, Node* from, Node* to)
@@ -93,24 +92,6 @@ void Edge::addComponentAccess(std::shared_ptr<TokenComponentAccess> component)
 	}
 }
 
-void Edge::addComponentDataType(std::shared_ptr<TokenComponentDataType> component)
-{
-	if (getComponent<TokenComponentDataType>())
-	{
-		LOG_ERROR("TokenComponentDataType has been set before!");
-	}
-	else if (m_type != EDGE_TYPEDEF_OF && m_type != EDGE_TYPE_OF &&
-		m_type != EDGE_RETURN_TYPE_OF && m_type != EDGE_PARAMETER_TYPE_OF &&
-		m_type != EDGE_TYPE_USAGE)
-	{
-		LOG_ERROR("TokenComponentDataType can't be set on edge of type: " + getTypeString());
-	}
-	else
-	{
-		addComponent(component);
-	}
-}
-
 std::string Edge::getTypeString(EdgeType type) const
 {
 	switch (type)
@@ -133,6 +114,10 @@ std::string Edge::getTypeString(EdgeType type) const
 		return "usage";
 	case EDGE_TYPEDEF_OF:
 		return "typedef";
+	case EDGE_TEMPLATE_PARAMETER_OF:
+		return "template parameter";
+	case EDGE_TEMPLATE_SPECIALIZATION_OF:
+		return "template specialization";
 	}
 	return "";
 }

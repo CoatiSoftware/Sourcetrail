@@ -1,22 +1,4 @@
 ConfigManager.cpp ERROR: value path/to/nowhere is not present in config.
-Token.cpp ERROR: Location Id was not referenced by this Token.
-Node.cpp WARNING: Cannot change NodeType after it was already set from namespace to class
-Edge.cpp ERROR: Nodes are not plain copies.
-Storage.cpp INFO: class: A <input.cc 1:7 1:7>
-Storage.cpp INFO: method: A::A <input.cc 4:2 4:2>
-Storage.cpp INFO: global usage: A::A -> A::count <input.cc 5:3 5:7>
-Storage.cpp INFO: method: A::getCount <input.cc 8:13 8:20>
-Storage.cpp INFO: global usage: A::getCount -> A::count <input.cc 10:10 10:14>
-Storage.cpp INFO: method: A::process <input.cc 14:15 14:21>
-Storage.cpp INFO: field: A::count <input.cc 17:13 17:17>
-Storage.cpp INFO: class: B <input.cc 20:7 20:7>
-Storage.cpp INFO: inheritance: B : A <input.cc 21:4 21:11>
-Storage.cpp INFO: method: B::process <input.cc 24:15 24:21>
-Storage.cpp INFO: type usage: B::process -> int <input.cc 26:3 26:5>
-Storage.cpp INFO: function: main <input.cc 30:5 30:8>
-Storage.cpp INFO: type usage: main -> B <input.cc 32:2 32:2>
-Storage.cpp INFO: call: main -> B::B <input.cc 32:4 32:4>
-Storage.cpp INFO: call: main -> A::getCount <input.cc 34:9 34:21>
 Storage.cpp INFO: class: A <input.cc 1:7 1:7>
 Storage.cpp INFO: method: A::A <input.cc 4:2 4:2>
 Storage.cpp INFO: global usage: A::A -> A::count <input.cc 5:3 5:7>
@@ -49,6 +31,24 @@ SearchMatch.cpp INFO:
 237	A::A
 	^^^^
 
+Storage.cpp INFO: class: A <input.cc 1:7 1:7>
+Storage.cpp INFO: method: A::A <input.cc 4:2 4:2>
+Storage.cpp INFO: global usage: A::A -> A::count <input.cc 5:3 5:7>
+Storage.cpp INFO: method: A::getCount <input.cc 8:13 8:20>
+Storage.cpp INFO: global usage: A::getCount -> A::count <input.cc 10:10 10:14>
+Storage.cpp INFO: method: A::process <input.cc 14:15 14:21>
+Storage.cpp INFO: field: A::count <input.cc 17:13 17:17>
+Storage.cpp INFO: class: B <input.cc 20:7 20:7>
+Storage.cpp INFO: inheritance: B : A <input.cc 21:4 21:11>
+Storage.cpp INFO: method: B::process <input.cc 24:15 24:21>
+Storage.cpp INFO: type usage: B::process -> int <input.cc 26:3 26:5>
+Storage.cpp INFO: function: main <input.cc 30:5 30:8>
+Storage.cpp INFO: type usage: main -> B <input.cc 32:2 32:2>
+Storage.cpp INFO: call: main -> B::B <input.cc 32:4 32:4>
+Storage.cpp INFO: call: main -> A::getCount <input.cc 34:9 34:21>
+Token.cpp ERROR: Location Id was not referenced by this Token.
+Node.cpp WARNING: Cannot change NodeType after it was already set from namespace to class
+Edge.cpp ERROR: Nodes are not plain copies.
 Settings.cpp WARNING: File for Settings not found.
 ConfigManager.cpp ERROR: value Bool is not present in config.
 ConfigManager.cpp ERROR: value Int is not present in config.
@@ -64,6 +64,7 @@ ConfigManager.cpp ERROR: value Int is not present in config.
 ConfigManager.cpp ERROR: value Float is not present in config.
 ConfigManager.cpp ERROR: value String is not present in config.
 ConfigManager.cpp ERROR: value NewBool is not present in config.
+Graph.cpp ERROR: Can't remove member edge, without removing the child node.
 Storage.cpp INFO: typedef: type -> int <file.cpp 1:1 1:1>
 Storage.cpp INFO: class: Class <file.cpp 1:1 1:1>
 Storage.cpp INFO: struct: Struct <file.cpp 1:1 1:1>
@@ -103,7 +104,6 @@ Storage.cpp INFO: global usage: isTrue -> global <file.cpp 1:7 1:7>
 Storage.cpp INFO: function: isTrue <file.cpp 1:0 1:0>
 Storage.cpp INFO: struct: Struct <file.cpp 1:0 1:0>
 Storage.cpp INFO: type usage: isTrue -> Struct <file.cpp 1:0 1:0>
-Graph.cpp ERROR: Can't remove member edge, without removing the child node.
 TextAccess.cpp WARNING: Index 'firstLine' has to be lower or equal index 'lastLine', is 3 > 2
 TextAccess.cpp WARNING: Tried to access index 10. Maximum index is 8
 TextAccess.cpp WARNING: Tried to access index 10. Maximum index is 8

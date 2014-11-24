@@ -10,7 +10,6 @@
 #include "data/graph/token_component/TokenComponentAbstraction.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/graph/token_component/TokenComponentConst.h"
-#include "data/graph/token_component/TokenComponentDataType.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
 
 /*
@@ -87,18 +86,7 @@ protected:
 		{
 			addNode(node);
 		}
-
-		Edge* edge = node->findEdgeOfType(Edge::EDGE_TYPE_OF);
-		if (!edge)
-		{
-			return;
-		}
-
-		TokenComponentDataType* type = edge->getComponent<TokenComponentDataType>();
-		if (type && type->isConstQualified())
-		{
-			addNode(node);
-		}
+		// TODO: add const component to field and variable nodes..
 	}
 };
 

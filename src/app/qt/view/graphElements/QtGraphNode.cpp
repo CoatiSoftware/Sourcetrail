@@ -283,6 +283,7 @@ void QtGraphNode::setStyle()
 	case Node::NODE_CLASS:
 	case Node::NODE_ENUM:
 	case Node::NODE_TYPEDEF:
+	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
 		if (m_isHovering)
 		{
 			m_rect->setShadow(QColor(0, 0, 0, 255), 5);

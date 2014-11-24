@@ -10,14 +10,14 @@ class DataTypeTestSuite: public CxxTest::TestSuite
 public:
 	void test_datatype_created_with_name_has_no_qualifiers_or_modifiers()
 	{
-		DataType dataType("int");
+		DataType dataType(utility::splitToVector("int", "::"));
 		TS_ASSERT_EQUALS("int", dataType.getFullTypeName());
 	}
 
 	void test_datatype_created_with_name_and_empty_qualifiers_has_no_qualifiers_or_modifiers()
 	{
 		DataTypeQualifierList qualifierList;
-		DataType dataType("int", qualifierList);
+		DataType dataType(utility::splitToVector("int", "::"), qualifierList);
 		TS_ASSERT_EQUALS("int", dataType.getFullTypeName());
 	}
 
@@ -25,7 +25,7 @@ public:
 	{
 		DataTypeQualifierList qualifierList;
 		qualifierList.addQualifier(DataTypeQualifierList::QUALIFIER_CONST);
-		DataType dataType("int", qualifierList);
+		DataType dataType(utility::splitToVector("int", "::"), qualifierList);
 		TS_ASSERT_EQUALS("int const", dataType.getFullTypeName());
 	}
 
@@ -33,7 +33,7 @@ public:
 	{
 		DataTypeQualifierList qualifierList;
 		DataTypeModifierStack modifierStack;
-		DataType dataType("int", qualifierList, modifierStack);
+		DataType dataType(utility::splitToVector("int", "::"), qualifierList, modifierStack);
 		TS_ASSERT_EQUALS("int", dataType.getFullTypeName());
 	}
 
@@ -42,7 +42,7 @@ public:
 		DataTypeQualifierList qualifierList;
 		DataTypeModifierStack modifierStack;
 		modifierStack.push(std::make_shared<DataTypeModifierArray>());
-		DataType dataType("int", qualifierList, modifierStack);
+		DataType dataType(utility::splitToVector("int", "::"), qualifierList, modifierStack);
 		TS_ASSERT_EQUALS("int []", dataType.getFullTypeName());
 	}
 
@@ -51,7 +51,7 @@ public:
 		DataTypeQualifierList qualifierList;
 		DataTypeModifierStack modifierStack;
 		modifierStack.push(std::make_shared<DataTypeModifierPointer>());
-		DataType dataType("int", qualifierList, modifierStack);
+		DataType dataType(utility::splitToVector("int", "::"), qualifierList, modifierStack);
 		TS_ASSERT_EQUALS("int *", dataType.getFullTypeName());
 	}
 
@@ -60,7 +60,7 @@ public:
 		DataTypeQualifierList qualifierList;
 		DataTypeModifierStack modifierStack;
 		modifierStack.push(std::make_shared<DataTypeModifierReference>());
-		DataType dataType("int", qualifierList, modifierStack);
+		DataType dataType(utility::splitToVector("int", "::"), qualifierList, modifierStack);
 		TS_ASSERT_EQUALS("int &", dataType.getFullTypeName());
 	}
 
@@ -71,7 +71,7 @@ public:
 		std::shared_ptr<DataTypeModifier> modifier = std::make_shared<DataTypeModifierPointer>();
 		modifier->addQualifier(DataTypeQualifierList::QUALIFIER_CONST);
 		modifierStack.push(modifier);
-		DataType dataType("int", qualifierList, modifierStack);
+		DataType dataType(utility::splitToVector("int", "::"), qualifierList, modifierStack);
 		TS_ASSERT_EQUALS("int * const", dataType.getFullTypeName());
 	}
 
@@ -81,7 +81,7 @@ public:
 		DataTypeModifierStack modifierStack;
 		modifierStack.push(std::make_shared<DataTypeModifierPointer>());
 		modifierStack.push(std::make_shared<DataTypeModifierPointer>());
-		DataType dataType("int", qualifierList, modifierStack);
+		DataType dataType(utility::splitToVector("int", "::"), qualifierList, modifierStack);
 		TS_ASSERT_EQUALS("int * *", dataType.getFullTypeName());
 	}
 };

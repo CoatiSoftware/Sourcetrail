@@ -9,6 +9,7 @@
 #include "data/parser/ParseTypeUsage.h"
 #include "data/parser/ParseVariable.h"
 #include "data/type/DataType.h"
+#include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
 ASTVisitor::ASTVisitor(clang::ASTContext* context, ParserClient* client)
@@ -32,7 +33,7 @@ bool ASTVisitor::VisitTypedefDecl(clang::TypedefDecl* declaration)
 	{
 		m_client->onTypedefParsed(
 			getParseLocationForNamedDecl(declaration),
-			utility::splitToVector(declaration->getQualifiedNameAsString(), "::"),
+			utility::getDeclNameHierarchy(declaration),
 			getParseTypeUsage(declaration->getTypeSourceInfo()->getTypeLoc(), declaration->getUnderlyingType()),
 			convertAccessType(declaration->getAccess())
 		);
@@ -49,19 +50,19 @@ bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 		{
 			m_client->onClassParsed(
 				getParseLocationForNamedDecl(declaration),
-				utility::splitToVector(declaration->getQualifiedNameAsString(), "::"),
+				utility::getDeclNameHierarchy(declaration),
 				convertAccessType(declaration->getAccess()),
 				getParseLocationOfRecordBody(declaration)
 			);
 
 			if (declaration->hasDefinition() && declaration->getNumBases())
 			{
-				for (const auto& it : declaration->bases())
+				for (const clang::CXXBaseSpecifier& it : declaration->bases())
 				{
 					m_client->onInheritanceParsed(
 						getParseLocation(it.getSourceRange()),
-						utility::splitToVector(declaration->getQualifiedNameAsString(), "::"),
-						utility::splitToVector(getTypeName(it.getType()), "::"),
+						utility::getDeclNameHierarchy(declaration),
+						utility::qualTypeToDataType(it.getType()).getTypeNameHierarchy(),
 						convertAccessType(it.getAccessSpecifier())
 					);
 				}
@@ -71,10 +72,11 @@ bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 		{
 			m_client->onStructParsed(
 				getParseLocationForNamedDecl(declaration),
-				utility::splitToVector(declaration->getQualifiedNameAsString(), "::"),
+				utility::getDeclNameHierarchy(declaration),
 				convertAccessType(declaration->getAccess()),
 				getParseLocationOfRecordBody(declaration)
 			);
+			// TODO: what about struct inheritance?
 		}
 	}
 
@@ -181,7 +183,7 @@ bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 			getParseLocationOfFunctionBody(declaration)
 		);
 
-		if (declaration->hasBody() && declaration->isThisDeclarationADefinition())
+		if (declaration->hasBody() && declaration->getBody() != NULL && declaration->isThisDeclarationADefinition())
 		{
 			ASTBodyVisitor bodyVisitor(this, declaration);
 			bodyVisitor.Visit(declaration->getBody());
@@ -206,7 +208,7 @@ bool ASTVisitor::VisitCXXConstructorDecl(clang::CXXConstructorDecl* declaration)
 					m_client->onFieldUsageParsed(
 						getParseLocationForNamedDecl(init->getMember(), init->getMemberLocation()),
 						getParseFunction(declaration),
-						utility::splitToVector(init->getMember()->getQualifiedNameAsString(), "::")
+						utility::getDeclNameHierarchy(init->getMember())
 					);
 				}
 				else if (init->isBaseInitializer())
@@ -222,7 +224,6 @@ bool ASTVisitor::VisitCXXConstructorDecl(clang::CXXConstructorDecl* declaration)
 			}
 		}
 	}
-
 	return true;
 }
 
@@ -232,11 +233,10 @@ bool ASTVisitor::VisitNamespaceDecl(clang::NamespaceDecl* declaration)
 	{
 		m_client->onNamespaceParsed(
 			declaration->isAnonymousNamespace() ? ParseLocation() : getParseLocationForNamedDecl(declaration),
-			utility::splitToVector(declaration->getQualifiedNameAsString(), "::"),
+			utility::getDeclNameHierarchy(declaration),
 			getParseLocation(declaration->getSourceRange())
 		);
 	}
-
 	return true;
 }
 
@@ -246,12 +246,11 @@ bool ASTVisitor::VisitEnumDecl(clang::EnumDecl* declaration)
 	{
 		m_client->onEnumParsed(
 			getParseLocationForNamedDecl(declaration),
-			utility::splitToVector(declaration->getQualifiedNameAsString(), "::"),
+			utility::getDeclNameHierarchy(declaration),
 			convertAccessType(declaration->getAccess()),
 			getParseLocation(declaration->getSourceRange())
 		);
 	}
-
 	return true;
 }
 
@@ -261,10 +260,107 @@ bool ASTVisitor::VisitEnumConstantDecl(clang::EnumConstantDecl* declaration)
 	{
 		m_client->onEnumFieldParsed(
 			getParseLocation(declaration->getSourceRange()),
-			utility::splitToVector(declaration->getQualifiedNameAsString(), "::")
+			utility::getDeclNameHierarchy(declaration)
 		);
 	}
 
+	return true;
+}
+
+bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
+{
+	std::vector<std::string> templateRecordNameHierarchy = utility::getDeclNameHierarchy(declaration);
+
+	clang::TemplateParameterList* parameterList = declaration->getTemplateParameters();
+	for (int i = 0; i < parameterList->size(); i++)
+	{
+		clang::NamedDecl* namedDecl = parameterList->getParam(i);
+
+		if (hasValidLocation(namedDecl))
+		{
+			std::string templateParameterTypeName = namedDecl->getNameAsString();
+
+			m_client->onTemplateRecordParameterTypeParsed(
+				getParseLocationForNamedDecl(namedDecl),
+				templateParameterTypeName,
+				templateRecordNameHierarchy
+			);
+		}
+	}
+
+	for (clang::ClassTemplateDecl::spec_iterator it = declaration->specializations().begin(); // template argument as parameter does not work
+		it != declaration->specializations().end(); it++
+	)
+	{
+		ParserClient::RecordType specializedRecordType = it->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
+		std::vector<std::string> specializedRecordNameHierarchy = utility::getDeclNameHierarchy(*(it));
+		m_client->onTemplateRecordSpecializationParsed(
+			getParseLocationForNamedDecl(*it), specializedRecordNameHierarchy, specializedRecordType, templateRecordNameHierarchy
+		);
+	}
+	return true;
+}
+
+bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* declaration)
+{
+	//std::vector<std::string> templateRecordNameHierarchy = utility::splitToVector(
+	//	declaration->getQualifiedNameAsString(), "::"
+	//);
+
+	//clang::ClassTemplateDecl* baseTemplateDecl = declaration->getSpecializedTemplate();
+
+	//std::string specializedParameterNamePart = "<";
+	//const clang::TemplateArgumentList& templateArgumentList = declaration->getTemplateArgs();
+	//for (int i = 0; i < templateArgumentList.size(); i++)
+	//{
+	//	DataType datatype = utility::qualTypeToDataType(templateArgumentList.get(i).getAsType());
+	//	if (datatype.isTemplateParameterType())
+	//	{
+	//		specializedParameterNamePart += baseTemplateDecl->getTemplateParameters()->getParam(i)->getNameAsString();
+	//	}
+	//	else
+	//	{
+	//		specializedParameterNamePart += datatype.getFullTypeName();
+	//	}
+	//	specializedParameterNamePart += (i < templateArgumentList.size() - 1) ? ", " : "";
+	//}
+	//specializedParameterNamePart += ">";
+
+	//int foo = 0;
+
+	return true;
+}
+
+bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declaration)
+{
+	const ParseFunction templateFunction = getParseFunction(declaration->getTemplatedDecl());
+	for (clang::FunctionTemplateDecl::spec_iterator it = declaration->specializations().begin(); it != declaration->specializations().end(); it++)
+	{
+		ParseLocation specializedFunctionLocation = getParseLocationForNamedDecl(*(it));
+		ParseFunction specializedFunction = getParseFunction(*(it));
+		m_client->onTemplateFunctionSpecializationParsed(
+			specializedFunctionLocation,
+			specializedFunction,
+			templateFunction);
+
+		m_client->onFunctionParsed(specializedFunctionLocation, specializedFunction, getParseLocationOfFunctionBody(*(it)));
+	}
+	clang::TemplateParameterList* parameterList = declaration->getTemplateParameters();
+	for (int i = 0; i < parameterList->size(); i++)
+	{
+		clang::NamedDecl* namedDecl = parameterList->getParam(i);
+
+		if (hasValidLocation(namedDecl))
+		{
+			std::string templateParameterTypeName = namedDecl->getNameAsString();
+
+			m_client->onTemplateFunctionParameterTypeParsed(
+				getParseLocationForNamedDecl(namedDecl),
+				templateParameterTypeName,
+				templateFunction
+			);
+		}
+	}
 	return true;
 }
 
@@ -340,7 +436,7 @@ void ASTVisitor::VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::Mem
 	m_client->onFieldUsageParsed(
 		parseLocation,
 		getParseFunction(decl),
-		utility::splitToVector(expr->getMemberDecl()->getQualifiedNameAsString(), "::")
+		utility::getDeclNameHierarchy(expr->getMemberDecl())
 	);
 }
 
@@ -354,7 +450,7 @@ void ASTVisitor::VisitDeclRefExprInDeclBody(clang::FunctionDecl* decl, clang::De
 	m_client->onGlobalVariableUsageParsed(
 		parseLocation,
 		getParseFunction(decl),
-		utility::splitToVector(expr->getDecl()->getQualifiedNameAsString(), "::")
+		utility::getDeclNameHierarchy(expr->getDecl())
 	);
 }
 
@@ -504,16 +600,21 @@ std::vector<ParseTypeUsage> ASTVisitor::getParameters(clang::FunctionDecl* decla
 
 ParseVariable ASTVisitor::getParseVariable(clang::DeclaratorDecl* declaration) const
 {
-	bool isStatic = false;
+	bool isStatic;
+	std::vector<std::string> hameHierarchy = utility::getDeclNameHierarchy(declaration);
 	if (clang::isa<clang::VarDecl>(declaration))
 	{
 		clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(declaration);
 		isStatic = varDecl->isStaticDataMember() || varDecl->getStorageClass() == clang::SC_Static;
 	}
+	else if (clang::isa<clang::FieldDecl>(declaration))
+	{
+		isStatic = false; // fieldDecls cannot be static. If they are, they are treated as VarDecls
+	}
 
 	return ParseVariable(
 		getParseTypeUsage(declaration->getTypeSourceInfo()->getTypeLoc(), declaration->getType()),
-		utility::splitToVector(declaration->getQualifiedNameAsString(), "::"),
+		hameHierarchy,
 		isStatic
 	);
 }
@@ -522,6 +623,7 @@ ParseFunction ASTVisitor::getParseFunction(clang::FunctionDecl* declaration) con
 {
 	bool isStatic = false;
 	bool isConst = false;
+
 	if (clang::isa<clang::CXXMethodDecl>(declaration))
 	{
 		clang::CXXMethodDecl* methodDecl = clang::dyn_cast<clang::CXXMethodDecl>(declaration);
@@ -535,7 +637,7 @@ ParseFunction ASTVisitor::getParseFunction(clang::FunctionDecl* declaration) con
 
 	return ParseFunction(
 		getParseTypeUsageOfReturnType(declaration),
-		utility::splitToVector(declaration->getQualifiedNameAsString(), "::"),
+		utility::getDeclNameHierarchy(declaration),
 		getParameters(declaration),
 		isStatic,
 		isConst

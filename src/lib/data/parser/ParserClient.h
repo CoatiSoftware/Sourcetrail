@@ -28,6 +28,11 @@ public:
 		ABSTRACTION_NONE
 	};
 
+	enum RecordType {
+		RECORD_STRUCT,
+		RECORD_CLASS
+	};
+
 	static std::string addAccessPrefix(const std::string& str, AccessType access);
 	static std::string addAbstractionPrefix(const std::string& str, AbstractionType abstraction);
 	static std::string addStaticPrefix(const std::string& str, bool isStatic);
@@ -84,6 +89,18 @@ public:
 	virtual Id onGlobalVariableUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy) = 0;
 	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function) = 0;
+
+	virtual Id onTemplateRecordParameterTypeParsed(
+		const ParseLocation& location, const std::string& templateParameterTypeName,
+		const std::vector<std::string>& templateRecordNameHierarchy) = 0;
+	virtual Id onTemplateRecordSpecializationParsed(
+		const ParseLocation& location, const std::vector<std::string>& specializedRecordNameHierarchy,
+		const RecordType specializedRecordType, const std::vector<std::string>& templateRecordNameHierarchy) = 0;
+	virtual Id onTemplateFunctionParameterTypeParsed(
+		const ParseLocation& location, const std::string& templateParameterTypeName,
+		const ParseFunction function) = 0;
+	virtual Id onTemplateFunctionSpecializationParsed(
+		const ParseLocation& location, const ParseFunction specializedFunction, const ParseFunction templateFunction) = 0;
 };
 
 #endif // PARSER_CLIENT_H

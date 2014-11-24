@@ -16,11 +16,11 @@ public:
 	virtual ~ASTVisitor();
 
 	// Left for debugging purposes. Uncomment to see a colored ast-dump of the parsed file.
-	// virtual bool VisitTranslationUnitDecl(clang::TranslationUnitDecl* decl)
-	// {
-	// 	decl->dump();
-	// 	return true;
-	// }
+	 //virtual bool VisitTranslationUnitDecl(clang::TranslationUnitDecl* decl)
+	 //{
+	 //	decl->dump();
+	 //	return true;
+	 //}
 
 	// RecursiveASTVisitor implementation
 	virtual bool VisitStmt(const clang::Stmt* statement); // avoid visiting
@@ -35,6 +35,10 @@ public:
 	virtual bool VisitNamespaceDecl(clang::NamespaceDecl* declaration); // namespaces
 	virtual bool VisitEnumDecl(clang::EnumDecl* declaration); // enums
 	virtual bool VisitEnumConstantDecl(clang::EnumConstantDecl* declaration); // enum fields
+
+	virtual bool VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration);
+	virtual bool VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* declaration);
+	virtual bool VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declaration);
 
 	// ASTBodyVisitorClient implementation
 	virtual void VisitCallExprInDeclBody(clang::FunctionDecl* decl, clang::CallExpr* expr); // calls

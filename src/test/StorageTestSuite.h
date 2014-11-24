@@ -560,7 +560,7 @@ private:
 
 	ParseTypeUsage typeUsage(const std::string& typeName) const
 	{
-		return ParseTypeUsage(validLocation(), DataType(typeName));
+		return ParseTypeUsage(validLocation(), DataType(utility::splitToVector(typeName, "::")));
 	}
 
 	std::vector<ParseTypeUsage> parameters(const std::string& param) const

@@ -133,14 +133,3 @@ public:
 private:
 	int m_importantInt;
 };
-
-class AnotherClass
-	: public A
-{
-public:
-	int publicInt;
-protected:
-	int protectedInt;
-private:
-	int privateInt;
-};

@@ -313,6 +313,8 @@ std::string Node::getTypeString(NodeType type) const
 		return "enum";
 	case NODE_TYPEDEF:
 		return "typedef";
+	case NODE_TEMPLATE_PARAMETER_TYPE:
+		return "template parameter type";
 	}
 	return "";
 }

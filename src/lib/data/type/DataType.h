@@ -10,10 +10,11 @@
 class DataType
 {
 public:
-	DataType(const std::string& typeName);
-	DataType(const std::string& typeName, const DataTypeQualifierList& qualifierList);
+	DataType(const std::vector<std::string>& typeNameHierarchy);
+	DataType(const std::vector<std::string>& typeNameHierarchy, const DataTypeQualifierList& qualifierList);
 	DataType(
-		const std::string& typeName, const DataTypeQualifierList& qualifierList, const DataTypeModifierStack& modifierStack
+		const std::vector<std::string>& typeNameHierarchy, const DataTypeQualifierList& qualifierList,
+		const DataTypeModifierStack& modifierStack
 	);
 	~DataType();
 
@@ -22,9 +23,10 @@ public:
 
 	std::string getFullTypeName() const;
 	std::string getRawTypeName() const;
+	std::vector<std::string> getTypeNameHierarchy() const;
 
 private:
-	const std::string m_typeName;
+	const std::vector<std::string> m_typeNameHierarchy;
 	const DataTypeQualifierList m_qualifierList;
 	const DataTypeModifierStack m_modifierStack;
 };

@@ -1,20 +1,23 @@
 #include "data/type/DataType.h"
 
-DataType::DataType(const std::string& typeName)
-	: m_typeName(typeName)
+#include "utility/utilityString.h"
+
+DataType::DataType(const std::vector<std::string>& typeNameHierarchy)
+	: m_typeNameHierarchy(typeNameHierarchy)
 {
 }
 
-DataType::DataType(const std::string& typeName, const DataTypeQualifierList& qualifierList)
-	: m_typeName(typeName)
+DataType::DataType(const std::vector<std::string>& typeNameHierarchy, const DataTypeQualifierList& qualifierList)
+	: m_typeNameHierarchy(typeNameHierarchy)
 	, m_qualifierList(qualifierList)
 {
 }
 
 DataType::DataType(
-	const std::string& typeName, const DataTypeQualifierList& qualifierList, const DataTypeModifierStack& modifierStack
+	const std::vector<std::string>& typeNameHierarchy, const DataTypeQualifierList& qualifierList,
+	const DataTypeModifierStack& modifierStack
 )
-	: m_typeName(typeName)
+	: m_typeNameHierarchy(typeNameHierarchy)
 	, m_qualifierList(qualifierList)
 	, m_modifierStack(modifierStack)
 {
@@ -36,10 +39,15 @@ DataTypeModifierStack DataType::getModifierStack() const
 
 std::string DataType::getFullTypeName() const
 {
-	return m_modifierStack.applyTo(m_qualifierList.applyTo(m_typeName));
+	return m_modifierStack.applyTo(m_qualifierList.applyTo(getRawTypeName()));
 }
 
 std::string DataType::getRawTypeName() const
 {
-	return m_typeName;
+	return utility::join(m_typeNameHierarchy, "::");
+}
+
+std::vector<std::string> DataType::getTypeNameHierarchy() const
+{
+	return m_typeNameHierarchy;
 }

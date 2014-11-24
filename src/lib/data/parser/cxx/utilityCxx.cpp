@@ -1,5 +1,9 @@
 #include "data/parser/cxx/utilityCxx.h"
 
+#include <clang/AST/PrettyPrinter.h>
+#include <clang/AST/DeclTemplate.h>
+#include <clang/AST/ASTContext.h>
+
 #include "data/type/DataType.h"
 #include "data/type/modifier/DataTypeModifierArray.h"
 #include "data/type/modifier/DataTypeModifierPointer.h"
@@ -7,12 +11,13 @@
 #include "data/type/DataTypeModifierStack.h"
 #include "data/type/DataTypeQualifierList.h"
 #include "utility/utilityString.h"
+#include "utility/logging/logging.h"
 
 namespace utility
 {
 	DataType qualTypeToDataType(clang::QualType qualType)
 	{
-		std::string typeName;
+		std::vector<std::string> typeNameHerarchy;
 		DataTypeQualifierList qualifierList;
 		DataTypeModifierStack modifierStack;
 
@@ -21,7 +26,7 @@ namespace utility
 			const clang::Type* type = qualType.getTypePtr();
 			if (type->getAs<clang::TypedefType>())
 			{
-				typeName = utility::substrAfter(qualType.getAsString(), ' ');
+				typeNameHerarchy.push_back(utility::substrAfter(qualType.getAsString(), ' '));
 				break;
 			}
 			else if (type->isPointerType())
@@ -54,17 +59,35 @@ namespace utility
 
 				qualType = type->getPointeeType();
 			}
-			else if (type->isStructureOrClassType() || type->isEnumeralType())
-			{
-				// we are working on the string here to not lose the namespace information stored in the name.
-				typeName = utility::substrAfter(qualType.getAsString(), ' ');
-
-				// typeName = qualType.getBaseTypeIdentifier()->getName(); // this one does not keep namespace information.
-				break;
-			}
 			else
 			{
-				typeName = qualType.getUnqualifiedType().getAsString();
+				const clang::Type* type = qualType.getUnqualifiedType().getTypePtr();
+
+				if (clang::isa<clang::TagType>(type))
+				{
+					typeNameHerarchy = getDeclNameHierarchy(clang::dyn_cast<clang::TagType>(type)->getDecl());
+				}
+				else
+				{
+					clang::PrintingPolicy pp = clang::PrintingPolicy(clang::LangOptions());
+					pp.SuppressTagKeyword = true;	// value "true": for a class A it prints "A" instead of "class A"
+					pp.Bool = true;					// value "true": prints bool type as "bool" instead of "_Bool"
+					std::string typeName = qualType.getUnqualifiedType().getAsString(pp);
+
+					if (type->isTemplateTypeParmType())
+					{
+						clang::TemplateTypeParmDecl* templateTypeParmDecl = clang::dyn_cast<clang::TemplateTypeParmType>(qualType.getUnqualifiedType())->getDecl();
+						if (templateTypeParmDecl)
+						{
+							typeNameHerarchy = getContextNameHierarchy(templateTypeParmDecl->getDeclContext());
+							typeNameHerarchy.back() += "::" + typeName;
+						}
+					}
+					else
+					{
+						typeNameHerarchy.push_back(typeName);
+					}
+				}
 				break;
 			}
 		}
@@ -73,12 +96,90 @@ namespace utility
 		{
 			qualifierList.addQualifier(DataTypeQualifierList::QUALIFIER_CONST);
 		}
+		return DataType(typeNameHerarchy, qualifierList, modifierStack);
+	}
 
-		if (typeName == "_Bool")
+	std::vector<std::string> getDeclNameHierarchy(clang::Decl* declaration)
+	{
+		std::string declName = "";
+
+		if (clang::isa<clang::NamedDecl>(declaration))
 		{
-			typeName = "bool";
+			declName = getDeclName(clang::dyn_cast<clang::NamedDecl>(declaration));
+		}
+		else
+		{
+			LOG_ERROR("unhandled declaration type");
+		}
+		std::vector<std::string> contextNameHierarchy = getContextNameHierarchy(declaration->getDeclContext());
+		contextNameHierarchy.push_back(declName);
+		return contextNameHierarchy;
+	}
+
+	std::vector<std::string> getContextNameHierarchy(clang::DeclContext* declContext)
+	{
+		std::vector<std::string> contextNameHierarchy;
+
+		clang::DeclContext* parentContext = declContext->getParent();
+		if (parentContext)
+		{
+			contextNameHierarchy = getContextNameHierarchy(parentContext);
 		}
 
-		return DataType(typeName, qualifierList, modifierStack);
+		if (clang::isa<clang::NamedDecl>(declContext))
+		{
+			std::string declName = getDeclName(clang::dyn_cast<clang::NamedDecl>(declContext));
+			if (declName != "")
+			{
+				contextNameHierarchy.push_back(declName);
+			}
+		}
+		return contextNameHierarchy;
+	}
+
+	std::string getDeclName(clang::NamedDecl* declaration)
+	{
+		std::string declName = declaration->getNameAsString();
+
+		if (clang::isa<clang::CXXRecordDecl>(declaration))
+		{
+			clang::ClassTemplateDecl* templateClassDeclaration = clang::dyn_cast<clang::CXXRecordDecl>(declaration)->getDescribedClassTemplate();
+			if (templateClassDeclaration)
+			{
+				declName = getDeclName(templateClassDeclaration);
+			}
+			else if (clang::isa<clang::ClassTemplateSpecializationDecl>(declaration))
+			{
+				std::string specializedParameterNamePart = "<";
+				const clang::TemplateArgumentList& templateArgumentList = clang::dyn_cast<clang::ClassTemplateSpecializationDecl>(declaration)->getTemplateArgs();
+				for (int i = 0; i < templateArgumentList.size(); i++)
+				{
+					DataType datatype = utility::qualTypeToDataType(templateArgumentList.get(i).getAsType());
+					specializedParameterNamePart += datatype.getFullTypeName();
+					specializedParameterNamePart += (i < templateArgumentList.size() - 1) ? ", " : "";
+				}
+				specializedParameterNamePart += ">";
+				declName += specializedParameterNamePart;
+			}
+		}
+		else if (clang::isa<clang::TemplateDecl>(declaration))
+		{
+			std::string templateParameterNamePart = "<";
+			clang::TemplateParameterList* parameterList = clang::dyn_cast<clang::TemplateDecl>(declaration)->getTemplateParameters();
+			for (int i = 0; i < parameterList->size(); i++)
+			{
+				clang::NamedDecl* namedDecl = parameterList->getParam(i);
+
+				templateParameterNamePart += namedDecl->getNameAsString();
+				templateParameterNamePart += (i < parameterList->size() - 1) ? ", " : "";
+			}
+			templateParameterNamePart += ">";
+			declName += templateParameterNamePart;
+		}
+		else if (clang::isa<clang::NamespaceDecl>(declaration) && clang::dyn_cast<clang::NamespaceDecl>(declaration)->isAnonymousNamespace())
+		{
+			declName = "(anonymous namespace)";
+		}
+		return declName;
 	}
 }

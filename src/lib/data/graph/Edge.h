@@ -16,15 +16,17 @@ public:
 	typedef int EdgeTypeMask;
 	enum EdgeType : EdgeTypeMask
 	{
-		EDGE_MEMBER            = 0x1,
-		EDGE_TYPE_OF           = 0x2,
-		EDGE_RETURN_TYPE_OF    = 0x4,
-		EDGE_PARAMETER_TYPE_OF = 0x8,
-		EDGE_TYPE_USAGE        = 0x10,
-		EDGE_USAGE             = 0x20,
-		EDGE_CALL              = 0x40,
-		EDGE_INHERITANCE       = 0x80,
-		EDGE_TYPEDEF_OF        = 0x100
+		EDGE_MEMBER						= 0x1,
+		EDGE_TYPE_OF					= 0x2,
+		EDGE_RETURN_TYPE_OF				= 0x4,
+		EDGE_PARAMETER_TYPE_OF			= 0x8,
+		EDGE_TYPE_USAGE					= 0x10,
+		EDGE_USAGE						= 0x20,
+		EDGE_CALL						= 0x40,
+		EDGE_INHERITANCE				= 0x80,
+		EDGE_TYPEDEF_OF					= 0x100,
+		EDGE_TEMPLATE_PARAMETER_OF		= 0x200,
+		EDGE_TEMPLATE_SPECIALIZATION_OF	= 0x400
 	};
 
 	Edge(EdgeType type, Node* from, Node* to);
@@ -45,7 +47,6 @@ public:
 
 	// Component setters
 	void addComponentAccess(std::shared_ptr<TokenComponentAccess> component);
-	void addComponentDataType(std::shared_ptr<TokenComponentDataType> component);
 
 	// Logging.
 	std::string getTypeString(EdgeType type) const;

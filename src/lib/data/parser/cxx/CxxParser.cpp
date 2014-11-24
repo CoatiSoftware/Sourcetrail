@@ -26,6 +26,10 @@ void CxxParser::parseFiles(
 	// verbose
 	// args.push_back("-v");
 
+	// The option -fno-delayed-template-parsing signals that templates that there should
+	// be AST elements for unused template functions as well.
+	args.push_back("-fno-delayed-template-parsing");
+
 	// The option -c signals that no executable is built.
 	args.push_back("-c");
 
@@ -72,5 +76,7 @@ void CxxParser::parseFiles(
 void CxxParser::parseFile(std::shared_ptr<TextAccess> textAccess)
 {
 	ASTActionFactory actionFactory(m_client);
-	clang::tooling::runToolOnCode(actionFactory.create(), textAccess->getText());
+	std::vector<std::string> args;
+	args.push_back("-fno-delayed-template-parsing");
+	clang::tooling::runToolOnCodeWithArgs(actionFactory.create(), textAccess->getText(), args);
 }
