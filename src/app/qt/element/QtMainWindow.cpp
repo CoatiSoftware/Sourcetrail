@@ -20,6 +20,7 @@ QtMainWindow::QtMainWindow()
 {
 	setObjectName("QtMainWindow");
 	setCentralWidget(nullptr);
+	setDockNestingEnabled(true);
 
 	setupProjectMenu();
 	setupViewMenu();
@@ -73,8 +74,8 @@ void QtMainWindow::openProject(const QString &path)
 }
 
 void QtMainWindow::saveProject()
-{	
-	MessageSaveProject("").dispatch();	
+{
+	MessageSaveProject("").dispatch();
 }
 
 void QtMainWindow::saveAsProject()

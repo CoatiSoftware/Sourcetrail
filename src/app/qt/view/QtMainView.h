@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include <QStatusBar>
 #include "component/view/MainView.h"
 
 class QtMainWindow;
@@ -24,6 +25,9 @@ public:
 
 	virtual void loadLayout();
 	virtual void saveLayout();
+
+	virtual QStatusBar* getStatusBar();
+	virtual void setStatusBar(QStatusBar* statusBar);
 
 private:
 	std::shared_ptr<QtMainWindow> m_window;

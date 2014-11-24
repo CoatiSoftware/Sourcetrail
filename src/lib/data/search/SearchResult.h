@@ -2,6 +2,7 @@
 #define SEARCH_RESULT_H
 
 #include <set>
+#include <stddef.h>
 
 class SearchNode;
 

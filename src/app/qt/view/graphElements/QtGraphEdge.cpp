@@ -121,13 +121,13 @@ void QtCorneredConnection::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
 			if (i != 1)
 			{
-				if (dir % 2 == 1 && abs(a.y() - b.y()) < 2 * br)
+				if (dir % 2 == 1 && std::abs(a.y() - b.y()) < 2 * br)
 				{
-					br = abs(a.y() - b.y()) / 2;
+					br = std::abs(a.y() - b.y()) / 2;
 				}
-				else if (dir % 2 == 0 && abs(a.x() - b.x()) < 2 * br)
+				else if (dir % 2 == 0 && std::abs(a.x() - b.x()) < 2 * br)
 				{
-					br = abs(a.x() - b.x()) / 2;
+					br = std::abs(a.x() - b.x()) / 2;
 				}
 			}
 

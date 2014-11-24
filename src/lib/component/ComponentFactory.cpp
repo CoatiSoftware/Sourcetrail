@@ -4,9 +4,11 @@
 #include "component/controller/CodeController.h"
 #include "component/controller/GraphController.h"
 #include "component/controller/SearchController.h"
+#include "component/controller/StatusBarController.h"
 #include "component/view/CodeView.h"
 #include "component/view/GraphView.h"
 #include "component/view/SearchView.h"
+#include "component/view/StatusBarView.h"
 #include "component/view/ViewFactory.h"
 #include "component/view/ViewLayout.h"
 
@@ -52,6 +54,18 @@ std::shared_ptr<Component> ComponentFactory::createSearchComponent()
 	return component;
 }
 
+std::shared_ptr<Component> ComponentFactory::createStatusBarComponent()
+{
+	std::shared_ptr<StatusBarView> view = m_viewFactory->createStatusBarView(m_viewLayout);
+	std::shared_ptr<StatusBarController> controller = std::make_shared<StatusBarController>();
+
+	std::shared_ptr<Component> component = std::make_shared<Component>(view,controller);
+	return component;
+}
+
+
+
 ComponentFactory::ComponentFactory()
 {
 }
+

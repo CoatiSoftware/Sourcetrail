@@ -26,6 +26,9 @@ void ComponentManager::setup()
 
 	std::shared_ptr<Component> searchComponent = m_componentFactory->createSearchComponent();
 	m_components.push_back(searchComponent);
+
+	std::shared_ptr<Component> statusBarComponent = m_componentFactory->createStatusBarComponent();
+	m_components.push_back(statusBarComponent);
 }
 
 ComponentManager::ComponentManager()

@@ -4,6 +4,7 @@
 #include "qt/view/QtGraphView.h"
 #include "qt/view/QtMainView.h"
 #include "qt/view/QtSearchView.h"
+#include "qt/view/QtStatusBarView.h"
 
 QtViewFactory::QtViewFactory()
 {
@@ -31,4 +32,9 @@ std::shared_ptr<GraphView> QtViewFactory::createGraphView(ViewLayout* viewLayout
 std::shared_ptr<SearchView> QtViewFactory::createSearchView(ViewLayout* viewLayout) const
 {
 	return View::create<QtSearchView>(viewLayout);
+}
+
+std::shared_ptr<StatusBarView> QtViewFactory::createStatusBarView(ViewLayout* viewLayout) const
+{
+	return View::createAndDontAddToLayout<QtStatusBarView>(viewLayout);
 }

@@ -8,6 +8,7 @@ class MainView: public ViewLayout
 public:
 	MainView();
 	virtual ~MainView();
+
 };
 
 #endif // MAIN_VIEW_H

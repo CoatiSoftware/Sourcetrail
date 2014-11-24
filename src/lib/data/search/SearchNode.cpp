@@ -1,5 +1,7 @@
 #include "data/search/SearchNode.h"
 
+#include <algorithm>
+
 #include "utility/text/Dictionary.h"
 
 #include "data/search/SearchIndex.h"

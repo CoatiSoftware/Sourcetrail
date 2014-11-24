@@ -51,3 +51,13 @@ void QtMainView::saveLayout()
 {
 	m_window->saveLayout();
 }
+
+QStatusBar* QtMainView::getStatusBar()
+{
+	return m_window->statusBar();
+}
+
+void QtMainView::setStatusBar(QStatusBar* statusbar)
+{
+	m_window->setStatusBar(statusbar);
+}

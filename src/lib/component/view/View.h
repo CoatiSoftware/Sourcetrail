@@ -16,6 +16,9 @@ public:
 	template<typename T>
 	static std::shared_ptr<T> create(ViewLayout* viewLayout);
 
+	template<typename T>
+	static std::shared_ptr<T> createAndDontAddToLayout(ViewLayout* viewLayout);
+
 	View(ViewLayout* viewLayout, const Vec2i& minSize);
 	virtual ~View();
 
@@ -56,6 +59,19 @@ std::shared_ptr<T> View::create(ViewLayout* viewLayout)
 	ptr->initView();
 
 	viewLayout->addView(ptr.get());
+
+	return ptr;
+}
+
+template<typename T>
+std::shared_ptr<T> View::createAndDontAddToLayout(ViewLayout* viewLayout)
+{
+	std::shared_ptr<T> ptr = std::make_shared<T>(viewLayout);
+
+	ptr->createWidgetWrapper();
+	ptr->initView();
+
+	//viewLayout->addView(ptr.get());
 
 	return ptr;
 }

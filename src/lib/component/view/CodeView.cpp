@@ -15,6 +15,10 @@ CodeView::CodeSnippetParams::CodeSnippetParams()
 
 bool CodeView::CodeSnippetParams::sort( CodeSnippetParams a, CodeSnippetParams b )
 {
+	if(a.isActive && b.isActive)
+	{
+		return false;
+	}
 	// sort active snippet first
 	if(a.isActive)
 	{

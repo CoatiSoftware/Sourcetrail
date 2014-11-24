@@ -32,6 +32,8 @@ add_files(
 	component/controller/GraphLayouter.h
 	component/controller/SearchController.cpp
 	component/controller/SearchController.h
+	component/controller/StatusBarController.cpp
+	component/controller/StatusBarController.h
 
 	component/view/graphElements/GraphEdge.cpp
 	component/view/graphElements/GraphEdge.h
@@ -46,6 +48,8 @@ add_files(
 	component/view/MainView.h
 	component/view/SearchView.cpp
 	component/view/SearchView.h
+	component/view/StatusBarView.cpp
+	component/view/StatusBarView.h
 	component/view/View.cpp
 	component/view/View.h
 	component/view/ViewFactory.cpp
@@ -191,6 +195,8 @@ add_files(
 	utility/math/VectorBase.h
 
 	utility/messaging/type/MessageActivateToken.h
+	utility/messaging/type/MessageActivateTokens.h
+	utility/messaging/type/MessageError.h
 	utility/messaging/type/MessageFind.h
 	utility/messaging/type/MessageFinishedParsing.h
 	utility/messaging/type/MessageGraphNodeExpand.h
@@ -198,8 +204,11 @@ add_files(
 	utility/messaging/type/MessageLoadProject.h
 	utility/messaging/type/MessageLoadSource.h
 	utility/messaging/type/MessageRefresh.h
+	utility/messaging/type/MessageSaveProject.h
 	utility/messaging/type/MessageSearch.h
+	utility/messaging/type/MessageSearchAutocomplete.h
 	utility/messaging/type/MessageShowFile.h
+	utility/messaging/type/MessageStatus.h
 
 	utility/messaging/Message.h
 	utility/messaging/MessageBase.h

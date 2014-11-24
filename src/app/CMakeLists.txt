@@ -19,6 +19,8 @@ add_files(
 	qt/element/QtSearchBar.h
 	qt/element/QtSmartSearchBox.cpp
 	qt/element/QtSmartSearchBox.h
+	qt/element/QtStatusBar.cpp
+	qt/element/QtStatusBar.h
 
 	qt/graphics/QtGraphicsRoundedRectItem.cpp
 	qt/graphics/QtGraphicsRoundedRectItem.h
@@ -52,6 +54,8 @@ add_files(
 	qt/view/QtMainView.h
 	qt/view/QtSearchView.cpp
 	qt/view/QtSearchView.h
+	qt/view/QtStatusBarView.cpp
+	qt/view/QtStatusBarView.h
 	qt/view/QtViewFactory.cpp
 	qt/view/QtViewFactory.h
 	qt/view/QtViewWidgetWrapper.cpp
