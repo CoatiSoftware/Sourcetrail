@@ -30,7 +30,7 @@ QtGraphNodeAccess::QtAccessToggle::QtAccessToggle(bool expanded, int invisibleSu
 			QFont font;
 			font.setFamily("Myriad Pro");
 			font.setWeight(QFont::Normal);
-			font.setPointSize(9);
+			font.setPixelSize(9);
 
 			m_number = new QGraphicsSimpleTextItem(this);
 			m_number->setFont(font);
@@ -69,7 +69,7 @@ QtGraphNodeAccess::QtGraphNodeAccess(
 	QFont font;
 	font.setFamily("Myriad Pro");
 	font.setWeight(QFont::Bold);
-	font.setPointSize(11);
+	font.setPixelSize(11);
 	font.setCapitalization(QFont::AllUppercase);
 	m_text->setFont(font);
 	m_text->setPos(padding.x + m_accessIconSize + 3, padding.y + m_accessIconSize / 2 - 1);

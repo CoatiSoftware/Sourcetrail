@@ -20,7 +20,7 @@ QFont QtGraphNode::getFontForNodeType(Node::NodeType type)
 	{
 	case Node::NODE_UNDEFINED:
 	case Node::NODE_NAMESPACE:
-		font.setPointSize(12);
+		font.setPixelSize(12);
 		break;
 
 	case Node::NODE_UNDEFINED_TYPE:
@@ -28,19 +28,19 @@ QFont QtGraphNode::getFontForNodeType(Node::NodeType type)
 	case Node::NODE_CLASS:
 	case Node::NODE_ENUM:
 	case Node::NODE_TYPEDEF:
-		font.setPointSize(14);
+		font.setPixelSize(14);
 		break;
 
 	case Node::NODE_UNDEFINED_FUNCTION:
 	case Node::NODE_FUNCTION:
 	case Node::NODE_METHOD:
-		font.setPointSize(11);
+		font.setPixelSize(11);
 		break;
 
 	case Node::NODE_UNDEFINED_VARIABLE:
 	case Node::NODE_GLOBAL_VARIABLE:
 	case Node::NODE_FIELD:
-		font.setPointSize(11);
+		font.setPixelSize(11);
 		break;
 	}
 
