@@ -1,32 +1,55 @@
 #search_bar {
-	background: rgb(255, 255, 255);
+	background: white;
+}
+
+QWidget#search_box_container {
+	background: #E0E0E0;
+	border: none;
+	border-bottom-left-radius: 12px;
+	border-top-left-radius: 12px;
+	margin-right: 2px;
 }
 
 QLineEdit#search_box {
-	background: rgb(204, 204, 204);
+	background: #E0E0E0;
 	border: none;
 	font-family: "Source Code Pro";
 	font-size: 16px;
-	font-weight: bold;
-	padding: 0 4px;
-	height: 26px;
-	selection-background-color: rgb(51, 51, 51);
+	height: 24px;
+	selection-background-color: #B2B2B2;
+}
+
+QWidget#search_box_highlight {
+	background: #B2B2B2;
+	border: none;
+	height: 24px;
 }
 
 QAbstractItemView#search_box_popup {
+	background-color: white;
+	border: none;
 	font-family: "Source Code Pro";
-	font-size: 14px;
-	selection-background-color: rgb(51, 51, 51);
+	font-size: 14pt;
+	margin: 8px 0 0;
+	min-height: 26px;
+	selection-background-color: #B2B2B2;
 }
 
 QPushButton#search_button {
+	background: #E0E0E0;
 	border: none;
-	border-image: url(data/gui/search_view/images/button_search.png);
-	height: 26px;
-	width: 26px;
+	border-bottom-right-radius: 12px;
+	border-top-right-radius: 12px;
+	background-position: 15px 5px;
+	height: 30px;
+	width: 30px;
 }
 
-QPushButton#case_sensitive_button {
+#search_button:hover {
+	background: #B2B2B2;
+}
+
+/*QPushButton#case_sensitive_button {
 	border: none;
 	border-image: url(data/gui/search_view/images/button_case_sensitive_inactive.png);
 	height: 26px;
@@ -36,7 +59,7 @@ QPushButton#case_sensitive_button {
 
 QPushButton#case_sensitive_button:checked {
 	border-image: url(data/gui/search_view/images/button_case_sensitive_active.png);
-}
+}*/
 
 QToolTip {
 	background-color: rgb(204, 204, 204);

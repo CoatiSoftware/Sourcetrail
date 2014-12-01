@@ -17,8 +17,10 @@ class QtAutocompletionModel
 	Q_OBJECT
 
 public:
-	QtAutocompletionModel(const std::vector<SearchMatch>& matchList, QObject* parent = 0);
+	QtAutocompletionModel(QObject* parent = 0);
 	virtual ~QtAutocompletionModel();
+
+	void setMatchList(const std::vector<SearchMatch>& matchList);
 
 	virtual int rowCount(const QModelIndex& parent) const;
 	virtual int columnCount(const QModelIndex& parent) const;
@@ -28,7 +30,7 @@ public:
 	const SearchMatch* getSearchMatchAt(int idx) const;
 
 private:
-	const std::vector<SearchMatch>& m_matchList;
+	std::vector<SearchMatch> m_matchList;
 };
 
 
@@ -53,8 +55,10 @@ signals:
 	void matchActivated(const SearchMatch&);
 
 public:
-	QtAutocompletionList(const std::vector<SearchMatch>& autocompletionList, QWidget* parent = 0);
+	QtAutocompletionList(QWidget* parent = 0);
 	virtual ~QtAutocompletionList();
+
+	void completeAt(const QPoint& pos, const std::vector<SearchMatch>& autocompletionList);
 
 	const SearchMatch* getSearchMatchAt(int idx) const;
 

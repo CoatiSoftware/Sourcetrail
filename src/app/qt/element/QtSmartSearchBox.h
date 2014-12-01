@@ -99,6 +99,8 @@ private:
 	bool m_shiftKeyDown;
 	bool m_mousePressed;
 	int m_mouseX;
+
+	QWidget* m_highlightRect;
 };
 
 #endif // QT_SMART_SEARCH_BOX_H

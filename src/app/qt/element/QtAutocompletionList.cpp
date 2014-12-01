@@ -1,15 +1,20 @@
 #include "qt/element/QtAutocompletionList.h"
 
 #include <QPainter>
+#include <QScrollBar>
 
-QtAutocompletionModel::QtAutocompletionModel(const std::vector<SearchMatch>& matchList, QObject* parent)
+QtAutocompletionModel::QtAutocompletionModel(QObject* parent)
 	: QAbstractTableModel(parent)
-	, m_matchList(matchList)
 {
 }
 
 QtAutocompletionModel::~QtAutocompletionModel()
 {
+}
+
+void QtAutocompletionModel::setMatchList(const std::vector<SearchMatch>& matchList)
+{
+	m_matchList = matchList;
 }
 
 int QtAutocompletionModel::rowCount(const QModelIndex &parent) const
@@ -26,7 +31,7 @@ int QtAutocompletionModel::columnCount(const QModelIndex &parent) const
 
 QVariant QtAutocompletionModel::data(const QModelIndex &index, int role) const
 {
-	if (!index.isValid() || index.row() < 0 || size_t(index.row()) >= m_matchList.size() || role != Qt::DisplayRole)
+	if (!index.isValid() || index.row() < 0 || index.row() >= int(m_matchList.size()) || role != Qt::DisplayRole)
 	{
 		return QVariant();
 	}
@@ -74,15 +79,8 @@ QtAutocompletionDelegate::~QtAutocompletionDelegate()
 
 void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-	QPen pen = painter->pen();
-	QFont font = painter->font();
-
 	if (option.state & QStyle::State_Selected)
 	{
-		QPen highlightPen = pen;
-		highlightPen.setColor(option.palette.color(QPalette::HighlightedText));
-		painter->setPen(highlightPen);
-
 		painter->fillRect(option.rect, option.palette.color(QPalette::Highlight));
 	}
 	else
@@ -90,61 +88,71 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 		painter->fillRect(option.rect, option.palette.color(QPalette::Base));
 	}
 
-	QFont higlightFont = font;
-	higlightFont.setWeight(QFont::Bold);
-
 	QString name = index.data().toString();
-	QList<QVariant> indices = index.sibling(index.row(), index.column() + 2).data().toList();
-	int idx = 0;
-
-	int x = 0;
-	int m = option.fontMetrics.width(QLatin1Char('9'));
-	for (int i = 0; i < name.size(); i++)
-	{
-		if (idx < indices.size() && i == indices[idx])
-		{
-			painter->setFont(higlightFont);
-			idx++;
-		}
-		else
-		{
-			painter->setFont(font);
-		}
-
-		painter->drawText(option.rect.adjusted(8 + x, 0, 0, 0), Qt::AlignLeft, name.at(i));
-		x += m;
-	}
-
-	if (font.pixelSize() > 0)
-	{
-		QFont typeFont = font;
-		typeFont.setPixelSize(0.8f * font.pixelSize());
-		painter->setFont(typeFont);
-	}
+	float charWidth = option.fontMetrics.width("FontWidth") / 9.0f;
 
 	QString type = index.sibling(index.row(), index.column() + 1).data().toString();
-	QRect rect = option.rect.adjusted(1, 1, 0, -1);
-	rect.setWidth(5);
 
+	QColor color("#FFE47A");
 	if (type.size())
 	{
-		painter->fillRect(rect, QColor(153, 22, 165));
-		painter->drawText(option.rect.adjusted(0, 0, -3, 0), Qt::AlignRight, type);
+		color = QColor("#CC8D91");
+	}
+
+	QList<QVariant> indices = index.sibling(index.row(), index.column() + 2).data().toList();
+	if (indices.size())
+	{
+		int idx = 0;
+		float x = charWidth + 2;
+		for (int i = 0; i < name.size(); i++)
+		{
+			if (idx < indices.size() && i == indices[idx])
+			{
+				QRect rect = option.rect.adjusted(x, 2, 0, -1);
+				rect.setWidth(charWidth + 1);
+				painter->fillRect(rect, color);
+				idx++;
+			}
+
+			x += charWidth;
+		}
 	}
 	else
 	{
-		painter->fillRect(rect, QColor(172, 150, 0));
+		QRect rect = option.rect.adjusted(0, 2, 0, -1);
+		rect.setWidth(charWidth - 1);
+		painter->fillRect(rect, color);
 	}
 
-	painter->setFont(font);
-	painter->setPen(pen);
+	painter->drawText(option.rect.adjusted(charWidth + 2, -1, 0, 0), Qt::AlignLeft, name);
+
+	if (type.size())
+	{
+		QFont font = painter->font();
+		if (font.pointSize() > 0)
+		{
+			QFont typeFont = font;
+			typeFont.setPointSize(10);
+			painter->setFont(typeFont);
+		}
+
+		QPen pen = painter->pen();
+		QPen typePen = pen;
+		typePen.setColor(QColor("#878787"));
+		painter->setPen(typePen);
+
+		painter->drawText(option.rect.adjusted(0, 3, -charWidth, 0), Qt::AlignRight, type);
+
+		painter->setFont(font);
+		painter->setPen(pen);
+	}
 }
 
 
-QtAutocompletionList::QtAutocompletionList(const std::vector<SearchMatch>& autocompletionList, QWidget* parent)
+QtAutocompletionList::QtAutocompletionList(QWidget* parent)
 	: QCompleter(parent)
 {
-	m_model = std::make_shared<QtAutocompletionModel>(autocompletionList, this);
+	m_model = std::make_shared<QtAutocompletionModel>(this);
 	setModel(m_model.get());
 
 	m_delegate = std::make_shared<QtAutocompletionDelegate>(this);
@@ -152,9 +160,12 @@ QtAutocompletionList::QtAutocompletionList(const std::vector<SearchMatch>& autoc
 	QListView* list = new QListView(parent);
 	list->setItemDelegateForColumn(0, m_delegate.get());
 	list->setObjectName("search_box_popup");
+	list->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+	list->setUniformItemSizes(true);
 	setPopup(list);
 
 	setCaseSensitivity(Qt::CaseInsensitive);
+	// setCompletionMode(QCompleter::UnfilteredPopupCompletion);
 
 	connect(this, SIGNAL(highlighted(const QModelIndex&)), this, SLOT(onHighlighted(const QModelIndex&)), Qt::DirectConnection);
 	connect(this, SIGNAL(activated(const QModelIndex&)), this, SLOT(onActivated(const QModelIndex&)), Qt::DirectConnection);
@@ -162,6 +173,35 @@ QtAutocompletionList::QtAutocompletionList(const std::vector<SearchMatch>& autoc
 
 QtAutocompletionList::~QtAutocompletionList()
 {
+}
+
+void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<SearchMatch>& autocompletionList)
+{
+	m_model->setMatchList(autocompletionList);
+
+	QSize minSize(300, 253);
+	QListView* list = dynamic_cast<QListView*>(popup());
+
+	if (!autocompletionList.size())
+	{
+		list->hide();
+		return;
+	}
+
+	setCompletionPrefix("");
+
+	const QModelIndex& index = completionModel()->index(0, 0);
+	list->setCurrentIndex(index);
+
+	complete(QRect(pos.x(), pos.y(), minSize.width(), 1));
+
+	QRect rect = list->visualRect(index);
+	minSize.setHeight(std::min(minSize.height(), m_model->rowCount(index) * rect.height() + 16));
+
+	list->setMinimumSize(minSize);
+
+	list->verticalScrollBar()->setValue(list->verticalScrollBar()->minimum());
+	list->setCurrentIndex(index); // must be set again to avoid flickering
 }
 
 const SearchMatch* QtAutocompletionList::getSearchMatchAt(int idx) const

@@ -5,37 +5,37 @@ QPushButton {
 	height: 20px;
 	padding-left: 4px;
 	padding-right: 4px;
-	border-radius: 2px;
 }
 
 #search_element_token {
-	background-color: rgb(153,22,165);
+	background-color: #CC8D91;
 }
 
-#search_element_token:checked {
-	background-color: rgb(160,102,165);
+#search_element_token:checked, #search_element_token:hover {
+	background-color: #CC5E69;
 }
 
 #search_element_command {
-	background-color: rgb(172,150,0);
+	background-color: #FFE47A;
 }
 
-#search_element_command:checked {
-	background-color: rgb(172,163,103);
+#search_element_command:checked, #search_element_command:hover {
+	background-color: #FFCC00;
 }
 
 #search_element_operator {
-	background-color: rgb(27,136,86);
+	background-color: #FCA47E;
 }
 
-#search_element_operator:checked {
-	background-color: rgb(103,136,121);
+#search_element_operator:checked, #search_element_operator:hover {
+	background-color: #F97A4E;
 }
 
 #search_element_none {
-	background-color: rgb(208,93,24);
+	background-color: none;
+	color: #878787;
 }
 
-#search_element_none:checked {
-	background-color: rgb(208,138,96);
+#search_element_none:checked, #search_element_none:hover {
+	color: black;
 }

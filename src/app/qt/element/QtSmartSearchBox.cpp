@@ -41,9 +41,19 @@ QtSmartSearchBox::QtSmartSearchBox(QWidget* parent)
 	, m_shiftKeyDown(false)
 	, m_mousePressed(false)
 {
+	m_highlightRect = new QWidget(this);
+	m_highlightRect->setGeometry(0, 0, 0, 0);
+	m_highlightRect->setObjectName("search_box_highlight");
+
 	connect(this, SIGNAL(returnPressed()), this, SLOT(search()), Qt::QueuedConnection);
 	connect(this, SIGNAL(textEdited(const QString&)), this, SLOT(onTextEdited(const QString&)));
 	connect(this, SIGNAL(textChanged(const QString&)), this, SLOT(onTextChanged(const QString&)));
+
+	QCompleter* completer = new QtAutocompletionList(this);
+	setCompleter(completer);
+
+	connect(completer, SIGNAL(matchHighlighted(const SearchMatch&)), this, SLOT(onAutocompletionHighlighted(const SearchMatch&)), Qt::DirectConnection);
+	connect(completer, SIGNAL(matchActivated(const SearchMatch&)), this, SLOT(onAutocompletionActivated(const SearchMatch&)), Qt::DirectConnection);
 
 	updatePlaceholder();
 }
@@ -54,20 +64,8 @@ QtSmartSearchBox::~QtSmartSearchBox()
 
 void QtSmartSearchBox::setAutocompletionList(const std::vector<SearchMatch>& autocompletionList)
 {
-	if (!autocompletionList.size())
-	{
-		setCompleter(0);
-		return;
-	}
-
-	QCompleter* completer = new QtAutocompletionList(autocompletionList, this);
-	setCompleter(completer);
-	completer->complete(QRect(textMargins().left() + 3, height(), 300, 1));
-
-	connect(completer, SIGNAL(matchHighlighted(const SearchMatch&)), this, SLOT(onAutocompletionHighlighted(const SearchMatch&)), Qt::DirectConnection);
-	connect(completer, SIGNAL(matchActivated(const SearchMatch&)), this, SLOT(onAutocompletionActivated(const SearchMatch&)), Qt::DirectConnection);
-
-	completer->popup()->setCurrentIndex(completer->completionModel()->index(0, 0));
+	QtAutocompletionList* completer = dynamic_cast<QtAutocompletionList*>(this->completer());
+	completer->completeAt(QPoint(textMargins().left() + 3, height() + 3), autocompletionList);
 }
 
 void QtSmartSearchBox::setQuery(const std::string& text)
@@ -83,6 +81,7 @@ void QtSmartSearchBox::setFocus()
 {
 	QLineEdit::setFocus(Qt::ShortcutFocusReason);
 	selectAllElementsWith(true);
+	layoutElements();
 }
 
 bool QtSmartSearchBox::event(QEvent *event)
@@ -90,7 +89,7 @@ bool QtSmartSearchBox::event(QEvent *event)
 	if (event->type() == QEvent::KeyPress)
 	{
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-		if (keyEvent->key() == Qt::Key_Tab && completer() && completer()->popup()->isVisible())
+		if (keyEvent->key() == Qt::Key_Tab && completer()->popup()->isVisible())
 		{
 			onAutocompletionActivated(m_highlightedMatch);
 			return true;
@@ -267,6 +266,7 @@ void QtSmartSearchBox::mouseMoveEvent(QMouseEvent* event)
 		m_elements[i]->setChecked(lo < widgetX && widgetX < hi);
 	}
 
+	editTextToElement();
 	layoutElements();
 }
 
@@ -306,7 +306,6 @@ void QtSmartSearchBox::mouseReleaseEvent(QMouseEvent* event)
 
 	if (pos - m_cursorIndex != 0)
 	{
-		editTextToElement();
 		moveCursor(pos - m_cursorIndex);
 	}
 	else if (hasSelected)
@@ -358,12 +357,6 @@ void QtSmartSearchBox::onTextChanged(const QString& text)
 	if (!m_allowTextChange)
 	{
 		setText(m_oldText);
-
-		// This prevents the completer from disappearing while navigating the completion popup.
-		if (completer() && !completer()->signalsBlocked())
-		{
-			completer()->popup()->show();
-		}
 	}
 	else
 	{
@@ -391,8 +384,6 @@ void QtSmartSearchBox::onAutocompletionActivated(const SearchMatch& match)
 		textToToken(name);
 		updateElements();
 	}
-
-	completer()->blockSignals(true);
 }
 
 void QtSmartSearchBox::onElementSelected(QtQueryElement* element)
@@ -462,7 +453,7 @@ void QtSmartSearchBox::textToToken(std::string text)
 		return;
 	}
 
-	if (completer())
+	if (completer()->popup()->isVisible())
 	{
 		const SearchMatch* match = dynamic_cast<QtAutocompletionList*>(completer())->getSearchMatchAt(0);
 		if (match && utility::equalsCaseInsensitive(text, match->fullName))
@@ -550,25 +541,43 @@ void QtSmartSearchBox::layoutElements()
 	QString cursorText = text();
 	cursorText.resize(cursorPosition());
 
-	int x = 7;
+	int x = 5;
 	int editX = x;
-	int cursorX = fontMetrics().width(cursorText) + x + 5;
+	int cursorX = fontMetrics().width(cursorText) + x;
 	std::vector<int> elementX;
+
+	int highlightBegin = 0;
+	int highlightEnd = 0;
 
 	for (size_t i = 0; i <= m_elements.size(); i++)
 	{
 		if (!hasSelected && i == m_cursorIndex)
 		{
-			editX = x - 9;
+			editX = x - 5;
 			cursorX += editX;
+			if (i != m_elements.size())
+			{
+				cursorX += 15;
+			}
 			x += fontMetrics().width(text());
 		}
 
 		if (i < m_elements.size())
 		{
 			QtQueryElement* button = m_elements[i].get();
+
+			if (button->isChecked() && !highlightBegin)
+			{
+				highlightBegin = x - 2;
+			}
+
 			elementX.push_back(x);
 			x += button->minimumSizeHint().width() + 5;
+
+			if (button->isChecked())
+			{
+				highlightEnd = x - 3;
+			}
 		}
 	}
 
@@ -589,11 +598,13 @@ void QtSmartSearchBox::layoutElements()
 	if (hasSelected)
 	{
 		setTextMargins(width() + 10, 0, 0, 0);
+		m_highlightRect->setGeometry(highlightBegin + offsetX, 0, highlightEnd - highlightBegin, height());
 	}
 	else
 	{
 		QMargins margins = textMargins();
 		setTextMargins(editX + offsetX, margins.top(), margins.right(), margins.bottom());
+		m_highlightRect->setGeometry(0, 0, 0, 0);
 	}
 }
 
@@ -712,8 +723,5 @@ void QtSmartSearchBox::requestAutoCompletions() const
 
 void QtSmartSearchBox::hideAutoCompletions()
 {
-	if (completer())
-	{
-		completer()->popup()->hide();
-	}
+	completer()->popup()->hide();
 }
