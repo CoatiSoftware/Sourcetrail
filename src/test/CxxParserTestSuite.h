@@ -1057,7 +1057,7 @@ public:
 			"	T foo;\n"
 			"};\n"
 			"\n"
-			"A<int> a\n"
+			"A<int> a;\n"
 		);
 
 		TS_ASSERT_EQUALS(client->templateSpecializations.size(), 1);
@@ -1122,9 +1122,9 @@ public:
 			"template <typename T>\n"
 			"class A\n"
 			"{\n"
-			"	Enum TestType\n"
+			"	enum TestType\n"
 			"	{\n"
-			"		TEST_ONE\n"
+			"		TEST_ONE,\n"
 			"		TEST_TWO\n"
 			"	};\n"
 			"};\n"
@@ -1140,7 +1140,7 @@ public:
 			"template <typename T>\n"
 			"class A\n"
 			"{\n"
-			"	Enum TestType\n"
+			"	enum TestType\n"
 			"	{\n"
 			"		TEST_ONE,\n"
 			"		TEST_TWO\n"
@@ -1159,7 +1159,7 @@ public:
 			"template <typename T>\n"
 			"class A\n"
 			"{\n"
-			"	Enum TestType\n"
+			"	enum TestType\n"
 			"	{\n"
 			"		TEST_ONE,\n"
 			"		TEST_TWO\n"

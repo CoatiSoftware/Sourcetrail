@@ -166,9 +166,6 @@ QtAutocompletionList::QtAutocompletionList(QWidget* parent)
 
 	setCaseSensitivity(Qt::CaseInsensitive);
 	// setCompletionMode(QCompleter::UnfilteredPopupCompletion);
-
-	connect(this, SIGNAL(highlighted(const QModelIndex&)), this, SLOT(onHighlighted(const QModelIndex&)), Qt::DirectConnection);
-	connect(this, SIGNAL(activated(const QModelIndex&)), this, SLOT(onActivated(const QModelIndex&)), Qt::DirectConnection);
 }
 
 QtAutocompletionList::~QtAutocompletionList()
@@ -202,6 +199,10 @@ void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<Searc
 
 	list->verticalScrollBar()->setValue(list->verticalScrollBar()->minimum());
 	list->setCurrentIndex(index); // must be set again to avoid flickering
+
+	disconnect(); // must be done because of a bug where signals are no longer received by QtSmartSearchBox
+	connect(this, SIGNAL(highlighted(const QModelIndex&)), this, SLOT(onHighlighted(const QModelIndex&)), Qt::DirectConnection);
+	connect(this, SIGNAL(activated(const QModelIndex&)), this, SLOT(onActivated(const QModelIndex&)), Qt::DirectConnection);
 }
 
 const SearchMatch* QtAutocompletionList::getSearchMatchAt(int idx) const

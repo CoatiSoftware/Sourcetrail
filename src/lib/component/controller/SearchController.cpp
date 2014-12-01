@@ -2,7 +2,6 @@
 
 #include "component/view/SearchView.h"
 #include "data/access/GraphAccess.h"
-#include "utility/messaging/type/MessageActivateTokens.h"
 
 SearchController::SearchController(GraphAccess* graphAccess)
 	: m_graphAccess(graphAccess)
@@ -28,6 +27,15 @@ void SearchController::handleMessage(MessageActivateToken* message)
 	m_ignoreNextMessageActivateToken = false;
 }
 
+void SearchController::handleMessage(MessageActivateTokens* message)
+{
+	if (message->tokenIds.size())
+	{
+		MessageActivateToken tokenMessage(message->tokenIds[0]);
+		handleMessage(&tokenMessage);
+	}
+}
+
 void SearchController::handleMessage(MessageFind* message)
 {
 	getView()->setFocus();
@@ -47,14 +55,12 @@ void SearchController::handleMessage(MessageSearch* message)
 	m_ignoreNextMessageActivateToken = true;
 
 	std::vector<Id> ids = m_graphAccess->getTokenIdsForQuery(query);
-	if (ids.size())
+	if (!ids.size())
 	{
-		MessageActivateTokens(ids).dispatch();
-		return;
+		ids.push_back(m_graphAccess->getIdForNodeWithName(query));
 	}
 
-	Id nodeId = m_graphAccess->getIdForNodeWithName(query);
-	MessageActivateToken(nodeId).dispatch();
+	MessageActivateTokens(ids).dispatch();
 }
 
 void SearchController::handleMessage(MessageSearchAutocomplete* message)

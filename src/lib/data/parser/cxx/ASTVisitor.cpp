@@ -269,98 +269,110 @@ bool ASTVisitor::VisitEnumConstantDecl(clang::EnumConstantDecl* declaration)
 
 bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 {
-	std::vector<std::string> templateRecordNameHierarchy = utility::getDeclNameHierarchy(declaration);
-
-	clang::TemplateParameterList* parameterList = declaration->getTemplateParameters();
-	for (int i = 0; i < parameterList->size(); i++)
+	if (hasValidLocation(declaration))
 	{
-		clang::NamedDecl* namedDecl = parameterList->getParam(i);
+		std::vector<std::string> templateRecordNameHierarchy = utility::getDeclNameHierarchy(declaration);
 
-		if (hasValidLocation(namedDecl))
+		clang::TemplateParameterList* parameterList = declaration->getTemplateParameters();
+		for (size_t i = 0; i < parameterList->size(); i++)
 		{
-			std::string templateParameterTypeName = namedDecl->getNameAsString();
+			clang::NamedDecl* namedDecl = parameterList->getParam(i);
 
-			m_client->onTemplateRecordParameterTypeParsed(
-				getParseLocationForNamedDecl(namedDecl),
-				templateParameterTypeName,
-				templateRecordNameHierarchy
+			if (hasValidLocation(namedDecl))
+			{
+				std::string templateParameterTypeName = namedDecl->getNameAsString();
+
+				m_client->onTemplateRecordParameterTypeParsed(
+					getParseLocationForNamedDecl(namedDecl),
+					templateParameterTypeName,
+					templateRecordNameHierarchy
+				);
+			}
+		}
+
+		for (clang::ClassTemplateDecl::spec_iterator it = declaration->specializations().begin(); // template argument as parameter does not work
+			it != declaration->specializations().end(); it++
+		)
+		{
+			ParserClient::RecordType specializedRecordType = it->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
+			std::vector<std::string> specializedRecordNameHierarchy = utility::getDeclNameHierarchy(*(it));
+			m_client->onTemplateRecordSpecializationParsed(
+				getParseLocationForNamedDecl(*it), specializedRecordNameHierarchy, specializedRecordType, templateRecordNameHierarchy
 			);
 		}
 	}
 
-	for (clang::ClassTemplateDecl::spec_iterator it = declaration->specializations().begin(); // template argument as parameter does not work
-		it != declaration->specializations().end(); it++
-	)
-	{
-		ParserClient::RecordType specializedRecordType = it->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
-		std::vector<std::string> specializedRecordNameHierarchy = utility::getDeclNameHierarchy(*(it));
-		m_client->onTemplateRecordSpecializationParsed(
-			getParseLocationForNamedDecl(*it), specializedRecordNameHierarchy, specializedRecordType, templateRecordNameHierarchy
-		);
-	}
 	return true;
 }
 
 bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* declaration)
 {
-	//std::vector<std::string> templateRecordNameHierarchy = utility::splitToVector(
-	//	declaration->getQualifiedNameAsString(), "::"
-	//);
+	if (hasValidLocation(declaration))
+	{
+		//std::vector<std::string> templateRecordNameHierarchy = utility::splitToVector(
+		//	declaration->getQualifiedNameAsString(), "::"
+		//);
 
-	//clang::ClassTemplateDecl* baseTemplateDecl = declaration->getSpecializedTemplate();
+		//clang::ClassTemplateDecl* baseTemplateDecl = declaration->getSpecializedTemplate();
 
-	//std::string specializedParameterNamePart = "<";
-	//const clang::TemplateArgumentList& templateArgumentList = declaration->getTemplateArgs();
-	//for (int i = 0; i < templateArgumentList.size(); i++)
-	//{
-	//	DataType datatype = utility::qualTypeToDataType(templateArgumentList.get(i).getAsType());
-	//	if (datatype.isTemplateParameterType())
-	//	{
-	//		specializedParameterNamePart += baseTemplateDecl->getTemplateParameters()->getParam(i)->getNameAsString();
-	//	}
-	//	else
-	//	{
-	//		specializedParameterNamePart += datatype.getFullTypeName();
-	//	}
-	//	specializedParameterNamePart += (i < templateArgumentList.size() - 1) ? ", " : "";
-	//}
-	//specializedParameterNamePart += ">";
+		//std::string specializedParameterNamePart = "<";
+		//const clang::TemplateArgumentList& templateArgumentList = declaration->getTemplateArgs();
+		//for (int i = 0; i < templateArgumentList.size(); i++)
+		//{
+		//	DataType datatype = utility::qualTypeToDataType(templateArgumentList.get(i).getAsType());
+		//	if (datatype.isTemplateParameterType())
+		//	{
+		//		specializedParameterNamePart += baseTemplateDecl->getTemplateParameters()->getParam(i)->getNameAsString();
+		//	}
+		//	else
+		//	{
+		//		specializedParameterNamePart += datatype.getFullTypeName();
+		//	}
+		//	specializedParameterNamePart += (i < templateArgumentList.size() - 1) ? ", " : "";
+		//}
+		//specializedParameterNamePart += ">";
 
-	//int foo = 0;
+		//int foo = 0;
+	}
 
 	return true;
 }
 
 bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declaration)
 {
-	const ParseFunction templateFunction = getParseFunction(declaration->getTemplatedDecl());
-	for (clang::FunctionTemplateDecl::spec_iterator it = declaration->specializations().begin(); it != declaration->specializations().end(); it++)
+	if (hasValidLocation(declaration))
 	{
-		ParseLocation specializedFunctionLocation = getParseLocationForNamedDecl(*(it));
-		ParseFunction specializedFunction = getParseFunction(*(it));
-		m_client->onTemplateFunctionSpecializationParsed(
-			specializedFunctionLocation,
-			specializedFunction,
-			templateFunction);
-
-		m_client->onFunctionParsed(specializedFunctionLocation, specializedFunction, getParseLocationOfFunctionBody(*(it)));
-	}
-	clang::TemplateParameterList* parameterList = declaration->getTemplateParameters();
-	for (int i = 0; i < parameterList->size(); i++)
-	{
-		clang::NamedDecl* namedDecl = parameterList->getParam(i);
-
-		if (hasValidLocation(namedDecl))
+		const ParseFunction templateFunction = getParseFunction(declaration->getTemplatedDecl());
+		for (clang::FunctionTemplateDecl::spec_iterator it = declaration->specializations().begin(); it != declaration->specializations().end(); it++)
 		{
-			std::string templateParameterTypeName = namedDecl->getNameAsString();
+			ParseLocation specializedFunctionLocation = getParseLocationForNamedDecl(*(it));
+			ParseFunction specializedFunction = getParseFunction(*(it));
+			m_client->onTemplateFunctionSpecializationParsed(
+				specializedFunctionLocation,
+				specializedFunction,
+				templateFunction);
 
-			m_client->onTemplateFunctionParameterTypeParsed(
-				getParseLocationForNamedDecl(namedDecl),
-				templateParameterTypeName,
-				templateFunction
-			);
+			m_client->onFunctionParsed(specializedFunctionLocation, specializedFunction, getParseLocationOfFunctionBody(*(it)));
+		}
+
+		clang::TemplateParameterList* parameterList = declaration->getTemplateParameters();
+		for (size_t i = 0; i < parameterList->size(); i++)
+		{
+			clang::NamedDecl* namedDecl = parameterList->getParam(i);
+
+			if (hasValidLocation(namedDecl))
+			{
+				std::string templateParameterTypeName = namedDecl->getNameAsString();
+
+				m_client->onTemplateFunctionParameterTypeParsed(
+					getParseLocationForNamedDecl(namedDecl),
+					templateParameterTypeName,
+					templateFunction
+				);
+			}
 		}
 	}
+
 	return true;
 }
 
@@ -600,7 +612,7 @@ std::vector<ParseTypeUsage> ASTVisitor::getParameters(clang::FunctionDecl* decla
 
 ParseVariable ASTVisitor::getParseVariable(clang::DeclaratorDecl* declaration) const
 {
-	bool isStatic;
+	bool isStatic = false;
 	std::vector<std::string> hameHierarchy = utility::getDeclNameHierarchy(declaration);
 	if (clang::isa<clang::VarDecl>(declaration))
 	{

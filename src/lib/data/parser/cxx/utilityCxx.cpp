@@ -152,7 +152,7 @@ namespace utility
 			{
 				std::string specializedParameterNamePart = "<";
 				const clang::TemplateArgumentList& templateArgumentList = clang::dyn_cast<clang::ClassTemplateSpecializationDecl>(declaration)->getTemplateArgs();
-				for (int i = 0; i < templateArgumentList.size(); i++)
+				for (size_t i = 0; i < templateArgumentList.size(); i++)
 				{
 					DataType datatype = utility::qualTypeToDataType(templateArgumentList.get(i).getAsType());
 					specializedParameterNamePart += datatype.getFullTypeName();
@@ -166,7 +166,7 @@ namespace utility
 		{
 			std::string templateParameterNamePart = "<";
 			clang::TemplateParameterList* parameterList = clang::dyn_cast<clang::TemplateDecl>(declaration)->getTemplateParameters();
-			for (int i = 0; i < parameterList->size(); i++)
+			for (size_t i = 0; i < parameterList->size(); i++)
 			{
 				clang::NamedDecl* namedDecl = parameterList->getParam(i);
 

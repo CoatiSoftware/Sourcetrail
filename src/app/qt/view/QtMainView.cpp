@@ -1,7 +1,8 @@
 #include "qt/view/QtMainView.h"
 
-#include "qt/element/QtMainWindow.h"
 #include "utility/logging/logging.h"
+
+#include "qt/element/QtMainWindow.h"
 
 QtMainView::QtMainView()
 {
@@ -24,7 +25,6 @@ void QtMainView::removeView(View* view)
 	std::vector<View*>::iterator it = std::find(m_views.begin(), m_views.end(), view);
 	if (it == m_views.end())
 	{
-		LOG_ERROR("View was not found.");
 		return;
 	}
 

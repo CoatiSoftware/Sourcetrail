@@ -52,9 +52,6 @@ QtSmartSearchBox::QtSmartSearchBox(QWidget* parent)
 	QCompleter* completer = new QtAutocompletionList(this);
 	setCompleter(completer);
 
-	connect(completer, SIGNAL(matchHighlighted(const SearchMatch&)), this, SLOT(onAutocompletionHighlighted(const SearchMatch&)), Qt::DirectConnection);
-	connect(completer, SIGNAL(matchActivated(const SearchMatch&)), this, SLOT(onAutocompletionActivated(const SearchMatch&)), Qt::DirectConnection);
-
 	updatePlaceholder();
 }
 
@@ -66,6 +63,9 @@ void QtSmartSearchBox::setAutocompletionList(const std::vector<SearchMatch>& aut
 {
 	QtAutocompletionList* completer = dynamic_cast<QtAutocompletionList*>(this->completer());
 	completer->completeAt(QPoint(textMargins().left() + 3, height() + 3), autocompletionList);
+
+	connect(completer, SIGNAL(matchHighlighted(const SearchMatch&)), this, SLOT(onAutocompletionHighlighted(const SearchMatch&)), Qt::DirectConnection);
+	connect(completer, SIGNAL(matchActivated(const SearchMatch&)), this, SLOT(onAutocompletionActivated(const SearchMatch&)), Qt::DirectConnection);
 }
 
 void QtSmartSearchBox::setQuery(const std::string& text)

@@ -157,8 +157,8 @@ bool Edge::checkType() const
 	switch (m_type)
 	{
 	case EDGE_MEMBER:
-		if (!m_from->isType(Node::NODE_UNDEFINED | Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_NAMESPACE | Node::NODE_ENUM) ||
-			(m_to->isType(Node::NODE_NAMESPACE) && !m_from->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE)) ||
+		if (!m_from->isType(typeMask | Node::NODE_NAMESPACE) ||
+			(!m_from->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE) && m_to->isType(Node::NODE_NAMESPACE)) ||
 			(m_from->isType(Node::NODE_ENUM) && !m_to->isType(Node::NODE_FIELD)))
 		{
 			break;
@@ -204,6 +204,20 @@ bool Edge::checkType() const
 
 	case EDGE_TYPEDEF_OF:
 		if (!m_from->isType(Node::NODE_TYPEDEF) || !m_to->isType(typeMask))
+		{
+			break;
+		}
+		return true;
+
+	case EDGE_TEMPLATE_PARAMETER_OF:
+		if (!m_from->isType(Node::NODE_TEMPLATE_PARAMETER_TYPE) || !m_to->isType(typeMask | functionMask))
+		{
+			break;
+		}
+		return true;
+
+	case EDGE_TEMPLATE_SPECIALIZATION_OF:
+		if (!m_from->isType(typeMask | functionMask) || !m_to->isType(typeMask | functionMask))
 		{
 			break;
 		}

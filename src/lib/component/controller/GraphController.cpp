@@ -356,6 +356,7 @@ GraphController::Margins GraphController::getMarginsForDummyNode(DummyNode& node
 		case Node::NODE_CLASS:
 		case Node::NODE_ENUM:
 		case Node::NODE_TYPEDEF:
+		case Node::NODE_TEMPLATE_PARAMETER_TYPE:
 			if (node.subNodes.size())
 			{
 				margins.left = margins.right = 15;

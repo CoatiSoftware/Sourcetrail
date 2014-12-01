@@ -71,8 +71,6 @@ std::shared_ptr<T> View::createAndDontAddToLayout(ViewLayout* viewLayout)
 	ptr->createWidgetWrapper();
 	ptr->initView();
 
-	//viewLayout->addView(ptr.get());
-
 	return ptr;
 }
 

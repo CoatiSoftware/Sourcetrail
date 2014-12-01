@@ -63,8 +63,6 @@ std::shared_ptr<Component> ComponentFactory::createStatusBarComponent()
 	return component;
 }
 
-
-
 ComponentFactory::ComponentFactory()
 {
 }

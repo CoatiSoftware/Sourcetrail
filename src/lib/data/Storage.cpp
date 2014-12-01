@@ -338,7 +338,6 @@ Id Storage::onTemplateRecordParameterTypeParsed(
 	Edge* edge = m_graph.createEdge(Edge::EDGE_TEMPLATE_PARAMETER_OF, templateParameterNode, templateRecordNode);
 	//addTokenLocation(edge, location);
 
-
 	return 0;
 }
 
@@ -356,6 +355,7 @@ Id Storage::onTemplateRecordSpecializationParsed(
 
 	Node* specializedRecordNode = addNodeHierarchy(specializedRecordNodeType, specializedRecordNameHierarchy);
 	Node* templateRecordNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateRecordNameHierarchy);
+
 	Edge* edge = m_graph.createEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, specializedRecordNode, templateRecordNode);
 	//addTokenLocation(edge, location);
 
@@ -388,6 +388,7 @@ Id Storage::onTemplateFunctionSpecializationParsed(
 
 	Node* specializedFunctionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, specializedFunction);
 	Node* templateFunctionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, templateFunction);
+
 	Edge* edge = m_graph.createEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, specializedFunctionNode, templateFunctionNode);
 
 	return 0;
@@ -763,6 +764,11 @@ Edge* Storage::addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeU
 	}
 
 	Node* typeNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, typeUsage.dataType.getTypeNameHierarchy());
+	if (!typeNode)
+	{
+		return nullptr;
+	}
+
 	Edge* edge = m_graph.createEdge(edgeType, node, typeNode);
 	addTokenLocation(edge, typeUsage.location);
 
