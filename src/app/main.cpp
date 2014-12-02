@@ -26,7 +26,6 @@ int main(int argc, char *argv[])
 
 	QtViewFactory viewFactory;
 	std::shared_ptr<Application> app = Application::create(&viewFactory);
-	app->loadProject("data/ProjectSettings.xml");
 
 	return qtApp.exec();
 }

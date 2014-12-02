@@ -3,7 +3,7 @@
 QtStatusBar::QtStatusBar()
     : m_text(this)
 {
-	m_text.setText("hallo test test");
+	m_text.setText("");
 	addWidget(&m_text);
 }
 

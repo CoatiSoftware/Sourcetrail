@@ -5,12 +5,10 @@
 StatusBarView::StatusBarView(ViewLayout* viewLayout)
 	: View(viewLayout, Vec2i(100,100))
 {
-
 }
 
 StatusBarView::~StatusBarView()
 {
-
 }
 
 std::string StatusBarView::getName() const

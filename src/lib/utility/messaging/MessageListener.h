@@ -11,6 +11,11 @@ template<typename MessageType>
 class MessageListener: public MessageListenerBase
 {
 public:
+	MessageListener(bool toFront = false)
+		: MessageListenerBase(toFront)
+	{
+	}
+
 	virtual std::string getType() const
 	{
 		return MessageType::getStaticType();

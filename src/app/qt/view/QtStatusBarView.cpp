@@ -4,7 +4,7 @@
 #include "qt/view/QtMainView.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 
-QtStatusBarView::QtStatusBarView( ViewLayout* viewLayout )
+QtStatusBarView::QtStatusBarView(ViewLayout* viewLayout)
 	: StatusBarView(viewLayout)
 	, m_showMessageFunctor(std::bind(&QtStatusBarView::doShowMessage, this, std::placeholders::_1, std::placeholders::_2))
 {
@@ -26,20 +26,18 @@ void QtStatusBarView::createWidgetWrapper()
 
 void QtStatusBarView::initView()
 {
-
 }
 
 void QtStatusBarView::refreshView()
 {
-
 }
 
-void QtStatusBarView::doShowMessage( const std::string& message, bool isError )
+void QtStatusBarView::doShowMessage(const std::string& message, bool isError)
 {
 	m_widget->setText(message, isError);
 }
 
-void QtStatusBarView::showMessage( const std::string& message, bool isError )
+void QtStatusBarView::showMessage(const std::string& message, bool isError)
 {
 	m_showMessageFunctor(message, isError);
 }

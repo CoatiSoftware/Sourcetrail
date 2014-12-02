@@ -13,7 +13,7 @@ class MessageQueue
 public:
 	static std::shared_ptr<MessageQueue> getInstance();
 
-	void registerListener(MessageListenerBase* listener);
+	void registerListener(MessageListenerBase* listener, bool toFront = false);
 	void unregisterListener(MessageListenerBase* listener);
 
 	void pushMessage(std::shared_ptr<MessageBase> message);

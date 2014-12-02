@@ -3,8 +3,13 @@
 #include "component/view/StatusBarView.h"
 
 StatusBarController::StatusBarController()
+	: MessageListener<MessageError>(true)
+	, MessageListener<MessageFinishedParsing>(true)
+	, MessageListener<MessageLoadProject>(true)
+	, MessageListener<MessageLoadSource>(true)
+	, MessageListener<MessageRefresh>(true)
+	, MessageListener<MessageStatus>(true)
 {
-
 }
 
 StatusBarController::~StatusBarController()
@@ -28,12 +33,28 @@ void StatusBarController::handleMessage(MessageStatus* message)
 
 void StatusBarController::handleMessage(MessageError* message)
 {
-    setStatus(message->error, true);
+	setStatus(message->error, true);
+}
+
+void StatusBarController::handleMessage(MessageLoadProject* message)
+{
+	setStatus("Loading Project: " + message->projectSettingsFilePath);
+}
+
+void StatusBarController::handleMessage(MessageLoadSource* message)
+{
+	setStatus("Loading Source: " + message->sourceDirectoryPath);
+}
+
+void StatusBarController::handleMessage(MessageRefresh* message)
+{
+	setStatus("Refreshing Project");
 }
 
 void StatusBarController::setStatus(const std::string& status, bool isError)
 {
-    if(!status.empty())
-        getView()->showMessage(status, isError);
+	if (!status.empty())
+	{
+		getView()->showMessage(status, isError);
+	}
 }
-

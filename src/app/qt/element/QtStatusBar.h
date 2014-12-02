@@ -17,4 +17,4 @@ private:
 	QLabel m_text;
 };
 
-#endif // !QT_STATUS_BAR_H
+#endif // QT_STATUS_BAR_H

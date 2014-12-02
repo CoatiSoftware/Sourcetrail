@@ -16,10 +16,20 @@ std::shared_ptr<MessageQueue> MessageQueue::getInstance()
 	return s_instance;
 }
 
-void MessageQueue::registerListener(MessageListenerBase* listener)
+void MessageQueue::registerListener(MessageListenerBase* listener, bool toFront)
 {
 	std::lock_guard<std::mutex> lock(m_listenersMutex);
-	m_listeners.push_back(listener);
+
+	if (toFront)
+	{
+		m_listeners.insert(m_listeners.begin(), listener);
+		m_listenersLength++;
+		m_currentListenerIndex++;
+	}
+	else
+	{
+		m_listeners.push_back(listener);
+	}
 }
 
 void MessageQueue::unregisterListener(MessageListenerBase* listener)

@@ -25,6 +25,8 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 	ptr->m_componentManager->setup();
 	ptr->m_mainView->loadLayout();
 
+	MessageLoadProject("data/ProjectSettings.xml").dispatch();
+
 	return ptr;
 }
 

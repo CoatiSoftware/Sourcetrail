@@ -107,6 +107,28 @@ public:
 		}
 	}
 
+	void test_listener_registration_to_front_and_back_within_message_handling(void)
+	{
+		MessageQueue::getInstance()->startMessageLoopThreaded();
+
+		Test5MessageListener listener;
+
+		TestMessage().dispatch();
+		TestMessage().dispatch();
+		TestMessage().dispatch();
+
+		waitForThread();
+
+		MessageQueue::getInstance()->stopMessageLoop();
+
+		TS_ASSERT_EQUALS(5, listener.m_listeners.size());
+		TS_ASSERT_EQUALS(2, listener.m_listeners[0]->m_messageCount);
+		TS_ASSERT_EQUALS(2, listener.m_listeners[1]->m_messageCount);
+		TS_ASSERT_EQUALS(2, listener.m_listeners[2]->m_messageCount);
+		TS_ASSERT_EQUALS(2, listener.m_listeners[3]->m_messageCount);
+		TS_ASSERT_EQUALS(2, listener.m_listeners[4]->m_messageCount);
+	}
+
 private:
 	class TestMessage: public Message<TestMessage>
 	{
@@ -129,8 +151,9 @@ private:
 	class TestMessageListener: public MessageListener<TestMessage>
 	{
 	public:
-		TestMessageListener()
-			: m_messageCount(0)
+		TestMessageListener(bool toFront = false)
+			: MessageListener<TestMessage>(toFront)
+			, m_messageCount(0)
 		{
 		}
 
@@ -192,6 +215,25 @@ private:
 		virtual void handleMessage(Test2Message* message)
 		{
 			m_listener.reset();
+		}
+	};
+
+	class Test5MessageListener:
+		public MessageListener<TestMessage>
+	{
+	public:
+		std::vector<std::shared_ptr<TestMessageListener>> m_listeners;
+
+	private:
+		virtual void handleMessage(TestMessage* message)
+		{
+			if (!m_listeners.size())
+			{
+				for (size_t i = 0; i < 5; i++)
+				{
+					m_listeners.push_back(std::make_shared<TestMessageListener>(i % 2 == 1));
+				}
+			}
 		}
 	};
 

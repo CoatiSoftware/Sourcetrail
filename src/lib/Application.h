@@ -8,8 +8,8 @@
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageLoadSource.h"
-#include "utility/messaging/type/MessageSaveProject.h"
 #include "utility/messaging/type/MessageRefresh.h"
+#include "utility/messaging/type/MessageSaveProject.h"
 
 class ViewFactory;
 class MainView;
