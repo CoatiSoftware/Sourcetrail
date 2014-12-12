@@ -12,7 +12,7 @@ public:
 	explicit ASTAction(ParserClient* client);
 	virtual ~ASTAction();
 
-	virtual clang::ASTConsumer* CreateASTConsumer(clang::CompilerInstance& compiler, llvm::StringRef inFile);
+	virtual std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(clang::CompilerInstance& compiler, llvm::StringRef inFile);
 
 private:
 	ParserClient* m_client;

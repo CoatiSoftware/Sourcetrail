@@ -9,7 +9,7 @@ ASTAction::~ASTAction()
 {
 }
 
-clang::ASTConsumer* ASTAction::CreateASTConsumer(clang::CompilerInstance& compiler, llvm::StringRef inFile)
+std::unique_ptr<clang::ASTConsumer> ASTAction::CreateASTConsumer(clang::CompilerInstance& compiler, llvm::StringRef inFile)
 {
-	return new ASTConsumer(&compiler.getASTContext(), m_client);
+	return std::unique_ptr<clang::ASTConsumer>(new ASTConsumer(&compiler.getASTContext(), m_client));
 }

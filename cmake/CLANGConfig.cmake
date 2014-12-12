@@ -35,7 +35,6 @@ set(CLANG_LIBRARIES
 	clangStaticAnalyzerCore
 	clangAnalysis
 	clangRewriteFrontend
-	clangRewriteCore
 	clangEdit
 	clangAST
 	clangLex
