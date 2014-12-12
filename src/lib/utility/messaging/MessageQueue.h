@@ -23,9 +23,10 @@ public:
 	void stopMessageLoop();
 
 	bool loopIsRunning() const;
+	bool hasMessagesQueued() const;
 
 private:
-	typedef std::queue<std::shared_ptr<MessageBase> > MessageBufferType;
+	typedef std::queue<std::shared_ptr<MessageBase>> MessageBufferType;
 
 	static std::shared_ptr<MessageQueue> s_instance;
 
@@ -43,8 +44,9 @@ private:
 	size_t m_listenersLength;
 	bool m_loopIsRunning;
 
-	std::mutex m_backMessageBufferMutex;
-	std::mutex m_listenersMutex;
+	mutable std::mutex m_frontMessageBufferMutex;
+	mutable std::mutex m_backMessageBufferMutex;
+	mutable std::mutex m_listenersMutex;
 	mutable std::mutex m_loopMutex;
 };
 

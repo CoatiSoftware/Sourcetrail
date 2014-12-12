@@ -1,5 +1,6 @@
 #include "utility/messaging/MessageQueue.h"
 
+#include <chrono>
 #include <thread>
 
 #include "utility/logging/logging.h"
@@ -97,6 +98,9 @@ void MessageQueue::startMessageLoop()
 		}
 
 		processMessages();
+
+		const int SLEEP_TIME_MS = 25;
+		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
 	}
 }
 
@@ -118,6 +122,13 @@ bool MessageQueue::loopIsRunning() const
 	return m_loopIsRunning;
 }
 
+bool MessageQueue::hasMessagesQueued() const
+{
+	std::lock_guard<std::mutex> lock(m_frontMessageBufferMutex);
+	std::lock_guard<std::mutex> lock2(m_backMessageBufferMutex);
+	return m_backMessageBuffer->size() + m_frontMessageBuffer->size() > 0;
+}
+
 std::shared_ptr<MessageQueue> MessageQueue::s_instance;
 
 MessageQueue::MessageQueue()
@@ -132,14 +143,25 @@ MessageQueue::MessageQueue()
 void MessageQueue::processMessages()
 {
 	{
-		std::lock_guard<std::mutex> lock(m_backMessageBufferMutex);
+		std::lock_guard<std::mutex> lock(m_frontMessageBufferMutex);
+		std::lock_guard<std::mutex> lock2(m_backMessageBufferMutex);
 		m_backMessageBuffer.swap(m_frontMessageBuffer);
 	}
 
-	while (m_frontMessageBuffer->size())
+	while (true)
 	{
-		std::shared_ptr<MessageBase> message = m_frontMessageBuffer->front();
-		m_frontMessageBuffer->pop();
+		std::shared_ptr<MessageBase> message;
+		{
+			std::lock_guard<std::mutex> lock(m_frontMessageBufferMutex);
+
+			if (!m_frontMessageBuffer->size())
+			{
+				break;
+			}
+
+			message = m_frontMessageBuffer->front();
+			m_frontMessageBuffer->pop();
+		}
 
 		std::lock_guard<std::mutex> lock(m_listenersMutex);
 
