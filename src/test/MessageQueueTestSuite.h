@@ -239,10 +239,11 @@ private:
 
 	void waitForThread() const
 	{
-		static const int THREAD_WAIT_TIME_MS = 5;
-		while (MessageQueue::getInstance()->hasMessagesQueued())
+		static const int THREAD_WAIT_TIME_MS = 20;
+		do
 		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(THREAD_WAIT_TIME_MS));
 		}
+		while (MessageQueue::getInstance()->hasMessagesQueued());
 	}
 };
