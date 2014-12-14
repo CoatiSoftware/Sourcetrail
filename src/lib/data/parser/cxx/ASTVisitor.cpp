@@ -581,14 +581,16 @@ ParseTypeUsage ASTVisitor::getParseTypeUsage(clang::TypeLoc typeLoc, const clang
 
 ParseTypeUsage ASTVisitor::getParseTypeUsageOfReturnType(clang::FunctionDecl* declaration) const
 {
-	// TODO: use FunctionDecl::getReturnTypeSourceRange() in newer clang version
 	clang::TypeLoc typeLoc;
 
 	const clang::TypeSourceInfo *TSI = declaration->getTypeSourceInfo();
 	if (TSI)
 	{
 		const clang::FunctionTypeLoc FTL = TSI->getTypeLoc().IgnoreParens().getAs<clang::FunctionTypeLoc>();
-		typeLoc = FTL.getReturnLoc();
+		if (FTL)
+		{
+			typeLoc = FTL.getReturnLoc();
+		}
 	}
 
 	return getParseTypeUsage(typeLoc, declaration->getReturnType());

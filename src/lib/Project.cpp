@@ -1,7 +1,10 @@
 #include "Project.h"
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <string>
 #include <vector>
+#include <time.h>
 
 #include "ApplicationSettings.h"
 #include "data/access/GraphAccessProxy.h"
@@ -49,7 +52,7 @@ bool Project::saveProjectSettings( const std::string& projectSettingsFile )
 		return false;
 	}
 	LOG_INFO_STREAM(<< "Projectsettings saved in File: " << m_projectSettingsFilepath);
-	return true;	
+	return true;
 }
 
 void Project::clearProjectSettings()
@@ -90,14 +93,19 @@ void Project::parseCode()
 		headerSearchPaths.push_back(sourcePath);
 
 		CxxParser parser(m_storage.get());
+
+		clock_t time = clock();
 		parser.parseFiles(
 			FileSystem::getSourceFilesFromDirectory(sourcePath, extensions),
 			ApplicationSettings::getInstance()->getHeaderSearchPaths(),
 			headerSearchPaths
 		);
+		time = clock() - time;
 
 		m_storage->logGraph();
 		m_storage->logLocations();
+
+		LOG_INFO_STREAM(<< "parse time: " << (double)(time) / CLOCKS_PER_SEC);
 
 		MessageFinishedParsing().dispatch();
 	}

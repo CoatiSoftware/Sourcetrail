@@ -8,7 +8,14 @@ set(CLANG_INCLUDE_DIRS
 	"$ENV{CLANG_DIR}/build/tools/clang/include"
 )
 
+
 set(CLANG_LIBRARY_DIRS "$ENV{CLANG_DIR}/build/lib")
+if (UNIX)
+	if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
+		set(CLANG_LIBRARY_DIRS "$ENV{CLANG_DIR}/build/Release+Asserts/lib")
+	endif()
+endif ()
+
 
 set(CLANG_LIBRARIES
 	#clangApplyReplacements
