@@ -1,5 +1,6 @@
 #include "cxxtest/TestSuite.h"
 
+#include "data/graph/token_component/TokenComponentAggregation.h"
 #include "data/graph/StorageGraph.h"
 #include "data/search/SearchIndex.h"
 
@@ -72,6 +73,32 @@ public:
 		TS_ASSERT_EQUALS(ab->getMemberEdge()->getFrom(), a);
 		TS_ASSERT_EQUALS(ab->getMemberEdge()->getTo(), ab);
 		TS_ASSERT_EQUALS(ab->getParentNode(), a);
+	}
+
+	void test_graph_creates_aggregation_edges()
+	{
+		TestStorageGraph graph;
+		Node* a = graph.createNodeHierarchy(Node::NODE_CLASS, "A");
+		Node* ab = graph.createNodeHierarchy(Node::NODE_CLASS, "A::B");
+		Node* c = graph.createNodeHierarchy(Node::NODE_CLASS, "C");
+		Node* cd = graph.createNodeHierarchy(Node::NODE_CLASS, "C::D");
+		Node* cdd = graph.createNodeHierarchy(Node::NODE_METHOD, "C::D::D");
+		Edge* i = graph.createEdge(Edge::EDGE_INHERITANCE, ab, cd);
+		Edge* t = graph.createEdge(Edge::EDGE_TYPE_USAGE, cdd, a);
+
+		TS_ASSERT_EQUALS(5, graph.getNodeCount());
+		TS_ASSERT_EQUALS(8, graph.getEdgeCount());
+
+		Edge* e1 = graph.getEdge(Edge::EDGE_AGGREGATION, a, c);
+		TS_ASSERT(e1);
+		TS_ASSERT_EQUALS(2, e1->getComponent<TokenComponentAggregation>()->getAggregationCount());
+		TS_ASSERT_EQUALS(i->getId(), *e1->getComponent<TokenComponentAggregation>()->getAggregationIds().begin());
+		TS_ASSERT_EQUALS(t->getId(), *(++e1->getComponent<TokenComponentAggregation>()->getAggregationIds().begin()));
+
+		Edge* e2 = graph.getEdge(Edge::EDGE_AGGREGATION, ab, c);
+		TS_ASSERT(e2);
+		TS_ASSERT_EQUALS(1, e2->getComponent<TokenComponentAggregation>()->getAggregationCount());
+		TS_ASSERT_EQUALS(i->getId(), *e2->getComponent<TokenComponentAggregation>()->getAggregationIds().begin());
 	}
 
 	void test_graph_removes_nodes()
@@ -278,14 +305,14 @@ public:
 			}
 		);
 
-		TS_ASSERT_EQUALS(4, plainGraph.getNodeCount());
-		TS_ASSERT_EQUALS(3, plainGraph.getEdgeCount());
+		TS_ASSERT_EQUALS(5, plainGraph.getNodeCount());
+		TS_ASSERT_EQUALS(4, plainGraph.getEdgeCount());
 
 		TS_ASSERT(plainGraph.getNode("A"));
 		TS_ASSERT(plainGraph.getNode("A::B"));
 		TS_ASSERT(plainGraph.getNode("A::B::C"));
 		TS_ASSERT(plainGraph.getNode("D"));
-		TS_ASSERT(!plainGraph.getNode("E"));
+		TS_ASSERT(plainGraph.getNode("E"));
 	}
 
 private:

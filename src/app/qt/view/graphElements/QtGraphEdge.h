@@ -6,20 +6,24 @@
 #include <QGraphicsItem>
 
 #include "utility/math/Vector2.h"
-#include "utility/messaging/type/MessageActivateToken.h"
 
 #include "component/view/graphElements/GraphEdge.h"
 
 class GraphNode;
+class QtGraphicsRoundedRectItem;
 
 class QtStraightConnection
 	: public QGraphicsLineItem
 {
 public:
-	QtStraightConnection(Vec4i ownerRect, Vec4i targetRect, QGraphicsItem* parent);
+	QtStraightConnection(Vec4i ownerRect, Vec4i targetRect, int number, QGraphicsItem* parent);
 	virtual ~QtStraightConnection();
 
-	virtual QPainterPath shape() const;
+	void setColor(QColor color);
+
+private:
+	QtGraphicsRoundedRectItem* m_circle;
+	QGraphicsSimpleTextItem* m_number;
 };
 
 class QtCorneredConnection
@@ -71,6 +75,11 @@ protected:
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
 private:
+	bool isAggregation() const;
+	int getZValue(bool active) const;
+	int getPenWidth() const;
+	int getAggregationCount() const;
+
 	std::weak_ptr<GraphNode> m_owner;
 	std::weak_ptr<GraphNode> m_target;
 

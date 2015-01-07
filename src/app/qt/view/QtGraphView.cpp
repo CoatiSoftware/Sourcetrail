@@ -246,7 +246,7 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const 
 	}
 	else
 	{
-		LOG_WARNING("Couldn't find owner or target node.");
+		LOG_WARNING_STREAM(<< "Couldn't find owner or target node for edge: " << edge.data->getName());
 		return NULL;
 	}
 }

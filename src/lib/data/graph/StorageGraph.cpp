@@ -1,5 +1,6 @@
 #include "data/graph/StorageGraph.h"
 
+#include "data/graph/token_component/TokenComponentAggregation.h"
 #include "data/graph/token_component/TokenComponentName.h"
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
@@ -87,7 +88,16 @@ Edge* StorageGraph::createEdge(Edge::EdgeType type, Node* from, Node* to)
 		return edge;
 	}
 
-	return insertEdge(type, from, to);
+	edge = insertEdge(type, from, to);
+
+	if (from->getLastParentNode() != to->getLastParentNode())
+	{
+		Id edgeId = edge->getId();
+		updateAggregationEdges(from->getParentNode(), to, edgeId);
+		updateAggregationEdges(from, to->getParentNode(), edgeId);
+	}
+
+	return edge;
 }
 
 Node* StorageGraph::insertNodeHierarchy(Node::NodeType type, SearchNode* searchNode)
@@ -139,4 +149,40 @@ Edge* StorageGraph::insertEdge(Edge::EdgeType type, Node* from, Node* to)
 	std::shared_ptr<Edge> edgePtr = std::make_shared<Edge>(type, from, to);
 	m_edges.emplace(edgePtr->getId(), edgePtr);
 	return edgePtr.get();
+}
+
+void StorageGraph::updateAggregationEdges(Node* from, Node* to, Id edgeId)
+{
+	if (!from || !to || from == to)
+	{
+		return;
+	}
+
+	const Node::NodeTypeMask mask = Node::NODE_UNDEFINED_TYPE | Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM;
+	const Node::NodeTypeMask varFuncMask =
+		Node::NODE_UNDEFINED_FUNCTION | Node::NODE_FUNCTION | Node::NODE_UNDEFINED_VARIABLE | Node::NODE_GLOBAL_VARIABLE;
+
+	if ((from->isType(mask) && to->isType(mask | varFuncMask)) ||
+		(from->isType(mask | varFuncMask) && to->isType(mask)))
+	{
+		Edge* edge = from->findEdgeOfType(Edge::EDGE_AGGREGATION,
+			[from, to](Edge* e)
+			{
+				const Node* f = e->getFrom();
+				const Node* t = e->getTo();
+				return (f == from && t == to) || (f == to && t == from);
+			}
+		);
+
+		if (!edge)
+		{
+			edge = insertEdge(Edge::EDGE_AGGREGATION, from, to);
+			edge->addComponentAggregation(std::make_shared<TokenComponentAggregation>());
+		}
+
+		edge->getComponent<TokenComponentAggregation>()->addAggregationId(edgeId);
+	}
+
+	updateAggregationEdges(from->getParentNode(), to, edgeId);
+	updateAggregationEdges(from, to->getParentNode(), edgeId);
 }

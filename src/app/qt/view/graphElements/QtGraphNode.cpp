@@ -161,14 +161,14 @@ Vec4i QtGraphNode::getParentBoundingRect() const
 
 bool QtGraphNode::addOutEdge(const std::shared_ptr<GraphEdge>& edge)
 {
-	for (std::list<std::shared_ptr<GraphEdge>>::iterator it = m_outEdges.begin(); it != m_outEdges.end(); it++)
-	{
-		if ((*it)->getOwner().lock() == edge->getOwner().lock() &&
-			(*it)->getTarget().lock() == edge->getTarget().lock())
-		{
-			return false;
-		}
-	}
+	// for (std::list<std::shared_ptr<GraphEdge>>::iterator it = m_outEdges.begin(); it != m_outEdges.end(); it++)
+	// {
+	// 	if ((*it)->getOwner().lock() == edge->getOwner().lock() &&
+	// 		(*it)->getTarget().lock() == edge->getTarget().lock())
+	// 	{
+	// 		return false;
+	// 	}
+	// }
 
 	m_outEdges.push_back(edge);
 	return true;
@@ -176,18 +176,18 @@ bool QtGraphNode::addOutEdge(const std::shared_ptr<GraphEdge>& edge)
 
 bool QtGraphNode::addInEdge(const std::weak_ptr<GraphEdge>& edge)
 {
-	for (std::list<std::weak_ptr<GraphEdge>>::iterator it = m_inEdges.begin(); it != m_inEdges.end(); it++)
-	{
-		std::shared_ptr<GraphEdge> existingEdge = it->lock();
-		if (existingEdge != NULL)
-		{
-			if (existingEdge->getOwner().lock() == edge.lock()->getOwner().lock() &&
-				existingEdge->getTarget().lock() == edge.lock()->getTarget().lock())
-			{
-				return false;
-			}
-		}
-	}
+	// for (std::list<std::weak_ptr<GraphEdge>>::iterator it = m_inEdges.begin(); it != m_inEdges.end(); it++)
+	// {
+	// 	std::shared_ptr<GraphEdge> existingEdge = it->lock();
+	// 	if (existingEdge != NULL)
+	// 	{
+	// 		if (existingEdge->getOwner().lock() == edge.lock()->getOwner().lock() &&
+	// 			existingEdge->getTarget().lock() == edge.lock()->getTarget().lock())
+	// 		{
+	// 			return false;
+	// 		}
+	// 	}
+	// }
 
 	m_inEdges.push_back(edge);
 	return true;
@@ -258,7 +258,7 @@ void QtGraphNode::setStyle()
 	QPen p(Qt::transparent);
 	QFont font(getFontForNodeType(m_data->getType()));
 
-	bool undefined = false;
+	bool useUndefinedPattern = false;
 	bool useUndefinedColor = false;
 
 	Vec2i padding;
@@ -266,9 +266,9 @@ void QtGraphNode::setStyle()
 	switch (m_data->getType())
 	{
 	case Node::NODE_UNDEFINED:
-		undefined = true;
+		p.setStyle(Qt::DashLine);
 	case Node::NODE_NAMESPACE:
-		color = Qt::white;
+		color = Qt::transparent;
 
 		p.setColor("#cc8d91");
 		p.setWidth(1);
@@ -279,7 +279,7 @@ void QtGraphNode::setStyle()
 		break;
 
 	case Node::NODE_UNDEFINED_TYPE:
-		undefined = true;
+		useUndefinedPattern = true;
 	case Node::NODE_STRUCT:
 	case Node::NODE_CLASS:
 	case Node::NODE_ENUM:
@@ -315,7 +315,7 @@ void QtGraphNode::setStyle()
 		break;
 
 	case Node::NODE_UNDEFINED_FUNCTION:
-		undefined = true;
+		useUndefinedPattern = true;
 		useUndefinedColor = true;
 	case Node::NODE_FUNCTION:
 	case Node::NODE_METHOD:
@@ -335,7 +335,7 @@ void QtGraphNode::setStyle()
 		break;
 
 	case Node::NODE_UNDEFINED_VARIABLE:
-		undefined = true;
+		useUndefinedPattern = true;
 		useUndefinedColor = true;
 	case Node::NODE_GLOBAL_VARIABLE:
 	case Node::NODE_FIELD:
@@ -365,7 +365,7 @@ void QtGraphNode::setStyle()
 	m_rect->setBrush(QBrush(color));
 	m_rect->setRadius(radius);
 
-	if (undefined)
+	if (useUndefinedPattern)
 	{
 		QtDeviceScaledPixmap pixmap("data/gui/graph_view/images/pattern.png");
 		pixmap.scaleToHeight(10);

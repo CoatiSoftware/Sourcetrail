@@ -481,9 +481,16 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 			graph->addNodeAndAllChildrenAsPlainCopy(node->getLastParentNode());
 
 			node->forEachEdge(
-				[graph](Edge* edge)
+				[graph, node](Edge* edge)
 				{
-					graph->addEdgeAndAllChildrenAsPlainCopy(edge);
+					const Node::NodeTypeMask varFuncMask =
+						Node::NODE_UNDEFINED_FUNCTION | Node::NODE_FUNCTION | Node::NODE_METHOD |
+						Node::NODE_UNDEFINED_VARIABLE | Node::NODE_GLOBAL_VARIABLE | Node::NODE_FIELD;
+
+					if (!node->isType(varFuncMask) || !edge->isType(Edge::EDGE_AGGREGATION))
+					{
+						graph->addEdgeAndAllChildrenAsPlainCopy(edge);
+					}
 				}
 			);
 		}

@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "data/graph/Node.h"
+#include "data/graph/token_component/TokenComponentAggregation.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "utility/logging/logging.h"
 
@@ -76,6 +77,22 @@ bool Edge::isEdge() const
 	return true;
 }
 
+void Edge::addComponentAggregation(std::shared_ptr<TokenComponentAggregation> component)
+{
+	if (getComponent<TokenComponentAggregation>())
+	{
+		LOG_ERROR("TokenComponentAggregation has been set before!");
+	}
+	else if (m_type != EDGE_AGGREGATION)
+	{
+		LOG_ERROR("TokenComponentAggregation can't be set on edge of type: " + getTypeString());
+	}
+	else
+	{
+		addComponent(component);
+	}
+}
+
 void Edge::addComponentAccess(std::shared_ptr<TokenComponentAccess> component)
 {
 	if (getComponent<TokenComponentAccess>())
@@ -118,6 +135,8 @@ std::string Edge::getTypeString(EdgeType type) const
 		return "template parameter";
 	case EDGE_TEMPLATE_SPECIALIZATION_OF:
 		return "template specialization";
+	case EDGE_AGGREGATION:
+		return "aggregation";
 	}
 	return "";
 }
@@ -132,10 +151,16 @@ std::string Edge::getAsString() const
 	std::stringstream str;
 	str << "[" << getId() << "] " << getTypeString() << ": \"" << m_from->getName() << "\" -> \"" + m_to->getName() << "\"";
 
-	TokenComponentAccess* component = getComponent<TokenComponentAccess>();
-	if (component)
+	TokenComponentAccess* access = getComponent<TokenComponentAccess>();
+	if (access)
 	{
-		str << " " << component->getAccessString();
+		str << " " << access->getAccessString();
+	}
+
+	TokenComponentAggregation* aggregation = getComponent<TokenComponentAggregation>();
+	if (aggregation)
+	{
+		str << " " << aggregation->getAggregationCount();
 	}
 
 	return str.str();
@@ -218,6 +243,13 @@ bool Edge::checkType() const
 
 	case EDGE_TEMPLATE_SPECIALIZATION_OF:
 		if (!m_from->isType(typeMask | functionMask) || !m_to->isType(typeMask | functionMask))
+		{
+			break;
+		}
+		return true;
+
+	case EDGE_AGGREGATION:
+		if (!m_from->isType(typeMask | variableMask | functionMask) || !m_to->isType(typeMask | variableMask | functionMask))
 		{
 			break;
 		}

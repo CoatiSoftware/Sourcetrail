@@ -21,6 +21,8 @@ private:
 	Node* insertNodeHierarchy(Node::NodeType type, SearchNode* searchNode);
 	Node* insertNode(Node::NodeType type, Node* parentNode, SearchNode* searchNode);
 	Edge* insertEdge(Edge::EdgeType type, Node* from, Node* to);
+
+	void updateAggregationEdges(Node* from, Node* to, Id edgeId);
 };
 
 #endif // STORAGE_GRAPH_H

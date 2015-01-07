@@ -7,6 +7,7 @@
 #include "data/graph/Token.h"
 
 class Node;
+class TokenComponentAggregation;
 class TokenComponentAccess;
 class TokenComponentDataType;
 
@@ -26,7 +27,9 @@ public:
 		EDGE_INHERITANCE				= 0x80,
 		EDGE_TYPEDEF_OF					= 0x100,
 		EDGE_TEMPLATE_PARAMETER_OF		= 0x200,
-		EDGE_TEMPLATE_SPECIALIZATION_OF	= 0x400
+		EDGE_TEMPLATE_SPECIALIZATION_OF	= 0x400,
+
+		EDGE_AGGREGATION				= 0x800
 	};
 
 	Edge(EdgeType type, Node* from, Node* to);
@@ -46,6 +49,7 @@ public:
 	virtual bool isEdge() const;
 
 	// Component setters
+	void addComponentAggregation(std::shared_ptr<TokenComponentAggregation> component);
 	void addComponentAccess(std::shared_ptr<TokenComponentAccess> component);
 
 	// Logging.

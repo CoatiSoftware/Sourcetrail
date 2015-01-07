@@ -59,7 +59,8 @@ private:
 	DummyNode createDummyNodeTopDown(Node* node);
 
 	void setActiveAndVisibility(const std::vector<Id>& activeTokenIds);
-	bool setNodeActiveAndVisibilityRecursiveBottomUp(DummyNode& node, const std::vector<Id>& activeTokenIds) const;
+	bool setNodeActiveAndVisibilityRecursiveBottomUp(
+		DummyNode& node, const std::vector<Id>& activeTokenIds, bool aggregated) const;
 	void setNodeVisibilityRecursiveTopDown(DummyNode& node) const;
 
 	void layoutNesting();

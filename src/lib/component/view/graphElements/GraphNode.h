@@ -52,6 +52,7 @@ struct DummyNode
 		, accessType(TokenComponentAccess::ACCESS_NONE)
 		, active(false)
 		, connected(false)
+		, aggregated(false)
 		, expanded(false)
 		, invisibleSubNodeCount(0)
 		, visible(false)
@@ -63,6 +64,7 @@ struct DummyNode
 		, accessType(accessType)
 		, active(false)
 		, connected(false)
+		, aggregated(false)
 		, expanded(false)
 		, invisibleSubNodeCount(0)
 		, visible(false)
@@ -77,6 +79,7 @@ struct DummyNode
 
 	bool active;
 	bool connected;
+	bool aggregated;
 
 	bool expanded;
 	size_t invisibleSubNodeCount;

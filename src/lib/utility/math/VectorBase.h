@@ -39,11 +39,11 @@ public:
 	void assign(const VectorBase<U, N>& other);
 
 	template<class U>
-	VectorBase<T, N> add(const VectorBase<U, N>& other);
+	VectorBase<T, N>& add(const VectorBase<U, N>& other);
 	template<class U>
-	VectorBase<T, N> subtract(const VectorBase<U, N>& other);
+	VectorBase<T, N>& subtract(const VectorBase<U, N>& other);
 	template<class U>
-	VectorBase<T, N> scalarMultiplication(const U& scalar);
+	VectorBase<T, N>& scalarMultiplication(const U& scalar);
 	template<class U>
 	T dotProduct(const VectorBase<U, N>& other);
 
@@ -71,13 +71,13 @@ public:
 	VectorBase<T, N> operator/(const U& scalar) const;
 
 	template<class U>
-	VectorBase<T, N> operator+=(const VectorBase<U, N>& other);
+	VectorBase<T, N>& operator+=(const VectorBase<U, N>& other);
 	template<class U>
-	VectorBase<T, N> operator-=(const VectorBase<U, N>& other);
+	VectorBase<T, N>& operator-=(const VectorBase<U, N>& other);
 	template<class U>
-	VectorBase<T, N> operator*=(const U& scalar);
+	VectorBase<T, N>& operator*=(const U& scalar);
 	template<class U>
-	VectorBase<T, N> operator/=(const U& scalar);
+	VectorBase<T, N>& operator/=(const U& scalar);
 
 	// Checks whether all values are the same.
 	template<class U>
@@ -238,7 +238,7 @@ void VectorBase<T, N>::assign(const VectorBase<U, N>& other)
 
 template<class T, unsigned int N>
 template<class U>
-VectorBase<T, N> VectorBase<T, N>::add(const VectorBase<U, N>& other)
+VectorBase<T, N>& VectorBase<T, N>::add(const VectorBase<U, N>& other)
 {
 	T tmpValues[N];
 	for (unsigned int i = 0; i < N; i++)
@@ -253,7 +253,7 @@ VectorBase<T, N> VectorBase<T, N>::add(const VectorBase<U, N>& other)
 
 template<class T, unsigned int N>
 template<class U>
-VectorBase<T, N> VectorBase<T, N>::subtract(const VectorBase<U, N>& other)
+VectorBase<T, N>& VectorBase<T, N>::subtract(const VectorBase<U, N>& other)
 {
 	T tmpValues[N];
 	for (unsigned int i = 0; i < N; i++)
@@ -268,7 +268,7 @@ VectorBase<T, N> VectorBase<T, N>::subtract(const VectorBase<U, N>& other)
 
 template<class T, unsigned int N>
 template<class U>
-VectorBase<T, N> VectorBase<T, N>::scalarMultiplication(const U& scalar)
+VectorBase<T, N>& VectorBase<T, N>::scalarMultiplication(const U& scalar)
 {
 	T tmpValues[N];
 	for (unsigned int i = 0; i < N; i++)
@@ -371,28 +371,28 @@ VectorBase<T, N> VectorBase<T, N>::operator/(const U& scalar) const
 
 template<class T, unsigned int N>
 template<class U>
-VectorBase<T, N> VectorBase<T, N>::operator+=(const VectorBase<U, N>& other)
+VectorBase<T, N>& VectorBase<T, N>::operator+=(const VectorBase<U, N>& other)
 {
 	return add(other);
 }
 
 template<class T, unsigned int N>
 template<class U>
-VectorBase<T, N> VectorBase<T, N>::operator-=(const VectorBase<U, N>& other)
+VectorBase<T, N>& VectorBase<T, N>::operator-=(const VectorBase<U, N>& other)
 {
 	return subtract(other);
 }
 
 template<class T, unsigned int N>
 template<class U>
-VectorBase<T, N> VectorBase<T, N>::operator*=(const U& scalar)
+VectorBase<T, N>& VectorBase<T, N>::operator*=(const U& scalar)
 {
 	return scalarMultiplication(scalar);
 }
 
 template<class T, unsigned int N>
 template<class U>
-VectorBase<T, N> VectorBase<T, N>::operator/=(const U& scalar)
+VectorBase<T, N>& VectorBase<T, N>::operator/=(const U& scalar)
 {
 	return scalarMultiplication(1.0f / scalar);
 }

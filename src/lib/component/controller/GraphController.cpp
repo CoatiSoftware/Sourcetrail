@@ -168,7 +168,14 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 				return;
 			}
 
-			result.connected = true;
+			if (edge->isType(Edge::EDGE_AGGREGATION))
+			{
+				result.aggregated = true;
+			}
+			else
+			{
+				result.connected = true;
+			}
 
 			for (const DummyEdge& dummy : m_dummyEdges)
 			{
@@ -189,7 +196,7 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 {
 	for (DummyNode& node : m_dummyNodes)
 	{
-		setNodeActiveAndVisibilityRecursiveBottomUp(node, activeTokenIds);
+		setNodeActiveAndVisibilityRecursiveBottomUp(node, activeTokenIds, false);
 	}
 
 	for (DummyEdge& edge : m_dummyEdges)
@@ -203,7 +210,7 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 }
 
 bool GraphController::setNodeActiveAndVisibilityRecursiveBottomUp(
-	DummyNode& node, const std::vector<Id>& activeTokenIds
+	DummyNode& node, const std::vector<Id>& activeTokenIds, bool aggregated
 ) const {
 	node.visible = false;
 	node.active = false;
@@ -216,13 +223,13 @@ bool GraphController::setNodeActiveAndVisibilityRecursiveBottomUp(
 	bool childVisible = false;
 	for (DummyNode& subNode : node.subNodes)
 	{
-		if (setNodeActiveAndVisibilityRecursiveBottomUp(subNode, activeTokenIds))
+		if (setNodeActiveAndVisibilityRecursiveBottomUp(subNode, activeTokenIds, aggregated | node.aggregated))
 		{
 			childVisible = true;
 		}
 	}
 
-	if (node.active || node.connected || childVisible)
+	if (node.active || node.connected || childVisible || (!aggregated && node.aggregated))
 	{
 		setNodeVisibilityRecursiveTopDown(node);
 	}

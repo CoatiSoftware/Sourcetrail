@@ -1,67 +1,85 @@
 #include "qt/view/graphElements/QtGraphEdge.h"
 
+#include <cmath>
+
 #include <QGraphicsScene>
 #include <QGraphicsSceneEvent>
 #include <QPainter>
 #include <QPen>
 
+#include "utility/messaging/type/MessageActivateToken.h"
+#include "utility/messaging/type/MessageActivateTokens.h"
+
 #include "component/view/graphElements/GraphNode.h"
+#include "data/graph/token_component/TokenComponentAggregation.h"
+#include "qt/graphics/QtGraphicsRoundedRectItem.h"
 
-
-QtStraightConnection::QtStraightConnection(Vec4i ownerRect, Vec4i targetRect, QGraphicsItem* parent)
+QtStraightConnection::QtStraightConnection(Vec4i ownerRect, Vec4i targetRect, int number, QGraphicsItem* parent)
 	: QGraphicsLineItem(parent)
 {
 	const Vec4i& o = ownerRect;
 	const Vec4i& t = targetRect;
 
-	Vec2f po[2] = { Vec2f(o.x, (o.y + 2 * o.w) / 3), Vec2f(o.z, (o.y + 2 * o.w) / 3) };
-	Vec2f pt[2] = { Vec2f(t.x, (2 * t.y + t.w) / 3), Vec2f(t.z, (2 * t.y + t.w) / 3) };
+	Vec2f a((o.x + o.z) / 2, (o.y + o.w) / 2);
+	Vec2f b((t.x + t.z) / 2, (t.y + t.w) / 2);
 
-	int io = -1;
-	int it = -1;
-	float dist = -1;
-
-	for (int i = 0; i < 2; i++)
-	{
-		for (int j = 0; j < 2; j++)
-		{
-			Vec2f diff = po[i] - pt[j];
-			if (dist < 0 || diff.getLength() < dist)
-			{
-				dist = diff.getLength();
-				io = i;
-				it = j;
-			}
-		}
-	}
-
-	this->setLine(po[io].x, po[io].y, pt[it].x, pt[it].y);
+	this->setLine(a.x, a.y, b.x, b.y);
 	this->setAcceptHoverEvents(true);
+
+	Vec2f u = b - a;
+	u.normalize();
+
+	float alpha = atan2(u.y, u.x);
+
+	Vec2f w;
+	w.x = (o.z - o.x) / 2 * cos(alpha);
+	w.y = (o.w - o.y) / 2 * sin(alpha);
+	a += u * w.getLength();
+
+	w.x = (t.z - t.x) / 2 * cos(alpha);
+	w.y = (t.w - t.y) / 2 * sin(alpha);
+	b += u * -w.getLength();
+
+	Vec2f mid = (a + b) / 2;
+
+	m_circle = new QtGraphicsRoundedRectItem(this);
+	m_circle->setRect(mid.x - 10, mid.y - 10, 20, 20);
+	m_circle->setRadius(10);
+	m_circle->setPen(QPen(QColor("#F8F8F8"), 2));
+	m_circle->setBrush(QBrush(QColor("#FFF")));
+	m_circle->setAcceptHoverEvents(true);
+
+	QFont font;
+	font.setFamily("Myriad Pro");
+	font.setWeight(QFont::Normal);
+	font.setPixelSize(9);
+
+	m_number = new QGraphicsSimpleTextItem(this);
+	m_number->setFont(font);
+
+	QString numberStr = QString::number(number);
+	m_number->setText(numberStr);
+	m_number->setBrush(QBrush(QColor("#666")));
+	m_number->setPos(
+		mid.x - QFontMetrics(m_number->font()).width(numberStr) / 2,
+		mid.y - QFontMetrics(m_number->font()).height() / 2
+	);
 }
 
 QtStraightConnection::~QtStraightConnection()
 {
 }
 
-QPainterPath QtStraightConnection::shape() const
+void QtStraightConnection::setColor(QColor color)
 {
-	QPainterPath path;
-	QLineF l = line();
-	QLineF n = l.normalVector();
-	n.setLength(5.0f);
+	QPen p = this->pen();
+	p.setColor(color);
+	this->setPen(p);
 
-	qreal x = n.x2() - n.x1();
-	qreal y = n.y2() - n.y1();
-
-	path.moveTo(l.x1() + x, l.y1() + y);
-	path.lineTo(l.x2() + x, l.y2() + y);
-	path.lineTo(l.x2() - x, l.y2() - y);
-	path.lineTo(l.x1() - x, l.y1() - y);
-	path.closeSubpath();
-
-	return path;
+	p = m_circle->pen();
+	p.setColor(color);
+	m_circle->setPen(p);
 }
-
 
 QtCorneredConnection::QtCorneredConnection(
 	Vec4i ownerRect, Vec4i targetRect, Vec4i ownerParentRect, Vec4i targetParentRect, QGraphicsItem* parent
@@ -323,7 +341,7 @@ QtGraphEdge::QtGraphEdge(const std::weak_ptr<GraphNode>& owner, const std::weak_
 	, m_mouseMoved(false)
 {
 	this->setAcceptHoverEvents(true);
-	this->setZValue(1); // Used to draw edges always on top of nodes.
+	this->setZValue(getZValue(false)); // Used to draw edges always on top of nodes.
 
 	this->updateLine();
 }
@@ -358,11 +376,19 @@ void QtGraphEdge::updateLine()
 		delete m_child;
 	}
 
-	m_child = new QtCorneredConnection(
-		owner->getBoundingRect(), target->getBoundingRect(),
-		owner->getParentBoundingRect(), target->getParentBoundingRect(),
-		this
-	);
+	if (isAggregation())
+	{
+		m_child =
+			new QtStraightConnection(owner->getBoundingRect(), target->getBoundingRect(), getAggregationCount(), this);
+	}
+	else
+	{
+		m_child = new QtCorneredConnection(
+			owner->getBoundingRect(), target->getBoundingRect(),
+			owner->getParentBoundingRect(), target->getParentBoundingRect(),
+			this
+		);
+	}
 
 	QColor color;
 
@@ -377,12 +403,17 @@ void QtGraphEdge::updateLine()
 	case Edge::EDGE_INHERITANCE:
 		color = QColor("#CC5E89");
 		break;
+	case Edge::EDGE_AGGREGATION:
+		color = QColor("#F8F8F8");
+		break;
 	default:
 		color = QColor("#878787");
 		break;
 	}
 
-	m_child->setPen(QPen(color, 1));
+	m_child->setPen(QPen(color, getPenWidth()));
+
+	setIsActive(m_isActive);
 }
 
 bool QtGraphEdge::getIsActive() const
@@ -394,23 +425,47 @@ void QtGraphEdge::setIsActive(bool isActive)
 {
 	m_isActive = isActive;
 
-	QPen p = m_child->pen();
 	if (isActive)
 	{
-		p.setWidth(2);
-		this->setZValue(5);
+		if (isAggregation())
+		{
+			dynamic_cast<QtStraightConnection*>(m_child)->setColor(QColor("#EEE"));
+		}
+		else
+		{
+			QPen p = m_child->pen();
+			p.setWidth(getPenWidth() + 1);
+			m_child->setPen(p);
+		}
+		this->setZValue(getZValue(isActive));
 	}
 	else
 	{
-		p.setWidth(1);
-		this->setZValue(1);
+		if (isAggregation())
+		{
+			dynamic_cast<QtStraightConnection*>(m_child)->setColor(QColor("#F8F8F8"));
+		}
+		else
+		{
+			QPen p = m_child->pen();
+			p.setWidth(getPenWidth());
+			m_child->setPen(p);
+		}
+		this->setZValue(getZValue(isActive));
 	}
-	m_child->setPen(p);
 }
 
 void QtGraphEdge::onClick()
 {
-	MessageActivateToken(getData()->getId()).dispatch();
+	if (isAggregation())
+	{
+		const std::set<Id>& ids = getData()->getComponent<TokenComponentAggregation>()->getAggregationIds();
+		MessageActivateTokens(std::vector<Id>(ids.begin(), ids.end())).dispatch();
+	}
+	else
+	{
+		MessageActivateToken(getData()->getId()).dispatch();
+	}
 }
 
 void QtGraphEdge::mousePressEvent(QGraphicsSceneMouseEvent* event)
@@ -447,4 +502,45 @@ void QtGraphEdge::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 void QtGraphEdge::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
 	this->setIsActive(m_isActive);
+}
+
+bool QtGraphEdge::isAggregation() const
+{
+	return getData()->getType() == Edge::EDGE_AGGREGATION;
+}
+
+int QtGraphEdge::getZValue(bool active) const
+{
+	if (isAggregation())
+	{
+		if (active)
+		{
+			return -1;
+		}
+		return -5;
+	}
+
+	if (active)
+	{
+		return 5;
+	}
+	return 1;
+}
+
+int QtGraphEdge::getPenWidth() const
+{
+	if (isAggregation())
+	{
+		return getAggregationCount() + 1;
+	}
+	return 1;
+}
+
+int QtGraphEdge::getAggregationCount() const
+{
+	if (isAggregation())
+	{
+		return getData()->getComponent<TokenComponentAggregation>()->getAggregationCount();
+	}
+	return 0;
 }
