@@ -7,7 +7,6 @@
 #include <QPainter>
 #include <QPen>
 
-#include "utility/messaging/type/MessageActivateToken.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 
 #include "component/view/graphElements/GraphNode.h"
@@ -460,11 +459,15 @@ void QtGraphEdge::onClick()
 	if (isAggregation())
 	{
 		const std::set<Id>& ids = getData()->getComponent<TokenComponentAggregation>()->getAggregationIds();
-		MessageActivateTokens(std::vector<Id>(ids.begin(), ids.end())).dispatch();
+		MessageActivateTokens message(std::vector<Id>(ids.begin(), ids.end()));
+		message.isAggregation = true;
+		message.dispatch();
 	}
 	else
 	{
-		MessageActivateToken(getData()->getId()).dispatch();
+		MessageActivateTokens message(getData()->getId());
+		message.isEdge = true;
+		message.dispatch();
 	}
 }
 

@@ -477,7 +477,18 @@ public:
 		TS_ASSERT_EQUALS(client->globalVariables[0], "uint const * number <2:13 2:18>");
 	}
 
-	void test_cxx_parser_finds_public_inheritance()
+	void test_cxx_parser_finds_class_default_private_inheritance()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class A {};\n"
+			"class B : A {};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
+		TS_ASSERT_EQUALS(client->inheritances[0], "B : private A <2:11 2:11>");
+	}
+
+	void test_cxx_parser_finds_class_public_inheritance()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"class A {};\n"
@@ -488,7 +499,7 @@ public:
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : public A <2:11 2:18>");
 	}
 
-	void test_cxx_parser_finds_protected_inheritance()
+	void test_cxx_parser_finds_class_protected_inheritance()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"class A {};\n"
@@ -499,7 +510,7 @@ public:
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : protected A <2:11 2:21>");
 	}
 
-	void test_cxx_parser_finds_private_inheritance()
+	void test_cxx_parser_finds_class_private_inheritance()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"class A {};\n"
@@ -510,12 +521,72 @@ public:
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : private A <2:11 2:19>");
 	}
 
-	void test_cxx_parser_finds_multiple_inheritance()
+	void test_cxx_parser_finds_class_multiple_inheritance()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"class A {};\n"
 			"class B {};\n"
 			"class C\n"
+			"	: public A\n"
+			"	, private B\n"
+			"{};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->inheritances.size(), 2);
+		TS_ASSERT_EQUALS(client->inheritances[0], "C : public A <4:4 4:11>");
+		TS_ASSERT_EQUALS(client->inheritances[1], "C : private B <5:4 5:12>");
+	}
+
+	void test_cxx_parser_finds_struct_default_public_inheritance()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"struct A {};\n"
+			"struct B : A {};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
+		TS_ASSERT_EQUALS(client->inheritances[0], "B : public A <2:12 2:12>");
+	}
+
+	void test_cxx_parser_finds_struct_public_inheritance()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"struct A {};\n"
+			"struct B : public A {};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
+		TS_ASSERT_EQUALS(client->inheritances[0], "B : public A <2:12 2:19>");
+	}
+
+	void test_cxx_parser_finds_struct_protected_inheritance()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"struct A {};\n"
+			"struct B : protected A {};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
+		TS_ASSERT_EQUALS(client->inheritances[0], "B : protected A <2:12 2:22>");
+	}
+
+	void test_cxx_parser_finds_struct_private_inheritance()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"struct A {};\n"
+			"struct B : private A {};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
+		TS_ASSERT_EQUALS(client->inheritances[0], "B : private A <2:12 2:20>");
+	}
+
+	void test_cxx_parser_finds_struct_multiple_inheritance()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"struct A {};\n"
+			"struct B {};\n"
+			"struct C\n"
 			"	: public A\n"
 			"	, private B\n"
 			"{};\n"
@@ -990,7 +1061,50 @@ public:
 		TS_ASSERT_EQUALS(client->typeUses[1], "void B::B() -> A <8:8 8:8>");
 	}
 
+	void test_cxx_parser_finds_enum_uses_in_global_space()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"enum A\n"
+			"{\n"
+			"	B,\n"
+			"	C\n"
+			"};\n"
+			"A a = B;\n"
+			"A* aPtr = new A;\n"
+		);
 
+		TS_ASSERT_EQUALS(client->usages.size(), 1);
+		TS_ASSERT_EQUALS(client->usages[0], "A a -> A::B <6:7 6:7>");
+		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
+		TS_ASSERT_EQUALS(client->typeUses[0], "A <7:15 7:15>");
+		TS_ASSERT_EQUALS(client->globalVariables.size(), 2);
+		TS_ASSERT_EQUALS(client->globalVariables[0], "A a <6:3 6:3>");
+		TS_ASSERT_EQUALS(client->globalVariables[1], "A * aPtr <7:4 7:7>");
+	}
+
+	void test_cxx_parser_finds_enum_uses_in_function_body()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"enum A\n"
+			"{\n"
+			"	B,\n"
+			"	C\n"
+			"};\n"
+			"int main()\n"
+			"{\n"
+			"	A a = B;\n"
+			"	A* aPtr = new A;\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->usages.size(), 1);
+		TS_ASSERT_EQUALS(client->usages[0], "int main() -> A::B <8:8 8:8>");
+		TS_ASSERT_EQUALS(client->typeUses.size(), 4);
+		TS_ASSERT_EQUALS(client->typeUses[0], "int <6:1 6:3>");
+		TS_ASSERT_EQUALS(client->typeUses[1], "int main() -> A <8:2 8:2>");
+		TS_ASSERT_EQUALS(client->typeUses[2], "int main() -> A * <9:2 9:3>");
+		TS_ASSERT_EQUALS(client->typeUses[3], "int main() -> A <9:16 9:16>");
+	}
 
 
 	void test_cxx_parser_finds_template_parameter_type_of_template_class()
@@ -1430,9 +1544,29 @@ private:
 			return 0;
 		}
 
+		virtual Id onEnumFieldUsageParsed(
+			const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy)
+		{
+			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + utility::join(usedNameHierarchy, "::"), location));
+			return 0;
+		}
+
+		virtual Id onEnumFieldUsageParsed(
+			const ParseLocation& location, const ParseVariable& user, const std::vector<std::string>& usedNameHierarchy)
+		{
+			usages.push_back(addLocationSuffix(variableStr(user) + " -> " + utility::join(usedNameHierarchy, "::"), location));
+			return 0;
+		}
+
 		virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function)
 		{
 			addTypeUse(type, function);
+			return 0;
+		}
+
+		virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseVariable& variable)
+		{
+			addTypeUse(type);
 			return 0;
 		}
 

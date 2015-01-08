@@ -14,19 +14,19 @@ public:
 	{
 		CodeSnippetParams();
 
+		// comparefunction for snippetsorting
+		static bool sort(const CodeSnippetParams& a, const CodeSnippetParams& b);
+
 		uint startLineNumber;
 		uint endLineNumber;
 		uint lineCount;
 
 		std::string code;
 
-		TokenLocationFile locationFile;		
+		TokenLocationFile locationFile;
 
 		bool isActive;
 		bool isDeclaration;
-
-		//comparefunctions for snippetsorting
-		static bool sort(CodeSnippetParams a, CodeSnippetParams b);
 	};
 
 	CodeView(ViewLayout* viewLayout);
@@ -34,10 +34,10 @@ public:
 
 	virtual std::string getName() const;
 
-	virtual void showCodeFile(const CodeSnippetParams& params) = 0;
-	virtual void addCodeSnippet(const CodeSnippetParams& params) = 0;
 	virtual void clearCodeSnippets() = 0;
-	virtual void setActiveTokenIds(std::vector<Id> ids) = 0;
+	virtual void setActiveTokenIds(const std::vector<Id>& activeTokenIds) = 0;
+	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets) = 0;
+	virtual void showCodeFile(const CodeSnippetParams& params) = 0;
 
 private:
 	CodeController* getController();

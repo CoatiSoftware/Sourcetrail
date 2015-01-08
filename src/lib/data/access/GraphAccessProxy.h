@@ -20,7 +20,8 @@ public:
 
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const;
 
-	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id& declarationId) const;
+	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const;
+	virtual std::vector<Id> getActiveTokenIdsForLocationId(Id locationId) const;
 	virtual std::vector<Id> getLocationIdsForTokenIds(const std::vector<Id>& tokenIds) const;
 
 	virtual std::vector<Id> getTokenIdsForQuery(std::string query) const;

@@ -16,11 +16,11 @@ public:
 	virtual ~ASTVisitor();
 
 	// Left for debugging purposes. Uncomment to see a colored ast-dump of the parsed file.
-	 //virtual bool VisitTranslationUnitDecl(clang::TranslationUnitDecl* decl)
-	 //{
-	 //	decl->dump();
-	 //	return true;
-	 //}
+	// virtual bool VisitTranslationUnitDecl(clang::TranslationUnitDecl* decl)
+	// {
+	// 	decl->dump();
+	// 	return true;
+	// }
 
 	// RecursiveASTVisitor implementation
 	virtual bool VisitStmt(const clang::Stmt* statement); // avoid visiting
@@ -45,13 +45,16 @@ public:
 	virtual void VisitCallExprInDeclBody(clang::VarDecl* decl, clang::CallExpr* expr); // calls in initialization of global variables
 	virtual void VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clang::CXXConstructExpr* expr); // constructor calls
 	virtual void VisitCXXConstructExprInDeclBody(clang::VarDecl* decl, clang::CXXConstructExpr* expr); // constructor calls of global variables
+	virtual void VisitCXXNewExprInDeclBody(clang::FunctionDecl* decl, clang::CXXNewExpr* expr); // type use of new operator
+	virtual void VisitCXXNewExprInDeclBody(clang::VarDecl* decl, clang::CXXNewExpr* expr); // type use of new operator in global space
 	virtual void VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr); // field usages
-	virtual void VisitDeclRefExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr); // global variable usage
+	virtual void VisitGlobalVariableExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr); // global variable usage
+	virtual void VisitEnumExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr); // enum field usage
+	virtual void VisitEnumExprInDeclBody(clang::VarDecl* decl, clang::DeclRefExpr* expr); // enum field usage in global variable
 	virtual void VisitVarDeclInDeclBody(clang::FunctionDecl* decl, clang::VarDecl* varDecl); // type usages
 
 private:
 	bool hasValidLocation(const clang::Decl* declaration) const;
-	std::string getTypeName(const clang::QualType& qualType) const;
 	ParserClient::AccessType convertAccessType(clang::AccessSpecifier) const;
 
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;

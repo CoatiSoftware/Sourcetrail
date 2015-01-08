@@ -9,7 +9,7 @@
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
 #include "qt/utility/QtHighlighter.h"
-#include "utility/messaging/type/MessageActivateToken.h"
+#include "utility/messaging/type/MessageActivateTokenLocation.h"
 #include "utility/messaging/type/MessageShowFile.h"
 
 QtCodeSnippet::LineNumberArea::LineNumberArea(QtCodeSnippet *codeSnippet)
@@ -226,7 +226,7 @@ void QtCodeSnippet::clickedTokenLocation()
 {
 	int clickPosition = textCursor().position();
 	int diff = endTextEditPosition() + 1;
-	Id tokenId = 0;
+	Id locationId = 0;
 
 	for (Annotation annotation : m_annotations)
 	{
@@ -236,22 +236,20 @@ void QtCodeSnippet::clickedTokenLocation()
 			if (d < diff)
 			{
 				diff = d;
-				tokenId = annotation.tokenId;
+				locationId = annotation.locationId;
 			}
 		}
 	}
 
-	if (tokenId)
+	if (locationId)
 	{
-		MessageActivateToken(tokenId).dispatch();
+		MessageActivateTokenLocation(locationId).dispatch();
 	}
 }
 
 void QtCodeSnippet::clickedMaximizeButton()
 {
-	MessageShowFile(
-		m_filePath, m_startLineNumber, m_startLineNumber + document()->blockCount() - 1, m_activeTokenIds
-	).dispatch();
+	MessageShowFile(m_filePath, m_startLineNumber, m_startLineNumber + document()->blockCount() - 1).dispatch();
 }
 
 void QtCodeSnippet::clearSelection()
@@ -292,6 +290,7 @@ void QtCodeSnippet::createAnnotations(const TokenLocationFile& locationFile)
 			}
 
 			annotation.tokenId = location->getTokenId();
+			annotation.locationId = location->getId();
 			annotation.isScope = location->getType() == TokenLocation::LOCATION_SCOPE;
 
 			m_annotations.push_back(annotation);

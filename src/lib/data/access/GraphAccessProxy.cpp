@@ -69,11 +69,21 @@ std::shared_ptr<Graph> GraphAccessProxy::getGraphForActiveTokenIds(const std::ve
 	return std::make_shared<Graph>();
 }
 
-std::vector<Id> GraphAccessProxy::getActiveTokenIdsForId(Id tokenId, Id& delcarationId) const
+std::vector<Id> GraphAccessProxy::getActiveTokenIdsForId(Id tokenId, Id* delcarationId) const
 {
 	if (hasSubject())
 	{
 		return m_subject->getActiveTokenIdsForId(tokenId, delcarationId);
+	}
+
+	return std::vector<Id>();
+}
+
+std::vector<Id> GraphAccessProxy::getActiveTokenIdsForLocationId(Id locationId) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getActiveTokenIdsForLocationId(locationId);
 	}
 
 	return std::vector<Id>();

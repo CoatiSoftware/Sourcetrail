@@ -23,7 +23,7 @@ public:
 
 	std::string getFullTypeName() const;
 	std::string getRawTypeName() const;
-	std::vector<std::string> getTypeNameHierarchy() const;
+	const std::vector<std::string>& getTypeNameHierarchy() const;
 
 private:
 	const std::vector<std::string> m_typeNameHierarchy;

@@ -75,6 +75,7 @@ private:
 		int start;
 		int end;
 		Id tokenId;
+		Id locationId;
 		bool isScope;
 	};
 

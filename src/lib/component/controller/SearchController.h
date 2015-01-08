@@ -5,7 +5,6 @@
 
 #include "component/controller/Controller.h"
 #include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageActivateToken.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageRefresh.h"
@@ -17,7 +16,6 @@ class SearchView;
 
 class SearchController
 	: public Controller
-	, public MessageListener<MessageActivateToken>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageFind>
 	, public MessageListener<MessageRefresh>
@@ -29,7 +27,6 @@ public:
 	~SearchController();
 
 private:
-	virtual void handleMessage(MessageActivateToken* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageFind* message);
 	virtual void handleMessage(MessageRefresh* message);
@@ -40,7 +37,7 @@ private:
 
 	GraphAccess* m_graphAccess;
 
-	bool m_ignoreNextMessageActivateToken;
+	bool m_ignoreNextMessageActivateTokens;
 };
 
 #endif // SEARCH_CONTROLLER_H

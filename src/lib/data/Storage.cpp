@@ -278,10 +278,11 @@ Id Storage::onCallParsed(const ParseLocation& location, const ParseVariable& cal
 	return edge->getId();
 }
 
-Id Storage::onFieldUsageParsed(
-	const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy)
-{
-	log("field usage", user.getFullName() + " -> " + utility::join(usedNameHierarchy, "::"), location);
+Id Storage::onVariableUsageParsed(
+	const std::string kind, const ParseLocation& location, const ParseFunction& user,
+	const std::vector<std::string>& usedNameHierarchy
+){
+	log(kind, user.getFullName() + " -> " + utility::join(usedNameHierarchy, "::"), location);
 
 	Node* userNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, user);
 	Node* usedNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
@@ -292,12 +293,30 @@ Id Storage::onFieldUsageParsed(
 	return edge->getId();
 }
 
+Id Storage::onFieldUsageParsed(
+	const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy
+){
+	return onVariableUsageParsed("field usage", location, user, usedNameHierarchy);
+}
+
 Id Storage::onGlobalVariableUsageParsed( // or static variable used
+	const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy
+){
+	return onVariableUsageParsed("global usage", location, user, usedNameHierarchy);
+}
+
+Id Storage::onEnumFieldUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy
 ){
-	log("global usage", user.getFullName() + " -> " + utility::join(usedNameHierarchy, "::"), location);
+	return onVariableUsageParsed("enum field usage", location, user, usedNameHierarchy);
+}
 
-	Node* userNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, user);
+Id Storage::onEnumFieldUsageParsed(
+		const ParseLocation& location, const ParseVariable& user, const std::vector<std::string>& usedNameHierarchy
+){
+	log("enum field usage", user.getFullName() + " -> " + utility::join(usedNameHierarchy, "::"), location);
+
+	Node* userNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, user.nameHierarchy);
 	Node* usedNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_USAGE, userNode, usedNode);
@@ -312,6 +331,22 @@ Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& f
 
 	Node* functionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, function);
 	Edge* edge = addTypeEdge(functionNode, Edge::EDGE_TYPE_USAGE, type);
+
+	if (!edge)
+	{
+		LOG_ERROR("Could not create type usage edge.");
+		return 0;
+	}
+
+	return edge->getId();
+}
+
+Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseVariable& variable)
+{
+	log("type usage", variable.getFullName() + " -> " + type.dataType.getRawTypeName(), type.location);
+
+	Node* variableNode = addNodeHierarchy(Node::NODE_UNDEFINED, variable.nameHierarchy);
+	Edge* edge = addTypeEdge(variableNode, Edge::EDGE_TYPE_USAGE, type);
 
 	if (!edge)
 	{
@@ -466,13 +501,41 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 {
 	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
 
-	for (Id tokenId : tokenIds)
+	if (!tokenIds.size())
 	{
-		Token* token = m_graph.getTokenById(tokenId);
+		return graph;
+	}
+
+	if (tokenIds.size() > 1)
+	{
+		for (Id tokenId : tokenIds)
+		{
+			Token* token = m_graph.getTokenById(tokenId);
+			if (!token)
+			{
+				LOG_ERROR_STREAM(<< "Token with id " << tokenId << " was not found");
+				continue;
+			}
+
+			if (token->isNode())
+			{
+				Node* node = dynamic_cast<Node*>(token);
+				graph->addNodeAndAllChildrenAsPlainCopy(node->getLastParentNode());
+			}
+			else
+			{
+				Edge* edge = dynamic_cast<Edge*>(token);
+				graph->addEdgeAndAllChildrenAsPlainCopy(edge);
+			}
+		}
+	}
+	else if (tokenIds.size() == 1)
+	{
+		Token* token = m_graph.getTokenById(tokenIds[0]);
 		if (!token)
 		{
-			LOG_ERROR_STREAM(<< "Token with id " << tokenId << " was not found");
-			continue;
+			LOG_ERROR_STREAM(<< "Token with id " << tokenIds[0] << " was not found");
+			return graph;
 		}
 
 		if (token->isNode())
@@ -504,9 +567,10 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 	return graph;
 }
 
-std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId, Id& declarationId) const
+std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId, Id* declarationId) const
 {
 	std::vector<Id> ret;
+
 	Token* token = m_graph.getTokenById(tokenId);
 	if (!token)
 	{
@@ -516,29 +580,51 @@ std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId, Id& declarationId) c
 	ret.push_back(token->getId());
 
 	Node* node;
-	if (token->isEdge())
+	if (token->isNode())
 	{
-		node = dynamic_cast<Edge*>(token)->getTo();
-		declarationId = node->getId();
+		Node* node = dynamic_cast<Node*>(token);
+		*declarationId = node->getId();
+
+		node->forEachEdge(
+			[&node, &ret](Edge* edge)
+			{
+				if (edge->getTo() == node)
+				{
+					ret.push_back(edge->getId());
+				}
+			}
+		);
+	}
+
+	return ret;
+}
+
+std::vector<Id> Storage::getActiveTokenIdsForLocationId(Id locationId) const
+{
+	std::vector<Id> ret;
+
+	TokenLocation* location = m_locationCollection.findTokenLocationById(locationId);
+	if (!location)
+	{
+		return ret;
+	}
+
+	Token* token = m_graph.getTokenById(location->getTokenId());
+	if (!token)
+	{
+		return ret;
+	}
+
+	if (token->isNode())
+	{
+		Node* node = dynamic_cast<Node*>(token);
 		ret.push_back(node->getId());
 	}
 	else
 	{
-		node = dynamic_cast<Node*>(token);
-		declarationId = node->getId();
+		Edge* edge = dynamic_cast<Edge*>(token);
+		ret.push_back(edge->getTo()->getId());
 	}
-
-	//ret.push_back(node->getId());
-
-	node->forEachEdge(
-		[&node, &ret](Edge* e)
-		{
-			if (e->getTo() == node)
-			{
-				ret.push_back(e->getId());
-			}
-		}
-	);
 
 	return ret;
 }
@@ -770,7 +856,15 @@ Edge* Storage::addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeU
 		return nullptr;
 	}
 
-	Node* typeNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, typeUsage.dataType.getTypeNameHierarchy());
+	// FIXME: For some reason the TypeNameHierarchy is not always split up properly by the Parser. This might happen
+	// when a Type declaration is in a different file than it's usage, but this oberservation is not reliable.
+	std::vector<std::string> nameHierarchy = typeUsage.dataType.getTypeNameHierarchy();
+	if (nameHierarchy.size() == 1 && nameHierarchy[0].find('<') == std::string::npos)
+	{
+		nameHierarchy = utility::splitToVector(nameHierarchy[0], "::");
+	}
+
+	Node* typeNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, nameHierarchy);
 	if (!typeNode)
 	{
 		return nullptr;

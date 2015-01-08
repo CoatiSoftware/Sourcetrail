@@ -13,23 +13,20 @@ CodeView::CodeSnippetParams::CodeSnippetParams()
 {
 }
 
-bool CodeView::CodeSnippetParams::sort( CodeSnippetParams a, CodeSnippetParams b )
+bool CodeView::CodeSnippetParams::sort(const CodeSnippetParams& a, const CodeSnippetParams& b)
 {
-	if(a.isActive && b.isActive)
-	{
-		return false;
-	}
 	// sort active snippet first
-	if(a.isActive)
+	if (a.isActive && !b.isActive)
 	{
 		return true;
 	}
-	if(b.isActive)
+	else if (!a.isActive && b.isActive)
 	{
 		return false;
 	}
+
 	// sort declarations
-	if(a.isDeclaration && !b.isDeclaration)
+	if (a.isDeclaration && !b.isDeclaration)
 	{
 		return true;
 	}
@@ -37,14 +34,16 @@ bool CodeView::CodeSnippetParams::sort( CodeSnippetParams a, CodeSnippetParams b
 	{
 		return false;
 	}
-	else
+
+	// different files
+	if (a.locationFile.getFilePath() != b.locationFile.getFilePath())
 	{
 		// first header
-		if( FileSystem::filePathWithoutExtension(a.locationFile.getFilePath())
-			== FileSystem::filePathWithoutExtension(b.locationFile.getFilePath()) )
+		if (FileSystem::filePathWithoutExtension(a.locationFile.getFilePath()) ==
+			FileSystem::filePathWithoutExtension(b.locationFile.getFilePath()))
 		{
-			return FileSystem::extension(a.locationFile.getFilePath())
-				> FileSystem::extension(b.locationFile.getFilePath());
+			return FileSystem::extension(a.locationFile.getFilePath()) >
+				FileSystem::extension(b.locationFile.getFilePath());
 		}
 		// alphabetical filepath without extension
 		else
@@ -53,6 +52,8 @@ bool CodeView::CodeSnippetParams::sort( CodeSnippetParams a, CodeSnippetParams b
 				< FileSystem::filePathWithoutExtension(b.locationFile.getFilePath());
 		}
 	}
+
+	return a.startLineNumber < b.startLineNumber;
 }
 
 CodeView::CodeView(ViewLayout* viewLayout)

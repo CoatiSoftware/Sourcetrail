@@ -28,6 +28,11 @@ QtCodeFileList::~QtCodeFileList()
 {
 }
 
+QSize QtCodeFileList::sizeHint() const
+{
+	return QSize(800, 800);
+}
+
 void QtCodeFileList::addCodeSnippet(
 	uint startLineNumber,
 	const std::string& code,

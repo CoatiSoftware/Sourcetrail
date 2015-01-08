@@ -20,6 +20,8 @@ public:
 	QtCodeFileList(QWidget* parent = 0);
 	virtual ~QtCodeFileList();
 
+	virtual QSize sizeHint() const;
+
 	void addCodeSnippet(
 		uint startLineNumber,
 		const std::string& code,

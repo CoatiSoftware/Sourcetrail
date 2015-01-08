@@ -47,7 +47,7 @@ std::string DataType::getRawTypeName() const
 	return utility::join(m_typeNameHierarchy, "::");
 }
 
-std::vector<std::string> DataType::getTypeNameHierarchy() const
+const std::vector<std::string>& DataType::getTypeNameHierarchy() const
 {
 	return m_typeNameHierarchy;
 }

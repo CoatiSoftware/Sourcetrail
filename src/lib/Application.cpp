@@ -7,7 +7,7 @@
 #include "data/access/LocationAccessProxy.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/MessageQueue.h"
-#include "utility/messaging/type/MessageActivateToken.h"
+#include "utility/messaging/type/MessageActivateTokens.h"
 
 std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 {
@@ -48,7 +48,7 @@ void Application::loadProject(const std::string& projectSettingsFilePath)
 	m_project->loadProjectSettings(projectSettingsFilePath);
 	m_project->parseCode();
 
-	MessageActivateToken(1).dispatch();
+	activateInitialNode();
 }
 
 void Application::loadSource(const std::string& sourceDirectoryPath)
@@ -59,7 +59,7 @@ void Application::loadSource(const std::string& sourceDirectoryPath)
 	m_project->setSourceDirectoryPath(sourceDirectoryPath);
 	m_project->parseCode();
 
-	MessageActivateToken(1).dispatch();
+	activateInitialNode();
 }
 
 void Application::reloadProject()
@@ -67,7 +67,7 @@ void Application::reloadProject()
 	m_project->clearStorage();
 	m_project->parseCode();
 
-	MessageActivateToken(1).dispatch();
+	activateInitialNode();
 }
 
 void Application::saveProject(const std::string& projectSettingsFilePath)
@@ -76,6 +76,18 @@ void Application::saveProject(const std::string& projectSettingsFilePath)
 	{
 		LOG_ERROR("No Project Settings File defined");
 	}
+}
+
+void Application::activateInitialNode() const
+{
+	Id mainId = m_graphAccessProxy->getIdForNodeWithName("main");
+
+	if (!mainId)
+	{
+		mainId = 1;
+	}
+
+	MessageActivateTokens(mainId).dispatch();
 }
 
 void Application::handleMessage(MessageLoadProject* message)

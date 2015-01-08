@@ -31,15 +31,29 @@ GraphController::~GraphController()
 {
 }
 
-void GraphController::handleMessage(MessageActivateToken* message)
-{
-	std::vector<Id> activeTokenIds(1, message->tokenId);
-	createDummyGraphForTokenIds(activeTokenIds);
-}
-
 void GraphController::handleMessage(MessageActivateTokens* message)
 {
-	createDummyGraphForTokenIds(message->tokenIds);
+	if (message->isEdge && message->tokenIds.size() == 1)
+	{
+		m_currentActiveTokenIds = m_activeTokenIds;
+		m_currentActiveTokenIds.push_back(message->tokenIds[0]);
+
+		setActiveAndVisibility(m_currentActiveTokenIds);
+		getView()->rebuildGraph(nullptr, m_dummyNodes, m_dummyEdges);
+		return;
+	}
+
+	if (message->isAggregation)
+	{
+		m_activeTokenIds.clear();
+		m_currentActiveTokenIds = message->tokenIds;
+
+		createDummyGraphForTokenIds(m_currentActiveTokenIds);
+		return;
+	}
+
+	setActiveTokenIds(message->tokenIds);
+	createDummyGraphForTokenIds(m_activeTokenIds);
 }
 
 void GraphController::handleMessage(MessageGraphNodeExpand* message)
@@ -49,7 +63,7 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 	{
 		node->expanded = !node->expanded;
 
-		setActiveAndVisibility(m_activeTokenIds);
+		setActiveAndVisibility(m_currentActiveTokenIds);
 		layoutNesting();
 
 		getView()->rebuildGraph(nullptr, m_dummyNodes, m_dummyEdges);
@@ -70,6 +84,12 @@ GraphView* GraphController::getView() const
 	return Controller::getView<GraphView>();
 }
 
+void GraphController::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
+{
+	m_activeTokenIds = activeTokenIds;
+	m_currentActiveTokenIds = activeTokenIds;
+}
+
 void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenIds)
 {
 	const GraphLayouter::LayoutFunction layoutFunction = &GraphLayouter::layoutSimpleRaster;
@@ -82,7 +102,6 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	}
 
 	std::shared_ptr<Graph> graph = m_graphAccess->getGraphForActiveTokenIds(tokenIds);
-
 
 	m_dummyEdges.clear();
 
@@ -106,7 +125,6 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 
 	m_dummyNodes = dummyNodes;
 
-	m_activeTokenIds = tokenIds;
 	setActiveAndVisibility(tokenIds);
 
 	layoutNesting();
@@ -202,6 +220,7 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 	for (DummyEdge& edge : m_dummyEdges)
 	{
 		edge.visible = true;
+		edge.active = false;
 		if (find(activeTokenIds.begin(), activeTokenIds.end(), edge.data->getId()) != activeTokenIds.end())
 		{
 			edge.active = true;
@@ -244,7 +263,8 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode& node) const
 	for (DummyNode& subNode : node.subNodes)
 	{
 		if (subNode.accessType != TokenComponentAccess::ACCESS_NONE || node.expanded ||
-			(node.data && node.data->getType() == Node::NODE_ENUM))
+			(node.data && node.data->isType(Node::NODE_ENUM)) ||
+			(node.active && node.data && node.data->isType(Node::NODE_NAMESPACE | Node::NODE_UNDEFINED)))
 		{
 			setNodeVisibilityRecursiveTopDown(subNode);
 		}

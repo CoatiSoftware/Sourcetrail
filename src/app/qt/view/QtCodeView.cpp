@@ -11,8 +11,8 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
 	, m_refreshViewFunctor(std::bind(&QtCodeView::doRefreshView, this))
 	, m_clearCodeSnippetsFunctor(std::bind(&QtCodeView::doClearCodeSnippets, this))
+	, m_showCodeSnippetsFunctor(std::bind(&QtCodeView::doShowCodeSnippets, this, std::placeholders::_1))
 	, m_showCodeFileFunctor(std::bind(&QtCodeView::doShowCodeFile, this, std::placeholders::_1))
-	, m_addCodeSnippetFunctor(std::bind(&QtCodeView::doAddCodeSnippet, this, std::placeholders::_1))
 {
 	m_widget = createQtCodeFileList();
 }
@@ -35,19 +35,24 @@ void QtCodeView::refreshView()
 	m_refreshViewFunctor();
 }
 
-void QtCodeView::showCodeFile(const CodeSnippetParams& params)
-{
-	m_showCodeFileFunctor(params);
-}
-
-void QtCodeView::addCodeSnippet(const CodeSnippetParams& params)
-{
-	m_addCodeSnippetFunctor(params);
-}
-
 void QtCodeView::clearCodeSnippets()
 {
 	m_clearCodeSnippetsFunctor();
+}
+
+void QtCodeView::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
+{
+	m_activeTokenIds = activeTokenIds;
+}
+
+void QtCodeView::showCodeSnippets(const std::vector<CodeSnippetParams>& snippets)
+{
+	m_showCodeSnippetsFunctor(snippets);
+}
+
+void QtCodeView::showCodeFile(const CodeSnippetParams& params)
+{
+	m_showCodeFileFunctor(params);
 }
 
 void QtCodeView::doRefreshView()
@@ -58,6 +63,27 @@ void QtCodeView::doRefreshView()
 	for (std::shared_ptr<QtCodeFileList> window: m_windows)
 	{
 		setStyleSheet(window.get());
+	}
+}
+
+void QtCodeView::doClearCodeSnippets()
+{
+	m_widget->clearCodeSnippets();
+}
+
+void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets)
+{
+	doClearCodeSnippets();
+
+	clearClosedWindows();
+	for (std::shared_ptr<QtCodeFileList> window: m_windows)
+	{
+		window->setActiveTokenIds(m_activeTokenIds);
+	}
+
+	for (const CodeSnippetParams& params : snippets)
+	{
+		m_widget->addCodeSnippet(params.startLineNumber, params.code, params.locationFile, m_activeTokenIds);
 	}
 }
 
@@ -79,22 +105,6 @@ void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
 	ptr->verticalScrollBar()->setValue(min + (max - min) * percent);
 }
 
-void QtCodeView::doAddCodeSnippet(const CodeSnippetParams& params)
-{
-	m_widget->addCodeSnippet(params.startLineNumber, params.code, params.locationFile, m_activeTokenIds);
-
-	clearClosedWindows();
-	for (std::shared_ptr<QtCodeFileList> window: m_windows)
-	{
-		window->setActiveTokenIds(m_activeTokenIds);
-	}
-}
-
-void QtCodeView::doClearCodeSnippets()
-{
-	m_widget->clearCodeSnippets();
-}
-
 std::shared_ptr<QtCodeFileList> QtCodeView::createQtCodeFileList() const
 {
 	std::shared_ptr<QtCodeFileList> ptr = std::make_shared<QtCodeFileList>();
@@ -105,11 +115,6 @@ std::shared_ptr<QtCodeFileList> QtCodeView::createQtCodeFileList() const
 void QtCodeView::setStyleSheet(QWidget* widget) const
 {
 	widget->setStyleSheet(TextAccess::createFromFile("data/gui/code_view/code_view.css")->getText().c_str());
-}
-
-void QtCodeView::setActiveTokenIds(std::vector<Id> ids)
-{
-	m_activeTokenIds = ids;		
 }
 
 void QtCodeView::clearClosedWindows()

@@ -194,7 +194,7 @@ add_files(
 	utility/math/Vector4.h
 	utility/math/VectorBase.h
 
-	utility/messaging/type/MessageActivateToken.h
+	utility/messaging/type/MessageActivateTokenLocation.h
 	utility/messaging/type/MessageActivateTokens.h
 	utility/messaging/type/MessageError.h
 	utility/messaging/type/MessageFind.h

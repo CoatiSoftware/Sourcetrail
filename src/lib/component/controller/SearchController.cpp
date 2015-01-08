@@ -5,7 +5,7 @@
 
 SearchController::SearchController(GraphAccess* graphAccess)
 	: m_graphAccess(graphAccess)
-	, m_ignoreNextMessageActivateToken(false)
+	, m_ignoreNextMessageActivateTokens(false)
 {
 }
 
@@ -13,27 +13,18 @@ SearchController::~SearchController()
 {
 }
 
-void SearchController::handleMessage(MessageActivateToken* message)
+void SearchController::handleMessage(MessageActivateTokens* message)
 {
-	if (!m_ignoreNextMessageActivateToken && message->tokenId)
+	if (!m_ignoreNextMessageActivateTokens && message->tokenIds.size())
 	{
 		SearchMatch match;
-		match.fullName = m_graphAccess->getNameForNodeWithId(message->tokenId);
-		match.tokenIds.insert(message->tokenId);
+		match.fullName = m_graphAccess->getNameForNodeWithId(message->tokenIds[0]);
+		match.tokenIds.insert(message->tokenIds[0]);
 
 		getView()->setText(match.encodeForQuery());
 	}
 
-	m_ignoreNextMessageActivateToken = false;
-}
-
-void SearchController::handleMessage(MessageActivateTokens* message)
-{
-	if (message->tokenIds.size())
-	{
-		MessageActivateToken tokenMessage(message->tokenIds[0]);
-		handleMessage(&tokenMessage);
-	}
+	m_ignoreNextMessageActivateTokens = false;
 }
 
 void SearchController::handleMessage(MessageFind* message)
@@ -52,7 +43,7 @@ void SearchController::handleMessage(MessageSearch* message)
 
 	LOG_INFO("search string: \"" + query + "\"");
 
-	m_ignoreNextMessageActivateToken = true;
+	m_ignoreNextMessageActivateTokens = true;
 
 	std::vector<Id> ids = m_graphAccess->getTokenIdsForQuery(query);
 	if (!ids.size())

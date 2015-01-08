@@ -54,7 +54,19 @@ bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 				convertAccessType(declaration->getAccess()),
 				getParseLocationOfRecordBody(declaration)
 			);
+		}
+		else if (declaration->isStruct())
+		{
+			m_client->onStructParsed(
+				getParseLocationForNamedDecl(declaration),
+				utility::getDeclNameHierarchy(declaration),
+				convertAccessType(declaration->getAccess()),
+				getParseLocationOfRecordBody(declaration)
+			);
+		}
 
+		if (declaration->isClass() || declaration->isStruct())
+		{
 			if (declaration->hasDefinition() && declaration->getNumBases())
 			{
 				for (const clang::CXXBaseSpecifier& it : declaration->bases())
@@ -67,16 +79,6 @@ bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 					);
 				}
 			}
-		}
-		else if (declaration->isStruct())
-		{
-			m_client->onStructParsed(
-				getParseLocationForNamedDecl(declaration),
-				utility::getDeclNameHierarchy(declaration),
-				convertAccessType(declaration->getAccess()),
-				getParseLocationOfRecordBody(declaration)
-			);
-			// TODO: what about struct inheritance?
 		}
 	}
 
@@ -438,6 +440,22 @@ void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::VarDecl* decl, clang::CX
 	);
 }
 
+void ASTVisitor::VisitCXXNewExprInDeclBody(clang::FunctionDecl* decl, clang::CXXNewExpr* expr)
+{
+	m_client->onTypeUsageParsed(
+		getParseTypeUsage(expr->getAllocatedTypeSourceInfo()->getTypeLoc(), expr->getAllocatedType()),
+		getParseFunction(decl)
+	);
+}
+
+void ASTVisitor::VisitCXXNewExprInDeclBody(clang::VarDecl* decl, clang::CXXNewExpr* expr)
+{
+	m_client->onTypeUsageParsed(
+		getParseTypeUsage(expr->getAllocatedTypeSourceInfo()->getTypeLoc(), expr->getAllocatedType()),
+		getParseVariable(decl)
+	);
+}
+
 void ASTVisitor::VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr)
 {
 	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
@@ -452,7 +470,7 @@ void ASTVisitor::VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::Mem
 	);
 }
 
-void ASTVisitor::VisitDeclRefExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr)
+void ASTVisitor::VisitGlobalVariableExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr)
 {
 	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
 
@@ -462,6 +480,34 @@ void ASTVisitor::VisitDeclRefExprInDeclBody(clang::FunctionDecl* decl, clang::De
 	m_client->onGlobalVariableUsageParsed(
 		parseLocation,
 		getParseFunction(decl),
+		utility::getDeclNameHierarchy(expr->getDecl())
+	);
+}
+
+void ASTVisitor::VisitEnumExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr)
+{
+	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
+
+	const std::string exprName = expr->getNameInfo().getAsString();
+	parseLocation.endColumnNumber += exprName.size() - 1;
+
+	m_client->onEnumFieldUsageParsed(
+		parseLocation,
+		getParseFunction(decl),
+		utility::getDeclNameHierarchy(expr->getDecl())
+	);
+}
+
+void ASTVisitor::VisitEnumExprInDeclBody(clang::VarDecl* decl, clang::DeclRefExpr* expr)
+{
+	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
+
+	const std::string exprName = expr->getNameInfo().getAsString();
+	parseLocation.endColumnNumber += exprName.size() - 1;
+
+	m_client->onEnumFieldUsageParsed(
+		parseLocation,
+		getParseVariable(decl),
 		utility::getDeclNameHierarchy(expr->getDecl())
 	);
 }
@@ -478,12 +524,6 @@ bool ASTVisitor::hasValidLocation(const clang::Decl* declaration) const
 {
 	const clang::SourceLocation& location = declaration->getLocStart();
 	return location.isValid() && m_context->getSourceManager().isWrittenInMainFile(location);
-}
-
-std::string ASTVisitor::getTypeName(const clang::QualType& qualType) const
-{
-	DataType dataType = utility::qualTypeToDataType(qualType);
-	return dataType.getRawTypeName();
 }
 
 ParserClient::AccessType ASTVisitor::convertAccessType(clang::AccessSpecifier access) const

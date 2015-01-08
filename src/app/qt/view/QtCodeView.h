@@ -24,26 +24,26 @@ public:
 	virtual void refreshView();
 
 	// CodeView implementation
-	virtual void showCodeFile(const CodeSnippetParams& params);
-	virtual void addCodeSnippet(const CodeSnippetParams& params);
 	virtual void clearCodeSnippets();
+	virtual void setActiveTokenIds(const std::vector<Id>& activeTokenIds);
+	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets);
+	virtual void showCodeFile(const CodeSnippetParams& params);
 
 private:
 	void doRefreshView();
-	void doShowCodeFile(const CodeSnippetParams& params);
-	void doAddCodeSnippet(const CodeSnippetParams& params);
 	void doClearCodeSnippets();
+	void doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets);
+	void doShowCodeFile(const CodeSnippetParams& params);
 
 	std::shared_ptr<QtCodeFileList> createQtCodeFileList() const;
 
 	void setStyleSheet(QWidget* widget) const;
-	void setActiveTokenIds(std::vector<Id> ids);
 	void clearClosedWindows();
 
 	QtThreadedFunctor<> m_refreshViewFunctor;
 	QtThreadedFunctor<> m_clearCodeSnippetsFunctor;
+	QtThreadedFunctor<const std::vector<CodeSnippetParams>&> m_showCodeSnippetsFunctor;
 	QtThreadedFunctor<const CodeSnippetParams&> m_showCodeFileFunctor;
-	QtThreadedFunctor<const CodeSnippetParams&> m_addCodeSnippetFunctor;
 
 	std::shared_ptr<QtCodeFileList> m_widget;
 	std::vector<std::shared_ptr<QtCodeFileList>> m_windows;

@@ -352,7 +352,7 @@ public:
 		TS_ASSERT(isValidLocation(locations[0], 1));
 	}
 
-	void test_storage_saves_inheritance()
+	void test_storage_saves_class_inheritance()
 	{
 		TestStorage storage;
 		storage.onClassParsed(validLocation(), utility::splitToVector("ClassA", "::"), ParserClient::ACCESS_NONE, validLocation());
@@ -371,6 +371,31 @@ public:
 
 		TS_ASSERT_EQUALS(edge->getFrom()->getFullName(), "ClassB");
 		TS_ASSERT_EQUALS(edge->getTo()->getFullName(), "ClassA");
+
+		std::vector<TokenLocation*> locations = storage.getLocationsForId(id);
+		TS_ASSERT_EQUALS(locations.size(), 1);
+		TS_ASSERT(isValidLocation(locations[0], 5));
+	}
+
+	void test_storage_saves_struct_inheritance()
+	{
+		TestStorage storage;
+		storage.onStructParsed(validLocation(), utility::splitToVector("StructA", "::"), ParserClient::ACCESS_NONE, validLocation());
+		storage.onStructParsed(validLocation(), utility::splitToVector("StructB", "::"), ParserClient::ACCESS_NONE, validLocation());
+		Id id =
+			storage.onInheritanceParsed(validLocation(5), utility::splitToVector("StructB", "::"),
+			utility::splitToVector("StructA", "::"), ParserClient::ACCESS_PUBLIC
+		);
+
+		Edge* edge = storage.getEdgeWithId(id);
+		TS_ASSERT(edge);
+		TS_ASSERT_EQUALS(edge->getType(), Edge::EDGE_INHERITANCE);
+
+		TS_ASSERT(edge->getComponent<TokenComponentAccess>());
+		TS_ASSERT_EQUALS(edge->getComponent<TokenComponentAccess>()->getAccess(), TokenComponentAccess::ACCESS_PUBLIC);
+
+		TS_ASSERT_EQUALS(edge->getFrom()->getFullName(), "StructB");
+		TS_ASSERT_EQUALS(edge->getTo()->getFullName(), "StructA");
 
 		std::vector<TokenLocation*> locations = storage.getLocationsForId(id);
 		TS_ASSERT_EQUALS(locations.size(), 1);

@@ -20,6 +20,8 @@ public:
 	QtSearchBar();
 	virtual ~QtSearchBar();
 
+	virtual QSize sizeHint() const;
+
 	void setText(const std::string& text);
 	void setFocus();
 	void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList);

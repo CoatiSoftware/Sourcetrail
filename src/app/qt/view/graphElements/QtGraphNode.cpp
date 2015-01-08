@@ -4,7 +4,7 @@
 #include <QGraphicsSceneEvent>
 #include <QPen>
 
-#include "utility/messaging/type/MessageActivateToken.h"
+#include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 
 #include "qt/graphics/QtGraphicsRoundedRectItem.h"
@@ -395,7 +395,7 @@ void QtGraphNode::onClick()
 {
 	if (m_data && !m_data->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE))
 	{
-		MessageActivateToken(m_data->getId()).dispatch();
+		MessageActivateTokens(m_data->getId()).dispatch();
 	}
 }
 

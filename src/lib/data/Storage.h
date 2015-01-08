@@ -62,11 +62,19 @@ public:
 		const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee);
 	virtual Id onCallParsed(
 		const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee);
+	Id onVariableUsageParsed(
+		const std::string kind, const ParseLocation& location, const ParseFunction& user,
+		const std::vector<std::string>& usedNameHierarchy); // helper
 	virtual Id onFieldUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy);
 	virtual Id onGlobalVariableUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy);
+	virtual Id onEnumFieldUsageParsed(
+		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy);
+	virtual Id onEnumFieldUsageParsed(
+		const ParseLocation& location, const ParseVariable& user, const std::vector<std::string>& usedNameHierarchy);
 	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function);
+	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseVariable& variable);
 
 	virtual Id onTemplateRecordParameterTypeParsed(
 		const ParseLocation& location, const std::string& templateParameterTypeName,
@@ -87,7 +95,8 @@ public:
 
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const;
 
-	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id& declarationId) const;
+	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const;
+	virtual std::vector<Id> getActiveTokenIdsForLocationId(Id locationId) const;
 	virtual std::vector<Id> getLocationIdsForTokenIds(const std::vector<Id>& tokenIds) const;
 
 	virtual std::vector<Id> getTokenIdsForQuery(std::string query) const;
@@ -105,8 +114,8 @@ protected:
 	const SearchIndex& getSearchIndex() const;
 
 private:
-	Node* addNodeHierarchy(Node::NodeType type, std::vector<std::string> nameHierarchy);
 
+	Node* addNodeHierarchy(Node::NodeType type, std::vector<std::string> nameHierarchy);
 	Node* addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function);
 
 	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;

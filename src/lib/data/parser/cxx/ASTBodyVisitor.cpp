@@ -62,6 +62,20 @@ void ASTBodyVisitor::VisitCXXConstructExpr(clang::CXXConstructExpr* expr)
 	VisitStmt(expr);
 }
 
+void ASTBodyVisitor::VisitCXXNewExpr(clang::CXXNewExpr* expr)
+{
+	if (m_functionDecl)
+	{
+		m_client->VisitCXXNewExprInDeclBody(m_functionDecl, expr);
+	}
+	else
+	{
+		m_client->VisitCXXNewExprInDeclBody(m_varDecl, expr);
+	}
+
+	VisitStmt(expr);
+}
+
 void ASTBodyVisitor::VisitMemberExpr(clang::make_ptr<clang::MemberExpr>::type expr)
 {
 	if (expr->getMemberDecl()->getKind() == clang::Decl::Kind::Field)
@@ -75,7 +89,18 @@ void ASTBodyVisitor::VisitDeclRefExpr(clang::make_ptr<clang::DeclRefExpr>::type 
 {
 	if (expr->getDecl()->getKind() == clang::Decl::Var && expr->getDecl()->isDefinedOutsideFunctionOrMethod())
 	{
-		m_client->VisitDeclRefExprInDeclBody(m_functionDecl, expr);
+		m_client->VisitGlobalVariableExprInDeclBody(m_functionDecl, expr);
+	}
+	else if (expr->getDecl()->getKind() == clang::Decl::EnumConstant)
+	{
+		if (m_functionDecl)
+		{
+			m_client->VisitEnumExprInDeclBody(m_functionDecl, expr);
+		}
+		else
+		{
+			m_client->VisitEnumExprInDeclBody(m_varDecl, expr);
+		}
 	}
 	VisitStmt(expr);
 }

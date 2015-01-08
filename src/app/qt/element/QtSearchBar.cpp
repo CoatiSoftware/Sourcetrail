@@ -52,6 +52,11 @@ QtSearchBar::~QtSearchBar()
 {
 }
 
+QSize QtSearchBar::sizeHint() const
+{
+	return QSize(400, 100);
+}
+
 void QtSearchBar::setText(const std::string& text)
 {
 	m_searchBox->setQuery(text);

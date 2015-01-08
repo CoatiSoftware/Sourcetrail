@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageActivateToken.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
@@ -21,7 +20,6 @@ class Node;
 
 class GraphController
 	: public Controller
-	, public MessageListener<MessageActivateToken>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageGraphNodeExpand>
 	, public MessageListener<MessageGraphNodeMove>
@@ -48,12 +46,13 @@ public:
 	~GraphController();
 
 private:
-	virtual void handleMessage(MessageActivateToken* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageGraphNodeExpand* message);
 	virtual void handleMessage(MessageGraphNodeMove* message);
 
 	GraphView* getView() const;
+
+	void setActiveTokenIds(const std::vector<Id>& activeTokenIds);
 
 	void createDummyGraphForTokenIds(const std::vector<Id>& tokenIds);
 	DummyNode createDummyNodeTopDown(Node* node);
@@ -77,6 +76,7 @@ private:
 	std::vector<DummyEdge> m_dummyEdges;
 
 	std::vector<Id> m_activeTokenIds;
+	std::vector<Id> m_currentActiveTokenIds;
 };
 
 #endif // GRAPH_CONTROLLER_H

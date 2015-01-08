@@ -88,6 +88,9 @@ Storage.cpp INFO: enum field: VALUE <file.cpp 1:1 1:1>
 Storage.cpp INFO: class: ClassA <file.cpp 1:0 1:0>
 Storage.cpp INFO: class: ClassB <file.cpp 1:0 1:0>
 Storage.cpp INFO: inheritance: ClassB : ClassA <file.cpp 1:5 1:5>
+Storage.cpp INFO: struct: StructA <file.cpp 1:0 1:0>
+Storage.cpp INFO: struct: StructB <file.cpp 1:0 1:0>
+Storage.cpp INFO: inheritance: StructB : StructA <file.cpp 1:5 1:5>
 Storage.cpp INFO: function: isTrue <file.cpp 1:0 1:0>
 Storage.cpp INFO: function: func <file.cpp 1:0 1:0>
 Storage.cpp INFO: call: isTrue -> func <file.cpp 1:9 1:9>

@@ -1,14 +1,11 @@
 #include "component/controller/CodeController.h"
 
-#include "component/view/CodeView.h"
 #include "data/access/GraphAccess.h"
 #include "data/access/LocationAccess.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/location/TokenLocationFile.h"
 #include "utility/text/TextAccess.h"
-
-const uint CodeController::s_lineRadius = 2;
 
 CodeController::CodeController(GraphAccess* graphAccess, LocationAccess* locationAccess)
 	: m_graphAccess(graphAccess)
@@ -20,16 +17,63 @@ CodeController::~CodeController()
 {
 }
 
-void CodeController::setActiveTokenIds(const std::vector<Id>& ids, Id activeId, Id declarationId)
-{
-	getView()->clearCodeSnippets();
-	getView()->setActiveTokenIds(ids);
+const uint CodeController::s_lineRadius = 2;
 
+void CodeController::handleMessage(MessageActivateTokenLocation* message)
+{
+	if (message->locationId)
+	{
+		std::vector<Id> activeTokenIds = m_graphAccess->getActiveTokenIdsForLocationId(message->locationId);
+		MessageActivateTokens(activeTokenIds).dispatch();
+	}
+}
+
+void CodeController::handleMessage(MessageActivateTokens* message)
+{
+	std::vector<Id> activeTokenIds = message->tokenIds;
+	Id declarationId = 0;
+
+	if (activeTokenIds.size() == 1)
+	{
+		activeTokenIds = m_graphAccess->getActiveTokenIdsForId(activeTokenIds[0], &declarationId);
+	}
+
+	getView()->setActiveTokenIds(activeTokenIds);
+	getView()->showCodeSnippets(getSnippetsForActiveTokenIds(activeTokenIds, declarationId));
+}
+
+void CodeController::handleMessage(MessageRefresh* message)
+{
+	getView()->refreshView();
+}
+
+void CodeController::handleMessage(MessageShowFile* message)
+{
+	CodeView::CodeSnippetParams params;
+	params.startLineNumber = message->startLineNumber;
+	params.endLineNumber = message->endLineNumber;
+
+	std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(message->filePath);
+	params.lineCount = textAccess->getLineCount();
+	params.code = textAccess->getText();
+
+	params.locationFile = m_locationAccess->getTokenLocationsForFile(message->filePath);
+
+	getView()->showCodeFile(params);
+}
+
+CodeView* CodeController::getView()
+{
+	return Controller::getView<CodeView>();
+}
+
+std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTokenIds(
+	const std::vector<Id>& ids, Id declarationId
+) const {
 	std::vector<Id> locationIds = m_graphAccess->getLocationIdsForTokenIds(ids);
+	TokenLocationCollection collection = m_locationAccess->getTokenLocationsForLocationIds(locationIds);
 
 	std::vector<CodeView::CodeSnippetParams> snippets;
-
-	TokenLocationCollection collection = m_locationAccess->getTokenLocationsForLocationIds(locationIds);
 
 	collection.forEachTokenLocationFile(
 		[&](TokenLocationFile* file) -> void
@@ -38,6 +82,7 @@ void CodeController::setActiveTokenIds(const std::vector<Id>& ids, Id activeId, 
 			std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
 
 			std::vector<std::pair<uint, uint>> ranges = getSnippetRangesForFile(file, s_lineRadius);
+			std::vector<CodeView::CodeSnippetParams> fileSnippets;
 
 			for (const std::pair<uint, uint>& range: ranges)
 			{
@@ -52,78 +97,40 @@ void CodeController::setActiveTokenIds(const std::vector<Id>& ids, Id activeId, 
 
 				params.startLineNumber = firstLineNumber;
 				params.locationFile =
-					m_locationAccess->getTokenLocationsForLinesInFile(filePath, firstLineNumber, lastLineNumber);	
-				params.locationFile.forEachTokenLocation(
-					[&](TokenLocation* location)
-				{
-					if(location->getTokenId() == activeId && activeId != 0)
-					{
-						params.isActive = true;
-					}
-					if(location->getTokenId() == declarationId && declarationId != 0)
-					{
-						params.isDeclaration = true;
-					}					
-				}	
-				);
+					m_locationAccess->getTokenLocationsForLinesInFile(filePath, firstLineNumber, lastLineNumber);
 
-				snippets.push_back(params);				
+				fileSnippets.push_back(params);
 			}
+
+			if (declarationId != 0)
+			{
+				bool isDeclarationFile = false;
+				for (const CodeView::CodeSnippetParams& snippet : fileSnippets)
+				{
+					snippet.locationFile.forEachTokenLocation(
+						[&](TokenLocation* location)
+						{
+							if (location->getTokenId() == declarationId)
+							{
+								isDeclarationFile = true;
+							}
+						}
+					);
+				}
+
+				for (CodeView::CodeSnippetParams& snippet : fileSnippets)
+				{
+					snippet.isDeclaration = isDeclarationFile;
+				}
+			}
+
+			snippets.insert(snippets.end(), fileSnippets.begin(), fileSnippets.end());
 		}
 	);
-	
+
 	std::sort(snippets.begin(), snippets.end(), CodeView::CodeSnippetParams::sort);
 
-	for( CodeView::CodeSnippetParams p : snippets)
-	{		
-		getView()->addCodeSnippet(p);			
-	}
-}
-
-void CodeController::handleMessage(MessageActivateToken* message)
-{
-	Id declarationId;
-	std::vector<Id> activeTokenIds = m_graphAccess->getActiveTokenIdsForId(message->tokenId, declarationId);
-	setActiveTokenIds(activeTokenIds, message->tokenId, declarationId);
-}
-
-void CodeController::handleMessage(MessageActivateTokens* message)
-{
-	if (message->tokenIds.size	() == 1)
-	{
-		Id declarationId;
-		std::vector<Id> activeTokenIds = m_graphAccess->getActiveTokenIdsForId(message->tokenIds[0], declarationId);
-		setActiveTokenIds(activeTokenIds, message->tokenIds[0], declarationId);
-	}
-	else
-	{
-		setActiveTokenIds(message->tokenIds, 0, 0);
-	}
-}
-
-void CodeController::handleMessage(MessageRefresh* message)
-{
-	getView()->refreshView();
-}
-
-void CodeController::handleMessage(MessageShowFile* message)
-{
-	CodeView::CodeSnippetParams params;
-	params.startLineNumber = message->startLineNumber;
-	params.endLineNumber = message->endLineNumber;
-	getView()->setActiveTokenIds(message->activeTokenIds);
-
-	std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(message->filePath);
-	params.lineCount = textAccess->getLineCount();
-	params.code = textAccess->getText();
-
-	params.locationFile = m_locationAccess->getTokenLocationsForFile(message->filePath);
-	getView()->showCodeFile(params);
-}
-
-CodeView* CodeController::getView()
-{
-	return Controller::getView<CodeView>();
+	return snippets;
 }
 
 std::vector<std::pair<uint, uint>> CodeController::getSnippetRangesForFile(

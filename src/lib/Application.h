@@ -35,6 +35,8 @@ public:
 private:
 	Application();
 
+	void activateInitialNode() const;
+
 	virtual void handleMessage(MessageLoadProject* message);
 	virtual void handleMessage(MessageLoadSource* message);
 	virtual void handleMessage(MessageRefresh* message);
