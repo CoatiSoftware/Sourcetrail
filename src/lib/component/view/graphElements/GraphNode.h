@@ -54,6 +54,7 @@ struct DummyNode
 		, connected(false)
 		, aggregated(false)
 		, expanded(false)
+		, autoExpanded(false)
 		, invisibleSubNodeCount(0)
 		, visible(false)
 	{
@@ -66,9 +67,15 @@ struct DummyNode
 		, connected(false)
 		, aggregated(false)
 		, expanded(false)
+		, autoExpanded(false)
 		, invisibleSubNodeCount(0)
 		, visible(false)
 	{
+	}
+
+	bool isExpanded() const
+	{
+		return expanded || autoExpanded;
 	}
 
 	const Node* data;
@@ -82,6 +89,7 @@ struct DummyNode
 	bool aggregated;
 
 	bool expanded;
+	bool autoExpanded;
 	size_t invisibleSubNodeCount;
 
 	bool visible;

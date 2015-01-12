@@ -36,11 +36,13 @@ public:
 
 	const std::set<std::shared_ptr<SearchNode>>& getChildren() const;
 
-	SearchResults runFuzzySearch(const std::string& query, bool recursive) const;
+	SearchResults runFuzzySearch(const std::string& query) const;
+	void addResultsRecursive(SearchResults& result, size_t weight, const SearchNode* node) const;
 
 private:
 	typedef std::multimap<size_t, const SearchNode*> FuzzyMap;
 	typedef FuzzyMap::const_iterator FuzzyMapIterator;
+
 
 	// Accessed by SearchIndex
 	std::shared_ptr<SearchNode> addNodeRecursive(std::deque<Id>* nameIds, const Dictionary& dictionary);

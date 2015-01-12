@@ -73,7 +73,7 @@ SearchNode* SearchIndex::getNode(const std::string& fullName) const
 
 SearchResults SearchIndex::runFuzzySearch(const std::string& query) const
 {
-	return m_root.runFuzzySearch(query, true);
+	return m_root.runFuzzySearch(query);
 }
 
 std::vector<SearchMatch> SearchIndex::runFuzzySearchAndGetMatches(const std::string& query) const

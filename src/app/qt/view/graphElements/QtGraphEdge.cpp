@@ -90,6 +90,11 @@ QtCorneredConnection::QtCorneredConnection(
 	, m_targetParentRect(targetParentRect)
 {
 	this->setAcceptHoverEvents(true);
+
+	m_ownerRect.x = m_ownerRect.x - 1;
+	m_ownerRect.z = m_ownerRect.z + 1;
+	m_targetRect.x = m_targetRect.x - 1;
+	m_targetRect.z = m_targetRect.z + 1;
 }
 
 QtCorneredConnection::~QtCorneredConnection()
@@ -214,8 +219,8 @@ void QtCorneredConnection::paint(QPainter *painter, const QStyleOptionGraphicsIt
 		}
 	}
 
-	int arrowLength = 3;
-	int arrowWidth = 6;
+	int arrowLength = 5;
+	int arrowWidth = 8;
 
 	QPointF arrow = poly.at(0) + QPointF((poly.at(0).x() - poly.at(1).x() > 0 ? -1 : 1) * arrowLength, -arrowWidth / 2);
 	path.lineTo(arrow);
@@ -410,7 +415,7 @@ void QtGraphEdge::updateLine()
 		break;
 	}
 
-	m_child->setPen(QPen(color, getPenWidth()));
+	m_child->setPen(QPen(color, getPenWidth(), Qt::SolidLine, Qt::RoundCap));
 
 	setIsActive(m_isActive);
 }
@@ -433,7 +438,7 @@ void QtGraphEdge::setIsActive(bool isActive)
 		else
 		{
 			QPen p = m_child->pen();
-			p.setWidth(getPenWidth() + 1);
+			p.setWidthF(getPenWidth() + 1);
 			m_child->setPen(p);
 		}
 		this->setZValue(getZValue(isActive));
@@ -447,7 +452,7 @@ void QtGraphEdge::setIsActive(bool isActive)
 		else
 		{
 			QPen p = m_child->pen();
-			p.setWidth(getPenWidth());
+			p.setWidthF(getPenWidth());
 			m_child->setPen(p);
 		}
 		this->setZValue(getZValue(isActive));
@@ -530,13 +535,13 @@ int QtGraphEdge::getZValue(bool active) const
 	return 1;
 }
 
-int QtGraphEdge::getPenWidth() const
+float QtGraphEdge::getPenWidth() const
 {
 	if (isAggregation())
 	{
 		return getAggregationCount() + 1;
 	}
-	return 1;
+	return 1.5;
 }
 
 int QtGraphEdge::getAggregationCount() const

@@ -190,7 +190,7 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	}
 	else
 	{
-		newNode = std::make_shared<QtGraphNodeAccess>(node.accessType, node.expanded, node.invisibleSubNodeCount);
+		newNode = std::make_shared<QtGraphNodeAccess>(node.accessType, node.isExpanded(), node.invisibleSubNodeCount);
 	}
 
 	newNode->setPosition(node.position);

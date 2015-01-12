@@ -61,7 +61,15 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 	DummyNode* node = findDummyNodeAccessRecursive(m_dummyNodes, message->tokenId, message->access);
 	if (node)
 	{
-		node->expanded = !node->expanded;
+		if (node->autoExpanded)
+		{
+			node->autoExpanded = false;
+			node->expanded = false;
+		}
+		else
+		{
+			node->expanded = !node->expanded;
+		}
 
 		setActiveAndVisibility(m_currentActiveTokenIds);
 		layoutNesting();
@@ -125,6 +133,7 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 
 	m_dummyNodes = dummyNodes;
 
+	autoExpandActiveNode(tokenIds);
 	setActiveAndVisibility(tokenIds);
 
 	layoutNesting();
@@ -210,6 +219,28 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 	return result;
 }
 
+void GraphController::autoExpandActiveNode(const std::vector<Id>& activeTokenIds)
+{
+	DummyNode* node = nullptr;
+	if (activeTokenIds.size() == 1)
+	{
+		node = findDummyNodeRecursive(m_dummyNodes, activeTokenIds[0]);
+	}
+
+	if (!node)
+	{
+		return;
+	}
+
+	if (node->data->isType(Node::NODE_CLASS | Node::NODE_STRUCT))
+	{
+		for (DummyNode& subNode : node->subNodes)
+		{
+			subNode.autoExpanded = true;
+		}
+	}
+}
+
 void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenIds)
 {
 	for (DummyNode& node : m_dummyNodes)
@@ -262,7 +293,7 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode& node) const
 
 	for (DummyNode& subNode : node.subNodes)
 	{
-		if (subNode.accessType != TokenComponentAccess::ACCESS_NONE || node.expanded ||
+		if (subNode.accessType != TokenComponentAccess::ACCESS_NONE || node.isExpanded() ||
 			(node.data && node.data->isType(Node::NODE_ENUM)) ||
 			(node.active && node.data && node.data->isType(Node::NODE_NAMESPACE | Node::NODE_UNDEFINED)))
 		{
@@ -308,7 +339,7 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 
 		layoutNestingRecursive(subNode);
 
-		if (subNode.data || subNode.expanded || subNode.invisibleSubNodeCount != subNode.subNodes.size())
+		if (subNode.data || subNode.isExpanded() || subNode.invisibleSubNodeCount != subNode.subNodes.size())
 		{
 			layoutHorizontal = false;
 		}
@@ -441,7 +472,7 @@ GraphController::Margins GraphController::getMarginsForDummyNode(DummyNode& node
 		{
 			margins.minWidth = 82;
 
-			if (node.expanded)
+			if (node.isExpanded())
 			{
 				margins.bottom = 15;
 			}

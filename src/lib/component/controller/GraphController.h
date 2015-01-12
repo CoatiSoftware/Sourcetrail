@@ -57,6 +57,8 @@ private:
 	void createDummyGraphForTokenIds(const std::vector<Id>& tokenIds);
 	DummyNode createDummyNodeTopDown(Node* node);
 
+	void autoExpandActiveNode(const std::vector<Id>& activeTokenIds);
+
 	void setActiveAndVisibility(const std::vector<Id>& activeTokenIds);
 	bool setNodeActiveAndVisibilityRecursiveBottomUp(
 		DummyNode& node, const std::vector<Id>& activeTokenIds, bool aggregated) const;

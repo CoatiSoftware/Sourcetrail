@@ -77,7 +77,7 @@ protected:
 private:
 	bool isAggregation() const;
 	int getZValue(bool active) const;
-	int getPenWidth() const;
+	float getPenWidth() const;
 	int getAggregationCount() const;
 
 	std::weak_ptr<GraphNode> m_owner;

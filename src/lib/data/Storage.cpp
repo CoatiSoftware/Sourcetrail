@@ -474,11 +474,8 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(
 		tokenResults = m_tokenIndex.runFuzzySearch(word);
 	}
 
-	if (word.size())
-	{
-		SearchResults filterResults = m_filterIndex.runFuzzySearch(word);
-		tokenResults.insert(filterResults.begin(), filterResults.end());
-	}
+	SearchResults filterResults = m_filterIndex.runFuzzySearch(word);
+	tokenResults.insert(filterResults.begin(), filterResults.end());
 
 	std::vector<SearchMatch> matches = SearchIndex::getMatches(tokenResults, word);
 	SearchMatch::log(matches, word);
@@ -904,7 +901,6 @@ bool Storage::getSubQuerySearchResults(
 	SearchResults* results
 ) const {
 	std::string q = query;
-	bool returnChilds = false;
 
 	if (QueryOperator::getOperatorType(q.back()) == QueryOperator::OPERATOR_SUB)
 	{
@@ -913,7 +909,6 @@ bool Storage::getSubQuerySearchResults(
 	else if (QueryOperator::getOperatorType(q.back()) == QueryOperator::OPERATOR_HAS)
 	{
 		q.pop_back();
-		returnChilds = true;
 	}
 	else if (QueryOperator::getOperatorType(q.back()) != QueryOperator::OPERATOR_NONE)
 	{
@@ -946,19 +941,19 @@ bool Storage::getSubQuerySearchResults(
 	{
 		if (word.size())
 		{
-			SearchResults res = node->runFuzzySearch(word, returnChilds);
+			SearchResults res = node->runFuzzySearch(word);
 			results->insert(res.begin(), res.end());
 		}
-		else if (returnChilds)
+		else if (searchNodes.size() == 1)
 		{
 			for (const std::shared_ptr<SearchNode>& child : node->getChildren())
 			{
-				results->insert(SearchResult(0, child.get(), child.get()));
+				child->addResultsRecursive(*results, 0, child.get());
 			}
 		}
-		else if (searchNodes.size() > 1)
+		else
 		{
-			results->insert(SearchResult(0, node, node));
+			node->addResultsRecursive(*results, 0, node);
 		}
 	}
 

@@ -189,8 +189,13 @@ public:
 
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
-		TS_ASSERT_EQUALS(1, matches.size());
+		TS_ASSERT_EQUALS(6, matches.size());
 		TS_ASSERT_EQUALS("util", matches[0].fullName);
+		TS_ASSERT_EQUALS("util::math", matches[1].fullName);
+		TS_ASSERT_EQUALS("util::math::ceil", matches[2].fullName);
+		TS_ASSERT_EQUALS("util::math::floor", matches[3].fullName);
+		TS_ASSERT_EQUALS("util::string", matches[4].fullName);
+		TS_ASSERT_EQUALS("util::string::concat", matches[5].fullName);
 
 		matches = index.runFuzzySearchAndGetMatches("uml");
 
@@ -208,9 +213,10 @@ public:
 
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("u:i");
 
-		TS_ASSERT_EQUALS(2, matches.size());
+		TS_ASSERT_EQUALS(3, matches.size());
 		TS_ASSERT_EQUALS("util::string", matches[0].fullName);
-		TS_ASSERT_EQUALS("util::math::ceil", matches[1].fullName);
+		TS_ASSERT_EQUALS("util::string::concat", matches[1].fullName);
+		TS_ASSERT_EQUALS("util::math::ceil", matches[2].fullName);
 
 		matches = index.runFuzzySearchAndGetMatches("u:t:i");
 

@@ -18,10 +18,11 @@ GraphFilterConductor::~GraphFilterConductor()
 {
 }
 
-void GraphFilterConductor::filter(const QueryTree* tree, const FilterableGraph* in, FilterableGraph* out) const
+void GraphFilterConductor::filter(const QueryTree* tree, const FilterableGraph* in, FilterableGraph* out)
 {
 	if (tree->isValid())
 	{
+		m_inGraph = in;
 		filterRecursively(tree->getRoot().get(), in, out);
 	}
 }
@@ -38,7 +39,7 @@ void GraphFilterConductor::filterRecursively(const QueryNode* node, const Filter
 	}
 	else if (node->isToken())
 	{
-		filterTokenNode(dynamic_cast<const QueryToken*>(node), in, out);
+		filterTokenNode(dynamic_cast<const QueryToken*>(node), out);
 	}
 }
 
@@ -172,7 +173,7 @@ void GraphFilterConductor::filterCommandNode(const QueryCommand* node, const Fil
 	}
 }
 
-void GraphFilterConductor::filterTokenNode(const QueryToken* node, const FilterableGraph* in, FilterableGraph* out) const
+void GraphFilterConductor::filterTokenNode(const QueryToken* node, FilterableGraph* out) const
 {
-	GraphFilterToken(node->getTokenName(), node->getTokenIds()).apply(in, out);
+	GraphFilterToken(node->getTokenName(), node->getTokenIds()).apply(m_inGraph, out);
 }
