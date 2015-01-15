@@ -60,3 +60,13 @@ TokenLocationFile LocationAccessProxy::getTokenLocationsForLinesInFile(
 
 	return TokenLocationFile("");
 }
+
+TokenLocationCollection LocationAccessProxy::getErrorTokenLocations(std::vector<std::string>* errorMessages) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getErrorTokenLocations(errorMessages);
+	}
+
+	return TokenLocationCollection();
+}

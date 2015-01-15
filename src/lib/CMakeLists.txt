@@ -13,6 +13,8 @@ add_files(
 	data/parser/cxx/ASTConsumer.h
 	data/parser/cxx/ASTVisitor.cpp
 	data/parser/cxx/ASTVisitor.h
+	data/parser/cxx/CxxDiagnosticConsumer.cpp
+	data/parser/cxx/CxxDiagnosticConsumer.h
 	data/parser/cxx/CxxParser.cpp
 	data/parser/cxx/CxxParser.h
 	data/parser/cxx/utilityCxx.cpp

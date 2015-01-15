@@ -56,6 +56,11 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 	createDummyGraphForTokenIds(m_activeTokenIds);
 }
 
+void GraphController::handleMessage(MessageFinishedParsing* message)
+{
+	getView()->clear();
+}
+
 void GraphController::handleMessage(MessageGraphNodeExpand* message)
 {
 	DummyNode* node = findDummyNodeAccessRecursive(m_dummyNodes, message->tokenId, message->access);
@@ -153,10 +158,26 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 
 			Edge* edge = child->getMemberEdge();
 			TokenComponentAccess* access = edge->getComponent<TokenComponentAccess>();
+			TokenComponentAccess::AccessType accessType = TokenComponentAccess::ACCESS_NONE;
+
 			if (access)
 			{
-				TokenComponentAccess::AccessType accessType = access->getAccess();
+				accessType = access->getAccess();
+			}
+			else
+			{
+				if (node->isType(Node::NODE_CLASS | Node::NODE_STRUCT))
+				{
+					accessType = TokenComponentAccess::ACCESS_PUBLIC;
+				}
+				else
+				{
+					parent = &result;
+				}
+			}
 
+			if (accessType != TokenComponentAccess::ACCESS_NONE)
+			{
 				for (DummyNode& dummy : result.subNodes)
 				{
 					if (dummy.accessType == accessType)
@@ -177,10 +198,6 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 						parent->expanded = oldParent->expanded;
 					}
 				}
-			}
-			else
-			{
-				parent = &result;
 			}
 
 			parent->subNodes.push_back(createDummyNodeTopDown(child));

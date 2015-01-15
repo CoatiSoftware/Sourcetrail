@@ -27,7 +27,11 @@ public:
 	void logGraph() const;
 	void logLocations() const;
 
+	size_t getErrorCount() const;
+
 	// ParserClient implementation
+	virtual void onError(const ParseLocation& location, const std::string& message);
+
 	virtual Id onTypedefParsed(
 		const ParseLocation& location, const std::vector<std::string>& nameHierarchy,
 		const ParseTypeUsage& underlyingType, AccessType access);
@@ -108,6 +112,8 @@ public:
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
 	) const;
 
+	virtual TokenLocationCollection getErrorTokenLocations(std::vector<std::string>* errorMessages) const;
+
 protected:
 	const Graph& getGraph() const;
 	const TokenLocationCollection& getTokenLocationCollection() const;
@@ -137,6 +143,9 @@ private:
 
 	SearchIndex m_tokenIndex;
 	SearchIndex m_filterIndex;
+
+	TokenLocationCollection m_errorLocationCollection;
+	std::vector<std::string> m_errorMessages;
 };
 
 #endif // STORAGE_H

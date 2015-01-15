@@ -48,6 +48,30 @@ void Storage::logLocations() const
 	LOG_INFO_STREAM(<< '\n' << m_locationCollection);
 }
 
+size_t Storage::getErrorCount() const
+{
+	return m_errorMessages.size();
+}
+
+void Storage::onError(const ParseLocation& location, const std::string& message)
+{
+	log("ERROR", message, location);
+
+	if (!location.isValid())
+	{
+		return;
+	}
+
+	Id errorId = m_errorMessages.size();
+
+	TokenLocation* loc = m_errorLocationCollection.addTokenLocation(
+		errorId, location.filePath,
+		location.startLineNumber, location.startColumnNumber,
+		location.endLineNumber, location.endColumnNumber
+	);
+
+	m_errorMessages.push_back(message);
+}
 
 Id Storage::onTypedefParsed(
 	const ParseLocation& location, const std::vector<std::string>& nameHierarchy, const ParseTypeUsage& underlyingType,
@@ -576,7 +600,6 @@ std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId, Id* declarationId) c
 
 	ret.push_back(token->getId());
 
-	Node* node;
 	if (token->isNode())
 	{
 		Node* node = dynamic_cast<Node*>(token);
@@ -742,6 +765,13 @@ TokenLocationFile Storage::getTokenLocationsForLinesInFile(
 	}
 
 	return ret;
+}
+
+TokenLocationCollection Storage::getErrorTokenLocations(std::vector<std::string>* errorMessages) const
+{
+	errorMessages->insert(errorMessages->begin(), m_errorMessages.begin(), m_errorMessages.end());
+
+	return m_errorLocationCollection;
 }
 
 const Graph& Storage::getGraph() const
@@ -941,8 +971,16 @@ bool Storage::getSubQuerySearchResults(
 	{
 		if (word.size())
 		{
-			SearchResults res = node->runFuzzySearch(word);
-			results->insert(res.begin(), res.end());
+			if (searchNodes.size() > 1)
+			{
+				SearchResults res = node->runFuzzySearchOnSelf(word);
+				results->insert(res.begin(), res.end());
+			}
+			else
+			{
+				SearchResults res = node->runFuzzySearch(word);
+				results->insert(res.begin(), res.end());
+			}
 		}
 		else if (searchNodes.size() == 1)
 		{

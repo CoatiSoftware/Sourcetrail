@@ -9,31 +9,34 @@
 
 #include "utility/types.h"
 
+class QtCodeFileList;
 class QtCodeSnippet;
 class TokenLocationFile;
 
 class QtCodeFile : public QWidget
 {
 public:
-	QtCodeFile(const std::string& filePath, QWidget *parent = 0);
+	QtCodeFile(const std::string& filePath, QtCodeFileList* parent);
 	virtual ~QtCodeFile();
 
+	const std::string& getFilePath() const;
 	std::string getFileName() const;
+	const std::vector<Id>& getActiveTokenIds() const;
+	const std::vector<std::string>& getErrorMessages() const;
 
 	void addCodeSnippet(
 		uint startLineNumber,
 		const std::string& code,
-		const TokenLocationFile& locationFile,
-		const std::vector<Id>& activeTokenIds
+		const TokenLocationFile& locationFile
 	);
 
-	void setActiveTokenIds(const std::vector<Id>& activeTokenIds);
-	void setShowMaximizeButton(bool show);
+	void update();
 
 private:
-	std::vector<std::shared_ptr<QtCodeSnippet> > m_snippets;
+	QtCodeFileList* m_parent;
+
+	std::vector<std::shared_ptr<QtCodeSnippet>> m_snippets;
 	const std::string m_filePath;
-	bool m_showMaximizeButton;
 };
 
 #endif // QT_CODE_FILE_H

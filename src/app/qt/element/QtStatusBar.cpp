@@ -17,5 +17,10 @@ void QtStatusBar::setText(const std::string& text, bool isError)
 	{
 		m_text.setStyleSheet("QLabel { color: red }");
 	}
+	else
+	{
+		m_text.setStyleSheet("");
+	}
+
 	m_text.setText(text.c_str());
 }

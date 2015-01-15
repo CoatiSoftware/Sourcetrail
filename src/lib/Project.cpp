@@ -102,12 +102,13 @@ void Project::parseCode()
 		);
 		time = clock() - time;
 
-		m_storage->logGraph();
-		m_storage->logLocations();
+		// m_storage->logGraph();
+		// m_storage->logLocations();
 
-		LOG_INFO_STREAM(<< "parse time: " << (double)(time) / CLOCKS_PER_SEC);
+		double parseTime = (double)(time) / CLOCKS_PER_SEC;
+		LOG_INFO_STREAM(<< "parse time: " << parseTime);
 
-		MessageFinishedParsing().dispatch();
+		MessageFinishedParsing(parseTime, m_storage->getErrorCount()).dispatch();
 	}
 }
 

@@ -25,19 +25,28 @@ public:
 	void addCodeSnippet(
 		uint startLineNumber,
 		const std::string& code,
-		const TokenLocationFile& locationFile,
-		const std::vector<Id>& activeTokenIds
+		const TokenLocationFile& locationFile
 	);
 
 	void clearCodeSnippets();
 
+	const std::vector<Id>& getActiveTokenIds() const;
 	void setActiveTokenIds(const std::vector<Id>& activeTokenIds);
+
+	const std::vector<std::string>& getErrorMessages() const;
+	void setErrorMessages(const std::vector<std::string>& errorMessages);
+
+	bool getShowMaximizeButton() const;
 	void setShowMaximizeButton(bool show);
 
 private:
-	std::shared_ptr<QFrame> m_frame;
-	std::vector<std::shared_ptr<QtCodeFile> > m_files;
+	void updateFiles();
 
+	std::shared_ptr<QFrame> m_frame;
+	std::vector<std::shared_ptr<QtCodeFile>> m_files;
+
+	std::vector<Id> m_activeTokenIds;
+	std::vector<std::string> m_errorMessages;
 	bool m_showMaximizeButton;
 };
 

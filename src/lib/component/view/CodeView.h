@@ -34,8 +34,9 @@ public:
 
 	virtual std::string getName() const;
 
-	virtual void clearCodeSnippets() = 0;
 	virtual void setActiveTokenIds(const std::vector<Id>& activeTokenIds) = 0;
+	virtual void setErrorMessages(const std::vector<std::string>& errorMessages) = 0;
+
 	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets) = 0;
 	virtual void showCodeFile(const CodeSnippetParams& params) = 0;
 

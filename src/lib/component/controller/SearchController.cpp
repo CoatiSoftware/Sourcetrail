@@ -32,6 +32,11 @@ void SearchController::handleMessage(MessageFind* message)
 	getView()->setFocus();
 }
 
+void SearchController::handleMessage(MessageFinishedParsing* message)
+{
+	getView()->setText("");
+}
+
 void SearchController::handleMessage(MessageRefresh* message)
 {
 	getView()->refreshView();

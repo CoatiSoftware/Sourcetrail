@@ -19,6 +19,8 @@ public:
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
 	) const;
 
+	virtual TokenLocationCollection getErrorTokenLocations(std::vector<std::string>* errorMessages) const;
+
 private:
 	LocationAccess* m_subject;
 };

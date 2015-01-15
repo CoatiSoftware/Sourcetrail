@@ -47,8 +47,6 @@ void Application::loadProject(const std::string& projectSettingsFilePath)
 
 	m_project->loadProjectSettings(projectSettingsFilePath);
 	m_project->parseCode();
-
-	activateInitialNode();
 }
 
 void Application::loadSource(const std::string& sourceDirectoryPath)
@@ -58,16 +56,12 @@ void Application::loadSource(const std::string& sourceDirectoryPath)
 	m_project->clearProjectSettings();
 	m_project->setSourceDirectoryPath(sourceDirectoryPath);
 	m_project->parseCode();
-
-	activateInitialNode();
 }
 
 void Application::reloadProject()
 {
 	m_project->clearStorage();
 	m_project->parseCode();
-
-	activateInitialNode();
 }
 
 void Application::saveProject(const std::string& projectSettingsFilePath)
@@ -78,8 +72,13 @@ void Application::saveProject(const std::string& projectSettingsFilePath)
 	}
 }
 
-void Application::activateInitialNode() const
+void Application::handleMessage(MessageFinishedParsing* message)
 {
+	if (message->errorCount > 0)
+	{
+		return;
+	}
+
 	Id mainId = m_graphAccessProxy->getIdForNodeWithName("main");
 
 	if (!mainId)

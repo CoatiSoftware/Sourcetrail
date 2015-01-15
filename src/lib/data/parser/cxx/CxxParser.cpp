@@ -1,8 +1,53 @@
 #include "data/parser/cxx/CxxParser.h"
 
-#include "data/parser/cxx/ASTActionFactory.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
+
+#include "data/parser/cxx/ASTActionFactory.h"
+#include "data/parser/cxx/CxxDiagnosticConsumer.h"
+
+namespace {
+
+static std::vector<std::string> getSyntaxOnlyToolArgs(const std::vector<std::string> &ExtraArgs, llvm::StringRef FileName)
+{
+	std::vector<std::string> Args;
+	Args.push_back("clang-tool");
+	Args.push_back("-fsyntax-only");
+	Args.insert(Args.end(), ExtraArgs.begin(), ExtraArgs.end());
+	Args.push_back(FileName.str());
+	return Args;
+}
+
+// custom implementation of clang::runToolOnCodeWithArgs which also sets our custon DiagnosticConsumer
+static bool runToolOnCodeWithArgs(
+	clang::DiagnosticConsumer* DiagConsumer,
+	clang::FrontendAction *ToolAction,
+	const llvm::Twine &Code,
+	const std::vector<std::string> &Args,
+	const llvm::Twine &FileName = "input.cc",
+	const clang::tooling::FileContentMappings &VirtualMappedFiles = clang::tooling::FileContentMappings()
+){
+	llvm::SmallString<16> FileNameStorage;
+	llvm::StringRef FileNameRef = FileName.toNullTerminatedStringRef(FileNameStorage);
+	llvm::IntrusiveRefCntPtr<clang::FileManager> Files(new clang::FileManager(clang::FileSystemOptions()));
+	clang::tooling::ToolInvocation Invocation(getSyntaxOnlyToolArgs(Args, FileNameRef), ToolAction, Files.get());
+
+	llvm::SmallString<1024> CodeStorage;
+	Invocation.mapVirtualFile(FileNameRef,
+	Code.toNullTerminatedStringRef(CodeStorage));
+
+	for (auto &FilenameWithContent : VirtualMappedFiles)
+	{
+		Invocation.mapVirtualFile(FilenameWithContent.first,
+		FilenameWithContent.second);
+	}
+
+	Invocation.setDiagnosticConsumer(DiagConsumer);
+
+	return Invocation.run();
+}
+
+}
 
 CxxParser::CxxParser(ParserClient* client)
 	: Parser(client)
@@ -68,15 +113,22 @@ void CxxParser::parseFiles(
 
 	clang::tooling::ClangTool tool(*compilationDatabase, filePaths);
 
-	ASTActionFactory actionFactory(m_client);
+	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
+	CxxDiagnosticConsumer reporter(llvm::errs(), &*options, m_client);
+	tool.setDiagnosticConsumer(&reporter);
 
+	ASTActionFactory actionFactory(m_client);
 	tool.run(&actionFactory);
 }
 
 void CxxParser::parseFile(std::shared_ptr<TextAccess> textAccess)
 {
-	ASTActionFactory actionFactory(m_client);
 	std::vector<std::string> args;
 	args.push_back("-fno-delayed-template-parsing");
-	clang::tooling::runToolOnCodeWithArgs(actionFactory.create(), textAccess->getText(), args);
+
+	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
+	CxxDiagnosticConsumer reporter(llvm::errs(), &*options, m_client, false);
+
+	ASTActionFactory actionFactory(m_client);
+	runToolOnCodeWithArgs(&reporter, actionFactory.create(), textAccess->getText(), args);
 }

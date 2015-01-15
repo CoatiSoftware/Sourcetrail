@@ -38,8 +38,34 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 		activeTokenIds = m_graphAccess->getActiveTokenIdsForId(activeTokenIds[0], &declarationId);
 	}
 
-	getView()->setActiveTokenIds(activeTokenIds);
-	getView()->showCodeSnippets(getSnippetsForActiveTokenIds(activeTokenIds, declarationId));
+	CodeView* view = getView();
+	view->setActiveTokenIds(activeTokenIds);
+	view->setErrorMessages(std::vector<std::string>());
+	view->showCodeSnippets(getSnippetsForActiveTokenIds(activeTokenIds, declarationId));
+}
+
+void CodeController::handleMessage(MessageFinishedParsing* message)
+{
+	if (message->errorCount > 0)
+	{
+		std::vector<std::string> errorMessages;
+		TokenLocationCollection errorCollection = m_locationAccess->getErrorTokenLocations(&errorMessages);
+
+		std::vector<CodeView::CodeSnippetParams> snippets;
+
+		errorCollection.forEachTokenLocationFile(
+			[&](TokenLocationFile* file) -> void
+			{
+				std::vector<CodeView::CodeSnippetParams> fileSnippets = getSnippetsForFile(file);
+				snippets.insert(snippets.end(), fileSnippets.begin(), fileSnippets.end());
+			}
+		);
+
+		CodeView* view = getView();
+		view->setActiveTokenIds(std::vector<Id>());
+		view->setErrorMessages(errorMessages);
+		view->showCodeSnippets(snippets);
+	}
 }
 
 void CodeController::handleMessage(MessageRefresh* message)
@@ -78,28 +104,12 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTok
 	collection.forEachTokenLocationFile(
 		[&](TokenLocationFile* file) -> void
 		{
-			const std::string filePath = file->getFilePath();
-			std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath);
+			std::vector<CodeView::CodeSnippetParams> fileSnippets = getSnippetsForFile(file);
 
-			std::vector<std::pair<uint, uint>> ranges = getSnippetRangesForFile(file, s_lineRadius);
-			std::vector<CodeView::CodeSnippetParams> fileSnippets;
-
-			for (const std::pair<uint, uint>& range: ranges)
+			for (CodeView::CodeSnippetParams& params : fileSnippets)
 			{
-				unsigned int firstLineNumber = std::max<int>(1, range.first - s_lineRadius);
-				unsigned int lastLineNumber = std::min<int>(textAccess->getLineCount(), range.second + s_lineRadius);
-
-				CodeView::CodeSnippetParams params;
-				for (const std::string& line: textAccess->getLines(firstLineNumber, lastLineNumber))
-				{
-					params.code += line;
-				}
-
-				params.startLineNumber = firstLineNumber;
-				params.locationFile =
-					m_locationAccess->getTokenLocationsForLinesInFile(filePath, firstLineNumber, lastLineNumber);
-
-				fileSnippets.push_back(params);
+				params.locationFile = m_locationAccess->getTokenLocationsForLinesInFile(
+					file->getFilePath(), params.startLineNumber, params.endLineNumber);
 			}
 
 			if (declarationId != 0)
@@ -133,9 +143,32 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTok
 	return snippets;
 }
 
-std::vector<std::pair<uint, uint>> CodeController::getSnippetRangesForFile(
-	TokenLocationFile* file, const uint lineRadius
-) const
+std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(const TokenLocationFile* file) const
+{
+	std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(file->getFilePath());
+
+	std::vector<std::pair<uint, uint>> ranges = getSnippetRangesForFile(file);
+	std::vector<CodeView::CodeSnippetParams> snippets;
+
+	for (const std::pair<uint, uint>& range: ranges)
+	{
+		CodeView::CodeSnippetParams params;
+		params.locationFile = *file;
+		params.startLineNumber = std::max<int>(1, range.first - s_lineRadius);
+		params.endLineNumber = std::min<int>(textAccess->getLineCount(), range.second + s_lineRadius);
+
+		for (const std::string& line: textAccess->getLines(params.startLineNumber, params.endLineNumber))
+		{
+			params.code += line;
+		}
+
+		snippets.push_back(params);
+	}
+
+	return snippets;
+}
+
+std::vector<std::pair<uint, uint>> CodeController::getSnippetRangesForFile(const TokenLocationFile* file) const
 {
 	std::vector<std::pair<uint, uint>> ranges;
 	uint start = 0;
@@ -152,7 +185,7 @@ std::vector<std::pair<uint, uint>> CodeController::getSnippetRangesForFile(
 				{
 					start = lineNumber;
 				}
-				else if (end && lineNumber > end + 2 * lineRadius + 1)
+				else if (end && lineNumber > end + 2 * s_lineRadius + 1)
 				{
 					ranges.push_back(std::make_pair(uint(start), uint(end)));
 					start = lineNumber;

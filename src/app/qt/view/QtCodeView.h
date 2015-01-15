@@ -24,14 +24,14 @@ public:
 	virtual void refreshView();
 
 	// CodeView implementation
-	virtual void clearCodeSnippets();
 	virtual void setActiveTokenIds(const std::vector<Id>& activeTokenIds);
+	virtual void setErrorMessages(const std::vector<std::string>& errorMessages);
+
 	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets);
 	virtual void showCodeFile(const CodeSnippetParams& params);
 
 private:
 	void doRefreshView();
-	void doClearCodeSnippets();
 	void doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets);
 	void doShowCodeFile(const CodeSnippetParams& params);
 
@@ -41,13 +41,14 @@ private:
 	void clearClosedWindows();
 
 	QtThreadedFunctor<> m_refreshViewFunctor;
-	QtThreadedFunctor<> m_clearCodeSnippetsFunctor;
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&> m_showCodeSnippetsFunctor;
 	QtThreadedFunctor<const CodeSnippetParams&> m_showCodeFileFunctor;
 
 	std::shared_ptr<QtCodeFileList> m_widget;
 	std::vector<std::shared_ptr<QtCodeFileList>> m_windows;
+
 	std::vector<Id> m_activeTokenIds;
+	std::vector<std::string> m_errorMessages;
 };
 
 # endif // QT_CODE_VIEW_H

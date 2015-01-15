@@ -1397,6 +1397,8 @@ public:
 		filePaths.push_back("data/CxxParserTestSuite/code.cpp");
 		parser.parseFiles(filePaths, std::vector<std::string>(), std::vector<std::string>());
 
+		TS_ASSERT_EQUALS(client.errors.size(), 0);
+
 		TS_ASSERT_EQUALS(client.typedefs.size(), 1);
 		TS_ASSERT_EQUALS(client.classes.size(), 4);
 		TS_ASSERT_EQUALS(client.enums.size(), 1);
@@ -1414,10 +1416,25 @@ public:
 		TS_ASSERT_EQUALS(client.typeUses.size(), 8);
 	}
 
+	void test_cxx_parser_catches_error()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"int a = b;\n"
+		);
+
+		TS_ASSERT_EQUALS(client->errors.size(), 1);
+		TS_ASSERT_EQUALS(client->errors[0], "use of undeclared identifier \'b\' <1:9 1:9>");
+	}
+
 private:
 	class TestParserClient: public ParserClient
 	{
 	public:
+		virtual void onError(const ParseLocation& location, const std::string& message)
+		{
+			errors.push_back(addLocationSuffix(message, location));
+		}
+
 		virtual Id onTypedefParsed(
 			const ParseLocation& location, const std::vector<std::string>& nameHierarchy, const ParseTypeUsage& underlyingType,
 			AccessType access
@@ -1609,6 +1626,8 @@ private:
 			);
 			return 0;
 		}
+
+		std::vector<std::string> errors;
 
 		std::vector<std::string> typedefs;
 		std::vector<std::string> classes;

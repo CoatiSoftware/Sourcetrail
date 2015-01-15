@@ -5,6 +5,7 @@
 
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
+#include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 
@@ -21,6 +22,7 @@ class Node;
 class GraphController
 	: public Controller
 	, public MessageListener<MessageActivateTokens>
+	, public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageGraphNodeExpand>
 	, public MessageListener<MessageGraphNodeMove>
 {
@@ -47,6 +49,7 @@ public:
 
 private:
 	virtual void handleMessage(MessageActivateTokens* message);
+	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageGraphNodeExpand* message);
 	virtual void handleMessage(MessageGraphNodeMove* message);
 

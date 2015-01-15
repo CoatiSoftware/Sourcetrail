@@ -2,6 +2,9 @@
 
 #include "component/view/StatusBarView.h"
 
+#include <sstream>
+#include <iomanip>
+
 StatusBarController::StatusBarController()
 	: MessageListener<MessageError>(true)
 	, MessageListener<MessageFinishedParsing>(true)
@@ -23,7 +26,14 @@ StatusBarView* StatusBarController::getView()
 
 void StatusBarController::handleMessage(MessageFinishedParsing* message)
 {
-	setStatus("Parsing Finished");
+	std::stringstream ss;
+	ss << "Parsing Finished: ";
+	ss << std::setprecision(2) << message->parseTime << " seconds, ";
+	ss << message->errorCount << " error(s)";
+
+	bool hasErrors = message->errorCount > 0;
+
+	setStatus(ss.str(), hasErrors);
 }
 
 void StatusBarController::handleMessage(MessageStatus* message)

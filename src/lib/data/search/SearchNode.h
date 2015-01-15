@@ -37,6 +37,8 @@ public:
 	const std::set<std::shared_ptr<SearchNode>>& getChildren() const;
 
 	SearchResults runFuzzySearch(const std::string& query) const;
+	SearchResults runFuzzySearchOnSelf(const std::string& query) const;
+
 	void addResultsRecursive(SearchResults& result, size_t weight, const SearchNode* node) const;
 
 private:

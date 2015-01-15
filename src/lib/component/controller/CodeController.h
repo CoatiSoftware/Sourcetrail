@@ -8,6 +8,7 @@
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateTokenLocation.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
+#include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageShowFile.h"
 #include "utility/types.h"
@@ -20,6 +21,7 @@ class CodeController
 	: public Controller
 	, public MessageListener<MessageActivateTokenLocation>
 	, public MessageListener<MessageActivateTokens>
+	, public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageRefresh>
 	, public MessageListener<MessageShowFile>
 {
@@ -32,6 +34,7 @@ private:
 
 	virtual void handleMessage(MessageActivateTokenLocation* message);
 	virtual void handleMessage(MessageActivateTokens* message);
+	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageRefresh* message);
 	virtual void handleMessage(MessageShowFile* message);
 
@@ -39,7 +42,8 @@ private:
 
 	std::vector<CodeView::CodeSnippetParams> getSnippetsForActiveTokenIds(
 		const std::vector<Id>& ids, Id declarationId) const;
-	std::vector<std::pair<uint, uint>> getSnippetRangesForFile(TokenLocationFile* file, const uint lineRadius) const;
+	std::vector<CodeView::CodeSnippetParams> getSnippetsForFile(const TokenLocationFile* file) const;
+	std::vector<std::pair<uint, uint>> getSnippetRangesForFile(const TokenLocationFile* file) const;
 
 	GraphAccess* m_graphAccess;
 	LocationAccess* m_locationAccess;

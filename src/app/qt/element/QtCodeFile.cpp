@@ -3,13 +3,14 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
+#include "qt/element/QtCodeFileList.h"
 #include "qt/element/QtCodeSnippet.h"
 #include "utility/FileSystem.h"
 
-QtCodeFile::QtCodeFile(const std::string& filePath, QWidget *parent)
+QtCodeFile::QtCodeFile(const std::string& filePath, QtCodeFileList* parent)
 	: QWidget(parent)
+	, m_parent(parent)
 	, m_filePath(filePath)
-	, m_showMaximizeButton(true)
 {
 	setObjectName("code_file");
 
@@ -31,21 +32,35 @@ QtCodeFile::~QtCodeFile()
 {
 }
 
+const std::string& QtCodeFile::getFilePath() const
+{
+	return m_filePath;
+}
+
 std::string QtCodeFile::getFileName() const
 {
 	return FileSystem::fileName(m_filePath);
 }
 
+const std::vector<Id>& QtCodeFile::getActiveTokenIds() const
+{
+	return m_parent->getActiveTokenIds();
+}
+
+const std::vector<std::string>& QtCodeFile::getErrorMessages() const
+{
+	return m_parent->getErrorMessages();
+}
+
 void QtCodeFile::addCodeSnippet(
 	uint startLineNumber,
 	const std::string& code,
-	const TokenLocationFile& locationFile,
-	const std::vector<Id>& activeTokenIds
+	const TokenLocationFile& locationFile
 ){
 	std::shared_ptr<QtCodeSnippet> snippet(
-		new QtCodeSnippet(startLineNumber, code, locationFile, activeTokenIds, this));
+		new QtCodeSnippet(startLineNumber, code, locationFile, this));
 
-	if (m_showMaximizeButton)
+	if (m_parent->getShowMaximizeButton())
 	{
 		snippet->addMaximizeButton();
 	}
@@ -65,15 +80,10 @@ void QtCodeFile::addCodeSnippet(
 	}
 }
 
-void QtCodeFile::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
+void QtCodeFile::update()
 {
 	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
 	{
-		snippet->setActiveTokenIds(activeTokenIds);
+		snippet->update();
 	}
-}
-
-void QtCodeFile::setShowMaximizeButton(bool show)
-{
-	m_showMaximizeButton = show;
 }

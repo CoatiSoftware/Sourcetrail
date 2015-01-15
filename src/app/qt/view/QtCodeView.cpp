@@ -10,7 +10,6 @@
 QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
 	, m_refreshViewFunctor(std::bind(&QtCodeView::doRefreshView, this))
-	, m_clearCodeSnippetsFunctor(std::bind(&QtCodeView::doClearCodeSnippets, this))
 	, m_showCodeSnippetsFunctor(std::bind(&QtCodeView::doShowCodeSnippets, this, std::placeholders::_1))
 	, m_showCodeFileFunctor(std::bind(&QtCodeView::doShowCodeFile, this, std::placeholders::_1))
 {
@@ -35,14 +34,14 @@ void QtCodeView::refreshView()
 	m_refreshViewFunctor();
 }
 
-void QtCodeView::clearCodeSnippets()
-{
-	m_clearCodeSnippetsFunctor();
-}
-
 void QtCodeView::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
 {
 	m_activeTokenIds = activeTokenIds;
+}
+
+void QtCodeView::setErrorMessages(const std::vector<std::string>& errorMessages)
+{
+	m_errorMessages = errorMessages;
 }
 
 void QtCodeView::showCodeSnippets(const std::vector<CodeSnippetParams>& snippets)
@@ -66,24 +65,31 @@ void QtCodeView::doRefreshView()
 	}
 }
 
-void QtCodeView::doClearCodeSnippets()
-{
-	m_widget->clearCodeSnippets();
-}
-
 void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets)
 {
-	doClearCodeSnippets();
+	m_widget->clearCodeSnippets();
 
 	clearClosedWindows();
 	for (std::shared_ptr<QtCodeFileList> window: m_windows)
 	{
-		window->setActiveTokenIds(m_activeTokenIds);
+		if (m_errorMessages.size())
+		{
+			window->close();
+		}
+		else
+		{
+			window->setActiveTokenIds(m_activeTokenIds);
+			window->setErrorMessages(m_errorMessages);
+		}
 	}
+
+	m_widget->setActiveTokenIds(m_activeTokenIds);
+	m_widget->setErrorMessages(m_errorMessages);
+	m_widget->setShowMaximizeButton(m_errorMessages.size() == 0);
 
 	for (const CodeSnippetParams& params : snippets)
 	{
-		m_widget->addCodeSnippet(params.startLineNumber, params.code, params.locationFile, m_activeTokenIds);
+		m_widget->addCodeSnippet(params.startLineNumber, params.code, params.locationFile);
 	}
 }
 
@@ -93,7 +99,9 @@ void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
 	m_windows.push_back(ptr);
 
 	ptr->setShowMaximizeButton(false);
-	ptr->addCodeSnippet(1, params.code, params.locationFile, m_activeTokenIds);
+	ptr->setActiveTokenIds(m_activeTokenIds);
+	ptr->setErrorMessages(m_errorMessages);
+	ptr->addCodeSnippet(1, params.code, params.locationFile);
 
 	ptr->setWindowTitle(FileSystem::fileName(params.locationFile.getFilePath()).c_str());
 	ptr->show();

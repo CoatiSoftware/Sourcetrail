@@ -6,7 +6,9 @@
 class MessageFinishedParsing: public Message<MessageFinishedParsing>
 {
 public:
-	MessageFinishedParsing()
+	MessageFinishedParsing(float parseTime, size_t errorCount)
+		: parseTime(parseTime)
+		, errorCount(errorCount)
 	{
 	}
 
@@ -14,6 +16,9 @@ public:
 	{
 		return "MessageFinishedParsing";
 	}
+
+	float parseTime;
+	size_t errorCount;
 };
 
 #endif // MESSAGE_FINISHED_PARSING_H

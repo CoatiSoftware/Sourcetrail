@@ -18,6 +18,8 @@ public:
 	virtual TokenLocationFile getTokenLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
 	) const = 0;
+
+	virtual TokenLocationCollection getErrorTokenLocations(std::vector<std::string>* errorMessages) const = 0;
 };
 
 

@@ -14,6 +14,9 @@ int main()
 	int a = sum(1, 2);
 	int b = diff(a, 3);
 	int c = a * b;
+
+	int x = y;
+
 	return 0;
 }
 

@@ -36,8 +36,7 @@ QSize QtCodeFileList::sizeHint() const
 void QtCodeFileList::addCodeSnippet(
 	uint startLineNumber,
 	const std::string& code,
-	const TokenLocationFile& locationFile,
-	const std::vector<Id>& activeTokenIds
+	const TokenLocationFile& locationFile
 ){
 	std::string fileName = FileSystem::fileName(locationFile.getFilePath());
 	QtCodeFile* file = nullptr;
@@ -58,11 +57,9 @@ void QtCodeFileList::addCodeSnippet(
 
 		file = filePtr.get();
 		m_frame->layout()->addWidget(file);
-
-		file->setShowMaximizeButton(m_showMaximizeButton);
 	}
 
-	file->addCodeSnippet(startLineNumber, code, locationFile, activeTokenIds);
+	file->addCodeSnippet(startLineNumber, code, locationFile);
 }
 
 void QtCodeFileList::clearCodeSnippets()
@@ -70,15 +67,43 @@ void QtCodeFileList::clearCodeSnippets()
 	m_files.clear();
 }
 
+const std::vector<Id>& QtCodeFileList::getActiveTokenIds() const
+{
+	return m_activeTokenIds;
+}
+
 void QtCodeFileList::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
 {
-	for (std::shared_ptr<QtCodeFile> file: m_files)
-	{
-		file->setActiveTokenIds(activeTokenIds);
-	}
+	m_activeTokenIds = activeTokenIds;
+	updateFiles();
+}
+
+const std::vector<std::string>& QtCodeFileList::getErrorMessages() const
+{
+	return m_errorMessages;
+}
+
+void QtCodeFileList::setErrorMessages(const std::vector<std::string>& errorMessages)
+{
+	m_errorMessages = errorMessages;
+	updateFiles();
+}
+
+bool QtCodeFileList::getShowMaximizeButton() const
+{
+	return m_showMaximizeButton;
 }
 
 void QtCodeFileList::setShowMaximizeButton(bool show)
 {
 	m_showMaximizeButton = show;
+	updateFiles();
+}
+
+void QtCodeFileList::updateFiles()
+{
+	for (std::shared_ptr<QtCodeFile> file: m_files)
+	{
+		file->update();
+	}
 }

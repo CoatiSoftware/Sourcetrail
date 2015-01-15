@@ -107,6 +107,20 @@ SearchResults SearchNode::runFuzzySearch(const std::string& query) const
 	return result;
 }
 
+SearchResults SearchNode::runFuzzySearchOnSelf(const std::string& query) const
+{
+	SearchResults result;
+	FuzzyMap m = fuzzyMatchRecursive(query, 0, 0, 0);
+	for (const std::pair<size_t, const SearchNode*>& p : m)
+	{
+		addResultsRecursive(result, p.first, p.second);
+	}
+
+	// TODO: Currently all matches are added to the ordered set and get compared by their fullName for alphabetical
+	// order. This could be improved by limiting the number of items to e.g. 100.
+	return result;
+}
+
 void SearchNode::addResultsRecursive(SearchResults& result, size_t weight, const SearchNode* node) const
 {
 	result.insert(SearchResult(weight, node, this));

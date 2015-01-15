@@ -4,10 +4,12 @@
 #include <QHBoxLayout>
 #include <QPainter>
 #include <QPushButton>
+#include <QToolTip>
 
 #include "ApplicationSettings.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
+#include "qt/element/QtCodeFile.h"
 #include "qt/utility/QtHighlighter.h"
 #include "utility/messaging/type/MessageActivateTokenLocation.h"
 #include "utility/messaging/type/MessageShowFile.h"
@@ -38,14 +40,13 @@ QtCodeSnippet::QtCodeSnippet(
 	uint startLineNumber,
 	const std::string& code,
 	const TokenLocationFile& locationFile,
-	const std::vector<Id>& activeTokenIds,
-	QWidget *parent
+	QtCodeFile* parent
 )
 	: QPlainTextEdit(parent)
+	, m_parent(parent)
 	, m_maximizeButton(nullptr)
 	, m_startLineNumber(startLineNumber)
-	, m_filePath(locationFile.getFilePath())
-	, m_activeTokenIds(activeTokenIds)
+	, m_hoveredAnnotation(nullptr)
 	, m_digits(0)
 {
 	setObjectName("code_snippet");
@@ -73,8 +74,9 @@ QtCodeSnippet::QtCodeSnippet(
 
 	connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
 	connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
-	connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(clickedTokenLocation()));
 	connect(this, SIGNAL(selectionChanged()), this, SLOT(clearSelection()));
+
+	this->setMouseTracking(true);
 }
 
 QtCodeSnippet::~QtCodeSnippet()
@@ -154,9 +156,8 @@ void QtCodeSnippet::updateLineNumberAreaWidthForDigits(int digits)
 	updateLineNumberAreaWidth(0);
 }
 
-void QtCodeSnippet::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
+void QtCodeSnippet::update()
 {
-	m_activeTokenIds = activeTokenIds;
 	annotateText();
 }
 
@@ -192,11 +193,49 @@ void QtCodeSnippet::leaveEvent(QEvent* event)
 	}
 }
 
+void QtCodeSnippet::mouseReleaseEvent(QMouseEvent* event)
+{
+	if (event->button() == Qt::LeftButton)
+	{
+		QTextCursor cursor = this->cursorForPosition(event->pos());
+		const Annotation* annotation = findAnnotationForPosition(cursor.position());
+
+		if (annotation)
+		{
+			MessageActivateTokenLocation(annotation->locationId).dispatch();
+		}
+	}
+}
+
 void QtCodeSnippet::mouseDoubleClickEvent(QMouseEvent* event)
 {
-	if (m_maximizeButton)
+	if (event->button() == Qt::LeftButton && m_maximizeButton)
 	{
 		clickedMaximizeButton();
+	}
+}
+
+void QtCodeSnippet::mouseMoveEvent(QMouseEvent* event)
+{
+	QTextCursor cursor = this->cursorForPosition(event->pos());
+	const Annotation* annotation = findAnnotationForPosition(cursor.position());
+
+	if (annotation != nullptr ? annotation != m_hoveredAnnotation && !annotation->isScope : m_hoveredAnnotation != nullptr)
+	{
+		m_hoveredAnnotation = annotation;
+
+		const std::vector<std::string>& errorMessages = m_parent->getErrorMessages();
+
+		if (annotation && errorMessages.size() > annotation->tokenId)
+		{
+			QToolTip::showText(event->globalPos(), QString::fromStdString(m_parent->getErrorMessages()[annotation->tokenId]));
+		}
+		else
+		{
+			QToolTip::hideText();
+		}
+
+		annotateText();
 	}
 }
 
@@ -222,34 +261,9 @@ void QtCodeSnippet::updateLineNumberArea(const QRect &rect, int dy)
 	}
 }
 
-void QtCodeSnippet::clickedTokenLocation()
-{
-	int clickPosition = textCursor().position();
-	int diff = endTextEditPosition() + 1;
-	Id locationId = 0;
-
-	for (Annotation annotation : m_annotations)
-	{
-		if (clickPosition >= annotation.start && clickPosition <= annotation.end)
-		{
-			int d = annotation.end - annotation.start;
-			if (d < diff)
-			{
-				diff = d;
-				locationId = annotation.locationId;
-			}
-		}
-	}
-
-	if (locationId)
-	{
-		MessageActivateTokenLocation(locationId).dispatch();
-	}
-}
-
 void QtCodeSnippet::clickedMaximizeButton()
 {
-	MessageShowFile(m_filePath, m_startLineNumber, m_startLineNumber + document()->blockCount() - 1).dispatch();
+	MessageShowFile(m_parent->getFilePath(), m_startLineNumber, m_startLineNumber + blockCount() - 1).dispatch();
 }
 
 void QtCodeSnippet::clearSelection()
@@ -259,12 +273,33 @@ void QtCodeSnippet::clearSelection()
 	setTextCursor(cursor);
 }
 
+const QtCodeSnippet::Annotation* QtCodeSnippet::findAnnotationForPosition(int pos) const
+{
+	const Annotation* annotationPtr = nullptr;
+	int diff = endTextEditPosition() + 1;
+
+	for (const Annotation& annotation : m_annotations)
+	{
+		if (pos >= annotation.start && pos <= annotation.end)
+		{
+			int d = annotation.end - annotation.start;
+			if (d < diff)
+			{
+				diff = d;
+				annotationPtr = &annotation;
+			}
+		}
+	}
+
+	return annotationPtr;
+}
+
 void QtCodeSnippet::createAnnotations(const TokenLocationFile& locationFile)
 {
 	locationFile.forEachTokenLocation(
 		[&](TokenLocation* location)
 		{
-			if (location->isEndTokenLocation() && location->getStartTokenLocation())
+			if (!locationBelongsToSnippet(location))
 			{
 				return;
 			}
@@ -301,14 +336,27 @@ void QtCodeSnippet::createAnnotations(const TokenLocationFile& locationFile)
 void QtCodeSnippet::annotateText()
 {
 	Colori color;
-	const std::vector<Id>& ids = m_activeTokenIds;
+	const std::vector<Id>& ids = m_parent->getActiveTokenIds();
+	const std::vector<std::string>& errorMessages = m_parent->getErrorMessages();
 	QList<QTextEdit::ExtraSelection> extraSelections;
 
 	for (const Annotation& annotation: m_annotations)
 	{
 		bool isActive = std::find(ids.begin(), ids.end(), annotation.tokenId) != ids.end();
 
-		if (isActive)
+		if (&annotation == m_hoveredAnnotation && errorMessages.size())
+		{
+			color = Colori(255, 0, 0, 128);
+		}
+		else if (&annotation == m_hoveredAnnotation)
+		{
+			color = ApplicationSettings::getInstance()->getCodeActiveLinkColor();
+		}
+		else if (errorMessages.size())
+		{
+			color = Colori(255, 0, 0, 255);
+		}
+		else if (isActive)
 		{
 			color = ApplicationSettings::getInstance()->getCodeActiveLinkColor();
 		}
@@ -333,6 +381,43 @@ void QtCodeSnippet::annotateText()
 	}
 
 	setExtraSelections(extraSelections);
+}
+
+bool QtCodeSnippet::locationBelongsToSnippet(TokenLocation* location) const
+{
+	uint lineNumber = location->getLineNumber();
+
+	if (location->isEndTokenLocation())
+	{
+		if (location->getStartTokenLocation() ||
+			lineNumber < m_startLineNumber || lineNumber >= m_startLineNumber + blockCount())
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	if (lineNumber >= m_startLineNumber + blockCount())
+	{
+		return false;
+	}
+
+	if (lineNumber >= m_startLineNumber)
+	{
+		return true;
+	}
+
+	TokenLocation* endLocation = location->getEndTokenLocation();
+
+	if (endLocation && endLocation->getLineNumber() < m_startLineNumber)
+	{
+		return false;
+	}
+
+	return true;
 }
 
 int QtCodeSnippet::toTextEditPosition(int lineNumber, int columnNumber) const

@@ -49,6 +49,8 @@ public:
 	ParserClient();
 	virtual ~ParserClient();
 
+	virtual void onError(const ParseLocation& location, const std::string& message) = 0;
+
 	virtual Id onTypedefParsed(
 		const ParseLocation& location, const std::vector<std::string>& nameHierarchy,
 		const ParseTypeUsage& underlyingType, AccessType access) = 0;
