@@ -710,7 +710,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <8:6 8:6>");
+		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <8:6 8:8>");
 	}
 
 	void test_cxx_parser_finds_constructor_without_definition_call()
@@ -726,7 +726,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <6:6 6:6>");
+		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <6:6 6:8>");
 	}
 
 	void test_cxx_parser_finds_constructor_call_of_field()
@@ -768,7 +768,7 @@ public:
 		TS_ASSERT_EQUALS(client->calls[0], "void App::App() -> void Item::Item(int) <9:5 9:11>");
 	}
 
-	void test_cxx_parser_finds_function_call_within_constructor_call_of_field_in_initialization_list()
+	void test_cxx_parser_finds_function_call_as_parameter_of_constructor_call_of_field_in_initialization_list()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"int one() { return 1; }\n"
@@ -808,7 +808,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
-		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <9:6 9:6>");
+		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <9:6 9:8>");
 		TS_ASSERT_EQUALS(client->calls[1], "int main() -> void App::App(App const &) <10:6 10:14>");
 	}
 
@@ -856,7 +856,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
-		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <10:6 10:6>");
+		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <10:6 10:8>");
 		TS_ASSERT_EQUALS(client->calls[1], "int main() -> void App::operator+(int) <11:2 11:8>");
 	}
 
