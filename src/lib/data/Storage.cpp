@@ -883,13 +883,7 @@ Edge* Storage::addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeU
 		return nullptr;
 	}
 
-	// FIXME: For some reason the TypeNameHierarchy is not always split up properly by the Parser. This might happen
-	// when a Type declaration is in a different file than it's usage, but this oberservation is not reliable.
 	std::vector<std::string> nameHierarchy = typeUsage.dataType.getTypeNameHierarchy();
-	if (nameHierarchy.size() == 1 && nameHierarchy[0].find('<') == std::string::npos)
-	{
-		nameHierarchy = utility::splitToVector(nameHierarchy[0], "::");
-	}
 
 	Node* typeNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, nameHierarchy);
 	if (!typeNode)

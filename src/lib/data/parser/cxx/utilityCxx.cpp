@@ -63,6 +63,12 @@ namespace utility
 			{
 				const clang::Type* type = qualType.getUnqualifiedType().getTypePtr();
 
+				if (clang::isa<clang::ElaboratedType>(type)) // get the real type here
+				{
+					const clang::ElaboratedType* et = clang::dyn_cast<clang::ElaboratedType>(type);
+					type = et->getNamedType().getUnqualifiedType().getTypePtr();
+				}
+
 				if (clang::isa<clang::TagType>(type))
 				{
 					typeNameHerarchy = getDeclNameHierarchy(clang::dyn_cast<clang::TagType>(type)->getDecl());
