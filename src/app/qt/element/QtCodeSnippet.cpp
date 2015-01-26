@@ -191,6 +191,9 @@ void QtCodeSnippet::leaveEvent(QEvent* event)
 	{
 		m_maximizeButton->setEnabled(false);
 	}
+
+	m_hoveredAnnotation = nullptr;
+	annotateText();
 }
 
 void QtCodeSnippet::mouseReleaseEvent(QMouseEvent* event)
@@ -220,7 +223,12 @@ void QtCodeSnippet::mouseMoveEvent(QMouseEvent* event)
 	QTextCursor cursor = this->cursorForPosition(event->pos());
 	const Annotation* annotation = findAnnotationForPosition(cursor.position());
 
-	if (annotation != nullptr ? annotation != m_hoveredAnnotation && !annotation->isScope : m_hoveredAnnotation != nullptr)
+	if (annotation && annotation->isScope)
+	{
+		annotation = nullptr;
+	}
+
+	if (annotation != m_hoveredAnnotation)
 	{
 		m_hoveredAnnotation = annotation;
 
@@ -359,6 +367,11 @@ void QtCodeSnippet::annotateText()
 		else if (isActive)
 		{
 			color = ApplicationSettings::getInstance()->getCodeActiveLinkColor();
+
+			if (annotation.isScope)
+			{
+				color.a /= 2;
+			}
 		}
 		else if (annotation.isScope)
 		{

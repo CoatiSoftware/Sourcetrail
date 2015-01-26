@@ -77,9 +77,9 @@ Node* StorageGraph::createNodeHierarchyWithDistinctSignature(
 Edge* StorageGraph::createEdge(Edge::EdgeType type, Node* from, Node* to)
 {
 	Edge* edge = from->findEdgeOfType(type,
-		[to](Edge* e)
+		[from, to](Edge* e)
 		{
-			return e->getTo() == to;
+			return e->getFrom() == from && e->getTo() == to;
 		}
 	);
 

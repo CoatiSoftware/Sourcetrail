@@ -181,18 +181,21 @@ std::vector<std::pair<uint, uint>> CodeController::getSnippetRangesForFile(const
 
 			if (location->isStartTokenLocation())
 			{
+				if (start && end && lineNumber > end + 2 * s_lineRadius + 1)
+				{
+					ranges.push_back(std::make_pair(uint(start), uint(end)));
+					start = end = 0;
+				}
+
 				if (!start)
 				{
 					start = lineNumber;
 				}
-				else if (end && lineNumber > end + 2 * s_lineRadius + 1)
-				{
-					ranges.push_back(std::make_pair(uint(start), uint(end)));
-					start = lineNumber;
-					end = 0;
-				}
+
+				lineNumber = location->getEndTokenLocation()->getLineNumber();
 			}
-			else
+
+			if (lineNumber > end)
 			{
 				end = lineNumber;
 			}

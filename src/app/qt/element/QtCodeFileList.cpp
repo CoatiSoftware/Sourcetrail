@@ -1,5 +1,6 @@
 #include "qt/element/QtCodeFileList.h"
 
+#include <QScrollBar>
 #include <QVBoxLayout>
 
 #include "data/location/TokenLocationFile.h"
@@ -65,6 +66,7 @@ void QtCodeFileList::addCodeSnippet(
 void QtCodeFileList::clearCodeSnippets()
 {
 	m_files.clear();
+	this->verticalScrollBar()->setValue(0);
 }
 
 const std::vector<Id>& QtCodeFileList::getActiveTokenIds() const

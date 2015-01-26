@@ -25,7 +25,9 @@ QtStraightConnection::QtStraightConnection(Vec4i ownerRect, Vec4i targetRect, in
 	this->setLine(a.x, a.y, b.x, b.y);
 	this->setAcceptHoverEvents(true);
 
+	Vec2f mid = (a + b) / 2;
 	Vec2f u = b - a;
+	float len = u.getLength();
 	u.normalize();
 
 	float alpha = atan2(u.y, u.x);
@@ -34,12 +36,17 @@ QtStraightConnection::QtStraightConnection(Vec4i ownerRect, Vec4i targetRect, in
 	w.x = (o.z - o.x) / 2 * cos(alpha);
 	w.y = (o.w - o.y) / 2 * sin(alpha);
 	a += u * w.getLength();
+	float newLen = w.getLength();
 
 	w.x = (t.z - t.x) / 2 * cos(alpha);
 	w.y = (t.w - t.y) / 2 * sin(alpha);
 	b += u * -w.getLength();
+	newLen -= w.getLength();
 
-	Vec2f mid = (a + b) / 2;
+	if (newLen > 0 && newLen < len)
+	{
+		mid = (a + b) / 2;
+	}
 
 	m_circle = new QtGraphicsRoundedRectItem(this);
 	m_circle->setRect(mid.x - 10, mid.y - 10, 20, 20);
@@ -88,6 +95,8 @@ QtCorneredConnection::QtCorneredConnection(
 	, m_targetRect(targetRect)
 	, m_ownerParentRect(ownerParentRect)
 	, m_targetParentRect(targetParentRect)
+	, m_closed(false)
+	, m_big(false)
 {
 	this->setAcceptHoverEvents(true);
 
@@ -103,11 +112,12 @@ QtCorneredConnection::~QtCorneredConnection()
 
 QPainterPath QtCorneredConnection::shape() const
 {
+	int w = m_big ? 10 : 5;
 	QPainterPath path;
 	QPolygon poly = getPath();
 	for (int i = 0; i < poly.size() - 1; i++)
 	{
-		path.addRect(QRectF(poly.at(i), poly.at(i + 1)).normalized().adjusted(-5, -5, 5, 5));
+		path.addRect(QRectF(poly.at(i), poly.at(i + 1)).normalized().adjusted(-w, -w, w, w));
 	}
 	return path;
 }
@@ -125,110 +135,132 @@ void QtCorneredConnection::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
 	int radius = 10;
 	int dir = getDirection(poly.at(i), poly.at(i - 1));
-	while (i > 0)
+	while (i > 1)
 	{
 		i--;
-		if (i == 0)
+
+		QPointF a = poly.at(i);
+		QPointF b = poly.at(i - 1);
+
+		int newDir = getDirection(a, b);
+		int ar = radius;
+		int br = 10;
+
+		if (i != 1)
 		{
-			path.lineTo(poly.at(i));
+			if (dir % 2 == 1 && std::abs(a.y() - b.y()) < 2 * br)
+			{
+				br = std::abs(a.y() - b.y()) / 2;
+			}
+			else if (dir % 2 == 0 && std::abs(a.x() - b.x()) < 2 * br)
+			{
+				br = std::abs(a.x() - b.x()) / 2;
+			}
 		}
-		else
+
+		switch (dir)
 		{
-			QPointF a = poly.at(i);
-			QPointF b = poly.at(i - 1);
-
-			int newDir = getDirection(a, b);
-			int ar = radius;
-			int br = 10;
-
-			if (i != 1)
-			{
-				if (dir % 2 == 1 && std::abs(a.y() - b.y()) < 2 * br)
-				{
-					br = std::abs(a.y() - b.y()) / 2;
-				}
-				else if (dir % 2 == 0 && std::abs(a.x() - b.x()) < 2 * br)
-				{
-					br = std::abs(a.x() - b.x()) / 2;
-				}
-			}
-
-			switch (dir)
-			{
-			case 0: a.setY(a.y() + ar); break;
-			case 1: a.setX(a.x() - ar); break;
-			case 2: a.setY(a.y() - ar); break;
-			case 3: a.setX(a.x() + ar); break;
-			}
-
-			b = poly.at(i);
-			switch (newDir)
-			{
-			case 0: b.setY(b.y() - br); break;
-			case 1: b.setX(b.x() + br); break;
-			case 2: b.setY(b.y() + br); break;
-			case 3: b.setX(b.x() - br); break;
-			}
-
-			switch (dir)
-			{
-			case 0:
-				if (newDir == 1)
-				{
-					path.arcTo(a.x(), b.y(), 2 * br, 2 * ar, 180, -90);
-				}
-				else if (newDir == 3)
-				{
-					path.arcTo(b.x() - br, a.y() - ar, 2 * br, 2 * ar, 0, 90);
-				}
-				break;
-			case 1:
-				if (newDir == 0)
-				{
-					path.arcTo(a.x() - ar, b.y() - br, 2 * ar, 2 * br, -90, 90);
-				}
-				else if (newDir == 2)
-				{
-					path.arcTo(a.x() - ar, a.y(), 2 * ar, 2 * br, 90, -90);
-				}
-				break;
-			case 2:
-				if (newDir == 1)
-				{
-					path.arcTo(a.x(), a.y() - ar, 2 * br, 2 * ar, 180, 90);
-				}
-				else if (newDir == 3)
-				{
-					path.arcTo(b.x() - br, a.y() - ar, 2 * br, 2 * ar, 0, -90);
-				}
-				break;
-			case 3:
-				if (newDir == 0)
-				{
-					path.arcTo(b.x(), b.y() - br, 2 * ar, 2 * br, -90, -90);
-				}
-				else if (newDir == 2)
-				{
-					path.arcTo(b.x(), a.y(), 2 * ar, 2 * br, 90, 90);
-				}
-				break;
-			}
-
-			dir = newDir;
-			radius = br;
+		case 0: a.setY(a.y() + ar); break;
+		case 1: a.setX(a.x() - ar); break;
+		case 2: a.setY(a.y() - ar); break;
+		case 3: a.setX(a.x() + ar); break;
 		}
+
+		b = poly.at(i);
+		switch (newDir)
+		{
+		case 0: b.setY(b.y() - br); break;
+		case 1: b.setX(b.x() + br); break;
+		case 2: b.setY(b.y() + br); break;
+		case 3: b.setX(b.x() - br); break;
+		}
+
+		switch (dir)
+		{
+		case 0:
+			if (newDir == 1)
+			{
+				path.arcTo(a.x(), b.y(), 2 * br, 2 * ar, 180, -90);
+			}
+			else if (newDir == 3)
+			{
+				path.arcTo(b.x() - br, a.y() - ar, 2 * br, 2 * ar, 0, 90);
+			}
+			break;
+		case 1:
+			if (newDir == 0)
+			{
+				path.arcTo(a.x() - ar, b.y() - br, 2 * ar, 2 * br, -90, 90);
+			}
+			else if (newDir == 2)
+			{
+				path.arcTo(a.x() - ar, a.y(), 2 * ar, 2 * br, 90, -90);
+			}
+			break;
+		case 2:
+			if (newDir == 1)
+			{
+				path.arcTo(a.x(), a.y() - ar, 2 * br, 2 * ar, 180, 90);
+			}
+			else if (newDir == 3)
+			{
+				path.arcTo(b.x() - br, a.y() - ar, 2 * br, 2 * ar, 0, -90);
+			}
+			break;
+		case 3:
+			if (newDir == 0)
+			{
+				path.arcTo(b.x(), b.y() - br, 2 * ar, 2 * br, -90, -90);
+			}
+			else if (newDir == 2)
+			{
+				path.arcTo(b.x(), a.y(), 2 * ar, 2 * br, 90, 90);
+			}
+			break;
+		}
+
+		dir = newDir;
+		radius = br;
 	}
 
-	int arrowLength = 5;
-	int arrowWidth = 8;
+	int arrowLength = m_big ? 15 : 5;
+	int arrowWidth = m_big ? 20 : 8;
+	QPointF arrow = poly.at(0) + QPointF((poly.at(0).x() - poly.at(1).x() > 0 ? -1 : 1) * arrowLength, 0);
 
-	QPointF arrow = poly.at(0) + QPointF((poly.at(0).x() - poly.at(1).x() > 0 ? -1 : 1) * arrowLength, -arrowWidth / 2);
+	if (m_closed)
+	{
+		path.lineTo(arrow);
+		path.moveTo(poly.at(0));
+	}
+	else
+	{
+		path.lineTo(poly.at(0));
+	}
+
+	arrow.setY(arrow.y() - arrowWidth / 2);
 	path.lineTo(arrow);
 	arrow.setY(arrow.y() + arrowWidth);
-	path.moveTo(arrow);
+	if (m_closed)
+	{
+		path.lineTo(arrow);
+	}
+	else
+	{
+		path.moveTo(arrow);
+	}
 	path.lineTo(poly.at(0));
 
 	painter->drawPath(path);
+}
+
+void QtCorneredConnection::setClosed(bool closed)
+{
+	m_closed = closed;
+}
+
+void QtCorneredConnection::setBig(bool big)
+{
+	m_big = big;
 }
 
 QPolygon QtCorneredConnection::getPath() const
@@ -257,32 +289,33 @@ QPolygon QtCorneredConnection::getPath() const
 		}
 	}
 
-	float offset = 15;
+	float offsetO = 15;
+	float offsetT = m_big ? 25 : 15;
 
-	QPoint tp((it ? 1 : -1) * offset + t[it].x, t[it].y);
-	QPoint op((io ? 1 : -1) * offset + o[io].x, o[io].y);
+	QPoint tp((it ? 1 : -1) * offsetT + t[it].x, t[it].y);
+	QPoint op((io ? 1 : -1) * offsetO + o[io].x, o[io].y);
 
 	if (it != io)
 	{
 		if (it && tp.x() < op.x())
 		{
 			io = 0;
-			op = QPoint(o[io].x - offset, o[io].y);
+			op = QPoint(o[io].x - offsetO, o[io].y);
 		}
 		else if (!it && tp.x() < op.x())
 		{
 			it = 1;
-			tp = QPoint(t[it].x + offset, t[it].y);
+			tp = QPoint(t[it].x + offsetT, t[it].y);
 		}
 		else if (io && tp.x() > op.x())
 		{
 			io = 1;
-			op = QPoint(o[io].x + offset, o[io].y);
+			op = QPoint(o[io].x + offsetO, o[io].y);
 		}
 		else if (!io && tp.x() > op.x())
 		{
 			it = 0;
-			tp = QPoint(t[it].x - offset, t[it].y);
+			tp = QPoint(t[it].x - offsetT, t[it].y);
 		}
 	}
 
@@ -387,11 +420,19 @@ void QtGraphEdge::updateLine()
 	}
 	else
 	{
-		m_child = new QtCorneredConnection(
+		QtCorneredConnection* child = new QtCorneredConnection(
 			owner->getBoundingRect(), target->getBoundingRect(),
 			owner->getParentBoundingRect(), target->getParentBoundingRect(),
 			this
 		);
+
+		if (isInheritance())
+		{
+			child->setClosed(true);
+			child->setBig(true);
+		}
+
+		m_child = child;
 	}
 
 	QColor color;
@@ -517,6 +558,11 @@ bool QtGraphEdge::isAggregation() const
 	return getData()->getType() == Edge::EDGE_AGGREGATION;
 }
 
+bool QtGraphEdge::isInheritance() const
+{
+	return getData()->getType() == Edge::EDGE_INHERITANCE;
+}
+
 int QtGraphEdge::getZValue(bool active) const
 {
 	if (isAggregation())
@@ -541,7 +587,7 @@ float QtGraphEdge::getPenWidth() const
 	{
 		return getAggregationCount() + 1;
 	}
-	return 1.5;
+	return 1;
 }
 
 int QtGraphEdge::getAggregationCount() const

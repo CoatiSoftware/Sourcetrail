@@ -36,6 +36,9 @@ public:
 	virtual QPainterPath shape() const;
 	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem* options, QWidget* widget);
 
+	void setClosed(bool closed);
+	void setBig(bool big);
+
 private:
 	QPolygon getPath() const;
 	int getDirection(const QPointF& a, const QPointF& b) const;
@@ -45,6 +48,9 @@ private:
 
 	Vec4i m_ownerParentRect;
 	Vec4i m_targetParentRect;
+
+	bool m_closed;
+	bool m_big;
 };
 
 
@@ -76,6 +82,8 @@ protected:
 
 private:
 	bool isAggregation() const;
+	bool isInheritance() const;
+
 	int getZValue(bool active) const;
 	float getPenWidth() const;
 	int getAggregationCount() const;
