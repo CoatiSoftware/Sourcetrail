@@ -1,5 +1,7 @@
 #include "data/Storage.h"
 
+#include <iostream>
+
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
@@ -553,6 +555,7 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 	else if (tokenIds.size() == 1)
 	{
 		Token* token = m_graph.getTokenById(tokenIds[0]);
+		
 		if (!token)
 		{
 			LOG_ERROR_STREAM(<< "Token with id " << tokenIds[0] << " was not found");
@@ -583,6 +586,28 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 			Edge* edge = dynamic_cast<Edge*>(token);
 			graph->addEdgeAndAllChildrenAsPlainCopy(edge);
 		}
+	}
+
+	for(const std::pair<Id, std::shared_ptr<Node>> nodePair : graph->getNodes())
+	{
+		Node* node = m_graph.getNodeById(nodePair.first);
+
+		node->forEachEdge(
+			[graph](Edge* edge)
+			{
+				if(edge->getType() != Edge::EdgeType::EDGE_MEMBER)
+				{
+					Node* from = edge->getFrom();
+					Node* to = edge->getTo();
+
+					if(graph->findNode([from](Node* node){return from->getId() == node->getId();}) != NULL
+						&& graph->findNode([to](Node* node){return to->getId() == node->getId();}) != NULL)
+					{
+						graph->addEdge(edge);
+					}
+				}
+			}
+		);
 	}
 
 	return graph;

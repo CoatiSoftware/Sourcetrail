@@ -133,3 +133,140 @@ public:
 private:
 	int m_importantInt;
 };
+
+class AnotherClass
+	: public A
+{
+public:
+	AnotherClass()
+		: A('x')
+	{
+	}
+
+	int publicInt;
+protected:
+	int protectedInt;
+private:
+	int privateInt;
+};
+
+
+class circleA
+{
+public:
+	circleA()
+	{
+		
+	}
+
+private:
+	//circleB m_b;
+};
+
+class circleB
+{
+public:
+	circleB()
+	{
+		m_a = circleA();
+	}
+	
+	circleA foo(){return circleA();}
+
+private:
+	circleA m_a;
+};
+
+struct circleC
+{
+public:
+	circleC()
+	{
+		m_b = circleB();
+	}
+	
+	circleA foo0(){return circleA();}
+	circleB foo1(){return circleB();}
+
+private:
+	circleB m_b;
+};
+
+class circleD
+{
+public:
+	circleD()
+	{
+		m_c = circleC();
+	}
+	
+	circleC foo(){return circleC();}
+	
+	circleA foo2(){return circleA();}
+	circleB foo3(){return circleB();}
+
+private:
+	circleC m_c;
+};
+
+class circleE
+{
+public:
+	circleE()
+	{
+		m_d = circleD();
+	}
+	
+	circleC foo(){return circleC();}
+	circleB foo1(){return circleB();}
+	circleD foo2(){return circleD();}
+	circleA foo3(){return circleA();}
+
+private:
+	circleD m_d;
+};
+
+class circleF
+{
+public:
+	circleF()
+	{
+		m_e = circleE();
+	}
+	
+	circleC foo(){return circleC();}
+	circleB foo1(){return circleB();}
+	circleD foo2(){return circleD();}
+	circleA foo3(){return circleA();}
+	circleE foo4(){return circleE();}
+
+private:
+	circleE m_e;
+};
+
+class circleCenter
+{
+public:
+	circleCenter()
+	{
+		m_a = circleA();
+		m_b = circleB();
+		m_c = circleC();
+		m_d = circleD();
+	}
+	
+	circleA foo0(){return circleA();}
+	circleB foo1(){return circleB();}
+	circleC foo2(){return circleC();}
+	circleD foo3(){return circleD();}
+	circleE foo4(){return circleE();}
+	circleF foo5(){return circleF();}
+	
+private:
+	circleA m_a;
+	circleB m_b;
+	circleC m_c;
+	circleD m_d;
+	
+	//AnotherClass m_anotherClass;
+};

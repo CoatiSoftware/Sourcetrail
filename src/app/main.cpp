@@ -7,11 +7,13 @@
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewFactory.h"
 #include "utility/logging/ConsoleLogger.h"
+#include "utility/logging/FileLogger.h"
 #include "utility/logging/LogManager.h"
 
 void init()
 {
 	LogManager::getInstance()->addLogger(std::make_shared<ConsoleLogger>());
+	LogManager::getInstance()->addLogger(std::make_shared<FileLogger>());
 
 	utility::loadFontsFromDirectory("data/fonts", ".otf");
 }

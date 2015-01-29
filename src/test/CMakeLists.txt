@@ -16,6 +16,7 @@ add_files(
 	GraphFilterTestSuite.h
 	GraphFilterConductorTestSuite.h
 	LogManagerTestSuite.h
+	MatrixBaseTestSuite.h
 	MessageQueueTestSuite.h
 	QueryTreeTestSuite.h
 	SettingsTestSuite.h

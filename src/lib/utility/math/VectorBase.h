@@ -54,6 +54,8 @@ public:
 	template<class U>
 	bool isSame(const VectorBase<U, N>& other) const;
 
+	bool isSame(const VectorBase<T, N>& other) const;
+
 	T operator[](const unsigned int index);
 
 	template<class U>
@@ -233,7 +235,13 @@ void VectorBase<T, N>::assign(const VectorBase<U, N>& other)
 		return;
 	}
 
-	setValues(other.m_values);
+	T values[N];
+	for(unsigned int i = 0; i < N; i++)
+	{
+		values[i] = other.getValue(i);
+	}
+
+	setValues(values);
 }
 
 template<class T, unsigned int N>
@@ -299,7 +307,7 @@ bool VectorBase<T, N>::isEqual(const VectorBase<U, N>& other) const
 {
 	for (unsigned int i = 0; i < N; i++)
 	{
-		if (m_values[i] != other.m_values[i])
+		if (m_values[i] != other.getValue(i))
 		{
 			return false;
 		}
@@ -309,10 +317,16 @@ bool VectorBase<T, N>::isEqual(const VectorBase<U, N>& other) const
 }
 
 template<class T, unsigned int N>
+bool VectorBase<T, N>::isSame(const VectorBase<T, N>& other) const
+{
+	return &other == this;
+}
+
+template<class T, unsigned int N>
 template<class U>
 bool VectorBase<T, N>::isSame(const VectorBase<U, N>& other) const
 {
-	return &other == this;
+	return false;
 }
 
 template<class T, unsigned int N>

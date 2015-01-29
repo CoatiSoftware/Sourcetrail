@@ -105,8 +105,6 @@ void GraphController::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
 
 void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenIds)
 {
-	const GraphLayouter::LayoutFunction layoutFunction = &GraphLayouter::layoutSimpleRaster;
-
 	GraphView* view = getView();
 	if (!view)
 	{
@@ -142,7 +140,7 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	setActiveAndVisibility(tokenIds);
 
 	layoutNesting();
-	layoutFunction(m_dummyNodes);
+	GraphLayouter::layoutSpectralPrototype(m_dummyNodes, m_dummyEdges);
 
 	view->rebuildGraph(graph, m_dummyNodes, m_dummyEdges);
 }
@@ -150,6 +148,19 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 DummyNode GraphController::createDummyNodeTopDown(Node* node)
 {
 	DummyNode result(node);
+	result.tokenId = node->getId();
+
+	// there is a global root node with id 0 afaik, so here we actually want the one node below this global root
+	Node* parent = node;
+	while(parent != NULL && parent->getParentNode() != NULL)
+	{
+		parent = parent->getParentNode();
+	}
+
+	if(parent != NULL)
+	{
+		result.topLevelAncestorId = parent->getId();
+	}
 
 	node->forEachChildNode(
 		[node, &result, this](Node* child)

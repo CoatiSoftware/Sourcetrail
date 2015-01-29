@@ -26,6 +26,8 @@ add_files(
 	qt/graphics/QtGraphicsRoundedRectItem.h
 
 	qt/utility/QtDeviceScaledPixmap.h
+	qt/utility/QtGraphPostprocessor.cpp
+	qt/utility/QtGraphPostprocessor.h
 	qt/utility/QtHighlighter.cpp
 	qt/utility/QtHighlighter.h
 	qt/utility/QtThreadedFunctor.h

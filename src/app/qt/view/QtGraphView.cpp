@@ -1,10 +1,13 @@
 #include "QtGraphView.h"
 
+#include <iostream>
+
 #include <QBoxLayout>
 #include <QFrame>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
+#include "qt/utility/QtGraphPostprocessor.h"
 #include "qt/utility/utilityQt.h"
 
 #include "qt/view/QtViewWidgetWrapper.h"
@@ -136,6 +139,8 @@ void QtGraphView::doRebuildGraph(
 		m_graph = graph;
 	}
 
+	QtGraphPostprocessor::doPostprocessing(m_nodes);
+
 	// Manually hover the items below the mouse cursor.
 	view->scene()->setSceneRect(view->scene()->itemsBoundingRect());
 	QPointF point = view->mapToScene(view->mapFromGlobal(QCursor::pos()));
@@ -148,6 +153,8 @@ void QtGraphView::doRebuildGraph(
 			node->hoverEnter();
 		}
 	}
+
+	m_graph = graph;
 }
 
 void QtGraphView::doClear()

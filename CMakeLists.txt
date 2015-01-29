@@ -47,6 +47,10 @@ set(Boost_USE_STATIC_RUNTIME OFF)
 set(BOOST_LIBRARYDIR $ENV{BOOST_155_DIR})
 find_package(Boost 1.55 COMPONENTS system filesystem REQUIRED)
 
+# Eigen -------------------------------------------------------------------------
+
+set(EIGEN_ROOT $ENV{EIGEN_DIR})
+
 # Lib --------------------------------------------------------------------------
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
@@ -78,6 +82,7 @@ set_property(
 		${LLVM_INCLUDE_DIRS}
 		${CLANG_INCLUDE_DIRS}
 		${Boost_INCLUDE_DIRS}
+		${EIGEN_ROOT}
 )
 
 link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})

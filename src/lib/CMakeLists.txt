@@ -192,6 +192,8 @@ add_files(
 	utility/logging/PlainFileLogger.h
 
 	utility/math/Color.h
+	utility/math/MatrixBase.h
+	utility/math/MatrixDynamicBase.h
 	utility/math/Vector2.h
 	utility/math/Vector4.h
 	utility/math/VectorBase.h

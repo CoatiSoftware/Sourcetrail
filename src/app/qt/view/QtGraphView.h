@@ -2,6 +2,7 @@
 #define QT_GRAPH_VIEW_H
 
 #include "qt/utility/QtThreadedFunctor.h"
+#include "utility/math/MatrixDynamicBase.h"
 #include "utility/math/Vector4.h"
 #include "utility/types.h"
 

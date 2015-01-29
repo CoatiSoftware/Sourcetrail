@@ -47,8 +47,9 @@ protected:
 
 struct DummyNode
 {
-	DummyNode(const Node* data)
-		: data(data)
+public:
+	DummyNode()
+		: data(nullptr)
 		, accessType(TokenComponentAccess::ACCESS_NONE)
 		, active(false)
 		, connected(false)
@@ -57,6 +58,12 @@ struct DummyNode
 		, autoExpanded(false)
 		, invisibleSubNodeCount(0)
 		, visible(false)
+	{
+	}
+
+	DummyNode(const Node* data)
+		: data(data)
+		, accessType(TokenComponentAccess::ACCESS_NONE)
 	{
 	}
 
@@ -78,6 +85,45 @@ struct DummyNode
 		return expanded || autoExpanded;
 	}
 
+	bool operator==(const DummyNode& other) const
+	{
+		if (data->getId() == other.data->getId()
+			&& data->getName() == other.data->getName())
+		{
+			return true;
+		}
+		return false;
+	}
+
+	bool operator!=(const DummyNode& other) const
+	{
+		return !(*this == other);
+	}
+
+	bool operator<(const DummyNode& other) const
+	{
+		if (data->getId() < other.data->getId())
+		{
+			return true;
+		}
+		return false;
+	}
+
+	bool operator>(const DummyNode& other) const
+	{
+		return !(*this < other);
+	}
+
+	DummyNode& operator=(const DummyNode& other)
+	{
+		data = other.data;
+		subNodes = other.subNodes;
+		position = other.position;
+		topLevelAncestorId = other.topLevelAncestorId;
+		tokenId = other.tokenId;
+		return *this;
+	}
+
 	const Node* data;
 	TokenComponentAccess::AccessType accessType;
 
@@ -93,7 +139,10 @@ struct DummyNode
 	size_t invisibleSubNodeCount;
 
 	bool visible;
-
+	
+	Id topLevelAncestorId;
+	Id tokenId;
+	
 	std::vector<DummyNode> subNodes;
 };
 
