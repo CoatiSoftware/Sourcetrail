@@ -2,6 +2,7 @@
 #define MATRIX_DYNAMIC_BASE_H
 
 #include <vector>
+#include <sstream>
 
 /**
  * @brief Matrix of variable size, needed for spectral graph layouting

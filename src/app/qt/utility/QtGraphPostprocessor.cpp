@@ -18,7 +18,7 @@ void QtGraphPostprocessor::doPostprocessing(std::list<std::shared_ptr<QtGraphNod
 	Vec2i centerOfMass(0, 0);
 	float totalMass = 0.0f;
 	std::list<std::shared_ptr<QtGraphNode>>::iterator it = nodes.begin();
-	for(it; it != nodes.end(); it++)
+	for(; it != nodes.end(); it++)
 	{
 		if((*it)->getSize().x < divisor)
 		{
@@ -58,7 +58,7 @@ void QtGraphPostprocessor::resolveOutliers(std::list<std::shared_ptr<QtGraphNode
 {
 	float maxDist = 0.0f;
 	std::list<std::shared_ptr<QtGraphNode>>::iterator it = nodes.begin();
-	for(it; it != nodes.end(); it++)
+	for(; it != nodes.end(); it++)
 	{
 		Vec2i pos = (*it)->getPosition();
 		Vec2i toCenterOfMass = centerPoint - pos;
@@ -69,7 +69,7 @@ void QtGraphPostprocessor::resolveOutliers(std::list<std::shared_ptr<QtGraphNode
 	}
 
 	it = nodes.begin();
-	for(it; it != nodes.end(); it++)
+	for(; it != nodes.end(); it++)
 	{
 		Vec2i pos = (*it)->getPosition();
 		Vec2i toCenterOfMass = centerPoint - pos;
@@ -89,7 +89,7 @@ MatrixDynamicBase<unsigned int> QtGraphPostprocessor::buildHeatMap(const std::li
 	MatrixDynamicBase<unsigned int> heatMap(heatMapWidth, heatMapHeight);
 
 	std::list<std::shared_ptr<QtGraphNode>>::const_iterator it = nodes.cbegin();
-	for(it; it != nodes.end(); it++)
+	for(; it != nodes.end(); it++)
 	{
 		int left = (*it)->getPosition().x / atomarNodeSize + heatMapWidth/2;
 		int up = (*it)->getPosition().y / atomarNodeSize + heatMapHeight/2;
@@ -132,7 +132,7 @@ void QtGraphPostprocessor::resolveOverlap(std::list<std::shared_ptr<QtGraphNode>
 		iterationCount++;
 
 		std::list<std::shared_ptr<QtGraphNode>>::iterator it = nodes.begin();
-		for(it; it != nodes.end(); it++)
+		for(; it != nodes.end(); it++)
 		{
 			Vec2i nodePos((*it)->getPosition().x / divisor + heatMapWidth/2,
 				(*it)->getPosition().y / divisor + heatMapHeight/2);
@@ -255,10 +255,10 @@ bool QtGraphPostprocessor::getHeatmapGradient(Vec2f& outGradient, const MatrixDy
 			float yP1 = heatMap.getValue(x, y+1);
 			float yM1 = heatMap.getValue(x, y-1);
 
-			xP1 = std::sqrtf(xP1);
-			xM1 = std::sqrtf(xM1);
-			yP1 = std::sqrtf(yP1);
-			yM1 = std::sqrtf(yM1);
+			xP1 = std::sqrt(xP1);
+			xM1 = std::sqrt(xM1);
+			yP1 = std::sqrt(yP1);
+			yM1 = std::sqrt(yM1);
 
 			float xOffset = (xM1 - val) + (val - xP1);
 			float yOffset = (yM1 - val) + (val - yP1);
