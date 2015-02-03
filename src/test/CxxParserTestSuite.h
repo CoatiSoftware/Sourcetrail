@@ -1445,6 +1445,19 @@ public:
 		TS_ASSERT_EQUALS(client->methods[0], "private A<T>::T A<T>::foo() <4:4 4:6>");
 	}
 
+	void test_cxx_parser_finds_template_default_argument_type_of_template_class()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T = int>\n"
+			"class A\n"
+			"{\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes.size(), 1);
+		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes[0], "int -> A<T>::T <1:24 1:26>");
+	}
+
 
 
 
@@ -1725,6 +1738,15 @@ private:
 			return 0;
 		}
 
+		virtual Id onTemplateDefaultArgumentTypeParsed(
+			const ParseTypeUsage& defaultArgumentType, const std::vector<std::string>& templateArgumentTypeNameHierarchy)
+		{
+			templateDefaultArgumentTypes.push_back(
+				addLocationSuffix(utility::join(defaultArgumentType.dataType.getTypeNameHierarchy(), "::") + " -> " + utility::join(templateArgumentTypeNameHierarchy, "::"), defaultArgumentType.location)
+			);
+			return 0;
+		}
+
 		virtual Id onTemplateRecordSpecializationParsed(
 			const ParseLocation& location, const std::vector<std::string>& specializedRecordNameHierarchy,
 			const RecordType specializedRecordType, const std::vector<std::string>& specializedFromNameHierarchy)
@@ -1774,6 +1796,7 @@ private:
 		std::vector<std::string> typeUses;	// for types
 		std::vector<std::string> templateParameterTypes;
 		std::vector<std::string> templateArgumentTypes;
+		std::vector<std::string> templateDefaultArgumentTypes;
 		std::vector<std::string> templateSpecializations;
 
 	private:

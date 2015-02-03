@@ -121,7 +121,14 @@ namespace utility
 				LOG_ERROR("unhandled declaration type");
 			}
 			contextNameHierarchy = getContextNameHierarchy(declaration->getDeclContext());
-			contextNameHierarchy.push_back(declName);
+			if (clang::isa<clang::TemplateTypeParmDecl>(declaration))
+			{
+				contextNameHierarchy.back() += "::" + declName;
+			}
+			else
+			{
+				contextNameHierarchy.push_back(declName);
+			}
 		}
 		return contextNameHierarchy;
 	}

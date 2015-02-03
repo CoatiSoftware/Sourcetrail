@@ -36,6 +36,7 @@ public:
 	virtual bool VisitEnumDecl(clang::EnumDecl* declaration); // enums
 	virtual bool VisitEnumConstantDecl(clang::EnumConstantDecl* declaration); // enum fields
 
+	virtual bool VisitTemplateTypeParmDecl(clang::TemplateTypeParmDecl *declaration);
 	virtual bool VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration);
 	virtual bool VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* declaration);
 	virtual bool VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declaration);

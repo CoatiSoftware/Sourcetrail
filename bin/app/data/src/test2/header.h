@@ -1,4 +1,4 @@
-template <typename T, typename U>
+template <typename T = int, typename U = int>
 class TemplateTestClass
 {
 };

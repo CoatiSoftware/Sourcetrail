@@ -496,6 +496,18 @@ Id Storage::onTemplateRecordArgumentTypeParsed(
 	return 0;
 }
 
+Id Storage::onTemplateDefaultArgumentTypeParsed(
+	const ParseTypeUsage& defaultArgumentType, const std::vector<std::string>& templateArgumentTypeNameHierarchy)
+{
+	log("template default argument", utility::join(defaultArgumentType.dataType.getTypeNameHierarchy(), "::") + " -> " + utility::join(templateArgumentTypeNameHierarchy, "::"), defaultArgumentType.location);
+	Node* templateDefaultArgumentNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, defaultArgumentType.dataType.getTypeNameHierarchy());
+	addTokenLocation(templateDefaultArgumentNode, defaultArgumentType.location);
+	Node* templateArgumentNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateArgumentTypeNameHierarchy);
+	Edge* edge = m_graph.createEdge(Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF, templateDefaultArgumentNode, templateArgumentNode);
+
+	return 0;
+}
+
 Id Storage::onTemplateRecordSpecializationParsed(
 	const ParseLocation& location, const std::vector<std::string>& specializedRecordNameHierarchy,
 		const RecordType specializedRecordType, const std::vector<std::string>& specializedFromNameHierarchy)

@@ -266,7 +266,18 @@ bool ASTVisitor::VisitEnumConstantDecl(clang::EnumConstantDecl* declaration)
 			utility::getDeclNameHierarchy(declaration)
 		);
 	}
+	return true;
+}
 
+bool ASTVisitor::VisitTemplateTypeParmDecl(clang::TemplateTypeParmDecl *declaration)
+{
+	if (declaration->hasDefaultArgument())
+	{
+		m_client->onTemplateDefaultArgumentTypeParsed(
+			getParseTypeUsage(declaration->getDefaultArgumentInfo()->getTypeLoc(), declaration->getDefaultArgument()),
+			utility::getDeclNameHierarchy(declaration)
+		);
+	}
 	return true;
 }
 
