@@ -7,6 +7,7 @@
 
 #include "clang/AST/Type.h"
 #include "clang/AST/Decl.h"
+#include "clang/AST/DeclTemplate.h"
 
 class DataType;
 
@@ -17,6 +18,7 @@ namespace utility
 	std::vector<std::string> getDeclNameHierarchy(clang::Decl* declaration);
 	std::vector<std::string> getContextNameHierarchy(clang::DeclContext* declaration);
 	std::string getDeclName(clang::NamedDecl* declaration);
+	std::vector<std::string> getTemplateSpecializationParentNameHierarchy(clang::ClassTemplateSpecializationDecl* declaration);
 }
 
 #endif // UTILITY_CLANG_H

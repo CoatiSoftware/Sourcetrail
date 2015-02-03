@@ -275,36 +275,44 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 	if (hasValidLocation(declaration))
 	{
 		std::vector<std::string> templateRecordNameHierarchy = utility::getDeclNameHierarchy(declaration);
-
 		clang::TemplateParameterList* parameterList = declaration->getTemplateParameters();
 		for (size_t i = 0; i < parameterList->size(); i++)
 		{
 			clang::NamedDecl* namedDecl = parameterList->getParam(i);
-
 			if (hasValidLocation(namedDecl))
 			{
-				std::string templateParameterTypeName = namedDecl->getNameAsString();
-
 				m_client->onTemplateRecordParameterTypeParsed(
 					getParseLocationForNamedDecl(namedDecl),
-					templateParameterTypeName,
+					namedDecl->getNameAsString(),
 					templateRecordNameHierarchy
 				);
 			}
 		}
-
-		for (clang::ClassTemplateDecl::spec_iterator it = declaration->specializations().begin(); // template argument as parameter does not work
-			it != declaration->specializations().end(); it++
-		)
-		{
-			ParserClient::RecordType specializedRecordType = it->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
-			std::vector<std::string> specializedRecordNameHierarchy = utility::getDeclNameHierarchy(*(it));
-			m_client->onTemplateRecordSpecializationParsed(
-				getParseLocationForNamedDecl(*it), specializedRecordNameHierarchy, specializedRecordType, templateRecordNameHierarchy
-			);
-		}
 	}
 
+	// for implicit template specializations we do not need a valid location of the original template class definition (since that file could be included)
+	// handles explicit specializations and implicit specializations but no explicit partial specializations
+	for (clang::ClassTemplateDecl::spec_iterator it = declaration->specializations().begin();
+		it != declaration->specializations().end(); it++
+	)
+	{
+		clang::ClassTemplateSpecializationDecl* specializationDecl = *it;
+
+		std::vector<std::string> specializationParentNameHierarchy = utility::getTemplateSpecializationParentNameHierarchy(specializationDecl);
+
+		ParserClient::RecordType specializedRecordType = specializationDecl->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
+		std::vector<std::string> specializedRecordNameHierarchy = utility::getDeclNameHierarchy(specializationDecl);
+		m_client->onTemplateRecordSpecializationParsed(
+			getParseLocationForNamedDecl(*it), specializedRecordNameHierarchy, specializedRecordType, specializationParentNameHierarchy
+		);
+
+		const clang::TemplateArgumentList &argList = specializationDecl->getTemplateArgs();
+		for (int i = 0; i < argList.size(); i++)
+		{
+			std::vector<std::string> argumentNameHierarchy = utility::qualTypeToDataType(argList.get(i).getAsType()).getTypeNameHierarchy();
+			m_client->onTemplateRecordArgumentTypeParsed(ParseLocation(), argumentNameHierarchy, specializedRecordNameHierarchy); // TODO: What about the ParseLocation
+		}
+	}
 	return true;
 }
 
@@ -312,32 +320,40 @@ bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplat
 {
 	if (hasValidLocation(declaration))
 	{
-		//std::vector<std::string> templateRecordNameHierarchy = utility::splitToVector(
-		//	declaration->getQualifiedNameAsString(), "::"
-		//);
+		std::vector<std::string> specializedRecordNameHierarchy = utility::getDeclNameHierarchy(declaration);
+		std::vector<std::string> specializationParentNameHierarchy = utility::getTemplateSpecializationParentNameHierarchy(declaration);
 
-		//clang::ClassTemplateDecl* baseTemplateDecl = declaration->getSpecializedTemplate();
+		ParserClient::RecordType specializedRecordType = declaration->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
+		m_client->onTemplateRecordSpecializationParsed(
+			getParseLocationForNamedDecl(declaration), specializedRecordNameHierarchy, specializedRecordType, specializationParentNameHierarchy
+		);
 
-		//std::string specializedParameterNamePart = "<";
-		//const clang::TemplateArgumentList& templateArgumentList = declaration->getTemplateArgs();
-		//for (int i = 0; i < templateArgumentList.size(); i++)
-		//{
-		//	DataType datatype = utility::qualTypeToDataType(templateArgumentList.get(i).getAsType());
-		//	if (datatype.isTemplateParameterType())
-		//	{
-		//		specializedParameterNamePart += baseTemplateDecl->getTemplateParameters()->getParam(i)->getNameAsString();
-		//	}
-		//	else
-		//	{
-		//		specializedParameterNamePart += datatype.getFullTypeName();
-		//	}
-		//	specializedParameterNamePart += (i < templateArgumentList.size() - 1) ? ", " : "";
-		//}
-		//specializedParameterNamePart += ">";
+		clang::TemplateParameterList* parameterList = declaration->getTemplateParameters();
+		for (size_t i = 0; i < parameterList->size(); i++)
+		{
+			clang::NamedDecl* namedDecl = parameterList->getParam(i);
+			if (hasValidLocation(namedDecl))
+			{
+				m_client->onTemplateRecordParameterTypeParsed(
+					getParseLocationForNamedDecl(namedDecl),
+					namedDecl->getNameAsString(),
+					specializedRecordNameHierarchy
+				);
+			}
+		}
 
-		//int foo = 0;
+		const clang::ASTTemplateArgumentListInfo* argumentInfoList = declaration->getTemplateArgsAsWritten();
+		for (int i = 0; i < argumentInfoList->NumTemplateArgs; i++)
+		{
+			const clang::TemplateArgumentLoc& argumentLoc = argumentInfoList->operator[](i);
+			const clang::QualType argumentType = argumentLoc.getArgument().getAsType();
+
+			m_client->onTemplateRecordArgumentTypeParsed(
+				getParseLocation(argumentLoc.getSourceRange()),
+				utility::qualTypeToDataType(argumentType).getTypeNameHierarchy(),
+				specializedRecordNameHierarchy);
+		}
 	}
-
 	return true;
 }
 

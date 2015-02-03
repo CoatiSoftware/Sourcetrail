@@ -38,7 +38,6 @@ public:
 		NODE_TEMPLATE_PARAMETER_TYPE	= 0x2000
 	};
 
-	Node(NodeType type, const std::string& name);
 	Node(NodeType type, std::shared_ptr<TokenComponentName> nameComponent);
 	Node(const Node& other);
 	virtual ~Node();

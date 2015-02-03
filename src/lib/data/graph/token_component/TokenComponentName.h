@@ -45,7 +45,7 @@ class TokenComponentNameCached
 	: public TokenComponentName
 {
 public:
-	TokenComponentNameCached(const std::string& fullName);
+	TokenComponentNameCached(const std::vector<std::string>& nameHierarchy);
 	virtual ~TokenComponentNameCached();
 
 	virtual std::shared_ptr<TokenComponent> copy() const;
@@ -56,7 +56,7 @@ public:
 	virtual const SearchNode* getSearchNode() const;
 
 private:
-	const std::string m_fullName;
+	const std::vector<std::string> m_nameHierarchy;
 };
 
 #endif // TOKEN_COMPONENT_NAME_H

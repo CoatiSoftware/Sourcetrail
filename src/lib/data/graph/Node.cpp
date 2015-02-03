@@ -9,12 +9,6 @@
 #include "data/graph/token_component/TokenComponentSignature.h"
 #include "utility/logging/logging.h"
 
-Node::Node(NodeType type, const std::string& name)
-	: m_type(type)
-	, m_nameComponent(std::make_shared<TokenComponentNameCached>(name))
-{
-}
-
 Node::Node(NodeType type, std::shared_ptr<TokenComponentName> nameComponent)
 	: m_type(type)
 	, m_nameComponent(nameComponent)

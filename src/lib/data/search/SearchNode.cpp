@@ -24,6 +24,18 @@ const std::string& SearchNode::getName() const
 	return m_name;
 }
 
+std::vector<std::string> SearchNode::getNameHierarchy() const
+{
+	std::vector<std::string> nameHierarchy;
+	const SearchNode* parent = getParent();
+	if (parent)
+	{
+		nameHierarchy = parent->getNameHierarchy();
+	}
+	nameHierarchy.push_back(getName());
+	return nameHierarchy;
+}
+
 std::string SearchNode::getFullName() const
 {
 	if (m_parent && m_parent->m_nameId)

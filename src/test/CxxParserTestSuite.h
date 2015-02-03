@@ -1134,6 +1134,105 @@ public:
 		TS_ASSERT_EQUALS(client->templateParameterTypes[1], "A<T, U>::U <1:32 1:32>");
 	}
 
+	void test_cxx_parser_finds_template_argument_of_implicit_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"};\n"
+			"int main()\n"
+			"{\n"
+			"	A<int> a;\n"
+			"	return 0;\n"
+			"}\n"
+		);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int>->int <0:0 0:0>");
+	}
+
+	void test_cxx_parser_finds_explicit_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"};\n"
+			"template <>\n"
+			"class A<int>\n"
+			"{\n"
+			"};\n"
+		);
+		TS_ASSERT_EQUALS(client->templateSpecializations.size(), 1);
+		TS_ASSERT_EQUALS(client->templateSpecializations[0], "class A<int> -> A<T> <6:7 6:7>");
+	}
+
+	void test_cxx_parser_finds_explicit_partial_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T, typename U>\n"
+			"class A\n"
+			"{\n"
+			"};\n"
+			"template <typename T>\n"
+			"class A<T, int>\n"
+			"{\n"
+			"};\n"
+		);
+		TS_ASSERT_EQUALS(client->templateSpecializations.size(), 1);
+		TS_ASSERT_EQUALS(client->templateSpecializations[0], "class A<T, int> -> A<T, U> <6:7 6:7>");
+	}
+
+	void test_cxx_parser_finds_argument_of_explicit_partial_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T, typename U>\n"
+			"class A\n"
+			"{\n"
+			"};\n"
+			"template <typename T>\n"
+			"class A<T, int>\n"
+			"{\n"
+			"};\n"
+		);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<T, int>->A<T, int>::T <6:9 6:9>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<T, int>->int <6:12 6:12>");
+	}
+
+	void test_cxx_parser_finds_correct_name_of_explicit_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T, typename U>\n"
+			"class A\n"
+			"{\n"
+			"};\n"
+			"template <typename T>\n"
+			"class A<T, int>\n"
+			"{\n"
+			"};\n"
+		);
+		TS_ASSERT_EQUALS(client->classes.size(), 2);
+		TS_ASSERT_EQUALS(client->classes[0], "A<T, U> <2:1 <2:7 2:7> 4:1>");
+		TS_ASSERT_EQUALS(client->classes[1], "A<T, int> <5:1 <6:7 6:7> 8:1>");
+	}
+
+	void test_cxx_parser_finds_argument_of_explicit_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"};\n"
+			"template <>\n"
+			"class A<int>\n"
+			"{\n"
+			"};\n"
+		);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int>->int <0:0 0:0>");
+	}
+
 	void test_cxx_parser_finds_correct_field_member_name_of_template_class_in_declaration()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -1148,7 +1247,7 @@ public:
 		TS_ASSERT_EQUALS(client->fields[0], "private int A<T>::foo <4:6 4:8>");
 	}
 
-	void test_cxx_parser_finds_correct_field_member_type_of_template_class_in_declaration()
+	void test_cxx_parser_finds_correct_type_of_field_member_of_template_class_in_declaration()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T>\n"
@@ -1162,7 +1261,7 @@ public:
 		TS_ASSERT_EQUALS(client->fields[0], "private A<T>::T A<T>::foo <4:4 4:6>");
 	}
 
-	void test_cxx_parser_finds_template_class_specialization_with_non_template_argument()
+	void test_cxx_parser_finds_implicit_template_class_specialization()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T>\n"
@@ -1178,7 +1277,7 @@ public:
 		TS_ASSERT_EQUALS(client->templateSpecializations[0], "class A<int> -> A<T> <2:7 2:7>");
 	}
 
-	void test_cxx_parser_finds_class_inheritance_from_specialized_template_class()
+	void test_cxx_parser_finds_class_inheritance_from_implicit_template_class_specialization()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T>\n"
@@ -1196,7 +1295,7 @@ public:
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : public A<int> <7:10 7:22>");
 	}
 
-	//void _____test_cxx_parser_finds_template_class_specialization_with_template_argument()
+	//___void test_cxx_parser_finds_template_class_specialization_with_template_argument()
 	//{
 	//	std::shared_ptr<TestParserClient> client = parseCode(
 	//		"template <typename T>\n"
@@ -1209,10 +1308,11 @@ public:
 	//		"class B: public A<U>\n"
 	//		"{\n"
 	//		"};\n"
+	//		"B<int> bar;"
 	//	);
-
-	//	TS_ASSERT_EQUALS(client->templateSpecializations.size(), 1);
-	//	TS_ASSERT_EQUALS(client->templateSpecializations[0], "class A<U> -> A<T> <2:7 2:7>");
+	//	int i = 0;
+	//	//TS_ASSERT_EQUALS(client->templateSpecializations.size(), 1);
+	//	//TS_ASSERT_EQUALS(client->templateSpecializations[0], "class A<U> -> A<T> <2:7 2:7>");
 	//}
 
 	void test_cxx_parser_finds_template_class_constructor_usage_of_field()
@@ -1286,22 +1386,36 @@ public:
 		TS_ASSERT_EQUALS(client->enumFields[1], "A<T>::TestType::TEST_TWO <7:3 7:3>");
 	}
 
-	//void _____test_cxx_parser_finds_correct_field_member_type_of_nested_template_class_in_declaration()
-	//{
-	//	std::shared_ptr<TestParserClient> client = parseCode(
-	//		"template <typename T>\n"
-	//		"class A\n"
-	//		"{\n"
-	//		"	class B\n"
-	//		"	{\n"
-	//		"		T foo;\n"
-	//		"	};\n"
-	//		"};\n"
-	//	);
+	void test_cxx_parser_finds_correct_field_member_type_of_nested_template_class_in_declaration_____typedef()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"	typedef T TempType;"
+			"};\n"
+		);
 
-	//	TS_ASSERT_EQUALS(client->fields.size(), 1);
-	//	TS_ASSERT_EQUALS(client->fields[0], "private A<T>::T A<T>::B::foo <4:4 4:6>");
-	//}
+		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
+		TS_ASSERT_EQUALS(client->typedefs[0], "private A<T>::T -> A<T>::TempType <4:12 4:19>");
+	}
+
+	void test_cxx_parser_finds_correct_field_member_type_of_nested_template_class_in_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"	class B\n"
+			"	{\n"
+			"		T foo;\n"
+			"	};\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->fields.size(), 1);
+		TS_ASSERT_EQUALS(client->fields[0], "private A<T>::T A<T>::B::foo <6:5 6:7>");
+	}
 
 	void test_cxx_parser_finds_correct_method_member_name_of_template_class_in_declaration()
 	{
@@ -1317,7 +1431,7 @@ public:
 		TS_ASSERT_EQUALS(client->methods[0], "private int A<T>::foo() <4:6 4:8>");
 	}
 
-	void test_cxx_parser_finds_correct_method_member_return_type_of_template_class_in_declaration()
+	void test_cxx_parser_finds_correct_method_return_type_of_template_class_in_declaration()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T>\n"
@@ -1330,6 +1444,10 @@ public:
 		TS_ASSERT_EQUALS(client->methods.size(), 1);
 		TS_ASSERT_EQUALS(client->methods[0], "private A<T>::T A<T>::foo() <4:4 4:6>");
 	}
+
+
+
+
 
 	void test_cxx_parser_finds_template_parameter_type_of_template_function()
 	{
@@ -1597,13 +1715,23 @@ private:
 			return 0;
 		}
 
+		virtual Id onTemplateRecordArgumentTypeParsed(
+			const ParseLocation& location, const std::vector<std::string>& templateArgumentTypeNameHierarchy,
+			const std::vector<std::string>& templateRecordNameHierarchy)
+		{
+			templateArgumentTypes.push_back(
+				addLocationSuffix(utility::join(templateRecordNameHierarchy, "::") + "->" + utility::join(templateArgumentTypeNameHierarchy, "::"), location)
+			);
+			return 0;
+		}
+
 		virtual Id onTemplateRecordSpecializationParsed(
 			const ParseLocation& location, const std::vector<std::string>& specializedRecordNameHierarchy,
-			const RecordType specializedRecordType, const std::vector<std::string>& templateRecordNameHierarchy)
+			const RecordType specializedRecordType, const std::vector<std::string>& specializedFromNameHierarchy)
 		{
 			templateSpecializations.push_back(
 				addLocationSuffix(std::string(specializedRecordType == ParserClient::RECORD_CLASS ? "class" : "struct") + " " +
-				utility::join(specializedRecordNameHierarchy, "::") + " -> " + utility::join(templateRecordNameHierarchy, "::"), location)
+				utility::join(specializedRecordNameHierarchy, "::") + " -> " + utility::join(specializedFromNameHierarchy, "::"), location)
 			);
 			return 0;
 		}
@@ -1645,6 +1773,7 @@ private:
 		std::vector<std::string> usages;	// for variables
 		std::vector<std::string> typeUses;	// for types
 		std::vector<std::string> templateParameterTypes;
+		std::vector<std::string> templateArgumentTypes;
 		std::vector<std::string> templateSpecializations;
 
 	private:

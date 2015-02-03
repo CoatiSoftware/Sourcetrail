@@ -23,6 +23,7 @@ public:
 	~SearchNode();
 
 	const std::string& getName() const;
+	std::vector<std::string> getNameHierarchy() const;
 	std::string getFullName() const;
 
 	Id getNameId() const;

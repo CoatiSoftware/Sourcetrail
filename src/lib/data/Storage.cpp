@@ -388,25 +388,38 @@ Id Storage::onTemplateRecordParameterTypeParsed(
 	const std::vector<std::string>& templateRecordNameHierarchy
 )
 {
-	log("class template type parameter", templateParameterTypeName, location);
+	log("template record type parameter", templateParameterTypeName, location);
 	std::vector<std::string> templateParameterTypeNameHierarchy = templateRecordNameHierarchy;
 	templateParameterTypeNameHierarchy.back() += "::" + templateParameterTypeName;
 	Node* templateParameterNode = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
 	addTokenLocation(templateParameterNode, location);
 
 	Node* templateRecordNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateRecordNameHierarchy);
-
 	Edge* edge = m_graph.createEdge(Edge::EDGE_TEMPLATE_PARAMETER_OF, templateParameterNode, templateRecordNode);
-	//addTokenLocation(edge, location);
 
+	return 0;
+}
+
+Id Storage::onTemplateRecordArgumentTypeParsed(
+	const ParseLocation& location, const std::vector<std::string>& templateArgumentTypeNameHierarchy,
+	const std::vector<std::string>& templateRecordNameHierarchy)
+{
+	log("template record argument", utility::join(templateArgumentTypeNameHierarchy, "::") + " -> " + utility::join(templateRecordNameHierarchy, "::"), location);
+	Node* templateArgumentNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateArgumentTypeNameHierarchy);
+	Node* templateRecordNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateRecordNameHierarchy);
+	Edge* edge = m_graph.createEdge(Edge::EDGE_TEMPLATE_ARGUMENT_OF, templateArgumentNode, templateRecordNode);
+	if (location.isValid())
+	{
+		addTokenLocation(templateArgumentNode, location);
+	}
 	return 0;
 }
 
 Id Storage::onTemplateRecordSpecializationParsed(
 	const ParseLocation& location, const std::vector<std::string>& specializedRecordNameHierarchy,
-		const RecordType specializedRecordType, const std::vector<std::string>& templateRecordNameHierarchy)
+		const RecordType specializedRecordType, const std::vector<std::string>& specializedFromNameHierarchy)
 {
-	log("class template specialization", utility::join(specializedRecordNameHierarchy, "::") + " -> " + utility::join(templateRecordNameHierarchy, "::"), location);
+	log("template record specialization", utility::join(specializedRecordNameHierarchy, "::") + " -> " + utility::join(specializedFromNameHierarchy, "::"), location);
 
 	Node::NodeType specializedRecordNodeType = Node::NODE_CLASS;
 	if (specializedRecordType == ParserClient::RECORD_STRUCT)
@@ -415,7 +428,7 @@ Id Storage::onTemplateRecordSpecializationParsed(
 	}
 
 	Node* specializedRecordNode = addNodeHierarchy(specializedRecordNodeType, specializedRecordNameHierarchy);
-	Node* templateRecordNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateRecordNameHierarchy);
+	Node* templateRecordNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, specializedFromNameHierarchy);
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, specializedRecordNode, templateRecordNode);
 	//addTokenLocation(edge, location);
@@ -555,7 +568,7 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 	else if (tokenIds.size() == 1)
 	{
 		Token* token = m_graph.getTokenById(tokenIds[0]);
-		
+
 		if (!token)
 		{
 			LOG_ERROR_STREAM(<< "Token with id " << tokenIds[0] << " was not found");

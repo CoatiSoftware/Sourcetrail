@@ -107,18 +107,22 @@ namespace utility
 
 	std::vector<std::string> getDeclNameHierarchy(clang::Decl* declaration)
 	{
-		std::string declName = "";
+		std::vector<std::string> contextNameHierarchy;
+		if (declaration)
+		{
+			std::string declName = "";
 
-		if (clang::isa<clang::NamedDecl>(declaration))
-		{
-			declName = getDeclName(clang::dyn_cast<clang::NamedDecl>(declaration));
+			if (clang::isa<clang::NamedDecl>(declaration))
+			{
+				declName = getDeclName(clang::dyn_cast<clang::NamedDecl>(declaration));
+			}
+			else
+			{
+				LOG_ERROR("unhandled declaration type");
+			}
+			contextNameHierarchy = getContextNameHierarchy(declaration->getDeclContext());
+			contextNameHierarchy.push_back(declName);
 		}
-		else
-		{
-			LOG_ERROR("unhandled declaration type");
-		}
-		std::vector<std::string> contextNameHierarchy = getContextNameHierarchy(declaration->getDeclContext());
-		contextNameHierarchy.push_back(declName);
 		return contextNameHierarchy;
 	}
 
@@ -154,6 +158,19 @@ namespace utility
 			{
 				declName = getDeclName(templateClassDeclaration);
 			}
+			else if (clang::isa<clang::ClassTemplatePartialSpecializationDecl>(declaration))
+			{
+				int templateArgumentCount = clang::dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(declaration)->getTemplateArgs().size();
+				const clang::ASTTemplateArgumentListInfo* templateArgumentListInfo = clang::dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(declaration)->getTemplateArgsAsWritten();
+				std::string specializedParameterNamePart = "<";
+				for (int i = 0; i < templateArgumentCount; i++)
+				{
+					specializedParameterNamePart += templateArgumentListInfo->getTemplateArgs()[i].getArgument().getAsType().getAsString();
+					specializedParameterNamePart += (i < templateArgumentCount - 1) ? ", " : "";
+				}
+				specializedParameterNamePart += ">";
+				declName += specializedParameterNamePart;
+			}
 			else if (clang::isa<clang::ClassTemplateSpecializationDecl>(declaration))
 			{
 				std::string specializedParameterNamePart = "<";
@@ -187,5 +204,22 @@ namespace utility
 			declName = "(anonymous namespace)";
 		}
 		return declName;
+	}
+
+	std::vector<std::string> getTemplateSpecializationParentNameHierarchy(clang::ClassTemplateSpecializationDecl* declaration)
+	{
+		std::vector<std::string> specializationParentNameHierarchy;
+		llvm::PointerUnion<clang::ClassTemplateDecl*, clang::ClassTemplatePartialSpecializationDecl*> pu = declaration->getSpecializedTemplateOrPartial();
+		if (pu.is<clang::ClassTemplateDecl*>())
+		{
+			clang::ClassTemplateDecl* specializedFromDecl = pu.get<clang::ClassTemplateDecl*>();
+			specializationParentNameHierarchy = utility::getDeclNameHierarchy(specializedFromDecl);
+		}
+		else if (pu.is<clang::ClassTemplatePartialSpecializationDecl*>())
+		{
+			clang::ClassTemplatePartialSpecializationDecl* specializedFromDecl = pu.get<clang::ClassTemplatePartialSpecializationDecl*>();
+			specializationParentNameHierarchy = utility::getDeclNameHierarchy(specializedFromDecl);
+		}
+		return specializationParentNameHierarchy;
 	}
 }
