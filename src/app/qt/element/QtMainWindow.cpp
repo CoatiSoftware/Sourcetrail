@@ -13,8 +13,10 @@
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageLoadSource.h"
+#include "utility/messaging/type/MessageRedo.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageSaveProject.h"
+#include "utility/messaging/type/MessageUndo.h"
 
 QtMainWindow::QtMainWindow()
 {
@@ -23,6 +25,7 @@ QtMainWindow::QtMainWindow()
 	setDockNestingEnabled(true);
 
 	setupProjectMenu();
+	setupEditMenu();
 	setupViewMenu();
 	setupFindMenu();
 	setupHelpMenu();
@@ -71,6 +74,16 @@ void QtMainWindow::openProject(const QString &path)
 	{
 		MessageLoadProject(fileName.toStdString()).dispatch();
 	}
+}
+
+void QtMainWindow::undo()
+{
+    MessageUndo().dispatch();
+}
+
+void QtMainWindow::redo()
+{
+    MessageRedo().dispatch();
 }
 
 void QtMainWindow::saveProject()
@@ -214,6 +227,15 @@ void QtMainWindow::setupViewMenu()
 
 	menu->addAction(tr("&Close Window"), this, SLOT(closeWindow()), QKeySequence::Close);
 	menu->addAction(tr("&Refresh"), this, SLOT(refresh()), QKeySequence::Refresh);
+}
+
+void QtMainWindow::setupEditMenu()
+{
+    QMenu *menu = new QMenu(tr("&Edit"), this);
+    menuBar()->addMenu(menu);
+
+    menu->addAction(tr("Undo"), this, SLOT(undo()), QKeySequence::Undo );
+    menu->addAction(tr("Redo"), this, SLOT(redo()), QKeySequence::Redo );
 }
 
 void QtMainWindow::setupFindMenu()

@@ -29,6 +29,9 @@ void ComponentManager::setup()
 
 	std::shared_ptr<Component> statusBarComponent = m_componentFactory->createStatusBarComponent();
 	m_components.push_back(statusBarComponent);
+
+	std::shared_ptr<Component> undoRedoComponent = m_componentFactory->createUndoRedoComponent();
+	m_components.push_back(undoRedoComponent);
 }
 
 ComponentManager::ComponentManager()

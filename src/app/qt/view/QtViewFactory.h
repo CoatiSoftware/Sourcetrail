@@ -14,6 +14,7 @@ public:
 	virtual std::shared_ptr<GraphView> createGraphView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<SearchView> createSearchView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<StatusBarView> createStatusBarView(ViewLayout* viewLayout) const;
+	virtual std::shared_ptr<UndoRedoView> createUndoRedoView(ViewLayout* viewLayout) const;
 };
 
 #endif // QT_VIEW_FACTORY_H

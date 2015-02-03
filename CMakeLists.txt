@@ -24,7 +24,7 @@ endif ()
 # Settings ---------------------------------------------------------------------
 
 if (UNIX)
-	add_definitions(-std=c++11 -Wno-unknown-warning-option)
+	add_definitions(-std=c++11 -Wno-unknown-warning-option -fcolor-diagnostics)
 endif ()
 
 # Project ----------------------------------------------------------------------

@@ -11,6 +11,7 @@ template<typename MessageType>
 class Message: public MessageBase
 {
 public:
+
 	virtual ~Message()
 	{
 	}

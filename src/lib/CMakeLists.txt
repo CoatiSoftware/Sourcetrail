@@ -36,6 +36,8 @@ add_files(
 	component/controller/SearchController.h
 	component/controller/StatusBarController.cpp
 	component/controller/StatusBarController.h
+	component/controller/UndoRedoController.cpp
+	component/controller/UndoRedoController.h
 
 	component/view/graphElements/GraphEdge.cpp
 	component/view/graphElements/GraphEdge.h
@@ -52,6 +54,8 @@ add_files(
 	component/view/SearchView.h
 	component/view/StatusBarView.cpp
 	component/view/StatusBarView.h
+	component/view/UndoRedoView.cpp
+	component/view/UndoRedoView.h
 	component/view/View.cpp
 	component/view/View.h
 	component/view/ViewFactory.cpp
@@ -213,6 +217,8 @@ add_files(
 	utility/messaging/type/MessageSearchAutocomplete.h
 	utility/messaging/type/MessageShowFile.h
 	utility/messaging/type/MessageStatus.h
+	utility/messaging/type/MessageRedo.h
+	utility/messaging/type/MessageUndo.h
 
 	utility/messaging/Message.h
 	utility/messaging/MessageBase.h

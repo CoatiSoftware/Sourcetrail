@@ -5,10 +5,12 @@
 #include "component/controller/GraphController.h"
 #include "component/controller/SearchController.h"
 #include "component/controller/StatusBarController.h"
+#include "component/controller/UndoRedoController.h"
 #include "component/view/CodeView.h"
 #include "component/view/GraphView.h"
 #include "component/view/SearchView.h"
 #include "component/view/StatusBarView.h"
+#include "component/view/UndoRedoView.h"
 #include "component/view/ViewFactory.h"
 #include "component/view/ViewLayout.h"
 
@@ -49,6 +51,15 @@ std::shared_ptr<Component> ComponentFactory::createSearchComponent()
 {
 	std::shared_ptr<SearchView> view = m_viewFactory->createSearchView(m_viewLayout);
 	std::shared_ptr<SearchController> controller = std::make_shared<SearchController>(m_graphAccess);
+
+	std::shared_ptr<Component> component = std::make_shared<Component>(view, controller);
+	return component;
+}
+
+std::shared_ptr<Component> ComponentFactory::createUndoRedoComponent()
+{
+	std::shared_ptr<UndoRedoView> view = m_viewFactory->createUndoRedoView(m_viewLayout);
+	std::shared_ptr<UndoRedoController> controller = std::make_shared<UndoRedoController>();
 
 	std::shared_ptr<Component> component = std::make_shared<Component>(view, controller);
 	return component;

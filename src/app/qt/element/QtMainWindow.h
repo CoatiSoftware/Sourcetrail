@@ -35,8 +35,11 @@ public slots:
 	void refresh();
 	void saveProject();
 	void saveAsProject();
+	void undo();
+	void redo();
 
 private:
+    void setupEditMenu();
 	void setupProjectMenu();
 	void setupViewMenu();
 	void setupFindMenu();

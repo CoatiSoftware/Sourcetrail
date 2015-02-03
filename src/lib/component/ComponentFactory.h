@@ -23,6 +23,7 @@ public:
 	std::shared_ptr<Component> createGraphComponent();
 	std::shared_ptr<Component> createSearchComponent();
 	std::shared_ptr<Component> createStatusBarComponent();
+	std::shared_ptr<Component> createUndoRedoComponent();
 
 private:
 	ComponentFactory();

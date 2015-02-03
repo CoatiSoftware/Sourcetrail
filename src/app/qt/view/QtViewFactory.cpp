@@ -5,6 +5,7 @@
 #include "qt/view/QtMainView.h"
 #include "qt/view/QtSearchView.h"
 #include "qt/view/QtStatusBarView.h"
+#include "qt/view/QtUndoRedoView.h"
 
 QtViewFactory::QtViewFactory()
 {
@@ -37,4 +38,9 @@ std::shared_ptr<SearchView> QtViewFactory::createSearchView(ViewLayout* viewLayo
 std::shared_ptr<StatusBarView> QtViewFactory::createStatusBarView(ViewLayout* viewLayout) const
 {
 	return View::createAndDontAddToLayout<QtStatusBarView>(viewLayout);
+}
+
+std::shared_ptr<UndoRedoView> QtViewFactory::createUndoRedoView(ViewLayout* viewLayout) const
+{
+	return View::create<QtUndoRedoView>(viewLayout);
 }
