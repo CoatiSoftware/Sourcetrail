@@ -147,7 +147,8 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 
 DummyNode GraphController::createDummyNodeTopDown(Node* node)
 {
-	DummyNode result(node);
+	DummyNode result;
+	result.data = node;
 	result.tokenId = node->getId();
 
 	// there is a global root node with id 0 afaik, so here we actually want the one node below this global root
@@ -200,7 +201,9 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 
 				if (!parent)
 				{
-					result.subNodes.push_back(DummyNode(accessType));
+					DummyNode accessNode;
+					accessNode.accessType = accessType;
+					result.subNodes.push_back(accessNode);
 					parent = &result.subNodes.back();
 
 					DummyNode* oldParent = findDummyNodeAccessRecursive(m_dummyNodes, node->getId(), accessType);
@@ -221,15 +224,6 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 			if (edge->isType(Edge::EDGE_MEMBER))
 			{
 				return;
-			}
-
-			if (edge->isType(Edge::EDGE_AGGREGATION))
-			{
-				result.aggregated = true;
-			}
-			else
-			{
-				result.connected = true;
 			}
 
 			for (const DummyEdge& dummy : m_dummyEdges)
@@ -273,23 +267,45 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 {
 	for (DummyNode& node : m_dummyNodes)
 	{
-		setNodeActiveAndVisibilityRecursiveBottomUp(node, activeTokenIds, false);
+		setNodeActiveRecursive(node, activeTokenIds);
 	}
 
 	for (DummyEdge& edge : m_dummyEdges)
 	{
-		edge.visible = true;
 		edge.active = false;
 		if (find(activeTokenIds.begin(), activeTokenIds.end(), edge.data->getId()) != activeTokenIds.end())
 		{
 			edge.active = true;
 		}
+
+		DummyNode* from = findDummyNodeRecursive(m_dummyNodes, edge.ownerId);
+		DummyNode* to = findDummyNodeRecursive(m_dummyNodes, edge.targetId);
+
+		if (from && to && (from->active || to->active || edge.active))
+		{
+			edge.visible = true;
+
+			if (edge.data->isType(Edge::EDGE_AGGREGATION))
+			{
+				from->aggregated = true;
+				to->aggregated = true;
+			}
+			else
+			{
+				from->connected = true;
+				to->connected = true;
+			}
+		}
+	}
+
+	for (DummyNode& node : m_dummyNodes)
+	{
+		setNodeVisibilityRecursiveBottomUp(node, false);
 	}
 }
 
-bool GraphController::setNodeActiveAndVisibilityRecursiveBottomUp(
-	DummyNode& node, const std::vector<Id>& activeTokenIds, bool aggregated
-) const {
+void GraphController::setNodeActiveRecursive(DummyNode& node, const std::vector<Id>& activeTokenIds) const
+{
 	node.visible = false;
 	node.active = false;
 
@@ -298,10 +314,18 @@ bool GraphController::setNodeActiveAndVisibilityRecursiveBottomUp(
 		node.active = find(activeTokenIds.begin(), activeTokenIds.end(), node.data->getId()) != activeTokenIds.end();
 	}
 
+	for (DummyNode& subNode : node.subNodes)
+	{
+		setNodeActiveRecursive(subNode, activeTokenIds);
+	}
+}
+
+bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode& node, bool aggregated) const
+{
 	bool childVisible = false;
 	for (DummyNode& subNode : node.subNodes)
 	{
-		if (setNodeActiveAndVisibilityRecursiveBottomUp(subNode, activeTokenIds, aggregated | node.aggregated))
+		if (setNodeVisibilityRecursiveBottomUp(subNode, aggregated | node.aggregated))
 		{
 			childVisible = true;
 		}

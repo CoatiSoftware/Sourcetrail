@@ -1,6 +1,8 @@
 #ifndef MATRIX_DYNAMIC_BASE_H
 #define MATRIX_DYNAMIC_BASE_H
 
+#include <sstream>
+#include <string>
 #include <vector>
 #include <sstream>
 

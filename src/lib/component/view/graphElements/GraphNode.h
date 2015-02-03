@@ -58,70 +58,14 @@ public:
 		, autoExpanded(false)
 		, invisibleSubNodeCount(0)
 		, visible(false)
-	{
-	}
-
-	DummyNode(const Node* data)
-		: data(data)
-		, accessType(TokenComponentAccess::ACCESS_NONE)
-	{
-	}
-
-	DummyNode(TokenComponentAccess::AccessType accessType)
-		: data(nullptr)
-		, accessType(accessType)
-		, active(false)
-		, connected(false)
-		, aggregated(false)
-		, expanded(false)
-		, autoExpanded(false)
-		, invisibleSubNodeCount(0)
-		, visible(false)
+		, topLevelAncestorId(0)
+		, tokenId(0)
 	{
 	}
 
 	bool isExpanded() const
 	{
 		return expanded || autoExpanded;
-	}
-
-	bool operator==(const DummyNode& other) const
-	{
-		if (data->getId() == other.data->getId()
-			&& data->getName() == other.data->getName())
-		{
-			return true;
-		}
-		return false;
-	}
-
-	bool operator!=(const DummyNode& other) const
-	{
-		return !(*this == other);
-	}
-
-	bool operator<(const DummyNode& other) const
-	{
-		if (data->getId() < other.data->getId())
-		{
-			return true;
-		}
-		return false;
-	}
-
-	bool operator>(const DummyNode& other) const
-	{
-		return !(*this < other);
-	}
-
-	DummyNode& operator=(const DummyNode& other)
-	{
-		data = other.data;
-		subNodes = other.subNodes;
-		position = other.position;
-		topLevelAncestorId = other.topLevelAncestorId;
-		tokenId = other.tokenId;
-		return *this;
 	}
 
 	const Node* data;
@@ -139,10 +83,10 @@ public:
 	size_t invisibleSubNodeCount;
 
 	bool visible;
-	
+
 	Id topLevelAncestorId;
 	Id tokenId;
-	
+
 	std::vector<DummyNode> subNodes;
 };
 

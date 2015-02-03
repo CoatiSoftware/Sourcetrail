@@ -63,8 +63,8 @@ private:
 	void autoExpandActiveNode(const std::vector<Id>& activeTokenIds);
 
 	void setActiveAndVisibility(const std::vector<Id>& activeTokenIds);
-	bool setNodeActiveAndVisibilityRecursiveBottomUp(
-		DummyNode& node, const std::vector<Id>& activeTokenIds, bool aggregated) const;
+	void setNodeActiveRecursive(DummyNode& node, const std::vector<Id>& activeTokenIds) const;
+	bool setNodeVisibilityRecursiveBottomUp(DummyNode& node, bool aggregated) const;
 	void setNodeVisibilityRecursiveTopDown(DummyNode& node) const;
 
 	void layoutNesting();

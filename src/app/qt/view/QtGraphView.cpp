@@ -1,7 +1,5 @@
 #include "QtGraphView.h"
 
-#include <iostream>
-
 #include <QBoxLayout>
 #include <QFrame>
 #include <QGraphicsScene>
@@ -153,8 +151,6 @@ void QtGraphView::doRebuildGraph(
 			node->hoverEnter();
 		}
 	}
-
-	m_graph = graph;
 }
 
 void QtGraphView::doClear()
@@ -233,6 +229,11 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 
 std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const DummyEdge& edge)
 {
+	if (!edge.visible)
+	{
+		return NULL;
+	}
+
 	std::shared_ptr<QtGraphNode> owner = findNodeRecursive(m_nodes, edge.ownerId);
 	std::shared_ptr<QtGraphNode> target = findNodeRecursive(m_nodes, edge.targetId);
 
