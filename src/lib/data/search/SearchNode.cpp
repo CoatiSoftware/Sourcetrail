@@ -19,6 +19,18 @@ SearchNode::~SearchNode()
 {
 }
 
+size_t SearchNode::getNodeCount() const
+{
+	size_t count = 1;
+
+	for (std::shared_ptr<SearchNode> n: m_nodes)
+	{
+		count += n->getNodeCount();
+	}
+
+	return count;
+}
+
 const std::string& SearchNode::getName() const
 {
 	return m_name;
@@ -28,7 +40,7 @@ std::vector<std::string> SearchNode::getNameHierarchy() const
 {
 	std::vector<std::string> nameHierarchy;
 	const SearchNode* parent = getParent();
-	if (parent)
+	if (parent && parent->m_nameId)
 	{
 		nameHierarchy = parent->getNameHierarchy();
 	}
@@ -53,6 +65,22 @@ Id SearchNode::getNameId() const
 	return m_nameId;
 }
 
+std::deque<Id> SearchNode::getNameIdsRecursive() const
+{
+	std::deque<Id> ids;
+
+	ids.push_front(m_nameId);
+
+	SearchNode* parent = m_parent;
+	while (parent && parent->m_nameId)
+	{
+		ids.push_front(parent->getNameId());
+		parent = parent->getParent();
+	}
+
+	return ids;
+}
+
 Id SearchNode::getFirstTokenId() const
 {
 	if (m_tokenIds.size())
@@ -68,14 +96,37 @@ const std::set<Id>& SearchNode::getTokenIds() const
 	return m_tokenIds;
 }
 
+bool SearchNode::hasTokenIdsRecursive() const
+{
+	if (m_tokenIds.size())
+	{
+		return true;
+	}
+
+	for (std::shared_ptr<SearchNode> n: m_nodes)
+	{
+		if (n->hasTokenIdsRecursive())
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void SearchNode::addTokenId(Id tokenId)
 {
 	m_tokenIds.insert(tokenId);
 }
 
+void SearchNode::removeTokenId(Id tokenId)
+{
+	m_tokenIds.erase(tokenId);
+}
+
 SearchNode* SearchNode::getParent() const
 {
-	if (m_parent && m_parent->m_nameId)
+	if (m_parent)
 	{
 		return m_parent;
 	}
@@ -181,6 +232,18 @@ std::shared_ptr<SearchNode> SearchNode::getNodeRecursive(std::deque<Id>* nameIds
 	}
 
 	return nullptr;
+}
+
+void SearchNode::removeSearchNode(SearchNode* node)
+{
+	for (std::set<std::shared_ptr<SearchNode>>::iterator it = m_nodes.begin(); it != m_nodes.end(); it++)
+	{
+		if ((*it)->m_nameId == node->m_nameId)
+		{
+			m_nodes.erase(it);
+			return;
+		}
+	}
 }
 
 SearchMatch SearchNode::fuzzyMatchData(const std::string& query, const SearchNode* parent) const

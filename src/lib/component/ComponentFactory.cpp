@@ -3,11 +3,13 @@
 #include "component/Component.h"
 #include "component/controller/CodeController.h"
 #include "component/controller/GraphController.h"
+#include "component/controller/RefreshController.h"
 #include "component/controller/SearchController.h"
 #include "component/controller/StatusBarController.h"
 #include "component/controller/UndoRedoController.h"
 #include "component/view/CodeView.h"
 #include "component/view/GraphView.h"
+#include "component/view/RefreshView.h"
 #include "component/view/SearchView.h"
 #include "component/view/StatusBarView.h"
 #include "component/view/UndoRedoView.h"
@@ -42,6 +44,15 @@ std::shared_ptr<Component> ComponentFactory::createGraphComponent()
 {
 	std::shared_ptr<View> view = m_viewFactory->createGraphView(m_viewLayout);
 	std::shared_ptr<GraphController> controller = std::make_shared<GraphController>(m_graphAccess);
+
+	std::shared_ptr<Component> component = std::make_shared<Component>(view, controller);
+	return component;
+}
+
+std::shared_ptr<Component> ComponentFactory::createRefreshComponent()
+{
+	std::shared_ptr<View> view = m_viewFactory->createRefreshView(m_viewLayout);
+	std::shared_ptr<RefreshController> controller = std::make_shared<RefreshController>();
 
 	std::shared_ptr<Component> component = std::make_shared<Component>(view, controller);
 	return component;

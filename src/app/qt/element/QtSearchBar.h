@@ -1,5 +1,5 @@
-#ifndef QT_SEARCH_BOX_H
-#define QT_SEARCH_BOX_H
+#ifndef QT_SEARCH_BAR_H
+#define QT_SEARCH_BAR_H
 
 #include <string>
 
@@ -35,4 +35,4 @@ private:
 	// QPushButton* m_caseSensitiveButton;
 };
 
-#endif // QT_SEARCH_BOX_H
+#endif // QT_SEARCH_BAR_H

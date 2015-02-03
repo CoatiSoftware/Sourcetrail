@@ -45,7 +45,7 @@ set(Boost_USE_MULTITHREAD ON)
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_STATIC_RUNTIME OFF)
 set(BOOST_LIBRARYDIR $ENV{BOOST_155_DIR})
-find_package(Boost 1.55 COMPONENTS system filesystem REQUIRED)
+find_package(Boost 1.55 COMPONENTS system filesystem date_time REQUIRED)
 
 # Eigen -------------------------------------------------------------------------
 

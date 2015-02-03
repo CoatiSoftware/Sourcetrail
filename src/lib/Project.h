@@ -23,7 +23,7 @@ public:
 	bool setSourceDirectoryPath(const std::string& sourceDirectoryPath);
 
 	void clearStorage();
-	void parseCode();
+	void parseCode(bool refresh);
 
 private:
 	Project(GraphAccessProxy* graphAccessProxy, LocationAccessProxy* locationAccessProxy);
@@ -36,6 +36,8 @@ private:
 	LocationAccessProxy* const m_locationAccessProxy;
 
 	std::shared_ptr<Storage> m_storage;
+
+	std::string m_lastParseTimeString;
 };
 
 #endif // PROJECT_H

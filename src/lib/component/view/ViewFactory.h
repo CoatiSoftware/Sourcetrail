@@ -6,6 +6,7 @@
 class CodeView;
 class GraphView;
 class MainView;
+class RefreshView;
 class SearchView;
 class StatusBarView;
 class UndoRedoView;
@@ -20,6 +21,7 @@ public:
 	virtual std::shared_ptr<MainView> createMainView() const = 0;
 	virtual std::shared_ptr<CodeView> createCodeView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<GraphView> createGraphView(ViewLayout* viewLayout) const = 0;
+	virtual std::shared_ptr<RefreshView> createRefreshView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<SearchView> createSearchView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<StatusBarView> createStatusBarView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<UndoRedoView> createUndoRedoView(ViewLayout* viewLayout) const = 0;

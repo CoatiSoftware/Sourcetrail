@@ -28,6 +28,7 @@ void StatusBarController::handleMessage(MessageFinishedParsing* message)
 {
 	std::stringstream ss;
 	ss << "Parsing Finished: ";
+	ss << message->fileCount << " files, ";
 	ss << std::setprecision(2) << message->parseTime << " seconds, ";
 	ss << message->errorCount << " error(s)";
 

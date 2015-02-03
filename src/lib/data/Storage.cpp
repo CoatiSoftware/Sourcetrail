@@ -1,7 +1,5 @@
 #include "data/Storage.h"
 
-#include <iostream>
-
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
@@ -38,6 +36,66 @@ void Storage::clear()
 	m_graph.clear();
 	m_locationCollection.clear();
 	m_tokenIndex.clear();
+
+	m_errorMessages.clear();
+	m_errorLocationCollection.clear();
+}
+
+void Storage::clearFileData(const std::vector<std::string>& filePaths)
+{
+	for (const std::string& filePath : filePaths)
+	{
+		TokenLocationFile* errorFile = m_errorLocationCollection.findTokenLocationFileByPath(filePath);
+		if (errorFile)
+		{
+			m_errorLocationCollection.removeTokenLocationFile(errorFile);
+		}
+
+		TokenLocationFile* file = m_locationCollection.findTokenLocationFileByPath(filePath);
+		if (!file)
+		{
+			continue;
+		}
+
+		file->forEachTokenLocation(
+			[&](TokenLocation* location)
+			{
+				if (location->isEndTokenLocation())
+				{
+					return;
+				}
+
+				Token* token = m_graph.getTokenById(location->getTokenId());
+				if (!token)
+				{
+					return;
+				}
+
+				token->removeLocationId(location->getId());
+				if (token->getLocationIds().size())
+				{
+					return;
+				}
+
+				if (token->isEdge())
+				{
+					Edge* edge = dynamic_cast<Edge*>(token);
+					Node* from = edge->getFrom();
+					Node* to = edge->getTo();
+
+					m_graph.removeEdge(edge);
+					removeNodeIfUnreferenced(from);
+					removeNodeIfUnreferenced(to);
+				}
+				else
+				{
+					removeNodeIfUnreferenced(dynamic_cast<Node*>(token));
+				}
+			}
+		);
+
+		m_locationCollection.removeTokenLocationFile(file);
+	}
 }
 
 void Storage::logGraph() const
@@ -52,7 +110,7 @@ void Storage::logLocations() const
 
 size_t Storage::getErrorCount() const
 {
-	return m_errorMessages.size();
+	return m_errorLocationCollection.getTokenLocationCount();
 }
 
 void Storage::onError(const ParseLocation& location, const std::string& message)
@@ -64,15 +122,38 @@ void Storage::onError(const ParseLocation& location, const std::string& message)
 		return;
 	}
 
-	Id errorId = m_errorMessages.size();
+	bool duplicate = false;
+	std::string filePath = location.filePath;
+	TokenLocationFile* file = m_errorLocationCollection.findTokenLocationFileByPath(filePath);
 
-	TokenLocation* loc = m_errorLocationCollection.addTokenLocation(
-		errorId, location.filePath,
-		location.startLineNumber, location.startColumnNumber,
-		location.endLineNumber, location.endColumnNumber
-	);
+	if (file)
+	{
+		file->forEachTokenLocation(
+			[&](TokenLocation* loc)
+			{
+				if (loc->isStartTokenLocation() &&
+					loc->getLineNumber() == location.startLineNumber &&
+					loc->getColumnNumber() == location.startColumnNumber &&
+					m_errorMessages[loc->getTokenId()] == message)
+				{
+					duplicate = true;
+				}
+			}
+		);
+	}
 
-	m_errorMessages.push_back(message);
+	if (!duplicate)
+	{
+		Id errorId = m_errorMessages.size();
+
+		TokenLocation* loc = m_errorLocationCollection.addTokenLocation(
+			errorId, filePath,
+			location.startLineNumber, location.startColumnNumber,
+			location.endLineNumber, location.endColumnNumber
+		);
+
+		m_errorMessages.push_back(message);
+	}
 }
 
 Id Storage::onTypedefParsed(
@@ -1028,6 +1109,20 @@ bool Storage::getSubQuerySearchResults(
 	}
 
 	return true;
+}
+
+void Storage::removeNodeIfUnreferenced(Node* node)
+{
+	Id tokenId = node->getId();
+	SearchNode* searchNode = m_tokenIndex.getNode(node->getTokenComponentName()->getSearchNode());
+
+	bool removed = m_graph.removeNodeIfUnreferencedRecursive(node);
+
+	if (removed && searchNode)
+	{
+		searchNode->removeTokenId(tokenId);
+		m_tokenIndex.removeNodeIfUnreferencedRecursive(searchNode);
+	}
 }
 
 void Storage::log(std::string type, std::string str, const ParseLocation& location) const

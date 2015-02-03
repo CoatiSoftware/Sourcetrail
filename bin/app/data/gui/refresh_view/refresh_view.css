@@ -1,0 +1,32 @@
+#refresh_bar {
+	background: white;
+}
+
+QPushButton {
+	background: #E0E0E0;
+	border: none;
+	background-position: 15px 5px;
+	height: 30px;
+	width: 30px;
+}
+
+QPushButton:hover, QPushButton:checked {
+	background: #B2B2B2;
+}
+
+QPushButton#refresh_button {
+	border-bottom-left-radius: 12px;
+	border-top-left-radius: 12px;
+	margin-right: 2px;
+}
+
+QPushButton#auto_refresh_button {
+	border-bottom-right-radius: 12px;
+	border-top-right-radius: 12px;
+}
+
+QToolTip {
+	background-color: rgb(204, 204, 204);
+	border: 1px solid rgb(0, 0, 0);
+	color: rgb(0, 0, 0);
+}

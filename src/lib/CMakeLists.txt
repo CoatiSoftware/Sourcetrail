@@ -32,6 +32,8 @@ add_files(
 	component/controller/GraphController.h
 	component/controller/GraphLayouter.cpp
 	component/controller/GraphLayouter.h
+	component/controller/RefreshController.cpp
+	component/controller/RefreshController.h
 	component/controller/SearchController.cpp
 	component/controller/SearchController.h
 	component/controller/StatusBarController.cpp
@@ -50,6 +52,8 @@ add_files(
 	component/view/GraphView.h
 	component/view/MainView.cpp
 	component/view/MainView.h
+	component/view/RefreshView.cpp
+	component/view/RefreshView.h
 	component/view/SearchView.cpp
 	component/view/SearchView.h
 	component/view/StatusBarView.cpp
@@ -204,6 +208,7 @@ add_files(
 
 	utility/messaging/type/MessageActivateTokenLocation.h
 	utility/messaging/type/MessageActivateTokens.h
+	utility/messaging/type/MessageAutoRefreshChanged.h
 	utility/messaging/type/MessageError.h
 	utility/messaging/type/MessageFind.h
 	utility/messaging/type/MessageFinishedParsing.h
@@ -219,6 +224,7 @@ add_files(
 	utility/messaging/type/MessageStatus.h
 	utility/messaging/type/MessageRedo.h
 	utility/messaging/type/MessageUndo.h
+	utility/messaging/type/MessageWindowFocus.h
 
 	utility/messaging/Message.h
 	utility/messaging/MessageBase.h

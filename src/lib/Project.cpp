@@ -77,7 +77,7 @@ void Project::clearStorage()
 	Token::resetNextId();
 }
 
-void Project::parseCode()
+void Project::parseCode(bool refresh)
 {
 	std::string sourcePath = ProjectSettings::getInstance()->getSourcePath();
 	if (sourcePath.size())
@@ -92,11 +92,33 @@ void Project::parseCode()
 		std::vector<std::string> headerSearchPaths = ProjectSettings::getInstance()->getHeaderSearchPaths();
 		headerSearchPaths.push_back(sourcePath);
 
-		CxxParser parser(m_storage.get());
+		std::vector<std::string> filePaths;
+		if (refresh)
+		{
+			filePaths = FileSystem::getFileNamesFromDirectoryUpdatedAfter(sourcePath, extensions, m_lastParseTimeString);
+		}
+		else
+		{
+			filePaths = FileSystem::getFileNamesFromDirectory(sourcePath, extensions);
+		}
 
+		if (!filePaths.size())
+		{
+			MessageFinishedParsing(0, 0, m_storage->getErrorCount()).dispatch();
+			return;
+		}
+
+		m_lastParseTimeString = FileSystem::getTimeStringNow();
+
+		if (refresh)
+		{
+			m_storage->clearFileData(filePaths);
+		}
+
+		CxxParser parser(m_storage.get());
 		clock_t time = clock();
 		parser.parseFiles(
-			FileSystem::getSourceFilesFromDirectory(sourcePath, extensions),
+			filePaths,
 			ApplicationSettings::getInstance()->getHeaderSearchPaths(),
 			headerSearchPaths
 		);
@@ -108,7 +130,7 @@ void Project::parseCode()
 		double parseTime = (double)(time) / CLOCKS_PER_SEC;
 		LOG_INFO_STREAM(<< "parse time: " << parseTime);
 
-		MessageFinishedParsing(parseTime, m_storage->getErrorCount()).dispatch();
+		MessageFinishedParsing(filePaths.size(), parseTime, m_storage->getErrorCount()).dispatch();
 	}
 }
 

@@ -46,7 +46,7 @@ void Application::loadProject(const std::string& projectSettingsFilePath)
 	m_project = Project::create(m_graphAccessProxy.get(), m_locationAccessProxy.get());
 
 	m_project->loadProjectSettings(projectSettingsFilePath);
-	m_project->parseCode();
+	m_project->parseCode(false);
 }
 
 void Application::loadSource(const std::string& sourceDirectoryPath)
@@ -55,13 +55,12 @@ void Application::loadSource(const std::string& sourceDirectoryPath)
 
 	m_project->clearProjectSettings();
 	m_project->setSourceDirectoryPath(sourceDirectoryPath);
-	m_project->parseCode();
+	m_project->parseCode(false);
 }
 
 void Application::reloadProject()
 {
-	m_project->clearStorage();
-	m_project->parseCode();
+	m_project->parseCode(true);
 }
 
 void Application::saveProject(const std::string& projectSettingsFilePath)

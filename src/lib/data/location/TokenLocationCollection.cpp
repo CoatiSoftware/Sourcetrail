@@ -1,9 +1,13 @@
 #include "data/location/TokenLocationCollection.h"
 
+#include <algorithm>
+
+#include "utility/FileSystem.h"
+#include "utility/logging/logging.h"
+
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
 #include "data/location/TokenLocationLine.h"
-#include "utility/logging/logging.h"
 
 TokenLocationCollection::TokenLocationCollection()
 {
@@ -85,7 +89,13 @@ TokenLocation* TokenLocationCollection::findTokenLocationById(Id id) const
 
 TokenLocationFile* TokenLocationCollection::findTokenLocationFileByPath(const std::string& filePath) const
 {
-	std::map<std::string, std::shared_ptr<TokenLocationFile> >::const_iterator it = m_files.find(filePath);
+	std::map<std::string, std::shared_ptr<TokenLocationFile>>::const_iterator it =
+		find_if(m_files.begin(), m_files.end(),
+			[&](const std::pair<std::string, std::shared_ptr<TokenLocationFile>>& p)
+			{
+				return FileSystem::equivalent(p.first, filePath);
+			}
+		);
 
 	if (it != m_files.end())
 	{
@@ -117,6 +127,18 @@ void TokenLocationCollection::forEachTokenLocation(std::function<void(TokenLocat
 	{
 		file.second->forEachTokenLocation(func);
 	}
+}
+
+void TokenLocationCollection::removeTokenLocationFile(TokenLocationFile* file)
+{
+	file->forEachTokenLocation(
+		[&](TokenLocation* location)
+		{
+			m_locations.erase(location->getId());
+		}
+	);
+
+	m_files.erase(file->getFilePath());
 }
 
 TokenLocation* TokenLocationCollection::addTokenLocationAsPlainCopy(const TokenLocation* location)

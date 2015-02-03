@@ -1,6 +1,7 @@
 #include "cxxtest/TestSuite.h"
 
 #include <algorithm>
+#include <fstream>
 #include <string>
 #include <vector>
 
@@ -15,7 +16,7 @@ public:
 		extensions.push_back(".cpp");
 
 		std::vector<std::string> cppFiles =
-			FileSystem::getSourceFilesFromDirectory("data/FileSystemTestSuite", extensions);
+			FileSystem::getFileNamesFromDirectory("data/FileSystemTestSuite", extensions);
 
 		TS_ASSERT_EQUALS(cppFiles.size(), 2);
 		TS_ASSERT(isInVector(cppFiles, "data/FileSystemTestSuite/main.cpp"));
@@ -28,7 +29,7 @@ public:
 		extensions.push_back(".h");
 
 		std::vector<std::string> headerFiles =
-			FileSystem::getSourceFilesFromDirectory("data/FileSystemTestSuite", extensions);
+			FileSystem::getFileNamesFromDirectory("data/FileSystemTestSuite", extensions);
 
 		TS_ASSERT_EQUALS(headerFiles.size(), 2);
 		TS_ASSERT(isInVector(headerFiles, "data/FileSystemTestSuite/tictactoe.h"));
@@ -43,9 +44,31 @@ public:
 		extensions.push_back(".cpp");
 
 		std::vector<std::string> sourceFiles =
-			FileSystem::getSourceFilesFromDirectory("data/FileSystemTestSuite", extensions);
+			FileSystem::getFileNamesFromDirectory("data/FileSystemTestSuite", extensions);
 
 		TS_ASSERT_EQUALS(sourceFiles.size(), 5);
+	}
+
+	void test_find_updated_source_files()
+	{
+		std::string timeString = FileSystem::getTimeStringNow();
+
+		std::fstream fileStream;
+		fileStream.open("./data/FileSystemTestSuite/update.c");
+		fileStream << "update";
+		fileStream.close();
+
+		std::vector<std::string> extensions;
+		extensions.push_back(".h");
+		extensions.push_back(".c");
+		extensions.push_back(".hpp");
+		extensions.push_back(".cpp");
+
+		std::vector<std::string> sourceFiles =
+			FileSystem::getFileNamesFromDirectoryUpdatedAfter("data/FileSystemTestSuite", extensions, timeString);
+
+		TS_ASSERT_EQUALS(sourceFiles.size(), 1);
+		TS_ASSERT_EQUALS(sourceFiles[0], "data/FileSystemTestSuite/update.c");
 	}
 
 	void test_filesystem_finds_existing_files()

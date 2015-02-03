@@ -24,14 +24,17 @@ void ComponentManager::setup()
 	std::shared_ptr<Component> codeComponent = m_componentFactory->createCodeComponent();
 	m_components.push_back(codeComponent);
 
+	std::shared_ptr<Component> undoRedoComponent = m_componentFactory->createUndoRedoComponent();
+	m_components.push_back(undoRedoComponent);
+
+	std::shared_ptr<Component> refreshComponent = m_componentFactory->createRefreshComponent();
+	m_components.push_back(refreshComponent);
+
 	std::shared_ptr<Component> searchComponent = m_componentFactory->createSearchComponent();
 	m_components.push_back(searchComponent);
 
 	std::shared_ptr<Component> statusBarComponent = m_componentFactory->createStatusBarComponent();
 	m_components.push_back(statusBarComponent);
-
-	std::shared_ptr<Component> undoRedoComponent = m_componentFactory->createUndoRedoComponent();
-	m_components.push_back(undoRedoComponent);
 }
 
 ComponentManager::ComponentManager()

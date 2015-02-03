@@ -20,11 +20,17 @@ public:
 
 	void clear();
 
+	size_t getNodeCount() const;
+
 	Id getWordId(const std::string& word);
 	const std::string& getWord(Id wordId) const;
 
 	SearchNode* addNode(std::vector<std::string> nameHierarchy);
 	SearchNode* getNode(const std::string& fullName) const;
+	SearchNode* getNode(const SearchNode* searchNode) const;
+
+	void removeNode(SearchNode* searchNode);
+	bool removeNodeIfUnreferencedRecursive(SearchNode* searchNode);
 
 	SearchResults runFuzzySearch(const std::string& query) const;
 	std::vector<SearchMatch> runFuzzySearchAndGetMatches(const std::string& query) const;

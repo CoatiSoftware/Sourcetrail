@@ -15,6 +15,8 @@ add_files(
 	qt/element/QtCodeSnippet.h
 	qt/element/QtMainWindow.cpp
 	qt/element/QtMainWindow.h
+	qt/element/QtRefreshBar.cpp
+	qt/element/QtRefreshBar.h
 	qt/element/QtSearchBar.cpp
 	qt/element/QtSearchBar.h
 	qt/element/QtSmartSearchBox.cpp
@@ -56,6 +58,8 @@ add_files(
 	qt/view/QtGraphView.h
 	qt/view/QtMainView.cpp
 	qt/view/QtMainView.h
+	qt/view/QtRefreshView.cpp
+	qt/view/QtRefreshView.h
 	qt/view/QtSearchView.cpp
 	qt/view/QtSearchView.h
 	qt/view/QtStatusBarView.cpp

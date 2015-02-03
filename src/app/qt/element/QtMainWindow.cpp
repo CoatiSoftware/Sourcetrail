@@ -17,6 +17,7 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageSaveProject.h"
 #include "utility/messaging/type/MessageUndo.h"
+#include "utility/messaging/type/MessageWindowFocus.h"
 
 QtMainWindow::QtMainWindow()
 {
@@ -206,6 +207,16 @@ void QtMainWindow::saveLayout()
 		settings.setValue("position", dockWidget->pos());
 		settings.endGroup();
 	}
+}
+
+bool QtMainWindow::event(QEvent* event)
+{
+	if (event->type() == QEvent::WindowActivate)
+	{
+		MessageWindowFocus().dispatch();
+	}
+
+	return QMainWindow::event(event);
 }
 
 void QtMainWindow::setupProjectMenu()

@@ -114,13 +114,16 @@ void Graph::removeNode(Node* node)
 		return;
 	}
 
-	node->forEachEdgeOfType(Edge::EDGE_MEMBER, [this, node](Edge* e)
-	{
-		if (node == e->getFrom())
+	node->forEachEdgeOfType(
+		Edge::EDGE_MEMBER,
+		[this, node](Edge* e)
 		{
-			this->removeNode(e->getTo());
+			if (node == e->getFrom())
+			{
+				this->removeNode(e->getTo());
+			}
 		}
-	});
+	);
 
 	node->forEachEdge(
 		[this](Edge* e)
@@ -131,7 +134,7 @@ void Graph::removeNode(Node* node)
 
 	if (node->getEdges().size())
 	{
-		LOG_ERROR("Node has still edges.");
+		LOG_ERROR("Node still has edges.");
 	}
 
 	m_nodes.erase(it);
@@ -152,6 +155,25 @@ void Graph::removeEdge(Edge* edge)
 	}
 
 	m_edges.erase(it);
+}
+
+bool Graph::removeNodeIfUnreferencedRecursive(Node* node)
+{
+	if (!node->hasReferences())
+	{
+		Node* parent = node->getParentNode();
+
+		removeNode(node);
+
+		if (parent)
+		{
+			removeNodeIfUnreferencedRecursive(parent);
+		}
+
+		return true;
+	}
+
+	return false;
 }
 
 Node* Graph::findNode(std::function<bool(Node*)> func) const

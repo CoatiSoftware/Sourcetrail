@@ -41,6 +41,8 @@ public:
 	void forEachTokenLocationLine(std::function<void(TokenLocationLine*)> func) const;
 	void forEachTokenLocation(std::function<void(TokenLocation*)> func) const;
 
+	void removeTokenLocationFile(TokenLocationFile* file);
+
 	TokenLocation* addTokenLocationAsPlainCopy(const TokenLocation* location);
 
 	void clear();

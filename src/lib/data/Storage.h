@@ -23,6 +23,7 @@ public:
 	virtual ~Storage();
 
 	void clear();
+	void clearFileData(const std::vector<std::string>& filePaths);
 
 	void logGraph() const;
 	void logLocations() const;
@@ -125,7 +126,6 @@ protected:
 	const SearchIndex& getSearchIndex() const;
 
 private:
-
 	Node* addNodeHierarchy(Node::NodeType type, std::vector<std::string> nameHierarchy);
 	Node* addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function);
 
@@ -140,6 +140,8 @@ private:
 
 	bool getSubQuerySearchResults(
 		const std::string& query, const std::string& word, SearchResults* results) const;
+
+	void removeNodeIfUnreferenced(Node* node);
 
 	void log(std::string type, std::string str, const ParseLocation& location) const;
 

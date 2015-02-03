@@ -68,6 +68,8 @@ public:
 	void forEachEdgeOfType(Edge::EdgeType type, std::function<void(Edge*)> func) const;
 	void forEachChildNode(std::function<void(Node*)> func) const;
 
+	bool hasReferences() const;
+
 	// Token implementation.
 	virtual bool isNode() const;
 	virtual bool isEdge() const;

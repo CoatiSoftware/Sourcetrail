@@ -17,7 +17,8 @@ public:
 
 		TS_ASSERT(node->getNameId());
 		TS_ASSERT(!node->getFirstTokenId());
-		TS_ASSERT(!node->getParent());
+		TS_ASSERT(node->getParent());
+		TS_ASSERT(!node->getParent()->getNameId());
 	}
 
 	void test_get_node()
@@ -32,7 +33,8 @@ public:
 
 		TS_ASSERT(node->getNameId());
 		TS_ASSERT(!node->getFirstTokenId());
-		TS_ASSERT(!node->getParent());
+		TS_ASSERT(node->getParent());
+		TS_ASSERT(!node->getParent()->getNameId());
 
 		node = index.getNode("math");
 		TS_ASSERT(!node);
@@ -72,6 +74,55 @@ public:
 		TS_ASSERT_EQUALS(node1->getParent(), node2->getParent());
 	}
 
+	void test_remove_nodes()
+	{
+		SearchIndex index;
+		index.addNode(utility::splitToVector("util::math::pow", "::"));
+		index.addNode(utility::splitToVector("util::math::floor", "::"));
+
+		index.removeNode(index.getNode("util::math::pow"));
+
+		TS_ASSERT(!index.getNode("util::math::pow"));
+		TS_ASSERT(index.getNode("util::math::floor"));
+		TS_ASSERT(index.getNode("util::math"));
+
+		index.removeNode(index.getNode("util::math"));
+
+		TS_ASSERT(!index.getNode("util::math::floor"));
+		TS_ASSERT(!index.getNode("util::math"));
+		TS_ASSERT(index.getNode("util"));
+	}
+
+	void test_remove_unreferenced_nodes()
+	{
+		SearchIndex index;
+		SearchNode* node1 = index.addNode(utility::splitToVector("util::math::pow", "::"));
+		SearchNode* node2 = index.addNode(utility::splitToVector("util::math::floor", "::"));
+
+		node1->addTokenId(1);
+		node2->addTokenId(2);
+
+		TS_ASSERT(index.getNode("util")->hasTokenIdsRecursive());
+
+		TS_ASSERT(!index.removeNodeIfUnreferencedRecursive(index.getNode("util")));
+		TS_ASSERT(!index.removeNodeIfUnreferencedRecursive(index.getNode("util::math")));
+		TS_ASSERT(!index.removeNodeIfUnreferencedRecursive(index.getNode("util::math::pow")));
+
+		node1->removeTokenId(1);
+
+		TS_ASSERT(index.removeNodeIfUnreferencedRecursive(index.getNode("util::math::pow")));
+		TS_ASSERT(!index.getNode("util::math::pow"));
+		TS_ASSERT(index.getNode("util::math"));
+		TS_ASSERT(index.getNode("util"));
+
+		node2->removeTokenId(2);
+
+		TS_ASSERT(index.removeNodeIfUnreferencedRecursive(index.getNode("util::math")));
+
+		TS_ASSERT(!index.getNode("util::math"));
+		TS_ASSERT(!index.getNode("util"));
+	}
+
 	void test_clear()
 	{
 		SearchIndex index;
@@ -83,6 +134,7 @@ public:
 		index.clear();
 
 		TS_ASSERT(!index.getNode("math"));
+		TS_ASSERT(!index.getNode("string"));
 	}
 
 	void test_fuzzy_matching()

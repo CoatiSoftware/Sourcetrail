@@ -15,6 +15,11 @@
 class StorageTestSuite: public CxxTest::TestSuite
 {
 public:
+	void setUp()
+	{
+		m_filePath = "file.cpp";
+	}
+
 	void test_storage_saves_typedef()
 	{
 		TestStorage storage;
@@ -536,6 +541,117 @@ public:
 		TS_ASSERT(isValidLocation(locations[0], 0));
 	}
 
+	void test_storage_clears_single_file_data_of_single_file_storage()
+	{
+		TestStorage storage;
+		storage.onFunctionParsed(
+			validLocation(), ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"),
+			parameters("char")), validLocation()
+		);
+
+		TS_ASSERT_EQUALS(storage.graph().getNodeCount(), 3);
+		TS_ASSERT_EQUALS(storage.graph().getEdgeCount(), 2);
+		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 4);
+		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 3);
+
+		storage.clearFileData(std::vector<std::string>(1, m_filePath));
+
+		TS_ASSERT_EQUALS(storage.graph().getNodeCount(), 0);
+		TS_ASSERT_EQUALS(storage.graph().getEdgeCount(), 0);
+		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 0);
+		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 0);
+	}
+
+	void test_storage_clears_unreferenced_single_file_data_of_multi_file_storage()
+	{
+		m_filePath = "file.h";
+
+		TestStorage storage;
+
+		ParseFunction isTrue = ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char"));
+		storage.onFunctionParsed(validLocation(), isTrue, validLocation());
+
+		m_filePath = "file.cpp";
+
+		ParseFunction main = ParseFunction(typeUsage("int"), utility::splitToVector("main", "::"), parameters("void"));
+		storage.onFunctionParsed(validLocation(), main, validLocation());
+
+		storage.onCallParsed(validLocation(), main, isTrue);
+
+		TS_ASSERT_EQUALS(storage.graph().getNodeCount(), 6);
+		TS_ASSERT_EQUALS(storage.graph().getEdgeCount(), 5);
+		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 9);
+		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 6);
+
+		storage.clearFileData(std::vector<std::string>(1, "file.cpp"));
+
+		TS_ASSERT_EQUALS(storage.graph().getNodeCount(), 3);
+		TS_ASSERT_EQUALS(storage.graph().getEdgeCount(), 2);
+		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 4);
+		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 3);
+	}
+
+	void test_storage_clears_referenced_single_file_data_of_multi_file_storage()
+	{
+		m_filePath = "file.h";
+
+		TestStorage storage;
+
+		ParseFunction isTrue = ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("void"));
+		storage.onFunctionParsed(validLocation(), isTrue, validLocation());
+
+		m_filePath = "file.cpp";
+
+		ParseFunction main = ParseFunction(typeUsage("int"), utility::splitToVector("main", "::"), parameters("void"));
+		storage.onFunctionParsed(validLocation(), main, validLocation());
+
+		storage.onCallParsed(validLocation(), main, isTrue);
+
+		TS_ASSERT_EQUALS(storage.graph().getNodeCount(), 5);
+		TS_ASSERT_EQUALS(storage.graph().getEdgeCount(), 5);
+		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 9);
+		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 5);
+
+		storage.clearFileData(std::vector<std::string>(1, "file.h"));
+
+		TS_ASSERT_EQUALS(storage.graph().getNodeCount(), 4);
+		TS_ASSERT_EQUALS(storage.graph().getEdgeCount(), 3);
+		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 5);
+		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 4);
+	}
+
+	void test_storage_clears_multi_file_data_of_multi_file_storage()
+	{
+		m_filePath = "file.h";
+
+		TestStorage storage;
+
+		ParseFunction isTrue = ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("void"));
+		storage.onFunctionParsed(validLocation(), isTrue, validLocation());
+
+		m_filePath = "file.cpp";
+
+		ParseFunction main = ParseFunction(typeUsage("int"), utility::splitToVector("main", "::"), parameters("void"));
+		storage.onFunctionParsed(validLocation(), main, validLocation());
+
+		storage.onCallParsed(validLocation(), main, isTrue);
+
+		TS_ASSERT_EQUALS(storage.graph().getNodeCount(), 5);
+		TS_ASSERT_EQUALS(storage.graph().getEdgeCount(), 5);
+		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 9);
+		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 5);
+
+		std::vector<std::string> filePaths;
+		filePaths.push_back("file.cpp");
+		filePaths.push_back("file.h");
+		storage.clearFileData(filePaths);
+
+		TS_ASSERT_EQUALS(storage.graph().getNodeCount(), 0);
+		TS_ASSERT_EQUALS(storage.graph().getEdgeCount(), 0);
+		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 0);
+		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 0);
+	}
+
 private:
 	class TestStorage
 		: public Storage
@@ -568,17 +684,32 @@ private:
 		{
 			return getSearchIndex().getWord(wordId);
 		}
+
+		const Graph& graph() const
+		{
+			return getGraph();
+		}
+
+		const TokenLocationCollection& tokenLocationCollection() const
+		{
+			return getTokenLocationCollection();
+		}
+
+		const SearchIndex& searchIndex() const
+		{
+			return getSearchIndex();
+		}
 	};
 
 	ParseLocation validLocation(Id locationId = 0) const
 	{
-		return ParseLocation("file.cpp", 1, locationId, 1, locationId);
+		return ParseLocation(m_filePath, 1, locationId, 1, locationId);
 	}
 
 	bool isValidLocation(TokenLocation* location, Id locationId) const
 	{
 		return
-			location->getFilePath() == "file.cpp" &&
+			location->getFilePath() == m_filePath &&
 			location->getLineNumber() == 1 &&
 			location->getColumnNumber() == locationId;
 	}
@@ -594,4 +725,6 @@ private:
 		params.push_back(typeUsage(param));
 		return params;
 	}
+
+	std::string m_filePath;
 };

@@ -26,6 +26,9 @@ public:
 	void loadLayout();
 	void saveLayout();
 
+protected:
+	bool event(QEvent* event);
+
 public slots:
 	void about();
 	void newProject();

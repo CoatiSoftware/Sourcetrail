@@ -22,15 +22,21 @@ public:
 	SearchNode(SearchNode* parent, const std::string& name, Id nameId);
 	~SearchNode();
 
+	size_t getNodeCount() const;
+
 	const std::string& getName() const;
 	std::vector<std::string> getNameHierarchy() const;
 	std::string getFullName() const;
 
 	Id getNameId() const;
+	std::deque<Id> getNameIdsRecursive() const;
 
 	Id getFirstTokenId() const;
 	const std::set<Id>& getTokenIds() const;
+	bool hasTokenIdsRecursive() const;
+
 	void addTokenId(Id tokenId);
+	void removeTokenId(Id tokenId);
 
 	SearchNode* getParent() const;
 	std::deque<SearchNode*> getParentsWithoutTokenId();
@@ -46,10 +52,11 @@ private:
 	typedef std::multimap<size_t, const SearchNode*> FuzzyMap;
 	typedef FuzzyMap::const_iterator FuzzyMapIterator;
 
-
 	// Accessed by SearchIndex
 	std::shared_ptr<SearchNode> addNodeRecursive(std::deque<Id>* nameIds, const Dictionary& dictionary);
 	std::shared_ptr<SearchNode> getNodeRecursive(std::deque<Id>* nameIds) const;
+
+	void removeSearchNode(SearchNode* node);
 
 	SearchMatch fuzzyMatchData(const std::string& query, const SearchNode* parent) const;
 

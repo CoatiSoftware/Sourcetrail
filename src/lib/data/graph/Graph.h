@@ -40,6 +40,7 @@ public:
 
 	void removeNode(Node* node);
 	void removeEdge(Edge* edge);
+	bool removeNodeIfUnreferencedRecursive(Node* node);
 
 	Node* findNode(std::function<bool(Node*)> func) const;
 	Edge* findEdge(std::function<bool(Edge*)> func) const;

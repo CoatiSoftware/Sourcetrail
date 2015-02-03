@@ -203,6 +203,37 @@ void Node::forEachChildNode(std::function<void(Node*)> func) const
 	);
 }
 
+bool Node::hasReferences() const
+{
+	if (getLocationIds().size() > 0)
+	{
+		return true;
+	}
+
+	bool hasChildrenWithReferences = false;
+	size_t childNodeCount = 0;
+
+	forEachEdgeOfType(
+		Edge::EDGE_MEMBER,
+		[&](Edge* edge)
+		{
+			childNodeCount++;
+
+			if (!hasChildrenWithReferences && edge->getTo() != this && edge->getTo()->hasReferences())
+			{
+				hasChildrenWithReferences = true;
+			}
+		}
+	);
+
+	if (hasChildrenWithReferences || getEdges().size() > childNodeCount)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 bool Node::isNode() const
 {
 	return true;

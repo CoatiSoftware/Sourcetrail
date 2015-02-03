@@ -245,6 +245,21 @@ public:
 		TS_ASSERT_EQUALS(children[1], &c);
 	}
 
+	void test_node_has_references()
+	{
+		Node a(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node b(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
+		Node c(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("C", "::")));
+		Node d(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("D", "::")));
+		Edge e(Edge::EDGE_MEMBER, &a, &b);
+		Edge e2(Edge::EDGE_MEMBER, &a, &c);
+		Edge e3(Edge::EDGE_USAGE, &c, &d);
+
+		TS_ASSERT(a.hasReferences());
+		TS_ASSERT(!b.hasReferences());
+		TS_ASSERT(c.hasReferences());
+	}
+
 	void test_graph_saves_nodes()
 	{
 		Graph graph;
@@ -292,6 +307,58 @@ public:
 
 		TS_ASSERT(graph.getEdgeById(e.getId()));
 		TS_ASSERT_EQUALS(Edge::EDGE_CALL, graph.getEdgeById(e.getId())->getType());
+	}
+
+	void test_graph_removes_nodes()
+	{
+		Graph graph;
+		Node a(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node b(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
+
+		graph.addNode(&a);
+		graph.addNode(&b);
+
+		TS_ASSERT_EQUALS(2, graph.getNodeCount());
+		TS_ASSERT_EQUALS(0, graph.getEdgeCount());
+
+		graph.removeNode(graph.getNodeById(a.getId()));
+
+		TS_ASSERT_EQUALS(1, graph.getNodeCount());
+	}
+
+	void test_graph_removes_unreferenced_nodes()
+	{
+		Graph graph;
+		Node a(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node b(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
+		Node c(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("C", "::")));
+		Node d(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("D", "::")));
+		Node e(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("E", "::")));
+
+		Edge e1(Edge::EDGE_MEMBER, &a, &b);
+		Edge e2(Edge::EDGE_MEMBER, &a, &c);
+		Edge e3(Edge::EDGE_USAGE, &c, &d);
+		Edge e4(Edge::EDGE_MEMBER, &b, &e);
+
+		graph.addNode(&a);
+		graph.addNode(&b);
+		graph.addNode(&c);
+		graph.addNode(&d);
+		graph.addNode(&e);
+
+		graph.addEdge(&e1);
+		graph.addEdge(&e2);
+		graph.addEdge(&e3);
+		graph.addEdge(&e4);
+
+		TS_ASSERT_EQUALS(5, graph.getNodeCount());
+		TS_ASSERT_EQUALS(4, graph.getEdgeCount());
+
+		TS_ASSERT(!graph.removeNodeIfUnreferencedRecursive(graph.getNodeById(a.getId())));
+		TS_ASSERT(graph.removeNodeIfUnreferencedRecursive(graph.getNodeById(b.getId())));
+
+		TS_ASSERT_EQUALS(3, graph.getNodeCount());
+		TS_ASSERT_EQUALS(2, graph.getEdgeCount());
 	}
 
 private:

@@ -15,7 +15,7 @@ int main()
 	int b = diff(a, 3);
 	int c = a * b;
 
-//	int x = y;
+	int x = 0;
 
 	return 0;
 }

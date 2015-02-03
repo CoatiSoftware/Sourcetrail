@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <cctype>
 
+#include "utility/logging/logging.h"
+
 #include "data/search/SearchMatch.h"
 
 std::vector<SearchMatch> SearchIndex::getMatches(
@@ -32,6 +34,11 @@ SearchIndex::~SearchIndex()
 void SearchIndex::clear()
 {
 	m_root.m_nodes.clear();
+}
+
+size_t SearchIndex::getNodeCount() const
+{
+	return m_root.getNodeCount() - 1;
 }
 
 Id SearchIndex::getWordId(const std::string& word)
@@ -69,6 +76,50 @@ SearchNode* SearchIndex::getNode(const std::string& fullName) const
 	}
 
 	return nullptr;
+}
+
+SearchNode* SearchIndex::getNode(const SearchNode* searchNode) const
+{
+	std::deque<Id> nameIds = searchNode->getNameIdsRecursive();
+
+	if (nameIds.size())
+	{
+		return m_root.getNodeRecursive(&nameIds).get();
+	}
+
+	return nullptr;
+}
+
+void SearchIndex::removeNode(SearchNode* searchNode)
+{
+	SearchNode* parent = searchNode->getParent();
+
+	if (!parent)
+	{
+		LOG_ERROR_STREAM(<< "SearchNode to be removed has no parent: " << searchNode->getFullName());
+		return;
+	}
+
+	parent->removeSearchNode(searchNode);
+}
+
+bool SearchIndex::removeNodeIfUnreferencedRecursive(SearchNode* searchNode)
+{
+	if (!searchNode->hasTokenIdsRecursive())
+	{
+		SearchNode* parent = searchNode->getParent();
+
+		removeNode(searchNode);
+
+		if (parent && parent != &m_root)
+		{
+			removeNodeIfUnreferencedRecursive(parent);
+		}
+
+		return true;
+	}
+
+	return false;
 }
 
 SearchResults SearchIndex::runFuzzySearch(const std::string& query) const

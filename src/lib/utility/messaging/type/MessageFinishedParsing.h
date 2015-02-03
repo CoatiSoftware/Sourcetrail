@@ -6,8 +6,9 @@
 class MessageFinishedParsing: public Message<MessageFinishedParsing>
 {
 public:
-	MessageFinishedParsing(float parseTime, size_t errorCount)
-		: parseTime(parseTime)
+	MessageFinishedParsing(size_t fileCount, float parseTime, size_t errorCount)
+		: fileCount(fileCount)
+		, parseTime(parseTime)
 		, errorCount(errorCount)
 	{
 	}
@@ -17,6 +18,7 @@ public:
 		return "MessageFinishedParsing";
 	}
 
+	size_t fileCount;
 	float parseTime;
 	size_t errorCount;
 };
