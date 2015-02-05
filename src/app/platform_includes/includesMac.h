@@ -2,8 +2,9 @@
 #define INCLUDES_MAC_H
 
 #include <CoreFoundation/CoreFoundation.h>
+#include <QDir>
 
-void setup()
+void setup(int argc, char *argv[])
 {
 	// ----------------------------------------------------------------------------
 	// This makes relative paths work in C++ in Xcode by changing directory to the Resources folder inside the .app bundle
@@ -28,6 +29,18 @@ void setup()
 		chdir(path);
 	}
 	CFRelease(resourcesURL);
+	// ----------------------------------------------------------------------------
+
+
+	// ----------------------------------------------------------------------------
+	// This makes the mac bundle search in the right place for the cocoa plugin
+	// source: http://qt-project.org/doc/qt-4.8/deployment-mac.html
+	QDir dir(argv[0]);
+	if (dir.cd("../../PlugIns"))
+	{
+		QCoreApplication::setLibraryPaths(QStringList(dir.absolutePath()));
+		// printf("after change, libraryPaths=(%s)\n", QCoreApplication::libraryPaths().join(",").toUtf8().data());
+	}
 	// ----------------------------------------------------------------------------
 }
 

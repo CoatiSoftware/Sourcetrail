@@ -3,7 +3,7 @@
 #include <QApplication>
 
 #include "Application.h"
-#include "includes.h" // defines 'void setup()'
+#include "includes.h" // defines 'void setup(int argc, char *argv[])'
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewFactory.h"
 #include "utility/logging/ConsoleLogger.h"
@@ -20,7 +20,7 @@ void init()
 
 int main(int argc, char *argv[])
 {
-	setup();
+	setup(argc, argv);
 
 	QApplication qtApp(argc, argv);
 

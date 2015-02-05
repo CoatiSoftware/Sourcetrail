@@ -1,7 +1,7 @@
 #ifndef INCLUDES_H
 #define INCLUDES_H
 
-void setup();
+void setup(int argc, char *argv[]);
 
 // platform specific include
 #include "platform_includes/@PLATFORM_INCLUDE@"

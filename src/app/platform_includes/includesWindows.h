@@ -3,7 +3,7 @@
 
 #include "vld.h"
 
-void setup()
+void setup(int argc, char *argv[])
 {
 }
 
