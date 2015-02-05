@@ -109,7 +109,7 @@ public:
 	void test_operator_sub()
 	{
 		TS_ASSERT_EQUALS(
-			printedFilteredTestGraph("'class'.'base'"),
+			printedFilteredTestGraph("'class''base'"),
 
 			"1 nodes: class:A\n"
 			"0 edges:\n"
@@ -119,7 +119,7 @@ public:
 	void test_operator_has()
 	{
 		TS_ASSERT_EQUALS(
-			printedFilteredTestGraph("\"A\">'field'"),
+			printedFilteredTestGraph("\"A\".'field'"),
 
 			"1 nodes: field:A::count\n"
 			"0 edges:\n"
@@ -139,7 +139,7 @@ public:
 	void test_operator_group()
 	{
 		TS_ASSERT_EQUALS(
-			printedFilteredTestGraph("('static'|'const').'public'"),
+			printedFilteredTestGraph("('static'|'const')'public'"),
 
 			"1 nodes: method:A::getCount\n"
 			"0 edges:\n"

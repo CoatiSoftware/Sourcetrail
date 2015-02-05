@@ -212,6 +212,13 @@ public:
 		TS_ASSERT(!utility::isPrefix(bar, foo));
 	}
 
+	void test_to_lower_case()
+	{
+		TS_ASSERT_EQUALS("foobar", utility::toLowerCase("FooBar"));
+		TS_ASSERT_EQUALS("foobar", utility::toLowerCase("FOOBAR"));
+		TS_ASSERT_EQUALS("foobar", utility::toLowerCase("foobar"));
+	}
+
 	void test_equals_case_insensitive_with_different_cases()
 	{
 		const std::string foo = "FooBar";

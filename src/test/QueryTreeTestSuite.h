@@ -75,7 +75,7 @@ public:
 
 			"A \" INVALID\n"
 			"	\"A\"\n"
-			". IMPLICIT\n"
+			"+ IMPLICIT\n"
 			"	\"\"\n"
 		);
 	}
@@ -189,11 +189,11 @@ public:
 	void test_operator_has_query()
 	{
 		TS_ASSERT_EQUALS(
-			printedQueryTree("\"A\">\"B\""),
+			printedQueryTree("\"A\".\"B\""),
 
-			"\"A\" > \"B\"\n"
+			"\"A\" . \"B\"\n"
 			"	\"A\"\n"
-			">\n"
+			".\n"
 			"	\"B\"\n"
 		);
 	}
@@ -276,7 +276,7 @@ public:
 
 			"\"A\" ( \"B\" )\n"
 			"	\"A\"\n"
-			". IMPLICIT\n"
+			"+ IMPLICIT\n"
 			"	(\"B\")\n"
 		);
 	}
@@ -284,12 +284,12 @@ public:
 	void test_operator_precedence_not_before_has()
 	{
 		TS_ASSERT_EQUALS(
-			printedQueryTree("!'struct'.!'const'"),
+			printedQueryTree("!'struct'+!'const'"),
 
-			"! 'struct' . ! 'const'\n"
+			"! 'struct' + ! 'const'\n"
 			"	!\n"
 			"		'struct'\n"
-			".\n"
+			"+\n"
 			"	!\n"
 			"		'const'\n"
 		);
@@ -298,13 +298,13 @@ public:
 	void test_operator_precedence_has_before_sub()
 	{
 		TS_ASSERT_EQUALS(
-			printedQueryTree("'namespace'>'class'.'base'"),
+			printedQueryTree("'namespace'.'class'+'base'"),
 
-			"'namespace' > 'class' . 'base'\n"
+			"'namespace' . 'class' + 'base'\n"
 			"		'namespace'\n"
-			"	>\n"
+			"	.\n"
 			"		'class'\n"
-			".\n"
+			"+\n"
 			"	'base'\n"
 		);
 	}
@@ -312,11 +312,11 @@ public:
 	void test_operator_precedence_has_before_or()
 	{
 		TS_ASSERT_EQUALS(
-			printedQueryTree("'class'>'method'|'field'"),
+			printedQueryTree("'class'.'method'|'field'"),
 
-			"'class' > 'method' | 'field'\n"
+			"'class' . 'method' | 'field'\n"
 			"		'class'\n"
-			"	>\n"
+			"	.\n"
 			"		'method'\n"
 			"|\n"
 			"	'field'\n"
@@ -326,22 +326,22 @@ public:
 	void test_operator_precedence_respects_groups()
 	{
 		TS_ASSERT_EQUALS(
-			printedQueryTree("'namespace'.('class'>'method')"),
+			printedQueryTree("'namespace'+('class'.'method')"),
 
-			"'namespace' . ( 'class' > 'method' )\n"
+			"'namespace' + ( 'class' . 'method' )\n"
 			"	'namespace'\n"
-			".\n"
+			"+\n"
 			"		'class'\n"
-			"	(>)\n"
+			"	(.)\n"
 			"		'method'\n"
 		);
 
 		TS_ASSERT_EQUALS(
-			printedQueryTree("'class'>('method'|'field')"),
+			printedQueryTree("'class'.('method'|'field')"),
 
-			"'class' > ( 'method' | 'field' )\n"
+			"'class' . ( 'method' | 'field' )\n"
 			"	'class'\n"
-			">\n"
+			".\n"
 			"		'method'\n"
 			"	(|)\n"
 			"		'field'\n"
@@ -351,15 +351,15 @@ public:
 	void test_spaces_get_stripped_out_of_query()
 	{
 		TS_ASSERT_EQUALS(
-			printedQueryTree("  \"Field  \">('method' | 'field')   .'const' |  'public' "),
+			printedQueryTree("  \"Field  \".('method' | 'field')   +'const' |  'public' "),
 
-			"\"Field\" > ( 'method' | 'field' ) . 'const' | 'public'\n"
+			"\"Field\" . ( 'method' | 'field' ) + 'const' | 'public'\n"
 			"		\"Field\"\n"
-			"	>\n"
+			"	.\n"
 			"				'method'\n"
 			"			(|)\n"
 			"				'field'\n"
-			"		.\n"
+			"		+\n"
 			"			'const'\n"
 			"|\n"
 			"	'public'\n"

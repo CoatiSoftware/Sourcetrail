@@ -33,6 +33,7 @@ namespace utility
 
 	bool isPrefix(const std::string& prefix, const std::string& text);
 
+	std::string toLowerCase(const std::string& in);
 	bool equalsCaseInsensitive(const std::string& a, const std::string& b);
 
 	std::string replace(std::string str, const std::string& from, const std::string& to);

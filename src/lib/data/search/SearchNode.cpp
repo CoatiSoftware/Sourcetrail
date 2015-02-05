@@ -161,7 +161,7 @@ SearchResults SearchNode::runFuzzySearch(const std::string& query) const
 		FuzzyMap m = n->fuzzyMatchRecursive(query, 0, 0, 0);
 		for (const std::pair<size_t, const SearchNode*>& p : m)
 		{
-			addResultsRecursive(result, p.first, p.second);
+			addResultsRecursive(&result, p.first, p.second);
 		}
 	}
 
@@ -176,7 +176,7 @@ SearchResults SearchNode::runFuzzySearchOnSelf(const std::string& query) const
 	FuzzyMap m = fuzzyMatchRecursive(query, 0, 0, 0);
 	for (const std::pair<size_t, const SearchNode*>& p : m)
 	{
-		addResultsRecursive(result, p.first, p.second);
+		addResultsRecursive(&result, p.first, p.second);
 	}
 
 	// TODO: Currently all matches are added to the ordered set and get compared by their fullName for alphabetical
@@ -184,13 +184,18 @@ SearchResults SearchNode::runFuzzySearchOnSelf(const std::string& query) const
 	return result;
 }
 
-void SearchNode::addResultsRecursive(SearchResults& result, size_t weight, const SearchNode* node) const
+void SearchNode::addResults(SearchResults* results, size_t weight, const SearchNode* node) const
 {
-	result.insert(SearchResult(weight, node, this));
+	results->insert(SearchResult(weight, node, this));
+}
+
+void SearchNode::addResultsRecursive(SearchResults* results, size_t weight, const SearchNode* node) const
+{
+	addResults(results, weight, node);
 
 	for (std::shared_ptr<SearchNode> n: node->m_nodes)
 	{
-		addResultsRecursive(result, weight, n.get());
+		addResultsRecursive(results, weight, n.get());
 	}
 }
 

@@ -28,12 +28,6 @@ void QtQueryElement::onChecked(bool)
 }
 
 
-void QtSmartSearchBox::search()
-{
-	editTextToElement();
-	MessageSearch(utility::join(m_tokens, "") + text().toStdString()).dispatch();
-}
-
 QtSmartSearchBox::QtSmartSearchBox(QWidget* parent)
 	: QLineEdit(parent)
 	, m_allowTextChange(false)
@@ -45,7 +39,6 @@ QtSmartSearchBox::QtSmartSearchBox(QWidget* parent)
 	m_highlightRect->setGeometry(0, 0, 0, 0);
 	m_highlightRect->setObjectName("search_box_highlight");
 
-	connect(this, SIGNAL(returnPressed()), this, SLOT(search()), Qt::QueuedConnection);
 	connect(this, SIGNAL(textEdited(const QString&)), this, SLOT(onTextEdited(const QString&)));
 	connect(this, SIGNAL(textChanged(const QString&)), this, SLOT(onTextChanged(const QString&)));
 
@@ -66,6 +59,11 @@ void QtSmartSearchBox::setAutocompletionList(const std::vector<SearchMatch>& aut
 
 	connect(completer, SIGNAL(matchHighlighted(const SearchMatch&)), this, SLOT(onAutocompletionHighlighted(const SearchMatch&)), Qt::DirectConnection);
 	connect(completer, SIGNAL(matchActivated(const SearchMatch&)), this, SLOT(onAutocompletionActivated(const SearchMatch&)), Qt::DirectConnection);
+
+	if (autocompletionList.size())
+	{
+		m_highlightedMatch = *completer->getSearchMatchAt(0);
+	}
 }
 
 void QtSmartSearchBox::setQuery(const std::string& text)
@@ -84,14 +82,27 @@ void QtSmartSearchBox::setFocus()
 	layoutElements();
 }
 
+void QtSmartSearchBox::search()
+{
+	editTextToElement();
+	MessageSearch(utility::join(m_tokens, "") + text().toStdString()).dispatch();
+}
+
 bool QtSmartSearchBox::event(QEvent *event)
 {
 	if (event->type() == QEvent::KeyPress)
 	{
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-		if (keyEvent->key() == Qt::Key_Tab && completer()->popup()->isVisible())
+		if (keyEvent->key() == Qt::Key_Tab)
 		{
-			onAutocompletionActivated(m_highlightedMatch);
+			if (completer()->popup()->isVisible())
+			{
+				searchMatchToToken(m_highlightedMatch);
+			}
+			else
+			{
+				requestAutoCompletions();
+			}
 			return true;
 		}
 	}
@@ -109,7 +120,14 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 {
 	m_shiftKeyDown = event->modifiers() & Qt::ShiftModifier;
 
-	if (event->key() == Qt::Key_Backspace)
+	if (event->key() == Qt::Key_Return)
+	{
+		if (!completer()->popup()->isVisible())
+		{
+			search();
+		}
+	}
+	else if (event->key() == Qt::Key_Backspace)
 	{
 		if (hasSelectedElements())
 		{
@@ -162,9 +180,13 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 			selectAllElementsWith(false);
 			layoutElements();
 		}
-		else if (cursorPosition() == text().size() && (text().size() || m_cursorIndex < m_elements.size()))
+		else if (cursorPosition() == text().size())
 		{
-			if (!editTextToElement())
+			if (completer()->popup()->isVisible())
+			{
+				searchMatchToToken(m_highlightedMatch);
+			}
+			else if (!editTextToElement())
 			{
 				moveCursor(1);
 			}
@@ -375,14 +397,11 @@ void QtSmartSearchBox::onAutocompletionHighlighted(const SearchMatch& match)
 
 void QtSmartSearchBox::onAutocompletionActivated(const SearchMatch& match)
 {
+	searchMatchToToken(match);
+
 	if (match.fullName.size())
 	{
-		m_oldText.clear();
-		clearLineEdit();
-
-		std::string name = match.encodeForQuery();
-		textToToken(name);
-		updateElements();
+		search();
 	}
 }
 
@@ -443,6 +462,7 @@ void QtSmartSearchBox::moveCursorTo(int target)
 	{
 		m_cursorIndex = target;
 		layoutElements();
+		hideAutoCompletions();
 	}
 }
 
@@ -464,6 +484,19 @@ void QtSmartSearchBox::textToToken(std::string text)
 
 	m_tokens.insert(m_tokens.begin() + m_cursorIndex, text);
 	m_cursorIndex++;
+}
+
+void QtSmartSearchBox::searchMatchToToken(const SearchMatch& match)
+{
+	if (match.fullName.size())
+	{
+		m_oldText.clear();
+		clearLineEdit();
+
+		std::string name = match.encodeForQuery();
+		textToToken(name);
+		updateElements();
+	}
 }
 
 void QtSmartSearchBox::setEditText(const QString& text)

@@ -76,6 +76,17 @@ void GraphLayouter::layoutSpectralPrototype(std::vector<DummyNode>& nodes, const
 
 	MatrixDynamicBase<int> laplacian = buildLaplacianMatrix(nodes, edges);
 
+	// If the laplacian matrix has a zero value in it's diagonal, that means there are unconnected nodes and the spectral
+	// layouting fails for some reason. In this case we switch to raster layout.
+	for (unsigned int i = 0; i < laplacian.getColumnsCount(); i++)
+	{
+		if (laplacian.getValue(i, i) == 0)
+		{
+			layoutSimpleRaster(nodes);
+			return;
+		}
+	}
+
 	Eigen::MatrixXd degreeMatrix = Eigen::MatrixXd::Zero(laplacian.getColumnsCount(), laplacian.getRowsCount());
 	Eigen::MatrixXd eigenMatrix = Eigen::MatrixXd::Zero(laplacian.getColumnsCount(), laplacian.getRowsCount());
 

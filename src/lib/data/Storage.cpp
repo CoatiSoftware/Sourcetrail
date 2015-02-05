@@ -590,18 +590,17 @@ std::string Storage::getNameForNodeWithId(Id id) const
 	}
 }
 
-std::vector<SearchMatch> Storage::getAutocompletionMatches(
-	const std::string& query, const std::string& word) const
+std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& query, const std::string& word) const
 {
 	SearchResults tokenResults;
 
-	bool usedSubquery = false;
+	bool hasQueryResults = false;
 	if (query.size())
 	{
-		usedSubquery = getSubQuerySearchResults(query, word, &tokenResults);
+		hasQueryResults = getQuerySearchResults(query, word, &tokenResults);
 	}
 
-	if (!usedSubquery && word.size())
+	if (!hasQueryResults && word.size())
 	{
 		tokenResults = m_tokenIndex.runFuzzySearch(word);
 	}
@@ -692,28 +691,28 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 			Edge* edge = dynamic_cast<Edge*>(token);
 			graph->addEdgeAndAllChildrenAsPlainCopy(edge);
 		}
-	}
 
-	for(const std::pair<Id, std::shared_ptr<Node>> nodePair : graph->getNodes())
-	{
-		Node* node = m_graph.getNodeById(nodePair.first);
+		for (const std::pair<Id, std::shared_ptr<Node>> nodePair : graph->getNodes())
+		{
+			Node* node = m_graph.getNodeById(nodePair.first);
 
-		node->forEachEdge(
-			[graph](Edge* edge)
-			{
-				if(edge->getType() != Edge::EdgeType::EDGE_MEMBER)
+			node->forEachEdge(
+				[graph](Edge* edge)
 				{
-					Node* from = edge->getFrom();
-					Node* to = edge->getTo();
-
-					if(graph->findNode([from](Node* node){return from->getId() == node->getId();}) != NULL
-						&& graph->findNode([to](Node* node){return to->getId() == node->getId();}) != NULL)
+					if (edge->getType() != Edge::EdgeType::EDGE_MEMBER)
 					{
-						graph->addEdge(edge);
+						Node* from = edge->getFrom();
+						Node* to = edge->getTo();
+
+						if (graph->findNode([from](Node* node){ return from->getId() == node->getId(); }) != NULL &&
+							graph->findNode([to](Node* node){ return to->getId() == node->getId(); }) != NULL)
+						{
+							graph->addEdge(edge);
+						}
 					}
 				}
-			}
-		);
+			);
+		}
 	}
 
 	return graph;
@@ -1050,24 +1049,34 @@ TokenLocation* Storage::addTokenLocation(Token* token, const ParseLocation& loc,
 	return location;
 }
 
-bool Storage::getSubQuerySearchResults(
-	const std::string& query,
-	const std::string& word,
-	SearchResults* results
-) const {
+bool Storage::getQuerySearchResults(const std::string& query, const std::string& word, SearchResults* results) const
+{
 	std::string q = query;
+	bool isCommand = false;
 
-	if (QueryOperator::getOperatorType(q.back()) == QueryOperator::OPERATOR_SUB)
+	switch (QueryOperator::getOperatorType(q.back()))
 	{
+	case QueryOperator::OPERATOR_AND:
+	case QueryOperator::OPERATOR_NOT:
 		q.pop_back();
-	}
-	else if (QueryOperator::getOperatorType(q.back()) == QueryOperator::OPERATOR_HAS)
-	{
-		q.pop_back();
-	}
-	else if (QueryOperator::getOperatorType(q.back()) != QueryOperator::OPERATOR_NONE)
-	{
 		return false;
+
+	case QueryOperator::OPERATOR_HAS:
+		q.pop_back();
+		q.append("'member'");
+		break;
+
+	case QueryOperator::OPERATOR_SUB:
+		q.pop_back();
+		break;
+
+	case QueryOperator::OPERATOR_COMMAND:
+		isCommand = true;
+	case QueryOperator::OPERATOR_NONE:
+	case QueryOperator::OPERATOR_TOKEN:
+	case QueryOperator::OPERATOR_GROUP_OPEN:
+	case QueryOperator::OPERATOR_GROUP_CLOSE:
+		break;
 	}
 
 	QueryTree tree(q);
@@ -1096,27 +1105,27 @@ bool Storage::getSubQuerySearchResults(
 	{
 		if (word.size())
 		{
-			if (searchNodes.size() > 1)
-			{
-				SearchResults res = node->runFuzzySearchOnSelf(word);
-				results->insert(res.begin(), res.end());
-			}
-			else
+			if (searchNodes.size() == 1 && !isCommand)
 			{
 				SearchResults res = node->runFuzzySearch(word);
 				results->insert(res.begin(), res.end());
 			}
+			else
+			{
+				SearchResults res = node->runFuzzySearchOnSelf(word);
+				results->insert(res.begin(), res.end());
+			}
 		}
-		else if (searchNodes.size() == 1)
+		else if (searchNodes.size() == 1 && !isCommand)
 		{
 			for (const std::shared_ptr<SearchNode>& child : node->getChildren())
 			{
-				child->addResultsRecursive(*results, 0, child.get());
+				child->addResultsRecursive(results, 1, child.get());
 			}
 		}
 		else
 		{
-			node->addResultsRecursive(*results, 0, node);
+			node->addResults(results, 1, node);
 		}
 	}
 

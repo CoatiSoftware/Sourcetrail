@@ -140,8 +140,7 @@ private:
 	Edge* addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeUsage& typeUsage);
 	TokenLocation* addTokenLocation(Token* token, const ParseLocation& location, bool isScope = false);
 
-	bool getSubQuerySearchResults(
-		const std::string& query, const std::string& word, SearchResults* results) const;
+	bool getQuerySearchResults(const std::string& query, const std::string& word, SearchResults* results) const;
 
 	void removeNodeIfUnreferenced(Node* node);
 

@@ -1,5 +1,7 @@
 #include "data/search/SearchResult.h"
 
+#include "utility/utilityString.h"
+
 #include "data/search/SearchNode.h"
 
 SearchResult::SearchResult()
@@ -20,5 +22,5 @@ bool SearchResult::operator()(const SearchResult& lhs, const SearchResult& rhs) 
 		return lhs.weight > rhs.weight;
 	}
 
-	return lhs.node->getFullName() < rhs.node->getFullName();
+	return utility::toLowerCase(lhs.node->getFullName()) < utility::toLowerCase(rhs.node->getFullName());
 }

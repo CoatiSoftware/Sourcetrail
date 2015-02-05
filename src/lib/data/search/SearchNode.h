@@ -46,7 +46,8 @@ public:
 	SearchResults runFuzzySearch(const std::string& query) const;
 	SearchResults runFuzzySearchOnSelf(const std::string& query) const;
 
-	void addResultsRecursive(SearchResults& result, size_t weight, const SearchNode* node) const;
+	void addResults(SearchResults* results, size_t weight, const SearchNode* node) const;
+	void addResultsRecursive(SearchResults* results, size_t weight, const SearchNode* node) const;
 
 private:
 	typedef std::multimap<size_t, const SearchNode*> FuzzyMap;

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <iterator>
 #include <string>
 
 namespace utility
@@ -115,6 +116,13 @@ namespace utility
 		ResType res = std::mismatch(prefix.begin(), prefix.end(), text.begin());
 
 		return res.first == prefix.end();
+	}
+
+	std::string toLowerCase(const std::string& in)
+	{
+		std::string out;
+		std::transform(in.begin(), in.end(), std::back_inserter(out), tolower);
+		return out;
 	}
 
 	bool equalsCaseInsensitive(const std::string& a, const std::string& b)

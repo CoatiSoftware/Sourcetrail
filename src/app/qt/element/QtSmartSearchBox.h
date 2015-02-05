@@ -31,9 +31,6 @@ class QtSmartSearchBox
 {
 	Q_OBJECT
 
-public slots:
-	void search();
-
 public:
 	QtSmartSearchBox(QWidget* parent);
 	virtual ~QtSmartSearchBox();
@@ -41,6 +38,7 @@ public:
 	void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList);
 	void setQuery(const std::string& text);
 	void setFocus();
+	void search();
 
 protected:
 	virtual bool event(QEvent *event);
@@ -66,6 +64,7 @@ private:
 	void moveCursorTo(int goal);
 
 	void textToToken(std::string text);
+	void searchMatchToToken(const SearchMatch& match);
 	void setEditText(const QString& text);
 	bool editTextToElement();
 	void editElement(QtQueryElement* element);

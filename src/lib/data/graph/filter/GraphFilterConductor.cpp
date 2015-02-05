@@ -29,6 +29,11 @@ void GraphFilterConductor::filter(const QueryTree* tree, const FilterableGraph* 
 
 void GraphFilterConductor::filterRecursively(const QueryNode* node, const FilterableGraph* in, FilterableGraph* out) const
 {
+	if (!node)
+	{
+		return;
+	}
+
 	if (node->isOperator())
 	{
 		filterOperatorNode(dynamic_cast<const QueryOperator*>(node), in, out);
