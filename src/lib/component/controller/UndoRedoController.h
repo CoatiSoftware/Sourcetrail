@@ -18,12 +18,6 @@
 
 class UndoRedoView;
 
-struct UndoContainer
-{
-    MessageBase* message;
-    std::vector<MessageBase*> subMessages;
-};
-
 class UndoRedoController
 	: public Controller
 	, public MessageListener<MessageActivateTokens>
@@ -50,15 +44,15 @@ private:
 	virtual void handleMessage(MessageRedo* message);
 	virtual void handleMessage(MessageUndo* message);
 
-	void processMessage(MessageBase* message);
-	void processNormalMessage(MessageBase* message);
-	void processRedoMessage(MessageBase* message);
-	void processUndoMessage(MessageBase* message);
+	void processMessage(std::shared_ptr<MessageBase> message);
+	void processNormalMessage(std::shared_ptr<MessageBase> message);
+	void processRedoMessage(std::shared_ptr<MessageBase> message);
+	void processUndoMessage(std::shared_ptr<MessageBase> message);
 
-	MessageBase* m_lastCommand;
+	std::shared_ptr<MessageBase> m_lastCommand;
 
-	std::deque<MessageBase*> m_undo;
-	std::deque<MessageBase*> m_redo;
+	std::deque<std::shared_ptr<MessageBase>> m_undo;
+	std::deque<std::shared_ptr<MessageBase>> m_redo;
 };
 
 #endif // UNDO_REDO_CONTROLLER_H
