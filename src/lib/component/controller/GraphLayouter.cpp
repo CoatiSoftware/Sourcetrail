@@ -76,8 +76,8 @@ void GraphLayouter::layoutSpectralPrototype(std::vector<DummyNode>& nodes, const
 
 	MatrixDynamicBase<int> laplacian = buildLaplacianMatrix(nodes, edges);
 
-	Eigen::MatrixXd degreeMatrix(laplacian.getColumnsCount(), laplacian.getRowsCount());
-	Eigen::MatrixXd eigenMatrix(laplacian.getColumnsCount(), laplacian.getRowsCount());
+	Eigen::MatrixXd degreeMatrix = Eigen::MatrixXd::Zero(laplacian.getColumnsCount(), laplacian.getRowsCount());
+	Eigen::MatrixXd eigenMatrix = Eigen::MatrixXd::Zero(laplacian.getColumnsCount(), laplacian.getRowsCount());
 
 	for(unsigned int x = 0; x < laplacian.getColumnsCount(); x++)
 	{

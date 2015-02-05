@@ -321,7 +321,10 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 		for (int i = 0; i < argList.size(); i++)
 		{
 			std::vector<std::string> argumentNameHierarchy = utility::templateArgumentToDataType(argList.get(i)).getTypeNameHierarchy();
-			m_client->onTemplateRecordArgumentTypeParsed(ParseLocation(), argumentNameHierarchy, specializedRecordNameHierarchy); // TODO: What about the ParseLocation
+			if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
+			{
+				m_client->onTemplateRecordArgumentTypeParsed(ParseLocation(), argumentNameHierarchy, specializedRecordNameHierarchy); // TODO: What about the ParseLocation
+			}
 		}
 	}
 	return true;
