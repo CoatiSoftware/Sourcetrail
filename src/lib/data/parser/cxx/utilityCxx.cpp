@@ -167,12 +167,28 @@ namespace utility
 			}
 			else if (clang::isa<clang::ClassTemplatePartialSpecializationDecl>(declaration))
 			{
-				int templateArgumentCount = clang::dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(declaration)->getTemplateArgs().size();
-				const clang::ASTTemplateArgumentListInfo* templateArgumentListInfo = clang::dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(declaration)->getTemplateArgsAsWritten();
+				const clang::ClassTemplatePartialSpecializationDecl* partialSpecializationDecl =
+					clang::dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(declaration);
+
+				int templateArgumentCount = partialSpecializationDecl->getTemplateArgs().size();
+				const clang::ASTTemplateArgumentListInfo* templateArgumentListInfo = partialSpecializationDecl->getTemplateArgsAsWritten();
 				std::string specializedParameterNamePart = "<";
 				for (int i = 0; i < templateArgumentCount; i++)
 				{
-					specializedParameterNamePart += templateArgumentListInfo->getTemplateArgs()[i].getArgument().getAsType().getAsString();
+					const clang::TemplateArgument& templateArgument = templateArgumentListInfo->getTemplateArgs()[i].getArgument();
+					const clang::TemplateArgument::ArgKind kind = templateArgument.getKind();
+					switch (kind)
+					{
+					case clang::TemplateArgument::Type:
+						specializedParameterNamePart += templateArgument.getAsType().getAsString();
+						break;
+					case clang::TemplateArgument::Integral:
+						specializedParameterNamePart += templateArgument.getIntegralType().getAsString();
+						break;
+					default:
+						LOG_ERROR("Type of template argument not handled.");
+						break;
+					}
 					specializedParameterNamePart += (i < templateArgumentCount - 1) ? ", " : "";
 				}
 				specializedParameterNamePart += ">";
@@ -184,8 +200,8 @@ namespace utility
 				const clang::TemplateArgumentList& templateArgumentList = clang::dyn_cast<clang::ClassTemplateSpecializationDecl>(declaration)->getTemplateArgs();
 				for (size_t i = 0; i < templateArgumentList.size(); i++)
 				{
-					DataType datatype = utility::qualTypeToDataType(templateArgumentList.get(i).getAsType());
-					specializedParameterNamePart += datatype.getFullTypeName();
+					const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
+					specializedParameterNamePart += templateArgumentToDataType(templateArgument).getFullTypeName();
 					specializedParameterNamePart += (i < templateArgumentList.size() - 1) ? ", " : "";
 				}
 				specializedParameterNamePart += ">";
@@ -228,5 +244,21 @@ namespace utility
 			specializationParentNameHierarchy = utility::getDeclNameHierarchy(specializedFromDecl);
 		}
 		return specializationParentNameHierarchy;
+	}
+
+	DataType templateArgumentToDataType(const clang::TemplateArgument& argument)
+	{
+		const clang::TemplateArgument::ArgKind kind = argument.getKind();
+		switch (kind)
+		{
+		case clang::TemplateArgument::Type:
+			return utility::qualTypeToDataType(argument.getAsType());
+		case clang::TemplateArgument::Integral:
+			return utility::qualTypeToDataType(argument.getIntegralType());
+		default:
+			LOG_ERROR("Type of template argument not handled.");
+			break;
+		}
+		return DataType(std::vector<std::string>());
 	}
 }

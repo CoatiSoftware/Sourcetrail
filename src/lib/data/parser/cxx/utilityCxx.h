@@ -19,6 +19,7 @@ namespace utility
 	std::vector<std::string> getContextNameHierarchy(clang::DeclContext* declaration);
 	std::string getDeclName(clang::NamedDecl* declaration);
 	std::vector<std::string> getTemplateSpecializationParentNameHierarchy(clang::ClassTemplateSpecializationDecl* declaration);
+	DataType templateArgumentToDataType(const clang::TemplateArgument& argument);
 }
 
 #endif // UTILITY_CLANG_H

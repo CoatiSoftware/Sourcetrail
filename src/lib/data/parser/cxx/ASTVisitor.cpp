@@ -320,7 +320,7 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 		const clang::TemplateArgumentList &argList = specializationDecl->getTemplateArgs();
 		for (int i = 0; i < argList.size(); i++)
 		{
-			std::vector<std::string> argumentNameHierarchy = utility::qualTypeToDataType(argList.get(i).getAsType()).getTypeNameHierarchy();
+			std::vector<std::string> argumentNameHierarchy = utility::templateArgumentToDataType(argList.get(i)).getTypeNameHierarchy();
 			m_client->onTemplateRecordArgumentTypeParsed(ParseLocation(), argumentNameHierarchy, specializedRecordNameHierarchy); // TODO: What about the ParseLocation
 		}
 	}
