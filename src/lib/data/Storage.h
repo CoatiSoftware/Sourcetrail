@@ -74,6 +74,8 @@ public:
 		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy);
 	virtual Id onGlobalVariableUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy);
+	virtual Id onGlobalVariableUsageParsed(
+		const ParseLocation& location, const ParseVariable& user, const std::vector<std::string>& usedNameHierarchy);
 	virtual Id onEnumFieldUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy);
 	virtual Id onEnumFieldUsageParsed(

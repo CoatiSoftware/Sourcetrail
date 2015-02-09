@@ -554,6 +554,20 @@ void ASTVisitor::VisitGlobalVariableExprInDeclBody(clang::FunctionDecl* decl, cl
 	);
 }
 
+void ASTVisitor::VisitGlobalVariableExprInDeclBody(clang::VarDecl* decl, clang::DeclRefExpr* expr)
+{
+	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
+
+	const std::string exprName = expr->getNameInfo().getAsString();
+	parseLocation.endColumnNumber += exprName.size() - 1;
+
+	m_client->onGlobalVariableUsageParsed(
+		parseLocation,
+		getParseVariable(decl),
+		utility::getDeclNameHierarchy(expr->getDecl())
+	);
+}
+
 void ASTVisitor::VisitEnumExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr)
 {
 	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());

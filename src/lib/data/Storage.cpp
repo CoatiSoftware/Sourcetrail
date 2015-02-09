@@ -412,6 +412,20 @@ Id Storage::onGlobalVariableUsageParsed( // or static variable used
 	return onVariableUsageParsed("global usage", location, user, usedNameHierarchy);
 }
 
+Id Storage::onGlobalVariableUsageParsed(
+	const ParseLocation& location, const ParseVariable& user, const std::vector<std::string>& usedNameHierarchy)
+{
+	log("global usage", user.getFullName() + " -> " + utility::join(usedNameHierarchy, "::"), location);
+
+	Node* userNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, user.nameHierarchy);
+	Node* usedNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
+
+	Edge* edge = m_graph.createEdge(Edge::EDGE_USAGE, userNode, usedNode);
+	addTokenLocation(edge, location);
+
+	return edge->getId();
+}
+
 Id Storage::onEnumFieldUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy
 ){

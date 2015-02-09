@@ -89,7 +89,14 @@ void ASTBodyVisitor::VisitDeclRefExpr(clang::make_ptr<clang::DeclRefExpr>::type 
 {
 	if (expr->getDecl()->getKind() == clang::Decl::Var && expr->getDecl()->isDefinedOutsideFunctionOrMethod())
 	{
-		m_client->VisitGlobalVariableExprInDeclBody(m_functionDecl, expr);
+		if (m_functionDecl)
+		{
+			m_client->VisitGlobalVariableExprInDeclBody(m_functionDecl, expr);
+		}
+		else
+		{
+			m_client->VisitGlobalVariableExprInDeclBody(m_varDecl, expr);
+		}
 	}
 	else if (expr->getDecl()->getKind() == clang::Decl::EnumConstant)
 	{

@@ -875,6 +875,17 @@ public:
 		TS_ASSERT_EQUALS(client->usages[0], "int main() -> bar <5:2 5:4>");
 	}
 
+	void test_cxx_parser_finds_usage_of_global_variable_in_global_variable_initialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"int a = 0;\n"
+			"int b[] = {a};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->usages.size(), 1);
+		TS_ASSERT_EQUALS(client->usages[0], "int [] b -> a <2:12 2:12>");
+	}
+
 	void test_cxx_parser_finds_usage_of_global_variable_in_method()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -1689,6 +1700,13 @@ private:
 			const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy)
 		{
 			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + utility::join(usedNameHierarchy, "::"), location));
+			return 0;
+		}
+
+		virtual Id onGlobalVariableUsageParsed(
+			const ParseLocation& location, const ParseVariable& user, const std::vector<std::string>& usedNameHierarchy)
+		{
+			usages.push_back(addLocationSuffix(variableStr(user) + " -> " + utility::join(usedNameHierarchy, "::"), location));
 			return 0;
 		}
 
