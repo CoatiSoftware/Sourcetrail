@@ -54,6 +54,8 @@ add_files(
 
 	qt/view/QtCodeView.cpp
 	qt/view/QtCodeView.h
+	qt/view/QtCompositeView.cpp
+	qt/view/QtCompositeView.h
 	qt/view/QtGraphView.cpp
 	qt/view/QtGraphView.h
 	qt/view/QtMainView.cpp

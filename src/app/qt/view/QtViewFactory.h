@@ -10,6 +10,9 @@ public:
 	virtual ~QtViewFactory();
 
 	virtual std::shared_ptr<MainView> createMainView() const;
+	virtual std::shared_ptr<CompositeView> createCompositeView(
+		ViewLayout* viewLayout, CompositeView::CompositeDirection direction) const;
+
 	virtual std::shared_ptr<CodeView> createCodeView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<GraphView> createGraphView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<RefreshView> createRefreshView(ViewLayout* viewLayout) const;

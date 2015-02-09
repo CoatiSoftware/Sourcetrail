@@ -13,7 +13,8 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	, m_showCodeSnippetsFunctor(std::bind(&QtCodeView::doShowCodeSnippets, this, std::placeholders::_1))
 	, m_showCodeFileFunctor(std::bind(&QtCodeView::doShowCodeFile, this, std::placeholders::_1))
 {
-	m_widget = createQtCodeFileList();
+	m_widget = new QtCodeFileList();
+	setStyleSheet(m_widget);
 }
 
 QtCodeView::~QtCodeView()
@@ -56,7 +57,7 @@ void QtCodeView::showCodeFile(const CodeSnippetParams& params)
 
 void QtCodeView::doRefreshView()
 {
-	setStyleSheet(m_widget.get());
+	setStyleSheet(m_widget);
 
 	clearClosedWindows();
 	for (std::shared_ptr<QtCodeFileList> window: m_windows)

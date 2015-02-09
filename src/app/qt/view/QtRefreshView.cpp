@@ -8,7 +8,7 @@ QtRefreshView::QtRefreshView(ViewLayout* viewLayout)
 	: RefreshView(viewLayout)
 	, m_refreshViewFunctor(std::bind(&QtRefreshView::doRefreshView, this))
 {
-	m_widget = std::make_shared<QtRefreshBar>();
+	m_widget = new QtRefreshBar();
 	setStyleSheet();
 }
 

@@ -18,11 +18,11 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 	ptr->m_graphAccessProxy = std::make_shared<GraphAccessProxy>();
 	ptr->m_locationAccessProxy = std::make_shared<LocationAccessProxy>();
 
-	ptr->m_mainView = viewFactory->createMainView();
 	ptr->m_componentManager = ComponentManager::create(
-		viewFactory, ptr->m_mainView.get(), ptr->m_graphAccessProxy.get(), ptr->m_locationAccessProxy.get());
+		viewFactory, ptr->m_graphAccessProxy.get(), ptr->m_locationAccessProxy.get());
 
-	ptr->m_componentManager->setup();
+	ptr->m_mainView = viewFactory->createMainView();
+	ptr->m_componentManager->setup(ptr->m_mainView.get());
 	ptr->m_mainView->loadLayout();
 
 	MessageLoadProject("data/ProjectSettings.xml").dispatch();

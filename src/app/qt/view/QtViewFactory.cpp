@@ -1,6 +1,7 @@
 #include "qt/view/QtViewFactory.h"
 
 #include "qt/view/QtCodeView.h"
+#include "qt/view/QtCompositeView.h"
 #include "qt/view/QtGraphView.h"
 #include "qt/view/QtMainView.h"
 #include "qt/view/QtRefreshView.h"
@@ -21,32 +22,41 @@ std::shared_ptr<MainView> QtViewFactory::createMainView() const
 	return std::make_shared<QtMainView>();
 }
 
+std::shared_ptr<CompositeView> QtViewFactory::createCompositeView(
+	ViewLayout* viewLayout, CompositeView::CompositeDirection direction
+) const {
+	std::shared_ptr<CompositeView> ptr = std::make_shared<QtCompositeView>(viewLayout, direction);
+	ptr->init();
+	ptr->addToLayout();
+	return ptr;
+}
+
 std::shared_ptr<CodeView> QtViewFactory::createCodeView(ViewLayout* viewLayout) const
 {
-	return View::create<QtCodeView>(viewLayout);
+	return View::createInitAndAddToLayout<QtCodeView>(viewLayout);
 }
 
 std::shared_ptr<GraphView> QtViewFactory::createGraphView(ViewLayout* viewLayout) const
 {
-	return View::create<QtGraphView>(viewLayout);
+	return View::createInitAndAddToLayout<QtGraphView>(viewLayout);
 }
 
 std::shared_ptr<RefreshView> QtViewFactory::createRefreshView(ViewLayout* viewLayout) const
 {
-	return View::create<QtRefreshView>(viewLayout);
+	return View::createInitAndAddToLayout<QtRefreshView>(viewLayout);
 }
 
 std::shared_ptr<SearchView> QtViewFactory::createSearchView(ViewLayout* viewLayout) const
 {
-	return View::create<QtSearchView>(viewLayout);
+	return View::createInitAndAddToLayout<QtSearchView>(viewLayout);
 }
 
 std::shared_ptr<StatusBarView> QtViewFactory::createStatusBarView(ViewLayout* viewLayout) const
 {
-	return View::createAndDontAddToLayout<QtStatusBarView>(viewLayout);
+	return View::createAndInit<QtStatusBarView>(viewLayout);
 }
 
 std::shared_ptr<UndoRedoView> QtViewFactory::createUndoRedoView(ViewLayout* viewLayout) const
 {
-	return View::create<QtUndoRedoView>(viewLayout);
+	return View::createInitAndAddToLayout<QtUndoRedoView>(viewLayout);
 }

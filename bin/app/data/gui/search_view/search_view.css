@@ -49,6 +49,10 @@ QPushButton#search_button {
 	background: #B2B2B2;
 }
 
+#search_button:pressed {
+	background: #626262;
+}
+
 /*QPushButton#case_sensitive_button {
 	border: none;
 	border-image: url(data/gui/search_view/images/button_case_sensitive_inactive.png);

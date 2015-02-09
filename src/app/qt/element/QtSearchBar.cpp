@@ -12,6 +12,7 @@ QtSearchBar::QtSearchBar()
 
 	QBoxLayout* layout = new QHBoxLayout();
 	layout->setSpacing(0);
+	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
 
@@ -29,6 +30,7 @@ QtSearchBar::QtSearchBar()
 	m_searchBox->setObjectName("search_box");
 	m_searchBox->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_searchBox->setAttribute(Qt::WA_MacShowFocusRect, 0); // remove blue focus box on Mac
+	m_searchBox->setMinimumWidth(100);
 	m_searchBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 	innerLayout->addWidget(m_searchBox);
 

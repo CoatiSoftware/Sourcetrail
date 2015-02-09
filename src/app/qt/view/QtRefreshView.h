@@ -28,7 +28,7 @@ private:
 
 	QtThreadedFunctor<> m_refreshViewFunctor;
 
-	std::shared_ptr<QtRefreshBar> m_widget;
+	QtRefreshBar* m_widget;
 };
 
 # endif // QT_REFRESH_VIEW_H

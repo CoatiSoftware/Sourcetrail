@@ -36,7 +36,7 @@ private:
 	QtThreadedFunctor<> m_setFocusFunctor;
 	QtThreadedFunctor<const std::vector<SearchMatch>&> m_setAutocompletionListFunctor;
 
-	std::shared_ptr<QtSearchBar> m_widget;
+	QtSearchBar* m_widget;
 };
 
 # endif // QT_SEARCH_VIEW_H

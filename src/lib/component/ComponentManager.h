@@ -9,6 +9,7 @@
 #include "data/access/LocationAccess.h"
 #include "data/access/GraphAccess.h"
 
+class View;
 class ViewFactory;
 class ViewLayout;
 
@@ -16,12 +17,12 @@ class ComponentManager
 {
 public:
 	static std::shared_ptr<ComponentManager> create(
-		ViewFactory* viewFactory, ViewLayout* viewLayout, GraphAccess* graphAccess, LocationAccess* locationAccess
+		ViewFactory* viewFactory, GraphAccess* graphAccess, LocationAccess* locationAccess
 	);
 
 	~ComponentManager();
 
-	void setup();
+	void setup(ViewLayout* viewLayout);
 
 private:
 	ComponentManager();
@@ -29,7 +30,8 @@ private:
 
 	std::shared_ptr<ComponentFactory> m_componentFactory;
 
-	std::vector<std::shared_ptr<Component> > m_components;
+	std::vector<std::shared_ptr<Component>> m_components;
+	std::vector<std::shared_ptr<View>> m_views;
 };
 
 #endif // COMPONENT_MANAGER_H

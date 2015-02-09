@@ -11,7 +11,7 @@ QtSearchView::QtSearchView(ViewLayout* viewLayout)
 	, m_setFocusFunctor(std::bind(&QtSearchView::doSetFocus, this))
 	, m_setAutocompletionListFunctor(std::bind(&QtSearchView::doSetAutocompletionList, this, std::placeholders::_1))
 {
-	m_widget = std::make_shared<QtSearchBar>();
+	m_widget = new QtSearchBar();
 	setStyleSheet();
 }
 

@@ -3,7 +3,7 @@
 #include "component/controller/StatusBarController.h"
 
 StatusBarView::StatusBarView(ViewLayout* viewLayout)
-	: View(viewLayout, Vec2i(100,100))
+	: View(viewLayout)
 {
 }
 

@@ -14,8 +14,6 @@ public:
 	QtRefreshBar();
 	virtual ~QtRefreshBar();
 
-	virtual QSize sizeHint() const;
-
 private slots:
 	void refreshClicked();
 	void autoRefreshClicked();

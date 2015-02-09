@@ -9,7 +9,7 @@ QtUndoRedoView::QtUndoRedoView(ViewLayout* viewLayout)
 	, m_setRedoButtonEnabledFunctor(std::bind(&QtUndoRedoView::doSetRedoButtonEnabled, this, std::placeholders::_1))
 	, m_setUndoButtonEnabledFunctor(std::bind(&QtUndoRedoView::doSetUndoButtonEnabled, this, std::placeholders::_1))
 {
-	m_widget = std::make_shared<QtUndoRedo>();
+	m_widget = new QtUndoRedo();
 	setStyleSheet();
 }
 

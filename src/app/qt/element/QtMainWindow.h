@@ -50,7 +50,7 @@ private:
 
 	QDockWidget* getDockWidgetForView(View* view) const;
 
-	std::vector<std::pair<View*, QDockWidget*> > m_dockWidgets;
+	std::vector<std::pair<View*, QDockWidget*>> m_dockWidgets;
 };
 
 #endif // QT_MAIN_WINDOW_H

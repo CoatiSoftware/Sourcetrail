@@ -62,7 +62,7 @@ bool CodeView::CodeSnippetParams::sort(const CodeSnippetParams& a, const CodeSni
 }
 
 CodeView::CodeView(ViewLayout* viewLayout)
-	: View(viewLayout, Vec2i(100, 100))
+	: View(viewLayout)
 {
 }
 

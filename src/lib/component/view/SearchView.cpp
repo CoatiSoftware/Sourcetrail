@@ -3,7 +3,7 @@
 #include "component/controller/SearchController.h"
 
 SearchView::SearchView(ViewLayout* viewLayout)
-	: View(viewLayout, Vec2i(100, 100))
+	: View(viewLayout)
 {
 }
 

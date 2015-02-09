@@ -13,6 +13,7 @@ QPushButton {
 #undo_button {
 	border-bottom-left-radius: 12px;
 	border-top-left-radius: 12px;
+	margin-right: 2px;
 }
 
 #redo_button {
@@ -20,18 +21,15 @@ QPushButton {
 	border-top-right-radius: 12px;
 }
 
-#undo_button:disabled,
-#redo_button:disabled {
+QPushButton:disabled {
 	background: #F4F4F4;
 }
 
-#undo_button:hover,
-#redo_button:hover {
+QPushButton:hover {
 	background: #B2B2B2;
 }
 
-#undo_button:pressed,
-#redo_button:pressed {
+QPushButton:pressed {
 	background: #626262;
 }
 

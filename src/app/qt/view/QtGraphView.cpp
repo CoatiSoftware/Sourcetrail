@@ -29,7 +29,7 @@ QtGraphView::~QtGraphView()
 
 void QtGraphView::createWidgetWrapper()
 {
-	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(std::make_shared<QFrame>()));
+	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(new QFrame()));
 }
 
 void QtGraphView::initView()

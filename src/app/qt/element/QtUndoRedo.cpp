@@ -25,12 +25,11 @@ QtUndoRedo::QtUndoRedo()
 
 	QBoxLayout* layout = new QHBoxLayout();
 	layout->setSpacing(0);
+	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
 	layout->addWidget(m_undoButton);
-	layout->addSpacing(2);
 	layout->addWidget(m_redoButton);
-	layout->addStretch();
 
     connect(m_undoButton, SIGNAL(clicked()), this, SLOT(undo()));
     connect(m_redoButton, SIGNAL(clicked()), this, SLOT(redo()));

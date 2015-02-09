@@ -3,7 +3,7 @@
 #include "component/controller/UndoRedoController.h"
 
 UndoRedoView::UndoRedoView(ViewLayout* viewLayout)
-	: View(viewLayout, Vec2i(100,100))
+	: View(viewLayout)
 {
 }
 

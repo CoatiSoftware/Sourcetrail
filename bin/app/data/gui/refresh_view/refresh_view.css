@@ -14,13 +14,17 @@ QPushButton:hover, QPushButton:checked {
 	background: #B2B2B2;
 }
 
-QPushButton#refresh_button {
+QPushButton:pressed {
+	background: #626262;
+}
+
+#refresh_button {
 	border-bottom-left-radius: 12px;
 	border-top-left-radius: 12px;
 	margin-right: 2px;
 }
 
-QPushButton#auto_refresh_button {
+#auto_refresh_button {
 	border-bottom-right-radius: 12px;
 	border-top-right-radius: 12px;
 }

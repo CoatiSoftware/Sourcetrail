@@ -44,7 +44,7 @@ private:
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&> m_showCodeSnippetsFunctor;
 	QtThreadedFunctor<const CodeSnippetParams&> m_showCodeFileFunctor;
 
-	std::shared_ptr<QtCodeFileList> m_widget;
+	QtCodeFileList* m_widget;
 	std::vector<std::shared_ptr<QtCodeFileList>> m_windows;
 
 	std::vector<Id> m_activeTokenIds;

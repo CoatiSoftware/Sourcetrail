@@ -8,6 +8,7 @@
 #include <QSettings>
 
 #include "component/view/View.h"
+#include "component/view/CompositeView.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageFind.h"
@@ -270,7 +271,18 @@ QDockWidget* QtMainWindow::getDockWidgetForView(View* view) const
 {
 	for (size_t i = 0; i < m_dockWidgets.size(); i++)
 	{
-		if (m_dockWidgets[i].first == view)
+		CompositeView* compositeView = dynamic_cast<CompositeView*>(m_dockWidgets[i].first);
+		if (compositeView)
+		{
+			for (View* v : compositeView->getViews())
+			{
+				if (v == view)
+				{
+					return m_dockWidgets[i].second;
+				}
+			}
+		}
+		else if (m_dockWidgets[i].first == view)
 		{
 			return m_dockWidgets[i].second;
 		}

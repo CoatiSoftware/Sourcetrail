@@ -3,7 +3,7 @@
 #include "component/controller/RefreshController.h"
 
 RefreshView::RefreshView(ViewLayout* viewLayout)
-	: View(viewLayout, Vec2i(100, 100))
+	: View(viewLayout)
 {
 }
 

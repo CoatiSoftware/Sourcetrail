@@ -36,5 +36,4 @@ ViewType* Component::getView() const
 	return dynamic_cast<ViewType*>(m_view.get());
 }
 
-
 #endif // COMPONENT_H

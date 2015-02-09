@@ -1,0 +1,64 @@
+#include "component/view/CompositeView.h"
+
+CompositeView::CompositeView(ViewLayout* viewLayout, CompositeDirection direction)
+	: View(viewLayout)
+	, m_direction(direction)
+{
+}
+
+CompositeView::~CompositeView()
+{
+}
+
+CompositeView::CompositeDirection CompositeView::getDirection() const
+{
+	return m_direction;
+}
+
+const std::vector<View*>& CompositeView::getViews() const
+{
+	return m_views;
+}
+
+std::string CompositeView::getName() const
+{
+	return "CompositeView";
+}
+
+void CompositeView::addView(View* view)
+{
+	m_views.push_back(view);
+
+	addViewWidget(view);
+}
+
+void CompositeView::removeView(View* view)
+{
+	std::vector<View*>::iterator it = std::find(m_views.begin(), m_views.end(), view);
+	if (it == m_views.end())
+	{
+		return;
+	}
+
+	m_views.erase(it);
+}
+
+void CompositeView::showView(View* view)
+{
+	getViewLayout()->showView(view);
+}
+
+void CompositeView::hideView(View* view)
+{
+	getViewLayout()->hideView(view);
+}
+
+void CompositeView::loadLayout()
+{
+	getViewLayout()->loadLayout();
+}
+
+void CompositeView::saveLayout()
+{
+	getViewLayout()->saveLayout();
+}

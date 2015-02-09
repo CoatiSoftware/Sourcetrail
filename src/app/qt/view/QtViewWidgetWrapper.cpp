@@ -22,7 +22,7 @@ QWidget* QtViewWidgetWrapper::getWidgetOfView(const View* view)
 	return widgetWrapper->getWidget();
 }
 
-QtViewWidgetWrapper::QtViewWidgetWrapper(std::shared_ptr<QWidget> widget)
+QtViewWidgetWrapper::QtViewWidgetWrapper(QWidget* widget)
 	: m_widget(widget)
 {
 }
@@ -33,5 +33,5 @@ QtViewWidgetWrapper::~QtViewWidgetWrapper()
 
 QWidget* QtViewWidgetWrapper::getWidget()
 {
-	return m_widget.get();
+	return m_widget;
 }

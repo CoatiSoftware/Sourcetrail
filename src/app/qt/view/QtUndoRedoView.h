@@ -31,7 +31,7 @@ private:
     QtThreadedFunctor<bool> m_setUndoButtonEnabledFunctor;
 
 	void setStyleSheet();
-	std::shared_ptr<QtUndoRedo> m_widget;
+	QtUndoRedo* m_widget;
 };
 
 #endif // !QT_UNDO_REDO_VIEW_H
