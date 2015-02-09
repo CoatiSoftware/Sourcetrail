@@ -5,7 +5,7 @@
 #include <QFile>
 #include <QFontDatabase>
 
-#include "utility/FileSystem.h"
+#include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 
 namespace utility

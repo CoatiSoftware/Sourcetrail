@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "utility/file/FileInfo.h"
+
 class FileSystem
 {
 public:
@@ -11,6 +13,9 @@ public:
 		const std::string& path, const std::vector<std::string>& extensions);
 	static std::vector<std::string> getFileNamesFromDirectoryUpdatedAfter(
 		const std::string& path, const std::vector<std::string>& extensions, const std::string& timeString);
+
+	static std::vector<FileInfo> getFileInfosFromDirectoryPaths(
+		const std::vector<std::string>& directoryPaths, const std::vector<std::string>& fileExtensions);
 
 	static std::string getTimeStringNow();
 

@@ -2,7 +2,8 @@
 
 #include "data/graph/filter/GraphFilterConductor.h"
 #include "data/query/QueryTree.h"
-#include "TestStorage.h"
+
+#include "helper/TestStorage.h"
 
 class GraphFilterConductorTestSuite : public CxxTest::TestSuite
 {

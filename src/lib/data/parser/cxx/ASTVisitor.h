@@ -6,13 +6,14 @@
 
 #include "data/parser/cxx/ASTBodyVisitorClient.h"
 #include "data/parser/ParserClient.h"
+#include "utility/file/FileManager.h"
 
 class ASTVisitor
 	: public clang::RecursiveASTVisitor<ASTVisitor>
 	, public ASTBodyVisitorClient
 {
 public:
-	ASTVisitor(clang::ASTContext* context, ParserClient* client);
+	ASTVisitor(clang::ASTContext* context, ParserClient* client, FileManager* fileManager);
 	virtual ~ASTVisitor();
 
 	// Left for debugging purposes. Uncomment to see a colored ast-dump of the parsed file.
@@ -56,7 +57,8 @@ public:
 	virtual void VisitVarDeclInDeclBody(clang::FunctionDecl* decl, clang::VarDecl* varDecl); // type usages
 
 private:
-	bool hasValidLocation(const clang::Decl* declaration) const;
+	bool isLocatedInMainFile(const clang::Decl* declaration) const;
+	bool isLocatedInSourceFile(const clang::Decl* declaration) const;
 	ParserClient::AccessType convertAccessType(clang::AccessSpecifier) const;
 
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
@@ -74,6 +76,7 @@ private:
 
 	clang::ASTContext* m_context;
 	ParserClient* m_client;
+	FileManager* m_fileManager;
 };
 
 #endif // AST_VISITOR_H

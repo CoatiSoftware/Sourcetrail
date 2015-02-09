@@ -184,6 +184,13 @@ add_files(
 	data/Storage.cpp
 	data/Storage.h
 
+	utility/file/FileInfo.cpp
+	utility/file/FileInfo.h
+	utility/file/FileManager.cpp
+	utility/file/FileManager.h
+	utility/file/FileSystem.cpp
+	utility/file/FileSystem.h
+
 	utility/logging/ConsoleLogger.cpp
 	utility/logging/ConsoleLogger.h
 	utility/logging/FileLogger.cpp
@@ -240,8 +247,6 @@ add_files(
 
 	utility/ConfigManager.cpp
 	utility/ConfigManager.h
-	utility/FileSystem.cpp
-	utility/FileSystem.h
 	utility/Property.h
 	utility/types.h
 	utility/utilityString.cpp

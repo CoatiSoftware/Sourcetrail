@@ -2,11 +2,13 @@
 
 #include "utility/text/TextAccess.h"
 #include "data/parser/cxx/CxxParser.h"
+#include "TestFileManager.h"
 
 void TestStorage::parseCxxCode(std::string code)
 {
 	clear();
-	CxxParser parser(this);
+	TestFileManager fm;
+	CxxParser parser(this, &fm);
 	parser.parseFile(TextAccess::createFromString(code));
 }
 

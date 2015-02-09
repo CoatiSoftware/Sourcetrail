@@ -5,11 +5,12 @@
 #include "clang/AST/ASTContext.h"
 
 #include "data/parser/cxx/ASTVisitor.h"
+#include "utility/file/FileManager.h"
 
 class ASTConsumer : public clang::ASTConsumer
 {
 public:
-	explicit ASTConsumer(clang::ASTContext* context, ParserClient* client);
+	explicit ASTConsumer(clang::ASTContext* context, ParserClient* client, FileManager* fileManager);
 	virtual ~ASTConsumer();
 
 	virtual void HandleTranslationUnit(clang::ASTContext& context);

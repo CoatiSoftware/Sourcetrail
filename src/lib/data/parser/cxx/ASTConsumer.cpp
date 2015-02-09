@@ -2,8 +2,8 @@
 
 #include "data/parser/ParserClient.h"
 
-ASTConsumer::ASTConsumer(clang::ASTContext* context, ParserClient* client)
-	: m_visitor(context, client)
+ASTConsumer::ASTConsumer(clang::ASTContext* context, ParserClient* client, FileManager* fileManager)
+	: m_visitor(context, client, fileManager)
 {
 }
 

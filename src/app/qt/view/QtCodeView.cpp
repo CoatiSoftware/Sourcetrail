@@ -4,7 +4,7 @@
 
 #include "qt/element/QtCodeFileList.h"
 #include "qt/view/QtViewWidgetWrapper.h"
-#include "utility/FileSystem.h"
+#include "utility/file/FileSystem.h"
 #include "utility/text/TextAccess.h"
 
 QtCodeView::QtCodeView(ViewLayout* viewLayout)

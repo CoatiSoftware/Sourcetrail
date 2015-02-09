@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include "utility/FileSystem.h"
+#include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 
 #include "data/location/TokenLocation.h"

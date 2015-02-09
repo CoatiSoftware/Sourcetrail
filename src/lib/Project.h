@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "data/Storage.h"
+#include "utility/file/FileManager.h"
 #include "ProjectSettings.h"
 
 class GraphAccessProxy;
@@ -23,7 +24,7 @@ public:
 	bool setSourceDirectoryPath(const std::string& sourceDirectoryPath);
 
 	void clearStorage();
-	void parseCode(bool refresh);
+	void parseCode();
 
 private:
 	Project(GraphAccessProxy* graphAccessProxy, LocationAccessProxy* locationAccessProxy);
@@ -36,8 +37,7 @@ private:
 	LocationAccessProxy* const m_locationAccessProxy;
 
 	std::shared_ptr<Storage> m_storage;
-
-	std::string m_lastParseTimeString;
+	std::shared_ptr<FileManager> m_fileManager;
 };
 
 #endif // PROJECT_H

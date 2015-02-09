@@ -49,8 +49,9 @@ static bool runToolOnCodeWithArgs(
 
 }
 
-CxxParser::CxxParser(ParserClient* client)
+CxxParser::CxxParser(ParserClient* client, FileManager* fileManager)
 	: Parser(client)
+	, m_fileManager(fileManager)
 {
 }
 
@@ -117,7 +118,7 @@ void CxxParser::parseFiles(
 	CxxDiagnosticConsumer reporter(llvm::errs(), &*options, m_client);
 	tool.setDiagnosticConsumer(&reporter);
 
-	ASTActionFactory actionFactory(m_client);
+	ASTActionFactory actionFactory(m_client, m_fileManager);
 	tool.run(&actionFactory);
 }
 
@@ -129,6 +130,6 @@ void CxxParser::parseFile(std::shared_ptr<TextAccess> textAccess)
 	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
 	CxxDiagnosticConsumer reporter(llvm::errs(), &*options, m_client, false);
 
-	ASTActionFactory actionFactory(m_client);
+	ASTActionFactory actionFactory(m_client, m_fileManager);
 	runToolOnCodeWithArgs(&reporter, actionFactory.create(), textAccess->getText(), args);
 }

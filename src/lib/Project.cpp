@@ -11,9 +11,9 @@
 #include "data/access/LocationAccessProxy.h"
 #include "data/graph/Token.h"
 #include "data/parser/cxx/CxxParser.h"
-#include "utility/FileSystem.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/file/FileSystem.h"
 
 std::shared_ptr<Project> Project::create(GraphAccessProxy* graphAccessProxy, LocationAccessProxy* locationAccessProxy)
 {
@@ -77,60 +77,71 @@ void Project::clearStorage()
 	Token::resetNextId();
 }
 
-void Project::parseCode(bool refresh)
+void Project::parseCode()
 {
 	std::string sourcePath = ProjectSettings::getInstance()->getSourcePath();
 	if (sourcePath.size())
 	{
-		std::vector<std::string> extensions;
-		extensions.push_back(".cpp");
-		extensions.push_back(".cc");
-		extensions.push_back(".h");
-		extensions.push_back(".hpp");
-
-		// Add the SourcePath as HeaderSearchPath as well.
-		std::vector<std::string> headerSearchPaths = ProjectSettings::getInstance()->getHeaderSearchPaths();
-		headerSearchPaths.push_back(sourcePath);
-
-		std::vector<std::string> filePaths;
-		if (refresh)
+		std::vector<std::string> includePaths;
+		includePaths.push_back(sourcePath);
+		if (!m_fileManager)
 		{
-			filePaths = FileSystem::getFileNamesFromDirectoryUpdatedAfter(sourcePath, extensions, m_lastParseTimeString);
+			std::vector<std::string> sourcePaths;
+			sourcePaths.push_back(sourcePath);
+			std::vector<std::string> sourceExtensions;
+			sourceExtensions.push_back(".cpp");
+			sourceExtensions.push_back(".cc");
+			std::vector<std::string> includeExtensions;
+			includeExtensions.push_back(".h");
+			includeExtensions.push_back(".hpp");
+			m_fileManager = std::make_shared<FileManager>(sourcePaths, includePaths, sourceExtensions, includeExtensions); // todo: move this creation to another place (after projectsettings have been loaded)
+		}
+
+		m_fileManager->fetchFilePaths();
+		std::vector<std::string> addedFilePaths = m_fileManager->getAddedFilePaths();
+		std::vector<std::string> updatedFilePaths = m_fileManager->getUpdatedFilePaths();
+		std::vector<std::string> removedFilePaths = m_fileManager->getRemovedFilePaths();
+
+		m_storage->clearFileData(addedFilePaths);
+		m_storage->clearFileData(updatedFilePaths);
+		m_storage->clearFileData(removedFilePaths);
+
+		std::vector<std::string> filesToParse = addedFilePaths;
+		for (std::string updatedFilePath: updatedFilePaths)
+		{
+			filesToParse.push_back(updatedFilePath);
+		}
+
+		if (filesToParse.size() == 0)
+		{
+			MessageFinishedParsing(0, 0, m_storage->getErrorCount()).dispatch();
 		}
 		else
 		{
-			filePaths = FileSystem::getFileNamesFromDirectory(sourcePath, extensions);
+			// Add the SourcePaths as HeaderSearchPaths as well, so clang will also look here when searching include files.
+			std::vector<std::string> headerSearchPaths = ProjectSettings::getInstance()->getHeaderSearchPaths();
+			for (int i = 0; i < includePaths.size(); i++)
+			{
+				headerSearchPaths.push_back(includePaths[i]);
+			}
+
+			CxxParser parser(m_storage.get(), m_fileManager.get());
+			clock_t time = clock();
+			parser.parseFiles(
+				filesToParse,
+				ApplicationSettings::getInstance()->getHeaderSearchPaths(),
+				headerSearchPaths
+			);
+			time = clock() - time;
+
+			// m_storage->logGraph();
+			// m_storage->logLocations();
+
+			double parseTime = (double)(time) / CLOCKS_PER_SEC;
+			LOG_INFO_STREAM(<< "parse time: " << parseTime);
+
+			MessageFinishedParsing(filesToParse.size(), parseTime, m_storage->getErrorCount()).dispatch();
 		}
-
-		if (!filePaths.size())
-		{
-			MessageFinishedParsing(0, 0, m_storage->getErrorCount()).dispatch();
-			return;
-		}
-
-		m_lastParseTimeString = FileSystem::getTimeStringNow();
-
-		if (refresh)
-		{
-			m_storage->clearFileData(filePaths);
-		}
-
-		CxxParser parser(m_storage.get());
-		clock_t time = clock();
-		parser.parseFiles(
-			filePaths,
-			ApplicationSettings::getInstance()->getHeaderSearchPaths(),
-			headerSearchPaths
-		);
-		time = clock() - time;
-
-		// m_storage->logGraph();
-		// m_storage->logLocations();
-
-		double parseTime = (double)(time) / CLOCKS_PER_SEC;
-		LOG_INFO_STREAM(<< "parse time: " << parseTime);
-
-		MessageFinishedParsing(filePaths.size(), parseTime, m_storage->getErrorCount()).dispatch();
 	}
 }
 

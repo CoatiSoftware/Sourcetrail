@@ -9,6 +9,8 @@
 #include "utility/text/TextAccess.h"
 #include "utility/utilityString.h"
 
+#include "helper/TestFileManager.h"
+
 class CxxParserTestSuite: public CxxTest::TestSuite
 {
 public:
@@ -1531,8 +1533,9 @@ public:
 
 	void test_cxx_parser_parses_multiple_files()
 	{
+		TestFileManager fm;
 		TestParserClient client;
-		CxxParser parser(&client);
+		CxxParser parser(&client, &fm);
 
 		std::vector<std::string> filePaths;
 		filePaths.push_back("data/CxxParserTestSuite/header.h");
@@ -1839,8 +1842,9 @@ private:
 
 	std::shared_ptr<TestParserClient> parseCode(std::string code) const
 	{
+		TestFileManager fm;
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client.get());
+		CxxParser parser(client.get(), &fm);
 		parser.parseFile(TextAccess::createFromString(code));
 		return client;
 	}

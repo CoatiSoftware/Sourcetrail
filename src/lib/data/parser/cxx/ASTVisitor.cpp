@@ -10,12 +10,14 @@
 #include "data/parser/ParseTypeUsage.h"
 #include "data/parser/ParseVariable.h"
 #include "data/type/DataType.h"
+#include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
-ASTVisitor::ASTVisitor(clang::ASTContext* context, ParserClient* client)
+ASTVisitor::ASTVisitor(clang::ASTContext* context, ParserClient* client, FileManager* fileManager)
 	: m_context(context)
 	, m_client(client)
+	, m_fileManager(fileManager)
 {
 }
 
@@ -30,7 +32,7 @@ bool ASTVisitor::VisitStmt(const clang::Stmt* statement)
 
 bool ASTVisitor::VisitTypedefDecl(clang::TypedefDecl* declaration)
 {
-	if (hasValidLocation(declaration))
+	if (isLocatedInMainFile(declaration))
 	{
 		m_client->onTypedefParsed(
 			getParseLocationForNamedDecl(declaration),
@@ -45,7 +47,7 @@ bool ASTVisitor::VisitTypedefDecl(clang::TypedefDecl* declaration)
 
 bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 {
-	if (hasValidLocation(declaration))
+	if (isLocatedInMainFile(declaration))
 	{
 		if (declaration->isClass())
 		{
@@ -94,7 +96,7 @@ bool ASTVisitor::VisitVarDecl(clang::VarDecl* declaration)
 		return true;
 	}
 
-	if (hasValidLocation(declaration))
+	if (isLocatedInMainFile(declaration))
 	{
 		clang::AccessSpecifier access = declaration->getAccess();
 
@@ -126,7 +128,7 @@ bool ASTVisitor::VisitVarDecl(clang::VarDecl* declaration)
 
 bool ASTVisitor::VisitFieldDecl(clang::FieldDecl* declaration)
 {
-	if (hasValidLocation(declaration))
+	if (isLocatedInMainFile(declaration))
 	{
 		m_client->onFieldParsed(
 			getParseLocationForNamedDecl(declaration),
@@ -146,7 +148,7 @@ bool ASTVisitor::VisitFunctionDecl(clang::FunctionDecl* declaration)
 		return true;
 	}
 
-	if (hasValidLocation(declaration))
+	if (isLocatedInMainFile(declaration))
 	{
 		m_client->onFunctionParsed(
 			getParseLocationForNamedDecl(declaration),
@@ -166,7 +168,7 @@ bool ASTVisitor::VisitFunctionDecl(clang::FunctionDecl* declaration)
 
 bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 {
-	if (hasValidLocation(declaration))
+	if (isLocatedInMainFile(declaration))
 	{
 		ParserClient::AbstractionType abstraction = ParserClient::ABSTRACTION_NONE;
 		if (declaration->isPure())
@@ -198,7 +200,7 @@ bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 
 bool ASTVisitor::VisitCXXConstructorDecl(clang::CXXConstructorDecl* declaration)
 {
-	if (hasValidLocation(declaration))
+	if (isLocatedInMainFile(declaration))
 	{
 		for (clang::CXXConstructorDecl::init_const_iterator it = declaration->init_begin(); it != declaration->init_end(); it++)
 		{
@@ -232,7 +234,7 @@ bool ASTVisitor::VisitCXXConstructorDecl(clang::CXXConstructorDecl* declaration)
 
 bool ASTVisitor::VisitNamespaceDecl(clang::NamespaceDecl* declaration)
 {
-	if (hasValidLocation(declaration))
+	if (isLocatedInMainFile(declaration))
 	{
 		m_client->onNamespaceParsed(
 			declaration->isAnonymousNamespace() ? ParseLocation() : getParseLocationForNamedDecl(declaration),
@@ -245,7 +247,7 @@ bool ASTVisitor::VisitNamespaceDecl(clang::NamespaceDecl* declaration)
 
 bool ASTVisitor::VisitEnumDecl(clang::EnumDecl* declaration)
 {
-	if (hasValidLocation(declaration))
+	if (isLocatedInMainFile(declaration))
 	{
 		m_client->onEnumParsed(
 			getParseLocationForNamedDecl(declaration),
@@ -259,7 +261,7 @@ bool ASTVisitor::VisitEnumDecl(clang::EnumDecl* declaration)
 
 bool ASTVisitor::VisitEnumConstantDecl(clang::EnumConstantDecl* declaration)
 {
-	if (hasValidLocation(declaration))
+	if (isLocatedInMainFile(declaration))
 	{
 		m_client->onEnumFieldParsed(
 			getParseLocation(declaration->getSourceRange()),
@@ -283,14 +285,15 @@ bool ASTVisitor::VisitTemplateTypeParmDecl(clang::TemplateTypeParmDecl *declarat
 
 bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 {
-	if (hasValidLocation(declaration))
+	std::vector<std::string> rarchy = utility::getDeclNameHierarchy(declaration);
+	if (isLocatedInMainFile(declaration))
 	{
 		std::vector<std::string> templateRecordNameHierarchy = utility::getDeclNameHierarchy(declaration);
 		clang::TemplateParameterList* parameterList = declaration->getTemplateParameters();
 		for (size_t i = 0; i < parameterList->size(); i++)
 		{
 			clang::NamedDecl* namedDecl = parameterList->getParam(i);
-			if (hasValidLocation(namedDecl))
+			if (isLocatedInMainFile(namedDecl))
 			{
 				m_client->onTemplateRecordParameterTypeParsed(
 					getParseLocationForNamedDecl(namedDecl),
@@ -303,27 +306,34 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 
 	// for implicit template specializations we do not need a valid location of the original template class definition (since that file could be included)
 	// handles explicit specializations and implicit specializations but no explicit partial specializations
-	for (clang::ClassTemplateDecl::spec_iterator it = declaration->specializations().begin();
-		it != declaration->specializations().end(); it++
-	)
+	if (isLocatedInSourceFile(declaration))
 	{
-		clang::ClassTemplateSpecializationDecl* specializationDecl = *it;
-
-		std::vector<std::string> specializationParentNameHierarchy = utility::getTemplateSpecializationParentNameHierarchy(specializationDecl);
-
-		ParserClient::RecordType specializedRecordType = specializationDecl->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
-		std::vector<std::string> specializedRecordNameHierarchy = utility::getDeclNameHierarchy(specializationDecl);
-		m_client->onTemplateRecordSpecializationParsed(
-			getParseLocationForNamedDecl(*it), specializedRecordNameHierarchy, specializedRecordType, specializationParentNameHierarchy
-		);
-
-		const clang::TemplateArgumentList &argList = specializationDecl->getTemplateArgs();
-		for (int i = 0; i < argList.size(); i++)
+		for (clang::ClassTemplateDecl::spec_iterator it = declaration->specializations().begin();
+			it != declaration->specializations().end(); it++
+		)
 		{
-			std::vector<std::string> argumentNameHierarchy = utility::templateArgumentToDataType(argList.get(i)).getTypeNameHierarchy();
-			if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
+			clang::ClassTemplateSpecializationDecl* specializationDecl = *it;
+
+			std::vector<std::string> specializationParentNameHierarchy = utility::getTemplateSpecializationParentNameHierarchy(specializationDecl);
+
+			ParserClient::RecordType specializedRecordType = specializationDecl->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
+			std::vector<std::string> specializedRecordNameHierarchy = utility::getDeclNameHierarchy(specializationDecl);
+			m_client->onTemplateRecordSpecializationParsed(
+				getParseLocationForNamedDecl(*it), specializedRecordNameHierarchy, specializedRecordType, specializationParentNameHierarchy
+			);
+
+			const clang::TemplateArgumentList &argList = specializationDecl->getTemplateArgs();
+			for (int i = 0; i < argList.size(); i++)
 			{
-				m_client->onTemplateRecordArgumentTypeParsed(ParseLocation(), argumentNameHierarchy, specializedRecordNameHierarchy); // TODO: What about the ParseLocation
+				std::vector<std::string> argumentNameHierarchy = utility::templateArgumentToDataType(argList.get(i)).getTypeNameHierarchy();
+				if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
+				{
+					m_client->onTemplateRecordArgumentTypeParsed(
+						ParseLocation(), // TODO: Find a valid ParseLocation here!
+						argumentNameHierarchy,
+						specializedRecordNameHierarchy
+					);
+				}
 			}
 		}
 	}
@@ -332,7 +342,7 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 
 bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* declaration)
 {
-	if (hasValidLocation(declaration))
+	if (isLocatedInMainFile(declaration))
 	{
 		std::vector<std::string> specializedRecordNameHierarchy = utility::getDeclNameHierarchy(declaration);
 		std::vector<std::string> specializationParentNameHierarchy = utility::getTemplateSpecializationParentNameHierarchy(declaration);
@@ -346,7 +356,7 @@ bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplat
 		for (size_t i = 0; i < parameterList->size(); i++)
 		{
 			clang::NamedDecl* namedDecl = parameterList->getParam(i);
-			if (hasValidLocation(namedDecl))
+			if (isLocatedInMainFile(namedDecl))
 			{
 				m_client->onTemplateRecordParameterTypeParsed(
 					getParseLocationForNamedDecl(namedDecl),
@@ -373,7 +383,7 @@ bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplat
 
 bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declaration)
 {
-	if (hasValidLocation(declaration))
+	if (isLocatedInMainFile(declaration))
 	{
 		const ParseFunction templateFunction = getParseFunction(declaration->getTemplatedDecl());
 		for (clang::FunctionTemplateDecl::spec_iterator it = declaration->specializations().begin(); it != declaration->specializations().end(); it++)
@@ -393,7 +403,7 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 		{
 			clang::NamedDecl* namedDecl = parameterList->getParam(i);
 
-			if (hasValidLocation(namedDecl))
+			if (isLocatedInMainFile(namedDecl))
 			{
 				std::string templateParameterTypeName = namedDecl->getNameAsString();
 
@@ -604,10 +614,22 @@ void ASTVisitor::VisitVarDeclInDeclBody(clang::FunctionDecl* decl, clang::VarDec
 	);
 }
 
-bool ASTVisitor::hasValidLocation(const clang::Decl* declaration) const
+bool ASTVisitor::isLocatedInMainFile(const clang::Decl* declaration) const
 {
 	const clang::SourceLocation& location = declaration->getLocStart();
 	return location.isValid() && m_context->getSourceManager().isWrittenInMainFile(location);
+}
+
+bool ASTVisitor::isLocatedInSourceFile(const clang::Decl* declaration) const
+{
+	const clang::SourceLocation& location = declaration->getLocStart();
+	if (location.isValid())
+	{
+		const clang::SourceManager& sourceManager = m_context->getSourceManager();
+		std::string filePath = FileSystem::absoluteFilePath(sourceManager.getFilename(location));
+		return m_fileManager->hasFilePath(filePath);
+	}
+	return false;
 }
 
 ParserClient::AccessType ASTVisitor::convertAccessType(clang::AccessSpecifier access) const

@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "utility/FileSystem.h"
+#include "utility/file/FileSystem.h"
 
 class FileSystemTestSuite : public CxxTest::TestSuite
 {
@@ -69,6 +69,22 @@ public:
 
 		TS_ASSERT_EQUALS(sourceFiles.size(), 1);
 		TS_ASSERT_EQUALS(sourceFiles[0], "data/FileSystemTestSuite/update.c");
+	}
+
+	void test_find_file_infos()
+	{
+		std::vector<std::string> extensions;
+		extensions.push_back(".h");
+		extensions.push_back(".hpp");
+		extensions.push_back(".cpp");
+
+		std::vector<std::string> directoryPaths;
+		directoryPaths.push_back("./data/FileSystemTestSuite");
+
+		std::vector<FileInfo> files =
+			FileSystem::getFileInfosFromDirectoryPaths(directoryPaths, extensions);
+
+		TS_ASSERT_EQUALS(files.size(), 5);
 	}
 
 	void test_filesystem_finds_existing_files()

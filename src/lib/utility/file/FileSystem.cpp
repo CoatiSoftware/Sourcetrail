@@ -1,4 +1,4 @@
-#include "utility/FileSystem.h"
+#include "utility/file/FileSystem.h"
 
 #include "boost/date_time.hpp"
 #include "boost/filesystem.hpp"
@@ -48,6 +48,31 @@ std::vector<std::string> FileSystem::getFileNamesFromDirectoryUpdatedAfter(
 				}
 			}
 			++it;
+		}
+	}
+	return files;
+}
+
+std::vector<FileInfo> FileSystem::getFileInfosFromDirectoryPaths(
+		const std::vector<std::string>& directoryPaths, const std::vector<std::string>& fileExtensions)
+{
+	std::vector<FileInfo> files;
+	for (const std::string& directoryPath: directoryPaths)
+	{
+		if (boost::filesystem::is_directory(directoryPath))
+		{
+			boost::filesystem::recursive_directory_iterator it(directoryPath);
+			boost::filesystem::recursive_directory_iterator endit;
+			while (it != endit)
+			{
+				if (boost::filesystem::is_regular_file(*it) && isValidExtension(it->path().string(), fileExtensions))
+				{
+					std::time_t t = boost::filesystem::last_write_time(*it);
+					boost::posix_time::ptime lastWriteTime = boost::posix_time::from_time_t(t);
+					files.push_back(FileInfo(absoluteFilePath(it->path().generic_string()), lastWriteTime));
+				}
+				++it;
+			}
 		}
 	}
 	return files;

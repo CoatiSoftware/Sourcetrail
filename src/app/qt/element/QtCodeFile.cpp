@@ -5,7 +5,7 @@
 
 #include "qt/element/QtCodeFileList.h"
 #include "qt/element/QtCodeSnippet.h"
-#include "utility/FileSystem.h"
+#include "utility/file/FileSystem.h"
 
 QtCodeFile::QtCodeFile(const std::string& filePath, QtCodeFileList* parent)
 	: QWidget(parent)

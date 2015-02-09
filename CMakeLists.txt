@@ -123,6 +123,7 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/app"
 		"${CMAKE_SOURCE_DIR}/build/src/app"
 		"${CMAKE_SOURCE_DIR}/src/external"
+		${Boost_INCLUDE_DIRS}
 )
 
 # Use the Widgets module from Qt 5.
@@ -213,6 +214,7 @@ if (CXXTEST_FOUND)
 			"${CMAKE_SOURCE_DIR}/src/lib"
 			"${CXXTEST_INCLUDE_DIR}"
 			"${CMAKE_SOURCE_DIR}/src/external"
+			${Boost_INCLUDE_DIRS}
 	)
 endif (CXXTEST_FOUND)
 

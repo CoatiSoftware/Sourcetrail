@@ -1,6 +1,5 @@
 #include "header.h"
 
-
 int main()
 {
 	TemplateTestClass<int, int> t2;

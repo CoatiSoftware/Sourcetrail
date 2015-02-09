@@ -2,7 +2,8 @@
 
 #include "data/graph/filter/GraphFilter.h"
 #include "data/graph/filter/GraphFilterImplementations.h"
-#include "TestStorage.h"
+
+#include "helper/TestStorage.h"
 
 class GraphFilterTestSuite : public CxxTest::TestSuite
 {
