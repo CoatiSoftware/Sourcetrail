@@ -129,6 +129,7 @@ void QtMainWindow::addView(View* view)
 {
 	QDockWidget* dock = new QDockWidget(tr(view->getName().c_str()), this);
 	dock->setWidget(QtViewWidgetWrapper::getWidgetOfView(view));
+	dock->setObjectName(QString::fromStdString("Dock" + view->getName()));
 	addDockWidget(Qt::TopDockWidgetArea, dock);
 	m_dockWidgets.push_back(std::make_pair(view, dock));
 }
@@ -169,18 +170,7 @@ void QtMainWindow::loadLayout()
 	}
 	settings.endGroup();
 
-	for (size_t i = 0; i < m_dockWidgets.size(); i++)
-	{
-		View* view = m_dockWidgets[i].first;
-		QDockWidget* dockWidget = m_dockWidgets[i].second;
-
-		settings.beginGroup(view->getName().c_str());
-		dockWidget->setFloating(settings.value("floating", false).toBool());
-		dockWidget->setHidden(settings.value("hidden", false).toBool());
-		dockWidget->resize(settings.value("size", QSize(400, 400)).toSize());
-		dockWidget->move(settings.value("position", QPoint(200, 200)).toPoint());
-		settings.endGroup();
-	}
+	this->restoreState(settings.value("DOCK_LOCATIONS").toByteArray());
 }
 
 void QtMainWindow::saveLayout()
@@ -196,18 +186,7 @@ void QtMainWindow::saveLayout()
 	}
 	settings.endGroup();
 
-	for (size_t i = 0; i < m_dockWidgets.size(); i++)
-	{
-		View* view = m_dockWidgets[i].first;
-		QDockWidget* dockWidget = m_dockWidgets[i].second;
-
-		settings.beginGroup(view->getName().c_str());
-		settings.setValue("floating", dockWidget->isFloating());
-		settings.setValue("hidden", dockWidget->isHidden());
-		settings.setValue("size", dockWidget->size());
-		settings.setValue("position", dockWidget->pos());
-		settings.endGroup();
-	}
+	settings.setValue("DOCK_LOCATIONS", this->saveState());
 }
 
 bool QtMainWindow::event(QEvent* event)
