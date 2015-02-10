@@ -289,8 +289,8 @@ QPolygon QtCorneredConnection::getPath() const
 		}
 	}
 
-	float offsetO = 15;
-	float offsetT = m_big ? 25 : 15;
+	float offsetO = 17;
+	float offsetT = m_big ? 29 : 17;
 
 	QPoint tp((it ? 1 : -1) * offsetT + t[it].x, t[it].y);
 	QPoint op((io ? 1 : -1) * offsetO + o[io].x, o[io].y);
@@ -332,6 +332,18 @@ QPolygon QtCorneredConnection::getPath() const
 	o[1] = Vec2f(oR.z, (oR.y + 2 * oR.w) / 3);
 	t[0] = Vec2f(tR.x, (2 * tR.y + tR.w) / 3);
 	t[1] = Vec2f(tR.z, (2 * tR.y + tR.w) / 3);
+
+	int verticalOffset = 3;
+	if (o[io].y < t[it].y)
+	{
+		op.setX(op.x() + verticalOffset);
+		tp.setX(tp.x() + verticalOffset);
+	}
+	else
+	{
+		op.setX(op.x() - verticalOffset);
+		tp.setX(tp.x() - verticalOffset);
+	}
 
 	QPolygon poly;
 	poly << QPoint(t[it].x, t[it].y);
