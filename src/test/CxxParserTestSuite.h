@@ -599,6 +599,84 @@ public:
 		TS_ASSERT_EQUALS(client->inheritances[1], "C : private B <5:4 5:12>");
 	}
 
+	void test_cxx_parser_finds_method_override_when_virtual()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class A {\n"
+			"	virtual void foo();\n"
+			"};\n"
+			"class B : public A {\n"
+			"	void foo();\n"
+			"};"
+		);
+
+		TS_ASSERT_EQUALS(client->overrides.size(), 1);
+		TS_ASSERT_EQUALS(client->overrides[0], "void A::foo() -> void B::foo()");
+	}
+
+	void test_cxx_parser_finds_no_method_override_when_not_virtual()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class A {\n"
+			"	void foo();\n"
+			"};\n"
+			"class B : public A {\n"
+			"	void foo();\n"
+			"};"
+		);
+
+		TS_ASSERT_EQUALS(client->overrides.size(), 0);
+	}
+
+	void test_cxx_parser_finds_all_method_overrides()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class A {\n"
+			"	virtual void foo();\n"
+			"};\n"
+			"class B : public A {\n"
+			"	void foo();\n"
+			"};\n"
+			"class C : public B {\n"
+			"	void foo();\n"
+			"};"
+		);
+
+		TS_ASSERT_EQUALS(client->overrides.size(), 2);
+		TS_ASSERT_EQUALS(client->overrides[0], "void A::foo() -> void B::foo()");
+		TS_ASSERT_EQUALS(client->overrides[1], "void B::foo() -> void C::foo()");
+	}
+
+	void test_cxx_parser_finds_no_method_overrides_on_different_signatures()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class A {\n"
+			"	virtual void foo(int a);\n"
+			"};\n"
+			"class B : public A {\n"
+			"	int foo(int a, int b);\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->overrides.size(), 0);
+	}
+
+	void test_cxx_parser_finds_method_overrides_on_different_return_types()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class A {\n"
+			"	virtual void foo();\n"
+			"};\n"
+			"class B : public A {\n"
+			"	int foo();\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->overrides.size(), 1);
+		TS_ASSERT_EQUALS(client->overrides[0], "void A::foo() -> int B::foo()");
+		TS_ASSERT_EQUALS(client->errors.size(), 1);
+	}
+
 	void test_cxx_parser_finds_call_in_function()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -1678,6 +1756,12 @@ private:
 			return 0;
 		}
 
+		virtual Id onMethodOverrideParsed(const ParseFunction& base, const ParseFunction& overrider)
+		{
+			overrides.push_back(functionStr(base) + " -> " + functionStr(overrider));
+			return 0;
+		}
+
 		virtual Id onCallParsed(
 			const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee)
 		{
@@ -1812,6 +1896,7 @@ private:
 		std::vector<std::string> structs;
 
 		std::vector<std::string> inheritances;
+		std::vector<std::string> overrides;
 		std::vector<std::string> calls;
 		std::vector<std::string> usages;	// for variables
 		std::vector<std::string> typeUses;	// for types

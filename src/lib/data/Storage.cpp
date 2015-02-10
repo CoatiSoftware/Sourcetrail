@@ -357,6 +357,18 @@ Id Storage::onInheritanceParsed(
 	return edge->getId();
 }
 
+Id Storage::onMethodOverrideParsed(const ParseFunction& base, const ParseFunction& overrider)
+{
+	log("override", base.getFullName() + " -> " + overrider.getFullName(), ParseLocation());
+
+	Node* baseNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, base);
+	Node* overriderNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, overrider);
+
+	Edge* edge = m_graph.createEdge(Edge::EDGE_OVERRIDE, baseNode, overriderNode);
+
+	return edge->getId();
+}
+
 Id Storage::onCallParsed(const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee)
 {
 	log("call", caller.getFullName() + " -> " + callee.getFullName(), location);

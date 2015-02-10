@@ -15,9 +15,9 @@ namespace utility
 {
 	DataType qualTypeToDataType(clang::QualType qualType);
 
-	std::vector<std::string> getDeclNameHierarchy(clang::Decl* declaration);
-	std::vector<std::string> getContextNameHierarchy(clang::DeclContext* declaration);
-	std::string getDeclName(clang::NamedDecl* declaration);
+	std::vector<std::string> getDeclNameHierarchy(const clang::Decl* declaration);
+	std::vector<std::string> getContextNameHierarchy(const clang::DeclContext* declaration);
+	std::string getDeclName(const clang::NamedDecl* declaration);
 	std::vector<std::string> getTemplateSpecializationParentNameHierarchy(clang::ClassTemplateSpecializationDecl* declaration);
 	DataType templateArgumentToDataType(const clang::TemplateArgument& argument);
 }

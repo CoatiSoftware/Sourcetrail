@@ -125,6 +125,8 @@ std::string Edge::getTypeString(EdgeType type) const
 		return "type_usage";
 	case EDGE_INHERITANCE:
 		return "inheritance";
+	case EDGE_OVERRIDE:
+		return "override";
 	case EDGE_CALL:
 		return "call";
 	case EDGE_USAGE:
@@ -210,6 +212,14 @@ bool Edge::checkType() const
 
 	case EDGE_INHERITANCE:
 		if (!m_from->isType(complexTypeMask) || !m_to->isType(complexTypeMask))
+		{
+			break;
+		}
+		return true;
+
+	case EDGE_OVERRIDE:
+		if (!m_from->isType(Node::NODE_UNDEFINED_FUNCTION | Node::NODE_METHOD) ||
+			!m_to->isType(Node::NODE_UNDEFINED_FUNCTION | Node::NODE_METHOD))
 		{
 			break;
 		}

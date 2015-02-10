@@ -180,13 +180,21 @@ bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 			abstraction = ParserClient::ABSTRACTION_VIRTUAL;
 		}
 
+		ParseFunction parseFunction = getParseFunction(declaration);
+
 		m_client->onMethodParsed(
 			getParseLocationForNamedDecl(declaration),
-			getParseFunction(declaration),
+			parseFunction,
 			convertAccessType(declaration->getAccess()),
 			abstraction,
 			getParseLocationOfFunctionBody(declaration)
 		);
+
+		for (clang::CXXMethodDecl::method_iterator it = declaration->begin_overridden_methods();
+			it != declaration->end_overridden_methods(); it++)
+		{
+			m_client->onMethodOverrideParsed(getParseFunction(*it), parseFunction);
+		}
 
 		if (declaration->hasBody() && declaration->getBody() != NULL && declaration->isThisDeclarationADefinition())
 		{
@@ -725,7 +733,7 @@ ParseTypeUsage ASTVisitor::getParseTypeUsage(clang::TypeLoc typeLoc, const clang
 	return ParseTypeUsage(parseLocation, dataType);
 }
 
-ParseTypeUsage ASTVisitor::getParseTypeUsageOfReturnType(clang::FunctionDecl* declaration) const
+ParseTypeUsage ASTVisitor::getParseTypeUsageOfReturnType(const clang::FunctionDecl* declaration) const
 {
 	clang::TypeLoc typeLoc;
 
@@ -742,13 +750,13 @@ ParseTypeUsage ASTVisitor::getParseTypeUsageOfReturnType(clang::FunctionDecl* de
 	return getParseTypeUsage(typeLoc, declaration->getReturnType());
 }
 
-std::vector<ParseTypeUsage> ASTVisitor::getParameters(clang::FunctionDecl* declaration) const
+std::vector<ParseTypeUsage> ASTVisitor::getParameters(const clang::FunctionDecl* declaration) const
 {
 	std::vector<ParseTypeUsage> parameters;
 
 	for (unsigned i = 0; i < declaration->getNumParams(); i++)
 	{
-		clang::ParmVarDecl* paramDecl = declaration->getParamDecl(i);
+		const clang::ParmVarDecl* paramDecl = declaration->getParamDecl(i);
 		if (paramDecl->getTypeSourceInfo())
 		{
 			parameters.push_back(getParseTypeUsage(paramDecl->getTypeSourceInfo()->getTypeLoc(), paramDecl->getType()));
@@ -758,13 +766,13 @@ std::vector<ParseTypeUsage> ASTVisitor::getParameters(clang::FunctionDecl* decla
 	return parameters;
 }
 
-ParseVariable ASTVisitor::getParseVariable(clang::DeclaratorDecl* declaration) const
+ParseVariable ASTVisitor::getParseVariable(const clang::DeclaratorDecl* declaration) const
 {
 	bool isStatic = false;
 	std::vector<std::string> hameHierarchy = utility::getDeclNameHierarchy(declaration);
 	if (clang::isa<clang::VarDecl>(declaration))
 	{
-		clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(declaration);
+		const clang::VarDecl* varDecl = clang::dyn_cast<const clang::VarDecl>(declaration);
 		isStatic = varDecl->isStaticDataMember() || varDecl->getStorageClass() == clang::SC_Static;
 	}
 	else if (clang::isa<clang::FieldDecl>(declaration))
@@ -779,14 +787,14 @@ ParseVariable ASTVisitor::getParseVariable(clang::DeclaratorDecl* declaration) c
 	);
 }
 
-ParseFunction ASTVisitor::getParseFunction(clang::FunctionDecl* declaration) const
+ParseFunction ASTVisitor::getParseFunction(const clang::FunctionDecl* declaration) const
 {
 	bool isStatic = false;
 	bool isConst = false;
 
 	if (clang::isa<clang::CXXMethodDecl>(declaration))
 	{
-		clang::CXXMethodDecl* methodDecl = clang::dyn_cast<clang::CXXMethodDecl>(declaration);
+		const clang::CXXMethodDecl* methodDecl = clang::dyn_cast<const clang::CXXMethodDecl>(declaration);
 		isStatic = methodDecl->isStatic();
 		isConst = methodDecl->isConst();
 	}

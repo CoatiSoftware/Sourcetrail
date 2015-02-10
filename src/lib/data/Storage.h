@@ -63,6 +63,7 @@ public:
 	virtual Id onInheritanceParsed(
 		const ParseLocation& location, const std::vector<std::string>& nameHierarchy,
 		const std::vector<std::string>& baseNameHierarchy, AccessType access);
+	virtual Id onMethodOverrideParsed(const ParseFunction& base, const ParseFunction& overrider);
 	virtual Id onCallParsed(
 		const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee);
 	virtual Id onCallParsed(

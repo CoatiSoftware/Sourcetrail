@@ -407,6 +407,25 @@ public:
 		TS_ASSERT(isValidLocation(locations[0], 5));
 	}
 
+	void test_storage_saves_method_override()
+	{
+		TestStorage storage;
+
+		ParseFunction a(typeUsage("void"), utility::splitToVector("A::isMethod", "::"), parameters("bool"));
+		ParseFunction b(typeUsage("void"), utility::splitToVector("B::isMethod", "::"), parameters("bool"));
+
+		storage.onMethodParsed(validLocation(9), a, ParserClient::ACCESS_PRIVATE, ParserClient::ABSTRACTION_VIRTUAL, validLocation(4));
+		storage.onMethodParsed(validLocation(7), b, ParserClient::ACCESS_PRIVATE, ParserClient::ABSTRACTION_NONE, validLocation(3));
+
+		Id id = storage.onMethodOverrideParsed(a, b);
+
+		Edge* edge = storage.getEdgeWithId(id);
+		TS_ASSERT(edge);
+		TS_ASSERT_EQUALS(edge->getType(), Edge::EDGE_OVERRIDE);
+		TS_ASSERT_EQUALS(edge->getFrom()->getFullName(), "A::isMethod");
+		TS_ASSERT_EQUALS(edge->getTo()->getFullName(), "B::isMethod");
+	}
+
 	void test_storage_saves_call()
 	{
 		TestStorage storage;

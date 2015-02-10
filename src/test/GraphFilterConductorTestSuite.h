@@ -100,10 +100,10 @@ public:
 			"7 nodes: "
 				"class:A field:A::count undefined_type:int undefined_type:void class:B function:main "
 				"undefined_function:B::B\n"
-			"13 edges: "
+			"14 edges: "
 				"child:A->A::count aggregation:A->int aggregation:A->void type_use:A::count->int inheritance:B->A "
-				"aggregation:B->void aggregation:B->int return_type:main->int type_usage:main->B child:B->B::B "
-				"call:main->B::B aggregation:main->B aggregation:main->A\n"
+				"aggregation:B->void aggregation:A->B aggregation:B->int return_type:main->int type_usage:main->B "
+				"child:B->B::B call:main->B::B aggregation:main->B aggregation:main->A\n"
 		);
 	}
 

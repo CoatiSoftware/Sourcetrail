@@ -446,6 +446,7 @@ void QtGraphEdge::updateLine()
 		color = QColor("#62B29D");
 		break;
 	case Edge::EDGE_INHERITANCE:
+	case Edge::EDGE_OVERRIDE:
 		color = QColor("#CC5E89");
 		break;
 	case Edge::EDGE_AGGREGATION:

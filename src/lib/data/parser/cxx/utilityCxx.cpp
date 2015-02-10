@@ -105,7 +105,7 @@ namespace utility
 		return DataType(typeNameHerarchy, qualifierList, modifierStack);
 	}
 
-	std::vector<std::string> getDeclNameHierarchy(clang::Decl* declaration)
+	std::vector<std::string> getDeclNameHierarchy(const clang::Decl* declaration)
 	{
 		std::vector<std::string> contextNameHierarchy;
 		if (declaration)
@@ -114,7 +114,7 @@ namespace utility
 
 			if (clang::isa<clang::NamedDecl>(declaration))
 			{
-				declName = getDeclName(clang::dyn_cast<clang::NamedDecl>(declaration));
+				declName = getDeclName(clang::dyn_cast<const clang::NamedDecl>(declaration));
 			}
 			else
 			{
@@ -133,11 +133,11 @@ namespace utility
 		return contextNameHierarchy;
 	}
 
-	std::vector<std::string> getContextNameHierarchy(clang::DeclContext* declContext)
+	std::vector<std::string> getContextNameHierarchy(const clang::DeclContext* declContext)
 	{
 		std::vector<std::string> contextNameHierarchy;
 
-		clang::DeclContext* parentContext = declContext->getParent();
+		const clang::DeclContext* parentContext = declContext->getParent();
 		if (parentContext)
 		{
 			contextNameHierarchy = getContextNameHierarchy(parentContext);
@@ -145,7 +145,7 @@ namespace utility
 
 		if (clang::isa<clang::NamedDecl>(declContext))
 		{
-			std::string declName = getDeclName(clang::dyn_cast<clang::NamedDecl>(declContext));
+			std::string declName = getDeclName(clang::dyn_cast<const clang::NamedDecl>(declContext));
 			if (declName != "")
 			{
 				contextNameHierarchy.push_back(declName);
@@ -154,7 +154,7 @@ namespace utility
 		return contextNameHierarchy;
 	}
 
-	std::string getDeclName(clang::NamedDecl* declaration)
+	std::string getDeclName(const clang::NamedDecl* declaration)
 	{
 		std::string declName = declaration->getNameAsString();
 
