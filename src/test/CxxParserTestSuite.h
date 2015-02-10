@@ -388,7 +388,7 @@ public:
 		TS_ASSERT_EQUALS(client->enums[0], "n::Z <3:2 <3:7 3:7> 5:2>");
 	}
 
-	void test_cxx_parser_finds_enum_field_in_global_enum()
+	void test_cxx_parser_finds_enum_constant_in_global_enum()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"enum E\n"
@@ -397,8 +397,8 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->enumFields.size(), 1);
-		TS_ASSERT_EQUALS(client->enumFields[0], "E::P <3:2 3:2>");
+		TS_ASSERT_EQUALS(client->enumConstants.size(), 1);
+		TS_ASSERT_EQUALS(client->enumConstants[0], "E::P <3:2 3:2>");
 	}
 
 	void test_cxx_parser_finds_typedef_in_global_namespace()
@@ -1458,7 +1458,7 @@ public:
 		TS_ASSERT_EQUALS(client->fields[0], "private A<T>::TestType A<T>::foo <9:11 9:13>");
 	}
 
-	void test_cxx_parser_finds_enum_fields_in_template_class()
+	void test_cxx_parser_finds_enum_constants_in_template_class()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T>\n"
@@ -1472,9 +1472,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->enumFields.size(), 2);
-		TS_ASSERT_EQUALS(client->enumFields[0], "A<T>::TestType::TEST_ONE <6:3 6:3>");
-		TS_ASSERT_EQUALS(client->enumFields[1], "A<T>::TestType::TEST_TWO <7:3 7:3>");
+		TS_ASSERT_EQUALS(client->enumConstants.size(), 2);
+		TS_ASSERT_EQUALS(client->enumConstants[0], "A<T>::TestType::TEST_ONE <6:3 6:3>");
+		TS_ASSERT_EQUALS(client->enumConstants[1], "A<T>::TestType::TEST_TWO <7:3 7:3>");
 	}
 
 	void test_cxx_parser_finds_correct_field_member_type_of_nested_template_class_in_declaration_____typedef()
@@ -1625,7 +1625,7 @@ public:
 		TS_ASSERT_EQUALS(client.typedefs.size(), 1);
 		TS_ASSERT_EQUALS(client.classes.size(), 4);
 		TS_ASSERT_EQUALS(client.enums.size(), 1);
-		TS_ASSERT_EQUALS(client.enumFields.size(), 2);
+		TS_ASSERT_EQUALS(client.enumConstants.size(), 2);
 		TS_ASSERT_EQUALS(client.functions.size(), 2);
 		TS_ASSERT_EQUALS(client.fields.size(), 4);
 		TS_ASSERT_EQUALS(client.globalVariables.size(), 2);
@@ -1742,9 +1742,9 @@ private:
 			return 0;
 		}
 
-		virtual Id onEnumFieldParsed(const ParseLocation& location, const std::vector<std::string>& nameHierarchy)
+		virtual Id onEnumConstantParsed(const ParseLocation& location, const std::vector<std::string>& nameHierarchy)
 		{
-			enumFields.push_back(addLocationSuffix(utility::join(nameHierarchy, "::"), location));
+			enumConstants.push_back(addLocationSuffix(utility::join(nameHierarchy, "::"), location));
 			return 0;
 		}
 
@@ -1797,14 +1797,14 @@ private:
 			return 0;
 		}
 
-		virtual Id onEnumFieldUsageParsed(
+		virtual Id onEnumConstantUsageParsed(
 			const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy)
 		{
 			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + utility::join(usedNameHierarchy, "::"), location));
 			return 0;
 		}
 
-		virtual Id onEnumFieldUsageParsed(
+		virtual Id onEnumConstantUsageParsed(
 			const ParseLocation& location, const ParseVariable& user, const std::vector<std::string>& usedNameHierarchy)
 		{
 			usages.push_back(addLocationSuffix(variableStr(user) + " -> " + utility::join(usedNameHierarchy, "::"), location));
@@ -1887,7 +1887,7 @@ private:
 		std::vector<std::string> typedefs;
 		std::vector<std::string> classes;
 		std::vector<std::string> enums;
-		std::vector<std::string> enumFields;
+		std::vector<std::string> enumConstants;
 		std::vector<std::string> functions;
 		std::vector<std::string> fields;
 		std::vector<std::string> globalVariables;

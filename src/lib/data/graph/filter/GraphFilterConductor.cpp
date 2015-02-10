@@ -125,6 +125,9 @@ void GraphFilterConductor::filterCommandNode(const QueryCommand* node, const Fil
 	case QueryCommand::COMMAND_ENUM:
 		GraphFilterCommandNodeType(Node::NODE_ENUM).apply(in, out);
 		break;
+	case QueryCommand::COMMAND_ENUM_CONSTANT:
+		GraphFilterCommandNodeType(Node::NODE_ENUM_CONSTANT).apply(in, out);
+		break;
 	case QueryCommand::COMMAND_TYPEDEF:
 		GraphFilterCommandNodeType(Node::NODE_TYPEDEF).apply(in, out);
 		break;

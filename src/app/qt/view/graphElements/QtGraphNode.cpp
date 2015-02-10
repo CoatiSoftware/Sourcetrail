@@ -41,6 +41,7 @@ QFont QtGraphNode::getFontForNodeType(Node::NodeType type)
 	case Node::NODE_UNDEFINED_VARIABLE:
 	case Node::NODE_GLOBAL_VARIABLE:
 	case Node::NODE_FIELD:
+	case Node::NODE_ENUM_CONSTANT:
 		font.setPixelSize(11);
 		break;
 	}
@@ -339,6 +340,7 @@ void QtGraphNode::setStyle()
 		useUndefinedColor = true;
 	case Node::NODE_GLOBAL_VARIABLE:
 	case Node::NODE_FIELD:
+	case Node::NODE_ENUM_CONSTANT:
 		if (m_isActive || m_isHovering)
 		{
 			color = "#62b29d";

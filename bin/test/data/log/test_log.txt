@@ -89,7 +89,7 @@ Storage.cpp INFO: method: Class::isMethod <file.cpp 1:1 1:1>
 Storage.cpp INFO: namespace: utility <file.cpp 1:1 1:1>
 Storage.cpp INFO: enum: Category <file.cpp 1:17 1:17>
 Storage.cpp INFO: enum: Class::Category <file.cpp 1:1 1:1>
-Storage.cpp INFO: enum field: VALUE <file.cpp 1:1 1:1>
+Storage.cpp INFO: enum constant: VALUE <file.cpp 1:1 1:1>
 Storage.cpp INFO: class: ClassA <file.cpp 1:0 1:0>
 Storage.cpp INFO: class: ClassB <file.cpp 1:0 1:0>
 Storage.cpp INFO: inheritance: ClassB : ClassA <file.cpp 1:5 1:5>

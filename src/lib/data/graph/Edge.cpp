@@ -190,7 +190,7 @@ bool Edge::checkType() const
 	case EDGE_MEMBER:
 		if (!m_from->isType(typeMask | Node::NODE_NAMESPACE) ||
 			(!m_from->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE) && m_to->isType(Node::NODE_NAMESPACE)) ||
-			(m_from->isType(Node::NODE_ENUM) && !m_to->isType(Node::NODE_FIELD)))
+			(m_from->isType(Node::NODE_ENUM) && !m_to->isType(Node::NODE_ENUM_CONSTANT)))
 		{
 			break;
 		}
@@ -235,7 +235,7 @@ bool Edge::checkType() const
 		return true;
 
 	case EDGE_USAGE:
-		if (!m_from->isType(functionMask) || !m_to->isType(variableMask))
+		if (!m_from->isType(functionMask) || !m_to->isType(variableMask | Node::NODE_ENUM_CONSTANT))
 		{
 			break;
 		}

@@ -336,6 +336,8 @@ std::string Node::getTypeString(NodeType type) const
 		return "namespace";
 	case NODE_ENUM:
 		return "enum";
+	case NODE_ENUM_CONSTANT:
+		return "enum constant";
 	case NODE_TYPEDEF:
 		return "typedef";
 	case NODE_TEMPLATE_PARAMETER_TYPE:

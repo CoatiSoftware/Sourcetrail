@@ -342,15 +342,15 @@ public:
 		TS_ASSERT_EQUALS(memberEdge->getFrom()->getType(), Node::NODE_UNDEFINED);
 	}
 
-	void test_storage_saves_enum_field()
+	void test_storage_saves_enum_constant()
 	{
 		TestStorage storage;
-		Id id = storage.onEnumFieldParsed(validLocation(1), utility::splitToVector("VALUE", "::"));
+		Id id = storage.onEnumConstantParsed(validLocation(1), utility::splitToVector("VALUE", "::"));
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
 		TS_ASSERT_EQUALS(node->getFullName(), "VALUE");
-		TS_ASSERT_EQUALS(node->getType(), Node::NODE_FIELD);
+		TS_ASSERT_EQUALS(node->getType(), Node::NODE_ENUM_CONSTANT);
 
 		std::vector<TokenLocation*> locations = storage.getLocationsForId(id);
 		TS_ASSERT_EQUALS(locations.size(), 1);

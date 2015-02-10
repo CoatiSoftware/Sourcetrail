@@ -271,7 +271,7 @@ bool ASTVisitor::VisitEnumConstantDecl(clang::EnumConstantDecl* declaration)
 {
 	if (isLocatedInMainFile(declaration))
 	{
-		m_client->onEnumFieldParsed(
+		m_client->onEnumConstantParsed(
 			getParseLocation(declaration->getSourceRange()),
 			utility::getDeclNameHierarchy(declaration)
 		);
@@ -593,7 +593,7 @@ void ASTVisitor::VisitEnumExprInDeclBody(clang::FunctionDecl* decl, clang::DeclR
 	const std::string exprName = expr->getNameInfo().getAsString();
 	parseLocation.endColumnNumber += exprName.size() - 1;
 
-	m_client->onEnumFieldUsageParsed(
+	m_client->onEnumConstantUsageParsed(
 		parseLocation,
 		getParseFunction(decl),
 		utility::getDeclNameHierarchy(expr->getDecl())
@@ -607,7 +607,7 @@ void ASTVisitor::VisitEnumExprInDeclBody(clang::VarDecl* decl, clang::DeclRefExp
 	const std::string exprName = expr->getNameInfo().getAsString();
 	parseLocation.endColumnNumber += exprName.size() - 1;
 
-	m_client->onEnumFieldUsageParsed(
+	m_client->onEnumConstantUsageParsed(
 		parseLocation,
 		getParseVariable(decl),
 		utility::getDeclNameHierarchy(expr->getDecl())

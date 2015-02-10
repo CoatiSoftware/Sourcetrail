@@ -25,6 +25,7 @@ std::map<std::string, QueryCommand::CommandType> QueryCommand::getCommandTypeMap
 	commandMap.emplace("namespace", COMMAND_NAMESPACE);
 	commandMap.emplace("struct", COMMAND_STRUCT);
 	commandMap.emplace("enum", COMMAND_ENUM);
+	commandMap.emplace("enum-constant", COMMAND_ENUM_CONSTANT);
 	commandMap.emplace("typedef", COMMAND_TYPEDEF);
 
 	commandMap.emplace("const", COMMAND_CONST);

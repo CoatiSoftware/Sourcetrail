@@ -494,6 +494,7 @@ GraphController::Margins GraphController::getMarginsForDummyNode(DummyNode& node
 		case Node::NODE_UNDEFINED_VARIABLE:
 		case Node::NODE_GLOBAL_VARIABLE:
 		case Node::NODE_FIELD:
+		case Node::NODE_ENUM_CONSTANT:
 			margins.left = margins.right = 5;
 			margins.top = margins.bottom = 10;
 

@@ -26,6 +26,7 @@ public:
 		NODE_UNDEFINED_FUNCTION			= 0x2,
 		NODE_UNDEFINED_VARIABLE			= 0x4,
 		NODE_UNDEFINED_TYPE				= 0x8,
+
 		NODE_STRUCT						= 0x10,
 		NODE_CLASS						= 0x20,
 		NODE_GLOBAL_VARIABLE			= 0x40,
@@ -34,8 +35,9 @@ public:
 		NODE_METHOD						= 0x200,
 		NODE_NAMESPACE					= 0x400,
 		NODE_ENUM						= 0x800,
-		NODE_TYPEDEF					= 0x1000,
-		NODE_TEMPLATE_PARAMETER_TYPE	= 0x2000
+		NODE_ENUM_CONSTANT				= 0x1000,
+		NODE_TYPEDEF					= 0x2000,
+		NODE_TEMPLATE_PARAMETER_TYPE	= 0x4000
 	};
 
 	Node(NodeType type, std::shared_ptr<TokenComponentName> nameComponent);

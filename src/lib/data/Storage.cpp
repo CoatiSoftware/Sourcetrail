@@ -330,11 +330,11 @@ Id Storage::onEnumParsed(
 	return node->getId();
 }
 
-Id Storage::onEnumFieldParsed(const ParseLocation& location, const std::vector<std::string>& nameHierarchy)
+Id Storage::onEnumConstantParsed(const ParseLocation& location, const std::vector<std::string>& nameHierarchy)
 {
-	log("enum field", utility::join(nameHierarchy, "::"), location);
+	log("enum constant", utility::join(nameHierarchy, "::"), location);
 
-	Node* node = addNodeHierarchy(Node::NODE_FIELD, nameHierarchy);
+	Node* node = addNodeHierarchy(Node::NODE_ENUM_CONSTANT, nameHierarchy);
 	addTokenLocation(node, location);
 
 	return node->getId();
@@ -438,16 +438,16 @@ Id Storage::onGlobalVariableUsageParsed(
 	return edge->getId();
 }
 
-Id Storage::onEnumFieldUsageParsed(
+Id Storage::onEnumConstantUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy
 ){
-	return onVariableUsageParsed("enum field usage", location, user, usedNameHierarchy);
+	return onVariableUsageParsed("enum constant usage", location, user, usedNameHierarchy);
 }
 
-Id Storage::onEnumFieldUsageParsed(
+Id Storage::onEnumConstantUsageParsed(
 		const ParseLocation& location, const ParseVariable& user, const std::vector<std::string>& usedNameHierarchy
 ){
-	log("enum field usage", user.getFullName() + " -> " + utility::join(usedNameHierarchy, "::"), location);
+	log("enum constant usage", user.getFullName() + " -> " + utility::join(usedNameHierarchy, "::"), location);
 
 	Node* userNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, user.nameHierarchy);
 	Node* usedNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);

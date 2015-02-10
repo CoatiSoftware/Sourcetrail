@@ -58,7 +58,7 @@ public:
 	virtual Id onEnumParsed(
 		const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
 		const ParseLocation& scopeLocation);
-	virtual Id onEnumFieldParsed(const ParseLocation& location, const std::vector<std::string>& nameHierarchy);
+	virtual Id onEnumConstantParsed(const ParseLocation& location, const std::vector<std::string>& nameHierarchy);
 
 	virtual Id onInheritanceParsed(
 		const ParseLocation& location, const std::vector<std::string>& nameHierarchy,
@@ -77,9 +77,9 @@ public:
 		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy);
 	virtual Id onGlobalVariableUsageParsed(
 		const ParseLocation& location, const ParseVariable& user, const std::vector<std::string>& usedNameHierarchy);
-	virtual Id onEnumFieldUsageParsed(
+	virtual Id onEnumConstantUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy);
-	virtual Id onEnumFieldUsageParsed(
+	virtual Id onEnumConstantUsageParsed(
 		const ParseLocation& location, const ParseVariable& user, const std::vector<std::string>& usedNameHierarchy);
 	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function);
 	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseVariable& variable);
