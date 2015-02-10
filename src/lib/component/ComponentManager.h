@@ -9,6 +9,7 @@
 #include "data/access/LocationAccess.h"
 #include "data/access/GraphAccess.h"
 
+class CompositeView;
 class View;
 class ViewFactory;
 class ViewLayout;
@@ -30,8 +31,8 @@ private:
 
 	std::shared_ptr<ComponentFactory> m_componentFactory;
 
+	std::vector<std::shared_ptr<CompositeView>> m_compositeViews;
 	std::vector<std::shared_ptr<Component>> m_components;
-	std::vector<std::shared_ptr<View>> m_views;
 };
 
 #endif // COMPONENT_MANAGER_H

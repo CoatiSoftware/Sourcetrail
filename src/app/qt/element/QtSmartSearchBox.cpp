@@ -28,6 +28,12 @@ void QtQueryElement::onChecked(bool)
 }
 
 
+void QtSmartSearchBox::search()
+{
+	editTextToElement();
+	MessageSearch(utility::join(m_tokens, "") + text().toStdString()).dispatch();
+}
+
 QtSmartSearchBox::QtSmartSearchBox(QWidget* parent)
 	: QLineEdit(parent)
 	, m_allowTextChange(false)
@@ -80,12 +86,6 @@ void QtSmartSearchBox::setFocus()
 	QLineEdit::setFocus(Qt::ShortcutFocusReason);
 	selectAllElementsWith(true);
 	layoutElements();
-}
-
-void QtSmartSearchBox::search()
-{
-	editTextToElement();
-	MessageSearch(utility::join(m_tokens, "") + text().toStdString()).dispatch();
 }
 
 bool QtSmartSearchBox::event(QEvent *event)
