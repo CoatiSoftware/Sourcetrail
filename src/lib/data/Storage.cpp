@@ -146,7 +146,7 @@ void Storage::onError(const ParseLocation& location, const std::string& message)
 	{
 		Id errorId = m_errorMessages.size();
 
-		TokenLocation* loc = m_errorLocationCollection.addTokenLocation(
+		m_errorLocationCollection.addTokenLocation(
 			errorId, filePath,
 			location.startLineNumber, location.startColumnNumber,
 			location.endLineNumber, location.endColumnNumber
@@ -493,52 +493,72 @@ Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseVariable& v
 Id Storage::onTemplateRecordParameterTypeParsed(
 	const ParseLocation& location, const std::string& templateParameterTypeName,
 	const std::vector<std::string>& templateRecordNameHierarchy
-)
-{
+){
 	log("template record type parameter", templateParameterTypeName, location);
+
 	std::vector<std::string> templateParameterTypeNameHierarchy = templateRecordNameHierarchy;
 	templateParameterTypeNameHierarchy.back() += "::" + templateParameterTypeName;
 	Node* templateParameterNode = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
 	addTokenLocation(templateParameterNode, location);
 
 	Node* templateRecordNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateRecordNameHierarchy);
-	Edge* edge = m_graph.createEdge(Edge::EDGE_TEMPLATE_PARAMETER_OF, templateParameterNode, templateRecordNode);
+	m_graph.createEdge(Edge::EDGE_TEMPLATE_PARAMETER_OF, templateParameterNode, templateRecordNode);
 
-	return 0;
+	return templateParameterNode->getId();
 }
 
 Id Storage::onTemplateRecordArgumentTypeParsed(
 	const ParseLocation& location, const std::vector<std::string>& templateArgumentTypeNameHierarchy,
-	const std::vector<std::string>& templateRecordNameHierarchy)
-{
-	log("template record argument", utility::join(templateArgumentTypeNameHierarchy, "::") + " -> " + utility::join(templateRecordNameHierarchy, "::"), location);
+	const std::vector<std::string>& templateRecordNameHierarchy
+){
+	log(
+		"template record argument",
+		utility::join(templateArgumentTypeNameHierarchy, "::") + " -> " + utility::join(templateRecordNameHierarchy, "::"),
+		location
+	);
+
 	Node* templateArgumentNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateArgumentTypeNameHierarchy);
 	Node* templateRecordNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateRecordNameHierarchy);
-	Edge* edge = m_graph.createEdge(Edge::EDGE_TEMPLATE_ARGUMENT_OF, templateArgumentNode, templateRecordNode);
+	m_graph.createEdge(Edge::EDGE_TEMPLATE_ARGUMENT_OF, templateArgumentNode, templateRecordNode);
+
 	if (location.isValid())
 	{
 		addTokenLocation(templateArgumentNode, location);
 	}
-	return 0;
+
+	return templateArgumentNode->getId();
 }
 
 Id Storage::onTemplateDefaultArgumentTypeParsed(
-	const ParseTypeUsage& defaultArgumentType, const std::vector<std::string>& templateArgumentTypeNameHierarchy)
-{
-	log("template default argument", utility::join(defaultArgumentType.dataType.getTypeNameHierarchy(), "::") + " -> " + utility::join(templateArgumentTypeNameHierarchy, "::"), defaultArgumentType.location);
-	Node* templateDefaultArgumentNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, defaultArgumentType.dataType.getTypeNameHierarchy());
-	addTokenLocation(templateDefaultArgumentNode, defaultArgumentType.location);
-	Node* templateArgumentNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateArgumentTypeNameHierarchy);
-	Edge* edge = m_graph.createEdge(Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF, templateDefaultArgumentNode, templateArgumentNode);
+	const ParseTypeUsage& defaultArgumentType, const std::vector<std::string>& templateArgumentTypeNameHierarchy
+){
+	log(
+		"template default argument",
+		utility::join(defaultArgumentType.dataType.getTypeNameHierarchy(), "::") +
+			" -> " + utility::join(templateArgumentTypeNameHierarchy, "::"),
+		defaultArgumentType.location
+	);
 
-	return 0;
+	Node* templateDefaultArgumentNode =
+		addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, defaultArgumentType.dataType.getTypeNameHierarchy());
+	addTokenLocation(templateDefaultArgumentNode, defaultArgumentType.location);
+
+	Node* templateArgumentNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateArgumentTypeNameHierarchy);
+
+	m_graph.createEdge(Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF, templateDefaultArgumentNode, templateArgumentNode);
+
+	return templateDefaultArgumentNode->getId();
 }
 
 Id Storage::onTemplateRecordSpecializationParsed(
 	const ParseLocation& location, const std::vector<std::string>& specializedRecordNameHierarchy,
-		const RecordType specializedRecordType, const std::vector<std::string>& specializedFromNameHierarchy)
-{
-	log("template record specialization", utility::join(specializedRecordNameHierarchy, "::") + " -> " + utility::join(specializedFromNameHierarchy, "::"), location);
+	const RecordType specializedRecordType, const std::vector<std::string>& specializedFromNameHierarchy
+){
+	log(
+		"template record specialization",
+		utility::join(specializedRecordNameHierarchy, "::") + " -> " + utility::join(specializedFromNameHierarchy, "::"),
+		location
+	);
 
 	Node::NodeType specializedRecordNodeType = Node::NODE_CLASS;
 	if (specializedRecordType == ParserClient::RECORD_STRUCT)
@@ -549,16 +569,15 @@ Id Storage::onTemplateRecordSpecializationParsed(
 	Node* specializedRecordNode = addNodeHierarchy(specializedRecordNodeType, specializedRecordNameHierarchy);
 	Node* templateRecordNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, specializedFromNameHierarchy);
 
-	Edge* edge = m_graph.createEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, specializedRecordNode, templateRecordNode);
+	m_graph.createEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, specializedRecordNode, templateRecordNode);
 	//addTokenLocation(edge, location);
 
-	return 0;
+	return specializedRecordNode->getId();
 }
 
 Id Storage::onTemplateFunctionParameterTypeParsed(
 	const ParseLocation& location, const std::string& templateParameterTypeName, const ParseFunction function
-)
-{
+){
 	log("function template type parameter", templateParameterTypeName, location);
 
 	std::vector<std::string> templateParameterTypeNameHierarchy;
@@ -568,9 +587,9 @@ Id Storage::onTemplateFunctionParameterTypeParsed(
 
 	Node* templateFunctionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, function);
 
-	Edge* edge = m_graph.createEdge(Edge::EDGE_TEMPLATE_PARAMETER_OF, templateParameterNode, templateFunctionNode);
+	m_graph.createEdge(Edge::EDGE_TEMPLATE_PARAMETER_OF, templateParameterNode, templateFunctionNode);
 
-	return 0;
+	return templateParameterNode->getId();
 }
 
 Id Storage::onTemplateFunctionSpecializationParsed(
@@ -582,9 +601,9 @@ Id Storage::onTemplateFunctionSpecializationParsed(
 	Node* specializedFunctionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, specializedFunction);
 	Node* templateFunctionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, templateFunction);
 
-	Edge* edge = m_graph.createEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, specializedFunctionNode, templateFunctionNode);
+	m_graph.createEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, specializedFunctionNode, templateFunctionNode);
 
-	return 0;
+	return specializedFunctionNode->getId();
 }
 
 Id Storage::getIdForNodeWithName(const std::string& fullName) const
@@ -998,7 +1017,7 @@ TokenComponentAccess* Storage::addAccess(Node* node, ParserClient::AccessType ac
 	Edge* edge = node->getMemberEdge();
 	if (!edge)
 	{
-		LOG_ERROR_STREAM(<< "Cannot assign access" << access << " to node " << node->getFullName() << " because it is not a child.");
+		LOG_ERROR_STREAM(<< "Cannot assign access" << access << " to node " << node->getFullName() << " because it's no child.");
 		return nullptr;
 	}
 
@@ -1083,6 +1102,7 @@ bool Storage::getQuerySearchResults(const std::string& query, const std::string&
 	switch (QueryOperator::getOperatorType(q.back()))
 	{
 	case QueryOperator::OPERATOR_AND:
+	case QueryOperator::OPERATOR_OR:
 	case QueryOperator::OPERATOR_NOT:
 		q.pop_back();
 		return false;

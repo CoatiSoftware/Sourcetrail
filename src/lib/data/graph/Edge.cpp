@@ -137,6 +137,8 @@ std::string Edge::getTypeString(EdgeType type) const
 		return "template parameter";
 	case EDGE_TEMPLATE_ARGUMENT_OF:
 		return "template argument";
+	case EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF:
+		return "template default argument";
 	case EDGE_TEMPLATE_SPECIALIZATION_OF:
 		return "template specialization";
 	case EDGE_AGGREGATION:
@@ -248,6 +250,14 @@ bool Edge::checkType() const
 
 	case EDGE_TEMPLATE_PARAMETER_OF:
 		if (!m_from->isType(Node::NODE_TEMPLATE_PARAMETER_TYPE) || !m_to->isType(typeMask | functionMask))
+		{
+			break;
+		}
+		return true;
+
+	case EDGE_TEMPLATE_ARGUMENT_OF:
+	case EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF:
+		if (!m_from->isType(typeMask) || !m_to->isType(typeMask))
 		{
 			break;
 		}

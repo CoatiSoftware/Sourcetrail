@@ -331,7 +331,7 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 			);
 
 			const clang::TemplateArgumentList &argList = specializationDecl->getTemplateArgs();
-			for (int i = 0; i < argList.size(); i++)
+			for (size_t i = 0; i < argList.size(); i++)
 			{
 				std::vector<std::string> argumentNameHierarchy = utility::templateArgumentToDataType(argList.get(i)).getTypeNameHierarchy();
 				if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
@@ -375,7 +375,7 @@ bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplat
 		}
 
 		const clang::ASTTemplateArgumentListInfo* argumentInfoList = declaration->getTemplateArgsAsWritten();
-		for (int i = 0; i < argumentInfoList->NumTemplateArgs; i++)
+		for (size_t i = 0; i < argumentInfoList->NumTemplateArgs; i++)
 		{
 			const clang::TemplateArgumentLoc& argumentLoc = argumentInfoList->operator[](i);
 			const clang::QualType argumentType = argumentLoc.getArgument().getAsType();

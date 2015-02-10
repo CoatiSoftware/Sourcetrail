@@ -102,9 +102,9 @@ MatrixDynamicBase<unsigned int> QtGraphPostprocessor::buildHeatMap(const std::li
 		if(up + height > heatMapHeight || up < 0)
 			continue;
 
-		for(unsigned int i = 0; i < width; i++)
+		for(int i = 0; i < width; i++)
 		{
-			for(unsigned int j = 0; j < height; j++)
+			for(int j = 0; j < height; j++)
 			{
 				unsigned int x = left + i;
 				unsigned int y = up + j;
@@ -153,7 +153,7 @@ void QtGraphPostprocessor::resolveOverlap(std::list<std::shared_ptr<QtGraphNode>
 
 			// handle overlap with no gradient
 			// e.g. when a node lies completely on top of another
-			float gradLength = grad.getLength();
+			// float gradLength = grad.getLength();
 
 			if(grad.getLengthSquared() <= 0.000001f)
 			{
@@ -203,19 +203,19 @@ void QtGraphPostprocessor::modifyHeatmapArea(MatrixDynamicBase<unsigned int>& he
 {
 	bool wentOutOfRange = false;
 
-	for(unsigned int i = 0; i < size.x; i++)
+	for(int i = 0; i < size.x; i++)
 	{
-		for(unsigned int j = 0; j < size.y; j++)
+		for(int j = 0; j < size.y; j++)
 		{
 			int x = leftUpperCorner.x + i;
 			int y = leftUpperCorner.y + j;
 
-			if(x < 0 || x > heatMap.getColumnsCount()-1)
+			if(x < 0 || x > static_cast<int>(heatMap.getColumnsCount()-1))
 			{
 				wentOutOfRange = true;
 				continue;
 			}
-			if(y < 0 || y > heatMap.getRowsCount()-1)
+			if(y < 0 || y > static_cast<int>(heatMap.getRowsCount()-1))
 			{
 				wentOutOfRange = true;
 				continue;
@@ -236,17 +236,17 @@ bool QtGraphPostprocessor::getHeatmapGradient(Vec2f& outGradient, const MatrixDy
 {
 	bool overlap = false;
 
-	for(unsigned int i = 0; i < size.x; i++)
+	for(int i = 0; i < size.x; i++)
 	{
-		for(unsigned int j = 0; j < size.y; j++)
+		for(int j = 0; j < size.y; j++)
 		{
 			int x = leftUpperCorner.x + i;
 			int y = leftUpperCorner.y + j;
 
 			// if x and y lie directly at the border not all 4 neighbours can be checked
-			if(x < 1 || x > heatMap.getColumnsCount()-2)
+			if(x < 1 || x > static_cast<int>(heatMap.getColumnsCount()-2))
 				continue;
-			if(y < 1 || y > heatMap.getRowsCount()-2)
+			if(y < 1 || y > static_cast<int>(heatMap.getRowsCount()-2))
 				continue;
 
 			float val = heatMap.getValue(x, y);
@@ -278,7 +278,7 @@ bool QtGraphPostprocessor::getHeatmapGradient(Vec2f& outGradient, const MatrixDy
 void QtGraphPostprocessor::resizeNodes(std::list<std::shared_ptr<QtGraphNode>>& nodes, const unsigned int atomarSize)
 {
 	std::list<std::shared_ptr<QtGraphNode>>::iterator it = nodes.begin();
-	for(it; it != nodes.end(); it++)
+	for(; it != nodes.end(); it++)
 	{
 		Vec2i size = (*it)->getSize();
 		if(size.x % atomarSize != 0)

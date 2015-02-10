@@ -47,7 +47,7 @@ void FileManager::fetchFilePaths()
 	pathsExtensionsPairs.push_back(std::make_pair(m_includePaths, m_includeExtensions));
 	pathsExtensionsPairs.push_back(std::make_pair(m_sourcePaths, m_sourceExtensions));
 
-	for (int i = 0; i < pathsExtensionsPairs.size(); i++)
+	for (size_t i = 0; i < pathsExtensionsPairs.size(); i++)
 	{
 		std::vector<FileInfo> fileInfos = FileSystem::getFileInfosFromDirectoryPaths(pathsExtensionsPairs[i].first, pathsExtensionsPairs[i].second);
 		for (FileInfo fileInfo: fileInfos)

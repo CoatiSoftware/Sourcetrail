@@ -120,7 +120,7 @@ void Project::parseCode()
 		{
 			// Add the SourcePaths as HeaderSearchPaths as well, so clang will also look here when searching include files.
 			std::vector<std::string> headerSearchPaths = ProjectSettings::getInstance()->getHeaderSearchPaths();
-			for (int i = 0; i < includePaths.size(); i++)
+			for (size_t i = 0; i < includePaths.size(); i++)
 			{
 				headerSearchPaths.push_back(includePaths[i]);
 			}
