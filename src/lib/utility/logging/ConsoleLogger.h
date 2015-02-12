@@ -10,11 +10,11 @@ public:
 	ConsoleLogger();
 	~ConsoleLogger();
 
+private:
 	virtual void logInfo(const LogMessage& message);
 	virtual void logWarning(const LogMessage& message);
 	virtual void logError(const LogMessage& message);
 
-private:
 	void logMessage(const std::string& type, const LogMessage& message);
 };
 

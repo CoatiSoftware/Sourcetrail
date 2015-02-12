@@ -85,6 +85,32 @@ public:
 		TS_ASSERT_EQUALS(log, lastLog);
 	}
 
+	void test_logger_logs_only_logs_of_defined_log_level()
+	{
+		LogManagerImplementation logManagerImplementation;
+
+		std::string info = "info";
+		std::string warning = "warning";
+		std::string error = "error";
+
+		std::shared_ptr<TestLogger> logger = std::make_shared<TestLogger>();
+
+		logger->setLogLevel(Logger::LOG_INFOS | Logger::LOG_ERRORS);
+
+		logManagerImplementation.addLogger(logger);
+
+		logManagerImplementation.logInfo(info, __FILE__, __FUNCTION__, __LINE__);
+		logManagerImplementation.logWarning(warning, __FILE__, __FUNCTION__, __LINE__);
+		logManagerImplementation.logError(error, __FILE__, __FUNCTION__, __LINE__);
+
+		TS_ASSERT_EQUALS(1, logger->getMessageCount());
+		TS_ASSERT_EQUALS(0, logger->getWarningCount());
+		TS_ASSERT_EQUALS(1, logger->getErrorCount());
+
+		TS_ASSERT_EQUALS(info, logger->getLastMessage());
+		TS_ASSERT_EQUALS(error, logger->getLastError());
+	}
+
 	void test_new_logger_can_be_added_to_manager_threaded()
 	{
 		LogManagerImplementation logManagerImplementation;
@@ -183,11 +209,11 @@ private:
 		std::string getLastWarning() const;
 		std::string getLastError() const;
 
+	private:
 		void logInfo(const LogMessage& message);
 		void logWarning(const LogMessage& message);
 		void logError(const LogMessage& message);
 
-	private:
 		int m_logMessageCount;
 		int m_logWarningCount;
 		int m_logErrorCount;
