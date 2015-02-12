@@ -2,7 +2,6 @@
 
 int main()
 {
-	TemplateTestClass<int, int> t2;
-//	TemplateTestClass<float, float> t3;
+	TemplateTestClass<int> t2;
 	return 0;
 }

@@ -1,16 +1,10 @@
-template <typename T = int, typename U = int>
+template <typename T>
 class TemplateTestClass
 {
+	void run(T param);
 };
 
-template<typename T>
-class TemplateTestClass<int, T>
+template <typename T>
+void TemplateTestClass<T>::run(T param)
 {
-	int foo;
-};
-
-template<>
-class TemplateTestClass<float, float>
-{
-	int foo;
-};
+}

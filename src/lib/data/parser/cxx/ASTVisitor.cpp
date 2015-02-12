@@ -494,12 +494,19 @@ void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clan
 		if (parentStmt && parentStmt->getStmtClass() == clang::Stmt::DeclStmtClass)
 		{
 			clang::DeclStmt* declStmt = clang::dyn_cast<clang::DeclStmt>(parentStmt);
-			clang::Decl* decl =  declStmt->getSingleDecl();
-			if (clang::isa<clang::NamedDecl>(decl))
+			if (declStmt->isSingleDecl())
 			{
-				clang::NamedDecl* namedDecl = clang::dyn_cast<clang::NamedDecl>(decl);
-				int variableNameLength = namedDecl->getName().size();
-				endLocationOffset = variableNameLength - 1;
+				clang::Decl* decl =  declStmt->getSingleDecl();
+				if (clang::isa<clang::NamedDecl>(decl))
+				{
+					clang::NamedDecl* namedDecl = clang::dyn_cast<clang::NamedDecl>(decl);
+					int variableNameLength = namedDecl->getName().size();
+					endLocationOffset = variableNameLength - 1;
+				}
+			}
+			else
+			{
+				// TODO: maybe we should handle this case... it occurs when parsing a for-each loop
 			}
 		}
 	}

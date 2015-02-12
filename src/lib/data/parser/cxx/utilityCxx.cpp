@@ -21,83 +21,130 @@ namespace utility
 		DataTypeQualifierList qualifierList;
 		DataTypeModifierStack modifierStack;
 
-		while (true)
+		bool needsRefinement = true;
+
+		while (needsRefinement)
 		{
 			const clang::Type* type = qualType.getTypePtr();
-			if (type->getAs<clang::TypedefType>())
+			clang::Type::TypeClass tk = type->getTypeClass();
+			switch (type->getTypeClass())
 			{
-				typeNameHerarchy.push_back(utility::substrAfter(qualType.getAsString(), ' '));
-				break;
-			}
-			else if (type->isPointerType())
-			{
-				std::shared_ptr<DataTypeModifier> modifier = std::make_shared<DataTypeModifierPointer>();
-				if (qualType.isConstQualified())
+			case clang::Type::Paren:
 				{
-					modifier->addQualifier(DataTypeQualifierList::QUALIFIER_CONST);
+					qualType = type->getAs<clang::ParenType>()->getInnerType();
+					// what about qualifiers and modifiers
+					break;
 				}
-				modifierStack.push(modifier);
-
-				qualType = type->getPointeeType();
-			}
-			else if (type->isArrayType())
-			{
-				std::shared_ptr<DataTypeModifier> modifier = std::make_shared<DataTypeModifierArray>();
-				if (qualType.isConstQualified())
+			case clang::Type::Typedef:
 				{
-					modifier->addQualifier(DataTypeQualifierList::QUALIFIER_CONST);
+					typeNameHerarchy = getDeclNameHierarchy(type->getAs<clang::TypedefType>()->getDecl());
+					needsRefinement = false;
+					break;
 				}
-				modifierStack.push(modifier);
+			case clang::Type::Pointer:
+				{
+					std::shared_ptr<DataTypeModifier> modifier = std::make_shared<DataTypeModifierPointer>();
+					if (qualType.isConstQualified())
+					{
+						modifier->addQualifier(DataTypeQualifierList::QUALIFIER_CONST);
+					}
+					modifierStack.push(modifier);
 
-				qualType = clang::dyn_cast<clang::ArrayType>(type)->getElementType();
-			}
-			else if (type->isReferenceType())
-			{
-				std::shared_ptr<DataTypeModifier> modifier = std::make_shared<DataTypeModifierReference>();
-				// references can not be const qualified
-				modifierStack.push(modifier);
+					qualType = type->getPointeeType();
+					break;
+				}
+			case clang::Type::ConstantArray:
+			case clang::Type::VariableArray:
+			case clang::Type::DependentSizedArray:
+			case clang::Type::IncompleteArray:
+				{
+					std::shared_ptr<DataTypeModifier> modifier = std::make_shared<DataTypeModifierArray>();
+					if (qualType.isConstQualified())
+					{
+						modifier->addQualifier(DataTypeQualifierList::QUALIFIER_CONST);
+					}
+					modifierStack.push(modifier);
 
-				qualType = type->getPointeeType();
-			}
-			else
-			{
-				const clang::Type* type = qualType.getUnqualifiedType().getTypePtr();
+					qualType = clang::dyn_cast<clang::ArrayType>(type)->getElementType();
+					break;
+				}
+			case clang::Type::LValueReference:
+			case clang::Type::RValueReference:
+				{
+					std::shared_ptr<DataTypeModifier> modifier = std::make_shared<DataTypeModifierReference>();
+					// references can not be const qualified
+					modifierStack.push(modifier);
 
-				if (clang::isa<clang::ElaboratedType>(type)) // get the real type here
+					qualType = type->getPointeeType();
+					break;
+				}
+			case clang::Type::Elaborated:
 				{
 					const clang::ElaboratedType* et = clang::dyn_cast<clang::ElaboratedType>(type);
-					type = et->getNamedType().getUnqualifiedType().getTypePtr();
+					qualType = et->getNamedType();
+					break;
 				}
-
-				if (clang::isa<clang::TagType>(type))
+			case clang::Type::Enum:
+			case clang::Type::Record:
 				{
-					typeNameHerarchy = getDeclNameHierarchy(clang::dyn_cast<clang::TagType>(type)->getDecl());
+					typeNameHerarchy = getDeclNameHierarchy(type->getAs<clang::TagType>()->getDecl());
+					needsRefinement = false;
+					break;
 				}
-				else
+			case clang::Type::Builtin:
+			case clang::Type::TemplateSpecialization:
+				{
+					clang::PrintingPolicy pp = clang::PrintingPolicy(clang::LangOptions());
+					pp.SuppressTagKeyword = true;	// value "true": for a class A it prints "A" instead of "class A"
+					pp.Bool = true;					// value "true": prints bool type as "bool" instead of "_Bool"
+					std::string typeName = qualType.getUnqualifiedType().getAsString(pp);
+					typeNameHerarchy.push_back(typeName);
+
+					needsRefinement = false;
+					break;
+				}
+			case clang::Type::TemplateTypeParm:
 				{
 					clang::PrintingPolicy pp = clang::PrintingPolicy(clang::LangOptions());
 					pp.SuppressTagKeyword = true;	// value "true": for a class A it prints "A" instead of "class A"
 					pp.Bool = true;					// value "true": prints bool type as "bool" instead of "_Bool"
 					std::string typeName = qualType.getUnqualifiedType().getAsString(pp);
 
-					if (type->isTemplateTypeParmType())
+					clang::TemplateTypeParmDecl* templateTypeParmDecl = clang::dyn_cast<clang::TemplateTypeParmType>(qualType)->getDecl();
+					typeNameHerarchy = getContextNameHierarchy(templateTypeParmDecl->getDeclContext());
+					if (typeNameHerarchy.size() == 0)
 					{
-						clang::TemplateTypeParmDecl* templateTypeParmDecl = clang::dyn_cast<clang::TemplateTypeParmType>(qualType.getUnqualifiedType())->getDecl();
-						if (templateTypeParmDecl)
-						{
-							typeNameHerarchy = getContextNameHierarchy(templateTypeParmDecl->getDeclContext());
-							typeNameHerarchy.back() += "::" + typeName;
-						}
+						int gogo = 0;
+						typeNameHerarchy.push_back(typeName); // HOT: fix this one! definition of template function outside of class scope!
 					}
 					else
 					{
-						typeNameHerarchy.push_back(typeName);
+						typeNameHerarchy.back() += "::" + typeName;
 					}
+					needsRefinement = false;
+					break;
 				}
-				break;
+			case clang::Type::SubstTemplateTypeParm:
+				{
+					const clang::SubstTemplateTypeParmType* substType =  type->getAs<clang::SubstTemplateTypeParmType>();
+					qualType = substType->getReplacementType();
+					break;
+				}
+			default:
+				{
+					LOG_ERROR(std::string("Unhandled kind of type encountered: ") + type->getTypeClassName());
+					clang::PrintingPolicy pp = clang::PrintingPolicy(clang::LangOptions());
+					pp.SuppressTagKeyword = true;	// value "true": for a class A it prints "A" instead of "class A"
+					pp.Bool = true;					// value "true": prints bool type as "bool" instead of "_Bool"
+					std::string typeName = qualType.getUnqualifiedType().getAsString(pp);
+
+					typeNameHerarchy.push_back(typeName);
+
+					needsRefinement = false;
+					break;
+				}
 			}
 		}
-
 		if (qualType.isConstQualified())
 		{
 			qualifierList.addQualifier(DataTypeQualifierList::QUALIFIER_CONST);
