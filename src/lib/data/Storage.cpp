@@ -490,43 +490,26 @@ Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseVariable& v
 	return edge->getId();
 }
 
-Id Storage::onTemplateRecordParameterTypeParsed(
-	const ParseLocation& location, const std::string& templateParameterTypeName,
-	const std::vector<std::string>& templateRecordNameHierarchy
-){
-	log("template record type parameter", templateParameterTypeName, location);
-
-	std::vector<std::string> templateParameterTypeNameHierarchy = templateRecordNameHierarchy;
-	templateParameterTypeNameHierarchy.back() += "::" + templateParameterTypeName;
-	Node* templateParameterNode = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
-	addTokenLocation(templateParameterNode, location);
-
-	Node* templateRecordNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateRecordNameHierarchy);
-	m_graph.createEdge(Edge::EDGE_TEMPLATE_PARAMETER_OF, templateParameterNode, templateRecordNode);
-
-	return templateParameterNode->getId();
-}
-
-Id Storage::onTemplateRecordArgumentTypeParsed(
-	const ParseLocation& location, const std::vector<std::string>& templateArgumentTypeNameHierarchy,
-	const std::vector<std::string>& templateRecordNameHierarchy
-){
+Id Storage::onTemplateArgumentParsed(
+		const ParseLocation& location, const std::vector<std::string>& argumentNameHierarchy,
+		const std::vector<std::string>& templateNameHierarchy)
+{
 	log(
-		"template record argument",
-		utility::join(templateArgumentTypeNameHierarchy, "::") + " -> " + utility::join(templateRecordNameHierarchy, "::"),
+		"template argument",
+		utility::join(argumentNameHierarchy, "::") + " -> " + utility::join(templateNameHierarchy, "::"),
 		location
 	);
 
-	Node* templateArgumentNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateArgumentTypeNameHierarchy);
-	Node* templateRecordNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateRecordNameHierarchy);
-	m_graph.createEdge(Edge::EDGE_TEMPLATE_ARGUMENT_OF, templateArgumentNode, templateRecordNode);
+	Node* argumentNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, argumentNameHierarchy);
+	Node* templateNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateNameHierarchy);
+	m_graph.createEdge(Edge::EDGE_TEMPLATE_ARGUMENT_OF, argumentNode, templateNode);
 
 	if (location.isValid())
 	{
-		addTokenLocation(templateArgumentNode, location);
+		addTokenLocation(argumentNode, location);
 	}
 
-	return templateArgumentNode->getId();
+	return argumentNode->getId();
 }
 
 Id Storage::onTemplateDefaultArgumentTypeParsed(
@@ -548,6 +531,23 @@ Id Storage::onTemplateDefaultArgumentTypeParsed(
 	m_graph.createEdge(Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF, templateDefaultArgumentNode, templateArgumentNode);
 
 	return templateDefaultArgumentNode->getId();
+}
+
+Id Storage::onTemplateRecordParameterTypeParsed(
+	const ParseLocation& location, const std::string& templateParameterTypeName,
+	const std::vector<std::string>& templateRecordNameHierarchy
+){
+	log("template record type parameter", templateParameterTypeName, location);
+
+	std::vector<std::string> templateParameterTypeNameHierarchy = templateRecordNameHierarchy;
+	templateParameterTypeNameHierarchy.back() += "::" + templateParameterTypeName;
+	Node* templateParameterNode = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
+	addTokenLocation(templateParameterNode, location);
+
+	Node* templateRecordNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateRecordNameHierarchy);
+	m_graph.createEdge(Edge::EDGE_TEMPLATE_PARAMETER_OF, templateParameterNode, templateRecordNode);
+
+	return templateParameterNode->getId();
 }
 
 Id Storage::onTemplateRecordSpecializationParsed(
@@ -578,7 +578,7 @@ Id Storage::onTemplateRecordSpecializationParsed(
 Id Storage::onTemplateFunctionParameterTypeParsed(
 	const ParseLocation& location, const std::string& templateParameterTypeName, const ParseFunction function
 ){
-	log("function template type parameter", templateParameterTypeName, location);
+	log("template function type parameter", templateParameterTypeName, location);
 
 	std::vector<std::string> templateParameterTypeNameHierarchy;
 	templateParameterTypeNameHierarchy.push_back(function.getFullName() + "::"+ templateParameterTypeName);

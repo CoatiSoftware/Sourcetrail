@@ -322,6 +322,7 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 		{
 			clang::ClassTemplateSpecializationDecl* specializationDecl = *it;
 
+			// The specializationParent can be an indirect specialization of the ClassTemplate (by specializing a partial specialization).
 			std::vector<std::string> specializationParentNameHierarchy = utility::getTemplateSpecializationParentNameHierarchy(specializationDecl);
 
 			ParserClient::RecordType specializedRecordType = specializationDecl->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
@@ -336,7 +337,7 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 				std::vector<std::string> argumentNameHierarchy = utility::templateArgumentToDataType(argList.get(i)).getTypeNameHierarchy();
 				if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
 				{
-					m_client->onTemplateRecordArgumentTypeParsed(
+					m_client->onTemplateArgumentParsed(
 						ParseLocation(), // TODO: Find a valid ParseLocation here!
 						argumentNameHierarchy,
 						specializedRecordNameHierarchy
@@ -380,7 +381,7 @@ bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplat
 			const clang::TemplateArgumentLoc& argumentLoc = argumentInfoList->operator[](i);
 			const clang::QualType argumentType = argumentLoc.getArgument().getAsType();
 
-			m_client->onTemplateRecordArgumentTypeParsed(
+			m_client->onTemplateArgumentParsed(
 				getParseLocation(argumentLoc.getSourceRange()),
 				utility::qualTypeToDataType(argumentType).getTypeNameHierarchy(),
 				specializedRecordNameHierarchy);
@@ -391,21 +392,9 @@ bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplat
 
 bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declaration)
 {
+	const ParseFunction templateFunction = getParseFunction(declaration);
 	if (isLocatedInMainFile(declaration))
 	{
-		const ParseFunction templateFunction = getParseFunction(declaration->getTemplatedDecl());
-		for (clang::FunctionTemplateDecl::spec_iterator it = declaration->specializations().begin(); it != declaration->specializations().end(); it++)
-		{
-			ParseLocation specializedFunctionLocation = getParseLocationForNamedDecl(*(it));
-			ParseFunction specializedFunction = getParseFunction(*(it));
-			m_client->onTemplateFunctionSpecializationParsed(
-				specializedFunctionLocation,
-				specializedFunction,
-				templateFunction);
-
-			m_client->onFunctionParsed(specializedFunctionLocation, specializedFunction, getParseLocationOfFunctionBody(*(it)));
-		}
-
 		clang::TemplateParameterList* parameterList = declaration->getTemplateParameters();
 		for (size_t i = 0; i < parameterList->size(); i++)
 		{
@@ -423,7 +412,58 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 			}
 		}
 	}
+	if (isLocatedInSourceFile(declaration))
+	{
+		for (clang::FunctionTemplateDecl::spec_iterator it = declaration->specializations().begin(); it != declaration->specializations().end(); it++)
+		{
+			const clang::FunctionDecl* specializedFunctionDecl = *it;
+			ParseLocation specializedFunctionLocation = getParseLocationForNamedDecl(specializedFunctionDecl);
+			ParseFunction specializedFunction = getParseFunction(specializedFunctionDecl);
 
+			clang::FunctionTemplateSpecializationInfo* info = specializedFunctionDecl->getTemplateSpecializationInfo();
+			if (info->getTemplateSpecializationKind() == clang::TSK_ExplicitSpecialization)
+			{
+				if (isLocatedInMainFile(declaration))
+				{
+					m_client->onTemplateFunctionSpecializationParsed(
+						specializedFunctionLocation,
+						specializedFunction,
+						templateFunction);
+
+					const clang::ASTTemplateArgumentListInfo* argumentInfoList = specializedFunctionDecl->getTemplateSpecializationArgsAsWritten();
+					for (size_t i = 0; i < argumentInfoList->NumTemplateArgs; i++)
+					{
+						const clang::TemplateArgumentLoc& argumentLoc = argumentInfoList->operator[](i);
+						const clang::QualType argumentType = argumentLoc.getArgument().getAsType();
+
+						m_client->onTemplateArgumentParsed(
+							getParseLocation(argumentLoc.getSourceRange()),
+							utility::qualTypeToDataType(argumentType).getTypeNameHierarchy(),
+							specializedFunction.nameHierarchy);
+					}
+				}
+			}
+			else // info->getTemplateSpecializationKind() == clang::TSK_ImplicitInstantiation
+			{
+				m_client->onTemplateFunctionSpecializationParsed(
+					specializedFunctionLocation,
+					specializedFunction,
+					templateFunction);
+
+				const clang::TemplateArgumentList* argumentList = specializedFunctionDecl->getTemplateSpecializationArgs();
+				for (size_t i = 0; i < argumentList->size(); i++)
+				{
+					const clang::TemplateArgument& argument = argumentList->get(i);
+					const clang::QualType argumentType = argument.getAsType();
+
+					m_client->onTemplateArgumentParsed(
+						ParseLocation(), // TODO: get ParseLocation
+						utility::qualTypeToDataType(argumentType).getTypeNameHierarchy(),
+						specializedFunction.nameHierarchy);
+				}
+			}
+		}
+	}
 	return true;
 }
 
@@ -682,7 +722,7 @@ ParseLocation ASTVisitor::getParseLocation(const clang::SourceRange& sourceRange
 	);
 }
 
-ParseLocation ASTVisitor::getParseLocationForNamedDecl(clang::NamedDecl* decl, const clang::SourceLocation& loc) const
+ParseLocation ASTVisitor::getParseLocationForNamedDecl(const clang::NamedDecl* decl, const clang::SourceLocation& loc) const
 {
 	const clang::SourceManager& sourceManager = m_context->getSourceManager();
 	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(loc);
@@ -696,12 +736,12 @@ ParseLocation ASTVisitor::getParseLocationForNamedDecl(clang::NamedDecl* decl, c
 	);
 }
 
-ParseLocation ASTVisitor::getParseLocationForNamedDecl(clang::NamedDecl* decl) const
+ParseLocation ASTVisitor::getParseLocationForNamedDecl(const clang::NamedDecl* decl) const
 {
 	return getParseLocationForNamedDecl(decl, decl->getLocation());
 }
 
-ParseLocation ASTVisitor::getParseLocationOfFunctionBody(clang::FunctionDecl* decl) const
+ParseLocation ASTVisitor::getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const
 {
 	if (decl->hasBody() && decl->isThisDeclarationADefinition())
 	{
@@ -814,6 +854,32 @@ ParseFunction ASTVisitor::getParseFunction(const clang::FunctionDecl* declaratio
 		getParseTypeUsageOfReturnType(declaration),
 		utility::getDeclNameHierarchy(declaration),
 		getParameters(declaration),
+		isStatic,
+		isConst
+	);
+}
+
+ParseFunction ASTVisitor::getParseFunction(const clang::FunctionTemplateDecl* declaration) const
+{
+	bool isStatic = false;
+	bool isConst = false;
+
+	const clang::FunctionDecl* templatedDecl = declaration->getTemplatedDecl();
+	if (clang::isa<clang::CXXMethodDecl>(templatedDecl))
+	{
+		const clang::CXXMethodDecl* methodDecl = clang::dyn_cast<const clang::CXXMethodDecl>(templatedDecl);
+		isStatic = methodDecl->isStatic();
+		isConst = methodDecl->isConst();
+	}
+	else
+	{
+		isStatic = templatedDecl->getStorageClass() == clang::SC_Static;
+	}
+
+	return ParseFunction(
+		getParseTypeUsageOfReturnType(templatedDecl),
+		utility::getDeclNameHierarchy(declaration),
+		getParameters(templatedDecl),
 		isStatic,
 		isConst
 	);

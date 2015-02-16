@@ -255,6 +255,27 @@ namespace utility
 				declName += specializedParameterNamePart;
 			}
 		}
+		else if (clang::isa<clang::FunctionDecl>(declaration))
+		{
+			clang::FunctionTemplateDecl* templateFunctionDeclaration = clang::dyn_cast<clang::FunctionDecl>(declaration)->getDescribedFunctionTemplate();
+			if (templateFunctionDeclaration)
+			{
+				declName = getDeclName(templateFunctionDeclaration);
+			}
+			else if (clang::dyn_cast<clang::FunctionDecl>(declaration)->isFunctionTemplateSpecialization())
+			{
+				std::string specializedParameterNamePart = "<";
+				const clang::TemplateArgumentList* templateArgumentList = clang::dyn_cast<clang::FunctionDecl>(declaration)->getTemplateSpecializationArgs();
+				for (size_t i = 0; i < templateArgumentList->size(); i++)
+				{
+					const clang::TemplateArgument& templateArgument = templateArgumentList->get(i);
+					specializedParameterNamePart += templateArgumentToDataType(templateArgument).getFullTypeName();
+					specializedParameterNamePart += (i < templateArgumentList->size() - 1) ? ", " : "";
+				}
+				specializedParameterNamePart += ">";
+				declName += specializedParameterNamePart;
+			}
+		}
 		else if (clang::isa<clang::TemplateDecl>(declaration))
 		{
 			std::string templateParameterNamePart = "<";

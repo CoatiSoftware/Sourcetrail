@@ -62,9 +62,9 @@ private:
 	ParserClient::AccessType convertAccessType(clang::AccessSpecifier) const;
 
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
-	ParseLocation getParseLocationForNamedDecl(clang::NamedDecl* decl, const clang::SourceLocation& loc) const;
-	ParseLocation getParseLocationForNamedDecl(clang::NamedDecl* decl) const;
-	ParseLocation getParseLocationOfFunctionBody(clang::FunctionDecl* decl) const;
+	ParseLocation getParseLocationForNamedDecl(const clang::NamedDecl* decl, const clang::SourceLocation& loc) const;
+	ParseLocation getParseLocationForNamedDecl(const clang::NamedDecl* decl) const;
+	ParseLocation getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const;
 	ParseLocation getParseLocationOfRecordBody(clang::CXXRecordDecl* decl) const;
 
 	ParseTypeUsage getParseTypeUsage(clang::TypeLoc typeLoc, const clang::QualType& type) const;
@@ -73,6 +73,7 @@ private:
 
 	ParseVariable getParseVariable(const clang::DeclaratorDecl* declaration) const;
 	ParseFunction getParseFunction(const clang::FunctionDecl* declaration) const;
+	ParseFunction getParseFunction(const clang::FunctionTemplateDecl* declaration) const;
 
 	clang::ASTContext* m_context;
 	ParserClient* m_client;

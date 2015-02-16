@@ -1564,7 +1564,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "test::T <1:20 1:20>");
+		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "test<T>::T <1:20 1:20>");
 	}
 
 	void test_cxx_parser_finds_implicit_specialization_of_template_function()
@@ -1583,7 +1583,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->templateSpecializations.size(), 1);
-		TS_ASSERT_EQUALS(client->templateSpecializations[0], "test -> test <2:3 2:6>");
+		TS_ASSERT_EQUALS(client->templateSpecializations[0], "test<int> -> test<T> <2:3 2:6>");
 	}
 
 	void test_cxx_parser_finds_explicit_specialization_of_template_function()
@@ -1603,9 +1603,61 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->templateSpecializations.size(), 1);
-		TS_ASSERT_EQUALS(client->templateSpecializations[0], "test -> test <8:5 8:8>");
+		TS_ASSERT_EQUALS(client->templateSpecializations[0], "test<int> -> test<T> <8:5 8:8>");
 	}
 
+	void test_cxx_parser_finds_template_argument_of_explicit_specialization_of_template_function()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"void test()\n"
+			"{\n"
+			"};\n"
+			"\n"
+			"template <>\n"
+			"void test<int>()\n"
+			"{\n"
+			"};\n"
+		);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>->int <7:11 7:11>");
+	}
+
+	void test_cxx_parser_finds_template_argument_of_implicit_specialization_of_template_function()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"void test()\n"
+			"{\n"
+			"};\n"
+			"\n"
+			"int main()\n"
+			"{\n"
+			"	test<int>();\n"
+			"	return 1;\n"
+			"};\n"
+		);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>->int <0:0 0:0>");
+	}
+
+	void test_cxx_parser_finds_template_default_argument_type_of_template_function()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T = int>\n"
+			"void test()\n"
+			"{\n"
+			"};\n"
+			"\n"
+			"int main()\n"
+			"{\n"
+			"	test<int>();\n"
+			"	return 1;\n"
+			"};\n"
+		);
+		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes.size(), 1);
+		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes[0], "int -> test<T>::T <1:24 1:26>");
+	}
 
 
 
@@ -1823,17 +1875,7 @@ private:
 			return 0;
 		}
 
-		virtual Id onTemplateRecordParameterTypeParsed(
-			const ParseLocation& location, const std::string& templateParameterTypeName,
-			const std::vector<std::string>& templateRecordNameHierarchy)
-		{
-			templateParameterTypes.push_back(
-				addLocationSuffix(utility::join(templateRecordNameHierarchy, "::") + "::" + templateParameterTypeName, location)
-			);
-			return 0;
-		}
-
-		virtual Id onTemplateRecordArgumentTypeParsed(
+		virtual Id onTemplateArgumentParsed(
 			const ParseLocation& location, const std::vector<std::string>& templateArgumentTypeNameHierarchy,
 			const std::vector<std::string>& templateRecordNameHierarchy)
 		{
@@ -1848,6 +1890,16 @@ private:
 		{
 			templateDefaultArgumentTypes.push_back(
 				addLocationSuffix(utility::join(defaultArgumentType.dataType.getTypeNameHierarchy(), "::") + " -> " + utility::join(templateArgumentTypeNameHierarchy, "::"), defaultArgumentType.location)
+			);
+			return 0;
+		}
+
+		virtual Id onTemplateRecordParameterTypeParsed(
+			const ParseLocation& location, const std::string& templateParameterTypeName,
+			const std::vector<std::string>& templateRecordNameHierarchy)
+		{
+			templateParameterTypes.push_back(
+				addLocationSuffix(utility::join(templateRecordNameHierarchy, "::") + "::" + templateParameterTypeName, location)
 			);
 			return 0;
 		}
