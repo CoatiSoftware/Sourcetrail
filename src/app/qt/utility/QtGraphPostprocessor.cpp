@@ -1,10 +1,13 @@
 #include "QtGraphPostprocessor.h"
 
+unsigned int QtGraphPostprocessor::s_cellSize = 20;
+unsigned int QtGraphPostprocessor::s_cellPadding = 10;
+
 void QtGraphPostprocessor::doPostprocessing(std::list<std::shared_ptr<QtGraphNode>>& nodes)
 {
-	unsigned int atomarGridSize = 20;
+	unsigned int atomarGridSize = s_cellSize;
 
-	resizeNodes(nodes, atomarGridSize);
+	resizeNodes(nodes);
 
 	if(nodes.size() < 2)
 	{
@@ -50,8 +53,64 @@ void QtGraphPostprocessor::doPostprocessing(std::list<std::shared_ptr<QtGraphNod
 
 	resolveOutliers(nodes, centerOfMass);
 
+	it = nodes.begin();
+	for(; it != nodes.end(); it++)
+	{
+		allignNodeOnRaster((*it).get());
+	}
+
 	MatrixDynamicBase<unsigned int> heatMap = buildHeatMap(nodes, divisor, maxNodeSize);
+
 	resolveOverlap(nodes, heatMap, divisor);
+}
+
+void QtGraphPostprocessor::allignNodeOnRaster(QtGraphNode* node)
+{
+	Vec2i position = node->getPosition();
+
+	int rasterPosDivisor = s_cellSize + s_cellPadding;
+
+	if(position.x % rasterPosDivisor != 0)
+	{
+		int t = position.x / rasterPosDivisor;
+		int r = position.x % rasterPosDivisor;
+
+		if(std::abs(r) > rasterPosDivisor/2)
+		{
+			if(t != 0)
+			{
+				t += (t / std::abs(t));
+			}
+			else if(r != 0)
+			{
+				t += (r / std::abs(r));
+			}
+		}
+
+		position.x = t * rasterPosDivisor;
+	}
+
+	if(position.y % rasterPosDivisor != 0)
+	{
+		int t = position.y / rasterPosDivisor;
+		int r = position.y % rasterPosDivisor;
+
+		if (std::abs(r) > rasterPosDivisor/2)
+		{
+			if(t != 0)
+			{
+				t += (t / std::abs(t));
+			}
+			else if(r != 0)
+			{
+				t += (r / std::abs(r));
+			}
+		}
+
+		position.y = t * rasterPosDivisor;
+	}
+
+	node->setPosition(position);
 }
 
 void QtGraphPostprocessor::resolveOutliers(std::list<std::shared_ptr<QtGraphNode>>& nodes, const Vec2i& centerPoint)
@@ -109,6 +168,7 @@ MatrixDynamicBase<unsigned int> QtGraphPostprocessor::buildHeatMap(const std::li
 				unsigned int x = left + i;
 				unsigned int y = up + j;
 				unsigned int value = heatMap.getValue(x, y);
+
 				heatMap.setValue(x, y, value+1);
 			}
 		}
@@ -173,23 +233,27 @@ void QtGraphPostprocessor::resolveOverlap(std::list<std::shared_ptr<QtGraphNode>
 			int xOffset = grad.x * divisor;
 			int yOffset = grad.y * divisor;
 
-			// prevent the graph from "exploding" again...
-			if(xOffset > divisor)
-				xOffset = divisor;
-			else if(xOffset < -divisor)
-				xOffset = -divisor;
 
-			if(yOffset > divisor)
-				yOffset = divisor;
-			else if(yOffset < -divisor)
-				yOffset = -divisor;
+			int maxOffset = 2*divisor;
+			// prevent the graph from "exploding" again...
+			if(xOffset > maxOffset)
+				xOffset = maxOffset;
+			else if(xOffset < -maxOffset)
+				xOffset = -maxOffset;
+
+			if(yOffset > maxOffset)
+				yOffset = maxOffset;
+			else if(yOffset < -maxOffset)
+				yOffset = -maxOffset;
 
 			Vec2i pos = (*it)->getPosition();
 			pos += Vec2i(xOffset, yOffset);
 			// grid allignment
-			pos.x = (pos.x / divisor) * divisor;
-			pos.y = (pos.y / divisor) * divisor;
+			// pos.x = (pos.x / divisor) * divisor;
+			// pos.y = (pos.y / divisor) * divisor;
 			(*it)->setPosition(pos);
+
+			allignNodeOnRaster((*it).get());
 
 			// re-add node to heat map at new position
 			nodePos.x = (*it)->getPosition().x / divisor + heatMapWidth/2;
@@ -275,13 +339,28 @@ bool QtGraphPostprocessor::getHeatmapGradient(Vec2f& outGradient, const MatrixDy
 	return overlap;
 }
 
-void QtGraphPostprocessor::resizeNodes(std::list<std::shared_ptr<QtGraphNode>>& nodes, const unsigned int atomarSize)
+void QtGraphPostprocessor::resizeNodes(std::list<std::shared_ptr<QtGraphNode>>& nodes)
 {
 	std::list<std::shared_ptr<QtGraphNode>>::iterator it = nodes.begin();
 	for(; it != nodes.end(); it++)
 	{
 		Vec2i size = (*it)->getSize();
-		if(size.x % atomarSize != 0)
+
+		int newWidth = s_cellSize;
+		while(size.x - newWidth > 0)
+		{
+			newWidth += s_cellPadding + s_cellSize;
+		}
+		size.x = newWidth;
+
+		int newHeight = s_cellSize;
+		while(size.y - newHeight > 0)
+		{
+			newHeight += s_cellPadding + s_cellSize;
+		}
+		size.y = newHeight;
+
+		/*if(size.x % atomarSize != 0)
 		{
 			int multiplier = size.x / atomarSize;
 			++multiplier;
@@ -295,7 +374,7 @@ void QtGraphPostprocessor::resizeNodes(std::list<std::shared_ptr<QtGraphNode>>& 
 			++multiplier;
 
 			size.y = atomarSize * multiplier;
-		}
+		}*/
 
 		(*it)->setSize(size);
 	}

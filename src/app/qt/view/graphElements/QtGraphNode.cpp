@@ -9,6 +9,7 @@
 
 #include "qt/graphics/QtGraphicsRoundedRectItem.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
+#include "qt/utility/QtGraphPostprocessor.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
 
@@ -467,6 +468,8 @@ void QtGraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 			parent->mouseReleaseEvent(event);
 		}
 	}
+
+	QtGraphPostprocessor::allignNodeOnRaster(this);
 }
 
 void QtGraphNode::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
