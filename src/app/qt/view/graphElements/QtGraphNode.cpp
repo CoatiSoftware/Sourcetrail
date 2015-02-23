@@ -9,9 +9,28 @@
 
 #include "qt/graphics/QtGraphicsRoundedRectItem.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
-#include "qt/utility/QtGraphPostprocessor.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
+
+void QtGraphNode::blendIn()
+{
+	setOpacity(1.0f);
+}
+
+void QtGraphNode::blendOut()
+{
+	setOpacity(0.0f);
+}
+
+void QtGraphNode::showNode()
+{
+	this->show();
+}
+
+void QtGraphNode::hideNode()
+{
+	this->hide();
+}
 
 QFont QtGraphNode::getFontForNodeType(Node::NodeType type)
 {
@@ -90,6 +109,11 @@ std::string QtGraphNode::getName() const
 void QtGraphNode::setName(const std::string& name)
 {
 	m_text->setText(QString::fromStdString(name));
+}
+
+bool QtGraphNode::isAccessNode() const
+{
+	return false;
 }
 
 Vec2i QtGraphNode::getPosition() const
@@ -203,6 +227,16 @@ unsigned int QtGraphNode::getOutEdgeCount() const
 unsigned int QtGraphNode::getInEdgeCount() const
 {
 	return m_inEdges.size();
+}
+
+QSize QtGraphNode::size() const
+{
+	return QSize(m_size.x, m_size.y);
+}
+
+void QtGraphNode::setSize(const QSize& size)
+{
+	setSize(Vec2i(size.width(), size.height()));
 }
 
 bool QtGraphNode::getIsActive() const
@@ -394,6 +428,16 @@ void QtGraphNode::setStyle()
 	m_text->setPos(padding.x, padding.y);
 }
 
+void QtGraphNode::setShadowEnabledRecursive(bool enabled)
+{
+	m_rect->setShadowEnabled(enabled);
+
+	for (const std::shared_ptr<QtGraphNode>& node : m_subNodes)
+	{
+		node->setShadowEnabledRecursive(enabled);
+	}
+}
+
 void QtGraphNode::onClick()
 {
 	if (m_data && !m_data->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE))
@@ -468,8 +512,6 @@ void QtGraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 			parent->mouseReleaseEvent(event);
 		}
 	}
-
-	QtGraphPostprocessor::allignNodeOnRaster(this);
 }
 
 void QtGraphNode::hoverEnterEvent(QGraphicsSceneHoverEvent* event)

@@ -4,6 +4,9 @@
 #include <QFrame>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QPropertyAnimation>
+#include <QParallelAnimationGroup>
+#include <QSequentialAnimationGroup>
 
 #include "qt/utility/QtGraphPostprocessor.h"
 #include "qt/utility/utilityQt.h"
@@ -69,12 +72,7 @@ void QtGraphView::clear()
 GraphView::Metrics QtGraphView::getViewMetrics() const
 {
 	GraphView::Metrics metrics;
-
 	QGraphicsView* view = getView();
-	if (view == NULL)
-	{
-		return metrics;
-	}
 
 	metrics.width = view->width();
 	metrics.height = view->height();
@@ -86,61 +84,35 @@ GraphView::Metrics QtGraphView::getViewMetrics() const
 	return metrics;
 }
 
-QGraphicsView* QtGraphView::getView() const
+void QtGraphView::finishedTransition()
 {
-	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
+	for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
+	{
+		node->setShadowEnabledRecursive(true);
+	}
 
-	return widget->findChild<QGraphicsView*>("");
+	QGraphicsView* view = getView();
+	view->setInteractive(true);
+
+	switchToNewGraphData();
 }
 
-void QtGraphView::doRebuildGraph(
-	std::shared_ptr<Graph> graph,
-	const std::vector<DummyNode>& nodes,
-	const std::vector<DummyEdge>& edges
-){
+void QtGraphView::switchToNewGraphData()
+{
+	m_oldGraph = m_graph;
+
+	m_oldNodes = m_nodes;
+	m_oldEdges = m_edges;
+
+	m_nodes.clear();
+	m_edges.clear();
+
 	QGraphicsView* view = getView();
 
-	if (view == NULL)
-	{
-		LOG_WARNING("Failed to get QGraphicsView");
-		return;
-	}
+	int margin = 25;
+	view->setSceneRect(itemsBoundingRect(m_oldNodes).adjusted(-margin, -margin, margin, margin).translated(m_sceneRectOffset));
 
-	// Temporary stores all nodes (existing and newly created) needed in the new graph
-	// this is a relatively easy and cheap way to save existing nodes that are still needed
-	std::list<std::shared_ptr<QtGraphNode>> newNodes;
-
-	// create nodes (or find existing nodes for re-use)
-	for (unsigned int i = 0; i < nodes.size(); i++)
-	{
-		std::shared_ptr<QtGraphNode> node = createNodeRecursive(view, NULL, nodes[i]);
-		if (node)
-		{
-			newNodes.push_back(node);
-		}
-	}
-
-	doClear();
-	m_nodes = newNodes;
-
-	for (unsigned int i = 0; i < edges.size(); i++)
-	{
-		std::shared_ptr<QtGraphEdge> edge = createEdge(view, edges[i]);
-		if (edge != NULL)
-		{
-			m_edges.push_back(edge);
-		}
-	}
-
-	if (graph)
-	{
-		m_graph = graph;
-	}
-
-	QtGraphPostprocessor::doPostprocessing(m_nodes);
-
-	// Manually hover the items below the mouse cursor.
-	view->scene()->setSceneRect(view->scene()->itemsBoundingRect());
+	// Manually hover the item below the mouse cursor.
 	QPointF point = view->mapToScene(view->mapFromGlobal(QCursor::pos()));
 	QGraphicsItem* item = view->scene()->itemAt(point, QTransform());
 	if (item)
@@ -153,10 +125,77 @@ void QtGraphView::doRebuildGraph(
 	}
 }
 
+QGraphicsView* QtGraphView::getView() const
+{
+	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
+
+	QGraphicsView* view = widget->findChild<QGraphicsView*>("");
+
+	if (!view)
+	{
+		LOG_ERROR("Failed to get QGraphicsView");
+	}
+
+	return view;
+}
+
+void QtGraphView::doRebuildGraph(
+	std::shared_ptr<Graph> graph,
+	const std::vector<DummyNode>& nodes,
+	const std::vector<DummyEdge>& edges
+){
+	QGraphicsView* view = getView();
+
+	m_nodes.clear();
+	for (unsigned int i = 0; i < nodes.size(); i++)
+	{
+		std::shared_ptr<QtGraphNode> node = createNodeRecursive(view, NULL, nodes[i]);
+		if (node)
+		{
+			m_nodes.push_back(node);
+		}
+	}
+
+	QtGraphPostprocessor::doPostprocessing(m_nodes);
+
+	QPointF center = itemsBoundingRect(m_nodes).center();
+	Vec2i o = QtGraphPostprocessor::alignOnRaster(Vec2i(center.x(), center.y()));
+	QPointF offset = QPointF(o.x, o.y);
+	m_sceneRectOffset = offset - center;
+
+	for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
+	{
+		node->setPos(node->pos() - offset);
+	}
+
+	m_edges.clear();
+	for (unsigned int i = 0; i < edges.size(); i++)
+	{
+		std::shared_ptr<QtGraphEdge> edge = createEdge(view, edges[i]);
+		if (edge)
+		{
+			m_edges.push_back(edge);
+		}
+	}
+
+	if (graph)
+	{
+		m_graph = graph;
+	}
+
+	createTransition();
+}
+
 void QtGraphView::doClear()
 {
 	m_nodes.clear();
 	m_edges.clear();
+
+	m_oldNodes.clear();
+	m_oldEdges.clear();
+
+	m_graph.reset();
+	m_oldGraph.reset();
 }
 
 std::shared_ptr<QtGraphNode> QtGraphView::findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId)
@@ -257,4 +296,185 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const 
 		LOG_WARNING_STREAM(<< "Couldn't find owner or target node for edge: " << edge.data->getName());
 		return NULL;
 	}
+}
+
+template <typename T>
+QRectF QtGraphView::itemsBoundingRect(const std::list<std::shared_ptr<T>>& items) const
+{
+	QRectF boundingRect;
+	for (const std::shared_ptr<T>& item : items)
+	{
+		boundingRect |= item->sceneBoundingRect();
+	}
+	return boundingRect;
+}
+
+void QtGraphView::compareNodesRecursive(
+	std::list<std::shared_ptr<QtGraphNode>> newSubNodes,
+	std::list<std::shared_ptr<QtGraphNode>> oldSubNodes,
+	std::list<QtGraphNode*>* appearingNodes,
+	std::list<QtGraphNode*>* vanishingNodes,
+	std::vector<std::pair<QtGraphNode*, QtGraphNode*>>* remainingNodes
+){
+	for (std::list<std::shared_ptr<QtGraphNode>>::iterator it = newSubNodes.begin(); it != newSubNodes.end(); it++)
+	{
+		bool remains = false;
+
+		for (std::list<std::shared_ptr<QtGraphNode>>::iterator it2 = oldSubNodes.begin(); it2 != oldSubNodes.end(); it2++)
+		{
+			if (((*it)->getTokenId() && (*it)->getTokenId() == (*it2)->getTokenId()) ||
+				((*it)->isAccessNode() && (*it2)->isAccessNode() &&
+					dynamic_cast<QtGraphNodeAccess*>((*it).get())->getAccessType() ==
+						dynamic_cast<QtGraphNodeAccess*>((*it2).get())->getAccessType()))
+			{
+				remainingNodes->push_back(std::pair<QtGraphNode*, QtGraphNode*>((*it).get(), (*it2).get()));
+				compareNodesRecursive((*it)->getSubNodes(), (*it2)->getSubNodes(), appearingNodes, vanishingNodes, remainingNodes);
+
+				oldSubNodes.erase(it2);
+				remains = true;
+				break;
+			}
+		}
+
+		if (!remains)
+		{
+			appearingNodes->push_back((*it).get());
+		}
+	}
+
+	for (std::shared_ptr<QtGraphNode>& node : oldSubNodes)
+	{
+		vanishingNodes->push_back(node.get());
+	}
+}
+
+void QtGraphView::createTransition()
+{
+	std::list<QtGraphNode*> appearingNodes;
+	std::list<QtGraphNode*> vanishingNodes;
+	std::vector<std::pair<QtGraphNode*, QtGraphNode*>> remainingNodes;
+
+	compareNodesRecursive(m_nodes, m_oldNodes, &appearingNodes, &vanishingNodes, &remainingNodes);
+
+	if (!vanishingNodes.size() && !appearingNodes.size())
+	{
+		switchToNewGraphData();
+		return;
+	}
+
+	for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
+	{
+		node->setShadowEnabledRecursive(false);
+	}
+
+	for (const std::shared_ptr<QtGraphNode>& node : m_oldNodes)
+	{
+		node->setShadowEnabledRecursive(false);
+	}
+
+	QGraphicsView* view = getView();
+	view->setInteractive(false);
+
+	QSequentialAnimationGroup* group = new QSequentialAnimationGroup();
+
+	// fade out
+	if (vanishingNodes.size() || m_oldEdges.size())
+	{
+		QParallelAnimationGroup* vanish = new QParallelAnimationGroup();
+
+		for (QtGraphNode* node : vanishingNodes)
+		{
+			QPropertyAnimation* anim = new QPropertyAnimation(node, "opacity");
+			anim->setDuration(300);
+			anim->setStartValue(1.0f);
+			anim->setEndValue(0.0f);
+
+			vanish->addAnimation(anim);
+		}
+
+		for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+		{
+			QPropertyAnimation* anim = new QPropertyAnimation(edge.get(), "opacity");
+			anim->setDuration(150);
+			anim->setStartValue(1.0f);
+			anim->setEndValue(0.0f);
+
+			vanish->addAnimation(anim);
+		}
+
+		group->addAnimation(vanish);
+	}
+
+	// move and scale
+	if (remainingNodes.size())
+	{
+		QParallelAnimationGroup* remain = new QParallelAnimationGroup();
+
+		for (std::pair<QtGraphNode*, QtGraphNode*> p : remainingNodes)
+		{
+			QtGraphNode* newNode = p.first;
+			QtGraphNode* oldNode = p.second;
+
+			QPropertyAnimation* anim = new QPropertyAnimation(oldNode, "pos");
+			anim->setDuration(300);
+			anim->setStartValue(oldNode->pos());
+			anim->setEndValue(newNode->pos());
+
+			remain->addAnimation(anim);
+
+			connect(anim, SIGNAL(finished()), newNode, SLOT(showNode()));
+			connect(anim, SIGNAL(finished()), oldNode, SLOT(hideNode()));
+			newNode->hide();
+
+			anim = new QPropertyAnimation(oldNode, "size");
+			anim->setDuration(300);
+			anim->setStartValue(oldNode->size());
+			anim->setEndValue(newNode->size());
+
+			remain->addAnimation(anim);
+
+			if (newNode->isAccessNode() && newNode->getSubNodes().size() == 0 && oldNode->getSubNodes().size() > 0)
+			{
+				dynamic_cast<QtGraphNodeAccess*>(oldNode)->hideLabel();
+			}
+		}
+
+		group->addAnimation(remain);
+	}
+
+	// fade in
+	if (appearingNodes.size() || m_edges.size())
+	{
+		QParallelAnimationGroup* appear = new QParallelAnimationGroup();
+
+		for (QtGraphNode* node : appearingNodes)
+		{
+			QPropertyAnimation* anim = new QPropertyAnimation(node, "opacity");
+			anim->setDuration(300);
+			anim->setStartValue(0.0f);
+			anim->setEndValue(1.0f);
+
+			appear->addAnimation(anim);
+
+			connect(anim, SIGNAL(finished()), node, SLOT(blendIn()));
+			node->blendOut();
+		}
+
+		for (std::shared_ptr<QtGraphEdge> edge : m_edges)
+		{
+			QPropertyAnimation* anim = new QPropertyAnimation(edge.get(), "opacity");
+			anim->setDuration(150);
+			anim->setStartValue(0.0f);
+			anim->setEndValue(1.0f);
+
+			appear->addAnimation(anim);
+
+			edge->setOpacity(0.0f);
+		}
+
+		group->addAnimation(appear);
+	}
+
+	connect(group, SIGNAL(finished()), this, SLOT(finishedTransition()));
+	group->start();
 }

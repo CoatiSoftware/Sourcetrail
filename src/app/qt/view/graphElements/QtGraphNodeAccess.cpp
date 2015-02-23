@@ -95,6 +95,16 @@ QtGraphNodeAccess::~QtGraphNodeAccess()
 {
 }
 
+bool QtGraphNodeAccess::isAccessNode() const
+{
+	return true;
+}
+
+TokenComponentAccess::AccessType QtGraphNodeAccess::getAccessType() const
+{
+	return m_access;
+}
+
 void QtGraphNodeAccess::setSize(const Vec2i& size)
 {
 	QtGraphNode::setSize(size);
@@ -105,7 +115,6 @@ void QtGraphNodeAccess::setSize(const Vec2i& size)
 void QtGraphNodeAccess::addSubNode(const std::shared_ptr<QtGraphNode>& node)
 {
 	QtGraphNode::addSubNode(node);
-
 	m_text->show();
 }
 
@@ -117,4 +126,9 @@ void QtGraphNodeAccess::onClick()
 	{
 		MessageGraphNodeExpand(parent->getData()->getId(), m_access).dispatch();
 	}
+}
+
+void QtGraphNodeAccess::hideLabel()
+{
+	m_text->hide();
 }

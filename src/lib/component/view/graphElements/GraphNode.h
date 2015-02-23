@@ -25,6 +25,8 @@ public:
 	const Node* getData() const;
 	void setData(const Node* data);
 
+	virtual bool isAccessNode() const = 0;
+
 	virtual Vec2i getPosition() const = 0;
 	virtual bool setPosition(const Vec2i& position) = 0;
 	virtual void moveTo(const Vec2i& position) = 0;

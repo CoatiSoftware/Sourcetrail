@@ -33,6 +33,14 @@ void QtGraphicsRoundedRectItem::setShadow(QColor color, int blurRadius)
 	this->setGraphicsEffect(effect);
 }
 
+void QtGraphicsRoundedRectItem::setShadowEnabled(bool enabled)
+{
+	if (this->graphicsEffect())
+	{
+		this->graphicsEffect()->setEnabled(enabled);
+	}
+}
+
 void QtGraphicsRoundedRectItem::setRadius(qreal radius)
 {
 	m_radius = radius;

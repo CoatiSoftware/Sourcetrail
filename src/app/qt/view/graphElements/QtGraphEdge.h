@@ -55,9 +55,13 @@ private:
 
 
 class QtGraphEdge
-	: public GraphEdge
+	: public QObject
+	, public GraphEdge
 	, public QGraphicsItemGroup
 {
+	Q_OBJECT
+	Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
+
 public:
 	QtGraphEdge(const std::weak_ptr<GraphNode>& owner, const std::weak_ptr<GraphNode>& target, const Edge* data);
 	virtual ~QtGraphEdge();

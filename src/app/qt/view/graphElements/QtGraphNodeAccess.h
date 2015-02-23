@@ -20,15 +20,17 @@ public:
 		QGraphicsSimpleTextItem* m_number;
 	};
 
-
 	QtGraphNodeAccess(TokenComponentAccess::AccessType accessType, bool expanded, int invisibleSubNodeCount);
 	virtual ~QtGraphNodeAccess();
 
+	virtual bool isAccessNode() const;
+	TokenComponentAccess::AccessType getAccessType() const;
+
 	virtual void setSize(const Vec2i& size);
-
 	virtual void addSubNode(const std::shared_ptr<QtGraphNode>& node);
-
 	virtual void onClick();
+
+	void hideLabel();
 
 private:
 	TokenComponentAccess::AccessType m_access;

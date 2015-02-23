@@ -11,9 +11,22 @@ class QtGraphicsRoundedRectItem;
 class QtGraphNodeComponent;
 
 class QtGraphNode
-	: public GraphNode
+	: public QObject
+	, public GraphNode
 	, public QGraphicsRectItem
 {
+    Q_OBJECT
+    Q_PROPERTY(QPointF pos READ pos WRITE setPos)
+    Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
+    Q_PROPERTY(QSize size READ size WRITE setSize)
+
+public slots:
+	void blendIn();
+	void blendOut();
+
+	void showNode();
+	void hideNode();
+
 public:
 	static QFont getFontForNodeType(Node::NodeType type);
 
@@ -23,6 +36,8 @@ public:
 
 	virtual std::string getName() const;
 	void setName(const std::string& name);
+
+	virtual bool isAccessNode() const;
 
 	virtual Vec2i getPosition() const;
 	virtual bool setPosition(const Vec2i& position);
@@ -40,6 +55,9 @@ public:
 	virtual unsigned int getOutEdgeCount() const;
 	virtual unsigned int getInEdgeCount() const;
 
+	QSize size() const;
+	void setSize(const QSize& size);
+
 	bool getIsActive() const;
 	void setIsActive(bool isActive);
 
@@ -52,6 +70,7 @@ public:
 	virtual void addSubNode(const std::shared_ptr<QtGraphNode>& node);
 
 	void setStyle();
+	void setShadowEnabledRecursive(bool enabled);
 
 	virtual void onClick();
 	void hoverEnter();

@@ -66,8 +66,11 @@ void QtGraphPostprocessor::doPostprocessing(std::list<std::shared_ptr<QtGraphNod
 
 void QtGraphPostprocessor::allignNodeOnRaster(QtGraphNode* node)
 {
-	Vec2i position = node->getPosition();
+	node->setPosition(alignOnRaster(node->getPosition()));
+}
 
+Vec2i QtGraphPostprocessor::alignOnRaster(Vec2i position)
+{
 	int rasterPosDivisor = s_cellSize + s_cellPadding;
 
 	if(position.x % rasterPosDivisor != 0)
@@ -110,7 +113,7 @@ void QtGraphPostprocessor::allignNodeOnRaster(QtGraphNode* node)
 		position.y = t * rasterPosDivisor;
 	}
 
-	node->setPosition(position);
+	return position;
 }
 
 void QtGraphPostprocessor::resolveOutliers(std::list<std::shared_ptr<QtGraphNode>>& nodes, const Vec2i& centerPoint)

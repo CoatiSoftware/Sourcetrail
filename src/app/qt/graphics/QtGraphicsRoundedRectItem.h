@@ -13,6 +13,7 @@ public:
 	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem* options, QWidget* widget);
 
 	void setShadow(QColor color, int blurRadius);
+	void setShadowEnabled(bool enabled);
 	void setRadius(qreal radius);
 
 private:

@@ -14,6 +14,7 @@ public:
 	static void doPostprocessing(std::list<std::shared_ptr<QtGraphNode>>& nodes);
 
 	static void allignNodeOnRaster(QtGraphNode* node);
+	static Vec2i alignOnRaster(Vec2i position);
 
 private:
 	static unsigned int s_cellSize;
