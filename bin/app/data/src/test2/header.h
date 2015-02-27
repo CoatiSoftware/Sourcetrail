@@ -1,10 +1,14 @@
-template <typename T>
+template <typename T, typename U>
 class TemplateTestClass
 {
-	void run(T param);
+public:
+	template <typename P>
+	void run(P param);
 };
 
-template <typename T>
-void TemplateTestClass<T>::run(T param)
+template <typename T, typename U>
+template <typename P>
+void TemplateTestClass<T, U>::run(P param)
 {
 }
+

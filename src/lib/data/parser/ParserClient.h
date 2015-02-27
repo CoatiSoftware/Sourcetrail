@@ -106,13 +106,13 @@ public:
 	virtual Id onTemplateDefaultArgumentTypeParsed(
 		const ParseTypeUsage& type,	const std::vector<std::string>& templateArgumentTypeNameHierarchy) = 0;
 	virtual Id onTemplateRecordParameterTypeParsed(
-		const ParseLocation& location, const std::string& templateParameterTypeName,
+		const ParseLocation& location, const std::vector<std::string>& templateParameterTypeNameHierarchy,
 		const std::vector<std::string>& templateRecordNameHierarchy) = 0;
 	virtual Id onTemplateRecordSpecializationParsed(
 		const ParseLocation& location, const std::vector<std::string>& specializedRecordNameHierarchy,
 		const RecordType specializedRecordType, const std::vector<std::string>& specializedFromNameHierarchy) = 0;
 	virtual Id onTemplateFunctionParameterTypeParsed(
-		const ParseLocation& location, const std::string& templateParameterTypeName,
+		const ParseLocation& location, const std::vector<std::string>& templateParameterTypeNameHierarchy,
 		const ParseFunction function) = 0;
 	virtual Id onTemplateFunctionSpecializationParsed(
 		const ParseLocation& location, const ParseFunction specializedFunction, const ParseFunction templateFunction) = 0;

@@ -534,13 +534,11 @@ Id Storage::onTemplateDefaultArgumentTypeParsed(
 }
 
 Id Storage::onTemplateRecordParameterTypeParsed(
-	const ParseLocation& location, const std::string& templateParameterTypeName,
+	const ParseLocation& location, const std::vector<std::string>& templateParameterTypeNameHierarchy,
 	const std::vector<std::string>& templateRecordNameHierarchy
 ){
-	log("template record type parameter", templateParameterTypeName, location);
+	log("template record type parameter", utility::join(templateParameterTypeNameHierarchy, "::"), location);
 
-	std::vector<std::string> templateParameterTypeNameHierarchy = templateRecordNameHierarchy;
-	templateParameterTypeNameHierarchy.back() += "::" + templateParameterTypeName;
 	Node* templateParameterNode = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
 	addTokenLocation(templateParameterNode, location);
 
@@ -576,12 +574,10 @@ Id Storage::onTemplateRecordSpecializationParsed(
 }
 
 Id Storage::onTemplateFunctionParameterTypeParsed(
-	const ParseLocation& location, const std::string& templateParameterTypeName, const ParseFunction function
+	const ParseLocation& location, const std::vector<std::string>& templateParameterTypeNameHierarchy, const ParseFunction function
 ){
-	log("template function type parameter", templateParameterTypeName, location);
+	log("template function type parameter", utility::join(templateParameterTypeNameHierarchy, "::"), location);
 
-	std::vector<std::string> templateParameterTypeNameHierarchy;
-	templateParameterTypeNameHierarchy.push_back(function.getFullName() + "::"+ templateParameterTypeName);
 	Node* templateParameterNode = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
 	addTokenLocation(templateParameterNode, location);
 

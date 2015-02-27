@@ -105,17 +105,24 @@ namespace utility
 				}
 			case clang::Type::TemplateTypeParm:
 				{
-					clang::PrintingPolicy pp = clang::PrintingPolicy(clang::LangOptions());
-					pp.SuppressTagKeyword = true;	// value "true": for a class A it prints "A" instead of "class A"
-					pp.Bool = true;					// value "true": prints bool type as "bool" instead of "_Bool"
-					std::string typeName = qualType.getUnqualifiedType().getAsString(pp);
-
 					clang::TemplateTypeParmDecl* templateTypeParmDecl = clang::dyn_cast<clang::TemplateTypeParmType>(qualType)->getDecl();
-					typeNameHerarchy = getContextNameHierarchy(templateTypeParmDecl->getDeclContext());
+					std::string typeName = getDeclName(templateTypeParmDecl);
+
+					clang::ASTContext& astContext = templateTypeParmDecl->getASTContext();
+					llvm::ArrayRef<clang::ast_type_traits::DynTypedNode> parents = astContext.getParents<clang::Decl>(*(clang::dyn_cast<clang::Decl>(templateTypeParmDecl)));
+					if (parents.size() > 0) // usually this list contains just one parent node.
+					{
+						const clang::Decl* parentNode = parents[0].get<clang::Decl>(); // use the fist parent node.
+						if (clang::isa<clang::NamedDecl>(parentNode))
+						{
+							const clang::NamedDecl* parentNamedDecl = clang::dyn_cast<clang::NamedDecl>(parentNode);
+							typeNameHerarchy = getDeclNameHierarchy(parentNamedDecl);
+						}
+					}
 					if (typeNameHerarchy.size() == 0)
 					{
-						int gogo = 0;
-						typeNameHerarchy.push_back(typeName); // HOT: fix this one! definition of template function outside of class scope!
+						LOG_ERROR("Unable to resolve type name hierarchy for template parameter \"" + typeName + "\"");
+						typeNameHerarchy.push_back(typeName);
 					}
 					else
 					{
@@ -165,7 +172,7 @@ namespace utility
 			}
 			else
 			{
-				LOG_ERROR("unhandled declaration type");
+				LOG_ERROR("unhandled declaration type: " + std::string(declaration->getDeclKindName()));
 			}
 			contextNameHierarchy = getContextNameHierarchy(declaration->getDeclContext());
 			if (clang::isa<clang::TemplateTypeParmDecl>(declaration))

@@ -305,7 +305,7 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 			{
 				m_client->onTemplateRecordParameterTypeParsed(
 					getParseLocationForNamedDecl(namedDecl),
-					namedDecl->getNameAsString(),
+					utility::getDeclNameHierarchy(namedDecl),
 					templateRecordNameHierarchy
 				);
 			}
@@ -369,7 +369,7 @@ bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplat
 			{
 				m_client->onTemplateRecordParameterTypeParsed(
 					getParseLocationForNamedDecl(namedDecl),
-					namedDecl->getNameAsString(),
+					utility::getDeclNameHierarchy(namedDecl),
 					specializedRecordNameHierarchy
 				);
 			}
@@ -402,11 +402,11 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 
 			if (isLocatedInMainFile(namedDecl))
 			{
-				std::string templateParameterTypeName = namedDecl->getNameAsString();
+				std::vector<std::string> templateParameterTypeNameHierarchy = utility::getDeclNameHierarchy(namedDecl);
 
 				m_client->onTemplateFunctionParameterTypeParsed(
 					getParseLocationForNamedDecl(namedDecl),
-					templateParameterTypeName,
+					templateParameterTypeNameHierarchy,
 					templateFunction
 				);
 			}

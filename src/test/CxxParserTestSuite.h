@@ -1211,7 +1211,7 @@ public:
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<T>::T <1:20 1:20>");
 	}
 
-	void test_cxx_parser_finds_template_parameter_type_of_template_class_with_multiple_parameters()
+	void test_cxx_parser_finds_template_parameter_types_of_template_class_with_multiple_parameters()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T, typename U>\n"
@@ -1223,6 +1223,26 @@ public:
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 2);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<T, U>::T <1:20 1:20>");
 		TS_ASSERT_EQUALS(client->templateParameterTypes[1], "A<T, U>::U <1:32 1:32>");
+	}
+
+	void test_cxx_parser_finds_template_parameter_of_template_method_definition_outside_template_class()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"	template <typename U>\n"
+			"	U foo();\n"
+			"};\n"
+			"template <typename T>\n"
+			"template <typename U>\n"
+			"U A<T>::foo()\n"
+			"{}\n"
+		);
+		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 3);
+		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<T>::T <1:20 1:20>");
+		TS_ASSERT_EQUALS(client->templateParameterTypes[1], "A<T>::foo<U>::U <4:21 4:21>");
+		TS_ASSERT_EQUALS(client->templateParameterTypes[2], "A<T>::foo<U>::U <8:20 8:20>");
 	}
 
 	void test_cxx_parser_finds_template_argument_of_implicit_template_specialization()
@@ -1895,11 +1915,11 @@ private:
 		}
 
 		virtual Id onTemplateRecordParameterTypeParsed(
-			const ParseLocation& location, const std::string& templateParameterTypeName,
+			const ParseLocation& location, const std::vector<std::string>& templateParameterTypeNameHierarchy,
 			const std::vector<std::string>& templateRecordNameHierarchy)
 		{
 			templateParameterTypes.push_back(
-				addLocationSuffix(utility::join(templateRecordNameHierarchy, "::") + "::" + templateParameterTypeName, location)
+				addLocationSuffix(utility::join(templateParameterTypeNameHierarchy, "::"), location)
 			);
 			return 0;
 		}
@@ -1916,11 +1936,11 @@ private:
 		}
 
 		virtual Id onTemplateFunctionParameterTypeParsed(
-			const ParseLocation& location, const std::string& templateParameterTypeName,
+			const ParseLocation& location, const std::vector<std::string>& templateParameterTypeNameHierarchy,
 			const ParseFunction function)
 		{
 			templateParameterTypes.push_back(
-				addLocationSuffix(function.getFullName() + "::" + templateParameterTypeName, location)
+				addLocationSuffix(utility::join(templateParameterTypeNameHierarchy, "::"), location)
 			);
 			return 0;
 		}

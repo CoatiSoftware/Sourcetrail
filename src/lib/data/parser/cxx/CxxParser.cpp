@@ -6,47 +6,47 @@
 #include "data/parser/cxx/ASTActionFactory.h"
 #include "data/parser/cxx/CxxDiagnosticConsumer.h"
 
-namespace {
-
-static std::vector<std::string> getSyntaxOnlyToolArgs(const std::vector<std::string> &ExtraArgs, llvm::StringRef FileName)
+namespace
 {
-	std::vector<std::string> Args;
-	Args.push_back("clang-tool");
-	Args.push_back("-fsyntax-only");
-	Args.insert(Args.end(), ExtraArgs.begin(), ExtraArgs.end());
-	Args.push_back(FileName.str());
-	return Args;
-}
-
-// custom implementation of clang::runToolOnCodeWithArgs which also sets our custon DiagnosticConsumer
-static bool runToolOnCodeWithArgs(
-	clang::DiagnosticConsumer* DiagConsumer,
-	clang::FrontendAction *ToolAction,
-	const llvm::Twine &Code,
-	const std::vector<std::string> &Args,
-	const llvm::Twine &FileName = "input.cc",
-	const clang::tooling::FileContentMappings &VirtualMappedFiles = clang::tooling::FileContentMappings()
-){
-	llvm::SmallString<16> FileNameStorage;
-	llvm::StringRef FileNameRef = FileName.toNullTerminatedStringRef(FileNameStorage);
-	llvm::IntrusiveRefCntPtr<clang::FileManager> Files(new clang::FileManager(clang::FileSystemOptions()));
-	clang::tooling::ToolInvocation Invocation(getSyntaxOnlyToolArgs(Args, FileNameRef), ToolAction, Files.get());
-
-	llvm::SmallString<1024> CodeStorage;
-	Invocation.mapVirtualFile(FileNameRef,
-	Code.toNullTerminatedStringRef(CodeStorage));
-
-	for (auto &FilenameWithContent : VirtualMappedFiles)
+	static std::vector<std::string> getSyntaxOnlyToolArgs(const std::vector<std::string> &ExtraArgs, llvm::StringRef FileName)
 	{
-		Invocation.mapVirtualFile(FilenameWithContent.first,
-		FilenameWithContent.second);
+		std::vector<std::string> Args;
+		Args.push_back("clang-tool");
+		Args.push_back("-fsyntax-only");
+		Args.insert(Args.end(), ExtraArgs.begin(), ExtraArgs.end());
+		Args.push_back(FileName.str());
+		return Args;
 	}
 
-	Invocation.setDiagnosticConsumer(DiagConsumer);
+	// custom implementation of clang::runToolOnCodeWithArgs which also sets our custon DiagnosticConsumer
+	static bool runToolOnCodeWithArgs(
+		clang::DiagnosticConsumer* DiagConsumer,
+		clang::FrontendAction *ToolAction,
+		const llvm::Twine &Code,
+		const std::vector<std::string> &Args,
+		const llvm::Twine &FileName = "input.cc",
+		const clang::tooling::FileContentMappings &VirtualMappedFiles = clang::tooling::FileContentMappings()
+	)
+	{
+		llvm::SmallString<16> FileNameStorage;
+		llvm::StringRef FileNameRef = FileName.toNullTerminatedStringRef(FileNameStorage);
+		llvm::IntrusiveRefCntPtr<clang::FileManager> Files(new clang::FileManager(clang::FileSystemOptions()));
+		clang::tooling::ToolInvocation Invocation(getSyntaxOnlyToolArgs(Args, FileNameRef), ToolAction, Files.get());
 
-	return Invocation.run();
-}
+		llvm::SmallString<1024> CodeStorage;
+		Invocation.mapVirtualFile(FileNameRef,
+		Code.toNullTerminatedStringRef(CodeStorage));
 
+		for (auto &FilenameWithContent : VirtualMappedFiles)
+		{
+			Invocation.mapVirtualFile(FilenameWithContent.first,
+			FilenameWithContent.second);
+		}
+
+		Invocation.setDiagnosticConsumer(DiagConsumer);
+
+		return Invocation.run();
+	}
 }
 
 CxxParser::CxxParser(ParserClient* client, FileManager* fileManager)
