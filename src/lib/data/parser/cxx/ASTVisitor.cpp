@@ -331,14 +331,17 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 				getParseLocationForNamedDecl(*it), specializedRecordNameHierarchy, specializedRecordType, specializationParentNameHierarchy
 			);
 
+			std::string specializationFilePath = getParseLocationForNamedDecl(specializationDecl).filePath;
+
 			const clang::TemplateArgumentList &argList = specializationDecl->getTemplateArgs();
 			for (size_t i = 0; i < argList.size(); i++)
 			{
 				std::vector<std::string> argumentNameHierarchy = utility::templateArgumentToDataType(argList.get(i)).getTypeNameHierarchy();
+
 				if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
 				{
 					m_client->onTemplateArgumentParsed(
-						ParseLocation(), // TODO: Find a valid ParseLocation here!
+						ParseLocation(specializationFilePath, 0, 0), // TODO: Find a valid ParseLocation here!
 						argumentNameHierarchy,
 						specializedRecordNameHierarchy
 					);
@@ -457,7 +460,7 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 					const clang::QualType argumentType = argument.getAsType();
 
 					m_client->onTemplateArgumentParsed(
-						ParseLocation(), // TODO: get ParseLocation
+						ParseLocation(specializedFunctionLocation.filePath, 0, 0), // TODO: Find a valid ParseLocation here!
 						utility::qualTypeToDataType(argumentType).getTypeNameHierarchy(),
 						specializedFunction.nameHierarchy);
 				}

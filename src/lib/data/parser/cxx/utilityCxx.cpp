@@ -299,7 +299,9 @@ namespace utility
 		}
 		else if (clang::isa<clang::NamespaceDecl>(declaration) && clang::dyn_cast<clang::NamespaceDecl>(declaration)->isAnonymousNamespace())
 		{
-			declName = "(anonymous namespace)";
+			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
+			declName = "anonymous namespace (" + std::string(presumedBegin.getFilename()) + ")";
 		}
 		return declName;
 	}

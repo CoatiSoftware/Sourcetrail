@@ -310,7 +310,10 @@ Id Storage::onNamespaceParsed(
 	log("namespace", utility::join(nameHierarchy, "::"), location);
 
 	Node* node = addNodeHierarchy(Node::NODE_NAMESPACE, nameHierarchy);
-	addTokenLocation(node, location);
+	if (location.isValid())
+	{
+		addTokenLocation(node, location);
+	}
 	addTokenLocation(node, scopeLocation, true);
 
 	return node->getId();

@@ -213,7 +213,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->functions.size(), 1);
-		TS_ASSERT_EQUALS(client->functions[0], "int (anonymous namespace)::sum(int, int) <3:6 3:8>");
+		TS_ASSERT_EQUALS(client->functions[0], "int anonymous namespace (input.cc)::sum(int, int) <3:6 3:8>");
 	}
 
 	void test_cxx_parser_finds_static_function_in_global_namespace()
@@ -326,7 +326,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->namespaces.size(), 1);
-		TS_ASSERT_EQUALS(client->namespaces[0], "(anonymous namespace) <1:1 3:1>");
+		TS_ASSERT_EQUALS(client->namespaces[0], "anonymous namespace (input.cc) <1:1 3:1>");
 	}
 
 	void test_cxx_parser_finds_nested_named_namespace()
@@ -434,7 +434,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
-		TS_ASSERT_EQUALS(client->typedefs[0], "unsigned int -> (anonymous namespace)::uint <3:23 3:26>");
+		TS_ASSERT_EQUALS(client->typedefs[0], "unsigned int -> anonymous namespace (input.cc)::uint <3:23 3:26>");
 	}
 
 	void test_cxx_parser_finds_typedef_that_uses_type_defined_in_named_namespace()
