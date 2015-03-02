@@ -23,7 +23,6 @@ public:
 
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const = 0;
 	virtual std::vector<Id> getActiveTokenIdsForLocationId(Id locationId) const = 0;
-	virtual std::vector<Id> getLocationIdsForTokenIds(const std::vector<Id>& tokenIds) const = 0;
 
 	virtual std::vector<Id> getTokenIdsForQuery(std::string query) const = 0;
 };

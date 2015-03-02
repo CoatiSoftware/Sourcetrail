@@ -37,7 +37,9 @@ public:
 		NODE_ENUM						= 0x800,
 		NODE_ENUM_CONSTANT				= 0x1000,
 		NODE_TYPEDEF					= 0x2000,
-		NODE_TEMPLATE_PARAMETER_TYPE	= 0x4000
+		NODE_TEMPLATE_PARAMETER_TYPE	= 0x4000,
+
+		NODE_FILE						= 0x8000
 	};
 
 	Node(NodeType type, std::shared_ptr<TokenComponentName> nameComponent);

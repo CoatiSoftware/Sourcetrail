@@ -17,6 +17,8 @@ add_files(
 	data/parser/cxx/CxxDiagnosticConsumer.h
 	data/parser/cxx/CxxParser.cpp
 	data/parser/cxx/CxxParser.h
+	data/parser/cxx/PreprocessorCallbacks.cpp
+	data/parser/cxx/PreprocessorCallbacks.h
 	data/parser/cxx/utilityCxx.cpp
 	data/parser/cxx/utilityCxx.h
 )

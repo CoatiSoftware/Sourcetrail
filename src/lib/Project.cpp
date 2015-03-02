@@ -84,33 +84,42 @@ void Project::parseCode()
 	{
 		std::vector<std::string> includePaths;
 		includePaths.push_back(sourcePath);
+
+		// TODO: move this creation to another place (after projectsettings have been loaded)
 		if (!m_fileManager)
 		{
 			std::vector<std::string> sourcePaths;
 			sourcePaths.push_back(sourcePath);
+
 			std::vector<std::string> sourceExtensions;
 			sourceExtensions.push_back(".cpp");
 			sourceExtensions.push_back(".cc");
+
 			std::vector<std::string> includeExtensions;
 			includeExtensions.push_back(".h");
 			includeExtensions.push_back(".hpp");
-			m_fileManager = std::make_shared<FileManager>(sourcePaths, includePaths, sourceExtensions, includeExtensions); // todo: move this creation to another place (after projectsettings have been loaded)
+
+			m_fileManager = std::make_shared<FileManager>(sourcePaths, includePaths, sourceExtensions, includeExtensions);
 		}
 
 		m_fileManager->fetchFilePaths();
-		std::vector<std::string> addedFilePaths = m_fileManager->getAddedFilePaths();
-		std::vector<std::string> updatedFilePaths = m_fileManager->getUpdatedFilePaths();
-		std::vector<std::string> removedFilePaths = m_fileManager->getRemovedFilePaths();
+		std::set<std::string> addedFilePaths = m_fileManager->getAddedFilePaths();
+		std::set<std::string> updatedFilePaths = m_fileManager->getUpdatedFilePaths();
+		std::set<std::string> removedFilePaths = m_fileManager->getRemovedFilePaths();
 
-		m_storage->clearFileData(addedFilePaths);
+		std::set<std::string> dependingFilePaths;
+		dependingFilePaths = m_storage->getDependingFilePathsAndRemoveFileNodes(updatedFilePaths);
+		updatedFilePaths.insert(dependingFilePaths.begin(), dependingFilePaths.end());
+
+		dependingFilePaths = m_storage->getDependingFilePathsAndRemoveFileNodes(removedFilePaths);
+		updatedFilePaths.insert(dependingFilePaths.begin(), dependingFilePaths.end());
+
 		m_storage->clearFileData(updatedFilePaths);
 		m_storage->clearFileData(removedFilePaths);
 
-		std::vector<std::string> filesToParse = addedFilePaths;
-		for (std::string updatedFilePath: updatedFilePaths)
-		{
-			filesToParse.push_back(updatedFilePath);
-		}
+		std::vector<std::string> filesToParse;
+		filesToParse.insert(filesToParse.end(), addedFilePaths.begin(), addedFilePaths.end());
+		filesToParse.insert(filesToParse.end(), updatedFilePaths.begin(), updatedFilePaths.end());
 
 		if (filesToParse.size() == 0)
 		{

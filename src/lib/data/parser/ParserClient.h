@@ -116,6 +116,10 @@ public:
 		const ParseFunction function) = 0;
 	virtual Id onTemplateFunctionSpecializationParsed(
 		const ParseLocation& location, const ParseFunction specializedFunction, const ParseFunction templateFunction) = 0;
+
+	virtual Id onFileParsed(const std::string& filePath) = 0;
+	virtual Id onFileIncludeParsed(
+		const ParseLocation& location, const std::string& filePath, const std::string& includedPath) = 0;
 };
 
 #endif // PARSER_CLIENT_H

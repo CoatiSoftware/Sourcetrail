@@ -2,12 +2,14 @@
 
 #include <sstream>
 
+#include "utility/file/FileSystem.h"
+#include "utility/logging/logging.h"
+
 #include "data/graph/token_component/TokenComponentAbstraction.h"
 #include "data/graph/token_component/TokenComponentConst.h"
 #include "data/graph/token_component/TokenComponentName.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
 #include "data/graph/token_component/TokenComponentSignature.h"
-#include "utility/logging/logging.h"
 
 Node::Node(NodeType type, std::shared_ptr<TokenComponentName> nameComponent)
 	: m_type(type)
@@ -50,7 +52,14 @@ bool Node::isType(NodeTypeMask mask) const
 
 std::string Node::getName() const
 {
-	return m_nameComponent->getName();
+	if (isType(NODE_FILE))
+	{
+		return FileSystem::fileName(m_nameComponent->getName());
+	}
+	else
+	{
+		return m_nameComponent->getName();
+	}
 }
 
 std::string Node::getFullName() const
@@ -342,6 +351,8 @@ std::string Node::getTypeString(NodeType type) const
 		return "typedef";
 	case NODE_TEMPLATE_PARAMETER_TYPE:
 		return "template parameter type";
+	case NODE_FILE:
+		return "file";
 	}
 	return "";
 }

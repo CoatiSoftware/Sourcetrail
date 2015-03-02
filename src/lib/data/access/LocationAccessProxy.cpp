@@ -29,11 +29,11 @@ void LocationAccessProxy::setSubject(LocationAccess* subject)
 	m_subject = subject;
 }
 
-TokenLocationCollection LocationAccessProxy::getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const
+TokenLocationCollection LocationAccessProxy::getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getTokenLocationsForLocationIds(locationIds);
+		return m_subject->getTokenLocationsForTokenIds(tokenIds);
 	}
 
 	return TokenLocationCollection();

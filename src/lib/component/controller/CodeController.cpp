@@ -96,8 +96,7 @@ CodeView* CodeController::getView()
 std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTokenIds(
 	const std::vector<Id>& ids, Id declarationId
 ) const {
-	std::vector<Id> locationIds = m_graphAccess->getLocationIdsForTokenIds(ids);
-	TokenLocationCollection collection = m_locationAccess->getTokenLocationsForLocationIds(locationIds);
+	TokenLocationCollection collection = m_locationAccess->getTokenLocationsForTokenIds(ids);
 
 	std::vector<CodeView::CodeSnippetParams> snippets;
 

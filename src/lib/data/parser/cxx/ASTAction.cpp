@@ -1,5 +1,9 @@
 #include "data/parser/cxx/ASTAction.h"
 
+#include "clang/Lex/Preprocessor.h"
+
+#include "data/parser/cxx/PreprocessorCallbacks.h"
+
 ASTAction::ASTAction(ParserClient* client, FileManager* fileManager)
 	: m_client(client)
 	, m_fileManager(fileManager)
@@ -13,4 +17,15 @@ ASTAction::~ASTAction()
 std::unique_ptr<clang::ASTConsumer> ASTAction::CreateASTConsumer(clang::CompilerInstance& compiler, llvm::StringRef inFile)
 {
 	return std::unique_ptr<clang::ASTConsumer>(new ASTConsumer(&compiler.getASTContext(), m_client, m_fileManager));
+}
+
+bool ASTAction::BeginSourceFileAction(clang::CompilerInstance& compiler, llvm::StringRef filePath)
+{
+	m_client->onFileParsed(filePath.str());
+
+	clang::Preprocessor& preprocessor = compiler.getPreprocessor();
+	preprocessor.addPPCallbacks(
+		llvm::make_unique<PreprocessorCallbacks>(compiler.getSourceManager(), m_client, m_fileManager));
+
+	return true;
 }

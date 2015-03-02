@@ -32,7 +32,9 @@ public:
 		EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF	= 0x1000,
 		EDGE_TEMPLATE_SPECIALIZATION_OF		= 0x2000,
 
-		EDGE_AGGREGATION					= 0x4000
+		EDGE_INCLUDE						= 0x4000,
+
+		EDGE_AGGREGATION					= 0x8000
 	};
 
 	Edge(EdgeType type, Node* from, Node* to);

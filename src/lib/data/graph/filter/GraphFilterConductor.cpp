@@ -174,6 +174,10 @@ void GraphFilterConductor::filterCommandNode(const QueryCommand* node, const Fil
 		GraphFilterCommandInheritance(false).apply(in, out);
 		break;
 
+	case QueryCommand::COMMAND_FILE:
+		GraphFilterCommandNodeType(Node::NODE_FILE).apply(in, out);
+		break;
+
 	default:
 		LOG_ERROR_STREAM(<< "QueryCommand not supported: " << node->getType());
 		GraphFilter().apply(in, out);

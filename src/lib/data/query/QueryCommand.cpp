@@ -48,6 +48,8 @@ std::map<std::string, QueryCommand::CommandType> QueryCommand::getCommandTypeMap
 	commandMap.emplace("derived", COMMAND_SUB_CLASS);
 	commandMap.emplace("subclass", COMMAND_SUB_CLASS);
 
+	commandMap.emplace("file", COMMAND_FILE);
+
 	return commandMap;
 }
 

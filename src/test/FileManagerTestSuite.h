@@ -20,13 +20,9 @@ public:
 
 		FileManager fm = FileManager(sourcePaths, includePaths, sourceExtensions, includeExtensions);
 
-		std::vector<std::string> addedFilePaths = fm.getAddedFilePaths();
-		std::vector<std::string> updatedFilePaths = fm.getUpdatedFilePaths();
-		std::vector<std::string> removedFilePaths = fm.getRemovedFilePaths();
-
-		TS_ASSERT_EQUALS(addedFilePaths.size(), 0);
-		TS_ASSERT_EQUALS(updatedFilePaths.size(), 0);
-		TS_ASSERT_EQUALS(removedFilePaths.size(), 0);
+		TS_ASSERT_EQUALS(fm.getAddedFilePaths().size(), 0);
+		TS_ASSERT_EQUALS(fm.getUpdatedFilePaths().size(), 0);
+		TS_ASSERT_EQUALS(fm.getRemovedFilePaths().size(), 0);
 	}
 
 	void test_file_manager_has_added_file_paths_after_first_fetch()
@@ -45,11 +41,7 @@ public:
 		FileManager fm = FileManager(sourcePaths, includePaths, sourceExtensions, includeExtensions);
 		fm.fetchFilePaths();
 
-		std::vector<std::string> addedFilePaths = fm.getAddedFilePaths();
-		std::vector<std::string> updatedFilePaths = fm.getUpdatedFilePaths();
-		std::vector<std::string> removedFilePaths = fm.getRemovedFilePaths();
-
-		TS_ASSERT_EQUALS(addedFilePaths.size(), 4);
+		TS_ASSERT_EQUALS(fm.getAddedFilePaths().size(), 4);
 	}
 
 	void test_file_manager_has_no_added_file_paths_after_second_fetch()
@@ -69,11 +61,7 @@ public:
 		fm.fetchFilePaths();
 		fm.fetchFilePaths();
 
-		std::vector<std::string> addedFilePaths = fm.getAddedFilePaths();
-		std::vector<std::string> updatedFilePaths = fm.getUpdatedFilePaths();
-		std::vector<std::string> removedFilePaths = fm.getRemovedFilePaths();
-
-		TS_ASSERT_EQUALS(addedFilePaths.size(), 0);
+		TS_ASSERT_EQUALS(fm.getAddedFilePaths().size(), 0);
 	}
 
 	void test_file_manager_has_updated_file_paths_after_second_fetch()
@@ -99,12 +87,8 @@ public:
 
 		fm.fetchFilePaths();
 
-		std::vector<std::string> addedFilePaths = fm.getAddedFilePaths();
-		std::vector<std::string> updatedFilePaths = fm.getUpdatedFilePaths();
-		std::vector<std::string> removedFilePaths = fm.getRemovedFilePaths();
-
-		TS_ASSERT_EQUALS(addedFilePaths.size(), 0);
-		TS_ASSERT_EQUALS(updatedFilePaths.size(), 1);
-		TS_ASSERT_EQUALS(removedFilePaths.size(), 0);
+		TS_ASSERT_EQUALS(fm.getAddedFilePaths().size(), 0);
+		TS_ASSERT_EQUALS(fm.getUpdatedFilePaths().size(), 1);
+		TS_ASSERT_EQUALS(fm.getRemovedFilePaths().size(), 0);
 	}
 };

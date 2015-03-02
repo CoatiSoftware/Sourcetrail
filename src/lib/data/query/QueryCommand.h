@@ -41,7 +41,9 @@ public:
 		COMMAND_USAGE,
 
 		COMMAND_SUPER_CLASS,
-		COMMAND_SUB_CLASS
+		COMMAND_SUB_CLASS,
+
+		COMMAND_FILE
 	};
 
 	static std::map<std::string, CommandType> getCommandTypeMap();

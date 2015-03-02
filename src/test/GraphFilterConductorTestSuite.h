@@ -11,18 +11,18 @@ public:
 	void test_token_query()
 	{
 		TS_ASSERT_EQUALS(
-			printedFilteredTestGraph("\"main\""),
+			printedFilteredTestGraph("\"_main_\""),
 
-			"1 nodes: function:main\n"
+			"1 nodes: function:_main_\n"
 			"0 edges:\n"
 		);
 	}
 
 	void test_token_query_with_id()
 	{
-		std::set<Id> ids = getIdsForNodeWithName("main");
+		std::set<Id> ids = getIdsForNodeWithName("_main_");
 		std::stringstream ss;
-		ss << "\"main";
+		ss << "\"_main_";
 		for (Id id : ids)
 		{
 			ss << ',' << id;
@@ -30,16 +30,16 @@ public:
 		ss << '"';
 
 		TS_ASSERT_EQUALS(
-			printedFilteredTestGraph(ss.str()), // "main,<id>"
+			printedFilteredTestGraph(ss.str()), // "_main_,<id>"
 
-			"1 nodes: function:main\n"
+			"1 nodes: function:_main_\n"
 			"0 edges:\n"
 		);
 	}
 
 	void test_token_query_with_id_and_wrong_name_uses_id()
 	{
-		std::set<Id> ids = getIdsForNodeWithName("main");
+		std::set<Id> ids = getIdsForNodeWithName("_main_");
 		std::stringstream ss;
 		ss << "\"hello";
 		for (Id id : ids)
@@ -51,7 +51,7 @@ public:
 		TS_ASSERT_EQUALS(
 			printedFilteredTestGraph(ss.str()), // "hello,<id>"
 
-			"1 nodes: function:main\n"
+			"1 nodes: function:_main_\n"
 			"0 edges:\n"
 		);
 	}
@@ -97,13 +97,12 @@ public:
 		TS_ASSERT_EQUALS(
 			printedFilteredTestGraph("!'method'"),
 
-			"7 nodes: "
-				"class:A field:A::count undefined_type:int undefined_type:void class:B function:main "
-				"undefined_function:B::B\n"
-			"14 edges: "
-				"child:A->A::count aggregation:A->int aggregation:A->void type_use:A::count->int inheritance:B->A "
-				"aggregation:B->void aggregation:A->B aggregation:B->int return_type:main->int type_usage:main->B "
-				"child:B->B::B call:main->B::B aggregation:main->B aggregation:main->A\n"
+			"8 nodes: "
+				"file:/Users/ebsi/Documents/masterproject/bin/test/input.cc class:A field:A::count undefined_type:int "
+				"undefined_type:void class:B function:_main_ undefined_function:B::B\n"
+			"14 edges: child:A->A::count aggregation:A->int aggregation:A->void type_use:A::count->int inheritance:B->A "
+				"aggregation:B->void aggregation:A->B aggregation:B->int return_type:_main_->int type_usage:_main_->B "
+				"child:B->B::B call:_main_->B::B aggregation:_main_->B aggregation:_main_->A\n"
 		);
 	}
 
@@ -219,7 +218,7 @@ private:
 			"	}\n"
 			"};\n"
 			"\n"
-			"int main()\n"
+			"int _main_()\n"
 			"{\n"
 			"	B b;\n"
 			"\n"

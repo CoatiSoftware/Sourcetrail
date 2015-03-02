@@ -13,7 +13,7 @@ class LocationAccess
 {
 public:
 	virtual ~LocationAccess();
-	virtual TokenLocationCollection getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const = 0;
+	virtual TokenLocationCollection getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const = 0;
 	virtual TokenLocationFile getTokenLocationsForFile(const std::string& filePath) const = 0;
 	virtual TokenLocationFile getTokenLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber

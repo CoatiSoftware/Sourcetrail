@@ -573,7 +573,9 @@ public:
 		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 4);
 		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 3);
 
-		storage.clearFileData(std::vector<std::string>(1, m_filePath));
+		std::set<std::string> files;
+		files.insert(m_filePath);
+		storage.clearFileData(files);
 
 		TS_ASSERT_EQUALS(storage.graph().getNodeCount(), 0);
 		TS_ASSERT_EQUALS(storage.graph().getEdgeCount(), 0);
@@ -602,7 +604,9 @@ public:
 		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 9);
 		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 6);
 
-		storage.clearFileData(std::vector<std::string>(1, "file.cpp"));
+		std::set<std::string> files;
+		files.insert("file.cpp");
+		storage.clearFileData(files);
 
 		TS_ASSERT_EQUALS(storage.graph().getNodeCount(), 3);
 		TS_ASSERT_EQUALS(storage.graph().getEdgeCount(), 2);
@@ -631,7 +635,9 @@ public:
 		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 9);
 		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 5);
 
-		storage.clearFileData(std::vector<std::string>(1, "file.h"));
+		std::set<std::string> files;
+		files.insert("file.h");
+		storage.clearFileData(files);
 
 		TS_ASSERT_EQUALS(storage.graph().getNodeCount(), 4);
 		TS_ASSERT_EQUALS(storage.graph().getEdgeCount(), 3);
@@ -660,15 +666,74 @@ public:
 		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 9);
 		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 5);
 
-		std::vector<std::string> filePaths;
-		filePaths.push_back("file.cpp");
-		filePaths.push_back("file.h");
+		std::set<std::string> filePaths;
+		filePaths.insert("file.cpp");
+		filePaths.insert("file.h");
 		storage.clearFileData(filePaths);
 
 		TS_ASSERT_EQUALS(storage.graph().getNodeCount(), 0);
 		TS_ASSERT_EQUALS(storage.graph().getEdgeCount(), 0);
 		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 0);
 		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 0);
+	}
+
+	void test_storage_saves_file_nodes()
+	{
+		TestStorage storage;
+
+		Id id = storage.onFileParsed("file.h");
+		Node* node = storage.getNodeWithId(id);
+
+		TS_ASSERT(node);
+		TS_ASSERT_EQUALS(node->getName(), "file.h");
+		TS_ASSERT_EQUALS(node->getType(), Node::NODE_FILE);
+	}
+
+	void test_storage_saves_include_edge()
+	{
+		TestStorage storage;
+
+		storage.onFileParsed("file.h");
+		storage.onFileParsed("file.cpp");
+		Id id = storage.onFileIncludeParsed(validLocation(7), "file.cpp", "file.h");
+
+		Edge* edge = storage.getEdgeWithId(id);
+		TS_ASSERT(edge);
+		TS_ASSERT_EQUALS(edge->getType(), Edge::EDGE_INCLUDE);
+
+		TS_ASSERT_EQUALS(edge->getFrom()->getName(), "file.cpp");
+		TS_ASSERT_EQUALS(edge->getTo()->getName(), "file.h");
+
+		std::vector<TokenLocation*> locations = storage.getLocationsForId(id);
+		TS_ASSERT_EQUALS(locations.size(), 1);
+		TS_ASSERT(isValidLocation(locations[0], 7));
+	}
+
+	void test_storage_finds_and_removes_depending_file_nodes()
+	{
+		TestStorage storage;
+
+		Id id1 = storage.onFileParsed("f.h");
+		Id id2 = storage.onFileParsed("file.h");
+		Id id3 = storage.onFileParsed("file.cpp");
+		Id id4 = storage.onFileIncludeParsed(validLocation(), "file.h", "f.h");
+		Id id5 = storage.onFileIncludeParsed(validLocation(), "file.cpp", "file.h");
+
+		std::string name1 = storage.getNodeWithId(id2)->getFullName();
+		std::string name2 = storage.getNodeWithId(id3)->getFullName();
+
+		std::set<std::string> filePaths;
+		filePaths.insert(name1);
+		std::set<std::string> dependingFilePaths = storage.getDependingFilePathsAndRemoveFileNodes(filePaths);
+
+		TS_ASSERT_EQUALS(dependingFilePaths.size(), 1);
+		TS_ASSERT_EQUALS(*dependingFilePaths.begin(), name2);
+
+		TS_ASSERT(storage.getNodeWithId(id1));
+		TS_ASSERT(!storage.getNodeWithId(id2));
+		TS_ASSERT(!storage.getNodeWithId(id3));
+		TS_ASSERT(!storage.getEdgeWithId(id4));
+		TS_ASSERT(!storage.getEdgeWithId(id5));
 	}
 
 private:

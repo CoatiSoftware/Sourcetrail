@@ -141,6 +141,8 @@ std::string Edge::getTypeString(EdgeType type) const
 		return "template default argument";
 	case EDGE_TEMPLATE_SPECIALIZATION_OF:
 		return "template specialization";
+	case EDGE_INCLUDE:
+		return "include";
 	case EDGE_AGGREGATION:
 		return "aggregation";
 	}
@@ -265,6 +267,13 @@ bool Edge::checkType() const
 
 	case EDGE_TEMPLATE_SPECIALIZATION_OF:
 		if (!m_from->isType(typeMask | functionMask) || !m_to->isType(typeMask | functionMask))
+		{
+			break;
+		}
+		return true;
+
+	case EDGE_INCLUDE:
+		if (!m_from->isType(Node::NODE_FILE) || !m_to->isType(Node::NODE_FILE))
 		{
 			break;
 		}

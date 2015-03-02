@@ -23,7 +23,8 @@ public:
 	virtual ~Storage();
 
 	void clear();
-	void clearFileData(const std::vector<std::string>& filePaths);
+	void clearFileData(const std::set<std::string>& filePaths);
+	std::set<std::string> getDependingFilePathsAndRemoveFileNodes(const std::set<std::string>& filePaths);
 
 	void logGraph() const;
 	void logLocations() const;
@@ -100,6 +101,10 @@ public:
 	virtual Id onTemplateFunctionSpecializationParsed(
 		const ParseLocation& location, const ParseFunction specializedFunction, const ParseFunction templateFunction);
 
+	virtual Id onFileParsed(const std::string& filePath);
+	virtual Id onFileIncludeParsed(
+		const ParseLocation& location, const std::string& filePath, const std::string& includedPath);
+
 	// GraphAccess implementation
 	virtual Id getIdForNodeWithName(const std::string& fullName) const;
 	virtual std::string getNameForNodeWithId(Id id) const;
@@ -110,12 +115,11 @@ public:
 
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const;
 	virtual std::vector<Id> getActiveTokenIdsForLocationId(Id locationId) const;
-	virtual std::vector<Id> getLocationIdsForTokenIds(const std::vector<Id>& tokenIds) const;
 
 	virtual std::vector<Id> getTokenIdsForQuery(std::string query) const;
 
 	// LocationAccess implementation
-	virtual TokenLocationCollection getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const;
+	virtual TokenLocationCollection getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const;
 	virtual TokenLocationFile getTokenLocationsForFile(const std::string& filePath) const;
 	virtual TokenLocationFile getTokenLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
@@ -143,6 +147,7 @@ private:
 
 	bool getQuerySearchResults(const std::string& query, const std::string& word, SearchResults* results) const;
 
+	void addDependingFilePathsAndRemoveFileNodesRecursive(Node* fileNode, std::set<std::string>* filePaths);
 	void removeNodeIfUnreferenced(Node* node);
 
 	void log(std::string type, std::string str, const ParseLocation& location) const;

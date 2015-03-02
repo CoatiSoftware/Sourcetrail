@@ -1709,6 +1709,10 @@ public:
 		TS_ASSERT_EQUALS(client.calls.size(), 2);
 		TS_ASSERT_EQUALS(client.usages.size(), 3);
 		TS_ASSERT_EQUALS(client.typeUses.size(), 8);
+
+		TS_ASSERT_EQUALS(client.files.size(), 2);
+		TS_ASSERT_EQUALS(client.includes.size(), 1);
+		TS_ASSERT_EQUALS(client.includes[0], client.files[1] + " -> " + client.files[0]);
 	}
 
 	void test_cxx_parser_catches_error()
@@ -1954,6 +1958,19 @@ private:
 			return 0;
 		}
 
+		virtual Id onFileParsed(const std::string& filePath)
+		{
+			files.push_back(filePath);
+			return 0;
+		}
+
+		virtual Id onFileIncludeParsed(
+			const ParseLocation& location, const std::string& filePath, const std::string& includedPath)
+		{
+			includes.push_back(filePath + " -> " + includedPath);
+			return 0;
+		}
+
 		std::vector<std::string> errors;
 
 		std::vector<std::string> typedefs;
@@ -1976,6 +1993,9 @@ private:
 		std::vector<std::string> templateArgumentTypes;
 		std::vector<std::string> templateDefaultArgumentTypes;
 		std::vector<std::string> templateSpecializations;
+
+		std::vector<std::string> files;
+		std::vector<std::string> includes;
 
 	private:
 		void addTypeUse(const ParseTypeUsage& use)

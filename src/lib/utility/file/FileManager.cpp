@@ -4,7 +4,6 @@
 #include <set>
 
 #include "utility/file/FileSystem.h"
-#include "ProjectSettings.h"
 
 FileManager::FileManager(
 	std::vector<std::string> sourcePaths,
@@ -37,10 +36,9 @@ void FileManager::fetchFilePaths()
 	m_updatedFiles.clear();
 	m_removedFiles.clear();
 
-	std::set<std::string> removedFileNames;
 	for (std::map<std::string, FileInfo>::iterator it = m_files.begin(); it != m_files.end(); it++)
 	{
-		removedFileNames.insert(it->first);
+		m_removedFiles.insert(it->first);
 	}
 
 	std::vector<std::pair<std::vector<std::string>, std::vector<std::string>>> pathsExtensionsPairs;
@@ -49,51 +47,52 @@ void FileManager::fetchFilePaths()
 
 	for (size_t i = 0; i < pathsExtensionsPairs.size(); i++)
 	{
-		std::vector<FileInfo> fileInfos = FileSystem::getFileInfosFromDirectoryPaths(pathsExtensionsPairs[i].first, pathsExtensionsPairs[i].second);
+		std::vector<FileInfo> fileInfos =
+			FileSystem::getFileInfosFromDirectoryPaths(pathsExtensionsPairs[i].first, pathsExtensionsPairs[i].second);
+
 		for (FileInfo fileInfo: fileInfos)
 		{
 			const std::string& filePath = fileInfo.path;
 			std::map<std::string, FileInfo>::iterator it = m_files.find(filePath);
 			if (it != m_files.end())
 			{
-				removedFileNames.erase(filePath);
+				m_removedFiles.erase(filePath);
 				if (fileInfo.lastWriteTime > it->second.lastWriteTime)
 				{
 					it->second.lastWriteTime = fileInfo.lastWriteTime;
-					m_updatedFiles.push_back(filePath);
+					m_updatedFiles.insert(fileInfo.path);
 				}
 			}
 			else
 			{
 				m_files.insert(std::pair<std::string, FileInfo>(filePath, fileInfo));
-				m_addedFiles.push_back(filePath);
+				m_addedFiles.insert(filePath);
 			}
 		}
 	}
 
-	for (std::set<std::string>::iterator it = removedFileNames.begin(); it != removedFileNames.end(); it++)
+	for (const std::string filePath : m_removedFiles)
 	{
-		m_files.erase(it->data());
-		m_removedFiles.push_back(it->data());
+		m_files.erase(filePath);
 	}
 }
 
-std::vector<std::string> FileManager::getAddedFilePaths() const
+std::set<std::string> FileManager::getAddedFilePaths() const
 {
 	return m_addedFiles;
 }
 
-std::vector<std::string> FileManager::getUpdatedFilePaths() const
+std::set<std::string> FileManager::getUpdatedFilePaths() const
 {
 	return m_updatedFiles;
 }
 
-std::vector<std::string> FileManager::getRemovedFilePaths() const
+std::set<std::string> FileManager::getRemovedFilePaths() const
 {
 	return m_removedFiles;
 }
 
 bool FileManager::hasFilePath(const std::string& filePath) const
 {
-	return (m_files.find(filePath) != m_files.end());
+	return (m_files.find(FileSystem::absoluteFilePath(filePath)) != m_files.end());
 }

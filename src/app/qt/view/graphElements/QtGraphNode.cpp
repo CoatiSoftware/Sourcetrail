@@ -49,6 +49,7 @@ QFont QtGraphNode::getFontForNodeType(Node::NodeType type)
 	case Node::NODE_ENUM:
 	case Node::NODE_TYPEDEF:
 	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
+	case Node::NODE_FILE:
 		font.setPixelSize(14);
 		break;
 
@@ -321,6 +322,7 @@ void QtGraphNode::setStyle()
 	case Node::NODE_ENUM:
 	case Node::NODE_TYPEDEF:
 	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
+	case Node::NODE_FILE:
 		if (m_isActive)
 		{
 			font.setWeight(QFont::Bold);

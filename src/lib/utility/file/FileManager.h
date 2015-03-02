@@ -1,7 +1,7 @@
 #ifndef FILE_MANAGER_H
 #define FILE_MANAGER_H
 
-#include <memory>
+#include <set>
 #include <vector>
 
 #include "FileInfo.h"
@@ -19,9 +19,10 @@ public:
 
 	void reset();
 	void fetchFilePaths();
-	std::vector<std::string> getAddedFilePaths() const;
-	std::vector<std::string> getUpdatedFilePaths() const;
-	std::vector<std::string> getRemovedFilePaths() const;
+
+	std::set<std::string> getAddedFilePaths() const;
+	std::set<std::string> getUpdatedFilePaths() const;
+	std::set<std::string> getRemovedFilePaths() const;
 
 	virtual bool hasFilePath(const std::string& filePath) const;
 
@@ -32,9 +33,9 @@ private:
 	std::vector<std::string> m_includeExtensions;
 
 	std::map<std::string, FileInfo> m_files;
-	std::vector<std::string> m_addedFiles;
-	std::vector<std::string> m_updatedFiles;
-	std::vector<std::string> m_removedFiles;
+	std::set<std::string> m_addedFiles;
+	std::set<std::string> m_updatedFiles;
+	std::set<std::string> m_removedFiles;
 };
 
 #endif // FILE_MANAGER_H

@@ -2,6 +2,7 @@
 
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
+#include "utility/file/FileSystem.h"
 
 #include "data/graph/filter/GraphFilterConductor.h"
 #include "data/graph/token_component/TokenComponentConst.h"
@@ -41,7 +42,7 @@ void Storage::clear()
 	m_errorLocationCollection.clear();
 }
 
-void Storage::clearFileData(const std::vector<std::string>& filePaths)
+void Storage::clearFileData(const std::set<std::string>& filePaths)
 {
 	for (const std::string& filePath : filePaths)
 	{
@@ -96,6 +97,36 @@ void Storage::clearFileData(const std::vector<std::string>& filePaths)
 
 		m_locationCollection.removeTokenLocationFile(file);
 	}
+}
+
+std::set<std::string> Storage::getDependingFilePathsAndRemoveFileNodes(const std::set<std::string>& filePaths)
+{
+	std::set<std::string> dependingFilePaths;
+
+	for (const std::string& filePath : filePaths)
+	{
+		SearchNode* searchNode = m_tokenIndex.getNode(filePath);
+		if (!searchNode || searchNode->getTokenIds().size() != 1)
+		{
+			continue;
+		}
+
+		Node* fileNode = m_graph.getNodeById(searchNode->getFirstTokenId());
+		if (!fileNode->isType(Node::NODE_FILE))
+		{
+			LOG_ERROR("Node is not of type file.");
+			continue;
+		}
+
+		addDependingFilePathsAndRemoveFileNodesRecursive(fileNode, &dependingFilePaths);
+	}
+
+	for (const std::string& path : filePaths)
+	{
+		dependingFilePaths.erase(path);
+	}
+
+	return dependingFilePaths;
 }
 
 void Storage::logGraph() const
@@ -605,6 +636,27 @@ Id Storage::onTemplateFunctionSpecializationParsed(
 	return specializedFunctionNode->getId();
 }
 
+Id Storage::onFileParsed(const std::string& filePath)
+{
+	log("file", filePath, ParseLocation());
+
+	Node* fileNode = addNodeHierarchy(Node::NODE_FILE, std::vector<std::string>(1, FileSystem::absoluteFilePath(filePath)));
+	return fileNode->getId();
+}
+
+Id Storage::onFileIncludeParsed(const ParseLocation& location, const std::string& filePath, const std::string& includedPath)
+{
+	log("include", includedPath, location);
+
+	Node* fileNode = addNodeHierarchy(Node::NODE_FILE, std::vector<std::string>(1, FileSystem::absoluteFilePath(filePath)));
+	Node* includedFileNode = addNodeHierarchy(Node::NODE_FILE, std::vector<std::string>(1, FileSystem::absoluteFilePath(includedPath)));
+
+	Edge* edge = m_graph.createEdge(Edge::EDGE_INCLUDE, fileNode, includedFileNode);
+	addTokenLocation(edge, location);
+
+	return edge->getId();
+}
+
 Id Storage::getIdForNodeWithName(const std::string& fullName) const
 {
 	SearchNode* node = m_tokenIndex.getNode(fullName);
@@ -823,24 +875,6 @@ std::vector<Id> Storage::getActiveTokenIdsForLocationId(Id locationId) const
 	return ret;
 }
 
-std::vector<Id> Storage::getLocationIdsForTokenIds(const std::vector<Id>& tokenIds) const
-{
-	std::vector<Id> ret;
-
-	for (Id tokenId : tokenIds)
-	{
-		Token* token = m_graph.getTokenById(tokenId);
-		if (!token)
-		{
-			continue;
-		}
-
-		ret.insert(ret.end(), token->getLocationIds().begin(), token->getLocationIds().end());
-	}
-
-	return ret;
-}
-
 std::vector<Id> Storage::getTokenIdsForQuery(std::string query) const
 {
 	QueryTree tree(query);
@@ -854,17 +888,43 @@ std::vector<Id> Storage::getTokenIdsForQuery(std::string query) const
 	return outGraph.getTokenIds();
 }
 
-TokenLocationCollection Storage::getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const
+TokenLocationCollection Storage::getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const
 {
 	TokenLocationCollection ret;
 
-	for (Id locationId: locationIds)
+	for (Id tokenId : tokenIds)
 	{
-		TokenLocation* location = m_locationCollection.findTokenLocationById(locationId);
-		if (location->getOtherTokenLocation())
+		Token* token = m_graph.getTokenById(tokenId);
+		if (!token)
 		{
-			ret.addTokenLocationAsPlainCopy(location);
-			ret.addTokenLocationAsPlainCopy(location->getOtherTokenLocation());
+			continue;
+		}
+
+		if (token->isNode() && dynamic_cast<Node*>(token)->isType(Node::NODE_FILE))
+		{
+			TokenLocationFile* locationFile =
+				m_locationCollection.findTokenLocationFileByPath(dynamic_cast<Node*>(token)->getFullName());
+			if (locationFile)
+			{
+				locationFile->forEachTokenLocation(
+					[&ret](TokenLocation* tokenLocation) -> void
+					{
+						ret.addTokenLocationAsPlainCopy(tokenLocation);
+					}
+				);
+			}
+		}
+		else
+		{
+			for (Id locationId: token->getLocationIds())
+			{
+				TokenLocation* location = m_locationCollection.findTokenLocationById(locationId);
+				if (location->getOtherTokenLocation())
+				{
+					ret.addTokenLocationAsPlainCopy(location);
+					ret.addTokenLocationAsPlainCopy(location->getOtherTokenLocation());
+				}
+			}
 		}
 	}
 
@@ -1175,6 +1235,39 @@ bool Storage::getQuerySearchResults(const std::string& query, const std::string&
 	}
 
 	return true;
+}
+
+void Storage::addDependingFilePathsAndRemoveFileNodesRecursive(Node* fileNode, std::set<std::string>* filePaths)
+{
+	bool inserted = filePaths->insert(fileNode->getFullName()).second;
+	if (!inserted)
+	{
+		return;
+	}
+
+	while (true)
+	{
+		Edge* edge = fileNode->findEdgeOfType(Edge::EDGE_INCLUDE);
+		if (!edge)
+		{
+			break;
+		}
+
+		Node* dependantNode = nullptr;
+		if (edge->getTo() == fileNode)
+		{
+			dependantNode = edge->getFrom();
+		}
+
+		m_graph.removeEdge(edge);
+
+		if (dependantNode)
+		{
+			addDependingFilePathsAndRemoveFileNodesRecursive(dependantNode, filePaths);
+		}
+	}
+
+	removeNodeIfUnreferenced(fileNode);
 }
 
 void Storage::removeNodeIfUnreferenced(Node* node)
