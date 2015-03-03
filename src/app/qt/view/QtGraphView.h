@@ -13,6 +13,7 @@
 struct DummyEdge;
 struct DummyNode;
 class QGraphicsView;
+class QSequentialAnimationGroup;
 class QtGraphEdge;
 class QtGraphNode;
 
@@ -77,6 +78,7 @@ private:
 	std::list<std::shared_ptr<QtGraphNode>> m_nodes;
 	std::list<std::shared_ptr<QtGraphNode>> m_oldNodes;
 
+	std::shared_ptr<QSequentialAnimationGroup> m_transition;
 	QPointF m_sceneRectOffset;
 };
 

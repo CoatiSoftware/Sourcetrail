@@ -94,6 +94,8 @@ void QtGraphView::finishedTransition()
 	QGraphicsView* view = getView();
 	view->setInteractive(true);
 
+	m_transition.reset();
+
 	switchToNewGraphData();
 }
 
@@ -375,7 +377,7 @@ void QtGraphView::createTransition()
 	QGraphicsView* view = getView();
 	view->setInteractive(false);
 
-	QSequentialAnimationGroup* group = new QSequentialAnimationGroup();
+	m_transition = std::make_shared<QSequentialAnimationGroup>();
 
 	// fade out
 	if (vanishingNodes.size() || m_oldEdges.size())
@@ -402,7 +404,7 @@ void QtGraphView::createTransition()
 			vanish->addAnimation(anim);
 		}
 
-		group->addAnimation(vanish);
+		m_transition->addAnimation(vanish);
 	}
 
 	// move and scale
@@ -439,7 +441,7 @@ void QtGraphView::createTransition()
 			}
 		}
 
-		group->addAnimation(remain);
+		m_transition->addAnimation(remain);
 	}
 
 	// fade in
@@ -472,9 +474,9 @@ void QtGraphView::createTransition()
 			edge->setOpacity(0.0f);
 		}
 
-		group->addAnimation(appear);
+		m_transition->addAnimation(appear);
 	}
 
-	connect(group, SIGNAL(finished()), this, SLOT(finishedTransition()));
-	group->start();
+	connect(m_transition.get(), SIGNAL(finished()), this, SLOT(finishedTransition()));
+	m_transition->start();
 }
