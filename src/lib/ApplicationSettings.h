@@ -5,6 +5,8 @@
 
 #include "Settings.h"
 #include "utility/math/Color.h"
+#include "data/graph/Node.h"
+#include "data/query/QueryNode.h"
 
 class ApplicationSettings: public Settings
 {
@@ -33,6 +35,12 @@ public:
 
 	Colori getCodeActiveLinkColor() const;
 	void setCodeActiveLinkColor(Colori color);
+
+	std::string getNodeTypeColor(Node::NodeType type, const std::string& state = "normal") const;
+	void setNodeTypeColor(Node::NodeType type, const std::string& color, const std::string& state = "normal");
+
+	std::string getQueryNodeTypeColor(QueryNode::QueryNodeType type , const std::string& state = "normal") const;
+	void setQueryNodeTypeColor(QueryNode::QueryNodeType type, const std::string& color, const std::string& state = "normal");
 
 private:
 	ApplicationSettings();

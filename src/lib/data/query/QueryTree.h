@@ -6,6 +6,7 @@
 #include <ostream>
 #include <string>
 
+#include "data/query/QueryNode.h"
 #include "data/query/QueryOperator.h"
 
 class QueryTree
@@ -13,7 +14,8 @@ class QueryTree
 public:
 	static std::deque<std::string> tokenizeQuery(const std::string& query);
 	static std::string getTokenName(const std::string& token);
-	static std::string getTokenTypeName(const std::string& token);
+	static QueryNode::QueryNodeType getTokenType(const std::string& token);
+	static std::string getTokenTypeName(const QueryNode::QueryNodeType& token);
 
 	QueryTree();
 	QueryTree(const std::string& query);

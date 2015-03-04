@@ -37,6 +37,15 @@ Id GraphAccessProxy::getIdForNodeWithName(const std::string& name) const
 	return 0;
 }
 
+Node::NodeType GraphAccessProxy::getNodeTypeForNodeWithId(Id id) const
+{
+	if(hasSubject())
+	{
+		return m_subject->getNodeTypeForNodeWithId(id);
+	}
+	return Node::NODE_UNDEFINED;
+}
+
 std::string GraphAccessProxy::getNameForNodeWithId(Id id) const
 {
 	if (hasSubject())

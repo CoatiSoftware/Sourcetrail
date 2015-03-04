@@ -3,6 +3,8 @@
 #include <QPainter>
 #include <QScrollBar>
 
+#include "ApplicationSettings.h"
+
 QtAutocompletionModel::QtAutocompletionModel(QObject* parent)
 	: QAbstractTableModel(parent)
 {
@@ -26,7 +28,7 @@ int QtAutocompletionModel::rowCount(const QModelIndex &parent) const
 int QtAutocompletionModel::columnCount(const QModelIndex &parent) const
 {
 	Q_UNUSED(parent);
-	return 3;
+	return 4;
 }
 
 QVariant QtAutocompletionModel::data(const QModelIndex &index, int role) const
@@ -53,6 +55,8 @@ QVariant QtAutocompletionModel::data(const QModelIndex &index, int role) const
 			}
 			return indices;
 		}
+	case 3:
+		return match.nodeType;
 	default:
 		return QVariant();
 	}
@@ -69,7 +73,7 @@ const SearchMatch* QtAutocompletionModel::getSearchMatchAt(int idx) const
 
 
 QtAutocompletionDelegate::QtAutocompletionDelegate(QObject* parent)
-	: QItemDelegate(parent)
+	: QStyledItemDelegate(parent)
 {
 }
 
@@ -79,6 +83,8 @@ QtAutocompletionDelegate::~QtAutocompletionDelegate()
 
 void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
+    painter->save();
+
 	if (option.state & QStyle::State_Selected)
 	{
 		painter->fillRect(option.rect, option.palette.color(QPalette::Highlight));
@@ -92,12 +98,19 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 	float charWidth = option.fontMetrics.width("FontWidth") / 9.0f;
 
 	QString type = index.sibling(index.row(), index.column() + 1).data().toString();
+	QColor color("#FFFFFF");
 
-	QColor color("#FFE47A");
-	if (type.size())
+	Node::NodeType nodeType = static_cast<Node::NodeType>(index.sibling(index.row(), index.column() + 3).data().toInt());
+	if(type.size() && nodeType)
 	{
-		color = QColor("#CC8D91");
+		color = QColor(ApplicationSettings::getInstance()->getNodeTypeColor(nodeType).c_str());
 	}
+	else
+	{
+		color = QColor(ApplicationSettings::getInstance()->getQueryNodeTypeColor(QueryNode::QUERYNODETYPE_COMMAND).c_str());
+	}
+
+
 
 	QList<QVariant> indices = index.sibling(index.row(), index.column() + 2).data().toList();
 	if (indices.size())
@@ -146,8 +159,16 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 		painter->setFont(font);
 		painter->setPen(pen);
 	}
+
+	painter->restore();
 }
 
+QSize QtAutocompletionDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const
+{
+	QString name = index.data().toString();
+	QString type = index.sibling(index.row(), index.column() + 1).data().toString();
+	return QSize( option.fontMetrics.width(name+type)+5, option.fontMetrics.height());
+}
 
 QtAutocompletionList::QtAutocompletionList(QWidget* parent)
 	: QCompleter(parent)
@@ -172,6 +193,7 @@ QtAutocompletionList::~QtAutocompletionList()
 {
 }
 
+
 void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<SearchMatch>& autocompletionList)
 {
 	m_model->setMatchList(autocompletionList);
@@ -191,6 +213,7 @@ void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<Searc
 	list->setCurrentIndex(index);
 
 	complete(QRect(pos.x(), pos.y(), minSize.width(), 1));
+	//complete();
 
 	QRect rect = list->visualRect(index);
 	minSize.setHeight(std::min(minSize.height(), m_model->rowCount(index) * rect.height() + 16));

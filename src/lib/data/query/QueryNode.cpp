@@ -1,7 +1,8 @@
 #include "data/query/QueryNode.h"
 
-QueryNode::QueryNode()
-	: m_isGroup(false)
+QueryNode::QueryNode(QueryNodeType queryNodeType)
+	: m_nodeType(queryNodeType)
+	, m_isGroup(false)
 	, m_isComplete(true)
 {
 }
@@ -55,4 +56,29 @@ bool QueryNode::isComplete() const
 void QueryNode::setIsComplete(bool isComplete)
 {
 	m_isComplete = isComplete;
+}
+
+QueryNode::QueryNodeType QueryNode::getQueryNodeType() const
+{
+	return m_nodeType;
+}
+
+std::string QueryNode::queryNodeTypeToString(const QueryNodeType& type)
+{
+	switch(type)
+	{
+		case QUERYNODETYPE_NONE:
+			return "none";
+		case QUERYNODETYPE_COMMAND:
+			return "command";
+		case QUERYNODETYPE_TOKEN:
+			return "token";
+		case QUERYNODETYPE_OPERATOR:
+			return "operator";
+	}
+}
+
+std::string QueryNode::getQueryNodeTypeAsString() const
+{
+	return queryNodeTypeToString(m_nodeType);
 }

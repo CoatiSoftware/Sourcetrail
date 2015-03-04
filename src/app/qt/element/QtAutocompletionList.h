@@ -6,7 +6,7 @@
 
 #include <QAbstractTableModel>
 #include <QCompleter>
-#include <QItemDelegate>
+#include <QStyledItemDelegate>
 #include <QListView>
 
 #include "data/search/SearchMatch.h"
@@ -35,13 +35,14 @@ private:
 
 
 class QtAutocompletionDelegate
-	: public QItemDelegate
+	: public QStyledItemDelegate
 {
 public:
 	explicit QtAutocompletionDelegate(QObject* parent = 0);
 	virtual ~QtAutocompletionDelegate();
 
 	virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
+	virtual QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
 };
 
 

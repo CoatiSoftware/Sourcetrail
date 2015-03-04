@@ -15,6 +15,7 @@ public:
 	virtual std::string getName() const;
 
 	virtual void setText(const std::string& s) = 0;
+	virtual void setMatch(const SearchMatch& m) = 0;
 	virtual void setFocus() = 0;
 	virtual void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList) = 0;
 

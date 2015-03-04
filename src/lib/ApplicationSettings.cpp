@@ -83,6 +83,31 @@ void ApplicationSettings::setCodeActiveLinkColor(Colori color)
 	setValue<std::string>("code/ActiveLinkColor", color.toString());
 }
 
+std::string ApplicationSettings::getNodeTypeColor(Node::NodeType type, const std::string& state) const
+{
+	std::string path = "colors/" + Node::getTypeString(type) + "/" + state;
+	return getValue<std::string>(path, "#FFFFFF");
+}
+
+void ApplicationSettings::setNodeTypeColor(Node::NodeType type, const std::string& color, const std::string& state)
+{
+	std::string path = "colors/" + Node::getTypeString(type) + "/" + state;
+	setValue<std::string>(path, color);
+}
+
+std::string ApplicationSettings::getQueryNodeTypeColor(QueryNode::QueryNodeType type, const std::string& state) const
+{
+	std::string path = "colors/" + QueryNode::queryNodeTypeToString(type) + "/" + state;
+	return getValue<std::string>(path, "#FFFFFF");
+}
+
+void ApplicationSettings::setQueryNodeTypeColor(QueryNode::QueryNodeType type,
+	const std::string& color, const std::string& state)
+{
+	std::string path = "colors/" + QueryNode::queryNodeTypeToString(type) + "/" + state;
+	setValue<std::string>(path, color);
+}
+
 ApplicationSettings::ApplicationSettings()
 {
 }

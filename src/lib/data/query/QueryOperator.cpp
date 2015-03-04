@@ -56,7 +56,8 @@ char QueryOperator::getOperator(OperatorType t)
 }
 
 QueryOperator::QueryOperator(OperatorType type, bool isImplicit)
-	: m_type(type)
+	: QueryNode(QueryNode::QUERYNODETYPE_OPERATOR)
+	, m_type(type)
 	, m_isImplicit(isImplicit)
 {
 }

@@ -54,7 +54,8 @@ std::map<std::string, QueryCommand::CommandType> QueryCommand::getCommandTypeMap
 }
 
 QueryCommand::QueryCommand(std::string name)
-	: m_type(COMMAND_INVALID)
+	: QueryNode(QueryNode::QUERYNODETYPE_COMMAND)
+	, m_type(COMMAND_INVALID)
 {
 	name.erase(std::remove(name.begin(), name.end(), BOUNDARY), name.end());
 	m_name = name;

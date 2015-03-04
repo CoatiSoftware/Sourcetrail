@@ -42,6 +42,8 @@ public:
 		NODE_FILE						= 0x8000
 	};
 
+	static std::string getTypeString(NodeType type);
+
 	Node(NodeType type, std::shared_ptr<TokenComponentName> nameComponent);
 	Node(const Node& other);
 	virtual ~Node();
@@ -85,7 +87,6 @@ public:
 	void addComponentSignature(std::shared_ptr<TokenComponentSignature> component);
 
 	// Logging.
-	std::string getTypeString(NodeType type) const;
 	virtual std::string getTypeString() const;
 	std::string getAsString() const;
 

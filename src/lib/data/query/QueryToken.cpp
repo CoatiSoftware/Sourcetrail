@@ -6,6 +6,7 @@
 #include "utility/utilityString.h"
 
 QueryToken::QueryToken(std::string name)
+	: QueryNode(QueryNode::QUERYNODETYPE_TOKEN)
 {
 	name.erase(std::remove(name.begin(), name.end(), BOUNDARY), name.end());
 	std::deque<std::string> names = utility::split(name, DELIMITER);

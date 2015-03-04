@@ -6,36 +6,3 @@ QPushButton {
 	padding-left: 4px;
 	padding-right: 4px;
 }
-
-#search_element_token {
-	background-color: #CC8D91;
-}
-
-#search_element_token:checked, #search_element_token:hover {
-	background-color: #CC5E69;
-}
-
-#search_element_command {
-	background-color: #FFE47A;
-}
-
-#search_element_command:checked, #search_element_command:hover {
-	background-color: #FFCC00;
-}
-
-#search_element_operator {
-	background-color: #FCA47E;
-}
-
-#search_element_operator:checked, #search_element_operator:hover {
-	background-color: #F97A4E;
-}
-
-#search_element_none {
-	background-color: none;
-	color: #878787;
-}
-
-#search_element_none:checked, #search_element_none:hover {
-	color: black;
-}

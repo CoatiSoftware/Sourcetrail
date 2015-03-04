@@ -6,6 +6,9 @@
 #include <QClipboard>
 #include <QKeyEvent>
 
+#include "ApplicationSettings.h"
+
+#include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageSearchAutocomplete.h"
 #include "utility/text/TextAccess.h"
@@ -13,6 +16,8 @@
 
 #include "data/query/QueryTree.h"
 #include "qt/element/QtAutocompletionList.h"
+
+#include <iostream>
 
 QtQueryElement::QtQueryElement(const QString& text, QWidget* parent)
 	: QPushButton(text, parent)
@@ -31,7 +36,8 @@ void QtQueryElement::onChecked(bool)
 void QtSmartSearchBox::search()
 {
 	editTextToElement();
-	MessageSearch(utility::join(m_tokens, "") + text().toStdString()).dispatch();
+	LOG_INFO(utility::join(SearchMatch::searchMatchDequeToStringDeque(m_tokens), "")+ text().toStdString());
+	MessageSearch(utility::join(SearchMatch::searchMatchDequeToStringDeque(m_tokens), "") + text().toStdString()).dispatch();
 }
 
 QtSmartSearchBox::QtSmartSearchBox(QWidget* parent)
@@ -72,10 +78,19 @@ void QtSmartSearchBox::setAutocompletionList(const std::vector<SearchMatch>& aut
 	}
 }
 
+void QtSmartSearchBox::setQuery(const SearchMatch& match)
+{
+	clearLineEdit();
+	m_tokens.clear();
+	m_tokens.push_back(match);
+	m_cursorIndex = m_tokens.size();
+	updateElements();
+}
+
 void QtSmartSearchBox::setQuery(const std::string& text)
 {
 	clearLineEdit();
-	m_tokens = QueryTree::tokenizeQuery(text);
+	m_tokens = SearchMatch::stringDequeToSearchMatchDeque(QueryTree::tokenizeQuery(text));
 	m_cursorIndex = m_tokens.size();
 
 	updateElements();
@@ -343,24 +358,25 @@ void QtSmartSearchBox::onTextEdited(const QString& text)
 
 	bool tokensChanged = false;
 
-	std::string token;
-	std::deque<std::string> tokens = QueryTree::tokenizeQuery(text.toStdString());
+	SearchMatch token;
+	std::deque<SearchMatch> tokens = SearchMatch::stringDequeToSearchMatchDeque(QueryTree::tokenizeQuery(text.toStdString()));
+
 	while (tokens.size())
 	{
 		token = tokens.front();
 		tokens.pop_front();
 
-		if (tokens.size() || QueryTree::getTokenTypeName(token) != "none")
+		if (tokens.size() || token.queryNodeType != QueryNode::QUERYNODETYPE_NONE)
 		{
-			textToToken(token);
-			token.clear();
+			matchToToken(token);
+			token.decodeFromQuery("");
 			tokensChanged = true;
 		}
 	}
 
 	if (tokensChanged)
 	{
-		setEditText(QString::fromStdString(token));
+		setEditText(QString::fromStdString(token.fullName));
 		updateElements();
 	}
 	else
@@ -368,7 +384,7 @@ void QtSmartSearchBox::onTextEdited(const QString& text)
 		layoutElements();
 	}
 
-	if (token.size() || m_elements.size())
+	if (token.fullName.size() || m_elements.size())
 	{
 		requestAutoCompletions();
 	}
@@ -466,23 +482,25 @@ void QtSmartSearchBox::moveCursorTo(int target)
 	}
 }
 
-void QtSmartSearchBox::textToToken(std::string text)
+
+void QtSmartSearchBox::matchToToken(const SearchMatch& match)
 {
-	if (!text.size())
+	if(!match.fullName.size())
 	{
 		return;
 	}
 
-	if (completer()->popup()->isVisible())
+	const SearchMatch* matchPtr = &match;
+
+	if(completer()->popup()->isVisible())
 	{
-		const SearchMatch* match = dynamic_cast<QtAutocompletionList*>(completer())->getSearchMatchAt(0);
-		if (match && utility::equalsCaseInsensitive(text, match->fullName))
+		const SearchMatch* m = dynamic_cast<QtAutocompletionList*>(completer())->getSearchMatchAt(0);
+		if (m && utility::equalsCaseInsensitive(match.fullName, m->fullName))
 		{
-			text = match->encodeForQuery();
+			matchPtr = m;
 		}
 	}
-
-	m_tokens.insert(m_tokens.begin() + m_cursorIndex, text);
+	m_tokens.insert(m_tokens.begin() + m_cursorIndex, *matchPtr);
 	m_cursorIndex++;
 }
 
@@ -493,8 +511,7 @@ void QtSmartSearchBox::searchMatchToToken(const SearchMatch& match)
 		m_oldText.clear();
 		clearLineEdit();
 
-		std::string name = match.encodeForQuery();
-		textToToken(name);
+		matchToToken(match);
 		updateElements();
 	}
 }
@@ -509,7 +526,7 @@ bool QtSmartSearchBox::editTextToElement()
 {
 	if (text().size())
 	{
-		textToToken(text().toStdString());
+		matchToToken(SearchMatch(text().toStdString()));
 		clearLineEdit();
 		updateElements();
 
@@ -530,7 +547,7 @@ void QtSmartSearchBox::editElement(QtQueryElement* element)
 		}
 	}
 
-	std::string token = QueryTree::getTokenName(m_tokens[m_cursorIndex]);
+	std::string token = m_tokens[m_cursorIndex].fullName;
 	m_tokens.erase(m_tokens.begin() + m_cursorIndex);
 
 	setEditText(QString::fromStdString(token));
@@ -543,16 +560,37 @@ void QtSmartSearchBox::updateElements()
 {
 	m_elements.clear();
 
-	for (const std::string& token : m_tokens)
+	for (const SearchMatch& token : m_tokens)
 	{
-		std::string name = QueryTree::getTokenName(token);
+		std::string name = token.fullName;
 
 		name = utility::replace(name, "&", "&&");
 
 		std::shared_ptr<QtQueryElement> element = std::make_shared<QtQueryElement>(QString::fromStdString(name), this);
 		m_elements.push_back(element);
+		std::string color = "#000000";
+		std::string hoverColor = "#000000";
 
-		element->setObjectName(QString::fromStdString("search_element_" + QueryTree::getTokenTypeName(token)));
+		if(token.queryNodeType == QueryNode::QUERYNODETYPE_TOKEN)
+		{
+			element->setObjectName(QString::fromStdString("search_element_" + token.getNodeTypeAsString()));
+			color = ApplicationSettings::getInstance()->getNodeTypeColor(token.nodeType);
+			hoverColor = ApplicationSettings::getInstance()->getNodeTypeColor(token.nodeType, "hover");
+		}
+		else
+		{
+			element->setObjectName(QString::fromStdString("search_element_" + QueryTree::getTokenTypeName(token.queryNodeType)));
+			color = ApplicationSettings::getInstance()->getQueryNodeTypeColor(token.queryNodeType);
+			hoverColor = ApplicationSettings::getInstance()->getQueryNodeTypeColor(token.queryNodeType, "hover");
+		}
+
+		std::string stylesheet = "QPushButton {background-color:";
+		stylesheet += color;
+		stylesheet += ";}  QPushButton:hover{ background-color:";
+		stylesheet += hoverColor;
+		stylesheet += ";}";
+
+		element->setStyleSheet(stylesheet.c_str());
 
 		connect(element.get(), SIGNAL(wasChecked(QtQueryElement*)), this, SLOT(onElementSelected(QtQueryElement*)));
 	}
@@ -650,7 +688,6 @@ bool QtSmartSearchBox::hasSelectedElements() const
 			return true;
 		}
 	}
-
 	return false;
 }
 
@@ -661,7 +698,7 @@ std::string QtSmartSearchBox::getSelectedString() const
 	{
 		if (m_elements[i]->isChecked())
 		{
-			str += m_tokens[i];
+			str += m_tokens[i].encodeForQuery();
 		}
 	}
 	return str;
@@ -748,7 +785,7 @@ void QtSmartSearchBox::requestAutoCompletions() const
 
 	for (size_t i = 0; i < m_tokens.size() && i < m_cursorIndex; i++)
 	{
-		query += m_tokens[i];
+		query += m_tokens[i].encodeForQuery();
 	}
 
 	MessageSearchAutocomplete(query, text().toStdString()).dispatch();

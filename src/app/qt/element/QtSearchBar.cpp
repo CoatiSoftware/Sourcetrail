@@ -64,6 +64,11 @@ void QtSearchBar::setText(const std::string& text)
 	m_searchBox->setQuery(text);
 }
 
+void QtSearchBar::setMatch(const SearchMatch& match)
+{
+	m_searchBox->setQuery(match);
+}
+
 void QtSearchBar::setFocus()
 {
 	m_searchBox->setFocus();

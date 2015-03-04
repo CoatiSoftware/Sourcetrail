@@ -4,6 +4,8 @@
 #include <QGraphicsSceneEvent>
 #include <QPen>
 
+#include "ApplicationSettings.h"
+
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 
@@ -337,7 +339,7 @@ void QtGraphNode::setStyle()
 			m_rect->setShadow(QColor(0, 0, 0, 128), 5);
 		}
 
-		color = "#ededed";
+		color = ApplicationSettings::getInstance()->getNodeTypeColor(m_data->getType()).c_str();
 		if (m_subNodes.size())
 		{
 			radius = 20.0f;
@@ -359,12 +361,12 @@ void QtGraphNode::setStyle()
 	case Node::NODE_METHOD:
 		if (m_isActive || m_isHovering)
 		{
-			color = "#ffcc00";
+			color = ApplicationSettings::getInstance()->getNodeTypeColor(m_data->getType(), "hover").c_str();
 			font.setWeight(QFont::Bold);
 		}
 		else
 		{
-			color = "#ffe47a";
+			color = ApplicationSettings::getInstance()->getNodeTypeColor(m_data->getType()).c_str();
 		}
 
 		radius = 8.0f;
@@ -380,12 +382,12 @@ void QtGraphNode::setStyle()
 	case Node::NODE_ENUM_CONSTANT:
 		if (m_isActive || m_isHovering)
 		{
-			color = "#62b29d";
+			color = ApplicationSettings::getInstance()->getNodeTypeColor(m_data->getType(), "hover").c_str();
 			font.setWeight(QFont::Bold);
 		}
 		else
 		{
-			color = "#9ab4ad";
+			color = ApplicationSettings::getInstance()->getNodeTypeColor(m_data->getType()).c_str();
 		}
 
 		radius = 8.0f;

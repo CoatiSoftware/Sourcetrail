@@ -317,7 +317,7 @@ void Node::addComponentSignature(std::shared_ptr<TokenComponentSignature> compon
 	}
 }
 
-std::string Node::getTypeString(NodeType type) const
+std::string Node::getTypeString(NodeType type)
 {
 	switch (type)
 	{
@@ -346,11 +346,11 @@ std::string Node::getTypeString(NodeType type) const
 	case NODE_ENUM:
 		return "enum";
 	case NODE_ENUM_CONSTANT:
-		return "enum constant";
+		return "enum_constant";
 	case NODE_TYPEDEF:
 		return "typedef";
 	case NODE_TEMPLATE_PARAMETER_TYPE:
-		return "template parameter type";
+		return "template_parameter_type";
 	case NODE_FILE:
 		return "file";
 	}

@@ -39,6 +39,7 @@ public:
 	virtual ~QtSmartSearchBox();
 
 	void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList);
+	void setQuery(const SearchMatch& match);
 	void setQuery(const std::string& text);
 	void setFocus();
 
@@ -65,7 +66,7 @@ private:
 	void moveCursor(int offset);
 	void moveCursorTo(int goal);
 
-	void textToToken(std::string text);
+	void matchToToken(const SearchMatch& match);
 	void searchMatchToToken(const SearchMatch& match);
 	void setEditText(const QString& text);
 	bool editTextToElement();
@@ -90,7 +91,7 @@ private:
 	bool m_allowTextChange;
 	QString m_oldText;
 
-	std::deque<std::string> m_tokens;
+	std::deque<SearchMatch> m_tokens;
 	std::vector<std::shared_ptr<QtQueryElement>> m_elements;
 
 	size_t m_cursorIndex;

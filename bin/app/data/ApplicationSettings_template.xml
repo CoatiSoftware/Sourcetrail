@@ -22,4 +22,83 @@
 		<ScopeColor><!-- COLOR: color of clickable scopes in the source view --></ScopeColor>
 		<ActiveLinkColor><!-- COLOR: color of active elements or scopes in the source view --></ActiveLinkColor>
 	</code>
+
+
+	<colors>
+		<!-- QueryNodeType -->
+		<command>
+			<normal>#FFE47A</normal>
+			<hover>#FFCC00</hover>
+		</command>
+		<operator>
+			<normal>#FCA47E</normal>
+			<hover>#F97A4E</hover>
+		</operator>
+		<!-- NodeType -->
+		<class>
+			<normal>#ededed</normal>
+			<hover>#dddddd</hover>
+		</class>
+		<struct>
+			<normal>#ededed</normal>
+			<hover>#dddddd</hover>
+		</struct>
+		<enum>
+			<normal>#ededed</normal>
+			<hover>#dddddd</hover>
+		</enum>
+		<function>
+			<normal>#ffe47a</normal>
+			<hover>#ffcc00</hover>
+		</function>
+		<method>
+			<normal>#ffe47a</normal>
+			<hover>#ffcc00</hover>
+		</method>
+		<field>
+			<normal>#9ab4ad</normal>
+			<hover>#62b29d</hover>
+		</field>
+		<global>
+			<normal>#9ab4ad</normal>
+			<hover>#62b29d</hover>
+		</global>
+		<undefined>
+			<normal>#ededed</normal>
+			<hover>#dddddd</hover>
+		</undefined>
+		<undefined_variable>
+			<normal>#ededed</normal>
+			<hover>#dddddd</hover>
+		</undefined_variable>
+		<undefined_function>
+			<normal>#ededed</normal>
+			<hover>#dddddd</hover>
+		</undefined_function>
+		<undefined_type>
+			<normal>#ededed</normal>
+			<hover>#dddddd</hover>
+		</undefined_type>
+		<none>
+			<normal>#ededed</normal>
+			<hover>#dddddd</hover>
+		</none>
+		<namespace>
+			<normal>#ededed</normal>
+			<hover>#dddddd</hover>
+		</namespace>
+		<typedef>
+			<normal>#ededed</normal>
+			<hover>#dddddd</hover>
+		</typedef>
+		<enum_constant>
+			<normal>#9ab4ad</normal>
+			<hover>#62b29d</hover>
+		</enum_constant>
+		<template_parameter_type>
+			<normal>#ededed</normal>
+			<hover>#dddddd</hover>
+		</template_parameter_type>
+	}
+	</colors>
 </config>

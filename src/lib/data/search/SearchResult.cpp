@@ -8,6 +8,7 @@ SearchResult::SearchResult()
 {
 }
 
+
 SearchResult::SearchResult(size_t weight, const SearchNode* node, const SearchNode* parent)
 	: weight(weight)
 	, node(node)

@@ -686,6 +686,20 @@ std::string Storage::getNameForNodeWithId(Id id) const
 	}
 }
 
+Node::NodeType Storage::getNodeTypeForNodeWithId(Id id) const
+{
+	Token* token = m_graph.getTokenById(id);
+	if(!token)
+	{
+		return Node::NODE_UNDEFINED;
+	}
+	if(!token->isEdge())
+	{
+		return dynamic_cast<Node*>(token)->getType();
+	}
+	return Node::NODE_UNDEFINED;
+}
+
 std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& query, const std::string& word) const
 {
 	SearchResults tokenResults;
@@ -711,11 +725,17 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 	{
 		if (!match.tokenIds.size())
 		{
+			match.queryNodeType = QueryNode::QUERYNODETYPE_COMMAND;
 			continue;
 		}
 
 		Token* token = m_graph.getTokenById(*match.tokenIds.cbegin());
+		if(!token->isEdge())
+		{
+			match.nodeType = dynamic_cast<Node*>(token)->getType();
+		}
 		match.typeName = token->getTypeString();
+		match.queryNodeType = QueryNode::QUERYNODETYPE_TOKEN;
 	}
 
 	return matches;

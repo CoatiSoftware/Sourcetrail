@@ -67,22 +67,27 @@ std::string QueryTree::getTokenName(const std::string& token)
 	return token;
 }
 
-std::string QueryTree::getTokenTypeName(const std::string& token)
+std::string QueryTree::getTokenTypeName(const QueryNode::QueryNodeType& type)
+{
+	return QueryNode::queryNodeTypeToString(type);
+}
+
+QueryNode::QueryNodeType QueryTree::getTokenType(const std::string& token)
 {
 	if (token.size() > 2 && token.front() == QueryToken::BOUNDARY && token.back() == QueryToken::BOUNDARY)
 	{
-		return "token";
+		return QueryNode::QUERYNODETYPE_TOKEN;
 	}
 	else if (token.size() > 2 && token.front() == QueryCommand::BOUNDARY && token.back() == QueryCommand::BOUNDARY)
 	{
-		return "command";
+		return QueryNode::QUERYNODETYPE_COMMAND;
 	}
 	else if (token.size() == 1 && QueryOperator::getOperatorType(token.front()) != QueryOperator::OPERATOR_NONE)
 	{
-		return "operator";
+		return QueryNode::QUERYNODETYPE_OPERATOR;
 	}
 
-	return "none";
+	return QueryNode::QUERYNODETYPE_NONE;
 }
 
 QueryTree::QueryTree()

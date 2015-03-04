@@ -13,15 +13,19 @@ SearchController::~SearchController()
 {
 }
 
+#include <iostream>
 void SearchController::handleMessage(MessageActivateTokens* message)
 {
 	if (!m_ignoreNextMessageActivateTokens && message->tokenIds.size())
 	{
 		SearchMatch match;
 		match.fullName = m_graphAccess->getNameForNodeWithId(message->tokenIds[0]);
+		match.nodeType = m_graphAccess->getNodeTypeForNodeWithId(message->tokenIds[0]);
 		match.tokenIds.insert(message->tokenIds[0]);
+		match.queryNodeType = QueryNode::QUERYNODETYPE_TOKEN;
 
-		getView()->setText(match.encodeForQuery());
+
+		getView()->setMatch(match);
 	}
 
 	m_ignoreNextMessageActivateTokens = false;

@@ -8,6 +8,7 @@ QtSearchView::QtSearchView(ViewLayout* viewLayout)
 	: SearchView(viewLayout)
 	, m_refreshViewFunctor(std::bind(&QtSearchView::doRefreshView, this))
 	, m_setTextFunctor(std::bind(&QtSearchView::doSetText, this, std::placeholders::_1))
+	, m_setMatchFunctor(std::bind(&QtSearchView::doSetMatch, this, std::placeholders::_1))
 	, m_setFocusFunctor(std::bind(&QtSearchView::doSetFocus, this))
 	, m_setAutocompletionListFunctor(std::bind(&QtSearchView::doSetAutocompletionList, this, std::placeholders::_1))
 {
@@ -38,6 +39,11 @@ void QtSearchView::setText(const std::string& text)
 	m_setTextFunctor(text);
 }
 
+void QtSearchView::setMatch(const SearchMatch& match)
+{
+	m_setMatchFunctor(match);
+}
+
 void QtSearchView::setFocus()
 {
 	m_setFocusFunctor();
@@ -51,6 +57,11 @@ void QtSearchView::setAutocompletionList(const std::vector<SearchMatch>& autocom
 void QtSearchView::doRefreshView()
 {
 	setStyleSheet();
+}
+
+void QtSearchView::doSetMatch(const SearchMatch& match)
+{
+	m_widget->setMatch(match);
 }
 
 void QtSearchView::doSetText(const std::string& text)

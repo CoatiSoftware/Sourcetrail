@@ -15,6 +15,7 @@ public:
 	// GraphAccess implementation
 	virtual Id getIdForNodeWithName(const std::string& name) const;
 	virtual std::string getNameForNodeWithId(Id id) const;
+	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(
 		const std::string& query, const std::string& word) const;
 
