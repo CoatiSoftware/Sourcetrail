@@ -52,7 +52,14 @@ void FilterableGraph::printBasic(std::ostream& ostream) const
 	forEachNode(
 		[&ostream](Node* n)
 		{
-			ostream << ' ' << n->getTypeString() << ':' << n->getFullName();
+			if (n->isType(Node::NODE_FILE))
+			{
+				ostream << ' ' << n->getTypeString() << ':' << n->getName();
+			}
+			else
+			{
+				ostream << ' ' << n->getTypeString() << ':' << n->getFullName();
+			}
 		}
 	);
 	ostream << '\n';

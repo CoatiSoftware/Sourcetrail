@@ -98,9 +98,10 @@ public:
 			printedFilteredTestGraph("!'method'"),
 
 			"8 nodes: "
-				"file:/Users/ebsi/Documents/masterproject/bin/test/input.cc class:A field:A::count undefined_type:int "
-				"undefined_type:void class:B function:_main_ undefined_function:B::B\n"
-			"14 edges: child:A->A::count aggregation:A->int aggregation:A->void type_use:A::count->int inheritance:B->A "
+				"file:input.cc class:A field:A::count undefined_type:int undefined_type:void class:B function:_main_ "
+				"undefined_function:B::B\n"
+			"14 edges: "
+				"child:A->A::count aggregation:A->int aggregation:A->void type_use:A::count->int inheritance:B->A "
 				"aggregation:B->void aggregation:A->B aggregation:B->int return_type:_main_->int type_usage:_main_->B "
 				"child:B->B::B call:_main_->B::B aggregation:_main_->B aggregation:_main_->A\n"
 		);
