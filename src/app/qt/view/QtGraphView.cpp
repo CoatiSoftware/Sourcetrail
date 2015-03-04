@@ -94,8 +94,6 @@ void QtGraphView::finishedTransition()
 	QGraphicsView* view = getView();
 	view->setInteractive(true);
 
-	m_transition.reset();
-
 	switchToNewGraphData();
 }
 
