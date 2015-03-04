@@ -1712,7 +1712,6 @@ public:
 
 		TS_ASSERT_EQUALS(client.files.size(), 2);
 		TS_ASSERT_EQUALS(client.includes.size(), 1);
-		TS_ASSERT_EQUALS(client.includes[0], client.files[1] + " -> " + client.files[0]);
 	}
 
 	void test_cxx_parser_catches_error()
