@@ -15,7 +15,9 @@ void init()
 	std::shared_ptr<ConsoleLogger> consoleLogger = std::make_shared<ConsoleLogger>();
 	consoleLogger->setLogLevel(Logger::LOG_WARNINGS | Logger::LOG_ERRORS);
 	LogManager::getInstance()->addLogger(consoleLogger);
-	LogManager::getInstance()->addLogger(std::make_shared<FileLogger>());
+	std::shared_ptr<FileLogger> fileLogger = std::make_shared<FileLogger>();
+	fileLogger->setLogLevel(Logger::LOG_ALL);
+	LogManager::getInstance()->addLogger(fileLogger);
 
 	utility::loadFontsFromDirectory("data/fonts", ".otf");
 }

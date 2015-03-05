@@ -13,7 +13,7 @@ class QtGraphPostprocessor
 public:
 	static void doPostprocessing(std::list<std::shared_ptr<QtGraphNode>>& nodes);
 
-	static void allignNodeOnRaster(QtGraphNode* node);
+	static void alignNodeOnRaster(QtGraphNode* node);
 	static Vec2i alignOnRaster(Vec2i position);
 
 private:
@@ -25,7 +25,9 @@ private:
 	static void resolveOverlap(std::list<std::shared_ptr<QtGraphNode>>& nodes, MatrixDynamicBase<unsigned int>& heatMap, const int divisor);
 	static void modifyHeatmapArea(MatrixDynamicBase<unsigned int>& heatMap, const Vec2i& leftUpperCorner, const Vec2i& size, const int modifier);
 	static bool getHeatmapGradient(Vec2f& outGradient, const MatrixDynamicBase<unsigned int>& heatMap, const Vec2i& leftUpperCorner, const Vec2i& size);
+	static Vec2f heatMapRayCast(const MatrixDynamicBase<unsigned int>& heatMap, const Vec2f& startPosition, const Vec2f& direction, const int minValue);
 	static void resizeNodes(std::list<std::shared_ptr<QtGraphNode>>& nodes);
+	static Vec2i calculateRasterNodeSize(const std::shared_ptr<QtGraphNode>& node);
 };
 
 #endif // QT_GRAPH_POSTPROCESSOR_H

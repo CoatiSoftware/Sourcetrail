@@ -47,6 +47,6 @@ void QtGraphNodeComponentMoveable::nodeMouseReleaseEvent(QGraphicsSceneMouseEven
 	std::shared_ptr<QtGraphNode> node = m_graphNode.lock();
 	if (node != NULL)
 	{
-		QtGraphPostprocessor::allignNodeOnRaster(node.get());
+		QtGraphPostprocessor::alignNodeOnRaster(node.get());
 	}
 }
