@@ -1,7 +1,5 @@
 #include "component/controller/UndoRedoController.h"
 
-#include <iostream>
-
 #include "component/view/UndoRedoView.h"
 #include "utility/logging/logging.h"
 
@@ -24,6 +22,13 @@ UndoRedoView* UndoRedoController::getView()
 
 void UndoRedoController::handleMessage(MessageActivateTokens* message)
 {
+    if(m_lastCommand && m_lastCommand->getType() == "MessageActivateTokens")
+    {
+        if(static_cast<MessageActivateTokens*>(m_lastCommand.get())->tokenIds == message->tokenIds)
+        {
+            return;
+        }
+    }
     std::shared_ptr<MessageActivateTokens> m = std::shared_ptr<MessageActivateTokens>(new MessageActivateTokens(*message));
     std::shared_ptr<MessageBase> msg = m;
     processMessage(msg);
