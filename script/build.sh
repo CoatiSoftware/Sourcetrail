@@ -9,7 +9,7 @@ cd $MY_PATH/..
 
 if [ "$1" = "release" ] || [ "$1" = "r" ]
 then
-	if [ $2 = "test" ]
+	if [ "$2" = "test" ]
 	then
 		#echo "release test"
 		ninja -C build/Release Coati_test && cd bin/test && Release/Coati_test
@@ -19,7 +19,6 @@ then
 	fi
 elif [ "$1" = "debug" ] || [ "$1" = "d" ]
 then
-	echo "$2"
 	if [ "$2" = "test" ]
 	then
 		#echo "debug test"
@@ -29,5 +28,5 @@ then
 		ninja -C build/Debug Coati && cd bin/app && Debug/Coati
 	fi
 else
-	echo "no arguments first argument 'release' or 'debug', if test second argument is 'test'"
+	echo "no arguments: first argument 'release' or 'debug', second argument 'test' for tests"
 fi
