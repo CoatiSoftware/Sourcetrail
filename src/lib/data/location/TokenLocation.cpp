@@ -84,7 +84,7 @@ unsigned int TokenLocation::getLineNumber() const
 	return m_line->getLineNumber();
 }
 
-const std::string& TokenLocation::getFilePath() const
+const FilePath& TokenLocation::getFilePath() const
 {
 	return m_line->getFilePath();
 }

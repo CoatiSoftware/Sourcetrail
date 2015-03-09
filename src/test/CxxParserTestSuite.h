@@ -1687,9 +1687,9 @@ public:
 		TestParserClient client;
 		CxxParser parser(&client, &fm);
 
-		std::vector<std::string> filePaths;
-		filePaths.push_back("data/CxxParserTestSuite/header.h");
-		filePaths.push_back("data/CxxParserTestSuite/code.cpp");
+		std::vector<FilePath> filePaths;
+		filePaths.push_back(FilePath("data/CxxParserTestSuite/header.h"));
+		filePaths.push_back(FilePath("data/CxxParserTestSuite/code.cpp"));
 		parser.parseFiles(filePaths, std::vector<std::string>(), std::vector<std::string>());
 
 		TS_ASSERT_EQUALS(client.errors.size(), 0);

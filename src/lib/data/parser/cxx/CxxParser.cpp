@@ -59,7 +59,7 @@ CxxParser::~CxxParser()
 }
 
 void CxxParser::parseFiles(
-	const std::vector<std::string>& filePaths,
+	const std::vector<FilePath>& filePaths,
 	const std::vector<std::string>& systemHeaderSearchPaths,
 	const std::vector<std::string>& headerSearchPaths
 ){
@@ -113,12 +113,18 @@ void CxxParser::parseFiles(
 
 	FileRegister fileRegister(m_fileManager, filePaths);
 
+	std::vector<std::string> sourcePaths;
+	for (const FilePath& path : fileRegister.getSourceFilePaths())
+	{
+		sourcePaths.push_back(path.absoluteStr());
+	}
+
 	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
 	CxxDiagnosticConsumer reporter(llvm::errs(), &*options, m_client);
 
 	ASTActionFactory actionFactory(m_client, &fileRegister);
 
-	clang::tooling::ClangTool tool(*compilationDatabase, fileRegister.getSourceFilePaths());
+	clang::tooling::ClangTool tool(*compilationDatabase, sourcePaths);
 	tool.setDiagnosticConsumer(&reporter);
 	tool.run(&actionFactory);
 }
@@ -131,7 +137,7 @@ void CxxParser::parseFile(std::shared_ptr<TextAccess> textAccess)
 	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
 	CxxDiagnosticConsumer reporter(llvm::errs(), &*options, m_client, false);
 
-	FileRegister fileRegister(m_fileManager, std::vector<std::string>());
+	FileRegister fileRegister(m_fileManager, std::vector<FilePath>());
 
 	ASTActionFactory actionFactory(m_client, &fileRegister);
 	runToolOnCodeWithArgs(&reporter, actionFactory.create(), textAccess->getText(), args);

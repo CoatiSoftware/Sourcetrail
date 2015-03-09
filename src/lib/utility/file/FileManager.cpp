@@ -36,7 +36,7 @@ void FileManager::fetchFilePaths()
 	m_updatedFiles.clear();
 	m_removedFiles.clear();
 
-	for (std::map<std::string, FileInfo>::iterator it = m_files.begin(); it != m_files.end(); it++)
+	for (std::map<FilePath, FileInfo>::iterator it = m_files.begin(); it != m_files.end(); it++)
 	{
 		m_removedFiles.insert(it->first);
 	}
@@ -52,8 +52,8 @@ void FileManager::fetchFilePaths()
 
 		for (FileInfo fileInfo: fileInfos)
 		{
-			const std::string& filePath = fileInfo.path;
-			std::map<std::string, FileInfo>::iterator it = m_files.find(filePath);
+			const FilePath& filePath = fileInfo.path;
+			std::map<FilePath, FileInfo>::iterator it = m_files.find(filePath);
 			if (it != m_files.end())
 			{
 				m_removedFiles.erase(filePath);
@@ -65,44 +65,44 @@ void FileManager::fetchFilePaths()
 			}
 			else
 			{
-				m_files.insert(std::pair<std::string, FileInfo>(filePath, fileInfo));
+				m_files.insert(std::pair<FilePath, FileInfo>(filePath, fileInfo));
 				m_addedFiles.insert(filePath);
 			}
 		}
 	}
 
-	for (const std::string filePath : m_removedFiles)
+	for (const FilePath& filePath : m_removedFiles)
 	{
 		m_files.erase(filePath);
 	}
 }
 
-std::set<std::string> FileManager::getAddedFilePaths() const
+std::set<FilePath> FileManager::getAddedFilePaths() const
 {
 	return m_addedFiles;
 }
 
-std::set<std::string> FileManager::getUpdatedFilePaths() const
+std::set<FilePath> FileManager::getUpdatedFilePaths() const
 {
 	return m_updatedFiles;
 }
 
-std::set<std::string> FileManager::getRemovedFilePaths() const
+std::set<FilePath> FileManager::getRemovedFilePaths() const
 {
 	return m_removedFiles;
 }
 
-bool FileManager::hasFilePath(const std::string& filePath) const
+bool FileManager::hasFilePath(const FilePath& filePath) const
 {
-	return (m_files.find(FileSystem::absoluteFilePath(filePath)) != m_files.end());
+	return (m_files.find(filePath) != m_files.end());
 }
 
-bool FileManager::hasSourceExtension(const std::string& filePath) const
+bool FileManager::hasSourceExtension(const FilePath& filePath) const
 {
-	return FileSystem::hasExtension(filePath, m_sourceExtensions);
+	return filePath.hasExtension(m_sourceExtensions);
 }
 
-bool FileManager::hasIncludeExtension(const std::string& filePath) const
+bool FileManager::hasIncludeExtension(const FilePath& filePath) const
 {
-	return FileSystem::hasExtension(filePath, m_includeExtensions);
+	return filePath.hasExtension(m_includeExtensions);
 }

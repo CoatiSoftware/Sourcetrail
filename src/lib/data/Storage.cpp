@@ -42,17 +42,17 @@ void Storage::clear()
 	m_errorLocationCollection.clear();
 }
 
-void Storage::clearFileData(const std::set<std::string>& filePaths)
+void Storage::clearFileData(const std::set<FilePath>& filePaths)
 {
-	for (const std::string& filePath : filePaths)
+	for (const FilePath& filePath : filePaths)
 	{
-		TokenLocationFile* errorFile = m_errorLocationCollection.findTokenLocationFileByPath(filePath);
+		TokenLocationFile* errorFile = m_errorLocationCollection.findTokenLocationFileByPath(filePath.str());
 		if (errorFile)
 		{
 			m_errorLocationCollection.removeTokenLocationFile(errorFile);
 		}
 
-		TokenLocationFile* file = m_locationCollection.findTokenLocationFileByPath(filePath);
+		TokenLocationFile* file = m_locationCollection.findTokenLocationFileByPath(filePath.str());
 		if (!file)
 		{
 			continue;
@@ -99,13 +99,13 @@ void Storage::clearFileData(const std::set<std::string>& filePaths)
 	}
 }
 
-std::set<std::string> Storage::getDependingFilePathsAndRemoveFileNodes(const std::set<std::string>& filePaths)
+std::set<FilePath> Storage::getDependingFilePathsAndRemoveFileNodes(const std::set<FilePath>& filePaths)
 {
-	std::set<std::string> dependingFilePaths;
+	std::set<FilePath> dependingFilePaths;
 
-	for (const std::string& filePath : filePaths)
+	for (const FilePath& filePath : filePaths)
 	{
-		SearchNode* searchNode = m_tokenIndex.getNode(filePath);
+		SearchNode* searchNode = m_tokenIndex.getNode(filePath.absoluteStr());
 		if (!searchNode || searchNode->getTokenIds().size() != 1)
 		{
 			continue;
@@ -121,7 +121,7 @@ std::set<std::string> Storage::getDependingFilePathsAndRemoveFileNodes(const std
 		addDependingFilePathsAndRemoveFileNodesRecursive(fileNode, &dependingFilePaths);
 	}
 
-	for (const std::string& path : filePaths)
+	for (const FilePath& path : filePaths)
 	{
 		dependingFilePaths.erase(path);
 	}
@@ -640,7 +640,7 @@ Id Storage::onFileParsed(const std::string& filePath)
 {
 	log("file", filePath, ParseLocation());
 
-	Node* fileNode = addNodeHierarchy(Node::NODE_FILE, std::vector<std::string>(1, FileSystem::absoluteFilePath(filePath)));
+	Node* fileNode = addNodeHierarchy(Node::NODE_FILE, std::vector<std::string>(1, FilePath(filePath).absoluteStr()));
 	return fileNode->getId();
 }
 
@@ -648,8 +648,8 @@ Id Storage::onFileIncludeParsed(const ParseLocation& location, const std::string
 {
 	log("include", includedPath, location);
 
-	Node* fileNode = addNodeHierarchy(Node::NODE_FILE, std::vector<std::string>(1, FileSystem::absoluteFilePath(filePath)));
-	Node* includedFileNode = addNodeHierarchy(Node::NODE_FILE, std::vector<std::string>(1, FileSystem::absoluteFilePath(includedPath)));
+	Node* fileNode = addNodeHierarchy(Node::NODE_FILE, std::vector<std::string>(1, FilePath(filePath).absoluteStr()));
+	Node* includedFileNode = addNodeHierarchy(Node::NODE_FILE, std::vector<std::string>(1, FilePath(includedPath).absoluteStr()));
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_INCLUDE, fileNode, includedFileNode);
 	addTokenLocation(edge, location);
@@ -1257,9 +1257,9 @@ bool Storage::getQuerySearchResults(const std::string& query, const std::string&
 	return true;
 }
 
-void Storage::addDependingFilePathsAndRemoveFileNodesRecursive(Node* fileNode, std::set<std::string>* filePaths)
+void Storage::addDependingFilePathsAndRemoveFileNodesRecursive(Node* fileNode, std::set<FilePath>* filePaths)
 {
-	bool inserted = filePaths->insert(fileNode->getFullName()).second;
+	bool inserted = filePaths->insert(FilePath(fileNode->getFullName())).second;
 	if (!inserted)
 	{
 		return;

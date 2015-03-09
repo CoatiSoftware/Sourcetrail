@@ -39,7 +39,7 @@ void QtCodeFileList::addCodeSnippet(
 	const std::string& code,
 	const TokenLocationFile& locationFile
 ){
-	std::string fileName = FileSystem::fileName(locationFile.getFilePath());
+	std::string fileName = locationFile.getFilePath().fileName();
 	QtCodeFile* file = nullptr;
 
 	for (std::shared_ptr<QtCodeFile> filePtr : m_files)
@@ -53,7 +53,7 @@ void QtCodeFileList::addCodeSnippet(
 
 	if (!file)
 	{
-		std::shared_ptr<QtCodeFile> filePtr = std::make_shared<QtCodeFile>(locationFile.getFilePath(), this);
+		std::shared_ptr<QtCodeFile> filePtr = std::make_shared<QtCodeFile>(locationFile.getFilePath().absoluteStr(), this);
 		m_files.push_back(filePtr);
 
 		file = filePtr.get();

@@ -7,6 +7,7 @@
 #include <ostream>
 #include <string>
 
+#include "utility/file/FilePath.h"
 #include "utility/types.h"
 
 class TokenLocation;
@@ -15,16 +16,16 @@ class TokenLocationLine;
 class TokenLocationFile
 {
 public:
-	typedef std::map<unsigned int, std::shared_ptr<TokenLocationLine> > TokenLocationLineMapType;
-	typedef std::pair<unsigned int, std::shared_ptr<TokenLocationLine> > TokenLocationLinePairType;
+	typedef std::map<unsigned int, std::shared_ptr<TokenLocationLine>> TokenLocationLineMapType;
+	typedef std::pair<unsigned int, std::shared_ptr<TokenLocationLine>> TokenLocationLinePairType;
 
-	TokenLocationFile(const std::string& filePath);
+	TokenLocationFile(const FilePath& filePath);
 	~TokenLocationFile();
 
 	const TokenLocationLineMapType& getTokenLocationLines() const;
 	size_t getTokenLocationLineCount() const;
 
-	const std::string& getFilePath() const;
+	const FilePath& getFilePath() const;
 
 	TokenLocation* addTokenLocation(
 		Id tokenId,
@@ -44,7 +45,7 @@ private:
 	TokenLocationLine* createTokenLocationLine(unsigned int lineNumber);
 
 	std::map<unsigned int, std::shared_ptr<TokenLocationLine> > m_lines;
-	std::string m_filePath;
+	FilePath m_filePath;
 };
 
 std::ostream& operator<<(std::ostream& ostream, const TokenLocationFile& file);

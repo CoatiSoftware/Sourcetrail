@@ -29,7 +29,7 @@ TokenLocationFile* TokenLocationLine::getTokenLocationFile() const
 	return m_file;
 }
 
-const std::string& TokenLocationLine::getFilePath() const
+const FilePath& TokenLocationLine::getFilePath() const
 {
 	return m_file->getFilePath();
 }

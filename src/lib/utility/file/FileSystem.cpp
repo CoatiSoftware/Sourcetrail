@@ -69,7 +69,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromDirectoryPaths(
 				{
 					std::time_t t = boost::filesystem::last_write_time(*it);
 					boost::posix_time::ptime lastWriteTime = boost::posix_time::from_time_t(t);
-					files.push_back(FileInfo(absoluteFilePath(it->path().generic_string()), lastWriteTime));
+					files.push_back(FileInfo(it->path(), lastWriteTime));
 				}
 				++it;
 			}

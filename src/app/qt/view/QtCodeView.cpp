@@ -104,7 +104,7 @@ void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
 	ptr->setErrorMessages(m_errorMessages);
 	ptr->addCodeSnippet(1, params.code, params.locationFile);
 
-	ptr->setWindowTitle(FileSystem::fileName(params.locationFile.getFilePath()).c_str());
+	ptr->setWindowTitle(params.locationFile.getFilePath().fileName().c_str());
 	ptr->show();
 
 	float percent = float(params.startLineNumber + params.endLineNumber) / float(params.lineCount) / 2;

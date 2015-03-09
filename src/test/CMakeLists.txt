@@ -5,7 +5,7 @@ add_files(
 	helper/TestFileManager.h
 	helper/TestStorage.cpp
 	helper/TestStorage.h
-	
+
 	TestSuiteFixture.cpp
 	TestSuiteFixture.h
 
@@ -14,6 +14,7 @@ add_files(
 	DataTypeTestSuite.h
 	DictionaryTestSuite.h
 	FileManagerTestSuite.h
+	FilePathTestSuite.h
 	FileSystemTestSuite.h
 	GraphTestSuite.h
 	GraphFilterTestSuite.h

@@ -2,13 +2,16 @@
 #define FILE_INFO_H
 
 #include <string>
+
 #include "boost/date_time.hpp"
+
+#include "utility/file/FilePath.h"
 
 struct FileInfo
 {
-	FileInfo(std::string path, boost::posix_time::ptime lastWriteTime);
+	FileInfo(const FilePath& path, boost::posix_time::ptime lastWriteTime);
 
-	std::string path;
+	FilePath path;
 	boost::posix_time::ptime lastWriteTime;
 };
 

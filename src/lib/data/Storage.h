@@ -4,6 +4,8 @@
 #include <memory>
 #include <vector>
 
+#include "utility/file/FilePath.h"
+
 #include "data/access/GraphAccess.h"
 #include "data/access/LocationAccess.h"
 #include "data/graph/StorageGraph.h"
@@ -23,8 +25,8 @@ public:
 	virtual ~Storage();
 
 	void clear();
-	void clearFileData(const std::set<std::string>& filePaths);
-	std::set<std::string> getDependingFilePathsAndRemoveFileNodes(const std::set<std::string>& filePaths);
+	void clearFileData(const std::set<FilePath>& filePaths);
+	std::set<FilePath> getDependingFilePathsAndRemoveFileNodes(const std::set<FilePath>& filePaths);
 
 	void logGraph() const;
 	void logLocations() const;
@@ -148,7 +150,7 @@ private:
 
 	bool getQuerySearchResults(const std::string& query, const std::string& word, SearchResults* results) const;
 
-	void addDependingFilePathsAndRemoveFileNodesRecursive(Node* fileNode, std::set<std::string>* filePaths);
+	void addDependingFilePathsAndRemoveFileNodesRecursive(Node* fileNode, std::set<FilePath>* filePaths);
 	void removeNodeIfUnreferenced(Node* node);
 
 	void log(std::string type, std::string str, const ParseLocation& location) const;

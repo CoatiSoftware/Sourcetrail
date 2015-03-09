@@ -7,6 +7,7 @@
 #include <ostream>
 #include <string>
 
+#include "utility/file/FilePath.h"
 #include "utility/types.h"
 
 class TokenLocation;
@@ -25,7 +26,7 @@ public:
 	size_t getTokenLocationCount() const;
 
 	TokenLocationFile* getTokenLocationFile() const;
-	const std::string& getFilePath() const;
+	const FilePath& getFilePath() const;
 
 	unsigned int getLineNumber() const;
 

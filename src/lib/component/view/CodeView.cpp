@@ -40,21 +40,21 @@ bool CodeView::CodeSnippetParams::sort(const CodeSnippetParams& a, const CodeSni
 		return false;
 	}
 
+	const FilePath& aFilePath = a.locationFile.getFilePath();
+	const FilePath& bFilePath = b.locationFile.getFilePath();
+
 	// different files
-	if (a.locationFile.getFilePath() != b.locationFile.getFilePath())
+	if (aFilePath != bFilePath)
 	{
 		// first header
-		if (FileSystem::filePathWithoutExtension(a.locationFile.getFilePath()) ==
-			FileSystem::filePathWithoutExtension(b.locationFile.getFilePath()))
+		if (aFilePath.withoutExtension() == bFilePath.withoutExtension())
 		{
-			return FileSystem::extension(a.locationFile.getFilePath()) >
-				FileSystem::extension(b.locationFile.getFilePath());
+			return aFilePath.extension() > bFilePath.extension();
 		}
 		// alphabetical filepath without extension
 		else
 		{
-			return FileSystem::filePathWithoutExtension(a.locationFile.getFilePath())
-				< FileSystem::filePathWithoutExtension(b.locationFile.getFilePath());
+			return aFilePath.withoutExtension() < bFilePath.withoutExtension();
 		}
 	}
 

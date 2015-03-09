@@ -103,11 +103,11 @@ void Project::parseCode()
 		}
 
 		m_fileManager->fetchFilePaths();
-		std::set<std::string> addedFilePaths = m_fileManager->getAddedFilePaths();
-		std::set<std::string> updatedFilePaths = m_fileManager->getUpdatedFilePaths();
-		std::set<std::string> removedFilePaths = m_fileManager->getRemovedFilePaths();
+		std::set<FilePath> addedFilePaths = m_fileManager->getAddedFilePaths();
+		std::set<FilePath> updatedFilePaths = m_fileManager->getUpdatedFilePaths();
+		std::set<FilePath> removedFilePaths = m_fileManager->getRemovedFilePaths();
 
-		std::set<std::string> dependingFilePaths;
+		std::set<FilePath> dependingFilePaths;
 		dependingFilePaths = m_storage->getDependingFilePathsAndRemoveFileNodes(updatedFilePaths);
 		updatedFilePaths.insert(dependingFilePaths.begin(), dependingFilePaths.end());
 
@@ -117,7 +117,7 @@ void Project::parseCode()
 		m_storage->clearFileData(updatedFilePaths);
 		m_storage->clearFileData(removedFilePaths);
 
-		std::vector<std::string> filesToParse;
+		std::vector<FilePath> filesToParse;
 		filesToParse.insert(filesToParse.end(), addedFilePaths.begin(), addedFilePaths.end());
 		filesToParse.insert(filesToParse.end(), updatedFilePaths.begin(), updatedFilePaths.end());
 

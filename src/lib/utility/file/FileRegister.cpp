@@ -3,10 +3,10 @@
 #include "utility/file/FileManager.h"
 #include "utility/file/FileSystem.h"
 
-FileRegister::FileRegister(const FileManager* fileManager, const std::vector<std::string>& filePaths)
+FileRegister::FileRegister(const FileManager* fileManager, const std::vector<FilePath>& filePaths)
 	: m_fileManager(fileManager)
 {
-	for (const std::string& path : filePaths)
+	for (const FilePath& path : filePaths)
 	{
 		if (m_fileManager->hasSourceExtension(path))
 		{
@@ -24,14 +24,14 @@ const FileManager* FileRegister::getFileManager() const
 	return m_fileManager;
 }
 
-const std::vector<std::string>& FileRegister::getSourceFilePaths() const
+const std::vector<FilePath>& FileRegister::getSourceFilePaths() const
 {
 	return m_sourceFilePaths;
 }
 
 bool FileRegister::includeFileIsParsing(const std::string& filePath) const
 {
-	std::map<std::string, ParseState>::const_iterator it = m_includeFilePaths.find(FileSystem::absoluteFilePath(filePath));
+	std::map<FilePath, ParseState>::const_iterator it = m_includeFilePaths.find(FilePath(filePath));
 	if (it == m_includeFilePaths.end())
 	{
 		return false;
@@ -42,7 +42,7 @@ bool FileRegister::includeFileIsParsing(const std::string& filePath) const
 
 void FileRegister::markIncludeFileParsing(const std::string& filePath)
 {
-	std::map<std::string, ParseState>::iterator it = m_includeFilePaths.find(FileSystem::absoluteFilePath(filePath));
+	std::map<FilePath, ParseState>::iterator it = m_includeFilePaths.find(FilePath(filePath));
 	if (it == m_includeFilePaths.end())
 	{
 		return;
@@ -56,7 +56,7 @@ void FileRegister::markIncludeFileParsing(const std::string& filePath)
 
 void FileRegister::markParsingIncludeFilesParsed()
 {
-	for (std::pair<std::string, ParseState>&& p : m_includeFilePaths)
+	for (std::pair<FilePath, ParseState>&& p : m_includeFilePaths)
 	{
 		if (p.second == STATE_PARSING)
 		{

@@ -573,8 +573,8 @@ public:
 		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 4);
 		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 3);
 
-		std::set<std::string> files;
-		files.insert(m_filePath);
+		std::set<FilePath> files;
+		files.insert(FilePath(m_filePath));
 		storage.clearFileData(files);
 
 		TS_ASSERT_EQUALS(storage.graph().getNodeCount(), 0);
@@ -604,8 +604,8 @@ public:
 		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 9);
 		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 6);
 
-		std::set<std::string> files;
-		files.insert("file.cpp");
+		std::set<FilePath> files;
+		files.insert(FilePath("file.cpp"));
 		storage.clearFileData(files);
 
 		TS_ASSERT_EQUALS(storage.graph().getNodeCount(), 3);
@@ -635,8 +635,8 @@ public:
 		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 9);
 		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 5);
 
-		std::set<std::string> files;
-		files.insert("file.h");
+		std::set<FilePath> files;
+		files.insert(FilePath("file.h"));
 		storage.clearFileData(files);
 
 		TS_ASSERT_EQUALS(storage.graph().getNodeCount(), 4);
@@ -666,9 +666,9 @@ public:
 		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 9);
 		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 5);
 
-		std::set<std::string> filePaths;
-		filePaths.insert("file.cpp");
-		filePaths.insert("file.h");
+		std::set<FilePath> filePaths;
+		filePaths.insert(FilePath("file.cpp"));
+		filePaths.insert(FilePath("file.h"));
 		storage.clearFileData(filePaths);
 
 		TS_ASSERT_EQUALS(storage.graph().getNodeCount(), 0);
@@ -722,12 +722,12 @@ public:
 		std::string name1 = storage.getNodeWithId(id2)->getFullName();
 		std::string name2 = storage.getNodeWithId(id3)->getFullName();
 
-		std::set<std::string> filePaths;
-		filePaths.insert(name1);
-		std::set<std::string> dependingFilePaths = storage.getDependingFilePathsAndRemoveFileNodes(filePaths);
+		std::set<FilePath> filePaths;
+		filePaths.insert(FilePath(name1));
+		std::set<FilePath> dependingFilePaths = storage.getDependingFilePathsAndRemoveFileNodes(filePaths);
 
 		TS_ASSERT_EQUALS(dependingFilePaths.size(), 1);
-		TS_ASSERT_EQUALS(*dependingFilePaths.begin(), name2);
+		TS_ASSERT_EQUALS(dependingFilePaths.begin()->str(), name2);
 
 		TS_ASSERT(storage.getNodeWithId(id1));
 		TS_ASSERT(!storage.getNodeWithId(id2));

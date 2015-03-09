@@ -5,16 +5,18 @@
 #include <string>
 #include <vector>
 
+#include "utility/file/FilePath.h"
+
 class FileManager;
 
 class FileRegister
 {
 public:
-	FileRegister(const FileManager* fileManager, const std::vector<std::string>& filePaths);
+	FileRegister(const FileManager* fileManager, const std::vector<FilePath>& filePaths);
 
 	const FileManager* getFileManager() const;
 
-	const std::vector<std::string>& getSourceFilePaths() const;
+	const std::vector<FilePath>& getSourceFilePaths() const;
 
 	bool includeFileIsParsing(const std::string& filePath) const;
 
@@ -31,8 +33,8 @@ private:
 
 	const FileManager* m_fileManager;
 
-	std::vector<std::string> m_sourceFilePaths;
-	std::map<std::string, ParseState> m_includeFilePaths;
+	std::vector<FilePath> m_sourceFilePaths;
+	std::map<FilePath, ParseState> m_includeFilePaths;
 };
 
 #endif // FILE_REGISTER_H

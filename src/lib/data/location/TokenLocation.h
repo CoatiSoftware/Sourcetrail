@@ -5,6 +5,7 @@
 #include <ostream>
 #include <string>
 
+#include "utility/file/FilePath.h"
 #include "utility/types.h"
 
 class Token;
@@ -36,7 +37,7 @@ public:
 
 	unsigned int getColumnNumber() const;
 	unsigned int getLineNumber() const;
-	const std::string& getFilePath() const;
+	const FilePath& getFilePath() const;
 
 	TokenLocation* getOtherTokenLocation() const;
 	void setOtherTokenLocation(TokenLocation* location);

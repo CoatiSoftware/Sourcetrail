@@ -38,7 +38,7 @@ size_t TokenLocationCollection::getTokenLocationCount() const
 }
 
 TokenLocation* TokenLocationCollection::addTokenLocation(
-	Id tokenId, const std::string& filePath,
+	Id tokenId, const FilePath& filePath,
 	unsigned int startLineNumber, unsigned int startColumnNumber,
 	unsigned int endLineNumber, unsigned int endColumnNumber)
 {
@@ -87,13 +87,13 @@ TokenLocation* TokenLocationCollection::findTokenLocationById(Id id) const
 	return nullptr;
 }
 
-TokenLocationFile* TokenLocationCollection::findTokenLocationFileByPath(const std::string& filePath) const
+TokenLocationFile* TokenLocationCollection::findTokenLocationFileByPath(const FilePath& filePath) const
 {
-	std::map<std::string, std::shared_ptr<TokenLocationFile>>::const_iterator it =
+	std::map<FilePath, std::shared_ptr<TokenLocationFile>>::const_iterator it =
 		find_if(m_files.begin(), m_files.end(),
-			[&](const std::pair<std::string, std::shared_ptr<TokenLocationFile>>& p)
+			[&](const std::pair<FilePath, std::shared_ptr<TokenLocationFile>>& p)
 			{
-				return FileSystem::equivalent(p.first, filePath);
+				return p.first == filePath;
 			}
 		);
 
@@ -143,7 +143,7 @@ void TokenLocationCollection::removeTokenLocationFile(TokenLocationFile* file)
 
 TokenLocation* TokenLocationCollection::addTokenLocationAsPlainCopy(const TokenLocation* location)
 {
-	const std::string& filePath = location->getTokenLocationLine()->getTokenLocationFile()->getFilePath();
+	const FilePath& filePath = location->getTokenLocationLine()->getTokenLocationFile()->getFilePath();
 	TokenLocationFile* file = createTokenLocationFile(filePath);
 	TokenLocation* copy = file->addTokenLocationAsPlainCopy(location);
 
@@ -157,7 +157,7 @@ void TokenLocationCollection::clear()
 	m_files.clear();
 }
 
-TokenLocationFile* TokenLocationCollection::createTokenLocationFile(const std::string& filePath)
+TokenLocationFile* TokenLocationCollection::createTokenLocationFile(const FilePath& filePath)
 {
 	TokenLocationFile* file = findTokenLocationFileByPath(filePath);
 

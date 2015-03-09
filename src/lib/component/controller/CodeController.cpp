@@ -108,7 +108,7 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTok
 			for (CodeView::CodeSnippetParams& params : fileSnippets)
 			{
 				params.locationFile = m_locationAccess->getTokenLocationsForLinesInFile(
-					file->getFilePath(), params.startLineNumber, params.endLineNumber);
+					file->getFilePath().str(), params.startLineNumber, params.endLineNumber);
 			}
 
 			if (declarationId != 0)
@@ -144,7 +144,7 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTok
 
 std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(const TokenLocationFile* file) const
 {
-	std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(file->getFilePath());
+	std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(file->getFilePath().str());
 
 	std::vector<std::pair<uint, uint>> ranges = getSnippetRangesForFile(file);
 	std::vector<CodeView::CodeSnippetParams> snippets;

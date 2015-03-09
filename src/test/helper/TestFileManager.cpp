@@ -10,17 +10,17 @@ TestFileManager::TestFileManager()
 {
 }
 
-bool TestFileManager::hasFilePath(const std::string& filePath) const
+bool TestFileManager::hasFilePath(const FilePath& filePath) const
 {
 	return true;
 }
 
-bool TestFileManager::hasSourceExtension(const std::string& filePath) const
+bool TestFileManager::hasSourceExtension(const FilePath& filePath) const
 {
 	return true;
 }
 
-bool TestFileManager::hasIncludeExtension(const std::string& filePath) const
+bool TestFileManager::hasIncludeExtension(const FilePath& filePath) const
 {
 	return true;
 }

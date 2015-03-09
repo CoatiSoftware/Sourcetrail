@@ -7,6 +7,7 @@
 
 #include "data/parser/ParserClient.h"
 
+class FilePath;
 class TextAccess;
 
 class Parser
@@ -16,7 +17,7 @@ public:
 	virtual ~Parser();
 
 	virtual void parseFiles(
-		const std::vector<std::string>& filePaths,
+		const std::vector<FilePath>& filePaths,
 		const std::vector<std::string>& systemHeaderSearchPaths,
 		const std::vector<std::string>& headerSearchPaths) = 0;
 	virtual void parseFile(std::shared_ptr<TextAccess> textAccess) = 0;

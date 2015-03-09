@@ -1,10 +1,11 @@
 #include "data/location/TokenLocationFile.h"
 
-#include "data/location/TokenLocation.h"
-#include "data/location/TokenLocationLine.h"
 #include "utility/logging/logging.h"
 
-TokenLocationFile::TokenLocationFile(const std::string& filePath)
+#include "data/location/TokenLocation.h"
+#include "data/location/TokenLocationLine.h"
+
+TokenLocationFile::TokenLocationFile(const FilePath& filePath)
 	: m_filePath(filePath)
 {
 }
@@ -23,7 +24,7 @@ size_t TokenLocationFile::getTokenLocationLineCount() const
 	return m_lines.size();
 }
 
-const std::string& TokenLocationFile::getFilePath() const
+const FilePath& TokenLocationFile::getFilePath() const
 {
 	return m_filePath;
 }
@@ -156,7 +157,7 @@ TokenLocationLine* TokenLocationFile::createTokenLocationLine(unsigned int lineN
 
 std::ostream& operator<<(std::ostream& ostream, const TokenLocationFile& file)
 {
-	ostream << "file \"" << file.getFilePath() << "\"\n";
+	ostream << "file \"" << file.getFilePath().str() << "\"\n";
 	file.forEachTokenLocationLine([&ostream](TokenLocationLine* l)
 	{
 		ostream << *l << '\n';

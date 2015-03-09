@@ -7,6 +7,7 @@
 #include <ostream>
 #include <string>
 
+#include "utility/file/FilePath.h"
 #include "utility/types.h"
 
 class TokenLocation;
@@ -16,8 +17,8 @@ class TokenLocationLine;
 class TokenLocationCollection
 {
 public:
-	typedef std::map<std::string, std::shared_ptr<TokenLocationFile> > TokenLocationFileMapType;
-	typedef std::pair<std::string, std::shared_ptr<TokenLocationFile> > TokenLocationFilePairType;
+	typedef std::map<FilePath, std::shared_ptr<TokenLocationFile> > TokenLocationFileMapType;
+	typedef std::pair<FilePath, std::shared_ptr<TokenLocationFile> > TokenLocationFilePairType;
 
 	TokenLocationCollection();
 	~TokenLocationCollection();
@@ -29,13 +30,13 @@ public:
 	size_t getTokenLocationCount() const;
 
 	TokenLocation* addTokenLocation(
-		Id tokenId, const std::string& filePath,
+		Id tokenId, const FilePath& filePath,
 		unsigned int startLineNumber, unsigned int startColumnNumber,
 		unsigned int endLineNumber, unsigned int endColumnNumber);
 	void removeTokenLocation(TokenLocation* location);
 
 	TokenLocation* findTokenLocationById(Id id) const;
-	TokenLocationFile* findTokenLocationFileByPath(const std::string& filePath) const;
+	TokenLocationFile* findTokenLocationFileByPath(const FilePath& filePath) const;
 
 	void forEachTokenLocationFile(std::function<void(TokenLocationFile*)> func) const;
 	void forEachTokenLocationLine(std::function<void(TokenLocationLine*)> func) const;
@@ -48,7 +49,7 @@ public:
 	void clear();
 
 private:
-	TokenLocationFile* createTokenLocationFile(const std::string& filePath);
+	TokenLocationFile* createTokenLocationFile(const FilePath& filePath);
 
 	TokenLocationFileMapType m_files;
 	std::map<Id, TokenLocation*> m_locations;

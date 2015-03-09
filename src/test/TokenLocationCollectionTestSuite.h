@@ -69,7 +69,7 @@ public:
 		TS_ASSERT_EQUALS(3, a->getColumnNumber());
 		TS_ASSERT_EQUALS(4, a->getOtherTokenLocation()->getLineNumber());
 		TS_ASSERT_EQUALS(5, a->getOtherTokenLocation()->getColumnNumber());
-		TS_ASSERT_EQUALS("file.c", a->getFilePath());
+		TS_ASSERT_EQUALS("file.c", a->getFilePath().str());
 	}
 
 	void test_finding_token_locations_by_id()
