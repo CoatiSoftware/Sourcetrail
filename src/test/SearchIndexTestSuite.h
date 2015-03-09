@@ -223,12 +223,12 @@ public:
 	{
 		SearchIndex index;
 		index.addNode(utility::splitToVector("oaabbcc", "::"));
-		index.addNode(utility::splitToVector("ocbaabc", "::"));
+		index.addNode(utility::splitToVector("ocbcabc", "::"));
 
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("abc");
 
 		TS_ASSERT_EQUALS(2, matches.size());
-		TS_ASSERT_EQUALS("ocbaabc", matches[0].fullName);
+		TS_ASSERT_EQUALS("ocbcabc", matches[0].fullName);
 		TS_ASSERT_EQUALS("oaabbcc", matches[1].fullName);
 	}
 

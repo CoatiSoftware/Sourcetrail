@@ -348,10 +348,10 @@ std::pair<size_t, size_t> SearchNode::fuzzyMatch(
 		char c = m_name[i];
 		if (tolower(query[pos]) == tolower(c))
 		{
-			weight += std::max<size_t>(100 - size - i, 1);
+			weight += std::max<size_t>(100 / sqrt(size + i + 1), 1);
 			if (matchCount)
 			{
-				weight += matchCount * 10;
+				weight += matchCount * matchCount * 10;
 			}
 			else if (i == 0 || lastChar == '_' || tolower(c) != c)
 			{
