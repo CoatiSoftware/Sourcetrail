@@ -105,6 +105,8 @@ add_files(
 	data/graph/token_component/TokenComponentAggregation.h
 	data/graph/token_component/TokenComponentConst.cpp
 	data/graph/token_component/TokenComponentConst.h
+	data/graph/token_component/TokenComponentFilePath.cpp
+	data/graph/token_component/TokenComponentFilePath.h
 	data/graph/token_component/TokenComponentName.cpp
 	data/graph/token_component/TokenComponentName.h
 	data/graph/token_component/TokenComponentSignature.cpp

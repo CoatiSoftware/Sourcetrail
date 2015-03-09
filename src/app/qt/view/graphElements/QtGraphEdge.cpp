@@ -464,6 +464,9 @@ void QtGraphEdge::updateLine()
 	case Edge::EDGE_AGGREGATION:
 		color = QColor("#F8F8F8");
 		break;
+	case Edge::EDGE_INCLUDE:
+		color = QColor("#87BA50");
+		break;
 	default:
 		color = QColor("#878787");
 		break;

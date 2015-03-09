@@ -10,6 +10,7 @@
 #include "data/graph/token_component/TokenComponentName.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
 #include "data/graph/token_component/TokenComponentSignature.h"
+#include "data/graph/token_component/TokenComponentFilePath.h"
 
 Node::Node(NodeType type, std::shared_ptr<TokenComponentName> nameComponent)
 	: m_type(type)
@@ -52,14 +53,7 @@ bool Node::isType(NodeTypeMask mask) const
 
 std::string Node::getName() const
 {
-	if (isType(NODE_FILE))
-	{
-		return FileSystem::fileName(m_nameComponent->getName());
-	}
-	else
-	{
-		return m_nameComponent->getName();
-	}
+	return m_nameComponent->getName();
 }
 
 std::string Node::getFullName() const
@@ -308,6 +302,22 @@ void Node::addComponentSignature(std::shared_ptr<TokenComponentSignature> compon
 		LOG_ERROR("TokenComponentSignature has been set before!");
 	}
 	else if (!isType(NODE_UNDEFINED_FUNCTION | NODE_FUNCTION | NODE_METHOD))
+	{
+		LOG_ERROR("TokenComponentSignature can't be set on node of type: " + getTypeString());
+	}
+	else
+	{
+		addComponent(component);
+	}
+}
+
+void Node::addComponentFilePath(std::shared_ptr<TokenComponentFilePath> component)
+{
+	if (getComponent<TokenComponentFilePath>())
+	{
+		LOG_ERROR("TokenComponentFilePath has been set before!");
+	}
+	else if (!isType(NODE_FILE))
 	{
 		LOG_ERROR("TokenComponentSignature can't be set on node of type: " + getTypeString());
 	}

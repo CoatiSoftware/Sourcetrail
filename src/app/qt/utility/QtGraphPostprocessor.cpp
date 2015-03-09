@@ -1,7 +1,7 @@
 #include "QtGraphPostprocessor.h"
 
 // remark: maybe those two values could at some point be moved to an external config file (?)
-unsigned int QtGraphPostprocessor::s_cellSize = 20;
+unsigned int QtGraphPostprocessor::s_cellSize = 5;
 unsigned int QtGraphPostprocessor::s_cellPadding = 10;
 
 void QtGraphPostprocessor::doPostprocessing(std::list<std::shared_ptr<QtGraphNode>>& nodes)

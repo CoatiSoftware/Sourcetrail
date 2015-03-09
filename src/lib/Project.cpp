@@ -134,6 +134,13 @@ void Project::parseCode()
 				headerSearchPaths.push_back(includePaths[i]);
 			}
 
+			// std::cout << "parse files" << std::endl;
+			// for (const FilePath& path : filesToParse)
+			// {
+			// 	std::cout << path.absoluteStr() << std::endl;
+			// }
+			// std::cout << std::endl;
+
 			CxxParser parser(m_storage.get(), m_fileManager.get());
 			clock_t time = clock();
 			parser.parseFiles(

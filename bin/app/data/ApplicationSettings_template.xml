@@ -99,6 +99,9 @@
 			<normal>#ededed</normal>
 			<hover>#dddddd</hover>
 		</template_parameter_type>
-	}
+		<file>
+			<normal>#A3BA8A</normal>
+			<hover>#87BA50</hover>
+		</file>
 	</colors>
 </config>

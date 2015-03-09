@@ -56,12 +56,9 @@ QFont QtGraphNode::getFontForNodeType(Node::NodeType type)
 		break;
 
 	case Node::NODE_UNDEFINED_FUNCTION:
+	case Node::NODE_UNDEFINED_VARIABLE:
 	case Node::NODE_FUNCTION:
 	case Node::NODE_METHOD:
-		font.setPixelSize(11);
-		break;
-
-	case Node::NODE_UNDEFINED_VARIABLE:
 	case Node::NODE_GLOBAL_VARIABLE:
 	case Node::NODE_FIELD:
 	case Node::NODE_ENUM_CONSTANT:
@@ -355,28 +352,11 @@ void QtGraphNode::setStyle()
 		break;
 
 	case Node::NODE_UNDEFINED_FUNCTION:
+	case Node::NODE_UNDEFINED_VARIABLE:
 		useUndefinedPattern = true;
 		useUndefinedColor = true;
 	case Node::NODE_FUNCTION:
 	case Node::NODE_METHOD:
-		if (m_isActive || m_isHovering)
-		{
-			color = ApplicationSettings::getInstance()->getNodeTypeColor(m_data->getType(), "hover").c_str();
-			font.setWeight(QFont::Bold);
-		}
-		else
-		{
-			color = ApplicationSettings::getInstance()->getNodeTypeColor(m_data->getType()).c_str();
-		}
-
-		radius = 8.0f;
-		padding.x = 5;
-		padding.y = 3;
-		break;
-
-	case Node::NODE_UNDEFINED_VARIABLE:
-		useUndefinedPattern = true;
-		useUndefinedColor = true;
 	case Node::NODE_GLOBAL_VARIABLE:
 	case Node::NODE_FIELD:
 	case Node::NODE_ENUM_CONSTANT:

@@ -8,6 +8,7 @@
 #include "data/graph/token_component/TokenComponentConst.h"
 #include "data/graph/token_component/TokenComponentName.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
+#include "data/graph/token_component/TokenComponentFilePath.h"
 #include "data/graph/SubGraph.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
@@ -46,13 +47,13 @@ void Storage::clearFileData(const std::set<FilePath>& filePaths)
 {
 	for (const FilePath& filePath : filePaths)
 	{
-		TokenLocationFile* errorFile = m_errorLocationCollection.findTokenLocationFileByPath(filePath.str());
+		TokenLocationFile* errorFile = m_errorLocationCollection.findTokenLocationFileByPath(filePath);
 		if (errorFile)
 		{
 			m_errorLocationCollection.removeTokenLocationFile(errorFile);
 		}
 
-		TokenLocationFile* file = m_locationCollection.findTokenLocationFileByPath(filePath.str());
+		TokenLocationFile* file = m_locationCollection.findTokenLocationFileByPath(filePath);
 		if (!file)
 		{
 			continue;
@@ -105,7 +106,7 @@ std::set<FilePath> Storage::getDependingFilePathsAndRemoveFileNodes(const std::s
 
 	for (const FilePath& filePath : filePaths)
 	{
-		SearchNode* searchNode = m_tokenIndex.getNode(filePath.absoluteStr());
+		SearchNode* searchNode = m_tokenIndex.getNode(filePath.fileName());
 		if (!searchNode || searchNode->getTokenIds().size() != 1)
 		{
 			continue;
@@ -115,6 +116,13 @@ std::set<FilePath> Storage::getDependingFilePathsAndRemoveFileNodes(const std::s
 		if (!fileNode->isType(Node::NODE_FILE))
 		{
 			LOG_ERROR("Node is not of type file.");
+			continue;
+		}
+
+		if (!fileNode->getComponent<TokenComponentFilePath>() ||
+			fileNode->getComponent<TokenComponentFilePath>()->getFilePath() != filePath)
+		{
+			LOG_ERROR("Node is not resolving to the same file.");
 			continue;
 		}
 
@@ -640,7 +648,7 @@ Id Storage::onFileParsed(const std::string& filePath)
 {
 	log("file", filePath, ParseLocation());
 
-	Node* fileNode = addNodeHierarchy(Node::NODE_FILE, std::vector<std::string>(1, FilePath(filePath).absoluteStr()));
+	Node* fileNode = addFileNode(filePath);
 	return fileNode->getId();
 }
 
@@ -648,8 +656,8 @@ Id Storage::onFileIncludeParsed(const ParseLocation& location, const std::string
 {
 	log("include", includedPath, location);
 
-	Node* fileNode = addNodeHierarchy(Node::NODE_FILE, std::vector<std::string>(1, FilePath(filePath).absoluteStr()));
-	Node* includedFileNode = addNodeHierarchy(Node::NODE_FILE, std::vector<std::string>(1, FilePath(includedPath).absoluteStr()));
+	Node* fileNode = addFileNode(filePath);
+	Node* includedFileNode = addFileNode(includedPath);
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_INCLUDE, fileNode, includedFileNode);
 	addTokenLocation(edge, location);
@@ -1071,6 +1079,18 @@ Node* Storage::addNodeHierarchyWithDistinctSignature(Node::NodeType type, const 
 	return m_graph.createNodeHierarchyWithDistinctSignature(type, searchNode, signature);
 }
 
+Node* Storage::addFileNode(const FilePath& filePath)
+{
+	Node* fileNode = addNodeHierarchy(Node::NODE_FILE, std::vector<std::string>(1, filePath.fileName()));
+
+	if (!fileNode->getComponent<TokenComponentFilePath>())
+	{
+		fileNode->addComponentFilePath(std::make_shared<TokenComponentFilePath>(filePath));
+	}
+
+	return fileNode;
+}
+
 TokenComponentAccess::AccessType Storage::convertAccessType(ParserClient::AccessType access) const
 {
 	switch (access)
@@ -1259,7 +1279,7 @@ bool Storage::getQuerySearchResults(const std::string& query, const std::string&
 
 void Storage::addDependingFilePathsAndRemoveFileNodesRecursive(Node* fileNode, std::set<FilePath>* filePaths)
 {
-	bool inserted = filePaths->insert(FilePath(fileNode->getFullName())).second;
+	bool inserted = filePaths->insert(fileNode->getComponent<TokenComponentFilePath>()->getFilePath()).second;
 	if (!inserted)
 	{
 		return;

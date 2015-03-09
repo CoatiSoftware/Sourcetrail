@@ -139,6 +139,8 @@ private:
 	Node* addNodeHierarchy(Node::NodeType type, std::vector<std::string> nameHierarchy);
 	Node* addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function);
 
+	Node* addFileNode(const FilePath& filePath);
+
 	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;
 	TokenComponentAccess* addAccess(Node* node, ParserClient::AccessType access);
 

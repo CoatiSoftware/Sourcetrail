@@ -75,5 +75,5 @@ bool FilePath::operator!=(const FilePath& other) const
 
 bool FilePath::operator<(const FilePath& other) const
 {
-	return m_path.compare(other.m_path) < 0;
+	return boost::filesystem::absolute(m_path).compare(boost::filesystem::absolute(other.m_path)) < 0;
 }

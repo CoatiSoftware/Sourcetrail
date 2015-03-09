@@ -14,6 +14,7 @@ class TokenComponentConst;
 class TokenComponentName;
 class TokenComponentStatic;
 class TokenComponentSignature;
+class TokenComponentFilePath;
 
 class Node: public Token
 {
@@ -85,6 +86,7 @@ public:
 	void addComponentConst(std::shared_ptr<TokenComponentConst> component);
 	void addComponentStatic(std::shared_ptr<TokenComponentStatic> component);
 	void addComponentSignature(std::shared_ptr<TokenComponentSignature> component);
+	void addComponentFilePath(std::shared_ptr<TokenComponentFilePath> component);
 
 	// Logging.
 	virtual std::string getTypeString() const;
