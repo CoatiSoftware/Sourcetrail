@@ -15,7 +15,7 @@ std::vector<std::string> FileSystem::getFileNamesFromDirectory(
 		boost::filesystem::recursive_directory_iterator endit;
 		while (it != endit)
 		{
-			if (boost::filesystem::is_regular_file(*it) && isValidExtension(it->path().string(), extensions))
+			if (boost::filesystem::is_regular_file(*it) && hasExtension(it->path().string(), extensions))
 			{
 				files.push_back(it->path().generic_string());
 			}
@@ -38,7 +38,7 @@ std::vector<std::string> FileSystem::getFileNamesFromDirectoryUpdatedAfter(
 		boost::filesystem::recursive_directory_iterator endit;
 		while (it != endit)
 		{
-			if (boost::filesystem::is_regular_file(*it) && isValidExtension(it->path().string(), extensions))
+			if (boost::filesystem::is_regular_file(*it) && hasExtension(it->path().string(), extensions))
 			{
 				std::time_t t = boost::filesystem::last_write_time(*it);
 				boost::posix_time::ptime lastWriteTime = boost::posix_time::from_time_t(t);
@@ -65,7 +65,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromDirectoryPaths(
 			boost::filesystem::recursive_directory_iterator endit;
 			while (it != endit)
 			{
-				if (boost::filesystem::is_regular_file(*it) && isValidExtension(it->path().string(), fileExtensions))
+				if (boost::filesystem::is_regular_file(*it) && hasExtension(it->path().string(), fileExtensions))
 				{
 					std::time_t t = boost::filesystem::last_write_time(*it);
 					boost::posix_time::ptime lastWriteTime = boost::posix_time::from_time_t(t);
@@ -93,6 +93,11 @@ std::string FileSystem::fileName(const std::string& path)
 	return boost::filesystem::path(path).filename().generic_string();
 }
 
+std::string FileSystem::absoluteFilePath(const std::string& path)
+{
+	return boost::filesystem::absolute(boost::filesystem::path(path)).generic_string();
+}
+
 std::string FileSystem::extension(const std::string& path)
 {
 	return boost::filesystem::path(path).extension().generic_string();
@@ -103,22 +108,7 @@ std::string FileSystem::filePathWithoutExtension(const std::string& path)
 	return boost::filesystem::path(path).replace_extension().generic_string();
 }
 
-std::string FileSystem::absoluteFilePath(const std::string& path)
-{
-	return boost::filesystem::absolute(boost::filesystem::path(path)).generic_string();
-}
-
-bool FileSystem::equivalent(const std::string& pathA, const std::string& pathB)
-{
-	if (exists(pathA) && exists(pathB))
-	{
-		return boost::filesystem::equivalent(boost::filesystem::path(pathA), boost::filesystem::path(pathB));
-	}
-
-	return boost::filesystem::path(pathA).compare(boost::filesystem::path(pathB)) == 0;
-}
-
-bool FileSystem::isValidExtension(const std::string& filepath, const std::vector<std::string>& extensions)
+bool FileSystem::hasExtension(const std::string& filepath, const std::vector<std::string>& extensions)
 {
 	boost::filesystem::path path(filepath);
 
@@ -130,4 +120,14 @@ bool FileSystem::isValidExtension(const std::string& filepath, const std::vector
 		}
 	}
 	return false;
+}
+
+bool FileSystem::equivalent(const std::string& pathA, const std::string& pathB)
+{
+	if (exists(pathA) && exists(pathB))
+	{
+		return boost::filesystem::equivalent(boost::filesystem::path(pathA), boost::filesystem::path(pathB));
+	}
+
+	return boost::filesystem::path(pathA).compare(boost::filesystem::path(pathB)) == 0;
 }

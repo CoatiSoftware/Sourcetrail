@@ -1,8 +1,8 @@
 #include "data/parser/cxx/ASTActionFactory.h"
 
-ASTActionFactory::ASTActionFactory(ParserClient* client, FileManager* fileManager)
+ASTActionFactory::ASTActionFactory(ParserClient* client, FileRegister* fileRegister)
 	: m_client(client)
-	, m_fileManager(fileManager)
+	, m_fileRegister(fileRegister)
 {
 }
 
@@ -12,5 +12,5 @@ ASTActionFactory::~ASTActionFactory()
 
 clang::FrontendAction* ASTActionFactory::create()
 {
-	return new ASTAction(m_client, m_fileManager);
+	return new ASTAction(m_client, m_fileRegister);
 }

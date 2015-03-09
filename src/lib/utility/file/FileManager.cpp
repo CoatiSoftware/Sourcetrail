@@ -96,3 +96,13 @@ bool FileManager::hasFilePath(const std::string& filePath) const
 {
 	return (m_files.find(FileSystem::absoluteFilePath(filePath)) != m_files.end());
 }
+
+bool FileManager::hasSourceExtension(const std::string& filePath) const
+{
+	return FileSystem::hasExtension(filePath, m_sourceExtensions);
+}
+
+bool FileManager::hasIncludeExtension(const std::string& filePath) const
+{
+	return FileSystem::hasExtension(filePath, m_includeExtensions);
+}

@@ -7,7 +7,7 @@
 class CxxParser: public Parser
 {
 public:
-	CxxParser(ParserClient* client, FileManager* fileManager);
+	CxxParser(ParserClient* client, const FileManager* fileManager);
 	~CxxParser();
 
 	virtual void parseFiles(
@@ -17,7 +17,7 @@ public:
 	virtual void parseFile(std::shared_ptr<TextAccess> textAccess);
 
 private:
-	FileManager* m_fileManager;
+	const FileManager* m_fileManager;
 };
 
 #endif // CXX_PARSER_H

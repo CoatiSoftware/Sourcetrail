@@ -5,21 +5,23 @@
 #include "clang/Frontend/FrontendAction.h"
 
 #include "data/parser/cxx/ASTConsumer.h"
-#include "utility/file/FileManager.h"
+#include "utility/file/FileRegister.h"
 
 class ASTAction : public clang::ASTFrontendAction
 {
 public:
-	explicit ASTAction(ParserClient* client, FileManager* fileManager);
+	explicit ASTAction(ParserClient* client, FileRegister* fileRegister);
 	virtual ~ASTAction();
 
+protected:
 	virtual std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(clang::CompilerInstance& compiler, llvm::StringRef inFile);
 
 	virtual bool BeginSourceFileAction(clang::CompilerInstance& compiler, llvm::StringRef filePath);
+	virtual void EndSourceFileAction();
 
 private:
 	ParserClient* m_client;
-	FileManager* m_fileManager;
+	FileRegister* m_fileRegister;
 };
 
 #endif // AST_ACTION_H

@@ -4,9 +4,9 @@
 
 #include "data/parser/cxx/PreprocessorCallbacks.h"
 
-ASTAction::ASTAction(ParserClient* client, FileManager* fileManager)
+ASTAction::ASTAction(ParserClient* client, FileRegister* fileRegister)
 	: m_client(client)
-	, m_fileManager(fileManager)
+	, m_fileRegister(fileRegister)
 {
 }
 
@@ -16,7 +16,7 @@ ASTAction::~ASTAction()
 
 std::unique_ptr<clang::ASTConsumer> ASTAction::CreateASTConsumer(clang::CompilerInstance& compiler, llvm::StringRef inFile)
 {
-	return std::unique_ptr<clang::ASTConsumer>(new ASTConsumer(&compiler.getASTContext(), m_client, m_fileManager));
+	return std::unique_ptr<clang::ASTConsumer>(new ASTConsumer(&compiler.getASTContext(), m_client, m_fileRegister));
 }
 
 bool ASTAction::BeginSourceFileAction(clang::CompilerInstance& compiler, llvm::StringRef filePath)
@@ -25,7 +25,12 @@ bool ASTAction::BeginSourceFileAction(clang::CompilerInstance& compiler, llvm::S
 
 	clang::Preprocessor& preprocessor = compiler.getPreprocessor();
 	preprocessor.addPPCallbacks(
-		llvm::make_unique<PreprocessorCallbacks>(compiler.getSourceManager(), m_client, m_fileManager));
+		llvm::make_unique<PreprocessorCallbacks>(compiler.getSourceManager(), m_client, m_fileRegister));
 
 	return true;
+}
+
+void ASTAction::EndSourceFileAction()
+{
+	m_fileRegister->markParsingIncludeFilesParsed();
 }

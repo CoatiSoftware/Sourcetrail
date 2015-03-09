@@ -3,6 +3,11 @@
 #include <clang/AST/ParentMap.h>
 #include <clang/Lex/Lexer.h>
 
+#include "utility/file/FileManager.h"
+#include "utility/file/FileSystem.h"
+#include "utility/logging/logging.h"
+#include "utility/utilityString.h"
+
 #include "data/parser/cxx/ASTBodyVisitor.h"
 #include "data/parser/cxx/utilityCxx.h"
 #include "data/parser/ParseFunction.h"
@@ -10,14 +15,11 @@
 #include "data/parser/ParseTypeUsage.h"
 #include "data/parser/ParseVariable.h"
 #include "data/type/DataType.h"
-#include "utility/file/FileSystem.h"
-#include "utility/logging/logging.h"
-#include "utility/utilityString.h"
 
-ASTVisitor::ASTVisitor(clang::ASTContext* context, ParserClient* client, FileManager* fileManager)
+ASTVisitor::ASTVisitor(clang::ASTContext* context, ParserClient* client, FileRegister* fileRegister)
 	: m_context(context)
 	, m_client(client)
-	, m_fileManager(fileManager)
+	, m_fileRegister(fileRegister)
 {
 }
 
@@ -32,7 +34,7 @@ bool ASTVisitor::VisitStmt(const clang::Stmt* statement)
 
 bool ASTVisitor::VisitTypedefDecl(clang::TypedefDecl* declaration)
 {
-	if (isLocatedInMainFile(declaration))
+	if (isLocatedInUnparsedProjectFile(declaration))
 	{
 		m_client->onTypedefParsed(
 			getParseLocationForNamedDecl(declaration),
@@ -47,7 +49,7 @@ bool ASTVisitor::VisitTypedefDecl(clang::TypedefDecl* declaration)
 
 bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 {
-	if (isLocatedInMainFile(declaration))
+	if (isLocatedInUnparsedProjectFile(declaration))
 	{
 		if (declaration->isClass())
 		{
@@ -96,7 +98,7 @@ bool ASTVisitor::VisitVarDecl(clang::VarDecl* declaration)
 		return true;
 	}
 
-	if (isLocatedInMainFile(declaration))
+	if (isLocatedInUnparsedProjectFile(declaration))
 	{
 		clang::AccessSpecifier access = declaration->getAccess();
 
@@ -128,7 +130,7 @@ bool ASTVisitor::VisitVarDecl(clang::VarDecl* declaration)
 
 bool ASTVisitor::VisitFieldDecl(clang::FieldDecl* declaration)
 {
-	if (isLocatedInMainFile(declaration))
+	if (isLocatedInUnparsedProjectFile(declaration))
 	{
 		m_client->onFieldParsed(
 			getParseLocationForNamedDecl(declaration),
@@ -148,7 +150,7 @@ bool ASTVisitor::VisitFunctionDecl(clang::FunctionDecl* declaration)
 		return true;
 	}
 
-	if (isLocatedInMainFile(declaration))
+	if (isLocatedInUnparsedProjectFile(declaration))
 	{
 		m_client->onFunctionParsed(
 			getParseLocationForNamedDecl(declaration),
@@ -168,7 +170,7 @@ bool ASTVisitor::VisitFunctionDecl(clang::FunctionDecl* declaration)
 
 bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 {
-	if (isLocatedInMainFile(declaration))
+	if (isLocatedInUnparsedProjectFile(declaration))
 	{
 		ParserClient::AbstractionType abstraction = ParserClient::ABSTRACTION_NONE;
 		if (declaration->isPure())
@@ -208,7 +210,7 @@ bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 
 bool ASTVisitor::VisitCXXConstructorDecl(clang::CXXConstructorDecl* declaration)
 {
-	if (isLocatedInMainFile(declaration))
+	if (isLocatedInUnparsedProjectFile(declaration))
 	{
 		for (clang::CXXConstructorDecl::init_const_iterator it = declaration->init_begin(); it != declaration->init_end(); it++)
 		{
@@ -242,7 +244,7 @@ bool ASTVisitor::VisitCXXConstructorDecl(clang::CXXConstructorDecl* declaration)
 
 bool ASTVisitor::VisitNamespaceDecl(clang::NamespaceDecl* declaration)
 {
-	if (isLocatedInMainFile(declaration))
+	if (isLocatedInUnparsedProjectFile(declaration))
 	{
 		m_client->onNamespaceParsed(
 			declaration->isAnonymousNamespace() ? ParseLocation() : getParseLocationForNamedDecl(declaration),
@@ -255,7 +257,7 @@ bool ASTVisitor::VisitNamespaceDecl(clang::NamespaceDecl* declaration)
 
 bool ASTVisitor::VisitEnumDecl(clang::EnumDecl* declaration)
 {
-	if (isLocatedInMainFile(declaration))
+	if (isLocatedInUnparsedProjectFile(declaration))
 	{
 		m_client->onEnumParsed(
 			getParseLocationForNamedDecl(declaration),
@@ -269,7 +271,7 @@ bool ASTVisitor::VisitEnumDecl(clang::EnumDecl* declaration)
 
 bool ASTVisitor::VisitEnumConstantDecl(clang::EnumConstantDecl* declaration)
 {
-	if (isLocatedInMainFile(declaration))
+	if (isLocatedInUnparsedProjectFile(declaration))
 	{
 		m_client->onEnumConstantParsed(
 			getParseLocation(declaration->getSourceRange()),
@@ -281,7 +283,7 @@ bool ASTVisitor::VisitEnumConstantDecl(clang::EnumConstantDecl* declaration)
 
 bool ASTVisitor::VisitTemplateTypeParmDecl(clang::TemplateTypeParmDecl *declaration)
 {
-	if (declaration->hasDefaultArgument())
+	if (isLocatedInUnparsedProjectFile(declaration) && declaration->hasDefaultArgument())
 	{
 		m_client->onTemplateDefaultArgumentTypeParsed(
 			getParseTypeUsage(declaration->getDefaultArgumentInfo()->getTypeLoc(), declaration->getDefaultArgument()),
@@ -294,27 +296,24 @@ bool ASTVisitor::VisitTemplateTypeParmDecl(clang::TemplateTypeParmDecl *declarat
 bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 {
 	std::vector<std::string> rarchy = utility::getDeclNameHierarchy(declaration);
-	if (isLocatedInMainFile(declaration))
+	if (isLocatedInUnparsedProjectFile(declaration))
 	{
 		std::vector<std::string> templateRecordNameHierarchy = utility::getDeclNameHierarchy(declaration);
 		clang::TemplateParameterList* parameterList = declaration->getTemplateParameters();
 		for (size_t i = 0; i < parameterList->size(); i++)
 		{
 			clang::NamedDecl* namedDecl = parameterList->getParam(i);
-			if (isLocatedInMainFile(namedDecl))
-			{
-				m_client->onTemplateRecordParameterTypeParsed(
-					getParseLocationForNamedDecl(namedDecl),
-					utility::getDeclNameHierarchy(namedDecl),
-					templateRecordNameHierarchy
-				);
-			}
+			m_client->onTemplateRecordParameterTypeParsed(
+				getParseLocationForNamedDecl(namedDecl),
+				utility::getDeclNameHierarchy(namedDecl),
+				templateRecordNameHierarchy
+			);
 		}
 	}
 
 	// for implicit template specializations we do not need a valid location of the original template class definition (since that file could be included)
 	// handles explicit specializations and implicit specializations but no explicit partial specializations
-	if (isLocatedInSourceFile(declaration))
+	if (isLocatedInProjectFile(declaration)) // TODO: evaluate if explicit specializations have to be parsed in every source file
 	{
 		for (clang::ClassTemplateDecl::spec_iterator it = declaration->specializations().begin();
 			it != declaration->specializations().end(); it++
@@ -354,7 +353,7 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 
 bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* declaration)
 {
-	if (isLocatedInMainFile(declaration))
+	if (isLocatedInUnparsedProjectFile(declaration))
 	{
 		std::vector<std::string> specializedRecordNameHierarchy = utility::getDeclNameHierarchy(declaration);
 		std::vector<std::string> specializationParentNameHierarchy = utility::getTemplateSpecializationParentNameHierarchy(declaration);
@@ -368,26 +367,27 @@ bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplat
 		for (size_t i = 0; i < parameterList->size(); i++)
 		{
 			clang::NamedDecl* namedDecl = parameterList->getParam(i);
-			if (isLocatedInMainFile(namedDecl))
-			{
-				m_client->onTemplateRecordParameterTypeParsed(
-					getParseLocationForNamedDecl(namedDecl),
-					utility::getDeclNameHierarchy(namedDecl),
-					specializedRecordNameHierarchy
-				);
-			}
+			m_client->onTemplateRecordParameterTypeParsed(
+				getParseLocationForNamedDecl(namedDecl),
+				utility::getDeclNameHierarchy(namedDecl),
+				specializedRecordNameHierarchy
+			);
 		}
 
 		const clang::ASTTemplateArgumentListInfo* argumentInfoList = declaration->getTemplateArgsAsWritten();
 		for (size_t i = 0; i < argumentInfoList->NumTemplateArgs; i++)
 		{
 			const clang::TemplateArgumentLoc& argumentLoc = argumentInfoList->operator[](i);
-			const clang::QualType argumentType = argumentLoc.getArgument().getAsType();
+			const clang::TemplateArgument& argument = argumentLoc.getArgument();
+			if (argument.getKind() == clang::TemplateArgument::Type)
+			{
+				const clang::QualType argumentType = argument.getAsType();
 
-			m_client->onTemplateArgumentParsed(
-				getParseLocation(argumentLoc.getSourceRange()),
-				utility::qualTypeToDataType(argumentType).getTypeNameHierarchy(),
-				specializedRecordNameHierarchy);
+				m_client->onTemplateArgumentParsed(
+					getParseLocation(argumentLoc.getSourceRange()),
+					utility::qualTypeToDataType(argumentType).getTypeNameHierarchy(),
+					specializedRecordNameHierarchy);
+			}
 		}
 	}
 	return true;
@@ -396,14 +396,14 @@ bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplat
 bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declaration)
 {
 	const ParseFunction templateFunction = getParseFunction(declaration);
-	if (isLocatedInMainFile(declaration))
+	if (isLocatedInUnparsedProjectFile(declaration))
 	{
 		clang::TemplateParameterList* parameterList = declaration->getTemplateParameters();
 		for (size_t i = 0; i < parameterList->size(); i++)
 		{
 			clang::NamedDecl* namedDecl = parameterList->getParam(i);
 
-			if (isLocatedInMainFile(namedDecl))
+			if (isLocatedInUnparsedProjectFile(namedDecl))
 			{
 				std::vector<std::string> templateParameterTypeNameHierarchy = utility::getDeclNameHierarchy(namedDecl);
 
@@ -415,7 +415,7 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 			}
 		}
 	}
-	if (isLocatedInSourceFile(declaration))
+	if (isLocatedInProjectFile(declaration))
 	{
 		for (clang::FunctionTemplateDecl::spec_iterator it = declaration->specializations().begin(); it != declaration->specializations().end(); it++)
 		{
@@ -426,7 +426,7 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 			clang::FunctionTemplateSpecializationInfo* info = specializedFunctionDecl->getTemplateSpecializationInfo();
 			if (info->getTemplateSpecializationKind() == clang::TSK_ExplicitSpecialization)
 			{
-				if (isLocatedInMainFile(declaration))
+				if (isLocatedInUnparsedProjectFile(declaration))
 				{
 					m_client->onTemplateFunctionSpecializationParsed(
 						specializedFunctionLocation,
@@ -672,20 +672,31 @@ void ASTVisitor::VisitVarDeclInDeclBody(clang::FunctionDecl* decl, clang::VarDec
 	);
 }
 
-bool ASTVisitor::isLocatedInMainFile(const clang::Decl* declaration) const
+bool ASTVisitor::isLocatedInUnparsedProjectFile(const clang::Decl* declaration) const
 {
 	const clang::SourceLocation& location = declaration->getLocStart();
-	return location.isValid() && m_context->getSourceManager().isWrittenInMainFile(location);
+
+	if (!location.isValid())
+	{
+		return false;
+	}
+
+	if (m_context->getSourceManager().isWrittenInMainFile(location))
+	{
+		return true;
+	}
+
+	return m_fileRegister->includeFileIsParsing(m_context->getSourceManager().getFilename(location));
 }
 
-bool ASTVisitor::isLocatedInSourceFile(const clang::Decl* declaration) const
+bool ASTVisitor::isLocatedInProjectFile(const clang::Decl* declaration) const
 {
 	const clang::SourceLocation& location = declaration->getLocStart();
 	if (location.isValid())
 	{
 		const clang::SourceManager& sourceManager = m_context->getSourceManager();
 		std::string filePath = FileSystem::absoluteFilePath(sourceManager.getFilename(location));
-		return m_fileManager->hasFilePath(filePath);
+		return m_fileRegister->getFileManager()->hasFilePath(filePath);
 	}
 	return false;
 }

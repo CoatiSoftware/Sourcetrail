@@ -1,16 +1,33 @@
 #include "data/parser/cxx/PreprocessorCallbacks.h"
 
 #include "utility/file/FileManager.h"
+#include "utility/file/FileRegister.h"
+
 #include "data/parser/ParserClient.h"
 #include "data/parser/ParseLocation.h"
 
 PreprocessorCallbacks::PreprocessorCallbacks(
-	clang::SourceManager& sourceManager, ParserClient* client, FileManager* fileManager
+	clang::SourceManager& sourceManager, ParserClient* client, FileRegister* fileRegister
 )
 	: m_sourceManager(sourceManager)
 	, m_client(client)
-	, m_fileManager(fileManager)
+	, m_fileRegister(fileRegister)
 {
+}
+
+void PreprocessorCallbacks::FileChanged(
+	clang::SourceLocation location, FileChangeReason reason, clang::SrcMgr::CharacteristicKind, clang::FileID)
+{
+	if (reason != EnterFile)
+	{
+		return;
+	}
+
+	const clang::FileEntry *fileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(location));
+	if (fileEntry && m_fileRegister->getFileManager()->hasFilePath(fileEntry->getName()))
+	{
+		m_fileRegister->markIncludeFileParsing(fileEntry->getName());
+	}
 }
 
 void PreprocessorCallbacks::InclusionDirective(
@@ -24,10 +41,10 @@ void PreprocessorCallbacks::InclusionDirective(
 		std::string baseFilePath = baseFileEntry->getName();
 		std::string filePath = fileEntry->getName();
 
-		if (m_fileManager->hasFilePath(baseFilePath) && m_fileManager->hasFilePath(filePath))
+		if (m_fileRegister->getFileManager()->hasFilePath(baseFilePath) &&
+			m_fileRegister->getFileManager()->hasFilePath(filePath))
 		{
-			m_client->onFileIncludeParsed(
-				getParseLocation(fileNameRange.getAsRange()), baseFileEntry->getName(), fileEntry->getName());
+			m_client->onFileIncludeParsed(getParseLocation(fileNameRange.getAsRange()), baseFilePath, filePath);
 		}
 	}
 }

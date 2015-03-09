@@ -4,19 +4,19 @@
 #include "clang/Tooling/Tooling.h"
 
 #include "data/parser/cxx/ASTAction.h"
-#include "utility/file/FileManager.h"
+#include "utility/file/FileRegister.h"
 
 class ASTActionFactory : public clang::tooling::FrontendActionFactory
 {
 public:
-	explicit ASTActionFactory(ParserClient* client, FileManager* fileManager);
+	explicit ASTActionFactory(ParserClient* client, FileRegister* fileRegister);
 	virtual ~ASTActionFactory();
 
 	virtual clang::FrontendAction* create();
 
 private:
 	ParserClient* m_client;
-	FileManager* m_fileManager;
+	FileRegister* m_fileRegister;
 };
 
 #endif // AST_ACTION_FACTORY

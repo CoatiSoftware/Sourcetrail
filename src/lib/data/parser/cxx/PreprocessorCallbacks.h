@@ -4,7 +4,7 @@
 #include "clang/Basic/SourceManager.h"
 #include "clang/Lex/PPCallbacks.h"
 
-class FileManager;
+class FileRegister;
 class ParserClient;
 
 struct ParseLocation;
@@ -13,7 +13,9 @@ class PreprocessorCallbacks
 	: public clang::PPCallbacks
 {
 public:
-	explicit PreprocessorCallbacks(clang::SourceManager& sourceManager, ParserClient* client, FileManager* fileManager);
+	explicit PreprocessorCallbacks(clang::SourceManager& sourceManager, ParserClient* client, FileRegister* fileRegister);
+
+	virtual void FileChanged(clang::SourceLocation location, FileChangeReason reason, clang::SrcMgr::CharacteristicKind, clang::FileID);
 
 	virtual void InclusionDirective(
 		clang::SourceLocation hashLocation, const clang::Token& includeToken, llvm::StringRef fileName, bool isAngled,
@@ -25,7 +27,7 @@ private:
 
 	const clang::SourceManager& m_sourceManager;
 	ParserClient* m_client;
-	FileManager* m_fileManager;
+	FileRegister* m_fileRegister;
 };
 
 #endif // PREPROCESSOR_CALLBACKS_H

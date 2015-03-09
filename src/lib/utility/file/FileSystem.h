@@ -21,14 +21,13 @@ public:
 
 	static bool exists(const std::string& path);
 	static std::string fileName(const std::string& path);
-	static std::string extension(const std::string& path);
-	static std::string filePathWithoutExtension(const std::string& path);
 	static std::string absoluteFilePath(const std::string& path);
 
-	static bool equivalent(const std::string& pathA, const std::string& pathB);
+	static std::string extension(const std::string& path);
+	static std::string filePathWithoutExtension(const std::string& path);
+	static bool hasExtension(const std::string& filepath, const std::vector<std::string>& extensions);
 
-private:
-	static bool isValidExtension(const std::string& filepath, const std::vector<std::string>& extensions);
+	static bool equivalent(const std::string& pathA, const std::string& pathB);
 };
 
 #endif // FILE_SYSTEM_H

@@ -7,7 +7,10 @@ class TestFileManager: public FileManager
 {
 public:
 	TestFileManager();
+
 	virtual bool hasFilePath(const std::string& filePath) const;
+	virtual bool hasSourceExtension(const std::string& filePath) const;
+	virtual bool hasIncludeExtension(const std::string& filePath) const;
 };
 
 #endif // TEST_FILE_MANAGER_H

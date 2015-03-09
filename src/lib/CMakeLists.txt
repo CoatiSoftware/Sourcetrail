@@ -192,6 +192,8 @@ add_files(
 	utility/file/FileInfo.h
 	utility/file/FileManager.cpp
 	utility/file/FileManager.h
+	utility/file/FileRegister.cpp
+	utility/file/FileRegister.h
 	utility/file/FileSystem.cpp
 	utility/file/FileSystem.h
 

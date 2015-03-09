@@ -1,5 +1,6 @@
 #include "data/parser/cxx/CxxParser.h"
 
+#include "utility/file/FileRegister.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
 
@@ -34,13 +35,11 @@ namespace
 		clang::tooling::ToolInvocation Invocation(getSyntaxOnlyToolArgs(Args, FileNameRef), ToolAction, Files.get());
 
 		llvm::SmallString<1024> CodeStorage;
-		Invocation.mapVirtualFile(FileNameRef,
-		Code.toNullTerminatedStringRef(CodeStorage));
+		Invocation.mapVirtualFile(FileNameRef, Code.toNullTerminatedStringRef(CodeStorage));
 
 		for (auto &FilenameWithContent : VirtualMappedFiles)
 		{
-			Invocation.mapVirtualFile(FilenameWithContent.first,
-			FilenameWithContent.second);
+			Invocation.mapVirtualFile(FilenameWithContent.first, FilenameWithContent.second);
 		}
 
 		Invocation.setDiagnosticConsumer(DiagConsumer);
@@ -49,7 +48,7 @@ namespace
 	}
 }
 
-CxxParser::CxxParser(ParserClient* client, FileManager* fileManager)
+CxxParser::CxxParser(ParserClient* client, const FileManager* fileManager)
 	: Parser(client)
 	, m_fileManager(fileManager)
 {
@@ -112,13 +111,15 @@ void CxxParser::parseFiles(
 		return;
 	}
 
-	clang::tooling::ClangTool tool(*compilationDatabase, filePaths);
+	FileRegister fileRegister(m_fileManager, filePaths);
 
 	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
 	CxxDiagnosticConsumer reporter(llvm::errs(), &*options, m_client);
-	tool.setDiagnosticConsumer(&reporter);
 
-	ASTActionFactory actionFactory(m_client, m_fileManager);
+	ASTActionFactory actionFactory(m_client, &fileRegister);
+
+	clang::tooling::ClangTool tool(*compilationDatabase, fileRegister.getSourceFilePaths());
+	tool.setDiagnosticConsumer(&reporter);
 	tool.run(&actionFactory);
 }
 
@@ -130,6 +131,8 @@ void CxxParser::parseFile(std::shared_ptr<TextAccess> textAccess)
 	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
 	CxxDiagnosticConsumer reporter(llvm::errs(), &*options, m_client, false);
 
-	ASTActionFactory actionFactory(m_client, m_fileManager);
+	FileRegister fileRegister(m_fileManager, std::vector<std::string>());
+
+	ASTActionFactory actionFactory(m_client, &fileRegister);
 	runToolOnCodeWithArgs(&reporter, actionFactory.create(), textAccess->getText(), args);
 }

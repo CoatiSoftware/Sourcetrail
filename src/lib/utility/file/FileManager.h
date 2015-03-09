@@ -25,6 +25,8 @@ public:
 	std::set<std::string> getRemovedFilePaths() const;
 
 	virtual bool hasFilePath(const std::string& filePath) const;
+	virtual bool hasSourceExtension(const std::string& filePath) const;
+	virtual bool hasIncludeExtension(const std::string& filePath) const;
 
 private:
 	std::vector<std::string> m_sourcePaths;
