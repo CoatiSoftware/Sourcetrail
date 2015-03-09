@@ -6,9 +6,9 @@ include(cmake/create_source_groups.cmake)
 
 # Variables --------------------------------------------------------------------
 
-set(PROJECT_NAME masterproject)
+set(PROJECT_NAME Coati)
 
-set(APP_PROJECT_NAME "${PROJECT_NAME}_app")
+set(APP_PROJECT_NAME "${PROJECT_NAME}")
 set(LIB_PROJECT_NAME "${PROJECT_NAME}_lib")
 set(TEST_PROJECT_NAME "${PROJECT_NAME}_test")
 
