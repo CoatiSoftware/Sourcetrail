@@ -12,6 +12,7 @@
 #include "data/type/DataTypeQualifierList.h"
 #include "utility/utilityString.h"
 #include "utility/logging/logging.h"
+#include "llvm/Support/raw_ostream.h"
 
 namespace utility
 {
@@ -26,7 +27,6 @@ namespace utility
 		while (needsRefinement)
 		{
 			const clang::Type* type = qualType.getTypePtr();
-			clang::Type::TypeClass tk = type->getTypeClass();
 			switch (type->getTypeClass())
 			{
 			case clang::Type::Paren:
@@ -92,7 +92,6 @@ namespace utility
 					break;
 				}
 			case clang::Type::Builtin:
-			case clang::Type::TemplateSpecialization:
 				{
 					clang::PrintingPolicy pp = clang::PrintingPolicy(clang::LangOptions());
 					pp.SuppressTagKeyword = true;	// value "true": for a class A it prints "A" instead of "class A"
@@ -100,6 +99,12 @@ namespace utility
 					std::string typeName = qualType.getUnqualifiedType().getAsString(pp);
 					typeNameHerarchy.push_back(typeName);
 
+					needsRefinement = false;
+					break;
+				}
+			case clang::Type::TemplateSpecialization:
+				{
+					typeNameHerarchy = getDeclNameHierarchy(type->getAs<clang::TagType>()->getDecl());
 					needsRefinement = false;
 					break;
 				}
@@ -175,7 +180,8 @@ namespace utility
 				LOG_ERROR("unhandled declaration type: " + std::string(declaration->getDeclKindName()));
 			}
 			contextNameHierarchy = getContextNameHierarchy(declaration->getDeclContext());
-			if (clang::isa<clang::TemplateTypeParmDecl>(declaration))
+			if (clang::isa<clang::NonTypeTemplateParmDecl>(declaration) ||
+				clang::isa<clang::TemplateTypeParmDecl>(declaration)) // TODO: Handle templatetemplate stuff
 			{
 				contextNameHierarchy.back() += "::" + declName;
 			}
@@ -211,7 +217,6 @@ namespace utility
 	std::string getDeclName(const clang::NamedDecl* declaration)
 	{
 		std::string declName = declaration->getNameAsString();
-
 		if (clang::isa<clang::CXXRecordDecl>(declaration))
 		{
 			clang::ClassTemplateDecl* templateClassDeclaration = clang::dyn_cast<clang::CXXRecordDecl>(declaration)->getDescribedClassTemplate();
@@ -224,24 +229,23 @@ namespace utility
 				const clang::ClassTemplatePartialSpecializationDecl* partialSpecializationDecl =
 					clang::dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(declaration);
 
+				clang::TemplateParameterList* parameterList = partialSpecializationDecl->getTemplateParameters();
+				int currentParameterIndex = 0;
+
+				std::string specializedParameterNamePart = "<";
 				int templateArgumentCount = partialSpecializationDecl->getTemplateArgs().size();
 				const clang::ASTTemplateArgumentListInfo* templateArgumentListInfo = partialSpecializationDecl->getTemplateArgsAsWritten();
-				std::string specializedParameterNamePart = "<";
 				for (int i = 0; i < templateArgumentCount; i++)
 				{
 					const clang::TemplateArgument& templateArgument = templateArgumentListInfo->getTemplateArgs()[i].getArgument();
-					const clang::TemplateArgument::ArgKind kind = templateArgument.getKind();
-					switch (kind)
+					if (templateArgument.isDependent()) // TODO: fix case when arg depends on template parameter of outer template class.
 					{
-					case clang::TemplateArgument::Type:
-						specializedParameterNamePart += templateArgument.getAsType().getAsString();
-						break;
-					case clang::TemplateArgument::Integral:
-						specializedParameterNamePart += templateArgument.getIntegralType().getAsString();
-						break;
-					default:
-						LOG_ERROR("Type of template argument not handled.");
-						break;
+						specializedParameterNamePart += getTemplateParameterString(parameterList->getParam(currentParameterIndex));
+						currentParameterIndex++;
+					}
+					else
+					{
+						specializedParameterNamePart += getTemplateArgumentName(templateArgument);
 					}
 					specializedParameterNamePart += (i < templateArgumentCount - 1) ? ", " : "";
 				}
@@ -254,8 +258,7 @@ namespace utility
 				const clang::TemplateArgumentList& templateArgumentList = clang::dyn_cast<clang::ClassTemplateSpecializationDecl>(declaration)->getTemplateArgs();
 				for (size_t i = 0; i < templateArgumentList.size(); i++)
 				{
-					const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
-					specializedParameterNamePart += templateArgumentToDataType(templateArgument).getFullTypeName();
+					specializedParameterNamePart += getTemplateArgumentName(templateArgumentList.get(i));
 					specializedParameterNamePart += (i < templateArgumentList.size() - 1) ? ", " : "";
 				}
 				specializedParameterNamePart += ">";
@@ -283,15 +286,17 @@ namespace utility
 				declName += specializedParameterNamePart;
 			}
 		}
+		else if (clang::isa<clang::TemplateTemplateParmDecl>(declaration))
+		{
+			// nothing to do here
+		}
 		else if (clang::isa<clang::TemplateDecl>(declaration))
 		{
 			std::string templateParameterNamePart = "<";
 			clang::TemplateParameterList* parameterList = clang::dyn_cast<clang::TemplateDecl>(declaration)->getTemplateParameters();
 			for (size_t i = 0; i < parameterList->size(); i++)
 			{
-				clang::NamedDecl* namedDecl = parameterList->getParam(i);
-
-				templateParameterNamePart += namedDecl->getNameAsString();
+				templateParameterNamePart += getTemplateParameterString(parameterList->getParam(i));
 				templateParameterNamePart += (i < parameterList->size() - 1) ? ", " : "";
 			}
 			templateParameterNamePart += ">";
@@ -323,7 +328,7 @@ namespace utility
 		return specializationParentNameHierarchy;
 	}
 
-	DataType templateArgumentToDataType(const clang::TemplateArgument& argument)
+	DataType templateArgumentToDataType(const clang::TemplateArgument& argument) // remove this! this is stupid! agurment is not always a datatype.
 	{
 		const clang::TemplateArgument::ArgKind kind = argument.getKind();
 		switch (kind)
@@ -332,10 +337,115 @@ namespace utility
 			return utility::qualTypeToDataType(argument.getAsType());
 		case clang::TemplateArgument::Integral:
 			return utility::qualTypeToDataType(argument.getIntegralType());
+		case clang::TemplateArgument::Null:
+			LOG_ERROR("Type of template argument not handled: Null");
+			break;
+		case clang::TemplateArgument::Declaration:
+			return utility::qualTypeToDataType(argument.getAsDecl()->getType());
+		case clang::TemplateArgument::NullPtr:
+			return utility::qualTypeToDataType(argument.getNullPtrType());
+			break;
+		case clang::TemplateArgument::Template:
+			{
+				clang::TemplateName templateName = argument.getAsTemplate();
+				switch (templateName.getKind())
+				{
+				case clang::TemplateName::Template:
+					return DataType(getDeclNameHierarchy(templateName.getAsTemplateDecl()));
+				}
+				LOG_ERROR("Type of template argument not handled: Template");
+			}
+			break;
+		case clang::TemplateArgument::TemplateExpansion:
+			LOG_ERROR("Type of template argument not handled: TemplateExpansion");
+			break;
+		case clang::TemplateArgument::Expression:
+			return utility::qualTypeToDataType(argument.getAsExpr()->getType());
+		case clang::TemplateArgument::Pack:
+			LOG_ERROR("Type of template argument not handled: Pack");
+			break;
 		default:
-			LOG_ERROR("Type of template argument not handled.");
+			LOG_ERROR("Type of template argument not handled." + argument.getKind());
 			break;
 		}
 		return DataType(std::vector<std::string>());
+	}
+
+	std::string getTemplateParameterString(const clang::NamedDecl* parameter)
+	{
+		std::string templateParameterString = "";
+		clang::Decl::Kind templateParameterKind = parameter->getKind();
+		switch (templateParameterKind)
+		{
+		case clang::Decl::NonTypeTemplateParm:
+			{
+				const clang::NonTypeTemplateParmDecl* nonTypeTemplateParmDecl = clang::dyn_cast<clang::NonTypeTemplateParmDecl>(parameter);
+				templateParameterString = qualTypeToDataType(nonTypeTemplateParmDecl->getType()).getFullTypeName();
+			}
+			break;
+		case clang::Decl::TemplateTypeParm:
+			{
+				const clang::TemplateTypeParmDecl* templateTypeParmDecl = clang::dyn_cast<clang::TemplateTypeParmDecl>(parameter);
+				templateParameterString = templateTypeParmDecl->wasDeclaredWithTypename() ? "typename" : "class";
+			}
+			break;
+		case clang::Decl::TemplateTemplateParm:
+			{
+				const clang::TemplateTemplateParmDecl* templateTemplateParmDecl = clang::dyn_cast<clang::TemplateTemplateParmDecl>(parameter);
+				templateParameterString = "template<";
+				clang::TemplateParameterList* parameterList = templateTemplateParmDecl->getTemplateParameters();
+				for (size_t i = 0; i < parameterList->size(); i++)
+				{
+					templateParameterString += getTemplateParameterString(parameterList->getParam(i));
+					templateParameterString += (i < parameterList->size() - 1) ? ", " : "";
+				}
+				templateParameterString += ">";
+				templateParameterString += " typename"; // TODO: what if template template parameter is defined with class keyword?
+			}
+			break;
+		default:
+			LOG_ERROR("Unhandled kind of template parameter.");
+		}
+
+		std::string parameterName = parameter->getName();
+		if (!parameterName.empty())
+		{
+			templateParameterString += " " + parameterName;
+		}
+		return templateParameterString;
+	}
+
+	std::string getTemplateArgumentName(const clang::TemplateArgument& argument)
+	{
+		const clang::TemplateArgument::ArgKind kind = argument.getKind();
+		switch (kind)
+		{
+		case clang::TemplateArgument::Type:
+			return utility::qualTypeToDataType(argument.getAsType()).getFullTypeName();
+		case clang::TemplateArgument::Integral:
+		case clang::TemplateArgument::Null:
+		case clang::TemplateArgument::Declaration:
+		case clang::TemplateArgument::NullPtr:
+		case clang::TemplateArgument::Template:
+		case clang::TemplateArgument::TemplateExpansion:
+		case clang::TemplateArgument::Expression:
+			{
+				clang::PrintingPolicy pp = clang::PrintingPolicy(clang::LangOptions());
+				pp.SuppressTagKeyword = true;	// value "true": for a class A it prints "A" instead of "class A"
+				pp.Bool = true;					// value "true": prints bool type as "bool" instead of "_Bool"
+
+				std::string buf;
+				llvm::raw_string_ostream os(buf);
+				argument.print(pp, os);
+				return os.str();
+			}
+		case clang::TemplateArgument::Pack:
+			LOG_ERROR("Type of template argument not handled: Pack");
+			break;
+		default:
+			LOG_ERROR("Type of template argument not handled." + argument.getKind());
+			break;
+		}
+		return std::string();
 	}
 }

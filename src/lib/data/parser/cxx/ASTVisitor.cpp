@@ -303,11 +303,14 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 		for (size_t i = 0; i < parameterList->size(); i++)
 		{
 			clang::NamedDecl* namedDecl = parameterList->getParam(i);
-			m_client->onTemplateRecordParameterTypeParsed(
-				getParseLocationForNamedDecl(namedDecl),
-				utility::getDeclNameHierarchy(namedDecl),
-				templateRecordNameHierarchy
-			);
+			if (!namedDecl->getName().empty()) // do not create node for template param if the param has no name
+			{
+				m_client->onTemplateRecordParameterTypeParsed(
+					getParseLocationForNamedDecl(namedDecl),
+					utility::getDeclNameHierarchy(namedDecl),
+					templateRecordNameHierarchy
+				);
+			}
 		}
 	}
 
@@ -339,7 +342,7 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 
 				if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
 				{
-					m_client->onTemplateArgumentParsed(
+					m_client->onTemplateArgumentTypeParsed(
 						ParseLocation(specializationFilePath, 0, 0), // TODO: Find a valid ParseLocation here!
 						argumentNameHierarchy,
 						specializedRecordNameHierarchy
@@ -367,11 +370,14 @@ bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplat
 		for (size_t i = 0; i < parameterList->size(); i++)
 		{
 			clang::NamedDecl* namedDecl = parameterList->getParam(i);
-			m_client->onTemplateRecordParameterTypeParsed(
-				getParseLocationForNamedDecl(namedDecl),
-				utility::getDeclNameHierarchy(namedDecl),
-				specializedRecordNameHierarchy
-			);
+			if (!namedDecl->getName().empty()) // do not create node for template param if the param has no name
+			{
+				m_client->onTemplateRecordParameterTypeParsed(
+					getParseLocationForNamedDecl(namedDecl),
+					utility::getDeclNameHierarchy(namedDecl),
+					specializedRecordNameHierarchy
+				);
+			}
 		}
 
 		const clang::ASTTemplateArgumentListInfo* argumentInfoList = declaration->getTemplateArgsAsWritten();
@@ -379,15 +385,11 @@ bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplat
 		{
 			const clang::TemplateArgumentLoc& argumentLoc = argumentInfoList->operator[](i);
 			const clang::TemplateArgument& argument = argumentLoc.getArgument();
-			if (argument.getKind() == clang::TemplateArgument::Type)
-			{
-				const clang::QualType argumentType = argument.getAsType();
 
-				m_client->onTemplateArgumentParsed(
-					getParseLocation(argumentLoc.getSourceRange()),
-					utility::qualTypeToDataType(argumentType).getTypeNameHierarchy(),
-					specializedRecordNameHierarchy);
-			}
+			m_client->onTemplateArgumentTypeParsed(
+				getParseLocation(argumentLoc.getSourceRange()),
+				utility::templateArgumentToDataType(argument).getTypeNameHierarchy(),
+				specializedRecordNameHierarchy);
 		}
 	}
 	return true;
@@ -439,7 +441,7 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 						const clang::TemplateArgumentLoc& argumentLoc = argumentInfoList->operator[](i);
 						const clang::QualType argumentType = argumentLoc.getArgument().getAsType();
 
-						m_client->onTemplateArgumentParsed(
+						m_client->onTemplateArgumentTypeParsed(
 							getParseLocation(argumentLoc.getSourceRange()),
 							utility::qualTypeToDataType(argumentType).getTypeNameHierarchy(),
 							specializedFunction.nameHierarchy);
@@ -459,7 +461,7 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 					const clang::TemplateArgument& argument = argumentList->get(i);
 					const clang::QualType argumentType = argument.getAsType();
 
-					m_client->onTemplateArgumentParsed(
+					m_client->onTemplateArgumentTypeParsed(
 						ParseLocation(specializedFunctionLocation.filePath, 0, 0), // TODO: Find a valid ParseLocation here!
 						utility::qualTypeToDataType(argumentType).getTypeNameHierarchy(),
 						specializedFunction.nameHierarchy);

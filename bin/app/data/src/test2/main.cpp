@@ -2,9 +2,7 @@
 
 int main()
 {
-	TemplateTestClass<float, float> t1;
-	t1.run<float>(6.9f);
-	TemplateTestClass<int, int> t2;
-	t2.run<int>(6);
+	Foo<true, int, float> ft;
+	ft.bar();
 	return 0;
 }

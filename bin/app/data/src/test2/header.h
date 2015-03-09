@@ -1,14 +1,8 @@
-template <typename T, typename U>
-class TemplateTestClass
+template <bool B, typename, class F>
+class Foo
 {
 public:
-	template <typename P>
-	void run(P param);
+	void bar()
+	{
+	}
 };
-
-template <typename T, typename U>
-template <typename P>
-void TemplateTestClass<T, U>::run(P param)
-{
-}
-

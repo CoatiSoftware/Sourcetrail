@@ -87,7 +87,7 @@ public:
 	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function);
 	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseVariable& variable);
 
-	virtual Id onTemplateArgumentParsed(
+	virtual Id onTemplateArgumentTypeParsed(
 		const ParseLocation& location, const std::vector<std::string>& argumentNameHierarchy,
 		const std::vector<std::string>& templateNameHierarchy);
 	virtual Id onTemplateDefaultArgumentTypeParsed(

@@ -532,12 +532,12 @@ Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseVariable& v
 	return edge->getId();
 }
 
-Id Storage::onTemplateArgumentParsed(
+Id Storage::onTemplateArgumentTypeParsed(
 		const ParseLocation& location, const std::vector<std::string>& argumentNameHierarchy,
 		const std::vector<std::string>& templateNameHierarchy)
 {
 	log(
-		"template argument",
+		"template argument type",
 		utility::join(argumentNameHierarchy, "::") + " -> " + utility::join(templateNameHierarchy, "::"),
 		location
 	);
