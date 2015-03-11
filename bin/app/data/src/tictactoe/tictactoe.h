@@ -44,11 +44,11 @@ public:
 		for ( int i = 0; i < 9; i++ ) {
 			Player& player = *players_[playerIndex];
 
-			field_.MakeMove( player.Turn( field_ ), player.token_ );
+			field_.MakeMove( player.Turn( field_ ), player.getToken() );
 			field_.Show();
 
-			if ( field_.SameInRow( player.token_, 3 ) ) {
-				std::cout << player.name_ << " won!\n\n";
+			if ( field_.SameInRow( player.getToken(), 3 ) ) {
+				std::cout << player.getName() << " won!\n\n";
 				return;
 			}
 

@@ -15,6 +15,17 @@ public:
 
 	virtual Field::Move Turn( const Field& field ) const = 0;
 
+	const Field::Token& getToken() const
+	{
+		return token_;
+	}
+
+	const std::string getName() const
+	{
+		return name_;
+	}
+
+protected:
 	const Field::Token token_;
 	const std::string name_;
 };

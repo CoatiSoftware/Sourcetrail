@@ -63,36 +63,9 @@ void CxxParser::parseFiles(
 	const std::vector<std::string>& systemHeaderSearchPaths,
 	const std::vector<std::string>& headerSearchPaths
 ){
-	// Commandline flags passed to the programm. Everything after '--' will be interpreted by the ClangTool.
-	std::vector<std::string> args;
-	args.push_back("app");
-	args.push_back("--");
-
-	// verbose
-	// args.push_back("-v");
-
-	// The option -fno-delayed-template-parsing signals that templates that there should
-	// be AST elements for unused template functions as well.
-	args.push_back("-fno-delayed-template-parsing");
-
-	// The option -c signals that no executable is built.
-	args.push_back("-c");
-
-	// The option '-x c++' treats subsequent input files as C++.
-	args.push_back("-x");
-	args.push_back("c++");
-
-	args.push_back("-std=c++11");
-
-	for (const std::string& path : systemHeaderSearchPaths)
-	{
-		args.push_back("-isystem" + path);
-	}
-
-	for (const std::string& path : headerSearchPaths)
-	{
-		args.push_back("-I" + path);
-	}
+	std::vector<std::string> args = getArgs(systemHeaderSearchPaths, headerSearchPaths);
+	args.insert(args.begin(), "app");
+	args.insert(args.begin() + 1, "--");
 
 	int argc = args.size();
 	const char** argv = new const char*[argc];
@@ -129,16 +102,51 @@ void CxxParser::parseFiles(
 	tool.run(&actionFactory);
 }
 
-void CxxParser::parseFile(std::shared_ptr<TextAccess> textAccess)
-{
-	std::vector<std::string> args;
-	args.push_back("-fno-delayed-template-parsing");
+void CxxParser::parseFile(
+	std::shared_ptr<TextAccess> textAccess, const std::vector<std::string>& systemHeaderSearchPaths, bool logErrors
+){
+	std::vector<std::string> args = getArgs(systemHeaderSearchPaths, std::vector<std::string>());
 
 	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
-	CxxDiagnosticConsumer reporter(llvm::errs(), &*options, m_client, false);
+	CxxDiagnosticConsumer reporter(llvm::errs(), &*options, m_client, logErrors);
 
 	FileRegister fileRegister(m_fileManager, std::vector<FilePath>());
 
 	ASTActionFactory actionFactory(m_client, &fileRegister);
 	runToolOnCodeWithArgs(&reporter, actionFactory.create(), textAccess->getText(), args);
+}
+
+std::vector<std::string> CxxParser::getArgs(
+	const std::vector<std::string>& systemHeaderSearchPaths, const std::vector<std::string>& headerSearchPaths
+) const {
+	// Commandline flags passed to the programm. Everything after '--' will be interpreted by the ClangTool.
+	std::vector<std::string> args;
+
+	// verbose
+	// args.push_back("-v");
+
+	// The option -fno-delayed-template-parsing signals that templates that there should
+	// be AST elements for unused template functions as well.
+	args.push_back("-fno-delayed-template-parsing");
+
+	// The option -c signals that no executable is built.
+	args.push_back("-c");
+
+	// The option '-x c++' treats subsequent input files as C++.
+	args.push_back("-x");
+	args.push_back("c++");
+
+	args.push_back("-std=c++11");
+
+	for (const std::string& path : systemHeaderSearchPaths)
+	{
+		args.push_back("-isystem" + path);
+	}
+
+	for (const std::string& path : headerSearchPaths)
+	{
+		args.push_back("-I" + path);
+	}
+
+	return args;
 }

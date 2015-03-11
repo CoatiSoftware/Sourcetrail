@@ -20,7 +20,10 @@ public:
 		const std::vector<FilePath>& filePaths,
 		const std::vector<std::string>& systemHeaderSearchPaths,
 		const std::vector<std::string>& headerSearchPaths) = 0;
-	virtual void parseFile(std::shared_ptr<TextAccess> textAccess) = 0;
+	virtual void parseFile(
+		std::shared_ptr<TextAccess> textAccess,
+		const std::vector<std::string>& systemHeaderSearchPaths,
+		bool logErrors) = 0;
 
 protected:
 	ParserClient* m_client;

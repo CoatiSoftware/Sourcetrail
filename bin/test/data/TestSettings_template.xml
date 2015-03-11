@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- INTEGER: int e.g 123 -->
+<!-- DECIMAL: float e.g 123.456 -->
+<!-- STRING: string e.g hello -->
+<!-- COLOR: int int int int - rgba e.g. 125 125 125 255 -->
+
+<config>
+	<source>
+		<HeaderSearchPaths>
+			<HeaderSearchPath><!-- STRING: header search path for each path a HeaderSearchPaht element--></HeaderSearchPath>
+		</HeaderSearchPaths>
+	</source>
+</config>

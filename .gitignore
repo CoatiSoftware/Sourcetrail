@@ -1,8 +1,11 @@
 /build/
 
 /bin/app/Debug/
-/bin/app/Release/
 /bin/app/data/log/
+/bin/app/data/ApplicationSettings.xml
+/bin/app/data/ProjectSettings.xml
+/bin/app/data/window_settings.ini
+/bin/app/Release/
 
 /bin/lib/
 
@@ -10,9 +13,6 @@
 /bin/test/Release/
 /bin/test/data/log/
 /bin/test/data/temp.xml
-
-/bin/app/data/window_settings.ini
-/bin/app/data/ApplicationSettings.xml
-/bin/app/data/ProjectSettings.xml
+/bin/test/data/TestSettings.xml
 
 .DS_Store

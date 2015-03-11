@@ -23,5 +23,12 @@ bool SearchResult::operator()(const SearchResult& lhs, const SearchResult& rhs) 
 		return lhs.weight > rhs.weight;
 	}
 
-	return utility::toLowerCase(lhs.node->getFullName()) < utility::toLowerCase(rhs.node->getFullName());
+	std::string lhsLow = utility::toLowerCase(lhs.node->getFullName());
+	std::string rhsLow = utility::toLowerCase(rhs.node->getFullName());
+	if (lhsLow != rhsLow)
+	{
+		return lhsLow < rhsLow;
+	}
+
+	return lhs.node->getFirstTokenId() < rhs.node->getFirstTokenId();
 }

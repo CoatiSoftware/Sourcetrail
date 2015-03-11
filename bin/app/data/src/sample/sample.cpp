@@ -3,7 +3,10 @@ public:
   void Do() {}
 };
 
-class Base {};
+class Base {
+protected:
+  void Init() {}
+};
 
 class Game : public Base {
 public:
@@ -11,12 +14,11 @@ public:
     Init();
   }
 
-  void Init() {}
-
   void Run() {
     player.Do();
   }
 
+private:
   Player player;
 };
 

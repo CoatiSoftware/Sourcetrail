@@ -14,9 +14,16 @@ public:
 		const std::vector<FilePath>& filePaths,
 		const std::vector<std::string>& systemHeaderSearchPaths,
 		const std::vector<std::string>& headerSearchPaths);
-	virtual void parseFile(std::shared_ptr<TextAccess> textAccess);
+	virtual void parseFile(
+		std::shared_ptr<TextAccess> textAccess,
+		const std::vector<std::string>& systemHeaderSearchPaths,
+		bool logErrors);
 
 private:
+	std::vector<std::string> getArgs(
+		const std::vector<std::string>& systemHeaderSearchPaths,
+		const std::vector<std::string>& headerSearchPaths) const;
+
 	const FileManager* m_fileManager;
 };
 

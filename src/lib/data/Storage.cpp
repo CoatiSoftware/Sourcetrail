@@ -738,7 +738,7 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 		}
 
 		Token* token = m_graph.getTokenById(*match.tokenIds.cbegin());
-		if(!token->isEdge())
+		if (token->isNode())
 		{
 			match.nodeType = dynamic_cast<Node*>(token)->getType();
 		}

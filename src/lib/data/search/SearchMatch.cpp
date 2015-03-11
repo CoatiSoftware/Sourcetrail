@@ -61,7 +61,6 @@ std::string SearchMatch::encodeForQuery() const
 	{
 		std::stringstream ss;
 		ss << QueryToken::BOUNDARY << fullName;
-		ss << QueryToken::DELIMITER << nodeType;
 		for (Id tokenId : tokenIds)
 		{
 			ss << QueryToken::DELIMITER << tokenId;
@@ -103,16 +102,14 @@ void SearchMatch::decodeFromQuery(std::string query)
 
 	fullName = queryParts[0];
 
-	if(queryParts.size() > 1)
+	if (queryParts.size() > 1)
 	{
-		for(int i = 2; i < queryParts.size(); ++i)
+		for (size_t i = 2; i < queryParts.size(); ++i)
 		{
 			tokenIds.insert(std::strtoul(queryParts[i].c_str(),nullptr,0));
 		}
 	}
-
 }
-
 
 std::deque<SearchMatch> SearchMatch::stringDequeToSearchMatchDeque(const std::deque<std::string>& stringDeque)
 {
