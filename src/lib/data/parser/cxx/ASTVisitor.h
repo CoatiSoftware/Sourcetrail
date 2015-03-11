@@ -39,6 +39,7 @@ public:
 	virtual bool VisitEnumConstantDecl(clang::EnumConstantDecl* declaration); // enum fields
 
 	virtual bool VisitTemplateTypeParmDecl(clang::TemplateTypeParmDecl *declaration);
+	virtual bool VisitTemplateTemplateParmDecl(clang::TemplateTemplateParmDecl *declaration);
 	virtual bool VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration);
 	virtual bool VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* declaration);
 	virtual bool VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declaration);
@@ -69,7 +70,9 @@ private:
 	ParseLocation getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const;
 	ParseLocation getParseLocationOfRecordBody(clang::CXXRecordDecl* decl) const;
 
-	ParseTypeUsage getParseTypeUsage(clang::TypeLoc typeLoc, const clang::QualType& type) const;
+	ParseTypeUsage getParseTypeUsage(const clang::TypeLoc& typeLoc, const clang::QualType& type) const;
+	ParseTypeUsage getParseTypeUsage(const clang::TypeLoc& typeLoc, const DataType& type) const;
+	ParseTypeUsage getParseTypeUsage(const clang::SourceRange& sourceRange, const DataType& type) const;
 	ParseTypeUsage getParseTypeUsageOfReturnType(const clang::FunctionDecl* declaration) const;
 	std::vector<ParseTypeUsage> getParameters(const clang::FunctionDecl* declaration) const;
 

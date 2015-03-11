@@ -293,6 +293,21 @@ bool ASTVisitor::VisitTemplateTypeParmDecl(clang::TemplateTypeParmDecl *declarat
 	return true;
 }
 
+bool ASTVisitor::VisitTemplateTemplateParmDecl(clang::TemplateTemplateParmDecl *declaration)
+{
+	if (isLocatedInUnparsedProjectFile(declaration) && declaration->hasDefaultArgument())
+	{
+		const clang::TemplateArgumentLoc& defaultArgumentLoc = declaration->getDefaultArgument();
+		clang::SourceRange sr = defaultArgumentLoc.getSourceRange();
+		DataType defaultArgumentDataType(utility::getDeclNameHierarchy(defaultArgumentLoc.getArgument().getAsTemplate().getAsTemplateDecl()));
+		m_client->onTemplateDefaultArgumentTypeParsed(
+			getParseTypeUsage(sr, defaultArgumentDataType),
+			utility::getDeclNameHierarchy(declaration)
+		);
+	}
+	return true;
+}
+
 bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 {
 	std::vector<std::string> rarchy = utility::getDeclNameHierarchy(declaration);
@@ -777,9 +792,14 @@ ParseLocation ASTVisitor::getParseLocationOfRecordBody(clang::CXXRecordDecl* dec
 	return ParseLocation();
 }
 
-ParseTypeUsage ASTVisitor::getParseTypeUsage(clang::TypeLoc typeLoc, const clang::QualType& type) const
+ParseTypeUsage ASTVisitor::getParseTypeUsage(const clang::TypeLoc& typeLoc, const clang::QualType& type) const
 {
 	DataType dataType = utility::qualTypeToDataType(type);
+	return getParseTypeUsage(typeLoc, dataType);
+}
+
+ParseTypeUsage ASTVisitor::getParseTypeUsage(const clang::TypeLoc& typeLoc, const DataType& type) const
+{
 	ParseLocation parseLocation;
 
 	if (!typeLoc.isNull())
@@ -793,7 +813,25 @@ ParseTypeUsage ASTVisitor::getParseTypeUsage(clang::TypeLoc typeLoc, const clang
 		parseLocation.endColumnNumber -= 1;
 	}
 
-	return ParseTypeUsage(parseLocation, dataType);
+	return ParseTypeUsage(parseLocation, type);
+}
+
+ParseTypeUsage ASTVisitor::getParseTypeUsage(const clang::SourceRange& sourceRange, const DataType& type) const
+{
+	ParseLocation parseLocation;
+
+	if (sourceRange.isValid())
+	{
+		clang::SourceRange sr(
+			sourceRange.getBegin(),
+			clang::Lexer::getLocForEndOfToken(sourceRange.getEnd(), 0, m_context->getSourceManager(), clang::LangOptions())
+		);
+
+		parseLocation = getParseLocation(sr);
+		parseLocation.endColumnNumber -= 1;
+	}
+
+	return ParseTypeUsage(parseLocation, type);
 }
 
 ParseTypeUsage ASTVisitor::getParseTypeUsageOfReturnType(const clang::FunctionDecl* declaration) const
