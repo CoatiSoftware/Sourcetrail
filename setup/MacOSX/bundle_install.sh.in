@@ -54,7 +54,7 @@ echo -e $INFO "Copying bundle contents."
 cp $APP_NAME $APP_PATH
 cp bundle_info.plist $BUNDLE_PATH/Contents/Info.plist
 cp -R ../data $RES_DIR/data
-
+rm $RES_DIR/data/log/*
 
 echo -e $INFO "Copying dynamic libraries."
 for LIB_PATH in ${DYNLIB_PATHS[@]}
@@ -116,5 +116,23 @@ otool -L $PLUGIN_DIR/libqcocoa.dylib
 
 echo -e $INFO "App dependencies"
 otool -L $APP_PATH
+
+echo -e $INFO "Create icon"
+ICON=../data/gui/logo_1024_1024.png
+ICON_SET=$RES_DIR/icon.iconset
+
+mkdir -p $ICON_SET
+convert $ICON -resize 16x16 $ICON_SET/icon_16x16.png
+convert $ICON -resize 32x32 $ICON_SET/icon_16x16@2x.png
+convert $ICON -resize 32x32 $ICON_SET/icon_32x32.png
+convert $ICON -resize 64x64 $ICON_SET/icon_32x32@2x.png
+convert $ICON -resize 128x128 $ICON_SET/icon_128x128.png
+convert $ICON -resize 256x256 $ICON_SET/icon_128x128@2x.png
+convert $ICON -resize 256x256 $ICON_SET/icon_256x256.png
+convert $ICON -resize 512x512 $ICON_SET/icon_256x256@2x.png
+convert $ICON -resize 512x512 $ICON_SET/icon_512x512.png
+convert $ICON -resize 1024x1024 $ICON_SET/icon_512x512@2x.png
+
+iconutil -c icns -o $RES_DIR/icon.icns $ICON_SET
 
 echo -e $SUCCESS "Installed bundle successfully!"
