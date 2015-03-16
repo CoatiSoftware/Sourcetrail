@@ -29,15 +29,41 @@ const std::vector<FilePath>& FileRegister::getSourceFilePaths() const
 	return m_sourceFilePaths;
 }
 
-bool FileRegister::includeFileIsParsing(const std::string& filePath) const
+std::vector<FilePath> FileRegister::getUnparsedIncludeFilePaths() const
 {
-	std::map<FilePath, ParseState>::const_iterator it = m_includeFilePaths.find(FilePath(filePath));
+	std::vector<FilePath> filePaths;
+
+	for (std::pair<FilePath, ParseState>&& p : m_includeFilePaths)
+	{
+		if (p.second == STATE_UNPARSED)
+		{
+			filePaths.push_back(p.first);
+		}
+	}
+
+	return filePaths;
+}
+
+bool FileRegister::includeFileIsParsing(const FilePath& filePath) const
+{
+	std::map<FilePath, ParseState>::const_iterator it = m_includeFilePaths.find(filePath);
 	if (it == m_includeFilePaths.end())
 	{
 		return false;
 	}
 
 	return it->second == STATE_PARSING;
+}
+
+bool FileRegister::includeFileIsParsed(const FilePath& filePath) const
+{
+	std::map<FilePath, ParseState>::const_iterator it = m_includeFilePaths.find(filePath);
+	if (it == m_includeFilePaths.end())
+	{
+		return false;
+	}
+
+	return it->second == STATE_PARSED;
 }
 
 void FileRegister::markIncludeFileParsing(const std::string& filePath)

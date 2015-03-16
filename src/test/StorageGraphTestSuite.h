@@ -1,7 +1,9 @@
 #include "cxxtest/TestSuite.h"
 
-#include "data/graph/token_component/TokenComponentAggregation.h"
+#include "utility/utilityString.h"
+
 #include "data/graph/StorageGraph.h"
+#include "data/graph/token_component/TokenComponentAggregation.h"
 #include "data/search/SearchIndex.h"
 
 class StorageGraphTestSuite : public CxxTest::TestSuite

@@ -1,20 +1,20 @@
 #include <cxxtest/TestSuite.h>
 
-#include "ProjectSettings.h"
-#include "Settings.h"
+#include "settings/ProjectSettings.h"
+#include "settings/Settings.h"
 
 class SettingsTestSuite : public CxxTest::TestSuite
 {
 public:
 	void test_settings_get_loaded_from_file()
 	{
-		Settings settings;
+		TestSettings settings;
 		TS_ASSERT(settings.load("data/SettingsTestSuite/settings.xml"));
 	}
 
 	void test_settings_get_not_loaded_from_file()
 	{
-		Settings settings;
+		TestSettings settings;
 		TS_ASSERT(!settings.load("data/SettingsTestSuite/wrong_settings.xml"));
 	}
 
@@ -114,7 +114,10 @@ public:
 	void test_load_source_path_from_file()
 	{
 		ProjectSettings::getInstance()->load("data/SettingsTestSuite/settings.xml");
-		TS_ASSERT_EQUALS(ProjectSettings::getInstance()->getSourcePath(), "data");
+		std::vector<std::string> paths = ProjectSettings::getInstance()->getSourcePaths();
+
+		TS_ASSERT_EQUALS(paths.size(), 1);
+		TS_ASSERT_EQUALS(paths[0], "data");
 	}
 
 	void test_load_header_search_paths_from_file()

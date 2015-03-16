@@ -1,13 +1,14 @@
 #include "Application.h"
 
-#include "ApplicationSettings.h"
+#include "utility/logging/logging.h"
+#include "utility/messaging/MessageQueue.h"
+#include "utility/messaging/type/MessageActivateTokens.h"
+
 #include "component/view/MainView.h"
 #include "component/view/ViewFactory.h"
 #include "data/access/GraphAccessProxy.h"
 #include "data/access/LocationAccessProxy.h"
-#include "utility/logging/logging.h"
-#include "utility/messaging/MessageQueue.h"
-#include "utility/messaging/type/MessageActivateTokens.h"
+#include "settings/ApplicationSettings.h"
 
 std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 {

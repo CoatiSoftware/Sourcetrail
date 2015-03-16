@@ -1,19 +1,15 @@
 #include "Project.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string>
-#include <vector>
-#include <time.h>
+#include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/utility.h"
 
-#include "ApplicationSettings.h"
 #include "data/access/GraphAccessProxy.h"
 #include "data/access/LocationAccessProxy.h"
 #include "data/graph/Token.h"
 #include "data/parser/cxx/CxxParser.h"
-#include "utility/logging/logging.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
-#include "utility/file/FileSystem.h"
+#include "settings/ApplicationSettings.h"
+#include "settings/ProjectSettings.h"
 
 std::shared_ptr<Project> Project::create(GraphAccessProxy* graphAccessProxy, LocationAccessProxy* locationAccessProxy)
 {
@@ -64,7 +60,7 @@ void Project::clearProjectSettings()
 bool Project::setSourceDirectoryPath(const std::string& sourceDirectoryPath)
 {
 	m_projectSettingsFilepath = sourceDirectoryPath + "/ProjectSettings.xml";
-	return ProjectSettings::getInstance()->setSourcePath(sourceDirectoryPath);
+	return ProjectSettings::getInstance()->setSourcePaths(std::vector<std::string>(1, sourceDirectoryPath));
 }
 
 void Project::clearStorage()
@@ -79,86 +75,78 @@ void Project::clearStorage()
 
 void Project::parseCode()
 {
-	std::string sourcePath = ProjectSettings::getInstance()->getSourcePath();
-	if (sourcePath.size())
+	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
+	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
+
+	std::vector<std::string> sourcePaths = projSettings->getSourcePaths();
+	if (!sourcePaths.size())
 	{
-		std::vector<std::string> includePaths;
-		includePaths.push_back(sourcePath);
-
-		// TODO: move this creation to another place (after projectsettings have been loaded)
-		if (!m_fileManager)
-		{
-			std::vector<std::string> sourcePaths;
-			sourcePaths.push_back(sourcePath);
-
-			std::vector<std::string> sourceExtensions;
-			sourceExtensions.push_back(".cpp");
-			sourceExtensions.push_back(".cc");
-
-			std::vector<std::string> includeExtensions;
-			includeExtensions.push_back(".h");
-			includeExtensions.push_back(".hpp");
-
-			m_fileManager = std::make_shared<FileManager>(sourcePaths, includePaths, sourceExtensions, includeExtensions);
-		}
-
-		m_fileManager->fetchFilePaths();
-		std::set<FilePath> addedFilePaths = m_fileManager->getAddedFilePaths();
-		std::set<FilePath> updatedFilePaths = m_fileManager->getUpdatedFilePaths();
-		std::set<FilePath> removedFilePaths = m_fileManager->getRemovedFilePaths();
-
-		std::set<FilePath> dependingFilePaths;
-		dependingFilePaths = m_storage->getDependingFilePathsAndRemoveFileNodes(updatedFilePaths);
-		updatedFilePaths.insert(dependingFilePaths.begin(), dependingFilePaths.end());
-
-		dependingFilePaths = m_storage->getDependingFilePathsAndRemoveFileNodes(removedFilePaths);
-		updatedFilePaths.insert(dependingFilePaths.begin(), dependingFilePaths.end());
-
-		m_storage->clearFileData(updatedFilePaths);
-		m_storage->clearFileData(removedFilePaths);
-
-		std::vector<FilePath> filesToParse;
-		filesToParse.insert(filesToParse.end(), addedFilePaths.begin(), addedFilePaths.end());
-		filesToParse.insert(filesToParse.end(), updatedFilePaths.begin(), updatedFilePaths.end());
-
-		if (filesToParse.size() == 0)
-		{
-			MessageFinishedParsing(0, 0, m_storage->getErrorCount()).dispatch();
-		}
-		else
-		{
-			// Add the SourcePaths as HeaderSearchPaths as well, so clang will also look here when searching include files.
-			std::vector<std::string> headerSearchPaths = ProjectSettings::getInstance()->getHeaderSearchPaths();
-			for (size_t i = 0; i < includePaths.size(); i++)
-			{
-				headerSearchPaths.push_back(includePaths[i]);
-			}
-
-			// std::cout << "parse files" << std::endl;
-			// for (const FilePath& path : filesToParse)
-			// {
-			// 	std::cout << path.absoluteStr() << std::endl;
-			// }
-			// std::cout << std::endl;
-
-			CxxParser parser(m_storage.get(), m_fileManager.get());
-			clock_t time = clock();
-			parser.parseFiles(
-				filesToParse,
-				ApplicationSettings::getInstance()->getHeaderSearchPaths(),
-				headerSearchPaths
-			);
-			time = clock() - time;
-
-			// m_storage->logGraph();
-			// m_storage->logLocations();
-
-			double parseTime = (double)(time) / CLOCKS_PER_SEC;
-			LOG_INFO_STREAM(<< "parse time: " << parseTime);
-
-			MessageFinishedParsing(filesToParse.size(), parseTime, m_storage->getErrorCount()).dispatch();
-		}
+		return;
 	}
+
+	std::vector<std::string> includePaths(sourcePaths);
+
+	// TODO: move this creation to another place (after projectsettings have been loaded)
+	if (!m_fileManager)
+	{
+		std::vector<std::string> sourceExtensions;
+		sourceExtensions.push_back(".cpp");
+		sourceExtensions.push_back(".cc");
+
+		std::vector<std::string> includeExtensions;
+		includeExtensions.push_back(".h");
+		includeExtensions.push_back(".hpp");
+
+		m_fileManager = std::make_shared<FileManager>(sourcePaths, includePaths, sourceExtensions, includeExtensions);
+	}
+
+	m_fileManager->fetchFilePaths();
+	std::set<FilePath> addedFilePaths = m_fileManager->getAddedFilePaths();
+	std::set<FilePath> updatedFilePaths = m_fileManager->getUpdatedFilePaths();
+	std::set<FilePath> removedFilePaths = m_fileManager->getRemovedFilePaths();
+
+	utility::append(updatedFilePaths, m_storage->getDependingFilePathsAndRemoveFileNodes(updatedFilePaths));
+	utility::append(updatedFilePaths, m_storage->getDependingFilePathsAndRemoveFileNodes(removedFilePaths));
+
+	m_storage->clearFileData(updatedFilePaths);
+	m_storage->clearFileData(removedFilePaths);
+
+	std::vector<FilePath> filesToParse;
+	filesToParse.insert(filesToParse.end(), addedFilePaths.begin(), addedFilePaths.end());
+	filesToParse.insert(filesToParse.end(), updatedFilePaths.begin(), updatedFilePaths.end());
+
+	if (filesToParse.size() == 0)
+	{
+		MessageFinishedParsing(0, 0, m_storage->getErrorCount()).dispatch();
+		return;
+	}
+
+	Parser::Arguments args;
+
+	utility::append(args.compilerFlags, projSettings->getCompilerFlags());
+	utility::append(args.compilerFlags, appSettings->getCompilerFlags());
+
+	// Add the include paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
+	utility::append(args.systemHeaderSearchPaths, includePaths);
+	utility::append(args.systemHeaderSearchPaths, projSettings->getHeaderSearchPaths());
+	utility::append(args.systemHeaderSearchPaths, appSettings->getHeaderSearchPaths());
+
+	utility::append(args.frameworkSearchPaths, projSettings->getFrameworkSearchPaths());
+	utility::append(args.frameworkSearchPaths, appSettings->getFrameworkSearchPaths());
+
+	CxxParser parser(m_storage.get(), m_fileManager.get());
+
+	float duration = utility::duration(
+		[&]()
+		{
+			parser.parseFiles(filesToParse, args);
+		}
+	);
+
+	// m_storage->logGraph();
+	// m_storage->logLocations();
+
+	MessageFinishedParsing(filesToParse.size(), duration, m_storage->getErrorCount()).dispatch();
 }
 
 Project::Project(GraphAccessProxy* graphAccessProxy, LocationAccessProxy* locationAccessProxy)

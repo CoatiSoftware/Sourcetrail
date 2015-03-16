@@ -97,7 +97,8 @@ void Edge::addComponentAccess(std::shared_ptr<TokenComponentAccess> component)
 {
 	if (getComponent<TokenComponentAccess>())
 	{
-		LOG_ERROR("TokenComponentAccess has been set before!");
+		// LOG_ERROR("TokenComponentAccess has been set before!");
+		return;
 	}
 	else if (m_type != EDGE_MEMBER && m_type != EDGE_INHERITANCE)
 	{
@@ -182,7 +183,7 @@ std::ostream& operator<<(std::ostream& ostream, const Edge& edge)
 
 bool Edge::checkType() const
 {
-	Node::NodeTypeMask complexTypeMask = Node::NODE_UNDEFINED_TYPE | Node::NODE_CLASS | Node::NODE_STRUCT;
+	Node::NodeTypeMask complexTypeMask = Node::NODE_UNDEFINED_TYPE | Node::NODE_CLASS | Node::NODE_STRUCT | Node:: NODE_TEMPLATE_PARAMETER_TYPE;
 	Node::NodeTypeMask typeMask = Node::NODE_UNDEFINED | Node::NODE_ENUM | Node::NODE_TYPEDEF | complexTypeMask;
 	Node::NodeTypeMask variableMask = Node::NODE_UNDEFINED | Node::NODE_UNDEFINED_VARIABLE | Node::NODE_GLOBAL_VARIABLE | Node::NODE_FIELD;
 	Node::NodeTypeMask functionMask = Node::NODE_UNDEFINED_FUNCTION | Node::NODE_FUNCTION | Node::NODE_METHOD;
@@ -190,9 +191,10 @@ bool Edge::checkType() const
 	switch (m_type)
 	{
 	case EDGE_MEMBER:
-		if (!m_from->isType(typeMask | Node::NODE_NAMESPACE) ||
+		if (!m_from->isType(typeMask | Node::NODE_NAMESPACE | functionMask) ||
 			(!m_from->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE) && m_to->isType(Node::NODE_NAMESPACE)) ||
-			(m_from->isType(Node::NODE_ENUM) && !m_to->isType(Node::NODE_ENUM_CONSTANT)))
+			(m_from->isType(Node::NODE_ENUM) && !m_to->isType(Node::NODE_ENUM_CONSTANT)) ||
+			(m_from->isType(functionMask) && !m_to->isType(Node::NODE_TEMPLATE_PARAMETER_TYPE)))
 		{
 			break;
 		}
@@ -259,7 +261,7 @@ bool Edge::checkType() const
 
 	case EDGE_TEMPLATE_ARGUMENT_OF:
 	case EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF:
-		if (!m_from->isType(typeMask) || !m_to->isType(typeMask))
+		if (!m_from->isType(typeMask) || !m_to->isType(typeMask | functionMask))
 		{
 			break;
 		}

@@ -703,7 +703,7 @@ bool ASTVisitor::isLocatedInUnparsedProjectFile(const clang::Decl* declaration) 
 		return true;
 	}
 
-	return m_fileRegister->includeFileIsParsing(m_context->getSourceManager().getFilename(location));
+	return m_fileRegister->includeFileIsParsing(FilePath(m_context->getSourceManager().getFilename(location)));
 }
 
 bool ASTVisitor::isLocatedInProjectFile(const clang::Decl* declaration) const

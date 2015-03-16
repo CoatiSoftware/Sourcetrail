@@ -6,8 +6,6 @@
 #include <QClipboard>
 #include <QKeyEvent>
 
-#include "ApplicationSettings.h"
-
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageSearchAutocomplete.h"
@@ -16,8 +14,7 @@
 
 #include "data/query/QueryTree.h"
 #include "qt/element/QtAutocompletionList.h"
-
-#include <iostream>
+#include "settings/ApplicationSettings.h"
 
 QtQueryElement::QtQueryElement(const QString& text, QWidget* parent)
 	: QPushButton(text, parent)

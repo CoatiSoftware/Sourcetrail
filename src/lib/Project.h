@@ -3,9 +3,9 @@
 
 #include <memory>
 
-#include "data/Storage.h"
 #include "utility/file/FileManager.h"
-#include "ProjectSettings.h"
+
+#include "data/Storage.h"
 
 class GraphAccessProxy;
 class LocationAccessProxy;

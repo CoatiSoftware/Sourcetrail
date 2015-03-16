@@ -6,12 +6,14 @@
 	<String>Hello World!</String>
 
 	<source>
-		<SourcePath>data</SourcePath>
+		<SourcePaths>
+			<SourcePath>data</SourcePath>
+		</SourcePaths>
 		<HeaderSearchPaths>
 			<HeaderSearchPath>data/</HeaderSearchPath>
 			<HeaderSearchPath>src/</HeaderSearchPath>
 		</HeaderSearchPaths>
-		
+
 	</source>
 </config>
 

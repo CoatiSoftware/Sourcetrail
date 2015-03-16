@@ -7,9 +7,18 @@
 
 <config>
 	<source>
+		<CompilerFlags>
+			<CompilerFlag><!-- STRING: compiler flag, including the dash e.g. -v --></CompilerFlag>
+		</CompilerFlags>
+
 		<HeaderSearchPaths>
-			<HeaderSearchPath><!-- STRING: header search path for each path a HeaderSearchPaht element--></HeaderSearchPath>
+			<HeaderSearchPath><!-- STRING: header search path for each path a HeaderSearchPath element --></HeaderSearchPath>
 		</HeaderSearchPaths>
+
+		<!-- MAC ONLY -->
+		<FrameworkSearchPaths>
+			<FrameworkSearchPath><!-- STRING: framework search path --></FrameworkSearchPath>
+		</FrameworkSearchPaths>
 	</source>
 
 	<code>
@@ -22,7 +31,6 @@
 		<ScopeColor><!-- COLOR: color of clickable scopes in the source view --></ScopeColor>
 		<ActiveLinkColor><!-- COLOR: color of active elements or scopes in the source view --></ActiveLinkColor>
 	</code>
-
 
 	<colors>
 		<!-- QueryNodeType -->

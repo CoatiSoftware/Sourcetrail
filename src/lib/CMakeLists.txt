@@ -190,6 +190,15 @@ add_files(
 	data/Storage.cpp
 	data/Storage.h
 
+	settings/ApplicationSettings.cpp
+	settings/ApplicationSettings.h
+	settings/CommonSettings.cpp
+	settings/CommonSettings.h
+	settings/ProjectSettings.cpp
+	settings/ProjectSettings.h
+	settings/Settings.cpp
+	settings/Settings.h
+
 	utility/file/FileInfo.cpp
 	utility/file/FileInfo.h
 	utility/file/FileManager.cpp
@@ -265,12 +274,6 @@ add_files(
 
 	Application.cpp
 	Application.h
-	ApplicationSettings.cpp
-	ApplicationSettings.h
 	Project.cpp
 	Project.h
-	ProjectSettings.cpp
-	ProjectSettings.h
-	Settings.cpp
-	Settings.h
 )

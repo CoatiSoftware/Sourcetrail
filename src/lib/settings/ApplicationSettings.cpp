@@ -1,4 +1,4 @@
-#include "ApplicationSettings.h"
+#include "settings/ApplicationSettings.h"
 
 std::shared_ptr<ApplicationSettings> ApplicationSettings::s_instance;
 
@@ -14,13 +14,6 @@ std::shared_ptr<ApplicationSettings> ApplicationSettings::getInstance()
 
 ApplicationSettings::~ApplicationSettings()
 {
-}
-
-std::vector<std::string> ApplicationSettings::getHeaderSearchPaths() const
-{
-	//TODO: defaultValues?
-	std::vector<std::string> defaultValues;
-	return getValues("source/HeaderSearchPaths/HeaderSearchPath", defaultValues);
 }
 
 int ApplicationSettings::getCodeTabWidth() const

@@ -1,5 +1,7 @@
 #include "cxxtest/TestSuite.h"
 
+#include "utility/utilityString.h"
+
 #include "data/graph/Graph.h"
 #include "data/graph/token_component/TokenComponentName.h"
 

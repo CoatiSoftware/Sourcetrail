@@ -75,7 +75,7 @@ bool ConfigManager::getValues(const std::string& key, std::vector<std::string>& 
 
 	if (ret.first != m_values.end())
 	{
-		std::multimap<std::string, std::string>::const_iterator cit = ret.first;		
+		std::multimap<std::string, std::string>::const_iterator cit = ret.first;
 		for(;cit!=ret.second;++cit)
 		{
 			values.push_back(cit->second);
@@ -256,10 +256,10 @@ bool ConfigManager::createXmlDocument(bool saveAsFile, const std::string filepat
 			{
 				child = new TiXmlElement(tokens.front().c_str());
 				element->LinkEndChild(child);
-			}			
+			}
 			tokens.erase(tokens.begin());
 			element = child;
-		} 
+		}
 
 		child = new TiXmlElement(tokens.front().c_str());
 		element->LinkEndChild(child);

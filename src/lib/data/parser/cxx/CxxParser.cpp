@@ -58,12 +58,10 @@ CxxParser::~CxxParser()
 {
 }
 
-void CxxParser::parseFiles(
-	const std::vector<FilePath>& filePaths,
-	const std::vector<std::string>& systemHeaderSearchPaths,
-	const std::vector<std::string>& headerSearchPaths
-){
-	std::vector<std::string> args = getArgs(systemHeaderSearchPaths, headerSearchPaths);
+void CxxParser::parseFiles(const std::vector<FilePath>& filePaths, const Arguments& arguments)
+{
+	// Commandline flags passed to the programm. Everything after '--' will be interpreted by the ClangTool.
+	std::vector<std::string> args = getCommandlineArguments(arguments);
 	args.insert(args.begin(), "app");
 	args.insert(args.begin() + 1, "--");
 
@@ -93,22 +91,34 @@ void CxxParser::parseFiles(
 	}
 
 	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
-	CxxDiagnosticConsumer reporter(llvm::errs(), &*options, m_client);
+	CxxDiagnosticConsumer reporter(llvm::errs(), &*options, m_client, arguments.logErrors);
 
 	ASTActionFactory actionFactory(m_client, &fileRegister);
 
 	clang::tooling::ClangTool tool(*compilationDatabase, sourcePaths);
 	tool.setDiagnosticConsumer(&reporter);
 	tool.run(&actionFactory);
+
+	std::vector<FilePath> unparsedHeaders = fileRegister.getUnparsedIncludeFilePaths();
+	for (const FilePath& path : unparsedHeaders)
+	{
+		if (!fileRegister.includeFileIsParsed(path))
+		{
+			clang::tooling::ClangTool tool(*compilationDatabase, std::vector<std::string>(1, path.str()));
+			tool.setDiagnosticConsumer(&reporter);
+			tool.run(&actionFactory);
+		}
+	}
+
+	delete argv;
 }
 
-void CxxParser::parseFile(
-	std::shared_ptr<TextAccess> textAccess, const std::vector<std::string>& systemHeaderSearchPaths, bool logErrors
-){
-	std::vector<std::string> args = getArgs(systemHeaderSearchPaths, std::vector<std::string>());
+void CxxParser::parseFile(std::shared_ptr<TextAccess> textAccess, const Arguments& arguments)
+{
+	std::vector<std::string> args = getCommandlineArguments(arguments);
 
 	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
-	CxxDiagnosticConsumer reporter(llvm::errs(), &*options, m_client, logErrors);
+	CxxDiagnosticConsumer reporter(llvm::errs(), &*options, m_client, arguments.logErrors);
 
 	FileRegister fileRegister(m_fileManager, std::vector<FilePath>());
 
@@ -116,10 +126,8 @@ void CxxParser::parseFile(
 	runToolOnCodeWithArgs(&reporter, actionFactory.create(), textAccess->getText(), args);
 }
 
-std::vector<std::string> CxxParser::getArgs(
-	const std::vector<std::string>& systemHeaderSearchPaths, const std::vector<std::string>& headerSearchPaths
-) const {
-	// Commandline flags passed to the programm. Everything after '--' will be interpreted by the ClangTool.
+std::vector<std::string> CxxParser::getCommandlineArguments(const Arguments& arguments) const
+{
 	std::vector<std::string> args;
 
 	// verbose
@@ -138,14 +146,21 @@ std::vector<std::string> CxxParser::getArgs(
 
 	args.push_back("-std=c++11");
 
-	for (const std::string& path : systemHeaderSearchPaths)
+	args.insert(args.begin(), arguments.compilerFlags.begin(), arguments.compilerFlags.end());
+
+	for (const std::string& path : arguments.headerSearchPaths)
+	{
+		args.push_back("-I" + path);
+	}
+
+	for (const std::string& path : arguments.systemHeaderSearchPaths)
 	{
 		args.push_back("-isystem" + path);
 	}
 
-	for (const std::string& path : headerSearchPaths)
+	for (const std::string& path : arguments.frameworkSearchPaths)
 	{
-		args.push_back("-I" + path);
+		args.push_back("-iframework" + path);
 	}
 
 	return args;

@@ -10,7 +10,6 @@
 class Settings
 {
 public:
-	Settings();
 	virtual ~Settings();
 
 	bool load(const std::string& filePath);
@@ -18,6 +17,8 @@ public:
 	void clear();
 
 protected:
+	Settings();
+
 	template<typename T>
 	T getValue(const std::string& key, T defaultValue) const;
 
@@ -26,6 +27,9 @@ protected:
 
 	template<typename T>
 	bool setValue(const std::string& key, T value);
+
+	template<typename T>
+	bool setValues(const std::string& key, std::vector<T> values);
 
 private:
 	std::shared_ptr<ConfigManager> m_config;
@@ -65,6 +69,17 @@ bool Settings::setValue(const std::string& key, T value)
 	if (m_config)
 	{
 		m_config->setValue(key, value);
+		return true;
+	}
+	return false;
+}
+
+template<typename T>
+bool Settings::setValues(const std::string& key, std::vector<T> values)
+{
+	if (m_config)
+	{
+		m_config->setValues(key, values);
 		return true;
 	}
 	return false;

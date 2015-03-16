@@ -17,8 +17,10 @@ public:
 	const FileManager* getFileManager() const;
 
 	const std::vector<FilePath>& getSourceFilePaths() const;
+	std::vector<FilePath> getUnparsedIncludeFilePaths() const;
 
-	bool includeFileIsParsing(const std::string& filePath) const;
+	bool includeFileIsParsing(const FilePath& filePath) const;
+	bool includeFileIsParsed(const FilePath& filePath) const;
 
 	void markIncludeFileParsing(const std::string& filePath);
 	void markParsingIncludeFilesParsed();

@@ -3,19 +3,18 @@
 
 #include <memory>
 
-#include "Settings.h"
 #include "utility/math/Color.h"
+
 #include "data/graph/Node.h"
 #include "data/query/QueryNode.h"
+#include "settings/CommonSettings.h"
 
-class ApplicationSettings: public Settings
+class ApplicationSettings
+	: public CommonSettings
 {
 public:
 	static std::shared_ptr<ApplicationSettings> getInstance();
 	~ApplicationSettings();
-
-	// source
-	std::vector<std::string> getHeaderSearchPaths() const;
 
 	// code
 	int getCodeTabWidth() const;
@@ -36,6 +35,7 @@ public:
 	Colori getCodeActiveLinkColor() const;
 	void setCodeActiveLinkColor(Colori color);
 
+	// colors
 	std::string getNodeTypeColor(Node::NodeType type, const std::string& state = "normal") const;
 	void setNodeTypeColor(Node::NodeType type, const std::string& color, const std::string& state = "normal");
 

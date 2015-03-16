@@ -1,7 +1,9 @@
 #include "cxxtest/TestSuite.h"
 
-#include "data/search/SearchIndex.h"
 #include "utility/utilityString.h"
+
+#include "data/search/SearchIndex.h"
+#include "data/search/SearchMatch.h"
 
 class SearchIndexTestSuite : public CxxTest::TestSuite
 {

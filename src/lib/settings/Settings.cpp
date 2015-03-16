@@ -1,14 +1,9 @@
-#include "Settings.h"
+#include "settings/Settings.h"
 
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utilityString.h"
-
-Settings::Settings()
-{
-	clear();
-}
 
 Settings::~Settings()
 {
@@ -44,4 +39,9 @@ void Settings::save(const std::string& filePath)
 void Settings::clear()
 {
 	m_config = ConfigManager::createEmpty();
+}
+
+Settings::Settings()
+{
+	clear();
 }

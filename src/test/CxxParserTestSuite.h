@@ -1,14 +1,15 @@
 #include "cxxtest/TestSuite.h"
 
-#include "ApplicationSettings.h"
+#include "utility/text/TextAccess.h"
+#include "utility/utilityString.h"
+
 #include "data/parser/cxx/CxxParser.h"
 #include "data/parser/ParseFunction.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
 #include "data/parser/ParseTypeUsage.h"
 #include "data/parser/ParseVariable.h"
-#include "utility/text/TextAccess.h"
-#include "utility/utilityString.h"
+#include "settings/ApplicationSettings.h"
 
 #include "helper/TestFileManager.h"
 
@@ -2247,7 +2248,7 @@ public:
 		std::vector<FilePath> filePaths;
 		filePaths.push_back(FilePath("data/CxxParserTestSuite/header.h"));
 		filePaths.push_back(FilePath("data/CxxParserTestSuite/code.cpp"));
-		parser.parseFiles(filePaths, std::vector<std::string>(), std::vector<std::string>());
+		parser.parseFiles(filePaths, Parser::Arguments());
 
 		TS_ASSERT_EQUALS(client.errors.size(), 0);
 
@@ -2576,19 +2577,21 @@ private:
 
 	std::shared_ptr<TestParserClient> parseCode(std::string code, bool logErrors = true)
 	{
-		if (!m_systemHeaderSearchPaths.size())
+		if (!m_args.headerSearchPaths.size())
 		{
 			std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
 			settings->load("data/TestSettings.xml");
-			m_systemHeaderSearchPaths = settings->getHeaderSearchPaths();
+			m_args.headerSearchPaths = settings->getHeaderSearchPaths();
 		}
+
+		m_args.logErrors = logErrors;
 
 		TestFileManager fm;
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
 		CxxParser parser(client.get(), &fm);
-		parser.parseFile(TextAccess::createFromString(code), m_systemHeaderSearchPaths, logErrors);
+		parser.parseFile(TextAccess::createFromString(code), m_args);
 		return client;
 	}
 
-	std::vector<std::string> m_systemHeaderSearchPaths;
+	Parser::Arguments m_args;
 };

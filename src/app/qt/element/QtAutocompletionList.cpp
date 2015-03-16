@@ -3,7 +3,7 @@
 #include <QPainter>
 #include <QScrollBar>
 
-#include "ApplicationSettings.h"
+#include "settings/ApplicationSettings.h"
 
 QtAutocompletionModel::QtAutocompletionModel(QObject* parent)
 	: QAbstractTableModel(parent)

@@ -6,13 +6,14 @@
 #include <QPushButton>
 #include <QToolTip>
 
-#include "ApplicationSettings.h"
+#include "utility/messaging/type/MessageActivateTokenLocation.h"
+#include "utility/messaging/type/MessageShowFile.h"
+
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
 #include "qt/element/QtCodeFile.h"
 #include "qt/utility/QtHighlighter.h"
-#include "utility/messaging/type/MessageActivateTokenLocation.h"
-#include "utility/messaging/type/MessageShowFile.h"
+#include "settings/ApplicationSettings.h"
 
 QtCodeSnippet::LineNumberArea::LineNumberArea(QtCodeSnippet *codeSnippet)
 	: QWidget(codeSnippet)

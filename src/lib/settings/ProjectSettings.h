@@ -4,19 +4,18 @@
 #include <memory>
 #include <vector>
 
-#include "Settings.h"
+#include "settings/CommonSettings.h"
 
-class ProjectSettings: public Settings
+class ProjectSettings
+	: public CommonSettings
 {
 public:
 	static std::shared_ptr<ProjectSettings> getInstance();
 	~ProjectSettings();
 
 	// source
-	std::string getSourcePath() const;
-	bool setSourcePath(const std::string& sourcePath);
-
-	std::vector<std::string> getHeaderSearchPaths() const;
+	std::vector<std::string> getSourcePaths() const;
+	bool setSourcePaths(const std::vector<std::string>& sourcePaths);
 
 private:
 	ProjectSettings();

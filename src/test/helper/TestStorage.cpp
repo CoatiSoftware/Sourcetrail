@@ -7,9 +7,10 @@
 void TestStorage::parseCxxCode(std::string code)
 {
 	clear();
+
 	TestFileManager fm;
 	CxxParser parser(this, &fm);
-	parser.parseFile(TextAccess::createFromString(code), std::vector<std::string>(), true);
+	parser.parseFile(TextAccess::createFromString(code), Parser::Arguments());
 }
 
 const Graph& TestStorage::getGraph() const

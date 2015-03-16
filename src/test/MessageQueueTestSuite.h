@@ -1,6 +1,7 @@
 #include <cxxtest/TestSuite.h>
 
 #include <chrono>
+#include <thread>
 
 #include "utility/messaging/Message.h"
 #include "utility/messaging/MessageListener.h"

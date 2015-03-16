@@ -1,9 +1,11 @@
 #include "component/controller/StatusBarController.h"
 
-#include "component/view/StatusBarView.h"
-
 #include <sstream>
 #include <iomanip>
+
+#include "utility/logging/logging.h"
+
+#include "component/view/StatusBarView.h"
 
 StatusBarController::StatusBarController()
 	: MessageListener<MessageError>(true)
@@ -29,7 +31,7 @@ void StatusBarController::handleMessage(MessageFinishedParsing* message)
 	std::stringstream ss;
 	ss << "Parsing Finished: ";
 	ss << message->fileCount << " files, ";
-	ss << std::setprecision(2) << message->parseTime << " seconds, ";
+	ss << std::setprecision(2) << std::fixed << message->parseTime << " seconds, ";
 	ss << message->errorCount << " error(s)";
 
 	bool hasErrors = message->errorCount > 0;
@@ -66,6 +68,8 @@ void StatusBarController::setStatus(const std::string& status, bool isError)
 {
 	if (!status.empty())
 	{
+		LOG_INFO_STREAM(<< "STATUS " << status);
+
 		getView()->showMessage(status, isError);
 	}
 }

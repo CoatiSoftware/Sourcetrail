@@ -251,7 +251,8 @@ void Node::addComponentAbstraction(std::shared_ptr<TokenComponentAbstraction> co
 {
 	if (getComponent<TokenComponentAbstraction>())
 	{
-		LOG_ERROR("TokenComponentAbstraction has been set before!");
+		// LOG_ERROR("TokenComponentAbstraction has been set before!");
+		return;
 	}
 	else if (!isType(NODE_METHOD))
 	{
@@ -267,7 +268,8 @@ void Node::addComponentConst(std::shared_ptr<TokenComponentConst> component)
 {
 	if (getComponent<TokenComponentConst>())
 	{
-		LOG_ERROR("TokenComponentConst has been set before!");
+		// LOG_ERROR("TokenComponentConst has been set before!");
+		return;
 	}
 	else if (!isType(NODE_METHOD))
 	{
@@ -283,7 +285,8 @@ void Node::addComponentStatic(std::shared_ptr<TokenComponentStatic> component)
 {
 	if (getComponent<TokenComponentStatic>())
 	{
-		LOG_ERROR("TokenComponentStatic has been set before!");
+		// LOG_ERROR("TokenComponentStatic has been set before!");
+		return;
 	}
 	else if (!isType(NODE_GLOBAL_VARIABLE | NODE_FIELD | NODE_FUNCTION | NODE_METHOD))
 	{
@@ -315,11 +318,12 @@ void Node::addComponentFilePath(std::shared_ptr<TokenComponentFilePath> componen
 {
 	if (getComponent<TokenComponentFilePath>())
 	{
-		LOG_ERROR("TokenComponentFilePath has been set before!");
+		// LOG_ERROR("TokenComponentFilePath has been set before!");
+		return;
 	}
 	else if (!isType(NODE_FILE))
 	{
-		LOG_ERROR("TokenComponentSignature can't be set on node of type: " + getTypeString());
+		LOG_ERROR("TokenComponentFilePath can't be set on node of type: " + getTypeString());
 	}
 	else
 	{

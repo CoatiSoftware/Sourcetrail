@@ -24,9 +24,9 @@ public:
 	enum NodeType : NodeTypeMask
 	{
 		NODE_UNDEFINED					= 0x1,
-		NODE_UNDEFINED_FUNCTION			= 0x2,
+		NODE_UNDEFINED_TYPE				= 0x2,
 		NODE_UNDEFINED_VARIABLE			= 0x4,
-		NODE_UNDEFINED_TYPE				= 0x8,
+		NODE_UNDEFINED_FUNCTION			= 0x8,
 
 		NODE_STRUCT						= 0x10,
 		NODE_CLASS						= 0x20,

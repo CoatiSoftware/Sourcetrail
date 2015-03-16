@@ -2,6 +2,7 @@
 #define INCLUDES_MAC_H
 
 #include <CoreFoundation/CoreFoundation.h>
+#include <QApplication>
 #include <QDir>
 
 void setup(int argc, char *argv[])

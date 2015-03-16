@@ -1,5 +1,7 @@
 #include "cxxtest/TestSuite.h"
 
+#include "utility/utilityString.h"
+
 #include "data/type/DataType.h"
 #include "data/type/modifier/DataTypeModifierArray.h"
 #include "data/type/modifier/DataTypeModifierPointer.h"

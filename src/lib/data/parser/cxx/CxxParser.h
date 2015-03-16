@@ -10,19 +10,11 @@ public:
 	CxxParser(ParserClient* client, const FileManager* fileManager);
 	~CxxParser();
 
-	virtual void parseFiles(
-		const std::vector<FilePath>& filePaths,
-		const std::vector<std::string>& systemHeaderSearchPaths,
-		const std::vector<std::string>& headerSearchPaths);
-	virtual void parseFile(
-		std::shared_ptr<TextAccess> textAccess,
-		const std::vector<std::string>& systemHeaderSearchPaths,
-		bool logErrors);
+	virtual void parseFiles(const std::vector<FilePath>& filePaths, const Arguments& arguments);
+	virtual void parseFile(std::shared_ptr<TextAccess> textAccess, const Arguments& arguments);
 
 private:
-	std::vector<std::string> getArgs(
-		const std::vector<std::string>& systemHeaderSearchPaths,
-		const std::vector<std::string>& headerSearchPaths) const;
+	std::vector<std::string> getCommandlineArguments(const Arguments& arguments) const;
 
 	const FileManager* m_fileManager;
 };

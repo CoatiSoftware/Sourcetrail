@@ -4,8 +4,6 @@
 #include <QGraphicsSceneEvent>
 #include <QPen>
 
-#include "ApplicationSettings.h"
-
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 
@@ -13,6 +11,7 @@
 #include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
+#include "settings/ApplicationSettings.h"
 
 void QtGraphNode::blendIn()
 {
