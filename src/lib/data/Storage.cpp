@@ -20,6 +20,7 @@
 #include "data/query/QueryCommand.h"
 #include "data/query/QueryTree.h"
 #include "data/type/DataType.h"
+#include "settings/ApplicationSettings.h"
 
 Storage::Storage()
 {
@@ -836,6 +837,32 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 					}
 				}
 			);
+		}
+	}
+
+	if (ApplicationSettings::getInstance()->filterUndefinedNodesFromGraph())
+	{
+		bool allUndefined = true;
+		Node::NodeTypeMask undefinedMask =
+			Node::NODE_UNDEFINED | Node::NODE_UNDEFINED_TYPE |
+			Node::NODE_UNDEFINED_VARIABLE | Node::NODE_UNDEFINED_FUNCTION;
+		for (Id tokenId : tokenIds)
+		{
+			Token* token = m_graph.getTokenById(tokenId);
+			if (token && token->isNode() && !dynamic_cast<Node*>(token)->isType(undefinedMask))
+			{
+				allUndefined = false;
+				break;
+			}
+		}
+
+		if (!allUndefined)
+		{
+			QueryTree tree("!'undefined'");
+			std::shared_ptr<Graph> outGraph = std::make_shared<Graph>();
+
+			GraphFilterConductor().filter(&tree, graph.get(), outGraph.get());
+			return outGraph;
 		}
 	}
 

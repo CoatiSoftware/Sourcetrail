@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!-- BOOL: 0, 1 -->
 <!-- INTEGER: int e.g 123 -->
 <!-- DECIMAL: float e.g 123.456 -->
 <!-- STRING: string e.g hello -->
@@ -7,6 +8,8 @@
 
 <config>
 	<StartupProject><!-- STRING: path to project settings xml file --></StartupProject>
+
+	<FilterUndefinedNodesFromGraph><!-- BOOL: filter out undefined nodes in graph --></FilterUndefinedNodesFromGraph>
 
 	<source>
 		<CompilerFlags>

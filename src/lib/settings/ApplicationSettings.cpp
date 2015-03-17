@@ -21,6 +21,11 @@ std::string ApplicationSettings::getStartupProjectFilePath() const
 	return getValue<std::string>("StartupProject", "");
 }
 
+bool ApplicationSettings::filterUndefinedNodesFromGraph() const
+{
+	return getValue<bool>("FilterUndefinedNodesFromGraph", false);
+}
+
 int ApplicationSettings::getCodeTabWidth() const
 {
 	return getValue<int>("code/TabWidth", 4);

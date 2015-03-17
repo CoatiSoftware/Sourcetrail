@@ -11,6 +11,8 @@ std::map<std::string, QueryCommand::CommandType> QueryCommand::getCommandTypeMap
 		return commandMap;
 	}
 
+	commandMap.emplace("undefined", COMMAND_UNDEFINED);
+
 	commandMap.emplace("member", COMMAND_MEMBER);
 	commandMap.emplace("child", COMMAND_MEMBER);
 

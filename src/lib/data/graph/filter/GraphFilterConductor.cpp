@@ -95,6 +95,11 @@ void GraphFilterConductor::filterCommandNode(const QueryCommand* node, const Fil
 {
 	switch (node->getType())
 	{
+	case QueryCommand::COMMAND_UNDEFINED:
+		GraphFilterCommandNodeType(
+			Node::NODE_UNDEFINED | Node::NODE_UNDEFINED_TYPE |
+			Node::NODE_UNDEFINED_VARIABLE | Node::NODE_UNDEFINED_FUNCTION).apply(in, out);
+		break;
 	case QueryCommand::COMMAND_MEMBER:
 		GraphFilterCommandMember().apply(in, out);
 		break;

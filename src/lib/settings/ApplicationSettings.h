@@ -17,6 +17,7 @@ public:
 	~ApplicationSettings();
 
 	std::string getStartupProjectFilePath() const;
+	bool filterUndefinedNodesFromGraph() const;
 
 	// code
 	int getCodeTabWidth() const;
