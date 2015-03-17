@@ -29,7 +29,7 @@ bool ConfigManager::getValue(const std::string& key, std::string& value) const
 	}
 	else
 	{
-		LOG_ERROR("value " + key + " is not present in config.");
+		LOG_WARNING("value " + key + " is not present in config.");
 		return false;
 	}
 }
@@ -84,7 +84,7 @@ bool ConfigManager::getValues(const std::string& key, std::vector<std::string>& 
 	}
 	else
 	{
-		LOG_ERROR("value " + key + " is not present in config.");
+		LOG_WARNING("value " + key + " is not present in config.");
 		return false;
 	}
 }

@@ -16,6 +16,11 @@ ApplicationSettings::~ApplicationSettings()
 {
 }
 
+std::string ApplicationSettings::getStartupProjectFilePath() const
+{
+	return getValue<std::string>("StartupProject", "");
+}
+
 int ApplicationSettings::getCodeTabWidth() const
 {
 	return getValue<int>("code/TabWidth", 4);

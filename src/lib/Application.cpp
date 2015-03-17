@@ -12,7 +12,8 @@
 
 std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 {
-	ApplicationSettings::getInstance()->load("data/ApplicationSettings.xml");
+	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
+	settings->load("data/ApplicationSettings.xml");
 
 	std::shared_ptr<Application> ptr(new Application());
 
@@ -26,7 +27,15 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 	ptr->m_componentManager->setup(ptr->m_mainView.get());
 	ptr->m_mainView->loadLayout();
 
-	MessageLoadProject("data/ProjectSettings.xml").dispatch();
+	std::string startupProjectFilePath = settings->getStartupProjectFilePath();
+	if (startupProjectFilePath.size())
+	{
+		MessageLoadProject(startupProjectFilePath).dispatch();
+	}
+	else
+	{
+		LOG_WARNING("No StartupProject defined in ApplicationSettings");
+	}
 
 	return ptr;
 }

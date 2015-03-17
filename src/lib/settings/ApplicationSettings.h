@@ -16,6 +16,8 @@ public:
 	static std::shared_ptr<ApplicationSettings> getInstance();
 	~ApplicationSettings();
 
+	std::string getStartupProjectFilePath() const;
+
 	// code
 	int getCodeTabWidth() const;
 	void setCodeTabWidth(int codeTabWidth);
