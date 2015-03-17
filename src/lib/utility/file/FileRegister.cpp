@@ -82,7 +82,7 @@ void FileRegister::markIncludeFileParsing(const std::string& filePath)
 
 void FileRegister::markParsingIncludeFilesParsed()
 {
-	for (std::pair<FilePath, ParseState>&& p : m_includeFilePaths)
+	for (auto& p : m_includeFilePaths)
 	{
 		if (p.second == STATE_PARSING)
 		{
