@@ -12,7 +12,7 @@
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageSearchAutocomplete.h"
 
-class GraphAccess;
+class StorageAccess;
 class SearchView;
 
 class SearchController
@@ -25,7 +25,7 @@ class SearchController
 	, public MessageListener<MessageSearchAutocomplete>
 {
 public:
-	SearchController(GraphAccess* graphAccess);
+	SearchController(StorageAccess* storageAccess);
 	~SearchController();
 
 private:
@@ -38,7 +38,7 @@ private:
 
 	SearchView* getView();
 
-	GraphAccess* m_graphAccess;
+	StorageAccess* m_storageAccess;
 
 	bool m_ignoreNextMessageActivateTokens;
 };

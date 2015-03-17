@@ -6,8 +6,7 @@
 
 #include "utility/file/FilePath.h"
 
-#include "data/access/GraphAccess.h"
-#include "data/access/LocationAccess.h"
+#include "data/access/StorageAccess.h"
 #include "data/graph/StorageGraph.h"
 #include "data/graph/token_component/TokenComponentAbstraction.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
@@ -17,8 +16,7 @@
 
 class Storage
 	: public ParserClient
-	, public GraphAccess
-	, public LocationAccess
+	, public StorageAccess
 {
 public:
 	Storage();
@@ -107,7 +105,7 @@ public:
 	virtual Id onFileIncludeParsed(
 		const ParseLocation& location, const std::string& filePath, const std::string& includedPath);
 
-	// GraphAccess implementation
+	// StorageAccess implementation
 	virtual Id getIdForNodeWithName(const std::string& fullName) const;
 	virtual std::string getNameForNodeWithId(Id id) const;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const;
@@ -121,7 +119,6 @@ public:
 
 	virtual std::vector<Id> getTokenIdsForQuery(std::string query) const;
 
-	// LocationAccess implementation
 	virtual TokenLocationCollection getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const;
 	virtual TokenLocationFile getTokenLocationsForFile(const std::string& filePath) const;
 	virtual TokenLocationFile getTokenLocationsForLinesInFile(

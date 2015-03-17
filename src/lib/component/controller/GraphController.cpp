@@ -7,7 +7,8 @@
 #include "component/view/graphElements/GraphEdge.h"
 #include "component/view/graphElements/GraphNode.h"
 #include "component/view/GraphView.h"
-#include "data/access/GraphAccess.h"
+#include "data/access/StorageAccess.h"
+#include "data/graph/Graph.h"
 
 GraphController::Margins::Margins()
 	: left(0)
@@ -22,8 +23,8 @@ GraphController::Margins::Margins()
 }
 
 
-GraphController::GraphController(GraphAccess* graphAccess)
-	: m_graphAccess(graphAccess)
+GraphController::GraphController(StorageAccess* storageAccess)
+	: m_storageAccess(storageAccess)
 {
 }
 
@@ -112,7 +113,7 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 		return;
 	}
 
-	std::shared_ptr<Graph> graph = m_graphAccess->getGraphForActiveTokenIds(tokenIds);
+	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForActiveTokenIds(tokenIds);
 
 	m_dummyEdges.clear();
 

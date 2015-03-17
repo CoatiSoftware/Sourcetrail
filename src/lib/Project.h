@@ -7,13 +7,12 @@
 
 #include "data/Storage.h"
 
-class GraphAccessProxy;
-class LocationAccessProxy;
+class StorageAccessProxy;
 
 class Project
 {
 public:
-	static std::shared_ptr<Project> create(GraphAccessProxy* graphAccessProxy, LocationAccessProxy* locationAccessProxy);
+	static std::shared_ptr<Project> create(StorageAccessProxy* storageAccessProxy);
 
 	~Project();
 
@@ -27,14 +26,13 @@ public:
 	void parseCode();
 
 private:
-	Project(GraphAccessProxy* graphAccessProxy, LocationAccessProxy* locationAccessProxy);
+	Project(StorageAccessProxy* storageAccessProxy);
 	Project(const Project&);
 	Project operator=(const Project&);
 
 	std::string m_projectSettingsFilepath;
 
-	GraphAccessProxy* const m_graphAccessProxy;
-	LocationAccessProxy* const m_locationAccessProxy;
+	StorageAccessProxy* const m_storageAccessProxy;
 
 	std::shared_ptr<Storage> m_storage;
 	std::shared_ptr<FileManager> m_fileManager;

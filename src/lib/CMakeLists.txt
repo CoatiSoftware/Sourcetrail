@@ -80,14 +80,10 @@ add_files(
 	component/ComponentManager.cpp
 	component/ComponentManager.h
 
-	data/access/LocationAccess.cpp
-	data/access/LocationAccess.h
-	data/access/LocationAccessProxy.cpp
-	data/access/LocationAccessProxy.h
-	data/access/GraphAccess.cpp
-	data/access/GraphAccess.h
-	data/access/GraphAccessProxy.cpp
-	data/access/GraphAccessProxy.h
+	data/access/StorageAccess.cpp
+	data/access/StorageAccess.h
+	data/access/StorageAccessProxy.cpp
+	data/access/StorageAccessProxy.h
 
 	data/graph/filter/GraphFilter.cpp
 	data/graph/filter/GraphFilter.h

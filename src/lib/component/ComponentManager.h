@@ -6,10 +6,9 @@
 
 #include "component/Component.h"
 #include "component/ComponentFactory.h"
-#include "data/access/LocationAccess.h"
-#include "data/access/GraphAccess.h"
 
 class CompositeView;
+class StorageAccess;
 class View;
 class ViewFactory;
 class ViewLayout;
@@ -17,9 +16,7 @@ class ViewLayout;
 class ComponentManager
 {
 public:
-	static std::shared_ptr<ComponentManager> create(
-		ViewFactory* viewFactory, GraphAccess* graphAccess, LocationAccess* locationAccess
-	);
+	static std::shared_ptr<ComponentManager> create(ViewFactory* viewFactory, StorageAccess* graphAccess);
 
 	~ComponentManager();
 

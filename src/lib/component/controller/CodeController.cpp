@@ -1,15 +1,13 @@
 #include "component/controller/CodeController.h"
 
-#include "data/access/GraphAccess.h"
-#include "data/access/LocationAccess.h"
+#include "data/access/StorageAccess.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/location/TokenLocationFile.h"
 #include "utility/text/TextAccess.h"
 
-CodeController::CodeController(GraphAccess* graphAccess, LocationAccess* locationAccess)
-	: m_graphAccess(graphAccess)
-	, m_locationAccess(locationAccess)
+CodeController::CodeController(StorageAccess* storageAccess)
+	: m_storageAccess(storageAccess)
 {
 }
 
@@ -23,7 +21,7 @@ void CodeController::handleMessage(MessageActivateTokenLocation* message)
 {
 	if (message->locationId)
 	{
-		std::vector<Id> activeTokenIds = m_graphAccess->getActiveTokenIdsForLocationId(message->locationId);
+		std::vector<Id> activeTokenIds = m_storageAccess->getActiveTokenIdsForLocationId(message->locationId);
 		MessageActivateTokens(activeTokenIds).dispatch();
 	}
 }
@@ -35,7 +33,7 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 
 	if (activeTokenIds.size() == 1)
 	{
-		activeTokenIds = m_graphAccess->getActiveTokenIdsForId(activeTokenIds[0], &declarationId);
+		activeTokenIds = m_storageAccess->getActiveTokenIdsForId(activeTokenIds[0], &declarationId);
 	}
 
 	CodeView* view = getView();
@@ -49,7 +47,7 @@ void CodeController::handleMessage(MessageFinishedParsing* message)
 	if (message->errorCount > 0)
 	{
 		std::vector<std::string> errorMessages;
-		TokenLocationCollection errorCollection = m_locationAccess->getErrorTokenLocations(&errorMessages);
+		TokenLocationCollection errorCollection = m_storageAccess->getErrorTokenLocations(&errorMessages);
 
 		std::vector<CodeView::CodeSnippetParams> snippets;
 
@@ -83,7 +81,7 @@ void CodeController::handleMessage(MessageShowFile* message)
 	params.lineCount = textAccess->getLineCount();
 	params.code = textAccess->getText();
 
-	params.locationFile = m_locationAccess->getTokenLocationsForFile(message->filePath);
+	params.locationFile = m_storageAccess->getTokenLocationsForFile(message->filePath);
 
 	getView()->showCodeFile(params);
 }
@@ -96,7 +94,7 @@ CodeView* CodeController::getView()
 std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTokenIds(
 	const std::vector<Id>& ids, Id declarationId
 ) const {
-	TokenLocationCollection collection = m_locationAccess->getTokenLocationsForTokenIds(ids);
+	TokenLocationCollection collection = m_storageAccess->getTokenLocationsForTokenIds(ids);
 
 	std::vector<CodeView::CodeSnippetParams> snippets;
 
@@ -107,7 +105,7 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTok
 
 			for (CodeView::CodeSnippetParams& params : fileSnippets)
 			{
-				params.locationFile = m_locationAccess->getTokenLocationsForLinesInFile(
+				params.locationFile = m_storageAccess->getTokenLocationsForLinesInFile(
 					file->getFilePath().str(), params.startLineNumber, params.endLineNumber);
 			}
 

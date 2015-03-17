@@ -13,8 +13,7 @@
 #include "utility/messaging/type/MessageShowFile.h"
 #include "utility/types.h"
 
-class GraphAccess;
-class LocationAccess;
+class StorageAccess;
 class TokenLocationFile;
 
 class CodeController
@@ -26,7 +25,7 @@ class CodeController
 	, public MessageListener<MessageShowFile>
 {
 public:
-	CodeController(GraphAccess* graphAccess, LocationAccess* locationAccess);
+	CodeController(StorageAccess* storageAccess);
 	~CodeController();
 
 private:
@@ -45,8 +44,7 @@ private:
 	std::vector<CodeView::CodeSnippetParams> getSnippetsForFile(const TokenLocationFile* file) const;
 	std::vector<std::pair<uint, uint>> getSnippetRangesForFile(const TokenLocationFile* file) const;
 
-	GraphAccess* m_graphAccess;
-	LocationAccess* m_locationAccess;
+	StorageAccess* m_storageAccess;
 };
 
 #endif // CODE_CONTROLLER_H

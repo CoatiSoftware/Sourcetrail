@@ -6,8 +6,7 @@
 
 #include "component/view/MainView.h"
 #include "component/view/ViewFactory.h"
-#include "data/access/GraphAccessProxy.h"
-#include "data/access/LocationAccessProxy.h"
+#include "data/access/StorageAccessProxy.h"
 #include "settings/ApplicationSettings.h"
 
 std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
@@ -17,11 +16,9 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 
 	std::shared_ptr<Application> ptr(new Application());
 
-	ptr->m_graphAccessProxy = std::make_shared<GraphAccessProxy>();
-	ptr->m_locationAccessProxy = std::make_shared<LocationAccessProxy>();
+	ptr->m_storageAccessProxy = std::make_shared<StorageAccessProxy>();
 
-	ptr->m_componentManager = ComponentManager::create(
-		viewFactory, ptr->m_graphAccessProxy.get(), ptr->m_locationAccessProxy.get());
+	ptr->m_componentManager = ComponentManager::create(viewFactory, ptr->m_storageAccessProxy.get());
 
 	ptr->m_mainView = viewFactory->createMainView();
 	ptr->m_componentManager->setup(ptr->m_mainView.get());
@@ -53,7 +50,7 @@ Application::~Application()
 
 void Application::loadProject(const std::string& projectSettingsFilePath)
 {
-	m_project = Project::create(m_graphAccessProxy.get(), m_locationAccessProxy.get());
+	m_project = Project::create(m_storageAccessProxy.get());
 
 	m_project->loadProjectSettings(projectSettingsFilePath);
 	m_project->parseCode();
@@ -61,7 +58,7 @@ void Application::loadProject(const std::string& projectSettingsFilePath)
 
 void Application::loadSource(const std::string& sourceDirectoryPath)
 {
-	m_project = Project::create(m_graphAccessProxy.get(), m_locationAccessProxy.get());
+	m_project = Project::create(m_storageAccessProxy.get());
 
 	m_project->clearProjectSettings();
 	m_project->setSourceDirectoryPath(sourceDirectoryPath);
@@ -88,7 +85,7 @@ void Application::handleMessage(MessageFinishedParsing* message)
 		return;
 	}
 
-	Id mainId = m_graphAccessProxy->getIdForNodeWithName("main");
+	Id mainId = m_storageAccessProxy->getIdForNodeWithName("main");
 
 	if (!mainId)
 	{

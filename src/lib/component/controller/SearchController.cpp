@@ -1,10 +1,10 @@
 #include "component/controller/SearchController.h"
 
 #include "component/view/SearchView.h"
-#include "data/access/GraphAccess.h"
+#include "data/access/storageAccess.h"
 
-SearchController::SearchController(GraphAccess* graphAccess)
-	: m_graphAccess(graphAccess)
+SearchController::SearchController(StorageAccess* storageAccess)
+	: m_storageAccess(storageAccess)
 	, m_ignoreNextMessageActivateTokens(false)
 {
 }
@@ -19,8 +19,8 @@ void SearchController::handleMessage(MessageActivateTokens* message)
 	if (!m_ignoreNextMessageActivateTokens && message->tokenIds.size())
 	{
 		SearchMatch match;
-		match.fullName = m_graphAccess->getNameForNodeWithId(message->tokenIds[0]);
-		match.nodeType = m_graphAccess->getNodeTypeForNodeWithId(message->tokenIds[0]);
+		match.fullName = m_storageAccess->getNameForNodeWithId(message->tokenIds[0]);
+		match.nodeType = m_storageAccess->getNodeTypeForNodeWithId(message->tokenIds[0]);
 		match.tokenIds.insert(message->tokenIds[0]);
 		match.queryNodeType = QueryNode::QUERYNODETYPE_TOKEN;
 
@@ -54,10 +54,10 @@ void SearchController::handleMessage(MessageSearch* message)
 
 	m_ignoreNextMessageActivateTokens = true;
 
-	std::vector<Id> ids = m_graphAccess->getTokenIdsForQuery(query);
+	std::vector<Id> ids = m_storageAccess->getTokenIdsForQuery(query);
 	if (!ids.size())
 	{
-		ids.push_back(m_graphAccess->getIdForNodeWithName(query));
+		ids.push_back(m_storageAccess->getIdForNodeWithName(query));
 	}
 
 	MessageActivateTokens(ids).dispatch();
@@ -66,7 +66,7 @@ void SearchController::handleMessage(MessageSearch* message)
 void SearchController::handleMessage(MessageSearchAutocomplete* message)
 {
 	LOG_INFO("autocomplete string: \"" + message->word + "\"");
-	getView()->setAutocompletionList(m_graphAccess->getAutocompletionMatches(message->query, message->word));
+	getView()->setAutocompletionList(m_storageAccess->getAutocompletionMatches(message->query, message->word));
 }
 
 SearchView* SearchController::getView()

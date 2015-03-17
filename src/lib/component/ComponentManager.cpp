@@ -8,12 +8,11 @@
 #include "component/view/UndoRedoView.h"
 #include "component/view/ViewFactory.h"
 
-std::shared_ptr<ComponentManager> ComponentManager::create(
-	ViewFactory* viewFactory, GraphAccess* graphAccess, LocationAccess* locationAccess
-){
+std::shared_ptr<ComponentManager> ComponentManager::create(ViewFactory* viewFactory, StorageAccess* storageAccess)
+{
 	std::shared_ptr<ComponentManager> ptr(new ComponentManager());
 
-	ptr->m_componentFactory = ComponentFactory::create(viewFactory, graphAccess, locationAccess);
+	ptr->m_componentFactory = ComponentFactory::create(viewFactory, storageAccess);
 
 	return ptr;
 }

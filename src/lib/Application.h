@@ -14,8 +14,7 @@
 
 class ViewFactory;
 class MainView;
-class GraphAccessProxy;
-class LocationAccessProxy;
+class StorageAccessProxy;
 
 class Application
 	: public MessageListener<MessageFinishedParsing>
@@ -44,8 +43,7 @@ private:
 	virtual void handleMessage(MessageSaveProject* message);
 
 	std::shared_ptr<Project> m_project;
-	std::shared_ptr<GraphAccessProxy> m_graphAccessProxy;
-	std::shared_ptr<LocationAccessProxy> m_locationAccessProxy;
+	std::shared_ptr<StorageAccessProxy> m_storageAccessProxy;
 
 	std::shared_ptr<MainView> m_mainView;
 	std::shared_ptr<ComponentManager> m_componentManager;

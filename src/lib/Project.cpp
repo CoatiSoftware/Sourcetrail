@@ -4,16 +4,15 @@
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/utility.h"
 
-#include "data/access/GraphAccessProxy.h"
-#include "data/access/LocationAccessProxy.h"
+#include "data/access/StorageAccessProxy.h"
 #include "data/graph/Token.h"
 #include "data/parser/cxx/CxxParser.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
 
-std::shared_ptr<Project> Project::create(GraphAccessProxy* graphAccessProxy, LocationAccessProxy* locationAccessProxy)
+std::shared_ptr<Project> Project::create(StorageAccessProxy* storageAccessProxy)
 {
-	std::shared_ptr<Project> ptr(new Project(graphAccessProxy, locationAccessProxy));
+	std::shared_ptr<Project> ptr(new Project(storageAccessProxy));
 	ptr->clearStorage();
 	return ptr;
 }
@@ -66,9 +65,7 @@ bool Project::setSourceDirectoryPath(const std::string& sourceDirectoryPath)
 void Project::clearStorage()
 {
 	m_storage = std::make_shared<Storage>();
-
-	m_graphAccessProxy->setSubject(m_storage.get());
-	m_locationAccessProxy->setSubject(m_storage.get());
+	m_storageAccessProxy->setSubject(m_storage.get());
 
 	Token::resetNextId();
 }
@@ -149,8 +146,7 @@ void Project::parseCode()
 	MessageFinishedParsing(filesToParse.size(), duration, m_storage->getErrorCount()).dispatch();
 }
 
-Project::Project(GraphAccessProxy* graphAccessProxy, LocationAccessProxy* locationAccessProxy)
-	: m_graphAccessProxy(graphAccessProxy)
-	, m_locationAccessProxy(locationAccessProxy)
+Project::Project(StorageAccessProxy* storageAccessProxy)
+	: m_storageAccessProxy(storageAccessProxy)
 {
 }

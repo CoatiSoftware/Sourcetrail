@@ -15,14 +15,12 @@
 #include "component/view/UndoRedoView.h"
 #include "component/view/ViewFactory.h"
 
-std::shared_ptr<ComponentFactory> ComponentFactory::create(
-	ViewFactory* viewFactory, GraphAccess* graphAccess, LocationAccess* locationAccess
-){
+std::shared_ptr<ComponentFactory> ComponentFactory::create(ViewFactory* viewFactory, StorageAccess* storageAccess)
+{
 	std::shared_ptr<ComponentFactory> ptr(new ComponentFactory());
 
 	ptr->m_viewFactory = viewFactory;
-	ptr->m_graphAccess = graphAccess;
-	ptr->m_locationAccess = locationAccess;
+	ptr->m_storageAccess = storageAccess;
 
 	return ptr;
 }
@@ -39,7 +37,7 @@ ViewFactory* ComponentFactory::getViewFactory() const
 std::shared_ptr<Component> ComponentFactory::createCodeComponent(ViewLayout* viewLayout)
 {
 	std::shared_ptr<CodeView> view = m_viewFactory->createCodeView(viewLayout);
-	std::shared_ptr<CodeController> controller = std::make_shared<CodeController>(m_graphAccess, m_locationAccess);
+	std::shared_ptr<CodeController> controller = std::make_shared<CodeController>(m_storageAccess);
 
 	return std::make_shared<Component>(view, controller);
 }
@@ -47,7 +45,7 @@ std::shared_ptr<Component> ComponentFactory::createCodeComponent(ViewLayout* vie
 std::shared_ptr<Component> ComponentFactory::createGraphComponent(ViewLayout* viewLayout)
 {
 	std::shared_ptr<View> view = m_viewFactory->createGraphView(viewLayout);
-	std::shared_ptr<GraphController> controller = std::make_shared<GraphController>(m_graphAccess);
+	std::shared_ptr<GraphController> controller = std::make_shared<GraphController>(m_storageAccess);
 
 	return std::make_shared<Component>(view, controller);
 }
@@ -63,7 +61,7 @@ std::shared_ptr<Component> ComponentFactory::createRefreshComponent(ViewLayout* 
 std::shared_ptr<Component> ComponentFactory::createSearchComponent(ViewLayout* viewLayout)
 {
 	std::shared_ptr<SearchView> view = m_viewFactory->createSearchView(viewLayout);
-	std::shared_ptr<SearchController> controller = std::make_shared<SearchController>(m_graphAccess);
+	std::shared_ptr<SearchController> controller = std::make_shared<SearchController>(m_storageAccess);
 
 	return std::make_shared<Component>(view, controller);
 }

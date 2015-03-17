@@ -16,8 +16,8 @@
 struct DummyNode;
 struct DummyEdge;
 class Graph;
-class GraphAccess;
 class Node;
+class StorageAccess;
 
 class GraphController
 	: public Controller
@@ -44,7 +44,7 @@ public:
 		float charWidth;
 	};
 
-	GraphController(GraphAccess* graphAccess);
+	GraphController(StorageAccess* storageAccess);
 	~GraphController();
 
 private:
@@ -74,7 +74,7 @@ private:
 	DummyNode* findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId);
 	DummyNode* findDummyNodeAccessRecursive(std::vector<DummyNode>& nodes, Id parentId, TokenComponentAccess::AccessType type);
 
-	GraphAccess* m_graphAccess;
+	StorageAccess* m_storageAccess;
 	GraphView::Metrics m_viewMetrics;
 
 	std::vector<DummyNode> m_dummyNodes;
