@@ -17,6 +17,10 @@ public:
 	std::vector<std::string> getSourcePaths() const;
 	bool setSourcePaths(const std::vector<std::string>& sourcePaths);
 
+	// extensions
+	std::vector<std::string> getHeaderExtensions() const;
+	std::vector<std::string> getSourceExtensions() const;
+
 private:
 	ProjectSettings();
 	ProjectSettings(const ProjectSettings&);

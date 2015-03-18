@@ -1,7 +1,7 @@
 #include "component/controller/SearchController.h"
 
 #include "component/view/SearchView.h"
-#include "data/access/storageAccess.h"
+#include "data/access/StorageAccess.h"
 
 SearchController::SearchController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)

@@ -86,13 +86,8 @@ void Project::parseCode()
 	// TODO: move this creation to another place (after projectsettings have been loaded)
 	if (!m_fileManager)
 	{
-		std::vector<std::string> sourceExtensions;
-		sourceExtensions.push_back(".cpp");
-		sourceExtensions.push_back(".cc");
-
-		std::vector<std::string> includeExtensions;
-		includeExtensions.push_back(".h");
-		includeExtensions.push_back(".hpp");
+		std::vector<std::string> sourceExtensions = ProjectSettings::getInstance()->getSourceExtensions();
+		std::vector<std::string> includeExtensions = ProjectSettings::getInstance()->getHeaderExtensions();
 
 		m_fileManager = std::make_shared<FileManager>(sourcePaths, includePaths, sourceExtensions, includeExtensions);
 	}

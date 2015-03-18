@@ -24,5 +24,11 @@
 		<FrameworkSearchPaths>
 			<FrameworkSearchPath><!-- STRING: framework search path --></FrameworkSearchPath>
 		</FrameworkSearchPaths>
+
+		<Extensions>
+			<HeaderExtensions><!-- STRING: extension for header/include e.g. .h --></HeaderExtensions>
+			<SourceExtensions><!-- STRING: extension for source e.g. .cpp --></SourceExtensions>
+		</Extensions>
+
 	</source>
 </config>
