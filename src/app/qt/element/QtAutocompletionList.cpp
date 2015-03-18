@@ -198,7 +198,7 @@ void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<Searc
 {
 	m_model->setMatchList(autocompletionList);
 
-	QSize minSize(300, 253);
+	QSize minSize(400, 253);
 	QListView* list = dynamic_cast<QListView*>(popup());
 
 	if (!autocompletionList.size())
@@ -208,11 +208,12 @@ void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<Searc
 	}
 
 	setCompletionPrefix("");
+	QWidget* textBox = dynamic_cast<QWidget*>(parent());
 
 	const QModelIndex& index = completionModel()->index(0, 0);
 	list->setCurrentIndex(index);
 
-	complete(QRect(pos.x(), pos.y(), minSize.width(), 1));
+	complete(QRect(std::min(pos.x(), textBox->width()-minSize.width()), pos.y(), textBox->width()-pos.x(), 1));
 	//complete();
 
 	QRect rect = list->visualRect(index);
