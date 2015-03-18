@@ -24,18 +24,17 @@ Id Dictionary::getWordId(const std::string& word)
 	}
 
 	m_words.emplace(++s_nextId, word);
+	m_ids.emplace(word, s_nextId);
 	return s_nextId;
 }
 
 Id Dictionary::getWordIdConst(const std::string& word) const
 {
-	// TODO: This word lookup is very inefficient, use something smarter like a trie.
-	for (std::unordered_map<Id, std::string>::const_iterator it = m_words.begin(); it != m_words.end(); it++)
+	std::unordered_map<std::string, Id>::const_iterator it = m_ids.find(word);
+
+	if (it != m_ids.end())
 	{
-		if (it->second == word)
-		{
-			return it->first;
-		}
+		return it->second;
 	}
 
 	return 0;

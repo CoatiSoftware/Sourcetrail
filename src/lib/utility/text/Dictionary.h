@@ -31,6 +31,7 @@ private:
 	static Id s_nextId;
 
 	std::unordered_map<Id, std::string> m_words;
+	std::unordered_map<std::string, Id> m_ids; // TODO: replace id lookup to consume less momory e.g. Search Trie
 	std::string m_emptyWord;
 };
 
