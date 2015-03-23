@@ -17,8 +17,10 @@ public:
 	virtual std::shared_ptr<TokenComponent> copy() const;
 
 	int getAggregationCount() const;
-	void addAggregationId(Id id);
 	const std::set<Id>& getAggregationIds() const;
+
+	void addAggregationId(Id id);
+	void removeAggregationId(Id id);
 
 private:
 	std::set<Id> m_ids;

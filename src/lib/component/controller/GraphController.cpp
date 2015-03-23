@@ -10,6 +10,7 @@
 #include "component/view/GraphViewStyle.h"
 #include "data/access/StorageAccess.h"
 #include "data/graph/Graph.h"
+#include "data/graph/token_component/TokenComponentAggregation.h"
 
 GraphController::GraphController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -262,6 +263,11 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 
 	for (DummyEdge& edge : m_dummyEdges)
 	{
+		if (edge.data->isType(Edge::EDGE_AGGREGATION))
+		{
+			continue;
+		}
+
 		edge.active = false;
 		if (find(activeTokenIds.begin(), activeTokenIds.end(), edge.data->getId()) != activeTokenIds.end())
 		{
@@ -274,16 +280,41 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 		if (from && to && (from->active || to->active || edge.active))
 		{
 			edge.visible = true;
+			from->connected = true;
+			to->connected = true;
+		}
+	}
 
-			if (edge.data->isType(Edge::EDGE_AGGREGATION))
+	for (DummyEdge& edge : m_dummyEdges)
+	{
+		if (!edge.data->isType(Edge::EDGE_AGGREGATION))
+		{
+			continue;
+		}
+
+		DummyNode* from = findDummyNodeRecursive(m_dummyNodes, edge.ownerId);
+		DummyNode* to = findDummyNodeRecursive(m_dummyNodes, edge.targetId);
+
+		if (from && to && (from->active || to->active))
+		{
+			TokenComponentAggregation* component = edge.data->getComponent<TokenComponentAggregation>();
+			std::set<Id> ids = component->getAggregationIds();
+			for (Id id : ids)
 			{
+				for (DummyEdge& e : m_dummyEdges)
+				{
+					if (e.visible && e.data->getId() == id)
+					{
+						component->removeAggregationId(id);
+					}
+				}
+			}
+
+			if (component->getAggregationCount() > 0)
+			{
+				edge.visible = true;
 				from->aggregated = true;
 				to->aggregated = true;
-			}
-			else
-			{
-				from->connected = true;
-				to->connected = true;
 			}
 		}
 	}

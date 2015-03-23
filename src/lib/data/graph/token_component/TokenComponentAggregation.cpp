@@ -18,12 +18,17 @@ int TokenComponentAggregation::getAggregationCount() const
 	return m_ids.size();
 }
 
+const std::set<Id>& TokenComponentAggregation::getAggregationIds() const
+{
+	return m_ids;
+}
+
 void TokenComponentAggregation::addAggregationId(Id id)
 {
 	m_ids.insert(id);
 }
 
-const std::set<Id>& TokenComponentAggregation::getAggregationIds() const
+void TokenComponentAggregation::removeAggregationId(Id id)
 {
-	return m_ids;
+	m_ids.erase(id);
 }
