@@ -170,21 +170,18 @@ add_files(
 	data/search/SearchResult.cpp
 	data/search/SearchResult.h
 
-	data/type/modifier/DataTypeModifier.cpp
-	data/type/modifier/DataTypeModifier.h
-	data/type/modifier/DataTypeModifierArray.cpp
-	data/type/modifier/DataTypeModifierArray.h
-	data/type/modifier/DataTypeModifierPointer.cpp
-	data/type/modifier/DataTypeModifierPointer.h
-	data/type/modifier/DataTypeModifierReference.cpp
-	data/type/modifier/DataTypeModifierReference.h
-
+	data/type/ArrayModifiedDataType.cpp
+	data/type/ArrayModifiedDataType.h
 	data/type/DataType.cpp
 	data/type/DataType.h
-	data/type/DataTypeModifierStack.cpp
-	data/type/DataTypeModifierStack.h
-	data/type/DataTypeQualifierList.cpp
-	data/type/DataTypeQualifierList.h
+	data/type/ModifiedDataType.cpp
+	data/type/ModifiedDataType.h
+	data/type/NamedDataType.cpp
+	data/type/NamedDataType.h
+	data/type/PointerModifiedDataType.cpp
+	data/type/PointerModifiedDataType.h
+	data/type/ReferenceModifiedDataType.cpp
+	data/type/ReferenceModifiedDataType.h
 
 	data/Storage.cpp
 	data/Storage.h

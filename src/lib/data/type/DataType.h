@@ -1,34 +1,34 @@
 #ifndef DATA_TYPE_H
 #define DATA_TYPE_H
 
-#include <memory>
 #include <string>
-
-#include "data/type/DataTypeModifierStack.h"
-#include "data/type/DataTypeQualifierList.h"
+#include <vector>
 
 class DataType
 {
 public:
-	DataType(const std::vector<std::string>& typeNameHierarchy);
-	DataType(const std::vector<std::string>& typeNameHierarchy, const DataTypeQualifierList& qualifierList);
-	DataType(
-		const std::vector<std::string>& typeNameHierarchy, const DataTypeQualifierList& qualifierList,
-		const DataTypeModifierStack& modifierStack
-	);
-	~DataType();
+	enum QualifierType
+	{
+		QUALIFIER_NONE = 0,
+		QUALIFIER_CONST = 1
+	};
 
-	DataTypeQualifierList getQualifierList() const;
-	DataTypeModifierStack getModifierStack() const;
+	DataType();
+	virtual ~DataType();
 
-	std::string getFullTypeName() const;
-	std::string getRawTypeName() const;
-	const std::vector<std::string>& getTypeNameHierarchy() const;
+	virtual std::string getFullTypeName() const = 0;
+	virtual std::string getRawTypeName() const = 0;
+	virtual const std::vector<std::string>& getTypeNameHierarchy() const = 0;
+
+	void addQualifier(QualifierType qualifier);
+	void removeQualifier(QualifierType qualifier);
+	bool hasQualifier(QualifierType qualifier) const;
+
+protected:
+	void applyQualifieres(std::string& typeName) const;
 
 private:
-	const std::vector<std::string> m_typeNameHierarchy;
-	const DataTypeQualifierList m_qualifierList;
-	const DataTypeModifierStack m_modifierStack;
+	char m_qualifiers;
 };
 
 #endif // DATA_TYPE_H

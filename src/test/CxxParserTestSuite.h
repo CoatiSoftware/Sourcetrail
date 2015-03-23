@@ -1311,8 +1311,118 @@ public:
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 2);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<typename T>::T <1:20 1:20>");
-		TS_ASSERT_EQUALS(client->templateParameterTypes[1], "B<template<typename> typename T>::T <4:36 4:36>");
+		TS_ASSERT_EQUALS(client->templateParameterTypes[1], "B<template<typename> typename T>::T<typename> <4:36 4:36>");
 	}
+
+	void test_cxx_parser_finds_usage_of_template_template_parameter_of_template_class_specialized_with_concrete_type()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{};\n"
+			"template <template<typename> class T>\n"
+			"class B\n"
+			"{\n"
+			"	void foo(T<int> parameter)\n"
+			"	{}\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
+		TS_ASSERT_EQUALS(client->typeUses[0], "void <7:2 7:5>");
+		TS_ASSERT_EQUALS(client->typeUses[1], "B<template<typename> typename T>::T<int> <7:11 7:16>");
+	}
+
+	void test_cxx_parser_finds_usage_of_template_template_parameter_of_template_class_specialized_with_template_type()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{};\n"
+			"template <template<typename> class T>\n"
+			"class B\n"
+			"{\n"
+			"	template <typename U> \n"
+			"	void foo(T<U> parameter)\n"
+			"	{}\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
+		TS_ASSERT_EQUALS(client->typeUses[0], "void <8:2 8:5>");
+		TS_ASSERT_EQUALS(client->typeUses[1], "B<template<typename> typename T>::T<B<template<typename> typename T>::foo<typename U>::U> <8:11 8:14>");
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+	void test_cxx_parser_finds_usage_of_template_template_parameter_of_template_class_specialized_with_template_type00000000000666666666666()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"public:"
+			"	typedef T type;\n"
+			"};\n"
+			"template <typename U>\n"
+			"class B\n"
+			"{\n"
+			"public:"
+			"	typedef typename A<U>::type type;\n"
+			"};\n"
+
+			"B<int>::type f = 0;\n"
+
+		);
+		TS_ASSERT_EQUALS(client->typedefs.size(), 2);
+		TS_ASSERT_EQUALS(client->typedefs[0], "public A<typename T>::T -> A<typename T>::type <4:19 4:22>");
+		TS_ASSERT_EQUALS(client->typedefs[1], "public A<B<typename U>::U>::type -> B<typename U>::type <9:37 9:40>");
+	}
+
+	void test_cxx_parser_finds_usage_of_template_template_parameter_of_template_class_specialized_with_template_type00ss000666666666666()
+	{
+		int zz1 = 0;
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T, T test>\n"
+			"class A\n"
+			"{\n"
+			"};\n"
+
+		);
+		int zz2 = 0;
+		TS_ASSERT_EQUALS(client->classes.size(), 1);
+		TS_ASSERT_EQUALS(client->classes[0], "A<typename T, T test> <2:1 <2:7 2:7> 4:1>");
+	}
+
+	void test_cxx_parser_finds_usage_of_template_template_parameter_of_template_class_specialized_with_template_type00sstt000666666666666()
+	{
+		int zz1 = 0;
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T, typename T::type test>\n"
+			"class A\n"
+			"{\n"
+			"};\n"
+
+		);
+		int zz2 = 0;
+	}
+
+
+
+
+
+
+
 
 	void test_cxx_parser_finds_type_template_parameters_of_template_class_with_multiple_parameters()
 	{
@@ -1725,8 +1835,8 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<p, P & q>->P <8:9 8:9>");
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<p, P & q>->P <8:12 8:12>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&p, P & q>->P <8:9 8:9>"); // why reference here?
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<&p, P & q>->P <8:12 8:12>");
 	}
 
 	void test_cxx_parser_finds_non_type_nullptr_template_argument_of_explicit_partial_template_specialization()
@@ -1764,7 +1874,7 @@ public:
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "B<A, template<typename> typename U>->A<typename T> <8:9 8:9>");
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "B<A, template<typename> typename U>->B<A, template<typename> typename U>::U <8:12 8:12>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "B<A, template<typename> typename U>->B<A, template<typename> typename U>::U<typename> <8:12 8:12>");
 	}
 
 	void test_cxx_parser_finds_correct_name_of_explicit_template_specialization()
@@ -2033,7 +2143,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes[0], "A<typename T> -> B<template<typename> typename T>::T <4:40 4:40>");
+		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes[0], "A<typename T> -> B<template<typename> typename T>::T<typename> <4:40 4:40>");
 	}
 
 
@@ -2142,7 +2252,7 @@ public:
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 2);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<typename T>::T <1:20 1:20>");
-		TS_ASSERT_EQUALS(client->templateParameterTypes[1], "test<template<typename> typename T>::T <4:36 4:36>");
+		TS_ASSERT_EQUALS(client->templateParameterTypes[1], "test<template<typename> typename T>::T<typename> <4:36 4:36>");
 	}
 
 	void test_cxx_parser_finds_implicit_specialization_of_template_function()
@@ -2297,7 +2407,7 @@ private:
 			AccessType access
 		)
 		{
-			std::string str = addAccessPrefix(underlyingType.dataType.getFullTypeName() + " -> " + utility::join(nameHierarchy, "::"), access);
+			std::string str = addAccessPrefix(underlyingType.dataType->getFullTypeName() + " -> " + utility::join(nameHierarchy, "::"), access);
 			typedefs.push_back(addLocationSuffix(str, location));
 			return 0;
 		}
@@ -2471,7 +2581,7 @@ private:
 			const ParseTypeUsage& defaultArgumentType, const std::vector<std::string>& templateArgumentTypeNameHierarchy)
 		{
 			templateDefaultArgumentTypes.push_back(
-				addLocationSuffix(utility::join(defaultArgumentType.dataType.getTypeNameHierarchy(), "::") + " -> " + utility::join(templateArgumentTypeNameHierarchy, "::"), defaultArgumentType.location)
+				addLocationSuffix(utility::join(defaultArgumentType.dataType->getTypeNameHierarchy(), "::") + " -> " + utility::join(templateArgumentTypeNameHierarchy, "::"), defaultArgumentType.location)
 			);
 			return 0;
 		}
@@ -2560,7 +2670,7 @@ private:
 		{
 			if (use.location.isValid())
 			{
-				typeUses.push_back(addLocationSuffix(use.dataType.getFullTypeName(), use.location));
+				typeUses.push_back(addLocationSuffix(use.dataType->getFullTypeName(), use.location));
 			}
 		}
 
@@ -2569,7 +2679,7 @@ private:
 			if (use.location.isValid())
 			{
 				typeUses.push_back(
-					addLocationSuffix(functionStr(func) + " -> " + use.dataType.getFullTypeName(), use.location)
+					addLocationSuffix(functionStr(func) + " -> " + use.dataType->getFullTypeName(), use.location)
 				);
 			}
 		}

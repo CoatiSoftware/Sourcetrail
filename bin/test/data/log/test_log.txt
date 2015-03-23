@@ -1,4 +1,4 @@
-ConfigManager.cpp ERROR: value path/to/nowhere is not present in config.
+ConfigManager.cpp WARNING: value path/to/nowhere is not present in config.
 Storage.cpp INFO: file: input.cc < 0:0 0:0>
 Storage.cpp INFO: class: A <input.cc 1:7 1:7>
 Storage.cpp INFO: method: A::A <input.cc 4:2 4:2>
@@ -57,20 +57,20 @@ Edge.cpp ERROR: Edge usage can't go from Node undefined to Node undefined
 Edge.cpp ERROR: Edge usage can't go from Node undefined to Node undefined
 Edge.cpp ERROR: Edge usage can't go from Node undefined to Node undefined
 Settings.cpp WARNING: File for Settings not found.
-ConfigManager.cpp ERROR: value Bool is not present in config.
-ConfigManager.cpp ERROR: value Int is not present in config.
-ConfigManager.cpp ERROR: value Float is not present in config.
-ConfigManager.cpp ERROR: value String is not present in config.
+ConfigManager.cpp WARNING: value Bool is not present in config.
+ConfigManager.cpp WARNING: value Int is not present in config.
+ConfigManager.cpp WARNING: value Float is not present in config.
+ConfigManager.cpp WARNING: value String is not present in config.
 Settings.cpp WARNING: File for Settings not found.
-ConfigManager.cpp ERROR: value Bool is not present in config.
-ConfigManager.cpp ERROR: value Int is not present in config.
-ConfigManager.cpp ERROR: value Float is not present in config.
-ConfigManager.cpp ERROR: value String is not present in config.
-ConfigManager.cpp ERROR: value Bool is not present in config.
-ConfigManager.cpp ERROR: value Int is not present in config.
-ConfigManager.cpp ERROR: value Float is not present in config.
-ConfigManager.cpp ERROR: value String is not present in config.
-ConfigManager.cpp ERROR: value NewBool is not present in config.
+ConfigManager.cpp WARNING: value Bool is not present in config.
+ConfigManager.cpp WARNING: value Int is not present in config.
+ConfigManager.cpp WARNING: value Float is not present in config.
+ConfigManager.cpp WARNING: value String is not present in config.
+ConfigManager.cpp WARNING: value Bool is not present in config.
+ConfigManager.cpp WARNING: value Int is not present in config.
+ConfigManager.cpp WARNING: value Float is not present in config.
+ConfigManager.cpp WARNING: value String is not present in config.
+ConfigManager.cpp WARNING: value NewBool is not present in config.
 Graph.cpp ERROR: Can't remove member edge, without removing the child node.
 Storage.cpp INFO: typedef: type -> int <file.cpp 1:1 1:1>
 Storage.cpp INFO: class: Class <file.cpp 1:1 1:1>

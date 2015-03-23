@@ -802,7 +802,7 @@ private:
 
 	ParseTypeUsage typeUsage(const std::string& typeName) const
 	{
-		return ParseTypeUsage(validLocation(), DataType(utility::splitToVector(typeName, "::")));
+		return ParseTypeUsage(validLocation(), std::make_shared<NamedDataType>(utility::splitToVector(typeName, "::")));
 	}
 
 	std::vector<ParseTypeUsage> parameters(const std::string& param) const

@@ -200,7 +200,7 @@ Id Storage::onTypedefParsed(
 	const ParseLocation& location, const std::vector<std::string>& nameHierarchy, const ParseTypeUsage& underlyingType,
 	AccessType access
 ){
-	log("typedef", utility::join(nameHierarchy, "::") + " -> " + underlyingType.dataType.getFullTypeName(), location);
+	log("typedef", utility::join(nameHierarchy, "::") + " -> " + underlyingType.dataType->getFullTypeName(), location);
 
 	Node* node = addNodeHierarchy(Node::NODE_TYPEDEF, nameHierarchy);
 	addAccess(node, access);
@@ -503,7 +503,7 @@ Id Storage::onEnumConstantUsageParsed(
 
 Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function)
 {
-	log("type usage", function.getFullName() + " -> " + type.dataType.getRawTypeName(), type.location);
+	log("type usage", function.getFullName() + " -> " + type.dataType->getRawTypeName(), type.location);
 
 	Node* functionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, function);
 	Edge* edge = addTypeEdge(functionNode, Edge::EDGE_TYPE_USAGE, type);
@@ -519,7 +519,7 @@ Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& f
 
 Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseVariable& variable)
 {
-	log("type usage", variable.getFullName() + " -> " + type.dataType.getRawTypeName(), type.location);
+	log("type usage", variable.getFullName() + " -> " + type.dataType->getRawTypeName(), type.location);
 
 	Node* variableNode = addNodeHierarchy(Node::NODE_UNDEFINED, variable.nameHierarchy);
 	Edge* edge = addTypeEdge(variableNode, Edge::EDGE_TYPE_USAGE, type);
@@ -560,13 +560,13 @@ Id Storage::onTemplateDefaultArgumentTypeParsed(
 ){
 	log(
 		"template default argument",
-		utility::join(defaultArgumentType.dataType.getTypeNameHierarchy(), "::") +
+		utility::join(defaultArgumentType.dataType->getTypeNameHierarchy(), "::") +
 			" -> " + utility::join(templateArgumentTypeNameHierarchy, "::"),
 		defaultArgumentType.location
 	);
 
 	Node* templateDefaultArgumentNode =
-		addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, defaultArgumentType.dataType.getTypeNameHierarchy());
+		addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, defaultArgumentType.dataType->getTypeNameHierarchy());
 	addTokenLocation(templateDefaultArgumentNode, defaultArgumentType.location);
 
 	Node* templateArgumentNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateArgumentTypeNameHierarchy);
@@ -1184,7 +1184,7 @@ Edge* Storage::addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeU
 		return nullptr;
 	}
 
-	std::vector<std::string> nameHierarchy = typeUsage.dataType.getTypeNameHierarchy();
+	std::vector<std::string> nameHierarchy = typeUsage.dataType->getTypeNameHierarchy();
 
 	Node* typeNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, nameHierarchy);
 	if (!typeNode)

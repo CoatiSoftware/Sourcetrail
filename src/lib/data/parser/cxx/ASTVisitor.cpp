@@ -15,6 +15,7 @@
 #include "data/parser/ParseTypeUsage.h"
 #include "data/parser/ParseVariable.h"
 #include "data/type/DataType.h"
+#include "data/type/NamedDataType.h"
 
 ASTVisitor::ASTVisitor(clang::ASTContext* context, ParserClient* client, FileRegister* fileRegister)
 	: m_context(context)
@@ -79,7 +80,7 @@ bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 					m_client->onInheritanceParsed(
 						getParseLocation(it.getSourceRange()),
 						utility::getDeclNameHierarchy(declaration),
-						utility::qualTypeToDataType(it.getType()).getTypeNameHierarchy(),
+						utility::qualTypeToDataType(it.getType())->getTypeNameHierarchy(),
 						convertAccessType(it.getAccessSpecifier())
 					);
 				}
@@ -299,7 +300,7 @@ bool ASTVisitor::VisitTemplateTemplateParmDecl(clang::TemplateTemplateParmDecl *
 	{
 		const clang::TemplateArgumentLoc& defaultArgumentLoc = declaration->getDefaultArgument();
 		clang::SourceRange sr = defaultArgumentLoc.getSourceRange();
-		DataType defaultArgumentDataType(utility::getDeclNameHierarchy(defaultArgumentLoc.getArgument().getAsTemplate().getAsTemplateDecl()));
+		std::shared_ptr<DataType> defaultArgumentDataType = std::make_shared<NamedDataType>(utility::getDeclNameHierarchy(defaultArgumentLoc.getArgument().getAsTemplate().getAsTemplateDecl()));
 		m_client->onTemplateDefaultArgumentTypeParsed(
 			getParseTypeUsage(sr, defaultArgumentDataType),
 			utility::getDeclNameHierarchy(declaration)
@@ -353,7 +354,7 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 			const clang::TemplateArgumentList &argList = specializationDecl->getTemplateArgs();
 			for (size_t i = 0; i < argList.size(); i++)
 			{
-				std::vector<std::string> argumentNameHierarchy = utility::templateArgumentToDataType(argList.get(i)).getTypeNameHierarchy();
+				std::vector<std::string> argumentNameHierarchy = utility::templateArgumentToDataType(argList.get(i))->getTypeNameHierarchy();
 
 				if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
 				{
@@ -403,7 +404,7 @@ bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplat
 
 			m_client->onTemplateArgumentTypeParsed(
 				getParseLocation(argumentLoc.getSourceRange()),
-				utility::templateArgumentToDataType(argument).getTypeNameHierarchy(),
+				utility::templateArgumentToDataType(argument)->getTypeNameHierarchy(),
 				specializedRecordNameHierarchy);
 		}
 	}
@@ -458,7 +459,7 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 
 						m_client->onTemplateArgumentTypeParsed(
 							getParseLocation(argumentLoc.getSourceRange()),
-							utility::qualTypeToDataType(argumentType).getTypeNameHierarchy(),
+							utility::qualTypeToDataType(argumentType)->getTypeNameHierarchy(),
 							specializedFunction.nameHierarchy);
 					}
 				}
@@ -478,7 +479,7 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 
 					m_client->onTemplateArgumentTypeParsed(
 						ParseLocation(specializedFunctionLocation.filePath, 0, 0), // TODO: Find a valid ParseLocation here!
-						utility::qualTypeToDataType(argumentType).getTypeNameHierarchy(),
+						utility::qualTypeToDataType(argumentType)->getTypeNameHierarchy(),
 						specializedFunction.nameHierarchy);
 				}
 			}
@@ -794,11 +795,11 @@ ParseLocation ASTVisitor::getParseLocationOfRecordBody(clang::CXXRecordDecl* dec
 
 ParseTypeUsage ASTVisitor::getParseTypeUsage(const clang::TypeLoc& typeLoc, const clang::QualType& type) const
 {
-	DataType dataType = utility::qualTypeToDataType(type);
+	std::shared_ptr<DataType> dataType = utility::qualTypeToDataType(type);
 	return getParseTypeUsage(typeLoc, dataType);
 }
 
-ParseTypeUsage ASTVisitor::getParseTypeUsage(const clang::TypeLoc& typeLoc, const DataType& type) const
+ParseTypeUsage ASTVisitor::getParseTypeUsage(const clang::TypeLoc& typeLoc, const std::shared_ptr<DataType> type) const
 {
 	ParseLocation parseLocation;
 
@@ -816,7 +817,7 @@ ParseTypeUsage ASTVisitor::getParseTypeUsage(const clang::TypeLoc& typeLoc, cons
 	return ParseTypeUsage(parseLocation, type);
 }
 
-ParseTypeUsage ASTVisitor::getParseTypeUsage(const clang::SourceRange& sourceRange, const DataType& type) const
+ParseTypeUsage ASTVisitor::getParseTypeUsage(const clang::SourceRange& sourceRange, const std::shared_ptr<DataType> type) const
 {
 	ParseLocation parseLocation;
 

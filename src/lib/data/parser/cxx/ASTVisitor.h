@@ -71,8 +71,8 @@ private:
 	ParseLocation getParseLocationOfRecordBody(clang::CXXRecordDecl* decl) const;
 
 	ParseTypeUsage getParseTypeUsage(const clang::TypeLoc& typeLoc, const clang::QualType& type) const;
-	ParseTypeUsage getParseTypeUsage(const clang::TypeLoc& typeLoc, const DataType& type) const;
-	ParseTypeUsage getParseTypeUsage(const clang::SourceRange& sourceRange, const DataType& type) const;
+	ParseTypeUsage getParseTypeUsage(const clang::TypeLoc& typeLoc, const std::shared_ptr<DataType> type) const;
+	ParseTypeUsage getParseTypeUsage(const clang::SourceRange& sourceRange, const std::shared_ptr<DataType> type) const;
 	ParseTypeUsage getParseTypeUsageOfReturnType(const clang::FunctionDecl* declaration) const;
 	std::vector<ParseTypeUsage> getParameters(const clang::FunctionDecl* declaration) const;
 

@@ -5,163 +5,204 @@
 #include <clang/AST/ASTContext.h>
 
 #include "data/type/DataType.h"
-#include "data/type/modifier/DataTypeModifierArray.h"
-#include "data/type/modifier/DataTypeModifierPointer.h"
-#include "data/type/modifier/DataTypeModifierReference.h"
-#include "data/type/DataTypeModifierStack.h"
-#include "data/type/DataTypeQualifierList.h"
+#include "data/type/NamedDataType.h"
+#include "data/type/ArrayModifiedDataType.h"
+#include "data/type/PointerModifiedDataType.h"
+#include "data/type/ReferenceModifiedDataType.h"
+
 #include "utility/utilityString.h"
 #include "utility/logging/logging.h"
-#include "llvm/Support/raw_ostream.h"
 
 namespace utility
 {
-	DataType qualTypeToDataType(clang::QualType qualType)
+	std::shared_ptr<DataType> qualTypeToDataType(clang::QualType qualType)
 	{
-		std::vector<std::string> typeNameHerarchy;
-		DataTypeQualifierList qualifierList;
-		DataTypeModifierStack modifierStack;
-
-		bool needsRefinement = true;
-
-		while (needsRefinement)
-		{
-			const clang::Type* type = qualType.getTypePtr();
-			switch (type->getTypeClass())
-			{
-			case clang::Type::Paren:
-				{
-					qualType = type->getAs<clang::ParenType>()->getInnerType();
-					// what about qualifiers and modifiers
-					break;
-				}
-			case clang::Type::Typedef:
-				{
-					typeNameHerarchy = getDeclNameHierarchy(type->getAs<clang::TypedefType>()->getDecl());
-					needsRefinement = false;
-					break;
-				}
-			case clang::Type::Pointer:
-				{
-					std::shared_ptr<DataTypeModifier> modifier = std::make_shared<DataTypeModifierPointer>();
-					if (qualType.isConstQualified())
-					{
-						modifier->addQualifier(DataTypeQualifierList::QUALIFIER_CONST);
-					}
-					modifierStack.push(modifier);
-
-					qualType = type->getPointeeType();
-					break;
-				}
-			case clang::Type::ConstantArray:
-			case clang::Type::VariableArray:
-			case clang::Type::DependentSizedArray:
-			case clang::Type::IncompleteArray:
-				{
-					std::shared_ptr<DataTypeModifier> modifier = std::make_shared<DataTypeModifierArray>();
-					if (qualType.isConstQualified())
-					{
-						modifier->addQualifier(DataTypeQualifierList::QUALIFIER_CONST);
-					}
-					modifierStack.push(modifier);
-
-					qualType = clang::dyn_cast<clang::ArrayType>(type)->getElementType();
-					break;
-				}
-			case clang::Type::LValueReference:
-			case clang::Type::RValueReference:
-				{
-					std::shared_ptr<DataTypeModifier> modifier = std::make_shared<DataTypeModifierReference>();
-					// references can not be const qualified
-					modifierStack.push(modifier);
-
-					qualType = type->getPointeeType();
-					break;
-				}
-			case clang::Type::Elaborated:
-				{
-					const clang::ElaboratedType* et = clang::dyn_cast<clang::ElaboratedType>(type);
-					qualType = et->getNamedType();
-					break;
-				}
-			case clang::Type::Enum:
-			case clang::Type::Record:
-				{
-					typeNameHerarchy = getDeclNameHierarchy(type->getAs<clang::TagType>()->getDecl());
-					needsRefinement = false;
-					break;
-				}
-			case clang::Type::Builtin:
-				{
-					clang::PrintingPolicy pp = clang::PrintingPolicy(clang::LangOptions());
-					pp.SuppressTagKeyword = true;	// value "true": for a class A it prints "A" instead of "class A"
-					pp.Bool = true;					// value "true": prints bool type as "bool" instead of "_Bool"
-					std::string typeName = qualType.getUnqualifiedType().getAsString(pp);
-					typeNameHerarchy.push_back(typeName);
-
-					needsRefinement = false;
-					break;
-				}
-			case clang::Type::TemplateSpecialization:
-				{
-					typeNameHerarchy = getDeclNameHierarchy(type->getAs<clang::TagType>()->getDecl());
-					needsRefinement = false;
-					break;
-				}
-			case clang::Type::TemplateTypeParm:
-				{
-					clang::TemplateTypeParmDecl* templateTypeParmDecl = clang::dyn_cast<clang::TemplateTypeParmType>(qualType)->getDecl();
-					std::string typeName = getDeclName(templateTypeParmDecl);
-
-					clang::ASTContext& astContext = templateTypeParmDecl->getASTContext();
-					llvm::ArrayRef<clang::ast_type_traits::DynTypedNode> parents = astContext.getParents<clang::Decl>(*(clang::dyn_cast<clang::Decl>(templateTypeParmDecl)));
-					if (parents.size() > 0) // usually this list contains just one parent node.
-					{
-						const clang::Decl* parentNode = parents[0].get<clang::Decl>(); // use the fist parent node.
-						if (clang::isa<clang::NamedDecl>(parentNode))
-						{
-							const clang::NamedDecl* parentNamedDecl = clang::dyn_cast<clang::NamedDecl>(parentNode);
-							typeNameHerarchy = getDeclNameHierarchy(parentNamedDecl);
-						}
-					}
-					if (typeNameHerarchy.size() == 0)
-					{
-						LOG_ERROR("Unable to resolve type name hierarchy for template parameter \"" + typeName + "\"");
-						typeNameHerarchy.push_back(typeName);
-					}
-					else
-					{
-						typeNameHerarchy.back() += "::" + typeName;
-					}
-					needsRefinement = false;
-					break;
-				}
-			case clang::Type::SubstTemplateTypeParm:
-				{
-					const clang::SubstTemplateTypeParmType* substType =  type->getAs<clang::SubstTemplateTypeParmType>();
-					qualType = substType->getReplacementType();
-					break;
-				}
-			default:
-				{
-					LOG_ERROR(std::string("Unhandled kind of type encountered: ") + type->getTypeClassName());
-					clang::PrintingPolicy pp = clang::PrintingPolicy(clang::LangOptions());
-					pp.SuppressTagKeyword = true;	// value "true": for a class A it prints "A" instead of "class A"
-					pp.Bool = true;					// value "true": prints bool type as "bool" instead of "_Bool"
-					std::string typeName = qualType.getUnqualifiedType().getAsString(pp);
-
-					typeNameHerarchy.push_back(typeName);
-
-					needsRefinement = false;
-					break;
-				}
-			}
-		}
+		std::shared_ptr<DataType> dataType = typeToDataType(qualType.getTypePtr());
 		if (qualType.isConstQualified())
 		{
-			qualifierList.addQualifier(DataTypeQualifierList::QUALIFIER_CONST);
+			dataType->addQualifier(DataType::QUALIFIER_CONST);
 		}
-		return DataType(typeNameHerarchy, qualifierList, modifierStack);
+		return dataType;
+	}
+
+	std::shared_ptr<DataType> typeToDataType(const clang::Type* type)
+	{
+		std::shared_ptr<DataType> dataType;
+
+		switch (type->getTypeClass())
+		{
+		case clang::Type::Paren:
+			{
+				dataType = qualTypeToDataType(type->getAs<clang::ParenType>()->getInnerType());
+				break;
+			}
+		case clang::Type::Typedef:
+			{
+				dataType = std::make_shared<NamedDataType>(getDeclNameHierarchy(type->getAs<clang::TypedefType>()->getDecl()));
+				break;
+			}
+		case clang::Type::Pointer:
+			{
+				std::shared_ptr<DataType> innerType = qualTypeToDataType(type->getPointeeType());
+				dataType = std::make_shared<PointerModifiedDataType>(innerType);
+				break;
+			}
+		case clang::Type::ConstantArray:
+		case clang::Type::VariableArray:
+		case clang::Type::DependentSizedArray:
+		case clang::Type::IncompleteArray:
+			{
+				std::shared_ptr<DataType> innerType = qualTypeToDataType(clang::dyn_cast<clang::ArrayType>(type)->getElementType());
+				dataType = std::make_shared<ArrayModifiedDataType>(innerType);
+				break;
+			}
+		case clang::Type::LValueReference:
+		case clang::Type::RValueReference:
+			{
+				std::shared_ptr<DataType> innerType = qualTypeToDataType(type->getPointeeType());
+				dataType = std::make_shared<ReferenceModifiedDataType>(innerType);
+				break;
+			}
+		case clang::Type::Elaborated:
+			{
+				dataType = qualTypeToDataType(clang::dyn_cast<clang::ElaboratedType>(type)->getNamedType());
+				break;
+			}
+		case clang::Type::Enum:
+		case clang::Type::Record:
+			{
+				dataType = std::make_shared<NamedDataType>(getDeclNameHierarchy(type->getAs<clang::TagType>()->getDecl()));
+				break;
+			}
+		case clang::Type::Builtin:
+			{
+				clang::PrintingPolicy pp = clang::PrintingPolicy(clang::LangOptions());
+				pp.SuppressTagKeyword = true;	// value "true": for a class A it prints "A" instead of "class A"
+				pp.Bool = true;					// value "true": prints bool type as "bool" instead of "_Bool"
+
+				clang::SmallString<64> Buf;
+				llvm::raw_svector_ostream StrOS(Buf);
+				clang::QualType::print(type, clang::Qualifiers(), StrOS, pp, clang::Twine());
+				std::string typeName = StrOS.str();
+
+				std::vector<std::string> typeNameHerarchy;
+				typeNameHerarchy.push_back(typeName);
+
+				dataType = std::make_shared<NamedDataType>(typeNameHerarchy);
+				break;
+			}
+		case clang::Type::TemplateSpecialization:
+			{
+				std::vector<std::string> typeNameHerarchy;
+
+				const clang::TagType* tagType = type->getAs<clang::TagType>(); // remove this case when NameHierarchy is split into namepart and parameter part
+				if (tagType)
+				{
+					typeNameHerarchy = getDeclNameHierarchy(tagType->getDecl());
+				}
+				else // specialization depends on template template parameter type
+				{
+					const clang::TemplateSpecializationType* templateSpecializationType = type->getAs<clang::TemplateSpecializationType>();
+					typeNameHerarchy = getDeclNameHierarchy(templateSpecializationType->getTemplateName().getAsTemplateDecl());
+
+					if (typeNameHerarchy.size() > 0)
+					{
+						std::string templateArgumentPart = "<";
+						for (int i = 0; i < templateSpecializationType->getNumArgs(); i++)
+						{
+							templateArgumentPart += getTemplateArgumentName(templateSpecializationType->getArg(i));
+							if (i < templateSpecializationType->getNumArgs() - 1)
+								templateArgumentPart += ", ";
+						}
+						templateArgumentPart += ">";
+
+						std::string& declName = typeNameHerarchy.back();
+						declName = declName.substr(0, declName.rfind("<"));	// remove template parameters
+						declName += templateArgumentPart;					// add template arguments
+					}
+				}
+				dataType = std::make_shared<NamedDataType>(typeNameHerarchy);
+				break;
+			}
+		case clang::Type::TemplateTypeParm:
+			{
+				clang::TemplateTypeParmDecl* templateTypeParmDecl = clang::dyn_cast<clang::TemplateTypeParmType>(type)->getDecl();
+
+				std::string typeName = getDeclName(templateTypeParmDecl);
+				std::vector<std::string> typeNameHerarchy = getContextNameHierarchyOfTemplateParameter(templateTypeParmDecl);
+
+				if (typeNameHerarchy.size() == 0)
+				{
+					LOG_ERROR("Unable to resolve type name hierarchy for template parameter \"" + typeName + "\"");
+					typeNameHerarchy.push_back(typeName);
+				}
+				else
+				{
+					typeNameHerarchy.back() += "::" + typeName;
+				}
+				dataType = std::make_shared<NamedDataType>(typeNameHerarchy);
+				break;
+			}
+		case clang::Type::SubstTemplateTypeParm:
+			{
+				dataType = qualTypeToDataType(type->getAs<clang::SubstTemplateTypeParmType>()->getReplacementType());
+				break;
+			}
+		case clang::Type::DependentName:
+			{
+				const clang::DependentNameType* dependentNameType = clang::dyn_cast<clang::DependentNameType>(type);
+				clang::NestedNameSpecifier* nns = dependentNameType->getQualifier();
+				clang::NestedNameSpecifier::SpecifierKind nnsKind = nns->getKind();
+				std::vector<std::string> typeNameHerarchy;
+				switch (nnsKind)
+				{
+				case clang::NestedNameSpecifier::Identifier:
+					typeNameHerarchy.push_back(nns->getAsIdentifier()->getName());
+					LOG_ERROR("Unable to resolve name of nested name specifier of kind: Identifier"); // this one is not tested yet. tell malte if you get this log error.
+					break;
+				case clang::NestedNameSpecifier::Namespace:
+					typeNameHerarchy = getDeclNameHierarchy(nns->getAsNamespace());
+					break;
+				case clang::NestedNameSpecifier::NamespaceAlias:
+					typeNameHerarchy = getDeclNameHierarchy(nns->getAsNamespaceAlias());
+					break;
+				case clang::NestedNameSpecifier::TypeSpec:
+				case clang::NestedNameSpecifier::TypeSpecWithTemplate:
+					typeNameHerarchy = typeToDataType(nns->getAsType())->getTypeNameHierarchy();
+					break;
+				case clang::NestedNameSpecifier::Global:
+					// no context name hierarchy needed.
+					break;
+				case clang::NestedNameSpecifier::Super:
+					typeNameHerarchy = getDeclNameHierarchy(nns->getAsRecordDecl());
+					break;
+				}
+
+				typeNameHerarchy.push_back(dependentNameType->getIdentifier()->getName().str());
+
+				dataType = std::make_shared<NamedDataType>(typeNameHerarchy);
+				break;
+			}
+		default:
+			{
+				LOG_ERROR(std::string("Unhandled kind of type encountered: ") + type->getTypeClassName());
+				clang::PrintingPolicy pp = clang::PrintingPolicy(clang::LangOptions());
+				pp.SuppressTagKeyword = true;	// value "true": for a class A it prints "A" instead of "class A"
+				pp.Bool = true;					// value "true": prints bool type as "bool" instead of "_Bool"
+
+				clang::SmallString<64> Buf;
+				llvm::raw_svector_ostream StrOS(Buf);
+				clang::QualType::print(type, clang::Qualifiers(), StrOS, pp, clang::Twine());
+				std::string typeName = StrOS.str();
+
+				std::vector<std::string> typeNameHerarchy;
+				typeNameHerarchy.push_back(typeName);
+
+				dataType = std::make_shared<NamedDataType>(typeNameHerarchy);
+				break;
+			}
+		}
+		return dataType;
 	}
 
 	std::vector<std::string> getDeclNameHierarchy(const clang::Decl* declaration)
@@ -181,7 +222,8 @@ namespace utility
 			}
 			contextNameHierarchy = getContextNameHierarchy(declaration->getDeclContext());
 			if (clang::isa<clang::NonTypeTemplateParmDecl>(declaration) ||
-				clang::isa<clang::TemplateTypeParmDecl>(declaration)) // TODO: Handle templatetemplate stuff
+				clang::isa<clang::TemplateTypeParmDecl>(declaration) ||
+				clang::isa<clang::TemplateTemplateParmDecl>(declaration))
 			{
 				contextNameHierarchy.back() += "::" + declName;
 			}
@@ -214,9 +256,24 @@ namespace utility
 		return contextNameHierarchy;
 	}
 
+	std::vector<std::string> getContextNameHierarchyOfTemplateParameter(const clang::NamedDecl* templateParmDecl)
+	{
+		std::vector<std::string> contextNameHierarchy;
+
+		const clang::Decl* parentNode = getAstParentDecl(templateParmDecl);
+		if (parentNode && clang::isa<clang::NamedDecl>(parentNode))
+		{
+			const clang::NamedDecl* parentNamedDecl = clang::dyn_cast<clang::NamedDecl>(parentNode);
+			contextNameHierarchy = getDeclNameHierarchy(parentNamedDecl);
+		}
+
+		return contextNameHierarchy;
+	}
+
 	std::string getDeclName(const clang::NamedDecl* declaration)
 	{
 		std::string declName = declaration->getNameAsString();
+		clang::Decl::Kind kind = declaration->getKind();
 		if (clang::isa<clang::CXXRecordDecl>(declaration))
 		{
 			clang::ClassTemplateDecl* templateClassDeclaration = clang::dyn_cast<clang::CXXRecordDecl>(declaration)->getDescribedClassTemplate();
@@ -234,10 +291,10 @@ namespace utility
 
 				std::string specializedParameterNamePart = "<";
 				int templateArgumentCount = partialSpecializationDecl->getTemplateArgs().size();
-				const clang::ASTTemplateArgumentListInfo* templateArgumentListInfo = partialSpecializationDecl->getTemplateArgsAsWritten();
+				const clang::TemplateArgumentList& templateArgumentList = partialSpecializationDecl->getTemplateArgs();
 				for (int i = 0; i < templateArgumentCount; i++)
 				{
-					const clang::TemplateArgument& templateArgument = templateArgumentListInfo->getTemplateArgs()[i].getArgument();
+					const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
 					if (templateArgument.isDependent()) // TODO: fix case when arg depends on template parameter of outer template class.
 					{
 						specializedParameterNamePart += getTemplateParameterString(parameterList->getParam(currentParameterIndex));
@@ -279,18 +336,14 @@ namespace utility
 				for (size_t i = 0; i < templateArgumentList->size(); i++)
 				{
 					const clang::TemplateArgument& templateArgument = templateArgumentList->get(i);
-					specializedParameterNamePart += templateArgumentToDataType(templateArgument).getFullTypeName();
+					specializedParameterNamePart += templateArgumentToDataType(templateArgument)->getFullTypeName();
 					specializedParameterNamePart += (i < templateArgumentList->size() - 1) ? ", " : "";
 				}
 				specializedParameterNamePart += ">";
 				declName += specializedParameterNamePart;
 			}
 		}
-		else if (clang::isa<clang::TemplateTemplateParmDecl>(declaration))
-		{
-			// nothing to do here
-		}
-		else if (clang::isa<clang::TemplateDecl>(declaration))
+		else if (clang::isa<clang::TemplateDecl>(declaration)) // also triggers on TemplateTemplateParmDecl
 		{
 			std::string templateParameterNamePart = "<";
 			clang::TemplateParameterList* parameterList = clang::dyn_cast<clang::TemplateDecl>(declaration)->getTemplateParameters();
@@ -328,7 +381,7 @@ namespace utility
 		return specializationParentNameHierarchy;
 	}
 
-	DataType templateArgumentToDataType(const clang::TemplateArgument& argument) // remove this! this is stupid! agurment is not always a datatype.
+	std::shared_ptr<DataType> templateArgumentToDataType(const clang::TemplateArgument& argument) // remove this! this is stupid! agurment is not always a datatype.
 	{
 		const clang::TemplateArgument::ArgKind kind = argument.getKind();
 		switch (kind)
@@ -348,12 +401,15 @@ namespace utility
 		case clang::TemplateArgument::Template:
 			{
 				clang::TemplateName templateName = argument.getAsTemplate();
+				clang::TemplateName::NameKind::Template;
 				switch (templateName.getKind())
 				{
 				case clang::TemplateName::Template:
-					return DataType(getDeclNameHierarchy(templateName.getAsTemplateDecl()));
+					return std::make_shared<NamedDataType>(getDeclNameHierarchy(templateName.getAsTemplateDecl()));
+					break;
+				default:
+					LOG_ERROR("Type of template argument not handled: Template");
 				}
-				LOG_ERROR("Type of template argument not handled: Template");
 			}
 			break;
 		case clang::TemplateArgument::TemplateExpansion:
@@ -368,40 +424,24 @@ namespace utility
 			LOG_ERROR("Type of template argument not handled." + argument.getKind());
 			break;
 		}
-		return DataType(std::vector<std::string>());
+		return std::make_shared<NamedDataType>(std::vector<std::string>());
 	}
 
 	std::string getTemplateParameterString(const clang::NamedDecl* parameter)
 	{
 		std::string templateParameterString = "";
+
 		clang::Decl::Kind templateParameterKind = parameter->getKind();
 		switch (templateParameterKind)
 		{
 		case clang::Decl::NonTypeTemplateParm:
-			{
-				const clang::NonTypeTemplateParmDecl* nonTypeTemplateParmDecl = clang::dyn_cast<clang::NonTypeTemplateParmDecl>(parameter);
-				templateParameterString = qualTypeToDataType(nonTypeTemplateParmDecl->getType()).getFullTypeName();
-			}
+			templateParameterString = getTemplateParameterTypeString(clang::dyn_cast<clang::NonTypeTemplateParmDecl>(parameter));
 			break;
 		case clang::Decl::TemplateTypeParm:
-			{
-				const clang::TemplateTypeParmDecl* templateTypeParmDecl = clang::dyn_cast<clang::TemplateTypeParmDecl>(parameter);
-				templateParameterString = templateTypeParmDecl->wasDeclaredWithTypename() ? "typename" : "class";
-			}
+			templateParameterString = getTemplateParameterTypeString(clang::dyn_cast<clang::TemplateTypeParmDecl>(parameter));
 			break;
 		case clang::Decl::TemplateTemplateParm:
-			{
-				const clang::TemplateTemplateParmDecl* templateTemplateParmDecl = clang::dyn_cast<clang::TemplateTemplateParmDecl>(parameter);
-				templateParameterString = "template<";
-				clang::TemplateParameterList* parameterList = templateTemplateParmDecl->getTemplateParameters();
-				for (size_t i = 0; i < parameterList->size(); i++)
-				{
-					templateParameterString += getTemplateParameterString(parameterList->getParam(i));
-					templateParameterString += (i < parameterList->size() - 1) ? ", " : "";
-				}
-				templateParameterString += ">";
-				templateParameterString += " typename"; // TODO: what if template template parameter is defined with class keyword?
-			}
+			templateParameterString = getTemplateParameterTypeString(clang::dyn_cast<clang::TemplateTemplateParmDecl>(parameter));
 			break;
 		default:
 			LOG_ERROR("Unhandled kind of template parameter.");
@@ -415,13 +455,102 @@ namespace utility
 		return templateParameterString;
 	}
 
+	std::string getTemplateParameterTypeString(const clang::NonTypeTemplateParmDecl* parameter)
+	{
+		std::string templateParameterTypeString = "";
+
+		const clang::QualType parmeterType = parameter->getType();
+		clang::Type::TypeClass parmeterTypeClass = parmeterType->getTypeClass();
+		if (parmeterTypeClass == clang::Type::TemplateTypeParm)
+		{
+			clang::TemplateTypeParmDecl* parmeterTypeDecl = clang::dyn_cast<clang::TemplateTypeParmType>(parmeterType)->getDecl();
+			if (haveAstAncestorRelation(getAstParentDecl(parameter), parmeterTypeDecl))
+			{
+				templateParameterTypeString = getDeclName(parmeterTypeDecl);
+			}
+		}
+		else if (parmeterTypeClass == clang::Type::DependentName)
+		{
+			clang::NestedNameSpecifier* nns = clang::dyn_cast<clang::DependentNameType>(parmeterType)->getQualifier();
+			clang::NamedDecl* typeParent;
+			switch (nns->getKind())
+			{
+			case clang::NestedNameSpecifier::Identifier:
+				{
+					clang::PrintingPolicy pp = clang::PrintingPolicy(clang::LangOptions());
+					pp.SuppressTagKeyword = true;	// value "true": for a class A it prints "A" instead of "class A"
+					pp.Bool = true;					// value "true": prints bool type as "bool" instead of "_Bool"
+					templateParameterTypeString = parmeterType.getAsString(pp);
+				}
+				break;
+			case clang::NestedNameSpecifier::Namespace:
+				typeParent = nns->getAsNamespace();
+				break;
+			case clang::NestedNameSpecifier::NamespaceAlias:
+				typeParent = nns->getAsNamespaceAlias();
+				break;
+			case clang::NestedNameSpecifier::TypeSpec:
+			case clang::NestedNameSpecifier::TypeSpecWithTemplate:
+				{
+					const clang::Type* ssswd = nns->getAsType();
+					clang::Type::TypeClass szz = ssswd->getTypeClass();
+					switch (ssswd->getTypeClass())
+					{
+					case clang::Type::TemplateTypeParm:
+						typeParent = clang::dyn_cast<clang::TemplateTypeParmType>(ssswd)->getDecl();
+						break;
+					default:
+						LOG_ERROR("aahhh");
+					}
+				}
+				break;
+			case clang::NestedNameSpecifier::Global:
+				typeParent = nullptr;
+				break;
+			case clang::NestedNameSpecifier::Super:
+				typeParent = nns->getAsRecordDecl();
+				break;
+			}
+			if (typeParent && haveAstAncestorRelation(getAstParentDecl(parameter), typeParent))
+			{
+				templateParameterTypeString = getDeclName(typeParent);
+				templateParameterTypeString += "::" + clang::dyn_cast<clang::DependentNameType>(parmeterType)->getIdentifier()->getName().str();
+			}
+		}
+
+		if (templateParameterTypeString.empty()) // this is the default case
+		{
+			templateParameterTypeString = qualTypeToDataType(parmeterType)->getFullTypeName();
+		}
+		return templateParameterTypeString;
+	}
+
+	std::string getTemplateParameterTypeString(const clang::TemplateTypeParmDecl* parameter)
+	{
+		return (parameter->wasDeclaredWithTypename() ? "typename" : "class");
+	}
+
+	std::string getTemplateParameterTypeString(const clang::TemplateTemplateParmDecl* parameter)
+	{
+		std::string templateParameterTypeString = "template<";
+		clang::TemplateParameterList* parameterList = parameter->getTemplateParameters();
+		for (size_t i = 0; i < parameterList->size(); i++)
+		{
+			templateParameterTypeString += getTemplateParameterString(parameterList->getParam(i));
+			templateParameterTypeString += (i < parameterList->size() - 1) ? ", " : "";
+		}
+		templateParameterTypeString += ">";
+		templateParameterTypeString += " typename"; // TODO: what if template template parameter is defined with class keyword?
+		return templateParameterTypeString;
+	}
+
 	std::string getTemplateArgumentName(const clang::TemplateArgument& argument)
 	{
 		const clang::TemplateArgument::ArgKind kind = argument.getKind();
 		switch (kind)
 		{
 		case clang::TemplateArgument::Type:
-			return utility::qualTypeToDataType(argument.getAsType()).getFullTypeName();
+			return utility::qualTypeToDataType(argument.getAsType())->getFullTypeName();
 		case clang::TemplateArgument::Integral:
 		case clang::TemplateArgument::Null:
 		case clang::TemplateArgument::Declaration:
@@ -448,4 +577,33 @@ namespace utility
 		}
 		return std::string();
 	}
+
+	bool haveAstAncestorRelation(const clang::Decl* parent, const clang::Decl* child)
+	{
+		if (parent)
+		{
+			while (child)
+			{
+				if (parent == child)
+				{
+					return true;
+				}
+				child = getAstParentDecl(child);
+			}
+		}
+		return false;
+	}
+
+	const clang::Decl* getAstParentDecl(const clang::Decl* decl)
+	{
+		clang::ASTContext& astContext = decl->getASTContext();
+		llvm::ArrayRef<clang::ast_type_traits::DynTypedNode> parents = astContext.getParents<clang::Decl>(*(decl));
+		if (parents.size() > 0) // usually this list contains just one parent node.
+		{
+			return parents[0].get<clang::Decl>(); // use the fist parent node.
+		}
+		return nullptr;
+	}
 }
+
+
