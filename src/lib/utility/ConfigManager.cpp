@@ -73,7 +73,7 @@ bool ConfigManager::getValues(const std::string& key, std::vector<std::string>& 
 				std::multimap<std::string, std::string>::const_iterator> ret;
 	ret = m_values.equal_range(key);
 
-	if (ret.first != m_values.end())
+	if (ret.first != ret.second)
 	{
 		std::multimap<std::string, std::string>::const_iterator cit = ret.first;
 		for(;cit!=ret.second;++cit)
