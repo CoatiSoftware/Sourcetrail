@@ -44,7 +44,6 @@ QtSmartSearchBox::QtSmartSearchBox(QWidget* parent)
 	, m_shiftKeyDown(false)
 	, m_mousePressed(false)
 {
-    grabKeyboard();
 	m_highlightRect = new QWidget(this);
 	m_highlightRect->setGeometry(0, 0, 0, 0);
 	m_highlightRect->setObjectName("search_box_highlight");
