@@ -42,7 +42,7 @@ public:
 
 	virtual Vec2i getPosition() const;
 	virtual bool setPosition(const Vec2i& position);
-	virtual void moveTo(const Vec2i& position);
+	virtual void moved();
 
 	virtual Vec2i getSize() const;
 	virtual void setSize(const Vec2i& size);

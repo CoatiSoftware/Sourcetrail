@@ -26,6 +26,9 @@ QtMainWindow::QtMainWindow()
 	setCentralWidget(nullptr);
 	setDockNestingEnabled(true);
 	setWindowIcon(QIcon("./data/gui/icon/logo_1024_1024.png"));
+
+	QApplication::setOverrideCursor(Qt::ArrowCursor);
+
 	setupProjectMenu();
 	setupEditMenu();
 	setupViewMenu();

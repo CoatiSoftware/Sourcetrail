@@ -25,6 +25,8 @@ public:
 		std::shared_ptr<Graph> graph, const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges) = 0;
 	virtual void clear() = 0;
 
+	virtual void resizeView() = 0;
+
 	virtual Vec2i getViewSize() const = 0;
 };
 

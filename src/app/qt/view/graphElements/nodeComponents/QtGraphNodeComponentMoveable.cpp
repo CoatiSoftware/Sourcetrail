@@ -2,7 +2,6 @@
 
 #include <QGraphicsSceneEvent>
 
-#include "qt/utility/QtGraphPostprocessor.h"
 #include "qt/view/graphElements/QtGraphNode.h"
 
 QtGraphNodeComponentMoveable::QtGraphNodeComponentMoveable(const std::weak_ptr<QtGraphNode>& graphNode)
@@ -32,7 +31,7 @@ void QtGraphNodeComponentMoveable::nodeMouseMoveEvent(QGraphicsSceneMouseEvent* 
 	std::shared_ptr<GraphNode> node = m_graphNode.lock();
 	if (node != NULL)
 	{
-		node->moveTo(Vec2i(event->scenePos().x() - m_mouseOffset.x, event->scenePos().y() - m_mouseOffset.y));
+		node->setPosition(Vec2i(event->scenePos().x() - m_mouseOffset.x, event->scenePos().y() - m_mouseOffset.y));
 		event->accept();
 	}
 }
@@ -47,6 +46,6 @@ void QtGraphNodeComponentMoveable::nodeMouseReleaseEvent(QGraphicsSceneMouseEven
 	std::shared_ptr<QtGraphNode> node = m_graphNode.lock();
 	if (node != NULL)
 	{
-		QtGraphPostprocessor::alignNodeOnRaster(node.get());
+		node->moved();
 	}
 }

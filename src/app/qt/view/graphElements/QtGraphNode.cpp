@@ -9,6 +9,7 @@
 
 #include "qt/graphics/QtRoundedRectItem.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
+#include "qt/utility/QtGraphPostprocessor.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
 
@@ -106,11 +107,13 @@ bool QtGraphNode::setPosition(const Vec2i& position)
 	return false;
 }
 
-void QtGraphNode::moveTo(const Vec2i& position)
+void QtGraphNode::moved()
 {
-	if (setPosition(position) && m_data)
+	QtGraphPostprocessor::alignNodeOnRaster(this);
+
+	if (m_data)
 	{
-		MessageGraphNodeMove(m_data->getId(), position).dispatch();
+		MessageGraphNodeMove(m_data->getId(), getPosition()).dispatch();
 	}
 }
 

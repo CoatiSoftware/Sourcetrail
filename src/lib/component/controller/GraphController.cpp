@@ -78,6 +78,7 @@ void GraphController::handleMessage(MessageGraphNodeMove* message)
 	if (node)
 	{
 		node->position = message->position;
+		getView()->resizeView();
 	}
 }
 

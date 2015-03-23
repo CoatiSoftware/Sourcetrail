@@ -12,17 +12,18 @@
 #include "qt/utility/utilityQt.h"
 
 #include "qt/view/QtViewWidgetWrapper.h"
+#include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentClickable.h"
+#include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
 #include "qt/view/graphElements/QtGraphNode.h"
 #include "qt/view/graphElements/QtGraphNodeAccess.h"
-#include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentClickable.h"
-#include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.h"
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)
 	, m_rebuildGraphFunctor(
 		std::bind(&QtGraphView::doRebuildGraph, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
 	, m_clearFunctor(std::bind(&QtGraphView::doClear, this))
+	, m_resizeFunctor(std::bind(&QtGraphView::doResize, this))
 {
 }
 
@@ -48,6 +49,7 @@ void QtGraphView::initView()
 	QGraphicsScene* scene = new QGraphicsScene(widget);
 	QGraphicsView* view = new QGraphicsView(widget);
 	view->setScene(scene);
+	view->setDragMode(QGraphicsView::ScrollHandDrag);
 
 	widget->layout()->addWidget(view);
 }
@@ -67,6 +69,11 @@ void QtGraphView::rebuildGraph(
 void QtGraphView::clear()
 {
 	m_clearFunctor();
+}
+
+void QtGraphView::resizeView()
+{
+	m_resizeFunctor();
 }
 
 Vec2i QtGraphView::getViewSize() const
@@ -98,12 +105,10 @@ void QtGraphView::switchToNewGraphData()
 	m_nodes.clear();
 	m_edges.clear();
 
-	QGraphicsView* view = getView();
-
-	int margin = 25;
-	view->setSceneRect(itemsBoundingRect(m_oldNodes).adjusted(-margin, -margin, margin, margin).translated(m_sceneRectOffset));
+	doResize();
 
 	// Manually hover the item below the mouse cursor.
+	QGraphicsView* view = getView();
 	QPointF point = view->mapToScene(view->mapFromGlobal(QCursor::pos()));
 	QGraphicsItem* item = view->scene()->itemAt(point, QTransform());
 	if (item)
@@ -187,6 +192,13 @@ void QtGraphView::doClear()
 
 	m_graph.reset();
 	m_oldGraph.reset();
+}
+
+void QtGraphView::doResize()
+{
+	int margin = 25;
+	QGraphicsView* view = getView();
+	view->setSceneRect(itemsBoundingRect(m_oldNodes).adjusted(-margin, -margin, margin, margin).translated(m_sceneRectOffset));
 }
 
 std::shared_ptr<QtGraphNode> QtGraphView::findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId)
