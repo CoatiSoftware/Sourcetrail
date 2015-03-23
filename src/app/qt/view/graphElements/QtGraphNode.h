@@ -5,9 +5,10 @@
 #include <QGraphicsItem>
 
 #include "component/view/graphElements/GraphNode.h"
+#include "component/view/GraphViewStyle.h"
 
 class QtGraphEdge;
-class QtGraphicsRoundedRectItem;
+class QtRoundedRectItem;
 class QtGraphNodeComponent;
 
 class QtGraphNode
@@ -49,11 +50,11 @@ public:
 	virtual Vec4i getBoundingRect() const;
 	virtual Vec4i getParentBoundingRect() const;
 
-	virtual bool addOutEdge(const std::shared_ptr<GraphEdge>& edge);
-	virtual bool addInEdge(const std::weak_ptr<GraphEdge>& edge);
+	virtual void addOutEdge(const std::shared_ptr<GraphEdge>& edge);
+	virtual void addInEdge(const std::weak_ptr<GraphEdge>& edge);
 
-	virtual unsigned int getOutEdgeCount() const;
-	virtual unsigned int getInEdgeCount() const;
+	virtual size_t getOutEdgeCount() const;
+	virtual size_t getInEdgeCount() const;
 
 	QSize size() const;
 	void setSize(const QSize& size);
@@ -69,11 +70,12 @@ public:
 	std::list<std::shared_ptr<QtGraphNode>> getSubNodes() const;
 	virtual void addSubNode(const std::shared_ptr<QtGraphNode>& node);
 
-	void setStyle();
 	void setShadowEnabledRecursive(bool enabled);
 
 	virtual void onClick();
 	void hoverEnter();
+
+	virtual void updateStyle();
 
 protected:
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
@@ -85,6 +87,8 @@ protected:
 
 	void notifyEdgesAfterMove();
 
+	void setStyle(const GraphViewStyle::NodeStyle& style);
+
 	std::list<std::shared_ptr<GraphEdge>> m_outEdges;
 	std::list<std::weak_ptr<GraphEdge>> m_inEdges;
 
@@ -92,8 +96,8 @@ protected:
 	std::list<std::shared_ptr<QtGraphNode>> m_subNodes;
 
 	QGraphicsSimpleTextItem* m_text;
-	QtGraphicsRoundedRectItem* m_rect;
-	QtGraphicsRoundedRectItem* m_undefinedRect;
+	QtRoundedRectItem* m_rect;
+	QtRoundedRectItem* m_undefinedRect;
 
 	Vec2i m_size;
 

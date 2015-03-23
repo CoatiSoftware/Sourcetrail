@@ -26,8 +26,12 @@ add_files(
 	qt/element/QtUndoRedo.cpp
 	qt/element/QtUndoRedo.h
 
-	qt/graphics/QtGraphicsRoundedRectItem.cpp
-	qt/graphics/QtGraphicsRoundedRectItem.h
+	qt/graphics/QtAngledLineItem.cpp
+	qt/graphics/QtAngledLineItem.h
+	qt/graphics/QtRoundedRectItem.cpp
+	qt/graphics/QtRoundedRectItem.h
+	qt/graphics/QtStraightLineItem.cpp
+	qt/graphics/QtStraightLineItem.h
 
 	qt/utility/QtDeviceScaledPixmap.h
 	qt/utility/QtGraphPostprocessor.cpp
@@ -58,6 +62,8 @@ add_files(
 	qt/view/QtCompositeView.h
 	qt/view/QtGraphView.cpp
 	qt/view/QtGraphView.h
+	qt/view/QtGraphViewStyleImpl.cpp
+	qt/view/QtGraphViewStyleImpl.h
 	qt/view/QtMainView.cpp
 	qt/view/QtMainView.h
 	qt/view/QtRefreshView.cpp

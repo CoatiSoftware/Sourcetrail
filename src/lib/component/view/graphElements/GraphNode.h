@@ -37,11 +37,11 @@ public:
 	virtual Vec4i getBoundingRect() const = 0;
 	virtual Vec4i getParentBoundingRect() const = 0;
 
-	virtual bool addOutEdge(const std::shared_ptr<GraphEdge>& edge) = 0;
-	virtual bool addInEdge(const std::weak_ptr<GraphEdge>& edge) = 0;
+	virtual void addOutEdge(const std::shared_ptr<GraphEdge>& edge) = 0;
+	virtual void addInEdge(const std::weak_ptr<GraphEdge>& edge) = 0;
 
-	virtual unsigned int getOutEdgeCount() const = 0;
-	virtual unsigned int getInEdgeCount() const = 0;
+	virtual size_t getOutEdgeCount() const = 0;
+	virtual size_t getInEdgeCount() const = 0;
 
 protected:
 	const Node* m_data;

@@ -1,20 +1,20 @@
-#include "qt/graphics/QtGraphicsRoundedRectItem.h"
+#include "qt/graphics/QtRoundedRectItem.h"
 
 #include <QGraphicsDropShadowEffect>
 #include <QPainter>
 
-QtGraphicsRoundedRectItem::QtGraphicsRoundedRectItem(QGraphicsItem* parent)
+QtRoundedRectItem::QtRoundedRectItem(QGraphicsItem* parent)
 	: QGraphicsRectItem(parent)
 	, m_radius(0.0f)
 {
 	this->setZValue(-1.0f);
 }
 
-QtGraphicsRoundedRectItem::~QtGraphicsRoundedRectItem()
+QtRoundedRectItem::~QtRoundedRectItem()
 {
 }
 
-void QtGraphicsRoundedRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem* options, QWidget* widget)
+void QtRoundedRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem* options, QWidget* widget)
 {
 	painter->setPen(pen());
 	painter->setBrush(brush());
@@ -24,7 +24,7 @@ void QtGraphicsRoundedRectItem::paint(QPainter *painter, const QStyleOptionGraph
 	painter->drawRoundedRect(this->rect(), m_radius, m_radius);
 }
 
-void QtGraphicsRoundedRectItem::setShadow(QColor color, int blurRadius)
+void QtRoundedRectItem::setShadow(QColor color, int blurRadius)
 {
 	QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect();
 	effect->setColor(color);
@@ -33,7 +33,7 @@ void QtGraphicsRoundedRectItem::setShadow(QColor color, int blurRadius)
 	this->setGraphicsEffect(effect);
 }
 
-void QtGraphicsRoundedRectItem::setShadowEnabled(bool enabled)
+void QtRoundedRectItem::setShadowEnabled(bool enabled)
 {
 	if (this->graphicsEffect())
 	{
@@ -41,7 +41,7 @@ void QtGraphicsRoundedRectItem::setShadowEnabled(bool enabled)
 	}
 }
 
-void QtGraphicsRoundedRectItem::setRadius(qreal radius)
+void QtRoundedRectItem::setRadius(qreal radius)
 {
 	m_radius = radius;
 }

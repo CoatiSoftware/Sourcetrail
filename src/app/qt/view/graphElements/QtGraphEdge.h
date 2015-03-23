@@ -10,49 +10,6 @@
 #include "component/view/graphElements/GraphEdge.h"
 
 class GraphNode;
-class QtGraphicsRoundedRectItem;
-
-class QtStraightConnection
-	: public QGraphicsLineItem
-{
-public:
-	QtStraightConnection(Vec4i ownerRect, Vec4i targetRect, int number, QGraphicsItem* parent);
-	virtual ~QtStraightConnection();
-
-	void setColor(QColor color);
-
-private:
-	QtGraphicsRoundedRectItem* m_circle;
-	QGraphicsSimpleTextItem* m_number;
-};
-
-class QtCorneredConnection
-	: public QGraphicsLineItem
-{
-public:
-	QtCorneredConnection(Vec4i ownerRect, Vec4i targetRect, Vec4i ownerParentRect, Vec4i targetParentRect, QGraphicsItem* parent);
-	virtual ~QtCorneredConnection();
-
-	virtual QPainterPath shape() const;
-	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem* options, QWidget* widget);
-
-	void setClosed(bool closed);
-	void setBig(bool big);
-
-private:
-	QPolygon getPath() const;
-	int getDirection(const QPointF& a, const QPointF& b) const;
-
-	Vec4i m_ownerRect;
-	Vec4i m_targetRect;
-
-	Vec4i m_ownerParentRect;
-	Vec4i m_targetParentRect;
-
-	bool m_closed;
-	bool m_big;
-};
-
 
 class QtGraphEdge
 	: public QObject
@@ -85,13 +42,6 @@ protected:
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
 private:
-	bool isAggregation() const;
-	bool isInheritance() const;
-
-	int getZValue(bool active) const;
-	float getPenWidth() const;
-	int getAggregationCount() const;
-
 	std::weak_ptr<GraphNode> m_owner;
 	std::weak_ptr<GraphNode> m_target;
 

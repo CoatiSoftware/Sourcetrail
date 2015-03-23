@@ -30,6 +30,8 @@ public:
 	virtual void addSubNode(const std::shared_ptr<QtGraphNode>& node);
 	virtual void onClick();
 
+	virtual void updateStyle();
+
 	void hideLabel();
 
 private:

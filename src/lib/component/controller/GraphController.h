@@ -27,23 +27,6 @@ class GraphController
 	, public MessageListener<MessageGraphNodeMove>
 {
 public:
-	struct Margins
-	{
-		Margins();
-
-		int left;
-		int right;
-
-		int top;
-		int bottom;
-
-		int betweenX;
-		int betweenY;
-
-		int minWidth;
-		float charWidth;
-	};
-
 	GraphController(StorageAccess* storageAccess);
 	~GraphController();
 
@@ -70,12 +53,10 @@ private:
 	void layoutNesting();
 	void layoutNestingRecursive(DummyNode& node) const;
 
-	Margins getMarginsForDummyNode(DummyNode& node) const;
 	DummyNode* findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId);
 	DummyNode* findDummyNodeAccessRecursive(std::vector<DummyNode>& nodes, Id parentId, TokenComponentAccess::AccessType type);
 
 	StorageAccess* m_storageAccess;
-	GraphView::Metrics m_viewMetrics;
 
 	std::vector<DummyNode> m_dummyNodes;
 	std::vector<DummyEdge> m_dummyEdges;

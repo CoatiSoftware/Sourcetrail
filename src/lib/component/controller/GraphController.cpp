@@ -7,21 +7,9 @@
 #include "component/view/graphElements/GraphEdge.h"
 #include "component/view/graphElements/GraphNode.h"
 #include "component/view/GraphView.h"
+#include "component/view/GraphViewStyle.h"
 #include "data/access/StorageAccess.h"
 #include "data/graph/Graph.h"
-
-GraphController::Margins::Margins()
-	: left(0)
-	, right(0)
-	, top(0)
-	, bottom(0)
-	, betweenX(0)
-	, betweenY(0)
-	, minWidth(0)
-	, charWidth(0.0f)
-{
-}
-
 
 GraphController::GraphController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -357,11 +345,6 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode& node) const
 
 void GraphController::layoutNesting()
 {
-	if (!m_viewMetrics.width)
-	{
-		m_viewMetrics = getView()->getViewMetrics();
-	}
-
 	for (DummyNode& node : m_dummyNodes)
 	{
 		layoutNestingRecursive(node);
@@ -370,7 +353,26 @@ void GraphController::layoutNesting()
 
 void GraphController::layoutNestingRecursive(DummyNode& node) const
 {
-	Margins margins = getMarginsForDummyNode(node);
+	GraphViewStyle::NodeMargins margins;
+
+	if (node.data)
+	{
+		margins = GraphViewStyle::getMarginsForNodeType(node.data->getType(), node.subNodes.size() > 0);
+	}
+	else
+	{
+		node.invisibleSubNodeCount = 0;
+		for (const DummyNode& subNode : node.subNodes)
+		{
+			if (!subNode.visible)
+			{
+				node.invisibleSubNodeCount++;
+			}
+		}
+
+		margins = GraphViewStyle::getMarginsOfAccessNode(
+			node.isExpanded(), node.subNodes.size(), node.invisibleSubNodeCount);
+	}
 
 	int y = 0;
 	int x = 0;
@@ -410,7 +412,7 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 
 		if (layoutHorizontal)
 		{
-			x += subNode.size.x + margins.betweenX;
+			x += subNode.size.x + margins.spacingX;
 			if (subNode.size.y > height)
 			{
 				height = subNode.size.y;
@@ -418,7 +420,7 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 		}
 		else
 		{
-			y += subNode.size.y + margins.betweenY;
+			y += subNode.size.y + margins.spacingY;
 			if (subNode.size.x > width)
 			{
 				width = subNode.size.x;
@@ -428,11 +430,11 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 
 	if (x > 0)
 	{
-		x -= margins.betweenX;
+		x -= margins.spacingX;
 	}
 	if (y > 0)
 	{
-		y -= margins.betweenY;
+		y -= margins.spacingY;
 	}
 
 	if (layoutHorizontal && x > width)
@@ -442,107 +444,6 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 
 	node.size.x = margins.left + width + margins.right;
 	node.size.y = margins.top + y + height + margins.bottom;
-}
-
-GraphController::Margins GraphController::getMarginsForDummyNode(DummyNode& node) const
-{
-	Margins margins;
-	margins.betweenX = margins.betweenY = 8;
-
-	if (node.data)
-	{
-		switch (node.data->getType())
-		{
-		case Node::NODE_UNDEFINED:
-		case Node::NODE_NAMESPACE:
-			margins.left = margins.right = 15;
-			margins.top = 28;
-			margins.bottom = 15;
-
-			margins.charWidth = m_viewMetrics.typeNameCharWidth;
-			break;
-
-		case Node::NODE_UNDEFINED_TYPE:
-		case Node::NODE_STRUCT:
-		case Node::NODE_CLASS:
-		case Node::NODE_ENUM:
-		case Node::NODE_TYPEDEF:
-		case Node::NODE_TEMPLATE_PARAMETER_TYPE:
-		case Node::NODE_FILE:
-			if (node.subNodes.size())
-			{
-				margins.left = margins.right = 15;
-				margins.top = 30;
-				margins.bottom = 10;
-			}
-			else
-			{
-				margins.left = margins.right = 8;
-				margins.top = margins.bottom = 13;
-			}
-
-			margins.charWidth = m_viewMetrics.typeNameCharWidth;
-			break;
-
-		case Node::NODE_UNDEFINED_FUNCTION:
-		case Node::NODE_FUNCTION:
-		case Node::NODE_METHOD:
-			margins.left = margins.right = 5;
-			margins.top = margins.bottom = 10;
-
-			margins.charWidth = m_viewMetrics.functionNameCharWidth;
-			break;
-
-		case Node::NODE_UNDEFINED_VARIABLE:
-		case Node::NODE_GLOBAL_VARIABLE:
-		case Node::NODE_FIELD:
-		case Node::NODE_ENUM_CONSTANT:
-			margins.left = margins.right = 5;
-			margins.top = margins.bottom = 10;
-
-			margins.charWidth = m_viewMetrics.variableNameCharWidth;
-			break;
-		}
-	}
-	else
-	{
-		node.invisibleSubNodeCount = 0;
-		for (const DummyNode& subNode : node.subNodes)
-		{
-			if (!subNode.visible)
-			{
-				node.invisibleSubNodeCount++;
-			}
-		}
-
-		margins.left = margins.right = 10;
-		margins.top = 40;
-
-		if (node.invisibleSubNodeCount == node.subNodes.size())
-		{
-			margins.minWidth = 20;
-			margins.bottom = 10;
-		}
-		else
-		{
-			margins.minWidth = 82;
-
-			if (node.isExpanded())
-			{
-				margins.bottom = 15;
-			}
-			else if (node.invisibleSubNodeCount)
-			{
-				margins.bottom = 23;
-			}
-			else
-			{
-				margins.bottom = 10;
-			}
-		}
-	}
-
-	return margins;
 }
 
 DummyNode* GraphController::findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId)

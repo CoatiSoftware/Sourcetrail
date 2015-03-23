@@ -35,7 +35,7 @@ public:
 	virtual void rebuildGraph(std::shared_ptr<Graph> graph, const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);
 	virtual void clear();
 
-	virtual GraphView::Metrics getViewMetrics() const;
+	virtual Vec2i getViewSize() const;
 
 private slots:
 	void finishedTransition();

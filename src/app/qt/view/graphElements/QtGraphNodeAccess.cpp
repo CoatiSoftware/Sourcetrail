@@ -6,7 +6,8 @@
 
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
 
-#include "qt/graphics/QtGraphicsRoundedRectItem.h"
+#include "component/view/GraphViewStyle.h"
+#include "qt/graphics/QtRoundedRectItem.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
 
 QtGraphNodeAccess::QtAccessToggle::QtAccessToggle(bool expanded, int invisibleSubNodeCount, QGraphicsItem* parent)
@@ -28,9 +29,9 @@ QtGraphNodeAccess::QtAccessToggle::QtAccessToggle(bool expanded, int invisibleSu
 		if (invisibleSubNodeCount)
 		{
 			QFont font;
-			font.setFamily("Myriad Pro");
+			font.setFamily(GraphViewStyle::getFontNameOfNumber().c_str());
+			font.setPixelSize(GraphViewStyle::getFontSizeOfNumber());
 			font.setWeight(QFont::Normal);
-			font.setPixelSize(9);
 
 			m_number = new QGraphicsSimpleTextItem(this);
 			m_number->setFont(font);
@@ -64,20 +65,6 @@ QtGraphNodeAccess::QtGraphNodeAccess(
 	, m_access(accessType)
 	, m_accessIconSize(20)
 {
-	Vec2i padding(10, 10);
-
-	QFont font;
-	font.setFamily("Myriad Pro");
-	font.setWeight(QFont::Bold);
-	font.setPixelSize(11);
-	font.setCapitalization(QFont::AllUppercase);
-	m_text->setFont(font);
-	m_text->setPos(padding.x + m_accessIconSize + 3, padding.y + m_accessIconSize / 2 - 1);
-
-	m_rect->setPen(QPen(Qt::transparent));
-	m_rect->setBrush(QBrush(Qt::white));
-	m_rect->setRadius(12.0f);
-
 	std::string accessString = TokenComponentAccess::getAccessString(accessType);
 	this->setName(accessString);
 	m_text->hide();
@@ -86,8 +73,6 @@ QtGraphNodeAccess::QtGraphNodeAccess(
 	pixmap.scaleToHeight(m_accessIconSize);
 
 	m_accessIcon = new QGraphicsPixmapItem(pixmap.pixmap(), this);
-	m_accessIcon->setPos(padding.x, padding.y);
-
 	m_accessToggle = new QtAccessToggle(expanded, invisibleSubNodeCount, this);
 }
 
@@ -126,6 +111,19 @@ void QtGraphNodeAccess::onClick()
 	{
 		MessageGraphNodeExpand(parent->getData()->getId(), m_access).dispatch();
 	}
+}
+
+void QtGraphNodeAccess::updateStyle()
+{
+	GraphViewStyle::NodeStyle style = GraphViewStyle::getStyleOfAccessNode();
+	setStyle(style);
+
+	QFont font = m_text->font();
+	font.setCapitalization(QFont::AllUppercase);
+	m_text->setFont(font);
+
+	m_text->setPos(style.textOffset.x + m_accessIconSize + 3, style.textOffset.y + m_accessIconSize / 2 - 1);
+	m_accessIcon->setPos(style.textOffset.x, style.textOffset.y);
 }
 
 void QtGraphNodeAccess::hideLabel()

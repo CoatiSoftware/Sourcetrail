@@ -7,11 +7,10 @@
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 
-#include "qt/graphics/QtGraphicsRoundedRectItem.h"
+#include "qt/graphics/QtRoundedRectItem.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
-#include "settings/ApplicationSettings.h"
 
 void QtGraphNode::blendIn()
 {
@@ -35,36 +34,8 @@ void QtGraphNode::hideNode()
 
 QFont QtGraphNode::getFontForNodeType(Node::NodeType type)
 {
-	QFont font("Source Code Pro");
-
-	switch (type)
-	{
-	case Node::NODE_UNDEFINED:
-	case Node::NODE_NAMESPACE:
-		font.setPixelSize(12);
-		break;
-
-	case Node::NODE_UNDEFINED_TYPE:
-	case Node::NODE_STRUCT:
-	case Node::NODE_CLASS:
-	case Node::NODE_ENUM:
-	case Node::NODE_TYPEDEF:
-	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
-	case Node::NODE_FILE:
-		font.setPixelSize(14);
-		break;
-
-	case Node::NODE_UNDEFINED_FUNCTION:
-	case Node::NODE_UNDEFINED_VARIABLE:
-	case Node::NODE_FUNCTION:
-	case Node::NODE_METHOD:
-	case Node::NODE_GLOBAL_VARIABLE:
-	case Node::NODE_FIELD:
-	case Node::NODE_ENUM_CONSTANT:
-		font.setPixelSize(11);
-		break;
-	}
-
+	QFont font(GraphViewStyle::getFontNameForNodeType(type).c_str());
+	font.setPixelSize(GraphViewStyle::getFontSizeForNodeType(type));
 	return font;
 }
 
@@ -76,7 +47,7 @@ QtGraphNode::QtGraphNode()
 {
 	this->setPen(QPen(Qt::transparent));
 
-	m_rect = new QtGraphicsRoundedRectItem(this);
+	m_rect = new QtRoundedRectItem(this);
 	m_text = new QGraphicsSimpleTextItem(this);
 }
 
@@ -88,7 +59,7 @@ QtGraphNode::QtGraphNode(const Node* data)
 {
 	this->setPen(QPen(Qt::transparent));
 
-	m_rect = new QtGraphicsRoundedRectItem(this);
+	m_rect = new QtRoundedRectItem(this);
 	m_text = new QGraphicsSimpleTextItem(this);
 
 	this->setAcceptHoverEvents(true);
@@ -184,46 +155,22 @@ Vec4i QtGraphNode::getParentBoundingRect() const
 	return node->getBoundingRect();
 }
 
-bool QtGraphNode::addOutEdge(const std::shared_ptr<GraphEdge>& edge)
+void QtGraphNode::addOutEdge(const std::shared_ptr<GraphEdge>& edge)
 {
-	// for (std::list<std::shared_ptr<GraphEdge>>::iterator it = m_outEdges.begin(); it != m_outEdges.end(); it++)
-	// {
-	// 	if ((*it)->getOwner().lock() == edge->getOwner().lock() &&
-	// 		(*it)->getTarget().lock() == edge->getTarget().lock())
-	// 	{
-	// 		return false;
-	// 	}
-	// }
-
 	m_outEdges.push_back(edge);
-	return true;
 }
 
-bool QtGraphNode::addInEdge(const std::weak_ptr<GraphEdge>& edge)
+void QtGraphNode::addInEdge(const std::weak_ptr<GraphEdge>& edge)
 {
-	// for (std::list<std::weak_ptr<GraphEdge>>::iterator it = m_inEdges.begin(); it != m_inEdges.end(); it++)
-	// {
-	// 	std::shared_ptr<GraphEdge> existingEdge = it->lock();
-	// 	if (existingEdge != NULL)
-	// 	{
-	// 		if (existingEdge->getOwner().lock() == edge.lock()->getOwner().lock() &&
-	// 			existingEdge->getTarget().lock() == edge.lock()->getTarget().lock())
-	// 		{
-	// 			return false;
-	// 		}
-	// 	}
-	// }
-
 	m_inEdges.push_back(edge);
-	return true;
 }
 
-unsigned int QtGraphNode::getOutEdgeCount() const
+size_t QtGraphNode::getOutEdgeCount() const
 {
 	return m_outEdges.size();
 }
 
-unsigned int QtGraphNode::getInEdgeCount() const
+size_t QtGraphNode::getInEdgeCount() const
 {
 	return m_inEdges.size();
 }
@@ -247,7 +194,7 @@ void QtGraphNode::setIsActive(bool isActive)
 {
 	m_isActive = isActive;
 
-	setStyle();
+	updateStyle();
 }
 
 QtGraphNode* QtGraphNode::getParent() const
@@ -281,136 +228,6 @@ void QtGraphNode::addSubNode(const std::shared_ptr<QtGraphNode>& node)
 	m_subNodes.push_back(node);
 }
 
-void QtGraphNode::setStyle()
-{
-	if (!m_data)
-	{
-		return;
-	}
-
-	QColor color = Qt::lightGray;
-	qreal radius = 0.0f;
-	QPen p(Qt::transparent);
-	QFont font(getFontForNodeType(m_data->getType()));
-
-	bool useUndefinedPattern = false;
-	bool useUndefinedColor = false;
-
-	Vec2i padding;
-
-	switch (m_data->getType())
-	{
-	case Node::NODE_UNDEFINED:
-		p.setStyle(Qt::DashLine);
-	case Node::NODE_NAMESPACE:
-		color = Qt::transparent;
-
-		p.setColor("#cc8d91");
-		p.setWidth(1);
-
-		radius = 20.0f;
-		padding.x = 15;
-		padding.y = 6;
-		break;
-
-	case Node::NODE_UNDEFINED_TYPE:
-		useUndefinedPattern = true;
-	case Node::NODE_STRUCT:
-	case Node::NODE_CLASS:
-	case Node::NODE_ENUM:
-	case Node::NODE_TYPEDEF:
-	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
-	case Node::NODE_FILE:
-		if (m_isActive)
-		{
-			font.setWeight(QFont::Bold);
-		}
-
-		if (m_isHovering)
-		{
-			m_rect->setShadow(QColor(0, 0, 0, 255), 5);
-		}
-		else
-		{
-			m_rect->setShadow(QColor(0, 0, 0, 128), 5);
-		}
-
-		color = ApplicationSettings::getInstance()->getNodeTypeColor(m_data->getType()).c_str();
-		if (m_subNodes.size())
-		{
-			radius = 20.0f;
-			padding.x = 15;
-			padding.y = 8;
-		}
-		else
-		{
-			radius = 10.0f;
-			padding.x = 8;
-			padding.y = 4;
-		}
-		break;
-
-	case Node::NODE_UNDEFINED_FUNCTION:
-	case Node::NODE_UNDEFINED_VARIABLE:
-		useUndefinedPattern = true;
-		useUndefinedColor = true;
-	case Node::NODE_FUNCTION:
-	case Node::NODE_METHOD:
-	case Node::NODE_GLOBAL_VARIABLE:
-	case Node::NODE_FIELD:
-	case Node::NODE_ENUM_CONSTANT:
-		if (m_isActive || m_isHovering)
-		{
-			color = ApplicationSettings::getInstance()->getNodeTypeColor(m_data->getType(), "hover").c_str();
-			font.setWeight(QFont::Bold);
-		}
-		else
-		{
-			color = ApplicationSettings::getInstance()->getNodeTypeColor(m_data->getType()).c_str();
-		}
-
-		radius = 8.0f;
-		padding.x = 5;
-		padding.y = 3;
-		break;
-	}
-
-	if (m_isActive)
-	{
-		p.setWidthF(1.5f);
-		p.setColor("#3c3c3c");
-	}
-
-	m_rect->setPen(p);
-	m_rect->setBrush(QBrush(color));
-	m_rect->setRadius(radius);
-
-	if (useUndefinedPattern)
-	{
-		QtDeviceScaledPixmap pixmap("data/gui/graph_view/images/pattern.png");
-		pixmap.scaleToHeight(10);
-
-		if (!m_undefinedRect)
-		{
-			m_undefinedRect = new QtGraphicsRoundedRectItem(this);
-			setSize(getSize());
-		}
-
-		p.setWidth(1);
-		p.setColor(Qt::transparent);
-		if (useUndefinedColor && !m_isActive)
-		{
-			p.setColor(color);
-		}
-		m_undefinedRect->setPen(p);
-		m_undefinedRect->setBrush(QBrush(pixmap.pixmap()));
-		m_undefinedRect->setRadius(radius);
-	}
-
-	m_text->setFont(font);
-	m_text->setPos(padding.x, padding.y);
-}
-
 void QtGraphNode::setShadowEnabledRecursive(bool enabled)
 {
 	m_rect->setShadowEnabled(enabled);
@@ -438,6 +255,13 @@ void QtGraphNode::hoverEnter()
 	{
 		parent->hoverEnter();
 	}
+}
+
+void QtGraphNode::updateStyle()
+{
+	GraphViewStyle::NodeStyle style =
+		GraphViewStyle::getStyleForNodeType(m_data->getType(), m_isActive, m_isHovering, m_subNodes.size() > 0);
+	setStyle(style);
 }
 
 void QtGraphNode::mousePressEvent(QGraphicsSceneMouseEvent* event)
@@ -500,13 +324,13 @@ void QtGraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 void QtGraphNode::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
 	m_isHovering = true;
-	setStyle();
+	updateStyle();
 }
 
 void QtGraphNode::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
 	m_isHovering = false;
-	setStyle();
+	updateStyle();
 }
 
 void QtGraphNode::notifyEdgesAfterMove()
@@ -529,4 +353,55 @@ void QtGraphNode::notifyEdgesAfterMove()
 	{
 		node->notifyEdgesAfterMove();
 	}
+}
+
+void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
+{
+	QColor color = style.color.c_str();
+	qreal radius = style.cornerRadius;
+
+	QPen p(style.borderColor.c_str());
+	p.setWidthF(style.borderWidth);
+	if (style.borderDashed)
+	{
+		p.setStyle(Qt::DashLine);
+	}
+
+	QFont font(style.fontName.c_str());
+	font.setPixelSize(style.fontSize);
+	if (style.fontBold)
+	{
+		font.setWeight(QFont::Bold);
+	}
+
+	if (style.shadowColor.size())
+	{
+		m_rect->setShadow(style.shadowColor.c_str(), style.shadowBlurRadius);
+	}
+
+	m_rect->setPen(p);
+	m_rect->setBrush(QBrush(color));
+	m_rect->setRadius(radius);
+
+	if (style.undefinedPattern)
+	{
+		QtDeviceScaledPixmap pixmap("data/gui/graph_view/images/pattern.png");
+		pixmap.scaleToHeight(10);
+
+		if (!m_undefinedRect)
+		{
+			m_undefinedRect = new QtRoundedRectItem(this);
+			setSize(getSize());
+		}
+
+		p.setWidth(0);
+		p.setColor(Qt::transparent);
+
+		m_undefinedRect->setPen(p);
+		m_undefinedRect->setBrush(QBrush(pixmap.pixmap()));
+		m_undefinedRect->setRadius(radius);
+	}
+
+	m_text->setFont(font);
+	m_text->setPos(style.textOffset.x, style.textOffset.y);
 }

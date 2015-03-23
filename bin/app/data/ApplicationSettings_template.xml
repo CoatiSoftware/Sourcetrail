@@ -50,15 +50,15 @@
 		<!-- NodeType -->
 		<class>
 			<normal>#ededed</normal>
-			<hover>#dddddd</hover>
+			<hover>#ededed</hover>
 		</class>
 		<struct>
 			<normal>#ededed</normal>
-			<hover>#dddddd</hover>
+			<hover>#ededed</hover>
 		</struct>
 		<enum>
 			<normal>#ededed</normal>
-			<hover>#dddddd</hover>
+			<hover>#ededed</hover>
 		</enum>
 		<function>
 			<normal>#ffe47a</normal>
@@ -77,32 +77,28 @@
 			<hover>#62b29d</hover>
 		</global>
 		<undefined>
-			<normal>#ededed</normal>
-			<hover>#dddddd</hover>
+			<normal>#00000000</normal>
+			<hover>#00000000</hover>
 		</undefined>
 		<undefined_variable>
-			<normal>#ededed</normal>
-			<hover>#dddddd</hover>
+			<normal>#9ab4ad</normal>
+			<hover>#62b29d</hover>
 		</undefined_variable>
 		<undefined_function>
-			<normal>#ededed</normal>
-			<hover>#dddddd</hover>
+			<normal>#ffe47a</normal>
+			<hover>#ffcc00</hover>
 		</undefined_function>
 		<undefined_type>
 			<normal>#ededed</normal>
-			<hover>#dddddd</hover>
+			<hover>#ededed</hover>
 		</undefined_type>
-		<none>
-			<normal>#ededed</normal>
-			<hover>#dddddd</hover>
-		</none>
 		<namespace>
-			<normal>#ededed</normal>
-			<hover>#dddddd</hover>
+			<normal>#00000000</normal>
+			<hover>#00000000</hover>
 		</namespace>
 		<typedef>
 			<normal>#ededed</normal>
-			<hover>#dddddd</hover>
+			<hover>#ededed</hover>
 		</typedef>
 		<enum_constant>
 			<normal>#9ab4ad</normal>
@@ -110,7 +106,7 @@
 		</enum_constant>
 		<template_parameter_type>
 			<normal>#ededed</normal>
-			<hover>#dddddd</hover>
+			<hover>#ededed</hover>
 		</template_parameter_type>
 		<file>
 			<normal>#A3BA8A</normal>

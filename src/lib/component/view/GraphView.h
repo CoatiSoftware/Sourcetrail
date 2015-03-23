@@ -4,6 +4,7 @@
 #include <list>
 #include <memory>
 
+#include "utility/math/Vector2.h"
 #include "utility/types.h"
 
 #include "component/view/View.h"
@@ -15,18 +16,6 @@ class Graph;
 class GraphView : public View
 {
 public:
-	struct Metrics
-	{
-		Metrics();
-
-		int width;
-		int height;
-
-		float typeNameCharWidth;
-		float variableNameCharWidth;
-		float functionNameCharWidth;
-	};
-
 	GraphView(ViewLayout* viewLayout);
 	virtual ~GraphView();
 
@@ -36,7 +25,7 @@ public:
 		std::shared_ptr<Graph> graph, const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges) = 0;
 	virtual void clear() = 0;
 
-	virtual Metrics getViewMetrics() const = 0;
+	virtual Vec2i getViewSize() const = 0;
 };
 
 #endif // GRAPH_VIEW_H

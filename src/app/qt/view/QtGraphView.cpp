@@ -69,19 +69,10 @@ void QtGraphView::clear()
 	m_clearFunctor();
 }
 
-GraphView::Metrics QtGraphView::getViewMetrics() const
+Vec2i QtGraphView::getViewSize() const
 {
-	GraphView::Metrics metrics;
 	QGraphicsView* view = getView();
-
-	metrics.width = view->width();
-	metrics.height = view->height();
-
-	metrics.typeNameCharWidth = QFontMetrics(QtGraphNode::getFontForNodeType(Node::NODE_CLASS)).width("QtGraphNode") / 11.0f;
-	metrics.variableNameCharWidth = QFontMetrics(QtGraphNode::getFontForNodeType(Node::NODE_FIELD)).width("QtGraphNode") / 11.0f;
-	metrics.functionNameCharWidth = QFontMetrics(QtGraphNode::getFontForNodeType(Node::NODE_METHOD)).width("QtGraphNode") / 11.0f;
-
-	return metrics;
+	return Vec2i(view->width(), view->height());
 }
 
 void QtGraphView::finishedTransition()
@@ -261,7 +252,7 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 		}
 	}
 
-	newNode->setStyle();
+	newNode->updateStyle();
 
 	return newNode;
 }
@@ -281,11 +272,8 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const 
 		std::shared_ptr<QtGraphEdge> qtEdge = std::make_shared<QtGraphEdge>(owner, target, edge.data);
 		qtEdge->setIsActive(edge.active);
 
-		bool added = owner->addOutEdge(qtEdge) | target->addInEdge(qtEdge);
-		if (!added)
-		{
-			return NULL;
-		}
+		owner->addOutEdge(qtEdge);
+		target->addInEdge(qtEdge);
 
 		view->scene()->addItem(qtEdge.get());
 

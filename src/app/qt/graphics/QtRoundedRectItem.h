@@ -3,12 +3,12 @@
 
 #include <QGraphicsRectItem>
 
-class QtGraphicsRoundedRectItem
+class QtRoundedRectItem
 	: public QGraphicsRectItem
 {
 public:
-	QtGraphicsRoundedRectItem(QGraphicsItem* parent);
-	virtual ~QtGraphicsRoundedRectItem();
+	QtRoundedRectItem(QGraphicsItem* parent);
+	virtual ~QtRoundedRectItem();
 
 	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem* options, QWidget* widget);
 

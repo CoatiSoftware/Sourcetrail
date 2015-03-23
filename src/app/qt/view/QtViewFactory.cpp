@@ -1,8 +1,10 @@
 #include "qt/view/QtViewFactory.h"
 
+#include "component/view/GraphViewStyle.h"
 #include "qt/view/QtCodeView.h"
 #include "qt/view/QtCompositeView.h"
 #include "qt/view/QtGraphView.h"
+#include "qt/view/QtGraphViewStyleImpl.h"
 #include "qt/view/QtMainView.h"
 #include "qt/view/QtRefreshView.h"
 #include "qt/view/QtSearchView.h"
@@ -38,6 +40,7 @@ std::shared_ptr<CodeView> QtViewFactory::createCodeView(ViewLayout* viewLayout) 
 
 std::shared_ptr<GraphView> QtViewFactory::createGraphView(ViewLayout* viewLayout) const
 {
+	GraphViewStyle::setImpl(std::make_shared<QtGraphViewStyleImpl>());
 	return View::createInitAndAddToLayout<QtGraphView>(viewLayout);
 }
 

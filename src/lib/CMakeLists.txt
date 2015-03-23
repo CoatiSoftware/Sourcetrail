@@ -54,6 +54,9 @@ add_files(
 	component/view/CompositeView.h
 	component/view/GraphView.cpp
 	component/view/GraphView.h
+	component/view/GraphViewStyle.cpp
+	component/view/GraphViewStyle.h
+	component/view/GraphViewStyleImpl.h
 	component/view/MainView.cpp
 	component/view/MainView.h
 	component/view/RefreshView.cpp
@@ -264,6 +267,8 @@ add_files(
 	utility/ConfigManager.h
 	utility/Property.h
 	utility/types.h
+	utility/utility.cpp
+	utility/utility.h
 	utility/utilityString.cpp
 	utility/utilityString.h
 	utility/Vector.h
