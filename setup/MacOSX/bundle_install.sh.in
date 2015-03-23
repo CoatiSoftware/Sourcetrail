@@ -118,7 +118,7 @@ echo -e $INFO "App dependencies"
 otool -L $APP_PATH
 
 echo -e $INFO "Create icon"
-ICON=../data/gui/logo_1024_1024.png
+ICON=../data/gui/icon/logo_1024_1024.png
 ICON_SET=$RES_DIR/icon.iconset
 
 mkdir -p $ICON_SET

@@ -25,7 +25,7 @@ QtMainWindow::QtMainWindow()
 	setObjectName("QtMainWindow");
 	setCentralWidget(nullptr);
 	setDockNestingEnabled(true);
-	setWindowIcon(QIcon("./data/logo_1024_1024.png"));
+	setWindowIcon(QIcon("./data/gui/icon/logo_1024_1024.png"));
 	setupProjectMenu();
 	setupEditMenu();
 	setupViewMenu();
