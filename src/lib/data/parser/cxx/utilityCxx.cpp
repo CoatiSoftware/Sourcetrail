@@ -500,6 +500,7 @@ namespace utility
 						typeParent = clang::dyn_cast<clang::TemplateTypeParmType>(ssswd)->getDecl();
 						break;
 					default:
+						typeParent = nullptr;
 						LOG_ERROR("aahhh");
 					}
 				}

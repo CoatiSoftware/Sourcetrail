@@ -475,12 +475,14 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 				for (size_t i = 0; i < argumentList->size(); i++)
 				{
 					const clang::TemplateArgument& argument = argumentList->get(i);
-					const clang::QualType argumentType = argument.getAsType();
-
-					m_client->onTemplateArgumentTypeParsed(
-						ParseLocation(specializedFunctionLocation.filePath, 0, 0), // TODO: Find a valid ParseLocation here!
-						utility::qualTypeToDataType(argumentType)->getTypeNameHierarchy(),
-						specializedFunction.nameHierarchy);
+					if (argument.getKind() == clang::TemplateArgument::Type)
+					{
+						const clang::QualType argumentType = argument.getAsType();
+						m_client->onTemplateArgumentTypeParsed(
+							ParseLocation(specializedFunctionLocation.filePath, 0, 0), // TODO: Find a valid ParseLocation here!
+							utility::qualTypeToDataType(argumentType)->getTypeNameHierarchy(),
+							specializedFunction.nameHierarchy);
+					}
 				}
 			}
 		}
