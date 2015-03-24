@@ -40,6 +40,8 @@ public:
 
 	TokenLocation* addTokenLocationAsPlainCopy(const TokenLocation* location);
 
+	bool isWholeCopy;
+
 private:
 	TokenLocationLine* findTokenLocationLine(unsigned int lineNumber) const;
 	TokenLocationLine* createTokenLocationLine(unsigned int lineNumber);

@@ -144,9 +144,18 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(cons
 {
 	std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(file->getFilePath().str());
 
-	std::vector<std::pair<uint, uint>> ranges = getSnippetRangesForFile(file);
-	std::vector<CodeView::CodeSnippetParams> snippets;
+	std::vector<std::pair<uint, uint>> ranges;
 
+	if (file->isWholeCopy)
+	{
+		ranges.push_back(std::make_pair(1, textAccess->getLineCount()));
+	}
+	else
+	{
+		ranges = getSnippetRangesForFile(file);
+	}
+
+	std::vector<CodeView::CodeSnippetParams> snippets;
 	for (const std::pair<uint, uint>& range: ranges)
 	{
 		CodeView::CodeSnippetParams params;

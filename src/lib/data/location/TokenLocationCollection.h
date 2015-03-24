@@ -44,6 +44,7 @@ public:
 
 	void removeTokenLocationFile(TokenLocationFile* file);
 
+	TokenLocationFile* addTokenLocationFileAsPlainCopy(const TokenLocationFile* locationFile);
 	TokenLocation* addTokenLocationAsPlainCopy(const TokenLocation* location);
 
 	void clear();

@@ -141,6 +141,20 @@ void TokenLocationCollection::removeTokenLocationFile(TokenLocationFile* file)
 	m_files.erase(file->getFilePath());
 }
 
+TokenLocationFile* TokenLocationCollection::addTokenLocationFileAsPlainCopy(const TokenLocationFile* locationFile)
+{
+	TokenLocationFile* file = createTokenLocationFile(locationFile->getFilePath());
+	locationFile->forEachTokenLocation(
+		[this, &file](TokenLocation* tokenLocation) -> void
+		{
+			TokenLocation* copy = file->addTokenLocationAsPlainCopy(tokenLocation);
+			m_locations.emplace(copy->getId(), copy);
+		}
+	);
+	file->isWholeCopy = true;
+	return file;
+}
+
 TokenLocation* TokenLocationCollection::addTokenLocationAsPlainCopy(const TokenLocation* location)
 {
 	const FilePath& filePath = location->getTokenLocationLine()->getTokenLocationFile()->getFilePath();

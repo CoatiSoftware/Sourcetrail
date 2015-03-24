@@ -957,17 +957,8 @@ TokenLocationCollection Storage::getTokenLocationsForTokenIds(const std::vector<
 
 		if (token->isNode() && dynamic_cast<Node*>(token)->isType(Node::NODE_FILE))
 		{
-			TokenLocationFile* locationFile =
-				m_locationCollection.findTokenLocationFileByPath(dynamic_cast<Node*>(token)->getFullName());
-			if (locationFile)
-			{
-				locationFile->forEachTokenLocation(
-					[&ret](TokenLocation* tokenLocation) -> void
-					{
-						ret.addTokenLocationAsPlainCopy(tokenLocation);
-					}
-				);
-			}
+			ret.addTokenLocationFileAsPlainCopy(m_locationCollection.findTokenLocationFileByPath(
+				dynamic_cast<Node*>(token)->getComponent<TokenComponentFilePath>()->getFilePath()));
 		}
 		else
 		{

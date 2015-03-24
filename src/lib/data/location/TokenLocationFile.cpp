@@ -6,7 +6,8 @@
 #include "data/location/TokenLocationLine.h"
 
 TokenLocationFile::TokenLocationFile(const FilePath& filePath)
-	: m_filePath(filePath)
+	: isWholeCopy(false)
+	, m_filePath(filePath)
 {
 }
 
