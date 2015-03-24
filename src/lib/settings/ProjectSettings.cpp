@@ -34,11 +34,13 @@ bool ProjectSettings::setSourcePaths(const std::vector<std::string>& sourcePaths
 std::vector<std::string> ProjectSettings::getHeaderExtensions() const
 {
 	std::vector<std::string> defaultValues;
+	defaultValues.push_back(".h");
 	return getValues("source/Extensions/HeaderExtensions", defaultValues);
 }
 
 std::vector<std::string> ProjectSettings::getSourceExtensions() const
 {
 	std::vector<std::string> defaultValues;
+	defaultValues.push_back(".cpp");
 	return getValues("source/Extensions/SourceExtensions", defaultValues);
 }
