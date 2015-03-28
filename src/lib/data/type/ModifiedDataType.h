@@ -13,7 +13,7 @@ public:
 
 	virtual std::string getFullTypeName() const;
 	virtual std::string getRawTypeName() const;
-	virtual const std::vector<std::string>& getTypeNameHierarchy() const;
+	virtual const NameHierarchy& getTypeNameHierarchy() const;
 
 protected:
 	virtual void applyModifier(std::string& typeName) const = 0;

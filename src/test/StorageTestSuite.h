@@ -25,7 +25,7 @@ public:
 	void test_storage_saves_typedef()
 	{
 		TestStorage storage;
-		Id id = storage.onTypedefParsed(validLocation(1), utility::splitToVector("type", "::"), typeUsage("int"), ParserClient::ACCESS_NONE);
+		Id id = storage.onTypedefParsed(validLocation(1), createNameHierarchy("type"), typeUsage("int"), ParserClient::ACCESS_NONE);
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
@@ -44,7 +44,7 @@ public:
 	void test_storage_saves_class()
 	{
 		TestStorage storage;
-		Id id = storage.onClassParsed(validLocation(1), utility::splitToVector("Class", "::"), ParserClient::ACCESS_NONE, validLocation(2));
+		Id id = storage.onClassParsed(validLocation(1), createNameHierarchy("Class"), ParserClient::ACCESS_NONE, validLocation(2));
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
@@ -61,7 +61,7 @@ public:
 	void test_storage_saves_struct()
 	{
 		TestStorage storage;
-		Id id = storage.onStructParsed(validLocation(1), utility::splitToVector("Struct", "::"), ParserClient::ACCESS_NONE, validLocation(2));
+		Id id = storage.onStructParsed(validLocation(1), createNameHierarchy("Struct"), ParserClient::ACCESS_NONE, validLocation(2));
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
@@ -78,7 +78,7 @@ public:
 	void test_storage_saves_global_variable()
 	{
 		TestStorage storage;
-		Id id = storage.onGlobalVariableParsed(validLocation(42), ParseVariable(typeUsage("char"), utility::splitToVector("Global", "::"), false));
+		Id id = storage.onGlobalVariableParsed(validLocation(42), ParseVariable(typeUsage("char"), createNameHierarchy("Global"), false));
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
@@ -98,7 +98,7 @@ public:
 	void test_storage_saves_global_variable_static()
 	{
 		TestStorage storage;
-		Id id = storage.onGlobalVariableParsed(validLocation(7), ParseVariable(typeUsage("char"), utility::splitToVector("Global", "::"), true));
+		Id id = storage.onGlobalVariableParsed(validLocation(7), ParseVariable(typeUsage("char"), createNameHierarchy("Global"), true));
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
@@ -115,7 +115,7 @@ public:
 	{
 		TestStorage storage;
 		Id id = storage.onFieldParsed(
-			validLocation(3), ParseVariable(typeUsage("bool"), utility::splitToVector("m_field", "::"), false), ParserClient::ACCESS_NONE
+			validLocation(3), ParseVariable(typeUsage("bool"), createNameHierarchy("m_field"), false), ParserClient::ACCESS_NONE
 		);
 
 		Node* node = storage.getNodeWithId(id);
@@ -136,7 +136,7 @@ public:
 	{
 		TestStorage storage;
 		Id id = storage.onFieldParsed(
-			validLocation(11), ParseVariable(typeUsage("bool"), utility::splitToVector("Struct::m_field", "::"), false), ParserClient::ACCESS_PUBLIC
+			validLocation(11), ParseVariable(typeUsage("bool"), createNameHierarchy("Struct::m_field"), false), ParserClient::ACCESS_PUBLIC
 		);
 
 		Node* node = storage.getNodeWithId(id);
@@ -170,7 +170,7 @@ public:
 	{
 		TestStorage storage;
 		Id id = storage.onFunctionParsed(
-			validLocation(14), ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char")), validLocation(41)
+			validLocation(14), ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char")), validLocation(41)
 		);
 
 		Node* node = storage.getNodeWithId(id);
@@ -201,7 +201,7 @@ public:
 		TestStorage storage;
 		Id id = storage.onMethodParsed(
 			validLocation(9),
-			ParseFunction(typeUsage("void"), utility::splitToVector("isMethod", "::"), parameters("bool")),
+			ParseFunction(typeUsage("void"), createNameHierarchy("isMethod"), parameters("bool")),
 			ParserClient::ACCESS_NONE,
 			ParserClient::ABSTRACTION_NONE,
 			validLocation(4)
@@ -235,7 +235,7 @@ public:
 		TestStorage storage;
 		Id id = storage.onMethodParsed(
 			validLocation(1),
-			ParseFunction(typeUsage("void"), utility::splitToVector("isMethod", "::"), parameters("bool"), true),
+			ParseFunction(typeUsage("void"), createNameHierarchy("isMethod"), parameters("bool"), true),
 			ParserClient::ACCESS_NONE,
 			ParserClient::ABSTRACTION_NONE,
 			validLocation(4)
@@ -253,7 +253,7 @@ public:
 		TestStorage storage;
 		Id id = storage.onMethodParsed(
 			validLocation(1),
-			ParseFunction(typeUsage("void"), utility::splitToVector("Class::isMethod", "::"), parameters("bool")),
+			ParseFunction(typeUsage("void"), createNameHierarchy("Class::isMethod"), parameters("bool")),
 			ParserClient::ACCESS_PROTECTED,
 			ParserClient::ABSTRACTION_VIRTUAL,
 			validLocation(4)
@@ -287,7 +287,7 @@ public:
 	void test_storage_saves_namespace()
 	{
 		TestStorage storage;
-		Id id = storage.onNamespaceParsed(validLocation(1), utility::splitToVector("utility", "::"), validLocation(2));
+		Id id = storage.onNamespaceParsed(validLocation(1), createNameHierarchy("utility"), validLocation(2));
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
@@ -304,7 +304,7 @@ public:
 	void test_storage_saves_enum()
 	{
 		TestStorage storage;
-		Id id = storage.onEnumParsed(validLocation(17), utility::splitToVector("Category", "::"), ParserClient::ACCESS_NONE, validLocation(23));
+		Id id = storage.onEnumParsed(validLocation(17), createNameHierarchy("Category"), ParserClient::ACCESS_NONE, validLocation(23));
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
@@ -322,7 +322,7 @@ public:
 	{
 		TestStorage storage;
 		Id id =
-			storage.onEnumParsed(validLocation(1), utility::splitToVector("Class::Category", "::"),
+			storage.onEnumParsed(validLocation(1), createNameHierarchy("Class::Category"),
 			ParserClient::ACCESS_PRIVATE, validLocation(2)
 		);
 
@@ -347,7 +347,7 @@ public:
 	void test_storage_saves_enum_constant()
 	{
 		TestStorage storage;
-		Id id = storage.onEnumConstantParsed(validLocation(1), utility::splitToVector("VALUE", "::"));
+		Id id = storage.onEnumConstantParsed(validLocation(1), createNameHierarchy("VALUE"));
 
 		Node* node = storage.getNodeWithId(id);
 		TS_ASSERT(node);
@@ -362,11 +362,11 @@ public:
 	void test_storage_saves_class_inheritance()
 	{
 		TestStorage storage;
-		storage.onClassParsed(validLocation(), utility::splitToVector("ClassA", "::"), ParserClient::ACCESS_NONE, validLocation());
-		storage.onClassParsed(validLocation(), utility::splitToVector("ClassB", "::"), ParserClient::ACCESS_NONE, validLocation());
+		storage.onClassParsed(validLocation(), createNameHierarchy("ClassA"), ParserClient::ACCESS_NONE, validLocation());
+		storage.onClassParsed(validLocation(), createNameHierarchy("ClassB"), ParserClient::ACCESS_NONE, validLocation());
 		Id id =
-			storage.onInheritanceParsed(validLocation(5), utility::splitToVector("ClassB", "::"),
-			utility::splitToVector("ClassA", "::"), ParserClient::ACCESS_PUBLIC
+			storage.onInheritanceParsed(validLocation(5), createNameHierarchy("ClassB"),
+			createNameHierarchy("ClassA"), ParserClient::ACCESS_PUBLIC
 		);
 
 		Edge* edge = storage.getEdgeWithId(id);
@@ -387,11 +387,11 @@ public:
 	void test_storage_saves_struct_inheritance()
 	{
 		TestStorage storage;
-		storage.onStructParsed(validLocation(), utility::splitToVector("StructA", "::"), ParserClient::ACCESS_NONE, validLocation());
-		storage.onStructParsed(validLocation(), utility::splitToVector("StructB", "::"), ParserClient::ACCESS_NONE, validLocation());
+		storage.onStructParsed(validLocation(), createNameHierarchy("StructA"), ParserClient::ACCESS_NONE, validLocation());
+		storage.onStructParsed(validLocation(), createNameHierarchy("StructB"), ParserClient::ACCESS_NONE, validLocation());
 		Id id =
-			storage.onInheritanceParsed(validLocation(5), utility::splitToVector("StructB", "::"),
-			utility::splitToVector("StructA", "::"), ParserClient::ACCESS_PUBLIC
+			storage.onInheritanceParsed(validLocation(5), createNameHierarchy("StructB"),
+			createNameHierarchy("StructA"), ParserClient::ACCESS_PUBLIC
 		);
 
 		Edge* edge = storage.getEdgeWithId(id);
@@ -413,8 +413,8 @@ public:
 	{
 		TestStorage storage;
 
-		ParseFunction a(typeUsage("void"), utility::splitToVector("A::isMethod", "::"), parameters("bool"));
-		ParseFunction b(typeUsage("void"), utility::splitToVector("B::isMethod", "::"), parameters("bool"));
+		ParseFunction a(typeUsage("void"), createNameHierarchy("A::isMethod"), parameters("bool"));
+		ParseFunction b(typeUsage("void"), createNameHierarchy("B::isMethod"), parameters("bool"));
 
 		storage.onMethodParsed(validLocation(9), a, ParserClient::ACCESS_PRIVATE, ParserClient::ABSTRACTION_VIRTUAL, validLocation(4));
 		storage.onMethodParsed(validLocation(7), b, ParserClient::ACCESS_PRIVATE, ParserClient::ABSTRACTION_NONE, validLocation(3));
@@ -432,15 +432,15 @@ public:
 	{
 		TestStorage storage;
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char")), validLocation()
+			validLocation(), ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char")), validLocation()
 		);
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("void"), utility::splitToVector("func", "::"), parameters("bool")), validLocation()
+			validLocation(), ParseFunction(typeUsage("void"), createNameHierarchy("func"), parameters("bool")), validLocation()
 		);
 		Id id = storage.onCallParsed(
 			validLocation(9),
-			ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char")),
-			ParseFunction(typeUsage("void"), utility::splitToVector("func", "::"), parameters("bool"))
+			ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char")),
+			ParseFunction(typeUsage("void"), createNameHierarchy("func"), parameters("bool"))
 		);
 
 		Edge* edge = storage.getEdgeWithId(id);
@@ -458,15 +458,15 @@ public:
 	void test_storage_saves_call_in_global_variable_declaration()
 	{
 		TestStorage storage;
-		storage.onGlobalVariableParsed(validLocation(), ParseVariable(typeUsage("bool"), utility::splitToVector("global", "::"), false));
+		storage.onGlobalVariableParsed(validLocation(), ParseVariable(typeUsage("bool"), createNameHierarchy("global"), false));
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char")), validLocation()
+			validLocation(), ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char")), validLocation()
 		);
 
 		Id id = storage.onCallParsed(
 			validLocation(7),
-			ParseVariable(typeUsage("bool"), utility::splitToVector("global", "::"), false),
-			ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char"))
+			ParseVariable(typeUsage("bool"), createNameHierarchy("global"), false),
+			ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char"))
 		);
 
 		Edge* edge = storage.getEdgeWithId(id);
@@ -485,16 +485,16 @@ public:
 	{
 		TestStorage storage;
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char")), validLocation()
+			validLocation(), ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char")), validLocation()
 		);
 		storage.onFieldParsed(
-			validLocation(), ParseVariable(typeUsage("bool"), utility::splitToVector("Foo::m_field", "::"), false), ParserClient::ACCESS_PRIVATE
+			validLocation(), ParseVariable(typeUsage("bool"), createNameHierarchy("Foo::m_field"), false), ParserClient::ACCESS_PRIVATE
 		);
 
 		Id id = storage.onFieldUsageParsed(
 			validLocation(7),
-			ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char")),
-			utility::splitToVector("Foo::m_field", "::")
+			ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char")),
+			createNameHierarchy("Foo::m_field")
 		);
 
 		Edge* edge = storage.getEdgeWithId(id);
@@ -513,14 +513,14 @@ public:
 	{
 		TestStorage storage;
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char")), validLocation()
+			validLocation(), ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char")), validLocation()
 		);
-		storage.onGlobalVariableParsed(validLocation(), ParseVariable(typeUsage("bool"), utility::splitToVector("global", "::"), false));
+		storage.onGlobalVariableParsed(validLocation(), ParseVariable(typeUsage("bool"), createNameHierarchy("global"), false));
 
 		Id id = storage.onGlobalVariableUsageParsed(
 			validLocation(7),
-			ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char")),
-			utility::splitToVector("global", "::")
+			ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char")),
+			createNameHierarchy("global")
 		);
 
 		Edge* edge = storage.getEdgeWithId(id);
@@ -539,15 +539,15 @@ public:
 	{
 		TestStorage storage;
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"),
+			validLocation(), ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"),
 			parameters("char")), validLocation()
 		);
 		storage.onStructParsed(
-			validLocation(), utility::splitToVector("Struct", "::"), ParserClient::ACCESS_NONE, validLocation());
+			validLocation(), createNameHierarchy("Struct"), ParserClient::ACCESS_NONE, validLocation());
 
 		Id id = storage.onTypeUsageParsed(
 			typeUsage("Struct"),
-			ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char"))
+			ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char"))
 		);
 
 		Edge* edge = storage.getEdgeWithId(id);
@@ -566,7 +566,7 @@ public:
 	{
 		TestStorage storage;
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"),
+			validLocation(), ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"),
 			parameters("char")), validLocation()
 		);
 
@@ -591,12 +591,12 @@ public:
 
 		TestStorage storage;
 
-		ParseFunction isTrue = ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("char"));
+		ParseFunction isTrue = ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char"));
 		storage.onFunctionParsed(validLocation(), isTrue, validLocation());
 
 		m_filePath = "file.cpp";
 
-		ParseFunction main = ParseFunction(typeUsage("int"), utility::splitToVector("main", "::"), parameters("void"));
+		ParseFunction main = ParseFunction(typeUsage("int"), createNameHierarchy("main"), parameters("void"));
 		storage.onFunctionParsed(validLocation(), main, validLocation());
 
 		storage.onCallParsed(validLocation(), main, isTrue);
@@ -622,12 +622,12 @@ public:
 
 		TestStorage storage;
 
-		ParseFunction isTrue = ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("void"));
+		ParseFunction isTrue = ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("void"));
 		storage.onFunctionParsed(validLocation(), isTrue, validLocation());
 
 		m_filePath = "file.cpp";
 
-		ParseFunction main = ParseFunction(typeUsage("int"), utility::splitToVector("main", "::"), parameters("void"));
+		ParseFunction main = ParseFunction(typeUsage("int"), createNameHierarchy("main"), parameters("void"));
 		storage.onFunctionParsed(validLocation(), main, validLocation());
 
 		storage.onCallParsed(validLocation(), main, isTrue);
@@ -653,12 +653,12 @@ public:
 
 		TestStorage storage;
 
-		ParseFunction isTrue = ParseFunction(typeUsage("bool"), utility::splitToVector("isTrue", "::"), parameters("void"));
+		ParseFunction isTrue = ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("void"));
 		storage.onFunctionParsed(validLocation(), isTrue, validLocation());
 
 		m_filePath = "file.cpp";
 
-		ParseFunction main = ParseFunction(typeUsage("int"), utility::splitToVector("main", "::"), parameters("void"));
+		ParseFunction main = ParseFunction(typeUsage("int"), createNameHierarchy("main"), parameters("void"));
 		storage.onFunctionParsed(validLocation(), main, validLocation());
 
 		storage.onCallParsed(validLocation(), main, isTrue);
@@ -800,9 +800,19 @@ private:
 			location->getColumnNumber() == locationId;
 	}
 
+	NameHierarchy createNameHierarchy(std::string s) const
+	{
+		NameHierarchy nameHierarchy;
+		for (std::string element: utility::splitToVector(s, "::"))
+		{
+			nameHierarchy.push(std::make_shared<NameElement>(element));
+		}
+		return nameHierarchy;
+	}
+
 	ParseTypeUsage typeUsage(const std::string& typeName) const
 	{
-		return ParseTypeUsage(validLocation(), std::make_shared<NamedDataType>(utility::splitToVector(typeName, "::")));
+		return ParseTypeUsage(validLocation(), std::make_shared<NamedDataType>(createNameHierarchy(typeName)));
 	}
 
 	std::vector<ParseTypeUsage> parameters(const std::string& param) const

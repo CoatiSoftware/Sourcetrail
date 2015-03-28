@@ -311,10 +311,10 @@ bool ASTVisitor::VisitTemplateTemplateParmDecl(clang::TemplateTemplateParmDecl *
 
 bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 {
-	std::vector<std::string> rarchy = utility::getDeclNameHierarchy(declaration);
+	NameHierarchy rarchy = utility::getDeclNameHierarchy(declaration);
 	if (isLocatedInUnparsedProjectFile(declaration))
 	{
-		std::vector<std::string> templateRecordNameHierarchy = utility::getDeclNameHierarchy(declaration);
+		NameHierarchy templateRecordNameHierarchy = utility::getDeclNameHierarchy(declaration);
 		clang::TemplateParameterList* parameterList = declaration->getTemplateParameters();
 		for (size_t i = 0; i < parameterList->size(); i++)
 		{
@@ -341,10 +341,10 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 			clang::ClassTemplateSpecializationDecl* specializationDecl = *it;
 
 			// The specializationParent can be an indirect specialization of the ClassTemplate (by specializing a partial specialization).
-			std::vector<std::string> specializationParentNameHierarchy = utility::getTemplateSpecializationParentNameHierarchy(specializationDecl);
+			NameHierarchy specializationParentNameHierarchy = utility::getTemplateSpecializationParentNameHierarchy(specializationDecl);
 
 			ParserClient::RecordType specializedRecordType = specializationDecl->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
-			std::vector<std::string> specializedRecordNameHierarchy = utility::getDeclNameHierarchy(specializationDecl);
+			NameHierarchy specializedRecordNameHierarchy = utility::getDeclNameHierarchy(specializationDecl);
 			m_client->onTemplateRecordSpecializationParsed(
 				getParseLocationForNamedDecl(*it), specializedRecordNameHierarchy, specializedRecordType, specializationParentNameHierarchy
 			);
@@ -354,7 +354,7 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 			const clang::TemplateArgumentList &argList = specializationDecl->getTemplateArgs();
 			for (size_t i = 0; i < argList.size(); i++)
 			{
-				std::vector<std::string> argumentNameHierarchy = utility::templateArgumentToDataType(argList.get(i))->getTypeNameHierarchy();
+				NameHierarchy argumentNameHierarchy = utility::templateArgumentToDataType(argList.get(i))->getTypeNameHierarchy();
 
 				if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
 				{
@@ -374,8 +374,8 @@ bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplat
 {
 	if (isLocatedInUnparsedProjectFile(declaration))
 	{
-		std::vector<std::string> specializedRecordNameHierarchy = utility::getDeclNameHierarchy(declaration);
-		std::vector<std::string> specializationParentNameHierarchy = utility::getTemplateSpecializationParentNameHierarchy(declaration);
+		NameHierarchy specializedRecordNameHierarchy = utility::getDeclNameHierarchy(declaration);
+		NameHierarchy specializationParentNameHierarchy = utility::getTemplateSpecializationParentNameHierarchy(declaration);
 
 		ParserClient::RecordType specializedRecordType = declaration->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
 		m_client->onTemplateRecordSpecializationParsed(
@@ -423,7 +423,7 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 
 			if (isLocatedInUnparsedProjectFile(namedDecl))
 			{
-				std::vector<std::string> templateParameterTypeNameHierarchy = utility::getDeclNameHierarchy(namedDecl);
+				NameHierarchy templateParameterTypeNameHierarchy = utility::getDeclNameHierarchy(namedDecl);
 
 				m_client->onTemplateFunctionParameterTypeParsed(
 					getParseLocationForNamedDecl(namedDecl),
@@ -873,7 +873,7 @@ std::vector<ParseTypeUsage> ASTVisitor::getParameters(const clang::FunctionDecl*
 ParseVariable ASTVisitor::getParseVariable(const clang::DeclaratorDecl* declaration) const
 {
 	bool isStatic = false;
-	std::vector<std::string> hameHierarchy = utility::getDeclNameHierarchy(declaration);
+	NameHierarchy hameHierarchy = utility::getDeclNameHierarchy(declaration);
 	if (clang::isa<clang::VarDecl>(declaration))
 	{
 		const clang::VarDecl* varDecl = clang::dyn_cast<const clang::VarDecl>(declaration);

@@ -22,7 +22,7 @@ std::string ModifiedDataType::getRawTypeName() const
 	return m_dataType->getRawTypeName();
 }
 
-const std::vector<std::string>& ModifiedDataType::getTypeNameHierarchy() const
+const NameHierarchy& ModifiedDataType::getTypeNameHierarchy() const
 {
 	return m_dataType->getTypeNameHierarchy();
 }

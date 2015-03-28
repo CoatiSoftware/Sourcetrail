@@ -137,6 +137,11 @@ add_files(
 	data/location/TokenLocationLine.cpp
 	data/location/TokenLocationLine.h
 
+	data/name/NameElement.cpp
+	data/name/NameElement.h
+	data/name/NameHierarchy.cpp
+	data/name/NameHierarchy.h
+
 	data/parser/ParseFunction.cpp
 	data/parser/ParseFunction.h
 	data/parser/ParseLocation.cpp

@@ -4,7 +4,7 @@
 
 ParseFunction::ParseFunction(
 	const ParseTypeUsage& returnType,
-	const std::vector<std::string>& nameHierarchy,
+	const NameHierarchy& nameHierarchy,
 	const std::vector<ParseTypeUsage>& parameters,
 	bool isStatic,
 	bool isConst
@@ -19,5 +19,5 @@ ParseFunction::ParseFunction(
 
 std::string ParseFunction::getFullName() const
 {
-	return utility::join(nameHierarchy, "::");
+	return nameHierarchy.getFullName();
 }

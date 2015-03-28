@@ -2,7 +2,7 @@
 
 #include "utility/utilityString.h"
 
-ParseVariable::ParseVariable(const ParseTypeUsage& type, const std::vector<std::string>& nameHierarchy, bool isStatic)
+ParseVariable::ParseVariable(const ParseTypeUsage& type, const NameHierarchy& nameHierarchy, bool isStatic)
 	: type(type)
 	, nameHierarchy(nameHierarchy)
 	, isStatic(isStatic)
@@ -11,5 +11,5 @@ ParseVariable::ParseVariable(const ParseTypeUsage& type, const std::vector<std::
 
 std::string ParseVariable::getFullName() const
 {
-	return utility::join(nameHierarchy, "::");
+	return nameHierarchy.getFullName();
 }

@@ -13,6 +13,7 @@
 
 #include "helper/TestFileManager.h"
 
+
 class CxxParserTestSuite: public CxxTest::TestSuite
 {
 public:
@@ -2329,7 +2330,7 @@ public:
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>->int <0:0 0:0>");
 	}
 
-	void test_cxx_parser_finds_template_default_argument_type_of_template_function()
+	void test_cxx_parser_finds_type_template_default_argument_type_of_template_function()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T = int>\n"
@@ -2347,7 +2348,33 @@ public:
 		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes[0], "int -> test<typename T>::T <1:24 1:26>");
 	}
 
+	void test_cxx_parser_does_not_find_default_argument_type_for_non_type_bool_template_parameter_of_template_function()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <bool T = true>\n"
+			"void test()\n"
+			"{\n"
+			"};\n"
+		);
 
+		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes.size(), 0);
+	}
+
+	void test_cxx_parser_finds_template_template_default_argument_type_of_template_function()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{};\n"
+			"template <template<typename> class T = A>\n"
+			"void test()\n"
+			"{\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes.size(), 1);
+		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes[0], "A<typename T> -> test<template<typename> typename T>::T<typename> <4:40 4:40>");
+	}
 
 	void test_cxx_parser_parses_multiple_files()
 	{
@@ -2403,28 +2430,28 @@ private:
 		}
 
 		virtual Id onTypedefParsed(
-			const ParseLocation& location, const std::vector<std::string>& nameHierarchy, const ParseTypeUsage& underlyingType,
+			const ParseLocation& location, const NameHierarchy& nameHierarchy, const ParseTypeUsage& underlyingType,
 			AccessType access
 		)
 		{
-			std::string str = addAccessPrefix(underlyingType.dataType->getFullTypeName() + " -> " + utility::join(nameHierarchy, "::"), access);
+			std::string str = addAccessPrefix(underlyingType.dataType->getFullTypeName() + " -> " + nameHierarchy.getFullName(), access);
 			typedefs.push_back(addLocationSuffix(str, location));
 			return 0;
 		}
 
 		virtual Id onClassParsed(
-			const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
+			const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 			const ParseLocation& scopeLocation)
 		{
-			classes.push_back(addLocationSuffix(addAccessPrefix(utility::join(nameHierarchy, "::"), access), location, scopeLocation));
+			classes.push_back(addLocationSuffix(addAccessPrefix(nameHierarchy.getFullName(), access), location, scopeLocation));
 			return 0;
 		}
 
 		virtual Id onStructParsed(
-			const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
+			const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 			const ParseLocation& scopeLocation)
 		{
-			structs.push_back(addLocationSuffix(addAccessPrefix(utility::join(nameHierarchy, "::"), access), location, scopeLocation));
+			structs.push_back(addLocationSuffix(addAccessPrefix(nameHierarchy.getFullName(), access), location, scopeLocation));
 			return 0;
 		}
 
@@ -2472,30 +2499,30 @@ private:
 		}
 
 		virtual Id onNamespaceParsed(
-			const ParseLocation& location, const std::vector<std::string>& nameHierarchy, const ParseLocation& scopeLocation)
+			const ParseLocation& location, const NameHierarchy& nameHierarchy, const ParseLocation& scopeLocation)
 		{
-			namespaces.push_back(addLocationSuffix(utility::join(nameHierarchy, "::"), location, scopeLocation));
+			namespaces.push_back(addLocationSuffix(nameHierarchy.getFullName(), location, scopeLocation));
 			return 0;
 		}
 
 		virtual Id onEnumParsed(
-			const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
+			const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 			const ParseLocation& scopeLocation)
 		{
-			enums.push_back(addLocationSuffix(addAccessPrefix(utility::join(nameHierarchy, "::"), access), location, scopeLocation));
+			enums.push_back(addLocationSuffix(addAccessPrefix(nameHierarchy.getFullName(), access), location, scopeLocation));
 			return 0;
 		}
 
-		virtual Id onEnumConstantParsed(const ParseLocation& location, const std::vector<std::string>& nameHierarchy)
+		virtual Id onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy)
 		{
-			enumConstants.push_back(addLocationSuffix(utility::join(nameHierarchy, "::"), location));
+			enumConstants.push_back(addLocationSuffix(nameHierarchy.getFullName(), location));
 			return 0;
 		}
 
 		virtual Id onInheritanceParsed(
-			const ParseLocation& location, const std::vector<std::string>& nameHierarchy, const std::vector<std::string>& baseNameHierarchy, AccessType access)
+			const ParseLocation& location, const NameHierarchy& nameHierarchy, const NameHierarchy& baseNameHierarchy, AccessType access)
 		{
-			std::string str = utility::join(nameHierarchy, "::") + " : " + addAccessPrefix(utility::join(baseNameHierarchy, "::"), access);
+			std::string str = nameHierarchy.getFullName() + " : " + addAccessPrefix(baseNameHierarchy.getFullName(), access);
 			inheritances.push_back(addLocationSuffix(str, location));
 			return 0;
 		}
@@ -2521,37 +2548,37 @@ private:
 		}
 
 		virtual Id onFieldUsageParsed(
-			const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy)
+			const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy)
 		{
-			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + utility::join(usedNameHierarchy, "::"), location));
+			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + usedNameHierarchy.getFullName(), location));
 			return 0;
 		}
 
 		virtual Id onGlobalVariableUsageParsed(
-			const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy)
+			const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy)
 		{
-			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + utility::join(usedNameHierarchy, "::"), location));
+			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + usedNameHierarchy.getFullName(), location));
 			return 0;
 		}
 
 		virtual Id onGlobalVariableUsageParsed(
-			const ParseLocation& location, const ParseVariable& user, const std::vector<std::string>& usedNameHierarchy)
+			const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy)
 		{
-			usages.push_back(addLocationSuffix(variableStr(user) + " -> " + utility::join(usedNameHierarchy, "::"), location));
+			usages.push_back(addLocationSuffix(variableStr(user) + " -> " + usedNameHierarchy.getFullName(), location));
 			return 0;
 		}
 
 		virtual Id onEnumConstantUsageParsed(
-			const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy)
+			const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy)
 		{
-			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + utility::join(usedNameHierarchy, "::"), location));
+			usages.push_back(addLocationSuffix(functionStr(user) + " -> " + usedNameHierarchy.getFullName(), location));
 			return 0;
 		}
 
 		virtual Id onEnumConstantUsageParsed(
-			const ParseLocation& location, const ParseVariable& user, const std::vector<std::string>& usedNameHierarchy)
+			const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy)
 		{
-			usages.push_back(addLocationSuffix(variableStr(user) + " -> " + utility::join(usedNameHierarchy, "::"), location));
+			usages.push_back(addLocationSuffix(variableStr(user) + " -> " + usedNameHierarchy.getFullName(), location));
 			return 0;
 		}
 
@@ -2568,51 +2595,51 @@ private:
 		}
 
 		virtual Id onTemplateArgumentTypeParsed(
-			const ParseLocation& location, const std::vector<std::string>& templateArgumentTypeNameHierarchy,
-			const std::vector<std::string>& templateRecordNameHierarchy)
+			const ParseLocation& location, const NameHierarchy& templateArgumentTypeNameHierarchy,
+			const NameHierarchy& templateRecordNameHierarchy)
 		{
 			templateArgumentTypes.push_back(
-				addLocationSuffix(utility::join(templateRecordNameHierarchy, "::") + "->" + utility::join(templateArgumentTypeNameHierarchy, "::"), location)
+				addLocationSuffix(templateRecordNameHierarchy.getFullName() + "->" + templateArgumentTypeNameHierarchy.getFullName(), location)
 			);
 			return 0;
 		}
 
 		virtual Id onTemplateDefaultArgumentTypeParsed(
-			const ParseTypeUsage& defaultArgumentType, const std::vector<std::string>& templateArgumentTypeNameHierarchy)
+			const ParseTypeUsage& defaultArgumentType, const NameHierarchy& templateArgumentTypeNameHierarchy)
 		{
 			templateDefaultArgumentTypes.push_back(
-				addLocationSuffix(utility::join(defaultArgumentType.dataType->getTypeNameHierarchy(), "::") + " -> " + utility::join(templateArgumentTypeNameHierarchy, "::"), defaultArgumentType.location)
+				addLocationSuffix(defaultArgumentType.dataType->getTypeNameHierarchy().getFullName() + " -> " + templateArgumentTypeNameHierarchy.getFullName(), defaultArgumentType.location)
 			);
 			return 0;
 		}
 
 		virtual Id onTemplateRecordParameterTypeParsed(
-			const ParseLocation& location, const std::vector<std::string>& templateParameterTypeNameHierarchy,
-			const std::vector<std::string>& templateRecordNameHierarchy)
+			const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy,
+			const NameHierarchy& templateRecordNameHierarchy)
 		{
 			templateParameterTypes.push_back(
-				addLocationSuffix(utility::join(templateParameterTypeNameHierarchy, "::"), location)
+				addLocationSuffix(templateParameterTypeNameHierarchy.getFullName(), location)
 			);
 			return 0;
 		}
 
 		virtual Id onTemplateRecordSpecializationParsed(
-			const ParseLocation& location, const std::vector<std::string>& specializedRecordNameHierarchy,
-			const RecordType specializedRecordType, const std::vector<std::string>& specializedFromNameHierarchy)
+			const ParseLocation& location, const NameHierarchy& specializedRecordNameHierarchy,
+			const RecordType specializedRecordType, const NameHierarchy& specializedFromNameHierarchy)
 		{
 			templateSpecializations.push_back(
 				addLocationSuffix(std::string(specializedRecordType == ParserClient::RECORD_CLASS ? "class" : "struct") + " " +
-				utility::join(specializedRecordNameHierarchy, "::") + " -> " + utility::join(specializedFromNameHierarchy, "::"), location)
+				specializedRecordNameHierarchy.getFullName() + " -> " + specializedFromNameHierarchy.getFullName(), location)
 			);
 			return 0;
 		}
 
 		virtual Id onTemplateFunctionParameterTypeParsed(
-			const ParseLocation& location, const std::vector<std::string>& templateParameterTypeNameHierarchy,
+			const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy,
 			const ParseFunction function)
 		{
 			templateParameterTypes.push_back(
-				addLocationSuffix(utility::join(templateParameterTypeNameHierarchy, "::"), location)
+				addLocationSuffix(templateParameterTypeNameHierarchy.getFullName(), location)
 			);
 			return 0;
 		}

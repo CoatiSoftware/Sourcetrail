@@ -1,15 +1,14 @@
 #ifndef PARSE_FUNCTION_H
 #define PARSE_FUNCTION_H
 
-#include <string>
-
+#include "data/name/NameHierarchy.h"
 #include "data/parser/ParseTypeUsage.h"
 
 struct ParseFunction
 {
 	ParseFunction(
 		const ParseTypeUsage& returnType,
-		const std::vector<std::string>& nameHierarchy,
+		const NameHierarchy& nameHierarchy,
 		const std::vector<ParseTypeUsage>& parameters,
 		bool isStatic = false,
 		bool isConst = false
@@ -18,7 +17,7 @@ struct ParseFunction
 	std::string getFullName() const;
 
 	const ParseTypeUsage returnType;
-	const std::vector<std::string> nameHierarchy;
+	const NameHierarchy nameHierarchy;
 	const std::vector<ParseTypeUsage> parameters;
 	const bool isStatic;
 	const bool isConst;

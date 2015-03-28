@@ -3,16 +3,17 @@
 
 #include <string>
 
+#include "data/name/NameHierarchy.h"
 #include "data/parser/ParseTypeUsage.h"
 
 struct ParseVariable
 {
-	ParseVariable(const ParseTypeUsage& type, const std::vector<std::string>& nameHierarchy, bool isStatic);
+	ParseVariable(const ParseTypeUsage& type, const NameHierarchy& nameHierarchy, bool isStatic);
 
 	std::string getFullName() const;
 
 	const ParseTypeUsage type;
-	const std::vector<std::string> nameHierarchy;
+	const NameHierarchy nameHierarchy;
 	const bool isStatic;
 };
 

@@ -10,17 +10,18 @@
 #include "clang/AST/DeclTemplate.h"
 
 class DataType;
+class NameHierarchy;
 
 namespace utility
 {
 	std::shared_ptr<DataType> qualTypeToDataType(clang::QualType qualType);
 	std::shared_ptr<DataType> typeToDataType(const clang::Type* type);
 
-	std::vector<std::string> getDeclNameHierarchy(const clang::Decl* declaration);
-	std::vector<std::string> getContextNameHierarchy(const clang::DeclContext* declaration);
-	std::vector<std::string> getContextNameHierarchyOfTemplateParameter(const clang::NamedDecl* templateParmDecl);
+	NameHierarchy getDeclNameHierarchy(const clang::Decl* declaration);
+	NameHierarchy getContextNameHierarchy(const clang::DeclContext* declaration);
+	NameHierarchy getContextNameHierarchyOfTemplateParameter(const clang::NamedDecl* templateParmDecl);
 	std::string getDeclName(const clang::NamedDecl* declaration);
-	std::vector<std::string> getTemplateSpecializationParentNameHierarchy(clang::ClassTemplateSpecializationDecl* declaration);
+	NameHierarchy getTemplateSpecializationParentNameHierarchy(clang::ClassTemplateSpecializationDecl* declaration);
 	std::shared_ptr<DataType> templateArgumentToDataType(const clang::TemplateArgument& argument);
 	std::string getTemplateParameterString(const clang::NamedDecl* parameter);
 	std::string getTemplateParameterTypeString(const clang::NonTypeTemplateParmDecl* parameter);

@@ -51,12 +51,12 @@ const std::string& SearchIndex::getWord(Id wordId) const
 	return m_dictionary.getWord(wordId);
 }
 
-SearchNode* SearchIndex::addNode(std::vector<std::string> nameHierarchy)
+SearchNode* SearchIndex::addNode(NameHierarchy nameHierarchy)
 {
 	std::deque<Id> nameIds;
-	for (const std::string& name: nameHierarchy)
+	for (int i = 0; i < nameHierarchy.size(); i++)
 	{
-		nameIds.push_back(m_dictionary.getWordId(name));
+		nameIds.push_back(m_dictionary.getWordId(nameHierarchy[i]->getFullName()));
 	}
 	if (nameIds.size())
 	{

@@ -1,20 +1,20 @@
 #ifndef NAMED_DATA_TYPE_H
 #define NAMED_DATA_TYPE_H
 
-#include "DataType.h"
+#include "data/type/DataType.h"
 
 class NamedDataType: public DataType
 {
 public:
-	NamedDataType(const std::vector<std::string>& nameHierarchy);
+	NamedDataType(const NameHierarchy& nameHierarchy);
 	virtual ~NamedDataType();
 
 	virtual std::string getFullTypeName() const;
 	virtual std::string getRawTypeName() const;
-	virtual const std::vector<std::string>& getTypeNameHierarchy() const;
+	virtual const NameHierarchy& getTypeNameHierarchy() const;
 
 private:
-	const std::vector<std::string> m_nameHierarchy;
+	const NameHierarchy m_nameHierarchy;
 };
 
 #endif // NAMED_DATA_TYPE_H

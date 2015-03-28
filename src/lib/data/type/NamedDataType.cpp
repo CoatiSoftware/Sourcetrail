@@ -2,7 +2,7 @@
 
 #include "utility/utilityString.h"
 
-NamedDataType::NamedDataType(const std::vector<std::string>& nameHierarchy)
+NamedDataType::NamedDataType(const NameHierarchy& nameHierarchy)
 	: m_nameHierarchy(nameHierarchy)
 {
 }
@@ -20,10 +20,10 @@ std::string NamedDataType::getFullTypeName() const
 
 std::string NamedDataType::getRawTypeName() const
 {
-	return utility::join(m_nameHierarchy, "::");
+	return m_nameHierarchy.getFullName();
 }
 
-const std::vector<std::string>& NamedDataType::getTypeNameHierarchy() const
+const NameHierarchy& NamedDataType::getTypeNameHierarchy() const
 {
 	return m_nameHierarchy;
 }

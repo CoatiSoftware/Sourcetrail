@@ -41,6 +41,10 @@ namespace utility
 				dataType = std::make_shared<NamedDataType>(getDeclNameHierarchy(type->getAs<clang::TypedefType>()->getDecl()));
 				break;
 			}
+		case clang::Type::MemberPointer:
+			{
+				int ogogo = 0; // test this case!
+			}
 		case clang::Type::Pointer:
 			{
 				std::shared_ptr<DataType> innerType = qualTypeToDataType(type->getPointeeType());
@@ -85,15 +89,15 @@ namespace utility
 				clang::QualType::print(type, clang::Qualifiers(), StrOS, pp, clang::Twine());
 				std::string typeName = StrOS.str();
 
-				std::vector<std::string> typeNameHerarchy;
-				typeNameHerarchy.push_back(typeName);
+				NameHierarchy typeNameHerarchy;
+				typeNameHerarchy.push(std::make_shared<NameElement>(typeName));
 
 				dataType = std::make_shared<NamedDataType>(typeNameHerarchy);
 				break;
 			}
 		case clang::Type::TemplateSpecialization:
 			{
-				std::vector<std::string> typeNameHerarchy;
+				NameHierarchy typeNameHerarchy;
 
 				const clang::TagType* tagType = type->getAs<clang::TagType>(); // remove this case when NameHierarchy is split into namepart and parameter part
 				if (tagType)
@@ -116,9 +120,11 @@ namespace utility
 						}
 						templateArgumentPart += ">";
 
-						std::string& declName = typeNameHerarchy.back();
-						declName = declName.substr(0, declName.rfind("<"));	// remove template parameters
+						std::string declName = typeNameHerarchy.back()->getFullName();
+						declName = declName.substr(0, declName.rfind("<"));	// remove template parameters - does not work for A<ajaj<ajsj>>
 						declName += templateArgumentPart;					// add template arguments
+						typeNameHerarchy.pop();
+						typeNameHerarchy.push(std::make_shared<NameElement>(declName));
 					}
 				}
 				dataType = std::make_shared<NamedDataType>(typeNameHerarchy);
@@ -129,16 +135,18 @@ namespace utility
 				clang::TemplateTypeParmDecl* templateTypeParmDecl = clang::dyn_cast<clang::TemplateTypeParmType>(type)->getDecl();
 
 				std::string typeName = getDeclName(templateTypeParmDecl);
-				std::vector<std::string> typeNameHerarchy = getContextNameHierarchyOfTemplateParameter(templateTypeParmDecl);
+				NameHierarchy typeNameHerarchy = getContextNameHierarchyOfTemplateParameter(templateTypeParmDecl);
 
 				if (typeNameHerarchy.size() == 0)
 				{
 					LOG_ERROR("Unable to resolve type name hierarchy for template parameter \"" + typeName + "\"");
-					typeNameHerarchy.push_back(typeName);
+					typeNameHerarchy.push(std::make_shared<NameElement>(typeName));
 				}
 				else
 				{
-					typeNameHerarchy.back() += "::" + typeName;
+					std::string lastContextElementName = typeNameHerarchy.back()->getFullName();
+					typeNameHerarchy.pop();
+					typeNameHerarchy.push(std::make_shared<NameElement>(lastContextElementName + "::" + typeName));
 				}
 				dataType = std::make_shared<NamedDataType>(typeNameHerarchy);
 				break;
@@ -153,11 +161,11 @@ namespace utility
 				const clang::DependentNameType* dependentNameType = clang::dyn_cast<clang::DependentNameType>(type);
 				clang::NestedNameSpecifier* nns = dependentNameType->getQualifier();
 				clang::NestedNameSpecifier::SpecifierKind nnsKind = nns->getKind();
-				std::vector<std::string> typeNameHerarchy;
+				NameHierarchy typeNameHerarchy;
 				switch (nnsKind)
 				{
 				case clang::NestedNameSpecifier::Identifier:
-					typeNameHerarchy.push_back(nns->getAsIdentifier()->getName());
+					typeNameHerarchy.push(std::make_shared<NameElement>(nns->getAsIdentifier()->getName()));
 					LOG_ERROR("Unable to resolve name of nested name specifier of kind: Identifier"); // this one is not tested yet. tell malte if you get this log error.
 					break;
 				case clang::NestedNameSpecifier::Namespace:
@@ -178,7 +186,7 @@ namespace utility
 					break;
 				}
 
-				typeNameHerarchy.push_back(dependentNameType->getIdentifier()->getName().str());
+				typeNameHerarchy.push(std::make_shared<NameElement>(dependentNameType->getIdentifier()->getName().str()));
 
 				dataType = std::make_shared<NamedDataType>(typeNameHerarchy);
 				break;
@@ -195,8 +203,8 @@ namespace utility
 				clang::QualType::print(type, clang::Qualifiers(), StrOS, pp, clang::Twine());
 				std::string typeName = StrOS.str();
 
-				std::vector<std::string> typeNameHerarchy;
-				typeNameHerarchy.push_back(typeName);
+				NameHierarchy typeNameHerarchy;
+				typeNameHerarchy.push(std::make_shared<NameElement>(typeName));
 
 				dataType = std::make_shared<NamedDataType>(typeNameHerarchy);
 				break;
@@ -205,9 +213,9 @@ namespace utility
 		return dataType;
 	}
 
-	std::vector<std::string> getDeclNameHierarchy(const clang::Decl* declaration)
+	NameHierarchy getDeclNameHierarchy(const clang::Decl* declaration)
 	{
-		std::vector<std::string> contextNameHierarchy;
+		NameHierarchy contextNameHierarchy;
 		if (declaration)
 		{
 			std::string declName = "";
@@ -225,19 +233,22 @@ namespace utility
 				clang::isa<clang::TemplateTypeParmDecl>(declaration) ||
 				clang::isa<clang::TemplateTemplateParmDecl>(declaration))
 			{
-				contextNameHierarchy.back() += "::" + declName;
+				std::string lastContextElementName = contextNameHierarchy.back()->getFullName();
+				contextNameHierarchy.pop();
+				contextNameHierarchy.push(std::make_shared<NameElement>(lastContextElementName + "::" + declName));
+
 			}
 			else
 			{
-				contextNameHierarchy.push_back(declName);
+				contextNameHierarchy.push(std::make_shared<NameElement>(declName));
 			}
 		}
 		return contextNameHierarchy;
 	}
 
-	std::vector<std::string> getContextNameHierarchy(const clang::DeclContext* declContext)
+	NameHierarchy getContextNameHierarchy(const clang::DeclContext* declContext)
 	{
-		std::vector<std::string> contextNameHierarchy;
+		NameHierarchy contextNameHierarchy;
 
 		const clang::DeclContext* parentContext = declContext->getParent();
 		if (parentContext)
@@ -247,18 +258,18 @@ namespace utility
 
 		if (clang::isa<clang::NamedDecl>(declContext))
 		{
-			std::string declName = getDeclName(clang::dyn_cast<const clang::NamedDecl>(declContext));
+			std::string declName = getDeclName(clang::dyn_cast<clang::NamedDecl>(declContext));
 			if (declName != "")
 			{
-				contextNameHierarchy.push_back(declName);
+				contextNameHierarchy.push(std::make_shared<NameElement>(declName));
 			}
 		}
 		return contextNameHierarchy;
 	}
 
-	std::vector<std::string> getContextNameHierarchyOfTemplateParameter(const clang::NamedDecl* templateParmDecl)
+	NameHierarchy getContextNameHierarchyOfTemplateParameter(const clang::NamedDecl* templateParmDecl) // why do we need this??
 	{
-		std::vector<std::string> contextNameHierarchy;
+		NameHierarchy contextNameHierarchy;
 
 		const clang::Decl* parentNode = getAstParentDecl(templateParmDecl);
 		if (parentNode && clang::isa<clang::NamedDecl>(parentNode))
@@ -364,9 +375,9 @@ namespace utility
 		return declName;
 	}
 
-	std::vector<std::string> getTemplateSpecializationParentNameHierarchy(clang::ClassTemplateSpecializationDecl* declaration)
+	NameHierarchy getTemplateSpecializationParentNameHierarchy(clang::ClassTemplateSpecializationDecl* declaration)
 	{
-		std::vector<std::string> specializationParentNameHierarchy;
+		NameHierarchy specializationParentNameHierarchy;
 		llvm::PointerUnion<clang::ClassTemplateDecl*, clang::ClassTemplatePartialSpecializationDecl*> pu = declaration->getSpecializedTemplateOrPartial();
 		if (pu.is<clang::ClassTemplateDecl*>())
 		{
@@ -424,7 +435,7 @@ namespace utility
 			LOG_ERROR("Type of template argument not handled." + argument.getKind());
 			break;
 		}
-		return std::make_shared<NamedDataType>(std::vector<std::string>());
+		return std::make_shared<NamedDataType>(NameHierarchy());
 	}
 
 	std::string getTemplateParameterString(const clang::NamedDecl* parameter)

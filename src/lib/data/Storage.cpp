@@ -26,7 +26,9 @@ Storage::Storage()
 {
 	for (const std::pair<std::string, QueryCommand::CommandType>& p : QueryCommand::getCommandTypeMap())
 	{
-		m_filterIndex.addNode(std::vector<std::string>(1, p.first));
+		NameHierarchy commandNameHierarchy;
+		commandNameHierarchy.push(std::make_shared<NameElement>(p.first));
+		m_filterIndex.addNode(commandNameHierarchy);
 	}
 }
 
@@ -197,10 +199,10 @@ void Storage::onError(const ParseLocation& location, const std::string& message)
 }
 
 Id Storage::onTypedefParsed(
-	const ParseLocation& location, const std::vector<std::string>& nameHierarchy, const ParseTypeUsage& underlyingType,
+	const ParseLocation& location, const NameHierarchy& nameHierarchy, const ParseTypeUsage& underlyingType,
 	AccessType access
 ){
-	log("typedef", utility::join(nameHierarchy, "::") + " -> " + underlyingType.dataType->getFullTypeName(), location);
+	log("typedef", nameHierarchy.getFullName() + " -> " + underlyingType.dataType->getFullTypeName(), location);
 
 	Node* node = addNodeHierarchy(Node::NODE_TYPEDEF, nameHierarchy);
 	addAccess(node, access);
@@ -211,10 +213,10 @@ Id Storage::onTypedefParsed(
 }
 
 Id Storage::onClassParsed(
-	const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
+	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 	const ParseLocation& scopeLocation
 ){
-	log("class", utility::join(nameHierarchy, "::"), location);
+	log("class", nameHierarchy.getFullName(), location);
 
 	Node* node = addNodeHierarchy(Node::NODE_CLASS, nameHierarchy);
 	addAccess(node, access);
@@ -225,10 +227,10 @@ Id Storage::onClassParsed(
 }
 
 Id Storage::onStructParsed(
-	const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
+	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 	const ParseLocation& scopeLocation
 ){
-	log("struct", utility::join(nameHierarchy, "::"), location);
+	log("struct", nameHierarchy.getFullName(), location);
 
 	Node* node = addNodeHierarchy(Node::NODE_STRUCT, nameHierarchy);
 	addAccess(node, access);
@@ -345,9 +347,9 @@ Id Storage::onMethodParsed(
 }
 
 Id Storage::onNamespaceParsed(
-	const ParseLocation& location, const std::vector<std::string>& nameHierarchy, const ParseLocation& scopeLocation
+	const ParseLocation& location, const NameHierarchy& nameHierarchy, const ParseLocation& scopeLocation
 ){
-	log("namespace", utility::join(nameHierarchy, "::"), location);
+	log("namespace", nameHierarchy.getFullName(), location);
 
 	Node* node = addNodeHierarchy(Node::NODE_NAMESPACE, nameHierarchy);
 	if (location.isValid())
@@ -360,10 +362,10 @@ Id Storage::onNamespaceParsed(
 }
 
 Id Storage::onEnumParsed(
-	const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
+	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 	const ParseLocation& scopeLocation
 ){
-	log("enum", utility::join(nameHierarchy, "::"), location);
+	log("enum", nameHierarchy.getFullName(), location);
 
 	Node* node = addNodeHierarchy(Node::NODE_ENUM, nameHierarchy);
 	addAccess(node, access);
@@ -373,9 +375,9 @@ Id Storage::onEnumParsed(
 	return node->getId();
 }
 
-Id Storage::onEnumConstantParsed(const ParseLocation& location, const std::vector<std::string>& nameHierarchy)
+Id Storage::onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy)
 {
-	log("enum constant", utility::join(nameHierarchy, "::"), location);
+	log("enum constant", nameHierarchy.getFullName(), location);
 
 	Node* node = addNodeHierarchy(Node::NODE_ENUM_CONSTANT, nameHierarchy);
 	addTokenLocation(node, location);
@@ -384,10 +386,10 @@ Id Storage::onEnumConstantParsed(const ParseLocation& location, const std::vecto
 }
 
 Id Storage::onInheritanceParsed(
-	const ParseLocation& location, const std::vector<std::string>& nameHierarchy,
-	const std::vector<std::string>& baseNameHierarchy, AccessType access
+	const ParseLocation& location, const NameHierarchy& nameHierarchy,
+	const NameHierarchy& baseNameHierarchy, AccessType access
 ){
-	log("inheritance", utility::join(nameHierarchy, "::") + " : " + utility::join(baseNameHierarchy, "::"), location);
+	log("inheritance", nameHierarchy.getFullName() + " : " + baseNameHierarchy.getFullName(), location);
 
 	Node* node = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, nameHierarchy);
 	Node* baseNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, baseNameHierarchy);
@@ -442,9 +444,9 @@ Id Storage::onCallParsed(const ParseLocation& location, const ParseVariable& cal
 
 Id Storage::onVariableUsageParsed(
 	const std::string kind, const ParseLocation& location, const ParseFunction& user,
-	const std::vector<std::string>& usedNameHierarchy
+	const NameHierarchy& usedNameHierarchy
 ){
-	log(kind, user.getFullName() + " -> " + utility::join(usedNameHierarchy, "::"), location);
+	log(kind, user.getFullName() + " -> " + usedNameHierarchy.getFullName(), location);
 
 	Node* userNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, user);
 	Node* usedNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
@@ -456,21 +458,21 @@ Id Storage::onVariableUsageParsed(
 }
 
 Id Storage::onFieldUsageParsed(
-	const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy
+	const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy
 ){
 	return onVariableUsageParsed("field usage", location, user, usedNameHierarchy);
 }
 
 Id Storage::onGlobalVariableUsageParsed( // or static variable used
-	const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy
+	const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy
 ){
 	return onVariableUsageParsed("global usage", location, user, usedNameHierarchy);
 }
 
 Id Storage::onGlobalVariableUsageParsed(
-	const ParseLocation& location, const ParseVariable& user, const std::vector<std::string>& usedNameHierarchy)
+	const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy)
 {
-	log("global usage", user.getFullName() + " -> " + utility::join(usedNameHierarchy, "::"), location);
+	log("global usage", user.getFullName() + " -> " + usedNameHierarchy.getFullName(), location);
 
 	Node* userNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, user.nameHierarchy);
 	Node* usedNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
@@ -482,15 +484,15 @@ Id Storage::onGlobalVariableUsageParsed(
 }
 
 Id Storage::onEnumConstantUsageParsed(
-		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy
+		const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy
 ){
 	return onVariableUsageParsed("enum constant usage", location, user, usedNameHierarchy);
 }
 
 Id Storage::onEnumConstantUsageParsed(
-		const ParseLocation& location, const ParseVariable& user, const std::vector<std::string>& usedNameHierarchy
+		const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy
 ){
-	log("enum constant usage", user.getFullName() + " -> " + utility::join(usedNameHierarchy, "::"), location);
+	log("enum constant usage", user.getFullName() + " -> " + usedNameHierarchy.getFullName(), location);
 
 	Node* userNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, user.nameHierarchy);
 	Node* usedNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
@@ -534,12 +536,12 @@ Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseVariable& v
 }
 
 Id Storage::onTemplateArgumentTypeParsed(
-		const ParseLocation& location, const std::vector<std::string>& argumentNameHierarchy,
-		const std::vector<std::string>& templateNameHierarchy)
+		const ParseLocation& location, const NameHierarchy& argumentNameHierarchy,
+		const NameHierarchy& templateNameHierarchy)
 {
 	log(
 		"template argument type",
-		utility::join(argumentNameHierarchy, "::") + " -> " + utility::join(templateNameHierarchy, "::"),
+		argumentNameHierarchy.getFullName() + " -> " + templateNameHierarchy.getFullName(),
 		location
 	);
 
@@ -556,12 +558,11 @@ Id Storage::onTemplateArgumentTypeParsed(
 }
 
 Id Storage::onTemplateDefaultArgumentTypeParsed(
-	const ParseTypeUsage& defaultArgumentType, const std::vector<std::string>& templateArgumentTypeNameHierarchy
+	const ParseTypeUsage& defaultArgumentType, const NameHierarchy& templateArgumentTypeNameHierarchy
 ){
 	log(
 		"template default argument",
-		utility::join(defaultArgumentType.dataType->getTypeNameHierarchy(), "::") +
-			" -> " + utility::join(templateArgumentTypeNameHierarchy, "::"),
+		defaultArgumentType.dataType->getTypeNameHierarchy().getFullName() + " -> " + templateArgumentTypeNameHierarchy.getFullName(),
 		defaultArgumentType.location
 	);
 
@@ -577,10 +578,10 @@ Id Storage::onTemplateDefaultArgumentTypeParsed(
 }
 
 Id Storage::onTemplateRecordParameterTypeParsed(
-	const ParseLocation& location, const std::vector<std::string>& templateParameterTypeNameHierarchy,
-	const std::vector<std::string>& templateRecordNameHierarchy
+	const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy,
+	const NameHierarchy& templateRecordNameHierarchy
 ){
-	log("template record type parameter", utility::join(templateParameterTypeNameHierarchy, "::"), location);
+	log("template record type parameter", templateParameterTypeNameHierarchy.getFullName(), location);
 
 	Node* templateParameterNode = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
 	addTokenLocation(templateParameterNode, location);
@@ -592,12 +593,12 @@ Id Storage::onTemplateRecordParameterTypeParsed(
 }
 
 Id Storage::onTemplateRecordSpecializationParsed(
-	const ParseLocation& location, const std::vector<std::string>& specializedRecordNameHierarchy,
-	const RecordType specializedRecordType, const std::vector<std::string>& specializedFromNameHierarchy
+	const ParseLocation& location, const NameHierarchy& specializedRecordNameHierarchy,
+	const RecordType specializedRecordType, const NameHierarchy& specializedFromNameHierarchy
 ){
 	log(
 		"template record specialization",
-		utility::join(specializedRecordNameHierarchy, "::") + " -> " + utility::join(specializedFromNameHierarchy, "::"),
+		specializedRecordNameHierarchy.getFullName() + " -> " + specializedFromNameHierarchy.getFullName(),
 		location
 	);
 
@@ -617,9 +618,9 @@ Id Storage::onTemplateRecordSpecializationParsed(
 }
 
 Id Storage::onTemplateFunctionParameterTypeParsed(
-	const ParseLocation& location, const std::vector<std::string>& templateParameterTypeNameHierarchy, const ParseFunction function
+	const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy, const ParseFunction function
 ){
-	log("template function type parameter", utility::join(templateParameterTypeNameHierarchy, "::"), location);
+	log("template function type parameter", templateParameterTypeNameHierarchy.getFullName(), location);
 
 	Node* templateParameterNode = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
 	addTokenLocation(templateParameterNode, location);
@@ -1069,7 +1070,7 @@ const SearchIndex& Storage::getSearchIndex() const
 	return m_tokenIndex;
 }
 
-Node* Storage::addNodeHierarchy(Node::NodeType type, std::vector<std::string> nameHierarchy)
+Node* Storage::addNodeHierarchy(Node::NodeType type, NameHierarchy nameHierarchy)
 {
 	SearchNode* searchNode = m_tokenIndex.addNode(nameHierarchy);
 	if (!searchNode)
@@ -1099,7 +1100,9 @@ Node* Storage::addNodeHierarchyWithDistinctSignature(Node::NodeType type, const 
 
 Node* Storage::addFileNode(const FilePath& filePath)
 {
-	Node* fileNode = addNodeHierarchy(Node::NODE_FILE, std::vector<std::string>(1, filePath.fileName()));
+	NameHierarchy fileNameHierarchy;
+	fileNameHierarchy.push(std::make_shared<NameElement>(filePath.fileName()));
+	Node* fileNode = addNodeHierarchy(Node::NODE_FILE, fileNameHierarchy);
 
 	if (!fileNode->getComponent<TokenComponentFilePath>())
 	{
@@ -1175,7 +1178,7 @@ Edge* Storage::addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeU
 		return nullptr;
 	}
 
-	std::vector<std::string> nameHierarchy = typeUsage.dataType->getTypeNameHierarchy();
+	NameHierarchy nameHierarchy = typeUsage.dataType->getTypeNameHierarchy();
 
 	Node* typeNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, nameHierarchy);
 	if (!typeNode)

@@ -8,6 +8,7 @@
 #include "utility/text/Dictionary.h"
 #include "utility/types.h"
 
+#include "data/name/NameHierarchy.h"
 #include "data/search/SearchNode.h"
 
 class SearchIndex
@@ -25,7 +26,7 @@ public:
 	Id getWordId(const std::string& word);
 	const std::string& getWord(Id wordId) const;
 
-	SearchNode* addNode(std::vector<std::string> nameHierarchy);
+	SearchNode* addNode(NameHierarchy nameHierarchy);
 	SearchNode* getNode(const std::string& fullName) const;
 	SearchNode* getNode(const SearchNode* searchNode) const;
 

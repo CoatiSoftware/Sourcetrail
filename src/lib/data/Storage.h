@@ -35,13 +35,13 @@ public:
 	virtual void onError(const ParseLocation& location, const std::string& message);
 
 	virtual Id onTypedefParsed(
-		const ParseLocation& location, const std::vector<std::string>& nameHierarchy,
+		const ParseLocation& location, const NameHierarchy& nameHierarchy,
 		const ParseTypeUsage& underlyingType, AccessType access);
 	virtual Id onClassParsed(
-		const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
+		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 		const ParseLocation& scopeLocation);
 	virtual Id onStructParsed(
-		const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
+		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 		const ParseLocation& scopeLocation);
 
 	virtual Id onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable);
@@ -54,16 +54,16 @@ public:
 		const ParseLocation& scopeLocation);
 
 	virtual Id onNamespaceParsed(
-		const ParseLocation& location, const std::vector<std::string>& nameHierarchy, const ParseLocation& scopeLocation);
+		const ParseLocation& location, const NameHierarchy& nameHierarchy, const ParseLocation& scopeLocation);
 
 	virtual Id onEnumParsed(
-		const ParseLocation& location, const std::vector<std::string>& nameHierarchy, AccessType access,
+		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 		const ParseLocation& scopeLocation);
-	virtual Id onEnumConstantParsed(const ParseLocation& location, const std::vector<std::string>& nameHierarchy);
+	virtual Id onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy);
 
 	virtual Id onInheritanceParsed(
-		const ParseLocation& location, const std::vector<std::string>& nameHierarchy,
-		const std::vector<std::string>& baseNameHierarchy, AccessType access);
+		const ParseLocation& location, const NameHierarchy& nameHierarchy,
+		const NameHierarchy& baseNameHierarchy, AccessType access);
 	virtual Id onMethodOverrideParsed(const ParseFunction& base, const ParseFunction& overrider);
 	virtual Id onCallParsed(
 		const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee);
@@ -71,33 +71,33 @@ public:
 		const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee);
 	Id onVariableUsageParsed(
 		const std::string kind, const ParseLocation& location, const ParseFunction& user,
-		const std::vector<std::string>& usedNameHierarchy); // helper
+		const NameHierarchy& usedNameHierarchy); // helper
 	virtual Id onFieldUsageParsed(
-		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy);
+		const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy);
 	virtual Id onGlobalVariableUsageParsed(
-		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy);
+		const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy);
 	virtual Id onGlobalVariableUsageParsed(
-		const ParseLocation& location, const ParseVariable& user, const std::vector<std::string>& usedNameHierarchy);
+		const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy);
 	virtual Id onEnumConstantUsageParsed(
-		const ParseLocation& location, const ParseFunction& user, const std::vector<std::string>& usedNameHierarchy);
+		const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy);
 	virtual Id onEnumConstantUsageParsed(
-		const ParseLocation& location, const ParseVariable& user, const std::vector<std::string>& usedNameHierarchy);
+		const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy);
 	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function);
 	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseVariable& variable);
 
 	virtual Id onTemplateArgumentTypeParsed(
-		const ParseLocation& location, const std::vector<std::string>& argumentNameHierarchy,
-		const std::vector<std::string>& templateNameHierarchy);
+		const ParseLocation& location, const NameHierarchy& argumentNameHierarchy,
+		const NameHierarchy& templateNameHierarchy);
 	virtual Id onTemplateDefaultArgumentTypeParsed(
-		const ParseTypeUsage& type,	const std::vector<std::string>& templateArgumentTypeNameHierarchy);
+		const ParseTypeUsage& type,	const NameHierarchy& templateArgumentTypeNameHierarchy);
 	virtual Id onTemplateRecordParameterTypeParsed(
-		const ParseLocation& location, const std::vector<std::string>& templateParameterTypeNameHierarchy,
-		const std::vector<std::string>& templateRecordNameHierarchy);
+		const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy,
+		const NameHierarchy& templateRecordNameHierarchy);
 	virtual Id onTemplateRecordSpecializationParsed(
-		const ParseLocation& location, const std::vector<std::string>& specializedRecordNameHierarchy,
-		const RecordType specializedRecordType, const std::vector<std::string>& specializedFromNameHierarchy);
+		const ParseLocation& location, const NameHierarchy& specializedRecordNameHierarchy,
+		const RecordType specializedRecordType, const NameHierarchy& specializedFromNameHierarchy);
 	virtual Id onTemplateFunctionParameterTypeParsed(
-		const ParseLocation& location, const std::vector<std::string>& templateParameterTypeNameHierarchy, const ParseFunction function);
+		const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy, const ParseFunction function);
 	virtual Id onTemplateFunctionSpecializationParsed(
 		const ParseLocation& location, const ParseFunction specializedFunction, const ParseFunction templateFunction);
 
@@ -133,7 +133,7 @@ protected:
 	const SearchIndex& getSearchIndex() const;
 
 private:
-	Node* addNodeHierarchy(Node::NodeType type, std::vector<std::string> nameHierarchy);
+	Node* addNodeHierarchy(Node::NodeType type, NameHierarchy nameHierarchy);
 	Node* addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function);
 
 	Node* addFileNode(const FilePath& filePath);

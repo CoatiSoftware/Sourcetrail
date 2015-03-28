@@ -11,7 +11,7 @@ public:
 	void test_add_node()
 	{
 		SearchIndex index;
-		SearchNode* node = index.addNode(utility::splitToVector("util", "::"));
+		SearchNode* node = index.addNode(createNameHierarchy("util"));
 
 		TS_ASSERT(node);
 		TS_ASSERT_EQUALS("util", node->getName());
@@ -26,7 +26,7 @@ public:
 	void test_get_node()
 	{
 		SearchIndex index;
-		index.addNode(utility::splitToVector("util", "::"));
+		index.addNode(createNameHierarchy("util"));
 		SearchNode* node = index.getNode("util");
 
 		TS_ASSERT(node);
@@ -45,7 +45,7 @@ public:
 	void test_add_hierarchy_node()
 	{
 		SearchIndex index;
-		SearchNode* node = index.addNode(utility::splitToVector("util::math::pow", "::"));
+		SearchNode* node = index.addNode(createNameHierarchy("util::math::pow"));
 
 		TS_ASSERT(node);
 		TS_ASSERT_EQUALS("pow", node->getName());
@@ -64,8 +64,8 @@ public:
 	void test_reuse_hierarchy_node()
 	{
 		SearchIndex index;
-		SearchNode* node1 = index.addNode(utility::splitToVector("math::pow", "::"));
-		SearchNode* node2 = index.addNode(utility::splitToVector("math::floor", "::"));
+		SearchNode* node1 = index.addNode(createNameHierarchy("math::pow"));
+		SearchNode* node2 = index.addNode(createNameHierarchy("math::floor"));
 
 		TS_ASSERT(node1);
 		TS_ASSERT(node2);
@@ -79,8 +79,8 @@ public:
 	void test_remove_nodes()
 	{
 		SearchIndex index;
-		index.addNode(utility::splitToVector("util::math::pow", "::"));
-		index.addNode(utility::splitToVector("util::math::floor", "::"));
+		index.addNode(createNameHierarchy("util::math::pow"));
+		index.addNode(createNameHierarchy("util::math::floor"));
 
 		index.removeNode(index.getNode("util::math::pow"));
 
@@ -98,8 +98,8 @@ public:
 	void test_remove_unreferenced_nodes()
 	{
 		SearchIndex index;
-		SearchNode* node1 = index.addNode(utility::splitToVector("util::math::pow", "::"));
-		SearchNode* node2 = index.addNode(utility::splitToVector("util::math::floor", "::"));
+		SearchNode* node1 = index.addNode(createNameHierarchy("util::math::pow"));
+		SearchNode* node2 = index.addNode(createNameHierarchy("util::math::floor"));
 
 		node1->addTokenId(1);
 		node2->addTokenId(2);
@@ -128,8 +128,8 @@ public:
 	void test_clear()
 	{
 		SearchIndex index;
-		index.addNode(utility::splitToVector("math", "::"));
-		index.addNode(utility::splitToVector("string", "::"));
+		index.addNode(createNameHierarchy("math"));
+		index.addNode(createNameHierarchy("string"));
 
 		TS_ASSERT(index.getNode("math"));
 
@@ -142,9 +142,9 @@ public:
 	void test_fuzzy_matching()
 	{
 		SearchIndex index;
-		index.addNode(utility::splitToVector("util", "::"));
-		index.addNode(utility::splitToVector("math", "::"));
-		index.addNode(utility::splitToVector("string", "::"));
+		index.addNode(createNameHierarchy("util"));
+		index.addNode(createNameHierarchy("math"));
+		index.addNode(createNameHierarchy("string"));
 
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("u");
 
@@ -168,8 +168,8 @@ public:
 	void test_fuzzy_matching_is_case_insensitive()
 	{
 		SearchIndex index;
-		index.addNode(utility::splitToVector("util", "::"));
-		index.addNode(utility::splitToVector("MATH", "::"));
+		index.addNode(createNameHierarchy("util"));
+		index.addNode(createNameHierarchy("MATH"));
 
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
@@ -187,9 +187,9 @@ public:
 	void test_fuzzy_matching_wheighs_by_distance_and_alphabet()
 	{
 		SearchIndex index;
-		index.addNode(utility::splitToVector("util", "::"));
-		index.addNode(utility::splitToVector("math", "::"));
-		index.addNode(utility::splitToVector("string", "::"));
+		index.addNode(createNameHierarchy("util"));
+		index.addNode(createNameHierarchy("math"));
+		index.addNode(createNameHierarchy("string"));
 
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
@@ -211,8 +211,8 @@ public:
 	void test_fuzzy_matching_wheighs_higher_by_uppercase()
 	{
 		SearchIndex index;
-		index.addNode(utility::splitToVector("uTil", "::"));
-		index.addNode(utility::splitToVector("string", "::"));
+		index.addNode(createNameHierarchy("uTil"));
+		index.addNode(createNameHierarchy("string"));
 
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
@@ -224,8 +224,8 @@ public:
 	void test_fuzzy_matching_wheighs_higher_on_consecutive_letters()
 	{
 		SearchIndex index;
-		index.addNode(utility::splitToVector("oaabbcc", "::"));
-		index.addNode(utility::splitToVector("ocbcabc", "::"));
+		index.addNode(createNameHierarchy("oaabbcc"));
+		index.addNode(createNameHierarchy("ocbcabc"));
 
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("abc");
 
@@ -237,9 +237,9 @@ public:
 	void test_fuzzy_matching_in_hierarchy()
 	{
 		SearchIndex index;
-		index.addNode(utility::splitToVector("util::math::ceil", "::"));
-		index.addNode(utility::splitToVector("util::math::floor", "::"));
-		index.addNode(utility::splitToVector("util::string::concat", "::"));
+		index.addNode(createNameHierarchy("util::math::ceil"));
+		index.addNode(createNameHierarchy("util::math::floor"));
+		index.addNode(createNameHierarchy("util::string::concat"));
 
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
@@ -261,9 +261,9 @@ public:
 	void test_fuzzy_matching_in_hierarchy_respects_collin()
 	{
 		SearchIndex index;
-		index.addNode(utility::splitToVector("util::math::ceil", "::"));
-		index.addNode(utility::splitToVector("util::math::floor", "::"));
-		index.addNode(utility::splitToVector("util::string::concat", "::"));
+		index.addNode(createNameHierarchy("util::math::ceil"));
+		index.addNode(createNameHierarchy("util::math::floor"));
+		index.addNode(createNameHierarchy("util::string::concat"));
 
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("u:i");
 
@@ -281,13 +281,24 @@ public:
 	void test_fuzzy_matching_in_hierarchy_weighs_front_letters_higher()
 	{
 		SearchIndex index;
-		index.addNode(utility::splitToVector("abc::dfe::ghi", "::"));
-		index.addNode(utility::splitToVector("abc::hgi", "::"));
+		index.addNode(createNameHierarchy("abc::dfe::ghi"));
+		index.addNode(createNameHierarchy("abc::hgi"));
 
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("g");
 
 		TS_ASSERT_EQUALS(2, matches.size());
 		TS_ASSERT_EQUALS("abc::dfe::ghi", matches[0].fullName);
 		TS_ASSERT_EQUALS("abc::hgi", matches[1].fullName);
+	}
+
+private:
+	NameHierarchy createNameHierarchy(std::string s) const
+	{
+		NameHierarchy nameHierarchy;
+		for (std::string element: utility::splitToVector(s, "::"))
+		{
+			nameHierarchy.push(std::make_shared<NameElement>(element));
+		}
+		return nameHierarchy;
 	}
 };

@@ -2,7 +2,8 @@
 #define DATA_TYPE_H
 
 #include <string>
-#include <vector>
+
+#include "data/name/NameHierarchy.h"
 
 class DataType
 {
@@ -18,7 +19,7 @@ public:
 
 	virtual std::string getFullTypeName() const = 0;
 	virtual std::string getRawTypeName() const = 0;
-	virtual const std::vector<std::string>& getTypeNameHierarchy() const = 0;
+	virtual const NameHierarchy& getTypeNameHierarchy() const = 0;
 
 	void addQualifier(QualifierType qualifier);
 	void removeQualifier(QualifierType qualifier);
