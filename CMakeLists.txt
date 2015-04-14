@@ -109,8 +109,16 @@ set(CMAKE_PREFIX_PATH "$ENV{QT_DIR}/")
 
 find_package(Qt5Widgets)
 find_package(Qt5PrintSupport)
-
-add_executable(${APP_PROJECT_NAME} ${APP_FILES})
+if (WIN32)
+	file(WRITE ${CMAKE_SOURCE_DIR}/build/Coati.rc
+		"// Icon with lowest ID value placed first to ensure application icon\n"
+		"// remains consistent on all systems.\n"
+		"IDI_ICON1               ICON                    \"${CMAKE_SOURCE_DIR}/build/coati.ico\"\n"
+	)
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc)
+else ()
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES})
+endif ()
 
 create_source_groups(${APP_FILES})
 

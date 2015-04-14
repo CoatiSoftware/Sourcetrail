@@ -48,6 +48,9 @@ if [ $PLATFORM == "Windows" ]; then
 
 	echo -e $INFO "copy test_main file"
 	cp -u setup/cxx_test/windows/test_main.cpp build
+	
+	echo -e $INFO "creating program icon"
+	sh script/create_windows_icon.sh
 fi
 
 # Setup both Debug and Release configuration
