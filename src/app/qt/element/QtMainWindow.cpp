@@ -35,6 +35,10 @@ QtMainWindow::QtMainWindow()
 	setupViewMenu();
 	setupFindMenu();
 	setupHelpMenu();
+
+	// Need to call loadLayout here for right DockWidgetsize on Linux
+	// Seconde call is in Application.cpp
+	loadLayout();
 }
 
 QtMainWindow::~QtMainWindow()
