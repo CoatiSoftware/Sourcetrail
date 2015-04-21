@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Coati
+GenericName=Coati
+X-GNOME-FullName=Coati
+Comment=Code Explorer
+Exec=/usr/share/coati/Coati.sh %u
+Icon=coati
+Path=/usr/share/coati/
+Terminal=true
+Type=Application
+StartupNotify=true

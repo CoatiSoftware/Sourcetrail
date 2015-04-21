@@ -24,7 +24,9 @@ endif ()
 # Settings ---------------------------------------------------------------------
 
 if (UNIX)
-	add_definitions(-std=c++11 -Wno-unknown-warning-option -fcolor-diagnostics)
+	add_definitions(-std=c++11 -Wno-unknown-warning-option -fcolor-diagnostics -DQT_COMPILING_QSTRING_COMPAT_CPP )
+	#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32" CACHE STRING "c++ flags")
+	#set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS} -m32" CACHE STRING "c flags")
 endif ()
 
 # Project ----------------------------------------------------------------------
@@ -265,3 +267,70 @@ if (WIN32)
 	include_directories($ENV{VLD_DIR}/include)
 
 endif ()
+
+# Linux package
+
+if(UNIX AND NOT APPLE)
+
+	INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/data
+		DESTINATION share/coati
+		)
+	INSTALL(FILES ${CMAKE_SOURCE_DIR}/setup/Linux/coati.desktop
+		DESTINATION share/applications
+		)
+	INSTALL(FILES ${CMAKE_SOURCE_DIR}/bin/app/data/gui/icon/logo_1024_1024.png
+		DESTINATION share/icons
+		RENAME coati.png)
+	INSTALL(FILES
+		${CMAKE_SOURCE_DIR}/setup/Linux/libedit.so.0.0.52
+		${CMAKE_SOURCE_DIR}/setup/Linux/libboost_filesystem.so.1.55.0
+		${CMAKE_SOURCE_DIR}/setup/Linux/libboost_system.so.1.55.0
+		${CMAKE_SOURCE_DIR}/setup/Linux/libboost_date_time.so.1.55.0
+		${CMAKE_SOURCE_DIR}/setup/Linux/libstdc++.so.6
+		${CMAKE_SOURCE_DIR}/setup/Linux/libpng16.so.16
+		${CMAKE_SOURCE_DIR}/setup/Linux/libQt5Core.so.5
+		${CMAKE_SOURCE_DIR}/setup/Linux/libQt5DBus.so.5
+		${CMAKE_SOURCE_DIR}/setup/Linux/libQt5Gui.so.5
+		${CMAKE_SOURCE_DIR}/setup/Linux/libQt5Widgets.so.5
+		${CMAKE_SOURCE_DIR}/setup/Linux/libicui18n.so.54
+		${CMAKE_SOURCE_DIR}/setup/Linux/libicuuc.so.54
+		${CMAKE_SOURCE_DIR}/setup/Linux/libpcre16.so.0
+		${CMAKE_SOURCE_DIR}/setup/Linux/libsystemd.so.0
+		${CMAKE_SOURCE_DIR}/setup/Linux/libicudata.so.54
+		${CMAKE_SOURCE_DIR}/setup/Linux/liblz4.so.1
+		${CMAKE_SOURCE_DIR}/setup/Linux/libgcrypt.so.20
+		${CMAKE_SOURCE_DIR}/setup/Linux/libgpg-error.so.0
+
+		DESTINATION share/coati/lib
+		)
+	INSTALL(FILES
+		${CMAKE_SOURCE_DIR}/setup/Linux/libqxcb.so
+		DESTINATION share/coati/platforms
+		)
+	INSTALL(PROGRAMS
+		${CMAKE_SOURCE_DIR}/setup/Linux/Coati.sh
+		DESTINATION share/coati
+		)
+
+	# add the automatically determined parts of the RPATH
+	# which point to directories outside the build tree to the install RPATH
+	SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
+	INSTALL(TARGETS ${APP_PROJECT_NAME}
+		DESTINATION share/coati
+		)
+
+	SET(CPACK_GENERATOR "DEB;TGZ")
+
+	# DEBIAN PACKAGE
+	SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "Andreas Stallinger <astallinger.mmt-m2013@fh-salzburg.ac.at>")
+	SET(CPACK_DEBIAN_PACKAGE_ARCHITECTURE  "amd64")
+	SET(CPACK_PACKAGE_NAME "Coati")
+	SET(CPACK_PACKAGE_VERSION_MAJOR 0)
+	SET(CPACK_PACKAGE_VERSION_MINOR 1)
+	SET(CPACK_PACKAGE_VERSION_PATCH 2)
+	SET(CPACK_PACKAGE_EXECUTABLES "Coati")
+
+	INCLUDE(CPack)
+
+endif  ()
