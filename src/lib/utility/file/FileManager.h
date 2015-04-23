@@ -18,6 +18,9 @@ public:
 	);
 	~FileManager();
 
+	const std::vector<std::string>& getSourcePaths() const;
+	const std::vector<std::string>& getIncludePaths() const;
+
 	void reset();
 	void fetchFilePaths();
 

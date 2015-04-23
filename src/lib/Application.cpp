@@ -3,6 +3,7 @@
 #include "utility/logging/logging.h"
 #include "utility/messaging/MessageQueue.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
+#include "utility/scheduling/TaskScheduler.h"
 
 #include "component/view/MainView.h"
 #include "component/view/ViewFactory.h"
@@ -40,10 +41,12 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 Application::Application()
 {
 	MessageQueue::getInstance()->startMessageLoopThreaded();
+	TaskScheduler::getInstance()->startSchedulerLoopThreaded();
 }
 
 Application::~Application()
 {
+	TaskScheduler::getInstance()->stopSchedulerLoop();
 	MessageQueue::getInstance()->stopMessageLoop();
 	m_mainView->saveLayout();
 }

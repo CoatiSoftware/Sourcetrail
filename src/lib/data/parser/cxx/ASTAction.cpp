@@ -21,8 +21,6 @@ std::unique_ptr<clang::ASTConsumer> ASTAction::CreateASTConsumer(clang::Compiler
 
 bool ASTAction::BeginSourceFileAction(clang::CompilerInstance& compiler, llvm::StringRef filePath)
 {
-	m_client->onFileParsed(filePath.str());
-
 	clang::Preprocessor& preprocessor = compiler.getPreprocessor();
 	preprocessor.addPPCallbacks(
 		llvm::make_unique<PreprocessorCallbacks>(compiler.getSourceManager(), m_client, m_fileRegister));

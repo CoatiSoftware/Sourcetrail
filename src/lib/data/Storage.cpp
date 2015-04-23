@@ -150,11 +150,6 @@ void Storage::logLocations() const
 	LOG_INFO_STREAM(<< '\n' << m_locationCollection);
 }
 
-size_t Storage::getErrorCount() const
-{
-	return m_errorLocationCollection.getTokenLocationCount();
-}
-
 void Storage::onError(const ParseLocation& location, const std::string& message)
 {
 	log("ERROR", message, location);
@@ -196,6 +191,11 @@ void Storage::onError(const ParseLocation& location, const std::string& message)
 
 		m_errorMessages.push_back(message);
 	}
+}
+
+size_t Storage::getErrorCount() const
+{
+	return m_errorLocationCollection.getTokenLocationCount();
 }
 
 Id Storage::onTypedefParsed(

@@ -3,14 +3,26 @@
 #include "utility/file/FileManager.h"
 #include "utility/file/FileSystem.h"
 
-FileRegister::FileRegister(const FileManager* fileManager, const std::vector<FilePath>& filePaths)
+FileRegister::FileRegister(const FileManager* fileManager)
 	: m_fileManager(fileManager)
 {
+}
+
+const FileManager* FileRegister::getFileManager() const
+{
+	return m_fileManager;
+}
+
+void FileRegister::setFilePaths(const std::vector<FilePath>& filePaths)
+{
+	m_sourceFilePaths.clear();
+	m_includeFilePaths.clear();
+
 	for (const FilePath& path : filePaths)
 	{
 		if (m_fileManager->hasSourceExtension(path))
 		{
-			m_sourceFilePaths.push_back(path);
+			m_sourceFilePaths.emplace(path, STATE_UNPARSED);
 		}
 		else
 		{
@@ -19,29 +31,14 @@ FileRegister::FileRegister(const FileManager* fileManager, const std::vector<Fil
 	}
 }
 
-const FileManager* FileRegister::getFileManager() const
+std::vector<FilePath> FileRegister::getUnparsedSourceFilePaths() const
 {
-	return m_fileManager;
-}
-
-const std::vector<FilePath>& FileRegister::getSourceFilePaths() const
-{
-	return m_sourceFilePaths;
+	return getUnparsedFilePaths(m_sourceFilePaths);
 }
 
 std::vector<FilePath> FileRegister::getUnparsedIncludeFilePaths() const
 {
-	std::vector<FilePath> filePaths;
-
-	for (std::pair<FilePath, ParseState>&& p : m_includeFilePaths)
-	{
-		if (p.second == STATE_UNPARSED)
-		{
-			filePaths.push_back(p.first);
-		}
-	}
-
-	return filePaths;
+	return getUnparsedFilePaths(m_includeFilePaths);
 }
 
 bool FileRegister::includeFileIsParsing(const FilePath& filePath) const
@@ -64,6 +61,17 @@ bool FileRegister::includeFileIsParsed(const FilePath& filePath) const
 	}
 
 	return it->second == STATE_PARSED;
+}
+
+void FileRegister::markSourceFileParsed(const std::string& filePath)
+{
+	std::map<FilePath, ParseState>::iterator it = m_sourceFilePaths.find(FilePath(filePath));
+	if (it == m_sourceFilePaths.end())
+	{
+		return;
+	}
+
+	it->second = STATE_PARSED;
 }
 
 void FileRegister::markIncludeFileParsing(const std::string& filePath)
@@ -89,4 +97,29 @@ void FileRegister::markParsingIncludeFilesParsed()
 			p.second = STATE_PARSED;
 		}
 	}
+}
+
+std::vector<FilePath> FileRegister::getUnparsedFilePaths(const std::map<FilePath, ParseState> filePaths) const
+{
+	std::vector<FilePath> files;
+
+	for (std::pair<FilePath, ParseState>&& p : filePaths)
+	{
+		if (p.second == STATE_UNPARSED)
+		{
+			files.push_back(p.first);
+		}
+	}
+
+	return files;
+}
+
+size_t FileRegister::getFilesCount() const
+{
+	return m_sourceFilePaths.size() + m_includeFilePaths.size();
+}
+
+size_t FileRegister::getParsedFilesCount() const
+{
+	return getFilesCount() - getUnparsedSourceFilePaths().size() - getUnparsedIncludeFilePaths().size();
 }

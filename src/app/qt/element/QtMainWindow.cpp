@@ -12,6 +12,7 @@
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageFind.h"
+#include "utility/messaging/type/MessageInterruptTasks.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageLoadSource.h"
 #include "utility/messaging/type/MessageRedo.h"
@@ -36,101 +37,15 @@ QtMainWindow::QtMainWindow()
 	setupFindMenu();
 	setupHelpMenu();
 
-	// Need to call loadLayout here for right DockWidgetsize on Linux
+	setupShortcuts();
+
+	// Need to call loadLayout here for right DockWidget size on Linux
 	// Seconde call is in Application.cpp
 	loadLayout();
 }
 
 QtMainWindow::~QtMainWindow()
 {
-}
-
-void QtMainWindow::about()
-{
-	QMessageBox::about(
-		this,
-		tr("About"),
-		tr(
-			"Developed by:\n\n"
-			"Manuel Dobusch\n"
-			"Eberhard Gräther\n"
-			"Malte Langkabel\n"
-			"Victoria Pfausler\n"
-			"Andreas Stallinger\n"
-		)
-	);
-}
-
-void QtMainWindow::newProject()
-{
-	QString sourceDir = QFileDialog::getExistingDirectory(this, tr("Open Directory"));
-
-	if (!sourceDir.isEmpty())
-	{
-		MessageLoadSource(sourceDir.toStdString()).dispatch();
-	}
-}
-
-void QtMainWindow::openProject(const QString &path)
-{
-	QString fileName = path;
-
-	if (fileName.isNull())
-	{
-		fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", "XML Files (*.xml)");
-	}
-
-	if (!fileName.isEmpty())
-	{
-		MessageLoadProject(fileName.toStdString()).dispatch();
-	}
-}
-
-void QtMainWindow::undo()
-{
-    MessageUndo().dispatch();
-}
-
-void QtMainWindow::redo()
-{
-    MessageRedo().dispatch();
-}
-
-void QtMainWindow::saveProject()
-{
-	MessageSaveProject("").dispatch();
-}
-
-void QtMainWindow::saveAsProject()
-{
-	QString filename = "";
-	filename = QFileDialog::getSaveFileName(this, "Save File as", "", "XML Files(*.xml)");
-
-	if(!filename.isEmpty())
-	{
-		MessageSaveProject(filename.toStdString()).dispatch();
-	}
-}
-
-void QtMainWindow::find()
-{
-	MessageFind().dispatch();
-}
-
-void QtMainWindow::closeWindow()
-{
-	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
-
-	QWidget* activeWindow = app->activeWindow();
-	if (activeWindow)
-	{
-		activeWindow->close();
-	}
-}
-
-void QtMainWindow::refresh()
-{
-	MessageRefresh().dispatch();
 }
 
 void QtMainWindow::addView(View* view)
@@ -207,6 +122,99 @@ bool QtMainWindow::event(QEvent* event)
 	return QMainWindow::event(event);
 }
 
+void QtMainWindow::about()
+{
+	QMessageBox::about(
+		this,
+		tr("About"),
+		tr(
+			"Developed by:\n\n"
+			"Manuel Dobusch\n"
+			"Eberhard Gräther\n"
+			"Malte Langkabel\n"
+			"Victoria Pfausler\n"
+			"Andreas Stallinger\n"
+		)
+	);
+}
+
+void QtMainWindow::newProject()
+{
+	QString sourceDir = QFileDialog::getExistingDirectory(this, tr("Open Directory"));
+
+	if (!sourceDir.isEmpty())
+	{
+		MessageLoadSource(sourceDir.toStdString()).dispatch();
+	}
+}
+
+void QtMainWindow::openProject(const QString &path)
+{
+	QString fileName = path;
+
+	if (fileName.isNull())
+	{
+		fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", "XML Files (*.xml)");
+	}
+
+	if (!fileName.isEmpty())
+	{
+		MessageLoadProject(fileName.toStdString()).dispatch();
+	}
+}
+
+void QtMainWindow::find()
+{
+	MessageFind().dispatch();
+}
+
+void QtMainWindow::closeWindow()
+{
+	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
+
+	QWidget* activeWindow = app->activeWindow();
+	if (activeWindow)
+	{
+		activeWindow->close();
+	}
+}
+
+void QtMainWindow::refresh()
+{
+	MessageRefresh().dispatch();
+}
+
+void QtMainWindow::saveProject()
+{
+	MessageSaveProject("").dispatch();
+}
+
+void QtMainWindow::saveAsProject()
+{
+	QString filename = "";
+	filename = QFileDialog::getSaveFileName(this, "Save File as", "", "XML Files(*.xml)");
+
+	if(!filename.isEmpty())
+	{
+		MessageSaveProject(filename.toStdString()).dispatch();
+	}
+}
+
+void QtMainWindow::undo()
+{
+    MessageUndo().dispatch();
+}
+
+void QtMainWindow::redo()
+{
+    MessageRedo().dispatch();
+}
+
+void QtMainWindow::handleEscapeShortcut()
+{
+	MessageInterruptTasks().dispatch();
+}
+
 void QtMainWindow::setupProjectMenu()
 {
 	QMenu *menu = new QMenu(tr("&Project"), this);
@@ -252,6 +260,12 @@ void QtMainWindow::setupHelpMenu()
 
 	menu->addAction(tr("&About"), this, SLOT(about()));
 	menu->addAction(tr("About &Qt"), QCoreApplication::instance(), SLOT(aboutQt()));
+}
+
+void QtMainWindow::setupShortcuts()
+{
+	m_escapeShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+	connect(m_escapeShortcut, SIGNAL(activated()), SLOT(handleEscapeShortcut()));
 }
 
 QDockWidget* QtMainWindow::getDockWidgetForView(View* view) const

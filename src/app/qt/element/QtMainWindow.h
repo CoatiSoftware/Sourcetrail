@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 
+#include <QShortcut>
 #include <QtWidgets/QMainWindow>
 
 class QDockWidget;
@@ -41,6 +42,8 @@ public slots:
 	void undo();
 	void redo();
 
+	void handleEscapeShortcut();
+
 private:
     void setupEditMenu();
 	void setupProjectMenu();
@@ -48,9 +51,13 @@ private:
 	void setupFindMenu();
 	void setupHelpMenu();
 
+	void setupShortcuts();
+
 	QDockWidget* getDockWidgetForView(View* view) const;
 
 	std::vector<std::pair<View*, QDockWidget*>> m_dockWidgets;
+
+	QShortcut* m_escapeShortcut;
 };
 
 #endif // QT_MAIN_WINDOW_H

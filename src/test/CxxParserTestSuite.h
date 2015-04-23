@@ -2405,7 +2405,7 @@ public:
 		TS_ASSERT_EQUALS(client.usages.size(), 3);
 		TS_ASSERT_EQUALS(client.typeUses.size(), 8);
 
-		TS_ASSERT_EQUALS(client.files.size(), 2);
+		TS_ASSERT_EQUALS(client.files.size(), 3);
 		TS_ASSERT_EQUALS(client.includes.size(), 1);
 	}
 
@@ -2427,6 +2427,11 @@ private:
 		virtual void onError(const ParseLocation& location, const std::string& message)
 		{
 			errors.push_back(addLocationSuffix(message, location));
+		}
+
+		virtual size_t getErrorCount() const
+		{
+			return 0;
 		}
 
 		virtual Id onTypedefParsed(

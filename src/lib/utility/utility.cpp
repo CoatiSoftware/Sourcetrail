@@ -1,14 +1,24 @@
 #include "utility/utility.h"
 
-float utility::duration(std::function<void()> func)
+utility::TimePoint utility::durationStart()
 {
-	std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
+	return std::chrono::system_clock::now();
+}
 
-	func();
-
+float utility::duration(const TimePoint& start)
+{
 	std::chrono::duration<float> duration =
 		std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start);
 	return duration.count();
+}
+
+float utility::duration(std::function<void()> func)
+{
+	const TimePoint start = durationStart();
+
+	func();
+
+	return duration(start);
 }
 
 bool utility::intersectionPoint(Vec2f a1, Vec2f b1, Vec2f a2, Vec2f b2, Vec2f* i)

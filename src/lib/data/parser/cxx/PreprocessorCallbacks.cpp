@@ -26,6 +26,7 @@ void PreprocessorCallbacks::FileChanged(
 	const clang::FileEntry *fileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(location));
 	if (fileEntry && m_fileRegister->getFileManager()->hasFilePath(fileEntry->getName()))
 	{
+		m_client->onFileParsed(fileEntry->getName());
 		m_fileRegister->markIncludeFileParsing(fileEntry->getName());
 	}
 }

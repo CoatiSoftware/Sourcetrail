@@ -1,5 +1,8 @@
 #include "data/parser/cxx/CxxParser.h"
 
+#include "clang/Tooling/Tooling.h"
+
+#include "utility/file/FileManager.h"
 #include "utility/file/FileRegister.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
@@ -50,7 +53,7 @@ namespace
 
 CxxParser::CxxParser(ParserClient* client, const FileManager* fileManager)
 	: Parser(client)
-	, m_fileManager(fileManager)
+	, m_fileRegister(std::make_shared<FileRegister>(fileManager))
 {
 }
 
@@ -60,70 +63,33 @@ CxxParser::~CxxParser()
 
 void CxxParser::parseFiles(const std::vector<FilePath>& filePaths, const Arguments& arguments)
 {
-	// Commandline flags passed to the programm. Everything after '--' will be interpreted by the ClangTool.
-	std::vector<std::string> args = getCommandlineArguments(arguments);
-	args.insert(args.begin(), "app");
-	args.insert(args.begin() + 1, "--");
-
-	int argc = args.size();
-	const char** argv = new const char*[argc];
-	for (size_t i = 0; i < args.size(); i++)
-	{
-		argv[i] = args[i].c_str();
-	}
-
-	std::shared_ptr<clang::tooling::FixedCompilationDatabase> compilationDatabase(
-		clang::tooling::FixedCompilationDatabase::loadFromCommandLine(argc, argv)
-	);
-
-	if (!compilationDatabase)
-	{
-		LOG_ERROR("Failed to load compilation database");
-		return;
-	}
-
-	FileRegister fileRegister(m_fileManager, filePaths);
+	setupParsing(filePaths, arguments);
 
 	std::vector<std::string> sourcePaths;
-	for (const FilePath& path : fileRegister.getSourceFilePaths())
+	for (const FilePath& path : m_fileRegister->getUnparsedSourceFilePaths())
 	{
 		sourcePaths.push_back(path.absoluteStr());
 	}
 
-	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
-	CxxDiagnosticConsumer reporter(llvm::errs(), &*options, m_client, arguments.logErrors);
+	runTool(sourcePaths);
 
-	ASTActionFactory actionFactory(m_client, &fileRegister);
-
-	clang::tooling::ClangTool tool(*compilationDatabase, sourcePaths);
-	tool.setDiagnosticConsumer(&reporter);
-	tool.run(&actionFactory);
-
-	std::vector<FilePath> unparsedHeaders = fileRegister.getUnparsedIncludeFilePaths();
+	std::vector<FilePath> unparsedHeaders = m_fileRegister->getUnparsedIncludeFilePaths();
 	for (const FilePath& path : unparsedHeaders)
 	{
-		if (!fileRegister.includeFileIsParsed(path))
+		if (!m_fileRegister->includeFileIsParsed(path))
 		{
-			clang::tooling::ClangTool tool(*compilationDatabase, std::vector<std::string>(1, path.str()));
-			tool.setDiagnosticConsumer(&reporter);
-			tool.run(&actionFactory);
+			runTool(std::vector<std::string>(1, path.str()));
 		}
 	}
-
-	delete argv;
 }
 
 void CxxParser::parseFile(std::shared_ptr<TextAccess> textAccess, const Arguments& arguments)
 {
 	std::vector<std::string> args = getCommandlineArguments(arguments);
+	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(arguments);
 
-	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
-	CxxDiagnosticConsumer reporter(llvm::errs(), &*options, m_client, arguments.logErrors);
-
-	FileRegister fileRegister(m_fileManager, std::vector<FilePath>());
-
-	ASTActionFactory actionFactory(m_client, &fileRegister);
-	runToolOnCodeWithArgs(&reporter, actionFactory.create(), textAccess->getText(), args);
+	ASTActionFactory actionFactory(m_client, m_fileRegister.get());
+	runToolOnCodeWithArgs(diagnostics.get(), actionFactory.create(), textAccess->getText(), args);
 }
 
 std::vector<std::string> CxxParser::getCommandlineArguments(const Arguments& arguments) const
@@ -164,4 +130,66 @@ std::vector<std::string> CxxParser::getCommandlineArguments(const Arguments& arg
 	}
 
 	return args;
+}
+
+std::shared_ptr<clang::tooling::FixedCompilationDatabase> CxxParser::getCompilationDatabase(
+	const Arguments& arguments
+) const {
+	// Commandline flags passed to the programm. Everything after '--' will be interpreted by the ClangTool.
+	std::vector<std::string> args = getCommandlineArguments(arguments);
+	args.insert(args.begin(), "app");
+	args.insert(args.begin() + 1, "--");
+
+	int argc = args.size();
+	const char** argv = new const char*[argc];
+	for (size_t i = 0; i < args.size(); i++)
+	{
+		argv[i] = args[i].c_str();
+	}
+
+	std::shared_ptr<clang::tooling::FixedCompilationDatabase> compilationDatabase(
+		clang::tooling::FixedCompilationDatabase::loadFromCommandLine(argc, argv)
+	);
+
+	delete argv;
+
+	if (!compilationDatabase)
+	{
+		LOG_ERROR("Failed to load compilation database");
+		return nullptr;
+	}
+
+	return compilationDatabase;
+}
+
+std::shared_ptr<CxxDiagnosticConsumer> CxxParser::getDiagnostics(const Arguments& arguments) const
+{
+	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
+	return std::make_shared<CxxDiagnosticConsumer>(llvm::errs(), &*options, m_client, arguments.logErrors);
+}
+
+void CxxParser::setupParsing(const std::vector<FilePath>& filePaths, const Arguments& arguments)
+{
+	m_fileRegister->setFilePaths(filePaths);
+	m_compilationDatabase = getCompilationDatabase(arguments);
+	m_diagnostics = getDiagnostics(arguments);
+}
+
+void CxxParser::runTool(const std::vector<std::string>& files)
+{
+	clang::tooling::ClangTool tool(*m_compilationDatabase, files);
+	tool.setDiagnosticConsumer(m_diagnostics.get());
+
+	ASTActionFactory actionFactory(m_client, m_fileRegister.get());
+	tool.run(&actionFactory);
+}
+
+FileRegister* CxxParser::getFileRegister()
+{
+	return m_fileRegister.get();
+}
+
+ParserClient* CxxParser::getParserClient()
+{
+	return m_client;
 }

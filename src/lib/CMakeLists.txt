@@ -142,6 +142,9 @@ add_files(
 	data/name/NameHierarchy.cpp
 	data/name/NameHierarchy.h
 
+	data/parser/cxx/TaskParseCxx.cpp
+	data/parser/cxx/TaskParseCxx.h
+
 	data/parser/ParseFunction.cpp
 	data/parser/ParseFunction.h
 	data/parser/ParseLocation.cpp
@@ -241,6 +244,7 @@ add_files(
 	utility/messaging/type/MessageFinishedParsing.h
 	utility/messaging/type/MessageGraphNodeExpand.h
 	utility/messaging/type/MessageGraphNodeMove.h
+	utility/messaging/type/MessageInterruptTasks.h
 	utility/messaging/type/MessageLoadProject.h
 	utility/messaging/type/MessageLoadSource.h
 	utility/messaging/type/MessageRefresh.h
@@ -259,6 +263,15 @@ add_files(
 	utility/messaging/MessageListenerBase.h
 	utility/messaging/MessageQueue.cpp
 	utility/messaging/MessageQueue.h
+
+	utility/scheduling/Task.cpp
+	utility/scheduling/Task.h
+	utility/scheduling/TaskGroup.cpp
+	utility/scheduling/TaskGroup.h
+	utility/scheduling/TaskGroupSequential.cpp
+	utility/scheduling/TaskGroupSequential.h
+	utility/scheduling/TaskScheduler.cpp
+	utility/scheduling/TaskScheduler.h
 
 	utility/text/Dictionary.cpp
 	utility/text/Dictionary.h

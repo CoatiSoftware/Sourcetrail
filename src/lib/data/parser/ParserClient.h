@@ -51,6 +51,7 @@ public:
 	virtual ~ParserClient();
 
 	virtual void onError(const ParseLocation& location, const std::string& message) = 0;
+	virtual size_t getErrorCount() const = 0;
 
 	virtual Id onTypedefParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy,

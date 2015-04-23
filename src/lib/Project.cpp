@@ -6,7 +6,7 @@
 
 #include "data/access/StorageAccessProxy.h"
 #include "data/graph/Token.h"
-#include "data/parser/cxx/CxxParser.h"
+#include "data/parser/cxx/TaskParseCxx.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
 
@@ -24,29 +24,31 @@ Project::~Project()
 bool Project::loadProjectSettings(const std::string& projectSettingsFile)
 {
 	bool success = ProjectSettings::getInstance()->load(projectSettingsFile);
-	if(success)
+	if (success)
 	{
 		m_projectSettingsFilepath = projectSettingsFile;
+
+		createFileManager();
 	}
 	return success;
 }
 
-bool Project::saveProjectSettings( const std::string& projectSettingsFile )
+bool Project::saveProjectSettings(const std::string& projectSettingsFile)
 {
-	if(!projectSettingsFile.empty())
+	if (projectSettingsFile.size())
 	{
 		m_projectSettingsFilepath = projectSettingsFile;
-		ProjectSettings::getInstance()->save(projectSettingsFile);
 	}
-	else if (!m_projectSettingsFilepath.empty())
-	{
-		ProjectSettings::getInstance()->save(m_projectSettingsFilepath);
-	}
-	else
+
+	if (!m_projectSettingsFilepath.size())
 	{
 		return false;
 	}
-	LOG_INFO_STREAM(<< "Projectsettings saved in File: " << m_projectSettingsFilepath);
+
+	ProjectSettings::getInstance()->save(m_projectSettingsFilepath);
+
+	LOG_INFO_STREAM(<< "ProjectSettings saved to file: " << m_projectSettingsFilepath);
+
 	return true;
 }
 
@@ -54,12 +56,21 @@ void Project::clearProjectSettings()
 {
 	m_projectSettingsFilepath.clear();
 	ProjectSettings::getInstance()->clear();
+
+	m_fileManager.reset();
 }
 
 bool Project::setSourceDirectoryPath(const std::string& sourceDirectoryPath)
 {
 	m_projectSettingsFilepath = sourceDirectoryPath + "/ProjectSettings.xml";
-	return ProjectSettings::getInstance()->setSourcePaths(std::vector<std::string>(1, sourceDirectoryPath));
+	bool success = ProjectSettings::getInstance()->setSourcePaths(std::vector<std::string>(1, sourceDirectoryPath));
+
+	if (success)
+	{
+		createFileManager();
+	}
+
+	return success;
 }
 
 void Project::clearStorage()
@@ -72,25 +83,13 @@ void Project::clearStorage()
 
 void Project::parseCode()
 {
-	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
-	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
-
-	std::vector<std::string> sourcePaths = projSettings->getSourcePaths();
-	if (!sourcePaths.size())
+	if (!m_fileManager)
 	{
+		LOG_ERROR("No FileManger was created.");
 		return;
 	}
 
-	std::vector<std::string> includePaths(sourcePaths);
-
-	// TODO: move this creation to another place (after projectsettings have been loaded)
-	if (!m_fileManager)
-	{
-		std::vector<std::string> sourceExtensions = ProjectSettings::getInstance()->getSourceExtensions();
-		std::vector<std::string> includeExtensions = ProjectSettings::getInstance()->getHeaderExtensions();
-
-		m_fileManager = std::make_shared<FileManager>(sourcePaths, includePaths, sourceExtensions, includeExtensions);
-	}
+	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
 
 	m_fileManager->fetchFilePaths();
 	std::set<FilePath> addedFilePaths = m_fileManager->getAddedFilePaths();
@@ -109,36 +108,59 @@ void Project::parseCode()
 
 	if (filesToParse.size() == 0)
 	{
-		MessageFinishedParsing(0, 0, m_storage->getErrorCount()).dispatch();
+		MessageFinishedParsing(0, 0, 0, m_storage->getErrorCount()).dispatch();
 		return;
 	}
 
+	Task::dispatch(std::make_shared<TaskParseCxx>(
+		m_storage.get(),
+		m_fileManager.get(),
+		getParserArguments(),
+		filesToParse
+	));
+}
+
+void Project::createFileManager()
+{
+	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
+
+	std::vector<std::string> sourcePaths(projSettings->getSourcePaths());
+	std::vector<std::string> includePaths(sourcePaths);
+
+	std::vector<std::string> sourceExtensions = projSettings->getSourceExtensions();
+	std::vector<std::string> includeExtensions = projSettings->getHeaderExtensions();
+
+	if (sourcePaths.size())
+	{
+		m_fileManager = std::make_shared<FileManager>(sourcePaths, includePaths, sourceExtensions, includeExtensions);
+	}
+}
+
+Parser::Arguments Project::getParserArguments() const
+{
+	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
+	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
+
 	Parser::Arguments args;
+
+	if (!m_fileManager)
+	{
+		LOG_ERROR("No FileManger was created.");
+		return args;
+	}
 
 	utility::append(args.compilerFlags, projSettings->getCompilerFlags());
 	utility::append(args.compilerFlags, appSettings->getCompilerFlags());
 
 	// Add the include paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
-	utility::append(args.systemHeaderSearchPaths, includePaths);
+	utility::append(args.systemHeaderSearchPaths, m_fileManager->getIncludePaths());
 	utility::append(args.systemHeaderSearchPaths, projSettings->getHeaderSearchPaths());
 	utility::append(args.systemHeaderSearchPaths, appSettings->getHeaderSearchPaths());
 
 	utility::append(args.frameworkSearchPaths, projSettings->getFrameworkSearchPaths());
 	utility::append(args.frameworkSearchPaths, appSettings->getFrameworkSearchPaths());
 
-	CxxParser parser(m_storage.get(), m_fileManager.get());
-
-	float duration = utility::duration(
-		[&]()
-		{
-			parser.parseFiles(filesToParse, args);
-		}
-	);
-
-	// m_storage->logGraph();
-	// m_storage->logLocations();
-
-	MessageFinishedParsing(filesToParse.size(), duration, m_storage->getErrorCount()).dispatch();
+	return args;
 }
 
 Project::Project(StorageAccessProxy* storageAccessProxy)

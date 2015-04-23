@@ -8,6 +8,10 @@
 
 namespace utility
 {
+	typedef std::chrono::time_point<std::chrono::system_clock> TimePoint;
+
+	TimePoint durationStart();
+	float duration(const TimePoint& start);
 	float duration(std::function<void()> func);
 
 	template<typename T>

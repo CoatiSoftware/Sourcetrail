@@ -5,6 +5,7 @@
 
 #include "utility/file/FileManager.h"
 
+#include "data/parser/Parser.h"
 #include "data/Storage.h"
 
 class StorageAccessProxy;
@@ -29,6 +30,10 @@ private:
 	Project(StorageAccessProxy* storageAccessProxy);
 	Project(const Project&);
 	Project operator=(const Project&);
+
+	void createFileManager();
+
+	Parser::Arguments getParserArguments() const;
 
 	std::string m_projectSettingsFilepath;
 

@@ -22,6 +22,16 @@ FileManager::~FileManager()
 {
 }
 
+const std::vector<std::string>& FileManager::getSourcePaths() const
+{
+	return m_sourcePaths;
+}
+
+const std::vector<std::string>& FileManager::getIncludePaths() const
+{
+	return m_includePaths;
+}
+
 void FileManager::reset()
 {
 	m_files.clear();

@@ -29,10 +29,9 @@ public:
 	void logGraph() const;
 	void logLocations() const;
 
-	size_t getErrorCount() const;
-
 	// ParserClient implementation
 	virtual void onError(const ParseLocation& location, const std::string& message);
+	virtual size_t getErrorCount() const;
 
 	virtual Id onTypedefParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy,

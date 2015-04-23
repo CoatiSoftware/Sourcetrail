@@ -12,18 +12,24 @@ class FileManager;
 class FileRegister
 {
 public:
-	FileRegister(const FileManager* fileManager, const std::vector<FilePath>& filePaths);
+	explicit FileRegister(const FileManager* fileManager);
 
 	const FileManager* getFileManager() const;
 
-	const std::vector<FilePath>& getSourceFilePaths() const;
+	void setFilePaths(const std::vector<FilePath>& filePaths);
+
+	std::vector<FilePath> getUnparsedSourceFilePaths() const;
 	std::vector<FilePath> getUnparsedIncludeFilePaths() const;
 
 	bool includeFileIsParsing(const FilePath& filePath) const;
 	bool includeFileIsParsed(const FilePath& filePath) const;
 
+	void markSourceFileParsed(const std::string& filePath);
 	void markIncludeFileParsing(const std::string& filePath);
 	void markParsingIncludeFilesParsed();
+
+	size_t getFilesCount() const;
+	size_t getParsedFilesCount() const;
 
 private:
 	enum ParseState
@@ -33,9 +39,11 @@ private:
 		STATE_PARSED
 	};
 
+	std::vector<FilePath> getUnparsedFilePaths(const std::map<FilePath, ParseState> filePaths) const;
+
 	const FileManager* m_fileManager;
 
-	std::vector<FilePath> m_sourceFilePaths;
+	std::map<FilePath, ParseState> m_sourceFilePaths;
 	std::map<FilePath, ParseState> m_includeFilePaths;
 };
 
