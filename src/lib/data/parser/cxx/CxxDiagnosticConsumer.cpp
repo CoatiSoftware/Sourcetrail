@@ -2,6 +2,8 @@
 
 #include "clang/Basic/SourceManager.h"
 
+#include "utility/file/FileManager.h"
+
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
 
@@ -9,10 +11,12 @@ CxxDiagnosticConsumer::CxxDiagnosticConsumer(
 	clang::raw_ostream &os,
 	clang::DiagnosticOptions *diags,
 	ParserClient* client,
+	const FileManager* fileManager,
 	bool useLogging
 )
 	: clang::TextDiagnosticPrinter(os, diags)
 	, m_client(client)
+	, m_fileManager(fileManager)
 	, m_isParsingFile(false)
 	, m_useLogging(useLogging)
 {
@@ -70,6 +74,9 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 			column = presumedLocation.getColumn();
 		}
 
-		m_client->onError(ParseLocation(filePath, line, column), message);
+		if (m_fileManager->hasFilePath(filePath))
+		{
+			m_client->onError(ParseLocation(filePath, line, column), message);
+		}
 	}
 }

@@ -165,7 +165,8 @@ std::shared_ptr<clang::tooling::FixedCompilationDatabase> CxxParser::getCompilat
 std::shared_ptr<CxxDiagnosticConsumer> CxxParser::getDiagnostics(const Arguments& arguments) const
 {
 	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
-	return std::make_shared<CxxDiagnosticConsumer>(llvm::errs(), &*options, m_client, arguments.logErrors);
+	return std::make_shared<CxxDiagnosticConsumer>(
+		llvm::errs(), &*options, m_client, m_fileRegister->getFileManager(), arguments.logErrors);
 }
 
 void CxxParser::setupParsing(const std::vector<FilePath>& filePaths, const Arguments& arguments)

@@ -13,6 +13,7 @@
 #include "data/parser/ParseVariable.h"
 #include "data/Storage.h"
 #include "data/type/DataType.h"
+#include "data/type/NamedDataType.h"
 
 class StorageTestSuite: public CxxTest::TestSuite
 {
