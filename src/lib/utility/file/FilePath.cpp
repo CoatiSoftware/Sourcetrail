@@ -2,22 +2,28 @@
 
 FilePath::FilePath(const char* filePath)
 	: m_path(filePath)
+	, m_exists(false)
 {
+	init();
 }
 
 FilePath::FilePath(const std::string& filePath)
 	: m_path(filePath)
+	, m_exists(false)
 {
+	init();
 }
 
 FilePath::FilePath(const boost::filesystem::path& filePath)
 	: m_path(filePath)
+	, m_exists(false)
 {
+	init();
 }
 
 bool FilePath::exists() const
 {
-	return boost::filesystem::exists(m_path);
+	return m_exists;
 }
 
 std::string FilePath::str() const
@@ -75,10 +81,14 @@ bool FilePath::operator!=(const FilePath& other) const
 
 bool FilePath::operator<(const FilePath& other) const
 {
-	if (exists() && other.exists())
-	{
-		return boost::filesystem::canonical(m_path).compare(boost::filesystem::canonical(other.m_path)) < 0;
-	}
+	return m_path.compare(other.m_path) < 0;
+}
 
-	return boost::filesystem::absolute(m_path).compare(boost::filesystem::absolute(other.m_path)) < 0;
+void FilePath::init()
+{
+	if (boost::filesystem::exists(m_path))
+	{
+		m_exists = true;
+		m_path = boost::filesystem::canonical(m_path);
+	}
 }

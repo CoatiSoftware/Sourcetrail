@@ -27,7 +27,10 @@ public:
 	bool operator<(const FilePath& other) const;
 
 private:
+	void init();
+
 	boost::filesystem::path m_path;
+	bool m_exists;
 };
 
 #endif // FILE_PATH_H
