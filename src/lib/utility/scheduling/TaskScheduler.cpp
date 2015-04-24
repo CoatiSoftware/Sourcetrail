@@ -31,6 +31,9 @@ void TaskScheduler::interruptCurrentTask()
 void TaskScheduler::startSchedulerLoopThreaded()
 {
 	std::thread(&TaskScheduler::startSchedulerLoop, this).detach();
+
+	std::lock_guard<std::mutex> lock(m_threadMutex);
+	m_threadIsRunning = true;
 }
 
 void TaskScheduler::startSchedulerLoop()
@@ -49,19 +52,27 @@ void TaskScheduler::startSchedulerLoop()
 
 	while (true)
 	{
+		updateTasks();
+
 		{
 			std::lock_guard<std::mutex> lock(m_loopMutex);
 
 			if (!m_loopIsRunning)
 			{
-				return;
+				break;
 			}
 		}
 
-		updateTasks();
-
 		const int SLEEP_TIME_MS = 25;
 		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
+	}
+
+	{
+		std::lock_guard<std::mutex> lock(m_threadMutex);
+		if (m_threadIsRunning)
+		{
+			m_threadIsRunning = false;
+		}
 	}
 }
 
@@ -79,6 +90,20 @@ void TaskScheduler::stopSchedulerLoop()
 	}
 
 	interruptCurrentTask();
+
+	while (true)
+	{
+		{
+			std::lock_guard<std::mutex> lock(m_threadMutex);
+			if (!m_threadIsRunning)
+			{
+				break;
+			}
+		}
+
+		const int SLEEP_TIME_MS = 25;
+		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
+	}
 }
 
 bool TaskScheduler::loopIsRunning() const
@@ -91,6 +116,7 @@ std::shared_ptr<TaskScheduler> TaskScheduler::s_instance;
 
 TaskScheduler::TaskScheduler()
 	: m_loopIsRunning(false)
+	, m_threadIsRunning(false)
 	, m_interruptTask(false)
 {
 }

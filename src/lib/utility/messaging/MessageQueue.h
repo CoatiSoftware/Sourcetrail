@@ -43,11 +43,13 @@ private:
 	size_t m_currentListenerIndex;
 	size_t m_listenersLength;
 	bool m_loopIsRunning;
+	bool m_threadIsRunning;
 
 	mutable std::mutex m_frontMessageBufferMutex;
 	mutable std::mutex m_backMessageBufferMutex;
 	mutable std::mutex m_listenersMutex;
 	mutable std::mutex m_loopMutex;
+	mutable std::mutex m_threadMutex;
 };
 
 #endif // MESSAGE_QUEUE_H

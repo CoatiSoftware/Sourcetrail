@@ -36,12 +36,14 @@ private:
 	virtual void handleMessage(MessageInterruptTasks* message);
 
 	bool m_loopIsRunning;
+	bool m_threadIsRunning;
 
 	std::queue<std::shared_ptr<Task>> m_tasks;
 	bool m_interruptTask;
 
 	mutable std::mutex m_tasksMutex;
 	mutable std::mutex m_loopMutex;
+	mutable std::mutex m_threadMutex;
 };
 
 #endif // TASK_SCHEDULER_H
