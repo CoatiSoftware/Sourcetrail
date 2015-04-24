@@ -43,11 +43,11 @@ void TaskGroupSequential::exit()
 
 void TaskGroupSequential::interrupt()
 {
-	if (m_taskIndex > 0 && size_t(m_taskIndex) < m_tasks.size())
+	if (m_taskIndex >= 0 && size_t(m_taskIndex) < m_tasks.size())
 	{
 		for (int i = m_taskIndex; i >= 0; i--)
 		{
-			m_tasks[m_taskIndex]->process(true);
+			m_tasks[i]->process(true);
 		}
 	}
 }
@@ -56,6 +56,6 @@ void TaskGroupSequential::revert()
 {
 	for (int i = m_tasks.size() - 1; i >= 0; i--)
 	{
-		m_tasks[m_taskIndex]->process(true);
+		m_tasks[i]->process(true);
 	}
 }

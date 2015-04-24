@@ -112,6 +112,12 @@ bool TaskScheduler::loopIsRunning() const
 	return m_loopIsRunning;
 }
 
+bool TaskScheduler::hasTasksQueued() const
+{
+	std::lock_guard<std::mutex> lock(m_tasksMutex);
+	return m_tasks.size();
+}
+
 std::shared_ptr<TaskScheduler> TaskScheduler::s_instance;
 
 TaskScheduler::TaskScheduler()

@@ -27,6 +27,7 @@ add_files(
 	SearchIndexTestSuite.h
 	StorageTestSuite.h
 	StorageGraphTestSuite.h
+	TaskSchedulerTestSuite.h
 	TextAccessTestSuite.h
 	TokenLocationCollectionTestSuite.h
 	UtilityStringTestSuite.h

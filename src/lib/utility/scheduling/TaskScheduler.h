@@ -23,6 +23,7 @@ public:
 	void stopSchedulerLoop();
 
 	bool loopIsRunning() const;
+	bool hasTasksQueued() const;
 
 private:
 	static std::shared_ptr<TaskScheduler> s_instance;
