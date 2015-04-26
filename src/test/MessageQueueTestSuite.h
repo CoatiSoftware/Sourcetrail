@@ -152,9 +152,8 @@ private:
 	class TestMessageListener: public MessageListener<TestMessage>
 	{
 	public:
-		TestMessageListener(bool toFront = false)
-			: MessageListener<TestMessage>(toFront)
-			, m_messageCount(0)
+		TestMessageListener()
+			: m_messageCount(0)
 		{
 		}
 
@@ -232,7 +231,7 @@ private:
 			{
 				for (size_t i = 0; i < 5; i++)
 				{
-					m_listeners.push_back(std::make_shared<TestMessageListener>(i % 2 == 1));
+					m_listeners.push_back(std::make_shared<TestMessageListener>());
 				}
 			}
 		}

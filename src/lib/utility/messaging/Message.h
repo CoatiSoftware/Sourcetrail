@@ -21,7 +21,7 @@ public:
 		return MessageType::getStaticType();
 	}
 
-	void dispatch()
+	virtual void dispatch()
 	{
 		std::shared_ptr<MessageBase> message = std::make_shared<MessageType>(*dynamic_cast<MessageType*>(this));
 		MessageQueue::getInstance()->pushMessage(message);

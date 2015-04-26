@@ -239,7 +239,6 @@ add_files(
 	utility/messaging/type/MessageActivateTokenLocation.h
 	utility/messaging/type/MessageActivateTokens.h
 	utility/messaging/type/MessageAutoRefreshChanged.h
-	utility/messaging/type/MessageError.h
 	utility/messaging/type/MessageFind.h
 	utility/messaging/type/MessageFinishedParsing.h
 	utility/messaging/type/MessageGraphNodeExpand.h
@@ -264,6 +263,10 @@ add_files(
 	utility/messaging/MessageQueue.cpp
 	utility/messaging/MessageQueue.h
 
+	utility/scheduling/LambdaTask.cpp
+	utility/scheduling/LambdaTask.h
+	utility/scheduling/SimpleTask.cpp
+	utility/scheduling/SimpleTask.h
 	utility/scheduling/Task.cpp
 	utility/scheduling/Task.h
 	utility/scheduling/TaskGroup.cpp

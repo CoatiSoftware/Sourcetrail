@@ -3,6 +3,7 @@
 #include "utility/logging/logging.h"
 #include "utility/messaging/MessageQueue.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
+#include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/TaskScheduler.h"
 
 #include "component/view/MainView.h"
@@ -40,19 +41,22 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 
 Application::Application()
 {
-	MessageQueue::getInstance()->startMessageLoopThreaded();
 	TaskScheduler::getInstance()->startSchedulerLoopThreaded();
+	MessageQueue::getInstance()->setSendMessagesAsTasks(true);
+	MessageQueue::getInstance()->startMessageLoopThreaded();
 }
 
 Application::~Application()
 {
-	TaskScheduler::getInstance()->stopSchedulerLoop();
 	MessageQueue::getInstance()->stopMessageLoop();
+	TaskScheduler::getInstance()->stopSchedulerLoop();
 	m_mainView->saveLayout();
 }
 
 void Application::loadProject(const std::string& projectSettingsFilePath)
 {
+	MessageStatus("Loading Project: " + projectSettingsFilePath).dispatch();
+
 	m_project = Project::create(m_storageAccessProxy.get());
 
 	m_project->loadProjectSettings(projectSettingsFilePath);
@@ -61,6 +65,8 @@ void Application::loadProject(const std::string& projectSettingsFilePath)
 
 void Application::loadSource(const std::string& sourceDirectoryPath)
 {
+	MessageStatus("Loading Source: " + sourceDirectoryPath).dispatch();
+
 	m_project = Project::create(m_storageAccessProxy.get());
 
 	m_project->clearProjectSettings();
@@ -70,6 +76,8 @@ void Application::loadSource(const std::string& sourceDirectoryPath)
 
 void Application::reloadProject()
 {
+	MessageStatus("Refreshing Project").dispatch();
+
 	m_project->parseCode();
 }
 

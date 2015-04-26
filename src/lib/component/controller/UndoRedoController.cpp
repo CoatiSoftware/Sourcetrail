@@ -4,10 +4,7 @@
 #include "utility/logging/logging.h"
 
 UndoRedoController::UndoRedoController()
-	: MessageListener<MessageActivateTokens>(true)
-	, MessageListener<MessageGraphNodeExpand>(true)
-	, MessageListener<MessageGraphNodeMove>(true)
-	, m_lastCommand(nullptr)
+	: m_lastCommand(nullptr)
 {
 }
 

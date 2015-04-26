@@ -9,6 +9,7 @@ class MessageInterruptTasks:
 public:
 	MessageInterruptTasks()
 	{
+		setSendAsTask(false);
 	}
 
 	static const std::string getStaticType()

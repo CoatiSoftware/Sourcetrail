@@ -6,6 +6,8 @@
 #include "utility/logging/logging.h"
 #include "utility/messaging/MessageBase.h"
 #include "utility/messaging/MessageListenerBase.h"
+#include "utility/scheduling/LambdaTask.h"
+#include "utility/scheduling/TaskGroupSequential.h"
 
 std::shared_ptr<MessageQueue> MessageQueue::getInstance()
 {
@@ -17,20 +19,10 @@ std::shared_ptr<MessageQueue> MessageQueue::getInstance()
 	return s_instance;
 }
 
-void MessageQueue::registerListener(MessageListenerBase* listener, bool toFront)
+void MessageQueue::registerListener(MessageListenerBase* listener)
 {
 	std::lock_guard<std::mutex> lock(m_listenersMutex);
-
-	if (toFront)
-	{
-		m_listeners.insert(m_listeners.begin(), listener);
-		m_listenersLength++;
-		m_currentListenerIndex++;
-	}
-	else
-	{
-		m_listeners.push_back(listener);
-	}
+	m_listeners.push_back(listener);
 }
 
 void MessageQueue::unregisterListener(MessageListenerBase* listener)
@@ -156,6 +148,11 @@ bool MessageQueue::hasMessagesQueued() const
 	return m_backMessageBuffer->size() + m_frontMessageBuffer->size() > 0;
 }
 
+void MessageQueue::setSendMessagesAsTasks(bool sendMessagesAsTasks)
+{
+	m_sendMessagesAsTasks = sendMessagesAsTasks;
+}
+
 std::shared_ptr<MessageQueue> MessageQueue::s_instance;
 
 MessageQueue::MessageQueue()
@@ -163,6 +160,7 @@ MessageQueue::MessageQueue()
 	, m_listenersLength(0)
 	, m_loopIsRunning(false)
 	, m_threadIsRunning(false)
+	, m_sendMessagesAsTasks(false)
 {
 	m_frontMessageBuffer = std::make_shared<MessageBufferType>();
 	m_backMessageBuffer = std::make_shared<MessageBufferType>();
@@ -191,25 +189,60 @@ void MessageQueue::processMessages()
 			m_frontMessageBuffer->pop();
 		}
 
-		std::lock_guard<std::mutex> lock(m_listenersMutex);
-
-		// m_listenersLength is saved, so that new listeners registered whithin message handling don't get the
-		// current message and the length can be reduced when a listener gets unregistered.
-		m_listenersLength = m_listeners.size();
-
-		// The currentListenerIndex holds the index of the current listener being handled, so it can be changed when a
-		// listener gets removed while message handling.
-		for (m_currentListenerIndex = 0; m_currentListenerIndex < m_listenersLength; m_currentListenerIndex++)
+		if (m_sendMessagesAsTasks && message->sendAsTask())
 		{
-			MessageListenerBase* listener = m_listeners[m_currentListenerIndex];
-
-			if (listener->getType() == message->getType())
-			{
-				// The listenersMutex gets unlocked so changes to listeners are possible while message handling.
-				m_listenersMutex.unlock();
-				listener->handleMessageBase(message.get());
-				m_listenersMutex.lock();
-			}
+			sendMessageAsTask(message);
+		}
+		else
+		{
+			sendMessage(message);
 		}
 	}
+}
+
+void MessageQueue::sendMessage(std::shared_ptr<MessageBase> message)
+{
+	std::lock_guard<std::mutex> lock(m_listenersMutex);
+
+	// m_listenersLength is saved, so that new listeners registered whithin message handling don't get the
+	// current message and the length can be reduced when a listener gets unregistered.
+	m_listenersLength = m_listeners.size();
+
+	// The currentListenerIndex holds the index of the current listener being handled, so it can be changed when a
+	// listener gets removed while message handling.
+	for (m_currentListenerIndex = 0; m_currentListenerIndex < m_listenersLength; m_currentListenerIndex++)
+	{
+		MessageListenerBase* listener = m_listeners[m_currentListenerIndex];
+
+		if (listener->getType() == message->getType())
+		{
+			// The listenersMutex gets unlocked so changes to listeners are possible while message handling.
+			m_listenersMutex.unlock();
+			listener->handleMessageBase(message.get());
+			m_listenersMutex.lock();
+		}
+	}
+}
+
+void MessageQueue::sendMessageAsTask(std::shared_ptr<MessageBase> message) const
+{
+	std::shared_ptr<TaskGroupSequential> taskGroup = std::make_shared<TaskGroupSequential>();
+
+	std::lock_guard<std::mutex> lock(m_listenersMutex);
+	for (size_t i = 0; i < m_listeners.size(); i++)
+	{
+		MessageListenerBase* listener = m_listeners[i];
+
+		if (listener->getType() == message->getType())
+		{
+			taskGroup->addTask(std::make_shared<LambdaTask>(
+				[listener, message]()
+				{
+					listener->handleMessageBase(message.get());
+				}
+			));
+		}
+	}
+
+	Task::dispatch(taskGroup);
 }

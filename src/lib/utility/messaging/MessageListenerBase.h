@@ -9,9 +9,9 @@
 class MessageListenerBase
 {
 public:
-	MessageListenerBase(bool toFront)
+	MessageListenerBase()
 	{
-		MessageQueue::getInstance()->registerListener(this, toFront);
+		MessageQueue::getInstance()->registerListener(this);
 	}
 
 	virtual ~MessageListenerBase()

@@ -23,12 +23,6 @@ ComponentManager::~ComponentManager()
 
 void ComponentManager::setup(ViewLayout* viewLayout)
 {
-	std::shared_ptr<Component> graphComponent = m_componentFactory->createGraphComponent(viewLayout);
-	m_components.push_back(graphComponent);
-
-	std::shared_ptr<Component> codeComponent = m_componentFactory->createCodeComponent(viewLayout);
-	m_components.push_back(codeComponent);
-
 	std::shared_ptr<CompositeView> compositeView =
 		m_componentFactory->getViewFactory()->createCompositeView(viewLayout, CompositeView::DIRECTION_HORIZONTAL);
 	m_compositeViews.push_back(compositeView);
@@ -41,6 +35,12 @@ void ComponentManager::setup(ViewLayout* viewLayout)
 
 	std::shared_ptr<Component> searchComponent = m_componentFactory->createSearchComponent(compositeView.get());
 	m_components.push_back(searchComponent);
+
+	std::shared_ptr<Component> graphComponent = m_componentFactory->createGraphComponent(viewLayout);
+	m_components.push_back(graphComponent);
+
+	std::shared_ptr<Component> codeComponent = m_componentFactory->createCodeComponent(viewLayout);
+	m_components.push_back(codeComponent);
 
 	std::shared_ptr<Component> statusBarComponent = m_componentFactory->createStatusBarComponent(viewLayout);
 	m_components.push_back(statusBarComponent);

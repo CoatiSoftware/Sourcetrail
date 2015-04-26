@@ -11,8 +11,7 @@ template<typename MessageType>
 class MessageListener: public MessageListenerBase
 {
 public:
-	MessageListener(bool toFront = false)
-		: MessageListenerBase(toFront)
+	MessageListener()
 	{
 	}
 
