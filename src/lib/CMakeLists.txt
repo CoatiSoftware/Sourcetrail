@@ -1,6 +1,15 @@
 add_files(
 	CLANG_FILES
 
+	data/parser/cxx/name_resolver/CxxDeclNameResolver.cpp
+	data/parser/cxx/name_resolver/CxxDeclNameResolver.h
+	data/parser/cxx/name_resolver/CxxNameResolver.cpp
+	data/parser/cxx/name_resolver/CxxNameResolver.h
+	data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.cpp
+	data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h
+	data/parser/cxx/name_resolver/CxxTypeNameResolver.cpp
+	data/parser/cxx/name_resolver/CxxTypeNameResolver.h
+	
 	data/parser/cxx/ASTAction.cpp
 	data/parser/cxx/ASTAction.h
 	data/parser/cxx/ASTActionFactory.cpp

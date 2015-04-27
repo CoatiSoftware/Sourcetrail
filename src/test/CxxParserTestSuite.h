@@ -1295,6 +1295,32 @@ public:
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<std::nullptr_t T>::T <2:26 2:26>");
 	}
 
+	void test_cxx_parser_finds_non_type_template_parameter_that_depends_on_type_template_parameter_of_template_class()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T1, T1& T2>\n"
+			"class A\n"
+			"{};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 2);
+		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<typename T1, T1 & T2>::T1 <1:20 1:21>");
+		TS_ASSERT_EQUALS(client->templateParameterTypes[1], "A<typename T1, T1 & T2>::T2 <1:28 1:29>");
+	}
+
+	void test_cxx_parser_finds_non_type_template_parameter_that_depends_on_template_template_parameter_of_template_class()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <template<typename> class T1, T1<int>& T2>\n"
+			"class A\n"
+			"{};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 2);
+		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<template<typename> typename T1, T1<int> & T2>::T1<typename> <1:36 1:37>");
+		TS_ASSERT_EQUALS(client->templateParameterTypes[1], "A<template<typename> typename T1, T1<int> & T2>::T2 <1:49 1:50>");
+	}
+
 	void test_cxx_parser_finds_template_template_parameter_of_template_class()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -1354,19 +1380,7 @@ public:
 		TS_ASSERT_EQUALS(client->typeUses[1], "B<template<typename> typename T>::T<B<template<typename> typename T>::foo<typename U>::U> <8:11 8:14>");
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-	void test_cxx_parser_finds_usage_of_template_template_parameter_of_template_class_specialized_with_template_type00000000000666666666666()
+	void test_cxx_parser_finds_typedef_in_other_class_that_depends_on_own_template_parameter()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T>\n"
@@ -1389,41 +1403,6 @@ public:
 		TS_ASSERT_EQUALS(client->typedefs[0], "public A<typename T>::T -> A<typename T>::type <4:19 4:22>");
 		TS_ASSERT_EQUALS(client->typedefs[1], "public A<B<typename U>::U>::type -> B<typename U>::type <9:37 9:40>");
 	}
-
-	void test_cxx_parser_finds_usage_of_template_template_parameter_of_template_class_specialized_with_template_type00ss000666666666666()
-	{
-		int zz1 = 0;
-		std::shared_ptr<TestParserClient> client = parseCode(
-			"template <typename T, T test>\n"
-			"class A\n"
-			"{\n"
-			"};\n"
-
-		);
-		int zz2 = 0;
-		TS_ASSERT_EQUALS(client->classes.size(), 1);
-		TS_ASSERT_EQUALS(client->classes[0], "A<typename T, T test> <2:1 <2:7 2:7> 4:1>");
-	}
-
-	void test_cxx_parser_finds_usage_of_template_template_parameter_of_template_class_specialized_with_template_type00sstt000666666666666()
-	{
-		int zz1 = 0;
-		std::shared_ptr<TestParserClient> client = parseCode(
-			"template <typename T, typename T::type test>\n"
-			"class A\n"
-			"{\n"
-			"};\n"
-
-		);
-		int zz2 = 0;
-	}
-
-
-
-
-
-
-
 
 	void test_cxx_parser_finds_type_template_parameters_of_template_class_with_multiple_parameters()
 	{
@@ -1878,6 +1857,45 @@ public:
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "B<A, template<typename> typename U>->B<A, template<typename> typename U>::U<typename> <8:12 8:12>");
 	}
 
+
+	void test_cxx_parser_finds_non_type_template_argument_that_depends_on_type_template_parameter_of_explicit_partial_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <int T1, typename T2, T2 T3>\n"
+			"class A\n"
+			"{\n"
+			"};\n"
+			"template <typename T2, T2 T3>\n"
+			"class A<3, T2, T3>\n"
+			"{\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 3);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<3, typename T2, T2 T3>->int <6:9 6:9>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<3, typename T2, T2 T3>->A<3, typename T2, T2 T3>::T2 <6:12 6:12>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[2], "A<3, typename T2, T2 T3>->A<3, typename T2, T2 T3>::T2 <6:16 6:16>");
+	}
+
+	void test_cxx_parser_finds_non_type_template_argument_that_depends_on_template_template_parameter_of_explicit_partial_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <int T1, template<typename> class T2, T2<int> T3>\n"
+			"class A\n"
+			"{\n"
+			"};\n"
+			"template <template<typename> class T2, T2<int> T3>\n"
+			"class A<3, T2, T3>\n"
+			"{\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 3);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<3, template<typename> typename T2, T2<int> T3>->int <6:9 6:9>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<3, template<typename> typename T2, T2<int> T3>->A<3, template<typename> typename T2, T2<int> T3>::T2<typename> <6:12 6:12>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[2], "A<3, template<typename> typename T2, T2<int> T3>->A<3, template<typename> typename T2, T2<int> T3>::T2<int> <6:16 6:16>");
+	}
+
 	void test_cxx_parser_finds_correct_name_of_explicit_template_specialization()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -1957,25 +1975,24 @@ public:
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : public A<int> <7:10 7:22>");
 	}
 
-	//___void test_cxx_parser_finds_template_class_specialization_with_template_argument()
-	//{
-	//	std::shared_ptr<TestParserClient> client = parseCode(
-	//		"template <typename T>\n"
-	//		"class A\n"
-	//		"{\n"
-	//		"	T foo;\n"
-	//		"};\n"
-	//		"\n"
-	//		"template <typename U>\n"
-	//		"class B: public A<U>\n"
-	//		"{\n"
-	//		"};\n"
-	//		"B<int> bar;"
-	//	);
-	//	int i = 0;
-	//	//TS_ASSERT_EQUALS(client->templateSpecializations.size(), 1);
-	//	//TS_ASSERT_EQUALS(client->templateSpecializations[0], "class A<U> -> A<T> <2:7 2:7>");
-	//}
+	void test_cxx_parser_finds_template_class_specialization_with_template_argument()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"	T foo;\n"
+			"};\n"
+			"\n"
+			"template <typename U>\n"
+			"class B: public A<U>\n"
+			"{\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
+		TS_ASSERT_EQUALS(client->inheritances[0], "B<typename U> : public A<B<typename U>::U> <8:10 8:20>");
+	}
 
 	void test_cxx_parser_finds_template_class_constructor_usage_of_field()
 	{
@@ -2418,6 +2435,23 @@ public:
 
 		TS_ASSERT_EQUALS(client->errors.size(), 1);
 		TS_ASSERT_EQUALS(client->errors[0], "use of undeclared identifier \'b\' <1:9 1:9>");
+	}
+
+
+	void ___test_TEST()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <template<template<typename> class> class T>\n"
+			"class A {\n"
+			"T<>\n"
+			"};\n"
+			"template <template<typename> class T>\n"
+			"class B {};\n"
+			"template <typename T>\n"
+			"class C {};\n"
+			"A<B> a;\n"
+		);
+		int ofo = 0;
 	}
 
 private:
