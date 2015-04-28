@@ -17,6 +17,7 @@
 #include "qt/view/graphElements/QtGraphEdge.h"
 #include "qt/view/graphElements/QtGraphNode.h"
 #include "qt/view/graphElements/QtGraphNodeAccess.h"
+#include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)
@@ -229,13 +230,17 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	}
 
 	std::shared_ptr<QtGraphNode> newNode;
-	if (node.data)
+	if (node.isGraphNode())
 	{
-		newNode = std::make_shared<QtGraphNode>(node.data);
+		newNode = std::make_shared<QtGraphNode>(node.data, node.childVisible);
 	}
-	else
+	else if (node.isAccessNode())
 	{
-		newNode = std::make_shared<QtGraphNodeAccess>(node.accessType, node.isExpanded(), node.invisibleSubNodeCount);
+		newNode = std::make_shared<QtGraphNodeAccess>(node.accessType);
+	}
+	else if (node.isExpandToggleNode())
+	{
+		newNode = std::make_shared<QtGraphNodeExpandToggle>(node.isExpanded(), node.invisibleSubNodeCount);
 	}
 
 	newNode->setPosition(node.position);
@@ -325,7 +330,8 @@ void QtGraphView::compareNodesRecursive(
 			if (((*it)->getTokenId() && (*it)->getTokenId() == (*it2)->getTokenId()) ||
 				((*it)->isAccessNode() && (*it2)->isAccessNode() &&
 					dynamic_cast<QtGraphNodeAccess*>((*it).get())->getAccessType() ==
-						dynamic_cast<QtGraphNodeAccess*>((*it2).get())->getAccessType()))
+						dynamic_cast<QtGraphNodeAccess*>((*it2).get())->getAccessType()) ||
+				((*it)->isExpandToggleNode() && (*it2)->isExpandToggleNode()))
 			{
 				remainingNodes->push_back(std::pair<QtGraphNode*, QtGraphNode*>((*it).get(), (*it2).get()));
 				compareNodesRecursive((*it)->getSubNodes(), (*it2)->getSubNodes(), appearingNodes, vanishingNodes, remainingNodes);

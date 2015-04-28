@@ -55,6 +55,8 @@ add_files(
 	qt/view/graphElements/QtGraphNode.h
 	qt/view/graphElements/QtGraphNodeAccess.cpp
 	qt/view/graphElements/QtGraphNodeAccess.h
+	qt/view/graphElements/QtGraphNodeExpandToggle.cpp
+	qt/view/graphElements/QtGraphNodeExpandToggle.h
 
 	qt/view/QtCodeView.cpp
 	qt/view/QtCodeView.h

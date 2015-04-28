@@ -3,14 +3,13 @@
 
 #include "utility/messaging/Message.h"
 #include "utility/types.h"
-#include "data/graph/token_component/TokenComponentAccess.h"
 
-class MessageGraphNodeExpand: public Message<MessageGraphNodeExpand>
+class MessageGraphNodeExpand
+	: public Message<MessageGraphNodeExpand>
 {
 public:
-	MessageGraphNodeExpand(Id tokenId, TokenComponentAccess::AccessType access)
+	MessageGraphNodeExpand(Id tokenId)
 		: tokenId(tokenId)
-		, access(access)
 	{
 	}
 
@@ -20,7 +19,6 @@ public:
 	}
 
 	const Id tokenId;
-	const TokenComponentAccess::AccessType access;
 };
 
 #endif // MESSAGE_GRAPH_NODE_EXPAND_H

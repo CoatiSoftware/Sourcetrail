@@ -423,14 +423,14 @@ void QtGraphPostprocessor::resizeNodes(std::list<std::shared_ptr<QtGraphNode>>& 
 		Vec2i size = (*it)->getSize();
 
 		int newWidth = s_cellSize;
-		while(size.x - newWidth > 0)
+		while(size.x - newWidth > 3)
 		{
 			newWidth += s_cellPadding + s_cellSize;
 		}
 		size.x = newWidth;
 
 		int newHeight = s_cellSize;
-		while(size.y - newHeight > 0)
+		while(size.y - newHeight > 3)
 		{
 			newHeight += s_cellPadding + s_cellSize;
 		}

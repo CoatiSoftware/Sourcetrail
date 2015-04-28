@@ -20,8 +20,8 @@ QtStraightLineItem::QtStraightLineItem(QGraphicsItem* parent)
 	m_circle->setAcceptHoverEvents(true);
 
 	QFont font;
-	font.setFamily(GraphViewStyle::getFontNameOfNumber().c_str());
-	font.setPixelSize(GraphViewStyle::getFontSizeOfNumber());
+	font.setFamily(GraphViewStyle::getFontNameOfExpandToggleNode().c_str());
+	font.setPixelSize(GraphViewStyle::getFontSizeOfExpandToggleNode());
 	font.setWeight(QFont::Normal);
 
 	m_number = new QGraphicsSimpleTextItem(this);

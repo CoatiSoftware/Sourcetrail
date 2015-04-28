@@ -102,7 +102,7 @@ size_t GraphViewStyle::getFontSizeOfAccessNode()
 	return 11;
 }
 
-size_t GraphViewStyle::getFontSizeOfNumber()
+size_t GraphViewStyle::getFontSizeOfExpandToggleNode()
 {
 	return 9;
 }
@@ -117,7 +117,7 @@ std::string GraphViewStyle::getFontNameOfAccessNode()
 	return "Myriad Pro";
 }
 
-std::string GraphViewStyle::getFontNameOfNumber()
+std::string GraphViewStyle::getFontNameOfExpandToggleNode()
 {
 	return "Myriad Pro";
 }
@@ -125,7 +125,8 @@ std::string GraphViewStyle::getFontNameOfNumber()
 GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType type, bool hasChildren)
 {
 	NodeMargins margins;
-	margins.spacingX = margins.spacingY = 8;
+	margins.spacingX = 12;
+	margins.spacingY = 8;
 
 	switch (type)
 	{
@@ -145,14 +146,14 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 	case Node::NODE_FILE:
 		if (hasChildren)
 		{
-			margins.left = margins.right = 15;
-			margins.top = 30;
+			margins.left = margins.right = 10;
+			margins.top = 33;
 			margins.bottom = 10;
 		}
 		else
 		{
 			margins.left = margins.right = 8;
-			margins.top = margins.bottom = 13;
+			margins.top = margins.bottom = 17;
 		}
 		break;
 
@@ -177,37 +178,26 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 	return margins;
 }
 
-GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfAccessNode(
-	bool expanded, size_t subNodeCount, size_t invisibleSubNodeCount
-){
+GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfAccessNode()
+{
 	NodeMargins margins;
 	margins.spacingX = margins.spacingY = 8;
 
 	margins.left = margins.right = 10;
 	margins.top = 40;
+	margins.bottom = 10;
 
-	if (invisibleSubNodeCount == subNodeCount)
-	{
-		margins.minWidth = 20;
-		margins.bottom = 10;
-	}
-	else
-	{
-		margins.minWidth = 82;
+	margins.minWidth = 82;
 
-		if (expanded)
-		{
-			margins.bottom = 15;
-		}
-		else if (invisibleSubNodeCount)
-		{
-			margins.bottom = 23;
-		}
-		else
-		{
-			margins.bottom = 10;
-		}
-	}
+	return margins;
+}
+
+GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfExpandToggleNode()
+{
+	NodeMargins margins;
+
+	margins.left = margins.right = margins.top = margins.bottom = 11;
+	margins.minWidth = 0;
 
 	return margins;
 }
@@ -279,14 +269,14 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 		if (hasChildren)
 		{
 			style.cornerRadius = 20;
-			style.textOffset.x = 15;
+			style.textOffset.x = 10;
 			style.textOffset.y = 8;
 		}
 		else
 		{
 			style.cornerRadius = 10;
 			style.textOffset.x = 8;
-			style.textOffset.y = 4;
+			style.textOffset.y = 8;
 		}
 		break;
 
@@ -333,6 +323,21 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfAccessNode()
 
 	style.textOffset.x = 10;
 	style.textOffset.y = 10;
+
+	return style;
+}
+
+GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfExpandToggleNode()
+{
+	NodeStyle style;
+
+	style.color = "#FFFFFF";
+	style.borderColor = "#00000000";
+
+	style.cornerRadius = 12;
+
+	style.fontName = getFontNameOfExpandToggleNode();
+	style.fontSize = getFontSizeOfExpandToggleNode();
 
 	return style;
 }

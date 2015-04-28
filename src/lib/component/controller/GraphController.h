@@ -12,6 +12,7 @@
 #include "component/controller/Controller.h"
 #include "component/controller/GraphLayouter.h"
 #include "component/view/GraphView.h"
+#include "data/graph/token_component/TokenComponentAccess.h"
 
 struct DummyNode;
 struct DummyEdge;
@@ -48,10 +49,11 @@ private:
 	void setActiveAndVisibility(const std::vector<Id>& activeTokenIds);
 	void setNodeActiveRecursive(DummyNode& node, const std::vector<Id>& activeTokenIds) const;
 	bool setNodeVisibilityRecursiveBottomUp(DummyNode& node, bool aggregated) const;
-	void setNodeVisibilityRecursiveTopDown(DummyNode& node) const;
+	void setNodeVisibilityRecursiveTopDown(DummyNode& node, bool parentExpanded) const;
 
 	void layoutNesting();
 	void layoutNestingRecursive(DummyNode& node) const;
+	void addExpandToggleNode(DummyNode& node) const;
 
 	DummyNode* findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId);
 	DummyNode* findDummyNodeAccessRecursive(std::vector<DummyNode>& nodes, Id parentId, TokenComponentAccess::AccessType type);

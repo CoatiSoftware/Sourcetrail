@@ -81,17 +81,19 @@ public:
 
 	static size_t getFontSizeForNodeType(Node::NodeType type);
 	static size_t getFontSizeOfAccessNode();
-	static size_t getFontSizeOfNumber();
+	static size_t getFontSizeOfExpandToggleNode();
 
 	static std::string getFontNameForNodeType(Node::NodeType type);
 	static std::string getFontNameOfAccessNode();
-	static std::string getFontNameOfNumber();
+	static std::string getFontNameOfExpandToggleNode();
 
 	static NodeMargins getMarginsForNodeType(Node::NodeType type, bool hasChildren);
-	static NodeMargins getMarginsOfAccessNode(bool expanded, size_t subNodeCount, size_t invisibleSubNodeCount);
+	static NodeMargins getMarginsOfAccessNode();
+	static NodeMargins getMarginsOfExpandToggleNode();
 
 	static NodeStyle getStyleForNodeType(Node::NodeType type, bool isActive, bool isFocused, bool hasChildren);
 	static NodeStyle getStyleOfAccessNode();
+	static NodeStyle getStyleOfExpandToggleNode();
 
 	static EdgeStyle getStyleForEdgeType(Edge::EdgeType type, bool isActive, bool isFocused);
 

@@ -32,13 +32,14 @@ public:
 	static QFont getFontForNodeType(Node::NodeType type);
 
 	QtGraphNode();
-	QtGraphNode(const Node* data);
+	QtGraphNode(const Node* data, bool childVisible);
 	virtual ~QtGraphNode();
 
 	virtual std::string getName() const;
 	void setName(const std::string& name);
 
 	virtual bool isAccessNode() const;
+	virtual bool isExpandToggleNode() const;
 
 	virtual Vec2i getPosition() const;
 	virtual bool setPosition(const Vec2i& position);
@@ -106,6 +107,7 @@ private:
 
 	bool m_isActive;
 	bool m_isHovering;
+	bool m_childVisible;
 };
 
 #endif // QT_GRAPH_NODE_H

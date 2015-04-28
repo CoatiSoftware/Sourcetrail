@@ -45,6 +45,7 @@ QtGraphNode::QtGraphNode()
 	, m_undefinedRect(nullptr)
 	, m_isActive(false)
 	, m_isHovering(false)
+	, m_childVisible(false)
 {
 	this->setPen(QPen(Qt::transparent));
 
@@ -52,11 +53,12 @@ QtGraphNode::QtGraphNode()
 	m_text = new QGraphicsSimpleTextItem(this);
 }
 
-QtGraphNode::QtGraphNode(const Node* data)
+QtGraphNode::QtGraphNode(const Node* data, bool childVisible)
 	: GraphNode(data)
 	, m_undefinedRect(nullptr)
 	, m_isActive(false)
 	, m_isHovering(false)
+	, m_childVisible(childVisible)
 {
 	this->setPen(QPen(Qt::transparent));
 
@@ -83,6 +85,11 @@ void QtGraphNode::setName(const std::string& name)
 }
 
 bool QtGraphNode::isAccessNode() const
+{
+	return false;
+}
+
+bool QtGraphNode::isExpandToggleNode() const
 {
 	return false;
 }
@@ -263,7 +270,7 @@ void QtGraphNode::hoverEnter()
 void QtGraphNode::updateStyle()
 {
 	GraphViewStyle::NodeStyle style =
-		GraphViewStyle::getStyleForNodeType(m_data->getType(), m_isActive, m_isHovering, m_subNodes.size() > 0);
+		GraphViewStyle::getStyleForNodeType(m_data->getType(), m_isActive, m_isHovering, m_childVisible);
 	setStyle(style);
 }
 

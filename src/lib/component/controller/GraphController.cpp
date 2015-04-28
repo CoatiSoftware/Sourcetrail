@@ -53,7 +53,7 @@ void GraphController::handleMessage(MessageFinishedParsing* message)
 
 void GraphController::handleMessage(MessageGraphNodeExpand* message)
 {
-	DummyNode* node = findDummyNodeAccessRecursive(m_dummyNodes, message->tokenId, message->access);
+	DummyNode* node = findDummyNodeRecursive(m_dummyNodes, message->tokenId);
 	if (node)
 	{
 		if (node->autoExpanded)
@@ -144,14 +144,20 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 
 	// there is a global root node with id 0 afaik, so here we actually want the one node below this global root
 	Node* parent = node;
-	while(parent != NULL && parent->getParentNode() != NULL)
+	while (parent != NULL && parent->getParentNode() != NULL)
 	{
 		parent = parent->getParentNode();
 	}
 
-	if(parent != NULL)
+	if (parent != NULL)
 	{
 		result.topLevelAncestorId = parent->getId();
+	}
+
+	DummyNode* oldNode = findDummyNodeRecursive(m_dummyNodes, node->getId());
+	if (oldNode)
+	{
+		result.expanded = oldNode->expanded;
 	}
 
 	node->forEachChildNode(
@@ -196,12 +202,6 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 					accessNode.accessType = accessType;
 					result.subNodes.push_back(accessNode);
 					parent = &result.subNodes.back();
-
-					DummyNode* oldParent = findDummyNodeAccessRecursive(m_dummyNodes, node->getId(), accessType);
-					if (oldParent)
-					{
-						parent->expanded = oldParent->expanded;
-					}
 				}
 			}
 
@@ -240,17 +240,9 @@ void GraphController::autoExpandActiveNode(const std::vector<Id>& activeTokenIds
 		node = findDummyNodeRecursive(m_dummyNodes, activeTokenIds[0]);
 	}
 
-	if (!node)
+	if (node && node->data->isType(Node::NODE_CLASS | Node::NODE_STRUCT))
 	{
-		return;
-	}
-
-	if (node->data->isType(Node::NODE_CLASS | Node::NODE_STRUCT))
-	{
-		for (DummyNode& subNode : node->subNodes)
-		{
-			subNode.autoExpanded = true;
-		}
+		node->autoExpanded = true;
 	}
 }
 
@@ -328,9 +320,10 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 void GraphController::setNodeActiveRecursive(DummyNode& node, const std::vector<Id>& activeTokenIds) const
 {
 	node.visible = false;
+	node.childVisible = false;
 	node.active = false;
 
-	if (node.data)
+	if (node.isGraphNode())
 	{
 		node.active = find(activeTokenIds.begin(), activeTokenIds.end(), node.data->getId()) != activeTokenIds.end();
 	}
@@ -343,34 +336,35 @@ void GraphController::setNodeActiveRecursive(DummyNode& node, const std::vector<
 
 bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode& node, bool aggregated) const
 {
-	bool childVisible = false;
 	for (DummyNode& subNode : node.subNodes)
 	{
 		if (setNodeVisibilityRecursiveBottomUp(subNode, aggregated | node.aggregated))
 		{
-			childVisible = true;
+			node.childVisible = true;
 		}
 	}
 
-	if (node.active || node.connected || childVisible || (!aggregated && node.aggregated))
+	if (node.active || node.connected || node.childVisible || (!aggregated && node.aggregated))
 	{
-		setNodeVisibilityRecursiveTopDown(node);
+		setNodeVisibilityRecursiveTopDown(node, false);
 	}
 
 	return node.visible;
 }
 
-void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode& node) const
+void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode& node, bool parentExpanded) const
 {
 	node.visible = true;
 
-	for (DummyNode& subNode : node.subNodes)
+	if ((node.isGraphNode() && node.isExpanded()) ||
+		(node.isAccessNode() && parentExpanded) ||
+		(node.isGraphNode() && node.data->isType(Node::NODE_ENUM)) ||
+		(node.isGraphNode() && node.active && node.data->isType(Node::NODE_NAMESPACE | Node::NODE_UNDEFINED)))
 	{
-		if (subNode.accessType != TokenComponentAccess::ACCESS_NONE || node.isExpanded() ||
-			(node.data && node.data->isType(Node::NODE_ENUM)) ||
-			(node.active && node.data && node.data->isType(Node::NODE_NAMESPACE | Node::NODE_UNDEFINED)))
+		for (DummyNode& subNode : node.subNodes)
 		{
-			setNodeVisibilityRecursiveTopDown(subNode);
+			node.childVisible = true;
+			setNodeVisibilityRecursiveTopDown(subNode, node.isExpanded());
 		}
 	}
 }
@@ -387,23 +381,17 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 {
 	GraphViewStyle::NodeMargins margins;
 
-	if (node.data)
+	if (node.isGraphNode())
 	{
-		margins = GraphViewStyle::getMarginsForNodeType(node.data->getType(), node.subNodes.size() > 0);
+		margins = GraphViewStyle::getMarginsForNodeType(node.data->getType(), node.childVisible);
 	}
-	else
+	else if (node.isAccessNode())
 	{
-		node.invisibleSubNodeCount = 0;
-		for (const DummyNode& subNode : node.subNodes)
-		{
-			if (!subNode.visible)
-			{
-				node.invisibleSubNodeCount++;
-			}
-		}
-
-		margins = GraphViewStyle::getMarginsOfAccessNode(
-			node.isExpanded(), node.subNodes.size(), node.invisibleSubNodeCount);
+		margins = GraphViewStyle::getMarginsOfAccessNode();
+	}
+	else if (node.isExpandToggleNode())
+	{
+		margins = GraphViewStyle::getMarginsOfExpandToggleNode();
 	}
 
 	int y = 0;
@@ -411,12 +399,19 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 	int width = margins.minWidth;
 	int height = 0;
 
-	if (node.data)
+	if (node.isGraphNode())
 	{
 		width = margins.charWidth * node.data->getName().size();
+
+		if (node.data->isType(Node::NODE_CLASS | Node::NODE_STRUCT) && node.subNodes.size())
+		{
+			addExpandToggleNode(node);
+		}
 	}
 
-	bool layoutHorizontal = true;
+	// Horizontal layouting is currently not used, but left in place for experimentation.
+	bool layoutHorizontal = false;
+
 	for (DummyNode& subNode : node.subNodes)
 	{
 		if (!subNode.visible)
@@ -426,15 +421,15 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 
 		layoutNestingRecursive(subNode);
 
-		if (subNode.data || subNode.isExpanded() || subNode.invisibleSubNodeCount != subNode.subNodes.size())
+		if (subNode.isExpandToggleNode())
 		{
-			layoutHorizontal = false;
+			width += margins.spacingX + subNode.size.x;
 		}
 	}
 
 	for (DummyNode& subNode : node.subNodes)
 	{
-		if (!subNode.visible)
+		if (!subNode.visible || subNode.isExpandToggleNode())
 		{
 			continue;
 		}
@@ -476,13 +471,52 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 
 	node.size.x = margins.left + width + margins.right;
 	node.size.y = margins.top + y + height + margins.bottom;
+
+	for (DummyNode& subNode : node.subNodes)
+	{
+		if (subNode.isExpandToggleNode())
+		{
+			subNode.position.x = margins.left + width - subNode.size.x;
+			subNode.position.y = 6;
+		}
+	}
+}
+
+void GraphController::addExpandToggleNode(DummyNode& node) const
+{
+	DummyNode expandNode;
+	expandNode.visible = true;
+	expandNode.expanded = node.expanded;
+	expandNode.autoExpanded = node.autoExpanded;
+
+	for (size_t i = 0; i < node.subNodes.size(); i++)
+	{
+		DummyNode& subNode = node.subNodes[i];
+
+		if (subNode.isExpandToggleNode())
+		{
+			node.subNodes.erase(node.subNodes.begin() + i);
+			i--;
+			continue;
+		}
+
+		for (DummyNode& subSubNode : subNode.subNodes)
+		{
+			if (!subSubNode.visible)
+			{
+				expandNode.invisibleSubNodeCount++;
+			}
+		}
+	}
+
+	node.subNodes.push_back(expandNode);
 }
 
 DummyNode* GraphController::findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId)
 {
 	for (DummyNode& node : nodes)
 	{
-		if (node.data && node.data->getId() == tokenId)
+		if (node.isGraphNode() && node.data->getId() == tokenId)
 		{
 			return &node;
 		}
@@ -505,7 +539,7 @@ DummyNode* GraphController::findDummyNodeAccessRecursive(
 	{
 		for (DummyNode& subNode : node->subNodes)
 		{
-			if (subNode.accessType == type)
+			if (subNode.isAccessNode() && subNode.accessType == type)
 			{
 				return &subNode;
 			}
