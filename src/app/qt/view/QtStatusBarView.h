@@ -20,12 +20,13 @@ public:
 	virtual void refreshView();
 
 	// StatusBar view implementation
-	virtual void showMessage(const std::string& message, bool isError);
+	virtual void showMessage(const std::string& message, bool isError, bool showLoader);
+
 private:
-	void doShowMessage(const std::string& message, bool isError);
+	void doShowMessage(const std::string& message, bool isError, bool showLoader);
 	std::shared_ptr<QtStatusBar> m_widget;
 
-	QtThreadedFunctor<const std::string&, bool> m_showMessageFunctor;
+	QtThreadedFunctor<const std::string&, bool, bool> m_showMessageFunctor;
 };
 
 #endif // !QT_STATUS_BAR_VIEW_H

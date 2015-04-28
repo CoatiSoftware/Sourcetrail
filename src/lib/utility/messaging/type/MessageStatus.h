@@ -7,9 +7,10 @@ class MessageStatus
 	: public Message<MessageStatus>
 {
 public:
-	MessageStatus(const std::string& status, bool isError = false)
+	MessageStatus(const std::string& status, bool isError = false, bool showLoader = false)
 		: status(status)
 		, isError(isError)
+		, showLoader(showLoader)
 	{
 		setSendAsTask(false);
 	}
@@ -21,6 +22,7 @@ public:
 
 	const std::string status;
 	const bool isError;
+	const bool showLoader;
 };
 
 #endif // MESSAGE_STATUS_H

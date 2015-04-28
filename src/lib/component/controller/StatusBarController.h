@@ -23,7 +23,7 @@ public:
 private:
 	virtual void handleMessage(MessageStatus* message);
 
-	void setStatus(const std::string& status, bool isError);
+	void setStatus(const std::string& status, bool isError, bool showLoader);
 };
 
 #endif // STATUS_BAR_CONTROLLER_H

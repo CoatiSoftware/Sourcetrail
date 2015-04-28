@@ -3,18 +3,20 @@
 
 #include <string>
 #include <QStatusBar>
-#include <QProgressBar>
 #include <QLabel>
 
-class QtStatusBar : public QStatusBar
+class QtStatusBar
+	: public QStatusBar
 {
 public:
 	QtStatusBar(void);
 	~QtStatusBar(void);
 
-	void setText(const std::string& text, bool isError = false);
+	void setText(const std::string& text, bool isError, bool showLoader);
+
 private:
 	QLabel m_text;
+	QLabel m_loader;
 };
 
 #endif // QT_STATUS_BAR_H

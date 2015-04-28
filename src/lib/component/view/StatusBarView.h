@@ -12,7 +12,8 @@ public:
 	~StatusBarView(void);
 
 	virtual std::string getName() const;
-	virtual void showMessage(const std::string& message, bool isError) = 0;
+	virtual void showMessage(const std::string& message, bool isError, bool showLoader) = 0;
+
 protected:
 	StatusBarController* getController();
 };

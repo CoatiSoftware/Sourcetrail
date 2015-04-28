@@ -64,7 +64,7 @@ Task::TaskState TaskParseCxx::update()
 	ss << fileRegister->getParsedFilesCount() << "/" << fileRegister->getFilesCount() << "] ";
 	ss << sourcePath;
 
-	MessageStatus(ss.str()).dispatch();
+	MessageStatus(ss.str(), false, true).dispatch();
 
 	m_parser.runTool(std::vector<std::string>(1, sourcePath));
 

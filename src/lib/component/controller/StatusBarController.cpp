@@ -19,15 +19,15 @@ StatusBarView* StatusBarController::getView()
 
 void StatusBarController::handleMessage(MessageStatus* message)
 {
-	setStatus(message->status, message->isError);
+	setStatus(message->status, message->isError, message->showLoader);
 }
 
-void StatusBarController::setStatus(const std::string& status, bool isError)
+void StatusBarController::setStatus(const std::string& status, bool isError, bool showLoader)
 {
 	if (!status.empty())
 	{
 		LOG_INFO_STREAM(<< "STATUS " << status);
 
-		getView()->showMessage(status, isError);
+		getView()->showMessage(status, isError, showLoader);
 	}
 }

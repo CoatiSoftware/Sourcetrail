@@ -6,7 +6,8 @@
 
 QtStatusBarView::QtStatusBarView(ViewLayout* viewLayout)
 	: StatusBarView(viewLayout)
-	, m_showMessageFunctor(std::bind(&QtStatusBarView::doShowMessage, this, std::placeholders::_1, std::placeholders::_2))
+	, m_showMessageFunctor(std::bind(
+		&QtStatusBarView::doShowMessage, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
 {
 	QtMainView* mw = static_cast<QtMainView*>(viewLayout);
 	m_widget = std::make_shared<QtStatusBar>();
@@ -21,7 +22,6 @@ QtStatusBarView::~QtStatusBarView()
 
 void QtStatusBarView::createWidgetWrapper()
 {
-	//setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(m_widget));
 }
 
 void QtStatusBarView::initView()
@@ -32,12 +32,12 @@ void QtStatusBarView::refreshView()
 {
 }
 
-void QtStatusBarView::doShowMessage(const std::string& message, bool isError)
+void QtStatusBarView::doShowMessage(const std::string& message, bool isError, bool showLoader)
 {
-	m_widget->setText(message, isError);
+	m_widget->setText(message, isError, showLoader);
 }
 
-void QtStatusBarView::showMessage(const std::string& message, bool isError)
+void QtStatusBarView::showMessage(const std::string& message, bool isError, bool showLoader)
 {
-	m_showMessageFunctor(message, isError);
+	m_showMessageFunctor(message, isError, showLoader);
 }
