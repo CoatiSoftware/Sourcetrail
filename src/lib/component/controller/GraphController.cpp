@@ -375,6 +375,11 @@ void GraphController::layoutNesting()
 	{
 		layoutNestingRecursive(node);
 	}
+
+	for (DummyNode& node : m_dummyNodes)
+	{
+		layoutToGrid(node);
+	}
 }
 
 void GraphController::layoutNestingRecursive(DummyNode& node) const
@@ -387,7 +392,7 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 	}
 	else if (node.isAccessNode())
 	{
-		margins = GraphViewStyle::getMarginsOfAccessNode();
+		margins = GraphViewStyle::getMarginsOfAccessNode(node.accessType);
 	}
 	else if (node.isExpandToggleNode())
 	{
@@ -474,7 +479,16 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 
 	for (DummyNode& subNode : node.subNodes)
 	{
-		if (subNode.isExpandToggleNode())
+		if (!subNode.visible)
+		{
+			continue;
+		}
+
+		if (subNode.isAccessNode())
+		{
+			subNode.size.x = width;
+		}
+		else if (subNode.isExpandToggleNode())
 		{
 			subNode.position.x = margins.left + width - subNode.size.x;
 			subNode.position.y = 6;
@@ -510,6 +524,48 @@ void GraphController::addExpandToggleNode(DummyNode& node) const
 	}
 
 	node.subNodes.push_back(expandNode);
+}
+
+void GraphController::layoutToGrid(DummyNode& node) const
+{
+	if (!node.isGraphNode())
+	{
+		LOG_ERROR("Only GraphNodes can be layouted to the grid");
+		return;
+	}
+
+	size_t width = GraphViewStyle::toGridSize(node.size.x);
+	size_t height = GraphViewStyle::toGridSize(node.size.y);
+
+	size_t incX = width - node.size.x;
+	size_t incY = height - node.size.y;
+
+	node.size.x = width;
+	node.size.y = height;
+
+	DummyNode* lastAccessNode = nullptr;
+	for (DummyNode& subNode : node.subNodes)
+	{
+		if (!subNode.visible)
+		{
+			continue;
+		}
+
+		if (subNode.isAccessNode())
+		{
+			subNode.size.x = subNode.size.x + incX;
+			lastAccessNode = &subNode;
+		}
+		else if (subNode.isExpandToggleNode())
+		{
+			subNode.position.x = subNode.position.x + incX;
+		}
+	}
+
+	if (lastAccessNode)
+	{
+		lastAccessNode->size.y = lastAccessNode->size.y + incY;
+	}
 }
 
 DummyNode* GraphController::findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId)

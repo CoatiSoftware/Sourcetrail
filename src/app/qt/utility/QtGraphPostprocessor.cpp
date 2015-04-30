@@ -1,14 +1,13 @@
 #include "QtGraphPostprocessor.h"
 
-// remark: maybe those two values could at some point be moved to an external config file (?)
-unsigned int QtGraphPostprocessor::s_cellSize = 5;
-unsigned int QtGraphPostprocessor::s_cellPadding = 10;
+#include "component/view/GraphViewStyle.h"
+
+unsigned int QtGraphPostprocessor::s_cellSize = GraphViewStyle::s_gridCellSize;
+unsigned int QtGraphPostprocessor::s_cellPadding = GraphViewStyle::s_gridCellPadding;
 
 void QtGraphPostprocessor::doPostprocessing(std::list<std::shared_ptr<QtGraphNode>>& nodes)
 {
 	unsigned int atomarGridSize = s_cellSize;
-
-	resizeNodes(nodes);
 
 	if (nodes.size() < 2)
 	{
@@ -413,31 +412,6 @@ Vec2f QtGraphPostprocessor::heatMapRayCast(const MatrixDynamicBase<unsigned int>
 	while(hit);
 
 	return length;
-}
-
-void QtGraphPostprocessor::resizeNodes(std::list<std::shared_ptr<QtGraphNode>>& nodes)
-{
-	std::list<std::shared_ptr<QtGraphNode>>::iterator it = nodes.begin();
-	for (; it != nodes.end(); it++)
-	{
-		Vec2i size = (*it)->getSize();
-
-		int newWidth = s_cellSize;
-		while(size.x - newWidth > 3)
-		{
-			newWidth += s_cellPadding + s_cellSize;
-		}
-		size.x = newWidth;
-
-		int newHeight = s_cellSize;
-		while(size.y - newHeight > 3)
-		{
-			newHeight += s_cellPadding + s_cellSize;
-		}
-		size.y = newHeight;
-
-		(*it)->setSize(size);
-	}
 }
 
 Vec2i QtGraphPostprocessor::calculateRasterNodeSize(const std::shared_ptr<QtGraphNode>& node)

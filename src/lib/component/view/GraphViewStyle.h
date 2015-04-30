@@ -7,6 +7,7 @@
 #include "component/view/graphElements/GraphNode.h"
 #include "component/view/GraphViewStyleImpl.h"
 #include "data/graph/Node.h"
+#include "data/graph/token_component/TokenComponentAccess.h"
 
 class GraphViewStyle
 {
@@ -88,7 +89,7 @@ public:
 	static std::string getFontNameOfExpandToggleNode();
 
 	static NodeMargins getMarginsForNodeType(Node::NodeType type, bool hasChildren);
-	static NodeMargins getMarginsOfAccessNode();
+	static NodeMargins getMarginsOfAccessNode(TokenComponentAccess::AccessType type);
 	static NodeMargins getMarginsOfExpandToggleNode();
 
 	static NodeStyle getStyleForNodeType(Node::NodeType type, bool isActive, bool isFocused, bool hasChildren);
@@ -96,6 +97,11 @@ public:
 	static NodeStyle getStyleOfExpandToggleNode();
 
 	static EdgeStyle getStyleForEdgeType(Edge::EdgeType type, bool isActive, bool isFocused);
+
+	static size_t toGridSize(size_t x);
+
+	static size_t s_gridCellSize;
+	static size_t s_gridCellPadding;
 
 private:
 	static std::map<Node::NodeType, float> s_charWidths;

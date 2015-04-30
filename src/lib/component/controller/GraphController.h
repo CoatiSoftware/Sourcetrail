@@ -54,6 +54,7 @@ private:
 	void layoutNesting();
 	void layoutNestingRecursive(DummyNode& node) const;
 	void addExpandToggleNode(DummyNode& node) const;
+	void layoutToGrid(DummyNode& node) const;
 
 	DummyNode* findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId);
 	DummyNode* findDummyNodeAccessRecursive(std::vector<DummyNode>& nodes, Id parentId, TokenComponentAccess::AccessType type);

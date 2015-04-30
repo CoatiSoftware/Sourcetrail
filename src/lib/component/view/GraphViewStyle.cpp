@@ -125,7 +125,7 @@ std::string GraphViewStyle::getFontNameOfExpandToggleNode()
 GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType type, bool hasChildren)
 {
 	NodeMargins margins;
-	margins.spacingX = 12;
+	margins.spacingX = 6;
 	margins.spacingY = 8;
 
 	switch (type)
@@ -178,7 +178,7 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 	return margins;
 }
 
-GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfAccessNode()
+GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfAccessNode(TokenComponentAccess::AccessType type)
 {
 	NodeMargins margins;
 	margins.spacingX = margins.spacingY = 8;
@@ -187,7 +187,21 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfAccessNode()
 	margins.top = 40;
 	margins.bottom = 10;
 
-	margins.minWidth = 82;
+	switch (type)
+	{
+	case TokenComponentAccess::ACCESS_NONE:
+		margins.minWidth = 30;
+		break;
+	case TokenComponentAccess::ACCESS_PUBLIC:
+		margins.minWidth = 56;
+		break;
+	case TokenComponentAccess::ACCESS_PROTECTED:
+		margins.minWidth = 80;
+		break;
+	case TokenComponentAccess::ACCESS_PRIVATE:
+		margins.minWidth = 64;
+		break;
+	}
 
 	return margins;
 }
@@ -401,6 +415,21 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 
 	return style;
 }
+
+size_t GraphViewStyle::toGridSize(size_t x)
+{
+	size_t r = s_gridCellSize;
+
+	while (r < x - 1)
+	{
+		r += s_gridCellPadding + s_gridCellSize;
+	}
+
+	return r;
+}
+
+size_t GraphViewStyle::s_gridCellSize = 5;
+size_t GraphViewStyle::s_gridCellPadding = 10;
 
 std::map<Node::NodeType, float> GraphViewStyle::s_charWidths;
 std::shared_ptr<GraphViewStyleImpl> GraphViewStyle::s_impl;
