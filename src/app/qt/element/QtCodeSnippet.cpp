@@ -272,7 +272,7 @@ void QtCodeSnippet::updateLineNumberArea(const QRect &rect, int dy)
 
 void QtCodeSnippet::clickedMaximizeButton()
 {
-	MessageShowFile(m_parent->getFilePath(), m_startLineNumber, m_startLineNumber + blockCount() - 1).dispatch();
+	MessageShowFile(m_parent->getFilePath().absoluteStr(), m_startLineNumber, m_startLineNumber + blockCount() - 1).dispatch();
 }
 
 void QtCodeSnippet::clearSelection()

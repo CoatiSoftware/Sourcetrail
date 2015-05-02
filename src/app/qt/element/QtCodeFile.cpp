@@ -1,13 +1,14 @@
 #include "qt/element/QtCodeFile.h"
 
-#include <QLabel>
+#include <QPushButton>
 #include <QVBoxLayout>
+
+#include "utility/messaging/type/MessageShowFile.h"
 
 #include "qt/element/QtCodeFileList.h"
 #include "qt/element/QtCodeSnippet.h"
-#include "utility/file/FileSystem.h"
 
-QtCodeFile::QtCodeFile(const std::string& filePath, QtCodeFileList* parent)
+QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	: QWidget(parent)
 	, m_parent(parent)
 	, m_filePath(filePath)
@@ -20,26 +21,32 @@ QtCodeFile::QtCodeFile(const std::string& filePath, QtCodeFileList* parent)
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
 
-	QLabel* label = new QLabel(FileSystem::fileName(filePath).c_str(), this);
-	label->setObjectName("title_label");
-	label->minimumSizeHint(); // force font loading
-	label->setFixedWidth(label->fontMetrics().width(FileSystem::fileName(filePath).c_str()) + 32);
-	label->setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
-	layout->addWidget(label);
+	m_title = new QPushButton(filePath.fileName().c_str(), this);
+	m_title->setObjectName("title_label");
+	m_title->minimumSizeHint(); // force font loading
+	m_title->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	m_title->setToolTip(QString::fromStdString(filePath.str()));
+	m_title->setFixedWidth(m_title->fontMetrics().width(filePath.fileName().c_str()) + 32);
+	m_title->setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
+	layout->addWidget(m_title);
+
+	connect(m_title, SIGNAL(clicked()), this, SLOT(clickedTitle()));
+
+	update();
 }
 
 QtCodeFile::~QtCodeFile()
 {
 }
 
-const std::string& QtCodeFile::getFilePath() const
+const FilePath& QtCodeFile::getFilePath() const
 {
 	return m_filePath;
 }
 
 std::string QtCodeFile::getFileName() const
 {
-	return FileSystem::fileName(m_filePath);
+	return m_filePath.fileName();
 }
 
 const std::vector<Id>& QtCodeFile::getActiveTokenIds() const
@@ -86,4 +93,11 @@ void QtCodeFile::update()
 	{
 		snippet->update();
 	}
+
+	m_title->setEnabled(m_parent->getShowMaximizeButton());
+}
+
+void QtCodeFile::clickedTitle()
+{
+	MessageShowFile(m_filePath.absoluteStr(), 0, 0).dispatch();
 }

@@ -33,6 +33,7 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 	}
 	else
 	{
+		MessageStatus("StartupProject was not defined in the ApplicationSettings", true).dispatch();
 		LOG_WARNING("No StartupProject defined in ApplicationSettings");
 	}
 

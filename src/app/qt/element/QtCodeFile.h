@@ -7,19 +7,24 @@
 
 #include <QWidget>
 
+#include "utility/file/FilePath.h"
 #include "utility/types.h"
 
+class QPushButton;
 class QtCodeFileList;
 class QtCodeSnippet;
 class TokenLocationFile;
 
-class QtCodeFile : public QWidget
+class QtCodeFile
+	: public QWidget
 {
+	Q_OBJECT
+
 public:
-	QtCodeFile(const std::string& filePath, QtCodeFileList* parent);
+	QtCodeFile(const FilePath& filePath, QtCodeFileList* parent);
 	virtual ~QtCodeFile();
 
-	const std::string& getFilePath() const;
+	const FilePath& getFilePath() const;
 	std::string getFileName() const;
 	const std::vector<Id>& getActiveTokenIds() const;
 	const std::vector<std::string>& getErrorMessages() const;
@@ -32,11 +37,16 @@ public:
 
 	void update();
 
+private slots:
+	void clickedTitle();
+
 private:
 	QtCodeFileList* m_parent;
 
+	QPushButton* m_title;
+
 	std::vector<std::shared_ptr<QtCodeSnippet>> m_snippets;
-	const std::string m_filePath;
+	const FilePath m_filePath;
 };
 
 #endif // QT_CODE_FILE_H

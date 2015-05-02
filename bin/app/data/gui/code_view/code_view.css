@@ -6,6 +6,14 @@
 	padding: 4px 12px;
 }
 
+#code_file #title_label:hover {
+	background: #D2D2D2;
+}
+
+#code_file #title_label:disabled {
+	color: black;
+}
+
 #code_snippet {
 	font-family: "Source Code Pro";
 	font-size: 14px;
@@ -28,4 +36,10 @@
 
 #code_snippet #maximize_button:enabled {
 	border-image: url(data/gui/code_view/images/button_maximize.png);
+}
+
+QToolTip {
+	background-color: rgb(204, 204, 204);
+	border: 1px solid rgb(0, 0, 0);
+	color: rgb(0, 0, 0);
 }

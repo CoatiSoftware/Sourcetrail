@@ -36,6 +36,7 @@ QtSearchBar::QtSearchBar()
 
 	m_searchButton = new QPushButton(this);
 	m_searchButton->setObjectName("search_button");
+	m_searchButton->setToolTip("search");
 	m_searchButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_searchButton->setIcon(QIcon("data/gui/search_view/images/search.png"));
 	layout->addWidget(m_searchButton);
