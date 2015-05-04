@@ -35,6 +35,9 @@ add_files(
 add_files(
 	LIB_FILES
 
+	component/controller/helper/SnippetMerger.cpp
+	component/controller/helper/SnippetMerger.h
+
 	component/controller/CodeController.cpp
 	component/controller/CodeController.h
 	component/controller/Controller.cpp

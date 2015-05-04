@@ -38,6 +38,12 @@ public:
 	Colori getCodeActiveLinkColor() const;
 	void setCodeActiveLinkColor(Colori color);
 
+	int getCodeSnippetSnapRange() const;
+	void setCodeSnippetSnapRange(int range);
+
+	int getCodeSnippetExpandRange() const;
+	void setCodeSnippetExpandRange(int range);
+
 	// colors
 	std::string getNodeTypeColor(Node::NodeType type, const std::string& state = "normal") const;
 	void setNodeTypeColor(Node::NodeType type, const std::string& color, const std::string& state = "normal");

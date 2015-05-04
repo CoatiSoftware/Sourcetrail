@@ -37,6 +37,8 @@ public:
 
 	void forEachTokenLocationLine(std::function<void(TokenLocationLine*)> func) const;
 	void forEachTokenLocation(std::function<void(TokenLocation*)> func) const;
+	void forEachStartTokenLocation(std::function<void(TokenLocation*)> func) const;
+	void forEachEndTokenLocation(std::function<void(TokenLocation*)> func) const;
 
 	TokenLocation* addTokenLocationAsPlainCopy(const TokenLocation* location);
 

@@ -89,6 +89,22 @@ void TokenLocationFile::forEachTokenLocation(std::function<void(TokenLocation*)>
 	}
 }
 
+void TokenLocationFile::forEachStartTokenLocation(std::function<void(TokenLocation*)> func) const
+{
+	for (const TokenLocationLinePairType& line : m_lines)
+	{
+		line.second->forEachStartTokenLocation(func);
+	}
+}
+
+void TokenLocationFile::forEachEndTokenLocation(std::function<void(TokenLocation*)> func) const
+{
+	for (const TokenLocationLinePairType& line : m_lines)
+	{
+		line.second->forEachEndTokenLocation(func);
+	}
+}
+
 TokenLocation* TokenLocationFile::addTokenLocationAsPlainCopy(const TokenLocation* location)
 {
 	unsigned int lineNumber = location->getTokenLocationLine()->getLineNumber();

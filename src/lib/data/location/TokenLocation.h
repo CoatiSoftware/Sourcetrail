@@ -26,6 +26,9 @@ public:
 	TokenLocation(const TokenLocation& other, TokenLocationLine* line);
 	~TokenLocation();
 
+	bool operator<(const TokenLocation& rhs) const;
+	bool operator>(const TokenLocation& rhs) const;
+
 	Id getId() const;
 	Id getTokenId() const;
 
@@ -44,6 +47,9 @@ public:
 
 	TokenLocation* getStartTokenLocation();
 	TokenLocation* getEndTokenLocation();
+
+	const TokenLocation* getStartTokenLocation() const;
+	const TokenLocation* getEndTokenLocation() const;
 
 	bool isStartTokenLocation() const;
 	bool isEndTokenLocation() const;

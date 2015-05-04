@@ -4,6 +4,7 @@
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/location/TokenLocationFile.h"
+#include "settings/ApplicationSettings.h"
 #include "utility/text/TextAccess.h"
 
 CodeController::CodeController(StorageAccess* storageAccess)
@@ -29,12 +30,13 @@ void CodeController::handleMessage(MessageActivateTokenLocation* message)
 void CodeController::handleMessage(MessageActivateTokens* message)
 {
 	std::vector<Id> activeTokenIds = message->tokenIds;
-	Id declarationId = 0;
+	Id declarationId = 0; // 0 means that no token is found.
 
 	if (activeTokenIds.size() == 1)
 	{
 		activeTokenIds = m_storageAccess->getActiveTokenIdsForId(activeTokenIds[0], &declarationId);
 	}
+	// TODO: what about declarationId if more than 1 token is active? FIX THIS!
 
 	CodeView* view = getView();
 	view->setActiveTokenIds(activeTokenIds);
@@ -144,24 +146,37 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(cons
 {
 	std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(file->getFilePath().str());
 
-	std::vector<std::pair<uint, uint>> ranges;
+	std::deque<SnippetMerger::Range> ranges;
 
 	if (file->isWholeCopy)
 	{
-		ranges.push_back(std::make_pair(1, textAccess->getLineCount()));
+		ranges.push_back(SnippetMerger::Range(
+			SnippetMerger::Border(1, true),
+			SnippetMerger::Border(textAccess->getLineCount(), true)
+		));
 	}
 	else
 	{
-		ranges = getSnippetRangesForFile(file);
+		SnippetMerger fileScopedMerger(1, textAccess->getLineCount());
+		std::map<int, std::shared_ptr<SnippetMerger>> mergers;
+		file->forEachStartTokenLocation(
+			[&](TokenLocation* location)
+			{
+				buildMergerHierarchy(location, fileScopedMerger, mergers);
+			}
+		);
+
+		ranges = fileScopedMerger.merge();
 	}
 
+	const int snippetExpandRange = ApplicationSettings::getInstance()->getCodeSnippetExpandRange();
 	std::vector<CodeView::CodeSnippetParams> snippets;
-	for (const std::pair<uint, uint>& range: ranges)
+	for (const SnippetMerger::Range& range: ranges)
 	{
 		CodeView::CodeSnippetParams params;
 		params.locationFile = *file;
-		params.startLineNumber = std::max<int>(1, range.first - s_lineRadius);
-		params.endLineNumber = std::min<int>(textAccess->getLineCount(), range.second + s_lineRadius);
+		params.startLineNumber = std::max<int>(1, range.start.row - (range.start.strong ? 0 : snippetExpandRange));
+		params.endLineNumber = std::min<int>(textAccess->getLineCount(), range.end.row + (range.end.strong ? 0 : snippetExpandRange));
 
 		for (const std::string& line: textAccess->getLines(params.startLineNumber, params.endLineNumber))
 		{
@@ -174,40 +189,38 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(cons
 	return snippets;
 }
 
-std::vector<std::pair<uint, uint>> CodeController::getSnippetRangesForFile(const TokenLocationFile* file) const
+std::shared_ptr<SnippetMerger> CodeController::buildMergerHierarchy(
+	TokenLocation* location, SnippetMerger& fileScopedMerger, std::map<int, std::shared_ptr<SnippetMerger>>& mergers) const
 {
-	std::vector<std::pair<uint, uint>> ranges;
-	uint start = 0;
-	uint end = 0;
+	const TokenLocation* currentLocation = location;
+	std::shared_ptr<SnippetMerger> currentMerger = std::make_shared<SnippetMerger>(
+		currentLocation->getStartTokenLocation()->getLineNumber(),
+		currentLocation->getEndTokenLocation()->getLineNumber()
+	);
 
-	file->forEachTokenLocation(
-		[&](TokenLocation* location) -> void
+	std::shared_ptr<TokenLocationFile> locationFile = m_storageAccess->getTokenLocationOfParentScope(currentLocation);
+	if (locationFile->getTokenLocationLineCount() == 0)
+	{
+		fileScopedMerger.addChild(currentMerger);
+		return currentMerger;
+	}
+
+	std::shared_ptr<SnippetMerger> nextMerger;
+	locationFile->forEachStartTokenLocation( // contains just 1 start location
+		[&](TokenLocation* scopeLocation)
 		{
-			uint lineNumber = location->getLineNumber();
-
-			if (location->isStartTokenLocation())
+			std::map<int, std::shared_ptr<SnippetMerger>>::iterator it = mergers.find(scopeLocation->getId());
+			if (it == mergers.end())
 			{
-				if (start && end && lineNumber > end + 2 * s_lineRadius + 1)
-				{
-					ranges.push_back(std::make_pair(uint(start), uint(end)));
-					start = end = 0;
-				}
-
-				if (!start)
-				{
-					start = lineNumber;
-				}
-
-				lineNumber = location->getEndTokenLocation()->getLineNumber();
+				nextMerger = buildMergerHierarchy(scopeLocation, fileScopedMerger, mergers);
+				mergers[scopeLocation->getId()] = nextMerger;
 			}
-
-			if (lineNumber > end)
+			else
 			{
-				end = lineNumber;
+				nextMerger = it->second;
 			}
 		}
 	);
-
-	ranges.push_back(std::make_pair(uint(start), uint(end)));
-	return ranges;
+	nextMerger->addChild(currentMerger);
+	return currentMerger;
 }

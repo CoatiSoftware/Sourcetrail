@@ -91,6 +91,28 @@ void TokenLocationLine::forEachTokenLocation(std::function<void(TokenLocation*)>
 	}
 }
 
+void TokenLocationLine::forEachStartTokenLocation(std::function<void(TokenLocation*)> func) const
+{
+	for (const TokenLocationPairType& location : m_locations)
+	{
+		if (location.second->isStartTokenLocation())
+		{
+			func(location.second.get());
+		}
+	}
+}
+
+void TokenLocationLine::forEachEndTokenLocation(std::function<void(TokenLocation*)> func) const
+{
+	for (const TokenLocationPairType& location : m_locations)
+	{
+		if (location.second->isEndTokenLocation())
+		{
+			func(location.second.get());
+		}
+	}
+}
+
 TokenLocation* TokenLocationLine::addTokenLocationAsPlainCopy(const TokenLocation* location)
 {
 	std::shared_ptr<TokenLocation> locationPtr = std::make_shared<TokenLocation>(*location, this);

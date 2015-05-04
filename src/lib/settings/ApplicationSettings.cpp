@@ -86,6 +86,26 @@ void ApplicationSettings::setCodeActiveLinkColor(Colori color)
 	setValue<std::string>("code/ActiveLinkColor", color.toString());
 }
 
+int ApplicationSettings::getCodeSnippetSnapRange() const
+{
+	return getValue<int>("code/snippet/snap_range", 4);
+}
+
+void ApplicationSettings::setCodeSnippetSnapRange(int range)
+{
+	setValue<int>("code/snippet/snap_range", range);
+}
+
+int ApplicationSettings::getCodeSnippetExpandRange() const
+{
+	return getValue<int>("code/snippet/expand_range", 2);
+}
+
+void ApplicationSettings::setCodeSnippetExpandRange(int range)
+{
+	setValue<int>("code/snippet/expand_range", range);
+}
+
 std::string ApplicationSettings::getNodeTypeColor(Node::NodeType type, const std::string& state) const
 {
 	std::string path = "colors/" + Node::getTypeString(type) + "/" + state;

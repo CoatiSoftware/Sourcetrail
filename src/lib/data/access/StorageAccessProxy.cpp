@@ -153,3 +153,13 @@ TokenLocationCollection StorageAccessProxy::getErrorTokenLocations(std::vector<s
 
 	return TokenLocationCollection();
 }
+
+std::shared_ptr<TokenLocationFile> StorageAccessProxy::getTokenLocationOfParentScope(const TokenLocation* child) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getTokenLocationOfParentScope(child);
+	}
+
+	return std::make_shared<TokenLocationFile>("");
+}

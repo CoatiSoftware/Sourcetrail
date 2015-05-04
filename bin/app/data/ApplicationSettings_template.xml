@@ -35,6 +35,10 @@
 		<LinkColor><!-- COLOR: color of clickable elements in the source view --></LinkColor>
 		<ScopeColor><!-- COLOR: color of clickable scopes in the source view --></ScopeColor>
 		<ActiveLinkColor><!-- COLOR: color of active elements or scopes in the source view --></ActiveLinkColor>
+		<snippet>
+			<snap_range><!-- INTEGER: max amount of lines that the current snippet will be extended to snap to scope start/end --></snap_range>
+			<expand_range><!-- INTEGER: amount of lines that the snippet range (not snapped) will be extended --></expand_range>
+		</snippet>
 	</code>
 
 	<colors>

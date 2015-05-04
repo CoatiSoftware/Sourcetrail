@@ -11,6 +11,7 @@
 #include "data/search/SearchMatch.h"
 
 class Graph;
+class TokenLocation;
 class TokenLocationCollection;
 class TokenLocationFile;
 
@@ -38,6 +39,7 @@ public:
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber) const = 0;
 
 	virtual TokenLocationCollection getErrorTokenLocations(std::vector<std::string>* errorMessages) const = 0;
+	virtual std::shared_ptr<TokenLocationFile> getTokenLocationOfParentScope(const TokenLocation* child) const = 0;
 };
 
 #endif // STORAGE_ACCESS_H

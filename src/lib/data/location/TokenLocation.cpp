@@ -39,6 +39,26 @@ TokenLocation::~TokenLocation()
 {
 }
 
+bool TokenLocation::operator<(const TokenLocation& rhs) const
+{
+	return (
+		getLineNumber() < rhs.getLineNumber() || (
+			getLineNumber() == rhs.getLineNumber() &&
+			getColumnNumber() < rhs.getColumnNumber()
+		)
+	);
+}
+
+bool TokenLocation::operator>(const TokenLocation& rhs) const
+{
+	return (
+		getLineNumber() > rhs.getLineNumber() || (
+			getLineNumber() == rhs.getLineNumber() &&
+			getColumnNumber() > rhs.getColumnNumber()
+		)
+	);
+}
+
 Id TokenLocation::getId() const
 {
 	return m_id;
@@ -112,6 +132,30 @@ TokenLocation* TokenLocation::getStartTokenLocation()
 }
 
 TokenLocation* TokenLocation::getEndTokenLocation()
+{
+	if (!m_isStart)
+	{
+		return this;
+	}
+	else
+	{
+		return m_other;
+	}
+}
+
+const TokenLocation* TokenLocation::getStartTokenLocation() const
+{
+	if (m_isStart)
+	{
+		return this;
+	}
+	else
+	{
+		return m_other;
+	}
+}
+
+const TokenLocation* TokenLocation::getEndTokenLocation() const
 {
 	if (!m_isStart)
 	{

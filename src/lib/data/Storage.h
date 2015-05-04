@@ -126,6 +126,8 @@ public:
 
 	virtual TokenLocationCollection getErrorTokenLocations(std::vector<std::string>* errorMessages) const;
 
+	virtual std::shared_ptr<TokenLocationFile> getTokenLocationOfParentScope(const TokenLocation* child) const;
+
 protected:
 	const Graph& getGraph() const;
 	const TokenLocationCollection& getTokenLocationCollection() const;

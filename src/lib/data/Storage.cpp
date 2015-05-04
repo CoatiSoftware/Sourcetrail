@@ -1055,6 +1055,48 @@ TokenLocationCollection Storage::getErrorTokenLocations(std::vector<std::string>
 	return m_errorLocationCollection;
 }
 
+std::shared_ptr<TokenLocationFile> Storage::getTokenLocationOfParentScope(const TokenLocation* child) const
+{
+	const TokenLocation* parent = child;
+	const FilePath filePath = child->getFilePath();
+	const TokenLocationFile* locationFile = m_locationCollection.findTokenLocationFileByPath(child->getFilePath());
+	locationFile->forEachTokenLocation(
+		[&](TokenLocation* tokenLocation) -> void
+		{
+			if (tokenLocation->isStartTokenLocation())
+			{
+			TokenLocation::LocationType lt = tokenLocation->getType();
+			int sln = tokenLocation->getLineNumber();
+			int eln = tokenLocation->getEndTokenLocation()->getLineNumber();
+			if (tokenLocation->getType() == TokenLocation::LOCATION_SCOPE &&
+				tokenLocation->isStartTokenLocation() &&
+				(*tokenLocation) < *(child->getStartTokenLocation()) &&
+				(*tokenLocation->getEndTokenLocation()) > *(child->getEndTokenLocation()))
+			{
+				if (parent == child)
+				{
+					parent = tokenLocation;
+				}
+				else
+				{
+					if ((*tokenLocation) > *parent) // since tokenLocation is a start location the > location indiceates the scope that is closer to the child.
+					{
+						parent = tokenLocation;
+					}
+				}
+			}
+			}
+		}
+	);
+	std::shared_ptr<TokenLocationFile> file = std::make_shared<TokenLocationFile>(filePath);
+	if (parent != child)
+	{
+		file->addTokenLocationAsPlainCopy(parent);
+		file->addTokenLocationAsPlainCopy(parent->getOtherTokenLocation());
+	}
+	return file;
+}
+
 const Graph& Storage::getGraph() const
 {
 	return m_graph;
