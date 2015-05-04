@@ -33,8 +33,6 @@ QtMainWindow::QtMainWindow()
 
 	setupProjectMenu();
 	setupEditMenu();
-	setupViewMenu();
-	setupFindMenu();
 	setupHelpMenu();
 
 	setupShortcuts();
@@ -220,36 +218,28 @@ void QtMainWindow::setupProjectMenu()
 	QMenu *menu = new QMenu(tr("&Project"), this);
 	menuBar()->addMenu(menu);
 
-	menu->addAction(tr("&New"), this, SLOT(newProject()), QKeySequence::New);
-	menu->addAction(tr("&Open..."), this, SLOT(openProject()), QKeySequence::Open);
+	menu->addAction(tr("Ope&n Source Folder..."), this, SLOT(newProject()), QKeySequence::New);
+	menu->addAction(tr("&Open Coati Project..."), this, SLOT(openProject()), QKeySequence::Open);
 	menu->addAction(tr("&Save"), this, SLOT(saveProject()), QKeySequence::Save);
-	menu->addAction(tr("Save as"), this, SLOT(saveAsProject()), QKeySequence::SaveAs);
+	menu->addAction(tr("Save as..."), this, SLOT(saveAsProject()), QKeySequence::SaveAs);
+	menu->addAction(tr("&Close Window"), this, SLOT(closeWindow()), QKeySequence::Close);
 	menu->addAction(tr("E&xit"), QCoreApplication::instance(), SLOT(quit()), QKeySequence::Quit);
 }
 
-void QtMainWindow::setupViewMenu()
+void QtMainWindow::showLicences()
 {
-	QMenu *menu = new QMenu(tr("&View"), this);
-	menuBar()->addMenu(menu);
-
-	menu->addAction(tr("&Close Window"), this, SLOT(closeWindow()), QKeySequence::Close);
-	menu->addAction(tr("&Refresh"), this, SLOT(refresh()), QKeySequence::Refresh);
+	//TODO: Licences
+	//QMessageBox::information()
 }
 
 void QtMainWindow::setupEditMenu()
 {
-    QMenu *menu = new QMenu(tr("&Edit"), this);
-    menuBar()->addMenu(menu);
-
-    menu->addAction(tr("Undo"), this, SLOT(undo()), QKeySequence::Undo );
-    menu->addAction(tr("Redo"), this, SLOT(redo()), QKeySequence::Redo );
-}
-
-void QtMainWindow::setupFindMenu()
-{
-	QMenu *menu = new QMenu(tr("&Find"), this);
+	QMenu *menu = new QMenu(tr("&Edit"), this);
 	menuBar()->addMenu(menu);
 
+	menu->addAction(tr("&Refresh"), this, SLOT(refresh()), QKeySequence::Refresh);
+	menu->addAction(tr("Undo"), this, SLOT(undo()), QKeySequence::Undo );
+    menu->addAction(tr("Redo"), this, SLOT(redo()), QKeySequence::Redo );
 	menu->addAction(tr("&Find"), this, SLOT(find()), QKeySequence::Find);
 }
 
@@ -260,6 +250,7 @@ void QtMainWindow::setupHelpMenu()
 
 	menu->addAction(tr("&About"), this, SLOT(about()));
 	menu->addAction(tr("About &Qt"), QCoreApplication::instance(), SLOT(aboutQt()));
+	//menu->addAction(tr("Licences"), QCoreApplication::instance(), SLOT(showLicences()));
 }
 
 void QtMainWindow::setupShortcuts()
