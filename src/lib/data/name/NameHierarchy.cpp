@@ -36,10 +36,10 @@ size_t NameHierarchy::size() const
 std::string NameHierarchy::getFullName() const
 {
 	std::string name;
-	for (int i = 0; i < m_elements.size(); i++)
+	for (size_t i = 0; i < m_elements.size(); i++)
 	{
 		name += m_elements[i]->getFullName();
-		if (i < m_elements.size() - 1)
+		if (i + 1 < m_elements.size())
 		{
 			name += "::";
 		}

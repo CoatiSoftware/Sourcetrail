@@ -86,7 +86,6 @@ std::string CxxDeclNameResolver::getDeclName()
 {
 	const clang::NamedDecl* declaration = clang::dyn_cast<clang::NamedDecl>(m_declaration);
 	std::string declName = declaration->getNameAsString();
-	clang::Decl::Kind kind = declaration->getKind();
 	if (clang::isa<clang::CXXRecordDecl>(declaration))
 	{
 		clang::ClassTemplateDecl* templateClassDeclaration = clang::dyn_cast<clang::CXXRecordDecl>(declaration)->getDescribedClassTemplate();

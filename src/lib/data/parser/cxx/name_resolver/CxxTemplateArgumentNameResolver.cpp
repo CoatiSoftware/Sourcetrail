@@ -50,9 +50,6 @@ std::string CxxTemplateArgumentNameResolver::getTemplateArgumentName(const clang
 	case clang::TemplateArgument::Pack:
 		LOG_ERROR("Type of template argument not handled: Pack");
 		break;
-	default:
-		LOG_ERROR("Type of template argument not handled." + argument.getKind());
-		break;
 	}
 	return std::string();
 }

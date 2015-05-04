@@ -17,7 +17,7 @@ void CxxNameResolver::ignoreContextDecl(const clang::Decl* decl)
 bool CxxNameResolver::ignoresContext(const clang::DeclContext* declContext)
 {
 	const clang::Decl* decl = clang::dyn_cast<clang::Decl>(declContext);
-	for (int i = 0; i < m_ignoredContextDecls.size(); i++)
+	for (size_t i = 0; i < m_ignoredContextDecls.size(); i++)
 	{
 		if (decl == m_ignoredContextDecls[i])
 		{

@@ -56,7 +56,6 @@ namespace utility
 		case clang::TemplateArgument::Template:
 			{
 				clang::TemplateName templateName = argument.getAsTemplate();
-				clang::TemplateName::NameKind::Template;
 				switch (templateName.getKind())
 				{
 				case clang::TemplateName::Template:
@@ -74,9 +73,6 @@ namespace utility
 			return utility::qualTypeToDataType(argument.getAsExpr()->getType());
 		case clang::TemplateArgument::Pack:
 			LOG_ERROR("Type of template argument not handled: Pack");
-			break;
-		default:
-			LOG_ERROR("Type of template argument not handled." + argument.getKind());
 			break;
 		}
 		return std::make_shared<NamedDataType>(NameHierarchy());

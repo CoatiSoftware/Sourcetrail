@@ -54,10 +54,11 @@ const std::string& SearchIndex::getWord(Id wordId) const
 SearchNode* SearchIndex::addNode(NameHierarchy nameHierarchy)
 {
 	std::deque<Id> nameIds;
-	for (int i = 0; i < nameHierarchy.size(); i++)
+	for (size_t i = 0; i < nameHierarchy.size(); i++)
 	{
 		nameIds.push_back(m_dictionary.getWordId(nameHierarchy[i]->getFullName()));
 	}
+
 	if (nameIds.size())
 	{
 		return m_root.addNodeRecursive(&nameIds, m_dictionary).get();

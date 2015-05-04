@@ -56,7 +56,7 @@ std::shared_ptr<DataType> CxxTypeNameResolver::typeToDataType(const clang::Type*
 		}
 	case clang::Type::MemberPointer:
 		{
-			int ogogo = 0; // test this case!
+			// test this case!
 		}
 	case clang::Type::Pointer:
 		{
@@ -129,10 +129,10 @@ std::shared_ptr<DataType> CxxTypeNameResolver::typeToDataType(const clang::Type*
 				{
 					std::string templateArgumentNamePart = "<";
 					CxxTemplateArgumentNameResolver resolver(getIgnoredContextDecls());
-					for (int i = 0; i < templateSpecializationType->getNumArgs(); i++)
+					for (size_t i = 0; i < templateSpecializationType->getNumArgs(); i++)
 					{
 						templateArgumentNamePart += resolver.getTemplateArgumentName(templateSpecializationType->getArg(i));
-						if (i < templateSpecializationType->getNumArgs() - 1)
+						if (i + 1 < templateSpecializationType->getNumArgs())
 							templateArgumentNamePart += ", ";
 					}
 					templateArgumentNamePart += ">";

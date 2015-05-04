@@ -367,7 +367,7 @@ bool QtGraphPostprocessor::getHeatmapGradient(Vec2f& outGradient, const MatrixDy
 	return overlap;
 }
 
-Vec2f QtGraphPostprocessor::heatMapRayCast(const MatrixDynamicBase<unsigned int>& heatMap, const Vec2f& startPosition, const Vec2f& direction, const int minValue)
+Vec2f QtGraphPostprocessor::heatMapRayCast(const MatrixDynamicBase<unsigned int>& heatMap, const Vec2f& startPosition, const Vec2f& direction, unsigned int minValue)
 {
 	float xOffset = 0.0f;
 	float yOffset = 0.0f;
