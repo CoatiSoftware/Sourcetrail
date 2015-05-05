@@ -918,26 +918,5 @@ ParseFunction ASTVisitor::getParseFunction(const clang::FunctionDecl* declaratio
 
 ParseFunction ASTVisitor::getParseFunction(const clang::FunctionTemplateDecl* declaration) const
 {
-	bool isStatic = false;
-	bool isConst = false;
-
-	const clang::FunctionDecl* templatedDecl = declaration->getTemplatedDecl();
-	if (clang::isa<clang::CXXMethodDecl>(templatedDecl))
-	{
-		const clang::CXXMethodDecl* methodDecl = clang::dyn_cast<const clang::CXXMethodDecl>(templatedDecl);
-		isStatic = methodDecl->isStatic();
-		isConst = methodDecl->isConst();
-	}
-	else
-	{
-		isStatic = templatedDecl->getStorageClass() == clang::SC_Static;
-	}
-
-	return ParseFunction(
-		getParseTypeUsageOfReturnType(templatedDecl),
-		utility::getDeclNameHierarchy(declaration),
-		getParameters(templatedDecl),
-		isStatic,
-		isConst
-	);
+	return getParseFunction(declaration->getTemplatedDecl());
 }

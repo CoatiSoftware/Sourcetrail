@@ -100,6 +100,16 @@ void QtGraphView::switchToNewGraphData()
 {
 	m_oldGraph = m_graph;
 
+	for (const std::shared_ptr<QtGraphNode>& node : m_oldNodes)
+	{
+		node->hide();
+	}
+
+	for (const std::shared_ptr<QtGraphEdge>& edge : m_oldEdges)
+	{
+		edge->hide();
+	}
+
 	m_oldNodes = m_nodes;
 	m_oldEdges = m_edges;
 

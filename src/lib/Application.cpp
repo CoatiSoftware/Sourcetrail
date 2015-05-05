@@ -99,12 +99,15 @@ void Application::handleMessage(MessageFinishedParsing* message)
 
 	Id mainId = m_storageAccessProxy->getIdForNodeWithName("main");
 
-	if (!mainId)
+	if (!mainId && m_storageAccessProxy->getNameForNodeWithId(1).size() > 0)
 	{
 		mainId = 1;
 	}
 
-	MessageActivateTokens(mainId).dispatch();
+	if (mainId)
+	{
+		MessageActivateTokens(mainId).dispatch();
+	}
 }
 
 void Application::handleMessage(MessageLoadProject* message)

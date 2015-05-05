@@ -2437,22 +2437,21 @@ public:
 		TS_ASSERT_EQUALS(client->errors[0], "use of undeclared identifier \'b\' <1:9 1:9>");
 	}
 
-
-	void ___test_TEST()
-	{
-		std::shared_ptr<TestParserClient> client = parseCode(
-			"template <template<template<typename> class> class T>\n"
-			"class A {\n"
-			"T<>\n"
-			"};\n"
-			"template <template<typename> class T>\n"
-			"class B {};\n"
-			"template <typename T>\n"
-			"class C {};\n"
-			"A<B> a;\n"
-		);
-		int ofo = 0;
-	}
+	// void ___test_TEST()
+	// {
+	// 	std::shared_ptr<TestParserClient> client = parseCode(
+	// 		"template <template<template<typename> class> class T>\n"
+	// 		"class A {\n"
+	// 		"T<>\n"
+	// 		"};\n"
+	// 		"template <template<typename> class T>\n"
+	// 		"class B {};\n"
+	// 		"template <typename T>\n"
+	// 		"class C {};\n"
+	// 		"A<B> a;\n"
+	// 	);
+	// 	int ofo = 0;
+	// }
 
 private:
 	class TestParserClient: public ParserClient

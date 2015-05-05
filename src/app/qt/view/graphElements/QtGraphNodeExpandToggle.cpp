@@ -1,5 +1,6 @@
 #include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
 
+#include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
 
 #include "qt/graphics/QtRoundedRectItem.h"
@@ -8,31 +9,29 @@
 QtGraphNodeExpandToggle::QtGraphNodeExpandToggle(bool expanded, int invisibleSubNodeCount)
 	: m_allVisible(invisibleSubNodeCount == 0)
 {
+	if (!expanded && !invisibleSubNodeCount)
+	{
+		LOG_ERROR("ExpandToggle shouldn't be visible");
+		return;
+	}
+
 	const int iconHeight = 4;
 	m_icon = new QGraphicsPixmapItem(this);
 
-	if (!expanded && !invisibleSubNodeCount)
+	QtDeviceScaledPixmap pixmap("data/gui/graph_view/images/arrow.png");
+	pixmap.scaleToHeight(iconHeight);
+
+	if (invisibleSubNodeCount)
 	{
-		this->hide();
-		return;
+		QString numberStr = QString::number(invisibleSubNodeCount);
+		m_text->setText(numberStr);
 	}
 	else
 	{
-		QtDeviceScaledPixmap pixmap("data/gui/graph_view/images/arrow.png");
-		pixmap.scaleToHeight(iconHeight);
-
-		if (invisibleSubNodeCount)
-		{
-			QString numberStr = QString::number(invisibleSubNodeCount);
-			m_text->setText(numberStr);
-		}
-		else
-		{
-			pixmap.mirror();
-		}
-
-		m_icon->setPixmap(pixmap.pixmap());
+		pixmap.mirror();
 	}
+
+	m_icon->setPixmap(pixmap.pixmap());
 }
 
 QtGraphNodeExpandToggle::~QtGraphNodeExpandToggle()

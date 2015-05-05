@@ -13,7 +13,6 @@ SearchController::~SearchController()
 {
 }
 
-#include <iostream>
 void SearchController::handleMessage(MessageActivateTokens* message)
 {
 	if (!m_ignoreNextMessageActivateTokens && message->tokenIds.size())

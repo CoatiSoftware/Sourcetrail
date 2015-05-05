@@ -547,12 +547,10 @@ Id Storage::onTemplateArgumentTypeParsed(
 
 	Node* argumentNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, argumentNameHierarchy);
 	Node* templateNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateNameHierarchy);
-	m_graph.createEdge(Edge::EDGE_TEMPLATE_ARGUMENT_OF, argumentNode, templateNode);
+	Edge* argumentOfEdge = m_graph.createEdge(Edge::EDGE_TEMPLATE_ARGUMENT_OF, argumentNode, templateNode);
 
-	if (location.isValid())
-	{
-		addTokenLocation(argumentNode, location);
-	}
+	addTokenLocation(argumentNode, location);
+	addTokenLocation(argumentOfEdge, location);
 
 	return argumentNode->getId();
 }
@@ -1060,14 +1058,9 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationOfParentScope(const 
 	const TokenLocation* parent = child;
 	const FilePath filePath = child->getFilePath();
 	const TokenLocationFile* locationFile = m_locationCollection.findTokenLocationFileByPath(child->getFilePath());
-	locationFile->forEachTokenLocation(
+	locationFile->forEachStartTokenLocation(
 		[&](TokenLocation* tokenLocation) -> void
 		{
-			if (tokenLocation->isStartTokenLocation())
-			{
-			TokenLocation::LocationType lt = tokenLocation->getType();
-			int sln = tokenLocation->getLineNumber();
-			int eln = tokenLocation->getEndTokenLocation()->getLineNumber();
 			if (tokenLocation->getType() == TokenLocation::LOCATION_SCOPE &&
 				tokenLocation->isStartTokenLocation() &&
 				(*tokenLocation) < *(child->getStartTokenLocation()) &&
@@ -1077,17 +1070,15 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationOfParentScope(const 
 				{
 					parent = tokenLocation;
 				}
-				else
+				// since tokenLocation is a start location the > location indicates the scope that is closer to the child.
+				else if ((*tokenLocation) > *parent)
 				{
-					if ((*tokenLocation) > *parent) // since tokenLocation is a start location the > location indiceates the scope that is closer to the child.
-					{
-						parent = tokenLocation;
-					}
+					parent = tokenLocation;
 				}
-			}
 			}
 		}
 	);
+
 	std::shared_ptr<TokenLocationFile> file = std::make_shared<TokenLocationFile>(filePath);
 	if (parent != child)
 	{

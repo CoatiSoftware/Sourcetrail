@@ -523,7 +523,10 @@ void GraphController::addExpandToggleNode(DummyNode& node) const
 		}
 	}
 
-	node.subNodes.push_back(expandNode);
+	if (expandNode.isExpanded() || expandNode.invisibleSubNodeCount)
+	{
+		node.subNodes.push_back(expandNode);
+	}
 }
 
 void GraphController::layoutToGrid(DummyNode& node) const

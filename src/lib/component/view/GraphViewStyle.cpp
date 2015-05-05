@@ -407,7 +407,12 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 	case Edge::EDGE_INCLUDE:
 		style.color = "#87BA50";
 		break;
-
+	case Edge::EDGE_TEMPLATE_PARAMETER_OF:
+	case Edge::EDGE_TEMPLATE_ARGUMENT_OF:
+	case Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF:
+	case Edge::EDGE_TEMPLATE_SPECIALIZATION_OF:
+		style.color = "#DD0000";
+		break;
 	default:
 		style.color = "#878787";
 		break;
