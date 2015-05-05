@@ -80,6 +80,13 @@ private:
 	ParseFunction getParseFunction(const clang::FunctionDecl* declaration) const;
 	ParseFunction getParseFunction(const clang::FunctionTemplateDecl* declaration) const;
 
+	template <typename T>
+	void saveClassTemplateArgumentTypeUsages(const clang::TypeSourceInfo* typeInfo, const T& t);
+
+	template <typename T>
+	void saveFunctionTemplateArgumentTypeUsages(
+		const clang::FunctionDecl* decl, const clang::SourceRange& sourceRange, const T& t);
+
 	clang::ASTContext* m_context;
 	ParserClient* m_client;
 	FileRegister* m_fileRegister;

@@ -9,6 +9,8 @@
 #include "utility/utilityString.h"
 
 #include "data/parser/cxx/ASTBodyVisitor.h"
+#include "data/parser/cxx/name_resolver/CxxDeclNameResolver.h"
+#include "data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h"
 #include "data/parser/cxx/utilityCxx.h"
 #include "data/parser/ParseFunction.h"
 #include "data/parser/ParseLocation.h"
@@ -233,6 +235,8 @@ bool ASTVisitor::VisitCXXConstructorDecl(clang::CXXConstructorDecl* declaration)
 						getParseTypeUsage(init->getTypeSourceInfo()->getTypeLoc(), init->getTypeSourceInfo()->getType()),
 						getParseFunction(declaration)
 					);
+
+					saveClassTemplateArgumentTypeUsages<ParseFunction>(init->getTypeSourceInfo(), getParseFunction(declaration));
 				}
 
 				ASTBodyVisitor bodyVisitor(this, declaration);
@@ -517,6 +521,9 @@ void ASTVisitor::VisitCallExprInDeclBody(clang::FunctionDecl* decl, clang::CallE
 		getParseFunction(decl),
 		getParseFunction(expr->getDirectCallee())
 	);
+
+	saveFunctionTemplateArgumentTypeUsages<ParseFunction>(
+		expr->getDirectCallee(), expr->getSourceRange(), getParseFunction(decl));
 }
 
 void ASTVisitor::VisitCallExprInDeclBody(clang::VarDecl* decl, clang::CallExpr* expr)
@@ -532,6 +539,9 @@ void ASTVisitor::VisitCallExprInDeclBody(clang::VarDecl* decl, clang::CallExpr* 
 		getParseVariable(decl),
 		getParseFunction(expr->getDirectCallee())
 	);
+
+	saveFunctionTemplateArgumentTypeUsages<ParseVariable>(
+		expr->getDirectCallee(), expr->getSourceRange(), getParseVariable(decl));
 }
 
 void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clang::CXXConstructExpr* expr)
@@ -587,6 +597,9 @@ void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clan
 		getParseFunction(decl),
 		getParseFunction(expr->getConstructor())
 	);
+
+	saveFunctionTemplateArgumentTypeUsages<ParseFunction>(
+		expr->getConstructor(), expr->getSourceRange(), getParseFunction(decl));
 }
 
 void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::VarDecl* decl, clang::CXXConstructExpr* expr)
@@ -596,6 +609,9 @@ void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::VarDecl* decl, clang::CX
 		getParseVariable(decl),
 		getParseFunction(expr->getConstructor())
 	);
+
+	saveFunctionTemplateArgumentTypeUsages<ParseVariable>(
+		expr->getConstructor(), expr->getSourceRange(), getParseVariable(decl));
 }
 
 void ASTVisitor::VisitCXXNewExprInDeclBody(clang::FunctionDecl* decl, clang::CXXNewExpr* expr)
@@ -604,6 +620,8 @@ void ASTVisitor::VisitCXXNewExprInDeclBody(clang::FunctionDecl* decl, clang::CXX
 		getParseTypeUsage(expr->getAllocatedTypeSourceInfo()->getTypeLoc(), expr->getAllocatedType()),
 		getParseFunction(decl)
 	);
+
+	saveClassTemplateArgumentTypeUsages<ParseFunction>(expr->getAllocatedTypeSourceInfo(), getParseFunction(decl));
 }
 
 void ASTVisitor::VisitCXXNewExprInDeclBody(clang::VarDecl* decl, clang::CXXNewExpr* expr)
@@ -612,6 +630,8 @@ void ASTVisitor::VisitCXXNewExprInDeclBody(clang::VarDecl* decl, clang::CXXNewEx
 		getParseTypeUsage(expr->getAllocatedTypeSourceInfo()->getTypeLoc(), expr->getAllocatedType()),
 		getParseVariable(decl)
 	);
+
+	saveClassTemplateArgumentTypeUsages<ParseVariable>(expr->getAllocatedTypeSourceInfo(), getParseVariable(decl));
 }
 
 void ASTVisitor::VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr)
@@ -690,6 +710,8 @@ void ASTVisitor::VisitVarDeclInDeclBody(clang::FunctionDecl* decl, clang::VarDec
 		getParseTypeUsage(varDecl->getTypeSourceInfo()->getTypeLoc(), varDecl->getType()),
 		getParseFunction(decl)
 	);
+
+	saveClassTemplateArgumentTypeUsages<ParseFunction>(varDecl->getTypeSourceInfo(), getParseFunction(decl));
 }
 
 bool ASTVisitor::isLocatedInUnparsedProjectFile(const clang::Decl* declaration) const
@@ -919,4 +941,59 @@ ParseFunction ASTVisitor::getParseFunction(const clang::FunctionDecl* declaratio
 ParseFunction ASTVisitor::getParseFunction(const clang::FunctionTemplateDecl* declaration) const
 {
 	return getParseFunction(declaration->getTemplatedDecl());
+}
+
+template <typename T>
+void ASTVisitor::saveClassTemplateArgumentTypeUsages(const clang::TypeSourceInfo* typeInfo, const T& t)
+{
+	const clang::Type* type = typeInfo->getType().getTypePtr();
+
+	if (type->getTypeClass() == clang::Type::Elaborated)
+	{
+		type = clang::dyn_cast<clang::ElaboratedType>(type)->getNamedType().getTypePtr();
+	}
+
+	if (type->getTypeClass() == clang::Type::TemplateSpecialization)
+	{
+		const clang::TemplateSpecializationType* templateSpecializationType = type->getAs<clang::TemplateSpecializationType>();
+		CxxDeclNameResolver declNameResolver(templateSpecializationType->getTemplateName().getAsTemplateDecl());
+
+		CxxTemplateArgumentNameResolver resolver;
+		for (size_t i = 0; i < templateSpecializationType->getNumArgs(); i++)
+		{
+			std::string argumentName = resolver.getTemplateArgumentName(templateSpecializationType->getArg(i));
+			NameHierarchy argumentNameHierarchy;
+			argumentNameHierarchy.push(std::make_shared<NameElement>(argumentName));
+
+			std::shared_ptr<DataType> argumentType = std::make_shared<NamedDataType>(argumentNameHierarchy);
+
+			m_client->onTypeUsageParsed(getParseTypeUsage(typeInfo->getTypeLoc(), argumentType), t);
+		}
+	}
+}
+
+template <typename T>
+void ASTVisitor::saveFunctionTemplateArgumentTypeUsages(
+	const clang::FunctionDecl* decl, const clang::SourceRange& sourceRange, const T& t
+){
+	const clang::TemplateArgumentList* argumentList = decl->getTemplateSpecializationArgs();
+	if (!argumentList)
+	{
+		return;
+	}
+
+	CxxTemplateArgumentNameResolver resolver;
+	for (size_t i = 0; i < argumentList->size(); i++)
+	{
+		std::string argumentName = resolver.getTemplateArgumentName(argumentList->get(i));
+		if (argumentName.size())
+		{
+			NameHierarchy argumentNameHierarchy;
+			argumentNameHierarchy.push(std::make_shared<NameElement>(argumentName));
+
+			std::shared_ptr<DataType> argumentType = std::make_shared<NamedDataType>(argumentNameHierarchy);
+
+			m_client->onTypeUsageParsed(getParseTypeUsage(sourceRange, argumentType), t);
+		}
+	}
 }
