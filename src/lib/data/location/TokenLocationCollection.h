@@ -38,7 +38,7 @@ public:
 	TokenLocation* findTokenLocationById(Id id) const;
 	TokenLocationFile* findTokenLocationFileByPath(const FilePath& filePath) const;
 
-	void forEachTokenLocationFile(std::function<void(TokenLocationFile*)> func) const;
+	void forEachTokenLocationFile(std::function<void(std::shared_ptr<TokenLocationFile>)> func) const;
 	void forEachTokenLocationLine(std::function<void(TokenLocationLine*)> func) const;
 	void forEachTokenLocation(std::function<void(TokenLocation*)> func) const;
 

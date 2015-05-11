@@ -976,9 +976,9 @@ TokenLocationCollection Storage::getTokenLocationsForTokenIds(const std::vector<
 	return ret;
 }
 
-TokenLocationFile Storage::getTokenLocationsForFile(const std::string& filePath) const
+std::shared_ptr<TokenLocationFile> Storage::getTokenLocationsForFile(const std::string& filePath) const
 {
-	TokenLocationFile ret(filePath);
+	std::shared_ptr<TokenLocationFile> ret = std::make_shared<TokenLocationFile>(filePath);
 
 	TokenLocationFile* locationFile = m_locationCollection.findTokenLocationFileByPath(filePath);
 	if (!locationFile)
@@ -989,18 +989,18 @@ TokenLocationFile Storage::getTokenLocationsForFile(const std::string& filePath)
 	locationFile->forEachTokenLocation(
 		[&](TokenLocation* tokenLocation) -> void
 		{
-			ret.addTokenLocationAsPlainCopy(tokenLocation);
+			ret->addTokenLocationAsPlainCopy(tokenLocation);
 		}
 	);
 
 	return ret;
 }
 
-TokenLocationFile Storage::getTokenLocationsForLinesInFile(
+std::shared_ptr<TokenLocationFile> Storage::getTokenLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
 ) const
 {
-	TokenLocationFile ret(filePath);
+	std::shared_ptr<TokenLocationFile> ret = std::make_shared<TokenLocationFile>(filePath);
 
 	TokenLocationFile* locationFile = m_locationCollection.findTokenLocationFileByPath(filePath);
 	if (!locationFile)
@@ -1009,7 +1009,7 @@ TokenLocationFile Storage::getTokenLocationsForLinesInFile(
 	}
 
 	uint endLineNumber = locationFile->getTokenLocationLines().rbegin()->first;
-
+	std::set<int> addedLocationIds;
 	for (uint i = firstLineNumber; i <= endLineNumber; i++)
 	{
 		TokenLocationLine* locationLine = locationFile->findTokenLocationLineByNumber(i);
@@ -1023,7 +1023,13 @@ TokenLocationFile Storage::getTokenLocationsForLinesInFile(
 			locationLine->forEachTokenLocation(
 				[&](TokenLocation* tokenLocation) -> void
 				{
-					ret.addTokenLocationAsPlainCopy(tokenLocation);
+					const Id tokenId = tokenLocation->getId();
+					if (addedLocationIds.find(tokenId) == addedLocationIds.end())
+					{
+						ret->addTokenLocationAsPlainCopy(tokenLocation->getStartTokenLocation());
+						ret->addTokenLocationAsPlainCopy(tokenLocation->getEndTokenLocation());
+						addedLocationIds.insert(tokenId);
+					}
 				}
 			);
 		}
@@ -1036,7 +1042,8 @@ TokenLocationFile Storage::getTokenLocationsForLinesInFile(
 					if (tokenLocation->isEndTokenLocation() &&
 						tokenLocation->getStartTokenLocation()->getLineNumber() < firstLineNumber)
 					{
-						ret.addTokenLocationAsPlainCopy(tokenLocation->getStartTokenLocation());
+						ret->addTokenLocationAsPlainCopy(tokenLocation->getStartTokenLocation());
+						ret->addTokenLocationAsPlainCopy(tokenLocation->getEndTokenLocation());
 					}
 				}
 			);
@@ -1062,7 +1069,6 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationOfParentScope(const 
 		[&](TokenLocation* tokenLocation) -> void
 		{
 			if (tokenLocation->getType() == TokenLocation::LOCATION_SCOPE &&
-				tokenLocation->isStartTokenLocation() &&
 				(*tokenLocation) < *(child->getStartTokenLocation()) &&
 				(*tokenLocation->getEndTokenLocation()) > *(child->getEndTokenLocation()))
 			{

@@ -122,17 +122,17 @@ TokenLocationCollection StorageAccessProxy::getTokenLocationsForTokenIds(const s
 	return TokenLocationCollection();
 }
 
-TokenLocationFile StorageAccessProxy::getTokenLocationsForFile(const std::string& filePath) const
+std::shared_ptr<TokenLocationFile> StorageAccessProxy::getTokenLocationsForFile(const std::string& filePath) const
 {
 	if (hasSubject())
 	{
 		return m_subject->getTokenLocationsForFile(filePath);
 	}
 
-	return TokenLocationFile("");
+	return std::make_shared<TokenLocationFile>("");
 }
 
-TokenLocationFile StorageAccessProxy::getTokenLocationsForLinesInFile(
+std::shared_ptr<TokenLocationFile> StorageAccessProxy::getTokenLocationsForLinesInFile(
 	const std::string& filePath, uint firstLineNumber, uint lastLineNumber
 ) const
 {
@@ -141,7 +141,7 @@ TokenLocationFile StorageAccessProxy::getTokenLocationsForLinesInFile(
 		return m_subject->getTokenLocationsForLinesInFile(filePath, firstLineNumber, lastLineNumber);
 	}
 
-	return TokenLocationFile("");
+	return std::make_shared<TokenLocationFile>("");
 }
 
 TokenLocationCollection StorageAccessProxy::getErrorTokenLocations(std::vector<std::string>* errorMessages) const

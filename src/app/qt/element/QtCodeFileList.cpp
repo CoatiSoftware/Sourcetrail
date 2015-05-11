@@ -36,10 +36,11 @@ QSize QtCodeFileList::sizeHint() const
 
 void QtCodeFileList::addCodeSnippet(
 	uint startLineNumber,
+	const std::string& title,
 	const std::string& code,
-	const TokenLocationFile& locationFile
+	std::shared_ptr<TokenLocationFile> locationFile
 ){
-	FilePath filePath = locationFile.getFilePath();
+	FilePath filePath = locationFile->getFilePath();
 	QtCodeFile* file = nullptr;
 
 	for (std::shared_ptr<QtCodeFile> filePtr : m_files)
@@ -53,14 +54,14 @@ void QtCodeFileList::addCodeSnippet(
 
 	if (!file)
 	{
-		std::shared_ptr<QtCodeFile> filePtr = std::make_shared<QtCodeFile>(locationFile.getFilePath(), this);
+		std::shared_ptr<QtCodeFile> filePtr = std::make_shared<QtCodeFile>(locationFile->getFilePath(), this);
 		m_files.push_back(filePtr);
 
 		file = filePtr.get();
 		m_frame->layout()->addWidget(file);
 	}
 
-	file->addCodeSnippet(startLineNumber, code, locationFile);
+	file->addCodeSnippet(startLineNumber, title, code, locationFile);
 }
 
 void QtCodeFileList::clearCodeSnippets()

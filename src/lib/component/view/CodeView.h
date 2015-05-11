@@ -1,6 +1,8 @@
 #ifndef CODE_VIEW_H
 #define CODE_VIEW_H
 
+#include <memory>
+
 #include "component/view/View.h"
 #include "data/location/TokenLocationFile.h"
 #include "utility/types.h"
@@ -21,9 +23,10 @@ public:
 		uint endLineNumber;
 		uint lineCount;
 
+		std::string title;
 		std::string code;
 
-		TokenLocationFile locationFile;
+		std::shared_ptr<TokenLocationFile> locationFile;
 
 		bool isActive;
 		bool isDeclaration;

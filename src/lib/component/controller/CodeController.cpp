@@ -1,9 +1,11 @@
 #include "component/controller/CodeController.h"
 
+#include <memory>
 #include "data/access/StorageAccess.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/location/TokenLocationFile.h"
+#include "data/location/TokenLocationLine.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/text/TextAccess.h"
 
@@ -54,7 +56,7 @@ void CodeController::handleMessage(MessageFinishedParsing* message)
 		std::vector<CodeView::CodeSnippetParams> snippets;
 
 		errorCollection.forEachTokenLocationFile(
-			[&](TokenLocationFile* file) -> void
+			[&](std::shared_ptr<TokenLocationFile> file) -> void
 			{
 				std::vector<CodeView::CodeSnippetParams> fileSnippets = getSnippetsForFile(file);
 				snippets.insert(snippets.end(), fileSnippets.begin(), fileSnippets.end());
@@ -101,7 +103,7 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTok
 	std::vector<CodeView::CodeSnippetParams> snippets;
 
 	collection.forEachTokenLocationFile(
-		[&](TokenLocationFile* file) -> void
+		[&](std::shared_ptr<TokenLocationFile> file) -> void
 		{
 			std::vector<CodeView::CodeSnippetParams> fileSnippets = getSnippetsForFile(file);
 
@@ -116,7 +118,7 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTok
 				bool isDeclarationFile = false;
 				for (const CodeView::CodeSnippetParams& snippet : fileSnippets)
 				{
-					snippet.locationFile.forEachTokenLocation(
+					snippet.locationFile->forEachTokenLocation(
 						[&](TokenLocation* location)
 						{
 							if (location->getTokenId() == declarationId)
@@ -142,7 +144,7 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTok
 	return snippets;
 }
 
-std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(const TokenLocationFile* file) const
+std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(std::shared_ptr<TokenLocationFile> file) const
 {
 	std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(file->getFilePath().str());
 
@@ -174,9 +176,23 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(cons
 	for (const SnippetMerger::Range& range: ranges)
 	{
 		CodeView::CodeSnippetParams params;
-		params.locationFile = *file;
+		params.locationFile = file;
 		params.startLineNumber = std::max<int>(1, range.start.row - (range.start.strong ? 0 : snippetExpandRange));
 		params.endLineNumber = std::min<int>(textAccess->getLineCount(), range.end.row + (range.end.strong ? 0 : snippetExpandRange));
+
+
+		std::shared_ptr<TokenLocationFile> tempFile = m_storageAccess->getTokenLocationsForLinesInFile(file->getFilePath().str(), params.startLineNumber, params.endLineNumber);
+		TokenLocationLine* firstUsedLine = nullptr;
+		for (rsize_t i = params.startLineNumber; i <= params.endLineNumber, firstUsedLine == nullptr; i++)
+		{
+			firstUsedLine = tempFile->findTokenLocationLineByNumber(i);
+		}
+		m_storageAccess->getTokenLocationOfParentScope(firstUsedLine->getTokenLocations().begin()->second.get())->forEachStartTokenLocation(
+			[&](TokenLocation* location)
+			{
+				params.title = m_storageAccess->getNameForNodeWithId(location->getTokenId());
+			}
+		);
 
 		for (const std::string& line: textAccess->getLines(params.startLineNumber, params.endLineNumber))
 		{

@@ -24,8 +24,9 @@ public:
 
 	void addCodeSnippet(
 		uint startLineNumber,
+		const std::string& title,
 		const std::string& code,
-		const TokenLocationFile& locationFile
+		std::shared_ptr<TokenLocationFile> locationFile
 	);
 
 	void clearCodeSnippets();

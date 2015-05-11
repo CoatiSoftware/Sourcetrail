@@ -105,11 +105,11 @@ TokenLocationFile* TokenLocationCollection::findTokenLocationFileByPath(const Fi
 	return nullptr;
 }
 
-void TokenLocationCollection::forEachTokenLocationFile(std::function<void(TokenLocationFile*)> func) const
+void TokenLocationCollection::forEachTokenLocationFile(std::function<void(std::shared_ptr<TokenLocationFile>)> func) const
 {
 	for (const TokenLocationFilePairType& file : m_files)
 	{
-		func(file.second.get());
+		func(file.second);
 	}
 }
 
@@ -188,9 +188,9 @@ TokenLocationFile* TokenLocationCollection::createTokenLocationFile(const FilePa
 std::ostream& operator<<(std::ostream& ostream, const TokenLocationCollection& base)
 {
 	ostream << "Locations:\n";
-	base.forEachTokenLocationFile([&ostream](TokenLocationFile* f)
+	base.forEachTokenLocationFile([&ostream](std::shared_ptr<TokenLocationFile> f)
 	{
-		ostream << *f;
+		ostream << *(f.get());
 	});
 	return ostream;
 }

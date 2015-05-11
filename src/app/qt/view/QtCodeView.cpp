@@ -90,7 +90,7 @@ void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippe
 
 	for (const CodeSnippetParams& params : snippets)
 	{
-		m_widget->addCodeSnippet(params.startLineNumber, params.code, params.locationFile);
+		m_widget->addCodeSnippet(params.startLineNumber, params.title, params.code, params.locationFile);
 	}
 }
 
@@ -102,9 +102,9 @@ void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
 	ptr->setShowMaximizeButton(false);
 	ptr->setActiveTokenIds(m_activeTokenIds);
 	ptr->setErrorMessages(m_errorMessages);
-	ptr->addCodeSnippet(1, params.code, params.locationFile);
+	ptr->addCodeSnippet(1, params.title, params.code, params.locationFile);
 
-	ptr->setWindowTitle(params.locationFile.getFilePath().fileName().c_str());
+	ptr->setWindowTitle(params.locationFile->getFilePath().fileName().c_str());
 	ptr->show();
 
 	float percent = float(params.startLineNumber + params.endLineNumber) / float(params.lineCount) / 2;

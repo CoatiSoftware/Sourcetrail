@@ -61,11 +61,12 @@ const std::vector<std::string>& QtCodeFile::getErrorMessages() const
 
 void QtCodeFile::addCodeSnippet(
 	uint startLineNumber,
+	const std::string& title,
 	const std::string& code,
-	const TokenLocationFile& locationFile
+	std::shared_ptr<TokenLocationFile> locationFile
 ){
 	std::shared_ptr<QtCodeSnippet> snippet(
-		new QtCodeSnippet(startLineNumber, code, locationFile, this));
+		new QtCodeSnippet(startLineNumber, title, code, locationFile, this));
 
 	if (m_parent->getShowMaximizeButton())
 	{

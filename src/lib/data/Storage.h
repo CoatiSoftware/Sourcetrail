@@ -119,8 +119,8 @@ public:
 	virtual std::vector<Id> getTokenIdsForQuery(std::string query) const;
 
 	virtual TokenLocationCollection getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const;
-	virtual TokenLocationFile getTokenLocationsForFile(const std::string& filePath) const;
-	virtual TokenLocationFile getTokenLocationsForLinesInFile(
+	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const std::string& filePath) const;
+	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
 	) const;
 

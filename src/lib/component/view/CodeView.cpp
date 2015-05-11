@@ -7,7 +7,7 @@ CodeView::CodeSnippetParams::CodeSnippetParams()
 	: startLineNumber(0)
 	, endLineNumber(0)
 	, lineCount(0)
-	, locationFile("")
+	, locationFile(std::make_shared<TokenLocationFile>(""))
 	, isActive(false)
 	, isDeclaration(false)
 {
@@ -40,8 +40,8 @@ bool CodeView::CodeSnippetParams::sort(const CodeSnippetParams& a, const CodeSni
 		return false;
 	}
 
-	const FilePath& aFilePath = a.locationFile.getFilePath();
-	const FilePath& bFilePath = b.locationFile.getFilePath();
+	const FilePath& aFilePath = a.locationFile->getFilePath();
+	const FilePath& bFilePath = b.locationFile->getFilePath();
 
 	// different files
 	if (aFilePath != bFilePath)

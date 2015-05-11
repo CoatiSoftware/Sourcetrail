@@ -7,6 +7,8 @@ add_files(
 
 	qt/element/QtAutocompletionList.cpp
 	qt/element/QtAutocompletionList.h
+	qt/element/QtCodeArea.cpp
+	qt/element/QtCodeArea.h
 	qt/element/QtCodeFile.cpp
 	qt/element/QtCodeFile.h
 	qt/element/QtCodeFileList.cpp

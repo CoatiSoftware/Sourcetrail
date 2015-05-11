@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 
+#include "component/controller/helper/SnippetMerger.h"
 #include "component/controller/Controller.h"
 #include "component/view/CodeView.h"
 #include "utility/messaging/MessageListener.h"
@@ -13,10 +14,6 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageShowFile.h"
 #include "utility/types.h"
-
-
-
-#include "component/controller/helper/SnippetMerger.h"
 
 class StorageAccess;
 class TokenLocationFile;
@@ -46,7 +43,7 @@ private:
 
 	std::vector<CodeView::CodeSnippetParams> getSnippetsForActiveTokenIds(
 		const std::vector<Id>& ids, Id declarationId) const;
-	std::vector<CodeView::CodeSnippetParams> getSnippetsForFile(const TokenLocationFile* file) const;
+	std::vector<CodeView::CodeSnippetParams> getSnippetsForFile(std::shared_ptr<TokenLocationFile> file) const;
 	std::shared_ptr<SnippetMerger> buildMergerHierarchy(
 		TokenLocation* location, SnippetMerger& fileScopedMerger, std::map<int, std::shared_ptr<SnippetMerger>>& mergers) const;
 
