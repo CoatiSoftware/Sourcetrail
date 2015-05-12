@@ -63,8 +63,13 @@ QtSmartSearchBox::~QtSmartSearchBox()
 
 void QtSmartSearchBox::setAutocompletionList(const std::vector<SearchMatch>& autocompletionList)
 {
+	// Save the cursor position, because after activating the completer the cursor gets set to the end position.
+	int cursor = cursorPosition();
+
 	QtAutocompletionList* completer = dynamic_cast<QtAutocompletionList*>(this->completer());
 	completer->completeAt(QPoint(textMargins().left() + 3, height() + 3), autocompletionList);
+
+	setCursorPosition(cursor);
 
 	connect(completer, SIGNAL(matchHighlighted(const SearchMatch&)), this, SLOT(onAutocompletionHighlighted(const SearchMatch&)), Qt::DirectConnection);
 	connect(completer, SIGNAL(matchActivated(const SearchMatch&)), this, SLOT(onAutocompletionActivated(const SearchMatch&)), Qt::DirectConnection);
@@ -153,6 +158,20 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 			return;
 		}
 	}
+	else if (event->matches(QKeySequence::Delete))
+	{
+		if (hasSelectedElements())
+		{
+			deleteSelectedElements();
+			return;
+		}
+		else if (!hasSelectedText() && cursorPosition() == text().size() && m_cursorIndex < m_elements.size())
+		{
+			m_elements[m_cursorIndex]->setChecked(true);
+			deleteSelectedElements();
+			return;
+		}
+	}
 	else if (event->matches(QKeySequence::MoveToPreviousChar))
 	{
 		if (hasSelectedElements())
@@ -169,7 +188,7 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 			selectAllElementsWith(false);
 			layoutElements();
 		}
-		else if (cursorPosition() == 0 && m_cursorIndex > 0)
+		else if (cursorPosition() == 0 && m_cursorIndex > 0 && !event->isAutoRepeat())
 		{
 			editTextToElement();
 			moveCursor(-1);
@@ -192,7 +211,7 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 			selectAllElementsWith(false);
 			layoutElements();
 		}
-		else if (cursorPosition() == text().size())
+		else if (cursorPosition() == text().size() && !event->isAutoRepeat())
 		{
 			if (completer()->popup()->isVisible())
 			{
