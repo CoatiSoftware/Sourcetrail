@@ -106,7 +106,9 @@ void Application::handleMessage(MessageFinishedParsing* message)
 
 	if (mainId)
 	{
-		MessageActivateTokens(mainId).dispatch();
+		MessageActivateTokens message(mainId);
+		message.isFromSystem = true;
+		message.dispatch();
 	}
 }
 

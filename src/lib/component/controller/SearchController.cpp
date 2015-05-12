@@ -56,7 +56,11 @@ void SearchController::handleMessage(MessageSearch* message)
 	std::vector<Id> ids = m_storageAccess->getTokenIdsForQuery(query);
 	if (!ids.size())
 	{
-		ids.push_back(m_storageAccess->getIdForNodeWithName(query));
+		Id id = m_storageAccess->getIdForNodeWithName(query);
+		if (id > 0)
+		{
+			ids.push_back(id);
+		}
 	}
 
 	MessageActivateTokens(ids).dispatch();

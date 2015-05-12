@@ -11,6 +11,7 @@ public:
 		: tokenIds(tokenIds)
 		, isEdge(false)
 		, isAggregation(false)
+		, isFromSystem(false)
 	{
 	}
 
@@ -18,6 +19,7 @@ public:
 		: tokenIds(1, tokenId)
 		, isEdge(false)
 		, isAggregation(false)
+		, isFromSystem(false)
 	{
 	}
 
@@ -30,6 +32,7 @@ public:
 
 	bool isEdge;
 	bool isAggregation;
+	bool isFromSystem;
 };
 
 #endif // MESSAGE_ACTIVATE_TOKENS_H

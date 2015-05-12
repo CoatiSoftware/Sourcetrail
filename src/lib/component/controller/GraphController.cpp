@@ -51,8 +51,6 @@ void GraphController::handleMessage(MessageFinishedParsing* message)
 	getView()->clear();
 }
 
-#include <iostream>
-
 void GraphController::handleMessage(MessageFocusIn* message)
 {
 	getView()->focusToken(message->tokenId);

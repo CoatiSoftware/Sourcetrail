@@ -1,13 +1,16 @@
 #include "component/controller/CodeController.h"
 
 #include <memory>
+
+#include "utility/messaging/type/MessageStatus.h"
+#include "utility/text/TextAccess.h"
+
 #include "data/access/StorageAccess.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/location/TokenLocationFile.h"
 #include "data/location/TokenLocationLine.h"
 #include "settings/ApplicationSettings.h"
-#include "utility/text/TextAccess.h"
 
 CodeController::CodeController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -43,7 +46,29 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	CodeView* view = getView();
 	view->setActiveTokenIds(activeTokenIds);
 	view->setErrorMessages(std::vector<std::string>());
-	view->showCodeSnippets(getSnippetsForActiveTokenIds(activeTokenIds, declarationId));
+
+	TokenLocationCollection collection = m_storageAccess->getTokenLocationsForTokenIds(activeTokenIds);
+	view->showCodeSnippets(getSnippetsForActiveTokenLocations(collection, declarationId));
+
+	if (!message->isFromSystem)
+	{
+		size_t fileCount = collection.getTokenLocationFileCount();
+		size_t referenceCount = collection.getTokenLocationCount();
+
+		std::stringstream ss;
+		ss << message->tokenIds.size() << ' ';
+		ss << (message->tokenIds.size() == 1 ? "result" : "results");
+
+		if (fileCount > 0)
+		{
+			ss << " with " << referenceCount << ' ';
+			ss << (referenceCount == 1 ? "reference" : "references");
+			ss << " in " << fileCount << ' ';
+			ss << (fileCount == 1 ? "file" : "files");
+		}
+
+		MessageStatus(ss.str()).dispatch();
+	}
 }
 
 void CodeController::handleMessage(MessageFinishedParsing* message)
@@ -105,11 +130,9 @@ CodeView* CodeController::getView()
 	return Controller::getView<CodeView>();
 }
 
-std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTokenIds(
-	const std::vector<Id>& ids, Id declarationId
+std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocations(
+	const TokenLocationCollection& collection, Id declarationId
 ) const {
-	TokenLocationCollection collection = m_storageAccess->getTokenLocationsForTokenIds(ids);
-
 	std::vector<CodeView::CodeSnippetParams> snippets;
 
 	collection.forEachTokenLocationFile(
@@ -193,7 +216,7 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(std:
 
 		std::shared_ptr<TokenLocationFile> tempFile = m_storageAccess->getTokenLocationsForLinesInFile(file->getFilePath().str(), params.startLineNumber, params.endLineNumber);
 		TokenLocationLine* firstUsedLine = nullptr;
-		for (size_t i = params.startLineNumber; i <= params.endLineNumber, firstUsedLine == nullptr; i++)
+		for (size_t i = params.startLineNumber; i <= params.endLineNumber && firstUsedLine == nullptr; i++)
 		{
 			firstUsedLine = tempFile->findTokenLocationLineByNumber(i);
 		}
