@@ -51,6 +51,18 @@ void GraphController::handleMessage(MessageFinishedParsing* message)
 	getView()->clear();
 }
 
+#include <iostream>
+
+void GraphController::handleMessage(MessageFocusIn* message)
+{
+	getView()->focusToken(message->tokenId);
+}
+
+void GraphController::handleMessage(MessageFocusOut *message)
+{
+	getView()->defocusToken(message->tokenId);
+}
+
 void GraphController::handleMessage(MessageGraphNodeExpand* message)
 {
 	DummyNode* node = findDummyNodeRecursive(m_dummyNodes, message->tokenId);

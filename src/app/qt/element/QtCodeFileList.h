@@ -40,6 +40,9 @@ public:
 	bool getShowMaximizeButton() const;
 	void setShowMaximizeButton(bool show);
 
+	void focusToken(Id tokenId);
+	void defocusToken();
+
 private:
 	void updateFiles();
 

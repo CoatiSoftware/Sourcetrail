@@ -30,10 +30,15 @@ public:
 	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets);
 	virtual void showCodeFile(const CodeSnippetParams& params);
 
+	virtual void focusToken(const Id tokenId);
+	virtual void defocusToken();
+
 private:
 	void doRefreshView();
 	void doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets);
 	void doShowCodeFile(const CodeSnippetParams& params);
+	void doFocusToken(const Id tokenId);
+	void doDefocusToken();
 
 	std::shared_ptr<QtCodeFileList> createQtCodeFileList() const;
 
@@ -43,6 +48,8 @@ private:
 	QtThreadedFunctor<> m_refreshViewFunctor;
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&> m_showCodeSnippetsFunctor;
 	QtThreadedFunctor<const CodeSnippetParams&> m_showCodeFileFunctor;
+	QtThreadedFunctor<const Id&> m_focusTokenFunctor;
+	QtThreadedFunctor<> m_defocusTokenFunctor;
 
 	QtCodeFileList* m_widget;
 	std::vector<std::shared_ptr<QtCodeFileList>> m_windows;

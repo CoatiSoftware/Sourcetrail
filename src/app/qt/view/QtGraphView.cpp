@@ -25,6 +25,9 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 		std::bind(&QtGraphView::doRebuildGraph, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
 	, m_clearFunctor(std::bind(&QtGraphView::doClear, this))
 	, m_resizeFunctor(std::bind(&QtGraphView::doResize, this))
+	, m_focusInFunctor(std::bind(&QtGraphView::doFocusIn, this, std::placeholders::_1))
+	, m_focusOutFunctor(std::bind(&QtGraphView::doFocusOut, this, std::placeholders::_1))
+
 {
 }
 
@@ -493,4 +496,50 @@ void QtGraphView::createTransition()
 
 	connect(m_transition.get(), SIGNAL(finished()), this, SLOT(finishedTransition()));
 	m_transition->start();
+}
+
+void QtGraphView::focusToken(Id tokenId)
+{
+	m_focusInFunctor(tokenId);
+}
+
+void QtGraphView::doFocusIn(Id tokenId)
+{
+	std::shared_ptr<QtGraphNode> node = findNodeRecursive(m_oldNodes, tokenId);
+	if(node)
+	{
+		node->focusIn();
+		return;
+	}
+	for(std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+	{
+		if(edge->getData()->getId() == tokenId)
+		{
+			edge->focusIn();
+			return;
+		}
+	}
+}
+
+void QtGraphView::defocusToken(Id tokenId)
+{
+	m_focusOutFunctor(tokenId);
+}
+
+void QtGraphView::doFocusOut(Id tokenId)
+{
+	std::shared_ptr<QtGraphNode> node = findNodeRecursive(m_oldNodes, tokenId);
+	if(node)
+	{
+		node->focusOut();
+		return;
+	}
+	for(std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+	{
+		if(edge->getData()->getId() == tokenId)
+		{
+			edge->focusOut();
+			return;
+		}
+	}
 }

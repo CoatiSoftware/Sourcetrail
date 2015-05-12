@@ -33,6 +33,9 @@ public:
 
 	void onClick();
 
+	void focusIn();
+	void focusOut();
+
 protected:
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 	virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);

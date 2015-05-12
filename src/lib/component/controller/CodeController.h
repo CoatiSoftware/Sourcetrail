@@ -11,6 +11,8 @@
 #include "utility/messaging/type/MessageActivateTokenLocation.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/messaging/type/MessageFocusIn.h"
+#include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageShowFile.h"
 #include "utility/types.h"
@@ -23,6 +25,8 @@ class CodeController
 	, public MessageListener<MessageActivateTokenLocation>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageFinishedParsing>
+	, public MessageListener<MessageFocusIn>
+	, public MessageListener<MessageFocusOut>
 	, public MessageListener<MessageRefresh>
 	, public MessageListener<MessageShowFile>
 {
@@ -36,6 +40,8 @@ private:
 	virtual void handleMessage(MessageActivateTokenLocation* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageFinishedParsing* message);
+	virtual void handleMessage(MessageFocusIn* message);
+	virtual void handleMessage(MessageFocusOut* message);
 	virtual void handleMessage(MessageRefresh* message);
 	virtual void handleMessage(MessageShowFile* message);
 

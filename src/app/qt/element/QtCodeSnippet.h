@@ -33,6 +33,9 @@ public:
 	void updateLineNumberAreaWidthForDigits(int digits);
 	void update();
 
+	void focusToken(Id tokenId);
+	void defocusToken();
+
 private:
 	QtCodeFile* m_parent; // need this?
 	QPushButton* m_title;

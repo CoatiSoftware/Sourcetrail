@@ -102,3 +102,19 @@ void QtCodeFile::clickedTitle()
 {
 	MessageShowFile(m_filePath.absoluteStr(), 0, 0).dispatch();
 }
+
+void QtCodeFile::focusToken(Id tokenId)
+{
+	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	{
+		snippet->focusToken(tokenId);
+	}
+}
+
+void QtCodeFile::defocusToken()
+{
+	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	{
+		snippet->defocusToken();
+	}
+}

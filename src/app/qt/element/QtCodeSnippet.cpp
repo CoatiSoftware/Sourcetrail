@@ -57,3 +57,13 @@ void QtCodeSnippet::update()
 {
 	m_codeArea->update();
 }
+
+void QtCodeSnippet::focusToken(Id tokenId)
+{
+	m_codeArea->focusToken(tokenId);
+}
+
+void QtCodeSnippet::defocusToken()
+{
+	m_codeArea->defocusToken();
+}

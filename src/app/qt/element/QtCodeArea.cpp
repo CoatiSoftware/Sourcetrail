@@ -8,6 +8,8 @@
 
 #include "utility/messaging/type/MessageActivateTokenLocation.h"
 #include "utility/messaging/type/MessageShowFile.h"
+#include "utility/messaging/type/MessageFocusIn.h"
+#include "utility/messaging/type/MessageFocusOut.h"
 
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
@@ -47,7 +49,8 @@ QtCodeArea::QtCodeArea(
 	, m_parent(parent)
 	, m_maximizeButton(nullptr)
 	, m_startLineNumber(startLineNumber)
-	, m_hoveredAnnotation(nullptr)
+	, m_focusedTokenId(0)
+	, m_isFocused(false)
 	, m_digits(0)
 {
 	setObjectName("code_area");
@@ -193,7 +196,12 @@ void QtCodeArea::leaveEvent(QEvent* event)
 		m_maximizeButton->setEnabled(false);
 	}
 
-	m_hoveredAnnotation = nullptr;
+	if(m_isFocused)
+	{
+		MessageFocusOut(m_focusedTokenId).dispatch();
+	}
+	m_isFocused = false;
+
 	annotateText();
 }
 
@@ -227,11 +235,19 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 	if (annotation && annotation->isScope)
 	{
 		annotation = nullptr;
+		MessageFocusOut(m_focusedTokenId).dispatch();
 	}
 
-	if (annotation != m_hoveredAnnotation)
+	if (annotation && annotation->tokenId != m_focusedTokenId)
 	{
-		m_hoveredAnnotation = annotation;
+		if(m_isFocused)
+		{
+			MessageFocusOut(m_focusedTokenId).dispatch();
+		}
+
+		m_focusedTokenId = annotation->tokenId;
+		m_isFocused = true;
+		MessageFocusIn(m_focusedTokenId).dispatch();
 
 		const std::vector<std::string>& errorMessages = m_parent->getErrorMessages();
 
@@ -362,11 +378,11 @@ void QtCodeArea::annotateText()
 	{
 		bool isActive = std::find(ids.begin(), ids.end(), annotation.tokenId) != ids.end();
 
-		if (&annotation == m_hoveredAnnotation && errorMessages.size())
+		if (annotation.tokenId == m_focusedTokenId && errorMessages.size())
 		{
 			color = Colori(255, 0, 0, 128);
 		}
-		else if (&annotation == m_hoveredAnnotation)
+		else if(annotation.tokenId == m_focusedTokenId)
 		{
 			color = ApplicationSettings::getInstance()->getCodeActiveLinkColor();
 		}
@@ -435,4 +451,16 @@ int QtCodeArea::endTextEditPosition() const
 	}
 
 	return position - 1;
+}
+
+void QtCodeArea::focusToken(Id tokenId)
+{
+	m_focusedTokenId = tokenId;
+	annotateText();
+}
+
+void QtCodeArea::defocusToken()
+{
+	m_focusedTokenId = -1;
+	annotateText();
 }

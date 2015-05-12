@@ -57,6 +57,9 @@ public:
 
 	void update();
 
+	void focusToken(Id tokenId);
+	void defocusToken();
+
 protected:
 	virtual void resizeEvent(QResizeEvent *event);
 	virtual void showEvent(QShowEvent* event);
@@ -103,6 +106,8 @@ private:
 
 	std::vector<Annotation> m_annotations;
 	const Annotation* m_hoveredAnnotation;
+	Id m_focusedTokenId;
+	bool m_isFocused;
 
 	int m_digits;
 };

@@ -12,6 +12,8 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	, m_refreshViewFunctor(std::bind(&QtCodeView::doRefreshView, this))
 	, m_showCodeSnippetsFunctor(std::bind(&QtCodeView::doShowCodeSnippets, this, std::placeholders::_1))
 	, m_showCodeFileFunctor(std::bind(&QtCodeView::doShowCodeFile, this, std::placeholders::_1))
+	, m_focusTokenFunctor(std::bind(&QtCodeView::doFocusToken, this, std::placeholders::_1))
+	, m_defocusTokenFunctor(std::bind(&QtCodeView::doDefocusToken, this))
 {
 	m_widget = new QtCodeFileList();
 	setStyleSheet(m_widget);
@@ -136,4 +138,24 @@ void QtCodeView::clearClosedWindows()
 			i--;
 		}
 	}
+}
+
+void QtCodeView::focusToken(const Id tokenId)
+{
+	m_focusTokenFunctor(tokenId);
+}
+
+void QtCodeView::defocusToken()
+{
+	m_defocusTokenFunctor();
+}
+
+void QtCodeView::doFocusToken(const Id tokenId)
+{
+	m_widget->focusToken(tokenId);
+}
+
+void QtCodeView::doDefocusToken()
+{
+	m_widget->defocusToken();
 }

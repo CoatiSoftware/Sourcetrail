@@ -6,6 +6,8 @@
 
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
+#include "utility/messaging/type/MessageFocusIn.h";
+#include "utility/messaging/type/MessageFocusOut.h";
 
 #include "qt/graphics/QtRoundedRectItem.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
@@ -333,11 +335,27 @@ void QtGraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void QtGraphNode::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
+	if(m_data)
+	{
+		MessageFocusIn(m_data->getId()).dispatch();
+	}
+}
+
+void QtGraphNode::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+{
+	if(m_data)
+	{
+		MessageFocusOut(m_data->getId()).dispatch();
+	}
+}
+
+void QtGraphNode::focusIn()
+{
 	m_isHovering = true;
 	updateStyle();
 }
 
-void QtGraphNode::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+void QtGraphNode::focusOut()
 {
 	m_isHovering = false;
 	updateStyle();

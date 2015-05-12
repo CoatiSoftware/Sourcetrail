@@ -37,6 +37,8 @@ public:
 	);
 
 	void update();
+	void focusToken(Id tokenId);
+	void defocusToken();
 
 private slots:
 	void clickedTitle();

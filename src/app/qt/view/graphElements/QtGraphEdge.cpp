@@ -5,6 +5,8 @@
 #include <QPen>
 
 #include "utility/messaging/type/MessageActivateTokens.h"
+#include "utility/messaging/type/MessageFocusIn.h"
+#include "utility/messaging/type/MessageFocusOut.h"
 
 #include "component/view/graphElements/GraphNode.h"
 #include "component/view/GraphViewStyle.h"
@@ -138,12 +140,22 @@ void QtGraphEdge::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void QtGraphEdge::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
+	MessageFocusIn(getData()->getId()).dispatch();
+}
+
+void QtGraphEdge::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+{
+	MessageFocusOut(getData()->getId()).dispatch();
+}
+
+void QtGraphEdge::focusIn()
+{
 	bool isActive = m_isActive;
 	this->setIsActive(true);
 	m_isActive = isActive;
 }
 
-void QtGraphEdge::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+void QtGraphEdge::focusOut()
 {
 	this->setIsActive(m_isActive);
 }

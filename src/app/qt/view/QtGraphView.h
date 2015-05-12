@@ -35,6 +35,9 @@ public:
 	virtual void rebuildGraph(std::shared_ptr<Graph> graph, const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);
 	virtual void clear();
 
+	virtual void focusToken(Id tokenId);
+	virtual void defocusToken(Id tokenId);
+
 	virtual void resizeView();
 
 	virtual Vec2i getViewSize() const;
@@ -50,6 +53,8 @@ private:
 	void doRebuildGraph(std::shared_ptr<Graph> graph, const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);
 	void doClear();
 	void doResize();
+	void doFocusIn(Id tokenId);
+	void doFocusOut(Id tokeId);
 
 	std::shared_ptr<QtGraphNode> findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId);
 
@@ -72,6 +77,8 @@ private:
 	QtThreadedFunctor<std::shared_ptr<Graph>, const std::vector<DummyNode>&, const std::vector<DummyEdge>&> m_rebuildGraphFunctor;
 	QtThreadedFunctor<void> m_clearFunctor;
 	QtThreadedFunctor<void> m_resizeFunctor;
+	QtThreadedFunctor<Id> m_focusInFunctor;
+	QtThreadedFunctor<Id> m_focusOutFunctor;
 
 	std::shared_ptr<Graph> m_graph;
 	std::shared_ptr<Graph> m_oldGraph;

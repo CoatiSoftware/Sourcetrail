@@ -43,6 +43,9 @@ public:
 	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets) = 0;
 	virtual void showCodeFile(const CodeSnippetParams& params) = 0;
 
+	virtual void focusToken(const Id tokenId) = 0;
+	virtual void defocusToken() = 0;
+
 private:
 	CodeController* getController();
 };

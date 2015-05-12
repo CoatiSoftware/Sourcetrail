@@ -253,6 +253,8 @@ add_files(
 	utility/messaging/type/MessageAutoRefreshChanged.h
 	utility/messaging/type/MessageFind.h
 	utility/messaging/type/MessageFinishedParsing.h
+	utility/messaging/type/MessageFocusIn.h
+	utility/messaging/type/MessageFocusOut.h
 	utility/messaging/type/MessageGraphNodeExpand.h
 	utility/messaging/type/MessageGraphNodeMove.h
 	utility/messaging/type/MessageInterruptTasks.h

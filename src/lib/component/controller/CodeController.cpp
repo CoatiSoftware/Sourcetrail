@@ -70,6 +70,16 @@ void CodeController::handleMessage(MessageFinishedParsing* message)
 	}
 }
 
+void CodeController::handleMessage(MessageFocusIn* message)
+{
+	getView()->focusToken(message->tokenId);
+}
+
+void CodeController::handleMessage(MessageFocusOut* message)
+{
+	getView()->defocusToken();
+}
+
 void CodeController::handleMessage(MessageRefresh* message)
 {
 	getView()->refreshView();
@@ -183,7 +193,7 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(std:
 
 		std::shared_ptr<TokenLocationFile> tempFile = m_storageAccess->getTokenLocationsForLinesInFile(file->getFilePath().str(), params.startLineNumber, params.endLineNumber);
 		TokenLocationLine* firstUsedLine = nullptr;
-		for (rsize_t i = params.startLineNumber; i <= params.endLineNumber, firstUsedLine == nullptr; i++)
+		for (size_t i = params.startLineNumber; i <= params.endLineNumber, firstUsedLine == nullptr; i++)
 		{
 			firstUsedLine = tempFile->findTokenLocationLineByNumber(i);
 		}

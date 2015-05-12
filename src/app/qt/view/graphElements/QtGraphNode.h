@@ -6,6 +6,7 @@
 
 #include "component/view/graphElements/GraphNode.h"
 #include "component/view/GraphViewStyle.h"
+#include "utility/messaging/MessageListener.h"
 
 class QtGraphEdge;
 class QtRoundedRectItem;
@@ -75,6 +76,9 @@ public:
 
 	virtual void onClick();
 	void hoverEnter();
+
+	void focusIn();
+	void focusOut();
 
 	virtual void updateStyle();
 

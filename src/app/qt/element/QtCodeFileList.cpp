@@ -110,3 +110,19 @@ void QtCodeFileList::updateFiles()
 		file->update();
 	}
 }
+
+void QtCodeFileList::focusToken(Id tokenId)
+{
+	for (std::shared_ptr<QtCodeFile> file: m_files)
+	{
+		file->focusToken(tokenId);
+	}
+}
+
+void QtCodeFileList::defocusToken()
+{
+	for (std::shared_ptr<QtCodeFile> file: m_files)
+	{
+		file->defocusToken();
+	}
+}
