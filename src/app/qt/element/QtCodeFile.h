@@ -26,6 +26,7 @@ public:
 
 	const FilePath& getFilePath() const;
 	std::string getFileName() const;
+	Id getFocusedTokenId() const;
 	const std::vector<Id>& getActiveTokenIds() const;
 	const std::vector<std::string>& getErrorMessages() const;
 
@@ -36,9 +37,7 @@ public:
 		std::shared_ptr<TokenLocationFile> locationFile
 	);
 
-	void update();
-	void focusToken(Id tokenId);
-	void defocusToken();
+	void updateContent();
 
 private slots:
 	void clickedTitle();

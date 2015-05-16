@@ -31,6 +31,8 @@ public:
 
 	void clearCodeSnippets();
 
+	Id getFocusedTokenId() const;
+
 	const std::vector<Id>& getActiveTokenIds() const;
 	void setActiveTokenIds(const std::vector<Id>& activeTokenIds);
 
@@ -49,6 +51,7 @@ private:
 	std::shared_ptr<QFrame> m_frame;
 	std::vector<std::shared_ptr<QtCodeFile>> m_files;
 
+	Id m_focusedTokenId;
 	std::vector<Id> m_activeTokenIds;
 	std::vector<std::string> m_errorMessages;
 	bool m_showMaximizeButton;

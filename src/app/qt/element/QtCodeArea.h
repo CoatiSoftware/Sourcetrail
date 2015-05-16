@@ -13,6 +13,7 @@ class QPushButton;
 class QResizeEvent;
 class QSize;
 class QtCodeFile;
+class QtCodeSnippet;
 class QtHighlighter;
 class QWidget;
 class TokenLocation;
@@ -42,7 +43,8 @@ public:
 		uint startLineNumber,
 		const std::string& code,
 		std::shared_ptr<TokenLocationFile> locationFile,
-		QtCodeFile* parent
+		QtCodeFile* file,
+		QtCodeSnippet* parent
 	);
 	virtual ~QtCodeArea();
 
@@ -55,14 +57,12 @@ public:
 	int lineNumberAreaWidth() const;
 	void updateLineNumberAreaWidthForDigits(int digits);
 
-	void update();
-
-	void focusToken(Id tokenId);
-	void defocusToken();
+	void updateContent();
 
 protected:
 	virtual void resizeEvent(QResizeEvent *event);
 	virtual void showEvent(QShowEvent* event);
+	virtual void paintEvent(QPaintEvent* event);
 	virtual void enterEvent(QEvent* event);
 	virtual void leaveEvent(QEvent* event);
 	virtual void mouseReleaseEvent(QMouseEvent* event);
@@ -85,9 +85,22 @@ private:
 		bool isScope;
 	};
 
+	struct ScopeAnnotation
+	{
+		ScopeAnnotation();
+		bool operator!=(const ScopeAnnotation& other) const;
+
+		int startLine;
+		int endLine;
+		Id tokenId;
+		bool isFocused;
+	};
+
 	const Annotation* findAnnotationForPosition(int pos) const;
 	void createAnnotations(std::shared_ptr<TokenLocationFile> locationFile);
 	void annotateText();
+
+	void setHoveredAnnotation(const Annotation* annotation);
 
 	bool locationBelongsToSnippet(TokenLocation* location) const;
 
@@ -95,7 +108,7 @@ private:
 	int startTextEditPosition() const;
 	int endTextEditPosition() const;
 
-	QtCodeFile* m_parent;
+	QtCodeFile* m_fileWidget;
 
 	QWidget* m_lineNumberArea;
 	QtHighlighter* m_highlighter;
@@ -105,9 +118,9 @@ private:
 	const uint m_startLineNumber;
 
 	std::vector<Annotation> m_annotations;
+	std::vector<ScopeAnnotation> m_scopeAnnotations;
+
 	const Annotation* m_hoveredAnnotation;
-	Id m_focusedTokenId;
-	bool m_isFocused;
 
 	int m_digits;
 };

@@ -16,13 +16,12 @@ class QtCodeSnippet: public QWidget
 	Q_OBJECT
 
 public:
-
 	QtCodeSnippet(
 		uint startLineNumber,
 		const std::string& title,
 		const std::string& code,
 		std::shared_ptr<TokenLocationFile> locationFile,
-		QtCodeFile* parent
+		QtCodeFile* file
 	);
 	virtual ~QtCodeSnippet();
 
@@ -31,13 +30,9 @@ public:
 	int lineNumberDigits() const;
 
 	void updateLineNumberAreaWidthForDigits(int digits);
-	void update();
-
-	void focusToken(Id tokenId);
-	void defocusToken();
+	void updateContent();
 
 private:
-	QtCodeFile* m_parent; // need this?
 	QPushButton* m_title;
 	std::shared_ptr<QtCodeArea> m_codeArea;
 };

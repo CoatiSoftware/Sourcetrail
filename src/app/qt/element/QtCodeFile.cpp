@@ -49,6 +49,11 @@ std::string QtCodeFile::getFileName() const
 	return m_filePath.fileName();
 }
 
+Id QtCodeFile::getFocusedTokenId() const
+{
+	return m_parent->getFocusedTokenId();
+}
+
 const std::vector<Id>& QtCodeFile::getActiveTokenIds() const
 {
 	return m_parent->getActiveTokenIds();
@@ -88,11 +93,11 @@ void QtCodeFile::addCodeSnippet(
 	}
 }
 
-void QtCodeFile::update()
+void QtCodeFile::updateContent()
 {
 	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
 	{
-		snippet->update();
+		snippet->updateContent();
 	}
 
 	m_title->setEnabled(m_parent->getShowMaximizeButton());
@@ -101,20 +106,4 @@ void QtCodeFile::update()
 void QtCodeFile::clickedTitle()
 {
 	MessageShowFile(m_filePath.absoluteStr(), 0, 0).dispatch();
-}
-
-void QtCodeFile::focusToken(Id tokenId)
-{
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
-	{
-		snippet->focusToken(tokenId);
-	}
-}
-
-void QtCodeFile::defocusToken()
-{
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
-	{
-		snippet->defocusToken();
-	}
 }

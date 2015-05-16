@@ -27,6 +27,7 @@
 	font-family: "Source Code Pro";
 	font-size: 14px;
 	margin-bottom: 2px;
+	background-color: transparent;
 }
 
 #code_area #line_number_area {

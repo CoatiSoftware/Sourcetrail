@@ -10,11 +10,10 @@ QtCodeSnippet::QtCodeSnippet(
 	const std::string& title,
 	const std::string& code,
 	std::shared_ptr<TokenLocationFile> locationFile,
-	QtCodeFile* parent
+	QtCodeFile* file
 )
-	: QWidget(parent)
-	, m_parent(parent)
-	, m_codeArea(std::make_shared<QtCodeArea>(startLineNumber, code, locationFile, parent))
+	: QWidget(file)
+	, m_codeArea(std::make_shared<QtCodeArea>(startLineNumber, code, locationFile, file, this))
 {
 	setObjectName("code_snippet");
 
@@ -53,17 +52,7 @@ void QtCodeSnippet::updateLineNumberAreaWidthForDigits(int digits)
 	m_codeArea->updateLineNumberAreaWidthForDigits(digits);
 }
 
-void QtCodeSnippet::update()
+void QtCodeSnippet::updateContent()
 {
-	m_codeArea->update();
-}
-
-void QtCodeSnippet::focusToken(Id tokenId)
-{
-	m_codeArea->focusToken(tokenId);
-}
-
-void QtCodeSnippet::defocusToken()
-{
-	m_codeArea->defocusToken();
+	m_codeArea->updateContent();
 }

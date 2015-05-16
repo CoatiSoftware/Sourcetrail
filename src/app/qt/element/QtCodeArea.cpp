@@ -14,6 +14,7 @@
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
 #include "qt/element/QtCodeFile.h"
+#include "qt/element/QtCodeSnippet.h"
 #include "qt/utility/QtHighlighter.h"
 #include "settings/ApplicationSettings.h"
 
@@ -43,14 +44,14 @@ QtCodeArea::QtCodeArea(
 	uint startLineNumber,
 	const std::string& code,
 	std::shared_ptr<TokenLocationFile> locationFile,
-	QtCodeFile* parent
+	QtCodeFile* file,
+	QtCodeSnippet* parent
 )
 	: QPlainTextEdit(parent)
-	, m_parent(parent)
+	, m_fileWidget(file)
 	, m_maximizeButton(nullptr)
 	, m_startLineNumber(startLineNumber)
-	, m_focusedTokenId(0)
-	, m_isFocused(false)
+	, m_hoveredAnnotation(nullptr)
 	, m_digits(0)
 {
 	setObjectName("code_area");
@@ -160,7 +161,7 @@ void QtCodeArea::updateLineNumberAreaWidthForDigits(int digits)
 	updateLineNumberAreaWidth(0);
 }
 
-void QtCodeArea::update()
+void QtCodeArea::updateContent()
 {
 	annotateText();
 }
@@ -181,6 +182,42 @@ void QtCodeArea::showEvent(QShowEvent* event)
 	setMaximumHeight(sizeHint().height());
 }
 
+void QtCodeArea::paintEvent(QPaintEvent* event)
+{
+	QPainter painter(viewport());
+	painter.fillRect(rect(), Qt::white);
+
+	QTextBlock block = firstVisibleBlock();
+	int top = blockBoundingGeometry(block).translated(contentOffset()).top();
+	int blockHeight = blockBoundingRect(block).height();
+
+	Colori color = ApplicationSettings::getInstance()->getCodeScopeColor();
+	Colori colorFocused = ApplicationSettings::getInstance()->getCodeActiveLinkColor();
+	colorFocused.a /= 2;
+
+	QColor qColor;
+
+	for (const ScopeAnnotation& scope : m_scopeAnnotations)
+	{
+		if (scope.isFocused)
+		{
+			qColor.setRgb(colorFocused.r, colorFocused.g, colorFocused.b, colorFocused.a);
+		}
+		else
+		{
+			qColor.setRgb(color.r, color.g, color.b, color.a);
+		}
+
+		painter.fillRect(
+			0, top + scope.startLine * blockHeight,
+			width(), (scope.endLine - scope.startLine + 1) * blockHeight,
+			qColor
+		);
+	}
+
+	QPlainTextEdit::paintEvent(event);
+}
+
 void QtCodeArea::enterEvent(QEvent* event)
 {
 	if (m_maximizeButton)
@@ -196,13 +233,7 @@ void QtCodeArea::leaveEvent(QEvent* event)
 		m_maximizeButton->setEnabled(false);
 	}
 
-	if(m_isFocused)
-	{
-		MessageFocusOut(m_focusedTokenId).dispatch();
-	}
-	m_isFocused = false;
-
-	annotateText();
+	setHoveredAnnotation(nullptr);
 }
 
 void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
@@ -235,32 +266,22 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 	if (annotation && annotation->isScope)
 	{
 		annotation = nullptr;
-		MessageFocusOut(m_focusedTokenId).dispatch();
 	}
 
-	if (annotation && annotation->tokenId != m_focusedTokenId)
+	if (annotation != m_hoveredAnnotation)
 	{
-		if(m_isFocused)
-		{
-			MessageFocusOut(m_focusedTokenId).dispatch();
-		}
+		setHoveredAnnotation(annotation);
 
-		m_focusedTokenId = annotation->tokenId;
-		m_isFocused = true;
-		MessageFocusIn(m_focusedTokenId).dispatch();
-
-		const std::vector<std::string>& errorMessages = m_parent->getErrorMessages();
+		const std::vector<std::string>& errorMessages = m_fileWidget->getErrorMessages();
 
 		if (annotation && errorMessages.size() > annotation->tokenId)
 		{
-			QToolTip::showText(event->globalPos(), QString::fromStdString(m_parent->getErrorMessages()[annotation->tokenId]));
+			QToolTip::showText(event->globalPos(), QString::fromStdString(m_fileWidget->getErrorMessages()[annotation->tokenId]));
 		}
 		else
 		{
 			QToolTip::hideText();
 		}
-
-		annotateText();
 	}
 }
 
@@ -288,7 +309,7 @@ void QtCodeArea::updateLineNumberArea(const QRect &rect, int dy)
 
 void QtCodeArea::clickedMaximizeButton()
 {
-	MessageShowFile(m_parent->getFilePath().absoluteStr(), m_startLineNumber, m_startLineNumber + blockCount() - 1).dispatch();
+	MessageShowFile(m_fileWidget->getFilePath().absoluteStr(), m_startLineNumber, m_startLineNumber + blockCount() - 1).dispatch();
 }
 
 void QtCodeArea::clearSelection()
@@ -296,6 +317,19 @@ void QtCodeArea::clearSelection()
 	QTextCursor cursor = textCursor();
 	cursor.clearSelection();
 	setTextCursor(cursor);
+}
+
+QtCodeArea::ScopeAnnotation::ScopeAnnotation()
+	: startLine(0)
+	, endLine(0)
+	, tokenId(0)
+	, isFocused(false)
+{
+}
+
+bool QtCodeArea::ScopeAnnotation::operator!=(const ScopeAnnotation& other) const
+{
+	return (startLine != other.startLine || endLine != other.endLine || tokenId != other.tokenId || isFocused != other.isFocused);
 }
 
 const QtCodeArea::Annotation* QtCodeArea::findAnnotationForPosition(int pos) const
@@ -325,7 +359,7 @@ void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFi
 		[&](TokenLocation* startLocation)
 		{
 			Annotation annotation;
-			int endLineNumber = m_startLineNumber + blockCount() - 1;
+			unsigned int endLineNumber = m_startLineNumber + blockCount() - 1;
 			if (startLocation->getLineNumber() <= endLineNumber)
 			{
 				if (startLocation->getLineNumber() < m_startLineNumber)
@@ -370,38 +404,29 @@ void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFi
 void QtCodeArea::annotateText()
 {
 	Colori color;
-	const std::vector<Id>& ids = m_parent->getActiveTokenIds();
-	const std::vector<std::string>& errorMessages = m_parent->getErrorMessages();
+	Id focusedTokenId = m_fileWidget->getFocusedTokenId();
+	const std::vector<Id>& ids = m_fileWidget->getActiveTokenIds();
+	const std::vector<std::string>& errorMessages = m_fileWidget->getErrorMessages();
 	QList<QTextEdit::ExtraSelection> extraSelections;
+
+	std::vector<ScopeAnnotation> scopeAnnotations;
 
 	for (const Annotation& annotation: m_annotations)
 	{
 		bool isActive = std::find(ids.begin(), ids.end(), annotation.tokenId) != ids.end();
+		bool isFocused = (annotation.tokenId == focusedTokenId);
 
-		if (annotation.tokenId == m_focusedTokenId && errorMessages.size())
+		if (&annotation == m_hoveredAnnotation && errorMessages.size())
 		{
 			color = Colori(255, 0, 0, 128);
-		}
-		else if(annotation.tokenId == m_focusedTokenId)
-		{
-			color = ApplicationSettings::getInstance()->getCodeActiveLinkColor();
 		}
 		else if (errorMessages.size())
 		{
 			color = Colori(255, 0, 0, 255);
 		}
-		else if (isActive)
+		else if (isActive || isFocused)
 		{
 			color = ApplicationSettings::getInstance()->getCodeActiveLinkColor();
-
-			if (annotation.isScope)
-			{
-				color.a /= 2;
-			}
-		}
-		else if (annotation.isScope)
-		{
-			color = ApplicationSettings::getInstance()->getCodeScopeColor();
 		}
 		else
 		{
@@ -411,15 +436,73 @@ void QtCodeArea::annotateText()
 		QTextEdit::ExtraSelection selection;
 		selection.format.setBackground(QColor(color.r, color.g, color.b, color.a));
 
+		ScopeAnnotation scopeAnnotation;
+
 		selection.cursor = textCursor();
 		selection.cursor.clearSelection();
 		selection.cursor.setPosition(annotation.start);
+		scopeAnnotation.startLine = selection.cursor.blockNumber();
 		selection.cursor.setPosition(annotation.end, QTextCursor::KeepAnchor);
+		scopeAnnotation.endLine = selection.cursor.blockNumber();
 
-		extraSelections.append(selection);
+		if (annotation.isScope)
+		{
+			if (isActive || isFocused)
+			{
+				scopeAnnotation.tokenId = annotation.tokenId;
+				if (!isActive)
+				{
+					scopeAnnotation.isFocused = isFocused;
+				}
+				scopeAnnotations.push_back(scopeAnnotation);
+			}
+		}
+		else
+		{
+			extraSelections.append(selection);
+		}
 	}
 
 	setExtraSelections(extraSelections);
+
+	bool needsUpdate = false;
+	if (scopeAnnotations.size() != m_scopeAnnotations.size())
+	{
+		needsUpdate = true;
+	}
+	else
+	{
+		for (size_t i = 0; i < scopeAnnotations.size(); i++)
+		{
+			if (scopeAnnotations[i] != m_scopeAnnotations[i])
+			{
+				needsUpdate = true;
+				break;
+			}
+		}
+	}
+
+	m_scopeAnnotations = scopeAnnotations;
+
+	if (needsUpdate)
+	{
+		viewport()->update();
+	}
+}
+
+void QtCodeArea::setHoveredAnnotation(const Annotation* annotation)
+{
+	if (m_hoveredAnnotation)
+	{
+		MessageFocusOut(m_hoveredAnnotation->tokenId).dispatch();
+	}
+
+	m_hoveredAnnotation = annotation;
+
+	if (annotation)
+	{
+		MessageFocusIn(annotation->tokenId).dispatch();
+	}
 }
 
 int QtCodeArea::toTextEditPosition(int lineNumber, int columnNumber) const
@@ -451,16 +534,4 @@ int QtCodeArea::endTextEditPosition() const
 	}
 
 	return position - 1;
-}
-
-void QtCodeArea::focusToken(Id tokenId)
-{
-	m_focusedTokenId = tokenId;
-	annotateText();
-}
-
-void QtCodeArea::defocusToken()
-{
-	m_focusedTokenId = -1;
-	annotateText();
 }

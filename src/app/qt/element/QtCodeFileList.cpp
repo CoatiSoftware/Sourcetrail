@@ -10,6 +10,7 @@
 QtCodeFileList::QtCodeFileList(QWidget* parent)
 	: QScrollArea(parent)
 	, m_showMaximizeButton(true)
+	, m_focusedTokenId(0)
 {
 	m_frame = std::make_shared<QFrame>(this);
 
@@ -70,6 +71,11 @@ void QtCodeFileList::clearCodeSnippets()
 	this->verticalScrollBar()->setValue(0);
 }
 
+Id QtCodeFileList::getFocusedTokenId() const
+{
+	return m_focusedTokenId;
+}
+
 const std::vector<Id>& QtCodeFileList::getActiveTokenIds() const
 {
 	return m_activeTokenIds;
@@ -107,22 +113,18 @@ void QtCodeFileList::updateFiles()
 {
 	for (std::shared_ptr<QtCodeFile> file: m_files)
 	{
-		file->update();
+		file->updateContent();
 	}
 }
 
 void QtCodeFileList::focusToken(Id tokenId)
 {
-	for (std::shared_ptr<QtCodeFile> file: m_files)
-	{
-		file->focusToken(tokenId);
-	}
+	m_focusedTokenId = tokenId;
+	updateFiles();
 }
 
 void QtCodeFileList::defocusToken()
 {
-	for (std::shared_ptr<QtCodeFile> file: m_files)
-	{
-		file->defocusToken();
-	}
+	m_focusedTokenId = 0;
+	updateFiles();
 }
