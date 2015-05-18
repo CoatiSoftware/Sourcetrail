@@ -235,6 +235,13 @@ void QtGraphPostprocessor::resolveOverlap(std::list<std::shared_ptr<QtGraphNode>
 			{
 				grad = (*it)->getPosition();
 				grad.normalize();
+
+				// catch special case of node being at position 0/0
+				if(grad.getLengthSquared() <= 0.000001f)
+				{
+					grad.y = 1.0f;
+				}
+
 				grad *= -1.0f;
 			}
 
