@@ -28,6 +28,7 @@ public:
 
 	void logGraph() const;
 	void logLocations() const;
+	void logIndex() const;
 
 	// ParserClient implementation
 	virtual void onError(const ParseLocation& location, const std::string& message);
@@ -63,7 +64,8 @@ public:
 	virtual Id onInheritanceParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy,
 		const NameHierarchy& baseNameHierarchy, AccessType access);
-	virtual Id onMethodOverrideParsed(const ParseFunction& base, const ParseFunction& overrider);
+	virtual Id onMethodOverrideParsed(
+		const ParseLocation& location, const ParseFunction& base, const ParseFunction& overrider);
 	virtual Id onCallParsed(
 		const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee);
 	virtual Id onCallParsed(

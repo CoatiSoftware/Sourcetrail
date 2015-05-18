@@ -84,7 +84,8 @@ public:
 	virtual Id onInheritanceParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy,
 		const NameHierarchy& baseNameHierarchy, AccessType access) = 0;
-	virtual Id onMethodOverrideParsed(const ParseFunction& base, const ParseFunction& overrider) = 0;
+	virtual Id onMethodOverrideParsed(
+		const ParseLocation& location, const ParseFunction& base, const ParseFunction& overrider) = 0;
 	virtual Id onCallParsed(
 		const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee) = 0;
 	virtual Id onCallParsed(

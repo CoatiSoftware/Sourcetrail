@@ -186,9 +186,10 @@ bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 		}
 
 		ParseFunction parseFunction = getParseFunction(declaration);
+		ParseLocation location = getParseLocationForNamedDecl(declaration);
 
 		m_client->onMethodParsed(
-			getParseLocationForNamedDecl(declaration),
+			location,
 			parseFunction,
 			convertAccessType(declaration->getAccess()),
 			abstraction,
@@ -198,7 +199,7 @@ bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 		for (clang::CXXMethodDecl::method_iterator it = declaration->begin_overridden_methods();
 			it != declaration->end_overridden_methods(); it++)
 		{
-			m_client->onMethodOverrideParsed(getParseFunction(*it), parseFunction);
+			m_client->onMethodOverrideParsed(location, getParseFunction(*it), parseFunction);
 		}
 
 		if (declaration->hasBody() && declaration->getBody() != NULL && declaration->isThisDeclarationADefinition())

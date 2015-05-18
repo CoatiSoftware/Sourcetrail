@@ -407,3 +407,22 @@ std::deque<const SearchNode*> SearchNode::getNodesToParent(const SearchNode* par
 
 	return nodes;
 }
+
+std::ostream& operator<<(std::ostream& ostream, const SearchNode* node)
+{
+	ostream << node->m_name;
+
+	for (Id tokenId : node->m_tokenIds)
+	{
+		ostream << ' ' << tokenId;
+	}
+
+	ostream << '\n';
+
+	for (const std::shared_ptr<SearchNode> n : node->m_nodes)
+	{
+		ostream << n.get();
+	}
+
+	return ostream;
+}

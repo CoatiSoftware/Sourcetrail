@@ -420,7 +420,7 @@ public:
 		storage.onMethodParsed(validLocation(9), a, ParserClient::ACCESS_PRIVATE, ParserClient::ABSTRACTION_VIRTUAL, validLocation(4));
 		storage.onMethodParsed(validLocation(7), b, ParserClient::ACCESS_PRIVATE, ParserClient::ABSTRACTION_NONE, validLocation(3));
 
-		Id id = storage.onMethodOverrideParsed(a, b);
+		Id id = storage.onMethodOverrideParsed(validLocation(4), a, b);
 
 		Edge* edge = storage.getEdgeWithId(id);
 		TS_ASSERT(edge);

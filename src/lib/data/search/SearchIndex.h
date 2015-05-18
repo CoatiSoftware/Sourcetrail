@@ -41,6 +41,10 @@ public:
 private:
 	SearchNode m_root;
 	Dictionary m_dictionary;
+
+	friend std::ostream& operator<<(std::ostream& ostream, const SearchIndex& index);
 };
+
+std::ostream& operator<<(std::ostream& ostream, const SearchIndex& index);
 
 #endif // SEARCH_INDEX_H

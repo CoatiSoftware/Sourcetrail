@@ -134,3 +134,10 @@ std::vector<SearchMatch> SearchIndex::runFuzzySearchAndGetMatches(const std::str
 }
 
 const std::string SearchIndex::DELIMITER = "::";
+
+std::ostream& operator<<(std::ostream& ostream, const SearchIndex& index)
+{
+	ostream << "SearchIndex:\n";
+	ostream << &index.m_root;
+	return ostream;
+}

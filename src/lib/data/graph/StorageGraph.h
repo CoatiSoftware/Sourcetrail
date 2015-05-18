@@ -16,13 +16,14 @@ public:
 	Node* createNodeHierarchyWithDistinctSignature(
 		Node::NodeType type, SearchNode* searchNode, std::shared_ptr<TokenComponentSignature> signature);
 	Edge* createEdge(Edge::EdgeType type, Node* from, Node* to);
+	void removeEdge(Edge* edge);
 
 private:
 	Node* insertNodeHierarchy(Node::NodeType type, SearchNode* searchNode);
 	Node* insertNode(Node::NodeType type, Node* parentNode, SearchNode* searchNode);
 	Edge* insertEdge(Edge::EdgeType type, Node* from, Node* to);
 
-	void updateAggregationEdges(Node* from, Node* to, Id edgeId);
+	void updateAggregationEdges(Node* from, Node* to, Id addEdgeId, Id removeEdgeId);
 };
 
 #endif // STORAGE_GRAPH_H

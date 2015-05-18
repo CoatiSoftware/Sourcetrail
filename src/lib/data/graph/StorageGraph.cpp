@@ -93,11 +93,26 @@ Edge* StorageGraph::createEdge(Edge::EdgeType type, Node* from, Node* to)
 	if (from->getLastParentNode() != to->getLastParentNode())
 	{
 		Id edgeId = edge->getId();
-		updateAggregationEdges(from->getParentNode(), to, edgeId);
-		updateAggregationEdges(from, to->getParentNode(), edgeId);
+		updateAggregationEdges(from->getParentNode(), to, edgeId, 0);
+		updateAggregationEdges(from, to->getParentNode(), edgeId, 0);
 	}
 
 	return edge;
+}
+
+void StorageGraph::removeEdge(Edge* edge)
+{
+	Node* from = edge->getFrom();
+	Node* to = edge->getTo();
+
+	if (from->getLastParentNode() != to->getLastParentNode())
+	{
+		Id edgeId = edge->getId();
+		updateAggregationEdges(from->getParentNode(), to, 0, edgeId);
+		updateAggregationEdges(from, to->getParentNode(), 0, edgeId);
+	}
+
+	Graph::removeEdge(edge);
 }
 
 Node* StorageGraph::insertNodeHierarchy(Node::NodeType type, SearchNode* searchNode)
@@ -151,7 +166,7 @@ Edge* StorageGraph::insertEdge(Edge::EdgeType type, Node* from, Node* to)
 	return edgePtr.get();
 }
 
-void StorageGraph::updateAggregationEdges(Node* from, Node* to, Id edgeId)
+void StorageGraph::updateAggregationEdges(Node* from, Node* to, Id addEdgeId, Id removeEdgeId)
 {
 	if (!from || !to || from == to)
 	{
@@ -174,15 +189,28 @@ void StorageGraph::updateAggregationEdges(Node* from, Node* to, Id edgeId)
 			}
 		);
 
-		if (!edge)
+		if (!edge && addEdgeId)
 		{
 			edge = insertEdge(Edge::EDGE_AGGREGATION, from, to);
 			edge->addComponentAggregation(std::make_shared<TokenComponentAggregation>());
 		}
 
-		edge->getComponent<TokenComponentAggregation>()->addAggregationId(edgeId);
+		if (addEdgeId)
+		{
+			edge->getComponent<TokenComponentAggregation>()->addAggregationId(addEdgeId);
+		}
+
+		if (edge && removeEdgeId)
+		{
+			edge->getComponent<TokenComponentAggregation>()->removeAggregationId(removeEdgeId);
+		}
+
+		if (edge && edge->getComponent<TokenComponentAggregation>()->getAggregationCount() == 0)
+		{
+			Graph::removeEdge(edge);
+		}
 	}
 
-	updateAggregationEdges(from->getParentNode(), to, edgeId);
-	updateAggregationEdges(from, to->getParentNode(), edgeId);
+	updateAggregationEdges(from->getParentNode(), to, addEdgeId, removeEdgeId);
+	updateAggregationEdges(from, to->getParentNode(), addEdgeId, removeEdgeId);
 }

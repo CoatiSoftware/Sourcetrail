@@ -37,12 +37,5 @@ ParseLocation::ParseLocation(
 
 bool ParseLocation::isValid() const
 {
-	if (startLineNumber == endLineNumber)
-	{
-		return startLineNumber > 0 && startColumnNumber <= endColumnNumber;
-	}
-	else
-	{
-		return startLineNumber > 0 && startLineNumber < endLineNumber;
-	}
+	return filePath.size() > 0;
 }

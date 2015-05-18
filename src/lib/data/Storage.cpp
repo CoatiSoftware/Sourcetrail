@@ -150,6 +150,11 @@ void Storage::logLocations() const
 	LOG_INFO_STREAM(<< '\n' << m_locationCollection);
 }
 
+void Storage::logIndex() const
+{
+	LOG_INFO_STREAM(<< '\n' << m_tokenIndex);
+}
+
 void Storage::onError(const ParseLocation& location, const std::string& message)
 {
 	log("ERROR", message, location);
@@ -352,10 +357,7 @@ Id Storage::onNamespaceParsed(
 	log("namespace", nameHierarchy.getFullName(), location);
 
 	Node* node = addNodeHierarchy(Node::NODE_NAMESPACE, nameHierarchy);
-	if (location.isValid())
-	{
-		addTokenLocation(node, location);
-	}
+	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
 
 	return node->getId();
@@ -402,14 +404,17 @@ Id Storage::onInheritanceParsed(
 	return edge->getId();
 }
 
-Id Storage::onMethodOverrideParsed(const ParseFunction& base, const ParseFunction& overrider)
+Id Storage::onMethodOverrideParsed(
+	const ParseLocation& location, const ParseFunction& base, const ParseFunction& overrider)
 {
-	log("override", base.getFullName() + " -> " + overrider.getFullName(), ParseLocation());
+	log("override", base.getFullName() + " -> " + overrider.getFullName(), location);
 
 	Node* baseNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, base);
 	Node* overriderNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, overrider);
 
 	Edge* edge = m_graph.createEdge(Edge::EDGE_OVERRIDE, baseNode, overriderNode);
+
+	addTokenLocation(edge, location);
 
 	return edge->getId();
 }
@@ -566,11 +571,12 @@ Id Storage::onTemplateDefaultArgumentTypeParsed(
 
 	Node* templateDefaultArgumentNode =
 		addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, defaultArgumentType.dataType->getTypeNameHierarchy());
-	addTokenLocation(templateDefaultArgumentNode, defaultArgumentType.location);
-
 	Node* templateArgumentNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateArgumentTypeNameHierarchy);
+	Edge* templateArgumentEdge =
+		m_graph.createEdge(Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF, templateDefaultArgumentNode, templateArgumentNode);
 
-	m_graph.createEdge(Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF, templateDefaultArgumentNode, templateArgumentNode);
+	addTokenLocation(templateDefaultArgumentNode, defaultArgumentType.location);
+	addTokenLocation(templateArgumentEdge, defaultArgumentType.location);
 
 	return templateDefaultArgumentNode->getId();
 }
@@ -582,10 +588,12 @@ Id Storage::onTemplateRecordParameterTypeParsed(
 	log("template record type parameter", templateParameterTypeNameHierarchy.getFullName(), location);
 
 	Node* templateParameterNode = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
-	addTokenLocation(templateParameterNode, location);
-
 	Node* templateRecordNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateRecordNameHierarchy);
-	m_graph.createEdge(Edge::EDGE_TEMPLATE_PARAMETER_OF, templateParameterNode, templateRecordNode);
+	Edge* templateParameterEdge =
+		m_graph.createEdge(Edge::EDGE_TEMPLATE_PARAMETER_OF, templateParameterNode, templateRecordNode);
+
+	addTokenLocation(templateParameterNode, location);
+	addTokenLocation(templateParameterEdge, location);
 
 	return templateParameterNode->getId();
 }
@@ -608,9 +616,11 @@ Id Storage::onTemplateRecordSpecializationParsed(
 
 	Node* specializedRecordNode = addNodeHierarchy(specializedRecordNodeType, specializedRecordNameHierarchy);
 	Node* templateRecordNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, specializedFromNameHierarchy);
+	Edge* templateSpecializationEdge =
+		m_graph.createEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, specializedRecordNode, templateRecordNode);
 
-	m_graph.createEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, specializedRecordNode, templateRecordNode);
-	//addTokenLocation(edge, location);
+	addTokenLocation(specializedRecordNode, location);
+	addTokenLocation(templateSpecializationEdge, location);
 
 	return specializedRecordNode->getId();
 }
@@ -621,25 +631,29 @@ Id Storage::onTemplateFunctionParameterTypeParsed(
 	log("template function type parameter", templateParameterTypeNameHierarchy.getFullName(), location);
 
 	Node* templateParameterNode = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
-	addTokenLocation(templateParameterNode, location);
-
 	Node* templateFunctionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, function);
+	Edge* templateParameterEdge =
+		m_graph.createEdge(Edge::EDGE_TEMPLATE_PARAMETER_OF, templateParameterNode, templateFunctionNode);
 
-	m_graph.createEdge(Edge::EDGE_TEMPLATE_PARAMETER_OF, templateParameterNode, templateFunctionNode);
+	addTokenLocation(templateParameterNode, location);
+	addTokenLocation(templateParameterEdge, location);
 
 	return templateParameterNode->getId();
 }
 
 Id Storage::onTemplateFunctionSpecializationParsed(
 	const ParseLocation& location, const ParseFunction specializedFunction, const ParseFunction templateFunction
-)
-{
+){
 	log("function template specialization", specializedFunction.getFullName(), location);
 
 	Node* specializedFunctionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, specializedFunction);
 	Node* templateFunctionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, templateFunction);
 
-	m_graph.createEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, specializedFunctionNode, templateFunctionNode);
+	Edge* templateSpecializationEdge =
+		m_graph.createEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, specializedFunctionNode, templateFunctionNode);
+
+	addTokenLocation(specializedFunctionNode, location);
+	addTokenLocation(templateSpecializationEdge, location);
 
 	return specializedFunctionNode->getId();
 }
@@ -1375,12 +1389,24 @@ void Storage::removeNodeIfUnreferenced(Node* node)
 	Id tokenId = node->getId();
 	SearchNode* searchNode = m_tokenIndex.getNode(node->getTokenComponentName()->getSearchNode());
 
+	Node* parentNode = node->getParentNode();
+
 	bool removed = m_graph.removeNodeIfUnreferencedRecursive(node);
 
-	if (removed && searchNode)
+	if (!removed)
+	{
+		return;
+	}
+
+	if (searchNode)
 	{
 		searchNode->removeTokenId(tokenId);
 		m_tokenIndex.removeNodeIfUnreferencedRecursive(searchNode);
+	}
+
+	if (parentNode)
+	{
+		removeNodeIfUnreferenced(parentNode);
 	}
 }
 

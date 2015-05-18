@@ -77,6 +77,10 @@ private:
 
 	const std::string& m_name;
 	const Id m_nameId;
+
+	friend std::ostream& operator<<(std::ostream& ostream, const SearchNode* node);
 };
+
+std::ostream& operator<<(std::ostream& ostream, const SearchNode* node);
 
 #endif // SEARCH_NODE_H
