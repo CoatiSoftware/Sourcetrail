@@ -36,12 +36,23 @@
 	font-size: 14px;
 }
 
-#code_area #maximize_button {
-	border: none;
+#code_file #maximize_button {
+	background-color: lightgray;
 	border-image: none;
-	margin: 5px;
+	border-radius: 8px;
+	margin: 1px;
 	max-height: 16px;
 	max-width: 16px;
+}
+
+#code_file #maximize_button:enabled {
+	border-image: url(data/gui/code_view/images/button_maximize.png);
+}
+
+#code_area #maximize_button {
+	background-color: none;
+	border-image: none;
+	margin: 5px;
 }
 
 #code_area #maximize_button:enabled {

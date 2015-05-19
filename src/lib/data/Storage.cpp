@@ -109,18 +109,7 @@ std::set<FilePath> Storage::getDependingFilePathsAndRemoveFileNodes(const std::s
 
 	for (const FilePath& filePath : filePaths)
 	{
-		SearchNode* searchNode = m_tokenIndex.getNode(filePath.fileName());
-		if (!searchNode || searchNode->getTokenIds().size() != 1)
-		{
-			continue;
-		}
-
-		Node* fileNode = m_graph.getNodeById(searchNode->getFirstTokenId());
-		if (!fileNode->isType(Node::NODE_FILE))
-		{
-			LOG_ERROR("Node is not of type file.");
-			continue;
-		}
+		Node* fileNode = findFileNode(filePath);
 
 		if (!fileNode->getComponent<TokenComponentFilePath>() ||
 			fileNode->getComponent<TokenComponentFilePath>()->getFilePath() != filePath)
@@ -956,6 +945,17 @@ std::vector<Id> Storage::getTokenIdsForQuery(std::string query) const
 	return outGraph.getTokenIds();
 }
 
+Id Storage::getTokenIdForFileNode(const FilePath& filePath) const
+{
+	Node* fileNode = findFileNode(filePath);
+	if (fileNode)
+	{
+		return fileNode->getId();
+	}
+
+	return 0;
+}
+
 TokenLocationCollection Storage::getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const
 {
 	TokenLocationCollection ret;
@@ -1006,6 +1006,7 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationsForFile(const std::
 			ret->addTokenLocationAsPlainCopy(tokenLocation);
 		}
 	);
+	ret->isWholeCopy = true;
 
 	return ret;
 }
@@ -1160,6 +1161,24 @@ Node* Storage::addFileNode(const FilePath& filePath)
 	if (!fileNode->getComponent<TokenComponentFilePath>())
 	{
 		fileNode->addComponentFilePath(std::make_shared<TokenComponentFilePath>(filePath));
+	}
+
+	return fileNode;
+}
+
+Node* Storage::findFileNode(const FilePath& filePath) const
+{
+	SearchNode* searchNode = m_tokenIndex.getNode(filePath.fileName());
+	if (!searchNode || searchNode->getTokenIds().size() != 1)
+	{
+		return nullptr;
+	}
+
+	Node* fileNode = m_graph.getNodeById(searchNode->getFirstTokenId());
+	if (!fileNode->isType(Node::NODE_FILE))
+	{
+		LOG_ERROR("Node is not of type file.");
+		return nullptr;
 	}
 
 	return fileNode;

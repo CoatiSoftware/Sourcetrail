@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "utility/types.h"
+#include "utility/file/FilePath.h"
 
 #include "data/graph/Node.h"
 #include "data/search/SearchMatch.h"
@@ -32,6 +33,7 @@ public:
 	virtual std::vector<Id> getActiveTokenIdsForLocationId(Id locationId) const = 0;
 
 	virtual std::vector<Id> getTokenIdsForQuery(std::string query) const = 0;
+	virtual Id getTokenIdForFileNode(const FilePath& filePath) const = 0;
 
 	virtual TokenLocationCollection getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const = 0;
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const std::string& filePath) const = 0;

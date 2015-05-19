@@ -112,6 +112,16 @@ std::vector<Id> StorageAccessProxy::getTokenIdsForQuery(std::string query) const
 	return std::vector<Id>();
 }
 
+Id StorageAccessProxy::getTokenIdForFileNode(const FilePath& filePath) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getTokenIdForFileNode(filePath);
+	}
+
+	return 0;
+}
+
 TokenLocationCollection StorageAccessProxy::getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const
 {
 	if (hasSubject())

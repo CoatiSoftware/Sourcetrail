@@ -9,7 +9,7 @@ add_files(
 	data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h
 	data/parser/cxx/name_resolver/CxxTypeNameResolver.cpp
 	data/parser/cxx/name_resolver/CxxTypeNameResolver.h
-	
+
 	data/parser/cxx/ASTAction.cpp
 	data/parser/cxx/ASTAction.h
 	data/parser/cxx/ASTActionFactory.cpp
@@ -248,6 +248,7 @@ add_files(
 	utility/math/Vector4.h
 	utility/math/VectorBase.h
 
+	utility/messaging/type/MessageActivateFile.h
 	utility/messaging/type/MessageActivateTokenLocation.h
 	utility/messaging/type/MessageActivateTokens.h
 	utility/messaging/type/MessageAutoRefreshChanged.h

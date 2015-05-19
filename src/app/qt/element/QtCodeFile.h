@@ -41,13 +41,21 @@ public:
 
 private slots:
 	void clickedTitle();
+	void clickedMinimizeButton();
+	void clickedSnippetButton();
+	void clickedMaximizeButton();
 
 private:
 	QtCodeFileList* m_parent;
 
 	QPushButton* m_title;
+	QPushButton* m_minimizeButton;
+	QPushButton* m_snippetButton;
+	QPushButton* m_maximizeButton;
 
 	std::vector<std::shared_ptr<QtCodeSnippet>> m_snippets;
+	std::shared_ptr<QtCodeSnippet> m_fileSnippet;
+
 	const FilePath m_filePath;
 };
 

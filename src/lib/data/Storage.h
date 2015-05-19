@@ -119,6 +119,7 @@ public:
 	virtual std::vector<Id> getActiveTokenIdsForLocationId(Id locationId) const;
 
 	virtual std::vector<Id> getTokenIdsForQuery(std::string query) const;
+	virtual Id getTokenIdForFileNode(const FilePath& filePath) const;
 
 	virtual TokenLocationCollection getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const;
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const std::string& filePath) const;
@@ -140,6 +141,7 @@ private:
 	Node* addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function);
 
 	Node* addFileNode(const FilePath& filePath);
+	Node* findFileNode(const FilePath& filePath) const;
 
 	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;
 	TokenComponentAccess* addAccess(Node* node, ParserClient::AccessType access);

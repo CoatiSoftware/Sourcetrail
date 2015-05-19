@@ -23,6 +23,11 @@ CodeController::~CodeController()
 
 const uint CodeController::s_lineRadius = 2;
 
+void CodeController::handleMessage(MessageActivateFile* message)
+{
+	MessageActivateTokens(std::vector<Id>(1, m_storageAccess->getTokenIdForFileNode(message->filePath))).dispatch();
+}
+
 void CodeController::handleMessage(MessageActivateTokenLocation* message)
 {
 	if (message->locationId)
@@ -140,10 +145,13 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTok
 		{
 			std::vector<CodeView::CodeSnippetParams> fileSnippets = getSnippetsForFile(file);
 
-			for (CodeView::CodeSnippetParams& params : fileSnippets)
+			if (!file->isWholeCopy)
 			{
-				params.locationFile = m_storageAccess->getTokenLocationsForLinesInFile(
-					file->getFilePath().str(), params.startLineNumber, params.endLineNumber);
+				for (CodeView::CodeSnippetParams& params : fileSnippets)
+				{
+					params.locationFile = m_storageAccess->getTokenLocationsForLinesInFile(
+						file->getFilePath().str(), params.startLineNumber, params.endLineNumber);
+				}
 			}
 
 			if (declarationId != 0)
@@ -214,7 +222,8 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(std:
 		params.endLineNumber = std::min<int>(textAccess->getLineCount(), range.end.row + (range.end.strong ? 0 : snippetExpandRange));
 
 
-		std::shared_ptr<TokenLocationFile> tempFile = m_storageAccess->getTokenLocationsForLinesInFile(file->getFilePath().str(), params.startLineNumber, params.endLineNumber);
+		std::shared_ptr<TokenLocationFile> tempFile =
+			m_storageAccess->getTokenLocationsForLinesInFile(file->getFilePath().str(), params.startLineNumber, params.endLineNumber);
 		TokenLocationLine* firstUsedLine = nullptr;
 		for (size_t i = params.startLineNumber; i <= params.endLineNumber && firstUsedLine == nullptr; i++)
 		{

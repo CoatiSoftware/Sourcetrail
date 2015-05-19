@@ -1,7 +1,5 @@
 #include "qt/view/QtCodeView.h"
 
-#include <QScrollBar>
-
 #include "qt/element/QtCodeFileList.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "utility/file/FileSystem.h"
@@ -60,31 +58,11 @@ void QtCodeView::showCodeFile(const CodeSnippetParams& params)
 void QtCodeView::doRefreshView()
 {
 	setStyleSheet(m_widget);
-
-	clearClosedWindows();
-	for (std::shared_ptr<QtCodeFileList> window: m_windows)
-	{
-		setStyleSheet(window.get());
-	}
 }
 
 void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets)
 {
 	m_widget->clearCodeSnippets();
-
-	clearClosedWindows();
-	for (std::shared_ptr<QtCodeFileList> window: m_windows)
-	{
-		if (m_errorMessages.size())
-		{
-			window->close();
-		}
-		else
-		{
-			window->setActiveTokenIds(m_activeTokenIds);
-			window->setErrorMessages(m_errorMessages);
-		}
-	}
 
 	m_widget->setActiveTokenIds(m_activeTokenIds);
 	m_widget->setErrorMessages(m_errorMessages);
@@ -98,22 +76,7 @@ void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippe
 
 void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
 {
-	std::shared_ptr<QtCodeFileList> ptr = createQtCodeFileList();
-	m_windows.push_back(ptr);
-
-	ptr->setShowMaximizeButton(false);
-	ptr->setActiveTokenIds(m_activeTokenIds);
-	ptr->setErrorMessages(m_errorMessages);
-	ptr->addCodeSnippet(1, params.title, params.code, params.locationFile);
-
-	ptr->setWindowTitle(params.locationFile->getFilePath().fileName().c_str());
-	ptr->show();
-
-	float percent = float(params.startLineNumber + params.endLineNumber) / float(params.lineCount) / 2;
-	float min = ptr->verticalScrollBar()->minimum();
-	float max = ptr->verticalScrollBar()->maximum();
-
-	ptr->verticalScrollBar()->setValue(min + (max - min) * percent);
+	m_widget->addCodeSnippet(1, params.title, params.code, params.locationFile);
 }
 
 std::shared_ptr<QtCodeFileList> QtCodeView::createQtCodeFileList() const
@@ -126,18 +89,6 @@ std::shared_ptr<QtCodeFileList> QtCodeView::createQtCodeFileList() const
 void QtCodeView::setStyleSheet(QWidget* widget) const
 {
 	widget->setStyleSheet(TextAccess::createFromFile("data/gui/code_view/code_view.css")->getText().c_str());
-}
-
-void QtCodeView::clearClosedWindows()
-{
-	for (size_t i = 0; i < m_windows.size(); i++)
-	{
-		if (!m_windows[i]->isVisible())
-		{
-			m_windows.erase(m_windows.begin() + i);
-			i--;
-		}
-	}
 }
 
 void QtCodeView::focusToken(const Id tokenId)

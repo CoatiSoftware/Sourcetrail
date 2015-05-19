@@ -25,6 +25,7 @@ public:
 	virtual std::vector<Id> getActiveTokenIdsForLocationId(Id locationId) const;
 
 	virtual std::vector<Id> getTokenIdsForQuery(std::string query) const;
+	virtual Id getTokenIdForFileNode(const FilePath& filePath) const;
 
 	virtual TokenLocationCollection getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const;
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const std::string& filePath) const;
