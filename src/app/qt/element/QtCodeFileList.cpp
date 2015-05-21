@@ -9,8 +9,8 @@
 
 QtCodeFileList::QtCodeFileList(QWidget* parent)
 	: QScrollArea(parent)
-	, m_showMaximizeButton(true)
 	, m_focusedTokenId(0)
+	, m_showMaximizeButton(true)
 {
 	m_frame = std::make_shared<QFrame>(this);
 

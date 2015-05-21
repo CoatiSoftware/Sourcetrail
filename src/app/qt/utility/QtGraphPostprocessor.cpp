@@ -11,7 +11,7 @@ void QtGraphPostprocessor::doPostprocessing(std::list<std::shared_ptr<QtGraphNod
 
 	if (nodes.size() < 2)
 	{
-		LOG_WARNING_STREAM(<< "Skipping postprocessing, need at least 2 nodes but got " << nodes.size());
+		LOG_INFO_STREAM(<< "Skipping postprocessing, need at least 2 nodes but got " << nodes.size());
 		return;
 	}
 
@@ -198,7 +198,7 @@ void QtGraphPostprocessor::resolveOverlap(std::list<std::shared_ptr<QtGraphNode>
 
 	while (overlap && iterationCount < maxIterations)
 	{
-		LOG_WARNING_STREAM(<< iterationCount);
+		LOG_INFO_STREAM(<< iterationCount);
 
 		overlap = false;
 		iterationCount++;

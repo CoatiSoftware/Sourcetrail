@@ -106,7 +106,7 @@ void QtGraphEdge::onClick()
 		message.isAggregation = true;
 		message.dispatch();
 	}
-	else
+	else if (!m_isActive)
 	{
 		MessageActivateTokens message(getData()->getId());
 		message.isEdge = true;

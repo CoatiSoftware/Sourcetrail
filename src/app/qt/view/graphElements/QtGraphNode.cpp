@@ -6,8 +6,8 @@
 
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
-#include "utility/messaging/type/MessageFocusIn.h";
-#include "utility/messaging/type/MessageFocusOut.h";
+#include "utility/messaging/type/MessageFocusIn.h"
+#include "utility/messaging/type/MessageFocusOut.h"
 
 #include "qt/graphics/QtRoundedRectItem.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
@@ -252,7 +252,7 @@ void QtGraphNode::setShadowEnabledRecursive(bool enabled)
 
 void QtGraphNode::onClick()
 {
-	if (m_data && !m_data->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE))
+	if (!m_isActive && m_data && !m_data->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE))
 	{
 		MessageActivateTokens(m_data->getId()).dispatch();
 	}

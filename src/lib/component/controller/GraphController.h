@@ -45,8 +45,6 @@ private:
 
 	GraphView* getView() const;
 
-	void setActiveTokenIds(const std::vector<Id>& activeTokenIds);
-
 	void createDummyGraphForTokenIds(const std::vector<Id>& tokenIds);
 	DummyNode createDummyNodeTopDown(Node* node);
 
@@ -71,7 +69,6 @@ private:
 	std::vector<DummyEdge> m_dummyEdges;
 
 	std::vector<Id> m_activeTokenIds;
-	std::vector<Id> m_currentActiveTokenIds;
 };
 
 #endif // GRAPH_CONTROLLER_H

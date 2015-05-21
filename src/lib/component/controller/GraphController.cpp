@@ -23,27 +23,22 @@ GraphController::~GraphController()
 
 void GraphController::handleMessage(MessageActivateTokens* message)
 {
+	m_activeTokenIds = message->tokenIds;
+
 	if (message->isEdge && message->tokenIds.size() == 1)
 	{
-		m_currentActiveTokenIds = m_activeTokenIds;
-		m_currentActiveTokenIds.push_back(message->tokenIds[0]);
-
-		setActiveAndVisibility(m_currentActiveTokenIds);
+		setActiveAndVisibility(message->tokenIds);
 		getView()->rebuildGraph(nullptr, m_dummyNodes, m_dummyEdges);
 		return;
 	}
 
 	if (message->isAggregation)
 	{
-		m_activeTokenIds.clear();
-		m_currentActiveTokenIds = message->tokenIds;
-
-		createDummyGraphForTokenIds(m_currentActiveTokenIds);
+		createDummyGraphForTokenIds(message->tokenIds);
 		return;
 	}
 
-	setActiveTokenIds(message->tokenIds);
-	createDummyGraphForTokenIds(m_activeTokenIds);
+	createDummyGraphForTokenIds(message->tokenIds);
 }
 
 void GraphController::handleMessage(MessageFinishedParsing* message)
@@ -76,7 +71,7 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 			node->expanded = !node->expanded;
 		}
 
-		setActiveAndVisibility(m_currentActiveTokenIds);
+		setActiveAndVisibility(m_activeTokenIds);
 		layoutNesting();
 
 		getView()->rebuildGraph(nullptr, m_dummyNodes, m_dummyEdges);
@@ -96,12 +91,6 @@ void GraphController::handleMessage(MessageGraphNodeMove* message)
 GraphView* GraphController::getView() const
 {
 	return Controller::getView<GraphView>();
-}
-
-void GraphController::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
-{
-	m_activeTokenIds = activeTokenIds;
-	m_currentActiveTokenIds = activeTokenIds;
 }
 
 void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenIds)
@@ -336,6 +325,10 @@ void GraphController::setNodeActiveRecursive(DummyNode& node, const std::vector<
 	if (node.isGraphNode())
 	{
 		node.active = find(activeTokenIds.begin(), activeTokenIds.end(), node.data->getId()) != activeTokenIds.end();
+	}
+	else if (node.isExpandToggleNode())
+	{
+		node.visible = true;
 	}
 
 	for (DummyNode& subNode : node.subNodes)

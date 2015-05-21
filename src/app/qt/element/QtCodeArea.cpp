@@ -245,7 +245,13 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 
 		if (annotation)
 		{
-			MessageActivateTokenLocation(annotation->locationId).dispatch();
+			const std::vector<Id>& ids = m_fileWidget->getActiveTokenIds();
+			bool isActive = std::find(ids.begin(), ids.end(), annotation->tokenId) != ids.end();
+
+			if (!isActive)
+			{
+				MessageActivateTokenLocation(annotation->locationId).dispatch();
+			}
 		}
 	}
 }
