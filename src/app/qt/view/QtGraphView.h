@@ -3,10 +3,9 @@
 
 #include <QPointF>
 
-#include "qt/utility/QtThreadedFunctor.h"
-#include "utility/math/MatrixDynamicBase.h"
-#include "utility/math/Vector4.h"
 #include "utility/types.h"
+
+#include "qt/utility/QtThreadedFunctor.h"
 
 #include "component/view/GraphView.h"
 

@@ -4,8 +4,8 @@
 
 #include "utility/logging/logging.h"
 
-#include "component/view/graphElements/GraphEdge.h"
-#include "component/view/graphElements/GraphNode.h"
+#include "component/controller/helper/DummyEdge.h"
+#include "component/controller/helper/DummyNode.h"
 #include "component/view/GraphView.h"
 #include "component/view/GraphViewStyle.h"
 #include "data/access/StorageAccess.h"

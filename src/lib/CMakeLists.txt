@@ -35,6 +35,8 @@ add_files(
 add_files(
 	LIB_FILES
 
+	component/controller/helper/DummyEdge.h
+	component/controller/helper/DummyNode.h
 	component/controller/helper/SnippetMerger.cpp
 	component/controller/helper/SnippetMerger.h
 
@@ -54,11 +56,6 @@ add_files(
 	component/controller/StatusBarController.h
 	component/controller/UndoRedoController.cpp
 	component/controller/UndoRedoController.h
-
-	component/view/graphElements/GraphEdge.cpp
-	component/view/graphElements/GraphEdge.h
-	component/view/graphElements/GraphNode.cpp
-	component/view/graphElements/GraphNode.h
 
 	component/view/CodeView.cpp
 	component/view/CodeView.h

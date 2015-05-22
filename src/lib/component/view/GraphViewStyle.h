@@ -4,10 +4,13 @@
 #include <map>
 #include <memory>
 
-#include "component/view/graphElements/GraphNode.h"
-#include "component/view/GraphViewStyleImpl.h"
+#include "utility/math/Vector2.h"
+#include "utility/math/Vector4.h"
+
 #include "data/graph/Node.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
+
+class GraphViewStyleImpl;
 
 class GraphViewStyle
 {

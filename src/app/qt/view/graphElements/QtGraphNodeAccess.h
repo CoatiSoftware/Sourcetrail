@@ -11,11 +11,12 @@ public:
 	QtGraphNodeAccess(TokenComponentAccess::AccessType accessType);
 	virtual ~QtGraphNodeAccess();
 
-	virtual bool isAccessNode() const;
 	TokenComponentAccess::AccessType getAccessType() const;
 
-	virtual void addSubNode(const std::shared_ptr<QtGraphNode>& node);
+	// QtGraphNode implementation
+	virtual bool isAccessNode() const;
 
+	virtual void addSubNode(const std::shared_ptr<QtGraphNode>& node);
 	virtual void updateStyle();
 
 	void hideLabel();

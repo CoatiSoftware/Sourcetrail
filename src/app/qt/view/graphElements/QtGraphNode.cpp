@@ -1,13 +1,9 @@
 #include "qt/view/graphElements/QtGraphNode.h"
 
 #include <QBrush>
+#include <QFont>
 #include <QGraphicsSceneEvent>
 #include <QPen>
-
-#include "utility/messaging/type/MessageActivateTokens.h"
-#include "utility/messaging/type/MessageGraphNodeMove.h"
-#include "utility/messaging/type/MessageFocusIn.h"
-#include "utility/messaging/type/MessageFocusOut.h"
 
 #include "qt/graphics/QtRoundedRectItem.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
@@ -43,57 +39,39 @@ QFont QtGraphNode::getFontForNodeType(Node::NodeType type)
 }
 
 QtGraphNode::QtGraphNode()
-	: GraphNode(nullptr)
-	, m_undefinedRect(nullptr)
+	: m_undefinedRect(nullptr)
 	, m_isActive(false)
 	, m_isHovering(false)
-	, m_childVisible(false)
 {
 	this->setPen(QPen(Qt::transparent));
 
 	m_rect = new QtRoundedRectItem(this);
 	m_text = new QGraphicsSimpleTextItem(this);
-}
-
-QtGraphNode::QtGraphNode(const Node* data, bool childVisible)
-	: GraphNode(data)
-	, m_undefinedRect(nullptr)
-	, m_isActive(false)
-	, m_isHovering(false)
-	, m_childVisible(childVisible)
-{
-	this->setPen(QPen(Qt::transparent));
-
-	m_rect = new QtRoundedRectItem(this);
-	m_text = new QGraphicsSimpleTextItem(this);
-
-	this->setAcceptHoverEvents(true);
-
-	this->setName(data->getName());
 }
 
 QtGraphNode::~QtGraphNode()
 {
 }
 
-std::string QtGraphNode::getName() const
+QtGraphNode* QtGraphNode::getParent() const
 {
-	return m_text->text().toStdString();
+	return m_parentNode.lock().get();
 }
 
-void QtGraphNode::setName(const std::string& name)
+void QtGraphNode::setParent(std::weak_ptr<QtGraphNode> parentNode)
 {
-	m_text->setText(QString::fromStdString(name));
+	m_parentNode = parentNode;
+
+	std::shared_ptr<QtGraphNode> parent = parentNode.lock();
+	if (parent != NULL)
+	{
+		QGraphicsRectItem::setParentItem(parent.get());
+	}
 }
 
-bool QtGraphNode::isAccessNode() const
+std::list<std::shared_ptr<QtGraphNode>> QtGraphNode::getSubNodes() const
 {
-	return false;
-}
-
-bool QtGraphNode::isExpandToggleNode() const
-{
-	return false;
+	return m_subNodes;
 }
 
 Vec2i QtGraphNode::getPosition() const
@@ -116,16 +94,6 @@ bool QtGraphNode::setPosition(const Vec2i& position)
 	return false;
 }
 
-void QtGraphNode::moved()
-{
-	QtGraphPostprocessor::alignNodeOnRaster(this);
-
-	if (m_data)
-	{
-		MessageGraphNodeMove(m_data->getId(), getPosition()).dispatch();
-	}
-}
-
 Vec2i QtGraphNode::getSize() const
 {
 	return m_size;
@@ -142,6 +110,16 @@ void QtGraphNode::setSize(const Vec2i& size)
 	{
 		m_undefinedRect->setRect(1, 1, size.x - 2, size.y - 2);
 	}
+}
+
+QSize QtGraphNode::size() const
+{
+	return QSize(m_size.x, m_size.y);
+}
+
+void QtGraphNode::setSize(const QSize& size)
+{
+	setSize(Vec2i(size.width(), size.height()));
 }
 
 Vec4i QtGraphNode::getBoundingRect() const
@@ -167,12 +145,12 @@ Vec4i QtGraphNode::getParentBoundingRect() const
 	return node->getBoundingRect();
 }
 
-void QtGraphNode::addOutEdge(const std::shared_ptr<GraphEdge>& edge)
+void QtGraphNode::addOutEdge(const std::shared_ptr<QtGraphEdge>& edge)
 {
 	m_outEdges.push_back(edge);
 }
 
-void QtGraphNode::addInEdge(const std::weak_ptr<GraphEdge>& edge)
+void QtGraphNode::addInEdge(const std::weak_ptr<QtGraphEdge>& edge)
 {
 	m_inEdges.push_back(edge);
 }
@@ -187,16 +165,6 @@ size_t QtGraphNode::getInEdgeCount() const
 	return m_inEdges.size();
 }
 
-QSize QtGraphNode::size() const
-{
-	return QSize(m_size.x, m_size.y);
-}
-
-void QtGraphNode::setSize(const QSize& size)
-{
-	setSize(Vec2i(size.width(), size.height()));
-}
-
 bool QtGraphNode::getIsActive() const
 {
 	return m_isActive;
@@ -209,35 +177,19 @@ void QtGraphNode::setIsActive(bool isActive)
 	updateStyle();
 }
 
-QtGraphNode* QtGraphNode::getParent() const
+std::string QtGraphNode::getName() const
 {
-	return m_parentNode.lock().get();
+	return m_text->text().toStdString();
 }
 
-void QtGraphNode::setParent(std::weak_ptr<QtGraphNode> parentNode)
+void QtGraphNode::setName(const std::string& name)
 {
-	m_parentNode = parentNode;
-
-	std::shared_ptr<QtGraphNode> parent = parentNode.lock();
-	if (parent != NULL)
-	{
-		QGraphicsRectItem::setParentItem(parent.get());
-	}
+	m_text->setText(QString::fromStdString(name));
 }
 
 void QtGraphNode::addComponent(const std::shared_ptr<QtGraphNodeComponent>& component)
 {
 	m_components.push_back(component);
-}
-
-std::list<std::shared_ptr<QtGraphNode>> QtGraphNode::getSubNodes() const
-{
-	return m_subNodes;
-}
-
-void QtGraphNode::addSubNode(const std::shared_ptr<QtGraphNode>& node)
-{
-	m_subNodes.push_back(node);
 }
 
 void QtGraphNode::setShadowEnabledRecursive(bool enabled)
@@ -247,14 +199,6 @@ void QtGraphNode::setShadowEnabledRecursive(bool enabled)
 	for (const std::shared_ptr<QtGraphNode>& node : m_subNodes)
 	{
 		node->setShadowEnabledRecursive(enabled);
-	}
-}
-
-void QtGraphNode::onClick()
-{
-	if (!m_isActive && m_data && !m_data->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE))
-	{
-		MessageActivateTokens(m_data->getId()).dispatch();
 	}
 }
 
@@ -269,11 +213,50 @@ void QtGraphNode::hoverEnter()
 	}
 }
 
-void QtGraphNode::updateStyle()
+void QtGraphNode::focusIn()
 {
-	GraphViewStyle::NodeStyle style =
-		GraphViewStyle::getStyleForNodeType(m_data->getType(), m_isActive, m_isHovering, m_childVisible);
-	setStyle(style);
+	m_isHovering = true;
+	updateStyle();
+}
+
+void QtGraphNode::focusOut()
+{
+	m_isHovering = false;
+	updateStyle();
+}
+
+bool QtGraphNode::isDataNode() const
+{
+	return false;
+}
+
+bool QtGraphNode::isAccessNode() const
+{
+	return false;
+}
+
+bool QtGraphNode::isExpandToggleNode() const
+{
+	return false;
+}
+
+Id QtGraphNode::getTokenId() const
+{
+	return 0;
+}
+
+void QtGraphNode::addSubNode(const std::shared_ptr<QtGraphNode>& node)
+{
+	m_subNodes.push_back(node);
+}
+
+void QtGraphNode::moved()
+{
+	QtGraphPostprocessor::alignNodeOnRaster(this);
+}
+
+void QtGraphNode::onClick()
+{
 }
 
 void QtGraphNode::mousePressEvent(QGraphicsSceneMouseEvent* event)
@@ -333,44 +316,16 @@ void QtGraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 	}
 }
 
-void QtGraphNode::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
-{
-	if(m_data)
-	{
-		MessageFocusIn(m_data->getId()).dispatch();
-	}
-}
-
-void QtGraphNode::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
-{
-	if(m_data)
-	{
-		MessageFocusOut(m_data->getId()).dispatch();
-	}
-}
-
-void QtGraphNode::focusIn()
-{
-	m_isHovering = true;
-	updateStyle();
-}
-
-void QtGraphNode::focusOut()
-{
-	m_isHovering = false;
-	updateStyle();
-}
-
 void QtGraphNode::notifyEdgesAfterMove()
 {
-	for (const std::shared_ptr<GraphEdge>& edge : m_outEdges)
+	for (const std::shared_ptr<QtGraphEdge>& edge : m_outEdges)
 	{
 		edge->updateLine();
 	}
 
-	for (const std::weak_ptr<GraphEdge>& e : m_inEdges)
+	for (const std::weak_ptr<QtGraphEdge>& e : m_inEdges)
 	{
-		std::shared_ptr<GraphEdge> edge = e.lock();
+		std::shared_ptr<QtGraphEdge> edge = e.lock();
 		if (edge)
 		{
 			edge->updateLine();

@@ -1,4 +1,4 @@
-#include "QtGraphView.h"
+#include "qt/view/QtGraphView.h"
 
 #include <QBoxLayout>
 #include <QFrame>
@@ -8,6 +8,9 @@
 #include <QParallelAnimationGroup>
 #include <QSequentialAnimationGroup>
 
+#include "component/controller/helper/DummyEdge.h"
+#include "component/controller/helper/DummyNode.h"
+
 #include "qt/utility/QtGraphPostprocessor.h"
 #include "qt/utility/utilityQt.h"
 
@@ -15,7 +18,7 @@
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentClickable.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
-#include "qt/view/graphElements/QtGraphNode.h"
+#include "qt/view/graphElements/QtGraphNodeData.h"
 #include "qt/view/graphElements/QtGraphNodeAccess.h"
 #include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
 
@@ -27,7 +30,6 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	, m_resizeFunctor(std::bind(&QtGraphView::doResize, this))
 	, m_focusInFunctor(std::bind(&QtGraphView::doFocusIn, this, std::placeholders::_1))
 	, m_focusOutFunctor(std::bind(&QtGraphView::doFocusOut, this, std::placeholders::_1))
-
 {
 }
 
@@ -245,7 +247,7 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	std::shared_ptr<QtGraphNode> newNode;
 	if (node.isGraphNode())
 	{
-		newNode = std::make_shared<QtGraphNode>(node.data, node.childVisible);
+		newNode = std::make_shared<QtGraphNodeData>(node.data, node.childVisible);
 	}
 	else if (node.isAccessNode())
 	{

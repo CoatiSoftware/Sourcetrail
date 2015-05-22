@@ -1,20 +1,17 @@
 #ifndef QT_GRAPH_NODE_H
 #define QT_GRAPH_NODE_H
 
-#include <QFontMetrics>
 #include <QGraphicsItem>
 
-#include "component/view/graphElements/GraphNode.h"
 #include "component/view/GraphViewStyle.h"
-#include "utility/messaging/MessageListener.h"
 
+class QFont;
 class QtGraphEdge;
 class QtRoundedRectItem;
 class QtGraphNodeComponent;
 
 class QtGraphNode
 	: public QObject
-	, public GraphNode
 	, public QGraphicsRectItem
 {
     Q_OBJECT
@@ -33,69 +30,70 @@ public:
 	static QFont getFontForNodeType(Node::NodeType type);
 
 	QtGraphNode();
-	QtGraphNode(const Node* data, bool childVisible);
 	virtual ~QtGraphNode();
-
-	virtual std::string getName() const;
-	void setName(const std::string& name);
-
-	virtual bool isAccessNode() const;
-	virtual bool isExpandToggleNode() const;
-
-	virtual Vec2i getPosition() const;
-	virtual bool setPosition(const Vec2i& position);
-	virtual void moved();
-
-	virtual Vec2i getSize() const;
-	virtual void setSize(const Vec2i& size);
-
-	virtual Vec4i getBoundingRect() const;
-	virtual Vec4i getParentBoundingRect() const;
-
-	virtual void addOutEdge(const std::shared_ptr<GraphEdge>& edge);
-	virtual void addInEdge(const std::weak_ptr<GraphEdge>& edge);
-
-	virtual size_t getOutEdgeCount() const;
-	virtual size_t getInEdgeCount() const;
-
-	QSize size() const;
-	void setSize(const QSize& size);
-
-	bool getIsActive() const;
-	void setIsActive(bool isActive);
 
 	QtGraphNode* getParent() const;
 	void setParent(std::weak_ptr<QtGraphNode> parentNode);
 
-	void addComponent(const std::shared_ptr<QtGraphNodeComponent>& component);
-
 	std::list<std::shared_ptr<QtGraphNode>> getSubNodes() const;
-	virtual void addSubNode(const std::shared_ptr<QtGraphNode>& node);
+
+	Vec2i getPosition() const;
+	bool setPosition(const Vec2i& position);
+
+	Vec2i getSize() const;
+	void setSize(const Vec2i& size);
+
+	QSize size() const;
+	void setSize(const QSize& size);
+
+	Vec4i getBoundingRect() const;
+	Vec4i getParentBoundingRect() const;
+
+	void addOutEdge(const std::shared_ptr<QtGraphEdge>& edge);
+	void addInEdge(const std::weak_ptr<QtGraphEdge>& edge);
+
+	size_t getOutEdgeCount() const;
+	size_t getInEdgeCount() const;
+
+	bool getIsActive() const;
+	void setIsActive(bool isActive);
+
+	std::string getName() const;
+	void setName(const std::string& name);
+
+	void addComponent(const std::shared_ptr<QtGraphNodeComponent>& component);
 
 	void setShadowEnabledRecursive(bool enabled);
 
-	virtual void onClick();
 	void hoverEnter();
 
 	void focusIn();
 	void focusOut();
 
-	virtual void updateStyle();
+	virtual bool isDataNode() const;
+	virtual bool isAccessNode() const;
+	virtual bool isExpandToggleNode() const;
+
+	virtual Id getTokenId() const;
+
+	virtual void addSubNode(const std::shared_ptr<QtGraphNode>& node);
+
+	virtual void onClick();
+	virtual void moved();
+
+	virtual void updateStyle() = 0;
 
 protected:
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 	virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
 	virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
 
-	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
-	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
-
 	void notifyEdgesAfterMove();
 
 	void setStyle(const GraphViewStyle::NodeStyle& style);
 
-	std::list<std::shared_ptr<GraphEdge>> m_outEdges;
-	std::list<std::weak_ptr<GraphEdge>> m_inEdges;
+	std::list<std::shared_ptr<QtGraphEdge>> m_outEdges;
+	std::list<std::weak_ptr<QtGraphEdge>> m_inEdges;
 
 	std::weak_ptr<QtGraphNode> m_parentNode;
 	std::list<std::shared_ptr<QtGraphNode>> m_subNodes;
@@ -106,12 +104,11 @@ protected:
 
 	Vec2i m_size;
 
-private:
-	std::list<std::shared_ptr<QtGraphNodeComponent>> m_components;
-
 	bool m_isActive;
 	bool m_isHovering;
-	bool m_childVisible;
+
+private:
+	std::list<std::shared_ptr<QtGraphNodeComponent>> m_components;
 };
 
 #endif // QT_GRAPH_NODE_H

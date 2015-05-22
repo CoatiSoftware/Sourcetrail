@@ -7,24 +7,24 @@
 
 #include "utility/math/Vector2.h"
 
-#include "component/view/graphElements/GraphEdge.h"
-
-class GraphNode;
+class Edge;
+class QtGraphNode;
 
 class QtGraphEdge
 	: public QObject
-	, public GraphEdge
 	, public QGraphicsItemGroup
 {
 	Q_OBJECT
 	Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
 
 public:
-	QtGraphEdge(const std::weak_ptr<GraphNode>& owner, const std::weak_ptr<GraphNode>& target, const Edge* data);
+	QtGraphEdge(const std::weak_ptr<QtGraphNode>& owner, const std::weak_ptr<QtGraphNode>& target, const Edge* data);
 	virtual ~QtGraphEdge();
 
-	virtual std::weak_ptr<GraphNode> getOwner();
-	virtual std::weak_ptr<GraphNode> getTarget();
+	const Edge* getData() const;
+
+	virtual std::weak_ptr<QtGraphNode> getOwner();
+	virtual std::weak_ptr<QtGraphNode> getTarget();
 
 	virtual void updateLine();
 
@@ -45,8 +45,10 @@ protected:
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
 private:
-	std::weak_ptr<GraphNode> m_owner;
-	std::weak_ptr<GraphNode> m_target;
+	const Edge* m_data;
+
+	std::weak_ptr<QtGraphNode> m_owner;
+	std::weak_ptr<QtGraphNode> m_target;
 
 	QGraphicsLineItem* m_child;
 

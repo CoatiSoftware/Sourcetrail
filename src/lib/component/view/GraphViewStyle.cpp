@@ -2,6 +2,7 @@
 
 #include "utility/logging/logging.h"
 
+#include "component/view/GraphViewStyleImpl.h"
 #include "settings/ApplicationSettings.h"
 
 GraphViewStyle::NodeMargins::NodeMargins()

@@ -1,21 +1,20 @@
 #include "qt/view/graphElements/QtGraphEdge.h"
 
-#include <QGraphicsScene>
 #include <QGraphicsSceneEvent>
-#include <QPen>
 
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 
-#include "component/view/graphElements/GraphNode.h"
 #include "component/view/GraphViewStyle.h"
+#include "data/graph/Edge.h"
 #include "data/graph/token_component/TokenComponentAggregation.h"
 #include "qt/graphics/QtAngledLineItem.h"
 #include "qt/graphics/QtStraightLineItem.h"
+#include "qt/view/graphElements/QtGraphNode.h"
 
-QtGraphEdge::QtGraphEdge(const std::weak_ptr<GraphNode>& owner, const std::weak_ptr<GraphNode>& target, const Edge* data)
-	: GraphEdge(data)
+QtGraphEdge::QtGraphEdge(const std::weak_ptr<QtGraphNode>& owner, const std::weak_ptr<QtGraphNode>& target, const Edge* data)
+	: m_data(data)
 	, m_owner(owner)
 	, m_target(target)
 	, m_child(nullptr)
@@ -30,20 +29,25 @@ QtGraphEdge::~QtGraphEdge()
 {
 }
 
-std::weak_ptr<GraphNode> QtGraphEdge::getOwner()
+const Edge* QtGraphEdge::getData() const
+{
+	return m_data;
+}
+
+std::weak_ptr<QtGraphNode> QtGraphEdge::getOwner()
 {
 	return m_owner;
 }
 
-std::weak_ptr<GraphNode> QtGraphEdge::getTarget()
+std::weak_ptr<QtGraphNode> QtGraphEdge::getTarget()
 {
 	return m_target;
 }
 
 void QtGraphEdge::updateLine()
 {
-	std::shared_ptr<GraphNode> owner = m_owner.lock();
-	std::shared_ptr<GraphNode> target = m_target.lock();
+	std::shared_ptr<QtGraphNode> owner = m_owner.lock();
+	std::shared_ptr<QtGraphNode> target = m_target.lock();
 
 	if (owner == NULL || target == NULL)
 	{
@@ -114,6 +118,18 @@ void QtGraphEdge::onClick()
 	}
 }
 
+void QtGraphEdge::focusIn()
+{
+	bool isActive = m_isActive;
+	this->setIsActive(true);
+	m_isActive = isActive;
+}
+
+void QtGraphEdge::focusOut()
+{
+	this->setIsActive(m_isActive);
+}
+
 void QtGraphEdge::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
 	m_mousePos = Vec2i(event->scenePos().x(), event->scenePos().y());
@@ -146,16 +162,4 @@ void QtGraphEdge::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 void QtGraphEdge::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
 	MessageFocusOut(getData()->getId()).dispatch();
-}
-
-void QtGraphEdge::focusIn()
-{
-	bool isActive = m_isActive;
-	this->setIsActive(true);
-	m_isActive = isActive;
-}
-
-void QtGraphEdge::focusOut()
-{
-	this->setIsActive(m_isActive);
 }

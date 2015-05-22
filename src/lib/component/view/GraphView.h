@@ -1,10 +1,6 @@
 #ifndef GRAPH_VIEW_H
 #define GRAPH_VIEW_H
 
-#include <list>
-#include <memory>
-
-#include "utility/math/Vector2.h"
 #include "utility/types.h"
 
 #include "component/view/View.h"

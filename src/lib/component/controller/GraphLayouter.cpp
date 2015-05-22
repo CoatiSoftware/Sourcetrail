@@ -1,15 +1,13 @@
 #include "component/controller/GraphLayouter.h"
 
-#include <iostream>
-
 #include <cmath>
 #include <map>
 #include <queue>
 
-#include "component/view/graphElements/GraphEdge.h"
-#include "component/view/graphElements/GraphNode.h"
-
 #include "utility/math/MatrixDynamicBase.h"
+
+#include "component/controller/helper/DummyEdge.h"
+#include "component/controller/helper/DummyNode.h"
 
 // for prototyping, remove when done
 #include "Eigen/Dense"
@@ -151,10 +149,7 @@ void GraphLayouter::layoutSpectralPrototype(std::vector<DummyNode>& nodes, const
 
 			nodes[i].position.x = newPos.x;
 			nodes[i].position.y = newPos.y;
-
-			//std::cout << newPos << std::endl;
 		}
-		//std::cout << "=================" << std::endl;
 	}
 }
 

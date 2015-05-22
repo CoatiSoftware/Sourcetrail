@@ -1,10 +1,13 @@
 #include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
 
+#include <QFontMetrics>
+
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
 
 #include "qt/graphics/QtRoundedRectItem.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
+#include "qt/view/graphElements/QtGraphNodeData.h"
 
 QtGraphNodeExpandToggle::QtGraphNodeExpandToggle(bool expanded, int invisibleSubNodeCount)
 	: m_allVisible(invisibleSubNodeCount == 0)
@@ -47,9 +50,9 @@ void QtGraphNodeExpandToggle::onClick()
 {
 	QtGraphNode* parent = getParent();
 
-	if (parent && parent->getData())
+	if (parent && parent->getTokenId())
 	{
-		MessageGraphNodeExpand(parent->getData()->getId()).dispatch();
+		MessageGraphNodeExpand(parent->getTokenId()).dispatch();
 	}
 }
 

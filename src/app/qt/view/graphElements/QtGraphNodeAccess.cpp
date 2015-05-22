@@ -27,14 +27,14 @@ QtGraphNodeAccess::~QtGraphNodeAccess()
 {
 }
 
-bool QtGraphNodeAccess::isAccessNode() const
-{
-	return true;
-}
-
 TokenComponentAccess::AccessType QtGraphNodeAccess::getAccessType() const
 {
 	return m_access;
+}
+
+bool QtGraphNodeAccess::isAccessNode() const
+{
+	return true;
 }
 
 void QtGraphNodeAccess::addSubNode(const std::shared_ptr<QtGraphNode>& node)

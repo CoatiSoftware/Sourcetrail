@@ -12,6 +12,7 @@ public:
 	QtGraphNodeExpandToggle(bool expanded, int invisibleSubNodeCount);
 	virtual ~QtGraphNodeExpandToggle();
 
+	// QtGraphNode implementation
 	virtual bool isExpandToggleNode() const;
 
 	virtual void onClick();
