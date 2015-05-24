@@ -4,14 +4,18 @@
 #include <vector>
 #include <memory>
 
+#include <QFrame>
+
 #include "utility/types.h"
+
 #include "qt/element/QtCodeArea.h"
 
+class QPushButton;
 class QtCodeFile;
-class QWidget;
 class TokenLocationFile;
 
-class QtCodeSnippet: public QWidget
+class QtCodeSnippet
+	: public QFrame
 {
 	Q_OBJECT
 
@@ -25,14 +29,15 @@ public:
 	);
 	virtual ~QtCodeSnippet();
 
-	void addMaximizeButton();
-
 	int lineNumberDigits() const;
 
 	void updateLineNumberAreaWidthForDigits(int digits);
 	void updateContent();
 
 private:
+	void updateDots();
+
+	QPushButton* m_dots;
 	QPushButton* m_title;
 	std::shared_ptr<QtCodeArea> m_codeArea;
 };

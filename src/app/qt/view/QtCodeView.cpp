@@ -1,9 +1,10 @@
 #include "qt/view/QtCodeView.h"
 
-#include "qt/element/QtCodeFileList.h"
-#include "qt/view/QtViewWidgetWrapper.h"
 #include "utility/file/FileSystem.h"
 #include "utility/text/TextAccess.h"
+
+#include "qt/element/QtCodeFileList.h"
+#include "qt/view/QtViewWidgetWrapper.h"
 
 QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
@@ -66,7 +67,6 @@ void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippe
 
 	m_widget->setActiveTokenIds(m_activeTokenIds);
 	m_widget->setErrorMessages(m_errorMessages);
-	m_widget->setShowMaximizeButton(m_errorMessages.size() == 0);
 
 	for (const CodeSnippetParams& params : snippets)
 	{
@@ -77,18 +77,6 @@ void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippe
 void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
 {
 	m_widget->addCodeSnippet(1, params.title, params.code, params.locationFile);
-}
-
-std::shared_ptr<QtCodeFileList> QtCodeView::createQtCodeFileList() const
-{
-	std::shared_ptr<QtCodeFileList> ptr = std::make_shared<QtCodeFileList>();
-	setStyleSheet(ptr.get());
-	return ptr;
-}
-
-void QtCodeView::setStyleSheet(QWidget* widget) const
-{
-	widget->setStyleSheet(TextAccess::createFromFile("data/gui/code_view/code_view.css")->getText().c_str());
 }
 
 void QtCodeView::focusToken(const Id tokenId)
@@ -109,4 +97,9 @@ void QtCodeView::doFocusToken(const Id tokenId)
 void QtCodeView::doDefocusToken()
 {
 	m_widget->defocusToken();
+}
+
+void QtCodeView::setStyleSheet(QWidget* widget) const
+{
+	widget->setStyleSheet(TextAccess::createFromFile("data/gui/code_view/code_view.css")->getText().c_str());
 }

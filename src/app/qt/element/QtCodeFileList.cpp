@@ -3,27 +3,26 @@
 #include <QScrollBar>
 #include <QVBoxLayout>
 
+#include "utility/file/FileSystem.h"
+
 #include "data/location/TokenLocationFile.h"
 #include "qt/element/QtCodeFile.h"
-#include "utility/file/FileSystem.h"
 
 QtCodeFileList::QtCodeFileList(QWidget* parent)
 	: QScrollArea(parent)
 	, m_focusedTokenId(0)
-	, m_showMaximizeButton(true)
 {
 	m_frame = std::make_shared<QFrame>(this);
+	m_frame->setObjectName("code_file_list");
 
 	QVBoxLayout* layout = new QVBoxLayout(m_frame.get());
-	layout->setSpacing(10);
-	layout->setContentsMargins(15, 15, 15, 15);
+	layout->setSpacing(8);
+	layout->setContentsMargins(8, 8, 8, 8);
 	layout->setAlignment(Qt::AlignTop);
 	m_frame->setLayout(layout);
 
 	setWidgetResizable(true);
 	setWidget(m_frame.get());
-
-	setObjectName("code_file_list");
 }
 
 QtCodeFileList::~QtCodeFileList()
@@ -95,17 +94,6 @@ const std::vector<std::string>& QtCodeFileList::getErrorMessages() const
 void QtCodeFileList::setErrorMessages(const std::vector<std::string>& errorMessages)
 {
 	m_errorMessages = errorMessages;
-	updateFiles();
-}
-
-bool QtCodeFileList::getShowMaximizeButton() const
-{
-	return m_showMaximizeButton;
-}
-
-void QtCodeFileList::setShowMaximizeButton(bool show)
-{
-	m_showMaximizeButton = show;
 	updateFiles();
 }
 

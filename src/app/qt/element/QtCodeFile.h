@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include <QWidget>
+#include <QFrame>
 
 #include "utility/file/FilePath.h"
 #include "utility/types.h"
@@ -16,7 +16,7 @@ class QtCodeSnippet;
 class TokenLocationFile;
 
 class QtCodeFile
-	: public QWidget
+	: public QFrame
 {
 	Q_OBJECT
 

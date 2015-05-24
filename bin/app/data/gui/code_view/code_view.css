@@ -1,62 +1,105 @@
-#code_file #title_label {
-	background-color: rgb(220,220,220);
+#code_file_list {
+	background-color: white;
+}
+
+#code_file {
+	background-color: white;
+	border: 2px solid #E0E0E0;
+	border-radius: 14px;
+}
+
+#code_file #title_widget {
+	background-color: #E0E0E0;
+	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
-	font-family: "Source Code Pro";
+	margin-bottom: 5px;
+	min-height: 28px;
+	padding-right: 5px;
+}
+
+#code_file #title_label {
+	background: none;
+	border: none;
+	border-radius: 3px;
 	font-size: 14px;
-	padding: 4px 12px;
+	padding: 2px 4px;
+	margin: 2px 8px;
 }
 
 #code_file #title_label:hover {
-	background: #D2D2D2;
+	background-color: #D0D0D0;
 }
 
 #code_file #title_label:disabled {
 	color: black;
 }
 
-#code_file #code_snippet #title_label {
-	background-color: rgb(220,220,220);
+#code_file #code_snippet{
+	border-top: 2px solid #E0E0E0;
+	padding-top: 2px;
+}
+
+#code_file #code_snippet[isFirst=true] {
+	border: none;
+	padding-top: 0px;
+}
+
+#code_file #code_snippet #scope_name, #code_file #code_snippet #dots {
+	background: none;
+	color: gray;
+	border: none;
 	font-family: "Source Code Pro";
-	border-top-right-radius: 10px;
 	font-size: 14px;
-	text-align: left;
-	padding: 4px 12px;
+}
+
+#code_file #code_snippet #dots {
+	padding-right: 13px;
+	text-align: right;
+}
+
+#code_file #code_snippet #scope_name {
+	padding-left: 4px;
 }
 
 #code_area {
+	background-color: transparent;
 	font-family: "Source Code Pro";
 	font-size: 14px;
-	margin-bottom: 2px;
-	background-color: transparent;
 }
 
 #code_area #line_number_area {
-	background-color: white;
 	font-family: "Source Code Pro";
 	font-size: 14px;
 }
 
-#code_file #maximize_button {
-	background-color: lightgray;
-	border-image: none;
-	border-radius: 8px;
-	margin: 1px;
+#code_file #maximize_button, #code_file #snippet_button, #code_file #minimize_button {
+	margin: 3px;
 	max-height: 16px;
 	max-width: 16px;
 }
 
+#code_file #maximize_button {
+	border-image: url(data/gui/code_view/images/maximize_inactive.png);
+}
+
 #code_file #maximize_button:enabled {
-	border-image: url(data/gui/code_view/images/button_maximize.png);
+	border-image: url(data/gui/code_view/images/maximize_active.png);
 }
 
-#code_area #maximize_button {
-	background-color: none;
-	border-image: none;
-	margin: 5px;
+#code_file #snippet_button {
+	border-image: url(data/gui/code_view/images/snippet_inactive.png);
 }
 
-#code_area #maximize_button:enabled {
-	border-image: url(data/gui/code_view/images/button_maximize.png);
+#code_file #snippet_button:enabled {
+	border-image: url(data/gui/code_view/images/snippet_active.png);
+}
+
+#code_file #minimize_button {
+	border-image: url(data/gui/code_view/images/minimize_inactive.png);
+}
+
+#code_file #minimize_button:enabled {
+	border-image: url(data/gui/code_view/images/minimize_active.png);
 }
 
 QToolTip {

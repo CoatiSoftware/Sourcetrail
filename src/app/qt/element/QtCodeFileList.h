@@ -12,7 +12,8 @@
 class QtCodeFile;
 class TokenLocationFile;
 
-class QtCodeFileList: public QScrollArea
+class QtCodeFileList
+	: public QScrollArea
 {
 	Q_OBJECT
 
@@ -39,9 +40,6 @@ public:
 	const std::vector<std::string>& getErrorMessages() const;
 	void setErrorMessages(const std::vector<std::string>& errorMessages);
 
-	bool getShowMaximizeButton() const;
-	void setShowMaximizeButton(bool show);
-
 	void focusToken(Id tokenId);
 	void defocusToken();
 
@@ -54,7 +52,6 @@ private:
 	Id m_focusedTokenId;
 	std::vector<Id> m_activeTokenIds;
 	std::vector<std::string> m_errorMessages;
-	bool m_showMaximizeButton;
 };
 
 #endif // QT_CODE_FILE_LIST

@@ -4,15 +4,17 @@
 #include <memory>
 #include <vector>
 
+#include "utility/types.h"
+
 #include "component/view/CodeView.h"
 #include "qt/utility/QtThreadedFunctor.h"
-#include "utility/types.h"
 
 class QFrame;
 class QtCodeFileList;
 class QWidget;
 
-class QtCodeView: public CodeView
+class QtCodeView
+	: public CodeView
 {
 public:
 	QtCodeView(ViewLayout* viewLayout);
@@ -35,12 +37,12 @@ public:
 
 private:
 	void doRefreshView();
+
 	void doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets);
 	void doShowCodeFile(const CodeSnippetParams& params);
+
 	void doFocusToken(const Id tokenId);
 	void doDefocusToken();
-
-	std::shared_ptr<QtCodeFileList> createQtCodeFileList() const;
 
 	void setStyleSheet(QWidget* widget) const;
 

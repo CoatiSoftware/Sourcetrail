@@ -11,7 +11,7 @@
 #include "qt/element/QtCodeSnippet.h"
 
 QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
-	: QWidget(parent)
+	: QFrame(parent)
 	, m_parent(parent)
 	, m_filePath(filePath)
 {
@@ -23,11 +23,15 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
 
+	QFrame* titleWidget = new QFrame(this);
+	titleWidget->setObjectName("title_widget");
+	layout->addWidget(titleWidget);
+
 	QHBoxLayout* titleLayout = new QHBoxLayout();
 	titleLayout->setMargin(0);
 	titleLayout->setSpacing(0);
 	titleLayout->setAlignment(Qt::AlignLeft);
-	layout->addLayout(titleLayout);
+	titleWidget->setLayout(titleLayout);
 
 	m_title = new QPushButton(filePath.fileName().c_str(), this);
 	m_title->setObjectName("title_label");
@@ -41,17 +45,20 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	titleLayout->addStretch(3);
 
 	m_minimizeButton = new QPushButton(this);
-	m_minimizeButton->setObjectName("maximize_button");
+	m_minimizeButton->setObjectName("minimize_button");
+	m_minimizeButton->setToolTip("minimize file");
 	m_minimizeButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	titleLayout->addWidget(m_minimizeButton);
 
 	m_snippetButton = new QPushButton(this);
-	m_snippetButton->setObjectName("maximize_button");
+	m_snippetButton->setObjectName("snippet_button");
+	m_snippetButton->setToolTip("show snippets in file");
 	m_snippetButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	titleLayout->addWidget(m_snippetButton);
 
 	m_maximizeButton = new QPushButton(this);
 	m_maximizeButton->setObjectName("maximize_button");
+	m_maximizeButton->setToolTip("maximize file");
 	m_maximizeButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	titleLayout->addWidget(m_maximizeButton);
 
@@ -109,6 +116,7 @@ void QtCodeFile::addCodeSnippet(
 
 	if (locationFile->isWholeCopy)
 	{
+		snippet->setProperty("isFirst", true);
 		m_fileSnippet = snippet;
 		clickedMaximizeButton();
 		return;
@@ -116,9 +124,9 @@ void QtCodeFile::addCodeSnippet(
 
 	m_snippets.push_back(snippet);
 
-	if (m_parent->getShowMaximizeButton())
+	if (m_snippets.size() == 1)
 	{
-		snippet->addMaximizeButton();
+		snippet->setProperty("isFirst", true);
 	}
 
 	int maxDigits = 1;
@@ -146,8 +154,6 @@ void QtCodeFile::updateContent()
 	{
 		m_fileSnippet->updateContent();
 	}
-
-	m_title->setEnabled(m_parent->getShowMaximizeButton());
 }
 
 void QtCodeFile::clickedTitle()

@@ -49,7 +49,6 @@ QtCodeArea::QtCodeArea(
 )
 	: QPlainTextEdit(parent)
 	, m_fileWidget(file)
-	, m_maximizeButton(nullptr)
 	, m_startLineNumber(startLineNumber)
 	, m_hoveredAnnotation(nullptr)
 	, m_digits(0)
@@ -91,25 +90,8 @@ QtCodeArea::~QtCodeArea()
 QSize QtCodeArea::sizeHint() const
 {
 	int width = 480;
-	int height = (document()->size().height() + 0.7f) * fontMetrics().lineSpacing();
+	int height = (document()->size().height() + 0.7f) * fontMetrics().lineSpacing() - 3;
 	return QSize(width, height);
-}
-
-void QtCodeArea::addMaximizeButton()
-{
-	QHBoxLayout* layout = new QHBoxLayout();
-	layout->setMargin(0);
-	layout->setSpacing(0);
-	layout->setAlignment(Qt::AlignTop);
-	setLayout(layout);
-
-	m_maximizeButton = new QPushButton(this);
-	m_maximizeButton->setObjectName("maximize_button");
-	m_maximizeButton->setEnabled(false);
-	layout->addWidget(m_maximizeButton);
-	layout->setAlignment(m_maximizeButton, Qt::AlignRight);
-
-	connect(m_maximizeButton, SIGNAL(clicked()), this, SLOT(clickedMaximizeButton()));
 }
 
 void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
@@ -185,7 +167,7 @@ void QtCodeArea::showEvent(QShowEvent* event)
 void QtCodeArea::paintEvent(QPaintEvent* event)
 {
 	QPainter painter(viewport());
-	painter.fillRect(rect(), Qt::white);
+	// painter.fillRect(rect(), Qt::white);
 
 	QTextBlock block = firstVisibleBlock();
 	int top = blockBoundingGeometry(block).translated(contentOffset()).top();
@@ -216,19 +198,10 @@ void QtCodeArea::paintEvent(QPaintEvent* event)
 
 void QtCodeArea::enterEvent(QEvent* event)
 {
-	if (m_maximizeButton)
-	{
-		m_maximizeButton->setEnabled(true);
-	}
 }
 
 void QtCodeArea::leaveEvent(QEvent* event)
 {
-	if (m_maximizeButton)
-	{
-		m_maximizeButton->setEnabled(false);
-	}
-
 	setHoveredAnnotation(nullptr);
 }
 
@@ -239,7 +212,7 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 		QTextCursor cursor = this->cursorForPosition(event->pos());
 		const Annotation* annotation = findAnnotationForPosition(cursor.position());
 
-		if (annotation)
+		if (annotation && !annotation->isScope)
 		{
 			MessageActivateTokenLocation(annotation->locationId).dispatch();
 		}
@@ -248,9 +221,9 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 
 void QtCodeArea::mouseDoubleClickEvent(QMouseEvent* event)
 {
-	if (event->button() == Qt::LeftButton && m_maximizeButton)
+	if (event->button() == Qt::LeftButton)
 	{
-		clickedMaximizeButton();
+		MessageShowFile(m_fileWidget->getFilePath().absoluteStr(), m_startLineNumber, m_startLineNumber + blockCount() - 1).dispatch();
 	}
 }
 
@@ -301,11 +274,6 @@ void QtCodeArea::updateLineNumberArea(const QRect &rect, int dy)
 	{
 		updateLineNumberAreaWidth(0);
 	}
-}
-
-void QtCodeArea::clickedMaximizeButton()
-{
-	MessageShowFile(m_fileWidget->getFilePath().absoluteStr(), m_startLineNumber, m_startLineNumber + blockCount() - 1).dispatch();
 }
 
 void QtCodeArea::clearSelection()

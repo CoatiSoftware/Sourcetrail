@@ -9,7 +9,6 @@
 #include "utility/types.h"
 
 class QPaintEvent;
-class QPushButton;
 class QResizeEvent;
 class QSize;
 class QtCodeFile;
@@ -19,12 +18,14 @@ class QWidget;
 class TokenLocation;
 class TokenLocationFile;
 
-class QtCodeArea: public QPlainTextEdit
+class QtCodeArea
+	: public QPlainTextEdit
 {
 	Q_OBJECT
 
 public:
-	class LineNumberArea: public QWidget
+	class LineNumberArea
+		: public QWidget
 	{
 	public:
 		LineNumberArea(QtCodeArea *codeArea);
@@ -50,8 +51,6 @@ public:
 
 	QSize sizeHint() const;
 
-	void addMaximizeButton();
-
 	void lineNumberAreaPaintEvent(QPaintEvent *event);
 	int lineNumberDigits() const;
 	int lineNumberAreaWidth() const;
@@ -72,7 +71,6 @@ protected:
 private slots:
 	void updateLineNumberAreaWidth(int newBlockCount);
 	void updateLineNumberArea(const QRect &, int);
-	void clickedMaximizeButton();
 	void clearSelection();
 
 private:
@@ -112,8 +110,6 @@ private:
 
 	QWidget* m_lineNumberArea;
 	QtHighlighter* m_highlighter;
-
-	QPushButton* m_maximizeButton;
 
 	const uint m_startLineNumber;
 
