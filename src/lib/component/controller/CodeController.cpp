@@ -229,12 +229,16 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(std:
 		{
 			firstUsedLine = tempFile->findTokenLocationLineByNumber(i);
 		}
-		m_storageAccess->getTokenLocationOfParentScope(firstUsedLine->getTokenLocations().begin()->second.get())->forEachStartTokenLocation(
-			[&](TokenLocation* location)
-			{
-				params.title = m_storageAccess->getNameForNodeWithId(location->getTokenId());
-			}
-		);
+
+		if (firstUsedLine && firstUsedLine->getTokenLocations().size())
+		{
+			m_storageAccess->getTokenLocationOfParentScope(firstUsedLine->getTokenLocations().begin()->second.get())->forEachStartTokenLocation(
+				[&](TokenLocation* location)
+				{
+					params.title = m_storageAccess->getNameForNodeWithId(location->getTokenId());
+				}
+			);
+		}
 
 		for (const std::string& line: textAccess->getLines(params.startLineNumber, params.endLineNumber))
 		{
