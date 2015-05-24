@@ -318,17 +318,11 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 
 void GraphController::setNodeActiveRecursive(DummyNode& node, const std::vector<Id>& activeTokenIds) const
 {
-	node.visible = false;
-	node.childVisible = false;
 	node.active = false;
 
 	if (node.isGraphNode())
 	{
 		node.active = find(activeTokenIds.begin(), activeTokenIds.end(), node.data->getId()) != activeTokenIds.end();
-	}
-	else if (node.isExpandToggleNode())
-	{
-		node.visible = true;
 	}
 
 	for (DummyNode& subNode : node.subNodes)
@@ -339,6 +333,15 @@ void GraphController::setNodeActiveRecursive(DummyNode& node, const std::vector<
 
 bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode& node, bool aggregated) const
 {
+	node.visible = false;
+	node.childVisible = false;
+
+	if (node.isExpandToggleNode())
+	{
+		node.visible = true;
+		return false;
+	}
+
 	for (DummyNode& subNode : node.subNodes)
 	{
 		if (setNodeVisibilityRecursiveBottomUp(subNode, aggregated | node.aggregated))
