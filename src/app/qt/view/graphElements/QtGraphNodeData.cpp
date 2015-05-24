@@ -35,7 +35,7 @@ Id QtGraphNodeData::getTokenId() const
 
 void QtGraphNodeData::onClick()
 {
-	if (!m_isActive && !m_data->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE))
+	if (!m_data->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE))
 	{
 		MessageActivateTokens(m_data->getId()).dispatch();
 	}

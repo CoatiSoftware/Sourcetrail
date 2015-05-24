@@ -191,21 +191,17 @@ void QtCodeArea::paintEvent(QPaintEvent* event)
 	int top = blockBoundingGeometry(block).translated(contentOffset()).top();
 	int blockHeight = blockBoundingRect(block).height();
 
-	Colori color = ApplicationSettings::getInstance()->getCodeScopeColor();
-	Colori colorFocused = ApplicationSettings::getInstance()->getCodeActiveLinkColor();
-	colorFocused.a /= 2;
-
 	QColor qColor;
 
 	for (const ScopeAnnotation& scope : m_scopeAnnotations)
 	{
 		if (scope.isFocused)
 		{
-			qColor.setRgb(colorFocused.r, colorFocused.g, colorFocused.b, colorFocused.a);
+			qColor = QColor("#90E4EEF2");
 		}
 		else
 		{
-			qColor.setRgb(color.r, color.g, color.b, color.a);
+			qColor = QColor("#60E4EEF2");
 		}
 
 		painter.fillRect(
@@ -245,13 +241,7 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 
 		if (annotation)
 		{
-			const std::vector<Id>& ids = m_fileWidget->getActiveTokenIds();
-			bool isActive = std::find(ids.begin(), ids.end(), annotation->tokenId) != ids.end();
-
-			if (!isActive)
-			{
-				MessageActivateTokenLocation(annotation->locationId).dispatch();
-			}
+			MessageActivateTokenLocation(annotation->locationId).dispatch();
 		}
 	}
 }
@@ -409,13 +399,14 @@ void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFi
 
 void QtCodeArea::annotateText()
 {
-	Colori color;
 	Id focusedTokenId = m_fileWidget->getFocusedTokenId();
 	const std::vector<Id>& ids = m_fileWidget->getActiveTokenIds();
 	const std::vector<std::string>& errorMessages = m_fileWidget->getErrorMessages();
-	QList<QTextEdit::ExtraSelection> extraSelections;
 
 	std::vector<ScopeAnnotation> scopeAnnotations;
+
+	QColor color;
+	QList<QTextEdit::ExtraSelection> extraSelections;
 
 	for (const Annotation& annotation: m_annotations)
 	{
@@ -424,23 +415,23 @@ void QtCodeArea::annotateText()
 
 		if (&annotation == m_hoveredAnnotation && errorMessages.size())
 		{
-			color = Colori(255, 0, 0, 128);
+			color.setNamedColor("#80FF0000");
 		}
 		else if (errorMessages.size())
 		{
-			color = Colori(255, 0, 0, 255);
+			color.setNamedColor("#FFFF0000");
 		}
 		else if (isActive || isFocused)
 		{
-			color = ApplicationSettings::getInstance()->getCodeActiveLinkColor();
+			color.setNamedColor("#90B6D1DD");
 		}
 		else
 		{
-			color = ApplicationSettings::getInstance()->getCodeLinkColor();
+			color.setNamedColor("#90EBEBEB");
 		}
 
 		QTextEdit::ExtraSelection selection;
-		selection.format.setBackground(QColor(color.r, color.g, color.b, color.a));
+		selection.format.setBackground(color);
 
 		ScopeAnnotation scopeAnnotation;
 

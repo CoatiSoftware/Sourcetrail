@@ -56,6 +56,7 @@ void QtGraphView::initView()
 	QGraphicsView* view = new QGraphicsView(widget);
 	view->setScene(scene);
 	view->setDragMode(QGraphicsView::ScrollHandDrag);
+	view->setRenderHints(QPainter::Antialiasing);
 
 	widget->layout()->addWidget(view);
 }

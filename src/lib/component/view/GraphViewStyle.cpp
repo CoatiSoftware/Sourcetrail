@@ -265,7 +265,6 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 	case Node::NODE_ENUM:
 	case Node::NODE_TYPEDEF:
 	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
-	case Node::NODE_FILE:
 		if (isActive)
 		{
 			style.fontBold = true;
@@ -293,6 +292,17 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 			style.textOffset.x = 8;
 			style.textOffset.y = 8;
 		}
+		break;
+
+	case Node::NODE_FILE:
+		if (isActive)
+		{
+			style.fontBold = true;
+		}
+
+		style.cornerRadius = 6;
+		style.textOffset.x = 8;
+		style.textOffset.y = 8;
 		break;
 
 	case Node::NODE_UNDEFINED_FUNCTION:
@@ -361,7 +371,7 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 {
 	EdgeStyle style;
 
-	style.width = isActive ? 2 : 1;
+	style.width = isActive ? 3 : 1;
 	style.zValue = isActive ? 5 : 1;
 
 	style.arrowLength = 5;
@@ -386,33 +396,35 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 		break;
 
 	case Edge::EDGE_CALL:
-		style.color = "#F1C100";
+		style.color = "#F4BC3D";
 		style.originOffset.y = 1;
 		style.targetOffset.y = -1;
 		style.verticalOffset = 4;
 		break;
 	case Edge::EDGE_USAGE:
-		style.color = "#62B29D";
+		style.color = "#3190BA";
 		style.originOffset.y = 3;
 		style.targetOffset.y = -3;
 		style.verticalOffset = 6;
 		break;
 	case Edge::EDGE_INHERITANCE:
-		style.arrowLength = 15;
-		style.arrowWidth = 20;
+		style.arrowLength = 20;
+		style.arrowWidth = 14;
 		style.arrowClosed = true;
-		style.targetOffset.x = 29;
+		style.targetOffset.x = 34;
+		style.color = "#878787";
+		break;
 	case Edge::EDGE_OVERRIDE:
 		style.color = "#CC5E89";
 		break;
 	case Edge::EDGE_INCLUDE:
-		style.color = "#87BA50";
+		style.color = "#5DA399";
 		break;
 	case Edge::EDGE_TEMPLATE_PARAMETER_OF:
 	case Edge::EDGE_TEMPLATE_ARGUMENT_OF:
 	case Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF:
 	case Edge::EDGE_TEMPLATE_SPECIALIZATION_OF:
-		style.color = "#DD0000";
+		style.color = "#C1305D";
 		break;
 	default:
 		style.color = "#878787";

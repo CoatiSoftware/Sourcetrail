@@ -29,15 +29,6 @@ public:
 	int getCodeFontSize() const;
 	void setCodeFontSize(int codeFontSize);
 
-	Colori getCodeLinkColor() const;
-	void setCodeLinkColor(Colori color);
-
-	Colori getCodeScopeColor() const;
-	void setCodeScopeColor(Colori color);
-
-	Colori getCodeActiveLinkColor() const;
-	void setCodeActiveLinkColor(Colori color);
-
 	int getCodeSnippetSnapRange() const;
 	void setCodeSnippetSnapRange(int range);
 

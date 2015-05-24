@@ -31,11 +31,11 @@ QtHighlighter::QtHighlighter(QTextDocument *parent)
 
 	QColor directiveColor = QColor(27,136,86);
 	QColor keywordColor = QColor(27,136,86);
-	QColor typeColor = QColor(208,93,24);
+	QColor typeColor = QColor("#C1492D");
 	QColor commentColor = Qt::gray;
-	QColor numberColor = QColor(153,22,165);
-	QColor quotationColor = QColor(63,169,245);
-	QColor functionColor = QColor(172,150,0);
+	QColor numberColor = QColor("#C1315E");
+	QColor quotationColor = QColor("#865F9E");
+	QColor functionColor = QColor("#CC9533");
 
 	foreach (const QString &pattern, keywordPatterns)
 	{

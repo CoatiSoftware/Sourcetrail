@@ -32,9 +32,6 @@
 		<FontName><!-- STRING: name of the font used for source view --></FontName> <!-- DEPRECATED -->
 		<FontSize><!-- INTEGER: size of the font in the source view --></FontSize> <!-- DEPRECATED -->
 
-		<LinkColor><!-- COLOR: color of clickable elements in the source view --></LinkColor>
-		<ScopeColor><!-- COLOR: color of clickable scopes in the source view --></ScopeColor>
-		<ActiveLinkColor><!-- COLOR: color of active elements or scopes in the source view --></ActiveLinkColor>
 		<snippet>
 			<snap_range><!-- INTEGER: max amount of lines that the current snippet will be extended to snap to scope start/end --></snap_range>
 			<expand_range><!-- INTEGER: amount of lines that the snippet range (not snapped) will be extended --></expand_range>
@@ -44,8 +41,8 @@
 	<colors>
 		<!-- QueryNodeType -->
 		<command>
-			<normal>#FFE47A</normal>
-			<hover>#FFCC00</hover>
+			<normal>#8FBC92</normal>
+			<hover>#5EA071</hover>
 		</command>
 		<operator>
 			<normal>#FCA47E</normal>
@@ -65,32 +62,32 @@
 			<hover>#ededed</hover>
 		</enum>
 		<function>
-			<normal>#ffe47a</normal>
-			<hover>#ffcc00</hover>
+			<normal>#F4D07D</normal>
+			<hover>#F4BC3D</hover>
 		</function>
 		<method>
-			<normal>#ffe47a</normal>
-			<hover>#ffcc00</hover>
+			<normal>#F4D07D</normal>
+			<hover>#F4BC3D</hover>
 		</method>
 		<field>
-			<normal>#9ab4ad</normal>
-			<hover>#62b29d</hover>
+			<normal>#6DA1BC</normal>
+			<hover>#3190BA</hover>
 		</field>
 		<global>
-			<normal>#9ab4ad</normal>
-			<hover>#62b29d</hover>
+			<normal>#6DA1BC</normal>
+			<hover>#3190BA</hover>
 		</global>
 		<undefined>
 			<normal>#00000000</normal>
 			<hover>#00000000</hover>
 		</undefined>
 		<undefined_variable>
-			<normal>#9ab4ad</normal>
-			<hover>#62b29d</hover>
+			<normal>#6DA1BC</normal>
+			<hover>#3190BA</hover>
 		</undefined_variable>
 		<undefined_function>
-			<normal>#ffe47a</normal>
-			<hover>#ffcc00</hover>
+			<normal>#F4D07D</normal>
+			<hover>#F4BC3D</hover>
 		</undefined_function>
 		<undefined_type>
 			<normal>#ededed</normal>
@@ -105,16 +102,16 @@
 			<hover>#ededed</hover>
 		</typedef>
 		<enum_constant>
-			<normal>#9ab4ad</normal>
-			<hover>#62b29d</hover>
+			<normal>#6DA1BC</normal>
+			<hover>#3190BA</hover>
 		</enum_constant>
 		<template_parameter_type>
 			<normal>#ededed</normal>
 			<hover>#ededed</hover>
 		</template_parameter_type>
 		<file>
-			<normal>#A3BA8A</normal>
-			<hover>#87BA50</hover>
+			<normal>#88BAB3</normal>
+			<hover>#6AA39B</hover>
 		</file>
 	</colors>
 </config>
