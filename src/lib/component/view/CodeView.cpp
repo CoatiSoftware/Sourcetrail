@@ -15,11 +15,6 @@ CodeView::CodeSnippetParams::CodeSnippetParams()
 
 bool CodeView::CodeSnippetParams::sort(const CodeSnippetParams& a, const CodeSnippetParams& b)
 {
-	if(a.isActive && b.isActive)
-	{
-		return false;
-	}
-
 	// sort active snippet first
 	if (a.isActive && !b.isActive)
 	{
@@ -36,6 +31,16 @@ bool CodeView::CodeSnippetParams::sort(const CodeSnippetParams& a, const CodeSni
 		return true;
 	}
 	else if (!a.isDeclaration && b.isDeclaration)
+	{
+		return false;
+	}
+
+	// sort whole files
+	if (a.locationFile->isWholeCopy && !b.locationFile->isWholeCopy)
+	{
+		return true;
+	}
+	else if (!a.locationFile->isWholeCopy && b.locationFile->isWholeCopy)
 	{
 		return false;
 	}

@@ -110,11 +110,6 @@ void CodeController::handleMessage(MessageFocusOut* message)
 	getView()->defocusToken();
 }
 
-void CodeController::handleMessage(MessageRefresh* message)
-{
-	getView()->refreshView();
-}
-
 void CodeController::handleMessage(MessageShowFile* message)
 {
 	CodeView::CodeSnippetParams params;

@@ -181,12 +181,13 @@ MatrixDynamicBase<int> GraphLayouter::buildLaplacianMatrix(const std::vector<Dum
 	std::map<std::pair<Id, Id>, int> weightsMap;
 	for(unsigned int i = 0; i < edges.size(); i++)
 	{
-		DummyNode ownerNode = nodesMap[edges[i].ownerId];
-		DummyNode targetNode = nodesMap[edges[i].targetId];
+		const DummyEdge& edge = edges[i];
+		DummyNode ownerNode = nodesMap[edge.ownerId];
+		DummyNode targetNode = nodesMap[edge.targetId];
 
 		if(ownerNode.topLevelAncestorId != targetNode.topLevelAncestorId)
 		{
-			int weightIncrement = 1;
+			int weightIncrement = edge.getWeight();
 
 			Id ownerId = ownerNode.topLevelAncestorId;
 			Id targetId = targetNode.topLevelAncestorId;

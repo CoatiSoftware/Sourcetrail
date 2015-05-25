@@ -25,6 +25,7 @@ class Application
 {
 public:
 	static std::shared_ptr<Application> create(ViewFactory* viewFactory);
+	static void loadSettings();
 
 	~Application();
 

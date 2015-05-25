@@ -3,6 +3,9 @@
 
 #include "utility/types.h"
 
+#include "data/graph/Edge.h"
+#include "data/graph/token_component/TokenComponentAggregation.h"
+
 class Edge;
 
 // temporary data structure for (visual) graph creation process
@@ -15,6 +18,16 @@ struct DummyEdge
 		, visible(false)
 		, active(false)
 	{
+	}
+
+	int getWeight() const
+	{
+		if (data->isType(Edge::EDGE_AGGREGATION))
+		{
+			return data->getComponent<TokenComponentAggregation>()->getAggregationCount();
+		}
+
+		return 1;
 	}
 
 	Id ownerId;

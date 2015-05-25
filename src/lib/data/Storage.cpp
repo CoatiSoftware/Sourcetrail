@@ -212,7 +212,7 @@ Id Storage::onClassParsed(
 ){
 	log("class", nameHierarchy.getFullName(), location);
 
-	Node* node = addNodeHierarchy(Node::NODE_CLASS, nameHierarchy);
+	Node* node = addNodeHierarchy(scopeLocation.isValid() ? Node::NODE_CLASS : Node::NODE_UNDEFINED_TYPE, nameHierarchy);
 	addAccess(node, access);
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
@@ -226,7 +226,7 @@ Id Storage::onStructParsed(
 ){
 	log("struct", nameHierarchy.getFullName(), location);
 
-	Node* node = addNodeHierarchy(Node::NODE_STRUCT, nameHierarchy);
+	Node* node = addNodeHierarchy(scopeLocation.isValid() ? Node::NODE_STRUCT : Node::NODE_UNDEFINED_TYPE, nameHierarchy);
 	addAccess(node, access);
 	addTokenLocation(node, location);
 	addTokenLocation(node, scopeLocation, true);
@@ -817,28 +817,6 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 		{
 			Edge* edge = dynamic_cast<Edge*>(token);
 			graph->addEdgeAndAllChildrenAsPlainCopy(edge);
-		}
-
-		for (const std::pair<Id, std::shared_ptr<Node>> nodePair : graph->getNodes())
-		{
-			Node* node = m_graph.getNodeById(nodePair.first);
-
-			node->forEachEdge(
-				[graph](Edge* edge)
-				{
-					if (edge->getType() != Edge::EdgeType::EDGE_MEMBER)
-					{
-						Node* from = edge->getFrom();
-						Node* to = edge->getTo();
-
-						if (graph->findNode([from](Node* node){ return from->getId() == node->getId(); }) != NULL &&
-							graph->findNode([to](Node* node){ return to->getId() == node->getId(); }) != NULL)
-						{
-							graph->addEdge(edge);
-						}
-					}
-				}
-			);
 		}
 	}
 

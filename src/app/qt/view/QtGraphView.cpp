@@ -63,6 +63,7 @@ void QtGraphView::initView()
 
 void QtGraphView::refreshView()
 {
+	resizeView();
 }
 
 void QtGraphView::rebuildGraph(

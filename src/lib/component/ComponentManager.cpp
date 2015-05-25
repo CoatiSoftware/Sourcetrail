@@ -49,3 +49,11 @@ void ComponentManager::setup(ViewLayout* viewLayout)
 ComponentManager::ComponentManager()
 {
 }
+
+void ComponentManager::handleMessage(MessageRefresh* message)
+{
+	for (std::shared_ptr<Component> component : m_components)
+	{
+		component->getView<View>()->refreshView();
+	}
+}

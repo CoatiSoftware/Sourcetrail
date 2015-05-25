@@ -8,7 +8,6 @@
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
-#include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageSearchAutocomplete.h"
 
@@ -20,7 +19,6 @@ class SearchController
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageFind>
 	, public MessageListener<MessageFinishedParsing>
-	, public MessageListener<MessageRefresh>
 	, public MessageListener<MessageSearch>
 	, public MessageListener<MessageSearchAutocomplete>
 {
@@ -32,7 +30,6 @@ private:
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageFind* message);
 	virtual void handleMessage(MessageFinishedParsing* message);
-	virtual void handleMessage(MessageRefresh* message);
 	virtual void handleMessage(MessageSearch* message);
 	virtual void handleMessage(MessageSearchAutocomplete* message);
 

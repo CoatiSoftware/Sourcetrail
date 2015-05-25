@@ -13,8 +13,7 @@
 
 std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 {
-	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
-	settings->load("data/ApplicationSettings.xml");
+	loadSettings();
 
 	std::shared_ptr<Application> ptr(new Application());
 
@@ -26,7 +25,7 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 	ptr->m_componentManager->setup(ptr->m_mainView.get());
 	ptr->m_mainView->loadLayout();
 
-	std::string startupProjectFilePath = settings->getStartupProjectFilePath();
+	std::string startupProjectFilePath = ApplicationSettings::getInstance()->getStartupProjectFilePath();
 	if (startupProjectFilePath.size())
 	{
 		MessageLoadProject(startupProjectFilePath).dispatch();
@@ -38,6 +37,11 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 	}
 
 	return ptr;
+}
+
+void Application::loadSettings()
+{
+	ApplicationSettings::getInstance()->load("data/ApplicationSettings.xml");
 }
 
 Application::Application()
@@ -124,6 +128,7 @@ void Application::handleMessage(MessageLoadSource* message)
 
 void Application::handleMessage(MessageRefresh* message)
 {
+	loadSettings();
 	reloadProject();
 }
 

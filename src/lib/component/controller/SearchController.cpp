@@ -40,11 +40,6 @@ void SearchController::handleMessage(MessageFinishedParsing* message)
 	getView()->setText("");
 }
 
-void SearchController::handleMessage(MessageRefresh* message)
-{
-	getView()->refreshView();
-}
-
 void SearchController::handleMessage(MessageSearch* message)
 {
 	const std::string& query = message->query;
