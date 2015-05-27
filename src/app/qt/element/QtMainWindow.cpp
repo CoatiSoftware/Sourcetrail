@@ -9,6 +9,7 @@
 
 #include "component/view/View.h"
 #include "component/view/CompositeView.h"
+#include "qt/element/QtStartScreen.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageFind.h"
@@ -40,6 +41,11 @@ QtMainWindow::QtMainWindow()
 	// Need to call loadLayout here for right DockWidget size on Linux
 	// Seconde call is in Application.cpp
 	loadLayout();
+
+	//startScreen
+	startScreen = std::make_shared<QtStartScreen>(this);
+	startScreen->setWindowModality(Qt::WindowModal);
+	startScreen->show();
 }
 
 QtMainWindow::~QtMainWindow()

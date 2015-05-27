@@ -1,11 +1,14 @@
 #ifndef QT_MAIN_WINDOW_H
 #define QT_MAIN_WINDOW_H
 
+#include <memory>
 #include <utility>
 #include <vector>
 
 #include <QShortcut>
 #include <QtWidgets/QMainWindow>
+
+#include "QtStartScreen.h"
 
 class QDockWidget;
 class View;
@@ -53,6 +56,7 @@ private:
 	void setupShortcuts();
 
 	QDockWidget* getDockWidgetForView(View* view) const;
+	std::shared_ptr<QtStartScreen> startScreen;
 
 	std::vector<std::pair<View*, QDockWidget*>> m_dockWidgets;
 

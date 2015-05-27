@@ -25,17 +25,6 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 	ptr->m_componentManager->setup(ptr->m_mainView.get());
 	ptr->m_mainView->loadLayout();
 
-	std::string startupProjectFilePath = ApplicationSettings::getInstance()->getStartupProjectFilePath();
-	if (startupProjectFilePath.size())
-	{
-		MessageLoadProject(startupProjectFilePath).dispatch();
-	}
-	else
-	{
-		MessageStatus("StartupProject was not defined in the ApplicationSettings", true).dispatch();
-		LOG_WARNING("No StartupProject defined in ApplicationSettings");
-	}
-
 	return ptr;
 }
 

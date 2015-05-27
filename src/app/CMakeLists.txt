@@ -25,6 +25,8 @@ add_files(
 	qt/element/QtSmartSearchBox.h
 	qt/element/QtSplashScreen.cpp
 	qt/element/QtSplashScreen.h
+	qt/element/QtStartScreen.cpp
+	qt/element/QtStartScreen.h
 	qt/element/QtStatusBar.cpp
 	qt/element/QtStatusBar.h
 	qt/element/QtUndoRedo.cpp

@@ -34,7 +34,7 @@ public:
 	void run(void)
 	{
 		//min Time the Splash screen is displayed
-		//QThread::msleep(1000);
+		QThread::msleep(500);
 	}
 };
 
@@ -59,6 +59,7 @@ int main(int argc, char *argv[])
 
 	splash->show();
 	splash->repaint();
+
 	qtApp.processEvents();
 	if (splash) splash->message( "Starting GUI" );
 	qtApp.processEvents();
