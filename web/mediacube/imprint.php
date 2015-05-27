@@ -3,8 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <?php
-	include("admin/head.php");
-?>	
+	include("php/head.php");
+?>
 	<body>
 		<div class="row">
 			<div class="medium-12 columns">
@@ -22,9 +22,9 @@
 
 	if ($lan == "en")
 		echo(" class='selected'");
-		
-	echo(">english</a>");	
-?>			
+
+	echo(">english</a>");
+?>
 				</div>
 			</div>
 		</div>
@@ -58,7 +58,7 @@
 	}
 	else
 	{
-		echo("Coati has been developed by master-degree students of the university of applied sciences Salzburg.");
+		echo("Coati has been developed by master-degree students of Salzburg University of Applied Sciences.");
 	}
 ?>
 						</p>
@@ -91,7 +91,7 @@
 	}
 	else
 	{
-		echo("The team of Coati is responsible for all contents of this page.");
+		echo("Team Coati is responsible for all contents of this page.");
 	}
 ?>
 						</p>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-	
+
 <?php
-	include("admin/head.php");
-?>	
+	include("php/head.php");
+?>
 	<body>
 		<div class="row">
 			<div class="medium-12 columns">
@@ -18,9 +18,9 @@
 
 	if ($lan == "en")
 		echo(" class='selected'");
-		
-	echo(">english</a></div>");	
-?>			
+
+	echo(">english</a></div>");
+?>
 			</div>
 		</div>
 		<div class="row">
@@ -38,18 +38,18 @@
 	if ($lan == "de")
 	{
 		echo(
-			"An einem normalen Arbeitstag produziert ein Programmierer im Durchschnitt 12 Zeilen Code. Unterstützt 
-			wird er dabei von mächtiger Software, die ihm das Schreiben auf alle erdenkliche Arten erleichtert. Den 
-			Großteil seiner Zeit verbringt der Programmierer jedoch nicht damit, neuen Code zu schreiben, sondern 
+			"An einem normalen Arbeitstag produziert ein Programmierer im Durchschnitt 12 Zeilen Code. Unterstützt
+			wird er dabei von mächtiger Software, die ihm das Schreiben auf alle erdenkliche Arten erleichtert. Den
+			Großteil seiner Zeit verbringt der Programmierer jedoch nicht damit, neuen Code zu schreiben, sondern
 			damit, bestehenden Code zu lesen."
 		);
 	}
 	else
 	{
 		echo(
-			"The average programmer spends his ordinary working day writing around 12 lines of code. He is often supported 
-			by powerful software that simplifies this task. The larger part of the day, however he does not use to write 
-			new code but to read existing code."
+			"The average programmer spends his common work day with writing around 12 lines of code. He is often supported
+			by powerful software that simplifies this task. The major part of the day however, he does not write
+			new code but reads existing code."
 		);
 	}
 	?>
@@ -64,17 +64,17 @@
 			"Für diese Aufgabe gibt es bisher vergleichsweise wenig unterstützende Tools.
 							</p>
 							<p>
-			Coati schließt diese Lücke und bietet ein Interface, mit dem die Navigation in der Codebase 
+			Coati schließt diese Lücke und bietet ein Interface, mit dem die Navigation in der Codebase
 			beschleunigt und das Verstehen von Zusammenhängen erleichtert wird."
 		);
 	}
 	else
 	{
 		echo(
-			"Currently there are only few tools that support this task. 
+			"Currently there are only few tools that support this task.
 							</p>
 							<p>
-			Coati is developed to close this gap and provide an interface that accelerates navigating the codebase and support 
+			Coati is developed to close this gap. It provides an interface that accelerates navigation of the codebase and eases
 			the comprehension of relations."
 		);
 	}
@@ -90,7 +90,7 @@
 								<legend style="text-align: center; background:transparent;">
 									<img src="./img/letter_icon.png" alt="Newsletter" style="padding: 0px 15px; width: 80px;"/>
 								</legend>
-								
+
 								<div class="row">
 									<div class="medium-12 columns">
 										<p>
@@ -98,15 +98,15 @@
 	if ($lan == "de")
 	{
 		echo(
-			"Coati tritt demnächst in die erste Phase des Betatests ein. Aktuell unterstützen wir die Programmiersprache C++. 
+			"Coati tritt demnächst in die erste Phase des Betatests ein. Aktuell unterstützen wir die Programmiersprache C++.
 			Wenn die Beta beginnt, benachrichtigen wir dich gerne per Newsletter."
 		);
 	}
 	else
 	{
 		echo(
-			"Coati will enter the first phase of a private beta soon. At the moment Coati supports the programming language 
-			C++. When the beta starts we will be glad to inform you via newsletter."
+			"Coati will soon enter a Private Beta phase. At the moment Coati supports the programming language
+			C++. We are glad if we can inform you via newsletter when the Beta starts."
 		);
 	}
 ?>
@@ -114,7 +114,7 @@
 										</p>
 									</div>
 									<div id="submission_form">
-									
+
 										<div class="medium-8 columns">
 											<div class="rounded">
 												<input type="text" placeholder=
@@ -125,7 +125,7 @@
 	}
 	else
 	{
-		echo("'subscribe for Newsletter'");
+		echo("'subscribe to newsletter'");
 	}
 ?>
 												name="email" />
@@ -156,7 +156,7 @@
 							</div>
 							<div class="footer_spacer"style="width: 5%"></div>
 							<div class="footer_container_left" style="width: 50%">
-								<img src="./img/logo_fhs.png" alt="fhs logo" id="logo_fhs" /> 
+								<img src="./img/logo_fhs.png" alt="fhs logo" id="logo_fhs" />
 							</div>
 						</div>
 						<div class="medium-6 columns">
@@ -180,20 +180,20 @@
 			</div>
 		</div>
 	</body>
-	
+
 	<script src="js/jquery-2.1.4.min.js"></script>
 	<script>
 	function onFormSubmit(){
 		var email = $('input[name=email]').val();
-	
+
 		$.ajax({
 			type: "POST",
-			url: "admin/submit.php",
+			url: "php/submit.php",
 			data: {email: email},
 			dataType: "json",
 			success: function(data) {
 				if(data.status == 'success'){
-					$("#submission_form").fadeTo( 
+					$("#submission_form").fadeTo(
 						200, 0.0, "linear", function(){
 							$("#submission_form").css("display", "none");
 							$("#submission_message").text(
@@ -239,13 +239,19 @@
 				}
 			},
 			error: function(data) {
+				console.log(data);
 				alert( "error:" + data);
 			}
 		});
-			
+
 		return true;
 	}
-	
+
+	$("#subscribe_form").submit(function() {
+	    onFormSubmit();
+	    return false;
+	});
+
 	</script>
 
 </html>
