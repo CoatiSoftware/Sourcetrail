@@ -4,6 +4,7 @@
 #include <clang/AST/DeclTemplate.h>
 
 #include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
+#include "data/type/NamedDataType.h"
 #include "utility/logging/logging.h"
 
 CxxTemplateArgumentNameResolver::CxxTemplateArgumentNameResolver()
@@ -22,13 +23,18 @@ CxxTemplateArgumentNameResolver::~CxxTemplateArgumentNameResolver()
 
 std::string CxxTemplateArgumentNameResolver::getTemplateArgumentName(const clang::TemplateArgument& argument)
 {
+	return getTemplateArgumentType(argument)->getFullTypeName();
+}
+
+std::shared_ptr<DataType> CxxTemplateArgumentNameResolver::getTemplateArgumentType(const clang::TemplateArgument& argument)
+{
 	const clang::TemplateArgument::ArgKind kind = argument.getKind();
 	switch (kind)
 	{
 	case clang::TemplateArgument::Type:
 		{
 			CxxTypeNameResolver typeNameResolver(getIgnoredContextDecls());
-			return typeNameResolver.qualTypeToDataType(argument.getAsType())->getFullTypeName();
+			return typeNameResolver.qualTypeToDataType(argument.getAsType());
 		}
 	case clang::TemplateArgument::Integral:
 	case clang::TemplateArgument::Null:
@@ -45,11 +51,18 @@ std::string CxxTemplateArgumentNameResolver::getTemplateArgumentName(const clang
 			std::string buf;
 			llvm::raw_string_ostream os(buf);
 			argument.print(pp, os);
-			return os.str();
+			const std::string typeName = os.str();
+
+			NameHierarchy typeNameHerarchy;
+			typeNameHerarchy.push(std::make_shared<NameElement>(typeName));
+			return std::make_shared<NamedDataType>(typeNameHerarchy);
 		}
 	case clang::TemplateArgument::Pack:
 		LOG_ERROR("Type of template argument not handled: Pack");
 		break;
 	}
-	return std::string();
+
+	NameHierarchy typeNameHerarchy;
+	typeNameHerarchy.push(std::make_shared<NameElement>(""));
+	return std::make_shared<NamedDataType>(typeNameHerarchy);
 }

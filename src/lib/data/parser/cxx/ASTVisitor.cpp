@@ -957,18 +957,14 @@ void ASTVisitor::saveClassTemplateArgumentTypeUsages(const clang::TypeSourceInfo
 	if (type->getTypeClass() == clang::Type::TemplateSpecialization)
 	{
 		const clang::TemplateSpecializationType* templateSpecializationType = type->getAs<clang::TemplateSpecializationType>();
-		CxxDeclNameResolver declNameResolver(templateSpecializationType->getTemplateName().getAsTemplateDecl());
-
-		CxxTemplateArgumentNameResolver resolver;
 		for (size_t i = 0; i < templateSpecializationType->getNumArgs(); i++)
 		{
-			std::string argumentName = resolver.getTemplateArgumentName(templateSpecializationType->getArg(i));
-			NameHierarchy argumentNameHierarchy;
-			argumentNameHierarchy.push(std::make_shared<NameElement>(argumentName));
-
-			std::shared_ptr<DataType> argumentType = std::make_shared<NamedDataType>(argumentNameHierarchy);
-
-			m_client->onTypeUsageParsed(getParseTypeUsage(typeInfo->getTypeLoc(), argumentType), t);
+			CxxTemplateArgumentNameResolver resolver;
+			std::shared_ptr<DataType> argumentType = resolver.getTemplateArgumentType(templateSpecializationType->getArg(i));
+			if (argumentType->getFullTypeName().size() > 0)
+			{
+				m_client->onTypeUsageParsed(getParseTypeUsage(typeInfo->getTypeLoc(), argumentType), t);
+			}
 		}
 	}
 }
@@ -983,17 +979,12 @@ void ASTVisitor::saveFunctionTemplateArgumentTypeUsages(
 		return;
 	}
 
-	CxxTemplateArgumentNameResolver resolver;
 	for (size_t i = 0; i < argumentList->size(); i++)
 	{
-		std::string argumentName = resolver.getTemplateArgumentName(argumentList->get(i));
-		if (argumentName.size())
+		CxxTemplateArgumentNameResolver resolver;
+		std::shared_ptr<DataType> argumentType = resolver.getTemplateArgumentType(argumentList->get(i));
+		if (argumentType->getFullTypeName().size() > 0)
 		{
-			NameHierarchy argumentNameHierarchy;
-			argumentNameHierarchy.push(std::make_shared<NameElement>(argumentName));
-
-			std::shared_ptr<DataType> argumentType = std::make_shared<NamedDataType>(argumentNameHierarchy);
-
 			m_client->onTypeUsageParsed(getParseTypeUsage(sourceRange, argumentType), t);
 		}
 	}
