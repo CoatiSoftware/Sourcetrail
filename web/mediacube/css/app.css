@@ -1,0 +1,140 @@
+body
+{
+	margin: 15px 20px;
+}
+
+div#language_selection
+{
+}
+
+h1
+{
+	color: #FFF;
+}
+
+a
+{
+	color: #FFF;
+	text-decoration: none;
+}
+
+p p
+{
+	margin-bottom: 0.6rem;
+}
+
+a:hover {
+	color: #FF5D00;
+}
+
+div#language_selection > a.selected
+{
+	font-weight: bold;
+}
+
+div#logo_coati
+{
+	text-align: center;
+	margin-top: 20px;
+}
+
+div#logo_coati img
+{
+	width: 300px;
+}
+
+fieldset 
+{
+    border:2px solid #FFF;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;	
+	border-radius:8px;
+	padding: 24px;
+}
+
+div#submission_form
+{
+	margin-bottom: 10px;
+}
+
+div#submission_message
+{
+	text-align: center;
+	margin-top: 10px;
+}
+
+input[type="text"] 
+{
+	border: none;
+	border-color: transparent;
+	background: #FFF;
+	margin: 0px;
+	box-shadow: none;
+	width: 100%;
+	height: 32px;
+	font-size: 14px;
+}
+
+input[type="text"]:focus
+{
+    outline: 0;
+}
+
+div.rounded 
+{
+	border:2px solid #FFF;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;	
+	border-radius:8px;
+	padding: 0px 10px;
+	background: #FFF;
+	margin: 5px;
+}
+
+div#button_wrapper
+{
+	margin: 5px;
+}
+
+button#submit
+{
+	text-align: center;
+	color: #222;
+	background-color: #FFF;
+	border-radius: 8px;
+	width: 100%;
+	padding: 9px 0px;
+	margin: 0px;
+}
+
+div#footer
+{
+	margin-top: 30px;
+	margin-bottom: 20px;
+	
+}
+
+div.footer_container_left, div.footer_spacer
+{
+	float: left;
+}
+
+div.footer_container_left, div.footer_spacer, div.footer_container_right
+{
+	position: relative;
+	height: 80px;
+}
+
+a#imprint_link
+{
+	display: block;
+	position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+img#logo_mma, img#logo_mmt, img#logo_fhs
+{
+	position: absolute;
+    bottom: 0;
+}
