@@ -120,6 +120,11 @@ void Project::parseCode()
 	));
 }
 
+void Project::logStats() const
+{
+	m_storage->logStats();
+}
+
 void Project::createFileManager()
 {
 	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();

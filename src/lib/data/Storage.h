@@ -29,6 +29,7 @@ public:
 	void logGraph() const;
 	void logLocations() const;
 	void logIndex() const;
+	void logStats() const;
 
 	// ParserClient implementation
 	virtual void onError(const ParseLocation& location, const std::string& message);

@@ -85,6 +85,8 @@ void Application::saveProject(const std::string& projectSettingsFilePath)
 
 void Application::handleMessage(MessageFinishedParsing* message)
 {
+	m_project->logStats();
+
 	if (message->errorCount > 0)
 	{
 		return;

@@ -13,6 +13,24 @@ Dictionary::~Dictionary()
 void Dictionary::clear()
 {
 	m_words.clear();
+	m_ids.clear();
+}
+
+size_t Dictionary::getCharCount() const
+{
+	size_t count = 0;
+
+	for (const std::pair<Id, std::string>& p : m_words)
+	{
+		count += p.second.size();
+	}
+
+	return count;
+}
+
+size_t Dictionary::getWordCount() const
+{
+	return m_words.size();
 }
 
 Id Dictionary::getWordId(const std::string& word)

@@ -26,6 +26,8 @@ public:
 	void clearStorage();
 	void parseCode();
 
+	void logStats() const;
+
 private:
 	Project(StorageAccessProxy* storageAccessProxy);
 	Project(const Project&);

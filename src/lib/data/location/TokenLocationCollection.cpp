@@ -27,6 +27,18 @@ size_t TokenLocationCollection::getTokenLocationFileCount() const
 	return m_files.size();
 }
 
+size_t TokenLocationCollection::getTokenLocationLineCount() const
+{
+	size_t count = 0;
+
+	for (const TokenLocationFilePairType& file : m_files)
+	{
+		count += file.second->getTokenLocationLineCount();
+	}
+
+	return count;
+}
+
 const std::map<Id, TokenLocation*>& TokenLocationCollection::getTokenLocations() const
 {
 	return m_locations;

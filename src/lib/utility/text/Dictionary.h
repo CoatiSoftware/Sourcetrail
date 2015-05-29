@@ -17,6 +17,9 @@ public:
 
 	void clear();
 
+	size_t getCharCount() const;
+	size_t getWordCount() const;
+
 	Id getWordId(const std::string& word);
 	Id getWordIdConst(const std::string& word) const;
 

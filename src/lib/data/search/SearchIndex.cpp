@@ -34,11 +34,22 @@ SearchIndex::~SearchIndex()
 void SearchIndex::clear()
 {
 	m_root.m_nodes.clear();
+	m_dictionary.clear();
 }
 
 size_t SearchIndex::getNodeCount() const
 {
 	return m_root.getNodeCount() - 1;
+}
+
+size_t SearchIndex::getCharCount() const
+{
+	return m_dictionary.getCharCount();
+}
+
+size_t SearchIndex::getWordCount() const
+{
+	return m_dictionary.getWordCount();
 }
 
 Id SearchIndex::getWordId(const std::string& word)

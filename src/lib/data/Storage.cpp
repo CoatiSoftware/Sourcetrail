@@ -1,5 +1,7 @@
 #include "data/Storage.h"
 
+#include <sstream>
+
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 #include "utility/file/FileSystem.h"
@@ -142,6 +144,27 @@ void Storage::logLocations() const
 void Storage::logIndex() const
 {
 	LOG_INFO_STREAM(<< '\n' << m_tokenIndex);
+}
+
+void Storage::logStats() const
+{
+	std::stringstream ss;
+
+	ss << "\nGraph:\n";
+	ss << "\t" << m_graph.getNodeCount() << " Nodes\n";
+	ss << "\t" << m_graph.getEdgeCount() << " Edges\n";
+
+	ss << "\nSearch:\n";
+	ss << "\t" << m_tokenIndex.getCharCount() << " Characters\n";
+	ss << "\t" << m_tokenIndex.getWordCount() << " Words\n";
+	ss << "\t" << m_tokenIndex.getNodeCount() << " SearchNodes\n";
+
+	ss << "\nCode:\n";
+	ss << "\t" << m_locationCollection.getTokenLocationCount() << " Locations\n";
+	ss << "\t" << m_locationCollection.getTokenLocationLineCount() << " Lines\n";
+	ss << "\t" << m_locationCollection.getTokenLocationFileCount() << " Files\n";
+
+	LOG_INFO(ss.str());
 }
 
 void Storage::onError(const ParseLocation& location, const std::string& message)

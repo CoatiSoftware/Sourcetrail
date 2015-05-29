@@ -22,6 +22,8 @@ public:
 	void clear();
 
 	size_t getNodeCount() const;
+	size_t getCharCount() const;
+	size_t getWordCount() const;
 
 	Id getWordId(const std::string& word);
 	const std::string& getWord(Id wordId) const;

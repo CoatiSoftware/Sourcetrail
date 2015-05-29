@@ -26,6 +26,8 @@ public:
 	const TokenLocationFileMapType& getTokenLocationFiles() const;
 	size_t getTokenLocationFileCount() const;
 
+	size_t getTokenLocationLineCount() const;
+
 	const std::map<Id, TokenLocation*>& getTokenLocations() const;
 	size_t getTokenLocationCount() const;
 
