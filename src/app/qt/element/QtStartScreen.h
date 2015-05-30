@@ -5,7 +5,6 @@
 #include <QWidget>
 #include <QtWidgets/qpushbutton.h>
 
-
 class QtRecentProjectButton : public QPushButton
 {
 Q_OBJECT
@@ -25,8 +24,6 @@ public:
 	QtStartScreen(QWidget* parent = 0);
 	QSize sizeHint() const Q_DECL_OVERRIDE;
 
-	void paintEvent(QPaintEvent* event);
-
 signals:
 	void openOpenProjectDialog();
 	void openNewProjectDialog();
@@ -39,6 +36,5 @@ private:
 	QPushButton* m_newProjectButton;
 	std::vector<QPushButton*> m_recentProjects;
 };
-
 
 #endif //STARTSCREEN_H

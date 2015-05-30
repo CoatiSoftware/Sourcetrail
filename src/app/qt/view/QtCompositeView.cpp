@@ -19,7 +19,7 @@ QtCompositeView::QtCompositeView(ViewLayout* viewLayout, CompositeDirection dire
 	}
 
 	layout->setSpacing(5);
-	layout->setContentsMargins(5, 5, 5, 5);
+	layout->setContentsMargins(8, 8, 8, 8);
 	layout->setAlignment(Qt::AlignTop);
 
 	m_widget = new QWidget();

@@ -781,7 +781,7 @@ void QtSmartSearchBox::updatePlaceholder()
 {
 	if (!text().size() && !m_elements.size())
 	{
-		setPlaceholderText("Please enter your search string.");
+		setPlaceholderText("Search");
 	}
 	else
 	{

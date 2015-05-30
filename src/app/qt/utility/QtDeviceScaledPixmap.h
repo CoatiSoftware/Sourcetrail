@@ -36,6 +36,12 @@ public:
 		return m_pixmap.height() / devicePixelRatio();
 	}
 
+	void scaleToWidth(int width)
+	{
+		m_pixmap = m_pixmap.scaledToWidth(width * devicePixelRatio(), Qt::SmoothTransformation);
+		m_pixmap.setDevicePixelRatio(devicePixelRatio());
+	}
+
 	void scaleToHeight(int height)
 	{
 		m_pixmap = m_pixmap.scaledToHeight(height * devicePixelRatio(), Qt::SmoothTransformation);

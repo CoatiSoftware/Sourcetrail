@@ -5,30 +5,35 @@
 #include <QPainter>
 #include <QWidget>
 
+class QApplication;
 class QPixmap;
 
-class QtSplashScreen : public QSplashScreen
+class QtSplashScreen
+	: public QSplashScreen
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    QtSplashScreen(const QPixmap& pixmap, Qt::WindowFlags f = 0);
-    QtSplashScreen(Qt::WindowFlags f = 0);
-    virtual ~QtSplashScreen();
-    void setBackground(QPixmap& pixmap);
-    void setForeground(QPixmap& pixmap);
-protected:
-    void drawContents(QPainter* painter);
+	QtSplashScreen(const QPixmap& pixmap, Qt::WindowFlags f = 0);
+	virtual ~QtSplashScreen();
+
+	void exec(QApplication& app);
+	void setMessage(const QString& str);
+	void setVersion(const QString& str);
 
 public slots:
-    void animate();
-    void message(const QString& str, int flag = Qt::AlignLeft, const QColor& color = Qt::black);
+	void animate();
 
 private:
-    QString m_string;
-    int state;
-    QPixmap m_Background;
-    QPixmap m_Foreground;
+	void drawContents(QPainter* painter);
+
+	int m_state;
+
+	QString m_string;
+	QString m_version;
+
+	QPixmap m_background;
+	QPixmap m_foreground;
 };
 
 #endif //QTSPLASHSCREEN_H

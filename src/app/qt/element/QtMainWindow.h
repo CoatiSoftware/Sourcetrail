@@ -56,7 +56,8 @@ private:
 	void setupShortcuts();
 
 	QDockWidget* getDockWidgetForView(View* view) const;
-	std::shared_ptr<QtStartScreen> startScreen;
+
+	std::shared_ptr<QtStartScreen> m_startScreen;
 
 	std::vector<std::pair<View*, QDockWidget*>> m_dockWidgets;
 

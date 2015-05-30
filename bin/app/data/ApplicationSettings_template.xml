@@ -70,20 +70,20 @@
 			<hover>#F4BC3D</hover>
 		</method>
 		<field>
-			<normal>#6DA1BC</normal>
-			<hover>#3190BA</hover>
+			<normal>#7BB5D4</normal>
+			<hover>#42A1D4</hover>
 		</field>
 		<global>
-			<normal>#6DA1BC</normal>
-			<hover>#3190BA</hover>
+			<normal>#7BB5D4</normal>
+			<hover>#42A1D4</hover>
 		</global>
 		<undefined>
 			<normal>#00000000</normal>
 			<hover>#00000000</hover>
 		</undefined>
 		<undefined_variable>
-			<normal>#6DA1BC</normal>
-			<hover>#3190BA</hover>
+			<normal>#7BB5D4</normal>
+			<hover>#42A1D4</hover>
 		</undefined_variable>
 		<undefined_function>
 			<normal>#F4D07D</normal>
@@ -102,8 +102,8 @@
 			<hover>#ededed</hover>
 		</typedef>
 		<enum_constant>
-			<normal>#6DA1BC</normal>
-			<hover>#3190BA</hover>
+			<normal>#7BB5D4</normal>
+			<hover>#42A1D4</hover>
 		</enum_constant>
 		<template_parameter_type>
 			<normal>#ededed</normal>

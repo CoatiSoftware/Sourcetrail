@@ -42,10 +42,10 @@ QtMainWindow::QtMainWindow()
 	// Seconde call is in Application.cpp
 	loadLayout();
 
-	//startScreen
-	startScreen = std::make_shared<QtStartScreen>(this);
-	startScreen->setWindowModality(Qt::WindowModal);
-	startScreen->show();
+	// StartScreen
+	m_startScreen = std::make_shared<QtStartScreen>(this);
+	m_startScreen->setWindowModality(Qt::WindowModal);
+	m_startScreen->show();
 }
 
 QtMainWindow::~QtMainWindow()
@@ -57,6 +57,8 @@ void QtMainWindow::addView(View* view)
 	QDockWidget* dock = new QDockWidget(tr(view->getName().c_str()), this);
 	dock->setWidget(QtViewWidgetWrapper::getWidgetOfView(view));
 	dock->setObjectName(QString::fromStdString("Dock" + view->getName()));
+	// dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+	// dock->setTitleBarWidget(new QWidget());
 	addDockWidget(Qt::TopDockWidgetArea, dock);
 	m_dockWidgets.push_back(std::make_pair(view, dock));
 }
@@ -216,6 +218,7 @@ void QtMainWindow::redo()
 
 void QtMainWindow::handleEscapeShortcut()
 {
+	m_startScreen->hide();
 	MessageInterruptTasks().dispatch();
 }
 

@@ -1,63 +1,103 @@
 #include "QtSplashScreen.h"
 
+#include <QApplication>
+#include <QThread>
 #include <QTimer>
 
-QtSplashScreen::QtSplashScreen(const QPixmap &pixmap, Qt::WindowFlags f) : QSplashScreen (pixmap, f)
+#include "qt/utility/QtDeviceScaledPixmap.h"
+
+namespace
 {
-    state = 0;
-    QTimer *timer = new QTimer( this );
-    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(animate()));
-    timer->start(150);
-    show();
-    repaint();
+	class InitThread : public QThread
+	{
+	public:
+		void run(void)
+		{
+			// Mininmum time the SplashScreen gets displayed.
+			QThread::msleep(5000);
+		}
+	};
+}
+
+QtSplashScreen::QtSplashScreen(const QPixmap &pixmap, Qt::WindowFlags f)
+	: QSplashScreen(pixmap, f)
+	, m_state(0)
+{
+	QtDeviceScaledPixmap foreground("data/gui/splash_white.png");
+	foreground.scaleToHeight(pixmap.size().height() * 0.8);
+	m_foreground = foreground.pixmap();
+
+	QtDeviceScaledPixmap background("data/gui/splash_blue.png");
+	background.scaleToHeight(pixmap.size().height() * 0.9);
+	m_background = background.pixmap();
 }
 
 QtSplashScreen::~QtSplashScreen()
 {
 }
 
+void QtSplashScreen::exec(QApplication& app)
+{
+	m_state = 0;
+	QTimer* timer = new QTimer(this);
+	QObject::connect(timer, SIGNAL(timeout()), this, SLOT(animate()));
+	timer->start(150);
+
+	app.processEvents();
+
+	show();
+	repaint();
+
+	app.processEvents();
+
+	// Eventloop for the SplashScreen
+	// QEventLoop loop;
+	// InitThread* initThread = new InitThread();
+	// QObject::connect(initThread, SIGNAL(finished()), &loop, SLOT(quit()));
+	// initThread->start();
+	// loop.exec();
+}
+
+void QtSplashScreen::setMessage(const QString &str)
+{
+	m_string = str;
+	repaint();
+}
+
+void QtSplashScreen::setVersion(const QString &str)
+{
+	m_version = str;
+	repaint();
+}
+
 void QtSplashScreen::animate()
 {
-    state = (state+2)%120;
-    repaint();
-}
-
-void QtSplashScreen::setBackground(QPixmap& pixmap)
-{
-    m_Background = pixmap;
-}
-
-void QtSplashScreen::setForeground(QPixmap &pixmap)
-{
-    m_Foreground = pixmap;
-}
-
-void QtSplashScreen::message(const QString &str, int flag, const QColor &color)
-{
-    QSplashScreen::showMessage(str,flag,color);
-    animate();
-    m_string = str;
+	m_state = (m_state + 2) % 120;
+	repaint();
 }
 
 void QtSplashScreen::drawContents(QPainter *painter)
 {
-    painter->save();
-    painter->translate(rect().width()/2,rect().height()/2);
-    painter->rotate(state*3);
-    painter->drawPixmap(-rect().width()*0.9/2,-rect().height()*0.9/2,m_Background);
-    painter->restore();
-    painter->drawPixmap(rect().width()*0.1,rect().height()*0.1,m_Foreground);
+	painter->save();
+	painter->translate(rect().width() / 2, rect().height() / 2);
+	painter->rotate(m_state * 3);
+	painter->drawPixmap(-rect().width() * 0.9 / 2, -rect().height() * 0.9 / 2, m_background);
+	painter->restore();
+	painter->drawPixmap(rect().width() * 0.1, rect().height() * 0.1, m_foreground);
 
-    painter->setPen(QColor(74,112,18));
-    QRect r = rect();
-    r.setRect(r.x() + 5, r.y() + 5, r.width() - 10, r.height() - 10);
+	QRect r = rect();
+	r.setRect(r.x() + 5, r.height() - 20, r.width() - 10, 20);
 
-    // TODO: automated Version number
-    painter->drawText(r, Qt::AlignRight, "Version 0.0.0");
+	// TODO: automated Version number
+	painter->drawText(r, Qt::AlignRight, QString("Coati v").append(m_version));
 
-    // Draw message at given position, limited to 43 chars
-    // If message is too long, string is truncated
-    if (m_string.length() > 40) {m_string.truncate(39); m_string += "...";}
-    painter->drawText(90, 16,m_string);
+	// Draw message at given position, limited to 43 chars
+	// If message is too long, string is truncated
+	if (m_string.length() > 40)
+	{
+		m_string.truncate(39);
+		m_string += "...";
+	}
+
+	painter->drawText(r, Qt::AlignLeft, m_string);
 }
-
