@@ -148,6 +148,21 @@ void QtCodeArea::updateContent()
 	annotateText();
 }
 
+bool QtCodeArea::isActive() const
+{
+	const std::vector<Id>& ids = m_fileWidget->getActiveTokenIds();
+
+	for (const Annotation& annotation: m_annotations)
+	{
+		if (std::find(ids.begin(), ids.end(), annotation.tokenId) != ids.end())
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void QtCodeArea::resizeEvent(QResizeEvent *e)
 {
 	QPlainTextEdit::resizeEvent(e);
@@ -167,7 +182,6 @@ void QtCodeArea::showEvent(QShowEvent* event)
 void QtCodeArea::paintEvent(QPaintEvent* event)
 {
 	QPainter painter(viewport());
-	// painter.fillRect(rect(), Qt::white);
 
 	QTextBlock block = firstVisibleBlock();
 	int top = blockBoundingGeometry(block).translated(contentOffset()).top();
@@ -177,7 +191,7 @@ void QtCodeArea::paintEvent(QPaintEvent* event)
 
 	for (const ScopeAnnotation& scope : m_scopeAnnotations)
 	{
-		if (scope.isFocused)
+		if (scope.isFocused || scope.startLine == scope.endLine)
 		{
 			qColor = QColor("#90E4EEF2");
 		}
@@ -410,7 +424,7 @@ void QtCodeArea::annotateText()
 		selection.cursor.setPosition(annotation.end, QTextCursor::KeepAnchor);
 		scopeAnnotation.endLine = selection.cursor.blockNumber();
 
-		if (annotation.isScope)
+		if (annotation.isScope || (isActive && ids.size() == 1))
 		{
 			if (isActive || isFocused)
 			{
@@ -422,7 +436,8 @@ void QtCodeArea::annotateText()
 				scopeAnnotations.push_back(scopeAnnotation);
 			}
 		}
-		else
+
+		if (!annotation.isScope || (isActive && ids.size() == 1))
 		{
 			extraSelections.append(selection);
 		}

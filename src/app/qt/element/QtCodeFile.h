@@ -37,12 +37,16 @@ public:
 		std::shared_ptr<TokenLocationFile> locationFile
 	);
 
+	QWidget* findFirstActiveSnippet() const;
+
 	void updateContent();
+
+public slots:
+	void clickedSnippetButton();
 
 private slots:
 	void clickedTitle();
 	void clickedMinimizeButton();
-	void clickedSnippetButton();
 	void clickedMaximizeButton();
 
 private:

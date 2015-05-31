@@ -58,6 +58,8 @@ public:
 
 	void updateContent();
 
+	bool isActive() const;
+
 protected:
 	virtual void resizeEvent(QResizeEvent *event);
 	virtual void showEvent(QShowEvent* event);

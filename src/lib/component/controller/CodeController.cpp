@@ -52,6 +52,12 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	view->setActiveTokenIds(activeTokenIds);
 	view->setErrorMessages(std::vector<std::string>());
 
+	if (message->isEdge)
+	{
+		view->scrollToFirstActiveSnippet();
+		return;
+	}
+
 	TokenLocationCollection collection = m_storageAccess->getTokenLocationsForTokenIds(activeTokenIds);
 	view->showCodeSnippets(getSnippetsForActiveTokenLocations(collection, declarationId));
 

@@ -1,6 +1,8 @@
 #include "qt/element/QtCodeFileList.h"
 
+#include <QPropertyAnimation>
 #include <QScrollBar>
+#include <QVariant>
 #include <QVBoxLayout>
 
 #include "utility/file/FileSystem.h"
@@ -23,6 +25,8 @@ QtCodeFileList::QtCodeFileList(QWidget* parent)
 
 	setWidgetResizable(true);
 	setWidget(m_frame.get());
+
+	connect(this, SIGNAL(shouldScrollToSnippet(QWidget*)), this, SLOT(scrollToSnippet(QWidget*)), Qt::QueuedConnection);
 }
 
 QtCodeFileList::~QtCodeFileList()
@@ -83,7 +87,6 @@ const std::vector<Id>& QtCodeFileList::getActiveTokenIds() const
 void QtCodeFileList::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
 {
 	m_activeTokenIds = activeTokenIds;
-	updateFiles();
 }
 
 const std::vector<std::string>& QtCodeFileList::getErrorMessages() const
@@ -94,14 +97,26 @@ const std::vector<std::string>& QtCodeFileList::getErrorMessages() const
 void QtCodeFileList::setErrorMessages(const std::vector<std::string>& errorMessages)
 {
 	m_errorMessages = errorMessages;
-	updateFiles();
 }
 
-void QtCodeFileList::updateFiles()
+void QtCodeFileList::scrollToFirstActiveSnippet()
 {
+	updateFiles();
+
+	QWidget* widget = nullptr;
 	for (std::shared_ptr<QtCodeFile> file: m_files)
 	{
-		file->updateContent();
+		widget = file->findFirstActiveSnippet();
+		if (widget)
+		{
+			if (!widget->isVisible())
+			{
+				file->clickedSnippetButton();
+			}
+
+			emit shouldScrollToSnippet(widget);
+			return;
+		}
 	}
 }
 
@@ -115,4 +130,84 @@ void QtCodeFileList::defocusToken()
 {
 	m_focusedTokenId = 0;
 	updateFiles();
+}
+
+void QtCodeFileList::scrollToSnippet(QWidget* widget)
+{
+	this->ensureWidgetVisibleAnimated(widget);
+}
+
+void QtCodeFileList::updateFiles()
+{
+	for (std::shared_ptr<QtCodeFile> file: m_files)
+	{
+		file->updateContent();
+	}
+}
+
+void QtCodeFileList::ensureWidgetVisibleAnimated(QWidget *childWidget, int xmargin, int ymargin)
+{
+	if (!widget()->isAncestorOf(childWidget))
+	{
+		return;
+	}
+
+	const QRect microFocus = childWidget->inputMethodQuery(Qt::ImCursorRectangle).toRect();
+	const QRect defaultMicroFocus = childWidget->QWidget::inputMethodQuery(Qt::ImCursorRectangle).toRect();
+	QRect focusRect = (microFocus != defaultMicroFocus)
+		? QRect(childWidget->mapTo(widget(), microFocus.topLeft()), microFocus.size())
+		: QRect(childWidget->mapTo(widget(), QPoint(0, 0)), childWidget->size());
+	const QRect visibleRect(-widget()->pos(), viewport()->size());
+
+	if (visibleRect.contains(focusRect))
+	{
+		return;
+	}
+
+	focusRect.adjust(-xmargin, -ymargin, xmargin, ymargin);
+
+	QScrollBar* scrollBar = nullptr;
+	int value = 0;
+
+	if (focusRect.width() > visibleRect.width())
+	{
+		scrollBar = horizontalScrollBar();
+		value = focusRect.center().x() - viewport()->width() / 2;
+	}
+	else if (focusRect.right() > visibleRect.right())
+	{
+		scrollBar = horizontalScrollBar();
+		value = focusRect.right() - viewport()->width();
+	}
+	else if (focusRect.left() < visibleRect.left())
+	{
+		scrollBar = horizontalScrollBar();
+		value = focusRect.left();
+	}
+
+	if (focusRect.height() > visibleRect.height())
+	{
+		scrollBar = verticalScrollBar();
+		value = focusRect.center().y() - viewport()->height() / 2;
+	}
+	else if (focusRect.bottom() > visibleRect.bottom())
+	{
+		scrollBar = verticalScrollBar();
+		value = focusRect.bottom() - viewport()->height();
+	}
+	else if (focusRect.top() < visibleRect.top())
+	{
+		scrollBar = verticalScrollBar();
+		value = focusRect.top();
+	}
+
+	if (scrollBar)
+	{
+		QPropertyAnimation* anim = new QPropertyAnimation(scrollBar, "value");
+		anim->setDuration(std::abs(scrollBar->value() - value));
+		anim->setStartValue(scrollBar->value());
+		anim->setEndValue(value);
+		anim->setEasingCurve(QEasingCurve::OutQuad);
+		anim->start();
+	}
 }

@@ -17,6 +17,9 @@ class QtCodeFileList
 {
 	Q_OBJECT
 
+signals:
+	void shouldScrollToSnippet(QWidget* widget);
+
 public:
 	QtCodeFileList(QWidget* parent = 0);
 	virtual ~QtCodeFileList();
@@ -40,11 +43,18 @@ public:
 	const std::vector<std::string>& getErrorMessages() const;
 	void setErrorMessages(const std::vector<std::string>& errorMessages);
 
+	void scrollToFirstActiveSnippet();
+
 	void focusToken(Id tokenId);
 	void defocusToken();
 
+private slots:
+	void scrollToSnippet(QWidget* widget);
+
 private:
 	void updateFiles();
+
+	void ensureWidgetVisibleAnimated(QWidget *childWidget, int xmargin = 50, int ymargin = 50);
 
 	std::shared_ptr<QFrame> m_frame;
 	std::vector<std::shared_ptr<QtCodeFile>> m_files;

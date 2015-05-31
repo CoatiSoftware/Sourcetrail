@@ -11,6 +11,7 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	, m_refreshViewFunctor(std::bind(&QtCodeView::doRefreshView, this))
 	, m_showCodeSnippetsFunctor(std::bind(&QtCodeView::doShowCodeSnippets, this, std::placeholders::_1))
 	, m_showCodeFileFunctor(std::bind(&QtCodeView::doShowCodeFile, this, std::placeholders::_1))
+	, m_doScrollToFirstActiveSnippetFunctor(std::bind(&QtCodeView::doScrollToFirstActiveSnippet, this))
 	, m_focusTokenFunctor(std::bind(&QtCodeView::doFocusToken, this, std::placeholders::_1))
 	, m_defocusTokenFunctor(std::bind(&QtCodeView::doDefocusToken, this))
 {
@@ -56,6 +57,21 @@ void QtCodeView::showCodeFile(const CodeSnippetParams& params)
 	m_showCodeFileFunctor(params);
 }
 
+void QtCodeView::scrollToFirstActiveSnippet()
+{
+	m_doScrollToFirstActiveSnippetFunctor();
+}
+
+void QtCodeView::focusToken(const Id tokenId)
+{
+	m_focusTokenFunctor(tokenId);
+}
+
+void QtCodeView::defocusToken()
+{
+	m_defocusTokenFunctor();
+}
+
 void QtCodeView::doRefreshView()
 {
 	setStyleSheet(m_widget);
@@ -79,14 +95,10 @@ void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
 	m_widget->addCodeSnippet(1, params.title, params.code, params.locationFile);
 }
 
-void QtCodeView::focusToken(const Id tokenId)
+void QtCodeView::doScrollToFirstActiveSnippet()
 {
-	m_focusTokenFunctor(tokenId);
-}
-
-void QtCodeView::defocusToken()
-{
-	m_defocusTokenFunctor();
+	m_widget->setActiveTokenIds(m_activeTokenIds);
+	m_widget->scrollToFirstActiveSnippet();
 }
 
 void QtCodeView::doFocusToken(const Id tokenId)

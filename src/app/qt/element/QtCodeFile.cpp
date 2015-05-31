@@ -143,6 +143,19 @@ void QtCodeFile::addCodeSnippet(
 	clickedSnippetButton();
 }
 
+QWidget* QtCodeFile::findFirstActiveSnippet() const
+{
+	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	{
+		if (snippet->isActive())
+		{
+			return snippet.get();
+		}
+	}
+
+	return nullptr;
+}
+
 void QtCodeFile::updateContent()
 {
 	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)

@@ -71,6 +71,11 @@ void QtCodeSnippet::updateContent()
 	updateDots();
 }
 
+bool QtCodeSnippet::isActive() const
+{
+	return m_codeArea->isActive();
+}
+
 void QtCodeSnippet::updateDots()
 {
 	if (!m_dots)

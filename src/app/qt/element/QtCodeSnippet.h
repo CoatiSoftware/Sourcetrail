@@ -34,6 +34,8 @@ public:
 	void updateLineNumberAreaWidthForDigits(int digits);
 	void updateContent();
 
+	bool isActive() const;
+
 private:
 	void updateDots();
 
