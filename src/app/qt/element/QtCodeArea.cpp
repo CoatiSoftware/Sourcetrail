@@ -437,7 +437,7 @@ void QtCodeArea::annotateText()
 			}
 		}
 
-		if (!annotation.isScope || (isActive && ids.size() == 1))
+		if (!annotation.isScope || (isActive && ids.size() == 1 && scopeAnnotation.startLine == scopeAnnotation.endLine))
 		{
 			extraSelections.append(selection);
 		}
