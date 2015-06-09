@@ -6,12 +6,13 @@
 #include <QGraphicsView>
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
+#include <QScrollBar>
 #include <QSequentialAnimationGroup>
 
 #include "component/controller/helper/DummyEdge.h"
 #include "component/controller/helper/DummyNode.h"
+#include "component/controller/helper/GraphPostprocessor.h"
 
-#include "qt/utility/QtGraphPostprocessor.h"
 #include "qt/utility/utilityQt.h"
 
 #include "qt/view/QtViewWidgetWrapper.h"
@@ -88,6 +89,17 @@ Vec2i QtGraphView::getViewSize() const
 {
 	QGraphicsView* view = getView();
 	return Vec2i(view->width(), view->height());
+}
+
+void QtGraphView::centerScrollBars()
+{
+	QGraphicsView* view = getView();
+
+	QScrollBar* hb = view->horizontalScrollBar();
+	QScrollBar* vb = view->verticalScrollBar();
+
+	hb->setValue((hb->minimum() + hb->maximum()) / 2);
+	vb->setValue((vb->minimum() + vb->maximum()) / 2);
 }
 
 void QtGraphView::finishedTransition()
@@ -170,10 +182,8 @@ void QtGraphView::doRebuildGraph(
 		}
 	}
 
-	QtGraphPostprocessor::doPostprocessing(m_nodes);
-
 	QPointF center = itemsBoundingRect(m_nodes).center();
-	Vec2i o = QtGraphPostprocessor::alignOnRaster(Vec2i(center.x(), center.y()));
+	Vec2i o = GraphPostprocessor::alignOnRaster(Vec2i(center.x(), center.y()));
 	QPointF offset = QPointF(o.x, o.y);
 	m_sceneRectOffset = offset - center;
 
@@ -214,9 +224,7 @@ void QtGraphView::doClear()
 
 void QtGraphView::doResize()
 {
-	int margin = 25;
-	QGraphicsView* view = getView();
-	view->setSceneRect(itemsBoundingRect(m_oldNodes).adjusted(-margin, -margin, margin, margin).translated(m_sceneRectOffset));
+	getView()->setSceneRect(getSceneRect(m_oldNodes));
 }
 
 std::shared_ptr<QtGraphNode> QtGraphView::findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId)
@@ -320,15 +328,19 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const 
 	}
 }
 
-template <typename T>
-QRectF QtGraphView::itemsBoundingRect(const std::list<std::shared_ptr<T>>& items) const
+QRectF QtGraphView::itemsBoundingRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const
 {
 	QRectF boundingRect;
-	for (const std::shared_ptr<T>& item : items)
+	for (const std::shared_ptr<QtGraphNode>& item : items)
 	{
 		boundingRect |= item->sceneBoundingRect();
 	}
 	return boundingRect;
+}
+
+QRectF QtGraphView::getSceneRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const
+{
+	return itemsBoundingRect(items).adjusted(-25, -25, 25, 25).translated(m_sceneRectOffset);
 }
 
 void QtGraphView::compareNodesRecursive(
@@ -429,7 +441,6 @@ void QtGraphView::createTransition()
 	}
 
 	// move and scale
-	if (remainingNodes.size())
 	{
 		QParallelAnimationGroup* remain = new QParallelAnimationGroup();
 
@@ -461,6 +472,22 @@ void QtGraphView::createTransition()
 				dynamic_cast<QtGraphNodeAccess*>(oldNode)->hideLabel();
 			}
 		}
+
+		QPropertyAnimation* anim = new QPropertyAnimation(view, "sceneRect");
+		anim->setStartValue(view->sceneRect());
+		anim->setEndValue(getSceneRect(m_nodes));
+
+		if (remainingNodes.size())
+		{
+			anim->setDuration(300);
+		}
+		else
+		{
+			anim->setDuration(300);
+			connect(anim, SIGNAL(finished()), this, SLOT(centerScrollBars()));
+		}
+
+		remain->addAnimation(anim);
 
 		m_transition->addAnimation(remain);
 	}

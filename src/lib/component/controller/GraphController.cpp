@@ -6,6 +6,7 @@
 
 #include "component/controller/helper/DummyEdge.h"
 #include "component/controller/helper/DummyNode.h"
+#include "component/controller/helper/GraphPostprocessor.h"
 #include "component/view/GraphView.h"
 #include "component/view/GraphViewStyle.h"
 #include "data/access/StorageAccess.h"
@@ -74,6 +75,8 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 		setActiveAndVisibility(m_activeTokenIds);
 		layoutNesting();
 
+		GraphPostprocessor::doPostprocessing(m_dummyNodes);
+
 		getView()->rebuildGraph(nullptr, m_dummyNodes, m_dummyEdges);
 	}
 }
@@ -83,7 +86,7 @@ void GraphController::handleMessage(MessageGraphNodeMove* message)
 	DummyNode* node = findDummyNodeRecursive(m_dummyNodes, message->tokenId);
 	if (node)
 	{
-		node->position = message->position;
+		node->position += message->delta;
 		getView()->resizeView();
 	}
 }
@@ -131,6 +134,7 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 
 	layoutNesting();
 	GraphLayouter::layoutSpectralPrototype(m_dummyNodes, m_dummyEdges);
+	GraphPostprocessor::doPostprocessing(m_dummyNodes);
 
 	view->rebuildGraph(graph, m_dummyNodes, m_dummyEdges);
 }

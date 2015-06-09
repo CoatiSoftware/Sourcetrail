@@ -79,7 +79,7 @@ public:
 	virtual void addSubNode(const std::shared_ptr<QtGraphNode>& node);
 
 	virtual void onClick();
-	virtual void moved();
+	virtual void moved(const Vec2i& oldPosition);
 
 	virtual void updateStyle() = 0;
 

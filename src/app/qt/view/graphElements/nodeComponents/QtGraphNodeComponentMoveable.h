@@ -18,6 +18,7 @@ public:
 
 private:
 	Vec2i m_mouseOffset;
+	Vec2i m_oldPos;
 };
 
 #endif // QT_GRAPH_NODE_COMPONENT_MOVEABLE

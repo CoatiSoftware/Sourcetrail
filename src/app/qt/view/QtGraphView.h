@@ -42,6 +42,7 @@ public:
 	virtual Vec2i getViewSize() const;
 
 private slots:
+	void centerScrollBars();
 	void finishedTransition();
 
 private:
@@ -61,8 +62,8 @@ private:
 		QGraphicsView* view, std::shared_ptr<QtGraphNode> parentNode, const DummyNode& node);
 	std::shared_ptr<QtGraphEdge> createEdge(QGraphicsView* view, const DummyEdge& edge);
 
-	template <typename T>
-	QRectF itemsBoundingRect(const std::list<std::shared_ptr<T>>& items) const;
+	QRectF itemsBoundingRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const;
+	QRectF getSceneRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const;
 
 	void compareNodesRecursive(
 		std::list<std::shared_ptr<QtGraphNode>> newSubNodes,

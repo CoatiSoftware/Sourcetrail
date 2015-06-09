@@ -5,9 +5,10 @@
 #include <QGraphicsSceneEvent>
 #include <QPen>
 
+#include "component/controller/helper/GraphPostprocessor.h"
+
 #include "qt/graphics/QtRoundedRectItem.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
-#include "qt/utility/QtGraphPostprocessor.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
 
@@ -250,9 +251,9 @@ void QtGraphNode::addSubNode(const std::shared_ptr<QtGraphNode>& node)
 	m_subNodes.push_back(node);
 }
 
-void QtGraphNode::moved()
+void QtGraphNode::moved(const Vec2i& oldPosition)
 {
-	QtGraphPostprocessor::alignNodeOnRaster(this);
+	setPosition(GraphPostprocessor::alignOnRaster(getPosition()));
 }
 
 void QtGraphNode::onClick()

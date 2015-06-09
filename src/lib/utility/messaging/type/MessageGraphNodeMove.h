@@ -5,12 +5,13 @@
 #include "utility/messaging/Message.h"
 #include "utility/types.h"
 
-class MessageGraphNodeMove: public Message<MessageGraphNodeMove>
+class MessageGraphNodeMove
+	: public Message<MessageGraphNodeMove>
 {
 public:
-	MessageGraphNodeMove(Id tokenId, Vec2i position)
+	MessageGraphNodeMove(Id tokenId, const Vec2i& delta)
 		: tokenId(tokenId)
-		, position(position)
+		, delta(delta)
 	{
 	}
 
@@ -20,7 +21,7 @@ public:
 	}
 
 	const Id tokenId;
-	const Vec2i position;
+	const Vec2i delta;
 };
 
 #endif // MESSAGE_GRAPH_NODE_MOVE_H

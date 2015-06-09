@@ -41,11 +41,11 @@ void QtGraphNodeData::onClick()
 	}
 }
 
-void QtGraphNodeData::moved()
+void QtGraphNodeData::moved(const Vec2i& oldPosition)
 {
-	QtGraphNode::moved();
+	QtGraphNode::moved(oldPosition);
 
-	MessageGraphNodeMove(m_data->getId(), getPosition()).dispatch();
+	MessageGraphNodeMove(m_data->getId(), getPosition() - oldPosition).dispatch();
 }
 
 void QtGraphNodeData::updateStyle()

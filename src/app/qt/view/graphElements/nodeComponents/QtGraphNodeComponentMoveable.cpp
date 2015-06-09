@@ -19,8 +19,9 @@ void QtGraphNodeComponentMoveable::nodeMousePressEvent(QGraphicsSceneMouseEvent*
 	std::shared_ptr<QtGraphNode> node = m_graphNode.lock();
 	if (node != NULL)
 	{
-		m_mouseOffset.x = event->scenePos().x() - node->getPosition().x;
-		m_mouseOffset.y = event->scenePos().y() - node->getPosition().y;
+		m_oldPos = node->getPosition();
+		m_mouseOffset.x = event->scenePos().x() - m_oldPos.x;
+		m_mouseOffset.y = event->scenePos().y() - m_oldPos.y;
 
 		event->accept();
 	}
@@ -46,6 +47,6 @@ void QtGraphNodeComponentMoveable::nodeMouseReleaseEvent(QGraphicsSceneMouseEven
 	std::shared_ptr<QtGraphNode> node = m_graphNode.lock();
 	if (node != NULL)
 	{
-		node->moved();
+		node->moved(m_oldPos);
 	}
 }

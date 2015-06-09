@@ -37,6 +37,8 @@ add_files(
 
 	component/controller/helper/DummyEdge.h
 	component/controller/helper/DummyNode.h
+	component/controller/helper/GraphPostprocessor.cpp
+	component/controller/helper/GraphPostprocessor.h
 	component/controller/helper/SnippetMerger.cpp
 	component/controller/helper/SnippetMerger.h
 
