@@ -66,9 +66,9 @@ void GraphLayouter::layoutSimpleRing(std::vector<DummyNode>& nodes)
 
 void GraphLayouter::layoutSpectralPrototype(std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges)
 {
-	if(nodes.size() < 2)
+	if (nodes.size() < 2)
 	{
-		LOG_WARNING("Not enough nodes for layouting");
+		LOG_INFO("Not enough nodes for layouting");
 		return;
 	}
 

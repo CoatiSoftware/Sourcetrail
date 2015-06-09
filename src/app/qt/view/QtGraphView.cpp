@@ -113,6 +113,8 @@ void QtGraphView::finishedTransition()
 	view->setInteractive(true);
 
 	switchToNewGraphData();
+
+	m_transition.reset();
 }
 
 void QtGraphView::switchToNewGraphData()
@@ -170,6 +172,12 @@ void QtGraphView::doRebuildGraph(
 	const std::vector<DummyNode>& nodes,
 	const std::vector<DummyEdge>& edges
 ){
+	if (m_transition)
+	{
+		m_transition->stop();
+		switchToNewGraphData();
+	}
+
 	QGraphicsView* view = getView();
 
 	m_nodes.clear();
