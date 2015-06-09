@@ -46,19 +46,19 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 
 	m_minimizeButton = new QPushButton(this);
 	m_minimizeButton->setObjectName("minimize_button");
-	m_minimizeButton->setToolTip("minimize file");
+	m_minimizeButton->setToolTip("minimize");
 	m_minimizeButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	titleLayout->addWidget(m_minimizeButton);
 
 	m_snippetButton = new QPushButton(this);
 	m_snippetButton->setObjectName("snippet_button");
-	m_snippetButton->setToolTip("show snippets in file");
+	m_snippetButton->setToolTip("show snippets");
 	m_snippetButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	titleLayout->addWidget(m_snippetButton);
 
 	m_maximizeButton = new QPushButton(this);
 	m_maximizeButton->setObjectName("maximize_button");
-	m_maximizeButton->setToolTip("maximize file");
+	m_maximizeButton->setToolTip("maximize");
 	m_maximizeButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	titleLayout->addWidget(m_maximizeButton);
 
