@@ -19,8 +19,8 @@ public:
 	{
 		EDGE_MEMBER							= 0x1,
 		EDGE_TYPE_OF						= 0x2,
-		EDGE_RETURN_TYPE_OF					= 0x4,
-		EDGE_PARAMETER_TYPE_OF				= 0x8,
+		EDGE_RETURN_TYPE_OF					= 0x4, // unused: see Storage::addFunctionNode()
+		EDGE_PARAMETER_TYPE_OF				= 0x8, // unused: see Storage::addFunctionNode()
 		EDGE_TYPE_USAGE						= 0x10,
 		EDGE_USAGE							= 0x20,
 		EDGE_CALL							= 0x40,

@@ -307,16 +307,7 @@ Id Storage::onFunctionParsed(
 ){
 	log("function", function.getFullName(), location);
 
-	Node* node = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, function);
-
-	addTokenLocation(node, location);
-	addTokenLocation(node, scopeLocation, true);
-
-	addTypeEdge(node, Edge::EDGE_RETURN_TYPE_OF, function.returnType);
-	for (const ParseTypeUsage& parameter : function.parameters)
-	{
-		addTypeEdge(node, Edge::EDGE_PARAMETER_TYPE_OF, parameter);
-	}
+	Node* node = addFunctionNode(Node::NODE_FUNCTION, function, location, scopeLocation);
 
 	return node->getId();
 }
@@ -327,7 +318,7 @@ Id Storage::onMethodParsed(
 ){
 	log("method", method.getFullName(), location);
 
-	Node* node = addNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, method);
+	Node* node = addFunctionNode(Node::NODE_METHOD, method, location, scopeLocation);
 
 	if (!node->getMemberEdge())
 	{
@@ -350,15 +341,6 @@ Id Storage::onMethodParsed(
 	}
 	addAccess(node, access);
 	addAbstraction(node, abstraction);
-
-	addTokenLocation(node, location);
-	addTokenLocation(node, scopeLocation, true);
-
-	addTypeEdge(node, Edge::EDGE_RETURN_TYPE_OF, method.returnType);
-	for (const ParseTypeUsage& parameter : method.parameters)
-	{
-		addTypeEdge(node, Edge::EDGE_PARAMETER_TYPE_OF, parameter);
-	}
 
 	return node->getId();
 }
@@ -658,7 +640,7 @@ Id Storage::onTemplateFunctionSpecializationParsed(
 ){
 	log("function template specialization", specializedFunction.getFullName(), location);
 
-	Node* specializedFunctionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, specializedFunction);
+	Node* specializedFunctionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, specializedFunction);
 	Node* templateFunctionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, templateFunction);
 
 	Edge* templateSpecializationEdge =
@@ -1242,6 +1224,30 @@ TokenComponentAbstraction* Storage::addAbstraction(Node* node, ParserClient::Abs
 		return ptr.get();
 	}
 	return nullptr;
+}
+
+Node* Storage::addFunctionNode(
+		Node::NodeType nodeType, const ParseFunction& function,
+		const ParseLocation& location, const ParseLocation& scopeLocation
+){
+	Node* node = addNodeHierarchyWithDistinctSignature(nodeType, function);
+
+	addTokenLocation(node, location);
+	addTokenLocation(node, scopeLocation, true);
+
+	// Currently the edge types EDGE_RETURN_TYPE_OF and EDGE_PARAMETER_TYPE_OF don't get used, because they are not
+	// distinctly displayed compared to EDGE_TYPE_USAGE in the Graph, so they get drawn on top of each other, but only
+	// the upper one can be clicked.
+
+	// addTypeEdge(node, Edge::EDGE_RETURN_TYPE_OF, function.returnType);
+	addTypeEdge(node, Edge::EDGE_TYPE_USAGE, function.returnType);
+	for (const ParseTypeUsage& parameter : function.parameters)
+	{
+		// addTypeEdge(node, Edge::EDGE_PARAMETER_TYPE_OF, parameter);
+		addTypeEdge(node, Edge::EDGE_TYPE_USAGE, parameter);
+	}
+
+	return node;
 }
 
 Edge* Storage::addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeUsage& typeUsage)

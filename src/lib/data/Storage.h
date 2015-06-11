@@ -150,6 +150,9 @@ private:
 	TokenComponentAbstraction::AbstractionType convertAbstractionType(ParserClient::AbstractionType abstraction) const;
 	TokenComponentAbstraction* addAbstraction(Node* node, ParserClient::AbstractionType abstraction);
 
+	Node* addFunctionNode(
+		Node::NodeType nodeType, const ParseFunction& function,
+		const ParseLocation& location, const ParseLocation& scopeLocation);
 	Edge* addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeUsage& typeUsage);
 	TokenLocation* addTokenLocation(Token* token, const ParseLocation& location, bool isScope = false);
 
