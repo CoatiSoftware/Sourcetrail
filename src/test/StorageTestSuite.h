@@ -179,13 +179,29 @@ public:
 		TS_ASSERT_EQUALS(node->getFullName(), "isTrue");
 		TS_ASSERT_EQUALS(node->getType(), Node::NODE_FUNCTION);
 
-		Edge* returnEdge = node->findEdgeOfType(Edge::EDGE_RETURN_TYPE_OF);
-		TS_ASSERT(returnEdge);
-		TS_ASSERT_EQUALS(returnEdge->getTo()->getFullName(), "bool");
+		// Edge* returnEdge = node->findEdgeOfType(Edge::EDGE_RETURN_TYPE_OF);
+		// TS_ASSERT(returnEdge);
+		// TS_ASSERT_EQUALS(returnEdge->getTo()->getFullName(), "bool");
 
-		Edge* paramEdge = node->findEdgeOfType(Edge::EDGE_PARAMETER_TYPE_OF);
-		TS_ASSERT(paramEdge);
-		TS_ASSERT_EQUALS(paramEdge->getTo()->getFullName(), "char");
+		// Edge* paramEdge = node->findEdgeOfType(Edge::EDGE_PARAMETER_TYPE_OF);
+		// TS_ASSERT(paramEdge);
+		// TS_ASSERT_EQUALS(paramEdge->getTo()->getFullName(), "char");
+
+		size_t i = 0;
+		node->forEachEdgeOfType(Edge::EDGE_TYPE_USAGE,
+			[&i](Edge* edge)
+			{
+				if (i == 0)
+				{
+					TS_ASSERT_EQUALS(edge->getTo()->getFullName(), "bool");
+				}
+				else
+				{
+					TS_ASSERT_EQUALS(edge->getTo()->getFullName(), "char");
+				}
+				i++;
+			}
+		);
 
 		TS_ASSERT(node->getComponent<TokenComponentSignature>());
 		TS_ASSERT_EQUALS(storage.getWord(node->getComponent<TokenComponentSignature>()->getWordId()), "isTrue(char)");
@@ -213,13 +229,29 @@ public:
 		TS_ASSERT_EQUALS(node->getFullName(), "isMethod");
 		TS_ASSERT_EQUALS(node->getType(), Node::NODE_METHOD);
 
-		Edge* returnEdge = node->findEdgeOfType(Edge::EDGE_RETURN_TYPE_OF);
-		TS_ASSERT(returnEdge);
-		TS_ASSERT_EQUALS(returnEdge->getTo()->getFullName(), "void");
+		// Edge* returnEdge = node->findEdgeOfType(Edge::EDGE_RETURN_TYPE_OF);
+		// TS_ASSERT(returnEdge);
+		// TS_ASSERT_EQUALS(returnEdge->getTo()->getFullName(), "void");
 
-		Edge* paramEdge = node->findEdgeOfType(Edge::EDGE_PARAMETER_TYPE_OF);
-		TS_ASSERT(paramEdge);
-		TS_ASSERT_EQUALS(paramEdge->getTo()->getFullName(), "bool");
+		// Edge* paramEdge = node->findEdgeOfType(Edge::EDGE_PARAMETER_TYPE_OF);
+		// TS_ASSERT(paramEdge);
+		// TS_ASSERT_EQUALS(paramEdge->getTo()->getFullName(), "bool");
+
+		size_t i = 0;
+		node->forEachEdgeOfType(Edge::EDGE_TYPE_USAGE,
+			[&i](Edge* edge)
+			{
+				if (i == 0)
+				{
+					TS_ASSERT_EQUALS(edge->getTo()->getFullName(), "void");
+				}
+				else
+				{
+					TS_ASSERT_EQUALS(edge->getTo()->getFullName(), "bool");
+				}
+				i++;
+			}
+		);
 
 		TS_ASSERT(node->getComponent<TokenComponentSignature>());
 		TS_ASSERT_EQUALS(storage.getWord(node->getComponent<TokenComponentSignature>()->getWordId()), "isMethod(bool)");

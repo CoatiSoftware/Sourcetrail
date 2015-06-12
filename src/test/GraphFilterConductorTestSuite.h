@@ -102,7 +102,7 @@ public:
 				"undefined_function:B::B\n"
 			"14 edges: "
 				"child:A->A::count aggregation:A->int aggregation:A->void type_use:A::count->int inheritance:B->A "
-				"aggregation:B->void aggregation:A->B aggregation:B->int return_type:_main_->int type_usage:_main_->B "
+				"aggregation:B->void aggregation:A->B aggregation:B->int type_usage:_main_->int type_usage:_main_->B "
 				"child:B->B::B call:_main_->B::B aggregation:_main_->B aggregation:_main_->A\n"
 		);
 	}
