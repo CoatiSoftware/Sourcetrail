@@ -217,6 +217,11 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfExpandToggleNode()
 	return margins;
 }
 
+GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfBundleNode()
+{
+	return getMarginsForNodeType(Node::NODE_CLASS, false);
+}
+
 GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 	Node::NodeType type, bool isActive, bool isFocused, bool hasChildren
 ){
@@ -367,12 +372,23 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfExpandToggleNode()
 	return style;
 }
 
+GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfBundleNode(bool isFocused)
+{
+	NodeStyle style = getStyleForNodeType(Node::NODE_CLASS, false, isFocused, false);
+
+	style.shadowColor = "";
+	style.borderColor = "#3c3c3c";
+	style.borderWidth = isFocused ? 2 : 1;
+
+	return style;
+}
+
 GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType type, bool isActive, bool isFocused)
 {
 	EdgeStyle style;
 
 	style.width = isActive ? 3 : 1;
-	style.zValue = isActive ? 5 : 1;
+	style.zValue = isActive ? 5 : 2;
 
 	style.arrowLength = 5;
 	style.arrowWidth = 8;
@@ -392,7 +408,7 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 		style.isStraight = true;
 		style.color = isActive ? "#DDD" : "#EEE";
 		style.width = 1;
-		style.zValue = isActive ? -1 : -5;
+		style.zValue = isActive ? -2 : -5;
 		break;
 
 	case Edge::EDGE_CALL:

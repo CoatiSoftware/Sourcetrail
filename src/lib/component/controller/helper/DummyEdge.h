@@ -11,23 +11,71 @@ class Edge;
 // temporary data structure for (visual) graph creation process
 struct DummyEdge
 {
+	DummyEdge()
+		: ownerId(0)
+		, targetId(0)
+		, data(nullptr)
+		, visible(false)
+		, active(false)
+		, weight(0)
+		, direction(TokenComponentAggregation::DIRECTION_INVALID)
+	{
+	}
+
 	DummyEdge(const Id ownerId, const Id targetId, const Edge* data)
 		: ownerId(ownerId)
 		, targetId(targetId)
 		, data(data)
 		, visible(false)
 		, active(false)
+		, weight(0)
+		, direction(TokenComponentAggregation::DIRECTION_INVALID)
 	{
 	}
 
 	int getWeight() const
 	{
-		if (data->isType(Edge::EDGE_AGGREGATION))
+		if (!data)
+		{
+			return weight;
+		}
+		else if (data->isType(Edge::EDGE_AGGREGATION))
 		{
 			return data->getComponent<TokenComponentAggregation>()->getAggregationCount();
 		}
 
 		return 1;
+	}
+
+	void updateDirection(TokenComponentAggregation::Direction dir, bool invert)
+	{
+		if (invert)
+		{
+			dir = TokenComponentAggregation::opposite(dir);
+		}
+
+		if (direction == TokenComponentAggregation::DIRECTION_INVALID)
+		{
+			direction = dir;
+		}
+		else if (direction != dir)
+		{
+			direction = TokenComponentAggregation::DIRECTION_NONE;
+		}
+	}
+
+	TokenComponentAggregation::Direction getDirection() const
+	{
+		if (!data)
+		{
+			return direction;
+		}
+		else if (data->isType(Edge::EDGE_AGGREGATION))
+		{
+			return data->getComponent<TokenComponentAggregation>()->getDirection();
+		}
+
+		return TokenComponentAggregation::DIRECTION_FORWARD;
 	}
 
 	Id ownerId;
@@ -37,6 +85,10 @@ struct DummyEdge
 
 	bool visible;
 	bool active;
+
+	// BundleEdge
+	int weight;
+	TokenComponentAggregation::Direction direction;
 };
 
 #endif // DUMMY_EDGE_H

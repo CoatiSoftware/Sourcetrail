@@ -40,12 +40,66 @@ public:
 
 	bool isExpandToggleNode() const
 	{
-		return !data && !isAccessNode();
+		return !isGraphNode() && !isAccessNode() && !isBundleNode();
+	}
+
+	bool isBundleNode() const
+	{
+		return bundledNodes.size() > 0;
 	}
 
 	bool isExpanded() const
 	{
 		return expanded || autoExpanded;
+	}
+
+	bool hasVisibleSubNode() const
+	{
+		for (const DummyNode& node : subNodes)
+		{
+			if (node.visible)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	bool hasActiveSubNode() const
+	{
+		if (active)
+		{
+			return true;
+		}
+
+		for (const DummyNode& node : subNodes)
+		{
+			if (node.hasActiveSubNode())
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	bool hasConnectedSubNode() const
+	{
+		if (connected)
+		{
+			return true;
+		}
+
+		for (const DummyNode& node : subNodes)
+		{
+			if (node.hasConnectedSubNode())
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	Vec2i position;
@@ -72,6 +126,10 @@ public:
 
 	// ExpandToggleNode
 	size_t invisibleSubNodeCount;
+
+	// BundleNode
+	std::vector<DummyNode> bundledNodes;
+	std::string name;
 };
 
 #endif // DUMMY_NODE_H

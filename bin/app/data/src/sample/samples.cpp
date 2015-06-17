@@ -121,3 +121,41 @@ public:
 
 Basket<Apple> apples;
 Basket<Pear> pears;
+
+
+class Dog {};
+
+class Cat
+{
+	Dog getDog();
+};
+
+class Bird
+{
+	Dog getDog();
+	Cat getCat();
+};
+
+class Fish
+{
+	Dog getDog();
+	Cat getCat();
+	Bird getBird();
+};
+
+class Horse
+	: public Dog
+{
+	Dog getDog();
+	Cat getCat();
+	Bird getBird();
+	Fish getFish();
+};
+
+
+class Building {};
+class House : public Building {};
+class Tower : public Building {};
+class SkyScrapper : public Building {};
+class Mansion : public Building {};
+class Shard : public House, public Tower, public SkyScrapper, public Mansion {};

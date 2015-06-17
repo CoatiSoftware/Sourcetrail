@@ -128,17 +128,17 @@ Edge* Node::findEdge(std::function<bool(Edge*)> func) const
 	return nullptr;
 }
 
-Edge* Node::findEdgeOfType(Edge::EdgeType type) const
+Edge* Node::findEdgeOfType(Edge::EdgeTypeMask mask) const
 {
-	return findEdgeOfType(type, [](Edge* e){ return true; });
+	return findEdgeOfType(mask, [](Edge* e){ return true; });
 }
 
-Edge* Node::findEdgeOfType(Edge::EdgeType type, std::function<bool(Edge*)> func) const
+Edge* Node::findEdgeOfType(Edge::EdgeTypeMask mask, std::function<bool(Edge*)> func) const
 {
 	std::vector<Edge*>::const_iterator it = find_if(m_edges.begin(), m_edges.end(),
-		[type, func](Edge* e)
+		[mask, func](Edge* e)
 		{
-			if (e->getType() == type)
+			if (e->isType(mask))
 			{
 				return func(e);
 			}
@@ -180,12 +180,12 @@ void Node::forEachEdge(std::function<void(Edge*)> func) const
 	for_each(m_edges.begin(), m_edges.end(), func);
 }
 
-void Node::forEachEdgeOfType(Edge::EdgeType type, std::function<void(Edge*)> func) const
+void Node::forEachEdgeOfType(Edge::EdgeTypeMask mask, std::function<void(Edge*)> func) const
 {
 	for_each(m_edges.begin(), m_edges.end(),
-		[type, func](Edge* e)
+		[mask, func](Edge* e)
 		{
-			if (e->getType() == type)
+			if (e->isType(mask))
 			{
 				func(e);
 			}

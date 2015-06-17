@@ -24,6 +24,8 @@ namespace utility
 	void append(std::set<T>& a, const std::set<T>& b);
 
 	bool intersectionPoint(Vec2f a1, Vec2f b1, Vec2f a2, Vec2f b2, Vec2f* i);
+
+	size_t digits(size_t n);
 }
 
 template<typename T>

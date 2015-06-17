@@ -16,11 +16,14 @@ public:
 	QtStraightLineItem(QGraphicsItem* parent);
 	virtual ~QtStraightLineItem();
 
-	void updateLine(Vec4i ownerRect, Vec4i targetRect, int number, GraphViewStyle::EdgeStyle style);
+	void updateLine(Vec4i ownerRect, Vec4i targetRect, int number, GraphViewStyle::EdgeStyle style, bool showArrow);
 
 private:
 	QtRoundedRectItem* m_circle;
 	QGraphicsSimpleTextItem* m_number;
+
+	QGraphicsLineItem* m_arrowLeft;
+	QGraphicsLineItem* m_arrowRight;
 };
 
 #endif // QT_STRAIGHT_LINE_ITEM_H

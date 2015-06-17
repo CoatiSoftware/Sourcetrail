@@ -5,11 +5,11 @@ template<class T>
 class Property
 {
 public:
-	Property(T* valuePointer);
+	explicit Property(T* valuePointer);
 	~Property();
 
 	T& operator=(const T& value);
-	T& operator=(const Property& property);
+	Property<T>& operator=(const Property<T>& property);
 
 	operator const T&() const;
 
@@ -36,10 +36,9 @@ T& Property<T>::operator=(const T& value)
 }
 
 template<class T>
-T& Property<T>::operator=(const Property& property)
+Property<T>& Property<T>::operator=(const Property<T>& property)
 {
-	*m_valuePointer = *property.m_valuePointer;
-	return *m_valuePointer;
+	return *this;
 }
 
 template<class T>

@@ -67,12 +67,12 @@ public:
 	Edge* getMemberEdge() const;
 
 	Edge* findEdge(std::function<bool(Edge*)> func) const;
-	Edge* findEdgeOfType(Edge::EdgeType type) const;
-	Edge* findEdgeOfType(Edge::EdgeType type, std::function<bool(Edge*)> func) const;
+	Edge* findEdgeOfType(Edge::EdgeTypeMask mask) const;
+	Edge* findEdgeOfType(Edge::EdgeTypeMask mask, std::function<bool(Edge*)> func) const;
 	Node* findChildNode(std::function<bool(Node*)> func) const;
 
 	void forEachEdge(std::function<void(Edge*)> func) const;
-	void forEachEdgeOfType(Edge::EdgeType type, std::function<void(Edge*)> func) const;
+	void forEachEdgeOfType(Edge::EdgeTypeMask mask, std::function<void(Edge*)> func) const;
 	void forEachChildNode(std::function<void(Node*)> func) const;
 
 	bool hasReferences() const;

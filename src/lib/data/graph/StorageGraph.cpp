@@ -197,7 +197,8 @@ void StorageGraph::updateAggregationEdges(Node* from, Node* to, Id addEdgeId, Id
 
 		if (addEdgeId)
 		{
-			edge->getComponent<TokenComponentAggregation>()->addAggregationId(addEdgeId);
+			bool forward = (edge->getFrom() == from);
+			edge->getComponent<TokenComponentAggregation>()->addAggregationId(addEdgeId, forward);
 		}
 
 		if (edge && removeEdgeId)

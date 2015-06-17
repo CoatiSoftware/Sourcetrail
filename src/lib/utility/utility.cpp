@@ -43,3 +43,16 @@ bool utility::intersectionPoint(Vec2f a1, Vec2f b1, Vec2f a2, Vec2f b2, Vec2f* i
 
 	return false;
 }
+
+size_t utility::digits(size_t n)
+{
+	int digits = 1;
+
+	while (n >= 10)
+	{
+		n /= 10;
+		digits++;
+	}
+
+	return digits;
+}

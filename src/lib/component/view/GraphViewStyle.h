@@ -94,10 +94,12 @@ public:
 	static NodeMargins getMarginsForNodeType(Node::NodeType type, bool hasChildren);
 	static NodeMargins getMarginsOfAccessNode(TokenComponentAccess::AccessType type);
 	static NodeMargins getMarginsOfExpandToggleNode();
+	static NodeMargins getMarginsOfBundleNode();
 
 	static NodeStyle getStyleForNodeType(Node::NodeType type, bool isActive, bool isFocused, bool hasChildren);
 	static NodeStyle getStyleOfAccessNode();
 	static NodeStyle getStyleOfExpandToggleNode();
+	static NodeStyle getStyleOfBundleNode(bool isFocused);
 
 	static EdgeStyle getStyleForEdgeType(Edge::EdgeType type, bool isActive, bool isFocused);
 

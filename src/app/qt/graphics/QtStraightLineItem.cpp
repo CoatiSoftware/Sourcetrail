@@ -26,14 +26,18 @@ QtStraightLineItem::QtStraightLineItem(QGraphicsItem* parent)
 
 	m_number = new QGraphicsSimpleTextItem(this);
 	m_number->setFont(font);
+
+	m_arrowLeft = new QGraphicsLineItem(this);
+	m_arrowRight = new QGraphicsLineItem(this);
 }
 
 QtStraightLineItem::~QtStraightLineItem()
 {
 }
 
-void QtStraightLineItem::updateLine(Vec4i ownerRect, Vec4i targetRect, int number, GraphViewStyle::EdgeStyle style)
-{
+void QtStraightLineItem::updateLine(
+	Vec4i ownerRect, Vec4i targetRect, int number, GraphViewStyle::EdgeStyle style, bool showArrow
+){
 	prepareGeometryChange();
 
 	const Vec4i& o = ownerRect;
@@ -42,7 +46,6 @@ void QtStraightLineItem::updateLine(Vec4i ownerRect, Vec4i targetRect, int numbe
 	Vec2f oc((o.x + o.z) / 2, (o.y + o.w) / 2);
 	Vec2f tc((t.x + t.z) / 2, (t.y + t.w) / 2);
 
-	Vec2f mid;
 	Vec2f op;
 	Vec2f tp;
 
@@ -58,6 +61,11 @@ void QtStraightLineItem::updateLine(Vec4i ownerRect, Vec4i targetRect, int numbe
 		}
 	}
 
+	if (!intersects)
+	{
+		op = oc;
+	}
+
 	intersects = false;
 	for (int i = 0; !intersects && i < 4; i++)
 	{
@@ -70,12 +78,41 @@ void QtStraightLineItem::updateLine(Vec4i ownerRect, Vec4i targetRect, int numbe
 		}
 	}
 
-	mid = (op + tp) / 2;
+	if (!intersects)
+	{
+		tp = tc;
+	}
 
 	this->setLine(oc.x, oc.y, tc.x, tc.y);
 
+	Vec2f mid = (op + tp) / 2;
+
+	if (showArrow)
+	{
+		Vec2f unit = (tp - op).normalize();
+		Vec2f nUnit(-unit.y, unit.x);
+		Vec2f arrow = mid + unit * 22;
+
+		Vec2f arrowSide = mid + unit * 15 + nUnit * 7;
+		m_arrowRight->setLine(arrow.x, arrow.y, arrowSide.x, arrowSide.y);
+
+		arrowSide -= nUnit * 14;
+		m_arrowLeft->setLine(arrow.x, arrow.y, arrowSide.x, arrowSide.y);
+
+		m_arrowLeft->setPen(QPen(QBrush(QColor("#E0E0E0")), 2, Qt::SolidLine, Qt::RoundCap));
+		m_arrowRight->setPen(QPen(QBrush(QColor("#E0E0E0")), 2, Qt::SolidLine, Qt::RoundCap));
+
+		m_arrowLeft->show();
+		m_arrowRight->show();
+	}
+	else
+	{
+		m_arrowLeft->hide();
+		m_arrowRight->hide();
+	}
+
 	m_circle->setRect(mid.x - 10, mid.y - 10, 20, 20);
-	m_circle->setPen(QPen(QColor(style.color.c_str()), 2));
+	m_circle->setPen(QPen(QColor("#E0E0E0"), 2));
 
 	QString numberStr = QString::number(number);
 	m_number->setText(numberStr);

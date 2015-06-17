@@ -7,6 +7,8 @@
 
 #include "utility/math/Vector2.h"
 
+#include "data/graph/token_component/TokenComponentAggregation.h"
+
 class Edge;
 class QtGraphNode;
 
@@ -18,15 +20,15 @@ class QtGraphEdge
 	Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
 
 public:
-	QtGraphEdge(const std::weak_ptr<QtGraphNode>& owner, const std::weak_ptr<QtGraphNode>& target, const Edge* data);
+	QtGraphEdge(const std::weak_ptr<QtGraphNode>& owner, const std::weak_ptr<QtGraphNode>& target, const Edge* data, size_t weight);
 	virtual ~QtGraphEdge();
 
 	const Edge* getData() const;
 
-	virtual std::weak_ptr<QtGraphNode> getOwner();
-	virtual std::weak_ptr<QtGraphNode> getTarget();
+	std::weak_ptr<QtGraphNode> getOwner();
+	std::weak_ptr<QtGraphNode> getTarget();
 
-	virtual void updateLine();
+	void updateLine();
 
 	bool getIsActive() const;
 	void setIsActive(bool isActive);
@@ -35,6 +37,8 @@ public:
 
 	void focusIn();
 	void focusOut();
+
+	void setDirection(TokenComponentAggregation::Direction direction);
 
 protected:
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
@@ -53,6 +57,9 @@ private:
 	QGraphicsLineItem* m_child;
 
 	bool m_isActive;
+	size_t m_weight;
+
+	TokenComponentAggregation::Direction m_direction;
 
 	Vec2i m_mousePos;
 	bool m_mouseMoved;

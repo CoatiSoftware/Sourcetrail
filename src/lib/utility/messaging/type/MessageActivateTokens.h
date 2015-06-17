@@ -10,7 +10,6 @@ public:
 	MessageActivateTokens(const std::vector<Id>& tokenIds)
 		: tokenIds(tokenIds)
 		, isEdge(false)
-		, isAggregation(false)
 		, isFromSystem(false)
 	{
 	}
@@ -18,7 +17,6 @@ public:
 	MessageActivateTokens(Id tokenId)
 		: tokenIds(1, tokenId)
 		, isEdge(false)
-		, isAggregation(false)
 		, isFromSystem(false)
 	{
 	}
@@ -31,7 +29,7 @@ public:
 	const std::vector<Id> tokenIds;
 
 	bool isEdge;
-	bool isAggregation;
+	bool isBundle;
 	bool isFromSystem;
 };
 

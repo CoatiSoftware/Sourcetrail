@@ -5,6 +5,7 @@
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
+#include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
 
 #include "component/view/GraphViewStyle.h"
 #include "data/graph/Edge.h"
@@ -13,12 +14,16 @@
 #include "qt/graphics/QtStraightLineItem.h"
 #include "qt/view/graphElements/QtGraphNode.h"
 
-QtGraphEdge::QtGraphEdge(const std::weak_ptr<QtGraphNode>& owner, const std::weak_ptr<QtGraphNode>& target, const Edge* data)
+QtGraphEdge::QtGraphEdge(
+	const std::weak_ptr<QtGraphNode>& owner, const std::weak_ptr<QtGraphNode>& target, const Edge* data, size_t weight
+)
 	: m_data(data)
 	, m_owner(owner)
 	, m_target(target)
 	, m_child(nullptr)
 	, m_isActive(false)
+	, m_weight(weight)
+	, m_direction(TokenComponentAggregation::DIRECTION_NONE)
 	, m_mousePos(0.0f, 0.0f)
 	, m_mouseMoved(false)
 {
@@ -55,7 +60,17 @@ void QtGraphEdge::updateLine()
 		return;
 	}
 
-	GraphViewStyle::EdgeStyle style = GraphViewStyle::getStyleForEdgeType(getData()->getType(), m_isActive, false);
+	Edge::EdgeType type;
+	if (getData())
+	{
+		type = getData()->getType();
+	}
+	else
+	{
+		type = Edge::EDGE_AGGREGATION;
+	}
+
+	GraphViewStyle::EdgeStyle style = GraphViewStyle::getStyleForEdgeType(type, m_isActive, false);
 
 	if (style.isStraight)
 	{
@@ -64,14 +79,15 @@ void QtGraphEdge::updateLine()
 			m_child = new QtStraightLineItem(this);
 		}
 
-		int number = 0;
-		if (getData()->isType(Edge::EDGE_AGGREGATION))
+		bool showArrow = m_direction != TokenComponentAggregation::DIRECTION_NONE;
+
+		if (m_direction == TokenComponentAggregation::DIRECTION_BACKWARD)
 		{
-			number = getData()->getComponent<TokenComponentAggregation>()->getAggregationCount();
+			owner.swap(target);
 		}
 
 		dynamic_cast<QtStraightLineItem*>(m_child)->updateLine(
-			owner->getBoundingRect(), target->getBoundingRect(), number, style);
+			owner->getBoundingRect(), target->getBoundingRect(), m_weight, style, showArrow);
 	}
 	else
 	{
@@ -103,12 +119,14 @@ void QtGraphEdge::setIsActive(bool isActive)
 
 void QtGraphEdge::onClick()
 {
-	if (getData()->isType(Edge::EDGE_AGGREGATION))
+	if (!getData())
+	{
+		MessageGraphNodeBundleSplit(m_target.lock()->getTokenId()).dispatch();
+	}
+	else if (getData()->isType(Edge::EDGE_AGGREGATION))
 	{
 		const std::set<Id>& ids = getData()->getComponent<TokenComponentAggregation>()->getAggregationIds();
-		MessageActivateTokens message(std::vector<Id>(ids.begin(), ids.end()));
-		message.isAggregation = true;
-		message.dispatch();
+		MessageActivateTokens(std::vector<Id>(ids.begin(), ids.end())).dispatch();
 	}
 	else
 	{
@@ -156,10 +174,31 @@ void QtGraphEdge::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void QtGraphEdge::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
+	if (!getData())
+	{
+		focusIn();
+		return;
+	}
+
 	MessageFocusIn(getData()->getId()).dispatch();
 }
 
 void QtGraphEdge::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
+	if (!getData())
+	{
+		focusOut();
+		return;
+	}
+
 	MessageFocusOut(getData()->getId()).dispatch();
+}
+
+void QtGraphEdge::setDirection(TokenComponentAggregation::Direction direction)
+{
+	if (m_direction != direction)
+	{
+		m_direction = direction;
+		updateLine();
+	}
 }

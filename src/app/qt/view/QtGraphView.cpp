@@ -19,8 +19,9 @@
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentClickable.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
-#include "qt/view/graphElements/QtGraphNodeData.h"
 #include "qt/view/graphElements/QtGraphNodeAccess.h"
+#include "qt/view/graphElements/QtGraphNodeBundle.h"
+#include "qt/view/graphElements/QtGraphNodeData.h"
 #include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
@@ -275,6 +276,10 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	{
 		newNode = std::make_shared<QtGraphNodeExpandToggle>(node.isExpanded(), node.invisibleSubNodeCount);
 	}
+	else if (node.isBundleNode())
+	{
+		newNode = std::make_shared<QtGraphNodeBundle>(node.tokenId, node.bundledNodes.size(), node.name);
+	}
 
 	newNode->setPosition(node.position);
 	newNode->setSize(node.size);
@@ -319,8 +324,9 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const 
 
 	if (owner != NULL && target != NULL)
 	{
-		std::shared_ptr<QtGraphEdge> qtEdge = std::make_shared<QtGraphEdge>(owner, target, edge.data);
+		std::shared_ptr<QtGraphEdge> qtEdge = std::make_shared<QtGraphEdge>(owner, target, edge.data, edge.getWeight());
 		qtEdge->setIsActive(edge.active);
+		qtEdge->setDirection(edge.getDirection());
 
 		owner->addOutEdge(qtEdge);
 		target->addInEdge(qtEdge);
@@ -331,7 +337,7 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const 
 	}
 	else
 	{
-		LOG_WARNING_STREAM(<< "Couldn't find owner or target node for edge: " << edge.data->getName());
+		LOG_WARNING_STREAM(<< "Couldn't find owner or target node for edge: " << (edge.data ? edge.data->getName() : "<no data>"));
 		return NULL;
 	}
 }
@@ -364,11 +370,12 @@ void QtGraphView::compareNodesRecursive(
 
 		for (std::list<std::shared_ptr<QtGraphNode>>::iterator it2 = oldSubNodes.begin(); it2 != oldSubNodes.end(); it2++)
 		{
-			if (((*it)->getTokenId() && (*it)->getTokenId() == (*it2)->getTokenId()) ||
+			if (((*it)->isDataNode() && (*it2)->isDataNode() && (*it)->getTokenId() == (*it2)->getTokenId()) ||
 				((*it)->isAccessNode() && (*it2)->isAccessNode() &&
 					dynamic_cast<QtGraphNodeAccess*>((*it).get())->getAccessType() ==
 						dynamic_cast<QtGraphNodeAccess*>((*it2).get())->getAccessType()) ||
-				((*it)->isExpandToggleNode() && (*it2)->isExpandToggleNode()))
+				((*it)->isExpandToggleNode() && (*it2)->isExpandToggleNode()) ||
+				((*it)->isBundleNode() && (*it2)->isBundleNode() && (*it)->getTokenId() == (*it2)->getTokenId()))
 			{
 				remainingNodes->push_back(std::pair<QtGraphNode*, QtGraphNode*>((*it).get(), (*it2).get()));
 				compareNodesRecursive((*it)->getSubNodes(), (*it2)->getSubNodes(), appearingNodes, vanishingNodes, remainingNodes);
@@ -545,14 +552,15 @@ void QtGraphView::focusToken(Id tokenId)
 void QtGraphView::doFocusIn(Id tokenId)
 {
 	std::shared_ptr<QtGraphNode> node = findNodeRecursive(m_oldNodes, tokenId);
-	if(node)
+	if (node && node->isDataNode())
 	{
 		node->focusIn();
 		return;
 	}
-	for(std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+
+	for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
 	{
-		if(edge->getData()->getId() == tokenId)
+		if (edge->getData() && edge->getData()->getId() == tokenId)
 		{
 			edge->focusIn();
 			return;
@@ -568,14 +576,15 @@ void QtGraphView::defocusToken(Id tokenId)
 void QtGraphView::doFocusOut(Id tokenId)
 {
 	std::shared_ptr<QtGraphNode> node = findNodeRecursive(m_oldNodes, tokenId);
-	if(node)
+	if (node && node->isDataNode())
 	{
 		node->focusOut();
 		return;
 	}
-	for(std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+
+	for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
 	{
-		if(edge->getData()->getId() == tokenId)
+		if (edge->getData() && edge->getData()->getId() == tokenId)
 		{
 			edge->focusOut();
 			return;

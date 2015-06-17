@@ -241,6 +241,11 @@ bool QtGraphNode::isExpandToggleNode() const
 	return false;
 }
 
+bool QtGraphNode::isBundleNode() const
+{
+	return false;
+}
+
 Id QtGraphNode::getTokenId() const
 {
 	return 0;

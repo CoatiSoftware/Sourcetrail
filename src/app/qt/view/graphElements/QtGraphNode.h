@@ -73,6 +73,7 @@ public:
 	virtual bool isDataNode() const;
 	virtual bool isAccessNode() const;
 	virtual bool isExpandToggleNode() const;
+	virtual bool isBundleNode() const;
 
 	virtual Id getTokenId() const;
 

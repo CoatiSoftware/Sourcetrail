@@ -811,10 +811,15 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 						Node::NODE_UNDEFINED_FUNCTION | Node::NODE_FUNCTION | Node::NODE_METHOD |
 						Node::NODE_UNDEFINED_VARIABLE | Node::NODE_GLOBAL_VARIABLE | Node::NODE_FIELD;
 
-					if (!node->isType(varFuncMask) || !edge->isType(Edge::EDGE_AGGREGATION))
+					const Node::NodeTypeMask typeMask = Node::NODE_STRUCT | Node::NODE_CLASS;
+
+					if ((node->isType(varFuncMask) && edge->isType(Edge::EDGE_AGGREGATION)) ||
+						(node->isType(typeMask) && edge->isType(Edge::EDGE_TYPE_USAGE | Edge::EDGE_TYPE_OF)))
 					{
-						graph->addEdgeAndAllChildrenAsPlainCopy(edge);
+						return;
 					}
+
+					graph->addEdgeAndAllChildrenAsPlainCopy(edge);
 				}
 			);
 		}

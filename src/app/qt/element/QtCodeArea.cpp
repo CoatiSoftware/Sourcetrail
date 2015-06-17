@@ -10,6 +10,7 @@
 #include "utility/messaging/type/MessageShowFile.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
+#include "utility/utility.h"
 
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
@@ -121,15 +122,8 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 
 int QtCodeArea::lineNumberDigits() const
 {
-	int digits = 1;
 	int max = qMax(1, int(m_startLineNumber) + blockCount());
-
-	while (max >= 10)
-	{
-		max /= 10;
-		digits++;
-	}
-	return digits;
+	return utility::digits(max);
 }
 
 int QtCodeArea::lineNumberAreaWidth() const

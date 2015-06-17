@@ -255,6 +255,7 @@ add_files(
 	utility/messaging/type/MessageFinishedParsing.h
 	utility/messaging/type/MessageFocusIn.h
 	utility/messaging/type/MessageFocusOut.h
+	utility/messaging/type/MessageGraphNodeBundleSplit.h
 	utility/messaging/type/MessageGraphNodeExpand.h
 	utility/messaging/type/MessageGraphNodeMove.h
 	utility/messaging/type/MessageInterruptTasks.h

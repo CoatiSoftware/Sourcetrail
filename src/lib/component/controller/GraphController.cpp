@@ -3,6 +3,7 @@
 #include <set>
 
 #include "utility/logging/logging.h"
+#include "utility/utility.h"
 
 #include "component/controller/helper/DummyEdge.h"
 #include "component/controller/helper/DummyNode.h"
@@ -11,7 +12,6 @@
 #include "component/view/GraphViewStyle.h"
 #include "data/access/StorageAccess.h"
 #include "data/graph/Graph.h"
-#include "data/graph/token_component/TokenComponentAggregation.h"
 
 GraphController::GraphController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -33,12 +33,6 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 		return;
 	}
 
-	if (message->isAggregation)
-	{
-		createDummyGraphForTokenIds(message->tokenIds);
-		return;
-	}
-
 	createDummyGraphForTokenIds(message->tokenIds);
 }
 
@@ -55,6 +49,38 @@ void GraphController::handleMessage(MessageFocusIn* message)
 void GraphController::handleMessage(MessageFocusOut *message)
 {
 	getView()->defocusToken(message->tokenId);
+}
+
+void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
+{
+	for (size_t i = 0; i < m_dummyNodes.size(); i++)
+	{
+		DummyNode& node = m_dummyNodes[i];
+		if (node.isBundleNode() && node.tokenId == message->bundleId)
+		{
+			m_dummyNodes.insert(m_dummyNodes.end(), node.bundledNodes.begin(), node.bundledNodes.end());
+			m_dummyNodes.erase(m_dummyNodes.begin() + i);
+			break;
+		}
+	}
+
+	for (size_t i = 0; i < m_dummyEdges.size(); i++)
+	{
+		DummyEdge& edge = m_dummyEdges[i];
+		if (!edge.data && edge.targetId == message->bundleId)
+		{
+			m_dummyEdges.erase(m_dummyEdges.begin() + i);
+			break;
+		}
+	}
+
+	setActiveAndVisibility(m_activeTokenIds);
+
+	layoutNesting();
+	GraphLayouter::layoutSpectralPrototype(m_dummyNodes, m_dummyEdges);
+	GraphPostprocessor::doPostprocessing(m_dummyNodes);
+
+	getView()->rebuildGraph(nullptr, m_dummyNodes, m_dummyEdges);
 }
 
 void GraphController::handleMessage(MessageGraphNodeExpand* message)
@@ -132,6 +158,8 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	autoExpandActiveNode(tokenIds);
 	setActiveAndVisibility(tokenIds);
 
+	bundleNodes();
+
 	layoutNesting();
 	GraphLayouter::layoutSpectralPrototype(m_dummyNodes, m_dummyEdges);
 	GraphPostprocessor::doPostprocessing(m_dummyNodes);
@@ -160,7 +188,7 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 	DummyNode* oldNode = findDummyNodeRecursive(m_dummyNodes, node->getId());
 	if (oldNode)
 	{
-		result.expanded = oldNode->expanded;
+		result.expanded = oldNode->isExpanded();
 	}
 
 	node->forEachChildNode(
@@ -212,14 +240,10 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 		}
 	);
 
-	node->forEachEdge(
+	node->forEachEdgeOfType(
+		~Edge::EDGE_MEMBER,
 		[&result, node, this](Edge* edge)
 		{
-			if (edge->isType(Edge::EDGE_MEMBER))
-			{
-				return;
-			}
-
 			for (const DummyEdge& dummy : m_dummyEdges)
 			{
 				if (dummy.data->getId() == edge->getId())
@@ -258,7 +282,7 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 
 	for (DummyEdge& edge : m_dummyEdges)
 	{
-		if (edge.data->isType(Edge::EDGE_AGGREGATION))
+		if (!edge.data || edge.data->isType(Edge::EDGE_AGGREGATION))
 		{
 			continue;
 		}
@@ -282,7 +306,7 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 
 	for (DummyEdge& edge : m_dummyEdges)
 	{
-		if (!edge.data->isType(Edge::EDGE_AGGREGATION))
+		if (!edge.data || !edge.data->isType(Edge::EDGE_AGGREGATION))
 		{
 			continue;
 		}
@@ -298,7 +322,7 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 			{
 				for (DummyEdge& e : m_dummyEdges)
 				{
-					if (e.visible && e.data->getId() == id)
+					if (e.visible && e.data && e.data->getId() == id)
 					{
 						component->removeAggregationId(id);
 					}
@@ -345,6 +369,11 @@ bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode& node, bool a
 		node.visible = true;
 		return false;
 	}
+	else if (node.isBundleNode())
+	{
+		node.visible = true;
+		return true;
+	}
 
 	for (DummyNode& subNode : node.subNodes)
 	{
@@ -379,6 +408,215 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode& node, bool pa
 	}
 }
 
+void GraphController::bundleNodes()
+{
+	bundleNodesMatching(
+		[&](const DummyNode& node)
+		{
+			return isTypeNodeWithSingleAggregation(node, TokenComponentAggregation::DIRECTION_BACKWARD);
+		},
+		3,
+		"Used Types"
+	);
+
+	bundleNodesMatching(
+		[&](const DummyNode& node)
+		{
+			return isTypeNodeWithSingleAggregation(node, TokenComponentAggregation::DIRECTION_FORWARD);
+		},
+		3,
+		"Using Types"
+	);
+
+	bundleNodesMatching(
+		[&](const DummyNode& node)
+		{
+			return isTypeNodeWithSingleInheritance(node, true);
+		},
+		3,
+		"Base Types"
+	);
+
+	bundleNodesMatching(
+		[&](const DummyNode& node)
+		{
+			return isTypeNodeWithSingleInheritance(node, false);
+		},
+		3,
+		"Derived Types"
+	);
+
+	bundleNodesMatching(
+		[](const DummyNode& node)
+		{
+			const Node::NodeTypeMask undefinedMask =
+				Node::NODE_UNDEFINED | Node::NODE_UNDEFINED_TYPE |
+				Node::NODE_UNDEFINED_VARIABLE | Node::NODE_UNDEFINED_FUNCTION;
+
+			if (node.visible && node.isGraphNode() && !node.hasActiveSubNode() && node.data->isType(undefinedMask))
+			{
+				return true;
+			}
+
+			return false;
+		},
+		3,
+		"Undefined Nodes"
+	);
+}
+
+void GraphController::bundleNodesMatching(std::function<bool(const DummyNode&)> matcher, size_t count, const std::string& name)
+{
+	size_t matchCount = 0;
+	std::vector<size_t> nodeIndices;
+
+	for (size_t i = 0; i < m_dummyNodes.size(); i++)
+	{
+		const DummyNode& node = m_dummyNodes[i];
+
+		if (matcher(node))
+		{
+			matchCount++;
+			nodeIndices.push_back(i);
+		}
+	}
+
+	if (matchCount < count)
+	{
+		return;
+	}
+
+	DummyNode bundleNode;
+	bundleNode.name = name;
+	bundleNode.visible = true;
+
+	for (int i = nodeIndices.size() - 1; i >= 0; i--)
+	{
+		DummyNode& node = m_dummyNodes[nodeIndices[i]];
+		node.visible = false;
+
+		bundleNode.bundledNodes.push_back(node);
+		if (!bundleNode.tokenId)
+		{
+			bundleNode.tokenId = node.data->getId();
+		}
+
+		m_dummyNodes.erase(m_dummyNodes.begin() + nodeIndices[i]);
+	}
+
+	std::vector<DummyEdge> bundleEdges;
+	for (DummyNode& node : bundleNode.bundledNodes)
+	{
+		for (DummyEdge& edge : m_dummyEdges)
+		{
+			bool owner = (edge.ownerId == node.data->getId());
+			bool target = (edge.targetId == node.data->getId());
+
+			if (!owner && !target)
+			{
+				continue;
+			}
+
+			DummyEdge* bundleEdgePtr = nullptr;
+			for (DummyEdge& bundleEdge : bundleEdges)
+			{
+				if ((owner && bundleEdge.ownerId == edge.targetId) ||
+					(target && bundleEdge.ownerId == edge.ownerId))
+				{
+					bundleEdgePtr = &bundleEdge;
+					break;
+				}
+			}
+
+			if (!bundleEdgePtr)
+			{
+				DummyEdge bundleEdge;
+				bundleEdge.visible = true;
+				bundleEdge.ownerId = (owner ? edge.targetId : edge.ownerId);
+				bundleEdge.targetId = bundleNode.bundledNodes.front().data->getId();
+				bundleEdges.push_back(bundleEdge);
+				bundleEdgePtr = &bundleEdges.back();
+			}
+
+			bundleEdgePtr->weight += edge.getWeight();
+			bundleEdgePtr->updateDirection(edge.getDirection(), owner);
+			edge.visible = false;
+		}
+	}
+
+	m_dummyEdges.insert(m_dummyEdges.end(), bundleEdges.begin(), bundleEdges.end());
+	m_dummyNodes.push_back(bundleNode);
+}
+
+bool GraphController::isTypeNodeWithSingleAggregation(
+	const DummyNode& node, TokenComponentAggregation::Direction direction
+) const {
+	const Node::NodeTypeMask typeMask = Node::NODE_STRUCT | Node::NODE_CLASS;
+
+	if (!node.visible || !node.isGraphNode() || node.hasVisibleSubNode() || !node.data->isType(typeMask))
+	{
+		return false;
+	}
+
+	bool matches = false;
+	int count = 0;
+	Id tokenId = node.data->getId();
+
+	node.data->forEachEdgeOfType(
+		~Edge::EDGE_MEMBER,
+		[direction, tokenId, &matches, &count](Edge* edge)
+		{
+			count++;
+
+			if (edge->isType(Edge::EDGE_AGGREGATION))
+			{
+				TokenComponentAggregation::Direction dir =
+					edge->getComponent<TokenComponentAggregation>()->getDirection();
+
+				if ((edge->getFrom()->getId() == tokenId && dir == direction) ||
+					(edge->getTo()->getId() == tokenId && dir == TokenComponentAggregation::opposite(direction)))
+				{
+					matches = true;
+				}
+			}
+		}
+	);
+
+	if (count > 1)
+	{
+		return false;
+	}
+
+	return matches;
+}
+
+bool GraphController::isTypeNodeWithSingleInheritance(const DummyNode& node, bool isBase) const
+{
+	const Node::NodeTypeMask typeMask = Node::NODE_STRUCT | Node::NODE_CLASS;
+
+	if (!node.visible || !node.isGraphNode() || node.hasVisibleSubNode() || !node.data->isType(typeMask))
+	{
+		return false;
+	}
+
+	bool matches = false;
+	Id tokenId = node.data->getId();
+
+	node.data->forEachEdgeOfType(
+		Edge::EDGE_INHERITANCE,
+		[isBase, tokenId, &matches](Edge* edge)
+		{
+			if ((!isBase && edge->getFrom()->getId() == tokenId) ||
+				(isBase && edge->getTo()->getId() == tokenId))
+			{
+				matches = true;
+			}
+		}
+	);
+
+	return matches;
+}
+
 void GraphController::layoutNesting()
 {
 	for (DummyNode& node : m_dummyNodes)
@@ -394,6 +632,11 @@ void GraphController::layoutNesting()
 
 void GraphController::layoutNestingRecursive(DummyNode& node) const
 {
+	if (!node.visible)
+	{
+		return;
+	}
+
 	GraphViewStyle::NodeMargins margins;
 
 	if (node.isGraphNode())
@@ -407,6 +650,10 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 	else if (node.isExpandToggleNode())
 	{
 		margins = GraphViewStyle::getMarginsOfExpandToggleNode();
+	}
+	else if (node.isBundleNode())
+	{
+		margins = GraphViewStyle::getMarginsOfBundleNode();
 	}
 
 	int y = 0;
@@ -422,6 +669,10 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 		{
 			addExpandToggleNode(node);
 		}
+	}
+	else if (node.isBundleNode())
+	{
+		width = margins.charWidth * (node.name.size() + 1 + utility::digits(node.bundledNodes.size()));
 	}
 
 	// Horizontal layouting is currently not used, but left in place for experimentation.
@@ -541,9 +792,8 @@ void GraphController::addExpandToggleNode(DummyNode& node) const
 
 void GraphController::layoutToGrid(DummyNode& node) const
 {
-	if (!node.isGraphNode())
+	if (!node.visible)
 	{
-		LOG_ERROR("Only GraphNodes can be layouted to the grid");
 		return;
 	}
 
@@ -555,6 +805,11 @@ void GraphController::layoutToGrid(DummyNode& node) const
 
 	node.size.x = width;
 	node.size.y = height;
+
+	if (!node.isGraphNode())
+	{
+		return;
+	}
 
 	DummyNode* lastAccessNode = nullptr;
 	for (DummyNode& subNode : node.subNodes)
@@ -581,7 +836,7 @@ void GraphController::layoutToGrid(DummyNode& node) const
 	}
 }
 
-DummyNode* GraphController::findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId)
+DummyNode* GraphController::findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId) const
 {
 	for (DummyNode& node : nodes)
 	{
@@ -602,7 +857,7 @@ DummyNode* GraphController::findDummyNodeRecursive(std::vector<DummyNode>& nodes
 
 DummyNode* GraphController::findDummyNodeAccessRecursive(
 	std::vector<DummyNode>& nodes, Id parentId, TokenComponentAccess::AccessType type
-){
+) const {
 	DummyNode* node = findDummyNodeRecursive(nodes, parentId);
 	if (node)
 	{

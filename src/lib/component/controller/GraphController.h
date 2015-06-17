@@ -8,6 +8,7 @@
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
+#include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 
@@ -15,6 +16,7 @@
 #include "component/controller/GraphLayouter.h"
 #include "component/view/GraphView.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
+#include "data/graph/token_component/TokenComponentAggregation.h"
 
 struct DummyNode;
 struct DummyEdge;
@@ -28,6 +30,7 @@ class GraphController
 	, public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageFocusIn>
 	, public MessageListener<MessageFocusOut>
+	, public MessageListener<MessageGraphNodeBundleSplit>
 	, public MessageListener<MessageGraphNodeExpand>
 	, public MessageListener<MessageGraphNodeMove>
 {
@@ -40,6 +43,7 @@ private:
 	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageFocusIn* message);
 	virtual void handleMessage(MessageFocusOut* message);
+	virtual void handleMessage(MessageGraphNodeBundleSplit* message);
 	virtual void handleMessage(MessageGraphNodeExpand* message);
 	virtual void handleMessage(MessageGraphNodeMove* message);
 
@@ -55,13 +59,18 @@ private:
 	bool setNodeVisibilityRecursiveBottomUp(DummyNode& node, bool aggregated) const;
 	void setNodeVisibilityRecursiveTopDown(DummyNode& node, bool parentExpanded) const;
 
+	void bundleNodes();
+	void bundleNodesMatching(std::function<bool(const DummyNode&)> matcher, size_t count, const std::string& name);
+	bool isTypeNodeWithSingleAggregation(const DummyNode& node, TokenComponentAggregation::Direction direction) const;
+	bool isTypeNodeWithSingleInheritance(const DummyNode& node, bool isBase) const;
+
 	void layoutNesting();
 	void layoutNestingRecursive(DummyNode& node) const;
 	void addExpandToggleNode(DummyNode& node) const;
 	void layoutToGrid(DummyNode& node) const;
 
-	DummyNode* findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId);
-	DummyNode* findDummyNodeAccessRecursive(std::vector<DummyNode>& nodes, Id parentId, TokenComponentAccess::AccessType type);
+	DummyNode* findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId) const;
+	DummyNode* findDummyNodeAccessRecursive(std::vector<DummyNode>& nodes, Id parentId, TokenComponentAccess::AccessType type) const;
 
 	StorageAccess* m_storageAccess;
 
