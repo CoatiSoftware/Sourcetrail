@@ -2,7 +2,7 @@
 
 #include <QGraphicsSceneEvent>
 
-#include "utility/messaging/type/MessageActivateTokens.h"
+#include "utility/messaging/type/MessageActivateEdge.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
@@ -123,16 +123,9 @@ void QtGraphEdge::onClick()
 	{
 		MessageGraphNodeBundleSplit(m_target.lock()->getTokenId()).dispatch();
 	}
-	else if (getData()->isType(Edge::EDGE_AGGREGATION))
-	{
-		const std::set<Id>& ids = getData()->getComponent<TokenComponentAggregation>()->getAggregationIds();
-		MessageActivateTokens(std::vector<Id>(ids.begin(), ids.end())).dispatch();
-	}
 	else
 	{
-		MessageActivateTokens message(getData()->getId());
-		message.isEdge = true;
-		message.dispatch();
+		MessageActivateEdge(getData()->getId(), getData()->getType(), getData()->getName()).dispatch();
 	}
 }
 

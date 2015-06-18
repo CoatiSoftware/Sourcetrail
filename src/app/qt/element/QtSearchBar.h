@@ -22,8 +22,7 @@ public:
 
 	virtual QSize sizeHint() const;
 
-	void setText(const std::string& text);
-	void setMatch(const SearchMatch& match);
+	void setMatches(const std::deque<SearchMatch>& matches);
 	void setFocus();
 	void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList);
 

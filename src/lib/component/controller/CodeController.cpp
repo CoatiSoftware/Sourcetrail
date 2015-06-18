@@ -23,20 +23,6 @@ CodeController::~CodeController()
 
 const uint CodeController::s_lineRadius = 2;
 
-void CodeController::handleMessage(MessageActivateFile* message)
-{
-	MessageActivateTokens(std::vector<Id>(1, m_storageAccess->getTokenIdForFileNode(message->filePath))).dispatch();
-}
-
-void CodeController::handleMessage(MessageActivateTokenLocation* message)
-{
-	if (message->locationId)
-	{
-		std::vector<Id> activeTokenIds = m_storageAccess->getActiveTokenIdsForLocationId(message->locationId);
-		MessageActivateTokens(activeTokenIds).dispatch();
-	}
-}
-
 void CodeController::handleMessage(MessageActivateTokens* message)
 {
 	std::vector<Id> activeTokenIds = message->tokenIds;

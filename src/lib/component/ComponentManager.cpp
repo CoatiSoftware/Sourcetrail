@@ -44,16 +44,24 @@ void ComponentManager::setup(ViewLayout* viewLayout)
 
 	std::shared_ptr<Component> statusBarComponent = m_componentFactory->createStatusBarComponent(viewLayout);
 	m_components.push_back(statusBarComponent);
+
+	std::shared_ptr<Component> featureComponent = m_componentFactory->createFeatureComponent();
+	m_components.push_back(featureComponent);
+}
+
+void ComponentManager::refreshViews()
+{
+	for (std::shared_ptr<Component> component : m_components)
+	{
+		View* view = component->getView<View>();
+
+		if (view)
+		{
+			view->refreshView();
+		}
+	}
 }
 
 ComponentManager::ComponentManager()
 {
-}
-
-void ComponentManager::handleMessage(MessageRefresh* message)
-{
-	for (std::shared_ptr<Component> component : m_components)
-	{
-		component->getView<View>()->refreshView();
-	}
 }

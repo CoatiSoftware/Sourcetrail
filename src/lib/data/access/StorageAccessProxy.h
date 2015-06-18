@@ -14,6 +14,8 @@ public:
 
 	// StorageAccess implementation
 	virtual Id getIdForNodeWithName(const std::string& name) const;
+	virtual Id getIdForEdgeWithName(const std::string& name) const;
+
 	virtual std::string getNameForNodeWithId(Id id) const;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(
@@ -22,10 +24,11 @@ public:
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const;
 
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const;
-	virtual std::vector<Id> getActiveTokenIdsForLocationId(Id locationId) const;
+	virtual Id getActiveNodeIdForLocationId(Id locationId) const;
 
 	virtual std::vector<Id> getTokenIdsForQuery(std::string query) const;
 	virtual Id getTokenIdForFileNode(const FilePath& filePath) const;
+	virtual std::vector<Id> getTokenIdsForAggregationEdge(Id aggregationId) const;
 
 	virtual TokenLocationCollection getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const;
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const std::string& filePath) const;

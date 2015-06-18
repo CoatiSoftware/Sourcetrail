@@ -33,8 +33,10 @@ void QtQueryElement::onChecked(bool)
 void QtSmartSearchBox::search()
 {
 	editTextToElement();
-	LOG_INFO(utility::join(SearchMatch::searchMatchDequeToStringDeque(m_tokens), "")+ text().toStdString());
-	MessageSearch(utility::join(SearchMatch::searchMatchDequeToStringDeque(m_tokens), "") + text().toStdString()).dispatch();
+
+	LOG_INFO_STREAM(<< "Search query: " << SearchMatch::searchMatchDequeToString(m_tokens) << text().toStdString());
+
+	MessageSearch(m_tokens).dispatch();
 }
 
 QtSmartSearchBox::QtSmartSearchBox(QWidget* parent)
@@ -80,21 +82,16 @@ void QtSmartSearchBox::setAutocompletionList(const std::vector<SearchMatch>& aut
 	}
 }
 
-void QtSmartSearchBox::setQuery(const SearchMatch& match)
+void QtSmartSearchBox::setMatches(const std::deque<SearchMatch>& matches)
 {
-	clearLineEdit();
-	m_tokens.clear();
-	m_tokens.push_back(match);
-	m_cursorIndex = m_tokens.size();
-	updateElements();
-}
+	if (SearchMatch::searchMatchDequeToString(matches) == SearchMatch::searchMatchDequeToString(m_tokens))
+	{
+		return;
+	}
 
-void QtSmartSearchBox::setQuery(const std::string& text)
-{
 	clearLineEdit();
-	m_tokens = SearchMatch::stringDequeToSearchMatchDeque(QueryTree::tokenizeQuery(text));
+	m_tokens = matches;
 	m_cursorIndex = m_tokens.size();
-
 	updateElements();
 }
 

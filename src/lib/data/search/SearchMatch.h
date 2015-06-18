@@ -16,6 +16,7 @@ struct SearchMatch
 	static void log(const std::vector<SearchMatch>& matches, const std::string& query);
 	static std::deque<SearchMatch> stringDequeToSearchMatchDeque(const std::deque<std::string>& deque);
 	static std::deque<std::string> searchMatchDequeToStringDeque(const std::deque<SearchMatch>& deque);
+	static std::string searchMatchDequeToString(const std::deque<SearchMatch>& deque);
 
 	SearchMatch();
 	SearchMatch(const std::string& query);

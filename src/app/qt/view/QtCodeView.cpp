@@ -75,6 +75,7 @@ void QtCodeView::defocusToken()
 void QtCodeView::doRefreshView()
 {
 	setStyleSheet(m_widget);
+	m_widget->clearCodeSnippets();
 }
 
 void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets)

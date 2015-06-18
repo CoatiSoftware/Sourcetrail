@@ -14,7 +14,7 @@ public:
 	};
 
 	MessageBase()
-		: UndoRedoType(UndoType_Normal)
+		: undoRedoType(UndoType_Normal)
 		, m_sendAsTask(true)
 	{
 	}
@@ -36,7 +36,12 @@ public:
 		m_sendAsTask = sendAsTask;
 	}
 
-	UndoType UndoRedoType;
+	bool isFresh() const
+	{
+		return (undoRedoType == UndoType_Normal);
+	}
+
+	UndoType undoRedoType;
 
 private:
 	bool m_sendAsTask;

@@ -29,7 +29,6 @@ public:
 	const std::vector<Id> tokenIds;
 
 	bool isEdge;
-	bool isBundle;
 	bool isFromSystem;
 };
 

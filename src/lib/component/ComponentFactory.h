@@ -19,6 +19,7 @@ public:
 	ViewFactory* getViewFactory() const;
 
 	std::shared_ptr<Component> createCodeComponent(ViewLayout* viewLayout);
+	std::shared_ptr<Component> createFeatureComponent();
 	std::shared_ptr<Component> createGraphComponent(ViewLayout* viewLayout);
 	std::shared_ptr<Component> createRefreshComponent(ViewLayout* viewLayout);
 	std::shared_ptr<Component> createSearchComponent(ViewLayout* viewLayout);

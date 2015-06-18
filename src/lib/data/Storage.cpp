@@ -7,6 +7,7 @@
 #include "utility/file/FileSystem.h"
 
 #include "data/graph/filter/GraphFilterConductor.h"
+#include "data/graph/token_component/TokenComponentAggregation.h"
 #include "data/graph/token_component/TokenComponentConst.h"
 #include "data/graph/token_component/TokenComponentName.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
@@ -683,6 +684,42 @@ Id Storage::getIdForNodeWithName(const std::string& fullName) const
 	return 0;
 }
 
+Id Storage::getIdForEdgeWithName(const std::string& name) const
+{
+	Edge::EdgeType type;
+	std::string fromName;
+	std::string toName;
+
+	Edge::splitName(name, &type, &fromName, &toName);
+
+	Id fromId = getIdForNodeWithName(fromName);
+	Node* from = m_graph.getNodeById(fromId);
+
+	if (from)
+	{
+		Edge* edge = from->findEdgeOfType(
+			type,
+			[&name](Edge* e)
+			{
+				return (e->getName() == name);
+			}
+		);
+
+		if (edge)
+		{
+			if (!edge->isType(type))
+			{
+				LOG_ERROR_STREAM(<< "Edge: " << name << " is not of type: " << Edge::getTypeString(type));
+				return 0;
+			}
+
+			return edge->getId();
+		}
+	}
+
+	return 0;
+}
+
 std::string Storage::getNameForNodeWithId(Id id) const
 {
 	Token* token = m_graph.getTokenById(id);
@@ -890,34 +927,28 @@ std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId, Id* declarationId) c
 	return ret;
 }
 
-std::vector<Id> Storage::getActiveTokenIdsForLocationId(Id locationId) const
+Id Storage::getActiveNodeIdForLocationId(Id locationId) const
 {
-	std::vector<Id> ret;
-
 	TokenLocation* location = m_locationCollection.findTokenLocationById(locationId);
 	if (!location)
 	{
-		return ret;
+		return 0;
 	}
 
 	Token* token = m_graph.getTokenById(location->getTokenId());
 	if (!token)
 	{
-		return ret;
+		return 0;
 	}
 
 	if (token->isNode())
 	{
-		Node* node = dynamic_cast<Node*>(token);
-		ret.push_back(node->getId());
+		return dynamic_cast<Node*>(token)->getId();
 	}
 	else
 	{
-		Edge* edge = dynamic_cast<Edge*>(token);
-		ret.push_back(edge->getTo()->getId());
+		return dynamic_cast<Edge*>(token)->getTo()->getId();
 	}
-
-	return ret;
 }
 
 std::vector<Id> Storage::getTokenIdsForQuery(std::string query) const
@@ -942,6 +973,20 @@ Id Storage::getTokenIdForFileNode(const FilePath& filePath) const
 	}
 
 	return 0;
+}
+
+std::vector<Id> Storage::getTokenIdsForAggregationEdge(Id aggregationId) const
+{
+	Edge* edge = m_graph.getEdgeById(aggregationId);
+	std::vector<Id> ids;
+
+	if (edge->isType(Edge::EDGE_AGGREGATION))
+	{
+		std::set<Id> i = edge->getComponent<TokenComponentAggregation>()->getAggregationIds();
+		ids.insert(ids.end(), i.begin(), i.end());
+	}
+
+	return ids;
 }
 
 TokenLocationCollection Storage::getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const

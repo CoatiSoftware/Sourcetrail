@@ -6,6 +6,7 @@
 #include "data/graph/token_component/TokenComponentAggregation.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "utility/logging/logging.h"
+#include "utility/utilityString.h"
 
 Edge::Edge(EdgeType type, Node* from, Node* to)
 	: m_type(type)
@@ -67,6 +68,24 @@ std::string Edge::getName() const
 	return getTypeString() + ":" + getFrom()->getFullName() + "->" + getTo()->getFullName();
 }
 
+void Edge::splitName(const std::string& name, EdgeType* type, std::string* fromName, std::string* toName)
+{
+	EdgeTypeMask mask = 1;
+	std::string typeStr = utility::substrBefore(name, ':');
+
+	while (typeStr != getTypeString(static_cast<EdgeType>(mask)))
+	{
+		mask = mask << 1;
+	}
+
+	*type = static_cast<EdgeType>(mask);
+
+	std::string names = utility::substrAfter(name, ':');
+
+	*fromName = utility::substrBefore(names, '-');
+	*toName = utility::substrAfter(utility::substrAfter(names, '-'), '>');
+}
+
 bool Edge::isNode() const
 {
 	return false;
@@ -110,7 +129,7 @@ void Edge::addComponentAccess(std::shared_ptr<TokenComponentAccess> component)
 	}
 }
 
-std::string Edge::getTypeString(EdgeType type) const
+std::string Edge::getTypeString(EdgeType type)
 {
 	switch (type)
 	{

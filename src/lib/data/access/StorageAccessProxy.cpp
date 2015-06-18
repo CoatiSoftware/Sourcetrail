@@ -41,6 +41,16 @@ Id StorageAccessProxy::getIdForNodeWithName(const std::string& name) const
 	return 0;
 }
 
+Id StorageAccessProxy::getIdForEdgeWithName(const std::string& name) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getIdForEdgeWithName(name);
+	}
+
+	return 0;
+}
+
 Node::NodeType StorageAccessProxy::getNodeTypeForNodeWithId(Id id) const
 {
 	if(hasSubject())
@@ -92,14 +102,14 @@ std::vector<Id> StorageAccessProxy::getActiveTokenIdsForId(Id tokenId, Id* delca
 	return std::vector<Id>();
 }
 
-std::vector<Id> StorageAccessProxy::getActiveTokenIdsForLocationId(Id locationId) const
+Id StorageAccessProxy::getActiveNodeIdForLocationId(Id locationId) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getActiveTokenIdsForLocationId(locationId);
+		return m_subject->getActiveNodeIdForLocationId(locationId);
 	}
 
-	return std::vector<Id>();
+	return 0;
 }
 
 std::vector<Id> StorageAccessProxy::getTokenIdsForQuery(std::string query) const
@@ -120,6 +130,16 @@ Id StorageAccessProxy::getTokenIdForFileNode(const FilePath& filePath) const
 	}
 
 	return 0;
+}
+
+std::vector<Id> StorageAccessProxy::getTokenIdsForAggregationEdge(Id aggregationId) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getTokenIdsForAggregationEdge(aggregationId);
+	}
+
+	return std::vector<Id>();
 }
 
 TokenLocationCollection StorageAccessProxy::getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const

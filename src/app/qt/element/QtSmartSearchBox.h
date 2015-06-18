@@ -39,8 +39,7 @@ public:
 	virtual ~QtSmartSearchBox();
 
 	void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList);
-	void setQuery(const SearchMatch& match);
-	void setQuery(const std::string& text);
+	void setMatches(const std::deque<SearchMatch>& matches);
 	void setFocus();
 
 protected:

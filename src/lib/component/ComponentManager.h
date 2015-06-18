@@ -4,9 +4,6 @@
 #include <memory>
 #include <vector>
 
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageRefresh.h"
-
 #include "component/Component.h"
 #include "component/ComponentFactory.h"
 
@@ -17,7 +14,6 @@ class ViewFactory;
 class ViewLayout;
 
 class ComponentManager
-	: public MessageListener<MessageRefresh>
 {
 public:
 	static std::shared_ptr<ComponentManager> create(ViewFactory* viewFactory, StorageAccess* graphAccess);
@@ -26,11 +22,11 @@ public:
 
 	void setup(ViewLayout* viewLayout);
 
+	void refreshViews();
+
 private:
 	ComponentManager();
 	ComponentManager(const ComponentManager&);
-
-	void handleMessage(MessageRefresh* message);
 
 	std::shared_ptr<ComponentFactory> m_componentFactory;
 

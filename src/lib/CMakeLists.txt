@@ -46,6 +46,8 @@ add_files(
 	component/controller/CodeController.h
 	component/controller/Controller.cpp
 	component/controller/Controller.h
+	component/controller/FeatureController.cpp
+	component/controller/FeatureController.h
 	component/controller/GraphController.cpp
 	component/controller/GraphController.h
 	component/controller/GraphLayouter.cpp
@@ -204,6 +206,8 @@ add_files(
 
 	data/Storage.cpp
 	data/Storage.h
+	data/StorageCache.cpp
+	data/StorageCache.h
 
 	settings/ApplicationSettings.cpp
 	settings/ApplicationSettings.h
@@ -247,7 +251,9 @@ add_files(
 	utility/math/Vector4.h
 	utility/math/VectorBase.h
 
+	utility/messaging/type/MessageActivateEdge.h
 	utility/messaging/type/MessageActivateFile.h
+	utility/messaging/type/MessageActivateNode.h
 	utility/messaging/type/MessageActivateTokenLocation.h
 	utility/messaging/type/MessageActivateTokens.h
 	utility/messaging/type/MessageAutoRefreshChanged.h

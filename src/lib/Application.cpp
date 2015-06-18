@@ -2,13 +2,13 @@
 
 #include "utility/logging/logging.h"
 #include "utility/messaging/MessageQueue.h"
-#include "utility/messaging/type/MessageActivateTokens.h"
+#include "utility/messaging/type/MessageActivateNode.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/TaskScheduler.h"
 
 #include "component/view/MainView.h"
 #include "component/view/ViewFactory.h"
-#include "data/access/StorageAccessProxy.h"
+#include "data/StorageCache.h"
 #include "settings/ApplicationSettings.h"
 
 std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
@@ -17,9 +17,9 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 
 	std::shared_ptr<Application> ptr(new Application());
 
-	ptr->m_storageAccessProxy = std::make_shared<StorageAccessProxy>();
+	ptr->m_storageCache = std::make_shared<StorageCache>();
 
-	ptr->m_componentManager = ComponentManager::create(viewFactory, ptr->m_storageAccessProxy.get());
+	ptr->m_componentManager = ComponentManager::create(viewFactory, ptr->m_storageCache.get());
 
 	ptr->m_mainView = viewFactory->createMainView();
 	ptr->m_componentManager->setup(ptr->m_mainView.get());
@@ -51,7 +51,10 @@ void Application::loadProject(const std::string& projectSettingsFilePath)
 {
 	MessageStatus("Loading Project: " + projectSettingsFilePath).dispatch();
 
-	m_project = Project::create(m_storageAccessProxy.get());
+	m_storageCache->clear();
+	m_componentManager->refreshViews();
+
+	m_project = Project::create(m_storageCache.get());
 
 	m_project->loadProjectSettings(projectSettingsFilePath);
 	m_project->parseCode();
@@ -61,7 +64,10 @@ void Application::loadSource(const std::string& sourceDirectoryPath)
 {
 	MessageStatus("Loading Source: " + sourceDirectoryPath).dispatch();
 
-	m_project = Project::create(m_storageAccessProxy.get());
+	m_storageCache->clear();
+	m_componentManager->refreshViews();
+
+	m_project = Project::create(m_storageCache.get());
 
 	m_project->clearProjectSettings();
 	m_project->setSourceDirectoryPath(sourceDirectoryPath);
@@ -72,12 +78,15 @@ void Application::reloadProject()
 {
 	MessageStatus("Refreshing Project").dispatch();
 
+	m_storageCache->clear();
+	m_componentManager->refreshViews();
+
 	m_project->parseCode();
 }
 
 void Application::saveProject(const std::string& projectSettingsFilePath)
 {
-	if(!m_project->saveProjectSettings(projectSettingsFilePath))
+	if (!m_project->saveProjectSettings(projectSettingsFilePath))
 	{
 		LOG_ERROR("No Project Settings File defined");
 	}
@@ -92,16 +101,24 @@ void Application::handleMessage(MessageFinishedParsing* message)
 		return;
 	}
 
-	Id mainId = m_storageAccessProxy->getIdForNodeWithName("main");
+	Id mainId = m_storageCache->getIdForNodeWithName("main");
 
-	if (!mainId && m_storageAccessProxy->getNameForNodeWithId(1).size() > 0)
+	if (!mainId)
 	{
-		mainId = 1;
+		std::vector<Id> ids = m_storageCache->getTokenIdsForQuery("'file'");
+		if (ids.size())
+		{
+			mainId = ids[0];
+		}
 	}
 
 	if (mainId)
 	{
-		MessageActivateTokens message(mainId);
+		MessageActivateNode message(
+			mainId,
+			m_storageCache->getNodeTypeForNodeWithId(mainId),
+			m_storageCache->getNameForNodeWithId(mainId)
+		);
 		message.isFromSystem = true;
 		message.dispatch();
 	}

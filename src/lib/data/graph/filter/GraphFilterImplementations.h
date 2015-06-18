@@ -257,15 +257,27 @@ public:
 
 	virtual void apply(const FilterableGraph* in, FilterableGraph* out)
 	{
-		if (m_tokenIds.size())
+		std::vector<Node*> nodes;
+
+		for (Id tokenId : m_tokenIds)
 		{
-			for (Id tokenId : m_tokenIds)
+			Node* node = in->getNodeById(tokenId);
+			if (node)
 			{
-				Node* node = in->getNodeById(tokenId);
-				if (node)
-				{
-					out->addNode(node);
-				}
+				nodes.push_back(node);
+			}
+			else
+			{
+				nodes.clear();
+				break;
+			}
+		}
+
+		if (nodes.size())
+		{
+			for (Node* node : nodes)
+			{
+				out->addNode(node);
 			}
 		}
 		else

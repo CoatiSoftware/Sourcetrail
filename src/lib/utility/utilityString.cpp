@@ -100,6 +100,16 @@ namespace utility
 		return c;
 	}
 
+	std::string substrBefore(const std::string& str, char delimiter)
+	{
+		size_t pos = str.find(delimiter);
+		if (pos != std::string::npos)
+		{
+			return str.substr(0, pos);
+		}
+		return str;
+	}
+
 	std::string substrAfter(const std::string& str, char delimiter)
 	{
 		size_t pos = str.find(delimiter);

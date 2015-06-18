@@ -14,7 +14,7 @@
 
 class ViewFactory;
 class MainView;
-class StorageAccessProxy;
+class StorageCache;
 
 class Application
 	: public MessageListener<MessageFinishedParsing>
@@ -44,7 +44,7 @@ private:
 	virtual void handleMessage(MessageSaveProject* message);
 
 	std::shared_ptr<Project> m_project;
-	std::shared_ptr<StorageAccessProxy> m_storageAccessProxy;
+	std::shared_ptr<StorageCache> m_storageCache;
 
 	std::shared_ptr<MainView> m_mainView;
 	std::shared_ptr<ComponentManager> m_componentManager;

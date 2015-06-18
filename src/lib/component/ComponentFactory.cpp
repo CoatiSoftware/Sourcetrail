@@ -2,6 +2,7 @@
 
 #include "component/Component.h"
 #include "component/controller/CodeController.h"
+#include "component/controller/FeatureController.h"
 #include "component/controller/GraphController.h"
 #include "component/controller/RefreshController.h"
 #include "component/controller/SearchController.h"
@@ -40,6 +41,13 @@ std::shared_ptr<Component> ComponentFactory::createCodeComponent(ViewLayout* vie
 	std::shared_ptr<CodeController> controller = std::make_shared<CodeController>(m_storageAccess);
 
 	return std::make_shared<Component>(view, controller);
+}
+
+std::shared_ptr<Component> ComponentFactory::createFeatureComponent()
+{
+	std::shared_ptr<Controller> controller = std::make_shared<FeatureController>(m_storageAccess);
+
+	return std::make_shared<Component>(nullptr, controller);
 }
 
 std::shared_ptr<Component> ComponentFactory::createGraphComponent(ViewLayout* viewLayout)

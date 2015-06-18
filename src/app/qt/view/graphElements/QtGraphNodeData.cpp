@@ -1,6 +1,6 @@
 #include "qt/view/graphElements/QtGraphNodeData.h"
 
-#include "utility/messaging/type/MessageActivateTokens.h"
+#include "utility/messaging/type/MessageActivateNode.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
@@ -37,7 +37,7 @@ void QtGraphNodeData::onClick()
 {
 	if (!m_data->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE))
 	{
-		MessageActivateTokens(m_data->getId()).dispatch();
+		MessageActivateNode(m_data->getId(), m_data->getType(), m_data->getFullName()).dispatch();
 	}
 }
 

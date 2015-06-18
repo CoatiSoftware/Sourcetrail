@@ -48,6 +48,7 @@ public:
 	Node* getTo() const;
 
 	std::string getName() const;
+	static void splitName(const std::string& name, EdgeType* type, std::string* fromName, std::string* toName);
 
 	// Token implementation
 	virtual bool isNode() const;
@@ -58,7 +59,7 @@ public:
 	void addComponentAccess(std::shared_ptr<TokenComponentAccess> component);
 
 	// Logging.
-	std::string getTypeString(EdgeType type) const;
+	static std::string getTypeString(EdgeType type);
 	virtual std::string getTypeString() const;
 	std::string getAsString() const;
 

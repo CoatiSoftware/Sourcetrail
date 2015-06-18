@@ -1,47 +1,37 @@
-#ifndef SEARCH_CONTROLLER_H
-#define SEARCH_CONTROLLER_H
+#ifndef FEATURE_CONTROLLER_H
+#define FEATURE_CONTROLLER_H
 
-#include <string>
-
-#include "component/controller/Controller.h"
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateEdge.h"
 #include "utility/messaging/type/MessageActivateFile.h"
 #include "utility/messaging/type/MessageActivateNode.h"
-#include "utility/messaging/type/MessageFind.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/messaging/type/MessageActivateTokenLocation.h"
 #include "utility/messaging/type/MessageSearch.h"
-#include "utility/messaging/type/MessageSearchAutocomplete.h"
+
+#include "component/controller/Controller.h"
 
 class StorageAccess;
-class SearchView;
 
-class SearchController
+class FeatureController
 	: public Controller
 	, public MessageListener<MessageActivateEdge>
 	, public MessageListener<MessageActivateFile>
 	, public MessageListener<MessageActivateNode>
-	, public MessageListener<MessageFind>
-	, public MessageListener<MessageFinishedParsing>
+	, public MessageListener<MessageActivateTokenLocation>
 	, public MessageListener<MessageSearch>
-	, public MessageListener<MessageSearchAutocomplete>
 {
 public:
-	SearchController(StorageAccess* storageAccess);
-	~SearchController();
+	FeatureController(StorageAccess* storageAccess);
+	~FeatureController();
 
 private:
 	virtual void handleMessage(MessageActivateEdge* message);
 	virtual void handleMessage(MessageActivateFile* message);
 	virtual void handleMessage(MessageActivateNode* message);
-	virtual void handleMessage(MessageFind* message);
-	virtual void handleMessage(MessageFinishedParsing* message);
+	virtual void handleMessage(MessageActivateTokenLocation* message);
 	virtual void handleMessage(MessageSearch* message);
-	virtual void handleMessage(MessageSearchAutocomplete* message);
-
-	SearchView* getView();
 
 	StorageAccess* m_storageAccess;
 };
 
-#endif // SEARCH_CONTROLLER_H
+#endif // FEATURE_CONTROLLER_H

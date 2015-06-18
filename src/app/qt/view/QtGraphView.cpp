@@ -65,6 +65,7 @@ void QtGraphView::initView()
 
 void QtGraphView::refreshView()
 {
+	clear();
 	resizeView();
 }
 

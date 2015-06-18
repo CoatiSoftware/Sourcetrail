@@ -5,7 +5,6 @@
 
 SearchController::SearchController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
-	, m_ignoreNextMessageActivateTokens(false)
 {
 }
 
@@ -13,21 +12,37 @@ SearchController::~SearchController()
 {
 }
 
-void SearchController::handleMessage(MessageActivateTokens* message)
+void SearchController::handleMessage(MessageActivateEdge* message)
 {
-	if (!m_ignoreNextMessageActivateTokens && message->tokenIds.size())
-	{
-		SearchMatch match;
-		match.fullName = m_storageAccess->getNameForNodeWithId(message->tokenIds[0]);
-		match.nodeType = m_storageAccess->getNodeTypeForNodeWithId(message->tokenIds[0]);
-		match.tokenIds.insert(message->tokenIds[0]);
-		match.queryNodeType = QueryNode::QUERYNODETYPE_TOKEN;
+	SearchMatch match;
+	match.fullName = message->name;
+	match.nodeType = Node::NODE_CLASS;
+	match.tokenIds.insert(message->tokenId);
+	match.queryNodeType = QueryNode::QUERYNODETYPE_TOKEN;
 
+	getView()->setMatches(std::deque<SearchMatch>(1, match));
+}
 
-		getView()->setMatch(match);
-	}
+void SearchController::handleMessage(MessageActivateFile* message)
+{
+	SearchMatch match;
+	match.fullName = message->filePath.fileName();
+	match.nodeType = Node::NODE_FILE;
+	match.tokenIds.insert(m_storageAccess->getTokenIdForFileNode(message->filePath));
+	match.queryNodeType = QueryNode::QUERYNODETYPE_TOKEN;
 
-	m_ignoreNextMessageActivateTokens = false;
+	getView()->setMatches(std::deque<SearchMatch>(1, match));
+}
+
+void SearchController::handleMessage(MessageActivateNode* message)
+{
+	SearchMatch match;
+	match.fullName = message->name;
+	match.nodeType = message->type;
+	match.tokenIds.insert(message->tokenId);
+	match.queryNodeType = QueryNode::QUERYNODETYPE_TOKEN;
+
+	getView()->setMatches(std::deque<SearchMatch>(1, match));
 }
 
 void SearchController::handleMessage(MessageFind* message)
@@ -37,28 +52,12 @@ void SearchController::handleMessage(MessageFind* message)
 
 void SearchController::handleMessage(MessageFinishedParsing* message)
 {
-	getView()->setText("");
+	getView()->setMatches(std::deque<SearchMatch>());
 }
 
 void SearchController::handleMessage(MessageSearch* message)
 {
-	const std::string& query = message->query;
-
-	LOG_INFO("search string: \"" + query + "\"");
-
-	m_ignoreNextMessageActivateTokens = true;
-
-	std::vector<Id> ids = m_storageAccess->getTokenIdsForQuery(query);
-	if (!ids.size())
-	{
-		Id id = m_storageAccess->getIdForNodeWithName(query);
-		if (id > 0)
-		{
-			ids.push_back(id);
-		}
-	}
-
-	MessageActivateTokens(ids).dispatch();
+	getView()->setMatches(message->getMatches());
 }
 
 void SearchController::handleMessage(MessageSearchAutocomplete* message)

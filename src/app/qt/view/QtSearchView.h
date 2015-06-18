@@ -19,23 +19,20 @@ public:
 	virtual void refreshView();
 
 	// SearchView implementation
-	virtual void setText(const std::string& text);
-	virtual void setMatch(const SearchMatch& match);
+	virtual void setMatches(const std::deque<SearchMatch>& matches);
 	virtual void setFocus();
 	virtual void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList);
 
 private:
 	void doRefreshView();
-	void doSetMatch(const SearchMatch& match);
-	void doSetText(const std::string& text);
+	void doSetMatches(const std::deque<SearchMatch>& matches);
 	void doSetFocus();
 	void doSetAutocompletionList(const std::vector<SearchMatch>& autocompletionList);
 
 	void setStyleSheet();
 
 	QtThreadedFunctor<> m_refreshViewFunctor;
-	QtThreadedFunctor<const std::string&> m_setTextFunctor;
-	QtThreadedFunctor<const SearchMatch&> m_setMatchFunctor;
+	QtThreadedFunctor<const std::deque<SearchMatch>&> m_setMatchesFunctor;
 	QtThreadedFunctor<> m_setFocusFunctor;
 	QtThreadedFunctor<const std::vector<SearchMatch>&> m_setAutocompletionListFunctor;
 

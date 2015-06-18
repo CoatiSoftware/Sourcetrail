@@ -129,7 +129,11 @@ std::deque<std::string> SearchMatch::searchMatchDequeToStringDeque(const std::de
 		stringDeque.push_back(match.encodeForQuery());
 	}
 	return stringDeque;
+}
 
+std::string SearchMatch::searchMatchDequeToString(const std::deque<SearchMatch>& searchMatchDeque)
+{
+	return utility::join(searchMatchDequeToStringDeque(searchMatchDeque), "");
 }
 
 std::string SearchMatch::getNodeTypeAsString() const
