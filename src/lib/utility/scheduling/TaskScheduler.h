@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <mutex>
-#include <queue>
+#include <deque>
 
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
@@ -16,6 +16,7 @@ public:
 	static std::shared_ptr<TaskScheduler> getInstance();
 
 	void pushTask(std::shared_ptr<Task> task);
+	void pushNextTask(std::shared_ptr<Task> task);
 	void interruptCurrentTask();
 
 	void startSchedulerLoopThreaded();
@@ -39,7 +40,7 @@ private:
 	bool m_loopIsRunning;
 	bool m_threadIsRunning;
 
-	std::queue<std::shared_ptr<Task>> m_tasks;
+	std::deque<std::shared_ptr<Task>> m_tasks;
 	bool m_interruptTask;
 
 	mutable std::mutex m_tasksMutex;

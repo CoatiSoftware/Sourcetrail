@@ -20,7 +20,8 @@ public:
 
 private:
 	QGraphicsPixmapItem* m_icon;
-	bool m_allVisible;
+	bool m_invisibleSubNodeCount;
+	bool m_expanded;
 };
 
 #endif // QT_EXPAND_TOGGLE_H

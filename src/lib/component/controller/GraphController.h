@@ -72,12 +72,19 @@ private:
 	DummyNode* findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId) const;
 	DummyNode* findDummyNodeAccessRecursive(std::vector<DummyNode>& nodes, Id parentId, TokenComponentAccess::AccessType type) const;
 
+	void setRebuildState(MessageBase* message);
+	void rebuildGraph();
+
 	StorageAccess* m_storageAccess;
 
 	std::vector<DummyNode> m_dummyNodes;
 	std::vector<DummyEdge> m_dummyEdges;
 
 	std::vector<Id> m_activeTokenIds;
+
+	std::shared_ptr<Graph> m_graph;
+	bool m_rebuild;
+	bool m_restore;
 };
 
 #endif // GRAPH_CONTROLLER_H

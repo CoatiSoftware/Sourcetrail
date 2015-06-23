@@ -17,6 +17,7 @@ public:
 	void unregisterListener(MessageListenerBase* listener);
 
 	void pushMessage(std::shared_ptr<MessageBase> message);
+	void processMessage(std::shared_ptr<MessageBase> message, bool asNextTask);
 
 	void startMessageLoopThreaded();
 	void startMessageLoop();
@@ -38,7 +39,7 @@ private:
 
 	void processMessages();
 	void sendMessage(std::shared_ptr<MessageBase> message);
-	void sendMessageAsTask(std::shared_ptr<MessageBase> message) const;
+	void sendMessageAsTask(std::shared_ptr<MessageBase> message, bool asNextTask) const;
 
 	std::shared_ptr<MessageBufferType> m_frontMessageBuffer;
 	std::shared_ptr<MessageBufferType> m_backMessageBuffer;

@@ -10,7 +10,8 @@
 #include "qt/view/graphElements/QtGraphNodeData.h"
 
 QtGraphNodeExpandToggle::QtGraphNodeExpandToggle(bool expanded, int invisibleSubNodeCount)
-	: m_allVisible(invisibleSubNodeCount == 0)
+	: m_invisibleSubNodeCount(invisibleSubNodeCount)
+	, m_expanded(expanded)
 {
 	if (!expanded && !invisibleSubNodeCount)
 	{
@@ -52,7 +53,7 @@ void QtGraphNodeExpandToggle::onClick()
 
 	if (parent && parent->getTokenId())
 	{
-		MessageGraphNodeExpand(parent->getTokenId()).dispatch();
+		MessageGraphNodeExpand(parent->getTokenId(), !m_expanded).dispatch();
 	}
 }
 
@@ -68,6 +69,6 @@ void QtGraphNodeExpandToggle::updateStyle()
 
 	m_icon->setPos(
 		(m_rect->rect().width() - m_icon->pixmap().width() / QtDeviceScaledPixmap::devicePixelRatio()) / 2,
-		(m_allVisible ? 9 : 14)
+		(m_invisibleSubNodeCount == 0 ? 9 : 14)
 	);
 }

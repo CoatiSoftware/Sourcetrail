@@ -15,6 +15,8 @@
 
 GraphController::GraphController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
+	, m_rebuild(true)
+	, m_restore(false)
 {
 }
 
@@ -24,12 +26,14 @@ GraphController::~GraphController()
 
 void GraphController::handleMessage(MessageActivateTokens* message)
 {
+	setRebuildState(message);
+
 	m_activeTokenIds = message->tokenIds;
 
 	if (message->isEdge && message->tokenIds.size() == 1)
 	{
 		setActiveAndVisibility(message->tokenIds);
-		getView()->rebuildGraph(nullptr, m_dummyNodes, m_dummyEdges);
+		rebuildGraph();
 		return;
 	}
 
@@ -53,6 +57,8 @@ void GraphController::handleMessage(MessageFocusOut *message)
 
 void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 {
+	setRebuildState(message);
+
 	for (size_t i = 0; i < m_dummyNodes.size(); i++)
 	{
 		DummyNode& node = m_dummyNodes[i];
@@ -80,40 +86,44 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 	GraphLayouter::layoutSpectralPrototype(m_dummyNodes, m_dummyEdges);
 	GraphPostprocessor::doPostprocessing(m_dummyNodes);
 
-	getView()->rebuildGraph(nullptr, m_dummyNodes, m_dummyEdges);
+	rebuildGraph();
 }
 
 void GraphController::handleMessage(MessageGraphNodeExpand* message)
 {
+	setRebuildState(message);
+
 	DummyNode* node = findDummyNodeRecursive(m_dummyNodes, message->tokenId);
 	if (node)
 	{
-		if (node->autoExpanded)
-		{
-			node->autoExpanded = false;
-			node->expanded = false;
-		}
-		else
-		{
-			node->expanded = !node->expanded;
-		}
+		node->expanded = message->expand;
 
 		setActiveAndVisibility(m_activeTokenIds);
 		layoutNesting();
 
 		GraphPostprocessor::doPostprocessing(m_dummyNodes);
 
-		getView()->rebuildGraph(nullptr, m_dummyNodes, m_dummyEdges);
+		rebuildGraph();
 	}
 }
 
 void GraphController::handleMessage(MessageGraphNodeMove* message)
 {
+	setRebuildState(message);
+
 	DummyNode* node = findDummyNodeRecursive(m_dummyNodes, message->tokenId);
 	if (node)
 	{
 		node->position += message->delta;
-		getView()->resizeView();
+
+		if (message->isFresh())
+		{
+			getView()->resizeView();
+		}
+		else
+		{
+			rebuildGraph();
+		}
 	}
 }
 
@@ -164,7 +174,8 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	GraphLayouter::layoutSpectralPrototype(m_dummyNodes, m_dummyEdges);
 	GraphPostprocessor::doPostprocessing(m_dummyNodes);
 
-	view->rebuildGraph(graph, m_dummyNodes, m_dummyEdges);
+	m_graph = graph;
+	rebuildGraph();
 }
 
 DummyNode GraphController::createDummyNodeTopDown(Node* node)
@@ -186,7 +197,7 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 	}
 
 	DummyNode* oldNode = findDummyNodeRecursive(m_dummyNodes, node->getId());
-	if (oldNode)
+	if (oldNode && !m_restore)
 	{
 		result.expanded = oldNode->isExpanded();
 	}
@@ -269,7 +280,7 @@ void GraphController::autoExpandActiveNode(const std::vector<Id>& activeTokenIds
 
 	if (node && node->data->isType(Node::NODE_CLASS | Node::NODE_STRUCT))
 	{
-		node->autoExpanded = true;
+		node->expanded = true;
 	}
 }
 
@@ -762,7 +773,6 @@ void GraphController::addExpandToggleNode(DummyNode& node) const
 	DummyNode expandNode;
 	expandNode.visible = true;
 	expandNode.expanded = node.expanded;
-	expandNode.autoExpanded = node.autoExpanded;
 
 	for (size_t i = 0; i < node.subNodes.size(); i++)
 	{
@@ -870,4 +880,32 @@ DummyNode* GraphController::findDummyNodeAccessRecursive(
 		}
 	}
 	return nullptr;
+}
+
+void GraphController::setRebuildState(MessageBase* message)
+{
+	m_restore = false;
+
+	switch (message->undoRedoType)
+	{
+	case MessageBase::UNDOTYPE_UNDO:
+		m_restore = true;
+	case MessageBase::UNDOTYPE_NORMAL:
+	case MessageBase::UNDOTYPE_REDO:
+		m_rebuild = true;
+		break;
+	case MessageBase::UNDOTYPE_IGNORE:
+		m_restore = true;
+		m_rebuild = false;
+		break;
+	}
+}
+
+void GraphController::rebuildGraph()
+{
+	if (m_rebuild)
+	{
+		getView()->rebuildGraph(m_graph, m_dummyNodes, m_dummyEdges);
+		m_graph.reset();
+	}
 }

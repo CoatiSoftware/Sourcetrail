@@ -19,7 +19,13 @@ std::shared_ptr<TaskScheduler> TaskScheduler::getInstance()
 void TaskScheduler::pushTask(std::shared_ptr<Task> task)
 {
 	std::lock_guard<std::mutex> lock(m_tasksMutex);
-	m_tasks.push(task);
+	m_tasks.push_back(task);
+}
+
+void TaskScheduler::pushNextTask(std::shared_ptr<Task> task)
+{
+	std::lock_guard<std::mutex> lock(m_tasksMutex);
+	m_tasks.push_front(task);
 }
 
 void TaskScheduler::interruptCurrentTask()
@@ -136,14 +142,15 @@ void TaskScheduler::updateTasks()
 	while (m_tasks.size())
 	{
 		std::shared_ptr<Task> task = m_tasks.front();
+		m_tasks.pop_front();
 
 		m_tasksMutex.unlock();
 		Task::TaskState state = task->process(interrupt);
 		m_tasksMutex.lock();
 
-		if (state == Task::STATE_FINISHED || state == Task::STATE_CANCELED)
+		if (state != Task::STATE_FINISHED && state != Task::STATE_CANCELED)
 		{
-			m_tasks.pop();
+			m_tasks.push_front(task);
 		}
 
 		interrupt = m_interruptTask;

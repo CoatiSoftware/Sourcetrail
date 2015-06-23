@@ -59,6 +59,18 @@ void MessageQueue::pushMessage(std::shared_ptr<MessageBase> message)
 	m_backMessageBuffer->push(message);
 }
 
+void MessageQueue::processMessage(std::shared_ptr<MessageBase> message, bool asNextTask)
+{
+	if (m_sendMessagesAsTasks && message->sendAsTask())
+	{
+		sendMessageAsTask(message, asNextTask);
+	}
+	else
+	{
+		sendMessage(message);
+	}
+}
+
 void MessageQueue::startMessageLoopThreaded()
 {
 	std::thread(&MessageQueue::startMessageLoop, this).detach();
@@ -189,14 +201,7 @@ void MessageQueue::processMessages()
 			m_frontMessageBuffer->pop();
 		}
 
-		if (m_sendMessagesAsTasks && message->sendAsTask())
-		{
-			sendMessageAsTask(message);
-		}
-		else
-		{
-			sendMessage(message);
-		}
+		processMessage(message, false);
 	}
 }
 
@@ -224,7 +229,7 @@ void MessageQueue::sendMessage(std::shared_ptr<MessageBase> message)
 	}
 }
 
-void MessageQueue::sendMessageAsTask(std::shared_ptr<MessageBase> message) const
+void MessageQueue::sendMessageAsTask(std::shared_ptr<MessageBase> message, bool asNextTask) const
 {
 	std::shared_ptr<TaskGroupSequential> taskGroup = std::make_shared<TaskGroupSequential>();
 
@@ -244,5 +249,12 @@ void MessageQueue::sendMessageAsTask(std::shared_ptr<MessageBase> message) const
 		}
 	}
 
-	Task::dispatch(taskGroup);
+	if (asNextTask)
+	{
+		Task::dispatchNext(taskGroup);
+	}
+	else
+	{
+		Task::dispatch(taskGroup);
+	}
 }

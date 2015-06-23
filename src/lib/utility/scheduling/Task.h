@@ -15,6 +15,7 @@ public:
 	};
 
 	static void dispatch(std::shared_ptr<Task> task);
+	static void dispatchNext(std::shared_ptr<Task> task);
 
 	Task();
 	virtual ~Task();

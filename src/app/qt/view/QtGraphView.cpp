@@ -175,7 +175,7 @@ void QtGraphView::doRebuildGraph(
 	if (m_transition && m_transition->currentTime() < m_transition->totalDuration())
 	{
 		m_transition->stop();
-		switchToNewGraphData();
+		finishedTransition();
 	}
 
 	QGraphicsView* view = getView();

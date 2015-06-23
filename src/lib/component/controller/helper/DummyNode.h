@@ -22,7 +22,6 @@ public:
 		, connected(false)
 		, aggregated(false)
 		, expanded(false)
-		, autoExpanded(false)
 		, accessType(TokenComponentAccess::ACCESS_NONE)
 		, invisibleSubNodeCount(0)
 	{
@@ -50,7 +49,7 @@ public:
 
 	bool isExpanded() const
 	{
-		return expanded || autoExpanded;
+		return expanded;
 	}
 
 	bool hasVisibleSubNode() const
@@ -119,7 +118,6 @@ public:
 	bool connected;
 	bool aggregated;
 	bool expanded;
-	bool autoExpanded;
 
 	// AccessNode
 	TokenComponentAccess::AccessType accessType;

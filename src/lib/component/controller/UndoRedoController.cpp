@@ -5,7 +5,7 @@
 #include "component/view/UndoRedoView.h"
 
 UndoRedoController::UndoRedoController()
-	: m_lastCommand(nullptr)
+	: m_lastCommand(nullptr, 0)
 {
 }
 
@@ -18,45 +18,64 @@ UndoRedoView* UndoRedoController::getView()
 	return Controller::getView<UndoRedoView>();
 }
 
+UndoRedoController::Command::Command(std::shared_ptr<MessageBase> message, size_t order)
+	: message(message)
+	, order(order)
+{
+}
+
 void UndoRedoController::handleMessage(MessageActivateEdge* message)
 {
-	if (m_lastCommand && m_lastCommand->getType() == message->getType() &&
-		static_cast<MessageActivateEdge*>(m_lastCommand.get())->name == message->name)
+	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() &&
+		static_cast<MessageActivateEdge*>(m_lastCommand.message.get())->name == message->name)
 	{
 		return;
 	}
 
-	processMessage(std::make_shared<MessageActivateEdge>(*message));
+	Command command(std::make_shared<MessageActivateEdge>(*message), (message->type == Edge::EDGE_AGGREGATION ? 0 : 1));
+	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageActivateFile* message)
 {
-	if (m_lastCommand && m_lastCommand->getType() == message->getType() &&
-		static_cast<MessageActivateFile*>(m_lastCommand.get())->filePath == message->filePath)
+	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() &&
+		static_cast<MessageActivateFile*>(m_lastCommand.message.get())->filePath == message->filePath)
 	{
 		return;
 	}
 
-	processMessage(std::make_shared<MessageActivateFile>(*message));
+	Command command(std::make_shared<MessageActivateFile>(*message), 0);
+	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageActivateNode* message)
 {
-	if (m_lastCommand && m_lastCommand->getType() == message->getType() &&
-		static_cast<MessageActivateNode*>(m_lastCommand.get())->name == message->name)
+	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() &&
+		static_cast<MessageActivateNode*>(m_lastCommand.message.get())->name == message->name)
 	{
 		return;
 	}
 
-	processMessage(std::make_shared<MessageActivateNode>(*message));
+	Command command(std::make_shared<MessageActivateNode>(*message), 0);
+	processCommand(command);
+}
+
+void UndoRedoController::handleMessage(MessageGraphNodeBundleSplit* message)
+{
+	Command command(std::make_shared<MessageGraphNodeBundleSplit>(*message), 1);
+	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageGraphNodeExpand* message)
 {
+	Command command(std::make_shared<MessageGraphNodeExpand>(*message), 1);
+	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageGraphNodeMove* message)
 {
+	Command command(std::make_shared<MessageGraphNodeMove>(*message), 1);
+	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageLoadProject* message)
@@ -73,69 +92,87 @@ void UndoRedoController::handleMessage(MessageRedo* message)
 {
 	if (!m_redo.empty())
 	{
-		std::shared_ptr<MessageBase> m = m_redo.back();
+		std::shared_ptr<MessageBase> m = m_redo.back().message;
 		m_redo.pop_back();
-		m->undoRedoType = MessageBase::UndoType_Redo;
+		m->undoRedoType = MessageBase::UNDOTYPE_REDO;
 		m->dispatch();
 	}
 }
 
 void UndoRedoController::handleMessage(MessageSearch* message)
 {
-	if (m_lastCommand && m_lastCommand->getType() == message->getType() &&
-		static_cast<MessageSearch*>(m_lastCommand.get())->getQuery() == message->getQuery())
+	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() &&
+		static_cast<MessageSearch*>(m_lastCommand.message.get())->getQuery() == message->getQuery())
 	{
 		return;
 	}
 
-	processMessage(std::make_shared<MessageSearch>(*message));
+	Command command(std::make_shared<MessageSearch>(*message), 0);
+	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageUndo* message)
 {
 	if (!m_undo.empty())
 	{
-		std::shared_ptr<MessageBase> m = m_undo.back();
+		int i = m_undo.size() - 1;
+		while (i >= 1 && m_undo[i].order > 0)
+		{
+			i--;
+		}
+
+		std::shared_ptr<MessageBase> m;
+		while (i < int(m_undo.size() - 1))
+		{
+			m = m_undo[i].message;
+			m->undoRedoType = MessageBase::UNDOTYPE_IGNORE;
+			m->dispatch();
+			i++;
+		}
+
+		m = m_undo.back().message;
 		m_undo.pop_back();
-		m->undoRedoType = MessageBase::UndoType_Undo;
+		m->undoRedoType = MessageBase::UNDOTYPE_UNDO;
 		m->dispatch();
 	}
 }
 
-void UndoRedoController::processMessage(std::shared_ptr<MessageBase> message)
+void UndoRedoController::processCommand(const Command& command)
 {
-	switch (message->undoRedoType)
+	switch (command.message->undoRedoType)
 	{
-	case MessageBase::UndoType_Normal:
-		processNormalMessage(message);;
+	case MessageBase::UNDOTYPE_NORMAL:
+		processNormalCommand(command);
 		break;
-	case MessageBase::UndoType_Redo:
-		processRedoMessage(message);
+	case MessageBase::UNDOTYPE_REDO:
+		processRedoCommand(command);
 		break;
-	case MessageBase::UndoType_Undo:
-		processUndoMessage(message);
+	case MessageBase::UNDOTYPE_UNDO:
+		processUndoCommand(command);
+		break;
+	case MessageBase::UNDOTYPE_IGNORE:
 		break;
 	}
 }
 
-void UndoRedoController::processNormalMessage(std::shared_ptr<MessageBase> message)
+void UndoRedoController::processNormalCommand(const Command& command)
 {
-	if (m_lastCommand)
+	if (m_lastCommand.message)
 	{
 		m_undo.push_back(m_lastCommand);
 		getView()->setUndoButtonEnabled(true);
 	}
 
-	m_lastCommand = message;
+	m_lastCommand = command;
 
 	m_redo.clear();
 	getView()->setRedoButtonEnabled(false);
 }
 
-void UndoRedoController::processRedoMessage(std::shared_ptr<MessageBase> message)
+void UndoRedoController::processRedoCommand(const Command& command)
 {
 	m_undo.push_back(m_lastCommand);
-	m_lastCommand = message;
+	m_lastCommand = command;
 
 	getView()->setUndoButtonEnabled(true);
 
@@ -145,10 +182,10 @@ void UndoRedoController::processRedoMessage(std::shared_ptr<MessageBase> message
 	}
 }
 
-void UndoRedoController::processUndoMessage(std::shared_ptr<MessageBase> message)
+void UndoRedoController::processUndoCommand(const Command& command)
 {
 	m_redo.push_back(m_lastCommand);
-	m_lastCommand = message;
+	m_lastCommand = command;
 
 	getView()->setRedoButtonEnabled(true);
 
@@ -160,7 +197,7 @@ void UndoRedoController::processUndoMessage(std::shared_ptr<MessageBase> message
 
 void UndoRedoController::clear()
 {
-	m_lastCommand = nullptr;
+	m_lastCommand = Command(nullptr, 0);
 
 	m_undo.clear();
 	m_redo.clear();

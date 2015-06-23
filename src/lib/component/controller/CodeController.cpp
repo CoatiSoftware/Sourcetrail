@@ -25,6 +25,11 @@ const uint CodeController::s_lineRadius = 2;
 
 void CodeController::handleMessage(MessageActivateTokens* message)
 {
+	if (message->isIgnorable())
+	{
+		return;
+	}
+
 	std::vector<Id> activeTokenIds = message->tokenIds;
 	Id declarationId = 0; // 0 means that no token is found.
 

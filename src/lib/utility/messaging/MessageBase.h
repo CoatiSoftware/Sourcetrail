@@ -8,13 +8,14 @@ class MessageBase
 public:
 	enum UndoType
 	{
-		UndoType_Normal,
-		UndoType_Redo,
-		UndoType_Undo
+		UNDOTYPE_NORMAL,
+		UNDOTYPE_REDO,
+		UNDOTYPE_UNDO,
+		UNDOTYPE_IGNORE
 	};
 
 	MessageBase()
-		: undoRedoType(UndoType_Normal)
+		: undoRedoType(UNDOTYPE_NORMAL)
 		, m_sendAsTask(true)
 	{
 	}
@@ -38,7 +39,12 @@ public:
 
 	bool isFresh() const
 	{
-		return (undoRedoType == UndoType_Normal);
+		return (undoRedoType == UNDOTYPE_NORMAL);
+	}
+
+	bool isIgnorable() const
+	{
+		return (undoRedoType == UNDOTYPE_IGNORE);
 	}
 
 	UndoType undoRedoType;

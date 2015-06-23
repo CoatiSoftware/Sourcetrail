@@ -8,6 +8,11 @@ void Task::dispatch(std::shared_ptr<Task> task)
 	TaskScheduler::getInstance()->pushTask(task);
 }
 
+void Task::dispatchNext(std::shared_ptr<Task> task)
+{
+	TaskScheduler::getInstance()->pushNextTask(task);
+}
+
 Task::Task()
 	: m_state(STATE_NEW)
 {

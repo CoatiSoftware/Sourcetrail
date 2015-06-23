@@ -29,18 +29,23 @@ void FeatureController::handleMessage(MessageActivateEdge* message)
 
 	if (message->type == Edge::EDGE_AGGREGATION)
 	{
-		MessageActivateTokens(m_storageAccess->getTokenIdsForAggregationEdge(edgeId)).dispatch();
+		MessageActivateTokens m(m_storageAccess->getTokenIdsForAggregationEdge(edgeId));
+		m.undoRedoType = message->undoRedoType;
+		m.dispatch();
 		return;
 	}
 
 	MessageActivateTokens msg(std::vector<Id>(1, edgeId));
 	msg.isEdge = true;
-	msg.dispatch();
+	msg.undoRedoType = message->undoRedoType;
+	msg.dispatchImmediately();
 }
 
 void FeatureController::handleMessage(MessageActivateFile* message)
 {
-	MessageActivateTokens(std::vector<Id>(1, m_storageAccess->getTokenIdForFileNode(message->filePath))).dispatch();
+	MessageActivateTokens m(std::vector<Id>(1, m_storageAccess->getTokenIdForFileNode(message->filePath)));
+	m.undoRedoType = message->undoRedoType;
+	m.dispatchImmediately();
 }
 
 void FeatureController::handleMessage(MessageActivateNode* message)
@@ -54,9 +59,10 @@ void FeatureController::handleMessage(MessageActivateNode* message)
 
 	if (nodeId)
 	{
-		MessageActivateTokens msg(nodeId);
-		msg.isFromSystem = message->isFromSystem;
-		msg.dispatch();
+		MessageActivateTokens m(nodeId);
+		m.isFromSystem = message->isFromSystem;
+		m.undoRedoType = message->undoRedoType;
+		m.dispatchImmediately();
 	}
 }
 
@@ -69,11 +75,13 @@ void FeatureController::handleMessage(MessageActivateTokenLocation* message)
 			nodeId,
 			m_storageAccess->getNodeTypeForNodeWithId(nodeId),
 			m_storageAccess->getNameForNodeWithId(nodeId)
-		).dispatch();
+		).dispatchImmediately();
 	}
 }
 
 void FeatureController::handleMessage(MessageSearch* message)
 {
-	MessageActivateTokens(m_storageAccess->getTokenIdsForQuery(message->getQuery())).dispatch();
+	MessageActivateTokens m(m_storageAccess->getTokenIdsForQuery(message->getQuery()));
+	m.undoRedoType = message->undoRedoType;
+	m.dispatchImmediately();
 }
