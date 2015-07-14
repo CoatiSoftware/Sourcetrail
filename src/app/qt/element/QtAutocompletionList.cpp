@@ -145,7 +145,7 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 		if (font.pointSize() > 0)
 		{
 			QFont typeFont = font;
-			typeFont.setPointSize(10);
+			typeFont.setPointSize(ApplicationSettings::getInstance()->getFontSize() - 4);
 			painter->setFont(typeFont);
 		}
 

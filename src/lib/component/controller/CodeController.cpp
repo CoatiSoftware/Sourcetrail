@@ -25,7 +25,7 @@ const uint CodeController::s_lineRadius = 2;
 
 void CodeController::handleMessage(MessageActivateTokens* message)
 {
-	if (message->isIgnorable())
+	if (message->isEdge && message->isIgnorable())
 	{
 		return;
 	}

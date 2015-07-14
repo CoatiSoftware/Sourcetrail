@@ -15,7 +15,7 @@ QtStraightLineItem::QtStraightLineItem(QGraphicsItem* parent)
 	this->setAcceptHoverEvents(true);
 
 	m_circle = new QtRoundedRectItem(this);
-	m_circle->setRadius(10);
+	m_circle->setRadius(100);
 	m_circle->setBrush(QBrush(QColor("#FFF")));
 	m_circle->setAcceptHoverEvents(true);
 
@@ -87,13 +87,15 @@ void QtStraightLineItem::updateLine(
 
 	Vec2f mid = (op + tp) / 2;
 
+	size_t radius = GraphViewStyle::getFontSizeOfExpandToggleNode();
+
 	if (showArrow)
 	{
 		Vec2f unit = (tp - op).normalize();
 		Vec2f nUnit(-unit.y, unit.x);
-		Vec2f arrow = mid + unit * 22;
+		Vec2f arrow = mid + unit * (radius + 13);
 
-		Vec2f arrowSide = mid + unit * 15 + nUnit * 7;
+		Vec2f arrowSide = mid + unit * (radius + 6) + nUnit * 7;
 		m_arrowRight->setLine(arrow.x, arrow.y, arrowSide.x, arrowSide.y);
 
 		arrowSide -= nUnit * 14;
@@ -111,7 +113,7 @@ void QtStraightLineItem::updateLine(
 		m_arrowRight->hide();
 	}
 
-	m_circle->setRect(mid.x - 10, mid.y - 10, 20, 20);
+	m_circle->setRect(mid.x - radius, mid.y - radius, 2 * radius, 2 * radius);
 	m_circle->setPen(QPen(QColor("#E0E0E0"), 2));
 
 	QString numberStr = QString::number(number);

@@ -6,7 +6,8 @@
 class MessageRefresh: public Message<MessageRefresh>
 {
 public:
-	MessageRefresh()
+	MessageRefresh(bool uiOnly = false)
+		: uiOnly(uiOnly)
 	{
 	}
 
@@ -14,6 +15,8 @@ public:
 	{
 		return "MessageRefresh";
 	}
+
+	const bool uiOnly;
 };
 
 #endif // MESSAGE_REFRESH_H

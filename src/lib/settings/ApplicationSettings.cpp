@@ -26,6 +26,26 @@ bool ApplicationSettings::filterUndefinedNodesFromGraph() const
 	return getValue<bool>("FilterUndefinedNodesFromGraph", false);
 }
 
+std::string ApplicationSettings::getFontName() const
+{
+	return getValue<std::string>("application/font_name", "Source Code Pro");
+}
+
+void ApplicationSettings::setFontName(const std::string& fontName)
+{
+	setValue<std::string>("application/font_name", fontName);
+}
+
+int ApplicationSettings::getFontSize() const
+{
+	return getValue<int>("application/font_size", 14);
+}
+
+void ApplicationSettings::setFontSize(int fontSize)
+{
+	setValue<int>("application/font_size", fontSize);
+}
+
 int ApplicationSettings::getCodeTabWidth() const
 {
 	return getValue<int>("code/TabWidth", 4);
@@ -34,26 +54,6 @@ int ApplicationSettings::getCodeTabWidth() const
 void ApplicationSettings::setCodeTabWidth(int codeTabWidth)
 {
 	setValue<int>("code/TabWidth", codeTabWidth);
-}
-
-std::string ApplicationSettings::getCodeFontName() const
-{
-	return getValue<std::string>("code/FontName", "Courier");
-}
-
-void ApplicationSettings::setCodeFontName(const std::string& codeFontName)
-{
-	setValue<std::string>("code/FontName", codeFontName);
-}
-
-int ApplicationSettings::getCodeFontSize() const
-{
-	return getValue<int>("code/FontSize", 12);
-}
-
-void ApplicationSettings::setCodeFontSize(int codeFontSize)
-{
-	setValue<int>("code/FontSize", codeFontSize);
 }
 
 int ApplicationSettings::getCodeSnippetSnapRange() const

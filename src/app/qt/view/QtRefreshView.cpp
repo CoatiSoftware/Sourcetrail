@@ -1,8 +1,12 @@
 #include "qt/view/QtRefreshView.h"
 
+#include <sstream>
+
+#include "utility/text/TextAccess.h"
+
 #include "component/controller/RefreshController.h"
 #include "qt/view/QtViewWidgetWrapper.h"
-#include "utility/text/TextAccess.h"
+#include "settings/ApplicationSettings.h"
 
 QtRefreshView::QtRefreshView(ViewLayout* viewLayout)
 	: RefreshView(viewLayout)
@@ -33,11 +37,14 @@ void QtRefreshView::refreshView()
 void QtRefreshView::doRefreshView()
 {
 	setStyleSheet();
+	m_widget->refreshStyle();
 }
 
 void QtRefreshView::setStyleSheet()
 {
-	std::string css = TextAccess::createFromFile("data/gui/refresh_view/refresh_view.css")->getText();
+	std::stringstream css;
+	css << TextAccess::createFromFile("data/gui/refresh_view/refresh_view.css")->getText();
+	css << "* { font-size: " << ApplicationSettings::getInstance()->getFontSize() << "pt; }";
 
-	m_widget->setStyleSheet(css.c_str());
+	m_widget->setStyleSheet(css.str().c_str());
 }

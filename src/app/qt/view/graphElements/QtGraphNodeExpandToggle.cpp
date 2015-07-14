@@ -64,11 +64,11 @@ void QtGraphNodeExpandToggle::updateStyle()
 
 	m_text->setPos(
 		(m_rect->rect().width() - QFontMetrics(m_text->font()).width(m_text->text())) / 2,
-		5
+		6
 	);
 
 	m_icon->setPos(
 		(m_rect->rect().width() - m_icon->pixmap().width() / QtDeviceScaledPixmap::devicePixelRatio()) / 2,
-		(m_invisibleSubNodeCount == 0 ? 9 : 14)
+		(m_invisibleSubNodeCount == 0 ? m_rect->rect().height() / 2 - 2 : m_rect->rect().height() - 8)
 	);
 }

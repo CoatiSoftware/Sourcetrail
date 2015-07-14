@@ -13,7 +13,6 @@
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 	margin-bottom: 5px;
-	min-height: 28px;
 	padding-right: 5px;
 }
 
@@ -21,9 +20,8 @@
 	background: none;
 	border: none;
 	border-radius: 3px;
-	font-size: 14px;
 	padding: 2px 4px;
-	margin: 2px 8px;
+	margin: 1px 8px 3px;
 }
 
 #code_file #title_label:hover {
@@ -48,8 +46,6 @@
 	background: none;
 	color: gray;
 	border: none;
-	font-family: "Source Code Pro";
-	font-size: 14px;
 }
 
 #code_file #code_snippet #dots {
@@ -63,13 +59,6 @@
 
 #code_area {
 	background-color: transparent;
-	font-family: "Source Code Pro";
-	font-size: 14px;
-}
-
-#code_area #line_number_area {
-	font-family: "Source Code Pro";
-	font-size: 14px;
 }
 
 #code_file #maximize_button, #code_file #snippet_button, #code_file #minimize_button {

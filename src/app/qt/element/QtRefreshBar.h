@@ -14,6 +14,8 @@ public:
 	QtRefreshBar();
 	virtual ~QtRefreshBar();
 
+	void refreshStyle();
+
 private slots:
 	void refreshClicked();
 	void autoRefreshClicked();

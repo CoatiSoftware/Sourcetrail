@@ -712,7 +712,7 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 		}
 
 		subNode.position.x = margins.left + x;
-		subNode.position.y = margins.top + y;
+		subNode.position.y = margins.top + margins.charHeight + y;
 
 		if (layoutHorizontal)
 		{
@@ -747,7 +747,7 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 	}
 
 	node.size.x = margins.left + width + margins.right;
-	node.size.y = margins.top + y + height + margins.bottom;
+	node.size.y = margins.top + margins.charHeight + y + height + margins.bottom;
 
 	for (DummyNode& subNode : node.subNodes)
 	{

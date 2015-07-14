@@ -7,6 +7,7 @@
 #include "utility/messaging/type/MessageActivateNode.h"
 #include "utility/messaging/type/MessageActivateTokenLocation.h"
 #include "utility/messaging/type/MessageSearch.h"
+#include "utility/messaging/type/MessageZoom.h"
 
 #include "component/controller/Controller.h"
 
@@ -19,6 +20,7 @@ class FeatureController
 	, public MessageListener<MessageActivateNode>
 	, public MessageListener<MessageActivateTokenLocation>
 	, public MessageListener<MessageSearch>
+	, public MessageListener<MessageZoom>
 {
 public:
 	FeatureController(StorageAccess* storageAccess);
@@ -30,6 +32,7 @@ private:
 	virtual void handleMessage(MessageActivateNode* message);
 	virtual void handleMessage(MessageActivateTokenLocation* message);
 	virtual void handleMessage(MessageSearch* message);
+	virtual void handleMessage(MessageZoom* message);
 
 	StorageAccess* m_storageAccess;
 };

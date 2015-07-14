@@ -1,8 +1,12 @@
 #include "qt/view/QtSearchView.h"
 
+#include <sstream>
+
+#include "utility/text/TextAccess.h"
+
 #include "component/controller/SearchController.h"
 #include "qt/view/QtViewWidgetWrapper.h"
-#include "utility/text/TextAccess.h"
+#include "settings/ApplicationSettings.h"
 
 QtSearchView::QtSearchView(ViewLayout* viewLayout)
 	: SearchView(viewLayout)
@@ -51,6 +55,7 @@ void QtSearchView::setAutocompletionList(const std::vector<SearchMatch>& autocom
 void QtSearchView::doRefreshView()
 {
 	setStyleSheet();
+	m_widget->refreshStyle();
 	m_widget->setMatches(std::deque<SearchMatch>());
 }
 
@@ -73,12 +78,16 @@ void QtSearchView::doSetAutocompletionList(const std::vector<SearchMatch>& autoc
 
 void QtSearchView::setStyleSheet()
 {
-	std::string css = TextAccess::createFromFile("data/gui/search_view/search_view.css")->getText();
+	std::stringstream css;
+	css << TextAccess::createFromFile("data/gui/search_view/search_view.css")->getText();
+	css << "* { font-size: " << ApplicationSettings::getInstance()->getFontSize() << "pt; }";
+	css << "#search_box, #search_box *, #search_box_popup { font-family: " << ApplicationSettings::getInstance()->getFontName() << "; }";
+	css << "#search_box, #search_box * { font-size: " << ApplicationSettings::getInstance()->getFontSize() + 2 << "pt; }";
 
-	m_widget->setStyleSheet(css.c_str());
+	m_widget->setStyleSheet(css.str().c_str());
 
 	if (m_widget->getCompleterPopup())
 	{
-		m_widget->getCompleterPopup()->setStyleSheet(css.c_str());
+		m_widget->getCompleterPopup()->setStyleSheet(css.str().c_str());
 	}
 }

@@ -1,10 +1,13 @@
 #include "qt/view/QtCodeView.h"
 
+#include <sstream>
+
 #include "utility/file/FileSystem.h"
 #include "utility/text/TextAccess.h"
 
 #include "qt/element/QtCodeFileList.h"
 #include "qt/view/QtViewWidgetWrapper.h"
+#include "settings/ApplicationSettings.h"
 
 QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
@@ -114,5 +117,10 @@ void QtCodeView::doDefocusToken()
 
 void QtCodeView::setStyleSheet(QWidget* widget) const
 {
-	widget->setStyleSheet(TextAccess::createFromFile("data/gui/code_view/code_view.css")->getText().c_str());
+	std::stringstream css;
+	css << TextAccess::createFromFile("data/gui/code_view/code_view.css")->getText();
+	css << "* { font-size: " << ApplicationSettings::getInstance()->getFontSize() << "pt; }";
+	css << "#code_file #code_snippet * { font-family: " << ApplicationSettings::getInstance()->getFontName() << "; }";
+
+	widget->setStyleSheet(css.str().c_str());
 }

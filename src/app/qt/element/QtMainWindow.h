@@ -45,12 +45,15 @@ public slots:
 	void showLicences();
 	void undo();
 	void redo();
+	void zoomIn();
+	void zoomOut();
 
 	void handleEscapeShortcut();
 
 private:
     void setupEditMenu();
 	void setupProjectMenu();
+	void setupViewMenu();
 	void setupHelpMenu();
 
 	void setupShortcuts();

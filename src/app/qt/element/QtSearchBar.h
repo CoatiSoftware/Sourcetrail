@@ -28,11 +28,12 @@ public:
 
 	QAbstractItemView* getCompleterPopup();
 
+	void refreshStyle();
+
 private:
 	QWidget* m_searchBoxContainer; // used for correct clipping inside the search box
 	QtSmartSearchBox* m_searchBox;
 	QPushButton* m_searchButton;
-	// QPushButton* m_caseSensitiveButton;
 };
 
 #endif // QT_SEARCH_BAR_H

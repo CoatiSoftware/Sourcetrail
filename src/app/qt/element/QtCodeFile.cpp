@@ -39,8 +39,11 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	m_title->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_title->setToolTip(QString::fromStdString(filePath.str()));
 	m_title->setFixedWidth(m_title->fontMetrics().width(filePath.fileName().c_str()) + 32);
+	m_title->setFixedHeight(std::max(m_title->fontMetrics().height() * 1.2, 28.0));
 	m_title->setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 	titleLayout->addWidget(m_title);
+
+	titleWidget->setMinimumHeight(m_title->height() + 4);
 
 	titleLayout->addStretch(3);
 

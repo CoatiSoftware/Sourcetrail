@@ -267,15 +267,16 @@ add_files(
 	utility/messaging/type/MessageInterruptTasks.h
 	utility/messaging/type/MessageLoadProject.h
 	utility/messaging/type/MessageLoadSource.h
+	utility/messaging/type/MessageRedo.h
 	utility/messaging/type/MessageRefresh.h
 	utility/messaging/type/MessageSaveProject.h
 	utility/messaging/type/MessageSearch.h
 	utility/messaging/type/MessageSearchAutocomplete.h
 	utility/messaging/type/MessageShowFile.h
 	utility/messaging/type/MessageStatus.h
-	utility/messaging/type/MessageRedo.h
 	utility/messaging/type/MessageUndo.h
 	utility/messaging/type/MessageWindowFocus.h
+	utility/messaging/type/MessageZoom.h
 
 	utility/messaging/Message.h
 	utility/messaging/MessageBase.h

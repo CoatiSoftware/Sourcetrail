@@ -6,6 +6,8 @@
 #include "utility/messaging/type/MessageAutoRefreshChanged.h"
 #include "utility/messaging/type/MessageRefresh.h"
 
+#include "settings/ApplicationSettings.h"
+
 QtRefreshBar::QtRefreshBar()
 {
 	setObjectName("refresh_bar");
@@ -47,4 +49,12 @@ void QtRefreshBar::refreshClicked()
 void QtRefreshBar::autoRefreshClicked()
 {
 	MessageAutoRefreshChanged(m_autoRefreshButton->isChecked()).dispatch();
+}
+
+void QtRefreshBar::refreshStyle()
+{
+	float height = std::max(ApplicationSettings::getInstance()->getFontSize() + 16, 30);
+
+	m_refreshButton->setFixedHeight(height);
+	m_autoRefreshButton->setFixedHeight(height);
 }

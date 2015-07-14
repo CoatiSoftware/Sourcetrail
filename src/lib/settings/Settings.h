@@ -13,6 +13,7 @@ public:
 	virtual ~Settings();
 
 	bool load(const std::string& filePath);
+	void save();
 	void save(const std::string& filePath);
 	void clear();
 
@@ -32,6 +33,7 @@ protected:
 	bool setValues(const std::string& key, std::vector<T> values);
 
 private:
+	std::string m_filePath;
 	std::shared_ptr<ConfigManager> m_config;
 };
 

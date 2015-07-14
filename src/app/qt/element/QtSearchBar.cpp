@@ -5,6 +5,7 @@
 #include <QPushButton>
 
 #include "qt/element/QtSmartSearchBox.h"
+#include "settings/ApplicationSettings.h"
 
 QtSearchBar::QtSearchBar()
 {
@@ -23,7 +24,7 @@ QtSearchBar::QtSearchBar()
 	layout->addWidget(m_searchBoxContainer);
 
 	QBoxLayout* innerLayout = new QHBoxLayout();
-	innerLayout->setContentsMargins(7, 3, 5, 3);
+	innerLayout->setContentsMargins(7, 3, 5, 2);
 	m_searchBoxContainer->setLayout(innerLayout);
 
 	m_searchBox = new QtSmartSearchBox(m_searchBoxContainer);
@@ -41,14 +42,9 @@ QtSearchBar::QtSearchBar()
 	m_searchButton->setIcon(QIcon("data/gui/search_view/images/search.png"));
 	layout->addWidget(m_searchButton);
 
-	// m_caseSensitiveButton = new QPushButton(this);
-	// m_caseSensitiveButton->setObjectName("case_sensitive_button");
-	// m_caseSensitiveButton->setCheckable(true);
-	// m_caseSensitiveButton->setToolTip("case sensitive");
-	// m_caseSensitiveButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	// layout->addWidget(m_caseSensitiveButton);
-
 	connect(m_searchButton, SIGNAL(clicked()), m_searchBox, SLOT(search()));
+
+	refreshStyle();
 }
 
 QtSearchBar::~QtSearchBar()
@@ -82,4 +78,10 @@ QAbstractItemView* QtSearchBar::getCompleterPopup()
 		return m_searchBox->completer()->popup();
 	}
 	return nullptr;
+}
+
+void QtSearchBar::refreshStyle()
+{
+	m_searchBox->setFixedHeight(std::max(ApplicationSettings::getInstance()->getFontSize() + 11, 25));
+	m_searchButton->setFixedHeight(m_searchBox->height() + 5);
 }

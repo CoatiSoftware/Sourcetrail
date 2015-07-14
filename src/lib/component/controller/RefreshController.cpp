@@ -1,5 +1,7 @@
 #include "component/controller/RefreshController.h"
 
+#include "utility/messaging/type/MessageRefresh.h"
+
 #include "component/view/RefreshView.h"
 
 RefreshController::RefreshController()
@@ -14,11 +16,6 @@ RefreshController::~RefreshController()
 void RefreshController::handleMessage(MessageAutoRefreshChanged* message)
 {
 	m_autoRefreshEnabled = message->enabled;
-}
-
-void RefreshController::handleMessage(MessageRefresh* message)
-{
-	getView()->refreshView();
 }
 
 void RefreshController::handleMessage(MessageWindowFocus* message)

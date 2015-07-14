@@ -14,6 +14,7 @@
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageLoadSource.h"
 #include "utility/messaging/type/MessageRedo.h"
+#include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageUndo.h"
 
@@ -32,6 +33,7 @@ class UndoRedoController
 	, public MessageListener<MessageLoadProject>
 	, public MessageListener<MessageLoadSource>
 	, public MessageListener<MessageRedo>
+	, public MessageListener<MessageRefresh>
 	, public MessageListener<MessageSearch>
 	, public MessageListener<MessageUndo>
 {
@@ -59,8 +61,11 @@ private:
 	virtual void handleMessage(MessageLoadProject* message);
 	virtual void handleMessage(MessageLoadSource* message);
 	virtual void handleMessage(MessageRedo* message);
+	virtual void handleMessage(MessageRefresh* message);
 	virtual void handleMessage(MessageSearch* message);
 	virtual void handleMessage(MessageUndo* message);
+
+	void replayCommands(bool removeLast);
 
 	void processCommand(const Command& command);
 	void processNormalCommand(const Command& command);

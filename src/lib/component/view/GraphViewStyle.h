@@ -29,7 +29,9 @@ public:
 		int spacingY;
 
 		int minWidth;
+
 		float charWidth;
+		float charHeight;
 	};
 
 	struct NodeStyle
@@ -81,7 +83,10 @@ public:
 	static std::shared_ptr<GraphViewStyleImpl> getImpl();
 	static void setImpl(std::shared_ptr<GraphViewStyleImpl> impl);
 
+	static void loadStyleSettings();
+
 	static float getCharWidthForNodeType(Node::NodeType type);
+	static float getCharHeightForNodeType(Node::NodeType type);
 
 	static size_t getFontSizeForNodeType(Node::NodeType type);
 	static size_t getFontSizeOfAccessNode();
@@ -110,7 +115,12 @@ public:
 
 private:
 	static std::map<Node::NodeType, float> s_charWidths;
+	static std::map<Node::NodeType, float> s_charHeights;
+
 	static std::shared_ptr<GraphViewStyleImpl> s_impl;
+
+	static int s_fontSize;
+	static std::string s_fontName;
 };
 
 #endif // GRAPH_VIEW_STYLE_H

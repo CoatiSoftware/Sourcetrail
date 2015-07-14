@@ -15,8 +15,11 @@ class QtUndoRedo
 public:
 	QtUndoRedo();
 	~QtUndoRedo();
+
 	void setRedoButtonEnabled(bool enabled);
 	void setUndoButtonEnabled(bool enabled);
+
+	void refreshStyle();
 
 private slots:
     void undo();

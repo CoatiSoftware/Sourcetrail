@@ -1,8 +1,10 @@
 #include "component/controller/FeatureController.h"
 
 #include "utility/messaging/type/MessageActivateTokens.h"
+#include "utility/messaging/type/MessageRefresh.h"
 
 #include "data/access/StorageAccess.h"
+#include "settings/ApplicationSettings.h"
 
 FeatureController::FeatureController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -84,4 +86,13 @@ void FeatureController::handleMessage(MessageSearch* message)
 	MessageActivateTokens m(m_storageAccess->getTokenIdsForQuery(message->getQuery()));
 	m.undoRedoType = message->undoRedoType;
 	m.dispatchImmediately();
+}
+
+void FeatureController::handleMessage(MessageZoom* message)
+{
+	ApplicationSettings* settings = ApplicationSettings::getInstance().get();
+	settings->setFontSize(std::max(settings->getFontSize() + (message->zoomIn ? 1 : -1), 5));
+	settings->save();
+
+	MessageRefresh(true).dispatch();
 }

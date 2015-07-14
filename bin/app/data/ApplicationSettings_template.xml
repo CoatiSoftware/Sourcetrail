@@ -26,11 +26,13 @@
 		</FrameworkSearchPaths>
 	</source>
 
+	<application>
+		<font_name><!-- STRING: font name --></font_name>
+		<font_size><!-- INTEGER: font size in pt --></font_size>
+	</application>
+
 	<code>
 		<TabWidth><!-- INTEGER: number of spaces to represent a tab in code files --></TabWidth>
-
-		<FontName><!-- STRING: name of the font used for source view --></FontName> <!-- DEPRECATED -->
-		<FontSize><!-- INTEGER: size of the font in the source view --></FontSize> <!-- DEPRECATED -->
 
 		<snippet>
 			<snap_range><!-- INTEGER: max amount of lines that the current snippet will be extended to snap to scope start/end --></snap_range>

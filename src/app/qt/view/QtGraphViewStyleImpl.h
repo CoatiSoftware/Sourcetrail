@@ -9,6 +9,7 @@ class QtGraphViewStyleImpl
 {
 public:
 	virtual float getCharWidthForNodeType(Node::NodeType type);
+	virtual float getCharHeightForNodeType(Node::NodeType type);
 };
 
 #endif // QT_GRAPH_VIEW_STYLE_IMPL_H

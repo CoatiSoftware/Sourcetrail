@@ -6,6 +6,7 @@
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/TaskScheduler.h"
 
+#include "component/view/GraphViewStyle.h"
 #include "component/view/MainView.h"
 #include "component/view/ViewFactory.h"
 #include "data/StorageCache.h"
@@ -31,9 +32,11 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 void Application::loadSettings()
 {
 	ApplicationSettings::getInstance()->load("data/ApplicationSettings.xml");
+	GraphViewStyle::loadStyleSettings();
 }
 
 Application::Application()
+	: m_isInitialParse(true)
 {
 	TaskScheduler::getInstance()->startSchedulerLoopThreaded();
 	MessageQueue::getInstance()->setSendMessagesAsTasks(true);
@@ -96,10 +99,12 @@ void Application::handleMessage(MessageFinishedParsing* message)
 {
 	m_project->logStats();
 
-	if (message->errorCount > 0)
+	if (!m_isInitialParse || message->errorCount > 0)
 	{
 		return;
 	}
+
+	m_isInitialParse = false;
 
 	Id mainId = m_storageCache->getIdForNodeWithName("main");
 
@@ -126,17 +131,26 @@ void Application::handleMessage(MessageFinishedParsing* message)
 
 void Application::handleMessage(MessageLoadProject* message)
 {
+	m_isInitialParse = true;
 	loadProject(message->projectSettingsFilePath);
 }
 
 void Application::handleMessage(MessageLoadSource* message)
 {
+	m_isInitialParse = true;
 	loadSource(message->sourceDirectoryPath);
 }
 
 void Application::handleMessage(MessageRefresh* message)
 {
 	loadSettings();
+
+	if (message->uiOnly)
+	{
+		m_componentManager->refreshViews();
+		return;
+	}
+
 	reloadProject();
 }
 

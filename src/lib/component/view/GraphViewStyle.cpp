@@ -14,6 +14,7 @@ GraphViewStyle::NodeMargins::NodeMargins()
 	, spacingY(0)
 	, minWidth(0)
 	, charWidth(0.0f)
+	, charHeight(0.0f)
 {
 }
 
@@ -56,6 +57,15 @@ void GraphViewStyle::setImpl(std::shared_ptr<GraphViewStyleImpl> impl)
 	s_impl = impl;
 }
 
+void GraphViewStyle::loadStyleSettings()
+{
+	s_fontSize = ApplicationSettings::getInstance()->getFontSize();
+	s_fontName = ApplicationSettings::getInstance()->getFontName();
+
+	s_charWidths.clear();
+	s_charHeights.clear();
+}
+
 float GraphViewStyle::getCharWidthForNodeType(Node::NodeType type)
 {
 	std::map<Node::NodeType, float>::const_iterator it = s_charWidths.find(type);
@@ -70,13 +80,27 @@ float GraphViewStyle::getCharWidthForNodeType(Node::NodeType type)
 	return charWidth;
 }
 
+float GraphViewStyle::getCharHeightForNodeType(Node::NodeType type)
+{
+	std::map<Node::NodeType, float>::const_iterator it = s_charHeights.find(type);
+
+	if (it != s_charHeights.end())
+	{
+		return it->second;
+	}
+
+	float charHeight = getImpl()->getCharHeightForNodeType(type);
+	s_charHeights.emplace(type, charHeight);
+	return charHeight;
+}
+
 size_t GraphViewStyle::getFontSizeForNodeType(Node::NodeType type)
 {
 	switch (type)
 	{
 	case Node::NODE_UNDEFINED:
 	case Node::NODE_NAMESPACE:
-		return 12;
+		return s_fontSize - 2;
 
 	case Node::NODE_UNDEFINED_TYPE:
 	case Node::NODE_STRUCT:
@@ -85,7 +109,7 @@ size_t GraphViewStyle::getFontSizeForNodeType(Node::NodeType type)
 	case Node::NODE_TYPEDEF:
 	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
 	case Node::NODE_FILE:
-		return 14;
+		return s_fontSize;
 
 	case Node::NODE_UNDEFINED_FUNCTION:
 	case Node::NODE_UNDEFINED_VARIABLE:
@@ -94,23 +118,23 @@ size_t GraphViewStyle::getFontSizeForNodeType(Node::NodeType type)
 	case Node::NODE_GLOBAL_VARIABLE:
 	case Node::NODE_FIELD:
 	case Node::NODE_ENUM_CONSTANT:
-		return 11;
+		return s_fontSize - 3;
 	}
 }
 
 size_t GraphViewStyle::getFontSizeOfAccessNode()
 {
-	return 11;
+	return s_fontSize - 3;
 }
 
 size_t GraphViewStyle::getFontSizeOfExpandToggleNode()
 {
-	return 9;
+	return s_fontSize - 5;
 }
 
 std::string GraphViewStyle::getFontNameForNodeType(Node::NodeType type)
 {
-	return "Source Code Pro";
+	return s_fontName;
 }
 
 std::string GraphViewStyle::getFontNameOfAccessNode()
@@ -134,7 +158,7 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 	case Node::NODE_UNDEFINED:
 	case Node::NODE_NAMESPACE:
 		margins.left = margins.right = 15;
-		margins.top = 28;
+		margins.top = 10;
 		margins.bottom = 15;
 		break;
 
@@ -148,33 +172,30 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 		if (hasChildren)
 		{
 			margins.left = margins.right = 10;
-			margins.top = 33;
+			margins.top = 15;
 			margins.bottom = 10;
 		}
 		else
 		{
 			margins.left = margins.right = 8;
-			margins.top = margins.bottom = 17;
+			margins.top = margins.bottom = 8;
 		}
 		break;
 
 	case Node::NODE_UNDEFINED_FUNCTION:
 	case Node::NODE_FUNCTION:
 	case Node::NODE_METHOD:
-		margins.left = margins.right = 5;
-		margins.top = margins.bottom = 10;
-		break;
-
 	case Node::NODE_UNDEFINED_VARIABLE:
 	case Node::NODE_GLOBAL_VARIABLE:
 	case Node::NODE_FIELD:
 	case Node::NODE_ENUM_CONSTANT:
 		margins.left = margins.right = 5;
-		margins.top = margins.bottom = 10;
+		margins.top = margins.bottom = 3;
 		break;
 	}
 
 	margins.charWidth = getCharWidthForNodeType(type);
+	margins.charHeight = getCharHeightForNodeType(type);
 
 	return margins;
 }
@@ -211,8 +232,8 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfExpandToggleNode()
 {
 	NodeMargins margins;
 
-	margins.left = margins.right = margins.top = margins.bottom = 11;
-	margins.minWidth = 0;
+	margins.left = margins.right = margins.top = margins.bottom = 7;
+	margins.minWidth = margins.charHeight = getFontSizeOfExpandToggleNode();
 
 	return margins;
 }
@@ -364,7 +385,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfExpandToggleNode()
 	style.color = "#FFFFFF";
 	style.borderColor = "#00000000";
 
-	style.cornerRadius = 12;
+	style.cornerRadius = 100;
 
 	style.fontName = getFontNameOfExpandToggleNode();
 	style.fontSize = getFontSizeOfExpandToggleNode();
@@ -466,4 +487,9 @@ size_t GraphViewStyle::s_gridCellSize = 5;
 size_t GraphViewStyle::s_gridCellPadding = 10;
 
 std::map<Node::NodeType, float> GraphViewStyle::s_charWidths;
+std::map<Node::NodeType, float> GraphViewStyle::s_charHeights;
+
 std::shared_ptr<GraphViewStyleImpl> GraphViewStyle::s_impl;
+
+int GraphViewStyle::s_fontSize;
+std::string GraphViewStyle::s_fontName;

@@ -21,6 +21,7 @@
 #include "utility/messaging/type/MessageSaveProject.h"
 #include "utility/messaging/type/MessageUndo.h"
 #include "utility/messaging/type/MessageWindowFocus.h"
+#include "utility/messaging/type/MessageZoom.h"
 
 QtMainWindow::QtMainWindow()
 {
@@ -34,6 +35,7 @@ QtMainWindow::QtMainWindow()
 
 	setupProjectMenu();
 	setupEditMenu();
+	setupViewMenu();
 	setupHelpMenu();
 
 	setupShortcuts();
@@ -216,6 +218,16 @@ void QtMainWindow::redo()
     MessageRedo().dispatch();
 }
 
+void QtMainWindow::zoomIn()
+{
+    MessageZoom(true).dispatch();
+}
+
+void QtMainWindow::zoomOut()
+{
+    MessageZoom(false).dispatch();
+}
+
 void QtMainWindow::handleEscapeShortcut()
 {
 	m_startScreen->hide();
@@ -247,9 +259,18 @@ void QtMainWindow::setupEditMenu()
 	menuBar()->addMenu(menu);
 
 	menu->addAction(tr("&Refresh"), this, SLOT(refresh()), QKeySequence::Refresh);
-	menu->addAction(tr("Undo"), this, SLOT(undo()), QKeySequence::Undo );
-    menu->addAction(tr("Redo"), this, SLOT(redo()), QKeySequence::Redo );
+	menu->addAction(tr("Undo"), this, SLOT(undo()), QKeySequence::Undo);
+	menu->addAction(tr("Redo"), this, SLOT(redo()), QKeySequence::Redo);
 	menu->addAction(tr("&Find"), this, SLOT(find()), QKeySequence::Find);
+}
+
+void QtMainWindow::setupViewMenu()
+{
+	QMenu *menu = new QMenu(tr("&View"), this);
+	menuBar()->addMenu(menu);
+
+	menu->addAction(tr("Larger font"), this, SLOT(zoomIn()), QKeySequence::ZoomIn);
+	menu->addAction(tr("Smaller font"), this, SLOT(zoomOut()), QKeySequence::ZoomOut);
 }
 
 void QtMainWindow::setupHelpMenu()

@@ -1,8 +1,12 @@
 #include "qt/view/QtUndoRedoView.h"
 
+#include <sstream>
+
+#include "utility/text/TextAccess.h"
+
 #include "qt/view/QtMainView.h"
 #include "qt/view/QtViewWidgetWrapper.h"
-#include "utility/text/TextAccess.h"
+#include "settings/ApplicationSettings.h"
 
 QtUndoRedoView::QtUndoRedoView(ViewLayout* viewLayout)
 	: UndoRedoView(viewLayout)
@@ -28,15 +32,17 @@ void QtUndoRedoView::initView()
 
 void QtUndoRedoView::refreshView()
 {
+	setStyleSheet();
+	m_widget->refreshStyle();
 }
-
 
 void QtUndoRedoView::setStyleSheet()
 {
-	std::string css = TextAccess::createFromFile("data/gui/undoredo_view/undoredo_view.css")->getText();
+	std::stringstream css;
+	css << TextAccess::createFromFile("data/gui/undoredo_view/undoredo_view.css")->getText();
+	css << "* { font-size: " << ApplicationSettings::getInstance()->getFontSize() << "pt; }";
 
-	m_widget->setStyleSheet(css.c_str());
-
+	m_widget->setStyleSheet(css.str().c_str());
 }
 
 void QtUndoRedoView::doSetRedoButtonEnabled(bool enabled)

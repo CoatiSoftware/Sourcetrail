@@ -57,9 +57,8 @@ QtCodeArea::QtCodeArea(
 	setObjectName("code_area");
 	setReadOnly(true);
 	setFrameStyle(QFrame::NoFrame);
-	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
-	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setLineWrapMode(QPlainTextEdit::NoWrap);
+	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 
 	m_lineNumberArea = new LineNumberArea(this);
 	m_highlighter = new QtHighlighter(document());
@@ -90,9 +89,16 @@ QtCodeArea::~QtCodeArea()
 
 QSize QtCodeArea::sizeHint() const
 {
-	int width = 480;
-	int height = (document()->size().height() + 0.7f) * fontMetrics().lineSpacing() - 3;
-	return QSize(width, height);
+	QTextBlock block = firstVisibleBlock();
+	float height = blockBoundingGeometry(block).translated(contentOffset()).top();
+
+	while (block.isValid())
+	{
+		height += blockBoundingRect(block).height();
+		block = block.next();
+	}
+
+	return QSize(320, height + 1);
 }
 
 void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
@@ -170,7 +176,7 @@ void QtCodeArea::showEvent(QShowEvent* event)
 	int tabWidth = ApplicationSettings::getInstance()->getCodeTabWidth();
 	setTabStopWidth(tabWidth * fontMetrics().width('9'));
 
-	setMaximumHeight(sizeHint().height());
+	setFixedHeight(sizeHint().height());
 }
 
 void QtCodeArea::paintEvent(QPaintEvent* event)

@@ -3,9 +3,10 @@
 #include <QPushButton>
 #include <QHBoxLayout>
 
-#include <utility/messaging/type/MessageUndo.h>
-#include <utility/messaging/type/MessageRedo.h>
+#include "utility/messaging/type/MessageUndo.h"
+#include "utility/messaging/type/MessageRedo.h"
 
+#include "settings/ApplicationSettings.h"
 
 QtUndoRedo::QtUndoRedo()
 {
@@ -35,6 +36,8 @@ QtUndoRedo::QtUndoRedo()
 
     connect(m_undoButton, SIGNAL(clicked()), this, SLOT(undo()));
     connect(m_redoButton, SIGNAL(clicked()), this, SLOT(redo()));
+
+    refreshStyle();
 }
 
 QtUndoRedo::~QtUndoRedo()
@@ -59,4 +62,12 @@ void QtUndoRedo::setUndoButtonEnabled(bool enabled)
 void QtUndoRedo::setRedoButtonEnabled(bool enabled)
 {
     m_redoButton->setEnabled(enabled);
+}
+
+void QtUndoRedo::refreshStyle()
+{
+	float height = std::max(ApplicationSettings::getInstance()->getFontSize() + 16, 30);
+
+	m_undoButton->setFixedHeight(height);
+	m_redoButton->setFixedHeight(height);
 }

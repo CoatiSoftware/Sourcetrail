@@ -99,6 +99,34 @@ void UndoRedoController::handleMessage(MessageRedo* message)
 	}
 }
 
+void UndoRedoController::handleMessage(MessageRefresh* message)
+{
+	if (!m_lastCommand.message)
+	{
+		return;
+	}
+
+	if (m_lastCommand.order > 0)
+	{
+		replayCommands(false);
+	}
+
+	std::shared_ptr<MessageBase> msg = m_lastCommand.message;
+
+	if (m_undo.size())
+	{
+		m_lastCommand = m_undo.back();
+		m_undo.pop_back();
+	}
+	else
+	{
+		m_lastCommand.message.reset();
+	}
+
+	msg->undoRedoType = MessageBase::UNDOTYPE_REDO;
+	msg->dispatch();
+}
+
 void UndoRedoController::handleMessage(MessageSearch* message)
 {
 	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() &&
@@ -112,6 +140,11 @@ void UndoRedoController::handleMessage(MessageSearch* message)
 }
 
 void UndoRedoController::handleMessage(MessageUndo* message)
+{
+	replayCommands(true);
+}
+
+void UndoRedoController::replayCommands(bool removeLast)
 {
 	if (!m_undo.empty())
 	{
@@ -131,8 +164,17 @@ void UndoRedoController::handleMessage(MessageUndo* message)
 		}
 
 		m = m_undo.back().message;
-		m_undo.pop_back();
-		m->undoRedoType = MessageBase::UNDOTYPE_UNDO;
+
+		if (removeLast)
+		{
+			m_undo.pop_back();
+			m->undoRedoType = MessageBase::UNDOTYPE_UNDO;
+		}
+		else
+		{
+			m->undoRedoType = MessageBase::UNDOTYPE_IGNORE;
+		}
+
 		m->dispatch();
 	}
 }

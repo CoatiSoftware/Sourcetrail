@@ -4,7 +4,6 @@
 #include "component/controller/Controller.h"
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageAutoRefreshChanged.h"
-#include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageWindowFocus.h"
 
 class RefreshView;
@@ -12,7 +11,6 @@ class RefreshView;
 class RefreshController
 	: public Controller
 	, public MessageListener<MessageAutoRefreshChanged>
-	, public MessageListener<MessageRefresh>
 	, public MessageListener<MessageWindowFocus>
 {
 public:
@@ -21,7 +19,6 @@ public:
 
 private:
 	virtual void handleMessage(MessageAutoRefreshChanged* message);
-	virtual void handleMessage(MessageRefresh* message);
 	virtual void handleMessage(MessageWindowFocus* message);
 
 	RefreshView* getView();

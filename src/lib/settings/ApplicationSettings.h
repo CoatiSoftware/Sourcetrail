@@ -19,15 +19,16 @@ public:
 	std::string getStartupProjectFilePath() const;
 	bool filterUndefinedNodesFromGraph() const;
 
+	// application
+	std::string getFontName() const;
+	void setFontName(const std::string& fontName);
+
+	int getFontSize() const;
+	void setFontSize(int fontSize);
+
 	// code
 	int getCodeTabWidth() const;
 	void setCodeTabWidth(int codeTabWidth);
-
-	std::string getCodeFontName() const;
-	void setCodeFontName(const std::string& codeFontName);
-
-	int getCodeFontSize() const;
-	void setCodeFontSize(int codeFontSize);
 
 	int getCodeSnippetSnapRange() const;
 	void setCodeSnippetSnapRange(int range);

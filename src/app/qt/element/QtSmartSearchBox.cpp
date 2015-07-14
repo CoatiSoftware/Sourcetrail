@@ -581,10 +581,11 @@ void QtSmartSearchBox::updateElements()
 
 		std::shared_ptr<QtQueryElement> element = std::make_shared<QtQueryElement>(QString::fromStdString(name), this);
 		m_elements.push_back(element);
+
 		std::string color = "#000000";
 		std::string hoverColor = "#000000";
 
-		if(token.queryNodeType == QueryNode::QUERYNODETYPE_TOKEN)
+		if (token.queryNodeType == QueryNode::QUERYNODETYPE_TOKEN)
 		{
 			element->setObjectName(QString::fromStdString("search_element_" + token.getNodeTypeAsString()));
 			color = ApplicationSettings::getInstance()->getNodeTypeColor(token.nodeType);
@@ -597,18 +598,17 @@ void QtSmartSearchBox::updateElements()
 			hoverColor = ApplicationSettings::getInstance()->getQueryNodeTypeColor(token.queryNodeType, "hover");
 		}
 
-		std::string stylesheet = "QPushButton {background-color:";
-		stylesheet += color;
-		stylesheet += ";}  QPushButton:hover{ background-color:";
-		stylesheet += hoverColor;
-		stylesheet += ";}";
+		std::stringstream css;
+		css << "QPushButton { border: none; padding: 0px 4px; background-color:";
+		css << color;
+		css << ";} QPushButton:hover { background-color:";
+		css << hoverColor;
+		css << ";}";
 
-		element->setStyleSheet(stylesheet.c_str());
+		element->setStyleSheet(css.str().c_str());
 
 		connect(element.get(), SIGNAL(wasChecked(QtQueryElement*)), this, SLOT(onElementSelected(QtQueryElement*)));
 	}
-
-	setStyleSheet(TextAccess::createFromFile("data/gui/search_view/search_element.css")->getText().c_str());
 
 	updatePlaceholder();
 	hideAutoCompletions();

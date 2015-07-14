@@ -49,7 +49,7 @@ public:
 	);
 	virtual ~QtCodeArea();
 
-	QSize sizeHint() const;
+	virtual QSize sizeHint() const;
 
 	void lineNumberAreaPaintEvent(QPaintEvent *event);
 	int lineNumberDigits() const;
