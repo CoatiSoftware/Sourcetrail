@@ -392,5 +392,6 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 	}
 
 	m_text->setFont(font);
+	m_text->setBrush(QBrush(style.textColor.c_str()));
 	m_text->setPos(style.textOffset.x, style.textOffset.y);
 }

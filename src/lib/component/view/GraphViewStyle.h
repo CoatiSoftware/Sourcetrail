@@ -39,6 +39,7 @@ public:
 		NodeStyle();
 
 		std::string color;
+		std::string textColor;
 
 		std::string shadowColor;
 		int shadowBlurRadius;

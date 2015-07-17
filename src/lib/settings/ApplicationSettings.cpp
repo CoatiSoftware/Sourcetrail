@@ -46,6 +46,16 @@ void ApplicationSettings::setFontSize(int fontSize)
 	setValue<int>("application/font_size", fontSize);
 }
 
+std::string ApplicationSettings::getColorSchemePath() const
+{
+	return getValue<std::string>("application/color_scheme", "./data/color_schemes/bright.xml");
+}
+
+void ApplicationSettings::setColorSchemePath(const std::string& colorSchemePath)
+{
+	setValue<std::string>("application/color_scheme", colorSchemePath);
+}
+
 int ApplicationSettings::getCodeTabWidth() const
 {
 	return getValue<int>("code/TabWidth", 4);
@@ -74,31 +84,6 @@ int ApplicationSettings::getCodeSnippetExpandRange() const
 void ApplicationSettings::setCodeSnippetExpandRange(int range)
 {
 	setValue<int>("code/snippet/expand_range", range);
-}
-
-std::string ApplicationSettings::getNodeTypeColor(Node::NodeType type, const std::string& state) const
-{
-	std::string path = "colors/" + Node::getTypeString(type) + "/" + state;
-	return getValue<std::string>(path, "#FFFFFF");
-}
-
-void ApplicationSettings::setNodeTypeColor(Node::NodeType type, const std::string& color, const std::string& state)
-{
-	std::string path = "colors/" + Node::getTypeString(type) + "/" + state;
-	setValue<std::string>(path, color);
-}
-
-std::string ApplicationSettings::getQueryNodeTypeColor(QueryNode::QueryNodeType type, const std::string& state) const
-{
-	std::string path = "colors/" + QueryNode::queryNodeTypeToString(type) + "/" + state;
-	return getValue<std::string>(path, "#FFFFFF");
-}
-
-void ApplicationSettings::setQueryNodeTypeColor(QueryNode::QueryNodeType type,
-	const std::string& color, const std::string& state)
-{
-	std::string path = "colors/" + QueryNode::queryNodeTypeToString(type) + "/" + state;
-	setValue<std::string>(path, color);
 }
 
 ApplicationSettings::ApplicationSettings()

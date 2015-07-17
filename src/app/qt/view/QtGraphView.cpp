@@ -23,6 +23,7 @@
 #include "qt/view/graphElements/QtGraphNodeBundle.h"
 #include "qt/view/graphElements/QtGraphNodeData.h"
 #include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
+#include "settings/ColorScheme.h"
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)
@@ -47,7 +48,6 @@ void QtGraphView::createWidgetWrapper()
 void QtGraphView::initView()
 {
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
-	utility::setWidgetBackgroundColor(widget, Colori(255, 255, 255, 255));
 
 	QBoxLayout* layout = new QBoxLayout(QBoxLayout::TopToBottom);
 	layout->setContentsMargins(0, 0, 0, 0);
@@ -61,12 +61,19 @@ void QtGraphView::initView()
 	view->setRenderHints(QPainter::Antialiasing);
 
 	widget->layout()->addWidget(view);
+
+	refreshView();
 }
 
 void QtGraphView::refreshView()
 {
 	clear();
 	resizeView();
+
+	std::string backgroundColor = ColorScheme::getInstance()->getColor("graph/background");
+
+	utility::setWidgetBackgroundColor(QtViewWidgetWrapper::getWidgetOfView(this), backgroundColor);
+	utility::setWidgetBackgroundColor(getView(), backgroundColor);
 }
 
 void QtGraphView::rebuildGraph(

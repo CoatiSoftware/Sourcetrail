@@ -88,6 +88,15 @@ void FeatureController::handleMessage(MessageSearch* message)
 	m.dispatchImmediately();
 }
 
+void FeatureController::handleMessage(MessageSwitchColorScheme* message)
+{
+	ApplicationSettings* settings = ApplicationSettings::getInstance().get();
+	settings->setColorSchemePath(message->colorSchemeFilePath);
+	settings->save();
+
+	MessageRefresh(true).dispatch();
+}
+
 void FeatureController::handleMessage(MessageZoom* message)
 {
 	ApplicationSettings* settings = ApplicationSettings::getInstance().get();

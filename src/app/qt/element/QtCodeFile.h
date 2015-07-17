@@ -59,6 +59,7 @@ private:
 
 	std::vector<std::shared_ptr<QtCodeSnippet>> m_snippets;
 	std::shared_ptr<QtCodeSnippet> m_fileSnippet;
+	QWidget* m_minimizePlaceholder;
 
 	const FilePath m_filePath;
 };

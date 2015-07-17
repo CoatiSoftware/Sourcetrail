@@ -1,9 +1,9 @@
 #undo_redo_bar {
-	background: white;
+	background: transparent;
 }
 
 QPushButton {
-	background: #E0E0E0;
+	background: <color:search/button/normal>;
 	border: none;
 	background-position: 15px 5px;
 	height: 30px;
@@ -22,19 +22,19 @@ QPushButton {
 }
 
 QPushButton:disabled {
-	background: #F4F4F4;
+	background: <color:search/button/disabled>;
 }
 
 QPushButton:hover {
-	background: #B2B2B2;
+	background: <color:search/button/hover>;
 }
 
 QPushButton:pressed {
-	background: #626262;
+	background: <color:search/button/press>;
 }
 
 QToolTip {
-	background-color: rgb(204, 204, 204);
-	border: 1px solid rgb(0, 0, 0);
-	color: rgb(0, 0, 0);
+	background-color: <color:tool_tip/background>;
+	color: <color:tool_tip/text>;
+	font-size: <setting:font_size>pt;
 }

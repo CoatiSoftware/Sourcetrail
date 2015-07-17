@@ -47,6 +47,7 @@ public slots:
 	void redo();
 	void zoomIn();
 	void zoomOut();
+	void switchColorScheme();
 
 	void handleEscapeShortcut();
 

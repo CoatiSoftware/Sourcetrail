@@ -1,9 +1,18 @@
+* {
+	font-size: <setting:font_size>pt;
+}
+
+#search_box, #search_box * {
+	font-family: "<setting:font_name>";
+	font-size: <setting:font_size+2>pt;
+}
+
 #search_bar {
-	background: white;
+	background-color: transparent;
 }
 
 QWidget#search_box_container {
-	background: #E0E0E0;
+	background: <color:search/field/background>;
 	border: none;
 	border-bottom-left-radius: 12px;
 	border-top-left-radius: 12px;
@@ -11,26 +20,29 @@ QWidget#search_box_container {
 }
 
 QLineEdit#search_box {
-	background: #E0E0E0;
+	background-color: transparent;
 	border: none;
-	selection-background-color: #B2B2B2;
+	color: <color:search/field/text>;
+	selection-background-color: <color:search/field/highlight>;
 }
 
 QWidget#search_box_highlight {
-	background: #B2B2B2;
+	background-color: <color:search/field/highlight>;
 	border: none;
 }
 
 QAbstractItemView#search_box_popup {
-	background-color: white;
+	background-color: <color:search/popup/background>;
 	border: none;
+	color: <color:search/popup/text>;
+	font-family: "<setting:font_name>";
 	margin: 8px 0 0;
 	min-height: 26px;
-	selection-background-color: #B2B2B2;
+	selection-background-color: <color:search/popup/highlight>;
 }
 
 QPushButton#search_button {
-	background: #E0E0E0;
+	background: <color:search/button/normal>;
 	border: none;
 	border-bottom-right-radius: 12px;
 	border-top-right-radius: 12px;
@@ -39,15 +51,15 @@ QPushButton#search_button {
 }
 
 #search_button:hover {
-	background: #B2B2B2;
+	background: <color:search/button/hover>;
 }
 
 #search_button:pressed {
-	background: #626262;
+	background: <color:search/button/press>;
 }
 
 QToolTip {
-	background-color: rgb(204, 204, 204);
-	border: 1px solid rgb(0, 0, 0);
-	color: rgb(0, 0, 0);
+	background-color: <color:tool_tip/background>;
+	color: <color:tool_tip/text>;
+	font-size: <setting:font_size>pt;
 }

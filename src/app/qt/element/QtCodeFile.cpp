@@ -74,6 +74,10 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	connect(m_snippetButton, SIGNAL(clicked()), this, SLOT(clickedSnippetButton()));
 	connect(m_maximizeButton, SIGNAL(clicked()), this, SLOT(clickedMaximizeButton()));
 
+	m_minimizePlaceholder = new QWidget(this);
+	m_minimizePlaceholder->setMinimumHeight(5);
+	layout->addWidget(m_minimizePlaceholder);
+
 	update();
 }
 
@@ -120,6 +124,7 @@ void QtCodeFile::addCodeSnippet(
 	if (locationFile->isWholeCopy)
 	{
 		snippet->setProperty("isFirst", true);
+		snippet->setProperty("isLast", true);
 		m_fileSnippet = snippet;
 		clickedMaximizeButton();
 		return;
@@ -135,6 +140,7 @@ void QtCodeFile::addCodeSnippet(
 	int maxDigits = 1;
 	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
 	{
+		snippet->setProperty("isLast", false);
 		maxDigits = qMax(maxDigits, snippet->lineNumberDigits());
 	}
 
@@ -142,6 +148,8 @@ void QtCodeFile::addCodeSnippet(
 	{
 		snippet->updateLineNumberAreaWidthForDigits(maxDigits);
 	}
+
+	snippet->setProperty("isLast", true);
 
 	clickedSnippetButton();
 }
@@ -195,6 +203,8 @@ void QtCodeFile::clickedMinimizeButton()
 		m_snippetButton->setEnabled(true);
 	}
 	m_maximizeButton->setEnabled(true);
+
+	m_minimizePlaceholder->show();
 }
 
 void QtCodeFile::clickedSnippetButton()
@@ -212,6 +222,8 @@ void QtCodeFile::clickedSnippetButton()
 	m_minimizeButton->setEnabled(true);
 	m_snippetButton->setEnabled(false);
 	m_maximizeButton->setEnabled(true);
+
+	m_minimizePlaceholder->hide();
 }
 
 void QtCodeFile::clickedMaximizeButton()
@@ -236,4 +248,6 @@ void QtCodeFile::clickedMaximizeButton()
 		m_snippetButton->setEnabled(true);
 	}
 	m_maximizeButton->setEnabled(false);
+
+	m_minimizePlaceholder->hide();
 }

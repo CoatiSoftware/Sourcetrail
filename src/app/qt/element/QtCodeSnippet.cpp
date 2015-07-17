@@ -42,7 +42,7 @@ QtCodeSnippet::QtCodeSnippet(
 		m_title->setObjectName("scope_name");
 		m_title->minimumSizeHint(); // force font loading
 		m_title->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-		m_title->setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
+		m_title->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 		titleLayout->addWidget(m_title);
 	}
 

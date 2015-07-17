@@ -8,15 +8,18 @@
 #include "utility/utility.h"
 
 #include "qt/graphics/QtRoundedRectItem.h"
+#include "settings/ColorScheme.h"
 
 QtStraightLineItem::QtStraightLineItem(QGraphicsItem* parent)
 	: QGraphicsLineItem(parent)
 {
 	this->setAcceptHoverEvents(true);
 
+	ColorScheme* scheme = ColorScheme::getInstance().get();
+
 	m_circle = new QtRoundedRectItem(this);
 	m_circle->setRadius(100);
-	m_circle->setBrush(QBrush(QColor("#FFF")));
+	m_circle->setBrush(QBrush(scheme->getColor("graph/background").c_str()));
 	m_circle->setAcceptHoverEvents(true);
 
 	QFont font;
@@ -26,6 +29,7 @@ QtStraightLineItem::QtStraightLineItem(QGraphicsItem* parent)
 
 	m_number = new QGraphicsSimpleTextItem(this);
 	m_number->setFont(font);
+	m_number->setBrush(QBrush(scheme->getColor("graph/text").c_str()));
 
 	m_arrowLeft = new QGraphicsLineItem(this);
 	m_arrowRight = new QGraphicsLineItem(this);
@@ -101,9 +105,6 @@ void QtStraightLineItem::updateLine(
 		arrowSide -= nUnit * 14;
 		m_arrowLeft->setLine(arrow.x, arrow.y, arrowSide.x, arrowSide.y);
 
-		m_arrowLeft->setPen(QPen(QBrush(QColor("#E0E0E0")), 2, Qt::SolidLine, Qt::RoundCap));
-		m_arrowRight->setPen(QPen(QBrush(QColor("#E0E0E0")), 2, Qt::SolidLine, Qt::RoundCap));
-
 		m_arrowLeft->show();
 		m_arrowRight->show();
 	}
@@ -114,15 +115,23 @@ void QtStraightLineItem::updateLine(
 	}
 
 	m_circle->setRect(mid.x - radius, mid.y - radius, 2 * radius, 2 * radius);
-	m_circle->setPen(QPen(QColor("#E0E0E0"), 2));
 
 	QString numberStr = QString::number(number);
 	m_number->setText(numberStr);
-	m_number->setBrush(QBrush(QColor("#666")));
 	m_number->setPos(
 		mid.x - QFontMetrics(m_number->font()).width(numberStr) / 2,
 		mid.y - QFontMetrics(m_number->font()).height() / 2
 	);
 
-	this->setPen(QPen(QBrush(style.color.c_str()), number + style.width, Qt::SolidLine, Qt::RoundCap));
+
+	QColor color(style.color.c_str());
+
+	this->setPen(QPen(QBrush(color), number + style.width, Qt::SolidLine, Qt::RoundCap));
+
+	color = color.darker(110);
+
+	m_circle->setPen(QPen(color, 2));
+
+	m_arrowLeft->setPen(QPen(QBrush(color), 2, Qt::SolidLine, Qt::RoundCap));
+	m_arrowRight->setPen(QPen(QBrush(color), 2, Qt::SolidLine, Qt::RoundCap));
 }

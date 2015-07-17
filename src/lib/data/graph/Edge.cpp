@@ -154,13 +154,13 @@ std::string Edge::getTypeString(EdgeType type)
 	case EDGE_TYPEDEF_OF:
 		return "typedef";
 	case EDGE_TEMPLATE_PARAMETER_OF:
-		return "template parameter";
+		return "template_parameter";
 	case EDGE_TEMPLATE_ARGUMENT_OF:
-		return "template argument";
+		return "template_argument";
 	case EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF:
-		return "template default argument";
+		return "template_default_argument";
 	case EDGE_TEMPLATE_SPECIALIZATION_OF:
-		return "template specialization";
+		return "template_specialization";
 	case EDGE_INCLUDE:
 		return "include";
 	case EDGE_AGGREGATION:

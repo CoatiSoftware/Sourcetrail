@@ -29,6 +29,7 @@
 	<application>
 		<font_name><!-- STRING: font name --></font_name>
 		<font_size><!-- INTEGER: font size in pt --></font_size>
+		<color_scheme><!-- STRING: color scheme path --></color_scheme>
 	</application>
 
 	<code>
@@ -39,81 +40,4 @@
 			<expand_range><!-- INTEGER: amount of lines that the snippet range (not snapped) will be extended --></expand_range>
 		</snippet>
 	</code>
-
-	<colors>
-		<!-- QueryNodeType -->
-		<command>
-			<normal>#8FBC92</normal>
-			<hover>#5EA071</hover>
-		</command>
-		<operator>
-			<normal>#FCA47E</normal>
-			<hover>#F97A4E</hover>
-		</operator>
-		<!-- NodeType -->
-		<class>
-			<normal>#ededed</normal>
-			<hover>#ededed</hover>
-		</class>
-		<struct>
-			<normal>#ededed</normal>
-			<hover>#ededed</hover>
-		</struct>
-		<enum>
-			<normal>#ededed</normal>
-			<hover>#ededed</hover>
-		</enum>
-		<function>
-			<normal>#F4D07D</normal>
-			<hover>#F4BC3D</hover>
-		</function>
-		<method>
-			<normal>#F4D07D</normal>
-			<hover>#F4BC3D</hover>
-		</method>
-		<field>
-			<normal>#7BB5D4</normal>
-			<hover>#42A1D4</hover>
-		</field>
-		<global>
-			<normal>#7BB5D4</normal>
-			<hover>#42A1D4</hover>
-		</global>
-		<undefined>
-			<normal>#00000000</normal>
-			<hover>#00000000</hover>
-		</undefined>
-		<undefined_variable>
-			<normal>#7BB5D4</normal>
-			<hover>#42A1D4</hover>
-		</undefined_variable>
-		<undefined_function>
-			<normal>#F4D07D</normal>
-			<hover>#F4BC3D</hover>
-		</undefined_function>
-		<undefined_type>
-			<normal>#ededed</normal>
-			<hover>#ededed</hover>
-		</undefined_type>
-		<namespace>
-			<normal>#00000000</normal>
-			<hover>#00000000</hover>
-		</namespace>
-		<typedef>
-			<normal>#ededed</normal>
-			<hover>#ededed</hover>
-		</typedef>
-		<enum_constant>
-			<normal>#7BB5D4</normal>
-			<hover>#42A1D4</hover>
-		</enum_constant>
-		<template_parameter_type>
-			<normal>#ededed</normal>
-			<hover>#ededed</hover>
-		</template_parameter_type>
-		<file>
-			<normal>#88BAB3</normal>
-			<hover>#6AA39B</hover>
-		</file>
-	</colors>
 </config>

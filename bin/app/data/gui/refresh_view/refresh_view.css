@@ -1,20 +1,20 @@
 #refresh_bar {
-	background: white;
+	background: transparent;
 }
 
 QPushButton {
-	background: #E0E0E0;
+	background: <color:search/button/normal>;
 	border: none;
 	height: 30px;
 	width: 30px;
 }
 
 QPushButton:hover, QPushButton:checked {
-	background: #B2B2B2;
+	background: <color:search/button/hover>;
 }
 
 QPushButton:pressed {
-	background: #626262;
+	background: <color:search/button/press>;
 }
 
 #refresh_button {
@@ -29,7 +29,7 @@ QPushButton:pressed {
 }
 
 QToolTip {
-	background-color: rgb(204, 204, 204);
-	border: 1px solid rgb(0, 0, 0);
-	color: rgb(0, 0, 0);
+	background-color: <color:tool_tip/background>;
+	color: <color:tool_tip/text>;
+	font-size: <setting:font_size>pt;
 }

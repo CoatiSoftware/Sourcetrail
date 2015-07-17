@@ -1,13 +1,11 @@
 #include "qt/view/QtCodeView.h"
 
-#include <sstream>
-
 #include "utility/file/FileSystem.h"
-#include "utility/text/TextAccess.h"
+#include "qt/utility/utilityQt.h"
 
 #include "qt/element/QtCodeFileList.h"
 #include "qt/view/QtViewWidgetWrapper.h"
-#include "settings/ApplicationSettings.h"
+#include "settings/ColorScheme.h"
 
 QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
@@ -19,7 +17,7 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	, m_defocusTokenFunctor(std::bind(&QtCodeView::doDefocusToken, this))
 {
 	m_widget = new QtCodeFileList();
-	setStyleSheet(m_widget);
+	setStyleSheet();
 }
 
 QtCodeView::~QtCodeView()
@@ -77,7 +75,7 @@ void QtCodeView::defocusToken()
 
 void QtCodeView::doRefreshView()
 {
-	setStyleSheet(m_widget);
+	setStyleSheet();
 	m_widget->clearCodeSnippets();
 }
 
@@ -92,6 +90,8 @@ void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippe
 	{
 		m_widget->addCodeSnippet(params.startLineNumber, params.title, params.code, params.locationFile);
 	}
+
+	setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
 }
 
 void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
@@ -115,12 +115,9 @@ void QtCodeView::doDefocusToken()
 	m_widget->defocusToken();
 }
 
-void QtCodeView::setStyleSheet(QWidget* widget) const
+void QtCodeView::setStyleSheet() const
 {
-	std::stringstream css;
-	css << TextAccess::createFromFile("data/gui/code_view/code_view.css")->getText();
-	css << "* { font-size: " << ApplicationSettings::getInstance()->getFontSize() << "pt; }";
-	css << "#code_file #code_snippet * { font-family: " << ApplicationSettings::getInstance()->getFontName() << "; }";
+	utility::setWidgetBackgroundColor(m_widget, ColorScheme::getInstance()->getColor("code/background"));
 
-	widget->setStyleSheet(css.str().c_str());
+	m_widget->setStyleSheet(utility::getStyleSheet("data/gui/code_view/code_view.css").c_str());
 }

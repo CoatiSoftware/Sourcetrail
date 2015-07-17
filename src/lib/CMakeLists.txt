@@ -211,6 +211,8 @@ add_files(
 
 	settings/ApplicationSettings.cpp
 	settings/ApplicationSettings.h
+	settings/ColorScheme.cpp
+	settings/ColorScheme.h
 	settings/CommonSettings.cpp
 	settings/CommonSettings.h
 	settings/ProjectSettings.cpp
@@ -274,6 +276,7 @@ add_files(
 	utility/messaging/type/MessageSearchAutocomplete.h
 	utility/messaging/type/MessageShowFile.h
 	utility/messaging/type/MessageStatus.h
+	utility/messaging/type/MessageSwitchColorScheme.h
 	utility/messaging/type/MessageUndo.h
 	utility/messaging/type/MessageWindowFocus.h
 	utility/messaging/type/MessageZoom.h

@@ -4,6 +4,7 @@
 
 #include "component/view/GraphViewStyleImpl.h"
 #include "settings/ApplicationSettings.h"
+#include "settings/ColorScheme.h"
 
 GraphViewStyle::NodeMargins::NodeMargins()
 	: left(0)
@@ -248,25 +249,22 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 ){
 	NodeStyle style;
 
-	style.color = "#D3D3D3";
-	style.borderColor = "#00000000";
-
-	style.fontName = getFontNameForNodeType(type);
-	style.fontSize = getFontSizeForNodeType(type);
-
-	if (isActive)
-	{
-		style.borderColor = "#3c3c3c";
-	}
+	ColorScheme* scheme = ColorScheme::getInstance().get();
 
 	if (isActive || isFocused)
 	{
-		style.color = ApplicationSettings::getInstance()->getNodeTypeColor(type, "hover");
+		style.color = scheme->getNodeTypeColor(type, "hover");
 	}
 	else
 	{
-		style.color = ApplicationSettings::getInstance()->getNodeTypeColor(type);
+		style.color = scheme->getNodeTypeColor(type);
 	}
+
+	style.textColor = scheme->getColor("graph/text");
+	style.borderColor = isActive ? scheme->getColor("graph/border") : "#00000000";
+
+	style.fontName = getFontNameForNodeType(type);
+	style.fontSize = getFontSizeForNodeType(type);
 
 	switch (type)
 	{
@@ -274,7 +272,8 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 		style.borderDashed = true;
 
 	case Node::NODE_NAMESPACE:
-		style.borderColor = "#cc8d91";
+		style.borderColor = style.color;
+		style.color = "#00000000";
 		style.borderWidth = 1;
 
 		style.cornerRadius = 20;
@@ -296,13 +295,14 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 			style.fontBold = true;
 		}
 
+		style.shadowColor = scheme->getColor("graph/border");
 		if (isFocused)
 		{
-			style.shadowColor = "#FF000000";
+			style.shadowColor.insert(1, "FF");
 		}
 		else
 		{
-			style.shadowColor = "#80000000";
+			style.shadowColor.insert(1, "80");
 		}
 		style.shadowBlurRadius = 5;
 
@@ -363,7 +363,10 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfAccessNode()
 {
 	NodeStyle style;
 
-	style.color = "#FFFFFF";
+	ColorScheme* scheme = ColorScheme::getInstance().get();
+
+	style.color = scheme->getColor("graph/background");
+	style.textColor = scheme->getColor("graph/text");
 	style.borderColor = "#00000000";
 
 	style.cornerRadius = 12;
@@ -382,7 +385,10 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfExpandToggleNode()
 {
 	NodeStyle style;
 
-	style.color = "#FFFFFF";
+	ColorScheme* scheme = ColorScheme::getInstance().get();
+
+	style.color = scheme->getColor("graph/background");
+	style.textColor = scheme->getColor("graph/text");
 	style.borderColor = "#00000000";
 
 	style.cornerRadius = 100;
@@ -397,8 +403,10 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfBundleNode(bool isFocused)
 {
 	NodeStyle style = getStyleForNodeType(Node::NODE_CLASS, false, isFocused, false);
 
+	ColorScheme* scheme = ColorScheme::getInstance().get();
+
 	style.shadowColor = "";
-	style.borderColor = "#3c3c3c";
+	style.borderColor = scheme->getColor("graph/border");
 	style.borderWidth = isFocused ? 2 : 1;
 
 	return style;
@@ -423,23 +431,28 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 	style.originOffset.y = -1;
 	style.targetOffset.y = 1;
 
+	if (isActive)
+	{
+		style.color = ColorScheme::getInstance()->getEdgeTypeColor(type, "hover");
+	}
+	else
+	{
+		style.color = ColorScheme::getInstance()->getEdgeTypeColor(type);
+	}
+
 	switch (type)
 	{
 	case Edge::EDGE_AGGREGATION:
 		style.isStraight = true;
-		style.color = isActive ? "#DDD" : "#EEE";
 		style.width = 1;
 		style.zValue = isActive ? -2 : -5;
 		break;
-
 	case Edge::EDGE_CALL:
-		style.color = "#F4BC3D";
 		style.originOffset.y = 1;
 		style.targetOffset.y = -1;
 		style.verticalOffset = 4;
 		break;
 	case Edge::EDGE_USAGE:
-		style.color = "#3190BA";
 		style.originOffset.y = 3;
 		style.targetOffset.y = -3;
 		style.verticalOffset = 6;
@@ -449,22 +462,8 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 		style.arrowWidth = 14;
 		style.arrowClosed = true;
 		style.targetOffset.x = 34;
-		style.color = "#878787";
-		break;
-	case Edge::EDGE_OVERRIDE:
-		style.color = "#CC5E89";
-		break;
-	case Edge::EDGE_INCLUDE:
-		style.color = "#5DA399";
-		break;
-	case Edge::EDGE_TEMPLATE_PARAMETER_OF:
-	case Edge::EDGE_TEMPLATE_ARGUMENT_OF:
-	case Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF:
-	case Edge::EDGE_TEMPLATE_SPECIALIZATION_OF:
-		style.color = "#C1305D";
 		break;
 	default:
-		style.color = "#878787";
 		break;
 	}
 

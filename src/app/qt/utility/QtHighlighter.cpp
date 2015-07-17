@@ -3,6 +3,8 @@
 #include <QTextCursor>
 #include <QTextDocument>
 
+#include "settings/ColorScheme.h"
+
 QtHighlighter::QtHighlighter(QTextDocument *parent)
 	: QSyntaxHighlighter(parent)
 {
@@ -29,13 +31,15 @@ QtHighlighter::QtHighlighter(QTextDocument *parent)
 	QRegExp numberRegExp = QRegExp("\\b[0-9]+\\b");
 	QRegExp functionRegExp = QRegExp("\\b[A-Za-z0-9_]+(?=\\()");
 
-	QColor directiveColor = QColor(27,136,86);
-	QColor keywordColor = QColor(27,136,86);
-	QColor typeColor = QColor("#C1492D");
-	QColor commentColor = Qt::gray;
-	QColor numberColor = QColor("#C1315E");
-	QColor quotationColor = QColor("#865F9E");
-	QColor functionColor = QColor("#CC9533");
+	ColorScheme* scheme = ColorScheme::getInstance().get();
+
+	QColor directiveColor(scheme->getSyntaxColor("directive").c_str());
+	QColor keywordColor(scheme->getSyntaxColor("keyword").c_str());
+	QColor typeColor(scheme->getSyntaxColor("type").c_str());
+	QColor commentColor(scheme->getSyntaxColor("comment").c_str());
+	QColor numberColor(scheme->getSyntaxColor("number").c_str());
+	QColor quotationColor(scheme->getSyntaxColor("quotation").c_str());
+	QColor functionColor(scheme->getSyntaxColor("function").c_str());
 
 	foreach (const QString &pattern, keywordPatterns)
 	{

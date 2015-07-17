@@ -4,6 +4,7 @@
 #include <QScrollBar>
 
 #include "settings/ApplicationSettings.h"
+#include "settings/ColorScheme.h"
 
 QtAutocompletionModel::QtAutocompletionModel(QObject* parent)
 	: QAbstractTableModel(parent)
@@ -85,6 +86,8 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 {
     painter->save();
 
+    ColorScheme* scheme = ColorScheme::getInstance().get();
+
 	if (option.state & QStyle::State_Selected)
 	{
 		painter->fillRect(option.rect, option.palette.color(QPalette::Highlight));
@@ -101,15 +104,14 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 	QColor color("#FFFFFF");
 
 	Node::NodeType nodeType = static_cast<Node::NodeType>(index.sibling(index.row(), index.column() + 3).data().toInt());
-	if(type.size() && nodeType)
+	if (type.size() && nodeType)
 	{
-		color = QColor(ApplicationSettings::getInstance()->getNodeTypeColor(nodeType).c_str());
+		color = QColor(scheme->getNodeTypeColor(nodeType).c_str());
 	}
 	else
 	{
-		color = QColor(ApplicationSettings::getInstance()->getQueryNodeTypeColor(QueryNode::QUERYNODETYPE_COMMAND).c_str());
+		color = QColor(scheme->getQueryNodeTypeColor(QueryNode::QUERYNODETYPE_COMMAND).c_str());
 	}
-
 
 
 	QList<QVariant> indices = index.sibling(index.row(), index.column() + 2).data().toList();
@@ -149,15 +151,11 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 			painter->setFont(typeFont);
 		}
 
-		QPen pen = painter->pen();
-		QPen typePen = pen;
-		typePen.setColor(QColor("#878787"));
+		QPen typePen = painter->pen();
+		typePen.setColor(scheme->getColor("search/popup/by_text").c_str());
 		painter->setPen(typePen);
 
 		painter->drawText(option.rect.adjusted(0, 3, -charWidth, 0), Qt::AlignRight, type);
-
-		painter->setFont(font);
-		painter->setPen(pen);
 	}
 
 	painter->restore();

@@ -48,7 +48,7 @@ private:
 	void doFocusToken(const Id tokenId);
 	void doDefocusToken();
 
-	void setStyleSheet(QWidget* widget) const;
+	void setStyleSheet() const;
 
 	QtThreadedFunctor<> m_refreshViewFunctor;
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&> m_showCodeSnippetsFunctor;

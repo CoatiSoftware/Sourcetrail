@@ -1,40 +1,48 @@
-#code_file_list {
-	background-color: white;
+#code_file_list_base, #code_file_list {
+	background-color: <color:code/background>;
+}
+
+* {
+	font-size: <setting:font_size>pt;
 }
 
 #code_file {
-	background-color: white;
-	border: 2px solid #E0E0E0;
+	background-color: <color:code/snippet/background>;
+	border: 2px solid <color:code/file/background>;
 	border-radius: 14px;
 }
 
 #code_file #title_widget {
-	background-color: #E0E0E0;
+	background-color: <color:code/file/background>;
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
-	margin-bottom: 5px;
 	padding-right: 5px;
 }
 
 #code_file #title_label {
-	background: none;
+	background-color: <color:code/file/title/normal>;
 	border: none;
 	border-radius: 3px;
+	color: <color:code/file/title/text>;
 	padding: 2px 4px;
 	margin: 1px 8px 3px;
 }
 
 #code_file #title_label:hover {
-	background-color: #D0D0D0;
+	background-color: <color:code/file/title/hover>;
 }
 
-#code_file #title_label:disabled {
-	color: black;
+#code_file #title_label:pressed {
+	background-color: <color:code/file/title/press>;
 }
 
-#code_file #code_snippet{
-	border-top: 2px solid #E0E0E0;
-	padding-top: 2px;
+#code_file #code_snippet {
+	background-color: <color:code/snippet/background>;
+	border-top: 2px solid <color:code/file/background>;
+}
+
+#code_file #code_snippet * {
+	font-family: "<setting:font_name>";
 }
 
 #code_file #code_snippet[isFirst=true] {
@@ -42,23 +50,45 @@
 	padding-top: 0px;
 }
 
+#code_file #code_snippet[isLast=true] {
+	border-bottom-left-radius: 12px;
+	border-bottom-right-radius: 12px;
+}
+
 #code_file #code_snippet #scope_name, #code_file #code_snippet #dots {
-	background: none;
-	color: gray;
+	background-color: <color:code/snippet/title/background>;
+	color: <color:code/snippet/title/text>;
 	border: none;
 }
 
+#code_file #code_snippet #scope_name:hover {
+	background-color: <color:code/snippet/title/hover>;
+}
+
 #code_file #code_snippet #dots {
+	background-color: <color:code/snippet/line_number/background>;
 	padding-right: 13px;
 	text-align: right;
 }
 
 #code_file #code_snippet #scope_name {
 	padding-left: 4px;
+	text-align: left;
+}
+
+#code_file #code_snippet #line_number_area {
+	background-color: <color:code/snippet/line_number/background>;
+	border: none;
+	color: <color:code/snippet/line_number/text>;
+}
+
+#code_file #code_snippet[isLast=true] #line_number_area {
+	border-bottom-left-radius: 12px;
 }
 
 #code_area {
 	background-color: transparent;
+	color: <color:code/snippet/syntax/normal>;
 }
 
 #code_file #maximize_button, #code_file #snippet_button, #code_file #minimize_button {
@@ -92,7 +122,7 @@
 }
 
 QToolTip {
-	background-color: rgb(204, 204, 204);
-	border: 1px solid rgb(0, 0, 0);
-	color: rgb(0, 0, 0);
+	background-color: <color:tool_tip/background>;
+	color: <color:tool_tip/text>;
+	font-size: <setting:font_size>pt;
 }

@@ -3,10 +3,6 @@
 
 #include <memory>
 
-#include "utility/math/Color.h"
-
-#include "data/graph/Node.h"
-#include "data/query/QueryNode.h"
 #include "settings/CommonSettings.h"
 
 class ApplicationSettings
@@ -26,6 +22,9 @@ public:
 	int getFontSize() const;
 	void setFontSize(int fontSize);
 
+	std::string getColorSchemePath() const;
+	void setColorSchemePath(const std::string& colorSchemePath);
+
 	// code
 	int getCodeTabWidth() const;
 	void setCodeTabWidth(int codeTabWidth);
@@ -35,13 +34,6 @@ public:
 
 	int getCodeSnippetExpandRange() const;
 	void setCodeSnippetExpandRange(int range);
-
-	// colors
-	std::string getNodeTypeColor(Node::NodeType type, const std::string& state = "normal") const;
-	void setNodeTypeColor(Node::NodeType type, const std::string& color, const std::string& state = "normal");
-
-	std::string getQueryNodeTypeColor(QueryNode::QueryNodeType type , const std::string& state = "normal") const;
-	void setQueryNodeTypeColor(QueryNode::QueryNodeType type, const std::string& color, const std::string& state = "normal");
 
 private:
 	ApplicationSettings();

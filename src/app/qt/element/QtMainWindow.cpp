@@ -19,6 +19,7 @@
 #include "utility/messaging/type/MessageRedo.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageSaveProject.h"
+#include "utility/messaging/type/MessageSwitchColorScheme.h"
 #include "utility/messaging/type/MessageUndo.h"
 #include "utility/messaging/type/MessageWindowFocus.h"
 #include "utility/messaging/type/MessageZoom.h"
@@ -228,6 +229,16 @@ void QtMainWindow::zoomOut()
     MessageZoom(false).dispatch();
 }
 
+void QtMainWindow::switchColorScheme()
+{
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "./data/color_schemes", "XML Files (*.xml)");
+
+	if (!fileName.isEmpty())
+	{
+		MessageSwitchColorScheme(fileName.toStdString()).dispatch();
+	}
+}
+
 void QtMainWindow::handleEscapeShortcut()
 {
 	m_startScreen->hide();
@@ -271,6 +282,8 @@ void QtMainWindow::setupViewMenu()
 
 	menu->addAction(tr("Larger font"), this, SLOT(zoomIn()), QKeySequence::ZoomIn);
 	menu->addAction(tr("Smaller font"), this, SLOT(zoomOut()), QKeySequence::ZoomOut);
+
+	menu->addAction(tr("Switch Color Scheme..."), this, SLOT(switchColorScheme()));
 }
 
 void QtMainWindow::setupHelpMenu()

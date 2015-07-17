@@ -60,6 +60,11 @@ void ComponentManager::refreshViews()
 			view->refreshView();
 		}
 	}
+
+	for (std::shared_ptr<CompositeView> view : m_compositeViews)
+	{
+		view->refreshView();
+	}
 }
 
 ComponentManager::ComponentManager()

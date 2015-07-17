@@ -11,6 +11,7 @@
 #include "component/view/ViewFactory.h"
 #include "data/StorageCache.h"
 #include "settings/ApplicationSettings.h"
+#include "settings/ColorScheme.h"
 
 std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 {
@@ -32,6 +33,8 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 void Application::loadSettings()
 {
 	ApplicationSettings::getInstance()->load("data/ApplicationSettings.xml");
+	ColorScheme::getInstance()->load(ApplicationSettings::getInstance()->getColorSchemePath());
+
 	GraphViewStyle::loadStyleSettings();
 }
 

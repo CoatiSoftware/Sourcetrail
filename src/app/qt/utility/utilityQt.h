@@ -4,12 +4,12 @@
 #include <memory>
 #include <qwidget.h>
 
-#include "utility/math/Color.h"
-
 namespace utility
 {
-	void setWidgetBackgroundColor(QWidget* widget, const Colori& color);
+	void setWidgetBackgroundColor(QWidget* widget, const std::string& color);
 	void loadFontsFromDirectory(const std::string& path, const std::string& extension = ".otf");
+
+	std::string getStyleSheet(const std::string& path);
 }
 
 # endif // UTILITY_QT_H

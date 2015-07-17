@@ -14,6 +14,8 @@ QtCodeFileList::QtCodeFileList(QWidget* parent)
 	: QScrollArea(parent)
 	, m_focusedTokenId(0)
 {
+	setObjectName("code_file_list_base");
+
 	m_frame = std::make_shared<QFrame>(this);
 	m_frame->setObjectName("code_file_list");
 

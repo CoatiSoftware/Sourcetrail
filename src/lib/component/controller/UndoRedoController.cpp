@@ -213,10 +213,13 @@ void UndoRedoController::processNormalCommand(const Command& command)
 
 void UndoRedoController::processRedoCommand(const Command& command)
 {
-	m_undo.push_back(m_lastCommand);
-	m_lastCommand = command;
+	if (m_lastCommand.message)
+	{
+		m_undo.push_back(m_lastCommand);
+		getView()->setUndoButtonEnabled(true);
+	}
 
-	getView()->setUndoButtonEnabled(true);
+	m_lastCommand = command;
 
 	if (m_redo.empty())
 	{
@@ -226,10 +229,13 @@ void UndoRedoController::processRedoCommand(const Command& command)
 
 void UndoRedoController::processUndoCommand(const Command& command)
 {
-	m_redo.push_back(m_lastCommand);
-	m_lastCommand = command;
+	if (m_lastCommand.message)
+	{
+		m_redo.push_back(m_lastCommand);
+		getView()->setRedoButtonEnabled(true);
+	}
 
-	getView()->setRedoButtonEnabled(true);
+	m_lastCommand = command;
 
 	if (m_undo.empty())
 	{

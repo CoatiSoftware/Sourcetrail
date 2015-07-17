@@ -18,6 +18,7 @@
 #include "qt/element/QtCodeSnippet.h"
 #include "qt/utility/QtHighlighter.h"
 #include "settings/ApplicationSettings.h"
+#include "settings/ColorScheme.h"
 
 QtCodeArea::LineNumberArea::LineNumberArea(QtCodeArea *codeArea)
 	: QWidget(codeArea)
@@ -115,7 +116,6 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 		if (block.isVisible() && bottom >= event->rect().top())
 		{
 			QString number = QString::number(blockNumber + m_startLineNumber);
-			painter.setPen(Qt::black);
 			painter.drawText(0, top, m_lineNumberArea->width() - 13, fontMetrics().height(), Qt::AlignRight, number);
 		}
 
@@ -187,23 +187,17 @@ void QtCodeArea::paintEvent(QPaintEvent* event)
 	int top = blockBoundingGeometry(block).translated(contentOffset()).top();
 	int blockHeight = blockBoundingRect(block).height();
 
-	QColor qColor;
+	ColorScheme* scheme = ColorScheme::getInstance().get();
+
+	QColor scopeColor(scheme->getColor("code/snippet/highlight/scope/normal").c_str());
+	QColor activeScopeColor(scheme->getColor("code/snippet/highlight/scope/hover").c_str());
 
 	for (const ScopeAnnotation& scope : m_scopeAnnotations)
 	{
-		if (scope.isFocused || scope.startLine == scope.endLine)
-		{
-			qColor = QColor("#90E4EEF2");
-		}
-		else
-		{
-			qColor = QColor("#60E4EEF2");
-		}
-
 		painter.fillRect(
 			0, top + scope.startLine * blockHeight,
 			width(), (scope.endLine - scope.startLine + 1) * blockHeight,
-			qColor
+			(scope.isFocused || scope.startLine == scope.endLine) ? activeScopeColor : scopeColor
 		);
 	}
 
@@ -387,7 +381,14 @@ void QtCodeArea::annotateText()
 
 	std::vector<ScopeAnnotation> scopeAnnotations;
 
-	QColor color;
+	ColorScheme* scheme = ColorScheme::getInstance().get();
+
+	QColor locationColor(scheme->getColor("code/snippet/highlight/location/normal").c_str());
+	QColor activeLocationColor(scheme->getColor("code/snippet/highlight/location/hover").c_str());
+
+	QColor errorColor(scheme->getColor("code/snippet/highlight/error/normal").c_str());
+	QColor activeErrorColor(scheme->getColor("code/snippet/highlight/error/hover").c_str());
+
 	QList<QTextEdit::ExtraSelection> extraSelections;
 
 	for (const Annotation& annotation: m_annotations)
@@ -395,21 +396,22 @@ void QtCodeArea::annotateText()
 		bool isActive = std::find(ids.begin(), ids.end(), annotation.tokenId) != ids.end();
 		bool isFocused = (annotation.tokenId == focusedTokenId);
 
+		QColor color;
 		if (&annotation == m_hoveredAnnotation && errorMessages.size())
 		{
-			color.setNamedColor("#80FF0000");
+			color = activeErrorColor;
 		}
 		else if (errorMessages.size())
 		{
-			color.setNamedColor("#FFFF0000");
+			color = errorColor;
 		}
 		else if (isActive || isFocused)
 		{
-			color.setNamedColor("#90B6D1DD");
+			color = activeLocationColor;
 		}
 		else
 		{
-			color.setNamedColor("#90EBEBEB");
+			color = locationColor;
 		}
 
 		QTextEdit::ExtraSelection selection;

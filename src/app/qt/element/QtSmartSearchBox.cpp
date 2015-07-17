@@ -14,7 +14,7 @@
 
 #include "data/query/QueryTree.h"
 #include "qt/element/QtAutocompletionList.h"
-#include "settings/ApplicationSettings.h"
+#include "settings/ColorScheme.h"
 
 QtQueryElement::QtQueryElement(const QString& text, QWidget* parent)
 	: QPushButton(text, parent)
@@ -573,6 +573,10 @@ void QtSmartSearchBox::updateElements()
 {
 	m_elements.clear();
 
+	ColorScheme* scheme = ColorScheme::getInstance().get();
+
+	std::string textColor = scheme->getColor("search/field/text");
+
 	for (const SearchMatch& token : m_tokens)
 	{
 		std::string name = token.fullName;
@@ -582,28 +586,25 @@ void QtSmartSearchBox::updateElements()
 		std::shared_ptr<QtQueryElement> element = std::make_shared<QtQueryElement>(QString::fromStdString(name), this);
 		m_elements.push_back(element);
 
-		std::string color = "#000000";
-		std::string hoverColor = "#000000";
+		std::string color;
+		std::string hoverColor;
 
 		if (token.queryNodeType == QueryNode::QUERYNODETYPE_TOKEN)
 		{
 			element->setObjectName(QString::fromStdString("search_element_" + token.getNodeTypeAsString()));
-			color = ApplicationSettings::getInstance()->getNodeTypeColor(token.nodeType);
-			hoverColor = ApplicationSettings::getInstance()->getNodeTypeColor(token.nodeType, "hover");
+			color = scheme->getNodeTypeColor(token.nodeType);
+			hoverColor = scheme->getNodeTypeColor(token.nodeType, "hover");
 		}
 		else
 		{
 			element->setObjectName(QString::fromStdString("search_element_" + QueryTree::getTokenTypeName(token.queryNodeType)));
-			color = ApplicationSettings::getInstance()->getQueryNodeTypeColor(token.queryNodeType);
-			hoverColor = ApplicationSettings::getInstance()->getQueryNodeTypeColor(token.queryNodeType, "hover");
+			color = scheme->getQueryNodeTypeColor(token.queryNodeType);
+			hoverColor = scheme->getQueryNodeTypeColor(token.queryNodeType, "hover");
 		}
 
 		std::stringstream css;
-		css << "QPushButton { border: none; padding: 0px 4px; background-color:";
-		css << color;
-		css << ";} QPushButton:hover { background-color:";
-		css << hoverColor;
-		css << ";}";
+		css << "QPushButton {border: none; padding: 0px 4px; background-color:" << color << "; color:" << textColor << ";} ";
+		css << "QPushButton:hover { background-color:" << hoverColor << ";} ";
 
 		element->setStyleSheet(css.str().c_str());
 

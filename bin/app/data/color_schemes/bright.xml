@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<config>
+	<search>
+		<background>white</background>
+
+		<button>
+			<normal>#E0E0E0</normal>
+			<hover>#B2B2B2</hover>
+			<press>#626262</press>
+			<disabled>#F4F4F4</disabled>
+		</button>
+
+		<field>
+			<text>black</text>
+			<background>#E0E0E0</background>
+			<highlight>#B2B2B2</highlight>
+		</field>
+
+		<popup>
+			<text>black</text>
+			<by_text>#A0A0A0</by_text>
+			<background>white</background>
+			<highlight>#B2B2B2</highlight>
+		</popup>
+
+		<query>
+			<none>
+				<normal>white</normal>
+				<hover>#F5F5F5</hover>
+			</none>
+			<command>
+				<normal>#8FBC92</normal>
+				<hover>#5EA071</hover>
+			</command>
+			<operator>
+				<normal>#FCA47E</normal>
+				<hover>#F97A4E</hover>
+			</operator>
+		</query>
+	</search>
+
+	<code>
+		<background>white</background>
+
+		<file>
+			<background>#E0E0E0</background>
+
+			<title>
+				<text>black</text>
+				<normal>#E0E0E0</normal>
+				<hover>#B2B2B2</hover>
+				<press>#626262</press>
+			</title>
+		</file>
+
+		<snippet>
+			<background>transparent</background>
+
+			<title>
+				<text>#A0A0A0</text>
+				<background>transparent</background>
+				<hover>#F5F5F5</hover>
+			</title>
+
+			<line_number>
+				<text>black</text>
+				<background>transparent</background>
+			</line_number>
+
+			<syntax>
+				<normal>black</normal>
+				<directive>#1B8856</directive>
+				<keyword>#1B8856</keyword>
+				<type>#C1492D</type>
+				<comment>#A0A0A4</comment>
+				<number>#C1315E</number>
+				<quotation>#865F9E</quotation>
+				<function>#CC9533</function>
+			</syntax>
+
+			<highlight>
+				<location>
+					<normal>#90EBEBEB</normal>
+					<hover>#90B6D1DD</hover>
+				</location>
+				<scope>
+					<normal>#60E4EEF2</normal>
+					<hover>#90E4EEF2</hover>
+				</scope>
+				<error>
+					<normal>#80FF0000</normal>
+					<hover>#FFFF0000</hover>
+				</error>
+			</highlight>
+		</snippet>
+	</code>
+
+	<graph>
+		<text>black</text>
+		<background>white</background>
+		<border>#3C3C3C</border>
+
+		<node>
+			<class>
+				<normal>#ededed</normal>
+				<hover>#ededed</hover>
+			</class>
+			<struct>
+				<normal>#ededed</normal>
+				<hover>#ededed</hover>
+			</struct>
+			<enum>
+				<normal>#ededed</normal>
+				<hover>#ededed</hover>
+			</enum>
+			<undefined_type>
+				<normal>#ededed</normal>
+				<hover>#ededed</hover>
+			</undefined_type>
+			<typedef>
+				<normal>#ededed</normal>
+				<hover>#ededed</hover>
+			</typedef>
+			<template_parameter_type>
+				<normal>#ededed</normal>
+				<hover>#ededed</hover>
+			</template_parameter_type>
+
+			<function>
+				<normal>#F4D07D</normal>
+				<hover>#F4BC3D</hover>
+			</function>
+			<method>
+				<normal>#F4D07D</normal>
+				<hover>#F4BC3D</hover>
+			</method>
+			<undefined_function>
+				<normal>#F4D07D</normal>
+				<hover>#F4BC3D</hover>
+			</undefined_function>
+
+			<field>
+				<normal>#7BB5D4</normal>
+				<hover>#42A1D4</hover>
+			</field>
+			<global>
+				<normal>#7BB5D4</normal>
+				<hover>#42A1D4</hover>
+			</global>
+			<undefined_variable>
+				<normal>#7BB5D4</normal>
+				<hover>#42A1D4</hover>
+			</undefined_variable>
+			<enum_constant>
+				<normal>#7BB5D4</normal>
+				<hover>#42A1D4</hover>
+			</enum_constant>
+
+			<undefined>
+				<normal>#CC8D91</normal>
+				<hover>#CC8D91</hover>
+			</undefined>
+			<namespace>
+				<normal>#CC8D91</normal>
+				<hover>#CC8D91</hover>
+			</namespace>
+
+			<file>
+				<normal>#88BAB3</normal>
+				<hover>#6AA39B</hover>
+			</file>
+		</node>
+		<edge>
+			<type_use>
+				<normal>#878787</normal>
+				<hover>#878787</hover>
+			</type_use>
+			<return_type>
+				<normal>#878787</normal>
+				<hover>#878787</hover>
+			</return_type>
+			<parameter_type>
+				<normal>#878787</normal>
+				<hover>#878787</hover>
+			</parameter_type>
+			<type_usage>
+				<normal>#878787</normal>
+				<hover>#878787</hover>
+			</type_usage>
+			<inheritance>
+				<normal>#878787</normal>
+				<hover>#878787</hover>
+			</inheritance>
+			<typedef>
+				<normal>#878787</normal>
+				<hover>#878787</hover>
+			</typedef>
+
+			<override>
+				<normal>#CC5E89</normal>
+				<hover>#CC5E89</hover>
+			</override>
+
+			<call>
+				<normal>#F4BC3D</normal>
+				<hover>#F4BC3D</hover>
+			</call>
+
+			<usage>
+				<normal>#3190BA</normal>
+				<hover>#3190BA</hover>
+			</usage>
+
+			<template_parameter>
+				<normal>#C1305D</normal>
+				<hover>#C1305D</hover>
+			</template_parameter>
+			<template_argument>
+				<normal>#C1305D</normal>
+				<hover>#C1305D</hover>
+			</template_argument>
+			<template_default_argument>
+				<normal>#C1305D</normal>
+				<hover>#C1305D</hover>
+			</template_default_argument>
+			<template_specialization>
+				<normal>#C1305D</normal>
+				<hover>#C1305D</hover>
+			</template_specialization>
+
+			<include>
+				<normal>#5DA399</normal>
+				<hover>#5DA399</hover>
+			</include>
+
+			<aggregation>
+				<normal>#EEE</normal>
+				<hover>#DDD</hover>
+			</aggregation>
+		</edge>
+	</graph>
+
+	<tool_tip>
+		<text>black</text>
+		<background>#E0E0E0</background>
+	</tool_tip>
+</config>

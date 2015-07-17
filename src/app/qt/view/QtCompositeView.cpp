@@ -4,6 +4,7 @@
 
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
+#include "settings/ColorScheme.h"
 
 QtCompositeView::QtCompositeView(ViewLayout* viewLayout, CompositeDirection direction)
 	: CompositeView(viewLayout, direction)
@@ -24,7 +25,8 @@ QtCompositeView::QtCompositeView(ViewLayout* viewLayout, CompositeDirection dire
 
 	m_widget = new QWidget();
 	m_widget->setLayout(layout);
-	utility::setWidgetBackgroundColor(m_widget, Colori(255, 255, 255, 255));
+
+	refreshView();
 }
 
 QtCompositeView::~QtCompositeView()
@@ -43,7 +45,7 @@ void QtCompositeView::initView()
 
 void QtCompositeView::refreshView()
 {
-
+	utility::setWidgetBackgroundColor(m_widget, ColorScheme::getInstance()->getColor("search/background"));
 }
 
 void QtCompositeView::addViewWidget(View* view)
