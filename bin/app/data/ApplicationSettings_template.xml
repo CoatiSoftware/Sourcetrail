@@ -9,8 +9,6 @@
 <config>
 	<StartupProject><!-- STRING: path to project settings xml file --></StartupProject>
 
-	<FilterUndefinedNodesFromGraph><!-- BOOL: filter out undefined nodes in graph --></FilterUndefinedNodesFromGraph>
-
 	<source>
 		<CompilerFlags>
 			<CompilerFlag><!-- STRING: compiler flag, including the dash e.g. -v --></CompilerFlag>

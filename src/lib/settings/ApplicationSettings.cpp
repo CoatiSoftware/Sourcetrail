@@ -21,11 +21,6 @@ std::string ApplicationSettings::getStartupProjectFilePath() const
 	return getValue<std::string>("StartupProject", "");
 }
 
-bool ApplicationSettings::filterUndefinedNodesFromGraph() const
-{
-	return getValue<bool>("FilterUndefinedNodesFromGraph", false);
-}
-
 std::string ApplicationSettings::getFontName() const
 {
 	return getValue<std::string>("application/font_name", "Source Code Pro");

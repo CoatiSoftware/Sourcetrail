@@ -13,7 +13,6 @@ public:
 	~ApplicationSettings();
 
 	std::string getStartupProjectFilePath() const;
-	bool filterUndefinedNodesFromGraph() const;
 
 	// application
 	std::string getFontName() const;
