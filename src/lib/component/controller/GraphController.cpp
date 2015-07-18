@@ -168,6 +168,8 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	autoExpandActiveNode(tokenIds);
 	setActiveAndVisibility(tokenIds);
 
+	splitNamespaceNodes();
+
 	bundleNodes();
 
 	layoutNesting();
@@ -268,6 +270,45 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 	);
 
 	return result;
+}
+
+void GraphController::splitNamespaceNodes()
+{
+	std::vector<DummyNode> nodes;
+
+	for (const DummyNode& node : m_dummyNodes)
+	{
+		std::vector<DummyNode> newNodes = splitNamespaceNodesRecursive(node, false, true);
+		nodes.insert(nodes.end(), newNodes.begin(), newNodes.end());
+	}
+
+	m_dummyNodes = nodes;
+}
+
+std::vector<DummyNode> GraphController::splitNamespaceNodesRecursive(const DummyNode& node, bool active, bool topLevel)
+{
+	std::vector<DummyNode> nodes;
+	active |= node.active;
+
+	if (node.isGraphNode() && node.data->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE))
+	{
+		for (const DummyNode& subNode : node.subNodes)
+		{
+			std::vector<DummyNode> newNodes = splitNamespaceNodesRecursive(subNode, active, false);
+			for (DummyNode& newNode : newNodes)
+			{
+				newNode.hasNamespace = true;
+			}
+
+			nodes.insert(nodes.end(), newNodes.begin(), newNodes.end());
+		}
+	}
+	else if (topLevel || active || node.connected)
+	{
+		nodes.push_back(node);
+	}
+
+	return nodes;
 }
 
 void GraphController::autoExpandActiveNode(const std::vector<Id>& activeTokenIds)
@@ -409,7 +450,7 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode& node, bool pa
 	if ((node.isGraphNode() && node.isExpanded()) ||
 		(node.isAccessNode() && parentExpanded) ||
 		(node.isGraphNode() && node.data->isType(Node::NODE_ENUM)) ||
-		(node.isGraphNode() && node.active && node.data->isType(Node::NODE_NAMESPACE | Node::NODE_UNDEFINED)))
+		(node.isGraphNode() && node.data->isType(Node::NODE_NAMESPACE | Node::NODE_UNDEFINED)))
 	{
 		for (DummyNode& subNode : node.subNodes)
 		{
@@ -492,7 +533,7 @@ void GraphController::bundleNodesMatching(std::function<bool(const DummyNode&)> 
 		}
 	}
 
-	if (matchCount < count)
+	if (matchCount < count || matchCount == m_dummyNodes.size())
 	{
 		return;
 	}
@@ -674,7 +715,14 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 
 	if (node.isGraphNode())
 	{
-		width = margins.charWidth * node.data->getName().size();
+		if (node.hasNamespace)
+		{
+			width = margins.charWidth * node.data->getFullName().size();
+		}
+		else
+		{
+			width = margins.charWidth * node.data->getName().size();
+		}
 
 		if (node.data->isType(Node::NODE_CLASS | Node::NODE_STRUCT) && node.subNodes.size())
 		{

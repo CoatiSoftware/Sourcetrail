@@ -59,6 +59,9 @@ private:
 	bool setNodeVisibilityRecursiveBottomUp(DummyNode& node, bool aggregated) const;
 	void setNodeVisibilityRecursiveTopDown(DummyNode& node, bool parentExpanded) const;
 
+	void splitNamespaceNodes();
+	std::vector<DummyNode> splitNamespaceNodesRecursive(const DummyNode& node, bool active, bool topLevel);
+
 	void bundleNodes();
 	void bundleNodesMatching(std::function<bool(const DummyNode&)> matcher, size_t count, const std::string& name);
 	bool isTypeNodeWithSingleAggregation(const DummyNode& node, TokenComponentAggregation::Direction direction) const;

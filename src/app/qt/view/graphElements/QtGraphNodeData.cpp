@@ -5,13 +5,20 @@
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 
-QtGraphNodeData::QtGraphNodeData(const Node* data, bool childVisible)
+QtGraphNodeData::QtGraphNodeData(const Node* data, bool hasNamespace, bool childVisible)
 	: m_data(data)
 	, m_childVisible(childVisible)
 {
 	this->setAcceptHoverEvents(true);
 
-	this->setName(data->getName());
+	if (hasNamespace)
+	{
+		this->setName(data->getFullName());
+	}
+	else
+	{
+		this->setName(data->getName());
+	}
 }
 
 QtGraphNodeData::~QtGraphNodeData()
@@ -35,10 +42,7 @@ Id QtGraphNodeData::getTokenId() const
 
 void QtGraphNodeData::onClick()
 {
-	if (!m_data->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE))
-	{
-		MessageActivateNode(m_data->getId(), m_data->getType(), m_data->getFullName()).dispatch();
-	}
+	MessageActivateNode(m_data->getId(), m_data->getType(), m_data->getFullName()).dispatch();
 }
 
 void QtGraphNodeData::moved(const Vec2i& oldPosition)

@@ -22,6 +22,7 @@ public:
 		, connected(false)
 		, aggregated(false)
 		, expanded(false)
+		, hasNamespace(false)
 		, accessType(TokenComponentAccess::ACCESS_NONE)
 		, invisibleSubNodeCount(0)
 	{
@@ -118,6 +119,7 @@ public:
 	bool connected;
 	bool aggregated;
 	bool expanded;
+	bool hasNamespace;
 
 	// AccessNode
 	TokenComponentAccess::AccessType accessType;
