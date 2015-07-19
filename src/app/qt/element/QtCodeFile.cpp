@@ -78,6 +78,9 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	m_minimizePlaceholder->setMinimumHeight(5);
 	layout->addWidget(m_minimizePlaceholder);
 
+	m_snippetLayout = new QVBoxLayout();
+	layout->addLayout(m_snippetLayout);
+
 	update();
 }
 
@@ -113,13 +116,14 @@ const std::vector<std::string>& QtCodeFile::getErrorMessages() const
 void QtCodeFile::addCodeSnippet(
 	uint startLineNumber,
 	const std::string& title,
+	Id titleId,
 	const std::string& code,
 	std::shared_ptr<TokenLocationFile> locationFile
 ){
 	std::shared_ptr<QtCodeSnippet> snippet(
-		new QtCodeSnippet(startLineNumber, title, code, locationFile, this));
+		new QtCodeSnippet(startLineNumber, title, titleId, code, locationFile, this));
 
-	layout()->addWidget(snippet.get());
+	m_snippetLayout->addWidget(snippet.get());
 
 	if (locationFile->isWholeCopy)
 	{
@@ -132,26 +136,53 @@ void QtCodeFile::addCodeSnippet(
 
 	m_snippets.push_back(snippet);
 
-	if (m_snippets.size() == 1)
+	updateSnippets();
+}
+
+QWidget* QtCodeFile::insertCodeSnippet(
+	uint startLineNumber,
+	const std::string& title,
+	Id titleId,
+	const std::string& code,
+	std::shared_ptr<TokenLocationFile> locationFile
+){
+	std::shared_ptr<QtCodeSnippet> snippet(
+		new QtCodeSnippet(startLineNumber, title, titleId, code, locationFile, this));
+
+	size_t i = 0;
+	while (i < m_snippets.size())
 	{
-		snippet->setProperty("isFirst", true);
+		uint start = snippet->getStartLineNumber();
+		uint end = snippet->getEndLineNumber();
+
+		std::shared_ptr<QtCodeSnippet> s = m_snippets[i];
+
+		if (s->getEndLineNumber() + 1 < start)
+		{
+			i++;
+			continue;
+		}
+		else if (s->getStartLineNumber() > end + 1)
+		{
+			break;
+		}
+		else if (s->getStartLineNumber() < start || s->getEndLineNumber() > end)
+		{
+			snippet = QtCodeSnippet::merged(snippet.get(), s.get(), this);
+		}
+
+		s->hide();
+		m_snippetLayout->removeWidget(s.get());
+
+		m_snippets.erase(m_snippets.begin() + i);
 	}
 
-	int maxDigits = 1;
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
-	{
-		snippet->setProperty("isLast", false);
-		maxDigits = qMax(maxDigits, snippet->lineNumberDigits());
-	}
+	m_snippetLayout->insertWidget(i, snippet.get());
+	m_snippets.insert(m_snippets.begin() + i, snippet);
 
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
-	{
-		snippet->updateLineNumberAreaWidthForDigits(maxDigits);
-	}
+	updateSnippets();
 
-	snippet->setProperty("isLast", true);
-
-	clickedSnippetButton();
+	return snippet.get();
 }
 
 QWidget* QtCodeFile::findFirstActiveSnippet() const
@@ -250,4 +281,26 @@ void QtCodeFile::clickedMaximizeButton()
 	m_maximizeButton->setEnabled(false);
 
 	m_minimizePlaceholder->hide();
+}
+
+void QtCodeFile::updateSnippets()
+{
+	int maxDigits = 1;
+	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	{
+		snippet->setProperty("isFirst", false);
+		snippet->setProperty("isLast", false);
+
+		maxDigits = qMax(maxDigits, snippet->lineNumberDigits());
+	}
+
+	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	{
+		snippet->updateLineNumberAreaWidthForDigits(maxDigits);
+	}
+
+	m_snippets.front()->setProperty("isFirst", true);
+	m_snippets.back()->setProperty("isLast", true);
+
+	clickedSnippetButton();
 }

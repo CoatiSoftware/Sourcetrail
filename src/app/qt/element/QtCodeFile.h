@@ -13,6 +13,7 @@
 class QPushButton;
 class QtCodeFileList;
 class QtCodeSnippet;
+class QVBoxLayout;
 class TokenLocationFile;
 
 class QtCodeFile
@@ -33,6 +34,15 @@ public:
 	void addCodeSnippet(
 		uint startLineNumber,
 		const std::string& title,
+		Id titleId,
+		const std::string& code,
+		std::shared_ptr<TokenLocationFile> locationFile
+	);
+
+	QWidget* insertCodeSnippet(
+		uint startLineNumber,
+		const std::string& title,
+		Id titleId,
 		const std::string& code,
 		std::shared_ptr<TokenLocationFile> locationFile
 	);
@@ -50,6 +60,8 @@ private slots:
 	void clickedMaximizeButton();
 
 private:
+	void updateSnippets();
+
 	QtCodeFileList* m_parent;
 
 	QPushButton* m_title;
@@ -57,6 +69,7 @@ private:
 	QPushButton* m_snippetButton;
 	QPushButton* m_maximizeButton;
 
+	QVBoxLayout* m_snippetLayout;
 	std::vector<std::shared_ptr<QtCodeSnippet>> m_snippets;
 	std::shared_ptr<QtCodeSnippet> m_fileSnippet;
 	QWidget* m_minimizePlaceholder;

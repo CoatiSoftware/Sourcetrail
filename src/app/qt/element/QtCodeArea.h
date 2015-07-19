@@ -51,6 +51,11 @@ public:
 
 	virtual QSize sizeHint() const;
 
+	uint getStartLineNumber() const;
+	uint getEndLineNumber() const;
+
+	std::shared_ptr<TokenLocationFile> getTokenLocationFile() const;
+
 	void lineNumberAreaPaintEvent(QPaintEvent *event);
 	int lineNumberDigits() const;
 	int lineNumberAreaWidth() const;
@@ -114,6 +119,8 @@ private:
 	QtHighlighter* m_highlighter;
 
 	const uint m_startLineNumber;
+
+	std::shared_ptr<TokenLocationFile> m_locationFile;
 
 	std::vector<Annotation> m_annotations;
 	std::vector<ScopeAnnotation> m_scopeAnnotations;

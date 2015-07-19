@@ -20,14 +20,20 @@ class QtCodeSnippet
 	Q_OBJECT
 
 public:
+	static std::shared_ptr<QtCodeSnippet> merged(QtCodeSnippet* a, QtCodeSnippet* b, QtCodeFile* file);
+
 	QtCodeSnippet(
 		uint startLineNumber,
 		const std::string& title,
+		Id titleId,
 		const std::string& code,
 		std::shared_ptr<TokenLocationFile> locationFile,
 		QtCodeFile* file
 	);
 	virtual ~QtCodeSnippet();
+
+	uint getStartLineNumber() const;
+	uint getEndLineNumber() const;
 
 	int lineNumberDigits() const;
 
@@ -36,8 +42,13 @@ public:
 
 	bool isActive() const;
 
+private slots:
+	void clickedTitle();
+
 private:
 	void updateDots();
+
+	Id m_titleId;
 
 	QPushButton* m_dots;
 	QPushButton* m_title;

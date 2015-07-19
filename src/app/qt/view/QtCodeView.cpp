@@ -11,6 +11,7 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
 	, m_refreshViewFunctor(std::bind(&QtCodeView::doRefreshView, this))
 	, m_showCodeSnippetsFunctor(std::bind(&QtCodeView::doShowCodeSnippets, this, std::placeholders::_1))
+	, m_addCodeSnippetFunctor(std::bind(&QtCodeView::doAddCodeSnippet, this, std::placeholders::_1))
 	, m_showCodeFileFunctor(std::bind(&QtCodeView::doShowCodeFile, this, std::placeholders::_1))
 	, m_doScrollToFirstActiveSnippetFunctor(std::bind(&QtCodeView::doScrollToFirstActiveSnippet, this))
 	, m_focusTokenFunctor(std::bind(&QtCodeView::doFocusToken, this, std::placeholders::_1))
@@ -53,6 +54,11 @@ void QtCodeView::showCodeSnippets(const std::vector<CodeSnippetParams>& snippets
 	m_showCodeSnippetsFunctor(snippets);
 }
 
+void QtCodeView::addCodeSnippet(const CodeSnippetParams& snippet)
+{
+	m_addCodeSnippetFunctor(snippet);
+}
+
 void QtCodeView::showCodeFile(const CodeSnippetParams& params)
 {
 	m_showCodeFileFunctor(params);
@@ -88,15 +94,22 @@ void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippe
 
 	for (const CodeSnippetParams& params : snippets)
 	{
-		m_widget->addCodeSnippet(params.startLineNumber, params.title, params.code, params.locationFile);
+		m_widget->addCodeSnippet(params.startLineNumber, params.title, params.titleId, params.code, params.locationFile);
 	}
+
+	setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
+}
+
+void QtCodeView::doAddCodeSnippet(const CodeSnippetParams& snippet)
+{
+	m_widget->addCodeSnippet(snippet.startLineNumber, snippet.title, snippet.titleId, snippet.code, snippet.locationFile, true);
 
 	setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
 }
 
 void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
 {
-	m_widget->addCodeSnippet(1, params.title, params.code, params.locationFile);
+	m_widget->addCodeSnippet(1, params.title, 0, params.code, params.locationFile);
 }
 
 void QtCodeView::doScrollToFirstActiveSnippet()

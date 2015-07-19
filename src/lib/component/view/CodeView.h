@@ -21,10 +21,11 @@ public:
 
 		uint startLineNumber;
 		uint endLineNumber;
-		uint lineCount;
 
 		std::string title;
 		std::string code;
+
+		Id titleId;
 
 		std::shared_ptr<TokenLocationFile> locationFile;
 
@@ -41,6 +42,7 @@ public:
 	virtual void setErrorMessages(const std::vector<std::string>& errorMessages) = 0;
 
 	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets) = 0;
+	virtual void addCodeSnippet(const CodeSnippetParams& snippet) = 0;
 	virtual void showCodeFile(const CodeSnippetParams& params) = 0;
 
 	virtual void scrollToFirstActiveSnippet() = 0;

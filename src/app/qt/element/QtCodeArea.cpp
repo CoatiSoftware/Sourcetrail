@@ -52,6 +52,7 @@ QtCodeArea::QtCodeArea(
 	: QPlainTextEdit(parent)
 	, m_fileWidget(file)
 	, m_startLineNumber(startLineNumber)
+	, m_locationFile(locationFile)
 	, m_hoveredAnnotation(nullptr)
 	, m_digits(0)
 {
@@ -100,6 +101,21 @@ QSize QtCodeArea::sizeHint() const
 	}
 
 	return QSize(320, height + 1);
+}
+
+uint QtCodeArea::getStartLineNumber() const
+{
+	return m_startLineNumber;
+}
+
+uint QtCodeArea::getEndLineNumber() const
+{
+	return m_startLineNumber + blockCount() - 1;
+}
+
+std::shared_ptr<TokenLocationFile> QtCodeArea::getTokenLocationFile() const
+{
+	return m_locationFile;
 }
 
 void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
@@ -331,7 +347,7 @@ void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFi
 		[&](TokenLocation* startLocation)
 		{
 			Annotation annotation;
-			unsigned int endLineNumber = m_startLineNumber + blockCount() - 1;
+			uint endLineNumber = getEndLineNumber();
 			if (startLocation->getLineNumber() <= endLineNumber)
 			{
 				if (startLocation->getLineNumber() < m_startLineNumber)

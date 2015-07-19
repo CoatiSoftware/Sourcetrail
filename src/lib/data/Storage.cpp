@@ -997,6 +997,23 @@ TokenLocationCollection Storage::getTokenLocationsForTokenIds(const std::vector<
 	return ret;
 }
 
+TokenLocationCollection Storage::getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const
+{
+	TokenLocationCollection ret;
+
+	for (Id locationId : locationIds)
+	{
+		TokenLocation* location = m_locationCollection.findTokenLocationById(locationId);
+		if (location->getOtherTokenLocation())
+		{
+			ret.addTokenLocationAsPlainCopy(location);
+			ret.addTokenLocationAsPlainCopy(location->getOtherTokenLocation());
+		}
+	}
+
+	return ret;
+}
+
 std::shared_ptr<TokenLocationFile> Storage::getTokenLocationsForFile(const std::string& filePath) const
 {
 	std::shared_ptr<TokenLocationFile> ret = std::make_shared<TokenLocationFile>(filePath);

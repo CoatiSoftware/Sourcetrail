@@ -30,6 +30,7 @@ public:
 	virtual void setErrorMessages(const std::vector<std::string>& errorMessages);
 
 	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets);
+	virtual void addCodeSnippet(const CodeSnippetParams& snippet);
 	virtual void showCodeFile(const CodeSnippetParams& params);
 
 	virtual void scrollToFirstActiveSnippet();
@@ -41,6 +42,7 @@ private:
 	void doRefreshView();
 
 	void doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets);
+	void doAddCodeSnippet(const CodeSnippetParams& snippet);
 	void doShowCodeFile(const CodeSnippetParams& params);
 
 	void doScrollToFirstActiveSnippet();
@@ -52,6 +54,7 @@ private:
 
 	QtThreadedFunctor<> m_refreshViewFunctor;
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&> m_showCodeSnippetsFunctor;
+	QtThreadedFunctor<const CodeSnippetParams&> m_addCodeSnippetFunctor;
 	QtThreadedFunctor<const CodeSnippetParams&> m_showCodeFileFunctor;
 	QtThreadedFunctor<> m_doScrollToFirstActiveSnippetFunctor;
 	QtThreadedFunctor<const Id&> m_focusTokenFunctor;

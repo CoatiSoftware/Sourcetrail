@@ -6,7 +6,7 @@
 CodeView::CodeSnippetParams::CodeSnippetParams()
 	: startLineNumber(0)
 	, endLineNumber(0)
-	, lineCount(0)
+	, titleId(0)
 	, locationFile(std::make_shared<TokenLocationFile>(""))
 	, isActive(false)
 	, isDeclaration(false)

@@ -54,6 +54,8 @@ public:
 	bool isStartTokenLocation() const;
 	bool isEndTokenLocation() const;
 
+	bool isScopeTokenLocation() const;
+
 private:
 	static Id s_locationId;	// next free own id
 

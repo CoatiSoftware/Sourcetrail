@@ -275,6 +275,7 @@ add_files(
 	utility/messaging/type/MessageSearch.h
 	utility/messaging/type/MessageSearchAutocomplete.h
 	utility/messaging/type/MessageShowFile.h
+	utility/messaging/type/MessageShowScope.h
 	utility/messaging/type/MessageStatus.h
 	utility/messaging/type/MessageSwitchColorScheme.h
 	utility/messaging/type/MessageUndo.h

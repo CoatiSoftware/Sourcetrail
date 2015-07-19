@@ -39,6 +39,7 @@ public:
 	virtual std::vector<Id> getTokenIdsForAggregationEdge(Id aggregationId) const = 0;
 
 	virtual TokenLocationCollection getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const = 0;
+	virtual TokenLocationCollection getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const = 0;
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const std::string& filePath) const = 0;
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber) const = 0;

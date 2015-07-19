@@ -114,12 +114,34 @@ void CodeController::handleMessage(MessageShowFile* message)
 	params.endLineNumber = message->endLineNumber;
 
 	std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(message->filePath);
-	params.lineCount = textAccess->getLineCount();
 	params.code = textAccess->getText();
 
 	params.locationFile = m_storageAccess->getTokenLocationsForFile(message->filePath);
 
 	getView()->showCodeFile(params);
+}
+
+void CodeController::handleMessage(MessageShowScope* message)
+{
+	TokenLocationCollection collection =
+		m_storageAccess->getTokenLocationsForLocationIds(std::vector<Id>(1, message->scopeLocationId));
+
+	TokenLocation* location = collection.findTokenLocationById(message->scopeLocationId);
+	if (!location || !location->isScopeTokenLocation() || !location->getOtherTokenLocation())
+	{
+		LOG_ERROR("MessageShowScope did not contain a valid scope location id");
+		return;
+	}
+
+	std::vector<CodeView::CodeSnippetParams> snippets = getSnippetsForActiveTokenLocations(collection, 0);
+
+	if (snippets.size() != 1)
+	{
+		LOG_ERROR("MessageShowScope didn't result in one single snippet to be created");
+		return;
+	}
+
+	getView()->addCodeSnippet(snippets[0]);
 }
 
 CodeView* CodeController::getView()
@@ -228,6 +250,7 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(std:
 				[&](TokenLocation* location)
 				{
 					params.title = m_storageAccess->getNameForNodeWithId(location->getTokenId());
+					params.titleId = location->getId();
 				}
 			);
 		}

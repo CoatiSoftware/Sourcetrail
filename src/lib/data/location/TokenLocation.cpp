@@ -177,6 +177,11 @@ bool TokenLocation::isEndTokenLocation() const
 	return !m_isStart;
 }
 
+bool TokenLocation::isScopeTokenLocation() const
+{
+	return m_type == LOCATION_SCOPE;
+}
+
 Id TokenLocation::s_locationId = 1;
 
 std::ostream& operator<<(std::ostream& ostream, const TokenLocation& location)

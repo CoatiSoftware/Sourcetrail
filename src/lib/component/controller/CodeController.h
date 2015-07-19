@@ -10,6 +10,7 @@
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageShowFile.h"
+#include "utility/messaging/type/MessageShowScope.h"
 #include "utility/types.h"
 
 #include "component/controller/helper/SnippetMerger.h"
@@ -27,6 +28,7 @@ class CodeController
 	, public MessageListener<MessageFocusIn>
 	, public MessageListener<MessageFocusOut>
 	, public MessageListener<MessageShowFile>
+	, public MessageListener<MessageShowScope>
 {
 public:
 	CodeController(StorageAccess* storageAccess);
@@ -40,6 +42,7 @@ private:
 	virtual void handleMessage(MessageFocusIn* message);
 	virtual void handleMessage(MessageFocusOut* message);
 	virtual void handleMessage(MessageShowFile* message);
+	virtual void handleMessage(MessageShowScope* message);
 
 	CodeView* getView();
 

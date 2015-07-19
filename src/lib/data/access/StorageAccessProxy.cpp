@@ -152,6 +152,16 @@ TokenLocationCollection StorageAccessProxy::getTokenLocationsForTokenIds(const s
 	return TokenLocationCollection();
 }
 
+TokenLocationCollection StorageAccessProxy::getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getTokenLocationsForLocationIds(locationIds);
+	}
+
+	return TokenLocationCollection();
+}
+
 std::shared_ptr<TokenLocationFile> StorageAccessProxy::getTokenLocationsForFile(const std::string& filePath) const
 {
 	if (hasSubject())
