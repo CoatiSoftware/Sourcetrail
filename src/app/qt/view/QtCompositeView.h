@@ -4,6 +4,7 @@
 #include <QWidget>
 
 #include "component/view/CompositeView.h"
+#include "qt/utility/QtThreadedFunctor.h"
 
 class QtCompositeView
 	: public CompositeView
@@ -21,6 +22,9 @@ public:
 	virtual void addViewWidget(View* view);
 
 private:
+	void doRefreshView();
+
+	QtThreadedFunctor<void> m_refreshFunctor;
 	QWidget* m_widget;
 };
 

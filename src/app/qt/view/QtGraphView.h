@@ -53,6 +53,7 @@ private:
 	void doRebuildGraph(std::shared_ptr<Graph> graph, const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);
 	void doClear();
 	void doResize();
+	void doRefreshView();
 	void doFocusIn(Id tokenId);
 	void doFocusOut(Id tokeId);
 
@@ -77,6 +78,7 @@ private:
 	QtThreadedFunctor<std::shared_ptr<Graph>, const std::vector<DummyNode>&, const std::vector<DummyEdge>&> m_rebuildGraphFunctor;
 	QtThreadedFunctor<void> m_clearFunctor;
 	QtThreadedFunctor<void> m_resizeFunctor;
+	QtThreadedFunctor<void> m_refreshFunctor;
 	QtThreadedFunctor<Id> m_focusInFunctor;
 	QtThreadedFunctor<Id> m_focusOutFunctor;
 

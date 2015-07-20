@@ -31,6 +31,7 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 		std::bind(&QtGraphView::doRebuildGraph, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
 	, m_clearFunctor(std::bind(&QtGraphView::doClear, this))
 	, m_resizeFunctor(std::bind(&QtGraphView::doResize, this))
+	, m_refreshFunctor(std::bind(&QtGraphView::doRefreshView, this))
 	, m_focusInFunctor(std::bind(&QtGraphView::doFocusIn, this, std::placeholders::_1))
 	, m_focusOutFunctor(std::bind(&QtGraphView::doFocusOut, this, std::placeholders::_1))
 {
@@ -62,18 +63,12 @@ void QtGraphView::initView()
 
 	widget->layout()->addWidget(view);
 
-	refreshView();
+	doRefreshView();
 }
 
 void QtGraphView::refreshView()
 {
-	clear();
-	resizeView();
-
-	std::string backgroundColor = ColorScheme::getInstance()->getColor("graph/background");
-
-	utility::setWidgetBackgroundColor(QtViewWidgetWrapper::getWidgetOfView(this), backgroundColor);
-	utility::setWidgetBackgroundColor(getView(), backgroundColor);
+	m_refreshFunctor();
 }
 
 void QtGraphView::rebuildGraph(
@@ -240,6 +235,17 @@ void QtGraphView::doClear()
 void QtGraphView::doResize()
 {
 	getView()->setSceneRect(getSceneRect(m_oldNodes));
+}
+
+void QtGraphView::doRefreshView()
+{
+	doClear();
+	doResize();
+
+	std::string backgroundColor = ColorScheme::getInstance()->getColor("graph/background");
+
+	utility::setWidgetBackgroundColor(QtViewWidgetWrapper::getWidgetOfView(this), backgroundColor);
+	utility::setWidgetBackgroundColor(getView(), backgroundColor);
 }
 
 std::shared_ptr<QtGraphNode> QtGraphView::findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId)
