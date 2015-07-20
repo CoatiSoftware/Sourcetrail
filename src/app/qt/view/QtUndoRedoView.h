@@ -24,9 +24,12 @@ public:
 	virtual void setUndoButtonEnabled(bool enabled);
 
 private:
+	void doRefreshView();
+
     void doSetRedoButtonEnabled(bool enabled);
     void doSetUndoButtonEnabled(bool enabled);
 
+    QtThreadedFunctor<void> m_refreshFunctor;
     QtThreadedFunctor<bool> m_setRedoButtonEnabledFunctor;
     QtThreadedFunctor<bool> m_setUndoButtonEnabledFunctor;
 

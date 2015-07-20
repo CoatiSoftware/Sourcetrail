@@ -7,6 +7,7 @@
 
 QtUndoRedoView::QtUndoRedoView(ViewLayout* viewLayout)
 	: UndoRedoView(viewLayout)
+	, m_refreshFunctor(std::bind(&QtUndoRedoView::doRefreshView, this))
 	, m_setRedoButtonEnabledFunctor(std::bind(&QtUndoRedoView::doSetRedoButtonEnabled, this, std::placeholders::_1))
 	, m_setUndoButtonEnabledFunctor(std::bind(&QtUndoRedoView::doSetUndoButtonEnabled, this, std::placeholders::_1))
 {
@@ -29,13 +30,18 @@ void QtUndoRedoView::initView()
 
 void QtUndoRedoView::refreshView()
 {
-	setStyleSheet();
-	m_widget->refreshStyle();
+	m_refreshFunctor();
 }
 
 void QtUndoRedoView::setStyleSheet()
 {
 	m_widget->setStyleSheet(utility::getStyleSheet("data/gui/undoredo_view/undoredo_view.css").c_str());
+}
+
+void QtUndoRedoView::doRefreshView()
+{
+	setStyleSheet();
+	m_widget->refreshStyle();
 }
 
 void QtUndoRedoView::doSetRedoButtonEnabled(bool enabled)
