@@ -20,6 +20,10 @@ ParseLocation::ParseLocation(
 	, endLineNumber(lineNumber)
 	, endColumnNumber(columnNumber)
 {
+	if (this->filePath.exists())
+	{
+		this->filePath = this->filePath.canonical();
+	}
 }
 
 ParseLocation::ParseLocation(
@@ -33,9 +37,13 @@ ParseLocation::ParseLocation(
 	, endLineNumber(endLineNumber)
 	, endColumnNumber(endColumnNumber)
 {
+	if (this->filePath.exists())
+	{
+		this->filePath = this->filePath.canonical();
+	}
 }
 
 bool ParseLocation::isValid() const
 {
-	return filePath.size() > 0;
+	return !filePath.empty();
 }

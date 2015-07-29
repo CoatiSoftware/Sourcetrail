@@ -20,15 +20,49 @@ ProjectSettings::~ProjectSettings()
 {
 }
 
-std::vector<std::string> ProjectSettings::getSourcePaths() const
+void ProjectSettings::save(const FilePath& filePath)
 {
-	std::vector<std::string> defaultValues;
-	return getValues("source/SourcePaths/SourcePath", defaultValues);
+	moveRelativePathValues("source/SourcePaths/SourcePath", filePath);
+	moveRelativePathValues("source/HeaderSearchPaths/HeaderSearchPath", filePath);
+	moveRelativePathValues("source/FrameworkSearchPaths/FrameworkSearchPath", filePath);
+
+	Settings::save(filePath);
 }
 
-bool ProjectSettings::setSourcePaths(const std::vector<std::string>& sourcePaths)
+std::vector<FilePath> ProjectSettings::getSourcePaths() const
 {
-	return setValues("source/SourcePaths/SourcePath", sourcePaths);
+	return getRelativePathValues("source/SourcePaths/SourcePath");
+}
+
+bool ProjectSettings::setSourcePaths(const std::vector<FilePath>& sourcePaths)
+{
+	return setPathValues("source/SourcePaths/SourcePath", sourcePaths);
+}
+
+std::vector<FilePath> ProjectSettings::getHeaderSearchPaths() const
+{
+	return getRelativePathValues("source/HeaderSearchPaths/HeaderSearchPath");
+}
+
+bool ProjectSettings::setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths)
+{
+	return setPathValues("source/HeaderSearchPaths/HeaderSearchPath", headerSearchPaths);
+}
+
+std::vector<FilePath> ProjectSettings::getFrameworkSearchPaths() const
+{
+	return getRelativePathValues("source/FrameworkSearchPaths/FrameworkSearchPath");
+}
+
+bool ProjectSettings::setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths)
+{
+	return setPathValues("source/FrameworkSearchPaths/FrameworkSearchPath", frameworkSearchPaths);
+}
+
+std::vector<std::string> ProjectSettings::getCompilerFlags() const
+{
+	std::vector<std::string> defaultValues;
+	return getValues("source/CompilerFlags/CompilerFlag", defaultValues);
 }
 
 std::vector<std::string> ProjectSettings::getHeaderExtensions() const

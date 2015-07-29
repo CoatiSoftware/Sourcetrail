@@ -68,7 +68,7 @@ void CxxParser::parseFiles(const std::vector<FilePath>& filePaths, const Argumen
 	std::vector<std::string> sourcePaths;
 	for (const FilePath& path : m_fileRegister->getUnparsedSourceFilePaths())
 	{
-		sourcePaths.push_back(path.absoluteStr());
+		sourcePaths.push_back(path.absolute().str());
 	}
 
 	runTool(sourcePaths);
@@ -114,19 +114,19 @@ std::vector<std::string> CxxParser::getCommandlineArguments(const Arguments& arg
 
 	args.insert(args.begin(), arguments.compilerFlags.begin(), arguments.compilerFlags.end());
 
-	for (const std::string& path : arguments.headerSearchPaths)
+	for (const FilePath& path : arguments.headerSearchPaths)
 	{
-		args.push_back("-I" + path);
+		args.push_back("-I" + path.str());
 	}
 
-	for (const std::string& path : arguments.systemHeaderSearchPaths)
+	for (const FilePath& path : arguments.systemHeaderSearchPaths)
 	{
-		args.push_back("-isystem" + path);
+		args.push_back("-isystem" + path.str());
 	}
 
-	for (const std::string& path : arguments.frameworkSearchPaths)
+	for (const FilePath& path : arguments.frameworkSearchPaths)
 	{
-		args.push_back("-iframework" + path);
+		args.push_back("-iframework" + path.str());
 	}
 
 	return args;

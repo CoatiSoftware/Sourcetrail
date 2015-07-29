@@ -7,9 +7,9 @@ class FileManagerTestSuite : public CxxTest::TestSuite
 public:
 	void test_file_manager_is_created_empty()
 	{
-		std::vector<std::string> sourcePaths;
+		std::vector<FilePath> sourcePaths;
 		sourcePaths.push_back("./data/FileManagerTestSuite/src/");
-		std::vector<std::string> includePaths;
+		std::vector<FilePath> includePaths;
 		includePaths.push_back("./data/FileManagerTestSuite/include/");
 		std::vector<std::string> sourceExtensions;
 		sourceExtensions.push_back(".cpp");
@@ -27,9 +27,9 @@ public:
 
 	void test_file_manager_has_added_file_paths_after_first_fetch()
 	{
-		std::vector<std::string> sourcePaths;
+		std::vector<FilePath> sourcePaths;
 		sourcePaths.push_back("./data/FileManagerTestSuite/src/");
-		std::vector<std::string> includePaths;
+		std::vector<FilePath> includePaths;
 		includePaths.push_back("./data/FileManagerTestSuite/include/");
 		std::vector<std::string> sourceExtensions;
 		sourceExtensions.push_back(".cpp");
@@ -46,9 +46,9 @@ public:
 
 	void test_file_manager_has_no_added_file_paths_after_second_fetch()
 	{
-		std::vector<std::string> sourcePaths;
+		std::vector<FilePath> sourcePaths;
 		sourcePaths.push_back("./data/FileManagerTestSuite/src/");
-		std::vector<std::string> includePaths;
+		std::vector<FilePath> includePaths;
 		includePaths.push_back("./data/FileManagerTestSuite/include/");
 		std::vector<std::string> sourceExtensions;
 		sourceExtensions.push_back(".cpp");
@@ -66,9 +66,9 @@ public:
 
 	void test_file_manager_has_updated_file_paths_after_second_fetch()
 	{
-		std::vector<std::string> sourcePaths;
+		std::vector<FilePath> sourcePaths;
 		sourcePaths.push_back("./data/FileManagerTestSuite/src/");
-		std::vector<std::string> includePaths;
+		std::vector<FilePath> includePaths;
 		includePaths.push_back("./data/FileManagerTestSuite/include/");
 		std::vector<std::string> sourceExtensions;
 		sourceExtensions.push_back(".cpp");

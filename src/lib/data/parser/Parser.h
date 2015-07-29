@@ -5,7 +5,8 @@
 #include <string>
 #include <vector>
 
-class FilePath;
+#include "utility/file/FilePath.h"
+
 class ParserClient;
 class TextAccess;
 
@@ -16,9 +17,9 @@ public:
 	{
 		Arguments();
 
-		std::vector<std::string> headerSearchPaths;
-		std::vector<std::string> systemHeaderSearchPaths;
-		std::vector<std::string> frameworkSearchPaths;
+		std::vector<FilePath> headerSearchPaths;
+		std::vector<FilePath> systemHeaderSearchPaths;
+		std::vector<FilePath> frameworkSearchPaths;
 		std::vector<std::string> compilerFlags;
 		bool logErrors;
 	};

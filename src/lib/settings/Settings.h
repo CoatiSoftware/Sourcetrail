@@ -6,19 +6,23 @@
 #include <vector>
 
 #include "utility/ConfigManager.h"
+#include "utility/file/FilePath.h"
 
 class Settings
 {
 public:
 	virtual ~Settings();
 
-	bool load(const std::string& filePath);
+	bool load(const FilePath& filePath);
 	void save();
-	void save(const std::string& filePath);
+	virtual void save(const FilePath& filePath);
 	void clear();
 
 protected:
 	Settings();
+
+	const FilePath& getFilePath() const;
+	void setFilePath(const FilePath& filePath);
 
 	template<typename T>
 	T getValue(const std::string& key, T defaultValue) const;
@@ -26,14 +30,20 @@ protected:
 	template<typename T>
 	std::vector<T> getValues(const std::string& key, std::vector<T> defaultValues) const;
 
+	std::vector<FilePath> getPathValues(const std::string& key) const;
+	std::vector<FilePath> getRelativePathValues(const std::string& key) const;
+
 	template<typename T>
 	bool setValue(const std::string& key, T value);
 
 	template<typename T>
 	bool setValues(const std::string& key, std::vector<T> values);
 
+	bool setPathValues(const std::string& key, const std::vector<FilePath>& paths);
+	bool moveRelativePathValues(const std::string& key, const FilePath& filePath);
+
 private:
-	std::string m_filePath;
+	FilePath m_filePath;
 	std::shared_ptr<ConfigManager> m_config;
 };
 

@@ -63,7 +63,7 @@ void Project::clearProjectSettings()
 bool Project::setSourceDirectoryPath(const std::string& sourceDirectoryPath)
 {
 	m_projectSettingsFilepath = sourceDirectoryPath + "/ProjectSettings.xml";
-	bool success = ProjectSettings::getInstance()->setSourcePaths(std::vector<std::string>(1, sourceDirectoryPath));
+	bool success = ProjectSettings::getInstance()->setSourcePaths(std::vector<FilePath>(1, sourceDirectoryPath));
 
 	if (success)
 	{
@@ -131,8 +131,8 @@ void Project::createFileManager()
 {
 	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
 
-	std::vector<std::string> sourcePaths(projSettings->getSourcePaths());
-	std::vector<std::string> includePaths(sourcePaths);
+	std::vector<FilePath> sourcePaths(projSettings->getSourcePaths());
+	std::vector<FilePath> includePaths(sourcePaths);
 
 	std::vector<std::string> sourceExtensions = projSettings->getSourceExtensions();
 	std::vector<std::string> includeExtensions = projSettings->getHeaderExtensions();

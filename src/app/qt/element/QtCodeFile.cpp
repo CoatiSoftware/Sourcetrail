@@ -270,7 +270,7 @@ void QtCodeFile::clickedMaximizeButton()
 	}
 	else
 	{
-		MessageShowFile(m_filePath.absoluteStr(), 0, 0).dispatch();
+		MessageShowFile(m_filePath.str(), 0, 0).dispatch();
 	}
 
 	m_minimizeButton->setEnabled(true);

@@ -21,6 +21,22 @@ std::string ApplicationSettings::getStartupProjectFilePath() const
 	return getValue<std::string>("StartupProject", "");
 }
 
+std::vector<FilePath> ApplicationSettings::getHeaderSearchPaths() const
+{
+	return getPathValues("source/HeaderSearchPaths/HeaderSearchPath");
+}
+
+std::vector<FilePath> ApplicationSettings::getFrameworkSearchPaths() const
+{
+	return getPathValues("source/FrameworkSearchPaths/FrameworkSearchPath");
+}
+
+std::vector<std::string> ApplicationSettings::getCompilerFlags() const
+{
+	std::vector<std::string> defaultValues;
+	return getValues("source/CompilerFlags/CompilerFlag", defaultValues);
+}
+
 std::string ApplicationSettings::getFontName() const
 {
 	return getValue<std::string>("application/font_name", "Source Code Pro");

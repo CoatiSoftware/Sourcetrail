@@ -28,7 +28,7 @@ void TaskParseCxx::enter()
 
 	for (const FilePath& path : m_parser.getFileRegister()->getUnparsedSourceFilePaths())
 	{
-		m_sourcePaths.push(path.absoluteStr());
+		m_sourcePaths.push(path.absolute().str());
 	}
 }
 

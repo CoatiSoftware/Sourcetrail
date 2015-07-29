@@ -213,8 +213,6 @@ add_files(
 	settings/ApplicationSettings.h
 	settings/ColorScheme.cpp
 	settings/ColorScheme.h
-	settings/CommonSettings.cpp
-	settings/CommonSettings.h
 	settings/ProjectSettings.cpp
 	settings/ProjectSettings.h
 	settings/Settings.cpp

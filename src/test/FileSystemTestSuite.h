@@ -78,11 +78,10 @@ public:
 		extensions.push_back(".hpp");
 		extensions.push_back(".cpp");
 
-		std::vector<std::string> directoryPaths;
+		std::vector<FilePath> directoryPaths;
 		directoryPaths.push_back("./data/FileSystemTestSuite");
 
-		std::vector<FileInfo> files =
-			FileSystem::getFileInfosFromDirectoryPaths(directoryPaths, extensions);
+		std::vector<FileInfo> files = FileSystem::getFileInfosFromPaths(directoryPaths, extensions);
 
 		TS_ASSERT_EQUALS(files.size(), 5);
 	}

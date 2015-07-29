@@ -6,8 +6,8 @@
 #include "utility/file/FileSystem.h"
 
 FileManager::FileManager(
-	std::vector<std::string> sourcePaths,
-	std::vector<std::string> includePaths,
+	std::vector<FilePath> sourcePaths,
+	std::vector<FilePath> includePaths,
 	std::vector<std::string> sourceExtensions,
 	std::vector<std::string> includeExtensions
 )
@@ -22,12 +22,12 @@ FileManager::~FileManager()
 {
 }
 
-const std::vector<std::string>& FileManager::getSourcePaths() const
+const std::vector<FilePath>& FileManager::getSourcePaths() const
 {
 	return m_sourcePaths;
 }
 
-const std::vector<std::string>& FileManager::getIncludePaths() const
+const std::vector<FilePath>& FileManager::getIncludePaths() const
 {
 	return m_includePaths;
 }
@@ -51,14 +51,14 @@ void FileManager::fetchFilePaths()
 		m_removedFiles.insert(it->first);
 	}
 
-	std::vector<std::pair<std::vector<std::string>, std::vector<std::string>>> pathsExtensionsPairs;
+	std::vector<std::pair<std::vector<FilePath>, std::vector<std::string>>> pathsExtensionsPairs;
 	pathsExtensionsPairs.push_back(std::make_pair(m_includePaths, m_includeExtensions));
 	pathsExtensionsPairs.push_back(std::make_pair(m_sourcePaths, m_sourceExtensions));
 
 	for (size_t i = 0; i < pathsExtensionsPairs.size(); i++)
 	{
 		std::vector<FileInfo> fileInfos =
-			FileSystem::getFileInfosFromDirectoryPaths(pathsExtensionsPairs[i].first, pathsExtensionsPairs[i].second);
+			FileSystem::getFileInfosFromPaths(pathsExtensionsPairs[i].first, pathsExtensionsPairs[i].second);
 
 		for (FileInfo fileInfo: fileInfos)
 		{

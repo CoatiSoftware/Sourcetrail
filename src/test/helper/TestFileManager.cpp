@@ -2,8 +2,8 @@
 
 TestFileManager::TestFileManager()
 	: FileManager(
-		std::vector<std::string>(),
-		std::vector<std::string>(),
+		std::vector<FilePath>(),
+		std::vector<FilePath>(),
 		std::vector<std::string>(),
 		std::vector<std::string>()
 	)

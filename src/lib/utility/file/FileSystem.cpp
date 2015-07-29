@@ -5,8 +5,7 @@
 
 std::vector<std::string> FileSystem::getFileNamesFromDirectory(
 	const std::string& path, const std::vector<std::string>& extensions
-)
-{
+){
 	std::vector<std::string> files;
 
 	if (boost::filesystem::is_directory(path))
@@ -53,16 +52,15 @@ std::vector<std::string> FileSystem::getFileNamesFromDirectoryUpdatedAfter(
 	return files;
 }
 
-std::vector<FileInfo> FileSystem::getFileInfosFromDirectoryPaths(
-		const std::vector<std::string>& directoryPaths, const std::vector<std::string>& fileExtensions)
-{
+std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
+	const std::vector<FilePath>& paths, const std::vector<std::string>& fileExtensions
+){
 	std::vector<FileInfo> files;
-	for (const std::string& directoryPath: directoryPaths)
+	for (const FilePath& path: paths)
 	{
-		boost::filesystem::path path(directoryPath);
-		if (boost::filesystem::is_directory(path))
+		if (path.isDirectory())
 		{
-			boost::filesystem::recursive_directory_iterator it(path);
+			boost::filesystem::recursive_directory_iterator it(path.path());
 			boost::filesystem::recursive_directory_iterator endit;
 			while (it != endit)
 			{
@@ -75,9 +73,9 @@ std::vector<FileInfo> FileSystem::getFileInfosFromDirectoryPaths(
 				++it;
 			}
 		}
-		else if (boost::filesystem::exists(path) && hasExtension(path.string(), fileExtensions))
+		else if (path.exists() && path.hasExtension(fileExtensions))
 		{
-			std::time_t t = boost::filesystem::last_write_time(path);
+			std::time_t t = boost::filesystem::last_write_time(path.path());
 			boost::posix_time::ptime lastWriteTime = boost::posix_time::from_time_t(t);
 			files.push_back(FileInfo(path, lastWriteTime));
 		}

@@ -247,7 +247,7 @@ void QtCodeArea::mouseDoubleClickEvent(QMouseEvent* event)
 {
 	if (event->button() == Qt::LeftButton)
 	{
-		MessageShowFile(m_fileWidget->getFilePath().absoluteStr(), m_startLineNumber, m_startLineNumber + blockCount() - 1).dispatch();
+		MessageShowFile(m_fileWidget->getFilePath().str(), m_startLineNumber, m_startLineNumber + blockCount() - 1).dispatch();
 	}
 }
 

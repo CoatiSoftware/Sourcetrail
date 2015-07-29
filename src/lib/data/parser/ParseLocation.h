@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "utility/file/FilePath.h"
 #include "utility/types.h"
 
 struct ParseLocation
@@ -21,7 +22,7 @@ struct ParseLocation
 
 	bool isValid() const;
 
-	std::string filePath;
+	FilePath filePath;
 	uint startLineNumber;
 	uint startColumnNumber;
 	uint endLineNumber;

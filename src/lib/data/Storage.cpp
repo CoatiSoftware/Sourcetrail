@@ -178,8 +178,7 @@ void Storage::onError(const ParseLocation& location, const std::string& message)
 	}
 
 	bool duplicate = false;
-	std::string filePath = location.filePath;
-	TokenLocationFile* file = m_errorLocationCollection.findTokenLocationFileByPath(filePath);
+	TokenLocationFile* file = m_errorLocationCollection.findTokenLocationFileByPath(location.filePath);
 
 	if (file)
 	{
@@ -202,7 +201,7 @@ void Storage::onError(const ParseLocation& location, const std::string& message)
 		Id errorId = m_errorMessages.size();
 
 		m_errorLocationCollection.addTokenLocation(
-			errorId, filePath,
+			errorId, location.filePath,
 			location.startLineNumber, location.startColumnNumber,
 			location.endLineNumber, location.endColumnNumber
 		);
@@ -1480,7 +1479,7 @@ void Storage::removeNodeIfUnreferenced(Node* node)
 void Storage::log(std::string type, std::string str, const ParseLocation& location) const
 {
 	LOG_INFO_STREAM(
-		<< type << ": " << str << " <" << location.filePath << " "
+		<< type << ": " << str << " <" << location.filePath.str() << " "
 		<< location.startLineNumber << ":" << location.startColumnNumber << " "
 		<< location.endLineNumber << ":" << location.endColumnNumber << ">"
 	);

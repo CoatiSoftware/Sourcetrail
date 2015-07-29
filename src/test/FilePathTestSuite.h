@@ -5,6 +5,13 @@
 class FilePathTestSuite : public CxxTest::TestSuite
 {
 public:
+	void test_file_path_gets_created_empty()
+	{
+		FilePath path;
+
+		TS_ASSERT_EQUALS(path.str(), "");
+	}
+
 	void test_file_path_gets_created_with_char_array()
 	{
 		FilePath path("data/FilePathTestSuite/main.cpp");
@@ -28,6 +35,15 @@ public:
 		TS_ASSERT_EQUALS(path, path2);
 	}
 
+	void test_file_path_empty()
+	{
+		FilePath path1("data/FilePathTestSuite/a.cpp");
+		FilePath path2;
+
+		TS_ASSERT(!path1.empty());
+		TS_ASSERT(path2.empty());
+	}
+
 	void test_file_path_exists()
 	{
 		FilePath path("data/FilePathTestSuite/a.cpp");
@@ -40,6 +56,39 @@ public:
 		FilePath path("data/FilePathTestSuite/a.h");
 
 		TS_ASSERT(!path.exists());
+	}
+
+	void test_file_path_is_directory()
+	{
+		FilePath path("data/FilePathTestSuite/a.cpp");
+
+		TS_ASSERT(!path.isDirectory());
+		TS_ASSERT(path.parentDirectory().isDirectory());
+	}
+
+	void test_file_path_is_absolute()
+	{
+		FilePath path("data/FilePathTestSuite/a.cpp");
+
+		TS_ASSERT(!path.isAbsolute());
+		TS_ASSERT(path.absolute().isAbsolute());
+	}
+
+	void test_file_path_parent_directory()
+	{
+		FilePath path("data/FilePathTestSuite/a.cpp");
+
+		TS_ASSERT(path.parentDirectory().str() == "data/FilePathTestSuite");
+		TS_ASSERT(path.parentDirectory().parentDirectory().str() == "data");
+	}
+
+	void test_file_path_relative_to_other_path()
+	{
+		FilePath pathA("data/FilePathTestSuite/a.cpp");
+		FilePath pathB("data/FilePathTestSuite/test/c.h");
+
+		TS_ASSERT_EQUALS(pathA.relativeTo(pathB).str(), "../a.cpp");
+		TS_ASSERT_EQUALS(pathB.relativeTo(pathA).str(), "test/c.h");
 	}
 
 	void test_file_path_file_name()
@@ -86,9 +135,16 @@ public:
 	void test_file_path_equals_relative_and_absolute_paths()
 	{
 		FilePath pathA("data/FilePathTestSuite/a.cpp");
-		FilePath pathA2(pathA.absoluteStr());
+		FilePath pathA2(pathA.absolute());
 
 		TS_ASSERT_EQUALS(pathA, pathA2);
+	}
+
+	void test_file_path_equals_absolute_and_canonical_paths()
+	{
+		FilePath path("data/../data/FilePathTestSuite/./a.cpp");
+
+		TS_ASSERT_EQUALS(path.absolute(), path.canonical());
 	}
 
 	void test_file_path_compares_paths_with_posix_and_windows_format()

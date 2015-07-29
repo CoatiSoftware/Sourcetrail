@@ -8,14 +8,26 @@
 class FilePath
 {
 public:
+	FilePath();
 	FilePath(const char* filePath);
 	FilePath(const std::string& filePath);
 	FilePath(const boost::filesystem::path& filePath);
 
+	boost::filesystem::path path() const;
+
+	bool empty() const;
 	bool exists() const;
+	bool isDirectory() const;
+	bool isAbsolute() const;
+
+	FilePath parentDirectory() const;
+
+	FilePath absolute() const;
+	FilePath canonical() const;
+	FilePath relativeTo(const FilePath& other) const;
+	FilePath concat(const FilePath& other) const;
 
 	std::string str() const;
-	std::string absoluteStr() const;
 	std::string fileName() const;
 
 	std::string extension() const;

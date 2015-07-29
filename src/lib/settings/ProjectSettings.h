@@ -4,18 +4,28 @@
 #include <memory>
 #include <vector>
 
-#include "settings/CommonSettings.h"
+#include "settings/Settings.h"
 
 class ProjectSettings
-	: public CommonSettings
+	: public Settings
 {
 public:
 	static std::shared_ptr<ProjectSettings> getInstance();
 	~ProjectSettings();
 
+	virtual void save(const FilePath& filePath);
+
 	// source
-	std::vector<std::string> getSourcePaths() const;
-	bool setSourcePaths(const std::vector<std::string>& sourcePaths);
+	std::vector<FilePath> getSourcePaths() const;
+	bool setSourcePaths(const std::vector<FilePath>& sourcePaths);
+
+	std::vector<FilePath> getHeaderSearchPaths() const;
+	bool setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths);
+
+	std::vector<FilePath> getFrameworkSearchPaths() const;
+	bool setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths);
+
+	std::vector<std::string> getCompilerFlags() const;
 
 	// extensions
 	std::vector<std::string> getHeaderExtensions() const;

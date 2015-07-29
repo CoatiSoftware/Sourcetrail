@@ -11,15 +11,15 @@ class FileManager
 {
 public:
 	FileManager(
-		std::vector<std::string> sourcePaths,
-		std::vector<std::string> includePaths,
+		std::vector<FilePath> sourcePaths,
+		std::vector<FilePath> includePaths,
 		std::vector<std::string> sourceExtensions,
 		std::vector<std::string> includeExtensions
 	);
 	~FileManager();
 
-	const std::vector<std::string>& getSourcePaths() const;
-	const std::vector<std::string>& getIncludePaths() const;
+	const std::vector<FilePath>& getSourcePaths() const;
+	const std::vector<FilePath>& getIncludePaths() const;
 
 	void reset();
 	void fetchFilePaths();
@@ -33,8 +33,8 @@ public:
 	virtual bool hasIncludeExtension(const FilePath& filePath) const;
 
 private:
-	std::vector<std::string> m_sourcePaths;
-	std::vector<std::string> m_includePaths;
+	std::vector<FilePath> m_sourcePaths;
+	std::vector<FilePath> m_includePaths;
 	std::vector<std::string> m_sourceExtensions;
 	std::vector<std::string> m_includeExtensions;
 

@@ -3,16 +3,21 @@
 
 #include <memory>
 
-#include "settings/CommonSettings.h"
+#include "settings/Settings.h"
 
 class ApplicationSettings
-	: public CommonSettings
+	: public Settings
 {
 public:
 	static std::shared_ptr<ApplicationSettings> getInstance();
 	~ApplicationSettings();
 
 	std::string getStartupProjectFilePath() const;
+
+	// source
+	std::vector<FilePath> getHeaderSearchPaths() const;
+	std::vector<FilePath> getFrameworkSearchPaths() const;
+	std::vector<std::string> getCompilerFlags() const;
 
 	// application
 	std::string getFontName() const;
