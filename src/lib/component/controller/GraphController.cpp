@@ -15,8 +15,6 @@
 
 GraphController::GraphController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
-	, m_rebuild(true)
-	, m_restore(false)
 {
 }
 
@@ -26,23 +24,28 @@ GraphController::~GraphController()
 
 void GraphController::handleMessage(MessageActivateTokens* message)
 {
-	setRebuildState(message);
-
 	m_activeTokenIds = message->tokenIds;
 
 	if (message->isEdge && message->tokenIds.size() == 1)
 	{
 		setActiveAndVisibility(message->tokenIds);
-		rebuildGraph();
+		buildGraph(message);
 		return;
 	}
 
 	createDummyGraphForTokenIds(message->tokenIds);
+
+	buildGraph(message);
 }
 
 void GraphController::handleMessage(MessageFinishedParsing* message)
 {
 	getView()->clear();
+}
+
+void GraphController::handleMessage(MessageFlushUpdates* message)
+{
+	buildGraph(message);
 }
 
 void GraphController::handleMessage(MessageFocusIn* message)
@@ -57,8 +60,6 @@ void GraphController::handleMessage(MessageFocusOut *message)
 
 void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 {
-	setRebuildState(message);
-
 	for (size_t i = 0; i < m_dummyNodes.size(); i++)
 	{
 		DummyNode& node = m_dummyNodes[i];
@@ -86,13 +87,11 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 	GraphLayouter::layoutSpectralPrototype(m_dummyNodes, m_dummyEdges);
 	GraphPostprocessor::doPostprocessing(m_dummyNodes);
 
-	rebuildGraph();
+	buildGraph(message);
 }
 
 void GraphController::handleMessage(MessageGraphNodeExpand* message)
 {
-	setRebuildState(message);
-
 	DummyNode* node = findDummyNodeRecursive(m_dummyNodes, message->tokenId);
 	if (node)
 	{
@@ -103,14 +102,12 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 
 		GraphPostprocessor::doPostprocessing(m_dummyNodes);
 
-		rebuildGraph();
+		buildGraph(message);
 	}
 }
 
 void GraphController::handleMessage(MessageGraphNodeMove* message)
 {
-	setRebuildState(message);
-
 	DummyNode* node = findDummyNodeRecursive(m_dummyNodes, message->tokenId);
 	if (node)
 	{
@@ -122,7 +119,7 @@ void GraphController::handleMessage(MessageGraphNodeMove* message)
 		}
 		else
 		{
-			rebuildGraph();
+			buildGraph(message);
 		}
 	}
 }
@@ -177,7 +174,6 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	GraphPostprocessor::doPostprocessing(m_dummyNodes);
 
 	m_graph = graph;
-	rebuildGraph();
 }
 
 DummyNode GraphController::createDummyNodeTopDown(Node* node)
@@ -199,7 +195,7 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 	}
 
 	DummyNode* oldNode = findDummyNodeRecursive(m_dummyNodes, node->getId());
-	if (oldNode && !m_restore)
+	if (oldNode)
 	{
 		result.expanded = oldNode->isExpanded();
 	}
@@ -930,28 +926,9 @@ DummyNode* GraphController::findDummyNodeAccessRecursive(
 	return nullptr;
 }
 
-void GraphController::setRebuildState(MessageBase* message)
+void GraphController::buildGraph(MessageBase* message)
 {
-	m_restore = false;
-
-	switch (message->undoRedoType)
-	{
-	case MessageBase::UNDOTYPE_UNDO:
-		m_restore = true;
-	case MessageBase::UNDOTYPE_NORMAL:
-	case MessageBase::UNDOTYPE_REDO:
-		m_rebuild = true;
-		break;
-	case MessageBase::UNDOTYPE_IGNORE:
-		m_restore = true;
-		m_rebuild = false;
-		break;
-	}
-}
-
-void GraphController::rebuildGraph()
-{
-	if (m_rebuild)
+	if (message->undoRedoType == MessageBase::UNDOTYPE_NORMAL)
 	{
 		getView()->rebuildGraph(m_graph, m_dummyNodes, m_dummyEdges);
 		m_graph.reset();

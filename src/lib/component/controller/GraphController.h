@@ -6,6 +6,7 @@
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
@@ -28,6 +29,7 @@ class GraphController
 	: public Controller
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageFinishedParsing>
+	, public MessageListener<MessageFlushUpdates>
 	, public MessageListener<MessageFocusIn>
 	, public MessageListener<MessageFocusOut>
 	, public MessageListener<MessageGraphNodeBundleSplit>
@@ -41,6 +43,7 @@ public:
 private:
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageFinishedParsing* message);
+	virtual void handleMessage(MessageFlushUpdates* message);
 	virtual void handleMessage(MessageFocusIn* message);
 	virtual void handleMessage(MessageFocusOut* message);
 	virtual void handleMessage(MessageGraphNodeBundleSplit* message);
@@ -75,8 +78,7 @@ private:
 	DummyNode* findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId) const;
 	DummyNode* findDummyNodeAccessRecursive(std::vector<DummyNode>& nodes, Id parentId, TokenComponentAccess::AccessType type) const;
 
-	void setRebuildState(MessageBase* message);
-	void rebuildGraph();
+	void buildGraph(MessageBase* message);
 
 	StorageAccess* m_storageAccess;
 
@@ -86,8 +88,6 @@ private:
 	std::vector<Id> m_activeTokenIds;
 
 	std::shared_ptr<Graph> m_graph;
-	bool m_rebuild;
-	bool m_restore;
 };
 
 #endif // GRAPH_CONTROLLER_H

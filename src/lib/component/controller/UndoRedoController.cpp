@@ -1,6 +1,7 @@
 #include "component/controller/UndoRedoController.h"
 
 #include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageFlushUpdates.h"
 
 #include "component/view/UndoRedoView.h"
 
@@ -96,6 +97,8 @@ void UndoRedoController::handleMessage(MessageRedo* message)
 		m_redo.pop_back();
 		m->undoRedoType = MessageBase::UNDOTYPE_REDO;
 		m->dispatch();
+
+		MessageFlushUpdates().dispatch();
 	}
 }
 
@@ -125,6 +128,8 @@ void UndoRedoController::handleMessage(MessageRefresh* message)
 
 	msg->undoRedoType = MessageBase::UNDOTYPE_REDO;
 	msg->dispatch();
+
+	MessageFlushUpdates().dispatch();
 }
 
 void UndoRedoController::handleMessage(MessageSearch* message)
@@ -139,9 +144,29 @@ void UndoRedoController::handleMessage(MessageSearch* message)
 	processCommand(command);
 }
 
+void UndoRedoController::handleMessage(MessageShowFile* message)
+{
+	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() &&
+		static_cast<MessageShowFile*>(m_lastCommand.message.get())->filePath == message->filePath)
+	{
+		return;
+	}
+
+	Command command(std::make_shared<MessageShowFile>(*message), 1);
+	processCommand(command);
+}
+
+void UndoRedoController::handleMessage(MessageShowScope* message)
+{
+	Command command(std::make_shared<MessageShowScope>(*message), 1);
+	processCommand(command);
+}
+
 void UndoRedoController::handleMessage(MessageUndo* message)
 {
 	replayCommands(true);
+
+	MessageFlushUpdates().dispatch();
 }
 
 void UndoRedoController::replayCommands(bool removeLast)

@@ -420,8 +420,20 @@ void QtGraphView::createTransition()
 
 	if (!vanishingNodes.size() && !appearingNodes.size())
 	{
-		switchToNewGraphData();
-		return;
+		bool nodesMoved = false;
+		for (const std::pair<QtGraphNode*, QtGraphNode*>& p : remainingNodes)
+		{
+			if (p.first->getPosition() != p.second->getPosition() && p.first->getSize() != p.second->getSize())
+			{
+				nodesMoved = true;
+			}
+		}
+
+		if (!nodesMoved)
+		{
+			switchToNewGraphData();
+			return;
+		}
 	}
 
 	for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
