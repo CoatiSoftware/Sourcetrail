@@ -1,0 +1,27 @@
+.QtDirectoryListBox {
+    border: 1px solid lightgray;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 200);
+}
+
+.QListWidget {
+    border: none;
+    background: transparent;
+}
+
+#roundedButton {
+    font-size: 15px;
+    color: white;
+    border-radius: 10px;
+    background: dimgray;
+    width: 20px;
+    height: 20px;
+}
+
+#roundedButton:hover {
+    background: lightgray;
+}
+
+#dropInfo {
+    color: lightgray;
+}

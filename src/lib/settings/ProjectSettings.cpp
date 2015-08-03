@@ -78,3 +78,13 @@ std::vector<std::string> ProjectSettings::getSourceExtensions() const
 	defaultValues.push_back(".cpp");
 	return getValues("source/Extensions/SourceExtensions", defaultValues);
 }
+
+bool ProjectSettings::setHeaderExtensions(const std::vector<std::string> &headerExtensions)
+{
+	return setValues("source/Extensions/HeaderExtensions", headerExtensions);
+}
+
+bool ProjectSettings::setSourceExtensions(const std::vector<std::string> &sourceExtensions)
+{
+	return setValues("source/Extensions/SourceExtensions", sourceExtensions);
+}

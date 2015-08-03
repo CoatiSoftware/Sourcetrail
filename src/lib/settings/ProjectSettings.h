@@ -31,6 +31,9 @@ public:
 	std::vector<std::string> getHeaderExtensions() const;
 	std::vector<std::string> getSourceExtensions() const;
 
+	bool setHeaderExtensions(const std::vector<std::string>& headerExtensions);
+	bool setSourceExtensions(const std::vector<std::string>& sourceExtensions);
+
 private:
 	ProjectSettings();
 	ProjectSettings(const ProjectSettings&);

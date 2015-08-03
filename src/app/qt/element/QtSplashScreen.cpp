@@ -1,4 +1,4 @@
-#include "QtSplashScreen.h"
+#include "qt/element/QtSplashScreen.h"
 
 #include <QApplication>
 #include <QThread>

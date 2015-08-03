@@ -9,7 +9,6 @@
 
 #include "component/view/View.h"
 #include "component/view/CompositeView.h"
-#include "qt/element/QtStartScreen.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageFind.h"
@@ -31,6 +30,7 @@ QtMainWindow::QtMainWindow()
 	setDockNestingEnabled(true);
 
 	setWindowIcon(QIcon("./data/gui/icon/logo_1024_1024.png"));
+	setWindowFlags(Qt::Widget);
 
 	QApplication::setOverrideCursor(Qt::ArrowCursor);
 
@@ -44,12 +44,16 @@ QtMainWindow::QtMainWindow()
 	// Need to call loadLayout here for right DockWidget size on Linux
 	// Seconde call is in Application.cpp
 	loadLayout();
+}
 
+void QtMainWindow::init()
+{
 	// StartScreen
 	m_startScreen = std::make_shared<QtStartScreen>(this);
-	m_startScreen->setWindowModality(Qt::WindowModal);
+	m_startScreen->setup();
 	m_startScreen->show();
 }
+
 
 QtMainWindow::~QtMainWindow()
 {
@@ -60,8 +64,8 @@ void QtMainWindow::addView(View* view)
 	QDockWidget* dock = new QDockWidget(tr(view->getName().c_str()), this);
 	dock->setWidget(QtViewWidgetWrapper::getWidgetOfView(view));
 	dock->setObjectName(QString::fromStdString("Dock" + view->getName()));
-	// dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
-	// dock->setTitleBarWidget(new QWidget());
+	//dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    //dock->setTitleBarWidget(new QWidget());
 	addDockWidget(Qt::TopDockWidgetArea, dock);
 	m_dockWidgets.push_back(std::make_pair(view, dock));
 }
@@ -149,12 +153,9 @@ void QtMainWindow::about()
 
 void QtMainWindow::newProject()
 {
-	QString sourceDir = QFileDialog::getExistingDirectory(this, tr("Open Directory"));
-
-	if (!sourceDir.isEmpty())
-	{
-		MessageLoadSource(sourceDir.toStdString()).dispatch();
-	}
+	m_newProjectDialog = std::make_shared<QtProjectSetupScreen>(this);
+	m_newProjectDialog->setup();
+	m_newProjectDialog->show();
 }
 
 void QtMainWindow::openProject(const QString &path)
@@ -241,7 +242,14 @@ void QtMainWindow::switchColorScheme()
 
 void QtMainWindow::handleEscapeShortcut()
 {
-	m_startScreen->hide();
+	if(m_startScreen)
+	{
+		m_startScreen->hide();
+	}
+	if(m_newProjectDialog)
+	{
+		m_newProjectDialog->hide();
+	}
 	MessageInterruptTasks().dispatch();
 }
 

@@ -1,9 +1,8 @@
 #ifndef STARTSCREEN_H
 #define STARTSCREEN_H
 
-#include <QFrame>
-#include <QWidget>
 #include <QtWidgets/qpushbutton.h>
+#include "QtSettingsWindow.h"
 
 class QtRecentProjectButton : public QPushButton
 {
@@ -16,13 +15,14 @@ private:
 	std::string m_projectFile;
 };
 
-class QtStartScreen : public QWidget
+class QtStartScreen : public QtSettingsWindow
 {
 	Q_OBJECT
 
 public:
 	QtStartScreen(QWidget* parent = 0);
 	QSize sizeHint() const Q_DECL_OVERRIDE;
+	virtual void setup();
 
 signals:
 	void openOpenProjectDialog();

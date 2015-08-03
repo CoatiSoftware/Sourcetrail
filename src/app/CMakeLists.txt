@@ -15,12 +15,18 @@ add_files(
 	qt/element/QtCodeFileList.h
 	qt/element/QtCodeSnippet.cpp
 	qt/element/QtCodeSnippet.h
+	qt/element/QtDirectoryListBox.cpp
+	qt/element/QtDirectoryListBox.h
 	qt/element/QtMainWindow.cpp
 	qt/element/QtMainWindow.h
+	qt/element/QtProjectSetupScreen.cpp
+	qt/element/QtProjectSetupScreen.h
 	qt/element/QtRefreshBar.cpp
 	qt/element/QtRefreshBar.h
 	qt/element/QtSearchBar.cpp
 	qt/element/QtSearchBar.h
+	qt/element/QtSettingsWindow.cpp
+	qt/element/QtSettingsWindow.h
 	qt/element/QtSmartSearchBox.cpp
 	qt/element/QtSmartSearchBox.h
 	qt/element/QtSplashScreen.cpp

@@ -1,0 +1,28 @@
+#projectButton {
+	font-size: 17pt;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    background: white;
+}
+
+#projectButton:hover {
+    color: white;
+    background: navy;
+}
+
+#recentButton{
+    font-size: 12pt;
+    color: black;
+    background: none;
+    border: none;
+}
+
+#recentButton:hover{
+    background: lightgray;
+    border-radius: 10px;
+}
+
+#recentLabel {
+	font-size: 16pt;
+	color: black;
+}

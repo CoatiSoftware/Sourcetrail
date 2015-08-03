@@ -100,3 +100,12 @@ void ApplicationSettings::setCodeSnippetExpandRange(int range)
 ApplicationSettings::ApplicationSettings()
 {
 }
+
+std::vector<std::string> ApplicationSettings::getRecentProjects() const {
+	std::vector<std::string> recentProjects;
+	return getValues("recentProjects/projectFilePath", recentProjects);
+}
+
+bool ApplicationSettings::setRecentProjects(const std::vector<std::string> &recentProjects) {
+	return setValues("recentProjects/projectFilePath", recentProjects);
+}

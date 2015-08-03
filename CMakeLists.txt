@@ -35,7 +35,16 @@ project(${PROJECT_NAME})
 
 # Clang ------------------------------------------------------------------------
 
-find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build/share/llvm/cmake")
+if(UNIX AND NOT APPLE)
+	if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_release/share/llvm/cmake")
+	else()
+		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_debug/share/llvm/cmake")
+	endif()
+else()
+	find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build/share/llvm/cmake")
+endif()
+
 find_package(CLANG REQUIRED PATHS "${CMAKE_SOURCE_DIR}/cmake")
 
 add_definitions(${CLANG_DEFINITIONS})
@@ -110,6 +119,15 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_PREFIX_PATH "$ENV{QT_DIR}/")
 
 find_package(Qt5Widgets)
+
+if(Qt5Widgets_FOUND)
+    MESSAGE(STATUS "Found Qt ${Qt5Widgets_VERSION_STRING}")
+    # FIX: Qt was built with -reduce-relocations
+    if (Qt5_POSITION_INDEPENDENT_CODE)
+        SET(CMAKE_POSITION_INDEPENDENT_CODE ON)
+    endif()
+endif()
+
 find_package(Qt5PrintSupport)
 if (WIN32)
 	file(WRITE ${CMAKE_SOURCE_DIR}/build/Coati.rc

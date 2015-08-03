@@ -61,9 +61,18 @@ void Application::loadProject(const std::string& projectSettingsFilePath)
 	m_componentManager->refreshViews();
 
 	m_project = Project::create(m_storageCache.get());
-
 	m_project->loadProjectSettings(projectSettingsFilePath);
 	m_project->parseCode();
+
+	std::vector<std::string> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
+	recentProjects.erase(std::find(recentProjects.begin(),recentProjects.end(),projectSettingsFilePath));
+	recentProjects.insert(recentProjects.begin(),projectSettingsFilePath);
+	if(recentProjects.size() > 7)
+	{
+		recentProjects.pop_back();
+	}
+	ApplicationSettings::getInstance()->setRecentProjects(recentProjects);
+	ApplicationSettings::getInstance()->save("data/ApplicationSettings.xml");
 }
 
 void Application::loadSource(const std::string& sourceDirectoryPath)

@@ -9,6 +9,7 @@
 #include <QtWidgets/QMainWindow>
 
 #include "QtStartScreen.h"
+#include "QtProjectSetupScreen.h"
 
 class QDockWidget;
 class View;
@@ -20,6 +21,8 @@ class QtMainWindow: public QMainWindow
 public:
 	QtMainWindow();
 	~QtMainWindow();
+
+	void init();
 
 	void addView(View* view);
 	void removeView(View* view);
@@ -62,6 +65,7 @@ private:
 	QDockWidget* getDockWidgetForView(View* view) const;
 
 	std::shared_ptr<QtStartScreen> m_startScreen;
+	std::shared_ptr<QtProjectSetupScreen> m_newProjectDialog;
 
 	std::vector<std::pair<View*, QDockWidget*>> m_dockWidgets;
 

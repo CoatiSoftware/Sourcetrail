@@ -29,6 +29,10 @@ public:
 	std::string getColorSchemePath() const;
 	void setColorSchemePath(const std::string& colorSchemePath);
 
+	//recent projects
+	std::vector<std::string> getRecentProjects() const;
+	bool setRecentProjects(const std::vector<std::string>& recentProjects);
+
 	// code
 	int getCodeTabWidth() const;
 	void setCodeTabWidth(int codeTabWidth);
