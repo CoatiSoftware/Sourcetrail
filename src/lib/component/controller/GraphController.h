@@ -76,6 +76,7 @@ private:
 	void layoutToGrid(DummyNode& node) const;
 
 	DummyNode* findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId) const;
+	DummyNode* findTopLevelDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId) const;
 	DummyNode* findDummyNodeAccessRecursive(std::vector<DummyNode>& nodes, Id parentId, TokenComponentAccess::AccessType type) const;
 
 	void buildGraph(MessageBase* message);
@@ -85,7 +86,8 @@ private:
 	std::vector<DummyNode> m_dummyNodes;
 	std::vector<DummyEdge> m_dummyEdges;
 
-	std::vector<Id> m_activeTokenIds;
+	std::vector<Id> m_activeNodeIds;
+	std::vector<Id> m_activeEdgeIds;
 
 	std::shared_ptr<Graph> m_graph;
 };

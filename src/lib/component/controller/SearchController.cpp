@@ -14,27 +14,16 @@ SearchController::~SearchController()
 
 void SearchController::handleMessage(MessageActivateEdge* message)
 {
-	if (message->isIgnorable())
+	if (!message->isAggregation())
 	{
 		return;
 	}
 
-	SearchMatch match;
-	match.fullName = message->name;
-	match.nodeType = Node::NODE_CLASS;
-	match.tokenIds.insert(message->tokenId);
-	match.queryNodeType = QueryNode::QUERYNODETYPE_TOKEN;
-
-	getView()->setMatches(std::deque<SearchMatch>(1, match));
+	getView()->setMatches(std::deque<SearchMatch>());
 }
 
 void SearchController::handleMessage(MessageActivateFile* message)
 {
-	if (message->isIgnorable())
-	{
-		return;
-	}
-
 	SearchMatch match;
 	match.fullName = message->filePath.fileName();
 	match.nodeType = Node::NODE_FILE;
@@ -46,11 +35,6 @@ void SearchController::handleMessage(MessageActivateFile* message)
 
 void SearchController::handleMessage(MessageActivateNode* message)
 {
-	if (message->isIgnorable())
-	{
-		return;
-	}
-
 	SearchMatch match;
 	match.fullName = message->name;
 	match.nodeType = message->type;
@@ -72,11 +56,6 @@ void SearchController::handleMessage(MessageFinishedParsing* message)
 
 void SearchController::handleMessage(MessageSearch* message)
 {
-	if (message->isIgnorable())
-	{
-		return;
-	}
-
 	getView()->setMatches(message->getMatches());
 }
 

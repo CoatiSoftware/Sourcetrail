@@ -29,11 +29,12 @@ void FeatureController::handleMessage(MessageActivateEdge* message)
 		return;
 	}
 
-	if (message->type == Edge::EDGE_AGGREGATION)
+	if (message->isAggregation())
 	{
 		MessageActivateTokens m(m_storageAccess->getTokenIdsForAggregationEdge(edgeId));
+		m.isAggregation = true;
 		m.undoRedoType = message->undoRedoType;
-		m.dispatch();
+		m.dispatchImmediately();
 		return;
 	}
 

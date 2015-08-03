@@ -22,6 +22,11 @@ public:
 		return "MessageActivateEdge";
 	}
 
+	bool isAggregation() const
+	{
+		return type == Edge::EDGE_AGGREGATION;
+	}
+
 	const Id tokenId;
 	const Edge::EdgeType type;
 	const std::string name;

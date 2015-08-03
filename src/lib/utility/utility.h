@@ -31,7 +31,7 @@ namespace utility
 template<typename T>
 std::vector<T> utility::concat(const std::vector<T>& a, const std::vector<T>& b)
 {
-	std::vector<T> r(a.size() + b.size());
+	std::vector<T> r;
 	append(r, a);
 	append(r, b);
 	return r;

@@ -33,7 +33,7 @@ void UndoRedoController::handleMessage(MessageActivateEdge* message)
 		return;
 	}
 
-	Command command(std::make_shared<MessageActivateEdge>(*message), (message->type == Edge::EDGE_AGGREGATION ? 0 : 1));
+	Command command(std::make_shared<MessageActivateEdge>(*message), (message->isAggregation() ? 0 : 1));
 	processCommand(command);
 }
 

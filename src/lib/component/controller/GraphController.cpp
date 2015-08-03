@@ -24,16 +24,25 @@ GraphController::~GraphController()
 
 void GraphController::handleMessage(MessageActivateTokens* message)
 {
-	m_activeTokenIds = message->tokenIds;
-
 	if (message->isEdge && message->tokenIds.size() == 1)
 	{
-		setActiveAndVisibility(message->tokenIds);
+		m_activeEdgeIds = message->tokenIds;
+		setActiveAndVisibility(utility::concat(m_activeNodeIds, m_activeEdgeIds));
 		buildGraph(message);
 		return;
 	}
+	else if (message->isAggregation)
+	{
+		m_activeNodeIds.clear();
+		m_activeEdgeIds = message->tokenIds;
+	}
+	else
+	{
+		m_activeNodeIds = message->tokenIds;
+		m_activeEdgeIds.clear();
+	}
 
-	createDummyGraphForTokenIds(message->tokenIds);
+	createDummyGraphForTokenIds(utility::concat(m_activeNodeIds, m_activeEdgeIds));
 
 	buildGraph(message);
 }
@@ -81,7 +90,7 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 		}
 	}
 
-	setActiveAndVisibility(m_activeTokenIds);
+	setActiveAndVisibility(utility::concat(m_activeNodeIds, m_activeEdgeIds));
 
 	layoutNesting();
 	GraphLayouter::layoutSpectralPrototype(m_dummyNodes, m_dummyEdges);
@@ -97,7 +106,7 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 	{
 		node->expanded = message->expand;
 
-		setActiveAndVisibility(m_activeTokenIds);
+		setActiveAndVisibility(utility::concat(m_activeNodeIds, m_activeEdgeIds));
 		layoutNesting();
 
 		GraphPostprocessor::doPostprocessing(m_dummyNodes);
@@ -359,8 +368,8 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 			continue;
 		}
 
-		DummyNode* from = findDummyNodeRecursive(m_dummyNodes, edge.ownerId);
-		DummyNode* to = findDummyNodeRecursive(m_dummyNodes, edge.targetId);
+		DummyNode* from = findTopLevelDummyNodeRecursive(m_dummyNodes, edge.ownerId);
+		DummyNode* to = findTopLevelDummyNodeRecursive(m_dummyNodes, edge.targetId);
 
 		if (from && to && (from->active || to->active))
 		{
@@ -903,6 +912,30 @@ DummyNode* GraphController::findDummyNodeRecursive(std::vector<DummyNode>& nodes
 		if (result != nullptr)
 		{
 			return result;
+		}
+	}
+
+	return nullptr;
+}
+
+DummyNode* GraphController::findTopLevelDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId) const
+{
+	for (DummyNode& node : nodes)
+	{
+		if (node.isGraphNode())
+		{
+			if (node.data->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE))
+			{
+				DummyNode* result = findDummyNodeRecursive(node.subNodes, tokenId);
+				if (result != nullptr)
+				{
+					return result;
+				}
+			}
+			else if (node.data->getId() == tokenId)
+			{
+				return &node;
+			}
 		}
 	}
 
