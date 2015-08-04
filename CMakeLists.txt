@@ -118,7 +118,11 @@ set(CMAKE_AUTOMOC ON)
 # Find the QtWidgets library
 set(CMAKE_PREFIX_PATH "$ENV{QT_DIR}/")
 
+set(Qt5Widgets_DIR "$ENV{QT_DIR}/cmake/Qt5Widgets/")
+set(Qt5PrintSupport_DIR "$ENV{QT_DIR}/cmake/Qt5PrintSupport/")
+
 find_package(Qt5Widgets)
+find_package(Qt5PrintSupport)
 
 if(Qt5Widgets_FOUND)
     MESSAGE(STATUS "Found Qt ${Qt5Widgets_VERSION_STRING}")
@@ -128,7 +132,7 @@ if(Qt5Widgets_FOUND)
     endif()
 endif()
 
-find_package(Qt5PrintSupport)
+
 if (WIN32)
 	file(WRITE ${CMAKE_SOURCE_DIR}/build/Coati.rc
 		"// Icon with lowest ID value placed first to ensure application icon\n"

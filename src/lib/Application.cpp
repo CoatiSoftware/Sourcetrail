@@ -65,12 +65,17 @@ void Application::loadProject(const std::string& projectSettingsFilePath)
 	m_project->parseCode();
 
 	std::vector<std::string> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
-	recentProjects.erase(std::find(recentProjects.begin(),recentProjects.end(),projectSettingsFilePath));
-	recentProjects.insert(recentProjects.begin(),projectSettingsFilePath);
-	if(recentProjects.size() > 7)
+	if (recentProjects.size())
+	{
+		recentProjects.erase(std::find(recentProjects.begin(), recentProjects.end(), projectSettingsFilePath));
+	}
+
+	recentProjects.insert(recentProjects.begin(), projectSettingsFilePath);
+	if (recentProjects.size() > 7)
 	{
 		recentProjects.pop_back();
 	}
+
 	ApplicationSettings::getInstance()->setRecentProjects(recentProjects);
 	ApplicationSettings::getInstance()->save("data/ApplicationSettings.xml");
 }

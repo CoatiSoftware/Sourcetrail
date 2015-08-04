@@ -4,11 +4,11 @@
 
 ##### External Software
 
-* QT 5.2.1
+* QT 5.5
 * CxxTest 4.3
-* Valgrind 3.9.0(linux, macOS)
+* Valgrind 3.9.0 (linux)
 * Clang & LLVM (installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
-* Boost 1.55 ()
+* Boost 1.55
 * Eigen 3.2.3
 
 ##### Environment Variables
