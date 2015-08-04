@@ -10,16 +10,18 @@
 class FileManager
 {
 public:
-	FileManager(
+	FileManager();
+	~FileManager();
+
+	const std::vector<FilePath>& getSourcePaths() const;
+	const std::vector<FilePath>& getIncludePaths() const;
+
+	void setPaths(
 		std::vector<FilePath> sourcePaths,
 		std::vector<FilePath> includePaths,
 		std::vector<std::string> sourceExtensions,
 		std::vector<std::string> includeExtensions
 	);
-	~FileManager();
-
-	const std::vector<FilePath>& getSourcePaths() const;
-	const std::vector<FilePath>& getIncludePaths() const;
 
 	void reset();
 	void fetchFilePaths();

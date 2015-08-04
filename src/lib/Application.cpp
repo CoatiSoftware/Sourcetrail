@@ -101,6 +101,7 @@ void Application::reloadProject()
 	m_storageCache->clear();
 	m_componentManager->refreshViews();
 
+	m_project->reloadProjectSettings();
 	m_project->parseCode();
 }
 

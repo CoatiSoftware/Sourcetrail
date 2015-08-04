@@ -20,6 +20,7 @@ public:
 	bool loadProjectSettings(const std::string& projectSettingsFile);
 	bool saveProjectSettings(const std::string& projectSettingsFile);
 	void clearProjectSettings();
+	void reloadProjectSettings();
 
 	bool setSourceDirectoryPath(const std::string& sourceDirectoryPath);
 
@@ -33,16 +34,16 @@ private:
 	Project(const Project&);
 	Project operator=(const Project&);
 
-	void createFileManager();
+	void updateFileManager();
 
 	Parser::Arguments getParserArguments() const;
 
-	std::string m_projectSettingsFilepath;
-
 	StorageAccessProxy* const m_storageAccessProxy;
 
+	std::string m_projectSettingsFilepath;
+	FileManager m_fileManager;
+
 	std::shared_ptr<Storage> m_storage;
-	std::shared_ptr<FileManager> m_fileManager;
 };
 
 #endif // PROJECT_H

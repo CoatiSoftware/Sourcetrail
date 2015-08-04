@@ -3,7 +3,8 @@
 
 #include "utility/file/FileManager.h"
 
-class TestFileManager: public FileManager
+class TestFileManager
+	: public FileManager
 {
 public:
 	TestFileManager();

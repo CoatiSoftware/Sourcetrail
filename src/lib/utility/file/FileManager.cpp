@@ -5,16 +5,7 @@
 
 #include "utility/file/FileSystem.h"
 
-FileManager::FileManager(
-	std::vector<FilePath> sourcePaths,
-	std::vector<FilePath> includePaths,
-	std::vector<std::string> sourceExtensions,
-	std::vector<std::string> includeExtensions
-)
-	: m_sourcePaths(sourcePaths)
-	, m_includePaths(includePaths)
-	, m_sourceExtensions(sourceExtensions)
-	, m_includeExtensions(includeExtensions)
+FileManager::FileManager()
 {
 }
 
@@ -30,6 +21,18 @@ const std::vector<FilePath>& FileManager::getSourcePaths() const
 const std::vector<FilePath>& FileManager::getIncludePaths() const
 {
 	return m_includePaths;
+}
+
+void FileManager::setPaths(
+	std::vector<FilePath> sourcePaths,
+	std::vector<FilePath> includePaths,
+	std::vector<std::string> sourceExtensions,
+	std::vector<std::string> includeExtensions
+){
+	m_sourcePaths = sourcePaths;
+	m_includePaths = includePaths;
+	m_sourceExtensions = sourceExtensions;
+	m_includeExtensions = includeExtensions;
 }
 
 void FileManager::reset()

@@ -1,12 +1,6 @@
 #include "TestFileManager.h"
 
 TestFileManager::TestFileManager()
-	: FileManager(
-		std::vector<FilePath>(),
-		std::vector<FilePath>(),
-		std::vector<std::string>(),
-		std::vector<std::string>()
-	)
 {
 }
 

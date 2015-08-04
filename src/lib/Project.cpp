@@ -28,7 +28,8 @@ bool Project::loadProjectSettings(const std::string& projectSettingsFile)
 	{
 		m_projectSettingsFilepath = projectSettingsFile;
 
-		createFileManager();
+		m_fileManager.reset();
+		updateFileManager();
 	}
 	return success;
 }
@@ -60,6 +61,15 @@ void Project::clearProjectSettings()
 	m_fileManager.reset();
 }
 
+void Project::reloadProjectSettings()
+{
+	if (m_projectSettingsFilepath.size())
+	{
+		ProjectSettings::getInstance()->load(m_projectSettingsFilepath);
+		updateFileManager();
+	}
+}
+
 bool Project::setSourceDirectoryPath(const std::string& sourceDirectoryPath)
 {
 	m_projectSettingsFilepath = sourceDirectoryPath + "/ProjectSettings.xml";
@@ -67,7 +77,8 @@ bool Project::setSourceDirectoryPath(const std::string& sourceDirectoryPath)
 
 	if (success)
 	{
-		createFileManager();
+		m_fileManager.reset();
+		updateFileManager();
 	}
 
 	return success;
@@ -83,18 +94,12 @@ void Project::clearStorage()
 
 void Project::parseCode()
 {
-	if (!m_fileManager)
-	{
-		LOG_ERROR("No FileManger was created.");
-		return;
-	}
-
 	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
 
-	m_fileManager->fetchFilePaths();
-	std::set<FilePath> addedFilePaths = m_fileManager->getAddedFilePaths();
-	std::set<FilePath> updatedFilePaths = m_fileManager->getUpdatedFilePaths();
-	std::set<FilePath> removedFilePaths = m_fileManager->getRemovedFilePaths();
+	m_fileManager.fetchFilePaths();
+	std::set<FilePath> addedFilePaths = m_fileManager.getAddedFilePaths();
+	std::set<FilePath> updatedFilePaths = m_fileManager.getUpdatedFilePaths();
+	std::set<FilePath> removedFilePaths = m_fileManager.getRemovedFilePaths();
 
 	utility::append(updatedFilePaths, m_storage->getDependingFilePathsAndRemoveFileNodes(updatedFilePaths));
 	utility::append(updatedFilePaths, m_storage->getDependingFilePathsAndRemoveFileNodes(removedFilePaths));
@@ -114,7 +119,7 @@ void Project::parseCode()
 
 	Task::dispatch(std::make_shared<TaskParseCxx>(
 		m_storage.get(),
-		m_fileManager.get(),
+		&m_fileManager,
 		getParserArguments(),
 		filesToParse
 	));
@@ -127,7 +132,7 @@ void Project::logStats() const
 	m_storage->logStats();
 }
 
-void Project::createFileManager()
+void Project::updateFileManager()
 {
 	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
 
@@ -137,10 +142,7 @@ void Project::createFileManager()
 	std::vector<std::string> sourceExtensions = projSettings->getSourceExtensions();
 	std::vector<std::string> includeExtensions = projSettings->getHeaderExtensions();
 
-	if (sourcePaths.size())
-	{
-		m_fileManager = std::make_shared<FileManager>(sourcePaths, includePaths, sourceExtensions, includeExtensions);
-	}
+	m_fileManager.setPaths(sourcePaths, includePaths, sourceExtensions, includeExtensions);
 }
 
 Parser::Arguments Project::getParserArguments() const
@@ -150,17 +152,11 @@ Parser::Arguments Project::getParserArguments() const
 
 	Parser::Arguments args;
 
-	if (!m_fileManager)
-	{
-		LOG_ERROR("No FileManger was created.");
-		return args;
-	}
-
 	utility::append(args.compilerFlags, projSettings->getCompilerFlags());
 	utility::append(args.compilerFlags, appSettings->getCompilerFlags());
 
 	// Add the include paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
-	utility::append(args.systemHeaderSearchPaths, m_fileManager->getIncludePaths());
+	utility::append(args.systemHeaderSearchPaths, m_fileManager.getIncludePaths());
 	utility::append(args.systemHeaderSearchPaths, projSettings->getHeaderSearchPaths());
 	utility::append(args.systemHeaderSearchPaths, appSettings->getHeaderSearchPaths());
 
