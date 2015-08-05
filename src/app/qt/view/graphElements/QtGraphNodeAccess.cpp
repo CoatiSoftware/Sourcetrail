@@ -7,6 +7,7 @@
 #include "component/view/GraphViewStyle.h"
 #include "qt/graphics/QtRoundedRectItem.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
+#include "qt/utility/utilityQt.h"
 
 QtGraphNodeAccess::QtGraphNodeAccess(TokenComponentAccess::AccessType accessType)
 	: QtGraphNode()
@@ -54,6 +55,8 @@ void QtGraphNodeAccess::updateStyle()
 
 	m_text->setPos(style.textOffset.x + m_accessIconSize + 3, style.textOffset.x + m_accessIconSize + 2 - style.fontSize);
 	m_accessIcon->setPos(style.textOffset.x, style.textOffset.y);
+
+	m_accessIcon->setPixmap(utility::colorizePixmap(m_accessIcon->pixmap(), style.iconColor.c_str()));
 }
 
 void QtGraphNodeAccess::hideLabel()

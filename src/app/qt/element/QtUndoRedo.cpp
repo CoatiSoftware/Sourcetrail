@@ -6,7 +6,9 @@
 #include "utility/messaging/type/MessageUndo.h"
 #include "utility/messaging/type/MessageRedo.h"
 
+#include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
+#include "settings/ColorScheme.h"
 
 QtUndoRedo::QtUndoRedo()
 {
@@ -16,14 +18,12 @@ QtUndoRedo::QtUndoRedo()
 	m_undoButton->setObjectName("undo_button");
 	m_undoButton->setToolTip("undo");
 	m_undoButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	m_undoButton->setIcon(QIcon("data/gui/undoredo_view/images/arrow_left.png"));
 	m_undoButton->setEnabled(false);
 
 	m_redoButton = new QPushButton(this);
 	m_redoButton->setObjectName("redo_button");
 	m_redoButton->setToolTip("redo");
 	m_redoButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	m_redoButton->setIcon(QIcon("data/gui/undoredo_view/images/arrow_right.png"));
     m_redoButton->setEnabled(false);
 
 	QBoxLayout* layout = new QHBoxLayout();
@@ -70,4 +70,14 @@ void QtUndoRedo::refreshStyle()
 
 	m_undoButton->setFixedHeight(height);
 	m_redoButton->setFixedHeight(height);
+
+	m_undoButton->setIcon(utility::colorizePixmap(
+		QPixmap("data/gui/undoredo_view/images/arrow_left.png"),
+		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
+	));
+
+	m_redoButton->setIcon(utility::colorizePixmap(
+		QPixmap("data/gui/undoredo_view/images/arrow_right.png"),
+		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
+	));
 }

@@ -26,7 +26,6 @@ GraphViewStyle::NodeStyle::NodeStyle()
 	, borderDashed(false)
 	, fontSize(0)
 	, fontBold(false)
-	, undefinedPattern(false)
 {
 }
 
@@ -283,7 +282,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 		break;
 
 	case Node::NODE_UNDEFINED_TYPE:
-		style.undefinedPattern = true;
+		style.hatchingColor = scheme->getColor("graph/hatching");
 
 	case Node::NODE_STRUCT:
 	case Node::NODE_CLASS:
@@ -333,7 +332,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 
 	case Node::NODE_UNDEFINED_FUNCTION:
 	case Node::NODE_UNDEFINED_VARIABLE:
-		style.undefinedPattern = true;
+		style.hatchingColor = scheme->getColor("graph/hatching");
 
 	case Node::NODE_FUNCTION:
 	case Node::NODE_METHOD:
@@ -367,6 +366,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfAccessNode()
 
 	style.color = scheme->getColor("graph/background");
 	style.textColor = scheme->getColor("graph/text");
+	style.iconColor = scheme->getColor("graph/icon");
 	style.borderColor = "#00000000";
 
 	style.cornerRadius = 12;
@@ -389,6 +389,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfExpandToggleNode()
 
 	style.color = scheme->getColor("graph/background");
 	style.textColor = scheme->getColor("graph/text");
+	style.iconColor = scheme->getColor("graph/icon");
 	style.borderColor = "#00000000";
 
 	style.cornerRadius = 100;

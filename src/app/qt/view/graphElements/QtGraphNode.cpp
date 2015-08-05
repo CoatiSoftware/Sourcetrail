@@ -9,6 +9,7 @@
 
 #include "qt/graphics/QtRoundedRectItem.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
+#include "qt/utility/utilityQt.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
 
@@ -372,10 +373,11 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 	m_rect->setBrush(QBrush(color));
 	m_rect->setRadius(radius);
 
-	if (style.undefinedPattern)
+	if (style.hatchingColor.size())
 	{
-		QtDeviceScaledPixmap pixmap("data/gui/graph_view/images/pattern.png");
-		pixmap.scaleToHeight(10);
+		QtDeviceScaledPixmap pattern("data/gui/graph_view/images/pattern.png");
+		pattern.scaleToHeight(10);
+		QPixmap pixmap = utility::colorizePixmap(pattern.pixmap(), style.hatchingColor.c_str());
 
 		if (!m_undefinedRect)
 		{
@@ -387,7 +389,7 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 		p.setColor(Qt::transparent);
 
 		m_undefinedRect->setPen(p);
-		m_undefinedRect->setBrush(QBrush(pixmap.pixmap()));
+		m_undefinedRect->setBrush(pixmap);
 		m_undefinedRect->setRadius(radius);
 	}
 

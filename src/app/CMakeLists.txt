@@ -45,6 +45,7 @@ add_files(
 	qt/graphics/QtStraightLineItem.cpp
 	qt/graphics/QtStraightLineItem.h
 
+	qt/utility/QtDeviceScaledPixmap.cpp
 	qt/utility/QtDeviceScaledPixmap.h
 	qt/utility/QtHighlighter.cpp
 	qt/utility/QtHighlighter.h

@@ -1,9 +1,10 @@
-#include "utilityQt.h"
+#include "qt/utility/utilityQt.h"
 
 #include <set>
 
 #include <QFile>
 #include <QFontDatabase>
+#include <QPainter>
 
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
@@ -114,5 +115,18 @@ namespace utility
 		}
 
 		return css;
+	}
+
+	QPixmap colorizePixmap(const QPixmap& pixmap, QColor color)
+	{
+		QImage image = pixmap.toImage();
+		QImage colorImage(image.size(), image.format());
+		QPainter colorPainter(&colorImage);
+		colorPainter.fillRect(image.rect(), color);
+
+		QPainter painter(&image);
+		painter.setCompositionMode(QPainter::CompositionMode_SourceAtop);
+		painter.drawImage(0, 0, colorImage);
+		return QPixmap::fromImage(image);
 	}
 }

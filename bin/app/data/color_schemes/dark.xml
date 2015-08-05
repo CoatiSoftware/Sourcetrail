@@ -9,6 +9,7 @@
 			<hover>#555555</hover>
 			<press>#444444</press>
 			<disabled>#333333</disabled>
+			<icon>white</icon>
 		</button>
 
 		<field>
@@ -100,6 +101,8 @@
 		<text>#F7F7F7</text>
 		<border>#C3C3C3</border>
 		<background>#272728</background>
+		<icon>#F7F7F7</icon>
+		<hatching>#272728</hatching>
 
 		<node>
 			<class>

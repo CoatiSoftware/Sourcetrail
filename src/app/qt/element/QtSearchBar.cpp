@@ -5,7 +5,9 @@
 #include <QPushButton>
 
 #include "qt/element/QtSmartSearchBox.h"
+#include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
+#include "settings/ColorScheme.h"
 
 QtSearchBar::QtSearchBar()
 {
@@ -39,7 +41,6 @@ QtSearchBar::QtSearchBar()
 	m_searchButton->setObjectName("search_button");
 	m_searchButton->setToolTip("search");
 	m_searchButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	m_searchButton->setIcon(QIcon("data/gui/search_view/images/search.png"));
 	layout->addWidget(m_searchButton);
 
 	connect(m_searchButton, SIGNAL(clicked()), m_searchBox, SLOT(search()));
@@ -84,4 +85,9 @@ void QtSearchBar::refreshStyle()
 {
 	m_searchBox->setFixedHeight(std::max(ApplicationSettings::getInstance()->getFontSize() + 11, 25));
 	m_searchButton->setFixedHeight(m_searchBox->height() + 5);
+
+	m_searchButton->setIcon(utility::colorizePixmap(
+		QPixmap("data/gui/search_view/images/search.png"),
+		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
+	));
 }

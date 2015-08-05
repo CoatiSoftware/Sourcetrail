@@ -7,6 +7,7 @@
 
 #include "qt/graphics/QtRoundedRectItem.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
+#include "qt/utility/utilityQt.h"
 #include "qt/view/graphElements/QtGraphNodeData.h"
 
 QtGraphNodeExpandToggle::QtGraphNodeExpandToggle(bool expanded, int invisibleSubNodeCount)
@@ -71,4 +72,6 @@ void QtGraphNodeExpandToggle::updateStyle()
 		(m_rect->rect().width() - m_icon->pixmap().width() / QtDeviceScaledPixmap::devicePixelRatio()) / 2,
 		(m_invisibleSubNodeCount == 0 ? m_rect->rect().height() / 2 - 2 : m_rect->rect().height() - 8)
 	);
+
+	m_icon->setPixmap(utility::colorizePixmap(m_icon->pixmap(), style.iconColor.c_str()));
 }

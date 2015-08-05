@@ -9,6 +9,7 @@
 			<hover>#B2B2B2</hover>
 			<press>#626262</press>
 			<disabled>#F4F4F4</disabled>
+			<icon>white</icon>
 		</button>
 
 		<field>
@@ -100,6 +101,8 @@
 		<text>black</text>
 		<background>white</background>
 		<border>#3C3C3C</border>
+		<icon>black</icon>
+		<hatching>white</hatching>
 
 		<node>
 			<class>

@@ -10,6 +10,8 @@ namespace utility
 	void loadFontsFromDirectory(const std::string& path, const std::string& extension = ".otf");
 
 	std::string getStyleSheet(const std::string& path);
+
+	QPixmap colorizePixmap(const QPixmap& pixmap, QColor color);
 }
 
 # endif // UTILITY_QT_H

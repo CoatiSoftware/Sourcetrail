@@ -40,6 +40,8 @@ public:
 
 		std::string color;
 		std::string textColor;
+		std::string iconColor;
+		std::string hatchingColor;
 
 		std::string shadowColor;
 		int shadowBlurRadius;
@@ -55,8 +57,6 @@ public:
 		bool fontBold;
 
 		Vec2i textOffset;
-
-		bool undefinedPattern;
 	};
 
 	struct EdgeStyle
