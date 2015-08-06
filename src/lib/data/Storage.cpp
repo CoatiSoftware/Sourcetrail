@@ -114,7 +114,7 @@ std::set<FilePath> Storage::getDependingFilePathsAndRemoveFileNodes(const std::s
 	{
 		Node* fileNode = findFileNode(filePath);
 
-		if (!fileNode->getComponent<TokenComponentFilePath>() ||
+		if (!fileNode || !fileNode->getComponent<TokenComponentFilePath>() ||
 			fileNode->getComponent<TokenComponentFilePath>()->getFilePath() != filePath)
 		{
 			LOG_ERROR("Node is not resolving to the same file.");

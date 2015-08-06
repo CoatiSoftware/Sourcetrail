@@ -43,6 +43,8 @@ private:
 	virtual void handleMessage(MessageRefresh* message);
 	virtual void handleMessage(MessageSaveProject* message);
 
+	void updateRecentProjects(const std::string& projectSettingsFilePath);
+
 	std::shared_ptr<Project> m_project;
 	std::shared_ptr<StorageCache> m_storageCache;
 

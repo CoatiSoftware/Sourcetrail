@@ -64,20 +64,7 @@ void Application::loadProject(const std::string& projectSettingsFilePath)
 	m_project->loadProjectSettings(projectSettingsFilePath);
 	m_project->parseCode();
 
-	std::vector<std::string> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
-	if (recentProjects.size())
-	{
-		recentProjects.erase(std::find(recentProjects.begin(), recentProjects.end(), projectSettingsFilePath));
-	}
-
-	recentProjects.insert(recentProjects.begin(), projectSettingsFilePath);
-	if (recentProjects.size() > 7)
-	{
-		recentProjects.pop_back();
-	}
-
-	ApplicationSettings::getInstance()->setRecentProjects(recentProjects);
-	ApplicationSettings::getInstance()->save("data/ApplicationSettings.xml");
+	updateRecentProjects(projectSettingsFilePath);
 }
 
 void Application::loadSource(const std::string& sourceDirectoryPath)
@@ -175,4 +162,27 @@ void Application::handleMessage(MessageRefresh* message)
 void Application::handleMessage(MessageSaveProject* message)
 {
 	saveProject(message->projectSettingsFilePath);
+}
+
+void Application::updateRecentProjects(const std::string& projectSettingsFilePath)
+{
+	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+	std::vector<std::string> recentProjects = appSettings->getRecentProjects();
+	if (recentProjects.size())
+	{
+		std::vector<std::string>::iterator it = std::find(recentProjects.begin(), recentProjects.end(), projectSettingsFilePath);
+		if (it != recentProjects.end())
+		{
+			recentProjects.erase(it);
+		}
+	}
+
+	recentProjects.insert(recentProjects.begin(), projectSettingsFilePath);
+	if (recentProjects.size() > 7)
+	{
+		recentProjects.pop_back();
+	}
+
+	appSettings->setRecentProjects(recentProjects);
+	appSettings->save("data/ApplicationSettings.xml");
 }
