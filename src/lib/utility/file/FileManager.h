@@ -11,7 +11,7 @@ class FileManager
 {
 public:
 	FileManager();
-	~FileManager();
+	virtual ~FileManager();
 
 	const std::vector<FilePath>& getSourcePaths() const;
 	const std::vector<FilePath>& getIncludePaths() const;

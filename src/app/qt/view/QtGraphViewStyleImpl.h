@@ -8,6 +8,7 @@ class QtGraphViewStyleImpl
 	: public GraphViewStyleImpl
 {
 public:
+	virtual ~QtGraphViewStyleImpl();
 	virtual float getCharWidthForNodeType(Node::NodeType type);
 	virtual float getCharHeightForNodeType(Node::NodeType type);
 };

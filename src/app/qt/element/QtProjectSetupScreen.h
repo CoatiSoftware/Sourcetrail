@@ -31,7 +31,7 @@ Q_OBJECT
 public:
 	QtProjectSetupScreen(QWidget* parent = 0);
 	QSize sizeHint() const Q_DECL_OVERRIDE;
-	virtual void setup();
+	virtual void setup() override;
 private slots:
 	void handleCreateButtonPress();
 	void handleCancelButtonPress();

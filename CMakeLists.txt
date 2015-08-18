@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 2.8.9)
 
+# to get CMP0043 warnings, upgrade to version 3 and change the line above to VERSION 3.0 and remove the line below
+if(POLICY CMP0043)
+   cmake_policy(SET CMP0043 OLD)
+endif()
+
 include(cmake/add_files.cmake)
 include(cmake/create_source_groups.cmake)
 include(cmake/version_setup.cmake)
@@ -90,11 +95,16 @@ set_property(
 	PROPERTY INCLUDE_DIRECTORIES
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/external"
-		${LLVM_INCLUDE_DIRS}
-		${CLANG_INCLUDE_DIRS}
-		${Boost_INCLUDE_DIRS}
-		${EIGEN_ROOT}
+
 )
+
+target_include_directories(${LIB_PROJECT_NAME} SYSTEM
+	PUBLIC ${LLVM_INCLUDE_DIRS}
+	${CLANG_INCLUDE_DIRS}
+	${Boost_INCLUDE_DIRS}
+	${EIGEN_ROOT}
+)
+
 
 link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
 
@@ -171,8 +181,11 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/app"
 		"${CMAKE_SOURCE_DIR}/build/src/app"
-		"${CMAKE_SOURCE_DIR}/src/external"
-		${Boost_INCLUDE_DIRS}
+)
+
+target_include_directories(${APP_PROJECT_NAME} SYSTEM
+		PUBLIC "${CMAKE_SOURCE_DIR}/src/external"
+		PUBLIC ${Boost_INCLUDE_DIRS}
 )
 
 # Use the Widgets module from Qt 5.

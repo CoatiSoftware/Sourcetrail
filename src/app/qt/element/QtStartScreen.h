@@ -22,7 +22,7 @@ class QtStartScreen : public QtSettingsWindow
 public:
 	QtStartScreen(QWidget* parent = 0);
 	QSize sizeHint() const Q_DECL_OVERRIDE;
-	virtual void setup();
+	virtual void setup() override;
 
 signals:
 	void openOpenProjectDialog();

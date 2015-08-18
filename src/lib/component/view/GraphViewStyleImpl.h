@@ -6,6 +6,7 @@
 class GraphViewStyleImpl
 {
 public:
+	virtual ~GraphViewStyleImpl() { }
 	virtual float getCharWidthForNodeType(Node::NodeType type) = 0;
 	virtual float getCharHeightForNodeType(Node::NodeType type) = 0;
 };

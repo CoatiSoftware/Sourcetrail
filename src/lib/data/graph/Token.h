@@ -56,7 +56,8 @@ ComponentType* Token::getComponent() const
 {
 	for (std::shared_ptr<TokenComponent> component: m_components)
 	{
-		if (typeid(ComponentType) == typeid(*(component.get())))
+		TokenComponent* componentPtr = component.get();
+		if (typeid(ComponentType) == typeid(*componentPtr))
 		{
 			return dynamic_cast<ComponentType*>(component.get());
 		}
@@ -70,7 +71,8 @@ std::shared_ptr<ComponentType> Token::removeComponent()
 	for (size_t i = 0; i < m_components.size(); i++)
 	{
 		std::shared_ptr<TokenComponent> component = m_components[i];
-		if (typeid(ComponentType) == typeid(*(component.get())))
+		TokenComponent* componentPtr = component.get();
+		if (typeid(ComponentType) == typeid(*componentPtr))
 		{
 			m_components.erase(m_components.begin() + i);
 			return std::dynamic_pointer_cast<ComponentType>(component);

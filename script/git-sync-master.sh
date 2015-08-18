@@ -40,7 +40,7 @@ fi
 
 # fetch remote changes
 echo -e $INFO "Fetching changes"
-git fetch origin master
+git fetch origin master --tags
 
 if [ $? != 0 ]
 then
