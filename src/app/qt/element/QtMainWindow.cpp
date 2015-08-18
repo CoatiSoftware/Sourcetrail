@@ -7,6 +7,8 @@
 #include <QMessageBox>
 #include <QSettings>
 
+#include "version.h"
+
 #include "component/view/View.h"
 #include "component/view/CompositeView.h"
 #include "qt/view/QtViewWidgetWrapper.h"
@@ -147,6 +149,10 @@ void QtMainWindow::about()
 			"Malte Langkabel\n"
 			"Victoria Pfausler\n"
 			"Andreas Stallinger\n"
+			"\nVersion: " GIT_VERSION_NUMBER
+			"\nBranch: " GIT_BRANCH
+			"\nBuildtype: " BUILD_TYPE
+			"\nDate: " GIT_COMMIT_TIME
 		)
 	);
 }

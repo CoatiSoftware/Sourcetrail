@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.9)
 
 include(cmake/add_files.cmake)
 include(cmake/create_source_groups.cmake)
-
+include(cmake/version_setup.cmake)
 
 # Variables --------------------------------------------------------------------
 
@@ -132,6 +132,11 @@ if(Qt5Widgets_FOUND)
     endif()
 endif()
 
+# target for running versionnumber script
+# workaround for running customcommand (ninja dependency cycle)
+add_custom_target(
+	versionnumber ALL
+)
 
 if (WIN32)
 	file(WRITE ${CMAKE_SOURCE_DIR}/build/Coati.rc
@@ -139,10 +144,22 @@ if (WIN32)
 		"// remains consistent on all systems.\n"
 		"IDI_ICON1               ICON                    \"${CMAKE_SOURCE_DIR}/build/coati.ico\"\n"
 	)
-	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc)
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc ${CMAKE_SOURCE_DIR}/build/src/app/version.h)
 else ()
-	add_executable(${APP_PROJECT_NAME} ${APP_FILES})
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_SOURCE_DIR}/build/src/app/version.h)
 endif ()
+
+# command for versioning script
+add_custom_command(
+	TARGET versionnumber
+	PRE_BUILD
+	COMMAND ${CMAKE_COMMAND} -P ${CMAKE_SOURCE_DIR}/cmake/version.cmake
+	BYPRODUCTS ${PROJECT_SOURCE_DIR}/build/src/app/version.h
+	DEPENDS ${APP_PROJECT_NAME}
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+	COMMENT "check/update version number"
+)
+add_dependencies(${APP_PROJECT_NAME} versionnumber)
 
 create_source_groups(${APP_FILES})
 
@@ -165,6 +182,12 @@ qt5_use_modules(${APP_PROJECT_NAME} Widgets)
 configure_file(
 	"${PROJECT_SOURCE_DIR}/src/app/platform_includes/includes.h.in"
 	"${PROJECT_SOURCE_DIR}/build/src/app/includes.h"
+)
+
+#configure the versioning file
+configure_file(
+  ${CMAKE_SOURCE_DIR}/src/app/version.h.in
+  ${CMAKE_SOURCE_DIR}/build/src/app/version.h
 )
 
 # add platform specific libraries
