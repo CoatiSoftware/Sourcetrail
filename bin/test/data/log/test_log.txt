@@ -12,7 +12,7 @@ Storage.cpp INFO: field: A::count <input.cc 21:13 21:17>
 Storage.cpp INFO: class: B <input.cc 24:7 24:7>
 Storage.cpp INFO: inheritance: B : A <input.cc 25:4 25:11>
 Storage.cpp INFO: method: B::process <input.cc 28:15 28:21>
-Storage.cpp INFO: override: A::process -> B::process < 0:0 0:0>
+Storage.cpp INFO: override: A::process -> B::process <input.cc 28:15 28:21>
 Storage.cpp INFO: type usage: B::process -> int <input.cc 30:3 30:5>
 Storage.cpp INFO: function: _main_ <input.cc 34:5 34:10>
 Storage.cpp INFO: type usage: _main_ -> B <input.cc 36:2 36:2>
@@ -44,7 +44,7 @@ Storage.cpp INFO: field: A::count <input.cc 17:13 17:17>
 Storage.cpp INFO: class: B <input.cc 20:7 20:7>
 Storage.cpp INFO: inheritance: B : A <input.cc 21:4 21:11>
 Storage.cpp INFO: method: B::process <input.cc 24:15 24:21>
-Storage.cpp INFO: override: A::process -> B::process < 0:0 0:0>
+Storage.cpp INFO: override: A::process -> B::process <input.cc 24:15 24:21>
 Storage.cpp INFO: type usage: B::process -> int <input.cc 26:3 26:5>
 Storage.cpp INFO: function: main <input.cc 30:5 30:8>
 Storage.cpp INFO: type usage: main -> B <input.cc 32:2 32:2>
@@ -101,7 +101,7 @@ Storage.cpp INFO: struct: StructB <file.cpp 1:0 1:0>
 Storage.cpp INFO: inheritance: StructB : StructA <file.cpp 1:5 1:5>
 Storage.cpp INFO: method: A::isMethod <file.cpp 1:9 1:9>
 Storage.cpp INFO: method: B::isMethod <file.cpp 1:7 1:7>
-Storage.cpp INFO: override: A::isMethod -> B::isMethod < 0:0 0:0>
+Storage.cpp INFO: override: A::isMethod -> B::isMethod <file.cpp 1:4 1:4>
 Storage.cpp INFO: function: isTrue <file.cpp 1:0 1:0>
 Storage.cpp INFO: function: func <file.cpp 1:0 1:0>
 Storage.cpp INFO: call: isTrue -> func <file.cpp 1:9 1:9>

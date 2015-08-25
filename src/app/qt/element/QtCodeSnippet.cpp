@@ -42,14 +42,14 @@ std::shared_ptr<QtCodeSnippet> QtCodeSnippet::merged(QtCodeSnippet* a, QtCodeSni
 
 	std::string title = first->m_title ? first->m_title->text().toStdString() : "";
 
-	return std::make_shared<QtCodeSnippet>(
+	return std::shared_ptr<QtCodeSnippet>(new QtCodeSnippet(
 		first->getStartLineNumber(),
 		title,
 		first->m_titleId,
 		code,
 		locationFile,
 		file
-	);
+	));
 }
 
 QtCodeSnippet::QtCodeSnippet(

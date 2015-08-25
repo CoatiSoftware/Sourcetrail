@@ -21,6 +21,7 @@
 
 For Win32:
 * VLD_DIR - .../Visual Leak Detector
+* path - apped path to git.exe
 
 ##### Settings
 
