@@ -22,6 +22,7 @@ public:
 	};
 
 	TokenLocation(Id tokenId, TokenLocationLine* line, unsigned int columnNumber, bool isStart);
+	TokenLocation(Id locationId, Id tokenId, TokenLocationLine* line, unsigned int columnNumber, bool isStart);
 	TokenLocation(TokenLocation* other, TokenLocationLine* line, unsigned int columnNumber, bool isStart);
 	TokenLocation(const TokenLocation& other, TokenLocationLine* line);
 	~TokenLocation();

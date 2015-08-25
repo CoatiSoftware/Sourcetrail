@@ -14,7 +14,8 @@ TaskParseCxx::TaskParseCxx(
 	const Parser::Arguments& arguments,
 	const std::vector<FilePath>& files
 )
-	: m_parser(client, fileManager)
+	: m_client(client)
+	, m_parser(client, fileManager)
 	, m_arguments(arguments)
 	, m_files(files)
 {
@@ -23,6 +24,8 @@ TaskParseCxx::TaskParseCxx(
 void TaskParseCxx::enter()
 {
 	m_start = utility::durationStart();
+
+	m_client->prepareParsingFile();
 
 	m_parser.setupParsing(m_files, m_arguments);
 
@@ -79,6 +82,8 @@ Task::TaskState TaskParseCxx::update()
 void TaskParseCxx::exit()
 {
 	FileRegister* fileRegister = m_parser.getFileRegister();
+
+	m_client->finishParsingFile();
 
 	MessageFinishedParsing(
 		fileRegister->getParsedFilesCount(),

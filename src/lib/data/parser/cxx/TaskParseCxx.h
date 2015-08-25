@@ -27,6 +27,7 @@ public:
 	virtual void revert();
 
 private:
+	ParserClient* m_client;
 	CxxParser m_parser;
 	const Parser::Arguments m_arguments;
 	const std::vector<FilePath> m_files;

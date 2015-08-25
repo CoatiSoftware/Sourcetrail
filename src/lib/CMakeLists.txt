@@ -101,12 +101,6 @@ add_files(
 	data/access/StorageAccessProxy.cpp
 	data/access/StorageAccessProxy.h
 
-	data/graph/filter/GraphFilter.cpp
-	data/graph/filter/GraphFilter.h
-	data/graph/filter/GraphFilterConductor.cpp
-	data/graph/filter/GraphFilterConductor.h
-	data/graph/filter/GraphFilterImplementations.h
-
 	data/graph/token_component/TokenComponent.cpp
 	data/graph/token_component/TokenComponent.h
 	data/graph/token_component/TokenComponentAbstraction.cpp
@@ -128,16 +122,10 @@ add_files(
 
 	data/graph/Edge.cpp
 	data/graph/Edge.h
-	data/graph/FilterableGraph.cpp
-	data/graph/FilterableGraph.h
 	data/graph/Graph.cpp
 	data/graph/Graph.h
 	data/graph/Node.cpp
 	data/graph/Node.h
-	data/graph/StorageGraph.cpp
-	data/graph/StorageGraph.h
-	data/graph/SubGraph.cpp
-	data/graph/SubGraph.h
 	data/graph/Token.cpp
 	data/graph/Token.h
 
@@ -204,10 +192,13 @@ add_files(
 	data/type/ReferenceModifiedDataType.cpp
 	data/type/ReferenceModifiedDataType.h
 
+	data/SqliteStorage.cpp
+	data/SqliteStorage.h
 	data/Storage.cpp
 	data/Storage.h
 	data/StorageCache.cpp
 	data/StorageCache.h
+	data/StorageTypes.h
 
 	settings/ApplicationSettings.cpp
 	settings/ApplicationSettings.h

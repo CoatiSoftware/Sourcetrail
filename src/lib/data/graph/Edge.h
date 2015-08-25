@@ -36,8 +36,11 @@ public:
 
 		EDGE_AGGREGATION					= 0x8000
 	};
+	static int typeToInt(EdgeType type);
+	static EdgeType intToType(int value);
 
 	Edge(EdgeType type, Node* from, Node* to);
+	Edge(Id id, EdgeType type, Node* from, Node* to);
 	Edge(const Edge& other, Node* from, Node* to);
 	virtual ~Edge();
 

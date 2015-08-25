@@ -31,6 +31,10 @@ public:
 		Id tokenId,
 		unsigned int startLineNumber, unsigned int startColumnNumber,
 		unsigned int endLineNumber, unsigned int endColumnNumber);
+	TokenLocation* addTokenLocation(
+		Id locationId, Id tokenId,
+		unsigned int startLineNumber, unsigned int startColumnNumber,
+		unsigned int endLineNumber, unsigned int endColumnNumber);
 	void removeTokenLocation(TokenLocation* location);
 
 	TokenLocationLine* findTokenLocationLineByNumber(unsigned int lineNumber) const;

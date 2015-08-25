@@ -76,12 +76,14 @@ add_subdirectory(src/lib)
 add_subdirectory(src/external)
 
 set_source_files_properties(${CLANG_FILES} PROPERTIES COMPILE_FLAGS "-fno-rtti")
+set_source_files_properties(${EXTERNAL_C_FILES} PROPERTIES COMPILE_FLAGS "-std=gnu89")
 
-add_library(${LIB_PROJECT_NAME} ${LIB_FILES} ${CLANG_FILES} ${EXTERNAL_FILES})
+add_library(${LIB_PROJECT_NAME} ${LIB_FILES} ${CLANG_FILES} ${EXTERNAL_FILES} ${EXTERNAL_C_FILES})
 
 create_source_groups(${LIB_FILES})
 create_source_groups(${CLANG_FILES})
 create_source_groups(${EXTERNAL_FILES})
+create_source_groups(${EXTERNAL_C_FILES})
 
 set_target_properties(
 	${LIB_PROJECT_NAME}

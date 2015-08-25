@@ -1,18 +1,15 @@
 #include "data/Storage.h"
 
 #include <sstream>
+#include <queue>
 
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 #include "utility/file/FileSystem.h"
+#include "utility/utility.h"
 
-#include "data/graph/filter/GraphFilterConductor.h"
 #include "data/graph/token_component/TokenComponentAggregation.h"
-#include "data/graph/token_component/TokenComponentConst.h"
-#include "data/graph/token_component/TokenComponentName.h"
-#include "data/graph/token_component/TokenComponentStatic.h"
-#include "data/graph/token_component/TokenComponentFilePath.h"
-#include "data/graph/SubGraph.h"
+#include "data/graph/Graph.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
 #include "data/location/TokenLocationLine.h"
@@ -20,19 +17,15 @@
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParseTypeUsage.h"
 #include "data/parser/ParseVariable.h"
-#include "data/query/QueryCommand.h"
 #include "data/query/QueryTree.h"
 #include "data/type/DataType.h"
 #include "settings/ApplicationSettings.h"
 
+#include "data/graph/token_component/TokenComponentName.h"
+
 Storage::Storage()
+	: m_sqliteStorage("data/test.sqlite")
 {
-	for (const std::pair<std::string, QueryCommand::CommandType>& p : QueryCommand::getCommandTypeMap())
-	{
-		NameHierarchy commandNameHierarchy;
-		commandNameHierarchy.push(std::make_shared<NameElement>(p.first));
-		m_filterIndex.addNode(commandNameHierarchy);
-	}
 }
 
 Storage::~Storage()
@@ -41,137 +34,49 @@ Storage::~Storage()
 
 void Storage::clear()
 {
-	m_graph.clear();
-	m_locationCollection.clear();
+	m_sqliteStorage.clear();
 	m_tokenIndex.clear();
-
-	m_errorMessages.clear();
-	m_errorLocationCollection.clear();
 }
 
 void Storage::clearFileData(const std::set<FilePath>& filePaths)
 {
-	for (const FilePath& filePath : filePaths)
-	{
-		TokenLocationFile* errorFile = m_errorLocationCollection.findTokenLocationFileByPath(filePath);
-		if (errorFile)
-		{
-			m_errorLocationCollection.removeTokenLocationFile(errorFile);
-		}
-
-		TokenLocationFile* file = m_locationCollection.findTokenLocationFileByPath(filePath);
-		if (!file)
-		{
-			continue;
-		}
-
-		file->forEachTokenLocation(
-			[&](TokenLocation* location)
-			{
-				if (location->isEndTokenLocation())
-				{
-					return;
-				}
-
-				Token* token = m_graph.getTokenById(location->getTokenId());
-				if (!token)
-				{
-					return;
-				}
-
-				token->removeLocationId(location->getId());
-				if (token->getLocationIds().size())
-				{
-					return;
-				}
-
-				if (token->isEdge())
-				{
-					Edge* edge = dynamic_cast<Edge*>(token);
-					Node* from = edge->getFrom();
-					Node* to = edge->getTo();
-
-					m_graph.removeEdge(edge);
-					removeNodeIfUnreferenced(from);
-					removeNodeIfUnreferenced(to);
-				}
-				else
-				{
-					removeNodeIfUnreferenced(dynamic_cast<Node*>(token));
-				}
-			}
-		);
-
-		m_locationCollection.removeTokenLocationFile(file);
-	}
+	// TODO: Implement this one
 }
 
 std::set<FilePath> Storage::getDependingFilePathsAndRemoveFileNodes(const std::set<FilePath>& filePaths)
 {
-	std::set<FilePath> dependingFilePaths;
-
-	for (const FilePath& filePath : filePaths)
-	{
-		Node* fileNode = findFileNode(filePath);
-
-		if (!fileNode || !fileNode->getComponent<TokenComponentFilePath>() ||
-			fileNode->getComponent<TokenComponentFilePath>()->getFilePath() != filePath)
-		{
-			LOG_ERROR("Node is not resolving to the same file.");
-			continue;
-		}
-
-		addDependingFilePathsAndRemoveFileNodesRecursive(fileNode, &dependingFilePaths);
-	}
-
-	for (const FilePath& path : filePaths)
-	{
-		dependingFilePaths.erase(path);
-	}
-
-	return dependingFilePaths;
+	// TODO: Implement this one
+	return std::set<FilePath>();
 }
 
 void Storage::logGraph() const
 {
-	LOG_INFO_STREAM(<< '\n' << m_graph);
 }
 
 void Storage::logLocations() const
 {
-	LOG_INFO_STREAM(<< '\n' << m_locationCollection);
 }
 
 void Storage::logIndex() const
 {
-	LOG_INFO_STREAM(<< '\n' << m_tokenIndex);
 }
 
 void Storage::logStats() const
 {
-	std::stringstream ss;
+}
 
-	ss << "\nGraph:\n";
-	ss << "\t" << m_graph.getNodeCount() << " Nodes\n";
-	ss << "\t" << m_graph.getEdgeCount() << " Edges\n";
+void Storage::prepareParsingFile()
+{
+	m_sqliteStorage.beginTransaction();
+}
 
-	ss << "\nSearch:\n";
-	ss << "\t" << m_tokenIndex.getCharCount() << " Characters\n";
-	ss << "\t" << m_tokenIndex.getWordCount() << " Words\n";
-	ss << "\t" << m_tokenIndex.getNodeCount() << " SearchNodes\n";
-
-	ss << "\nCode:\n";
-	ss << "\t" << m_locationCollection.getTokenLocationCount() << " Locations\n";
-	ss << "\t" << m_locationCollection.getTokenLocationLineCount() << " Lines\n";
-	ss << "\t" << m_locationCollection.getTokenLocationFileCount() << " Files\n";
-
-	LOG_INFO(ss.str());
+void Storage::finishParsingFile()
+{
+	m_sqliteStorage.commitTransaction();
 }
 
 void Storage::onError(const ParseLocation& location, const std::string& message)
 {
-	log("ERROR", message, location);
-
 	if (!location.isValid())
 	{
 		return;
@@ -182,11 +87,10 @@ void Storage::onError(const ParseLocation& location, const std::string& message)
 
 	if (file)
 	{
-		file->forEachTokenLocation(
+		file->forEachStartTokenLocation(
 			[&](TokenLocation* loc)
 			{
-				if (loc->isStartTokenLocation() &&
-					loc->getLineNumber() == location.startLineNumber &&
+				if (loc->getLineNumber() == location.startLineNumber &&
 					loc->getColumnNumber() == location.startColumnNumber &&
 					m_errorMessages[loc->getTokenId()] == message)
 				{
@@ -219,556 +123,439 @@ Id Storage::onTypedefParsed(
 	const ParseLocation& location, const NameHierarchy& nameHierarchy, const ParseTypeUsage& underlyingType,
 	AccessType access
 ){
-	log("typedef", nameHierarchy.getFullName() + " -> " + underlyingType.dataType->getFullTypeName(), location);
+	Id typedefNodeId = addNodeHierarchy(Node::NODE_TYPEDEF, nameHierarchy);
+	addSourceLocation(typedefNodeId, location);
 
-	Node* node = addNodeHierarchy(Node::NODE_TYPEDEF, nameHierarchy);
-	addAccess(node, access);
-	addTokenLocation(node, location);
-	addTypeEdge(node, Edge::EDGE_TYPEDEF_OF, underlyingType);
+	Id underlyingTypeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, underlyingType.dataType->getTypeNameHierarchy());
 
-	return node->getId();
+	addEdge(typedefNodeId, underlyingTypeNodeId, Edge::EDGE_TYPEDEF_OF, location);
+
+	return typedefNodeId;
 }
 
 Id Storage::onClassParsed(
 	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 	const ParseLocation& scopeLocation
 ){
-	log("class", nameHierarchy.getFullName(), location);
+	Id nodeId = addNodeHierarchy(scopeLocation.isValid() ? Node::NODE_CLASS : Node::NODE_UNDEFINED_TYPE, nameHierarchy);
 
-	Node* node = addNodeHierarchy(scopeLocation.isValid() ? Node::NODE_CLASS : Node::NODE_UNDEFINED_TYPE, nameHierarchy);
-	addAccess(node, access);
-	addTokenLocation(node, location);
-	addTokenLocation(node, scopeLocation, true);
+	addSourceLocation(nodeId, location);
+	addSourceLocation(nodeId, scopeLocation, true);
 
-	return node->getId();
+	return nodeId;
 }
 
 Id Storage::onStructParsed(
 	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 	const ParseLocation& scopeLocation
 ){
-	log("struct", nameHierarchy.getFullName(), location);
+	Id nodeId = addNodeHierarchy(Node::NODE_STRUCT, nameHierarchy);
 
-	Node* node = addNodeHierarchy(scopeLocation.isValid() ? Node::NODE_STRUCT : Node::NODE_UNDEFINED_TYPE, nameHierarchy);
-	addAccess(node, access);
-	addTokenLocation(node, location);
-	addTokenLocation(node, scopeLocation, true);
+	addSourceLocation(nodeId, location);
+	addSourceLocation(nodeId, scopeLocation, true);
 
-	return node->getId();
+	return nodeId;
 }
 
 Id Storage::onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable)
 {
-	log("global", variable.getFullName(), location);
+	Id nodeId = addNodeHierarchy(Node::NODE_GLOBAL_VARIABLE, variable.nameHierarchy);
+	addSourceLocation(nodeId, location);
 
-	Node* node = addNodeHierarchy(Node::NODE_GLOBAL_VARIABLE, variable.nameHierarchy);
+	Id typeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, variable.type.dataType->getTypeNameHierarchy());
 
-	if (variable.isStatic)
-	{
-		node->addComponentStatic(std::make_shared<TokenComponentStatic>());
-	}
+	addEdge(nodeId, typeNodeId, Edge::EDGE_TYPE_OF, location);
 
-	addTypeEdge(node, Edge::EDGE_TYPE_OF, variable.type);
-	addTokenLocation(node, location);
 
-	return node->getId();
+	return nodeId;
 }
 
 Id Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access)
 {
-	log("field", variable.getFullName(), location);
+	Id nodeId = addNodeHierarchy(Node::NODE_FIELD, variable.nameHierarchy);
+	addSourceLocation(nodeId, location);
 
-	Node* node = addNodeHierarchy(Node::NODE_FIELD, variable.nameHierarchy);
+	Id typeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, variable.type.dataType->getTypeNameHierarchy());
 
-	if (!node->getMemberEdge())
-	{
-		LOG_ERROR("Field is not a member of anything.");
-	}
+	addEdge(nodeId, typeNodeId, Edge::EDGE_TYPE_OF, location);
 
-	if (variable.isStatic)
-	{
-		node->addComponentStatic(std::make_shared<TokenComponentStatic>());
-	}
-
-	if (access == ACCESS_NONE)
-	{
-		LOG_ERROR("Field needs to have access type [public, protected, private] but has none.");
-	}
-	addAccess(node, access);
-
-	addTypeEdge(node, Edge::EDGE_TYPE_OF, variable.type);
-	addTokenLocation(node, location);
-
-	return node->getId();
+	return nodeId;
 }
 
 Id Storage::onFunctionParsed(
 	const ParseLocation& location, const ParseFunction& function, const ParseLocation& scopeLocation
 ){
-	log("function", function.getFullName(), location);
+	Id nodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, function);
 
-	Node* node = addFunctionNode(Node::NODE_FUNCTION, function, location, scopeLocation);
+	Id returnTypeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, function.returnType.dataType->getTypeNameHierarchy());
+	addEdge(nodeId, returnTypeNodeId, Edge::EDGE_RETURN_TYPE_OF, function.returnType.location);
 
-	return node->getId();
+	for (size_t i = 0; i < function.parameters.size(); i++)
+	{
+		Id parameternTypeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, function.parameters[i].dataType->getTypeNameHierarchy());
+		addEdge(nodeId, parameternTypeNodeId, Edge::EDGE_PARAMETER_TYPE_OF, function.parameters[i].location);
+	}
+
+	addSourceLocation(nodeId, location);
+	addSourceLocation(nodeId, scopeLocation, true);
+
+	return nodeId;
 }
 
 Id Storage::onMethodParsed(
 	const ParseLocation& location, const ParseFunction& method, AccessType access, AbstractionType abstraction,
 	const ParseLocation& scopeLocation
 ){
-	log("method", method.getFullName(), location);
+	Id nodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, method);
 
-	Node* node = addFunctionNode(Node::NODE_METHOD, method, location, scopeLocation);
+	Id returnTypeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, method.returnType.dataType->getTypeNameHierarchy());
+	addEdge(nodeId, returnTypeNodeId, Edge::EDGE_RETURN_TYPE_OF, method.returnType.location);
 
-	if (!node->getMemberEdge())
+	for (size_t i = 0; i < method.parameters.size(); i++)
 	{
-		LOG_ERROR("Method is not a member of anything.");
+		Id parameternTypeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, method.parameters[i].dataType->getTypeNameHierarchy());
+		addEdge(nodeId, parameternTypeNodeId, Edge::EDGE_PARAMETER_TYPE_OF, method.parameters[i].location);
 	}
 
-	if (method.isConst)
-	{
-		node->addComponentConst(std::make_shared<TokenComponentConst>());
-	}
+	addSourceLocation(nodeId, location);
+	addSourceLocation(nodeId, scopeLocation, true);
 
-	if (method.isStatic)
-	{
-		node->addComponentStatic(std::make_shared<TokenComponentStatic>());
-	}
-
-	if (access == ACCESS_NONE)
-	{
-		LOG_ERROR("Method needs to have access type [public, protected, private] but has none.");
-	}
-	addAccess(node, access);
-	addAbstraction(node, abstraction);
-
-	return node->getId();
+	return nodeId;
 }
 
 Id Storage::onNamespaceParsed(
 	const ParseLocation& location, const NameHierarchy& nameHierarchy, const ParseLocation& scopeLocation
 ){
-	log("namespace", nameHierarchy.getFullName(), location);
+	Id nodeId = addNodeHierarchy(Node::NODE_NAMESPACE, nameHierarchy);
 
-	Node* node = addNodeHierarchy(Node::NODE_NAMESPACE, nameHierarchy);
-	addTokenLocation(node, location);
-	addTokenLocation(node, scopeLocation, true);
+	addSourceLocation(nodeId, location);
+	addSourceLocation(nodeId, scopeLocation, true);
 
-	return node->getId();
+	return nodeId;
 }
 
 Id Storage::onEnumParsed(
 	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 	const ParseLocation& scopeLocation
 ){
-	log("enum", nameHierarchy.getFullName(), location);
+	Id nodeId = addNodeHierarchy(Node::NODE_ENUM, nameHierarchy);
 
-	Node* node = addNodeHierarchy(Node::NODE_ENUM, nameHierarchy);
-	addAccess(node, access);
-	addTokenLocation(node, location);
-	addTokenLocation(node, scopeLocation, true);
+	addSourceLocation(nodeId, location);
+	addSourceLocation(nodeId, scopeLocation, true);
 
-	return node->getId();
+	return nodeId;
 }
 
 Id Storage::onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy)
 {
-	log("enum constant", nameHierarchy.getFullName(), location);
+	Id nodeId = addNodeHierarchy(Node::NODE_ENUM_CONSTANT, nameHierarchy);
 
-	Node* node = addNodeHierarchy(Node::NODE_ENUM_CONSTANT, nameHierarchy);
-	addTokenLocation(node, location);
+	addSourceLocation(nodeId, location);
 
-	return node->getId();
+	return nodeId;
 }
 
 Id Storage::onInheritanceParsed(
-	const ParseLocation& location, const NameHierarchy& nameHierarchy,
-	const NameHierarchy& baseNameHierarchy, AccessType access
+	const ParseLocation& location, const NameHierarchy& childNameHierarchy,
+	const NameHierarchy& parentNameHierarchy, AccessType access
 ){
-	log("inheritance", nameHierarchy.getFullName() + " : " + baseNameHierarchy.getFullName(), location);
+	Id childNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, childNameHierarchy);
+	Id parentNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, parentNameHierarchy);
 
-	Node* node = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, nameHierarchy);
-	Node* baseNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, baseNameHierarchy);
+	Id edgeId = addEdge(childNodeId, parentNodeId, Edge::EDGE_INHERITANCE, location);
 
-	Edge* edge = m_graph.createEdge(Edge::EDGE_INHERITANCE, node, baseNode);
-	edge->addComponentAccess(std::make_shared<TokenComponentAccess>(convertAccessType(access)));
-
-	addTokenLocation(edge, location);
-
-	return edge->getId();
+	return edgeId;
 }
 
 Id Storage::onMethodOverrideParsed(
 	const ParseLocation& location, const ParseFunction& base, const ParseFunction& overrider)
 {
-	log("override", base.getFullName() + " -> " + overrider.getFullName(), location);
+	Id baseNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, base); // TODO: call this overridden
+	Id overriderNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, overrider);
 
-	Node* baseNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, base);
-	Node* overriderNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, overrider);
+	Id edgeId = addEdge(baseNodeId, overriderNodeId, Edge::EDGE_OVERRIDE, location);
 
-	Edge* edge = m_graph.createEdge(Edge::EDGE_OVERRIDE, baseNode, overriderNode);
-
-	addTokenLocation(edge, location);
-
-	return edge->getId();
+	return edgeId;
 }
 
 Id Storage::onCallParsed(const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee)
 {
-	log("call", caller.getFullName() + " -> " + callee.getFullName(), location);
+	Id callerNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, caller);
+	Id calleeNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, callee);
 
-	Node* callerNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, caller);
-	Node* calleeNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, callee);
+	Id edgeId = addEdge(callerNodeId, calleeNodeId, Edge::EDGE_CALL, location);
 
-	Edge* edge = m_graph.createEdge(Edge::EDGE_CALL, callerNode, calleeNode);
-
-	addTokenLocation(edge, location);
-
-	return edge->getId();
+	return edgeId;
 }
 
 Id Storage::onCallParsed(const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee)
 {
-	log("call", caller.getFullName() + " -> " + callee.getFullName(), location);
+	Id callerNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, caller.nameHierarchy);
+	Id calleeNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, callee);
 
-	Node* callerNode = addNodeHierarchy(Node::NODE_UNDEFINED, caller.nameHierarchy);
-	Node* calleeNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, callee);
+	Id edgeId = addEdge(callerNodeId, calleeNodeId, Edge::EDGE_CALL, location);
 
-	Edge* edge = m_graph.createEdge(Edge::EDGE_CALL, callerNode, calleeNode);
-
-	addTokenLocation(edge, location);
-
-	return edge->getId();
-}
-
-Id Storage::onVariableUsageParsed(
-	const std::string kind, const ParseLocation& location, const ParseFunction& user,
-	const NameHierarchy& usedNameHierarchy
-){
-	log(kind, user.getFullName() + " -> " + usedNameHierarchy.getFullName(), location);
-
-	Node* userNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, user);
-	Node* usedNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
-
-	Edge* edge = m_graph.createEdge(Edge::EDGE_USAGE, userNode, usedNode);
-	addTokenLocation(edge, location);
-
-	return edge->getId();
+	return edgeId;
 }
 
 Id Storage::onFieldUsageParsed(
 	const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy
 ){
-	return onVariableUsageParsed("field usage", location, user, usedNameHierarchy);
+	Id userNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, user);
+	Id usedNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
+
+	Id edgeId = addEdge(userNodeId, usedNodeId, Edge::EDGE_USAGE, location);
+
+	return edgeId;
 }
 
 Id Storage::onGlobalVariableUsageParsed( // or static variable used
 	const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy
 ){
-	return onVariableUsageParsed("global usage", location, user, usedNameHierarchy);
+	Id userNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, user);
+	Id usedNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
+
+	Id edgeId = addEdge(userNodeId, usedNodeId, Edge::EDGE_USAGE, location);
+
+	return edgeId;
 }
 
 Id Storage::onGlobalVariableUsageParsed(
 	const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy)
 {
-	log("global usage", user.getFullName() + " -> " + usedNameHierarchy.getFullName(), location);
+	Id userNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, user.nameHierarchy);
+	Id usedNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
 
-	Node* userNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, user.nameHierarchy);
-	Node* usedNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
+	Id edgeId = addEdge(userNodeId, usedNodeId, Edge::EDGE_USAGE, location);
 
-	Edge* edge = m_graph.createEdge(Edge::EDGE_USAGE, userNode, usedNode);
-	addTokenLocation(edge, location);
-
-	return edge->getId();
+	return edgeId;
 }
 
 Id Storage::onEnumConstantUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy
 ){
-	return onVariableUsageParsed("enum constant usage", location, user, usedNameHierarchy);
+	Id userNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, user);
+	Id usedNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
+
+	Id edgeId = addEdge(userNodeId, usedNodeId, Edge::EDGE_USAGE, location);
+
+	return edgeId;
 }
 
 Id Storage::onEnumConstantUsageParsed(
 		const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy
 ){
-	log("enum constant usage", user.getFullName() + " -> " + usedNameHierarchy.getFullName(), location);
+	Id userNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_FUNCTION, user.nameHierarchy);
+	Id usedNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
 
-	Node* userNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, user.nameHierarchy);
-	Node* usedNode = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
+	Id edgeId = addEdge(userNodeId, usedNodeId, Edge::EDGE_USAGE, location);
 
-	Edge* edge = m_graph.createEdge(Edge::EDGE_USAGE, userNode, usedNode);
-	addTokenLocation(edge, location);
-
-	return edge->getId();
+	return edgeId;
 }
 
-Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function)
+Id Storage::onTypeUsageParsed(const ParseTypeUsage& typeUsage, const ParseFunction& function) // check if type has valid location
 {
-	log("type usage", function.getFullName() + " -> " + type.dataType->getRawTypeName(), type.location);
-
-	Node* functionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, function);
-	Edge* edge = addTypeEdge(functionNode, Edge::EDGE_TYPE_USAGE, type);
-
-	if (!edge)
+	if (!typeUsage.location.isValid())
 	{
-		LOG_ERROR("Could not create type usage edge.");
 		return 0;
 	}
 
-	return edge->getId();
+	Id functionNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, function);
+	Id typeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, typeUsage.dataType->getTypeNameHierarchy());
+
+	Id edgeId = addEdge(functionNodeId, typeNodeId, Edge::EDGE_TYPE_USAGE, typeUsage.location);
+
+	return edgeId;
 }
 
-Id Storage::onTypeUsageParsed(const ParseTypeUsage& type, const ParseVariable& variable)
+Id Storage::onTypeUsageParsed(const ParseTypeUsage& typeUsage, const ParseVariable& variable)
 {
-	log("type usage", variable.getFullName() + " -> " + type.dataType->getRawTypeName(), type.location);
-
-	Node* variableNode = addNodeHierarchy(Node::NODE_UNDEFINED, variable.nameHierarchy);
-	Edge* edge = addTypeEdge(variableNode, Edge::EDGE_TYPE_USAGE, type);
-
-	if (!edge)
+	if (!typeUsage.location.isValid())
 	{
-		LOG_ERROR("Could not create type usage edge.");
 		return 0;
 	}
 
-	return edge->getId();
+	Id functionNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, variable.nameHierarchy);
+	Id typeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, typeUsage.dataType->getTypeNameHierarchy());
+
+	Id edgeId = addEdge(functionNodeId, typeNodeId, Edge::EDGE_TYPE_USAGE, typeUsage.location);
+
+	return edgeId;
 }
 
 Id Storage::onTemplateArgumentTypeParsed(
 		const ParseLocation& location, const NameHierarchy& argumentNameHierarchy,
 		const NameHierarchy& templateNameHierarchy)
 {
-	log(
-		"template argument type",
-		argumentNameHierarchy.getFullName() + " -> " + templateNameHierarchy.getFullName(),
-		location
-	);
+	Id argumentNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, argumentNameHierarchy);
+	// TODO add location for arg
 
-	Node* argumentNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, argumentNameHierarchy);
-	Node* templateNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateNameHierarchy);
-	Edge* argumentOfEdge = m_graph.createEdge(Edge::EDGE_TEMPLATE_ARGUMENT_OF, argumentNode, templateNode);
+	Id templateNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateNameHierarchy);
 
-	addTokenLocation(argumentNode, location);
-	addTokenLocation(argumentOfEdge, location);
+	addEdge(argumentNodeId, templateNodeId, Edge::EDGE_TEMPLATE_ARGUMENT_OF, location);
 
-	return argumentNode->getId();
+	return argumentNodeId;
 }
 
 Id Storage::onTemplateDefaultArgumentTypeParsed(
-	const ParseTypeUsage& defaultArgumentType, const NameHierarchy& templateArgumentTypeNameHierarchy
+	const ParseTypeUsage& defaultArgumentTypeUsage, const NameHierarchy& templateArgumentTypeNameHierarchy // actually this is the template parameter???
 ){
-	log(
-		"template default argument",
-		defaultArgumentType.dataType->getTypeNameHierarchy().getFullName() + " -> " + templateArgumentTypeNameHierarchy.getFullName(),
-		defaultArgumentType.location
-	);
+	Id defaultArgumentNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, defaultArgumentTypeUsage.dataType->getTypeNameHierarchy());
+	// TODO add location for defarg
 
-	Node* templateDefaultArgumentNode =
-		addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, defaultArgumentType.dataType->getTypeNameHierarchy());
-	Node* templateArgumentNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateArgumentTypeNameHierarchy);
-	Edge* templateArgumentEdge =
-		m_graph.createEdge(Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF, templateDefaultArgumentNode, templateArgumentNode);
+	Id argumentNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateArgumentTypeNameHierarchy);
 
-	addTokenLocation(templateDefaultArgumentNode, defaultArgumentType.location);
-	addTokenLocation(templateArgumentEdge, defaultArgumentType.location);
+	addEdge(defaultArgumentNodeId, argumentNodeId, Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF, defaultArgumentTypeUsage.location);
 
-	return templateDefaultArgumentNode->getId();
+	return defaultArgumentNodeId;
 }
 
 Id Storage::onTemplateRecordParameterTypeParsed(
 	const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy,
 	const NameHierarchy& templateRecordNameHierarchy
 ){
-	log("template record type parameter", templateParameterTypeNameHierarchy.getFullName(), location);
+	Id parameterNodeId = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
+	// TODO add location for param
 
-	Node* templateParameterNode = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
-	Node* templateRecordNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateRecordNameHierarchy);
-	Edge* templateParameterEdge =
-		m_graph.createEdge(Edge::EDGE_TEMPLATE_PARAMETER_OF, templateParameterNode, templateRecordNode);
+	Id recordNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateRecordNameHierarchy);
 
-	addTokenLocation(templateParameterNode, location);
-	addTokenLocation(templateParameterEdge, location);
+	addEdge(parameterNodeId, recordNodeId, Edge::EDGE_TEMPLATE_PARAMETER_OF, location);
 
-	return templateParameterNode->getId();
+	return parameterNodeId;
 }
 
 Id Storage::onTemplateRecordSpecializationParsed(
 	const ParseLocation& location, const NameHierarchy& specializedRecordNameHierarchy,
 	const RecordType specializedRecordType, const NameHierarchy& specializedFromNameHierarchy
 ){
-	log(
-		"template record specialization",
-		specializedRecordNameHierarchy.getFullName() + " -> " + specializedFromNameHierarchy.getFullName(),
-		location
-	);
-
 	Node::NodeType specializedRecordNodeType = Node::NODE_CLASS;
 	if (specializedRecordType == ParserClient::RECORD_STRUCT)
 	{
 		specializedRecordNodeType = Node::NODE_STRUCT;
 	}
 
-	Node* specializedRecordNode = addNodeHierarchy(specializedRecordNodeType, specializedRecordNameHierarchy);
-	Node* templateRecordNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, specializedFromNameHierarchy);
-	Edge* templateSpecializationEdge =
-		m_graph.createEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, specializedRecordNode, templateRecordNode);
+	Id specializedNodeId = addNodeHierarchy(specializedRecordNodeType, specializedRecordNameHierarchy);
+	// TODO add location for specialized
 
-	addTokenLocation(specializedRecordNode, location);
-	addTokenLocation(templateSpecializationEdge, location);
+	Id recordNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, specializedFromNameHierarchy);
 
-	return specializedRecordNode->getId();
+	addEdge(specializedNodeId, recordNodeId, Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, location);
+
+	return specializedNodeId;
 }
 
 Id Storage::onTemplateFunctionParameterTypeParsed(
 	const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy, const ParseFunction function
 ){
-	log("template function type parameter", templateParameterTypeNameHierarchy.getFullName(), location);
+	Id parameterNodeId = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
+	// TODO add location for parameter
 
-	Node* templateParameterNode = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
-	Node* templateFunctionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, function);
-	Edge* templateParameterEdge =
-		m_graph.createEdge(Edge::EDGE_TEMPLATE_PARAMETER_OF, templateParameterNode, templateFunctionNode);
+	Id functionNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, function);
 
-	addTokenLocation(templateParameterNode, location);
-	addTokenLocation(templateParameterEdge, location);
+	addEdge(parameterNodeId, functionNodeId, Edge::EDGE_TEMPLATE_PARAMETER_OF, location);
 
-	return templateParameterNode->getId();
+	return parameterNodeId;
 }
 
 Id Storage::onTemplateFunctionSpecializationParsed(
 	const ParseLocation& location, const ParseFunction specializedFunction, const ParseFunction templateFunction
 ){
-	log("function template specialization", specializedFunction.getFullName(), location);
+	Id specializedNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, specializedFunction);
+	// TODO add location for specialized
 
-	Node* specializedFunctionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, specializedFunction);
-	Node* templateFunctionNode = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, templateFunction);
+	Id functionNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, templateFunction);
 
-	Edge* templateSpecializationEdge =
-		m_graph.createEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, specializedFunctionNode, templateFunctionNode);
+	addEdge(specializedNodeId, functionNodeId, Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, location);
 
-	addTokenLocation(specializedFunctionNode, location);
-	addTokenLocation(templateSpecializationEdge, location);
-
-	return specializedFunctionNode->getId();
+	return specializedNodeId;
 }
 
 Id Storage::onFileParsed(const std::string& filePath)
 {
-	log("file", filePath, ParseLocation());
+	const std::string fileName = FilePath(filePath).fileName();
 
-	Node* fileNode = addFileNode(filePath);
-	return fileNode->getId();
+	Id nameHierarchyElementId = m_sqliteStorage.getNameHierarchyElementIdByName(fileName);
+	if (nameHierarchyElementId == 0)
+	{
+		nameHierarchyElementId = m_sqliteStorage.addNameHierarchyElement(fileName);
+	}
+
+	Id fileNodeId = m_sqliteStorage.getFileByName(fileName).id;
+	if (fileNodeId == 0)
+	{
+		fileNodeId = m_sqliteStorage.addFile(nameHierarchyElementId, filePath);
+	}
+
+	return fileNodeId;
 }
 
 Id Storage::onFileIncludeParsed(const ParseLocation& location, const std::string& filePath, const std::string& includedPath)
 {
-	log("include", includedPath, location);
+	const Id fileNodeId = onFileParsed(filePath);
+	const Id includedFileNodeId = onFileParsed(includedPath);
 
-	Node* fileNode = addFileNode(filePath);
-	Node* includedFileNode = addFileNode(includedPath);
+	addEdge(fileNodeId, includedFileNodeId, Edge::EDGE_INCLUDE, location);
 
-	Edge* edge = m_graph.createEdge(Edge::EDGE_INCLUDE, fileNode, includedFileNode);
-	addTokenLocation(edge, location);
-
-	return edge->getId();
+	return fileNodeId;
 }
 
-Id Storage::getIdForNodeWithName(const std::string& fullName) const
+Id Storage::getIdForNodeWithName(const std::string& fullName) const // use name hierarchy here
 {
-	SearchNode* node = m_tokenIndex.getNode(fullName);
-	if (node)
+	std::vector<std::string> nameParts = utility::splitToVector(fullName, "::");
+
+	Id parentId = 0;
+	for (size_t i = 0; i < nameParts.size(); i++)
 	{
-		return node->getFirstTokenId();
+		Id currentId = 0;
+		if (parentId == 0)
+		{
+			currentId = m_sqliteStorage.getNameHierarchyElementIdByName(nameParts[i]);
+		}
+		else
+		{
+			currentId = m_sqliteStorage.getNameHierarchyElementIdByName(nameParts[i], parentId);
+		}
+
+		parentId = currentId;
+
+		if (currentId == 0)
+		{
+			break;
+		}
 	}
-	return 0;
+
+	return m_sqliteStorage.getNodeByNameId(parentId).id;
 }
 
 Id Storage::getIdForEdgeWithName(const std::string& name) const
 {
 	Edge::EdgeType type;
-	std::string fromName;
-	std::string toName;
+	std::string sourceName;
+	std::string targetName;
 
-	Edge::splitName(name, &type, &fromName, &toName);
+	Edge::splitName(name, &type, &sourceName, &targetName);
 
-	Id fromId = getIdForNodeWithName(fromName);
-	Node* from = m_graph.getNodeById(fromId);
-
-	if (from)
-	{
-		Edge* edge = from->findEdgeOfType(
-			type,
-			[&name](Edge* e)
-			{
-				return (e->getName() == name);
-			}
-		);
-
-		if (edge)
-		{
-			if (!edge->isType(type))
-			{
-				LOG_ERROR_STREAM(<< "Edge: " << name << " is not of type: " << Edge::getTypeString(type));
-				return 0;
-			}
-
-			return edge->getId();
-		}
-	}
-
-	return 0;
+	int sourceId = getIdForNodeWithName(sourceName);
+	int targetId = getIdForNodeWithName(targetName);
+	int sourceId2 = m_sqliteStorage.getNodeByName(sourceName).id;
+	int targetId2 = m_sqliteStorage.getNodeByName(targetName).id;
+	return m_sqliteStorage.getEdgeBySourceTargetType(sourceId, targetId, type).id;
 }
 
-std::string Storage::getNameForNodeWithId(Id id) const
+std::string Storage::getNameForNodeWithId(Id nodeId) const
 {
-	Token* token = m_graph.getTokenById(id);
-
-	if (!token)
-	{
-		return "";
-	}
-
-	if (token->isEdge())
-	{
-		return dynamic_cast<Edge*>(token)->getName();
-	}
-	else
-	{
-		return dynamic_cast<Node*>(token)->getFullName();
-	}
+	Id nameHierarchyElementId = m_sqliteStorage.getNameHierarchyElementIdByNodeId(nodeId);
+	return m_sqliteStorage.getNameHierarchyById(nameHierarchyElementId).getFullName();
 }
 
-Node::NodeType Storage::getNodeTypeForNodeWithId(Id id) const
+Node::NodeType Storage::getNodeTypeForNodeWithId(Id nodeId) const
 {
-	Token* token = m_graph.getTokenById(id);
-	if(!token)
-	{
-		return Node::NODE_UNDEFINED;
-	}
-	if(!token->isEdge())
-	{
-		return dynamic_cast<Node*>(token)->getType();
-	}
-	return Node::NODE_UNDEFINED;
+	return Node::intToType(m_sqliteStorage.getNodeById(nodeId).type);
 }
 
 std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& query, const std::string& word) const
 {
-	SearchResults tokenResults;
-
-	bool hasQueryResults = false;
-	if (query.size())
-	{
-		hasQueryResults = getQuerySearchResults(query, word, &tokenResults);
-	}
-
-	if (!hasQueryResults && word.size())
-	{
-		tokenResults = m_tokenIndex.runFuzzySearch(word);
-	}
-
-	SearchResults filterResults = m_filterIndex.runFuzzySearch(word);
-	tokenResults.insert(filterResults.begin(), filterResults.end());
+	SearchResults tokenResults = m_tokenIndex.runFuzzySearch(word);
 
 	std::vector<SearchMatch> matches = SearchIndex::getMatches(tokenResults, word);
 	SearchMatch::log(matches, word);
@@ -781,12 +568,16 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 			continue;
 		}
 
-		Token* token = m_graph.getTokenById(*match.tokenIds.cbegin());
-		if (token->isNode())
+		Id elementId = *(match.tokenIds.cbegin());
+		if (m_sqliteStorage.isNode(elementId))
 		{
-			match.nodeType = dynamic_cast<Node*>(token)->getType();
+			match.nodeType = Node::intToType(m_sqliteStorage.getNodeById(elementId).type);
+			match.typeName = Node::getTypeString(match.nodeType);
 		}
-		match.typeName = token->getTypeString();
+		else
+		{
+			match.typeName = Edge::getTypeString(Edge::intToType(m_sqliteStorage.getEdgeById(elementId).type));
+		}
 		match.queryNodeType = QueryNode::QUERYNODETYPE_TOKEN;
 	}
 
@@ -797,241 +588,238 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 {
 	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
 
-	if (!tokenIds.size())
+	if (tokenIds.size() == 0)
 	{
 		return graph;
 	}
-
-	if (tokenIds.size() > 1)
-	{
-		for (Id tokenId : tokenIds)
-		{
-			Token* token = m_graph.getTokenById(tokenId);
-			if (!token)
-			{
-				LOG_ERROR_STREAM(<< "Token with id " << tokenId << " was not found");
-				continue;
-			}
-
-			if (token->isNode())
-			{
-				Node* node = dynamic_cast<Node*>(token);
-				graph->addNodeAndAllChildrenAsPlainCopy(node->getLastParentNode());
-			}
-			else
-			{
-				Edge* edge = dynamic_cast<Edge*>(token);
-				graph->addEdgeAndAllChildrenAsPlainCopy(edge);
-			}
-		}
-	}
 	else if (tokenIds.size() == 1)
 	{
-		Token* token = m_graph.getTokenById(tokenIds[0]);
+		const Id elementId = tokenIds[0];
 
-		if (!token)
+		if (m_sqliteStorage.isNode(elementId))
 		{
-			LOG_ERROR_STREAM(<< "Token with id " << tokenIds[0] << " was not found");
-			return graph;
-		}
+			const StorageNode node = m_sqliteStorage.getNodeById(elementId);
 
-		if (token->isNode())
-		{
-			Node* node = dynamic_cast<Node*>(token);
-			graph->addNodeAndAllChildrenAsPlainCopy(node->getLastParentNode());
+			addNodeAndAllChildrenToGraph(getLastParentNodeId(node.id), graph);
 
-			node->forEachEdge(
-				[graph, node](Edge* edge)
+			std::vector<StorageEdge> edges = m_sqliteStorage.getEdgesBySourceId(node.id);
+			utility::append(edges, m_sqliteStorage.getEdgesByTargetId(node.id));
+
+			const Node::NodeTypeMask varFuncMask =
+				Node::NODE_UNDEFINED_FUNCTION | Node::NODE_FUNCTION | Node::NODE_METHOD |
+				Node::NODE_UNDEFINED_VARIABLE | Node::NODE_GLOBAL_VARIABLE | Node::NODE_FIELD;
+
+			const Node::NodeTypeMask typeMask = Node::NODE_STRUCT | Node::NODE_CLASS;
+
+			for (size_t i = 0; i < edges.size(); i++)
+			{
+				if (((node.type & varFuncMask) > 0 && ((edges[i].type & Edge::EDGE_AGGREGATION) > 0)) || // TODO: remove this since we do not save any aggregation edges
+					((node.type & typeMask) > 0 && ((edges[i].type & (Edge::EDGE_TYPE_USAGE | Edge::EDGE_TYPE_OF)) > 0)))
 				{
-					const Node::NodeTypeMask varFuncMask =
-						Node::NODE_UNDEFINED_FUNCTION | Node::NODE_FUNCTION | Node::NODE_METHOD |
-						Node::NODE_UNDEFINED_VARIABLE | Node::NODE_GLOBAL_VARIABLE | Node::NODE_FIELD;
-
-					const Node::NodeTypeMask typeMask = Node::NODE_STRUCT | Node::NODE_CLASS;
-
-					if ((node->isType(varFuncMask) && edge->isType(Edge::EDGE_AGGREGATION)) ||
-						(node->isType(typeMask) && edge->isType(Edge::EDGE_TYPE_USAGE | Edge::EDGE_TYPE_OF)))
-					{
-						return;
-					}
-
-					graph->addEdgeAndAllChildrenAsPlainCopy(edge);
+					continue;
 				}
-			);
+				addEdgeAndAllChildrenToGraph(edges[i].id, graph);
+			}
+
+			addAggregationEdgesToGraph(elementId, graph);
 		}
 		else
 		{
-			Edge* edge = dynamic_cast<Edge*>(token);
-			graph->addEdgeAndAllChildrenAsPlainCopy(edge);
+			addEdgeAndAllChildrenToGraph(elementId, graph);
+		}
+	}
+	else if (tokenIds.size() > 1)
+	{
+		for (size_t i = 0; i < tokenIds.size(); i++)
+		{
+			const Id elementId = tokenIds[i];
+
+			if (m_sqliteStorage.isNode(elementId))
+			{
+				addNodeAndAllChildrenToGraph(getLastParentNodeId(elementId), graph);
+			}
+			else
+			{
+				addEdgeAndAllChildrenToGraph(elementId, graph);
+			}
 		}
 	}
 
 	return graph;
 }
 
-std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId, Id* declarationId) const
+std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId, Id* declarationId) const // TODO: rename: getActiveElementIdsForId; TODO: make separate function for declarationId
 {
-	std::vector<Id> ret;
+	std::vector<Id> activeTokenIds;
 
-	Token* token = m_graph.getTokenById(tokenId);
-	if (!token)
+	if (!(m_sqliteStorage.isEdge(tokenId) || m_sqliteStorage.isNode(tokenId)))
 	{
-		return ret;
+		return activeTokenIds;
 	}
 
-	ret.push_back(token->getId());
+	activeTokenIds.push_back(tokenId);
 
-	if (token->isNode())
+	if (m_sqliteStorage.isNode(tokenId))
 	{
-		Node* node = dynamic_cast<Node*>(token);
-		*declarationId = node->getId();
-
-		node->forEachEdge(
-			[&node, &ret](Edge* edge)
-			{
-				if (edge->getTo() == node)
-				{
-					ret.push_back(edge->getId());
-				}
-			}
-		);
+		*declarationId = tokenId;
+		std::vector<StorageEdge> storageEdges = m_sqliteStorage.getEdgesByTargetId(tokenId);
+		for (size_t i = 0; i < storageEdges.size(); i++)
+		{
+			activeTokenIds.push_back(storageEdges[i].id);
+		}
 	}
 
-	return ret;
+	return activeTokenIds;
 }
 
 Id Storage::getActiveNodeIdForLocationId(Id locationId) const
 {
-	TokenLocation* location = m_locationCollection.findTokenLocationById(locationId);
-	if (!location)
-	{
-		return 0;
-	}
+	Id activeElementId = m_sqliteStorage.getElementIdByLocationId(locationId);
 
-	Token* token = m_graph.getTokenById(location->getTokenId());
-	if (!token)
+	StorageEdge edge = m_sqliteStorage.getEdgeById(activeElementId);
+	if (edge.id != 0) // here we test if location is an edge.
 	{
-		return 0;
+		activeElementId = edge.targetNodeId;
 	}
+	return activeElementId;
+}
 
-	if (token->isNode())
+std::vector<Id> Storage::getTokenIdsForQuery(std::string query) const // TODO: refactor query stuff! (don't store info in string
+{
+	std::vector<Id> ids;
+
+	std::deque<std::string> tokenizedQuery = QueryTree::tokenizeQuery(query);
+	if (tokenizedQuery.size() == 0)
 	{
-		return dynamic_cast<Node*>(token)->getId();
+		return ids;
+	}
+	std::string tokenName = tokenizedQuery[0];
+	tokenName.erase(std::remove(tokenName.begin(), tokenName.end(), '"'), tokenName.end());
+	const int delimiterPos = tokenName.rfind(',');
+
+	if (delimiterPos != tokenName.npos)
+	{
+		ids.push_back(std::stoi(tokenName.substr(delimiterPos + 1, tokenName.size() - (delimiterPos + 1))));
 	}
 	else
 	{
-		return dynamic_cast<Edge*>(token)->getTo()->getId();
+		std::vector<SearchMatch> matches = getAutocompletionMatches("", tokenName);
+
+		std::set<Id> idSet;
+		for (size_t i = 0; i < matches.size(); i++)
+		{
+			utility::append(idSet, matches[i].tokenIds);
+		}
+
+		for (std::set<Id>::const_iterator it = idSet.begin(); it != idSet.end(); it++)
+		{
+			ids.push_back(*it);
+		}
 	}
-}
-
-std::vector<Id> Storage::getTokenIdsForQuery(std::string query) const
-{
-	QueryTree tree(query);
-	GraphFilterConductor conductor;
-	SubGraph outGraph;
-
-	conductor.filter(&tree, &m_graph, &outGraph);
-
-	LOG_INFO_STREAM(<< '\n' << tree << '\n' << outGraph);
-
-	return outGraph.getTokenIds();
+	return ids;
 }
 
 Id Storage::getTokenIdForFileNode(const FilePath& filePath) const
 {
-	Node* fileNode = findFileNode(filePath);
-	if (fileNode)
-	{
-		return fileNode->getId();
-	}
-
-	return 0;
+	return m_sqliteStorage.getFileByName(filePath.fileName()).id;
 }
 
-std::vector<Id> Storage::getTokenIdsForAggregationEdge(Id aggregationId) const
+std::vector<Id> Storage::getTokenIdsForAggregationEdge(Id sourceId, Id targetId) const
 {
-	Edge* edge = m_graph.getEdgeById(aggregationId);
-	std::vector<Id> ids;
+	std::vector<Id> edgeIds;
 
-	if (edge->isType(Edge::EDGE_AGGREGATION))
+	std::vector<Id> aggregationEndpointsA = getAllChildNodeIds(sourceId);
+	std::set<Id> aggregationEndpointsB;
+	aggregationEndpointsB.insert(targetId);
+	for (const Id targetChildId: getAllChildNodeIds(targetId))
 	{
-		std::set<Id> i = edge->getComponent<TokenComponentAggregation>()->getAggregationIds();
-		ids.insert(ids.end(), i.begin(), i.end());
+		aggregationEndpointsB.insert(targetChildId);
 	}
 
-	return ids;
-}
-
-TokenLocationCollection Storage::getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const
-{
-	TokenLocationCollection ret;
-
-	for (Id tokenId : tokenIds)
+	for (size_t i = 0; i < aggregationEndpointsA.size(); i++)
 	{
-		Token* token = m_graph.getTokenById(tokenId);
-		if (!token)
+		std::vector<StorageEdge> outgoingEdges = m_sqliteStorage.getEdgesBySourceId(aggregationEndpointsA[i]);
+		for (size_t j = 0; j < outgoingEdges.size(); j++)
 		{
-			continue;
-		}
-
-		if (token->isNode() && dynamic_cast<Node*>(token)->isType(Node::NODE_FILE))
-		{
-			ret.addTokenLocationFileAsPlainCopy(m_locationCollection.findTokenLocationFileByPath(
-				dynamic_cast<Node*>(token)->getComponent<TokenComponentFilePath>()->getFilePath()));
-		}
-		else
-		{
-			for (Id locationId: token->getLocationIds())
+			if (aggregationEndpointsB.find(outgoingEdges[j].targetNodeId) != aggregationEndpointsB.end())
 			{
-				TokenLocation* location = m_locationCollection.findTokenLocationById(locationId);
-				if (location->getOtherTokenLocation())
-				{
-					ret.addTokenLocationAsPlainCopy(location);
-					ret.addTokenLocationAsPlainCopy(location->getOtherTokenLocation());
-				}
+				edgeIds.push_back(outgoingEdges[j].id);
+			}
+		}
+
+		std::vector<StorageEdge> incomingEdges = m_sqliteStorage.getEdgesByTargetId(aggregationEndpointsA[i]);
+		for (size_t j = 0; j < incomingEdges.size(); j++)
+		{
+			if (aggregationEndpointsB.find(incomingEdges[j].sourceNodeId) != aggregationEndpointsB.end())
+			{
+				edgeIds.push_back(incomingEdges[j].id);
 			}
 		}
 	}
 
-	return ret;
+	return edgeIds;
+}
+
+TokenLocationCollection Storage::getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const
+{
+	TokenLocationCollection collection;
+
+	for (Id elementId: tokenIds)
+	{
+		if (m_sqliteStorage.isFile(elementId))
+		{
+			StorageFile storageFile = m_sqliteStorage.getFileById(elementId);
+			collection.addTokenLocationFileAsPlainCopy(m_sqliteStorage.getTokenLocationsForFile(storageFile.filePath).get());
+		}
+		else
+		{
+			std::vector<StorageSourceLocation> locations = m_sqliteStorage.getTokenLocationsForElementId(elementId);
+			for (size_t i = 0; i < locations.size(); i++)
+			{
+				// TODO: optimize: fileNodeId to name in a separate map
+				const StorageSourceLocation& location = locations[i];
+				StorageFile storageFile = m_sqliteStorage.getFileById(location.fileNodeId);
+
+				collection.addTokenLocation(
+					location.id,
+					location.elementId,
+					storageFile.filePath,
+					location.startLine,
+					location.startCol,
+					location.endLine,
+					location.endCol
+				)->setType(location.isScope ? TokenLocation::LOCATION_SCOPE : TokenLocation::LOCATION_TOKEN);
+			}
+		}
+	}
+
+	return collection;
 }
 
 TokenLocationCollection Storage::getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const
 {
-	TokenLocationCollection ret;
+	TokenLocationCollection collection;
 
-	for (Id locationId : locationIds)
+	for (size_t i = 0; i < locationIds.size(); i++)
 	{
-		TokenLocation* location = m_locationCollection.findTokenLocationById(locationId);
-		if (location->getOtherTokenLocation())
-		{
-			ret.addTokenLocationAsPlainCopy(location);
-			ret.addTokenLocationAsPlainCopy(location->getOtherTokenLocation());
-		}
+		StorageSourceLocation location = m_sqliteStorage.getSourceLocationById(locationIds[i]);
+		collection.addTokenLocation(
+			location.id,
+			location.elementId,
+			m_sqliteStorage.getFileById(location.fileNodeId).filePath, // TODO: optimize: only once per file!
+			location.startLine,
+			location.startCol,
+			location.endLine,
+			location.endCol)->setType(location.isScope ? TokenLocation::LOCATION_SCOPE : TokenLocation::LOCATION_TOKEN
+		);
 	}
 
-	return ret;
+	return collection;
 }
 
 std::shared_ptr<TokenLocationFile> Storage::getTokenLocationsForFile(const std::string& filePath) const
 {
-	std::shared_ptr<TokenLocationFile> ret = std::make_shared<TokenLocationFile>(filePath);
-
-	TokenLocationFile* locationFile = m_locationCollection.findTokenLocationFileByPath(filePath);
-	if (!locationFile)
-	{
-		return ret;
-	}
-
-	locationFile->forEachTokenLocation(
-		[&](TokenLocation* tokenLocation) -> void
-		{
-			ret->addTokenLocationAsPlainCopy(tokenLocation);
-		}
-	);
-	ret->isWholeCopy = true;
-
-	return ret;
+	return m_sqliteStorage.getTokenLocationsForFile(filePath);
 }
 
 std::shared_ptr<TokenLocationFile> Storage::getTokenLocationsForLinesInFile(
@@ -1040,12 +828,7 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationsForLinesInFile(
 {
 	std::shared_ptr<TokenLocationFile> ret = std::make_shared<TokenLocationFile>(filePath);
 
-	TokenLocationFile* locationFile = m_locationCollection.findTokenLocationFileByPath(filePath);
-	if (!locationFile)
-	{
-		return ret;
-	}
-
+	std::shared_ptr<TokenLocationFile> locationFile = m_sqliteStorage.getTokenLocationsForFile(filePath);
 	uint endLineNumber = locationFile->getTokenLocationLines().rbegin()->first;
 	std::set<int> addedLocationIds;
 	for (uint i = firstLineNumber; i <= endLineNumber; i++)
@@ -1093,16 +876,16 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationsForLinesInFile(
 
 TokenLocationCollection Storage::getErrorTokenLocations(std::vector<std::string>* errorMessages) const
 {
-	errorMessages->insert(errorMessages->begin(), m_errorMessages.begin(), m_errorMessages.end());
-
-	return m_errorLocationCollection;
+	// TODO: Implement this one
+	return TokenLocationCollection();
 }
 
 std::shared_ptr<TokenLocationFile> Storage::getTokenLocationOfParentScope(const TokenLocation* child) const
 {
 	const TokenLocation* parent = child;
 	const FilePath filePath = child->getFilePath();
-	const TokenLocationFile* locationFile = m_locationCollection.findTokenLocationFileByPath(child->getFilePath());
+
+	std::shared_ptr<TokenLocationFile> locationFile = m_sqliteStorage.getTokenLocationsForFile(filePath);
 	locationFile->forEachStartTokenLocation(
 		[&](TokenLocation* tokenLocation) -> void
 		{
@@ -1132,355 +915,369 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationOfParentScope(const 
 	return file;
 }
 
-const Graph& Storage::getGraph() const
-{
-	return m_graph;
-}
-
-const TokenLocationCollection& Storage::getTokenLocationCollection() const
-{
-	return m_locationCollection;
-}
-
 const SearchIndex& Storage::getSearchIndex() const
 {
 	return m_tokenIndex;
 }
 
-Node* Storage::addNodeHierarchy(Node::NodeType type, NameHierarchy nameHierarchy)
+Id Storage::addNodeHierarchy(Node::NodeType type, NameHierarchy nameHierarchy)
 {
-	SearchNode* searchNode = m_tokenIndex.addNode(nameHierarchy);
-	if (!searchNode)
+	addNameHierarchyElements(nameHierarchy);
+
+	Id parentNameHierarchyElementId = 0;
+	Id parentNodeId = 0;
+	for (size_t i = 0; i < nameHierarchy.size(); i++)
 	{
-		LOG_ERROR("No SearchNode");
-		return nullptr;
-	}
-
-	return m_graph.createNodeHierarchy(type, searchNode);
-}
-
-Node* Storage::addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function)
-{
-	SearchNode* searchNode = m_tokenIndex.addNode(function.nameHierarchy);
-	if (!searchNode)
-	{
-		LOG_ERROR("No SearchNode");
-		return nullptr;
-	}
-
-	// TODO: Instead of saving the whole signature string, the signature should be just a set of wordIds.
-	Id signatureId = m_tokenIndex.getWordId(ParserClient::functionSignatureStr(function));
-	std::shared_ptr<TokenComponentSignature> signature = std::make_shared<TokenComponentSignature>(signatureId);
-
-	return m_graph.createNodeHierarchyWithDistinctSignature(type, searchNode, signature);
-}
-
-Node* Storage::addFileNode(const FilePath& filePath)
-{
-	NameHierarchy fileNameHierarchy;
-	fileNameHierarchy.push(std::make_shared<NameElement>(filePath.fileName()));
-	Node* fileNode = addNodeHierarchy(Node::NODE_FILE, fileNameHierarchy);
-
-	if (!fileNode->getComponent<TokenComponentFilePath>())
-	{
-		fileNode->addComponentFilePath(std::make_shared<TokenComponentFilePath>(filePath));
-	}
-
-	return fileNode;
-}
-
-Node* Storage::findFileNode(const FilePath& filePath) const
-{
-	SearchNode* searchNode = m_tokenIndex.getNode(filePath.fileName());
-	if (!searchNode || searchNode->getTokenIds().size() != 1)
-	{
-		return nullptr;
-	}
-
-	Node* fileNode = m_graph.getNodeById(searchNode->getFirstTokenId());
-	if (!fileNode->isType(Node::NODE_FILE))
-	{
-		LOG_ERROR("Node is not of type file.");
-		return nullptr;
-	}
-
-	return fileNode;
-}
-
-TokenComponentAccess::AccessType Storage::convertAccessType(ParserClient::AccessType access) const
-{
-	switch (access)
-	{
-	case ACCESS_PUBLIC:
-		return TokenComponentAccess::ACCESS_PUBLIC;
-	case ACCESS_PROTECTED:
-		return TokenComponentAccess::ACCESS_PROTECTED;
-	case ACCESS_PRIVATE:
-		return TokenComponentAccess::ACCESS_PRIVATE;
-	case ACCESS_NONE:
-		return TokenComponentAccess::ACCESS_NONE;
-	}
-}
-
-TokenComponentAccess* Storage::addAccess(Node* node, ParserClient::AccessType access)
-{
-	if (access == ACCESS_NONE)
-	{
-		return nullptr;
-	}
-
-	Edge* edge = node->getMemberEdge();
-	if (!edge)
-	{
-		LOG_ERROR_STREAM(<< "Cannot assign access" << access << " to node " << node->getFullName() << " because it's no child.");
-		return nullptr;
-	}
-
-	std::shared_ptr<TokenComponentAccess> ptr = std::make_shared<TokenComponentAccess>(convertAccessType(access));
-	edge->addComponentAccess(ptr);
-	return ptr.get();
-}
-
-TokenComponentAbstraction::AbstractionType Storage::convertAbstractionType(ParserClient::AbstractionType abstraction) const
-{
-	switch (abstraction)
-	{
-	case ABSTRACTION_VIRTUAL:
-		return TokenComponentAbstraction::ABSTRACTION_VIRTUAL;
-	case ABSTRACTION_PURE_VIRTUAL:
-		return TokenComponentAbstraction::ABSTRACTION_PURE_VIRTUAL;
-	case ABSTRACTION_NONE:
-		return TokenComponentAbstraction::ABSTRACTION_NONE;
-	}
-}
-
-TokenComponentAbstraction* Storage::addAbstraction(Node* node, ParserClient::AbstractionType abstraction)
-{
-	if (abstraction != ABSTRACTION_NONE)
-	{
-		std::shared_ptr<TokenComponentAbstraction> ptr =
-			std::make_shared<TokenComponentAbstraction>(convertAbstractionType(abstraction));
-		node->addComponentAbstraction(ptr);
-		return ptr.get();
-	}
-	return nullptr;
-}
-
-Node* Storage::addFunctionNode(
-		Node::NodeType nodeType, const ParseFunction& function,
-		const ParseLocation& location, const ParseLocation& scopeLocation
-){
-	Node* node = addNodeHierarchyWithDistinctSignature(nodeType, function);
-
-	addTokenLocation(node, location);
-	addTokenLocation(node, scopeLocation, true);
-
-	// Currently the edge types EDGE_RETURN_TYPE_OF and EDGE_PARAMETER_TYPE_OF don't get used, because they are not
-	// distinctly displayed compared to EDGE_TYPE_USAGE in the Graph, so they get drawn on top of each other, but only
-	// the upper one can be clicked.
-
-	// addTypeEdge(node, Edge::EDGE_RETURN_TYPE_OF, function.returnType);
-	addTypeEdge(node, Edge::EDGE_TYPE_USAGE, function.returnType);
-	for (const ParseTypeUsage& parameter : function.parameters)
-	{
-		// addTypeEdge(node, Edge::EDGE_PARAMETER_TYPE_OF, parameter);
-		addTypeEdge(node, Edge::EDGE_TYPE_USAGE, parameter);
-	}
-
-	return node;
-}
-
-Edge* Storage::addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeUsage& typeUsage)
-{
-	if (!typeUsage.location.isValid())
-	{
-		return nullptr;
-	}
-
-	NameHierarchy nameHierarchy = typeUsage.dataType->getTypeNameHierarchy();
-
-	Node* typeNode = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, nameHierarchy);
-	if (!typeNode)
-	{
-		return nullptr;
-	}
-
-	Edge* edge = m_graph.createEdge(edgeType, node, typeNode);
-	addTokenLocation(edge, typeUsage.location);
-
-	return edge;
-}
-
-TokenLocation* Storage::addTokenLocation(Token* token, const ParseLocation& loc, bool isScope)
-{
-	if (!loc.isValid())
-	{
-		return nullptr;
-	}
-
-	TokenLocation* location = m_locationCollection.addTokenLocation(
-		token->getId(), loc.filePath,
-		loc.startLineNumber, loc.startColumnNumber,
-		loc.endLineNumber, loc.endColumnNumber
-	);
-
-	if (isScope)
-	{
-		location->setType(TokenLocation::LOCATION_SCOPE);
-	}
-
-	token->addLocationId(location->getId());
-	return location;
-}
-
-bool Storage::getQuerySearchResults(const std::string& query, const std::string& word, SearchResults* results) const
-{
-	std::string q = query;
-	bool isCommand = false;
-
-	switch (QueryOperator::getOperatorType(q.back()))
-	{
-	case QueryOperator::OPERATOR_AND:
-	case QueryOperator::OPERATOR_OR:
-	case QueryOperator::OPERATOR_NOT:
-		q.pop_back();
-		return false;
-
-	case QueryOperator::OPERATOR_HAS:
-		q.pop_back();
-		q.append("'member'");
-		break;
-
-	case QueryOperator::OPERATOR_SUB:
-		q.pop_back();
-		break;
-
-	case QueryOperator::OPERATOR_COMMAND:
-		isCommand = true;
-	case QueryOperator::OPERATOR_NONE:
-	case QueryOperator::OPERATOR_TOKEN:
-	case QueryOperator::OPERATOR_GROUP_OPEN:
-	case QueryOperator::OPERATOR_GROUP_CLOSE:
-		break;
-	}
-
-	QueryTree tree(q);
-	if (!tree.isValid())
-	{
-		return false;
-	}
-
-	SubGraph graph;
-	GraphFilterConductor conductor;
-	conductor.filter(&tree, &m_graph, &graph);
-
-	std::vector<const SearchNode*> searchNodes;
-	graph.forEachNode(
-		[&searchNodes](Node* node)
+		Id nameHierarchyElementId = 0;
+		if (parentNameHierarchyElementId == 0)
 		{
-			const TokenComponentName* nameComponent = node->getTokenComponentName();
-			if (nameComponent)
+			nameHierarchyElementId = m_sqliteStorage.getNameHierarchyElementIdByName(nameHierarchy[i]->getFullName());
+		}
+		else
+		{
+			nameHierarchyElementId = m_sqliteStorage.getNameHierarchyElementIdByName(nameHierarchy[i]->getFullName(), parentNameHierarchyElementId);
+		}
+
+		const StorageNode node = m_sqliteStorage.getNodeByNameId(nameHierarchyElementId);
+		Id nodeId = node.id;
+
+		if (nodeId == 0)
+		{
+			nodeId = m_sqliteStorage.addNode(Node::typeToInt(type), nameHierarchyElementId);
+
+			if (parentNodeId != 0) // TODO: maybe check if this edge exists in general and create it if not.
 			{
-				searchNodes.push_back(nameComponent->getSearchNode());
+				m_sqliteStorage.addEdge(Edge::EDGE_MEMBER, parentNodeId, nodeId);
 			}
 		}
-	);
-
-	for (const SearchNode* node : searchNodes)
-	{
-		if (word.size())
+		else if (i == nameHierarchy.size() - 1) // we only know the type of the last node that will be added.
 		{
-			if (searchNodes.size() == 1 && !isCommand)
+			Node::NodeType storedType = Node::intToType(node.type);
+			if (type > storedType)
 			{
-				SearchResults res = node->runFuzzySearch(word);
-				results->insert(res.begin(), res.end());
+				m_sqliteStorage.setNodeType(Node::typeToInt(type), nodeId);
+			}
+		}
+
+		parentNameHierarchyElementId = nameHierarchyElementId;
+		parentNodeId = nodeId;
+	}
+
+	m_tokenIndex.addNode(nameHierarchy)->addTokenId(parentNodeId);
+
+	return parentNodeId;
+}
+
+Id Storage::addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function)
+{
+	return addNodeHierarchy(type, function.nameHierarchy);
+
+	//// TODO: Instead of saving the whole signature string, the signature should be just a set of wordIds.
+	//Id signatureId = m_tokenIndex.getWordId(ParserClient::functionSignatureStr(function));
+	//std::shared_ptr<TokenComponentSignature> signature = std::make_shared<TokenComponentSignature>(signatureId);
+
+	//return m_graph.createNodeHierarchyWithDistinctSignature(type, searchNode, signature);
+}
+
+Id Storage::addNameHierarchyElements(NameHierarchy nameHierarchy)
+{
+	Id parentId = 0;
+	bool nodeMayExist = true;
+
+	for (size_t i = 0; i < nameHierarchy.size(); i++)
+	{
+		const std::string elementName = nameHierarchy[i]->getFullName();
+		int nodeId = 0;
+
+		if (nodeMayExist)
+		{
+			if (parentId == 0)
+			{
+				nodeId = m_sqliteStorage.getNameHierarchyElementIdByName(elementName);
 			}
 			else
 			{
-				SearchResults res = node->runFuzzySearchOnSelf(word);
-				results->insert(res.begin(), res.end());
-			}
-		}
-		else if (searchNodes.size() == 1 && !isCommand)
-		{
-			for (const std::shared_ptr<SearchNode>& child : node->getChildren())
-			{
-				child->addResultsRecursive(results, 1, child.get());
+				nodeId = m_sqliteStorage.getNameHierarchyElementIdByName(elementName, parentId);
 			}
 		}
 		else
 		{
-			node->addResults(results, 1, node);
+			nodeId = 0;
 		}
+
+		if (nodeId == 0)
+		{
+			if (parentId == 0)
+				nodeId = m_sqliteStorage.addNameHierarchyElement(elementName);
+			else
+				nodeId = m_sqliteStorage.addNameHierarchyElement(elementName, parentId);
+
+			nodeMayExist = false;
+		}
+
+		parentId = nodeId;
 	}
 
-	return true;
+	return parentId;
 }
 
-void Storage::addDependingFilePathsAndRemoveFileNodesRecursive(Node* fileNode, std::set<FilePath>* filePaths)
+int Storage::addSourceLocation(int elementNodeId, const ParseLocation& location, bool isScope)
 {
-	bool inserted = filePaths->insert(fileNode->getComponent<TokenComponentFilePath>()->getFilePath()).second;
-	if (!inserted)
+	if (!location.isValid())
 	{
-		return;
+		return 0;
 	}
 
-	while (true)
+	if (location.filePath.empty())
 	{
-		Edge* edge = fileNode->findEdgeOfType(Edge::EDGE_INCLUDE);
-		if (!edge)
+		LOG_ERROR("no filename set!");
+	}
+	else
+	{
+		Id fileNodeId = m_sqliteStorage.getFileByName(FilePath(location.filePath).fileName()).id;
+		if (fileNodeId == 0)
 		{
-			break;
+			LOG_ERROR("No filenode created for file: " + location.filePath.str());
+			fileNodeId = onFileParsed(location.filePath.str()); // TODO: make onFileParsed accept filePath
 		}
-
-		Node* dependantNode = nullptr;
-		if (edge->getTo() == fileNode)
-		{
-			dependantNode = edge->getFrom();
-		}
-
-		m_graph.removeEdge(edge);
-
-		if (dependantNode)
-		{
-			addDependingFilePathsAndRemoveFileNodesRecursive(dependantNode, filePaths);
-		}
-	}
-
-	removeNodeIfUnreferenced(fileNode);
-}
-
-void Storage::removeNodeIfUnreferenced(Node* node)
-{
-	Id tokenId = node->getId();
-	SearchNode* searchNode = m_tokenIndex.getNode(node->getTokenComponentName()->getSearchNode());
-
-	Node* parentNode = node->getParentNode();
-
-	bool removed = m_graph.removeNodeIfUnreferencedRecursive(node);
-
-	if (!removed)
-	{
-		return;
-	}
-
-	if (searchNode)
-	{
-		searchNode->removeTokenId(tokenId);
-		m_tokenIndex.removeNodeIfUnreferencedRecursive(searchNode);
-	}
-
-	if (parentNode)
-	{
-		removeNodeIfUnreferenced(parentNode);
+		int locationId = m_sqliteStorage.addSourceLocation(
+			elementNodeId, fileNodeId, location.startLineNumber, location.startColumnNumber,
+			location.endLineNumber, location.endColumnNumber, isScope
+		);
+		return locationId;
 	}
 }
 
-void Storage::log(std::string type, std::string str, const ParseLocation& location) const
+Id Storage::addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type, ParseLocation location)
 {
-	LOG_INFO_STREAM(
-		<< type << ": " << str << " <" << location.filePath.str() << " "
-		<< location.startLineNumber << ":" << location.startColumnNumber << " "
-		<< location.endLineNumber << ":" << location.endColumnNumber << ">"
+	Id edgeId = m_sqliteStorage.addEdge(type, sourceNodeId, targetNodeId);
+	addSourceLocation(edgeId, location, false);
+	return edgeId;
+}
+
+Id Storage::getLastParentNodeId(const Id nodeId) const
+{
+	Id currentNodeId = 0;
+	Id parentNodeId = nodeId;
+	while (parentNodeId != 0)
+	{
+		currentNodeId = parentNodeId;
+
+		std::vector<StorageEdge> memberEdges = m_sqliteStorage.getEdgesByTargetType(currentNodeId, Edge::EDGE_MEMBER);
+		parentNodeId = (memberEdges.size() > 0) ? memberEdges[0].sourceNodeId : 0;
+	}
+	return currentNodeId;
+}
+
+std::vector<Id> Storage::getDirectChildNodeIds(const Id nodeId) const
+{
+	std::vector<Id> childNodeIds;
+	std::vector<StorageEdge> edges = m_sqliteStorage.getEdgesBySourceType(nodeId, Edge::EDGE_MEMBER);
+	for (size_t i = 0; i < edges.size(); i++)
+	{
+		childNodeIds.push_back(edges[i].targetNodeId);
+	}
+	return childNodeIds;
+}
+
+std::vector<Id> Storage::getAllChildNodeIds(const Id nodeId) const
+{
+	std::vector<Id> childNodeIds;
+
+	std::vector<Id> directChildNodeIds = getDirectChildNodeIds(nodeId);
+	for (size_t i = 0; i < directChildNodeIds.size(); i++)
+	{
+		Id id = directChildNodeIds[i];
+		childNodeIds.push_back(id);
+		utility::append(directChildNodeIds, getAllChildNodeIds(id));
+	}
+
+	return childNodeIds;
+}
+
+void Storage::addEdgeAndAllChildrenToGraph(const Id edgeId, std::shared_ptr<Graph> graph) const
+{
+	StorageEdge storageEdge = m_sqliteStorage.getEdgeById(edgeId);
+
+	addNodeAndAllChildrenToGraph(getLastParentNodeId(storageEdge.sourceNodeId), graph); // TODO: optimize: look for node in graph first
+	addNodeAndAllChildrenToGraph(getLastParentNodeId(storageEdge.targetNodeId), graph);
+
+	Node* sourceNode = graph->getNodeById(storageEdge.sourceNodeId);
+	Node* targetNode = graph->getNodeById(storageEdge.targetNodeId);
+
+	std::shared_ptr<Edge> edge = std::make_shared<Edge>(edgeId, Edge::intToType(storageEdge.type), sourceNode, targetNode);
+	graph->addEdge(edge.get());
+}
+
+void Storage::addNodeAndAllChildrenToGraph(const Id nodeId, std::shared_ptr<Graph> graph) const
+{
+	if (!graph->getNodeById(nodeId))
+	{
+		graph->addNode(createNodeForNodeId(nodeId));
+	}
+
+	std::queue<StorageEdge> unprocessedEdges;
+	{
+		std::vector<StorageEdge> edges = m_sqliteStorage.getEdgesBySourceType(nodeId, Edge::EDGE_MEMBER);
+		for (size_t i = 0; i < edges.size(); i++)
+		{
+			unprocessedEdges.push(edges[i]);
+		}
+	}
+
+	while (unprocessedEdges.size() > 0)
+	{
+		const StorageEdge& storageEdge = unprocessedEdges.front();
+		unprocessedEdges.pop();
+
+		Node* sourceNode = graph->getNodeById(storageEdge.sourceNodeId);
+		if (!sourceNode)
+		{
+			sourceNode = createNodeForNodeId(storageEdge.sourceNodeId);
+			graph->addNode(sourceNode);
+		}
+
+		Node* targetNode = graph->getNodeById(storageEdge.targetNodeId);
+		if (!targetNode)
+		{
+			targetNode = createNodeForNodeId(storageEdge.targetNodeId);
+			graph->addNode(targetNode);
+		}
+
+		std::shared_ptr<Edge> edge = std::make_shared<Edge>(storageEdge.id, Edge::intToType(storageEdge.type), sourceNode, targetNode);
+		graph->addEdge(edge.get());
+
+		{
+			std::vector<StorageEdge> edges = m_sqliteStorage.getEdgesBySourceType(storageEdge.targetNodeId, Edge::EDGE_MEMBER);
+			for (size_t i = 0; i < edges.size(); i++)
+			{
+				unprocessedEdges.push(edges[i]);
+			}
+		}
+	}
+}
+
+void Storage::addAggregationEdgesToGraph(const Id nodeId, std::shared_ptr<Graph> graph) const
+{
+	struct EdgeInfo
+	{
+		Id edgeId;
+		bool forward;
+	};
+
+	// build aggregation edges:
+	// get all children of the active node
+	// get all edges of the children
+	// get all nodes connected by these edges
+	// remove all nodes that are in active node's children
+	// get all parents of these nodes (up to last level except namespace/undefined)
+	// add hierarchies for these parents
+	// create aggregation edges between parents and active node
+
+	std::vector<Id> childNodeIds = getAllChildNodeIds(nodeId);
+
+	std::map<Id, std::vector<EdgeInfo>> connectedNodeIds;
+	for (size_t i = 0; i < childNodeIds.size(); i++)
+	{
+		const Id nodeId = childNodeIds[i];
+		std::vector<StorageEdge> outgoingEdges = m_sqliteStorage.getEdgesBySourceId(nodeId);
+		for (size_t j = 0; j < outgoingEdges.size(); j++)
+		{
+			EdgeInfo edgeInfo;
+			edgeInfo.edgeId = outgoingEdges[j].id;
+			edgeInfo.forward = true;
+			connectedNodeIds[outgoingEdges[j].targetNodeId].push_back(edgeInfo);
+		}
+
+		std::vector<StorageEdge> incomingEdges = m_sqliteStorage.getEdgesByTargetId(nodeId);
+		for (size_t j = 0; j < incomingEdges.size(); j++)
+		{
+			EdgeInfo edgeInfo;
+			edgeInfo.edgeId = incomingEdges[j].id;
+			edgeInfo.forward = false;
+			connectedNodeIds[incomingEdges[j].sourceNodeId].push_back(edgeInfo);
+		}
+	}
+
+	std::map<Id, std::vector<EdgeInfo>> connectedParentNodeIds;
+	for (std::map<Id, std::vector<EdgeInfo>>::const_iterator it = connectedNodeIds.begin(); it != connectedNodeIds.end(); it++)
+	{
+		Id currentNodeId = 0;
+		Id parentNodeId = it->first;
+		bool needsAdd = true;
+		while (parentNodeId != 0)
+		{
+			currentNodeId = parentNodeId;
+			parentNodeId = 0;
+
+			if (currentNodeId == nodeId)
+			{
+				needsAdd = false;
+				continue;
+			}
+
+			std::vector<StorageEdge> memberEdges = m_sqliteStorage.getEdgesByTargetType(currentNodeId, Edge::EDGE_MEMBER);
+
+			if (memberEdges.size() > 0)
+			{
+				if (m_sqliteStorage.getNodeById(memberEdges[0].sourceNodeId).type != Node::NodeType::NODE_NAMESPACE)
+				{
+					parentNodeId = memberEdges[0].sourceNodeId;
+				}
+			}
+		}
+
+		int type = m_sqliteStorage.getNodeById(currentNodeId).type;
+		Node::NodeTypeMask mask =
+			Node::NODE_UNDEFINED |
+			Node::NODE_UNDEFINED_FUNCTION |
+			Node::NODE_UNDEFINED_TYPE |
+			Node::NODE_UNDEFINED_VARIABLE;
+
+		Node::NodeTypeMask mask2 = ~mask;
+
+		if (needsAdd && ((type & mask2) > 0))
+		{
+			connectedParentNodeIds[currentNodeId] = it->second;
+		}
+	}
+
+	Node* sourceNode = graph->getNodeById(nodeId);
+	if (!sourceNode)
+	{
+		sourceNode = createNodeForNodeId(nodeId);
+		graph->addNode(sourceNode);
+	}
+
+	for (std::map<Id, std::vector<EdgeInfo>>::const_iterator it = connectedParentNodeIds.begin(); it != connectedParentNodeIds.end(); it++)
+	{
+		const int aggregationTargetNodeId = it->first;
+		Node* targetNode = graph->getNodeById(aggregationTargetNodeId);
+		if (!targetNode)
+		{
+			targetNode = createNodeForNodeId(aggregationTargetNodeId);
+			graph->addNode(targetNode);
+		}
+
+		std::shared_ptr<TokenComponentAggregation> componentAggregation = std::make_shared<TokenComponentAggregation>();
+		for (const EdgeInfo& edgeInfo: it->second)
+		{
+			componentAggregation->addAggregationId(edgeInfo.edgeId, edgeInfo.forward);
+		}
+
+		std::shared_ptr<Edge> edge = std::make_shared<Edge>(0, Edge::EDGE_AGGREGATION, sourceNode, targetNode);
+		edge->addComponentAggregation(componentAggregation);
+		graph->addEdge(edge.get());
+	}
+}
+
+Node* Storage::createNodeForNodeId(const Id nodeId) const
+{
+	StorageNode storageNode = m_sqliteStorage.getNodeById(nodeId);
+	Node* n = new Node( // TODO: causes memory leaks. refactor graph to operate on shared ptrs.
+		storageNode.id,
+		Node::intToType(storageNode.type),
+		std::make_shared<TokenComponentNameCached>(m_sqliteStorage.getNameHierarchyById(storageNode.nameId))
 	);
+	return n;
 }

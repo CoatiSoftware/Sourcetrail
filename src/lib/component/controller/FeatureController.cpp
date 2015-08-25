@@ -17,31 +17,46 @@ FeatureController::~FeatureController()
 
 void FeatureController::handleMessage(MessageActivateEdge* message)
 {
-	Id edgeId = message->tokenId;
-
-	if (!message->isFresh())
+	if (message->type == Edge::EDGE_AGGREGATION)
 	{
-		edgeId = m_storageAccess->getIdForEdgeWithName(message->name);
-	}
+		const std::string sourceStartDelimiter = ":";
+		const std::string sourceEndDelimiter = "->";
 
-	if (!edgeId)
-	{
-		return;
-	}
+		const int sourceStartPosition = message->name.find(sourceStartDelimiter) + sourceStartDelimiter.size();
+		const int sourceEndPosition = message->name.find(sourceEndDelimiter);
+		const int targetStartPosition = sourceEndPosition + sourceEndDelimiter.size();
+		const int targetEndPosition = message->name.size();
 
-	if (message->isAggregation())
-	{
-		MessageActivateTokens m(m_storageAccess->getTokenIdsForAggregationEdge(edgeId));
+		const std::string sourceName = message->name.substr(sourceStartPosition, sourceEndPosition - sourceStartPosition);
+		const std::string targetName = message->name.substr(targetStartPosition, targetEndPosition - targetStartPosition);
+
+		const int sourceId = m_storageAccess->getIdForNodeWithName(sourceName);
+		const int targetId = m_storageAccess->getIdForNodeWithName(targetName);
+
+		MessageActivateTokens m(m_storageAccess->getTokenIdsForAggregationEdge(sourceId, targetId));
 		m.isAggregation = true;
 		m.undoRedoType = message->undoRedoType;
 		m.dispatchImmediately();
-		return;
 	}
+	else
+	{
+		Id edgeId = message->tokenId;
 
-	MessageActivateTokens msg(std::vector<Id>(1, edgeId));
-	msg.isEdge = true;
-	msg.undoRedoType = message->undoRedoType;
-	msg.dispatchImmediately();
+		if (!message->isFresh())
+		{
+			edgeId = m_storageAccess->getIdForEdgeWithName(message->name);
+		}
+
+		if (!edgeId)
+		{
+			return;
+		}
+
+		MessageActivateTokens msg(std::vector<Id>(1, edgeId));
+		msg.isEdge = true;
+		msg.undoRedoType = message->undoRedoType;
+		msg.dispatchImmediately();
+	}
 }
 
 void FeatureController::handleMessage(MessageActivateFile* message)

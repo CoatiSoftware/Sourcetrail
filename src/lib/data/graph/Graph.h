@@ -6,21 +6,19 @@
 #include <deque>
 
 #include "data/graph/Edge.h"
-#include "data/graph/FilterableGraph.h"
 #include "data/graph/Node.h"
 
 class Graph
-	: public FilterableGraph
 {
 public:
 	Graph();
 	virtual ~Graph();
 
-	// FilterableGraph implementation
-	virtual void copy(const FilterableGraph* other);
+	// FilterableGraph implementation // deprecated
+	virtual void copy(const Graph* other);
 	virtual void clear();
 
-	virtual void add(const FilterableGraph* other);
+	virtual void add(const Graph* other);
 
 	virtual void forEachNode(std::function<void(Node*)> func) const;
 	virtual void forEachEdge(std::function<void(Edge*)> func) const;
@@ -51,6 +49,13 @@ public:
 
 	Node* addNodeAndAllChildrenAsPlainCopy(Node* node);
 	Edge* addEdgeAndAllChildrenAsPlainCopy(Edge* edge);
+
+	size_t size() const;
+
+	Token* getTokenById(Id id) const;
+
+	void print(std::ostream& ostream) const;
+	void printBasic(std::ostream& ostream) const;
 
 protected:
 	std::map<Id, std::shared_ptr<Node>> m_nodes;

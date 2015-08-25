@@ -17,16 +17,14 @@ add_files(
 	FilePathTestSuite.h
 	FileSystemTestSuite.h
 	GraphTestSuite.h
-	GraphFilterTestSuite.h
-	GraphFilterConductorTestSuite.h
 	LogManagerTestSuite.h
 	MatrixBaseTestSuite.h
 	MessageQueueTestSuite.h
 	QueryTreeTestSuite.h
 	SettingsTestSuite.h
 	SearchIndexTestSuite.h
+	SqliteStorageTestSuite.h
 	StorageTestSuite.h
-	StorageGraphTestSuite.h
 	TaskSchedulerTestSuite.h
 	TextAccessTestSuite.h
 	TokenLocationCollectionTestSuite.h

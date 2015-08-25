@@ -8,8 +8,64 @@
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
 
+int Edge::typeToInt(EdgeType type)
+{
+	return type;
+}
+
+Edge::EdgeType Edge::intToType(int value)
+{
+	switch (value)
+	{
+	case 0x1:
+		return EDGE_MEMBER;
+	case 0x2:
+		return EDGE_TYPE_OF;
+	case 0x4:
+		return EDGE_RETURN_TYPE_OF;
+	case 0x8:
+		return EDGE_PARAMETER_TYPE_OF;
+	case 0x10:
+		return EDGE_TYPE_USAGE;
+	case 0x20:
+		return EDGE_USAGE;
+	case 0x40:
+		return EDGE_CALL;
+	case 0x80:
+		return EDGE_INHERITANCE;
+	case 0x100:
+		return EDGE_OVERRIDE;
+	case 0x200:
+		return EDGE_TYPEDEF_OF;
+	case 0x400:
+		return EDGE_TEMPLATE_PARAMETER_OF;
+	case 0x800:
+		return EDGE_TEMPLATE_ARGUMENT_OF;
+	case 0x1000:
+		return EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF;
+	case 0x2000:
+		return EDGE_TEMPLATE_SPECIALIZATION_OF;
+	case 0x4000:
+		return EDGE_INCLUDE;
+	case 0x8000:
+		return EDGE_AGGREGATION;
+	}
+}
+
 Edge::Edge(EdgeType type, Node* from, Node* to)
 	: m_type(type)
+	, m_from(from)
+	, m_to(to)
+{
+	m_from->addEdge(this);
+	m_to->addEdge(this);
+
+	checkType();
+}
+
+Edge::Edge(Id id, EdgeType type, Node* from, Node* to)
+	: Token(id)
+	, m_type(type)
 	, m_from(from)
 	, m_to(to)
 {

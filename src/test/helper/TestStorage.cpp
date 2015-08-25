@@ -12,8 +12,3 @@ void TestStorage::parseCxxCode(std::string code)
 	CxxParser parser(this, &fm);
 	parser.parseFile(TextAccess::createFromString(code), Parser::Arguments());
 }
-
-const Graph& TestStorage::getGraph() const
-{
-	return Storage::getGraph();
-}

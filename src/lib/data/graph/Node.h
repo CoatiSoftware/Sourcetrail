@@ -44,8 +44,11 @@ public:
 	};
 
 	static std::string getTypeString(NodeType type);
+	static int typeToInt(NodeType type);
+	static NodeType intToType(int value);
 
 	Node(NodeType type, std::shared_ptr<TokenComponentName> nameComponent);
+	Node(Id id, NodeType type, std::shared_ptr<TokenComponentName> nameComponent);
 	Node(const Node& other);
 	virtual ~Node();
 

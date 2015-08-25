@@ -8,8 +8,13 @@ void Token::resetNextId()
 	s_nextId = 1;
 }
 
-Token::Token()
+Token::Token()	// TODO: remove this constructor
 	: m_id(s_nextId++)
+{
+}
+
+Token::Token(Id id)
+	: m_id(id)
 {
 }
 

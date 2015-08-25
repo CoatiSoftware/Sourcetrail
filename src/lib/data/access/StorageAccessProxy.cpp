@@ -132,11 +132,11 @@ Id StorageAccessProxy::getTokenIdForFileNode(const FilePath& filePath) const
 	return 0;
 }
 
-std::vector<Id> StorageAccessProxy::getTokenIdsForAggregationEdge(Id aggregationId) const
+std::vector<Id> StorageAccessProxy::getTokenIdsForAggregationEdge(Id sourceId, Id targetId) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getTokenIdsForAggregationEdge(aggregationId);
+		return m_subject->getTokenIdsForAggregationEdge(sourceId, targetId);
 	}
 
 	return std::vector<Id>();

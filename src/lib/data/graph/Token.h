@@ -13,6 +13,7 @@ public:
 	static void resetNextId();
 
 	Token();
+	Token(Id id);
 	virtual ~Token();
 
 	Id getId() const;

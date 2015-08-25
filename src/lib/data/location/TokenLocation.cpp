@@ -13,6 +13,17 @@ TokenLocation::TokenLocation(Id tokenId, TokenLocationLine* line, unsigned int c
 {
 }
 
+TokenLocation::TokenLocation(Id locationId, Id tokenId, TokenLocationLine* line, unsigned int columnNumber, bool isStart)
+	: m_id(locationId)
+	, m_tokenId(tokenId)
+	, m_type(LOCATION_TOKEN)
+	, m_line(line)
+	, m_columnNumber(columnNumber)
+	, m_other(nullptr)
+	, m_isStart(isStart)
+{
+}
+
 TokenLocation::TokenLocation(TokenLocation *other, TokenLocationLine* line, unsigned int columnNumber, bool isStart)
 	: m_id(other->m_id)
 	, m_tokenId(other->m_tokenId)

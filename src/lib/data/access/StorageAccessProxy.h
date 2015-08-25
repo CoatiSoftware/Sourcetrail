@@ -28,7 +28,7 @@ public:
 
 	virtual std::vector<Id> getTokenIdsForQuery(std::string query) const;
 	virtual Id getTokenIdForFileNode(const FilePath& filePath) const;
-	virtual std::vector<Id> getTokenIdsForAggregationEdge(Id aggregationId) const;
+	virtual std::vector<Id> getTokenIdsForAggregationEdge(Id sourceId, Id targetId) const;
 
 	virtual TokenLocationCollection getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const;
 	virtual TokenLocationCollection getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const;

@@ -8,7 +8,6 @@ class TestStorage
 {
 public:
 	void parseCxxCode(std::string code);
-	const Graph& getGraph() const;
 };
 
 #endif // TEST_STORAGE_H

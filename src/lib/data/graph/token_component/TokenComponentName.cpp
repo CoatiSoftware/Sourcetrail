@@ -52,6 +52,14 @@ TokenComponentNameCached::TokenComponentNameCached(const std::vector<std::string
 {
 }
 
+TokenComponentNameCached::TokenComponentNameCached(const NameHierarchy& nameHierarchy)
+{
+	for (size_t i = 0; i < nameHierarchy.size(); i++)
+	{
+		m_nameHierarchy.push_back(nameHierarchy[i]->getFullName());
+	}
+}
+
 TokenComponentNameCached::~TokenComponentNameCached()
 {
 }

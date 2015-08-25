@@ -2457,6 +2457,14 @@ private:
 	class TestParserClient: public ParserClient
 	{
 	public:
+		virtual void prepareParsingFile()
+		{
+		}
+
+		virtual void finishParsingFile()
+		{
+		}
+
 		virtual void onError(const ParseLocation& location, const std::string& message)
 		{
 			errors.push_back(addLocationSuffix(message, location));

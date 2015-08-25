@@ -50,6 +50,9 @@ public:
 	ParserClient();
 	virtual ~ParserClient();
 
+	virtual void prepareParsingFile() = 0;
+	virtual void finishParsingFile() = 0;
+
 	virtual void onError(const ParseLocation& location, const std::string& message) = 0;
 	virtual size_t getErrorCount() const = 0;
 

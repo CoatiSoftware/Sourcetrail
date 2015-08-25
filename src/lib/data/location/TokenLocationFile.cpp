@@ -48,6 +48,27 @@ TokenLocation* TokenLocationFile::addTokenLocation(
 	return start;
 }
 
+
+TokenLocation* TokenLocationFile::addTokenLocation(
+	Id locationId, Id tokenId,
+	unsigned int startLineNumber, unsigned int startColumnNumber,
+	unsigned int endLineNumber, unsigned int endColumnNumber)
+{
+	TokenLocationLine* line = createTokenLocationLine(startLineNumber);
+	TokenLocation* start = line->addStartTokenLocation(locationId, tokenId, startColumnNumber);
+
+	if (startLineNumber != endLineNumber)
+	{
+		line = createTokenLocationLine(endLineNumber);
+	}
+
+	line->addEndTokenLocation(start, endColumnNumber);
+
+	return start;
+}
+
+
+
 void TokenLocationFile::removeTokenLocation(TokenLocation* location)
 {
 	TokenLocationLine* line = location->getTokenLocationLine();

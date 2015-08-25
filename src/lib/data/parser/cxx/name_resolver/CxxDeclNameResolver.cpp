@@ -107,7 +107,7 @@ std::string CxxDeclNameResolver::getDeclName()
 			for (int i = 0; i < templateArgumentCount; i++)
 			{
 				const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
-				if (templateArgument.isDependent()) // TODO: fix case when arg depends on template parameter of outer template class.
+				if (templateArgument.isDependent()) // IMPORTANT_TODO: fix case when arg depends on template parameter of outer template class, or depends on first template parameter.
 				{
 					specializedParameterNamePart += getTemplateParameterString(parameterList->getParam(currentParameterIndex));
 					currentParameterIndex++;

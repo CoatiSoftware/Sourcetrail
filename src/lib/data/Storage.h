@@ -7,12 +7,12 @@
 #include "utility/file/FilePath.h"
 
 #include "data/access/StorageAccess.h"
-#include "data/graph/StorageGraph.h"
-#include "data/graph/token_component/TokenComponentAbstraction.h"
-#include "data/graph/token_component/TokenComponentAccess.h"
+//#include "data/graph/token_component/TokenComponentAbstraction.h"
+//#include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/parser/ParserClient.h"
 #include "data/search/SearchIndex.h"
+#include "data/SqliteStorage.h"
 
 class Storage
 	: public ParserClient
@@ -32,6 +32,9 @@ public:
 	void logStats() const;
 
 	// ParserClient implementation
+	virtual void prepareParsingFile();
+	virtual void finishParsingFile();
+
 	virtual void onError(const ParseLocation& location, const std::string& message);
 	virtual size_t getErrorCount() const;
 
@@ -63,17 +66,14 @@ public:
 	virtual Id onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy);
 
 	virtual Id onInheritanceParsed(
-		const ParseLocation& location, const NameHierarchy& nameHierarchy,
-		const NameHierarchy& baseNameHierarchy, AccessType access);
+		const ParseLocation& location, const NameHierarchy& childNameHierarchy,
+		const NameHierarchy& parentNameHierarchy, AccessType access);
 	virtual Id onMethodOverrideParsed(
 		const ParseLocation& location, const ParseFunction& base, const ParseFunction& overrider);
 	virtual Id onCallParsed(
 		const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee);
 	virtual Id onCallParsed(
 		const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee);
-	Id onVariableUsageParsed(
-		const std::string kind, const ParseLocation& location, const ParseFunction& user,
-		const NameHierarchy& usedNameHierarchy); // helper
 	virtual Id onFieldUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy);
 	virtual Id onGlobalVariableUsageParsed(
@@ -84,14 +84,14 @@ public:
 		const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy);
 	virtual Id onEnumConstantUsageParsed(
 		const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy);
-	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function);
-	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseVariable& variable);
+	virtual Id onTypeUsageParsed(const ParseTypeUsage& typeUsage, const ParseFunction& function);
+	virtual Id onTypeUsageParsed(const ParseTypeUsage& typeUsage, const ParseVariable& variable);
 
 	virtual Id onTemplateArgumentTypeParsed(
 		const ParseLocation& location, const NameHierarchy& argumentNameHierarchy,
 		const NameHierarchy& templateNameHierarchy);
 	virtual Id onTemplateDefaultArgumentTypeParsed(
-		const ParseTypeUsage& type,	const NameHierarchy& templateArgumentTypeNameHierarchy);
+		const ParseTypeUsage& defaultArgumentTypeUsage,	const NameHierarchy& templateArgumentTypeNameHierarchy);
 	virtual Id onTemplateRecordParameterTypeParsed(
 		const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy,
 		const NameHierarchy& templateRecordNameHierarchy);
@@ -111,8 +111,8 @@ public:
 	virtual Id getIdForNodeWithName(const std::string& fullName) const;
 	virtual Id getIdForEdgeWithName(const std::string& name) const;
 
-	virtual std::string getNameForNodeWithId(Id id) const;
-	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const;
+	virtual std::string getNameForNodeWithId(Id nodeId) const;
+	virtual Node::NodeType getNodeTypeForNodeWithId(Id nodeId) const;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(
 		const std::string& query, const std::string& word) const;
 
@@ -123,7 +123,7 @@ public:
 
 	virtual std::vector<Id> getTokenIdsForQuery(std::string query) const;
 	virtual Id getTokenIdForFileNode(const FilePath& filePath) const;
-	virtual std::vector<Id> getTokenIdsForAggregationEdge(Id aggregationId) const;
+	virtual std::vector<Id> getTokenIdsForAggregationEdge(Id sourceId, Id targetId) const;
 
 	virtual TokenLocationCollection getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const;
 	virtual TokenLocationCollection getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const;
@@ -136,42 +136,26 @@ public:
 
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationOfParentScope(const TokenLocation* child) const;
 
-protected:
-	const Graph& getGraph() const;
-	const TokenLocationCollection& getTokenLocationCollection() const;
 	const SearchIndex& getSearchIndex() const;
 
 private:
-	Node* addNodeHierarchy(Node::NodeType type, NameHierarchy nameHierarchy);
-	Node* addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function);
+	Id addNodeHierarchy(Node::NodeType type, NameHierarchy nameHierarchy);
+	Id addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function);
+	Id addNameHierarchyElements(NameHierarchy nameHierarchy);
+	int addSourceLocation(int elementNodeId, const ParseLocation& location, bool isScope = false);
+	Id addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type, ParseLocation location);
 
-	Node* addFileNode(const FilePath& filePath);
-	Node* findFileNode(const FilePath& filePath) const;
+	Id getLastParentNodeId(const Id nodeId) const;
+	std::vector<Id> getDirectChildNodeIds(const Id nodeId) const;
+	std::vector<Id> getAllChildNodeIds(const Id nodeId) const;
 
-	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;
-	TokenComponentAccess* addAccess(Node* node, ParserClient::AccessType access);
-
-	TokenComponentAbstraction::AbstractionType convertAbstractionType(ParserClient::AbstractionType abstraction) const;
-	TokenComponentAbstraction* addAbstraction(Node* node, ParserClient::AbstractionType abstraction);
-
-	Node* addFunctionNode(
-		Node::NodeType nodeType, const ParseFunction& function,
-		const ParseLocation& location, const ParseLocation& scopeLocation);
-	Edge* addTypeEdge(Node* node, Edge::EdgeType edgeType, const ParseTypeUsage& typeUsage);
-	TokenLocation* addTokenLocation(Token* token, const ParseLocation& location, bool isScope = false);
-
-	bool getQuerySearchResults(const std::string& query, const std::string& word, SearchResults* results) const;
-
-	void addDependingFilePathsAndRemoveFileNodesRecursive(Node* fileNode, std::set<FilePath>* filePaths);
-	void removeNodeIfUnreferenced(Node* node);
-
-	void log(std::string type, std::string str, const ParseLocation& location) const;
-
-	StorageGraph m_graph;
-	TokenLocationCollection m_locationCollection;
+	void addEdgeAndAllChildrenToGraph(const Id edgeId, std::shared_ptr<Graph> graph) const;
+	void addNodeAndAllChildrenToGraph(const Id nodeId, std::shared_ptr<Graph> graph) const;
+	void addAggregationEdgesToGraph(const Id nodeId, std::shared_ptr<Graph> graph) const;
+	Node* createNodeForNodeId(const Id nodeId) const;
 
 	SearchIndex m_tokenIndex;
-	SearchIndex m_filterIndex;
+	SqliteStorage m_sqliteStorage;
 
 	TokenLocationCollection m_errorLocationCollection;
 	std::vector<std::string> m_errorMessages;

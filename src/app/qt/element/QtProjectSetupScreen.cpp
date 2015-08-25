@@ -78,7 +78,7 @@ void QtProjectSetupScreen::setup()
 	scrollArea->setWidgetResizable(true);
 	QFormLayout *layout = new QFormLayout();
 	layout->setContentsMargins(20,30,20,20);
-	
+
 	//Background Image
 	QPalette p = palette();
 	QPixmap pixmap1("data/gui/startscreen/logo.png");
@@ -165,7 +165,7 @@ void QtProjectSetupScreen::handleCreateButtonPress()
 	}
 
 	if(!error)
-	{	
+	{
 		ProjectSettings::getInstance()->setSourcePaths(m_sourcePaths->getList());
 		ProjectSettings::getInstance()->setHeaderSearchPaths(m_includePaths->getList());
 		if(m_frameworkPaths)

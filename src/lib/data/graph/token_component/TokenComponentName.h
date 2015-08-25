@@ -4,6 +4,7 @@
 #include <string>
 
 #include "data/graph/token_component/TokenComponent.h"
+#include "data/name/NameHierarchy.h"
 #include "data/search/SearchNode.h"
 
 class TokenComponentName
@@ -46,6 +47,7 @@ class TokenComponentNameCached
 {
 public:
 	TokenComponentNameCached(const std::vector<std::string>& nameHierarchy);
+	TokenComponentNameCached(const NameHierarchy& nameHierarchy);
 	virtual ~TokenComponentNameCached();
 
 	virtual std::shared_ptr<TokenComponent> copy() const;
@@ -56,7 +58,7 @@ public:
 	virtual const SearchNode* getSearchNode() const;
 
 private:
-	const std::vector<std::string> m_nameHierarchy;
+	std::vector<std::string> m_nameHierarchy; // TODO: use const NameHierarchy here
 };
 
 #endif // TOKEN_COMPONENT_NAME_H

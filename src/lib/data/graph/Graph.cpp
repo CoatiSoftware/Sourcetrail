@@ -12,7 +12,7 @@ Graph::~Graph()
 	m_nodes.clear();
 }
 
-void Graph::copy(const FilterableGraph* other)
+void Graph::copy(const Graph* other)
 {
 	clear();
 	add(other);
@@ -24,7 +24,7 @@ void Graph::clear()
 	m_nodes.clear();
 }
 
-void Graph::add(const FilterableGraph* other)
+void Graph::add(const Graph* other)
 {
 	other->forEachNode(std::bind(&Graph::addNode, this, std::placeholders::_1));
 	other->forEachEdge(std::bind(&Graph::addEdge, this, std::placeholders::_1));
@@ -280,6 +280,62 @@ Edge* Graph::addEdgeAndAllChildrenAsPlainCopy(Edge* edge)
 	addNodeAndAllChildrenAsPlainCopy(edge->getTo()->getLastParentNode());
 
 	return addEdgeAsPlainCopy(edge);
+}
+
+size_t Graph::size() const
+{
+	return getNodeCount() + getEdgeCount();
+}
+
+Token* Graph::getTokenById(Id id) const
+{
+	Token* token = getNodeById(id);
+	if (!token)
+	{
+		token = getEdgeById(id);
+	}
+	return token;
+}
+
+void Graph::print(std::ostream& ostream) const
+{
+	ostream << "Graph:\n";
+	ostream << "nodes (" << getNodeCount() << ")\n";
+	forEachNode(
+		[&ostream](Node* n)
+		{
+			ostream << *n << '\n';
+		}
+	);
+
+	ostream << "edges (" << getEdgeCount() << ")\n";
+	forEachEdge(
+		[&ostream](Edge* e)
+		{
+			ostream << *e << '\n';
+		}
+	);
+}
+
+void Graph::printBasic(std::ostream& ostream) const
+{
+	ostream << getNodeCount() << " nodes:";
+	forEachNode(
+		[&ostream](Node* n)
+		{
+			ostream << ' ' << n->getTypeString() << ':' << n->getFullName();
+		}
+	);
+	ostream << '\n';
+
+	ostream << getEdgeCount() << " edges:";
+	forEachEdge(
+		[&ostream](Edge* e)
+		{
+			ostream << ' ' << e->getName();
+		}
+	);
+	ostream << '\n';
 }
 
 void Graph::removeEdgeInternal(Edge* edge)

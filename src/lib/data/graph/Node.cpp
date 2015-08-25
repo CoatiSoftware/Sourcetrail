@@ -18,6 +18,13 @@ Node::Node(NodeType type, std::shared_ptr<TokenComponentName> nameComponent)
 {
 }
 
+Node::Node(Id id, NodeType type, std::shared_ptr<TokenComponentName> nameComponent)
+	: Token(id)
+	, m_type(type)
+	, m_nameComponent(nameComponent)
+{
+}
+
 Node::Node(const Node& other)
 	: Token(other)
 	, m_type(other.m_type)
@@ -369,6 +376,51 @@ std::string Node::getTypeString(NodeType type)
 		return "file";
 	}
 	return "";
+}
+
+int Node::typeToInt(NodeType type)
+{
+	return type;
+}
+
+Node::NodeType Node::intToType(int value)
+{
+	switch (value)
+	{
+	case 0x1:
+		return NODE_UNDEFINED;
+	case 0x2:
+		return NODE_UNDEFINED_TYPE;
+	case 0x4:
+		return NODE_UNDEFINED_VARIABLE;
+	case 0x8:
+		return NODE_UNDEFINED_FUNCTION;
+	case 0x10:
+		return NODE_STRUCT;
+	case 0x20:
+		return NODE_CLASS;
+	case 0x40:
+		return NODE_GLOBAL_VARIABLE;
+	case 0x80:
+		return NODE_FIELD;
+	case 0x100:
+		return NODE_FUNCTION;
+	case 0x200:
+		return NODE_METHOD;
+	case 0x400:
+		return NODE_NAMESPACE;
+	case 0x800:
+		return NODE_ENUM;
+	case 0x1000:
+		return NODE_ENUM_CONSTANT;
+	case 0x2000:
+		return NODE_TYPEDEF;
+	case 0x4000:
+		return NODE_TEMPLATE_PARAMETER_TYPE;
+	case 0x8000:
+		return NODE_FILE;
+	}
+	return NODE_UNDEFINED;
 }
 
 std::string Node::getTypeString() const

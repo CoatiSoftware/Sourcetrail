@@ -32,6 +32,7 @@ public:
 
 	TokenLocation* addStartTokenLocation(Id tokenId, unsigned int columnNumber);
 	TokenLocation* addEndTokenLocation(TokenLocation* start, unsigned int columnNumber);
+	TokenLocation* addStartTokenLocation(Id locationId, Id tokenId, unsigned int columnNumber);
 	void removeTokenLocation(TokenLocation* location);
 
 	TokenLocation* getTokenLocationById(Id id) const;
