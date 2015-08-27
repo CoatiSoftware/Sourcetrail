@@ -12,22 +12,10 @@ Graph::~Graph()
 	m_nodes.clear();
 }
 
-void Graph::copy(const Graph* other)
-{
-	clear();
-	add(other);
-}
-
 void Graph::clear()
 {
 	m_edges.clear();
 	m_nodes.clear();
-}
-
-void Graph::add(const Graph* other)
-{
-	other->forEachNode(std::bind(&Graph::addNode, this, std::placeholders::_1));
-	other->forEachEdge(std::bind(&Graph::addEdge, this, std::placeholders::_1));
 }
 
 void Graph::forEachNode(std::function<void(Node*)> func) const
@@ -52,17 +40,36 @@ void Graph::forEachToken(std::function<void(Token*)> func) const
 	forEachEdge(func);
 }
 
-void Graph::addNode(Node* node)
+Node* Graph::addNode(Id id, Node::NodeType type, std::shared_ptr<TokenComponentName> nameComponent)
 {
-	addNodeAsPlainCopy(node);
+	Node* n = getNodeById(id);
+	if (n)
+	{
+		return n;
+	}
+
+	std::shared_ptr<Node> node = std::make_shared<Node>(id, type, nameComponent);
+	m_nodes.emplace(node->getId(), node);
+	return node.get();
 }
 
-void Graph::addEdge(Edge* edge)
+Edge* Graph::addEdge(Id id, Edge::EdgeType type, Node* from, Node* to)
 {
-	if (getNodeById(edge->getFrom()->getId()) && getNodeById(edge->getTo()->getId()))
+	Edge* e = getEdgeById(id);
+	if (e)
 	{
-		addEdgeAsPlainCopy(edge);
+		return e;
 	}
+
+	if (!getNodeById(from->getId()) || !getNodeById(to->getId()))
+	{
+		LOG_ERROR("Can't add edge, without adding the nodes first.");
+		return nullptr;
+	}
+
+	std::shared_ptr<Edge> edge = std::make_shared<Edge>(id, type, from, to);
+	m_edges.emplace(edge->getId(), edge);
+	return edge.get();
 }
 
 size_t Graph::getNodeCount() const

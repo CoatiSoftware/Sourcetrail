@@ -88,8 +88,6 @@ void Project::clearStorage()
 {
 	m_storage = std::make_shared<Storage>();
 	m_storageAccessProxy->setSubject(m_storage.get());
-
-	Token::resetNextId();
 }
 
 void Project::parseCode()

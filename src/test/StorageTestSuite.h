@@ -197,7 +197,7 @@ public:
 	void test_storage_saves_method_as_member()
 	{
 		TestStorage storage;
-		Id id = storage.onMethodParsed(
+		storage.onMethodParsed(
 			validLocation(1),
 			ParseFunction(typeUsage("void"), createNameHierarchy("Class::isMethod"), parameters("bool")),
 			ParserClient::ACCESS_PROTECTED,
@@ -247,8 +247,8 @@ public:
 	void test_storage_saves_enum_as_member()
 	{
 		TestStorage storage;
-		Id id =
-			storage.onEnumParsed(validLocation(1), createNameHierarchy("Class::Category"),
+		storage.onEnumParsed(
+			validLocation(1), createNameHierarchy("Class::Category"),
 			ParserClient::ACCESS_PRIVATE, validLocation(2)
 		);
 
@@ -319,7 +319,7 @@ public:
 		storage.onMethodParsed(validLocation(9), a, ParserClient::ACCESS_PRIVATE, ParserClient::ABSTRACTION_VIRTUAL, validLocation(4));
 		storage.onMethodParsed(validLocation(7), b, ParserClient::ACCESS_PRIVATE, ParserClient::ABSTRACTION_NONE, validLocation(3));
 
-		Id id = storage.onMethodOverrideParsed(validLocation(4), a, b);
+		storage.onMethodOverrideParsed(validLocation(4), a, b);
 
 		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_OVERRIDE) + ":A::isMethod->B::isMethod") != 0);
 	}

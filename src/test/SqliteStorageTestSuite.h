@@ -87,7 +87,6 @@ public:
 			SqliteStorage storage(databasePath);
 			storage.beginTransaction();
 			int parentId = storage.addNameHierarchyElement("a");
-			int childId = storage.addNameHierarchyElement("b", parentId);
 			storage.removeNameHierarchyElement(parentId);
 			storage.commitTransaction();
 			elementCount = storage.getNameHierarchyElementCount();

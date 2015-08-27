@@ -8,17 +8,6 @@
 class GraphTestSuite : public CxxTest::TestSuite
 {
 public:
-	void test_tokens_get_unique_id()
-	{
-		TestToken a;
-		TestToken b;
-		TestToken c;
-
-		TS_ASSERT_DIFFERS(a.getId(), c.getId());
-		TS_ASSERT_DIFFERS(a.getId(), b.getId());
-		TS_ASSERT_DIFFERS(b.getId(), c.getId());
-	}
-
 	void test_tokens_save_location_ids()
 	{
 		TestToken a;
@@ -104,7 +93,7 @@ public:
 
 	void test_nodes_are_nodes()
 	{
-		Node a(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node a(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
 
 		TS_ASSERT(a.isNode());
 		TS_ASSERT(!a.isEdge());
@@ -112,9 +101,9 @@ public:
 
 	void test_edges_are_edges()
 	{
-		Node a(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
-		Node b(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
-		Edge e(Edge::EDGE_TYPE_OF, &a, &b);
+		Node a(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node b(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
+		Edge e(3, Edge::EDGE_TYPE_OF, &a, &b);
 
 		TS_ASSERT(!e.isNode());
 		TS_ASSERT(e.isEdge());
@@ -122,27 +111,27 @@ public:
 
 	void test_set_type_of_node_from_constructor()
 	{
-		Node n(Node::NODE_FUNCTION, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node n(1, Node::NODE_FUNCTION, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
 		TS_ASSERT_EQUALS(Node::NODE_FUNCTION, n.getType());
 	}
 
 	void test_set_type_of_node_from_undefined()
 	{
-		Node n(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node n(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
 		n.setType(Node::NODE_CLASS);
 		TS_ASSERT_EQUALS(Node::NODE_CLASS, n.getType());
 	}
 
 	void test_can_not_change_type_of_node_after_it_was_set()
 	{
-		Node n(Node::NODE_NAMESPACE, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node n(3, Node::NODE_NAMESPACE, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
 		n.setType(Node::NODE_CLASS);
 		TS_ASSERT_DIFFERS(Node::NODE_CLASS, n.getType());
 	}
 
 	void test_node_can_be_copied_and_keeps_same_id()
 	{
-		Node n(Node::NODE_NAMESPACE, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node n(4, Node::NODE_NAMESPACE, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
 		Node n2(n);
 
 		TS_ASSERT_DIFFERS(&n, &n2);
@@ -153,25 +142,25 @@ public:
 
 	void test_node_type_bit_masking()
 	{
-		Node n(Node::NODE_NAMESPACE, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node n(1, Node::NODE_NAMESPACE, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
 		TS_ASSERT(n.isType(Node::NODE_FUNCTION | Node::NODE_NAMESPACE | Node::NODE_CLASS));
 		TS_ASSERT(!n.isType(Node::NODE_FUNCTION | Node::NODE_METHOD | Node::NODE_CLASS));
 	}
 
 	void test_get_type_of_edges()
 	{
-		Node a(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
-		Node b(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
-		Edge e(Edge::EDGE_TYPE_OF, &a, &b);
+		Node a(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node b(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
+		Edge e(3, Edge::EDGE_TYPE_OF, &a, &b);
 
 		TS_ASSERT_EQUALS(Edge::EDGE_TYPE_OF, e.getType());
 	}
 
 	void test_edge_can_be_copied_and_keeps_same_id()
 	{
-		Node a(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
-		Node b(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
-		Edge e(Edge::EDGE_TYPE_OF, &a, &b);
+		Node a(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node b(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
+		Edge e(3, Edge::EDGE_TYPE_OF, &a, &b);
 		Edge e2(e, &a, &b);
 
 		TS_ASSERT_DIFFERS(&e, &e2);
@@ -181,9 +170,9 @@ public:
 
 	void test_edge_type_bit_masking()
 	{
-		Node a(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
-		Node b(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
-		Edge e(Edge::EDGE_TYPE_OF, &a, &b);
+		Node a(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node b(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
+		Edge e(3, Edge::EDGE_TYPE_OF, &a, &b);
 
 		TS_ASSERT(e.isType(Edge::EDGE_MEMBER | Edge::EDGE_CALL | Edge::EDGE_TYPE_OF));
 		TS_ASSERT(!e.isType(Edge::EDGE_USAGE | Edge::EDGE_MEMBER | Edge::EDGE_CALL));
@@ -191,11 +180,11 @@ public:
 
 	void test_node_finds_child_node()
 	{
-		Node a(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
-		Node b(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
-		Node c(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("C", "::")));
-		Edge e(Edge::EDGE_MEMBER, &a, &b);
-		Edge e2(Edge::EDGE_MEMBER, &a, &c);
+		Node a(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node b(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
+		Node c(3, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("C", "::")));
+		Edge e(4, Edge::EDGE_MEMBER, &a, &b);
+		Edge e2(5, Edge::EDGE_MEMBER, &a, &c);
 
 		Node* x = a.findChildNode(
 			[](Node* n)
@@ -210,11 +199,11 @@ public:
 
 	void test_node_can_not_find_child_node()
 	{
-		Node a(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
-		Node b(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
-		Node c(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("C", "::")));
-		Edge e(Edge::EDGE_MEMBER, &a, &b);
-		Edge e2(Edge::EDGE_MEMBER, &a, &c);
+		Node a(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node b(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
+		Node c(3, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("C", "::")));
+		Edge e(4, Edge::EDGE_MEMBER, &a, &b);
+		Edge e2(5, Edge::EDGE_MEMBER, &a, &c);
 
 		Node* x = a.findChildNode(
 			[](Node* n)
@@ -228,11 +217,11 @@ public:
 
 	void test_node_visits_child_nodes()
 	{
-		Node a(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
-		Node b(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
-		Node c(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("C", "::")));
-		Edge e(Edge::EDGE_MEMBER, &a, &b);
-		Edge e2(Edge::EDGE_MEMBER, &a, &c);
+		Node a(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node b(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
+		Node c(3, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("C", "::")));
+		Edge e(4, Edge::EDGE_MEMBER, &a, &b);
+		Edge e2(5, Edge::EDGE_MEMBER, &a, &c);
 
 		std::vector<Node*> children;
 		a.forEachChildNode(
@@ -249,13 +238,13 @@ public:
 
 	void test_node_has_references()
 	{
-		Node a(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
-		Node b(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
-		Node c(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("C", "::")));
-		Node d(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("D", "::")));
-		Edge e(Edge::EDGE_MEMBER, &a, &b);
-		Edge e2(Edge::EDGE_MEMBER, &a, &c);
-		Edge e3(Edge::EDGE_USAGE, &c, &d);
+		Node a(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node b(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
+		Node c(3, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("C", "::")));
+		Node d(4, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("D", "::")));
+		Edge e(5, Edge::EDGE_MEMBER, &a, &b);
+		Edge e2(6, Edge::EDGE_MEMBER, &a, &c);
+		Edge e3(7, Edge::EDGE_USAGE, &c, &d);
 
 		TS_ASSERT(a.hasReferences());
 		TS_ASSERT(!b.hasReferences());
@@ -265,20 +254,17 @@ public:
 	void test_graph_saves_nodes()
 	{
 		Graph graph;
-		Node a(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
-		Node b(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
-
-		graph.addNode(&a);
-		graph.addNode(&b);
+		Node* a = graph.addNode(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node* b = graph.addNode(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
 
 		TS_ASSERT_EQUALS(2, graph.getNodeCount());
 		TS_ASSERT_EQUALS(0, graph.getEdgeCount());
 
-		TS_ASSERT(graph.getNodeById(a.getId()));
-		TS_ASSERT_EQUALS("A", graph.getNodeById(a.getId())->getName());
+		TS_ASSERT(graph.getNodeById(a->getId()));
+		TS_ASSERT_EQUALS("A", graph.getNodeById(a->getId())->getName());
 
-		TS_ASSERT(graph.getNodeById(b.getId()));
-		TS_ASSERT_EQUALS("B", graph.getNodeById(b.getId())->getName());
+		TS_ASSERT(graph.getNodeById(b->getId()));
+		TS_ASSERT_EQUALS("B", graph.getNodeById(b->getId())->getName());
 
 		TS_ASSERT(!graph.getNodeById(0));
 	}
@@ -287,43 +273,29 @@ public:
 	{
 		Graph graph;
 
-		Node a(Node::NODE_FUNCTION, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
-		Node b(Node::NODE_FUNCTION, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
+		Node* a = graph.addNode(1, Node::NODE_FUNCTION, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node* b = graph.addNode(2, Node::NODE_FUNCTION, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
 
-		Edge e(Edge::EDGE_CALL, &a, &b);
-
-		graph.addEdge(&e);
-
-		TS_ASSERT_EQUALS(0, graph.getNodeCount());
-		TS_ASSERT_EQUALS(0, graph.getEdgeCount());
-
-		TS_ASSERT(!graph.getEdgeById(e.getId()));
-
-		graph.addNode(&a);
-		graph.addNode(&b);
-
-		graph.addEdge(&e);
+		Edge* e = graph.addEdge(3, Edge::EDGE_CALL, a, b);
 
 		TS_ASSERT_EQUALS(2, graph.getNodeCount());
 		TS_ASSERT_EQUALS(1, graph.getEdgeCount());
 
-		TS_ASSERT(graph.getEdgeById(e.getId()));
-		TS_ASSERT_EQUALS(Edge::EDGE_CALL, graph.getEdgeById(e.getId())->getType());
+		TS_ASSERT(graph.getEdgeById(e->getId()));
+		TS_ASSERT_EQUALS(Edge::EDGE_CALL, graph.getEdgeById(e->getId())->getType());
 	}
 
 	void test_graph_removes_nodes()
 	{
 		Graph graph;
-		Node a(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
-		Node b(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
 
-		graph.addNode(&a);
-		graph.addNode(&b);
+		Node* a = graph.addNode(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		graph.addNode(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
 
 		TS_ASSERT_EQUALS(2, graph.getNodeCount());
 		TS_ASSERT_EQUALS(0, graph.getEdgeCount());
 
-		graph.removeNode(graph.getNodeById(a.getId()));
+		graph.removeNode(graph.getNodeById(a->getId()));
 
 		TS_ASSERT_EQUALS(1, graph.getNodeCount());
 	}
@@ -331,33 +303,23 @@ public:
 	void test_graph_removes_unreferenced_nodes()
 	{
 		Graph graph;
-		Node a(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
-		Node b(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
-		Node c(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("C", "::")));
-		Node d(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("D", "::")));
-		Node e(Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("E", "::")));
 
-		Edge e1(Edge::EDGE_MEMBER, &a, &b);
-		Edge e2(Edge::EDGE_MEMBER, &a, &c);
-		Edge e3(Edge::EDGE_USAGE, &c, &d);
-		Edge e4(Edge::EDGE_MEMBER, &b, &e);
+		Node* a = graph.addNode(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node* b = graph.addNode(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
+		Node* c = graph.addNode(3, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("C", "::")));
+		Node* d = graph.addNode(4, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("D", "::")));
+		Node* e = graph.addNode(5, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("E", "::")));
 
-		graph.addNode(&a);
-		graph.addNode(&b);
-		graph.addNode(&c);
-		graph.addNode(&d);
-		graph.addNode(&e);
-
-		graph.addEdge(&e1);
-		graph.addEdge(&e2);
-		graph.addEdge(&e3);
-		graph.addEdge(&e4);
+		graph.addEdge(6, Edge::EDGE_MEMBER, a, b);
+		graph.addEdge(7, Edge::EDGE_MEMBER, a, c);
+		graph.addEdge(8, Edge::EDGE_USAGE, c, d);
+		graph.addEdge(9, Edge::EDGE_MEMBER, b, e);
 
 		TS_ASSERT_EQUALS(5, graph.getNodeCount());
 		TS_ASSERT_EQUALS(4, graph.getEdgeCount());
 
-		TS_ASSERT(!graph.removeNodeIfUnreferencedRecursive(graph.getNodeById(a.getId())));
-		TS_ASSERT(graph.removeNodeIfUnreferencedRecursive(graph.getNodeById(b.getId())));
+		TS_ASSERT(!graph.removeNodeIfUnreferencedRecursive(graph.getNodeById(a->getId())));
+		TS_ASSERT(graph.removeNodeIfUnreferencedRecursive(graph.getNodeById(b->getId())));
 
 		TS_ASSERT_EQUALS(3, graph.getNodeCount());
 		TS_ASSERT_EQUALS(2, graph.getEdgeCount());
@@ -368,6 +330,7 @@ private:
 	{
 	public:
 		TestToken()
+			:Token(0)
 		{
 		}
 

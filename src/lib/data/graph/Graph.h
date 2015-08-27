@@ -14,24 +14,20 @@ public:
 	Graph();
 	virtual ~Graph();
 
-	// FilterableGraph implementation // deprecated
-	virtual void copy(const Graph* other);
-	virtual void clear();
+	void clear();
 
-	virtual void add(const Graph* other);
+	void forEachNode(std::function<void(Node*)> func) const;
+	void forEachEdge(std::function<void(Edge*)> func) const;
+	void forEachToken(std::function<void(Token*)> func) const;
 
-	virtual void forEachNode(std::function<void(Node*)> func) const;
-	virtual void forEachEdge(std::function<void(Edge*)> func) const;
-	virtual void forEachToken(std::function<void(Token*)> func) const;
+	Node* addNode(Id id, Node::NodeType type, std::shared_ptr<TokenComponentName> nameComponent);
+	Edge* addEdge(Id id, Edge::EdgeType type, Node* from, Node* to);
 
-	virtual void addNode(Node* node);
-	virtual void addEdge(Edge* edge);
+	size_t getNodeCount() const;
+	size_t getEdgeCount() const;
 
-	virtual size_t getNodeCount() const;
-	virtual size_t getEdgeCount() const;
-
-	virtual Node* getNodeById(Id id) const;
-	virtual Edge* getEdgeById(Id id) const;
+	Node* getNodeById(Id id) const;
+	Edge* getEdgeById(Id id) const;
 
 	const std::map<Id, std::shared_ptr<Node>>& getNodes() const;
 	const std::map<Id, std::shared_ptr<Edge>>& getEdges() const;
@@ -57,15 +53,14 @@ public:
 	void print(std::ostream& ostream) const;
 	void printBasic(std::ostream& ostream) const;
 
-protected:
-	std::map<Id, std::shared_ptr<Node>> m_nodes;
-	std::map<Id, std::shared_ptr<Edge>> m_edges;
-
 private:
 	Graph(const Graph&);
 	void operator=(const Graph&);
 
 	void removeEdgeInternal(Edge* edge);
+
+	std::map<Id, std::shared_ptr<Node>> m_nodes;
+	std::map<Id, std::shared_ptr<Edge>> m_edges;
 };
 
 std::ostream& operator<<(std::ostream& ostream, const Graph& graph);

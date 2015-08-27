@@ -2,7 +2,6 @@
 
 #include <sstream>
 
-#include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 
 #include "data/graph/token_component/TokenComponentAbstraction.h"
@@ -12,10 +11,89 @@
 #include "data/graph/token_component/TokenComponentSignature.h"
 #include "data/graph/token_component/TokenComponentFilePath.h"
 
-Node::Node(NodeType type, std::shared_ptr<TokenComponentName> nameComponent)
-	: m_type(type)
-	, m_nameComponent(nameComponent)
+std::string Node::getTypeString(NodeType type)
 {
+	switch (type)
+	{
+	case NODE_UNDEFINED:
+		return "undefined";
+	case NODE_UNDEFINED_FUNCTION:
+		return "undefined_function";
+	case NODE_UNDEFINED_VARIABLE:
+		return "undefined_variable";
+	case NODE_UNDEFINED_TYPE:
+		return "undefined_type";
+	case NODE_CLASS:
+		return "class";
+	case NODE_STRUCT:
+		return "struct";
+	case NODE_GLOBAL_VARIABLE:
+		return "global";
+	case NODE_FIELD:
+		return "field";
+	case NODE_FUNCTION:
+		return "function";
+	case NODE_METHOD:
+		return "method";
+	case NODE_NAMESPACE:
+		return "namespace";
+	case NODE_ENUM:
+		return "enum";
+	case NODE_ENUM_CONSTANT:
+		return "enum_constant";
+	case NODE_TYPEDEF:
+		return "typedef";
+	case NODE_TEMPLATE_PARAMETER_TYPE:
+		return "template_parameter_type";
+	case NODE_FILE:
+		return "file";
+	}
+	return "";
+}
+
+int Node::typeToInt(NodeType type)
+{
+	return type;
+}
+
+Node::NodeType Node::intToType(int value)
+{
+	switch (value)
+	{
+	case 0x1:
+		return NODE_UNDEFINED;
+	case 0x2:
+		return NODE_UNDEFINED_TYPE;
+	case 0x4:
+		return NODE_UNDEFINED_VARIABLE;
+	case 0x8:
+		return NODE_UNDEFINED_FUNCTION;
+	case 0x10:
+		return NODE_STRUCT;
+	case 0x20:
+		return NODE_CLASS;
+	case 0x40:
+		return NODE_GLOBAL_VARIABLE;
+	case 0x80:
+		return NODE_FIELD;
+	case 0x100:
+		return NODE_FUNCTION;
+	case 0x200:
+		return NODE_METHOD;
+	case 0x400:
+		return NODE_NAMESPACE;
+	case 0x800:
+		return NODE_ENUM;
+	case 0x1000:
+		return NODE_ENUM_CONSTANT;
+	case 0x2000:
+		return NODE_TYPEDEF;
+	case 0x4000:
+		return NODE_TEMPLATE_PARAMETER_TYPE;
+	case 0x8000:
+		return NODE_FILE;
+	}
+	return NODE_UNDEFINED;
 }
 
 Node::Node(Id id, NodeType type, std::shared_ptr<TokenComponentName> nameComponent)
@@ -336,91 +414,6 @@ void Node::addComponentFilePath(std::shared_ptr<TokenComponentFilePath> componen
 	{
 		addComponent(component);
 	}
-}
-
-std::string Node::getTypeString(NodeType type)
-{
-	switch (type)
-	{
-	case NODE_UNDEFINED:
-		return "undefined";
-	case NODE_UNDEFINED_FUNCTION:
-		return "undefined_function";
-	case NODE_UNDEFINED_VARIABLE:
-		return "undefined_variable";
-	case NODE_UNDEFINED_TYPE:
-		return "undefined_type";
-	case NODE_CLASS:
-		return "class";
-	case NODE_STRUCT:
-		return "struct";
-	case NODE_GLOBAL_VARIABLE:
-		return "global";
-	case NODE_FIELD:
-		return "field";
-	case NODE_FUNCTION:
-		return "function";
-	case NODE_METHOD:
-		return "method";
-	case NODE_NAMESPACE:
-		return "namespace";
-	case NODE_ENUM:
-		return "enum";
-	case NODE_ENUM_CONSTANT:
-		return "enum_constant";
-	case NODE_TYPEDEF:
-		return "typedef";
-	case NODE_TEMPLATE_PARAMETER_TYPE:
-		return "template_parameter_type";
-	case NODE_FILE:
-		return "file";
-	}
-	return "";
-}
-
-int Node::typeToInt(NodeType type)
-{
-	return type;
-}
-
-Node::NodeType Node::intToType(int value)
-{
-	switch (value)
-	{
-	case 0x1:
-		return NODE_UNDEFINED;
-	case 0x2:
-		return NODE_UNDEFINED_TYPE;
-	case 0x4:
-		return NODE_UNDEFINED_VARIABLE;
-	case 0x8:
-		return NODE_UNDEFINED_FUNCTION;
-	case 0x10:
-		return NODE_STRUCT;
-	case 0x20:
-		return NODE_CLASS;
-	case 0x40:
-		return NODE_GLOBAL_VARIABLE;
-	case 0x80:
-		return NODE_FIELD;
-	case 0x100:
-		return NODE_FUNCTION;
-	case 0x200:
-		return NODE_METHOD;
-	case 0x400:
-		return NODE_NAMESPACE;
-	case 0x800:
-		return NODE_ENUM;
-	case 0x1000:
-		return NODE_ENUM_CONSTANT;
-	case 0x2000:
-		return NODE_TYPEDEF;
-	case 0x4000:
-		return NODE_TEMPLATE_PARAMETER_TYPE;
-	case 0x8000:
-		return NODE_FILE;
-	}
-	return NODE_UNDEFINED;
 }
 
 std::string Node::getTypeString() const

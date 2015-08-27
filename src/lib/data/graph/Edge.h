@@ -11,12 +11,14 @@ class TokenComponentAggregation;
 class TokenComponentAccess;
 class TokenComponentDataType;
 
-class Edge: public Token
+class Edge
+	: public Token
 {
 public:
 	typedef int EdgeTypeMask;
 	enum EdgeType : EdgeTypeMask
 	{
+		EDGE_NONE							= 0x0,
 		EDGE_MEMBER							= 0x1,
 		EDGE_TYPE_OF						= 0x2,
 		EDGE_RETURN_TYPE_OF					= 0x4, // unused: see Storage::addFunctionNode()
@@ -36,10 +38,10 @@ public:
 
 		EDGE_AGGREGATION					= 0x8000
 	};
+
 	static int typeToInt(EdgeType type);
 	static EdgeType intToType(int value);
 
-	Edge(EdgeType type, Node* from, Node* to);
 	Edge(Id id, EdgeType type, Node* from, Node* to);
 	Edge(const Edge& other, Node* from, Node* to);
 	virtual ~Edge();

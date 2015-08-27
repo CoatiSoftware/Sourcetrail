@@ -3,16 +3,6 @@
 #include "data/location/TokenLocation.h"
 #include "utility/logging/logging.h"
 
-void Token::resetNextId()
-{
-	s_nextId = 1;
-}
-
-Token::Token()	// TODO: remove this constructor
-	: m_id(s_nextId++)
-{
-}
-
 Token::Token(Id id)
 	: m_id(id)
 {
@@ -64,5 +54,3 @@ void Token::addComponent(std::shared_ptr<TokenComponent> component)
 {
 	m_components.push_back(component);
 }
-
-Id Token::s_nextId = 1;

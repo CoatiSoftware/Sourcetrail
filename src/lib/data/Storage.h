@@ -149,10 +149,10 @@ private:
 	std::vector<Id> getDirectChildNodeIds(const Id nodeId) const;
 	std::vector<Id> getAllChildNodeIds(const Id nodeId) const;
 
-	void addEdgeAndAllChildrenToGraph(const Id edgeId, std::shared_ptr<Graph> graph) const;
-	void addNodeAndAllChildrenToGraph(const Id nodeId, std::shared_ptr<Graph> graph) const;
-	void addAggregationEdgesToGraph(const Id nodeId, std::shared_ptr<Graph> graph) const;
-	Node* createNodeForNodeId(const Id nodeId) const;
+	void addEdgeAndAllChildrenToGraph(const Id edgeId, Graph* graph) const;
+	void addNodeAndAllChildrenToGraph(const Id nodeId, Graph* graph) const;
+	void addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const;
+	Node* addNodeToGraph(const Id nodeId, Graph* graph) const;
 
 	SearchIndex m_tokenIndex;
 	SqliteStorage m_sqliteStorage;

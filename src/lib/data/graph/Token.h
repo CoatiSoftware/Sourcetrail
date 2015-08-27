@@ -10,10 +10,7 @@
 class Token
 {
 public:
-	static void resetNextId();
-
-	Token();
-	Token(Id id);
+	explicit Token(Id id);
 	virtual ~Token();
 
 	Id getId() const;
@@ -42,8 +39,6 @@ protected:
 	void copyComponentsFrom(const Token& other);
 
 private:
-	static Id s_nextId;
-
 	void operator=(const Token&);
 
 	const Id m_id;	// own id

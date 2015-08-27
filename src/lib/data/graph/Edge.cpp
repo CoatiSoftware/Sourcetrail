@@ -50,17 +50,8 @@ Edge::EdgeType Edge::intToType(int value)
 	case 0x8000:
 		return EDGE_AGGREGATION;
 	}
-}
 
-Edge::Edge(EdgeType type, Node* from, Node* to)
-	: m_type(type)
-	, m_from(from)
-	, m_to(to)
-{
-	m_from->addEdge(this);
-	m_to->addEdge(this);
-
-	checkType();
+	return EDGE_NONE;
 }
 
 Edge::Edge(Id id, EdgeType type, Node* from, Node* to)
@@ -189,6 +180,8 @@ std::string Edge::getTypeString(EdgeType type)
 {
 	switch (type)
 	{
+	case EDGE_NONE:
+		return "none";
 	case EDGE_MEMBER:
 		return "child";
 	case EDGE_TYPE_OF:
@@ -265,6 +258,9 @@ bool Edge::checkType() const
 
 	switch (m_type)
 	{
+	case EDGE_NONE:
+		break;
+
 	case EDGE_MEMBER:
 		if (!m_from->isType(typeMask | Node::NODE_NAMESPACE | functionMask) ||
 			(!m_from->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE) && m_to->isType(Node::NODE_NAMESPACE)) ||
