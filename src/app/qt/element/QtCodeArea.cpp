@@ -261,6 +261,8 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 		annotation = nullptr;
 	}
 
+	QToolTip::hideText();
+
 	if (annotation != m_hoveredAnnotation)
 	{
 		setHoveredAnnotation(annotation);
@@ -269,11 +271,7 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 
 		if (annotation && errorMessages.size() > annotation->tokenId)
 		{
-			QToolTip::showText(event->globalPos(), QString::fromStdString(m_fileWidget->getErrorMessages()[annotation->tokenId]));
-		}
-		else
-		{
-			QToolTip::hideText();
+			QToolTip::showText(event->globalPos(), QString::fromStdString(errorMessages[annotation->tokenId]));
 		}
 	}
 }

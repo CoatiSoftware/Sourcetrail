@@ -254,8 +254,8 @@ public:
 	void test_graph_saves_nodes()
 	{
 		Graph graph;
-		Node* a = graph.addNode(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
-		Node* b = graph.addNode(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
+		Node* a = graph.createNode(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node* b = graph.createNode(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
 
 		TS_ASSERT_EQUALS(2, graph.getNodeCount());
 		TS_ASSERT_EQUALS(0, graph.getEdgeCount());
@@ -273,10 +273,10 @@ public:
 	{
 		Graph graph;
 
-		Node* a = graph.addNode(1, Node::NODE_FUNCTION, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
-		Node* b = graph.addNode(2, Node::NODE_FUNCTION, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
+		Node* a = graph.createNode(1, Node::NODE_FUNCTION, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node* b = graph.createNode(2, Node::NODE_FUNCTION, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
 
-		Edge* e = graph.addEdge(3, Edge::EDGE_CALL, a, b);
+		Edge* e = graph.createEdge(3, Edge::EDGE_CALL, a, b);
 
 		TS_ASSERT_EQUALS(2, graph.getNodeCount());
 		TS_ASSERT_EQUALS(1, graph.getEdgeCount());
@@ -289,8 +289,8 @@ public:
 	{
 		Graph graph;
 
-		Node* a = graph.addNode(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
-		graph.addNode(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
+		Node* a = graph.createNode(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		graph.createNode(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
 
 		TS_ASSERT_EQUALS(2, graph.getNodeCount());
 		TS_ASSERT_EQUALS(0, graph.getEdgeCount());
@@ -304,16 +304,16 @@ public:
 	{
 		Graph graph;
 
-		Node* a = graph.addNode(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
-		Node* b = graph.addNode(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
-		Node* c = graph.addNode(3, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("C", "::")));
-		Node* d = graph.addNode(4, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("D", "::")));
-		Node* e = graph.addNode(5, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("E", "::")));
+		Node* a = graph.createNode(1, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("A", "::")));
+		Node* b = graph.createNode(2, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("B", "::")));
+		Node* c = graph.createNode(3, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("C", "::")));
+		Node* d = graph.createNode(4, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("D", "::")));
+		Node* e = graph.createNode(5, Node::NODE_UNDEFINED, std::make_shared<TokenComponentNameCached>(utility::splitToVector("E", "::")));
 
-		graph.addEdge(6, Edge::EDGE_MEMBER, a, b);
-		graph.addEdge(7, Edge::EDGE_MEMBER, a, c);
-		graph.addEdge(8, Edge::EDGE_USAGE, c, d);
-		graph.addEdge(9, Edge::EDGE_MEMBER, b, e);
+		graph.createEdge(6, Edge::EDGE_MEMBER, a, b);
+		graph.createEdge(7, Edge::EDGE_MEMBER, a, c);
+		graph.createEdge(8, Edge::EDGE_USAGE, c, d);
+		graph.createEdge(9, Edge::EDGE_MEMBER, b, e);
 
 		TS_ASSERT_EQUALS(5, graph.getNodeCount());
 		TS_ASSERT_EQUALS(4, graph.getEdgeCount());

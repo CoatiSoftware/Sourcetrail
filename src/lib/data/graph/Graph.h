@@ -20,8 +20,8 @@ public:
 	void forEachEdge(std::function<void(Edge*)> func) const;
 	void forEachToken(std::function<void(Token*)> func) const;
 
-	Node* addNode(Id id, Node::NodeType type, std::shared_ptr<TokenComponentName> nameComponent);
-	Edge* addEdge(Id id, Edge::EdgeType type, Node* from, Node* to);
+	Node* createNode(Id id, Node::NodeType type, std::shared_ptr<TokenComponentName> nameComponent);
+	Edge* createEdge(Id id, Edge::EdgeType type, Node* from, Node* to);
 
 	size_t getNodeCount() const;
 	size_t getEdgeCount() const;

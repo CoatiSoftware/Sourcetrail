@@ -31,25 +31,6 @@ const FilePath& TokenLocationFile::getFilePath() const
 }
 
 TokenLocation* TokenLocationFile::addTokenLocation(
-	Id tokenId,
-	unsigned int startLineNumber, unsigned int startColumnNumber,
-	unsigned int endLineNumber, unsigned int endColumnNumber)
-{
-	TokenLocationLine* line = createTokenLocationLine(startLineNumber);
-	TokenLocation* start = line->addStartTokenLocation(tokenId, startColumnNumber);
-
-	if (startLineNumber != endLineNumber)
-	{
-		line = createTokenLocationLine(endLineNumber);
-	}
-
-	line->addEndTokenLocation(start, endColumnNumber);
-
-	return start;
-}
-
-
-TokenLocation* TokenLocationFile::addTokenLocation(
 	Id locationId, Id tokenId,
 	unsigned int startLineNumber, unsigned int startColumnNumber,
 	unsigned int endLineNumber, unsigned int endColumnNumber)
@@ -66,8 +47,6 @@ TokenLocation* TokenLocationFile::addTokenLocation(
 
 	return start;
 }
-
-
 
 void TokenLocationFile::removeTokenLocation(TokenLocation* location)
 {

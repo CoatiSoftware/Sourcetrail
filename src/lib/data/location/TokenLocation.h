@@ -58,8 +58,6 @@ public:
 	bool isScopeTokenLocation() const;
 
 private:
-	static Id s_locationId;	// next free own id
-
 	const Id m_id;			// own id
 	const Id m_tokenId;
 

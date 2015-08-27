@@ -50,28 +50,6 @@ size_t TokenLocationCollection::getTokenLocationCount() const
 }
 
 TokenLocation* TokenLocationCollection::addTokenLocation(
-	Id tokenId, const FilePath& filePath,
-	unsigned int startLineNumber, unsigned int startColumnNumber,
-	unsigned int endLineNumber, unsigned int endColumnNumber)
-{
-	if (startLineNumber > endLineNumber || (startLineNumber == endLineNumber && startColumnNumber > endColumnNumber))
-	{
-		LOG_ERROR("Can't create TokenLocation with wrong boundaries.");
-		return nullptr;
-	}
-
-	TokenLocationFile* file = createTokenLocationFile(filePath);
-	TokenLocation* location =
-		file->addTokenLocation(tokenId, startLineNumber, startColumnNumber, endLineNumber, endColumnNumber);
-
-	m_locations.emplace(location->getId(), location);
-	return location;
-}
-
-
-
-
-TokenLocation* TokenLocationCollection::addTokenLocation(
 	Id locationId, Id tokenId, const FilePath& filePath,
 	unsigned int startLineNumber, unsigned int startColumnNumber,
 	unsigned int endLineNumber, unsigned int endColumnNumber)
@@ -89,8 +67,6 @@ TokenLocation* TokenLocationCollection::addTokenLocation(
 	m_locations.emplace(location->getId(), location);
 	return location;
 }
-
-
 
 void TokenLocationCollection::removeTokenLocation(TokenLocation* location)
 {

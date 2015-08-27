@@ -28,10 +28,6 @@ public:
 	const FilePath& getFilePath() const;
 
 	TokenLocation* addTokenLocation(
-		Id tokenId,
-		unsigned int startLineNumber, unsigned int startColumnNumber,
-		unsigned int endLineNumber, unsigned int endColumnNumber);
-	TokenLocation* addTokenLocation(
 		Id locationId, Id tokenId,
 		unsigned int startLineNumber, unsigned int startColumnNumber,
 		unsigned int endLineNumber, unsigned int endColumnNumber);

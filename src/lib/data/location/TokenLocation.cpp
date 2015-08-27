@@ -2,17 +2,6 @@
 
 #include "data/location/TokenLocationLine.h"
 
-TokenLocation::TokenLocation(Id tokenId, TokenLocationLine* line, unsigned int columnNumber, bool isStart)
-	: m_id(s_locationId++)
-	, m_tokenId(tokenId)
-	, m_type(LOCATION_TOKEN)
-	, m_line(line)
-	, m_columnNumber(columnNumber)
-	, m_other(nullptr)
-	, m_isStart(isStart)
-{
-}
-
 TokenLocation::TokenLocation(Id locationId, Id tokenId, TokenLocationLine* line, unsigned int columnNumber, bool isStart)
 	: m_id(locationId)
 	, m_tokenId(tokenId)
@@ -192,8 +181,6 @@ bool TokenLocation::isScopeTokenLocation() const
 {
 	return m_type == LOCATION_SCOPE;
 }
-
-Id TokenLocation::s_locationId = 1;
 
 std::ostream& operator<<(std::ostream& ostream, const TokenLocation& location)
 {

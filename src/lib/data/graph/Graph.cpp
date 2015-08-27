@@ -40,7 +40,7 @@ void Graph::forEachToken(std::function<void(Token*)> func) const
 	forEachEdge(func);
 }
 
-Node* Graph::addNode(Id id, Node::NodeType type, std::shared_ptr<TokenComponentName> nameComponent)
+Node* Graph::createNode(Id id, Node::NodeType type, std::shared_ptr<TokenComponentName> nameComponent)
 {
 	Node* n = getNodeById(id);
 	if (n)
@@ -53,7 +53,7 @@ Node* Graph::addNode(Id id, Node::NodeType type, std::shared_ptr<TokenComponentN
 	return node.get();
 }
 
-Edge* Graph::addEdge(Id id, Edge::EdgeType type, Node* from, Node* to)
+Edge* Graph::createEdge(Id id, Edge::EdgeType type, Node* from, Node* to)
 {
 	Edge* e = getEdgeById(id);
 	if (e)

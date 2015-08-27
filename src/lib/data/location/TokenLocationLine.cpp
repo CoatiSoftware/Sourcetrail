@@ -39,9 +39,9 @@ unsigned int TokenLocationLine::getLineNumber() const
 	return m_lineNumber;
 }
 
-TokenLocation* TokenLocationLine::addStartTokenLocation(Id tokenId, unsigned int columnNumber)
+TokenLocation* TokenLocationLine::addStartTokenLocation(Id locationId, Id tokenId, unsigned int columnNumber)
 {
-	std::shared_ptr<TokenLocation> locationPtr = std::make_shared<TokenLocation>(tokenId, this, columnNumber, true);
+	std::shared_ptr<TokenLocation> locationPtr = std::make_shared<TokenLocation>(locationId, tokenId, this, columnNumber, true);
 	m_locations.emplace(columnNumber, locationPtr);
 	return locationPtr.get();
 }
@@ -53,19 +53,6 @@ TokenLocation* TokenLocationLine::addEndTokenLocation(TokenLocation* start, unsi
 	m_locations.emplace(columnNumber, locationPtr);
 	return locationPtr.get();
 }
-
-
-
-
-TokenLocation* TokenLocationLine::addStartTokenLocation(Id locationId, Id tokenId, unsigned int columnNumber)
-{
-	std::shared_ptr<TokenLocation> locationPtr = std::make_shared<TokenLocation>(locationId, tokenId, this, columnNumber, true);
-	m_locations.emplace(columnNumber, locationPtr);
-	return locationPtr.get();
-}
-
-
-
 
 void TokenLocationLine::removeTokenLocation(TokenLocation* location)
 {

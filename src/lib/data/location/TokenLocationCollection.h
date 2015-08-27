@@ -32,10 +32,6 @@ public:
 	size_t getTokenLocationCount() const;
 
 	TokenLocation* addTokenLocation(
-		Id tokenId, const FilePath& filePath,
-		unsigned int startLineNumber, unsigned int startColumnNumber,
-		unsigned int endLineNumber, unsigned int endColumnNumber);
-	TokenLocation* addTokenLocation(
 		Id locationId, Id tokenId, const FilePath& filePath,
 		unsigned int startLineNumber, unsigned int startColumnNumber,
 		unsigned int endLineNumber, unsigned int endColumnNumber);

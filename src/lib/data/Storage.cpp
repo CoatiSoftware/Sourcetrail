@@ -5,10 +5,10 @@
 
 #include "utility/logging/logging.h"
 #include "utility/utilityString.h"
-#include "utility/file/FileSystem.h"
 #include "utility/utility.h"
 
 #include "data/graph/token_component/TokenComponentAggregation.h"
+#include "data/graph/token_component/TokenComponentName.h"
 #include "data/graph/Graph.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
@@ -20,8 +20,6 @@
 #include "data/query/QueryTree.h"
 #include "data/type/DataType.h"
 #include "settings/ApplicationSettings.h"
-
-#include "data/graph/token_component/TokenComponentName.h"
 
 Storage::Storage()
 	: m_sqliteStorage("data/test.sqlite")
@@ -36,6 +34,9 @@ void Storage::clear()
 {
 	m_sqliteStorage.clear();
 	m_tokenIndex.clear();
+
+	m_errorMessages.clear();
+	m_errorLocationCollection.clear();
 }
 
 void Storage::clearFileData(const std::set<FilePath>& filePaths)
@@ -105,7 +106,7 @@ void Storage::onError(const ParseLocation& location, const std::string& message)
 		Id errorId = m_errorMessages.size();
 
 		m_errorLocationCollection.addTokenLocation(
-			errorId, location.filePath,
+			0, errorId, location.filePath,
 			location.startLineNumber, location.startColumnNumber,
 			location.endLineNumber, location.endColumnNumber
 		);
@@ -867,8 +868,8 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationsForLinesInFile(
 
 TokenLocationCollection Storage::getErrorTokenLocations(std::vector<std::string>* errorMessages) const
 {
-	// TODO: Implement this one
-	return TokenLocationCollection();
+	errorMessages->insert(errorMessages->begin(), m_errorMessages.begin(), m_errorMessages.end());
+	return m_errorLocationCollection;
 }
 
 std::shared_ptr<TokenLocationFile> Storage::getTokenLocationOfParentScope(const TokenLocation* child) const
@@ -1097,7 +1098,7 @@ void Storage::addEdgeAndAllChildrenToGraph(const Id edgeId, Graph* graph) const
 	Node* sourceNode = graph->getNodeById(storageEdge.sourceNodeId);
 	Node* targetNode = graph->getNodeById(storageEdge.targetNodeId);
 
-	graph->addEdge(edgeId, Edge::intToType(storageEdge.type), sourceNode, targetNode);
+	graph->createEdge(edgeId, Edge::intToType(storageEdge.type), sourceNode, targetNode);
 }
 
 void Storage::addNodeAndAllChildrenToGraph(const Id nodeId, Graph* graph) const
@@ -1133,7 +1134,7 @@ void Storage::addNodeAndAllChildrenToGraph(const Id nodeId, Graph* graph) const
 			targetNode = addNodeToGraph(storageEdge.targetNodeId, graph);
 		}
 
-		graph->addEdge(storageEdge.id, Edge::intToType(storageEdge.type), sourceNode, targetNode);
+		graph->createEdge(storageEdge.id, Edge::intToType(storageEdge.type), sourceNode, targetNode);
 
 		{
 			std::vector<StorageEdge> edges = m_sqliteStorage.getEdgesBySourceType(storageEdge.targetNodeId, Edge::EDGE_MEMBER);
@@ -1251,7 +1252,7 @@ void Storage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
 			componentAggregation->addAggregationId(edgeInfo.edgeId, edgeInfo.forward);
 		}
 
-		Edge* edge = graph->addEdge(0, Edge::EDGE_AGGREGATION, sourceNode, targetNode);
+		Edge* edge = graph->createEdge(0, Edge::EDGE_AGGREGATION, sourceNode, targetNode);
 		edge->addComponentAggregation(componentAggregation);
 	}
 }
@@ -1260,7 +1261,7 @@ Node* Storage::addNodeToGraph(const Id nodeId, Graph* graph) const
 {
 	StorageNode storageNode = m_sqliteStorage.getNodeById(nodeId);
 
-	return graph->addNode(
+	return graph->createNode(
 		storageNode.id,
 		Node::intToType(storageNode.type),
 		std::make_shared<TokenComponentNameCached>(m_sqliteStorage.getNameHierarchyById(storageNode.nameId))
