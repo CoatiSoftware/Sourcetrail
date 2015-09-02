@@ -19,7 +19,7 @@ void SearchController::handleMessage(MessageActivateEdge* message)
 		return;
 	}
 
-	getView()->setMatches(std::deque<SearchMatch>());
+	getView()->setMatches(std::vector<SearchMatch>());
 }
 
 void SearchController::handleMessage(MessageActivateFile* message)
@@ -28,9 +28,9 @@ void SearchController::handleMessage(MessageActivateFile* message)
 	match.fullName = message->filePath.fileName();
 	match.nodeType = Node::NODE_FILE;
 	match.tokenIds.insert(m_storageAccess->getTokenIdForFileNode(message->filePath));
-	match.queryNodeType = QueryNode::QUERYNODETYPE_TOKEN;
+	match.searchType = SearchMatch::SEARCH_TOKEN;
 
-	getView()->setMatches(std::deque<SearchMatch>(1, match));
+	getView()->setMatches(std::vector<SearchMatch>(1, match));
 }
 
 void SearchController::handleMessage(MessageActivateNode* message)
@@ -39,9 +39,9 @@ void SearchController::handleMessage(MessageActivateNode* message)
 	match.fullName = message->name;
 	match.nodeType = message->type;
 	match.tokenIds.insert(message->tokenId);
-	match.queryNodeType = QueryNode::QUERYNODETYPE_TOKEN;
+	match.searchType = SearchMatch::SEARCH_TOKEN;
 
-	getView()->setMatches(std::deque<SearchMatch>(1, match));
+	getView()->setMatches(std::vector<SearchMatch>(1, match));
 }
 
 void SearchController::handleMessage(MessageFind* message)
@@ -51,7 +51,7 @@ void SearchController::handleMessage(MessageFind* message)
 
 void SearchController::handleMessage(MessageFinishedParsing* message)
 {
-	getView()->setMatches(std::deque<SearchMatch>());
+	getView()->setMatches(std::vector<SearchMatch>());
 }
 
 void SearchController::handleMessage(MessageSearch* message)

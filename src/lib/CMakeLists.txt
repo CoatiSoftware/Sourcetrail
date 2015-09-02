@@ -159,17 +159,6 @@ add_files(
 	data/parser/ParseVariable.cpp
 	data/parser/ParseVariable.h
 
-	data/query/QueryCommand.cpp
-	data/query/QueryCommand.h
-	data/query/QueryNode.cpp
-	data/query/QueryNode.h
-	data/query/QueryOperator.cpp
-	data/query/QueryOperator.h
-	data/query/QueryToken.cpp
-	data/query/QueryToken.h
-	data/query/QueryTree.cpp
-	data/query/QueryTree.h
-
 	data/search/SearchIndex.cpp
 	data/search/SearchIndex.h
 	data/search/SearchNode.cpp

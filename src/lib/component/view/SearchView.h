@@ -6,7 +6,8 @@
 
 class SearchController;
 
-class SearchView : public View
+class SearchView
+	: public View
 {
 public:
 	SearchView(ViewLayout* viewLayout);
@@ -14,7 +15,7 @@ public:
 
 	virtual std::string getName() const;
 
-	virtual void setMatches(const std::deque<SearchMatch>& matches) = 0;
+	virtual void setMatches(const std::vector<SearchMatch>& matches) = 0;
 	virtual void setFocus() = 0;
 	virtual void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList) = 0;
 

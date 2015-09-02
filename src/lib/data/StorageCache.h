@@ -11,7 +11,7 @@ class StorageCache
 public:
 	void clear();
 
-	virtual std::vector<Id> getTokenIdsForQuery(std::string query) const;
+	virtual std::vector<Id> getTokenIdsForMatches(const std::vector<SearchMatch>& matches) const;
 
 private:
 	mutable std::map<std::string, std::vector<Id>> m_queryToTokenIds;

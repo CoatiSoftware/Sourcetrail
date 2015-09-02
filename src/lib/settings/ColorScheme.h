@@ -3,7 +3,6 @@
 
 #include "data/graph/Node.h"
 #include "data/graph/Edge.h"
-#include "data/query/QueryNode.h"
 #include "settings/Settings.h"
 
 class ColorScheme
@@ -17,7 +16,7 @@ public:
 
 	std::string getNodeTypeColor(Node::NodeType type, const std::string& state = "normal") const;
 	std::string getEdgeTypeColor(Edge::EdgeType type, const std::string& state = "normal") const;
-	std::string getQueryNodeTypeColor(QueryNode::QueryNodeType type, const std::string& state = "normal") const;
+	std::string getSearchTypeColor(const std::string& searchTypeName, const std::string& state = "normal") const;
 	std::string getSyntaxColor(const std::string& key) const;
 
 protected:

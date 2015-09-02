@@ -33,9 +33,9 @@ std::string ColorScheme::getEdgeTypeColor(Edge::EdgeType type, const std::string
 	return getValue<std::string>(path, "#FFFFFF");
 }
 
-std::string ColorScheme::getQueryNodeTypeColor(QueryNode::QueryNodeType type, const std::string& state) const
+std::string ColorScheme::getSearchTypeColor(const std::string& searchTypeName, const std::string& state) const
 {
-	std::string path = "search/query/" + QueryNode::queryNodeTypeToString(type) + "/" + state;
+	std::string path = "search/query/" + searchTypeName + "/" + state;
 	return getValue<std::string>(path, "#FFFFFF");
 }
 

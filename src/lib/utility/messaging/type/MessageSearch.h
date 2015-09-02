@@ -1,8 +1,6 @@
 #ifndef MESSAGE_SEARCH_H
 #define MESSAGE_SEARCH_H
 
-#include <deque>
-
 #include "utility/messaging/Message.h"
 #include "utility/utilityString.h"
 
@@ -12,12 +10,7 @@ class MessageSearch
 	: public Message<MessageSearch>
 {
 public:
-	MessageSearch(const std::string& query)
-		: m_query(query)
-	{
-	}
-
-	MessageSearch(const std::deque<SearchMatch>& matches)
+	MessageSearch(const std::vector<SearchMatch>& matches)
 		: m_matches(matches)
 	{
 	}
@@ -27,24 +20,18 @@ public:
 		return "MessageSearch";
 	}
 
-	std::string getQuery() const
+	std::string getMatchesAsString() const
 	{
-		if (m_query.size())
-		{
-			return m_query;
-		}
-
-		return utility::join(SearchMatch::searchMatchDequeToStringDeque(m_matches), "");
+		return SearchMatch::searchMatchesToString(m_matches);
 	}
 
-	const std::deque<SearchMatch>& getMatches() const
+	const std::vector<SearchMatch>& getMatches() const
 	{
 		return m_matches;
 	}
 
 private:
-	const std::string m_query;
-	const std::deque<SearchMatch> m_matches;
+	const std::vector<SearchMatch> m_matches;
 };
 
 #endif // MESSAGE_SEARCH_H

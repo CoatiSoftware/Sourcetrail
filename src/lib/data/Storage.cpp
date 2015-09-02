@@ -17,7 +17,6 @@
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParseTypeUsage.h"
 #include "data/parser/ParseVariable.h"
-#include "data/query/QueryTree.h"
 #include "data/type/DataType.h"
 #include "settings/ApplicationSettings.h"
 
@@ -563,7 +562,7 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 	{
 		if (!match.tokenIds.size())
 		{
-			match.queryNodeType = QueryNode::QUERYNODETYPE_COMMAND;
+			match.searchType = SearchMatch::SEARCH_COMMAND;
 			continue;
 		}
 
@@ -577,7 +576,8 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 		{
 			match.typeName = Edge::getTypeString(Edge::intToType(m_sqliteStorage.getEdgeById(elementId).type));
 		}
-		match.queryNodeType = QueryNode::QUERYNODETYPE_TOKEN;
+
+		match.searchType = SearchMatch::SEARCH_TOKEN;
 	}
 
 	return matches;
@@ -676,38 +676,26 @@ Id Storage::getActiveNodeIdForLocationId(Id locationId) const
 	return activeElementId;
 }
 
-std::vector<Id> Storage::getTokenIdsForQuery(std::string query) const // TODO: refactor query stuff! (don't store info in string
+std::vector<Id> Storage::getTokenIdsForMatches(const std::vector<SearchMatch>& matches) const
 {
+	std::set<Id> idSet;
+	for (const SearchMatch& match : matches)
+	{
+		std::vector<SearchMatch> ms = getAutocompletionMatches("", match.fullName);
+
+		for (size_t i = 0; i < ms.size(); i++)
+		{
+			utility::append(idSet, ms[i].tokenIds);
+			break;
+		}
+	}
+
 	std::vector<Id> ids;
-
-	std::deque<std::string> tokenizedQuery = QueryTree::tokenizeQuery(query);
-	if (tokenizedQuery.size() == 0)
+	for (std::set<Id>::const_iterator it = idSet.begin(); it != idSet.end(); it++)
 	{
-		return ids;
+		ids.push_back(*it);
 	}
-	std::string tokenName = tokenizedQuery[0];
-	tokenName.erase(std::remove(tokenName.begin(), tokenName.end(), '"'), tokenName.end());
-	const size_t delimiterPos = tokenName.rfind(',');
 
-	if (delimiterPos != tokenName.npos)
-	{
-		ids.push_back(std::stoi(tokenName.substr(delimiterPos + 1, tokenName.size() - (delimiterPos + 1))));
-	}
-	else
-	{
-		std::vector<SearchMatch> matches = getAutocompletionMatches("", tokenName);
-
-		std::set<Id> idSet;
-		for (size_t i = 0; i < matches.size(); i++)
-		{
-			utility::append(idSet, matches[i].tokenIds);
-		}
-
-		for (std::set<Id>::const_iterator it = idSet.begin(); it != idSet.end(); it++)
-		{
-			ids.push_back(*it);
-		}
-	}
 	return ids;
 }
 

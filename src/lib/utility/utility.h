@@ -1,6 +1,7 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
+#include <deque>
 #include <chrono>
 #include <set>
 
@@ -22,6 +23,9 @@ namespace utility
 
 	template<typename T>
 	void append(std::set<T>& a, const std::set<T>& b);
+
+	template<typename T>
+	std::vector<T> toVector(const std::deque<T>& d);
 
 	bool intersectionPoint(Vec2f a1, Vec2f b1, Vec2f a2, Vec2f b2, Vec2f* i);
 
@@ -47,6 +51,14 @@ template<typename T>
 void utility::append(std::set<T>& a, const std::set<T>& b)
 {
 	a.insert(b.begin(), b.end());
+}
+
+template<typename T>
+std::vector<T> utility::toVector(const std::deque<T>& d)
+{
+	std::vector<T> v;
+	v.insert(v.begin(), d.begin(), d.end());
+	return v;
 }
 
 #endif // UTILITY_H

@@ -3,23 +3,22 @@
 
 #include <deque>
 #include <memory>
-#include <vector>
 
 #include <QLineEdit>
 #include <QPushButton>
 
 #include "data/search/SearchMatch.h"
 
-class QtQueryElement
+class QtSearchElement
 	: public QPushButton
 {
 	Q_OBJECT
 
 signals:
-	void wasChecked(QtQueryElement*);
+	void wasChecked(QtSearchElement*);
 
 public:
-	QtQueryElement(const QString& text, QWidget* parent);
+	QtSearchElement(const QString& text, QWidget* parent);
 
 private slots:
 	void onChecked(bool);
@@ -39,7 +38,7 @@ public:
 	virtual ~QtSmartSearchBox();
 
 	void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList);
-	void setMatches(const std::deque<SearchMatch>& matches);
+	void setMatches(const std::vector<SearchMatch>& matches);
 	void setFocus();
 
 protected:
@@ -59,17 +58,19 @@ private slots:
 	void onAutocompletionHighlighted(const SearchMatch& match);
 	void onAutocompletionActivated(const SearchMatch& match);
 
-	void onElementSelected(QtQueryElement* element);
+	void onElementSelected(QtSearchElement* element);
 
 private:
 	void moveCursor(int offset);
 	void moveCursorTo(int goal);
 
-	void matchToToken(const SearchMatch& match);
-	void searchMatchToToken(const SearchMatch& match);
+	void addMatch(const SearchMatch& match);
+	void addMatchAndUpdate(const SearchMatch& match);
+	void clearMatches();
+
 	void setEditText(const QString& text);
 	bool editTextToElement();
-	void editElement(QtQueryElement* element);
+	void editElement(QtSearchElement* element);
 
 	void updateElements();
 	void layoutElements();
@@ -87,11 +88,15 @@ private:
 	void requestAutoCompletions() const;
 	void hideAutoCompletions();
 
+	std::deque<SearchMatch> getMatchesForInput(const std::string& text) const;
+
+	bool m_allowMultipleElements;
+
 	bool m_allowTextChange;
 	QString m_oldText;
 
-	std::deque<SearchMatch> m_tokens;
-	std::vector<std::shared_ptr<QtQueryElement>> m_elements;
+	std::deque<SearchMatch> m_matches;
+	std::vector<std::shared_ptr<QtSearchElement>> m_elements;
 
 	size_t m_cursorIndex;
 

@@ -34,7 +34,7 @@ public:
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const = 0;
 	virtual Id getActiveNodeIdForLocationId(Id locationId) const = 0;
 
-	virtual std::vector<Id> getTokenIdsForQuery(std::string query) const = 0;
+	virtual std::vector<Id> getTokenIdsForMatches(const std::vector<SearchMatch>& matches) const = 0;
 	virtual Id getTokenIdForFileNode(const FilePath& filePath) const = 0;
 	virtual std::vector<Id> getTokenIdsForAggregationEdge(Id sourceId, Id targetId) const = 0;
 

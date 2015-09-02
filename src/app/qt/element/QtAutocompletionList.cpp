@@ -110,7 +110,7 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 	}
 	else
 	{
-		color = QColor(scheme->getQueryNodeTypeColor(QueryNode::QUERYNODETYPE_COMMAND).c_str());
+		color = QColor(scheme->getSearchTypeColor(SearchMatch::getSearchTypeName(SearchMatch::SEARCH_COMMAND)).c_str());
 	}
 
 

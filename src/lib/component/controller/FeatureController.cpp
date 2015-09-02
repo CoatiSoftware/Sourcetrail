@@ -99,7 +99,7 @@ void FeatureController::handleMessage(MessageActivateTokenLocation* message)
 
 void FeatureController::handleMessage(MessageSearch* message)
 {
-	MessageActivateTokens m(m_storageAccess->getTokenIdsForQuery(message->getQuery()));
+	MessageActivateTokens m(m_storageAccess->getTokenIdsForMatches(message->getMatches()));
 	m.undoRedoType = message->undoRedoType;
 	m.dispatchImmediately();
 }

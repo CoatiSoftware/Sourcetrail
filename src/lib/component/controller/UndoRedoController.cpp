@@ -135,7 +135,7 @@ void UndoRedoController::handleMessage(MessageRefresh* message)
 void UndoRedoController::handleMessage(MessageSearch* message)
 {
 	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() &&
-		static_cast<MessageSearch*>(m_lastCommand.message.get())->getQuery() == message->getQuery())
+		static_cast<MessageSearch*>(m_lastCommand.message.get())->getMatchesAsString() == message->getMatchesAsString())
 	{
 		return;
 	}

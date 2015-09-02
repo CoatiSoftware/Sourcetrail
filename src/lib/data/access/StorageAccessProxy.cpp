@@ -112,11 +112,11 @@ Id StorageAccessProxy::getActiveNodeIdForLocationId(Id locationId) const
 	return 0;
 }
 
-std::vector<Id> StorageAccessProxy::getTokenIdsForQuery(std::string query) const
+std::vector<Id> StorageAccessProxy::getTokenIdsForMatches(const std::vector<SearchMatch>& matches) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getTokenIdsForQuery(query);
+		return m_subject->getTokenIdsForMatches(matches);
 	}
 
 	return std::vector<Id>();

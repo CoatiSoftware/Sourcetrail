@@ -1,25 +1,8 @@
 #include "data/search/SearchMatch.h"
 
 #include <sstream>
-#include <cstdlib>
 
-#include "data/query/QueryCommand.h"
-#include "data/query/QueryOperator.h"
-#include "data/query/QueryToken.h"
 #include "utility/logging/logging.h"
-#include "utility/utilityString.h"
-
-SearchMatch::SearchMatch()
-	: fullName("")
-	, typeName("")
-	, queryNodeType(QueryNode::QUERYNODETYPE_NONE)
-{
-}
-
-SearchMatch::SearchMatch(const std::string& query)
-{
-	decodeFromQuery(query);
-}
 
 void SearchMatch::log(const std::vector<SearchMatch>& matches, const std::string& query)
 {
@@ -32,6 +15,52 @@ void SearchMatch::log(const std::vector<SearchMatch>& matches, const std::string
 	}
 
 	LOG_INFO(ss.str());
+}
+
+std::string SearchMatch::getSearchTypeName(SearchType type)
+{
+	switch (type)
+	{
+	case SEARCH_NONE:
+		return "none";
+	case SEARCH_TOKEN:
+		return "token";
+	case SEARCH_COMMAND:
+		return "command";
+	case SEARCH_OPERATOR:
+		return "operator";
+	}
+}
+
+std::string SearchMatch::searchMatchesToString(const std::vector<SearchMatch>& matches)
+{
+	std::stringstream ss;
+
+	for (size_t i = 0; i < matches.size(); i++)
+	{
+		ss << '@' << matches[i].fullName;
+	}
+
+	return ss.str();
+}
+
+SearchMatch::SearchMatch()
+	: fullName("")
+	, typeName("")
+	, searchType(SEARCH_NONE)
+{
+}
+
+SearchMatch::SearchMatch(const std::string& query)
+	: fullName(query)
+	, typeName("")
+	, searchType(SEARCH_NONE)
+{
+}
+
+bool SearchMatch::isValid() const
+{
+	return searchType != SEARCH_NONE;
 }
 
 void SearchMatch::print(std::ostream& ostream) const
@@ -51,92 +80,12 @@ void SearchMatch::print(std::ostream& ostream) const
 	ostream << std::endl;
 }
 
-std::string SearchMatch::encodeForQuery() const
-{
-	switch(queryNodeType)
-	{
-	case QueryNode::QUERYNODETYPE_COMMAND:
-		return QueryCommand::BOUNDARY + fullName + QueryCommand::BOUNDARY;
-	case QueryNode::QUERYNODETYPE_TOKEN:
-	{
-		std::stringstream ss;
-		ss << QueryToken::BOUNDARY << fullName;
-		for (Id tokenId : tokenIds)
-		{
-			ss << QueryToken::DELIMITER << tokenId;
-		}
-		ss << QueryToken::BOUNDARY;
-		return ss.str();
-	}
-
-	case QueryNode::QUERYNODETYPE_OPERATOR:
-	case QueryNode::QUERYNODETYPE_NONE:
-		return fullName;
-	}
-}
-
-void SearchMatch::decodeFromQuery(std::string query)
-{
-	if (query.size() > 2 && query.front() == QueryToken::BOUNDARY && query.back() == QueryToken::BOUNDARY)
-	{
-		queryNodeType = QueryNode::QUERYNODETYPE_TOKEN;
-		query.erase(query.begin());
-		query.pop_back();
-	}
-	else if (query.size() > 2 && query.front() == QueryCommand::BOUNDARY && query.back() == QueryCommand::BOUNDARY)
-	{
-		queryNodeType = QueryNode::QUERYNODETYPE_COMMAND;
-		query.erase(query.begin());
-		query.pop_back();
-	}
-	else if (query.size() == 1 && QueryOperator::getOperatorType(query.front()) != QueryOperator::OPERATOR_NONE)
-	{
-		queryNodeType = QueryNode::QUERYNODETYPE_OPERATOR;
-	}
-	else
-	{
-		queryNodeType = QueryNode::QUERYNODETYPE_NONE;
-	}
-
-	std::vector<std::string> queryParts = utility::splitToVector(query, QueryToken::DELIMITER);
-
-	fullName = queryParts[0];
-
-	if (queryParts.size() > 1)
-	{
-		for (size_t i = 2; i < queryParts.size(); ++i)
-		{
-			tokenIds.insert(std::strtoul(queryParts[i].c_str(),nullptr,0));
-		}
-	}
-}
-
-std::deque<SearchMatch> SearchMatch::stringDequeToSearchMatchDeque(const std::deque<std::string>& stringDeque)
-{
-	std::deque<SearchMatch> matchDeque;
-	for(std::string str : stringDeque)
-	{
-		matchDeque.push_back(SearchMatch(str));
-	}
-	return matchDeque;
-}
-
-std::deque<std::string> SearchMatch::searchMatchDequeToStringDeque(const std::deque<SearchMatch>& searchMatchDeque)
-{
-	std::deque<std::string> stringDeque;
-	for(SearchMatch match : searchMatchDeque)
-	{
-		stringDeque.push_back(match.encodeForQuery());
-	}
-	return stringDeque;
-}
-
-std::string SearchMatch::searchMatchDequeToString(const std::deque<SearchMatch>& searchMatchDeque)
-{
-	return utility::join(searchMatchDequeToStringDeque(searchMatchDeque), "");
-}
-
 std::string SearchMatch::getNodeTypeAsString() const
 {
 	return Node::getTypeString(nodeType);
+}
+
+std::string SearchMatch::getSearchTypeName() const
+{
+	return getSearchTypeName(searchType);
 }

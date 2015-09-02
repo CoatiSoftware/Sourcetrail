@@ -34,7 +34,7 @@ void QtSearchView::refreshView()
 	m_refreshViewFunctor();
 }
 
-void QtSearchView::setMatches(const std::deque<SearchMatch>& matches)
+void QtSearchView::setMatches(const std::vector<SearchMatch>& matches)
 {
 	m_setMatchesFunctor(matches);
 }
@@ -53,10 +53,10 @@ void QtSearchView::doRefreshView()
 {
 	setStyleSheet();
 	m_widget->refreshStyle();
-	m_widget->setMatches(std::deque<SearchMatch>());
+	m_widget->setMatches(std::vector<SearchMatch>());
 }
 
-void QtSearchView::doSetMatches(const std::deque<SearchMatch>& matches)
+void QtSearchView::doSetMatches(const std::vector<SearchMatch>& matches)
 {
 	m_widget->setMatches(matches);
 }

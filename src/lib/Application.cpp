@@ -115,11 +115,7 @@ void Application::handleMessage(MessageFinishedParsing* message)
 
 	if (!mainId)
 	{
-		std::vector<Id> ids = m_storageCache->getTokenIdsForQuery("'file'");
-		if (ids.size())
-		{
-			mainId = ids[0];
-		}
+		mainId = 1;
 	}
 
 	if (mainId)

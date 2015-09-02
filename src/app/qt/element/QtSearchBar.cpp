@@ -57,7 +57,7 @@ QSize QtSearchBar::sizeHint() const
 	return QSize(400, 100);
 }
 
-void QtSearchBar::setMatches(const std::deque<SearchMatch>& matches)
+void QtSearchBar::setMatches(const std::vector<SearchMatch>& matches)
 {
 	m_searchBox->setMatches(matches);
 }
