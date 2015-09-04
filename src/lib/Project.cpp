@@ -70,20 +70,6 @@ void Project::reloadProjectSettings()
 	}
 }
 
-bool Project::setSourceDirectoryPath(const std::string& sourceDirectoryPath)
-{
-	m_projectSettingsFilepath = sourceDirectoryPath + "/ProjectSettings.xml";
-	bool success = ProjectSettings::getInstance()->setSourcePaths(std::vector<FilePath>(1, sourceDirectoryPath));
-
-	if (success)
-	{
-		m_fileManager.reset();
-		updateFileManager();
-	}
-
-	return success;
-}
-
 void Project::clearStorage()
 {
 	m_storage = std::make_shared<Storage>();

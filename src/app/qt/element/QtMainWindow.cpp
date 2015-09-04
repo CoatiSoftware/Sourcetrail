@@ -16,7 +16,6 @@
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
 #include "utility/messaging/type/MessageLoadProject.h"
-#include "utility/messaging/type/MessageLoadSource.h"
 #include "utility/messaging/type/MessageRedo.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageSaveProject.h"
@@ -26,6 +25,7 @@
 #include "utility/messaging/type/MessageZoom.h"
 
 QtMainWindow::QtMainWindow()
+	:  m_startScreenWasVisible(false)
 {
 	setObjectName("QtMainWindow");
 	setCentralWidget(nullptr);
@@ -50,10 +50,7 @@ QtMainWindow::QtMainWindow()
 
 void QtMainWindow::init()
 {
-	// StartScreen
-	m_startScreen = std::make_shared<QtStartScreen>(this);
-	m_startScreen->setup();
-	m_startScreen->show();
+	showStartScreen();
 }
 
 
@@ -157,10 +154,66 @@ void QtMainWindow::about()
 	);
 }
 
+void QtMainWindow::hideScreens()
+{
+	if (m_startScreen)
+	{
+		m_startScreen->hide();
+	}
+
+	if (m_newProjectDialog)
+	{
+		m_newProjectDialog->hide();
+	}
+}
+
+void QtMainWindow::restoreScreens()
+{
+	hideScreens();
+
+	if (m_startScreen && m_startScreenWasVisible)
+	{
+		m_startScreen->show();
+	}
+
+	m_startScreenWasVisible = false;
+}
+
+void QtMainWindow::showStartScreen()
+{
+	if (!m_startScreen)
+	{
+		m_startScreen = std::make_shared<QtStartScreen>(this);
+		m_startScreen->setup();
+		connect(m_startScreen.get(), SIGNAL(finished()), this, SLOT(hideScreens()));
+	}
+
+	m_startScreen->show();
+	m_startScreenWasVisible = true;
+
+	if (m_newProjectDialog)
+	{
+		m_newProjectDialog->hide();
+	}
+}
+
 void QtMainWindow::newProject()
 {
-	m_newProjectDialog = std::make_shared<QtProjectSetupScreen>(this);
-	m_newProjectDialog->setup();
+	if (m_startScreen)
+	{
+		m_startScreen->hide();
+	}
+
+	if (!m_newProjectDialog)
+	{
+		m_newProjectDialog = std::make_shared<QtProjectSetupScreen>(this);
+		m_newProjectDialog->setup();
+
+		connect(m_newProjectDialog.get(), SIGNAL(finished()), this, SLOT(hideScreens()));
+		connect(m_newProjectDialog.get(), SIGNAL(canceled()), this, SLOT(restoreScreens()));
+	}
+
+	m_newProjectDialog->loadEmpty();
 	m_newProjectDialog->show();
 }
 
@@ -177,6 +230,12 @@ void QtMainWindow::openProject(const QString &path)
 	{
 		MessageLoadProject(fileName.toStdString()).dispatch();
 	}
+}
+
+void QtMainWindow::editProject()
+{
+	newProject();
+	m_newProjectDialog->loadProjectSettings();
 }
 
 void QtMainWindow::find()
@@ -248,14 +307,6 @@ void QtMainWindow::switchColorScheme()
 
 void QtMainWindow::handleEscapeShortcut()
 {
-	if(m_startScreen)
-	{
-		m_startScreen->hide();
-	}
-	if(m_newProjectDialog)
-	{
-		m_newProjectDialog->hide();
-	}
 	MessageInterruptTasks().dispatch();
 }
 
@@ -264,10 +315,13 @@ void QtMainWindow::setupProjectMenu()
 	QMenu *menu = new QMenu(tr("&Project"), this);
 	menuBar()->addMenu(menu);
 
-	menu->addAction(tr("Ope&n Source Folder..."), this, SLOT(newProject()), QKeySequence::New);
-	menu->addAction(tr("&Open Coati Project..."), this, SLOT(openProject()), QKeySequence::Open);
-	menu->addAction(tr("&Save"), this, SLOT(saveProject()), QKeySequence::Save);
-	menu->addAction(tr("Save as..."), this, SLOT(saveAsProject()), QKeySequence::SaveAs);
+	menu->addAction(tr("&New Project..."), this, SLOT(newProject()), QKeySequence::New);
+	menu->addAction(tr("&Open Project..."), this, SLOT(openProject()), QKeySequence::Open);
+	menu->addAction(tr("&Edit Project..."), this, SLOT(editProject()));
+
+	menu->addAction(tr("&Save Project"), this, SLOT(saveProject()), QKeySequence::Save);
+	menu->addAction(tr("Save Project as..."), this, SLOT(saveAsProject()), QKeySequence::SaveAs);
+
 	menu->addAction(tr("&Close Window"), this, SLOT(closeWindow()), QKeySequence::Close);
 	menu->addAction(tr("E&xit"), QCoreApplication::instance(), SLOT(quit()), QKeySequence::Quit);
 }

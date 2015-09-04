@@ -17,6 +17,8 @@ add_files(
 	qt/element/QtCodeSnippet.h
 	qt/element/QtDirectoryListBox.cpp
 	qt/element/QtDirectoryListBox.h
+	qt/element/QtLineEdit.cpp
+	qt/element/QtLineEdit.h
 	qt/element/QtMainWindow.cpp
 	qt/element/QtMainWindow.h
 	qt/element/QtProjectSetupScreen.cpp

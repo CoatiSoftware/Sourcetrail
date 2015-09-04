@@ -1,5 +1,22 @@
 #include "settings/ProjectSettings.h"
 
+std::vector<std::string> ProjectSettings::getDefaultHeaderExtensions()
+{
+	std::vector<std::string> defaultValues;
+	defaultValues.push_back(".h");
+	defaultValues.push_back(".hpp");
+	return defaultValues;
+}
+
+std::vector<std::string> ProjectSettings::getDefaultSourceExtensions()
+{
+	std::vector<std::string> defaultValues;
+	defaultValues.push_back(".cpp");
+	defaultValues.push_back(".cxx");
+	defaultValues.push_back(".cc");
+	return defaultValues;
+}
+
 std::shared_ptr<ProjectSettings> ProjectSettings::s_instance;
 
 std::shared_ptr<ProjectSettings> ProjectSettings::getInstance()
@@ -67,16 +84,12 @@ std::vector<std::string> ProjectSettings::getCompilerFlags() const
 
 std::vector<std::string> ProjectSettings::getHeaderExtensions() const
 {
-	std::vector<std::string> defaultValues;
-	defaultValues.push_back(".h");
-	return getValues("source/Extensions/HeaderExtensions", defaultValues);
+	return getValues("source/Extensions/HeaderExtensions", getDefaultHeaderExtensions());
 }
 
 std::vector<std::string> ProjectSettings::getSourceExtensions() const
 {
-	std::vector<std::string> defaultValues;
-	defaultValues.push_back(".cpp");
-	return getValues("source/Extensions/SourceExtensions", defaultValues);
+	return getValues("source/Extensions/SourceExtensions", getDefaultSourceExtensions());
 }
 
 bool ProjectSettings::setHeaderExtensions(const std::vector<std::string> &headerExtensions)

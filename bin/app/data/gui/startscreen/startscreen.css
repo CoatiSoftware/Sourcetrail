@@ -1,28 +1,35 @@
 #projectButton {
+	background: white;
+	border: 1px solid lightgray;
+	border-radius: 10px;
 	font-size: 17pt;
-    border: 1px solid lightgray;
-    border-radius: 10px;
-    background: white;
 }
 
 #projectButton:hover {
-    color: white;
-    background: navy;
+	background: #2D3F85;
+	color: white;
 }
 
-#recentButton{
-    font-size: 12pt;
-    color: black;
-    background: none;
-    border: none;
+#recentButton {
+	background: none;
+	border: none;
+	color: black;
+	font-size: 12pt;
 }
 
-#recentButton:hover{
-    background: lightgray;
-    border-radius: 10px;
+#recentButton:hover {
+	background-color: rgba(45, 63, 133, 70);
+	border-radius: 10px;
 }
 
 #recentLabel {
-	font-size: 16pt;
 	color: black;
+	font-size: 16pt;
+	font-weight: bold;
+}
+
+QToolTip {
+	background-color: <color:tool_tip/background>;
+	color: <color:tool_tip/text>;
+	font-size: <setting:font_size>pt;
 }

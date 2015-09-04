@@ -18,10 +18,11 @@ public:
 	virtual void save(const FilePath& filePath);
 	void clear();
 
+	const FilePath& getFilePath() const;
+
 protected:
 	Settings();
 
-	const FilePath& getFilePath() const;
 	void setFilePath(const FilePath& filePath);
 
 	template<typename T>

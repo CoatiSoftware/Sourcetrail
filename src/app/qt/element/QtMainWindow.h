@@ -38,14 +38,23 @@ protected:
 
 public slots:
 	void about();
+	void hideScreens();
+	void restoreScreens();
+	void showStartScreen();
+
 	void newProject();
 	void openProject(const QString &path = QString());
+	void editProject();
+
 	void find();
 	void closeWindow();
 	void refresh();
+
 	void saveProject();
 	void saveAsProject();
+
 	void showLicences();
+
 	void undo();
 	void redo();
 	void zoomIn();
@@ -70,6 +79,8 @@ private:
 	std::vector<std::pair<View*, QDockWidget*>> m_dockWidgets;
 
 	QShortcut* m_escapeShortcut;
+
+	bool m_startScreenWasVisible;
 };
 
 #endif // QT_MAIN_WINDOW_H

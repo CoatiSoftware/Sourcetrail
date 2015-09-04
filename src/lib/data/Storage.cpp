@@ -809,6 +809,11 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationsForLinesInFile(
 	std::shared_ptr<TokenLocationFile> ret = std::make_shared<TokenLocationFile>(filePath);
 
 	std::shared_ptr<TokenLocationFile> locationFile = m_sqliteStorage.getTokenLocationsForFile(filePath);
+	if (!locationFile->getTokenLocationLines().size())
+	{
+		return ret;
+	}
+
 	uint endLineNumber = locationFile->getTokenLocationLines().rbegin()->first;
 	std::set<int> addedLocationIds;
 	for (uint i = firstLineNumber; i <= endLineNumber; i++)

@@ -1,27 +1,64 @@
-.QtDirectoryListBox {
-    border: 1px solid lightgray;
-    border-radius: 15px;
-    background-color: rgba(255, 255, 255, 200);
+QtDirectoryListBox {
+	background-color: rgba(255, 255, 255, 200);
+	border: 1px solid lightgray;
+	border-radius: 12px;
 }
 
-.QListWidget {
-    border: none;
-    background: transparent;
+QListWidget {
+	background: transparent;
+	border: none;
+	margin: 2px 0 2px 0;
+}
+
+QListWidget::item {
+	border-bottom: 1px solid lightgray;
+	height: 20px;
+}
+
+QListWidget::item:selected {
+	background-color: #EEE;
+}
+
+
+QtListItemWidget #field {
+	background-color: transparent;
+	border: none;
+	font-size: 12px;
+	margin-top: 2px;
+}
+
+QtListItemWidget #button {
+	border: 1px solid lightgray;
+	border-radius: 8px;
+	font-size: 12px;
+	margin-top: 2px;
+	margin-right: 2px;
+	width: 20px;
+}
+
+QtListItemWidget #button:hover {
+	color: white;
+	background: #2D3F85;
+}
+
+#bar {
+	border-top: 1px solid lightgray;
 }
 
 #roundedButton {
-    font-size: 15px;
-    color: white;
-    border-radius: 10px;
-    background: dimgray;
-    width: 20px;
-    height: 20px;
+	background: dimgray;
+	border-radius: 8px;
+	color: white;
+	font-size: 15px;
+	height: 16px;
+	margin-right: 3px;
+	width: 16px;
 }
 
 #roundedButton:hover {
-    background: lightgray;
+	background: gray;
 }
 
 #dropInfo {
-    color: lightgray;
+	color: lightgray;
 }

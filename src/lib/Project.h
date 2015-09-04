@@ -22,8 +22,6 @@ public:
 	void clearProjectSettings();
 	void reloadProjectSettings();
 
-	bool setSourceDirectoryPath(const std::string& sourceDirectoryPath);
-
 	void clearStorage();
 	void parseCode();
 

@@ -4,7 +4,8 @@
 #include <QtWidgets/qpushbutton.h>
 #include "QtSettingsWindow.h"
 
-class QtRecentProjectButton : public QPushButton
+class QtRecentProjectButton
+	: public QPushButton
 {
 Q_OBJECT
 public:
@@ -15,7 +16,8 @@ private:
 	std::string m_projectFile;
 };
 
-class QtStartScreen : public QtSettingsWindow
+class QtStartScreen
+	: public QtSettingsWindow
 {
 	Q_OBJECT
 
@@ -27,10 +29,13 @@ public:
 signals:
 	void openOpenProjectDialog();
 	void openNewProjectDialog();
+	void finished();
 
 private slots:
 	void handleNewProjectButton();
 	void handleOpenProjectButton();
+	void handleRecentButton();
+
 private:
 	QPushButton* m_openProjectButton;
 	QPushButton* m_newProjectButton;

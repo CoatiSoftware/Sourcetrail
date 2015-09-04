@@ -1,39 +1,63 @@
+#titleLabel {
+	color: black;
+	font-size: 16pt;
+	font-weight: bold;
+}
+
 QLineEdit {
-    border-radius: 10px;
-    border: 1px solid lightgrey;
-    background-color: rgba(255, 255, 255, 200);
+	background-color: rgba(255, 255, 255, 200);
+	border-radius: 10px;
+	border: 1px solid lightgrey;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+QLineEdit:disabled {
+	border: 1px solid lightgrey;
+}
+
+#formArea {
+	background-color: transparent;
+	border: none;
+	border-top: 1px solid lightgrey;
+	border-bottom: 1px solid lightgrey;
 }
 
 #form {
-    background-color: rgba(255, 255, 255, 200);
-    border: none;
+	background-color: rgba(255, 255, 255, 220);
+}
+
+#form QLabel {
+	font-weight: bold;
 }
 
 #moreButton {
-    font-size: 15px;
-    margin-left: 10px;
-    color: gray;
-    border-radius: 10px;
-    border: 1px solid lightgray;
-    background: white;
-    width: 40px;
-    height: 20px;
+	background-color: rgba(255, 255, 255, 200);
+	border: 1px solid lightgray;
+	border-radius: 10px;
+	color: gray;
+	font-size: 15px;
+	height: 20px;
+	margin-left: 10px;
+	width: 28px;
 }
 
-#moreutton:hover {
-    background: lightgray;
+#moreButton:hover {
+	color: white;
+	background: #2D3F85;
 }
 
 #windowButton {
-    margin-left: 10px;
-    color: black;
-    border-radius: 10px;
-    border: 1px solid lightgray;
-    background: white;
-    width: 40px;
-    height: 20px;
+	background: white;
+	border: 1px solid lightgray;
+	border-radius: 10px;
+	color: black;
+	font-size: 17pt;
+	height: 30px;
+	width: 140px;
 }
 
 #windowButton:hover {
-    background: lightgray;
+	color: white;
+	background: #2D3F85;
 }

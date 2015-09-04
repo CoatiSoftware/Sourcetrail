@@ -10,6 +10,9 @@ class ProjectSettings
 	: public Settings
 {
 public:
+	static std::vector<std::string> getDefaultHeaderExtensions();
+	static std::vector<std::string> getDefaultSourceExtensions();
+
 	static std::shared_ptr<ProjectSettings> getInstance();
 	~ProjectSettings();
 

@@ -12,7 +12,6 @@
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 #include "utility/messaging/type/MessageLoadProject.h"
-#include "utility/messaging/type/MessageLoadSource.h"
 #include "utility/messaging/type/MessageRedo.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageSearch.h"
@@ -33,7 +32,6 @@ class UndoRedoController
 	, public MessageListener<MessageGraphNodeExpand>
 	, public MessageListener<MessageGraphNodeMove>
 	, public MessageListener<MessageLoadProject>
-	, public MessageListener<MessageLoadSource>
 	, public MessageListener<MessageRedo>
 	, public MessageListener<MessageRefresh>
 	, public MessageListener<MessageSearch>
@@ -63,7 +61,6 @@ private:
 	virtual void handleMessage(MessageGraphNodeExpand* message);
 	virtual void handleMessage(MessageGraphNodeMove* message);
 	virtual void handleMessage(MessageLoadProject* message);
-	virtual void handleMessage(MessageLoadSource* message);
 	virtual void handleMessage(MessageRedo* message);
 	virtual void handleMessage(MessageRefresh* message);
 	virtual void handleMessage(MessageSearch* message);

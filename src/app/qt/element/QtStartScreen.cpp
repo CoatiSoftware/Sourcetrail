@@ -22,11 +22,10 @@ QtRecentProjectButton::QtRecentProjectButton(const QString &text, QWidget *paren
 void QtRecentProjectButton::handleButtonClick()
 {
 	MessageLoadProject(m_projectFile).dispatch();
-	parentWidget()->hide();
 };
 
 QtStartScreen::QtStartScreen(QWidget *parent)
-	: QtSettingsWindow(parent, 50)
+	: QtSettingsWindow(parent, 68)
 {
 	this->raise();
 }
@@ -37,7 +36,7 @@ void QtStartScreen::setup()
 	std::vector<std::string> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
 
 	QtDeviceScaledPixmap coati_logo("data/gui/startscreen/logo_schriftzug.png");
-	coati_logo.scaleToWidth(250);
+	coati_logo.scaleToWidth(200);
 	QLabel* coatiLogoLabel = new QLabel(this);
 	coatiLogoLabel->setPixmap(coati_logo.pixmap());
 	coatiLogoLabel->resize(coati_logo.width(), coati_logo.height());
@@ -45,28 +44,28 @@ void QtStartScreen::setup()
 
 	m_newProjectButton = new QPushButton("New Project", this);
 	m_newProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	m_newProjectButton->setGeometry(30, 375, 140, 30);
+	m_newProjectButton->setGeometry(30, 495, 140, 30);
 	m_newProjectButton->setObjectName("projectButton");
 	connect(m_newProjectButton, SIGNAL(clicked()), this, SLOT(handleNewProjectButton()));
 
 	m_openProjectButton = new QPushButton("Open Project", this);
 	m_openProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	m_openProjectButton->setGeometry(30, 420, 140, 30);
+	m_openProjectButton->setGeometry(30, 540, 140, 30);
 	m_openProjectButton->setObjectName("projectButton");
 	connect(m_openProjectButton, SIGNAL(clicked()), this, SLOT(handleOpenProjectButton()));
 
 	connect(this, SIGNAL(openOpenProjectDialog()), parent(), SLOT(openProject()));
 	connect(this, SIGNAL(openNewProjectDialog()), parent(), SLOT(newProject()));
 
-	QLabel* recentProjectsLabel = new QLabel("RECENT PROJECTS: ", this);
-	recentProjectsLabel->setGeometry(300, 129, 300, 50);
+	QLabel* recentProjectsLabel = new QLabel("Recent Projects: ", this);
+	recentProjectsLabel->setGeometry(300, 234, 300, 50);
 	recentProjectsLabel->setObjectName("recentLabel");
 
-	int position = 200;
+	int position = 290;
 	QIcon cpp_icon("data/gui/startscreen/Icon_CPP.png");
 	for (std::string project : recentProjects)
 	{
-		if(FileSystem::exists(project.c_str()))
+		if (FileSystem::exists(project.c_str()))
 		{
 			QtRecentProjectButton* button = new QtRecentProjectButton(project.c_str(), this);
 			button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
@@ -76,11 +75,12 @@ void QtStartScreen::setup()
 			button->minimumSizeHint(); // force font loading
 			button->setGeometry(292, position, button->fontMetrics().width(button->text()) + 45, 40);
 			connect(button, SIGNAL(clicked()), button, SLOT(handleButtonClick()));
+			connect(button, SIGNAL(clicked()), this, SLOT(handleRecentButton()));
 			position += 40;
 		}
 	}
 
-	resize(600,500);
+	resize(600, 600);
 }
 
 QSize QtStartScreen::sizeHint() const
@@ -90,12 +90,15 @@ QSize QtStartScreen::sizeHint() const
 
 void QtStartScreen::handleNewProjectButton()
 {
-	this->hide();
 	emit openNewProjectDialog();
 }
 
 void QtStartScreen::handleOpenProjectButton()
 {
-	this->hide();
 	emit openOpenProjectDialog();
+}
+
+void QtStartScreen::handleRecentButton()
+{
+	emit finished();
 }

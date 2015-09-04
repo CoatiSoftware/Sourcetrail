@@ -1,31 +1,34 @@
-#ifndef QTSETTINGSWINDOW_H
-#define QTSETTINGSWINDOW_H
+#ifndef QT_SETTINGS_WINDOW_H
+#define QT_SETTINGS_WINDOW_H
 
-#include <QWidget>
 #include <QResizeEvent>
+#include <QWidget>
 
-class QtSettingsWindow : public QWidget
+class QtSettingsWindow
+	: public QWidget
 {
 	Q_OBJECT
 
 public:
 	QtSettingsWindow(QWidget* parent = 0, int displacement = 0);
+
 	QSize sizeHint() const Q_DECL_OVERRIDE;
-  virtual void setup() = 0;
+
+	virtual void setup() = 0;
 
 protected:
-	QWidget* m_window;
-
 	void keyPressEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
 	void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
 	void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 	void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 	void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+
+	QWidget* m_window;
+
 private:
 	int m_displacment;
 	QPoint m_dragPosition;
 	bool m_mousePressedInWindow;
-	//void mouse
 };
 
-#endif //QTSETTINGSWINDOW_H
+#endif //QT_SETTINGS_WINDOW_H

@@ -57,14 +57,14 @@ void Settings::clear()
 	m_filePath = FilePath();
 }
 
-Settings::Settings()
-{
-	clear();
-}
-
 const FilePath& Settings::getFilePath() const
 {
 	return m_filePath;
+}
+
+Settings::Settings()
+{
+	clear();
 }
 
 void Settings::setFilePath(const FilePath& filePath)

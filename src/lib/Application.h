@@ -8,7 +8,6 @@
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageLoadProject.h"
-#include "utility/messaging/type/MessageLoadSource.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageSaveProject.h"
 
@@ -19,7 +18,6 @@ class StorageCache;
 class Application
 	: public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageLoadProject>
-	, public MessageListener<MessageLoadSource>
 	, public MessageListener<MessageRefresh>
 	, public MessageListener<MessageSaveProject>
 {
@@ -39,7 +37,6 @@ private:
 
 	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageLoadProject* message);
-	virtual void handleMessage(MessageLoadSource* message);
 	virtual void handleMessage(MessageRefresh* message);
 	virtual void handleMessage(MessageSaveProject* message);
 

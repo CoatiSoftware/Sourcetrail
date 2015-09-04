@@ -84,11 +84,6 @@ void UndoRedoController::handleMessage(MessageLoadProject* message)
 	clear();
 }
 
-void UndoRedoController::handleMessage(MessageLoadSource* message)
-{
-	clear();
-}
-
 void UndoRedoController::handleMessage(MessageRedo* message)
 {
 	if (!m_redo.empty())

@@ -67,20 +67,6 @@ void Application::loadProject(const std::string& projectSettingsFilePath)
 	updateRecentProjects(projectSettingsFilePath);
 }
 
-void Application::loadSource(const std::string& sourceDirectoryPath)
-{
-	MessageStatus("Loading Source: " + sourceDirectoryPath).dispatch();
-
-	m_storageCache->clear();
-	m_componentManager->refreshViews();
-
-	m_project = Project::create(m_storageCache.get());
-
-	m_project->clearProjectSettings();
-	m_project->setSourceDirectoryPath(sourceDirectoryPath);
-	m_project->parseCode();
-}
-
 void Application::reloadProject()
 {
 	MessageStatus("Refreshing Project").dispatch();
@@ -134,12 +120,6 @@ void Application::handleMessage(MessageLoadProject* message)
 {
 	m_isInitialParse = true;
 	loadProject(message->projectSettingsFilePath);
-}
-
-void Application::handleMessage(MessageLoadSource* message)
-{
-	m_isInitialParse = true;
-	loadSource(message->sourceDirectoryPath);
 }
 
 void Application::handleMessage(MessageRefresh* message)
