@@ -1,4 +1,4 @@
-#include "qt/element/QtStartScreen.h"
+#include "qt/window/QtStartScreen.h"
 
 #include <QLabel>
 #include <QHBoxLayout>
@@ -33,7 +33,6 @@ QtStartScreen::QtStartScreen(QWidget *parent)
 void QtStartScreen::setup()
 {
 	setStyleSheet(utility::getStyleSheet("data/gui/startscreen/startscreen.css").c_str());
-	std::vector<std::string> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
 
 	QtDeviceScaledPixmap coati_logo("data/gui/startscreen/logo_schriftzug.png");
 	coati_logo.scaleToWidth(200);
@@ -54,20 +53,19 @@ void QtStartScreen::setup()
 	m_openProjectButton->setObjectName("projectButton");
 	connect(m_openProjectButton, SIGNAL(clicked()), this, SLOT(handleOpenProjectButton()));
 
-	connect(this, SIGNAL(openOpenProjectDialog()), parent(), SLOT(openProject()));
-	connect(this, SIGNAL(openNewProjectDialog()), parent(), SLOT(newProject()));
-
 	QLabel* recentProjectsLabel = new QLabel("Recent Projects: ", this);
 	recentProjectsLabel->setGeometry(300, 234, 300, 50);
 	recentProjectsLabel->setObjectName("recentLabel");
 
 	int position = 290;
 	QIcon cpp_icon("data/gui/startscreen/Icon_CPP.png");
-	for (std::string project : recentProjects)
+	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
+	for (size_t i = 0; i < recentProjects.size() && i < 7; i++)
 	{
-		if (FileSystem::exists(project.c_str()))
+		FilePath project = recentProjects[i];
+		if (project.exists())
 		{
-			QtRecentProjectButton* button = new QtRecentProjectButton(project.c_str(), this);
+			QtRecentProjectButton* button = new QtRecentProjectButton(project.str().c_str(), this);
 			button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 			button->setIcon(cpp_icon);
 			button->setIconSize(QSize(25, 25));

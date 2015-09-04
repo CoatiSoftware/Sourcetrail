@@ -1,20 +1,25 @@
-#ifndef STARTSCREEN_H
-#define STARTSCREEN_H
+#ifndef QT_START_SCREEN_H
+#define QT_START_SCREEN_H
 
-#include <QtWidgets/qpushbutton.h>
-#include "QtSettingsWindow.h"
+#include <QPushButton>
+
+#include "qt/window/QtSettingsWindow.h"
 
 class QtRecentProjectButton
 	: public QPushButton
 {
-Q_OBJECT
+	Q_OBJECT
+
 public:
 	QtRecentProjectButton(const QString& text, QWidget* parent);
+
 public slots:
 	void handleButtonClick();
+
 private:
 	std::string m_projectFile;
 };
+
 
 class QtStartScreen
 	: public QtSettingsWindow
@@ -29,7 +34,6 @@ public:
 signals:
 	void openOpenProjectDialog();
 	void openNewProjectDialog();
-	void finished();
 
 private slots:
 	void handleNewProjectButton();
@@ -42,4 +46,4 @@ private:
 	std::vector<QPushButton*> m_recentProjects;
 };
 
-#endif //STARTSCREEN_H
+#endif // QT_START_SCREEN_H

@@ -8,9 +8,10 @@
 
 #include "Application.h"
 #include "includes.h" // defines 'void setup(int argc, char *argv[])'
-#include "qt/element/QtSplashScreen.h"
+#include "qt/window/QtSplashScreen.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewFactory.h"
+#include "version.h"
 
 void init()
 {
@@ -37,7 +38,7 @@ int main(int argc, char *argv[])
 
 	QtSplashScreen* splash = new QtSplashScreen(whitePixmap, Qt::WindowStaysOnTopHint);
 	splash->setMessage("Loading UI");
-	splash->setVersion("0.1");
+	splash->setVersion(GIT_VERSION_NUMBER);
 	splash->exec(qtApp);
 
 	init();

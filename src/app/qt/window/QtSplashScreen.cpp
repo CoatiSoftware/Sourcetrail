@@ -1,4 +1,4 @@
-#include "qt/element/QtSplashScreen.h"
+#include "qt/window/QtSplashScreen.h"
 
 #include <QApplication>
 #include <QThread>
@@ -88,7 +88,6 @@ void QtSplashScreen::drawContents(QPainter *painter)
 	QRect r = rect();
 	r.setRect(r.x() + 5, r.height() - 20, r.width() - 10, 20);
 
-	// TODO: automated Version number
 	painter->drawText(r, Qt::AlignRight, QString("Coati v").append(m_version));
 
 	// Draw message at given position, limited to 43 chars

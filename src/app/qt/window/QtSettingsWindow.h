@@ -4,6 +4,10 @@
 #include <QResizeEvent>
 #include <QWidget>
 
+class QFormLayout;
+class QLabel;
+class QPushButton;
+
 class QtSettingsWindow
 	: public QWidget
 {
@@ -16,6 +20,10 @@ public:
 
 	virtual void setup() = 0;
 
+signals:
+	void finished();
+	void canceled();
+
 protected:
 	void keyPressEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
 	void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
@@ -23,7 +31,18 @@ protected:
 	void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 	void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
+	void setupForm();
+	virtual void populateForm(QFormLayout* layout);
+
+	void updateTitle(QString title);
+	void updateDoneButton(QString text);
+
 	QWidget* m_window;
+
+	QLabel* m_title;
+
+	QPushButton* m_cancelButton;
+	QPushButton* m_doneButton;
 
 private:
 	int m_displacment;

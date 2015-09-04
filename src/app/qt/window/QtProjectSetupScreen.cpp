@@ -1,19 +1,15 @@
-#include "qt/element/QtProjectSetupScreen.h"
+#include "qt/window/QtProjectSetupScreen.h"
 
 #include <QComboBox>
 #include <QFileDialog>
 #include <QFormLayout>
-#include <QLabel>
 #include <QLineEdit>
 #include <QMessageBox>
-#include <QScrollArea>
 #include <QSysInfo>
 
-#include "settings/ProjectSettings.h"
-#include "utility/logging/logging.h"
-#include "qt/utility/QtDeviceScaledPixmap.h"
 #include "utility/messaging/type/MessageLoadProject.h"
-#include "qt/utility/utilityQt.h"
+
+#include "settings/ProjectSettings.h"
 
 QtTextLine::QtTextLine(QWidget *parent)
 	: QWidget(parent)
@@ -59,43 +55,50 @@ void QtTextLine::handleButtonPress()
 	}
 }
 
+
 QtProjectSetupScreen::QtProjectSetupScreen(QWidget *parent)
 	: QtSettingsWindow(parent)
 {
 	raise();
 }
 
+QSize QtProjectSetupScreen::sizeHint() const
+{
+	return QSize(600,600);
+}
+
 void QtProjectSetupScreen::setup()
 {
-	QtDeviceScaledPixmap coati_logo("data/gui/startscreen/logo.png");
-	coati_logo.scaleToWidth(400);
-	QLabel* coatiLogoLabel = new QLabel(m_window);
-	coatiLogoLabel->setPixmap(coati_logo.pixmap());
-	coatiLogoLabel->resize(coati_logo.width(), coati_logo.height());
-	coatiLogoLabel->move(100, 100);
+	setupForm();
+}
 
-	setStyleSheet(utility::getStyleSheet("data/gui/settingwindows/projectsetup.css").c_str());
-	QVBoxLayout* windowLayout = new QVBoxLayout();
-	windowLayout->setContentsMargins(25, 30, 25, 20);
+void QtProjectSetupScreen::loadEmpty()
+{
+	updateTitle("NEW PROJECT");
+	updateDoneButton("Create");
+}
 
-	m_title = new QLabel();
-	m_title->setObjectName("titleLabel");
-	windowLayout->addWidget(m_title);
-	windowLayout->addSpacing(30);
+void QtProjectSetupScreen::loadProjectSettings()
+{
+	updateTitle("EDIT PROJECT");
+	updateDoneButton("Save");
 
-	QScrollArea* scrollArea = new QScrollArea();
-	scrollArea->setObjectName("formArea");
-	scrollArea->setFrameShadow(QFrame::Plain);
-	scrollArea->setWidgetResizable(true);
+	ProjectSettings* projSettings = ProjectSettings::getInstance().get();
 
-	QWidget* form = new QWidget();
-	form->setObjectName("form");
-	scrollArea->setWidget(form);
+	m_projectName->setText(QString::fromStdString(projSettings->getFilePath().withoutExtension().fileName()));
+	m_projectFileLocation->setText(QString::fromStdString(projSettings->getFilePath().parentDirectory().str()));
 
-	QFormLayout *layout = new QFormLayout();
-	layout->setContentsMargins(10, 10, 10, 10);
-	layout->setHorizontalSpacing(20);
+	m_sourcePaths->setList(projSettings->getSourcePaths());
+	m_includePaths->setList(projSettings->getHeaderSearchPaths());
 
+	if (m_frameworkPaths)
+	{
+		m_frameworkPaths->setList(projSettings->getFrameworkSearchPaths());
+	}
+}
+
+void QtProjectSetupScreen::populateForm(QFormLayout* layout)
+{
 	int minimumWidthForSecondCol = 360;
 
 	QLabel* nameLabel = new QLabel("Name");
@@ -132,62 +135,14 @@ void QtProjectSetupScreen::setup()
 		m_frameworkPaths->setMinimumWidth(minimumWidthForSecondCol);
 		layout->addRow(frameworkPathsLabel, m_frameworkPaths);
 	}
-
-	form->setLayout(layout);
-
-	m_createButton = new QPushButton("Create");
-	m_createButton->setObjectName("windowButton");
-	m_cancelButton = new QPushButton("Cancel");
-	m_cancelButton->setObjectName("windowButton");
-	m_updateButton = new QPushButton("Update");
-	m_updateButton->setObjectName("windowButton");
-
-	connect(m_createButton, SIGNAL(clicked()), this, SLOT(handleCreateButtonPress()));
-	connect(m_cancelButton, SIGNAL(clicked()), this, SLOT(handleCancelButtonPress()));
-	connect(m_updateButton, SIGNAL(clicked()), this, SLOT(handleUpdateButtonPress()));
-
-	QHBoxLayout* buttons = new QHBoxLayout();
-	buttons->addWidget(m_cancelButton);
-	buttons->addStretch();
-	buttons->addWidget(m_createButton);
-	buttons->addWidget(m_updateButton);
-
-	windowLayout->addWidget(scrollArea);
-	windowLayout->addSpacing(20);
-	windowLayout->addLayout(buttons);
-
-	m_window->setLayout(windowLayout);
-	resize(QSize(600, 620));
-
-	scrollArea->raise();
 }
 
-void QtProjectSetupScreen::loadEmpty()
+void QtProjectSetupScreen::handleCancelButtonPress()
 {
-	m_updateButton->hide();
-	m_createButton->show();
-
-	m_title->setText("NEW PROJECT");
+	emit canceled();
 }
 
-void QtProjectSetupScreen::loadProjectSettings()
-{
-	m_updateButton->show();
-	m_createButton->hide();
-
-	m_title->setText("EDIT PROJECT");
-
-	ProjectSettings* projSettings = ProjectSettings::getInstance().get();
-
-	m_projectName->setText(QString::fromStdString(projSettings->getFilePath().withoutExtension().fileName()));
-	m_projectFileLocation->setText(QString::fromStdString(projSettings->getFilePath().parentDirectory().str()));
-
-	m_sourcePaths->setList(projSettings->getSourcePaths());
-	m_includePaths->setList(projSettings->getHeaderSearchPaths());
-	m_frameworkPaths->setList(projSettings->getFrameworkSearchPaths());
-}
-
-void QtProjectSetupScreen::handleCreateButtonPress()
+void QtProjectSetupScreen::handleDoneButtonPress()
 {
 	if (m_projectName->text().isEmpty())
 	{
@@ -231,19 +186,4 @@ void QtProjectSetupScreen::handleCreateButtonPress()
 
 	MessageLoadProject(projectFile).dispatch();
 	emit finished();
-}
-
-void QtProjectSetupScreen::handleCancelButtonPress()
-{
-	emit canceled();
-}
-
-void QtProjectSetupScreen::handleUpdateButtonPress()
-{
-	handleCreateButtonPress();
-}
-
-QSize QtProjectSetupScreen::sizeHint() const
-{
-	return QSize(600,600);
 }

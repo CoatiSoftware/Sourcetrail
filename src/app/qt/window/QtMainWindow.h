@@ -5,11 +5,12 @@
 #include <utility>
 #include <vector>
 
+#include <QMainWindow>
 #include <QShortcut>
-#include <QtWidgets/QMainWindow>
 
-#include "QtStartScreen.h"
-#include "QtProjectSetupScreen.h"
+#include "qt/window/QtApplicationSettingsScreen.h"
+#include "qt/window/QtStartScreen.h"
+#include "qt/window/QtProjectSetupScreen.h"
 
 class QDockWidget;
 class View;
@@ -39,9 +40,11 @@ protected:
 public slots:
 	void about();
 	void hideScreens();
+	void closeScreens();
 	void restoreScreens();
-	void showStartScreen();
 
+	void openSettings();
+	void showStartScreen();
 	void newProject();
 	void openProject(const QString &path = QString());
 	void editProject();
@@ -73,6 +76,7 @@ private:
 
 	QDockWidget* getDockWidgetForView(View* view) const;
 
+	std::shared_ptr<QtApplicationSettingsScreen> m_applicationSettingsScreen;
 	std::shared_ptr<QtStartScreen> m_startScreen;
 	std::shared_ptr<QtProjectSetupScreen> m_newProjectDialog;
 

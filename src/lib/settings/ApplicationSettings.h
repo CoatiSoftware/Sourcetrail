@@ -16,7 +16,11 @@ public:
 
 	// source
 	std::vector<FilePath> getHeaderSearchPaths() const;
+	bool setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths);
+
 	std::vector<FilePath> getFrameworkSearchPaths() const;
+	bool setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths);
+
 	std::vector<std::string> getCompilerFlags() const;
 
 	// application
@@ -29,10 +33,6 @@ public:
 	std::string getColorSchemePath() const;
 	void setColorSchemePath(const std::string& colorSchemePath);
 
-	//recent projects
-	std::vector<std::string> getRecentProjects() const;
-	bool setRecentProjects(const std::vector<std::string>& recentProjects);
-
 	// code
 	int getCodeTabWidth() const;
 	void setCodeTabWidth(int codeTabWidth);
@@ -42,6 +42,13 @@ public:
 
 	int getCodeSnippetExpandRange() const;
 	void setCodeSnippetExpandRange(int range);
+
+	// user
+	bool getUserHasSeenSettings() const;
+	void setUserHasSeenSettings(bool hasSeenSettings);
+
+	std::vector<FilePath> getRecentProjects() const;
+	bool setRecentProjects(const std::vector<FilePath>& recentProjects);
 
 private:
 	ApplicationSettings();

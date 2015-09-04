@@ -27,6 +27,8 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 	ptr->m_componentManager->setup(ptr->m_mainView.get());
 	ptr->m_mainView->loadLayout();
 
+	ptr->m_project = Project::create(ptr->m_storageCache.get());
+
 	return ptr;
 }
 
@@ -53,9 +55,9 @@ Application::~Application()
 	m_mainView->saveLayout();
 }
 
-void Application::loadProject(const std::string& projectSettingsFilePath)
+void Application::loadProject(const FilePath& projectSettingsFilePath)
 {
-	MessageStatus("Loading Project: " + projectSettingsFilePath).dispatch();
+	MessageStatus("Loading Project: " + projectSettingsFilePath.str()).dispatch();
 
 	m_storageCache->clear();
 	m_componentManager->refreshViews();
@@ -78,7 +80,7 @@ void Application::reloadProject()
 	m_project->parseCode();
 }
 
-void Application::saveProject(const std::string& projectSettingsFilePath)
+void Application::saveProject(const FilePath& projectSettingsFilePath)
 {
 	if (!m_project->saveProjectSettings(projectSettingsFilePath))
 	{
@@ -140,13 +142,13 @@ void Application::handleMessage(MessageSaveProject* message)
 	saveProject(message->projectSettingsFilePath);
 }
 
-void Application::updateRecentProjects(const std::string& projectSettingsFilePath)
+void Application::updateRecentProjects(const FilePath& projectSettingsFilePath)
 {
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-	std::vector<std::string> recentProjects = appSettings->getRecentProjects();
+	std::vector<FilePath> recentProjects = appSettings->getRecentProjects();
 	if (recentProjects.size())
 	{
-		std::vector<std::string>::iterator it = std::find(recentProjects.begin(), recentProjects.end(), projectSettingsFilePath);
+		std::vector<FilePath>::iterator it = std::find(recentProjects.begin(), recentProjects.end(), projectSettingsFilePath);
 		if (it != recentProjects.end())
 		{
 			recentProjects.erase(it);

@@ -17,8 +17,8 @@ public:
 
 	~Project();
 
-	bool loadProjectSettings(const std::string& projectSettingsFile);
-	bool saveProjectSettings(const std::string& projectSettingsFile);
+	bool loadProjectSettings(const FilePath& projectSettingsFile);
+	bool saveProjectSettings(const FilePath& projectSettingsFile);
 	void clearProjectSettings();
 	void reloadProjectSettings();
 
@@ -38,7 +38,7 @@ private:
 
 	StorageAccessProxy* const m_storageAccessProxy;
 
-	std::string m_projectSettingsFilepath;
+	FilePath m_projectSettingsFilepath;
 	FileManager m_fileManager;
 
 	std::shared_ptr<Storage> m_storage;

@@ -1,16 +1,14 @@
 #ifndef QT_PROJECT_SETUP_SCREEN_H
 #define QT_PROJECT_SETUP_SCREEN_H
 
-#include <QListWidget>
 #include <QPushButton>
 #include <QWidget>
-
-#include "QtSettingsWindow.h"
 
 #include "utility/file/FilePath.h"
 
 #include "qt/element/QtDirectoryListBox.h"
 #include "qt/element/QtLineEdit.h"
+#include "qt/window/QtSettingsWindow.h"
 
 class QtTextLine
 	: public QWidget
@@ -45,20 +43,16 @@ public:
 	void loadEmpty();
 	void loadProjectSettings();
 
-signals:
-	void finished();
-	void canceled();
+protected:
+	virtual void populateForm(QFormLayout* layout);
 
 private slots:
-	void handleCreateButtonPress();
 	void handleCancelButtonPress();
-	void handleUpdateButtonPress();
+	void handleDoneButtonPress();
 
 private:
 	QLineEdit* m_projectName;
 	QtTextLine* m_projectFileLocation;
-
-	QLabel* m_title;
 
 	QPushButton* m_createButton;
 	QPushButton* m_cancelButton;

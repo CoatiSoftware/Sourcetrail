@@ -21,7 +21,7 @@ Project::~Project()
 {
 }
 
-bool Project::loadProjectSettings(const std::string& projectSettingsFile)
+bool Project::loadProjectSettings(const FilePath& projectSettingsFile)
 {
 	bool success = ProjectSettings::getInstance()->load(projectSettingsFile);
 	if (success)
@@ -34,28 +34,28 @@ bool Project::loadProjectSettings(const std::string& projectSettingsFile)
 	return success;
 }
 
-bool Project::saveProjectSettings(const std::string& projectSettingsFile)
+bool Project::saveProjectSettings(const FilePath& projectSettingsFile)
 {
-	if (projectSettingsFile.size())
+	if (!projectSettingsFile.empty())
 	{
 		m_projectSettingsFilepath = projectSettingsFile;
 	}
 
-	if (!m_projectSettingsFilepath.size())
+	if (m_projectSettingsFilepath.empty())
 	{
 		return false;
 	}
 
 	ProjectSettings::getInstance()->save(m_projectSettingsFilepath);
 
-	LOG_INFO_STREAM(<< "ProjectSettings saved to file: " << m_projectSettingsFilepath);
+	LOG_INFO_STREAM(<< "ProjectSettings saved to file: " << m_projectSettingsFilepath.str());
 
 	return true;
 }
 
 void Project::clearProjectSettings()
 {
-	m_projectSettingsFilepath.clear();
+	m_projectSettingsFilepath = FilePath();
 	ProjectSettings::getInstance()->clear();
 
 	m_fileManager.reset();
@@ -63,7 +63,7 @@ void Project::clearProjectSettings()
 
 void Project::reloadProjectSettings()
 {
-	if (m_projectSettingsFilepath.size())
+	if (!m_projectSettingsFilepath.empty())
 	{
 		ProjectSettings::getInstance()->load(m_projectSettingsFilepath);
 		updateFileManager();
@@ -78,6 +78,11 @@ void Project::clearStorage()
 
 void Project::parseCode()
 {
+	if (m_projectSettingsFilepath.empty())
+	{
+		return;
+	}
+
 	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
 
 	m_fileManager.fetchFilePaths();

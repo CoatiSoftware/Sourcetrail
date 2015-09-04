@@ -27,10 +27,9 @@ public:
 
 	~Application();
 
-	void loadProject(const std::string& projectSettingsFilePath);
-	void loadSource(const std::string& sourceDirectoryPath);
-	void saveProject(const std::string& projectSettingsFilePath);
+	void loadProject(const FilePath& projectSettingsFilePath);
 	void reloadProject();
+	void saveProject(const FilePath& projectSettingsFilePath);
 
 private:
 	Application();
@@ -40,7 +39,7 @@ private:
 	virtual void handleMessage(MessageRefresh* message);
 	virtual void handleMessage(MessageSaveProject* message);
 
-	void updateRecentProjects(const std::string& projectSettingsFilePath);
+	void updateRecentProjects(const FilePath& projectSettingsFilePath);
 
 	std::shared_ptr<Project> m_project;
 	std::shared_ptr<StorageCache> m_storageCache;

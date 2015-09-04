@@ -38,4 +38,12 @@
 			<expand_range><!-- INTEGER: amount of lines that the snippet range (not snapped) will be extended --></expand_range>
 		</snippet>
 	</code>
+
+	<user>
+		<has_seen_settings><!-- BOOL: if the user was already asked to enter app settings --></has_seen_settings>
+
+		<recent_projects>
+			<recent_project><!-- STRING: recent project path --></recent_project>
+		</recent_projects>
+	</user>
 </config>

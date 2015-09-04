@@ -1,4 +1,4 @@
-#include "qt/element/QtMainWindow.h"
+#include "qt/window/QtMainWindow.h"
 
 #include <QApplication>
 #include <QFileDialog>
@@ -7,11 +7,10 @@
 #include <QMessageBox>
 #include <QSettings>
 
-#include "version.h"
-
 #include "component/view/View.h"
 #include "component/view/CompositeView.h"
 #include "qt/view/QtViewWidgetWrapper.h"
+#include "settings/ApplicationSettings.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
@@ -23,6 +22,7 @@
 #include "utility/messaging/type/MessageUndo.h"
 #include "utility/messaging/type/MessageWindowFocus.h"
 #include "utility/messaging/type/MessageZoom.h"
+#include "version.h"
 
 QtMainWindow::QtMainWindow()
 	:  m_startScreenWasVisible(false)
@@ -50,9 +50,21 @@ QtMainWindow::QtMainWindow()
 
 void QtMainWindow::init()
 {
-	showStartScreen();
-}
+	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 
+	if (appSettings->getUserHasSeenSettings())
+	{
+		showStartScreen();
+	}
+	else
+	{
+		openSettings();
+		m_startScreenWasVisible = true;
+
+		appSettings->setUserHasSeenSettings(true);
+		appSettings->save();
+	}
+}
 
 QtMainWindow::~QtMainWindow()
 {
@@ -156,6 +168,11 @@ void QtMainWindow::about()
 
 void QtMainWindow::hideScreens()
 {
+	if (m_applicationSettingsScreen)
+	{
+		m_applicationSettingsScreen->hide();
+	}
+
 	if (m_startScreen)
 	{
 		m_startScreen->hide();
@@ -165,51 +182,71 @@ void QtMainWindow::hideScreens()
 	{
 		m_newProjectDialog->hide();
 	}
+}
+
+void QtMainWindow::closeScreens()
+{
+	hideScreens();
+	m_startScreenWasVisible = false;
 }
 
 void QtMainWindow::restoreScreens()
 {
+	if (m_startScreenWasVisible)
+	{
+		showStartScreen();
+	}
+	else
+	{
+		closeScreens();
+	}
+}
+
+void QtMainWindow::openSettings()
+{
 	hideScreens();
 
-	if (m_startScreen && m_startScreenWasVisible)
+	if (!m_applicationSettingsScreen)
 	{
-		m_startScreen->show();
+		m_applicationSettingsScreen = std::make_shared<QtApplicationSettingsScreen>(this);
+		m_applicationSettingsScreen->setup();
+		connect(m_applicationSettingsScreen.get(), SIGNAL(finished()), this, SLOT(restoreScreens()));
+		connect(m_applicationSettingsScreen.get(), SIGNAL(canceled()), this, SLOT(restoreScreens()));
 	}
 
-	m_startScreenWasVisible = false;
+	m_applicationSettingsScreen->load();
+	m_applicationSettingsScreen->show();
 }
 
 void QtMainWindow::showStartScreen()
 {
+	hideScreens();
+
 	if (!m_startScreen)
 	{
 		m_startScreen = std::make_shared<QtStartScreen>(this);
 		m_startScreen->setup();
-		connect(m_startScreen.get(), SIGNAL(finished()), this, SLOT(hideScreens()));
+		connect(m_startScreen.get(), SIGNAL(finished()), this, SLOT(closeScreens()));
+		connect(m_startScreen.get(), SIGNAL(canceled()), this, SLOT(closeScreens()));
+
+		connect(m_startScreen.get(), SIGNAL(openOpenProjectDialog()), this, SLOT(openProject()));
+		connect(m_startScreen.get(), SIGNAL(openNewProjectDialog()), this, SLOT(newProject()));
 	}
 
 	m_startScreen->show();
 	m_startScreenWasVisible = true;
-
-	if (m_newProjectDialog)
-	{
-		m_newProjectDialog->hide();
-	}
 }
 
 void QtMainWindow::newProject()
 {
-	if (m_startScreen)
-	{
-		m_startScreen->hide();
-	}
+	hideScreens();
 
 	if (!m_newProjectDialog)
 	{
 		m_newProjectDialog = std::make_shared<QtProjectSetupScreen>(this);
 		m_newProjectDialog->setup();
 
-		connect(m_newProjectDialog.get(), SIGNAL(finished()), this, SLOT(hideScreens()));
+		connect(m_newProjectDialog.get(), SIGNAL(finished()), this, SLOT(closeScreens()));
 		connect(m_newProjectDialog.get(), SIGNAL(canceled()), this, SLOT(restoreScreens()));
 	}
 
@@ -229,6 +266,7 @@ void QtMainWindow::openProject(const QString &path)
 	if (!fileName.isEmpty())
 	{
 		MessageLoadProject(fileName.toStdString()).dispatch();
+		closeScreens();
 	}
 }
 
@@ -307,6 +345,7 @@ void QtMainWindow::switchColorScheme()
 
 void QtMainWindow::handleEscapeShortcut()
 {
+	closeScreens();
 	MessageInterruptTasks().dispatch();
 }
 
@@ -362,6 +401,7 @@ void QtMainWindow::setupHelpMenu()
 	menu->addAction(tr("&About"), this, SLOT(about()));
 	menu->addAction(tr("About &Qt"), QCoreApplication::instance(), SLOT(aboutQt()));
 	//menu->addAction(tr("Licences"), QCoreApplication::instance(), SLOT(showLicences()));
+	menu->addAction(tr("Preferences..."), this, SLOT(openSettings()));
 }
 
 void QtMainWindow::setupShortcuts()

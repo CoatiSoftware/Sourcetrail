@@ -26,9 +26,19 @@ std::vector<FilePath> ApplicationSettings::getHeaderSearchPaths() const
 	return getPathValues("source/HeaderSearchPaths/HeaderSearchPath");
 }
 
+bool ApplicationSettings::setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths)
+{
+	return setPathValues("source/HeaderSearchPaths/HeaderSearchPath", headerSearchPaths);
+}
+
 std::vector<FilePath> ApplicationSettings::getFrameworkSearchPaths() const
 {
 	return getPathValues("source/FrameworkSearchPaths/FrameworkSearchPath");
+}
+
+bool ApplicationSettings::setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths)
+{
+	return setPathValues("source/FrameworkSearchPaths/FrameworkSearchPath", frameworkSearchPaths);
 }
 
 std::vector<std::string> ApplicationSettings::getCompilerFlags() const
@@ -101,11 +111,22 @@ ApplicationSettings::ApplicationSettings()
 {
 }
 
-std::vector<std::string> ApplicationSettings::getRecentProjects() const {
-	std::vector<std::string> recentProjects;
-	return getValues("recentProjects/projectFilePath", recentProjects);
+std::vector<FilePath> ApplicationSettings::getRecentProjects() const
+{
+	return getPathValues("user/recent_projects/recent_project");
 }
 
-bool ApplicationSettings::setRecentProjects(const std::vector<std::string> &recentProjects) {
-	return setValues("recentProjects/projectFilePath", recentProjects);
+bool ApplicationSettings::setRecentProjects(const std::vector<FilePath> &recentProjects)
+{
+	return setPathValues("user/recent_projects/recent_project", recentProjects);
+}
+
+bool ApplicationSettings::getUserHasSeenSettings() const
+{
+	return getValue<bool>("user/has_seen_settings", false);
+}
+
+void ApplicationSettings::setUserHasSeenSettings(bool hasSeenSettings)
+{
+	setValue<bool>("user/has_seen_settings", hasSeenSettings);
 }

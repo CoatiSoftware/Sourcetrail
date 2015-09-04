@@ -81,7 +81,7 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent)
 	m_list->setObjectName("list");
 	m_list->setAttribute(Qt::WA_MacShowFocusRect, 0);
 
-	setStyleSheet(utility::getStyleSheet("data/gui/settingwindows/listbox.css").c_str());
+	setStyleSheet(utility::getStyleSheet("data/gui/setting_window/listbox.css").c_str());
 	layout->addWidget(m_list);
 
 	QWidget* buttonContainer = new QWidget(this);

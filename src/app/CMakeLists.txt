@@ -19,22 +19,13 @@ add_files(
 	qt/element/QtDirectoryListBox.h
 	qt/element/QtLineEdit.cpp
 	qt/element/QtLineEdit.h
-	qt/element/QtMainWindow.cpp
-	qt/element/QtMainWindow.h
-	qt/element/QtProjectSetupScreen.cpp
-	qt/element/QtProjectSetupScreen.h
 	qt/element/QtRefreshBar.cpp
 	qt/element/QtRefreshBar.h
 	qt/element/QtSearchBar.cpp
 	qt/element/QtSearchBar.h
-	qt/element/QtSettingsWindow.cpp
-	qt/element/QtSettingsWindow.h
 	qt/element/QtSmartSearchBox.cpp
 	qt/element/QtSmartSearchBox.h
-	qt/element/QtSplashScreen.cpp
-	qt/element/QtSplashScreen.h
-	qt/element/QtStartScreen.cpp
-	qt/element/QtStartScreen.h
+
 	qt/element/QtStatusBar.cpp
 	qt/element/QtStatusBar.h
 	qt/element/QtUndoRedo.cpp
@@ -97,6 +88,19 @@ add_files(
 	qt/view/QtViewFactory.h
 	qt/view/QtViewWidgetWrapper.cpp
 	qt/view/QtViewWidgetWrapper.h
+
+	qt/window/QtApplicationSettingsScreen.cpp
+	qt/window/QtApplicationSettingsScreen.h
+	qt/window/QtMainWindow.cpp
+	qt/window/QtMainWindow.h
+	qt/window/QtProjectSetupScreen.cpp
+	qt/window/QtProjectSetupScreen.h
+	qt/window/QtSettingsWindow.cpp
+	qt/window/QtSettingsWindow.h
+	qt/window/QtSplashScreen.cpp
+	qt/window/QtSplashScreen.h
+	qt/window/QtStartScreen.cpp
+	qt/window/QtStartScreen.h
 
 	main.cpp
 )

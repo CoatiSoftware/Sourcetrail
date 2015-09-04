@@ -2,7 +2,7 @@
 
 #include "utility/logging/logging.h"
 
-#include "qt/element/QtMainWindow.h"
+#include "qt/window/QtMainWindow.h"
 
 QtMainView::QtMainView()
 {
