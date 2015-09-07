@@ -44,7 +44,7 @@ public:
 	void loadProjectSettings();
 
 protected:
-	virtual void populateForm(QFormLayout* layout);
+	virtual void populateForm(QFormLayout* layout) override;
 
 private slots:
 	void handleCancelButtonPress();

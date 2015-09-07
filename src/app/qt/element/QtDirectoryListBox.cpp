@@ -51,6 +51,16 @@ void QtListItemWidget::setFocus()
 void QtListItemWidget::handleButtonPress()
 {
 	QFileDialog dialog(this);
+	QListView *l = dialog.findChild<QListView*>("listView");
+	if (l)
+    {
+        l->setSelectionMode(QAbstractItemView::SingleSelection);
+    }
+    QTreeView *t = dialog.findChild<QTreeView*>();
+	if (t)
+	{
+       t->setSelectionMode(QAbstractItemView::SingleSelection);
+	}
 	if (dialog.exec())
 	{
 		QStringList list = dialog.selectedFiles();
@@ -59,7 +69,6 @@ void QtListItemWidget::handleButtonPress()
 			setText(list.at(i));
 		}
 	}
-
 	handleFocus();
 }
 

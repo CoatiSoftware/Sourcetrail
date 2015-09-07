@@ -1,17 +1,9 @@
 #!/bin/sh
-appname=`basename $0 | sed s,\.sh$,,`
-
-dirname=`dirname $0`
-echo $dirname
-tmp="${dirname#?}"
-echo $tmp
-
-if [ "${dirname%$tmp}" != "/" ]; then
-dirname=$PWD/$dirname
-echo $dirname
+if [ ! -d "~/.config/coati" ]; then
+  # Control will enter here if $DIRECTORY doesn't exist.
+  cp -r /usr/local/share/coati/.config/coati ~/.config/coati
+  echo "First start of Coati from this user, copy default configfiles to ~/.config/coati"
 fi
-LD_LIBRARY_PATH=$dirname/lib
-export LD_LIBRARY_PATH
-echo $LD_LIBRARY_PATH
 
-$dirname/$appname
+export LD_LIBRARY_PATH=/usr/local/share/coati/lib
+cd ~/.config/coati && exec /usr/local/share/coati/Coati

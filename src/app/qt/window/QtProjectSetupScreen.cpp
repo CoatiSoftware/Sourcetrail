@@ -58,6 +58,7 @@ void QtTextLine::handleButtonPress()
 
 QtProjectSetupScreen::QtProjectSetupScreen(QWidget *parent)
 	: QtSettingsWindow(parent)
+	, m_frameworkPaths(nullptr)
 {
 	raise();
 }

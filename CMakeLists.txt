@@ -7,6 +7,7 @@ endif()
 
 include(cmake/add_files.cmake)
 include(cmake/create_source_groups.cmake)
+include(cmake/version.cmake)
 include(cmake/version_setup.cmake)
 
 # Variables --------------------------------------------------------------------
@@ -30,13 +31,18 @@ endif ()
 
 if (UNIX)
 	add_definitions(-std=c++11 -Wno-unknown-warning-option -fcolor-diagnostics -DQT_COMPILING_QSTRING_COMPAT_CPP )
-	#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32" CACHE STRING "c++ flags")
-	#set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS} -m32" CACHE STRING "c flags")
 endif ()
 
 # Project ----------------------------------------------------------------------
 
 project(${PROJECT_NAME})
+if (UNIX)
+	#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32" CACHE STRING "c++ flags")
+	#set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS} -m32" CACHE STRING "c flags")
+    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32" )
+	#set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS} -m32" )
+    #set(CMAKE_SHARED_LINKER_FLAGS   "${CMAKE_SHARED_LINKER_FLAGS} -m32" )
+endif ()
 
 # Clang ------------------------------------------------------------------------
 
@@ -60,7 +66,9 @@ set(BOOST_ROOT $ENV{BOOST_155_DIR})
 set(Boost_USE_MULTITHREAD ON)
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_STATIC_RUNTIME OFF)
+Set(Boost_NO_SYSTEM_PATHS ON)
 set(BOOST_LIBRARYDIR $ENV{BOOST_155_DIR})
+
 find_package(Boost 1.55 COMPONENTS system filesystem date_time REQUIRED)
 
 # Eigen -------------------------------------------------------------------------
@@ -97,8 +105,6 @@ set_property(
 	TARGET ${LIB_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
 		"${CMAKE_SOURCE_DIR}/src/lib"
-		"${CMAKE_SOURCE_DIR}/src/external"
-
 )
 
 target_include_directories(${LIB_PROJECT_NAME} SYSTEM
@@ -106,6 +112,7 @@ target_include_directories(${LIB_PROJECT_NAME} SYSTEM
 	${CLANG_INCLUDE_DIRS}
 	${Boost_INCLUDE_DIRS}
 	${EIGEN_ROOT}
+    "${CMAKE_SOURCE_DIR}/src/external"
 )
 
 
@@ -324,17 +331,15 @@ endif ()
 # Visual Leak Detector ---------------------------------------------------------
 
 if (WIN32)
-
 	include_directories($ENV{VLD_DIR}/include)
-
 endif ()
 
 # Linux package
-
 if(UNIX AND NOT APPLE)
-
 	INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/data
-		DESTINATION share/coati
+		DESTINATION share/coati/.config/coati
+        PATTERN "log/*" EXCLUDE
+        PATTERN "projects/*" EXCLUDE
 		)
 	INSTALL(FILES ${CMAKE_SOURCE_DIR}/setup/Linux/coati.desktop
 		DESTINATION share/applications
@@ -342,27 +347,8 @@ if(UNIX AND NOT APPLE)
 	INSTALL(FILES ${CMAKE_SOURCE_DIR}/bin/app/data/gui/icon/logo_1024_1024.png
 		DESTINATION share/icons
 		RENAME coati.png)
-	INSTALL(FILES
-		${CMAKE_SOURCE_DIR}/setup/Linux/libedit.so.0.0.52
-		${CMAKE_SOURCE_DIR}/setup/Linux/libboost_filesystem.so.1.55.0
-		${CMAKE_SOURCE_DIR}/setup/Linux/libboost_system.so.1.55.0
-		${CMAKE_SOURCE_DIR}/setup/Linux/libboost_date_time.so.1.55.0
-		${CMAKE_SOURCE_DIR}/setup/Linux/libstdc++.so.6
-		${CMAKE_SOURCE_DIR}/setup/Linux/libpng16.so.16
-		${CMAKE_SOURCE_DIR}/setup/Linux/libQt5Core.so.5
-		${CMAKE_SOURCE_DIR}/setup/Linux/libQt5DBus.so.5
-		${CMAKE_SOURCE_DIR}/setup/Linux/libQt5Gui.so.5
-		${CMAKE_SOURCE_DIR}/setup/Linux/libQt5Widgets.so.5
-		${CMAKE_SOURCE_DIR}/setup/Linux/libicui18n.so.54
-		${CMAKE_SOURCE_DIR}/setup/Linux/libicuuc.so.54
-		${CMAKE_SOURCE_DIR}/setup/Linux/libpcre16.so.0
-		${CMAKE_SOURCE_DIR}/setup/Linux/libsystemd.so.0
-		${CMAKE_SOURCE_DIR}/setup/Linux/libicudata.so.54
-		${CMAKE_SOURCE_DIR}/setup/Linux/liblz4.so.1
-		${CMAKE_SOURCE_DIR}/setup/Linux/libgcrypt.so.20
-		${CMAKE_SOURCE_DIR}/setup/Linux/libgpg-error.so.0
-
-		DESTINATION share/coati/lib
+	INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/setup/Linux/lib
+		DESTINATION share/coati
 		)
 	INSTALL(FILES
 		${CMAKE_SOURCE_DIR}/setup/Linux/libqxcb.so
@@ -372,7 +358,13 @@ if(UNIX AND NOT APPLE)
 		${CMAKE_SOURCE_DIR}/setup/Linux/Coati.sh
 		DESTINATION share/coati
 		)
-
+    INSTALL(CODE "execute_process(COMMAND \"${CMAKE_COMMAND}\" -E create_symlink
+                                /usr/local/share/coati/Coati.sh
+                                /usr/local/bin/coati
+                                )")
+    INSTALL(PROGRAMS /usr/local/bin/coati
+        DESTINATION bin/
+    )
 	# add the automatically determined parts of the RPATH
 	# which point to directories outside the build tree to the install RPATH
 	SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
@@ -382,14 +374,16 @@ if(UNIX AND NOT APPLE)
 		)
 
 	SET(CPACK_GENERATOR "DEB;TGZ")
+    SET(CPACK_ARCHIVE_COMPONENT_INSTALL "ON")
 
 	# DEBIAN PACKAGE
-	SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "Andreas Stallinger <astallinger.mmt-m2013@fh-salzburg.ac.at>")
+	SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "Andreas Stallinger <astallinger@coati.io>")
 	SET(CPACK_DEBIAN_PACKAGE_ARCHITECTURE  "amd64")
 	SET(CPACK_PACKAGE_NAME "Coati")
-	SET(CPACK_PACKAGE_VERSION_MAJOR 0)
-	SET(CPACK_PACKAGE_VERSION_MINOR 1)
-	SET(CPACK_PACKAGE_VERSION_PATCH 2)
+    SET(CPACK_DEBIAN_PACKAGE_HOMEPAGE "http://coati.io")
+    SET(CPACK_DEBIAN_PACKAGE_SECTION "devel")
+    SET(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local")
+	SET(CPACK_PACKAGE_VERSION ${GIT_VERSION_NUMBER})
 	SET(CPACK_PACKAGE_EXECUTABLES "Coati")
 
 	INCLUDE(CPack)
