@@ -339,7 +339,7 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 
 	for (DummyEdge& edge : m_dummyEdges)
 	{
-		if (!edge.data || edge.data->isType(Edge::EDGE_AGGREGATION))
+		if (!edge.data)
 		{
 			continue;
 		}
@@ -361,43 +361,9 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 		}
 	}
 
-	for (DummyEdge& edge : m_dummyEdges)
-	{
-		if (!edge.data || !edge.data->isType(Edge::EDGE_AGGREGATION))
-		{
-			continue;
-		}
-
-		DummyNode* from = findTopLevelDummyNodeRecursive(m_dummyNodes, edge.ownerId);
-		DummyNode* to = findTopLevelDummyNodeRecursive(m_dummyNodes, edge.targetId);
-
-		if (from && to && (from->active || to->active))
-		{
-			TokenComponentAggregation* component = edge.data->getComponent<TokenComponentAggregation>();
-			std::set<Id> ids = component->getAggregationIds();
-			for (Id id : ids)
-			{
-				for (DummyEdge& e : m_dummyEdges)
-				{
-					if (e.visible && e.data && e.data->getId() == id)
-					{
-						component->removeAggregationId(id);
-					}
-				}
-			}
-
-			if (component->getAggregationCount() > 0)
-			{
-				edge.visible = true;
-				from->aggregated = true;
-				to->aggregated = true;
-			}
-		}
-	}
-
 	for (DummyNode& node : m_dummyNodes)
 	{
-		setNodeVisibilityRecursiveBottomUp(node, false);
+		setNodeVisibilityRecursiveBottomUp(node);
 	}
 }
 
@@ -416,7 +382,7 @@ void GraphController::setNodeActiveRecursive(DummyNode& node, const std::vector<
 	}
 }
 
-bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode& node, bool aggregated) const
+bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode& node) const
 {
 	node.visible = false;
 	node.childVisible = false;
@@ -434,13 +400,13 @@ bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode& node, bool a
 
 	for (DummyNode& subNode : node.subNodes)
 	{
-		if (setNodeVisibilityRecursiveBottomUp(subNode, aggregated | node.aggregated))
+		if (setNodeVisibilityRecursiveBottomUp(subNode))
 		{
 			node.childVisible = true;
 		}
 	}
 
-	if (node.active || node.connected || node.childVisible || (!aggregated && node.aggregated))
+	if (node.active || node.connected || node.childVisible)
 	{
 		setNodeVisibilityRecursiveTopDown(node, false);
 	}

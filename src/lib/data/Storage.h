@@ -139,7 +139,7 @@ public:
 	const SearchIndex& getSearchIndex() const;
 
 private:
-	Id addNodeHierarchy(Node::NodeType type, NameHierarchy nameHierarchy);
+	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy);
 	Id addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function);
 	Id addNameHierarchyElements(NameHierarchy nameHierarchy);
 	int addSourceLocation(int elementNodeId, const ParseLocation& location, bool isScope = false);
@@ -150,7 +150,7 @@ private:
 	std::vector<Id> getAllChildNodeIds(const Id nodeId) const;
 
 	void addEdgeAndAllChildrenToGraph(const Id edgeId, Graph* graph) const;
-	void addNodeAndAllChildrenToGraph(const Id nodeId, Graph* graph) const;
+	Node* addNodeAndAllChildrenToGraph(const Id nodeId, Graph* graph) const;
 	void addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const;
 	Node* addNodeToGraph(const Id nodeId, Graph* graph) const;
 

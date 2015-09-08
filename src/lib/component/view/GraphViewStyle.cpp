@@ -445,7 +445,7 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 	{
 	case Edge::EDGE_AGGREGATION:
 		style.isStraight = true;
-		style.width = 1;
+		style.width = 4;
 		style.zValue = isActive ? -2 : -5;
 		break;
 	case Edge::EDGE_CALL:

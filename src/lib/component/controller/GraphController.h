@@ -59,7 +59,7 @@ private:
 
 	void setActiveAndVisibility(const std::vector<Id>& activeTokenIds);
 	void setNodeActiveRecursive(DummyNode& node, const std::vector<Id>& activeTokenIds) const;
-	bool setNodeVisibilityRecursiveBottomUp(DummyNode& node, bool aggregated) const;
+	bool setNodeVisibilityRecursiveBottomUp(DummyNode& node) const;
 	void setNodeVisibilityRecursiveTopDown(DummyNode& node, bool parentExpanded) const;
 
 	void splitNamespaceNodes();

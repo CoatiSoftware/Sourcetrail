@@ -126,7 +126,7 @@ void QtStraightLineItem::updateLine(
 
 	QColor color(style.color.c_str());
 
-	this->setPen(QPen(QBrush(color), number + style.width, Qt::SolidLine, Qt::RoundCap));
+	this->setPen(QPen(QBrush(color), style.width, Qt::SolidLine, Qt::RoundCap));
 
 	color = color.darker(110);
 

@@ -398,7 +398,8 @@ Id Storage::onTemplateArgumentTypeParsed(
 }
 
 Id Storage::onTemplateDefaultArgumentTypeParsed(
-	const ParseTypeUsage& defaultArgumentTypeUsage, const NameHierarchy& templateArgumentTypeNameHierarchy // actually this is the template parameter???
+	const ParseTypeUsage& defaultArgumentTypeUsage,
+	const NameHierarchy& templateArgumentTypeNameHierarchy // actually this is the template parameter???
 ){
 	Id defaultArgumentNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, defaultArgumentTypeUsage.dataType->getTypeNameHierarchy());
 	// TODO add location for defarg
@@ -601,15 +602,8 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 			std::vector<StorageEdge> edges = m_sqliteStorage.getEdgesBySourceId(node.id);
 			utility::append(edges, m_sqliteStorage.getEdgesByTargetId(node.id));
 
-			const Node::NodeTypeMask nodeTypeMask = Node::NODE_STRUCT | Node::NODE_CLASS;
-			const Edge::EdgeTypeMask edgeTypeMask = Edge::EDGE_TYPE_USAGE | Edge::EDGE_TYPE_OF;
-
 			for (size_t i = 0; i < edges.size(); i++)
 			{
-				if ((node.type & nodeTypeMask) > 0 && (edges[i].type & edgeTypeMask) > 0)
-				{
-					continue;
-				}
 				addEdgeAndAllChildrenToGraph(edges[i].id, graph);
 			}
 
@@ -640,7 +634,8 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 	return g;
 }
 
-std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId, Id* declarationId) const // TODO: rename: getActiveElementIdsForId; TODO: make separate function for declarationId
+// TODO: rename: getActiveElementIdsForId; TODO: make separate function for declarationId
+std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId, Id* declarationId) const
 {
 	std::vector<Id> activeTokenIds;
 
@@ -905,7 +900,7 @@ const SearchIndex& Storage::getSearchIndex() const
 	return m_tokenIndex;
 }
 
-Id Storage::addNodeHierarchy(Node::NodeType type, NameHierarchy nameHierarchy)
+Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy)
 {
 	addNameHierarchyElements(nameHierarchy);
 
@@ -913,6 +908,8 @@ Id Storage::addNodeHierarchy(Node::NodeType type, NameHierarchy nameHierarchy)
 	Id parentNodeId = 0;
 	for (size_t i = 0; i < nameHierarchy.size(); i++)
 	{
+		Node::NodeType type = (i == nameHierarchy.size() - 1 ? nodeType : Node::NODE_UNDEFINED);
+
 		Id nameHierarchyElementId = 0;
 		if (parentNameHierarchyElementId == 0)
 		{
@@ -920,7 +917,8 @@ Id Storage::addNodeHierarchy(Node::NodeType type, NameHierarchy nameHierarchy)
 		}
 		else
 		{
-			nameHierarchyElementId = m_sqliteStorage.getNameHierarchyElementIdByName(nameHierarchy[i]->getFullName(), parentNameHierarchyElementId);
+			nameHierarchyElementId =
+				m_sqliteStorage.getNameHierarchyElementIdByName(nameHierarchy[i]->getFullName(), parentNameHierarchyElementId);
 		}
 
 		const StorageNode node = m_sqliteStorage.getNodeByNameId(nameHierarchyElementId);
@@ -1069,13 +1067,20 @@ std::vector<Id> Storage::getDirectChildNodeIds(const Id nodeId) const
 std::vector<Id> Storage::getAllChildNodeIds(const Id nodeId) const
 {
 	std::vector<Id> childNodeIds;
+	std::queue<Id> parents;
 
-	std::vector<Id> directChildNodeIds = getDirectChildNodeIds(nodeId);
-	for (size_t i = 0; i < directChildNodeIds.size(); i++)
+	parents.push(nodeId);
+	while (parents.size())
 	{
-		Id id = directChildNodeIds[i];
-		childNodeIds.push_back(id);
-		utility::append(directChildNodeIds, getAllChildNodeIds(id));
+		Id parentId = parents.front();
+		parents.pop();
+
+		std::vector<Id> childs = getDirectChildNodeIds(parentId);
+		for (Id childId : childs)
+		{
+			childNodeIds.push_back(childId);
+			parents.push(childId);
+		}
 	}
 
 	return childNodeIds;
@@ -1094,11 +1099,12 @@ void Storage::addEdgeAndAllChildrenToGraph(const Id edgeId, Graph* graph) const
 	graph->createEdge(edgeId, Edge::intToType(storageEdge.type), sourceNode, targetNode);
 }
 
-void Storage::addNodeAndAllChildrenToGraph(const Id nodeId, Graph* graph) const
+Node* Storage::addNodeAndAllChildrenToGraph(const Id nodeId, Graph* graph) const
 {
+	Node* node = nullptr;
 	if (!graph->getNodeById(nodeId))
 	{
-		addNodeToGraph(nodeId, graph);
+		node = addNodeToGraph(nodeId, graph);
 	}
 
 	std::queue<StorageEdge> unprocessedEdges;
@@ -1137,6 +1143,8 @@ void Storage::addNodeAndAllChildrenToGraph(const Id nodeId, Graph* graph) const
 			}
 		}
 	}
+
+	return node;
 }
 
 void Storage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
@@ -1195,32 +1203,24 @@ void Storage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
 			if (currentNodeId == nodeId)
 			{
 				needsAdd = false;
-				continue;
+				break;
 			}
 
 			std::vector<StorageEdge> memberEdges = m_sqliteStorage.getEdgesByTargetType(currentNodeId, Edge::EDGE_MEMBER);
-
-			if (memberEdges.size() > 0)
+			if (memberEdges.size() == 1)
 			{
-				if (m_sqliteStorage.getNodeById(memberEdges[0].sourceNodeId).type != Node::NodeType::NODE_NAMESPACE)
+				Node::NodeType type = Node::intToType(m_sqliteStorage.getNodeById(memberEdges[0].sourceNodeId).type);
+
+				if (type != Node::NODE_UNDEFINED && type != Node::NODE_NAMESPACE)
 				{
 					parentNodeId = memberEdges[0].sourceNodeId;
 				}
 			}
 		}
 
-		int type = m_sqliteStorage.getNodeById(currentNodeId).type;
-		Node::NodeTypeMask mask =
-			Node::NODE_UNDEFINED |
-			Node::NODE_UNDEFINED_FUNCTION |
-			Node::NODE_UNDEFINED_TYPE |
-			Node::NODE_UNDEFINED_VARIABLE;
-
-		Node::NodeTypeMask mask2 = ~mask;
-
-		if (needsAdd && ((type & mask2) > 0))
+		if (needsAdd && currentNodeId)
 		{
-			connectedParentNodeIds[currentNodeId] = it->second;
+			utility::append(connectedParentNodeIds[currentNodeId], it->second);
 		}
 	}
 
@@ -1236,7 +1236,11 @@ void Storage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
 		Node* targetNode = graph->getNodeById(aggregationTargetNodeId);
 		if (!targetNode)
 		{
-			targetNode = addNodeToGraph(aggregationTargetNodeId, graph);
+			targetNode = addNodeAndAllChildrenToGraph(getLastParentNodeId(aggregationTargetNodeId), graph);
+			if (targetNode->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE))
+			{
+				targetNode = addNodeToGraph(aggregationTargetNodeId, graph);
+			}
 		}
 
 		std::shared_ptr<TokenComponentAggregation> componentAggregation = std::make_shared<TokenComponentAggregation>();
@@ -1245,7 +1249,7 @@ void Storage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
 			componentAggregation->addAggregationId(edgeInfo.edgeId, edgeInfo.forward);
 		}
 
-		Edge* edge = graph->createEdge(0, Edge::EDGE_AGGREGATION, sourceNode, targetNode);
+		Edge* edge = graph->createEdge(*componentAggregation->getAggregationIds().begin(), Edge::EDGE_AGGREGATION, sourceNode, targetNode);
 		edge->addComponentAggregation(componentAggregation);
 	}
 }

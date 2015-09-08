@@ -20,7 +20,6 @@ public:
 		, data(nullptr)
 		, active(false)
 		, connected(false)
-		, aggregated(false)
 		, expanded(false)
 		, hasNamespace(false)
 		, accessType(TokenComponentAccess::ACCESS_NONE)
@@ -117,7 +116,6 @@ public:
 	const Node* data;
 	bool active;
 	bool connected;
-	bool aggregated;
 	bool expanded;
 	bool hasNamespace;
 
