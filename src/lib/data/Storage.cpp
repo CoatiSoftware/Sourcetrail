@@ -487,6 +487,10 @@ Id Storage::onFileParsed(const std::string& filePath)
 		fileNodeId = m_sqliteStorage.addFile(nameHierarchyElementId, filePath);
 	}
 
+	NameHierarchy nameHierarchy;
+	nameHierarchy.push(std::make_shared<NameElement>(fileName));
+	m_tokenIndex.addNode(nameHierarchy)->addTokenId(fileNodeId);
+
 	return fileNodeId;
 }
 

@@ -695,6 +695,8 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 			width = margins.charWidth * node.data->getName().size();
 		}
 
+		width += margins.iconWidth;
+
 		if (node.data->isType(Node::NODE_CLASS | Node::NODE_STRUCT) && node.subNodes.size())
 		{
 			addExpandToggleNode(node);

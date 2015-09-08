@@ -9,6 +9,8 @@
 #include "data/location/TokenLocationFile.h"
 #include "qt/element/QtCodeFileList.h"
 #include "qt/element/QtCodeSnippet.h"
+#include "qt/utility/utilityQt.h"
+#include "settings/ColorScheme.h"
 
 QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	: QFrame(parent)
@@ -38,9 +40,15 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	m_title->minimumSizeHint(); // force font loading
 	m_title->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_title->setToolTip(QString::fromStdString(filePath.str()));
-	m_title->setFixedWidth(m_title->fontMetrics().width(filePath.fileName().c_str()) + 32);
+	m_title->setFixedWidth(m_title->fontMetrics().width(filePath.fileName().c_str()) + 52);
 	m_title->setFixedHeight(std::max(m_title->fontMetrics().height() * 1.2, 28.0));
 	m_title->setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
+
+	m_title->setIcon(utility::colorizePixmap(
+		QPixmap("data/gui/graph_view/images/file.png"),
+		ColorScheme::getInstance()->getColor("code/file/title/icon").c_str()
+	));
+
 	titleLayout->addWidget(m_title);
 
 	titleWidget->setMinimumHeight(m_title->height() + 4);

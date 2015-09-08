@@ -102,6 +102,7 @@ protected:
 	QGraphicsSimpleTextItem* m_text;
 	QtRoundedRectItem* m_rect;
 	QtRoundedRectItem* m_undefinedRect;
+	QGraphicsPixmapItem* m_icon;
 
 	Vec2i m_size;
 

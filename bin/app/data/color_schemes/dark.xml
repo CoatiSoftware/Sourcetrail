@@ -52,6 +52,7 @@
 				<normal>#777777</normal>
 				<hover>#555555</hover>
 				<press>#444444</press>
+				<icon>white</icon>
 			</title>
 		</file>
 

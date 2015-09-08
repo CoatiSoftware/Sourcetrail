@@ -52,6 +52,7 @@
 				<normal>#E0E0E0</normal>
 				<hover>#B2B2B2</hover>
 				<press>#626262</press>
+				<icon>black</icon>
 			</title>
 		</file>
 
@@ -170,8 +171,8 @@
 			</namespace>
 
 			<file>
-				<normal>#88BAB3</normal>
-				<hover>#6AA39B</hover>
+				<normal>#DDD</normal>
+				<hover>#CCC</hover>
 			</file>
 		</node>
 		<edge>
@@ -233,8 +234,8 @@
 			</template_specialization>
 
 			<include>
-				<normal>#5DA399</normal>
-				<hover>#5DA399</hover>
+				<normal>#878787</normal>
+				<hover>#878787</hover>
 			</include>
 
 			<aggregation>

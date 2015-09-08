@@ -32,6 +32,8 @@ public:
 
 		float charWidth;
 		float charHeight;
+
+		int iconWidth;
 	};
 
 	struct NodeStyle
@@ -57,6 +59,10 @@ public:
 		bool fontBold;
 
 		Vec2i textOffset;
+
+		std::string iconPath;
+		Vec2i iconOffset;
+		size_t iconSize;
 	};
 
 	struct EdgeStyle

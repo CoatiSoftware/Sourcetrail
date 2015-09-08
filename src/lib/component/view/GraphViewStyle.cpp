@@ -16,6 +16,7 @@ GraphViewStyle::NodeMargins::NodeMargins()
 	, minWidth(0)
 	, charWidth(0.0f)
 	, charHeight(0.0f)
+	, iconWidth(0)
 {
 }
 
@@ -26,6 +27,7 @@ GraphViewStyle::NodeStyle::NodeStyle()
 	, borderDashed(false)
 	, fontSize(0)
 	, fontBold(false)
+	, iconSize(0)
 {
 }
 
@@ -162,13 +164,14 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 		margins.bottom = 15;
 		break;
 
+	case Node::NODE_FILE:
+		margins.iconWidth = s_fontSize + 11;
 	case Node::NODE_UNDEFINED_TYPE:
 	case Node::NODE_STRUCT:
 	case Node::NODE_CLASS:
 	case Node::NODE_ENUM:
 	case Node::NODE_TYPEDEF:
 	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
-	case Node::NODE_FILE:
 		if (hasChildren)
 		{
 			margins.left = margins.right = 10;
@@ -325,9 +328,14 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 			style.fontBold = true;
 		}
 
-		style.cornerRadius = 6;
-		style.textOffset.x = 8;
-		style.textOffset.y = 8;
+		style.cornerRadius = 10;
+		style.textOffset.x = 6;
+		style.textOffset.y = 9;
+		style.iconPath = "data/gui/graph_view/images/file.png";
+		style.iconSize = s_fontSize + 2;
+		style.iconOffset.x = 9;
+		style.iconOffset.y = 9;
+		style.iconColor = scheme->getColor("graph/icon");
 		break;
 
 	case Node::NODE_UNDEFINED_FUNCTION:

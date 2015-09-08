@@ -42,6 +42,7 @@ QFont QtGraphNode::getFontForNodeType(Node::NodeType type)
 
 QtGraphNode::QtGraphNode()
 	: m_undefinedRect(nullptr)
+	, m_icon(nullptr)
 	, m_isActive(false)
 	, m_isHovering(false)
 {
@@ -393,7 +394,16 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 		m_undefinedRect->setRadius(radius);
 	}
 
+	if (style.iconPath.size())
+	{
+		QtDeviceScaledPixmap pixmap(QString::fromStdString(style.iconPath));
+		pixmap.scaleToHeight(style.iconSize);
+
+		m_icon = new QGraphicsPixmapItem(utility::colorizePixmap(pixmap.pixmap(), style.iconColor.c_str()), this);
+		m_icon->setPos(style.iconOffset.x, style.iconOffset.y);
+	}
+
 	m_text->setFont(font);
 	m_text->setBrush(QBrush(style.textColor.c_str()));
-	m_text->setPos(style.textOffset.x, style.textOffset.y);
+	m_text->setPos(style.iconOffset.x + style.iconSize + style.textOffset.x, style.textOffset.y);
 }
