@@ -12,6 +12,7 @@
 #include "qt/window/QtStartScreen.h"
 #include "qt/window/QtProjectSetupScreen.h"
 #include "qt/window/QtAboutLicense.h"
+#include "qt/window/QtAbout.h"
 
 class QDockWidget;
 class View;
@@ -81,6 +82,7 @@ private:
 	std::shared_ptr<QtStartScreen> m_startScreen;
 	std::shared_ptr<QtProjectSetupScreen> m_newProjectDialog;
 	std::shared_ptr<QtAboutLicense> m_licenseWindow;
+	std::shared_ptr<QtAbout> m_aboutWindow;
 
 	std::vector<std::pair<View*, QDockWidget*>> m_dockWidgets;
 

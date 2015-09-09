@@ -149,22 +149,10 @@ bool QtMainWindow::event(QEvent* event)
 
 void QtMainWindow::about()
 {
-	QMessageBox::about(
-		this,
-		tr("About"),
-		tr(
-			"Developed by:\n\n"
-			"Manuel Dobusch\n"
-			"Eberhard Gräther\n"
-			"Malte Langkabel\n"
-			"Victoria Pfausler\n"
-			"Andreas Stallinger\n"
-			"\nVersion: " GIT_VERSION_NUMBER
-			"\nBranch: " GIT_BRANCH
-			"\nBuildtype: " BUILD_TYPE
-			"\nDate: " GIT_COMMIT_TIME
-		)
-	);
+	hideScreens();
+	m_aboutWindow = std::make_shared<QtAbout>(this);
+	m_aboutWindow->setup();
+	m_aboutWindow->show();
 }
 
 void QtMainWindow::hideScreens()
@@ -187,6 +175,11 @@ void QtMainWindow::hideScreens()
 	if(m_licenseWindow)
 	{
 		m_licenseWindow->hide();
+	}
+
+	if(m_aboutWindow)
+	{
+		m_aboutWindow->hide();
 	}
 }
 
