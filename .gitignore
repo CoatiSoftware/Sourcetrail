@@ -1,4 +1,5 @@
 /build/
+/distr/
 
 /bin/app/Debug/
 /bin/app/Release/

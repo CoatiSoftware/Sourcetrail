@@ -360,11 +360,7 @@ if(UNIX AND NOT APPLE)
 		${CMAKE_SOURCE_DIR}/setup/Linux/Coati.sh
 		DESTINATION share/coati
 		)
-    INSTALL(CODE "execute_process(COMMAND \"${CMAKE_COMMAND}\" -E create_symlink
-                                /usr/local/share/coati/Coati.sh
-                                /usr/local/bin/coati
-                                )")
-    INSTALL(PROGRAMS /usr/local/bin/coati
+    INSTALL(PROGRAMS ${CMAKE_SOURCE_DIR}/setup/Linux/coati
         DESTINATION bin/
     )
 	# add the automatically determined parts of the RPATH

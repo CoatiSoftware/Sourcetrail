@@ -32,8 +32,6 @@ void QtAboutLicense::setup()
 
 void QtAboutLicense::populateForm(QFormLayout* layout)
 {
-	int minimumWidthForSecondCol = 360;
-
 	for(ThirdPartyLicense license : licenses3rdParties)
 	{
 		QLabel* licenseName = new QLabel();

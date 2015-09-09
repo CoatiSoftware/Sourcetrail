@@ -27,6 +27,11 @@ then
 		#echo "debug app"
 		ninja -C build/Debug Coati && cd bin/app && Debug/Coati
 	fi
+elif [ "$1" = "package" ] || [ "$1" = "p" ]
+then
+		ninja package -C build/Release Coati
+		mkdir -p distr && cp build/Release/Coati*.deb distr && cp build/Release/Coati*.tar.gz distr
+		echo "Packages copied into the distr folder"
 else
 	echo "no arguments: first argument 'release' or 'debug', second argument 'test' for tests"
 fi
