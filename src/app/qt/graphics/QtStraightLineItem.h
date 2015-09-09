@@ -7,7 +7,7 @@
 
 #include "component/view/GraphViewStyle.h"
 
-class QtRoundedRectItem;
+class QtCountCircleItem;
 
 class QtStraightLineItem
 	: public QGraphicsLineItem
@@ -19,8 +19,7 @@ public:
 	void updateLine(Vec4i ownerRect, Vec4i targetRect, int number, GraphViewStyle::EdgeStyle style, bool showArrow);
 
 private:
-	QtRoundedRectItem* m_circle;
-	QGraphicsSimpleTextItem* m_number;
+	QtCountCircleItem* m_circle;
 
 	QGraphicsLineItem* m_arrowLeft;
 	QGraphicsLineItem* m_arrowRight;

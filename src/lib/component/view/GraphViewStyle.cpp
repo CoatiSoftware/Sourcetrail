@@ -134,6 +134,11 @@ size_t GraphViewStyle::getFontSizeOfExpandToggleNode()
 	return s_fontSize - 5;
 }
 
+size_t GraphViewStyle::getFontSizeOfCountCircle()
+{
+	return s_fontSize - 3;
+}
+
 std::string GraphViewStyle::getFontNameForNodeType(Node::NodeType type)
 {
 	return s_fontName;

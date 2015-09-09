@@ -3,6 +3,8 @@
 
 #include "qt/view/graphElements/QtGraphNode.h"
 
+class QtCountCircleItem;
+
 class QtGraphNodeBundle
 	: public QtGraphNode
 {
@@ -23,6 +25,7 @@ protected:
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
 private:
+	QtCountCircleItem* m_circle;
 	Id m_tokenId;
 };
 

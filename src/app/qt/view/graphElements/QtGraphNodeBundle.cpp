@@ -1,22 +1,22 @@
 #include "qt/view/graphElements/QtGraphNodeBundle.h"
 
-#include <sstream>
-
 #include <QBrush>
 #include <QPen>
 
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
 
 #include "component/view/GraphViewStyle.h"
-#include "qt/graphics/QtRoundedRectItem.h"
+#include "qt/graphics/QtCountCircleItem.h"
+#include "settings/ColorScheme.h"
 
 QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, std::string name)
 	: QtGraphNode()
 	, m_tokenId(tokenId)
 {
-	std::stringstream ss;
-	ss << nodeCount << " " << name;
-	this->setName(ss.str());
+	this->setName(name);
+
+	m_circle = new QtCountCircleItem(this);
+	m_circle->setNumber(nodeCount);
 
 	this->setAcceptHoverEvents(true);
 }
@@ -45,18 +45,15 @@ void QtGraphNodeBundle::updateStyle()
 	GraphViewStyle::NodeStyle style = GraphViewStyle::getStyleOfBundleNode(m_isHovering);
 	setStyle(style);
 
-	if (!m_undefinedRect)
-	{
-		m_undefinedRect = new QtRoundedRectItem(this);
-		setSize(getSize());
-		m_undefinedRect->moveBy(7, 7);
-	}
+	m_circle->setPosition(Vec2f(m_rect->rect().right() - 3, m_rect->rect().top() + 3));
 
-	m_undefinedRect->setPen(m_rect->pen());
-	m_undefinedRect->setBrush(m_rect->brush());
-	m_undefinedRect->setRadius(style.cornerRadius);
-	m_undefinedRect->setZValue(-1);
-	m_rect->setZValue(0);
+	ColorScheme* scheme = ColorScheme::getInstance().get();
+	m_circle->setStyle(
+		scheme->getColor("graph/background").c_str(),
+		scheme->getColor("graph/text").c_str(),
+		scheme->getColor("graph/text").c_str(),
+		style.borderWidth
+	);
 }
 
 

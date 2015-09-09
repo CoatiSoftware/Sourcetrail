@@ -14,6 +14,8 @@ public:
 
 	void setShadow(QColor color, int blurRadius);
 	void setShadowEnabled(bool enabled);
+
+	qreal getRadius() const;
 	void setRadius(qreal radius);
 
 private:

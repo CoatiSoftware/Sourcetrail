@@ -98,6 +98,7 @@ public:
 	static size_t getFontSizeForNodeType(Node::NodeType type);
 	static size_t getFontSizeOfAccessNode();
 	static size_t getFontSizeOfExpandToggleNode();
+	static size_t getFontSizeOfCountCircle();
 
 	static std::string getFontNameForNodeType(Node::NodeType type);
 	static std::string getFontNameOfAccessNode();

@@ -41,6 +41,11 @@ void QtRoundedRectItem::setShadowEnabled(bool enabled)
 	}
 }
 
+qreal QtRoundedRectItem::getRadius() const
+{
+	return m_radius;
+}
+
 void QtRoundedRectItem::setRadius(qreal radius)
 {
 	m_radius = radius;

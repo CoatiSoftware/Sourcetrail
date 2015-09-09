@@ -704,7 +704,7 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 	}
 	else if (node.isBundleNode())
 	{
-		width = margins.charWidth * (node.name.size() + 1 + utility::digits(node.bundledNodes.size()));
+		width = margins.charWidth * node.name.size();
 	}
 
 	// Horizontal layouting is currently not used, but left in place for experimentation.
