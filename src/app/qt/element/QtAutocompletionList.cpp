@@ -205,14 +205,8 @@ void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<Searc
 		return;
 	}
 
-	setCompletionPrefix("");
-	QWidget* textBox = dynamic_cast<QWidget*>(parent());
-
 	const QModelIndex& index = completionModel()->index(0, 0);
 	list->setCurrentIndex(index);
-
-	complete(QRect(std::min(pos.x(), textBox->width()-minSize.width()), pos.y(), textBox->width()-pos.x(), 1));
-	//complete();
 
 	QRect rect = list->visualRect(index);
 	minSize.setHeight(std::min(minSize.height(), m_model->rowCount(index) * rect.height() + 16));
@@ -225,6 +219,11 @@ void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<Searc
 	disconnect(); // must be done because of a bug where signals are no longer received by QtSmartSearchBox
 	connect(this, SIGNAL(highlighted(const QModelIndex&)), this, SLOT(onHighlighted(const QModelIndex&)), Qt::DirectConnection);
 	connect(this, SIGNAL(activated(const QModelIndex&)), this, SLOT(onActivated(const QModelIndex&)), Qt::DirectConnection);
+
+	setCompletionPrefix("");
+
+	QWidget* textBox = dynamic_cast<QWidget*>(parent());
+	complete(QRect(pos.x(), pos.y(), textBox->width(), 1));
 }
 
 const SearchMatch* QtAutocompletionList::getSearchMatchAt(int idx) const
