@@ -24,6 +24,7 @@
 #include "utility/messaging/type/MessageZoom.h"
 #include "version.h"
 
+
 QtMainWindow::QtMainWindow()
 	:  m_startScreenWasVisible(false)
 {
@@ -181,6 +182,11 @@ void QtMainWindow::hideScreens()
 	if (m_newProjectDialog)
 	{
 		m_newProjectDialog->hide();
+	}
+
+	if(m_licenseWindow)
+	{
+		m_licenseWindow->hide();
 	}
 }
 
@@ -365,10 +371,12 @@ void QtMainWindow::setupProjectMenu()
 	menu->addAction(tr("E&xit"), QCoreApplication::instance(), SLOT(quit()), QKeySequence::Quit);
 }
 
-void QtMainWindow::showLicences()
+void QtMainWindow::showLicenses()
 {
-	//TODO: Licences
-	//QMessageBox::information()
+	hideScreens();
+	m_licenseWindow = std::make_shared<QtAboutLicense>(this);
+	m_licenseWindow->setup();
+	m_licenseWindow->show();
 }
 
 void QtMainWindow::setupEditMenu()
@@ -399,8 +407,7 @@ void QtMainWindow::setupHelpMenu()
 	menuBar()->addMenu(menu);
 
 	menu->addAction(tr("&About"), this, SLOT(about()));
-	menu->addAction(tr("About &Qt"), QCoreApplication::instance(), SLOT(aboutQt()));
-	//menu->addAction(tr("Licences"), QCoreApplication::instance(), SLOT(showLicences()));
+	menu->addAction(tr("Licences"), this, SLOT(showLicenses()));
 	menu->addAction(tr("Preferences..."), this, SLOT(openSettings()));
 }
 

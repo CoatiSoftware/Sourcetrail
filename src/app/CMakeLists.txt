@@ -91,6 +91,8 @@ add_files(
 	qt/view/QtViewWidgetWrapper.cpp
 	qt/view/QtViewWidgetWrapper.h
 
+	qt/window/QtAboutLicense.cpp
+	qt/window/QtAboutLicense.h
 	qt/window/QtApplicationSettingsScreen.cpp
 	qt/window/QtApplicationSettingsScreen.h
 	qt/window/QtMainWindow.cpp

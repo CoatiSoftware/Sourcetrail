@@ -9,6 +9,7 @@ include(cmake/add_files.cmake)
 include(cmake/create_source_groups.cmake)
 include(cmake/version.cmake)
 include(cmake/version_setup.cmake)
+include(cmake/licenses.cmake)
 
 # Variables --------------------------------------------------------------------
 
@@ -73,6 +74,7 @@ find_package(Boost 1.55 COMPONENTS system filesystem date_time REQUIRED)
 
 # Eigen -------------------------------------------------------------------------
 
+add_definitions(-DEIGEN_MPL2_ONLY)
 set(EIGEN_ROOT $ENV{EIGEN_DIR})
 
 # Lib --------------------------------------------------------------------------

@@ -36,6 +36,7 @@ protected:
 
 	void updateTitle(QString title);
 	void updateDoneButton(QString text);
+	void hideCancelButton(bool hidden);
 
 	QWidget* m_window;
 

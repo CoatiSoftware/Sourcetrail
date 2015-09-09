@@ -1,0 +1,24 @@
+#ifndef LICENSES_H
+#define LICENSES_H
+
+// This File(licenses.h) is generated with CMake 
+
+struct ThirdPartyLicense {
+	const char* name;
+	const char* url;
+	const char* license;
+
+	ThirdPartyLicense() : name(0), url(0), license(0) {}
+	ThirdPartyLicense(const char* name, const char* url, const char* license)
+	    : name(name), url(url), license(license) {}
+	bool isEmpty() const { return (name == 0 && url == 0 && license == 0); }
+};
+
+// License Textfiles
+@LICENSES@
+
+static const ThirdPartyLicense licenses3rdParties[] = {
+@LICENSE_ARRAY@
+};
+
+#endif //LICENSES_H

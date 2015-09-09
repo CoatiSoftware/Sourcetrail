@@ -181,3 +181,11 @@ void QtSettingsWindow::updateDoneButton(QString text)
 		m_doneButton->setText(text);
 	}
 }
+
+void QtSettingsWindow::hideCancelButton(bool hidden)
+{
+	if(m_cancelButton)
+	{
+		m_cancelButton->setVisible(!hidden);
+	}
+}
