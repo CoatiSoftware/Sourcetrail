@@ -77,7 +77,7 @@ CodeView::~CodeView()
 
 std::string CodeView::getName() const
 {
-	return "CodeView";
+	return "Code";
 }
 
 CodeController* CodeView::getController()

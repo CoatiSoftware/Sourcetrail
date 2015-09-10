@@ -1,8 +1,9 @@
 #include "component/view/CompositeView.h"
 
-CompositeView::CompositeView(ViewLayout* viewLayout, CompositeDirection direction)
+CompositeView::CompositeView(ViewLayout* viewLayout, CompositeDirection direction, const std::string& name)
 	: View(viewLayout)
 	, m_direction(direction)
+	, m_name(name)
 {
 }
 
@@ -22,7 +23,7 @@ const std::vector<View*>& CompositeView::getViews() const
 
 std::string CompositeView::getName() const
 {
-	return "CompositeView";
+	return m_name;
 }
 
 void CompositeView::addView(View* view)

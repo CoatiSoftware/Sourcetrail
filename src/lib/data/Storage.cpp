@@ -105,7 +105,7 @@ void Storage::onError(const ParseLocation& location, const std::string& message)
 		Id errorId = m_errorMessages.size();
 
 		m_errorLocationCollection.addTokenLocation(
-			0, errorId, location.filePath,
+			getErrorCount(), errorId, location.filePath,
 			location.startLineNumber, location.startColumnNumber,
 			location.endLineNumber, location.endColumnNumber
 		);
@@ -798,7 +798,9 @@ TokenLocationCollection Storage::getTokenLocationsForLocationIds(const std::vect
 
 std::shared_ptr<TokenLocationFile> Storage::getTokenLocationsForFile(const std::string& filePath) const
 {
-	return m_sqliteStorage.getTokenLocationsForFile(filePath);
+	std::shared_ptr<TokenLocationFile> locationFile = m_sqliteStorage.getTokenLocationsForFile(filePath);
+	locationFile->isWholeCopy = true;
+	return locationFile;
 }
 
 std::shared_ptr<TokenLocationFile> Storage::getTokenLocationsForLinesInFile(

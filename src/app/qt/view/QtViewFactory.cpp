@@ -25,9 +25,9 @@ std::shared_ptr<MainView> QtViewFactory::createMainView() const
 }
 
 std::shared_ptr<CompositeView> QtViewFactory::createCompositeView(
-	ViewLayout* viewLayout, CompositeView::CompositeDirection direction
+	ViewLayout* viewLayout, CompositeView::CompositeDirection direction, const std::string& name
 ) const {
-	std::shared_ptr<CompositeView> ptr = std::make_shared<QtCompositeView>(viewLayout, direction);
+	std::shared_ptr<CompositeView> ptr = std::make_shared<QtCompositeView>(viewLayout, direction, name);
 	ptr->init();
 	ptr->addToLayout();
 	return ptr;

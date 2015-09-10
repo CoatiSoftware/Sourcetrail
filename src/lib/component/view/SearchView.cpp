@@ -13,7 +13,7 @@ SearchView::~SearchView()
 
 std::string SearchView::getName() const
 {
-	return "SearchView";
+	return "Search";
 }
 
 SearchController* SearchView::getController()

@@ -6,8 +6,8 @@
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "settings/ColorScheme.h"
 
-QtCompositeView::QtCompositeView(ViewLayout* viewLayout, CompositeDirection direction)
-	: CompositeView(viewLayout, direction)
+QtCompositeView::QtCompositeView(ViewLayout* viewLayout, CompositeDirection direction, const std::string& name)
+	: CompositeView(viewLayout, direction, name)
 	, m_refreshFunctor(std::bind(&QtCompositeView::doRefreshView, this))
 {
 	QBoxLayout* layout;

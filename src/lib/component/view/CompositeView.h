@@ -17,7 +17,7 @@ public:
 		DIRECTION_VERTICAL
 	};
 
-	CompositeView(ViewLayout* viewLayout, CompositeDirection direction);
+	CompositeView(ViewLayout* viewLayout, CompositeDirection direction, const std::string& name);
 	virtual ~CompositeView();
 
 	CompositeDirection getDirection() const;
@@ -41,6 +41,7 @@ public:
 private:
 	std::vector<View*> m_views;
 	CompositeDirection m_direction;
+	std::string m_name;
 };
 
 #endif // COMPOSITE_VIEW_H

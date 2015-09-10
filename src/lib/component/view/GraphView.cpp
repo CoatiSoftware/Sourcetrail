@@ -11,5 +11,5 @@ GraphView::~GraphView()
 
 std::string GraphView::getName() const
 {
-	return "GraphView";
+	return "Graph";
 }

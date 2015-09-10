@@ -24,7 +24,7 @@ ComponentManager::~ComponentManager()
 void ComponentManager::setup(ViewLayout* viewLayout)
 {
 	std::shared_ptr<CompositeView> compositeView =
-		m_componentFactory->getViewFactory()->createCompositeView(viewLayout, CompositeView::DIRECTION_HORIZONTAL);
+		m_componentFactory->getViewFactory()->createCompositeView(viewLayout, CompositeView::DIRECTION_HORIZONTAL, "Search");
 	m_compositeViews.push_back(compositeView);
 
 	std::shared_ptr<Component> undoRedoComponent = m_componentFactory->createUndoRedoComponent(compositeView.get());

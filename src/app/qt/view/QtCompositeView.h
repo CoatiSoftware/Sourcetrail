@@ -10,7 +10,7 @@ class QtCompositeView
 	: public CompositeView
 {
 public:
-	QtCompositeView(ViewLayout* viewLayout, CompositeDirection direction);
+	QtCompositeView(ViewLayout* viewLayout, CompositeDirection direction, const std::string& name);
 	~QtCompositeView();
 
 	// View implementation

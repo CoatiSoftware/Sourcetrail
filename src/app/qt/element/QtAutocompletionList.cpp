@@ -205,6 +205,8 @@ void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<Searc
 		return;
 	}
 
+	setCompletionPrefix("");
+
 	const QModelIndex& index = completionModel()->index(0, 0);
 	list->setCurrentIndex(index);
 
@@ -212,15 +214,11 @@ void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<Searc
 	minSize.setHeight(std::min(minSize.height(), m_model->rowCount(index) * rect.height() + 16));
 
 	list->setMinimumSize(minSize);
-
 	list->verticalScrollBar()->setValue(list->verticalScrollBar()->minimum());
-	list->setCurrentIndex(index); // must be set again to avoid flickering
 
 	disconnect(); // must be done because of a bug where signals are no longer received by QtSmartSearchBox
 	connect(this, SIGNAL(highlighted(const QModelIndex&)), this, SLOT(onHighlighted(const QModelIndex&)), Qt::DirectConnection);
 	connect(this, SIGNAL(activated(const QModelIndex&)), this, SLOT(onActivated(const QModelIndex&)), Qt::DirectConnection);
-
-	setCompletionPrefix("");
 
 	QWidget* textBox = dynamic_cast<QWidget*>(parent());
 	complete(QRect(pos.x(), pos.y(), textBox->width(), 1));
