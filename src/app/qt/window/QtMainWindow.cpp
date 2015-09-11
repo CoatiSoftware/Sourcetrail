@@ -25,6 +25,23 @@
 #include "version.h"
 
 
+QtViewToggle::QtViewToggle(View* view, QWidget *parent)
+	: QWidget(parent)
+	, m_view(view)
+{
+}
+
+void QtViewToggle::toggledByAction()
+{
+	dynamic_cast<QtMainWindow*>(parent())->toggleView(m_view, true);
+}
+
+void QtViewToggle::toggledByUI()
+{
+	dynamic_cast<QtMainWindow*>(parent())->toggleView(m_view, false);
+}
+
+
 QtMainWindow::QtMainWindow()
 	:  m_startScreenWasVisible(false)
 {
@@ -75,16 +92,31 @@ void QtMainWindow::addView(View* view)
 	//dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     //dock->setTitleBarWidget(new QWidget());
 	addDockWidget(Qt::TopDockWidgetArea, dock);
-	m_dockWidgets.push_back(std::make_pair(view, dock));
+
+	QtViewToggle* toggle = new QtViewToggle(view, this);
+	connect(dock, SIGNAL(visibilityChanged(bool)), toggle, SLOT(toggledByUI()));
+
+	QAction* action = new QAction(tr((view->getName() + " Window").c_str()), this);
+	action->setCheckable(true);
+	connect(action, SIGNAL(triggered()), toggle, SLOT(toggledByAction()));
+	m_viewMenu->insertAction(m_viewSeparator, action);
+
+	DockWidget dockWidget;
+	dockWidget.widget = dock;
+	dockWidget.view = view;
+	dockWidget.action = action;
+	dockWidget.toggle = toggle;
+
+	m_dockWidgets.push_back(dockWidget);
 }
 
 void QtMainWindow::removeView(View* view)
 {
 	for (size_t i = 0; i < m_dockWidgets.size(); i++)
 	{
-		if (m_dockWidgets[i].first == view)
+		if (m_dockWidgets[i].view == view)
 		{
-			removeDockWidget(m_dockWidgets[i].second);
+			removeDockWidget(m_dockWidgets[i].widget);
 			m_dockWidgets.erase(m_dockWidgets.begin() + i);
 			return;
 		}
@@ -93,12 +125,12 @@ void QtMainWindow::removeView(View* view)
 
 void QtMainWindow::showView(View* view)
 {
-	getDockWidgetForView(view)->setHidden(false);
+	getDockWidgetForView(view)->widget->setHidden(false);
 }
 
 void QtMainWindow::hideView(View* view)
 {
-	getDockWidgetForView(view)->setHidden(true);
+	getDockWidgetForView(view)->widget->setHidden(true);
 }
 
 void QtMainWindow::loadLayout()
@@ -115,6 +147,11 @@ void QtMainWindow::loadLayout()
 	settings.endGroup();
 
 	this->restoreState(settings.value("DOCK_LOCATIONS").toByteArray());
+
+	for (DockWidget dock : m_dockWidgets)
+	{
+		dock.action->setChecked(!dock.widget->isHidden());
+	}
 }
 
 void QtMainWindow::saveLayout()
@@ -338,6 +375,20 @@ void QtMainWindow::switchColorScheme()
 	}
 }
 
+void QtMainWindow::toggleView(View* view, bool fromMenu)
+{
+	DockWidget* dock = getDockWidgetForView(view);
+
+	if (fromMenu)
+	{
+		dock->widget->setVisible(dock->action->isChecked());
+	}
+	else
+	{
+		dock->action->setChecked(dock->widget->isVisible());
+	}
+}
+
 void QtMainWindow::handleEscapeShortcut()
 {
 	closeScreens();
@@ -384,10 +435,14 @@ void QtMainWindow::setupViewMenu()
 	QMenu *menu = new QMenu(tr("&View"), this);
 	menuBar()->addMenu(menu);
 
+	m_viewSeparator = menu->addSeparator();
+
 	menu->addAction(tr("Larger font"), this, SLOT(zoomIn()), QKeySequence::ZoomIn);
 	menu->addAction(tr("Smaller font"), this, SLOT(zoomOut()), QKeySequence::ZoomOut);
 
 	menu->addAction(tr("Switch Color Scheme..."), this, SLOT(switchColorScheme()));
+
+	m_viewMenu = menu;
 }
 
 void QtMainWindow::setupHelpMenu()
@@ -406,24 +461,25 @@ void QtMainWindow::setupShortcuts()
 	connect(m_escapeShortcut, SIGNAL(activated()), SLOT(handleEscapeShortcut()));
 }
 
-QDockWidget* QtMainWindow::getDockWidgetForView(View* view) const
+QtMainWindow::DockWidget* QtMainWindow::getDockWidgetForView(View* view)
 {
-	for (size_t i = 0; i < m_dockWidgets.size(); i++)
+	for (DockWidget& dock : m_dockWidgets)
 	{
-		CompositeView* compositeView = dynamic_cast<CompositeView*>(m_dockWidgets[i].first);
+		if (dock.view == view)
+		{
+			return &dock;
+		}
+
+		const CompositeView* compositeView = dynamic_cast<const CompositeView*>(dock.view);
 		if (compositeView)
 		{
-			for (View* v : compositeView->getViews())
+			for (const View* v : compositeView->getViews())
 			{
 				if (v == view)
 				{
-					return m_dockWidgets[i].second;
+					return &dock;
 				}
 			}
-		}
-		else if (m_dockWidgets[i].first == view)
-		{
-			return m_dockWidgets[i].second;
 		}
 	}
 

@@ -17,6 +17,22 @@
 class QDockWidget;
 class View;
 
+class QtViewToggle
+	: public QWidget
+{
+	Q_OBJECT
+
+public:
+	QtViewToggle(View* view, QWidget *parent = nullptr);
+
+public slots:
+	void toggledByAction();
+	void toggledByUI();
+
+private:
+	View* m_view;
+};
+
 class QtMainWindow: public QMainWindow
 {
 	Q_OBJECT
@@ -66,9 +82,19 @@ public slots:
 	void zoomOut();
 	void switchColorScheme();
 
+	void toggleView(View* view, bool fromMenu);
+
 	void handleEscapeShortcut();
 
 private:
+	struct DockWidget
+	{
+		QDockWidget* widget;
+		View* view;
+		QAction* action;
+		QtViewToggle* toggle;
+	};
+
     void setupEditMenu();
 	void setupProjectMenu();
 	void setupViewMenu();
@@ -76,15 +102,17 @@ private:
 
 	void setupShortcuts();
 
-	QDockWidget* getDockWidgetForView(View* view) const;
+	DockWidget* getDockWidgetForView(View* view);
+
+	std::vector<DockWidget> m_dockWidgets;
+	QMenu* m_viewMenu;
+	QAction* m_viewSeparator;
 
 	std::shared_ptr<QtApplicationSettingsScreen> m_applicationSettingsScreen;
 	std::shared_ptr<QtStartScreen> m_startScreen;
 	std::shared_ptr<QtProjectSetupScreen> m_newProjectDialog;
 	std::shared_ptr<QtAboutLicense> m_licenseWindow;
 	std::shared_ptr<QtAbout> m_aboutWindow;
-
-	std::vector<std::pair<View*, QDockWidget*>> m_dockWidgets;
 
 	QShortcut* m_escapeShortcut;
 
