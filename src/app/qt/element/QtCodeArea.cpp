@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QToolTip>
 
-#include "utility/messaging/type/MessageActivateTokenLocation.h"
+#include "utility/messaging/type/MessageActivateTokenLocations.h"
 #include "utility/messaging/type/MessageShowFile.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
@@ -234,11 +234,11 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 	if (event->button() == Qt::LeftButton)
 	{
 		QTextCursor cursor = this->cursorForPosition(event->pos());
-		const Annotation* annotation = findAnnotationForPosition(cursor.position());
+		std::vector<Id> locationIds = findLocationIdsForPosition(cursor.position());
 
-		if (annotation && !annotation->isScope)
+		if (locationIds.size())
 		{
-			MessageActivateTokenLocation(annotation->locationId).dispatch();
+			MessageActivateTokenLocations(locationIds).dispatch();
 		}
 	}
 }
@@ -254,6 +254,8 @@ void QtCodeArea::mouseDoubleClickEvent(QMouseEvent* event)
 void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 {
 	QTextCursor cursor = this->cursorForPosition(event->pos());
+
+	m_hoveredLocationIds = findLocationIdsForPosition(cursor.position());
 	const Annotation* annotation = findAnnotationForPosition(cursor.position());
 
 	if (annotation && annotation->isScope)
@@ -268,11 +270,14 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 		setHoveredAnnotation(annotation);
 
 		const std::vector<std::string>& errorMessages = m_fileWidget->getErrorMessages();
-
 		if (annotation && errorMessages.size() > annotation->tokenId)
 		{
 			QToolTip::showText(event->globalPos(), QString::fromStdString(errorMessages[annotation->tokenId]));
 		}
+	}
+	else if (m_hoveredLocationIds.size())
+	{
+		updateContent();
 	}
 }
 
@@ -339,6 +344,21 @@ const QtCodeArea::Annotation* QtCodeArea::findAnnotationForPosition(int pos) con
 	return annotationPtr;
 }
 
+std::vector<Id> QtCodeArea::findLocationIdsForPosition(int pos) const
+{
+	std::vector<Id> locationIds;
+
+	for (const Annotation& annotation : m_annotations)
+	{
+		if (!annotation.isScope && pos >= annotation.start && pos <= annotation.end)
+		{
+			locationIds.push_back(annotation.locationId);
+		}
+	}
+
+	return locationIds;
+}
+
 void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFile)
 {
 	locationFile->forEachStartTokenLocation(
@@ -390,7 +410,8 @@ void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFi
 void QtCodeArea::annotateText()
 {
 	Id focusedTokenId = m_fileWidget->getFocusedTokenId();
-	const std::vector<Id>& ids = m_fileWidget->getActiveTokenIds();
+	const std::vector<Id>& activeIds = m_fileWidget->getActiveTokenIds();
+	const std::vector<Id>& hoverIds = m_hoveredLocationIds;
 	const std::vector<std::string>& errorMessages = m_fileWidget->getErrorMessages();
 
 	std::vector<ScopeAnnotation> scopeAnnotations;
@@ -407,11 +428,12 @@ void QtCodeArea::annotateText()
 
 	for (const Annotation& annotation: m_annotations)
 	{
-		bool isActive = std::find(ids.begin(), ids.end(), annotation.tokenId) != ids.end();
+		bool isActive = std::find(activeIds.begin(), activeIds.end(), annotation.tokenId) != activeIds.end();
+		bool isHovered = std::find(hoverIds.begin(), hoverIds.end(), annotation.locationId) != hoverIds.end();
 		bool isFocused = (annotation.tokenId == focusedTokenId);
 
 		QColor color;
-		if (&annotation == m_hoveredAnnotation && errorMessages.size())
+		if (isHovered && errorMessages.size())
 		{
 			color = activeErrorColor;
 		}
@@ -419,7 +441,7 @@ void QtCodeArea::annotateText()
 		{
 			color = errorColor;
 		}
-		else if (isActive || isFocused)
+		else if (isActive || isFocused || isHovered)
 		{
 			color = activeLocationColor;
 		}
@@ -440,7 +462,7 @@ void QtCodeArea::annotateText()
 		selection.cursor.setPosition(annotation.end, QTextCursor::KeepAnchor);
 		scopeAnnotation.endLine = selection.cursor.blockNumber();
 
-		if (annotation.isScope || (isActive && ids.size() == 1))
+		if (annotation.isScope || (isActive && activeIds.size() == 1))
 		{
 			if (isActive || isFocused)
 			{
@@ -453,7 +475,7 @@ void QtCodeArea::annotateText()
 			}
 		}
 
-		if (!annotation.isScope || (isActive && ids.size() == 1 && scopeAnnotation.startLine == scopeAnnotation.endLine))
+		if (!annotation.isScope || (isActive && activeIds.size() == 1 && scopeAnnotation.startLine == scopeAnnotation.endLine))
 		{
 			extraSelections.append(selection);
 		}

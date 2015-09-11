@@ -62,3 +62,8 @@ void QtMainView::setStatusBar(QStatusBar* statusbar)
 {
 	m_window->setStatusBar(statusbar);
 }
+
+void QtMainView::showStartScreen()
+{
+	m_window->showStartScreen();
+}

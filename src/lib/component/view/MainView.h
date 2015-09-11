@@ -9,6 +9,7 @@ public:
 	MainView();
 	virtual ~MainView();
 
+	virtual void showStartScreen() = 0;
 };
 
 #endif // MAIN_VIEW_H

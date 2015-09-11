@@ -29,6 +29,9 @@ public:
 	virtual QStatusBar* getStatusBar();
 	virtual void setStatusBar(QStatusBar* statusBar);
 
+	// MainView implementation
+	virtual void showStartScreen();
+
 private:
 	std::shared_ptr<QtMainWindow> m_window;
 	std::vector<View*> m_views;

@@ -33,15 +33,21 @@ void SearchController::handleMessage(MessageActivateFile* message)
 	getView()->setMatches(std::vector<SearchMatch>(1, match));
 }
 
-void SearchController::handleMessage(MessageActivateNode* message)
+void SearchController::handleMessage(MessageActivateNodes* message)
 {
-	SearchMatch match;
-	match.fullName = message->name;
-	match.nodeType = message->type;
-	match.tokenIds.insert(message->tokenId);
-	match.searchType = SearchMatch::SEARCH_TOKEN;
+	std::vector<SearchMatch> matches;
 
-	getView()->setMatches(std::vector<SearchMatch>(1, match));
+	for (const MessageActivateNodes::ActiveNode& node : message->nodes)
+	{
+		SearchMatch match;
+		match.fullName = node.name;
+		match.nodeType = node.type;
+		match.tokenIds.insert(node.nodeId);
+		match.searchType = SearchMatch::SEARCH_TOKEN;
+		matches.push_back(match);
+	}
+
+	getView()->setMatches(matches);
 }
 
 void SearchController::handleMessage(MessageFind* message)

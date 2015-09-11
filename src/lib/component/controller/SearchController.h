@@ -7,7 +7,7 @@
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateEdge.h"
 #include "utility/messaging/type/MessageActivateFile.h"
-#include "utility/messaging/type/MessageActivateNode.h"
+#include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageSearch.h"
@@ -20,7 +20,7 @@ class SearchController
 	: public Controller
 	, public MessageListener<MessageActivateEdge>
 	, public MessageListener<MessageActivateFile>
-	, public MessageListener<MessageActivateNode>
+	, public MessageListener<MessageActivateNodes>
 	, public MessageListener<MessageFind>
 	, public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageSearch>
@@ -33,7 +33,7 @@ public:
 private:
 	virtual void handleMessage(MessageActivateEdge* message);
 	virtual void handleMessage(MessageActivateFile* message);
-	virtual void handleMessage(MessageActivateNode* message);
+	virtual void handleMessage(MessageActivateNodes* message);
 	virtual void handleMessage(MessageFind* message);
 	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageSearch* message);

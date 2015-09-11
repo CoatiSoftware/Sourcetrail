@@ -66,35 +66,48 @@ void FeatureController::handleMessage(MessageActivateFile* message)
 	m.dispatchImmediately();
 }
 
-void FeatureController::handleMessage(MessageActivateNode* message)
+void FeatureController::handleMessage(MessageActivateNodes* message)
 {
-	Id nodeId = message->tokenId;
-
-	if (!message->isFresh())
+	std::vector<Id> nodeIds;
+	if (message->isFresh())
 	{
-		nodeId = m_storageAccess->getIdForNodeWithName(message->name);
+		for (const MessageActivateNodes::ActiveNode& node : message->nodes)
+		{
+			nodeIds.push_back(node.nodeId);
+		}
+	}
+	else
+	{
+		for (const MessageActivateNodes::ActiveNode& node : message->nodes)
+		{
+			nodeIds.push_back(m_storageAccess->getIdForNodeWithName(node.name));
+		}
 	}
 
-	if (nodeId)
+	if (nodeIds.size())
 	{
-		MessageActivateTokens m(nodeId);
+		MessageActivateTokens m(nodeIds);
 		m.isFromSystem = message->isFromSystem;
 		m.undoRedoType = message->undoRedoType;
 		m.dispatchImmediately();
 	}
 }
 
-void FeatureController::handleMessage(MessageActivateTokenLocation* message)
+void FeatureController::handleMessage(MessageActivateTokenLocations* message)
 {
-	if (message->locationId)
+	std::vector<Id> nodeIds;
+	MessageActivateNodes msg;
+
+	for (Id locationId : message->locationIds)
 	{
-		Id nodeId = m_storageAccess->getActiveNodeIdForLocationId(message->locationId);
-		MessageActivateNode(
+		Id nodeId = m_storageAccess->getActiveNodeIdForLocationId(locationId);
+		msg.addNode(
 			nodeId,
 			m_storageAccess->getNodeTypeForNodeWithId(nodeId),
 			m_storageAccess->getNameForNodeWithId(nodeId)
-		).dispatchImmediately();
+		);
 	}
+	msg.dispatchImmediately();
 }
 
 void FeatureController::handleMessage(MessageSearch* message)

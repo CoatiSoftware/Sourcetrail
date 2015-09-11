@@ -49,15 +49,16 @@ void UndoRedoController::handleMessage(MessageActivateFile* message)
 	processCommand(command);
 }
 
-void UndoRedoController::handleMessage(MessageActivateNode* message)
+void UndoRedoController::handleMessage(MessageActivateNodes* message)
 {
-	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() &&
-		static_cast<MessageActivateNode*>(m_lastCommand.message.get())->name == message->name)
+	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() && message->nodes.size() &&
+		static_cast<MessageActivateNodes*>(m_lastCommand.message.get())->nodes.size() == message->nodes.size() &&
+		static_cast<MessageActivateNodes*>(m_lastCommand.message.get())->nodes[0].name == message->nodes[0].name)
 	{
 		return;
 	}
 
-	Command command(std::make_shared<MessageActivateNode>(*message), 0);
+	Command command(std::make_shared<MessageActivateNodes>(*message), 0);
 	processCommand(command);
 }
 

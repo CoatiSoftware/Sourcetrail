@@ -1,6 +1,6 @@
 #include "qt/view/graphElements/QtGraphNodeData.h"
 
-#include "utility/messaging/type/MessageActivateNode.h"
+#include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
@@ -42,7 +42,9 @@ Id QtGraphNodeData::getTokenId() const
 
 void QtGraphNodeData::onClick()
 {
-	MessageActivateNode(m_data->getId(), m_data->getType(), m_data->getFullName()).dispatch();
+	MessageActivateNodes message;
+	message.addNode(m_data->getId(), m_data->getType(), m_data->getFullName());
+	message.dispatch();
 }
 
 void QtGraphNodeData::moved(const Vec2i& oldPosition)

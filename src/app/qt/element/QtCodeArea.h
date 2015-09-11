@@ -102,6 +102,8 @@ private:
 	};
 
 	const Annotation* findAnnotationForPosition(int pos) const;
+	std::vector<Id> findLocationIdsForPosition(int pos) const;
+
 	void createAnnotations(std::shared_ptr<TokenLocationFile> locationFile);
 	void annotateText();
 
@@ -126,6 +128,7 @@ private:
 	std::vector<ScopeAnnotation> m_scopeAnnotations;
 
 	const Annotation* m_hoveredAnnotation;
+	std::vector<Id> m_hoveredLocationIds;
 
 	int m_digits;
 };

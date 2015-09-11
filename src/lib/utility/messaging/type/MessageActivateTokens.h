@@ -4,7 +4,8 @@
 #include "utility/messaging/Message.h"
 #include "utility/types.h"
 
-class MessageActivateTokens: public Message<MessageActivateTokens>
+class MessageActivateTokens
+	: public Message<MessageActivateTokens>
 {
 public:
 	MessageActivateTokens(const std::vector<Id>& tokenIds)

@@ -2,7 +2,7 @@
 
 #include "utility/logging/logging.h"
 #include "utility/messaging/MessageQueue.h"
-#include "utility/messaging/type/MessageActivateNode.h"
+#include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/TaskScheduler.h"
 
@@ -28,6 +28,16 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 	ptr->m_mainView->loadLayout();
 
 	ptr->m_project = Project::create(ptr->m_storageCache.get());
+
+	std::string startupProjectFilePath = ApplicationSettings::getInstance()->getStartupProjectFilePath();
+	if (startupProjectFilePath.size())
+	{
+		MessageLoadProject(startupProjectFilePath).dispatch();
+	}
+	else
+	{
+		ptr->m_mainView->showStartScreen();
+	}
 
 	return ptr;
 }
@@ -108,7 +118,8 @@ void Application::handleMessage(MessageFinishedParsing* message)
 
 	if (mainId)
 	{
-		MessageActivateNode message(
+		MessageActivateNodes message;
+		message.addNode(
 			mainId,
 			m_storageCache->getNodeTypeForNodeWithId(mainId),
 			m_storageCache->getNameForNodeWithId(mainId)

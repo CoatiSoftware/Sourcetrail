@@ -233,8 +233,8 @@ add_files(
 
 	utility/messaging/type/MessageActivateEdge.h
 	utility/messaging/type/MessageActivateFile.h
-	utility/messaging/type/MessageActivateNode.h
-	utility/messaging/type/MessageActivateTokenLocation.h
+	utility/messaging/type/MessageActivateNodes.h
+	utility/messaging/type/MessageActivateTokenLocations.h
 	utility/messaging/type/MessageActivateTokens.h
 	utility/messaging/type/MessageAutoRefreshChanged.h
 	utility/messaging/type/MessageFind.h
