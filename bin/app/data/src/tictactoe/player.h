@@ -1,33 +1,21 @@
 #ifndef _PLAYER_
 #define _PLAYER_
 
-#include <string>
-
 #include "field.h"
 
 class Player {
 public:
-	Player( Field::Token token, const std::string& name )
-		: token_( token )
-		, name_( name ) {
-	}
-	virtual ~Player() {}
+	Player( Field::Token token, const char* name );
+	virtual ~Player();
 
 	virtual Field::Move Turn( const Field& field ) const = 0;
 
-	const Field::Token& getToken() const
-	{
-		return token_;
-	}
-
-	const std::string getName() const
-	{
-		return name_;
-	}
+	const Field::Token& getToken() const;
+	const char* getName() const;
 
 protected:
 	const Field::Token token_;
-	const std::string name_;
+	const char* name_;
 };
 
 #endif // _PLAYER_
