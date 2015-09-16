@@ -2600,6 +2600,13 @@ private:
 			return 0;
 		}
 
+		virtual Id onFieldUsageParsed(
+				const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy)
+		{
+			usages.push_back(addLocationSuffix(variableStr(user) + " -> " + usedNameHierarchy.getFullName(), location));
+			return 0;
+		}
+
 		virtual Id onGlobalVariableUsageParsed(
 			const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy)
 		{

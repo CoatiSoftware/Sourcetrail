@@ -309,6 +309,17 @@ Id Storage::onFieldUsageParsed(
 	return edgeId;
 }
 
+Id Storage::onFieldUsageParsed(
+	const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy
+){
+	Id userNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_FUNCTION, user.nameHierarchy);
+	Id usedNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
+
+	Id edgeId = addEdge(userNodeId, usedNodeId, Edge::EDGE_USAGE, location);
+
+	return edgeId;
+}
+
 Id Storage::onGlobalVariableUsageParsed( // or static variable used
 	const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy
 ){

@@ -99,7 +99,7 @@ std::string CxxDeclNameResolver::getDeclName()
 				clang::dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(declaration);
 
 			clang::TemplateParameterList* parameterList = partialSpecializationDecl->getTemplateParameters();
-			int currentParameterIndex = 0;
+			unsigned int currentParameterIndex = 0;
 
 			std::string specializedParameterNamePart = "<";
 			int templateArgumentCount = partialSpecializationDecl->getTemplateArgs().size();
@@ -109,7 +109,16 @@ std::string CxxDeclNameResolver::getDeclName()
 				const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
 				if (templateArgument.isDependent()) // IMPORTANT_TODO: fix case when arg depends on template parameter of outer template class, or depends on first template parameter.
 				{
-					specializedParameterNamePart += getTemplateParameterString(parameterList->getParam(currentParameterIndex));
+					if(currentParameterIndex < parameterList->size())
+					{
+						specializedParameterNamePart += getTemplateParameterString(parameterList->getParam(currentParameterIndex));
+					}
+					else
+					{
+						//this if fixes the crash, but not the problem TODO
+						const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+						LOG_ERROR("Template getParam out of Range "+declaration->getLocation().printToString(sourceManager));
+					}
 					currentParameterIndex++;
 				}
 				else
@@ -250,4 +259,3 @@ std::string CxxDeclNameResolver::getTemplateArgumentName(const clang::TemplateAr
 	CxxTemplateArgumentNameResolver resolver(getIgnoredContextDecls());
 	return resolver.getTemplateArgumentName(argument);
 }
-

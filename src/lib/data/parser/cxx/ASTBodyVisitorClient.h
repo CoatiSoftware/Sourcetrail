@@ -18,6 +18,7 @@ public:
 	virtual void VisitCXXNewExprInDeclBody(clang::FunctionDecl* decl, clang::CXXNewExpr* expr) = 0;
 	virtual void VisitCXXNewExprInDeclBody(clang::VarDecl* decl, clang::CXXNewExpr* expr) = 0;
 	virtual void VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr) = 0;
+	virtual void VisitMemberExprInDeclBody(clang::VarDecl* decl, clang::MemberExpr* expr) = 0;
 	virtual void VisitGlobalVariableExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr) = 0;
 	virtual void VisitGlobalVariableExprInDeclBody(clang::VarDecl* decl, clang::DeclRefExpr* expr) = 0;
 	virtual void VisitEnumExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr) = 0;

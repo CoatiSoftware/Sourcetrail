@@ -52,6 +52,7 @@ public:
 	virtual void VisitCXXNewExprInDeclBody(clang::FunctionDecl* decl, clang::CXXNewExpr* expr); // type use of new operator
 	virtual void VisitCXXNewExprInDeclBody(clang::VarDecl* decl, clang::CXXNewExpr* expr); // type use of new operator in global space
 	virtual void VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr); // field usages
+	virtual void VisitMemberExprInDeclBody(clang::VarDecl* decl, clang::MemberExpr* expr); // field usages
 	virtual void VisitGlobalVariableExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr); // global variable usage
 	virtual void VisitGlobalVariableExprInDeclBody(clang::VarDecl* decl, clang::DeclRefExpr* expr); // global variable usage
 	virtual void VisitEnumExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr); // enum field usage

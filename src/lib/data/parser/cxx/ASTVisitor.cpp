@@ -456,16 +456,33 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 						specializedFunction,
 						templateFunction);
 
-					const clang::ASTTemplateArgumentListInfo* argumentInfoList = specializedFunctionDecl->getTemplateSpecializationArgsAsWritten();
-					for (size_t i = 0; i < argumentInfoList->NumTemplateArgs; i++)
+					if(specializedFunctionDecl->getTemplateSpecializationArgsAsWritten())
 					{
-						const clang::TemplateArgumentLoc& argumentLoc = argumentInfoList->operator[](i);
-						const clang::QualType argumentType = argumentLoc.getArgument().getAsType();
+						const clang::ASTTemplateArgumentListInfo* argumentInfoList = specializedFunctionDecl->getTemplateSpecializationArgsAsWritten();
+						for (size_t i = 0; i < argumentInfoList->NumTemplateArgs; i++)
+						{
+							const clang::TemplateArgumentLoc& argumentLoc = argumentInfoList->operator[](i);
+							const clang::QualType argumentType = argumentLoc.getArgument().getAsType();
 
-						m_client->onTemplateArgumentTypeParsed(
-							getParseLocation(argumentLoc.getSourceRange()),
-							utility::qualTypeToDataType(argumentType)->getTypeNameHierarchy(),
-							specializedFunction.nameHierarchy);
+							m_client->onTemplateArgumentTypeParsed(
+									getParseLocation(argumentLoc.getSourceRange()),
+									utility::qualTypeToDataType(argumentType)->getTypeNameHierarchy(),
+									specializedFunction.nameHierarchy);
+						}
+					}
+					else
+					{
+						const clang::TemplateArgumentList* argumentList = specializedFunctionDecl->getTemplateSpecializationArgs();
+						for(size_t i = 0; i < argumentList->size(); ++i)
+						{
+							const clang::TemplateArgumentLoc& argumentLoc = clang::TemplateArgumentLoc(argumentList->get(i), specializedFunctionDecl->getTypeSourceInfo());
+							const clang::QualType argumentType = argumentLoc.getArgument().getAsType();
+
+							m_client->onTemplateArgumentTypeParsed(
+									getParseLocation(argumentLoc.getSourceRange()),
+									utility::qualTypeToDataType(argumentType)->getTypeNameHierarchy(),
+									specializedFunction.nameHierarchy);
+						}
 					}
 				}
 			}
@@ -645,6 +662,20 @@ void ASTVisitor::VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::Mem
 	m_client->onFieldUsageParsed(
 		parseLocation,
 		getParseFunction(decl),
+		utility::getDeclNameHierarchy(expr->getMemberDecl())
+	);
+}
+
+void ASTVisitor::VisitMemberExprInDeclBody(clang::VarDecl* decl, clang::MemberExpr* expr)
+{
+	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
+
+	const std::string exprName = expr->getMemberNameInfo().getAsString();
+	parseLocation.endColumnNumber += exprName.size() - 1;
+
+	m_client->onFieldUsageParsed(
+		parseLocation,
+		getParseVariable(decl),
 		utility::getDeclNameHierarchy(expr->getMemberDecl())
 	);
 }

@@ -80,7 +80,14 @@ void ASTBodyVisitor::VisitMemberExpr(clang::make_ptr<clang::MemberExpr>::type ex
 {
 	if (expr->getMemberDecl()->getKind() == clang::Decl::Kind::Field)
 	{
-		m_client->VisitMemberExprInDeclBody(m_functionDecl, expr);
+		if(m_functionDecl)
+		{
+			m_client->VisitMemberExprInDeclBody(m_functionDecl, expr);
+		}
+		else
+		{
+			m_client->VisitMemberExprInDeclBody(m_varDecl, expr);
+		}
 	}
 	VisitStmt(expr);
 }

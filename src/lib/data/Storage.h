@@ -76,6 +76,8 @@ public:
 		const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee);
 	virtual Id onFieldUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy);
+	virtual Id onFieldUsageParsed(
+		const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy);
 	virtual Id onGlobalVariableUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy);
 	virtual Id onGlobalVariableUsageParsed(
