@@ -69,17 +69,17 @@ void Application::loadProject(const FilePath& projectSettingsFilePath)
 {
 	MessageStatus("Loading Project: " + projectSettingsFilePath.str()).dispatch();
 
+	updateRecentProjects(projectSettingsFilePath);
+
 	m_storageCache->clear();
 	m_componentManager->refreshViews();
 
 	m_project = Project::create(m_storageCache.get());
 	m_project->loadProjectSettings(projectSettingsFilePath);
 	m_project->parseCode();
-
-	updateRecentProjects(projectSettingsFilePath);
 }
 
-void Application::reloadProject()
+void Application::refreshProject()
 {
 	MessageStatus("Refreshing Project").dispatch();
 
@@ -142,10 +142,11 @@ void Application::handleMessage(MessageRefresh* message)
 	if (message->uiOnly)
 	{
 		m_componentManager->refreshViews();
-		return;
 	}
-
-	reloadProject();
+	else
+	{
+		refreshProject();
+	}
 }
 
 void Application::handleMessage(MessageSaveProject* message)

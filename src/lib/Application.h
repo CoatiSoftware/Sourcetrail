@@ -28,7 +28,7 @@ public:
 	~Application();
 
 	void loadProject(const FilePath& projectSettingsFilePath);
-	void reloadProject();
+	void refreshProject();
 	void saveProject(const FilePath& projectSettingsFilePath);
 
 private:

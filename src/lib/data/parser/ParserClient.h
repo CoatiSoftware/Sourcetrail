@@ -6,6 +6,7 @@
 
 #include "utility/types.h"
 #include "data/name/NameHierarchy.h"
+#include "utility/file/FileInfo.h"
 
 struct ParseFunction;
 struct ParseLocation;
@@ -125,9 +126,9 @@ public:
 	virtual Id onTemplateFunctionSpecializationParsed(
 		const ParseLocation& location, const ParseFunction specializedFunction, const ParseFunction templateFunction) = 0;
 
-	virtual Id onFileParsed(const std::string& filePath) = 0;
+	virtual Id onFileParsed(const FileInfo& fileInfo) = 0;
 	virtual Id onFileIncludeParsed(
-		const ParseLocation& location, const std::string& filePath, const std::string& includedPath) = 0;
+		const ParseLocation& location, const FileInfo& fileInfo, const FileInfo& includedFileInfo) = 0;
 };
 
 #endif // PARSER_CLIENT_H

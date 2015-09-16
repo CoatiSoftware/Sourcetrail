@@ -4,6 +4,9 @@
 #include <deque>
 #include <chrono>
 #include <set>
+#include <time.h>
+
+#include "boost/date_time/posix_time/posix_time.hpp"
 
 #include "utility/math/Vector2.h"
 
@@ -14,6 +17,9 @@ namespace utility
 	TimePoint durationStart();
 	float duration(const TimePoint& start);
 	float duration(std::function<void()> func);
+
+	std::string timeToString(const time_t time);
+	std::string timeToString(const boost::posix_time::ptime time);
 
 	template<typename T>
 	std::vector<T> concat(const std::vector<T>& a, const std::vector<T>& b);

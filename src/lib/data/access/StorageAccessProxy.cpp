@@ -1,10 +1,11 @@
 #include "data/access/StorageAccessProxy.h"
 
-#include "utility/logging/logging.h"
-
 #include "data/graph/Graph.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/location/TokenLocationFile.h"
+
+#include "utility/logging/logging.h"
+#include "utility/file/FileInfo.h"
 
 StorageAccessProxy::StorageAccessProxy()
 	: m_subject(nullptr)
@@ -49,6 +50,16 @@ Id StorageAccessProxy::getIdForEdgeWithName(const std::string& name) const
 	}
 
 	return 0;
+}
+
+std::vector<FileInfo> StorageAccessProxy::getInfoOnAllFiles() const
+{
+	std::vector<FileInfo> fileInfos;
+	if (hasSubject())
+	{
+		fileInfos = m_subject->getInfoOnAllFiles();
+	}
+	return fileInfos;
 }
 
 Node::NodeType StorageAccessProxy::getNodeTypeForNodeWithId(Id id) const

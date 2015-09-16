@@ -30,13 +30,14 @@ struct StorageNode
 
 struct StorageFile
 {
-	StorageFile(Id id, Id nameId, const std::string& filePath)
-		: id(id), nameId(nameId), filePath(filePath)
+	StorageFile(Id id, Id nameId, const std::string& filePath, const std::string& modificationTime)
+		: id(id), nameId(nameId), filePath(filePath), modificationTime(modificationTime)
 	{}
 
 	Id id;
 	Id nameId;
 	std::string filePath;
+	std::string modificationTime;
 };
 
 struct StorageNameHierarchyElement

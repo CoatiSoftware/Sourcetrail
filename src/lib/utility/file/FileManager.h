@@ -5,12 +5,13 @@
 #include <set>
 #include <vector>
 
-#include "FileInfo.h"
+#include "data/access/StorageAccessProxy.h"
+#include "utility/file/FileInfo.h"
 
 class FileManager
 {
 public:
-	FileManager();
+	FileManager(StorageAccessProxy* storageAccessProxy);
 	virtual ~FileManager();
 
 	const std::vector<FilePath>& getSourcePaths() const;
@@ -23,7 +24,6 @@ public:
 		std::vector<std::string> includeExtensions
 	);
 
-	void reset();
 	void fetchFilePaths();
 
 	std::set<FilePath> getAddedFilePaths() const;
@@ -35,15 +35,18 @@ public:
 	virtual bool hasIncludeExtension(const FilePath& filePath) const;
 
 private:
+	std::vector<FileInfo> getFileInfosInProject() const;
+
 	std::vector<FilePath> m_sourcePaths;
 	std::vector<FilePath> m_includePaths;
 	std::vector<std::string> m_sourceExtensions;
 	std::vector<std::string> m_includeExtensions;
 
-	std::map<FilePath, FileInfo> m_files;
 	std::set<FilePath> m_addedFiles;
 	std::set<FilePath> m_updatedFiles;
 	std::set<FilePath> m_removedFiles;
+
+	StorageAccessProxy* m_storageAccessProxy;
 };
 
 #endif // FILE_MANAGER_H

@@ -23,8 +23,11 @@ public:
 	virtual ~Storage();
 
 	void clear();
-	void clearFileData(const std::set<FilePath>& filePaths);
-	std::set<FilePath> getDependingFilePathsAndRemoveFileNodes(const std::set<FilePath>& filePaths);
+	void clearFileElements(const std::set<FilePath>& filePaths);
+	void clearFileElements(const FilePath& filePath);
+	std::set<FilePath> getDependingFilePaths(const std::set<FilePath>& filePaths);
+	std::set<FilePath> getDependingFilePaths(const FilePath& filePath);
+	void removeUnusedNames();
 
 	void logGraph() const;
 	void logLocations() const;
@@ -105,13 +108,15 @@ public:
 	virtual Id onTemplateFunctionSpecializationParsed(
 		const ParseLocation& location, const ParseFunction specializedFunction, const ParseFunction templateFunction);
 
-	virtual Id onFileParsed(const std::string& filePath);
+	virtual Id onFileParsed(const FileInfo& fileInfo);
 	virtual Id onFileIncludeParsed(
-		const ParseLocation& location, const std::string& filePath, const std::string& includedPath);
+		const ParseLocation& location, const FileInfo& fileInfo, const FileInfo& includedFileInfo);
 
 	// StorageAccess implementation
 	virtual Id getIdForNodeWithName(const std::string& fullName) const;
 	virtual Id getIdForEdgeWithName(const std::string& name) const;
+
+	virtual std::vector<FileInfo> getInfoOnAllFiles() const;
 
 	virtual std::string getNameForNodeWithId(Id nodeId) const;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id nodeId) const;

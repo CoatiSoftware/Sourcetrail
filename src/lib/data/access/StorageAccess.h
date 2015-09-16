@@ -11,6 +11,7 @@
 #include "data/graph/Node.h"
 #include "data/search/SearchMatch.h"
 
+struct FileInfo;
 class Graph;
 class TokenLocation;
 class TokenLocationCollection;
@@ -23,6 +24,8 @@ public:
 
 	virtual Id getIdForNodeWithName(const std::string& name) const = 0;
 	virtual Id getIdForEdgeWithName(const std::string& name) const = 0;
+
+	virtual std::vector<FileInfo> getInfoOnAllFiles() const = 0;
 
 	virtual std::string getNameForNodeWithId(Id id) const = 0;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const = 0;

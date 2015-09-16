@@ -16,6 +16,8 @@ public:
 	virtual Id getIdForNodeWithName(const std::string& name) const;
 	virtual Id getIdForEdgeWithName(const std::string& name) const;
 
+	virtual std::vector<FileInfo> getInfoOnAllFiles() const;
+
 	virtual std::string getNameForNodeWithId(Id id) const;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(

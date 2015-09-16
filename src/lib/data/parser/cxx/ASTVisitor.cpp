@@ -345,16 +345,27 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 		{
 			clang::ClassTemplateSpecializationDecl* specializationDecl = *it;
 
+			ParseLocation specializationLocation = getParseLocationForNamedDecl(*it);
+			if (specializationDecl->getSpecializationKind() == clang::TSK_ImplicitInstantiation)
+			{
+				specializationLocation = getParseLocation(specializationDecl->getPointOfInstantiation());
+			}
+
+			NameHierarchy specializedRecordNameHierarchy = utility::getDeclNameHierarchy(specializationDecl);
+
+			ParserClient::RecordType specializedRecordType = specializationDecl->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
+
 			// The specializationParent can be an indirect specialization of the ClassTemplate (by specializing a partial specialization).
 			NameHierarchy specializationParentNameHierarchy = utility::getTemplateSpecializationParentNameHierarchy(specializationDecl);
 
-			ParserClient::RecordType specializedRecordType = specializationDecl->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
-			NameHierarchy specializedRecordNameHierarchy = utility::getDeclNameHierarchy(specializationDecl);
 			m_client->onTemplateRecordSpecializationParsed(
-				getParseLocationForNamedDecl(*it), specializedRecordNameHierarchy, specializedRecordType, specializationParentNameHierarchy
+				specializationLocation,
+				specializedRecordNameHierarchy,
+				specializedRecordType,
+				specializationParentNameHierarchy
 			);
 
-			std::string specializationFilePath = getParseLocationForNamedDecl(specializationDecl).filePath.str();
+			std::string specializationFilePath = specializationLocation.filePath.str();
 
 			const clang::TemplateArgumentList &argList = specializationDecl->getTemplateArgs();
 			for (size_t i = 0; i < argList.size(); i++)

@@ -29,7 +29,7 @@ bool Project::loadProjectSettings(const FilePath& projectSettingsFile)
 	{
 		m_projectSettingsFilepath = projectSettingsFile;
 
-		m_fileManager.reset();
+		//m_fileManager.reset();
 		updateFileManager();
 	}
 	return success;
@@ -59,7 +59,7 @@ void Project::clearProjectSettings()
 	m_projectSettingsFilepath = FilePath();
 	ProjectSettings::getInstance()->clear();
 
-	m_fileManager.reset();
+	//m_fileManager.reset();
 }
 
 void Project::reloadProjectSettings()
@@ -91,11 +91,13 @@ void Project::parseCode()
 	std::set<FilePath> updatedFilePaths = m_fileManager.getUpdatedFilePaths();
 	std::set<FilePath> removedFilePaths = m_fileManager.getRemovedFilePaths();
 
-	utility::append(updatedFilePaths, m_storage->getDependingFilePathsAndRemoveFileNodes(updatedFilePaths));
-	utility::append(updatedFilePaths, m_storage->getDependingFilePathsAndRemoveFileNodes(removedFilePaths));
+	utility::append(updatedFilePaths, m_storage->getDependingFilePaths(updatedFilePaths));
+	utility::append(removedFilePaths, m_storage->getDependingFilePaths(removedFilePaths));
 
-	m_storage->clearFileData(updatedFilePaths);
-	m_storage->clearFileData(removedFilePaths);
+	m_storage->clearFileElements(updatedFilePaths);
+	m_storage->clearFileElements(removedFilePaths);
+
+	m_storage->removeUnusedNames();
 
 	std::vector<FilePath> filesToParse;
 	filesToParse.insert(filesToParse.end(), addedFilePaths.begin(), addedFilePaths.end());
@@ -167,5 +169,6 @@ Parser::Arguments Project::getParserArguments() const
 
 Project::Project(StorageAccessProxy* storageAccessProxy)
 	: m_storageAccessProxy(storageAccessProxy)
+	, m_fileManager(storageAccessProxy)
 {
 }

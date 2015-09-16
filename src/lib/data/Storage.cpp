@@ -3,9 +3,10 @@
 #include <sstream>
 #include <queue>
 
+#include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
-#include "utility/utilityString.h"
 #include "utility/utility.h"
+#include "utility/utilityString.h"
 
 #include "data/graph/token_component/TokenComponentAggregation.h"
 #include "data/graph/token_component/TokenComponentName.h"
@@ -38,15 +39,66 @@ void Storage::clear()
 	m_errorLocationCollection.clear();
 }
 
-void Storage::clearFileData(const std::set<FilePath>& filePaths)
+void Storage::clearFileElements(const std::set<FilePath>& filePaths)
 {
-	// TODO: Implement this one
+	for (const FilePath& filePath: filePaths)
+	{
+		clearFileElements(filePath);
+	}
 }
 
-std::set<FilePath> Storage::getDependingFilePathsAndRemoveFileNodes(const std::set<FilePath>& filePaths)
+void Storage::clearFileElements(const FilePath& filePath)
 {
-	// TODO: Implement this one
-	return std::set<FilePath>();
+	Id fileId = m_sqliteStorage.getFileByName(filePath.fileName()).id;
+	if (fileId != 0)
+	{
+		m_sqliteStorage.removeElementsWithLocationInFile(fileId);
+		m_sqliteStorage.removeFile(fileId);
+	}
+}
+
+std::set<FilePath> Storage::getDependingFilePaths(const std::set<FilePath>& filePaths)
+{
+	std::set<FilePath> dependingFilePaths;
+	for (const FilePath& filePath: filePaths)
+	{
+		std::set<FilePath> dependingFilePathsSubset = getDependingFilePaths(filePath);
+		dependingFilePaths.insert(dependingFilePathsSubset.begin(), dependingFilePathsSubset.end());
+	}
+	return dependingFilePaths;
+}
+
+std::set<FilePath> Storage::getDependingFilePaths(const FilePath& filePath)
+{
+	std::set<FilePath> dependingFilePaths;
+
+	Id fileNodeId = m_sqliteStorage.getFileByName(filePath.fileName()).id;
+	std::vector<StorageEdge> incomingEdges = m_sqliteStorage.getEdgesByTargetType(
+		fileNodeId, Edge::typeToInt(Edge::EDGE_INCLUDE)
+	);
+	for (StorageEdge incomingEdge: incomingEdges)
+	{
+		Id dependingFileId = incomingEdge.sourceNodeId;
+		FilePath dependingFilePath = FilePath(m_sqliteStorage.getFileById(dependingFileId).filePath);
+
+		dependingFilePaths.insert(dependingFilePath);
+
+		std::set<FilePath> dependingFilePathsSubset = getDependingFilePaths(dependingFilePath);
+		dependingFilePaths.insert(dependingFilePathsSubset.begin(), dependingFilePathsSubset.end());
+	}
+
+	return dependingFilePaths;
+}
+
+void Storage::removeUnusedNames()
+{
+	m_sqliteStorage.removeUnusedNameHierarchyElements();
+	m_tokenIndex.clear();
+
+	for (StorageNode node: m_sqliteStorage.getAllNodes())
+	{
+		m_tokenIndex.addNode(m_sqliteStorage.getNameHierarchyById(node.nameId))->addTokenId(node.id);
+	}
 }
 
 void Storage::logGraph() const
@@ -399,7 +451,7 @@ Id Storage::onTemplateArgumentTypeParsed(
 		const NameHierarchy& templateNameHierarchy)
 {
 	Id argumentNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, argumentNameHierarchy);
-	// TODO add location for arg
+	// does not need a source location because this type that is already defined (and therefore has a location).
 
 	Id templateNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateNameHierarchy);
 
@@ -413,7 +465,7 @@ Id Storage::onTemplateDefaultArgumentTypeParsed(
 	const NameHierarchy& templateArgumentTypeNameHierarchy // actually this is the template parameter???
 ){
 	Id defaultArgumentNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, defaultArgumentTypeUsage.dataType->getTypeNameHierarchy());
-	// TODO add location for defarg
+	// does not need a source location because this type that is already defined (and therefore has a location).
 
 	Id argumentNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateArgumentTypeNameHierarchy);
 
@@ -427,7 +479,7 @@ Id Storage::onTemplateRecordParameterTypeParsed(
 	const NameHierarchy& templateRecordNameHierarchy
 ){
 	Id parameterNodeId = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
-	// TODO add location for param
+	addSourceLocation(parameterNodeId, location, false);
 
 	Id recordNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, templateRecordNameHierarchy);
 
@@ -447,7 +499,7 @@ Id Storage::onTemplateRecordSpecializationParsed(
 	}
 
 	Id specializedNodeId = addNodeHierarchy(specializedRecordNodeType, specializedRecordNameHierarchy);
-	// TODO add location for specialized
+	addSourceLocation(specializedNodeId, location, false);
 
 	Id recordNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, specializedFromNameHierarchy);
 
@@ -460,7 +512,7 @@ Id Storage::onTemplateFunctionParameterTypeParsed(
 	const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy, const ParseFunction function
 ){
 	Id parameterNodeId = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
-	// TODO add location for parameter
+	addSourceLocation(parameterNodeId, location, false);
 
 	Id functionNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, function);
 
@@ -473,7 +525,7 @@ Id Storage::onTemplateFunctionSpecializationParsed(
 	const ParseLocation& location, const ParseFunction specializedFunction, const ParseFunction templateFunction
 ){
 	Id specializedNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, specializedFunction);
-	// TODO add location for specialized
+	addSourceLocation(specializedNodeId, location, false);
 
 	Id functionNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, templateFunction);
 
@@ -482,9 +534,9 @@ Id Storage::onTemplateFunctionSpecializationParsed(
 	return specializedNodeId;
 }
 
-Id Storage::onFileParsed(const std::string& filePath)
+Id Storage::onFileParsed(const FileInfo& fileInfo)
 {
-	const std::string fileName = FilePath(filePath).fileName();
+	const std::string fileName = fileInfo.path.fileName();
 
 	Id nameHierarchyElementId = m_sqliteStorage.getNameHierarchyElementIdByName(fileName);
 	if (nameHierarchyElementId == 0)
@@ -495,7 +547,11 @@ Id Storage::onFileParsed(const std::string& filePath)
 	Id fileNodeId = m_sqliteStorage.getFileByName(fileName).id;
 	if (fileNodeId == 0)
 	{
-		fileNodeId = m_sqliteStorage.addFile(nameHierarchyElementId, filePath);
+		fileNodeId = m_sqliteStorage.addFile(
+			nameHierarchyElementId,
+			fileInfo.path.str(),
+			utility::timeToString(fileInfo.lastWriteTime)
+		);
 	}
 
 	NameHierarchy nameHierarchy;
@@ -505,10 +561,10 @@ Id Storage::onFileParsed(const std::string& filePath)
 	return fileNodeId;
 }
 
-Id Storage::onFileIncludeParsed(const ParseLocation& location, const std::string& filePath, const std::string& includedPath)
+Id Storage::onFileIncludeParsed(const ParseLocation& location, const FileInfo& fileInfo, const FileInfo& includedFileInfo)
 {
-	const Id fileNodeId = onFileParsed(filePath);
-	const Id includedFileNodeId = onFileParsed(includedPath);
+	const Id fileNodeId = onFileParsed(fileInfo);
+	const Id includedFileNodeId = onFileParsed(includedFileInfo);
 
 	addEdge(fileNodeId, includedFileNodeId, Edge::EDGE_INCLUDE, location);
 
@@ -554,6 +610,27 @@ Id Storage::getIdForEdgeWithName(const std::string& name) const
 	int sourceId = getIdForNodeWithName(sourceName);
 	int targetId = getIdForNodeWithName(targetName);
 	return m_sqliteStorage.getEdgeBySourceTargetType(sourceId, targetId, type).id;
+}
+
+std::vector<FileInfo> Storage::getInfoOnAllFiles() const
+{
+	std::vector<FileInfo> fileInfos;
+
+	std::vector<StorageFile> storageFiles = m_sqliteStorage.getAllFiles();
+	for (size_t i = 0; i < storageFiles.size(); i++)
+	{
+		boost::posix_time::ptime modificationTime = boost::posix_time::not_a_date_time;
+		if (storageFiles[i].modificationTime != "not-a-date-time")
+		{
+			modificationTime = boost::posix_time::time_from_string(storageFiles[i].modificationTime);
+		}
+		fileInfos.push_back(FileInfo(
+			FilePath(storageFiles[i].filePath),
+			modificationTime
+		));
+	}
+
+	return fileInfos;
 }
 
 std::string Storage::getNameForNodeWithId(Id nodeId) const
@@ -1035,11 +1112,11 @@ int Storage::addSourceLocation(int elementNodeId, const ParseLocation& location,
 	}
 	else
 	{
-		Id fileNodeId = m_sqliteStorage.getFileByName(FilePath(location.filePath).fileName()).id;
+		Id fileNodeId = m_sqliteStorage.getFileByName(location.filePath.fileName()).id;
 		if (fileNodeId == 0)
 		{
 			LOG_ERROR("No filenode created for file: " + location.filePath.str());
-			fileNodeId = onFileParsed(location.filePath.str()); // TODO: make onFileParsed accept filePath
+			fileNodeId = onFileParsed(FileSystem::getFileInfoForPath(location.filePath));
 		}
 		int locationId = m_sqliteStorage.addSourceLocation(
 			elementNodeId, fileNodeId, location.startLineNumber, location.startColumnNumber,

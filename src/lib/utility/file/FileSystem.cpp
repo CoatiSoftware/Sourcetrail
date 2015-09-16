@@ -52,7 +52,16 @@ std::vector<std::string> FileSystem::getFileNamesFromDirectoryUpdatedAfter(
 	return files;
 }
 
-
+FileInfo FileSystem::getFileInfoForPath(FilePath filePath)
+{
+	if (filePath.exists())
+	{
+		std::time_t t = boost::filesystem::last_write_time(filePath.path());
+		boost::posix_time::ptime lastWriteTime = boost::posix_time::from_time_t(t);
+		return FileInfo(filePath, lastWriteTime);
+	}
+	return FileInfo();
+}
 
 std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 	const std::vector<FilePath>& paths, const std::vector<std::string>& fileExtensions
@@ -85,7 +94,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 	return files;
 }
 
-std::string FileSystem::getTimeStringNow()
+std::string FileSystem::getTimeStringNow() // TODO: move to utility
 {
 	return boost::posix_time::to_iso_string(boost::posix_time::second_clock::universal_time());
 }

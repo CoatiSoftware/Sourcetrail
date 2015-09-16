@@ -2,6 +2,7 @@
 
 #include "data/graph/Node.h"
 #include "data/location/TokenLocation.h"
+#include "utility/logging/logging.h"
 
 SqliteStorage::SqliteStorage(const std::string& dbFilePath)
 {
@@ -68,13 +69,13 @@ Id SqliteStorage::addNode(int type, Id nameId)
 	return id;
 }
 
-Id SqliteStorage::addFile(Id nameId, const std::string& filePath)
+Id SqliteStorage::addFile(Id nameId, const std::string& filePath, const std::string& modificationTime)
 {
 	Id id = addNode(Node::NODE_FILE, nameId);
 
 	m_database.execDML((
-		"INSERT INTO file(id, path) VALUES("
-		+ std::to_string(id) + ", '" + filePath + "');"
+		"INSERT INTO file(id, path, modification_time) VALUES("
+		+ std::to_string(id) + ", '" + filePath + "', '" + modificationTime + "');"
 	).c_str());
 
 	return id;
@@ -124,6 +125,59 @@ void SqliteStorage::removeNameHierarchyElement(Id id)
 	m_database.execDML((
 		"DELETE FROM name_hierarchy_element WHERE id == " + std::to_string(id) + ";"
 	).c_str());
+}
+
+void SqliteStorage::removeElementsWithLocationInFile(Id fileId)
+{
+	m_database.execDML((
+		"DELETE FROM element WHERE id IN (SELECT element_id FROM source_location WHERE source_location.file_node_id == " + std::to_string(fileId) + ");"
+	).c_str());
+}
+
+void SqliteStorage::removeFile(Id id)
+{
+	if (isFile(id))
+	{
+		m_database.execDML((
+			"DELETE FROM element WHERE id == " + std::to_string(id) + ";"
+		).c_str());
+	}
+	else
+	{
+		LOG_WARNING("Removing file from DB failed since there is no file element with id " + std::to_string(id));
+	}
+}
+
+void SqliteStorage::removeUnusedNameHierarchyElements()
+{
+	m_database.execDML(
+		"DELETE FROM name_hierarchy_element WHERE NOT EXISTS (SELECT * FROM node where node.name_id == name_hierarchy_element.id);"
+	);
+}
+
+std::vector<StorageNode> SqliteStorage::getAllNodes() const
+{
+	std::vector<StorageNode> nodes;
+
+	CppSQLite3Query q = m_database.execQuery(
+		"SELECT id, type, name_id FROM node;"
+	);
+
+	while (!q.eof())
+	{
+		const Id id = q.getIntField(0, 0);
+		const int type = q.getIntField(1, -1);
+		const Id nameId = q.getIntField(2, 0);
+
+		if (id != 0 && type != -1 && nameId != 0)
+		{
+			nodes.push_back(StorageNode(id, type, nameId));
+		}
+
+		q.nextRow();
+	}
+
+	return nodes;
 }
 
 bool SqliteStorage::isEdge(Id elementId) const
@@ -340,7 +394,7 @@ StorageNode SqliteStorage::getNodeByName(const std::string& nodeName) const
 StorageFile SqliteStorage::getFileById(const Id id) const
 {
 	return getFirstFile(
-		"SELECT node.id, node.name_id, file.path FROM node INNER JOIN file ON node.id = file.id "
+		"SELECT node.id, node.name_id, file.path, file.modification_time FROM node INNER JOIN file ON node.id = file.id "
 		"WHERE node.id == " + std::to_string(id) + ";"
 	);
 }
@@ -349,17 +403,22 @@ StorageFile SqliteStorage::getFileByName(const std::string& fileName) const
 {
 	Id nameId = getNameHierarchyElementIdByName(fileName);
 
-	StorageFile storageFile(0, 0, "");
+	StorageFile storageFile(0, 0, "", "");
 
 	if (nameId != 0)
 	{
 		storageFile = getFirstFile(
-			"SELECT node.id, node.name_id, file.path FROM node INNER JOIN file ON node.id = file.id "
+			"SELECT node.id, node.name_id, file.path, file.modification_time FROM node INNER JOIN file ON node.id = file.id "
 			"WHERE node.name_id == " + std::to_string(nameId) + ";"
 		);
 	}
 
 	return storageFile;
+}
+
+std::vector<StorageFile> SqliteStorage::getAllFiles() const
+{
+	return getAllFiles("SELECT file.id, node.name_id, file.path, file.modification_time FROM file INNER JOIN node ON file.id = node.id;");
 }
 
 void SqliteStorage::setNodeType(int type, Id nodeId)
@@ -388,6 +447,31 @@ Id SqliteStorage::getNameHierarchyElementIdByNodeId(const Id nodeId) const
 	return getFirstResult<Id>(
 		"SELECT name_id FROM node WHERE id == " + std::to_string(nodeId) + ";"
 	);
+}
+
+std::vector<StorageNameHierarchyElement> SqliteStorage::getAllNameHierarchyElements() const
+{
+	std::vector<StorageNameHierarchyElement> ret;
+
+	CppSQLite3Query q = m_database.execQuery(
+		"SELECT * FROM name_hierarchy_element;"
+	);
+
+	while (!q.eof())
+	{
+		const Id id				= q.getIntField(0, 0);
+		const std::string name	= q.getStringField(1, "");
+		const Id parent_id		= q.getIntField(2, 0);
+
+
+		if (id != 0 && name != "" && parent_id != 0)
+		{
+			ret.push_back(StorageNameHierarchyElement(id, name, parent_id));
+		}
+		q.nextRow();
+	}
+
+	return ret;
 }
 
 NameHierarchy SqliteStorage::getNameHierarchyById(const Id id) const
@@ -554,6 +638,7 @@ void SqliteStorage::setupTables()
 		"CREATE TABLE IF NOT EXISTS file("
 			"id INTEGER NOT NULL, "
 			"path TEXT, "
+			"modification_time TEXT, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES node(id) ON DELETE CASCADE);"
 	);
@@ -589,16 +674,40 @@ StorageFile SqliteStorage::getFirstFile(const std::string& query) const
 
 	if (!q.eof())
 	{
-		const Id id					= q.getIntField(0, 0);
-		const Id nameId				= q.getIntField(1, 0);
-		const std::string filePath	= q.getStringField(2, "");
+		const Id id							= q.getIntField(0, 0);
+		const Id nameId						= q.getIntField(1, 0);
+		const std::string filePath			= q.getStringField(2, "");
+		const std::string modificationTime	= q.getStringField(3, "");
 
 		if (id != 0 && nameId != 0)
 		{
-			return StorageFile(id, nameId, filePath);
+			return StorageFile(id, nameId, filePath, modificationTime);
 		}
 	}
-	return StorageFile(0, 0, "");
+	return StorageFile(0, 0, "", "");
+}
+
+std::vector<StorageFile> SqliteStorage::getAllFiles(const std::string& query) const
+{
+	std::vector<StorageFile> files;
+
+	CppSQLite3Query q = m_database.execQuery(query.c_str());
+
+	while (!q.eof())
+	{
+		const Id id							= q.getIntField(0, 0);
+		const Id nameId						= q.getIntField(1, 0);
+		const std::string filePath			= q.getStringField(2, "");
+		const std::string modificationTime	= q.getStringField(3, "");
+
+		if (id != 0 && nameId != 0)
+		{
+			files.push_back(StorageFile(id, nameId, filePath, modificationTime));
+		}
+		q.nextRow();
+	}
+
+	return files;
 }
 
 StorageSourceLocation SqliteStorage::getFirstSourceLocation(const std::string& query) const

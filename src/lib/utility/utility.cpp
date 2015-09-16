@@ -21,6 +21,23 @@ float utility::duration(std::function<void()> func)
 	return duration(start);
 }
 
+std::string utility::timeToString(const time_t time)
+{
+	char buff[20];
+	strftime(buff, 20, "%Y-%m-%d %H:%M:%S", localtime(&time));
+	return std::string(buff);
+}
+
+std::string utility::timeToString(const boost::posix_time::ptime time)
+{
+	std::stringstream stream;
+	boost::posix_time::time_facet* facet = new boost::posix_time::time_facet();
+	facet->format("%Y-%m-%d %H:%M:%S");
+	stream.imbue(std::locale(std::locale::classic(), facet));
+	stream << time;
+	return stream.str();
+}
+
 bool utility::intersectionPoint(Vec2f a1, Vec2f b1, Vec2f a2, Vec2f b2, Vec2f* i)
 {
 	Vec2f p = a1;

@@ -28,13 +28,18 @@ public:
 
 	Id addEdge(int type, Id sourceNodeId, Id targetNodeId);
 	Id addNode(int type, Id nameId);
-	Id addFile(Id nameId, const std::string& filePath);
+	Id addFile(Id nameId, const std::string& filePath, const std::string& modificationTime);
 	int addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope);
 	Id addNameHierarchyElement(const std::string& name);
 	Id addNameHierarchyElement(const std::string& name, Id parentId);
 
 	void removeElement(Id id);
 	void removeNameHierarchyElement(Id id);
+	void removeElementsWithLocationInFile(Id fileId);
+	void removeFile(Id id);
+	void removeUnusedNameHierarchyElements();
+
+	std::vector<StorageNode> getAllNodes() const;
 
 	bool isEdge(Id elementId) const;
 	bool isNode(Id elementId) const;
@@ -53,6 +58,7 @@ public:
 
 	StorageFile getFileById(const Id id) const;
 	StorageFile getFileByName(const std::string& fileName) const;
+	std::vector<StorageFile> getAllFiles() const;
 
 	void setNodeType(int type, Id nodeId);
 
@@ -60,6 +66,8 @@ public:
 	Id getNameHierarchyElementIdByName(const std::string& name, Id parentId) const;
 
 	Id getNameHierarchyElementIdByNodeId(const Id nodeId) const;
+
+	std::vector<StorageNameHierarchyElement> getAllNameHierarchyElements() const;
 
 	NameHierarchy getNameHierarchyById(const Id id) const;
 
@@ -79,6 +87,7 @@ private:
 	void setupTables();
 
 	StorageFile getFirstFile(const std::string& query) const;
+	std::vector<StorageFile> getAllFiles(const std::string& query) const;
 	StorageSourceLocation getFirstSourceLocation(const std::string& query) const;
 	std::vector<StorageSourceLocation> getAllSourceLocations(const std::string& query) const;
 

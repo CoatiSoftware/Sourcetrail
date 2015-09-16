@@ -14,6 +14,8 @@ public:
 	static std::vector<std::string> getFileNamesFromDirectoryUpdatedAfter(
 		const std::string& path, const std::vector<std::string>& extensions, const std::string& timeString);
 
+	static FileInfo getFileInfoForPath(FilePath filePath);
+
 	static std::vector<FileInfo> getFileInfosFromPaths(
 		const std::vector<FilePath>& paths, const std::vector<std::string>& fileExtensions);
 
