@@ -47,11 +47,6 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 	buildGraph(message);
 }
 
-void GraphController::handleMessage(MessageFinishedParsing* message)
-{
-	getView()->clear();
-}
-
 void GraphController::handleMessage(MessageFlushUpdates* message)
 {
 	buildGraph(message);

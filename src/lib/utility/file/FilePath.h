@@ -32,6 +32,7 @@ public:
 
 	std::string extension() const;
 	FilePath withoutExtension() const;
+	FilePath replaceExtension(const std::string& extension);
 	bool hasExtension(const std::vector<std::string>& extensions) const;
 
 	bool operator==(const FilePath& other) const;

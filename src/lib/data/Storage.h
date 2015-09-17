@@ -19,7 +19,7 @@ class Storage
 	, public StorageAccess
 {
 public:
-	Storage();
+	Storage(const FilePath& dbPath);
 	virtual ~Storage();
 
 	void clear();

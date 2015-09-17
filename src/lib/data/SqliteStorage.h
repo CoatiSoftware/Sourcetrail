@@ -20,6 +20,7 @@ public:
 	SqliteStorage(const std::string& dbFilePath);
 	~SqliteStorage();
 
+	void setup();
 	void clear();
 
 	void beginTransaction();

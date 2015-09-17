@@ -5,7 +5,6 @@
 
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
@@ -28,7 +27,6 @@ class StorageAccess;
 class GraphController
 	: public Controller
 	, public MessageListener<MessageActivateTokens>
-	, public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageFlushUpdates>
 	, public MessageListener<MessageFocusIn>
 	, public MessageListener<MessageFocusOut>
@@ -42,7 +40,6 @@ public:
 
 private:
 	virtual void handleMessage(MessageActivateTokens* message);
-	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageFlushUpdates* message);
 	virtual void handleMessage(MessageFocusIn* message);
 	virtual void handleMessage(MessageFocusOut* message);

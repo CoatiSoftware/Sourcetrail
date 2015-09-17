@@ -14,7 +14,6 @@
 std::shared_ptr<Project> Project::create(StorageAccessProxy* storageAccessProxy)
 {
 	std::shared_ptr<Project> ptr(new Project(storageAccessProxy));
-	ptr->clearStorage();
 	return ptr;
 }
 
@@ -27,7 +26,7 @@ bool Project::loadProjectSettings(const FilePath& projectSettingsFile)
 	bool success = ProjectSettings::getInstance()->load(projectSettingsFile);
 	if (success)
 	{
-		m_projectSettingsFilepath = projectSettingsFile;
+		setProjectSettingsFilePath(projectSettingsFile);
 
 		//m_fileManager.reset();
 		updateFileManager();
@@ -39,7 +38,7 @@ bool Project::saveProjectSettings(const FilePath& projectSettingsFile)
 {
 	if (!projectSettingsFile.empty())
 	{
-		m_projectSettingsFilepath = projectSettingsFile;
+		setProjectSettingsFilePath(projectSettingsFile);
 	}
 
 	if (m_projectSettingsFilepath.empty())
@@ -56,7 +55,7 @@ bool Project::saveProjectSettings(const FilePath& projectSettingsFile)
 
 void Project::clearProjectSettings()
 {
-	m_projectSettingsFilepath = FilePath();
+	setProjectSettingsFilePath(FilePath());
 	ProjectSettings::getInstance()->clear();
 
 	//m_fileManager.reset();
@@ -69,12 +68,6 @@ void Project::reloadProjectSettings()
 		ProjectSettings::getInstance()->load(m_projectSettingsFilepath);
 		updateFileManager();
 	}
-}
-
-void Project::clearStorage()
-{
-	m_storage = std::make_shared<Storage>();
-	m_storageAccessProxy->setSubject(m_storage.get());
 }
 
 void Project::parseCode()
@@ -122,6 +115,21 @@ void Project::logStats() const
 	// m_storage->logGraph();
 	// m_storage->logLocations();
 	m_storage->logStats();
+}
+
+void Project::setProjectSettingsFilePath(const FilePath& path)
+{
+	if (path.empty())
+	{
+		m_storage.reset();
+	}
+	else if (m_projectSettingsFilepath != path)
+	{
+		m_storage = std::make_shared<Storage>(FilePath(path).replaceExtension("sqlite"));
+	}
+
+	m_storageAccessProxy->setSubject(m_storage.get());
+	m_projectSettingsFilepath = path;
 }
 
 void Project::updateFileManager()

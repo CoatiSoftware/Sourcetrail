@@ -7,7 +7,7 @@
 SqliteStorage::SqliteStorage(const std::string& dbFilePath)
 {
 	m_database.open(dbFilePath.c_str());
-	clear();
+	setup();
 }
 
 SqliteStorage::~SqliteStorage()
@@ -15,12 +15,16 @@ SqliteStorage::~SqliteStorage()
 	m_database.close();
 }
 
+void SqliteStorage::setup()
+{
+	m_database.execDML("PRAGMA foreign_keys=ON;");
+	setupTables();
+}
+
 void SqliteStorage::clear()
 {
 	m_database.execDML("PRAGMA foreign_keys=OFF;");
 	clearTables();
-	m_database.execDML("PRAGMA foreign_keys=ON;");
-	setupTables();
 }
 
 void SqliteStorage::beginTransaction()

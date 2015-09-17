@@ -55,11 +55,6 @@ void SearchController::handleMessage(MessageFind* message)
 	getView()->setFocus();
 }
 
-void SearchController::handleMessage(MessageFinishedParsing* message)
-{
-	getView()->setMatches(std::vector<SearchMatch>());
-}
-
 void SearchController::handleMessage(MessageSearch* message)
 {
 	getView()->setMatches(message->getMatches());

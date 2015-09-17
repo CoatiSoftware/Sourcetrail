@@ -135,6 +135,11 @@ FilePath FilePath::withoutExtension() const
 	return FilePath(boost::filesystem::path(m_path).replace_extension());
 }
 
+FilePath FilePath::replaceExtension(const std::string& extension)
+{
+	return FilePath(boost::filesystem::path(m_path).replace_extension(extension));
+}
+
 bool FilePath::hasExtension(const std::vector<std::string>& extensions) const
 {
 	std::string e = extension();

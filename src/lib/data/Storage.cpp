@@ -21,8 +21,8 @@
 #include "data/type/DataType.h"
 #include "settings/ApplicationSettings.h"
 
-Storage::Storage()
-	: m_sqliteStorage("data/test.sqlite")
+Storage::Storage(const FilePath& dbPath)
+	: m_sqliteStorage(dbPath.str())
 {
 }
 

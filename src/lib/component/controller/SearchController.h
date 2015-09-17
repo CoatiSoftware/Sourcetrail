@@ -9,7 +9,6 @@
 #include "utility/messaging/type/MessageActivateFile.h"
 #include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageFind.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageSearchAutocomplete.h"
 
@@ -22,7 +21,6 @@ class SearchController
 	, public MessageListener<MessageActivateFile>
 	, public MessageListener<MessageActivateNodes>
 	, public MessageListener<MessageFind>
-	, public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageSearch>
 	, public MessageListener<MessageSearchAutocomplete>
 {
@@ -35,7 +33,6 @@ private:
 	virtual void handleMessage(MessageActivateFile* message);
 	virtual void handleMessage(MessageActivateNodes* message);
 	virtual void handleMessage(MessageFind* message);
-	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageSearch* message);
 	virtual void handleMessage(MessageSearchAutocomplete* message);
 
