@@ -148,12 +148,22 @@ bool FileSystem::equivalent(const std::string& pathA, const std::string& pathB)
 	return boost::filesystem::path(pathA).compare(boost::filesystem::path(pathB)) == 0;
 }
 
-std::vector<FilePath> FileSystem::getSubDirectoies(const FilePath &path) {
+std::vector<FilePath> FileSystem::getSubDirectories(const FilePath &path)
+{
 	std::vector<FilePath> v;
-	for ( boost::filesystem::recursive_directory_iterator end, dir(path.str());
-		  dir != end; ++dir ) {
-		if(boost::filesystem::is_directory(dir->path()))
-			v.push_back(FilePath(dir->path()));
+
+	if (!path.exists())
+	{
+		return v;
 	}
+
+	for (boost::filesystem::recursive_directory_iterator end, dir(path.str()); dir != end; dir++)
+	{
+		if (boost::filesystem::is_directory(dir->path()))
+		{
+			v.push_back(FilePath(dir->path()));
+		}
+	}
+
 	return v;
 }

@@ -24,13 +24,18 @@ void PreprocessorCallbacks::FileChanged(
 	}
 
 	const clang::FileEntry *fileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(location));
-	if (fileEntry && m_fileRegister->getFileManager()->hasFilePath(fileEntry->getName()))
+
+	if (!fileEntry)
 	{
-		m_client->onFileParsed(FileInfo(
-			FilePath(fileEntry->getName()),
-			boost::posix_time::from_time_t(fileEntry->getModificationTime())
-		));
-		m_fileRegister->markIncludeFileParsing(fileEntry->getName());
+		return;
+	}
+
+	FilePath filePath(fileEntry->getName());
+
+	if (m_fileRegister->getFileManager()->hasFilePath(filePath.str()))
+	{
+		m_client->onFileParsed(m_fileRegister->getFileManager()->getFileInfo(filePath));
+		m_fileRegister->markIncludeFileParsing(filePath.str());
 	}
 }
 
@@ -45,13 +50,14 @@ void PreprocessorCallbacks::InclusionDirective(
 		std::string baseFilePath = baseFileEntry->getName();
 		std::string includedFilePath = fileEntry->getName();
 
-		if (m_fileRegister->getFileManager()->hasFilePath(baseFilePath) && // check if file is in project
-			m_fileRegister->getFileManager()->hasFilePath(includedFilePath))
+		const FileManager* fileManager = m_fileRegister->getFileManager();
+		if (fileManager->hasFilePath(baseFilePath) && fileManager->hasFilePath(includedFilePath))
 		{
-			FileInfo baseFileInfo(baseFilePath, boost::posix_time::from_time_t(baseFileEntry->getModificationTime()));
-			FileInfo includedFileInfo(includedFilePath, boost::posix_time::from_time_t(fileEntry->getModificationTime()));
-
-			m_client->onFileIncludeParsed(getParseLocation(fileNameRange.getAsRange()), baseFileInfo, includedFileInfo);
+			m_client->onFileIncludeParsed(
+				getParseLocation(fileNameRange.getAsRange()),
+				fileManager->getFileInfo(baseFilePath),
+				fileManager->getFileInfo(includedFilePath)
+			);
 		}
 	}
 }

@@ -25,8 +25,6 @@ void TaskParseCxx::enter()
 {
 	m_start = utility::durationStart();
 
-	m_client->prepareParsingFile();
-
 	m_parser.setupParsing(m_files, m_arguments);
 
 	for (const FilePath& path : m_parser.getFileRegister()->getUnparsedSourceFilePaths())
@@ -69,7 +67,11 @@ Task::TaskState TaskParseCxx::update()
 
 	MessageStatus(ss.str(), false, true).dispatch();
 
+	m_client->prepareParsingFile();
+
 	m_parser.runTool(std::vector<std::string>(1, sourcePath));
+
+	m_client->finishParsingFile();
 
 	if (isSource)
 	{
@@ -82,8 +84,6 @@ Task::TaskState TaskParseCxx::update()
 void TaskParseCxx::exit()
 {
 	FileRegister* fileRegister = m_parser.getFileRegister();
-
-	m_client->finishParsingFile();
 
 	MessageFinishedParsing(
 		fileRegister->getParsedFilesCount(),

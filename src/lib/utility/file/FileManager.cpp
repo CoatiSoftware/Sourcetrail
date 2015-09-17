@@ -4,6 +4,7 @@
 #include <set>
 
 #include "utility/file/FileSystem.h"
+#include "utility/logging/logging.h"
 #include "utility/utility.h"
 #include "data/access/StorageAccessProxy.h"
 
@@ -38,19 +39,26 @@ void FileManager::setPaths(
 	m_includeExtensions = includeExtensions;
 }
 
+void FileManager::reset()
+{
+	m_files.clear();
+	m_addedFiles.clear();
+	m_updatedFiles.clear();
+	m_removedFiles.clear();
+}
+
 void FileManager::fetchFilePaths()
 {
-	std::map<FilePath, FileInfo> files;
 	for (FileInfo oldFileInfo: m_storageAccessProxy->getInfoOnAllFiles())
 	{
-		files[oldFileInfo.path] = oldFileInfo;
+		m_files[oldFileInfo.path] = oldFileInfo;
 	}
 
 	m_addedFiles.clear();
 	m_updatedFiles.clear();
 	m_removedFiles.clear();
 
-	for (std::map<FilePath, FileInfo>::iterator it = files.begin(); it != files.end(); it++)
+	for (std::map<FilePath, FileInfo>::iterator it = m_files.begin(); it != m_files.end(); it++)
 	{
 		m_removedFiles.insert(it->first);
 	}
@@ -59,8 +67,8 @@ void FileManager::fetchFilePaths()
 	for (FileInfo fileInfo: fileInfos)
 	{
 		const FilePath& filePath = fileInfo.path;
-		std::map<FilePath, FileInfo>::iterator it = files.find(filePath);
-		if (it != files.end())
+		std::map<FilePath, FileInfo>::iterator it = m_files.find(filePath);
+		if (it != m_files.end())
 		{
 			m_removedFiles.erase(filePath);
 			if (fileInfo.lastWriteTime > it->second.lastWriteTime)
@@ -71,9 +79,14 @@ void FileManager::fetchFilePaths()
 		}
 		else
 		{
-			files.insert(std::pair<FilePath, FileInfo>(filePath, fileInfo));
+			m_files.insert(std::pair<FilePath, FileInfo>(filePath, fileInfo));
 			m_addedFiles.insert(filePath);
 		}
+	}
+
+	for (const FilePath& filePath : m_removedFiles)
+	{
+		m_files.erase(filePath);
 	}
 }
 
@@ -94,16 +107,7 @@ std::set<FilePath> FileManager::getRemovedFilePaths() const
 
 bool FileManager::hasFilePath(const FilePath& filePath) const
 {
-	std::vector<FileInfo> fileInfos = getFileInfosInProject();
-	for (size_t i = 0; i < fileInfos.size(); i++)
-	{
-		if (fileInfos[i].path == filePath)
-		{
-			return true;
-		}
-	}
-
-	return false;
+	return (m_files.find(filePath) != m_files.end());
 }
 
 bool FileManager::hasSourceExtension(const FilePath& filePath) const
@@ -114,6 +118,18 @@ bool FileManager::hasSourceExtension(const FilePath& filePath) const
 bool FileManager::hasIncludeExtension(const FilePath& filePath) const
 {
 	return filePath.hasExtension(m_includeExtensions);
+}
+
+const FileInfo& FileManager::getFileInfo(const FilePath& filePath) const
+{
+	std::map<FilePath, FileInfo>::const_iterator it = m_files.find(filePath);
+
+	if (it == m_files.end())
+	{
+		LOG_ERROR("No FileInfo found for file: " + filePath.str());
+	}
+
+	return it->second;
 }
 
 std::vector<FileInfo> FileManager::getFileInfosInProject() const

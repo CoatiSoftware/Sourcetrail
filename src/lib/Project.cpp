@@ -28,7 +28,7 @@ bool Project::loadProjectSettings(const FilePath& projectSettingsFile)
 	{
 		setProjectSettingsFilePath(projectSettingsFile);
 
-		//m_fileManager.reset();
+		m_fileManager.reset();
 		updateFileManager();
 	}
 	return success;
@@ -58,7 +58,7 @@ void Project::clearProjectSettings()
 	setProjectSettingsFilePath(FilePath());
 	ProjectSettings::getInstance()->clear();
 
-	//m_fileManager.reset();
+	m_fileManager.reset();
 }
 
 void Project::reloadProjectSettings()
@@ -161,7 +161,7 @@ Parser::Arguments Project::getParserArguments() const
 	std::vector<FilePath> headerSearchSubPaths;
 	for(FilePath p : projSettings->getHeaderSearchPaths())
 	{
-		std::vector<FilePath> tempPaths = FileSystem::getSubDirectoies(p);
+		std::vector<FilePath> tempPaths = FileSystem::getSubDirectories(p);
 		headerSearchSubPaths.insert( headerSearchSubPaths.end(), tempPaths.begin(), tempPaths.end() );
 	}
 
