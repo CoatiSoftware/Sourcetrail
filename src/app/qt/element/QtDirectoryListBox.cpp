@@ -52,6 +52,9 @@ void QtListItemWidget::handleButtonPress()
 {
 	QFileDialog dialog(this);
 	QListView *l = dialog.findChild<QListView*>("listView");
+
+	dialog.setFileMode(QFileDialog::Directory);
+
 	if (l)
     {
         l->setSelectionMode(QAbstractItemView::SingleSelection);

@@ -707,7 +707,7 @@ void SqliteStorage::setupTables()
 			"edge_id INTEGER, "
 			"type INTEGER NOT NULL, "
 			"PRIMARY KEY(id), "
-			"FOREIGN KEY(edge_id) REFERENCES element(id) ON DELETE CASCADE);"
+			"FOREIGN KEY(edge_id) REFERENCES edge(id) ON DELETE CASCADE);"
 	);
 }
 

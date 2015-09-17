@@ -24,7 +24,6 @@ QtTextLine::QtTextLine(QWidget *parent)
 	m_data = new QtLineEdit(this);
 	m_data->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	m_data->setObjectName("locationField");
-	m_data->setReadOnly(true);
 
 	m_button = new QPushButton("...");
 	m_button->setObjectName("moreButton");
@@ -33,7 +32,6 @@ QtTextLine::QtTextLine(QWidget *parent)
 	layout->addWidget(m_button);
 
 	connect(m_button, SIGNAL(clicked()), this, SLOT(handleButtonPress()));
-	connect(m_data, SIGNAL(focus()), this, SLOT(handleButtonPress()));
 }
 
 QString QtTextLine::getText()
