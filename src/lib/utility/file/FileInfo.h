@@ -10,6 +10,7 @@
 struct FileInfo
 {
 	FileInfo();
+	FileInfo(const FilePath& path);
 	FileInfo(const FilePath& path, boost::posix_time::ptime lastWriteTime);
 
 	FilePath path;

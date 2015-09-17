@@ -29,7 +29,7 @@ public:
 
 		FileManager fm;
 		fm.setPaths(sourcePaths, includePaths, sourceExtensions, includeExtensions);
-		fm.fetchFilePaths();
+		fm.fetchFilePaths(std::vector<FileInfo>());
 
 		TS_ASSERT_EQUALS(fm.getAddedFilePaths().size(), 4);
 	}
@@ -49,8 +49,8 @@ public:
 
 		FileManager fm;
 		fm.setPaths(sourcePaths, includePaths, sourceExtensions, includeExtensions);
-		fm.fetchFilePaths();
-		fm.fetchFilePaths();
+		fm.fetchFilePaths(std::vector<FileInfo>());
+		fm.fetchFilePaths(std::vector<FileInfo>());
 
 		TS_ASSERT_EQUALS(fm.getAddedFilePaths().size(), 0);
 	}
@@ -70,14 +70,14 @@ public:
 
 		FileManager fm;
 		fm.setPaths(sourcePaths, includePaths, sourceExtensions, includeExtensions);
-		fm.fetchFilePaths();
+		fm.fetchFilePaths(std::vector<FileInfo>());
 
 		std::fstream fileStream;
 		fileStream.open("./data/FileManagerTestSuite/include/c.h");
 		fileStream << "update";
 		fileStream.close();
 
-		fm.fetchFilePaths();
+		fm.fetchFilePaths(std::vector<FileInfo>());
 
 		TS_ASSERT_EQUALS(fm.getAddedFilePaths().size(), 0);
 		TS_ASSERT_EQUALS(fm.getUpdatedFilePaths().size(), 1);
@@ -97,7 +97,7 @@ public:
 
 		FileManager fm;
 		fm.setPaths(sourcePaths, includePaths, sourceExtensions, includeExtensions);
-		fm.fetchFilePaths();
+		fm.fetchFilePaths(std::vector<FileInfo>());
 
 		TS_ASSERT_EQUALS(fm.getAddedFilePaths().size(), 2);
 		TS_ASSERT_EQUALS(fm.getUpdatedFilePaths().size(), 0);
@@ -106,7 +106,7 @@ public:
 		sourcePaths[0] = "./data/FileManagerTestSuite/src/d.c";
 
 		fm.setPaths(sourcePaths, includePaths, sourceExtensions, includeExtensions);
-		fm.fetchFilePaths();
+		fm.fetchFilePaths(std::vector<FileInfo>());
 
 		TS_ASSERT_EQUALS(fm.getAddedFilePaths().size(), 1);
 		TS_ASSERT_EQUALS(fm.getUpdatedFilePaths().size(), 0);

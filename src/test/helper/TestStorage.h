@@ -7,6 +7,7 @@ class TestStorage
 	: public Storage
 {
 public:
+	TestStorage();
 	void parseCxxCode(std::string code);
 };
 

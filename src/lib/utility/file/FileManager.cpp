@@ -6,10 +6,8 @@
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/utility.h"
-#include "data/access/StorageAccessProxy.h"
 
-FileManager::FileManager(StorageAccessProxy* storageAccessProxy)
-	: m_storageAccessProxy(storageAccessProxy)
+FileManager::FileManager()
 {
 }
 
@@ -47,9 +45,9 @@ void FileManager::reset()
 	m_removedFiles.clear();
 }
 
-void FileManager::fetchFilePaths()
+void FileManager::fetchFilePaths(const std::vector<FileInfo>& oldFileInfos)
 {
-	for (FileInfo oldFileInfo: m_storageAccessProxy->getInfoOnAllFiles())
+	for (FileInfo oldFileInfo: oldFileInfos)
 	{
 		m_files[oldFileInfo.path] = oldFileInfo;
 	}

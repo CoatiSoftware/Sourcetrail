@@ -7,12 +7,10 @@
 
 #include "utility/file/FileInfo.h"
 
-class StorageAccessProxy;
-
 class FileManager
 {
 public:
-	FileManager(StorageAccessProxy* storageAccessProxy);
+	FileManager();
 	virtual ~FileManager();
 
 	const std::vector<FilePath>& getSourcePaths() const;
@@ -26,7 +24,7 @@ public:
 	);
 
 	void reset();
-	void fetchFilePaths();
+	void fetchFilePaths(const std::vector<FileInfo>& oldFileInfos);
 
 	std::set<FilePath> getAddedFilePaths() const;
 	std::set<FilePath> getUpdatedFilePaths() const;
@@ -51,8 +49,6 @@ private:
 	std::set<FilePath> m_addedFiles;
 	std::set<FilePath> m_updatedFiles;
 	std::set<FilePath> m_removedFiles;
-
-	StorageAccessProxy* m_storageAccessProxy;
 };
 
 #endif // FILE_MANAGER_H

@@ -4,6 +4,11 @@
 #include "data/parser/cxx/CxxParser.h"
 #include "TestFileManager.h"
 
+TestStorage::TestStorage()
+	: Storage("data/test.sqlite")
+{
+}
+
 void TestStorage::parseCxxCode(std::string code)
 {
 	clear();

@@ -1954,7 +1954,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->templateSpecializations.size(), 1);
-		TS_ASSERT_EQUALS(client->templateSpecializations[0], "class A<int> -> A<typename T> <2:7 2:7>");
+		TS_ASSERT_EQUALS(client->templateSpecializations[0], "class A<int> -> A<typename T> <7:8 7:8>");
 	}
 
 	void test_cxx_parser_finds_class_inheritance_from_implicit_template_class_specialization()
@@ -2706,16 +2706,16 @@ private:
 			return 0;
 		}
 
-		virtual Id onFileParsed(const std::string& filePath)
+		virtual Id onFileParsed(const FileInfo& fileInfo)
 		{
-			files.push_back(filePath);
+			files.push_back(fileInfo.path.str());
 			return 0;
 		}
 
 		virtual Id onFileIncludeParsed(
-			const ParseLocation& location, const std::string& filePath, const std::string& includedPath)
+			const ParseLocation& location, const FileInfo& fileInfo, const FileInfo& includedFileInfo)
 		{
-			includes.push_back(filePath + " -> " + includedPath);
+			includes.push_back(fileInfo.path.str() + " -> " + includedFileInfo.path.str());
 			return 0;
 		}
 

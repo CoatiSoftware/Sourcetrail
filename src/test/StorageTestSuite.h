@@ -321,7 +321,7 @@ public:
 
 		storage.onMethodOverrideParsed(validLocation(4), a, b);
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_OVERRIDE) + ":A::isMethod->B::isMethod") != 0);
+		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_OVERRIDE) + ":B::isMethod->A::isMethod") != 0);
 	}
 
 	void test_storage_saves_call()
@@ -549,7 +549,7 @@ public:
 	{
 		TestStorage storage;
 
-		Id id = storage.onFileParsed("file.h");
+		Id id = storage.onFileParsed(FileInfo("file.h"));
 
 		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "file.h");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_FILE);
@@ -559,9 +559,9 @@ public:
 	{
 		TestStorage storage;
 
-		storage.onFileParsed("file.h");
-		storage.onFileParsed("file.cpp");
-		Id id = storage.onFileIncludeParsed(validLocation(7), "file.cpp", "file.h");
+		storage.onFileParsed(FileInfo("file.h"));
+		storage.onFileParsed(FileInfo("file.cpp"));
+		Id id = storage.onFileIncludeParsed(validLocation(7), FileInfo("file.cpp"), FileInfo("file.h"));
 
 		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_INCLUDE) + ":file.cpp->file.h") != 0);
 
@@ -601,6 +601,12 @@ private:
 		: public Storage
 	{
 	public:
+		TestStorage()
+			: Storage("data/test.sqlite")
+		{
+			clear();
+		}
+
 		TokenLocationCollection getLocationCollectionForTokenId(Id id) const
 		{
 			std::vector<Id> tokenIds;

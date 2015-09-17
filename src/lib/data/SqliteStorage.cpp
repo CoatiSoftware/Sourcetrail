@@ -25,6 +25,8 @@ void SqliteStorage::clear()
 {
 	m_database.execDML("PRAGMA foreign_keys=OFF;");
 	clearTables();
+
+	setup();
 }
 
 void SqliteStorage::beginTransaction()

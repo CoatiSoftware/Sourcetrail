@@ -79,7 +79,7 @@ void Project::parseCode()
 
 	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
 
-	m_fileManager.fetchFilePaths();
+	m_fileManager.fetchFilePaths(m_storage->getInfoOnAllFiles());
 	std::set<FilePath> addedFilePaths = m_fileManager.getAddedFilePaths();
 	std::set<FilePath> updatedFilePaths = m_fileManager.getUpdatedFilePaths();
 	std::set<FilePath> removedFilePaths = m_fileManager.getRemovedFilePaths();
@@ -178,6 +178,5 @@ Parser::Arguments Project::getParserArguments() const
 
 Project::Project(StorageAccessProxy* storageAccessProxy)
 	: m_storageAccessProxy(storageAccessProxy)
-	, m_fileManager(storageAccessProxy)
 {
 }
