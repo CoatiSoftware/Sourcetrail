@@ -228,8 +228,7 @@ Id Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& va
 	addSourceLocation(nodeId, location);
 
 	Id typeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, variable.type.dataType->getTypeNameHierarchy());
-
-	addEdge(nodeId, typeNodeId, Edge::EDGE_TYPE_OF, location);
+	addEdge(nodeId, typeNodeId, Edge::EDGE_TYPE_OF, variable.type.location);
 
 	return nodeId;
 }
@@ -325,7 +324,7 @@ Id Storage::onMethodOverrideParsed(
 	Id baseNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, base); // TODO: call this overridden
 	Id overriderNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, overrider);
 
-	Id edgeId = addEdge(baseNodeId, overriderNodeId, Edge::EDGE_OVERRIDE, location);
+	Id edgeId = addEdge(overriderNodeId, baseNodeId, Edge::EDGE_OVERRIDE, location);
 
 	return edgeId;
 }

@@ -404,8 +404,12 @@ void QtMainWindow::setupProjectMenu()
 	menu->addAction(tr("&Open Project..."), this, SLOT(openProject()), QKeySequence::Open);
 	menu->addAction(tr("&Edit Project..."), this, SLOT(editProject()));
 
+	menu->addSeparator();
+
 	menu->addAction(tr("&Save Project"), this, SLOT(saveProject()), QKeySequence::Save);
 	menu->addAction(tr("Save Project as..."), this, SLOT(saveAsProject()), QKeySequence::SaveAs);
+
+	menu->addSeparator();
 
 	menu->addAction(tr("&Close Window"), this, SLOT(closeWindow()), QKeySequence::Close);
 	menu->addAction(tr("E&xit"), QCoreApplication::instance(), SLOT(quit()), QKeySequence::Quit);
@@ -424,9 +428,12 @@ void QtMainWindow::setupEditMenu()
 	QMenu *menu = new QMenu(tr("&Edit"), this);
 	menuBar()->addMenu(menu);
 
-	menu->addAction(tr("&Refresh"), this, SLOT(refresh()), QKeySequence::Refresh);
 	menu->addAction(tr("Undo"), this, SLOT(undo()), QKeySequence::Undo);
 	menu->addAction(tr("Redo"), this, SLOT(redo()), QKeySequence::Redo);
+
+	menu->addSeparator();
+
+	menu->addAction(tr("&Refresh"), this, SLOT(refresh()), QKeySequence::Refresh);
 	menu->addAction(tr("&Find"), this, SLOT(find()), QKeySequence::Find);
 }
 
