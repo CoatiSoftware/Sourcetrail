@@ -5,8 +5,9 @@
 #include <set>
 #include <vector>
 
-#include "data/access/StorageAccessProxy.h"
 #include "utility/file/FileInfo.h"
+
+class StorageAccessProxy;
 
 class FileManager
 {

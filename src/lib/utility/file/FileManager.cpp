@@ -5,6 +5,7 @@
 
 #include "utility/file/FileSystem.h"
 #include "utility/utility.h"
+#include "data/access/StorageAccessProxy.h"
 
 FileManager::FileManager(StorageAccessProxy* storageAccessProxy)
 	: m_storageAccessProxy(storageAccessProxy)
