@@ -68,4 +68,17 @@ struct StorageSourceLocation
 	bool isScope;
 };
 
+struct StorageComponentAccess
+{
+	StorageComponentAccess(Id id, Id memberEdgeId, int type)
+		: id(id)
+		, memberEdgeId(memberEdgeId)
+		, type(type)
+	{}
+
+	Id id;
+	Id memberEdgeId;
+	int type;
+};
+
 #endif // STORAGE_TYPES_H

@@ -16,6 +16,27 @@ std::string TokenComponentAccess::getAccessString(AccessType access)
 	return "";
 }
 
+int TokenComponentAccess::typeToInt(AccessType type)
+{
+	return type;
+}
+
+TokenComponentAccess::AccessType TokenComponentAccess::intToType(int value)
+{
+	switch (value)
+	{
+	case 0x1:
+		return ACCESS_PUBLIC;
+	case 0x2:
+		return ACCESS_PROTECTED;
+	case 0x4:
+		return ACCESS_PRIVATE;
+	default:
+		break;
+	}
+	return ACCESS_NONE;
+}
+
 TokenComponentAccess::TokenComponentAccess(AccessType access)
 	: m_access(access)
 {

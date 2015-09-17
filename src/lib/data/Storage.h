@@ -8,7 +8,7 @@
 
 #include "data/access/StorageAccess.h"
 //#include "data/graph/token_component/TokenComponentAbstraction.h"
-//#include "data/graph/token_component/TokenComponentAccess.h"
+#include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/parser/ParserClient.h"
 #include "data/search/SearchIndex.h"
@@ -160,6 +160,9 @@ private:
 	Node* addNodeAndAllChildrenToGraph(const Id nodeId, Graph* graph) const;
 	void addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const;
 	Node* addNodeToGraph(const Id nodeId, Graph* graph) const;
+
+	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;
+	void addAccess(const Id nodeId, ParserClient::AccessType access);
 
 	SearchIndex m_tokenIndex;
 	SqliteStorage m_sqliteStorage;

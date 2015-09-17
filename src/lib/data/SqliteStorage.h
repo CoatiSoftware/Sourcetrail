@@ -33,6 +33,7 @@ public:
 	int addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope);
 	Id addNameHierarchyElement(const std::string& name);
 	Id addNameHierarchyElement(const std::string& name, Id parentId);
+	Id addComponentAccess(Id memberEdgeId, int type);
 
 	void removeElement(Id id);
 	void removeNameHierarchyElement(Id id);
@@ -78,6 +79,8 @@ public:
 	std::vector<StorageSourceLocation> getTokenLocationsForElementId(const Id elementId) const;
 
 	Id getElementIdByLocationId(Id locationId) const;
+
+	StorageComponentAccess getComponentAccessByMemberEdgeId(Id memberEdgeId) const;
 
 	int getNodeCount() const;
 	int getEdgeCount() const;

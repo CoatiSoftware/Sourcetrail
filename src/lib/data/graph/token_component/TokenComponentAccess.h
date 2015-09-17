@@ -9,15 +9,18 @@ class TokenComponentAccess
 	: public TokenComponent
 {
 public:
-	enum AccessType
+	enum AccessType : int
 	{
-		ACCESS_PUBLIC,
-		ACCESS_PROTECTED,
-		ACCESS_PRIVATE,
-		ACCESS_NONE
+		ACCESS_PUBLIC = 0x1,
+		ACCESS_PROTECTED = 0x2,
+		ACCESS_PRIVATE = 0x4,
+		ACCESS_NONE = 0x0
 	};
 
 	static std::string getAccessString(AccessType access);
+
+	static int typeToInt(AccessType type);
+	static AccessType intToType(int value);
 
 	TokenComponentAccess(AccessType access);
 	virtual ~TokenComponentAccess();

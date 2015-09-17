@@ -177,9 +177,9 @@ Id Storage::onTypedefParsed(
 ){
 	Id typedefNodeId = addNodeHierarchy(Node::NODE_TYPEDEF, nameHierarchy);
 	addSourceLocation(typedefNodeId, location);
+	addAccess(typedefNodeId, access);
 
 	Id underlyingTypeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, underlyingType.dataType->getTypeNameHierarchy());
-
 	addEdge(typedefNodeId, underlyingTypeNodeId, Edge::EDGE_TYPEDEF_OF, location);
 
 	return typedefNodeId;
@@ -194,6 +194,8 @@ Id Storage::onClassParsed(
 	addSourceLocation(nodeId, location);
 	addSourceLocation(nodeId, scopeLocation, true);
 
+	addAccess(nodeId, access);
+
 	return nodeId;
 }
 
@@ -206,6 +208,8 @@ Id Storage::onStructParsed(
 	addSourceLocation(nodeId, location);
 	addSourceLocation(nodeId, scopeLocation, true);
 
+	addAccess(nodeId, access);
+
 	return nodeId;
 }
 
@@ -215,9 +219,7 @@ Id Storage::onGlobalVariableParsed(const ParseLocation& location, const ParseVar
 	addSourceLocation(nodeId, location);
 
 	Id typeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, variable.type.dataType->getTypeNameHierarchy());
-
 	addEdge(nodeId, typeNodeId, Edge::EDGE_TYPE_OF, location);
-
 
 	return nodeId;
 }
@@ -226,6 +228,7 @@ Id Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& va
 {
 	Id nodeId = addNodeHierarchy(Node::NODE_FIELD, variable.nameHierarchy);
 	addSourceLocation(nodeId, location);
+	addAccess(nodeId, access);
 
 	Id typeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, variable.type.dataType->getTypeNameHierarchy());
 	addEdge(nodeId, typeNodeId, Edge::EDGE_TYPE_OF, variable.type.location);
@@ -258,6 +261,9 @@ Id Storage::onMethodParsed(
 	const ParseLocation& scopeLocation
 ){
 	Id nodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, method);
+	addSourceLocation(nodeId, location);
+	addSourceLocation(nodeId, scopeLocation, true);
+	addAccess(nodeId, access);
 
 	Id returnTypeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, method.returnType.dataType->getTypeNameHierarchy());
 	addEdge(nodeId, returnTypeNodeId, Edge::EDGE_RETURN_TYPE_OF, method.returnType.location);
@@ -267,9 +273,6 @@ Id Storage::onMethodParsed(
 		Id parameternTypeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, method.parameters[i].dataType->getTypeNameHierarchy());
 		addEdge(nodeId, parameternTypeNodeId, Edge::EDGE_PARAMETER_TYPE_OF, method.parameters[i].location);
 	}
-
-	addSourceLocation(nodeId, location);
-	addSourceLocation(nodeId, scopeLocation, true);
 
 	return nodeId;
 }
@@ -293,6 +296,7 @@ Id Storage::onEnumParsed(
 
 	addSourceLocation(nodeId, location);
 	addSourceLocation(nodeId, scopeLocation, true);
+	addAccess(nodeId, access);
 
 	return nodeId;
 }
@@ -721,6 +725,22 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 			}
 		}
 	}
+
+	graph->forEachEdge(
+		[this](Edge* edge)
+		{
+			if (!edge->isType(Edge::EDGE_MEMBER))
+			{
+				return;
+			}
+
+			StorageComponentAccess access = m_sqliteStorage.getComponentAccessByMemberEdgeId(edge->getId());
+			if (access.id && access.type)
+			{
+				edge->addComponentAccess(std::make_shared<TokenComponentAccess>(TokenComponentAccess::intToType(access.type)));
+			}
+		}
+	);
 
 	return g;
 }
@@ -1356,4 +1376,36 @@ Node* Storage::addNodeToGraph(const Id nodeId, Graph* graph) const
 		Node::intToType(storageNode.type),
 		std::make_shared<TokenComponentNameCached>(m_sqliteStorage.getNameHierarchyById(storageNode.nameId))
 	);
+}
+
+TokenComponentAccess::AccessType Storage::convertAccessType(ParserClient::AccessType access) const
+{
+	switch (access)
+	{
+	case ACCESS_PUBLIC:
+		return TokenComponentAccess::ACCESS_PUBLIC;
+	case ACCESS_PROTECTED:
+		return TokenComponentAccess::ACCESS_PROTECTED;
+	case ACCESS_PRIVATE:
+		return TokenComponentAccess::ACCESS_PRIVATE;
+	case ACCESS_NONE:
+		return TokenComponentAccess::ACCESS_NONE;
+	}
+}
+
+void Storage::addAccess(const Id nodeId, ParserClient::AccessType access)
+{
+	if (access == ACCESS_NONE)
+	{
+		return;
+	}
+
+	std::vector<StorageEdge> memberEdges = m_sqliteStorage.getEdgesByTargetType(nodeId, Edge::EDGE_MEMBER);
+	if (memberEdges.size() != 1)
+	{
+		LOG_ERROR_STREAM(<< "Cannot assign access" << access << " to node id " << nodeId << " because it's no child.");
+		return;
+	}
+
+	m_sqliteStorage.addComponentAccess(memberEdges[0].id, convertAccessType(access));
 }

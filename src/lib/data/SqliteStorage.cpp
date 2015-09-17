@@ -119,6 +119,16 @@ Id SqliteStorage::addNameHierarchyElement(const std::string& name, Id parentId)
 	return m_database.lastRowId();
 }
 
+Id SqliteStorage::addComponentAccess(Id memberEdgeId, int type)
+{
+	m_database.execDML((
+		"INSERT INTO component_access(id, edge_id, type) "
+		"VALUES (NULL, '" + std::to_string(memberEdgeId) + "', " + std::to_string(type) + ");"
+	).c_str());
+
+	return m_database.lastRowId();
+}
+
 void SqliteStorage::removeElement(Id id)
 {
 	m_database.execDML((
@@ -585,6 +595,24 @@ Id SqliteStorage::getElementIdByLocationId(Id locationId) const
 	);
 }
 
+StorageComponentAccess SqliteStorage::getComponentAccessByMemberEdgeId(Id memberEdgeId) const
+{
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT id, edge_id, type FROM component_access WHERE edge_id == " + std::to_string(memberEdgeId) + ";"
+	).c_str());
+
+	while (!q.eof())
+	{
+		return StorageComponentAccess(
+			q.getIntField(0, 0),
+			q.getIntField(1, 0),
+			q.getIntField(2, 0)
+		);
+	}
+
+	return StorageComponentAccess(0, 0, 0);
+}
+
 int SqliteStorage::getNodeCount() const
 {
 	return m_database.execScalar("SELECT COUNT(*) from node;");
@@ -654,7 +682,7 @@ void SqliteStorage::setupTables()
 			"id INTEGER NOT NULL, "
 			"name TEXT, "
 			"parent_id INTEGER, "
-			"PRIMARY KEY(id)"
+			"PRIMARY KEY(id), "
 			"FOREIGN KEY(parent_id) REFERENCES name_hierarchy_element(id) ON DELETE CASCADE);" // maybe use restrict here
 	);
 
@@ -668,9 +696,18 @@ void SqliteStorage::setupTables()
 			"end_line INTEGER, "
 			"end_column INTEGER, "
 			"is_scope INTEGER, "
-			"PRIMARY KEY(id)"
+			"PRIMARY KEY(id), "
 			"FOREIGN KEY(element_id) REFERENCES element(id) ON DELETE CASCADE, "
 			"FOREIGN KEY(file_node_id) REFERENCES node(id) ON DELETE CASCADE);"
+	);
+
+	m_database.execDML(
+		"CREATE TABLE IF NOT EXISTS component_access("
+			"id INTEGER NOT NULL, "
+			"edge_id INTEGER, "
+			"type INTEGER NOT NULL, "
+			"PRIMARY KEY(id), "
+			"FOREIGN KEY(edge_id) REFERENCES element(id) ON DELETE CASCADE);"
 	);
 }
 
