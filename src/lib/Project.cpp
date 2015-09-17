@@ -150,15 +150,16 @@ Parser::Arguments Project::getParserArguments() const
 	// Add the include paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
 	utility::append(args.systemHeaderSearchPaths, m_fileManager.getIncludePaths());
 
-	std::vector<FilePath> headerSearchPaths;
+	std::vector<FilePath> headerSearchSubPaths;
 	for(FilePath p : projSettings->getHeaderSearchPaths())
 	{
 		std::vector<FilePath> tempPaths = FileSystem::getSubDirectoies(p);
-		headerSearchPaths.insert( headerSearchPaths.end(), tempPaths.begin(), tempPaths.end() );
+		headerSearchSubPaths.insert( headerSearchSubPaths.end(), tempPaths.begin(), tempPaths.end() );
 	}
-	
-	std::unique(headerSearchPaths.begin(),headerSearchPaths.end());
-	utility::append(args.systemHeaderSearchPaths, headerSearchPaths);
+
+	std::unique(headerSearchSubPaths.begin(),headerSearchSubPaths.end());
+	utility::append(args.systemHeaderSearchPaths, headerSearchSubPaths);
+	utility::append(args.systemHeaderSearchPaths, projSettings->getHeaderSearchPaths());
 	utility::append(args.systemHeaderSearchPaths, appSettings->getHeaderSearchPaths());
 
 	utility::append(args.frameworkSearchPaths, projSettings->getFrameworkSearchPaths());
