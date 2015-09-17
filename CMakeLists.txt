@@ -338,6 +338,11 @@ endif ()
 
 # Linux package
 if(UNIX AND NOT APPLE)
+    execute_process(
+        COMMAND ${CMAKE_SOURCE_DIR}/setup/Linux/findAndCopyLibraries.sh
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    )
+
 	INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/data
 		DESTINATION share/coati/.config/coati
         PATTERN "log/*" EXCLUDE

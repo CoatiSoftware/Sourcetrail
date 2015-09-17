@@ -18,5 +18,7 @@
 /bin/test/data/TestSettings.xml
 /bin/test/data/*.sqlite
 
+/setup/Linux/lib/*
+
 .DS_Store
 .idea
