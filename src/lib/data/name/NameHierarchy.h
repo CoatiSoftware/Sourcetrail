@@ -11,6 +11,7 @@ class NameHierarchy
 {
 public:
 	NameHierarchy();
+	NameHierarchy(const std::string& name);
 	~NameHierarchy();
 
 	void push(std::shared_ptr<NameElement> element);
@@ -20,6 +21,7 @@ public:
 	size_t size() const;
 
 	std::string getFullName() const;
+	std::string getName() const;
 
 private:
 	std::vector<std::shared_ptr<NameElement>> m_elements;

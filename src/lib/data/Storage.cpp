@@ -9,7 +9,6 @@
 #include "utility/utilityString.h"
 
 #include "data/graph/token_component/TokenComponentAggregation.h"
-#include "data/graph/token_component/TokenComponentName.h"
 #include "data/graph/Graph.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
@@ -1442,7 +1441,7 @@ Node* Storage::addNodeToGraph(const Id nodeId, Graph* graph) const
 		node = graph->createNode(
 			storageNode.id,
 			Node::intToType(storageNode.type),
-			std::make_shared<TokenComponentNameCached>(m_tokenIndex.getNameHierarchyForTokenId(nodeId))
+			m_tokenIndex.getNameHierarchyForTokenId(nodeId)
 		);
 	}
 

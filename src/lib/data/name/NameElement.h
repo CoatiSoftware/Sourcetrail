@@ -6,7 +6,7 @@
 class NameElement
 {
 public:
-	NameElement(std::string name);
+	NameElement(const std::string& name);
 	~NameElement();
 
 	std::string getFullName() const;

@@ -8,12 +8,11 @@
 
 #include "data/graph/Edge.h"
 #include "data/graph/Token.h"
+#include "data/name/NameHierarchy.h"
 
 class TokenComponentAbstraction;
 class TokenComponentConst;
-class TokenComponentName;
 class TokenComponentStatic;
-class TokenComponentSignature;
 class TokenComponentFilePath;
 
 class Node
@@ -50,7 +49,7 @@ public:
 
 	static const NodeTypeMask NODE_NOT_VISIBLE;
 
-	Node(Id id, NodeType type, std::shared_ptr<TokenComponentName> nameComponent);
+	Node(Id id, NodeType type, NameHierarchy nameHierarchy);
 	Node(const Node& other);
 	virtual ~Node();
 
@@ -60,7 +59,6 @@ public:
 
 	std::string getName() const;
 	std::string getFullName() const;
-	const TokenComponentName* getTokenComponentName() const;
 
 	const std::vector<Edge*>& getEdges() const;
 
@@ -90,7 +88,6 @@ public:
 	void addComponentAbstraction(std::shared_ptr<TokenComponentAbstraction> component);
 	void addComponentConst(std::shared_ptr<TokenComponentConst> component);
 	void addComponentStatic(std::shared_ptr<TokenComponentStatic> component);
-	void addComponentSignature(std::shared_ptr<TokenComponentSignature> component);
 	void addComponentFilePath(std::shared_ptr<TokenComponentFilePath> component);
 
 	// Logging.
@@ -103,7 +100,7 @@ private:
 	std::vector<Edge*> m_edges;
 
 	NodeType m_type;
-	std::shared_ptr<TokenComponentName> m_nameComponent;
+	NameHierarchy m_nameHierarchy;
 };
 
 std::ostream& operator<<(std::ostream& ostream, const Node& node);

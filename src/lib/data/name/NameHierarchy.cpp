@@ -4,6 +4,11 @@ NameHierarchy::NameHierarchy()
 {
 }
 
+NameHierarchy::NameHierarchy(const std::string& name)
+{
+	push(std::make_shared<NameElement>(name));
+}
+
 NameHierarchy::~NameHierarchy()
 {
 }
@@ -45,4 +50,14 @@ std::string NameHierarchy::getFullName() const
 		}
 	}
 	return name;
+}
+
+std::string NameHierarchy::getName() const
+{
+	if (m_elements.size())
+	{
+		return m_elements.back()->getFullName();
+	}
+
+	return "";
 }

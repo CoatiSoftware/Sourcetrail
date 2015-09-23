@@ -6,7 +6,6 @@
 
 #include "data/graph/token_component/TokenComponentAbstraction.h"
 #include "data/graph/token_component/TokenComponentConst.h"
-#include "data/graph/token_component/TokenComponentName.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
 #include "data/graph/token_component/TokenComponentFilePath.h"
 
@@ -97,17 +96,17 @@ Node::NodeType Node::intToType(int value)
 	return NODE_UNDEFINED;
 }
 
-Node::Node(Id id, NodeType type, std::shared_ptr<TokenComponentName> nameComponent)
+Node::Node(Id id, NodeType type, NameHierarchy nameHierarchy)
 	: Token(id)
 	, m_type(type)
-	, m_nameComponent(nameComponent)
+	, m_nameHierarchy(nameHierarchy)
 {
 }
 
 Node::Node(const Node& other)
 	: Token(other)
 	, m_type(other.m_type)
-	, m_nameComponent(other.m_nameComponent->copyComponentName())
+	, m_nameHierarchy(other.m_nameHierarchy)
 {
 }
 
@@ -139,22 +138,12 @@ bool Node::isType(NodeTypeMask mask) const
 
 std::string Node::getName() const
 {
-	return m_nameComponent->getName();
+	return m_nameHierarchy.getName();
 }
 
 std::string Node::getFullName() const
 {
-	return m_nameComponent->getFullName();
-}
-
-const TokenComponentName* Node::getTokenComponentName() const
-{
-	if (m_nameComponent)
-	{
-		return m_nameComponent.get();
-	}
-
-	return nullptr;
+	return m_nameHierarchy.getFullName();
 }
 
 const std::vector<Edge*>& Node::getEdges() const

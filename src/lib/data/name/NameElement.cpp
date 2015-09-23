@@ -1,6 +1,6 @@
 #include "data/name/NameElement.h"
 
-NameElement::NameElement(std::string name)
+NameElement::NameElement(const std::string& name)
 	: m_name(name)
 {
 }
