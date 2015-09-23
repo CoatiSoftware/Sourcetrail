@@ -258,12 +258,14 @@ Id Storage::onFunctionParsed(
 	Id nodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, function);
 
 	Id returnTypeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, function.returnType.dataType->getTypeNameHierarchy());
-	addEdge(nodeId, returnTypeNodeId, Edge::EDGE_RETURN_TYPE_OF, function.returnType.location);
+	addEdge(nodeId, returnTypeNodeId, Edge::EDGE_TYPE_USAGE, function.returnType.location);
+	// addEdge(nodeId, returnTypeNodeId, Edge::EDGE_RETURN_TYPE_OF, function.returnType.location);
 
 	for (size_t i = 0; i < function.parameters.size(); i++)
 	{
 		Id parameternTypeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, function.parameters[i].dataType->getTypeNameHierarchy());
-		addEdge(nodeId, parameternTypeNodeId, Edge::EDGE_PARAMETER_TYPE_OF, function.parameters[i].location);
+		addEdge(nodeId, parameternTypeNodeId, Edge::EDGE_TYPE_USAGE, function.parameters[i].location);
+		// addEdge(nodeId, parameternTypeNodeId, Edge::EDGE_PARAMETER_TYPE_OF, function.parameters[i].location);
 	}
 
 	addSourceLocation(nodeId, location);
@@ -282,12 +284,14 @@ Id Storage::onMethodParsed(
 	addAccess(nodeId, access);
 
 	Id returnTypeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, method.returnType.dataType->getTypeNameHierarchy());
-	addEdge(nodeId, returnTypeNodeId, Edge::EDGE_RETURN_TYPE_OF, method.returnType.location);
+	addEdge(nodeId, returnTypeNodeId, Edge::EDGE_TYPE_USAGE, method.returnType.location);
+	// addEdge(nodeId, returnTypeNodeId, Edge::EDGE_RETURN_TYPE_OF, method.returnType.location);
 
 	for (size_t i = 0; i < method.parameters.size(); i++)
 	{
 		Id parameternTypeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, method.parameters[i].dataType->getTypeNameHierarchy());
-		addEdge(nodeId, parameternTypeNodeId, Edge::EDGE_PARAMETER_TYPE_OF, method.parameters[i].location);
+		addEdge(nodeId, parameternTypeNodeId, Edge::EDGE_TYPE_USAGE, method.parameters[i].location);
+		// addEdge(nodeId, parameternTypeNodeId, Edge::EDGE_PARAMETER_TYPE_OF, method.parameters[i].location);
 	}
 
 	return nodeId;
@@ -1182,8 +1186,15 @@ int Storage::addSourceLocation(int elementNodeId, const ParseLocation& location,
 
 Id Storage::addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type, ParseLocation location)
 {
-	Id edgeId = m_sqliteStorage.addEdge(type, sourceNodeId, targetNodeId);
+	Id edgeId = m_sqliteStorage.getEdgeBySourceTargetType(sourceNodeId, targetNodeId, type).id;
+
+	if (!edgeId)
+	{
+		edgeId = m_sqliteStorage.addEdge(type, sourceNodeId, targetNodeId);
+	}
+
 	addSourceLocation(edgeId, location, false);
+
 	return edgeId;
 }
 
