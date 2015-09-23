@@ -27,7 +27,9 @@ public:
 	void clearFileElements(const FilePath& filePath);
 	std::set<FilePath> getDependingFilePaths(const std::set<FilePath>& filePaths);
 	std::set<FilePath> getDependingFilePaths(const FilePath& filePath);
+
 	void removeUnusedNames();
+	void buildSearchIndex();
 
 	void logGraph() const;
 	void logLocations() const;
@@ -35,6 +37,9 @@ public:
 	void logStats() const;
 
 	// ParserClient implementation
+	virtual void startParsing();
+	virtual void finishParsing();
+
 	virtual void prepareParsingFile();
 	virtual void finishParsingFile();
 
@@ -132,8 +137,8 @@ public:
 	virtual Id getTokenIdForFileNode(const FilePath& filePath) const;
 	virtual std::vector<Id> getTokenIdsForAggregationEdge(Id sourceId, Id targetId) const;
 
-	virtual TokenLocationCollection getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const;
-	virtual TokenLocationCollection getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const;
+	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const;
+	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const;
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const std::string& filePath) const;
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
@@ -152,6 +157,8 @@ private:
 	int addSourceLocation(int elementNodeId, const ParseLocation& location, bool isScope = false);
 	Id addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type, ParseLocation location);
 
+	Id getFileNodeId(const FilePath& filePath);
+
 	Id getLastParentNodeId(const Id nodeId) const;
 	std::vector<Id> getDirectChildNodeIds(const Id nodeId) const;
 	std::vector<Id> getAllChildNodeIds(const Id nodeId) const;
@@ -166,6 +173,8 @@ private:
 
 	SearchIndex m_tokenIndex;
 	SqliteStorage m_sqliteStorage;
+
+	std::map <FilePath, Id> m_fileNodeIds;
 
 	TokenLocationCollection m_errorLocationCollection;
 	std::vector<std::string> m_errorMessages;

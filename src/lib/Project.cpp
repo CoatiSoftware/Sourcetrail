@@ -87,20 +87,18 @@ void Project::parseCode()
 	utility::append(updatedFilePaths, m_storage->getDependingFilePaths(updatedFilePaths));
 	utility::append(removedFilePaths, m_storage->getDependingFilePaths(removedFilePaths));
 
+	MessageStatus("Clearing updated files").dispatch();
 	m_storage->clearFileElements(updatedFilePaths);
+
+	MessageStatus("Clearing removed files").dispatch();
 	m_storage->clearFileElements(removedFilePaths);
 
+	MessageStatus("Cleaning up names").dispatch();
 	m_storage->removeUnusedNames();
 
 	std::vector<FilePath> filesToParse;
 	filesToParse.insert(filesToParse.end(), addedFilePaths.begin(), addedFilePaths.end());
 	filesToParse.insert(filesToParse.end(), updatedFilePaths.begin(), updatedFilePaths.end());
-
-	if (filesToParse.size() == 0)
-	{
-		MessageFinishedParsing(0, 0, 0, m_storage->getErrorCount()).dispatch();
-		return;
-	}
 
 	Task::dispatch(std::make_shared<TaskParseCxx>(
 		m_storage.get(),
@@ -158,15 +156,16 @@ Parser::Arguments Project::getParserArguments() const
 	// Add the include paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
 	utility::append(args.systemHeaderSearchPaths, m_fileManager.getIncludePaths());
 
-	std::vector<FilePath> headerSearchSubPaths;
-	for(FilePath p : projSettings->getHeaderSearchPaths())
-	{
-		std::vector<FilePath> tempPaths = FileSystem::getSubDirectories(p);
-		headerSearchSubPaths.insert( headerSearchSubPaths.end(), tempPaths.begin(), tempPaths.end() );
-	}
+	// std::vector<FilePath> headerSearchSubPaths;
+	// for(FilePath p : projSettings->getHeaderSearchPaths())
+	// {
+	// 	std::vector<FilePath> tempPaths = FileSystem::getSubDirectories(p);
+	// 	headerSearchSubPaths.insert( headerSearchSubPaths.end(), tempPaths.begin(), tempPaths.end() );
+	// }
 
-	std::unique(headerSearchSubPaths.begin(),headerSearchSubPaths.end());
-	utility::append(args.systemHeaderSearchPaths, headerSearchSubPaths);
+	// std::unique(headerSearchSubPaths.begin(),headerSearchSubPaths.end());
+	// utility::append(args.systemHeaderSearchPaths, headerSearchSubPaths);
+
 	utility::append(args.systemHeaderSearchPaths, projSettings->getHeaderSearchPaths());
 	utility::append(args.systemHeaderSearchPaths, appSettings->getHeaderSearchPaths());
 

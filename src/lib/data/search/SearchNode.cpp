@@ -4,6 +4,7 @@
 
 #include "utility/text/Dictionary.h"
 
+#include "data/name/NameHierarchy.h"
 #include "data/search/SearchIndex.h"
 #include "data/search/SearchMatch.h"
 #include "data/search/SearchResult.h"
@@ -36,15 +37,15 @@ const std::string& SearchNode::getName() const
 	return m_name;
 }
 
-std::vector<std::string> SearchNode::getNameHierarchy() const
+NameHierarchy SearchNode::getNameHierarchy() const
 {
-	std::vector<std::string> nameHierarchy;
+	NameHierarchy nameHierarchy;
 	const SearchNode* parent = getParent();
 	if (parent && parent->m_nameId)
 	{
 		nameHierarchy = parent->getNameHierarchy();
 	}
-	nameHierarchy.push_back(getName());
+	nameHierarchy.push(std::make_shared<NameElement>(getName()));
 	return nameHierarchy;
 }
 

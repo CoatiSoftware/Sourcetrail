@@ -35,6 +35,8 @@ void Storage::clear()
 	m_sqliteStorage.clear();
 	m_tokenIndex.clear();
 
+	m_fileNodeIds.clear();
+
 	m_errorMessages.clear();
 	m_errorLocationCollection.clear();
 }
@@ -72,7 +74,7 @@ std::set<FilePath> Storage::getDependingFilePaths(const FilePath& filePath)
 {
 	std::set<FilePath> dependingFilePaths;
 
-	Id fileNodeId = m_sqliteStorage.getFileByName(filePath.fileName()).id;
+	Id fileNodeId = getFileNodeId(filePath);
 	std::vector<StorageEdge> incomingEdges = m_sqliteStorage.getEdgesByTargetType(
 		fileNodeId, Edge::typeToInt(Edge::EDGE_INCLUDE)
 	);
@@ -93,11 +95,16 @@ std::set<FilePath> Storage::getDependingFilePaths(const FilePath& filePath)
 void Storage::removeUnusedNames()
 {
 	m_sqliteStorage.removeUnusedNameHierarchyElements();
+	m_fileNodeIds.clear();
+}
+
+void Storage::buildSearchIndex()
+{
 	m_tokenIndex.clear();
 
 	for (StorageNode node: m_sqliteStorage.getAllNodes())
 	{
-		m_tokenIndex.addNode(m_sqliteStorage.getNameHierarchyById(node.nameId))->addTokenId(node.id);
+		m_tokenIndex.addTokenId(m_tokenIndex.addNode(m_sqliteStorage.getNameHierarchyById(node.nameId)), node.id);
 	}
 }
 
@@ -115,6 +122,15 @@ void Storage::logIndex() const
 
 void Storage::logStats() const
 {
+}
+
+void Storage::startParsing()
+{
+}
+
+void Storage::finishParsing()
+{
+	buildSearchIndex();
 }
 
 void Storage::prepareParsingFile()
@@ -547,7 +563,7 @@ Id Storage::onFileParsed(const FileInfo& fileInfo)
 		nameHierarchyElementId = m_sqliteStorage.addNameHierarchyElement(fileName);
 	}
 
-	Id fileNodeId = m_sqliteStorage.getFileByName(fileName).id;
+	Id fileNodeId = getFileNodeId(fileInfo.path);
 	if (fileNodeId == 0)
 	{
 		fileNodeId = m_sqliteStorage.addFile(
@@ -559,7 +575,6 @@ Id Storage::onFileParsed(const FileInfo& fileInfo)
 
 	NameHierarchy nameHierarchy;
 	nameHierarchy.push(std::make_shared<NameElement>(fileName));
-	m_tokenIndex.addNode(nameHierarchy)->addTokenId(fileNodeId);
 
 	return fileNodeId;
 }
@@ -640,6 +655,7 @@ std::string Storage::getNameForNodeWithId(Id nodeId) const
 {
 	Id nameHierarchyElementId = m_sqliteStorage.getNameHierarchyElementIdByNodeId(nodeId);
 	return m_sqliteStorage.getNameHierarchyById(nameHierarchyElementId).getFullName();
+	// return m_tokenIndex.getNameHierarchyForTokenId(nodeId).getFullName();
 }
 
 Node::NodeType Storage::getNodeTypeForNodeWithId(Id nodeId) const
@@ -679,6 +695,9 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 	return matches;
 }
 
+#include "utility/utility.h"
+#include <iostream>
+
 std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const
 {
 	std::shared_ptr<Graph> g = std::make_shared<Graph>();
@@ -692,17 +711,40 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 		{
 			const StorageNode node = m_sqliteStorage.getNodeById(elementId);
 
-			addNodeAndAllChildrenToGraph(getLastParentNodeId(node.id), graph);
+			float a = utility::duration(
+				[&]()
+				{
+					addNodeAndAllChildrenToGraph(getLastParentNodeId(node.id), graph);
+				}
+			);
+			std::cout << "add node and children " << a << std::endl;
 
 			std::vector<StorageEdge> edges = m_sqliteStorage.getEdgesBySourceId(node.id);
 			utility::append(edges, m_sqliteStorage.getEdgesByTargetId(node.id));
 
-			for (size_t i = 0; i < edges.size(); i++)
-			{
-				addEdgeAndAllChildrenToGraph(edges[i].id, graph);
-			}
+			float b = utility::duration(
+				[&]()
+				{
+					for (size_t i = 0; i < edges.size(); i++)
+					{
+						if (Edge::intToType(edges[i].type) != Edge::EDGE_MEMBER)
+						{
+							addEdgeAndAllChildrenToGraph(edges[i].id, graph);
+						}
+					}
+				}
+			);
+			std::cout << "add edge and children " << b << std::endl;
 
-			addAggregationEdgesToGraph(elementId, graph);
+
+
+			float c = utility::duration(
+				[&]()
+				{
+					addAggregationEdgesToGraph(elementId, graph);
+				}
+			);
+			std::cout << "add aggregation " << c << std::endl << std::endl;
 		}
 		else
 		{
@@ -846,16 +888,16 @@ std::vector<Id> Storage::getTokenIdsForAggregationEdge(Id sourceId, Id targetId)
 	return edgeIds;
 }
 
-TokenLocationCollection Storage::getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const
+std::shared_ptr<TokenLocationCollection> Storage::getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const
 {
-	TokenLocationCollection collection;
+	std::shared_ptr<TokenLocationCollection> collection = std::make_shared<TokenLocationCollection>();
 
 	for (Id elementId: tokenIds)
 	{
 		if (m_sqliteStorage.isFile(elementId))
 		{
 			StorageFile storageFile = m_sqliteStorage.getFileById(elementId);
-			collection.addTokenLocationFileAsPlainCopy(m_sqliteStorage.getTokenLocationsForFile(storageFile.filePath).get());
+			collection->addTokenLocationFileAsPlainCopy(m_sqliteStorage.getTokenLocationsForFile(storageFile.filePath).get());
 		}
 		else
 		{
@@ -866,7 +908,7 @@ TokenLocationCollection Storage::getTokenLocationsForTokenIds(const std::vector<
 				const StorageSourceLocation& location = locations[i];
 				StorageFile storageFile = m_sqliteStorage.getFileById(location.fileNodeId);
 
-				collection.addTokenLocation(
+				collection->addTokenLocation(
 					location.id,
 					location.elementId,
 					storageFile.filePath,
@@ -882,14 +924,14 @@ TokenLocationCollection Storage::getTokenLocationsForTokenIds(const std::vector<
 	return collection;
 }
 
-TokenLocationCollection Storage::getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const
+std::shared_ptr<TokenLocationCollection> Storage::getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const
 {
-	TokenLocationCollection collection;
+	std::shared_ptr<TokenLocationCollection> collection = std::make_shared<TokenLocationCollection>();
 
 	for (size_t i = 0; i < locationIds.size(); i++)
 	{
 		StorageSourceLocation location = m_sqliteStorage.getSourceLocationById(locationIds[i]);
-		collection.addTokenLocation(
+		collection->addTokenLocation(
 			location.id,
 			location.elementId,
 			m_sqliteStorage.getFileById(location.fileNodeId).filePath, // TODO: optimize: only once per file!
@@ -1059,8 +1101,6 @@ Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarch
 		parentNodeId = nodeId;
 	}
 
-	m_tokenIndex.addNode(nameHierarchy)->addTokenId(parentNodeId);
-
 	return parentNodeId;
 }
 
@@ -1131,12 +1171,7 @@ int Storage::addSourceLocation(int elementNodeId, const ParseLocation& location,
 	}
 	else
 	{
-		Id fileNodeId = m_sqliteStorage.getFileByName(location.filePath.fileName()).id;
-		if (fileNodeId == 0)
-		{
-			LOG_ERROR("No filenode created for file: " + location.filePath.str());
-			fileNodeId = onFileParsed(FileSystem::getFileInfoForPath(location.filePath));
-		}
+		Id fileNodeId = getFileNodeId(location.filePath);
 		int locationId = m_sqliteStorage.addSourceLocation(
 			elementNodeId, fileNodeId, location.startLineNumber, location.startColumnNumber,
 			location.endLineNumber, location.endColumnNumber, isScope
@@ -1152,6 +1187,33 @@ Id Storage::addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type, Parse
 	return edgeId;
 }
 
+Id Storage::getFileNodeId(const FilePath& filePath)
+{
+	std::map<FilePath, Id>::const_iterator it = m_fileNodeIds.find(filePath);
+
+	if (it != m_fileNodeIds.end())
+	{
+		return it->second;
+	}
+
+	if (filePath.empty())
+	{
+		LOG_ERROR("No file path set");
+		return 0;
+	}
+
+	StorageFile storageFile = m_sqliteStorage.getFileByPath(filePath.str());
+
+	if (storageFile.id == 0)
+	{
+		return 0;
+	}
+
+	m_fileNodeIds.emplace(filePath, storageFile.id);
+
+	return storageFile.id;
+}
+
 Id Storage::getLastParentNodeId(const Id nodeId) const
 {
 	Id currentNodeId = 0;
@@ -1161,7 +1223,18 @@ Id Storage::getLastParentNodeId(const Id nodeId) const
 		currentNodeId = parentNodeId;
 
 		std::vector<StorageEdge> memberEdges = m_sqliteStorage.getEdgesByTargetType(currentNodeId, Edge::EDGE_MEMBER);
-		parentNodeId = (memberEdges.size() > 0) ? memberEdges[0].sourceNodeId : 0;
+		if (!memberEdges.size())
+		{
+			break;
+		}
+
+		parentNodeId = memberEdges[0].sourceNodeId;
+
+		StorageNode parentNode = m_sqliteStorage.getNodeById(parentNodeId);
+		if (Node::intToType(parentNode.type) & Node::NODE_NOT_VISIBLE)
+		{
+			break;
+		}
 	}
 	return currentNodeId;
 }
@@ -1203,57 +1276,42 @@ void Storage::addEdgeAndAllChildrenToGraph(const Id edgeId, Graph* graph) const
 {
 	StorageEdge storageEdge = m_sqliteStorage.getEdgeById(edgeId);
 
-	addNodeAndAllChildrenToGraph(getLastParentNodeId(storageEdge.sourceNodeId), graph); // TODO: optimize: look for node in graph first
-	addNodeAndAllChildrenToGraph(getLastParentNodeId(storageEdge.targetNodeId), graph);
-
 	Node* sourceNode = graph->getNodeById(storageEdge.sourceNodeId);
 	Node* targetNode = graph->getNodeById(storageEdge.targetNodeId);
+
+	if (!sourceNode)
+	{
+		addNodeAndAllChildrenToGraph(getLastParentNodeId(storageEdge.sourceNodeId), graph);
+		sourceNode = graph->getNodeById(storageEdge.sourceNodeId);
+	}
+
+	if (!targetNode)
+	{
+		addNodeAndAllChildrenToGraph(getLastParentNodeId(storageEdge.targetNodeId), graph);
+		targetNode = graph->getNodeById(storageEdge.targetNodeId);
+	}
 
 	graph->createEdge(edgeId, Edge::intToType(storageEdge.type), sourceNode, targetNode);
 }
 
 Node* Storage::addNodeAndAllChildrenToGraph(const Id nodeId, Graph* graph) const
 {
-	Node* node = nullptr;
-	if (!graph->getNodeById(nodeId))
+	Node* node = graph->getNodeById(nodeId);
+	if (node)
 	{
-		node = addNodeToGraph(nodeId, graph);
+		return node;
 	}
 
-	std::queue<StorageEdge> unprocessedEdges;
+	node = addNodeToGraph(nodeId, graph);
+
+	std::vector<StorageEdge> memberEdges = m_sqliteStorage.getEdgesBySourceType(nodeId, Edge::EDGE_MEMBER);
+	for (const StorageEdge& edge : memberEdges)
 	{
-		std::vector<StorageEdge> edges = m_sqliteStorage.getEdgesBySourceType(nodeId, Edge::EDGE_MEMBER);
-		for (size_t i = 0; i < edges.size(); i++)
+		Node* targetNode = addNodeAndAllChildrenToGraph(edge.targetNodeId, graph);
+
+		if (node && targetNode)
 		{
-			unprocessedEdges.push(edges[i]);
-		}
-	}
-
-	while (unprocessedEdges.size() > 0)
-	{
-		const StorageEdge& storageEdge = unprocessedEdges.front();
-		unprocessedEdges.pop();
-
-		Node* sourceNode = graph->getNodeById(storageEdge.sourceNodeId);
-		if (!sourceNode)
-		{
-			sourceNode = addNodeToGraph(storageEdge.sourceNodeId, graph);
-		}
-
-		Node* targetNode = graph->getNodeById(storageEdge.targetNodeId);
-		if (!targetNode)
-		{
-			targetNode = addNodeToGraph(storageEdge.targetNodeId, graph);
-		}
-
-		graph->createEdge(storageEdge.id, Edge::intToType(storageEdge.type), sourceNode, targetNode);
-
-		{
-			std::vector<StorageEdge> edges = m_sqliteStorage.getEdgesBySourceType(storageEdge.targetNodeId, Edge::EDGE_MEMBER);
-			for (size_t i = 0; i < edges.size(); i++)
-			{
-				unprocessedEdges.push(edges[i]);
-			}
+			graph->createEdge(edge.id, Edge::intToType(edge.type), node, targetNode);
 		}
 	}
 
@@ -1324,7 +1382,7 @@ void Storage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
 			{
 				Node::NodeType type = Node::intToType(m_sqliteStorage.getNodeById(memberEdges[0].sourceNodeId).type);
 
-				if (type != Node::NODE_UNDEFINED && type != Node::NODE_NAMESPACE)
+				if ((type & Node::NODE_NOT_VISIBLE) == 0)
 				{
 					parentNodeId = memberEdges[0].sourceNodeId;
 				}
@@ -1350,7 +1408,7 @@ void Storage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
 		if (!targetNode)
 		{
 			targetNode = addNodeAndAllChildrenToGraph(getLastParentNodeId(aggregationTargetNodeId), graph);
-			if (targetNode->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE))
+			if (targetNode->isType(Node::NODE_NOT_VISIBLE))
 			{
 				targetNode = addNodeToGraph(aggregationTargetNodeId, graph);
 			}
@@ -1369,13 +1427,20 @@ void Storage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
 
 Node* Storage::addNodeToGraph(const Id nodeId, Graph* graph) const
 {
-	StorageNode storageNode = m_sqliteStorage.getNodeById(nodeId);
+	Node* node = graph->getNodeById(nodeId);
 
-	return graph->createNode(
-		storageNode.id,
-		Node::intToType(storageNode.type),
-		std::make_shared<TokenComponentNameCached>(m_sqliteStorage.getNameHierarchyById(storageNode.nameId))
-	);
+	if (!node)
+	{
+		StorageNode storageNode = m_sqliteStorage.getNodeById(nodeId);
+
+		node = graph->createNode(
+			storageNode.id,
+			Node::intToType(storageNode.type),
+			std::make_shared<TokenComponentNameCached>(m_tokenIndex.getNameHierarchyForTokenId(nodeId))
+		);
+	}
+
+	return node;
 }
 
 TokenComponentAccess::AccessType Storage::convertAccessType(ParserClient::AccessType access) const

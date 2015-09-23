@@ -164,6 +164,11 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 		}
 	);
 
+	for (DummyNode& node : dummyNodes)
+	{
+		node.hasParent = false;
+	}
+
 	m_dummyNodes = dummyNodes;
 
 	autoExpandActiveNode(tokenIds);
@@ -290,14 +295,14 @@ std::vector<DummyNode> GraphController::splitNamespaceNodesRecursive(const Dummy
 	std::vector<DummyNode> nodes;
 	active |= node.active;
 
-	if (node.isGraphNode() && node.data->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE))
+	if (node.isGraphNode() && node.data->isType(Node::NODE_NOT_VISIBLE))
 	{
 		for (const DummyNode& subNode : node.subNodes)
 		{
 			std::vector<DummyNode> newNodes = splitNamespaceNodesRecursive(subNode, active, false);
 			for (DummyNode& newNode : newNodes)
 			{
-				newNode.hasNamespace = true;
+				newNode.hasParent = false;
 			}
 
 			nodes.insert(nodes.end(), newNodes.begin(), newNodes.end());
@@ -416,7 +421,7 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode& node, bool pa
 	if ((node.isGraphNode() && node.isExpanded()) ||
 		(node.isAccessNode() && parentExpanded) ||
 		(node.isGraphNode() && node.data->isType(Node::NODE_ENUM)) ||
-		(node.isGraphNode() && node.data->isType(Node::NODE_NAMESPACE | Node::NODE_UNDEFINED)))
+		(node.isGraphNode() && node.data->isType(Node::NODE_NOT_VISIBLE)))
 	{
 		for (DummyNode& subNode : node.subNodes)
 		{
@@ -681,7 +686,7 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 
 	if (node.isGraphNode())
 	{
-		if (node.hasNamespace)
+		if (!node.hasParent)
 		{
 			width = margins.charWidth * node.data->getFullName().size();
 		}
@@ -887,7 +892,7 @@ DummyNode* GraphController::findTopLevelDummyNodeRecursive(std::vector<DummyNode
 	{
 		if (node.isGraphNode())
 		{
-			if (node.data->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE))
+			if (node.data->isType(Node::NODE_NOT_VISIBLE))
 			{
 				DummyNode* result = findDummyNodeRecursive(node.subNodes, tokenId);
 				if (result != nullptr)

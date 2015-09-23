@@ -47,7 +47,7 @@ private:
 	CodeView* getView();
 
 	std::vector<CodeView::CodeSnippetParams> getSnippetsForActiveTokenLocations(
-		const TokenLocationCollection& collection, Id declarationId) const;
+		const TokenLocationCollection* collection, Id declarationId) const;
 	std::vector<CodeView::CodeSnippetParams> getSnippetsForFile(std::shared_ptr<TokenLocationFile> file) const;
 	std::shared_ptr<SnippetMerger> buildMergerHierarchy(
 		TokenLocation* location, SnippetMerger& fileScopedMerger, std::map<int, std::shared_ptr<SnippetMerger>>& mergers) const;

@@ -52,15 +52,15 @@ private:
 	void createDummyGraphForTokenIds(const std::vector<Id>& tokenIds);
 	DummyNode createDummyNodeTopDown(Node* node);
 
+	void splitNamespaceNodes();
+	std::vector<DummyNode> splitNamespaceNodesRecursive(const DummyNode& node, bool active, bool topLevel);
+
 	void autoExpandActiveNode(const std::vector<Id>& activeTokenIds);
 
 	void setActiveAndVisibility(const std::vector<Id>& activeTokenIds);
 	void setNodeActiveRecursive(DummyNode& node, const std::vector<Id>& activeTokenIds) const;
 	bool setNodeVisibilityRecursiveBottomUp(DummyNode& node) const;
 	void setNodeVisibilityRecursiveTopDown(DummyNode& node, bool parentExpanded) const;
-
-	void splitNamespaceNodes();
-	std::vector<DummyNode> splitNamespaceNodesRecursive(const DummyNode& node, bool active, bool topLevel);
 
 	void bundleNodes();
 	void bundleNodesMatching(std::function<bool(const DummyNode&)> matcher, size_t count, const std::string& name);

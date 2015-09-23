@@ -35,6 +35,9 @@ public:
 	void removeNode(SearchNode* searchNode);
 	bool removeNodeIfUnreferencedRecursive(SearchNode* searchNode);
 
+	void addTokenId(SearchNode* node, Id tokenId);
+	NameHierarchy getNameHierarchyForTokenId(Id tokenId) const;
+
 	SearchResults runFuzzySearch(const std::string& query) const;
 	std::vector<SearchMatch> runFuzzySearchAndGetMatches(const std::string& query) const;
 
@@ -43,6 +46,8 @@ public:
 private:
 	SearchNode m_root;
 	Dictionary m_dictionary;
+
+	std::map<Id, SearchNode*> m_tokenIds;
 
 	friend std::ostream& operator<<(std::ostream& ostream, const SearchIndex& index);
 };

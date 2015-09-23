@@ -33,8 +33,8 @@ public:
 
 		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPEDEF_OF) + ":type->int") != 0);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 1);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
 	}
 
 	void test_storage_saves_class()
@@ -45,9 +45,9 @@ public:
 		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "Class");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_CLASS);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 2);
-		TS_ASSERT_EQUALS(tlc.getTokenLocations().find(2)->second->getType(), TokenLocation::LOCATION_SCOPE);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 2);
+		TS_ASSERT_EQUALS(tlc->getTokenLocations().find(2)->second->getType(), TokenLocation::LOCATION_SCOPE);
 	}
 
 	void test_storage_saves_struct()
@@ -58,9 +58,9 @@ public:
 		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "Struct");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_STRUCT);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 2);
-		TS_ASSERT_EQUALS(tlc.getTokenLocations().find(2)->second->getType(), TokenLocation::LOCATION_SCOPE);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 2);
+		TS_ASSERT_EQUALS(tlc->getTokenLocations().find(2)->second->getType(), TokenLocation::LOCATION_SCOPE);
 	}
 
 	void test_storage_saves_global_variable()
@@ -75,8 +75,8 @@ public:
 
 		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPE_OF) + ":Global->char") != 0);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 1);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
 	}
 
 	void test_storage_saves_global_variable_static()
@@ -89,8 +89,8 @@ public:
 
 		//TS_ASSERT(node->getComponent<TokenComponentStatic>());
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 1);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
 	}
 
 	void test_storage_saves_field()
@@ -105,8 +105,8 @@ public:
 
 		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPE_OF) + ":m_field->bool") != 0);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 1);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
 	}
 
 	void test_storage_saves_field_as_member()
@@ -128,8 +128,8 @@ public:
 
 		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPE_OF) + ":Struct::m_field->bool") != 0);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 1);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
 	}
 
 	void test_storage_saves_function()
@@ -147,9 +147,9 @@ public:
 		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_RETURN_TYPE_OF) + ":isTrue->bool") != 0);
 		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_PARAMETER_TYPE_OF) + ":isTrue->char") != 0);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 2);
-		TS_ASSERT_EQUALS(tlc.getTokenLocations().find(4)->second->getType(), TokenLocation::LOCATION_SCOPE);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 2);
+		TS_ASSERT_EQUALS(tlc->getTokenLocations().find(4)->second->getType(), TokenLocation::LOCATION_SCOPE);
 	}
 
 	void test_storage_saves_method()
@@ -171,9 +171,8 @@ public:
 		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_RETURN_TYPE_OF) + ":isMethod->void") != 0);
 		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_PARAMETER_TYPE_OF) + ":isMethod->bool") != 0);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 2);
-		TS_ASSERT_EQUALS(tlc.getTokenLocations().find(4)->second->getType(), TokenLocation::LOCATION_SCOPE);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 2);
 	}
 
 	void test_storage_saves_method_static()
@@ -226,9 +225,9 @@ public:
 		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "utility");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_NAMESPACE);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 2);
-		TS_ASSERT_EQUALS(tlc.getTokenLocations().find(2)->second->getType(), TokenLocation::LOCATION_SCOPE);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 2);
+		TS_ASSERT_EQUALS(tlc->getTokenLocations().find(2)->second->getType(), TokenLocation::LOCATION_SCOPE);
 	}
 
 	void test_storage_saves_enum()
@@ -239,9 +238,9 @@ public:
 		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "Category");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_ENUM);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 2);
-		TS_ASSERT_EQUALS(tlc.getTokenLocations().find(2)->second->getType(), TokenLocation::LOCATION_SCOPE);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 2);
+		TS_ASSERT_EQUALS(tlc->getTokenLocations().find(2)->second->getType(), TokenLocation::LOCATION_SCOPE);
 	}
 
 	void test_storage_saves_enum_as_member()
@@ -268,8 +267,8 @@ public:
 		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "VALUE");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_ENUM_CONSTANT);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 1);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
 	}
 
 	void test_storage_saves_class_inheritance()
@@ -286,8 +285,8 @@ public:
 		//TS_ASSERT(edge->getComponent<TokenComponentAccess>());
 		//TS_ASSERT_EQUALS(edge->getComponent<TokenComponentAccess>()->getAccess(), TokenComponentAccess::ACCESS_PUBLIC);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 1);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
 	}
 
 	void test_storage_saves_struct_inheritance()
@@ -305,8 +304,8 @@ public:
 		//TS_ASSERT(edge->getComponent<TokenComponentAccess>());
 		//TS_ASSERT_EQUALS(edge->getComponent<TokenComponentAccess>()->getAccess(), TokenComponentAccess::ACCESS_PUBLIC);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 1);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
 	}
 
 	void test_storage_saves_method_override()
@@ -341,8 +340,8 @@ public:
 
 		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_CALL) + ":isTrue->func") != 0);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 1);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
 	}
 
 	void test_storage_saves_call_in_global_variable_declaration()
@@ -361,8 +360,8 @@ public:
 
 		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_CALL) + ":global->isTrue") != 0);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 1);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
 	}
 
 	void test_storage_saves_field_usage()
@@ -383,8 +382,8 @@ public:
 
 		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_USAGE) + ":isTrue->Foo::m_field") != 0);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 1);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
 	}
 
 	void test_storage_saves_global_variable_usage()
@@ -403,8 +402,8 @@ public:
 
 		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_USAGE) + ":isTrue->global") != 0);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 1);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
 	}
 
 	void test_storage_saves_type_usage()
@@ -424,8 +423,8 @@ public:
 
 		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPE_USAGE) + ":isTrue->Struct") != 0);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 1);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
 	}
 
 	void test_storage_clears_single_file_data_of_single_file_storage()
@@ -565,8 +564,8 @@ public:
 
 		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_INCLUDE) + ":file.cpp->file.h") != 0);
 
-		TokenLocationCollection tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc.getTokenLocationCount(), 1);
+		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
+		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
 	}
 
 	void test_storage_finds_and_removes_depending_file_nodes()
@@ -605,9 +604,10 @@ private:
 			: Storage("data/test.sqlite")
 		{
 			clear();
+			onFileParsed(FileInfo("file.cpp"));
 		}
 
-		TokenLocationCollection getLocationCollectionForTokenId(Id id) const
+		std::shared_ptr<TokenLocationCollection> getLocationCollectionForTokenId(Id id) const
 		{
 			std::vector<Id> tokenIds;
 			tokenIds.push_back(id);

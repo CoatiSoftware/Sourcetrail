@@ -48,6 +48,8 @@ public:
 	static int typeToInt(NodeType type);
 	static NodeType intToType(int value);
 
+	static const NodeTypeMask NODE_NOT_VISIBLE;
+
 	Node(Id id, NodeType type, std::shared_ptr<TokenComponentName> nameComponent);
 	Node(const Node& other);
 	virtual ~Node();

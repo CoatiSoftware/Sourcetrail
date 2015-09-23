@@ -7,7 +7,7 @@ class QtGraphNodeData
 	: public QtGraphNode
 {
 public:
-	QtGraphNodeData(const Node* data, bool hasNamespace, bool childVisible);
+	QtGraphNodeData(const Node* data, bool hasParent, bool childVisible);
 	virtual ~QtGraphNodeData();
 
 	const Node* getData() const;

@@ -31,6 +31,8 @@ void TaskParseCxx::enter()
 	{
 		m_sourcePaths.push(path.absolute().str());
 	}
+
+	m_client->startParsing();
 }
 
 Task::TaskState TaskParseCxx::update()
@@ -83,6 +85,10 @@ Task::TaskState TaskParseCxx::update()
 
 void TaskParseCxx::exit()
 {
+	MessageStatus("Building search index").dispatch();
+
+	m_client->finishParsing();
+
 	FileRegister* fileRegister = m_parser.getFileRegister();
 
 	MessageFinishedParsing(

@@ -51,6 +51,9 @@ public:
 	ParserClient();
 	virtual ~ParserClient();
 
+	virtual void startParsing() = 0;
+	virtual void finishParsing() = 0;
+
 	virtual void prepareParsingFile() = 0;
 	virtual void finishParsingFile() = 0;
 

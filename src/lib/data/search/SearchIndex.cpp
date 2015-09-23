@@ -35,6 +35,7 @@ void SearchIndex::clear()
 {
 	m_root.m_nodes.clear();
 	m_dictionary.clear();
+	m_tokenIds.clear();
 }
 
 size_t SearchIndex::getNodeCount() const
@@ -132,6 +133,25 @@ bool SearchIndex::removeNodeIfUnreferencedRecursive(SearchNode* searchNode)
 	}
 
 	return false;
+}
+
+void SearchIndex::addTokenId(SearchNode* node, Id tokenId)
+{
+	node->addTokenId(tokenId);
+	m_tokenIds.emplace(tokenId, node);
+}
+
+NameHierarchy SearchIndex::getNameHierarchyForTokenId(Id tokenId) const
+{
+	std::map<Id, SearchNode*>::const_iterator it = m_tokenIds.find(tokenId);
+
+	if (it != m_tokenIds.end())
+	{
+		SearchNode* node = it->second;
+		return node->getNameHierarchy();
+	}
+
+	return NameHierarchy();
 }
 
 SearchResults SearchIndex::runFuzzySearch(const std::string& query) const

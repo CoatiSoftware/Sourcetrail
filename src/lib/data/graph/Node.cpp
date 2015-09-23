@@ -11,6 +11,8 @@
 #include "data/graph/token_component/TokenComponentSignature.h"
 #include "data/graph/token_component/TokenComponentFilePath.h"
 
+const Node::NodeTypeMask Node::NODE_NOT_VISIBLE = Node::NODE_UNDEFINED | Node::NODE_NAMESPACE;
+
 std::string Node::getTypeString(NodeType type)
 {
 	switch (type)

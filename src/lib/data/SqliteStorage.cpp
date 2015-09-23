@@ -432,6 +432,16 @@ StorageFile SqliteStorage::getFileByName(const std::string& fileName) const
 	return storageFile;
 }
 
+StorageFile SqliteStorage::getFileByPath(const std::string& filePath) const
+{
+	StorageFile storageFile = getFirstFile(
+		"SELECT node.id, node.name_id, file.path, file.modification_time FROM node INNER JOIN file ON node.id = file.id "
+		"WHERE file.path == '" + filePath + "';"
+	);
+
+	return storageFile;
+}
+
 std::vector<StorageFile> SqliteStorage::getAllFiles() const
 {
 	return getAllFiles("SELECT file.id, node.name_id, file.path, file.modification_time FROM file INNER JOIN node ON file.id = node.id;");

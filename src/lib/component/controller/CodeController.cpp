@@ -49,13 +49,13 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 		return;
 	}
 
-	TokenLocationCollection collection = m_storageAccess->getTokenLocationsForTokenIds(activeTokenIds);
-	view->showCodeSnippets(getSnippetsForActiveTokenLocations(collection, declarationId));
+	std::shared_ptr<TokenLocationCollection> collection = m_storageAccess->getTokenLocationsForTokenIds(activeTokenIds);
+	view->showCodeSnippets(getSnippetsForActiveTokenLocations(collection.get(), declarationId));
 
 	if (!message->isFromSystem)
 	{
-		size_t fileCount = collection.getTokenLocationFileCount();
-		size_t referenceCount = collection.getTokenLocationCount();
+		size_t fileCount = collection->getTokenLocationFileCount();
+		size_t referenceCount = collection->getTokenLocationCount();
 
 		std::stringstream ss;
 		ss << message->tokenIds.size() << ' ';
@@ -123,17 +123,17 @@ void CodeController::handleMessage(MessageShowFile* message)
 
 void CodeController::handleMessage(MessageShowScope* message)
 {
-	TokenLocationCollection collection =
+	std::shared_ptr<TokenLocationCollection> collection =
 		m_storageAccess->getTokenLocationsForLocationIds(std::vector<Id>(1, message->scopeLocationId));
 
-	TokenLocation* location = collection.findTokenLocationById(message->scopeLocationId);
+	TokenLocation* location = collection->findTokenLocationById(message->scopeLocationId);
 	if (!location || !location->isScopeTokenLocation() || !location->getOtherTokenLocation())
 	{
 		LOG_ERROR("MessageShowScope did not contain a valid scope location id");
 		return;
 	}
 
-	std::vector<CodeView::CodeSnippetParams> snippets = getSnippetsForActiveTokenLocations(collection, 0);
+	std::vector<CodeView::CodeSnippetParams> snippets = getSnippetsForActiveTokenLocations(collection.get(), 0);
 
 	if (snippets.size() != 1)
 	{
@@ -150,11 +150,11 @@ CodeView* CodeController::getView()
 }
 
 std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocations(
-	const TokenLocationCollection& collection, Id declarationId
+	const TokenLocationCollection* collection, Id declarationId
 ) const {
 	std::vector<CodeView::CodeSnippetParams> snippets;
 
-	collection.forEachTokenLocationFile(
+	collection->forEachTokenLocationFile(
 		[&](std::shared_ptr<TokenLocationFile> file) -> void
 		{
 			std::vector<CodeView::CodeSnippetParams> fileSnippets = getSnippetsForFile(file);

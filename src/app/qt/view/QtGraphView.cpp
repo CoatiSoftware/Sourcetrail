@@ -278,7 +278,7 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	std::shared_ptr<QtGraphNode> newNode;
 	if (node.isGraphNode())
 	{
-		newNode = std::make_shared<QtGraphNodeData>(node.data, node.hasNamespace, node.childVisible);
+		newNode = std::make_shared<QtGraphNodeData>(node.data, node.hasParent, node.childVisible);
 	}
 	else if (node.isAccessNode())
 	{

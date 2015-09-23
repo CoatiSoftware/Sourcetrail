@@ -153,24 +153,24 @@ std::vector<Id> StorageAccessProxy::getTokenIdsForAggregationEdge(Id sourceId, I
 	return std::vector<Id>();
 }
 
-TokenLocationCollection StorageAccessProxy::getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const
+std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const
 {
 	if (hasSubject())
 	{
 		return m_subject->getTokenLocationsForTokenIds(tokenIds);
 	}
 
-	return TokenLocationCollection();
+	return std::make_shared<TokenLocationCollection>();
 }
 
-TokenLocationCollection StorageAccessProxy::getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const
+std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const
 {
 	if (hasSubject())
 	{
 		return m_subject->getTokenLocationsForLocationIds(locationIds);
 	}
 
-	return TokenLocationCollection();
+	return std::make_shared<TokenLocationCollection>();
 }
 
 std::shared_ptr<TokenLocationFile> StorageAccessProxy::getTokenLocationsForFile(const std::string& filePath) const

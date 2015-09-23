@@ -13,6 +13,7 @@
 #include "data/search/SearchResult.h"
 
 class Dictionary;
+class NameHierarchy;
 class SearchIndex;
 struct SearchMatch;
 
@@ -25,7 +26,7 @@ public:
 	size_t getNodeCount() const;
 
 	const std::string& getName() const;
-	std::vector<std::string> getNameHierarchy() const;
+	NameHierarchy getNameHierarchy() const;
 	std::string getFullName() const;
 
 	Id getNameId() const;

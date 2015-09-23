@@ -5,13 +5,13 @@
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 
-QtGraphNodeData::QtGraphNodeData(const Node* data, bool hasNamespace, bool childVisible)
+QtGraphNodeData::QtGraphNodeData(const Node* data, bool hasParent, bool childVisible)
 	: m_data(data)
 	, m_childVisible(childVisible)
 {
 	this->setAcceptHoverEvents(true);
 
-	if (hasNamespace)
+	if (!hasParent)
 	{
 		this->setName(data->getFullName());
 	}

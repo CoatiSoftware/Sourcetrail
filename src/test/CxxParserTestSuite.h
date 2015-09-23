@@ -2457,6 +2457,14 @@ private:
 	class TestParserClient: public ParserClient
 	{
 	public:
+		virtual void startParsing()
+		{
+		}
+
+		virtual void finishParsing()
+		{
+		}
+
 		virtual void prepareParsingFile()
 		{
 		}

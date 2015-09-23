@@ -21,7 +21,7 @@ public:
 		, active(false)
 		, connected(false)
 		, expanded(false)
-		, hasNamespace(false)
+		, hasParent(true)
 		, accessType(TokenComponentAccess::ACCESS_NONE)
 		, invisibleSubNodeCount(0)
 	{
@@ -117,7 +117,7 @@ public:
 	bool active;
 	bool connected;
 	bool expanded;
-	bool hasNamespace;
+	bool hasParent;
 
 	// AccessNode
 	TokenComponentAccess::AccessType accessType;

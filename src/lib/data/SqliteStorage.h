@@ -60,6 +60,7 @@ public:
 
 	StorageFile getFileById(const Id id) const;
 	StorageFile getFileByName(const std::string& fileName) const;
+	StorageFile getFileByPath(const std::string& filePath) const;
 	std::vector<StorageFile> getAllFiles() const;
 
 	void setNodeType(int type, Id nodeId);
