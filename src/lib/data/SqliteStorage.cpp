@@ -3,6 +3,8 @@
 #include "data/graph/Node.h"
 #include "data/location/TokenLocation.h"
 #include "utility/logging/logging.h"
+#include "utility/utility.h"
+#include "utility/utilityString.h"
 
 SqliteStorage::SqliteStorage(const std::string& dbFilePath)
 {
@@ -240,52 +242,27 @@ StorageEdge SqliteStorage::getEdgeBySourceTargetType(Id sourceId, Id targetId, i
 
 std::vector<StorageEdge> SqliteStorage::getEdgesBySourceId(Id sourceId) const
 {
-	std::vector<StorageEdge> edges;
+	return getAllEdges("WHERE source_node_id == " + std::to_string(sourceId));
+}
 
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, type, target_node_id FROM edge WHERE "
-			"source_node_id == " + std::to_string(sourceId) + ";"
-	).c_str());
-
-	while (!q.eof())
-	{
-		const Id id = q.getIntField(0, 0);
-		const int type = q.getIntField(1, -1);
-		const Id targetId = q.getIntField(2, 0);
-
-		if (id != 0 && type != -1 && targetId != 0)
-		{
-			edges.push_back(StorageEdge(id, type, sourceId, targetId));
-		}
-
-		q.nextRow();
-	}
-	return edges;
+std::vector<StorageEdge> SqliteStorage::getEdgesBySourceIds(const std::vector<Id>& sourceIds) const
+{
+	return getAllEdges("WHERE source_node_id IN (" + utility::join(utility::toStrings(sourceIds), ',') + ")");
 }
 
 std::vector<StorageEdge> SqliteStorage::getEdgesByTargetId(Id targetId) const
 {
-	std::vector<StorageEdge> edges;
+	return getAllEdges("WHERE target_node_id == " + std::to_string(targetId));
+}
 
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, type, source_node_id FROM edge WHERE "
-			"target_node_id == " + std::to_string(targetId) + ";"
-	).c_str());
+std::vector<StorageEdge> SqliteStorage::getEdgesByTargetIds(const std::vector<Id>& targetIds) const
+{
+	return getAllEdges("WHERE target_node_id IN (" + utility::join(utility::toStrings(targetIds), ',') + ")");
+}
 
-	while (!q.eof())
-	{
-		const Id id = q.getIntField(0, 0);
-		const int type = q.getIntField(1, -1);
-		const Id sourceId = q.getIntField(2, 0);
-
-		if (id != 0 && type != -1 && targetId != 0)
-		{
-			edges.push_back(StorageEdge(id, type, sourceId, targetId));
-		}
-
-		q.nextRow();
-	}
-	return edges;
+std::vector<StorageEdge> SqliteStorage::getEdgesBySourceOrTargetId(Id id) const
+{
+	return getAllEdges("WHERE source_node_id == " + std::to_string(id) + " OR target_node_id == " + std::to_string(id));
 }
 
 std::vector<StorageEdge> SqliteStorage::getEdgesBySourceType(Id sourceId, int type) const
@@ -626,13 +603,31 @@ StorageComponentAccess SqliteStorage::getComponentAccessByMemberEdgeId(Id member
 	while (!q.eof())
 	{
 		return StorageComponentAccess(
-			q.getIntField(0, 0),
 			q.getIntField(1, 0),
 			q.getIntField(2, 0)
 		);
 	}
 
-	return StorageComponentAccess(0, 0, 0);
+	return StorageComponentAccess(0, 0);
+}
+
+std::vector<StorageComponentAccess> SqliteStorage::getComponentAccessByMemberEdgeIds(const std::vector<Id>& memberEdgeIds) const
+{
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT id, edge_id, type FROM component_access WHERE edge_id IN (" + utility::join(utility::toStrings(memberEdgeIds), ',') + ");"
+	).c_str());
+
+	std::vector<StorageComponentAccess> accesses;
+	while (!q.eof())
+	{
+		accesses.push_back(StorageComponentAccess(
+			q.getIntField(1, 0),
+			q.getIntField(2, 0)
+		));
+
+		q.nextRow();
+	}
+	return accesses;
 }
 
 Id SqliteStorage::getNodeIdBySignature(const std::string& signature) const
@@ -853,4 +848,28 @@ std::vector<StorageSourceLocation> SqliteStorage::getAllSourceLocations(const st
 	}
 
 	return sourceLocations;
+}
+
+std::vector<StorageEdge> SqliteStorage::getAllEdges(const std::string& query) const
+{
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT id, type, source_node_id, target_node_id FROM edge " + query + ";"
+	).c_str());
+
+	std::vector<StorageEdge> edges;
+	while (!q.eof())
+	{
+		const Id id = q.getIntField(0, 0);
+		const int type = q.getIntField(1, -1);
+		const Id sourceId = q.getIntField(2, 0);
+		const Id targetId = q.getIntField(3, 0);
+
+		if (id != 0 && type != -1)
+		{
+			edges.push_back(StorageEdge(id, type, sourceId, targetId));
+		}
+
+		q.nextRow();
+	}
+	return edges;
 }

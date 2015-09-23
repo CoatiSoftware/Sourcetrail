@@ -70,13 +70,11 @@ struct StorageSourceLocation
 
 struct StorageComponentAccess
 {
-	StorageComponentAccess(Id id, Id memberEdgeId, int type)
-		: id(id)
-		, memberEdgeId(memberEdgeId)
+	StorageComponentAccess(Id memberEdgeId, int type)
+		: memberEdgeId(memberEdgeId)
 		, type(type)
 	{}
 
-	Id id;
 	Id memberEdgeId;
 	int type;
 };

@@ -50,7 +50,10 @@ public:
 
 	StorageEdge getEdgeBySourceTargetType(Id sourceId, Id targetId, int type) const;
 	std::vector<StorageEdge> getEdgesBySourceId(Id sourceId) const;
+	std::vector<StorageEdge> getEdgesBySourceIds(const std::vector<Id>& sourceIds) const;
 	std::vector<StorageEdge> getEdgesByTargetId(Id targetId) const;
+	std::vector<StorageEdge> getEdgesByTargetIds(const std::vector<Id>& targetIds) const;
+	std::vector<StorageEdge> getEdgesBySourceOrTargetId(Id id) const;
 	std::vector<StorageEdge> getEdgesBySourceType(Id sourceId, int type) const;
 	std::vector<StorageEdge> getEdgesByTargetType(Id targetId, int type) const;
 	StorageEdge getEdgeById(Id edgeId) const;
@@ -81,6 +84,7 @@ public:
 	Id getElementIdByLocationId(Id locationId) const;
 
 	StorageComponentAccess getComponentAccessByMemberEdgeId(Id memberEdgeId) const;
+	std::vector<StorageComponentAccess> getComponentAccessByMemberEdgeIds(const std::vector<Id>& memberEdgeIds) const;
 	Id getNodeIdBySignature(const std::string& signature) const;
 
 	int getNodeCount() const;
@@ -95,6 +99,8 @@ private:
 	std::vector<StorageFile> getAllFiles(const std::string& query) const;
 	StorageSourceLocation getFirstSourceLocation(const std::string& query) const;
 	std::vector<StorageSourceLocation> getAllSourceLocations(const std::string& query) const;
+
+	std::vector<StorageEdge> getAllEdges(const std::string& query) const;
 
 	template <typename ResultType>
 	ResultType getFirstResult(const std::string& query) const;

@@ -174,6 +174,8 @@ private:
 	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;
 	void addAccess(const Id nodeId, ParserClient::AccessType access);
 
+	void addComponentAccessToGraph(Graph* graph) const;
+
 	SearchIndex m_tokenIndex;
 	SqliteStorage m_sqliteStorage;
 

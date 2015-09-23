@@ -33,6 +33,9 @@ namespace utility
 	template<typename T>
 	std::vector<T> toVector(const std::deque<T>& d);
 
+	template<typename T>
+	std::vector<std::string> toStrings(const std::vector<T>& d);
+
 	bool intersectionPoint(Vec2f a1, Vec2f b1, Vec2f a2, Vec2f b2, Vec2f* i);
 
 	size_t digits(size_t n);
@@ -64,6 +67,17 @@ std::vector<T> utility::toVector(const std::deque<T>& d)
 {
 	std::vector<T> v;
 	v.insert(v.begin(), d.begin(), d.end());
+	return v;
+}
+
+template<typename T>
+std::vector<std::string> utility::toStrings(const std::vector<T>& d)
+{
+	std::vector<std::string> v;
+	for (const T& t : d)
+	{
+		v.push_back(std::to_string(t));
+	}
 	return v;
 }
 
