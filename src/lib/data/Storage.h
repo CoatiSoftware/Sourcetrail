@@ -159,9 +159,10 @@ private:
 
 	Id getFileNodeId(const FilePath& filePath);
 
-	Id getLastParentNodeId(const Id nodeId) const;
+	Id getLastVisibleParentNodeId(const Id nodeId) const;
 	std::vector<Id> getDirectChildNodeIds(const Id nodeId) const;
 	std::vector<Id> getAllChildNodeIds(const Id nodeId) const;
+	std::vector<Id> getAllChildNodeIds(const Id nodeId, const Graph* graph) const;
 
 	void addEdgeAndAllChildrenToGraph(const Id edgeId, Graph* graph) const;
 	Node* addNodeAndAllChildrenToGraph(const Id nodeId, Graph* graph) const;

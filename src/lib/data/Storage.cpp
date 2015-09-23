@@ -714,7 +714,7 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 			float a = utility::duration(
 				[&]()
 				{
-					addNodeAndAllChildrenToGraph(getLastParentNodeId(node.id), graph);
+					addNodeAndAllChildrenToGraph(getLastVisibleParentNodeId(node.id), graph);
 				}
 			);
 			std::cout << "add node and children " << a << std::endl;
@@ -759,7 +759,7 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 
 			if (m_sqliteStorage.isNode(elementId))
 			{
-				addNodeAndAllChildrenToGraph(getLastParentNodeId(elementId), graph);
+				addNodeAndAllChildrenToGraph(getLastVisibleParentNodeId(elementId), graph);
 			}
 			else
 			{
@@ -1214,7 +1214,7 @@ Id Storage::getFileNodeId(const FilePath& filePath)
 	return storageFile.id;
 }
 
-Id Storage::getLastParentNodeId(const Id nodeId) const
+Id Storage::getLastVisibleParentNodeId(const Id nodeId) const
 {
 	Id currentNodeId = 0;
 	Id parentNodeId = nodeId;
@@ -1272,6 +1272,30 @@ std::vector<Id> Storage::getAllChildNodeIds(const Id nodeId) const
 	return childNodeIds;
 }
 
+std::vector<Id> Storage::getAllChildNodeIds(const Id nodeId, const Graph* graph) const
+{
+	std::vector<Id> childNodeIds;
+	std::queue<Id> parents;
+
+	parents.push(nodeId);
+	while (parents.size())
+	{
+		Id parentId = parents.front();
+		parents.pop();
+
+		Node* parent = graph->getNodeById(parentId);
+		parent->forEachChildNode(
+			[&](Node* node)
+			{
+				childNodeIds.push_back(node->getId());
+				parents.push(node->getId());
+			}
+		);
+	}
+
+	return childNodeIds;
+}
+
 void Storage::addEdgeAndAllChildrenToGraph(const Id edgeId, Graph* graph) const
 {
 	StorageEdge storageEdge = m_sqliteStorage.getEdgeById(edgeId);
@@ -1281,13 +1305,13 @@ void Storage::addEdgeAndAllChildrenToGraph(const Id edgeId, Graph* graph) const
 
 	if (!sourceNode)
 	{
-		addNodeAndAllChildrenToGraph(getLastParentNodeId(storageEdge.sourceNodeId), graph);
+		addNodeAndAllChildrenToGraph(getLastVisibleParentNodeId(storageEdge.sourceNodeId), graph);
 		sourceNode = graph->getNodeById(storageEdge.sourceNodeId);
 	}
 
 	if (!targetNode)
 	{
-		addNodeAndAllChildrenToGraph(getLastParentNodeId(storageEdge.targetNodeId), graph);
+		addNodeAndAllChildrenToGraph(getLastVisibleParentNodeId(storageEdge.targetNodeId), graph);
 		targetNode = graph->getNodeById(storageEdge.targetNodeId);
 	}
 
@@ -1335,12 +1359,13 @@ void Storage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
 	// add hierarchies for these parents
 	// create aggregation edges between parents and active node
 
-	std::vector<Id> childNodeIds = getAllChildNodeIds(nodeId);
+	std::vector<Id> childNodeIds = getAllChildNodeIds(nodeId, graph);
 
 	std::map<Id, std::vector<EdgeInfo>> connectedNodeIds;
 	for (size_t i = 0; i < childNodeIds.size(); i++)
 	{
 		const Id nodeId = childNodeIds[i];
+
 		std::vector<StorageEdge> outgoingEdges = m_sqliteStorage.getEdgesBySourceId(nodeId);
 		for (size_t j = 0; j < outgoingEdges.size(); j++)
 		{
@@ -1360,67 +1385,44 @@ void Storage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
 		}
 	}
 
+	Id nodeParentNodeId = getLastVisibleParentNodeId(nodeId);
+
 	std::map<Id, std::vector<EdgeInfo>> connectedParentNodeIds;
-	for (std::map<Id, std::vector<EdgeInfo>>::const_iterator it = connectedNodeIds.begin(); it != connectedNodeIds.end(); it++)
+	for (const std::pair<Id, std::vector<EdgeInfo>>& p : connectedNodeIds)
 	{
-		Id currentNodeId = 0;
-		Id parentNodeId = it->first;
-		bool needsAdd = true;
-		while (parentNodeId != 0)
+		Id parentNodeId = getLastVisibleParentNodeId(p.first);
+
+		if (parentNodeId != nodeParentNodeId)
 		{
-			currentNodeId = parentNodeId;
-			parentNodeId = 0;
-
-			if (currentNodeId == nodeId)
-			{
-				needsAdd = false;
-				break;
-			}
-
-			std::vector<StorageEdge> memberEdges = m_sqliteStorage.getEdgesByTargetType(currentNodeId, Edge::EDGE_MEMBER);
-			if (memberEdges.size() == 1)
-			{
-				Node::NodeType type = Node::intToType(m_sqliteStorage.getNodeById(memberEdges[0].sourceNodeId).type);
-
-				if ((type & Node::NODE_NOT_VISIBLE) == 0)
-				{
-					parentNodeId = memberEdges[0].sourceNodeId;
-				}
-			}
-		}
-
-		if (needsAdd && currentNodeId)
-		{
-			utility::append(connectedParentNodeIds[currentNodeId], it->second);
+			utility::append(connectedParentNodeIds[parentNodeId], p.second);
 		}
 	}
 
 	Node* sourceNode = graph->getNodeById(nodeId);
-	if (!sourceNode)
-	{
-		sourceNode = addNodeToGraph(nodeId, graph);
-	}
 
-	for (std::map<Id, std::vector<EdgeInfo>>::const_iterator it = connectedParentNodeIds.begin(); it != connectedParentNodeIds.end(); it++)
+	for (const std::pair<Id, std::vector<EdgeInfo>> p : connectedParentNodeIds)
 	{
-		const int aggregationTargetNodeId = it->first;
+		const int aggregationTargetNodeId = p.first;
+
 		Node* targetNode = graph->getNodeById(aggregationTargetNodeId);
 		if (!targetNode)
 		{
-			targetNode = addNodeAndAllChildrenToGraph(getLastParentNodeId(aggregationTargetNodeId), graph);
-			if (targetNode->isType(Node::NODE_NOT_VISIBLE))
-			{
-				targetNode = addNodeToGraph(aggregationTargetNodeId, graph);
-			}
+			targetNode = addNodeAndAllChildrenToGraph(getLastVisibleParentNodeId(aggregationTargetNodeId), graph);
 		}
 
 		std::shared_ptr<TokenComponentAggregation> componentAggregation = std::make_shared<TokenComponentAggregation>();
-		for (const EdgeInfo& edgeInfo: it->second)
+		for (const EdgeInfo& edgeInfo: p.second)
 		{
 			componentAggregation->addAggregationId(edgeInfo.edgeId, edgeInfo.forward);
 		}
 
-		Edge* edge = graph->createEdge(*componentAggregation->getAggregationIds().begin(), Edge::EDGE_AGGREGATION, sourceNode, targetNode);
+		Edge* edge = graph->createEdge(
+			*componentAggregation->getAggregationIds().begin(),
+			Edge::EDGE_AGGREGATION,
+			sourceNode,
+			targetNode
+		);
+
 		edge->addComponentAggregation(componentAggregation);
 	}
 }
