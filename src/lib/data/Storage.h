@@ -151,10 +151,12 @@ public:
 	const SearchIndex& getSearchIndex() const;
 
 private:
-	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy);
+	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool distinct = false);
 	Id addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function);
 	Id addNameHierarchyElements(NameHierarchy nameHierarchy);
 	int addSourceLocation(int elementNodeId, const ParseLocation& location, bool isScope = false);
+
+	Id addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type);
 	Id addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type, ParseLocation location);
 
 	Id getFileNodeId(const FilePath& filePath);

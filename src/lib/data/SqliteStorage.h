@@ -31,9 +31,10 @@ public:
 	Id addNode(int type, Id nameId);
 	Id addFile(Id nameId, const std::string& filePath, const std::string& modificationTime);
 	int addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope);
-	Id addNameHierarchyElement(const std::string& name);
-	Id addNameHierarchyElement(const std::string& name, Id parentId);
+	Id addNameHierarchyElement(const std::string& name, Id parentId = 0);
+
 	Id addComponentAccess(Id memberEdgeId, int type);
+	Id addSignature(Id nodeId, const std::string& signature);
 
 	void removeElement(Id id);
 	void removeNameHierarchyElement(Id id);
@@ -65,9 +66,7 @@ public:
 
 	void setNodeType(int type, Id nodeId);
 
-	Id getNameHierarchyElementIdByName(const std::string& name) const;
-	Id getNameHierarchyElementIdByName(const std::string& name, Id parentId) const;
-
+	Id getNameHierarchyElementIdByName(const std::string& name, Id parentId = 0) const;
 	Id getNameHierarchyElementIdByNodeId(const Id nodeId) const;
 
 	std::vector<StorageNameHierarchyElement> getAllNameHierarchyElements() const;
@@ -82,6 +81,7 @@ public:
 	Id getElementIdByLocationId(Id locationId) const;
 
 	StorageComponentAccess getComponentAccessByMemberEdgeId(Id memberEdgeId) const;
+	Id getNodeIdBySignature(const std::string& signature) const;
 
 	int getNodeCount() const;
 	int getEdgeCount() const;

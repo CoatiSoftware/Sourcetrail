@@ -4,7 +4,6 @@
 
 #include "data/graph/token_component/TokenComponentAbstraction.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
-#include "data/graph/token_component/TokenComponentSignature.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
 #include "data/location/TokenLocation.h"
 #include "data/parser/ParseFunction.h"
@@ -141,15 +140,14 @@ public:
 
 		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "isTrue");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_FUNCTION);
-		//TS_ASSERT(node->getComponent<TokenComponentSignature>());
-		//TS_ASSERT_EQUALS(storage.getWord(node->getComponent<TokenComponentSignature>()->getWordId()), "isTrue(char)");
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_RETURN_TYPE_OF) + ":isTrue->bool") != 0);
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_PARAMETER_TYPE_OF) + ":isTrue->char") != 0);
+		// TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_RETURN_TYPE_OF) + ":isTrue->bool") != 0);
+		// TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_PARAMETER_TYPE_OF) + ":isTrue->char") != 0);
+		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPE_USAGE) + ":isTrue->bool") != 0);
+		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPE_USAGE) + ":isTrue->char") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 2);
-		TS_ASSERT_EQUALS(tlc->getTokenLocations().find(4)->second->getType(), TokenLocation::LOCATION_SCOPE);
 	}
 
 	void test_storage_saves_method()
@@ -165,11 +163,11 @@ public:
 
 		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "isMethod");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_METHOD);
-		//TS_ASSERT(node->getComponent<TokenComponentSignature>());
-		//TS_ASSERT_EQUALS(storage.getWord(node->getComponent<TokenComponentSignature>()->getWordId()), "isMethod(bool)");
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_RETURN_TYPE_OF) + ":isMethod->void") != 0);
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_PARAMETER_TYPE_OF) + ":isMethod->bool") != 0);
+		// TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_RETURN_TYPE_OF) + ":isMethod->void") != 0);
+		// TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_PARAMETER_TYPE_OF) + ":isMethod->bool") != 0);
+		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPE_USAGE) + ":isMethod->void") != 0);
+		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPE_USAGE) + ":isMethod->bool") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 2);

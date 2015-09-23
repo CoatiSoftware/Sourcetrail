@@ -8,7 +8,6 @@
 #include "data/graph/token_component/TokenComponentConst.h"
 #include "data/graph/token_component/TokenComponentName.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
-#include "data/graph/token_component/TokenComponentSignature.h"
 #include "data/graph/token_component/TokenComponentFilePath.h"
 
 const Node::NodeTypeMask Node::NODE_NOT_VISIBLE = Node::NODE_UNDEFINED | Node::NODE_NAMESPACE;
@@ -378,22 +377,6 @@ void Node::addComponentStatic(std::shared_ptr<TokenComponentStatic> component)
 	else if (!isType(NODE_GLOBAL_VARIABLE | NODE_FIELD | NODE_FUNCTION | NODE_METHOD))
 	{
 		LOG_ERROR("TokenComponentStatic can't be set on node of type: " + getTypeString());
-	}
-	else
-	{
-		addComponent(component);
-	}
-}
-
-void Node::addComponentSignature(std::shared_ptr<TokenComponentSignature> component)
-{
-	if (getComponent<TokenComponentSignature>())
-	{
-		LOG_ERROR("TokenComponentSignature has been set before!");
-	}
-	else if (!isType(NODE_UNDEFINED_FUNCTION | NODE_FUNCTION | NODE_METHOD))
-	{
-		LOG_ERROR("TokenComponentSignature can't be set on node of type: " + getTypeString());
 	}
 	else
 	{

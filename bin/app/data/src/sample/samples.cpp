@@ -1,7 +1,21 @@
 
 int number = 3;
 
+int calculate();
+
+int calculate(long i)
+{
+	int a = 1 + 2;
+	return a;
+}
+
 int calculate()
+{
+	int a = 1 + 2;
+	return a;
+}
+
+int calculate(int i)
 {
 	int a = 1 + 2;
 	return a;

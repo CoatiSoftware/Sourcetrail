@@ -1059,7 +1059,7 @@ const SearchIndex& Storage::getSearchIndex() const
 	return m_tokenIndex;
 }
 
-Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy)
+Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool distinct)
 {
 	addNameHierarchyElements(nameHierarchy);
 
@@ -1067,32 +1067,26 @@ Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarch
 	Id parentNodeId = 0;
 	for (size_t i = 0; i < nameHierarchy.size(); i++)
 	{
-		Node::NodeType type = (i == nameHierarchy.size() - 1 ? nodeType : Node::NODE_UNDEFINED);
+		bool lastName = (i == nameHierarchy.size() - 1);
 
-		Id nameHierarchyElementId = 0;
-		if (parentNameHierarchyElementId == 0)
-		{
-			nameHierarchyElementId = m_sqliteStorage.getNameHierarchyElementIdByName(nameHierarchy[i]->getFullName());
-		}
-		else
-		{
-			nameHierarchyElementId =
-				m_sqliteStorage.getNameHierarchyElementIdByName(nameHierarchy[i]->getFullName(), parentNameHierarchyElementId);
-		}
+		Node::NodeType type = (lastName ? nodeType : Node::NODE_UNDEFINED);
+
+		Id nameHierarchyElementId =
+			m_sqliteStorage.getNameHierarchyElementIdByName(nameHierarchy[i]->getFullName(), parentNameHierarchyElementId);
 
 		const StorageNode node = m_sqliteStorage.getNodeByNameId(nameHierarchyElementId);
 		Id nodeId = node.id;
 
-		if (nodeId == 0)
+		if (nodeId == 0 || (lastName && distinct))
 		{
 			nodeId = m_sqliteStorage.addNode(Node::typeToInt(type), nameHierarchyElementId);
 
-			if (parentNodeId != 0) // TODO: maybe check if this edge exists in general and create it if not.
+			if (parentNodeId != 0)
 			{
-				m_sqliteStorage.addEdge(Edge::EDGE_MEMBER, parentNodeId, nodeId);
+				addEdge(parentNodeId, nodeId, Edge::EDGE_MEMBER);
 			}
 		}
-		else if (i == nameHierarchy.size() - 1) // we only know the type of the last node that will be added.
+		else if (lastName) // Update the type of the last node if the new type is more specific.
 		{
 			Node::NodeType storedType = Node::intToType(node.type);
 			if (type > storedType)
@@ -1110,13 +1104,16 @@ Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarch
 
 Id Storage::addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function)
 {
-	return addNodeHierarchy(type, function.nameHierarchy);
+	std::string signature = ParserClient::functionSignatureStr(function);
+	Id nodeId = m_sqliteStorage.getNodeIdBySignature(signature);
 
-	//// TODO: Instead of saving the whole signature string, the signature should be just a set of wordIds.
-	//Id signatureId = m_tokenIndex.getWordId(ParserClient::functionSignatureStr(function));
-	//std::shared_ptr<TokenComponentSignature> signature = std::make_shared<TokenComponentSignature>(signatureId);
+	if (!nodeId)
+	{
+		nodeId = addNodeHierarchy(type, function.nameHierarchy, true);
+		m_sqliteStorage.addSignature(nodeId, signature);
+	}
 
-	//return m_graph.createNodeHierarchyWithDistinctSignature(type, searchNode, signature);
+	return nodeId;
 }
 
 Id Storage::addNameHierarchyElements(NameHierarchy nameHierarchy)
@@ -1131,14 +1128,7 @@ Id Storage::addNameHierarchyElements(NameHierarchy nameHierarchy)
 
 		if (nodeMayExist)
 		{
-			if (parentId == 0)
-			{
-				nodeId = m_sqliteStorage.getNameHierarchyElementIdByName(elementName);
-			}
-			else
-			{
-				nodeId = m_sqliteStorage.getNameHierarchyElementIdByName(elementName, parentId);
-			}
+			nodeId = m_sqliteStorage.getNameHierarchyElementIdByName(elementName, parentId);
 		}
 		else
 		{
@@ -1147,11 +1137,7 @@ Id Storage::addNameHierarchyElements(NameHierarchy nameHierarchy)
 
 		if (nodeId == 0)
 		{
-			if (parentId == 0)
-				nodeId = m_sqliteStorage.addNameHierarchyElement(elementName);
-			else
-				nodeId = m_sqliteStorage.addNameHierarchyElement(elementName, parentId);
-
+			nodeId = m_sqliteStorage.addNameHierarchyElement(elementName, parentId);
 			nodeMayExist = false;
 		}
 
@@ -1184,7 +1170,7 @@ int Storage::addSourceLocation(int elementNodeId, const ParseLocation& location,
 	}
 }
 
-Id Storage::addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type, ParseLocation location)
+Id Storage::addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type)
 {
 	Id edgeId = m_sqliteStorage.getEdgeBySourceTargetType(sourceNodeId, targetNodeId, type).id;
 
@@ -1192,6 +1178,13 @@ Id Storage::addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type, Parse
 	{
 		edgeId = m_sqliteStorage.addEdge(type, sourceNodeId, targetNodeId);
 	}
+
+	return edgeId;
+}
+
+Id Storage::addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type, ParseLocation location)
+{
+	Id edgeId = addEdge(sourceNodeId, targetNodeId, type);
 
 	addSourceLocation(edgeId, location, false);
 

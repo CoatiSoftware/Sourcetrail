@@ -99,22 +99,22 @@ int SqliteStorage::addSourceLocation(Id elementId, Id fileNodeId, uint startLine
 	return m_database.lastRowId();
 }
 
-Id SqliteStorage::addNameHierarchyElement(const std::string& name)
-{
-	m_database.execDML((
-		"INSERT INTO name_hierarchy_element(id, name, parent_id) "
-		"VALUES(NULL, '" + name + "', NULL);"
-	).c_str());
-
-	return m_database.lastRowId();
-}
-
 Id SqliteStorage::addNameHierarchyElement(const std::string& name, Id parentId)
 {
-	m_database.execDML((
-		"INSERT INTO name_hierarchy_element(id, name, parent_id) "
-		"VALUES (NULL, '" + name + "', " + std::to_string(parentId) + ");"
-	).c_str());
+	if (parentId)
+	{
+		m_database.execDML((
+			"INSERT INTO name_hierarchy_element(id, name, parent_id) "
+			"VALUES (NULL, '" + name + "', " + std::to_string(parentId) + ");"
+		).c_str());
+	}
+	else
+	{
+		m_database.execDML((
+			"INSERT INTO name_hierarchy_element(id, name, parent_id) "
+			"VALUES(NULL, '" + name + "', NULL);"
+		).c_str());
+	}
 
 	return m_database.lastRowId();
 }
@@ -123,7 +123,17 @@ Id SqliteStorage::addComponentAccess(Id memberEdgeId, int type)
 {
 	m_database.execDML((
 		"INSERT INTO component_access(id, edge_id, type) "
-		"VALUES (NULL, '" + std::to_string(memberEdgeId) + "', " + std::to_string(type) + ");"
+		"VALUES (NULL, " + std::to_string(memberEdgeId) + ", " + std::to_string(type) + ");"
+	).c_str());
+
+	return m_database.lastRowId();
+}
+
+Id SqliteStorage::addSignature(Id nodeId, const std::string& signature)
+{
+	m_database.execDML((
+		"INSERT INTO function_signature(id, signature) "
+		"VALUES (" + std::to_string(nodeId) + ", '" + signature + "');"
 	).c_str());
 
 	return m_database.lastRowId();
@@ -454,18 +464,20 @@ void SqliteStorage::setNodeType(int type, Id nodeId)
 	).c_str());
 }
 
-Id SqliteStorage::getNameHierarchyElementIdByName(const std::string& name) const
-{
-	return getFirstResult<Id>(
-		"SELECT id FROM name_hierarchy_element WHERE name == '" + name + "';"
-	);
-}
-
 Id SqliteStorage::getNameHierarchyElementIdByName(const std::string& name, Id parentId) const
 {
-	return getFirstResult<Id>(
-		"SELECT id FROM name_hierarchy_element WHERE name == '" + name + "' AND parent_id == " + std::to_string(parentId) + ";"
-	);
+	if (parentId)
+	{
+		return getFirstResult<Id>(
+			"SELECT id FROM name_hierarchy_element WHERE name == '" + name + "' AND parent_id == " + std::to_string(parentId) + ";"
+		);
+	}
+	else
+	{
+		return getFirstResult<Id>(
+			"SELECT id FROM name_hierarchy_element WHERE name == '" + name + "';"
+		);
+	}
 }
 
 Id SqliteStorage::getNameHierarchyElementIdByNodeId(const Id nodeId) const
@@ -623,6 +635,20 @@ StorageComponentAccess SqliteStorage::getComponentAccessByMemberEdgeId(Id member
 	return StorageComponentAccess(0, 0, 0);
 }
 
+Id SqliteStorage::getNodeIdBySignature(const std::string& signature) const
+{
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT id, signature FROM function_signature WHERE signature == '" + signature + "';"
+	).c_str());
+
+	while (!q.eof())
+	{
+		return q.getIntField(0, 0);
+	}
+
+	return 0;
+}
+
 int SqliteStorage::getNodeCount() const
 {
 	return m_database.execScalar("SELECT COUNT(*) from node;");
@@ -640,6 +666,8 @@ int SqliteStorage::getNameHierarchyElementCount() const
 
 void SqliteStorage::clearTables()
 {
+	m_database.execDML("DROP TABLE IF EXISTS main.function_signature;");
+	m_database.execDML("DROP TABLE IF EXISTS main.component_access;");
 	m_database.execDML("DROP TABLE IF EXISTS main.source_location;");
 	m_database.execDML("DROP TABLE IF EXISTS main.name_hierarchy_element;");
 	m_database.execDML("DROP TABLE IF EXISTS main.file;");
@@ -718,6 +746,14 @@ void SqliteStorage::setupTables()
 			"type INTEGER NOT NULL, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(edge_id) REFERENCES edge(id) ON DELETE CASCADE);"
+	);
+
+	m_database.execDML(
+		"CREATE TABLE IF NOT EXISTS function_signature("
+			"id INTEGER NOT NULL, "
+			"signature TEXT, "
+			"PRIMARY KEY(id), "
+			"FOREIGN KEY(id) REFERENCES node(id) ON DELETE CASCADE);"
 	);
 }
 
