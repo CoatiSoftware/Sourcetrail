@@ -23,7 +23,7 @@ public:
 		std::vector<std::string> includeExtensions
 	);
 
-	void reset();
+	void clear();
 	void fetchFilePaths(const std::vector<FileInfo>& oldFileInfos);
 
 	std::set<FilePath> getAddedFilePaths() const;

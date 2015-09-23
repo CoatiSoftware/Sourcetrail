@@ -6,6 +6,7 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QSettings>
+#include <QSysInfo>
 
 #include "component/view/View.h"
 #include "component/view/CompositeView.h"
@@ -329,6 +330,11 @@ void QtMainWindow::refresh()
 	MessageRefresh().dispatch();
 }
 
+void QtMainWindow::forceRefresh()
+{
+	MessageRefresh().refreshAll().dispatch();
+}
+
 void QtMainWindow::saveProject()
 {
 	MessageSaveProject("").dispatch();
@@ -434,6 +440,16 @@ void QtMainWindow::setupEditMenu()
 	menu->addSeparator();
 
 	menu->addAction(tr("&Refresh"), this, SLOT(refresh()), QKeySequence::Refresh);
+
+	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
+	{
+		menu->addAction(tr("&Force Refresh"), this, SLOT(forceRefresh()), QKeySequence(Qt::SHIFT + Qt::Key_F5));
+	}
+	else
+	{
+		menu->addAction(tr("&Force Refresh"), this, SLOT(forceRefresh()), QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_R));
+	}
+
 	menu->addAction(tr("&Find"), this, SLOT(find()), QKeySequence::Find);
 }
 

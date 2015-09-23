@@ -19,10 +19,9 @@ public:
 
 	bool loadProjectSettings(const FilePath& projectSettingsFile);
 	bool saveProjectSettings(const FilePath& projectSettingsFile);
-
-	void clearProjectSettings();
 	void reloadProjectSettings();
 
+	void clearStorage();
 	void parseCode();
 
 	void logStats() const;

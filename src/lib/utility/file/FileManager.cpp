@@ -37,7 +37,7 @@ void FileManager::setPaths(
 	m_includeExtensions = includeExtensions;
 }
 
-void FileManager::reset()
+void FileManager::clear()
 {
 	m_files.clear();
 	m_addedFiles.clear();

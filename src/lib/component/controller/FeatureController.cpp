@@ -123,7 +123,7 @@ void FeatureController::handleMessage(MessageSwitchColorScheme* message)
 	settings->setColorSchemePath(message->colorSchemeFilePath);
 	settings->save();
 
-	MessageRefresh(true).dispatch();
+	MessageRefresh().refreshUiOnly().dispatch();
 }
 
 void FeatureController::handleMessage(MessageZoom* message)
@@ -132,5 +132,5 @@ void FeatureController::handleMessage(MessageZoom* message)
 	settings->setFontSize(std::max(settings->getFontSize() + (message->zoomIn ? 1 : -1), 5));
 	settings->save();
 
-	MessageRefresh(true).dispatch();
+	MessageRefresh().refreshUiOnly().dispatch();
 }

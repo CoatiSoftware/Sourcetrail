@@ -143,6 +143,11 @@ void Application::handleMessage(MessageRefresh* message)
 	{
 		m_componentManager->refreshViews();
 	}
+	else if (message->all)
+	{
+		m_project->clearStorage();
+		refreshProject();
+	}
 	else
 	{
 		refreshProject();

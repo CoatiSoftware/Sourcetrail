@@ -70,6 +70,7 @@ public slots:
 	void find();
 	void closeWindow();
 	void refresh();
+	void forceRefresh();
 
 	void saveProject();
 	void saveAsProject();

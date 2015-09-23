@@ -896,7 +896,7 @@ std::shared_ptr<TokenLocationCollection> Storage::getTokenLocationsForTokenIds(c
 				const StorageSourceLocation& location = locations[i];
 				StorageFile storageFile = m_sqliteStorage.getFileById(location.fileNodeId);
 
-				collection->addTokenLocation(
+				TokenLocation* loc = collection->addTokenLocation(
 					location.id,
 					location.elementId,
 					storageFile.filePath,
@@ -904,7 +904,12 @@ std::shared_ptr<TokenLocationCollection> Storage::getTokenLocationsForTokenIds(c
 					location.startCol,
 					location.endLine,
 					location.endCol
-				)->setType(location.isScope ? TokenLocation::LOCATION_SCOPE : TokenLocation::LOCATION_TOKEN);
+				);
+
+				if (loc)
+				{
+					loc->setType(location.isScope ? TokenLocation::LOCATION_SCOPE : TokenLocation::LOCATION_TOKEN);
+				}
 			}
 		}
 	}

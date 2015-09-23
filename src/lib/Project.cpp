@@ -28,7 +28,7 @@ bool Project::loadProjectSettings(const FilePath& projectSettingsFile)
 	{
 		setProjectSettingsFilePath(projectSettingsFile);
 
-		m_fileManager.reset();
+		m_fileManager.clear();
 		updateFileManager();
 	}
 	return success;
@@ -53,20 +53,22 @@ bool Project::saveProjectSettings(const FilePath& projectSettingsFile)
 	return true;
 }
 
-void Project::clearProjectSettings()
-{
-	setProjectSettingsFilePath(FilePath());
-	ProjectSettings::getInstance()->clear();
-
-	m_fileManager.reset();
-}
-
 void Project::reloadProjectSettings()
 {
 	if (!m_projectSettingsFilepath.empty())
 	{
 		ProjectSettings::getInstance()->load(m_projectSettingsFilepath);
 		updateFileManager();
+	}
+}
+
+void Project::clearStorage()
+{
+	m_fileManager.clear();
+
+	if (m_storage)
+	{
+		m_storage->clear();
 	}
 }
 

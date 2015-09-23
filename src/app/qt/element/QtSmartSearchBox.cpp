@@ -830,9 +830,7 @@ void QtSmartSearchBox::hideAutoCompletions()
 	completer()->popup()->hide();
 }
 
-// #include "data/query/QueryTree.h"
 std::deque<SearchMatch> QtSmartSearchBox::getMatchesForInput(const std::string& text) const
 {
-	// return SearchMatch::stringDequeToSearchMatchDeque(QueryTree::tokenizeQuery(text));
 	return std::deque<SearchMatch>(1, SearchMatch(text));
 }
