@@ -74,7 +74,7 @@ bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 		}
 
 		if ((declaration->isClass() || declaration->isStruct()) &&
-			declaration->hasBody() && declaration->hasDefinition() && declaration->getNumBases())
+			declaration->hasDefinition() && declaration->getDefinition() == declaration && declaration->getNumBases())
 		{
 			for (const clang::CXXBaseSpecifier& it : declaration->bases())
 			{
