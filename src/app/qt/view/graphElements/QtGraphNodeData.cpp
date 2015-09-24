@@ -19,6 +19,8 @@ QtGraphNodeData::QtGraphNodeData(const Node* data, bool hasParent, bool childVis
 	{
 		this->setName(data->getName());
 	}
+
+	this->setToolTip(QString::fromStdString(data->getTypeString()));
 }
 
 QtGraphNodeData::~QtGraphNodeData()

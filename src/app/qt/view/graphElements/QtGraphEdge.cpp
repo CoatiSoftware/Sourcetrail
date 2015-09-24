@@ -117,6 +117,15 @@ void QtGraphEdge::updateLine()
 		}
 	}
 
+	if (m_data)
+	{
+		m_child->setToolTip(QString::fromStdString(m_data->getTypeString()));
+	}
+	else
+	{
+		m_child->setToolTip(QString::fromStdString(Edge::getTypeString(Edge::EDGE_AGGREGATION)));
+	}
+
 	this->setZValue(style.zValue); // Used to draw edges always on top of nodes.
 }
 

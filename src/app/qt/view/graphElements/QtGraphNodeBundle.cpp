@@ -19,6 +19,8 @@ QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, std::string n
 	m_circle->setNumber(nodeCount);
 
 	this->setAcceptHoverEvents(true);
+
+	this->setToolTip("bundle");
 }
 
 QtGraphNodeBundle::~QtGraphNodeBundle()

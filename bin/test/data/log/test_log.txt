@@ -217,8 +217,8 @@ FileManager.cpp ERROR: No FileInfo found for file: input.cc
 Token.cpp ERROR: Location Id was not referenced by this Token.
 Node.cpp WARNING: Cannot change NodeType after it was already set from namespace to class
 Edge.cpp ERROR: Nodes are not plain copies.
-Edge.cpp ERROR: Edge usage can't go from Node undefined to Node undefined
-Edge.cpp ERROR: Edge usage can't go from Node undefined to Node undefined
+Edge.cpp ERROR: Edge use can't go from Node undefined to Node undefined
+Edge.cpp ERROR: Edge use can't go from Node undefined to Node undefined
 Settings.cpp WARNING: File for Settings not found: data/SettingsTestSuite/wrong_settings.xml
 ConfigManager.cpp WARNING: value Bool is not present in config.
 ConfigManager.cpp WARNING: value Int is not present in config.

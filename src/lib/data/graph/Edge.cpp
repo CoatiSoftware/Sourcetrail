@@ -185,13 +185,13 @@ std::string Edge::getTypeString(EdgeType type)
 	case EDGE_MEMBER:
 		return "child";
 	case EDGE_TYPE_OF:
-		return "type_use";
+		return "type_of";
 	case EDGE_RETURN_TYPE_OF:
 		return "return_type";
 	case EDGE_PARAMETER_TYPE_OF:
 		return "parameter_type";
 	case EDGE_TYPE_USAGE:
-		return "type_usage";
+		return "type_use";
 	case EDGE_INHERITANCE:
 		return "inheritance";
 	case EDGE_OVERRIDE:
@@ -199,7 +199,7 @@ std::string Edge::getTypeString(EdgeType type)
 	case EDGE_CALL:
 		return "call";
 	case EDGE_USAGE:
-		return "usage";
+		return "use";
 	case EDGE_TYPEDEF_OF:
 		return "typedef";
 	case EDGE_TEMPLATE_PARAMETER_OF:

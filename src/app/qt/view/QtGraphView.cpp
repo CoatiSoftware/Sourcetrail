@@ -246,6 +246,9 @@ void QtGraphView::doRefreshView()
 
 	utility::setWidgetBackgroundColor(QtViewWidgetWrapper::getWidgetOfView(this), backgroundColor);
 	utility::setWidgetBackgroundColor(getView(), backgroundColor);
+
+	std::string css = utility::getStyleSheet("data/gui/graph_view/graph_view.css");
+	getView()->setStyleSheet(css.c_str());
 }
 
 std::shared_ptr<QtGraphNode> QtGraphView::findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId)

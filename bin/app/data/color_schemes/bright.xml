@@ -148,10 +148,10 @@
 				<normal>#7BB5D4</normal>
 				<hover>#42A1D4</hover>
 			</field>
-			<global>
+			<global_variable>
 				<normal>#7BB5D4</normal>
 				<hover>#42A1D4</hover>
-			</global>
+			</global_variable>
 			<undefined_variable>
 				<normal>#7BB5D4</normal>
 				<hover>#42A1D4</hover>
@@ -176,10 +176,10 @@
 			</file>
 		</node>
 		<edge>
-			<type_use>
+			<type_of>
 				<normal>#878787</normal>
 				<hover>#878787</hover>
-			</type_use>
+			</type_of>
 			<return_type>
 				<normal>#878787</normal>
 				<hover>#878787</hover>
@@ -188,10 +188,10 @@
 				<normal>#878787</normal>
 				<hover>#878787</hover>
 			</parameter_type>
-			<type_usage>
+			<type_use>
 				<normal>#878787</normal>
 				<hover>#878787</hover>
-			</type_usage>
+			</type_use>
 			<inheritance>
 				<normal>#878787</normal>
 				<hover>#878787</hover>
@@ -211,10 +211,10 @@
 				<hover>#F4BC3D</hover>
 			</call>
 
-			<usage>
+			<use>
 				<normal>#3190BA</normal>
 				<hover>#3190BA</hover>
-			</usage>
+			</use>
 
 			<template_parameter>
 				<normal>#C1305D</normal>

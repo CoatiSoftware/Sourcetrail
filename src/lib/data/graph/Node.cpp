@@ -28,7 +28,7 @@ std::string Node::getTypeString(NodeType type)
 	case NODE_STRUCT:
 		return "struct";
 	case NODE_GLOBAL_VARIABLE:
-		return "global";
+		return "global_variable";
 	case NODE_FIELD:
 		return "field";
 	case NODE_FUNCTION:

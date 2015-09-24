@@ -1,0 +1,5 @@
+QToolTip {
+	background-color: <color:tool_tip/background>;
+	color: <color:tool_tip/text>;
+	font-size: <setting:font_size>pt;
+}
