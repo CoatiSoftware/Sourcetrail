@@ -176,6 +176,8 @@ private:
 
 	void addComponentAccessToGraph(Graph* graph) const;
 
+	void log(std::string type, std::string str, const ParseLocation& location) const;
+
 	SearchIndex m_tokenIndex;
 	SqliteStorage m_sqliteStorage;
 

@@ -207,7 +207,7 @@ std::shared_ptr<DataType> CxxTypeNameResolver::typeToDataType(const clang::Type*
 		}
 	default:
 		{
-			LOG_ERROR(std::string("Unhandled kind of type encountered: ") + type->getTypeClassName());
+			LOG_INFO(std::string("Unhandled kind of type encountered: ") + type->getTypeClassName());
 			clang::PrintingPolicy pp = clang::PrintingPolicy(clang::LangOptions());
 			pp.SuppressTagKeyword = true;	// value "true": for a class A it prints "A" instead of "class A"
 			pp.Bool = true;					// value "true": prints bool type as "bool" instead of "_Bool"

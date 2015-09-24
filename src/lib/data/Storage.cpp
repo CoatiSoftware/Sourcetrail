@@ -144,6 +144,8 @@ void Storage::finishParsingFile()
 
 void Storage::onError(const ParseLocation& location, const std::string& message)
 {
+	log("ERROR", message, location);
+
 	if (!location.isValid())
 	{
 		return;
@@ -190,6 +192,8 @@ Id Storage::onTypedefParsed(
 	const ParseLocation& location, const NameHierarchy& nameHierarchy, const ParseTypeUsage& underlyingType,
 	AccessType access
 ){
+	log("typedef", nameHierarchy.getFullName() + " -> " + underlyingType.dataType->getFullTypeName(), location);
+
 	Id typedefNodeId = addNodeHierarchy(Node::NODE_TYPEDEF, nameHierarchy);
 	addSourceLocation(typedefNodeId, location);
 	addAccess(typedefNodeId, access);
@@ -204,6 +208,8 @@ Id Storage::onClassParsed(
 	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 	const ParseLocation& scopeLocation
 ){
+	log("class", nameHierarchy.getFullName(), location);
+
 	Id nodeId = addNodeHierarchy(scopeLocation.isValid() ? Node::NODE_CLASS : Node::NODE_UNDEFINED_TYPE, nameHierarchy);
 
 	addSourceLocation(nodeId, location);
@@ -218,6 +224,8 @@ Id Storage::onStructParsed(
 	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 	const ParseLocation& scopeLocation
 ){
+	log("struct", nameHierarchy.getFullName(), location);
+
 	Id nodeId = addNodeHierarchy(Node::NODE_STRUCT, nameHierarchy);
 
 	addSourceLocation(nodeId, location);
@@ -230,6 +238,8 @@ Id Storage::onStructParsed(
 
 Id Storage::onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable)
 {
+	log("global", variable.getFullName(), location);
+
 	Id nodeId = addNodeHierarchy(Node::NODE_GLOBAL_VARIABLE, variable.nameHierarchy);
 	addSourceLocation(nodeId, location);
 
@@ -241,6 +251,8 @@ Id Storage::onGlobalVariableParsed(const ParseLocation& location, const ParseVar
 
 Id Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access)
 {
+	log("field", variable.getFullName(), location);
+
 	Id nodeId = addNodeHierarchy(Node::NODE_FIELD, variable.nameHierarchy);
 	addSourceLocation(nodeId, location);
 	addAccess(nodeId, access);
@@ -254,6 +266,8 @@ Id Storage::onFieldParsed(const ParseLocation& location, const ParseVariable& va
 Id Storage::onFunctionParsed(
 	const ParseLocation& location, const ParseFunction& function, const ParseLocation& scopeLocation
 ){
+	log("function", function.getFullName(), location);
+
 	Id nodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, function);
 
 	Id returnTypeNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, function.returnType.dataType->getTypeNameHierarchy());
@@ -277,6 +291,8 @@ Id Storage::onMethodParsed(
 	const ParseLocation& location, const ParseFunction& method, AccessType access, AbstractionType abstraction,
 	const ParseLocation& scopeLocation
 ){
+	log("method", method.getFullName(), location);
+
 	Id nodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, method);
 	addSourceLocation(nodeId, location);
 	addSourceLocation(nodeId, scopeLocation, true);
@@ -299,6 +315,8 @@ Id Storage::onMethodParsed(
 Id Storage::onNamespaceParsed(
 	const ParseLocation& location, const NameHierarchy& nameHierarchy, const ParseLocation& scopeLocation
 ){
+	log("namespace", nameHierarchy.getFullName(), location);
+
 	Id nodeId = addNodeHierarchy(Node::NODE_NAMESPACE, nameHierarchy);
 
 	addSourceLocation(nodeId, location);
@@ -311,6 +329,8 @@ Id Storage::onEnumParsed(
 	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 	const ParseLocation& scopeLocation
 ){
+	log("enum", nameHierarchy.getFullName(), location);
+
 	Id nodeId = addNodeHierarchy(Node::NODE_ENUM, nameHierarchy);
 
 	addSourceLocation(nodeId, location);
@@ -322,6 +342,8 @@ Id Storage::onEnumParsed(
 
 Id Storage::onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy)
 {
+	log("enum constant", nameHierarchy.getFullName(), location);
+
 	Id nodeId = addNodeHierarchy(Node::NODE_ENUM_CONSTANT, nameHierarchy);
 
 	addSourceLocation(nodeId, location);
@@ -333,6 +355,8 @@ Id Storage::onInheritanceParsed(
 	const ParseLocation& location, const NameHierarchy& childNameHierarchy,
 	const NameHierarchy& parentNameHierarchy, AccessType access
 ){
+	log("inheritance", childNameHierarchy.getFullName() + " : " + parentNameHierarchy.getFullName(), location);
+
 	Id childNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, childNameHierarchy);
 	Id parentNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, parentNameHierarchy);
 
@@ -344,6 +368,8 @@ Id Storage::onInheritanceParsed(
 Id Storage::onMethodOverrideParsed(
 	const ParseLocation& location, const ParseFunction& base, const ParseFunction& overrider)
 {
+	log("override", base.getFullName() + " -> " + overrider.getFullName(), location);
+
 	Id baseNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, base); // TODO: call this overridden
 	Id overriderNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, overrider);
 
@@ -354,6 +380,8 @@ Id Storage::onMethodOverrideParsed(
 
 Id Storage::onCallParsed(const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee)
 {
+	log("call", caller.getFullName() + " -> " + callee.getFullName(), location);
+
 	Id callerNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, caller);
 	Id calleeNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, callee);
 
@@ -364,6 +392,8 @@ Id Storage::onCallParsed(const ParseLocation& location, const ParseFunction& cal
 
 Id Storage::onCallParsed(const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee)
 {
+	log("call", caller.getFullName() + " -> " + callee.getFullName(), location);
+
 	Id callerNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, caller.nameHierarchy);
 	Id calleeNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, callee);
 
@@ -375,6 +405,8 @@ Id Storage::onCallParsed(const ParseLocation& location, const ParseVariable& cal
 Id Storage::onFieldUsageParsed(
 	const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy
 ){
+	log("field usage", user.getFullName() + " -> " + usedNameHierarchy.getFullName(), location);
+
 	Id userNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, user);
 	Id usedNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
 
@@ -386,6 +418,8 @@ Id Storage::onFieldUsageParsed(
 Id Storage::onFieldUsageParsed(
 	const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy
 ){
+	log("global usage", user.getFullName() + " -> " + usedNameHierarchy.getFullName(), location);
+
 	Id userNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_FUNCTION, user.nameHierarchy);
 	Id usedNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
 
@@ -397,6 +431,8 @@ Id Storage::onFieldUsageParsed(
 Id Storage::onGlobalVariableUsageParsed( // or static variable used
 	const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy
 ){
+	log("global usage", user.getFullName() + " -> " + usedNameHierarchy.getFullName(), location);
+
 	Id userNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, user);
 	Id usedNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
 
@@ -408,6 +444,8 @@ Id Storage::onGlobalVariableUsageParsed( // or static variable used
 Id Storage::onGlobalVariableUsageParsed(
 	const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy)
 {
+	log("global usage", user.getFullName() + " -> " + usedNameHierarchy.getFullName(), location);
+
 	Id userNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, user.nameHierarchy);
 	Id usedNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
 
@@ -419,6 +457,8 @@ Id Storage::onGlobalVariableUsageParsed(
 Id Storage::onEnumConstantUsageParsed(
 		const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy
 ){
+	log("enum constant usage", user.getFullName() + " -> " + usedNameHierarchy.getFullName(), location);
+
 	Id userNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_UNDEFINED_FUNCTION, user);
 	Id usedNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
 
@@ -430,6 +470,8 @@ Id Storage::onEnumConstantUsageParsed(
 Id Storage::onEnumConstantUsageParsed(
 		const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy
 ){
+	log("enum constant usage", user.getFullName() + " -> " + usedNameHierarchy.getFullName(), location);
+
 	Id userNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_FUNCTION, user.nameHierarchy);
 	Id usedNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_VARIABLE, usedNameHierarchy);
 
@@ -440,6 +482,8 @@ Id Storage::onEnumConstantUsageParsed(
 
 Id Storage::onTypeUsageParsed(const ParseTypeUsage& typeUsage, const ParseFunction& function) // check if type has valid location
 {
+	log("type usage", function.getFullName() + " -> " + typeUsage.dataType->getRawTypeName(), typeUsage.location);
+
 	if (!typeUsage.location.isValid())
 	{
 		return 0;
@@ -455,6 +499,8 @@ Id Storage::onTypeUsageParsed(const ParseTypeUsage& typeUsage, const ParseFuncti
 
 Id Storage::onTypeUsageParsed(const ParseTypeUsage& typeUsage, const ParseVariable& variable)
 {
+	log("type usage", variable.getFullName() + " -> " + typeUsage.dataType->getRawTypeName(), typeUsage.location);
+
 	if (!typeUsage.location.isValid())
 	{
 		return 0;
@@ -472,6 +518,12 @@ Id Storage::onTemplateArgumentTypeParsed(
 		const ParseLocation& location, const NameHierarchy& argumentNameHierarchy,
 		const NameHierarchy& templateNameHierarchy)
 {
+	log(
+		"template argument type",
+		argumentNameHierarchy.getFullName() + " -> " + templateNameHierarchy.getFullName(),
+		location
+	);
+
 	Id argumentNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, argumentNameHierarchy);
 	// does not need a source location because this type that is already defined (and therefore has a location).
 
@@ -486,6 +538,12 @@ Id Storage::onTemplateDefaultArgumentTypeParsed(
 	const ParseTypeUsage& defaultArgumentTypeUsage,
 	const NameHierarchy& templateArgumentTypeNameHierarchy // actually this is the template parameter???
 ){
+	log(
+		"template default argument",
+		defaultArgumentTypeUsage.dataType->getTypeNameHierarchy().getFullName() + " -> " + templateArgumentTypeNameHierarchy.getFullName(),
+		defaultArgumentTypeUsage.location
+	);
+
 	Id defaultArgumentNodeId = addNodeHierarchy(Node::NODE_UNDEFINED_TYPE, defaultArgumentTypeUsage.dataType->getTypeNameHierarchy());
 	// does not need a source location because this type that is already defined (and therefore has a location).
 
@@ -500,6 +558,8 @@ Id Storage::onTemplateRecordParameterTypeParsed(
 	const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy,
 	const NameHierarchy& templateRecordNameHierarchy
 ){
+	log("template record type parameter", templateParameterTypeNameHierarchy.getFullName(), location);
+
 	Id parameterNodeId = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
 	addSourceLocation(parameterNodeId, location, false);
 
@@ -514,6 +574,12 @@ Id Storage::onTemplateRecordSpecializationParsed(
 	const ParseLocation& location, const NameHierarchy& specializedRecordNameHierarchy,
 	const RecordType specializedRecordType, const NameHierarchy& specializedFromNameHierarchy
 ){
+	log(
+		"template record specialization",
+		specializedRecordNameHierarchy.getFullName() + " -> " + specializedFromNameHierarchy.getFullName(),
+		location
+	);
+
 	Node::NodeType specializedRecordNodeType = Node::NODE_CLASS;
 	if (specializedRecordType == ParserClient::RECORD_STRUCT)
 	{
@@ -533,6 +599,8 @@ Id Storage::onTemplateRecordSpecializationParsed(
 Id Storage::onTemplateFunctionParameterTypeParsed(
 	const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy, const ParseFunction function
 ){
+	log("template function type parameter", templateParameterTypeNameHierarchy.getFullName(), location);
+
 	Id parameterNodeId = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy);
 	addSourceLocation(parameterNodeId, location, false);
 
@@ -546,6 +614,8 @@ Id Storage::onTemplateFunctionParameterTypeParsed(
 Id Storage::onTemplateFunctionSpecializationParsed(
 	const ParseLocation& location, const ParseFunction specializedFunction, const ParseFunction templateFunction
 ){
+	log("function template specialization", specializedFunction.getFullName(), location);
+
 	Id specializedNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, specializedFunction);
 	addSourceLocation(specializedNodeId, location, false);
 
@@ -558,6 +628,8 @@ Id Storage::onTemplateFunctionSpecializationParsed(
 
 Id Storage::onFileParsed(const FileInfo& fileInfo)
 {
+	log("file", fileInfo.path.str(), ParseLocation());
+
 	const std::string fileName = fileInfo.path.fileName();
 
 	Id nameHierarchyElementId = m_sqliteStorage.getNameHierarchyElementIdByName(fileName);
@@ -584,6 +656,8 @@ Id Storage::onFileParsed(const FileInfo& fileInfo)
 
 Id Storage::onFileIncludeParsed(const ParseLocation& location, const FileInfo& fileInfo, const FileInfo& includedFileInfo)
 {
+	log("include", includedFileInfo.path.str(), location);
+
 	const Id fileNodeId = onFileParsed(fileInfo);
 	const Id includedFileNodeId = onFileParsed(includedFileInfo);
 
@@ -1151,6 +1225,13 @@ int Storage::addSourceLocation(int elementNodeId, const ParseLocation& location,
 	else
 	{
 		Id fileNodeId = getFileNodeId(location.filePath);
+
+		if (!fileNodeId)
+		{
+			LOG_ERROR("Can't create source location, file node does not exist for: " + location.filePath.str());
+			return 0;
+		}
+
 		int locationId = m_sqliteStorage.addSourceLocation(
 			elementNodeId, fileNodeId, location.startLineNumber, location.startColumnNumber,
 			location.endLineNumber, location.endColumnNumber, isScope
@@ -1487,4 +1568,13 @@ void Storage::addComponentAccessToGraph(Graph* graph) const
 				std::make_shared<TokenComponentAccess>(TokenComponentAccess::intToType(access.type)));
 		}
 	}
+}
+
+void Storage::log(std::string type, std::string str, const ParseLocation& location) const
+{
+	LOG_INFO_STREAM(
+		<< type << ": " << str << " <" << location.filePath.str() << " "
+		<< location.startLineNumber << ":" << location.startColumnNumber << " "
+		<< location.endLineNumber << ":" << location.endColumnNumber << ">"
+	);
 }

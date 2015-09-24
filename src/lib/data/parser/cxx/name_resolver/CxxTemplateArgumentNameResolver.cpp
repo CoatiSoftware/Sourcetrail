@@ -58,7 +58,7 @@ std::shared_ptr<DataType> CxxTemplateArgumentNameResolver::getTemplateArgumentTy
 			return std::make_shared<NamedDataType>(typeNameHerarchy);
 		}
 	case clang::TemplateArgument::Pack:
-		LOG_ERROR("Type of template argument not handled: Pack");
+		LOG_INFO("Type of template argument not handled: Pack");
 		break;
 	}
 

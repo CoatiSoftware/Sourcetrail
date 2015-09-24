@@ -73,19 +73,17 @@ bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 			);
 		}
 
-		if (declaration->isClass() || declaration->isStruct())
+		if ((declaration->isClass() || declaration->isStruct()) &&
+			declaration->hasBody() && declaration->hasDefinition() && declaration->getNumBases())
 		{
-			if (declaration->hasDefinition() && declaration->getNumBases())
+			for (const clang::CXXBaseSpecifier& it : declaration->bases())
 			{
-				for (const clang::CXXBaseSpecifier& it : declaration->bases())
-				{
-					m_client->onInheritanceParsed(
-						getParseLocation(it.getSourceRange()),
-						utility::getDeclNameHierarchy(declaration),
-						utility::qualTypeToDataType(it.getType())->getTypeNameHierarchy(),
-						convertAccessType(it.getAccessSpecifier())
-					);
-				}
+				m_client->onInheritanceParsed(
+					getParseLocation(it.getSourceRange()),
+					utility::getDeclNameHierarchy(declaration),
+					utility::qualTypeToDataType(it.getType())->getTypeNameHierarchy(),
+					convertAccessType(it.getAccessSpecifier())
+				);
 			}
 		}
 	}

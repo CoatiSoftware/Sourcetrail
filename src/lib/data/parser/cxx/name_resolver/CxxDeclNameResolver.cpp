@@ -36,7 +36,7 @@ NameHierarchy CxxDeclNameResolver::getDeclNameHierarchy()
 		}
 		else
 		{
-			LOG_ERROR("unhandled declaration type: " + std::string(m_declaration->getDeclKindName()));
+			LOG_INFO("unhandled declaration type: " + std::string(m_declaration->getDeclKindName()));
 		}
 
 		contextNameHierarchy = getContextNameHierarchy(m_declaration->getDeclContext());
@@ -117,7 +117,7 @@ std::string CxxDeclNameResolver::getDeclName()
 					{
 						//this if fixes the crash, but not the problem TODO
 						const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-						LOG_ERROR("Template getParam out of Range "+declaration->getLocation().printToString(sourceManager));
+						LOG_INFO("Template getParam out of Range "+declaration->getLocation().printToString(sourceManager));
 					}
 					currentParameterIndex++;
 				}
@@ -209,7 +209,7 @@ std::string CxxDeclNameResolver::getTemplateParameterString(const clang::NamedDe
 		templateParameterTypeString = getTemplateParameterTypeString(clang::dyn_cast<clang::TemplateTemplateParmDecl>(parameter));
 		break;
 	default:
-		LOG_ERROR("Unhandled kind of template parameter.");
+		LOG_INFO("Unhandled kind of template parameter.");
 	}
 
 	std::string parameterName = parameter->getName();

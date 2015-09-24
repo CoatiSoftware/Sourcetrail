@@ -74,7 +74,8 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 			column = presumedLocation.getColumn();
 		}
 
-		if (m_fileManager->hasFilePath(filePath))
+		// if (m_fileManager->hasFilePath(filePath))
+		if (m_fileManager)
 		{
 			m_client->onError(ParseLocation(filePath, line, column), message);
 		}
