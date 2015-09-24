@@ -16,14 +16,6 @@ public:
 	{
 	}
 
-	MessageActivateTokens(Id tokenId)
-		: tokenIds(1, tokenId)
-		, isEdge(false)
-		, isAggregation(false)
-		, isFromSystem(false)
-	{
-	}
-
 	static const std::string getStaticType()
 	{
 		return "MessageActivateTokens";

@@ -54,6 +54,21 @@ void HierarchyCache::HierarchyNode::addChildIdsRecursive(std::vector<Id>* nodeId
 	}
 }
 
+void HierarchyCache::HierarchyNode::addVisibleNodeIdsRecursive(std::vector<Id>* nodeIds) const
+{
+	if (isVisible())
+	{
+		nodeIds->push_back(getNodeId());
+	}
+	else
+	{
+		for (const HierarchyNode* child : m_children)
+		{
+			child->addVisibleNodeIdsRecursive(nodeIds);
+		}
+	}
+}
+
 bool HierarchyCache::HierarchyNode::isVisible() const
 {
 	return m_isVisible;
@@ -63,7 +78,6 @@ void HierarchyCache::HierarchyNode::setIsVisible(bool isVisible)
 {
 	m_isVisible = isVisible;
 }
-
 
 
 void HierarchyCache::clear()
@@ -105,6 +119,19 @@ void HierarchyCache::addAllChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds
 	if (node)
 	{
 		node->addChildIdsRecursive(nodeIds, edgeIds);
+	}
+}
+
+void HierarchyCache::addFirstVisibleChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds) const
+{
+	HierarchyNode* node = getNode(nodeId);
+	if (node)
+	{
+		node->addVisibleNodeIdsRecursive(nodeIds);
+	}
+	else
+	{
+		nodeIds->push_back(nodeId);
 	}
 }
 

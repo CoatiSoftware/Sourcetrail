@@ -95,12 +95,12 @@ void FeatureController::handleMessage(MessageActivateNodes* message)
 
 void FeatureController::handleMessage(MessageActivateTokenLocations* message)
 {
-	std::vector<Id> nodeIds;
-	MessageActivateNodes msg;
+	std::vector<Id> nodeIds = m_storageAccess->getNodeIdsForLocationIds(message->locationIds);
+	nodeIds = m_storageAccess->getActiveTokenIdsForTokenIds(nodeIds);
 
-	for (Id locationId : message->locationIds)
+	MessageActivateNodes msg;
+	for (Id nodeId : nodeIds)
 	{
-		Id nodeId = m_storageAccess->getActiveNodeIdForLocationId(locationId);
 		msg.addNode(
 			nodeId,
 			m_storageAccess->getNodeTypeForNodeWithId(nodeId),
@@ -112,7 +112,10 @@ void FeatureController::handleMessage(MessageActivateTokenLocations* message)
 
 void FeatureController::handleMessage(MessageSearch* message)
 {
-	MessageActivateTokens m(m_storageAccess->getTokenIdsForMatches(message->getMatches()));
+	std::vector<Id> tokenIds = m_storageAccess->getTokenIdsForMatches(message->getMatches());
+	tokenIds = m_storageAccess->getActiveTokenIdsForTokenIds(tokenIds);
+
+	MessageActivateTokens m(tokenIds);
 	m.undoRedoType = message->undoRedoType;
 	m.dispatchImmediately();
 }

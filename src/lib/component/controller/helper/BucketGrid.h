@@ -6,6 +6,8 @@
 #include "utility/math/Vector2.h"
 #include "utility/types.h"
 
+#include "data/graph/Edge.h"
+
 struct DummyEdge;
 struct DummyNode;
 
@@ -41,6 +43,8 @@ public:
 	static void layout(std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges, Vec2i viewSize);
 
 private:
+	static const Edge::EdgeTypeMask s_verticalEdgeMask;
+
 	BucketGrid(Vec2i viewSize);
 
 	void createBuckets(std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);

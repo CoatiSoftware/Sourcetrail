@@ -51,9 +51,6 @@ private:
 	void createDummyGraphForTokenIds(const std::vector<Id>& tokenIds);
 	DummyNode createDummyNodeTopDown(Node* node);
 
-	void splitNamespaceNodes();
-	std::vector<DummyNode> splitNamespaceNodesRecursive(const DummyNode& node, bool active, bool topLevel);
-
 	void autoExpandActiveNode(const std::vector<Id>& activeTokenIds);
 
 	void setActiveAndVisibility(const std::vector<Id>& activeTokenIds);

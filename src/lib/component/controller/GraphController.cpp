@@ -174,8 +174,6 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	autoExpandActiveNode(tokenIds);
 	setActiveAndVisibility(tokenIds);
 
-	splitNamespaceNodes();
-
 	bundleNodes();
 
 	layoutNesting();
@@ -274,45 +272,6 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 	);
 
 	return result;
-}
-
-void GraphController::splitNamespaceNodes()
-{
-	std::vector<DummyNode> nodes;
-
-	for (const DummyNode& node : m_dummyNodes)
-	{
-		std::vector<DummyNode> newNodes = splitNamespaceNodesRecursive(node, false, true);
-		nodes.insert(nodes.end(), newNodes.begin(), newNodes.end());
-	}
-
-	m_dummyNodes = nodes;
-}
-
-std::vector<DummyNode> GraphController::splitNamespaceNodesRecursive(const DummyNode& node, bool active, bool topLevel)
-{
-	std::vector<DummyNode> nodes;
-	active |= node.active;
-
-	if (node.isGraphNode() && node.data->isType(Node::NODE_NOT_VISIBLE))
-	{
-		for (const DummyNode& subNode : node.subNodes)
-		{
-			std::vector<DummyNode> newNodes = splitNamespaceNodesRecursive(subNode, active, false);
-			for (DummyNode& newNode : newNodes)
-			{
-				newNode.hasParent = false;
-			}
-
-			nodes.insert(nodes.end(), newNodes.begin(), newNodes.end());
-		}
-	}
-	else if (topLevel || active || node.connected)
-	{
-		nodes.push_back(node);
-	}
-
-	return nodes;
 }
 
 void GraphController::autoExpandActiveNode(const std::vector<Id>& activeTokenIds)
@@ -419,8 +378,7 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode& node, bool pa
 
 	if ((node.isGraphNode() && node.isExpanded()) ||
 		(node.isAccessNode() && parentExpanded) ||
-		(node.isGraphNode() && node.data->isType(Node::NODE_ENUM)) ||
-		(node.isGraphNode() && node.data->isType(Node::NODE_NOT_VISIBLE)))
+		(node.isGraphNode() && node.data->isType(Node::NODE_ENUM)))
 	{
 		for (DummyNode& subNode : node.subNodes)
 		{
@@ -897,20 +855,9 @@ DummyNode* GraphController::findTopLevelDummyNodeRecursive(std::vector<DummyNode
 {
 	for (DummyNode& node : nodes)
 	{
-		if (node.isGraphNode())
+		if (node.isGraphNode() && node.data->getId() == tokenId)
 		{
-			if (node.data->isType(Node::NODE_NOT_VISIBLE))
-			{
-				DummyNode* result = findDummyNodeRecursive(node.subNodes, tokenId);
-				if (result != nullptr)
-				{
-					return result;
-				}
-			}
-			else if (node.data->getId() == tokenId)
-			{
-				return &node;
-			}
+			return &node;
 		}
 	}
 

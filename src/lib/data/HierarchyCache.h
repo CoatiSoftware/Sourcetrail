@@ -15,7 +15,9 @@ public:
 	void createConnection(Id edgeId, Id fromId, Id toId, bool fromVisible);
 
 	Id getLastVisibleParentNodeId(Id nodeId) const;
+
 	void addAllChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds, std::vector<Id>* edgeIds) const;
+	void addFirstVisibleChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds) const;
 
 private:
 	class HierarchyNode
@@ -33,7 +35,9 @@ private:
 
 		void addChild(HierarchyNode* child);
 		const std::vector<HierarchyNode*>& getChildren() const;
+
 		void addChildIdsRecursive(std::vector<Id>* nodeIds, std::vector<Id>* edgeIds) const;
+		void addVisibleNodeIdsRecursive(std::vector<Id>* nodeIds) const;
 
 		bool isVisible() const;
 		void setIsVisible(bool isVisible);

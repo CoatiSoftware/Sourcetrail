@@ -4,6 +4,8 @@
 #include "component/controller/helper/DummyNode.h"
 #include "component/view/GraphViewStyle.h"
 
+const Edge::EdgeTypeMask BucketGrid::s_verticalEdgeMask = Edge::EDGE_INHERITANCE | Edge::EDGE_OVERRIDE;
+
 Bucket::Bucket()
 	: i(0)
 	, j(0)
@@ -157,7 +159,7 @@ void BucketGrid::createBuckets(std::vector<DummyNode>& nodes, const std::vector<
 		}
 		else
 		{
-			bool horizontal = edge->data ? !edge->data->isType(Edge::EDGE_INHERITANCE) : true;
+			bool horizontal = edge->data ? !edge->data->isType(s_verticalEdgeMask) : true;
 			removeEdge = addNode(owner, target, horizontal);
 		}
 

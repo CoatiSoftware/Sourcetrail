@@ -824,6 +824,25 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 	return g;
 }
 
+std::vector<Id> Storage::getActiveTokenIdsForTokenIds(const std::vector<Id>& tokenIds) const
+{
+	std::vector<Id> activeIds;
+
+	for (Id id : tokenIds)
+	{
+		if (m_sqliteStorage.isNode(id))
+		{
+			m_hierarchyCache.addFirstVisibleChildIdsForNodeId(id, &activeIds);
+		}
+		else
+		{
+			activeIds.push_back(id);
+		}
+	}
+
+	return activeIds;
+}
+
 // TODO: rename: getActiveElementIdsForId; TODO: make separate function for declarationId
 std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId, Id* declarationId) const
 {
@@ -849,16 +868,26 @@ std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId, Id* declarationId) c
 	return activeTokenIds;
 }
 
-Id Storage::getActiveNodeIdForLocationId(Id locationId) const
+std::vector<Id> Storage::getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const
 {
-	Id activeElementId = m_sqliteStorage.getElementIdByLocationId(locationId);
+	std::vector<Id> nodeIds;
 
-	StorageEdge edge = m_sqliteStorage.getEdgeById(activeElementId);
-	if (edge.id != 0) // here we test if location is an edge.
+	for (Id locationId : locationIds)
 	{
-		activeElementId = edge.targetNodeId;
+		Id elementId = m_sqliteStorage.getElementIdByLocationId(locationId);
+
+		StorageEdge edge = m_sqliteStorage.getEdgeById(elementId);
+		if (edge.id != 0) // here we test if location is an edge.
+		{
+			nodeIds.push_back(edge.targetNodeId);
+		}
+		else
+		{
+			nodeIds.push_back(elementId);
+		}
 	}
-	return activeElementId;
+
+	return nodeIds;
 }
 
 std::vector<Id> Storage::getTokenIdsForMatches(const std::vector<SearchMatch>& matches) const
