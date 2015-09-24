@@ -48,19 +48,24 @@ public:
 	bool isNode(Id elementId) const;
 	bool isFile(Id elementId) const;
 
+	StorageEdge getEdgeById(Id edgeId) const;
 	StorageEdge getEdgeBySourceTargetType(Id sourceId, Id targetId, int type) const;
+	std::vector<StorageEdge> getEdgesByIds(const std::vector<Id>& edgeIds) const;
+
 	std::vector<StorageEdge> getEdgesBySourceId(Id sourceId) const;
 	std::vector<StorageEdge> getEdgesBySourceIds(const std::vector<Id>& sourceIds) const;
 	std::vector<StorageEdge> getEdgesByTargetId(Id targetId) const;
 	std::vector<StorageEdge> getEdgesByTargetIds(const std::vector<Id>& targetIds) const;
 	std::vector<StorageEdge> getEdgesBySourceOrTargetId(Id id) const;
+
+	std::vector<StorageEdge> getEdgesByType(int type) const;
 	std::vector<StorageEdge> getEdgesBySourceType(Id sourceId, int type) const;
 	std::vector<StorageEdge> getEdgesByTargetType(Id targetId, int type) const;
-	StorageEdge getEdgeById(Id edgeId) const;
 
 	StorageNode getNodeById(Id id) const;
 	StorageNode getNodeByNameId(Id nameId) const;
 	StorageNode getNodeByName(const std::string& nodeName) const; // hmm... we need to use name hierarchy here...??
+	std::vector<StorageNode> getNodesByIds(const std::vector<Id>& nodeIds) const;
 
 	StorageFile getFileById(const Id id) const;
 	StorageFile getFileByName(const std::string& fileName) const;
@@ -101,6 +106,7 @@ private:
 	std::vector<StorageSourceLocation> getAllSourceLocations(const std::string& query) const;
 
 	std::vector<StorageEdge> getAllEdges(const std::string& query) const;
+	std::vector<StorageNode> getAllNodes(const std::string& query) const;
 
 	template <typename ResultType>
 	ResultType getFirstResult(const std::string& query) const;

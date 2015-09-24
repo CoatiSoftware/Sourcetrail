@@ -8,6 +8,7 @@
 
 #include "data/access/StorageAccess.h"
 //#include "data/graph/token_component/TokenComponentAbstraction.h"
+#include "data/HierarchyCache.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/parser/ParserClient.h"
@@ -23,13 +24,14 @@ public:
 	virtual ~Storage();
 
 	void clear();
+	void clearCaches();
+
 	void clearFileElements(const std::set<FilePath>& filePaths);
 	void clearFileElements(const FilePath& filePath);
 	std::set<FilePath> getDependingFilePaths(const std::set<FilePath>& filePaths);
 	std::set<FilePath> getDependingFilePaths(const FilePath& filePath);
 
 	void removeUnusedNames();
-	void buildSearchIndex();
 
 	void logGraph() const;
 	void logLocations() const;
@@ -162,19 +164,22 @@ private:
 	Id getFileNodeId(const FilePath& filePath);
 
 	Id getLastVisibleParentNodeId(const Id nodeId) const;
-	std::vector<Id> getDirectChildNodeIds(const Id nodeId) const;
 	std::vector<Id> getAllChildNodeIds(const Id nodeId) const;
-	std::vector<Id> getAllChildNodeIds(const Id nodeId, const Graph* graph) const;
 
 	void addEdgeAndAllChildrenToGraph(const Id edgeId, Graph* graph) const;
 	Node* addNodeAndAllChildrenToGraph(const Id nodeId, Graph* graph) const;
 	void addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const;
-	Node* addNodeToGraph(const Id nodeId, Graph* graph) const;
+
+	void addNodesToGraph(const std::vector<Id> nodeIds, Graph* graph) const;
+	void addEdgesToGraph(const std::vector<Id> edgeIds, Graph* graph) const;
 
 	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;
 	void addAccess(const Id nodeId, ParserClient::AccessType access);
 
 	void addComponentAccessToGraph(Graph* graph) const;
+
+	void buildSearchIndex();
+	void buildHierarchyCache();
 
 	void log(std::string type, std::string str, const ParseLocation& location) const;
 
@@ -182,6 +187,7 @@ private:
 	SqliteStorage m_sqliteStorage;
 
 	std::map <FilePath, Id> m_fileNodeIds;
+	HierarchyCache m_hierarchyCache;
 
 	TokenLocationCollection m_errorLocationCollection;
 	std::vector<std::string> m_errorMessages;

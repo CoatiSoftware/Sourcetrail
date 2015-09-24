@@ -179,6 +179,8 @@ add_files(
 	data/type/ReferenceModifiedDataType.cpp
 	data/type/ReferenceModifiedDataType.h
 
+	data/HierarchyCache.cpp
+	data/HierarchyCache.h
 	data/SqliteStorage.cpp
 	data/SqliteStorage.h
 	data/Storage.cpp
