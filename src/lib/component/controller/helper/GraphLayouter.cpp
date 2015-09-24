@@ -1,13 +1,13 @@
-#include "component/controller/GraphLayouter.h"
+#include "component/controller/helper/GraphLayouter.h"
 
 #include <cmath>
 #include <map>
 #include <queue>
 
-#include "utility/math/MatrixDynamicBase.h"
-
+#include "component/controller/helper/BucketGrid.h"
 #include "component/controller/helper/DummyEdge.h"
 #include "component/controller/helper/DummyNode.h"
+#include "data/graph/Node.h"
 
 // for prototyping, remove when done
 #include "Eigen/Dense"
@@ -62,6 +62,11 @@ void GraphLayouter::layoutSimpleRing(std::vector<DummyNode>& nodes)
 			}
 		}
 	}
+}
+
+void GraphLayouter::layoutBucket(std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges, Vec2i viewSize)
+{
+	BucketGrid::layout(nodes, edges, viewSize);
 }
 
 void GraphLayouter::layoutSpectralPrototype(std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges)
@@ -153,7 +158,8 @@ void GraphLayouter::layoutSpectralPrototype(std::vector<DummyNode>& nodes, const
 	}
 }
 
-MatrixDynamicBase<int> GraphLayouter::buildLaplacianMatrix(const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges)
+MatrixDynamicBase<int> GraphLayouter::buildLaplacianMatrix(
+	const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges)
 {
 	MatrixDynamicBase<int> matrix(nodes.size(), nodes.size());
 

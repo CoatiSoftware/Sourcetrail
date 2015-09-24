@@ -35,8 +35,12 @@ add_files(
 add_files(
 	LIB_FILES
 
+	component/controller/helper/BucketGrid.cpp
+	component/controller/helper/BucketGrid.h
 	component/controller/helper/DummyEdge.h
 	component/controller/helper/DummyNode.h
+	component/controller/helper/GraphLayouter.cpp
+	component/controller/helper/GraphLayouter.h
 	component/controller/helper/GraphPostprocessor.cpp
 	component/controller/helper/GraphPostprocessor.h
 	component/controller/helper/SnippetMerger.cpp
@@ -50,8 +54,6 @@ add_files(
 	component/controller/FeatureController.h
 	component/controller/GraphController.cpp
 	component/controller/GraphController.h
-	component/controller/GraphLayouter.cpp
-	component/controller/GraphLayouter.h
 	component/controller/RefreshController.cpp
 	component/controller/RefreshController.h
 	component/controller/SearchController.cpp

@@ -5,7 +5,6 @@
 #include <memory>
 
 #include "utility/math/Vector2.h"
-#include "utility/math/Vector4.h"
 
 #include "data/graph/Node.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
@@ -116,10 +115,12 @@ public:
 
 	static EdgeStyle getStyleForEdgeType(Edge::EdgeType type, bool isActive, bool isFocused);
 
-	static size_t toGridSize(size_t x);
+	static int toGridOffset(int x);
+	static int toGridSize(int x);
+	static int toGridGap(int x);
 
-	static size_t s_gridCellSize;
-	static size_t s_gridCellPadding;
+	static int s_gridCellSize;
+	static int s_gridCellPadding;
 
 private:
 	static std::map<Node::NodeType, float> s_charWidths;

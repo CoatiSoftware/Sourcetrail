@@ -19,6 +19,9 @@ public:
 		Vec4i ownerParentRect, Vec4i targetParentRect,
 		GraphViewStyle::EdgeStyle style);
 
+	void setOnBack(bool back);
+	void setHorizontalIn(bool horizontal);
+
 	virtual QPainterPath shape() const;
 	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem* options, QWidget* widget);
 
@@ -33,6 +36,9 @@ private:
 	Vec4i m_targetParentRect;
 
 	GraphViewStyle::EdgeStyle m_style;
+
+	bool m_onBack;
+	bool m_horizontalIn;
 };
 
 #endif // QT_ANGLED_LINE_ITEM_H

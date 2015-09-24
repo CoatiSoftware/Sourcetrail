@@ -3,8 +3,9 @@
 
 #include <vector>
 
-template<class T>
-class MatrixDynamicBase;
+#include "utility/math/MatrixDynamicBase.h"
+#include "utility/math/Vector2.h"
+#include "utility/types.h"
 
 struct DummyEdge;
 struct DummyNode;
@@ -12,15 +13,16 @@ struct DummyNode;
 class GraphLayouter
 {
 public:
-	typedef void (*LayoutFunction)(std::vector<DummyNode>&);
-
 	static void layoutSimpleRaster(std::vector<DummyNode>& nodes);
 	static void layoutSimpleRing(std::vector<DummyNode>& nodes);
+
+	static void layoutBucket(std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges, Vec2i viewSize);
 
 	static void layoutSpectralPrototype(std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);
 
 private:
-	static MatrixDynamicBase<int> buildLaplacianMatrix(const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);
+	static MatrixDynamicBase<int> buildLaplacianMatrix(
+		const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);
 };
 
 #endif // GRAPH_LAYOUTER_H

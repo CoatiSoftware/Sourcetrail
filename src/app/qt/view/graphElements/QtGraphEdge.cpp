@@ -22,11 +22,16 @@ QtGraphEdge::QtGraphEdge(
 	, m_target(target)
 	, m_child(nullptr)
 	, m_isActive(false)
+	, m_fromActive(false)
+	, m_toActive(false)
 	, m_weight(weight)
 	, m_direction(TokenComponentAggregation::DIRECTION_NONE)
 	, m_mousePos(0.0f, 0.0f)
 	, m_mouseMoved(false)
 {
+	m_fromActive = m_owner.lock()->getIsActive();
+	m_toActive = m_target.lock()->getIsActive();
+
 	this->updateLine();
 }
 
@@ -100,6 +105,16 @@ void QtGraphEdge::updateLine()
 			owner->getBoundingRect(), target->getBoundingRect(),
 			owner->getParentBoundingRect(), target->getParentBoundingRect(),
 			style);
+
+		if (m_fromActive && owner->getLastParent() == target->getLastParent())
+		{
+			dynamic_cast<QtAngledLineItem*>(m_child)->setOnBack(true);
+		}
+
+		if (m_toActive)
+		{
+			dynamic_cast<QtAngledLineItem*>(m_child)->setHorizontalIn(true);
+		}
 	}
 
 	this->setZValue(style.zValue); // Used to draw edges always on top of nodes.
@@ -112,9 +127,11 @@ bool QtGraphEdge::getIsActive() const
 
 void QtGraphEdge::setIsActive(bool isActive)
 {
-	m_isActive = isActive;
-
-	updateLine();
+	if (m_isActive != isActive)
+	{
+		m_isActive = isActive;
+		updateLine();
+	}
 }
 
 void QtGraphEdge::onClick()
@@ -138,7 +155,7 @@ void QtGraphEdge::focusIn()
 
 void QtGraphEdge::focusOut()
 {
-	this->setIsActive(m_isActive);
+	updateLine();
 }
 
 void QtGraphEdge::mousePressEvent(QGraphicsSceneMouseEvent* event)

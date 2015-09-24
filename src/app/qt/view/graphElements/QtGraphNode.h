@@ -3,6 +3,8 @@
 
 #include <QGraphicsItem>
 
+#include "utility/math/Vector4.h"
+
 #include "component/view/GraphViewStyle.h"
 
 class QFont;
@@ -33,6 +35,7 @@ public:
 	virtual ~QtGraphNode();
 
 	QtGraphNode* getParent() const;
+	QtGraphNode* getLastParent() const;
 	void setParent(std::weak_ptr<QtGraphNode> parentNode);
 
 	std::list<std::shared_ptr<QtGraphNode>> getSubNodes() const;

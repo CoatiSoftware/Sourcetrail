@@ -484,9 +484,14 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 	return style;
 }
 
-size_t GraphViewStyle::toGridSize(size_t x)
+int GraphViewStyle::toGridOffset(int x)
 {
-	size_t r = s_gridCellSize;
+	if (x < 1)
+	{
+		return 0;
+	}
+
+	int r = 0;
 
 	while (r < x - 1)
 	{
@@ -496,8 +501,28 @@ size_t GraphViewStyle::toGridSize(size_t x)
 	return r;
 }
 
-size_t GraphViewStyle::s_gridCellSize = 5;
-size_t GraphViewStyle::s_gridCellPadding = 10;
+int GraphViewStyle::toGridSize(int x)
+{
+	if (x < 1)
+	{
+		return 0;
+	}
+
+	return s_gridCellSize + toGridOffset(x - s_gridCellSize);
+}
+
+int GraphViewStyle::toGridGap(int x)
+{
+	if (x < 1)
+	{
+		return 0;
+	}
+
+	return s_gridCellPadding + toGridOffset(x - s_gridCellPadding);
+}
+
+int GraphViewStyle::s_gridCellSize = 5;
+int GraphViewStyle::s_gridCellPadding = 10;
 
 std::map<Node::NodeType, float> GraphViewStyle::s_charWidths;
 std::map<Node::NodeType, float> GraphViewStyle::s_charHeights;

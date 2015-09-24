@@ -32,6 +32,7 @@ public:
 
 	bool getIsActive() const;
 	void setIsActive(bool isActive);
+	void setFromAndToActive(bool fromActive, bool toActive);
 
 	void onClick();
 
@@ -57,6 +58,8 @@ private:
 	QGraphicsLineItem* m_child;
 
 	bool m_isActive;
+	bool m_fromActive;
+	bool m_toActive;
 	size_t m_weight;
 
 	TokenComponentAggregation::Direction m_direction;

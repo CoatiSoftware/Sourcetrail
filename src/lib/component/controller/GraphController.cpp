@@ -7,6 +7,7 @@
 
 #include "component/controller/helper/DummyEdge.h"
 #include "component/controller/helper/DummyNode.h"
+#include "component/controller/helper/GraphLayouter.h"
 #include "component/controller/helper/GraphPostprocessor.h"
 #include "component/view/GraphView.h"
 #include "component/view/GraphViewStyle.h"
@@ -88,8 +89,7 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 	setActiveAndVisibility(utility::concat(m_activeNodeIds, m_activeEdgeIds));
 
 	layoutNesting();
-	GraphLayouter::layoutSpectralPrototype(m_dummyNodes, m_dummyEdges);
-	GraphPostprocessor::doPostprocessing(m_dummyNodes);
+	layoutGraph();
 
 	buildGraph(message);
 }
@@ -102,9 +102,9 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 		node->expanded = message->expand;
 
 		setActiveAndVisibility(utility::concat(m_activeNodeIds, m_activeEdgeIds));
-		layoutNesting();
 
-		GraphPostprocessor::doPostprocessing(m_dummyNodes);
+		layoutNesting();
+		layoutGraph();
 
 		buildGraph(message);
 	}
@@ -179,8 +179,7 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	bundleNodes();
 
 	layoutNesting();
-	GraphLayouter::layoutSpectralPrototype(m_dummyNodes, m_dummyEdges);
-	GraphPostprocessor::doPostprocessing(m_dummyNodes);
+	layoutGraph();
 
 	m_graph = graph;
 }
@@ -865,6 +864,14 @@ void GraphController::layoutToGrid(DummyNode& node) const
 	{
 		lastAccessNode->size.y = lastAccessNode->size.y + incY;
 	}
+}
+
+void GraphController::layoutGraph()
+{
+	// GraphLayouter::layoutSpectralPrototype(m_dummyNodes, m_dummyEdges);
+	// GraphPostprocessor::doPostprocessing(m_dummyNodes);
+
+	GraphLayouter::layoutBucket(m_dummyNodes, m_dummyEdges, getView()->getViewSize());
 }
 
 DummyNode* GraphController::findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId) const

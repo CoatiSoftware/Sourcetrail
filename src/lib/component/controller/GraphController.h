@@ -13,7 +13,6 @@
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 
 #include "component/controller/Controller.h"
-#include "component/controller/GraphLayouter.h"
 #include "component/view/GraphView.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/graph/token_component/TokenComponentAggregation.h"
@@ -71,6 +70,8 @@ private:
 	void layoutNestingRecursive(DummyNode& node) const;
 	void addExpandToggleNode(DummyNode& node) const;
 	void layoutToGrid(DummyNode& node) const;
+
+	void layoutGraph();
 
 	DummyNode* findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId) const;
 	DummyNode* findTopLevelDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId) const;

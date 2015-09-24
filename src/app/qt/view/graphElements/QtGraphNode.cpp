@@ -61,6 +61,21 @@ QtGraphNode* QtGraphNode::getParent() const
 	return m_parentNode.lock().get();
 }
 
+QtGraphNode* QtGraphNode::getLastParent() const
+{
+	QtGraphNode* node = const_cast<QtGraphNode*>(this);
+	while (true)
+	{
+		QtGraphNode* parent = dynamic_cast<QtGraphNode*>(node->parentItem());
+		if (!parent)
+		{
+			break;
+		}
+		node = parent;
+	}
+	return node;
+}
+
 void QtGraphNode::setParent(std::weak_ptr<QtGraphNode> parentNode)
 {
 	m_parentNode = parentNode;
@@ -134,18 +149,7 @@ Vec4i QtGraphNode::getBoundingRect() const
 
 Vec4i QtGraphNode::getParentBoundingRect() const
 {
-	const QtGraphNode* node = this;
-	while (true)
-	{
-		const QtGraphNode* parent = dynamic_cast<QtGraphNode*>(node->parentItem());
-		if (!parent)
-		{
-			break;
-		}
-		node = parent;
-
-	}
-	return node->getBoundingRect();
+	return getLastParent()->getBoundingRect();
 }
 
 void QtGraphNode::addOutEdge(const std::shared_ptr<QtGraphEdge>& edge)

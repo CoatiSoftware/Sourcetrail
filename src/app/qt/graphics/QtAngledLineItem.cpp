@@ -8,6 +8,8 @@
 
 QtAngledLineItem::QtAngledLineItem(QGraphicsItem* parent)
 	: QGraphicsLineItem(parent)
+	, m_onBack(false)
+	, m_horizontalIn(false)
 {
 	this->setAcceptHoverEvents(true);
 }
@@ -36,6 +38,16 @@ void QtAngledLineItem::updateLine(
 	m_style = style;
 
 	this->setPen(QPen(QBrush(style.color.c_str()), style.width, Qt::SolidLine, Qt::RoundCap));
+}
+
+void QtAngledLineItem::setOnBack(bool back)
+{
+	m_onBack = back;
+}
+
+void QtAngledLineItem::setHorizontalIn(bool horizontal)
+{
+	m_horizontalIn = horizontal;
 }
 
 QPainterPath QtAngledLineItem::shape() const
@@ -185,23 +197,31 @@ QPolygon QtAngledLineItem::getPath() const
 	const Vec4i& oR = m_ownerRect;
 	const Vec4i& tR = m_targetRect;
 
-	Vec2f o[2] = { Vec2f(m_ownerParentRect.x, (oR.y + 2 * oR.w) / 3), Vec2f(m_ownerParentRect.z, (oR.y + 2 * oR.w) / 3) };
-	Vec2f t[2] = { Vec2f(m_targetParentRect.x, (2 * tR.y + tR.w) / 3), Vec2f(m_targetParentRect.z, (2 * tR.y + tR.w) / 3) };
+	Vec2f o[2] = { Vec2f(m_ownerParentRect.x, (2 * oR.y + oR.w) / 3), Vec2f(m_ownerParentRect.z, (2 * oR.y + oR.w) / 3) };
+	Vec2f t[2] = { Vec2f(m_targetParentRect.x, (tR.y + 2 * tR.w) / 3), Vec2f(m_targetParentRect.z, (tR.y + 2 * tR.w) / 3) };
 
 	int io = -1;
 	int it = -1;
 	float dist = -1;
 
-	for (int i = 0; i < 2; i++)
+	if (m_onBack)
 	{
-		for (int j = 0; j < 2; j++)
+		io = 1;
+		it = 1;
+	}
+	else
+	{
+		for (int i = 0; i < 2; i++)
 		{
-			Vec2f diff = o[i] - t[j];
-			if (dist < 0 || diff.getLength() < dist)
+			for (int j = 0; j < 2; j++)
 			{
-				dist = diff.getLength();
-				io = i;
-				it = j;
+				Vec2f diff = o[i] - t[j];
+				if (dist < 0 || diff.getLength() < dist)
+				{
+					dist = diff.getLength();
+					io = i;
+					it = j;
+				}
 			}
 		}
 	}
@@ -233,7 +253,11 @@ QPolygon QtAngledLineItem::getPath() const
 		}
 	}
 
-	if (it == io && ((it && tp.x() < op.x()) || (!it && tp.x() > op.x())) )
+	if (it == io && ((it && tp.x() < op.x()) || (!it && tp.x() > op.x())))
+	{
+		tp.setX(op.x());
+	}
+	else if (it != io && m_horizontalIn)
 	{
 		tp.setX(op.x());
 	}
@@ -242,10 +266,10 @@ QPolygon QtAngledLineItem::getPath() const
 		op.setX(tp.x());
 	}
 
-	o[0] = Vec2f(oR.x, (oR.y + 2 * oR.w) / 3);
-	o[1] = Vec2f(oR.z, (oR.y + 2 * oR.w) / 3);
-	t[0] = Vec2f(tR.x, (2 * tR.y + tR.w) / 3);
-	t[1] = Vec2f(tR.z, (2 * tR.y + tR.w) / 3);
+	o[0] = Vec2f(oR.x, (2 * oR.y + oR.w) / 3);
+	o[1] = Vec2f(oR.z, (2 * oR.y + oR.w) / 3);
+	t[0] = Vec2f(tR.x, (tR.y + 2 * tR.w) / 3);
+	t[1] = Vec2f(tR.z, (tR.y + 2 * tR.w) / 3);
 
 	if (o[io].y < t[it].y)
 	{
