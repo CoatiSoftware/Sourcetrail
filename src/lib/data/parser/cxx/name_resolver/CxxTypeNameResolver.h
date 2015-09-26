@@ -15,6 +15,7 @@ public:
 
 private:
 	std::shared_ptr<DataType> typeToDataType(const clang::Type* type);
+	NameHierarchy getNameHierarchy(const clang::NestedNameSpecifier* nestedNameSpecifier);
 };
 
 #endif // CXX_TYPE_NAME_RESOLVER_H
