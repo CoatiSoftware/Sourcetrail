@@ -36,7 +36,8 @@ public:
 
 		EDGE_INCLUDE						= 0x4000,
 
-		EDGE_AGGREGATION					= 0x8000
+		EDGE_AGGREGATION					= 0x8000,
+		EDGE_MACRO_USAGE					= 0x10000,
 	};
 
 	static int typeToInt(EdgeType type);

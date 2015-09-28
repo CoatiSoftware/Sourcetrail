@@ -18,11 +18,11 @@ public:
 	virtual ~ASTVisitor();
 
 	// Left for debugging purposes. Uncomment to see a colored ast-dump of the parsed file.
-	// virtual bool VisitTranslationUnitDecl(clang::TranslationUnitDecl* decl)
-	// {
-	// 	decl->dump();
-	// 	return true;
-	// }
+//	virtual bool VisitTranslationUnitDecl(clang::TranslationUnitDecl* decl)
+//	{
+//		decl->dump();
+//		return true;
+//	}
 
 	// RecursiveASTVisitor implementation
 	virtual bool VisitStmt(const clang::Stmt* statement); // avoid visiting

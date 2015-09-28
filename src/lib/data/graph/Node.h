@@ -40,7 +40,8 @@ public:
 		NODE_TYPEDEF					= 0x2000,
 		NODE_TEMPLATE_PARAMETER_TYPE	= 0x4000,
 
-		NODE_FILE						= 0x8000
+		NODE_FILE						= 0x8000,
+		NODE_MACRO						= 0x10000,
 	};
 
 	static std::string getTypeString(NodeType type);

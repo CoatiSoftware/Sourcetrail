@@ -20,6 +20,7 @@ public:
 		const std::vector<FilePath>& paths, const std::vector<std::string>& fileExtensions);
 
 	static std::string getTimeStringNow();
+
 	static std::vector<FilePath> getSubDirectories(const FilePath& path);
 
 	static bool exists(const std::string& path);

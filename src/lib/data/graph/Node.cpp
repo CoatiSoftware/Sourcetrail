@@ -47,7 +47,10 @@ std::string Node::getTypeString(NodeType type)
 		return "template_parameter_type";
 	case NODE_FILE:
 		return "file";
+	case NODE_MACRO:
+		return "macro";
 	}
+
 	return "";
 }
 
@@ -92,7 +95,10 @@ Node::NodeType Node::intToType(int value)
 		return NODE_TEMPLATE_PARAMETER_TYPE;
 	case 0x8000:
 		return NODE_FILE;
+	case 0x10000:
+		return NODE_MACRO;
 	}
+
 	return NODE_UNDEFINED;
 }
 

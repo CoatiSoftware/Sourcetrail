@@ -179,6 +179,10 @@
 				<normal>#1B564E</normal>
 				<hover>#247368</hover>
 			</file>
+			<macro>
+				<normal>#1B564E</normal>
+				<hover>#247368</hover>
+			</macro>
 		</node>
 		<edge>
 			<type_of>
@@ -247,6 +251,10 @@
 				<normal>#5D5D5D</normal>
 				<hover>#6D6D6D</hover>
 			</aggregation>
+			<macro_use>
+				<normal>#247368</normal>
+				<hover>#247368</hover>
+			</macro_use>
 		</edge>
 	</graph>
 

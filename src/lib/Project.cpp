@@ -169,6 +169,7 @@ Parser::Arguments Project::getParserArguments() const
 	// utility::append(args.systemHeaderSearchPaths, headerSearchSubPaths);
 
 	utility::append(args.systemHeaderSearchPaths, projSettings->getHeaderSearchPaths());
+
 	utility::append(args.systemHeaderSearchPaths, appSettings->getHeaderSearchPaths());
 
 	utility::append(args.frameworkSearchPaths, projSettings->getFrameworkSearchPaths());

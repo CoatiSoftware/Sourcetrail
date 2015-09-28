@@ -1,5 +1,10 @@
 #include "data/parser/cxx/PreprocessorCallbacks.h"
 
+
+#include "clang/Driver/Util.h"
+#include "clang/Basic/IdentifierTable.h"
+#include "clang/Lex/MacroArgs.h"
+
 #include "utility/file/FileManager.h"
 #include "utility/file/FileRegister.h"
 
@@ -60,6 +65,56 @@ void PreprocessorCallbacks::InclusionDirective(
 			);
 		}
 	}
+}
+
+void PreprocessorCallbacks::MacroDefined( const clang::Token &MacroNameTok, const clang::MacroDirective *MD)
+{
+	// ignore builtin macros
+	if(m_sourceManager.getSpellingLoc(MacroNameTok.getLocation()).printToString(m_sourceManager)[0] == '<')
+	{
+		return;
+	}
+	m_sourceManager.getSpellingLoc(MacroNameTok.getLocation()).dump(m_sourceManager);
+
+	NameHierarchy nameHierarchy;
+	nameHierarchy.push(std::make_shared<NameElement>(MacroNameTok.getIdentifierInfo()->getName().str()));
+	m_client->onMacroDefineParsed( getParseLocation(MacroNameTok), nameHierarchy);
+}
+
+void PreprocessorCallbacks::MacroExpands(
+	const clang::Token &MacroNameTok, const clang::MacroDefinition &MD,
+	clang::SourceRange Range, const clang::MacroArgs *Args
+){
+	NameHierarchy nameHierarchy;
+	nameHierarchy.push(std::make_shared<NameElement>(MacroNameTok.getIdentifierInfo()->getName().str()));
+
+	m_client->onMacroExpandParsed( getParseLocation(MacroNameTok), nameHierarchy);
+}
+
+ParseLocation PreprocessorCallbacks::getParseLocation(const clang::Token &MacroNameTok) const
+{
+	clang::SourceLocation location = MacroNameTok.getLocation();
+	return ParseLocation(
+			m_sourceManager.getFilename(location),
+			m_sourceManager.getSpellingLineNumber(location),
+			m_sourceManager.getSpellingColumnNumber(location),
+			m_sourceManager.getSpellingLineNumber(MacroNameTok.getEndLoc()),
+			m_sourceManager.getSpellingColumnNumber(MacroNameTok.getEndLoc()) - 1
+	);
+}
+
+ParseLocation PreprocessorCallbacks::getParseLocation(clang::MacroInfo *macroInfo) const
+{
+	clang::SourceLocation location = macroInfo->getDefinitionLoc();
+	clang::SourceLocation endLocation = macroInfo->getDefinitionEndLoc();
+
+	return ParseLocation(
+			m_sourceManager.getFilename(location),
+			m_sourceManager.getSpellingLineNumber(location),
+			m_sourceManager.getSpellingColumnNumber(location),
+			m_sourceManager.getSpellingLineNumber(endLocation),
+			m_sourceManager.getSpellingColumnNumber(endLocation) - 1
+	);
 }
 
 ParseLocation PreprocessorCallbacks::getParseLocation(const clang::SourceRange& sourceRange) const

@@ -49,6 +49,8 @@ Edge::EdgeType Edge::intToType(int value)
 		return EDGE_INCLUDE;
 	case 0x8000:
 		return EDGE_AGGREGATION;
+	case 0x10000:
+		return EDGE_MACRO_USAGE;
 	}
 
 	return EDGE_NONE;
@@ -214,7 +216,10 @@ std::string Edge::getTypeString(EdgeType type)
 		return "include";
 	case EDGE_AGGREGATION:
 		return "aggregation";
+	case EDGE_MACRO_USAGE:
+		return "macro_use";
 	}
+
 	return "";
 }
 
@@ -354,6 +359,12 @@ bool Edge::checkType() const
 
 	case EDGE_AGGREGATION:
 		if (!m_from->isType(typeMask | variableMask | functionMask) || !m_to->isType(typeMask | variableMask | functionMask))
+		{
+			break;
+		}
+		return true;
+	case EDGE_MACRO_USAGE:
+		if(!m_to->isType(Node::NODE_MACRO) || !m_from->isType(Node::NODE_FILE))
 		{
 			break;
 		}

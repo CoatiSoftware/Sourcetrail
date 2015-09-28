@@ -664,6 +664,42 @@ Id Storage::onFileIncludeParsed(const ParseLocation& location, const FileInfo& f
 	return fileNodeId;
 }
 
+Id Storage::onMacroDefineParsed(const ParseLocation &location, const NameHierarchy& macroNameHierarchy) {
+
+	Id macroId = 0;
+
+	Id fileId = m_sqliteStorage.getFileByName(location.filePath.fileName()).id;
+	if(fileId != 0)
+	{
+		macroId = addNodeHierarchy(Node::NODE_MACRO, macroNameHierarchy);
+		addSourceLocation(macroId, location);
+	}
+	else
+	{
+		//TODO: What to do with this ones?
+		//LOG_ERROR("External MacroDefined :" + macroNameHierarchy.getFullName());
+	}
+
+	return macroId;
+}
+
+Id Storage::onMacroExpandParsed(const ParseLocation &location, const NameHierarchy& macroNameHierarchy) {
+	Id macroExpandId = addNodeHierarchy(Node::NODE_UNDEFINED, macroNameHierarchy);
+	Id fileId = m_sqliteStorage.getFileByName(location.filePath.fileName()).id;
+
+	if(fileId != 0)
+	{
+		addEdge(fileId, macroExpandId,Edge::EDGE_MACRO_USAGE, location);
+	}
+	else
+	{
+		//TODO: What to do with this ones?
+		//LOG_ERROR("External MacroExpand :" + macroNameHierarchy.getFullName());
+	}
+
+	return 0;
+}
+
 Id Storage::getIdForNodeWithName(const std::string& fullName) const // use name hierarchy here
 {
 	std::vector<std::string> nameParts = utility::splitToVector(fullName, "::");

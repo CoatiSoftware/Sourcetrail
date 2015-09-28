@@ -119,6 +119,9 @@ public:
 	virtual Id onFileIncludeParsed(
 		const ParseLocation& location, const FileInfo& fileInfo, const FileInfo& includedFileInfo);
 
+	virtual Id onMacroDefineParsed(const ParseLocation& location, const NameHierarchy& macroNameHierarchy);
+	virtual Id onMacroExpandParsed(const ParseLocation& location, const NameHierarchy& macroNameHierarchy);
+
 	// StorageAccess implementation
 	virtual Id getIdForNodeWithName(const std::string& fullName) const;
 	virtual Id getIdForEdgeWithName(const std::string& name) const;

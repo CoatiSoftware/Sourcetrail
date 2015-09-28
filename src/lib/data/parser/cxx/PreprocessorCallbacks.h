@@ -2,7 +2,9 @@
 #define PREPROCESSOR_CALLBACKS_H
 
 #include "clang/Basic/SourceManager.h"
+#include "clang/Lex/MacroInfo.h"
 #include "clang/Lex/PPCallbacks.h"
+#include "clang/Lex/Token.h"
 
 class FileRegister;
 class ParserClient;
@@ -22,8 +24,17 @@ public:
 		clang::CharSourceRange fileNameRange, const clang::FileEntry* fileEntry, llvm::StringRef searchPath,
 		llvm::StringRef relativePath, const clang::Module* imported);
 
+	virtual void MacroDefined(const clang::Token &MacroNameTok, const clang::MacroDirective *MD	);
+
+	virtual void MacroExpands(
+		const clang::Token &MacroNameTok, const clang::MacroDefinition &MD,
+		clang::SourceRange Range, const clang::MacroArgs *Args
+	);
+
 private:
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
+	ParseLocation getParseLocation(const clang::Token& MacroNameToc) const;
+	ParseLocation getParseLocation(clang::MacroInfo *MacroNameToc) const;
 
 	const clang::SourceManager& m_sourceManager;
 	ParserClient* m_client;

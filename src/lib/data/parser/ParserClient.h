@@ -6,7 +6,11 @@
 
 #include "utility/types.h"
 #include "data/name/NameHierarchy.h"
+
 #include "utility/file/FileInfo.h"
+
+#include "ParseLocation.h"
+
 
 struct ParseFunction;
 struct ParseLocation;
@@ -132,6 +136,11 @@ public:
 	virtual Id onFileParsed(const FileInfo& fileInfo) = 0;
 	virtual Id onFileIncludeParsed(
 		const ParseLocation& location, const FileInfo& fileInfo, const FileInfo& includedFileInfo) = 0;
+
+
+	virtual Id onMacroDefineParsed(const ParseLocation& location, const NameHierarchy& macroNameHierarchy) = 0;
+	virtual Id onMacroExpandParsed(
+		const ParseLocation& location, const NameHierarchy& macroNameHierarchy) = 0;
 };
 
 #endif // PARSER_CLIENT_H

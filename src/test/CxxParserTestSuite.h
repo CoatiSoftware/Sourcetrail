@@ -1201,6 +1201,30 @@ public:
 		TS_ASSERT_EQUALS(client->typeUses[3], "int main() -> A <9:16 9:16>");
 	}
 
+	void test_cxx_parser_finds_macro_define()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+				"#define PI\n"
+						"void test()\n"
+						"{\n"
+						"};\n"
+		);
+		TS_ASSERT_EQUALS(client->macros.size(),1);
+		TS_ASSERT_EQUALS(client->macros[0], "PI <1:9 1:10>");
+	}
+
+	void test_cxx_parser_finds_macro_expand()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+				"#define PI 3.14159265359\n"
+						"void test()\n"
+						"{\n"
+						"double i = PI;"
+						"};\n"
+		);
+		TS_ASSERT_EQUALS(client->macroUses.size(),1);
+		TS_ASSERT_EQUALS(client->macroUses[0], "PI <4:12 4:13>");
+	}
 
 	void test_cxx_parser_finds_type_template_parameter_type_of_template_class()
 	{
@@ -2380,18 +2404,20 @@ public:
 	void test_cxx_parser_finds_template_template_default_argument_type_of_template_function()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
-			"template <typename T>\n"
-			"class A\n"
-			"{};\n"
-			"template <template<typename> class T = A>\n"
-			"void test()\n"
-			"{\n"
-			"};\n"
+				"template <typename T>\n"
+						"class A\n"
+						"{};\n"
+						"template <template<typename> class T = A>\n"
+						"void test()\n"
+						"{\n"
+						"};\n"
 		);
 
 		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes[0], "A<typename T> -> test<template<typename> typename T>::T<typename> <4:40 4:40>");
+		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes[0],
+						 "A<typename T> -> test<template<typename> typename T>::T<typename> <4:40 4:40>");
 	}
+
 
 	void test_cxx_parser_parses_multiple_files()
 	{
@@ -2615,6 +2641,13 @@ private:
 			return 0;
 		}
 
+		virtual Id onFieldUsageParsed(
+				const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy)
+		{
+			usages.push_back(addLocationSuffix(variableStr(user) + " -> " + usedNameHierarchy.getFullName(), location));
+			return 0;
+		}
+
 		virtual Id onGlobalVariableUsageParsed(
 			const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy)
 		{
@@ -2727,6 +2760,19 @@ private:
 			return 0;
 		}
 
+		virtual Id onMacroDefineParsed(const ParseLocation& location, const NameHierarchy& macroNameHierarchy)
+		{
+			macros.push_back(addLocationSuffix(macroNameHierarchy.getFullName() ,location));
+			return 0;
+		}
+
+		virtual Id onMacroExpandParsed(const ParseLocation& location, const NameHierarchy& macroNameHierarchy)
+		{
+			macroUses.push_back(addLocationSuffix(macroNameHierarchy.getFullName() ,location));
+			return 0;
+		}
+
+
 		std::vector<std::string> errors;
 
 		std::vector<std::string> typedefs;
@@ -2739,12 +2785,14 @@ private:
 		std::vector<std::string> methods;
 		std::vector<std::string> namespaces;
 		std::vector<std::string> structs;
+		std::vector<std::string> macros;
 
 		std::vector<std::string> inheritances;
 		std::vector<std::string> overrides;
 		std::vector<std::string> calls;
 		std::vector<std::string> usages;	// for variables
 		std::vector<std::string> typeUses;	// for types
+		std::vector<std::string> macroUses;
 		std::vector<std::string> templateParameterTypes;
 		std::vector<std::string> templateArgumentTypes;
 		std::vector<std::string> templateDefaultArgumentTypes;

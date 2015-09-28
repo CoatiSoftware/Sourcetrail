@@ -179,6 +179,10 @@
 				<normal>#DDD</normal>
 				<hover>#CCC</hover>
 			</file>
+			<macro>
+				<normal>#DDD</normal>
+				<hover>#CCC</hover>
+			</macro>
 		</node>
 		<edge>
 			<type_of>
@@ -247,6 +251,10 @@
 				<normal>#EEE</normal>
 				<hover>#DDD</hover>
 			</aggregation>
+			<macro_use>
+				<normal>#878787</normal>
+				<hover>#878787</hover>
+			</macro_use>
 		</edge>
 	</graph>
 

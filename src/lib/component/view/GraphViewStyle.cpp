@@ -111,6 +111,7 @@ size_t GraphViewStyle::getFontSizeForNodeType(Node::NodeType type)
 	case Node::NODE_TYPEDEF:
 	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
 	case Node::NODE_FILE:
+	case Node::NODE_MACRO:
 		return s_fontSize;
 
 	case Node::NODE_UNDEFINED_FUNCTION:
@@ -197,6 +198,7 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 	case Node::NODE_GLOBAL_VARIABLE:
 	case Node::NODE_FIELD:
 	case Node::NODE_ENUM_CONSTANT:
+	case Node::NODE_MACRO:
 		margins.left = margins.right = 5;
 		margins.top = margins.bottom = 3;
 		break;
@@ -352,6 +354,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 	case Node::NODE_GLOBAL_VARIABLE:
 	case Node::NODE_FIELD:
 	case Node::NODE_ENUM_CONSTANT:
+	case Node::NODE_MACRO:
 		if (isActive || isFocused)
 		{
 			style.fontBold = true;
