@@ -54,6 +54,11 @@
 				<press>#444444</press>
 				<icon>white</icon>
 			</title>
+
+			<ref_count>
+				<text>#F7F7F7</text>
+				<background>#272728</background>
+			</ref_count>
 		</file>
 
 		<snippet>

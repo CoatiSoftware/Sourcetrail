@@ -36,6 +36,16 @@
 	background-color: <color:code/file/title/press>;
 }
 
+#code_file #references_label {
+	background-color: <color:code/file/ref_count/background>;
+	border: none;
+	border-radius: 10px;
+	color: <color:code/file/ref_count/text>;
+	font-size: <setting:font_size-2>pt;
+	padding: 0px 3px;
+	margin: 4px 0px 4px;
+}
+
 #code_file #code_snippet {
 	background-color: <color:code/snippet/background>;
 	border-top: 2px solid <color:code/file/background>;

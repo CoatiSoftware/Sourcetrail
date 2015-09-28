@@ -1,3 +1,7 @@
+QGraphicsView, QGraphicsScene {
+	background-color: <color:graph/background>;
+}
+
 QToolTip {
 	background-color: <color:tool_tip/background>;
 	color: <color:tool_tip/text>;

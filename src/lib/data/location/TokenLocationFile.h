@@ -24,6 +24,7 @@ public:
 
 	const TokenLocationLineMapType& getTokenLocationLines() const;
 	size_t getTokenLocationLineCount() const;
+	size_t getUnscopedStartTokenLocationCount() const;
 
 	const FilePath& getFilePath() const;
 

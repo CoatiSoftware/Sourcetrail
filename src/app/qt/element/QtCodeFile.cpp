@@ -1,11 +1,14 @@
 #include "qt/element/QtCodeFile.h"
 
+#include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
 
 #include "utility/messaging/type/MessageActivateFile.h"
 #include "utility/messaging/type/MessageShowFile.h"
+#include "utility/messaging/type/MessageShowSnippets.h"
 
+#include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
 #include "qt/element/QtCodeFileList.h"
 #include "qt/element/QtCodeSnippet.h"
@@ -25,7 +28,7 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
 
-	QFrame* titleWidget = new QFrame(this);
+	QPushButton* titleWidget = new QPushButton(this);
 	titleWidget->setObjectName("title_widget");
 	layout->addWidget(titleWidget);
 
@@ -53,6 +56,11 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 
 	titleWidget->setMinimumHeight(m_title->height() + 4);
 
+	m_referenceCount = new QLabel(this);
+	m_referenceCount->setObjectName("references_label");
+	m_referenceCount->hide();
+	titleLayout->addWidget(m_referenceCount);
+
 	titleLayout->addStretch(3);
 
 	m_minimizeButton = new QPushButton(this);
@@ -77,6 +85,7 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	m_snippetButton->setEnabled(false);
 	m_maximizeButton->setEnabled(false);
 
+	connect(titleWidget, SIGNAL(clicked()), this, SLOT(clickedTitleBar()));
 	connect(m_title, SIGNAL(clicked()), this, SLOT(clickedTitle()));
 	connect(m_minimizeButton, SIGNAL(clicked()), this, SLOT(clickedMinimizeButton()));
 	connect(m_snippetButton, SIGNAL(clicked()), this, SLOT(clickedSnippetButton()));
@@ -126,8 +135,11 @@ void QtCodeFile::addCodeSnippet(
 	const std::string& title,
 	Id titleId,
 	const std::string& code,
-	std::shared_ptr<TokenLocationFile> locationFile
+	std::shared_ptr<TokenLocationFile> locationFile,
+	uint refCount
 ){
+	m_locationFile.reset();
+
 	std::shared_ptr<QtCodeSnippet> snippet(
 		new QtCodeSnippet(startLineNumber, title, titleId, code, locationFile, this));
 
@@ -137,14 +149,18 @@ void QtCodeFile::addCodeSnippet(
 	{
 		snippet->setProperty("isFirst", true);
 		snippet->setProperty("isLast", true);
+
 		m_fileSnippet = snippet;
+
 		clickedMaximizeButton();
+		updateRefCount(0);
 		return;
 	}
 
 	m_snippets.push_back(snippet);
 
 	updateSnippets();
+	updateRefCount(refCount);
 }
 
 QWidget* QtCodeFile::insertCodeSnippet(
@@ -152,8 +168,11 @@ QWidget* QtCodeFile::insertCodeSnippet(
 	const std::string& title,
 	Id titleId,
 	const std::string& code,
-	std::shared_ptr<TokenLocationFile> locationFile
+	std::shared_ptr<TokenLocationFile> locationFile,
+	uint refCount
 ){
+	m_locationFile.reset();
+
 	std::shared_ptr<QtCodeSnippet> snippet(
 		new QtCodeSnippet(startLineNumber, title, titleId, code, locationFile, this));
 
@@ -189,12 +208,18 @@ QWidget* QtCodeFile::insertCodeSnippet(
 	m_snippets.insert(m_snippets.begin() + i, snippet);
 
 	updateSnippets();
+	updateRefCount(refCount);
 
 	return snippet.get();
 }
 
 QWidget* QtCodeFile::findFirstActiveSnippet() const
 {
+	if (m_locationFile)
+	{
+		return nullptr;
+	}
+
 	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
 	{
 		if (snippet->isActive())
@@ -204,6 +229,33 @@ QWidget* QtCodeFile::findFirstActiveSnippet() const
 	}
 
 	return nullptr;
+}
+
+bool QtCodeFile::openCollapsedActiveSnippet() const
+{
+	if (m_locationFile)
+	{
+		std::vector<Id> ids = getActiveTokenIds();
+
+		bool isActiveFile = false;
+		m_locationFile->forEachTokenLocation(
+			[&](TokenLocation* location)
+			{
+				if (std::find(ids.begin(), ids.end(), location->getTokenId()) != ids.end())
+				{
+					isActiveFile = true;
+				}
+			}
+		);
+
+		if (isActiveFile)
+		{
+			MessageShowSnippets(m_locationFile).dispatch();
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void QtCodeFile::updateContent()
@@ -216,6 +268,30 @@ void QtCodeFile::updateContent()
 	if (m_fileSnippet)
 	{
 		m_fileSnippet->updateContent();
+	}
+}
+
+void QtCodeFile::setLocationFile(std::shared_ptr<TokenLocationFile> locationFile, uint refCount)
+{
+	m_locationFile = locationFile;
+	clickedMinimizeButton();
+
+	updateRefCount(refCount);
+}
+
+void QtCodeFile::clickedTitleBar()
+{
+	if (m_minimizeButton->isEnabled())
+	{
+		clickedMinimizeButton();
+	}
+	else if (m_snippetButton->isEnabled())
+	{
+		clickedSnippetButton();
+	}
+	else
+	{
+		clickedMaximizeButton();
 	}
 }
 
@@ -237,7 +313,7 @@ void QtCodeFile::clickedMinimizeButton()
 	}
 
 	m_minimizeButton->setEnabled(false);
-	if (m_snippets.size())
+	if (m_snippets.size() || m_locationFile)
 	{
 		m_snippetButton->setEnabled(true);
 	}
@@ -248,6 +324,12 @@ void QtCodeFile::clickedMinimizeButton()
 
 void QtCodeFile::clickedSnippetButton()
 {
+	if (m_locationFile)
+	{
+		MessageShowSnippets(m_locationFile).dispatch();
+		return;
+	}
+
 	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
 	{
 		snippet->show();
@@ -311,4 +393,17 @@ void QtCodeFile::updateSnippets()
 	m_snippets.back()->setProperty("isLast", true);
 
 	clickedSnippetButton();
+}
+
+void QtCodeFile::updateRefCount(uint refCount)
+{
+	if (refCount > 0)
+	{
+		m_referenceCount->setText(QString::fromStdString(std::to_string(refCount) + (refCount == 1 ? " reference" : " references")));
+		m_referenceCount->show();
+	}
+	else
+	{
+		m_referenceCount->hide();
+	}
 }

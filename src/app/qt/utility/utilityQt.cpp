@@ -90,6 +90,10 @@ namespace utility
 				{
 					val = std::to_string(ApplicationSettings::getInstance()->getFontSize() + 2);
 				}
+				else if (val == "font_size-2")
+				{
+					val = std::to_string(ApplicationSettings::getInstance()->getFontSize() - 2);
+				}
 				else if (val == "font_name")
 				{
 					val = ApplicationSettings::getInstance()->getFontName();

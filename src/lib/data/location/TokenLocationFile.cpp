@@ -25,6 +25,24 @@ size_t TokenLocationFile::getTokenLocationLineCount() const
 	return m_lines.size();
 }
 
+size_t TokenLocationFile::getUnscopedStartTokenLocationCount() const
+{
+	size_t count = 0;
+	for (const TokenLocationLinePairType& line : m_lines)
+	{
+		line.second->forEachStartTokenLocation(
+			[&count](TokenLocation* location)
+			{
+				if (!location->isScopeTokenLocation())
+				{
+					count++;
+				}
+			}
+		);
+	}
+	return count;
+}
+
 const FilePath& TokenLocationFile::getFilePath() const
 {
 	return m_filePath;

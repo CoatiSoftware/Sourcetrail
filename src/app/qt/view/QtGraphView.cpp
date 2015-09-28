@@ -242,11 +242,6 @@ void QtGraphView::doRefreshView()
 	doClear();
 	doResize();
 
-	std::string backgroundColor = ColorScheme::getInstance()->getColor("graph/background");
-
-	utility::setWidgetBackgroundColor(QtViewWidgetWrapper::getWidgetOfView(this), backgroundColor);
-	utility::setWidgetBackgroundColor(getView(), backgroundColor);
-
 	std::string css = utility::getStyleSheet("data/gui/graph_view/graph_view.css");
 	getView()->setStyleSheet(css.c_str());
 }

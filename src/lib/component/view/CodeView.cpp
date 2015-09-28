@@ -7,9 +7,11 @@ CodeView::CodeSnippetParams::CodeSnippetParams()
 	: startLineNumber(0)
 	, endLineNumber(0)
 	, titleId(0)
-	, locationFile(std::make_shared<TokenLocationFile>(""))
+	, locationFile()
+	, refCount(0)
 	, isActive(false)
 	, isDeclaration(false)
+	, isCollapsed(false)
 {
 }
 
@@ -59,7 +61,7 @@ bool CodeView::CodeSnippetParams::sort(const CodeSnippetParams& a, const CodeSni
 		// alphabetical filepath without extension
 		else
 		{
-			return aFilePath.withoutExtension() < bFilePath.withoutExtension();
+			return aFilePath.withoutExtension().fileName() < bFilePath.withoutExtension().fileName();
 		}
 	}
 

@@ -46,38 +46,26 @@ void QtCodeFileList::addCodeSnippet(
 	Id titleId,
 	const std::string& code,
 	std::shared_ptr<TokenLocationFile> locationFile,
+	uint refCount,
 	bool insert
 ){
-	FilePath filePath = locationFile->getFilePath();
-	QtCodeFile* file = nullptr;
-
-	for (std::shared_ptr<QtCodeFile> filePtr : m_files)
-	{
-		if (filePtr->getFilePath() == filePath)
-		{
-			file = filePtr.get();
-			break;
-		}
-	}
-
-	if (!file)
-	{
-		std::shared_ptr<QtCodeFile> filePtr = std::make_shared<QtCodeFile>(locationFile->getFilePath(), this);
-		m_files.push_back(filePtr);
-
-		file = filePtr.get();
-		m_frame->layout()->addWidget(file);
-	}
+	QtCodeFile* file = getFile(locationFile);
 
 	if (insert)
 	{
-		QWidget* snippet = file->insertCodeSnippet(startLineNumber, title, titleId, code, locationFile);
+		QWidget* snippet = file->insertCodeSnippet(startLineNumber, title, titleId, code, locationFile, refCount);
 		emit shouldScrollToSnippet(snippet);
 	}
 	else
 	{
-		file->addCodeSnippet(startLineNumber, title, titleId, code, locationFile);
+		file->addCodeSnippet(startLineNumber, title, titleId, code, locationFile, refCount);
 	}
+}
+
+void QtCodeFileList::addFile(std::shared_ptr<TokenLocationFile> locationFile, uint refCount)
+{
+	QtCodeFile* file = getFile(locationFile);
+	file->setLocationFile(locationFile, refCount);
 }
 
 void QtCodeFileList::clearCodeSnippets()
@@ -111,7 +99,7 @@ void QtCodeFileList::setErrorMessages(const std::vector<std::string>& errorMessa
 	m_errorMessages = errorMessages;
 }
 
-void QtCodeFileList::scrollToFirstActiveSnippet()
+bool QtCodeFileList::scrollToFirstActiveSnippet()
 {
 	updateFiles();
 
@@ -127,6 +115,19 @@ void QtCodeFileList::scrollToFirstActiveSnippet()
 			}
 
 			emit shouldScrollToSnippet(widget);
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void QtCodeFileList::expandActiveSnippetFile()
+{
+	for (std::shared_ptr<QtCodeFile> file: m_files)
+	{
+		if (file->openCollapsedActiveSnippet())
+		{
 			return;
 		}
 	}
@@ -147,6 +148,32 @@ void QtCodeFileList::defocusToken()
 void QtCodeFileList::scrollToSnippet(QWidget* widget)
 {
 	this->ensureWidgetVisibleAnimated(widget);
+}
+
+QtCodeFile* QtCodeFileList::getFile(std::shared_ptr<TokenLocationFile> locationFile)
+{
+	FilePath filePath = locationFile->getFilePath();
+	QtCodeFile* file = nullptr;
+
+	for (std::shared_ptr<QtCodeFile> filePtr : m_files)
+	{
+		if (filePtr->getFilePath() == filePath)
+		{
+			file = filePtr.get();
+			break;
+		}
+	}
+
+	if (!file)
+	{
+		std::shared_ptr<QtCodeFile> filePtr = std::make_shared<QtCodeFile>(locationFile->getFilePath(), this);
+		m_files.push_back(filePtr);
+
+		file = filePtr.get();
+		m_frame->layout()->addWidget(file);
+	}
+
+	return file;
 }
 
 void QtCodeFileList::updateFiles()
@@ -216,10 +243,10 @@ void QtCodeFileList::ensureWidgetVisibleAnimated(QWidget *childWidget, int xmarg
 	if (scrollBar)
 	{
 		QPropertyAnimation* anim = new QPropertyAnimation(scrollBar, "value");
-		anim->setDuration(std::abs(scrollBar->value() - value));
+		anim->setDuration(500);
 		anim->setStartValue(scrollBar->value());
 		anim->setEndValue(value);
-		anim->setEasingCurve(QEasingCurve::OutQuad);
+		anim->setEasingCurve(QEasingCurve::InOutQuad);
 		anim->start();
 	}
 }

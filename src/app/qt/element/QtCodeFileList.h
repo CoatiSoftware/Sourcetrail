@@ -32,8 +32,11 @@ public:
 		Id titleId,
 		const std::string& code,
 		std::shared_ptr<TokenLocationFile> locationFile,
+		uint refCount,
 		bool insert = false
 	);
+
+	void addFile(std::shared_ptr<TokenLocationFile> locationFile, uint refCount);
 
 	void clearCodeSnippets();
 
@@ -45,7 +48,8 @@ public:
 	const std::vector<std::string>& getErrorMessages() const;
 	void setErrorMessages(const std::vector<std::string>& errorMessages);
 
-	void scrollToFirstActiveSnippet();
+	bool scrollToFirstActiveSnippet();
+	void expandActiveSnippetFile();
 
 	void focusToken(Id tokenId);
 	void defocusToken();
@@ -54,6 +58,8 @@ private slots:
 	void scrollToSnippet(QWidget* widget);
 
 private:
+	QtCodeFile* getFile(std::shared_ptr<TokenLocationFile> locationFile);
+
 	void updateFiles();
 
 	void ensureWidgetVisibleAnimated(QWidget *childWidget, int xmargin = 50, int ymargin = 50);

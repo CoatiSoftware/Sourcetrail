@@ -29,8 +29,11 @@ public:
 
 		std::shared_ptr<TokenLocationFile> locationFile;
 
+		uint refCount;
+
 		bool isActive;
 		bool isDeclaration;
+		bool isCollapsed;
 	};
 
 	CodeView(ViewLayout* viewLayout);
@@ -42,10 +45,10 @@ public:
 	virtual void setErrorMessages(const std::vector<std::string>& errorMessages) = 0;
 
 	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets) = 0;
-	virtual void addCodeSnippet(const CodeSnippetParams& snippet) = 0;
+	virtual void addCodeSnippets(const std::vector<CodeSnippetParams>& snippets) = 0;
 	virtual void showCodeFile(const CodeSnippetParams& params) = 0;
 
-	virtual void scrollToFirstActiveSnippet() = 0;
+	virtual void showFirstActiveSnippet() = 0;
 
 	virtual void focusToken(const Id tokenId) = 0;
 	virtual void defocusToken() = 0;

@@ -11,6 +11,7 @@
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageShowFile.h"
 #include "utility/messaging/type/MessageShowScope.h"
+#include "utility/messaging/type/MessageShowSnippets.h"
 #include "utility/types.h"
 
 #include "component/controller/helper/SnippetMerger.h"
@@ -29,6 +30,7 @@ class CodeController
 	, public MessageListener<MessageFocusOut>
 	, public MessageListener<MessageShowFile>
 	, public MessageListener<MessageShowScope>
+	, public MessageListener<MessageShowSnippets>
 {
 public:
 	CodeController(StorageAccess* storageAccess);
@@ -43,11 +45,14 @@ private:
 	virtual void handleMessage(MessageFocusOut* message);
 	virtual void handleMessage(MessageShowFile* message);
 	virtual void handleMessage(MessageShowScope* message);
+	virtual void handleMessage(MessageShowSnippets* message);
 
 	CodeView* getView();
 
 	std::vector<CodeView::CodeSnippetParams> getSnippetsForActiveTokenLocations(
 		const TokenLocationCollection* collection, Id declarationId) const;
+	std::vector<CodeView::CodeSnippetParams> getSnippetsForActiveTokenLocationsInFile(
+		std::shared_ptr<TokenLocationFile>) const;
 	std::vector<CodeView::CodeSnippetParams> getSnippetsForFile(std::shared_ptr<TokenLocationFile> file) const;
 	std::shared_ptr<SnippetMerger> buildMergerHierarchy(
 		TokenLocation* location, SnippetMerger& fileScopedMerger, std::map<int, std::shared_ptr<SnippetMerger>>& mergers) const;

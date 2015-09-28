@@ -10,6 +10,7 @@
 #include "utility/file/FilePath.h"
 #include "utility/types.h"
 
+class QLabel;
 class QPushButton;
 class QtCodeFileList;
 class QtCodeSnippet;
@@ -36,7 +37,8 @@ public:
 		const std::string& title,
 		Id titleId,
 		const std::string& code,
-		std::shared_ptr<TokenLocationFile> locationFile
+		std::shared_ptr<TokenLocationFile> locationFile,
+		uint refCount
 	);
 
 	QWidget* insertCodeSnippet(
@@ -44,27 +46,35 @@ public:
 		const std::string& title,
 		Id titleId,
 		const std::string& code,
-		std::shared_ptr<TokenLocationFile> locationFile
+		std::shared_ptr<TokenLocationFile> locationFile,
+		uint refCount
 	);
 
 	QWidget* findFirstActiveSnippet() const;
+	bool openCollapsedActiveSnippet() const;
 
 	void updateContent();
+
+	void setLocationFile(std::shared_ptr<TokenLocationFile> locationFile, uint refCount);
 
 public slots:
 	void clickedSnippetButton();
 
 private slots:
+	void clickedTitleBar();
 	void clickedTitle();
 	void clickedMinimizeButton();
 	void clickedMaximizeButton();
 
 private:
 	void updateSnippets();
+	void updateRefCount(uint refCount);
 
 	QtCodeFileList* m_parent;
 
 	QPushButton* m_title;
+	QLabel* m_referenceCount;
+
 	QPushButton* m_minimizeButton;
 	QPushButton* m_snippetButton;
 	QPushButton* m_maximizeButton;
@@ -75,6 +85,7 @@ private:
 	QWidget* m_minimizePlaceholder;
 
 	const FilePath m_filePath;
+	std::shared_ptr<TokenLocationFile> m_locationFile;
 };
 
 #endif // QT_CODE_FILE_H
