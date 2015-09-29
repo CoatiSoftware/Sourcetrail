@@ -174,7 +174,7 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTok
 				}
 			);
 
-			if (isDeclarationFile || collection->getTokenLocationFileCount() < 5)
+			if (isDeclarationFile || collection->getTokenLocationFileCount() < 5 || file->isWholeCopy)
 			{
 				std::vector<CodeView::CodeSnippetParams> fileSnippets = getSnippetsForActiveTokenLocationsInFile(file);
 
