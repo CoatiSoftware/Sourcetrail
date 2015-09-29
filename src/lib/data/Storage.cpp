@@ -664,40 +664,28 @@ Id Storage::onFileIncludeParsed(const ParseLocation& location, const FileInfo& f
 	return fileNodeId;
 }
 
-Id Storage::onMacroDefineParsed(const ParseLocation &location, const NameHierarchy& macroNameHierarchy) {
+Id Storage::onMacroDefineParsed(const ParseLocation& location, const NameHierarchy& macroNameHierarchy)
+{
+	log("macro", macroNameHierarchy.getFullName(), location);
 
-	Id macroId = 0;
+	Id macroId = addNodeHierarchy(Node::NODE_MACRO, macroNameHierarchy);
+	addSourceLocation(macroId, location);
 
-	Id fileId = m_sqliteStorage.getFileByName(location.filePath.fileName()).id;
-	if(fileId != 0)
-	{
-		macroId = addNodeHierarchy(Node::NODE_MACRO, macroNameHierarchy);
-		addSourceLocation(macroId, location);
-	}
-	else
-	{
-		//TODO: What to do with this ones?
-		//LOG_ERROR("External MacroDefined :" + macroNameHierarchy.getFullName());
-	}
+	Id fileNodeId = getFileNodeId(location.filePath);
+	addEdge(fileNodeId, macroId, Edge::EDGE_MACRO_USAGE, location);
 
 	return macroId;
 }
 
-Id Storage::onMacroExpandParsed(const ParseLocation &location, const NameHierarchy& macroNameHierarchy) {
-	Id macroExpandId = addNodeHierarchy(Node::NODE_UNDEFINED, macroNameHierarchy);
-	Id fileId = m_sqliteStorage.getFileByName(location.filePath.fileName()).id;
+Id Storage::onMacroExpandParsed(const ParseLocation &location, const NameHierarchy& macroNameHierarchy)
+{
+	log("macro use", macroNameHierarchy.getFullName(), location);
 
-	if(fileId != 0)
-	{
-		addEdge(fileId, macroExpandId,Edge::EDGE_MACRO_USAGE, location);
-	}
-	else
-	{
-		//TODO: What to do with this ones?
-		//LOG_ERROR("External MacroExpand :" + macroNameHierarchy.getFullName());
-	}
+	Id macroExpandId = addNodeHierarchy(Node::NODE_UNDEFINED_MACRO, macroNameHierarchy);
+	Id fileNodeId = getFileNodeId(location.filePath);
+	Id edgeId = addEdge(fileNodeId, macroExpandId, Edge::EDGE_MACRO_USAGE, location);
 
-	return 0;
+	return edgeId;
 }
 
 Id Storage::getIdForNodeWithName(const std::string& fullName) const // use name hierarchy here
@@ -875,6 +863,10 @@ std::vector<Id> Storage::getActiveTokenIdsForTokenIds(const std::vector<Id>& tok
 			activeIds.push_back(id);
 		}
 	}
+
+	std::set<Id> idSet(activeIds.begin(), activeIds.end());
+	activeIds.clear();
+	activeIds.insert(activeIds.end(), idSet.begin(), idSet.end());
 
 	return activeIds;
 }

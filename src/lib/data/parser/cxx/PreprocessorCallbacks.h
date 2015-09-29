@@ -24,17 +24,17 @@ public:
 		clang::CharSourceRange fileNameRange, const clang::FileEntry* fileEntry, llvm::StringRef searchPath,
 		llvm::StringRef relativePath, const clang::Module* imported);
 
-	virtual void MacroDefined(const clang::Token &MacroNameTok, const clang::MacroDirective *MD	);
+	virtual void MacroDefined(const clang::Token& macroNameToken, const clang::MacroDirective* macroDirective);
 
 	virtual void MacroExpands(
-		const clang::Token &MacroNameTok, const clang::MacroDefinition &MD,
-		clang::SourceRange Range, const clang::MacroArgs *Args
+		const clang::Token& macroNameToken, const clang::MacroDefinition& macroDirective,
+		clang::SourceRange range, const clang::MacroArgs* args
 	);
 
 private:
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
-	ParseLocation getParseLocation(const clang::Token& MacroNameToc) const;
-	ParseLocation getParseLocation(clang::MacroInfo *MacroNameToc) const;
+	ParseLocation getParseLocation(const clang::Token& macroNameToc) const;
+	ParseLocation getParseLocation(clang::MacroInfo* macroNameToc) const;
 
 	const clang::SourceManager& m_sourceManager;
 	ParserClient* m_client;

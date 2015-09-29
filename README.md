@@ -27,3 +27,25 @@ For Win32:
 
 Run setup script:
 $ ./script/setup.sh
+
+##### Updating Clang on UNIX
+
+$ cd .../clang_llvm
+
+$ cd llvm
+$ git pull origin master
+
+$ cd tools/clang
+$ git pull origin master
+
+$ cd tools/extra/
+$ git pull origin master
+
+$ cd ../../../../../build
+$ cmake -G Ninja ../llvm
+$ ninja -j 4 check-all
+
+$ cd ../release_build
+$ cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ../llvm
+$ ninja -j 4 clang
+

@@ -25,7 +25,7 @@ void ASTBodyVisitor::VisitStmt(clang::Stmt* stmt)
 
 void ASTBodyVisitor::VisitChildren(clang::Stmt* stmt)
 {
-	for (clang::Stmt::child_range it = stmt->children(); it; it++)
+	for (clang::Stmt::child_iterator it = stmt->child_begin(); it != stmt->child_end(); it++)
 	{
 		if (*it)
 		{

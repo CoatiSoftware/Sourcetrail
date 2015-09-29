@@ -1,10 +1,9 @@
-if(UNIX AND NOT APPLE)
+if (UNIX AND NOT APPLE)
 
 	execute_process(
 		COMMAND $ENV{CLANG_DIR}/build_debug/bin/llvm-config --cxxflags
 		OUTPUT_VARIABLE CLANG_DEFINITIONS
 	)
-
 
 	set(CLANG_INCLUDE_DIRS
 		"$ENV{CLANG_DIR}/llvm/tools/clang/include"
@@ -25,15 +24,19 @@ else()
 		OUTPUT_VARIABLE CLANG_DEFINITIONS
 	)
 
+	# Remove unwanted flags
+	string(REPLACE "-fno-exceptions" "" CLANG_DEFINITIONS ${CLANG_DEFINITIONS})
+	string(REPLACE "-fno-rtti" "" CLANG_DEFINITIONS ${CLANG_DEFINITIONS})
+
 	set(CLANG_INCLUDE_DIRS
 		"$ENV{CLANG_DIR}/llvm/tools/clang/include"
 		"$ENV{CLANG_DIR}/build/tools/clang/include"
 	)
 
-	set(CLANG_LIBRARY_DIRS "$ENV{CLANG_DIR}/build_debug/lib")
+	set(CLANG_LIBRARY_DIRS "$ENV{CLANG_DIR}/build/lib")
 	if (UNIX)
 		if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
-			set(CLANG_LIBRARY_DIRS "$ENV{CLANG_DIR}/build/Release+Asserts/lib")
+			set(CLANG_LIBRARY_DIRS "$ENV{CLANG_DIR}/build_release/lib")
 		endif()
 	endif ()
 

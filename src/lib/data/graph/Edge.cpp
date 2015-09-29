@@ -364,7 +364,7 @@ bool Edge::checkType() const
 		}
 		return true;
 	case EDGE_MACRO_USAGE:
-		if(!m_to->isType(Node::NODE_MACRO) || !m_from->isType(Node::NODE_FILE))
+		if(!m_to->isType(Node::NODE_MACRO | Node::NODE_UNDEFINED_MACRO) || !m_from->isType(Node::NODE_FILE))
 		{
 			break;
 		}

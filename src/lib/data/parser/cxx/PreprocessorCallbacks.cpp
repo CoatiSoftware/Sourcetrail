@@ -56,7 +56,8 @@ void PreprocessorCallbacks::InclusionDirective(
 		std::string includedFilePath = fileEntry->getName();
 
 		const FileManager* fileManager = m_fileRegister->getFileManager();
-		if (fileManager->hasFilePath(baseFilePath) && fileManager->hasFilePath(includedFilePath))
+		if (fileManager->hasFilePath(baseFilePath) && fileManager->hasFilePath(includedFilePath) &&
+			!m_fileRegister->includeFileIsParsed(baseFilePath))
 		{
 			m_client->onFileIncludeParsed(
 				getParseLocation(fileNameRange.getAsRange()),
@@ -67,53 +68,73 @@ void PreprocessorCallbacks::InclusionDirective(
 	}
 }
 
-void PreprocessorCallbacks::MacroDefined( const clang::Token &MacroNameTok, const clang::MacroDirective *MD)
+void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, const clang::MacroDirective* macroDirective)
 {
-	// ignore builtin macros
-	if(m_sourceManager.getSpellingLoc(MacroNameTok.getLocation()).printToString(m_sourceManager)[0] == '<')
+	const std::string& fileStr = m_sourceManager.getFilename(macroNameToken.getLocation());
+	if (!fileStr.size())
 	{
 		return;
 	}
-	m_sourceManager.getSpellingLoc(MacroNameTok.getLocation()).dump(m_sourceManager);
 
-	NameHierarchy nameHierarchy;
-	nameHierarchy.push(std::make_shared<NameElement>(MacroNameTok.getIdentifierInfo()->getName().str()));
-	m_client->onMacroDefineParsed( getParseLocation(MacroNameTok), nameHierarchy);
+	FilePath filePath = FilePath(fileStr);
+	if (m_fileRegister->getFileManager()->hasFilePath(filePath) && !m_fileRegister->includeFileIsParsed(filePath))
+	{
+		// ignore builtin macros
+		if (m_sourceManager.getSpellingLoc(macroNameToken.getLocation()).printToString(m_sourceManager)[0] == '<')
+		{
+			return;
+		}
+
+		NameHierarchy nameHierarchy;
+		nameHierarchy.push(std::make_shared<NameElement>(macroNameToken.getIdentifierInfo()->getName().str()));
+
+		m_client->onMacroDefineParsed(getParseLocation(macroNameToken), nameHierarchy);
+	}
 }
 
 void PreprocessorCallbacks::MacroExpands(
-	const clang::Token &MacroNameTok, const clang::MacroDefinition &MD,
-	clang::SourceRange Range, const clang::MacroArgs *Args
+	const clang::Token& macroNameToken, const clang::MacroDefinition& macroDirective,
+	clang::SourceRange range, const clang::MacroArgs* args
 ){
-	NameHierarchy nameHierarchy;
-	nameHierarchy.push(std::make_shared<NameElement>(MacroNameTok.getIdentifierInfo()->getName().str()));
+	const std::string& fileStr = m_sourceManager.getFilename(macroNameToken.getLocation());
+	if (!fileStr.size())
+	{
+		return;
+	}
 
-	m_client->onMacroExpandParsed( getParseLocation(MacroNameTok), nameHierarchy);
+	FilePath filePath = FilePath(fileStr);
+	if (m_fileRegister->getFileManager()->hasFilePath(filePath) && !m_fileRegister->includeFileIsParsed(filePath))
+	{
+		NameHierarchy nameHierarchy;
+		nameHierarchy.push(std::make_shared<NameElement>(macroNameToken.getIdentifierInfo()->getName().str()));
+
+		m_client->onMacroExpandParsed(getParseLocation(macroNameToken), nameHierarchy);
+	}
 }
 
-ParseLocation PreprocessorCallbacks::getParseLocation(const clang::Token &MacroNameTok) const
+ParseLocation PreprocessorCallbacks::getParseLocation(const clang::Token& macroNameTok) const
 {
-	clang::SourceLocation location = MacroNameTok.getLocation();
+	clang::SourceLocation location = macroNameTok.getLocation();
 	return ParseLocation(
-			m_sourceManager.getFilename(location),
-			m_sourceManager.getSpellingLineNumber(location),
-			m_sourceManager.getSpellingColumnNumber(location),
-			m_sourceManager.getSpellingLineNumber(MacroNameTok.getEndLoc()),
-			m_sourceManager.getSpellingColumnNumber(MacroNameTok.getEndLoc()) - 1
+		m_sourceManager.getFilename(location),
+		m_sourceManager.getSpellingLineNumber(location),
+		m_sourceManager.getSpellingColumnNumber(location),
+		m_sourceManager.getSpellingLineNumber(macroNameTok.getEndLoc()),
+		m_sourceManager.getSpellingColumnNumber(macroNameTok.getEndLoc()) - 1
 	);
 }
 
-ParseLocation PreprocessorCallbacks::getParseLocation(clang::MacroInfo *macroInfo) const
+ParseLocation PreprocessorCallbacks::getParseLocation(clang::MacroInfo* macroInfo) const
 {
 	clang::SourceLocation location = macroInfo->getDefinitionLoc();
 	clang::SourceLocation endLocation = macroInfo->getDefinitionEndLoc();
 
 	return ParseLocation(
-			m_sourceManager.getFilename(location),
-			m_sourceManager.getSpellingLineNumber(location),
-			m_sourceManager.getSpellingColumnNumber(location),
-			m_sourceManager.getSpellingLineNumber(endLocation),
-			m_sourceManager.getSpellingColumnNumber(endLocation) - 1
+		m_sourceManager.getFilename(location),
+		m_sourceManager.getSpellingLineNumber(location),
+		m_sourceManager.getSpellingColumnNumber(location),
+		m_sourceManager.getSpellingLineNumber(endLocation),
+		m_sourceManager.getSpellingColumnNumber(endLocation) - 1
 	);
 }
 

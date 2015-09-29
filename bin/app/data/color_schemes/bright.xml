@@ -179,6 +179,11 @@
 				<normal>#DDD</normal>
 				<hover>#CCC</hover>
 			</file>
+
+			<undefined_macro>
+				<normal>#DDD</normal>
+				<hover>#CCC</hover>
+			</undefined_macro>
 			<macro>
 				<normal>#DDD</normal>
 				<hover>#CCC</hover>
