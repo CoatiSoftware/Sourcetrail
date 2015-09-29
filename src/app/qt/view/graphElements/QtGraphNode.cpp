@@ -199,16 +199,6 @@ void QtGraphNode::addComponent(const std::shared_ptr<QtGraphNodeComponent>& comp
 	m_components.push_back(component);
 }
 
-void QtGraphNode::setShadowEnabledRecursive(bool enabled)
-{
-	m_rect->setShadowEnabled(enabled);
-
-	for (const std::shared_ptr<QtGraphNode>& node : m_subNodes)
-	{
-		node->setShadowEnabledRecursive(enabled);
-	}
-}
-
 void QtGraphNode::hoverEnter()
 {
 	hoverEnterEvent(nullptr);
@@ -352,30 +342,21 @@ void QtGraphNode::notifyEdgesAfterMove()
 
 void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 {
-	QColor color = style.color.c_str();
+	QPen pen(Qt::transparent);
+	if (style.borderWidth > 0)
+	{
+		pen.setColor(style.borderColor.c_str());
+		pen.setWidthF(style.borderWidth);
+		if (style.borderDashed)
+		{
+			pen.setStyle(Qt::DashLine);
+		}
+	}
+
+	m_rect->setPen(pen);
+	m_rect->setBrush(QBrush(style.color.c_str()));
+
 	qreal radius = style.cornerRadius;
-
-	QPen p(style.borderColor.c_str());
-	p.setWidthF(style.borderWidth);
-	if (style.borderDashed)
-	{
-		p.setStyle(Qt::DashLine);
-	}
-
-	QFont font(style.fontName.c_str());
-	font.setPixelSize(style.fontSize);
-	if (style.fontBold)
-	{
-		font.setWeight(QFont::Bold);
-	}
-
-	if (style.shadowColor.size())
-	{
-		m_rect->setShadow(style.shadowColor.c_str(), style.shadowBlurRadius);
-	}
-
-	m_rect->setPen(p);
-	m_rect->setBrush(QBrush(color));
 	m_rect->setRadius(radius);
 
 	if (style.hatchingColor.size())
@@ -390,10 +371,10 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 			setSize(getSize());
 		}
 
-		p.setWidth(0);
-		p.setColor(Qt::transparent);
+		pen.setWidth(0);
+		pen.setColor(Qt::transparent);
 
-		m_undefinedRect->setPen(p);
+		m_undefinedRect->setPen(pen);
 		m_undefinedRect->setBrush(pixmap);
 		m_undefinedRect->setRadius(radius);
 	}
@@ -405,6 +386,13 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 
 		m_icon = new QGraphicsPixmapItem(utility::colorizePixmap(pixmap.pixmap(), style.iconColor.c_str()), this);
 		m_icon->setPos(style.iconOffset.x, style.iconOffset.y);
+	}
+
+	QFont font(style.fontName.c_str());
+	font.setPixelSize(style.fontSize);
+	if (style.fontBold)
+	{
+		font.setWeight(QFont::Bold);
 	}
 
 	m_text->setFont(font);

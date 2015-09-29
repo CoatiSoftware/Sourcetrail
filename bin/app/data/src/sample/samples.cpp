@@ -22,6 +22,18 @@ int calculate(int i)
 }
 
 
+#define CALL_CALCULATE() \
+	do \
+	{ \
+		calculate(); \
+	} \
+	while(0) \
+
+int main()
+{
+	CALL_CALCULATE();
+}
+
 int count = 0;
 
 void countUp()
@@ -173,3 +185,13 @@ class Tower : public Building {};
 class SkyScrapper : public Building {};
 class Mansion : public Building {};
 class Shard : public House, public Tower, public SkyScrapper, public Mansion {};
+
+typedef unsigned int uint;
+uint a = 1 + 2;
+
+enum Size
+{
+	SMALL,
+	MEDIUM,
+	LARGE
+};

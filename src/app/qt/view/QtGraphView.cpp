@@ -108,11 +108,6 @@ void QtGraphView::centerScrollBars()
 
 void QtGraphView::finishedTransition()
 {
-	for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
-	{
-		node->setShadowEnabledRecursive(true);
-	}
-
 	QGraphicsView* view = getView();
 	view->setInteractive(true);
 
@@ -432,16 +427,6 @@ void QtGraphView::createTransition()
 			switchToNewGraphData();
 			return;
 		}
-	}
-
-	for (const std::shared_ptr<QtGraphNode>& node : m_nodes)
-	{
-		node->setShadowEnabledRecursive(false);
-	}
-
-	for (const std::shared_ptr<QtGraphNode>& node : m_oldNodes)
-	{
-		node->setShadowEnabledRecursive(false);
 	}
 
 	QGraphicsView* view = getView();

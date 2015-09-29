@@ -44,12 +44,9 @@ public:
 		std::string iconColor;
 		std::string hatchingColor;
 
-		std::string shadowColor;
-		int shadowBlurRadius;
-
 		int cornerRadius;
 
-		float borderWidth;
+		int borderWidth;
 		std::string borderColor;
 		bool borderDashed;
 
@@ -123,6 +120,8 @@ public:
 	static int s_gridCellPadding;
 
 private:
+	static void addIcon(Node::NodeType type, bool hasChildren, NodeStyle* style);
+
 	static std::map<Node::NodeType, float> s_charWidths;
 	static std::map<Node::NodeType, float> s_charHeights;
 

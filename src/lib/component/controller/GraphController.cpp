@@ -282,7 +282,7 @@ void GraphController::autoExpandActiveNode(const std::vector<Id>& activeTokenIds
 		node = findDummyNodeRecursive(m_dummyNodes, activeTokenIds[0]);
 	}
 
-	if (node && node->data->isType(Node::NODE_CLASS | Node::NODE_STRUCT))
+	if (node && node->data->isType(Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM))
 	{
 		node->expanded = true;
 	}
@@ -378,7 +378,7 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode& node, bool pa
 
 	if ((node.isGraphNode() && node.isExpanded()) ||
 		(node.isAccessNode() && parentExpanded) ||
-		(node.isGraphNode() && node.data->isType(Node::NODE_ENUM)))
+		(node.isGraphNode() && parentExpanded && node.data->isType(Node::NODE_ENUM_CONSTANT)))
 	{
 		for (DummyNode& subNode : node.subNodes)
 		{
@@ -441,7 +441,7 @@ void GraphController::bundleNodes()
 			return false;
 		},
 		3,
-		"Undefined Nodes"
+		"Undefined Symbols"
 	);
 }
 
@@ -652,9 +652,7 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 			width = margins.charWidth * node.data->getName().size();
 		}
 
-		width += margins.iconWidth;
-
-		if (node.data->isType(Node::NODE_CLASS | Node::NODE_STRUCT) && node.subNodes.size())
+		if (node.data->isType(Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM) && node.subNodes.size())
 		{
 			addExpandToggleNode(node);
 		}
@@ -663,6 +661,8 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 	{
 		width = margins.charWidth * node.name.size();
 	}
+
+	width += margins.iconWidth;
 
 	// Horizontal layouting is currently not used, but left in place for experimentation.
 	bool layoutHorizontal = false;
@@ -760,6 +760,11 @@ void GraphController::addExpandToggleNode(DummyNode& node) const
 		{
 			node.subNodes.erase(node.subNodes.begin() + i);
 			i--;
+			continue;
+		}
+		else if (subNode.isGraphNode() && subNode.data->isType(Node::NODE_ENUM_CONSTANT) && !subNode.visible)
+		{
+			expandNode.invisibleSubNodeCount++;
 			continue;
 		}
 

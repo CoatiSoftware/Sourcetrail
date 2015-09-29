@@ -21,8 +21,7 @@ GraphViewStyle::NodeMargins::NodeMargins()
 }
 
 GraphViewStyle::NodeStyle::NodeStyle()
-	: shadowBlurRadius(0)
-	, cornerRadius(0)
+	: cornerRadius(0)
 	, borderWidth(0)
 	, borderDashed(false)
 	, fontSize(0)
@@ -172,12 +171,14 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 		break;
 
 	case Node::NODE_FILE:
+	case Node::NODE_ENUM:
+	case Node::NODE_TYPEDEF:
+	case Node::NODE_UNDEFINED_MACRO:
+	case Node::NODE_MACRO:
 		margins.iconWidth = s_fontSize + 11;
 	case Node::NODE_UNDEFINED_TYPE:
 	case Node::NODE_STRUCT:
 	case Node::NODE_CLASS:
-	case Node::NODE_ENUM:
-	case Node::NODE_TYPEDEF:
 	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
 		if (hasChildren)
 		{
@@ -199,8 +200,6 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 	case Node::NODE_GLOBAL_VARIABLE:
 	case Node::NODE_FIELD:
 	case Node::NODE_ENUM_CONSTANT:
-	case Node::NODE_UNDEFINED_MACRO:
-	case Node::NODE_MACRO:
 		margins.left = margins.right = 5;
 		margins.top = margins.bottom = 3;
 		break;
@@ -252,7 +251,7 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfExpandToggleNode()
 
 GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfBundleNode()
 {
-	return getMarginsForNodeType(Node::NODE_CLASS, false);
+	return getMarginsForNodeType(Node::NODE_ENUM, false);
 }
 
 GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
@@ -272,7 +271,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 	}
 
 	style.textColor = scheme->getColor("graph/text");
-	style.borderColor = isActive ? scheme->getColor("graph/border") : "#00000000";
+	style.borderColor = scheme->getColor("graph/border");
 
 	style.fontName = getFontNameForNodeType(type);
 	style.fontSize = getFontSizeForNodeType(type);
@@ -294,6 +293,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 		break;
 
 	case Node::NODE_UNDEFINED_TYPE:
+	case Node::NODE_UNDEFINED_MACRO:
 		style.hatchingColor = scheme->getColor("graph/hatching");
 
 	case Node::NODE_STRUCT:
@@ -301,22 +301,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 	case Node::NODE_ENUM:
 	case Node::NODE_TYPEDEF:
 	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
-		if (isActive)
-		{
-			style.fontBold = true;
-		}
-
-		style.shadowColor = scheme->getColor("graph/border");
-		if (isFocused)
-		{
-			style.shadowColor.insert(1, "FF");
-		}
-		else
-		{
-			style.shadowColor.insert(1, "80");
-		}
-		style.shadowBlurRadius = 5;
-
+	case Node::NODE_MACRO:
 		if (hasChildren)
 		{
 			style.cornerRadius = 20;
@@ -329,27 +314,30 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 			style.textOffset.x = 8;
 			style.textOffset.y = 8;
 		}
+
+		if (isActive)
+		{
+			style.borderWidth = 2;
+		}
+		else if (isFocused)
+		{
+			style.borderWidth = 1;
+		}
+		else
+		{
+			style.borderWidth = 1;
+			style.borderColor = style.borderColor.replace(0, 1, "#20");
+		}
 		break;
 
 	case Node::NODE_FILE:
-		if (isActive)
-		{
-			style.fontBold = true;
-		}
-
 		style.cornerRadius = 10;
 		style.textOffset.x = 6;
 		style.textOffset.y = 9;
-		style.iconPath = "data/gui/graph_view/images/file.png";
-		style.iconSize = s_fontSize + 2;
-		style.iconOffset.x = 9;
-		style.iconOffset.y = 9;
-		style.iconColor = scheme->getColor("graph/icon");
 		break;
 
 	case Node::NODE_UNDEFINED_FUNCTION:
 	case Node::NODE_UNDEFINED_VARIABLE:
-	case Node::NODE_UNDEFINED_MACRO:
 		style.hatchingColor = scheme->getColor("graph/hatching");
 
 	case Node::NODE_FUNCTION:
@@ -357,22 +345,23 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 	case Node::NODE_GLOBAL_VARIABLE:
 	case Node::NODE_FIELD:
 	case Node::NODE_ENUM_CONSTANT:
-	case Node::NODE_MACRO:
-		if (isActive || isFocused)
-		{
-			style.fontBold = true;
-		}
-
 		style.cornerRadius = 8;
 		style.textOffset.x = 5;
 		style.textOffset.y = 3;
+
+		if (isActive)
+		{
+			style.borderWidth = 2;
+		}
 		break;
 	}
 
-	if (isActive)
+	if (isActive || isFocused)
 	{
-		style.borderWidth = 1.5f;
+		style.fontBold = true;
 	}
+
+	addIcon(type, hasChildren, &style);
 
 	return style;
 }
@@ -423,11 +412,8 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfBundleNode(bool isFocused)
 {
 	NodeStyle style = getStyleForNodeType(Node::NODE_CLASS, false, isFocused, false);
 
-	ColorScheme* scheme = ColorScheme::getInstance().get();
-
-	style.shadowColor = "";
-	style.borderColor = scheme->getColor("graph/border");
-	style.borderWidth = isFocused ? 2 : 1;
+	addIcon(Node::NODE_ENUM, false, &style);
+	style.iconPath = "data/gui/graph_view/images/bundle.png";
 
 	return style;
 }
@@ -525,6 +511,43 @@ int GraphViewStyle::toGridGap(int x)
 	}
 
 	return s_gridCellPadding + toGridOffset(x - s_gridCellPadding);
+}
+
+void GraphViewStyle::addIcon(Node::NodeType type, bool hasChildren, NodeStyle* style)
+{
+	switch (type)
+	{
+	case Node::NODE_ENUM:
+		style->iconPath = "data/gui/graph_view/images/enum_1.png";
+		break;
+	case Node::NODE_TYPEDEF:
+		style->iconPath = "data/gui/graph_view/images/typedef_2.png";
+		break;
+	case Node::NODE_UNDEFINED_MACRO:
+	case Node::NODE_MACRO:
+		style->iconPath = "data/gui/graph_view/images/macro_3.png";
+		break;
+	case Node::NODE_FILE:
+		style->iconPath = "data/gui/graph_view/images/file.png";
+		break;
+	default:
+		return;
+	}
+
+	style->iconSize = s_fontSize + 2;
+
+	if (hasChildren)
+	{
+		style->iconOffset.x = 11;
+		style->textOffset.x = 6;
+	}
+	else
+	{
+		style->iconOffset.x = 9;
+	}
+
+	style->iconOffset.y = 9;
+	style->iconColor = ColorScheme::getInstance()->getColor("graph/icon");
 }
 
 int GraphViewStyle::s_gridCellSize = 5;

@@ -66,8 +66,6 @@ public:
 
 	void addComponent(const std::shared_ptr<QtGraphNodeComponent>& component);
 
-	void setShadowEnabledRecursive(bool enabled);
-
 	void hoverEnter();
 
 	void focusIn();
