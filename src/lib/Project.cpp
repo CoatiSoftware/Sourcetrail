@@ -72,6 +72,22 @@ void Project::clearStorage()
 	}
 }
 
+void Project::loadStorage()
+{
+	if (m_storageWasLoaded)
+	{
+		m_storage->startParsing();
+		m_storage->finishParsing();
+		MessageFinishedParsing(0, 0, 0, 0).dispatch();
+	}
+	else
+	{
+		parseCode();
+	}
+
+	m_storageWasLoaded = true;
+}
+
 void Project::parseCode()
 {
 	if (m_projectSettingsFilepath.empty())
@@ -119,13 +135,17 @@ void Project::logStats() const
 
 void Project::setProjectSettingsFilePath(const FilePath& path)
 {
+	m_storageWasLoaded = false;
+
 	if (path.empty())
 	{
 		m_storage.reset();
 	}
 	else if (m_projectSettingsFilepath != path)
 	{
-		m_storage = std::make_shared<Storage>(FilePath(path).replaceExtension("sqlite"));
+		FilePath dbPath = FilePath(path).replaceExtension("sqlite");
+		m_storageWasLoaded = dbPath.exists();
+		m_storage = std::make_shared<Storage>(dbPath);
 	}
 
 	m_storageAccessProxy->setSubject(m_storage.get());
@@ -180,5 +200,6 @@ Parser::Arguments Project::getParserArguments() const
 
 Project::Project(StorageAccessProxy* storageAccessProxy)
 	: m_storageAccessProxy(storageAccessProxy)
+	, m_storageWasLoaded(false)
 {
 }

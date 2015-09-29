@@ -22,6 +22,8 @@ public:
 	void reloadProjectSettings();
 
 	void clearStorage();
+	void loadStorage();
+
 	void parseCode();
 
 	void logStats() const;
@@ -42,6 +44,7 @@ private:
 	FileManager m_fileManager;
 
 	std::shared_ptr<Storage> m_storage;
+	bool m_storageWasLoaded;
 };
 
 #endif // PROJECT_H
