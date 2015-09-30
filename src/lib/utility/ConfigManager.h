@@ -15,6 +15,8 @@ public:
 	static std::shared_ptr<ConfigManager> createEmpty();
 	static std::shared_ptr<ConfigManager> createAndLoad(const std::shared_ptr<TextAccess> textAccess);
 
+	void clear();
+
 	bool getValue(const std::string& key, std::string& value) const;
 	bool getValue(const std::string& key, int& value) const;
 	bool getValue(const std::string& key, float& value) const;
@@ -46,6 +48,7 @@ private:
 
 	void parseSubtree(TiXmlNode* parentElement, const std::string& currentPath);
 	bool createXmlDocument(bool saveAsFile, std::string filepath, std::string& output);
+
 	std::multimap<std::string, std::string> m_values;
 };
 

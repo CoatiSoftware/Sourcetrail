@@ -1,13 +1,15 @@
 #ifndef MESSAGE_SHOW_FILE_H
 #define MESSAGE_SHOW_FILE_H
 
+#include "utility/file/FilePath.h"
 #include "utility/messaging/Message.h"
 #include "utility/types.h"
 
-class MessageShowFile: public Message<MessageShowFile>
+class MessageShowFile
+	: public Message<MessageShowFile>
 {
 public:
-	MessageShowFile(const std::string& filePath, uint startLineNumber, uint endLineNumber)
+	MessageShowFile(const FilePath& filePath, uint startLineNumber, uint endLineNumber)
 		: filePath(filePath)
 		, startLineNumber(startLineNumber)
 		, endLineNumber(endLineNumber)
@@ -19,7 +21,7 @@ public:
 		return "MessageShowFile";
 	}
 
-	const std::string filePath;
+	const FilePath filePath;
 	const uint startLineNumber;
 	const uint endLineNumber;
 };

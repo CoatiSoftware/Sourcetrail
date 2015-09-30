@@ -114,10 +114,10 @@ void CodeController::handleMessage(MessageShowFile* message)
 	params.startLineNumber = message->startLineNumber;
 	params.endLineNumber = message->endLineNumber;
 
-	std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(message->filePath);
+	std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(message->filePath);
 	params.code = textAccess->getText();
 
-	params.locationFile = m_storageAccess->getTokenLocationsForFile(message->filePath);
+	params.locationFile = m_storageAccess->getTokenLocationsForFile(message->filePath.str());
 
 	getView()->showCodeFile(params);
 }
@@ -221,7 +221,7 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTok
 
 std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(std::shared_ptr<TokenLocationFile> file) const
 {
-	std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(file->getFilePath().str());
+	std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(file->getFilePath());
 
 	std::deque<SnippetMerger::Range> ranges;
 

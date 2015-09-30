@@ -13,6 +13,7 @@
 
 struct FileInfo;
 class Graph;
+class TextAccess;
 class TokenLocation;
 class TokenLocationCollection;
 class TokenLocationFile;
@@ -51,6 +52,8 @@ public:
 
 	virtual TokenLocationCollection getErrorTokenLocations(std::vector<std::string>* errorMessages) const = 0;
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationOfParentScope(const TokenLocation* child) const = 0;
+
+	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const = 0;
 };
 
 #endif // STORAGE_ACCESS_H

@@ -152,8 +152,9 @@ public:
 	) const;
 
 	virtual TokenLocationCollection getErrorTokenLocations(std::vector<std::string>* errorMessages) const;
-
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationOfParentScope(const TokenLocation* child) const;
+
+	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const;
 
 	const SearchIndex& getSearchIndex() const;
 
@@ -166,7 +167,7 @@ private:
 	Id addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type);
 	Id addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type, ParseLocation location);
 
-	Id getFileNodeId(const FilePath& filePath);
+	Id getFileNodeId(const FilePath& filePath) const;
 
 	Id getLastVisibleParentNodeId(const Id nodeId) const;
 	std::vector<Id> getAllChildNodeIds(const Id nodeId) const;
@@ -191,7 +192,7 @@ private:
 	SearchIndex m_tokenIndex;
 	SqliteStorage m_sqliteStorage;
 
-	std::map <FilePath, Id> m_fileNodeIds;
+	mutable std::map <FilePath, Id> m_fileNodeIds;
 	HierarchyCache m_hierarchyCache;
 
 	TokenLocationCollection m_errorLocationCollection;

@@ -3,6 +3,7 @@
 #include "data/graph/Node.h"
 #include "data/location/TokenLocation.h"
 #include "utility/logging/logging.h"
+#include "utility/text/TextAccess.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 
@@ -80,11 +81,15 @@ Id SqliteStorage::addNode(int type, Id nameId)
 Id SqliteStorage::addFile(Id nameId, const std::string& filePath, const std::string& modificationTime)
 {
 	Id id = addNode(Node::NODE_FILE, nameId);
+	std::shared_ptr<TextAccess> content = TextAccess::createFromFile(filePath);
 
-	m_database.execDML((
-		"INSERT INTO file(id, path, modification_time) VALUES("
-		+ std::to_string(id) + ", '" + filePath + "', '" + modificationTime + "');"
+	CppSQLite3Statement stmt = m_database.compileStatement((
+		"INSERT INTO file(id, path, modification_time, content) VALUES("
+		+ std::to_string(id) + ", '" + filePath + "', '" + modificationTime + "', ?);"
 	).c_str());
+
+	stmt.bind(1, content->getText().c_str());
+	stmt.execDML();
 
 	return id;
 }
@@ -449,6 +454,20 @@ std::vector<StorageFile> SqliteStorage::getAllFiles() const
 	return getAllFiles("SELECT file.id, node.name_id, file.path, file.modification_time FROM file INNER JOIN node ON file.id = node.id;");
 }
 
+std::shared_ptr<TextAccess> SqliteStorage::getFileContentByPath(const std::string& filePath) const
+{
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT content FROM file WHERE path = '" + filePath + "';"
+	).c_str());
+
+	if (!q.eof())
+	{
+		return TextAccess::createFromString(q.getStringField(0, ""));
+	}
+
+	return TextAccess::createFromFile(filePath);
+}
+
 void SqliteStorage::setNodeType(int type, Id nodeId)
 {
 	m_database.execDML((
@@ -721,6 +740,7 @@ void SqliteStorage::setupTables()
 			"id INTEGER NOT NULL, "
 			"path TEXT, "
 			"modification_time TEXT, "
+			"content TEXT, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES node(id) ON DELETE CASCADE);"
 	);

@@ -14,6 +14,8 @@
 #include "data/location/TokenLocationCollection.h"
 #include "data/StorageTypes.h"
 
+class TextAccess;
+
 class SqliteStorage
 {
 public:
@@ -71,6 +73,7 @@ public:
 	StorageFile getFileByName(const std::string& fileName) const;
 	StorageFile getFileByPath(const std::string& filePath) const;
 	std::vector<StorageFile> getAllFiles() const;
+	std::shared_ptr<TextAccess> getFileContentByPath(const std::string& filePath) const;
 
 	void setNodeType(int type, Id nodeId);
 

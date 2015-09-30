@@ -1149,6 +1149,11 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationOfParentScope(const 
 	return file;
 }
 
+std::shared_ptr<TextAccess> Storage::getFileContent(const FilePath& filePath) const
+{
+	return m_sqliteStorage.getFileContentByPath(filePath.str());
+}
+
 const SearchIndex& Storage::getSearchIndex() const
 {
 	return m_tokenIndex;
@@ -1293,7 +1298,7 @@ Id Storage::addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type, Parse
 	return edgeId;
 }
 
-Id Storage::getFileNodeId(const FilePath& filePath)
+Id Storage::getFileNodeId(const FilePath& filePath) const
 {
 	std::map<FilePath, Id>::const_iterator it = m_fileNodeIds.find(filePath);
 

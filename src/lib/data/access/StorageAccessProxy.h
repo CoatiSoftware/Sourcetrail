@@ -42,8 +42,9 @@ public:
 	) const;
 
 	virtual TokenLocationCollection getErrorTokenLocations(std::vector<std::string>* errorMessages) const;
-
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationOfParentScope(const TokenLocation* child) const;
+
+	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const;
 
 private:
 	StorageAccess* m_subject;

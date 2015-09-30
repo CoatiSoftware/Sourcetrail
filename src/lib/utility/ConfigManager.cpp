@@ -18,6 +18,11 @@ std::shared_ptr<ConfigManager> ConfigManager::createAndLoad(const std::shared_pt
 	return configManager;
 }
 
+void ConfigManager::clear()
+{
+	m_values.clear();
+}
+
 bool ConfigManager::getValue(const std::string& key, std::string& value) const
 {
 	std::multimap<std::string, std::string>::const_iterator it = m_values.find(key);
@@ -246,13 +251,19 @@ bool ConfigManager::createXmlDocument(bool saveAsFile, const std::string filepat
 
 	for(std::multimap<std::string,std::string>::iterator it = m_values.begin(); it != m_values.end(); ++it)
 	{
+		if (!it->first.size() || !it->second.size())
+		{
+			continue;
+		}
+
 		std::vector<std::string> tokens = utility::splitToVector(it->first, "/");
+
 		TiXmlElement* element = doc.RootElement();
 		TiXmlElement* child;
-		while(tokens.size() > 1)
+		while (tokens.size() > 1)
 		{
 			child = element->FirstChildElement(tokens.front().c_str());
-			if(!child)
+			if (!child)
 			{
 				child = new TiXmlElement(tokens.front().c_str());
 				element->LinkEndChild(child);
