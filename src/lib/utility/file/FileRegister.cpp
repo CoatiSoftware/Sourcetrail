@@ -18,8 +18,10 @@ void FileRegister::setFilePaths(const std::vector<FilePath>& filePaths)
 	m_sourceFilePaths.clear();
 	m_includeFilePaths.clear();
 
-	for (const FilePath& path : filePaths)
+	for (const FilePath& p : filePaths)
 	{
+		FilePath path = p.exists() ? p.absolute() : p;
+
 		if (m_fileManager->hasSourceExtension(path))
 		{
 			m_sourceFilePaths.emplace(path, STATE_UNPARSED);
@@ -39,6 +41,23 @@ std::vector<FilePath> FileRegister::getUnparsedSourceFilePaths() const
 std::vector<FilePath> FileRegister::getUnparsedIncludeFilePaths() const
 {
 	return getUnparsedFilePaths(m_includeFilePaths);
+}
+
+bool FileRegister::fileIsParsed(const FilePath& filePath) const
+{
+	std::map<FilePath, ParseState>::const_iterator it = m_includeFilePaths.find(filePath);
+	if (it != m_includeFilePaths.end())
+	{
+		return it->second == STATE_PARSED;
+	}
+
+	it = m_sourceFilePaths.find(filePath);
+	if (it != m_sourceFilePaths.end())
+	{
+		return it->second == STATE_PARSED;
+	}
+
+	return true;
 }
 
 bool FileRegister::includeFileIsParsing(const FilePath& filePath) const

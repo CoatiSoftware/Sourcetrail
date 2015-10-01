@@ -44,6 +44,7 @@ public:
 	void removeFile(Id id);
 	void removeUnusedNameHierarchyElements();
 
+	StorageNode getFirstNode() const;
 	std::vector<StorageNode> getAllNodes() const;
 
 	bool isEdge(Id elementId) const;
@@ -97,7 +98,9 @@ public:
 
 	int getNodeCount() const;
 	int getEdgeCount() const;
+	int getFileCount() const;
 	int getNameHierarchyElementCount() const;
+	int getSourceLocationCount() const;
 
 private:
 	void clearTables();

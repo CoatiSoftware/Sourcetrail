@@ -188,6 +188,17 @@ void SqliteStorage::removeUnusedNameHierarchyElements()
 	);
 }
 
+StorageNode SqliteStorage::getFirstNode() const
+{
+	std::vector<StorageNode> nodes = getAllNodes("LIMIT 1");
+	if (nodes.size())
+	{
+		return nodes[0];
+	}
+
+	return StorageNode(0, 0, 0);
+}
+
 std::vector<StorageNode> SqliteStorage::getAllNodes() const
 {
 	std::vector<StorageNode> nodes;
@@ -680,17 +691,27 @@ Id SqliteStorage::getNodeIdBySignature(const std::string& signature) const
 
 int SqliteStorage::getNodeCount() const
 {
-	return m_database.execScalar("SELECT COUNT(*) from node;");
+	return m_database.execScalar("SELECT COUNT(*) FROM node;");
 }
 
 int SqliteStorage::getEdgeCount() const
 {
-	return m_database.execScalar("SELECT COUNT(*) from edge;");
+	return m_database.execScalar("SELECT COUNT(*) FROM edge;");
+}
+
+int SqliteStorage::getFileCount() const
+{
+	return m_database.execScalar("SELECT COUNT(*) FROM file;");
 }
 
 int SqliteStorage::getNameHierarchyElementCount() const
 {
-	return m_database.execScalar("SELECT COUNT(*) from name_hierarchy_element;");
+	return m_database.execScalar("SELECT COUNT(*) FROM name_hierarchy_element;");
+}
+
+int SqliteStorage::getSourceLocationCount() const
+{
+	return m_database.execScalar("SELECT COUNT(*) FROM source_location;");
 }
 
 void SqliteStorage::clearTables()

@@ -1,5 +1,6 @@
 #include "cxxtest/TestSuite.h"
 
+#include "utility/file/FileRegister.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utilityString.h"
 
@@ -2641,13 +2642,6 @@ private:
 			return 0;
 		}
 
-		virtual Id onFieldUsageParsed(
-				const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy)
-		{
-			usages.push_back(addLocationSuffix(variableStr(user) + " -> " + usedNameHierarchy.getFullName(), location));
-			return 0;
-		}
-
 		virtual Id onGlobalVariableUsageParsed(
 			const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy)
 		{
@@ -2835,7 +2829,7 @@ private:
 		TestFileManager fm;
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
 		CxxParser parser(client.get(), &fm);
-		parser.parseFile(TextAccess::createFromString(code), m_args);
+		parser.parseFile("input.cc", TextAccess::createFromString(code), m_args);
 		return client;
 	}
 

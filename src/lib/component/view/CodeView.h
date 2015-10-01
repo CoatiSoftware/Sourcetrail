@@ -29,7 +29,7 @@ public:
 
 		std::shared_ptr<TokenLocationFile> locationFile;
 
-		uint refCount;
+		int refCount;
 
 		bool isActive;
 		bool isDeclaration;

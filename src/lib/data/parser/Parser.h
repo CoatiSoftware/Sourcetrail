@@ -28,7 +28,7 @@ public:
 	virtual ~Parser();
 
 	virtual void parseFiles(const std::vector<FilePath>& filePaths, const Arguments& arguments) = 0;
-	virtual void parseFile(std::shared_ptr<TextAccess> textAccess, const Arguments& arguments) = 0;
+	virtual void parseFile(const FilePath& filePath, std::shared_ptr<TextAccess> textAccess, const Arguments& arguments) = 0;
 
 protected:
 	ParserClient* m_client;

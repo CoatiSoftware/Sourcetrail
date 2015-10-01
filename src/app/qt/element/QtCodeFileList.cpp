@@ -46,7 +46,7 @@ void QtCodeFileList::addCodeSnippet(
 	Id titleId,
 	const std::string& code,
 	std::shared_ptr<TokenLocationFile> locationFile,
-	uint refCount,
+	int refCount,
 	bool insert
 ){
 	QtCodeFile* file = getFile(locationFile);
@@ -62,7 +62,7 @@ void QtCodeFileList::addCodeSnippet(
 	}
 }
 
-void QtCodeFileList::addFile(std::shared_ptr<TokenLocationFile> locationFile, uint refCount)
+void QtCodeFileList::addFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount)
 {
 	QtCodeFile* file = getFile(locationFile);
 	file->setLocationFile(locationFile, refCount);

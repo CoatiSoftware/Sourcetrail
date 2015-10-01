@@ -27,10 +27,10 @@ public:
 		TestStorage storage;
 		Id id = storage.onTypedefParsed(validLocation(1), createNameHierarchy("type"), typeUsage("int"), ParserClient::ACCESS_NONE);
 
-		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "type");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "type");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_TYPEDEF);
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPEDEF_OF) + ":type->int") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPEDEF_OF, "type", "int") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -41,7 +41,7 @@ public:
 		TestStorage storage;
 		Id id = storage.onClassParsed(validLocation(1), createNameHierarchy("Class"), ParserClient::ACCESS_NONE, validLocation(2));
 
-		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "Class");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "Class");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_CLASS);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
@@ -54,7 +54,7 @@ public:
 		TestStorage storage;
 		Id id = storage.onStructParsed(validLocation(1), createNameHierarchy("Struct"), ParserClient::ACCESS_NONE, validLocation(2));
 
-		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "Struct");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "Struct");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_STRUCT);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
@@ -67,12 +67,12 @@ public:
 		TestStorage storage;
 		Id id = storage.onGlobalVariableParsed(validLocation(42), ParseVariable(typeUsage("char"), createNameHierarchy("Global"), false));
 
-		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "Global");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "Global");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_GLOBAL_VARIABLE);
 
 		//TS_ASSERT(!node->getComponent<TokenComponentStatic>());
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPE_OF) + ":Global->char") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPE_OF, "Global", "char") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -83,7 +83,7 @@ public:
 		TestStorage storage;
 		Id id = storage.onGlobalVariableParsed(validLocation(7), ParseVariable(typeUsage("char"), createNameHierarchy("Global"), true));
 
-		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "Global");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "Global");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_GLOBAL_VARIABLE);
 
 		//TS_ASSERT(node->getComponent<TokenComponentStatic>());
@@ -99,10 +99,10 @@ public:
 			validLocation(3), ParseVariable(typeUsage("bool"), createNameHierarchy("m_field"), false), ParserClient::ACCESS_NONE
 		);
 
-		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "m_field");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "m_field");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_FIELD);
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPE_OF) + ":m_field->bool") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPE_OF, "m_field", "bool") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -115,17 +115,17 @@ public:
 			validLocation(11), ParseVariable(typeUsage("bool"), createNameHierarchy("Struct::m_field"), false), ParserClient::ACCESS_PUBLIC
 		);
 
-		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "Struct::m_field");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "Struct::m_field");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_FIELD);
 
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_MEMBER) + ":Struct->Struct::m_field") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_MEMBER, "Struct", "Struct::m_field") != 0);
 		//TS_ASSERT(memberEdge->getComponent<TokenComponentAccess>());
 		//TS_ASSERT_EQUALS(
 		//	memberEdge->getComponent<TokenComponentAccess>()->getAccess(), TokenComponentAccess::ACCESS_PUBLIC
 		//);
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPE_OF) + ":Struct::m_field->bool") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPE_OF, "Struct::m_field", "bool") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -138,13 +138,13 @@ public:
 			validLocation(14), ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char")), validLocation(41)
 		);
 
-		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "isTrue");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "isTrue");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_FUNCTION);
 
-		// TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_RETURN_TYPE_OF) + ":isTrue->bool") != 0);
-		// TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_PARAMETER_TYPE_OF) + ":isTrue->char") != 0);
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPE_USAGE) + ":isTrue->bool") != 0);
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPE_USAGE) + ":isTrue->char") != 0);
+		// TS_ASSERT(storage.getEdgeId(Edge::EDGE_RETURN_TYPE_OF, "isTrue", "bool") != 0);
+		// TS_ASSERT(storage.getEdgeId(Edge::EDGE_PARAMETER_TYPE_OF, "isTrue", "char") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPE_USAGE, "isTrue", "bool") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPE_USAGE, "isTrue", "char") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 2);
@@ -161,13 +161,13 @@ public:
 			validLocation(4)
 		);
 
-		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "isMethod");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "isMethod");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_METHOD);
 
-		// TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_RETURN_TYPE_OF) + ":isMethod->void") != 0);
-		// TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_PARAMETER_TYPE_OF) + ":isMethod->bool") != 0);
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPE_USAGE) + ":isMethod->void") != 0);
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPE_USAGE) + ":isMethod->bool") != 0);
+		// TS_ASSERT(storage.getEdgeId(Edge::EDGE_RETURN_TYPE_OF, "isMethod", "void") != 0);
+		// TS_ASSERT(storage.getEdgeId(Edge::EDGE_PARAMETER_TYPE_OF, "isMethod", "bool") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPE_USAGE, "isMethod", "void") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPE_USAGE, "isMethod", "bool") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 2);
@@ -208,7 +208,7 @@ public:
 		//	TokenComponentAbstraction::ABSTRACTION_VIRTUAL
 		//);
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_MEMBER) + ":Class->Class::isMethod") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_MEMBER, "Class", "Class::isMethod") != 0);
 		//TS_ASSERT(memberEdge->getComponent<TokenComponentAccess>());
 		//TS_ASSERT_EQUALS(
 		//	memberEdge->getComponent<TokenComponentAccess>()->getAccess(), TokenComponentAccess::ACCESS_PROTECTED
@@ -220,7 +220,7 @@ public:
 		TestStorage storage;
 		Id id = storage.onNamespaceParsed(validLocation(1), createNameHierarchy("utility"), validLocation(2));
 
-		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "utility");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "utility");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_NAMESPACE);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
@@ -233,7 +233,7 @@ public:
 		TestStorage storage;
 		Id id = storage.onEnumParsed(validLocation(17), createNameHierarchy("Category"), ParserClient::ACCESS_NONE, validLocation(23));
 
-		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "Category");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "Category");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_ENUM);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
@@ -249,7 +249,7 @@ public:
 			ParserClient::ACCESS_PRIVATE, validLocation(2)
 		);
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_MEMBER) + ":Class->Class::Category") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_MEMBER, "Class", "Class::Category") != 0);
 
 		//TS_ASSERT(memberEdge->getComponent<TokenComponentAccess>());
 		//TS_ASSERT_EQUALS(
@@ -262,7 +262,7 @@ public:
 		TestStorage storage;
 		Id id = storage.onEnumConstantParsed(validLocation(1), createNameHierarchy("VALUE"));
 
-		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "VALUE");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "VALUE");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_ENUM_CONSTANT);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
@@ -279,7 +279,7 @@ public:
 			createNameHierarchy("ClassA"), ParserClient::ACCESS_PUBLIC
 		);
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_INHERITANCE) + ":ClassB->ClassA") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_INHERITANCE, "ClassB", "ClassA") != 0);
 		//TS_ASSERT(edge->getComponent<TokenComponentAccess>());
 		//TS_ASSERT_EQUALS(edge->getComponent<TokenComponentAccess>()->getAccess(), TokenComponentAccess::ACCESS_PUBLIC);
 
@@ -297,7 +297,7 @@ public:
 			createNameHierarchy("StructA"), ParserClient::ACCESS_PUBLIC
 		);
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_INHERITANCE) + ":StructB->StructA") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_INHERITANCE, "StructB", "StructA") != 0);
 
 		//TS_ASSERT(edge->getComponent<TokenComponentAccess>());
 		//TS_ASSERT_EQUALS(edge->getComponent<TokenComponentAccess>()->getAccess(), TokenComponentAccess::ACCESS_PUBLIC);
@@ -318,7 +318,7 @@ public:
 
 		storage.onMethodOverrideParsed(validLocation(4), a, b);
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_OVERRIDE) + ":B::isMethod->A::isMethod") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_OVERRIDE, "B::isMethod", "A::isMethod") != 0);
 	}
 
 	void test_storage_saves_call()
@@ -336,7 +336,7 @@ public:
 			ParseFunction(typeUsage("void"), createNameHierarchy("func"), parameters("bool"))
 		);
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_CALL) + ":isTrue->func") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_CALL, "isTrue", "func") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -356,7 +356,7 @@ public:
 			ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char"))
 		);
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_CALL) + ":global->isTrue") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_CALL, "global", "isTrue") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -378,7 +378,7 @@ public:
 			createNameHierarchy("Foo::m_field")
 		);
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_USAGE) + ":isTrue->Foo::m_field") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_USAGE, "isTrue", "Foo::m_field") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -398,7 +398,7 @@ public:
 			createNameHierarchy("global")
 		);
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_USAGE) + ":isTrue->global") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_USAGE, "isTrue", "global") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -419,7 +419,7 @@ public:
 			ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char"))
 		);
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_TYPE_USAGE) + ":isTrue->Struct") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPE_USAGE, "isTrue", "Struct") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -548,7 +548,7 @@ public:
 
 		Id id = storage.onFileParsed(FileInfo("file.h"));
 
-		TS_ASSERT_EQUALS(storage.getNameForNodeWithId(id), "file.h");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "file.h");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_FILE);
 	}
 
@@ -560,7 +560,7 @@ public:
 		storage.onFileParsed(FileInfo("file.cpp"));
 		Id id = storage.onFileIncludeParsed(validLocation(7), FileInfo("file.cpp"), FileInfo("file.h"));
 
-		TS_ASSERT(storage.getIdForEdgeWithName(Edge::getTypeString(Edge::EDGE_INCLUDE) + ":file.cpp->file.h") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_INCLUDE, "file.cpp", "file.h") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -630,6 +630,24 @@ private:
 		const SearchIndex& searchIndex() const
 		{
 			return getSearchIndex();
+		}
+
+		NameHierarchy nameHierarchyFromString(const std::string& str) const
+		{
+			NameHierarchy result;
+			std::vector<std::string> names = utility::splitToVector(str, "::");
+			for (const std::string& name : names)
+			{
+				result.push(std::make_shared<NameElement>(name));
+			}
+			return result;
+		}
+
+		Id getEdgeId(Edge::EdgeType type, const std::string& fromName, const std::string& toName) const
+		{
+			NameHierarchy from;
+
+			return getIdForEdge(type, nameHierarchyFromString(fromName), nameHierarchyFromString(toName));
 		}
 	};
 

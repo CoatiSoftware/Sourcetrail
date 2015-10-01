@@ -131,8 +131,6 @@ void Project::parseCode()
 
 void Project::logStats() const
 {
-	// m_storage->logGraph();
-	// m_storage->logLocations();
 	m_storage->logStats();
 }
 

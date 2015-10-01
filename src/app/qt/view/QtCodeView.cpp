@@ -134,7 +134,7 @@ void QtCodeView::doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippet
 
 void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
 {
-	m_widget->addCodeSnippet(1, params.title, 0, params.code, params.locationFile, params.refCount);
+	m_widget->addCodeSnippet(1, params.title, 0, params.code, params.locationFile, -1);
 }
 
 void QtCodeView::doShowFirstActiveSnippet()

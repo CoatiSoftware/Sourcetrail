@@ -136,7 +136,7 @@ void QtCodeFile::addCodeSnippet(
 	Id titleId,
 	const std::string& code,
 	std::shared_ptr<TokenLocationFile> locationFile,
-	uint refCount
+	int refCount
 ){
 	m_locationFile.reset();
 
@@ -153,7 +153,10 @@ void QtCodeFile::addCodeSnippet(
 		m_fileSnippet = snippet;
 
 		clickedMaximizeButton();
-		updateRefCount(0);
+		if (refCount != -1)
+		{
+			updateRefCount(0);
+		}
 		return;
 	}
 
@@ -169,7 +172,7 @@ QWidget* QtCodeFile::insertCodeSnippet(
 	Id titleId,
 	const std::string& code,
 	std::shared_ptr<TokenLocationFile> locationFile,
-	uint refCount
+	int refCount
 ){
 	m_locationFile.reset();
 
@@ -271,7 +274,7 @@ void QtCodeFile::updateContent()
 	}
 }
 
-void QtCodeFile::setLocationFile(std::shared_ptr<TokenLocationFile> locationFile, uint refCount)
+void QtCodeFile::setLocationFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount)
 {
 	m_locationFile = locationFile;
 	clickedMinimizeButton();
@@ -395,7 +398,7 @@ void QtCodeFile::updateSnippets()
 	clickedSnippetButton();
 }
 
-void QtCodeFile::updateRefCount(uint refCount)
+void QtCodeFile::updateRefCount(int refCount)
 {
 	if (refCount > 0)
 	{

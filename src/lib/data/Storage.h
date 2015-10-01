@@ -32,9 +32,9 @@ public:
 	void clearFileElement(const FilePath& filePath);
 	void removeUnusedNames();
 
-	void logGraph() const;
-	void logLocations() const;
-	void logIndex() const;
+	std::vector<FileInfo> getInfoOnAllFiles() const;
+	const SearchIndex& getSearchIndex() const;
+
 	void logStats() const;
 
 	// ParserClient implementation
@@ -126,7 +126,7 @@ public:
 	virtual Id getIdForEdge(
 		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const;
 
-	virtual std::vector<FileInfo> getInfoOnAllFiles() const;
+	virtual Id getIdForFirstNode() const;
 
 	virtual NameHierarchy getNameHierarchyForNodeWithId(Id nodeId) const;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id nodeId) const;
@@ -155,8 +155,6 @@ public:
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationOfParentScope(const TokenLocation* child) const;
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const;
-
-	const SearchIndex& getSearchIndex() const;
 
 private:
 	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool distinct = false);

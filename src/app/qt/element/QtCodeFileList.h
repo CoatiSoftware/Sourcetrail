@@ -32,11 +32,11 @@ public:
 		Id titleId,
 		const std::string& code,
 		std::shared_ptr<TokenLocationFile> locationFile,
-		uint refCount,
+		int refCount,
 		bool insert = false
 	);
 
-	void addFile(std::shared_ptr<TokenLocationFile> locationFile, uint refCount);
+	void addFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount);
 
 	void clearCodeSnippets();
 

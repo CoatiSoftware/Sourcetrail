@@ -93,20 +93,51 @@ void Storage::removeUnusedNames()
 	clearCaches();
 }
 
-void Storage::logGraph() const
+std::vector<FileInfo> Storage::getInfoOnAllFiles() const
 {
+	std::vector<FileInfo> fileInfos;
+
+	std::vector<StorageFile> storageFiles = m_sqliteStorage.getAllFiles();
+	for (size_t i = 0; i < storageFiles.size(); i++)
+	{
+		boost::posix_time::ptime modificationTime = boost::posix_time::not_a_date_time;
+		if (storageFiles[i].modificationTime != "not-a-date-time")
+		{
+			modificationTime = boost::posix_time::time_from_string(storageFiles[i].modificationTime);
+		}
+		fileInfos.push_back(FileInfo(
+			FilePath(storageFiles[i].filePath),
+			modificationTime
+		));
+	}
+
+	return fileInfos;
 }
 
-void Storage::logLocations() const
+const SearchIndex& Storage::getSearchIndex() const
 {
-}
-
-void Storage::logIndex() const
-{
+	return m_tokenIndex;
 }
 
 void Storage::logStats() const
 {
+	std::stringstream ss;
+
+	ss << "\nGraph:\n";
+	ss << "\t" << m_sqliteStorage.getNodeCount() << " Nodes\n";
+	ss << "\t" << m_sqliteStorage.getEdgeCount() << " Edges\n";
+
+	ss << "\nSearch:\n";
+	ss << "\t" << m_tokenIndex.getCharCount() << " Characters\n";
+	ss << "\t" << m_tokenIndex.getWordCount() << " Words\n";
+	ss << "\t" << m_tokenIndex.getNodeCount() << " SearchNodes\n";
+	ss << "\t" << m_sqliteStorage.getNameHierarchyElementCount() << " NameHierarchyElements\n";
+
+	ss << "\nCode:\n";
+	ss << "\t" << m_sqliteStorage.getFileCount() << " Files\n";
+	ss << "\t" << m_sqliteStorage.getSourceLocationCount() << " Source Locations\n";
+
+	LOG_WARNING(ss.str());
 }
 
 void Storage::startParsing()
@@ -704,25 +735,9 @@ Id Storage::getIdForEdge(
 	return m_sqliteStorage.getEdgeBySourceTargetType(sourceId, targetId, type).id;
 }
 
-std::vector<FileInfo> Storage::getInfoOnAllFiles() const
+Id Storage::getIdForFirstNode() const
 {
-	std::vector<FileInfo> fileInfos;
-
-	std::vector<StorageFile> storageFiles = m_sqliteStorage.getAllFiles();
-	for (size_t i = 0; i < storageFiles.size(); i++)
-	{
-		boost::posix_time::ptime modificationTime = boost::posix_time::not_a_date_time;
-		if (storageFiles[i].modificationTime != "not-a-date-time")
-		{
-			modificationTime = boost::posix_time::time_from_string(storageFiles[i].modificationTime);
-		}
-		fileInfos.push_back(FileInfo(
-			FilePath(storageFiles[i].filePath),
-			modificationTime
-		));
-	}
-
-	return fileInfos;
+	return m_sqliteStorage.getFirstNode().id;
 }
 
 NameHierarchy Storage::getNameHierarchyForNodeWithId(Id nodeId) const
@@ -796,7 +811,7 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 
 			addAggregationEdgesToGraph(elementId, graph);
 		}
-		else
+		else if (m_sqliteStorage.isEdge(elementId))
 		{
 			addEdgeAndAllChildrenToGraph(elementId, graph);
 		}
@@ -1127,11 +1142,6 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationOfParentScope(const 
 std::shared_ptr<TextAccess> Storage::getFileContent(const FilePath& filePath) const
 {
 	return m_sqliteStorage.getFileContentByPath(filePath.str());
-}
-
-const SearchIndex& Storage::getSearchIndex() const
-{
-	return m_tokenIndex;
 }
 
 Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool distinct)

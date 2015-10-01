@@ -83,8 +83,10 @@ void CxxParser::parseFiles(const std::vector<FilePath>& filePaths, const Argumen
 	}
 }
 
-void CxxParser::parseFile(std::shared_ptr<TextAccess> textAccess, const Arguments& arguments)
+void CxxParser::parseFile(const FilePath& filePath, std::shared_ptr<TextAccess> textAccess, const Arguments& arguments)
 {
+	setupParsing(std::vector<FilePath>(1, filePath), arguments);
+
 	std::vector<std::string> args = getCommandlineArguments(arguments);
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(arguments);
 

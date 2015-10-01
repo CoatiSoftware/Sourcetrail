@@ -5,12 +5,15 @@
 #include <vector>
 
 #include <QStatusBar>
+
 #include "component/view/MainView.h"
+#include "qt/utility/QtThreadedFunctor.h"
 
 class QtMainWindow;
 class View;
 
-class QtMainView: public MainView
+class QtMainView
+	: public MainView
 {
 public:
 	QtMainView();
@@ -31,10 +34,15 @@ public:
 
 	// MainView implementation
 	virtual void showStartScreen();
+	virtual void setTitle(const std::string& title);
 
 private:
+	void doSetTitle(const std::string& title);
+
 	std::shared_ptr<QtMainWindow> m_window;
 	std::vector<View*> m_views;
+
+	QtThreadedFunctor<const std::string&> m_setTitleFunctor;
 };
 
 #endif // QT_MAIN_VIEW_H

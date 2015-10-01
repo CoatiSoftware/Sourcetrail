@@ -53,19 +53,19 @@ Id StorageAccessProxy::getIdForEdge(
 	return 0;
 }
 
-std::vector<FileInfo> StorageAccessProxy::getInfoOnAllFiles() const
+Id StorageAccessProxy::getIdForFirstNode() const
 {
-	std::vector<FileInfo> fileInfos;
 	if (hasSubject())
 	{
-		fileInfos = m_subject->getInfoOnAllFiles();
+		return m_subject->getIdForFirstNode();
 	}
-	return fileInfos;
+
+	return 0;
 }
 
 Node::NodeType StorageAccessProxy::getNodeTypeForNodeWithId(Id id) const
 {
-	if(hasSubject())
+	if (hasSubject())
 	{
 		return m_subject->getNodeTypeForNodeWithId(id);
 	}

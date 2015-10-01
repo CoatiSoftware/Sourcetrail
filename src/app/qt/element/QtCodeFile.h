@@ -38,7 +38,7 @@ public:
 		Id titleId,
 		const std::string& code,
 		std::shared_ptr<TokenLocationFile> locationFile,
-		uint refCount
+		int refCount
 	);
 
 	QWidget* insertCodeSnippet(
@@ -47,7 +47,7 @@ public:
 		Id titleId,
 		const std::string& code,
 		std::shared_ptr<TokenLocationFile> locationFile,
-		uint refCount
+		int refCount
 	);
 
 	QWidget* findFirstActiveSnippet() const;
@@ -55,7 +55,7 @@ public:
 
 	void updateContent();
 
-	void setLocationFile(std::shared_ptr<TokenLocationFile> locationFile, uint refCount);
+	void setLocationFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount);
 
 public slots:
 	void clickedSnippetButton();
@@ -68,7 +68,7 @@ private slots:
 
 private:
 	void updateSnippets();
-	void updateRefCount(uint refCount);
+	void updateRefCount(int refCount);
 
 	QtCodeFileList* m_parent;
 

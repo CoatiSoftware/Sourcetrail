@@ -17,7 +17,7 @@ public:
 	virtual Id getIdForEdge(
 		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const;
 
-	virtual std::vector<FileInfo> getInfoOnAllFiles() const;
+	virtual Id getIdForFirstNode() const;
 
 	virtual NameHierarchy getNameHierarchyForNodeWithId(Id id) const;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const;

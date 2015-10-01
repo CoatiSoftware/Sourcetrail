@@ -24,6 +24,8 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 	ptr->m_componentManager = ComponentManager::create(viewFactory, ptr->m_storageCache.get());
 
 	ptr->m_mainView = viewFactory->createMainView();
+	ptr->m_mainView->setTitle("Coati");
+
 	ptr->m_componentManager->setup(ptr->m_mainView.get());
 	ptr->m_mainView->loadLayout();
 
@@ -71,6 +73,8 @@ void Application::loadProject(const FilePath& projectSettingsFilePath)
 
 	updateRecentProjects(projectSettingsFilePath);
 
+	m_mainView->setTitle(projectSettingsFilePath.fileName());
+
 	m_storageCache->clear();
 	m_componentManager->refreshViews();
 
@@ -109,20 +113,20 @@ void Application::handleMessage(MessageFinishedParsing* message)
 
 	m_isInitialParse = false;
 
-	Id mainId = m_storageCache->getIdForNodeWithNameHierarchy(NameHierarchy("main"));
+	Id nodeId = m_storageCache->getIdForNodeWithNameHierarchy(NameHierarchy("main"));
 
-	if (!mainId)
+	if (!nodeId)
 	{
-		mainId = 1;
+		nodeId = m_storageCache->getIdForFirstNode();
 	}
 
-	if (mainId)
+	if (nodeId)
 	{
 		MessageActivateNodes message;
 		message.addNode(
-			mainId,
-			m_storageCache->getNodeTypeForNodeWithId(mainId),
-			m_storageCache->getNameHierarchyForNodeWithId(mainId)
+			nodeId,
+			m_storageCache->getNodeTypeForNodeWithId(nodeId),
+			m_storageCache->getNameHierarchyForNodeWithId(nodeId)
 		);
 		message.isFromSystem = true;
 		message.dispatch();

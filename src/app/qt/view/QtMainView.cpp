@@ -5,6 +5,7 @@
 #include "qt/window/QtMainWindow.h"
 
 QtMainView::QtMainView()
+	: m_setTitleFunctor(std::bind(&QtMainView::doSetTitle, this, std::placeholders::_1))
 {
 	m_window = std::make_shared<QtMainWindow>();
 	m_window->show();
@@ -66,4 +67,14 @@ void QtMainView::setStatusBar(QStatusBar* statusbar)
 void QtMainView::showStartScreen()
 {
 	m_window->showStartScreen();
+}
+
+void QtMainView::setTitle(const std::string& title)
+{
+	m_setTitleFunctor(title);
+}
+
+void QtMainView::doSetTitle(const std::string& title)
+{
+	m_window->setWindowTitle(QString::fromStdString(title));
 }

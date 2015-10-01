@@ -15,5 +15,5 @@ void TestStorage::parseCxxCode(std::string code)
 
 	TestFileManager fm;
 	CxxParser parser(this, &fm);
-	parser.parseFile(TextAccess::createFromString(code), Parser::Arguments());
+	parser.parseFile("input.cc", TextAccess::createFromString(code), Parser::Arguments());
 }

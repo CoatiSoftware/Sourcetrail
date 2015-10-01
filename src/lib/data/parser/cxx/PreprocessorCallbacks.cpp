@@ -57,7 +57,7 @@ void PreprocessorCallbacks::InclusionDirective(
 
 		const FileManager* fileManager = m_fileRegister->getFileManager();
 		if (fileManager->hasFilePath(baseFilePath) && fileManager->hasFilePath(includedFilePath) &&
-			!m_fileRegister->includeFileIsParsed(baseFilePath))
+			!m_fileRegister->fileIsParsed(baseFilePath))
 		{
 			m_client->onFileIncludeParsed(
 				getParseLocation(fileNameRange.getAsRange()),
@@ -77,7 +77,7 @@ void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, con
 	}
 
 	FilePath filePath = FilePath(fileStr);
-	if (m_fileRegister->getFileManager()->hasFilePath(filePath) && !m_fileRegister->includeFileIsParsed(filePath))
+	if (m_fileRegister->getFileManager()->hasFilePath(filePath) && !m_fileRegister->fileIsParsed(filePath))
 	{
 		// ignore builtin macros
 		if (m_sourceManager.getSpellingLoc(macroNameToken.getLocation()).printToString(m_sourceManager)[0] == '<')
@@ -103,7 +103,7 @@ void PreprocessorCallbacks::MacroExpands(
 	}
 
 	FilePath filePath = FilePath(fileStr);
-	if (m_fileRegister->getFileManager()->hasFilePath(filePath) && !m_fileRegister->includeFileIsParsed(filePath))
+	if (m_fileRegister->getFileManager()->hasFilePath(filePath) && !m_fileRegister->fileIsParsed(filePath))
 	{
 		NameHierarchy nameHierarchy;
 		nameHierarchy.push(std::make_shared<NameElement>(macroNameToken.getIdentifierInfo()->getName().str()));
