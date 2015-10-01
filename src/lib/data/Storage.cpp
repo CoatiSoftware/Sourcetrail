@@ -46,24 +46,6 @@ void Storage::clearCaches()
 	m_hierarchyCache.clear();
 }
 
-void Storage::clearFileElements(const std::set<FilePath>& filePaths)
-{
-	for (const FilePath& filePath: filePaths)
-	{
-		clearFileElements(filePath);
-	}
-}
-
-void Storage::clearFileElements(const FilePath& filePath)
-{
-	Id fileId = m_sqliteStorage.getFileByName(filePath.fileName()).id;
-	if (fileId != 0)
-	{
-		m_sqliteStorage.removeElementsWithLocationInFile(fileId);
-		m_sqliteStorage.removeFile(fileId);
-	}
-}
-
 std::set<FilePath> Storage::getDependingFilePaths(const std::set<FilePath>& filePaths)
 {
 	std::set<FilePath> dependingFilePaths;
@@ -79,15 +61,12 @@ std::set<FilePath> Storage::getDependingFilePaths(const FilePath& filePath)
 {
 	std::set<FilePath> dependingFilePaths;
 
-	Id fileNodeId = getFileNodeId(filePath);
 	std::vector<StorageEdge> incomingEdges = m_sqliteStorage.getEdgesByTargetType(
-		fileNodeId, Edge::typeToInt(Edge::EDGE_INCLUDE)
+		getFileNodeId(filePath), Edge::typeToInt(Edge::EDGE_INCLUDE)
 	);
-	for (StorageEdge incomingEdge: incomingEdges)
+	for (const StorageEdge& incomingEdge: incomingEdges)
 	{
-		Id dependingFileId = incomingEdge.sourceNodeId;
-		FilePath dependingFilePath = FilePath(m_sqliteStorage.getFileById(dependingFileId).filePath);
-
+		FilePath dependingFilePath = getFileNodePath(incomingEdge.sourceNodeId);
 		dependingFilePaths.insert(dependingFilePath);
 
 		std::set<FilePath> dependingFilePathsSubset = getDependingFilePaths(dependingFilePath);
@@ -95,6 +74,16 @@ std::set<FilePath> Storage::getDependingFilePaths(const FilePath& filePath)
 	}
 
 	return dependingFilePaths;
+}
+
+void Storage::clearFileElement(const FilePath& filePath)
+{
+	Id fileId = getFileNodeId(filePath);
+	if (fileId != 0)
+	{
+		m_sqliteStorage.removeElementsWithLocationInFile(fileId);
+		m_sqliteStorage.removeFile(fileId);
+	}
 }
 
 void Storage::removeUnusedNames()
@@ -688,44 +677,30 @@ Id Storage::onMacroExpandParsed(const ParseLocation &location, const NameHierarc
 	return edgeId;
 }
 
-Id Storage::getIdForNodeWithName(const std::string& fullName) const // use name hierarchy here
+Id Storage::getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const
 {
-	std::vector<std::string> nameParts = utility::splitToVector(fullName, "::");
+	Id currentId = 0;
 
-	Id parentId = 0;
-	for (size_t i = 0; i < nameParts.size(); i++)
+	for (size_t i = 0; i < nameHierarchy.size(); i++)
 	{
-		Id currentId = 0;
-		if (parentId == 0)
-		{
-			currentId = m_sqliteStorage.getNameHierarchyElementIdByName(nameParts[i]);
-		}
-		else
-		{
-			currentId = m_sqliteStorage.getNameHierarchyElementIdByName(nameParts[i], parentId);
-		}
-
-		parentId = currentId;
+		Id parentId = currentId;
+		currentId = m_sqliteStorage.getNameHierarchyElementIdByName(nameHierarchy[i]->getFullName(), parentId);
 
 		if (currentId == 0)
 		{
+			currentId = parentId;
 			break;
 		}
 	}
 
-	return m_sqliteStorage.getNodeByNameId(parentId).id;
+	return m_sqliteStorage.getNodeByNameId(currentId).id;
 }
 
-Id Storage::getIdForEdgeWithName(const std::string& name) const
-{
-	Edge::EdgeType type;
-	std::string sourceName;
-	std::string targetName;
-
-	Edge::splitName(name, &type, &sourceName, &targetName);
-
-	int sourceId = getIdForNodeWithName(sourceName);
-	int targetId = getIdForNodeWithName(targetName);
+Id Storage::getIdForEdge(
+	Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy
+) const {
+	int sourceId = getIdForNodeWithNameHierarchy(fromNameHierarchy);
+	int targetId = getIdForNodeWithNameHierarchy(toNameHierarchy);
 	return m_sqliteStorage.getEdgeBySourceTargetType(sourceId, targetId, type).id;
 }
 
@@ -750,10 +725,10 @@ std::vector<FileInfo> Storage::getInfoOnAllFiles() const
 	return fileInfos;
 }
 
-std::string Storage::getNameForNodeWithId(Id nodeId) const
+NameHierarchy Storage::getNameHierarchyForNodeWithId(Id nodeId) const
 {
 	Id nameHierarchyElementId = m_sqliteStorage.getNameHierarchyElementIdByNodeId(nodeId);
-	return m_sqliteStorage.getNameHierarchyById(nameHierarchyElementId).getFullName();
+	return m_sqliteStorage.getNameHierarchyById(nameHierarchyElementId);
 	// return m_tokenIndex.getNameHierarchyForTokenId(nodeId).getFullName();
 }
 
@@ -1323,6 +1298,19 @@ Id Storage::getFileNodeId(const FilePath& filePath) const
 	m_fileNodeIds.emplace(filePath, storageFile.id);
 
 	return storageFile.id;
+}
+
+FilePath Storage::getFileNodePath(Id fileId) const
+{
+	for (const std::pair<FilePath, Id>& p : m_fileNodeIds)
+	{
+		if (p.second == fileId)
+		{
+			return p.first;
+		}
+	}
+
+	return m_sqliteStorage.getFileById(fileId).filePath;
 }
 
 Id Storage::getLastVisibleParentNodeId(const Id nodeId) const

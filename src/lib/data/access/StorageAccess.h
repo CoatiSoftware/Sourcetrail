@@ -23,12 +23,13 @@ class StorageAccess
 public:
 	virtual ~StorageAccess();
 
-	virtual Id getIdForNodeWithName(const std::string& name) const = 0;
-	virtual Id getIdForEdgeWithName(const std::string& name) const = 0;
+	virtual Id getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const = 0;
+	virtual Id getIdForEdge(
+		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const = 0;
 
 	virtual std::vector<FileInfo> getInfoOnAllFiles() const = 0;
 
-	virtual std::string getNameForNodeWithId(Id id) const = 0;
+	virtual NameHierarchy getNameHierarchyForNodeWithId(Id id) const = 0;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const = 0;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(
 		const std::string& query, const std::string& word) const = 0;

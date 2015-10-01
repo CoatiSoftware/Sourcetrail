@@ -14,7 +14,7 @@ public:
 	{
 		Id nodeId;
 		Node::NodeType type;
-		std::string name;
+		NameHierarchy nameHierarchy;
 	};
 
 	MessageActivateNodes()
@@ -22,12 +22,12 @@ public:
 	{
 	}
 
-	void addNode(Id tokenId, Node::NodeType type, const std::string& name)
+	void addNode(Id tokenId, Node::NodeType type, const NameHierarchy& nameHierarchy)
 	{
 		ActiveNode node;
 		node.nodeId = tokenId;
 		node.type = type;
-		node.name = name;
+		node.nameHierarchy = nameHierarchy;
 
 		nodes.push_back(node);
 	}

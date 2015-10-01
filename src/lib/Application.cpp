@@ -109,7 +109,7 @@ void Application::handleMessage(MessageFinishedParsing* message)
 
 	m_isInitialParse = false;
 
-	Id mainId = m_storageCache->getIdForNodeWithName("main");
+	Id mainId = m_storageCache->getIdForNodeWithNameHierarchy(NameHierarchy("main"));
 
 	if (!mainId)
 	{
@@ -122,7 +122,7 @@ void Application::handleMessage(MessageFinishedParsing* message)
 		message.addNode(
 			mainId,
 			m_storageCache->getNodeTypeForNodeWithId(mainId),
-			m_storageCache->getNameForNodeWithId(mainId)
+			m_storageCache->getNameHierarchyForNodeWithId(mainId)
 		);
 		message.isFromSystem = true;
 		message.dispatch();

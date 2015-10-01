@@ -48,6 +48,8 @@ private:
 
 	GraphView* getView() const;
 
+	void clear();
+
 	void createDummyGraphForTokenIds(const std::vector<Id>& tokenIds);
 	DummyNode createDummyNodeTopDown(Node* node);
 

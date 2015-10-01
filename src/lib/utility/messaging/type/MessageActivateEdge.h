@@ -5,15 +5,17 @@
 #include "utility/types.h"
 
 #include "data/graph/Edge.h"
+#include "data/name/NameHierarchy.h"
 
 class MessageActivateEdge
 	: public Message<MessageActivateEdge>
 {
 public:
-	MessageActivateEdge(Id tokenId, Edge::EdgeType type, const std::string& name)
+	MessageActivateEdge(Id tokenId, Edge::EdgeType type, const NameHierarchy& fromName, const NameHierarchy& toName)
 		: tokenId(tokenId)
 		, type(type)
-		, name(name)
+		, fromNameHierarchy(fromName)
+		, toNameHierarchy(toName)
 	{
 	}
 
@@ -27,9 +29,15 @@ public:
 		return type == Edge::EDGE_AGGREGATION;
 	}
 
+	std::string getFullName() const
+	{
+		return Edge::getTypeString(type) + ":" + fromNameHierarchy.getFullName() + "->" + toNameHierarchy.getFullName();
+	}
+
 	const Id tokenId;
 	const Edge::EdgeType type;
-	const std::string name;
+	const NameHierarchy fromNameHierarchy;
+	const NameHierarchy toNameHierarchy;
 };
 
 #endif // MESSAGE_ACTIVATE_EDGE_H

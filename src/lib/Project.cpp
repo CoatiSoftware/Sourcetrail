@@ -7,9 +7,11 @@
 #include "data/access/StorageAccessProxy.h"
 #include "data/graph/Token.h"
 #include "data/parser/cxx/TaskParseCxx.h"
+#include "data/TaskCleanStorage.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
 #include "utility/file/FileSystem.h"
+#include "utility/scheduling/TaskGroupSequential.h"
 
 std::shared_ptr<Project> Project::create(StorageAccessProxy* storageAccessProxy)
 {
@@ -103,27 +105,28 @@ void Project::parseCode()
 	std::set<FilePath> removedFilePaths = m_fileManager.getRemovedFilePaths();
 
 	utility::append(updatedFilePaths, m_storage->getDependingFilePaths(updatedFilePaths));
-	utility::append(removedFilePaths, m_storage->getDependingFilePaths(removedFilePaths));
+	utility::append(updatedFilePaths, m_storage->getDependingFilePaths(removedFilePaths));
 
-	MessageStatus("Clearing updated files").dispatch();
-	m_storage->clearFileElements(updatedFilePaths);
+	std::shared_ptr<TaskGroupSequential> taskGroup = std::make_shared<TaskGroupSequential>();
 
-	MessageStatus("Clearing removed files").dispatch();
-	m_storage->clearFileElements(removedFilePaths);
+	std::set<FilePath> filesToClean;
+	utility::append(filesToClean, removedFilePaths);
+	utility::append(filesToClean, updatedFilePaths);
 
-	MessageStatus("Cleaning up names").dispatch();
-	m_storage->removeUnusedNames();
+	taskGroup->addTask(std::make_shared<TaskCleanStorage>(m_storage.get(), filesToClean));
 
 	std::vector<FilePath> filesToParse;
 	filesToParse.insert(filesToParse.end(), addedFilePaths.begin(), addedFilePaths.end());
 	filesToParse.insert(filesToParse.end(), updatedFilePaths.begin(), updatedFilePaths.end());
 
-	Task::dispatch(std::make_shared<TaskParseCxx>(
+	taskGroup->addTask(std::make_shared<TaskParseCxx>(
 		m_storage.get(),
 		&m_fileManager,
 		getParserArguments(),
 		filesToParse
 	));
+
+	Task::dispatch(taskGroup);
 }
 
 void Project::logStats() const

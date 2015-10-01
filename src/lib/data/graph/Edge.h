@@ -54,7 +54,6 @@ public:
 	Node* getTo() const;
 
 	std::string getName() const;
-	static void splitName(const std::string& name, EdgeType* type, std::string* fromName, std::string* toName);
 
 	// Token implementation
 	virtual bool isNode() const;

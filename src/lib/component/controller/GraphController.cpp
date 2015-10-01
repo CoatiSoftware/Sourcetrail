@@ -43,6 +43,12 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 		m_activeEdgeIds.clear();
 	}
 
+	if (!m_activeNodeIds.size() && !m_activeEdgeIds.size())
+	{
+		clear();
+		return;
+	}
+
 	createDummyGraphForTokenIds(utility::concat(m_activeNodeIds, m_activeEdgeIds));
 
 	buildGraph(message);
@@ -131,6 +137,18 @@ void GraphController::handleMessage(MessageGraphNodeMove* message)
 GraphView* GraphController::getView() const
 {
 	return Controller::getView<GraphView>();
+}
+
+void GraphController::clear()
+{
+	m_dummyNodes.clear();
+	m_dummyEdges.clear();
+
+	m_activeNodeIds.clear();
+	m_activeEdgeIds.clear();
+
+	m_graph.reset();
+	getView()->clear();
 }
 
 void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenIds)

@@ -32,21 +32,22 @@ void StorageAccessProxy::setSubject(StorageAccess* subject)
 	m_subject = subject;
 }
 
-Id StorageAccessProxy::getIdForNodeWithName(const std::string& name) const
+Id StorageAccessProxy::getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getIdForNodeWithName(name);
+		return m_subject->getIdForNodeWithNameHierarchy(nameHierarchy);
 	}
 
 	return 0;
 }
 
-Id StorageAccessProxy::getIdForEdgeWithName(const std::string& name) const
-{
+Id StorageAccessProxy::getIdForEdge(
+	Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy
+) const {
 	if (hasSubject())
 	{
-		return m_subject->getIdForEdgeWithName(name);
+		return m_subject->getIdForEdge(type, fromNameHierarchy, toNameHierarchy);
 	}
 
 	return 0;
@@ -71,14 +72,14 @@ Node::NodeType StorageAccessProxy::getNodeTypeForNodeWithId(Id id) const
 	return Node::NODE_UNDEFINED;
 }
 
-std::string StorageAccessProxy::getNameForNodeWithId(Id id) const
+NameHierarchy StorageAccessProxy::getNameHierarchyForNodeWithId(Id id) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getNameForNodeWithId(id);
+		return m_subject->getNameHierarchyForNodeWithId(id);
 	}
 
-	return "";
+	return NameHierarchy();
 }
 
 std::vector<SearchMatch> StorageAccessProxy::getAutocompletionMatches(

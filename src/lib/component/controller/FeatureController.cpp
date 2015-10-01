@@ -19,19 +19,8 @@ void FeatureController::handleMessage(MessageActivateEdge* message)
 {
 	if (message->type == Edge::EDGE_AGGREGATION)
 	{
-		const std::string sourceStartDelimiter = ":";
-		const std::string sourceEndDelimiter = "->";
-
-		const int sourceStartPosition = message->name.find(sourceStartDelimiter) + sourceStartDelimiter.size();
-		const int sourceEndPosition = message->name.find(sourceEndDelimiter);
-		const int targetStartPosition = sourceEndPosition + sourceEndDelimiter.size();
-		const int targetEndPosition = message->name.size();
-
-		const std::string sourceName = message->name.substr(sourceStartPosition, sourceEndPosition - sourceStartPosition);
-		const std::string targetName = message->name.substr(targetStartPosition, targetEndPosition - targetStartPosition);
-
-		const int sourceId = m_storageAccess->getIdForNodeWithName(sourceName);
-		const int targetId = m_storageAccess->getIdForNodeWithName(targetName);
+		const Id sourceId = m_storageAccess->getIdForNodeWithNameHierarchy(message->fromNameHierarchy);
+		const Id targetId = m_storageAccess->getIdForNodeWithNameHierarchy(message->toNameHierarchy);
 
 		MessageActivateTokens m(m_storageAccess->getTokenIdsForAggregationEdge(sourceId, targetId));
 		m.isAggregation = true;
@@ -44,7 +33,7 @@ void FeatureController::handleMessage(MessageActivateEdge* message)
 
 		if (!message->isFresh())
 		{
-			edgeId = m_storageAccess->getIdForEdgeWithName(message->name);
+			edgeId = m_storageAccess->getIdForEdge(message->type, message->fromNameHierarchy, message->toNameHierarchy);
 		}
 
 		if (!edgeId)
@@ -80,17 +69,18 @@ void FeatureController::handleMessage(MessageActivateNodes* message)
 	{
 		for (const MessageActivateNodes::ActiveNode& node : message->nodes)
 		{
-			nodeIds.push_back(m_storageAccess->getIdForNodeWithName(node.name));
+			Id nodeId = m_storageAccess->getIdForNodeWithNameHierarchy(node.nameHierarchy);
+			if (nodeId > 0)
+			{
+				nodeIds.push_back(nodeId);
+			}
 		}
 	}
 
-	if (nodeIds.size())
-	{
-		MessageActivateTokens m(nodeIds);
-		m.isFromSystem = message->isFromSystem;
-		m.undoRedoType = message->undoRedoType;
-		m.dispatchImmediately();
-	}
+	MessageActivateTokens m(nodeIds);
+	m.isFromSystem = message->isFromSystem;
+	m.undoRedoType = message->undoRedoType;
+	m.dispatchImmediately();
 }
 
 void FeatureController::handleMessage(MessageActivateTokenLocations* message)
@@ -104,7 +94,7 @@ void FeatureController::handleMessage(MessageActivateTokenLocations* message)
 		msg.addNode(
 			nodeId,
 			m_storageAccess->getNodeTypeForNodeWithId(nodeId),
-			m_storageAccess->getNameForNodeWithId(nodeId)
+			m_storageAccess->getNameHierarchyForNodeWithId(nodeId)
 		);
 	}
 	msg.dispatchImmediately();

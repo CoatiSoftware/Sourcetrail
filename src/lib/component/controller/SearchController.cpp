@@ -40,7 +40,7 @@ void SearchController::handleMessage(MessageActivateNodes* message)
 	for (const MessageActivateNodes::ActiveNode& node : message->nodes)
 	{
 		SearchMatch match;
-		match.fullName = node.name;
+		match.fullName = node.nameHierarchy.getFullName();
 		match.nodeType = node.type;
 		match.tokenIds.insert(node.nodeId);
 		match.searchType = SearchMatch::SEARCH_TOKEN;

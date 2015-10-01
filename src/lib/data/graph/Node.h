@@ -62,6 +62,7 @@ public:
 
 	std::string getName() const;
 	std::string getFullName() const;
+	NameHierarchy getNameHierarchy() const;
 
 	const std::vector<Edge*>& getEdges() const;
 

@@ -270,7 +270,7 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(std:
 			m_storageAccess->getTokenLocationOfParentScope(firstUsedLine->getTokenLocations().begin()->second.get())->forEachStartTokenLocation(
 				[&](TokenLocation* location)
 				{
-					params.title = m_storageAccess->getNameForNodeWithId(location->getTokenId());
+					params.title = m_storageAccess->getNameHierarchyForNodeWithId(location->getTokenId()).getFullName();
 					params.titleId = location->getId();
 				}
 			);

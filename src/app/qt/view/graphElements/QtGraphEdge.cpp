@@ -151,7 +151,12 @@ void QtGraphEdge::onClick()
 	}
 	else
 	{
-		MessageActivateEdge(getData()->getId(), getData()->getType(), getData()->getName()).dispatch();
+		MessageActivateEdge(
+			getData()->getId(),
+			getData()->getType(),
+			getData()->getFrom()->getNameHierarchy(),
+			getData()->getTo()->getNameHierarchy()
+		).dispatch();
 	}
 }
 

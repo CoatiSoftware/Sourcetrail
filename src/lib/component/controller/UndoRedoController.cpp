@@ -28,7 +28,7 @@ UndoRedoController::Command::Command(std::shared_ptr<MessageBase> message, size_
 void UndoRedoController::handleMessage(MessageActivateEdge* message)
 {
 	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() &&
-		static_cast<MessageActivateEdge*>(m_lastCommand.message.get())->name == message->name)
+		static_cast<MessageActivateEdge*>(m_lastCommand.message.get())->getFullName() == message->getFullName())
 	{
 		return;
 	}
@@ -53,7 +53,8 @@ void UndoRedoController::handleMessage(MessageActivateNodes* message)
 {
 	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() && message->nodes.size() &&
 		static_cast<MessageActivateNodes*>(m_lastCommand.message.get())->nodes.size() == message->nodes.size() &&
-		static_cast<MessageActivateNodes*>(m_lastCommand.message.get())->nodes[0].name == message->nodes[0].name)
+		static_cast<MessageActivateNodes*>(m_lastCommand.message.get())->nodes[0].nameHierarchy.getFullName() ==
+			message->nodes[0].nameHierarchy.getFullName())
 	{
 		return;
 	}

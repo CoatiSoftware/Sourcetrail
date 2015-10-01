@@ -156,6 +156,11 @@ std::string Node::getFullName() const
 	return m_nameHierarchy.getFullName();
 }
 
+NameHierarchy Node::getNameHierarchy() const
+{
+	return m_nameHierarchy;
+}
+
 const std::vector<Edge*>& Node::getEdges() const
 {
 	return m_edges;

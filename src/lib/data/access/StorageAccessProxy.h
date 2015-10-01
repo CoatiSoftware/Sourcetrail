@@ -13,12 +13,13 @@ public:
 	void setSubject(StorageAccess* subject);
 
 	// StorageAccess implementation
-	virtual Id getIdForNodeWithName(const std::string& name) const;
-	virtual Id getIdForEdgeWithName(const std::string& name) const;
+	virtual Id getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const;
+	virtual Id getIdForEdge(
+		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const;
 
 	virtual std::vector<FileInfo> getInfoOnAllFiles() const;
 
-	virtual std::string getNameForNodeWithId(Id id) const;
+	virtual NameHierarchy getNameHierarchyForNodeWithId(Id id) const;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(
 		const std::string& query, const std::string& word) const;

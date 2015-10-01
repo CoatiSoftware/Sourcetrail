@@ -117,24 +117,6 @@ std::string Edge::getName() const
 	return getTypeString() + ":" + getFrom()->getFullName() + "->" + getTo()->getFullName();
 }
 
-void Edge::splitName(const std::string& name, EdgeType* type, std::string* fromName, std::string* toName)
-{
-	EdgeTypeMask mask = 1;
-	std::string typeStr = utility::substrBefore(name, ':');
-
-	while (typeStr != getTypeString(static_cast<EdgeType>(mask)))
-	{
-		mask = mask << 1;
-	}
-
-	*type = static_cast<EdgeType>(mask);
-
-	std::string names = utility::substrAfter(name, ':');
-
-	*fromName = utility::substrBefore(names, '-');
-	*toName = utility::substrAfter(utility::substrAfter(names, '-'), '>');
-}
-
 bool Edge::isNode() const
 {
 	return false;

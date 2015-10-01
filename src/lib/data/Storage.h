@@ -26,11 +26,10 @@ public:
 	void clear();
 	void clearCaches();
 
-	void clearFileElements(const std::set<FilePath>& filePaths);
-	void clearFileElements(const FilePath& filePath);
 	std::set<FilePath> getDependingFilePaths(const std::set<FilePath>& filePaths);
 	std::set<FilePath> getDependingFilePaths(const FilePath& filePath);
 
+	void clearFileElement(const FilePath& filePath);
 	void removeUnusedNames();
 
 	void logGraph() const;
@@ -123,12 +122,13 @@ public:
 	virtual Id onMacroExpandParsed(const ParseLocation& location, const NameHierarchy& macroNameHierarchy);
 
 	// StorageAccess implementation
-	virtual Id getIdForNodeWithName(const std::string& fullName) const;
-	virtual Id getIdForEdgeWithName(const std::string& name) const;
+	virtual Id getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const;
+	virtual Id getIdForEdge(
+		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const;
 
 	virtual std::vector<FileInfo> getInfoOnAllFiles() const;
 
-	virtual std::string getNameForNodeWithId(Id nodeId) const;
+	virtual NameHierarchy getNameHierarchyForNodeWithId(Id nodeId) const;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id nodeId) const;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(
 		const std::string& query, const std::string& word) const;
@@ -168,6 +168,7 @@ private:
 	Id addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type, ParseLocation location);
 
 	Id getFileNodeId(const FilePath& filePath) const;
+	FilePath getFileNodePath(Id fileId) const;
 
 	Id getLastVisibleParentNodeId(const Id nodeId) const;
 	std::vector<Id> getAllChildNodeIds(const Id nodeId) const;

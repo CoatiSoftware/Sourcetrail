@@ -188,6 +188,8 @@ add_files(
 	data/StorageCache.cpp
 	data/StorageCache.h
 	data/StorageTypes.h
+	data/TaskCleanStorage.cpp
+	data/TaskCleanStorage.h
 
 	settings/ApplicationSettings.cpp
 	settings/ApplicationSettings.h
