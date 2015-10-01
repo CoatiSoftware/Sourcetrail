@@ -47,18 +47,10 @@ endif ()
 
 # Clang ------------------------------------------------------------------------
 
-if(UNIX AND NOT APPLE)
-	if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
-		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_release/share/llvm/cmake")
-	else()
-		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_debug/share/llvm/cmake")
-	endif()
+if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+	find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_release/share/llvm/cmake")
 else()
-	if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
-		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_release/share/llvm/cmake")
-	else()
-		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build/share/llvm/cmake")
-	endif()
+	find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_debug/share/llvm/cmake")
 endif()
 
 find_package(CLANG REQUIRED PATHS "${CMAKE_SOURCE_DIR}/cmake")

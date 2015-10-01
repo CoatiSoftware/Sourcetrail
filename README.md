@@ -41,11 +41,10 @@ $ git pull origin master
 $ cd tools/extra/
 $ git pull origin master
 
-$ cd ../../../../../build
+$ cd ../../../../../build_debug
 $ cmake -G Ninja ../llvm
-$ ninja -j 4 check-all
+$ ninja -j4 check-all
 
 $ cd ../release_build
 $ cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ../llvm
-$ ninja -j 4 clang
-
+$ ninja -j4 check-all
