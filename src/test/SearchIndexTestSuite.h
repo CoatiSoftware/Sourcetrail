@@ -174,14 +174,14 @@ public:
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
 		TS_ASSERT_EQUALS(2, matches.size());
-		TS_ASSERT_EQUALS("MATH", matches[0].fullName);
-		TS_ASSERT_EQUALS("util", matches[1].fullName);
+		TS_ASSERT_EQUALS("util", matches[0].fullName);
+		TS_ASSERT_EQUALS("MATH", matches[1].fullName);
 
 		matches = index.runFuzzySearchAndGetMatches("T");
 
 		TS_ASSERT_EQUALS(2, matches.size());
-		TS_ASSERT_EQUALS("MATH", matches[0].fullName);
-		TS_ASSERT_EQUALS("util", matches[1].fullName);
+		TS_ASSERT_EQUALS("util", matches[0].fullName);
+		TS_ASSERT_EQUALS("MATH", matches[1].fullName);
 	}
 
 	void test_fuzzy_matching_wheighs_by_distance_and_alphabet()
