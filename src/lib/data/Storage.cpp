@@ -784,6 +784,42 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 	return matches;
 }
 
+std::vector<SearchMatch> Storage::getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const
+{
+	std::vector<SearchMatch> matches;
+
+	for (Id tokenId : tokenIds)
+	{
+		SearchMatch match;
+
+		if (m_sqliteStorage.isFile(tokenId))
+		{
+			StorageFile file = m_sqliteStorage.getFileById(tokenId);
+
+			match.fullName = m_tokenIndex.getNameHierarchyForTokenId(tokenId).getFullName();
+			match.nodeType = Node::NODE_FILE;
+		}
+		else if (m_sqliteStorage.isNode(tokenId))
+		{
+			StorageNode node = m_sqliteStorage.getNodeById(tokenId);
+
+			match.fullName = m_tokenIndex.getNameHierarchyForTokenId(tokenId).getFullName();
+			match.nodeType = Node::intToType(node.type);
+		}
+		else
+		{
+			continue;
+		}
+
+		match.tokenIds.insert(tokenId);
+		match.searchType = SearchMatch::SEARCH_TOKEN;
+
+		matches.push_back(match);
+	}
+
+	return matches;
+}
+
 std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const
 {
 	std::shared_ptr<Graph> g = std::make_shared<Graph>();

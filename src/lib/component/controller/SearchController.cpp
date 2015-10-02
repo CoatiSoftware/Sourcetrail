@@ -12,52 +12,17 @@ SearchController::~SearchController()
 {
 }
 
-void SearchController::handleMessage(MessageActivateEdge* message)
+void SearchController::handleMessage(MessageActivateTokens* message)
 {
-	if (!message->isAggregation())
+	if (!message->isEdge)
 	{
-		return;
+		getView()->setMatches(m_storageAccess->getSearchMatchesForTokenIds(message->tokenIds));
 	}
-
-	getView()->setMatches(std::vector<SearchMatch>());
-}
-
-void SearchController::handleMessage(MessageActivateFile* message)
-{
-	SearchMatch match;
-	match.fullName = message->filePath.fileName();
-	match.nodeType = Node::NODE_FILE;
-	match.tokenIds.insert(m_storageAccess->getTokenIdForFileNode(message->filePath));
-	match.searchType = SearchMatch::SEARCH_TOKEN;
-
-	getView()->setMatches(std::vector<SearchMatch>(1, match));
-}
-
-void SearchController::handleMessage(MessageActivateNodes* message)
-{
-	std::vector<SearchMatch> matches;
-
-	for (const MessageActivateNodes::ActiveNode& node : message->nodes)
-	{
-		SearchMatch match;
-		match.fullName = node.nameHierarchy.getFullName();
-		match.nodeType = node.type;
-		match.tokenIds.insert(node.nodeId);
-		match.searchType = SearchMatch::SEARCH_TOKEN;
-		matches.push_back(match);
-	}
-
-	getView()->setMatches(matches);
 }
 
 void SearchController::handleMessage(MessageFind* message)
 {
 	getView()->setFocus();
-}
-
-void SearchController::handleMessage(MessageSearch* message)
-{
-	getView()->setMatches(message->getMatches());
 }
 
 void SearchController::handleMessage(MessageSearchAutocomplete* message)

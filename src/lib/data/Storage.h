@@ -130,8 +130,10 @@ public:
 
 	virtual NameHierarchy getNameHierarchyForNodeWithId(Id nodeId) const;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id nodeId) const;
+
 	virtual std::vector<SearchMatch> getAutocompletionMatches(
 		const std::string& query, const std::string& word) const;
+	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const;
 
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const;
 
@@ -155,6 +157,8 @@ public:
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationOfParentScope(const TokenLocation* child) const;
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const;
+
+
 
 private:
 	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool distinct = false);

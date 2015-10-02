@@ -94,6 +94,16 @@ std::vector<SearchMatch> StorageAccessProxy::getAutocompletionMatches(
 	return std::vector<SearchMatch>();
 }
 
+std::vector<SearchMatch> StorageAccessProxy::getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getSearchMatchesForTokenIds(tokenIds);
+	}
+
+	return std::vector<SearchMatch>();
+}
+
 std::shared_ptr<Graph> StorageAccessProxy::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const
 {
 	if (hasSubject())
