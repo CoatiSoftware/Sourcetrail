@@ -53,7 +53,6 @@ void Application::loadSettings()
 }
 
 Application::Application()
-	: m_isInitialParse(true)
 {
 	TaskScheduler::getInstance()->startSchedulerLoopThreaded();
 	MessageQueue::getInstance()->setSendMessagesAsTasks(true);
@@ -106,36 +105,14 @@ void Application::handleMessage(MessageFinishedParsing* message)
 {
 	m_project->logStats();
 
-	if (!m_isInitialParse || message->errorCount > 0)
+	if (message->errorCount == 0)
 	{
-		return;
-	}
-
-	m_isInitialParse = false;
-
-	Id nodeId = m_storageCache->getIdForNodeWithNameHierarchy(NameHierarchy("main"));
-
-	if (!nodeId)
-	{
-		nodeId = m_storageCache->getIdForFirstNode();
-	}
-
-	if (nodeId)
-	{
-		MessageActivateNodes message;
-		message.addNode(
-			nodeId,
-			m_storageCache->getNodeTypeForNodeWithId(nodeId),
-			m_storageCache->getNameHierarchyForNodeWithId(nodeId)
-		);
-		message.isFromSystem = true;
-		message.dispatch();
+		MessageRefresh().refreshUiOnly().dispatch();
 	}
 }
 
 void Application::handleMessage(MessageLoadProject* message)
 {
-	m_isInitialParse = true;
 	loadProject(message->projectSettingsFilePath);
 }
 

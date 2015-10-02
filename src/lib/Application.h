@@ -46,8 +46,6 @@ private:
 
 	std::shared_ptr<MainView> m_mainView;
 	std::shared_ptr<ComponentManager> m_componentManager;
-
-	bool m_isInitialParse;
 };
 
 #endif // APPLICATION_H

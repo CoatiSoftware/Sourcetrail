@@ -316,10 +316,8 @@ std::pair<size_t, size_t> SearchNode::fuzzyMatch(
 	size_t pos = start;
 	size_t weight = 0;
 	size_t matchCount = 0;
-	char lastChar = '\0';
 
 	size_t ql = query.size();
-	size_t ml = m_name.size();
 
 	if (!query.size())
 	{
@@ -344,20 +342,37 @@ std::pair<size_t, size_t> SearchNode::fuzzyMatch(
 		}
 	}
 
-	for (size_t i = 0; i < ml; i++)
+	char last = '\0';
+	size_t nl = m_name.size();
+	for (size_t i = 0; i < nl; i++)
 	{
 		char c = m_name[i];
+		char next = (i + 1 == nl ? '\0' : m_name[i + 1]);
+
 		if (tolower(query[pos]) == tolower(c))
 		{
 			weight += std::max<size_t>(100 / sqrt(size + i + 1), 1);
+
 			if (matchCount)
 			{
 				weight += matchCount * matchCount * 10;
 			}
-			else if (i == 0 || lastChar == '_' || tolower(c) != c)
+
+
+			if (i == 0)
 			{
 				weight += 20;
 			}
+
+			if (last == '_' || next == '_')
+			{
+				weight += 20;
+			}
+			else if ((tolower(c) != c && tolower(next) == next) || (tolower(c) == c && tolower(next) != next))
+			{
+				weight += 20;
+			}
+
 			matchCount++;
 
 			pos++;
@@ -376,7 +391,7 @@ std::pair<size_t, size_t> SearchNode::fuzzyMatch(
 			matchCount = 0;
 		}
 
-		lastChar = c;
+		last = c;
 	}
 
 	return std::pair<size_t, size_t>(pos, weight);

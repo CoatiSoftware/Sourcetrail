@@ -20,36 +20,22 @@ const std::vector<FilePath>& FileManager::getSourcePaths() const
 	return m_sourcePaths;
 }
 
-const std::vector<FilePath>& FileManager::getIncludePaths() const
-{
-	return m_includePaths;
-}
-
 void FileManager::setPaths(
 	std::vector<FilePath> sourcePaths,
-	std::vector<FilePath> includePaths,
 	std::vector<std::string> sourceExtensions,
 	std::vector<std::string> includeExtensions
 ){
 	m_sourcePaths = sourcePaths;
-	m_includePaths = includePaths;
 	m_sourceExtensions = sourceExtensions;
 	m_includeExtensions = includeExtensions;
 }
 
-void FileManager::clear()
-{
-	m_files.clear();
-	m_addedFiles.clear();
-	m_updatedFiles.clear();
-	m_removedFiles.clear();
-}
-
 void FileManager::fetchFilePaths(const std::vector<FileInfo>& oldFileInfos)
 {
+	m_files.clear();
 	for (FileInfo oldFileInfo: oldFileInfos)
 	{
-		m_files[oldFileInfo.path] = oldFileInfo;
+		m_files.emplace(oldFileInfo.path, oldFileInfo);
 	}
 
 	m_addedFiles.clear();
@@ -135,7 +121,7 @@ std::vector<FileInfo> FileManager::getFileInfosInProject() const
 	std::vector<FileInfo> fileInfos;
 
 	std::vector<std::pair<std::vector<FilePath>, std::vector<std::string>>> pathsExtensionsPairs;
-	pathsExtensionsPairs.push_back(std::make_pair(m_includePaths, m_includeExtensions));
+	pathsExtensionsPairs.push_back(std::make_pair(m_sourcePaths, m_includeExtensions));
 	pathsExtensionsPairs.push_back(std::make_pair(m_sourcePaths, m_sourceExtensions));
 
 	for (size_t i = 0; i < pathsExtensionsPairs.size(); i++)

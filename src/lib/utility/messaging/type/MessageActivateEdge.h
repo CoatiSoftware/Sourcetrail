@@ -17,6 +17,7 @@ public:
 		, fromNameHierarchy(fromName)
 		, toNameHierarchy(toName)
 	{
+		setKeepContent(true);
 	}
 
 	static const std::string getStaticType()

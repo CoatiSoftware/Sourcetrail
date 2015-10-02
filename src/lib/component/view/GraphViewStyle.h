@@ -116,6 +116,8 @@ public:
 	static int toGridSize(int x);
 	static int toGridGap(int x);
 
+	static float getZoomFactor();
+
 	static int s_gridCellSize;
 	static int s_gridCellPadding;
 
@@ -129,6 +131,7 @@ private:
 
 	static int s_fontSize;
 	static std::string s_fontName;
+	static float s_zoomFactor;
 };
 
 #endif // GRAPH_VIEW_STYLE_H

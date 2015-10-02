@@ -63,7 +63,6 @@ FileInfo FileSystem::getFileInfoForPath(FilePath filePath)
 	return FileInfo();
 }
 
-
 std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 	const std::vector<FilePath>& paths, const std::vector<std::string>& fileExtensions
 ){

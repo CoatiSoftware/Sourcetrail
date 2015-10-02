@@ -4,9 +4,11 @@
 #include "utility/messaging/type/MessageFlushUpdates.h"
 
 #include "component/view/UndoRedoView.h"
+#include "data/access/StorageAccess.h"
 
-UndoRedoController::UndoRedoController()
-	: m_lastCommand(nullptr, 0)
+UndoRedoController::UndoRedoController(StorageAccess* storageAccess)
+	: m_storageAccess(storageAccess)
+	, m_lastCommand(nullptr, 0)
 {
 }
 
@@ -63,6 +65,34 @@ void UndoRedoController::handleMessage(MessageActivateNodes* message)
 	processCommand(command);
 }
 
+void UndoRedoController::handleMessage(MessageDeactivateEdge* message)
+{
+	MessageBase* m = nullptr;
+
+	if (m_lastCommand.message && m_lastCommand.order == 0)
+	{
+		m = m_lastCommand.message.get();
+	}
+	else if (m_undo.size())
+	{
+		int i = m_undo.size() - 1;
+		while (i >= 0 && m_undo[i].order > 0)
+		{
+			i--;
+		}
+		m = m_undo[i].message.get();
+	}
+
+	if (m)
+	{
+		bool keepContent = m->keepContent();
+		m->undoRedoType = MessageBase::UNDOTYPE_NORMAL;
+		m->setKeepContent(true);
+		m->dispatch();
+		m->setKeepContent(keepContent);
+	}
+}
+
 void UndoRedoController::handleMessage(MessageGraphNodeBundleSplit* message)
 {
 	Command command(std::make_shared<MessageGraphNodeBundleSplit>(*message), 1);
@@ -101,8 +131,31 @@ void UndoRedoController::handleMessage(MessageRedo* message)
 
 void UndoRedoController::handleMessage(MessageRefresh* message)
 {
+	if (!message->uiOnly)
+	{
+		return;
+	}
+
 	if (!m_lastCommand.message)
 	{
+		Id nodeId = m_storageAccess->getIdForNodeWithNameHierarchy(NameHierarchy("main"));
+		if (!nodeId)
+		{
+			nodeId = m_storageAccess->getIdForFirstNode();
+		}
+
+		if (nodeId)
+		{
+			MessageActivateNodes m;
+			m.addNode(
+				nodeId,
+				m_storageAccess->getNodeTypeForNodeWithId(nodeId),
+				m_storageAccess->getNameHierarchyForNodeWithId(nodeId)
+			);
+			m.isFromSystem = true;
+			m.dispatch();
+		}
+
 		return;
 	}
 

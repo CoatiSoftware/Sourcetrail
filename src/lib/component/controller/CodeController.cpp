@@ -26,7 +26,7 @@ const uint CodeController::s_lineRadius = 2;
 
 void CodeController::handleMessage(MessageActivateTokens* message)
 {
-	if (message->isEdge && message->isIgnorable())
+	if (message->keepContent() && message->isIgnorable())
 	{
 		return;
 	}
@@ -47,6 +47,10 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	if (message->isEdge)
 	{
 		view->showFirstActiveSnippet();
+	}
+
+	if (message->keepContent())
+	{
 		return;
 	}
 

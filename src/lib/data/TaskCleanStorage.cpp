@@ -48,11 +48,15 @@ Task::TaskState TaskCleanStorage::update()
 
 void TaskCleanStorage::exit()
 {
-	// std::cout << "clean duration: " << utility::duration(m_start) << std::endl;
+	std::stringstream ss;
+	ss << "clearing files done, ";
+	ss << std::setprecision(2) << std::fixed << utility::duration(m_start) << " seconds";
+	MessageStatus(ss.str()).dispatch();
 }
 
 void TaskCleanStorage::interrupt()
 {
+	MessageStatus("Clearing file interrupted", false, true).dispatch();
 }
 
 void TaskCleanStorage::revert()

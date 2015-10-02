@@ -60,8 +60,10 @@ void GraphViewStyle::setImpl(std::shared_ptr<GraphViewStyleImpl> impl)
 
 void GraphViewStyle::loadStyleSettings()
 {
-	s_fontSize = ApplicationSettings::getInstance()->getFontSize();
+	s_fontSize = 14;
 	s_fontName = ApplicationSettings::getInstance()->getFontName();
+
+	s_zoomFactor = ApplicationSettings::getInstance()->getFontSize() / float(s_fontSize);
 
 	s_charWidths.clear();
 	s_charHeights.clear();
@@ -132,7 +134,7 @@ size_t GraphViewStyle::getFontSizeOfAccessNode()
 
 size_t GraphViewStyle::getFontSizeOfExpandToggleNode()
 {
-	return s_fontSize - 5;
+	return s_fontSize - 3;
 }
 
 size_t GraphViewStyle::getFontSizeOfCountCircle()
@@ -243,7 +245,7 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfExpandToggleNode()
 {
 	NodeMargins margins;
 
-	margins.left = margins.right = margins.top = margins.bottom = 7;
+	margins.left = margins.right = margins.top = margins.bottom = 6;
 	margins.minWidth = margins.charHeight = getFontSizeOfExpandToggleNode();
 
 	return margins;
@@ -513,6 +515,11 @@ int GraphViewStyle::toGridGap(int x)
 	return s_gridCellPadding + toGridOffset(x - s_gridCellPadding);
 }
 
+float GraphViewStyle::getZoomFactor()
+{
+	return s_zoomFactor;
+}
+
 void GraphViewStyle::addIcon(Node::NodeType type, bool hasChildren, NodeStyle* style)
 {
 	switch (type)
@@ -560,3 +567,4 @@ std::shared_ptr<GraphViewStyleImpl> GraphViewStyle::s_impl;
 
 int GraphViewStyle::s_fontSize;
 std::string GraphViewStyle::s_fontName;
+float GraphViewStyle::s_zoomFactor;

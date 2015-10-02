@@ -17,6 +17,7 @@ public:
 	MessageBase()
 		: undoRedoType(UNDOTYPE_NORMAL)
 		, m_sendAsTask(true)
+		, m_keepContent(false)
 	{
 	}
 
@@ -47,10 +48,21 @@ public:
 		return (undoRedoType == UNDOTYPE_IGNORE);
 	}
 
+	void setKeepContent(bool keepContent)
+	{
+		m_keepContent = keepContent;
+	}
+
+	bool keepContent() const
+	{
+		return m_keepContent;
+	}
+
 	UndoType undoRedoType;
 
 private:
 	bool m_sendAsTask;
+	bool m_keepContent;
 };
 
 #endif // MESSAGE_BASE_H

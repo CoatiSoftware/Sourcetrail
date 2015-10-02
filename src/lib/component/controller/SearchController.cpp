@@ -14,7 +14,7 @@ SearchController::~SearchController()
 
 void SearchController::handleMessage(MessageActivateTokens* message)
 {
-	if (!message->isEdge)
+	if (!message->keepContent())
 	{
 		getView()->setMatches(m_storageAccess->getSearchMatchesForTokenIds(message->tokenIds));
 	}

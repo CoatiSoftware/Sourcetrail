@@ -3,7 +3,7 @@
 #include <QBoxLayout>
 #include <QFrame>
 #include <QGraphicsScene>
-#include <QGraphicsView>
+#include <QMouseEvent>
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
 #include <QScrollBar>
@@ -12,6 +12,8 @@
 #include "component/controller/helper/DummyEdge.h"
 #include "component/controller/helper/DummyNode.h"
 #include "component/controller/helper/GraphPostprocessor.h"
+#include "component/view/GraphViewStyle.h"
+#include "utility/messaging/type/MessageDeactivateEdge.h"
 
 #include "qt/utility/utilityQt.h"
 
@@ -24,6 +26,32 @@
 #include "qt/view/graphElements/QtGraphNodeData.h"
 #include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
 #include "settings/ColorScheme.h"
+
+QtGraphicsView::QtGraphicsView(QWidget* parent)
+	: QGraphicsView(parent)
+{
+}
+
+void QtGraphicsView::mousePressEvent(QMouseEvent *event)
+{
+	if (event->button() == Qt::LeftButton && !itemAt(event->pos()))
+	{
+		m_last = event->pos();
+	}
+
+	QGraphicsView::mousePressEvent(event);
+}
+
+void QtGraphicsView::mouseReleaseEvent(QMouseEvent *event)
+{
+	if (event->button() == Qt::LeftButton && !itemAt(event->pos()) && event->pos() == m_last)
+	{
+		emit emptySpaceClicked();
+	}
+
+	QGraphicsView::mouseReleaseEvent(event);
+}
+
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)
@@ -56,12 +84,14 @@ void QtGraphView::initView()
 	widget->setLayout(layout);
 
 	QGraphicsScene* scene = new QGraphicsScene(widget);
-	QGraphicsView* view = new QGraphicsView(widget);
+	QGraphicsView* view = new QtGraphicsView(widget);
 	view->setScene(scene);
 	view->setDragMode(QGraphicsView::ScrollHandDrag);
 	view->setRenderHints(QPainter::Antialiasing);
 
 	widget->layout()->addWidget(view);
+
+	connect(view, SIGNAL(emptySpaceClicked()), this, SLOT(clickedInEmptySpace()));
 
 	doRefreshView();
 }
@@ -112,6 +142,23 @@ void QtGraphView::finishedTransition()
 	view->setInteractive(true);
 
 	switchToNewGraphData();
+}
+
+void QtGraphView::clickedInEmptySpace()
+{
+	size_t activeEdgeCount = 0;
+	for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+	{
+		if (edge->getIsActive())
+		{
+			activeEdgeCount++;
+		}
+	}
+
+	if (activeEdgeCount == 1)
+	{
+		MessageDeactivateEdge().dispatch();
+	}
 }
 
 void QtGraphView::switchToNewGraphData()
@@ -239,6 +286,9 @@ void QtGraphView::doRefreshView()
 
 	std::string css = utility::getStyleSheet("data/gui/graph_view/graph_view.css");
 	getView()->setStyleSheet(css.c_str());
+
+	float zoomFactor = GraphViewStyle::getZoomFactor();
+	getView()->setTransform(QTransform(zoomFactor, 0, 0, zoomFactor, 0, 0));
 }
 
 std::shared_ptr<QtGraphNode> QtGraphView::findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId)

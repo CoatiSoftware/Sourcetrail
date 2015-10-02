@@ -8,6 +8,7 @@
 #include "utility/messaging/type/MessageActivateEdge.h"
 #include "utility/messaging/type/MessageActivateFile.h"
 #include "utility/messaging/type/MessageActivateNodes.h"
+#include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
@@ -21,6 +22,7 @@
 
 #include "component/controller/Controller.h"
 
+class StorageAccess;
 class UndoRedoView;
 
 class UndoRedoController
@@ -28,6 +30,7 @@ class UndoRedoController
 	, public MessageListener<MessageActivateEdge>
 	, public MessageListener<MessageActivateFile>
 	, public MessageListener<MessageActivateNodes>
+	, public MessageListener<MessageDeactivateEdge>
 	, public MessageListener<MessageGraphNodeBundleSplit>
 	, public MessageListener<MessageGraphNodeExpand>
 	, public MessageListener<MessageGraphNodeMove>
@@ -40,7 +43,7 @@ class UndoRedoController
 	, public MessageListener<MessageUndo>
 {
 public:
-	UndoRedoController();
+	UndoRedoController(StorageAccess* storageAccess);
 	virtual ~UndoRedoController();
 
 	UndoRedoView* getView();
@@ -57,6 +60,7 @@ private:
 	virtual void handleMessage(MessageActivateEdge* message);
 	virtual void handleMessage(MessageActivateFile* message);
 	virtual void handleMessage(MessageActivateNodes* message);
+	virtual void handleMessage(MessageDeactivateEdge* message);
 	virtual void handleMessage(MessageGraphNodeBundleSplit* message);
 	virtual void handleMessage(MessageGraphNodeExpand* message);
 	virtual void handleMessage(MessageGraphNodeMove* message);
@@ -76,6 +80,8 @@ private:
 	void processUndoCommand(const Command& command);
 
 	void clear();
+
+	StorageAccess* m_storageAccess;
 
 	Command m_lastCommand;
 

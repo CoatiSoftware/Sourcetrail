@@ -77,7 +77,7 @@ std::shared_ptr<Component> ComponentFactory::createSearchComponent(ViewLayout* v
 std::shared_ptr<Component> ComponentFactory::createUndoRedoComponent(ViewLayout* viewLayout)
 {
 	std::shared_ptr<UndoRedoView> view = m_viewFactory->createUndoRedoView(viewLayout);
-	std::shared_ptr<UndoRedoController> controller = std::make_shared<UndoRedoController>();
+	std::shared_ptr<UndoRedoController> controller = std::make_shared<UndoRedoController>(m_storageAccess);
 
 	return std::make_shared<Component>(view, controller);
 }

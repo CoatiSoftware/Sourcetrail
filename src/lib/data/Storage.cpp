@@ -81,8 +81,10 @@ void Storage::clearFileElement(const FilePath& filePath)
 	Id fileId = getFileNodeId(filePath);
 	if (fileId != 0)
 	{
+		m_sqliteStorage.beginTransaction();
 		m_sqliteStorage.removeElementsWithLocationInFile(fileId);
 		m_sqliteStorage.removeFile(fileId);
+		m_sqliteStorage.commitTransaction();
 	}
 }
 

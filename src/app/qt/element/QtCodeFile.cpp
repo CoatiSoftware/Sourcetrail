@@ -223,11 +223,21 @@ QWidget* QtCodeFile::findFirstActiveSnippet() const
 		return nullptr;
 	}
 
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	if (m_maximizeButton->isEnabled())
 	{
-		if (snippet->isActive())
+		for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
 		{
-			return snippet.get();
+			if (snippet->isActive())
+			{
+				return snippet.get();
+			}
+		}
+	}
+	else
+	{
+		if (m_fileSnippet->isActive())
+		{
+			return m_fileSnippet.get();
 		}
 	}
 

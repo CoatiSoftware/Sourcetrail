@@ -25,7 +25,7 @@ GraphController::~GraphController()
 
 void GraphController::handleMessage(MessageActivateTokens* message)
 {
-	if (message->isEdge && message->tokenIds.size() == 1)
+	if (message->isEdge || message->keepContent())
 	{
 		m_activeEdgeIds = message->tokenIds;
 		setActiveAndVisibility(utility::concat(m_activeNodeIds, m_activeEdgeIds));

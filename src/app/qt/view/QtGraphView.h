@@ -1,20 +1,37 @@
 #ifndef QT_GRAPH_VIEW_H
 #define QT_GRAPH_VIEW_H
 
+#include <QGraphicsView>
 #include <QPointF>
 
-#include "utility/types.h"
-
-#include "qt/utility/QtThreadedFunctor.h"
-
 #include "component/view/GraphView.h"
+#include "qt/utility/QtThreadedFunctor.h"
+#include "utility/types.h"
 
 struct DummyEdge;
 struct DummyNode;
-class QGraphicsView;
+class QMouseEvent;
 class QSequentialAnimationGroup;
 class QtGraphEdge;
 class QtGraphNode;
+
+class QtGraphicsView
+	: public QGraphicsView
+{
+	Q_OBJECT
+
+public:
+	QtGraphicsView(QWidget* parent);
+	void mousePressEvent(QMouseEvent *event);
+	void mouseReleaseEvent(QMouseEvent *event);
+
+signals:
+	void emptySpaceClicked();
+
+private:
+	QPoint m_last;
+};
+
 
 class QtGraphView
 	: public QObject
@@ -44,6 +61,7 @@ public:
 private slots:
 	void centerScrollBars();
 	void finishedTransition();
+	void clickedInEmptySpace();
 
 private:
 	void switchToNewGraphData();

@@ -41,10 +41,11 @@ void FeatureController::handleMessage(MessageActivateEdge* message)
 			return;
 		}
 
-		MessageActivateTokens msg(std::vector<Id>(1, edgeId));
-		msg.isEdge = true;
-		msg.undoRedoType = message->undoRedoType;
-		msg.dispatchImmediately();
+		MessageActivateTokens m(std::vector<Id>(1, edgeId));
+		m.isEdge = true;
+		m.undoRedoType = message->undoRedoType;
+		m.setKeepContent(message->keepContent());
+		m.dispatchImmediately();
 	}
 }
 
@@ -52,6 +53,7 @@ void FeatureController::handleMessage(MessageActivateFile* message)
 {
 	MessageActivateTokens m(std::vector<Id>(1, m_storageAccess->getTokenIdForFileNode(message->filePath)));
 	m.undoRedoType = message->undoRedoType;
+	m.setKeepContent(message->keepContent());
 	m.dispatchImmediately();
 }
 
@@ -80,6 +82,7 @@ void FeatureController::handleMessage(MessageActivateNodes* message)
 	MessageActivateTokens m(nodeIds);
 	m.isFromSystem = message->isFromSystem;
 	m.undoRedoType = message->undoRedoType;
+	m.setKeepContent(message->keepContent());
 	m.dispatchImmediately();
 }
 
@@ -88,16 +91,16 @@ void FeatureController::handleMessage(MessageActivateTokenLocations* message)
 	std::vector<Id> nodeIds = m_storageAccess->getNodeIdsForLocationIds(message->locationIds);
 	nodeIds = m_storageAccess->getActiveTokenIdsForTokenIds(nodeIds);
 
-	MessageActivateNodes msg;
+	MessageActivateNodes m;
 	for (Id nodeId : nodeIds)
 	{
-		msg.addNode(
+		m.addNode(
 			nodeId,
 			m_storageAccess->getNodeTypeForNodeWithId(nodeId),
 			m_storageAccess->getNameHierarchyForNodeWithId(nodeId)
 		);
 	}
-	msg.dispatchImmediately();
+	m.dispatchImmediately();
 }
 
 void FeatureController::handleMessage(MessageSearch* message)
@@ -107,6 +110,7 @@ void FeatureController::handleMessage(MessageSearch* message)
 
 	MessageActivateTokens m(tokenIds);
 	m.undoRedoType = message->undoRedoType;
+	m.setKeepContent(message->keepContent());
 	m.dispatchImmediately();
 }
 

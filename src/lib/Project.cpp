@@ -29,8 +29,6 @@ bool Project::loadProjectSettings(const FilePath& projectSettingsFile)
 	if (success)
 	{
 		setProjectSettingsFilePath(projectSettingsFile);
-
-		m_fileManager.clear();
 		updateFileManager();
 	}
 	return success;
@@ -66,8 +64,6 @@ void Project::reloadProjectSettings()
 
 void Project::clearStorage()
 {
-	m_fileManager.clear();
-
 	if (m_storage)
 	{
 		m_storage->clear();
@@ -158,12 +154,11 @@ void Project::updateFileManager()
 	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
 
 	std::vector<FilePath> sourcePaths(projSettings->getSourcePaths());
-	std::vector<FilePath> includePaths(sourcePaths);
 
 	std::vector<std::string> sourceExtensions = projSettings->getSourceExtensions();
 	std::vector<std::string> includeExtensions = projSettings->getHeaderExtensions();
 
-	m_fileManager.setPaths(sourcePaths, includePaths, sourceExtensions, includeExtensions);
+	m_fileManager.setPaths(sourcePaths, sourceExtensions, includeExtensions);
 }
 
 Parser::Arguments Project::getParserArguments() const
@@ -176,8 +171,8 @@ Parser::Arguments Project::getParserArguments() const
 	utility::append(args.compilerFlags, projSettings->getCompilerFlags());
 	utility::append(args.compilerFlags, appSettings->getCompilerFlags());
 
-	// Add the include paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
-	utility::append(args.systemHeaderSearchPaths, m_fileManager.getIncludePaths());
+	// Add the source paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
+	utility::append(args.systemHeaderSearchPaths, m_fileManager.getSourcePaths());
 
 	// std::vector<FilePath> headerSearchSubPaths;
 	// for(FilePath p : projSettings->getHeaderSearchPaths())

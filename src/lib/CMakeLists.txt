@@ -239,6 +239,7 @@ add_files(
 	utility/messaging/type/MessageActivateTokenLocations.h
 	utility/messaging/type/MessageActivateTokens.h
 	utility/messaging/type/MessageAutoRefreshChanged.h
+	utility/messaging/type/MessageDeactivateEdge.h
 	utility/messaging/type/MessageFind.h
 	utility/messaging/type/MessageFinishedParsing.h
 	utility/messaging/type/MessageFlushUpdates.h
