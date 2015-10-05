@@ -160,13 +160,6 @@ void SqliteStorage::removeNameHierarchyElement(Id id)
 	).c_str());
 }
 
-void SqliteStorage::removeElementsWithLocationInFile(Id fileId)
-{
-	m_database.execDML((
-		"DELETE FROM element WHERE id IN (SELECT element_id FROM source_location WHERE source_location.file_node_id == " + std::to_string(fileId) + ");"
-	).c_str());
-}
-
 void SqliteStorage::removeFile(Id id)
 {
 	if (isFile(id))
@@ -179,6 +172,13 @@ void SqliteStorage::removeFile(Id id)
 	{
 		LOG_WARNING("Removing file from DB failed since there is no file element with id " + std::to_string(id));
 	}
+}
+
+void SqliteStorage::removeFiles(const std::vector<Id>& fileIds)
+{
+	m_database.execDML((
+		"DELETE FROM element WHERE id IN (" + utility::join(utility::toStrings(fileIds), ',') + ");"
+	).c_str());
 }
 
 void SqliteStorage::removeUnusedNameHierarchyElements()

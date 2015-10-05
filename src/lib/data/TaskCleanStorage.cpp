@@ -3,14 +3,11 @@
 #include "data/Storage.h"
 #include "utility/messaging/type/MessageStatus.h"
 
-TaskCleanStorage::TaskCleanStorage(Storage* storage, const std::set<FilePath>& filePaths)
+TaskCleanStorage::TaskCleanStorage(Storage* storage, const std::vector<FilePath>& filePaths)
 	: m_storage(storage)
+	, m_filePaths(filePaths)
 	, m_fileCount(filePaths.size())
 {
-	for (const FilePath& p : filePaths)
-	{
-		m_filePaths.push(p);
-	}
 }
 
 void TaskCleanStorage::enter()
@@ -20,30 +17,26 @@ void TaskCleanStorage::enter()
 
 Task::TaskState TaskCleanStorage::update()
 {
-	if (!m_filePaths.size())
+	if (m_filePaths.size())
 	{
-		if (m_fileCount)
-		{
-			MessageStatus("Cleaning up names", false, true).dispatch();
-			m_storage->removeUnusedNames();
-		}
+		std::stringstream ss;
+		ss << "clearing " << m_filePaths.size() << " files (ESC to quit)";
+		MessageStatus(ss.str(), false, true).dispatch();
 
-		return Task::STATE_FINISHED;
+		m_storage->clearFileElements(m_filePaths);
+
+		m_filePaths.clear();
+
+		return Task::STATE_RUNNING;
 	}
 
-	FilePath filePath = m_filePaths.front();
-	m_filePaths.pop();
+	if (m_fileCount)
+	{
+		MessageStatus("Cleaning up names (ESC to quit)", false, true).dispatch();
+		m_storage->removeUnusedNames();
+	}
 
-	std::stringstream ss;
-	ss << "clearing (ESC to quit): [";
-	ss << m_fileCount - m_filePaths.size() - 1 << "/" << m_fileCount << "] ";
-	ss << filePath.str();
-
-	MessageStatus(ss.str(), false, true).dispatch();
-
-	m_storage->clearFileElement(filePath);
-
-	return Task::STATE_RUNNING;
+	return Task::STATE_FINISHED;
 }
 
 void TaskCleanStorage::exit()
@@ -52,6 +45,7 @@ void TaskCleanStorage::exit()
 	ss << "clearing files done, ";
 	ss << std::setprecision(2) << std::fixed << utility::duration(m_start) << " seconds";
 	MessageStatus(ss.str()).dispatch();
+
 }
 
 void TaskCleanStorage::interrupt()

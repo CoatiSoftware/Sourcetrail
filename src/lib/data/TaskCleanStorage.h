@@ -1,8 +1,7 @@
 #ifndef TASK_CLEAN_STORAGE_H
 #define TASK_CLEAN_STORAGE_H
 
-#include <queue>
-#include <set>
+#include <vector>
 
 #include "utility/file/FilePath.h"
 #include "utility/scheduling/Task.h"
@@ -16,7 +15,7 @@ class TaskCleanStorage
 public:
 	TaskCleanStorage(
 		Storage* storage,
-		const std::set<FilePath>& filePaths
+		const std::vector<FilePath>& filePaths
 	);
 
 	virtual void enter();
@@ -28,7 +27,7 @@ public:
 
 private:
 	Storage* m_storage;
-	std::queue<FilePath> m_filePaths;
+	std::vector<FilePath> m_filePaths;
 	const size_t m_fileCount;
 
 	utility::TimePoint m_start;

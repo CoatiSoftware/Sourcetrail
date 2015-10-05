@@ -76,15 +76,18 @@ std::set<FilePath> Storage::getDependingFilePaths(const FilePath& filePath)
 	return dependingFilePaths;
 }
 
-void Storage::clearFileElement(const FilePath& filePath)
+void Storage::clearFileElements(const std::vector<FilePath>& filePaths)
 {
-	Id fileId = getFileNodeId(filePath);
-	if (fileId != 0)
+	std::vector<Id> fileNodeIds;
+
+	for (const FilePath& path : filePaths)
 	{
-		m_sqliteStorage.beginTransaction();
-		m_sqliteStorage.removeElementsWithLocationInFile(fileId);
-		m_sqliteStorage.removeFile(fileId);
-		m_sqliteStorage.commitTransaction();
+		fileNodeIds.push_back(getFileNodeId(path));
+	}
+
+	if (fileNodeIds.size())
+	{
+		m_sqliteStorage.removeFiles(fileNodeIds);
 	}
 }
 

@@ -105,9 +105,9 @@ void Project::parseCode()
 
 	std::shared_ptr<TaskGroupSequential> taskGroup = std::make_shared<TaskGroupSequential>();
 
-	std::set<FilePath> filesToClean;
-	utility::append(filesToClean, removedFilePaths);
-	utility::append(filesToClean, updatedFilePaths);
+	std::vector<FilePath> filesToClean;
+	filesToClean.insert(filesToClean.end(), removedFilePaths.begin(), removedFilePaths.end());
+	filesToClean.insert(filesToClean.end(), updatedFilePaths.begin(), updatedFilePaths.end());
 
 	taskGroup->addTask(std::make_shared<TaskCleanStorage>(m_storage.get(), filesToClean));
 

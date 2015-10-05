@@ -40,8 +40,8 @@ public:
 
 	void removeElement(Id id);
 	void removeNameHierarchyElement(Id id);
-	void removeElementsWithLocationInFile(Id fileId);
 	void removeFile(Id id);
+	void removeFiles(const std::vector<Id>& fileIds);
 	void removeUnusedNameHierarchyElements();
 
 	StorageNode getFirstNode() const;
