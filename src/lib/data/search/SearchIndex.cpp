@@ -79,6 +79,18 @@ SearchNode* SearchIndex::addNode(NameHierarchy nameHierarchy)
 	return nullptr;
 }
 
+SearchNode* SearchIndex::getNode(const NameHierarchy& nameHierarchy) const
+{
+	std::deque<Id> nameIds = m_dictionary.getWordIdsConst(nameHierarchy);
+
+	if (nameIds.size())
+	{
+		return m_root.getNodeRecursive(&nameIds).get();
+	}
+
+	return nullptr;
+}
+
 SearchNode* SearchIndex::getNode(const std::string& fullName) const
 {
 	std::deque<Id> nameIds = m_dictionary.getWordIdsConst(fullName, DELIMITER);

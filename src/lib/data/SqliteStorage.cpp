@@ -497,7 +497,7 @@ Id SqliteStorage::getNameHierarchyElementIdByName(const std::string& name, Id pa
 	else
 	{
 		return getFirstResult<Id>(
-			"SELECT id FROM name_hierarchy_element WHERE name == '" + name + "';"
+			"SELECT id FROM name_hierarchy_element WHERE name == '" + name + "' AND parent_id IS NULL;"
 		);
 	}
 }
@@ -540,14 +540,22 @@ NameHierarchy SqliteStorage::getNameHierarchyById(const Id id) const
 		"SELECT name, parent_id FROM name_hierarchy_element WHERE id == " + std::to_string(id) + ";"
 	).c_str());
 
-	const std::string elementName = q.getStringField(0, "");
-	const Id parentId = q.getIntField(1, 0);
+	NameHierarchy nameHierarchy;
 
-	NameHierarchy nameHierarchy = (parentId > 0) ? getNameHierarchyById(parentId) : NameHierarchy();
-
-	if (elementName.size() > 0)
+	if (!q.eof())
 	{
-		nameHierarchy.push(std::make_shared<NameElement>(elementName));
+		const std::string elementName = q.getStringField(0, "");
+		const Id parentId = q.getIntField(1, 0);
+
+		if (parentId > 0)
+		{
+			nameHierarchy = getNameHierarchyById(parentId);
+		}
+
+		if (elementName.size() > 0)
+		{
+			nameHierarchy.push(std::make_shared<NameElement>(elementName));
+		}
 	}
 
 	return nameHierarchy;

@@ -218,6 +218,7 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 		result.topLevelAncestorId = parent->getId();
 	}
 
+	// Expand nodes that were expanded before.
 	DummyNode* oldNode = findDummyNodeRecursive(m_dummyNodes, node->getId());
 	if (oldNode)
 	{
@@ -300,7 +301,7 @@ void GraphController::autoExpandActiveNode(const std::vector<Id>& activeTokenIds
 		node = findDummyNodeRecursive(m_dummyNodes, activeTokenIds[0]);
 	}
 
-	if (node && node->data->isType(Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM))
+	if (node)
 	{
 		node->expanded = true;
 	}
@@ -414,7 +415,7 @@ void GraphController::bundleNodes()
 			return isTypeNodeWithSingleAggregation(node, TokenComponentAggregation::DIRECTION_BACKWARD);
 		},
 		3,
-		"Used Types"
+		"Referenced Types"
 	);
 
 	bundleNodesMatching(
@@ -423,7 +424,7 @@ void GraphController::bundleNodes()
 			return isTypeNodeWithSingleAggregation(node, TokenComponentAggregation::DIRECTION_FORWARD);
 		},
 		3,
-		"Using Types"
+		"Referencing Types"
 	);
 
 	bundleNodesMatching(
@@ -458,7 +459,7 @@ void GraphController::bundleNodes()
 
 			return false;
 		},
-		3,
+		1,
 		"Undefined Symbols"
 	);
 }

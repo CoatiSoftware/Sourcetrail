@@ -38,21 +38,20 @@ std::string SearchMatch::searchMatchesToString(const std::vector<SearchMatch>& m
 
 	for (size_t i = 0; i < matches.size(); i++)
 	{
-		ss << '@' << matches[i].fullName;
+		ss << '@' << matches[i].getFullName();
 	}
 
 	return ss.str();
 }
 
 SearchMatch::SearchMatch()
-	: fullName("")
-	, typeName("")
+	: typeName("")
 	, searchType(SEARCH_NONE)
 {
 }
 
 SearchMatch::SearchMatch(const std::string& query)
-	: fullName(query)
+	: nameHierarchy(query)
 	, typeName("")
 	, searchType(SEARCH_NONE)
 {
@@ -65,7 +64,7 @@ bool SearchMatch::isValid() const
 
 void SearchMatch::print(std::ostream& ostream) const
 {
-	ostream << weight << '\t' << fullName << std::endl << '\t';
+	ostream << weight << '\t' << nameHierarchy.getFullName() << std::endl << '\t';
 	size_t i = 0;
 	for (size_t index : indices)
 	{
@@ -78,6 +77,11 @@ void SearchMatch::print(std::ostream& ostream) const
 		i++;
 	}
 	ostream << std::endl;
+}
+
+std::string SearchMatch::getFullName() const
+{
+	return nameHierarchy.getFullName();
 }
 
 std::string SearchMatch::getNodeTypeAsString() const

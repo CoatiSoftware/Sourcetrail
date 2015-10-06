@@ -254,8 +254,8 @@ public:
 		matches = index.runFuzzySearchAndGetMatches("uml");
 
 		TS_ASSERT_EQUALS(2, matches.size());
-		TS_ASSERT_EQUALS("util::math::floor", matches[0].fullName);
-		TS_ASSERT_EQUALS("util::math::ceil", matches[1].fullName);
+		TS_ASSERT_EQUALS("util::math::ceil", matches[0].fullName);
+		TS_ASSERT_EQUALS("util::math::floor", matches[1].fullName);
 	}
 
 	void test_fuzzy_matching_in_hierarchy_respects_collin()

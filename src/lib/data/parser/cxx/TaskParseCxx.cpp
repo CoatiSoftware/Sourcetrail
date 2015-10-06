@@ -63,7 +63,7 @@ Task::TaskState TaskParseCxx::update()
 	}
 
 	std::stringstream ss;
-	ss << "parsing (ESC to quit): [";
+	ss << "analyzing files (ESC to quit): [";
 	ss << fileRegister->getParsedFilesCount() << "/" << fileRegister->getFilesCount() << "] ";
 	ss << sourcePath;
 
@@ -85,7 +85,7 @@ Task::TaskState TaskParseCxx::update()
 
 void TaskParseCxx::exit()
 {
-	MessageStatus("Building search index").dispatch();
+	MessageStatus("building search index").dispatch();
 
 	m_client->finishParsing();
 
@@ -101,6 +101,7 @@ void TaskParseCxx::exit()
 
 void TaskParseCxx::interrupt()
 {
+	MessageStatus("analyzing files interrupted", false, true).dispatch();
 }
 
 void TaskParseCxx::revert()

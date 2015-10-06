@@ -9,6 +9,8 @@
 
 #include "utility/types.h"
 
+class NameHierarchy;
+
 class Dictionary
 {
 public:
@@ -25,6 +27,7 @@ public:
 
 	std::deque<Id> getWordIds(const std::string& wordList, const std::string& delimiter);
 	std::deque<Id> getWordIdsConst(const std::string& wordList, const std::string& delimiter) const;
+	std::deque<Id> getWordIdsConst(const NameHierarchy& nameHierarchy) const;
 
 	// Note: References to values in an unordered_map don't change on rehashing so they can be saved and used elsewhere.
 	const std::string& getWord(Id id) const;

@@ -44,7 +44,7 @@ QVariant QtAutocompletionModel::data(const QModelIndex &index, int role) const
 	switch (index.column())
 	{
 	case 0:
-		return QString::fromStdString(match.fullName);
+		return QString::fromStdString(match.getFullName());
 	case 1:
 		return QString::fromStdString(match.typeName);
 	case 2:

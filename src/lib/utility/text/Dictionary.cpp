@@ -1,5 +1,6 @@
 #include "utility/text/Dictionary.h"
 
+#include "data/name/NameHierarchy.h"
 #include "utility/utilityString.h"
 
 Dictionary::Dictionary()
@@ -79,6 +80,18 @@ std::deque<Id> Dictionary::getWordIdsConst(const std::string& wordList, const st
 	for (const std::string& word: words)
 	{
 		ids.push_back(getWordIdConst(word));
+	}
+
+	return ids;
+}
+
+std::deque<Id> Dictionary::getWordIdsConst(const NameHierarchy& nameHierarchy) const
+{
+	std::deque<Id> ids;
+
+	for (size_t i = 0; i < nameHierarchy.size(); i++)
+	{
+		ids.push_back(getWordIdConst(nameHierarchy[i]->getFullName()));
 	}
 
 	return ids;

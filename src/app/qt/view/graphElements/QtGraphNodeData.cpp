@@ -45,7 +45,7 @@ Id QtGraphNodeData::getTokenId() const
 void QtGraphNodeData::onClick()
 {
 	MessageActivateNodes message;
-	message.addNode(m_data->getId(), m_data->getType(), m_data->getFullName());
+	message.addNode(m_data->getId(), m_data->getType(), m_data->getNameHierarchy());
 	message.dispatch();
 }
 

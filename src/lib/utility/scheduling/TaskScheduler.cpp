@@ -166,6 +166,6 @@ void TaskScheduler::handleMessage(MessageInterruptTasks* message)
 	std::lock_guard<std::mutex> lock(m_tasksMutex);
 	if (m_tasks.size())
 	{
-		MessageStatus("Stop running tasks...").dispatch();
+		MessageStatus("Stop running tasks...", false, true).dispatch();
 	}
 }

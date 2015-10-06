@@ -297,7 +297,6 @@ add_files(
 	utility/utility.h
 	utility/utilityString.cpp
 	utility/utilityString.h
-	utility/Vector.h
 
 	Application.cpp
 	Application.h

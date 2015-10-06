@@ -719,14 +719,7 @@ Id Storage::getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) co
 
 	for (size_t i = 0; i < nameHierarchy.size(); i++)
 	{
-		Id parentId = currentId;
-		currentId = m_sqliteStorage.getNameHierarchyElementIdByName(nameHierarchy[i]->getFullName(), parentId);
-
-		if (currentId == 0)
-		{
-			currentId = parentId;
-			break;
-		}
+		currentId = m_sqliteStorage.getNameHierarchyElementIdByName(nameHierarchy[i]->getFullName(), currentId);
 	}
 
 	return m_sqliteStorage.getNodeByNameId(currentId).id;
@@ -799,16 +792,11 @@ std::vector<SearchMatch> Storage::getSearchMatchesForTokenIds(const std::vector<
 
 		if (m_sqliteStorage.isFile(tokenId))
 		{
-			StorageFile file = m_sqliteStorage.getFileById(tokenId);
-
-			match.fullName = m_tokenIndex.getNameHierarchyForTokenId(tokenId).getFullName();
 			match.nodeType = Node::NODE_FILE;
 		}
 		else if (m_sqliteStorage.isNode(tokenId))
 		{
 			StorageNode node = m_sqliteStorage.getNodeById(tokenId);
-
-			match.fullName = m_tokenIndex.getNameHierarchyForTokenId(tokenId).getFullName();
 			match.nodeType = Node::intToType(node.type);
 		}
 		else
@@ -817,6 +805,7 @@ std::vector<SearchMatch> Storage::getSearchMatchesForTokenIds(const std::vector<
 		}
 
 		match.tokenIds.insert(tokenId);
+		match.nameHierarchy = m_tokenIndex.getNameHierarchyForTokenId(tokenId);
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 
 		matches.push_back(match);
@@ -954,13 +943,8 @@ std::vector<Id> Storage::getTokenIdsForMatches(const std::vector<SearchMatch>& m
 	std::set<Id> idSet;
 	for (const SearchMatch& match : matches)
 	{
-		std::vector<SearchMatch> ms = getAutocompletionMatches("", match.fullName);
-
-		for (size_t i = 0; i < ms.size(); i++)
-		{
-			utility::append(idSet, ms[i].tokenIds);
-			break;
-		}
+		SearchNode* searchNode = m_tokenIndex.getNode(match.nameHierarchy);
+		utility::append(idSet, searchNode->getTokenIds());
 	}
 
 	std::vector<Id> ids;
@@ -1187,25 +1171,22 @@ std::shared_ptr<TextAccess> Storage::getFileContent(const FilePath& filePath) co
 
 Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool distinct)
 {
-	addNameHierarchyElements(nameHierarchy);
+	std::vector<Id> nameIds = addNameHierarchyElements(nameHierarchy);
 
-	Id parentNameHierarchyElementId = 0;
 	Id parentNodeId = 0;
-	for (size_t i = 0; i < nameHierarchy.size(); i++)
+	for (size_t i = 0; i < nameIds.size(); i++)
 	{
+		Id nameId = nameIds[i];
 		bool lastName = (i == nameHierarchy.size() - 1);
 
 		Node::NodeType type = (lastName ? nodeType : Node::NODE_UNDEFINED);
 
-		Id nameHierarchyElementId =
-			m_sqliteStorage.getNameHierarchyElementIdByName(nameHierarchy[i]->getFullName(), parentNameHierarchyElementId);
-
-		const StorageNode node = m_sqliteStorage.getNodeByNameId(nameHierarchyElementId);
+		const StorageNode node = m_sqliteStorage.getNodeByNameId(nameId);
 		Id nodeId = node.id;
 
 		if (nodeId == 0 || (lastName && distinct))
 		{
-			nodeId = m_sqliteStorage.addNode(Node::typeToInt(type), nameHierarchyElementId);
+			nodeId = m_sqliteStorage.addNode(Node::typeToInt(type), nameId);
 
 			if (parentNodeId != 0)
 			{
@@ -1221,7 +1202,6 @@ Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarch
 			}
 		}
 
-		parentNameHierarchyElementId = nameHierarchyElementId;
 		parentNodeId = nodeId;
 	}
 
@@ -1242,8 +1222,9 @@ Id Storage::addNodeHierarchyWithDistinctSignature(Node::NodeType type, const Par
 	return nodeId;
 }
 
-Id Storage::addNameHierarchyElements(NameHierarchy nameHierarchy)
+std::vector<Id> Storage::addNameHierarchyElements(NameHierarchy nameHierarchy)
 {
+	std::vector<Id> nameIds;
 	Id parentId = 0;
 	bool nodeMayExist = true;
 
@@ -1256,10 +1237,6 @@ Id Storage::addNameHierarchyElements(NameHierarchy nameHierarchy)
 		{
 			nodeId = m_sqliteStorage.getNameHierarchyElementIdByName(elementName, parentId);
 		}
-		else
-		{
-			nodeId = 0;
-		}
 
 		if (nodeId == 0)
 		{
@@ -1267,10 +1244,11 @@ Id Storage::addNameHierarchyElements(NameHierarchy nameHierarchy)
 			nodeMayExist = false;
 		}
 
+		nameIds.push_back(nodeId);
 		parentId = nodeId;
 	}
 
-	return parentId;
+	return nameIds;
 }
 
 int Storage::addSourceLocation(int elementNodeId, const ParseLocation& location, bool isScope)

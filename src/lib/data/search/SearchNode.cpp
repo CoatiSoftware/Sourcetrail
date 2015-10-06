@@ -255,7 +255,7 @@ void SearchNode::removeSearchNode(SearchNode* node)
 SearchMatch SearchNode::fuzzyMatchData(const std::string& query, const SearchNode* parent) const
 {
 	SearchMatch data;
-	data.fullName = getFullName();
+	data.nameHierarchy = getNameHierarchy();
 	data.tokenIds = m_tokenIds;
 	data.weight = 0;
 
@@ -364,7 +364,7 @@ std::pair<size_t, size_t> SearchNode::fuzzyMatch(
 				weight += 20;
 			}
 
-			if (last == '_' || next == '_')
+			if (last == '_' || next == '_' || next == '\0')
 			{
 				weight += 20;
 			}

@@ -29,6 +29,7 @@ public:
 	const std::string& getWord(Id wordId) const;
 
 	SearchNode* addNode(NameHierarchy nameHierarchy);
+	SearchNode* getNode(const NameHierarchy& nameHierarchy) const;
 	SearchNode* getNode(const std::string& fullName) const;
 	SearchNode* getNode(const SearchNode* searchNode) const;
 

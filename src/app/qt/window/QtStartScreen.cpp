@@ -34,7 +34,7 @@ void QtStartScreen::setup()
 {
 	setStyleSheet(utility::getStyleSheet("data/gui/startscreen/startscreen.css").c_str());
 
-	QtDeviceScaledPixmap coati_logo("data/gui/startscreen/logo_schriftzug.png");
+	QtDeviceScaledPixmap coati_logo("data/gui/startscreen/logo.png");
 	coati_logo.scaleToWidth(200);
 	QLabel* coatiLogoLabel = new QLabel(this);
 	coatiLogoLabel->setPixmap(coati_logo.pixmap());
@@ -58,7 +58,7 @@ void QtStartScreen::setup()
 	recentProjectsLabel->setObjectName("recentLabel");
 
 	int position = 290;
-	QIcon cpp_icon("data/gui/startscreen/Icon_CPP.png");
+	QIcon cpp_icon("data/gui/startscreen/icon_cpp.png");
 	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
 	for (size_t i = 0; i < recentProjects.size() && i < 7; i++)
 	{

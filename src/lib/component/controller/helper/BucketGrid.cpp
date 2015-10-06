@@ -152,6 +152,11 @@ void BucketGrid::createBuckets(std::vector<DummyNode>& nodes, const std::vector<
 		DummyNode* owner = findTopMostDummyNodeRecursive(nodes, edge->ownerId);
 		DummyNode* target = findTopMostDummyNodeRecursive(nodes, edge->targetId);
 
+		if (edge->getDirection() == TokenComponentAggregation::DIRECTION_BACKWARD)
+		{
+			std::swap(owner, target);
+		}
+
 		bool removeEdge = false;
 		if (!owner || !target)
 		{

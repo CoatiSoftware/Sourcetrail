@@ -7,7 +7,8 @@
 #include "utility/messaging/Message.h"
 #include "utility/messaging/type/MessageStatus.h"
 
-class MessageFinishedParsing: public Message<MessageFinishedParsing>
+class MessageFinishedParsing
+	: public Message<MessageFinishedParsing>
 {
 public:
 	MessageFinishedParsing(size_t fileCount, size_t totalFileCount, float parseTime, size_t errorCount)
@@ -33,7 +34,7 @@ public:
 	std::string getStatusStr() const
 	{
 		std::stringstream ss;
-		ss << "Parsing Finished: ";
+		ss << "Finished analysis: ";
 		ss << fileCount << "/" << totalFileCount << " files, ";
 		ss << std::setprecision(2) << std::fixed << parseTime << " seconds, ";
 		ss << errorCount << " error(s)";

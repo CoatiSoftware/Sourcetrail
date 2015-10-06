@@ -31,10 +31,11 @@ struct SearchMatch
 
 	void print(std::ostream& ostream) const;
 
+	std::string getFullName() const;
 	std::string getNodeTypeAsString() const;
 	std::string getSearchTypeName() const;
 
-	std::string fullName;
+	NameHierarchy nameHierarchy;
 	std::string typeName;
 
 	Node::NodeType nodeType;

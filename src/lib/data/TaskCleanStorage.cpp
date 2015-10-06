@@ -45,12 +45,11 @@ void TaskCleanStorage::exit()
 	ss << "clearing files done, ";
 	ss << std::setprecision(2) << std::fixed << utility::duration(m_start) << " seconds";
 	MessageStatus(ss.str()).dispatch();
-
 }
 
 void TaskCleanStorage::interrupt()
 {
-	MessageStatus("Clearing file interrupted", false, true).dispatch();
+	MessageStatus("clearing files interrupted", false, true).dispatch();
 }
 
 void TaskCleanStorage::revert()

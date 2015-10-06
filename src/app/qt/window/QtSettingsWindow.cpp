@@ -36,7 +36,6 @@ QtSettingsWindow::QtSettingsWindow(QWidget *parent, int displacement)
 			"border: 1px solid lightgray;"
 			"border-radius: 15px; "
 			"background: white; "
-			"background-image: url(:/data/gui/icon/logo_1024_1024.png); "
 		"}";
 	m_window->setStyleSheet(frameStyle.c_str());
 	m_window->setObjectName("SettingWindow");
@@ -106,7 +105,7 @@ void QtSettingsWindow::mouseReleaseEvent(QMouseEvent *event)
 
 void QtSettingsWindow::setupForm()
 {
-	QtDeviceScaledPixmap coati_logo("data/gui/startscreen/logo.png");
+	QtDeviceScaledPixmap coati_logo("data/gui/startscreen/logo_blurry.png");
 	coati_logo.scaleToWidth(400);
 	QLabel* coatiLogoLabel = new QLabel(m_window);
 	coatiLogoLabel->setPixmap(coati_logo.pixmap());
