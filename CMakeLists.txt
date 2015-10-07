@@ -47,10 +47,15 @@ endif ()
 
 # Clang ------------------------------------------------------------------------
 
-if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
-	find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_release/share/llvm/cmake")
+
+if (UNIX)
+	if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_release/share/llvm/cmake")
+	else()
+		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_debug/share/llvm/cmake")
+	endif()
 else()
-	find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_debug/share/llvm/cmake")
+	find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build/share/llvm/cmake")
 endif()
 
 find_package(CLANG REQUIRED PATHS "${CMAKE_SOURCE_DIR}/cmake")
@@ -59,12 +64,12 @@ add_definitions(${CLANG_DEFINITIONS})
 
 # Boost ------------------------------------------------------------------------
 
-set(BOOST_ROOT $ENV{BOOST_155_DIR})
+set(BOOST_ROOT $ENV{BOOST_159_DIR})
 set(Boost_USE_MULTITHREAD ON)
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_STATIC_RUNTIME OFF)
 Set(Boost_NO_SYSTEM_PATHS ON)
-set(BOOST_LIBRARYDIR $ENV{BOOST_155_DIR})
+set(BOOST_LIBRARYDIR $ENV{BOOST_159_DIR})
 
 find_package(Boost 1.55 COMPONENTS system filesystem date_time REQUIRED)
 

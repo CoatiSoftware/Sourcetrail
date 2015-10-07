@@ -12,6 +12,8 @@ public:
 	virtual bool hasFilePath(const FilePath& filePath) const;
 	virtual bool hasSourceExtension(const FilePath& filePath) const;
 	virtual bool hasIncludeExtension(const FilePath& filePath) const;
+
+	virtual const FileInfo getFileInfo(const FilePath& filePath) const;
 };
 
 #endif // TEST_FILE_MANAGER_H

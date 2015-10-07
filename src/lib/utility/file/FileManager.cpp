@@ -104,7 +104,7 @@ bool FileManager::hasIncludeExtension(const FilePath& filePath) const
 	return filePath.hasExtension(m_includeExtensions);
 }
 
-const FileInfo& FileManager::getFileInfo(const FilePath& filePath) const
+const FileInfo FileManager::getFileInfo(const FilePath& filePath) const
 {
 	std::map<FilePath, FileInfo>::const_iterator it = m_files.find(filePath);
 

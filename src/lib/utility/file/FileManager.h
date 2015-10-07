@@ -32,7 +32,7 @@ public:
 	virtual bool hasSourceExtension(const FilePath& filePath) const;
 	virtual bool hasIncludeExtension(const FilePath& filePath) const;
 
-	const FileInfo& getFileInfo(const FilePath& filePath) const;
+	virtual const FileInfo getFileInfo(const FilePath& filePath) const;
 
 private:
 	std::vector<FileInfo> getFileInfosInProject() const;

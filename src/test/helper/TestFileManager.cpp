@@ -18,3 +18,8 @@ bool TestFileManager::hasIncludeExtension(const FilePath& filePath) const
 {
 	return true;
 }
+
+const FileInfo TestFileManager::getFileInfo(const FilePath& filePath) const
+{
+	return FileInfo(filePath);
+}

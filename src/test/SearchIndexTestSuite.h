@@ -149,16 +149,16 @@ public:
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("u");
 
 		TS_ASSERT_EQUALS(1, matches.size());
-		TS_ASSERT_EQUALS("util", matches[0].fullName);
+		TS_ASSERT_EQUALS("util", matches[0].getFullName());
 
 		TS_ASSERT_EQUALS(1, matches[0].indices.size());
 		TS_ASSERT_EQUALS(0, matches[0].indices[0]);
 
 		matches = index.runFuzzySearchAndGetMatches("");
 		TS_ASSERT_EQUALS(3, matches.size());
-		TS_ASSERT_EQUALS("math", matches[0].fullName);
-		TS_ASSERT_EQUALS("string", matches[1].fullName);
-		TS_ASSERT_EQUALS("util", matches[2].fullName);
+		TS_ASSERT_EQUALS("math", matches[0].getFullName());
+		TS_ASSERT_EQUALS("string", matches[1].getFullName());
+		TS_ASSERT_EQUALS("util", matches[2].getFullName());
 
 		TS_ASSERT_EQUALS(0, matches[0].weight);
 		TS_ASSERT_EQUALS(0, matches[1].weight);
@@ -174,14 +174,14 @@ public:
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
 		TS_ASSERT_EQUALS(2, matches.size());
-		TS_ASSERT_EQUALS("util", matches[0].fullName);
-		TS_ASSERT_EQUALS("MATH", matches[1].fullName);
+		TS_ASSERT_EQUALS("util", matches[0].getFullName());
+		TS_ASSERT_EQUALS("MATH", matches[1].getFullName());
 
 		matches = index.runFuzzySearchAndGetMatches("T");
 
 		TS_ASSERT_EQUALS(2, matches.size());
-		TS_ASSERT_EQUALS("util", matches[0].fullName);
-		TS_ASSERT_EQUALS("MATH", matches[1].fullName);
+		TS_ASSERT_EQUALS("util", matches[0].getFullName());
+		TS_ASSERT_EQUALS("MATH", matches[1].getFullName());
 	}
 
 	void test_fuzzy_matching_wheighs_by_distance_and_alphabet()
@@ -194,9 +194,9 @@ public:
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
 		TS_ASSERT_EQUALS(3, matches.size());
-		TS_ASSERT_EQUALS("string", matches[0].fullName);
-		TS_ASSERT_EQUALS("util", matches[1].fullName);
-		TS_ASSERT_EQUALS("math", matches[2].fullName);
+		TS_ASSERT_EQUALS("string", matches[0].getFullName());
+		TS_ASSERT_EQUALS("util", matches[1].getFullName());
+		TS_ASSERT_EQUALS("math", matches[2].getFullName());
 
 		TS_ASSERT_EQUALS(1, matches[0].indices.size());
 		TS_ASSERT_EQUALS(1, matches[0].indices[0]);
@@ -217,8 +217,8 @@ public:
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
 		TS_ASSERT_EQUALS(2, matches.size());
-		TS_ASSERT_EQUALS("uTil", matches[0].fullName);
-		TS_ASSERT_EQUALS("string", matches[1].fullName);
+		TS_ASSERT_EQUALS("uTil", matches[0].getFullName());
+		TS_ASSERT_EQUALS("string", matches[1].getFullName());
 	}
 
 	void test_fuzzy_matching_wheighs_higher_on_consecutive_letters()
@@ -230,8 +230,8 @@ public:
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("abc");
 
 		TS_ASSERT_EQUALS(2, matches.size());
-		TS_ASSERT_EQUALS("ocbcabc", matches[0].fullName);
-		TS_ASSERT_EQUALS("oaabbcc", matches[1].fullName);
+		TS_ASSERT_EQUALS("ocbcabc", matches[0].getFullName());
+		TS_ASSERT_EQUALS("oaabbcc", matches[1].getFullName());
 	}
 
 	void test_fuzzy_matching_in_hierarchy()
@@ -244,18 +244,18 @@ public:
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
 
 		TS_ASSERT_EQUALS(6, matches.size());
-		TS_ASSERT_EQUALS("util", matches[0].fullName);
-		TS_ASSERT_EQUALS("util::math", matches[1].fullName);
-		TS_ASSERT_EQUALS("util::math::ceil", matches[2].fullName);
-		TS_ASSERT_EQUALS("util::math::floor", matches[3].fullName);
-		TS_ASSERT_EQUALS("util::string", matches[4].fullName);
-		TS_ASSERT_EQUALS("util::string::concat", matches[5].fullName);
+		TS_ASSERT_EQUALS("util", matches[0].getFullName());
+		TS_ASSERT_EQUALS("util::math", matches[1].getFullName());
+		TS_ASSERT_EQUALS("util::math::ceil", matches[2].getFullName());
+		TS_ASSERT_EQUALS("util::math::floor", matches[3].getFullName());
+		TS_ASSERT_EQUALS("util::string", matches[4].getFullName());
+		TS_ASSERT_EQUALS("util::string::concat", matches[5].getFullName());
 
 		matches = index.runFuzzySearchAndGetMatches("uml");
 
 		TS_ASSERT_EQUALS(2, matches.size());
-		TS_ASSERT_EQUALS("util::math::ceil", matches[0].fullName);
-		TS_ASSERT_EQUALS("util::math::floor", matches[1].fullName);
+		TS_ASSERT_EQUALS("util::math::ceil", matches[0].getFullName());
+		TS_ASSERT_EQUALS("util::math::floor", matches[1].getFullName());
 	}
 
 	void test_fuzzy_matching_in_hierarchy_respects_collin()
@@ -268,14 +268,14 @@ public:
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("u:i");
 
 		TS_ASSERT_EQUALS(3, matches.size());
-		TS_ASSERT_EQUALS("util::string", matches[0].fullName);
-		TS_ASSERT_EQUALS("util::string::concat", matches[1].fullName);
-		TS_ASSERT_EQUALS("util::math::ceil", matches[2].fullName);
+		TS_ASSERT_EQUALS("util::string", matches[0].getFullName());
+		TS_ASSERT_EQUALS("util::string::concat", matches[1].getFullName());
+		TS_ASSERT_EQUALS("util::math::ceil", matches[2].getFullName());
 
 		matches = index.runFuzzySearchAndGetMatches("u:t:i");
 
 		TS_ASSERT_EQUALS(1, matches.size());
-		TS_ASSERT_EQUALS("util::math::ceil", matches[0].fullName);
+		TS_ASSERT_EQUALS("util::math::ceil", matches[0].getFullName());
 	}
 
 	void test_fuzzy_matching_in_hierarchy_weighs_front_letters_higher()
@@ -287,8 +287,8 @@ public:
 		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("g");
 
 		TS_ASSERT_EQUALS(2, matches.size());
-		TS_ASSERT_EQUALS("abc::dfe::ghi", matches[0].fullName);
-		TS_ASSERT_EQUALS("abc::hgi", matches[1].fullName);
+		TS_ASSERT_EQUALS("abc::dfe::ghi", matches[0].getFullName());
+		TS_ASSERT_EQUALS("abc::hgi", matches[1].getFullName());
 	}
 
 private:
