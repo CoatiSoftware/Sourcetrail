@@ -20,7 +20,13 @@ QtGraphNodeData::QtGraphNodeData(const Node* data, bool hasParent, bool childVis
 		this->setName(data->getName());
 	}
 
-	this->setToolTip(QString::fromStdString(data->getTypeString()));
+	std::string toolTip = data->getTypeString();
+	if (!data->isDefined() && !data->isType(Node::NODE_UNDEFINED))
+	{
+		toolTip = "undefined " + toolTip;
+	}
+
+	this->setToolTip(QString::fromStdString(toolTip));
 }
 
 QtGraphNodeData::~QtGraphNodeData()
@@ -59,7 +65,7 @@ void QtGraphNodeData::moved(const Vec2i& oldPosition)
 void QtGraphNodeData::updateStyle()
 {
 	GraphViewStyle::NodeStyle style =
-		GraphViewStyle::getStyleForNodeType(m_data->getType(), m_isActive, m_isHovering, m_childVisible);
+		GraphViewStyle::getStyleForNodeType(m_data->getType(), m_data->isDefined(), m_isActive, m_isHovering, m_childVisible);
 	setStyle(style);
 }
 

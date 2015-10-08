@@ -17,12 +17,10 @@ std::string Node::getTypeString(NodeType type)
 	{
 	case NODE_UNDEFINED:
 		return "undefined";
-	case NODE_UNDEFINED_FUNCTION:
-		return "undefined_function";
-	case NODE_UNDEFINED_VARIABLE:
-		return "undefined_variable";
-	case NODE_UNDEFINED_TYPE:
-		return "undefined_type";
+	case NODE_TYPE:
+		return "type";
+	case NODE_NAMESPACE:
+		return "namespace";
 	case NODE_CLASS:
 		return "class";
 	case NODE_STRUCT:
@@ -35,8 +33,6 @@ std::string Node::getTypeString(NodeType type)
 		return "function";
 	case NODE_METHOD:
 		return "method";
-	case NODE_NAMESPACE:
-		return "namespace";
 	case NODE_ENUM:
 		return "enum";
 	case NODE_ENUM_CONSTANT:
@@ -47,8 +43,6 @@ std::string Node::getTypeString(NodeType type)
 		return "template_parameter_type";
 	case NODE_FILE:
 		return "file";
-	case NODE_UNDEFINED_MACRO:
-		return "undefined_macro";
 	case NODE_MACRO:
 		return "macro";
 	}
@@ -65,58 +59,44 @@ Node::NodeType Node::intToType(int value)
 {
 	switch (value)
 	{
-	case 0x1:
-		return NODE_UNDEFINED;
 	case 0x2:
-		return NODE_UNDEFINED_TYPE;
+		return NODE_TYPE;
 	case 0x4:
-		return NODE_UNDEFINED_VARIABLE;
-	case 0x8:
-		return NODE_UNDEFINED_FUNCTION;
-	case 0x10:
-		return NODE_STRUCT;
-	case 0x20:
-		return NODE_CLASS;
-	case 0x40:
-		return NODE_GLOBAL_VARIABLE;
-	case 0x80:
-		return NODE_FIELD;
-	case 0x100:
-		return NODE_FUNCTION;
-	case 0x200:
-		return NODE_METHOD;
-	case 0x400:
 		return NODE_NAMESPACE;
-	case 0x800:
+	case 0x8:
+		return NODE_STRUCT;
+	case 0x10:
+		return NODE_CLASS;
+	case 0x20:
+		return NODE_GLOBAL_VARIABLE;
+	case 0x40:
+		return NODE_FIELD;
+	case 0x80:
+		return NODE_FUNCTION;
+	case 0x100:
+		return NODE_METHOD;
+	case 0x200:
 		return NODE_ENUM;
-	case 0x1000:
+	case 0x400:
 		return NODE_ENUM_CONSTANT;
-	case 0x2000:
+	case 0x800:
 		return NODE_TYPEDEF;
-	case 0x4000:
+	case 0x1000:
 		return NODE_TEMPLATE_PARAMETER_TYPE;
-	case 0x8000:
+	case 0x2000:
 		return NODE_FILE;
-	case 0x10000:
-		return NODE_UNDEFINED_MACRO;
-	case 0x20000:
+	case 0x4000:
 		return NODE_MACRO;
 	}
 
 	return NODE_UNDEFINED;
 }
 
-Node::Node(Id id, NodeType type, NameHierarchy nameHierarchy)
+Node::Node(Id id, NodeType type, NameHierarchy nameHierarchy, bool defined)
 	: Token(id)
 	, m_type(type)
 	, m_nameHierarchy(nameHierarchy)
-{
-}
-
-Node::Node(const Node& other)
-	: Token(other)
-	, m_type(other.m_type)
-	, m_nameHierarchy(other.m_nameHierarchy)
+	, m_defined(defined)
 {
 }
 
@@ -131,7 +111,7 @@ Node::NodeType Node::getType() const
 
 void Node::setType(NodeType type)
 {
-	if (!isType(type | NODE_UNDEFINED | NODE_UNDEFINED_FUNCTION | NODE_UNDEFINED_VARIABLE | NODE_UNDEFINED_TYPE))
+	if (!isType(type | NODE_UNDEFINED))
 	{
 		LOG_WARNING(
 			"Cannot change NodeType after it was already set from " + getTypeString() + " to " + getTypeString(type)
@@ -159,6 +139,16 @@ std::string Node::getFullName() const
 NameHierarchy Node::getNameHierarchy() const
 {
 	return m_nameHierarchy;
+}
+
+bool Node::isDefined() const
+{
+	return m_defined;
+}
+
+void Node::setDefined(bool defined)
+{
+	m_defined = defined;
 }
 
 const std::vector<Edge*>& Node::getEdges() const

@@ -20,7 +20,7 @@ public:
 	void forEachEdge(std::function<void(Edge*)> func) const;
 	void forEachToken(std::function<void(Token*)> func) const;
 
-	Node* createNode(Id id, Node::NodeType type, NameHierarchy nameHierarchy);
+	Node* createNode(Id id, Node::NodeType type, NameHierarchy nameHierarchy, bool defined);
 	Edge* createEdge(Id id, Edge::EdgeType type, Node* from, Node* to);
 
 	size_t getNodeCount() const;

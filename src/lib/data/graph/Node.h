@@ -20,30 +20,26 @@ class Node
 {
 public:
 	typedef int NodeTypeMask;
-	// list undefined types first to ensure that they get replaced by their defined counterparts when it is parsed.
 	enum NodeType : NodeTypeMask
 	{
 		NODE_UNDEFINED					= 0x1,
-		NODE_UNDEFINED_TYPE				= 0x2,
-		NODE_UNDEFINED_VARIABLE			= 0x4,
-		NODE_UNDEFINED_FUNCTION			= 0x8,
+		NODE_TYPE						= 0x2,
 
-		NODE_STRUCT						= 0x10,
-		NODE_CLASS						= 0x20,
-		NODE_GLOBAL_VARIABLE			= 0x40,
-		NODE_FIELD						= 0x80,
-		NODE_FUNCTION					= 0x100,
-		NODE_METHOD						= 0x200,
-		NODE_NAMESPACE					= 0x400,
-		NODE_ENUM						= 0x800,
-		NODE_ENUM_CONSTANT				= 0x1000,
-		NODE_TYPEDEF					= 0x2000,
-		NODE_TEMPLATE_PARAMETER_TYPE	= 0x4000,
+		NODE_NAMESPACE					= 0x4,
+		NODE_STRUCT						= 0x8,
+		NODE_CLASS						= 0x10,
+		NODE_GLOBAL_VARIABLE			= 0x20,
+		NODE_FIELD						= 0x40,
+		NODE_FUNCTION					= 0x80,
+		NODE_METHOD						= 0x100,
 
-		NODE_FILE						= 0x8000,
+		NODE_ENUM						= 0x200,
+		NODE_ENUM_CONSTANT				= 0x400,
+		NODE_TYPEDEF					= 0x800,
+		NODE_TEMPLATE_PARAMETER_TYPE	= 0x1000,
 
-		NODE_UNDEFINED_MACRO			= 0x10000,
-		NODE_MACRO						= 0x20000,
+		NODE_FILE						= 0x2000,
+		NODE_MACRO						= 0x4000
 	};
 
 	static std::string getTypeString(NodeType type);
@@ -52,8 +48,7 @@ public:
 
 	static const NodeTypeMask NODE_NOT_VISIBLE;
 
-	Node(Id id, NodeType type, NameHierarchy nameHierarchy);
-	Node(const Node& other);
+	Node(Id id, NodeType type, NameHierarchy nameHierarchy, bool defined);
 	virtual ~Node();
 
 	NodeType getType() const;
@@ -63,6 +58,9 @@ public:
 	std::string getName() const;
 	std::string getFullName() const;
 	NameHierarchy getNameHierarchy() const;
+
+	bool isDefined() const;
+	void setDefined(bool defined);
 
 	const std::vector<Edge*>& getEdges() const;
 
@@ -105,6 +103,7 @@ private:
 
 	NodeType m_type;
 	NameHierarchy m_nameHierarchy;
+	bool m_defined;
 };
 
 std::ostream& operator<<(std::ostream& ostream, const Node& node);

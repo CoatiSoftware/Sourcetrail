@@ -240,7 +240,7 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 			}
 			else
 			{
-				if (node->isType(Node::NODE_CLASS | Node::NODE_STRUCT))
+				if (node->isType(Node::NODE_TYPE | Node::NODE_CLASS | Node::NODE_STRUCT))
 				{
 					accessType = TokenComponentAccess::ACCESS_PUBLIC;
 				}
@@ -448,11 +448,7 @@ void GraphController::bundleNodes()
 	bundleNodesMatching(
 		[](const DummyNode& node)
 		{
-			const Node::NodeTypeMask undefinedMask =
-				Node::NODE_UNDEFINED | Node::NODE_UNDEFINED_TYPE |
-				Node::NODE_UNDEFINED_VARIABLE | Node::NODE_UNDEFINED_FUNCTION;
-
-			if (node.visible && node.isGraphNode() && !node.hasActiveSubNode() && node.data->isType(undefinedMask))
+			if (node.visible && node.isGraphNode() && !node.hasActiveSubNode() && !node.data->isDefined())
 			{
 				return true;
 			}
@@ -671,7 +667,7 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 			width = margins.charWidth * node.data->getName().size();
 		}
 
-		if (node.data->isType(Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM) && node.subNodes.size())
+		if (node.data->isType(Node::NODE_TYPE | Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM) && node.subNodes.size())
 		{
 			addExpandToggleNode(node);
 		}

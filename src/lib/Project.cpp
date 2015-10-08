@@ -7,6 +7,7 @@
 #include "data/access/StorageAccessProxy.h"
 #include "data/graph/Token.h"
 #include "data/parser/cxx/TaskParseCxx.h"
+#include "data/Storage.h"
 #include "data/TaskCleanStorage.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"

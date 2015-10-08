@@ -111,6 +111,10 @@
 		<hatching>#272728</hatching>
 
 		<node>
+			<type>
+				<normal>#4D4D4D</normal>
+				<hover>#4D4D4D</hover>
+			</type>
 			<class>
 				<normal>#4D4D4D</normal>
 				<hover>#4D4D4D</hover>
@@ -123,10 +127,6 @@
 				<normal>#4D4D4D</normal>
 				<hover>#4D4D4D</hover>
 			</enum>
-			<undefined_type>
-				<normal>#4D4D4D</normal>
-				<hover>#4D4D4D</hover>
-			</undefined_type>
 			<typedef>
 				<normal>#4D4D4D</normal>
 				<hover>#4D4D4D</hover>
@@ -144,10 +144,6 @@
 				<normal>#7A681F</normal>
 				<hover>#9C8528</hover>
 			</method>
-			<undefined_function>
-				<normal>#7A681F</normal>
-				<hover>#9C8528</hover>
-			</undefined_function>
 
 			<field>
 				<normal>#21516B</normal>
@@ -157,10 +153,6 @@
 				<normal>#21516B</normal>
 				<hover>#2A6484</hover>
 			</global_variable>
-			<undefined_variable>
-				<normal>#21516B</normal>
-				<hover>#2A6484</hover>
-			</undefined_variable>
 			<enum_constant>
 				<normal>#21516B</normal>
 				<hover>#2A6484</hover>
@@ -180,10 +172,6 @@
 				<hover>#247368</hover>
 			</file>
 
-			<undefined_macro>
-				<normal>#1B564E</normal>
-				<hover>#247368</hover>
-			</undefined_macro>
 			<macro>
 				<normal>#1B564E</normal>
 				<hover>#247368</hover>

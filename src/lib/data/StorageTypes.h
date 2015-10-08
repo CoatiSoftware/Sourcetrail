@@ -19,13 +19,14 @@ struct StorageEdge
 
 struct StorageNode
 {
-	StorageNode(Id id, int type, Id nameId)
-		: id(id), type(type), nameId(nameId)
+	StorageNode(Id id, int type, Id nameId, bool defined)
+		: id(id), type(type), nameId(nameId), defined(defined)
 	{}
 
 	Id id;
 	int type;
 	Id nameId;
+	bool defined;
 };
 
 struct StorageFile

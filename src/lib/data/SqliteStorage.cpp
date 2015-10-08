@@ -63,7 +63,7 @@ Id SqliteStorage::addEdge(int type, Id sourceNodeId, Id targetNodeId)
 	return id;
 }
 
-Id SqliteStorage::addNode(int type, Id nameId)
+Id SqliteStorage::addNode(int type, Id nameId, bool defined)
 {
 	m_database.execDML(
 		"INSERT INTO element(id) VALUES(NULL);"
@@ -71,8 +71,8 @@ Id SqliteStorage::addNode(int type, Id nameId)
 	Id id = m_database.lastRowId();
 
 	m_database.execDML((
-		"INSERT INTO node(id, type, name_id) VALUES("
-		+ std::to_string(id) + ", " + std::to_string(type) + ", " + std::to_string(nameId) + ");"
+		"INSERT INTO node(id, type, name_id, defined) VALUES("
+		+ std::to_string(id) + ", " + std::to_string(type) + ", " + std::to_string(nameId) + ", " + std::to_string(defined) + ");"
 	).c_str());
 
 	return id;
@@ -80,7 +80,7 @@ Id SqliteStorage::addNode(int type, Id nameId)
 
 Id SqliteStorage::addFile(Id nameId, const std::string& filePath, const std::string& modificationTime)
 {
-	Id id = addNode(Node::NODE_FILE, nameId);
+	Id id = addNode(Node::NODE_FILE, nameId, true);
 	std::shared_ptr<TextAccess> content = TextAccess::createFromFile(filePath);
 
 	CppSQLite3Statement stmt = m_database.compileStatement((
@@ -196,32 +196,12 @@ StorageNode SqliteStorage::getFirstNode() const
 		return nodes[0];
 	}
 
-	return StorageNode(0, 0, 0);
+	return StorageNode(0, 0, 0, false);
 }
 
 std::vector<StorageNode> SqliteStorage::getAllNodes() const
 {
-	std::vector<StorageNode> nodes;
-
-	CppSQLite3Query q = m_database.execQuery(
-		"SELECT id, type, name_id FROM node;"
-	);
-
-	while (!q.eof())
-	{
-		const Id id = q.getIntField(0, 0);
-		const int type = q.getIntField(1, -1);
-		const Id nameId = q.getIntField(2, 0);
-
-		if (id != 0 && type != -1 && nameId != 0)
-		{
-			nodes.push_back(StorageNode(id, type, nameId));
-		}
-
-		q.nextRow();
-	}
-
-	return nodes;
+	return getAllNodes("");
 }
 
 bool SqliteStorage::isEdge(Id elementId) const
@@ -364,60 +344,24 @@ std::vector<StorageEdge> SqliteStorage::getEdgesByTargetType(Id targetId, int ty
 
 StorageNode SqliteStorage::getNodeById(Id id) const
 {
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT type, name_id FROM node WHERE id == " + std::to_string(id) + ";"
-	).c_str());
-
-	if (!q.eof())
+	std::vector<StorageNode> nodes = getAllNodes("WHERE id == " + std::to_string(id));
+	if (nodes.size())
 	{
-		const int type = q.getIntField(0, -1);
-		const Id nameId = q.getIntField(1, 0);
-
-		if (type != -1 && nameId != 0 )
-		{
-			return StorageNode(id, type, nameId);
-		}
+		return nodes[0];
 	}
-	return StorageNode(0, -1, 0);
+
+	return StorageNode(0, 0, 0, false);
 }
 
 StorageNode SqliteStorage::getNodeByNameId(Id nameId) const
 {
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, type FROM node WHERE name_id == " + std::to_string(nameId) + ";"
-	).c_str());
-
-	if (!q.eof())
+	std::vector<StorageNode> nodes = getAllNodes("WHERE name_id == " + std::to_string(nameId));
+	if (nodes.size())
 	{
-		const Id id = q.getIntField(0, 0);
-		const int type = q.getIntField(1, -1);
-
-		if (id != 0 && type != -1)
-		{
-			return StorageNode(id, type, nameId);
-		}
+		return nodes[0];
 	}
-	return StorageNode(0, -1, 0);
-}
 
-StorageNode SqliteStorage::getNodeByName(const std::string& nodeName) const
-{
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT node.id, node.type, node.name_id FROM node INNER JOIN name_hierarchy_element ON node.name_id = name_hierarchy_element.id WHERE name_hierarchy_element.name = '" + nodeName + "';"
-	).c_str());
-
-	if (!q.eof())
-	{
-		const Id id = q.getIntField(0, 0);
-		const int type = q.getIntField(1, -1);
-		const Id nameId = q.getIntField(2, 0);
-
-		if (id != 0 && type != -1 && nameId != 0)
-		{
-			return StorageNode(id, type, nameId);
-		}
-	}
-	return StorageNode(0, -1, 0);
+	return StorageNode(0, 0, 0, false);
 }
 
 std::vector<StorageNode> SqliteStorage::getNodesByIds(const std::vector<Id>& nodeIds) const
@@ -483,6 +427,13 @@ void SqliteStorage::setNodeType(int type, Id nodeId)
 {
 	m_database.execDML((
 		"UPDATE node SET type = " + std::to_string(type) + " WHERE id == " + std::to_string(nodeId) + ";"
+	).c_str());
+}
+
+void SqliteStorage::setNodeDefined(bool defined, Id nodeId)
+{
+	m_database.execDML((
+		"UPDATE node SET defined = " + std::to_string(defined) + " WHERE id == " + std::to_string(nodeId) + ";"
 	).c_str());
 }
 
@@ -579,7 +530,7 @@ std::shared_ptr<TokenLocationFile> SqliteStorage::getTokenLocationsForFile(const
 {
 	std::shared_ptr<TokenLocationFile> ret = std::make_shared<TokenLocationFile>(filePath);
 
-	const Id fileNodeId = getNodeByName(filePath.fileName()).id;
+	const Id fileNodeId = getFileByPath(filePath.str()).id;
 	if (fileNodeId == 0) // early out
 	{
 		return ret;
@@ -759,6 +710,7 @@ void SqliteStorage::setupTables()
 			"id INTEGER NOT NULL, "
 			"type INTEGER NOT NULL, "
 			"name_id INTEGER NOT NULL, "
+			"defined INTEGER NOT NULL, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE, "
 			"FOREIGN KEY(name_id) REFERENCES name_hierarchy_element(id) ON DELETE CASCADE);" // maybe use restrict here
@@ -941,7 +893,7 @@ std::vector<StorageEdge> SqliteStorage::getAllEdges(const std::string& query) co
 std::vector<StorageNode> SqliteStorage::getAllNodes(const std::string& query) const
 {
 	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, type, name_id FROM node " + query + ";"
+		"SELECT id, type, name_id, defined FROM node " + query + ";"
 	).c_str());
 
 	std::vector<StorageNode> nodes;
@@ -950,10 +902,11 @@ std::vector<StorageNode> SqliteStorage::getAllNodes(const std::string& query) co
 		const Id id = q.getIntField(0, 0);
 		const int type = q.getIntField(1, -1);
 		const Id nameId = q.getIntField(2, 0);
+		const bool defined = q.getIntField(3, 0);
 
 		if (id != 0 && type != -1)
 		{
-			nodes.push_back(StorageNode(id, type, nameId));
+			nodes.push_back(StorageNode(id, type, nameId, defined));
 		}
 
 		q.nextRow();

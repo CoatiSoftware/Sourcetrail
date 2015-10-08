@@ -104,7 +104,7 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 	QColor color("#FFFFFF");
 
 	Node::NodeType nodeType = static_cast<Node::NodeType>(index.sibling(index.row(), index.column() + 3).data().toInt());
-	if (type.size() && nodeType)
+	if (type.size())
 	{
 		color = QColor(scheme->getNodeTypeColor(nodeType).c_str());
 	}

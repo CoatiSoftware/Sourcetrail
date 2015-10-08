@@ -38,11 +38,11 @@ Edge::EdgeType Edge::intToType(int value)
 	case 0x200:
 		return EDGE_TYPEDEF_OF;
 	case 0x400:
-		return EDGE_TEMPLATE_PARAMETER_OF;
+		return EDGE_TEMPLATE_PARAMETER;
 	case 0x800:
-		return EDGE_TEMPLATE_ARGUMENT_OF;
+		return EDGE_TEMPLATE_ARGUMENT;
 	case 0x1000:
-		return EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF;
+		return EDGE_TEMPLATE_DEFAULT_ARGUMENT;
 	case 0x2000:
 		return EDGE_TEMPLATE_SPECIALIZATION_OF;
 	case 0x4000:
@@ -186,11 +186,11 @@ std::string Edge::getTypeString(EdgeType type)
 		return "use";
 	case EDGE_TYPEDEF_OF:
 		return "typedef";
-	case EDGE_TEMPLATE_PARAMETER_OF:
+	case EDGE_TEMPLATE_PARAMETER:
 		return "template_parameter";
-	case EDGE_TEMPLATE_ARGUMENT_OF:
+	case EDGE_TEMPLATE_ARGUMENT:
 		return "template_argument";
-	case EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF:
+	case EDGE_TEMPLATE_DEFAULT_ARGUMENT:
 		return "template_default_argument";
 	case EDGE_TEMPLATE_SPECIALIZATION_OF:
 		return "template_specialization";
@@ -238,10 +238,10 @@ std::ostream& operator<<(std::ostream& ostream, const Edge& edge)
 
 bool Edge::checkType() const
 {
-	Node::NodeTypeMask complexTypeMask = Node::NODE_UNDEFINED_TYPE | Node::NODE_CLASS | Node::NODE_STRUCT | Node:: NODE_TEMPLATE_PARAMETER_TYPE;
-	Node::NodeTypeMask typeMask = Node::NODE_UNDEFINED | Node::NODE_ENUM | Node::NODE_TYPEDEF | complexTypeMask;
-	Node::NodeTypeMask variableMask = Node::NODE_UNDEFINED | Node::NODE_UNDEFINED_VARIABLE | Node::NODE_GLOBAL_VARIABLE | Node::NODE_FIELD;
-	Node::NodeTypeMask functionMask = Node::NODE_UNDEFINED_FUNCTION | Node::NODE_FUNCTION | Node::NODE_METHOD;
+	Node::NodeTypeMask complexTypeMask = Node::NODE_CLASS | Node::NODE_STRUCT | Node:: NODE_TEMPLATE_PARAMETER_TYPE;
+	Node::NodeTypeMask typeMask = Node::NODE_ENUM | Node::NODE_TYPEDEF | complexTypeMask;
+	Node::NodeTypeMask variableMask = Node::NODE_GLOBAL_VARIABLE | Node::NODE_FIELD;
+	Node::NodeTypeMask functionMask = Node::NODE_FUNCTION | Node::NODE_METHOD;
 
 	switch (m_type)
 	{
@@ -282,8 +282,8 @@ bool Edge::checkType() const
 		return true;
 
 	case EDGE_OVERRIDE:
-		if (!m_from->isType(Node::NODE_UNDEFINED_FUNCTION | Node::NODE_METHOD) ||
-			!m_to->isType(Node::NODE_UNDEFINED_FUNCTION | Node::NODE_METHOD))
+		if (!m_from->isType(Node::NODE_METHOD) ||
+			!m_to->isType(Node::NODE_METHOD))
 		{
 			break;
 		}
@@ -310,15 +310,15 @@ bool Edge::checkType() const
 		}
 		return true;
 
-	case EDGE_TEMPLATE_PARAMETER_OF:
+	case EDGE_TEMPLATE_PARAMETER:
 		if (!m_from->isType(Node::NODE_TEMPLATE_PARAMETER_TYPE) || !m_to->isType(typeMask | functionMask))
 		{
 			break;
 		}
 		return true;
 
-	case EDGE_TEMPLATE_ARGUMENT_OF:
-	case EDGE_TEMPLATE_DEFAULT_ARGUMENT_OF:
+	case EDGE_TEMPLATE_ARGUMENT:
+	case EDGE_TEMPLATE_DEFAULT_ARGUMENT:
 		if (!m_from->isType(typeMask) || !m_to->isType(typeMask | functionMask))
 		{
 			break;
@@ -346,7 +346,7 @@ bool Edge::checkType() const
 		}
 		return true;
 	case EDGE_MACRO_USAGE:
-		if(!m_to->isType(Node::NODE_MACRO | Node::NODE_UNDEFINED_MACRO) || !m_from->isType(Node::NODE_FILE))
+		if (!m_to->isType(Node::NODE_MACRO) || !m_from->isType(Node::NODE_FILE))
 		{
 			break;
 		}

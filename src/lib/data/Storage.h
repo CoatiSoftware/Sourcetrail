@@ -161,8 +161,8 @@ public:
 
 
 private:
-	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool distinct = false);
-	Id addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function);
+	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool defined, bool distinct = false);
+	Id addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function, bool defined);
 	std::vector<Id> addNameHierarchyElements(NameHierarchy nameHierarchy);
 	int addSourceLocation(int elementNodeId, const ParseLocation& location, bool isScope = false);
 
@@ -183,7 +183,9 @@ private:
 	void addEdgesToGraph(const std::vector<Id> edgeIds, Graph* graph) const;
 
 	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;
-	void addAccess(const Id nodeId, ParserClient::AccessType access);
+	void addAccess(Id nodeId, TokenComponentAccess::AccessType access);
+	void addAccess(Id nodeId, ParserClient::AccessType access);
+	TokenComponentAccess::AccessType getAccess(Id nodeId) const;
 
 	void addComponentAccessToGraph(Graph* graph) const;
 

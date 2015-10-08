@@ -105,19 +105,16 @@ size_t GraphViewStyle::getFontSizeForNodeType(Node::NodeType type)
 	case Node::NODE_NAMESPACE:
 		return s_fontSize - 2;
 
-	case Node::NODE_UNDEFINED_TYPE:
+	case Node::NODE_TYPE:
 	case Node::NODE_STRUCT:
 	case Node::NODE_CLASS:
 	case Node::NODE_ENUM:
 	case Node::NODE_TYPEDEF:
 	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
 	case Node::NODE_FILE:
-	case Node::NODE_UNDEFINED_MACRO:
 	case Node::NODE_MACRO:
 		return s_fontSize;
 
-	case Node::NODE_UNDEFINED_FUNCTION:
-	case Node::NODE_UNDEFINED_VARIABLE:
 	case Node::NODE_FUNCTION:
 	case Node::NODE_METHOD:
 	case Node::NODE_GLOBAL_VARIABLE:
@@ -175,10 +172,9 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 	case Node::NODE_FILE:
 	case Node::NODE_ENUM:
 	case Node::NODE_TYPEDEF:
-	case Node::NODE_UNDEFINED_MACRO:
 	case Node::NODE_MACRO:
 		margins.iconWidth = s_fontSize + 11;
-	case Node::NODE_UNDEFINED_TYPE:
+	case Node::NODE_TYPE:
 	case Node::NODE_STRUCT:
 	case Node::NODE_CLASS:
 	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
@@ -195,10 +191,8 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 		}
 		break;
 
-	case Node::NODE_UNDEFINED_FUNCTION:
 	case Node::NODE_FUNCTION:
 	case Node::NODE_METHOD:
-	case Node::NODE_UNDEFINED_VARIABLE:
 	case Node::NODE_GLOBAL_VARIABLE:
 	case Node::NODE_FIELD:
 	case Node::NODE_ENUM_CONSTANT:
@@ -257,7 +251,7 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfBundleNode()
 }
 
 GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
-	Node::NodeType type, bool isActive, bool isFocused, bool hasChildren
+	Node::NodeType type, bool defined, bool isActive, bool isFocused, bool hasChildren
 ){
 	NodeStyle style;
 
@@ -294,10 +288,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 		style.textOffset.y = 6;
 		break;
 
-	case Node::NODE_UNDEFINED_TYPE:
-	case Node::NODE_UNDEFINED_MACRO:
-		style.hatchingColor = scheme->getColor("graph/hatching");
-
+	case Node::NODE_TYPE:
 	case Node::NODE_STRUCT:
 	case Node::NODE_CLASS:
 	case Node::NODE_ENUM:
@@ -338,10 +329,6 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 		style.textOffset.y = 9;
 		break;
 
-	case Node::NODE_UNDEFINED_FUNCTION:
-	case Node::NODE_UNDEFINED_VARIABLE:
-		style.hatchingColor = scheme->getColor("graph/hatching");
-
 	case Node::NODE_FUNCTION:
 	case Node::NODE_METHOD:
 	case Node::NODE_GLOBAL_VARIABLE:
@@ -361,6 +348,11 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 	if (isActive || isFocused)
 	{
 		style.fontBold = true;
+	}
+
+	if (!defined)
+	{
+		style.hatchingColor = scheme->getColor("graph/hatching");
 	}
 
 	addIcon(type, hasChildren, &style);
@@ -412,7 +404,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfExpandToggleNode()
 
 GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfBundleNode(bool isFocused)
 {
-	NodeStyle style = getStyleForNodeType(Node::NODE_CLASS, false, isFocused, false);
+	NodeStyle style = getStyleForNodeType(Node::NODE_CLASS, true, false, isFocused, false);
 
 	addIcon(Node::NODE_ENUM, false, &style);
 	style.iconPath = "data/gui/graph_view/images/bundle.png";
@@ -530,7 +522,6 @@ void GraphViewStyle::addIcon(Node::NodeType type, bool hasChildren, NodeStyle* s
 	case Node::NODE_TYPEDEF:
 		style->iconPath = "data/gui/graph_view/images/typedef_2.png";
 		break;
-	case Node::NODE_UNDEFINED_MACRO:
 	case Node::NODE_MACRO:
 		style->iconPath = "data/gui/graph_view/images/macro_3.png";
 		break;

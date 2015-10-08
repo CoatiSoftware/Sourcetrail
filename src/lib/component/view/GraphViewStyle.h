@@ -105,7 +105,7 @@ public:
 	static NodeMargins getMarginsOfExpandToggleNode();
 	static NodeMargins getMarginsOfBundleNode();
 
-	static NodeStyle getStyleForNodeType(Node::NodeType type, bool isActive, bool isFocused, bool hasChildren);
+	static NodeStyle getStyleForNodeType(Node::NodeType type, bool defined, bool isActive, bool isFocused, bool hasChildren);
 	static NodeStyle getStyleOfAccessNode();
 	static NodeStyle getStyleOfExpandToggleNode();
 	static NodeStyle getStyleOfBundleNode(bool isFocused);

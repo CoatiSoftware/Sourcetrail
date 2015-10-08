@@ -6,8 +6,8 @@
 #include "utility/file/FileManager.h"
 
 #include "data/parser/Parser.h"
-#include "data/Storage.h"
 
+class Storage;
 class StorageAccessProxy;
 
 class Project

@@ -30,7 +30,7 @@ public:
 	void rollbackTransaction();
 
 	Id addEdge(int type, Id sourceNodeId, Id targetNodeId);
-	Id addNode(int type, Id nameId);
+	Id addNode(int type, Id nameId, bool defined);
 	Id addFile(Id nameId, const std::string& filePath, const std::string& modificationTime);
 	int addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope);
 	Id addNameHierarchyElement(const std::string& name, Id parentId = 0);
@@ -67,7 +67,6 @@ public:
 
 	StorageNode getNodeById(Id id) const;
 	StorageNode getNodeByNameId(Id nameId) const;
-	StorageNode getNodeByName(const std::string& nodeName) const; // hmm... we need to use name hierarchy here...??
 	std::vector<StorageNode> getNodesByIds(const std::vector<Id>& nodeIds) const;
 
 	StorageFile getFileById(const Id id) const;
@@ -77,6 +76,7 @@ public:
 	std::shared_ptr<TextAccess> getFileContentByPath(const std::string& filePath) const;
 
 	void setNodeType(int type, Id nodeId);
+	void setNodeDefined(bool defined, Id nodeId);
 
 	Id getNameHierarchyElementIdByName(const std::string& name, Id parentId = 0) const;
 	Id getNameHierarchyElementIdByNodeId(const Id nodeId) const;
