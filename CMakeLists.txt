@@ -71,7 +71,7 @@ set(Boost_USE_STATIC_RUNTIME OFF)
 Set(Boost_NO_SYSTEM_PATHS ON)
 set(BOOST_LIBRARYDIR $ENV{BOOST_159_DIR})
 
-find_package(Boost 1.55 COMPONENTS system filesystem date_time REQUIRED)
+find_package(Boost 1.59 COMPONENTS system filesystem date_time REQUIRED)
 
 # Eigen -------------------------------------------------------------------------
 
