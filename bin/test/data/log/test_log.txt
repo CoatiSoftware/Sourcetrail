@@ -1,9 +1,25 @@
 ConfigManager.cpp WARNING: value path/to/nowhere is not present in config.
 Token.cpp ERROR: Location Id was not referenced by this Token.
+Edge.cpp ERROR: Edge type_of can't go from Node undefined to Node undefined
 Node.cpp WARNING: Cannot change NodeType after it was already set from namespace to class
+Edge.cpp ERROR: Edge type_of can't go from Node undefined to Node undefined
+Edge.cpp ERROR: Edge type_of can't go from Node undefined to Node undefined
 Edge.cpp ERROR: Nodes are not plain copies.
+Edge.cpp ERROR: Edge type_of can't go from Node undefined to Node undefined
+Edge.cpp ERROR: Edge type_of can't go from Node undefined to Node undefined
+Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
+Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
+Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
+Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
+Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
+Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
+Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
+Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
 Edge.cpp ERROR: Edge use can't go from Node undefined to Node undefined
+Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
+Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
 Edge.cpp ERROR: Edge use can't go from Node undefined to Node undefined
+Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
 Settings.cpp WARNING: File for Settings not found: data/SettingsTestSuite/wrong_settings.xml
 ConfigManager.cpp WARNING: value Bool is not present in config.
 ConfigManager.cpp WARNING: value Int is not present in config.

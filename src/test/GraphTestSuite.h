@@ -92,7 +92,7 @@ public:
 
 	void test_nodes_are_nodes()
 	{
-		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"));
+		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
 
 		TS_ASSERT(a.isNode());
 		TS_ASSERT(!a.isEdge());
@@ -100,8 +100,8 @@ public:
 
 	void test_edges_are_edges()
 	{
-		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"));
-		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"));
+		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
+		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"), false);
 		Edge e(3, Edge::EDGE_TYPE_OF, &a, &b);
 
 		TS_ASSERT(!e.isNode());
@@ -110,27 +110,27 @@ public:
 
 	void test_set_type_of_node_from_constructor()
 	{
-		Node n(1, Node::NODE_FUNCTION, NameHierarchy("A"));
+		Node n(1, Node::NODE_FUNCTION, NameHierarchy("A"), false);
 		TS_ASSERT_EQUALS(Node::NODE_FUNCTION, n.getType());
 	}
 
 	void test_set_type_of_node_from_undefined()
 	{
-		Node n(2, Node::NODE_UNDEFINED, NameHierarchy("A"));
+		Node n(2, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
 		n.setType(Node::NODE_CLASS);
 		TS_ASSERT_EQUALS(Node::NODE_CLASS, n.getType());
 	}
 
 	void test_can_not_change_type_of_node_after_it_was_set()
 	{
-		Node n(3, Node::NODE_NAMESPACE, NameHierarchy("A"));
+		Node n(3, Node::NODE_NAMESPACE, NameHierarchy("A"), false);
 		n.setType(Node::NODE_CLASS);
 		TS_ASSERT_DIFFERS(Node::NODE_CLASS, n.getType());
 	}
 
 	void test_node_can_be_copied_and_keeps_same_id()
 	{
-		Node n(4, Node::NODE_NAMESPACE, NameHierarchy("A"));
+		Node n(4, Node::NODE_NAMESPACE, NameHierarchy("A"), false);
 		Node n2(n);
 
 		TS_ASSERT_DIFFERS(&n, &n2);
@@ -141,15 +141,15 @@ public:
 
 	void test_node_type_bit_masking()
 	{
-		Node n(1, Node::NODE_NAMESPACE, NameHierarchy("A"));
+		Node n(1, Node::NODE_NAMESPACE, NameHierarchy("A"), false);
 		TS_ASSERT(n.isType(Node::NODE_FUNCTION | Node::NODE_NAMESPACE | Node::NODE_CLASS));
 		TS_ASSERT(!n.isType(Node::NODE_FUNCTION | Node::NODE_METHOD | Node::NODE_CLASS));
 	}
 
 	void test_get_type_of_edges()
 	{
-		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"));
-		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"));
+		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
+		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"), false);
 		Edge e(3, Edge::EDGE_TYPE_OF, &a, &b);
 
 		TS_ASSERT_EQUALS(Edge::EDGE_TYPE_OF, e.getType());
@@ -157,8 +157,8 @@ public:
 
 	void test_edge_can_be_copied_and_keeps_same_id()
 	{
-		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"));
-		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"));
+		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
+		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"), false);
 		Edge e(3, Edge::EDGE_TYPE_OF, &a, &b);
 		Edge e2(e, &a, &b);
 
@@ -169,8 +169,8 @@ public:
 
 	void test_edge_type_bit_masking()
 	{
-		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"));
-		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"));
+		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
+		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"), false);
 		Edge e(3, Edge::EDGE_TYPE_OF, &a, &b);
 
 		TS_ASSERT(e.isType(Edge::EDGE_MEMBER | Edge::EDGE_CALL | Edge::EDGE_TYPE_OF));
@@ -179,9 +179,9 @@ public:
 
 	void test_node_finds_child_node()
 	{
-		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"));
-		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"));
-		Node c(3, Node::NODE_UNDEFINED, NameHierarchy("C"));
+		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
+		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"), false);
+		Node c(3, Node::NODE_UNDEFINED, NameHierarchy("C"), false);
 		Edge e(4, Edge::EDGE_MEMBER, &a, &b);
 		Edge e2(5, Edge::EDGE_MEMBER, &a, &c);
 
@@ -198,9 +198,9 @@ public:
 
 	void test_node_can_not_find_child_node()
 	{
-		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"));
-		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"));
-		Node c(3, Node::NODE_UNDEFINED, NameHierarchy("C"));
+		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
+		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"), false);
+		Node c(3, Node::NODE_UNDEFINED, NameHierarchy("C"), false);
 		Edge e(4, Edge::EDGE_MEMBER, &a, &b);
 		Edge e2(5, Edge::EDGE_MEMBER, &a, &c);
 
@@ -216,9 +216,9 @@ public:
 
 	void test_node_visits_child_nodes()
 	{
-		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"));
-		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"));
-		Node c(3, Node::NODE_UNDEFINED, NameHierarchy("C"));
+		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
+		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"), false);
+		Node c(3, Node::NODE_UNDEFINED, NameHierarchy("C"), false);
 		Edge e(4, Edge::EDGE_MEMBER, &a, &b);
 		Edge e2(5, Edge::EDGE_MEMBER, &a, &c);
 
@@ -237,10 +237,10 @@ public:
 
 	void test_node_has_references()
 	{
-		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"));
-		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"));
-		Node c(3, Node::NODE_UNDEFINED, NameHierarchy("C"));
-		Node d(4, Node::NODE_UNDEFINED, NameHierarchy("D"));
+		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
+		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"), false);
+		Node c(3, Node::NODE_UNDEFINED, NameHierarchy("C"), false);
+		Node d(4, Node::NODE_UNDEFINED, NameHierarchy("D"), false);
 		Edge e(5, Edge::EDGE_MEMBER, &a, &b);
 		Edge e2(6, Edge::EDGE_MEMBER, &a, &c);
 		Edge e3(7, Edge::EDGE_USAGE, &c, &d);
@@ -253,8 +253,8 @@ public:
 	void test_graph_saves_nodes()
 	{
 		Graph graph;
-		Node* a = graph.createNode(1, Node::NODE_UNDEFINED, NameHierarchy("A"));
-		Node* b = graph.createNode(2, Node::NODE_UNDEFINED, NameHierarchy("B"));
+		Node* a = graph.createNode(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
+		Node* b = graph.createNode(2, Node::NODE_UNDEFINED, NameHierarchy("B"), false);
 
 		TS_ASSERT_EQUALS(2, graph.getNodeCount());
 		TS_ASSERT_EQUALS(0, graph.getEdgeCount());
@@ -272,8 +272,8 @@ public:
 	{
 		Graph graph;
 
-		Node* a = graph.createNode(1, Node::NODE_FUNCTION, NameHierarchy("A"));
-		Node* b = graph.createNode(2, Node::NODE_FUNCTION, NameHierarchy("B"));
+		Node* a = graph.createNode(1, Node::NODE_FUNCTION, NameHierarchy("A"), false);
+		Node* b = graph.createNode(2, Node::NODE_FUNCTION, NameHierarchy("B"), false);
 
 		Edge* e = graph.createEdge(3, Edge::EDGE_CALL, a, b);
 
@@ -288,8 +288,8 @@ public:
 	{
 		Graph graph;
 
-		Node* a = graph.createNode(1, Node::NODE_UNDEFINED, NameHierarchy("A"));
-		graph.createNode(2, Node::NODE_UNDEFINED, NameHierarchy("B"));
+		Node* a = graph.createNode(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
+		graph.createNode(2, Node::NODE_UNDEFINED, NameHierarchy("B"), false);
 
 		TS_ASSERT_EQUALS(2, graph.getNodeCount());
 		TS_ASSERT_EQUALS(0, graph.getEdgeCount());
@@ -303,11 +303,11 @@ public:
 	{
 		Graph graph;
 
-		Node* a = graph.createNode(1, Node::NODE_UNDEFINED, NameHierarchy("A"));
-		Node* b = graph.createNode(2, Node::NODE_UNDEFINED, NameHierarchy("B"));
-		Node* c = graph.createNode(3, Node::NODE_UNDEFINED, NameHierarchy("C"));
-		Node* d = graph.createNode(4, Node::NODE_UNDEFINED, NameHierarchy("D"));
-		Node* e = graph.createNode(5, Node::NODE_UNDEFINED, NameHierarchy("E"));
+		Node* a = graph.createNode(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
+		Node* b = graph.createNode(2, Node::NODE_UNDEFINED, NameHierarchy("B"), false);
+		Node* c = graph.createNode(3, Node::NODE_UNDEFINED, NameHierarchy("C"), false);
+		Node* d = graph.createNode(4, Node::NODE_UNDEFINED, NameHierarchy("D"), false);
+		Node* e = graph.createNode(5, Node::NODE_UNDEFINED, NameHierarchy("E"), false);
 
 		graph.createEdge(6, Edge::EDGE_MEMBER, a, b);
 		graph.createEdge(7, Edge::EDGE_MEMBER, a, c);
