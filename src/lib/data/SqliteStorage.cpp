@@ -160,6 +160,14 @@ void SqliteStorage::removeNameHierarchyElement(Id id)
 	).c_str());
 }
 
+void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fileIds)
+{
+	m_database.execDML((
+		"DELETE FROM element WHERE id IN (SELECT element_id FROM source_location "
+			"WHERE source_location.file_node_id IN (" + utility::join(utility::toStrings(fileIds), ',') + "));"
+	).c_str());
+}
+
 void SqliteStorage::removeFile(Id id)
 {
 	if (isFile(id))

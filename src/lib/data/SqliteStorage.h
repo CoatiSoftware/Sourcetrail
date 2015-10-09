@@ -40,6 +40,7 @@ public:
 
 	void removeElement(Id id);
 	void removeNameHierarchyElement(Id id);
+	void removeElementsWithLocationInFiles(const std::vector<Id>& fileIds);
 	void removeFile(Id id);
 	void removeFiles(const std::vector<Id>& fileIds);
 	void removeUnusedNameHierarchyElements();
