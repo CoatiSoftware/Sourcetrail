@@ -156,12 +156,12 @@ void Storage::finishParsing()
 	buildHierarchyCache();
 }
 
-void Storage::prepareParsingFile()
+void Storage::prepareParsingFile(const FilePath& filePath)
 {
 	m_sqliteStorage.beginTransaction();
 }
 
-void Storage::finishParsingFile()
+void Storage::finishParsingFile(const FilePath& filePath)
 {
 	m_sqliteStorage.commitTransaction();
 }

@@ -58,8 +58,8 @@ public:
 	virtual void startParsing() = 0;
 	virtual void finishParsing() = 0;
 
-	virtual void prepareParsingFile() = 0;
-	virtual void finishParsingFile() = 0;
+	virtual void prepareParsingFile(const FilePath& filePath) = 0;
+	virtual void finishParsingFile(const FilePath& filePath) = 0;
 
 	virtual void onError(const ParseLocation& location, const std::string& message) = 0;
 	virtual size_t getErrorCount() const = 0;

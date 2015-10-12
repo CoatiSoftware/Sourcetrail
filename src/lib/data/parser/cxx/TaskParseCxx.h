@@ -32,7 +32,7 @@ private:
 	const Parser::Arguments m_arguments;
 	const std::vector<FilePath> m_files;
 
-	std::queue<std::string> m_sourcePaths;
+	std::queue<FilePath> m_sourcePaths;
 
 	utility::TimePoint m_start;
 };

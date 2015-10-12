@@ -162,9 +162,26 @@ void SqliteStorage::removeNameHierarchyElement(Id id)
 
 void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fileIds)
 {
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT id, element_id FROM source_location WHERE file_node_id IN (" + utility::join(utility::toStrings(fileIds), ',') + ");"
+	).c_str());
+
+	std::vector<Id> sourceLocationIds;
+	std::vector<Id> elementIds;
+	while (!q.eof())
+	{
+		sourceLocationIds.push_back(q.getIntField(0, 0));
+		elementIds.push_back(q.getIntField(1, 0));
+		q.nextRow();
+	}
+
 	m_database.execDML((
-		"DELETE FROM element WHERE id IN (SELECT element_id FROM source_location "
-			"WHERE source_location.file_node_id IN (" + utility::join(utility::toStrings(fileIds), ',') + "));"
+		"DELETE FROM source_location WHERE id IN (" + utility::join(utility::toStrings(sourceLocationIds), ',') + ");"
+	).c_str());
+
+	m_database.execDML((
+		"DELETE FROM element WHERE element.id IN (" + utility::join(utility::toStrings(elementIds), ',') + ") AND element.id NOT IN "
+			"( SELECT source_location.element_id FROM source_location WHERE source_location.element_id == element.id );"
 	).c_str());
 }
 

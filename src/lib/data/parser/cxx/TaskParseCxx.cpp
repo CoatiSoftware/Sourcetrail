@@ -29,7 +29,7 @@ void TaskParseCxx::enter()
 
 	for (const FilePath& path : m_parser.getFileRegister()->getUnparsedSourceFilePaths())
 	{
-		m_sourcePaths.push(path.absolute().str());
+		m_sourcePaths.push(path.absolute());
 	}
 
 	m_client->startParsing();
@@ -37,7 +37,7 @@ void TaskParseCxx::enter()
 
 Task::TaskState TaskParseCxx::update()
 {
-	std::string sourcePath;
+	FilePath sourcePath;
 	bool isSource = false;
 
 	FileRegister* fileRegister = m_parser.getFileRegister();
@@ -53,11 +53,11 @@ Task::TaskState TaskParseCxx::update()
 		std::vector<FilePath> unparsedHeaders = fileRegister->getUnparsedIncludeFilePaths();
 		if (unparsedHeaders.size())
 		{
-			sourcePath = unparsedHeaders[0].str();
+			sourcePath = unparsedHeaders[0];
 		}
 	}
 
-	if (!sourcePath.size())
+	if (sourcePath.empty())
 	{
 		return Task::STATE_FINISHED;
 	}
@@ -65,19 +65,19 @@ Task::TaskState TaskParseCxx::update()
 	std::stringstream ss;
 	ss << "analyzing files (ESC to quit): [";
 	ss << fileRegister->getParsedFilesCount() << "/" << fileRegister->getFilesCount() << "] ";
-	ss << sourcePath;
+	ss << sourcePath.str();
 
 	MessageStatus(ss.str(), false, true).dispatch();
 
-	m_client->prepareParsingFile();
+	m_client->prepareParsingFile(sourcePath);
 
-	m_parser.runTool(std::vector<std::string>(1, sourcePath));
+	m_parser.runTool(std::vector<std::string>(1, sourcePath.str()));
 
-	m_client->finishParsingFile();
+	m_client->finishParsingFile(sourcePath);
 
 	if (isSource)
 	{
-		fileRegister->markSourceFileParsed(sourcePath);
+		fileRegister->markSourceFileParsed(sourcePath.str());
 	}
 
 	return Task::STATE_RUNNING;
