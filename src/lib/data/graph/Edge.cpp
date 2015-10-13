@@ -46,10 +46,12 @@ Edge::EdgeType Edge::intToType(int value)
 	case 0x2000:
 		return EDGE_TEMPLATE_SPECIALIZATION_OF;
 	case 0x4000:
-		return EDGE_INCLUDE;
+		return EDGE_TEMPLATE_MEMBER_SPECIALIZATION_OF;
 	case 0x8000:
-		return EDGE_AGGREGATION;
+		return EDGE_INCLUDE;
 	case 0x10000:
+		return EDGE_AGGREGATION;
+	case 0x20000:
 		return EDGE_MACRO_USAGE;
 	}
 
@@ -194,6 +196,8 @@ std::string Edge::getTypeString(EdgeType type)
 		return "template_default_argument";
 	case EDGE_TEMPLATE_SPECIALIZATION_OF:
 		return "template_specialization";
+	case EDGE_TEMPLATE_MEMBER_SPECIALIZATION_OF:
+		return "template_member_specialization";
 	case EDGE_INCLUDE:
 		return "include";
 	case EDGE_AGGREGATION:
@@ -236,7 +240,7 @@ std::ostream& operator<<(std::ostream& ostream, const Edge& edge)
 	return ostream;
 }
 
-bool Edge::checkType() const
+bool Edge::checkType() const // TODO: remove this function
 {
 	Node::NodeTypeMask complexTypeMask = Node::NODE_CLASS | Node::NODE_STRUCT | Node:: NODE_TEMPLATE_PARAMETER_TYPE;
 	Node::NodeTypeMask typeMask = Node::NODE_ENUM | Node::NODE_TYPEDEF | complexTypeMask;

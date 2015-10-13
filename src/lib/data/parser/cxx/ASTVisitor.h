@@ -64,6 +64,7 @@ private:
 	bool isLocatedInProjectFile(const clang::Decl* declaration) const;
 
 	ParserClient::AccessType convertAccessType(clang::AccessSpecifier) const;
+	ParserClient::AbstractionType getAbstractionType(const clang::CXXMethodDecl* methodDecl) const;
 
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
 	ParseLocation getParseLocationForNamedDecl(const clang::NamedDecl* decl, const clang::SourceLocation& loc) const;

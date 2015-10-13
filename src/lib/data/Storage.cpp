@@ -317,7 +317,7 @@ Id Storage::onMethodParsed(
 ){
 	log("method", method.getFullName(), location);
 
-	Id nodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, method, true);
+	Id nodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, method, location.isValid() && scopeLocation.isValid());
 	addSourceLocation(nodeId, location);
 	addSourceLocation(nodeId, scopeLocation, true);
 	addAccess(nodeId, access);
@@ -619,6 +619,24 @@ Id Storage::onTemplateRecordSpecializationParsed(
 	addEdge(specializedNodeId, recordNodeId, Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, location);
 
 	return specializedNodeId;
+}
+
+Id Storage::onTemplateMemberFunctionSpecializationParsed(
+	const ParseLocation& location, const ParseFunction& instantiatedFunction, const ParseFunction& specializedFunction
+){
+	log(
+		"template member function specialization",
+		instantiatedFunction.getFullName() + " -> " + specializedFunction.getFullName(),
+		location
+		);
+
+	Id instantiatedFunctionNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, instantiatedFunction, false);
+
+	Id specializedFunctionNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, specializedFunction, false);
+
+	Id edgeId = addEdge(instantiatedFunctionNodeId, specializedFunctionNodeId, Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION_OF, location);
+	
+	return edgeId;
 }
 
 Id Storage::onTemplateFunctionParameterTypeParsed(

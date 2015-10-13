@@ -1599,6 +1599,24 @@ public:
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "B<A>->A<typename T> <0:0 0:0>");
 	}
 
+	void test_cxx_parser_finds__of_implicit_template_specialization()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"public:\n"
+			"	T foo() {}\n"
+			"};\n"
+			"int main()\n"
+			"{\n"
+			"	A<int> a;\n"
+			"}\n"
+		);
+		TS_ASSERT_EQUALS(client->templateMemberSpecializations.size(), 1);
+		TS_ASSERT_EQUALS(client->templateMemberSpecializations[0], "A<int>::foo -> A<typename T>::foo <0:0 0:0>");
+	}
+
 	void test_cxx_parser_finds_explicit_template_specialization()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -2492,11 +2510,11 @@ private:
 		{
 		}
 
-		virtual void prepareParsingFile()
+		virtual void prepareParsingFile(const FilePath& filePath)
 		{
 		}
 
-		virtual void finishParsingFile()
+		virtual void finishParsingFile(const FilePath& filePath)
 		{
 		}
 
@@ -2715,10 +2733,20 @@ private:
 			const ParseLocation& location, const NameHierarchy& specializedRecordNameHierarchy,
 			const RecordType specializedRecordType, const NameHierarchy& specializedFromNameHierarchy)
 		{
-			templateSpecializations.push_back(
-				addLocationSuffix(std::string(specializedRecordType == ParserClient::RECORD_CLASS ? "class" : "struct") + " " +
-				specializedRecordNameHierarchy.getFullName() + " -> " + specializedFromNameHierarchy.getFullName(), location)
-			);
+			templateSpecializations.push_back(addLocationSuffix(
+				std::string(specializedRecordType == ParserClient::RECORD_CLASS ? "class" : "struct") + " " +
+				specializedRecordNameHierarchy.getFullName() + " -> " + specializedFromNameHierarchy.getFullName(), location
+			));
+			return 0;
+		}
+
+		virtual Id onTemplateMemberFunctionSpecializationParsed(
+			const ParseLocation& location, const ParseFunction& instantiatedFunction, const ParseFunction& specializedFunction)
+		{
+			// needs to be implemented
+			templateMemberSpecializations.push_back(addLocationSuffix(
+				instantiatedFunction.getFullName() + " -> " + specializedFunction.getFullName(), location
+			));
 			return 0;
 		}
 
@@ -2791,6 +2819,7 @@ private:
 		std::vector<std::string> templateArgumentTypes;
 		std::vector<std::string> templateDefaultArgumentTypes;
 		std::vector<std::string> templateSpecializations;
+		std::vector<std::string> templateMemberSpecializations;
 
 		std::vector<std::string> files;
 		std::vector<std::string> includes;

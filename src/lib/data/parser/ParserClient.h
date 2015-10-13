@@ -127,6 +127,9 @@ public:
 	virtual Id onTemplateRecordSpecializationParsed(
 		const ParseLocation& location, const NameHierarchy& specializedRecordNameHierarchy,
 		const RecordType specializedRecordType, const NameHierarchy& specializedFromNameHierarchy) = 0;
+	virtual Id onTemplateMemberFunctionSpecializationParsed(
+		const ParseLocation& location, const ParseFunction& instantiatedFunction, const ParseFunction& specializedFunction) = 0;
+
 	virtual Id onTemplateFunctionParameterTypeParsed(
 		const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy,
 		const ParseFunction function) = 0;

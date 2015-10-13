@@ -173,16 +173,6 @@ bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 {
 	if (isLocatedInUnparsedProjectFile(declaration))
 	{
-		ParserClient::AbstractionType abstraction = ParserClient::ABSTRACTION_NONE;
-		if (declaration->isPure())
-		{
-			abstraction = ParserClient::ABSTRACTION_PURE_VIRTUAL;
-		}
-		else if (declaration->isVirtual())
-		{
-			abstraction = ParserClient::ABSTRACTION_VIRTUAL;
-		}
-
 		ParseFunction parseFunction = getParseFunction(declaration);
 		ParseLocation location = getParseLocationForNamedDecl(declaration);
 
@@ -190,7 +180,7 @@ bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
 			location,
 			parseFunction,
 			convertAccessType(declaration->getAccess()),
-			abstraction,
+			getAbstractionType(declaration),
 			getParseLocationOfFunctionBody(declaration)
 		);
 
@@ -363,8 +353,9 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 				specializationParentNameHierarchy
 			);
 
-			std::string specializationFilePath = specializationLocation.filePath.str();
 
+			// template arguments
+			std::string specializationFilePath = specializationLocation.filePath.str();
 			const clang::TemplateArgumentList &argList = specializationDecl->getTemplateArgs();
 			for (size_t i = 0; i < argList.size(); i++)
 			{
@@ -377,6 +368,35 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 						argumentNameHierarchy,
 						specializedRecordNameHierarchy
 					);
+				}
+			}
+
+			// template methods
+			if (specializationDecl->getSpecializationKind() == clang::TSK_ImplicitInstantiation)
+			{
+				for (clang::CXXRecordDecl::method_iterator methodIt = specializationDecl->method_begin(); methodIt != specializationDecl->method_end(); methodIt++)
+				{
+					clang::CXXMethodDecl* methodDecl = (*methodIt);
+					if (methodDecl->getTemplatedKind() == clang::FunctionDecl::TK_MemberSpecialization)
+					{
+						m_client->onMethodParsed(
+							getParseLocation(methodDecl->getMemberSpecializationInfo()->getPointOfInstantiation()),
+							getParseFunction(methodDecl),
+							convertAccessType(methodDecl->getAccess()),
+							getAbstractionType(methodDecl),
+							ParseLocation()
+						);
+
+						clang::NamedDecl* specializedNamedDecel = methodDecl->getMemberSpecializationInfo()->getInstantiatedFrom();
+						if (clang::isa<clang::FunctionDecl>(specializedNamedDecel))
+						{
+							m_client->onTemplateMemberFunctionSpecializationParsed(
+								getParseLocation(methodDecl->getMemberSpecializationInfo()->getPointOfInstantiation()),
+								getParseFunction(methodDecl),
+								getParseFunction(clang::dyn_cast<clang::FunctionDecl>(specializedNamedDecel))
+								);
+						}
+					}
 				}
 			}
 		}
@@ -797,6 +817,20 @@ ParserClient::AccessType ASTVisitor::convertAccessType(clang::AccessSpecifier ac
 	case clang::AS_none:
 		return ParserClient::ACCESS_NONE;
 	}
+}
+
+ParserClient::AbstractionType ASTVisitor::getAbstractionType(const clang::CXXMethodDecl* methodDecl) const
+{
+	ParserClient::AbstractionType abstraction = ParserClient::ABSTRACTION_NONE;
+	if (methodDecl->isPure())
+	{
+		abstraction = ParserClient::ABSTRACTION_PURE_VIRTUAL;
+	}
+	else if (methodDecl->isVirtual())
+	{
+		abstraction = ParserClient::ABSTRACTION_VIRTUAL;
+	}
+	return abstraction;
 }
 
 ParseLocation ASTVisitor::getParseLocation(const clang::SourceRange& sourceRange) const
