@@ -8,6 +8,7 @@
 
 FeatureController::FeatureController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
+	, m_activationTranslator(storageAccess)
 {
 }
 
@@ -17,73 +18,38 @@ FeatureController::~FeatureController()
 
 void FeatureController::handleMessage(MessageActivateEdge* message)
 {
-	if (message->type == Edge::EDGE_AGGREGATION)
+	std::shared_ptr<MessageActivateTokens> m = m_activationTranslator.translateMessage(message);
+	if (m)
 	{
-		const Id sourceId = m_storageAccess->getIdForNodeWithNameHierarchy(message->fromNameHierarchy);
-		const Id targetId = m_storageAccess->getIdForNodeWithNameHierarchy(message->toNameHierarchy);
-
-		MessageActivateTokens m(m_storageAccess->getTokenIdsForAggregationEdge(sourceId, targetId));
-		m.isAggregation = true;
-		m.undoRedoType = message->undoRedoType;
-		m.dispatchImmediately();
-	}
-	else
-	{
-		Id edgeId = message->tokenId;
-
-		if (!message->isFresh())
-		{
-			edgeId = m_storageAccess->getIdForEdge(message->type, message->fromNameHierarchy, message->toNameHierarchy);
-		}
-
-		if (!edgeId)
-		{
-			return;
-		}
-
-		MessageActivateTokens m(std::vector<Id>(1, edgeId));
-		m.isEdge = true;
-		m.undoRedoType = message->undoRedoType;
-		m.setKeepContent(message->keepContent());
-		m.dispatchImmediately();
+		m->dispatchImmediately();
 	}
 }
 
 void FeatureController::handleMessage(MessageActivateFile* message)
 {
-	MessageActivateTokens m(std::vector<Id>(1, m_storageAccess->getTokenIdForFileNode(message->filePath)));
-	m.undoRedoType = message->undoRedoType;
-	m.setKeepContent(message->keepContent());
-	m.dispatchImmediately();
+	std::shared_ptr<MessageActivateTokens> m = m_activationTranslator.translateMessage(message);
+	if (m)
+	{
+		m->dispatchImmediately();
+	}
 }
 
 void FeatureController::handleMessage(MessageActivateNodes* message)
 {
-	std::vector<Id> nodeIds;
-	if (message->isFresh())
+	std::shared_ptr<MessageActivateTokens> m = m_activationTranslator.translateMessage(message);
+	if (m)
 	{
-		for (const MessageActivateNodes::ActiveNode& node : message->nodes)
-		{
-			nodeIds.push_back(node.nodeId);
-		}
+		m->dispatchImmediately();
 	}
-	else
-	{
-		for (const MessageActivateNodes::ActiveNode& node : message->nodes)
-		{
-			Id nodeId = m_storageAccess->getIdForNodeWithNameHierarchy(node.nameHierarchy);
-			if (nodeId > 0)
-			{
-				nodeIds.push_back(nodeId);
-			}
-		}
-	}
+}
 
-	MessageActivateTokens m(nodeIds);
-	m.isFromSystem = message->isFromSystem;
-	m.undoRedoType = message->undoRedoType;
-	m.setKeepContent(message->keepContent());
-	m.dispatchImmediately();
+void FeatureController::handleMessage(MessageSearch* message)
+{
+	std::shared_ptr<MessageActivateTokens> m = m_activationTranslator.translateMessage(message);
+	if (m)
+	{
+		m->dispatchImmediately();
+	}
 }
 
 void FeatureController::handleMessage(MessageActivateTokenLocations* message)
@@ -98,19 +64,8 @@ void FeatureController::handleMessage(MessageActivateTokenLocations* message)
 			nodeId,
 			m_storageAccess->getNodeTypeForNodeWithId(nodeId),
 			m_storageAccess->getNameHierarchyForNodeWithId(nodeId)
-		);
+			);
 	}
-	m.dispatchImmediately();
-}
-
-void FeatureController::handleMessage(MessageSearch* message)
-{
-	std::vector<Id> tokenIds = m_storageAccess->getTokenIdsForMatches(message->getMatches());
-	tokenIds = m_storageAccess->getActiveTokenIdsForTokenIds(tokenIds);
-
-	MessageActivateTokens m(tokenIds);
-	m.undoRedoType = message->undoRedoType;
-	m.setKeepContent(message->keepContent());
 	m.dispatchImmediately();
 }
 
@@ -131,3 +86,4 @@ void FeatureController::handleMessage(MessageZoom* message)
 
 	MessageRefresh().refreshUiOnly().dispatch();
 }
+

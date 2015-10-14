@@ -1,6 +1,7 @@
 #include "component/controller/UndoRedoController.h"
 
 #include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageFlushUpdates.h"
 
 #include "component/view/UndoRedoView.h"
@@ -8,6 +9,7 @@
 
 UndoRedoController::UndoRedoController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
+	, m_activationTranslator(storageAccess)
 	, m_lastCommand(nullptr, 0)
 {
 }
@@ -136,7 +138,7 @@ void UndoRedoController::handleMessage(MessageRefresh* message)
 		return;
 	}
 
-	if (!m_lastCommand.message)
+	if (requiresActivateFallbackToken())
 	{
 		Id nodeId = m_storageAccess->getIdForNodeWithNameHierarchy(NameHierarchy("main"));
 		if (!nodeId)
@@ -151,35 +153,35 @@ void UndoRedoController::handleMessage(MessageRefresh* message)
 				nodeId,
 				m_storageAccess->getNodeTypeForNodeWithId(nodeId),
 				m_storageAccess->getNameHierarchyForNodeWithId(nodeId)
-			);
+				);
 			m.isFromSystem = true;
 			m.dispatch();
 		}
-
-		return;
-	}
-
-	if (m_lastCommand.order > 0)
-	{
-		replayCommands(false);
-	}
-
-	std::shared_ptr<MessageBase> msg = m_lastCommand.message;
-
-	if (m_undo.size())
-	{
-		m_lastCommand = m_undo.back();
-		m_undo.pop_back();
 	}
 	else
 	{
-		m_lastCommand.message.reset();
+		if (m_lastCommand.order > 0)
+		{
+			replayCommands(false);
+		}
+
+		std::shared_ptr<MessageBase> msg = m_lastCommand.message;
+
+		if (m_undo.size() > 0)
+		{
+			m_lastCommand = m_undo.back();
+			m_undo.pop_back();
+		}
+		else
+		{
+			m_lastCommand.message.reset();
+		}
+
+		msg->undoRedoType = MessageBase::UNDOTYPE_REDO;
+		msg->dispatch();
+
+		MessageFlushUpdates().dispatch();
 	}
-
-	msg->undoRedoType = MessageBase::UNDOTYPE_REDO;
-	msg->dispatch();
-
-	MessageFlushUpdates().dispatch();
 }
 
 void UndoRedoController::handleMessage(MessageSearch* message)
@@ -327,4 +329,58 @@ void UndoRedoController::clear()
 
 	getView()->setUndoButtonEnabled(false);
 	getView()->setRedoButtonEnabled(false);
+}
+
+bool UndoRedoController::requiresActivateFallbackToken() const
+{
+	bool activateFallbackToken = true;
+	if (m_lastCommand.message)
+	{
+		if (m_lastCommand.order == 0)
+		{
+			activateFallbackToken = !checkCommandCausesTokenActivation(m_lastCommand);
+		}
+		else
+		{
+			for (int i = m_undo.size() - 1; i >= 0; i--)
+			{
+				if (m_undo[i].order == 0)
+				{
+					activateFallbackToken = !checkCommandCausesTokenActivation(m_undo[i]);
+					break;
+				}
+			}
+		}
+	}
+	return activateFallbackToken;
+}
+
+bool UndoRedoController::checkCommandCausesTokenActivation(const Command& command) const
+{
+	MessageBase* commandMessage = command.message.get();
+	if (commandMessage)
+	{
+		std::shared_ptr<MessageActivateTokens> m;
+		std::string commandMessageTypeString = commandMessage->getType();
+		if (commandMessageTypeString == MessageActivateEdge::getStaticType())
+		{
+			m = m_activationTranslator.translateMessage(dynamic_cast<const MessageActivateEdge*>(commandMessage));
+		}
+		else if (commandMessageTypeString == MessageActivateFile::getStaticType())
+		{
+			m = m_activationTranslator.translateMessage(dynamic_cast<const MessageActivateFile*>(commandMessage));
+		}
+		else if (commandMessageTypeString == MessageActivateNodes::getStaticType())
+		{
+			MessageActivateNodes inputMessage(*dynamic_cast<MessageActivateNodes*>(commandMessage));
+			inputMessage.undoRedoType = MessageBase::UNDOTYPE_REDO;
+			m = m_activationTranslator.translateMessage(&inputMessage);
+		}
+		else if (commandMessageTypeString == MessageSearch::getStaticType())
+		{
+			m = m_activationTranslator.translateMessage(dynamic_cast<const MessageSearch*>(commandMessage));
+		}
+		return (m && m->tokenIds.size() > 0);
+	}
+	return false;
 }

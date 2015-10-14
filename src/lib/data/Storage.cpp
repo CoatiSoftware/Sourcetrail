@@ -970,7 +970,10 @@ std::vector<Id> Storage::getTokenIdsForMatches(const std::vector<SearchMatch>& m
 	for (const SearchMatch& match : matches)
 	{
 		SearchNode* searchNode = m_tokenIndex.getNode(match.nameHierarchy);
-		utility::append(idSet, searchNode->getTokenIds());
+		if (searchNode)
+		{
+			utility::append(idSet, searchNode->getTokenIds());
+		}
 	}
 
 	std::vector<Id> ids;

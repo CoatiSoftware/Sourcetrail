@@ -35,6 +35,8 @@ add_files(
 add_files(
 	LIB_FILES
 
+	component/controller/helper/ActivationTranslator.cpp
+	component/controller/helper/ActivationTranslator.h
 	component/controller/helper/BucketGrid.cpp
 	component/controller/helper/BucketGrid.h
 	component/controller/helper/DummyEdge.h

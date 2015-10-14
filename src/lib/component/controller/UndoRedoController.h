@@ -20,6 +20,7 @@
 #include "utility/messaging/type/MessageShowScope.h"
 #include "utility/messaging/type/MessageUndo.h"
 
+#include "component/controller/helper/ActivationTranslator.h"
 #include "component/controller/Controller.h"
 
 class StorageAccess;
@@ -81,6 +82,10 @@ private:
 
 	void clear();
 
+	bool requiresActivateFallbackToken() const;
+	bool checkCommandCausesTokenActivation(const Command& command) const;
+
+	ActivationTranslator m_activationTranslator;
 	StorageAccess* m_storageAccess;
 
 	Command m_lastCommand;
