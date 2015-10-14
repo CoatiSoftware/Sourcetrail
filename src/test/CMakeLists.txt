@@ -20,6 +20,7 @@ add_files(
 	LogManagerTestSuite.h
 	MatrixBaseTestSuite.h
 	MessageQueueTestSuite.h
+	NetworkProtocolHelperTestSuite.h
 	SettingsTestSuite.h
 	SearchIndexTestSuite.h
 	SqliteStorageTestSuite.h

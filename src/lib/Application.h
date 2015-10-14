@@ -11,6 +11,8 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageSaveProject.h"
 
+class IDECommunicationController;
+class NetworkFactory;
 class ViewFactory;
 class MainView;
 class StorageCache;
@@ -22,7 +24,7 @@ class Application
 	, public MessageListener<MessageSaveProject>
 {
 public:
-	static std::shared_ptr<Application> create(ViewFactory* viewFactory);
+	static std::shared_ptr<Application> create(ViewFactory* viewFactory, NetworkFactory* networkFactory);
 	static void loadSettings();
 
 	~Application();
@@ -46,6 +48,10 @@ private:
 
 	std::shared_ptr<MainView> m_mainView;
 	std::shared_ptr<ComponentManager> m_componentManager;
+
+	std::shared_ptr<IDECommunicationController> m_ideCommunicationController;
+	
+	bool m_isInitialParse;
 };
 
 #endif // APPLICATION_H

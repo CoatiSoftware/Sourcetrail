@@ -48,3 +48,7 @@ $ ninja -j4 check-all
 $ cd ../release_build
 $ cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ../llvm
 $ ninja -j4 check-all
+
+##### Remarks
+
+* Boost lib dir: rename library directory for your system (e.g.: 'lib32-msvc-12.0') to 'lib'

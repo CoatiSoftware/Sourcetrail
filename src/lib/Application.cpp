@@ -7,13 +7,14 @@
 #include "utility/scheduling/TaskScheduler.h"
 
 #include "component/view/GraphViewStyle.h"
+#include "component/controller/NetworkFactory.h"
 #include "component/view/MainView.h"
 #include "component/view/ViewFactory.h"
 #include "data/StorageCache.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
 
-std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
+std::shared_ptr<Application> Application::create(ViewFactory* viewFactory, NetworkFactory* networkFactory)
 {
 	loadSettings();
 
@@ -40,6 +41,8 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory)
 	{
 		ptr->m_mainView->showStartScreen();
 	}
+
+	ptr->m_ideCommunicationController = networkFactory->createIDECommunicationController();
 
 	return ptr;
 }

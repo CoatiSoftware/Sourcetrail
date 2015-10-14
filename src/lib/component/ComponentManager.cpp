@@ -1,5 +1,7 @@
 #include "component/ComponentManager.h"
 
+#include "component/controller/NetworkFactory.h"
+
 #include "component/view/CodeView.h"
 #include "component/view/CompositeView.h"
 #include "component/view/GraphView.h"

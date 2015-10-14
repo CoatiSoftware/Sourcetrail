@@ -2,12 +2,14 @@
 
 #include "component/view/GraphViewStyle.h"
 
-unsigned int GraphPostprocessor::s_cellSize = GraphViewStyle::s_gridCellSize;
+unsigned int GraphPostprocessor::s_cellWidth = GraphViewStyle::s_gridCellSize;
+unsigned int GraphPostprocessor::s_cellHeight = GraphViewStyle::s_gridCellSize;
 unsigned int GraphPostprocessor::s_cellPadding = GraphViewStyle::s_gridCellPadding;
 
 void GraphPostprocessor::doPostprocessing(std::vector<DummyNode>& nodes)
 {
-	unsigned int atomarGridSize = s_cellSize;
+	unsigned int atomarGridWidth = s_cellWidth;
+	unsigned int atomarGridHeight = s_cellHeight;
 
 	if (nodes.size() < 2)
 	{
@@ -16,42 +18,43 @@ void GraphPostprocessor::doPostprocessing(std::vector<DummyNode>& nodes)
 	}
 
 	// determine center of mass (CoD) which is used to get outliers closer to the rest of the graph
-	int divisor = 999999;
-	int maxNodeSize = 0;
+	int divisorWidth = 999999;
+	int divisorHeight = 999999;
+	int maxNodeWidth = 0;
+	int maxNodeHeight = 0;
 	Vec2i centerOfMass(0, 0);
 	float totalMass = 0.0f;
 
 	for (const DummyNode& node : nodes)
 	{
-		const Vec2i& size = node.size;
-
-		if (size.x < divisor)
+		if (node.size.x < divisorWidth)
 		{
-			divisor = size.x;
+			divisorWidth = node.size.x;
 		}
 
-		if (size.y < divisor)
+		if (node.size.y < divisorHeight)
 		{
-			divisor = size.y;
+			divisorHeight = node.size.y;
 		}
 
-		if (size.x > maxNodeSize)
+		if (node.size.x > maxNodeWidth)
 		{
-			maxNodeSize = size.x;
+			maxNodeWidth = node.size.x;
 		}
-		else if (size.y > maxNodeSize)
+		else if (node.size.y > maxNodeHeight)
 		{
-			maxNodeSize = size.y;
+			maxNodeHeight = node.size.y;
 		}
 
-		float nodeMass = size.getLengthSquared();
+		float nodeMass = node.size.x * node.size.y;
 		centerOfMass += node.position * nodeMass;
 		totalMass += nodeMass;
 	}
 
 	centerOfMass /= totalMass;
 
-	divisor = (int)atomarGridSize + s_cellPadding; //std::min(divisor, (int)atomarGridSize);
+	divisorWidth = (int)atomarGridWidth + s_cellPadding; //std::min(divisor, (int)atomarGridSize);
+	divisorHeight = (int)atomarGridHeight + s_cellPadding;
 
 	resolveOutliers(nodes, centerOfMass);
 
@@ -62,9 +65,9 @@ void GraphPostprocessor::doPostprocessing(std::vector<DummyNode>& nodes)
 		alignNodeOnRaster(node);
 	}
 
-	MatrixDynamicBase<unsigned int> heatMap = buildHeatMap(nodes, divisor, maxNodeSize);
+	MatrixDynamicBase<unsigned int> heatMap = buildHeatMap(nodes, divisorWidth, divisorHeight, maxNodeWidth, maxNodeHeight);
 
-	resolveOverlap(nodes, heatMap, divisor);
+	resolveOverlap(nodes, heatMap, divisorWidth, divisorHeight);
 }
 
 void GraphPostprocessor::alignNodeOnRaster(DummyNode& node)
@@ -74,7 +77,7 @@ void GraphPostprocessor::alignNodeOnRaster(DummyNode& node)
 
 Vec2i GraphPostprocessor::alignOnRaster(Vec2i position)
 {
-	int rasterPosDivisor = s_cellSize + s_cellPadding;
+	int rasterPosDivisor = s_cellWidth + s_cellPadding;
 
 	if (position.x % rasterPosDivisor != 0)
 	{
@@ -148,20 +151,17 @@ void GraphPostprocessor::resolveOutliers(std::vector<DummyNode>& nodes, const Ve
 }
 
 MatrixDynamicBase<unsigned int> GraphPostprocessor::buildHeatMap(
-	const std::vector<DummyNode>& nodes, const int atomarNodeSize, const int maxNodeSize
-){
-	// theoretically the nodes could horizontally or vertically far from the center, therefore '*5' (it's kinda arbitrary,
-	// generally *2 should suffice, I use *5 to prevent problems in extrem cases)
-	int heatMapWidth = (maxNodeSize * nodes.size() / atomarNodeSize) * 5;
-	int heatMapHeight = heatMapWidth;
+	const std::vector<DummyNode>& nodes, const int atomarNodeWidth, const int atomarNodeHeight, const int maxNodeWidth, const int maxNodeHeight)
+{
+	int heatMapWidth = (maxNodeWidth * nodes.size() / atomarNodeWidth) * 5; // theoretically the nodes could horizontally or vertically far from the center, therefore '*5' (it's kinda arbitrary, generally *2 should suffice, I use *5 to prevent problems in extrem cases)
+	int heatMapHeight = (maxNodeHeight * nodes.size() / atomarNodeHeight) * 5;
 
 	MatrixDynamicBase<unsigned int> heatMap(heatMapWidth, heatMapHeight);
 
 	for (const DummyNode& node : nodes)
 	{
-		int left = node.position.x / atomarNodeSize + heatMapWidth / 2;
-		int up = node.position.y / atomarNodeSize + heatMapHeight / 2;
-
+		int left = node.position.x / atomarNodeWidth + heatMapWidth/2;
+		int up = node.position.y / atomarNodeHeight + heatMapHeight/2;
 		Vec2i size = calculateRasterNodeSize(node);
 		int width = size.x;
 		int height = size.y;
@@ -193,8 +193,8 @@ MatrixDynamicBase<unsigned int> GraphPostprocessor::buildHeatMap(
 }
 
 void GraphPostprocessor::resolveOverlap(
-	std::vector<DummyNode>& nodes, MatrixDynamicBase<unsigned int>& heatMap, const int divisor
-){
+	std::vector<DummyNode>& nodes, MatrixDynamicBase<unsigned int>& heatMap, const int divisorWidth, const int divisorHeight)
+{
 	int heatMapWidth = heatMap.getColumnsCount();
 	int heatMapHeight = heatMap.getRowsCount();
 
@@ -211,9 +211,9 @@ void GraphPostprocessor::resolveOverlap(
 
 		for (DummyNode& node : nodes)
 		{
-			Vec2i nodePos;
-			nodePos.x = node.position.x / divisor + heatMapWidth / 2;
-			nodePos.y = node.position.y / divisor + heatMapHeight / 2;
+			Vec2i nodePos(0, 0);
+			nodePos.x = node.position.x / divisorWidth + heatMapWidth/2;
+			nodePos.y = node.position.y / divisorHeight + heatMapHeight/2;
 			Vec2i nodeSize = calculateRasterNodeSize(node);
 
 			if (nodePos.x + nodeSize.x > heatMapWidth || nodePos.x < 0)
@@ -254,28 +254,29 @@ void GraphPostprocessor::resolveOverlap(
 			modifyHeatmapArea(heatMap, nodePos, nodeSize, -1);
 
 			// move node to new position
-			int xOffset = grad.x * divisor;
-			int yOffset = grad.y * divisor;
+			int xOffset = grad.x * divisorWidth;
+			int yOffset = grad.y * divisorHeight;
 
-
-			int maxOffset = 2 * divisor;
+			int maxXOffset = 2*divisorWidth;
+			int maxYOffset = 2*divisorHeight;
+			
 			// prevent the graph from "exploding" again...
-			if (xOffset > maxOffset)
+			if (xOffset > maxXOffset)
 			{
-				xOffset = maxOffset;
+				xOffset = maxXOffset;
 			}
-			else if (xOffset < -maxOffset)
+			else if (xOffset < -maxXOffset)
 			{
-				xOffset = -maxOffset;
+				xOffset = -maxXOffset;
 			}
 
-			if (yOffset > maxOffset)
+			if (yOffset > maxYOffset)
 			{
-				yOffset = maxOffset;
+				yOffset = maxYOffset;
 			}
-			else if (yOffset < -maxOffset)
+			else if (yOffset < -maxYOffset)
 			{
-				yOffset = -maxOffset;
+				yOffset = -maxYOffset;
 			}
 
 			node.position += Vec2i(xOffset, yOffset);
@@ -283,8 +284,8 @@ void GraphPostprocessor::resolveOverlap(
 			alignNodeOnRaster(node);
 
 			// re-add node to heat map at new position
-			nodePos.x = node.position.x / divisor + heatMapWidth / 2;
-			nodePos.y = node.position.y / divisor + heatMapHeight / 2;
+			nodePos.x = node.position.x / divisorWidth + heatMapWidth/2;
+			nodePos.y = node.position.y / divisorHeight + heatMapHeight/2;
 
 			modifyHeatmapArea(heatMap, nodePos, nodeSize, 1);
 
@@ -442,8 +443,8 @@ Vec2i GraphPostprocessor::calculateRasterNodeSize(const DummyNode& node)
 
 	while (size.x > 0)
 	{
-		size.x = size.x - s_cellSize;
-		if (size.x > 0)
+		size.x = size.x - s_cellWidth;
+		if(size.x > 0)
 		{
 			size.x = size.x - s_cellPadding;
 		}
@@ -453,8 +454,8 @@ Vec2i GraphPostprocessor::calculateRasterNodeSize(const DummyNode& node)
 
 	while (size.y > 0)
 	{
-		size.y = size.y - s_cellSize;
-		if (size.y > 0)
+		size.y = size.y - s_cellHeight;
+		if(size.y > 0)
 		{
 			size.y = size.y - s_cellPadding;
 		}

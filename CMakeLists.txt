@@ -146,6 +146,7 @@ set(Qt5PrintSupport_DIR "$ENV{QT_DIR}/cmake/Qt5PrintSupport/")
 
 find_package(Qt5Widgets)
 find_package(Qt5PrintSupport)
+find_package(Qt5Network)
 
 if(Qt5Widgets_FOUND)
     MESSAGE(STATUS "Found Qt ${Qt5Widgets_VERSION_STRING}")
@@ -203,6 +204,7 @@ target_include_directories(${APP_PROJECT_NAME} SYSTEM
 
 # Use the Widgets module from Qt 5.
 qt5_use_modules(${APP_PROJECT_NAME} Widgets)
+qt5_use_modules(${APP_PROJECT_NAME} Network)
 
 # configure platform specific include file
 configure_file(
@@ -245,6 +247,9 @@ if (APPLE)
 
 	get_property(QT_PRINT_PATH TARGET ${Qt5PrintSupport_LIBRARIES} PROPERTY LOCATION)
 	get_filename_component(QT_PRINT_PATH ${QT_PRINT_PATH} REALPATH)
+	
+	#get_property(QT_NETWORK_PATH TARGET ${Qt5Network_LIBRARIES} PROPERTY LOCATION)
+	#get_filename_component(QT_NETWORK_PATH ${QT_NETWORK_PATH} REALPATH)
 
 	list(APPEND MACOSX_QT_FRAMEWORKS ${QT_CORE_PATH} ${QT_GUI_PATH} ${QT_WIDGETS_PATH} ${QT_PRINT_PATH})
 	string(REPLACE ";" " " MACOSX_QT_FRAMEWORKS "${MACOSX_QT_FRAMEWORKS}")

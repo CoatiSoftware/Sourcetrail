@@ -9,9 +9,12 @@
 #include "Application.h"
 #include "includes.h" // defines 'void setup(int argc, char *argv[])'
 #include "qt/window/QtSplashScreen.h"
+#include "qt/network/QtNetworkFactory.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewFactory.h"
 #include "version.h"
+
+#include "component/controller/helper/NetworkProtocolHelper.h" // remove when done
 
 void init()
 {
@@ -44,7 +47,9 @@ int main(int argc, char *argv[])
 	init();
 
 	QtViewFactory viewFactory;
-	std::shared_ptr<Application> app = Application::create(&viewFactory);
+	QtNetworkFactory networkFactory;
+
+	std::shared_ptr<Application> app = Application::create(&viewFactory, &networkFactory);
 
 	if (splash)
 	{

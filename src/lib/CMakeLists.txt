@@ -45,6 +45,8 @@ add_files(
 	component/controller/helper/GraphLayouter.h
 	component/controller/helper/GraphPostprocessor.cpp
 	component/controller/helper/GraphPostprocessor.h
+	component/controller/helper/NetworkProtocolHelper.cpp
+	component/controller/helper/NetworkProtocolHelper.h
 	component/controller/helper/SnippetMerger.cpp
 	component/controller/helper/SnippetMerger.h
 
@@ -56,6 +58,11 @@ add_files(
 	component/controller/FeatureController.h
 	component/controller/GraphController.cpp
 	component/controller/GraphController.h
+	
+	component/controller/IDECommunicationController.cpp
+	component/controller/IDECommunicationController.h
+	component/controller/NetworkFactory.cpp
+	component/controller/NetworkFactory.h
 	component/controller/RefreshController.cpp
 	component/controller/RefreshController.h
 	component/controller/SearchController.cpp
@@ -252,6 +259,7 @@ add_files(
 	utility/messaging/type/MessageGraphNodeMove.h
 	utility/messaging/type/MessageInterruptTasks.h
 	utility/messaging/type/MessageLoadProject.h
+	utility/messaging/type/MessageMoveIDECursor.h
 	utility/messaging/type/MessageRedo.h
 	utility/messaging/type/MessageRefresh.h
 	utility/messaging/type/MessageSaveProject.h

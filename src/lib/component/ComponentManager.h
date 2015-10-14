@@ -8,6 +8,7 @@
 #include "component/ComponentFactory.h"
 
 class CompositeView;
+class NetworkFactory;
 class StorageAccess;
 class View;
 class ViewFactory;

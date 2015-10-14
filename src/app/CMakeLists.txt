@@ -39,6 +39,13 @@ add_files(
 	qt/graphics/QtRoundedRectItem.h
 	qt/graphics/QtStraightLineItem.cpp
 	qt/graphics/QtStraightLineItem.h
+	
+	qt/network/QtIDECommunicationController.cpp
+	qt/network/QtIDECommunicationController.h
+	qt/network/QtNetworkFactory.cpp
+	qt/network/QtNetworkFactory.h
+	qt/network/QtTcpWrapper.cpp
+	qt/network/QtTcpWrapper.h
 
 	qt/utility/QtDeviceScaledPixmap.cpp
 	qt/utility/QtDeviceScaledPixmap.h
