@@ -39,6 +39,8 @@ namespace utility
 	bool intersectionPoint(Vec2f a1, Vec2f b1, Vec2f a2, Vec2f b2, Vec2f* i);
 
 	size_t digits(size_t n);
+
+	int roundToInt(float n);
 }
 
 template<typename T>

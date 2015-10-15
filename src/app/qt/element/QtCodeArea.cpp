@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QPushButton>
 #include <QToolTip>
+#include <qscrollbar.h>
 
 #include "utility/messaging/type/MessageActivateTokenLocations.h"
 #include "utility/messaging/type/MessageShowFile.h"
@@ -55,6 +56,7 @@ QtCodeArea::QtCodeArea(
 	, m_locationFile(locationFile)
 	, m_hoveredAnnotation(nullptr)
 	, m_digits(0)
+	, m_panningValue(-1)
 {
 	setObjectName("code_area");
 	setReadOnly(true);
@@ -229,10 +231,19 @@ void QtCodeArea::leaveEvent(QEvent* event)
 	setHoveredAnnotation(nullptr);
 }
 
+void QtCodeArea::mousePressEvent(QMouseEvent* event)
+{
+	if (event->button() == Qt::LeftButton)
+	{
+		m_panningValue = event->pos().x();
+	}
+}
+
 void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 {
 	if (event->button() == Qt::LeftButton)
 	{
+		m_panningValue = -1;
 		QTextCursor cursor = this->cursorForPosition(event->pos());
 		std::vector<Id> locationIds = findLocationIdsForPosition(cursor.position());
 
@@ -253,6 +264,19 @@ void QtCodeArea::mouseDoubleClickEvent(QMouseEvent* event)
 
 void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 {
+	if (m_panningValue!= -1)
+	{
+		int panningCurrentPosition = event->pos().x();
+		int deltaPos = panningCurrentPosition - m_panningValue;
+		m_panningValue = panningCurrentPosition;
+
+		QScrollBar* scrollbar = horizontalScrollBar();
+		int visibleContentWidth = width() - lineNumberAreaWidth();
+		float deltaPosRatio = float(deltaPos) / (visibleContentWidth);
+		scrollbar->setValue(scrollbar->value() - utility::roundToInt(deltaPosRatio * scrollbar->pageStep()));
+	}
+
+
 	QTextCursor cursor = this->cursorForPosition(event->pos());
 
 	m_hoveredLocationIds = findLocationIdsForPosition(cursor.position());

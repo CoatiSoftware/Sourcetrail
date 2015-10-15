@@ -8,6 +8,7 @@
 
 #include "utility/types.h"
 
+class QDragMoveEvent;
 class QPaintEvent;
 class QResizeEvent;
 class QSize;
@@ -34,7 +35,7 @@ public:
 		QSize sizeHint() const;
 
 	protected:
-		void paintEvent(QPaintEvent* event);
+		virtual void paintEvent(QPaintEvent* event);
 
 	private:
 		QtCodeArea *m_codeArea;
@@ -73,6 +74,7 @@ protected:
 	virtual void leaveEvent(QEvent* event);
 	virtual void mouseReleaseEvent(QMouseEvent* event);
 	virtual void mouseDoubleClickEvent(QMouseEvent* event);
+	virtual void mousePressEvent(QMouseEvent* event);
 	virtual void mouseMoveEvent(QMouseEvent* event);
 
 private slots:
@@ -131,6 +133,7 @@ private:
 	std::vector<Id> m_hoveredLocationIds;
 
 	int m_digits;
+	int m_panningValue; // just for horizontal panning
 };
 
 #endif // QT_CODE_AREA_H

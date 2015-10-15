@@ -73,3 +73,8 @@ size_t utility::digits(size_t n)
 
 	return digits;
 }
+
+int utility::roundToInt(float n)
+{
+	return (n > 0.0f) ? (n + 0.5f) : (n - 0.5f);
+}
