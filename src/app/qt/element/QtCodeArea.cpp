@@ -102,6 +102,11 @@ QSize QtCodeArea::sizeHint() const
 		block = block.next();
 	}
 
+	if (horizontalScrollBar()->isVisible())
+	{
+		height += horizontalScrollBar()->height();
+	}
+
 	return QSize(320, height + 1);
 }
 
