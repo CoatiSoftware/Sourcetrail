@@ -4,6 +4,7 @@
 #include <QPushButton>
 
 #include "utility/messaging/type/MessageShowScope.h"
+#include "utility/messaging/type/MessageShowFile.h"
 #include "utility/text/TextAccess.h"
 
 #include "data/location/TokenLocationFile.h"
@@ -40,7 +41,7 @@ std::shared_ptr<QtCodeSnippet> QtCodeSnippet::merged(QtCodeSnippet* a, QtCodeSni
 		code += line;
 	}
 
-	std::string title = first->m_title ? first->m_title->text().toStdString() : "";
+	std::string title = first->m_titleString;
 
 	return std::shared_ptr<QtCodeSnippet>(new QtCodeSnippet(
 		first->getStartLineNumber(),
@@ -62,6 +63,7 @@ QtCodeSnippet::QtCodeSnippet(
 )
 	: QFrame(file)
 	, m_titleId(titleId)
+	, m_titleString(title)
 	, m_dots(nullptr)
 	, m_title(nullptr)
 	, m_codeArea(std::make_shared<QtCodeArea>(startLineNumber, code, locationFile, file, this))
@@ -74,7 +76,7 @@ QtCodeSnippet::QtCodeSnippet(
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
 
-	if (title.size())
+	if (m_titleString.size())
 	{
 		QHBoxLayout* titleLayout = new QHBoxLayout();
 		titleLayout->setMargin(0);
@@ -87,7 +89,7 @@ QtCodeSnippet::QtCodeSnippet(
 		m_dots->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 		titleLayout->addWidget(m_dots);
 
-		m_title = new QPushButton(title.c_str(), this);
+		m_title = new QPushButton(FilePath(m_titleString).fileName().c_str(), this);
 		m_title->setObjectName("scope_name");
 		m_title->minimumSizeHint(); // force font loading
 		m_title->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
@@ -139,9 +141,13 @@ bool QtCodeSnippet::isActive() const
 
 void QtCodeSnippet::clickedTitle()
 {
-	if (m_titleId)
+	if (m_titleId > 0)
 	{
 		MessageShowScope(m_titleId).dispatch();
+	}
+	else
+	{
+		MessageShowFile(FilePath(m_titleString), 0, 0).dispatch();
 	}
 }
 

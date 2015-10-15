@@ -260,7 +260,6 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(std:
 		params.startLineNumber = std::max<int>(1, range.start.row - (range.start.strong ? 0 : snippetExpandRange));
 		params.endLineNumber = std::min<int>(textAccess->getLineCount(), range.end.row + (range.end.strong ? 0 : snippetExpandRange));
 
-
 		std::shared_ptr<TokenLocationFile> tempFile =
 			m_storageAccess->getTokenLocationsForLinesInFile(file->getFilePath().str(), params.startLineNumber, params.endLineNumber);
 		TokenLocationLine* firstUsedLine = nullptr;
@@ -269,15 +268,22 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(std:
 			firstUsedLine = tempFile->findTokenLocationLineByNumber(i);
 		}
 
+		params.titleId = 0;
 		if (firstUsedLine && firstUsedLine->getTokenLocations().size())
 		{
-			m_storageAccess->getTokenLocationOfParentScope(firstUsedLine->getTokenLocations().begin()->second.get())->forEachStartTokenLocation(
+			m_storageAccess->getTokenLocationOfParentScope(
+				firstUsedLine->getTokenLocations().begin()->second.get()
+			)->forEachStartTokenLocation( // this TokenLocationFile only contains a single StartTokenLocation.
 				[&](TokenLocation* location)
 				{
 					params.title = m_storageAccess->getNameHierarchyForNodeWithId(location->getTokenId()).getFullName();
 					params.titleId = location->getId();
 				}
 			);
+		}
+		if (!file->isWholeCopy && params.titleId == 0)
+		{
+			params.title = file->getFilePath().str();
 		}
 
 		for (const std::string& line: textAccess->getLines(params.startLineNumber, params.endLineNumber))

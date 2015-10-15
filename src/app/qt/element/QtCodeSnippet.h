@@ -49,6 +49,7 @@ private:
 	void updateDots();
 
 	Id m_titleId;
+	std::string m_titleString;
 
 	QPushButton* m_dots;
 	QPushButton* m_title;
