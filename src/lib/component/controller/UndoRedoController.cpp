@@ -8,8 +8,8 @@
 #include "data/access/StorageAccess.h"
 
 UndoRedoController::UndoRedoController(StorageAccess* storageAccess)
-	: m_storageAccess(storageAccess)
-	, m_activationTranslator(storageAccess)
+	: m_activationTranslator(storageAccess)
+	, m_storageAccess(storageAccess)
 	, m_lastCommand(nullptr, 0)
 {
 }

@@ -6,14 +6,33 @@
 INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/data
         DESTINATION share/coati/.config/coati
         PATTERN "log/*" EXCLUDE
-        PATTERN "projects/*" EXCLUDE
+        PATTERN "projects" EXCLUDE
+        PATTERN "src" EXCLUDE
+        PATTERN "ApplicationSettings.xml" EXCLUDE
+        PATTERN "ApplicationSettings_distr.xml" EXCLUDE
+        PATTERN "ProjectSettings_template.xml" EXCLUDE
+        PATTERN "ApplicationSettings_template.xml" EXCLUDE
 )
+
+INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/data/src/tictactoe
+        DESTINATION share/coati/.config/coati/data/projects
+        )
+
+INSTALL(FILES ${CMAKE_SOURCE_DIR}/bin/app/data/projects/tictactoe.xml
+        DESTINATION share/coati/.config/coati/data/projects/tictactoe
+        )
+
+INSTALL(FILES ${CMAKE_SOURCE_DIR}/bin/app/data/ApplicationSettings_distr.xml
+        DESTINATION share/coati/.config/coati/data
+        RENAME ApplicationSettings.xml)
+
 INSTALL(FILES ${CMAKE_SOURCE_DIR}/setup/Linux/coati.desktop
         DESTINATION share/applications
 )
 INSTALL(FILES ${CMAKE_SOURCE_DIR}/bin/app/data/gui/icon/logo_1024_1024.png
         DESTINATION share/icons
         RENAME coati.png)
+
 INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/setup/Linux/lib
         DESTINATION share/coati
 )

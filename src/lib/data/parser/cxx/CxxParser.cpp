@@ -153,7 +153,7 @@ std::shared_ptr<clang::tooling::FixedCompilationDatabase> CxxParser::getCompilat
 		clang::tooling::FixedCompilationDatabase::loadFromCommandLine(argc, argv)
 	);
 
-	delete argv;
+	delete[] argv;
 
 	if (!compilationDatabase)
 	{
