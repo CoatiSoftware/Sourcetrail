@@ -28,18 +28,25 @@ void QtAbout::setup()
 
 void QtAbout::populateForm(QFormLayout* layout)
 {
+	QLabel* developerName = new QLabel("Developed by:");
+	developerName->setAlignment(Qt::AlignTop);
 	QLabel* developerLabel = new QLabel(
-		"\nManuel Dobusch\n"
+		"Manuel Dobusch\n"
 		"Eberhard Gräther\n"
 		"Malte Langkabel\n"
 		"Victoria Pfausler\n"
 		"Andreas Stallinger\n");
+	developerLabel->setAlignment(Qt::AlignTop);
+	layout->addRow(developerName, developerLabel);
 
-	layout->addRow(QString("Developed by:"), developerLabel);
+	QLabel* acknowledgementsName = new QLabel("Acknowledgements:");
+	acknowledgementsName->setAlignment(Qt::AlignTop);
+	QLabel* acknowledgementsLabel = new QLabel("Coati 0.1 was created in the context of education at the University of Applied Sciences Salzburg\n");
+	acknowledgementsLabel->setWordWrap(true);
+	acknowledgementsLabel->setAlignment(Qt::AlignTop);
+	layout->addRow(acknowledgementsName, acknowledgementsLabel);
+
 	layout->addRow(QString("Version:"), new QLabel(GIT_VERSION_NUMBER));
-	layout->addRow(QString("Branch:"), new QLabel(GIT_BRANCH));
-	layout->addRow(QString("Buildtype:"), new QLabel(BUILD_TYPE));
-	layout->addRow(QString("Date:"), new QLabel(GIT_COMMIT_TIME));
 }
 
 void QtAbout::handleCancelButtonPress()
