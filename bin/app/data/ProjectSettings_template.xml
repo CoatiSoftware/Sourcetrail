@@ -8,27 +8,27 @@
 
 <config>
 	<source>
-		<SourcePaths>
-			<SourcePath><!-- STRING: path to source file or directory, also used as header search path --></SourcePath>
-		</SourcePaths>
+		<source_paths>
+			<source_path><!-- STRING: path to source file or directory, also used as header search path --></source_path>
+		</source_paths>
 
-		<CompilerFlags>
-			<CompilerFlag><!-- STRING: compiler flag, including the dash e.g. -v --></CompilerFlag>
-		</CompilerFlags>
+		<compiler_flags>
+			<compiler_flag><!-- STRING: compiler flag, including the dash e.g. -v --></compiler_flag>
+		</compiler_flags>
 
-		<HeaderSearchPaths>
-			<HeaderSearchPath><!-- STRING: header search path for each path a HeaderSearchPath element --></HeaderSearchPath>
-		</HeaderSearchPaths>
+		<header_search_paths>
+			<header_search_path><!-- STRING: header search path for each path a header_search_path element --></header_search_path>
+		</header_search_paths>
 
 		<!-- MAC ONLY -->
-		<FrameworkSearchPaths>
-			<FrameworkSearchPath><!-- STRING: framework search path --></FrameworkSearchPath>
-		</FrameworkSearchPaths>
+		<framework_search_paths>
+			<framework_search_path><!-- STRING: framework search path --></framework_search_path>
+		</framework_search_paths>
 
-		<Extensions>
-			<HeaderExtensions><!-- STRING: extension for header/include e.g. .h --></HeaderExtensions>
-			<SourceExtensions><!-- STRING: extension for source e.g. .cpp --></SourceExtensions>
-		</Extensions>
+		<extensions>
+			<header_extensions><!-- STRING: extension for header/include e.g. .h --></header_extensions>
+			<source_extensions><!-- STRING: extension for source e.g. .cpp --></source_extensions>
+		</extensions>
 
 	</source>
 </config>

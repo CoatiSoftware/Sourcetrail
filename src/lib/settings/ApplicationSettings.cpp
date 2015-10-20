@@ -18,33 +18,33 @@ ApplicationSettings::~ApplicationSettings()
 
 std::string ApplicationSettings::getStartupProjectFilePath() const
 {
-	return getValue<std::string>("StartupProject", "");
+	return getValue<std::string>("startup_project", "");
 }
 
 std::vector<FilePath> ApplicationSettings::getHeaderSearchPaths() const
 {
-	return getPathValues("source/HeaderSearchPaths/HeaderSearchPath");
+	return getPathValues("source/header_search_paths/header_search_path");
 }
 
 bool ApplicationSettings::setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths)
 {
-	return setPathValues("source/HeaderSearchPaths/HeaderSearchPath", headerSearchPaths);
+	return setPathValues("source/header_search_paths/header_search_path", headerSearchPaths);
 }
 
 std::vector<FilePath> ApplicationSettings::getFrameworkSearchPaths() const
 {
-	return getPathValues("source/FrameworkSearchPaths/FrameworkSearchPath");
+	return getPathValues("source/framework_search_paths/framework_search_path");
 }
 
 bool ApplicationSettings::setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths)
 {
-	return setPathValues("source/FrameworkSearchPaths/FrameworkSearchPath", frameworkSearchPaths);
+	return setPathValues("source/framework_search_paths/framework_search_path", frameworkSearchPaths);
 }
 
 std::vector<std::string> ApplicationSettings::getCompilerFlags() const
 {
 	std::vector<std::string> defaultValues;
-	return getValues("source/CompilerFlags/CompilerFlag", defaultValues);
+	return getValues("source/compiler_flags/compiler_flag", defaultValues);
 }
 
 std::string ApplicationSettings::getFontName() const
@@ -79,12 +79,12 @@ void ApplicationSettings::setColorSchemePath(const std::string& colorSchemePath)
 
 int ApplicationSettings::getCodeTabWidth() const
 {
-	return getValue<int>("code/TabWidth", 4);
+	return getValue<int>("code/tab_width", 4);
 }
 
 void ApplicationSettings::setCodeTabWidth(int codeTabWidth)
 {
-	setValue<int>("code/TabWidth", codeTabWidth);
+	setValue<int>("code/tab_width", codeTabWidth);
 }
 
 int ApplicationSettings::getCodeSnippetSnapRange() const
