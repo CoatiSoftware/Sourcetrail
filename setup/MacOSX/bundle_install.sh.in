@@ -14,7 +14,7 @@ APP_NAME="@MACOSX_BINARY_NAME@"
 DYNLIB_PATHS=(@MACOSX_DYNAMIC_LIBRARIES@)
 
 QT_DIR="@MACOSX_QT_DIR@"
-QT_FRAMEWORK_PATHS=(@MACOSX_QT_FRAMEWORKS@)
+QT_FRAMEWORK_PATHS=(/Users/ebsi/Documents/Qt/5.5/clang_64/lib/QtDBus.framework/Versions/5/QtDBus @MACOSX_QT_FRAMEWORKS@)
 
 if [ ! -x "$APP_NAME" ]
 then
@@ -86,7 +86,7 @@ do
 
 	FRAMEWORK_SUB_PATH=$(echo $FRAMEWORK_BIN_PATH | grep -o "\w*.framework\S*")
 	install_name_tool -id @executable_path/../Frameworks/$FRAMEWORK_SUB_PATH $FRAMEWORK_DIR/$FRAMEWORK_SUB_PATH
-	install_name_tool -change $FRAMEWORK_BIN_PATH @executable_path/../Frameworks/$FRAMEWORK_SUB_PATH $APP_PATH
+	install_name_tool -change @rpath/$FRAMEWORK_SUB_PATH @executable_path/../Frameworks/$FRAMEWORK_SUB_PATH $APP_PATH
 
 	echo "framework" $FRAMEWORK_BIN_PATH $FRAMEWORK_PATH
 done
@@ -94,23 +94,31 @@ done
 # http://qt-project.org/doc/qt-4.8/deployment-mac.html
 echo -e $INFO "Fixing framework dependencies"
 
-install_name_tool -change $QT_DIR/lib/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $FRAMEWORK_DIR/QtGui.framework/Versions/5/QtGui
-install_name_tool -change $QT_DIR/lib/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $FRAMEWORK_DIR/QtWidgets.framework/Versions/5/QtWidgets
-install_name_tool -change $QT_DIR/lib/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $FRAMEWORK_DIR/QtWidgets.framework/Versions/5/QtWidgets
+install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $FRAMEWORK_DIR/QtGui.framework/Versions/5/QtGui
+install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $FRAMEWORK_DIR/QtWidgets.framework/Versions/5/QtWidgets
+install_name_tool -change @rpath/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $FRAMEWORK_DIR/QtWidgets.framework/Versions/5/QtWidgets
 
-install_name_tool -change $QT_DIR/lib/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $FRAMEWORK_DIR/QtPrintSupport.framework/Versions/5/QtPrintSupport
-install_name_tool -change $QT_DIR/lib/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $FRAMEWORK_DIR/QtPrintSupport.framework/Versions/5/QtPrintSupport
-install_name_tool -change $QT_DIR/lib/QtWidgets.framework/Versions/5/QtWidgets @executable_path/../Frameworks/QtWidgets.framework/Versions/5/QtWidgets $FRAMEWORK_DIR/QtPrintSupport.framework/Versions/5/QtPrintSupport
+install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $FRAMEWORK_DIR/QtPrintSupport.framework/Versions/5/QtPrintSupport
+install_name_tool -change @rpath/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $FRAMEWORK_DIR/QtPrintSupport.framework/Versions/5/QtPrintSupport
+install_name_tool -change @rpath/QtWidgets.framework/Versions/5/QtWidgets @executable_path/../Frameworks/QtWidgets.framework/Versions/5/QtWidgets $FRAMEWORK_DIR/QtPrintSupport.framework/Versions/5/QtPrintSupport
 
-install_name_tool -change $QT_DIR/lib/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $PLUGIN_DIR/libqcocoa.dylib
-install_name_tool -change $QT_DIR/lib/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $PLUGIN_DIR/libqcocoa.dylib
-install_name_tool -change $QT_DIR/lib/QtWidgets.framework/Versions/5/QtWidgets @executable_path/../Frameworks/QtWidgets.framework/Versions/5/QtWidgets $PLUGIN_DIR/libqcocoa.dylib
-install_name_tool -change $QT_DIR/lib/QtPrintSupport.framework/Versions/5/QtPrintSupport @executable_path/../Frameworks/QtPrintSupport.framework/Versions/5/QtPrintSupport $PLUGIN_DIR/libqcocoa.dylib
+install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $PLUGIN_DIR/libqcocoa.dylib
+install_name_tool -change @rpath/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $PLUGIN_DIR/libqcocoa.dylib
+install_name_tool -change @rpath/QtWidgets.framework/Versions/5/QtWidgets @executable_path/../Frameworks/QtWidgets.framework/Versions/5/QtWidgets $PLUGIN_DIR/libqcocoa.dylib
+install_name_tool -change @rpath/QtPrintSupport.framework/Versions/5/QtPrintSupport @executable_path/../Frameworks/QtPrintSupport.framework/Versions/5/QtPrintSupport $PLUGIN_DIR/libqcocoa.dylib
+install_name_tool -change @rpath/QtDBus.framework/Versions/5/QtDBus @executable_path/../Frameworks/QtDBus.framework/Versions/5/QtDBus $PLUGIN_DIR/libqcocoa.dylib
+
+install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $FRAMEWORK_DIR/QtDBus.framework/Versions/5/QtDBus
+
+install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $FRAMEWORK_DIR/QtNetwork.framework/Versions/5/QtNetwork
+install_name_tool -change @rpath/QtDBus.framework/Versions/5/QtDBus @executable_path/../Frameworks/QtDBus.framework/Versions/5/QtDBus $FRAMEWORK_DIR/QtNetwork.framework/Versions/5/QtNetwork
 
 otool -L $FRAMEWORK_DIR/QtCore.framework/Versions/5/QtCore
 otool -L $FRAMEWORK_DIR/QtGui.framework/Versions/5/QtGui
 otool -L $FRAMEWORK_DIR/QtWidgets.framework/Versions/5/QtWidgets
 otool -L $FRAMEWORK_DIR/QtPrintSupport.framework/Versions/5/QtPrintSupport
+otool -L $FRAMEWORK_DIR/QtDBus.framework/Versions/5/QtDBus
+otool -L $FRAMEWORK_DIR/QtNetwork.framework/Versions/5/QtNetwork
 otool -L $PLUGIN_DIR/libqcocoa.dylib
 
 

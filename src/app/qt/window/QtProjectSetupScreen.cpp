@@ -141,7 +141,7 @@ void QtProjectSetupScreen::handleCancelButtonPress()
 	emit canceled();
 }
 
-void QtProjectSetupScreen::handleDoneButtonPress()
+void QtProjectSetupScreen::handleUpdateButtonPress()
 {
 	if (m_projectName->text().isEmpty())
 	{

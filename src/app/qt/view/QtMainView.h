@@ -33,7 +33,7 @@ public:
 	virtual void setStatusBar(QStatusBar* statusBar);
 
 	// MainView implementation
-	virtual void showStartScreen();
+	virtual void hideStartScreen();
 	virtual void setTitle(const std::string& title);
 
 private:

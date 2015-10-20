@@ -71,7 +71,11 @@ void QtMainWindow::init()
 {
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 
-	if (!appSettings->getUserHasSeenSettings())
+	if (appSettings->getUserHasSeenSettings())
+	{
+		showStartScreen();
+	}
+	else
 	{
 		openSettings();
 		m_startScreenWasVisible = true;

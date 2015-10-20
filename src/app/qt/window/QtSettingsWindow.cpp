@@ -144,7 +144,7 @@ void QtSettingsWindow::setupForm()
 	m_doneButton->setObjectName("windowButton");
 
 	connect(m_cancelButton, SIGNAL(clicked()), this, SLOT(handleCancelButtonPress()));
-	connect(m_doneButton, SIGNAL(clicked()), this, SLOT(handleDoneButtonPress()));
+	connect(m_doneButton, SIGNAL(clicked()), this, SLOT(handleUpdateButtonPress()));
 
 	QHBoxLayout* buttons = new QHBoxLayout();
 	buttons->addWidget(m_cancelButton);

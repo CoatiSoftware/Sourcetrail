@@ -48,7 +48,7 @@ if [ $PLATFORM == "Windows" ]; then
 
 	echo -e $INFO "copy test_main file"
 	cp -u setup/cxx_test/windows/test_main.cpp build
-	
+
 	echo -e $INFO "creating program icon"
 	sh script/create_windows_icon.sh
 fi
@@ -62,7 +62,7 @@ if [ $PLATFORM == "Linux" ] || [ $PLATFORM == "MacOS" ]; then
 	cd build/Debug && cmake -G Ninja -DCMAKE_BUILD_TYPE="Debug" ../..
 
 	echo -e $INFO "run cmake with Release configuration"
-	cd ../Release && cmake -G Ninja -DCMAKE_BUILD_TYPE="Release" ../..
+	cd ../Release && cmake -G Xcode -DCMAKE_BUILD_TYPE="Release" ../..
 fi
 
 echo -e $SUCCESS "setup complete"

@@ -11,7 +11,7 @@ public:
 	MainView();
 	virtual ~MainView();
 
-	virtual void showStartScreen() = 0;
+	virtual void hideStartScreen() = 0;
 	virtual void setTitle(const std::string& title) = 0;
 };
 

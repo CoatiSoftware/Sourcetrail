@@ -48,7 +48,7 @@ protected:
 
 private slots:
 	void handleCancelButtonPress();
-	void handleDoneButtonPress();
+	void handleUpdateButtonPress();
 
 private:
 	QLineEdit* m_projectName;

@@ -36,10 +36,7 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory, Netwo
 	if (startupProjectFilePath.size())
 	{
 		MessageLoadProject(startupProjectFilePath).dispatch();
-	}
-	else
-	{
-		ptr->m_mainView->showStartScreen();
+		ptr->m_mainView->hideStartScreen();
 	}
 
 	ptr->m_ideCommunicationController = networkFactory->createIDECommunicationController();
