@@ -28,6 +28,24 @@ For Win32:
 Run setup script:
 $ ./script/setup.sh
 
+#### Release
+
+##### App
+* create release build
+* make sure it uses the Coati icon
+* obfuscate the executable using upx
+
+##### Data folder
+* put data folder in working directory
+* add empty log folder
+* add working tictactoe.xml project to /projects/tictactoe with sources in /projects/tictactoe/src
+* add empty app settings with one recent project tictactoe.xml
+* leave window_settings.ini with correct Coati start layout
+
+##### Package
+* add app
+* add web/coati_manual.pdf to package
+
 ##### Updating Clang on UNIX
 
 $ cd .../clang_llvm
