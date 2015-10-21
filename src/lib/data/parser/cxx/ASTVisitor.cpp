@@ -876,7 +876,18 @@ ParseLocation ASTVisitor::getParseLocationOfFunctionBody(const clang::FunctionDe
 {
 	if (decl->hasBody() && decl->isThisDeclarationADefinition())
 	{
-		return getParseLocation(decl->getSourceRange());
+		clang::SourceRange range;
+		clang::FunctionTemplateDecl* templateDecl = decl->getDescribedFunctionTemplate();
+		if (templateDecl)
+		{
+			range = templateDecl->getSourceRange();
+		}
+		else
+		{
+			range = decl->getSourceRange();
+		}
+
+		return getParseLocation(range);
 	}
 
 	return ParseLocation();
@@ -886,7 +897,18 @@ ParseLocation ASTVisitor::getParseLocationOfRecordBody(clang::CXXRecordDecl* dec
 {
 	if (decl->hasDefinition() && decl->isThisDeclarationADefinition())
 	{
-		return getParseLocation(decl->getDefinition()->getSourceRange());
+		clang::SourceRange range;
+		clang::ClassTemplateDecl* templateDecl = decl->getDescribedClassTemplate();
+		if (templateDecl)
+		{
+			range = templateDecl->getSourceRange();
+		}
+		else
+		{
+			range = decl->getDefinition()->getSourceRange();
+		}
+
+		return getParseLocation(range);
 	}
 
 	return ParseLocation();
