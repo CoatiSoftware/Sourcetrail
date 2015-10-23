@@ -12,29 +12,25 @@ NetworkProtocolHelper::NetworkMessage NetworkProtocolHelper::parseMessage(const 
 {
 	NetworkMessage networkMessage;
 	
-	std::string tmpMessage = removeEndOfMessageToken(message);
-
-	size_t pos = tmpMessage.find(m_setActiveTokenPrefix);
+	size_t pos = message.find(m_setActiveTokenPrefix);
 
 	if(pos != std::string::npos)
 	{
-		tmpMessage = "";
+		std::string tmpMessage = "";
 		getSubstringAfterString(message, m_divider, tmpMessage); // just get rid of message type
+		tmpMessage = removeEndOfMessageToken(tmpMessage);
 
 		std::string fileLocation = getSubstringAfterString(tmpMessage, m_divider, tmpMessage);
 		std::string row = getSubstringAfterString(tmpMessage, m_divider, tmpMessage);
-		std::string column = tmpMessage; // getSubstringAfterString(tmpMessage, "", tmpMessage); // there should be nothing left in the message but the column number
+		std::string column = tmpMessage; // there should be nothing left in the message but the column number
 
-		if(fileLocation.length() <= 0
-			|| row.length() <= 0
-			|| column.length() <= 0
-			|| isDigits(row) == false
-			|| isDigits(column) == false)
-		{
-			return networkMessage;
-		}
-		else
-		{
+		if(
+			fileLocation.length() > 0
+			&& row.length() > 0
+			&& column.length() > 0
+			&& isDigits(row)
+			&& isDigits(column)
+		){
 			networkMessage.fileLocation = fileLocation;
 			networkMessage.row = std::stoi(row);
 			networkMessage.column = std::stoi(column);

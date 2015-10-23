@@ -39,7 +39,7 @@ std::shared_ptr<Application> Application::create(ViewFactory* viewFactory, Netwo
 		ptr->m_mainView->hideStartScreen();
 	}
 
-	ptr->m_ideCommunicationController = networkFactory->createIDECommunicationController();
+	ptr->m_ideCommunicationController = networkFactory->createIDECommunicationController(ptr->m_storageCache.get());
 
 	return ptr;
 }

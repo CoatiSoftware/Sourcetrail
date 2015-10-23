@@ -3,6 +3,9 @@
 
 #include <memory>
 
+#include "component/controller/helper/ActivationTranslator.h"
+#include "component/controller/Controller.h"
+
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateEdge.h"
 #include "utility/messaging/type/MessageActivateFile.h"
@@ -11,9 +14,6 @@
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageSwitchColorScheme.h"
 #include "utility/messaging/type/MessageZoom.h"
-
-#include "component/controller/Controller.h"
-#include "component/controller/helper/ActivationTranslator.h"
 
 class StorageAccess;
 

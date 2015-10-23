@@ -9,7 +9,7 @@ public:
 	QtNetworkFactory();
 	virtual ~QtNetworkFactory();
 
-	virtual std::shared_ptr<IDECommunicationController> createIDECommunicationController() const;
+	virtual std::shared_ptr<IDECommunicationController> createIDECommunicationController(StorageAccess* storageAccess) const;
 };
 
 #endif // QT_NETWORK_FACTORY_H

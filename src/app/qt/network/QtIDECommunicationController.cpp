@@ -2,8 +2,9 @@
 
 #include <functional>
 
-QtIDECommunicationController::QtIDECommunicationController(QObject* parent)
-	: m_tcpWrapper(parent)
+QtIDECommunicationController::QtIDECommunicationController(QObject* parent, StorageAccess* storageAccess)
+	: IDECommunicationController(storageAccess)
+	, m_tcpWrapper(parent)
 {
 	m_tcpWrapper.setReadCallback(std::bind(&QtIDECommunicationController::handleIncomingMessage, this, std::placeholders::_1));
 }

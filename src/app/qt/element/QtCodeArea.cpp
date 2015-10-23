@@ -1,5 +1,6 @@
 #include "qt/element/QtCodeArea.h"
 
+#include <qapplication.h>
 #include <QFont>
 #include <QHBoxLayout>
 #include <QPainter>
@@ -11,6 +12,7 @@
 #include "utility/messaging/type/MessageShowFile.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
+#include "utility/messaging/type/MessageMoveIDECursor.h"
 #include "utility/utility.h"
 
 #include "data/location/TokenLocation.h"
@@ -249,12 +251,20 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 	if (event->button() == Qt::LeftButton)
 	{
 		m_panningValue = -1;
-		QTextCursor cursor = this->cursorForPosition(event->pos());
-		std::vector<Id> locationIds = findLocationIdsForPosition(cursor.position());
 
-		if (locationIds.size())
+		if (Qt::KeyboardModifier::ControlModifier && QApplication::keyboardModifiers())
 		{
-			MessageActivateTokenLocations(locationIds).dispatch();
+			std::pair<int, int> lineColumn = toLineColumn(this->cursorForPosition(event->pos()).position());
+			MessageMoveIDECursor(m_locationFile->getFilePath().str(), lineColumn.first, lineColumn.second).dispatch();
+		}
+		else
+		{
+			QTextCursor cursor = this->cursorForPosition(event->pos());
+			std::vector<Id> locationIds = findLocationIdsForPosition(cursor.position());
+			if (locationIds.size())
+			{
+				MessageActivateTokenLocations(locationIds).dispatch();
+			}
 		}
 	}
 }
@@ -564,6 +574,25 @@ int QtCodeArea::toTextEditPosition(int lineNumber, int columnNumber) const
 
 	position += columnNumber;
 	return position;
+}
+
+std::pair<int, int> QtCodeArea::toLineColumn(int textEditPosition) const
+{
+	int lineNumber = m_startLineNumber;
+	for (int i = 0; i < document()->lineCount(); i++)
+	{
+		int nextTextEditPosition = textEditPosition - document()->findBlockByLineNumber(i).length();
+		if (nextTextEditPosition >= 0)
+		{
+			textEditPosition = nextTextEditPosition;
+			lineNumber++;
+		}
+		else
+		{
+			break;
+		}
+	}
+	return std::make_pair(lineNumber, textEditPosition);
 }
 
 int QtCodeArea::startTextEditPosition() const

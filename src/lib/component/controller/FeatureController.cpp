@@ -1,10 +1,10 @@
 #include "component/controller/FeatureController.h"
 
-#include "utility/messaging/type/MessageActivateTokens.h"
-#include "utility/messaging/type/MessageRefresh.h"
-
 #include "data/access/StorageAccess.h"
 #include "settings/ApplicationSettings.h"
+
+#include "utility/messaging/type/MessageActivateTokens.h"
+#include "utility/messaging/type/MessageRefresh.h"
 
 FeatureController::FeatureController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)

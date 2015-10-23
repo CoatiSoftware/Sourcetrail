@@ -7,11 +7,13 @@
 
 #include "component/controller/IDECommunicationController.h"
 
+class StorageAccess;
+
 class QtIDECommunicationController
 	: public IDECommunicationController
 {
 public:
-	QtIDECommunicationController(QObject* parent);
+	QtIDECommunicationController(QObject* parent, StorageAccess* storageAccess);
 	~QtIDECommunicationController();
 
 private:

@@ -3,17 +3,19 @@
 
 #include <string>
 
+#include "component/controller/Controller.h"
+
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageMoveIDECursor.h"
 
-#include "component/controller/Controller.h"
+class StorageAccess;
 
 class IDECommunicationController
 	: public Controller
 	, public MessageListener<MessageMoveIDECursor>
 {
 public:
-	IDECommunicationController();
+	IDECommunicationController(StorageAccess* storageAccess);
 	virtual ~IDECommunicationController();
 
 	void handleIncomingMessage(const std::string& message);
@@ -21,6 +23,8 @@ public:
 private:
 	virtual void handleMessage(MessageMoveIDECursor* message);
 	virtual void sendMessage(const std::string& message) const = 0;
+
+	StorageAccess* m_storageAccess;
 };
 
 #endif // IDE_COMMUNICATION_CONTROLLER_H

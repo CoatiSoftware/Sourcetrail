@@ -10,7 +10,7 @@ QtNetworkFactory::~QtNetworkFactory()
 {
 }
 
-std::shared_ptr<IDECommunicationController> QtNetworkFactory::createIDECommunicationController() const
+std::shared_ptr<IDECommunicationController> QtNetworkFactory::createIDECommunicationController(StorageAccess* storageAccess) const
 { 
-	return std::make_shared<QtIDECommunicationController>(nullptr);
+	return std::make_shared<QtIDECommunicationController>(nullptr, storageAccess);
 }

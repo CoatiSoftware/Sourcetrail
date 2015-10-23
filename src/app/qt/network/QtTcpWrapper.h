@@ -13,8 +13,7 @@ class QtTcpWrapper : public QObject
 	Q_OBJECT
 
 public:
-	QtTcpWrapper(QObject* parent);
-	QtTcpWrapper(QObject* parent, const std::string& ip, const quint16 port);
+	QtTcpWrapper(QObject* parent, const std::string& ip = "127.0.0.1", const quint16 port = 6667);
 	~QtTcpWrapper();
 
 	void sendMessage(const std::string& message) const;

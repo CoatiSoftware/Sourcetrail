@@ -114,6 +114,7 @@ private:
 	bool locationBelongsToSnippet(TokenLocation* location) const;
 
 	int toTextEditPosition(int lineNumber, int columnNumber) const;
+	std::pair<int, int> toLineColumn(int textEditPosition) const;
 	int startTextEditPosition() const;
 	int endTextEditPosition() const;
 

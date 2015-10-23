@@ -1,11 +1,15 @@
 #include "IDECommunicationController.h"
 
-#include "utility/messaging/type/MessageActivateTokens.h"
+#include "component/controller/helper/NetworkProtocolHelper.h"
+#include "data/access/StorageAccess.h"
+#include "data/location/TokenLocationFile.h"
+#include "data/location/TokenLocation.h"
+
+#include "utility/messaging/type/MessageActivateTokenLocations.h"
 #include "utility/logging/logging.h"
 
-#include "component/controller/helper/NetworkProtocolHelper.h"
-
-IDECommunicationController::IDECommunicationController()
+IDECommunicationController::IDECommunicationController(StorageAccess* storageAccess)
+	: m_storageAccess(storageAccess)
 {
 }
 
@@ -21,7 +25,31 @@ void IDECommunicationController::handleIncomingMessage(const std::string& messag
 	
 	if (parsedMessage.valid)
 	{
-		// TODO: set active token
+		const unsigned int cursorColumn = parsedMessage.column;
+
+		std::shared_ptr<TokenLocationFile> tokenLocationFile = m_storageAccess->getTokenLocationsForLinesInFile(
+			parsedMessage.fileLocation, parsedMessage.row, parsedMessage.row
+		);
+
+		std::vector<Id> selectedLocationIds;
+		tokenLocationFile->forEachStartTokenLocation(
+			[&](TokenLocation* startLocation)
+			{
+				if (startLocation->getColumnNumber() < cursorColumn)
+				{
+					TokenLocation* endLocation = startLocation->getOtherTokenLocation();
+					if (endLocation && endLocation->getColumnNumber() > cursorColumn)
+					{
+						selectedLocationIds.push_back(startLocation->getId());
+					}
+				}
+			}
+		);
+
+		if (selectedLocationIds.size() > 0)
+		{
+			MessageActivateTokenLocations(selectedLocationIds).dispatch();
+		}
 	}
 }
 
