@@ -22,7 +22,7 @@ public:
 	virtual NameHierarchy getNameHierarchyForNodeWithId(Id id) const;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const;
 
-	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query, const std::string& word) const;
+	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const;
 
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const;

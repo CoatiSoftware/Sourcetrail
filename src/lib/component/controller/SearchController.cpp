@@ -27,8 +27,8 @@ void SearchController::handleMessage(MessageFind* message)
 
 void SearchController::handleMessage(MessageSearchAutocomplete* message)
 {
-	LOG_INFO("autocomplete string: \"" + message->word + "\"");
-	getView()->setAutocompletionList(m_storageAccess->getAutocompletionMatches(message->query, message->word));
+	LOG_INFO("autocomplete string: \"" + message->query + "\"");
+	getView()->setAutocompletionList(m_storageAccess->getAutocompletionMatches(message->query));
 }
 
 SearchView* SearchController::getView()

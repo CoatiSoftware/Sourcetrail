@@ -32,8 +32,7 @@ public:
 	virtual NameHierarchy getNameHierarchyForNodeWithId(Id id) const = 0;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const = 0;
 
-	virtual std::vector<SearchMatch> getAutocompletionMatches(
-		const std::string& query, const std::string& word) const = 0;
+	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const = 0;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const = 0;
 
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const = 0;

@@ -40,6 +40,7 @@ public:
 	NameHierarchy getNameHierarchyForTokenId(Id tokenId) const;
 
 	SearchResults runFuzzySearch(const std::string& query) const;
+	SearchResults runFuzzySearchCached(const std::string& query, const SearchResults& searchResults) const;
 	std::vector<SearchMatch> runFuzzySearchAndGetMatches(const std::string& query) const;
 
 	static const std::string DELIMITER;

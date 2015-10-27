@@ -15,7 +15,7 @@ std::vector<SearchMatch> SearchIndex::getMatches(
 
 	for (SearchResultsIterator it = searchResults.begin(); it != searchResults.end(); it++)
 	{
-		SearchMatch match = it->node->fuzzyMatchData(query, it->parent);
+		SearchMatch match = it->node->fuzzyMatchData(query, it->parent->getParent());
 		result.push_back(match);
 	}
 
@@ -169,6 +169,11 @@ NameHierarchy SearchIndex::getNameHierarchyForTokenId(Id tokenId) const
 SearchResults SearchIndex::runFuzzySearch(const std::string& query) const
 {
 	return m_root.runFuzzySearch(query);
+}
+
+SearchResults SearchIndex::runFuzzySearchCached(const std::string& query, const SearchResults& searchResults) const
+{
+	return m_root.runFuzzySearchCached(query, searchResults);
 }
 
 std::vector<SearchMatch> SearchIndex::runFuzzySearchAndGetMatches(const std::string& query) const

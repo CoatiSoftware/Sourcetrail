@@ -162,12 +162,32 @@ SearchResults SearchNode::runFuzzySearch(const std::string& query) const
 		FuzzyMap m = n->fuzzyMatchRecursive(query, 0, 0, 0);
 		for (const std::pair<size_t, const SearchNode*>& p : m)
 		{
-			addResultsRecursive(&result, p.first, p.second);
+			addResultsRecursive(&result, p.first, p.second, n.get());
 		}
 	}
 
-	// TODO: Currently all matches are added to the ordered set and get compared by their fullName for alphabetical
-	// order. This could be improved by limiting the number of items to e.g. 100.
+	return result;
+}
+
+SearchResults SearchNode::runFuzzySearchCached(const std::string& query, const SearchResults& searchResults) const
+{
+	SearchResults result;
+
+	std::set<const SearchNode*> nodes;
+	for (const SearchResult& r : searchResults)
+	{
+		nodes.insert(r.parent);
+	}
+
+	for (const SearchNode* n : nodes)
+	{
+		FuzzyMap m = n->fuzzyMatchRecursive(query, 0, 0, 0);
+		for (const std::pair<size_t, const SearchNode*>& p : m)
+		{
+			addResultsRecursive(&result, p.first, p.second, n);
+		}
+	}
+
 	return result;
 }
 
@@ -177,26 +197,20 @@ SearchResults SearchNode::runFuzzySearchOnSelf(const std::string& query) const
 	FuzzyMap m = fuzzyMatchRecursive(query, 0, 0, 0);
 	for (const std::pair<size_t, const SearchNode*>& p : m)
 	{
-		addResultsRecursive(&result, p.first, p.second);
+		addResultsRecursive(&result, p.first, p.second, this);
 	}
 
-	// TODO: Currently all matches are added to the ordered set and get compared by their fullName for alphabetical
-	// order. This could be improved by limiting the number of items to e.g. 100.
 	return result;
 }
 
-void SearchNode::addResults(SearchResults* results, size_t weight, const SearchNode* node) const
-{
-	results->insert(SearchResult(weight, node, this));
-}
-
-void SearchNode::addResultsRecursive(SearchResults* results, size_t weight, const SearchNode* node) const
-{
-	addResults(results, weight, node);
+void SearchNode::addResultsRecursive(
+	SearchResults* results, size_t weight, const SearchNode* node, const SearchNode* parent
+) const {
+	results->insert(SearchResult(weight, node, parent));
 
 	for (std::shared_ptr<SearchNode> n: node->m_nodes)
 	{
-		addResultsRecursive(results, weight, n.get());
+		addResultsRecursive(results, weight, n.get(), parent);
 	}
 }
 

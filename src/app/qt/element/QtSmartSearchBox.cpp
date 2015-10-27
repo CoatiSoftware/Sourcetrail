@@ -822,7 +822,7 @@ void QtSmartSearchBox::clearLineEdit()
 
 void QtSmartSearchBox::requestAutoCompletions() const
 {
-	MessageSearchAutocomplete("", text().toStdString()).dispatch();
+	MessageSearchAutocomplete(text().toStdString()).dispatch();
 }
 
 void QtSmartSearchBox::hideAutoCompletions()
@@ -832,5 +832,10 @@ void QtSmartSearchBox::hideAutoCompletions()
 
 std::deque<SearchMatch> QtSmartSearchBox::getMatchesForInput(const std::string& text) const
 {
-	return std::deque<SearchMatch>(1, SearchMatch(text));
+	std::deque<SearchMatch> matches;
+	if (text.size())
+	{
+		matches.push_back(SearchMatch(text));
+	}
+	return matches;
 }

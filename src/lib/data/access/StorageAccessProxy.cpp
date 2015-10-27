@@ -82,13 +82,11 @@ NameHierarchy StorageAccessProxy::getNameHierarchyForNodeWithId(Id id) const
 	return NameHierarchy();
 }
 
-std::vector<SearchMatch> StorageAccessProxy::getAutocompletionMatches(
-	const std::string& query,
-	const std::string& word
-) const {
+std::vector<SearchMatch> StorageAccessProxy::getAutocompletionMatches(const std::string& query) const
+{
 	if (hasSubject())
 	{
-		return m_subject->getAutocompletionMatches(query, word);
+		return m_subject->getAutocompletionMatches(query);
 	}
 
 	return std::vector<SearchMatch>();

@@ -45,10 +45,10 @@ public:
 	const std::set<std::shared_ptr<SearchNode>>& getChildren() const;
 
 	SearchResults runFuzzySearch(const std::string& query) const;
+	SearchResults runFuzzySearchCached(const std::string& query, const SearchResults& searchResults) const;
 	SearchResults runFuzzySearchOnSelf(const std::string& query) const;
 
-	void addResults(SearchResults* results, size_t weight, const SearchNode* node) const;
-	void addResultsRecursive(SearchResults* results, size_t weight, const SearchNode* node) const;
+	void addResultsRecursive(SearchResults* results, size_t weight, const SearchNode* node, const SearchNode* parent) const;
 
 private:
 	typedef std::multimap<size_t, const SearchNode*> FuzzyMap;

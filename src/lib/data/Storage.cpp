@@ -635,7 +635,7 @@ Id Storage::onTemplateMemberFunctionSpecializationParsed(
 	Id specializedFunctionNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, specializedFunction, false);
 
 	Id edgeId = addEdge(instantiatedFunctionNodeId, specializedFunctionNodeId, Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION_OF, location);
-	
+
 	return edgeId;
 }
 
@@ -770,12 +770,26 @@ Node::NodeType Storage::getNodeTypeForNodeWithId(Id nodeId) const
 	return Node::intToType(m_sqliteStorage.getNodeById(nodeId).type);
 }
 
-std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& query, const std::string& word) const
+std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& query) const
 {
-	SearchResults tokenResults = m_tokenIndex.runFuzzySearch(word);
+	if (query.size() == m_cachedQuery.size() + 1 && query.find(m_cachedQuery) == 0 && m_cachedResults.size())
+	{
+		m_cachedResults = m_tokenIndex.runFuzzySearchCached(query, m_cachedResults);
+	}
+	else
+	{
+		m_cachedResults = m_tokenIndex.runFuzzySearch(query);
+	}
 
-	std::vector<SearchMatch> matches = SearchIndex::getMatches(tokenResults, word);
-	SearchMatch::log(matches, word);
+	m_cachedQuery = query;
+
+	std::vector<SearchMatch> matches = SearchIndex::getMatches(m_cachedResults, query);
+	SearchMatch::log(matches, query);
+
+	if (matches.size() > 100)
+	{
+		matches.resize(100);
+	}
 
 	for (SearchMatch& match : matches)
 	{

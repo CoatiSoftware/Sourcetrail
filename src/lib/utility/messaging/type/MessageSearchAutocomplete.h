@@ -7,9 +7,8 @@
 class MessageSearchAutocomplete: public Message<MessageSearchAutocomplete>
 {
 public:
-	MessageSearchAutocomplete(const std::string& query, const std::string& word)
+	MessageSearchAutocomplete(const std::string& query)
 		: query(query)
-		, word(word)
 	{
 	}
 
@@ -19,7 +18,6 @@ public:
 	}
 
 	const std::string query;
-	const std::string word;
 };
 
 #endif // MESSAGE_SEARCH_AUTOCOMPLETE_H

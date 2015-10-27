@@ -134,8 +134,7 @@ public:
 	virtual NameHierarchy getNameHierarchyForNodeWithId(Id nodeId) const;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id nodeId) const;
 
-	virtual std::vector<SearchMatch> getAutocompletionMatches(
-		const std::string& query, const std::string& word) const;
+	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const;
 
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const;
@@ -205,6 +204,9 @@ private:
 
 	TokenLocationCollection m_errorLocationCollection;
 	std::vector<std::string> m_errorMessages;
+
+	mutable SearchResults m_cachedResults;
+	mutable std::string m_cachedQuery;
 };
 
 #endif // STORAGE_H
