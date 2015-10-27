@@ -6,13 +6,13 @@
 	<String>Hello World!</String>
 
 	<source>
-		<SourcePaths>
-			<SourcePath>data</SourcePath>
-		</SourcePaths>
-		<HeaderSearchPaths>
-			<HeaderSearchPath>data/</HeaderSearchPath>
-			<HeaderSearchPath>src/</HeaderSearchPath>
-		</HeaderSearchPaths>
+		<source_paths>
+			<source_path>data</source_path>
+		</source_paths>
+		<header_search_paths>
+			<header_search_path>data/</header_search_path>
+			<header_search_path>src/</header_search_path>
+		</header_search_paths>
 
 	</source>
 </config>
