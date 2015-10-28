@@ -1,0 +1,5 @@
+{
+	"host_ip": "localhost",
+	"coati_to_sublime_port": 6666,
+	"sublime_to_coati_port": 6667
+}
