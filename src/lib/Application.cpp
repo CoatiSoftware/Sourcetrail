@@ -72,7 +72,9 @@ void Application::loadProject(const FilePath& projectSettingsFilePath)
 
 	updateRecentProjects(projectSettingsFilePath);
 
-	m_mainView->setTitle(projectSettingsFilePath.fileName());
+	m_mainView->setTitle(
+			projectSettingsFilePath.withoutExtension().fileName()
+			+ "[" + projectSettingsFilePath.fileName() + "]" + " - Coati");
 
 	m_storageCache->clear();
 	m_componentManager->refreshViews();

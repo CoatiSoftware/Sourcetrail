@@ -105,6 +105,10 @@ SearchNode* SearchIndex::getNode(const std::string& fullName) const
 
 SearchNode* SearchIndex::getNode(const SearchNode* searchNode) const
 {
+	if(searchNode == nullptr)
+	{
+		return nullptr;
+	}
 	std::deque<Id> nameIds = searchNode->getNameIdsRecursive();
 
 	if (nameIds.size())
@@ -117,6 +121,10 @@ SearchNode* SearchIndex::getNode(const SearchNode* searchNode) const
 
 void SearchIndex::removeNode(SearchNode* searchNode)
 {
+	if(searchNode == nullptr)
+	{
+		return;
+	}
 	SearchNode* parent = searchNode->getParent();
 
 	if (!parent)
@@ -130,6 +138,10 @@ void SearchIndex::removeNode(SearchNode* searchNode)
 
 bool SearchIndex::removeNodeIfUnreferencedRecursive(SearchNode* searchNode)
 {
+	if(searchNode == nullptr)
+	{
+		return false;
+	}
 	if (!searchNode->hasTokenIdsRecursive())
 	{
 		SearchNode* parent = searchNode->getParent();
@@ -149,6 +161,11 @@ bool SearchIndex::removeNodeIfUnreferencedRecursive(SearchNode* searchNode)
 
 void SearchIndex::addTokenId(SearchNode* node, Id tokenId)
 {
+	if(node == nullptr)
+	{
+		LOG_ERROR("Node points to nullptr: Can't add tokenid");
+		return;
+	}
 	node->addTokenId(tokenId);
 	m_tokenIds.emplace(tokenId, node);
 }
