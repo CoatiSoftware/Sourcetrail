@@ -3,7 +3,7 @@ import sublime_plugin
 import SocketServer
 import threading
 import socket
-
+import os.path
 
 MESSAGE_SPLIT_STRING = ">>"
 
@@ -11,7 +11,10 @@ MESSAGE_SPLIT_STRING = ">>"
 # Handling Coati to Sublime communication
 
 def setCursorPosition(filePath, row, col):
-	sublime.active_window().open_file(filePath + ":" + str(row) + ":" + str(col), sublime.ENCODED_POSITION)
+	if (os.path.exists(filePath)):
+		sublime.active_window().open_file(filePath + ":" + str(row) + ":" + str(col), sublime.ENCODED_POSITION)
+	else:
+		sublime.error_message("Coati is trying to jump to a file that does not exist: " + filePath)
 	
 
 class ConnectionHandler(SocketServer.BaseRequestHandler): # This class is instantiated once per connection to the server
