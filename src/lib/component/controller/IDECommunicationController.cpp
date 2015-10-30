@@ -6,6 +6,7 @@
 #include "data/location/TokenLocation.h"
 
 #include "utility/messaging/type/MessageActivateTokenLocations.h"
+#include "utility/messaging/type/MessageStatus.h"
 #include "utility/logging/logging.h"
 
 IDECommunicationController::IDECommunicationController(StorageAccess* storageAccess)
@@ -48,14 +49,28 @@ void IDECommunicationController::handleIncomingMessage(const std::string& messag
 
 		if (selectedLocationIds.size() > 0)
 		{
+			MessageStatus("Activating a source location from external succeeded.").dispatch();
 			MessageActivateTokenLocations(selectedLocationIds).dispatch();
+		}
+		else
+		{
+			MessageStatus(
+				"Activating a source location from external failed. No symbol(s) have been found at the selected location."
+			).dispatch();
 		}
 	}
 }
 
 void IDECommunicationController::handleMessage(MessageMoveIDECursor* message)
 {
-	std::string networkMessage = NetworkProtocolHelper::buildMessage(message->FilePosition, message->Row, message->Column);
+	std::string networkMessage = NetworkProtocolHelper::buildMessage(
+		message->FilePosition, message->Row, message->Column
+		);
+	
+	MessageStatus(
+		"Jumping the external tool to the following location: " + message->FilePosition + ", row: " + 
+		std::to_string(message->Row) + ", col: " + std::to_string(message->Column)
+	).dispatch();
 
 	sendMessage(networkMessage);
 }
