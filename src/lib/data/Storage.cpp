@@ -19,6 +19,7 @@
 #include "data/parser/ParseVariable.h"
 #include "data/type/DataType.h"
 #include "settings/ApplicationSettings.h"
+#include "utility/Version.h"
 
 Storage::Storage(const FilePath& dbPath)
 	: m_sqliteStorage(dbPath.str())
@@ -27,6 +28,11 @@ Storage::Storage(const FilePath& dbPath)
 
 Storage::~Storage()
 {
+}
+
+Version Storage::getVersion() const
+{
+	return m_sqliteStorage.getVersion();
 }
 
 void Storage::clear()
@@ -148,6 +154,7 @@ void Storage::logStats() const
 
 void Storage::startParsing()
 {
+	m_sqliteStorage.setVersion(Version::getApplicationVersion());
 }
 
 void Storage::finishParsing()

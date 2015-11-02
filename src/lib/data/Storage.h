@@ -23,6 +23,8 @@ public:
 	Storage(const FilePath& dbPath);
 	virtual ~Storage();
 
+	Version getVersion() const;
+
 	void clear();
 	void clearCaches();
 

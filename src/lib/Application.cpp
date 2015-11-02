@@ -5,6 +5,7 @@
 #include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/TaskScheduler.h"
+#include "utility/Version.h"
 
 #include "component/view/GraphViewStyle.h"
 #include "component/controller/NetworkFactory.h"
@@ -14,8 +15,11 @@
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
 
-std::shared_ptr<Application> Application::create(ViewFactory* viewFactory, NetworkFactory* networkFactory)
-{
+std::shared_ptr<Application> Application::create(
+	const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory
+){
+	Version::setApplicationVersion(version);
+
 	loadSettings();
 
 	std::shared_ptr<Application> ptr(new Application());

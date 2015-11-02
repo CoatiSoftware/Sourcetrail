@@ -5,6 +5,7 @@
 #include "utility/logging/ConsoleLogger.h"
 #include "utility/logging/FileLogger.h"
 #include "utility/logging/LogManager.h"
+#include "utility/Version.h"
 
 #include "Application.h"
 #include "includes.h" // defines 'void setup(int argc, char *argv[])'
@@ -31,6 +32,8 @@ void init()
 
 int main(int argc, char *argv[])
 {
+	Version version = Version::fromString(GIT_VERSION_NUMBER);
+
 	setup(argc, argv);
 	QApplication qtApp(argc, argv);
 
@@ -41,7 +44,7 @@ int main(int argc, char *argv[])
 
 	QtSplashScreen* splash = new QtSplashScreen(whitePixmap, Qt::WindowStaysOnTopHint);
 	splash->setMessage("Loading UI");
-	splash->setVersion(GIT_VERSION_NUMBER);
+	splash->setVersion(version.toDisplayString().c_str());
 	splash->exec(qtApp);
 
 	init();
@@ -49,7 +52,7 @@ int main(int argc, char *argv[])
 	QtViewFactory viewFactory;
 	QtNetworkFactory networkFactory;
 
-	std::shared_ptr<Application> app = Application::create(&viewFactory, &networkFactory);
+	std::shared_ptr<Application> app = Application::create(version, &viewFactory, &networkFactory);
 
 	if (splash)
 	{

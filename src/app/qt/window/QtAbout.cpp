@@ -4,7 +4,7 @@
 #include <QLineEdit>
 #include <QLabel>
 
-#include "version.h"
+#include "utility/Version.h"
 
 QtAbout::QtAbout(QWidget *parent)
 	: QtSettingsWindow(parent)
@@ -46,7 +46,7 @@ void QtAbout::populateForm(QFormLayout* layout)
 	acknowledgementsLabel->setAlignment(Qt::AlignTop);
 	layout->addRow(acknowledgementsName, acknowledgementsLabel);
 
-	layout->addRow(QString("Version:"), new QLabel(GIT_VERSION_NUMBER));
+	layout->addRow(QString("Version:"), new QLabel(Version::getApplicationVersion().toDisplayString().c_str()));
 }
 
 void QtAbout::handleCancelButtonPress()

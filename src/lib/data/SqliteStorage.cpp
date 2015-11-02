@@ -6,6 +6,7 @@
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
+#include "utility/Version.h"
 
 SqliteStorage::SqliteStorage(const std::string& dbFilePath)
 {
@@ -45,6 +46,23 @@ void SqliteStorage::commitTransaction()
 void SqliteStorage::rollbackTransaction()
 {
 	m_database.execDML("ROLLBACK TRANSACTION;");
+}
+
+Version SqliteStorage::getVersion() const
+{
+	std::string versionStr = getMetaValue("version");
+
+	if (versionStr.size())
+	{
+		return Version::fromString(versionStr);
+	}
+
+	return Version();
+}
+
+void SqliteStorage::setVersion(const Version& version)
+{
+	insertOrUpdateMetaValue("version", version.toString());
 }
 
 Id SqliteStorage::addEdge(int type, Id sourceNodeId, Id targetNodeId)
@@ -708,10 +726,19 @@ void SqliteStorage::clearTables()
 	m_database.execDML("DROP TABLE IF EXISTS main.node;");
 	m_database.execDML("DROP TABLE IF EXISTS main.edge;");
 	m_database.execDML("DROP TABLE IF EXISTS main.element;");
+	m_database.execDML("DROP TABLE IF EXISTS main.meta;");
 }
 
 void SqliteStorage::setupTables()
 {
+	m_database.execDML(
+		"CREATE TABLE IF NOT EXISTS meta("
+			"id INTEGER, "
+			"key TEXT, "
+			"value TEXT, "
+			"PRIMARY KEY(id));"
+	);
+
 	m_database.execDML(
 		"CREATE TABLE IF NOT EXISTS element("
 			"id INTEGER, "
@@ -791,6 +818,43 @@ void SqliteStorage::setupTables()
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES node(id) ON DELETE CASCADE);"
 	);
+}
+
+bool SqliteStorage::hasTable(const std::string& tableName) const
+{
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT name FROM sqlite_master WHERE type='table' AND name='" + tableName + "';"
+	).c_str());
+
+	if (!q.eof())
+	{
+		return q.getStringField(0, "") == tableName;
+	}
+
+	return false;
+}
+
+std::string SqliteStorage::getMetaValue(const std::string& key) const
+{
+	if (hasTable("meta"))
+	{
+		CppSQLite3Query q = m_database.execQuery(("SELECT value FROM meta WHERE key = '" + key + "';").c_str());
+
+		if (!q.eof())
+		{
+			return q.getStringField(0, "");
+		}
+	}
+
+	return "";
+}
+
+void SqliteStorage::insertOrUpdateMetaValue(const std::string& key, const std::string& value)
+{
+	m_database.execDML((
+		"INSERT OR REPLACE INTO meta(id, key, value) "
+			"VALUES( (SELECT id FROM meta WHERE key = '" + key + "'), '" + key + "', '" + value + "');"
+	).c_str());
 }
 
 StorageFile SqliteStorage::getFirstFile(const std::string& query) const

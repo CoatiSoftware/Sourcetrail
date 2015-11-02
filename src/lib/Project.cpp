@@ -1,8 +1,11 @@
 #include "Project.h"
 
+#include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/scheduling/TaskGroupSequential.h"
 #include "utility/utility.h"
+#include "utility/Version.h"
 
 #include "data/access/StorageAccessProxy.h"
 #include "data/graph/Token.h"
@@ -11,8 +14,6 @@
 #include "data/TaskCleanStorage.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
-#include "utility/file/FileSystem.h"
-#include "utility/scheduling/TaskGroupSequential.h"
 
 std::shared_ptr<Project> Project::create(StorageAccessProxy* storageAccessProxy)
 {
@@ -144,6 +145,12 @@ void Project::setProjectSettingsFilePath(const FilePath& path)
 		FilePath dbPath = FilePath(path).replaceExtension("sqlite");
 		m_storageWasLoaded = dbPath.exists();
 		m_storage = std::make_shared<Storage>(dbPath);
+
+		if (m_storageWasLoaded && m_storage->getVersion().isOlderStorageVersionThan(Version::getApplicationVersion()))
+		{
+			m_storage->clear();
+			m_storageWasLoaded = false;
+		}
 	}
 
 	m_storageAccessProxy->setSubject(m_storage.get());

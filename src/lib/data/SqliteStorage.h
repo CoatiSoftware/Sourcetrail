@@ -15,6 +15,7 @@
 #include "data/StorageTypes.h"
 
 class TextAccess;
+class Version;
 
 class SqliteStorage
 {
@@ -28,6 +29,9 @@ public:
 	void beginTransaction();
 	void commitTransaction();
 	void rollbackTransaction();
+
+	Version getVersion() const;
+	void setVersion(const Version& version);
 
 	Id addEdge(int type, Id sourceNodeId, Id targetNodeId);
 	Id addNode(int type, Id nameId, bool defined);
@@ -106,6 +110,11 @@ public:
 private:
 	void clearTables();
 	void setupTables();
+
+	bool hasTable(const std::string& tableName) const;
+
+	std::string getMetaValue(const std::string& key) const;
+	void insertOrUpdateMetaValue(const std::string& key, const std::string& value);
 
 	StorageFile getFirstFile(const std::string& query) const;
 	std::vector<StorageFile> getAllFiles(const std::string& query) const;

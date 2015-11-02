@@ -58,7 +58,7 @@ add_files(
 	component/controller/FeatureController.h
 	component/controller/GraphController.cpp
 	component/controller/GraphController.h
-	
+
 	component/controller/IDECommunicationController.cpp
 	component/controller/IDECommunicationController.h
 	component/controller/NetworkFactory.cpp
@@ -307,6 +307,8 @@ add_files(
 	utility/utility.h
 	utility/utilityString.cpp
 	utility/utilityString.h
+	utility/Version.cpp
+	utility/Version.h
 
 	Application.cpp
 	Application.h
