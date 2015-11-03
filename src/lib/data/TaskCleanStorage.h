@@ -5,7 +5,7 @@
 
 #include "utility/file/FilePath.h"
 #include "utility/scheduling/Task.h"
-#include "utility/utility.h"
+#include "utility/TimePoint.h"
 
 class Storage;
 
@@ -30,7 +30,7 @@ private:
 	std::vector<FilePath> m_filePaths;
 	const size_t m_fileCount;
 
-	utility::TimePoint m_start;
+	TimePoint m_start;
 };
 
 #endif // TASK_PARSE_CXX_H

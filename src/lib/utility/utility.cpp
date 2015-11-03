@@ -1,15 +1,15 @@
 #include "utility/utility.h"
+#include "boost/date_time/time_clock.hpp"
 
-utility::TimePoint utility::durationStart()
+TimePoint utility::durationStart()
 {
-	return std::chrono::system_clock::now();
+	return TimePoint(boost::posix_time::microsec_clock::local_time());
 }
 
 float utility::duration(const TimePoint& start)
 {
-	std::chrono::duration<float> duration =
-		std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start);
-	return duration.count();
+	TimePoint now = durationStart();
+	return now - start;
 }
 
 float utility::duration(std::function<void()> func)
@@ -30,12 +30,7 @@ std::string utility::timeToString(const time_t time)
 
 std::string utility::timeToString(const boost::posix_time::ptime time)
 {
-	std::stringstream stream;
-	boost::posix_time::time_facet* facet = new boost::posix_time::time_facet();
-	facet->format("%Y-%m-%d %H:%M:%S");
-	stream.imbue(std::locale(std::locale::classic(), facet));
-	stream << time;
-	return stream.str();
+	return TimePoint(time).toString();
 }
 
 bool utility::intersectionPoint(Vec2f a1, Vec2f b1, Vec2f a2, Vec2f b2, Vec2f* i)

@@ -19,3 +19,13 @@ TimePoint::TimePoint(std::string s)
 {
 	m_time = boost::posix_time::time_from_string(s);
 }
+
+std::string TimePoint::toString() const
+{
+	std::stringstream stream;
+	boost::posix_time::time_facet* facet = new boost::posix_time::time_facet();
+	facet->format("%Y-%m-%d %H:%M:%S");
+	stream.imbue(std::locale(std::locale::classic(), facet));
+	stream << m_time;
+	return stream.str();
+}

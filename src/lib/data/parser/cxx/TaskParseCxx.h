@@ -4,7 +4,7 @@
 #include <queue>
 
 #include "utility/scheduling/Task.h"
-#include "utility/utility.h"
+#include "utility/TimePoint.h"
 
 #include "data/parser/cxx/CxxParser.h"
 
@@ -34,7 +34,7 @@ private:
 
 	std::queue<FilePath> m_sourcePaths;
 
-	utility::TimePoint m_start;
+	TimePoint m_start;
 };
 
 #endif // TASK_PARSE_CXX_H

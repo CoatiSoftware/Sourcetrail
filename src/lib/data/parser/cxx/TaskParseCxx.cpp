@@ -2,11 +2,11 @@
 
 #include <sstream>
 
+#include "data/parser/ParserClient.h"
 #include "utility/file/FileRegister.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageStatus.h"
-
-#include "data/parser/ParserClient.h"
+#include "utility/utility.h"
 
 TaskParseCxx::TaskParseCxx(
 	ParserClient* client,

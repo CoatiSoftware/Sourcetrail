@@ -2,6 +2,7 @@
 
 #include "data/Storage.h"
 #include "utility/messaging/type/MessageStatus.h"
+#include "utility/utility.h"
 
 TaskCleanStorage::TaskCleanStorage(Storage* storage, const std::vector<FilePath>& filePaths)
 	: m_storage(storage)

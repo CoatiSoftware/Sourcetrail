@@ -2,18 +2,16 @@
 #define UTILITY_H
 
 #include <deque>
-#include <chrono>
 #include <set>
 #include <time.h>
 
 #include "boost/date_time/posix_time/posix_time.hpp"
 
 #include "utility/math/Vector2.h"
+#include "utility/TimePoint.h"
 
 namespace utility
 {
-	typedef std::chrono::time_point<std::chrono::system_clock> TimePoint;
-
 	TimePoint durationStart();
 	float duration(const TimePoint& start);
 	float duration(std::function<void()> func);
