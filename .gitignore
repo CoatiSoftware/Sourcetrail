@@ -22,3 +22,5 @@
 
 .DS_Store
 .idea
+bin
+obj

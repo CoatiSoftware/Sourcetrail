@@ -1951,6 +1951,7 @@ public:
 			"{\n"
 			"};\n"
 		);
+
 		TS_ASSERT_EQUALS(client->classes.size(), 2);
 		TS_ASSERT_EQUALS(client->classes[0], "A<typename T, typename U> <1:1 <2:7 2:7> 4:1>");
 		TS_ASSERT_EQUALS(client->classes[1], "A<typename T, int> <5:1 <6:7 6:7> 8:1>");
