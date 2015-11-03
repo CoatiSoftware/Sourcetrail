@@ -23,6 +23,31 @@
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
 
+MouseWheelOverScrollbarFilter::MouseWheelOverScrollbarFilter(QObject* parent)
+	: QObject(parent)
+{
+}
+
+bool MouseWheelOverScrollbarFilter::eventFilter(QObject* obj, QEvent* event)
+{
+	QScrollBar* scrollbar = dynamic_cast<QScrollBar*>(obj);
+	if (event->type() == QEvent::Wheel && scrollbar)
+	{
+		QRect scrollbarArea(scrollbar->pos(), scrollbar->size());
+		QPoint globalMousePos = dynamic_cast<QWheelEvent*>(event)->globalPos();
+		QPoint localMousePos = scrollbar->mapFromGlobal(globalMousePos);
+		
+		// instead of "scrollbar->underMouse()" we need this check implemented here because "underMouse()" 
+		// does not work when the mouse enters the area without being moved
+		if (scrollbarArea.contains(localMousePos))
+		{
+			event->ignore();
+			return true;
+		}
+	}
+	return QObject::eventFilter(obj, event);
+}
+
 QtCodeArea::LineNumberArea::LineNumberArea(QtCodeArea *codeArea)
 	: QWidget(codeArea)
 	, m_codeArea(codeArea)
@@ -87,6 +112,9 @@ QtCodeArea::QtCodeArea(
 	connect(this, SIGNAL(selectionChanged()), this, SLOT(clearSelection()));
 
 	this->setMouseTracking(true);
+
+	// MouseWheelOverScrollbarFilter is deleted by parent.
+	horizontalScrollBar()->installEventFilter(new MouseWheelOverScrollbarFilter(this)); 
 }
 
 QtCodeArea::~QtCodeArea()

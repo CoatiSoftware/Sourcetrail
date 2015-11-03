@@ -19,6 +19,18 @@ class QWidget;
 class TokenLocation;
 class TokenLocationFile;
 
+class MouseWheelOverScrollbarFilter
+	: public QObject
+{
+	Q_OBJECT
+
+public:
+	MouseWheelOverScrollbarFilter(QObject* parent);
+
+protected:
+	bool eventFilter(QObject*obj, QEvent* event);
+};
+
 class QtCodeArea
 	: public QPlainTextEdit
 {
