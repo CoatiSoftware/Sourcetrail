@@ -1453,7 +1453,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->classes.size(), 1);
-		TS_ASSERT_EQUALS(client->classes[0], "A<typename> <2:1 <2:7 2:7> 4:1>");
+		TS_ASSERT_EQUALS(client->classes[0], "A<typename> <1:1 <2:7 2:7> 4:1>");
 	}
 
 	void test_cxx_parser_finds_type_template_parameter_of_template_method_definition_outside_template_class()
@@ -1952,7 +1952,7 @@ public:
 			"};\n"
 		);
 		TS_ASSERT_EQUALS(client->classes.size(), 2);
-		TS_ASSERT_EQUALS(client->classes[0], "A<typename T, typename U> <2:1 <2:7 2:7> 4:1>");
+		TS_ASSERT_EQUALS(client->classes[0], "A<typename T, typename U> <1:1 <2:7 2:7> 4:1>");
 		TS_ASSERT_EQUALS(client->classes[1], "A<typename T, int> <5:1 <6:7 6:7> 8:1>");
 	}
 
@@ -2424,17 +2424,18 @@ public:
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 				"template <typename T>\n"
-						"class A\n"
-						"{};\n"
-						"template <template<typename> class T = A>\n"
-						"void test()\n"
-						"{\n"
-						"};\n"
+				"class A\n"
+				"{};\n"
+				"template <template<typename> class T = A>\n"
+				"void test()\n"
+				"{\n"
+				"};\n"
 		);
 
 		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes[0],
-						 "A<typename T> -> test<template<typename> typename T>::T<typename> <4:40 4:40>");
+		TS_ASSERT_EQUALS(
+			client->templateDefaultArgumentTypes[0],
+			"A<typename T> -> test<template<typename> typename T>::T<typename> <4:40 4:40>");
 	}
 
 
