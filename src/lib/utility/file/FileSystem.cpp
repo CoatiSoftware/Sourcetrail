@@ -94,6 +94,17 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 	return files;
 }
 
+TimePoint FileSystem::getLastWriteTime(const FilePath& filePath)
+{
+	boost::posix_time::ptime lastWriteTime;
+	if (FileSystem::exists(filePath.str()))
+	{
+		std::time_t t = boost::filesystem::last_write_time(filePath.path());
+		lastWriteTime = boost::posix_time::from_time_t(t);
+	}
+	return TimePoint(lastWriteTime);
+}
+
 std::string FileSystem::getTimeStringNow() // TODO: move to utility
 {
 	return boost::posix_time::to_iso_string(boost::posix_time::second_clock::universal_time());

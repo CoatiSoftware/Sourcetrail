@@ -121,6 +121,7 @@ void CodeController::handleMessage(MessageShowFile* message)
 	std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(message->filePath);
 	params.code = textAccess->getText();
 
+	params.modificationTime = m_storageAccess->getFileModificationTime(message->filePath);
 	params.locationFile = m_storageAccess->getTokenLocationsForFile(message->filePath.str());
 
 	getView()->showCodeFile(params);
@@ -194,6 +195,7 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTok
 				CodeView::CodeSnippetParams params;
 				params.locationFile = file;
 				params.refCount = file->getUnscopedStartTokenLocationCount();
+				params.modificationTime = m_storageAccess->getFileModificationTime(file->getFilePath());
 
 				params.isCollapsed = true;
 				snippets.push_back(params);
@@ -259,6 +261,8 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(std:
 		params.refCount = file->getUnscopedStartTokenLocationCount();
 		params.startLineNumber = std::max<int>(1, range.start.row - (range.start.strong ? 0 : snippetExpandRange));
 		params.endLineNumber = std::min<int>(textAccess->getLineCount(), range.end.row + (range.end.strong ? 0 : snippetExpandRange));
+		params.modificationTime = m_storageAccess->getFileModificationTime(file->getFilePath());
+
 
 		std::shared_ptr<TokenLocationFile> tempFile =
 			m_storageAccess->getTokenLocationsForLinesInFile(file->getFilePath().str(), params.startLineNumber, params.endLineNumber);

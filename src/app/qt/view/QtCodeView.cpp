@@ -96,7 +96,7 @@ void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippe
 	{
 		if (params.isCollapsed)
 		{
-			m_widget->addFile(params.locationFile, params.refCount);
+			m_widget->addFile(params.locationFile, params.refCount, params.modificationTime);
 		}
 		else
 		{
@@ -106,7 +106,8 @@ void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippe
 				params.titleId,
 				params.code,
 				params.locationFile,
-				params.refCount
+				params.refCount,
+				params.modificationTime
 			);
 		}
 	}
@@ -116,15 +117,16 @@ void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippe
 
 void QtCodeView::doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippets)
 {
-	for (const CodeSnippetParams& snippet : snippets)
+	for (const CodeSnippetParams& params : snippets)
 	{
 		m_widget->addCodeSnippet(
-			snippet.startLineNumber,
-			snippet.title,
-			snippet.titleId,
-			snippet.code,
-			snippet.locationFile,
-			snippet.refCount,
+			params.startLineNumber,
+			params.title,
+			params.titleId,
+			params.code,
+			params.locationFile,
+			params.refCount,
+			params.modificationTime,
 			true
 		);
 	}
@@ -134,7 +136,7 @@ void QtCodeView::doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippet
 
 void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
 {
-	m_widget->addCodeSnippet(1, params.title, 0, params.code, params.locationFile, -1);
+	m_widget->addCodeSnippet(1, params.title, 0, params.code, params.locationFile, -1, params.modificationTime);
 }
 
 void QtCodeView::doShowFirstActiveSnippet()

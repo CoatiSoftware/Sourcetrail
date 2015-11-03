@@ -17,6 +17,7 @@ class TextAccess;
 class TokenLocation;
 class TokenLocationCollection;
 class TokenLocationFile;
+class TimePoint;
 
 class StorageAccess
 {
@@ -56,6 +57,7 @@ public:
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationOfParentScope(const TokenLocation* child) const = 0;
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const = 0;
+	virtual TimePoint getFileModificationTime(const FilePath& filePath) const = 0;
 };
 
 #endif // STORAGE_ACCESS_H

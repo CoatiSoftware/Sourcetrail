@@ -161,8 +161,7 @@ public:
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationOfParentScope(const TokenLocation* child) const;
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const;
-
-
+	virtual TimePoint getFileModificationTime(const FilePath& filePath) const;
 
 private:
 	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool defined, bool distinct = false);

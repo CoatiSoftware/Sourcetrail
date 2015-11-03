@@ -4,6 +4,8 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
+#include "utility/file/FileSystem.h"
+#include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageActivateFile.h"
 #include "utility/messaging/type/MessageShowFile.h"
 #include "utility/messaging/type/MessageShowSnippets.h"
@@ -19,6 +21,7 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	: QFrame(parent)
 	, m_parent(parent)
 	, m_filePath(filePath)
+	, m_updateTitleBarFunctor(std::bind(&QtCodeFile::doUpdateTitleBar, this))
 {
 	setObjectName("code_file");
 
@@ -28,15 +31,15 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
 
-	QPushButton* titleWidget = new QPushButton(this);
-	titleWidget->setObjectName("title_widget");
-	layout->addWidget(titleWidget);
+	m_titleBar = new QPushButton(this);
+	m_titleBar->setObjectName("title_widget");
+	layout->addWidget(m_titleBar);
 
 	QHBoxLayout* titleLayout = new QHBoxLayout();
 	titleLayout->setMargin(0);
 	titleLayout->setSpacing(0);
 	titleLayout->setAlignment(Qt::AlignLeft);
-	titleWidget->setLayout(titleLayout);
+	m_titleBar->setLayout(titleLayout);
 
 	m_title = new QPushButton(filePath.fileName().c_str(), this);
 	m_title->setObjectName("title_label");
@@ -54,7 +57,7 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 
 	titleLayout->addWidget(m_title);
 
-	titleWidget->setMinimumHeight(m_title->height() + 4);
+	m_titleBar->setMinimumHeight(m_title->height() + 4);
 
 	m_referenceCount = new QLabel(this);
 	m_referenceCount->setObjectName("references_label");
@@ -85,7 +88,7 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	m_snippetButton->setEnabled(false);
 	m_maximizeButton->setEnabled(false);
 
-	connect(titleWidget, SIGNAL(clicked()), this, SLOT(clickedTitleBar()));
+	connect(m_titleBar, SIGNAL(clicked()), this, SLOT(clickedTitleBar()));
 	connect(m_title, SIGNAL(clicked()), this, SLOT(clickedTitle()));
 	connect(m_minimizeButton, SIGNAL(clicked()), this, SLOT(clickedMinimizeButton()));
 	connect(m_snippetButton, SIGNAL(clicked()), this, SLOT(clickedSnippetButton()));
@@ -103,6 +106,12 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 
 QtCodeFile::~QtCodeFile()
 {
+}
+
+void QtCodeFile::setModificationTime(TimePoint modificationTime)
+{
+	m_modificationTime = modificationTime;
+	updateTitleBar();
 }
 
 const FilePath& QtCodeFile::getFilePath() const
@@ -386,6 +395,11 @@ void QtCodeFile::clickedMaximizeButton()
 	m_minimizePlaceholder->hide();
 }
 
+void QtCodeFile::handleMessage(MessageWindowFocus* message)
+{
+	updateTitleBar();
+}
+
 void QtCodeFile::updateSnippets()
 {
 	int maxDigits = 1;
@@ -418,5 +432,24 @@ void QtCodeFile::updateRefCount(int refCount)
 	else
 	{
 		m_referenceCount->hide();
+	}
+}
+
+void QtCodeFile::updateTitleBar()
+{
+	m_updateTitleBarFunctor();
+}
+
+void QtCodeFile::doUpdateTitleBar()
+{
+	// cannot use m_filePath.exists() here since it is only checked when FilePath is constructed.
+	if ((!FileSystem::exists(m_filePath.str())) ||
+		(FileSystem::getLastWriteTime(m_filePath) > m_modificationTime))
+	{
+		m_title->setStyleSheet("background-image: url(data/gui/code_view/images/pattern.png);");
+	}
+	else
+	{ 
+		m_title->setStyleSheet("");
 	}
 }

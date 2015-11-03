@@ -7,6 +7,7 @@
 #include <QFrame>
 #include <QScrollArea>
 
+#include "utility/TimePoint.h"
 #include "utility/types.h"
 
 class QtCodeFile;
@@ -33,10 +34,11 @@ public:
 		const std::string& code,
 		std::shared_ptr<TokenLocationFile> locationFile,
 		int refCount,
+		TimePoint modificationTime,
 		bool insert = false
 	);
 
-	void addFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount);
+	void addFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount, TimePoint modificationTime);
 
 	void clearCodeSnippets();
 

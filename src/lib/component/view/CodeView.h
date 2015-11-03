@@ -5,6 +5,7 @@
 
 #include "component/view/View.h"
 #include "data/location/TokenLocationFile.h"
+#include "utility/TimePoint.h"
 #include "utility/types.h"
 
 class CodeController;
@@ -26,6 +27,7 @@ public:
 		std::string code;
 
 		Id titleId;
+		TimePoint modificationTime;
 
 		std::shared_ptr<TokenLocationFile> locationFile;
 

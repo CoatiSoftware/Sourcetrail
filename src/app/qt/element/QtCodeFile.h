@@ -8,7 +8,11 @@
 #include <QFrame>
 
 #include "utility/file/FilePath.h"
+#include "utility/TimePoint.h"
 #include "utility/types.h"
+#include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/MessageWindowFocus.h"
+#include "qt/utility/QtThreadedFunctor.h"
 
 class QLabel;
 class QPushButton;
@@ -19,12 +23,15 @@ class TokenLocationFile;
 
 class QtCodeFile
 	: public QFrame
+	, MessageListener<MessageWindowFocus>
 {
 	Q_OBJECT
 
 public:
 	QtCodeFile(const FilePath& filePath, QtCodeFileList* parent);
 	virtual ~QtCodeFile();
+
+	void setModificationTime(TimePoint modificationTime);
 
 	const FilePath& getFilePath() const;
 	std::string getFileName() const;
@@ -67,11 +74,18 @@ private slots:
 	void clickedMaximizeButton();
 
 private:
+	virtual void handleMessage(MessageWindowFocus* message);
+
 	void updateSnippets();
 	void updateRefCount(int refCount);
+	void updateTitleBar();
+	void doUpdateTitleBar();
+
+	QtThreadedFunctor<> m_updateTitleBarFunctor;
 
 	QtCodeFileList* m_parent;
 
+	QPushButton* m_titleBar;
 	QPushButton* m_title;
 	QLabel* m_referenceCount;
 
@@ -85,6 +99,7 @@ private:
 	QWidget* m_minimizePlaceholder;
 
 	const FilePath m_filePath;
+	TimePoint m_modificationTime;
 	std::shared_ptr<TokenLocationFile> m_locationFile;
 };
 

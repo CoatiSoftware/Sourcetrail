@@ -302,6 +302,8 @@ add_files(
 	utility/ConfigManager.cpp
 	utility/ConfigManager.h
 	utility/Property.h
+	utility/TimePoint.cpp
+	utility/TimePoint.h
 	utility/types.h
 	utility/utility.cpp
 	utility/utility.h

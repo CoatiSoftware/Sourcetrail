@@ -47,6 +47,7 @@ void QtCodeFileList::addCodeSnippet(
 	const std::string& code,
 	std::shared_ptr<TokenLocationFile> locationFile,
 	int refCount,
+	TimePoint modificationTime,
 	bool insert
 ){
 	QtCodeFile* file = getFile(locationFile);
@@ -60,12 +61,14 @@ void QtCodeFileList::addCodeSnippet(
 	{
 		file->addCodeSnippet(startLineNumber, title, titleId, code, locationFile, refCount);
 	}
+	file->setModificationTime(modificationTime);
 }
 
-void QtCodeFileList::addFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount)
+void QtCodeFileList::addFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount, TimePoint modificationTime)
 {
 	QtCodeFile* file = getFile(locationFile);
 	file->setLocationFile(locationFile, refCount);
+	file->setModificationTime(modificationTime);
 }
 
 void QtCodeFileList::clearCodeSnippets()

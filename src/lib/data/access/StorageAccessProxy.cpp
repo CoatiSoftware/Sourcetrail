@@ -6,6 +6,7 @@
 
 #include "utility/logging/logging.h"
 #include "utility/file/FileInfo.h"
+#include "utility/TimePoint.h"
 
 StorageAccessProxy::StorageAccessProxy()
 	: m_subject(nullptr)
@@ -242,4 +243,14 @@ std::shared_ptr<TextAccess> StorageAccessProxy::getFileContent(const FilePath& f
 	}
 
 	return nullptr;
+}
+
+TimePoint StorageAccessProxy::getFileModificationTime(const FilePath& filePath) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getFileModificationTime(filePath);
+	}
+
+	return TimePoint(boost::posix_time::not_a_date_time);
 }

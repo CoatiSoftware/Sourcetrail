@@ -5,6 +5,7 @@
 
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
+#include "utility/TimePoint.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 
@@ -1217,6 +1218,11 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationOfParentScope(const 
 std::shared_ptr<TextAccess> Storage::getFileContent(const FilePath& filePath) const
 {
 	return m_sqliteStorage.getFileContentByPath(filePath.str());
+}
+
+TimePoint Storage::getFileModificationTime(const FilePath& filePath) const
+{
+	return TimePoint(m_sqliteStorage.getFileByPath(filePath.str()).modificationTime);
 }
 
 Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool defined, bool distinct)

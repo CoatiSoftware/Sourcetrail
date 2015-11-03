@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "utility/file/FileInfo.h"
+#include "utility/TimePoint.h"
 
 class FileSystem
 {
@@ -19,6 +20,7 @@ public:
 	static std::vector<FileInfo> getFileInfosFromPaths(
 		const std::vector<FilePath>& paths, const std::vector<std::string>& fileExtensions);
 
+	static TimePoint getLastWriteTime(const FilePath& filePath);
 	static std::string getTimeStringNow();
 
 	static std::vector<FilePath> getSubDirectories(const FilePath& path);
