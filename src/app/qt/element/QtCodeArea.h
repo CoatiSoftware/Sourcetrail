@@ -89,10 +89,13 @@ protected:
 	virtual void mousePressEvent(QMouseEvent* event);
 	virtual void mouseMoveEvent(QMouseEvent* event);
 
+	virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
+
 private slots:
 	void updateLineNumberAreaWidth(int newBlockCount);
 	void updateLineNumberArea(const QRect &, int);
 	void clearSelection();
+	void setIDECursorPosition();
 
 private:
 	struct Annotation
@@ -130,6 +133,8 @@ private:
 	int startTextEditPosition() const;
 	int endTextEditPosition() const;
 
+	void createActions();
+
 	QtCodeFile* m_fileWidget;
 
 	QWidget* m_lineNumberArea;
@@ -147,6 +152,10 @@ private:
 
 	int m_digits;
 	int m_panningValue; // just for horizontal panning
+
+	QAction* m_setIDECursorPositionAction;
+	QPoint m_eventPosition; // is needed for IDE cursor control via context menu
+							// the position where the context menu is opened needs to be stored
 };
 
 #endif // QT_CODE_AREA_H

@@ -1,6 +1,7 @@
 #include "qt/element/QtCodeSnippet.h"
 
 #include <QBoxLayout>
+#include <qmenu.h>
 #include <QPushButton>
 
 #include "utility/messaging/type/MessageShowScope.h"
@@ -137,6 +138,15 @@ void QtCodeSnippet::updateContent()
 bool QtCodeSnippet::isActive() const
 {
 	return m_codeArea->isActive();
+}
+
+void QtCodeSnippet::contextMenuEvent(QContextMenuEvent* event)
+{
+	QMenu menu(this);
+	menu.addAction(new QAction("Bar", this));
+	menu.addAction(new QAction("Brew Tea", this));
+	menu.addAction(new QAction("Translate", this));
+	menu.exec(event->globalPos());
 }
 
 void QtCodeSnippet::clickedTitle()

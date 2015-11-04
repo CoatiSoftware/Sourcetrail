@@ -83,6 +83,7 @@ namespace SnowForest.CoatiPlugin
             NetworkProtocolUtility.CursorPosition cursorPosition = NetworkProtocolUtility.parseInMessage(message);
             if (cursorPosition.Valid)
             {
+                cursorPosition.ColumnNumber += 1; // VS counts columns starting at 1, coati starts at 0
                 DTE dte = (DTE)GetService(typeof(DTE));
                 if (FileUtility.OpenSourceFile(dte, cursorPosition.FilePath))
                 {

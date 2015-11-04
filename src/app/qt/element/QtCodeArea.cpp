@@ -3,6 +3,7 @@
 #include <qapplication.h>
 #include <QFont>
 #include <QHBoxLayout>
+#include <qmenu.h>
 #include <QPainter>
 #include <QPushButton>
 #include <QToolTip>
@@ -84,6 +85,8 @@ QtCodeArea::QtCodeArea(
 	, m_hoveredAnnotation(nullptr)
 	, m_digits(0)
 	, m_panningValue(-1)
+	, m_setIDECursorPositionAction(nullptr)
+	, m_eventPosition(0, 0)
 {
 	setObjectName("code_area");
 	setReadOnly(true);
@@ -115,10 +118,17 @@ QtCodeArea::QtCodeArea(
 
 	// MouseWheelOverScrollbarFilter is deleted by parent.
 	horizontalScrollBar()->installEventFilter(new MouseWheelOverScrollbarFilter(this));
+
+	createActions();
 }
 
 QtCodeArea::~QtCodeArea()
 {
+	if (m_setIDECursorPositionAction != nullptr)
+	{
+		m_setIDECursorPositionAction->disconnect();
+		delete m_setIDECursorPositionAction;
+	}
 }
 
 QSize QtCodeArea::sizeHint() const
@@ -282,8 +292,9 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 
 		if (Qt::KeyboardModifier::ControlModifier && QApplication::keyboardModifiers())
 		{
-			std::pair<int, int> lineColumn = toLineColumn(this->cursorForPosition(event->pos()).position());
-			MessageMoveIDECursor(m_locationFile->getFilePath().str(), lineColumn.first, lineColumn.second).dispatch();
+			// std::pair<int, int> lineColumn = toLineColumn(this->cursorForPosition(event->pos()).position());
+			m_eventPosition = event->pos();
+			setIDECursorPosition();
 		}
 		else
 		{
@@ -348,6 +359,18 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 	}
 }
 
+void QtCodeArea::contextMenuEvent(QContextMenuEvent* event)
+{
+	if (m_setIDECursorPositionAction != nullptr)
+	{
+		m_eventPosition = event->pos();
+
+		QMenu menu(this);
+		menu.addAction(m_setIDECursorPositionAction);
+		menu.exec(event->globalPos());
+	}
+}
+
 void QtCodeArea::updateLineNumberAreaWidth(int /* newBlockCount */)
 {
 	setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
@@ -375,6 +398,13 @@ void QtCodeArea::clearSelection()
 	QTextCursor cursor = textCursor();
 	cursor.clearSelection();
 	setTextCursor(cursor);
+}
+
+void QtCodeArea::setIDECursorPosition()
+{
+	std::pair<int, int> lineColumn = toLineColumn(this->cursorForPosition(m_eventPosition).position());
+
+	MessageMoveIDECursor(m_locationFile->getFilePath().str(), lineColumn.first, lineColumn.second).dispatch();
 }
 
 QtCodeArea::ScopeAnnotation::ScopeAnnotation()
@@ -638,4 +668,12 @@ int QtCodeArea::endTextEditPosition() const
 	}
 
 	return position - 1;
+}
+
+void QtCodeArea::createActions()
+{
+	m_setIDECursorPositionAction = new QAction(tr("Set IDE Cursor"), this);
+	m_setIDECursorPositionAction->setStatusTip(tr("Set the IDE Cursor to this code position"));
+	m_setIDECursorPositionAction->setToolTip(tr("Set the IDE Cursor to this code position"));
+	connect(m_setIDECursorPositionAction, SIGNAL(triggered()), this, SLOT(setIDECursorPosition()));
 }
