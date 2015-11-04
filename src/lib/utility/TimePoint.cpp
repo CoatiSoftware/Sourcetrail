@@ -16,8 +16,12 @@ TimePoint::TimePoint(boost::posix_time::ptime t)
 //}
 
 TimePoint::TimePoint(std::string s)
+	: m_time(boost::posix_time::not_a_date_time)
 {
-	m_time = boost::posix_time::time_from_string(s);
+	if (s.size())
+	{
+		m_time = boost::posix_time::time_from_string(s);
+	}
 }
 
 std::string TimePoint::toString() const
