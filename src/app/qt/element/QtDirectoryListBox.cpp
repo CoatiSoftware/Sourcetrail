@@ -133,6 +133,11 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent)
 	resize();
 }
 
+void QtDirectoryListBox::clear()
+{
+	m_list->clear();
+}
+
 void QtDirectoryListBox::dropEvent(QDropEvent *event)
 {
 	QFileInfo fileInfo;

@@ -48,6 +48,8 @@ class QtDirectoryListBox
 public:
 	QtDirectoryListBox(QWidget *parent);
 
+	void clear();
+
 	std::vector<FilePath> getList();
 	void setList(const std::vector<FilePath>& list);
 

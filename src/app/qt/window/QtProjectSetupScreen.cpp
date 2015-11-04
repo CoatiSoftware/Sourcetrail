@@ -66,6 +66,20 @@ QSize QtProjectSetupScreen::sizeHint() const
 	return QSize(600,600);
 }
 
+void QtProjectSetupScreen::clear()
+{
+	m_projectName->setText("");
+	m_projectFileLocation->setText("");
+
+	m_sourcePaths->clear();
+	m_includePaths->clear();
+
+	if (m_frameworkPaths)
+	{
+		m_frameworkPaths->clear();
+	}
+}
+
 void QtProjectSetupScreen::setup()
 {
 	setupForm();
@@ -184,5 +198,7 @@ void QtProjectSetupScreen::handleUpdateButtonPress()
 	projSettings->save(projectFile);
 
 	MessageLoadProject(projectFile).dispatch();
+	clear();
+
 	emit finished();
 }

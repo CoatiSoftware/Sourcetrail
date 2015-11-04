@@ -38,10 +38,14 @@ public:
 	QtProjectSetupScreen(QWidget* parent = 0);
 	QSize sizeHint() const Q_DECL_OVERRIDE;
 
+	void clear();
+
 	virtual void setup() override;
 
 	void loadEmpty();
 	void loadProjectSettings();
+
+	void projectSetupScreen();
 
 protected:
 	virtual void populateForm(QFormLayout* layout) override;
