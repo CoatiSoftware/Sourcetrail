@@ -164,6 +164,35 @@ Id SqliteStorage::addSignature(Id nodeId, const std::string& signature)
 	return m_database.lastRowId();
 }
 
+Id SqliteStorage::addError(const std::string& message, const std::string& filePath, uint lineNumber, uint columnNumber)
+{
+	std::string sanitizedMessage = utility::replace(message, "'", "''");
+
+	// check for duplicate
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT * FROM error WHERE "
+			"message == '" + sanitizedMessage + "' AND "
+			"file_path == '" + filePath + "' AND "
+			"line_number == " + std::to_string(lineNumber) + " AND "
+			"column_number == " + std::to_string(columnNumber) + ";"
+	).c_str());
+
+	if (!q.eof())
+	{
+		return q.getIntField(0, -1);
+	}
+
+	std::cout << ("INSERT INTO error(message, file_path, line_number, column_number) "
+		"VALUES ('" + sanitizedMessage + "', '" + filePath + "', " + std::to_string(lineNumber) + ", " + std::to_string(columnNumber) + ");") << std::endl;
+
+	m_database.execDML((
+		"INSERT INTO error(message, file_path, line_number, column_number) "
+		"VALUES ('" + sanitizedMessage + "', '" + filePath + "', " + std::to_string(lineNumber) + ", " + std::to_string(columnNumber) + ");"
+	).c_str());
+
+	return m_database.lastRowId();
+}
+
 void SqliteStorage::removeElement(Id id)
 {
 	m_database.execDML((
@@ -229,6 +258,13 @@ void SqliteStorage::removeUnusedNameHierarchyElements()
 	m_database.execDML(
 		"DELETE FROM name_hierarchy_element WHERE NOT EXISTS (SELECT * FROM node where node.name_id == name_hierarchy_element.id);"
 	);
+}
+
+void SqliteStorage::removeErrorsInFiles(const std::vector<FilePath>& filePaths)
+{
+	m_database.execDML((
+		"DELETE FROM error WHERE file_path IN ('" + utility::join(utility::toStrings(filePaths), "', '") + "');"
+	).c_str());
 }
 
 StorageNode SqliteStorage::getFirstNode() const
@@ -691,6 +727,28 @@ Id SqliteStorage::getNodeIdBySignature(const std::string& signature) const
 	return 0;
 }
 
+std::vector<StorageError> SqliteStorage::getAllErrors() const
+{
+	CppSQLite3Query q = m_database.execQuery(
+		"SELECT message, file_path, line_number, column_number FROM error;"
+	);
+
+	std::vector<StorageError> errors;
+	while (!q.eof())
+	{
+		const std::string message = q.getStringField(0, "");
+		const std::string filePath = q.getStringField(1, "");
+		const uint lineNumber = q.getIntField(2, 0);
+		const uint columnNumber = q.getIntField(3, 0);
+
+		errors.push_back(StorageError(message, filePath, lineNumber, columnNumber));
+
+		q.nextRow();
+	}
+
+	return errors;
+}
+
 int SqliteStorage::getNodeCount() const
 {
 	return m_database.execScalar("SELECT COUNT(*) FROM node;");
@@ -718,6 +776,7 @@ int SqliteStorage::getSourceLocationCount() const
 
 void SqliteStorage::clearTables()
 {
+	m_database.execDML("DROP TABLE IF EXISTS main.error;");
 	m_database.execDML("DROP TABLE IF EXISTS main.function_signature;");
 	m_database.execDML("DROP TABLE IF EXISTS main.component_access;");
 	m_database.execDML("DROP TABLE IF EXISTS main.source_location;");
@@ -817,6 +876,16 @@ void SqliteStorage::setupTables()
 			"signature TEXT, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES node(id) ON DELETE CASCADE);"
+	);
+
+	m_database.execDML(
+		"CREATE TABLE IF NOT EXISTS error("
+			"id INTEGER NOT NULL, "
+			"message TEXT, "
+			"file_path TEXT, "
+			"line_number INTEGER, "
+			"column_number INTEGER, "
+			"PRIMARY KEY(id));"
 	);
 }
 

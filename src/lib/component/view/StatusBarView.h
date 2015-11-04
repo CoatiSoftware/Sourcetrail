@@ -13,6 +13,7 @@ public:
 
 	virtual std::string getName() const;
 	virtual void showMessage(const std::string& message, bool isError, bool showLoader) = 0;
+	virtual void setErrorCount(size_t count) = 0;
 
 protected:
 	StatusBarController* getController();

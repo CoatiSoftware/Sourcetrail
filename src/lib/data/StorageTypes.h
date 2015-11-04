@@ -80,4 +80,19 @@ struct StorageComponentAccess
 	int type;
 };
 
+struct StorageError
+{
+	StorageError(const std::string& message, const std::string& filePath, uint lineNumber, uint columnNumber)
+		: message(message)
+		, filePath(filePath)
+		, lineNumber(lineNumber)
+		, columnNumber(columnNumber)
+	{}
+
+	std::string message;
+	std::string filePath;
+	uint lineNumber;
+	uint columnNumber;
+};
+
 #endif // STORAGE_TYPES_H

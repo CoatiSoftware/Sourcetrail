@@ -196,6 +196,17 @@ void UndoRedoController::handleMessage(MessageSearch* message)
 	processCommand(command);
 }
 
+void UndoRedoController::handleMessage(MessageShowErrors* message)
+{
+	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType())
+	{
+		return;
+	}
+
+	Command command(std::make_shared<MessageShowErrors>(*message), 0);
+	processCommand(command);
+}
+
 void UndoRedoController::handleMessage(MessageShowFile* message)
 {
 	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() &&

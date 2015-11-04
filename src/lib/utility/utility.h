@@ -7,6 +7,7 @@
 
 #include "boost/date_time/posix_time/posix_time.hpp"
 
+#include "utility/file/FilePath.h"
 #include "utility/math/Vector2.h"
 #include "utility/TimePoint.h"
 
@@ -77,6 +78,17 @@ std::vector<std::string> utility::toStrings(const std::vector<T>& d)
 	for (const T& t : d)
 	{
 		v.push_back(std::to_string(t));
+	}
+	return v;
+}
+
+template<>
+inline std::vector<std::string> utility::toStrings<FilePath>(const std::vector<FilePath>& d)
+{
+	std::vector<std::string> v;
+	for (const FilePath& t : d)
+	{
+		v.push_back(t.str());
 	}
 	return v;
 }

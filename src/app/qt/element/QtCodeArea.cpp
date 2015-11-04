@@ -36,8 +36,8 @@ bool MouseWheelOverScrollbarFilter::eventFilter(QObject* obj, QEvent* event)
 		QRect scrollbarArea(scrollbar->pos(), scrollbar->size());
 		QPoint globalMousePos = dynamic_cast<QWheelEvent*>(event)->globalPos();
 		QPoint localMousePos = scrollbar->mapFromGlobal(globalMousePos);
-		
-		// instead of "scrollbar->underMouse()" we need this check implemented here because "underMouse()" 
+
+		// instead of "scrollbar->underMouse()" we need this check implemented here because "underMouse()"
 		// does not work when the mouse enters the area without being moved
 		if (scrollbarArea.contains(localMousePos))
 		{
@@ -114,7 +114,7 @@ QtCodeArea::QtCodeArea(
 	this->setMouseTracking(true);
 
 	// MouseWheelOverScrollbarFilter is deleted by parent.
-	horizontalScrollBar()->installEventFilter(new MouseWheelOverScrollbarFilter(this)); 
+	horizontalScrollBar()->installEventFilter(new MouseWheelOverScrollbarFilter(this));
 }
 
 QtCodeArea::~QtCodeArea()
@@ -289,7 +289,7 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 		{
 			QTextCursor cursor = this->cursorForPosition(event->pos());
 			std::vector<Id> locationIds = findLocationIdsForPosition(cursor.position());
-			if (locationIds.size())
+			if (locationIds.size() && !m_fileWidget->getErrorMessages().size())
 			{
 				MessageActivateTokenLocations(locationIds).dispatch();
 			}
@@ -301,7 +301,7 @@ void QtCodeArea::mouseDoubleClickEvent(QMouseEvent* event)
 {
 	if (event->button() == Qt::LeftButton)
 	{
-		MessageShowFile(m_fileWidget->getFilePath().str(), m_startLineNumber, m_startLineNumber + blockCount() - 1).dispatch();
+		MessageShowFile(m_fileWidget->getFilePath().str(), (m_fileWidget->getErrorMessages().size() > 0)).dispatch();
 	}
 }
 

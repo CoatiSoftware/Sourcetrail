@@ -382,7 +382,7 @@ void QtCodeFile::clickedMaximizeButton()
 	}
 	else
 	{
-		MessageShowFile(m_filePath, 0, 0).dispatch();
+		MessageShowFile(m_filePath, (getErrorMessages().size() > 0)).dispatch();
 	}
 
 	m_minimizeButton->setEnabled(true);
@@ -449,7 +449,7 @@ void QtCodeFile::doUpdateTitleBar()
 		m_title->setStyleSheet("background-image: url(data/gui/code_view/images/pattern.png);");
 	}
 	else
-	{ 
+	{
 		m_title->setStyleSheet("");
 	}
 }

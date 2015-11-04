@@ -11,6 +11,7 @@
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
+#include "utility/messaging/type/MessageShowErrors.h"
 
 #include "component/controller/Controller.h"
 #include "component/view/GraphView.h"
@@ -32,6 +33,7 @@ class GraphController
 	, public MessageListener<MessageGraphNodeBundleSplit>
 	, public MessageListener<MessageGraphNodeExpand>
 	, public MessageListener<MessageGraphNodeMove>
+	, public MessageListener<MessageShowErrors>
 {
 public:
 	GraphController(StorageAccess* storageAccess);
@@ -45,6 +47,7 @@ private:
 	virtual void handleMessage(MessageGraphNodeBundleSplit* message);
 	virtual void handleMessage(MessageGraphNodeExpand* message);
 	virtual void handleMessage(MessageGraphNodeMove* message);
+	virtual void handleMessage(MessageShowErrors* message);
 
 	GraphView* getView() const;
 

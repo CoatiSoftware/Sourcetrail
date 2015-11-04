@@ -31,6 +31,11 @@ void SearchController::handleMessage(MessageSearchAutocomplete* message)
 	getView()->setAutocompletionList(m_storageAccess->getAutocompletionMatches(message->query));
 }
 
+void SearchController::handleMessage(MessageShowErrors* message)
+{
+	getView()->setMatches(std::vector<SearchMatch>());
+}
+
 SearchView* SearchController::getView()
 {
 	return Controller::getView<SearchView>();

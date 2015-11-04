@@ -78,30 +78,6 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	}
 }
 
-void CodeController::handleMessage(MessageFinishedParsing* message)
-{
-	if (message->errorCount > 0)
-	{
-		std::vector<std::string> errorMessages;
-		TokenLocationCollection errorCollection = m_storageAccess->getErrorTokenLocations(&errorMessages);
-
-		std::vector<CodeView::CodeSnippetParams> snippets;
-
-		errorCollection.forEachTokenLocationFile(
-			[&](std::shared_ptr<TokenLocationFile> file) -> void
-			{
-				std::vector<CodeView::CodeSnippetParams> fileSnippets = getSnippetsForFile(file);
-				snippets.insert(snippets.end(), fileSnippets.begin(), fileSnippets.end());
-			}
-		);
-
-		CodeView* view = getView();
-		view->setActiveTokenIds(std::vector<Id>());
-		view->setErrorMessages(errorMessages);
-		view->showCodeSnippets(snippets);
-	}
-}
-
 void CodeController::handleMessage(MessageFocusIn* message)
 {
 	getView()->focusToken(message->tokenId);
@@ -112,17 +88,49 @@ void CodeController::handleMessage(MessageFocusOut* message)
 	getView()->defocusToken();
 }
 
+void CodeController::handleMessage(MessageShowErrors* message)
+{
+	std::vector<std::string> errorMessages;
+	TokenLocationCollection errorCollection = m_storageAccess->getErrorTokenLocations(&errorMessages);
+
+	std::vector<CodeView::CodeSnippetParams> snippets;
+
+	errorCollection.forEachTokenLocationFile(
+		[&](std::shared_ptr<TokenLocationFile> file) -> void
+		{
+			std::vector<CodeView::CodeSnippetParams> fileSnippets = getSnippetsForFile(file);
+			snippets.insert(snippets.end(), fileSnippets.begin(), fileSnippets.end());
+		}
+	);
+
+	CodeView* view = getView();
+	view->setActiveTokenIds(std::vector<Id>());
+	view->setErrorMessages(errorMessages);
+	view->showCodeSnippets(snippets);
+}
+
 void CodeController::handleMessage(MessageShowFile* message)
 {
 	CodeView::CodeSnippetParams params;
-	params.startLineNumber = message->startLineNumber;
-	params.endLineNumber = message->endLineNumber;
+	params.startLineNumber = 0;
+	params.endLineNumber = 0;
 
 	std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(message->filePath);
 	params.code = textAccess->getText();
 
 	params.modificationTime = m_storageAccess->getFileModificationTime(message->filePath);
-	params.locationFile = m_storageAccess->getTokenLocationsForFile(message->filePath.str());
+
+	if (message->showErrors)
+	{
+		std::vector<std::string> errorMessages;
+		TokenLocationCollection errorCollection = m_storageAccess->getErrorTokenLocations(&errorMessages);
+		params.locationFile = std::make_shared<TokenLocationFile>(*errorCollection.findTokenLocationFileByPath(message->filePath));
+		params.locationFile->isWholeCopy = true;
+	}
+	else
+	{
+		params.locationFile = m_storageAccess->getTokenLocationsForFile(message->filePath.str());
+	}
 
 	getView()->showCodeFile(params);
 }

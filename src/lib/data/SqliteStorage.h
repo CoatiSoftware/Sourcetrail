@@ -42,12 +42,16 @@ public:
 	Id addComponentAccess(Id memberEdgeId, int type);
 	Id addSignature(Id nodeId, const std::string& signature);
 
+	Id addError(const std::string& message, const std::string& filePath, uint lineNumber, uint columnNumber);
+
 	void removeElement(Id id);
 	void removeNameHierarchyElement(Id id);
 	void removeElementsWithLocationInFiles(const std::vector<Id>& fileIds);
 	void removeFile(Id id);
 	void removeFiles(const std::vector<Id>& fileIds);
 	void removeUnusedNameHierarchyElements();
+
+	void removeErrorsInFiles(const std::vector<FilePath>& filePaths);
 
 	StorageNode getFirstNode() const;
 	std::vector<StorageNode> getAllNodes() const;
@@ -100,6 +104,8 @@ public:
 	StorageComponentAccess getComponentAccessByMemberEdgeId(Id memberEdgeId) const;
 	std::vector<StorageComponentAccess> getComponentAccessByMemberEdgeIds(const std::vector<Id>& memberEdgeIds) const;
 	Id getNodeIdBySignature(const std::string& signature) const;
+
+	std::vector<StorageError> getAllErrors() const;
 
 	int getNodeCount() const;
 	int getEdgeCount() const;

@@ -78,7 +78,7 @@ void Project::loadStorage()
 	{
 		m_storage->startParsing();
 		m_storage->finishParsing();
-		MessageFinishedParsing(0, 0, 0, 0).dispatch();
+		MessageFinishedParsing(0, 0, 0, m_storage->getErrorCount()).dispatch();
 	}
 	else
 	{

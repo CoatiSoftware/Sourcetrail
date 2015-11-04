@@ -134,6 +134,11 @@ void GraphController::handleMessage(MessageGraphNodeMove* message)
 	}
 }
 
+void GraphController::handleMessage(MessageShowErrors* message)
+{
+	clear();
+}
+
 GraphView* GraphController::getView() const
 {
 	return Controller::getView<GraphView>();

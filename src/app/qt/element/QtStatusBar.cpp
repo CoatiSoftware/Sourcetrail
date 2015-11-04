@@ -2,6 +2,9 @@
 
 #include <QMovie>
 
+#include "qt/utility/utilityQt.h"
+#include "utility/messaging/type/MessageShowErrors.h"
+
 QtStatusBar::QtStatusBar()
     : m_text(this)
 {
@@ -19,6 +22,17 @@ QtStatusBar::QtStatusBar()
 
 	m_text.setText("");
 	addWidget(&m_text);
+
+	m_errorButton.hide();
+	m_errorButton.setFlat(true);
+	m_errorButton.setStyleSheet("QPushButton { color: #D00000; margin-right: 0; spacing: none; }");
+	m_errorButton.setIcon(utility::colorizePixmap(
+		QPixmap("data/gui/statusbar_view/octagon.png"),
+		"#D00000"
+	).scaledToHeight(10));
+	addPermanentWidget(&m_errorButton);
+
+	connect(&m_errorButton, SIGNAL(clicked()), this, SLOT(showErrors()));
 }
 
 QtStatusBar::~QtStatusBar()
@@ -29,7 +43,7 @@ void QtStatusBar::setText(const std::string& text, bool isError, bool showLoader
 {
 	if (isError)
 	{
-		m_text.setStyleSheet("QLabel { color: #E00000 }");
+		m_text.setStyleSheet("QLabel { color: #D00000 }");
 	}
 	else
 	{
@@ -46,4 +60,22 @@ void QtStatusBar::setText(const std::string& text, bool isError, bool showLoader
 	}
 
 	m_text.setText(text.c_str());
+}
+
+void QtStatusBar::setErrorCount(size_t count)
+{
+	if (count > 0)
+	{
+		m_errorButton.setText(QString::number(count) + " error(s)");
+		m_errorButton.show();
+	}
+	else
+	{
+		m_errorButton.hide();
+	}
+}
+
+void QtStatusBar::showErrors()
+{
+	MessageShowErrors().dispatch();
 }

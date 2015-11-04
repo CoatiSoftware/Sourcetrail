@@ -147,7 +147,7 @@ void QtCodeSnippet::clickedTitle()
 	}
 	else
 	{
-		MessageShowFile(FilePath(m_titleString), 0, 0).dispatch();
+		MessageShowFile(FilePath(m_titleString), (dynamic_cast<QtCodeFile*>(parent())->getErrorMessages().size() > 0)).dispatch();
 	}
 }
 

@@ -41,9 +41,6 @@ void Storage::clear()
 	m_sqliteStorage.clear();
 
 	clearCaches();
-
-	m_errorMessages.clear();
-	m_errorLocationCollection.clear();
 }
 
 void Storage::clearCaches()
@@ -96,6 +93,8 @@ void Storage::clearFileElements(const std::vector<FilePath>& filePaths)
 	{
 		m_sqliteStorage.removeElementsWithLocationInFiles(fileNodeIds);
 		m_sqliteStorage.removeFiles(fileNodeIds);
+
+		m_sqliteStorage.removeErrorsInFiles(filePaths);
 	}
 }
 
@@ -183,41 +182,12 @@ void Storage::onError(const ParseLocation& location, const std::string& message)
 		return;
 	}
 
-	bool duplicate = false;
-	TokenLocationFile* file = m_errorLocationCollection.findTokenLocationFileByPath(location.filePath);
-
-	if (file)
-	{
-		file->forEachStartTokenLocation(
-			[&](TokenLocation* loc)
-			{
-				if (loc->getLineNumber() == location.startLineNumber &&
-					loc->getColumnNumber() == location.startColumnNumber &&
-					m_errorMessages[loc->getTokenId()] == message)
-				{
-					duplicate = true;
-				}
-			}
-		);
-	}
-
-	if (!duplicate)
-	{
-		Id errorId = m_errorMessages.size();
-
-		m_errorLocationCollection.addTokenLocation(
-			getErrorCount(), errorId, location.filePath,
-			location.startLineNumber, location.startColumnNumber,
-			location.endLineNumber, location.endColumnNumber
-		);
-
-		m_errorMessages.push_back(message);
-	}
+	m_sqliteStorage.addError(message, location.filePath.str(), location.startLineNumber, location.startColumnNumber);
 }
 
 size_t Storage::getErrorCount() const
 {
-	return m_errorLocationCollection.getTokenLocationCount();
+	return m_sqliteStorage.getAllErrors().size();
 }
 
 Id Storage::onTypedefParsed(
@@ -1176,8 +1146,18 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationsForLinesInFile(
 
 TokenLocationCollection Storage::getErrorTokenLocations(std::vector<std::string>* errorMessages) const
 {
-	errorMessages->insert(errorMessages->begin(), m_errorMessages.begin(), m_errorMessages.end());
-	return m_errorLocationCollection;
+	TokenLocationCollection errorCollection;
+
+	std::vector<StorageError> errors = m_sqliteStorage.getAllErrors();
+	for (size_t i = 0; i < errors.size(); i++)
+	{
+		const StorageError& error = errors[i];
+		errorCollection.addTokenLocation(
+			i, i, error.filePath, error.lineNumber, error.columnNumber, error.lineNumber, error.columnNumber);
+		errorMessages->push_back(error.message);
+	}
+
+	return errorCollection;
 }
 
 std::shared_ptr<TokenLocationFile> Storage::getTokenLocationOfParentScope(const TokenLocation* child) const

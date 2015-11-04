@@ -3,6 +3,7 @@
 #include "utility/logging/logging.h"
 #include "utility/messaging/MessageQueue.h"
 #include "utility/messaging/type/MessageActivateNodes.h"
+#include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/TaskScheduler.h"
 #include "utility/Version.h"
@@ -114,6 +115,10 @@ void Application::handleMessage(MessageFinishedParsing* message)
 	if (message->errorCount == 0)
 	{
 		MessageRefresh().refreshUiOnly().dispatch();
+	}
+	else
+	{
+		MessageShowErrors().dispatch();
 	}
 }
 

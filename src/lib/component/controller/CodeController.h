@@ -6,9 +6,9 @@
 
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
+#include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/messaging/type/MessageShowFile.h"
 #include "utility/messaging/type/MessageShowScope.h"
 #include "utility/messaging/type/MessageShowSnippets.h"
@@ -25,9 +25,9 @@ class TokenLocationFile;
 class CodeController
 	: public Controller
 	, public MessageListener<MessageActivateTokens>
-	, public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageFocusIn>
 	, public MessageListener<MessageFocusOut>
+	, public MessageListener<MessageShowErrors>
 	, public MessageListener<MessageShowFile>
 	, public MessageListener<MessageShowScope>
 	, public MessageListener<MessageShowSnippets>
@@ -40,9 +40,9 @@ private:
 	static const uint s_lineRadius;
 
 	virtual void handleMessage(MessageActivateTokens* message);
-	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageFocusIn* message);
 	virtual void handleMessage(MessageFocusOut* message);
+	virtual void handleMessage(MessageShowErrors* message);
 	virtual void handleMessage(MessageShowFile* message);
 	virtual void handleMessage(MessageShowScope* message);
 	virtual void handleMessage(MessageShowSnippets* message);

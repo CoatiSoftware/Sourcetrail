@@ -9,10 +9,9 @@ class MessageShowFile
 	: public Message<MessageShowFile>
 {
 public:
-	MessageShowFile(const FilePath& filePath, uint startLineNumber, uint endLineNumber)
+	MessageShowFile(const FilePath& filePath, bool showErrors)
 		: filePath(filePath)
-		, startLineNumber(startLineNumber)
-		, endLineNumber(endLineNumber)
+		, showErrors(showErrors)
 	{
 	}
 
@@ -22,8 +21,7 @@ public:
 	}
 
 	const FilePath filePath;
-	const uint startLineNumber;
-	const uint endLineNumber;
+	const bool showErrors;
 };
 
 #endif // MESSAGE_SHOW_FILE_H

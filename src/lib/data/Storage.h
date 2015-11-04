@@ -203,9 +203,6 @@ private:
 	mutable std::map <FilePath, Id> m_fileNodeIds;
 	HierarchyCache m_hierarchyCache;
 
-	TokenLocationCollection m_errorLocationCollection;
-	std::vector<std::string> m_errorMessages;
-
 	mutable SearchResults m_cachedResults;
 	mutable std::string m_cachedQuery;
 };
