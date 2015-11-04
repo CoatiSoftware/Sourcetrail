@@ -687,12 +687,14 @@ Id Storage::onFileIncludeParsed(const ParseLocation& location, const FileInfo& f
 	return fileNodeId;
 }
 
-Id Storage::onMacroDefineParsed(const ParseLocation& location, const NameHierarchy& macroNameHierarchy)
-{
+Id Storage::onMacroDefineParsed(
+	const ParseLocation& location, const NameHierarchy& macroNameHierarchy, const ParseLocation& scopeLocation
+){
 	log("macro", macroNameHierarchy.getFullName(), location);
 
 	Id macroId = addNodeHierarchy(Node::NODE_MACRO, macroNameHierarchy, true);
 	addSourceLocation(macroId, location);
+	addSourceLocation(macroId, scopeLocation, true);
 
 	Id fileNodeId = getFileNodeId(location.filePath);
 	addEdge(fileNodeId, macroId, Edge::EDGE_MACRO_USAGE, location);

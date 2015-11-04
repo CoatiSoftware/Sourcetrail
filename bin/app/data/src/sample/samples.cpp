@@ -21,6 +21,7 @@ int calculate(int i)
 	return a;
 }
 
+#define PI 3.1415
 
 #define CALL_CALCULATE() \
 	do \

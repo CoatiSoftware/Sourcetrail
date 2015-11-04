@@ -88,7 +88,8 @@ void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, con
 		NameHierarchy nameHierarchy;
 		nameHierarchy.push(std::make_shared<NameElement>(macroNameToken.getIdentifierInfo()->getName().str()));
 
-		m_client->onMacroDefineParsed(getParseLocation(macroNameToken), nameHierarchy);
+		m_client->onMacroDefineParsed(
+			getParseLocation(macroNameToken), nameHierarchy, getParseLocation(macroDirective->getMacroInfo()));
 	}
 }
 
@@ -124,7 +125,7 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::Token& macroN
 	);
 }
 
-ParseLocation PreprocessorCallbacks::getParseLocation(clang::MacroInfo* macroInfo) const
+ParseLocation PreprocessorCallbacks::getParseLocation(const clang::MacroInfo* macroInfo) const
 {
 	clang::SourceLocation location = macroInfo->getDefinitionLoc();
 	clang::SourceLocation endLocation = macroInfo->getDefinitionEndLoc();

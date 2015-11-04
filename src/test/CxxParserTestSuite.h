@@ -1211,7 +1211,17 @@ public:
 						"};\n"
 		);
 		TS_ASSERT_EQUALS(client->macros.size(),1);
-		TS_ASSERT_EQUALS(client->macros[0], "PI <1:9 1:10>");
+		TS_ASSERT_EQUALS(client->macros[0], "PI <1:9 <1:9 1:10> 1:8>");
+	}
+
+	void test_cxx_parser_finds_macro_define_scope()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+				"#define MAX(a,b) \\\n"
+				"	((a)>(b)?(a):(b))"
+		);
+		TS_ASSERT_EQUALS(client->macros.size(),1);
+		TS_ASSERT_EQUALS(client->macros[0], "MAX <1:9 <1:9 1:11> 2:17>");
 	}
 
 	void test_cxx_parser_finds_macro_expand()
@@ -2784,9 +2794,10 @@ private:
 			return 0;
 		}
 
-		virtual Id onMacroDefineParsed(const ParseLocation& location, const NameHierarchy& macroNameHierarchy)
+		virtual Id onMacroDefineParsed(
+			const ParseLocation& location, const NameHierarchy& macroNameHierarchy, const ParseLocation& scopeLocation)
 		{
-			macros.push_back(addLocationSuffix(macroNameHierarchy.getFullName() ,location));
+			macros.push_back(addLocationSuffix(macroNameHierarchy.getFullName(), location, scopeLocation));
 			return 0;
 		}
 

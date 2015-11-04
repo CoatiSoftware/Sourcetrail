@@ -123,7 +123,8 @@ public:
 	virtual Id onFileIncludeParsed(
 		const ParseLocation& location, const FileInfo& fileInfo, const FileInfo& includedFileInfo);
 
-	virtual Id onMacroDefineParsed(const ParseLocation& location, const NameHierarchy& macroNameHierarchy);
+	virtual Id onMacroDefineParsed(
+		const ParseLocation& location, const NameHierarchy& macroNameHierarchy, const ParseLocation& scopeLocation);
 	virtual Id onMacroExpandParsed(const ParseLocation& location, const NameHierarchy& macroNameHierarchy);
 
 	// StorageAccess implementation

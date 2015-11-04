@@ -32,9 +32,9 @@ public:
 	);
 
 private:
-	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
 	ParseLocation getParseLocation(const clang::Token& macroNameToc) const;
-	ParseLocation getParseLocation(clang::MacroInfo* macroNameToc) const;
+	ParseLocation getParseLocation(const clang::MacroInfo* macroNameToc) const;
+	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
 
 	const clang::SourceManager& m_sourceManager;
 	ParserClient* m_client;

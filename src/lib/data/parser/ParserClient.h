@@ -141,7 +141,8 @@ public:
 		const ParseLocation& location, const FileInfo& fileInfo, const FileInfo& includedFileInfo) = 0;
 
 
-	virtual Id onMacroDefineParsed(const ParseLocation& location, const NameHierarchy& macroNameHierarchy) = 0;
+	virtual Id onMacroDefineParsed(
+		const ParseLocation& location, const NameHierarchy& macroNameHierarchy, const ParseLocation& scopeLocation) = 0;
 	virtual Id onMacroExpandParsed(
 		const ParseLocation& location, const NameHierarchy& macroNameHierarchy) = 0;
 };
