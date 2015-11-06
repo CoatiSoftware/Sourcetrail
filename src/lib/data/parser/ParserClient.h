@@ -145,6 +145,8 @@ public:
 		const ParseLocation& location, const NameHierarchy& macroNameHierarchy, const ParseLocation& scopeLocation) = 0;
 	virtual Id onMacroExpandParsed(
 		const ParseLocation& location, const NameHierarchy& macroNameHierarchy) = 0;
+
+	virtual Id onCommentParsed(const ParseLocation& location) = 0;
 };
 
 #endif // PARSER_CLIENT_H

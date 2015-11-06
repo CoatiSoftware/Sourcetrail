@@ -257,7 +257,19 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(std:
 			}
 		);
 
-		ranges = fileScopedMerger.merge();
+		std::vector<SnippetMerger::Range> atomicRanges;
+		m_storageAccess->getCommentLocationsInFile(file->getFilePath())->forEachStartTokenLocation(
+			[&](TokenLocation* location)
+			{
+				atomicRanges.push_back(SnippetMerger::Range(
+					SnippetMerger::Border(location->getLineNumber(), false),
+					SnippetMerger::Border(location->getOtherTokenLocation()->getLineNumber(), false)
+				));
+			}
+		);
+		atomicRanges = SnippetMerger::Range::mergeAdjacent(atomicRanges);
+		
+		ranges = fileScopedMerger.merge(atomicRanges);
 	}
 
 	const int snippetExpandRange = ApplicationSettings::getInstance()->getCodeSnippetExpandRange();

@@ -2,11 +2,13 @@
 
 #include "clang/Lex/Preprocessor.h"
 
+#include "data/parser/cxx/CommentHandler.h"
 #include "data/parser/cxx/PreprocessorCallbacks.h"
 
 ASTAction::ASTAction(ParserClient* client, FileRegister* fileRegister)
 	: m_client(client)
 	, m_fileRegister(fileRegister)
+	, m_commentHandler(client)
 {
 }
 
@@ -24,7 +26,7 @@ bool ASTAction::BeginSourceFileAction(clang::CompilerInstance& compiler, llvm::S
 	clang::Preprocessor& preprocessor = compiler.getPreprocessor();
 	preprocessor.addPPCallbacks(
 		llvm::make_unique<PreprocessorCallbacks>(compiler.getSourceManager(), m_client, m_fileRegister));
-
+	preprocessor.addCommentHandler(&m_commentHandler);
 	return true;
 }
 

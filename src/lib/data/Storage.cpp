@@ -713,6 +713,22 @@ Id Storage::onMacroExpandParsed(const ParseLocation &location, const NameHierarc
 	return edgeId;
 }
 
+Id Storage::onCommentParsed(const ParseLocation& location)
+{
+	log("comment", "no name", location);
+
+	Id fileNodeId = m_sqliteStorage.getFileByPath(location.filePath.str()).id;
+	Id commentId = m_sqliteStorage.addCommentLocation(
+		fileNodeId,
+		location.startLineNumber,
+		location.startColumnNumber,
+		location.endLineNumber,
+		location.endColumnNumber
+	);
+
+	return commentId;
+}
+
 Id Storage::getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const
 {
 	Id currentId = 0;
@@ -1167,7 +1183,7 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationOfParentScope(const 
 	const TokenLocation* parent = child;
 	const FilePath filePath = child->getFilePath();
 
-	std::shared_ptr<TokenLocationFile> locationFile = m_sqliteStorage.getTokenLocationsForFile(filePath);
+	std::shared_ptr<TokenLocationFile> locationFile = m_sqliteStorage.getTokenLocationsForFile(filePath); // TODO: sqlite should not know TokenLocationFile!
 	locationFile->forEachStartTokenLocation(
 		[&](TokenLocation* tokenLocation) -> void
 		{
@@ -1194,6 +1210,26 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationOfParentScope(const 
 		file->addTokenLocationAsPlainCopy(parent);
 		file->addTokenLocationAsPlainCopy(parent->getOtherTokenLocation());
 	}
+	return file;
+}
+
+std::shared_ptr<TokenLocationFile> Storage::getCommentLocationsInFile(const FilePath& filePath) const
+{
+	std::shared_ptr<TokenLocationFile> file = std::make_shared<TokenLocationFile>(filePath);
+
+	std::vector<StorageCommentLocation> storageLocations = m_sqliteStorage.getCommentLocationsInFile(filePath);
+	for (size_t i = 0; i < storageLocations.size(); i++)
+	{
+		TokenLocation* loc = file->addTokenLocation(
+			storageLocations[i].id, 
+			0, // comment token location has no element.
+			storageLocations[i].startLine, 
+			storageLocations[i].startCol, 
+			storageLocations[i].endLine, 
+			storageLocations[i].endCol
+		);
+	}
+
 	return file;
 }
 

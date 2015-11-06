@@ -8,7 +8,10 @@
 struct StorageEdge
 {
 	StorageEdge(Id id, int type, Id sourceNodeId, Id targetNodeId)
-		: id(id), type(type), sourceNodeId(sourceNodeId), targetNodeId(targetNodeId)
+		: id(id)
+		, type(type)
+		, sourceNodeId(sourceNodeId)
+		, targetNodeId(targetNodeId)
 	{}
 
 	Id id;
@@ -20,7 +23,10 @@ struct StorageEdge
 struct StorageNode
 {
 	StorageNode(Id id, int type, Id nameId, bool defined)
-		: id(id), type(type), nameId(nameId), defined(defined)
+		: id(id)
+		, type(type)
+		, nameId(nameId)
+		, defined(defined)
 	{}
 
 	Id id;
@@ -32,7 +38,10 @@ struct StorageNode
 struct StorageFile
 {
 	StorageFile(Id id, Id nameId, const std::string& filePath, const std::string& modificationTime)
-		: id(id), nameId(nameId), filePath(filePath), modificationTime(modificationTime)
+		: id(id)
+		, nameId(nameId)
+		, filePath(filePath)
+		, modificationTime(modificationTime)
 	{}
 
 	Id id;
@@ -55,8 +64,14 @@ struct StorageNameHierarchyElement
 struct StorageSourceLocation
 {
 	StorageSourceLocation(Id id, Id elementId, Id fileNodeId, int startLine, int startCol, int endLine, int endCol, bool isScope)
-		: id(id), elementId(elementId), fileNodeId(fileNodeId)
-		, startLine(startLine), startCol(startCol), endLine(endLine), endCol(endCol), isScope(isScope)
+		: id(id)
+		, elementId(elementId)
+		, fileNodeId(fileNodeId)
+		, startLine(startLine)
+		, startCol(startCol)
+		, endLine(endLine)
+		, endCol(endCol)
+		, isScope(isScope)
 	{}
 
 	Id id;
@@ -78,6 +93,25 @@ struct StorageComponentAccess
 
 	Id memberEdgeId;
 	int type;
+};
+
+struct StorageCommentLocation
+{
+	StorageCommentLocation(Id id, Id fileNodeId, int startLine, int startCol, int endLine, int endCol)
+		: id(id)
+		, fileNodeId(fileNodeId)
+		, startLine(startLine)
+		, startCol(startCol)
+		, endLine(endLine)
+		, endCol(endCol)
+	{}
+
+	Id id;
+	Id fileNodeId;
+	int startLine;
+	int startCol;
+	int endLine;
+	int endCol;
 };
 
 struct StorageError

@@ -235,6 +235,16 @@ std::shared_ptr<TokenLocationFile> StorageAccessProxy::getTokenLocationOfParentS
 	return std::make_shared<TokenLocationFile>("");
 }
 
+std::shared_ptr<TokenLocationFile> StorageAccessProxy::getCommentLocationsInFile(const FilePath& filePath) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getCommentLocationsInFile(filePath);
+	}
+
+	return std::make_shared<TokenLocationFile>("");
+}
+
 std::shared_ptr<TextAccess> StorageAccessProxy::getFileContent(const FilePath& filePath) const
 {
 	if (hasSubject())

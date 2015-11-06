@@ -22,6 +22,8 @@ add_files(
 	data/parser/cxx/ASTConsumer.h
 	data/parser/cxx/ASTVisitor.cpp
 	data/parser/cxx/ASTVisitor.h
+	data/parser/cxx/CommentHandler.cpp
+	data/parser/cxx/CommentHandler.h
 	data/parser/cxx/CxxDiagnosticConsumer.cpp
 	data/parser/cxx/CxxDiagnosticConsumer.h
 	data/parser/cxx/CxxParser.cpp

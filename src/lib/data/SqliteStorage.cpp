@@ -164,6 +164,18 @@ Id SqliteStorage::addSignature(Id nodeId, const std::string& signature)
 	return m_database.lastRowId();
 }
 
+Id SqliteStorage::addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol)
+{
+	m_database.execDML((
+		"INSERT INTO comment_location(id, file_node_id, start_line, start_column, end_line, end_column) "
+		"VALUES(NULL, "  + std::to_string(fileNodeId) + ", "
+		+ std::to_string(startLine) + ", " + std::to_string(startCol) + ", "
+		+ std::to_string(endLine) + ", " + std::to_string(endCol) + ");"
+	).c_str());
+
+	return m_database.lastRowId();
+}
+
 Id SqliteStorage::addError(const std::string& message, const std::string& filePath, uint lineNumber, uint columnNumber)
 {
 	std::string sanitizedMessage = utility::replace(message, "'", "''");
@@ -727,6 +739,36 @@ Id SqliteStorage::getNodeIdBySignature(const std::string& signature) const
 	return 0;
 }
 
+std::vector<StorageCommentLocation> SqliteStorage::getCommentLocationsInFile(const FilePath& filePath) const
+{
+	Id fileNodeId = getFileByPath(filePath.str()).id;
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT id, file_node_id, start_line, start_column, end_line, end_column FROM comment_location "
+		"WHERE file_node_id == " + std::to_string(fileNodeId) + ";"
+	).c_str());
+
+	std::vector<StorageCommentLocation> commentLocations;
+	while (!q.eof())
+	{
+		const Id id = q.getIntField(0, 0);
+		const Id fileNodeId = q.getIntField(1, 0);
+		const int startLineNumber = q.getIntField(2, -1);
+		const int startColNumber = q.getIntField(3, -1);
+		const int endLineNumber = q.getIntField(4, -1);
+		const int endColNumber = q.getIntField(5, -1);
+
+		if (id != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1)
+		{
+			commentLocations.push_back(StorageCommentLocation(
+				id, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber
+			));
+		}
+		q.nextRow();
+	}
+
+	return commentLocations;
+}
+
 std::vector<StorageError> SqliteStorage::getAllErrors() const
 {
 	CppSQLite3Query q = m_database.execQuery(
@@ -777,6 +819,7 @@ int SqliteStorage::getSourceLocationCount() const
 void SqliteStorage::clearTables()
 {
 	m_database.execDML("DROP TABLE IF EXISTS main.error;");
+	m_database.execDML("DROP TABLE IF EXISTS main.comment_location;");
 	m_database.execDML("DROP TABLE IF EXISTS main.function_signature;");
 	m_database.execDML("DROP TABLE IF EXISTS main.component_access;");
 	m_database.execDML("DROP TABLE IF EXISTS main.source_location;");
@@ -876,6 +919,18 @@ void SqliteStorage::setupTables()
 			"signature TEXT, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES node(id) ON DELETE CASCADE);"
+	);
+
+	m_database.execDML(
+		"CREATE TABLE IF NOT EXISTS comment_location("
+			"id INTEGER NOT NULL, "
+			"file_node_id INTEGER, "
+			"start_line INTEGER, "
+			"start_column INTEGER, "
+			"end_line INTEGER, "
+			"end_column INTEGER, "
+			"PRIMARY KEY(id), "
+			"FOREIGN KEY(file_node_id) REFERENCES node(id) ON DELETE CASCADE);"
 	);
 
 	m_database.execDML(
