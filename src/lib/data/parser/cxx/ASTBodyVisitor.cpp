@@ -1,5 +1,7 @@
 #include "data/parser/cxx/ASTBodyVisitor.h"
 
+#include "clang/AST/DeclCXX.h"
+
 ASTBodyVisitor::ASTBodyVisitor(ASTBodyVisitorClient* client, clang::FunctionDecl* functionDecl)
 	: m_client(client)
 	, m_functionDecl(functionDecl)
@@ -36,13 +38,30 @@ void ASTBodyVisitor::VisitChildren(clang::Stmt* stmt)
 
 void ASTBodyVisitor::VisitCallExpr(clang::CallExpr* expr)
 {
-	if (m_functionDecl)
+	bool ignore = false;
+
+	// check if lambda call
+	if (clang::isa<clang::CXXOperatorCallExpr>(expr))
 	{
-		m_client->VisitCallExprInDeclBody(m_functionDecl, expr);
+		clang::Decl* calleeDecl = expr->getCalleeDecl();
+
+		if (clang::isa<clang::CXXMethodDecl>(calleeDecl))
+		{
+			clang::CXXRecordDecl* recordDecl = clang::dyn_cast<clang::CXXMethodDecl>(calleeDecl)->getParent();
+			ignore = recordDecl->isLambda();
+		}
 	}
-	else
+
+	if (!ignore)
 	{
-		m_client->VisitCallExprInDeclBody(m_varDecl, expr);
+		if (m_functionDecl)
+		{
+			m_client->VisitCallExprInDeclBody(m_functionDecl, expr);
+		}
+		else
+		{
+			m_client->VisitCallExprInDeclBody(m_varDecl, expr);
+		}
 	}
 
 	VisitStmt(expr);

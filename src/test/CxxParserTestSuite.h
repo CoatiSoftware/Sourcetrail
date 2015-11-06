@@ -2449,6 +2449,39 @@ public:
 			"A<typename T> -> test<template<typename> typename T>::T<typename> <4:40 4:40>");
 	}
 
+	void test_cxx_parser_ignores_lambda_in_function()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"void lambdaCaller()\n"
+			"{\n"
+			"	[](){}();\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->functions.size(), 1);
+		TS_ASSERT_EQUALS(client->functions[0], "void lambdaCaller() <1:1 <1:6 1:17> 4:1>");
+		TS_ASSERT_EQUALS(client->calls.size(), 0);
+	}
+
+	void test_cxx_parser_ignores_lambda_in_function_but_still_finds_call_within()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"void func() {}\n"
+			"void lambdaCaller()\n"
+			"{\n"
+			"	[]()\n"
+			"	{\n"
+			"		func();\n"
+			"	}();\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->functions.size(), 2);
+		TS_ASSERT_EQUALS(client->functions[0], "void func() <1:1 <1:6 1:9> 1:14>");
+		TS_ASSERT_EQUALS(client->functions[1], "void lambdaCaller() <2:1 <2:6 2:17> 8:1>");
+		TS_ASSERT_EQUALS(client->calls.size(), 1);
+		TS_ASSERT_EQUALS(client->calls[0], "void lambdaCaller() -> void func() <6:3 6:8>");
+	}
 
 	void test_cxx_parser_parses_multiple_files()
 	{

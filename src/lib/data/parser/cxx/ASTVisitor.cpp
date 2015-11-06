@@ -543,20 +543,6 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 
 void ASTVisitor::VisitCallExprInDeclBody(clang::FunctionDecl* decl, clang::CallExpr* expr)
 {
-	// if (clang::FunctionDecl *CalleeDecl = CE->getDirectCallee())
-	// {
-	// 	return CalleeDecl;
-	// }
-
-	// clang::Expr *CEE = CE->getCallee()->IgnoreParenImpCasts();
-	// if (clang::BlockExpr *Block = clang::dyn_cast<clang::BlockExpr>(CEE))
-	// {
-	// 	NumBlockCallEdges++;
-	// 	return Block->getBlockDecl();
-	// }
-
-	// return nullptr;
-
 	if (!expr->getDirectCallee())
 	{
 		// TODO: Save error at location.

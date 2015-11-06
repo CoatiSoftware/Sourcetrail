@@ -19,7 +19,7 @@ public:
 		template <template<class, class> class ContainerType>
 		static ContainerType<Range, std::allocator<Range>> mergeAdjacent(ContainerType<Range, std::allocator<Range>> ranges, int rowDifference = 1)
 		{
-			for (size_t i = 0; i < ranges.size() - 1; i++)
+			for (size_t i = 0; i + 1 < ranges.size(); i++)
 			{
 				const Range first = ranges[i];
 				const Range second = ranges[i + 1];
