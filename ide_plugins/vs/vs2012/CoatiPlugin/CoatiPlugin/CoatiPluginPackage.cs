@@ -88,6 +88,8 @@ namespace SnowForest.CoatiPlugin
                 if (FileUtility.OpenSourceFile(dte, cursorPosition.FilePath))
                 {
                     FileUtility.GoToLine(dte, cursorPosition.LineNumber, cursorPosition.ColumnNumber);
+
+                    SystemUtility.GetWindowFocus();
                 }
             }
         }
