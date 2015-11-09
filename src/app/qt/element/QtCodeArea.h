@@ -44,10 +44,10 @@ public:
 		LineNumberArea(QtCodeArea *codeArea);
 		virtual ~LineNumberArea();
 
-		QSize sizeHint() const;
+		QSize sizeHint() const Q_DECL_OVERRIDE;
 
 	protected:
-		virtual void paintEvent(QPaintEvent* event);
+		virtual void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
 
 	private:
 		QtCodeArea *m_codeArea;
@@ -62,7 +62,7 @@ public:
 	);
 	virtual ~QtCodeArea();
 
-	virtual QSize sizeHint() const;
+	virtual QSize sizeHint() const Q_DECL_OVERRIDE;
 
 	uint getStartLineNumber() const;
 	uint getEndLineNumber() const;
@@ -79,15 +79,15 @@ public:
 	bool isActive() const;
 
 protected:
-	virtual void resizeEvent(QResizeEvent *event);
-	virtual void showEvent(QShowEvent* event);
-	virtual void paintEvent(QPaintEvent* event);
-	virtual void enterEvent(QEvent* event);
-	virtual void leaveEvent(QEvent* event);
-	virtual void mouseReleaseEvent(QMouseEvent* event);
-	virtual void mouseDoubleClickEvent(QMouseEvent* event);
-	virtual void mousePressEvent(QMouseEvent* event);
-	virtual void mouseMoveEvent(QMouseEvent* event);
+	virtual void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+	virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
+	virtual void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
+	virtual void enterEvent(QEvent* event) Q_DECL_OVERRIDE;
+	virtual void leaveEvent(QEvent* event) Q_DECL_OVERRIDE;
+	virtual void mouseReleaseEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
+	virtual void mouseDoubleClickEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
+	virtual void mousePressEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
+	virtual void mouseMoveEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
 
 	virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
 
