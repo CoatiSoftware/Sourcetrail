@@ -18,4 +18,10 @@ then
 	exit 1
 fi
 
+if [ $BRANCH_NAME == "public_beta" ]
+then
+	echo -e $ABORT "Commiting to public_beta is prohibited."
+	exit 1
+fi
+
 exit 0
