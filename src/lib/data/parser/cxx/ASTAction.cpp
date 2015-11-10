@@ -8,7 +8,7 @@
 ASTAction::ASTAction(ParserClient* client, FileRegister* fileRegister)
 	: m_client(client)
 	, m_fileRegister(fileRegister)
-	, m_commentHandler(client)
+	, m_commentHandler(client, fileRegister)
 {
 }
 

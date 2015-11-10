@@ -45,7 +45,7 @@ void ASTBodyVisitor::VisitCallExpr(clang::CallExpr* expr)
 	{
 		clang::Decl* calleeDecl = expr->getCalleeDecl();
 
-		if (clang::isa<clang::CXXMethodDecl>(calleeDecl))
+		if (calleeDecl && clang::isa<clang::CXXMethodDecl>(calleeDecl))
 		{
 			clang::CXXRecordDecl* recordDecl = clang::dyn_cast<clang::CXXMethodDecl>(calleeDecl)->getParent();
 			ignore = recordDecl->isLambda();
