@@ -107,6 +107,8 @@ add_files(
 	qt/window/QtAboutLicense.h
 	qt/window/QtApplicationSettingsScreen.cpp
 	qt/window/QtApplicationSettingsScreen.h
+    qt/window/QtLicense.cpp
+    qt/window/QtLicense.h
 	qt/window/QtMainWindow.cpp
 	qt/window/QtMainWindow.h
 	qt/window/QtProjectSetupScreen.cpp

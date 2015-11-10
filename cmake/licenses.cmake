@@ -26,6 +26,7 @@ AddLicense("Boost" "http://www.boost.org" "${LICENSEFOLDER}/boost_LICENSE.TXT" f
 AddLicense("TinyXMl" "http://www.grinninglizard.com/tinyxml2/" "${LICENSEFOLDER}/tinyxml_LICENSE.TXT" false)
 AddLicense("CppSQLite" "http://www.codeproject.com/Articles/6343/CppSQLite-C-Wrapper-for-SQLite" "${LICENSEFOLDER}/CppSQLite_LICENSE.TXT" false)
 AddLicense("Eigen" "http://eigen.tuxfamily.org" "${LICENSEFOLDER}/eigen_LICENSE.TXT" false)
+AddLicense("Botan" "http://botan.randombit.net/" "${LICENSEFOLDER}/botan_LICENSE.TXT" true)
 
 set(LICENSE_ARRAY "${LICENSE_ARRAY}\n")
 

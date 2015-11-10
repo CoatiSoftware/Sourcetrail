@@ -16,6 +16,7 @@ add_files(
 	FileManagerTestSuite.h
 	FilePathTestSuite.h
 	FileSystemTestSuite.h
+	GeneratorTestSuite.h
 	GraphTestSuite.h
 	LogManagerTestSuite.h
 	MatrixBaseTestSuite.h

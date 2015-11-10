@@ -338,6 +338,20 @@ void QtMainWindow::showLicenses()
 	pushWindow(m_licenseWindow.get());
 }
 
+void QtMainWindow::enterLicense()
+{
+	if (!m_enterLicenseWindow)
+	{
+		m_enterLicenseWindow = std::make_shared<QtLicense>(this);
+		m_enterLicenseWindow->setup();
+
+		connect(m_enterLicenseWindow.get(), SIGNAL(finished()), this, SLOT(popWindow()));
+		connect(m_enterLicenseWindow.get(), SIGNAL(canceled()), this, SLOT(popWindow()));
+	}
+
+	pushWindow(m_enterLicenseWindow)
+}
+
 void QtMainWindow::showStartScreen()
 {
 	if (!m_startScreen)
@@ -625,10 +639,11 @@ void QtMainWindow::setupHelpMenu()
 
 	menu->addAction(tr("&About"), this, SLOT(about()));
 	menu->addAction(tr("Licences"), this, SLOT(showLicenses()));
+
 	if(!isTrial())
 	{
+		menu->addAction(tr("Enter License..."), this, SLOT(enterLicense()));
 		menu->addAction(tr("Preferences..."), this, SLOT(openSettings()));
-		//Todo: Enter License Window
 	}
 }
 

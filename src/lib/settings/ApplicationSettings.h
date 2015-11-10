@@ -63,6 +63,13 @@ public:
 	int getControlsMouseBackButton() const;
 	int getControlsMouseForwardButton() const;
 
+	// license
+	std::string getLicenseString() const;
+	void setLicenseString(const std::string& licenseString);
+
+	std::string getLicenseCheck() const;
+	void setLicenseCheck(const std::string& hash);
+
 private:
 	ApplicationSettings();
 	ApplicationSettings(const ApplicationSettings&);

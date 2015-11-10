@@ -1,0 +1,10 @@
+#ifndef PUBLIC_KEY_H
+#define PUBLIC_KEY_H
+
+// This File(PublicKey.h) is generated with CMake 
+
+#include <string>
+
+static const std::string PublicKey = "@KEY@";
+
+#endif //PUBLIC_KEY_H

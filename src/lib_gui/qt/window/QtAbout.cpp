@@ -95,12 +95,7 @@ void QtAbout::setup()
 	closeButton->setObjectName("closeButton");
 	closeButton->move(320, 20);
 
-	connect(closeButton, SIGNAL(clicked()), this, SLOT(handleCloseButtonPress()));
-}
-
-void QtAbout::handleCloseButtonPress()
-{
-	emit finished();
+	connect(closeButton, SIGNAL(clicked()), this, SLOT(handleUpdateButtonPress()));
 }
 
 void QtAbout::handleCancelButtonPress()
@@ -109,4 +104,5 @@ void QtAbout::handleCancelButtonPress()
 
 void QtAbout::handleUpdateButtonPress()
 {
+	emit finished();
 }

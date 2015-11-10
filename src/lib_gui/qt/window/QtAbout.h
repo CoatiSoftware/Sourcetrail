@@ -18,8 +18,6 @@ public:
 	virtual void setup() override;
 
 private slots:
-	void handleCloseButtonPress();
-
 	void handleCancelButtonPress();
 	void handleUpdateButtonPress();
 };

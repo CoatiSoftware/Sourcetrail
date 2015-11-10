@@ -32,6 +32,8 @@ echo -e $INFO "create build folders"
 mkdir -p build
 mkdir -p bin/app/Debug
 mkdir -p bin/app/Release
+mkdir -p bin/gen/Debug
+mkdir -p bin/gen/Release
 mkdir -p bin/lib/Debug
 mkdir -p bin/lib/Release
 mkdir -p bin/test/Debug

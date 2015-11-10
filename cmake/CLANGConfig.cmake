@@ -8,7 +8,6 @@ else()
 	set(CLANG_BUILD_PATH "$ENV{CLANG_DIR}/build")
 endif()
 
-
 execute_process(
 	COMMAND ${CLANG_BUILD_PATH}/bin/llvm-config --cxxflags
 	OUTPUT_VARIABLE CLANG_DEFINITIONS

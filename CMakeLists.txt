@@ -44,9 +44,9 @@ project(${PROJECT_NAME})
 
 if (UNIX)
 	if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
-		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_release/share/llvm/cmake")
+		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_release/share/llvm/cmake" NO_DEFAULT_PATH)
 	else()
-		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_debug/share/llvm/cmake")
+		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_debug/share/llvm/cmake" NO_DEFAULT_PATH)
 	endif()
 else()
 	find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build/share/llvm/cmake")
@@ -71,6 +71,38 @@ find_package(Boost 1.59 COMPONENTS system filesystem date_time REQUIRED)
 
 add_definitions(-DEIGEN_MPL2_ONLY)
 set(EIGEN_ROOT $ENV{EIGEN_DIR})
+
+# Botan -------------------------------------------------------------------------
+
+include(cmake/BotanConfig.cmake)
+
+set(BOTAN_ROOT ${BOTAN_DIR})
+
+FIND_PACKAGE ( Threads REQUIRED )
+
+add_library(BOTAN STATIC ${BOTAN_ROOT}/botan_all.cpp)
+
+target_link_libraries(BOTAN ${CMAKE_THREAD_LIBS_INIT})
+target_compile_options(BOTAN PUBLIC "-pthread")
+
+set_property(
+	TARGET BOTAN
+	PROPERTY INCLUDE_DIRECTORIES
+		"${BOTAN_ROOT}"
+)
+
+# set(BOTAN_MODULES "base,ecdsa,emsa1,passhash9,rng,rsa,egd,emsa_pssr,emsa_pkcs1,x509,aes,dev_random")
+
+# ExternalProject_Add(BOTAN
+# 	PREFIX $ENV{COATI_DEPEND_DIR}/botan
+# 	GIT_REPOSITORY https://github.com/randombit/botan.git/
+# 	GIT_TAG 1.11.23
+# 	CONFIGURE_COMMAND ./configure.py --gen-amalgamation --minimized-build --enable-modules=${BOTAN_MODULES}
+
+# 	)
+
+# license/key generator and license class include
+add_subdirectory(src/gen)
 
 # Lib --------------------------------------------------------------------------
 
@@ -108,6 +140,7 @@ target_include_directories(${LIB_PROJECT_NAME} SYSTEM
 	${Boost_INCLUDE_DIRS}
 	${EIGEN_ROOT}
     "${CMAKE_SOURCE_DIR}/src/external"
+	"${BOTAN_ROOT}"
 )
 
 target_link_libraries(${LIB_PROJECT_NAME} ${Boost_LIBRARIES})
@@ -246,7 +279,8 @@ if (WIN32)
 		"// remains consistent on all systems.\n"
 		"IDI_ICON1               ICON                    \"${CMAKE_SOURCE_DIR}/build/coati.ico\"\n"
 	)
-	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc)
+
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CLANG_FILES} ${GEN_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc ${CMAKE_SOURCE_DIR}/build/src/app/version.h)
 
 	# hide the console when running a release build.
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE")
@@ -255,14 +289,13 @@ if (WIN32)
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS_RELWITHDEBINFO "_CONSOLE")
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "/ENTRY:\"mainCRTStartup\" /SUBSYSTEM:WINDOWS")
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
-
 else ()
-	add_executable(${APP_PROJECT_NAME} ${APP_FILES})
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${GEN_FILES} ${CMAKE_SOURCE_DIR}/build/src/app/version.h)
 endif ()
 
 create_source_groups(${APP_FILES})
 
-target_link_libraries(${APP_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME} )
+target_link_libraries(${APP_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME} BOTAN)
 
 set_property(
 	TARGET ${APP_PROJECT_NAME}
@@ -272,6 +305,9 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/lib_gui"
 		"${CMAKE_SOURCE_DIR}/src/lib_parser"
 		"${CMAKE_SOURCE_DIR}/build/src/lib_gui"
+		"${CMAKE_SOURCE_DIR}/src/gen"
+		"${CMAKE_SOURCE_DIR}/build/src/app"
+		"${BOTAN_ROOT}"
 )
 
 target_include_directories(${APP_PROJECT_NAME} SYSTEM
@@ -340,6 +376,15 @@ target_include_directories(${TRIAL_PROJECT_NAME} SYSTEM
 		PUBLIC ${Boost_INCLUDE_DIRS}
 )
 
+# configure public key for the coati version
+include(cmake/publicKey.cmake)
+
+#configure the versioning file
+configure_file(
+  ${CMAKE_SOURCE_DIR}/src/app/version.h.in
+  ${CMAKE_SOURCE_DIR}/build/src/app/version.h
+)
+
 # Use the Widgets module from Qt 5.
 qt5_use_modules(${TRIAL_PROJECT_NAME} Widgets)
 qt5_use_modules(${TRIAL_PROJECT_NAME} Network)
@@ -394,6 +439,46 @@ if (APPLE)
 
 endif ()
 
+# Key/LicenseGenerator  --------------------------------------------------------
+
+set(BOOST_ROOT $ENV{BOOST_159_DIR})
+set(Boost_USE_STATIC_LIBS ON)
+set(Boost_USE_STATIC_RUNTIME ON)
+Set(Boost_NO_SYSTEM_PATHS ON)
+
+find_package(Boost 1.59 COMPONENTS system program_options filesystem REQUIRED)
+
+set(GEN_PROJECT_NAME "${PROJECT_NAME}_keygen")
+
+create_source_groups(${GEN_FILES})
+
+if (UNIX)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/gen/${CMAKE_BUILD_TYPE})
+else ()
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/gen/)
+endif ()
+
+add_executable(${GEN_PROJECT_NAME} "${CMAKE_SOURCE_DIR}/src/gen/gen.cpp" ${GEN_FILES})
+
+set_target_properties(
+		${GEN_PROJECT_NAME}
+		PROPERTIES
+		DEBUG_OUTPUT_NAME ${GEN_PROJECT_NAME}_d
+		RELEASE_OUTPUT_NAME ${GEN_PROJECT_NAME}
+)
+
+set_property(
+		TARGET ${GEN_PROJECT_NAME}
+		PROPERTY INCLUDE_DIRECTORIES
+		"${CMAKE_SOURCE_DIR}/src/gen"
+)
+
+target_include_directories(${GEN_PROJECT_NAME} SYSTEM
+		PUBLIC "${BOTAN_ROOT}"
+)
+
+target_link_libraries(${GEN_PROJECT_NAME} BOTAN ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES} )
+
 # CxxTest ----------------------------------------------------------------------
 
 if (UNIX)
@@ -410,11 +495,11 @@ set(TESTGEN_FILE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp)
 
 find_package(PythonInterp REQUIRED)
 
-add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE} ${TEST_FILES})
+add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE} ${TEST_FILES} ${GEN_FILES})
 
 create_source_groups(${TEST_FILES})
 
-target_link_libraries(${TEST_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME})
+target_link_libraries(${TEST_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME} BOTAN)
 
 find_package(CxxTest)
 if (CXXTEST_FOUND)
@@ -423,6 +508,8 @@ if (CXXTEST_FOUND)
 		PROPERTY INCLUDE_DIRECTORIES
 			"${CMAKE_SOURCE_DIR}/src/lib"
 			"${CMAKE_SOURCE_DIR}/src/lib_parser"
+            "${CMAKE_SOURCE_DIR}/src/gen"
+            "${BOTAN_ROOT}"
 			"${CXXTEST_INCLUDE_DIR}"
 			"${CMAKE_SOURCE_DIR}/src/external"
 			${Boost_INCLUDE_DIRS}
@@ -459,7 +546,6 @@ elseif (UNIX)
 	add_dependencies(${TEST_PROJECT_NAME} gen)
 
 endif ()
-
 
 # Visual Leak Detector ---------------------------------------------------------
 

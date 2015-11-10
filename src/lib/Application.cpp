@@ -22,7 +22,6 @@ std::shared_ptr<Application> Application::create(
 	const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory
 ){
 	Version::setApplicationVersion(version);
-
 	loadSettings();
 
 	std::shared_ptr<Application> ptr(new Application());

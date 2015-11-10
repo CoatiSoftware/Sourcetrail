@@ -25,8 +25,11 @@
 
 .DS_Store
 .idea
+
 /ide_plugins/vs/vs2012/CoatiPlugin/CoatiPlugin/bin
 /ide_plugins/vs/vs2012/CoatiPlugin/CoatiPlugin/obj
+
+.clang_complete
 
 *.coatidb
 
@@ -48,5 +51,6 @@
 /deployment/windows/CoatiSetup/SetupRemoveCacheFiles/obj/
 
 *.sqlite
+*.pch
 *.swp
 .clang_complete

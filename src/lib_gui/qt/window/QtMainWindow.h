@@ -13,6 +13,7 @@
 #include "qt/window/QtProjectSetupScreen.h"
 #include "qt/window/QtAboutLicense.h"
 #include "qt/window/QtAbout.h"
+#include "qt/window/QtLicense.h"
 
 class QDockWidget;
 class View;
@@ -94,6 +95,7 @@ public slots:
 	void about();
 	void openSettings();
 	void showLicenses();
+	void enterLicense();
 
 	void showStartScreen();
 	void newProject();
@@ -108,7 +110,6 @@ public slots:
 
 	void saveProject();
 	void saveAsProject();
-
 
 	void undo();
 	void redo();
@@ -161,6 +162,7 @@ private:
 	std::shared_ptr<QtProjectSetupScreen> m_newProjectDialog;
 	std::shared_ptr<QtAboutLicense> m_licenseWindow;
 	std::shared_ptr<QtAbout> m_aboutWindow;
+	std::shared_ptr<QtLicense> m_enterLicenseWindow;
 
 	std::vector<QWidget*> m_windowStack;
 
