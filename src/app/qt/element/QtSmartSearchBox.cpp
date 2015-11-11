@@ -397,8 +397,11 @@ void QtSmartSearchBox::onTextEdited(const QString& text)
 
 	if (match.nameHierarchy.size() && !m_allowMultipleElements)
 	{
+		if (m_matches.size())
+		{
+			matchesChanged = true;
+		}
 		clearMatches();
-		matchesChanged = true;
 	}
 
 	if (matchesChanged)
