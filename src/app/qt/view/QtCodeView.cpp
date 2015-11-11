@@ -3,6 +3,7 @@
 #include "utility/file/FileSystem.h"
 #include "qt/utility/utilityQt.h"
 
+#include "qt/element/QtCodeArea.h"
 #include "qt/element/QtCodeFileList.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "settings/ColorScheme.h"
@@ -83,6 +84,7 @@ void QtCodeView::doRefreshView()
 {
 	setStyleSheet();
 	m_widget->clearCodeSnippets();
+	QtCodeArea::clearAnnotationColors();
 }
 
 void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets)

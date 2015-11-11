@@ -140,6 +140,11 @@ bool QtCodeSnippet::isActive() const
 	return m_codeArea->isActive();
 }
 
+void QtCodeSnippet::setIsActiveFile(bool isActiveFile)
+{
+	m_codeArea->setIsActiveFile(isActiveFile);
+}
+
 void QtCodeSnippet::contextMenuEvent(QContextMenuEvent* event)
 {
 	QMenu menu(this);

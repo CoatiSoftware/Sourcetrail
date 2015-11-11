@@ -42,6 +42,8 @@ public:
 
 	bool isActive() const;
 
+	void setIsActiveFile(bool isActiveFile);
+
 protected:
 	virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
 

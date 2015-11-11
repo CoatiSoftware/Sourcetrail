@@ -160,6 +160,10 @@ void QtCodeFile::addCodeSnippet(
 		snippet->setProperty("isLast", true);
 
 		m_fileSnippet = snippet;
+		if (!m_snippets.size())
+		{
+			m_fileSnippet->setIsActiveFile(true);
+		}
 
 		clickedMaximizeButton();
 		if (refCount != -1)

@@ -62,7 +62,7 @@
 		</file>
 
 		<snippet>
-			<background>transparent</background>
+			<background>white</background>
 
 			<title>
 				<text>#A0A0A0</text>
@@ -72,7 +72,7 @@
 
 			<line_number>
 				<text>black</text>
-				<background>transparent</background>
+				<background>white</background>
 			</line_number>
 
 			<syntax>
@@ -86,20 +86,50 @@
 				<function>#CC9533</function>
 			</syntax>
 
-			<highlight>
+			<selection>
 				<location>
-					<normal>#90EBEBEB</normal>
-					<hover>#90B6D1DD</hover>
+					<normal>
+						<border>transparent</border>
+						<fill>transparent</fill>
+					</normal>
+					<focus>
+						<border>#B2B2B2</border>
+						<fill>transparent</fill>
+					</focus>
+					<active>
+						<border>#B2B2B2</border>
+						<fill>#EDEDED</fill>
+					</active>
 				</location>
 				<scope>
-					<normal>#60E4EEF2</normal>
-					<hover>#90E4EEF2</hover>
+					<normal>
+						<border>transparent</border>
+						<fill>transparent</fill>
+					</normal>
+					<focus>
+						<border>transparent</border>
+						<fill>transparent</fill>
+					</focus>
+					<active>
+						<border>transparent</border>
+						<fill>transparent</fill>
+					</active>
 				</scope>
 				<error>
-					<normal>#80FF0000</normal>
-					<hover>#FFFF0000</hover>
+					<normal>
+						<border>transparent</border>
+						<fill>#80FF0000</fill>
+					</normal>
+					<focus>
+						<border>transparent</border>
+						<fill>#FFFF0000</fill>
+					</focus>
+					<active>
+						<border>transparent</border>
+						<fill>#FFFF0000</fill>
+					</active>
 				</error>
-			</highlight>
+			</selection>
 		</snippet>
 	</code>
 

@@ -1,8 +1,9 @@
 #ifndef QT_CODE_AREA_H
 #define QT_CODE_AREA_H
 
-#include <vector>
 #include <memory>
+#include <set>
+#include <vector>
 
 #include <QPlainTextEdit>
 
@@ -53,6 +54,8 @@ public:
 		QtCodeArea *m_codeArea;
 	};
 
+	static void clearAnnotationColors();
+
 	QtCodeArea(
 		uint startLineNumber,
 		const std::string& code,
@@ -78,6 +81,8 @@ public:
 
 	bool isActive() const;
 
+	void setIsActiveFile(bool isActiveFile);
+
 protected:
 	virtual void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 	virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
@@ -100,22 +105,29 @@ private slots:
 private:
 	struct Annotation
 	{
-		int start;
-		int end;
-		Id tokenId;
-		Id locationId;
-		bool isScope;
-	};
-
-	struct ScopeAnnotation
-	{
-		ScopeAnnotation();
-		bool operator!=(const ScopeAnnotation& other) const;
-
 		int startLine;
 		int endLine;
+
+		int startCol;
+		int endCol;
+
+		int start;
+		int end;
+
 		Id tokenId;
+		Id locationId;
+
+		bool isScope;
+		bool isError;
+
+		bool isActive;
 		bool isFocused;
+	};
+
+	struct AnnotationColor
+	{
+		std::string border;
+		std::string fill;
 	};
 
 	const Annotation* findAnnotationForPosition(int pos) const;
@@ -126,14 +138,19 @@ private:
 
 	void setHoveredAnnotation(const Annotation* annotation);
 
-	bool locationBelongsToSnippet(TokenLocation* location) const;
-
 	int toTextEditPosition(int lineNumber, int columnNumber) const;
 	std::pair<int, int> toLineColumn(int textEditPosition) const;
 	int startTextEditPosition() const;
 	int endTextEditPosition() const;
 
+	std::set<int> getActiveLineNumbers() const;
+	std::vector<QRect> getCursorRectsForAnnotation(const Annotation& annotation) const;
+
+	const AnnotationColor& getAnnotationColorForAnnotation(const Annotation& annotation);
+
 	void createActions();
+
+	static std::vector<AnnotationColor> s_annotationColors;
 
 	QtCodeFile* m_fileWidget;
 
@@ -145,7 +162,6 @@ private:
 	std::shared_ptr<TokenLocationFile> m_locationFile;
 
 	std::vector<Annotation> m_annotations;
-	std::vector<ScopeAnnotation> m_scopeAnnotations;
 
 	const Annotation* m_hoveredAnnotation;
 	std::vector<Id> m_hoveredLocationIds;
@@ -155,7 +171,9 @@ private:
 
 	QAction* m_setIDECursorPositionAction;
 	QPoint m_eventPosition; // is needed for IDE cursor control via context menu
-							// the position where the context menu is opened needs to be stored
+							// the position where the context menu is opened needs to be stored]
+
+	bool m_isActiveFile;
 };
 
 #endif // QT_CODE_AREA_H

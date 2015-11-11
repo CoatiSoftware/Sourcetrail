@@ -24,6 +24,8 @@
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
 
+std::vector<QtCodeArea::AnnotationColor> QtCodeArea::s_annotationColors;
+
 MouseWheelOverScrollbarFilter::MouseWheelOverScrollbarFilter(QObject* parent)
 	: QObject(parent)
 {
@@ -70,6 +72,10 @@ void QtCodeArea::LineNumberArea::paintEvent(QPaintEvent *event)
 	m_codeArea->lineNumberAreaPaintEvent(event);
 }
 
+void QtCodeArea::clearAnnotationColors()
+{
+	s_annotationColors.clear();
+}
 
 QtCodeArea::QtCodeArea(
 	uint startLineNumber,
@@ -87,6 +93,7 @@ QtCodeArea::QtCodeArea(
 	, m_panningValue(-1)
 	, m_setIDECursorPositionAction(nullptr)
 	, m_eventPosition(0, 0)
+	, m_isActiveFile(false)
 {
 	setObjectName("code_area");
 	setReadOnly(true);
@@ -174,12 +181,23 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 	int top = static_cast<int>(blockBoundingGeometry(block).translated(contentOffset()).top());
 	int bottom = top + static_cast<int>(blockBoundingRect(block).height());
 
+	std::set<int> activeLineNumbers = getActiveLineNumbers();
+
+	ColorScheme* scheme = ColorScheme::getInstance().get();
+	QColor backgroundColor(scheme->getColor("code/snippet/line_number/background").c_str());
+	backgroundColor.setAlpha(150);
+
 	while (block.isValid() && top <= event->rect().bottom())
 	{
 		if (block.isVisible() && bottom >= event->rect().top())
 		{
-			QString number = QString::number(blockNumber + m_startLineNumber);
-			painter.drawText(0, top, m_lineNumberArea->width() - 13, fontMetrics().height(), Qt::AlignRight, number);
+			int number = blockNumber + m_startLineNumber;
+			painter.drawText(0, top, m_lineNumberArea->width() - 13, fontMetrics().height(), Qt::AlignRight, QString::number(number));
+
+			if (!m_isActiveFile && activeLineNumbers.find(number) == activeLineNumbers.end())
+			{
+				painter.fillRect(0, top, m_lineNumberArea->width(), fontMetrics().height(), backgroundColor);
+			}
 		}
 
 		block = block.next();
@@ -226,6 +244,11 @@ bool QtCodeArea::isActive() const
 	return false;
 }
 
+void QtCodeArea::setIsActiveFile(bool isActiveFile)
+{
+	m_isActiveFile = isActiveFile;
+}
+
 void QtCodeArea::resizeEvent(QResizeEvent *e)
 {
 	QPlainTextEdit::resizeEvent(e);
@@ -249,22 +272,50 @@ void QtCodeArea::paintEvent(QPaintEvent* event)
 	QTextBlock block = firstVisibleBlock();
 	int top = blockBoundingGeometry(block).translated(contentOffset()).top();
 	int blockHeight = blockBoundingRect(block).height();
+	int borderRadius = 3;
 
-	ColorScheme* scheme = ColorScheme::getInstance().get();
-
-	QColor scopeColor(scheme->getColor("code/snippet/highlight/scope/normal").c_str());
-	QColor activeScopeColor(scheme->getColor("code/snippet/highlight/scope/hover").c_str());
-
-	for (const ScopeAnnotation& scope : m_scopeAnnotations)
+	for (const Annotation& annotation : m_annotations)
 	{
-		painter.fillRect(
-			0, top + scope.startLine * blockHeight,
-			width(), (scope.endLine - scope.startLine + 1) * blockHeight,
-			(scope.isFocused || scope.startLine == scope.endLine) ? activeScopeColor : scopeColor
-		);
+		const AnnotationColor& color = getAnnotationColorForAnnotation(annotation);
+
+		painter.setPen(QPen(color.border.c_str()));
+		painter.setBrush(QBrush(color.fill.c_str()));
+
+		if (annotation.isScope)
+		{
+			painter.drawRoundedRect(
+				0, top + (annotation.startLine - m_startLineNumber) * blockHeight,
+				width(), (annotation.endLine - annotation.startLine + 1) * blockHeight,
+				borderRadius, borderRadius
+			);
+		}
+		else
+		{
+			std::vector<QRect> rects = getCursorRectsForAnnotation(annotation);
+			for (QRect rect : rects)
+			{
+				rect.adjust(-1, 0, 1, 1);
+				painter.drawRoundedRect(rect, borderRadius, borderRadius);
+			}
+		}
 	}
 
 	QPlainTextEdit::paintEvent(event);
+
+	QPainter painter2(viewport());
+	std::set<int> activeLineNumbers = getActiveLineNumbers();
+
+	ColorScheme* scheme = ColorScheme::getInstance().get();
+	QColor backgroundColor(scheme->getColor("code/snippet/background").c_str());
+	backgroundColor.setAlpha(75);
+
+	for (int i = 0; i < document()->blockCount(); i++)
+	{
+		if (!m_isActiveFile && activeLineNumbers.find(i + m_startLineNumber) == activeLineNumbers.end())
+		{
+			painter.fillRect(0, top + i * blockHeight, width(), blockHeight, backgroundColor);
+		}
+	}
 }
 
 void QtCodeArea::enterEvent(QEvent* event)
@@ -407,19 +458,6 @@ void QtCodeArea::setIDECursorPosition()
 	MessageMoveIDECursor(m_locationFile->getFilePath().str(), lineColumn.first, lineColumn.second).dispatch();
 }
 
-QtCodeArea::ScopeAnnotation::ScopeAnnotation()
-	: startLine(0)
-	, endLine(0)
-	, tokenId(0)
-	, isFocused(false)
-{
-}
-
-bool QtCodeArea::ScopeAnnotation::operator!=(const ScopeAnnotation& other) const
-{
-	return (startLine != other.startLine || endLine != other.endLine || tokenId != other.tokenId || isFocused != other.isFocused);
-}
-
 const QtCodeArea::Annotation* QtCodeArea::findAnnotationForPosition(int pos) const
 {
 	const Annotation* annotationPtr = nullptr;
@@ -468,10 +506,14 @@ void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFi
 				if (startLocation->getLineNumber() < m_startLineNumber)
 				{
 					annotation.start = startTextEditPosition();
+					annotation.startLine = m_startLineNumber;
+					annotation.startCol = 0;
 				}
 				else
 				{
 					annotation.start = toTextEditPosition(startLocation->getLineNumber(), startLocation->getColumnNumber() - 1);
+					annotation.startLine = startLocation->getLineNumber();
+					annotation.startCol = startLocation->getColumnNumber() - 1;
 				}
 			}
 			else
@@ -485,10 +527,14 @@ void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFi
 				if (endLocation->getLineNumber() > endLineNumber)
 				{
 					annotation.end = endTextEditPosition();
+					annotation.endLine = endLineNumber;
+					annotation.endCol = document()->findBlockByLineNumber(document()->blockCount() - 1).length();
 				}
 				else
 				{
 					annotation.end = toTextEditPosition(endLocation->getLineNumber(), endLocation->getColumnNumber());
+					annotation.endLine = endLocation->getLineNumber();
+					annotation.endCol = endLocation->getColumnNumber();
 				}
 			}
 			else
@@ -498,7 +544,13 @@ void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFi
 
 			annotation.tokenId = startLocation->getTokenId();
 			annotation.locationId = startLocation->getId();
+
 			annotation.isScope = (startLocation->getType() == TokenLocation::LOCATION_SCOPE);
+			annotation.isError = false;
+
+			annotation.isActive = false;
+			annotation.isFocused = false;
+
 			m_annotations.push_back(annotation);
 		}
 	);
@@ -509,98 +561,29 @@ void QtCodeArea::annotateText()
 	Id focusedTokenId = m_fileWidget->getFocusedTokenId();
 	const std::vector<Id>& activeIds = m_fileWidget->getActiveTokenIds();
 	const std::vector<Id>& hoverIds = m_hoveredLocationIds;
-	const std::vector<std::string>& errorMessages = m_fileWidget->getErrorMessages();
-
-	std::vector<ScopeAnnotation> scopeAnnotations;
-
-	ColorScheme* scheme = ColorScheme::getInstance().get();
-
-	QColor locationColor(scheme->getColor("code/snippet/highlight/location/normal").c_str());
-	QColor activeLocationColor(scheme->getColor("code/snippet/highlight/location/hover").c_str());
-
-	QColor errorColor(scheme->getColor("code/snippet/highlight/error/normal").c_str());
-	QColor activeErrorColor(scheme->getColor("code/snippet/highlight/error/hover").c_str());
-
-	QList<QTextEdit::ExtraSelection> extraSelections;
-
-	for (const Annotation& annotation: m_annotations)
-	{
-		bool isActive = std::find(activeIds.begin(), activeIds.end(), annotation.tokenId) != activeIds.end();
-		bool isHovered = std::find(hoverIds.begin(), hoverIds.end(), annotation.locationId) != hoverIds.end();
-		bool isFocused = (annotation.tokenId == focusedTokenId);
-
-		QColor color;
-		if (isHovered && errorMessages.size())
-		{
-			color = activeErrorColor;
-		}
-		else if (errorMessages.size())
-		{
-			color = errorColor;
-		}
-		else if (isActive || isFocused || isHovered)
-		{
-			color = activeLocationColor;
-		}
-		else
-		{
-			color = locationColor;
-		}
-
-		QTextEdit::ExtraSelection selection;
-		selection.format.setBackground(color);
-
-		ScopeAnnotation scopeAnnotation;
-
-		selection.cursor = textCursor();
-		selection.cursor.clearSelection();
-		selection.cursor.setPosition(annotation.start);
-		scopeAnnotation.startLine = selection.cursor.blockNumber();
-		selection.cursor.setPosition(annotation.end, QTextCursor::KeepAnchor);
-		scopeAnnotation.endLine = selection.cursor.blockNumber();
-
-		if (annotation.isScope || (isActive && activeIds.size() == 1))
-		{
-			if (isActive || isFocused)
-			{
-				scopeAnnotation.tokenId = annotation.tokenId;
-				if (!isActive)
-				{
-					scopeAnnotation.isFocused = isFocused;
-				}
-				scopeAnnotations.push_back(scopeAnnotation);
-			}
-		}
-
-		if (!annotation.isScope || (isActive && activeIds.size() == 1 && scopeAnnotation.startLine == scopeAnnotation.endLine))
-		{
-			extraSelections.append(selection);
-		}
-	}
-
-	setExtraSelections(extraSelections);
+	bool isError = m_fileWidget->getErrorMessages().size() > 0;
 
 	bool needsUpdate = false;
-	if (scopeAnnotations.size() != m_scopeAnnotations.size())
+
+	for (Annotation& annotation: m_annotations)
 	{
-		needsUpdate = true;
-	}
-	else
-	{
-		for (size_t i = 0; i < scopeAnnotations.size(); i++)
+		bool wasActive = annotation.isActive;
+		bool wasFocused = annotation.isFocused;
+
+		annotation.isActive = std::find(activeIds.begin(), activeIds.end(), annotation.tokenId) != activeIds.end();
+		annotation.isFocused = std::find(hoverIds.begin(), hoverIds.end(), annotation.locationId) != hoverIds.end() || (annotation.tokenId == focusedTokenId);
+
+		annotation.isError = isError;
+
+		if (wasFocused != annotation.isFocused || wasActive != annotation.isActive)
 		{
-			if (scopeAnnotations[i] != m_scopeAnnotations[i])
-			{
-				needsUpdate = true;
-				break;
-			}
+			needsUpdate = true;
 		}
 	}
-
-	m_scopeAnnotations = scopeAnnotations;
 
 	if (needsUpdate)
 	{
+		m_lineNumberArea->update();
 		viewport()->update();
 	}
 }
@@ -668,6 +651,130 @@ int QtCodeArea::endTextEditPosition() const
 	}
 
 	return position - 1;
+}
+
+std::set<int> QtCodeArea::getActiveLineNumbers() const
+{
+	std::set<int> activeLineNumbers;
+
+	if (m_isActiveFile)
+	{
+		return activeLineNumbers;
+	}
+
+	for (const Annotation& annotation : m_annotations)
+	{
+		if (annotation.isActive)
+		{
+			for (int i = annotation.startLine; i <= annotation.endLine; i++)
+			{
+				activeLineNumbers.insert(i);
+			}
+		}
+	}
+
+	if (activeLineNumbers.size())
+	{
+		for (const Annotation& annotation : m_annotations)
+		{
+			if (annotation.isFocused)
+			{
+				for (int i = annotation.startLine; i <= annotation.endLine; i++)
+				{
+					activeLineNumbers.insert(i);
+				}
+			}
+		}
+	}
+
+	return activeLineNumbers;
+}
+
+std::vector<QRect> QtCodeArea::getCursorRectsForAnnotation(const Annotation& annotation) const
+{
+	std::vector<QRect> rects;
+
+	QTextCursor cursor = textCursor();
+	cursor.clearSelection();
+	cursor.setPosition(annotation.start);
+	QRect rectStart = cursorRect(cursor);
+	QRect rectEnd;
+
+	int line = annotation.startLine;
+	while (line <= annotation.endLine)
+	{
+		if (line == annotation.endLine)
+		{
+			cursor.setPosition(annotation.end);
+		}
+		else
+		{
+			cursor.setPosition(toTextEditPosition(line, document()->findBlockByLineNumber(line - m_startLineNumber).length() - 1));
+		}
+
+		rectEnd = cursorRect(cursor);
+		rects.push_back(QRect(rectStart.left(), rectStart.top(), rectEnd.right() - rectStart.left(), rectEnd.bottom() - rectStart.top()));
+
+		line++;
+
+		if (int(line - m_startLineNumber) < document()->blockCount())
+		{
+			cursor.setPosition(toTextEditPosition(line, 0));
+			rectStart = cursorRect(cursor);
+		}
+	}
+
+	return rects;
+}
+
+const QtCodeArea::AnnotationColor& QtCodeArea::getAnnotationColorForAnnotation(const Annotation& annotation)
+{
+	if (!s_annotationColors.size())
+	{
+		ColorScheme* scheme = ColorScheme::getInstance().get();
+		std::vector<std::string> types;
+		types.push_back("location");
+		types.push_back("scope");
+		types.push_back("error");
+
+		std::vector<std::string> states;
+		states.push_back("normal");
+		states.push_back("focus");
+		states.push_back("active");
+
+		for (const std::string& type : types)
+		{
+			for (const std::string& state : states)
+			{
+				AnnotationColor color;
+				color.border = scheme->getColor("code/snippet/selection/" + type + "/" + state + "/border");
+				color.fill = scheme->getColor("code/snippet/selection/" + type + "/" + state + "/fill");
+				s_annotationColors.push_back(color);
+			}
+		}
+	}
+
+	size_t i = 0;
+
+	if (annotation.isScope)
+	{
+		i = 3;
+	}
+	else if (annotation.isError)
+	{
+		i = 6;
+	}
+
+	if (annotation.isActive)
+	{
+		i += 2;
+	}
+	else if (annotation.isFocused)
+	{
+		i += 1;
+	}
+
+	return s_annotationColors[i];
 }
 
 void QtCodeArea::createActions()
