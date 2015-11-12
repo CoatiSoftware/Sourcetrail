@@ -14,7 +14,7 @@ SearchController::~SearchController()
 
 void SearchController::handleMessage(MessageActivateTokens* message)
 {
-	if (!message->keepContent())
+	if (!message->keepContent() && !message->isFromSearch)
 	{
 		getView()->setMatches(m_storageAccess->getSearchMatchesForTokenIds(message->tokenIds));
 	}

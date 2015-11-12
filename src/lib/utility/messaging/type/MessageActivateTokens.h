@@ -13,6 +13,7 @@ public:
 		, isEdge(false)
 		, isAggregation(false)
 		, isFromSystem(false)
+		, isFromSearch(false)
 	{
 	}
 
@@ -26,6 +27,7 @@ public:
 	bool isEdge;
 	bool isAggregation;
 	bool isFromSystem;
+	bool isFromSearch;
 };
 
 #endif // MESSAGE_ACTIVATE_TOKENS_H
