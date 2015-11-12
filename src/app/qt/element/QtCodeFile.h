@@ -35,8 +35,9 @@ public:
 
 	const FilePath& getFilePath() const;
 	std::string getFileName() const;
-	Id getFocusedTokenId() const;
+
 	const std::vector<Id>& getActiveTokenIds() const;
+	const std::vector<Id>& getFocusedTokenIds() const;
 	const std::vector<std::string>& getErrorMessages() const;
 
 	void addCodeSnippet(

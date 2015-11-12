@@ -130,13 +130,13 @@ private:
 		std::string fill;
 	};
 
-	const Annotation* findAnnotationForPosition(int pos) const;
 	std::vector<Id> findLocationIdsForPosition(int pos) const;
+	std::vector<const Annotation*> getAnnotationsForPosition(int pos) const;
 
 	void createAnnotations(std::shared_ptr<TokenLocationFile> locationFile);
 	void annotateText();
 
-	void setHoveredAnnotation(const Annotation* annotation);
+	void setHoveredAnnotations(const std::vector<const Annotation*>& annotations);
 
 	int toTextEditPosition(int lineNumber, int columnNumber) const;
 	std::pair<int, int> toLineColumn(int textEditPosition) const;
@@ -144,8 +144,8 @@ private:
 	int endTextEditPosition() const;
 
 	std::set<int> getActiveLineNumbers() const;
-	std::vector<QRect> getCursorRectsForAnnotation(const Annotation& annotation) const;
 
+	std::vector<QRect> getCursorRectsForAnnotation(const Annotation& annotation) const;
 	const AnnotationColor& getAnnotationColorForAnnotation(const Annotation& annotation);
 
 	void createActions();
@@ -162,9 +162,7 @@ private:
 	std::shared_ptr<TokenLocationFile> m_locationFile;
 
 	std::vector<Annotation> m_annotations;
-
-	const Annotation* m_hoveredAnnotation;
-	std::vector<Id> m_hoveredLocationIds;
+	std::vector<const Annotation*> m_hoveredAnnotations;
 
 	int m_digits;
 	int m_panningValue; // just for horizontal panning

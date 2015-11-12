@@ -15,8 +15,8 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	, m_addCodeSnippetsFunctor(std::bind(&QtCodeView::doAddCodeSnippets, this, std::placeholders::_1))
 	, m_showCodeFileFunctor(std::bind(&QtCodeView::doShowCodeFile, this, std::placeholders::_1))
 	, m_doShowFirstActiveSnippetFunctor(std::bind(&QtCodeView::doShowFirstActiveSnippet, this))
-	, m_focusTokenFunctor(std::bind(&QtCodeView::doFocusToken, this, std::placeholders::_1))
-	, m_defocusTokenFunctor(std::bind(&QtCodeView::doDefocusToken, this))
+	, m_focusTokenIdsFunctor(std::bind(&QtCodeView::doFocusTokenIds, this, std::placeholders::_1))
+	, m_defocusTokenIdsFunctor(std::bind(&QtCodeView::doDefocusTokenIds, this))
 {
 	m_widget = new QtCodeFileList();
 	setStyleSheet();
@@ -70,14 +70,14 @@ void QtCodeView::showFirstActiveSnippet()
 	m_doShowFirstActiveSnippetFunctor();
 }
 
-void QtCodeView::focusToken(const Id tokenId)
+void QtCodeView::focusTokenIds(const std::vector<Id>& focusedTokenIds)
 {
-	m_focusTokenFunctor(tokenId);
+	m_focusTokenIdsFunctor(focusedTokenIds);
 }
 
-void QtCodeView::defocusToken()
+void QtCodeView::defocusTokenIds()
 {
-	m_defocusTokenFunctor();
+	m_defocusTokenIdsFunctor();
 }
 
 void QtCodeView::doRefreshView()
@@ -151,14 +151,14 @@ void QtCodeView::doShowFirstActiveSnippet()
 	}
 }
 
-void QtCodeView::doFocusToken(const Id tokenId)
+void QtCodeView::doFocusTokenIds(const std::vector<Id>& focusedTokenIds)
 {
-	m_widget->focusToken(tokenId);
+	m_widget->focusTokenIds(focusedTokenIds);
 }
 
-void QtCodeView::doDefocusToken()
+void QtCodeView::doDefocusTokenIds()
 {
-	m_widget->defocusToken();
+	m_widget->defocusTokenIds();
 }
 
 void QtCodeView::setStyleSheet() const

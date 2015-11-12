@@ -71,10 +71,10 @@ void QtGraphNodeData::updateStyle()
 
 void QtGraphNodeData::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
-	MessageFocusIn(m_data->getId()).dispatch();
+	MessageFocusIn(std::vector<Id>(1, m_data->getId())).dispatch();
 }
 
 void QtGraphNodeData::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
-	MessageFocusOut(m_data->getId()).dispatch();
+	MessageFocusOut(std::vector<Id>(1, m_data->getId())).dispatch();
 }

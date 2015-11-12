@@ -80,12 +80,12 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 
 void CodeController::handleMessage(MessageFocusIn* message)
 {
-	getView()->focusToken(message->tokenId);
+	getView()->focusTokenIds(message->tokenIds);
 }
 
 void CodeController::handleMessage(MessageFocusOut* message)
 {
-	getView()->defocusToken();
+	getView()->defocusTokenIds();
 }
 
 void CodeController::handleMessage(MessageShowErrors* message)
@@ -268,7 +268,7 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(std:
 			}
 		);
 		atomicRanges = SnippetMerger::Range::mergeAdjacent(atomicRanges);
-		
+
 		ranges = fileScopedMerger.merge(atomicRanges);
 	}
 

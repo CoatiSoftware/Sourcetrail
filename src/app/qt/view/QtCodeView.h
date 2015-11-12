@@ -35,8 +35,8 @@ public:
 
 	virtual void showFirstActiveSnippet();
 
-	virtual void focusToken(const Id tokenId);
-	virtual void defocusToken();
+	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds);
+	virtual void defocusTokenIds();
 
 private:
 	void doRefreshView();
@@ -47,8 +47,8 @@ private:
 
 	void doShowFirstActiveSnippet();
 
-	void doFocusToken(const Id tokenId);
-	void doDefocusToken();
+	void doFocusTokenIds(const std::vector<Id>& focusedTokenIds);
+	void doDefocusTokenIds();
 
 	void setStyleSheet() const;
 
@@ -57,8 +57,8 @@ private:
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&> m_addCodeSnippetsFunctor;
 	QtThreadedFunctor<const CodeSnippetParams&> m_showCodeFileFunctor;
 	QtThreadedFunctor<> m_doShowFirstActiveSnippetFunctor;
-	QtThreadedFunctor<const Id&> m_focusTokenFunctor;
-	QtThreadedFunctor<> m_defocusTokenFunctor;
+	QtThreadedFunctor<const std::vector<Id>&> m_focusTokenIdsFunctor;
+	QtThreadedFunctor<> m_defocusTokenIdsFunctor;
 
 	QtCodeFileList* m_widget;
 

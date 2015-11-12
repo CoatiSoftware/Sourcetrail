@@ -88,7 +88,6 @@ QtCodeArea::QtCodeArea(
 	, m_fileWidget(file)
 	, m_startLineNumber(startLineNumber)
 	, m_locationFile(locationFile)
-	, m_hoveredAnnotation(nullptr)
 	, m_digits(0)
 	, m_panningValue(-1)
 	, m_setIDECursorPositionAction(nullptr)
@@ -324,7 +323,7 @@ void QtCodeArea::enterEvent(QEvent* event)
 
 void QtCodeArea::leaveEvent(QEvent* event)
 {
-	setHoveredAnnotation(nullptr);
+	setHoveredAnnotations(std::vector<const Annotation*>());
 }
 
 void QtCodeArea::mousePressEvent(QMouseEvent* event)
@@ -369,7 +368,7 @@ void QtCodeArea::mouseDoubleClickEvent(QMouseEvent* event)
 
 void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 {
-	if (m_panningValue!= -1)
+	if (m_panningValue != -1)
 	{
 		int panningCurrentPosition = event->pos().x();
 		int deltaPos = panningCurrentPosition - m_panningValue;
@@ -383,30 +382,32 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 
 
 	QTextCursor cursor = this->cursorForPosition(event->pos());
+	std::vector<const Annotation*> annotations = getAnnotationsForPosition(cursor.position());
 
-	m_hoveredLocationIds = findLocationIdsForPosition(cursor.position());
-	const Annotation* annotation = findAnnotationForPosition(cursor.position());
-
-	if (annotation && annotation->isScope)
+	bool same = annotations.size() == m_hoveredAnnotations.size();
+	if (same)
 	{
-		annotation = nullptr;
+		for (size_t i = 0; i < annotations.size(); i++)
+		{
+			if (annotations[i] != m_hoveredAnnotations[i])
+			{
+				same = false;
+				break;
+			}
+		}
 	}
 
 	QToolTip::hideText();
 
-	if (annotation != m_hoveredAnnotation)
+	if (!same)
 	{
-		setHoveredAnnotation(annotation);
+		setHoveredAnnotations(annotations);
 
 		const std::vector<std::string>& errorMessages = m_fileWidget->getErrorMessages();
-		if (annotation && errorMessages.size() > annotation->tokenId)
+		if (annotations.size() == 1 && errorMessages.size() > annotations[0]->tokenId)
 		{
-			QToolTip::showText(event->globalPos(), QString::fromStdString(errorMessages[annotation->tokenId]));
+			QToolTip::showText(event->globalPos(), QString::fromStdString(errorMessages[annotations[0]->tokenId]));
 		}
-	}
-	else if (m_hoveredLocationIds.size())
-	{
-		updateContent();
 	}
 }
 
@@ -458,27 +459,6 @@ void QtCodeArea::setIDECursorPosition()
 	MessageMoveIDECursor(m_locationFile->getFilePath().str(), lineColumn.first, lineColumn.second).dispatch();
 }
 
-const QtCodeArea::Annotation* QtCodeArea::findAnnotationForPosition(int pos) const
-{
-	const Annotation* annotationPtr = nullptr;
-	int diff = endTextEditPosition() + 1;
-
-	for (const Annotation& annotation : m_annotations)
-	{
-		if (pos >= annotation.start && pos <= annotation.end)
-		{
-			int d = annotation.end - annotation.start;
-			if (d < diff)
-			{
-				diff = d;
-				annotationPtr = &annotation;
-			}
-		}
-	}
-
-	return annotationPtr;
-}
-
 std::vector<Id> QtCodeArea::findLocationIdsForPosition(int pos) const
 {
 	std::vector<Id> locationIds;
@@ -492,6 +472,21 @@ std::vector<Id> QtCodeArea::findLocationIdsForPosition(int pos) const
 	}
 
 	return locationIds;
+}
+
+std::vector<const QtCodeArea::Annotation*> QtCodeArea::getAnnotationsForPosition(int pos) const
+{
+	std::vector<const QtCodeArea::Annotation*> annotations;
+
+	for (const Annotation& annotation : m_annotations)
+	{
+		if (!annotation.isScope && pos >= annotation.start && pos <= annotation.end)
+		{
+			annotations.push_back(&annotation);
+		}
+	}
+
+	return annotations;
 }
 
 void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFile)
@@ -558,20 +553,19 @@ void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFi
 
 void QtCodeArea::annotateText()
 {
-	Id focusedTokenId = m_fileWidget->getFocusedTokenId();
 	const std::vector<Id>& activeIds = m_fileWidget->getActiveTokenIds();
-	const std::vector<Id>& hoverIds = m_hoveredLocationIds;
+	const std::vector<Id>& focusIds = m_fileWidget->getFocusedTokenIds();
+
 	bool isError = m_fileWidget->getErrorMessages().size() > 0;
 
 	bool needsUpdate = false;
-
 	for (Annotation& annotation: m_annotations)
 	{
 		bool wasActive = annotation.isActive;
 		bool wasFocused = annotation.isFocused;
 
 		annotation.isActive = std::find(activeIds.begin(), activeIds.end(), annotation.tokenId) != activeIds.end();
-		annotation.isFocused = std::find(hoverIds.begin(), hoverIds.end(), annotation.locationId) != hoverIds.end() || (annotation.tokenId == focusedTokenId);
+		annotation.isFocused = std::find(focusIds.begin(), focusIds.end(), annotation.tokenId) != focusIds.end();
 
 		annotation.isError = isError;
 
@@ -588,18 +582,30 @@ void QtCodeArea::annotateText()
 	}
 }
 
-void QtCodeArea::setHoveredAnnotation(const Annotation* annotation)
+void QtCodeArea::setHoveredAnnotations(const std::vector<const Annotation*>& annotations)
 {
-	if (m_hoveredAnnotation)
+	if (m_hoveredAnnotations.size())
 	{
-		MessageFocusOut(m_hoveredAnnotation->tokenId).dispatch();
+		std::vector<Id> tokenIds;
+		for (const Annotation* annotation : m_hoveredAnnotations)
+		{
+			tokenIds.push_back(annotation->tokenId);
+		}
+
+		MessageFocusOut(tokenIds).dispatch();
 	}
 
-	m_hoveredAnnotation = annotation;
+	m_hoveredAnnotations = annotations;
 
-	if (annotation)
+	if (annotations.size())
 	{
-		MessageFocusIn(annotation->tokenId).dispatch();
+		std::vector<Id> tokenIds;
+		for (const Annotation* annotation : annotations)
+		{
+			tokenIds.push_back(annotation->tokenId);
+		}
+
+		MessageFocusIn(tokenIds).dispatch();
 	}
 }
 

@@ -12,7 +12,6 @@
 
 QtCodeFileList::QtCodeFileList(QWidget* parent)
 	: QScrollArea(parent)
-	, m_focusedTokenId(0)
 {
 	setObjectName("code_file_list_base");
 
@@ -77,11 +76,6 @@ void QtCodeFileList::clearCodeSnippets()
 	this->verticalScrollBar()->setValue(0);
 }
 
-Id QtCodeFileList::getFocusedTokenId() const
-{
-	return m_focusedTokenId;
-}
-
 const std::vector<Id>& QtCodeFileList::getActiveTokenIds() const
 {
 	return m_activeTokenIds;
@@ -90,6 +84,16 @@ const std::vector<Id>& QtCodeFileList::getActiveTokenIds() const
 void QtCodeFileList::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
 {
 	m_activeTokenIds = activeTokenIds;
+}
+
+const std::vector<Id>& QtCodeFileList::getFocusedTokenIds() const
+{
+	return m_focusedTokenIds;
+}
+
+void QtCodeFileList::setFocusedTokenIds(const std::vector<Id>& focusedTokenIds)
+{
+	m_focusedTokenIds = focusedTokenIds;
 }
 
 const std::vector<std::string>& QtCodeFileList::getErrorMessages() const
@@ -136,15 +140,15 @@ void QtCodeFileList::expandActiveSnippetFile()
 	}
 }
 
-void QtCodeFileList::focusToken(Id tokenId)
+void QtCodeFileList::focusTokenIds(const std::vector<Id>& focusedTokenIds)
 {
-	m_focusedTokenId = tokenId;
+	setFocusedTokenIds(focusedTokenIds);
 	updateFiles();
 }
 
-void QtCodeFileList::defocusToken()
+void QtCodeFileList::defocusTokenIds()
 {
-	m_focusedTokenId = 0;
+	setFocusedTokenIds(std::vector<Id>());
 	updateFiles();
 }
 

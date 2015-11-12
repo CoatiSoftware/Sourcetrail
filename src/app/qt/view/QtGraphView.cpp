@@ -601,50 +601,56 @@ void QtGraphView::createTransition()
 	m_transition->start();
 }
 
-void QtGraphView::focusToken(Id tokenId)
+void QtGraphView::focusTokenIds(const std::vector<Id>& focusedTokenIds)
 {
-	m_focusInFunctor(tokenId);
+	m_focusInFunctor(focusedTokenIds);
 }
 
-void QtGraphView::doFocusIn(Id tokenId)
+void QtGraphView::doFocusIn(const std::vector<Id>& tokenIds)
 {
-	std::shared_ptr<QtGraphNode> node = findNodeRecursive(m_oldNodes, tokenId);
-	if (node && node->isDataNode())
+	for (const Id& tokenId : tokenIds)
 	{
-		node->focusIn();
-		return;
-	}
-
-	for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
-	{
-		if (edge->getData() && edge->getData()->getId() == tokenId)
+		std::shared_ptr<QtGraphNode> node = findNodeRecursive(m_oldNodes, tokenId);
+		if (node && node->isDataNode())
 		{
-			edge->focusIn();
-			return;
+			node->focusIn();
+			continue;
+		}
+
+		for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+		{
+			if (edge->getData() && edge->getData()->getId() == tokenId)
+			{
+				edge->focusIn();
+				break;
+			}
 		}
 	}
 }
 
-void QtGraphView::defocusToken(Id tokenId)
+void QtGraphView::defocusTokenIds(const std::vector<Id>& defocusedTokenIds)
 {
-	m_focusOutFunctor(tokenId);
+	m_focusOutFunctor(defocusedTokenIds);
 }
 
-void QtGraphView::doFocusOut(Id tokenId)
+void QtGraphView::doFocusOut(const std::vector<Id>& tokenIds)
 {
-	std::shared_ptr<QtGraphNode> node = findNodeRecursive(m_oldNodes, tokenId);
-	if (node && node->isDataNode())
+	for (const Id& tokenId : tokenIds)
 	{
-		node->focusOut();
-		return;
-	}
-
-	for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
-	{
-		if (edge->getData() && edge->getData()->getId() == tokenId)
+		std::shared_ptr<QtGraphNode> node = findNodeRecursive(m_oldNodes, tokenId);
+		if (node && node->isDataNode())
 		{
-			edge->focusOut();
-			return;
+			node->focusOut();
+			continue;
+		}
+
+		for (std::shared_ptr<QtGraphEdge> edge : m_oldEdges)
+		{
+			if (edge->getData() && edge->getData()->getId() == tokenId)
+			{
+				edge->focusOut();
+				break;
+			}
 		}
 	}
 }

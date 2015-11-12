@@ -1,23 +1,26 @@
 #ifndef MESSAGE_FOCUS_IN_H
 #define MESSAGE_FOCUS_IN_H
 
+#include <vector>
+
 #include "utility/messaging/Message.h"
 #include "utility/types.h"
 
-class MessageFocusIn : public Message<MessageFocusIn>
+class MessageFocusIn
+	: public Message<MessageFocusIn>
 {
 public:
-    MessageFocusIn(Id tokenId)
-        : tokenId(tokenId)
-    {
-    }
+	MessageFocusIn(const std::vector<Id>& tokenIds)
+		: tokenIds(tokenIds)
+	{
+	}
 
-    static const std::string getStaticType()
-    {
-        return "MessageFocusIn";
-    }
+	static const std::string getStaticType()
+	{
+		return "MessageFocusIn";
+	}
 
-    const Id tokenId;
+	const std::vector<Id> tokenIds;
 };
 
 #endif //MESSAGE_FOCUS_IN_H

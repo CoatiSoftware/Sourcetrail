@@ -204,7 +204,7 @@ void QtGraphEdge::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 		return;
 	}
 
-	MessageFocusIn(getData()->getId()).dispatch();
+	MessageFocusIn(std::vector<Id>(1, getData()->getId())).dispatch();
 }
 
 void QtGraphEdge::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
@@ -215,7 +215,7 @@ void QtGraphEdge::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 		return;
 	}
 
-	MessageFocusOut(getData()->getId()).dispatch();
+	MessageFocusOut(std::vector<Id>(1, getData()->getId())).dispatch();
 }
 
 void QtGraphEdge::setDirection(TokenComponentAggregation::Direction direction)

@@ -61,12 +61,12 @@ void GraphController::handleMessage(MessageFlushUpdates* message)
 
 void GraphController::handleMessage(MessageFocusIn* message)
 {
-	getView()->focusToken(message->tokenId);
+	getView()->focusTokenIds(message->tokenIds);
 }
 
 void GraphController::handleMessage(MessageFocusOut *message)
 {
-	getView()->defocusToken(message->tokenId);
+	getView()->defocusTokenIds(message->tokenIds);
 }
 
 void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)

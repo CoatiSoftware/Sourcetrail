@@ -1,23 +1,26 @@
 #ifndef MESSAGE_FOCUS_OUT_H
 #define MESSAGE_FOCUS_OUT_H
 
+#include <vector>
+
 #include "utility/messaging/Message.h"
 #include "utility/types.h"
 
-class MessageFocusOut : public Message<MessageFocusOut>
+class MessageFocusOut
+	: public Message<MessageFocusOut>
 {
 public:
-    MessageFocusOut(Id tokenId)
-            : tokenId(tokenId)
-    {
-    }
+	MessageFocusOut(const std::vector<Id>& tokenIds)
+		: tokenIds(tokenIds)
+	{
+	}
 
-    static const std::string getStaticType()
-    {
-        return "MessageHoverLeave";
-    }
+	static const std::string getStaticType()
+	{
+		return "MessageHoverLeave";
+	}
 
-    const Id tokenId;
+	const std::vector<Id> tokenIds;
 };
 
 #endif //MESSAGE_FOCUS_OUT_H

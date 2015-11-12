@@ -124,14 +124,14 @@ std::string QtCodeFile::getFileName() const
 	return m_filePath.fileName();
 }
 
-Id QtCodeFile::getFocusedTokenId() const
-{
-	return m_parent->getFocusedTokenId();
-}
-
 const std::vector<Id>& QtCodeFile::getActiveTokenIds() const
 {
 	return m_parent->getActiveTokenIds();
+}
+
+const std::vector<Id>& QtCodeFile::getFocusedTokenIds() const
+{
+	return m_parent->getFocusedTokenIds();
 }
 
 const std::vector<std::string>& QtCodeFile::getErrorMessages() const

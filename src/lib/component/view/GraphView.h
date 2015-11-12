@@ -20,8 +20,9 @@ public:
 	virtual void rebuildGraph(
 		std::shared_ptr<Graph> graph, const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges) = 0;
 	virtual void clear() = 0;
-	virtual void focusToken(Id tokenId) = 0;
-	virtual void defocusToken(Id tokenId) = 0;
+
+	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds) = 0;
+	virtual void defocusTokenIds(const std::vector<Id>& defocusedTokenIds) = 0;
 
 	virtual void resizeView() = 0;
 

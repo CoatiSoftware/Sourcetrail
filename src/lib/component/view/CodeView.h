@@ -52,8 +52,8 @@ public:
 
 	virtual void showFirstActiveSnippet() = 0;
 
-	virtual void focusToken(const Id tokenId) = 0;
-	virtual void defocusToken() = 0;
+	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds) = 0;
+	virtual void defocusTokenIds() = 0;
 
 private:
 	CodeController* getController();
