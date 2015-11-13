@@ -83,6 +83,8 @@ public:
 
 	void setIsActiveFile(bool isActiveFile);
 
+	QRectF getFirstActiveLineRect() const;
+
 protected:
 	virtual void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 	virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;

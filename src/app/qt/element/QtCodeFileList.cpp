@@ -9,6 +9,7 @@
 
 #include "data/location/TokenLocationFile.h"
 #include "qt/element/QtCodeFile.h"
+#include "qt/element/QtCodeSnippet.h"
 
 QtCodeFileList::QtCodeFileList(QWidget* parent)
 	: QScrollArea(parent)
@@ -27,7 +28,7 @@ QtCodeFileList::QtCodeFileList(QWidget* parent)
 	setWidgetResizable(true);
 	setWidget(m_frame.get());
 
-	connect(this, SIGNAL(shouldScrollToSnippet(QWidget*)), this, SLOT(scrollToSnippet(QWidget*)), Qt::QueuedConnection);
+	connect(this, SIGNAL(shouldScrollToSnippet(QtCodeSnippet*)), this, SLOT(scrollToSnippet(QtCodeSnippet*)), Qt::QueuedConnection);
 }
 
 QtCodeFileList::~QtCodeFileList()
@@ -53,7 +54,7 @@ void QtCodeFileList::addCodeSnippet(
 
 	if (insert)
 	{
-		QWidget* snippet = file->insertCodeSnippet(startLineNumber, title, titleId, code, locationFile, refCount);
+		QtCodeSnippet* snippet = file->insertCodeSnippet(startLineNumber, title, titleId, code, locationFile, refCount);
 		emit shouldScrollToSnippet(snippet);
 	}
 	else
@@ -110,18 +111,18 @@ bool QtCodeFileList::scrollToFirstActiveSnippet()
 {
 	updateFiles();
 
-	QWidget* widget = nullptr;
+	QtCodeSnippet* snippet = nullptr;
 	for (std::shared_ptr<QtCodeFile> file: m_files)
 	{
-		widget = file->findFirstActiveSnippet();
-		if (widget)
+		snippet = file->findFirstActiveSnippet();
+		if (snippet)
 		{
-			if (!widget->isVisible())
+			if (!snippet->isVisible())
 			{
 				file->clickedSnippetButton();
 			}
 
-			emit shouldScrollToSnippet(widget);
+			emit shouldScrollToSnippet(snippet);
 			return true;
 		}
 	}
@@ -152,9 +153,9 @@ void QtCodeFileList::defocusTokenIds()
 	updateFiles();
 }
 
-void QtCodeFileList::scrollToSnippet(QWidget* widget)
+void QtCodeFileList::scrollToSnippet(QtCodeSnippet* snippet)
 {
-	this->ensureWidgetVisibleAnimated(widget);
+	this->ensureWidgetVisibleAnimated(snippet, snippet->getFirstActiveLineRect());
 }
 
 QtCodeFile* QtCodeFileList::getFile(std::shared_ptr<TokenLocationFile> locationFile)
@@ -191,7 +192,7 @@ void QtCodeFileList::updateFiles()
 	}
 }
 
-void QtCodeFileList::ensureWidgetVisibleAnimated(QWidget *childWidget, int xmargin, int ymargin)
+void QtCodeFileList::ensureWidgetVisibleAnimated(QWidget *childWidget, QRectF rect)
 {
 	if (!widget()->isAncestorOf(childWidget))
 	{
@@ -205,54 +206,21 @@ void QtCodeFileList::ensureWidgetVisibleAnimated(QWidget *childWidget, int xmarg
 		: QRect(childWidget->mapTo(widget(), QPoint(0, 0)), childWidget->size());
 	const QRect visibleRect(-widget()->pos(), viewport()->size());
 
-	if (visibleRect.contains(focusRect))
+	if (rect.height() > 0)
 	{
-		return;
+		focusRect = QRect(childWidget->mapTo(widget(), rect.topLeft().toPoint()), rect.size().toSize());
+		focusRect.adjust(0, 0, 0, 100);
 	}
 
-	focusRect.adjust(-xmargin, -ymargin, xmargin, ymargin);
+	QScrollBar* scrollBar = verticalScrollBar();
+	int value = focusRect.center().y() - visibleRect.center().y();
 
-	QScrollBar* scrollBar = nullptr;
-	int value = 0;
-
-	if (focusRect.width() > visibleRect.width())
-	{
-		scrollBar = horizontalScrollBar();
-		value = focusRect.center().x() - viewport()->width() / 2;
-	}
-	else if (focusRect.right() > visibleRect.right())
-	{
-		scrollBar = horizontalScrollBar();
-		value = focusRect.right() - viewport()->width();
-	}
-	else if (focusRect.left() < visibleRect.left())
-	{
-		scrollBar = horizontalScrollBar();
-		value = focusRect.left();
-	}
-
-	if (focusRect.height() > visibleRect.height())
-	{
-		scrollBar = verticalScrollBar();
-		value = focusRect.center().y() - viewport()->height() / 2;
-	}
-	else if (focusRect.bottom() > visibleRect.bottom())
-	{
-		scrollBar = verticalScrollBar();
-		value = focusRect.bottom() - viewport()->height();
-	}
-	else if (focusRect.top() < visibleRect.top())
-	{
-		scrollBar = verticalScrollBar();
-		value = focusRect.top();
-	}
-
-	if (scrollBar)
+	if (scrollBar && value != 0)
 	{
 		QPropertyAnimation* anim = new QPropertyAnimation(scrollBar, "value");
 		anim->setDuration(500);
 		anim->setStartValue(scrollBar->value());
-		anim->setEndValue(value);
+		anim->setEndValue(scrollBar->value() + value);
 		anim->setEasingCurve(QEasingCurve::InOutQuad);
 		anim->start();
 	}

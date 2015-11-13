@@ -179,7 +179,7 @@ void QtCodeFile::addCodeSnippet(
 	updateRefCount(refCount);
 }
 
-QWidget* QtCodeFile::insertCodeSnippet(
+QtCodeSnippet* QtCodeFile::insertCodeSnippet(
 	uint startLineNumber,
 	const std::string& title,
 	Id titleId,
@@ -229,7 +229,7 @@ QWidget* QtCodeFile::insertCodeSnippet(
 	return snippet.get();
 }
 
-QWidget* QtCodeFile::findFirstActiveSnippet() const
+QtCodeSnippet* QtCodeFile::findFirstActiveSnippet() const
 {
 	if (m_locationFile)
 	{

@@ -155,12 +155,12 @@ void CodeController::handleMessage(MessageShowScope* message)
 		return;
 	}
 
-	getView()->addCodeSnippets(snippets);
+	getView()->addCodeSnippets(snippets, true);
 }
 
 void CodeController::handleMessage(MessageShowSnippets* message)
 {
-	getView()->addCodeSnippets(getSnippetsForActiveTokenLocationsInFile(message->locationFile));
+	getView()->addCodeSnippets(getSnippetsForActiveTokenLocationsInFile(message->locationFile), false);
 }
 
 CodeView* CodeController::getView()

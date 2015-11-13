@@ -49,7 +49,7 @@ public:
 		int refCount
 	);
 
-	QWidget* insertCodeSnippet(
+	QtCodeSnippet* insertCodeSnippet(
 		uint startLineNumber,
 		const std::string& title,
 		Id titleId,
@@ -58,7 +58,7 @@ public:
 		int refCount
 	);
 
-	QWidget* findFirstActiveSnippet() const;
+	QtCodeSnippet* findFirstActiveSnippet() const;
 	bool openCollapsedActiveSnippet() const;
 
 	void updateContent();

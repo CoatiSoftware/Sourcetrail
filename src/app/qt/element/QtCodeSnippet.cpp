@@ -145,6 +145,11 @@ void QtCodeSnippet::setIsActiveFile(bool isActiveFile)
 	m_codeArea->setIsActiveFile(isActiveFile);
 }
 
+QRectF QtCodeSnippet::getFirstActiveLineRect() const
+{
+	return m_codeArea->getFirstActiveLineRect();
+}
+
 void QtCodeSnippet::contextMenuEvent(QContextMenuEvent* event)
 {
 	QMenu menu(this);

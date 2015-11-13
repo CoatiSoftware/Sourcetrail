@@ -12,11 +12,12 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
 	, m_refreshViewFunctor(std::bind(&QtCodeView::doRefreshView, this))
 	, m_showCodeSnippetsFunctor(std::bind(&QtCodeView::doShowCodeSnippets, this, std::placeholders::_1))
-	, m_addCodeSnippetsFunctor(std::bind(&QtCodeView::doAddCodeSnippets, this, std::placeholders::_1))
+	, m_addCodeSnippetsFunctor(std::bind(&QtCodeView::doAddCodeSnippets, this, std::placeholders::_1, std::placeholders::_2))
 	, m_showCodeFileFunctor(std::bind(&QtCodeView::doShowCodeFile, this, std::placeholders::_1))
 	, m_doShowFirstActiveSnippetFunctor(std::bind(&QtCodeView::doShowFirstActiveSnippet, this))
 	, m_focusTokenIdsFunctor(std::bind(&QtCodeView::doFocusTokenIds, this, std::placeholders::_1))
 	, m_defocusTokenIdsFunctor(std::bind(&QtCodeView::doDefocusTokenIds, this))
+	, m_isExpanding(false)
 {
 	m_widget = new QtCodeFileList();
 	setStyleSheet();
@@ -55,9 +56,9 @@ void QtCodeView::showCodeSnippets(const std::vector<CodeSnippetParams>& snippets
 	m_showCodeSnippetsFunctor(snippets);
 }
 
-void QtCodeView::addCodeSnippets(const std::vector<CodeSnippetParams>& snippets)
+void QtCodeView::addCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert)
 {
-	m_addCodeSnippetsFunctor(snippets);
+	m_addCodeSnippetsFunctor(snippets, insert);
 }
 
 void QtCodeView::showCodeFile(const CodeSnippetParams& params)
@@ -117,7 +118,7 @@ void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippe
 	setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
 }
 
-void QtCodeView::doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippets)
+void QtCodeView::doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert)
 {
 	for (const CodeSnippetParams& params : snippets)
 	{
@@ -129,11 +130,17 @@ void QtCodeView::doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippet
 			params.locationFile,
 			params.refCount,
 			params.modificationTime,
-			true
+			insert
 		);
 	}
 
 	setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
+
+	if (m_isExpanding)
+	{
+		m_widget->scrollToFirstActiveSnippet();
+		m_isExpanding = false;
+	}
 }
 
 void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
@@ -148,6 +155,7 @@ void QtCodeView::doShowFirstActiveSnippet()
 	if (!m_widget->scrollToFirstActiveSnippet())
 	{
 		m_widget->expandActiveSnippetFile();
+		m_isExpanding = true;
 	}
 }
 

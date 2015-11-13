@@ -11,6 +11,7 @@
 #include "utility/types.h"
 
 class QtCodeFile;
+class QtCodeSnippet;
 class TokenLocationFile;
 
 class QtCodeFileList
@@ -19,7 +20,7 @@ class QtCodeFileList
 	Q_OBJECT
 
 signals:
-	void shouldScrollToSnippet(QWidget* widget);
+	void shouldScrollToSnippet(QtCodeSnippet* widget);
 
 public:
 	QtCodeFileList(QWidget* parent = 0);
@@ -58,14 +59,14 @@ public:
 	void defocusTokenIds();
 
 private slots:
-	void scrollToSnippet(QWidget* widget);
+	void scrollToSnippet(QtCodeSnippet* snippet);
 
 private:
 	QtCodeFile* getFile(std::shared_ptr<TokenLocationFile> locationFile);
 
 	void updateFiles();
 
-	void ensureWidgetVisibleAnimated(QWidget *childWidget, int xmargin = 50, int ymargin = 50);
+	void ensureWidgetVisibleAnimated(QWidget *childWidget, QRectF rect);
 
 	std::shared_ptr<QFrame> m_frame;
 	std::vector<std::shared_ptr<QtCodeFile>> m_files;

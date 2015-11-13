@@ -248,6 +248,22 @@ void QtCodeArea::setIsActiveFile(bool isActiveFile)
 	m_isActiveFile = isActiveFile;
 }
 
+QRectF QtCodeArea::getFirstActiveLineRect() const
+{
+	int lineNumber = 0;
+	for (const Annotation& annotation : m_annotations)
+	{
+		if (annotation.isActive)
+		{
+			lineNumber = annotation.startLine;
+			break;
+		}
+	}
+
+	QTextBlock block = document()->findBlockByLineNumber(lineNumber - m_startLineNumber);
+	return blockBoundingGeometry(block);
+}
+
 void QtCodeArea::resizeEvent(QResizeEvent *e)
 {
 	QPlainTextEdit::resizeEvent(e);

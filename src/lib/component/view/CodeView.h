@@ -47,7 +47,7 @@ public:
 	virtual void setErrorMessages(const std::vector<std::string>& errorMessages) = 0;
 
 	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets) = 0;
-	virtual void addCodeSnippets(const std::vector<CodeSnippetParams>& snippets) = 0;
+	virtual void addCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert) = 0;
 	virtual void showCodeFile(const CodeSnippetParams& params) = 0;
 
 	virtual void showFirstActiveSnippet() = 0;

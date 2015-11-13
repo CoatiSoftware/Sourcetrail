@@ -44,6 +44,8 @@ public:
 
 	void setIsActiveFile(bool isActiveFile);
 
+	QRectF getFirstActiveLineRect() const;
+
 protected:
 	virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
 
