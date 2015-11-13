@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+    <source>
+        <extensions>
+            <header_extensions>.h</header_extensions>
+            <source_extensions>.cpp</source_extensions>
+        </extensions>
+        <source_paths>
+            <source_path>./src</source_path>
+        </source_paths>
+    </source>
+</config>

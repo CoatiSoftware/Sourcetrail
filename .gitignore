@@ -4,10 +4,9 @@
 /bin/app/Debug/
 /bin/app/Release/
 /bin/app/data/log/
-/bin/app/data/projects/
+/bin/app/data/projects/ignored/
 /bin/app/data/ApplicationSettings.xml
 /bin/app/data/window_settings.ini
-/bin/app/data/*.sqlite
 
 /bin/lib/
 
@@ -16,11 +15,12 @@
 /bin/test/data/log/
 /bin/test/data/temp.xml
 /bin/test/data/TestSettings.xml
-/bin/test/data/*.sqlite
 
 /setup/Linux/lib/*
 
 .DS_Store
 .idea
-bin
-obj
+/ide_plugins/vs/vs2012/CoatiPlugin/CoatiPlugin/bin
+/ide_plugins/vs/vs2012/CoatiPlugin/CoatiPlugin/obj
+
+*.sqlite
