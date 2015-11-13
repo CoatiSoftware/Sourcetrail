@@ -35,14 +35,17 @@ public:
 	// MainView implementation
 	virtual void hideStartScreen();
 	virtual void setTitle(const std::string& title);
+	virtual void activateWindow();
 
 private:
 	void doSetTitle(const std::string& title);
+	void doActivateWindow();
 
 	std::shared_ptr<QtMainWindow> m_window;
 	std::vector<View*> m_views;
 
 	QtThreadedFunctor<const std::string&> m_setTitleFunctor;
+	QtThreadedFunctor<> m_activateWindowFunctor;
 };
 
 #endif // QT_MAIN_VIEW_H

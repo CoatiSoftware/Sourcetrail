@@ -71,7 +71,8 @@ class SetActiveTokenCommand(sublime_plugin.TextCommand):
 		col += 1 # cols returned by rowcol() are 0-based.
 		row += 1 # rows returned by rowcol() are 0-based.
 
-		message = "setActiveToken" + MESSAGE_SPLIT_STRING + filePath + MESSAGE_SPLIT_STRING + str(row) + MESSAGE_SPLIT_STRING + str(col) + "<EOM>"
+		text = "setActiveToken" + MESSAGE_SPLIT_STRING + filePath + MESSAGE_SPLIT_STRING + str(row) + MESSAGE_SPLIT_STRING + str(col) + "<EOM>"
+		data = text.encode()
 
 		settings = sublime.load_settings('CoatiCommunicator.sublime-settings')
 		host_ip = settings.get('host_ip')
@@ -79,5 +80,5 @@ class SetActiveTokenCommand(sublime_plugin.TextCommand):
 
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		s.connect((host_ip, plugin_to_coati_port))
-		s.send(message)
+		s.send(data)
 		s.close()

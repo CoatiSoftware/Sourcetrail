@@ -6,6 +6,7 @@
 
 QtMainView::QtMainView()
 	: m_setTitleFunctor(std::bind(&QtMainView::doSetTitle, this, std::placeholders::_1))
+	, m_activateWindowFunctor(std::bind(&QtMainView::doActivateWindow, this))
 {
 	m_window = std::make_shared<QtMainWindow>();
 	m_window->show();
@@ -74,7 +75,20 @@ void QtMainView::setTitle(const std::string& title)
 	m_setTitleFunctor(title);
 }
 
+void QtMainView::activateWindow()
+{
+	m_activateWindowFunctor();
+}
+
 void QtMainView::doSetTitle(const std::string& title)
 {
 	m_window->setWindowTitle(QString::fromStdString(title));
+}
+
+void QtMainView::doActivateWindow()
+{
+	// It's platform dependent which of these commands does the right thing, for now we just use them all at once.
+	m_window->activateWindow();
+	m_window->raise();
+	m_window->setFocus(Qt::ActiveWindowFocusReason);
 }

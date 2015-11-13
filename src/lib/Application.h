@@ -6,6 +6,7 @@
 #include "component/ComponentManager.h"
 #include "Project.h"
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/MessageActivateWindow.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageRefresh.h"
@@ -19,7 +20,8 @@ class StorageCache;
 class Version;
 
 class Application
-	: public MessageListener<MessageFinishedParsing>
+	: public MessageListener<MessageActivateWindow>
+	, public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageLoadProject>
 	, public MessageListener<MessageRefresh>
 	, public MessageListener<MessageSaveProject>
@@ -37,6 +39,7 @@ public:
 private:
 	Application();
 
+	virtual void handleMessage(MessageActivateWindow* message);
 	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageLoadProject* message);
 	virtual void handleMessage(MessageRefresh* message);

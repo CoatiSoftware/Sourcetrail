@@ -5,7 +5,8 @@
 
 #include "component/view/ViewLayout.h"
 
-class MainView: public ViewLayout
+class MainView
+	: public ViewLayout
 {
 public:
 	MainView();
@@ -13,6 +14,7 @@ public:
 
 	virtual void hideStartScreen() = 0;
 	virtual void setTitle(const std::string& title) = 0;
+	virtual void activateWindow() = 0;
 };
 
 #endif // MAIN_VIEW_H

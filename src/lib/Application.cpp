@@ -108,6 +108,11 @@ void Application::saveProject(const FilePath& projectSettingsFilePath)
 	}
 }
 
+void Application::handleMessage(MessageActivateWindow* message)
+{
+	m_mainView->activateWindow();
+}
+
 void Application::handleMessage(MessageFinishedParsing* message)
 {
 	m_project->logStats();

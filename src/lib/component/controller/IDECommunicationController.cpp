@@ -6,6 +6,7 @@
 #include "data/location/TokenLocation.h"
 
 #include "utility/messaging/type/MessageActivateTokenLocations.h"
+#include "utility/messaging/type/MessageActivateWindow.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/logging/logging.h"
 
@@ -23,7 +24,7 @@ void IDECommunicationController::handleIncomingMessage(const std::string& messag
 	LOG_WARNING_STREAM(<< message);
 
 	NetworkProtocolHelper::NetworkMessage parsedMessage = NetworkProtocolHelper::parseMessage(message);
-	
+
 	if (parsedMessage.valid)
 	{
 		const unsigned int cursorColumn = parsedMessage.column;
@@ -36,13 +37,12 @@ void IDECommunicationController::handleIncomingMessage(const std::string& messag
 		tokenLocationFile->forEachStartTokenLocation(
 			[&](TokenLocation* startLocation)
 			{
-				if (startLocation->getColumnNumber() < cursorColumn)
+				TokenLocation* endLocation = startLocation->getEndTokenLocation();
+
+				if (!startLocation->isScopeTokenLocation() &&
+					startLocation->getColumnNumber() <= cursorColumn && endLocation->getColumnNumber() + 1 >= cursorColumn)
 				{
-					TokenLocation* endLocation = startLocation->getOtherTokenLocation();
-					if (endLocation && endLocation->getColumnNumber() > cursorColumn)
-					{
-						selectedLocationIds.push_back(startLocation->getId());
-					}
+					selectedLocationIds.push_back(startLocation->getId());
 				}
 			}
 		);
@@ -51,6 +51,7 @@ void IDECommunicationController::handleIncomingMessage(const std::string& messag
 		{
 			MessageStatus("Activating a source location from external succeeded.").dispatch();
 			MessageActivateTokenLocations(selectedLocationIds).dispatch();
+			MessageActivateWindow().dispatch();
 		}
 		else
 		{
@@ -66,9 +67,9 @@ void IDECommunicationController::handleMessage(MessageMoveIDECursor* message)
 	std::string networkMessage = NetworkProtocolHelper::buildMessage(
 		message->FilePosition, message->Row, message->Column
 		);
-	
+
 	MessageStatus(
-		"Jumping the external tool to the following location: " + message->FilePosition + ", row: " + 
+		"Jumping the external tool to the following location: " + message->FilePosition + ", row: " +
 		std::to_string(message->Row) + ", col: " + std::to_string(message->Column)
 	).dispatch();
 
