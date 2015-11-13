@@ -12,6 +12,7 @@
 #include "component/view/CompositeView.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "settings/ApplicationSettings.h"
+#include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
@@ -42,7 +43,6 @@ void QtViewToggle::toggledByUI()
 	dynamic_cast<QtMainWindow*>(parent())->toggleView(m_view, false);
 }
 
-
 QtMainWindow::QtMainWindow()
 	:  m_startScreenWasVisible(false)
 {
@@ -54,6 +54,8 @@ QtMainWindow::QtMainWindow()
 	setWindowFlags(Qt::Widget);
 
 	QApplication::setOverrideCursor(Qt::ArrowCursor);
+
+	m_recentProjectAction = new QAction*[ApplicationSettings::MaximalAmountOfRecentProjects];
 
 	setupProjectMenu();
 	setupEditMenu();
@@ -188,8 +190,16 @@ bool QtMainWindow::event(QEvent* event)
 void QtMainWindow::about()
 {
 	hideScreens();
-	m_aboutWindow = std::make_shared<QtAbout>(this);
-	m_aboutWindow->setup();
+
+	if (!m_aboutWindow)
+	{
+		m_aboutWindow = std::make_shared<QtAbout>(this);
+		m_aboutWindow->setup();
+
+		connect(m_aboutWindow.get(), SIGNAL(finished()), this, SLOT(closeScreens()));
+		connect(m_aboutWindow.get(), SIGNAL(canceled()), this, SLOT(restoreScreens()));
+	}
+
 	m_aboutWindow->show();
 }
 
@@ -421,8 +431,60 @@ void QtMainWindow::setupProjectMenu()
 
 	menu->addSeparator();
 
+	QMenu *recentProjectMenu = new QMenu(tr("Recent Project"));
+	menu->addMenu(recentProjectMenu);
+
+	for (int i = 0; i < ApplicationSettings::MaximalAmountOfRecentProjects; ++i)
+	{
+        m_recentProjectAction[i] = new QAction(this);
+        m_recentProjectAction[i]->setVisible(false);
+        connect(m_recentProjectAction[i], SIGNAL(triggered()),
+                this, SLOT(openRecentProject()));
+        recentProjectMenu->addAction(m_recentProjectAction[i]);
+    }
+    updateRecentProjectMenu();
+
+	menu->addMenu(recentProjectMenu);
+
+	menu->addSeparator();
+
 	menu->addAction(tr("&Close Window"), this, SLOT(closeWindow()), QKeySequence::Close);
 	menu->addAction(tr("E&xit"), QCoreApplication::instance(), SLOT(quit()), QKeySequence::Quit);
+}
+
+void QtMainWindow::openRecentProject()
+{
+	QAction *action = qobject_cast<QAction *>(sender());
+    if (action)
+    {
+        openProject(action->data().toString());
+    }
+}
+
+void QtMainWindow::updateRecentProjectMenu()
+{
+	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
+	for (size_t i = 0; i < ApplicationSettings::MaximalAmountOfRecentProjects; i++)
+	{
+		if(i < recentProjects.size()-1)
+		{
+			FilePath project = recentProjects[i];
+			m_recentProjectAction[i]->setVisible(true);
+			if (project.exists())
+			{
+				m_recentProjectAction[i]->setText(FileSystem::fileName(project.str()).c_str());
+				m_recentProjectAction[i]->setData(project.str().c_str());
+			}
+			else
+			{
+				m_recentProjectAction[i]->setDisabled(true);
+			}
+		}
+		else
+		{
+			m_recentProjectAction[i]->setVisible(false);
+		}
+	}
 }
 
 void QtMainWindow::showLicenses()

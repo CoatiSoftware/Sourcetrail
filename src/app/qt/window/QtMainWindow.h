@@ -66,6 +66,7 @@ public slots:
 	void newProject();
 	void openProject(const QString &path = QString());
 	void editProject();
+	void openRecentProject();
 
 	void find();
 	void closeWindow();
@@ -96,8 +97,10 @@ private:
 		QtViewToggle* toggle;
 	};
 
+
     void setupEditMenu();
 	void setupProjectMenu();
+	void updateRecentProjectMenu();
 	void setupViewMenu();
 	void setupHelpMenu();
 
@@ -108,6 +111,7 @@ private:
 	std::vector<DockWidget> m_dockWidgets;
 	QMenu* m_viewMenu;
 	QAction* m_viewSeparator;
+	QAction** m_recentProjectAction;
 
 	std::shared_ptr<QtApplicationSettingsScreen> m_applicationSettingsScreen;
 	std::shared_ptr<QtStartScreen> m_startScreen;
