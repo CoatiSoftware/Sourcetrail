@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+    <user>
+        <recent_projects>
+            <recent_project>./data/projects/tutorial/tutorial.xml</recent_project>
+            <recent_project>./data/projects/tictactoe/tictactoe.xml</recent_project>
+        </recent_projects>
+    </user>
+</config>

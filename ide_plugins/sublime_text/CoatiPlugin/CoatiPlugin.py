@@ -52,7 +52,7 @@ class ServerStartupListener(sublime_plugin.EventListener):
 		if (not self.running):
 			self.running = True
 
-			settings = sublime.load_settings('CoatiCommunicator.sublime-settings')
+			settings = sublime.load_settings('CoatiPlugin.sublime-settings')
 			host_ip = settings.get('host_ip')
 			coati_to_plugin_port = settings.get('coati_to_sublime_port')
 
@@ -74,7 +74,7 @@ class SetActiveTokenCommand(sublime_plugin.TextCommand):
 		text = "setActiveToken" + MESSAGE_SPLIT_STRING + filePath + MESSAGE_SPLIT_STRING + str(row) + MESSAGE_SPLIT_STRING + str(col) + "<EOM>"
 		data = text.encode()
 
-		settings = sublime.load_settings('CoatiCommunicator.sublime-settings')
+		settings = sublime.load_settings('CoatiPlugin.sublime-settings')
 		host_ip = settings.get('host_ip')
 		plugin_to_coati_port = settings.get('sublime_to_coati_port')
 
