@@ -2527,6 +2527,27 @@ public:
 		TS_ASSERT_EQUALS(client->errors[0], "use of undeclared identifier \'b\' <1:9 1:9>");
 	}
 
+	void test_cxx_parser_finds_location_of_line_comment()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"// this is a line comment\n"
+			);
+
+		TS_ASSERT_EQUALS(client->comments.size(), 1);
+		TS_ASSERT_EQUALS(client->comments[0], "comment <1:1 1:26>");
+	}
+
+	void test_cxx_parser_finds_location_of_block_comment()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"/* this is a\n"
+			"block comment */\n"
+			);
+
+		TS_ASSERT_EQUALS(client->comments.size(), 1);
+		TS_ASSERT_EQUALS(client->comments[0], "comment <1:1 2:17>");
+	}
+
 	// void ___test_TEST()
 	// {
 	// 	std::shared_ptr<TestParserClient> client = parseCode(
@@ -2840,6 +2861,12 @@ private:
 			return 0;
 		}
 
+		virtual Id onCommentParsed(const ParseLocation& location)
+		{
+			comments.push_back(addLocationSuffix("comment", location));
+			return 0;
+
+		}
 
 		std::vector<std::string> errors;
 
@@ -2869,6 +2896,8 @@ private:
 
 		std::vector<std::string> files;
 		std::vector<std::string> includes;
+
+		std::vector<std::string> comments;
 
 	private:
 		void addTypeUse(const ParseTypeUsage& use)
