@@ -6,13 +6,13 @@
 
 //------------------------------------------------------------------------------
 //
-// THE GRAPH TUTORIAL
+// 1 - THE GRAPH TUTORIAL
 //  In Coati's default window layout the graph is shown to the left, next to the
 //  code. It displays the structure of your project where all named symbols are
 //  nodes and all relations are edges. Like the code view it shows only the
 //  currently active symbol and all the incoming and outgoing dependencies.
 //
-// HOW DO I NAVIGATE THE GRAPH
+// 2 - HOW DO I NAVIGATE THE GRAPH
 //  You can activate a new symbol by left-clicking on the node you are 
 //  interested in. For example: to find out where the function 
 //  "where_am_i_called()" is called get over to the graph and click that 

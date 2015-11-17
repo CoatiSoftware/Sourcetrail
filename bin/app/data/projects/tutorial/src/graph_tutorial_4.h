@@ -15,7 +15,7 @@ public:
 
 //------------------------------------------------------------------------------
 //
-// THAT'S IT
+// 7 - THAT'S IT
 //  You completed the tutorial on the graph view. There is still more to learn
 //  but I guess you will figure it out on your own. One last thing: If you see
 //  an element with a hatched background please call us. It's a runaway!

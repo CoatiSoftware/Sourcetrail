@@ -6,7 +6,7 @@
 
 //------------------------------------------------------------------------------
 //
-// FUZZY MATCHING
+// 3 - FUZZY MATCHING
 //  While looking for matching symbols the search bar does not only consider
 //  strict matches to the entered substring. Instead it uses a more fuzzy
 //  approach. This is really helpful when you only have a rough idea of what the

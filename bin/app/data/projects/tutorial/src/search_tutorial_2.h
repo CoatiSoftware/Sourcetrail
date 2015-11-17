@@ -6,7 +6,7 @@
 
 //------------------------------------------------------------------------------
 //
-// THE AUTOCOMPLETION
+// 2 - THE AUTOCOMPLETION
 //  I hope you have been lazy enough to not enter the whole string from start to
 //  finish. So you already noticed Coati's autocompletion box.
 //  While you enter your search request Coati already tries to find a subset of

@@ -6,7 +6,7 @@
 
 //------------------------------------------------------------------------------
 //
-// THE CODE TUTORIAL
+// 1 - THE CODE TUTORIAL
 //  As you already know the code view displays the snippets of code that are 
 //  related to your currently active symbol. These snippets show the relevant 
 //  lines in combination with some context. 

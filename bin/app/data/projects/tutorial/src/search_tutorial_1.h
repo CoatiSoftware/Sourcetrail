@@ -6,7 +6,7 @@
 
 //------------------------------------------------------------------------------
 //
-// THE SEARCH TUTORIAL
+// 1 - THE SEARCH TUTORIAL
 //  If you haven't messed up anything yet, you'll find the search bar to the
 //  upper left of Coati's user interface. Initially it shows the name of the
 //  currently active symbol.

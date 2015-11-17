@@ -2,9 +2,10 @@
 #define THE_CENTRAL_HUB_H
 
 
-#include "code_tutorial_1.h"
-#include "graph_tutorial_1.h"
 #include "search_tutorial_1.h"
+#include "graph_tutorial_1.h"
+#include "code_tutorial_1.h"
+#include "start_exploring.h"
 
 //------------------------------------------------------------------------------
 //
@@ -22,6 +23,8 @@ void the_central_hub()
 	SearchTutorial* the_challenge_of_search;
 	GraphTutorial* reading_the_map;
 	CodeTutorial* explore_the_details;
+
+	StartExploring* going_beyond_this_tutorial;
 }
 
 

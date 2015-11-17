@@ -6,7 +6,7 @@
 
 //------------------------------------------------------------------------------
 //
-// WELL DONE
+// 3 - WELL DONE
 //  You activated a node and both, the graph and the code view have been updated
 //  accordingly.
 //  Note that even though Coati provides a graph view it does not remove the
@@ -15,13 +15,13 @@
 //  interested in you should still consider the code view to actually read up on
 //  all the important details.
 //
-// HIDDEN ELEMENTS
+// 4 - HIDDEN ELEMENTS
 //  In order not to flood you with information the graph is hiding a lot of
 //  elements. Do you see the "ClassWithHiddenMembers" for example? It actually
 //  contains more members than you currently see. Members that are not important
-//  for the current context are hidden. Nevertheless you can reveal by clicking
-//  the arrow next the the class name.
-//  Try that now.
+//  for the current context are hidden. Nevertheless you can reveal them by 
+//  clicking the arrow next the the class name. Try that now and read those 
+//  members' names.
 //
 //------------------------------------------------------------------------------
 
@@ -51,7 +51,7 @@ public:
 
 //------------------------------------------------------------------------------
 //
-// RELATIONS
+// 5 - RELATIONS
 //  As you see in the graph, this member is accessed at quite some places
 //  throughout the code base. Lets say you wonder what code causes the edge
 //  between "reading" and "this_last_member" to appear. What will happen if you

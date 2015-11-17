@@ -6,13 +6,8 @@
 
 //------------------------------------------------------------------------------
 //
-// MANAGING CONTEXT
-//  At this stage you see the whole file. For a shortcut to get here you also
-//  could have clicked the maximize button at the title bar of the box that
-//  contains this snippet. It is inactive now because the file is already shown
-//  as a whole. Before you start experimenting with the other buttons, remember
-//  that you can click the maximize buttons to get back here and continue
-//  reading.
+// 5 - NO MORE CONTEXT
+//  At this stage you see the entire file and no more context can be expanded.
 //  For the final part of this introduction please have a look at where the
 //  "unrelated_but_very_important()" function is used.
 //
@@ -31,7 +26,7 @@ int calculate(int (*problem)())
 
 //------------------------------------------------------------------------------
 //
-// MORE CONTEXT
+// 4 - MORE CONTEXT
 //  Who would have expected such a simple question?
 //  Note that expanding the view didn't change the active symbol. You can
 //  proceed expanding the view until you hit the level of the file scope.
@@ -46,16 +41,17 @@ void deep_thought()
 
 //------------------------------------------------------------------------------
 //
-// CONTEXT
+// 2 - CONTEXT
 //  We just talked about Coati providing context to the important lines of code.
 //  But it feels like something is missing here. What is "the_question"? And
 //  where does it come from?
 //
-// EXPANDING TO SCOPES
-//  Do you see first line of this snippet? It has no line number and says
-//  "deep_thought". Actually this is the name of the scope that encapsulates the
-//  snippet. By clicking that line you can tell Coati to expand the view to show
-//  the whole scope. Give it a try!
+// 3 - EXPANDING TO SCOPES
+//  Do you see first line of this snippet? I mean the one that has just two dots 
+//  as line number and reads "deep_thought". Actually that's the name of the  
+//  function's scope that encapsulates the snippet. By clicking that line you 
+//  can tell Coati to expand the view to show the entire scope. 
+//  Give it a try!
 //
 //------------------------------------------------------------------------------
 	int the_answer = calculate(the_question);
