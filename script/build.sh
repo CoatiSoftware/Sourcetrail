@@ -30,7 +30,7 @@ then
 elif [ "$1" = "package" ] || [ "$1" = "p" ]
 then
 		ninja package -C build/Release Coati
-		mkdir -p distr && cp build/Release/Coati*.deb distr && cp build/Release/Coati*.tar.gz distr
+		mkdir -p distr && cp build/Release/Coati*.tar.gz distr #&& cp build/Release/Coati*.deb distr
 		echo "Packages copied into the distr folder"
 else
 	echo "no arguments: first argument 'release' or 'debug', second argument 'test' for tests"
