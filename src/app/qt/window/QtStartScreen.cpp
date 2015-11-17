@@ -60,22 +60,19 @@ void QtStartScreen::setup()
 	int position = 290;
 	QIcon cpp_icon("data/gui/startscreen/icon_cpp.png");
 	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
-	for (size_t i = 0; i < recentProjects.size() && i < ApplicationSettings::MaximalAmountOfRecentProjects; i++)
+	for (int i = 0; i < recentProjects.size() && i < ApplicationSettings::MaximalAmountOfRecentProjects; i++)
 	{
 		FilePath project = recentProjects[i];
-		if (project.exists())
-		{
-			QtRecentProjectButton* button = new QtRecentProjectButton(project.str().c_str(), this);
-			button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-			button->setIcon(cpp_icon);
-			button->setIconSize(QSize(25, 25));
-			button->setObjectName("recentButton");
-			button->minimumSizeHint(); // force font loading
-			button->setGeometry(292, position, button->fontMetrics().width(button->text()) + 45, 40);
-			connect(button, SIGNAL(clicked()), button, SLOT(handleButtonClick()));
-			connect(button, SIGNAL(clicked()), this, SLOT(handleRecentButton()));
-			position += 40;
-		}
+		QtRecentProjectButton* button = new QtRecentProjectButton(project.str().c_str(), this);
+		button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		button->setIcon(cpp_icon);
+		button->setIconSize(QSize(25, 25));
+		button->setObjectName("recentButton");
+		button->minimumSizeHint(); // force font loading
+		button->setGeometry(292, position, button->fontMetrics().width(button->text()) + 45, 40);
+		connect(button, SIGNAL(clicked()), button, SLOT(handleButtonClick()));
+		connect(button, SIGNAL(clicked()), this, SLOT(handleRecentButton()));
+		position += 40;
 	}
 
 	resize(600, 600);

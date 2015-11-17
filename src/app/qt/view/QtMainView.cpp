@@ -7,6 +7,7 @@
 QtMainView::QtMainView()
 	: m_setTitleFunctor(std::bind(&QtMainView::doSetTitle, this, std::placeholders::_1))
 	, m_activateWindowFunctor(std::bind(&QtMainView::doActivateWindow, this))
+	, m_updateRecentProjectMenuFunctor(std::bind(&QtMainView::doUpdateRecentProjectMenu, this))
 {
 	m_window = std::make_shared<QtMainWindow>();
 	m_window->show();
@@ -78,6 +79,16 @@ void QtMainView::setTitle(const std::string& title)
 void QtMainView::activateWindow()
 {
 	m_activateWindowFunctor();
+}
+
+void QtMainView::updateRecentProjectMenu()
+{
+	m_updateRecentProjectMenuFunctor();
+}
+
+void QtMainView::doUpdateRecentProjectMenu()
+{
+	m_window->updateRecentProjectMenu();
 }
 
 void QtMainView::doSetTitle(const std::string& title)

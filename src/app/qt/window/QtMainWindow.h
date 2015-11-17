@@ -87,6 +87,7 @@ public slots:
 	void toggleView(View* view, bool fromMenu);
 
 	void handleEscapeShortcut();
+	void updateRecentProjectMenu();
 
 private:
 	struct DockWidget
@@ -100,7 +101,6 @@ private:
 
     void setupEditMenu();
 	void setupProjectMenu();
-	void updateRecentProjectMenu();
 	void setupViewMenu();
 	void setupHelpMenu();
 

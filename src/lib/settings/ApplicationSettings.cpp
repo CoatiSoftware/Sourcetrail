@@ -113,7 +113,16 @@ ApplicationSettings::ApplicationSettings()
 
 std::vector<FilePath> ApplicationSettings::getRecentProjects() const
 {
-	return getPathValues("user/recent_projects/recent_project");
+	std::vector<FilePath> recentProjects = getPathValues("user/recent_projects/recent_project");
+	std::vector<FilePath>::iterator iter = recentProjects.end();
+	for( ; iter != recentProjects.begin(); iter--)
+	{
+		if(!(*iter).exists())
+		{
+			recentProjects.erase(iter);
+		}
+	}
+	return recentProjects;
 }
 
 bool ApplicationSettings::setRecentProjects(const std::vector<FilePath> &recentProjects)

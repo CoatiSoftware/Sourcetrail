@@ -87,6 +87,8 @@ void Application::loadProject(const FilePath& projectSettingsFilePath)
 	m_project = Project::create(m_storageCache.get());
 	m_project->loadProjectSettings(projectSettingsFilePath);
 	m_project->loadStorage();
+
+	m_mainView->updateRecentProjectMenu();
 }
 
 void Application::refreshProject()

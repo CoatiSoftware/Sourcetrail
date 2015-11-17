@@ -36,16 +36,19 @@ public:
 	virtual void hideStartScreen();
 	virtual void setTitle(const std::string& title);
 	virtual void activateWindow();
+	virtual void updateRecentProjectMenu();
 
 private:
 	void doSetTitle(const std::string& title);
 	void doActivateWindow();
+	void doUpdateRecentProjectMenu();
 
 	std::shared_ptr<QtMainWindow> m_window;
 	std::vector<View*> m_views;
 
 	QtThreadedFunctor<const std::string&> m_setTitleFunctor;
 	QtThreadedFunctor<> m_activateWindowFunctor;
+	QtThreadedFunctor<> m_updateRecentProjectMenuFunctor;
 };
 
 #endif // QT_MAIN_VIEW_H

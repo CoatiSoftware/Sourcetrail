@@ -89,6 +89,10 @@ void QtMainWindow::init()
 
 QtMainWindow::~QtMainWindow()
 {
+	if(m_recentProjectAction)
+	{
+		delete [] m_recentProjectAction;
+	}
 }
 
 void QtMainWindow::addView(View* view)
@@ -431,7 +435,7 @@ void QtMainWindow::setupProjectMenu()
 
 	menu->addSeparator();
 
-	QMenu *recentProjectMenu = new QMenu(tr("Recent Project"));
+	QMenu *recentProjectMenu = new QMenu(tr("Recent Projects"));
 	menu->addMenu(recentProjectMenu);
 
 	for (int i = 0; i < ApplicationSettings::MaximalAmountOfRecentProjects; ++i)
@@ -466,19 +470,12 @@ void QtMainWindow::updateRecentProjectMenu()
 	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
 	for (size_t i = 0; i < ApplicationSettings::MaximalAmountOfRecentProjects; i++)
 	{
-		if(i < recentProjects.size()-1)
+		if(i < recentProjects.size())
 		{
 			FilePath project = recentProjects[i];
 			m_recentProjectAction[i]->setVisible(true);
-			if (project.exists())
-			{
-				m_recentProjectAction[i]->setText(FileSystem::fileName(project.str()).c_str());
-				m_recentProjectAction[i]->setData(project.str().c_str());
-			}
-			else
-			{
-				m_recentProjectAction[i]->setDisabled(true);
-			}
+			m_recentProjectAction[i]->setText(FileSystem::fileName(project.str()).c_str());
+			m_recentProjectAction[i]->setData(project.str().c_str());
 		}
 		else
 		{
