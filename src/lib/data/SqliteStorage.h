@@ -96,6 +96,7 @@ public:
 
 	NameHierarchy getNameHierarchyById(const Id id) const;
 
+	StorageSourceLocation getSourceLocationByData(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope) const;
 	StorageSourceLocation getSourceLocationById(const Id id) const;
 	std::vector<StorageSourceLocation> getAllSourceLocations() const;
 	std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const FilePath& filePath) const;

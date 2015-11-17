@@ -264,6 +264,10 @@
 				<normal>#C1305D</normal>
 				<hover>#C1305D</hover>
 			</template_specialization>
+			<template_member_specialization>
+				<normal>#C1305D</normal>
+				<hover>#C1305D</hover>
+			</template_member_specialization>
 
 			<include>
 				<normal>#878787</normal>

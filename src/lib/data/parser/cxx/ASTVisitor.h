@@ -61,6 +61,7 @@ public:
 
 private:
 	bool isLocatedInUnparsedProjectFile(const clang::Decl* declaration) const;
+	bool isLocatedInProjectFile(const ParseLocation& location) const;
 	bool isLocatedInProjectFile(const clang::Decl* declaration) const;
 
 	ParserClient::AccessType convertAccessType(clang::AccessSpecifier) const;

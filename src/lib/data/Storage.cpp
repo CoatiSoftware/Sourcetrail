@@ -1356,10 +1356,19 @@ int Storage::addSourceLocation(int elementNodeId, const ParseLocation& location,
 			return 0;
 		}
 
-		int locationId = m_sqliteStorage.addSourceLocation(
+		int locationId = m_sqliteStorage.getSourceLocationByData(
 			elementNodeId, fileNodeId, location.startLineNumber, location.startColumnNumber,
 			location.endLineNumber, location.endColumnNumber, isScope
-		);
+		).id;
+
+		if (locationId == 0)
+		{
+			locationId = m_sqliteStorage.addSourceLocation(
+				elementNodeId, fileNodeId, location.startLineNumber, location.startColumnNumber,
+				location.endLineNumber, location.endColumnNumber, isScope
+			);
+		}
+
 		return locationId;
 	}
 }

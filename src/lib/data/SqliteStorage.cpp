@@ -603,6 +603,19 @@ NameHierarchy SqliteStorage::getNameHierarchyById(const Id id) const
 	return nameHierarchy;
 }
 
+StorageSourceLocation SqliteStorage::getSourceLocationByData(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope) const
+{
+	return getFirstSourceLocation((
+		"SELECT * FROM source_location WHERE element_id == " + std::to_string(elementId) 
+		+ " AND file_node_id == " + std::to_string(fileNodeId)
+		+ " AND start_line == " + std::to_string(startLine)
+		+ " AND start_column == " + std::to_string(startCol)
+		+ " AND end_line == " + std::to_string(endLine)
+		+ " AND end_column == " + std::to_string(endCol)
+		+ " AND is_scope == " + std::to_string(isScope) + ";"
+	).c_str());
+}
+
 StorageSourceLocation SqliteStorage::getSourceLocationById(const Id id) const
 {
 	return getFirstSourceLocation(

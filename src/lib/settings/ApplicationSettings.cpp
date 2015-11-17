@@ -113,11 +113,11 @@ ApplicationSettings::ApplicationSettings()
 
 std::vector<FilePath> ApplicationSettings::getRecentProjects() const
 {
-	std::vector<FilePath> loadedRecentProjects = getPathValues("user/recent_projects/recent_project");
 	std::vector<FilePath> recentProjects;
-	for(FilePath project : loadedRecentProjects)
+	std::vector<FilePath> loadedRecentProjects = getPathValues("user/recent_projects/recent_project");
+	for (FilePath project: loadedRecentProjects)
 	{
-		if(project.exists())
+		if (project.exists())
 		{
 			recentProjects.push_back(project);
 		}

@@ -305,6 +305,7 @@ bool ASTVisitor::VisitTemplateTemplateParmDecl(clang::TemplateTemplateParmDecl *
 bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 {
 	NameHierarchy rarchy = utility::getDeclNameHierarchy(declaration);
+
 	if (isLocatedInUnparsedProjectFile(declaration))
 	{
 		NameHierarchy templateRecordNameHierarchy = utility::getDeclNameHierarchy(declaration);
@@ -323,43 +324,42 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 		}
 	}
 
-	// for implicit template specializations we do not need a valid location of the original template class definition (since that file could be included)
 	// handles explicit specializations and implicit specializations but no explicit partial specializations
-	if (isLocatedInProjectFile(declaration)) // TODO: evaluate if explicit specializations have to be parsed in every source file
+	for (clang::ClassTemplateDecl::spec_iterator it = declaration->specializations().begin();
+		it != declaration->specializations().end(); it++
+	)
 	{
-		for (clang::ClassTemplateDecl::spec_iterator it = declaration->specializations().begin();
-			it != declaration->specializations().end(); it++
-		)
+		clang::ClassTemplateSpecializationDecl* specializationDecl = *it;
+		NameHierarchy specializedRecordNameHierarchy = utility::getDeclNameHierarchy(specializationDecl);
+
+		ParseLocation specializationLocation = getParseLocationForNamedDecl(*it);
+		if (specializationDecl->getSpecializationKind() == clang::TSK_ImplicitInstantiation)
 		{
-			clang::ClassTemplateSpecializationDecl* specializationDecl = *it;
+			specializationLocation = getParseLocation(specializationDecl->getPointOfInstantiation());
+		}
 
-			ParseLocation specializationLocation = getParseLocationForNamedDecl(*it);
-			if (specializationDecl->getSpecializationKind() == clang::TSK_ImplicitInstantiation)
+		// template arguments
+		std::string specializationFilePath = specializationLocation.filePath.str();
+		const clang::TemplateArgumentList &argList = specializationDecl->getTemplateArgs();
+		for (size_t i = 0; i < argList.size(); i++) // TODO: handle arguments of partial template spec and template functions the same!
+		{
+			const clang::TemplateArgument& argument = argList.get(i);
+
+			bool addArgument = isLocatedInProjectFile(declaration); // TODO: Store this value somewhere!
+			if (!addArgument)
 			{
-				specializationLocation = getParseLocation(specializationDecl->getPointOfInstantiation());
+				if (argument.getKind() == clang::TemplateArgument::Type)
+				{
+					clang::TagDecl *argumentDecl = argument.getAsType()->getAsTagDecl();
+					if (argumentDecl && isLocatedInProjectFile(getParseLocation(argumentDecl->getSourceRange())))
+					{
+						addArgument = true;
+					}
+				}
 			}
-
-			NameHierarchy specializedRecordNameHierarchy = utility::getDeclNameHierarchy(specializationDecl);
-
-			ParserClient::RecordType specializedRecordType = specializationDecl->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
-
-			// The specializationParent can be an indirect specialization of the ClassTemplate (by specializing a partial specialization).
-			NameHierarchy specializationParentNameHierarchy = utility::getTemplateSpecializationParentNameHierarchy(specializationDecl);
-
-			m_client->onTemplateRecordSpecializationParsed(
-				specializationLocation,
-				specializedRecordNameHierarchy,
-				specializedRecordType,
-				specializationParentNameHierarchy
-			);
-
-
-			// template arguments
-			std::string specializationFilePath = specializationLocation.filePath.str();
-			const clang::TemplateArgumentList &argList = specializationDecl->getTemplateArgs();
-			for (size_t i = 0; i < argList.size(); i++)
+			if (addArgument)
 			{
-				NameHierarchy argumentNameHierarchy = utility::templateArgumentToDataType(argList.get(i))->getTypeNameHierarchy();
+				NameHierarchy argumentNameHierarchy = utility::templateArgumentToDataType(argument)->getTypeNameHierarchy();
 
 				if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
 				{
@@ -370,8 +370,22 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 					);
 				}
 			}
+		}
 
-			// template methods
+		if (isLocatedInProjectFile(declaration))
+		{
+			ParserClient::RecordType specializedRecordType = specializationDecl->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
+			// The specializationParent can be an indirect specialization of the ClassTemplate (by specializing a partial specialization).
+			NameHierarchy specializationParentNameHierarchy = utility::getTemplateSpecializationParentNameHierarchy(specializationDecl);
+
+			m_client->onTemplateRecordSpecializationParsed(
+				specializationLocation,
+				specializedRecordNameHierarchy,
+				specializedRecordType,
+				specializationParentNameHierarchy
+			);
+
+			// template member specializations
 			if (specializationDecl->getSpecializationKind() == clang::TSK_ImplicitInstantiation)
 			{
 				for (clang::CXXRecordDecl::method_iterator methodIt = specializationDecl->method_begin(); methodIt != specializationDecl->method_end(); methodIt++)
@@ -394,7 +408,7 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 								getParseLocation(methodDecl->getMemberSpecializationInfo()->getPointOfInstantiation()),
 								getParseFunction(methodDecl),
 								getParseFunction(clang::dyn_cast<clang::FunctionDecl>(specializedNamedDecel))
-								);
+							);
 						}
 					}
 				}
@@ -776,6 +790,15 @@ bool ASTVisitor::isLocatedInUnparsedProjectFile(const clang::Decl* declaration) 
 	}
 
 	return m_fileRegister->includeFileIsParsing(FilePath(m_context->getSourceManager().getFilename(location)));
+}
+
+bool ASTVisitor::isLocatedInProjectFile(const ParseLocation& location) const
+{
+	if (location.isValid())
+	{
+		return m_fileRegister->getFileManager()->hasFilePath(location.filePath);
+	}
+	return false;
 }
 
 bool ASTVisitor::isLocatedInProjectFile(const clang::Decl* declaration) const
