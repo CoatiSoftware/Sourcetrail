@@ -460,7 +460,7 @@ void GraphController::bundleNodes()
 
 			return false;
 		},
-		1,
+		2,
 		"Undefined Symbols"
 	);
 }
