@@ -133,6 +133,11 @@ bool ASTVisitor::VisitFieldDecl(clang::FieldDecl* declaration)
 {
 	if (isLocatedInUnparsedProjectFile(declaration))
 	{
+		if (declaration->hasInClassInitializer())
+		{
+			ASTBodyVisitor bodyVisitor(this, declaration);
+			bodyVisitor.Visit(declaration->getInClassInitializer());
+		}
 		m_client->onFieldParsed(
 			getParseLocationForNamedDecl(declaration),
 			getParseVariable(declaration),
@@ -573,7 +578,7 @@ void ASTVisitor::VisitCallExprInDeclBody(clang::FunctionDecl* decl, clang::CallE
 		expr->getDirectCallee(), expr->getSourceRange(), getParseFunction(decl));
 }
 
-void ASTVisitor::VisitCallExprInDeclBody(clang::VarDecl* decl, clang::CallExpr* expr)
+void ASTVisitor::VisitCallExprInDeclBody(clang::DeclaratorDecl* decl, clang::CallExpr* expr)
 {
 	if (!expr->getDirectCallee())
 	{
@@ -649,7 +654,7 @@ void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clan
 		expr->getConstructor(), expr->getSourceRange(), getParseFunction(decl));
 }
 
-void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::VarDecl* decl, clang::CXXConstructExpr* expr)
+void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXConstructExpr* expr)
 {
 	m_client->onCallParsed(
 		getParseLocation(expr->getSourceRange()),
@@ -671,7 +676,7 @@ void ASTVisitor::VisitCXXNewExprInDeclBody(clang::FunctionDecl* decl, clang::CXX
 	saveClassTemplateArgumentTypeUsages<ParseFunction>(expr->getAllocatedTypeSourceInfo(), getParseFunction(decl));
 }
 
-void ASTVisitor::VisitCXXNewExprInDeclBody(clang::VarDecl* decl, clang::CXXNewExpr* expr)
+void ASTVisitor::VisitCXXNewExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXNewExpr* expr)
 {
 	m_client->onTypeUsageParsed(
 		getParseTypeUsage(expr->getAllocatedTypeSourceInfo()->getTypeLoc(), expr->getAllocatedType()),
@@ -695,7 +700,7 @@ void ASTVisitor::VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::Mem
 	);
 }
 
-void ASTVisitor::VisitMemberExprInDeclBody(clang::VarDecl* decl, clang::MemberExpr* expr)
+void ASTVisitor::VisitMemberExprInDeclBody(clang::DeclaratorDecl* decl, clang::MemberExpr* expr)
 {
 	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
 
@@ -723,7 +728,7 @@ void ASTVisitor::VisitGlobalVariableExprInDeclBody(clang::FunctionDecl* decl, cl
 	);
 }
 
-void ASTVisitor::VisitGlobalVariableExprInDeclBody(clang::VarDecl* decl, clang::DeclRefExpr* expr)
+void ASTVisitor::VisitGlobalVariableExprInDeclBody(clang::DeclaratorDecl* decl, clang::DeclRefExpr* expr)
 {
 	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
 
@@ -751,7 +756,7 @@ void ASTVisitor::VisitEnumExprInDeclBody(clang::FunctionDecl* decl, clang::DeclR
 	);
 }
 
-void ASTVisitor::VisitEnumExprInDeclBody(clang::VarDecl* decl, clang::DeclRefExpr* expr)
+void ASTVisitor::VisitEnumExprInDeclBody(clang::DeclaratorDecl* decl, clang::DeclRefExpr* expr)
 {
 	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
 
@@ -864,6 +869,11 @@ ParseLocation ASTVisitor::getParseLocation(const clang::SourceRange& sourceRange
 
 ParseLocation ASTVisitor::getParseLocationForNamedDecl(const clang::NamedDecl* decl, const clang::SourceLocation& loc) const
 {
+	if (loc.isInvalid())
+	{
+		return ParseLocation();
+	}
+
 	const clang::SourceManager& sourceManager = m_context->getSourceManager();
 	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(loc);
 

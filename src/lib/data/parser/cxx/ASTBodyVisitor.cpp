@@ -9,7 +9,7 @@ ASTBodyVisitor::ASTBodyVisitor(ASTBodyVisitorClient* client, clang::FunctionDecl
 {
 }
 
-ASTBodyVisitor::ASTBodyVisitor(ASTBodyVisitorClient* client, clang::VarDecl* varDecl)
+ASTBodyVisitor::ASTBodyVisitor(ASTBodyVisitorClient* client, clang::DeclaratorDecl* varDecl)
 	: m_client(client)
 	, m_functionDecl(nullptr)
 	, m_varDecl(varDecl)

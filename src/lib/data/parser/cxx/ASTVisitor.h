@@ -46,17 +46,17 @@ public:
 
 	// ASTBodyVisitorClient implementation
 	virtual void VisitCallExprInDeclBody(clang::FunctionDecl* decl, clang::CallExpr* expr); // calls
-	virtual void VisitCallExprInDeclBody(clang::VarDecl* decl, clang::CallExpr* expr); // calls in initialization of global variables
+	virtual void VisitCallExprInDeclBody(clang::DeclaratorDecl* decl, clang::CallExpr* expr); // calls in initialization of global variables
 	virtual void VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clang::CXXConstructExpr* expr); // constructor calls
-	virtual void VisitCXXConstructExprInDeclBody(clang::VarDecl* decl, clang::CXXConstructExpr* expr); // constructor calls of global variables
+	virtual void VisitCXXConstructExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXConstructExpr* expr); // constructor calls of global variables
 	virtual void VisitCXXNewExprInDeclBody(clang::FunctionDecl* decl, clang::CXXNewExpr* expr); // type use of new operator
-	virtual void VisitCXXNewExprInDeclBody(clang::VarDecl* decl, clang::CXXNewExpr* expr); // type use of new operator in global space
+	virtual void VisitCXXNewExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXNewExpr* expr); // type use of new operator in global space
 	virtual void VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr); // field usages
-	virtual void VisitMemberExprInDeclBody(clang::VarDecl* decl, clang::MemberExpr* expr); // field usages
+	virtual void VisitMemberExprInDeclBody(clang::DeclaratorDecl* decl, clang::MemberExpr* expr); // field usages
 	virtual void VisitGlobalVariableExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr); // global variable usage
-	virtual void VisitGlobalVariableExprInDeclBody(clang::VarDecl* decl, clang::DeclRefExpr* expr); // global variable usage
+	virtual void VisitGlobalVariableExprInDeclBody(clang::DeclaratorDecl* decl, clang::DeclRefExpr* expr); // global variable usage
 	virtual void VisitEnumExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr); // enum field usage
-	virtual void VisitEnumExprInDeclBody(clang::VarDecl* decl, clang::DeclRefExpr* expr); // enum field usage in global variable
+	virtual void VisitEnumExprInDeclBody(clang::DeclaratorDecl* decl, clang::DeclRefExpr* expr); // enum field usage in global variable
 	virtual void VisitVarDeclInDeclBody(clang::FunctionDecl* decl, clang::VarDecl* varDecl); // type usages
 
 private:
