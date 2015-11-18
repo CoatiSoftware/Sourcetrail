@@ -46,4 +46,9 @@
 			<recent_project><!-- STRING: recent project path --></recent_project>
 		</recent_projects>
 	</user>
+	
+	<network>
+		<plugin_port><!-- INTEGER: port the plugin listens to, standard is 6666 --></plugin_port>
+		<coati_port><!-- INTEGER: port coati is listening to, standard is 6667 --></coati_port>
+	</network>
 </config>

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
 
-namespace SnowForest.CoatiPlugin
+namespace CoatiSoftware.CoatiPlugin
 {
     public class StateObject
     {
@@ -28,6 +28,8 @@ namespace SnowForest.CoatiPlugin
         public static OnReadCallback _onErrorCallback = null;
 
         private static string _endOfMessageToken = "<EOM>";
+
+        public static uint _port = 6666;
         
         public AsynchronousSocketListener()
         {
@@ -40,13 +42,12 @@ namespace SnowForest.CoatiPlugin
 
         public static void StartListening()
         {
-            const int port = 6666;
             const string ipAddressString = "127.0.0.1";
 
             byte[] bytes = new Byte[1024];
 
             IPAddress ipAddress = IPAddress.Parse(ipAddressString);
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, port);
+            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, (int)_port);
 
             Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
@@ -139,7 +140,7 @@ namespace SnowForest.CoatiPlugin
 
     public class AsynchronousClient
     {
-        private const int _port = 6667;
+        public static uint _port = 6667;
 
         private static ManualResetEvent connectDone = new ManualResetEvent(false);
         private static ManualResetEvent sendDone = new ManualResetEvent(false);
@@ -151,7 +152,7 @@ namespace SnowForest.CoatiPlugin
         public static void Send(string message)
         {
             IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
-            IPEndPoint remoteEP = new IPEndPoint(ipAddress, _port);
+            IPEndPoint remoteEP = new IPEndPoint(ipAddress, (int)_port);
 
             Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 

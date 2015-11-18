@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EnvDTE;
 
-namespace SnowForest.CoatiPlugin
+namespace CoatiSoftware.CoatiPlugin
 {
     class FileUtility
     {

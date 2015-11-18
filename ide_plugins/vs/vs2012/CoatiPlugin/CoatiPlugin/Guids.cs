@@ -2,7 +2,7 @@
 // MUST match guids.h
 using System;
 
-namespace SnowForest.CoatiPlugin
+namespace CoatiSoftware.CoatiPlugin
 {
     static class GuidList
     {

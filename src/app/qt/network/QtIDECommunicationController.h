@@ -6,6 +6,7 @@
 #include "QtTcpWrapper.h"
 
 #include "component/controller/IDECommunicationController.h"
+#include "settings/ApplicationSettings.h"
 
 class StorageAccess;
 

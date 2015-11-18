@@ -13,12 +13,20 @@ class QtTcpWrapper : public QObject
 	Q_OBJECT
 
 public:
-	QtTcpWrapper(QObject* parent, const std::string& ip = "127.0.0.1", const quint16 port = 6667);
+	QtTcpWrapper(QObject* parent, const std::string& ip = "127.0.0.1", const quint16 serverPort = 6667, const quint16 clientPort = 6666);
 	~QtTcpWrapper();
+
+	void startListening();
 
 	void sendMessage(const std::string& message) const;
 
 	void setReadCallback(const std::function<void(const std::string&)>& callback);
+
+	quint16 getServerPort() const;
+	void setServerPort(const quint16 serverPort);
+
+	quint16 getClientPort() const;
+	void setClientPort(const quint16 clientPort);
 
 signals:
 
@@ -27,7 +35,8 @@ public slots:
 	void startRead();
 
 private:
-	quint16 m_port;
+	quint16 m_serverPort;
+	quint16 m_clientPort;
 	std::string m_ip;
 
 	std::function<void(const std::string&)> m_readCallback;

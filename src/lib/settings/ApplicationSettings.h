@@ -55,6 +55,13 @@ public:
 	std::vector<FilePath> getRecentProjects() const;
 	bool setRecentProjects(const std::vector<FilePath>& recentProjects);
 
+	// network
+	int getPluginPort() const;
+	void setPluginPort(const int pluginPort);
+
+	int getCoatiPort() const;
+	void setCoatiPort(const int coatiPort);
+
 private:
 	ApplicationSettings();
 	ApplicationSettings(const ApplicationSettings&);

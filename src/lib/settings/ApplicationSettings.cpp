@@ -115,6 +115,7 @@ std::vector<FilePath> ApplicationSettings::getRecentProjects() const
 {
 	std::vector<FilePath> recentProjects;
 	std::vector<FilePath> loadedRecentProjects = getPathValues("user/recent_projects/recent_project");
+
 	for (FilePath project: loadedRecentProjects)
 	{
 		if (project.exists())
@@ -138,4 +139,24 @@ bool ApplicationSettings::getUserHasSeenSettings() const
 void ApplicationSettings::setUserHasSeenSettings(bool hasSeenSettings)
 {
 	setValue<bool>("user/has_seen_settings", hasSeenSettings);
+}
+
+int ApplicationSettings::getPluginPort() const
+{
+	return getValue<int>("network/plugin_port", 6666);
+}
+
+void ApplicationSettings::setPluginPort(const int pluginPort)
+{
+	setValue<int>("network/plugin_port", pluginPort);
+}
+
+int ApplicationSettings::getCoatiPort() const
+{
+	return getValue<int>("network/coati_port", 6667);
+}
+
+void ApplicationSettings::setCoatiPort(const int coatiPort)
+{
+	setValue<int>("network/coati_port", coatiPort);
 }

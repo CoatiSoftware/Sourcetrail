@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SnowForest.CoatiPlugin
+namespace CoatiSoftware.CoatiPlugin
 {
     class NetworkProtocolUtility
     {

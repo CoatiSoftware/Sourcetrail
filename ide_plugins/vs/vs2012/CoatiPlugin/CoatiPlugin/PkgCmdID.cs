@@ -2,7 +2,7 @@
 // MUST match PkgCmdID.h
 using System;
 
-namespace SnowForest.CoatiPlugin
+namespace CoatiSoftware.CoatiPlugin
 {
     static class PkgCmdIDList
     {

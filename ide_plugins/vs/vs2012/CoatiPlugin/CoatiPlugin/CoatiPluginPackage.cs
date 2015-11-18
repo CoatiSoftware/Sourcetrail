@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using System.ComponentModel;
 using System.ComponentModel.Design;
 using Microsoft.Win32;
 using Microsoft.VisualStudio;
@@ -17,16 +18,81 @@ using System.Threading;
 using EnvDTE;
 using EnvDTE80;
 
-namespace SnowForest.CoatiPlugin
+namespace CoatiSoftware.CoatiPlugin
 {
+    public class OptionPageGrid : DialogPage
+    {
+        private uint _serverPort = 6666;
+        private uint _clientPort = 6667;
+
+        public delegate void Callback();
+        public static Callback _serverPortChangeCallback = null;
+        public static Callback _clientPortChangeCallback = null;
+
+        [Category("Coati")]
+        [DisplayName("VS Port")]
+        [Description("The port on which Visual Studio will receive messages")]
+        public uint ServerPort
+        {
+            get { return _serverPort; }
+            set
+            {
+                _serverPort = value;
+                if (_serverPortChangeCallback != null)
+                {
+                    _serverPortChangeCallback();
+                }
+            }
+        }
+
+        [Category("Coati")]
+        [DisplayName("Coati Port")]
+        [Description("The port on which Coati will receive messages")]
+        public uint ClientPort
+        {
+            get { return _clientPort; }
+            set
+            {
+                _clientPort = value;
+                if (_clientPortChangeCallback != null)
+                {
+                    _clientPortChangeCallback();
+                }
+            }
+        }
+
+        public OptionPageGrid()
+        {
+        }
+    }
+
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(GuidList.guidCoatiPluginPkgString)]
     [ProvideAutoLoad(Microsoft.VisualStudio.Shell.Interop.UIContextGuids80.NoSolution)]
+    [ProvideOptionPage(typeof(OptionPageGrid), "Coati", "Coati Settings", 0, 0, true)]
 
     public sealed class CoatiPluginPackage : Package
     {
+        public uint ServerPort
+        {
+            get
+            {
+                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+                return page.ServerPort;
+            }
+        }
+
+        public uint ClientPort
+        {
+            get
+            {
+                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+                return page.ClientPort;
+            }
+        }
+
         System.Threading.Thread _serverThread = null;
 
         public CoatiPluginPackage()
@@ -36,15 +102,12 @@ namespace SnowForest.CoatiPlugin
         {
             base.Initialize();
 
-            AsynchronousSocketListener server = new AsynchronousSocketListener();
-            AsynchronousSocketListener._onReadCallback = new AsynchronousSocketListener.OnReadCallback(OnNetworkReadCallback);
-            AsynchronousSocketListener._onErrorCallback = new AsynchronousSocketListener.OnReadCallback(OnNetworkErrorCallback);
-            _serverThread = new System.Threading.Thread(server.DoWork);
-            _serverThread.Start();
-
-            AsynchronousClient._onErrorCallback = new AsynchronousSocketListener.OnReadCallback(OnNetworkErrorCallback);
+            InitNetwork();
 
             FileUtility._errorCallback = new FileUtility.ErrorCallback(OnFileUtilityError);
+
+            OptionPageGrid._serverPortChangeCallback = new OptionPageGrid.Callback(OnServerPortChanged);
+            OptionPageGrid._clientPortChangeCallback = new OptionPageGrid.Callback(OnClientPortChanged);
 
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if ( null != mcs )
@@ -53,6 +116,19 @@ namespace SnowForest.CoatiPlugin
                 MenuCommand menuItemSetActiveToken = new MenuCommand(MenuItemCallback, setActiveTokenCommandID);
                 mcs.AddCommand(menuItemSetActiveToken);
             }
+        }
+
+        private void InitNetwork()
+        {
+            AsynchronousSocketListener._port = ServerPort;
+            AsynchronousSocketListener server = new AsynchronousSocketListener();
+            AsynchronousSocketListener._onReadCallback = new AsynchronousSocketListener.OnReadCallback(OnNetworkReadCallback);
+            AsynchronousSocketListener._onErrorCallback = new AsynchronousSocketListener.OnReadCallback(OnNetworkErrorCallback);
+            _serverThread = new System.Threading.Thread(server.DoWork);
+            _serverThread.Start();
+
+            AsynchronousClient._port = ClientPort;
+            AsynchronousClient._onErrorCallback = new AsynchronousSocketListener.OnReadCallback(OnNetworkErrorCallback);
         }
 
         private void MenuItemCallback(object sender, EventArgs e)
@@ -65,6 +141,8 @@ namespace SnowForest.CoatiPlugin
             {
                 if (menuCommand.CommandID.ID == (int)PkgCmdIDList.cmdidCoatiSetActiveToken)
                 {
+                    DisplayMessage("Coati", "" + ServerPort.ToString());
+
                     string fileName = FileUtility.GetActiveDocumentName(dte);
                     string filePath = FileUtility.GetActiveDocumentPath(dte);
 
@@ -102,6 +180,21 @@ namespace SnowForest.CoatiPlugin
         private void OnFileUtilityError(string message)
         {
             DisplayMessage("Coati File Error", message);
+        }
+
+        private void OnServerPortChanged()
+        {
+            AsynchronousSocketListener._port = ServerPort;
+
+            _serverThread.Abort();
+            AsynchronousSocketListener server = new AsynchronousSocketListener();
+            _serverThread = new System.Threading.Thread(server.DoWork);
+            _serverThread.Start();
+        }
+
+        private void OnClientPortChanged()
+        {
+            AsynchronousClient._port = ClientPort;
         }
 
         private void DisplayMessage(string title, string message)

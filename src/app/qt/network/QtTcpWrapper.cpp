@@ -2,10 +2,15 @@
 
 #include "utility/logging/logging.h"
 
-QtTcpWrapper::QtTcpWrapper(QObject* parent, const std::string& ip, const quint16 port)
+QtTcpWrapper::QtTcpWrapper(QObject* parent, const std::string& ip, const quint16 serverPort, const quint16 clientPort)
 	: QObject(parent)
-	, m_port(port)
+	, m_serverPort(serverPort)
+	, m_clientPort(clientPort)
 	, m_ip(ip)
+{
+}
+
+void QtTcpWrapper::startListening()
 {
 	QHostAddress address(m_ip.c_str());
 
@@ -13,7 +18,7 @@ QtTcpWrapper::QtTcpWrapper(QObject* parent, const std::string& ip, const quint16
 
 	connect(m_tcpServer, SIGNAL(newConnection()), this, SLOT(acceptConnection()));
 
-	if (!m_tcpServer->listen(QHostAddress::LocalHost, m_port))
+	if (!m_tcpServer->listen(QHostAddress::LocalHost, m_serverPort))
 	{
 		LOG_ERROR_STREAM(<< "TCP server failed to start with error: \"" + m_tcpServer->errorString().toStdString() + "\". Unable to listen for IDE plugin messages.");
 	}
@@ -52,6 +57,26 @@ void QtTcpWrapper::sendMessage(const std::string& message) const
 void QtTcpWrapper::setReadCallback(const std::function<void(const std::string&)>& callback)
 {
 	m_readCallback = callback;
+}
+
+quint16 QtTcpWrapper::getServerPort() const
+{
+	return m_serverPort;
+}
+
+void QtTcpWrapper::setServerPort(const quint16 serverPort)
+{
+	m_serverPort = serverPort;
+}
+
+quint16 QtTcpWrapper::getClientPort() const
+{
+	return m_clientPort;
+}
+
+void QtTcpWrapper::setClientPort(const quint16 clientPort)
+{
+	m_clientPort = clientPort;
 }
 
 void QtTcpWrapper::acceptConnection()
