@@ -11,7 +11,17 @@ case $response in
 	*)
 		echo -e $ABORT  "Aborting the creation of a release package."
 		exit 1
-	;;
+		;;
+esac
+
+read -r -p "Did you update the manual pdf? [y/N] " response
+case $response in
+	[yY][eE][sS]|[yY]) 
+		;;
+	*)
+		echo -e $ABORT  "Aborting the creation of a release package."
+		exit 1
+		;;
 esac
 
 ORIGINAL_PATH_TO_SCRIPT="${0}"
@@ -25,7 +35,7 @@ VERSION_STRING="${VERSION_STRING//-/_}"
 VERSION_STRING="${VERSION_STRING//./_}"
 VERSION_STRING="${VERSION_STRING%_*}"
 
-PACKAGE_NAME=Coati_${VERSION_STRING}_windows
+PACKAGE_NAME=Coati_${VERSION_STRING}
 
 echo -e $INFO Creating Package with Name: $PACKAGE_NAME
 
@@ -65,12 +75,21 @@ cp -u -r bin/app/Release/Coati.exe $PACKAGE_DIR/
 cp -u -r setup/dynamic_libraries/windows/app/Release/* $PACKAGE_DIR/
 
 
-echo -e $INFO Obfuscation Executable
-#upx --brute $PACKAGE_DIR/Coati.exe
+read -r -p "Do you want to obfuscate the executable? [y/N] " response
+case $response in
+	[yY][eE][sS]|[yY]) 
+		echo -e $INFO Obfuscating Executable
+		upx --brute $PACKAGE_DIR/Coati.exe
+		;;
+	*)
+		echo -e $INFO Skipping Obfuscation
+		;;
+esac
+
 
 echo -e $INFO Packaging Coati
 cd ./release/
-winrar a -afzip $PACKAGE_NAME.zip $PACKAGE_NAME
+winrar a -afzip ${PACKAGE_NAME}_Windows.zip $PACKAGE_NAME
 cd ../
 
 
