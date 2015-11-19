@@ -116,9 +116,12 @@ public:
 	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseFunction& function) = 0;
 	virtual Id onTypeUsageParsed(const ParseTypeUsage& type, const ParseVariable& variable) = 0;
 
-	virtual Id onTemplateArgumentTypeParsed(
+	virtual Id onTemplateArgumentTypeOfTemplateRecordParsed(
 		const ParseLocation& location, const NameHierarchy& argumentNameHierarchy,
 		const NameHierarchy& templateNameHierarchy) = 0;
+	virtual Id onTemplateArgumentTypeOfTemplateFunctionParsed(
+		const ParseLocation& location, const NameHierarchy& argumentNameHierarchy,
+		const ParseFunction& templateFunction) = 0;
 	virtual Id onTemplateDefaultArgumentTypeParsed(
 		const ParseTypeUsage& type,	const NameHierarchy& templateArgumentTypeNameHierarchy) = 0;
 	virtual Id onTemplateRecordParameterTypeParsed(

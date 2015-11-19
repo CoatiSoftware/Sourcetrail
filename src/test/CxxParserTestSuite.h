@@ -2766,12 +2766,22 @@ private:
 			return 0;
 		}
 
-		virtual Id onTemplateArgumentTypeParsed(
-			const ParseLocation& location, const NameHierarchy& templateArgumentTypeNameHierarchy,
-			const NameHierarchy& templateRecordNameHierarchy)
+		virtual Id onTemplateArgumentTypeOfTemplateRecordParsed(
+			const ParseLocation& location, const NameHierarchy& argumentNameHierarchy,
+			const NameHierarchy& templateNameHierarchy)
 		{
 			templateArgumentTypes.push_back(
-				addLocationSuffix(templateRecordNameHierarchy.getFullName() + "->" + templateArgumentTypeNameHierarchy.getFullName(), location)
+				addLocationSuffix(templateNameHierarchy.getFullName() + "->" + argumentNameHierarchy.getFullName(), location)
+			);
+			return 0;
+		}
+
+		virtual Id onTemplateArgumentTypeOfTemplateFunctionParsed(
+			const ParseLocation& location, const NameHierarchy& argumentNameHierarchy,
+			const ParseFunction& templateFunction)
+		{
+			templateArgumentTypes.push_back(
+				addLocationSuffix(templateFunction.getFullName() + "->" + argumentNameHierarchy.getFullName(), location)
 			);
 			return 0;
 		}

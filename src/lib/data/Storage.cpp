@@ -516,7 +516,7 @@ Id Storage::onTypeUsageParsed(const ParseTypeUsage& typeUsage, const ParseVariab
 	return edgeId;
 }
 
-Id Storage::onTemplateArgumentTypeParsed(
+Id Storage::onTemplateArgumentTypeOfTemplateRecordParsed(
 		const ParseLocation& location, const NameHierarchy& argumentNameHierarchy,
 		const NameHierarchy& templateNameHierarchy)
 {
@@ -536,20 +536,40 @@ Id Storage::onTemplateArgumentTypeParsed(
 	return argumentNodeId;
 }
 
+Id Storage::onTemplateArgumentTypeOfTemplateFunctionParsed(
+	const ParseLocation& location, const NameHierarchy& argumentNameHierarchy,
+	const ParseFunction& templateFunction)
+{
+	log(
+		"template argument type",
+		argumentNameHierarchy.getFullName() + " -> " + templateFunction.getFullName(),
+		location
+		);
+
+	Id argumentNodeId = addNodeHierarchy(Node::NODE_TYPE, argumentNameHierarchy, false);
+	// does not need a source location because this type that is already defined (and therefore has a location).
+
+	Id templateNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, templateFunction, false);
+
+	addEdge(templateNodeId, argumentNodeId, Edge::EDGE_TEMPLATE_ARGUMENT, location);
+
+	return argumentNodeId;
+}
+
 Id Storage::onTemplateDefaultArgumentTypeParsed(
 	const ParseTypeUsage& defaultArgumentTypeUsage,
-	const NameHierarchy& templateArgumentTypeNameHierarchy // actually this is the template parameter???
+	const NameHierarchy& templateParameterNameHierarchy // actually this is the template parameter???
 ){
 	log(
 		"template default argument",
-		defaultArgumentTypeUsage.dataType->getTypeNameHierarchy().getFullName() + " -> " + templateArgumentTypeNameHierarchy.getFullName(),
+		defaultArgumentTypeUsage.dataType->getTypeNameHierarchy().getFullName() + " -> " + templateParameterNameHierarchy.getFullName(),
 		defaultArgumentTypeUsage.location
 	);
 
 	Id defaultArgumentNodeId = addNodeHierarchy(Node::NODE_TYPE, defaultArgumentTypeUsage.dataType->getTypeNameHierarchy(), false);
 	// does not need a source location because this type that is already defined (and therefore has a location).
 
-	Id argumentNodeId = addNodeHierarchy(Node::NODE_TYPE, templateArgumentTypeNameHierarchy, false);
+	Id argumentNodeId = addNodeHierarchy(Node::NODE_TYPE, templateParameterNameHierarchy, false);
 
 	addEdge(argumentNodeId, defaultArgumentNodeId, Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT, defaultArgumentTypeUsage.location);
 

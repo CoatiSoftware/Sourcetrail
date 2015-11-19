@@ -309,8 +309,6 @@ bool ASTVisitor::VisitTemplateTemplateParmDecl(clang::TemplateTemplateParmDecl *
 
 bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 {
-	NameHierarchy rarchy = utility::getDeclNameHierarchy(declaration);
-
 	if (isLocatedInUnparsedProjectFile(declaration))
 	{
 		NameHierarchy templateRecordNameHierarchy = utility::getDeclNameHierarchy(declaration);
@@ -335,43 +333,34 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 	)
 	{
 		clang::ClassTemplateSpecializationDecl* specializationDecl = *it;
-		NameHierarchy specializedRecordNameHierarchy = utility::getDeclNameHierarchy(specializationDecl);
+		NameHierarchy specializationNameHierarchy = utility::getDeclNameHierarchy(specializationDecl); // TODO: rename this! to specialization..
 
-		ParseLocation specializationLocation = getParseLocationForNamedDecl(*it);
+		ParseLocation specializationLocation = getParseLocationForNamedDecl(specializationDecl);
 		if (specializationDecl->getSpecializationKind() == clang::TSK_ImplicitInstantiation)
 		{
 			specializationLocation = getParseLocation(specializationDecl->getPointOfInstantiation());
 		}
 
-		// template arguments
+		// handling template arguments
 		std::string specializationFilePath = specializationLocation.filePath.str();
-		const clang::TemplateArgumentList &argList = specializationDecl->getTemplateArgs();
-		for (size_t i = 0; i < argList.size(); i++) // TODO: handle arguments of partial template spec and template functions the same!
+		if (!isLocatedInProjectFile(specializationLocation))
+		{
+			specializationFilePath = "";
+		}
+
+		const clang::TemplateArgumentList& argList = specializationDecl->getTemplateArgs();
+		for (size_t i = 0; i < argList.size(); i++)
 		{
 			const clang::TemplateArgument& argument = argList.get(i);
-
-			bool addArgument = isLocatedInProjectFile(declaration); // TODO: Store this value somewhere!
-			if (!addArgument)
-			{
-				if (argument.getKind() == clang::TemplateArgument::Type)
-				{
-					clang::TagDecl *argumentDecl = argument.getAsType()->getAsTagDecl();
-					if (argumentDecl && isLocatedInProjectFile(getParseLocation(argumentDecl->getSourceRange())))
-					{
-						addArgument = true;
-					}
-				}
-			}
-			if (addArgument)
+			if (needsToAddTemplateArgument(argument, declaration))
 			{
 				NameHierarchy argumentNameHierarchy = utility::templateArgumentToDataType(argument)->getTypeNameHierarchy();
-
 				if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
 				{
-					m_client->onTemplateArgumentTypeParsed(
-						ParseLocation(specializationFilePath, 0, 0), // TODO: Find a valid ParseLocation here!
+					m_client->onTemplateArgumentTypeOfTemplateRecordParsed(
+						ParseLocation(specializationFilePath, 0, 0), // TODO: get a better location here!
 						argumentNameHierarchy,
-						specializedRecordNameHierarchy
+						specializationNameHierarchy
 					);
 				}
 			}
@@ -379,15 +368,11 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 
 		if (isLocatedInProjectFile(declaration))
 		{
-			ParserClient::RecordType specializedRecordType = specializationDecl->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
-			// The specializationParent can be an indirect specialization of the ClassTemplate (by specializing a partial specialization).
-			NameHierarchy specializationParentNameHierarchy = utility::getTemplateSpecializationParentNameHierarchy(specializationDecl);
-
 			m_client->onTemplateRecordSpecializationParsed(
 				specializationLocation,
-				specializedRecordNameHierarchy,
-				specializedRecordType,
-				specializationParentNameHierarchy
+				specializationNameHierarchy,
+				specializationDecl->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS,
+				utility::getTemplateSpecializationParentNameHierarchy(specializationDecl)
 			);
 
 			// template member specializations
@@ -455,7 +440,7 @@ bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplat
 			const clang::TemplateArgumentLoc& argumentLoc = argumentInfoList->operator[](i);
 			const clang::TemplateArgument& argument = argumentLoc.getArgument();
 
-			m_client->onTemplateArgumentTypeParsed(
+			m_client->onTemplateArgumentTypeOfTemplateRecordParsed(
 				getParseLocation(argumentLoc.getSourceRange()),
 				utility::templateArgumentToDataType(argument)->getTypeNameHierarchy(),
 				specializedRecordNameHierarchy);
@@ -486,72 +471,100 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 			}
 		}
 	}
-	if (isLocatedInProjectFile(declaration))
+	
+	for (clang::FunctionTemplateDecl::spec_iterator it = declaration->specializations().begin(); it != declaration->specializations().end(); it++)
 	{
-		for (clang::FunctionTemplateDecl::spec_iterator it = declaration->specializations().begin(); it != declaration->specializations().end(); it++)
+		const clang::FunctionDecl* specializationDecl = *it;
+		ParseLocation specializationLocation = getParseLocationForNamedDecl(specializationDecl);
+		ParseFunction specializationFunction = getParseFunction(specializationDecl);
+
+		if (specializationDecl->getTemplateSpecializationKind() == clang::TSK_ExplicitSpecialization)
 		{
-			const clang::FunctionDecl* specializedFunctionDecl = *it;
-			ParseLocation specializedFunctionLocation = getParseLocationForNamedDecl(specializedFunctionDecl);
-			ParseFunction specializedFunction = getParseFunction(specializedFunctionDecl);
-
-			clang::FunctionTemplateSpecializationInfo* info = specializedFunctionDecl->getTemplateSpecializationInfo();
-			if (info->getTemplateSpecializationKind() == clang::TSK_ExplicitSpecialization)
+			if (isLocatedInUnparsedProjectFile(declaration))
 			{
-				if (isLocatedInUnparsedProjectFile(declaration))
+				m_client->onTemplateFunctionSpecializationParsed(
+					specializationLocation,
+					specializationFunction,
+					templateFunction
+				);
+			}
+			if (specializationDecl->getTemplateSpecializationArgsAsWritten())
+			{
+				const clang::ASTTemplateArgumentListInfo* argumentInfoList = specializationDecl->getTemplateSpecializationArgsAsWritten();
+				for (size_t i = 0; i < argumentInfoList->NumTemplateArgs; i++)
 				{
-					m_client->onTemplateFunctionSpecializationParsed(
-						specializedFunctionLocation,
-						specializedFunction,
-						templateFunction);
+					const clang::TemplateArgumentLoc& argumentLoc = argumentInfoList->operator[](i);
 
-					if(specializedFunctionDecl->getTemplateSpecializationArgsAsWritten())
+					const clang::TemplateArgument& argument = argumentLoc.getArgument();
+					if (needsToAddTemplateArgument(argument, declaration))
 					{
-						const clang::ASTTemplateArgumentListInfo* argumentInfoList = specializedFunctionDecl->getTemplateSpecializationArgsAsWritten();
-						for (size_t i = 0; i < argumentInfoList->NumTemplateArgs; i++)
+						NameHierarchy argumentNameHierarchy = utility::templateArgumentToDataType(argument)->getTypeNameHierarchy();
+						if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
 						{
-							const clang::TemplateArgumentLoc& argumentLoc = argumentInfoList->operator[](i);
-							const clang::QualType argumentType = argumentLoc.getArgument().getAsType();
-
-							m_client->onTemplateArgumentTypeParsed(
-									getParseLocation(argumentLoc.getSourceRange()),
-									utility::qualTypeToDataType(argumentType)->getTypeNameHierarchy(),
-									specializedFunction.nameHierarchy);
-						}
-					}
-					else
-					{
-						const clang::TemplateArgumentList* argumentList = specializedFunctionDecl->getTemplateSpecializationArgs();
-						for(size_t i = 0; i < argumentList->size(); ++i)
-						{
-							const clang::TemplateArgumentLoc& argumentLoc = clang::TemplateArgumentLoc(argumentList->get(i), specializedFunctionDecl->getTypeSourceInfo());
-							const clang::QualType argumentType = argumentLoc.getArgument().getAsType();
-
-							m_client->onTemplateArgumentTypeParsed(
-									getParseLocation(argumentLoc.getSourceRange()),
-									utility::qualTypeToDataType(argumentType)->getTypeNameHierarchy(),
-									specializedFunction.nameHierarchy);
+							m_client->onTemplateArgumentTypeOfTemplateFunctionParsed(
+								getParseLocation(argumentLoc.getSourceRange()),
+								argumentNameHierarchy,
+								specializationFunction
+							);
 						}
 					}
 				}
 			}
-			else // info->getTemplateSpecializationKind() == clang::TSK_ImplicitInstantiation
+			else
 			{
-				m_client->onTemplateFunctionSpecializationParsed(
-					specializedFunctionLocation,
-					specializedFunction,
-					templateFunction);
-
-				const clang::TemplateArgumentList* argumentList = specializedFunctionDecl->getTemplateSpecializationArgs();
-				for (size_t i = 0; i < argumentList->size(); i++)
+				const clang::TemplateArgumentList* argumentList = specializationDecl->getTemplateSpecializationArgs();
+				for(size_t i = 0; i < argumentList->size(); ++i)
 				{
 					const clang::TemplateArgument& argument = argumentList->get(i);
-					if (argument.getKind() == clang::TemplateArgument::Type)
+					const clang::TemplateArgumentLoc& argumentLoc = clang::TemplateArgumentLoc(argument, specializationDecl->getTypeSourceInfo());
+
+					if (needsToAddTemplateArgument(argument, declaration))
 					{
-						const clang::QualType argumentType = argument.getAsType();
-						m_client->onTemplateArgumentTypeParsed(
-							ParseLocation(specializedFunctionLocation.filePath.str(), 0, 0), // TODO: Find a valid ParseLocation here!
-							utility::qualTypeToDataType(argumentType)->getTypeNameHierarchy(),
-							specializedFunction.nameHierarchy);
+						NameHierarchy argumentNameHierarchy = utility::templateArgumentToDataType(argument)->getTypeNameHierarchy();
+						if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
+						{
+							m_client->onTemplateArgumentTypeOfTemplateFunctionParsed(
+								getParseLocation(argumentLoc.getSourceRange()),
+								argumentNameHierarchy,
+								specializationFunction
+							);
+						}
+					}
+				}
+			}
+		}
+		else // if (info->getTemplateSpecializationKind() == clang::TSK_ImplicitInstantiation)
+		{
+			if (isLocatedInProjectFile(declaration))
+			{
+				m_client->onTemplateFunctionSpecializationParsed(
+					specializationLocation,
+					specializationFunction,
+					templateFunction
+				);
+			}
+
+			// handling template arguments
+			std::string specializationFilePath = specializationLocation.filePath.str();
+			if (!isLocatedInProjectFile(specializationLocation))
+			{
+				specializationFilePath = "";
+			}
+
+			const clang::TemplateArgumentList* argumentList = specializationDecl->getTemplateSpecializationArgs();
+			for (size_t i = 0; i < argumentList->size(); i++)
+			{
+				const clang::TemplateArgument& argument = argumentList->get(i);
+				if (needsToAddTemplateArgument(argument, declaration))
+				{
+					NameHierarchy argumentNameHierarchy = utility::templateArgumentToDataType(argument)->getTypeNameHierarchy();
+					if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
+					{
+						m_client->onTemplateArgumentTypeOfTemplateFunctionParsed(
+							ParseLocation(specializationFilePath, 0, 0), // TODO: get a better location here!
+							argumentNameHierarchy,
+							specializationFunction
+						);
 					}
 				}
 			}
@@ -816,6 +829,23 @@ bool ASTVisitor::isLocatedInProjectFile(const clang::Decl* declaration) const
 		return m_fileRegister->getFileManager()->hasFilePath(filePath);
 	}
 	return false;
+}
+
+bool ASTVisitor::needsToAddTemplateArgument(const clang::TemplateArgument& argument, const clang::Decl* specializedDecl)
+{
+	bool addArgument = isLocatedInProjectFile(specializedDecl);
+	if (!addArgument)
+	{
+		if (argument.getKind() == clang::TemplateArgument::Type)
+		{
+			clang::TagDecl *argumentDecl = argument.getAsType()->getAsTagDecl();
+			if (argumentDecl && isLocatedInProjectFile(getParseLocation(argumentDecl->getSourceRange())))
+			{
+				addArgument = true;
+			}
+		}
+	}
+	return addArgument;
 }
 
 ParserClient::AccessType ASTVisitor::convertAccessType(clang::AccessSpecifier access) const

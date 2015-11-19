@@ -100,11 +100,14 @@ public:
 	virtual Id onTypeUsageParsed(const ParseTypeUsage& typeUsage, const ParseFunction& function);
 	virtual Id onTypeUsageParsed(const ParseTypeUsage& typeUsage, const ParseVariable& variable);
 
-	virtual Id onTemplateArgumentTypeParsed(
+	virtual Id onTemplateArgumentTypeOfTemplateRecordParsed(
 		const ParseLocation& location, const NameHierarchy& argumentNameHierarchy,
 		const NameHierarchy& templateNameHierarchy);
+	virtual Id onTemplateArgumentTypeOfTemplateFunctionParsed(
+		const ParseLocation& location, const NameHierarchy& argumentNameHierarchy,
+		const ParseFunction& templateFunction);
 	virtual Id onTemplateDefaultArgumentTypeParsed(
-		const ParseTypeUsage& defaultArgumentTypeUsage,	const NameHierarchy& templateArgumentTypeNameHierarchy);
+		const ParseTypeUsage& defaultArgumentTypeUsage, const NameHierarchy& templateParameterNameHierarchy);
 	virtual Id onTemplateRecordParameterTypeParsed(
 		const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy,
 		const NameHierarchy& templateRecordNameHierarchy);
