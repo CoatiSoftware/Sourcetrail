@@ -70,3 +70,27 @@ $ ninja -j4 check-all
 ##### Remarks
 
 * Boost lib dir: rename library directory for your system (e.g.: 'lib32-msvc-12.0') to 'lib'
+
+#### Changelog
+
+##### 0.3.0
+
+* Added Tutorial project
+* Added communication interface from and to Coati via TCP sockets
+* Added plugin for Visual Studio (2012, 2013, 2015)
+* Added plugin for Sublime Text (2 & 3)
+* Increased autocompletion performance by caching and limiting results to 100
+* Save Coati version to sqlite and reparse project whenever the version changes
+* Improved source locations of template scopes
+* Fixed horizontal scroll in code view not activated while scrolling vertically
+* Save errors to storage and reactivate them via button in the status bar
+* Save macro scopes
+* Fixed old data was still in new project window when creating another project
+* Save comment locations and display them when right next to active symbol
+* Reworked code view highlighting
+* Fixed cursor was jumping at end of query when editing a search query
+* Fixed search query disappeared when not token was found for it
+* Improved code view auto scroll to center the first active line in the middle
+* Focus all overlapping source locations in the code view
+* Added recent projects menu option
+* Saving all template arguments type uses
