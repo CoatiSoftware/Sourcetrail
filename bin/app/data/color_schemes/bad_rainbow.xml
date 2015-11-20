@@ -2,88 +2,88 @@
 
 <config>
 	<search>
-		<background>white</background>
+		<background>#494949</background>
 
 		<button>
-			<normal>#E0E0E0</normal>
-			<hover>#B2B2B2</hover>
-			<press>#626262</press>
-			<disabled>#F4F4F4</disabled>
+			<normal>#808080</normal>
+			<hover>#B1B1B1</hover>
+			<press>#CCCCCC</press>
+			<disabled>#606060</disabled>
 			<icon>white</icon>
 		</button>
 
 		<field>
-			<text>black</text>
-			<background>#E0E0E0</background>
-			<highlight>#B2B2B2</highlight>
+			<text>#3D3D3D</text>
+			<background>#808080</background>
+			<highlight>#B1B1B1</highlight>
 		</field>
 
 		<popup>
-			<text>black</text>
+			<text>#3D3D3D</text>
 			<by_text>#A0A0A0</by_text>
-			<background>white</background>
-			<highlight>#B2B2B2</highlight>
+			<background>#CCCCCC</background>
+			<highlight>#FFFFFF</highlight>
 		</popup>
 
 		<query>
 			<none>
-				<normal>white</normal>
-				<hover>#F5F5F5</hover>
+				<normal>#B1B1B1</normal>
+				<hover>#CCCCCC</hover>
 			</none>
 			<command>
-				<normal>#8FBC92</normal>
-				<hover>#5EA071</hover>
+				<normal>#406D4D</normal>
+				<hover>#4E855E</hover>
 			</command>
 			<operator>
-				<normal>#FCA47E</normal>
-				<hover>#F97A4E</hover>
+				<normal>#7D2724</normal>
+				<hover>#8C2B29</hover>
 			</operator>
 		</query>
 	</search>
 
 	<code>
-		<background>white</background>
+		<background>#494949</background>
 
 		<file>
-			<background>#E0E0E0</background>
+			<background>#CCCCCC</background>
 
 			<title>
 				<text>black</text>
-				<normal>#E0E0E0</normal>
-				<hover>#B2B2B2</hover>
-				<press>#626262</press>
+				<normal>#CCCCCC</normal>
+				<hover>#BBBBBB</hover>
+				<press>#AAAAAA</press>
 				<icon>black</icon>
 			</title>
 
 			<ref_count>
-				<text>black</text>
-				<background>white</background>
+				<text>#C4C4C4</text>
+				<background>#494949</background>
 			</ref_count>
 		</file>
 
 		<snippet>
-			<background>white</background>
+			<background>#494949</background>
 
 			<title>
 				<text>#A0A0A0</text>
 				<background>transparent</background>
-				<hover>#F5F5F5</hover>
+				<hover>#2F2F2F</hover>
 			</title>
 
 			<line_number>
-				<text>black</text>
-				<background>white</background>
+				<text>#C4C4C4</text>
+				<background>#494949</background>
 			</line_number>
 
 			<syntax>
-				<normal>black</normal>
-				<directive>#1B8856</directive>
-				<keyword>#1B8856</keyword>
-				<type>#C1492D</type>
+				<normal>#C4C4C4</normal>
+				<directive>#00A0B6</directive>
+				<keyword>#00A0B6</keyword>
+				<type>#FF4A52</type>
 				<comment>#A0A0A4</comment>
-				<number>#C1315E</number>
-				<quotation>#865F9E</quotation>
-				<function>#CC9533</function>
+				<number>#EE7326</number>
+				<quotation>#D663D6</quotation>
+				<function>#FBBA00</function>
 			</syntax>
 
 			<selection>
@@ -98,7 +98,7 @@
 					</focus>
 					<active>
 						<border>#B2B2B2</border>
-						<fill>#EDEDED</fill>
+						<fill>#4A4A4A</fill>
 					</active>
 				</location>
 				<scope>
@@ -118,7 +118,7 @@
 				<error>
 					<normal>
 						<border>transparent</border>
-						<fill>#80FF0000</fill>
+						<fill>#A0FF0000</fill>
 					</normal>
 					<focus>
 						<border>transparent</border>
@@ -134,32 +134,38 @@
 	</code>
 
 	<graph>
-		<background>white</background>
+		<background>#494949</background>
 
 		<node>
 			<default>
 				<fill>
-					<normal>#ededed</normal>
+					<normal>#807F80</normal>
 				</fill>
 				<border>
-					<normal>#3C3C3C</normal>
+					<normal>#FFFFFF</normal>
 				</border>
 				<text>
-					<normal>black</normal>
+					<normal>#3D3D3D</normal>
 				</text>
 				<icon>
-					<normal>black</normal>
+					<normal>#3D3D3D</normal>
 				</icon>
 				<hatching>
-					<normal>white</normal>
+					<normal>#494949</normal>
 				</hatching>
 			</default>
 
 			<type>
 				<border>
-					<normal>#203C3C3C</normal>
-					<focus>#3C3C3C</focus>
+					<normal>#20FFFFFF</normal>
+					<focus>#FFFFFF</focus>
 				</border>
+				<text>
+					<normal>#FFFFFF</normal>
+				</text>
+				<icon>
+					<normal>#FFFFFF</normal>
+				</icon>
 			</type>
 			<class>
 				<like>type</like>
@@ -179,12 +185,12 @@
 
 			<function>
 				<fill>
-					<normal>#F4D07D</normal>
-					<focus>#F4BC3D</focus>
+					<normal>#FBBA00</normal>
+					<focus>#FFD05A</focus>
 				</fill>
 				<border>
 					<normal>transparent</normal>
-					<focus>#3C3C3C</focus>
+					<focus>#FFFFFF</focus>
 				</border>
 			</function>
 			<method>
@@ -193,12 +199,12 @@
 
 			<global_variable>
 				<fill>
-					<normal>#7BB5D4</normal>
-					<focus>#42A1D4</focus>
+					<normal>#00A0B6</normal>
+					<focus>#3BAFB2</focus>
 				</fill>
 				<border>
 					<normal>transparent</normal>
-					<focus>#3C3C3C</focus>
+					<focus>#FFFFFF</focus>
 				</border>
 			</global_variable>
 			<field>
@@ -213,7 +219,7 @@
 					<normal>#00000000</normal>
 				</fill>
 				<border>
-					<normal>#CC8D91</normal>
+					<normal>#78282D</normal>
 				</border>
 			</undefined>
 			<namespace>
@@ -222,12 +228,12 @@
 
 			<file>
 				<fill>
-					<normal>#DDD</normal>
-					<focus>#CCC</focus>
+					<normal>#4E82F6</normal>
+					<focus>#7FA9F4</focus>
 				</fill>
 				<border>
-					<normal>#203C3C3C</normal>
-					<focus>#3C3C3C</focus>
+					<normal>#20FFFFFF</normal>
+					<focus>#FFFFFF</focus>
 				</border>
 			</file>
 			<macro>
@@ -236,33 +242,39 @@
 
 			<access>
 				<fill>
-					<normal>white</normal>
+					<normal>#CCCCCC</normal>
 				</fill>
 			</access>
 			<bundle>
 				<fill>
-					<normal>white</normal>
+					<normal>#494949</normal>
 				</fill>
 				<border>
-					<normal>#803C3C3C</normal>
-					<focus>#3C3C3C</focus>
+					<normal>#80FFFFFF</normal>
+					<focus>#FFFFFF</focus>
 				</border>
+				<text>
+					<normal>#FFFFFF</normal>
+				</text>
+				<icon>
+					<normal>#FFFFFF</normal>
+				</icon>
 			</bundle>
 			<count_number>
 				<fill>
-					<normal>white</normal>
+					<normal>#494949</normal>
 				</fill>
 				<border>
-					<normal>#7C7C7C</normal>
+					<normal>#CCCCCC</normal>
 				</border>
 				<text>
-					<normal>#5C5C5C</normal>
+					<normal>#CCCCCC</normal>
 				</text>
 			</count_number>
 		</node>
 		<edge>
 			<default>
-				<normal>#878787</normal>
+				<normal>#797979</normal>
 			</default>
 
 			<override>
@@ -270,38 +282,42 @@
 			</override>
 
 			<call>
-				<normal>#F4BC3D</normal>
+				<normal>#FBBA00</normal>
 			</call>
 
 			<use>
-				<normal>#3190BA</normal>
+				<normal>#2A6484</normal>
 			</use>
 
 			<template_parameter>
 				<normal>#C1305D</normal>
 			</template_parameter>
 			<template_argument>
-				<like>template_parameter</like>
+				<normal>#C1305D</normal>
 			</template_argument>
 			<template_default_argument>
-				<like>template_parameter</like>
+				<normal>#C1305D</normal>
 			</template_default_argument>
 			<template_specialization>
-				<like>template_parameter</like>
+				<normal>#C1305D</normal>
 			</template_specialization>
-			<template_member_specialization>
-				<like>template_parameter</like>
-			</template_member_specialization>
+
+			<include>
+				<normal>#4E82F6</normal>
+			</include>
+			<macro_use>
+				<normal>#4E82F6</normal>
+			</macro_use>
 
 			<aggregation>
-				<normal>#EEE</normal>
-				<focus>#DDD</focus>
+				<normal>#5D5D5D</normal>
+				<focus>#6D6D6D</focus>
 			</aggregation>
 		</edge>
 	</graph>
 
 	<tool_tip>
-		<text>black</text>
-		<background>#E0E0E0</background>
+		<text>#F7F7F7</text>
+		<background>#777777</background>
 	</tool_tip>
 </config>

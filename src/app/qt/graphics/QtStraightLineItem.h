@@ -16,7 +16,9 @@ public:
 	QtStraightLineItem(QGraphicsItem* parent);
 	virtual ~QtStraightLineItem();
 
-	void updateLine(Vec4i ownerRect, Vec4i targetRect, int number, GraphViewStyle::EdgeStyle style, bool showArrow);
+	void updateLine(
+		Vec4i ownerRect, Vec4i targetRect, int number,
+		GraphViewStyle::EdgeStyle style, GraphViewStyle::NodeStyle countStyle, bool showArrow);
 
 private:
 	QtCountCircleItem* m_circle;

@@ -6,6 +6,21 @@
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
 
+int GraphViewStyle::s_gridCellSize = 5;
+int GraphViewStyle::s_gridCellPadding = 10;
+
+std::map<Node::NodeType, float> GraphViewStyle::s_charWidths;
+std::map<Node::NodeType, float> GraphViewStyle::s_charHeights;
+
+std::shared_ptr<GraphViewStyleImpl> GraphViewStyle::s_impl;
+
+int GraphViewStyle::s_fontSize;
+std::string GraphViewStyle::s_fontName;
+float GraphViewStyle::s_zoomFactor;
+
+std::map<std::string, GraphViewStyle::NodeColor> GraphViewStyle::s_nodeColors;
+std::map<std::string, std::string> GraphViewStyle::s_edgeColors;
+
 GraphViewStyle::NodeMargins::NodeMargins()
 	: left(0)
 	, right(0)
@@ -27,6 +42,7 @@ GraphViewStyle::NodeStyle::NodeStyle()
 	, fontSize(0)
 	, fontBold(false)
 	, iconSize(0)
+	, hasHatching(false)
 {
 }
 
@@ -67,6 +83,9 @@ void GraphViewStyle::loadStyleSettings()
 
 	s_charWidths.clear();
 	s_charHeights.clear();
+
+	s_nodeColors.clear();
+	s_edgeColors.clear();
 }
 
 float GraphViewStyle::getCharWidthForNodeType(Node::NodeType type)
@@ -169,9 +188,9 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 		margins.bottom = 15;
 		break;
 
-	case Node::NODE_FILE:
 	case Node::NODE_ENUM:
 	case Node::NODE_TYPEDEF:
+	case Node::NODE_FILE:
 	case Node::NODE_MACRO:
 		margins.iconWidth = s_fontSize + 11;
 	case Node::NODE_TYPE:
@@ -255,19 +274,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 ){
 	NodeStyle style;
 
-	ColorScheme* scheme = ColorScheme::getInstance().get();
-
-	if (isActive || isFocused)
-	{
-		style.color = scheme->getNodeTypeColor(type, "hover");
-	}
-	else
-	{
-		style.color = scheme->getNodeTypeColor(type);
-	}
-
-	style.textColor = scheme->getColor("graph/text");
-	style.borderColor = scheme->getColor("graph/border");
+	style.color = getNodeColor(Node::getTypeString(type), isActive || isFocused);
 
 	style.fontName = getFontNameForNodeType(type);
 	style.fontSize = getFontSizeForNodeType(type);
@@ -278,10 +285,6 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 		style.borderDashed = true;
 
 	case Node::NODE_NAMESPACE:
-		style.borderColor = style.color;
-		style.color = "#00000000";
-		style.borderWidth = 1;
-
 		style.cornerRadius = 20;
 
 		style.textOffset.x = 15;
@@ -294,6 +297,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 	case Node::NODE_ENUM:
 	case Node::NODE_TYPEDEF:
 	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
+	case Node::NODE_FILE:
 	case Node::NODE_MACRO:
 		if (hasChildren)
 		{
@@ -307,26 +311,6 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 			style.textOffset.x = 8;
 			style.textOffset.y = 8;
 		}
-
-		if (isActive)
-		{
-			style.borderWidth = 2;
-		}
-		else if (isFocused)
-		{
-			style.borderWidth = 1;
-		}
-		else
-		{
-			style.borderWidth = 1;
-			style.borderColor = style.borderColor.replace(0, 1, "#20");
-		}
-		break;
-
-	case Node::NODE_FILE:
-		style.cornerRadius = 10;
-		style.textOffset.x = 6;
-		style.textOffset.y = 9;
 		break;
 
 	case Node::NODE_FUNCTION:
@@ -337,12 +321,16 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 		style.cornerRadius = 8;
 		style.textOffset.x = 5;
 		style.textOffset.y = 3;
-
-		if (isActive)
-		{
-			style.borderWidth = 2;
-		}
 		break;
+	}
+
+	if (isActive)
+	{
+		style.borderWidth = 2;
+	}
+	else
+	{
+		style.borderWidth = 1;
 	}
 
 	if (isActive || isFocused)
@@ -350,10 +338,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 		style.fontBold = true;
 	}
 
-	if (!defined)
-	{
-		style.hatchingColor = scheme->getColor("graph/hatching");
-	}
+	style.hasHatching = !defined;
 
 	addIcon(type, hasChildren, &style);
 
@@ -364,12 +349,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfAccessNode()
 {
 	NodeStyle style;
 
-	ColorScheme* scheme = ColorScheme::getInstance().get();
-
-	style.color = scheme->getColor("graph/background");
-	style.textColor = scheme->getColor("graph/text");
-	style.iconColor = scheme->getColor("graph/icon");
-	style.borderColor = "#00000000";
+	style.color = getNodeColor("access", false);
 
 	style.cornerRadius = 12;
 
@@ -387,12 +367,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfExpandToggleNode()
 {
 	NodeStyle style;
 
-	ColorScheme* scheme = ColorScheme::getInstance().get();
-
-	style.color = scheme->getColor("graph/background");
-	style.textColor = scheme->getColor("graph/text");
-	style.iconColor = scheme->getColor("graph/icon");
-	style.borderColor = "#00000000";
+	style.color = getNodeColor("access", false);
 
 	style.cornerRadius = 100;
 
@@ -402,9 +377,23 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfExpandToggleNode()
 	return style;
 }
 
+GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfCountCircle()
+{
+	NodeStyle style;
+
+	style.color = getNodeColor("count_number", false);
+
+	style.fontName = getFontNameOfExpandToggleNode();
+	style.fontSize = getFontSizeOfCountCircle();
+
+	return style;
+}
+
 GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfBundleNode(bool isFocused)
 {
 	NodeStyle style = getStyleForNodeType(Node::NODE_CLASS, true, false, isFocused, false);
+
+	style.color = getNodeColor("bundle", isFocused);
 
 	addIcon(Node::NODE_ENUM, false, &style);
 	style.iconPath = "data/gui/graph_view/images/bundle.png";
@@ -431,14 +420,7 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 	style.originOffset.y = -1;
 	style.targetOffset.y = 1;
 
-	if (isActive)
-	{
-		style.color = ColorScheme::getInstance()->getEdgeTypeColor(type, "hover");
-	}
-	else
-	{
-		style.color = ColorScheme::getInstance()->getEdgeTypeColor(type);
-	}
+	style.color = getEdgeColor(Edge::getTypeString(type), isActive || isFocused);
 
 	switch (type)
 	{
@@ -512,6 +494,50 @@ float GraphViewStyle::getZoomFactor()
 	return s_zoomFactor;
 }
 
+const GraphViewStyle::NodeColor& GraphViewStyle::getNodeColor(const std::string& typeStr, bool focus)
+{
+	std::string type = focus ? typeStr + "focus" : typeStr;
+	std::map<std::string, NodeColor>::const_iterator it = s_nodeColors.find(type);
+
+	if (it != s_nodeColors.end())
+	{
+		return it->second;
+	}
+
+	NodeColor color;
+	ColorScheme* scheme = ColorScheme::getInstance().get();
+	ColorScheme::ColorState state = focus ? ColorScheme::FOCUS : ColorScheme::NORMAL;
+
+	color.fill = scheme->getNodeTypeColor(typeStr, "fill", state);
+	color.border = scheme->getNodeTypeColor(typeStr, "border", state);
+	color.text = scheme->getNodeTypeColor(typeStr, "text", state);
+	color.icon = scheme->getNodeTypeColor(typeStr, "icon", state);
+	color.hatching = scheme->getNodeTypeColor(typeStr, "hatching", state);
+
+	s_nodeColors.emplace(type, color);
+
+	return s_nodeColors.find(type)->second;
+}
+
+const std::string& GraphViewStyle::getEdgeColor(const std::string& typeStr, bool focus)
+{
+	std::string type = focus ? typeStr + "focus" : typeStr;
+	std::map<std::string, std::string>::const_iterator it = s_edgeColors.find(type);
+
+	if (it != s_edgeColors.end())
+	{
+		return it->second;
+	}
+
+	ColorScheme* scheme = ColorScheme::getInstance().get();
+	ColorScheme::ColorState state = focus ? ColorScheme::FOCUS : ColorScheme::NORMAL;
+	std::string color = scheme->getEdgeTypeColor(typeStr, state);
+
+	s_edgeColors.emplace(type, color);
+
+	return s_edgeColors.find(type)->second;
+}
+
 void GraphViewStyle::addIcon(Node::NodeType type, bool hasChildren, NodeStyle* style)
 {
 	switch (type)
@@ -545,17 +571,4 @@ void GraphViewStyle::addIcon(Node::NodeType type, bool hasChildren, NodeStyle* s
 	}
 
 	style->iconOffset.y = 9;
-	style->iconColor = ColorScheme::getInstance()->getColor("graph/icon");
 }
-
-int GraphViewStyle::s_gridCellSize = 5;
-int GraphViewStyle::s_gridCellPadding = 10;
-
-std::map<Node::NodeType, float> GraphViewStyle::s_charWidths;
-std::map<Node::NodeType, float> GraphViewStyle::s_charHeights;
-
-std::shared_ptr<GraphViewStyleImpl> GraphViewStyle::s_impl;
-
-int GraphViewStyle::s_fontSize;
-std::string GraphViewStyle::s_fontName;
-float GraphViewStyle::s_zoomFactor;

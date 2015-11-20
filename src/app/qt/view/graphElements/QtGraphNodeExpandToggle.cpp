@@ -73,5 +73,5 @@ void QtGraphNodeExpandToggle::updateStyle()
 		(m_invisibleSubNodeCount == 0 ? m_rect->rect().height() / 2 - 2 : m_rect->rect().height() - 7)
 	);
 
-	m_icon->setPixmap(utility::colorizePixmap(m_icon->pixmap(), style.iconColor.c_str()));
+	m_icon->setPixmap(utility::colorizePixmap(m_icon->pixmap(), style.color.icon.c_str()));
 }

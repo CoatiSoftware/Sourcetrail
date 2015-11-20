@@ -3,6 +3,7 @@
 #include <QPainter>
 #include <QScrollBar>
 
+#include "component/view/GraphViewStyle.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
 
@@ -106,7 +107,7 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 	Node::NodeType nodeType = static_cast<Node::NodeType>(index.sibling(index.row(), index.column() + 3).data().toInt());
 	if (type.size())
 	{
-		color = QColor(scheme->getNodeTypeColor(nodeType).c_str());
+		color = QColor(GraphViewStyle::getNodeColor(Node::getTypeString(nodeType), false).fill.c_str());
 	}
 	else
 	{

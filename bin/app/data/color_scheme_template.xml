@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+	COLOR:
+		1. HEX RGB: #RRGGBB - e.g. #00FF00
+		2. HEX ARGB: #AARRGGBB - e.g. #5500FF00
+		3. Qt5 color name - e.g. white (http://doc.qt.io/qt-5/qcolor.html)
+-->
+
+<config>
+	<search>
+		<background></background>
+
+		<button>
+			<normal></normal>
+			<hover></hover>
+			<press></press>
+			<disabled></disabled>
+			<icon></icon>
+		</button>
+
+		<field>
+			<text></text>
+			<background></background>
+			<highlight></highlight>
+		</field>
+
+		<popup>
+			<text></text>
+			<by_text></by_text>
+			<background></background>
+			<highlight></highlight>
+		</popup>
+
+		<query>
+			<none>
+				<normal></normal>
+				<hover></hover>
+			</none>
+			<command>
+				<normal></normal>
+				<hover></hover>
+			</command>
+			<operator>
+				<normal></normal>
+				<hover></hover>
+			</operator>
+		</query>
+	</search>
+
+	<code>
+		<background></background>
+
+		<file>
+			<background></background>
+
+			<title>
+				<text></text>
+				<normal></normal>
+				<hover></hover>
+				<press></press>
+				<icon></icon>
+			</title>
+
+			<ref_count>
+				<text></text>
+				<background></background>
+			</ref_count>
+		</file>
+
+		<snippet>
+			<background></background>
+
+			<title>
+				<text></text>
+				<background></background>
+				<hover></hover>
+			</title>
+
+			<line_number>
+				<text></text>
+				<background></background>
+			</line_number>
+
+			<syntax>
+				<normal></normal>
+				<directive></directive>
+				<keyword></keyword>
+				<type></type>
+				<comment></comment>
+				<number></number>
+				<quotation></quotation>
+				<function></function>
+			</syntax>
+
+			<selection>
+				<location>
+					<normal>
+						<border></border>
+						<fill></fill>
+					</normal>
+					<focus>
+						<border></border>
+						<fill></fill>
+					</focus>
+					<active>
+						<border></border>
+						<fill></fill>
+					</active>
+				</location>
+				<scope>
+					<normal>
+						<border></border>
+						<fill></fill>
+					</normal>
+					<focus>
+						<border></border>
+						<fill></fill>
+					</focus>
+					<active>
+						<border></border>
+						<fill></fill>
+					</active>
+				</scope>
+				<error>
+					<normal>
+						<border></border>
+						<fill></fill>
+					</normal>
+					<focus>
+						<border></border>
+						<fill></fill>
+					</focus>
+					<active>
+						<border></border>
+						<fill></fill>
+					</active>
+				</error>
+			</selection>
+		</snippet>
+	</code>
+
+	<graph>
+		<background></background>
+
+		<node>
+			<!-- REQUIRED -->
+			<default>
+				<!-- NODE TEMPLATE-->
+				<like><!-- NODE TYPE NAME: Imitates the look of that node type. If defined all colors will be ignored --></like>
+
+				<fill>
+					<normal></normal>
+					<focus></focus> <!-- If not defined, the normal tag is used  -->
+				</fill>
+				<border>
+					<normal></normal>
+					<focus></focus> <!-- If not defined, the normal tag is used  -->
+				</border>
+				<text>
+					<normal></normal>
+					<focus></focus> <!-- If not defined, the normal tag is used  -->
+				</text>
+				<icon>
+					<normal></normal>
+					<focus></focus> <!-- If not defined, the normal tag is used  -->
+				</icon>
+				<hatching>
+					<normal></normal>
+					<focus></focus> <!-- If not defined, the normal tag is used  -->
+				</hatching>
+			</default>
+
+			<!-- OPTIONAL: type specific node colors can be overriden by using the TEMPLATE within a type tag below -->
+			<type></type>
+			<class></class>
+			<struct></struct>
+			<enum></enum>
+			<typedef></typedef>
+			<template_parameter_type></template_parameter_type>
+
+			<function></function>
+			<method></method>
+
+			<field></field>
+			<global_variable></global_variable>
+			<enum_constant></enum_constant>
+
+			<undefined></undefined>
+			<namespace></namespace>
+
+			<file></file>
+			<macro></macro>
+
+			<access></access>
+			<bundle></bundle>
+			<count_number></count_number> <!-- The small circles with numbers in the graph -->
+		</node>
+		<edge>
+			<!-- REQUIRED -->
+			<default>
+				<!-- EDGE TEMPLATE-->
+
+				<like><!-- EDGE TYPE NAME: Imitates the look of that edge type. If defined all colors will be ignored --></like>
+
+				<normal></normal>
+				<focus></focus> <!-- If not defined, the normal tag is used  -->
+			</default>
+
+			<!-- OPTIONAL: type specific edge colors can be overriden by using the TEMPLATE within a type tag below -->
+			<type_of></type_of>
+			<return_type></return_type>
+			<parameter_type></parameter_type>
+
+			<type_use></type_use>
+			<inheritance></inheritance>
+			<typedef></typedef>
+
+			<override></override>
+
+			<call></call>
+
+			<use></use>
+
+			<template_parameter></template_parameter>
+			<template_argument></template_argument>
+			<template_default_argument></template_default_argument>
+			<template_specialization></template_specialization>
+
+			<include></include>
+			<macro_use></macro_use>
+
+			<aggregation></aggregation>
+		</edge>
+	</graph>
+
+	<tool_tip>
+		<text></text>
+		<background></background>
+	</tool_tip>
+</config>

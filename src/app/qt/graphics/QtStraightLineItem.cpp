@@ -7,7 +7,6 @@
 #include "utility/utility.h"
 
 #include "qt/graphics/QtCountCircleItem.h"
-#include "settings/ColorScheme.h"
 
 QtStraightLineItem::QtStraightLineItem(QGraphicsItem* parent)
 	: QGraphicsLineItem(parent)
@@ -25,7 +24,8 @@ QtStraightLineItem::~QtStraightLineItem()
 }
 
 void QtStraightLineItem::updateLine(
-	Vec4i ownerRect, Vec4i targetRect, int number, GraphViewStyle::EdgeStyle style, bool showArrow
+	Vec4i ownerRect, Vec4i targetRect, int number,
+	GraphViewStyle::EdgeStyle style, GraphViewStyle::NodeStyle countStyle, bool showArrow
 ){
 	prepareGeometryChange();
 
@@ -101,15 +101,10 @@ void QtStraightLineItem::updateLine(
 		m_arrowRight->hide();
 	}
 
-	QColor color(style.color.c_str());
+	this->setPen(QPen(QBrush(style.color.c_str()), style.width, Qt::SolidLine, Qt::RoundCap));
 
-	this->setPen(QPen(QBrush(color), style.width, Qt::SolidLine, Qt::RoundCap));
+	m_circle->setStyle(countStyle.color.fill.c_str(), countStyle.color.text.c_str(), countStyle.color.border.c_str(), 1);
 
-	color = color.darker(110);
-
-	ColorScheme* scheme = ColorScheme::getInstance().get();
-	m_circle->setStyle(scheme->getColor("graph/background").c_str(), scheme->getColor("graph/text").c_str(), color, 2);
-
-	m_arrowLeft->setPen(QPen(QBrush(color), 2, Qt::SolidLine, Qt::RoundCap));
-	m_arrowRight->setPen(QPen(QBrush(color), 2, Qt::SolidLine, Qt::RoundCap));
+	m_arrowLeft->setPen(QPen(QBrush(countStyle.color.border.c_str()), 1, Qt::SolidLine, Qt::RoundCap));
+	m_arrowRight->setPen(QPen(QBrush(countStyle.color.border.c_str()), 1, Qt::SolidLine, Qt::RoundCap));
 }

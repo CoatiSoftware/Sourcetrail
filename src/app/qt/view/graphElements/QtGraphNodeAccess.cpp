@@ -56,7 +56,7 @@ void QtGraphNodeAccess::updateStyle()
 	m_text->setPos(style.textOffset.x + m_accessIconSize + 3, style.textOffset.x + m_accessIconSize + 2 - style.fontSize);
 	m_accessIcon->setPos(style.textOffset.x, style.textOffset.y);
 
-	m_accessIcon->setPixmap(utility::colorizePixmap(m_accessIcon->pixmap(), style.iconColor.c_str()));
+	m_accessIcon->setPixmap(utility::colorizePixmap(m_accessIcon->pixmap(), style.color.icon.c_str()));
 }
 
 void QtGraphNodeAccess::hideLabel()

@@ -91,8 +91,10 @@ void QtGraphEdge::updateLine()
 			owner.swap(target);
 		}
 
+		GraphViewStyle::NodeStyle countStyle = GraphViewStyle::getStyleOfCountCircle();
+
 		dynamic_cast<QtStraightLineItem*>(m_child)->updateLine(
-			owner->getBoundingRect(), target->getBoundingRect(), m_weight, style, showArrow);
+			owner->getBoundingRect(), target->getBoundingRect(), m_weight, style, countStyle, showArrow);
 	}
 	else
 	{

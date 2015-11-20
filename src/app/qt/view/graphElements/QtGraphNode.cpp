@@ -345,7 +345,7 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 	QPen pen(Qt::transparent);
 	if (style.borderWidth > 0)
 	{
-		pen.setColor(style.borderColor.c_str());
+		pen.setColor(style.color.border.c_str());
 		pen.setWidthF(style.borderWidth);
 		if (style.borderDashed)
 		{
@@ -354,16 +354,16 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 	}
 
 	m_rect->setPen(pen);
-	m_rect->setBrush(QBrush(style.color.c_str()));
+	m_rect->setBrush(QBrush(style.color.fill.c_str()));
 
 	qreal radius = style.cornerRadius;
 	m_rect->setRadius(radius);
 
-	if (style.hatchingColor.size())
+	if (style.hasHatching)
 	{
 		QtDeviceScaledPixmap pattern("data/gui/graph_view/images/pattern.png");
 		pattern.scaleToHeight(10);
-		QPixmap pixmap = utility::colorizePixmap(pattern.pixmap(), style.hatchingColor.c_str());
+		QPixmap pixmap = utility::colorizePixmap(pattern.pixmap(), style.color.hatching.c_str());
 
 		if (!m_undefinedRect)
 		{
@@ -384,7 +384,7 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 		QtDeviceScaledPixmap pixmap(QString::fromStdString(style.iconPath));
 		pixmap.scaleToHeight(style.iconSize);
 
-		m_icon = new QGraphicsPixmapItem(utility::colorizePixmap(pixmap.pixmap(), style.iconColor.c_str()), this);
+		m_icon = new QGraphicsPixmapItem(utility::colorizePixmap(pixmap.pixmap(), style.color.icon.c_str()), this);
 		m_icon->setPos(style.iconOffset.x, style.iconOffset.y);
 	}
 
@@ -396,6 +396,6 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 	}
 
 	m_text->setFont(font);
-	m_text->setBrush(QBrush(style.textColor.c_str()));
+	m_text->setBrush(QBrush(style.color.text.c_str()));
 	m_text->setPos(style.iconOffset.x + style.iconSize + style.textOffset.x, style.textOffset.y);
 }

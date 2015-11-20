@@ -35,19 +35,24 @@ public:
 		int iconWidth;
 	};
 
+	struct NodeColor
+	{
+		std::string fill;
+		std::string border;
+		std::string text;
+		std::string icon;
+		std::string hatching;
+	};
+
 	struct NodeStyle
 	{
 		NodeStyle();
 
-		std::string color;
-		std::string textColor;
-		std::string iconColor;
-		std::string hatchingColor;
+		NodeColor color;
 
 		int cornerRadius;
 
 		int borderWidth;
-		std::string borderColor;
 		bool borderDashed;
 
 		std::string fontName;
@@ -59,6 +64,8 @@ public:
 		std::string iconPath;
 		Vec2i iconOffset;
 		size_t iconSize;
+
+		bool hasHatching;
 	};
 
 	struct EdgeStyle
@@ -108,6 +115,7 @@ public:
 	static NodeStyle getStyleForNodeType(Node::NodeType type, bool defined, bool isActive, bool isFocused, bool hasChildren);
 	static NodeStyle getStyleOfAccessNode();
 	static NodeStyle getStyleOfExpandToggleNode();
+	static NodeStyle getStyleOfCountCircle();
 	static NodeStyle getStyleOfBundleNode(bool isFocused);
 
 	static EdgeStyle getStyleForEdgeType(Edge::EdgeType type, bool isActive, bool isFocused);
@@ -117,6 +125,9 @@ public:
 	static int toGridGap(int x);
 
 	static float getZoomFactor();
+
+	static const NodeColor& getNodeColor(const std::string& typeStr, bool focus);
+	static const std::string& getEdgeColor(const std::string& typeStr, bool focus);
 
 	static int s_gridCellSize;
 	static int s_gridCellPadding;
@@ -132,6 +143,9 @@ private:
 	static int s_fontSize;
 	static std::string s_fontName;
 	static float s_zoomFactor;
+
+	static std::map<std::string, NodeColor> s_nodeColors;
+	static std::map<std::string, std::string> s_edgeColors;
 };
 
 #endif // GRAPH_VIEW_STYLE_H

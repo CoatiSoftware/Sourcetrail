@@ -134,154 +134,191 @@
 	</code>
 
 	<graph>
-		<text>#F7F7F7</text>
-		<border>#C3C3C3</border>
 		<background>#272728</background>
-		<icon>#F7F7F7</icon>
-		<hatching>#272728</hatching>
 
 		<node>
+			<default>
+				<fill>
+					<normal>#4D4D4D</normal>
+				</fill>
+				<border>
+					<normal>#C3C3C3</normal>
+				</border>
+				<text>
+					<normal>#F7F7F7</normal>
+				</text>
+				<icon>
+					<normal>#F7F7F7</normal>
+				</icon>
+				<hatching>
+					<normal>#272728</normal>
+				</hatching>
+			</default>
+
 			<type>
-				<normal>#4D4D4D</normal>
-				<hover>#4D4D4D</hover>
+				<border>
+					<normal>#20C3C3C3</normal>
+					<focus>#C3C3C3</focus>
+				</border>
 			</type>
 			<class>
-				<normal>#4D4D4D</normal>
-				<hover>#4D4D4D</hover>
+				<border>
+					<normal>#20C3C3C3</normal>
+					<focus>#C3C3C3</focus>
+				</border>
 			</class>
 			<struct>
-				<normal>#4D4D4D</normal>
-				<hover>#4D4D4D</hover>
+				<border>
+					<normal>#20C3C3C3</normal>
+					<focus>#C3C3C3</focus>
+				</border>
 			</struct>
 			<enum>
-				<normal>#4D4D4D</normal>
-				<hover>#4D4D4D</hover>
+				<border>
+					<normal>#20C3C3C3</normal>
+					<focus>#C3C3C3</focus>
+				</border>
 			</enum>
 			<typedef>
-				<normal>#4D4D4D</normal>
-				<hover>#4D4D4D</hover>
+				<border>
+					<normal>#20C3C3C3</normal>
+					<focus>#C3C3C3</focus>
+				</border>
 			</typedef>
 			<template_parameter_type>
-				<normal>#4D4D4D</normal>
-				<hover>#4D4D4D</hover>
+				<border>
+					<normal>#20C3C3C3</normal>
+					<focus>#C3C3C3</focus>
+				</border>
 			</template_parameter_type>
 
 			<function>
-				<normal>#7A681F</normal>
-				<hover>#9C8528</hover>
+				<fill>
+					<normal>#7A681F</normal>
+					<focus>#9C8528</focus>
+				</fill>
+				<border>
+					<normal>transparent</normal>
+					<focus>#C3C3C3</focus>
+				</border>
 			</function>
 			<method>
-				<normal>#7A681F</normal>
-				<hover>#9C8528</hover>
+				<like>function</like>
 			</method>
 
-			<field>
-				<normal>#21516B</normal>
-				<hover>#2A6484</hover>
-			</field>
 			<global_variable>
-				<normal>#21516B</normal>
-				<hover>#2A6484</hover>
+				<fill>
+					<normal>#21516B</normal>
+					<focus>#2A6484</focus>
+				</fill>
+				<border>
+					<normal>transparent</normal>
+					<focus>#C3C3C3</focus>
+				</border>
 			</global_variable>
+			<field>
+				<like>global_variable</like>
+			</field>
 			<enum_constant>
-				<normal>#21516B</normal>
-				<hover>#2A6484</hover>
+				<like>global_variable</like>>
 			</enum_constant>
 
 			<undefined>
-				<normal>#78282D</normal>
-				<hover>#78282D</hover>
+				<fill>
+					<normal>#00000000</normal>
+				</fill>
+				<border>
+					<normal>#78282D</normal>
+				</border>
 			</undefined>
 			<namespace>
-				<normal>#78282D</normal>
-				<hover>#78282D</hover>
+				<like>undefined</like>
 			</namespace>
 
 			<file>
-				<normal>#1B564E</normal>
-				<hover>#247368</hover>
+				<fill>
+					<normal>#1B564E</normal>
+					<focus>#247368</focus>
+				</fill>
+				<border>
+					<normal>#20C3C3C3</normal>
+					<focus>#C3C3C3</focus>
+				</border>
 			</file>
-
 			<macro>
-				<normal>#1B564E</normal>
-				<hover>#247368</hover>
+				<like>file</like>
 			</macro>
+
+			<access>
+				<fill>
+					<normal>#272728</normal>
+				</fill>
+			</access>
+			<bundle>
+				<fill>
+					<normal>#272728</normal>
+				</fill>
+				<border>
+					<normal>#80C3C3C3</normal>
+					<focus>#C3C3C3</focus>
+				</border>
+			</bundle>
+			<count_number>
+				<fill>
+					<normal>#272728</normal>
+				</fill>
+				<border>
+					<normal>#C3C3C3</normal>
+				</border>
+				<text>
+					<normal>#F7F7F7</normal>
+				</text>
+			</count_number>
 		</node>
 		<edge>
-			<type_of>
+			<default>
 				<normal>#797979</normal>
-				<hover>#797979</hover>
-			</type_of>
-			<return_type>
-				<normal>#797979</normal>
-				<hover>#797979</hover>
-			</return_type>
-			<parameter_type>
-				<normal>#797979</normal>
-				<hover>#797979</hover>
-			</parameter_type>
-			<type_use>
-				<normal>#797979</normal>
-				<hover>#797979</hover>
-			</type_use>
-			<inheritance>
-				<normal>#797979</normal>
-				<hover>#797979</hover>
-			</inheritance>
-			<typedef>
-				<normal>#797979</normal>
-				<hover>#797979</hover>
-			</typedef>
+			</default>
 
 			<override>
 				<normal>#CC5E89</normal>
-				<hover>#CC5E89</hover>
 			</override>
 
 			<call>
 				<normal>#9C8528</normal>
-				<hover>#9C8528</hover>
 			</call>
 
 			<use>
 				<normal>#2A6484</normal>
-				<hover>#2A6484</hover>
 			</use>
 
 			<template_parameter>
 				<normal>#C1305D</normal>
-				<hover>#C1305D</hover>
 			</template_parameter>
 			<template_argument>
 				<normal>#C1305D</normal>
-				<hover>#C1305D</hover>
 			</template_argument>
 			<template_default_argument>
 				<normal>#C1305D</normal>
-				<hover>#C1305D</hover>
 			</template_default_argument>
 			<template_specialization>
 				<normal>#C1305D</normal>
-				<hover>#C1305D</hover>
 			</template_specialization>
 			<template_member_specialization>
 				<normal>#C1305D</normal>
-				<hover>#C1305D</hover>
 			</template_member_specialization>
 
 			<include>
 				<normal>#247368</normal>
-				<hover>#247368</hover>
 			</include>
+			<macro_use>
+				<normal>#247368</normal>
+			</macro_use>
 
 			<aggregation>
 				<normal>#5D5D5D</normal>
-				<hover>#6D6D6D</hover>
+				<focus>#6D6D6D</focus>
 			</aggregation>
-			<macro_use>
-				<normal>#247368</normal>
-				<hover>#247368</hover>
-			</macro_use>
 		</edge>
 	</graph>
 

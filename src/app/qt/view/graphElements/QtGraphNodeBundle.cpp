@@ -7,7 +7,6 @@
 
 #include "component/view/GraphViewStyle.h"
 #include "qt/graphics/QtCountCircleItem.h"
-#include "settings/ColorScheme.h"
 
 QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, std::string name)
 	: QtGraphNode()
@@ -49,11 +48,11 @@ void QtGraphNodeBundle::updateStyle()
 
 	m_circle->setPosition(Vec2f(m_rect->rect().right() - 3, m_rect->rect().top() + 3));
 
-	ColorScheme* scheme = ColorScheme::getInstance().get();
+	GraphViewStyle::NodeStyle accessStyle = GraphViewStyle::getStyleOfCountCircle();
 	m_circle->setStyle(
-		scheme->getColor("graph/background").c_str(),
-		scheme->getColor("graph/text").c_str(),
-		scheme->getColor("graph/text").c_str(),
+		accessStyle.color.fill.c_str(),
+		accessStyle.color.text.c_str(),
+		accessStyle.color.border.c_str(),
 		style.borderWidth
 	);
 }

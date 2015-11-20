@@ -13,6 +13,7 @@
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 
+#include "component/view/GraphViewStyle.h"
 #include "qt/element/QtAutocompletionList.h"
 #include "settings/ColorScheme.h"
 
@@ -603,8 +604,7 @@ void QtSmartSearchBox::updateElements()
 	m_elements.clear();
 
 	ColorScheme* scheme = ColorScheme::getInstance().get();
-
-	std::string textColor = scheme->getColor("search/field/text");
+	std::string searchTextColor = scheme->getColor("search/field/text");
 
 	for (const SearchMatch& match : m_matches)
 	{
@@ -616,12 +616,16 @@ void QtSmartSearchBox::updateElements()
 
 		std::string color;
 		std::string hoverColor;
+		std::string textColor = searchTextColor;
+		std::string textHoverColor = searchTextColor;
 
 		if (match.searchType == SearchMatch::SEARCH_TOKEN)
 		{
 			element->setObjectName(QString::fromStdString("search_element_" + match.getNodeTypeAsString()));
-			color = scheme->getNodeTypeColor(match.nodeType);
-			hoverColor = scheme->getNodeTypeColor(match.nodeType, "hover");
+			color = GraphViewStyle::getNodeColor(Node::getTypeString(match.nodeType), false).fill;
+			hoverColor = GraphViewStyle::getNodeColor(Node::getTypeString(match.nodeType), true).fill;
+			textColor = GraphViewStyle::getNodeColor(Node::getTypeString(match.nodeType), false).text;
+			textHoverColor = GraphViewStyle::getNodeColor(Node::getTypeString(match.nodeType), true).text;
 		}
 		else
 		{
@@ -633,8 +637,8 @@ void QtSmartSearchBox::updateElements()
 		}
 
 		std::stringstream css;
-		css << "QPushButton {border: none; padding: 0px 4px; background-color:" << color << "; color:" << textColor << ";} ";
-		css << "QPushButton:hover { background-color:" << hoverColor << ";} ";
+		css << "QPushButton { border: none; padding: 0px 4px; background-color:" << color << "; color:" << textColor << ";} ";
+		css << "QPushButton:hover { background-color:" << hoverColor << "; color:" << textHoverColor << ";} ";
 
 		element->setStyleSheet(css.str().c_str());
 
