@@ -87,6 +87,7 @@ QtCodeArea::QtCodeArea(
 	: QPlainTextEdit(parent)
 	, m_fileWidget(file)
 	, m_startLineNumber(startLineNumber)
+	, m_code(code)
 	, m_locationFile(locationFile)
 	, m_digits(0)
 	, m_panningValue(-1)
@@ -103,8 +104,8 @@ QtCodeArea::QtCodeArea(
 	m_lineNumberArea = new LineNumberArea(this);
 	m_highlighter = new QtHighlighter(document());
 
-	std::string displayCode = code;
-	if (*code.rbegin() == '\n')
+	std::string displayCode = m_code;
+	if (*displayCode.rbegin() == '\n')
 	{
 		displayCode.pop_back();
 	}
@@ -262,6 +263,11 @@ QRectF QtCodeArea::getFirstActiveLineRect() const
 
 	QTextBlock block = document()->findBlockByLineNumber(lineNumber - m_startLineNumber);
 	return blockBoundingGeometry(block);
+}
+
+std::string QtCodeArea::getCode() const
+{
+	return m_code;
 }
 
 void QtCodeArea::resizeEvent(QResizeEvent *e)

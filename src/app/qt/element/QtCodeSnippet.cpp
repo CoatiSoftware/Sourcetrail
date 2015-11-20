@@ -35,12 +35,15 @@ std::shared_ptr<QtCodeSnippet> QtCodeSnippet::merged(QtCodeSnippet* a, QtCodeSni
 		}
 	);
 
-	std::string code;
-	std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(locationFile->getFilePath().str());
-	for (const std::string& line: textAccess->getLines(first->getStartLineNumber(), second->getEndLineNumber()))
+	std::string code = first->getCode();
+
+	std::string secondCode = second->getCode();
+	int secondCodeStartIndex = 0;
+	for (uint i = second->getStartLineNumber(); i <= first->getEndLineNumber(); i++)
 	{
-		code += line;
+		secondCodeStartIndex = secondCode.find("\n", secondCodeStartIndex) + 1;
 	}
+	code += secondCode.substr(secondCodeStartIndex, secondCode.npos);
 
 	std::string title = first->m_titleString;
 
@@ -148,6 +151,11 @@ void QtCodeSnippet::setIsActiveFile(bool isActiveFile)
 QRectF QtCodeSnippet::getFirstActiveLineRect() const
 {
 	return m_codeArea->getFirstActiveLineRect();
+}
+
+std::string QtCodeSnippet::getCode() const
+{
+	return m_codeArea->getCode();
 }
 
 void QtCodeSnippet::contextMenuEvent(QContextMenuEvent* event)

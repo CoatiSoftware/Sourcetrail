@@ -46,6 +46,8 @@ public:
 
 	QRectF getFirstActiveLineRect() const;
 
+	std::string getCode() const;
+
 protected:
 	virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
 

@@ -29,7 +29,7 @@ public:
 	MouseWheelOverScrollbarFilter(QObject* parent);
 
 protected:
-	bool eventFilter(QObject*obj, QEvent* event);
+	bool eventFilter(QObject* obj, QEvent* event);
 };
 
 class QtCodeArea
@@ -42,7 +42,7 @@ public:
 		: public QWidget
 	{
 	public:
-		LineNumberArea(QtCodeArea *codeArea);
+		LineNumberArea(QtCodeArea* codeArea);
 		virtual ~LineNumberArea();
 
 		QSize sizeHint() const Q_DECL_OVERRIDE;
@@ -51,7 +51,7 @@ public:
 		virtual void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
 
 	private:
-		QtCodeArea *m_codeArea;
+		QtCodeArea* m_codeArea;
 	};
 
 	static void clearAnnotationColors();
@@ -72,7 +72,7 @@ public:
 
 	std::shared_ptr<TokenLocationFile> getTokenLocationFile() const;
 
-	void lineNumberAreaPaintEvent(QPaintEvent *event);
+	void lineNumberAreaPaintEvent(QPaintEvent* event);
 	int lineNumberDigits() const;
 	int lineNumberAreaWidth() const;
 	void updateLineNumberAreaWidthForDigits(int digits);
@@ -85,8 +85,10 @@ public:
 
 	QRectF getFirstActiveLineRect() const;
 
+	std::string getCode() const;
+
 protected:
-	virtual void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+	virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
 	virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
 	virtual void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
 	virtual void enterEvent(QEvent* event) Q_DECL_OVERRIDE;
@@ -100,7 +102,7 @@ protected:
 
 private slots:
 	void updateLineNumberAreaWidth(int newBlockCount);
-	void updateLineNumberArea(const QRect &, int);
+	void updateLineNumberArea(const QRect&, int);
 	void clearSelection();
 	void setIDECursorPosition();
 
@@ -160,6 +162,7 @@ private:
 	QtHighlighter* m_highlighter;
 
 	const uint m_startLineNumber;
+	const std::string m_code;
 
 	std::shared_ptr<TokenLocationFile> m_locationFile;
 
