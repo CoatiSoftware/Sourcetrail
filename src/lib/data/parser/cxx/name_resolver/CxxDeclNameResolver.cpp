@@ -5,6 +5,7 @@
 
 #include "data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
+#include "utility/file/FilePath.h"
 #include "utility/logging/logging.h"
 
 CxxDeclNameResolver::CxxDeclNameResolver(const clang::Decl* declaration)
@@ -180,7 +181,13 @@ std::string CxxDeclNameResolver::getDeclName()
 	{
 		const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-		declName = "anonymous namespace (" + std::string(presumedBegin.getFilename()) + ")";
+		declName = "anonymous namespace (" + FilePath(presumedBegin.getFilename()).fileName() + ")";
+	}
+	else if (clang::isa<clang::EnumDecl>(declaration) && declName.size() == 0)
+	{
+		const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
+		declName = "anonymous enum (" + FilePath(presumedBegin.getFilename()).fileName() + ")";
 	}
 
 	return declName;
