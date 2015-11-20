@@ -962,10 +962,27 @@ std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId, Id* declarationId) c
 	if (m_sqliteStorage.isNode(tokenId))
 	{
 		*declarationId = tokenId;
-		std::vector<StorageEdge> storageEdges = m_sqliteStorage.getEdgesByTargetId(tokenId);
-		for (size_t i = 0; i < storageEdges.size(); i++)
+
+		std::vector<StorageEdge> incomingEdges = m_sqliteStorage.getEdgesByTargetId(tokenId);
+		for (size_t i = 0; i < incomingEdges.size(); i++)
 		{
-			activeTokenIds.push_back(storageEdges[i].id);
+			activeTokenIds.push_back(incomingEdges[i].id);
+		}
+
+		std::vector<StorageEdge> templateSpecializationEdges = m_sqliteStorage.getEdgesBySourceType(
+			tokenId, Edge::EDGE_TEMPLATE_SPECIALIZATION_OF
+		);
+		if (templateSpecializationEdges.size() > 0) // should be either 0 or 1
+		{
+			activeTokenIds.push_back(templateSpecializationEdges[0].targetNodeId);
+		}
+
+		std::vector<StorageEdge> templateMemberSpecializationEdges = m_sqliteStorage.getEdgesBySourceType(
+			tokenId, Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION_OF
+		);
+		if (templateMemberSpecializationEdges.size() > 0) // should be either 0 or 1
+		{
+			activeTokenIds.push_back(templateMemberSpecializationEdges[0].targetNodeId);
 		}
 	}
 
