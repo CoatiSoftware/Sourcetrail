@@ -46,17 +46,11 @@ QtListItemWidget #button:hover {
 }
 
 #roundedButton {
-	background: dimgray;
-	border-radius: 8px;
 	color: white;
-	font-size: 15px;
 	height: 16px;
 	margin-right: 3px;
 	width: 16px;
-}
-
-#roundedButton:hover {
-	background: gray;
+	border: none;
 }
 
 #dropInfo {

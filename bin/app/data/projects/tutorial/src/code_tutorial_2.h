@@ -47,10 +47,10 @@ void deep_thought()
 //  where does it come from?
 //
 // 3 - EXPANDING TO SCOPES
-//  Do you see first line of this snippet? I mean the one that has just two dots 
-//  as line number and reads "deep_thought". Actually that's the name of the  
-//  function's scope that encapsulates the snippet. By clicking that line you 
-//  can tell Coati to expand the view to show the entire scope. 
+//  Do you see the first line of this snippet? I mean the one that has just two
+//  dots as line number and reads "deep_thought". Actually that's the name of
+//  the function's scope that encapsulates the snippet. By clicking that line
+//  you can tell Coati to expand the view to show the entire scope.
 //  Give it a try!
 //
 //------------------------------------------------------------------------------

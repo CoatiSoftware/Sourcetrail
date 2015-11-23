@@ -104,13 +104,13 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent)
 	innerLayout->setContentsMargins(8, 4, 8, 3);
 	innerLayout->setSpacing(0);
 
-	m_addButton = new QPushButton("+", this);
+	m_addButton = new QPushButton(QIcon("data/gui/setting_window/plus.png"), "", this);
 	m_addButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	m_addButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_addButton->setObjectName("roundedButton");
 	innerLayout->addWidget(m_addButton);
 
-	m_removeButton = new QPushButton("-", this);
+	m_removeButton = new QPushButton(QIcon("data/gui/setting_window/minus.png"), "", this);
 	m_removeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	m_removeButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_removeButton->setObjectName("roundedButton");
