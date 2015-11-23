@@ -141,8 +141,6 @@ namespace CoatiSoftware.CoatiPlugin
             {
                 if (menuCommand.CommandID.ID == (int)PkgCmdIDList.cmdidCoatiSetActiveToken)
                 {
-                    DisplayMessage("Coati", "" + ServerPort.ToString());
-
                     string fileName = FileUtility.GetActiveDocumentName(dte);
                     string filePath = FileUtility.GetActiveDocumentPath(dte);
 
