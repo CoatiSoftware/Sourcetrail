@@ -218,7 +218,7 @@ bool ASTVisitor::VisitCXXConstructorDecl(clang::CXXConstructorDecl* declaration)
 				if (init->isMemberInitializer())
 				{
 					m_client->onFieldUsageParsed(
-						getParseLocationForNamedDecl(init->getMember(), init->getMemberLocation()),
+						getParseLocationForIdentifier(init->getMemberLocation()),
 						getParseFunction(declaration),
 						utility::getDeclNameHierarchy(init->getMember())
 					);
@@ -897,7 +897,7 @@ ParseLocation ASTVisitor::getParseLocation(const clang::SourceRange& sourceRange
 	);
 }
 
-ParseLocation ASTVisitor::getParseLocationForNamedDecl(const clang::NamedDecl* decl, const clang::SourceLocation& loc) const
+ParseLocation ASTVisitor::getParseLocationForIdentifier(const clang::SourceLocation& loc) const
 {
 	if (loc.isInvalid())
 	{
@@ -907,18 +907,32 @@ ParseLocation ASTVisitor::getParseLocationForNamedDecl(const clang::NamedDecl* d
 	const clang::SourceManager& sourceManager = m_context->getSourceManager();
 	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(loc);
 
+	clang::Token identifierToken;
+	clang::Lexer::getRawToken(loc, identifierToken, sourceManager, clang::LangOptions());
+	clang::tok::TokenKind tokenKind = identifierToken.getKind();
+	while (
+		tokenKind != clang::tok::TokenKind::identifier &&
+		tokenKind != clang::tok::TokenKind::raw_identifier
+	)
+	{
+		clang::Lexer::getRawToken(identifierToken.getEndLoc(), identifierToken, sourceManager, clang::LangOptions());
+		tokenKind = identifierToken.getKind();
+	}
+
+	const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(identifierToken.getEndLoc());
+
 	return ParseLocation(
 		presumedBegin.getFilename(),
 		presumedBegin.getLine(),
 		presumedBegin.getColumn(),
-		presumedBegin.getLine(),
-		presumedBegin.getColumn() + decl->getNameAsString().size() - 1
+		presumedEnd.getLine(),
+		presumedEnd.getColumn() - 1
 	);
 }
 
 ParseLocation ASTVisitor::getParseLocationForNamedDecl(const clang::NamedDecl* decl) const
 {
-	return getParseLocationForNamedDecl(decl, decl->getLocation());
+	return getParseLocationForIdentifier(decl->getLocation());
 }
 
 ParseLocation ASTVisitor::getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const

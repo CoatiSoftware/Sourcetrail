@@ -70,7 +70,7 @@ private:
 	ParserClient::AbstractionType getAbstractionType(const clang::CXXMethodDecl* methodDecl) const;
 
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
-	ParseLocation getParseLocationForNamedDecl(const clang::NamedDecl* decl, const clang::SourceLocation& loc) const;
+	ParseLocation getParseLocationForIdentifier(const clang::SourceLocation& loc) const;
 	ParseLocation getParseLocationForNamedDecl(const clang::NamedDecl* decl) const;
 	ParseLocation getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const;
 	ParseLocation getParseLocationOfRecordBody(clang::CXXRecordDecl* decl) const;
