@@ -60,7 +60,7 @@ void QtStartScreen::setup()
 	int position = 290;
 	QIcon cpp_icon("data/gui/startscreen/icon_cpp.png");
 	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
-	for (int i = 0; i < recentProjects.size() && i < ApplicationSettings::MaximalAmountOfRecentProjects; i++)
+	for (size_t i = 0; i < recentProjects.size() && i < ApplicationSettings::MaximalAmountOfRecentProjects; i++)
 	{
 		FilePath project = recentProjects[i];
 		QtRecentProjectButton* button = new QtRecentProjectButton(project.str().c_str(), this);
