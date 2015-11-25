@@ -108,7 +108,7 @@ std::string CxxDeclNameResolver::getDeclName()
 			for (int i = 0; i < templateArgumentCount; i++)
 			{
 				const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
-				if (templateArgument.isDependent()) // IMPORTANT_TODO: fix case when arg depends on template parameter of outer template class, or depends on first template parameter.
+				if (templateArgument.isDependent()) //  IMPORTANT_TODO: fix case when arg depends on template parameter of outer template class, or depends on first template parameter.
 				{
 					if(currentParameterIndex < parameterList->size())
 					{
@@ -239,12 +239,25 @@ std::string CxxDeclNameResolver::getTemplateParameterTypeString(const clang::Non
 	{
 		typeNameResolver.ignoreContextDecl(m_declaration);
 	}
-	return typeNameResolver.qualTypeToDataType(parameter->getType())->getFullTypeName();
+
+	std::string typeString = typeNameResolver.qualTypeToDataType(parameter->getType())->getFullTypeName();
+
+	if (parameter->isTemplateParameterPack())
+	{
+		typeString += "...";
+	}
+
+	return typeString;
 }
 
 std::string CxxDeclNameResolver::getTemplateParameterTypeString(const clang::TemplateTypeParmDecl* parameter)
 {
-	return (parameter->wasDeclaredWithTypename() ? "typename" : "class");
+	std::string typeString = (parameter->wasDeclaredWithTypename() ? "typename" : "class");
+	if (parameter->isTemplateParameterPack())
+	{
+		typeString += "...";
+	}
+	return typeString;
 }
 
 std::string CxxDeclNameResolver::getTemplateParameterTypeString(const clang::TemplateTemplateParmDecl* parameter)
@@ -258,6 +271,12 @@ std::string CxxDeclNameResolver::getTemplateParameterTypeString(const clang::Tem
 	}
 	templateParameterTypeString += ">";
 	templateParameterTypeString += " typename"; // TODO: what if template template parameter is defined with class keyword?
+
+	if (parameter->isTemplateParameterPack())
+	{
+		templateParameterTypeString += "...";
+	}
+
 	return templateParameterTypeString;
 }
 

@@ -72,7 +72,24 @@ namespace utility
 		case clang::TemplateArgument::Expression:
 			return utility::qualTypeToDataType(argument.getAsExpr()->getType());
 		case clang::TemplateArgument::Pack:
-			LOG_ERROR("Type of template argument not handled: Pack");
+			{
+				std::string typeName = "<";
+				argument.getPackAsArray();
+				llvm::ArrayRef<clang::TemplateArgument> pack = argument.getPackAsArray();
+				for (size_t i = 0; i < pack.size(); i++)
+				{
+					typeName += templateArgumentToDataType(pack[i])->getFullTypeName();
+					if (i < pack.size() - 1)
+					{
+						typeName += ", ";
+					}
+				}
+				typeName += ">";
+
+				NameHierarchy typeNameHerarchy;
+				typeNameHerarchy.push(std::make_shared<NameElement>(typeName));
+				return std::make_shared<NamedDataType>(typeNameHerarchy);
+			}
 			break;
 		}
 		return std::make_shared<NamedDataType>(NameHierarchy());

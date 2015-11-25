@@ -138,7 +138,7 @@ std::shared_ptr<DataType> CxxTypeNameResolver::typeToDataType(const clang::Type*
 					templateArgumentNamePart += ">";
 
 					std::string declName = typeNameHerarchy.back()->getFullName();
-					declName = declName.substr(0, declName.rfind("<"));	// remove template parameters - does not work for A<ajaj<ajsj>>
+					declName = declName.substr(0, declName.rfind("<"));	// remove template parameters - TODO: FIX: does not work for A<ajaj<ajsj>>
 					declName += templateArgumentNamePart;				// add template arguments
 					typeNameHerarchy.pop();
 					typeNameHerarchy.push(std::make_shared<NameElement>(declName));
@@ -166,10 +166,16 @@ std::shared_ptr<DataType> CxxTypeNameResolver::typeToDataType(const clang::Type*
 		{
 			const clang::DependentNameType* dependentNameType = clang::dyn_cast<clang::DependentNameType>(type);
 
-			NameHierarchy typeNameHerarchy = getNameHierarchy( dependentNameType->getQualifier());
+			NameHierarchy typeNameHerarchy = getNameHierarchy(dependentNameType->getQualifier());
 			typeNameHerarchy.push(std::make_shared<NameElement>(dependentNameType->getIdentifier()->getName().str()));
 
 			dataType = std::make_shared<NamedDataType>(typeNameHerarchy);
+			break;
+		}
+	case clang::Type::PackExpansion:
+		{
+			const clang::PackExpansionType* packExpansionType = clang::dyn_cast<clang::PackExpansionType>(type);
+			dataType = qualTypeToDataType(packExpansionType->getPattern());
 			break;
 		}
 	default:

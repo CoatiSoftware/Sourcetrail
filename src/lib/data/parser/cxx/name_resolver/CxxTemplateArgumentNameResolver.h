@@ -15,7 +15,6 @@ public:
 	~CxxTemplateArgumentNameResolver();
 
 	std::string getTemplateArgumentName(const clang::TemplateArgument& argument);
-	std::shared_ptr<DataType> getTemplateArgumentType(const clang::TemplateArgument& argument);
 };
 
 #endif // CXX_TEMPLATE_ARGUMENT_NAME_RESOLVER_H

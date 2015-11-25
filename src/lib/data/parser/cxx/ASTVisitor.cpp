@@ -333,7 +333,7 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 	)
 	{
 		clang::ClassTemplateSpecializationDecl* specializationDecl = *it;
-		NameHierarchy specializationNameHierarchy = utility::getDeclNameHierarchy(specializationDecl); // TODO: rename this! to specialization..
+		NameHierarchy specializationNameHierarchy = utility::getDeclNameHierarchy(specializationDecl);
 
 		ParseLocation specializationLocation = getParseLocationForNamedDecl(specializationDecl);
 		if (specializationDecl->getSpecializationKind() == clang::TSK_ImplicitInstantiation)
@@ -1119,7 +1119,7 @@ void ASTVisitor::saveClassTemplateArgumentTypeUsages(const clang::TypeSourceInfo
 		for (size_t i = 0; i < templateSpecializationType->getNumArgs(); i++)
 		{
 			CxxTemplateArgumentNameResolver resolver;
-			std::shared_ptr<DataType> argumentType = resolver.getTemplateArgumentType(templateSpecializationType->getArg(i));
+			std::shared_ptr<DataType> argumentType = utility::templateArgumentToDataType(templateSpecializationType->getArg(i));
 			if (argumentType->getFullTypeName().size() > 0)
 			{
 				m_client->onTypeUsageParsed(getParseTypeUsage(typeInfo->getTypeLoc(), argumentType), t);
@@ -1141,7 +1141,7 @@ void ASTVisitor::saveFunctionTemplateArgumentTypeUsages(
 	for (size_t i = 0; i < argumentList->size(); i++)
 	{
 		CxxTemplateArgumentNameResolver resolver;
-		std::shared_ptr<DataType> argumentType = resolver.getTemplateArgumentType(argumentList->get(i));
+		std::shared_ptr<DataType> argumentType = utility::templateArgumentToDataType(argumentList->get(i));
 		if (argumentType->getFullTypeName().size() > 0)
 		{
 			m_client->onTypeUsageParsed(getParseTypeUsage(sourceRange, argumentType), t);

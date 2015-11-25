@@ -23,25 +23,20 @@ CxxTemplateArgumentNameResolver::~CxxTemplateArgumentNameResolver()
 
 std::string CxxTemplateArgumentNameResolver::getTemplateArgumentName(const clang::TemplateArgument& argument)
 {
-	return getTemplateArgumentType(argument)->getFullTypeName();
-}
-
-std::shared_ptr<DataType> CxxTemplateArgumentNameResolver::getTemplateArgumentType(const clang::TemplateArgument& argument)
-{
 	const clang::TemplateArgument::ArgKind kind = argument.getKind();
 	switch (kind)
 	{
 	case clang::TemplateArgument::Type:
 		{
 			CxxTypeNameResolver typeNameResolver(getIgnoredContextDecls());
-			return typeNameResolver.qualTypeToDataType(argument.getAsType());
+			return typeNameResolver.qualTypeToDataType(argument.getAsType())->getFullTypeName();
 		}
 	case clang::TemplateArgument::Integral:
 	case clang::TemplateArgument::Null:
 	case clang::TemplateArgument::Declaration:
 	case clang::TemplateArgument::NullPtr:
 	case clang::TemplateArgument::Template:
-	case clang::TemplateArgument::TemplateExpansion:
+	case clang::TemplateArgument::TemplateExpansion: // handled correctly? template template parameter...
 	case clang::TemplateArgument::Expression:
 		{
 			clang::PrintingPolicy pp = clang::PrintingPolicy(clang::LangOptions());
@@ -53,16 +48,26 @@ std::shared_ptr<DataType> CxxTemplateArgumentNameResolver::getTemplateArgumentTy
 			argument.print(pp, os);
 			const std::string typeName = os.str();
 
-			NameHierarchy typeNameHerarchy;
-			typeNameHerarchy.push(std::make_shared<NameElement>(typeName));
-			return std::make_shared<NamedDataType>(typeNameHerarchy);
+			return typeName;
 		}
 	case clang::TemplateArgument::Pack:
-		LOG_INFO("Type of template argument not handled: Pack");
-		break;
+		{
+			std::string typeName = "<";
+			argument.getPackAsArray();
+			llvm::ArrayRef<clang::TemplateArgument> pack = argument.getPackAsArray();
+			for (size_t i = 0; i < pack.size(); i++)
+			{
+				typeName += getTemplateArgumentName(pack[i]);
+				if (i < pack.size() - 1)
+				{
+					typeName += ", ";
+				}
+			}
+			typeName += ">";
+
+			return typeName;
+		}
 	}
 
-	NameHierarchy typeNameHerarchy;
-	typeNameHerarchy.push(std::make_shared<NameElement>(""));
-	return std::make_shared<NamedDataType>(typeNameHerarchy);
+	return "";
 }
