@@ -76,10 +76,16 @@ void GraphViewStyle::setImpl(std::shared_ptr<GraphViewStyleImpl> impl)
 
 void GraphViewStyle::loadStyleSettings()
 {
+	if (!s_impl)
+	{
+		return;
+	}
+
 	s_fontSize = 14;
 	s_fontName = ApplicationSettings::getInstance()->getFontName();
 
-	s_zoomFactor = ApplicationSettings::getInstance()->getFontSize() / float(s_fontSize);
+	float zoomDifference = getImpl()->getGraphViewZoomDifferenceForPlatform();
+	s_zoomFactor = (ApplicationSettings::getInstance()->getFontSize()) / float(s_fontSize) * zoomDifference;
 
 	s_charWidths.clear();
 	s_charHeights.clear();
