@@ -8,6 +8,7 @@
 #include "data/graph/token_component/TokenComponentConst.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
 #include "data/graph/token_component/TokenComponentFilePath.h"
+#include "data/graph/token_component/TokenComponentSignature.h"
 
 const Node::NodeTypeMask Node::NODE_NOT_VISIBLE = Node::NODE_UNDEFINED | Node::NODE_NAMESPACE;
 
@@ -386,6 +387,23 @@ void Node::addComponentFilePath(std::shared_ptr<TokenComponentFilePath> componen
 		return;
 	}
 	else if (!isType(NODE_FILE))
+	{
+		LOG_ERROR("TokenComponentFilePath can't be set on node of type: " + getTypeString());
+	}
+	else
+	{
+		addComponent(component);
+	}
+}
+
+void Node::addComponentSignature(std::shared_ptr<TokenComponentSignature> component)
+{
+	if (getComponent<TokenComponentSignature>())
+	{
+		LOG_ERROR("TokenComponentSignature has been set before!");
+		return;
+	}
+	else if (!isType(NODE_FUNCTION | NODE_METHOD))
 	{
 		LOG_ERROR("TokenComponentFilePath can't be set on node of type: " + getTypeString());
 	}

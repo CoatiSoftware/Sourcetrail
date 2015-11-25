@@ -107,6 +107,7 @@ public:
 	StorageComponentAccess getComponentAccessByMemberEdgeId(Id memberEdgeId) const;
 	std::vector<StorageComponentAccess> getComponentAccessByMemberEdgeIds(const std::vector<Id>& memberEdgeIds) const;
 	Id getNodeIdBySignature(const std::string& signature) const;
+	std::string getSignatureByNodeId(Id nodeId) const;
 
 	std::vector<StorageCommentLocation> getCommentLocationsInFile(const FilePath& filePath) const;
 	std::vector<StorageError> getAllErrors() const;

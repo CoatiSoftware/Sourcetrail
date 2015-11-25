@@ -10,6 +10,7 @@
 #include "utility/utilityString.h"
 
 #include "data/graph/token_component/TokenComponentAggregation.h"
+#include "data/graph/token_component/TokenComponentSignature.h"
 #include "data/graph/Graph.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
@@ -1258,11 +1259,11 @@ std::shared_ptr<TokenLocationFile> Storage::getCommentLocationsInFile(const File
 	for (size_t i = 0; i < storageLocations.size(); i++)
 	{
 		TokenLocation* loc = file->addTokenLocation(
-			storageLocations[i].id, 
+			storageLocations[i].id,
 			0, // comment token location has no element.
-			storageLocations[i].startLine, 
-			storageLocations[i].startCol, 
-			storageLocations[i].endLine, 
+			storageLocations[i].startLine,
+			storageLocations[i].startCol,
+			storageLocations[i].endLine,
 			storageLocations[i].endCol
 		);
 	}
@@ -1612,12 +1613,20 @@ void Storage::addNodesToGraph(const std::vector<Id> nodeIds, Graph* graph) const
 
 	for (const StorageNode& storageNode : storageNodes)
 	{
-		graph->createNode(
+		Node::NodeType type = Node::intToType(storageNode.type);
+		Node* node = graph->createNode(
 			storageNode.id,
-			Node::intToType(storageNode.type),
+			type,
 			m_tokenIndex.getNameHierarchyForTokenId(storageNode.id),
 			storageNode.defined
 		);
+
+		if (type == Node::NODE_FUNCTION || type == Node::NODE_METHOD)
+		{
+			node->addComponentSignature(
+				std::make_shared<TokenComponentSignature>(m_sqliteStorage.getSignatureByNodeId(storageNode.id))
+			);
+		}
 	}
 }
 

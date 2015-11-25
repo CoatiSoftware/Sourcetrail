@@ -5,6 +5,8 @@
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 
+#include "data/graph/token_component/TokenComponentSignature.h"
+
 QtGraphNodeData::QtGraphNodeData(const Node* data, bool hasParent, bool childVisible)
 	: m_data(data)
 	, m_childVisible(childVisible)
@@ -24,6 +26,15 @@ QtGraphNodeData::QtGraphNodeData(const Node* data, bool hasParent, bool childVis
 	if (!data->isDefined() && !data->isType(Node::NODE_UNDEFINED))
 	{
 		toolTip = "undefined " + toolTip;
+	}
+
+	if (data->isType(Node::NODE_FUNCTION | Node::NODE_METHOD))
+	{
+		TokenComponentSignature* sig = data->getComponent<TokenComponentSignature>();
+		if (sig)
+		{
+			toolTip += ": " + sig->getSignature();
+		}
 	}
 
 	this->setToolTip(QString::fromStdString(toolTip));

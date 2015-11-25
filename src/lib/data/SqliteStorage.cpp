@@ -606,7 +606,7 @@ NameHierarchy SqliteStorage::getNameHierarchyById(const Id id) const
 StorageSourceLocation SqliteStorage::getSourceLocationByData(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope) const
 {
 	return getFirstSourceLocation((
-		"SELECT * FROM source_location WHERE element_id == " + std::to_string(elementId) 
+		"SELECT * FROM source_location WHERE element_id == " + std::to_string(elementId)
 		+ " AND file_node_id == " + std::to_string(fileNodeId)
 		+ " AND start_line == " + std::to_string(startLine)
 		+ " AND start_column == " + std::to_string(startCol)
@@ -747,6 +747,20 @@ Id SqliteStorage::getNodeIdBySignature(const std::string& signature) const
 	while (!q.eof())
 	{
 		return q.getIntField(0, 0);
+	}
+
+	return 0;
+}
+
+std::string SqliteStorage::getSignatureByNodeId(Id nodeId) const
+{
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT id, signature FROM function_signature WHERE id == " + std::to_string(nodeId) + ";"
+	).c_str());
+
+	while (!q.eof())
+	{
+		return q.getStringField(1, "");
 	}
 
 	return 0;
