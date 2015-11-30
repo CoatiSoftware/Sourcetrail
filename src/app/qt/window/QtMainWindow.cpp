@@ -311,7 +311,7 @@ void QtMainWindow::openProject(const QString &path)
 
 	if (fileName.isNull())
 	{
-		fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", "XML Files (*.xml)");
+		fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", "Coati Project Files (*.coatiproject)");
 	}
 
 	if (!fileName.isEmpty())
@@ -361,7 +361,7 @@ void QtMainWindow::saveProject()
 void QtMainWindow::saveAsProject()
 {
 	QString filename = "";
-	filename = QFileDialog::getSaveFileName(this, "Save File as", "", "XML Files(*.xml)");
+	filename = QFileDialog::getSaveFileName(this, "Save File as", "", "Coati Project Files(*.coatiproject)");
 
 	if(!filename.isEmpty())
 	{

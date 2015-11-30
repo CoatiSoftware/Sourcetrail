@@ -142,7 +142,7 @@ void Project::setProjectSettingsFilePath(const FilePath& path)
 	}
 	else if (m_projectSettingsFilepath != path)
 	{
-		FilePath dbPath = FilePath(path).replaceExtension("sqlite");
+		FilePath dbPath = FilePath(path).replaceExtension("coatidb");
 		m_storageWasLoaded = dbPath.exists();
 		m_storage = std::make_shared<Storage>(dbPath);
 

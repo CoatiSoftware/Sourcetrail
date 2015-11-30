@@ -194,7 +194,7 @@ void QtProjectSetupScreen::handleUpdateButtonPress()
 	}
 
 	std::string projectFile =
-		m_projectFileLocation->getText().toStdString() + "/" + m_projectName->text().toStdString() + ".xml";
+		m_projectFileLocation->getText().toStdString() + "/" + m_projectName->text().toStdString() + ".coatiproject";
 	projSettings->save(projectFile);
 
 	MessageLoadProject(projectFile).dispatch();

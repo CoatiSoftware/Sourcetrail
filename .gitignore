@@ -23,5 +23,6 @@
 /ide_plugins/vs/vs2012/CoatiPlugin/CoatiPlugin/bin
 /ide_plugins/vs/vs2012/CoatiPlugin/CoatiPlugin/obj
 
+*.coatidb
 *.sqlite
 *.swp
