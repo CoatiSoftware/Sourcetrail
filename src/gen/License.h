@@ -11,28 +11,30 @@
 //#include "botan/rsa.h"
 #endif
 
-class License {
+class License
+{
 public:
     enum LicenseType
     {
         LICENSETYPE_SINGLEUSER = 0,
     };
+
     License();
     ~License();
 
-    std::string getHashLine();
-    std::string getMessage();
-    std::string getSignature();
-    std::string getVersionLine();
-    std::string getOwnerLine();
-    std::string getLicenseTypeLine();
+    std::string getHashLine() const;
+    std::string getMessage() const;
+    std::string getSignature() const;
+    std::string getVersionLine() const;
+    std::string getOwnerLine() const;
+    std::string getLicenseTypeLine() const;
 
-    std::string getPublicKeyFilename();
-    std::string getVersion();
+    std::string getPublicKeyFilename() const;
+    std::string getVersion() const;
 
     void create(std::string user, std::string version, Botan::RSA_PrivateKey* privateKey, unsigned int type = 0);
 
-    std::string getLicenseString();
+    std::string getLicenseString() const;
 
     void writeToFile(std::string filename);
     bool load(std::istream& stream);
@@ -43,15 +45,17 @@ public:
     bool loadPublicKeyFromString(std::string);
 
     void setVersion(const std::string&);
-    bool isValid();
+    bool isValid() const;
 
     void print();
 
     std::string hashLocation(const std::string&);
-    bool checkLocation(const std::string&, const std::string&);
+    static bool checkLocation(const std::string&, const std::string&);
+
 private:
     void createMessage(std::string user, std::string version, unsigned int type = 0);
     void addSignature(std::string);
+
     std::string m_version;
     std::string m_publicKeyFilename;
     std::shared_ptr<Botan::RSA_PublicKey> m_publicKey;
@@ -63,4 +67,4 @@ private:
     const std::string END_LICENSE = "-----END LICENSE-----";
 };
 
-#endif //COATI_LICENSE_H
+#endif // COATI_LICENSE_H

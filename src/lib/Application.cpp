@@ -111,6 +111,11 @@ void Application::saveProject(const FilePath& projectSettingsFilePath)
 	}
 }
 
+void Application::showLicenseScreen()
+{
+	m_mainView->showLicenseScreen();
+}
+
 void Application::setAppSettingsPath(const std::string& appSettingsPath)
 {
 	m_appSettingsPath = appSettingsPath;

@@ -23,12 +23,12 @@ License::~License()
 {
 }
 
-std::string License::getHashLine()
+std::string License::getHashLine() const
 {
     return lines[4];
 }
 
-std::string License::getMessage()
+std::string License::getMessage() const
 {
     std::string message = "";
     for(int i = 1; i < 5; ++i)
@@ -38,7 +38,7 @@ std::string License::getMessage()
     return message;
 }
 
-std::string License::getSignature()
+std::string License::getSignature() const
 {
     std::string signatue = "";
     for(int i = 5; i < 12; ++i)
@@ -48,9 +48,19 @@ std::string License::getSignature()
     return signatue;
 }
 
-std::string License::getVersionLine()
+std::string License::getVersionLine() const
 {
     return lines[3];
+}
+
+std::string License::getOwnerLine() const
+{
+    return lines[1];
+}
+
+std::string License::getLicenseTypeLine() const
+{
+    return lines[2];
 }
 
 void License::create(std::string user, std::string version, Botan::RSA_PrivateKey* privateKey, unsigned int type)
@@ -109,62 +119,28 @@ bool License::load(std::istream& stream)
 {
     lines.clear();
     std::string line;
-    if(!getline(stream, line, '\n')) 
+    while (getline(stream, line, '\n'))
     {
-        return false;
+        lines.push_back(line);
     }
-    if(line.compare(BEGIN_LICENSE) )
+
+    if (lines.front() != BEGIN_LICENSE)
     {
         std::cout << "No License Header" << std::endl;
-        lines.push_back(BEGIN_LICENSE);        
+        lines.insert(lines.begin(), BEGIN_LICENSE);
     }
-    else
-    {        
-        lines.push_back(line);
-        if(!getline(stream, line))
-        {
-            return false;
-        }
-    }
-    lines.push_back(line);
 
-    for(int i = 0; i < 2; ++i)
+    if (lines.back() != END_LICENSE)
     {
-        if(!getline(stream, line))
-        {
-            return false;
-        }
-        lines.push_back(line);
+        std::cout << "No License Footer" << std::endl;
+        lines.push_back(END_LICENSE);
     }
-    if(!getline(stream, line))
+
+    if (lines.size() != 13)
     {
         return false;
     }
-    lines.push_back(line);
 
-    //get signature
-    std::string signature = "";
-    for(int i = 0; i < 7; ++i)
-    {
-        if(!getline(stream, line))
-        {
-            return false;
-        }
-        signature += line;
-        lines.push_back(line);
-    }
-
-    //check License ending
-    getline(stream, line);
-    if(line.compare(END_LICENSE))
-    {
-        std::cout << "No License Footer" << std::endl;
-        lines.push_back(END_LICENSE);        
-    }
-    else
-    {
-        lines.push_back(line);
-    }
     return true;
 }
 
@@ -179,16 +155,6 @@ bool License::loadFromFile(std::string filename)
 void License::print()
 {
     std::cout << getLicenseString();
-}
-
-std::string License::getOwnerLine()
-{
-    return lines[1];
-}
-
-std::string License::getLicenseTypeLine()
-{
-    return lines[2];
 }
 
 void License::addSignature(std::string signature)
@@ -215,7 +181,7 @@ void License::addSignature(std::string signature)
     lines.push_back(END_LICENSE);
 }
 
-bool License::isValid()
+bool License::isValid() const
 {
     if(!m_publicKey)
     {
@@ -242,7 +208,7 @@ bool License::isValid()
     return ok;
 }
 
-std::string License::getPublicKeyFilename()
+std::string License::getPublicKeyFilename() const
 {
     if(m_publicKeyFilename.empty())
     {
@@ -251,7 +217,8 @@ std::string License::getPublicKeyFilename()
     return m_publicKeyFilename;
 }
 
-std::string License::getVersion() {
+std::string License::getVersion() const
+{
     if(m_version.empty())
     {
         return "x";
@@ -298,7 +265,7 @@ void License::setVersion(const std::string& version)
     }
 }
 
-std::string License::getLicenseString()
+std::string License::getLicenseString() const
 {
     std::stringstream license;
     for(std::string line : lines)
@@ -308,12 +275,12 @@ std::string License::getLicenseString()
     return license.str();
 }
 
-bool License::checkLocation(const std::string& location, const std::string& hash)
-{
-    return Botan::check_passhash9(location, hash);
-}
-
 std::string License::hashLocation(const std::string& location)
 {
     return Botan::generate_passhash9(location, m_rng);
+}
+
+bool License::checkLocation(const std::string& location, const std::string& hash)
+{
+    return Botan::check_passhash9(location, hash);
 }

@@ -8,6 +8,7 @@
 class QFormLayout;
 class QLabel;
 class QPushButton;
+class QVBoxLayout;
 
 class QtSettingsWindow
 	: public QWidget
@@ -20,6 +21,8 @@ public:
 	QSize sizeHint() const Q_DECL_OVERRIDE;
 
 	virtual void setup() = 0;
+
+	void setCancelAble(bool cancelAble);
 
 signals:
 	void finished();
@@ -34,6 +37,9 @@ protected:
 
 	void setupForm();
 	virtual void populateForm(QFormLayout* layout);
+
+	void addLogo();
+	void showButtons(QVBoxLayout* layout);
 
 	void updateTitle(QString title);
 	void updateDoneButton(QString text);
@@ -56,6 +62,7 @@ private:
 	int m_displacment;
 	QPoint m_dragPosition;
 	bool m_mousePressedInWindow;
+	bool m_cancelAble;
 };
 
 #endif //QT_SETTINGS_WINDOW_H

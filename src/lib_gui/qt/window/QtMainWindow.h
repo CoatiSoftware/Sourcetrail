@@ -83,6 +83,8 @@ public:
 	void loadLayout();
 	void saveLayout();
 
+	void forceEnterLicense();
+
 protected:
 	bool event(QEvent* event);
 	void keyPressEvent(QKeyEvent* event);
@@ -91,6 +93,8 @@ public slots:
 	void pushWindow(QWidget* window);
 	void popWindow();
 	void clearWindows();
+
+	void activateWindow();
 
 	void about();
 	void openSettings();

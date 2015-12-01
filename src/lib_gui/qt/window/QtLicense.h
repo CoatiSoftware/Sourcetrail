@@ -16,9 +16,9 @@ public:
 	QtLicense(QWidget* parent = 0);
 	QSize sizeHint() const Q_DECL_OVERRIDE;
 
+	void clear();
+
 	virtual void setup() override;
-protected:
-	virtual void populateForm(QFormLayout* layout) override;
 
 private slots:
 	void handleCancelButtonPress();
@@ -29,7 +29,7 @@ private:
 	QPushButton* m_updateButton;
 
 	QTextEdit* m_licenseText;
-
+	QLabel* m_errorLabel;
 };
 
 #endif //QT_LICENSE_H

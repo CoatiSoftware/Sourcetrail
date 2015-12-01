@@ -35,12 +35,7 @@ void QtStartScreen::setup()
 {
 	setStyleSheet(utility::getStyleSheet("data/gui/startscreen/startscreen.css").c_str());
 
-	QtDeviceScaledPixmap coati_logo("data/gui/startscreen/logo.png");
-	coati_logo.scaleToWidth(200);
-	QLabel* coatiLogoLabel = new QLabel(this);
-	coatiLogoLabel->setPixmap(coati_logo.pixmap());
-	coatiLogoLabel->resize(coati_logo.width(), coati_logo.height());
-	coatiLogoLabel->move(30,10);
+	addLogo();
 
 	if(!isTrial())
 	{

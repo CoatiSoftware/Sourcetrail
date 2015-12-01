@@ -10,6 +10,7 @@
 * Clang & LLVM (installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
 * Boost 1.59
 * Eigen 3.2.6
+* Botan 1.11.24
 
 ##### Environment Variables
 
@@ -18,10 +19,15 @@
 * CLANG_DIR - .../clang-llvm/
 * BOOST_159_DIR - .../boost_1_59_0
 * EIGEN_DIR - .../eigen
+* BOTAN_DIR -
 
 For Win32:
 * VLD_DIR - .../Visual Leak Detector
 * path - apped path to git.exe
+
+###### Botan setup
+
+$ ./configure.py --via-amalgamation --minimized-build --enable-modules="base,ecdsa,emsa1,passhash9,rng,rsa,egd,emsa_pssr,emsa_pkcs1,x509,aes,dev_random"
 
 ##### Settings
 

@@ -243,6 +243,16 @@ void QtMainWindow::saveLayout()
 	settings.setValue("DOCK_LOCATIONS", this->saveState());
 }
 
+void QtMainWindow::forceEnterLicense()
+{
+	enterLicense();
+	m_enterLicenseWindow->clear();
+	m_enterLicenseWindow->setCancelAble(false);
+
+	this->setEnabled(false);
+	m_enterLicenseWindow->setEnabled(true);
+}
+
 bool QtMainWindow::event(QEvent* event)
 {
 	if (event->type() == QEvent::WindowActivate)
@@ -297,6 +307,12 @@ void QtMainWindow::clearWindows()
 	m_windowStack.clear();
 }
 
+void QtMainWindow::activateWindow()
+{
+	this->setEnabled(true);
+	popWindow();
+}
+
 void QtMainWindow::about()
 {
 	if (!m_aboutWindow)
@@ -345,11 +361,11 @@ void QtMainWindow::enterLicense()
 		m_enterLicenseWindow = std::make_shared<QtLicense>(this);
 		m_enterLicenseWindow->setup();
 
-		connect(m_enterLicenseWindow.get(), SIGNAL(finished()), this, SLOT(popWindow()));
+		connect(m_enterLicenseWindow.get(), SIGNAL(finished()), this, SLOT(activateWindow()));
 		connect(m_enterLicenseWindow.get(), SIGNAL(canceled()), this, SLOT(popWindow()));
 	}
 
-	pushWindow(m_enterLicenseWindow)
+	pushWindow(m_enterLicenseWindow.get());
 }
 
 void QtMainWindow::showStartScreen()

@@ -19,6 +19,7 @@ public:
 		: undoRedoType(UNDOTYPE_NORMAL)
 		, m_sendAsTask(true)
 		, m_keepContent(false)
+		, m_cancelled(false)
 	{
 	}
 
@@ -59,6 +60,16 @@ public:
 		return m_keepContent;
 	}
 
+	void cancel()
+	{
+		m_cancelled = true;
+	}
+
+	bool cancelled()
+	{
+		return m_cancelled;
+	}
+
 	virtual void print(std::ostream& os) const = 0;
 
 	std::string str() const
@@ -74,6 +85,7 @@ public:
 private:
 	bool m_sendAsTask;
 	bool m_keepContent;
+	bool m_cancelled;
 };
 
 #endif // MESSAGE_BASE_H

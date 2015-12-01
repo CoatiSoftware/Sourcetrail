@@ -75,3 +75,13 @@ QLineEdit:disabled {
 	color: white;
 	background: #2D3F85;
 }
+
+#windowButton:disabled {
+	color: lightgray;
+}
+
+QToolTip {
+	background-color: <color:tool_tip/background>;
+	color: <color:tool_tip/text>;
+	font-size: <setting:font_size>pt;
+}

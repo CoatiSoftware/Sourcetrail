@@ -35,6 +35,7 @@ public:
 	void loadProject(const FilePath& projectSettingsFilePath, bool forceRefresh);
 	void refreshProject();
 	void saveProject(const FilePath& projectSettingsFilePath);
+	void showLicenseScreen();
 
 	static void setAppSettingsPath(const std::string& appSettingsPath);
 

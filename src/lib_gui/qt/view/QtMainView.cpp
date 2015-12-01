@@ -8,6 +8,7 @@ QtMainView::QtMainView()
 	: m_setTitleFunctor(std::bind(&QtMainView::doSetTitle, this, std::placeholders::_1))
 	, m_activateWindowFunctor(std::bind(&QtMainView::doActivateWindow, this))
 	, m_updateRecentProjectMenuFunctor(std::bind(&QtMainView::doUpdateRecentProjectMenu, this))
+	, m_showLicenseScreenFunctor(std::bind(&QtMainView::doShowLicenseScreen, this))
 {
 	m_window = std::make_shared<QtMainWindow>();
 	m_window->show();
@@ -86,6 +87,11 @@ void QtMainView::updateRecentProjectMenu()
 	m_updateRecentProjectMenuFunctor();
 }
 
+void QtMainView::showLicenseScreen()
+{
+	m_showLicenseScreenFunctor();
+}
+
 void QtMainView::doUpdateRecentProjectMenu()
 {
 	m_window->updateRecentProjectMenu();
@@ -102,4 +108,9 @@ void QtMainView::doActivateWindow()
 	m_window->activateWindow();
 	m_window->raise();
 	m_window->setFocus(Qt::ActiveWindowFocusReason);
+}
+
+void QtMainView::doShowLicenseScreen()
+{
+	m_window->forceEnterLicense();
 }

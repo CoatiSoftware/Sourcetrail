@@ -1,0 +1,17 @@
+#licenseField {
+	font-family: "<setting:font_name>";
+	font-size: 12pt;
+	height: 200px;
+	padding: 5px;
+	width: 470px;
+}
+
+#licenseError {
+	color: red;
+}
+
+QTextEdit {
+	background-color: rgba(255, 255, 255, 200);
+	border-radius: 10px;
+	border: 1px solid lightgrey;
+}

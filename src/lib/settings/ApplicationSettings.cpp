@@ -163,20 +163,20 @@ int ApplicationSettings::getControlsMouseForwardButton() const
 
 std::string ApplicationSettings::getLicenseString() const
 {
-	return getValue<std::string>("application/license/license:", "");
+	return getValue<std::string>("user/license/license", "");
 }
 
 std::string ApplicationSettings::getLicenseCheck() const
 {
-	return getValue<std::string>("application/license/check", "");
+	return getValue<std::string>("user/license/check", "");
 }
 
 void ApplicationSettings::setLicenseString(const std::string& licenseString)
 {
-	setValue<std::string>("application/license/license", licenseString);
+	setValue<std::string>("user/license/license", licenseString);
 }
 
 void ApplicationSettings::setLicenseCheck(const std::string& hash)
 {
-	setValue<std::string>("application/license/check", hash);
+	setValue<std::string>("user/license/check", hash);
 }

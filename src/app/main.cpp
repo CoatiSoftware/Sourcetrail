@@ -9,6 +9,7 @@
 
 #include "Application.h"
 #include "includes.h" // defines 'void setup(int argc, char *argv[])'
+#include "LicenseChecker.h"
 #include "qt/commandline/QtCommandLineParser.h"
 #include "qt/window/QtMainWindow.h"
 #include "qt/window/QtSplashScreen.h"
@@ -63,7 +64,12 @@ int main(int argc, char *argv[])
 
 	QtMainWindow::setWindowSettingsPath(windowSettingsPath);
 	Application::setAppSettingsPath(appSettingsPath);
+
+	LicenseChecker checker;
+
 	std::shared_ptr<Application> app = Application::create(version, &viewFactory, &networkFactory);
+
+	checker.setApp(app.get());
 
 	if (splash)
 	{

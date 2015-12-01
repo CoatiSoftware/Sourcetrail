@@ -241,6 +241,11 @@ void MessageQueue::sendMessage(std::shared_ptr<MessageBase> message)
 			listener->handleMessageBase(message.get());
 			m_listenersMutex.lock();
 		}
+
+		if (message->cancelled())
+		{
+			break;
+		}
 	}
 }
 
@@ -260,7 +265,7 @@ void MessageQueue::sendMessageAsTask(std::shared_ptr<MessageBase> message, bool 
 				[listenerId, message]()
 				{
 					MessageListenerBase* listener = MessageQueue::getInstance()->getListenerById(listenerId);
-					if (listener)
+					if (listener && !message->cancelled())
 					{
 						listener->handleMessageBase(message.get());
 					}

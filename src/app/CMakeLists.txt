@@ -4,5 +4,6 @@ add_files(
 	data/parser/cxx/TaskParseCxx.cpp
 
 	isTrial.cpp
+	LicenseChecker.h
 	main.cpp
 )

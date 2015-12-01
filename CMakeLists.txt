@@ -74,12 +74,13 @@ set(EIGEN_ROOT $ENV{EIGEN_DIR})
 
 # Botan -------------------------------------------------------------------------
 
-include(cmake/BotanConfig.cmake)
+# include(cmake/BotanConfig.cmake)
 
-set(BOTAN_ROOT ${BOTAN_DIR})
+set(BOTAN_ROOT $ENV{BOTAN_DIR})
 
 FIND_PACKAGE ( Threads REQUIRED )
 
+message(STATUS ${BOTAN_ROOT})
 add_library(BOTAN STATIC ${BOTAN_ROOT}/botan_all.cpp)
 
 target_link_libraries(BOTAN ${CMAKE_THREAD_LIBS_INIT})
@@ -475,6 +476,7 @@ set_property(
 
 target_include_directories(${GEN_PROJECT_NAME} SYSTEM
 		PUBLIC "${BOTAN_ROOT}"
+		${Boost_INCLUDE_DIRS}
 )
 
 target_link_libraries(${GEN_PROJECT_NAME} BOTAN ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES} )
