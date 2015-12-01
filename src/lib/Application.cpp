@@ -75,6 +75,7 @@ void Application::loadProject(const FilePath& projectSettingsFilePath)
 {
 	MessageStatus("Loading Project: " + projectSettingsFilePath.str()).dispatch();
 
+	loadSettings();
 	updateRecentProjects(projectSettingsFilePath);
 
 	m_mainView->setTitle(
@@ -136,8 +137,6 @@ void Application::handleMessage(MessageLoadProject* message)
 
 void Application::handleMessage(MessageRefresh* message)
 {
-	loadSettings();
-
 	if (message->uiOnly)
 	{
 		m_componentManager->refreshViews();
