@@ -22,7 +22,7 @@ Field::Field()
 
 Field::~Field() {
 	for ( int i = 0; i < 3; i++ ) {
-		delete grid_[i];
+		delete [] grid_[i];
 	}
 	delete [] grid_;
 }

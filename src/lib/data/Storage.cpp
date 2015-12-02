@@ -311,9 +311,12 @@ Id Storage::onMethodParsed(
 	addSourceLocation(nodeId, scopeLocation, true);
 	addAccess(nodeId, access);
 
-	Id returnTypeNodeId = addNodeHierarchy(Node::NODE_TYPE, method.returnType.dataType->getTypeNameHierarchy(), false);
-	addEdge(nodeId, returnTypeNodeId, Edge::EDGE_TYPE_USAGE, method.returnType.location);
-	// addEdge(nodeId, returnTypeNodeId, Edge::EDGE_RETURN_TYPE_OF, method.returnType.location);
+	if (method.returnType.location.isValid())
+	{
+		Id returnTypeNodeId = addNodeHierarchy(Node::NODE_TYPE, method.returnType.dataType->getTypeNameHierarchy(), false);
+		addEdge(nodeId, returnTypeNodeId, Edge::EDGE_TYPE_USAGE, method.returnType.location);
+		// addEdge(nodeId, returnTypeNodeId, Edge::EDGE_RETURN_TYPE_OF, method.returnType.location);
+	}
 
 	for (size_t i = 0; i < method.parameters.size(); i++)
 	{
