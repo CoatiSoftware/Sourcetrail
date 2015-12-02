@@ -5,6 +5,7 @@
 
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/TimePoint.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
@@ -183,7 +184,16 @@ void Storage::onError(const ParseLocation& location, const std::string& message)
 		return;
 	}
 
+	size_t errorCount = getErrorCount();
+
 	m_sqliteStorage.addError(message, location.filePath.str(), location.startLineNumber, location.startColumnNumber);
+
+	if (errorCount != getErrorCount())
+	{
+		MessageShowErrors msg;
+		msg.setSendAsTask(false);
+		msg.dispatch();
+	}
 }
 
 size_t Storage::getErrorCount() const
