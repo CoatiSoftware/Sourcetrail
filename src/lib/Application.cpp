@@ -144,6 +144,8 @@ void Application::handleMessage(MessageLoadProject* message)
 
 void Application::handleMessage(MessageRefresh* message)
 {
+	loadSettings();
+
 	if (message->uiOnly)
 	{
 		m_componentManager->refreshViews();
