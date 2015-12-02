@@ -159,6 +159,11 @@ bool FileSystem::equivalent(const std::string& pathA, const std::string& pathB)
 	return boost::filesystem::path(pathA).compare(boost::filesystem::path(pathB)) == 0;
 }
 
+void FileSystem::createDirectory(const FilePath& path)
+{
+	boost::filesystem::create_directory(path.str());
+}
+
 std::vector<FilePath> FileSystem::getSubDirectories(const FilePath &path)
 {
 	std::vector<FilePath> v;

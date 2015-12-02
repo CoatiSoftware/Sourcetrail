@@ -23,6 +23,7 @@ public:
 	static TimePoint getLastWriteTime(const FilePath& filePath);
 	static std::string getTimeStringNow();
 
+	static void createDirectory(const FilePath& path);
 	static std::vector<FilePath> getSubDirectories(const FilePath& path);
 
 	static bool exists(const std::string& path);

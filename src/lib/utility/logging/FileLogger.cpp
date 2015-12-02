@@ -1,8 +1,9 @@
 #include "FileLogger.h"
 
-#include <direct.h>
 #include <fstream>
 #include <sstream>
+
+#include "utility/file/FileSystem.h"
 
 std::string FileLogger::s_filePath = "data/log/";
 
@@ -56,7 +57,7 @@ void FileLogger::createDirectory()
 {
 	if (s_filePath.length() > 0)
 	{
-		mkdir(s_filePath.c_str());
+		FileSystem::createDirectory(s_filePath);
 	}
 }
 
