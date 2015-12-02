@@ -89,6 +89,8 @@ public slots:
 	void handleEscapeShortcut();
 	void updateRecentProjectMenu();
 
+	static void setWindowSettingsPath(const std::string& windowSettingsPath);
+
 private:
 	struct DockWidget
 	{
@@ -122,6 +124,8 @@ private:
 	QShortcut* m_escapeShortcut;
 
 	bool m_startScreenWasVisible;
+
+	static std::string m_windowSettingsPath;
 };
 
 #endif // QT_MAIN_WINDOW_H

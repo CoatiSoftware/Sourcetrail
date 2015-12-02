@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CoatiSetup", "CoatiSetup\CoatiSetup.vdproj", "{6C8E6C92-1F24-4DDA-A7A6-F9141DE3A34F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetupCreateDesktopShortcutLib", "SetupCreateDesktopShortcutLib\SetupCreateDesktopShortcutLib.csproj", "{91EE9087-7809-4289-AEC8-4DFB20679A74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetupApplicationSettingsLib", "SetupApplicationSettingsLib\SetupApplicationSettingsLib.csproj", "{DF25B11F-6190-4605-9D32-BA7F545D624B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetupCreateStartMenuShortcutLib", "SetupCreateStartMenuShortcutLib\SetupCreateStartMenuShortcutLib.csproj", "{962F7DA5-AEA1-4D03-89FD-F9AC42C24E46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetupRemoveCacheFiles", "SetupRemoveCacheFiles\SetupRemoveCacheFiles.csproj", "{CEA97AC9-7B4C-42D4-9CD3-E05C0A0473F5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6C8E6C92-1F24-4DDA-A7A6-F9141DE3A34F}.Debug|Any CPU.ActiveCfg = Debug
+		{6C8E6C92-1F24-4DDA-A7A6-F9141DE3A34F}.Debug|Any CPU.Build.0 = Debug
+		{6C8E6C92-1F24-4DDA-A7A6-F9141DE3A34F}.Release|Any CPU.ActiveCfg = Release
+		{6C8E6C92-1F24-4DDA-A7A6-F9141DE3A34F}.Release|Any CPU.Build.0 = Release
+		{91EE9087-7809-4289-AEC8-4DFB20679A74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91EE9087-7809-4289-AEC8-4DFB20679A74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91EE9087-7809-4289-AEC8-4DFB20679A74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91EE9087-7809-4289-AEC8-4DFB20679A74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF25B11F-6190-4605-9D32-BA7F545D624B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF25B11F-6190-4605-9D32-BA7F545D624B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF25B11F-6190-4605-9D32-BA7F545D624B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF25B11F-6190-4605-9D32-BA7F545D624B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{962F7DA5-AEA1-4D03-89FD-F9AC42C24E46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{962F7DA5-AEA1-4D03-89FD-F9AC42C24E46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{962F7DA5-AEA1-4D03-89FD-F9AC42C24E46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{962F7DA5-AEA1-4D03-89FD-F9AC42C24E46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEA97AC9-7B4C-42D4-9CD3-E05C0A0473F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEA97AC9-7B4C-42D4-9CD3-E05C0A0473F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEA97AC9-7B4C-42D4-9CD3-E05C0A0473F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEA97AC9-7B4C-42D4-9CD3-E05C0A0473F5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -12,12 +12,15 @@ public:
 	FileLogger();
 	virtual ~FileLogger();
 
+	static void setFilePath(const std::string& filePath);
+
 private:
 	virtual void logInfo(const LogMessage& message);
 	virtual void logWarning(const LogMessage& message);
 	virtual void logError(const LogMessage& message);
 
-	static const std::string s_filePath;
+	static void createDirectory();
+	static std::string s_filePath;
 
 	void setupFileName();
 	void logMessage(const std::string& type, const LogMessage& message);

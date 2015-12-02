@@ -26,6 +26,7 @@
 #include "utility/messaging/type/MessageZoom.h"
 #include "version.h"
 
+std::string QtMainWindow::m_windowSettingsPath = "data/window_settings.ini";
 
 QtViewToggle::QtViewToggle(View* view, QWidget *parent)
 	: QWidget(parent)
@@ -146,7 +147,7 @@ void QtMainWindow::hideView(View* view)
 
 void QtMainWindow::loadLayout()
 {
-	QSettings settings("data/window_settings.ini", QSettings::IniFormat);
+	QSettings settings(m_windowSettingsPath.c_str(), QSettings::IniFormat);
 
 	settings.beginGroup("MainWindow");
 	resize(settings.value("size", QSize(600, 400)).toSize());
@@ -167,7 +168,7 @@ void QtMainWindow::loadLayout()
 
 void QtMainWindow::saveLayout()
 {
-	QSettings settings("data/window_settings.ini", QSettings::IniFormat);
+	QSettings settings(m_windowSettingsPath.c_str(), QSettings::IniFormat);
 
 	settings.beginGroup("MainWindow");
 	settings.setValue("maximized", isMaximized());
@@ -482,6 +483,11 @@ void QtMainWindow::updateRecentProjectMenu()
 			m_recentProjectAction[i]->setVisible(false);
 		}
 	}
+}
+
+void QtMainWindow::setWindowSettingsPath(const std::string& windowSettingsPath)
+{
+	m_windowSettingsPath = windowSettingsPath;
 }
 
 void QtMainWindow::showLicenses()

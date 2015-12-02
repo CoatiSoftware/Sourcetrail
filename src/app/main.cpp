@@ -9,6 +9,7 @@
 
 #include "Application.h"
 #include "includes.h" // defines 'void setup(int argc, char *argv[])'
+#include "qt/window/QtMainWindow.h"
 #include "qt/window/QtSplashScreen.h"
 #include "qt/network/QtNetworkFactory.h"
 #include "qt/utility/utilityQt.h"
@@ -25,6 +26,7 @@ void init()
 
 	std::shared_ptr<FileLogger> fileLogger = std::make_shared<FileLogger>();
 	fileLogger->setLogLevel(Logger::LOG_ALL);
+	FileLogger::setFilePath(logPath);
 	LogManager::getInstance()->addLogger(fileLogger);
 
 	utility::loadFontsFromDirectory("data/fonts", ".otf");
@@ -52,6 +54,8 @@ int main(int argc, char *argv[])
 	QtViewFactory viewFactory;
 	QtNetworkFactory networkFactory;
 
+	QtMainWindow::setWindowSettingsPath(windowSettingsPath);
+	Application::setAppSettingsPath(appSettingsPath);
 	std::shared_ptr<Application> app = Application::create(version, &viewFactory, &networkFactory);
 
 	if (splash)

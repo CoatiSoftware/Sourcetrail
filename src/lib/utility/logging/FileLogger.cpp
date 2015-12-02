@@ -1,9 +1,10 @@
 #include "FileLogger.h"
 
+#include <direct.h>
 #include <fstream>
 #include <sstream>
 
-const std::string FileLogger::s_filePath = "data/log/";
+std::string FileLogger::s_filePath = "data/log/";
 
 FileLogger::FileLogger()
 	: Logger("FileLogger")
@@ -13,6 +14,13 @@ FileLogger::FileLogger()
 
 FileLogger::~FileLogger()
 {
+}
+
+void FileLogger::setFilePath(const std::string& filePath)
+{
+	s_filePath = filePath;
+
+	createDirectory();
 }
 
 void FileLogger::logInfo(const LogMessage& message)
@@ -42,6 +50,14 @@ void FileLogger::setupFileName()
 	filename << localTime.tm_hour << "-" << localTime.tm_min << "-" << localTime.tm_sec << ".txt";
 
 	m_fileName = filename.str();
+}
+
+void FileLogger::createDirectory()
+{
+	if (s_filePath.length() > 0)
+	{
+		mkdir(s_filePath.c_str());
+	}
 }
 
 void FileLogger::logMessage(const std::string& type, const LogMessage& message)

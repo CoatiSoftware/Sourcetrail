@@ -24,5 +24,23 @@
 /ide_plugins/vs/vs2012/CoatiPlugin/CoatiPlugin/obj
 
 *.coatidb
+
+/deployment/windows/CoatiSetup/CoatiSetup/Debug
+/deployment/windows/CoatiSetup/CoatiSetup/Release
+
+/deployment/windows/CoatiSetup/CoatiSetup.v12.suo
+
+/deployment/windows/CoatiSetup/SetupApplicationSettingsLib/bin/
+/deployment/windows/CoatiSetup/SetupApplicationSettingsLib/obj/
+
+/deployment/windows/CoatiSetup/SetupCreateDesktopShortcutLib/bin/
+/deployment/windows/CoatiSetup/SetupCreateDesktopShortcutLib/obj/
+
+/deployment/windows/CoatiSetup/SetupCreateStartMenuShortcutLib/bin/
+/deployment/windows/CoatiSetup/SetupCreateStartMenuShortcutLib/obj/
+
+/deployment/windows/CoatiSetup/SetupRemoveCacheFiles/bin/
+/deployment/windows/CoatiSetup/SetupRemoveCacheFiles/obj/
+
 *.sqlite
 *.swp

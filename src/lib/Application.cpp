@@ -16,6 +16,8 @@
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
 
+std::string Application::m_appSettingsPath = "data/ApplicationSettings.xml";
+
 std::shared_ptr<Application> Application::create(
 	const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory
 ){
@@ -51,7 +53,7 @@ std::shared_ptr<Application> Application::create(
 
 void Application::loadSettings()
 {
-	ApplicationSettings::getInstance()->load("data/ApplicationSettings.xml");
+	ApplicationSettings::getInstance()->load(FilePath(m_appSettingsPath));
 	ColorScheme::getInstance()->load(ApplicationSettings::getInstance()->getColorSchemePath());
 
 	GraphViewStyle::loadStyleSettings();
@@ -109,6 +111,11 @@ void Application::saveProject(const FilePath& projectSettingsFilePath)
 	{
 		LOG_ERROR("No Project Settings File defined");
 	}
+}
+
+void Application::setAppSettingsPath(const std::string& appSettingsPath)
+{
+	m_appSettingsPath = appSettingsPath;
 }
 
 void Application::handleMessage(MessageActivateWindow* message)
@@ -177,5 +184,5 @@ void Application::updateRecentProjects(const FilePath& projectSettingsFilePath)
 	}
 
 	appSettings->setRecentProjects(recentProjects);
-	appSettings->save("data/ApplicationSettings.xml");
+	appSettings->save(m_appSettingsPath);
 }

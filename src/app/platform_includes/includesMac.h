@@ -5,6 +5,10 @@
 #include <QApplication>
 #include <QDir>
 
+static std::string appSettingsPath = "data/ApplicationSettings.xml";
+static std::string windowSettingsPath = "data/window_settings.ini";
+static std::string logPath = "data/log/";
+
 void setup(int argc, char *argv[])
 {
 	// ----------------------------------------------------------------------------
