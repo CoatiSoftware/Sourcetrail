@@ -1,0 +1,23 @@
+* {
+	color: white;
+	font-size: 12px;
+	font-weight: 100;
+}
+
+#small {
+	font-size: 12px;
+}
+
+#closeButton {
+	background: transparent;
+	border: none;
+	color: white;
+	font-size: 14pt;
+	height: 20px;
+	width: 20px;
+}
+
+#closeButton:hover {
+	border: 2px solid white;
+	border-radius: 10px;
+}

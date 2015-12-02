@@ -16,8 +16,6 @@ public:
 	QSize sizeHint() const Q_DECL_OVERRIDE;
 
 	virtual void setup() override;
-protected:
-	virtual void populateForm(QFormLayout* layout) override;
 
 private slots:
 	void handleCancelButtonPress();
