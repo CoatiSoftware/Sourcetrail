@@ -5,7 +5,7 @@
 
 #include "vld.h"
 
-#define DEPLOY
+//#define DEPLOY
 
 #ifdef DEPLOY
 	static std::string appSettingsPath = std::string(std::getenv("APPDATA")) + "/../local/Coati Software/Coati/ApplicationSettings.xml";

@@ -458,14 +458,11 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 		for (size_t i = 0; i < parameterList->size(); i++)
 		{
 			clang::NamedDecl* namedDecl = parameterList->getParam(i);
-
-			if (isLocatedInUnparsedProjectFile(namedDecl))
+			if (!namedDecl->getName().empty()) // do not create node for template param if the param has no name
 			{
-				NameHierarchy templateParameterTypeNameHierarchy = utility::getDeclNameHierarchy(namedDecl);
-
 				m_client->onTemplateFunctionParameterTypeParsed(
 					getParseLocationForNamedDecl(namedDecl),
-					templateParameterTypeNameHierarchy,
+					utility::getDeclNameHierarchy(namedDecl),
 					templateFunction
 				);
 			}
@@ -915,6 +912,7 @@ ParseLocation ASTVisitor::getParseLocationForIdentifier(const clang::SourceLocat
 		tokenKind != clang::tok::TokenKind::raw_identifier
 	)
 	{
+		const clang::PresumedLoc& presumedEndss = sourceManager.getPresumedLoc(identifierToken.getEndLoc());
 		clang::Lexer::getRawToken(identifierToken.getEndLoc(), identifierToken, sourceManager, clang::LangOptions());
 		tokenKind = identifierToken.getKind();
 	}
