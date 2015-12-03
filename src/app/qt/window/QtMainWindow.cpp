@@ -453,7 +453,6 @@ void QtMainWindow::setupProjectMenu()
 
 	menu->addSeparator();
 
-	menu->addAction(tr("&Close Window"), this, SLOT(closeWindow()), QKeySequence::Close);
 	menu->addAction(tr("E&xit"), QCoreApplication::instance(), SLOT(quit()), QKeySequence::Quit);
 }
 
