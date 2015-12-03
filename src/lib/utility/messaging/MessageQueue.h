@@ -5,6 +5,8 @@
 #include <mutex>
 #include <queue>
 
+#include "utility/types.h"
+
 class MessageBase;
 class MessageListenerBase;
 
@@ -15,6 +17,8 @@ public:
 
 	void registerListener(MessageListenerBase* listener);
 	void unregisterListener(MessageListenerBase* listener);
+
+	MessageListenerBase* getListenerById(const uint id) const;
 
 	void pushMessage(std::shared_ptr<MessageBase> message);
 	void processMessage(std::shared_ptr<MessageBase> message, bool asNextTask);

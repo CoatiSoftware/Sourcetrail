@@ -283,6 +283,7 @@ add_files(
 	utility/messaging/Message.h
 	utility/messaging/MessageBase.h
 	utility/messaging/MessageListener.h
+	utility/messaging/MessageListenerBase.cpp
 	utility/messaging/MessageListenerBase.h
 	utility/messaging/MessageQueue.cpp
 	utility/messaging/MessageQueue.h
