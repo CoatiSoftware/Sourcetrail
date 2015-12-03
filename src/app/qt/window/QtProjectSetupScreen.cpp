@@ -83,6 +83,13 @@ void QtProjectSetupScreen::clear()
 void QtProjectSetupScreen::setup()
 {
 	setupForm();
+
+	QPushButton* preferencesButton = new QPushButton("Preferences");
+	preferencesButton->setObjectName("windowButton");
+	connect(preferencesButton, SIGNAL(clicked()), this, SLOT(handlePreferencesButtonPress()));
+
+	m_buttonsLayout->insertWidget(2, preferencesButton);
+	m_buttonsLayout->insertStretch(3);
 }
 
 void QtProjectSetupScreen::loadEmpty()
@@ -131,22 +138,27 @@ void QtProjectSetupScreen::populateForm(QFormLayout* layout)
 	language->insertItem(0, "C++");
 	layout->addRow(languageLabel, language);
 
-	QLabel* sourcePathsLabel = new QLabel("Source Paths");
+	QPushButton* helpButton;
+
+	QWidget* sourcePathsWidget = createLabelWithHelpButton("Source Paths", &helpButton);
+	connect(helpButton, SIGNAL(clicked()), this, SLOT(handleSourcePathHelpPress()));
 	m_sourcePaths = new QtDirectoryListBox(this);
 	m_sourcePaths->setMinimumWidth(minimumWidthForSecondCol);
-	layout->addRow(sourcePathsLabel, m_sourcePaths);
+	layout->addRow(sourcePathsWidget, m_sourcePaths);
 
-	QLabel* includePathsLabel = new QLabel("Include Paths");
+	QWidget* includePathsWidget = createLabelWithHelpButton("Header\nSearch Paths", &helpButton);
+	connect(helpButton, SIGNAL(clicked()), this, SLOT(handleIncludePathHelpPress()));
 	m_includePaths = new QtDirectoryListBox(this);
 	m_includePaths->setMinimumWidth(minimumWidthForSecondCol);
-	layout->addRow(includePathsLabel, m_includePaths);
+	layout->addRow(includePathsWidget, m_includePaths);
 
 	if (QSysInfo::macVersion() != QSysInfo::MV_None)
 	{
-		QLabel* frameworkPathsLabel = new QLabel("Framework Paths");
+		QWidget* frameworkPathsWidget = createLabelWithHelpButton("Framework\nSearch Paths", &helpButton);
+		connect(helpButton, SIGNAL(clicked()), this, SLOT(handleFrameworkPathHelpPress()));
 		m_frameworkPaths = new QtDirectoryListBox(this);
 		m_frameworkPaths->setMinimumWidth(minimumWidthForSecondCol);
-		layout->addRow(frameworkPathsLabel, m_frameworkPaths);
+		layout->addRow(frameworkPathsWidget, m_frameworkPaths);
 	}
 }
 
@@ -201,4 +213,35 @@ void QtProjectSetupScreen::handleUpdateButtonPress()
 	clear();
 
 	emit finished();
+}
+
+void QtProjectSetupScreen::handleSourcePathHelpPress()
+{
+	showHelpMessage(
+		"Source Paths define the files and directories that will be analysed by Coati. Usually these are the source "
+		"files of your project or a subset of them."
+	);
+}
+
+void QtProjectSetupScreen::handleIncludePathHelpPress()
+{
+	showHelpMessage(
+		"Header Search Paths define where additional headers, that your project depends on, are found. Usually they are "
+		"header files of frameworks or libraries that your project uses. These files won't be analysed, but Coati needs "
+		"them for correct analysis.\n\n"
+		"Please note that you can define Header Search Paths for all your projects in Coati's preferences."
+	);
+}
+
+void QtProjectSetupScreen::handleFrameworkPathHelpPress()
+{
+	showHelpMessage(
+		"Framework Search Paths define where MacOS framework containers, that your project depends on, are found.\n\n"
+		"Please note that you can define Framework Search Paths for all your projects in Coati's preferences."
+	);
+}
+
+void QtProjectSetupScreen::handlePreferencesButtonPress()
+{
+	emit showPreferences();
 }

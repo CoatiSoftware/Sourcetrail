@@ -57,15 +57,9 @@ void QtAboutLicense::populateForm(QFormLayout* layout)
 
 void QtAboutLicense::handleCancelButtonPress()
 {
-	emit canceled();
 }
 
 void QtAboutLicense::handleUpdateButtonPress()
 {
-	close();
-}
-
-void QtAboutLicense::handleDoneButtonPress()
-{
-	close();
+	emit finished();
 }

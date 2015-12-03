@@ -29,6 +29,9 @@ private slots:
 	void handleCancelButtonPress();
 	void handleUpdateButtonPress();
 
+	void handleIncludePathHelpPress();
+	void handleFrameworkPathHelpPress();
+
 private:
 	QPushButton* m_cancelButton;
 	QPushButton* m_updateButton;

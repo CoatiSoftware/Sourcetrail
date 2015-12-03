@@ -31,6 +31,20 @@ QLineEdit:disabled {
 	font-weight: bold;
 }
 
+#form #help {
+	background: transparent;
+	border: 1px solid #575656;
+	border-radius: 9px;
+	color: #575656;
+	height: 16px;
+	width: 16px;
+}
+
+#form #help:hover {
+	border-color: black;
+	color: black;
+}
+
 #moreButton {
 	background-color: rgba(255, 255, 255, 200);
 	border: 1px solid lightgray;

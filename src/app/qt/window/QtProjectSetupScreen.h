@@ -47,6 +47,9 @@ public:
 
 	void projectSetupScreen();
 
+signals:
+	void showPreferences();
+
 protected:
 	virtual void populateForm(QFormLayout* layout) override;
 
@@ -54,17 +57,21 @@ private slots:
 	void handleCancelButtonPress();
 	void handleUpdateButtonPress();
 
+	void handleSourcePathHelpPress();
+	void handleIncludePathHelpPress();
+	void handleFrameworkPathHelpPress();
+
+	void handlePreferencesButtonPress();
+
 private:
 	QLineEdit* m_projectName;
 	QtTextLine* m_projectFileLocation;
 
-	QPushButton* m_createButton;
-	QPushButton* m_cancelButton;
-	QPushButton* m_updateButton;
-
 	QtDirectoryListBox* m_includePaths;
 	QtDirectoryListBox* m_sourcePaths;
 	QtDirectoryListBox* m_frameworkPaths;
+
+	QPushButton* m_preferencesButton;
 };
 
 #endif //QT_PROJECT_SETUP_SCREEN_H

@@ -18,14 +18,10 @@ public:
 	virtual void setup() override;
 
 private slots:
+	void handleCloseButtonPress();
+
 	void handleCancelButtonPress();
 	void handleUpdateButtonPress();
-	void handleDoneButtonPress();
-
-private:
-	QPushButton* m_cancelButton;
-	QPushButton* m_updateButton;
-
 };
 
 #endif //QT_ABOUT_H

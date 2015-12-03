@@ -68,7 +68,7 @@ void QtMainView::setStatusBar(QStatusBar* statusbar)
 
 void QtMainView::hideStartScreen()
 {
-	m_window->hideScreens();
+	m_window->clearWindows();
 }
 
 void QtMainView::setTitle(const std::string& title)

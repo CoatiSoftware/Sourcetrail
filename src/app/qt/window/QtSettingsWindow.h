@@ -1,6 +1,7 @@
 #ifndef QT_SETTINGS_WINDOW_H
 #define QT_SETTINGS_WINDOW_H
 
+#include <QHBoxLayout>
 #include <QResizeEvent>
 #include <QWidget>
 
@@ -38,12 +39,18 @@ protected:
 	void updateDoneButton(QString text);
 	void hideCancelButton(bool hidden);
 
+	QWidget* createLabelWithHelpButton(QString name, QPushButton** helpButton);
+
+	void showHelpMessage(const QString& msg);
+
 	QWidget* m_window;
 
 	QLabel* m_title;
 
 	QPushButton* m_cancelButton;
 	QPushButton* m_doneButton;
+
+	QHBoxLayout* m_buttonsLayout;
 
 private:
 	int m_displacment;

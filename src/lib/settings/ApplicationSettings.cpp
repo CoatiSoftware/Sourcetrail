@@ -131,16 +131,6 @@ bool ApplicationSettings::setRecentProjects(const std::vector<FilePath> &recentP
 	return setPathValues("user/recent_projects/recent_project", recentProjects);
 }
 
-bool ApplicationSettings::getUserHasSeenSettings() const
-{
-	return getValue<bool>("user/has_seen_settings", false);
-}
-
-void ApplicationSettings::setUserHasSeenSettings(bool hasSeenSettings)
-{
-	setValue<bool>("user/has_seen_settings", hasSeenSettings);
-}
-
 int ApplicationSettings::getPluginPort() const
 {
 	return getValue<int>("network/plugin_port", 6666);

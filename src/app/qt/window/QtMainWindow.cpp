@@ -45,7 +45,6 @@ void QtViewToggle::toggledByUI()
 }
 
 QtMainWindow::QtMainWindow()
-	:  m_startScreenWasVisible(false)
 {
 	setObjectName("QtMainWindow");
 	setCentralWidget(nullptr);
@@ -72,25 +71,12 @@ QtMainWindow::QtMainWindow()
 
 void QtMainWindow::init()
 {
-	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-
-	if (appSettings->getUserHasSeenSettings())
-	{
-		showStartScreen();
-	}
-	else
-	{
-		openSettings();
-		m_startScreenWasVisible = true;
-
-		appSettings->setUserHasSeenSettings(true);
-		appSettings->save();
-	}
+	showStartScreen();
 }
 
 QtMainWindow::~QtMainWindow()
 {
-	if(m_recentProjectAction)
+	if (m_recentProjectAction)
 	{
 		delete [] m_recentProjectAction;
 	}
@@ -192,118 +178,114 @@ bool QtMainWindow::event(QEvent* event)
 	return QMainWindow::event(event);
 }
 
+void QtMainWindow::pushWindow(QWidget* window)
+{
+	if (m_windowStack.size())
+	{
+		m_windowStack.back()->hide();
+	}
+
+	window->show();
+
+	m_windowStack.push_back(window);
+}
+
+void QtMainWindow::popWindow()
+{
+	if (m_windowStack.size())
+	{
+		m_windowStack.back()->hide();
+		m_windowStack.pop_back();
+	}
+
+	if (m_windowStack.size())
+	{
+		m_windowStack.back()->show();
+	}
+}
+
+void QtMainWindow::clearWindows()
+{
+	if (m_windowStack.size())
+	{
+		m_windowStack.back()->hide();
+	}
+
+	m_windowStack.clear();
+}
+
 void QtMainWindow::about()
 {
-	hideScreens();
-
 	if (!m_aboutWindow)
 	{
 		m_aboutWindow = std::make_shared<QtAbout>(this);
 		m_aboutWindow->setup();
 
-		connect(m_aboutWindow.get(), SIGNAL(finished()), this, SLOT(closeScreens()));
-		connect(m_aboutWindow.get(), SIGNAL(canceled()), this, SLOT(restoreScreens()));
+		connect(m_aboutWindow.get(), SIGNAL(finished()), this, SLOT(popWindow()));
 	}
 
-	m_aboutWindow->show();
-}
-
-void QtMainWindow::hideScreens()
-{
-	if (m_applicationSettingsScreen)
-	{
-		m_applicationSettingsScreen->hide();
-	}
-
-	if (m_startScreen)
-	{
-		m_startScreen->hide();
-	}
-
-	if (m_newProjectDialog)
-	{
-		m_newProjectDialog->hide();
-	}
-
-	if(m_licenseWindow)
-	{
-		m_licenseWindow->hide();
-	}
-
-	if(m_aboutWindow)
-	{
-		m_aboutWindow->hide();
-	}
-}
-
-void QtMainWindow::closeScreens()
-{
-	hideScreens();
-	m_startScreenWasVisible = false;
-}
-
-void QtMainWindow::restoreScreens()
-{
-	if (m_startScreenWasVisible)
-	{
-		showStartScreen();
-	}
-	else
-	{
-		closeScreens();
-	}
+	pushWindow(m_aboutWindow.get());
 }
 
 void QtMainWindow::openSettings()
 {
-	hideScreens();
-
 	if (!m_applicationSettingsScreen)
 	{
 		m_applicationSettingsScreen = std::make_shared<QtApplicationSettingsScreen>(this);
 		m_applicationSettingsScreen->setup();
-		connect(m_applicationSettingsScreen.get(), SIGNAL(finished()), this, SLOT(restoreScreens()));
-		connect(m_applicationSettingsScreen.get(), SIGNAL(canceled()), this, SLOT(restoreScreens()));
+
+		connect(m_applicationSettingsScreen.get(), SIGNAL(finished()), this, SLOT(popWindow()));
+		connect(m_applicationSettingsScreen.get(), SIGNAL(canceled()), this, SLOT(popWindow()));
 	}
 
 	m_applicationSettingsScreen->load();
-	m_applicationSettingsScreen->show();
+	pushWindow(m_applicationSettingsScreen.get());
+}
+
+void QtMainWindow::showLicenses()
+{
+	if (!m_licenseWindow)
+	{
+		m_licenseWindow = std::make_shared<QtAboutLicense>(this);
+		m_licenseWindow->setup();
+
+		connect(m_licenseWindow.get(), SIGNAL(finished()), this, SLOT(popWindow()));
+	}
+
+	pushWindow(m_licenseWindow.get());
 }
 
 void QtMainWindow::showStartScreen()
 {
-	hideScreens();
-
 	if (!m_startScreen)
 	{
 		m_startScreen = std::make_shared<QtStartScreen>(this);
 		m_startScreen->setup();
-		connect(m_startScreen.get(), SIGNAL(finished()), this, SLOT(closeScreens()));
-		connect(m_startScreen.get(), SIGNAL(canceled()), this, SLOT(closeScreens()));
+
+		connect(m_startScreen.get(), SIGNAL(finished()), this, SLOT(popWindow()));
+		connect(m_startScreen.get(), SIGNAL(canceled()), this, SLOT(popWindow()));
 
 		connect(m_startScreen.get(), SIGNAL(openOpenProjectDialog()), this, SLOT(openProject()));
 		connect(m_startScreen.get(), SIGNAL(openNewProjectDialog()), this, SLOT(newProject()));
 	}
 
-	m_startScreen->show();
-	m_startScreenWasVisible = true;
+	pushWindow(m_startScreen.get());
 }
 
 void QtMainWindow::newProject()
 {
-	hideScreens();
-
 	if (!m_newProjectDialog)
 	{
 		m_newProjectDialog = std::make_shared<QtProjectSetupScreen>(this);
 		m_newProjectDialog->setup();
 
-		connect(m_newProjectDialog.get(), SIGNAL(finished()), this, SLOT(closeScreens()));
-		connect(m_newProjectDialog.get(), SIGNAL(canceled()), this, SLOT(restoreScreens()));
+		connect(m_newProjectDialog.get(), SIGNAL(finished()), this, SLOT(clearWindows()));
+		connect(m_newProjectDialog.get(), SIGNAL(canceled()), this, SLOT(popWindow()));
+		connect(m_newProjectDialog.get(), SIGNAL(showPreferences()), this, SLOT(openSettings()));
 	}
 
 	m_newProjectDialog->loadEmpty();
-	m_newProjectDialog->show();
+	pushWindow(m_newProjectDialog.get());
 }
 
 void QtMainWindow::openProject(const QString &path)
@@ -318,7 +300,7 @@ void QtMainWindow::openProject(const QString &path)
 	if (!fileName.isEmpty())
 	{
 		MessageLoadProject(fileName.toStdString()).dispatch();
-		closeScreens();
+		clearWindows();
 	}
 }
 
@@ -416,7 +398,7 @@ void QtMainWindow::toggleView(View* view, bool fromMenu)
 
 void QtMainWindow::handleEscapeShortcut()
 {
-	closeScreens();
+	popWindow();
 	MessageInterruptTasks().dispatch();
 }
 
@@ -487,14 +469,6 @@ void QtMainWindow::updateRecentProjectMenu()
 void QtMainWindow::setWindowSettingsPath(const std::string& windowSettingsPath)
 {
 	m_windowSettingsPath = windowSettingsPath;
-}
-
-void QtMainWindow::showLicenses()
-{
-	hideScreens();
-	m_licenseWindow = std::make_shared<QtAboutLicense>(this);
-	m_licenseWindow->setup();
-	m_licenseWindow->show();
 }
 
 void QtMainWindow::setupEditMenu()

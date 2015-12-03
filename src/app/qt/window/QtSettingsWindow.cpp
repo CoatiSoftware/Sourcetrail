@@ -3,6 +3,7 @@
 #include <QFormLayout>
 #include <QGraphicsDropShadowEffect>
 #include <QLabel>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QScrollArea>
 #include <QSysInfo>
@@ -150,6 +151,7 @@ void QtSettingsWindow::setupForm()
 	buttons->addWidget(m_cancelButton);
 	buttons->addStretch();
 	buttons->addWidget(m_doneButton);
+	m_buttonsLayout = buttons;
 
 	windowLayout->addWidget(scrollArea);
 	windowLayout->addSpacing(20);
@@ -187,4 +189,41 @@ void QtSettingsWindow::hideCancelButton(bool hidden)
 	{
 		m_cancelButton->setVisible(!hidden);
 	}
+}
+
+QWidget* QtSettingsWindow::createLabelWithHelpButton(QString name, QPushButton** helpButton)
+{
+	QWidget* widget = new QWidget();
+
+	QVBoxLayout* layout = new QVBoxLayout();
+	layout->setContentsMargins(0, 5, 0, 5);
+	layout->setSpacing(5);
+
+	QLabel* label = new QLabel(name);
+	label->setAlignment(Qt::AlignRight);
+	layout->addWidget(label);
+
+	QPushButton* button = new QPushButton("?");
+	button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	button->setObjectName("help");
+
+	layout->addWidget(button, 0, Qt::AlignRight);
+	layout->addStretch();
+
+	widget->setLayout(layout);
+
+	*helpButton = button;
+
+	return widget;
+}
+
+void QtSettingsWindow::showHelpMessage(const QString& msg)
+{
+	QMessageBox msgBox;
+	msgBox.setText("Help");
+	msgBox.setInformativeText(msg);
+	msgBox.setStandardButtons(QMessageBox::Ok);
+	msgBox.setDefaultButton(QMessageBox::Ok);
+	int ret = msgBox.exec();
 }

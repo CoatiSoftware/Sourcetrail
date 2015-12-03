@@ -45,18 +45,21 @@ void QtApplicationSettingsScreen::load()
 void QtApplicationSettingsScreen::populateForm(QFormLayout* layout)
 {
 	int minimumWidthForSecondCol = 360;
+	QPushButton* helpButton;
 
-	QLabel* includePathsLabel = new QLabel("Include Paths");
+	QWidget* includePathsWidget = createLabelWithHelpButton("Header\nSearch Paths", &helpButton);
+	connect(helpButton, SIGNAL(clicked()), this, SLOT(handleIncludePathHelpPress()));
 	m_includePaths = new QtDirectoryListBox(this);
 	m_includePaths->setMinimumWidth(minimumWidthForSecondCol);
-	layout->addRow(includePathsLabel, m_includePaths);
+	layout->addRow(includePathsWidget, m_includePaths);
 
 	if (QSysInfo::macVersion() != QSysInfo::MV_None)
 	{
-		QLabel* frameworkPathsLabel = new QLabel("Framework Paths");
+		QWidget* frameworkPathsWidget = createLabelWithHelpButton("Framework\nSearch Paths", &helpButton);
+		connect(helpButton, SIGNAL(clicked()), this, SLOT(handleFrameworkPathHelpPress()));
 		m_frameworkPaths = new QtDirectoryListBox(this);
 		m_frameworkPaths->setMinimumWidth(minimumWidthForSecondCol);
-		layout->addRow(frameworkPathsLabel, m_frameworkPaths);
+		layout->addRow(frameworkPathsWidget, m_frameworkPaths);
 	}
 }
 
@@ -80,4 +83,22 @@ void QtApplicationSettingsScreen::handleUpdateButtonPress()
 
 	MessageRefresh().dispatch();
 	emit finished();
+}
+
+void QtApplicationSettingsScreen::handleIncludePathHelpPress()
+{
+	showHelpMessage(
+		"Header Search Paths define where additional headers, that your project depends on, are found. Usually they are "
+		"header files of frameworks or libraries that your project uses. These files won't be analysed, but Coati needs "
+		"them for correct analysis.\n\n"
+		"Header Search Paths defined here will be used for all projects."
+	);
+}
+
+void QtApplicationSettingsScreen::handleFrameworkPathHelpPress()
+{
+	showHelpMessage(
+		"Framework Search Paths define where MacOS framework containers, that your project depends on, are found.\n\n"
+		"Framework Search Paths defined here will be used for all projects."
+	);
 }

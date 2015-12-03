@@ -56,12 +56,14 @@ protected:
 	bool event(QEvent* event);
 
 public slots:
-	void about();
-	void hideScreens();
-	void closeScreens();
-	void restoreScreens();
+	void pushWindow(QWidget* window);
+	void popWindow();
+	void clearWindows();
 
+	void about();
 	void openSettings();
+	void showLicenses();
+
 	void showStartScreen();
 	void newProject();
 	void openProject(const QString &path = QString());
@@ -76,7 +78,6 @@ public slots:
 	void saveProject();
 	void saveAsProject();
 
-	void showLicenses();
 
 	void undo();
 	void redo();
@@ -121,9 +122,9 @@ private:
 	std::shared_ptr<QtAboutLicense> m_licenseWindow;
 	std::shared_ptr<QtAbout> m_aboutWindow;
 
-	QShortcut* m_escapeShortcut;
+	std::vector<QWidget*> m_windowStack;
 
-	bool m_startScreenWasVisible;
+	QShortcut* m_escapeShortcut;
 
 	static std::string m_windowSettingsPath;
 };

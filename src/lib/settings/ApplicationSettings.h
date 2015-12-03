@@ -49,9 +49,6 @@ public:
 	void setCodeSnippetExpandRange(int range);
 
 	// user
-	bool getUserHasSeenSettings() const;
-	void setUserHasSeenSettings(bool hasSeenSettings);
-
 	std::vector<FilePath> getRecentProjects() const;
 	bool setRecentProjects(const std::vector<FilePath>& recentProjects);
 
