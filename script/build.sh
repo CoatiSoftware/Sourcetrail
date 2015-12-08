@@ -13,6 +13,9 @@ then
 	then
 		#echo "release test"
 		ninja -C build/Release Coati_test && cd bin/test && Release/Coati_test
+	elif [ "$2" = "trial" ]
+	then
+		ninja -C build/Release Coati_trial && cd bin/app && Release/Coati_trial
 	else
 		#echo "release app"
 		ninja -C build/Release Coati && cd bin/app && Release/Coati
@@ -23,6 +26,9 @@ then
 	then
 		#echo "debug test"
 		ninja -C build/Debug Coati_test && cd bin/test && Debug/Coati_test
+	elif [ "$2" = "trial" ]
+	then
+		ninja -C build/Debug Coati_trial && cd bin/app && Debug/Coati_trial
 	else
 		#echo "debug app"
 		ninja -C build/Debug Coati && cd bin/app && Debug/Coati

@@ -30,6 +30,6 @@ AddLicense("Eigen" "http://eigen.tuxfamily.org" "${LICENSEFOLDER}/eigen_LICENSE.
 set(LICENSE_ARRAY "${LICENSE_ARRAY}\n")
 
 configure_file(
-        ${CMAKE_SOURCE_DIR}/src/app/licenses.h.in
-        ${CMAKE_SOURCE_DIR}/build/src/app/licenses.h
+        ${CMAKE_SOURCE_DIR}/src/lib_gui/licenses.h.in
+        ${CMAKE_SOURCE_DIR}/build/src/lib_gui/licenses.h
 )

@@ -19,9 +19,9 @@
 
 QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	: QFrame(parent)
+	, m_updateTitleBarFunctor(std::bind(&QtCodeFile::doUpdateTitleBar, this))
 	, m_parent(parent)
 	, m_filePath(filePath)
-	, m_updateTitleBarFunctor(std::bind(&QtCodeFile::doUpdateTitleBar, this))
 {
 	setObjectName("code_file");
 

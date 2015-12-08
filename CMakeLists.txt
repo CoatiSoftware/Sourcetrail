@@ -16,6 +16,8 @@ include(cmake/licenses.cmake)
 set(PROJECT_NAME Coati)
 
 set(APP_PROJECT_NAME "${PROJECT_NAME}")
+set(TRIAL_PROJECT_NAME "${PROJECT_NAME}_trial")
+set(LIB_GUI_PROJECT_NAME "${PROJECT_NAME}_lib_gui")
 set(LIB_PROJECT_NAME "${PROJECT_NAME}_lib")
 set(TEST_PROJECT_NAME "${PROJECT_NAME}_test")
 
@@ -35,18 +37,9 @@ if (UNIX)
 endif ()
 
 # Project ----------------------------------------------------------------------
-
 project(${PROJECT_NAME})
-if (UNIX AND NOT APPLE)
-	#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32" CACHE STRING "c++ flags")
-	#set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS} -m32" CACHE STRING "c flags")
-    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32" )
-	#set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS} -m32" )
-    #set(CMAKE_SHARED_LINKER_FLAGS   "${CMAKE_SHARED_LINKER_FLAGS} -m32" )
-endif ()
 
 # Clang ------------------------------------------------------------------------
-
 
 if (UNIX)
 	if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
@@ -86,14 +79,12 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
 add_subdirectory(src/lib)
 add_subdirectory(src/external)
 
-set_source_files_properties(${CLANG_FILES} PROPERTIES COMPILE_FLAGS "-fno-rtti")
 set_source_files_properties(${EXTERNAL_FILES} PROPERTIES COMPILE_FLAGS "-w")
 set_source_files_properties(${EXTERNAL_C_FILES} PROPERTIES COMPILE_FLAGS "-std=gnu89 -w")
 
-add_library(${LIB_PROJECT_NAME} ${LIB_FILES} ${CLANG_FILES} ${EXTERNAL_FILES} ${EXTERNAL_C_FILES})
+add_library(${LIB_PROJECT_NAME} ${LIB_FILES} ${EXTERNAL_FILES} ${EXTERNAL_C_FILES})
 
 create_source_groups(${LIB_FILES})
-create_source_groups(${CLANG_FILES})
 create_source_groups(${EXTERNAL_FILES})
 create_source_groups(${EXTERNAL_C_FILES})
 
@@ -123,15 +114,12 @@ link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS
 
 target_link_libraries(${LIB_PROJECT_NAME} ${CLANG_LIBRARIES} ${LLVM_AVAILABLE_LIBS} ${Boost_LIBRARIES})
 
-# App --------------------------------------------------------------------------
+# Lib Gui --------------------------------------------------------------------------
 
-if (UNIX)
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/${CMAKE_BUILD_TYPE})
-else ()
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/)
-endif ()
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_gui)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_gui)
 
-add_subdirectory(src/app)
+add_subdirectory(src/lib_gui)
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -162,14 +150,77 @@ add_custom_target(
 	versionnumber ALL
 )
 
+add_library(${LIB_GUI_PROJECT_NAME} ${LIB_GUI_FILES} ${CMAKE_SOURCE_DIR}/build/src/lib_gui/version.h)
+
+# command for versioning script
+add_custom_command(
+	TARGET versionnumber
+	PRE_BUILD
+	COMMAND ${CMAKE_COMMAND} -P ${CMAKE_SOURCE_DIR}/cmake/version.cmake
+	BYPRODUCTS ${PROJECT_SOURCE_DIR}/build/src/lib_gui/version.h
+	DEPENDS ${LIB_GUI_PROJECT_NAME}
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+	COMMENT "check/update version number"
+)
+add_dependencies(${LIB_GUI_PROJECT_NAME} versionnumber)
+
+create_source_groups(${LIB_GUI_FILES})
+
+set_property(
+	TARGET ${LIB_GUI_PROJECT_NAME}
+	PROPERTY INCLUDE_DIRECTORIES
+		"${CMAKE_SOURCE_DIR}/src/lib"
+		"${CMAKE_SOURCE_DIR}/src/lib_gui"
+		"${CMAKE_SOURCE_DIR}/build/src/lib_gui"
+)
+
+# include external header without warnings
+target_include_directories(${LIB_GUI_PROJECT_NAME} SYSTEM
+		PUBLIC "${CMAKE_SOURCE_DIR}/src/external"
+		PUBLIC ${Boost_INCLUDE_DIRS}
+)
+
+# Use the Widgets module from Qt 5.
+qt5_use_modules(${LIB_GUI_PROJECT_NAME} Widgets)
+qt5_use_modules(${LIB_GUI_PROJECT_NAME} Network)
+
+# configure platform specific include file
+configure_file(
+	"${PROJECT_SOURCE_DIR}/src/lib_gui/platform_includes/includes.h.in"
+	"${PROJECT_SOURCE_DIR}/build/src/lib_gui/includes.h"
+)
+
+#configure the versioning file
+configure_file(
+  ${CMAKE_SOURCE_DIR}/src/lib_gui/version.h.in
+  ${CMAKE_SOURCE_DIR}/build/src/lib_gui/version.h
+)
+
+set(CMAKE_AUTOMOC OFF)
+
+# App --------------------------------------------------------------------------
+
+if (UNIX)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/${CMAKE_BUILD_TYPE})
+else ()
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/)
+endif ()
+
+add_subdirectory(src/app)
+
+set_source_files_properties(${CLANG_FILES} PROPERTIES COMPILE_FLAGS "-fno-rtti")
+
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 if (WIN32)
 	file(WRITE ${CMAKE_SOURCE_DIR}/build/Coati.rc
 		"// Icon with lowest ID value placed first to ensure application icon\n"
 		"// remains consistent on all systems.\n"
 		"IDI_ICON1               ICON                    \"${CMAKE_SOURCE_DIR}/build/coati.ico\"\n"
 	)
-	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc ${CMAKE_SOURCE_DIR}/build/src/app/version.h)
-	
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CLANG_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc)
+
 	# hide the console when running a release build.
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE")
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS_DEBUG "_CONSOLE")
@@ -179,31 +230,21 @@ if (WIN32)
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
 
 else ()
-	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_SOURCE_DIR}/build/src/app/version.h)
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CLANG_FILES})
 endif ()
 
-# command for versioning script
-add_custom_command(
-	TARGET versionnumber
-	PRE_BUILD
-	COMMAND ${CMAKE_COMMAND} -P ${CMAKE_SOURCE_DIR}/cmake/version.cmake
-	BYPRODUCTS ${PROJECT_SOURCE_DIR}/build/src/app/version.h
-	DEPENDS ${APP_PROJECT_NAME}
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-	COMMENT "check/update version number"
-)
-add_dependencies(${APP_PROJECT_NAME} versionnumber)
-
 create_source_groups(${APP_FILES})
+create_source_groups(${CLANG_FILES})
 
-target_link_libraries(${APP_PROJECT_NAME} ${LIB_PROJECT_NAME})
+target_link_libraries(${APP_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PROJECT_NAME})
 
 set_property(
 	TARGET ${APP_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
-		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/app"
-		"${CMAKE_SOURCE_DIR}/build/src/app"
+		"${CMAKE_SOURCE_DIR}/src/lib"
+		"${CMAKE_SOURCE_DIR}/src/lib_gui"
+		"${CMAKE_SOURCE_DIR}/build/src/lib_gui"
 )
 
 target_include_directories(${APP_PROJECT_NAME} SYSTEM
@@ -215,25 +256,72 @@ target_include_directories(${APP_PROJECT_NAME} SYSTEM
 qt5_use_modules(${APP_PROJECT_NAME} Widgets)
 qt5_use_modules(${APP_PROJECT_NAME} Network)
 
-# configure platform specific include file
-configure_file(
-	"${PROJECT_SOURCE_DIR}/src/app/platform_includes/includes.h.in"
-	"${PROJECT_SOURCE_DIR}/build/src/app/includes.h"
-)
-
-#configure the versioning file
-configure_file(
-  ${CMAKE_SOURCE_DIR}/src/app/version.h.in
-  ${CMAKE_SOURCE_DIR}/build/src/app/version.h
-)
-
 # add platform specific libraries
 if (APPLE)
 	find_library(CORE_FOUNDATION CoreFoundation)
 	target_link_libraries(${APP_PROJECT_NAME} ${CORE_FOUNDATION})
 endif ()
 
-set(CMAKE_AUTOMOC OFF)
+# Trial ---------------------------------------------------------------------
+
+if (UNIX)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/${CMAKE_BUILD_TYPE})
+else ()
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/)
+endif ()
+
+add_subdirectory(src/trial)
+
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+if (WIN32)
+	file(WRITE ${CMAKE_SOURCE_DIR}/build/Coati.rc
+		"// Icon with lowest ID value placed first to ensure application icon\n"
+		"// remains consistent on all systems.\n"
+		"IDI_ICON1               ICON                    \"${CMAKE_SOURCE_DIR}/build/coati.ico\"\n"
+	)
+	add_executable(${TRIAL_PROJECT_NAME} ${TRIAL_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc)
+
+	# hide the console when running a release build.
+	set_target_properties(${TRIAL_PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE")
+	set_target_properties(${TRIAL_PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS_DEBUG "_CONSOLE")
+	set_target_properties(${TRIAL_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:CONSOLE")
+	set_target_properties(${TRIAL_PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS_RELWITHDEBINFO "_CONSOLE")
+	set_target_properties(${TRIAL_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "/ENTRY:\"mainCRTStartup\" /SUBSYSTEM:WINDOWS")
+	set_target_properties(${TRIAL_PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
+
+else ()
+	add_executable(${TRIAL_PROJECT_NAME} ${TRIAL_FILES})
+endif ()
+
+create_source_groups(${TRIAL_FILES})
+
+target_link_libraries(${TRIAL_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PROJECT_NAME})
+
+set_property(
+	TARGET ${TRIAL_PROJECT_NAME}
+	PROPERTY INCLUDE_DIRECTORIES
+		"${CMAKE_SOURCE_DIR}/src/trial"
+		"${CMAKE_SOURCE_DIR}/src/lib"
+		"${CMAKE_SOURCE_DIR}/src/lib_gui"
+		"${CMAKE_SOURCE_DIR}/build/src/lib_gui"
+)
+
+target_include_directories(${TRIAL_PROJECT_NAME} SYSTEM
+		PUBLIC "${CMAKE_SOURCE_DIR}/src/external"
+		PUBLIC ${Boost_INCLUDE_DIRS}
+)
+
+# Use the Widgets module from Qt 5.
+qt5_use_modules(${TRIAL_PROJECT_NAME} Widgets)
+qt5_use_modules(${TRIAL_PROJECT_NAME} Network)
+
+# add platform specific libraries
+if (APPLE)
+	find_library(CORE_FOUNDATION CoreFoundation)
+	target_link_libraries(${TRIAL_PROJECT_NAME} ${CORE_FOUNDATION})
+endif ()
 
 # MacOSX Bundle ----------------------------------------------------------------
 

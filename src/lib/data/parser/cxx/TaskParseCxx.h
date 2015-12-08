@@ -1,12 +1,16 @@
 #ifndef TASK_PARSE_CXX_H
 #define TASK_PARSE_CXX_H
 
+#include <memory>
 #include <queue>
 
+#include "data/parser/Parser.h"
 #include "utility/scheduling/Task.h"
 #include "utility/TimePoint.h"
 
-#include "data/parser/cxx/CxxParser.h"
+class ParserClient;
+class FileManager;
+class CxxParser;
 
 class TaskParseCxx
 	: public Task
@@ -28,7 +32,7 @@ public:
 
 private:
 	ParserClient* m_client;
-	CxxParser m_parser;
+	std::shared_ptr<CxxParser> m_parser;
 	const Parser::Arguments m_arguments;
 	const std::vector<FilePath> m_files;
 

@@ -1,0 +1,117 @@
+add_files(
+	LIB_GUI_FILES
+
+	platform_includes/includesDefault.h
+	platform_includes/includesMac.h
+	platform_includes/includesWindows.h
+
+	qt/element/QtAutocompletionList.cpp
+	qt/element/QtAutocompletionList.h
+	qt/element/QtCodeArea.cpp
+	qt/element/QtCodeArea.h
+	qt/element/QtCodeFile.cpp
+	qt/element/QtCodeFile.h
+	qt/element/QtCodeFileList.cpp
+	qt/element/QtCodeFileList.h
+	qt/element/QtCodeSnippet.cpp
+	qt/element/QtCodeSnippet.h
+	qt/element/QtDirectoryListBox.cpp
+	qt/element/QtDirectoryListBox.h
+	qt/element/QtLineEdit.cpp
+	qt/element/QtLineEdit.h
+	qt/element/QtRefreshBar.cpp
+	qt/element/QtRefreshBar.h
+	qt/element/QtSearchBar.cpp
+	qt/element/QtSearchBar.h
+	qt/element/QtSmartSearchBox.cpp
+	qt/element/QtSmartSearchBox.h
+
+	qt/element/QtStatusBar.cpp
+	qt/element/QtStatusBar.h
+	qt/element/QtUndoRedo.cpp
+	qt/element/QtUndoRedo.h
+
+	qt/graphics/QtAngledLineItem.cpp
+	qt/graphics/QtAngledLineItem.h
+	qt/graphics/QtCountCircleItem.cpp
+	qt/graphics/QtCountCircleItem.h
+	qt/graphics/QtRoundedRectItem.cpp
+	qt/graphics/QtRoundedRectItem.h
+	qt/graphics/QtStraightLineItem.cpp
+	qt/graphics/QtStraightLineItem.h
+
+	qt/network/QtIDECommunicationController.cpp
+	qt/network/QtIDECommunicationController.h
+	qt/network/QtNetworkFactory.cpp
+	qt/network/QtNetworkFactory.h
+	qt/network/QtTcpWrapper.cpp
+	qt/network/QtTcpWrapper.h
+
+	qt/utility/QtDeviceScaledPixmap.cpp
+	qt/utility/QtDeviceScaledPixmap.h
+	qt/utility/QtHighlighter.cpp
+	qt/utility/QtHighlighter.h
+	qt/utility/QtThreadedFunctor.h
+	qt/utility/utilityQt.cpp
+	qt/utility/utilityQt.h
+
+	qt/view/graphElements/nodeComponents/QtGraphNodeComponent.cpp
+	qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h
+	qt/view/graphElements/nodeComponents/QtGraphNodeComponentClickable.cpp
+	qt/view/graphElements/nodeComponents/QtGraphNodeComponentClickable.h
+	qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.cpp
+	qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.h
+
+	qt/view/graphElements/QtGraphEdge.cpp
+	qt/view/graphElements/QtGraphEdge.h
+	qt/view/graphElements/QtGraphNode.cpp
+	qt/view/graphElements/QtGraphNode.h
+	qt/view/graphElements/QtGraphNodeAccess.cpp
+	qt/view/graphElements/QtGraphNodeAccess.h
+	qt/view/graphElements/QtGraphNodeBundle.cpp
+	qt/view/graphElements/QtGraphNodeBundle.h
+	qt/view/graphElements/QtGraphNodeData.cpp
+	qt/view/graphElements/QtGraphNodeData.h
+	qt/view/graphElements/QtGraphNodeExpandToggle.cpp
+	qt/view/graphElements/QtGraphNodeExpandToggle.h
+
+	qt/view/QtCodeView.cpp
+	qt/view/QtCodeView.h
+	qt/view/QtCompositeView.cpp
+	qt/view/QtCompositeView.h
+	qt/view/QtGraphView.cpp
+	qt/view/QtGraphView.h
+	qt/view/QtGraphViewStyleImpl.cpp
+	qt/view/QtGraphViewStyleImpl.h
+	qt/view/QtMainView.cpp
+	qt/view/QtMainView.h
+	qt/view/QtRefreshView.cpp
+	qt/view/QtRefreshView.h
+	qt/view/QtSearchView.cpp
+	qt/view/QtSearchView.h
+	qt/view/QtStatusBarView.cpp
+	qt/view/QtStatusBarView.h
+	qt/view/QtUndoRedoView.cpp
+	qt/view/QtUndoRedoView.h
+	qt/view/QtViewFactory.cpp
+	qt/view/QtViewFactory.h
+	qt/view/QtViewWidgetWrapper.cpp
+	qt/view/QtViewWidgetWrapper.h
+
+	qt/window/QtAbout.cpp
+	qt/window/QtAbout.h
+	qt/window/QtAboutLicense.cpp
+	qt/window/QtAboutLicense.h
+	qt/window/QtApplicationSettingsScreen.cpp
+	qt/window/QtApplicationSettingsScreen.h
+	qt/window/QtMainWindow.cpp
+	qt/window/QtMainWindow.h
+	qt/window/QtProjectSetupScreen.cpp
+	qt/window/QtProjectSetupScreen.h
+	qt/window/QtSettingsWindow.cpp
+	qt/window/QtSettingsWindow.h
+	qt/window/QtSplashScreen.cpp
+	qt/window/QtSplashScreen.h
+	qt/window/QtStartScreen.cpp
+	qt/window/QtStartScreen.h
+)
