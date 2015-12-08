@@ -199,7 +199,7 @@ public:
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"int ceil(float a)\n"
 			"{\n"
-			"	return static_cast<int>(a) + 1;\n"
+			"	return 1;\n"
 			"}\n"
 		);
 
@@ -1539,9 +1539,9 @@ public:
 			"}\n"
 		);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int>->int <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int>->int <7:4 7:6>");
 	}
-	void test_cxx_parser_finds_type_template_argument_for_parameter_pack_of_implicit_template_specialization()
+	void test_cxx_parser_finds_type_template_argument_for_parameter_pack_of_implicit_template_specialization() // actually this is an explicit template instantiation
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename... T>\n"
@@ -1552,13 +1552,68 @@ public:
 			"{\n"
 			"   A<int, float>();\n"
 			"}\n"
-			);
+		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<<int, float>>-><int, float> <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<<int, float>>->int <7:6 7:8>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<<int, float>>->float <7:11 7:15>");
 	}
 
-	void test_cxx_parser_finds_non_type_int_template_argument_of_implicit_template_specialization()
+	void test_cxx_parser_finds_type_template_argument_for_parameter_of_implicit_template_s______tion_of_non_default_constructor()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"public:\n"
+			"	A(int data){}\n"
+			"};\n"
+			"int main()\n"
+			"{\n"
+			"	A<int>(5);\n"
+			"}\n"
+			);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int>->int <9:4 9:6>");
+	}
+
+	void test_cxx_parser_finds_type_template_argument_for_parameter_of_implicit_template_s___kk_tion_of_call_to_default_constructor()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"public:\n"
+			"	A(){}\n"
+			"};\n"
+			"int main()\n"
+			"{\n"
+			"	A<int>();\n"
+			"}\n"
+			);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int>->int <9:4 9:6>");
+	}
+
+	void test_cxx_parser_finds_type_template_argument_for_parameter_of_implicit_temple_of_new_expression()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"public:\n"
+			"	A(){}\n"
+			"};\n"
+			"int main()\n"
+			"{\n"
+			"	new A<int>();\n"
+			"}\n"
+			);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int>->int <9:8 9:10>");
+	}
+
+	void test_cxx_parser_finds_non_type_int_template_argument_of_implicit_template_instantiation()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <int T>\n"
@@ -1570,10 +1625,24 @@ public:
 			"	A<1> a;\n"
 			"	return 0;\n"
 			"}\n"
-		);
+			);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<1>->int <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<1>->int <7:4 7:4>");
 	}
+
+	//void _____test_cxx_parser_finds_type_template_argument_of_static_cast_expression()
+	//{
+	//	std::shared_ptr<TestParserClient> client = parseCode(
+	//		"int main()\n"
+	//		"{\n"
+	//		"	return static_cast<int>(4.0f);"
+	//		"}\n"
+	//		);
+	//	TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
+	//	TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<1>->int <0:0 0:0>");
+	//}
+
+	
 
 	void test_cxx_parser_finds_non_type_bool_template_argument_of_implicit_template_specialization()
 	{
@@ -1589,7 +1658,7 @@ public:
 			"}\n"
 		);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<true>->bool <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<true>->bool <7:4 7:7>");
 	}
 
 	void test_cxx_parser_finds_non_type_custom_pointer_template_argument_of_implicit_template_specialization()
@@ -1607,7 +1676,7 @@ public:
 			"}\n"
 		);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&p>->P <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&p>->P <9:4 9:5>");
 	}
 
 	void test_cxx_parser_finds_non_type_custom_reference_template_argument_of_implicit_template_specialization()
@@ -1625,7 +1694,7 @@ public:
 			"}\n"
 		);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&p>->P <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&p>->P <9:4 9:4>");
 	}
 
 	void test_cxx_parser_finds_non_type_nullptr_template_argument_of_implicit_template_specialization()
@@ -1642,7 +1711,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<nullptr>->nullptr_t <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<nullptr>->nullptr_t <7:4 7:10>");
 	}
 
 	void test_cxx_parser_finds_non_type_int_template_argument_for_parameter_pack_of_implicit_template_specialization()
@@ -1654,12 +1723,14 @@ public:
 			"};\n"
 			"int main()\n"
 			"{\n"
-			"   A<1, 2, 3>();\n"
+			"   A<1, 2, 33>();\n"
 			"}\n"
 			);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<<1, 2, 3>>-><int, int, int> <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 3);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<<1, 2, 33>>->int <7:6 7:6>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<<1, 2, 33>>->int <7:9 7:9>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[2], "A<<1, 2, 33>>->int <7:12 7:13>");
 	}
 
 	void test_cxx_parser_finds_template_template_argument_of_implicit_template_specialization()
@@ -1678,7 +1749,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "B<A>->A<typename T> <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "B<A>->A<typename T> <9:4 9:4>");
 	}
 
 	void test_cxx_parser_finds_template_template_argument_for_parameter_pack_of_implicit_template_specialization()
@@ -1694,12 +1765,12 @@ public:
 			"};\n"
 			"int main()\n"
 			"{\n"
-			"   B<A, A>();\n"
+			"	B<A, A>();\n"
 			"}\n"
 			);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "B<<A, A>>-><A<typename T>, A<typename T>> <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "B<<A, A>>->A<typename T> <11:4 11:4>");
 	}
 
 	void test_cxx_parser_finds_template_member_specialization_of_implicit_template_specialization()
@@ -1749,7 +1820,7 @@ public:
 			"};\n"
 		);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int>->int <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int>->int <6:9 6:11>");
 	}
 
 	void test_cxx_parser_finds_non_type_int_template_argument_of_explicit_template_specialization()
@@ -1765,7 +1836,7 @@ public:
 			"};\n"
 		);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<1>->int <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<1>->int <6:9 6:9>");
 	}
 
 	void test_cxx_parser_finds_non_type_bool_template_argument_of_explicit_template_specialization()
@@ -1781,7 +1852,7 @@ public:
 			"};\n"
 		);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<true>->bool <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<true>->bool <6:9 6:12>");
 	}
 
 	void test_cxx_parser_finds_non_type_custom_pointer_template_argument_of_explicit_template_specialization()
@@ -1799,7 +1870,7 @@ public:
 			"};\n"
 		);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&p>->P <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&p>->P <8:9 8:10>");
 	}
 
 	void test_cxx_parser_finds_non_type_custom_reference_template_argument_of_explicit_template_specialization()
@@ -1817,7 +1888,7 @@ public:
 			"};\n"
 		);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&p>->P <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&p>->P <8:9 8:9>");
 	}
 
 	void test_cxx_parser_finds_non_type_nullptr_template_argument_of_explicit_template_specialization()
@@ -1834,7 +1905,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<nullptr>->nullptr_t <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<nullptr>->nullptr_t <6:9 6:15>");
 	}
 
 	void test_cxx_parser_finds_template_template_argument_of_explicit_template_specialization()
@@ -1853,7 +1924,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "B<A>->A<typename T> <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "B<A>->A<typename T> <8:9 8:9>");
 	}
 
 	void test_cxx_parser_finds_explicit_partial_template_specialization()
@@ -1886,7 +1957,7 @@ public:
 		);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<typename T, int>->A<typename T, int>::T <6:9 6:9>");
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<typename T, int>->int <6:12 6:12>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<typename T, int>->int <6:12 6:14>");
 	}
 
 	void test_cxx_parser_finds_non_type_int_template_argument_of_explicit_partial_template_specialization()
@@ -1921,7 +1992,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<true, bool U>->bool <6:9 6:9>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<true, bool U>->bool <6:9 6:12>");
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<true, bool U>->bool <6:15 6:15>");
 	}
 
@@ -1979,7 +2050,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<nullptr, std::nullptr_t U>->nullptr_t <6:9 6:9>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<nullptr, std::nullptr_t U>->nullptr_t <6:9 6:15>");
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<nullptr, std::nullptr_t U>->std::nullptr_t <6:18 6:18>");
 	}
 
@@ -2019,8 +2090,8 @@ public:
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 3);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<3, typename T2, T2 T3>->int <6:9 6:9>");
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<3, typename T2, T2 T3>->A<3, typename T2, T2 T3>::T2 <6:12 6:12>");
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[2], "A<3, typename T2, T2 T3>->A<3, typename T2, T2 T3>::T2 <6:16 6:16>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<3, typename T2, T2 T3>->A<3, typename T2, T2 T3>::T2 <6:12 6:13>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[2], "A<3, typename T2, T2 T3>->A<3, typename T2, T2 T3>::T2 <6:16 6:17>");
 	}
 
 	void test_cxx_parser_finds_non_type_template_argument_that_depends_on_template_template_parameter_of_explicit_partial_template_specialization()
@@ -2038,8 +2109,8 @@ public:
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 3);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<3, template<typename> typename T2, T2<int> T3>->int <6:9 6:9>");
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<3, template<typename> typename T2, T2<int> T3>->A<3, template<typename> typename T2, T2<int> T3>::T2<typename> <6:12 6:12>");
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[2], "A<3, template<typename> typename T2, T2<int> T3>->A<3, template<typename> typename T2, T2<int> T3>::T2<int> <6:16 6:16>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<3, template<typename> typename T2, T2<int> T3>->A<3, template<typename> typename T2, T2<int> T3>::T2<typename> <6:12 6:13>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[2], "A<3, template<typename> typename T2, T2<int> T3>->A<3, template<typename> typename T2, T2<int> T3>::T2<int> <6:16 6:17>");
 	}
 
 	void test_cxx_parser_finds_correct_name_of_explicit_template_specialization()
@@ -2459,7 +2530,7 @@ public:
 		TS_ASSERT_EQUALS(client->templateSpecializations[0], "test<int> -> test<typename T> <8:5 8:8>");
 	}
 
-	void test_cxx_parser_finds_template_argument_of_explicit_specialization_of_template_function()
+	void test_cxx_parser_finds_explicit_type_template_argument_of_explicit_specialization_of_template_function()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T>\n"
@@ -2476,23 +2547,103 @@ public:
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>->int <7:11 7:11>");
 	}
 
-	void test_cxx_parser_finds_template_argument_of_implicit_specialization_of_template_function()
+	void test_cxx_parser_finds_explicit_type_template_argument_of_function_call_in_function()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T>\n"
-			"void test()\n"
-			"{\n"
-			"};\n"
+			"void test(){}\n"
 			"\n"
 			"int main()\n"
 			"{\n"
 			"	test<int>();\n"
 			"	return 1;\n"
 			"};\n"
-		);
+			);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>->int <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>->int <6:7 6:7>");
 	}
+
+	void test_cxx_parser_finds_explicit_non_type_template_argument_of_function_call_in_function()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <int T>\n"
+			"void test(){}\n"
+			"\n"
+			"int main()\n"
+			"{\n"
+			"	test<33>();\n"
+			"	return 1;\n"
+			"};\n"
+			);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<33>->int <6:7 6:7>");
+	}
+
+	void test_cxx_parser_finds_explicit_template_template_argument_of_function_call_in_function()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A {};\n"
+			"template <template<typename> class T>\n"
+			"void test(){};\n"
+			"int main()\n"
+			"{\n"
+			"	test<A>();\n"
+			"	return 1;\n"
+			"};\n"
+			);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<A>->A<typename T> <7:7 7:7>");
+	}
+
+	void test_cxx_parser_finds_implicit_type_template_argument_of_function_call_in_function()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"void test(T data){}\n"
+			"\n"
+			"int main()\n"
+			"{\n"
+			"	test(1);\n"
+			"	return 1;\n"
+			"};\n"
+			);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>->int <6:5 6:5>");
+	}
+
+	void test_cxx_parser_finds_explicit_type_template_argument_of_function_call_in_var_decl()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"T test(){ return 1; }\n"
+			"\n"
+			"class A\n"
+			"{\n"
+			"	int foo = test<int>();\n"
+			"};\n"
+			);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>->int <6:17 6:17>");
+	}
+
+	void test_cxx_parser_finds_implicit_type_template_argument_of_function_call_in_var_decl()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"T test(T i){ return i; }\n"
+			"\n"
+			"class A\n"
+			"{\n"
+			"	int foo = test(1);\n"
+			"};\n"
+			);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>->int <6:15 6:15>");
+	}
+
+
+
 
 	void test_cxx_parser_finds_type_template_default_argument_type_of_template_function()
 	{
@@ -2860,21 +3011,21 @@ private:
 		}
 
 		virtual Id onTemplateArgumentTypeOfTemplateRecordParsed(
-			const ParseLocation& location, const NameHierarchy& argumentNameHierarchy,
+			const ParseLocation& location, const NameHierarchy& argumentTypeNameHierarchy,
 			const NameHierarchy& templateNameHierarchy)
 		{
 			templateArgumentTypes.push_back(
-				addLocationSuffix(templateNameHierarchy.getFullName() + "->" + argumentNameHierarchy.getFullName(), location)
+				addLocationSuffix(templateNameHierarchy.getFullName() + "->" + argumentTypeNameHierarchy.getFullName(), location)
 			);
 			return 0;
 		}
 
 		virtual Id onTemplateArgumentTypeOfTemplateFunctionParsed(
-			const ParseLocation& location, const NameHierarchy& argumentNameHierarchy,
+			const ParseLocation& location, const NameHierarchy& argumentTypeNameHierarchy,
 			const ParseFunction& templateFunction)
 		{
 			templateArgumentTypes.push_back(
-				addLocationSuffix(templateFunction.getFullName() + "->" + argumentNameHierarchy.getFullName(), location)
+				addLocationSuffix(templateFunction.getFullName() + "->" + argumentTypeNameHierarchy.getFullName(), location)
 			);
 			return 0;
 		}

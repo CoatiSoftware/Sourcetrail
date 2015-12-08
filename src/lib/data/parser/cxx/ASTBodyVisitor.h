@@ -15,6 +15,8 @@ public:
 	void VisitChildren(clang::Stmt* stmt);
 	void VisitCallExpr(clang::CallExpr* expr);
 	void VisitCXXConstructExpr(clang::CXXConstructExpr* expr);
+	void VisitExplicitCastExpr(clang::ExplicitCastExpr* expr);
+	void VisitCXXTemporaryObjectExpr(clang::CXXTemporaryObjectExpr* expr);
 	void VisitCXXNewExpr(clang::CXXNewExpr* expr);
 	void VisitMemberExpr(clang::make_ptr<clang::MemberExpr>::type expr);
 	void VisitDeclRefExpr(clang::make_ptr<clang::DeclRefExpr>::type expr);

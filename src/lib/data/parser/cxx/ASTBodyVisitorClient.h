@@ -13,8 +13,14 @@ public:
 
 	virtual void VisitCallExprInDeclBody(clang::FunctionDecl* decl, clang::CallExpr* expr) = 0;
 	virtual void VisitCallExprInDeclBody(clang::DeclaratorDecl* decl, clang::CallExpr* expr) = 0;
+	virtual void VisitDeclRefExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr) = 0;
+	virtual void VisitDeclRefExprInDeclBody(clang::DeclaratorDecl* decl, clang::DeclRefExpr* expr) = 0;
 	virtual void VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clang::CXXConstructExpr* expr) = 0;
 	virtual void VisitCXXConstructExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXConstructExpr* expr) = 0;
+	virtual void VisitExplicitCastExprInDeclBody(clang::FunctionDecl* decl, clang::ExplicitCastExpr* expr) = 0;
+	virtual void VisitExplicitCastExprInDeclBody(clang::DeclaratorDecl* decl, clang::ExplicitCastExpr* expr) = 0;
+	virtual void VisitCXXTemporaryObjectExprInDeclBody(clang::FunctionDecl* decl, clang::CXXTemporaryObjectExpr* expr) = 0;
+	virtual void VisitCXXTemporaryObjectExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXTemporaryObjectExpr* expr) = 0;
 	virtual void VisitCXXNewExprInDeclBody(clang::FunctionDecl* decl, clang::CXXNewExpr* expr) = 0;
 	virtual void VisitCXXNewExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXNewExpr* expr) = 0;
 	virtual void VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr) = 0;

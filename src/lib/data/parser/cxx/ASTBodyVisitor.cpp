@@ -81,6 +81,34 @@ void ASTBodyVisitor::VisitCXXConstructExpr(clang::CXXConstructExpr* expr)
 	VisitStmt(expr);
 }
 
+void ASTBodyVisitor::VisitExplicitCastExpr(clang::ExplicitCastExpr* expr)
+{
+	if (m_functionDecl)
+	{
+		m_client->VisitExplicitCastExprInDeclBody(m_functionDecl, expr);
+	}
+	else
+	{
+		m_client->VisitExplicitCastExprInDeclBody(m_varDecl, expr);
+	}
+
+	VisitStmt(expr);
+}
+
+void ASTBodyVisitor::VisitCXXTemporaryObjectExpr(clang::CXXTemporaryObjectExpr* expr)
+{
+	if (m_functionDecl)
+	{
+		m_client->VisitCXXTemporaryObjectExprInDeclBody(m_functionDecl, expr);
+	}
+	else
+	{
+		m_client->VisitCXXTemporaryObjectExprInDeclBody(m_varDecl, expr);
+	}
+
+	VisitStmt(expr);
+}
+
 void ASTBodyVisitor::VisitCXXNewExpr(clang::CXXNewExpr* expr)
 {
 	if (m_functionDecl)
@@ -111,8 +139,17 @@ void ASTBodyVisitor::VisitMemberExpr(clang::make_ptr<clang::MemberExpr>::type ex
 	VisitStmt(expr);
 }
 
-void ASTBodyVisitor::VisitDeclRefExpr(clang::make_ptr<clang::DeclRefExpr>::type expr)
+void ASTBodyVisitor::VisitDeclRefExpr(clang::DeclRefExpr* expr)
 {
+	if (m_functionDecl)
+	{
+		m_client->VisitDeclRefExprInDeclBody(m_functionDecl, expr);
+	}
+	else
+	{
+		m_client->VisitDeclRefExprInDeclBody(m_varDecl, expr);
+	}
+
 	if (expr->getDecl()->getKind() == clang::Decl::Var && expr->getDecl()->isDefinedOutsideFunctionOrMethod())
 	{
 		if (m_functionDecl)
@@ -135,6 +172,7 @@ void ASTBodyVisitor::VisitDeclRefExpr(clang::make_ptr<clang::DeclRefExpr>::type 
 			m_client->VisitEnumExprInDeclBody(m_varDecl, expr);
 		}
 	}
+
 	VisitStmt(expr);
 }
 

@@ -531,16 +531,16 @@ Id Storage::onTypeUsageParsed(const ParseTypeUsage& typeUsage, const ParseVariab
 }
 
 Id Storage::onTemplateArgumentTypeOfTemplateRecordParsed(
-		const ParseLocation& location, const NameHierarchy& argumentNameHierarchy,
-		const NameHierarchy& templateNameHierarchy)
+	const ParseLocation& location, const NameHierarchy& argumentTypeNameHierarchy,
+	const NameHierarchy& templateNameHierarchy)
 {
 	log(
 		"template argument type",
-		argumentNameHierarchy.getFullName() + " -> " + templateNameHierarchy.getFullName(),
+		argumentTypeNameHierarchy.getFullName() + " -> " + templateNameHierarchy.getFullName(),
 		location
 	);
 
-	Id argumentNodeId = addNodeHierarchy(Node::NODE_TYPE, argumentNameHierarchy, false);
+	Id argumentNodeId = addNodeHierarchy(Node::NODE_TYPE, argumentTypeNameHierarchy, false);
 	// does not need a source location because this type that is already defined (and therefore has a location).
 
 	Id templateNodeId = addNodeHierarchy(Node::NODE_TYPE, templateNameHierarchy, false);
@@ -551,16 +551,16 @@ Id Storage::onTemplateArgumentTypeOfTemplateRecordParsed(
 }
 
 Id Storage::onTemplateArgumentTypeOfTemplateFunctionParsed(
-	const ParseLocation& location, const NameHierarchy& argumentNameHierarchy,
+	const ParseLocation& location, const NameHierarchy& argumentTypeNameHierarchy,
 	const ParseFunction& templateFunction)
 {
 	log(
 		"template argument type",
-		argumentNameHierarchy.getFullName() + " -> " + templateFunction.getFullName(),
+		argumentTypeNameHierarchy.getFullName() + " -> " + templateFunction.getFullName(),
 		location
 		);
 
-	Id argumentNodeId = addNodeHierarchy(Node::NODE_TYPE, argumentNameHierarchy, false);
+	Id argumentNodeId = addNodeHierarchy(Node::NODE_TYPE, argumentTypeNameHierarchy, false);
 	// does not need a source location because this type that is already defined (and therefore has a location).
 
 	Id templateNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, templateFunction, false);

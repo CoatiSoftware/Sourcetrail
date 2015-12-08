@@ -32,6 +32,7 @@ public:
 	virtual bool VisitVarDecl(clang::VarDecl* declaration); // global variables and static fields
 	virtual bool VisitFieldDecl(clang::FieldDecl* declaration); // fields
 	virtual bool VisitFunctionDecl(clang::FunctionDecl* declaration); // functions
+	virtual bool VisitParmVarDecl(clang::ParmVarDecl* declaration);
 	virtual bool VisitCXXMethodDecl(clang::CXXMethodDecl* declaration); // methods
 	virtual bool VisitCXXConstructorDecl(clang::CXXConstructorDecl* declaration); // initialization list
 	virtual bool VisitNamespaceDecl(clang::NamespaceDecl* declaration); // namespaces
@@ -47,8 +48,14 @@ public:
 	// ASTBodyVisitorClient implementation
 	virtual void VisitCallExprInDeclBody(clang::FunctionDecl* decl, clang::CallExpr* expr); // calls
 	virtual void VisitCallExprInDeclBody(clang::DeclaratorDecl* decl, clang::CallExpr* expr); // calls in initialization of global variables
+	virtual void VisitDeclRefExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr);
+	virtual void VisitDeclRefExprInDeclBody(clang::DeclaratorDecl* decl, clang::DeclRefExpr* expr);
 	virtual void VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clang::CXXConstructExpr* expr); // constructor calls
 	virtual void VisitCXXConstructExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXConstructExpr* expr); // constructor calls of global variables
+	virtual void VisitExplicitCastExprInDeclBody(clang::FunctionDecl* decl, clang::ExplicitCastExpr* expr);
+	virtual void VisitExplicitCastExprInDeclBody(clang::DeclaratorDecl* decl, clang::ExplicitCastExpr* expr);
+	virtual void VisitCXXTemporaryObjectExprInDeclBody(clang::FunctionDecl* decl, clang::CXXTemporaryObjectExpr* expr);
+	virtual void VisitCXXTemporaryObjectExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXTemporaryObjectExpr* expr);
 	virtual void VisitCXXNewExprInDeclBody(clang::FunctionDecl* decl, clang::CXXNewExpr* expr); // type use of new operator
 	virtual void VisitCXXNewExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXNewExpr* expr); // type use of new operator in global space
 	virtual void VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr); // field usages
@@ -60,17 +67,24 @@ public:
 	virtual void VisitVarDeclInDeclBody(clang::FunctionDecl* decl, clang::VarDecl* varDecl); // type usages
 
 private:
+
+	void processFunctionDecl(clang::FunctionDecl* declaration);
+	void processTemplateArgumentsOfExplicitSpecialization(clang::FunctionDecl* declaration);
+	void processTemplateArgumentsOfExplicitSpecialization(clang::ClassTemplateSpecializationDecl* specializationDecl);
+	void processTemplateArguments(clang::DeclRefExpr* expr);
+	void processTemplateArguments(clang::TemplateSpecializationTypeLoc loc);
+
+
 	bool isLocatedInUnparsedProjectFile(const clang::Decl* declaration) const;
 	bool isLocatedInProjectFile(const ParseLocation& location) const;
 	bool isLocatedInProjectFile(const clang::Decl* declaration) const;
-
-	bool needsToAddTemplateArgument(const clang::TemplateArgument& argument, const clang::Decl* specializedDecl);
 
 	ParserClient::AccessType convertAccessType(clang::AccessSpecifier) const;
 	ParserClient::AbstractionType getAbstractionType(const clang::CXXMethodDecl* methodDecl) const;
 
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
 	ParseLocation getParseLocationForTokenAtLocation(const clang::SourceLocation& loc) const;
+	ParseLocation getParseLocationForTokensInRange(const clang::SourceRange& range) const;
 	ParseLocation getParseLocationForNamedDecl(const clang::NamedDecl* decl) const;
 	ParseLocation getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const;
 	ParseLocation getParseLocationOfRecordBody(clang::CXXRecordDecl* decl) const;
@@ -84,13 +98,6 @@ private:
 	ParseVariable getParseVariable(const clang::DeclaratorDecl* declaration) const;
 	ParseFunction getParseFunction(const clang::FunctionDecl* declaration) const;
 	ParseFunction getParseFunction(const clang::FunctionTemplateDecl* declaration) const;
-
-	template <typename T>
-	void saveClassTemplateArgumentTypeUsages(const clang::TypeSourceInfo* typeInfo, const T& t);
-
-	template <typename T>
-	void saveFunctionTemplateArgumentTypeUsages(
-		const clang::FunctionDecl* decl, const clang::SourceRange& sourceRange, const T& t);
 
 	clang::ASTContext* m_context;
 	ParserClient* m_client;
