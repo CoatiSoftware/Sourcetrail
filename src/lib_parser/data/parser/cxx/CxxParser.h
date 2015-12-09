@@ -39,6 +39,8 @@ private:
 	FileRegister* getFileRegister();
 	ParserClient* getParserClient();
 
+	std::string getLanguageArgument(const std::string& language) const;
+
 	friend class TaskParseCxx;
 
 	std::shared_ptr<FileRegister> m_fileRegister;

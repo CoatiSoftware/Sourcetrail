@@ -1,6 +1,7 @@
 #ifndef QT_PROJECT_SETUP_SCREEN_H
 #define QT_PROJECT_SETUP_SCREEN_H
 
+#include <QComboBox>
 #include <QPushButton>
 #include <QWidget>
 
@@ -56,6 +57,7 @@ protected:
 private slots:
 	void handleCancelButtonPress();
 	void handleUpdateButtonPress();
+	void handleSelectionChanged(int index);
 
 	void handleSourcePathHelpPress();
 	void handleIncludePathHelpPress();
@@ -72,6 +74,11 @@ private:
 	QtDirectoryListBox* m_frameworkPaths;
 
 	QPushButton* m_preferencesButton;
+	
+	QComboBox* m_language;
+	QComboBox* m_cppStandard;
+
+	QLabel* m_standardLabel;
 };
 
 #endif //QT_PROJECT_SETUP_SCREEN_H

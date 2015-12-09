@@ -199,6 +199,9 @@ Parser::Arguments Project::getParserArguments() const
 	utility::append(args.frameworkSearchPaths, projSettings->getFrameworkSearchPaths());
 	utility::append(args.frameworkSearchPaths, appSettings->getFrameworkSearchPaths());
 
+	args.language = projSettings->getLanguage();
+	args.languageStandard = projSettings->getStandard();
+
 	return args;
 }
 

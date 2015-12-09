@@ -1,6 +1,5 @@
 #include "qt/window/QtProjectSetupScreen.h"
 
-#include <QComboBox>
 #include <QFileDialog>
 #include <QFormLayout>
 #include <QLineEdit>
@@ -52,7 +51,6 @@ void QtTextLine::handleButtonPress()
 		m_data->setText(file);
 	}
 }
-
 
 QtProjectSetupScreen::QtProjectSetupScreen(QWidget *parent)
 	: QtSettingsWindow(parent)
@@ -108,6 +106,15 @@ void QtProjectSetupScreen::loadProjectSettings()
 	m_projectName->setText(QString::fromStdString(projSettings->getFilePath().withoutExtension().fileName()));
 	m_projectFileLocation->setText(QString::fromStdString(projSettings->getFilePath().parentDirectory().str()));
 
+	if (projSettings->getLanguage().length() > 0)
+	{
+		m_language->setCurrentText(QString::fromStdString(projSettings->getLanguage()));
+	}
+	if (projSettings->getStandard().length() > 0)
+	{
+		m_cppStandard->setCurrentText(QString::fromStdString(projSettings->getStandard()));
+	}
+
 	m_sourcePaths->setList(projSettings->getSourcePaths());
 	m_includePaths->setList(projSettings->getHeaderSearchPaths());
 
@@ -134,9 +141,16 @@ void QtProjectSetupScreen::populateForm(QFormLayout* layout)
 	layout->addRow(locationLabel, m_projectFileLocation);
 
 	QLabel* languageLabel = new QLabel("Language");
-	QComboBox* language = new QComboBox();
-	language->insertItem(0, "C++");
-	layout->addRow(languageLabel, language);
+	m_language = new QComboBox();
+	m_language->insertItem(0, "C++");
+	m_language->insertItem(1, "C");
+	connect(m_language, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectionChanged(int)));
+	layout->addRow(languageLabel, m_language);
+
+	m_standardLabel = new QLabel("Standard");
+	m_cppStandard = new QComboBox();
+	m_cppStandard->insertItem(0, "11");
+	layout->addRow(m_standardLabel, m_cppStandard);
 
 	QPushButton* helpButton;
 
@@ -197,6 +211,11 @@ void QtProjectSetupScreen::handleUpdateButtonPress()
 
 	projSettings->clear();
 
+	projSettings->setLanguage(m_language->currentText().toStdString());
+	if (m_cppStandard->isVisible())
+	{
+		projSettings->setStandard(m_cppStandard->currentText().toStdString());
+	}
 	projSettings->setSourcePaths(m_sourcePaths->getList());
 	projSettings->setHeaderSearchPaths(m_includePaths->getList());
 
@@ -208,6 +227,13 @@ void QtProjectSetupScreen::handleUpdateButtonPress()
 	std::string projectFile =
 		m_projectFileLocation->getText().toStdString() + "/" + m_projectName->text().toStdString() + ".coatiproject";
 	projSettings->save(projectFile);
+
+	projSettings->setLanguage(m_language->currentText().toStdString());
+	
+	if (m_cppStandard->isVisible())
+	{
+		projSettings->setStandard(m_cppStandard->currentText().toStdString());
+	}
 
 	MessageLoadProject(projectFile).dispatch();
 	clear();
@@ -244,4 +270,18 @@ void QtProjectSetupScreen::handleFrameworkPathHelpPress()
 void QtProjectSetupScreen::handlePreferencesButtonPress()
 {
 	emit showPreferences();
+}
+	
+void QtProjectSetupScreen::handleSelectionChanged(int index)
+{
+	if (index != 0)
+	{
+		m_standardLabel->hide();
+		m_cppStandard->hide();
+	}
+	else
+	{
+		m_standardLabel->show();
+		m_cppStandard->show();
+	}
 }

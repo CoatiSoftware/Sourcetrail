@@ -18,6 +18,13 @@ public:
 
 	virtual void save(const FilePath& filePath);
 
+	// language settings
+	std::string getLanguage() const;
+	bool setLanguage(const std::string& language);
+
+	std::string getStandard() const;
+	bool setStandard(const std::string& standard);
+
 	// source
 	std::vector<FilePath> getSourcePaths() const;
 	bool setSourcePaths(const std::vector<FilePath>& sourcePaths);

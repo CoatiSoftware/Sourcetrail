@@ -46,6 +46,26 @@ void ProjectSettings::save(const FilePath& filePath)
 	Settings::save(filePath);
 }
 
+std::string ProjectSettings::getLanguage() const
+{
+	return getValue<std::string>("language_settings/language", "C++");
+}
+
+bool ProjectSettings::setLanguage(const std::string& language)
+{
+	return setValue<std::string>("language_settings/language", language);
+}
+
+std::string ProjectSettings::getStandard() const
+{
+	return getValue<std::string>("language_settings/standard", "11");
+}
+
+bool ProjectSettings::setStandard(const std::string& standard)
+{
+	return setValue<std::string>("language_settings/standard", standard);
+}
+
 std::vector<FilePath> ProjectSettings::getSourcePaths() const
 {
 	return getRelativePathValues("source/source_paths/source_path");

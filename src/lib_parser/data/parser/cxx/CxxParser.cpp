@@ -110,9 +110,15 @@ std::vector<std::string> CxxParser::getCommandlineArguments(const Arguments& arg
 
 	// The option '-x c++' treats subsequent input files as C++.
 	args.push_back("-x");
-	args.push_back("c++");
+	std::string language = getLanguageArgument(arguments.language);
+	args.push_back(language);
+	// args.push_back("c++");
 
-	args.push_back("-std=c++11");
+	// TODO: handle other standards...
+	if (language == "c++")
+	{
+		args.push_back("-std=c++11");
+	}
 
 	args.insert(args.begin(), arguments.compilerFlags.begin(), arguments.compilerFlags.end());
 
@@ -195,4 +201,18 @@ FileRegister* CxxParser::getFileRegister()
 ParserClient* CxxParser::getParserClient()
 {
 	return m_client;
+}
+
+std::string CxxParser::getLanguageArgument(const std::string& language) const
+{
+	std::string result = language;
+
+	boost::algorithm::to_lower(result);
+
+	if (result != "c++" && result != "c")
+	{
+		result = "c++";
+	}
+
+	return result;
 }
