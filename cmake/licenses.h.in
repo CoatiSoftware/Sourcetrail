@@ -1,16 +1,17 @@
 #ifndef LICENSES_H
 #define LICENSES_H
 
-// This File(licenses.h) is generated with CMake 
+// This File(licenses.h) is generated with CMake
 
 struct ThirdPartyLicense {
 	const char* name;
 	const char* url;
 	const char* license;
+	const bool isNotInTrial;
 
-	ThirdPartyLicense() : name(0), url(0), license(0) {}
-	ThirdPartyLicense(const char* name, const char* url, const char* license)
-	    : name(name), url(url), license(license) {}
+	ThirdPartyLicense() : name(0), url(0), license(0), isNotInTrial(false) {}
+	ThirdPartyLicense(const char* name, const char* url, const char* license, const bool isNotInTrial)
+	    : name(name), url(url), license(license), isNotInTrial(isNotInTrial) {}
 	bool isEmpty() const { return (name == 0 && url == 0 && license == 0); }
 };
 

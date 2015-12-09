@@ -10,6 +10,7 @@
 
 #include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/utility/utilityQt.h"
+#include "isTrial.h"
 
 QtRecentProjectButton::QtRecentProjectButton(const QString &text, QWidget *parent)
 	: QPushButton(text, parent)
@@ -41,17 +42,20 @@ void QtStartScreen::setup()
 	coatiLogoLabel->resize(coati_logo.width(), coati_logo.height());
 	coatiLogoLabel->move(30,10);
 
-	m_newProjectButton = new QPushButton("New Project", this);
-	m_newProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	m_newProjectButton->setGeometry(30, 495, 140, 30);
-	m_newProjectButton->setObjectName("projectButton");
-	connect(m_newProjectButton, SIGNAL(clicked()), this, SLOT(handleNewProjectButton()));
+	if(!isTrial())
+	{
+		m_newProjectButton = new QPushButton("New Project", this);
+		m_newProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		m_newProjectButton->setGeometry(30, 495, 140, 30);
+		m_newProjectButton->setObjectName("projectButton");
+		connect(m_newProjectButton, SIGNAL(clicked()), this, SLOT(handleNewProjectButton()));
 
-	m_openProjectButton = new QPushButton("Open Project", this);
-	m_openProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	m_openProjectButton->setGeometry(30, 540, 140, 30);
-	m_openProjectButton->setObjectName("projectButton");
-	connect(m_openProjectButton, SIGNAL(clicked()), this, SLOT(handleOpenProjectButton()));
+		m_openProjectButton = new QPushButton("Open Project", this);
+		m_openProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		m_openProjectButton->setGeometry(30, 540, 140, 30);
+		m_openProjectButton->setObjectName("projectButton");
+		connect(m_openProjectButton, SIGNAL(clicked()), this, SLOT(handleOpenProjectButton()));
+	}
 
 	QLabel* recentProjectsLabel = new QLabel("Recent Projects: ", this);
 	recentProjectsLabel->setGeometry(300, 234, 300, 50);

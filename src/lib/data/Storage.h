@@ -7,7 +7,6 @@
 #include "utility/file/FilePath.h"
 
 #include "data/access/StorageAccess.h"
-//#include "data/graph/token_component/TokenComponentAbstraction.h"
 #include "data/HierarchyCache.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/location/TokenLocationCollection.h"
@@ -174,7 +173,7 @@ private:
 	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool defined, bool distinct = false);
 	Id addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function, bool defined);
 	std::vector<Id> addNameHierarchyElements(NameHierarchy nameHierarchy);
-	int addSourceLocation(int elementNodeId, const ParseLocation& location, bool isScope = false);
+	Id addSourceLocation(Id elementNodeId, const ParseLocation &location, bool isScope = false);
 
 	Id addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type);
 	Id addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type, ParseLocation location);

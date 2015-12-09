@@ -36,7 +36,8 @@ public:
 	Id addEdge(int type, Id sourceNodeId, Id targetNodeId);
 	Id addNode(int type, Id nameId, bool defined);
 	Id addFile(Id nameId, const std::string& filePath, const std::string& modificationTime);
-	int addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope);
+	Id addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol,
+						 bool isScope);
 	Id addNameHierarchyElement(const std::string& name, Id parentId = 0);
 
 	Id addComponentAccess(Id memberEdgeId, int type);

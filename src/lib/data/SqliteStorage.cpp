@@ -112,7 +112,8 @@ Id SqliteStorage::addFile(Id nameId, const std::string& filePath, const std::str
 	return id;
 }
 
-int SqliteStorage::addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope)
+Id SqliteStorage::addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine,
+									uint endCol, bool isScope)
 {
 	m_database.execDML((
 		"INSERT INTO source_location(id, element_id, file_node_id, start_line, start_column, end_line, end_column, is_scope) "

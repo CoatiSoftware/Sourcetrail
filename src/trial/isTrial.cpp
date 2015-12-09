@@ -1,6 +1,6 @@
 #include "isTrial.h"
 
-bool isTrail()
+bool isTrial()
 {
 	return true;
 }

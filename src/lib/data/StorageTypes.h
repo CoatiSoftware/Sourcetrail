@@ -63,7 +63,7 @@ struct StorageNameHierarchyElement
 
 struct StorageSourceLocation
 {
-	StorageSourceLocation(Id id, Id elementId, Id fileNodeId, int startLine, int startCol, int endLine, int endCol, bool isScope)
+	StorageSourceLocation(Id id, Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope)
 		: id(id)
 		, elementId(elementId)
 		, fileNodeId(fileNodeId)
@@ -77,10 +77,10 @@ struct StorageSourceLocation
 	Id id;
 	Id elementId;
 	Id fileNodeId;
-	int startLine;
-	int startCol;
-	int endLine;
-	int endCol;
+	uint startLine;
+	uint startCol;
+	uint endLine;
+	uint endCol;
 	bool isScope;
 };
 
@@ -97,7 +97,7 @@ struct StorageComponentAccess
 
 struct StorageCommentLocation
 {
-	StorageCommentLocation(Id id, Id fileNodeId, int startLine, int startCol, int endLine, int endCol)
+	StorageCommentLocation(Id id, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol)
 		: id(id)
 		, fileNodeId(fileNodeId)
 		, startLine(startLine)
@@ -108,10 +108,10 @@ struct StorageCommentLocation
 
 	Id id;
 	Id fileNodeId;
-	int startLine;
-	int startCol;
-	int endLine;
-	int endCol;
+	uint startLine;
+	uint startCol;
+	uint endLine;
+	uint endCol;
 };
 
 struct StorageError

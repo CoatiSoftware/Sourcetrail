@@ -25,6 +25,7 @@
 #include "utility/messaging/type/MessageWindowFocus.h"
 #include "utility/messaging/type/MessageZoom.h"
 #include "version.h"
+#include "isTrial.h"
 
 std::string QtMainWindow::m_windowSettingsPath = "data/window_settings.ini";
 
@@ -407,16 +408,19 @@ void QtMainWindow::setupProjectMenu()
 	QMenu *menu = new QMenu(tr("&Project"), this);
 	menuBar()->addMenu(menu);
 
-	menu->addAction(tr("&New Project..."), this, SLOT(newProject()), QKeySequence::New);
-	menu->addAction(tr("&Open Project..."), this, SLOT(openProject()), QKeySequence::Open);
-	menu->addAction(tr("&Edit Project..."), this, SLOT(editProject()));
+	if(!isTrial())
+	{
+		menu->addAction(tr("&New Project..."), this, SLOT(newProject()), QKeySequence::New);
+		menu->addAction(tr("&Open Project..."), this, SLOT(openProject()), QKeySequence::Open);
+		menu->addAction(tr("&Edit Project..."), this, SLOT(editProject()));
 
-	menu->addSeparator();
+		menu->addSeparator();
 
-	menu->addAction(tr("&Save Project"), this, SLOT(saveProject()), QKeySequence::Save);
-	menu->addAction(tr("Save Project as..."), this, SLOT(saveAsProject()), QKeySequence::SaveAs);
+		menu->addAction(tr("&Save Project"), this, SLOT(saveProject()), QKeySequence::Save);
+		menu->addAction(tr("Save Project as..."), this, SLOT(saveAsProject()), QKeySequence::SaveAs);
 
-	menu->addSeparator();
+		menu->addSeparator();
+	}
 
 	QMenu *recentProjectMenu = new QMenu(tr("Recent Projects"));
 	menu->addMenu(recentProjectMenu);
@@ -480,16 +484,17 @@ void QtMainWindow::setupEditMenu()
 	menu->addAction(tr("Redo"), this, SLOT(redo()), QKeySequence::Redo);
 
 	menu->addSeparator();
-
-	menu->addAction(tr("&Refresh"), this, SLOT(refresh()), QKeySequence::Refresh);
-
-	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
+	if(!isTrial())
 	{
-		menu->addAction(tr("&Force Refresh"), this, SLOT(forceRefresh()), QKeySequence(Qt::SHIFT + Qt::Key_F5));
-	}
-	else
-	{
-		menu->addAction(tr("&Force Refresh"), this, SLOT(forceRefresh()), QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_R));
+		menu->addAction(tr("&Refresh"), this, SLOT(refresh()), QKeySequence::Refresh);
+		if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
+		{
+			menu->addAction(tr("&Force Refresh"), this, SLOT(forceRefresh()), QKeySequence(Qt::SHIFT + Qt::Key_F5));
+		}
+		else
+		{
+			menu->addAction(tr("&Force Refresh"), this, SLOT(forceRefresh()), QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_R));
+		}
 	}
 
 	menu->addAction(tr("&Find"), this, SLOT(find()), QKeySequence::Find);
@@ -517,7 +522,11 @@ void QtMainWindow::setupHelpMenu()
 
 	menu->addAction(tr("&About"), this, SLOT(about()));
 	menu->addAction(tr("Licences"), this, SLOT(showLicenses()));
-	menu->addAction(tr("Preferences..."), this, SLOT(openSettings()));
+	if(!isTrial())
+	{
+		menu->addAction(tr("Preferences..."), this, SLOT(openSettings()));
+		//Todo: Enter License Window
+	}
 }
 
 void QtMainWindow::setupShortcuts()

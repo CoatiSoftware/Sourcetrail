@@ -192,7 +192,7 @@ configure_file(
 
 #configure the versioning file
 configure_file(
-  ${CMAKE_SOURCE_DIR}/src/lib_gui/version.h.in
+  ${CMAKE_SOURCE_DIR}/cmake/version.h.in
   ${CMAKE_SOURCE_DIR}/build/src/lib_gui/version.h
 )
 

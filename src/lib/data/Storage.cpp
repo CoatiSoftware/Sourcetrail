@@ -778,8 +778,8 @@ Id Storage::getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) co
 Id Storage::getIdForEdge(
 	Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy
 ) const {
-	int sourceId = getIdForNodeWithNameHierarchy(fromNameHierarchy);
-	int targetId = getIdForNodeWithNameHierarchy(toNameHierarchy);
+	Id sourceId = getIdForNodeWithNameHierarchy(fromNameHierarchy);
+	Id targetId = getIdForNodeWithNameHierarchy(toNameHierarchy);
 	return m_sqliteStorage.getEdgeBySourceTargetType(sourceId, targetId, type).id;
 }
 
@@ -1169,7 +1169,7 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationsForLinesInFile(
 	}
 
 	uint endLineNumber = locationFile->getTokenLocationLines().rbegin()->first;
-	std::set<int> addedLocationIds;
+	std::set<Id> addedLocationIds;
 	for (uint i = firstLineNumber; i <= endLineNumber; i++)
 	{
 		TokenLocationLine* locationLine = locationFile->findTokenLocationLineByNumber(i);
@@ -1365,7 +1365,7 @@ std::vector<Id> Storage::addNameHierarchyElements(NameHierarchy nameHierarchy)
 	for (size_t i = 0; i < nameHierarchy.size(); i++)
 	{
 		const std::string elementName = nameHierarchy[i]->getFullName();
-		int nodeId = 0;
+		Id nodeId = 0;
 
 		if (nodeMayExist)
 		{
@@ -1385,7 +1385,7 @@ std::vector<Id> Storage::addNameHierarchyElements(NameHierarchy nameHierarchy)
 	return nameIds;
 }
 
-int Storage::addSourceLocation(int elementNodeId, const ParseLocation& location, bool isScope)
+Id Storage::addSourceLocation(Id elementNodeId, const ParseLocation &location, bool isScope)
 {
 	if (!location.isValid())
 	{
@@ -1407,7 +1407,7 @@ int Storage::addSourceLocation(int elementNodeId, const ParseLocation& location,
 			return 0;
 		}
 
-		int locationId = m_sqliteStorage.getSourceLocationByData(
+		Id locationId = m_sqliteStorage.getSourceLocationByData(
 			elementNodeId, fileNodeId, location.startLineNumber, location.startColumnNumber,
 			location.endLineNumber, location.endColumnNumber, isScope
 		).id;
@@ -1595,7 +1595,7 @@ void Storage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
 
 	for (const std::pair<Id, std::vector<EdgeInfo>> p : connectedParentNodeIds)
 	{
-		const int aggregationTargetNodeId = p.first;
+		const Id aggregationTargetNodeId = p.first;
 
 		Node* targetNode = graph->getNodeById(aggregationTargetNodeId);
 		if (!targetNode)
@@ -1673,6 +1673,8 @@ TokenComponentAccess::AccessType Storage::convertAccessType(ParserClient::Access
 	case ACCESS_PRIVATE:
 		return TokenComponentAccess::ACCESS_PRIVATE;
 	case ACCESS_NONE:
+		return TokenComponentAccess::ACCESS_NONE;
+	default:
 		return TokenComponentAccess::ACCESS_NONE;
 	}
 }
