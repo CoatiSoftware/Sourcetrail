@@ -18,6 +18,7 @@ set(PROJECT_NAME Coati)
 set(APP_PROJECT_NAME "${PROJECT_NAME}")
 set(TRIAL_PROJECT_NAME "${PROJECT_NAME}_trial")
 set(LIB_GUI_PROJECT_NAME "${PROJECT_NAME}_lib_gui")
+set(LIB_PARSER_PROJECT_NAME "${PROJECT_NAME}_lib_parser")
 set(LIB_PROJECT_NAME "${PROJECT_NAME}_lib")
 set(TEST_PROJECT_NAME "${PROJECT_NAME}_test")
 
@@ -66,7 +67,7 @@ set(BOOST_LIBRARYDIR $ENV{BOOST_159_DIR})
 
 find_package(Boost 1.59 COMPONENTS system filesystem date_time REQUIRED)
 
-# Eigen -------------------------------------------------------------------------
+# Eigen ------------------------------------------------------------------------
 
 add_definitions(-DEIGEN_MPL2_ONLY)
 set(EIGEN_ROOT $ENV{EIGEN_DIR})
@@ -109,12 +110,36 @@ target_include_directories(${LIB_PROJECT_NAME} SYSTEM
     "${CMAKE_SOURCE_DIR}/src/external"
 )
 
+# Lib Parser -------------------------------------------------------------------
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_parser)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_parser)
+
+add_subdirectory(src/lib_parser)
+
+set_source_files_properties(${CLANG_FILES} PROPERTIES COMPILE_FLAGS "-fno-rtti")
+
+add_library(${LIB_PARSER_PROJECT_NAME} ${CLANG_FILES})
+
+create_source_groups(${CLANG_FILES})
+
+set_property(
+		TARGET ${LIB_PARSER_PROJECT_NAME}
+		PROPERTY INCLUDE_DIRECTORIES
+		"${CMAKE_SOURCE_DIR}/src/lib_parser"
+		"${CMAKE_SOURCE_DIR}/src/lib"
+)
+
+target_include_directories(${LIB_PARSER_PROJECT_NAME} SYSTEM
+	PUBLIC ${LLVM_INCLUDE_DIRS}
+	${CLANG_INCLUDE_DIRS}
+)
 
 link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
 
-target_link_libraries(${LIB_PROJECT_NAME} ${CLANG_LIBRARIES} ${LLVM_AVAILABLE_LIBS} ${Boost_LIBRARIES})
+target_link_libraries(${LIB_PARSER_PROJECT_NAME} ${CLANG_LIBRARIES} ${LLVM_AVAILABLE_LIBS} ${Boost_LIBRARIES})
 
-# Lib Gui --------------------------------------------------------------------------
+# Lib Gui ----------------------------------------------------------------------
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_gui)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_gui)
@@ -208,7 +233,6 @@ endif ()
 
 add_subdirectory(src/app)
 
-set_source_files_properties(${CLANG_FILES} PROPERTIES COMPILE_FLAGS "-fno-rtti")
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -230,13 +254,12 @@ if (WIN32)
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
 
 else ()
-	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CLANG_FILES})
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES})
 endif ()
 
 create_source_groups(${APP_FILES})
-create_source_groups(${CLANG_FILES})
 
-target_link_libraries(${APP_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PROJECT_NAME})
+target_link_libraries(${APP_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME} )
 
 set_property(
 	TARGET ${APP_PROJECT_NAME}
@@ -244,6 +267,7 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/app"
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/lib_gui"
+		"${CMAKE_SOURCE_DIR}/src/lib_parser"
 		"${CMAKE_SOURCE_DIR}/build/src/lib_gui"
 )
 
@@ -387,7 +411,7 @@ add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE} ${TEST_FILES})
 
 create_source_groups(${TEST_FILES})
 
-target_link_libraries(${TEST_PROJECT_NAME} ${LIB_PROJECT_NAME})
+target_link_libraries(${TEST_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME})
 
 find_package(CxxTest)
 if (CXXTEST_FOUND)
@@ -395,6 +419,7 @@ if (CXXTEST_FOUND)
 		TARGET ${TEST_PROJECT_NAME}
 		PROPERTY INCLUDE_DIRECTORIES
 			"${CMAKE_SOURCE_DIR}/src/lib"
+			"${CMAKE_SOURCE_DIR}/src/lib_parser"
 			"${CXXTEST_INCLUDE_DIR}"
 			"${CMAKE_SOURCE_DIR}/src/external"
 			${Boost_INCLUDE_DIRS}

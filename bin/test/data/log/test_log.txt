@@ -1,176 +1,4 @@
 ConfigManager.cpp WARNING: value path/to/nowhere is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
 Token.cpp ERROR: Location Id was not referenced by this Token.
 Edge.cpp ERROR: Edge type_of can't go from Node undefined to Node undefined
 Node.cpp WARNING: Cannot change NodeType after it was already set from namespace to class
@@ -207,6 +35,100 @@ ConfigManager.cpp WARNING: value Int is not present in config.
 ConfigManager.cpp WARNING: value Float is not present in config.
 ConfigManager.cpp WARNING: value String is not present in config.
 ConfigManager.cpp WARNING: value NewBool is not present in config.
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: typedef: type -> int <file.cpp 1:1 1:1>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: class: Class <file.cpp 1:1 1:1>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: struct: Struct <file.cpp 1:1 1:1>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: global: Global <file.cpp 1:42 1:42>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: global: Global <file.cpp 1:7 1:7>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: field: m_field <file.cpp 1:3 1:3>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: field: Struct::m_field <file.cpp 1:11 1:11>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: function: isTrue <file.cpp 1:14 1:14>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: method: isMethod <file.cpp 1:9 1:9>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: method: Class::isMethod <file.cpp 1:1 1:1>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: namespace: utility <file.cpp 1:1 1:1>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: enum: Category <file.cpp 1:17 1:17>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: enum: Class::Category <file.cpp 1:1 1:1>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: enum constant: VALUE <file.cpp 1:1 1:1>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: class: ClassA <file.cpp 1:0 1:0>
+Storage.cpp INFO: class: ClassB <file.cpp 1:0 1:0>
+Storage.cpp INFO: inheritance: ClassB : ClassA <file.cpp 1:5 1:5>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: struct: StructA <file.cpp 1:0 1:0>
+Storage.cpp INFO: struct: StructB <file.cpp 1:0 1:0>
+Storage.cpp INFO: inheritance: StructB : StructA <file.cpp 1:5 1:5>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: method: A::isMethod <file.cpp 1:9 1:9>
+Storage.cpp INFO: method: B::isMethod <file.cpp 1:7 1:7>
+Storage.cpp INFO: override: A::isMethod -> B::isMethod <file.cpp 1:4 1:4>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: function: isTrue <file.cpp 1:0 1:0>
+Storage.cpp INFO: function: func <file.cpp 1:0 1:0>
+Storage.cpp INFO: call: isTrue -> func <file.cpp 1:9 1:9>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: global: global <file.cpp 1:0 1:0>
+Storage.cpp INFO: function: isTrue <file.cpp 1:0 1:0>
+Storage.cpp INFO: call: global -> isTrue <file.cpp 1:7 1:7>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: function: isTrue <file.cpp 1:0 1:0>
+Storage.cpp INFO: field: Foo::m_field <file.cpp 1:0 1:0>
+Storage.cpp INFO: field usage: isTrue -> Foo::m_field <file.cpp 1:7 1:7>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: function: isTrue <file.cpp 1:0 1:0>
+Storage.cpp INFO: global: global <file.cpp 1:0 1:0>
+Storage.cpp INFO: global usage: isTrue -> global <file.cpp 1:7 1:7>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: function: isTrue <file.cpp 1:0 1:0>
+Storage.cpp INFO: struct: Struct <file.cpp 1:0 1:0>
+Storage.cpp INFO: type usage: isTrue -> Struct <file.cpp 1:0 1:0>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: file: file.h < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.h
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.cpp
+Storage.cpp INFO: file: file.h < 0:0 0:0>
+TextAccess.cpp ERROR: Could not open file file.h
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+Storage.cpp INFO: include: file.h <file.cpp 1:7 1:7>
+Storage.cpp INFO: file: file.cpp < 0:0 0:0>
+Storage.cpp INFO: file: file.h < 0:0 0:0>
 TextAccess.cpp WARNING: Index 'firstLine' has to be lower or equal index 'lastLine', is 3 > 2
 TextAccess.cpp WARNING: Tried to access index 10. Maximum index is 8
 TextAccess.cpp WARNING: Tried to access index 10. Maximum index is 8

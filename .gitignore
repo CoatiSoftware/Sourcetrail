@@ -1,5 +1,6 @@
 /build/
 /distr/
+/deps/
 
 /bin/app/Debug/
 /bin/app/Release/
@@ -9,6 +10,10 @@
 /bin/app/data/window_settings.ini
 
 /bin/lib/
+/bin/lib_gui/
+/bin/lib_parser/
+
+/bin/gen/
 
 /bin/test/Debug/
 /bin/test/Release/
@@ -44,3 +49,4 @@
 
 *.sqlite
 *.swp
+.clang_complete
