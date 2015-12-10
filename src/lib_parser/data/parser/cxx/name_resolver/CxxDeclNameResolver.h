@@ -9,14 +9,14 @@ class CxxDeclNameResolver: public CxxNameResolver
 public:
 	CxxDeclNameResolver(const clang::Decl* declaration);
 	CxxDeclNameResolver(const clang::Decl* declaration, std::vector<const clang::Decl*> ignoredContextDecls);
-	~CxxDeclNameResolver();
+	virtual ~CxxDeclNameResolver();
 
 	NameHierarchy getDeclNameHierarchy();
-	std::string getDeclName();
+	std::shared_ptr<NameElement> getDeclName();
 
 private:
 	NameHierarchy getContextNameHierarchy(const clang::DeclContext* declaration);
-	std::string getDeclName(const clang::NamedDecl* declaration);
+	std::shared_ptr<NameElement> getDeclName(const clang::NamedDecl* declaration);
 	std::string getTemplateParameterString(const clang::NamedDecl* parameter);
 	std::string getTemplateParameterTypeString(const clang::NonTypeTemplateParmDecl* parameter);
 	std::string getTemplateParameterTypeString(const clang::TemplateTypeParmDecl* parameter);

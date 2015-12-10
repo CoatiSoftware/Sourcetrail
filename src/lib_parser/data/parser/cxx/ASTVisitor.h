@@ -32,6 +32,7 @@ public:
 	virtual bool VisitVarDecl(clang::VarDecl* declaration); // global variables and static fields
 	virtual bool VisitFieldDecl(clang::FieldDecl* declaration); // fields
 	virtual bool VisitFunctionDecl(clang::FunctionDecl* declaration); // functions
+	virtual bool VisitLambdaExpr(clang::LambdaExpr* expr); // lambdas
 	virtual bool VisitParmVarDecl(clang::ParmVarDecl* declaration);
 	virtual bool VisitCXXMethodDecl(clang::CXXMethodDecl* declaration); // methods
 	virtual bool VisitCXXConstructorDecl(clang::CXXConstructorDecl* declaration); // initialization list
@@ -67,13 +68,11 @@ public:
 	virtual void VisitVarDeclInDeclBody(clang::FunctionDecl* decl, clang::VarDecl* varDecl); // type usages
 
 private:
-
 	void processFunctionDecl(clang::FunctionDecl* declaration);
 	void processTemplateArgumentsOfExplicitSpecialization(clang::FunctionDecl* declaration);
 	void processTemplateArgumentsOfExplicitSpecialization(clang::ClassTemplateSpecializationDecl* specializationDecl);
 	void processTemplateArguments(clang::DeclRefExpr* expr);
 	void processTemplateArguments(clang::TemplateSpecializationTypeLoc loc);
-
 
 	bool isLocatedInUnparsedProjectFile(const clang::Decl* declaration) const;
 	bool isLocatedInProjectFile(const ParseLocation& location) const;

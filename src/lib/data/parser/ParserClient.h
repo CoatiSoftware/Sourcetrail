@@ -50,7 +50,7 @@ public:
 	static std::string variableStr(const ParseVariable& variable);
 	static std::string parameterStr(const std::vector<ParseTypeUsage> parameters);
 	static std::string functionStr(const ParseFunction& function);
-	static std::string functionSignatureStr(const ParseFunction& function);
+	static std::string functionSignatureStr(const ParseFunction& function); // should this be in here? consider languages other than c++.
 
 	ParserClient();
 	virtual ~ParserClient();

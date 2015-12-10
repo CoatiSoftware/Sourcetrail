@@ -114,10 +114,32 @@ public:
 			"	{\n"
 			"	};\n"
 			"};\n"
-		);
+			);
 
 		TS_ASSERT_EQUALS(client->structs.size(), 1);
 		TS_ASSERT_EQUALS(client->structs[0], "A::B <3:2 <3:9 3:9> 5:2>");
+	}
+
+	void test_cxx_parser_finds_struct_definition_in_function()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"void foo(int)\n"
+			"{\n"
+			"	struct B\n"
+			"	{\n"
+			"	};\n"
+			"};\n"
+			"void foo(float)\n"
+			"{\n"
+			"	struct B\n"
+			"	{\n"
+			"	};\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->structs.size(), 2);
+		TS_ASSERT_EQUALS(client->structs[0], "foo(int)::B <3:2 <3:9 3:9> 5:2>");
+		TS_ASSERT_EQUALS(client->structs[1], "foo(float)::B <9:2 <9:9 9:9> 11:2>");
 	}
 
 	void test_cxx_parser_finds_variable_definitions_in_global_scope()
@@ -306,7 +328,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->methods.size(), 1);
-		TS_ASSERT_EQUALS(client->methods[0], "private bool B::C::isGreat() const <5:8 5:14>");
+		TS_ASSERT_EQUALS(client->methods[0], "private bool B::C::isGreat()const <5:8 5:14>");
 	}
 
 	void test_cxx_parser_finds_named_namespace()
@@ -1788,7 +1810,7 @@ public:
 			"}\n"
 		);
 		TS_ASSERT_EQUALS(client->templateMemberSpecializations.size(), 1);
-		TS_ASSERT_EQUALS(client->templateMemberSpecializations[0], "A<int>::foo -> A<typename T>::foo <0:0 0:0>");
+		TS_ASSERT_EQUALS(client->templateMemberSpecializations[0], "A<int>::foo() -> A<typename T>::foo() <0:0 0:0>");
 	}
 
 	void test_cxx_parser_finds_explicit_template_specialization()
@@ -2507,7 +2529,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->templateSpecializations.size(), 1);
-		TS_ASSERT_EQUALS(client->templateSpecializations[0], "test<int> -> test<typename T> <2:3 2:6>");
+		TS_ASSERT_EQUALS(client->templateSpecializations[0], "test<int>(int) -> test<typename T> <2:3 2:6>");
 	}
 
 	void test_cxx_parser_finds_explicit_specialization_of_template_function()
@@ -2527,7 +2549,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->templateSpecializations.size(), 1);
-		TS_ASSERT_EQUALS(client->templateSpecializations[0], "test<int> -> test<typename T> <8:5 8:8>");
+		TS_ASSERT_EQUALS(client->templateSpecializations[0], "test<int>(int) -> test<typename T> <8:5 8:8>");
 	}
 
 	void test_cxx_parser_finds_explicit_type_template_argument_of_explicit_specialization_of_template_function()
@@ -2544,7 +2566,7 @@ public:
 			"};\n"
 		);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>->int <7:11 7:11>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>()->int <7:11 7:11>");
 	}
 
 	void test_cxx_parser_finds_explicit_type_template_argument_of_function_call_in_function()
@@ -2560,7 +2582,7 @@ public:
 			"};\n"
 			);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>->int <6:7 6:7>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>()->int <6:7 6:7>");
 	}
 
 	void test_cxx_parser_finds_explicit_non_type_template_argument_of_function_call_in_function()
@@ -2576,7 +2598,7 @@ public:
 			"};\n"
 			);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<33>->int <6:7 6:7>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<33>()->int <6:7 6:7>");
 	}
 
 	void test_cxx_parser_finds_explicit_template_template_argument_of_function_call_in_function()
@@ -2593,7 +2615,7 @@ public:
 			"};\n"
 			);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<A>->A<typename T> <7:7 7:7>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<A>()->A<typename T> <7:7 7:7>");
 	}
 
 	void test_cxx_parser_finds_implicit_type_template_argument_of_function_call_in_function()
@@ -2609,7 +2631,7 @@ public:
 			"};\n"
 			);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>->int <6:5 6:5>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>(int)->int <6:5 6:5>");
 	}
 
 	void test_cxx_parser_finds_explicit_type_template_argument_of_function_call_in_var_decl()
@@ -2624,7 +2646,7 @@ public:
 			"};\n"
 			);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>->int <6:17 6:17>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>()->int <6:17 6:17>");
 	}
 
 	void test_cxx_parser_finds_implicit_type_template_argument_of_function_call_in_var_decl()
@@ -2639,7 +2661,7 @@ public:
 			"};\n"
 			);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>->int <6:15 6:15>");
+		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "test<int>(int)->int <6:15 6:15>");
 	}
 
 
@@ -2693,7 +2715,7 @@ public:
 			"A<typename T> -> test<template<typename> typename T>::T<typename> <4:40 4:40>");
 	}
 
-	void test_cxx_parser_ignores_lambda_in_function()
+	void test_cxx_parser_finds_lambda_in_function()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"void lambdaCaller()\n"
@@ -2702,9 +2724,11 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->functions.size(), 1);
+		TS_ASSERT_EQUALS(client->functions.size(), 2); 
 		TS_ASSERT_EQUALS(client->functions[0], "void lambdaCaller() <1:1 <1:6 1:17> 4:1>");
-		TS_ASSERT_EQUALS(client->calls.size(), 0);
+		TS_ASSERT_EQUALS(client->functions[1], "void lambdaCaller()::lambda at 3:2 <3:5 <3:2 3:2> 3:7>");
+		TS_ASSERT_EQUALS(client->calls.size(), 1);
+		TS_ASSERT_EQUALS(client->calls[0], "void lambdaCaller() -> void lambdaCaller()::lambda at 3:2 <3:2 3:9>");
 	}
 
 	void test_cxx_parser_ignores_lambda_in_function_but_still_finds_call_within()
@@ -2720,11 +2744,13 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->functions.size(), 2);
+		TS_ASSERT_EQUALS(client->functions.size(), 3);
 		TS_ASSERT_EQUALS(client->functions[0], "void func() <1:1 <1:6 1:9> 1:14>");
 		TS_ASSERT_EQUALS(client->functions[1], "void lambdaCaller() <2:1 <2:6 2:17> 8:1>");
-		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "void lambdaCaller() -> void func() <6:3 6:8>");
+		TS_ASSERT_EQUALS(client->functions[2], "void lambdaCaller()::lambda at 4:2 <4:5 <4:2 4:2> 7:2>");
+		TS_ASSERT_EQUALS(client->calls.size(), 2);
+		TS_ASSERT_EQUALS(client->calls[0], "void lambdaCaller() -> void lambdaCaller()::lambda at 4:2 <4:2 7:4>");
+		TS_ASSERT_EQUALS(client->calls[1], "void lambdaCaller()::lambda at 4:2 -> void func() <6:3 6:8>");
 	}
 
 	void test_cxx_parser_parses_multiple_files()

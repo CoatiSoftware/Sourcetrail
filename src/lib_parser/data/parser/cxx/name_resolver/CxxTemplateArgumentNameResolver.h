@@ -12,7 +12,7 @@ class CxxTemplateArgumentNameResolver: public CxxNameResolver
 public:
 	CxxTemplateArgumentNameResolver();
 	CxxTemplateArgumentNameResolver(std::vector<const clang::Decl*> ignoredContextDecls);
-	~CxxTemplateArgumentNameResolver();
+	virtual ~CxxTemplateArgumentNameResolver();
 
 	std::string getTemplateArgumentName(const clang::TemplateArgument& argument);
 };

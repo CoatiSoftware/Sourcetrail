@@ -9,7 +9,7 @@ class CxxNameResolver
 {
 public:
 	CxxNameResolver(std::vector<const clang::Decl*> ignoredContextDecls);
-	~CxxNameResolver();
+	virtual ~CxxNameResolver();
 
 	void ignoreContextDecl(const clang::Decl* decl);
 	bool ignoresContext(const clang::DeclContext* declContext);

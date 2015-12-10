@@ -310,15 +310,15 @@ public:
 	{
 		TestStorage storage;
 
-		ParseFunction a(typeUsage("void"), createNameHierarchy("A::isMethod"), parameters("bool"));
-		ParseFunction b(typeUsage("void"), createNameHierarchy("B::isMethod"), parameters("bool"));
+		ParseFunction a(typeUsage("void"), createNameHierarchy("A::isMethod(bool)"), parameters("bool"));
+		ParseFunction b(typeUsage("void"), createNameHierarchy("B::isMethod(bool)"), parameters("bool"));
 
 		storage.onMethodParsed(validLocation(9), a, ParserClient::ACCESS_PRIVATE, ParserClient::ABSTRACTION_VIRTUAL, validLocation(4));
 		storage.onMethodParsed(validLocation(7), b, ParserClient::ACCESS_PRIVATE, ParserClient::ABSTRACTION_NONE, validLocation(3));
 
 		storage.onMethodOverrideParsed(validLocation(4), a, b);
 
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_OVERRIDE, "B::isMethod", "A::isMethod") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_OVERRIDE, "B::isMethod(bool)", "A::isMethod(bool)") != 0);
 	}
 
 	void test_storage_saves_call()
@@ -669,7 +669,8 @@ private:
 		NameHierarchy nameHierarchy;
 		for (std::string element: utility::splitToVector(s, "::"))
 		{
-			nameHierarchy.push(std::make_shared<NameElement>(element));
+			std::string signature = (element.find("(") != element.npos ? element : "");
+			nameHierarchy.push(std::make_shared<NameElement>(element, signature));
 		}
 		return nameHierarchy;
 	}

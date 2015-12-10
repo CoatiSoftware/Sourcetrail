@@ -20,6 +20,7 @@ public:
 	void VisitCXXNewExpr(clang::CXXNewExpr* expr);
 	void VisitMemberExpr(clang::make_ptr<clang::MemberExpr>::type expr);
 	void VisitDeclRefExpr(clang::make_ptr<clang::DeclRefExpr>::type expr);
+	void VisitLambdaExpr(clang::LambdaExpr* expr);
 	void VisitDeclStmt(clang::DeclStmt* stmt);
 
 private:

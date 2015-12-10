@@ -29,7 +29,7 @@ NameHierarchy CxxDeclNameResolver::getDeclNameHierarchy()
 	NameHierarchy contextNameHierarchy;
 	if (m_declaration)
 	{
-		std::string declName = "";
+		std::shared_ptr<NameElement> declName;
 
 		if (clang::isa<clang::NamedDecl>(m_declaration))
 		{
@@ -47,13 +47,13 @@ NameHierarchy CxxDeclNameResolver::getDeclNameHierarchy()
 			clang::isa<clang::TemplateTemplateParmDecl>(m_declaration)) &&
 			contextNameHierarchy.size() > 0)
 		{
-			std::string lastContextElementName = contextNameHierarchy.back()->getFullName();
+			std::string lastContextElementName = contextNameHierarchy.back()->getFullName(); // TODO: what about the signature in this case?
 			contextNameHierarchy.pop();
-			contextNameHierarchy.push(std::make_shared<NameElement>(lastContextElementName + "::" + declName));
+			contextNameHierarchy.push(std::make_shared<NameElement>(lastContextElementName + "::" + declName->getFullName()));
 		}
 		else
 		{
-			contextNameHierarchy.push(std::make_shared<NameElement>(declName));
+			contextNameHierarchy.push(declName);
 		}
 	}
 	return contextNameHierarchy;
@@ -73,26 +73,26 @@ NameHierarchy CxxDeclNameResolver::getContextNameHierarchy(const clang::DeclCont
 
 		if (clang::isa<clang::NamedDecl>(declContext))
 		{
-			std::string declName = getDeclName(clang::dyn_cast<clang::NamedDecl>(declContext));
-			if (declName != "")
+			std::shared_ptr<NameElement> declName = getDeclName(clang::dyn_cast<clang::NamedDecl>(declContext));
+			if (declName)
 			{
-				contextNameHierarchy.push(std::make_shared<NameElement>(declName));
+				contextNameHierarchy.push(declName);
 			}
 		}
 	}
 	return contextNameHierarchy;
 }
 
-std::string CxxDeclNameResolver::getDeclName()
+std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 {
 	const clang::NamedDecl* declaration = clang::dyn_cast<clang::NamedDecl>(m_declaration);
-	std::string declName = declaration->getNameAsString();
+	std::string declNameString = declaration->getNameAsString();
 	if (clang::isa<clang::CXXRecordDecl>(declaration))
 	{
 		clang::ClassTemplateDecl* templateClassDeclaration = clang::dyn_cast<clang::CXXRecordDecl>(declaration)->getDescribedClassTemplate();
 		if (templateClassDeclaration)
 		{
-			declName = getDeclName(templateClassDeclaration);
+			return getDeclName(templateClassDeclaration);
 		}
 		else if (clang::isa<clang::ClassTemplatePartialSpecializationDecl>(declaration))
 		{
@@ -129,7 +129,7 @@ std::string CxxDeclNameResolver::getDeclName()
 				specializedParameterNamePart += (i < templateArgumentCount - 1) ? ", " : "";
 			}
 			specializedParameterNamePart += ">";
-			declName += specializedParameterNamePart;
+			return std::make_shared<NameElement>(declNameString + specializedParameterNamePart);
 		}
 		else if (clang::isa<clang::ClassTemplateSpecializationDecl>(declaration))
 		{
@@ -141,29 +141,78 @@ std::string CxxDeclNameResolver::getDeclName()
 				templateArgumentNamePart += (i < templateArgumentList.size() - 1) ? ", " : "";
 			}
 			templateArgumentNamePart += ">";
-			declName += templateArgumentNamePart;
+			return std::make_shared<NameElement>(declNameString + templateArgumentNamePart);
 		}
 	}
 	else if (clang::isa<clang::FunctionDecl>(declaration))
 	{
-		clang::FunctionTemplateDecl* templateFunctionDeclaration = clang::dyn_cast<clang::FunctionDecl>(declaration)->getDescribedFunctionTemplate();
-		if (templateFunctionDeclaration)
+		if (const clang::CXXMethodDecl* methodDecl = clang::dyn_cast_or_null<clang::CXXMethodDecl>(declaration))
 		{
-			declName = getDeclName(templateFunctionDeclaration);
-		}
-		else if (clang::dyn_cast<clang::FunctionDecl>(declaration)->isFunctionTemplateSpecialization())
-		{
-			std::string templateArgumentNamePart = "<";
-			const clang::TemplateArgumentList* templateArgumentList = clang::dyn_cast<clang::FunctionDecl>(declaration)->getTemplateSpecializationArgs();
-			for (size_t i = 0; i < templateArgumentList->size(); i++)
+			if (methodDecl->getParent()->isLambda())
 			{
-				const clang::TemplateArgument& templateArgument = templateArgumentList->get(i);
-				templateArgumentNamePart += getTemplateArgumentName(templateArgument);
-				templateArgumentNamePart += (i < templateArgumentList->size() - 1) ? ", " : "";
+				const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+				const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(methodDecl->getParent()->getLocStart());
+				std::string lambdaName = "lambda at " + std::to_string(presumedBegin.getLine()) + ":" + std::to_string(presumedBegin.getColumn());
+				return std::make_shared<NameElement>(lambdaName, lambdaName);
 			}
-			templateArgumentNamePart += ">";
-			declName += templateArgumentNamePart;
 		}
+
+		const clang::FunctionDecl* functionDecl = clang::dyn_cast<clang::FunctionDecl>(declaration);
+
+		if (clang::FunctionTemplateDecl* templateFunctionDeclaration = functionDecl->getDescribedFunctionTemplate())
+		{
+			return getDeclName(templateFunctionDeclaration);
+		}
+		else 
+		{
+			std::string functionName = declNameString;
+			if (functionDecl->isFunctionTemplateSpecialization())
+			{
+				std::string templateArgumentNamePart = "<";
+				const clang::TemplateArgumentList* templateArgumentList = functionDecl->getTemplateSpecializationArgs();
+				for (size_t i = 0; i < templateArgumentList->size(); i++)
+				{
+					const clang::TemplateArgument& templateArgument = templateArgumentList->get(i);
+					templateArgumentNamePart += getTemplateArgumentName(templateArgument);
+					templateArgumentNamePart += (i < templateArgumentList->size() - 1) ? ", " : "";
+				}
+				templateArgumentNamePart += ">";
+				functionName += templateArgumentNamePart;
+			}
+
+			bool isStatic = false;
+			bool isConst = false;
+
+			if (clang::isa<clang::CXXMethodDecl>(declaration))
+			{
+				const clang::CXXMethodDecl* methodDecl = clang::dyn_cast<const clang::CXXMethodDecl>(declaration);
+				isStatic = methodDecl->isStatic();
+				isConst = methodDecl->isConst();
+			}
+			else
+			{
+				isStatic = functionDecl->getStorageClass() == clang::SC_Static;
+			}
+
+			CxxTypeNameResolver typenNameResolver(getIgnoredContextDecls());
+			std::string returnTypeString = typenNameResolver.qualTypeToDataType(functionDecl->getReturnType())->getFullTypeName();
+
+			std::string parameterString = "(";
+			for (unsigned int i = 0; i < functionDecl->param_size(); i++)
+			{
+				parameterString += typenNameResolver.qualTypeToDataType(functionDecl->parameters()[i]->getType())->getFullTypeName();
+				if (i < functionDecl->param_size() - 1)
+				{
+					parameterString += ", ";
+				}
+			}
+			parameterString += ")";
+
+			return std::make_shared<NameElement>(
+				functionName + parameterString + (isConst ? "const" : ""), 
+				(isStatic ? "static " : "") + returnTypeString + " " + functionName + parameterString + (isConst ? " const" : ""));
+		}
+		
 	}
 	else if (clang::isa<clang::TemplateDecl>(declaration)) // also triggers on TemplateTemplateParmDecl
 	{
@@ -175,25 +224,29 @@ std::string CxxDeclNameResolver::getDeclName()
 			templateParameterNamePart += (i < parameterList->size() - 1) ? ", " : "";
 		}
 		templateParameterNamePart += ">";
-		declName += templateParameterNamePart;
+		return std::make_shared<NameElement>(declNameString + templateParameterNamePart);
 	}
 	else if (clang::isa<clang::NamespaceDecl>(declaration) && clang::dyn_cast<clang::NamespaceDecl>(declaration)->isAnonymousNamespace())
 	{
 		const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-		declName = "anonymous namespace (" + FilePath(presumedBegin.getFilename()).fileName() + ")";
+		return std::make_shared<NameElement>("anonymous namespace (" + FilePath(presumedBegin.getFilename()).fileName() + ")");
 	}
-	else if (clang::isa<clang::EnumDecl>(declaration) && declName.size() == 0)
+	else if (clang::isa<clang::EnumDecl>(declaration) && declNameString.size() == 0)
 	{
 		const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-		declName = "anonymous enum (" + FilePath(presumedBegin.getFilename()).fileName() + ")";
+		return std::make_shared<NameElement>("anonymous enum (" + FilePath(presumedBegin.getFilename()).fileName() + ")");
 	}
 
-	return declName;
+	if (declNameString.size() > 0)
+	{
+		return std::make_shared<NameElement>(declNameString);
+	}
+	return std::shared_ptr<NameElement>();
 }
 
-std::string CxxDeclNameResolver::getDeclName(const clang::NamedDecl* declaration)
+std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName(const clang::NamedDecl* declaration)
 {
 	CxxDeclNameResolver resolver(declaration);
 	return resolver.getDeclName();

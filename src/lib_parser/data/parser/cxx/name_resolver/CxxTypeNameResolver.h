@@ -9,7 +9,7 @@ class CxxTypeNameResolver: public CxxNameResolver
 public:
 	CxxTypeNameResolver();
 	CxxTypeNameResolver(std::vector<const clang::Decl*> ignoredContextDecls);
-	~CxxTypeNameResolver();
+	virtual ~CxxTypeNameResolver();
 
 	std::shared_ptr<DataType> qualTypeToDataType(clang::QualType qualType);
 

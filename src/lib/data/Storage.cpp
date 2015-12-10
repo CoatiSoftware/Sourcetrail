@@ -239,7 +239,7 @@ Id Storage::onStructParsed(
 ){
 	log("struct", nameHierarchy.getFullName(), location);
 
-	Id nodeId = addNodeHierarchy(Node::NODE_STRUCT, nameHierarchy, true);
+	Id nodeId = addNodeHierarchy(Node::NODE_STRUCT, nameHierarchy, scopeLocation.isValid());
 
 	addSourceLocation(nodeId, location);
 	addSourceLocation(nodeId, scopeLocation, true);
@@ -281,7 +281,7 @@ Id Storage::onFunctionParsed(
 ){
 	log("function", function.getFullName(), location);
 
-	Id nodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, function, true);
+	Id nodeId = addNodeHierarchy(Node::NODE_FUNCTION, function, true);
 
 	Id returnTypeNodeId = addNodeHierarchy(Node::NODE_TYPE, function.returnType.dataType->getTypeNameHierarchy(), false);
 	addEdge(nodeId, returnTypeNodeId, Edge::EDGE_TYPE_USAGE, function.returnType.location);
@@ -306,7 +306,7 @@ Id Storage::onMethodParsed(
 ){
 	log("method", method.getFullName(), location);
 
-	Id nodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_METHOD, method, location.isValid() && scopeLocation.isValid());
+	Id nodeId = addNodeHierarchy(Node::NODE_METHOD, method, location.isValid() && scopeLocation.isValid());
 	addSourceLocation(nodeId, location);
 	addSourceLocation(nodeId, scopeLocation, true);
 	addAccess(nodeId, access);
@@ -386,8 +386,8 @@ Id Storage::onMethodOverrideParsed(
 {
 	log("override", base.getFullName() + " -> " + overrider.getFullName(), location);
 
-	Id baseNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, base, false); // TODO: call this overridden
-	Id overriderNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, overrider, false);
+	Id baseNodeId = addNodeHierarchy(Node::NODE_FUNCTION, base, false); // TODO: call this overridden
+	Id overriderNodeId = addNodeHierarchy(Node::NODE_FUNCTION, overrider, false);
 
 	Id edgeId = addEdge(overriderNodeId, baseNodeId, Edge::EDGE_OVERRIDE, location);
 
@@ -398,8 +398,8 @@ Id Storage::onCallParsed(const ParseLocation& location, const ParseFunction& cal
 {
 	log("call", caller.getFullName() + " -> " + callee.getFullName(), location);
 
-	Id callerNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, caller, false);
-	Id calleeNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, callee, false);
+	Id callerNodeId = addNodeHierarchy(Node::NODE_FUNCTION, caller, false);
+	Id calleeNodeId = addNodeHierarchy(Node::NODE_FUNCTION, callee, false);
 
 	Id edgeId = addEdge(callerNodeId, calleeNodeId, Edge::EDGE_CALL, location);
 
@@ -411,7 +411,7 @@ Id Storage::onCallParsed(const ParseLocation& location, const ParseVariable& cal
 	log("call", caller.getFullName() + " -> " + callee.getFullName(), location);
 
 	Id callerNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, caller.nameHierarchy, false);
-	Id calleeNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, callee, false);
+	Id calleeNodeId = addNodeHierarchy(Node::NODE_FUNCTION, callee, false);
 
 	Id edgeId = addEdge(callerNodeId, calleeNodeId, Edge::EDGE_CALL, location);
 
@@ -423,7 +423,7 @@ Id Storage::onFieldUsageParsed(
 ){
 	log("field usage", user.getFullName() + " -> " + usedNameHierarchy.getFullName(), location);
 
-	Id userNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, user, false);
+	Id userNodeId = addNodeHierarchy(Node::NODE_FUNCTION, user, false);
 	Id usedNodeId = addNodeHierarchy(Node::NODE_GLOBAL_VARIABLE, usedNameHierarchy, false);
 
 	Id edgeId = addEdge(userNodeId, usedNodeId, Edge::EDGE_USAGE, location);
@@ -449,7 +449,7 @@ Id Storage::onGlobalVariableUsageParsed( // or static variable used
 ){
 	log("global usage", user.getFullName() + " -> " + usedNameHierarchy.getFullName(), location);
 
-	Id userNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, user, false);
+	Id userNodeId = addNodeHierarchy(Node::NODE_FUNCTION, user, false);
 	Id usedNodeId = addNodeHierarchy(Node::NODE_GLOBAL_VARIABLE, usedNameHierarchy, false);
 
 	Id edgeId = addEdge(userNodeId, usedNodeId, Edge::EDGE_USAGE, location);
@@ -475,7 +475,7 @@ Id Storage::onEnumConstantUsageParsed(
 ){
 	log("enum constant usage", user.getFullName() + " -> " + usedNameHierarchy.getFullName(), location);
 
-	Id userNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, user, false);
+	Id userNodeId = addNodeHierarchy(Node::NODE_FUNCTION, user, false);
 	Id usedNodeId = addNodeHierarchy(Node::NODE_GLOBAL_VARIABLE, usedNameHierarchy, false);
 
 	Id edgeId = addEdge(userNodeId, usedNodeId, Edge::EDGE_USAGE, location);
@@ -505,7 +505,7 @@ Id Storage::onTypeUsageParsed(const ParseTypeUsage& typeUsage, const ParseFuncti
 		return 0;
 	}
 
-	Id functionNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, function, false);
+	Id functionNodeId = addNodeHierarchy(Node::NODE_FUNCTION, function, false);
 	Id typeNodeId = addNodeHierarchy(Node::NODE_TYPE, typeUsage.dataType->getTypeNameHierarchy(), false);
 
 	Id edgeId = addEdge(functionNodeId, typeNodeId, Edge::EDGE_TYPE_USAGE, typeUsage.location);
@@ -563,7 +563,7 @@ Id Storage::onTemplateArgumentTypeOfTemplateFunctionParsed(
 	Id argumentNodeId = addNodeHierarchy(Node::NODE_TYPE, argumentTypeNameHierarchy, false);
 	// does not need a source location because this type that is already defined (and therefore has a location).
 
-	Id templateNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, templateFunction, false);
+	Id templateNodeId = addNodeHierarchy(Node::NODE_FUNCTION, templateFunction, false);
 
 	addEdge(templateNodeId, argumentNodeId, Edge::EDGE_TEMPLATE_ARGUMENT, location);
 
@@ -642,9 +642,9 @@ Id Storage::onTemplateMemberFunctionSpecializationParsed(
 		location
 		);
 
-	Id instantiatedFunctionNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, instantiatedFunction, false);
+	Id instantiatedFunctionNodeId = addNodeHierarchy(Node::NODE_FUNCTION, instantiatedFunction, false);
 
-	Id specializedFunctionNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, specializedFunction, false);
+	Id specializedFunctionNodeId = addNodeHierarchy(Node::NODE_FUNCTION, specializedFunction, false);
 
 	Id edgeId = addEdge(instantiatedFunctionNodeId, specializedFunctionNodeId, Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION_OF, location);
 
@@ -659,7 +659,7 @@ Id Storage::onTemplateFunctionParameterTypeParsed(
 	Id parameterNodeId = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy, true);
 	addSourceLocation(parameterNodeId, location, false);
 
-	Id functionNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, function, false);
+	Id functionNodeId = addNodeHierarchy(Node::NODE_FUNCTION, function, false);
 	addEdge(functionNodeId, parameterNodeId, Edge::EDGE_TEMPLATE_PARAMETER, location);
 
 	return parameterNodeId;
@@ -670,10 +670,10 @@ Id Storage::onTemplateFunctionSpecializationParsed(
 ){
 	log("function template specialization", specializedFunction.getFullName(), location);
 
-	Id specializedNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, specializedFunction, true);
+	Id specializedNodeId = addNodeHierarchy(Node::NODE_FUNCTION, specializedFunction, true);
 	addSourceLocation(specializedNodeId, location, false);
 
-	Id functionNodeId = addNodeHierarchyWithDistinctSignature(Node::NODE_FUNCTION, templateFunction, false);
+	Id functionNodeId = addNodeHierarchy(Node::NODE_FUNCTION, templateFunction, false);
 	addAccess(specializedNodeId, getAccess(functionNodeId));
 
 	addEdge(specializedNodeId, functionNodeId, Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, location);
@@ -1294,7 +1294,7 @@ TimePoint Storage::getFileModificationTime(const FilePath& filePath) const
 	return TimePoint(m_sqliteStorage.getFileByPath(filePath.str()).modificationTime);
 }
 
-Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool defined, bool distinct)
+Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool defined)
 {
 	std::vector<Id> nameIds = addNameHierarchyElements(nameHierarchy);
 
@@ -1314,9 +1314,15 @@ Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarch
 			m_sqliteStorage.setNodeDefined(true, nodeId);
 		}
 
-		if (nodeId == 0 || (lastName && distinct))
+		if (nodeId == 0)
 		{
-			nodeId = m_sqliteStorage.addNode(Node::typeToInt(type), nameId, lastName & defined);
+			nodeId = m_sqliteStorage.addNode(Node::typeToInt(type), nameId, lastName && defined);
+
+			std::string signature = nameHierarchy[i]->getFullSignature();
+			if (signature.size() != 0)
+			{
+				m_sqliteStorage.addSignature(nodeId, signature);
+			}
 
 			if (parentNodeId != 0)
 			{
@@ -1338,22 +1344,9 @@ Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarch
 	return parentNodeId;
 }
 
-Id Storage::addNodeHierarchyWithDistinctSignature(Node::NodeType type, const ParseFunction& function, bool defined)
+Id Storage::addNodeHierarchy(Node::NodeType type, const ParseFunction& function, bool defined)
 {
-	std::string signature = ParserClient::functionSignatureStr(function);
-	Id nodeId = m_sqliteStorage.getNodeIdBySignature(signature);
-
-	if (!nodeId)
-	{
-		nodeId = addNodeHierarchy(type, function.nameHierarchy, defined, true);
-		m_sqliteStorage.addSignature(nodeId, signature);
-	}
-	else if (defined)
-	{
-		m_sqliteStorage.setNodeDefined(true, nodeId);
-	}
-
-	return nodeId;
+	return addNodeHierarchy(type, function.nameHierarchy, defined);
 }
 
 std::vector<Id> Storage::addNameHierarchyElements(NameHierarchy nameHierarchy)

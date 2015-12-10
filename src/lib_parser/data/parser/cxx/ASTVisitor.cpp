@@ -166,6 +166,15 @@ bool ASTVisitor::VisitFunctionDecl(clang::FunctionDecl* declaration)
 	return true;
 }
 
+bool ASTVisitor::VisitLambdaExpr(clang::LambdaExpr* expr)
+{
+	if (isLocatedInUnparsedProjectFile(expr->getCallOperator()))
+	{
+		processFunctionDecl(expr->getCallOperator());
+	}
+	return true;
+}
+
 bool ASTVisitor::VisitParmVarDecl(clang::ParmVarDecl* declaration)
 {
 	// todo: handle parameters here!
@@ -755,7 +764,7 @@ void ASTVisitor::processFunctionDecl(clang::FunctionDecl* declaration)
 		getParseLocationForNamedDecl(declaration),
 		getParseFunction(declaration),
 		getParseLocationOfFunctionBody(declaration)
-		);
+	);
 
 	// handle template arguments of return type.
 	clang::TypeLoc functionLoc = declaration->getTypeSourceInfo()->getTypeLoc();
@@ -772,7 +781,7 @@ void ASTVisitor::processFunctionDecl(clang::FunctionDecl* declaration)
 	if (declaration->hasBody() &&
 		declaration->isThisDeclarationADefinition() &&
 		!declaration->isDependentContext()
-		)
+	)
 	{
 		ASTBodyVisitor bodyVisitor(this, declaration);
 		bodyVisitor.Visit(declaration->getBody());

@@ -12,12 +12,14 @@ class MessageListenerBase
 public:
 	MessageListenerBase()
 		: m_id(s_nextId++)
+		, m_alive(true)
 	{
 		MessageQueue::getInstance()->registerListener(this);
 	}
 
 	virtual ~MessageListenerBase()
 	{
+		m_alive = false;
 		MessageQueue::getInstance()->unregisterListener(this);
 	}
 
@@ -26,14 +28,31 @@ public:
 		return m_id;
 	}
 
-	virtual std::string getType() const = 0;
+	std::string getType() const
+	{
+		if (m_alive)
+		{
+			return doGetType();
+		}
+		return "";
+	}
 
-	virtual void handleMessageBase(MessageBase*) = 0;
+	void handleMessageBase(MessageBase* message)
+	{
+		if (m_alive)
+		{
+			doHandleMessageBase(message);
+		}
+	}
 
 private:
+	virtual std::string doGetType() const = 0;
+	virtual void doHandleMessageBase(MessageBase*) = 0;
+
 	static uint s_nextId;
 
 	uint m_id;
+	bool m_alive;
 };
 
 #endif // MESSAGE_LISTENER_BASE_H

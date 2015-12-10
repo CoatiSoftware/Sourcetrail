@@ -15,17 +15,17 @@ public:
 	{
 	}
 
-	virtual std::string getType() const
+private:
+	virtual std::string doGetType() const
 	{
 		return MessageType::getStaticType();
 	}
 
-	virtual void handleMessageBase(MessageBase* message)
+	virtual void doHandleMessageBase(MessageBase* message)
 	{
 		handleMessage(dynamic_cast<MessageType*>(message));
 	}
 
-private:
 	virtual void handleMessage(MessageType* message) = 0;
 };
 

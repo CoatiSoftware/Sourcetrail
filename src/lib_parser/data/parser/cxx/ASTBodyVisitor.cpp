@@ -38,30 +38,13 @@ void ASTBodyVisitor::VisitChildren(clang::Stmt* stmt)
 
 void ASTBodyVisitor::VisitCallExpr(clang::CallExpr* expr)
 {
-	bool ignore = false;
-
-	// check if lambda call
-	if (clang::isa<clang::CXXOperatorCallExpr>(expr))
+	if (m_functionDecl)
 	{
-		clang::Decl* calleeDecl = expr->getCalleeDecl();
-
-		if (calleeDecl && clang::isa<clang::CXXMethodDecl>(calleeDecl))
-		{
-			clang::CXXRecordDecl* recordDecl = clang::dyn_cast<clang::CXXMethodDecl>(calleeDecl)->getParent();
-			ignore = recordDecl->isLambda();
-		}
+		m_client->VisitCallExprInDeclBody(m_functionDecl, expr);
 	}
-
-	if (!ignore)
+	else
 	{
-		if (m_functionDecl)
-		{
-			m_client->VisitCallExprInDeclBody(m_functionDecl, expr);
-		}
-		else
-		{
-			m_client->VisitCallExprInDeclBody(m_varDecl, expr);
-		}
+		m_client->VisitCallExprInDeclBody(m_varDecl, expr);
 	}
 
 	VisitStmt(expr);
@@ -174,6 +157,11 @@ void ASTBodyVisitor::VisitDeclRefExpr(clang::DeclRefExpr* expr)
 	}
 
 	VisitStmt(expr);
+}
+
+void ASTBodyVisitor::VisitLambdaExpr(clang::LambdaExpr* expr)
+{
+	 // Don't visit the lambda's children. The ASTVisitor creates a new ASTBodyVisitor for these.
 }
 
 void ASTBodyVisitor::VisitDeclStmt(clang::DeclStmt* stmt)

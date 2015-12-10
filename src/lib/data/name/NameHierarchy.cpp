@@ -23,7 +23,7 @@ void NameHierarchy::pop()
 	m_elements.pop_back();
 }
 
-std::shared_ptr<NameElement> NameHierarchy::back()
+std::shared_ptr<NameElement> NameHierarchy::back() const
 {
 	return m_elements.back();
 }
