@@ -533,55 +533,8 @@ void ASTVisitor::VisitDeclRefExprInDeclBody(clang::DeclaratorDecl* decl, clang::
 
 void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clang::CXXConstructExpr* expr)
 {
-	// TODO: refactor this code!
-	std::string caller = decl->getNameAsString();
-	std::string callee = expr->getConstructor()->getNameAsString();
-	clang::SourceRange sourceRange = expr->getSourceRange();
-//	expr->getParenOrBraceRange(); // is null when no parens found (for implicit constructor calls; maybe we will have to use this in the future)
-//	expr->getNumArgs(); // and maybe we will need this one, too.. for same reasons as above.
-
-	const clang::SourceManager& sourceManager = m_context->getSourceManager();
-	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(sourceRange.getBegin(), false);
-	const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(sourceRange.getEnd(), false);
-	int endLocationOffset = 0;
-
-	bool oneCharacterLocation = (
-		presumedBegin.getLine() == presumedEnd.getLine() && presumedBegin.getColumn() == presumedEnd.getColumn()
-	);
-	if  (oneCharacterLocation) // get the exact range of name of declard variable
-	{
-		clang::ParentMap pm(decl->getBody());
-		clang::Stmt* parentStmt = pm.getParent(expr);
-		if (parentStmt && parentStmt->getStmtClass() == clang::Stmt::DeclStmtClass)
-		{
-			clang::DeclStmt* declStmt = clang::dyn_cast<clang::DeclStmt>(parentStmt);
-			if (declStmt->isSingleDecl())
-			{
-				clang::Decl* decl =  declStmt->getSingleDecl();
-				if (clang::isa<clang::NamedDecl>(decl))
-				{
-					clang::NamedDecl* namedDecl = clang::dyn_cast<clang::NamedDecl>(decl);
-					int variableNameLength = namedDecl->getName().size();
-					endLocationOffset = variableNameLength - 1;
-				}
-			}
-			else
-			{
-				// TODO: maybe we should handle this case... it occurs when parsing a for-each loop
-			}
-		}
-	}
-
-	ParseLocation location(
-		presumedBegin.getFilename(),
-		presumedBegin.getLine(),
-		presumedBegin.getColumn(),
-		presumedEnd.getLine(),
-		presumedEnd.getColumn() + endLocationOffset
-	);
-
 	m_client->onCallParsed(
-		location,
+		getParseLocationForTokensInRange(expr->getSourceRange()),
 		getParseFunction(decl),
 		getParseFunction(expr->getConstructor())
 	);
@@ -590,7 +543,7 @@ void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clan
 void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXConstructExpr* expr)
 {
 	m_client->onCallParsed(
-		getParseLocation(expr->getSourceRange()),
+		getParseLocationForTokensInRange(expr->getSourceRange()),
 		getParseVariable(decl),
 		getParseFunction(expr->getConstructor())
 	);

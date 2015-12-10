@@ -851,7 +851,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "void App::App() -> void Item::Item() <7:2 7:2>");
+		TS_ASSERT_EQUALS(client->calls[0], "void App::App() -> void Item::Item() <7:2 7:4>");
 	}
 
 	void test_cxx_parser_finds_constructor_call_of_field_in_initialization_list()
@@ -931,7 +931,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "app -> void App::App() <6:5 6:5>");
+		TS_ASSERT_EQUALS(client->calls[0], "app -> void App::App() <6:5 6:7>");
 	}
 
 	void test_cxx_parser_finds_global_function_call()
