@@ -40,20 +40,28 @@ NameHierarchy CxxDeclNameResolver::getDeclNameHierarchy()
 			LOG_INFO("unhandled declaration type: " + std::string(m_declaration->getDeclKindName()));
 		}
 
-		contextNameHierarchy = getContextNameHierarchy(m_declaration->getDeclContext());
-
-		if ((clang::isa<clang::NonTypeTemplateParmDecl>(m_declaration) ||
-			clang::isa<clang::TemplateTypeParmDecl>(m_declaration) ||
-			clang::isa<clang::TemplateTemplateParmDecl>(m_declaration)) &&
-			contextNameHierarchy.size() > 0)
+		if (declName)
 		{
-			std::string lastContextElementName = contextNameHierarchy.back()->getFullName(); // TODO: what about the signature in this case?
-			contextNameHierarchy.pop();
-			contextNameHierarchy.push(std::make_shared<NameElement>(lastContextElementName + "::" + declName->getFullName()));
+			contextNameHierarchy = getContextNameHierarchy(m_declaration->getDeclContext());
+
+			if ((clang::isa<clang::NonTypeTemplateParmDecl>(m_declaration) ||
+				clang::isa<clang::TemplateTypeParmDecl>(m_declaration) ||
+				clang::isa<clang::TemplateTemplateParmDecl>(m_declaration)) &&
+				contextNameHierarchy.size() > 0)
+			{
+				std::string lastContextElementName = contextNameHierarchy.back()->getFullName(); // TODO: what about the signature in this case?
+				contextNameHierarchy.pop();
+				contextNameHierarchy.push(std::make_shared<NameElement>(lastContextElementName + "::" + declName->getFullName()));
+			}
+			else
+			{
+				contextNameHierarchy.push(declName);
+			}
 		}
 		else
 		{
-			contextNameHierarchy.push(declName);
+			const clang::SourceManager& sourceManager = m_declaration->getASTContext().getSourceManager();
+			LOG_INFO("could not resolve name of decl at: " + m_declaration->getLocation().printToString(sourceManager));
 		}
 	}
 	return contextNameHierarchy;
@@ -71,12 +79,17 @@ NameHierarchy CxxDeclNameResolver::getContextNameHierarchy(const clang::DeclCont
 			contextNameHierarchy = getContextNameHierarchy(parentContext);
 		}
 
-		if (clang::isa<clang::NamedDecl>(declContext))
+		if (const clang::NamedDecl* contextNamedDecl = clang::dyn_cast_or_null<clang::NamedDecl>(declContext))
 		{
-			std::shared_ptr<NameElement> declName = getDeclName(clang::dyn_cast<clang::NamedDecl>(declContext));
+			std::shared_ptr<NameElement> declName = getDeclName(contextNamedDecl);
 			if (declName)
 			{
 				contextNameHierarchy.push(declName);
+			}
+			else
+			{
+				const clang::SourceManager& sourceManager = contextNamedDecl->getASTContext().getSourceManager();
+				LOG_INFO("could not resolve name of decl at: " + contextNamedDecl->getLocation().printToString(sourceManager));
 			}
 		}
 	}
@@ -87,9 +100,9 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 {
 	const clang::NamedDecl* declaration = clang::dyn_cast<clang::NamedDecl>(m_declaration);
 	std::string declNameString = declaration->getNameAsString();
-	if (clang::isa<clang::CXXRecordDecl>(declaration))
+	if (const clang::CXXRecordDecl* recordDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(declaration))
 	{
-		clang::ClassTemplateDecl* templateClassDeclaration = clang::dyn_cast<clang::CXXRecordDecl>(declaration)->getDescribedClassTemplate();
+		clang::ClassTemplateDecl* templateClassDeclaration = recordDecl->getDescribedClassTemplate();
 		if (templateClassDeclaration)
 		{
 			return getDeclName(templateClassDeclaration);
@@ -118,7 +131,7 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 					{
 						//this if fixes the crash, but not the problem TODO
 						const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-						LOG_INFO("Template getParam out of Range "+declaration->getLocation().printToString(sourceManager));
+						LOG_INFO("Template getParam out of Range " + declaration->getLocation().printToString(sourceManager));
 					}
 					currentParameterIndex++;
 				}
@@ -142,6 +155,13 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 			}
 			templateArgumentNamePart += ">";
 			return std::make_shared<NameElement>(declNameString + templateArgumentNamePart);
+		}
+		else if (!recordDecl->isLambda() && declNameString.size() == 0)
+		{
+			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
+			const std::string recordType = (recordDecl->isStruct() ? "struct" : "class");
+			return std::make_shared<NameElement>("anonymous " + recordType + " (" + FilePath(presumedBegin.getFilename()).fileName() + ")");
 		}
 	}
 	else if (clang::isa<clang::FunctionDecl>(declaration))
