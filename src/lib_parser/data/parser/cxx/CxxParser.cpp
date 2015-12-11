@@ -112,13 +112,11 @@ std::vector<std::string> CxxParser::getCommandlineArguments(const Arguments& arg
 	args.push_back("-x");
 	std::string language = getLanguageArgument(arguments.language);
 	args.push_back(language);
-	// args.push_back("c++");
 
-	// TODO: handle other standards...
-	if (language == "c++")
-	{
-		args.push_back("-std=c++11");
-	}
+	// Set language standard
+	std::string standard = "-std=";
+	standard += language;
+	standard += arguments.languageStandard;
 
 	args.insert(args.begin(), arguments.compilerFlags.begin(), arguments.compilerFlags.end());
 

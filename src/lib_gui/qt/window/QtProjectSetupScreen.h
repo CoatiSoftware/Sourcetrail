@@ -77,8 +77,10 @@ private:
 	
 	QComboBox* m_language;
 	QComboBox* m_cppStandard;
+	QComboBox* m_cStandard;
 
-	QLabel* m_standardLabel;
+	QLabel* m_cppStandardLabel;
+	QLabel* m_cStandardLabel;
 };
 
 #endif //QT_PROJECT_SETUP_SCREEN_H
