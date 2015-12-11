@@ -117,6 +117,7 @@ std::vector<std::string> CxxParser::getCommandlineArguments(const Arguments& arg
 	std::string standard = "-std=";
 	standard += language;
 	standard += arguments.languageStandard;
+	args.push_back(standard);
 
 	args.insert(args.begin(), arguments.compilerFlags.begin(), arguments.compilerFlags.end());
 
