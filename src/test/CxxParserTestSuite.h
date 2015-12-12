@@ -1664,7 +1664,7 @@ public:
 	//	TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<1>->int <0:0 0:0>");
 	//}
 
-	
+
 
 	void test_cxx_parser_finds_non_type_bool_template_argument_of_implicit_template_specialization()
 	{
@@ -2724,7 +2724,7 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->functions.size(), 2); 
+		TS_ASSERT_EQUALS(client->functions.size(), 2);
 		TS_ASSERT_EQUALS(client->functions[0], "void lambdaCaller() <1:1 <1:6 1:17> 4:1>");
 		TS_ASSERT_EQUALS(client->functions[1], "void lambdaCaller()::lambda at 3:2 <3:5 <3:2 3:2> 3:7>");
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
@@ -2762,7 +2762,12 @@ public:
 		std::vector<FilePath> filePaths;
 		filePaths.push_back(FilePath("data/CxxParserTestSuite/header.h"));
 		filePaths.push_back(FilePath("data/CxxParserTestSuite/code.cpp"));
-		parser.parseFiles(filePaths, Parser::Arguments());
+
+		Parser::Arguments args;
+		args.language = "c++";
+		args.languageStandard = "1z";
+
+		parser.parseFiles(filePaths, args);
 
 		TS_ASSERT_EQUALS(client.errors.size(), 0);
 
@@ -3209,6 +3214,8 @@ private:
 		}
 
 		m_args.logErrors = logErrors;
+		m_args.language = "c++";
+		m_args.languageStandard = "1z";
 
 		TestFileManager fm;
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();

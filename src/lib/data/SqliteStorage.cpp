@@ -195,9 +195,6 @@ Id SqliteStorage::addError(const std::string& message, const std::string& filePa
 		return q.getIntField(0, -1);
 	}
 
-	std::cout << ("INSERT INTO error(message, file_path, line_number, column_number) "
-		"VALUES ('" + sanitizedMessage + "', '" + filePath + "', " + std::to_string(lineNumber) + ", " + std::to_string(columnNumber) + ");") << std::endl;
-
 	m_database.execDML((
 		"INSERT INTO error(message, file_path, line_number, column_number) "
 		"VALUES ('" + sanitizedMessage + "', '" + filePath + "', " + std::to_string(lineNumber) + ", " + std::to_string(columnNumber) + ");"
@@ -764,7 +761,7 @@ std::string SqliteStorage::getSignatureByNodeId(Id nodeId) const
 		return q.getStringField(1, "");
 	}
 
-	return 0;
+	return "";
 }
 
 std::vector<StorageCommentLocation> SqliteStorage::getCommentLocationsInFile(const FilePath& filePath) const

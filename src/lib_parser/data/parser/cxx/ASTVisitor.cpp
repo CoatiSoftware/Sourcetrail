@@ -455,7 +455,7 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 			}
 		}
 	}
-	
+
 	for (clang::FunctionTemplateDecl::spec_iterator it = declaration->specializations().begin(); it != declaration->specializations().end(); it++)
 	{
 		clang::FunctionDecl* specializationDecl = *it;
@@ -534,7 +534,8 @@ void ASTVisitor::VisitDeclRefExprInDeclBody(clang::DeclaratorDecl* decl, clang::
 void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clang::CXXConstructExpr* expr)
 {
 	m_client->onCallParsed(
-		getParseLocationForTokensInRange(expr->getSourceRange()),
+		// getParseLocationForTokensInRange(expr->getSourceRange()),
+		getParseLocation(expr->getSourceRange()),
 		getParseFunction(decl),
 		getParseFunction(expr->getConstructor())
 	);
@@ -543,7 +544,8 @@ void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clan
 void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXConstructExpr* expr)
 {
 	m_client->onCallParsed(
-		getParseLocationForTokensInRange(expr->getSourceRange()),
+		// getParseLocationForTokensInRange(expr->getSourceRange()),
+		getParseLocation(expr->getSourceRange()),
 		getParseVariable(decl),
 		getParseFunction(expr->getConstructor())
 	);

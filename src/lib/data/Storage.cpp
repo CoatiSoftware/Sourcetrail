@@ -1400,18 +1400,10 @@ Id Storage::addSourceLocation(Id elementNodeId, const ParseLocation &location, b
 			return 0;
 		}
 
-		Id locationId = m_sqliteStorage.getSourceLocationByData(
+		Id locationId = m_sqliteStorage.addSourceLocation(
 			elementNodeId, fileNodeId, location.startLineNumber, location.startColumnNumber,
 			location.endLineNumber, location.endColumnNumber, isScope
-		).id;
-
-		if (locationId == 0)
-		{
-			locationId = m_sqliteStorage.addSourceLocation(
-				elementNodeId, fileNodeId, location.startLineNumber, location.startColumnNumber,
-				location.endLineNumber, location.endColumnNumber, isScope
-			);
-		}
+		);
 
 		return locationId;
 	}
