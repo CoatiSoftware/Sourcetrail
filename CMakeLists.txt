@@ -365,7 +365,7 @@ endif ()
 
 create_source_groups(${TRIAL_FILES})
 
-target_link_libraries(${TRIAL_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PROJECT_NAME} ${Boost_LIBRARIES} BOTAN)
+target_link_libraries(${TRIAL_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PROJECT_NAME} BOTAN)
 
 set_property(
 	TARGET ${TRIAL_PROJECT_NAME}
