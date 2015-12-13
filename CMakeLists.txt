@@ -234,6 +234,8 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/lib_gui"
 		"${CMAKE_SOURCE_DIR}/build/src/lib_gui"
+		"${CMAKE_SOURCE_DIR}/src/gen"
+		"${BOTAN_ROOT}"
 )
 
 # include external header without warnings
@@ -258,6 +260,9 @@ configure_file(
   ${CMAKE_SOURCE_DIR}/build/src/lib_gui/version.h
 )
 
+# configure public key for the coati version
+include(cmake/publicKey.cmake)
+
 set(CMAKE_AUTOMOC OFF)
 
 # App --------------------------------------------------------------------------
@@ -281,7 +286,7 @@ if (WIN32)
 		"IDI_ICON1               ICON                    \"${CMAKE_SOURCE_DIR}/build/coati.ico\"\n"
 	)
 
-	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CLANG_FILES} ${GEN_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc ${CMAKE_SOURCE_DIR}/build/src/app/version.h)
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CLANG_FILES} ${GEN_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc ${CMAKE_SOURCE_DIR}/build/src/lib_gui/version.h)
 
 	# hide the console when running a release build.
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE")
@@ -291,7 +296,7 @@ if (WIN32)
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "/ENTRY:\"mainCRTStartup\" /SUBSYSTEM:WINDOWS")
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
 else ()
-	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${GEN_FILES} ${CMAKE_SOURCE_DIR}/build/src/app/version.h)
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${GEN_FILES} ${CMAKE_SOURCE_DIR}/build/src/lib_gui/version.h)
 endif ()
 
 create_source_groups(${APP_FILES})
@@ -306,9 +311,8 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/lib_gui"
 		"${CMAKE_SOURCE_DIR}/src/lib_parser"
 		"${CMAKE_SOURCE_DIR}/build/src/lib_gui"
-		"${CMAKE_SOURCE_DIR}/src/gen"
 		"${CMAKE_SOURCE_DIR}/build/src/app"
-		"${BOTAN_ROOT}"
+		"${CMAKE_SOURCE_DIR}/src/gen"
 )
 
 target_include_directories(${APP_PROJECT_NAME} SYSTEM
@@ -356,12 +360,12 @@ if (WIN32)
 	set_target_properties(${TRIAL_PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
 
 else ()
-	add_executable(${TRIAL_PROJECT_NAME} ${TRIAL_FILES})
+	add_executable(${TRIAL_PROJECT_NAME} ${TRIAL_FILES} ${GEN_FILES})
 endif ()
 
 create_source_groups(${TRIAL_FILES})
 
-target_link_libraries(${TRIAL_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PROJECT_NAME})
+target_link_libraries(${TRIAL_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PROJECT_NAME} ${Boost_LIBRARIES} BOTAN)
 
 set_property(
 	TARGET ${TRIAL_PROJECT_NAME}
@@ -375,15 +379,6 @@ set_property(
 target_include_directories(${TRIAL_PROJECT_NAME} SYSTEM
 		PUBLIC "${CMAKE_SOURCE_DIR}/src/external"
 		PUBLIC ${Boost_INCLUDE_DIRS}
-)
-
-# configure public key for the coati version
-include(cmake/publicKey.cmake)
-
-#configure the versioning file
-configure_file(
-  ${CMAKE_SOURCE_DIR}/src/app/version.h.in
-  ${CMAKE_SOURCE_DIR}/build/src/app/version.h
 )
 
 # Use the Widgets module from Qt 5.

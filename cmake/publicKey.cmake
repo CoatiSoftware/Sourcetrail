@@ -1,4 +1,4 @@
-# searching for public key file of the Coati version in setup/RSA_keys 
+# searching for public key file of the Coati version in setup/RSA_keys
 # if found the file will be put into a const string into the PubicKeh.h file
 
 string(REGEX REPLACE "^([0-9]+)\\..*" "\\1" VERSION_MAJOR "${GIT_VERSION_NUMBER}")
@@ -18,5 +18,5 @@ endif()
 
 configure_file(
   ${CMAKE_SOURCE_DIR}/cmake/PublicKey.h.in
-  ${CMAKE_SOURCE_DIR}/build/src/app/PublicKey.h
+  ${CMAKE_SOURCE_DIR}/build/src/lib_gui/PublicKey.h
 )
