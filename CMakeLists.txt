@@ -110,6 +110,8 @@ target_include_directories(${LIB_PROJECT_NAME} SYSTEM
     "${CMAKE_SOURCE_DIR}/src/external"
 )
 
+target_link_libraries(${LIB_PROJECT_NAME} ${Boost_LIBRARIES})
+
 # Lib Parser -------------------------------------------------------------------
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_parser)
@@ -138,7 +140,7 @@ target_include_directories(${LIB_PARSER_PROJECT_NAME} SYSTEM
 
 link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
 
-target_link_libraries(${LIB_PARSER_PROJECT_NAME} ${CLANG_LIBRARIES} ${LLVM_AVAILABLE_LIBS} ${Boost_LIBRARIES})
+target_link_libraries(${LIB_PARSER_PROJECT_NAME} ${CLANG_LIBRARIES} ${LLVM_AVAILABLE_LIBS})
 
 # Lib Gui ----------------------------------------------------------------------
 

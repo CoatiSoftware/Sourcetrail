@@ -1,17 +1,22 @@
 #include "data/parser/cxx/TaskParseCxx.h"
 
+#include "data/parser/ParserClient.h"
+#include "utility/messaging/type/MessageFinishedParsing.h"
+
 TaskParseCxx::TaskParseCxx(
 	ParserClient* client,
 	const FileManager* fileManager,
 	const Parser::Arguments& arguments,
 	const std::vector<FilePath>& files
 )
-	: m_arguments(arguments)
+	: m_client(client)
+	, m_arguments(arguments)
 {
 }
 
 void TaskParseCxx::enter()
 {
+	m_client->startParsing();
 }
 
 Task::TaskState TaskParseCxx::update()
@@ -21,6 +26,9 @@ Task::TaskState TaskParseCxx::update()
 
 void TaskParseCxx::exit()
 {
+	m_client->finishParsing();
+
+	MessageFinishedParsing(0, 0, 0, 0).dispatch();
 }
 
 void TaskParseCxx::interrupt()
