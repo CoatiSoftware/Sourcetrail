@@ -180,7 +180,6 @@ bool ASTVisitor::VisitParmVarDecl(clang::ParmVarDecl* declaration)
 	// todo: handle parameters here!
 	// maybe handle template args in visitvardecl to account for local variables and stuff...
 	clang::TypeLoc loc = declaration->getTypeSourceInfo()->getTypeLoc();
-	clang::TypeLoc::TypeLocClass ssd = loc.getTypeLocClass();
 	if (loc.getTypeLocClass() == clang::TypeLoc::TypeLocClass::TemplateSpecialization)
 	{
 		processTemplateArguments(loc.getAs<clang::TemplateSpecializationTypeLoc>());

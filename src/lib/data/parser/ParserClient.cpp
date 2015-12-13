@@ -21,8 +21,6 @@ std::string ParserClient::addAccessPrefix(const std::string& str, AccessType acc
 		return "private " + str;
 	case ACCESS_NONE:
 		return str;
-	default:
-		return str;
 	}
 }
 
@@ -35,8 +33,6 @@ std::string ParserClient::addAbstractionPrefix(const std::string& str, Abstracti
 	case ABSTRACTION_PURE_VIRTUAL:
 		return "pure virtual " + str;
 	case ABSTRACTION_NONE:
-		return str;
-	default:
 		return str;
 	}
 }

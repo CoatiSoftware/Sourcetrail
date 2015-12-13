@@ -225,5 +225,5 @@ void QtSettingsWindow::showHelpMessage(const QString& msg)
 	msgBox.setInformativeText(msg);
 	msgBox.setStandardButtons(QMessageBox::Ok);
 	msgBox.setDefaultButton(QMessageBox::Ok);
-	int ret = msgBox.exec();
+	msgBox.exec();
 }

@@ -29,8 +29,6 @@ std::string SearchMatch::getSearchTypeName(SearchType type)
 		return "command";
 	case SEARCH_OPERATOR:
 		return "operator";
-	default:
-		return "none";
 	}
 
 }

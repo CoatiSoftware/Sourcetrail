@@ -330,6 +330,7 @@ bool Edge::checkType() const // TODO: remove this function
 		return true;
 
 	case EDGE_TEMPLATE_SPECIALIZATION_OF:
+	case EDGE_TEMPLATE_MEMBER_SPECIALIZATION_OF:
 		if (!m_from->isType(typeMask | functionMask) || !m_to->isType(typeMask | functionMask))
 		{
 			break;

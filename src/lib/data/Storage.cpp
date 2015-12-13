@@ -1271,7 +1271,7 @@ std::shared_ptr<TokenLocationFile> Storage::getCommentLocationsInFile(const File
 	std::vector<StorageCommentLocation> storageLocations = m_sqliteStorage.getCommentLocationsInFile(filePath);
 	for (size_t i = 0; i < storageLocations.size(); i++)
 	{
-		TokenLocation* loc = file->addTokenLocation(
+		file->addTokenLocation(
 			storageLocations[i].id,
 			0, // comment token location has no element.
 			storageLocations[i].startLine,
@@ -1658,8 +1658,6 @@ TokenComponentAccess::AccessType Storage::convertAccessType(ParserClient::Access
 	case ACCESS_PRIVATE:
 		return TokenComponentAccess::ACCESS_PRIVATE;
 	case ACCESS_NONE:
-		return TokenComponentAccess::ACCESS_NONE;
-	default:
 		return TokenComponentAccess::ACCESS_NONE;
 	}
 }
