@@ -25,7 +25,7 @@ Project::~Project()
 {
 }
 
-bool Project::loadProjectSettings(const FilePath& projectSettingsFile)
+bool Project::loadProject(const FilePath& projectSettingsFile)
 {
 	bool success = ProjectSettings::getInstance()->load(projectSettingsFile);
 	if (success)
@@ -33,10 +33,24 @@ bool Project::loadProjectSettings(const FilePath& projectSettingsFile)
 		setProjectSettingsFilePath(projectSettingsFile);
 		updateFileManager();
 	}
+
+	if (m_storageWasLoaded)
+	{
+		m_storage->startParsing();
+		m_storage->finishParsing();
+		MessageFinishedParsing(0, 0, 0, m_storage->getErrorCount()).dispatch();
+	}
+	else
+	{
+		parseCode();
+	}
+
+	m_storageWasLoaded = true;
+
 	return success;
 }
 
-bool Project::saveProjectSettings(const FilePath& projectSettingsFile)
+bool Project::saveProject(const FilePath& projectSettingsFile)
 {
 	if (!projectSettingsFile.empty())
 	{
@@ -55,13 +69,17 @@ bool Project::saveProjectSettings(const FilePath& projectSettingsFile)
 	return true;
 }
 
-void Project::reloadProjectSettings()
+void Project::reloadProject()
 {
 	if (!m_projectSettingsFilepath.empty())
 	{
 		ProjectSettings::getInstance()->load(m_projectSettingsFilepath);
 		updateFileManager();
+
+		setProjectSettingsFilePath(m_projectSettingsFilepath);
 	}
+
+	parseCode();
 }
 
 void Project::clearStorage()
@@ -70,22 +88,6 @@ void Project::clearStorage()
 	{
 		m_storage->clear();
 	}
-}
-
-void Project::loadStorage()
-{
-	if (m_storageWasLoaded)
-	{
-		m_storage->startParsing();
-		m_storage->finishParsing();
-		MessageFinishedParsing(0, 0, 0, m_storage->getErrorCount()).dispatch();
-	}
-	else
-	{
-		parseCode();
-	}
-
-	m_storageWasLoaded = true;
 }
 
 void Project::parseCode()
@@ -140,11 +142,18 @@ void Project::setProjectSettingsFilePath(const FilePath& path)
 	{
 		m_storage.reset();
 	}
-	else if (m_projectSettingsFilepath != path)
+	else
 	{
 		FilePath dbPath = FilePath(path).replaceExtension("coatidb");
-		m_storageWasLoaded = dbPath.exists();
-		m_storage = std::make_shared<Storage>(dbPath);
+
+		if (!m_storage || !dbPath.exists())
+		{
+			m_storage = std::make_shared<Storage>(dbPath);
+		}
+		else
+		{
+			m_storageWasLoaded = true;
+		}
 
 		if (m_storageWasLoaded && m_storage->getVersion().isOlderStorageVersionThan(Version::getApplicationVersion()))
 		{

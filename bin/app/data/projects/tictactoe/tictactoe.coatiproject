@@ -6,7 +6,7 @@
     </language_settings>
     <source>
         <source_paths>
-            <source_path>C:/Users/Manuel/FH/MSc/Masterproject/Project/bin/app/data/projects/tictactoe/src</source_path>
+            <source_path>./src</source_path>
         </source_paths>
     </source>
 </config>

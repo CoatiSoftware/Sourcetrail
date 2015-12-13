@@ -17,14 +17,11 @@ public:
 
 	~Project();
 
-	bool loadProjectSettings(const FilePath& projectSettingsFile);
-	bool saveProjectSettings(const FilePath& projectSettingsFile);
-	void reloadProjectSettings();
+	bool loadProject(const FilePath& projectSettingsFile);
+	bool saveProject(const FilePath& projectSettingsFile);
+	void reloadProject();
 
 	void clearStorage();
-	void loadStorage();
-
-	void parseCode();
 
 	void logStats() const;
 
@@ -32,6 +29,8 @@ private:
 	Project(StorageAccessProxy* storageAccessProxy);
 	Project(const Project&);
 	Project operator=(const Project&);
+
+	void parseCode();
 
 	void setProjectSettingsFilePath(const FilePath& path);
 	void updateFileManager();

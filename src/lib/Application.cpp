@@ -88,8 +88,7 @@ void Application::loadProject(const FilePath& projectSettingsFilePath)
 	m_componentManager->refreshViews();
 
 	m_project = Project::create(m_storageCache.get());
-	m_project->loadProjectSettings(projectSettingsFilePath);
-	m_project->loadStorage();
+	m_project->loadProject(projectSettingsFilePath);
 
 	m_mainView->updateRecentProjectMenu();
 }
@@ -101,13 +100,12 @@ void Application::refreshProject()
 	m_storageCache->clear();
 	m_componentManager->refreshViews();
 
-	m_project->reloadProjectSettings();
-	m_project->parseCode();
+	m_project->reloadProject();
 }
 
 void Application::saveProject(const FilePath& projectSettingsFilePath)
 {
-	if (!m_project->saveProjectSettings(projectSettingsFilePath))
+	if (!m_project->saveProject(projectSettingsFilePath))
 	{
 		LOG_ERROR("No Project Settings File defined");
 	}
