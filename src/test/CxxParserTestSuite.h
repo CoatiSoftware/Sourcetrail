@@ -817,7 +817,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <8:6 8:8>");
+		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <8:6 8:6>");
 	}
 
 	void test_cxx_parser_finds_constructor_without_definition_call()
@@ -833,7 +833,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <6:6 6:8>");
+		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <6:6 6:6>");
 	}
 
 	void test_cxx_parser_finds_constructor_call_of_field()
@@ -851,7 +851,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "void App::App() -> void Item::Item() <7:2 7:4>");
+		TS_ASSERT_EQUALS(client->calls[0], "void App::App() -> void Item::Item() <7:2 7:2>");
 	}
 
 	void test_cxx_parser_finds_constructor_call_of_field_in_initialization_list()
@@ -915,7 +915,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
-		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <9:6 9:8>");
+		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <9:6 9:6>");
 		TS_ASSERT_EQUALS(client->calls[1], "int main() -> void App::App(App const &) <10:6 10:14>");
 	}
 
@@ -931,7 +931,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "app -> void App::App() <6:5 6:7>");
+		TS_ASSERT_EQUALS(client->calls[0], "app -> void App::App() <6:5 6:5>");
 	}
 
 	void test_cxx_parser_finds_global_function_call()
@@ -963,7 +963,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
-		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <10:6 10:8>");
+		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <10:6 10:6>");
 		TS_ASSERT_EQUALS(client->calls[1], "int main() -> void App::operator+(int) <11:2 11:8>");
 	}
 
