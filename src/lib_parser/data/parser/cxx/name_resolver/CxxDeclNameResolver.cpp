@@ -37,7 +37,7 @@ NameHierarchy CxxDeclNameResolver::getDeclNameHierarchy()
 		}
 		else
 		{
-			LOG_INFO("unhandled declaration type: " + std::string(m_declaration->getDeclKindName()));
+			LOG_ERROR("unhandled declaration type: " + std::string(m_declaration->getDeclKindName()));
 		}
 
 		if (declName)
@@ -61,7 +61,7 @@ NameHierarchy CxxDeclNameResolver::getDeclNameHierarchy()
 		else
 		{
 			const clang::SourceManager& sourceManager = m_declaration->getASTContext().getSourceManager();
-			LOG_INFO("could not resolve name of decl at: " + m_declaration->getLocation().printToString(sourceManager));
+			LOG_ERROR("could not resolve name of decl at: " + m_declaration->getLocation().printToString(sourceManager));
 		}
 	}
 	return contextNameHierarchy;
@@ -85,11 +85,6 @@ NameHierarchy CxxDeclNameResolver::getContextNameHierarchy(const clang::DeclCont
 			if (declName)
 			{
 				contextNameHierarchy.push(declName);
-			}
-			else
-			{
-				const clang::SourceManager& sourceManager = contextNamedDecl->getASTContext().getSourceManager();
-				LOG_INFO("could not resolve name of decl at: " + contextNamedDecl->getLocation().printToString(sourceManager));
 			}
 		}
 	}
@@ -131,7 +126,7 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 					{
 						//this if fixes the crash, but not the problem TODO
 						const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-						LOG_INFO("Template getParam out of Range " + declaration->getLocation().printToString(sourceManager));
+						LOG_ERROR("Template getParam out of Range " + declaration->getLocation().printToString(sourceManager));
 					}
 					currentParameterIndex++;
 				}
@@ -155,6 +150,11 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 			}
 			templateArgumentNamePart += ">";
 			return std::make_shared<NameElement>(declNameString + templateArgumentNamePart);
+		}
+		else if (recordDecl->isLambda())
+		{
+			// return empty pointer since lambdas will be handled at the level of the individual functions... not optimal.
+			return std::shared_ptr<NameElement>();
 		}
 		else if (!recordDecl->isLambda() && declNameString.size() == 0)
 		{
@@ -258,12 +258,16 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
 		return std::make_shared<NameElement>("anonymous enum (" + FilePath(presumedBegin.getFilename()).fileName() + ")");
 	}
-
+	
 	if (declNameString.size() > 0)
 	{
 		return std::make_shared<NameElement>(declNameString);
 	}
-	return std::shared_ptr<NameElement>();
+
+	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
+	LOG_ERROR("could not resolve name of decl at: " + declaration->getLocation().printToString(sourceManager));
+	return std::make_shared<NameElement>("anonymous symbol (" + FilePath(presumedBegin.getFilename()).fileName() + ")");
 }
 
 std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName(const clang::NamedDecl* declaration)
@@ -289,7 +293,7 @@ std::string CxxDeclNameResolver::getTemplateParameterString(const clang::NamedDe
 		templateParameterTypeString = getTemplateParameterTypeString(clang::dyn_cast<clang::TemplateTemplateParmDecl>(parameter));
 		break;
 	default:
-		LOG_INFO("Unhandled kind of template parameter.");
+		LOG_ERROR("Unhandled kind of template parameter.");
 	}
 
 	std::string parameterName = parameter->getName();

@@ -424,7 +424,7 @@ Id Storage::onFieldUsageParsed(
 	log("field usage", user.getFullName() + " -> " + usedNameHierarchy.getFullName(), location);
 
 	Id userNodeId = addNodeHierarchy(Node::NODE_FUNCTION, user, false);
-	Id usedNodeId = addNodeHierarchy(Node::NODE_GLOBAL_VARIABLE, usedNameHierarchy, false);
+	Id usedNodeId = addNodeHierarchy(Node::NODE_FIELD, usedNameHierarchy, false);
 
 	Id edgeId = addEdge(userNodeId, usedNodeId, Edge::EDGE_USAGE, location);
 
@@ -437,7 +437,7 @@ Id Storage::onFieldUsageParsed(
 	log("global usage", user.getFullName() + " -> " + usedNameHierarchy.getFullName(), location);
 
 	Id userNodeId = addNodeHierarchy(Node::NODE_FUNCTION, user.nameHierarchy, false);
-	Id usedNodeId = addNodeHierarchy(Node::NODE_GLOBAL_VARIABLE, usedNameHierarchy, false);
+	Id usedNodeId = addNodeHierarchy(Node::NODE_FIELD, usedNameHierarchy, false);
 
 	Id edgeId = addEdge(userNodeId, usedNodeId, Edge::EDGE_USAGE, location);
 
@@ -1296,6 +1296,11 @@ TimePoint Storage::getFileModificationTime(const FilePath& filePath) const
 
 Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool defined)
 {
+	if (nameHierarchy.size() == 0)
+	{
+		return 0;
+	}
+
 	std::vector<Id> nameIds = addNameHierarchyElements(nameHierarchy);
 
 	Id parentNodeId = 0;
@@ -1411,6 +1416,11 @@ Id Storage::addSourceLocation(Id elementNodeId, const ParseLocation &location, b
 
 Id Storage::addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type)
 {
+	if (!sourceNodeId || !targetNodeId)
+	{
+		return 0;
+	}
+
 	Id edgeId = m_sqliteStorage.getEdgeBySourceTargetType(sourceNodeId, targetNodeId, type).id;
 
 	if (!edgeId)
