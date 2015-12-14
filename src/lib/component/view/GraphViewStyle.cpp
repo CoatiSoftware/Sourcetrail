@@ -221,8 +221,18 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 	case Node::NODE_GLOBAL_VARIABLE:
 	case Node::NODE_FIELD:
 	case Node::NODE_ENUM_CONSTANT:
+		if (hasChildren)
+		{
+			margins.top = 8;
+			margins.bottom = 5;
+			margins.spacingY = 4;
+		}
+		else
+		{
+			margins.top = margins.bottom = 3;
+		}
+
 		margins.left = margins.right = 5;
-		margins.top = margins.bottom = 3;
 		break;
 	}
 
