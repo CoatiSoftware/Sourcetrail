@@ -145,14 +145,11 @@ void Project::setProjectSettingsFilePath(const FilePath& path)
 	else
 	{
 		FilePath dbPath = FilePath(path).replaceExtension("coatidb");
+		m_storageWasLoaded = dbPath.exists();
 
 		if (!m_storage || !dbPath.exists())
 		{
 			m_storage = std::make_shared<Storage>(dbPath);
-		}
-		else
-		{
-			m_storageWasLoaded = true;
 		}
 
 		if (m_storageWasLoaded && m_storage->getVersion().isOlderStorageVersionThan(Version::getApplicationVersion()))
