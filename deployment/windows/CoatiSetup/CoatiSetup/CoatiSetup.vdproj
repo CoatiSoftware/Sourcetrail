@@ -123,6 +123,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_321D6469331341CC94DB61F825F7C38D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_3460FAB707F8431E87168499A7F51556"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -208,12 +214,6 @@
         "Entry"
         {
         "MsmKey" = "8:_47E54D5E0B0941669978663933620980"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_4998F90FD16A47758645B16A5109DE51"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -681,6 +681,21 @@
                     "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
                     "ProductCode" = "8:.NETFramework,Version=v4.5"
                     }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Visual.C++.12.0.arm"
+                    {
+                    "Name" = "8:Visual C++ 2013 Runtime Libraries (ARM)"
+                    "ProductCode" = "8:Microsoft.Visual.C++.12.0.arm"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Visual.C++.12.0.x64"
+                    {
+                    "Name" = "8:Visual C++ 2013 Runtime Libraries (x64)"
+                    "ProductCode" = "8:Microsoft.Visual.C++.12.0.x64"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Visual.C++.12.0.x86"
+                    {
+                    "Name" = "8:Visual C++ 2013 Runtime Libraries (x86)"
+                    "ProductCode" = "8:Microsoft.Visual.C++.12.0.x86"
+                    }
                 }
             }
         }
@@ -712,6 +727,11 @@
                     {
                     "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
                     "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Visual.C++.12.0.x86"
+                    {
+                    "Name" = "8:Visual C++ 2013 Runtime Libraries (x86)"
+                    "ProductCode" = "8:Microsoft.Visual.C++.12.0.x86"
                     }
                 }
             }
@@ -1244,6 +1264,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_321D6469331341CC94DB61F825F7C38D"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\install\\uninstall.bat"
+            "TargetName" = "8:uninstall.bat"
+            "Tag" = "8:"
+            "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_351F2705D87E4A5AB62BC138ECC736E7"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\Release\\Coati.exe"
@@ -1510,26 +1550,6 @@
             "TargetName" = "8:plus.png"
             "Tag" = "8:"
             "Folder" = "8:_168092B4F73545E4A27E5C8A54A76984"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4998F90FD16A47758645B16A5109DE51"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\install\\uninstall.bat"
-            "TargetName" = "8:uninstall.bat"
-            "Tag" = "8:"
-            "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -3239,7 +3259,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Coati"
         "ProductCode" = "8:{2A3B2FF5-A114-4CAB-88FB-DE8942D5B8EB}"
-        "PackageCode" = "8:{FE271B12-5DD7-4674-905A-B8D69789AC14}"
+        "PackageCode" = "8:{A4ED6E95-2110-4DFB-915F-8DC8051B4636}"
         "UpgradeCode" = "8:{CFF09D53-87AF-4241-960D-98C21ED9D358}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -3429,6 +3449,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_218124B75F404213855F638598E000A0"
+            {
+            "Name" = "8:Uninstall Coati"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_321D6469331341CC94DB61F825F7C38D"
+            "Folder" = "8:_9537058B4FC1411F8480A52A91F7AB5C"
+            "WorkingFolder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_2FB0983A72CC471C942DB7A2A2DA9E80"
             {
             "Name" = "8:Coati"
@@ -3441,20 +3475,6 @@
             "Folder" = "8:_9537058B4FC1411F8480A52A91F7AB5C"
             "WorkingFolder" = "8:_972788CBF3404779967EA0B73B72BF18"
             "Icon" = "8:_096D033F5DF740A6B6B190652E5276AF"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_3C4F94B3109A4EE8A84C451CDA5DD16D"
-            {
-            "Name" = "8:Uninstall Coati"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_4998F90FD16A47758645B16A5109DE51"
-            "Folder" = "8:_9537058B4FC1411F8480A52A91F7AB5C"
-            "WorkingFolder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
-            "Icon" = "8:"
             "Feature" = "8:"
             }
         }
