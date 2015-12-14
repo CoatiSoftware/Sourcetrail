@@ -317,7 +317,7 @@
 	</graph>
 
 	<tool_tip>
-		<text>#F7F7F7</text>
-		<background>#777777</background>
+		<text>black</text>
+		<background>#E0E0E0</background>
 	</tool_tip>
 </config>
