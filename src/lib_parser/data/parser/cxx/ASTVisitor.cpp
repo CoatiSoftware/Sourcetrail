@@ -179,11 +179,7 @@ bool ASTVisitor::VisitParmVarDecl(clang::ParmVarDecl* declaration)
 {
 	// todo: handle parameters here!
 	// maybe handle template args in visitvardecl to account for local variables and stuff...
-	clang::TypeLoc loc = declaration->getTypeSourceInfo()->getTypeLoc();
-	if (loc.getTypeLocClass() == clang::TypeLoc::TypeLocClass::TemplateSpecialization)
-	{
-		processTemplateArguments(loc.getAs<clang::TemplateSpecializationTypeLoc>());
-	}
+	processTemplateArguments(declaration->getTypeSourceInfo()->getTypeLoc());
 
 	return true;
 }
@@ -552,38 +548,22 @@ void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::DeclaratorDecl* decl, cl
 
 void ASTVisitor::VisitExplicitCastExprInDeclBody(clang::FunctionDecl* decl, clang::ExplicitCastExpr* expr)
 {
-	clang::TypeLoc loc = expr->getTypeInfoAsWritten()->getTypeLoc();
-	if (loc.getTypeLocClass() == clang::TypeLoc::TypeLocClass::TemplateSpecialization)
-	{
-		processTemplateArguments(loc.getAs<clang::TemplateSpecializationTypeLoc>());
-	}
+	processTemplateArguments(expr->getTypeInfoAsWritten()->getTypeLoc());
 }
 
 void ASTVisitor::VisitExplicitCastExprInDeclBody(clang::DeclaratorDecl* decl, clang::ExplicitCastExpr* expr)
 {
-	clang::TypeLoc loc = expr->getTypeInfoAsWritten()->getTypeLoc();
-	if (loc.getTypeLocClass() == clang::TypeLoc::TypeLocClass::TemplateSpecialization)
-	{
-		processTemplateArguments(loc.getAs<clang::TemplateSpecializationTypeLoc>());
-	}
+	processTemplateArguments(expr->getTypeInfoAsWritten()->getTypeLoc());
 }
 
 void ASTVisitor::VisitCXXTemporaryObjectExprInDeclBody(clang::FunctionDecl* decl, clang::CXXTemporaryObjectExpr* expr)
 {
-	clang::TypeLoc loc = expr->getTypeSourceInfo()->getTypeLoc();
-	if (loc.getTypeLocClass() == clang::TypeLoc::TypeLocClass::TemplateSpecialization)
-	{
-		processTemplateArguments(loc.getAs<clang::TemplateSpecializationTypeLoc>());
-	}
+	processTemplateArguments(expr->getTypeSourceInfo()->getTypeLoc());
 }
 
 void ASTVisitor::VisitCXXTemporaryObjectExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXTemporaryObjectExpr* expr)
 {
-	clang::TypeLoc loc = expr->getTypeSourceInfo()->getTypeLoc();
-	if (loc.getTypeLocClass() == clang::TypeLoc::TypeLocClass::TemplateSpecialization)
-	{
-		processTemplateArguments(loc.getAs<clang::TemplateSpecializationTypeLoc>());
-	}
+	processTemplateArguments(expr->getTypeSourceInfo()->getTypeLoc());
 }
 
 void ASTVisitor::VisitCXXNewExprInDeclBody(clang::FunctionDecl* decl, clang::CXXNewExpr* expr)
@@ -593,11 +573,7 @@ void ASTVisitor::VisitCXXNewExprInDeclBody(clang::FunctionDecl* decl, clang::CXX
 		getParseFunction(decl)
 	);
 
-	clang::TypeLoc loc = expr->getAllocatedTypeSourceInfo()->getTypeLoc();
-	if (loc.getTypeLocClass() == clang::TypeLoc::TypeLocClass::TemplateSpecialization)
-	{
-		processTemplateArguments(loc.getAs<clang::TemplateSpecializationTypeLoc>());
-	}
+	processTemplateArguments(expr->getAllocatedTypeSourceInfo()->getTypeLoc());
 }
 
 void ASTVisitor::VisitCXXNewExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXNewExpr* expr)
@@ -607,11 +583,7 @@ void ASTVisitor::VisitCXXNewExprInDeclBody(clang::DeclaratorDecl* decl, clang::C
 		getParseVariable(decl)
 	);
 
-	clang::TypeLoc loc = expr->getAllocatedTypeSourceInfo()->getTypeLoc();
-	if (loc.getTypeLocClass() == clang::TypeLoc::TypeLocClass::TemplateSpecialization)
-	{
-		processTemplateArguments(loc.getAs<clang::TemplateSpecializationTypeLoc>());
-	}
+	processTemplateArguments(expr->getAllocatedTypeSourceInfo()->getTypeLoc());
 }
 
 void ASTVisitor::VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr)
@@ -705,11 +677,7 @@ void ASTVisitor::VisitVarDeclInDeclBody(clang::FunctionDecl* decl, clang::VarDec
 		getParseFunction(decl)
 	);
 
-	clang::TypeLoc loc = varDecl->getTypeSourceInfo()->getTypeLoc();
-	if (loc.getTypeLocClass() == clang::TypeLoc::TypeLocClass::TemplateSpecialization)
-	{
-		processTemplateArguments(loc.getAs<clang::TemplateSpecializationTypeLoc>());
-	}
+	processTemplateArguments(varDecl->getTypeSourceInfo()->getTypeLoc());
 }
 
 void ASTVisitor::processFunctionDecl(clang::FunctionDecl* declaration)
@@ -724,11 +692,7 @@ void ASTVisitor::processFunctionDecl(clang::FunctionDecl* declaration)
 	clang::TypeLoc functionLoc = declaration->getTypeSourceInfo()->getTypeLoc();
 	if (functionLoc.getTypeLocClass() == clang::TypeLoc::TypeLocClass::FunctionProto)
 	{
-		clang::TypeLoc returnLoc = functionLoc.getAs<clang::FunctionProtoTypeLoc>().getReturnLoc();
-		if (returnLoc.getTypeLocClass() == clang::TypeLoc::TypeLocClass::TemplateSpecialization)
-		{
-			processTemplateArguments(returnLoc.getAs<clang::TemplateSpecializationTypeLoc>());
-		}
+		processTemplateArguments(functionLoc.getAs<clang::FunctionProtoTypeLoc>().getReturnLoc());
 	}
 
 
@@ -794,11 +758,7 @@ void ASTVisitor::processTemplateArgumentsOfExplicitSpecialization(clang::ClassTe
 	{
 		if (clang::TypeSourceInfo* typeSourceInfo = specializationDecl->getTypeAsWritten())
 		{
-			clang::TypeLoc loc = typeSourceInfo->getTypeLoc();
-			if (loc.getTypeLocClass() == clang::TypeLoc::TypeLocClass::TemplateSpecialization)
-			{
-				processTemplateArguments(loc.getAs<clang::TemplateSpecializationTypeLoc>());
-			}
+			processTemplateArguments(typeSourceInfo->getTypeLoc());
 		}
 		else
 		{
@@ -866,26 +826,30 @@ void ASTVisitor::processTemplateArguments(clang::DeclRefExpr* expr)
 	}
 }
 
-void ASTVisitor::processTemplateArguments(clang::TemplateSpecializationTypeLoc loc)
+void ASTVisitor::processTemplateArguments(clang::TypeLoc typeLoc)
 {
-	NameHierarchy specializationNameHierarchy = utility::qualTypeToDataType(loc.getType())->getTypeNameHierarchy();
-
-	if (!isLocatedInProjectFile(getParseLocation(loc.getSourceRange())))
+	clang::TemplateSpecializationTypeLoc specializationLoc = utility::getNextTypeLoc<clang::TemplateSpecializationTypeLoc>(typeLoc);
+	if (!specializationLoc.isNull())
 	{
-		return;
-	}
+		NameHierarchy specializationNameHierarchy = utility::qualTypeToDataType(specializationLoc.getType())->getTypeNameHierarchy();
 
-	for (unsigned int i = 0; i < loc.getNumArgs(); i++)
-	{
-		const clang::TemplateArgument& argument = loc.getArgLoc(i).getArgument();
-		NameHierarchy argumentNameHierarchy = utility::templateArgumentToDataType(argument)->getTypeNameHierarchy();
-		if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
+		if (!isLocatedInProjectFile(getParseLocation(specializationLoc.getSourceRange())))
 		{
-			m_client->onTemplateArgumentTypeOfTemplateRecordParsed(
-				getParseLocationForTokensInRange(loc.getArgLoc(i).getSourceRange()),
-				argumentNameHierarchy,
-				specializationNameHierarchy
+			return;
+		}
+
+		for (unsigned int i = 0; i < specializationLoc.getNumArgs(); i++)
+		{
+			const clang::TemplateArgument& argument = specializationLoc.getArgLoc(i).getArgument();
+			NameHierarchy argumentNameHierarchy = utility::templateArgumentToDataType(argument)->getTypeNameHierarchy();
+			if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
+			{
+				m_client->onTemplateArgumentTypeOfTemplateRecordParsed(
+					getParseLocationForTokensInRange(specializationLoc.getArgLoc(i).getSourceRange()),
+					argumentNameHierarchy,
+					specializationNameHierarchy
 				);
+			}
 		}
 	}
 }

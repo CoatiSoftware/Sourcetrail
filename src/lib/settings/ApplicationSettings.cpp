@@ -158,5 +158,5 @@ int ApplicationSettings::getControlsMouseBackButton() const
 
 int ApplicationSettings::getControlsMouseForwardButton() const
 {
-	return getValue<int>("controls/mouse_forward_button", 0x16);
+	return getValue<int>("controls/mouse_forward_button", 0x10);
 }

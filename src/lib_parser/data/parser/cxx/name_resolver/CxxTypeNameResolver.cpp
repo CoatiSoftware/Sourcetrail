@@ -65,9 +65,9 @@ std::shared_ptr<DataType> CxxTypeNameResolver::typeToDataType(const clang::Type*
 			break;
 		}
 	case clang::Type::ConstantArray:
-	case clang::Type::VariableArray:
 	case clang::Type::DependentSizedArray:
 	case clang::Type::IncompleteArray:
+	case clang::Type::VariableArray:
 		{
 			std::shared_ptr<DataType> innerType = qualTypeToDataType(clang::dyn_cast<clang::ArrayType>(type)->getElementType());
 			dataType = std::make_shared<ArrayModifiedDataType>(innerType);

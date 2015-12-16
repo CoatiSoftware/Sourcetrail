@@ -72,7 +72,7 @@ private:
 	void processTemplateArgumentsOfExplicitSpecialization(clang::FunctionDecl* declaration);
 	void processTemplateArgumentsOfExplicitSpecialization(clang::ClassTemplateSpecializationDecl* specializationDecl);
 	void processTemplateArguments(clang::DeclRefExpr* expr);
-	void processTemplateArguments(clang::TemplateSpecializationTypeLoc loc);
+	void processTemplateArguments(clang::TypeLoc loc);
 
 	bool isLocatedInUnparsedProjectFile(const clang::Decl* declaration) const;
 	bool isLocatedInProjectFile(const ParseLocation& location) const;
