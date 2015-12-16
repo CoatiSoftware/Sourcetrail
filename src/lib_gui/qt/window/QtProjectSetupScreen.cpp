@@ -116,10 +116,10 @@ void QtProjectSetupScreen::loadProjectSettings()
 		{
 			m_cppStandard->setCurrentText(QString::fromStdString(projSettings->getStandard()));
 		}
-		else if (m_language->currentIndex() == 1) // c
-		{
-			m_cStandard->setCurrentText(QString::fromStdString(projSettings->getStandard()));
-		}
+		//else if (m_language->currentIndex() == 1) // c
+		//{
+		//	m_cStandard->setCurrentText(QString::fromStdString(projSettings->getStandard()));
+		//}
 	}
 
 	m_sourcePaths->setList(projSettings->getSourcePaths());
@@ -150,7 +150,7 @@ void QtProjectSetupScreen::populateForm(QFormLayout* layout)
 	QLabel* languageLabel = new QLabel("Language");
 	m_language = new QComboBox();
 	m_language->insertItem(0, "C++");
-	m_language->insertItem(1, "C");
+	// m_language->insertItem(1, "C");
 	connect(m_language, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectionChanged(int)));
 	layout->addRow(languageLabel, m_language);
 
@@ -167,7 +167,7 @@ void QtProjectSetupScreen::populateForm(QFormLayout* layout)
 	layout->addRow(m_cppStandardLabel, m_cppStandard);
 
 
-	m_cStandardLabel = new QLabel("Standard");
+	/*m_cStandardLabel = new QLabel("Standard");
 
 	m_cStandard = new QComboBox();
 	m_cStandard->insertItem(0, "89");
@@ -178,7 +178,7 @@ void QtProjectSetupScreen::populateForm(QFormLayout* layout)
 	m_cStandard->insertItem(5, "1x");
 	layout->addRow(m_cStandardLabel, m_cStandard);
 	m_cStandardLabel->hide();
-	m_cStandard->hide();
+	m_cStandard->hide();*/
 
 	QPushButton* helpButton;
 
@@ -244,10 +244,10 @@ void QtProjectSetupScreen::handleUpdateButtonPress()
 	{
 		projSettings->setStandard(m_cppStandard->currentText().toStdString());
 	}
-	else if (m_cStandard->isVisible())
+	/*else if (m_cStandard->isVisible())
 	{
 		projSettings->setStandard(m_cStandard->currentText().toStdString());
-	}
+	}*/
 	projSettings->setSourcePaths(m_sourcePaths->getList());
 	projSettings->setHeaderSearchPaths(m_includePaths->getList());
 
@@ -266,10 +266,10 @@ void QtProjectSetupScreen::handleUpdateButtonPress()
 	{
 		projSettings->setStandard(m_cppStandard->currentText().toStdString());
 	}
-	else if (m_cStandard->isVisible())
+	/*else if (m_cStandard->isVisible())
 	{
 		projSettings->setStandard(m_cStandard->currentText().toStdString());
-	}
+	}*/
 
 	MessageLoadProject(projectFile).dispatch();
 	clear();
@@ -310,7 +310,7 @@ void QtProjectSetupScreen::handlePreferencesButtonPress()
 
 void QtProjectSetupScreen::handleSelectionChanged(int index)
 {
-	if (index != 0)
+	/*if (index != 0)
 	{
 		m_cStandardLabel->show();
 		m_cStandard->show();
@@ -323,5 +323,5 @@ void QtProjectSetupScreen::handleSelectionChanged(int index)
 		m_cppStandard->show();
 		m_cStandardLabel->hide();
 		m_cStandard->hide();
-	}
+	}*/
 }

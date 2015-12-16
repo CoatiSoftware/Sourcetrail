@@ -337,13 +337,8 @@ Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
 ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
 Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
 ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-CxxTypeNameResolver.cpp INFO: Unhandled kind of type encountered: Auto
-CxxTypeNameResolver.cpp INFO: Unhandled kind of type encountered: Auto
 Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
 ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-CxxTypeNameResolver.cpp INFO: Unhandled kind of type encountered: Auto
-CxxTypeNameResolver.cpp INFO: Unhandled kind of type encountered: Auto
-CxxTypeNameResolver.cpp INFO: Unhandled kind of type encountered: Auto
 Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
 ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
 Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
@@ -358,19 +353,8 @@ Edge.cpp ERROR: Edge type_of can't go from Node undefined to Node undefined
 Edge.cpp ERROR: Nodes are not plain copies.
 Edge.cpp ERROR: Edge type_of can't go from Node undefined to Node undefined
 Edge.cpp ERROR: Edge type_of can't go from Node undefined to Node undefined
-Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
-Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
-Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
-Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
-Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
-Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
-Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
-Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
 Edge.cpp ERROR: Edge use can't go from Node undefined to Node undefined
-Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
-Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
 Edge.cpp ERROR: Edge use can't go from Node undefined to Node undefined
-Edge.cpp ERROR: Edge child can't go from Node undefined to Node undefined
 Settings.cpp WARNING: File for Settings not found: data/SettingsTestSuite/wrong_settings.xml
 ConfigManager.cpp WARNING: value Bool is not present in config.
 ConfigManager.cpp WARNING: value Int is not present in config.
@@ -440,9 +424,9 @@ Storage.cpp INFO: struct: StructB <file.cpp 1:0 1:0>
 Storage.cpp INFO: inheritance: StructB : StructA <file.cpp 1:5 1:5>
 Storage.cpp INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
-Storage.cpp INFO: method: A::isMethod(bool) <file.cpp 1:9 1:9>
-Storage.cpp INFO: method: B::isMethod(bool) <file.cpp 1:7 1:7>
-Storage.cpp INFO: override: A::isMethod(bool) -> B::isMethod(bool) <file.cpp 1:4 1:4>
+Storage.cpp INFO: method: A::isMethod <file.cpp 1:9 1:9>
+Storage.cpp INFO: method: B::isMethod <file.cpp 1:7 1:7>
+Storage.cpp INFO: override: A::isMethod -> B::isMethod <file.cpp 1:4 1:4>
 Storage.cpp INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
 Storage.cpp INFO: function: isTrue <file.cpp 1:0 1:0>
