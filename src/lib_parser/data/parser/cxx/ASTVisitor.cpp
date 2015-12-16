@@ -786,16 +786,23 @@ void ASTVisitor::processTemplateArgumentsOfExplicitSpecialization(clang::ClassTe
 					getParseLocationForTokensInRange(argumentLoc.getSourceRange()),
 					argumentNameHierarchy,
 					specializedRecordNameHierarchy
-					);
+				);
 			}
 		}
 	}
 	else
 	{
-		clang::TypeLoc loc = specializationDecl->getTypeAsWritten()->getTypeLoc();
-		if (loc.getTypeLocClass() == clang::TypeLoc::TypeLocClass::TemplateSpecialization)
+		if (clang::TypeSourceInfo* typeSourceInfo = specializationDecl->getTypeAsWritten())
 		{
-			processTemplateArguments(loc.getAs<clang::TemplateSpecializationTypeLoc>());
+			clang::TypeLoc loc = typeSourceInfo->getTypeLoc();
+			if (loc.getTypeLocClass() == clang::TypeLoc::TypeLocClass::TemplateSpecialization)
+			{
+				processTemplateArguments(loc.getAs<clang::TemplateSpecializationTypeLoc>());
+			}
+		}
+		else
+		{
+			LOG_WARNING("Could not locate template arguments of explicit template specialization: " + specializedRecordNameHierarchy.getFullName());
 		}
 	}
 }
