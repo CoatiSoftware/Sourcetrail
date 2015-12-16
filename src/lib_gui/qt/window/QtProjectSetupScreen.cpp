@@ -182,7 +182,7 @@ void QtProjectSetupScreen::populateForm(QFormLayout* layout)
 
 	QPushButton* helpButton;
 
-	QWidget* sourcePathsWidget = createLabelWithHelpButton("Source Paths", &helpButton);
+	QWidget* sourcePathsWidget = createLabelWithHelpButton("Analyzed Paths", &helpButton);
 	connect(helpButton, SIGNAL(clicked()), this, SLOT(handleSourcePathHelpPress()));
 	m_sourcePaths = new QtDirectoryListBox(this);
 	m_sourcePaths->setMinimumWidth(minimumWidthForSecondCol);
@@ -261,7 +261,7 @@ void QtProjectSetupScreen::handleUpdateButtonPress()
 	projSettings->save(projectFile);
 
 	projSettings->setLanguage(m_language->currentText().toStdString());
-	
+
 	if (m_cppStandard->isVisible())
 	{
 		projSettings->setStandard(m_cppStandard->currentText().toStdString());
@@ -280,8 +280,8 @@ void QtProjectSetupScreen::handleUpdateButtonPress()
 void QtProjectSetupScreen::handleSourcePathHelpPress()
 {
 	showHelpMessage(
-		"Source Paths define the files and directories that will be analysed by Coati. Usually these are the source "
-		"files of your project or a subset of them."
+		"Analyzed Paths define the source files and directories that will be analysed by Coati. Usually these are the source "
+		"and header files of your project or a subset of them."
 	);
 }
 
@@ -307,7 +307,7 @@ void QtProjectSetupScreen::handlePreferencesButtonPress()
 {
 	emit showPreferences();
 }
-	
+
 void QtProjectSetupScreen::handleSelectionChanged(int index)
 {
 	if (index != 0)

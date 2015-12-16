@@ -136,3 +136,13 @@ bool Settings::moveRelativePathValues(const std::string& key, const FilePath& fi
 
 	return setValues(key, values);
 }
+
+void Settings::enableWarnings() const
+{
+	m_config->setWarnOnEmptyKey(true);
+}
+
+void Settings::disableWarnings() const
+{
+	m_config->setWarnOnEmptyKey(false);
+}

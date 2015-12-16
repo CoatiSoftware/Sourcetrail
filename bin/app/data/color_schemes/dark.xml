@@ -321,9 +321,4 @@
 			</aggregation>
 		</edge>
 	</graph>
-
-	<tool_tip>
-		<text>black</text>
-		<background>#E0E0E0</background>
-	</tool_tip>
 </config>

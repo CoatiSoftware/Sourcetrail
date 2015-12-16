@@ -41,6 +41,8 @@ public:
 	void save(const std::string filepath);
 	std::string toString();
 
+	void setWarnOnEmptyKey(bool warnOnEmptyKey) const;
+
 private:
 	ConfigManager();
 	ConfigManager(const ConfigManager&);
@@ -50,6 +52,7 @@ private:
 	bool createXmlDocument(bool saveAsFile, std::string filepath, std::string& output);
 
 	std::multimap<std::string, std::string> m_values;
+	mutable bool m_warnOnEmptyKey;
 };
 
 #endif // CONFIG_MANAGER_H

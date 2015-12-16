@@ -28,6 +28,8 @@ std::string ColorScheme::getNodeTypeColor(Node::NodeType type, const std::string
 
 std::string ColorScheme::getNodeTypeColor(const std::string& typeStr, const std::string& key, ColorState state) const
 {
+	disableWarnings();
+
 	std::string type = getValue<std::string>("graph/node/" + typeStr + "/like", typeStr);
 	std::string color = getValue<std::string>("graph/node/" + type + "/" + key + "/" + stateToString(state), "");
 
@@ -40,6 +42,8 @@ std::string ColorScheme::getNodeTypeColor(const std::string& typeStr, const std:
 	{
 		color = getValue<std::string>("graph/node/default/" + key + "/" + stateToString(state), "");
 	}
+
+	enableWarnings();
 
 	if (!color.size() && state != NORMAL)
 	{
@@ -56,6 +60,8 @@ std::string ColorScheme::getEdgeTypeColor(Edge::EdgeType type, ColorState state)
 
 std::string ColorScheme::getEdgeTypeColor(const std::string& typeStr, ColorState state) const
 {
+	disableWarnings();
+
 	std::string type = getValue<std::string>("graph/edge/" + typeStr + "/like", typeStr);
 	std::string color = getValue<std::string>("graph/edge/" + type + "/" + stateToString(state), "");
 
@@ -68,6 +74,8 @@ std::string ColorScheme::getEdgeTypeColor(const std::string& typeStr, ColorState
 	{
 		color = getValue<std::string>("graph/edge/default/" + stateToString(state), "");
 	}
+
+	enableWarnings();
 
 	if (!color.size() && state != NORMAL)
 	{

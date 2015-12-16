@@ -243,7 +243,7 @@ std::ostream& operator<<(std::ostream& ostream, const Edge& edge)
 bool Edge::checkType() const // TODO: remove this function
 {
 	Node::NodeTypeMask complexTypeMask = Node::NODE_CLASS | Node::NODE_STRUCT | Node:: NODE_TEMPLATE_PARAMETER_TYPE;
-	Node::NodeTypeMask typeMask = Node::NODE_ENUM | Node::NODE_TYPEDEF | complexTypeMask;
+	Node::NodeTypeMask typeMask = Node::NODE_UNDEFINED | Node::NODE_TYPE | Node::NODE_ENUM | Node::NODE_TYPEDEF | complexTypeMask;
 	Node::NodeTypeMask variableMask = Node::NODE_GLOBAL_VARIABLE | Node::NODE_FIELD;
 	Node::NodeTypeMask functionMask = Node::NODE_FUNCTION | Node::NODE_METHOD;
 

@@ -75,3 +75,9 @@ QLineEdit:disabled {
 	color: white;
 	background: #2D3F85;
 }
+
+QToolTip {
+	background-color: #E0E0E0;
+	color: black;
+	font-size: <setting:font_size>pt;
+}

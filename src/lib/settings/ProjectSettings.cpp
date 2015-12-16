@@ -14,6 +14,7 @@ std::vector<std::string> ProjectSettings::getDefaultSourceExtensions()
 	defaultValues.push_back(".cpp");
 	defaultValues.push_back(".cxx");
 	defaultValues.push_back(".cc");
+	defaultValues.push_back(".c");
 	return defaultValues;
 }
 

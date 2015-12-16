@@ -34,7 +34,10 @@ bool ConfigManager::getValue(const std::string& key, std::string& value) const
 	}
 	else
 	{
-		LOG_WARNING("value " + key + " is not present in config.");
+		if (m_warnOnEmptyKey)
+		{
+			LOG_WARNING("value " + key + " is not present in config.");
+		}
 		return false;
 	}
 }
@@ -89,7 +92,10 @@ bool ConfigManager::getValues(const std::string& key, std::vector<std::string>& 
 	}
 	else
 	{
-		LOG_WARNING("value " + key + " is not present in config.");
+		if (m_warnOnEmptyKey)
+		{
+			LOG_WARNING("value " + key + " is not present in config.");
+		}
 		return false;
 	}
 }
@@ -234,6 +240,11 @@ void ConfigManager::save(const std::string filepath)
 {
 	std::string output("");
 	createXmlDocument(true, filepath, output);
+}
+
+void ConfigManager::setWarnOnEmptyKey(bool warnOnEmptyKey) const
+{
+	m_warnOnEmptyKey = warnOnEmptyKey;
 }
 
 ConfigManager::ConfigManager()

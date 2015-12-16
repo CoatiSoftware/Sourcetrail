@@ -29,7 +29,7 @@ QPushButton:pressed {
 }
 
 QToolTip {
-	background-color: <color:tool_tip/background>;
-	color: <color:tool_tip/text>;
+	background-color: #E0E0E0;
+	color: black;
 	font-size: <setting:font_size>pt;
 }

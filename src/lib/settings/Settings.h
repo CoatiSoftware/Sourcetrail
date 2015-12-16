@@ -43,6 +43,9 @@ protected:
 	bool setPathValues(const std::string& key, const std::vector<FilePath>& paths);
 	bool moveRelativePathValues(const std::string& key, const FilePath& filePath);
 
+	void enableWarnings() const;
+	void disableWarnings() const;
+
 private:
 	FilePath m_filePath;
 	std::shared_ptr<ConfigManager> m_config;
