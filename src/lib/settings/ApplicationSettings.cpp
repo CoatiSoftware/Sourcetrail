@@ -150,3 +150,13 @@ void ApplicationSettings::setCoatiPort(const int coatiPort)
 {
 	setValue<int>("network/coati_port", coatiPort);
 }
+
+int ApplicationSettings::getControlsMouseBackButton() const
+{
+	return getValue<int>("controls/mouse_back_button", 0x8);
+}
+
+int ApplicationSettings::getControlsMouseForwardButton() const
+{
+	return getValue<int>("controls/mouse_forward_button", 0x16);
+}

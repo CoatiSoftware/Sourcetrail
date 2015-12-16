@@ -45,6 +45,39 @@ void QtViewToggle::toggledByUI()
 	dynamic_cast<QtMainWindow*>(parent())->toggleView(m_view, false);
 }
 
+
+MouseReleaseFilter::MouseReleaseFilter(QObject* parent)
+	: QObject(parent)
+{
+	m_backButton = ApplicationSettings::getInstance()->getControlsMouseBackButton();
+	m_forwardButton = ApplicationSettings::getInstance()->getControlsMouseForwardButton();
+
+	std::cout << m_backButton << std::endl;
+	std::cout << m_forwardButton << std::endl;
+}
+
+bool MouseReleaseFilter::eventFilter(QObject* obj, QEvent* event)
+{
+	if (event->type() == QEvent::MouseButtonRelease)
+	{
+		QMouseEvent* mouseEvent = dynamic_cast<QMouseEvent*>(event);
+
+		if (mouseEvent->button() == m_backButton)
+		{
+			MessageUndo().dispatch();
+			return true;
+		}
+		else if (mouseEvent->button() == m_forwardButton)
+		{
+			MessageRedo().dispatch();
+			return true;
+		}
+	}
+
+	return QObject::eventFilter(obj, event);
+}
+
+
 QtMainWindow::QtMainWindow()
 {
 	setObjectName("QtMainWindow");
@@ -55,6 +88,9 @@ QtMainWindow::QtMainWindow()
 	setWindowFlags(Qt::Widget);
 
 	QApplication::setOverrideCursor(Qt::ArrowCursor);
+
+	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
+	app->installEventFilter(new MouseReleaseFilter(this));
 
 	m_recentProjectAction = new QAction*[ApplicationSettings::MaximalAmountOfRecentProjects];
 
@@ -177,6 +213,14 @@ bool QtMainWindow::event(QEvent* event)
 	}
 
 	return QMainWindow::event(event);
+}
+
+void QtMainWindow::keyPressEvent(QKeyEvent* event)
+{
+	if (event->key() == Qt::Key_Backspace)
+	{
+		MessageUndo().dispatch();
+	}
 }
 
 void QtMainWindow::pushWindow(QWidget* window)
@@ -480,8 +524,8 @@ void QtMainWindow::setupEditMenu()
 	QMenu *menu = new QMenu(tr("&Edit"), this);
 	menuBar()->addMenu(menu);
 
-	menu->addAction(tr("Undo"), this, SLOT(undo()), QKeySequence::Undo);
-	menu->addAction(tr("Redo"), this, SLOT(redo()), QKeySequence::Redo);
+	menu->addAction(tr("Back"), this, SLOT(undo()), QKeySequence::Undo);
+	menu->addAction(tr("Forward"), this, SLOT(redo()), QKeySequence::Redo);
 
 	menu->addSeparator();
 	if(!isTrial())

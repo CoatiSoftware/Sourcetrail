@@ -59,6 +59,10 @@ public:
 	int getCoatiPort() const;
 	void setCoatiPort(const int coatiPort);
 
+	// controls
+	int getControlsMouseBackButton() const;
+	int getControlsMouseForwardButton() const;
+
 private:
 	ApplicationSettings();
 	ApplicationSettings(const ApplicationSettings&);

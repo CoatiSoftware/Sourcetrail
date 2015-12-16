@@ -265,6 +265,11 @@ void QtGraphNode::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
 	event->ignore();
 
+	if (event->button() != Qt::LeftButton)
+	{
+		return;
+	}
+
 	for (std::shared_ptr<QtGraphNodeComponent> component : m_components)
 	{
 		component->nodeMousePressEvent(event);
@@ -302,6 +307,11 @@ void QtGraphNode::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 void QtGraphNode::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
 	event->ignore();
+
+	if (event->button() != Qt::LeftButton)
+	{
+		return;
+	}
 
 	for (std::shared_ptr<QtGraphNodeComponent> component : m_components)
 	{

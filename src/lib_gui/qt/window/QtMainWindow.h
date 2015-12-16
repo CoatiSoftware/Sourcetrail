@@ -33,7 +33,26 @@ private:
 	View* m_view;
 };
 
-class QtMainWindow: public QMainWindow
+
+class MouseReleaseFilter
+	: public QObject
+{
+	Q_OBJECT
+
+public:
+	MouseReleaseFilter(QObject* parent);
+
+protected:
+	bool eventFilter(QObject* obj, QEvent* event);
+
+private:
+	size_t m_backButton;
+	size_t m_forwardButton;
+};
+
+
+class QtMainWindow
+	: public QMainWindow
 {
 	Q_OBJECT
 
@@ -54,6 +73,7 @@ public:
 
 protected:
 	bool event(QEvent* event);
+	void keyPressEvent(QKeyEvent* event);
 
 public slots:
 	void pushWindow(QWidget* window);
@@ -88,6 +108,7 @@ public slots:
 	void toggleView(View* view, bool fromMenu);
 
 	void handleEscapeShortcut();
+
 	void updateRecentProjectMenu();
 
 	static void setWindowSettingsPath(const std::string& windowSettingsPath);

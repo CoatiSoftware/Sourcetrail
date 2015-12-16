@@ -49,4 +49,9 @@
 		<plugin_port><!-- INTEGER: port the plugin listens to, standard is 6666 --></plugin_port>
 		<coati_port><!-- INTEGER: port coati is listening to, standard is 6667 --></coati_port>
 	</network>
+
+	<controls>
+		<mouse_back_button><!-- INTEGER: mouse button code of back button, default is 8 --></mouse_back_button>
+		<mouse_forward_button><!-- INTEGER: mouse button code of forward button, default is 16 --></mouse_forward_button>
+	</controls>
 </config>

@@ -16,13 +16,13 @@ QtUndoRedo::QtUndoRedo()
 
 	m_undoButton = new QPushButton(this);
 	m_undoButton->setObjectName("undo_button");
-	m_undoButton->setToolTip("undo");
+	m_undoButton->setToolTip("back");
 	m_undoButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_undoButton->setEnabled(false);
 
 	m_redoButton = new QPushButton(this);
 	m_redoButton->setObjectName("redo_button");
-	m_redoButton->setToolTip("redo");
+	m_redoButton->setToolTip("forward");
 	m_redoButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
     m_redoButton->setEnabled(false);
 
