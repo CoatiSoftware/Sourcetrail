@@ -78,7 +78,7 @@ public:
 	std::vector<StorageEdge> getEdgesByTargetType(Id targetId, int type) const;
 
 	StorageNode getNodeById(Id id) const;
-	StorageNode getNodeByNameId(Id nameId) const;
+	std::vector<StorageNode> getNodesByNameId(Id nameId) const;
 	std::vector<StorageNode> getNodesByIds(const std::vector<Id>& nodeIds) const;
 
 	StorageFile getFileById(const Id id) const;
@@ -107,7 +107,7 @@ public:
 
 	StorageComponentAccess getComponentAccessByMemberEdgeId(Id memberEdgeId) const;
 	std::vector<StorageComponentAccess> getComponentAccessByMemberEdgeIds(const std::vector<Id>& memberEdgeIds) const;
-	Id getNodeIdBySignature(const std::string& signature) const;
+	std::vector<Id> getNodeIdsBySignature(const std::string& signature) const;
 	std::string getSignatureByNodeId(Id nodeId) const;
 
 	std::vector<StorageCommentLocation> getCommentLocationsInFile(const FilePath& filePath) const;

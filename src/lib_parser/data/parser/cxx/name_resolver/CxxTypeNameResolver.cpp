@@ -178,6 +178,12 @@ std::shared_ptr<DataType> CxxTypeNameResolver::typeToDataType(const clang::Type*
 			dataType = qualTypeToDataType(packExpansionType->getPattern());
 			break;
 		}
+	case clang::Type::Auto:
+		{
+			const clang::AutoType* autoType = clang::dyn_cast<clang::AutoType>(type);
+			dataType = qualTypeToDataType(autoType->getDeducedType());
+			break;
+		}
 	default:
 		{
 			LOG_INFO(std::string("Unhandled kind of type encountered: ") + type->getTypeClassName());

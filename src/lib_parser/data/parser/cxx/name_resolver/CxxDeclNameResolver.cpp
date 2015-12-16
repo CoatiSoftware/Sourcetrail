@@ -40,10 +40,10 @@ NameHierarchy CxxDeclNameResolver::getDeclNameHierarchy()
 			LOG_ERROR("unhandled declaration type: " + std::string(m_declaration->getDeclKindName()));
 		}
 
+		contextNameHierarchy = getContextNameHierarchy(m_declaration->getDeclContext());
+
 		if (declName)
 		{
-			contextNameHierarchy = getContextNameHierarchy(m_declaration->getDeclContext());
-
 			if ((clang::isa<clang::NonTypeTemplateParmDecl>(m_declaration) ||
 				clang::isa<clang::TemplateTypeParmDecl>(m_declaration) ||
 				clang::isa<clang::TemplateTemplateParmDecl>(m_declaration)) &&
@@ -57,11 +57,6 @@ NameHierarchy CxxDeclNameResolver::getDeclNameHierarchy()
 			{
 				contextNameHierarchy.push(declName);
 			}
-		}
-		else
-		{
-			const clang::SourceManager& sourceManager = m_declaration->getASTContext().getSourceManager();
-			LOG_ERROR("could not resolve name of decl at: " + m_declaration->getLocation().printToString(sourceManager));
 		}
 	}
 	return contextNameHierarchy;
@@ -153,10 +148,12 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 		}
 		else if (recordDecl->isLambda())
 		{
-			// return empty pointer since lambdas will be handled at the level of the individual functions... not optimal.
-			return std::shared_ptr<NameElement>();
+			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(recordDecl->getLocStart());
+			std::string lambdaName = "lambda at " + std::to_string(presumedBegin.getLine()) + ":" + std::to_string(presumedBegin.getColumn());
+			return std::make_shared<NameElement>(lambdaName, lambdaName);
 		}
-		else if (!recordDecl->isLambda() && declNameString.size() == 0)
+		else if (declNameString.size() == 0)
 		{
 			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
@@ -170,10 +167,8 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 		{
 			if (methodDecl->getParent()->isLambda())
 			{
-				const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-				const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(methodDecl->getParent()->getLocStart());
-				std::string lambdaName = "lambda at " + std::to_string(presumedBegin.getLine()) + ":" + std::to_string(presumedBegin.getColumn());
-				return std::make_shared<NameElement>(lambdaName, lambdaName);
+				// return empty pointer since lambdas will be handled at the level of the parent class... not optimal.
+				return std::shared_ptr<NameElement>();
 			}
 		}
 
@@ -229,7 +224,7 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 			parameterString += ")";
 
 			return std::make_shared<NameElement>(
-				functionName + parameterString + (isConst ? "const" : ""), 
+				functionName, 
 				(isStatic ? "static " : "") + returnTypeString + " " + functionName + parameterString + (isConst ? " const" : ""));
 		}
 		

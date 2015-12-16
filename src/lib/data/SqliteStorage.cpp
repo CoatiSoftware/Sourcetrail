@@ -433,24 +433,20 @@ std::vector<StorageEdge> SqliteStorage::getEdgesByTargetType(Id targetId, int ty
 
 StorageNode SqliteStorage::getNodeById(Id id) const
 {
-	std::vector<StorageNode> nodes = getAllNodes("WHERE id == " + std::to_string(id));
-	if (nodes.size())
+	if (id != 0)
 	{
-		return nodes[0];
+		std::vector<StorageNode> nodes = getAllNodes("WHERE id == " + std::to_string(id));
+		if (nodes.size())
+		{
+			return nodes[0];
+		}
 	}
-
 	return StorageNode(0, 0, 0, false);
 }
 
-StorageNode SqliteStorage::getNodeByNameId(Id nameId) const
+std::vector<StorageNode> SqliteStorage::getNodesByNameId(Id nameId) const
 {
-	std::vector<StorageNode> nodes = getAllNodes("WHERE name_id == " + std::to_string(nameId));
-	if (nodes.size())
-	{
-		return nodes[0];
-	}
-
-	return StorageNode(0, 0, 0, false);
+	return getAllNodes("WHERE name_id == " + std::to_string(nameId));
 }
 
 std::vector<StorageNode> SqliteStorage::getNodesByIds(const std::vector<Id>& nodeIds) const
@@ -736,18 +732,20 @@ std::vector<StorageComponentAccess> SqliteStorage::getComponentAccessByMemberEdg
 	return accesses;
 }
 
-Id SqliteStorage::getNodeIdBySignature(const std::string& signature) const
+std::vector<Id> SqliteStorage::getNodeIdsBySignature(const std::string& signature) const
 {
 	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, signature FROM function_signature WHERE signature == '" + signature + "';"
+		"SELECT id FROM function_signature WHERE signature == '" + signature + "';"
 	).c_str());
 
+	std::vector<Id> ids;
 	while (!q.eof())
 	{
-		return q.getIntField(0, 0);
+		ids.push_back(q.getIntField(0, 0));
+		q.nextRow();
 	}
 
-	return 0;
+	return ids;
 }
 
 std::string SqliteStorage::getSignatureByNodeId(Id nodeId) const

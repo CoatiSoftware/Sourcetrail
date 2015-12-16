@@ -772,7 +772,12 @@ Id Storage::getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) co
 		currentId = m_sqliteStorage.getNameHierarchyElementIdByName(nameHierarchy[i]->getFullName(), currentId);
 	}
 
-	return m_sqliteStorage.getNodeByNameId(currentId).id;
+	std::vector<StorageNode> nodes = m_sqliteStorage.getNodesByNameId(currentId);
+	if (nodes.size() > 0) // TODO: make it impossible that one name id referrs to n nodes.
+	{
+		return nodes[0].id;
+	}
+	return 0;
 }
 
 Id Storage::getIdForEdge(
@@ -1307,24 +1312,64 @@ Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarch
 	for (size_t i = 0; i < nameIds.size(); i++)
 	{
 		Id nameId = nameIds[i];
-		bool lastName = (i == nameHierarchy.size() - 1);
+		const bool isLastElement = (i == nameHierarchy.size() - 1);
+		const std::string& signature = nameHierarchy[i]->getFullSignature();
+		const bool hasSignature = (signature.size() > 0);
 
-		Node::NodeType type = (lastName ? nodeType : Node::NODE_UNDEFINED);
+		Node::NodeType type = (isLastElement ? nodeType : Node::NODE_UNDEFINED);
 
-		const StorageNode node = m_sqliteStorage.getNodeByNameId(nameId);
+		StorageNode node(0, 0, 0, false);
+		if (hasSignature)
+		{
+			std::vector<Id> potentialIds = m_sqliteStorage.getNodeIdsBySignature(signature);
+			if (parentNodeId != 0)
+			{
+				for (size_t i = 0; i < potentialIds.size(); i++)
+				{
+					if (m_sqliteStorage.getEdgeBySourceTargetType(parentNodeId, potentialIds[i], Edge::EDGE_MEMBER).id != 0)
+					{
+						node = m_sqliteStorage.getNodeById(potentialIds[i]);
+						break;
+					}
+				}
+			}
+			else if (potentialIds.size() > 0)
+			{
+				node = m_sqliteStorage.getNodeById(potentialIds[0]);
+			}
+		}
+		else
+		{
+			std::vector<StorageNode> potentialIds = m_sqliteStorage.getNodesByNameId(nameId);
+			if (parentNodeId != 0)
+			{
+				for (size_t i = 0; i < potentialIds.size(); i++)
+				{
+					if (m_sqliteStorage.getEdgeBySourceTargetType(parentNodeId, potentialIds[i].id, Edge::EDGE_MEMBER).id != 0)
+					{
+						node = potentialIds[i];
+						break;
+					}
+				}
+			}
+			else if (potentialIds.size() > 0)
+			{
+				node = potentialIds[0];
+			}
+		}
+
 		Id nodeId = node.id;
 
-		if (nodeId && !node.defined && lastName && defined)
+		if (nodeId && !node.defined && isLastElement && defined)
 		{
 			m_sqliteStorage.setNodeDefined(true, nodeId);
 		}
 
 		if (nodeId == 0)
 		{
-			nodeId = m_sqliteStorage.addNode(Node::typeToInt(type), nameId, lastName && defined);
+			nodeId = m_sqliteStorage.addNode(Node::typeToInt(type), nameId, isLastElement && defined);
 
-			std::string signature = nameHierarchy[i]->getFullSignature();
-			if (signature.size() != 0)
+			if (hasSignature)
 			{
 				m_sqliteStorage.addSignature(nodeId, signature);
 			}
@@ -1334,7 +1379,7 @@ Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarch
 				addEdge(parentNodeId, nodeId, Edge::EDGE_MEMBER);
 			}
 		}
-		else if (lastName) // Update the type of the last node if the new type is more specific.
+		else if (isLastElement) // Update the type of the last node if the new type is more specific.
 		{
 			Node::NodeType storedType = Node::intToType(node.type);
 			if (type > storedType)
@@ -1433,6 +1478,11 @@ Id Storage::addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type)
 
 Id Storage::addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type, ParseLocation location)
 {
+	if (!sourceNodeId || !targetNodeId)
+	{
+		return 0;
+	}
+
 	Id edgeId = addEdge(sourceNodeId, targetNodeId, type);
 
 	addSourceLocation(edgeId, location, false);
