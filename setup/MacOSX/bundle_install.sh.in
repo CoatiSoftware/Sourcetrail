@@ -84,8 +84,8 @@ cp -R ../data/gui $RES_DIR/data/gui
 cp -R ../data/projects/tictactoe $RES_DIR/data/projects/tictactoe
 cp -R ../data/projects/tutorial $RES_DIR/data/projects/tutorial
 
-rm $RES_DIR/data/projects/tictactoe/tictactoe.sqlite
-rm $RES_DIR/data/projects/tutorial/tutorial.sqlite
+rm $RES_DIR/data/projects/tictactoe/tictactoe.coatidb
+rm $RES_DIR/data/projects/tutorial/tutorial.coatidb
 
 cp ../data/window_settings.ini $RES_DIR/data/window_settings.ini
 cp ../data/ApplicationSettings_for_package.xml $RES_DIR/data/ApplicationSettings.xml
@@ -160,7 +160,7 @@ echo -e $INFO "App dependencies"
 otool -L $APP_PATH
 
 echo -e $INFO "Create icon"
-ICON=../data/gui/icon/logo_1024_1024.png
+ICON=../data/gui/installer/logo_1024_1024.png
 ICON_SET=$RES_DIR/icon.iconset
 
 mkdir -p $ICON_SET
@@ -178,8 +178,8 @@ convert $ICON -resize 1024x1024 $ICON_SET/icon_512x512@2x.png
 iconutil -c icns -o $RES_DIR/icon.icns $ICON_SET
 
 echo -e $INFO "Obfuscate binary"
-upx -1 $APP_PATH
-# upx --best $APP_PATH
+# upx -1 $APP_PATH
+upx --best $APP_PATH
 
 echo -e $INFO "create DMG"
 hdiutil create ${PACKAGE_DIR}.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR}
