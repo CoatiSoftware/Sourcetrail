@@ -113,6 +113,9 @@ public slots:
 
 	static void setWindowSettingsPath(const std::string& windowSettingsPath);
 
+private slots:
+	void toggleShowDockWidgetTitleBars();
+
 private:
 	struct DockWidget
 	{
@@ -132,10 +135,14 @@ private:
 
 	DockWidget* getDockWidgetForView(View* view);
 
+	void setShowDockWidgetTitleBars(bool showTitleBars);
+
 	std::vector<DockWidget> m_dockWidgets;
 	QMenu* m_viewMenu;
 	QAction* m_viewSeparator;
 	QAction** m_recentProjectAction;
+	QAction* m_showTitleBarsAction;
+	bool m_showDockWidgetTitleBars;
 
 	std::shared_ptr<QtApplicationSettingsScreen> m_applicationSettingsScreen;
 	std::shared_ptr<QtStartScreen> m_startScreen;

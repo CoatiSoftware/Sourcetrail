@@ -79,6 +79,7 @@ bool MouseReleaseFilter::eventFilter(QObject* obj, QEvent* event)
 }
 
 QtMainWindow::QtMainWindow()
+	: m_showDockWidgetTitleBars(true)
 {
 	setObjectName("QtMainWindow");
 	setCentralWidget(nullptr);
@@ -126,8 +127,13 @@ void QtMainWindow::addView(View* view)
 	QDockWidget* dock = new QDockWidget(tr(view->getName().c_str()), this);
 	dock->setWidget(QtViewWidgetWrapper::getWidgetOfView(view));
 	dock->setObjectName(QString::fromStdString("Dock" + view->getName()));
-	//dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
-    //dock->setTitleBarWidget(new QWidget());
+
+	if (!m_showDockWidgetTitleBars)
+	{
+		dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+		dock->setTitleBarWidget(new QWidget());
+	}
+
 	addDockWidget(Qt::TopDockWidgetArea, dock);
 
 	QtViewToggle* toggle = new QtViewToggle(view, this);
@@ -181,6 +187,7 @@ void QtMainWindow::loadLayout()
 	{
 		showMaximized();
 	}
+	setShowDockWidgetTitleBars(settings.value("showTitleBars", true).toBool());
 	settings.endGroup();
 
 	this->restoreState(settings.value("DOCK_LOCATIONS").toByteArray());
@@ -202,6 +209,7 @@ void QtMainWindow::saveLayout()
 		settings.setValue("size", size());
 		settings.setValue("position", pos());
 	}
+	settings.setValue("showTitleBars", m_showDockWidgetTitleBars);
 	settings.endGroup();
 
 	settings.setValue("DOCK_LOCATIONS", this->saveState());
@@ -401,22 +409,22 @@ void QtMainWindow::saveAsProject()
 
 void QtMainWindow::undo()
 {
-    MessageUndo().dispatch();
+	MessageUndo().dispatch();
 }
 
 void QtMainWindow::redo()
 {
-    MessageRedo().dispatch();
+	MessageRedo().dispatch();
 }
 
 void QtMainWindow::zoomIn()
 {
-    MessageZoom(true).dispatch();
+	MessageZoom(true).dispatch();
 }
 
 void QtMainWindow::zoomOut()
 {
-    MessageZoom(false).dispatch();
+	MessageZoom(false).dispatch();
 }
 
 void QtMainWindow::switchColorScheme()
@@ -473,13 +481,13 @@ void QtMainWindow::setupProjectMenu()
 
 	for (int i = 0; i < ApplicationSettings::MaximalAmountOfRecentProjects; ++i)
 	{
-        m_recentProjectAction[i] = new QAction(this);
-        m_recentProjectAction[i]->setVisible(false);
-        connect(m_recentProjectAction[i], SIGNAL(triggered()),
-                this, SLOT(openRecentProject()));
-        recentProjectMenu->addAction(m_recentProjectAction[i]);
-    }
-    updateRecentProjectMenu();
+		m_recentProjectAction[i] = new QAction(this);
+		m_recentProjectAction[i]->setVisible(false);
+		connect(m_recentProjectAction[i], SIGNAL(triggered()),
+				this, SLOT(openRecentProject()));
+		recentProjectMenu->addAction(m_recentProjectAction[i]);
+	}
+	updateRecentProjectMenu();
 
 	menu->addMenu(recentProjectMenu);
 
@@ -491,10 +499,10 @@ void QtMainWindow::setupProjectMenu()
 void QtMainWindow::openRecentProject()
 {
 	QAction *action = qobject_cast<QAction *>(sender());
-    if (action)
-    {
-        openProject(action->data().toString());
-    }
+	if (action)
+	{
+		openProject(action->data().toString());
+	}
 }
 
 void QtMainWindow::updateRecentProjectMenu()
@@ -519,6 +527,11 @@ void QtMainWindow::updateRecentProjectMenu()
 void QtMainWindow::setWindowSettingsPath(const std::string& windowSettingsPath)
 {
 	m_windowSettingsPath = windowSettingsPath;
+}
+
+void QtMainWindow::toggleShowDockWidgetTitleBars()
+{
+	setShowDockWidgetTitleBars(!m_showDockWidgetTitleBars);
 }
 
 void QtMainWindow::setupEditMenu()
@@ -550,6 +563,14 @@ void QtMainWindow::setupViewMenu()
 {
 	QMenu *menu = new QMenu(tr("&View"), this);
 	menuBar()->addMenu(menu);
+
+	m_showTitleBarsAction = new QAction("Show Title Bars", this);
+	m_showTitleBarsAction->setCheckable(true);
+	m_showTitleBarsAction->setChecked(m_showDockWidgetTitleBars);
+	connect(m_showTitleBarsAction, SIGNAL(triggered()), this, SLOT(toggleShowDockWidgetTitleBars()));
+	menu->addAction(m_showTitleBarsAction);
+
+	menu->addSeparator();
 
 	m_viewSeparator = menu->addSeparator();
 
@@ -605,4 +626,28 @@ QtMainWindow::DockWidget* QtMainWindow::getDockWidgetForView(View* view)
 
 	LOG_ERROR("DockWidget was not found for view.");
 	return nullptr;
+}
+
+void QtMainWindow::setShowDockWidgetTitleBars(bool showTitleBars)
+{
+	m_showDockWidgetTitleBars = showTitleBars;
+
+	if (m_showTitleBarsAction)
+	{
+		m_showTitleBarsAction->setChecked(showTitleBars);
+	}
+
+	for (DockWidget& dock : m_dockWidgets)
+	{
+		if (showTitleBars)
+		{
+			dock.widget->setFeatures(QDockWidget::AllDockWidgetFeatures);
+			dock.widget->setTitleBarWidget(nullptr);
+		}
+		else
+		{
+			dock.widget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+			dock.widget->setTitleBarWidget(new QWidget());
+		}
+	}
 }
