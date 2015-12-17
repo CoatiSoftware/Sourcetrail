@@ -32,9 +32,3 @@ QPushButton:hover {
 QPushButton:pressed {
 	background: <color:search/button/press>;
 }
-
-QToolTip {
-	background-color: #E0E0E0;
-	color: black;
-	font-size: <setting:font_size>pt;
-}

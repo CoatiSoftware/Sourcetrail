@@ -9,7 +9,7 @@ public:
 		PlayerB = 4
 	};
 
-	static Token Opponent( oken token );
+	static Token Opponent( Token token );
 
 	struct Move {
 		int row;

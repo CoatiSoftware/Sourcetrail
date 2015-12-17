@@ -130,9 +130,3 @@
 #code_file #minimize_button:enabled {
 	border-image: url(data/gui/code_view/images/minimize_active.png);
 }
-
-QToolTip {
-	background-color: #E0E0E0;
-	color: black;
-	font-size: <setting:font_size>pt;
-}

@@ -10,6 +10,7 @@
 
 #include "component/view/View.h"
 #include "component/view/CompositeView.h"
+#include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileSystem.h"
@@ -91,6 +92,8 @@ QtMainWindow::QtMainWindow()
 
 	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
 	app->installEventFilter(new MouseReleaseFilter(this));
+
+	app->setStyleSheet(utility::getStyleSheet("data/gui/tooltip.css").c_str());
 
 	m_recentProjectAction = new QAction*[ApplicationSettings::MaximalAmountOfRecentProjects];
 
