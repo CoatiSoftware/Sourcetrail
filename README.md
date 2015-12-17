@@ -94,3 +94,34 @@ $ ninja -j4 check-all
 * Focus all overlapping source locations in the code view
 * Added recent projects menu option
 * Saving all template arguments type uses
+
+##### 0.4.0
+
+* Network ports for IDE communication can be defined in the ApplicationSettings.xml
+* Coati can now handle inclass initialization of members
+* Improved handling of template arguments in analysis
+* Coati now handles anonymous symbols when parsing files
+* Extended color schemes to allow more extensive use in the graph
+* Added new color scheme called "bad_rainbow"
+* Coati shows a template's general definition when an implicit specialization is activated
+* Fixed source locations of many declarations
+* Fixed syntax highlighting to correctly identify strings, comments and block comments
+* Added analysis for template parameter packs
+* Show function and method signature in tooltip when hovering the graph node
+* Fixed graph font size was too small for Windows and Linux
+* Removed Coati directory from Linux package
+* Introduced file endings .coatiproject and .coatidb for Coati's project files
+* Added installer for Windows
+* Installing prerequisits in Windows Installer
+* Redesigned the about window
+* Parse errors will be displayed as they appear during analysis
+* Fixed constructors and destructors using return type 'void' withou source location
+* Removed 'close window' action from menu
+* Added help texts to project setup and preferences window
+* Improved lambda handling in analysis
+* Fixed style of function or method nodes with children
+* Fixed tooltip colors in dark color scheme
+* renamed undo&redo to back&forward
+* navigate back&forward via mouse buttons
+* navigate back via backspace key
+
