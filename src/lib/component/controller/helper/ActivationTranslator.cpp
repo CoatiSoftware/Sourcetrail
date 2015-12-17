@@ -6,6 +6,7 @@
 #include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageSearch.h"
+#include "utility/messaging/type/MessageShowFile.h"
 
 ActivationTranslator::ActivationTranslator(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -50,8 +51,19 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 
 std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(const MessageActivateFile* message) const
 {
+	Id fileId = m_storageAccess->getTokenIdForFileNode(message->filePath);
+
+	if (fileId == 0)
+	{
+		MessageShowFile msg(message->filePath, true);
+		msg.undoRedoType = message->undoRedoType;
+		msg.setKeepContent(message->keepContent());
+		msg.dispatch();
+		return nullptr;
+	}
+
 	std::shared_ptr<MessageActivateTokens> m;
-	m = std::make_shared<MessageActivateTokens>(std::vector<Id>(1, m_storageAccess->getTokenIdForFileNode(message->filePath)));
+	m = std::make_shared<MessageActivateTokens>(std::vector<Id>(1, fileId));
 	m->undoRedoType = message->undoRedoType;
 	m->setKeepContent(message->keepContent());
 	return m;
