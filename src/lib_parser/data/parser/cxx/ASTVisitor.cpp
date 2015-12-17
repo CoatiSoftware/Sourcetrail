@@ -515,7 +515,6 @@ void ASTVisitor::VisitCallExprInDeclBody(clang::DeclaratorDecl* decl, clang::Cal
 	);
 }
 
-
 void ASTVisitor::VisitDeclRefExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr)
 {
 	processTemplateArguments(expr);
@@ -529,8 +528,7 @@ void ASTVisitor::VisitDeclRefExprInDeclBody(clang::DeclaratorDecl* decl, clang::
 void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clang::CXXConstructExpr* expr)
 {
 	m_client->onCallParsed(
-		// getParseLocationForTokensInRange(expr->getSourceRange()),
-		getParseLocation(expr->getSourceRange()),
+		getParseLocationForTokensInRange(expr->getSourceRange()),
 		getParseFunction(decl),
 		getParseFunction(expr->getConstructor())
 	);
@@ -539,8 +537,7 @@ void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clan
 void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXConstructExpr* expr)
 {
 	m_client->onCallParsed(
-		// getParseLocationForTokensInRange(expr->getSourceRange()),
-		getParseLocation(expr->getSourceRange()),
+		getParseLocationForTokensInRange(expr->getSourceRange()),
 		getParseVariable(decl),
 		getParseFunction(expr->getConstructor())
 	);
@@ -959,14 +956,25 @@ ParseLocation ASTVisitor::getParseLocationForTokensInRange(const clang::SourceRa
 	clang::SourceLocation endLoc = clang::Lexer::getLocForEndOfToken(range.getEnd(), 1, sourceManager, clang::LangOptions());
 
 	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(startLoc);
-	const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(endLoc);
+	if (endLoc.isValid())
+	{
+		const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(endLoc);
+		return ParseLocation(
+			presumedBegin.getFilename(),
+			presumedBegin.getLine(),
+			presumedBegin.getColumn(),
+			presumedEnd.getLine(),
+			presumedEnd.getColumn()
+		);
+	}
 
+	uint tokenLength = clang::Lexer::MeasureTokenLength(range.getEnd(), sourceManager, clang::LangOptions());
 	return ParseLocation(
 		presumedBegin.getFilename(),
 		presumedBegin.getLine(),
 		presumedBegin.getColumn(),
-		presumedEnd.getLine(),
-		presumedEnd.getColumn()
+		presumedBegin.getLine(),
+		presumedBegin.getColumn() + tokenLength - 1
 	);
 }
 
