@@ -210,6 +210,7 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 			}
 
 			CxxTypeNameResolver typenNameResolver(getIgnoredContextDecls());
+			typenNameResolver.ignoreContextDecl(functionDecl);
 			std::string returnTypeString = typenNameResolver.qualTypeToDataType(functionDecl->getReturnType())->getFullTypeName();
 
 			std::string parameterString = "(";

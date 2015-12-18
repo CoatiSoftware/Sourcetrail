@@ -50,7 +50,7 @@ bool ASTVisitor::VisitTypedefDecl(clang::TypedefDecl* declaration)
 	return true;
 }
 
-bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
+bool ASTVisitor::VisitRecordDecl(clang::RecordDecl* declaration)
 {
 	if (isLocatedInUnparsedProjectFile(declaration))
 	{
@@ -74,18 +74,21 @@ bool ASTVisitor::VisitCXXRecordDecl(clang::CXXRecordDecl* declaration)
 		}
 
 		if ((declaration->isClass() || declaration->isStruct()) &&
-			declaration->hasDefinition() && declaration->getDefinition() == declaration && declaration->getNumBases())
+			declaration->isThisDeclarationADefinition())
 		{
-			for (const clang::CXXBaseSpecifier& it : declaration->bases())
+			if (clang::CXXRecordDecl* cxxDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(declaration))
 			{
-				m_client->onInheritanceParsed(
-					getParseLocation(it.getSourceRange()),
-					utility::getDeclNameHierarchy(declaration),
-					utility::qualTypeToDataType(it.getType())->getTypeNameHierarchy(),
-					convertAccessType(it.getAccessSpecifier())
-				);
+				for (const clang::CXXBaseSpecifier& it : cxxDecl->bases())
+				{
+					m_client->onInheritanceParsed(
+						getParseLocation(it.getSourceRange()),
+						utility::getDeclNameHierarchy(declaration),
+						utility::qualTypeToDataType(it.getType())->getTypeNameHierarchy(),
+						convertAccessType(it.getAccessSpecifier())
+					);
 
-				// TODO: check for template class and add arguments!
+					// TODO: check for template class and add arguments!
+				}
 			}
 		}
 	}
@@ -1004,17 +1007,21 @@ ParseLocation ASTVisitor::getParseLocationOfFunctionBody(const clang::FunctionDe
 	return ParseLocation();
 }
 
-ParseLocation ASTVisitor::getParseLocationOfRecordBody(clang::CXXRecordDecl* decl) const
+ParseLocation ASTVisitor::getParseLocationOfRecordBody(clang::RecordDecl* decl) const
 {
-	if (decl->hasDefinition() && decl->isThisDeclarationADefinition())
+
+	if (decl->isThisDeclarationADefinition())
 	{
 		clang::SourceRange range;
-		clang::ClassTemplateDecl* templateDecl = decl->getDescribedClassTemplate();
-		if (templateDecl)
+		if (clang::CXXRecordDecl* cxxDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(decl))
 		{
-			range = templateDecl->getSourceRange();
+			clang::ClassTemplateDecl* templateDecl = cxxDecl->getDescribedClassTemplate();
+			if (templateDecl)
+			{
+				range = templateDecl->getSourceRange();
+			}
 		}
-		else
+		if (range.isInvalid())
 		{
 			range = decl->getDefinition()->getSourceRange();
 		}

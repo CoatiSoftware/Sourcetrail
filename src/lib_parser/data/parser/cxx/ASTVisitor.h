@@ -28,7 +28,7 @@ public:
 	virtual bool VisitStmt(const clang::Stmt* statement); // avoid visiting
 
 	virtual bool VisitTypedefDecl(clang::TypedefDecl* declaration); // typedefs
-	virtual bool VisitCXXRecordDecl(clang::CXXRecordDecl* declaration); // structs, classes and inheritance
+	virtual bool VisitRecordDecl(clang::RecordDecl* declaration);
 	virtual bool VisitVarDecl(clang::VarDecl* declaration); // global variables and static fields
 	virtual bool VisitFieldDecl(clang::FieldDecl* declaration); // fields
 	virtual bool VisitFunctionDecl(clang::FunctionDecl* declaration); // functions
@@ -86,7 +86,7 @@ private:
 	ParseLocation getParseLocationForTokensInRange(const clang::SourceRange& range) const;
 	ParseLocation getParseLocationForNamedDecl(const clang::NamedDecl* decl) const;
 	ParseLocation getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const;
-	ParseLocation getParseLocationOfRecordBody(clang::CXXRecordDecl* decl) const;
+	ParseLocation getParseLocationOfRecordBody(clang::RecordDecl* decl) const;
 
 	ParseTypeUsage getParseTypeUsage(const clang::TypeLoc& typeLoc, const clang::QualType& type) const;
 	ParseTypeUsage getParseTypeUsage(const clang::TypeLoc& typeLoc, const std::shared_ptr<DataType> type) const;
