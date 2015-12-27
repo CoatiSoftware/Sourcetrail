@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration.Install;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,6 +13,9 @@ namespace SetupCreateStartMenuShortcutLib
     [RunInstaller(true)]
     public partial class CreateStartMenuShortcut : System.Configuration.Install.Installer
     {
+        private static string _appShortcutName = "Coati.lnk";
+        private static string _uninstallShortcutName = "Uninstall Coati.lnk";
+
         public CreateStartMenuShortcut()
         {
             InitializeComponent();
@@ -30,37 +34,59 @@ namespace SetupCreateStartMenuShortcutLib
             app = appDirectory + "Coati.exe";
 
             WshShell shell = new WshShell();
-            string shortcutAddress = Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu) + "Coati.lnk";
-            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
+            string shortcutAddress = Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu) + "\\Coati\\"; // "\\Coati.lnk";
+            
+            if(!Directory.Exists(shortcutAddress))
+            {
+                Directory.CreateDirectory(shortcutAddress);
+            }
+
+            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress + _appShortcutName);
             shortcut.Description = "Fast source code reading and navigation";
             shortcut.TargetPath = app;
             shortcut.WorkingDirectory = appDirectory;
+            shortcut.IconLocation = appDirectory + "data\\gui\\icon\\coati.ico";
             shortcut.Save();
+
+            IWshShortcut uninstallShortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress + _uninstallShortcutName);
+            uninstallShortcut.Description = "Uninstall Coati";
+            uninstallShortcut.TargetPath = appDirectory + "\\install\\uninstall.bat";
+            uninstallShortcut.WorkingDirectory = appDirectory + "\\install";
+            uninstallShortcut.Save();
         }
 
         protected override void OnAfterRollback(IDictionary savedState)
         {
             base.OnAfterRollback(savedState);
 
-            DeleteDesktopShortcut();
+            DeleteShortcuts();
         }
 
         protected override void OnAfterUninstall(IDictionary savedState)
         {
             base.OnAfterUninstall(savedState);
 
-            DeleteDesktopShortcut();
+            DeleteShortcuts();
         }
 
-        private void DeleteDesktopShortcut()
+        private void DeleteShortcuts()
         {
-            object shDesktop = (object)"Desktop";
             WshShell shell = new WshShell();
-            string shortcutAddress = Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu) + "Coati.lnk";
+            string shortcutAddress = Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu) + "\\Coati\\";
 
-            if (System.IO.File.Exists(shortcutAddress))
+            if (System.IO.File.Exists(shortcutAddress + _appShortcutName))
             {
-                System.IO.File.Delete(shortcutAddress);
+                System.IO.File.Delete(shortcutAddress + _appShortcutName);
+            }
+
+            if (System.IO.File.Exists(shortcutAddress + _uninstallShortcutName))
+            {
+                System.IO.File.Delete(shortcutAddress + _uninstallShortcutName);
+            }
+
+            if(Directory.Exists(shortcutAddress))
+            {
+                Directory.Delete(shortcutAddress);
             }
         }
     }
