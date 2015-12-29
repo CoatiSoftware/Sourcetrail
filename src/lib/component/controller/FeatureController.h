@@ -11,6 +11,7 @@
 #include "utility/messaging/type/MessageActivateFile.h"
 #include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageActivateTokenLocations.h"
+#include "utility/messaging/type/MessageResetZoom.h"
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageSwitchColorScheme.h"
 #include "utility/messaging/type/MessageZoom.h"
@@ -23,6 +24,7 @@ class FeatureController
 	, public MessageListener<MessageActivateFile>
 	, public MessageListener<MessageActivateNodes>
 	, public MessageListener<MessageActivateTokenLocations>
+	, public MessageListener<MessageResetZoom>
 	, public MessageListener<MessageSearch>
 	, public MessageListener<MessageSwitchColorScheme>
 	, public MessageListener<MessageZoom>
@@ -37,6 +39,7 @@ private:
 	virtual void handleMessage(MessageActivateNodes* message);
 	virtual void handleMessage(MessageSearch* message);
 	virtual void handleMessage(MessageActivateTokenLocations* message);
+	virtual void handleMessage(MessageResetZoom* message);
 	virtual void handleMessage(MessageSwitchColorScheme* message);
 	virtual void handleMessage(MessageZoom* message);
 

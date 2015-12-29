@@ -50,6 +50,17 @@ private:
 	size_t m_forwardButton;
 };
 
+class MouseWheelFilter
+	: public QObject
+{
+	Q_OBJECT
+
+public:
+	MouseWheelFilter(QObject* parent);
+
+protected:
+	bool eventFilter(QObject* obj, QEvent* event);
+};
 
 class QtMainWindow
 	: public QMainWindow
@@ -103,6 +114,7 @@ public slots:
 	void redo();
 	void zoomIn();
 	void zoomOut();
+	void resetZoom();
 	void switchColorScheme();
 
 	void toggleView(View* view, bool fromMenu);

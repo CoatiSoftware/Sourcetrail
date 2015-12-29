@@ -231,6 +231,7 @@ add_files(
 	utility/messaging/type/MessageMoveIDECursor.h
 	utility/messaging/type/MessageRedo.h
 	utility/messaging/type/MessageRefresh.h
+	utility/messaging/type/MessageResetZoom.h
 	utility/messaging/type/MessageSaveProject.h
 	utility/messaging/type/MessageSearch.h
 	utility/messaging/type/MessageSearchAutocomplete.h

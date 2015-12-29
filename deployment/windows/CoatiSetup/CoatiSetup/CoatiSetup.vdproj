@@ -39,6 +39,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_0BD1A36560F540F2AFAC7B3A755E3124"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_0C6F8E3E9815483DB9B9525A5CB12BC7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -135,12 +141,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_351F2705D87E4A5AB62BC138ECC736E7"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_357C43F6138D4C2D89C5305E7A239970"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -226,6 +226,12 @@
         "Entry"
         {
         "MsmKey" = "8:_4BDEC7E5FB8B4BE8A303082523C30DE4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_555B5450A99E4439956DCFD12930DFBF"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -328,12 +334,6 @@
         "Entry"
         {
         "MsmKey" = "8:_7479C5FBBCFE42EDA0B21D03FBE38760"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7564D8D0A4CC4B378B49F1DCBF78ACFB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -513,12 +513,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_C12AAE9E2B354DCD87180B81C0515512"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_C16E8A2CCAC741908C60E95C5D0E4866"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -646,12 +640,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7564D8D0A4CC4B378B49F1DCBF78ACFB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_FB29EAD658C3497D9AC46ADE92D33C83"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -753,20 +741,6 @@
     {
         "CustomAction"
         {
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_0B7392AFE5E4499F88AAA0B860A56C0A"
-            {
-            "Name" = "8:Primary output from SetupCreateStartMenuShortcutLib (Active)"
-            "Condition" = "8:"
-            "Object" = "8:_7564D8D0A4CC4B378B49F1DCBF78ACFB"
-            "FileType" = "3:1"
-            "InstallAction" = "3:1"
-            "Arguments" = "8:"
-            "EntryPoint" = "8:"
-            "Sequence" = "3:3"
-            "Identifier" = "8:_4122E44E_006C_4364_83D1_B71E2CE35502"
-            "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:"
-            }
             "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_1C7BFD7F75904F828709F1BD762F4C7B"
             {
             "Name" = "8:Primary output from SetupRemoveCacheFiles (Active)"
@@ -806,20 +780,6 @@
             "EntryPoint" = "8:"
             "Sequence" = "3:3"
             "Identifier" = "8:_A9984DEF_148E_42BE_836A_7567D0F3F3EB"
-            "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:"
-            }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_400E522BB88046CDBAD0E16CCA411908"
-            {
-            "Name" = "8:Primary output from SetupCreateStartMenuShortcutLib (Active)"
-            "Condition" = "8:"
-            "Object" = "8:_7564D8D0A4CC4B378B49F1DCBF78ACFB"
-            "FileType" = "3:1"
-            "InstallAction" = "3:2"
-            "Arguments" = "8:"
-            "EntryPoint" = "8:"
-            "Sequence" = "3:3"
-            "Identifier" = "8:_D66DBD31_D6EF_42EA_8EF8_7E54FA970E9C"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
@@ -865,20 +825,6 @@
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_941C3D250E4842B5AAE31BB5DCFC62A5"
-            {
-            "Name" = "8:Primary output from SetupCreateStartMenuShortcutLib (Active)"
-            "Condition" = "8:"
-            "Object" = "8:_7564D8D0A4CC4B378B49F1DCBF78ACFB"
-            "FileType" = "3:1"
-            "InstallAction" = "3:3"
-            "Arguments" = "8:"
-            "EntryPoint" = "8:"
-            "Sequence" = "3:4"
-            "Identifier" = "8:_E705159B_3909_494B_8A0D_CB88823DB4D6"
-            "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:"
-            }
             "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_B1A592F73CCB404297211C5D3D86AB5F"
             {
             "Name" = "8:Primary output from SetupApplicationSettingsLib (Active)"
@@ -904,20 +850,6 @@
             "EntryPoint" = "8:"
             "Sequence" = "3:2"
             "Identifier" = "8:_FA88290C_53F7_463A_80E4_AA7C8332F611"
-            "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:"
-            }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_C5C129627560407AA9B5F55EB20F5621"
-            {
-            "Name" = "8:Primary output from SetupCreateStartMenuShortcutLib (Active)"
-            "Condition" = "8:"
-            "Object" = "8:_7564D8D0A4CC4B378B49F1DCBF78ACFB"
-            "FileType" = "3:1"
-            "InstallAction" = "3:4"
-            "Arguments" = "8:"
-            "EntryPoint" = "8:"
-            "Sequence" = "3:4"
-            "Identifier" = "8:_EEEA428E_A836_4773_8F9E_419A17879D01"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
@@ -1036,6 +968,26 @@
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\Release\\boost_system-vc120-mt-1_59.dll"
             "TargetName" = "8:boost_system-vc120-mt-1_59.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_972788CBF3404779967EA0B73B72BF18"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0BD1A36560F540F2AFAC7B3A755E3124"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\Coati.exe"
+            "TargetName" = "8:Coati.exe"
             "Tag" = "8:"
             "Folder" = "8:_972788CBF3404779967EA0B73B72BF18"
             "Condition" = "8:"
@@ -1352,26 +1304,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_351F2705D87E4A5AB62BC138ECC736E7"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\Release\\Coati.exe"
-            "TargetName" = "8:Coati.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_972788CBF3404779967EA0B73B72BF18"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_357C43F6138D4C2D89C5305E7A239970"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\setting_window\\window.css"
@@ -1658,6 +1590,26 @@
             "TargetName" = "8:graph_tutorial_3.h"
             "Tag" = "8:"
             "Folder" = "8:_A38746A96F3F43108F3B9C1A88E43FD0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_555B5450A99E4439956DCFD12930DFBF"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\installer\\logo_1024_1024.png"
+            "TargetName" = "8:logo_1024_1024.png"
+            "Tag" = "8:"
+            "Folder" = "8:_E1DFE5A1D9EB4CF1B984E8D037C05C7C"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2592,26 +2544,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C12AAE9E2B354DCD87180B81C0515512"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\installer\\logo_1024_1024.png"
-            "TargetName" = "8:logo_1024_1024.png"
-            "Tag" = "8:"
-            "Folder" = "8:_E1DFE5A1D9EB4CF1B984E8D037C05C7C"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C16E8A2CCAC741908C60E95C5D0E4866"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\color_schemes\\bright.xml"
@@ -3327,7 +3259,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Coati"
         "ProductCode" = "8:{2A3B2FF5-A114-4CAB-88FB-DE8942D5B8EB}"
-        "PackageCode" = "8:{0439DF0E-299D-4107-8052-74A99FBAA970}"
+        "PackageCode" = "8:{08D7C8AB-362B-4BBA-A1A3-992D5BBB3F0E}"
         "UpgradeCode" = "8:{CFF09D53-87AF-4241-960D-98C21ED9D358}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -3517,6 +3449,34 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_218124B75F404213855F638598E000A0"
+            {
+            "Name" = "8:Uninstall Coati"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_321D6469331341CC94DB61F825F7C38D"
+            "Folder" = "8:_9537058B4FC1411F8480A52A91F7AB5C"
+            "WorkingFolder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_5EEE826460D748F98304CF1E4BAF5D35"
+            {
+            "Name" = "8:Coati"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_0BD1A36560F540F2AFAC7B3A755E3124"
+            "Folder" = "8:_9537058B4FC1411F8480A52A91F7AB5C"
+            "WorkingFolder" = "8:_972788CBF3404779967EA0B73B72BF18"
+            "Icon" = "8:_096D033F5DF740A6B6B190652E5276AF"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -4281,7 +4241,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3460FAB707F8431E87168499A7F51556"
             {
-            "SourcePath" = "8:..\\SetupApplicationSettingsLib\\obj\\Release\\SetupApplicationSettingsLib.dll"
+            "SourcePath" = "8:..\\SetupApplicationSettingsLib\\obj\\Debug\\SetupApplicationSettingsLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
@@ -4307,37 +4267,9 @@
                 {
                 }
             }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_7564D8D0A4CC4B378B49F1DCBF78ACFB"
-            {
-            "SourcePath" = "8:..\\SetupCreateStartMenuShortcutLib\\obj\\Release\\SetupCreateStartMenuShortcutLib.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{962F7DA5-AEA1-4D03-89FD-F9AC42C24E46}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F81B906E39E44A5DAC37B3D70BC8A8CE"
             {
-            "SourcePath" = "8:..\\SetupCreateDesktopShortcutLib\\obj\\Release\\SetupCreateDesktopShortcutLib.dll"
+            "SourcePath" = "8:..\\SetupCreateDesktopShortcutLib\\obj\\Debug\\SetupCreateDesktopShortcutLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
@@ -4365,7 +4297,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_FB29EAD658C3497D9AC46ADE92D33C83"
             {
-            "SourcePath" = "8:..\\SetupRemoveCacheFiles\\obj\\Release\\SetupRemoveCacheFiles.dll"
+            "SourcePath" = "8:..\\SetupRemoveCacheFiles\\obj\\Debug\\SetupRemoveCacheFiles.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"

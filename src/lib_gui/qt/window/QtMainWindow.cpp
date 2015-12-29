@@ -20,6 +20,7 @@
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageRedo.h"
 #include "utility/messaging/type/MessageRefresh.h"
+#include "utility/messaging/type/MessageResetZoom.h"
 #include "utility/messaging/type/MessageSaveProject.h"
 #include "utility/messaging/type/MessageSwitchColorScheme.h"
 #include "utility/messaging/type/MessageUndo.h"
@@ -52,9 +53,6 @@ MouseReleaseFilter::MouseReleaseFilter(QObject* parent)
 {
 	m_backButton = ApplicationSettings::getInstance()->getControlsMouseBackButton();
 	m_forwardButton = ApplicationSettings::getInstance()->getControlsMouseForwardButton();
-
-	std::cout << m_backButton << std::endl;
-	std::cout << m_forwardButton << std::endl;
 }
 
 bool MouseReleaseFilter::eventFilter(QObject* obj, QEvent* event)
@@ -62,6 +60,8 @@ bool MouseReleaseFilter::eventFilter(QObject* obj, QEvent* event)
 	if (event->type() == QEvent::MouseButtonRelease)
 	{
 		QMouseEvent* mouseEvent = dynamic_cast<QMouseEvent*>(event);
+
+		
 
 		if (mouseEvent->button() == m_backButton)
 		{
@@ -71,6 +71,33 @@ bool MouseReleaseFilter::eventFilter(QObject* obj, QEvent* event)
 		else if (mouseEvent->button() == m_forwardButton)
 		{
 			MessageRedo().dispatch();
+			return true;
+		}
+	}
+
+	return QObject::eventFilter(obj, event);
+}
+
+MouseWheelFilter::MouseWheelFilter(QObject* parent)
+	: QObject(parent)
+{
+	
+}
+
+bool MouseWheelFilter::eventFilter(QObject* obj, QEvent* event)
+{
+	if (event->type() == QEvent::Wheel && QApplication::keyboardModifiers() == Qt::ControlModifier)
+	{
+		QWheelEvent* wheelEvent = dynamic_cast<QWheelEvent*>(event);
+
+		if (wheelEvent->delta() > 0.0f)
+		{
+			MessageZoom(true).dispatch();
+			return true;
+		}
+		else if (wheelEvent->delta() < 0.0f)
+		{
+			MessageZoom(false).dispatch();
 			return true;
 		}
 	}
@@ -92,6 +119,7 @@ QtMainWindow::QtMainWindow()
 
 	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
 	app->installEventFilter(new MouseReleaseFilter(this));
+	app->installEventFilter(new MouseWheelFilter(this));
 
 	app->setStyleSheet(utility::getStyleSheet("data/gui/tooltip.css").c_str());
 
@@ -427,6 +455,11 @@ void QtMainWindow::zoomOut()
 	MessageZoom(false).dispatch();
 }
 
+void QtMainWindow::resetZoom()
+{
+	MessageResetZoom().dispatch();
+}
+
 void QtMainWindow::switchColorScheme()
 {
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "./data/color_schemes", "XML Files (*.xml)");
@@ -576,6 +609,7 @@ void QtMainWindow::setupViewMenu()
 
 	menu->addAction(tr("Larger font"), this, SLOT(zoomIn()), QKeySequence::ZoomIn);
 	menu->addAction(tr("Smaller font"), this, SLOT(zoomOut()), QKeySequence::ZoomOut);
+	menu->addAction(tr("Reset font size"), this, SLOT(resetZoom()));
 
 	menu->addAction(tr("Switch Color Scheme..."), this, SLOT(switchColorScheme()));
 

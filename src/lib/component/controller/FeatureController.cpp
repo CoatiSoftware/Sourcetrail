@@ -5,6 +5,7 @@
 
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageRefresh.h"
+#include "utility/messaging/type/MessageStatus.h"
 
 FeatureController::FeatureController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -69,6 +70,21 @@ void FeatureController::handleMessage(MessageActivateTokenLocations* message)
 	m.dispatchImmediately();
 }
 
+void FeatureController::handleMessage(MessageResetZoom* message)
+{
+	ApplicationSettings* settings = ApplicationSettings::getInstance().get();
+
+	if (settings->getFontSize() != 12)
+	{
+		settings->setFontSize(12);
+		settings->save();
+
+		MessageRefresh().refreshUiOnly().dispatch();
+	}
+
+	MessageStatus("Zoom: 100%").dispatch();
+}
+
 void FeatureController::handleMessage(MessageSwitchColorScheme* message)
 {
 	ApplicationSettings* settings = ApplicationSettings::getInstance().get();
@@ -83,6 +99,15 @@ void FeatureController::handleMessage(MessageZoom* message)
 	ApplicationSettings* settings = ApplicationSettings::getInstance().get();
 	settings->setFontSize(std::max(settings->getFontSize() + (message->zoomIn ? 1 : -1), 5));
 	settings->save();
+
+	int fontSize = settings->getFontSize();
+	int standardSize = 12;
+
+	int zoom = (fontSize * 100) / standardSize;
+
+	std::stringstream text;
+	text << "Zoom: " << zoom << "%";
+	MessageStatus(text.str()).dispatch();
 
 	MessageRefresh().refreshUiOnly().dispatch();
 }
