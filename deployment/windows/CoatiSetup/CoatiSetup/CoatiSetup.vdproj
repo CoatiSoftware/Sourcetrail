@@ -525,6 +525,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_CABEFC3263394106B5E96F489B7E8D85"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -635,6 +641,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_3460FAB707F8431E87168499A7F51556"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -769,6 +781,20 @@
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_2DD762B8DECB40D69A7E3495EFDABC4E"
+            {
+            "Name" = "8:Primary output from SetupCreateStartMenuShortcutLib (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
+            "FileType" = "3:1"
+            "InstallAction" = "3:3"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:4"
+            "Identifier" = "8:_147D9FD0_6C78_461C_AD73_82ECCAB526B2"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
             "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_3822F3F8AB4C430794A666BBCCC3C6BC"
             {
             "Name" = "8:Primary output from SetupApplicationSettingsLib (Active)"
@@ -780,6 +806,20 @@
             "EntryPoint" = "8:"
             "Sequence" = "3:3"
             "Identifier" = "8:_A9984DEF_148E_42BE_836A_7567D0F3F3EB"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_3BBF42F2D0554015BCF7349671B9EFFD"
+            {
+            "Name" = "8:Primary output from SetupCreateStartMenuShortcutLib (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
+            "FileType" = "3:1"
+            "InstallAction" = "3:2"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:3"
+            "Identifier" = "8:_CAEF50B1_02B9_4DB1_8DC5_E4E5DB4772DE"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
@@ -808,6 +848,20 @@
             "EntryPoint" = "8:"
             "Sequence" = "3:2"
             "Identifier" = "8:_3815A2F9_FFA3_429E_817B_C18E119D9C8D"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_541A6531B7F740DF8DCF518908A99D36"
+            {
+            "Name" = "8:Primary output from SetupCreateStartMenuShortcutLib (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
+            "FileType" = "3:1"
+            "InstallAction" = "3:4"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:4"
+            "Identifier" = "8:_A7EE1E7D_CFF9_47D5_9F1D_8340AF683CFA"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
@@ -864,6 +918,20 @@
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
             "Identifier" = "8:_F33BE408_50C0_45FD_A33D_DB97198E9B53"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_DD799787F39A4F1A8742B6CBC1DABF17"
+            {
+            "Name" = "8:Primary output from SetupCreateStartMenuShortcutLib (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
+            "FileType" = "3:1"
+            "InstallAction" = "3:1"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:3"
+            "Identifier" = "8:_73BFCC58_37EB_4D02_A2F8_7A0D5C37AF81"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
@@ -4241,7 +4309,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3460FAB707F8431E87168499A7F51556"
             {
-            "SourcePath" = "8:..\\SetupApplicationSettingsLib\\obj\\Debug\\SetupApplicationSettingsLib.dll"
+            "SourcePath" = "8:..\\SetupApplicationSettingsLib\\obj\\Release\\SetupApplicationSettingsLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
@@ -4267,9 +4335,37 @@
                 {
                 }
             }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
+            {
+            "SourcePath" = "8:..\\SetupCreateStartMenuShortcutLib\\obj\\Release\\SetupCreateStartMenuShortcutLib.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{962F7DA5-AEA1-4D03-89FD-F9AC42C24E46}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F81B906E39E44A5DAC37B3D70BC8A8CE"
             {
-            "SourcePath" = "8:..\\SetupCreateDesktopShortcutLib\\obj\\Debug\\SetupCreateDesktopShortcutLib.dll"
+            "SourcePath" = "8:..\\SetupCreateDesktopShortcutLib\\obj\\Release\\SetupCreateDesktopShortcutLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
@@ -4297,7 +4393,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_FB29EAD658C3497D9AC46ADE92D33C83"
             {
-            "SourcePath" = "8:..\\SetupRemoveCacheFiles\\obj\\Debug\\SetupRemoveCacheFiles.dll"
+            "SourcePath" = "8:..\\SetupRemoveCacheFiles\\obj\\Release\\SetupRemoveCacheFiles.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"

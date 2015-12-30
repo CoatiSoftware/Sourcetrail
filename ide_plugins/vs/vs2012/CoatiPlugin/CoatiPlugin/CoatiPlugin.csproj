@@ -132,6 +132,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PkgCmdID.cs" />
+    <Compile Include="SolutionUtility.cs" />
     <Compile Include="SystemUtility.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -10,8 +10,6 @@
 #include "qt/utility/utilityQt.h"
 #include "qt/view/graphElements/QtGraphNodeData.h"
 
-#include <iostream>
-
 QtGraphNodeExpandToggle::QtGraphNodeExpandToggle(bool expanded, int invisibleSubNodeCount)
 	: m_invisibleSubNodeCount(invisibleSubNodeCount)
 	, m_expanded(expanded)
