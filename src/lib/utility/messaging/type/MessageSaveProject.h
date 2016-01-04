@@ -16,6 +16,11 @@ public:
 		return "MessageSaveProject";
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		os << projectSettingsFilePath;
+	}
+
 	const std::string projectSettingsFilePath;
 };
 

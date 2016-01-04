@@ -56,4 +56,13 @@
 	} \
 	while(0) \
 
+#define LOG_INFO_STREAM_BARE(__s__) \
+	do \
+	{ \
+		std::stringstream __ss__; \
+		__ss__ __s__; \
+		LogManager::getInstance()->logInfo(__ss__.str(), "", "", 0); \
+	} \
+	while(0) \
+
 #endif // LOGGING_H

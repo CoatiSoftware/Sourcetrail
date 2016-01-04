@@ -28,9 +28,12 @@ void ConsoleLogger::logError(const LogMessage& message)
 
 void ConsoleLogger::logMessage(const std::string& type, const LogMessage& message)
 {
-	std::cout
-		<< message.getTimeString("%H:%M:%S") << " | "
-		<< message.getFileName() << ':' << message.line << ' ' << message.functionName << "() | "
-		<< type << ": " << message.message
-		<< std::endl;
+	std::cout << message.getTimeString("%H:%M:%S") << " | ";
+
+	if (message.filePath.size())
+	{
+		std::cout << message.getFileName() << ':' << message.line << ' ' << message.functionName << "() | ";
+	}
+
+	std::cout << type << ": " << message.message << std::endl;
 }

@@ -16,6 +16,18 @@ public:
 		return "MessageAutoRefreshChanged";
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		if (enabled)
+		{
+			os << "enabled";
+		}
+		else
+		{
+			os << "disabled";
+		}
+	}
+
 	bool enabled;
 };
 

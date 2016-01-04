@@ -74,6 +74,8 @@ void MessageQueue::pushMessage(std::shared_ptr<MessageBase> message)
 
 void MessageQueue::processMessage(std::shared_ptr<MessageBase> message, bool asNextTask)
 {
+	LOG_INFO_STREAM_BARE(<< "send " << message->str());
+
 	if (m_sendMessagesAsTasks && message->sendAsTask())
 	{
 		sendMessageAsTask(message, asNextTask);

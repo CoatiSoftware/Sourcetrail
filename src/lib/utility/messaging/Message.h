@@ -8,7 +8,8 @@
 #include "utility/messaging/MessageQueue.h"
 
 template<typename MessageType>
-class Message: public MessageBase
+class Message
+	: public MessageBase
 {
 public:
 
@@ -31,6 +32,10 @@ public:
 	{
 		std::shared_ptr<MessageBase> message = std::make_shared<MessageType>(*dynamic_cast<MessageType*>(this));
 		MessageQueue::getInstance()->processMessage(message, true);
+	}
+
+	virtual void print(std::ostream& os) const
+	{
 	}
 };
 

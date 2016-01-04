@@ -819,7 +819,7 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 	m_cachedQuery = query;
 
 	std::vector<SearchMatch> matches = SearchIndex::getMatches(m_cachedResults, query);
-	SearchMatch::log(matches, query);
+	LOG_INFO_STREAM(<< matches.size() << " matches for \"" << query << "\"");
 
 	if (matches.size() > 100)
 	{
@@ -1803,7 +1803,7 @@ void Storage::buildHierarchyCache()
 
 void Storage::log(std::string type, std::string str, const ParseLocation& location) const
 {
-	LOG_INFO_STREAM(
+	LOG_INFO_STREAM_BARE(
 		<< type << ": " << str << " <" << location.filePath.str() << " "
 		<< location.startLineNumber << ":" << location.startColumnNumber << " "
 		<< location.endLineNumber << ":" << location.endColumnNumber << ">"

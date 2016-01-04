@@ -18,6 +18,11 @@ public:
 		return "MessageMoveIDECursor";
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		os << FilePosition << ":" << Row << ":" << Column;
+	}
+
 	const std::string FilePosition;
 	const unsigned int Row;
 	const unsigned int Column;

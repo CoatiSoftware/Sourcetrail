@@ -22,6 +22,14 @@ public:
 		return "MessageActivateTokens";
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		for (const Id& id : tokenIds)
+		{
+			os << id << " ";
+		}
+	}
+
 	const std::vector<Id> tokenIds;
 
 	bool isEdge;

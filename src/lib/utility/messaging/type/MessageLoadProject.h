@@ -16,6 +16,11 @@ public:
 		return "MessageLoadProject";
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		os << projectSettingsFilePath;
+	}
+
 	const std::string projectSettingsFilePath;
 };
 

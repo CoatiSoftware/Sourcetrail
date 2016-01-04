@@ -17,6 +17,11 @@ public:
 		return "MessageSearchAutocomplete";
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		os << query;
+	}
+
 	const std::string query;
 };
 

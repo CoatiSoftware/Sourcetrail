@@ -1,7 +1,8 @@
 #ifndef MESSAGE_BASE_H
 #define MESSAGE_BASE_H
 
-#include <string>
+#include <ostream>
+#include <sstream>
 
 class MessageBase
 {
@@ -56,6 +57,16 @@ public:
 	bool keepContent() const
 	{
 		return m_keepContent;
+	}
+
+	virtual void print(std::ostream& os) const = 0;
+
+	std::string str() const
+	{
+		std::stringstream ss;
+		ss << getType() << " ";
+		print(ss);
+		return ss.str();
 	}
 
 	UndoType undoRedoType;

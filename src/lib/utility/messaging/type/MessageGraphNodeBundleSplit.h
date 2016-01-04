@@ -18,6 +18,11 @@ public:
 		return "MessageGraphNodeBundleSplit";
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		os << bundleId;
+	}
+
 	Id bundleId;
 };
 

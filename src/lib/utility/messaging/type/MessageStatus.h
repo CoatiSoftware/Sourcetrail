@@ -20,6 +20,21 @@ public:
 		return "MessageStatus";
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		os << status;
+
+		if (isError)
+		{
+			os << " - error";
+		}
+
+		if (showLoader)
+		{
+			os << " - loading";
+		}
+	}
+
 	const std::string status;
 	const bool isError;
 	const bool showLoader;

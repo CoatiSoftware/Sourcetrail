@@ -65,10 +65,13 @@ void FileLogger::logMessage(const std::string& type, const LogMessage& message)
 {
 	std::ofstream fileStream;
 	fileStream.open(s_filePath + m_fileName, std::ios::app);
-	fileStream
-		<< message.getTimeString("%H:%M:%S") << " | "
-		<< message.getFileName() << ':' << message.line << ' ' << message.functionName << "() | "
-		<< type << ": " << message.message
-		<< std::endl;
+	fileStream << message.getTimeString("%H:%M:%S") << " | ";
+
+	if (message.filePath.size())
+	{
+		fileStream << message.getFileName() << ':' << message.line << ' ' << message.functionName << "() | ";
+	}
+
+	fileStream << type << ": " << message.message << std::endl;
 	fileStream.close();
 }

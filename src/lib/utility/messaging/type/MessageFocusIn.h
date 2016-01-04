@@ -20,6 +20,14 @@ public:
 		return "MessageFocusIn";
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		for (const Id& id : tokenIds)
+		{
+			os << id << " ";
+		}
+	}
+
 	const std::vector<Id> tokenIds;
 };
 

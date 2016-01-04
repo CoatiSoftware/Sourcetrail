@@ -19,6 +19,19 @@ public:
 		return "MessageGraphNodeExpand";
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		os << tokenId << " ";
+		if (expand)
+		{
+			os << "expand";
+		}
+		else
+		{
+			os << "collapse";
+		}
+	}
+
 	const Id tokenId;
 	const bool expand;
 };

@@ -20,6 +20,11 @@ public:
 		return "MessageShowFile";
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		os << filePath.str();
+	}
+
 	const FilePath filePath;
 	const bool showErrors;
 };

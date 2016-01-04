@@ -18,6 +18,14 @@ public:
 		return "MessageActivateTokenLocations";
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		for (const Id& id : locationIds)
+		{
+			os << id << " ";
+		}
+	}
+
 	const std::vector<Id> locationIds;
 };
 

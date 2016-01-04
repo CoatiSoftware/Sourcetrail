@@ -18,6 +18,11 @@ public:
 		return "MessageShowScope";
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		os << scopeLocationId;
+	}
+
 	const Id scopeLocationId;
 };
 

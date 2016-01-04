@@ -20,6 +20,11 @@ public:
 		return "MessageGraphNodeMove";
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		os << tokenId << " " << delta.toString();
+	}
+
 	const Id tokenId;
 	const Vec2i delta;
 };

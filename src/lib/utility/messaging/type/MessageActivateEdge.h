@@ -35,6 +35,11 @@ public:
 		return Edge::getTypeString(type) + ":" + fromNameHierarchy.getFullName() + "->" + toNameHierarchy.getFullName();
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		os << tokenId << " - " << getFullName();
+	}
+
 	const Id tokenId;
 	const Edge::EdgeType type;
 	const NameHierarchy fromNameHierarchy;

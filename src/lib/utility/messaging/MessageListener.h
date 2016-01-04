@@ -3,12 +3,14 @@
 
 #include <string>
 
+#include "utility/logging/logging.h"
 #include "utility/messaging/MessageBase.h"
 #include "utility/messaging/MessageListenerBase.h"
 #include "utility/messaging/MessageQueue.h"
 
 template<typename MessageType>
-class MessageListener: public MessageListenerBase
+class MessageListener
+	: public MessageListenerBase
 {
 public:
 	MessageListener()
@@ -23,6 +25,7 @@ private:
 
 	virtual void doHandleMessageBase(MessageBase* message)
 	{
+		LOG_INFO_STREAM_BARE(<< "handle " << message->str());
 		handleMessage(dynamic_cast<MessageType*>(message));
 	}
 

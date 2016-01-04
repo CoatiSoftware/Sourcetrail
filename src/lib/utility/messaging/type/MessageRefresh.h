@@ -29,6 +29,18 @@ public:
 		return *this;
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		if (uiOnly)
+		{
+			os << "ui ";
+		}
+		if (all)
+		{
+			os << "all";
+		}
+	}
+
 	bool uiOnly;
 	bool all;
 };

@@ -41,6 +41,11 @@ public:
 		return ss.str();
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		os << getStatusStr();
+	}
+
 	size_t fileCount;
 	size_t totalFileCount;
 	float parseTime;

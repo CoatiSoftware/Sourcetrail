@@ -30,6 +30,11 @@ public:
 		return m_matches;
 	}
 
+	virtual void print(std::ostream& os) const
+	{
+		os << getMatchesAsString();
+	}
+
 private:
 	const std::vector<SearchMatch> m_matches;
 };

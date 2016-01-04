@@ -4,7 +4,7 @@
 #include "utility/messaging/Message.h"
 #include "utility/types.h"
 
-class TokenLocationFile;
+#include "data/location/TokenLocationFile.h"
 
 class MessageShowSnippets
 	: public Message<MessageShowSnippets>
@@ -18,6 +18,11 @@ public:
 	static const std::string getStaticType()
 	{
 		return "MessageShowSnippets";
+	}
+
+	virtual void print(std::ostream& os) const
+	{
+		os << locationFile->getFilePath().str();
 	}
 
 	std::shared_ptr<TokenLocationFile> locationFile;
