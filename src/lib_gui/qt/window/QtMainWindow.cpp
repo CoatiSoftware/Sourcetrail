@@ -61,7 +61,7 @@ bool MouseReleaseFilter::eventFilter(QObject* obj, QEvent* event)
 	{
 		QMouseEvent* mouseEvent = dynamic_cast<QMouseEvent*>(event);
 
-		
+
 
 		if (mouseEvent->button() == m_backButton)
 		{
@@ -81,7 +81,7 @@ bool MouseReleaseFilter::eventFilter(QObject* obj, QEvent* event)
 MouseWheelFilter::MouseWheelFilter(QObject* parent)
 	: QObject(parent)
 {
-	
+
 }
 
 bool MouseWheelFilter::eventFilter(QObject* obj, QEvent* event)
@@ -609,7 +609,9 @@ void QtMainWindow::setupViewMenu()
 
 	menu->addAction(tr("Larger font"), this, SLOT(zoomIn()), QKeySequence::ZoomIn);
 	menu->addAction(tr("Smaller font"), this, SLOT(zoomOut()), QKeySequence::ZoomOut);
-	menu->addAction(tr("Reset font size"), this, SLOT(resetZoom()));
+	menu->addAction(tr("Reset font size"), this, SLOT(resetZoom()), QKeySequence(Qt::CTRL + Qt::Key_0));
+
+	menu->addSeparator();
 
 	menu->addAction(tr("Switch Color Scheme..."), this, SLOT(switchColorScheme()));
 
