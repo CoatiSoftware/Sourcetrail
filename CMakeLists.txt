@@ -246,7 +246,7 @@ if (WIN32)
 		"// remains consistent on all systems.\n"
 		"IDI_ICON1               ICON                    \"${CMAKE_SOURCE_DIR}/build/coati.ico\"\n"
 	)
-	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CLANG_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc)
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc)
 
 	# hide the console when running a release build.
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE")
