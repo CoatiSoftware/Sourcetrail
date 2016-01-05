@@ -34,24 +34,19 @@ public:
 	void setVersion(const Version& version);
 
 	Id addEdge(int type, Id sourceNodeId, Id targetNodeId);
-	Id addNode(int type, Id nameId, bool defined);
-	Id addFile(Id nameId, const std::string& filePath, const std::string& modificationTime);
-	Id addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol,
-						 bool isScope);
-	Id addNameHierarchyElement(const std::string& name, Id parentId = 0);
+	Id addNode(int type, const std::string& serializedName, bool defined);
+	Id addFile(const std::string& serializedName, const std::string& filePath, const std::string& modificationTime);
+	Id addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope);
 
 	Id addComponentAccess(Id memberEdgeId, int type);
-	Id addSignature(Id nodeId, const std::string& signature);
 
 	Id addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
 	Id addError(const std::string& message, const std::string& filePath, uint lineNumber, uint columnNumber);
 
 	void removeElement(Id id);
-	void removeNameHierarchyElement(Id id);
 	void removeElementsWithLocationInFiles(const std::vector<Id>& fileIds);
 	void removeFile(Id id);
 	void removeFiles(const std::vector<Id>& fileIds);
-	void removeUnusedNameHierarchyElements();
 
 	void removeCommentLocationsInFiles(const std::vector<FilePath>& filePaths);
 	void removeErrorsInFiles(const std::vector<FilePath>& filePaths);
@@ -78,24 +73,16 @@ public:
 	std::vector<StorageEdge> getEdgesByTargetType(Id targetId, int type) const;
 
 	StorageNode getNodeById(Id id) const;
-	std::vector<StorageNode> getNodesByNameId(Id nameId) const;
+	StorageNode getNodeBySerializedName(const std::string& serializedName) const;
 	std::vector<StorageNode> getNodesByIds(const std::vector<Id>& nodeIds) const;
 
 	StorageFile getFileById(const Id id) const;
-	StorageFile getFileByName(const std::string& fileName) const;
 	StorageFile getFileByPath(const std::string& filePath) const;
 	std::vector<StorageFile> getAllFiles() const;
 	std::shared_ptr<TextAccess> getFileContentByPath(const std::string& filePath) const;
 
 	void setNodeType(int type, Id nodeId);
 	void setNodeDefined(bool defined, Id nodeId);
-
-	Id getNameHierarchyElementIdByName(const std::string& name, Id parentId = 0) const;
-	Id getNameHierarchyElementIdByNodeId(const Id nodeId) const;
-
-	std::vector<StorageNameHierarchyElement> getAllNameHierarchyElements() const;
-
-	NameHierarchy getNameHierarchyById(const Id id) const;
 
 	StorageSourceLocation getSourceLocationByData(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope) const;
 	StorageSourceLocation getSourceLocationById(const Id id) const;
@@ -107,8 +94,6 @@ public:
 
 	StorageComponentAccess getComponentAccessByMemberEdgeId(Id memberEdgeId) const;
 	std::vector<StorageComponentAccess> getComponentAccessByMemberEdgeIds(const std::vector<Id>& memberEdgeIds) const;
-	std::vector<Id> getNodeIdsBySignature(const std::string& signature) const;
-	std::string getSignatureByNodeId(Id nodeId) const;
 
 	std::vector<StorageCommentLocation> getCommentLocationsInFile(const FilePath& filePath) const;
 	std::vector<StorageError> getAllErrors() const;
@@ -116,7 +101,6 @@ public:
 	int getNodeCount() const;
 	int getEdgeCount() const;
 	int getFileCount() const;
-	int getNameHierarchyElementCount() const;
 	int getSourceLocationCount() const;
 
 private:

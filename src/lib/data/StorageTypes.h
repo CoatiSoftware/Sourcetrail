@@ -22,43 +22,32 @@ struct StorageEdge
 
 struct StorageNode
 {
-	StorageNode(Id id, int type, Id nameId, bool defined)
+	StorageNode(Id id, int type, const std::string& serializedName, bool defined)
 		: id(id)
 		, type(type)
-		, nameId(nameId)
+		, serializedName(serializedName)
 		, defined(defined)
 	{}
 
 	Id id;
 	int type;
-	Id nameId;
+	std::string serializedName;
 	bool defined;
 };
 
 struct StorageFile
 {
-	StorageFile(Id id, Id nameId, const std::string& filePath, const std::string& modificationTime)
+	StorageFile(Id id, const std::string& name, const std::string& filePath, const std::string& modificationTime)
 		: id(id)
-		, nameId(nameId)
+		, name(name)
 		, filePath(filePath)
 		, modificationTime(modificationTime)
 	{}
 
 	Id id;
-	Id nameId;
+	std::string name;
 	std::string filePath;
 	std::string modificationTime;
-};
-
-struct StorageNameHierarchyElement
-{
-	StorageNameHierarchyElement(Id id, const std::string& name, Id parentId)
-		: id(id), name(name), parentId(parentId)
-	{}
-
-	Id id;
-	std::string name;
-	Id parentId;
 };
 
 struct StorageSourceLocation

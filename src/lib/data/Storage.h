@@ -172,7 +172,6 @@ public:
 private:
 	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool defined);
 	Id addNodeHierarchy(Node::NodeType type, const ParseFunction& function, bool defined);
-	std::vector<Id> addNameHierarchyElements(NameHierarchy nameHierarchy);
 	Id addSourceLocation(Id elementNodeId, const ParseLocation &location, bool isScope = false);
 
 	Id addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type);

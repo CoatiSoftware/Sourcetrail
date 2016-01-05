@@ -81,7 +81,7 @@ Id SqliteStorage::addEdge(int type, Id sourceNodeId, Id targetNodeId)
 	return id;
 }
 
-Id SqliteStorage::addNode(int type, Id nameId, bool defined)
+Id SqliteStorage::addNode(int type, const std::string& serializedName, bool defined)
 {
 	m_database.execDML(
 		"INSERT INTO element(id) VALUES(NULL);"
@@ -89,16 +89,16 @@ Id SqliteStorage::addNode(int type, Id nameId, bool defined)
 	Id id = m_database.lastRowId();
 
 	m_database.execDML((
-		"INSERT INTO node(id, type, name_id, defined) VALUES("
-		+ std::to_string(id) + ", " + std::to_string(type) + ", " + std::to_string(nameId) + ", " + std::to_string(defined) + ");"
+		"INSERT INTO node(id, type, serializedName, defined) VALUES("
+		+ std::to_string(id) + ", " + std::to_string(type) + ", '" + serializedName + "', " + std::to_string(defined) + ");"
 	).c_str());
 
 	return id;
 }
 
-Id SqliteStorage::addFile(Id nameId, const std::string& filePath, const std::string& modificationTime)
+Id SqliteStorage::addFile(const std::string& serializedName, const std::string& filePath, const std::string& modificationTime)
 {
-	Id id = addNode(Node::NODE_FILE, nameId, true);
+	Id id = addNode(Node::NODE_FILE, serializedName, true);
 	std::shared_ptr<TextAccess> content = TextAccess::createFromFile(filePath);
 
 	CppSQLite3Statement stmt = m_database.compileStatement((
@@ -125,41 +125,11 @@ Id SqliteStorage::addSourceLocation(Id elementId, Id fileNodeId, uint startLine,
 	return m_database.lastRowId();
 }
 
-Id SqliteStorage::addNameHierarchyElement(const std::string& name, Id parentId)
-{
-	if (parentId)
-	{
-		m_database.execDML((
-			"INSERT INTO name_hierarchy_element(id, name, parent_id) "
-			"VALUES (NULL, '" + name + "', " + std::to_string(parentId) + ");"
-		).c_str());
-	}
-	else
-	{
-		m_database.execDML((
-			"INSERT INTO name_hierarchy_element(id, name, parent_id) "
-			"VALUES(NULL, '" + name + "', NULL);"
-		).c_str());
-	}
-
-	return m_database.lastRowId();
-}
-
 Id SqliteStorage::addComponentAccess(Id memberEdgeId, int type)
 {
 	m_database.execDML((
 		"INSERT INTO component_access(id, edge_id, type) "
 		"VALUES (NULL, " + std::to_string(memberEdgeId) + ", " + std::to_string(type) + ");"
-	).c_str());
-
-	return m_database.lastRowId();
-}
-
-Id SqliteStorage::addSignature(Id nodeId, const std::string& signature)
-{
-	m_database.execDML((
-		"INSERT INTO function_signature(id, signature) "
-		"VALUES (" + std::to_string(nodeId) + ", '" + signature + "');"
 	).c_str());
 
 	return m_database.lastRowId();
@@ -210,13 +180,6 @@ void SqliteStorage::removeElement(Id id)
 	).c_str());
 }
 
-void SqliteStorage::removeNameHierarchyElement(Id id)
-{
-	m_database.execDML((
-		"DELETE FROM name_hierarchy_element WHERE id == " + std::to_string(id) + ";"
-	).c_str());
-}
-
 void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fileIds)
 {
 	CppSQLite3Query q = m_database.execQuery((
@@ -263,13 +226,6 @@ void SqliteStorage::removeFiles(const std::vector<Id>& fileIds)
 	).c_str());
 }
 
-void SqliteStorage::removeUnusedNameHierarchyElements()
-{
-	m_database.execDML(
-		"DELETE FROM name_hierarchy_element WHERE NOT EXISTS (SELECT * FROM node where node.name_id == name_hierarchy_element.id);"
-	);
-}
-
 void SqliteStorage::removeErrorsInFiles(const std::vector<FilePath>& filePaths)
 {
 	m_database.execDML((
@@ -285,7 +241,7 @@ StorageNode SqliteStorage::getFirstNode() const
 		return nodes[0];
 	}
 
-	return StorageNode(0, 0, 0, false);
+	return StorageNode(0, 0, "", false);
 }
 
 std::vector<StorageNode> SqliteStorage::getAllNodes() const
@@ -444,9 +400,14 @@ StorageNode SqliteStorage::getNodeById(Id id) const
 	return StorageNode(0, 0, 0, false);
 }
 
-std::vector<StorageNode> SqliteStorage::getNodesByNameId(Id nameId) const
+StorageNode SqliteStorage::getNodeBySerializedName(const std::string& serializedName) const
 {
-	return getAllNodes("WHERE name_id == " + std::to_string(nameId));
+	std::vector<StorageNode> nodes = getAllNodes("WHERE serializedName == '" + serializedName + "'"); // Todo: use getfirstnode here
+	if (nodes.size() > 0)
+	{
+		return nodes[0];
+	}
+	return StorageNode(0, 0, "", 0);
 }
 
 std::vector<StorageNode> SqliteStorage::getNodesByIds(const std::vector<Id>& nodeIds) const
@@ -457,32 +418,15 @@ std::vector<StorageNode> SqliteStorage::getNodesByIds(const std::vector<Id>& nod
 StorageFile SqliteStorage::getFileById(const Id id) const
 {
 	return getFirstFile(
-		"SELECT node.id, node.name_id, file.path, file.modification_time FROM node INNER JOIN file ON node.id = file.id "
+		"SELECT node.id, node.serializedName, file.path, file.modification_time FROM node INNER JOIN file ON node.id = file.id "
 		"WHERE node.id == " + std::to_string(id) + ";"
 	);
-}
-
-StorageFile SqliteStorage::getFileByName(const std::string& fileName) const
-{
-	Id nameId = getNameHierarchyElementIdByName(fileName);
-
-	StorageFile storageFile(0, 0, "", "");
-
-	if (nameId != 0)
-	{
-		storageFile = getFirstFile(
-			"SELECT node.id, node.name_id, file.path, file.modification_time FROM node INNER JOIN file ON node.id = file.id "
-			"WHERE node.name_id == " + std::to_string(nameId) + ";"
-		);
-	}
-
-	return storageFile;
 }
 
 StorageFile SqliteStorage::getFileByPath(const std::string& filePath) const
 {
 	StorageFile storageFile = getFirstFile(
-		"SELECT node.id, node.name_id, file.path, file.modification_time FROM node INNER JOIN file ON node.id = file.id "
+		"SELECT node.id, node.serializedName, file.path, file.modification_time FROM node INNER JOIN file ON node.id = file.id "
 		"WHERE file.path == '" + filePath + "';"
 	);
 
@@ -491,7 +435,7 @@ StorageFile SqliteStorage::getFileByPath(const std::string& filePath) const
 
 std::vector<StorageFile> SqliteStorage::getAllFiles() const
 {
-	return getAllFiles("SELECT file.id, node.name_id, file.path, file.modification_time FROM file INNER JOIN node ON file.id = node.id;");
+	return getAllFiles("SELECT file.id, node.serializedName, file.path, file.modification_time FROM file INNER JOIN node ON file.id = node.id;");
 }
 
 std::shared_ptr<TextAccess> SqliteStorage::getFileContentByPath(const std::string& filePath) const
@@ -520,81 +464,6 @@ void SqliteStorage::setNodeDefined(bool defined, Id nodeId)
 	m_database.execDML((
 		"UPDATE node SET defined = " + std::to_string(defined) + " WHERE id == " + std::to_string(nodeId) + ";"
 	).c_str());
-}
-
-Id SqliteStorage::getNameHierarchyElementIdByName(const std::string& name, Id parentId) const
-{
-	if (parentId)
-	{
-		return getFirstResult<Id>(
-			"SELECT id FROM name_hierarchy_element WHERE name == '" + name + "' AND parent_id == " + std::to_string(parentId) + ";"
-		);
-	}
-	else
-	{
-		return getFirstResult<Id>(
-			"SELECT id FROM name_hierarchy_element WHERE name == '" + name + "' AND parent_id IS NULL;"
-		);
-	}
-}
-
-Id SqliteStorage::getNameHierarchyElementIdByNodeId(const Id nodeId) const
-{
-	return getFirstResult<Id>(
-		"SELECT name_id FROM node WHERE id == " + std::to_string(nodeId) + ";"
-	);
-}
-
-std::vector<StorageNameHierarchyElement> SqliteStorage::getAllNameHierarchyElements() const
-{
-	std::vector<StorageNameHierarchyElement> ret;
-
-	CppSQLite3Query q = m_database.execQuery(
-		"SELECT * FROM name_hierarchy_element;"
-	);
-
-	while (!q.eof())
-	{
-		const Id id				= q.getIntField(0, 0);
-		const std::string name	= q.getStringField(1, "");
-		const Id parent_id		= q.getIntField(2, 0);
-
-
-		if (id != 0 && name != "" && parent_id != 0)
-		{
-			ret.push_back(StorageNameHierarchyElement(id, name, parent_id));
-		}
-		q.nextRow();
-	}
-
-	return ret;
-}
-
-NameHierarchy SqliteStorage::getNameHierarchyById(const Id id) const
-{
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT name, parent_id FROM name_hierarchy_element WHERE id == " + std::to_string(id) + ";"
-	).c_str());
-
-	NameHierarchy nameHierarchy;
-
-	if (!q.eof())
-	{
-		const std::string elementName = q.getStringField(0, "");
-		const Id parentId = q.getIntField(1, 0);
-
-		if (parentId > 0)
-		{
-			nameHierarchy = getNameHierarchyById(parentId);
-		}
-
-		if (elementName.size() > 0)
-		{
-			nameHierarchy.push(std::make_shared<NameElement>(elementName));
-		}
-	}
-
-	return nameHierarchy;
 }
 
 StorageSourceLocation SqliteStorage::getSourceLocationByData(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope) const
@@ -732,36 +601,6 @@ std::vector<StorageComponentAccess> SqliteStorage::getComponentAccessByMemberEdg
 	return accesses;
 }
 
-std::vector<Id> SqliteStorage::getNodeIdsBySignature(const std::string& signature) const
-{
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id FROM function_signature WHERE signature == '" + signature + "';"
-	).c_str());
-
-	std::vector<Id> ids;
-	while (!q.eof())
-	{
-		ids.push_back(q.getIntField(0, 0));
-		q.nextRow();
-	}
-
-	return ids;
-}
-
-std::string SqliteStorage::getSignatureByNodeId(Id nodeId) const
-{
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, signature FROM function_signature WHERE id == " + std::to_string(nodeId) + ";"
-	).c_str());
-
-	while (!q.eof())
-	{
-		return q.getStringField(1, "");
-	}
-
-	return "";
-}
-
 std::vector<StorageCommentLocation> SqliteStorage::getCommentLocationsInFile(const FilePath& filePath) const
 {
 	Id fileNodeId = getFileByPath(filePath.str()).id;
@@ -829,11 +668,6 @@ int SqliteStorage::getFileCount() const
 	return m_database.execScalar("SELECT COUNT(*) FROM file;");
 }
 
-int SqliteStorage::getNameHierarchyElementCount() const
-{
-	return m_database.execScalar("SELECT COUNT(*) FROM name_hierarchy_element;");
-}
-
 int SqliteStorage::getSourceLocationCount() const
 {
 	return m_database.execScalar("SELECT COUNT(*) FROM source_location;");
@@ -843,10 +677,8 @@ void SqliteStorage::clearTables()
 {
 	m_database.execDML("DROP TABLE IF EXISTS main.error;");
 	m_database.execDML("DROP TABLE IF EXISTS main.comment_location;");
-	m_database.execDML("DROP TABLE IF EXISTS main.function_signature;");
 	m_database.execDML("DROP TABLE IF EXISTS main.component_access;");
 	m_database.execDML("DROP TABLE IF EXISTS main.source_location;");
-	m_database.execDML("DROP TABLE IF EXISTS main.name_hierarchy_element;");
 	m_database.execDML("DROP TABLE IF EXISTS main.file;");
 	m_database.execDML("DROP TABLE IF EXISTS main.node;");
 	m_database.execDML("DROP TABLE IF EXISTS main.edge;");
@@ -886,11 +718,10 @@ void SqliteStorage::setupTables()
 		"CREATE TABLE IF NOT EXISTS node("
 			"id INTEGER NOT NULL, "
 			"type INTEGER NOT NULL, "
-			"name_id INTEGER NOT NULL, "
+			"serializedName TEXT, "
 			"defined INTEGER NOT NULL, "
 			"PRIMARY KEY(id), "
-			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE, "
-			"FOREIGN KEY(name_id) REFERENCES name_hierarchy_element(id) ON DELETE CASCADE);" // maybe use restrict here
+			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);"
 	);
 
 	m_database.execDML(
@@ -901,15 +732,6 @@ void SqliteStorage::setupTables()
 			"content TEXT, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES node(id) ON DELETE CASCADE);"
-	);
-
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS name_hierarchy_element("
-			"id INTEGER NOT NULL, "
-			"name TEXT, "
-			"parent_id INTEGER, "
-			"PRIMARY KEY(id), "
-			"FOREIGN KEY(parent_id) REFERENCES name_hierarchy_element(id) ON DELETE CASCADE);" // maybe use restrict here
 	);
 
 	m_database.execDML(
@@ -934,14 +756,6 @@ void SqliteStorage::setupTables()
 			"type INTEGER NOT NULL, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(edge_id) REFERENCES edge(id) ON DELETE CASCADE);"
-	);
-
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS function_signature("
-			"id INTEGER NOT NULL, "
-			"signature TEXT, "
-			"PRIMARY KEY(id), "
-			"FOREIGN KEY(id) REFERENCES node(id) ON DELETE CASCADE);"
 	);
 
 	m_database.execDML(
@@ -1011,16 +825,16 @@ StorageFile SqliteStorage::getFirstFile(const std::string& query) const
 	if (!q.eof())
 	{
 		const Id id							= q.getIntField(0, 0);
-		const Id nameId						= q.getIntField(1, 0);
+		const std::string serializedName	= q.getStringField(1, "");
 		const std::string filePath			= q.getStringField(2, "");
 		const std::string modificationTime	= q.getStringField(3, "");
 
-		if (id != 0 && nameId != 0)
+		if (id != 0)
 		{
-			return StorageFile(id, nameId, filePath, modificationTime);
+			return StorageFile(id, serializedName, filePath, modificationTime);
 		}
 	}
-	return StorageFile(0, 0, "", "");
+	return StorageFile(0, "", "", "");
 }
 
 std::vector<StorageFile> SqliteStorage::getAllFiles(const std::string& query) const
@@ -1032,13 +846,13 @@ std::vector<StorageFile> SqliteStorage::getAllFiles(const std::string& query) co
 	while (!q.eof())
 	{
 		const Id id							= q.getIntField(0, 0);
-		const Id nameId						= q.getIntField(1, 0);
+		const std::string serializedName	= q.getStringField(1, "");
 		const std::string filePath			= q.getStringField(2, "");
 		const std::string modificationTime	= q.getStringField(3, "");
 
-		if (id != 0 && nameId != 0)
+		if (id != 0)
 		{
-			files.push_back(StorageFile(id, nameId, filePath, modificationTime));
+			files.push_back(StorageFile(id, serializedName, filePath, modificationTime));
 		}
 		q.nextRow();
 	}
@@ -1129,7 +943,7 @@ std::vector<StorageEdge> SqliteStorage::getAllEdges(const std::string& query) co
 std::vector<StorageNode> SqliteStorage::getAllNodes(const std::string& query) const
 {
 	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, type, name_id, defined FROM node " + query + ";"
+		"SELECT id, type, serializedName, defined FROM node " + query + ";"
 	).c_str());
 
 	std::vector<StorageNode> nodes;
@@ -1137,12 +951,12 @@ std::vector<StorageNode> SqliteStorage::getAllNodes(const std::string& query) co
 	{
 		const Id id = q.getIntField(0, 0);
 		const int type = q.getIntField(1, -1);
-		const Id nameId = q.getIntField(2, 0);
+		const std::string serializedName = q.getStringField(2, "");
 		const bool defined = q.getIntField(3, 0);
 
 		if (id != 0 && type != -1)
 		{
-			nodes.push_back(StorageNode(id, type, nameId, defined));
+			nodes.push_back(StorageNode(id, type, serializedName, defined));
 		}
 
 		q.nextRow();

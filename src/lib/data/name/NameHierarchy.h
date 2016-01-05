@@ -10,6 +10,9 @@
 class NameHierarchy
 {
 public:
+	static std::string serialize(NameHierarchy nameHierarchy);
+	static NameHierarchy deserialize(const std::string& serializedName);
+
 	NameHierarchy();
 	NameHierarchy(const std::string& name);
 	~NameHierarchy();

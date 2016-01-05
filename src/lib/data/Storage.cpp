@@ -100,9 +100,9 @@ void Storage::clearFileElements(const std::vector<FilePath>& filePaths)
 	}
 }
 
-void Storage::removeUnusedNames()
+void Storage::removeUnusedNames() // maybe rename this function. look for callers first.
 {
-	m_sqliteStorage.removeUnusedNameHierarchyElements();
+//	m_sqliteStorage.removeUnusedNameHierarchyElements();
 
 	clearCaches();
 }
@@ -145,7 +145,6 @@ void Storage::logStats() const
 	ss << "\t" << m_tokenIndex.getCharCount() << " Characters\n";
 	ss << "\t" << m_tokenIndex.getWordCount() << " Words\n";
 	ss << "\t" << m_tokenIndex.getNodeCount() << " SearchNodes\n";
-	ss << "\t" << m_sqliteStorage.getNameHierarchyElementCount() << " NameHierarchyElements\n";
 
 	ss << "\nCode:\n";
 	ss << "\t" << m_sqliteStorage.getFileCount() << " Files\n";
@@ -685,26 +684,18 @@ Id Storage::onFileParsed(const FileInfo& fileInfo)
 {
 	log("file", fileInfo.path.str(), ParseLocation());
 
-	const std::string fileName = fileInfo.path.fileName();
-
-	Id nameHierarchyElementId = m_sqliteStorage.getNameHierarchyElementIdByName(fileName);
-	if (nameHierarchyElementId == 0)
-	{
-		nameHierarchyElementId = m_sqliteStorage.addNameHierarchyElement(fileName);
-	}
-
 	Id fileNodeId = getFileNodeId(fileInfo.path);
 	if (fileNodeId == 0)
 	{
+		NameHierarchy nameHierarchy;
+		nameHierarchy.push(std::make_shared<NameElement>(fileInfo.path.fileName()));
+
 		fileNodeId = m_sqliteStorage.addFile(
-			nameHierarchyElementId,
+			NameHierarchy::serialize(nameHierarchy),
 			fileInfo.path.str(),
 			utility::timeToString(fileInfo.lastWriteTime)
 		);
 	}
-
-	NameHierarchy nameHierarchy;
-	nameHierarchy.push(std::make_shared<NameElement>(fileName));
 
 	return fileNodeId;
 }
@@ -765,24 +756,13 @@ Id Storage::onCommentParsed(const ParseLocation& location)
 
 Id Storage::getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const
 {
-	Id currentId = 0;
-
-	for (size_t i = 0; i < nameHierarchy.size(); i++)
-	{
-		currentId = m_sqliteStorage.getNameHierarchyElementIdByName(nameHierarchy[i]->getFullName(), currentId);
-	}
-
-	std::vector<StorageNode> nodes = m_sqliteStorage.getNodesByNameId(currentId);
-	if (nodes.size() > 0) // TODO: make it impossible that one name id referrs to n nodes.
-	{
-		return nodes[0].id;
-	}
-	return 0;
+	return m_sqliteStorage.getNodeBySerializedName(NameHierarchy::serialize(nameHierarchy)).id;
 }
 
 Id Storage::getIdForEdge(
 	Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy
-) const {
+) const 
+{
 	Id sourceId = getIdForNodeWithNameHierarchy(fromNameHierarchy);
 	Id targetId = getIdForNodeWithNameHierarchy(toNameHierarchy);
 	return m_sqliteStorage.getEdgeBySourceTargetType(sourceId, targetId, type).id;
@@ -795,9 +775,7 @@ Id Storage::getIdForFirstNode() const
 
 NameHierarchy Storage::getNameHierarchyForNodeWithId(Id nodeId) const
 {
-	Id nameHierarchyElementId = m_sqliteStorage.getNameHierarchyElementIdByNodeId(nodeId);
-	return m_sqliteStorage.getNameHierarchyById(nameHierarchyElementId);
-	// return m_tokenIndex.getNameHierarchyForTokenId(nodeId).getFullName();
+	return NameHierarchy::deserialize(m_sqliteStorage.getNodeById(nodeId).serializedName);
 }
 
 Node::NodeType Storage::getNodeTypeForNodeWithId(Id nodeId) const
@@ -1053,7 +1031,7 @@ std::vector<Id> Storage::getTokenIdsForMatches(const std::vector<SearchMatch>& m
 
 Id Storage::getTokenIdForFileNode(const FilePath& filePath) const
 {
-	return m_sqliteStorage.getFileByName(filePath.fileName()).id;
+	return m_sqliteStorage.getFileByPath(filePath.str()).id;
 }
 
 std::vector<Id> Storage::getTokenIdsForAggregationEdge(Id sourceId, Id targetId) const
@@ -1306,73 +1284,34 @@ Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarch
 		return 0;
 	}
 
-	std::vector<Id> nameIds = addNameHierarchyElements(nameHierarchy);
-
 	Id parentNodeId = 0;
-	for (size_t i = 0; i < nameIds.size(); i++)
-	{
-		Id nameId = nameIds[i];
-		const bool isLastElement = (i == nameHierarchy.size() - 1);
-		const std::string& signature = nameHierarchy[i]->getFullSignature();
-		const bool hasSignature = (signature.size() > 0);
+	bool nodeMayExist = true;
+	NameHierarchy currentNameHierarchy;
 
+	for (size_t i = 0; i < nameHierarchy.size(); i++)
+	{
+		currentNameHierarchy.push(nameHierarchy[i]);
+		const bool isLastElement = (i == nameHierarchy.size() - 1);
 		Node::NodeType type = (isLastElement ? nodeType : Node::NODE_UNDEFINED);
 
-		StorageNode node(0, 0, 0, false);
-		if (hasSignature)
+		StorageNode node(0, 0, "", false);
+
+		if (nodeMayExist)
 		{
-			std::vector<Id> potentialIds = m_sqliteStorage.getNodeIdsBySignature(signature);
-			if (parentNodeId != 0)
-			{
-				for (size_t i = 0; i < potentialIds.size(); i++)
-				{
-					if (m_sqliteStorage.getEdgeBySourceTargetType(parentNodeId, potentialIds[i], Edge::EDGE_MEMBER).id != 0)
-					{
-						node = m_sqliteStorage.getNodeById(potentialIds[i]);
-						break;
-					}
-				}
-			}
-			else if (potentialIds.size() > 0)
-			{
-				node = m_sqliteStorage.getNodeById(potentialIds[0]);
-			}
-		}
-		else
-		{
-			std::vector<StorageNode> potentialIds = m_sqliteStorage.getNodesByNameId(nameId);
-			if (parentNodeId != 0)
-			{
-				for (size_t i = 0; i < potentialIds.size(); i++)
-				{
-					if (m_sqliteStorage.getEdgeBySourceTargetType(parentNodeId, potentialIds[i].id, Edge::EDGE_MEMBER).id != 0)
-					{
-						node = potentialIds[i];
-						break;
-					}
-				}
-			}
-			else if (potentialIds.size() > 0)
-			{
-				node = potentialIds[0];
-			}
+			node = m_sqliteStorage.getNodeBySerializedName(NameHierarchy::serialize(currentNameHierarchy));
 		}
 
 		Id nodeId = node.id;
 
-		if (nodeId && !node.defined && isLastElement && defined)
+		if (nodeId && !node.defined && isLastElement && defined) // todo: move this down!
 		{
 			m_sqliteStorage.setNodeDefined(true, nodeId);
 		}
 
 		if (nodeId == 0)
 		{
-			nodeId = m_sqliteStorage.addNode(Node::typeToInt(type), nameId, isLastElement && defined);
-
-			if (hasSignature)
-			{
-				m_sqliteStorage.addSignature(nodeId, signature);
-			}
+			nodeMayExist = false;
+			nodeId = m_sqliteStorage.addNode(Node::typeToInt(type), NameHierarchy::serialize(currentNameHierarchy), isLastElement && defined);
 
 			if (parentNodeId != 0)
 			{
@@ -1397,35 +1336,6 @@ Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarch
 Id Storage::addNodeHierarchy(Node::NodeType type, const ParseFunction& function, bool defined)
 {
 	return addNodeHierarchy(type, function.nameHierarchy, defined);
-}
-
-std::vector<Id> Storage::addNameHierarchyElements(NameHierarchy nameHierarchy)
-{
-	std::vector<Id> nameIds;
-	Id parentId = 0;
-	bool nodeMayExist = true;
-
-	for (size_t i = 0; i < nameHierarchy.size(); i++)
-	{
-		const std::string elementName = nameHierarchy[i]->getFullName();
-		Id nodeId = 0;
-
-		if (nodeMayExist)
-		{
-			nodeId = m_sqliteStorage.getNameHierarchyElementIdByName(elementName, parentId);
-		}
-
-		if (nodeId == 0)
-		{
-			nodeId = m_sqliteStorage.addNameHierarchyElement(elementName, parentId);
-			nodeMayExist = false;
-		}
-
-		nameIds.push_back(nodeId);
-		parentId = nodeId;
-	}
-
-	return nameIds;
 }
 
 Id Storage::addSourceLocation(Id elementNodeId, const ParseLocation &location, bool isScope)
@@ -1681,9 +1591,13 @@ void Storage::addNodesToGraph(const std::vector<Id> nodeIds, Graph* graph) const
 
 		if (type == Node::NODE_FUNCTION || type == Node::NODE_METHOD)
 		{
-			node->addComponentSignature(
-				std::make_shared<TokenComponentSignature>(m_sqliteStorage.getSignatureByNodeId(storageNode.id))
-			);
+			std::shared_ptr<NameElement> lastElement = NameHierarchy::deserialize(storageNode.serializedName).back();
+			if (lastElement)
+			{
+				node->addComponentSignature(
+					std::make_shared<TokenComponentSignature>(lastElement->getFullSignature())
+				);
+			}
 		}
 	}
 }
@@ -1786,7 +1700,7 @@ void Storage::buildSearchIndex()
 {
 	for (StorageNode node: m_sqliteStorage.getAllNodes())
 	{
-		m_tokenIndex.addTokenId(m_tokenIndex.addNode(m_sqliteStorage.getNameHierarchyById(node.nameId)), node.id);
+		m_tokenIndex.addTokenId(m_tokenIndex.addNode(NameHierarchy::deserialize(node.serializedName)), node.id);
 	}
 }
 
