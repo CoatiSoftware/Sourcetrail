@@ -9,6 +9,7 @@
 #include "utility/TimePoint.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
+#include "utility/Version.h"
 
 #include "data/graph/token_component/TokenComponentAggregation.h"
 #include "data/graph/token_component/TokenComponentSignature.h"
@@ -22,7 +23,6 @@
 #include "data/parser/ParseVariable.h"
 #include "data/type/DataType.h"
 #include "settings/ApplicationSettings.h"
-#include "utility/Version.h"
 
 Storage::Storage(const FilePath& dbPath)
 	: m_sqliteStorage(dbPath.str())
@@ -36,6 +36,11 @@ Storage::~Storage()
 Version Storage::getVersion() const
 {
 	return m_sqliteStorage.getVersion();
+}
+
+bool Storage::init()
+{
+	return m_sqliteStorage.init();
 }
 
 void Storage::clear()
@@ -761,7 +766,7 @@ Id Storage::getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) co
 
 Id Storage::getIdForEdge(
 	Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy
-) const 
+) const
 {
 	Id sourceId = getIdForNodeWithNameHierarchy(fromNameHierarchy);
 	Id targetId = getIdForNodeWithNameHierarchy(toNameHierarchy);

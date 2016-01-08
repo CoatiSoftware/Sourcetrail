@@ -24,6 +24,7 @@ public:
 
 	Version getVersion() const;
 
+	bool init();
 	void clear();
 	void clearCaches();
 

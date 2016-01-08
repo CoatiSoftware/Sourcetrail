@@ -54,7 +54,12 @@ Version::Version()
 {
 }
 
-bool Version::operator<(const Version& other)
+bool Version::isEmpty() const
+{
+	return m_majorNumber == 0 && m_minorNumber == 0 && m_refreshNumber == 0 && m_commitNumber == 0;
+}
+
+bool Version::operator<(const Version& other) const
 {
 	if (m_majorNumber != other.m_majorNumber)
 	{
@@ -78,7 +83,7 @@ bool Version::operator<(const Version& other)
 	}
 }
 
-bool Version::isOlderStorageVersionThan(const Version& other)
+bool Version::isOlderStorageVersionThan(const Version& other) const
 {
 	if (m_majorNumber != other.m_majorNumber)
 	{

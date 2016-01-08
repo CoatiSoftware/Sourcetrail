@@ -13,8 +13,9 @@ public:
 
 	Version();
 
-	bool operator<(const Version& other);
-	bool isOlderStorageVersionThan(const Version& other);
+	bool isEmpty() const;
+	bool operator<(const Version& other) const;
+	bool isOlderStorageVersionThan(const Version& other) const;
 
 	std::string toString() const;
 	std::string toDisplayString() const;

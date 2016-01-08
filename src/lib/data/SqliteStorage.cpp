@@ -11,12 +11,31 @@
 SqliteStorage::SqliteStorage(const std::string& dbFilePath)
 {
 	m_database.open(dbFilePath.c_str());
-	setup();
 }
 
 SqliteStorage::~SqliteStorage()
 {
 	m_database.close();
+}
+
+bool SqliteStorage::init()
+{
+	Version version = getVersion();
+
+	if (version.isEmpty())
+	{
+		setup();
+		return false;
+	}
+	else if (version.isOlderStorageVersionThan(Version::getApplicationVersion()))
+	{
+		clear();
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
 
 void SqliteStorage::setup()
@@ -688,8 +707,8 @@ void SqliteStorage::setupTables()
 			"defined INTEGER NOT NULL, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);"
-	);	
-	
+	);
+
 	m_database.execDML(
 		"CREATE INDEX IF NOT EXISTS node_serializedName_index ON node(serializedName);"
 	);

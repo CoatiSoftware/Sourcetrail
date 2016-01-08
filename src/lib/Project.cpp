@@ -150,12 +150,7 @@ void Project::setProjectSettingsFilePath(const FilePath& path)
 		if (!m_storage || !dbPath.exists())
 		{
 			m_storage = std::make_shared<Storage>(dbPath);
-		}
-
-		if (m_storageWasLoaded && m_storage->getVersion().isOlderStorageVersionThan(Version::getApplicationVersion()))
-		{
-			m_storage->clear();
-			m_storageWasLoaded = false;
+			m_storageWasLoaded = m_storage->init();
 		}
 	}
 

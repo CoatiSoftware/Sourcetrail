@@ -23,6 +23,7 @@ public:
 	SqliteStorage(const std::string& dbFilePath);
 	~SqliteStorage();
 
+	bool init();
 	void setup();
 	void clear();
 
