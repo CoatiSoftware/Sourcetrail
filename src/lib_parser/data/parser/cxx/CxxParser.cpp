@@ -105,6 +105,9 @@ std::vector<std::string> CxxParser::getCommandlineArguments(const Arguments& arg
 	// be AST elements for unused template functions as well.
 	args.push_back("-fno-delayed-template-parsing");
 
+	// The option -fexceptions signals that clang should watch out for exception-related code during analysis.
+	args.push_back("-fexceptions");
+
 	// The option -c signals that no executable is built.
 	args.push_back("-c");
 
