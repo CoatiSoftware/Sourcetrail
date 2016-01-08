@@ -44,11 +44,9 @@ public:
 	Id addError(const std::string& message, const std::string& filePath, uint lineNumber, uint columnNumber);
 
 	void removeElement(Id id);
+	void removeElements(const std::vector<Id>& ids);
 	void removeElementsWithLocationInFiles(const std::vector<Id>& fileIds);
-	void removeFile(Id id);
-	void removeFiles(const std::vector<Id>& fileIds);
 
-	void removeCommentLocationsInFiles(const std::vector<FilePath>& filePaths);
 	void removeErrorsInFiles(const std::vector<FilePath>& filePaths);
 
 	StorageNode getFirstNode() const;
@@ -84,9 +82,7 @@ public:
 	void setNodeType(int type, Id nodeId);
 	void setNodeDefined(bool defined, Id nodeId);
 
-	StorageSourceLocation getSourceLocationByData(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope) const;
 	StorageSourceLocation getSourceLocationById(const Id id) const;
-	std::vector<StorageSourceLocation> getAllSourceLocations() const;
 	std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const FilePath& filePath) const;
 	std::vector<StorageSourceLocation> getTokenLocationsForElementId(const Id elementId) const;
 
@@ -115,7 +111,6 @@ private:
 	StorageFile getFirstFile(const std::string& query) const;
 	std::vector<StorageFile> getAllFiles(const std::string& query) const;
 	StorageSourceLocation getFirstSourceLocation(const std::string& query) const;
-	std::vector<StorageSourceLocation> getAllSourceLocations(const std::string& query) const;
 
 	std::vector<StorageEdge> getAllEdges(const std::string& query) const;
 	std::vector<StorageNode> getAllNodes(const std::string& query) const;

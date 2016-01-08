@@ -180,6 +180,13 @@ void SqliteStorage::removeElement(Id id)
 	).c_str());
 }
 
+void SqliteStorage::removeElements(const std::vector<Id>& ids)
+{
+	m_database.execDML((
+		"DELETE FROM element WHERE id IN (" + utility::join(utility::toStrings(ids), ',') + ");"
+	).c_str());
+}
+
 void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fileIds)
 {
 	CppSQLite3Query q = m_database.execQuery((
@@ -202,27 +209,6 @@ void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fil
 	m_database.execDML((
 		"DELETE FROM element WHERE element.id IN (" + utility::join(utility::toStrings(elementIds), ',') + ") AND element.id NOT IN "
 			"( SELECT source_location.element_id FROM source_location WHERE source_location.element_id == element.id );"
-	).c_str());
-}
-
-void SqliteStorage::removeFile(Id id)
-{
-	if (isFile(id))
-	{
-		m_database.execDML((
-			"DELETE FROM element WHERE id == " + std::to_string(id) + ";"
-		).c_str());
-	}
-	else
-	{
-		LOG_WARNING("Removing file from DB failed since there is no file element with id " + std::to_string(id));
-	}
-}
-
-void SqliteStorage::removeFiles(const std::vector<Id>& fileIds)
-{
-	m_database.execDML((
-		"DELETE FROM element WHERE id IN (" + utility::join(utility::toStrings(fileIds), ',') + ");"
 	).c_str());
 }
 
@@ -466,30 +452,10 @@ void SqliteStorage::setNodeDefined(bool defined, Id nodeId)
 	).c_str());
 }
 
-StorageSourceLocation SqliteStorage::getSourceLocationByData(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope) const
-{
-	return getFirstSourceLocation((
-		"SELECT * FROM source_location WHERE element_id == " + std::to_string(elementId)
-		+ " AND file_node_id == " + std::to_string(fileNodeId)
-		+ " AND start_line == " + std::to_string(startLine)
-		+ " AND start_column == " + std::to_string(startCol)
-		+ " AND end_line == " + std::to_string(endLine)
-		+ " AND end_column == " + std::to_string(endCol)
-		+ " AND is_scope == " + std::to_string(isScope) + ";"
-	).c_str());
-}
-
 StorageSourceLocation SqliteStorage::getSourceLocationById(const Id id) const
 {
 	return getFirstSourceLocation(
 		"SELECT id, element_id, file_node_id, start_line, start_column, end_line, end_column, is_scope FROM source_location WHERE id == " + std::to_string(id) + ";"
-	);
-}
-
-std::vector<StorageSourceLocation> SqliteStorage::getAllSourceLocations() const
-{
-	return getAllSourceLocations(
-		"SELECT * FROM source_location;"
 	);
 }
 
@@ -722,6 +688,10 @@ void SqliteStorage::setupTables()
 			"defined INTEGER NOT NULL, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);"
+	);	
+	
+	m_database.execDML(
+		"CREATE INDEX IF NOT EXISTS node_serializedName_index ON node(serializedName);"
 	);
 
 	m_database.execDML(
@@ -884,36 +854,6 @@ StorageSourceLocation SqliteStorage::getFirstSourceLocation(const std::string& q
 	}
 
 	return StorageSourceLocation(0, 0, 0, -1, -1, -1, -1, -1);
-}
-
-std::vector<StorageSourceLocation> SqliteStorage::getAllSourceLocations(const std::string& query) const
-{
-	std::vector<StorageSourceLocation> sourceLocations;
-
-	CppSQLite3Query q = m_database.execQuery(query.c_str());
-
-	while (!q.eof())
-	{
-		const Id id					= q.getIntField(0, 0);
-		const Id elementId			= q.getIntField(1, 0);
-		const Id fileNodeId			= q.getIntField(2, 0);
-		const int startLineNumber	= q.getIntField(3, -1);
-		const int startColNumber	= q.getIntField(4, -1);
-		const int endLineNumber		= q.getIntField(5, -1);
-		const int endColNumber		= q.getIntField(6, -1);
-		const int isScope			= q.getIntField(7, -1);
-
-		if (id != 0 && elementId != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1 && isScope != -1)
-		{
-			sourceLocations.push_back(StorageSourceLocation(
-				id, elementId, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber, isScope
-			));
-		}
-
-		q.nextRow();
-	}
-
-	return sourceLocations;
 }
 
 std::vector<StorageEdge> SqliteStorage::getAllEdges(const std::string& query) const

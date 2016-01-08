@@ -94,7 +94,7 @@ void Storage::clearFileElements(const std::vector<FilePath>& filePaths)
 	if (fileNodeIds.size())
 	{
 		m_sqliteStorage.removeElementsWithLocationInFiles(fileNodeIds);
-		m_sqliteStorage.removeFiles(fileNodeIds);
+		m_sqliteStorage.removeElements(fileNodeIds);
 
 		m_sqliteStorage.removeErrorsInFiles(filePaths);
 	}
