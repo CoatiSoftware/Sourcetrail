@@ -12,8 +12,10 @@
 /bin/lib/
 /bin/lib_gui/
 /bin/lib_parser/
+/bin/lib_license/
 
-/bin/gen/
+/bin/license_generator/Debug/
+/bin/license_generator/Release/
 
 /bin/test/Debug/
 /bin/test/Release/

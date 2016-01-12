@@ -45,9 +45,6 @@ if [ $PLATFORM == "Windows" ]; then
 	cp -u -r setup/dynamic_libraries/windows/app/Debug/* bin/app/Debug
 	cp -u -r setup/dynamic_libraries/windows/app/Release/* bin/app/Release
 
-	cp -u -r setup/dynamic_libraries/windows/test/Debug/* bin/test/Debug
-	cp -u -r setup/dynamic_libraries/windows/test/Release/* bin/test/Release
-
 	echo -e $INFO "copy test_main file"
 	cp -u setup/cxx_test/windows/test_main.cpp build
 

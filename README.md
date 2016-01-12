@@ -19,7 +19,7 @@
 * CLANG_DIR - .../clang-llvm/
 * BOOST_159_DIR - .../boost_1_59_0
 * EIGEN_DIR - .../eigen
-* BOTAN_DIR -
+* BOTAN_DIR - .../Botan-1.11.24
 
 For Win32:
 * VLD_DIR - .../Visual Leak Detector
@@ -27,7 +27,11 @@ For Win32:
 
 ###### Botan setup
 
-$ ./configure.py --via-amalgamation --minimized-build --enable-modules="base,ecdsa,emsa1,passhash9,rng,rsa,egd,emsa_pssr,emsa_pkcs1,x509,aes,dev_random"
+for Windows:
+$ python configure.py --cc=msvc --cpu=x86_32 --via-amalgamation --disable-shared
+
+for other:
+$ python configure.py --via-amalgamation --disable-shared
 
 ##### Settings
 

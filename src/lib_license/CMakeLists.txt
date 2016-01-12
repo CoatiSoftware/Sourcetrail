@@ -1,5 +1,5 @@
 add_files(
-	GEN_FILES
+	LIB_LICENSE_FILES
 
 	Generator.cpp
 	Generator.h

@@ -17,9 +17,11 @@ set(PROJECT_NAME Coati)
 
 set(APP_PROJECT_NAME "${PROJECT_NAME}")
 set(TRIAL_PROJECT_NAME "${PROJECT_NAME}_trial")
+set(LIB_LICENSE_PROJECT_NAME "${PROJECT_NAME}_lib_license")
 set(LIB_GUI_PROJECT_NAME "${PROJECT_NAME}_lib_gui")
 set(LIB_PARSER_PROJECT_NAME "${PROJECT_NAME}_lib_parser")
 set(LIB_PROJECT_NAME "${PROJECT_NAME}_lib")
+set(LICENSE_GENERATOR_PROJECT_NAME "${PROJECT_NAME}_license_generator")
 set(TEST_PROJECT_NAME "${PROJECT_NAME}_test")
 
 if (WIN32)
@@ -60,12 +62,12 @@ add_definitions(${CLANG_DEFINITIONS})
 
 set(BOOST_ROOT $ENV{BOOST_159_DIR})
 set(Boost_USE_MULTITHREAD ON)
-set(Boost_USE_STATIC_LIBS OFF)
+set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 Set(Boost_NO_SYSTEM_PATHS ON)
 set(BOOST_LIBRARYDIR $ENV{BOOST_159_DIR})
 
-find_package(Boost 1.59 COMPONENTS system filesystem date_time REQUIRED)
+find_package(Boost 1.59 COMPONENTS system program_options filesystem date_time REQUIRED)
 
 # Eigen ------------------------------------------------------------------------
 
@@ -74,36 +76,7 @@ set(EIGEN_ROOT $ENV{EIGEN_DIR})
 
 # Botan -------------------------------------------------------------------------
 
-# include(cmake/BotanConfig.cmake)
-
-set(BOTAN_ROOT $ENV{BOTAN_DIR})
-
-FIND_PACKAGE ( Threads REQUIRED )
-
-message(STATUS ${BOTAN_ROOT})
-add_library(BOTAN STATIC ${BOTAN_ROOT}/botan_all.cpp)
-
-target_link_libraries(BOTAN ${CMAKE_THREAD_LIBS_INIT})
-target_compile_options(BOTAN PUBLIC "-pthread")
-
-set_property(
-	TARGET BOTAN
-	PROPERTY INCLUDE_DIRECTORIES
-		"${BOTAN_ROOT}"
-)
-
-# set(BOTAN_MODULES "base,ecdsa,emsa1,passhash9,rng,rsa,egd,emsa_pssr,emsa_pkcs1,x509,aes,dev_random")
-
-# ExternalProject_Add(BOTAN
-# 	PREFIX $ENV{COATI_DEPEND_DIR}/botan
-# 	GIT_REPOSITORY https://github.com/randombit/botan.git/
-# 	GIT_TAG 1.11.23
-# 	CONFIGURE_COMMAND ./configure.py --gen-amalgamation --minimized-build --enable-modules=${BOTAN_MODULES}
-
-# 	)
-
-# license/key generator and license class include
-add_subdirectory(src/gen)
+find_library(BOTAN botan $ENV{BOTAN_DIR})
 
 # Lib --------------------------------------------------------------------------
 
@@ -141,7 +114,6 @@ target_include_directories(${LIB_PROJECT_NAME} SYSTEM
 	${Boost_INCLUDE_DIRS}
 	${EIGEN_ROOT}
     "${CMAKE_SOURCE_DIR}/src/external"
-	"${BOTAN_ROOT}"
 )
 
 target_link_libraries(${LIB_PROJECT_NAME} ${Boost_LIBRARIES})
@@ -175,6 +147,32 @@ target_include_directories(${LIB_PARSER_PROJECT_NAME} SYSTEM
 link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
 
 target_link_libraries(${LIB_PARSER_PROJECT_NAME} ${CLANG_LIBRARIES} ${LLVM_AVAILABLE_LIBS})
+
+# Lib License -------------------------------------------------------------------
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_license)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_license)
+
+add_subdirectory(src/lib_license)
+
+add_library(${LIB_LICENSE_PROJECT_NAME} ${LIB_LICENSE_FILES})
+
+create_source_groups(${LIB_LICENSE_FILES})
+
+set_property(
+		TARGET ${LIB_LICENSE_PROJECT_NAME}
+		PROPERTY INCLUDE_DIRECTORIES
+		"${CMAKE_SOURCE_DIR}/src/lib_license"
+)
+
+target_include_directories(${LIB_LICENSE_PROJECT_NAME} SYSTEM
+	PUBLIC "$ENV{BOTAN_DIR}"
+	${Boost_INCLUDE_DIRS}
+)
+
+link_directories("$ENV{BOTAN_DIR}")
+
+target_link_libraries(${LIB_LICENSE_PROJECT_NAME} ${BOTAN})
 
 # Lib Gui ----------------------------------------------------------------------
 
@@ -231,16 +229,16 @@ create_source_groups(${LIB_GUI_FILES})
 set_property(
 	TARGET ${LIB_GUI_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
+		"${CMAKE_SOURCE_DIR}/build/src/lib_gui"
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/lib_gui"
-		"${CMAKE_SOURCE_DIR}/build/src/lib_gui"
-		"${CMAKE_SOURCE_DIR}/src/gen"
-		"${BOTAN_ROOT}"
+		"${CMAKE_SOURCE_DIR}/src/lib_license"
 )
 
 # include external header without warnings
 target_include_directories(${LIB_GUI_PROJECT_NAME} SYSTEM
 		PUBLIC "${CMAKE_SOURCE_DIR}/src/external"
+		PUBLIC "$ENV{BOTAN_DIR}"
 		PUBLIC ${Boost_INCLUDE_DIRS}
 )
 
@@ -301,7 +299,7 @@ endif ()
 
 create_source_groups(${APP_FILES})
 
-target_link_libraries(${APP_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME} BOTAN)
+target_link_libraries(${APP_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME})
 
 set_property(
 	TARGET ${APP_PROJECT_NAME}
@@ -309,10 +307,10 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/app"
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/lib_gui"
+		"${CMAKE_SOURCE_DIR}/src/lib_license"
 		"${CMAKE_SOURCE_DIR}/src/lib_parser"
 		"${CMAKE_SOURCE_DIR}/build/src/lib_gui"
 		"${CMAKE_SOURCE_DIR}/build/src/app"
-		"${CMAKE_SOURCE_DIR}/src/gen"
 )
 
 target_include_directories(${APP_PROJECT_NAME} SYSTEM
@@ -365,7 +363,7 @@ endif ()
 
 create_source_groups(${TRIAL_FILES})
 
-target_link_libraries(${TRIAL_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PROJECT_NAME} BOTAN)
+target_link_libraries(${TRIAL_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} )
 
 set_property(
 	TARGET ${TRIAL_PROJECT_NAME}
@@ -435,46 +433,31 @@ if (APPLE)
 
 endif ()
 
-# Key/LicenseGenerator  --------------------------------------------------------
+# License Generator  --------------------------------------------------------
 
-set(BOOST_ROOT $ENV{BOOST_159_DIR})
-set(Boost_USE_STATIC_LIBS ON)
-set(Boost_USE_STATIC_RUNTIME ON)
-Set(Boost_NO_SYSTEM_PATHS ON)
-
-find_package(Boost 1.59 COMPONENTS system program_options filesystem REQUIRED)
-
-set(GEN_PROJECT_NAME "${PROJECT_NAME}_keygen")
-
-create_source_groups(${GEN_FILES})
+add_subdirectory(src/license_generator)
 
 if (UNIX)
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/gen/${CMAKE_BUILD_TYPE})
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/license_generator/${CMAKE_BUILD_TYPE})
 else ()
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/gen/)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/license_generator/)
 endif ()
 
-add_executable(${GEN_PROJECT_NAME} "${CMAKE_SOURCE_DIR}/src/gen/gen.cpp" ${GEN_FILES})
+add_executable(${LICENSE_GENERATOR_PROJECT_NAME} ${LICENSE_GENERATOR_FILES})
 
-set_target_properties(
-		${GEN_PROJECT_NAME}
-		PROPERTIES
-		DEBUG_OUTPUT_NAME ${GEN_PROJECT_NAME}_d
-		RELEASE_OUTPUT_NAME ${GEN_PROJECT_NAME}
-)
+create_source_groups(${LICENSE_GENERATOR_FILES})
 
 set_property(
-		TARGET ${GEN_PROJECT_NAME}
+		TARGET ${LICENSE_GENERATOR_PROJECT_NAME}
 		PROPERTY INCLUDE_DIRECTORIES
-		"${CMAKE_SOURCE_DIR}/src/gen"
+		"${CMAKE_SOURCE_DIR}/src/lib_license"
 )
 
-target_include_directories(${GEN_PROJECT_NAME} SYSTEM
-		PUBLIC "${BOTAN_ROOT}"
-		${Boost_INCLUDE_DIRS}
+target_include_directories(${LICENSE_GENERATOR_PROJECT_NAME} SYSTEM
+		PUBLIC ${Boost_INCLUDE_DIRS}
 )
 
-target_link_libraries(${GEN_PROJECT_NAME} BOTAN ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES} )
+target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} ${Boost_LIBRARIES} )
 
 # CxxTest ----------------------------------------------------------------------
 
@@ -492,23 +475,22 @@ set(TESTGEN_FILE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp)
 
 find_package(PythonInterp REQUIRED)
 
-add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE} ${TEST_FILES} ${GEN_FILES})
+add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE} ${TEST_FILES} )
 
 create_source_groups(${TEST_FILES})
 
-target_link_libraries(${TEST_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME} BOTAN)
+target_link_libraries(${TEST_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME})
 
 find_package(CxxTest)
 if (CXXTEST_FOUND)
 	set_property(
 		TARGET ${TEST_PROJECT_NAME}
 		PROPERTY INCLUDE_DIRECTORIES
+			"${CXXTEST_INCLUDE_DIR}"
 			"${CMAKE_SOURCE_DIR}/src/lib"
 			"${CMAKE_SOURCE_DIR}/src/lib_parser"
-            "${CMAKE_SOURCE_DIR}/src/gen"
-            "${BOTAN_ROOT}"
-			"${CXXTEST_INCLUDE_DIR}"
 			"${CMAKE_SOURCE_DIR}/src/external"
+			"${CMAKE_SOURCE_DIR}/src/lib_license"
 			${Boost_INCLUDE_DIRS}
 	)
 endif (CXXTEST_FOUND)
