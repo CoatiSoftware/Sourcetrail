@@ -215,7 +215,7 @@ void ConfigManager::setValues(const std::string& key, const std::vector<bool>& v
 	setValues(key, stringValues);
 }
 
-void ConfigManager::load(const std::shared_ptr<TextAccess> textAccess)
+bool ConfigManager::load(const std::shared_ptr<TextAccess> textAccess)
 {
 	std::string text = textAccess->getText();
 
@@ -225,6 +225,11 @@ void ConfigManager::load(const std::shared_ptr<TextAccess> textAccess)
 	{
 		TiXmlHandle docHandle(&doc);
 		TiXmlNode *rootNode = docHandle.FirstChild("config").ToNode();
+		if(rootNode == nullptr)
+		{
+			LOG_ERROR("No rootelement 'config' in the configfile");
+			return false;
+		}
 		for (TiXmlNode *childNode = rootNode->FirstChild(); childNode; childNode = childNode->NextSibling())
 		{
 			parseSubtree(childNode, "");
@@ -233,7 +238,9 @@ void ConfigManager::load(const std::shared_ptr<TextAccess> textAccess)
 	else
 	{
 		LOG_ERROR("Unable to load file.");
+		return false;
 	}
+	return true;
 }
 
 void ConfigManager::save(const std::string filepath)

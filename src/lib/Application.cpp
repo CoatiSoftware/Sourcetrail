@@ -91,6 +91,7 @@ void Application::loadProject(const FilePath& projectSettingsFilePath)
 	m_project->loadProject(projectSettingsFilePath);
 
 	m_mainView->updateRecentProjectMenu();
+	m_mainView->hideStartScreen();
 }
 
 void Application::refreshProject()

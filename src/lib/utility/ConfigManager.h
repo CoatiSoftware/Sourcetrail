@@ -37,7 +37,7 @@ public:
 	void setValues(const std::string& key, const std::vector<float>& values);
 	void setValues(const std::string& key, const std::vector<bool>& values);
 
-	void load(const std::shared_ptr<TextAccess> textAccess);
+	bool load(const std::shared_ptr<TextAccess> textAccess);
 	void save(const std::string filepath);
 	std::string toString();
 

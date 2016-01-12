@@ -9,6 +9,7 @@
 
 #include "Application.h"
 #include "includes.h" // defines 'void setup(int argc, char *argv[])'
+#include "qt/commandline/QtCommandLineParser.h"
 #include "qt/window/QtMainWindow.h"
 #include "qt/window/QtSplashScreen.h"
 #include "qt/network/QtNetworkFactory.h"
@@ -38,6 +39,12 @@ int main(int argc, char *argv[])
 
 	setup(argc, argv);
 	QApplication qtApp(argc, argv);
+	QApplication::setApplicationName("Coati");
+	QApplication::setApplicationVersion(version.toDisplayString().c_str());
+
+	QtCommandLineParser commandLineParser;
+	commandLineParser.setup();
+	commandLineParser.process(qtApp);
 
 	qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
 
@@ -62,6 +69,8 @@ int main(int argc, char *argv[])
 	{
 		delete splash;
 	}
+
+	commandLineParser.parseCommandline();
 
 	return qtApp.exec();
 }
