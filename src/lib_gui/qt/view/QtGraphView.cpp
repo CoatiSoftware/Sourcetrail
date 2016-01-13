@@ -50,6 +50,7 @@ void QtGraphicsView::mouseReleaseEvent(QMouseEvent *event)
 	}
 
 	QGraphicsView::mouseReleaseEvent(event);
+	viewport()->setCursor(Qt::ArrowCursor);
 }
 
 
@@ -88,6 +89,8 @@ void QtGraphView::initView()
 	view->setScene(scene);
 	view->setDragMode(QGraphicsView::ScrollHandDrag);
 	view->setRenderHints(QPainter::Antialiasing);
+	view->viewport()->setCursor(Qt::ArrowCursor);
+
 
 	widget->layout()->addWidget(view);
 

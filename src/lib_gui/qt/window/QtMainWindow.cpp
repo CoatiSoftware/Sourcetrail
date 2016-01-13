@@ -115,7 +115,7 @@ QtMainWindow::QtMainWindow()
 	setWindowIcon(QIcon("./data/gui/icon/logo_1024_1024.png"));
 	setWindowFlags(Qt::Widget);
 
-	QApplication::setOverrideCursor(Qt::ArrowCursor);
+//	QApplication::setOverrideCursor(Qt::ArrowCursor);
 
 	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
 	app->installEventFilter(new MouseReleaseFilter(this));

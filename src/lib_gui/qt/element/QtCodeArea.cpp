@@ -100,6 +100,7 @@ QtCodeArea::QtCodeArea(
 	setFrameStyle(QFrame::NoFrame);
 	setLineWrapMode(QPlainTextEdit::NoWrap);
 	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
+	viewport()->setCursor(Qt::ArrowCursor);
 
 	m_lineNumberArea = new LineNumberArea(this);
 	m_highlighter = new QtHighlighter(document());
