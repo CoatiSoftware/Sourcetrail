@@ -761,7 +761,15 @@ Id Storage::onCommentParsed(const ParseLocation& location)
 
 Id Storage::getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const
 {
-	return m_sqliteStorage.getNodeBySerializedName(NameHierarchy::serialize(nameHierarchy)).id;
+	// return m_sqliteStorage.getNodeBySerializedName(NameHierarchy::serialize(nameHierarchy)).id;
+
+	const SearchNode* node = m_tokenIndex.getNode(nameHierarchy);
+	if (node)
+	{
+		return node->getFirstTokenId();
+	}
+
+	return 0;
 }
 
 Id Storage::getIdForEdge(

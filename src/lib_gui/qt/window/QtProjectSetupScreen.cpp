@@ -94,6 +94,9 @@ void QtProjectSetupScreen::loadEmpty()
 {
 	updateTitle("NEW PROJECT");
 	updateDoneButton("Create");
+
+	m_cppStandard->setCurrentIndex(5);
+	m_cStandard->setCurrentIndex(4);
 }
 
 void QtProjectSetupScreen::loadProjectSettings()
