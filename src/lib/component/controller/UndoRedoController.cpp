@@ -140,7 +140,9 @@ void UndoRedoController::handleMessage(MessageRefresh* message)
 
 	if (requiresActivateFallbackToken())
 	{
-		Id nodeId = m_storageAccess->getIdForNodeWithNameHierarchy(NameHierarchy("main"));
+		NameHierarchy mainNameHierarchy;
+		mainNameHierarchy.push(std::make_shared<NameElement>("main", "int main()"));
+		Id nodeId = m_storageAccess->getIdForNodeWithNameHierarchy(mainNameHierarchy);
 		if (!nodeId)
 		{
 			nodeId = m_storageAccess->getIdForFirstNode();

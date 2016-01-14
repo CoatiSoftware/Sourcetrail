@@ -651,12 +651,12 @@ private:
 		}
 	};
 
-	ParseLocation validLocation(Id locationId = 0) const // id is not used as id ..... who programs this? ebsi? :P
+	ParseLocation validLocation(Id locationId = 0) const
 	{
 		return ParseLocation(m_filePath, 1, locationId, 1, locationId);
 	}
 
-	bool isValidLocation(TokenLocation* location, Id locationId) const // remove this one
+	bool isValidLocation(TokenLocation* location, Id locationId) const
 	{
 		return
 			location->getFilePath() == m_filePath &&
