@@ -98,10 +98,7 @@ std::shared_ptr<DataType> CxxTypeNameResolver::typeToDataType(const clang::Type*
 			pp.SuppressTagKeyword = true;	// value "true": for a class A it prints "A" instead of "class A"
 			pp.Bool = true;					// value "true": prints bool type as "bool" instead of "_Bool"
 
-			clang::SmallString<64> Buf;
-			llvm::raw_svector_ostream StrOS(Buf);
-			clang::QualType::print(type, clang::Qualifiers(), StrOS, pp, clang::Twine());
-			std::string typeName = StrOS.str();
+			std::string typeName = type->getAs<clang::BuiltinType>()->getName(pp);
 
 			NameHierarchy typeNameHerarchy;
 			typeNameHerarchy.push(std::make_shared<NameElement>(typeName));
@@ -138,7 +135,7 @@ std::shared_ptr<DataType> CxxTypeNameResolver::typeToDataType(const clang::Type*
 					templateArgumentNamePart += ">";
 
 					std::string declName = typeNameHerarchy.back()->getFullName();
-					declName = declName.substr(0, declName.rfind("<"));	// remove template parameters - TODO: FIX: does not work for A<ajaj<ajsj>>
+					declName = declName.substr(0, declName.rfind("<"));	// remove template parameters
 					declName += templateArgumentNamePart;				// add template arguments
 					typeNameHerarchy.pop();
 					typeNameHerarchy.push(std::make_shared<NameElement>(declName));
@@ -184,9 +181,16 @@ std::shared_ptr<DataType> CxxTypeNameResolver::typeToDataType(const clang::Type*
 			dataType = qualTypeToDataType(autoType->getDeducedType());
 			break;
 		}
+	case clang::Type::Decltype:
+		{
+			const clang::DecltypeType* decltypeType = clang::dyn_cast<clang::DecltypeType>(type);
+			dataType = qualTypeToDataType(decltypeType->getUnderlyingType());
+			break;
+		}
 	default:
 		{
-			LOG_INFO(std::string("Unhandled kind of type encountered: ") + type->getTypeClassName());
+			std::string typeClassName = type->getTypeClassName();
+			LOG_INFO(std::string("Unhandled kind of type encountered: ") + typeClassName);
 			clang::PrintingPolicy pp = clang::PrintingPolicy(clang::LangOptions());
 			pp.SuppressTagKeyword = true;	// value "true": for a class A it prints "A" instead of "class A"
 			pp.Bool = true;					// value "true": prints bool type as "bool" instead of "_Bool"
