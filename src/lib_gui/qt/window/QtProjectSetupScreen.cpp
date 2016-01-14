@@ -95,8 +95,8 @@ void QtProjectSetupScreen::loadEmpty()
 	updateTitle("NEW PROJECT");
 	updateDoneButton("Create");
 
-	m_cppStandard->setCurrentIndex(5);
-	m_cStandard->setCurrentIndex(4);
+	m_cppStandard->setCurrentIndex(0);
+	m_cStandard->setCurrentIndex(0);
 }
 
 void QtProjectSetupScreen::loadProjectSettings()
@@ -160,25 +160,25 @@ void QtProjectSetupScreen::populateForm(QFormLayout* layout)
 	m_cppStandardLabel = new QLabel("Standard");
 
 	m_cppStandard = new QComboBox();
-	m_cppStandard->insertItem(0, "98");
-	m_cppStandard->insertItem(1, "03");
-	m_cppStandard->insertItem(2, "0x");
+	m_cppStandard->insertItem(0, "1z");
+	m_cppStandard->insertItem(1, "14");
+	m_cppStandard->insertItem(2, "1y");
 	m_cppStandard->insertItem(3, "11");
-	m_cppStandard->insertItem(4, "1y");
-	m_cppStandard->insertItem(5, "14");
-	m_cppStandard->insertItem(6, "1z");
+	m_cppStandard->insertItem(4, "0x");
+	m_cppStandard->insertItem(5, "03");
+	m_cppStandard->insertItem(6, "98");
 	layout->addRow(m_cppStandardLabel, m_cppStandard);
 
 
 	m_cStandardLabel = new QLabel("Standard");
 
 	m_cStandard = new QComboBox();
-	m_cStandard->insertItem(0, "89");
-	m_cStandard->insertItem(1, "90");
-	m_cStandard->insertItem(2, "99");
-	m_cStandard->insertItem(3, "9x");
-	m_cStandard->insertItem(4, "11");
-	m_cStandard->insertItem(5, "1x");
+	m_cStandard->insertItem(0, "1x");
+	m_cStandard->insertItem(1, "11");
+	m_cStandard->insertItem(2, "9x");
+	m_cStandard->insertItem(3, "99");
+	m_cStandard->insertItem(4, "90");
+	m_cStandard->insertItem(5, "89");
 	layout->addRow(m_cStandardLabel, m_cStandard);
 	m_cStandardLabel->hide();
 	m_cStandard->hide();
