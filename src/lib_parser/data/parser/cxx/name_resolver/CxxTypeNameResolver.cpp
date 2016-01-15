@@ -177,8 +177,17 @@ std::shared_ptr<DataType> CxxTypeNameResolver::typeToDataType(const clang::Type*
 		}
 	case clang::Type::Auto:
 		{
-			const clang::AutoType* autoType = clang::dyn_cast<clang::AutoType>(type);
-			dataType = qualTypeToDataType(autoType->getDeducedType());
+			clang::QualType deducedType = clang::dyn_cast<clang::AutoType>(type)->getDeducedType();
+			if (!deducedType.isNull())
+			{
+				dataType = qualTypeToDataType(deducedType);
+			}
+			else
+			{
+				NameHierarchy typeNameHerarchy;
+				typeNameHerarchy.push(std::make_shared<NameElement>("auto"));
+				dataType = std::make_shared<NamedDataType>(typeNameHerarchy);
+			}
 			break;
 		}
 	case clang::Type::Decltype:
