@@ -108,6 +108,9 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 	m = std::make_shared<MessageActivateTokens>(tokenIds);
 	m->undoRedoType = message->undoRedoType;
 	m->setKeepContent(message->keepContent());
-	m->isFromSearch = true;
+	if (message->isFresh())
+	{
+		m->isFromSearch = true;
+	}
 	return m;
 }
