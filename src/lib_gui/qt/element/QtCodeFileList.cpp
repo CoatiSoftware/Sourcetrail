@@ -107,6 +107,11 @@ void QtCodeFileList::setErrorMessages(const std::vector<std::string>& errorMessa
 	m_errorMessages = errorMessages;
 }
 
+void QtCodeFileList::showActiveTokenIds()
+{
+	updateFiles();
+}
+
 bool QtCodeFileList::scrollToFirstActiveSnippet()
 {
 	updateFiles();

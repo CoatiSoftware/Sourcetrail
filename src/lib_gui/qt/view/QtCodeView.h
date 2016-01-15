@@ -34,6 +34,7 @@ public:
 	virtual void showCodeFile(const CodeSnippetParams& params);
 
 	virtual void showFirstActiveSnippet();
+	virtual void showActiveTokenIds();
 
 	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds);
 	virtual void defocusTokenIds();
@@ -46,6 +47,7 @@ private:
 	void doShowCodeFile(const CodeSnippetParams& params);
 
 	void doShowFirstActiveSnippet();
+	void doShowActiveTokenIds();
 
 	void doFocusTokenIds(const std::vector<Id>& focusedTokenIds);
 	void doDefocusTokenIds();
@@ -57,6 +59,7 @@ private:
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&, bool> m_addCodeSnippetsFunctor;
 	QtThreadedFunctor<const CodeSnippetParams&> m_showCodeFileFunctor;
 	QtThreadedFunctor<> m_doShowFirstActiveSnippetFunctor;
+	QtThreadedFunctor<> m_doShowActiveTokenIdsFunctor;
 	QtThreadedFunctor<const std::vector<Id>&> m_focusTokenIdsFunctor;
 	QtThreadedFunctor<> m_defocusTokenIdsFunctor;
 

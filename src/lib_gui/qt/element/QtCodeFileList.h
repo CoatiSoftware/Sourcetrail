@@ -52,6 +52,8 @@ public:
 	const std::vector<std::string>& getErrorMessages() const;
 	void setErrorMessages(const std::vector<std::string>& errorMessages);
 
+	void showActiveTokenIds();
+
 	bool scrollToFirstActiveSnippet();
 	void expandActiveSnippetFile();
 

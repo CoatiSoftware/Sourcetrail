@@ -51,6 +51,7 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 
 	if (message->keepContent())
 	{
+		view->showActiveTokenIds();
 		return;
 	}
 

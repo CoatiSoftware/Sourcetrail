@@ -15,6 +15,7 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	, m_addCodeSnippetsFunctor(std::bind(&QtCodeView::doAddCodeSnippets, this, std::placeholders::_1, std::placeholders::_2))
 	, m_showCodeFileFunctor(std::bind(&QtCodeView::doShowCodeFile, this, std::placeholders::_1))
 	, m_doShowFirstActiveSnippetFunctor(std::bind(&QtCodeView::doShowFirstActiveSnippet, this))
+	, m_doShowActiveTokenIdsFunctor(std::bind(&QtCodeView::doShowActiveTokenIds, this))
 	, m_focusTokenIdsFunctor(std::bind(&QtCodeView::doFocusTokenIds, this, std::placeholders::_1))
 	, m_defocusTokenIdsFunctor(std::bind(&QtCodeView::doDefocusTokenIds, this))
 	, m_isExpanding(false)
@@ -69,6 +70,11 @@ void QtCodeView::showCodeFile(const CodeSnippetParams& params)
 void QtCodeView::showFirstActiveSnippet()
 {
 	m_doShowFirstActiveSnippetFunctor();
+}
+
+void QtCodeView::showActiveTokenIds()
+{
+	m_doShowActiveTokenIdsFunctor();
 }
 
 void QtCodeView::focusTokenIds(const std::vector<Id>& focusedTokenIds)
@@ -157,6 +163,12 @@ void QtCodeView::doShowFirstActiveSnippet()
 		m_widget->expandActiveSnippetFile();
 		m_isExpanding = true;
 	}
+}
+
+void QtCodeView::doShowActiveTokenIds()
+{
+	m_widget->setActiveTokenIds(m_activeTokenIds);
+	m_widget->showActiveTokenIds();
 }
 
 void QtCodeView::doFocusTokenIds(const std::vector<Id>& focusedTokenIds)

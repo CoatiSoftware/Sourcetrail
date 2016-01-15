@@ -51,6 +51,7 @@ public:
 	virtual void showCodeFile(const CodeSnippetParams& params) = 0;
 
 	virtual void showFirstActiveSnippet() = 0;
+	virtual void showActiveTokenIds() = 0;
 
 	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds) = 0;
 	virtual void defocusTokenIds() = 0;
