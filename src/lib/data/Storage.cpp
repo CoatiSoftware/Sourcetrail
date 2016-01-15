@@ -1586,17 +1586,19 @@ void Storage::addNodesToGraph(const std::vector<Id> nodeIds, Graph* graph) const
 
 	for (const StorageNode& storageNode : storageNodes)
 	{
+		NameHierarchy nameHierarchy = NameHierarchy::deserialize(storageNode.serializedName);
+
 		Node::NodeType type = Node::intToType(storageNode.type);
 		Node* node = graph->createNode(
 			storageNode.id,
 			type,
-			m_tokenIndex.getNameHierarchyForTokenId(storageNode.id),
+			nameHierarchy,
 			storageNode.defined
 		);
 
 		if (type == Node::NODE_FUNCTION || type == Node::NODE_METHOD)
 		{
-			std::shared_ptr<NameElement> lastElement = NameHierarchy::deserialize(storageNode.serializedName).back();
+			std::shared_ptr<NameElement> lastElement = nameHierarchy.back();
 			if (lastElement)
 			{
 				node->addComponentSignature(
