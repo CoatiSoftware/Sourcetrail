@@ -76,7 +76,11 @@ set(EIGEN_ROOT $ENV{EIGEN_DIR})
 
 # Botan -------------------------------------------------------------------------
 
-find_library(BOTAN botan-1.11 $ENV{BOTAN_DIR})
+if(UNIX)
+    find_library(BOTAN botan-1.11 $ENV{BOTAN_DIR})
+else()
+    find_library(BOTAN botan $ENV{BOTAN_DIR})
+endif()
 
 # Lib --------------------------------------------------------------------------
 
