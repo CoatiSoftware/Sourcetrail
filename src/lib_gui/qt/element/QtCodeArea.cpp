@@ -734,7 +734,11 @@ std::vector<QRect> QtCodeArea::getCursorRectsForAnnotation(const Annotation& ann
 	{
 		if (line == annotation.endLine)
 		{
-			cursor.setPosition(annotation.end);
+			// Avoid that annotations at line end span down to first column of the next line.
+			if (annotation.startLine != annotation.endLine || document()->findBlockByLineNumber(line - m_startLineNumber).length() != annotation.endCol)
+			{
+				cursor.setPosition(annotation.end);
+			}
 		}
 		else
 		{
