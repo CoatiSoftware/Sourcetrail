@@ -27,6 +27,9 @@ For Win32:
 
 ###### Botan setup
 
+Build release lib in ${BOTAN_DIR}/release
+Build debug lib in ${BOTAN_DIR}/debug
+
 for Windows:
 $ python configure.py --cc=msvc --cpu=x86_32 --via-amalgamation --disable-shared
 

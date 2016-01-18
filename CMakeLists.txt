@@ -79,7 +79,8 @@ set(EIGEN_ROOT $ENV{EIGEN_DIR})
 if(UNIX)
     find_library(BOTAN botan-1.11 $ENV{BOTAN_DIR}  NO_DEFAULT_PATH)
 else()
-    find_library(BOTAN botan $ENV{BOTAN_DIR})
+    find_library(BOTAN botan "$ENV{BOTAN_DIR}/release")
+	find_library(BOTAN_D botan "$ENV{BOTAN_DIR}/debug")
 endif()
 
 # Lib --------------------------------------------------------------------------
@@ -170,13 +171,20 @@ set_property(
 )
 
 target_include_directories(${LIB_LICENSE_PROJECT_NAME} SYSTEM
-	PUBLIC "$ENV{BOTAN_DIR}"
+	PUBLIC
 	${Boost_INCLUDE_DIRS}
+	${LIB_LICENSE_PROJECT_NAME}
+	"$ENV{BOTAN_DIR}"
 )
 
-link_directories("$ENV{BOTAN_DIR}")
+# target_include_directories(${LIB_LICENSE_PROJECT_NAME} optimized "$ENV{BOTAN_DIR}/release")
+# target_include_directories(${LIB_LICENSE_PROJECT_NAME} debug "$ENV{BOTAN_DIR}/debug")
 
-target_link_libraries(${LIB_LICENSE_PROJECT_NAME} ${BOTAN})
+link_directories(optimized "$ENV{BOTAN_DIR}/release")
+link_directories(debug "$ENV{BOTAN_DIR}/debug")
+
+target_link_libraries(${LIB_LICENSE_PROJECT_NAME} debug ${BOTAN_D})
+target_link_libraries(${LIB_LICENSE_PROJECT_NAME} optimized ${BOTAN})
 
 # Lib Gui ----------------------------------------------------------------------
 
