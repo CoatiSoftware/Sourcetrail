@@ -764,6 +764,17 @@ Id Storage::getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) co
 	return m_sqliteStorage.getNodeBySerializedName(NameHierarchy::serialize(nameHierarchy)).id;
 }
 
+Id Storage::getIdForNodeWithSearchNameHierarchy(const NameHierarchy& nameHierarchy) const
+{
+	SearchNode* node = m_tokenIndex.getNode(nameHierarchy);
+	if (node)
+	{
+		return node->getFirstTokenId();
+	}
+
+	return 0;
+}
+
 Id Storage::getIdForEdge(
 	Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy
 ) const

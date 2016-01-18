@@ -134,6 +134,7 @@ public:
 
 	// StorageAccess implementation
 	virtual Id getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const;
+	virtual Id getIdForNodeWithSearchNameHierarchy(const NameHierarchy& nameHierarchy) const;
 	virtual Id getIdForEdge(
 		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const;
 
