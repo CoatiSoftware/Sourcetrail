@@ -77,7 +77,7 @@ set(EIGEN_ROOT $ENV{EIGEN_DIR})
 # Botan -------------------------------------------------------------------------
 
 if(UNIX)
-    find_library(BOTAN botan-1.11 $ENV{BOTAN_DIR})
+    find_library(BOTAN botan-1.11 $ENV{BOTAN_DIR}  NO_DEFAULT_PATH)
 else()
     find_library(BOTAN botan $ENV{BOTAN_DIR})
 endif()
