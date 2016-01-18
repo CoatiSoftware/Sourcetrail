@@ -7,6 +7,7 @@
 #include <QSysInfo>
 
 #include "utility/messaging/type/MessageLoadProject.h"
+#include "utility/utility.h"
 
 #include "settings/ProjectSettings.h"
 
@@ -43,6 +44,11 @@ void QtTextLine::setText(QString text)
 	m_data->setText(text);
 }
 
+void QtTextLine::clearText()
+{
+	m_data->clear();
+}
+
 void QtTextLine::handleButtonPress()
 {
 	QString file = QFileDialog::getExistingDirectory(this, tr("Select Directory"), "");
@@ -66,8 +72,12 @@ QSize QtProjectSetupScreen::sizeHint() const
 
 void QtProjectSetupScreen::clear()
 {
-	m_projectName->setText("");
-	m_projectFileLocation->setText("");
+	m_projectName->clear();
+	m_projectFileLocation->clearText();
+
+	m_language->setCurrentIndex(0);
+	m_cppStandard->setCurrentIndex(0);
+	m_cStandard->setCurrentIndex(0);
 
 	m_sourcePaths->clear();
 	m_includePaths->clear();
@@ -95,8 +105,7 @@ void QtProjectSetupScreen::loadEmpty()
 	updateTitle("NEW PROJECT");
 	updateDoneButton("Create");
 
-	m_cppStandard->setCurrentIndex(0);
-	m_cStandard->setCurrentIndex(0);
+	clear();
 }
 
 void QtProjectSetupScreen::loadProjectSettings()
@@ -238,45 +247,53 @@ void QtProjectSetupScreen::handleUpdateButtonPress()
 		return;
 	}
 
-	ProjectSettings* projSettings = ProjectSettings::getInstance().get();
 
-	projSettings->clear();
+	std::shared_ptr<ProjectSettings> projectSettings = ProjectSettings::getInstance();
 
-	projSettings->setLanguage(m_language->currentText().toStdString());
+	std::string newLanguage = m_language->currentText().toStdString();
+
+	std::string newStandard = "";
 	if (m_cppStandard->isVisible())
 	{
-		projSettings->setStandard(m_cppStandard->currentText().toStdString());
+		newStandard = m_cppStandard->currentText().toStdString();
 	}
 	else if (m_cStandard->isVisible())
 	{
-		projSettings->setStandard(m_cStandard->currentText().toStdString());
-	}
-	projSettings->setSourcePaths(m_sourcePaths->getList());
-	projSettings->setHeaderSearchPaths(m_includePaths->getList());
-
-	if (m_frameworkPaths)
-	{
-		projSettings->setFrameworkSearchPaths(m_frameworkPaths->getList());
+		newStandard = m_cStandard->currentText().toStdString();
 	}
 
-	std::string projectFile =
+	std::vector<FilePath> newSourcePaths = m_sourcePaths->getList();
+	std::vector<FilePath> newHeaderSearchPaths = m_includePaths->getList();
+	std::vector<FilePath> newFrameworkPaths = m_frameworkPaths ? m_frameworkPaths->getList() : std::vector<FilePath>();
+
+	bool somethingChanged = !(
+		newLanguage == projectSettings->getLanguage() &&
+		newStandard == projectSettings->getStandard() &&
+		utility::isPermutation<FilePath>(newSourcePaths, projectSettings->getSourcePaths()) &&
+		utility::isPermutation<FilePath>(newHeaderSearchPaths, projectSettings->getHeaderSearchPaths()) &&
+		utility::isPermutation<FilePath>(newFrameworkPaths, projectSettings->getFrameworkSearchPaths())
+	);
+
+	projectSettings->clear();
+	projectSettings->setLanguage(newLanguage);
+	projectSettings->setStandard(newStandard);
+	projectSettings->setSourcePaths(newSourcePaths);
+	projectSettings->setHeaderSearchPaths(newHeaderSearchPaths);
+	projectSettings->setFrameworkSearchPaths(newFrameworkPaths);
+
+	std::string projectFilePath =
 		m_projectFileLocation->getText().toStdString() + "/" + m_projectName->text().toStdString() + ".coatiproject";
-	projSettings->save(projectFile);
 
-	projSettings->setLanguage(m_language->currentText().toStdString());
+	projectSettings->save(projectFilePath);
 
-	if (m_cppStandard->isVisible())
+	if (m_title->text() == "NEW PROJECT")
 	{
-		projSettings->setStandard(m_cppStandard->currentText().toStdString());
+		MessageLoadProject(projectFilePath, false).dispatch();
 	}
-	else if (m_cStandard->isVisible())
+	else if (somethingChanged)
 	{
-		projSettings->setStandard(m_cStandard->currentText().toStdString());
+		MessageLoadProject(projectFilePath, true).dispatch();
 	}
-
-	MessageLoadProject(projectFile).dispatch();
-	clear();
-
 	emit finished();
 }
 

@@ -6,8 +6,9 @@
 class MessageLoadProject: public Message<MessageLoadProject>
 {
 public:
-	MessageLoadProject(const std::string& filePath)
+	MessageLoadProject(const std::string& filePath, bool forceRefresh)
 		: projectSettingsFilePath(filePath)
+		, forceRefresh(forceRefresh)
 	{
 	}
 
@@ -18,10 +19,11 @@ public:
 
 	virtual void print(std::ostream& os) const
 	{
-		os << projectSettingsFilePath;
+		os << projectSettingsFilePath << ", forceRefresh: " << std::boolalpha << forceRefresh;
 	}
 
 	const std::string projectSettingsFilePath;
+	const bool forceRefresh;
 };
 
 #endif // MESSAGE_LOAD_PROJECT_H

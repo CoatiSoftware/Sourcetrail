@@ -20,6 +20,7 @@ public:
 	QtTextLine(QWidget *parent);
 	QString getText();
 	void setText(QString text);
+	void clearText();
 
 private slots:
 	void handleButtonPress();

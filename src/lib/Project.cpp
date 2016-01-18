@@ -25,13 +25,19 @@ Project::~Project()
 {
 }
 
-bool Project::loadProject(const FilePath& projectSettingsFile)
+bool Project::load(const FilePath& projectSettingsFile, bool forceRefresh)
 {
 	bool success = ProjectSettings::getInstance()->load(projectSettingsFile);
 	if (success)
 	{
 		setProjectSettingsFilePath(projectSettingsFile);
 		updateFileManager();
+	}
+
+	if (forceRefresh)
+	{
+		clearStorage();
+		m_storageWasLoaded = false;
 	}
 
 	if (m_storageWasLoaded)
@@ -50,7 +56,7 @@ bool Project::loadProject(const FilePath& projectSettingsFile)
 	return success;
 }
 
-bool Project::saveProject(const FilePath& projectSettingsFile)
+bool Project::save(const FilePath& projectSettingsFile)
 {
 	if (!projectSettingsFile.empty())
 	{
@@ -69,7 +75,7 @@ bool Project::saveProject(const FilePath& projectSettingsFile)
 	return true;
 }
 
-void Project::reloadProject()
+void Project::reload()
 {
 	if (!m_projectSettingsFilepath.empty())
 	{

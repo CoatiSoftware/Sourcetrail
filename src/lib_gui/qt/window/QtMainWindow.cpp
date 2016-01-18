@@ -382,7 +382,7 @@ void QtMainWindow::openProject(const QString &path)
 
 	if (!fileName.isEmpty())
 	{
-		MessageLoadProject(fileName.toStdString()).dispatch();
+		MessageLoadProject(fileName.toStdString(), false).dispatch();
 		clearWindows();
 	}
 }

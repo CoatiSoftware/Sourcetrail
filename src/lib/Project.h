@@ -17,9 +17,9 @@ public:
 
 	~Project();
 
-	bool loadProject(const FilePath& projectSettingsFile);
-	bool saveProject(const FilePath& projectSettingsFile);
-	void reloadProject();
+	bool load(const FilePath& projectSettingsFile, bool forceRefresh);
+	bool save(const FilePath& projectSettingsFile);
+	void reload();
 
 	void clearStorage();
 

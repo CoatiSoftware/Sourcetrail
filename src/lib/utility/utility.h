@@ -1,6 +1,7 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
+#include <algorithm>
 #include <deque>
 #include <set>
 #include <time.h>
@@ -34,6 +35,12 @@ namespace utility
 
 	template<typename T>
 	std::vector<std::string> toStrings(const std::vector<T>& d);
+
+	template<typename T>
+	bool isPermutation(const std::vector<T>& a, const std::vector<T>& b)
+	{
+		return std::is_permutation(a.begin(), a.end(), b.begin());
+	}
 
 	bool intersectionPoint(Vec2f a1, Vec2f b1, Vec2f a2, Vec2f b2, Vec2f* i);
 

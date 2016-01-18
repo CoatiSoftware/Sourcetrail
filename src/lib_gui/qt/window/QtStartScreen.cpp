@@ -22,7 +22,7 @@ QtRecentProjectButton::QtRecentProjectButton(const QString &text, QWidget *paren
 
 void QtRecentProjectButton::handleButtonClick()
 {
-	MessageLoadProject(m_projectFile).dispatch();
+	MessageLoadProject(m_projectFile, false).dispatch();
 };
 
 QtStartScreen::QtStartScreen(QWidget *parent)

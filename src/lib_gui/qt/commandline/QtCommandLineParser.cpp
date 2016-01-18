@@ -58,7 +58,7 @@ void QtCommandLineParser::parseCommandline()
 
         if(isValidProjectfile)
         {
-            MessageLoadProject(projectfile.str()).dispatch();
+            MessageLoadProject(projectfile.str(), false).dispatch();
         }
         else
         {

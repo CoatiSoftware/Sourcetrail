@@ -42,7 +42,7 @@ std::shared_ptr<Application> Application::create(
 	std::string startupProjectFilePath = ApplicationSettings::getInstance()->getStartupProjectFilePath();
 	if (startupProjectFilePath.size())
 	{
-		MessageLoadProject(startupProjectFilePath).dispatch();
+		MessageLoadProject(startupProjectFilePath, false).dispatch();
 		ptr->m_mainView->hideStartScreen();
 	}
 
@@ -73,7 +73,7 @@ Application::~Application()
 	m_mainView->saveLayout();
 }
 
-void Application::loadProject(const FilePath& projectSettingsFilePath)
+void Application::loadProject(const FilePath& projectSettingsFilePath, bool forceRefresh)
 {
 	MessageStatus("Loading Project: " + projectSettingsFilePath.str()).dispatch();
 
@@ -88,7 +88,7 @@ void Application::loadProject(const FilePath& projectSettingsFilePath)
 	m_componentManager->refreshViews();
 
 	m_project = Project::create(m_storageCache.get());
-	m_project->loadProject(projectSettingsFilePath);
+	m_project->load(projectSettingsFilePath, forceRefresh);
 
 	m_mainView->updateRecentProjectMenu();
 	m_mainView->hideStartScreen();
@@ -101,12 +101,12 @@ void Application::refreshProject()
 	m_storageCache->clear();
 	m_componentManager->refreshViews();
 
-	m_project->reloadProject();
+	m_project->reload();
 }
 
 void Application::saveProject(const FilePath& projectSettingsFilePath)
 {
-	if (!m_project->saveProject(projectSettingsFilePath))
+	if (!m_project->save(projectSettingsFilePath))
 	{
 		LOG_ERROR("No Project Settings File defined");
 	}
@@ -138,7 +138,7 @@ void Application::handleMessage(MessageFinishedParsing* message)
 
 void Application::handleMessage(MessageLoadProject* message)
 {
-	loadProject(message->projectSettingsFilePath);
+	loadProject(message->projectSettingsFilePath, message->forceRefresh);
 }
 
 void Application::handleMessage(MessageRefresh* message)

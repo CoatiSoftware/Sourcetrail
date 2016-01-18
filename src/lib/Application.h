@@ -32,7 +32,7 @@ public:
 
 	~Application();
 
-	void loadProject(const FilePath& projectSettingsFilePath);
+	void loadProject(const FilePath& projectSettingsFilePath, bool forceRefresh);
 	void refreshProject();
 	void saveProject(const FilePath& projectSettingsFilePath);
 
