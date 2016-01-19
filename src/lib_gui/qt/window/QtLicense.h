@@ -17,6 +17,7 @@ public:
 	QSize sizeHint() const Q_DECL_OVERRIDE;
 
 	void clear();
+	void load();
 
 	virtual void setup() override;
 

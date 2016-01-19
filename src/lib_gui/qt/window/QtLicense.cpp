@@ -38,6 +38,16 @@ void QtLicense::clear()
 	}
 }
 
+void QtLicense::load()
+{
+	clear();
+
+	if (m_licenseText)
+	{
+		m_licenseText->setText(ApplicationSettings::getInstance()->getLicenseString().c_str());
+	}
+}
+
 void QtLicense::setup()
 {
 	setStyleSheet((
@@ -67,7 +77,6 @@ void QtLicense::setup()
 
 	m_licenseText = new QTextEdit(this);
 	m_licenseText->setObjectName("licenseField");
-	m_licenseText->setText(ApplicationSettings::getInstance()->getLicenseString().c_str());
 	m_licenseText->setPlaceholderText(
 		"-----BEGIN LICENSE-----\n"
 		"Jane Doe\n"

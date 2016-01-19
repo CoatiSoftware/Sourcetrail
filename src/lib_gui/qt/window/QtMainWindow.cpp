@@ -365,6 +365,7 @@ void QtMainWindow::enterLicense()
 		connect(m_enterLicenseWindow.get(), SIGNAL(canceled()), this, SLOT(popWindow()));
 	}
 
+	m_enterLicenseWindow->load();
 	pushWindow(m_enterLicenseWindow.get());
 }
 

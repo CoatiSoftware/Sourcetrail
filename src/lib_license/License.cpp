@@ -1,5 +1,6 @@
 #include "License.h"
 
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -14,6 +15,16 @@
 // #ifdef BOTAN_HAS_RSA
 // #include "botan/rsa.h"
 // #endif
+
+namespace
+{
+    std::string trim(const std::string &str)
+    {
+        auto wsfront = std::find_if_not(str.begin(), str.end(), [](int c){ return std::isspace(c); });
+        auto wsback = std::find_if_not(str.rbegin(), str.rend(), [](int c){ return std::isspace(c); }).base();
+        return (wsback <= wsfront ? std::string() : std::string(wsfront, wsback));
+    }
+}
 
 License::License()
 {
@@ -119,9 +130,14 @@ bool License::load(std::istream& stream)
 {
     lines.clear();
     std::string line;
+
     while (getline(stream, line, '\n'))
     {
-        lines.push_back(line);
+        std::string l = trim(line);
+        if (l.size())
+        {
+            lines.push_back(l);
+        }
     }
 
     if (lines.front() != BEGIN_LICENSE)
