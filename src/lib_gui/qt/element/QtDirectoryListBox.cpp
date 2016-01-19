@@ -19,9 +19,11 @@ QtListItemWidget::QtListItemWidget(QtDirectoryListBox* list, QListWidgetItem* it
 
 	m_data = new QtLineEdit(this);
 	m_data->setAttribute(Qt::WA_MacShowFocusRect, 0);
+	m_data->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_data->setObjectName("field");
 
 	m_button = new QPushButton("...");
+	m_button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_button->setObjectName("button");
 
 	layout->addWidget(m_data);
