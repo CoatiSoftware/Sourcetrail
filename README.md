@@ -30,8 +30,11 @@ For Win32:
 Build release lib in ${BOTAN_DIR}/release
 Build debug lib in ${BOTAN_DIR}/debug
 
-for Windows:
+for Windows release build:
 $ python configure.py --cc=msvc --cpu=x86_32 --via-amalgamation --disable-shared
+
+for Windows debug build:
+python configure.py --cc=msvc --cpu=x86_32 --via-amalgamation --disable-shared --no-optimizations --with-debug-info
 
 for other:
 $ python configure.py --via-amalgamation --disable-shared

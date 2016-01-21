@@ -1,20 +1,14 @@
 #include "License.h"
 
 #include <algorithm>
+#include <cctype>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <istream>
 
-// #include "botan/pubkey.h"
-// #include "botan/base64.h"
-// #include "botan/passhash9.h"
-
+#include "botan_all.h"
 #include "boost/filesystem.hpp"
-
-// #ifdef BOTAN_HAS_RSA
-// #include "botan/rsa.h"
-// #endif
 
 namespace
 {
@@ -27,6 +21,7 @@ namespace
 }
 
 License::License()
+	: m_rng(std::make_shared<Botan::AutoSeeded_RNG>())
 {
 }
 
@@ -86,7 +81,7 @@ void License::create(std::string user, std::string version, Botan::RSA_PrivateKe
     while (size_t got = in.read(buf, sizeof(buf))) {
         signer.update(buf, got);
     }
-    std::string signature = Botan::base64_encode(signer.signature(m_rng));
+	std::string signature = Botan::base64_encode(signer.signature(*(m_rng.get())));
     addSignature(signature);
 }
 
@@ -106,7 +101,7 @@ void License::createMessage(std::string user, std::string version, unsigned int 
     lines.push_back(typestring);
     std::string versionstring = "Coati " + getVersion();
     lines.push_back(versionstring);
-    std::string pass9 = Botan::generate_passhash9(versionstring, m_rng);
+	std::string pass9 = Botan::generate_passhash9(versionstring, *(m_rng.get()));
     lines.push_back(pass9);
 }
 
@@ -293,7 +288,7 @@ std::string License::getLicenseString() const
 
 std::string License::hashLocation(const std::string& location)
 {
-    return Botan::generate_passhash9(location, m_rng);
+	return Botan::generate_passhash9(location, *(m_rng.get()));
 }
 
 bool License::checkLocation(const std::string& location, const std::string& hash)

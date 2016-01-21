@@ -1,15 +1,16 @@
 #ifndef COATI_LICENSE_H
 #define COATI_LICENSE_H
 
+#include <memory>
 #include <string>
 #include <vector>
 
-//#include "botan/botan.h"
-#include "botan_all.h"
-
-#ifdef BOTAN_HAS_RSA
-//#include "botan/rsa.h"
-#endif
+namespace Botan
+{
+	class RSA_PublicKey;
+	class RSA_PrivateKey;
+	class AutoSeeded_RNG;
+}
 
 class License
 {
@@ -60,7 +61,7 @@ private:
     std::string m_publicKeyFilename;
     std::shared_ptr<Botan::RSA_PublicKey> m_publicKey;
     std::vector<std::string> lines;
-    Botan::AutoSeeded_RNG m_rng;
+    std::shared_ptr<Botan::AutoSeeded_RNG> m_rng;
 
     const std::string KEY_FILEENDING = ".pem";
     const std::string BEGIN_LICENSE = "-----BEGIN LICENSE-----";
