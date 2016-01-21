@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Coati - Documentation</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<!-- styles -->
+		<link type="text/css" rel="stylesheet" href="css/coati.css" />
+		<link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
+		<link type="text/css" rel="stylesheet" href="css/jquery.tocify.css" />
+		<link type="text/css" rel="stylesheet" href="css/jquery-ui.min.css" />
+
+		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+
+		<!-- icons -->
+		<link rel="shortcut icon" href="favicon.ico">
+		<style>
+			body {
+				padding-top: 20px;
+			}
+			
+			#nav {
+				position:fixed;
+				width: 20%;
+				margin-left: 2%;
+			}
+			
+			.tocify {
+				position:static;
+				width: 100%;
+				margin-left: 0px;
+			}
+
+			@media (max-width: 767px) {
+				#nav {
+					position: relative;
+					width: 100%;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="row-fluid">
+
+				<div class="col-xs-12 col-sm-3"> 
+					<div id="nav"> 
+						<div class="row">
+							<div class="col-xs-12">
+								<p><span class="glyphicon glyphicon-arrow-left"></span> <a href="http://www.coati.io/">back to coati.io</a></p>
+							</div>
+						</div>
+						<div class="row" style="height:20px;"></div>
+						<div class="row">
+							<div class="col-xs-12">
+								<div id="toc"></div><!-- Our table of contents will be here !-->
+							</div>
+						</div>
+						<div class="row" style="height:40px;"></div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-9 col-md-6">
+					<div class="row">
+						<div class="col-xs-4 col-xs-offset-4">
+							<img src="img/logo.png" style="width:100%;">
+						</div>
+					</div>
+					<div class="row" style="text-align:center;">
+						<p>Documentation for version 0.5</p>
+					</div>
+					
+					<div class="row" style="height:120px;"></div>
+					<address>
+						<strong>Coati Software OG.</strong><br>
+						Schlossallee 1/7<br>
+						5412 Puch bei Hallein<br>
+						Austria<br>
+					</address>
+						
+					<address>
+						<strong>Contact</strong><br>
+						<a href="http://coati.io">coati.io</a><br>
+						<a href="mailto:mail@coati.io" target="_top">mail@coati.io</a><br>
+					</address>
+					
+					<div class="row" style="height:40px;"></div>
+
+					<h1>QUICK START GUIDE</h1>
+					<p>This short introduction will briefly guide you through the project setup and the user interface of Coati. The bullet point lists will tell you what to do:</p>
+					<div class="callout callout-info">
+						<strong>Tasks:</strong>
+						<ul>
+							<li>Keep on reading</li>
+						</ul>
+					</div>
+
+
+					<h2>Short description</h2>
+					<p>Coati is an interactive source explorer that simplifies navigation in existing source code. Coati's aim is to give answers to all your questions about your source code. Coati first analyses your code and gathers data about its structure and then provides you with a simple interface consisting of three linked views, each having a key role in getting information:</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/concept.png" style="width:100%;">
+						</div>
+					</div>
+					<ul>
+						<li><strong>Search:</strong> Use the search field to quickly find and select analyzed symbols in your source code. The autocompletion box will instantly provide an overview of all matching results throughout your codebase.</li>
+						<li><strong>Graph:</strong> The graph displays the structure of your source code. It focuses on the currently selected symbol and directly shows all incoming and outgoing dependencies to other symbols.</li>
+						<li><strong>Code:</strong> The Code view displays all source locations of the currently selected symbol in a list of code snippets. Clicking on a different source location allows you to change the selection and dig deeper.</li>
+					</ul>
+					<p>Coati currently only supports the language C and C++. Much of the UI design is therefore based on these languages and might change as soon as other languages are supported. For more information have a look at <a href="#SupportedLanguages">supported languages</a>.</p>
+
+
+					<h2>Starting up Coati</h2>
+					<p>Once you <a href="#INSTALLATION">installed</a> Coati successfully you are ready to run the application.</p>
+					<div class="callout callout-info">
+						<strong>Tasks:</strong>
+						<ul>
+							<li>Run Coati</li>
+						</ul>
+					</div>
+
+					<h4>License Key Window</h4>
+					<p>When running the full version of Coati for the first time you are greeted with the <a href="#EnterLicenseWindow">enter license window</a>. You need to enter the license key you received via e-mail when you purchased your Coati license.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/enter_license_screen.png" style="width:100%;">
+						</div>
+					</div>
+					<div class="callout callout-info">
+						<strong>Tasks:</strong>
+						<ul>
+							<li>Open up the e-mail you received when purchasing your Coati license.</li>
+							<li>Copy & paste your license key into the text box and click <var>Activate</var>. The license key should follow the format shown by the placeholder text.</li>
+						</ul>
+					</div>
+
+					<h4>Start Window</h4>
+					<p>On every start of Coati you are shown the <a href="#StartWindow">start window</a>. It allows for creating new projects or opening existing ones.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/start_screen.png" style="width:100%;">
+						</div>
+					</div>
+					<div class="callout callout-info">
+						<strong>Tasks:</strong>
+						<ul>
+							<li>Press <var>New Project</var> to continue creating a new project.</li>
+							<li>or select the included recent project <var>TicTacToe</var> and continue with the <a href="#UIIntro">UI Intro</a>.</li>
+						</ul>
+					</div>
+
+
+					<h2>Creating a Project</h2>
+					<p>When creating a new Coati project you will use the <a href="#ProjectSetupWindow">project setup window</a>.</p>
+					<p>The <var>Name</var> and <var>Location</var> is used to define where and how your Coati project file will be saved.</p>
+					<p>The <var>Language</var> dropdown lets you select the programming language of the analyzed source code. The <var>Standard</var> dropdown is used to select a certain language standard. (See <a href="#SupportedLanguages"> supported languages</a>)</p>
+					<p>The <var>Analyzed Paths</var> list is used to define which source and header files will be analyzed by Coati. You can enter a paths to directories, single files or a mixture of these two approaches.</p>
+					<p>The <var>Header Search Paths</var> list defines the locations where Coati will look for included headers, e.g. <code>#include "sample.h"</code>. These can be your own project's header files or the headers of external frameworks or libraries.</p>
+					<p class="bg-info"><strong>Note:</strong> If you get include errors during analysis in the form <code>'sample.h' file not found</code> it means that you have Header Search Paths missing. If you get this error for system headers then please have a look at <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>.</p>
+					<p>If you use certain include files in all of your projects (e.g. standard library headers) you can add them for all projects in the <a href="#PreferencesWindow">preferences window</a>. It can be opened by clicking the <var>Preferences</var> button at the bottom of window.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/project_setup_screen.png" style="width:100%;">
+						</div>
+					</div>
+					<div class="callout callout-info">
+						<strong>Tasks:</strong>
+						<ul>
+							<li>Enter your project name in the text field <var>Name</var>.</li>
+							<li>Select a location for your project file in <var>Location</var>.</li>
+							<li>Select your programming language and language standard.</li>
+							<li>Define the source files by adding at least one item to the <var>Analyzed Paths</var> list. (see <a href="#PathListBox">Path List Box</a> on how.)</li>
+							<li>Similarly add <var>Header Search Paths</var>.</li>
+							<li>If this is your first Coati project, click the <var>Preferences</var> Button to open the <a href="#PreferencesWindow">preferences window</a>, set the paths to your standard library headers and hit save. (see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a> to find out how to get them on your platform.)</li>
+							<li>Press "Create" to create your project.</li>
+						</ul>
+					</div>
+
+
+					<h2>Source Analysis</h2>
+					<p>Coati will now start analyzing your source files, which might take a little while. The <a href="#Statusbar">status bar</a> will give you information about the progress. Otherwise the UI will be empty. Coati analyses all named symbols and their relationships throughout the provided source files. However, it stops the analysis at the level of local variables and symbols that are only valid within a certain function scope.</p>
+					<div class="row">
+						<div class="col-sm-10 col-sm-offset-1">
+							<img src="img/analyse.png" style="width:100%;">
+						</div>
+					</div>
+					<div class="callout callout-info">
+						<strong>Tasks:</strong>
+						<ul>
+							<li>Wait until the analysis of your source files has finished.</li>
+							<li>or Press ESC to stop the analysis (Coati will provide all information gathered so far and the analysis can be continued later by <a href="#Refresh">refreshing</a>).</li>
+						</ul>
+					</div>
+					<p>After analysis has finished, Coati will look for a function named <code>main</code> and activate it. In case it's not there, the first analyzed file will be activated. If the analysis found errors in your code, the code view will display them. You can see the error message by hovering an error's location.</p>
+					<div class="row">
+						<div class="col-sm-10 col-sm-offset-1">
+							<img src="img/error_view.png" style="width:100%;">
+						</div>
+					</div>
+					<div class="callout callout-info">
+						<strong>Tasks:</strong>
+						<ul>
+							<li>Fix your errors and <a href="#Refresh">refresh</a> to reanalyze the files with errors (Open Issue: As long as there was no change in the specific file, Coati won't reanalyze it, do a <a href="#ForceRefresh">force refresh</a> until fixed).</li>
+							<li>or ignore them and continue with an incomplete analysis.</li>
+						</ul>
+					</div>
+
+
+					<h2>UI Intro</h2>
+					<p>As already mentioned Coati's user interface is split into three main views. Their arrangement can be changed however you wish, you can even detach them from the main window and put them on different screens (see <a href="#WidgetWindows">Window Widgets</a>).</p>
+					<div class="row">
+						<div class="col-sm-10 col-sm-offset-1">
+							<img src="img/main_screen.png" style="width:100%;">
+						</div>
+					</div>
+					<p>The three views show information about the currently selected symbol. The search field provides the name, the graph visualization shows its relationships to other symbols and the code view displays all locations the symbol gets referenced throughout the codebase.</p>
+
+					<h3>Search Field</h3>
+					<p>The <a href="#Searchbar">search field</a> allows for easy access to all analyzed symbols. Use it to find all the classes and functions you wish to investigate. Apart from that is also holds the UI buttons for navigating <a href="#Back&Forward">back & forward</a> as well as <a href="#Refresh">refreshing</a>.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/search_view.png" style="width:100%;">
+						</div>
+					</div>
+					<p>When entering a search query the <a href="#AutocompletionPopup">autocompletion popup</a> will provide you with a concise list of all matching symbols. Note that Coati uses a fuzzy matching algorithm, that allows you to skip characters while entering a query.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/search_view_completion.png" style="width:100%;">
+						</div>
+					</div>
+
+					<h3>Graph Visualization</h3>
+					<p>The <a href="#GraphView">graph visualization</a> displays the currently selected symbol in an active state and all other symbols it shares relationships with. The visualization is made up of nodes and edges.</p>
+					<ul>
+						<li><strong>Nodes:</strong> All named symbols in your source code will be displayed as different <a href="#Nodes">nodes</a>, such as <var>functions</var>, <var>classes</var> or <var>files</var>. Nodes with members (like <var>classes</var>) can be expanded to show all their contents, the number at the expansion arrow shows how many members are hidden. Clicking a node will activate it and update all the views to the new selection. Dragging a node can be used to change its position.</li>
+						<li><strong>Edges:</strong> The relationships between the symbols are displayed as different <a href="#Edges">edges</a>, such as <var>type use</var>, <var>function call</var> or <var>file include</var>. Sometimes edges get bundled together and are displayed as an <var>aggregation</var> edge that shows a number of how many edges it contains. Clicking an edge will highlight its source location in the code view.</li>
+					</ul>
+					<div class="row">
+						<div class="col-sm-10 col-sm-offset-1">
+							<img src="img/graph_view_graph.png" style="width:100%;">
+						</div>
+					</div>
+
+					<h4>Colors:</h4>
+					<p>The different node and edge types are also displayed using different colors. The default color scheme uses this convention:</p>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Color</th> <th>Node</th> <th>Edge</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">gray</th> <td>types and classes</td> <td>type use</td> </tr>
+							<tr class="warning"> <th scope="row">yellow</th> <td>functions and methods</td> <td>calls</td> </tr>
+							<tr class="info"> <th scope="row">blue</th> <td>variables and fields</td> <td>variable access</td> </tr>
+						</tbody>
+					</table>
+
+					<h4>Hatching:</h4>
+					<p>Nodes displayed with a striped hatching, are nodes that were used within your analyzed source files, but were not analyzed themselves. Clicking them shows all locations where they are used, without providing where they got defined.</p>
+					<div class="row">
+						<div class="col-xs-4 col-sm-2 col-xs-offset-4 col-sm-offset-5">
+							<img src="img/node_undefined.png" style="width:100%;">
+						</div>
+					</div>
+
+					<h3>Code View</h3>
+					<p>The <a href="#CodeView">code view</a> displays all locations of the currently active symbol within the analyzed source files. It does not allow for editing the source code. Syntax highlighting is used to increase readability. Source locations that are surrounded by a box when hovered can be clicked to activate the respective symbol. Active source locations are highlighted gray.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/code_view.png" style="width:100%;">
+						</div>
+					</div>
+					<p>The source locations are displayed as code snippets, containing the line of interest and extra lines added to the top and bottom to give information about its context. Code snippets are then bundled together into files.</p>
+					<p><strong>Note:</strong> A file can be selected as active symbol by clicking its name in the title bar. By clicking the icons on the right hand side of the title bar, the file can switch between 3 different states:</p>
+					<ul>
+						<li>
+							<strong>Minimized:</strong> The file does not show any content
+							<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
+									<img src="img/snippet_minimized.png" style="width:100%;">
+								</div>
+							</div>
+						</li>
+						<li>
+							<strong>Snippets:</strong> The file displays the snippets containing active locations separated by lines.
+							<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
+									<img src="img/snippet_snippets.png" style="width:100%;">
+								</div>
+							</div>
+						</li>
+						<li>
+							<strong>Maximized:</strong> The whole content of the file is visible.
+							<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
+									<img src="img/snippet_maximized.png" style="width:100%;">
+								</div>
+							</div>
+						</li>
+					</ul>
+					<p>For more information please have a look at <a href="#Files">Code View Files</a>.</p>
+
+
+					<h2>Start exploring!</h2>
+					<p>After reading this quick guide, you know the basics of Coati's user interface and you are able to start exploring your codebase. Coati will allow you to see your source code from a whole new perspective, by giving you a concise overview of its parts and a faster way of drilling down to its internals while always maintaining the connection to the implementation details of the actual source code.</p>
+					<p>For more detailed information please have a look at the much more extensive instruction manual below.</p>
+					<p>If you have feedback for us, please don't hesitate and let us know by writing to <a href="mailto:support@coati.io" target="_top">support@coati.io</a>, we'd be glad to hear from you.</p>
+					<p>The Coati team wishes you a good start with our product, lots of saved time, increased productivity and much cleaner code.</p>
+					<div class="callout callout-info">
+						<strong>Tasks:</strong>
+						<ul>
+							<li>Start exploring & have fun!</li>
+						</ul>
+					</div>
+
+
+					<div class="row" style="height:80px;"></div>
+
+					<h1>INTRODUCTION</h1>
+
+					<h2>About this document</h2>
+					<p>This document is the official documentation of Coati and explains everything you need to know about working with it.</p>
+					<p>If you have questions not answered by this document, please write us an e-mail to <a href="mailto:support@coati.io" target="_top">support@coati.io</a>.</p>
+
+
+					<h2>Supported Languages</h2>
+					<h3>C</h3>
+					<p>C support is powered by <a href="http://clang.llvm.org/" target="_blank">Clang 3.7</a>. If you have a problem loading C code, please have a look at <a href="http://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug at our <a href="https://github.com/CoatiSoftware/CoatiBugTracker">bug tracker</a>.</p>
+
+					<h3>C++</h3>
+					<p>C++ support is powered by <a href="http://clang.llvm.org/" target="_blank">Clang 3.7</a>. For more Information please visit <a href="http://clang.llvm.org/cxx_status.html" target="_blank">Clang C++ Status</a>. If you have a problem loading C++ code, please have a look at <a href="http://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug at our <a href="https://github.com/CoatiSoftware/CoatiBugTracker">bug tracker</a>.</p>
+
+					<h2>FAQ</h2>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Can I use Coati on confidental code?</h3>
+						</div>
+						<div class="panel-body">
+							Yes. Coati works completely offline and establishes no connection to the internet whatsoever. All data stays on your computer.
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">What happens to the data?</h3>
+						</div>
+						<div class="panel-body">
+							<p>Coati does two things with the data collected during analysis:</p>
+							<ol>
+								<li>The data is stored in the <code>.coatidb</code> file in the same directory as the <code>.coatiproject</code> file. This data file is used by Coati to serve its purpose of letting you navigate your source code. And it allows Coati to reopen the project without reanalysing the source code.</li>
+								<li>Some of the data gets logged into a log file saved in <a href="#Datafolder">data</a>/logs. These logs can be useful to us for fixing bugs. We might ask for log information on bug reports, but you should only provide it, if your source code is not confidental.</li>
+							</ol>
+						</div>
+					</div>
+
+
+					<div class="row" style="height:80px;"></div>
+
+					<h1>INSTALLATION</h1>
+
+					<h2>on Windows</h2>
+					<p>Download and open the zip file and extract its contents into a temporary folder of your choice. Run the <var>setup.exe</var> and go through the wizard. You can now launch Coati from your start menu.</p>
+
+					<h2>on Mac</h2>
+					<p>Download and open the Coati.dmg file and drag Coati.app into the applications folder. You can now launch Coati from your Applications.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/installation_mac.png" style="width:100%;">
+						</div>
+					</div>
+
+					<h2>on Linux</h2>
+					<p>Download Coati.tar.gz file and extract it. To start Coati run the Coati.sh script. Coati creates a folder ~/.config/coati at the first run, this is the folder for Coati settings.</p>
+
+					<h2>Data folder</h2>
+					<p>The data folder holds certain files that are used by Coati to run the program. After following the <a href="#INSTALLATION">installation instructions</a> the data folder should be located in the following locations on your platform.</p>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Platform</th> <th>Location</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">Windows</th> <td>C:/Users/You/AppData/Local/Coati Software/Coati <small>(used for dynamic data and settings)</small><br />some_path/Coati Software/Coati/data <small>(used for static app data)</small></td> </tr>
+							<tr> <th scope="row">Mac</th> <td>/Applications/Coati.app/Contents/Resources/data</td> </tr>
+							<tr> <th scope="row">Linux</th> <td>~/.config/coati</td> </tr>
+						</tbody>
+					</table>
+
+					<h2>Finding System Header Locations</h2>
+
+					<h3>on Windows</h3>
+					<p>These files usually ship with your compiler. For the Visual Studio IDE the system headers can be found at:</p>
+					<pre>path_to_visual_studio/VC/include/</pre>
+
+					<h3>on Mac</h3>
+					<p>Run this command in your terminal:</p>
+					<pre>gcc -x c++ -v -E /dev/null</pre>
+					<p>You will find the header search paths your compiler uses in the output between these two lines:</p>
+					<pre>#include <...> search starts here:<br />.<br />.<br />.<br />End of search list.</pre>
+
+					<h3>on Linux</h3>
+					<pre>gcc -x c++ -v -E /dev/null</pre>
+					or
+					<pre>clang -x c++ -v -E /dev/null</pre>
+					<p>You will find the header search paths your compiler uses in the output between these two lines:</p>
+					<pre>#include <...> search starts here:<br />.<br />.<br />.<br />End of search list.</pre>
+
+
+					<div class="row" style="height:80px;"></div>
+
+					<h1>USER INTERFACE</h1>
+
+					<h2>Start Window</h2>
+					<p>On every start of Coati you are shown the start window. It allows for creating new projects or opening existing ones.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/start_screen.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Clicking <var>New Project</var> will lead you to <a href="#ProjectSetupWindow">Project Setup</a>.</li>
+						<li>Clicking <var>Open Project</var> will let you open an existing Coati project by choosing from a file dialog.</li>
+						<li>Clicking on one of the <var>Recent Projects</var> will open this project. The list shows a maximum of 7 items ordered by recent first.</li>
+						<li>Pressing <var>ESC</var> will close the window.</li>
+					</ul>
+
+					<h2>Path List Box</h2>
+					<p>The Path List Box is a user interface element that is used within the <a href="#PreferencesWindow">Preferences Window</a>  and the <a href="#ProjectSetupWindow">Project Setup Window</a>. It allows for entering a list of file and directory paths.</p>
+					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3">
+							<img src="img/path_list_box.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Click the "+" icon to add a new path line.</li>
+						<li>Click the "-" icon to remove a selected path line.</li>
+						<li>Click a path line to select it.</li>
+						<li>Enter the path by typing on your keyboard</li>
+						<li>Click "..." within the path line to open a file dialog for choosing a file or directory path.</li>
+						<li>Directly add multiple paths into the box by dropping elements from your filesystem.</li>
+					</ul>
+
+
+					<h2>Preferences Window</h2>
+					<p>The Preferences window lets you define settings for all projects. You can open the Preferences from the menu via <a href="#Help">Help/Preferences</a> or from the <a href="#ProjectSetupWindow">Project Setup Window</a> by pressing the <var>Preferences</var> button.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/preferences_screen.png" style="width:100%;">
+						</div>
+					</div>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Setting</th> <th>Description</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">Header Search Paths</th> <td>Set header search paths that are used for <strong>all</strong> of your projects (e.g. std headers). (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>)</td> </tr>
+							<tr> <th scope="row">Framework Search Paths</th> <td>Mac only. Define the search paths for <code>.framework</code> files for all of your projects. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+						</tbody>
+					</table>
+
+
+					<h2>Project Setup Window</h2>
+					<p>The Project Setup Window lets you create a new Coati project.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/project_setup_screen.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Clicking <var>Cancel</var> will close the window.</li>
+						<li>Clicking <var>Create</var> will check your inputs, save the new project file and start analyzing the source files.</li>
+						<li>Pressing <var>ESC</var> will close the window.</li>
+					</ul>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Setting</th> <th>Description</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">Name</th> <td>The name of the project. This will also be the name of the project file.</td> </tr>
+							<tr> <th scope="row">Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
+							<tr> <th scope="row">Language</th> <td>Select the language of your project. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
+							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for analyzing your project. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
+							<tr> <th scope="row">Analyzed Paths</th> <td>Specify one or multiple locations that contain all the source and header files that should be analyzed by Coati. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+							<tr> <th scope="row">Header Search Paths</th> <td>Specify where Coati should be looking for included headers. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+							<tr> <th scope="row">Framework Search Paths</th> <td>Mac only. Define the search paths for <code>.framework</code> files for your project. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+						</tbody>
+					</table>
+
+					<h2>Enter License Window</h2>
+					<p>The Enter License Window appears on your first start of Coati and is used to enter and check your Coati license key.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/enter_license_screen.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Copy and Paste your license key from your "Coati 0 License Key" e-mail into the textfield. The key should be formated as shown by the placeholder text.</li>
+						<li>Clicking <var>Activate</var> will check if your license key is valid and close the window. Otherwise an error message will be displayed.</li>
+					</ul>
+
+					<h2>Main Window</h2>
+
+					<h3>Widget Windows</h3>
+					<p>Coati's three views are organized into Widgets Windows, which can be freely arranged within the Main Window or detached from it. Each Widget Window has a title bar displaying its name and 2 buttons for closing the Widget Window and for detaching it from the Main Window.</p>
+					<div class="row">
+						<div class="col-sm-10 col-sm-offset-1">
+							<img src="img/main_window.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Drag the Widget Window at the title bar to rearrange it within the Main Window, detach it or attach it again.</li>
+						<li>Press the "x" icon to close the Widget Window. They can be reopened from the <a href="#View">View Menu</a>.</li>
+						<li>Press the "□" icon to detach the Widget Window from the Main Window.</li>
+					</ul>
+
+					<h3>Statusbar</h3>
+					<p>The Statusbar is located on the bottom of the <a href="#MainWindow">Main Window</a> and is used to convey information about Coati's status and currently running processes to the user.</p>
+					<p>If your analysis yielded errors the status bar will display their count on the right side.
+					<div class="row">
+						<div class="col-sm-10 col-sm-offset-1">
+							<img src="img/status_bar.png" style="width:100%;">
+						</div>
+					</div>
+					<p>
+						<strong>Interactions:</strong>
+						<ul>
+							<li>Click on the error count to display the error locations in the <a href="#CodeView">Code View</a>.</li>
+						</ul>
+					</p>
+
+
+					<h2>Menu Structure</h2>
+
+					<h3>Project</h3>
+					<ul>
+						<li>
+							<strong>New Project</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">New Project</a></li>
+								<li>Opens the <a href="#ProjectSetupWindow">New Project</a> Dialog to define a new project and loads it after creation.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Open Project</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">Open Project</a></li>
+								<li>Opens a file dialog to choose an existing Coati project file from your system's hard drive.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Edit Project</strong>
+							<ul>
+								<li>Opens the <a href="#ProjectSetupWindow">New Project Dialog</a> prefilled with your project settings and allows for changing them.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Save Project</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">Save Project</a></li>
+								<li>Save the project file.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Save Project As</strong>
+							<ul>
+								<li>Shortcut: <a href="#"Shortcuts>Save Project As</a></li>
+								<li>Save the project file to another location. The project file will be duplicated.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Recent Projects</strong>
+							<ul>
+								<li>Opens a submenu to choose recent opened Coati projects.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Exit</strong>
+							<ul>
+								<li>Quits Coati.</li>
+							</ul>
+						</li>
+					</ul>
+
+					<h3>Edit</h3>
+					<ul>
+						<li>
+							<strong>Back</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">Back</a></li>
+								<li>Undoes the last navigation action.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Forward</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">Forward</a></li>
+								<li>Redoes an undone navigation action.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Refresh</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">Refresh</a></li>
+								<li>Refresh will check all analyzed source files for updates and reanalyze the ones that changed and their depending ones.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Force Refresh</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">Force Refresh</a></li>
+								<li>Force Refresh will reanalyze the whole project.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Find</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">Find</a></li>
+								<li>This option will put the focus into the search field, so you can start typing your search query. Alternatively you can click the search field.</li>
+							</ul>
+						</li>
+					</ul>
+
+					<h3>View</h3>
+					<ul>
+						<li>
+							<strong>Show Title Bars</strong>
+							<ul>
+								<li>Toggle the visibility of the bars above each <a href="#WidgetWindows">Window Widget</a>.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Search Window</strong>
+							<ul>
+								<li>Toggle the visibility of the Search Window. This can also be done by closing the Search Window on clicking the "x" icon in it's title bar. (See <a href="#WidgetWindows">Window Widgets</a>)</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Graph Window</strong>
+							<ul>
+								<li>Toggle the visibility of the Graph Window. This can also be done by closing the Graph Window on clicking the "x" icon in it's title bar. (See <a href="#WidgetWindows">Window Widgets</a>)</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Code Window</strong>
+							<ul>
+								<li>Toggle the visibility of the Code Window. This can also be done by closing the Code Window on clicking the "x" icon in it's title bar. (See <a href="#WidgetWindows">Window Widgets</a>)</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Larger Font</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">Larger Font</a></li>
+								<li>Increase the font size within the Main Window's user interface.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Smaller Font</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">Smaller Font</a></li>
+								<li>Decrease the font size within the Main Window's user interface.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Reset font size</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">Reset font size</a></li>
+								<li>Decrease the font size to the original size.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Switch Color Scheme</strong>
+							<ul>
+								<li>Opens a file dialog to choose another color scheme XML file. The color schemes are located in <a href="#Datafolder">data</a>/color_schemes/.</li>
+							</ul>
+						</li>
+					</ul>
+
+					<h3>Help</h3>
+					<ul>
+						<li>
+							<strong>About</strong>
+							<ul>
+								<li>Shows copyright information about Coati.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Licences</strong>
+							<ul>
+								<li>Documents which third party licences Coati is using.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Enter License...</strong>
+							<ul>
+								<li>Opens the <a href="#EnterLicenseWindow">Enter License Window</a>.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Preferences</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">Preferences</a></li>
+								<li>Opens the <a href="#PreferencesWindow">Preferences Window</a>.</li>
+							</ul>
+						</li>
+					</ul>
+
+
+					<h2>Shortcuts</h2>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Shortcut</th> <th>Windows</th> <th>Mac OS X</th> <th>Linux</th> </tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">Preferences</th>
+								<td></td>
+								<td><kbd><kbd>Cmd</kbd> + <kbd>,</kbd></kbd></td>
+								<td></td>
+							</tr>
+							<tr>
+								<th scope="row">New Project</th>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>N</kbd></kbd></td>
+								<td><kbd><kbd>Cmd</kbd> + <kbd>N</kbd></kbd></td>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>N</kbd></kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Open Project</th>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>O</kbd></kbd></td>
+								<td><kbd><kbd>Cmd</kbd> + <kbd>O</kbd></kbd></td>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>O</kbd></kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Save Project</th>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>S</kbd></kbd></td>
+								<td><kbd><kbd>Cmd</kbd> + <kbd>S</kbd></kbd></td>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>S</kbd></kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Save Project As</th>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd></kbd></td>
+								<td><kbd><kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd></kbd></td>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd></kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Close Window</th>
+								<td><kbd><kbd>Alt</kbd> + <kbd>F4</kbd></kbd></td>
+								<td><kbd><kbd>Cmd</kbd> + <kbd>W</kbd></kbd></td>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>W</kbd></kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Hide Window</th>
+								<td></td>
+								<td><kbd><kbd>Cmd</kbd> + <kbd>H</kbd></kbd></td>
+								<td></td>
+							</tr>
+							<tr>
+								<th scope="row">Refresh</th>
+								<td><kbd>F5</kbd></td>
+								<td><kbd><kbd>Cmd</kbd> + <kbd>R</kbd></kbd></td>
+								<td><kbd>F5</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Force Refresh</th>
+								<td><kbd><kbd>Shift</kbd> + <kbd>F5</kbd></kbd></td>
+								<td><kbd><kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd></kbd></td>
+								<td><kbd><kbd>Shift</kbd> + <kbd>F5</kbd></kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Back</th>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>Z</kbd></kbd></td>
+								<td><kbd><kbd>Cmd</kbd> + <kbd>Z</kbd></kbd></td>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>Z</kbd></kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Forward</th>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></kbd></td>
+								<td><kbd><kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></kbd></td>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Find</th>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>F</kbd></kbd></td>
+								<td><kbd><kbd>Cmd</kbd> + <kbd>F</kbd></kbd></td>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>F</kbd></kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Larger Font</th>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>+</kbd></kbd></td>
+								<td><kbd><kbd>Cmd</kbd> + <kbd>+</kbd></kbd></td>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>+</kbd></kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Smaller Font</th>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>-</kbd></kbd></td>
+								<td><kbd><kbd>Cmd</kbd> + <kbd>-</kbd></kbd></td>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>-</kbd></kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Reset Font Size</th>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>0</kbd></kbd></td>
+								<td><kbd><kbd>Cmd</kbd> + <kbd>0</kbd></kbd></td>
+								<td><kbd><kbd>Ctrl</kbd> + <kbd>0</kbd></kbd></td>
+							</tr>
+						</tbody>
+					</table>
+
+
+					<h2>Graph View</h2>
+					<p>The graph view visualizes the currently selected symbol and all its relationships to other symbols as an interactive graph visualization.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/graph_view.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Scroll left-right and up-down for big graphs.</li>
+						<li>Drag the background area to move the whole graph for big graphs.</li>
+					</ul>
+
+					<h3>Nodes</h3>
+					<p>Colors are corresponding to the default color scheme.</p>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Node Type</th> <th>Image</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">File</th> <td><img src="img/node_file.png" style="height:40px;"></td> </tr>
+							<tr> <th scope="row">Type & Template Parameter</th> <td><img src="img/node_type.png" style="height:40px;"></td> </tr>
+							<tr> <th scope="row">Typedef</th> <td><img src="img/node_typedef.png" style="height:40px;"></td> </tr>
+							<tr> <th scope="row">Class & Struct: <span style="font-weight:normal">Display their members nested, and separated by access type: public, protected, private. By default only members with edges are shown. The arrow icon allows to expand and collapse them. The number tells how many nodes are hidden.</span></th> <td><img src="img/node_class.png" style="height:160px;"></td> </tr>
+							<tr> <th scope="row">Variable & Field</th> <td><img src="img/node_variable.png" style="height:40px;"></td> </tr>
+							<tr> <th scope="row">Function & Method</th> <td><img src="img/node_function.png" style="height:40px;"></td> </tr>
+							<tr> <th scope="row">Enum</th> <td><img src="img/node_enum.png" style="height:160px;"></td> </tr>
+							<tr> <th scope="row">Undefined: <span style="font-weight:normal">Nodes that were not defined within the analyzed files are shown with hatched background.</span></th> <td><img src="img/node_undefined.png" style="height:40px;"></td> </tr>
+							<tr> <th scope="row">Bundle: <span style="font-weight:normal">A bundle node combines multiple nodes to reduce the size of the graph visualization. The name describes what kind of nodes are bundled. The number tells how many nodes are bundled.</span></th> <td><img src="img/node_bundle.png" style="height:40px;"></td> </tr>
+						</tbody>
+					</table>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Click a node to activate it.</li>
+						<li>Drag a node to change its position.</li>
+						<li>Click the arrow icon in class nodes to expand and collapse it.</li>
+						<li>Click a bundle node to expand it.</li>
+						<li>Hover a node to see a tooltip that displays the node’s type.</li>
+					</ul>
+
+					<h3>Edges</h3>
+					<p>Colors are corresponding to the default color scheme.</p>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Edge Type</th> <th>Image</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">File Include</th> <td><img src="img/edge_include.png" style="height:60px;"></td> </tr>
+							<tr> <th scope="row">Type Use</th> <td><img src="img/edge_type_usage.png" style="height:60px;"></td> </tr>
+							<tr> <th scope="row">Variable Use</th> <td><img src="img/edge_variable_use.png" style="height:50px;"></td> </tr>
+							<tr> <th scope="row">Function Call</th> <td><img src="img/edge_call.png" style="height:40px;"></td> </tr>
+							<tr> <th scope="row">Inheritance</th> <td><img src="img/edge_inheritance.png" style="height:80px;"></td> </tr>
+							<tr> <th scope="row">Method Override</th> <td><img src="img/edge_override.png" style="height:100px;"></td> </tr>
+							<tr> <th scope="row">Template Parameter Use & Template Argument Use</th> <td><img src="img/edge_template_param.png" style="height:60px;"></td> </tr>
+							<tr> <th scope="row">Aggregation: <span style="font-weight:normal">Bundles multiple edges between the child nodes of the 2 nodes. The number tells how many edges are bundled. The arrow tells whether all edges point in a certain direction or not.</span></th> <td><img src="img/edge_aggregation.png" style="height:50px;"></td> </tr>
+						</tbody>
+					</table>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Click an edge to see its location in the <a href="#CodeView">Code View</a>.</li>
+						<li>Click an aggregation edge to activate all its corresponding edges.</li>
+						<li>Hover an edge to see a tooltip that displays the edge’s type.</li>
+					</ul>
+
+
+					<h2>Code View</h2>
+					<p>The code view displays the corresponding source code of the currently selected symbols. The code view contains a list of one or more files.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/code_view.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Scroll up and down to see the different source files.</li>
+					</ul>
+
+					<h3>Files</h3>
+					<p>Each file has a title bar with the file's name and buttons to change its display state. There are 3 different states:</p>
+					<ul>
+						<li>
+							<strong>Minimized:</strong> The file does not show its content.
+							<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
+									<img src="img/snippet_minimized.png" style="width:100%;">
+								</div>
+							</div>
+						</li>
+						<li><strong>Snippets:</strong> The file displays the snippets containing active locations separated by lines.
+							<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
+									<img src="img/snippet_snippets.png" style="width:100%;">
+								</div>
+							</div>
+						</li>
+						<li><strong>Maximized:</strong> The whole content of the file is visible.
+							<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
+									<img src="img/snippet_maximized.png" style="width:100%;">
+								</div>
+							</div>
+						</li>
+					</ul>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Hover the title to see the full file path.</li>
+						<li>Click the title to activate the file's corresponding node.</li>
+						<li>Click one of the three icons on the right to change the display state of the file.</li>
+					</ul>
+
+					<h3>Snippets</h3>
+					<p>A code snippet contains the line of interest for the currently active symbols. Other symbols that were analyzed by Coati are framed by a box when hovered. In case the snippet is part of a class, function or namespace, an additional line at the top of the snippet provides information about the snippet’s context (e.g. the surrounding scope).</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/code_view_snippet.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Click the top line to show the whole scope around the snippet.</li>
+						<li>Click a boxed symbol to activate it.</li>
+					</ul>
+
+
+					<h2>Search View</h2>
+					<p>The Search View contains the search field and some other related user interface elements.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/search_view.png" style="width:100%;">
+						</div>
+					</div>
+
+					<h3>Back & Forward</h3>
+					<p>The left <var>Backward</var> button lets you undo your last navigation actions (see <a href="#Back">Back</a>) and the right <var>Forward</var> button lets you redo your undone navigation actions again (see <a href="#Forward">Forward</a>). Both buttons are only enabled when the respective actions are available at the moment.</p>
+					<div class="row">
+						<div class="col-xs-2 col-xs-offset-5">
+							<img src="img/undo_redo_buttons.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Hover the buttons to see a tool tip.</li>
+						<li>Press the buttons to execute the respective action.</li>
+					</ul>
+
+					<h3>Refresh</h3>
+					<p>The left refresh button allows you to refresh the current project and reanalyze all updated files (see <a href="#Refresh">Refresh</a>). With the right auto refresh toggle button you can activate automatic refresh, which will reanalyze all updated files whenever you put window focus on Coati's <a href="#MainWindow">Main Window</a>.</p>
+					<div class="row">
+						<div class="col-xs-2 col-xs-offset-5">
+							<img src="img/refresh_buttons.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Hover the buttons to see a tooltip.</li>
+						<li>Press the left refresh button to refresh the project.</li>
+						<li>Press the right auto refresh button to toggle automatic refreshing.</li>
+					</ul>
+
+					<h3>Search bar</h3>
+					<p>The search bar allows you to enter search requests to find one of Coati's analyzed symbols. It doesn't allow for full text searching across all files so far. The search field allows for most text editing interactions common to text fields. When typing your request the <a href="#AutocompletionPopup">Autocompletion Popup</a> will show you search results matching to your entered string.</p>
+					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3">
+							<img src="img/search_bar.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Focus the search field by clicking it or using the <a href="#Find">Find Action</a>.</li>
+						<li>Enter your search request by typing on your keyboard.</li>
+						<li>By pressing enter or clicking on the search icon on the right you send your request.</li>
+						<li>The search field allows for most interactions known from other text fields such as moving the cursor, copy&paste and text selection.</li>
+					</ul>
+
+					<h3>Autocompletion Popup</h3>
+					<p>The Autocompletion Popup displays all <a href="#Nodes">Nodes</a> matching your search request within all analyzed symbols. The match results are determined by a fuzzy matching algorithm, that allows you to skip characters. The popup shows which characters in the words are matching and displays their corresponding node color. The node type is displayed on the right.</p>
+					<div class="row">
+						<div class="col-sm-10 col-sm-offset-1">
+							<img src="img/search_view_completion.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Use the up and down arrow keys to switch between search results.</li>
+						<li>Pressing tab or clicking on the search result will insert it into the search field.</li>
+						<li>Pressing enter will select the search result and send the search request.</li>
+					</ul>
+
+
+					<div class="row" style="height:80px;"></div>
+
+					<h1>CODE EDITOR PLUGINS</h1>
+					<p>In order to make Coati the perfect partner for your development workflow you can connect Coati with different code editors. You can find the plugins in Coati's download package located in the folder <code>/ide_plugins</code>. Have a look at the following list of supported code editors to find out what editors are currently supported.</p>
+					<p>We are eager to expand the range of supported editors, so if you can't find a plugin for the code editor you are using, please let us know by writing to <a href="mailto:support@coati.io" target="_top">support@coati.io</a>.</p>
+					<strong>Supported Editors:</strong>
+					<ul>
+						<li>Sublime Text 2</li>
+						<li>Sublime Text 3</li>
+						<li>Visual Studio 2012</li>
+						<li>Visual Studio 2013</li>
+						<li>Visual Studio 2015</li>
+					</ul>
+					<p>The communication between Coati and the code editor is achieved using a local TCP connection. Coati uses the port 6667 to listen for incoming messages. Outgoing messages will be sent to the port 6666.</p>
+					<p>Outgoing messages are in the form:</p>
+					<pre>moveCursor&gt;&gt;absolute/file_path&gt;&gt;line_number&gt;&gt;column_number&lt;EOM&gt;</pre>
+					<p>Incoming messages are in the form:</p>
+					<pre>setActiveToken&gt;&gt;absolute/file_path&gt;&gt;line_number&gt;&gt;column_number&lt;EOM&gt;</pre>
+
+
+					<h2>From Coati</h2>
+					<p>If you want your editor to open a file at a specific location from within Coati, you can achieve this by either selecting the option <var>Set IDE Cursor</var> from the right-click menu in the <a href="#CodeView">Code View</a> or by simply clicking into a line in the <a href="#CodeView">Code View</a> while holding down the <kbd>Ctrl</kbd> or <kbd>Cmd</kbd> key.</p>
+					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3">
+							<img src="img/plugin_use_in_coati.png" style="width:100%;">
+						</div>
+					</div>
+
+					<h2>To Coati</h2>
+					<p>By using a Coati plugin for your code editor, you can select a location within a source file and Coati will show you all symbols found at this location. Please have look at the list below to see which plugins are currently available and how they are used.</p>
+
+					<h3>Sublime Text</h3>
+					<strong>Installation</strong>
+					<p>To install the Coati plugin for Sublime Text copy the CoatiPlugin folder located in your <code>ide_plugins/sublime_text</code> to your <code>SublimeText/Packages</code> folder and restart Sublime.</p>
+					<strong>Use</strong>
+					<p>If you want Sublime to activate a certain element in Coati, click a location to place the cursor, right-click to bring up the context menu and choose the “Coati - Set active Token” option. Please note that the position of the cursor will be sent to Coati and not the position you opened the context menu at.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/plugin_use_in_sublime_text.png" style="width:100%;">
+						</div>
+					</div>
+
+					<h3>Visual Studio</h3>
+					<strong>Installation</strong>
+					<p>To install the Coati plugin for any version of Visual Studio, just execute the corresponding vsix file located in your <code>ide_plugins/visual_studio</code>.</p>
+					<strong>Use</strong>
+					<p>If you want Visual Studio to activate a certain element in Coati, right-click that element to bring up the context menu and choose the “Set active Token” option.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/plugin_use_in_visual_studio.png" style="width:100%;">
+						</div>
+					</div>
+
+
+				</div> <!-- .span9 !-->
+			</div> <!-- .row !-->
+		</div> <!-- .container-fluid !-->
+
+		<script src="js/jquery-1.12.0.min.js"></script>
+		<script src="js/jquery-ui.min.js"></script>
+		<script src="js/jquery.tocify.js"></script>
+
+		<script>
+			$(function() {
+				var toc = $("#toc").tocify({ selectors: "h1, h2, h3", showAndHide: window.innerWidth >= 768 });
+			});
+		</script>
+	</body>
+</html>
