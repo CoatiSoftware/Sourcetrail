@@ -6,6 +6,7 @@
 class MessageActivateEdge;
 class MessageActivateFile;
 class MessageActivateNodes;
+class MessageActivateTokenIds;
 class MessageActivateTokens;
 class MessageSearch;
 class StorageAccess;
@@ -19,6 +20,7 @@ public:
 	std::shared_ptr<MessageActivateTokens> translateMessage(const MessageActivateEdge* message) const;
 	std::shared_ptr<MessageActivateTokens> translateMessage(const MessageActivateFile* message) const;
 	std::shared_ptr<MessageActivateTokens> translateMessage(const MessageActivateNodes* message) const;
+	std::shared_ptr<MessageActivateTokens> translateMessage(const MessageActivateTokenIds* message) const;
 	std::shared_ptr<MessageActivateTokens> translateMessage(const MessageSearch* message) const;
 
 private:

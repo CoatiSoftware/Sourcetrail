@@ -5,6 +5,7 @@
 #include <string>
 
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
@@ -24,6 +25,7 @@ class TokenLocationFile;
 
 class CodeController
 	: public Controller
+	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageFocusIn>
 	, public MessageListener<MessageFocusOut>
@@ -39,6 +41,7 @@ public:
 private:
 	static const uint s_lineRadius;
 
+	virtual void handleMessage(MessageActivateAll* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageFocusIn* message);
 	virtual void handleMessage(MessageFocusOut* message);
@@ -56,6 +59,10 @@ private:
 	std::vector<CodeView::CodeSnippetParams> getSnippetsForFile(std::shared_ptr<TokenLocationFile> file) const;
 	std::shared_ptr<SnippetMerger> buildMergerHierarchy(
 		TokenLocation* location, SnippetMerger& fileScopedMerger, std::map<int, std::shared_ptr<SnippetMerger>>& mergers) const;
+
+	std::vector<CodeView::CodeSnippetParams> getSnippetsForErrorLocations(std::vector<std::string>* errorMessages) const;
+
+	std::vector<std::string> getProjectDescription(TokenLocationFile* locationFile) const;
 
 	StorageAccess* m_storageAccess;
 };

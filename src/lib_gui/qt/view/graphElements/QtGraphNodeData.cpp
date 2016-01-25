@@ -7,20 +7,13 @@
 
 #include "data/graph/token_component/TokenComponentSignature.h"
 
-QtGraphNodeData::QtGraphNodeData(const Node* data, bool hasParent, bool childVisible)
+QtGraphNodeData::QtGraphNodeData(const Node* data, const std::string& name, bool hasParent, bool childVisible)
 	: m_data(data)
 	, m_childVisible(childVisible)
 {
 	this->setAcceptHoverEvents(true);
 
-	if (!hasParent)
-	{
-		this->setName(data->getFullName());
-	}
-	else
-	{
-		this->setName(data->getName());
-	}
+	this->setName(name);
 
 	std::string toolTip = data->getTypeString();
 	if (!data->isDefined() && !data->isType(Node::NODE_UNDEFINED))

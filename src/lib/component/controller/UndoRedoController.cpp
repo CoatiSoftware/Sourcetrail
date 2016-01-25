@@ -67,6 +67,18 @@ void UndoRedoController::handleMessage(MessageActivateNodes* message)
 	processCommand(command);
 }
 
+void UndoRedoController::handleMessage(MessageActivateTokenIds* message)
+{
+	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() && message->tokenIds.size() &&
+		static_cast<MessageActivateTokenIds*>(m_lastCommand.message.get())->tokenIds == message->tokenIds)
+	{
+		return;
+	}
+
+	Command command(std::make_shared<MessageActivateTokenIds>(*message), 0);
+	processCommand(command);
+}
+
 void UndoRedoController::handleMessage(MessageDeactivateEdge* message)
 {
 	MessageBase* m = nullptr;
@@ -140,23 +152,9 @@ void UndoRedoController::handleMessage(MessageRefresh* message)
 
 	if (requiresActivateFallbackToken())
 	{
-		Id nodeId = m_storageAccess->getIdForNodeWithSearchNameHierarchy(NameHierarchy("main"));
-		if (!nodeId)
-		{
-			nodeId = m_storageAccess->getIdForFirstNode();
-		}
-
-		if (nodeId)
-		{
-			MessageActivateNodes m;
-			m.addNode(
-				nodeId,
-				m_storageAccess->getNodeTypeForNodeWithId(nodeId),
-				m_storageAccess->getNameHierarchyForNodeWithId(nodeId)
-				);
-			m.isFromSystem = true;
-			m.dispatch();
-		}
+		SearchMatch match = SearchMatch::createCommand(SearchMatch::COMMAND_ALL);
+		MessageSearch msg(std::vector<SearchMatch>(1, match));
+		msg.dispatch();
 	}
 	else
 	{

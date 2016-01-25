@@ -8,6 +8,7 @@
 #include "utility/messaging/type/MessageActivateEdge.h"
 #include "utility/messaging/type/MessageActivateFile.h"
 #include "utility/messaging/type/MessageActivateNodes.h"
+#include "utility/messaging/type/MessageActivateTokenIds.h"
 #include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
@@ -32,6 +33,7 @@ class UndoRedoController
 	, public MessageListener<MessageActivateEdge>
 	, public MessageListener<MessageActivateFile>
 	, public MessageListener<MessageActivateNodes>
+	, public MessageListener<MessageActivateTokenIds>
 	, public MessageListener<MessageDeactivateEdge>
 	, public MessageListener<MessageGraphNodeBundleSplit>
 	, public MessageListener<MessageGraphNodeExpand>
@@ -63,6 +65,7 @@ private:
 	virtual void handleMessage(MessageActivateEdge* message);
 	virtual void handleMessage(MessageActivateFile* message);
 	virtual void handleMessage(MessageActivateNodes* message);
+	virtual void handleMessage(MessageActivateTokenIds* message);
 	virtual void handleMessage(MessageDeactivateEdge* message);
 	virtual void handleMessage(MessageGraphNodeBundleSplit* message);
 	virtual void handleMessage(MessageGraphNodeExpand* message);

@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <config>
-    <source>
-        <extensions>
-            <header_extensions>.h</header_extensions>
-            <source_extensions>.cpp</source_extensions>
-        </extensions>
-        <source_paths>
-            <source_path>./src</source_path>
-        </source_paths>
-    </source>
+	<info>
+		<description>
+			This is the tutorial project of Coati.\nIt will introduce you to Coati's user interface.\nPlease click on the function [main] below to start the tutorial\n\n[main](); // &lt;- start here\n\n
+		</description>
+	</info>
+	<source>
+		<extensions>
+			<header_extensions>.h</header_extensions>
+			<source_extensions>.cpp</source_extensions>
+		</extensions>
+		<source_paths>
+			<source_path>./src</source_path>
+		</source_paths>
+	</source>
 </config>

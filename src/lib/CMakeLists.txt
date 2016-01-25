@@ -165,6 +165,7 @@ add_files(
 	data/StorageCache.cpp
 	data/StorageCache.h
 	data/StorageTypes.h
+	data/StorageStats.h
 	data/TaskCleanStorage.cpp
 	data/TaskCleanStorage.h
 
@@ -210,10 +211,12 @@ add_files(
 	utility/math/Vector4.h
 	utility/math/VectorBase.h
 
+	utility/messaging/type/MessageActivateAll.h
 	utility/messaging/type/MessageActivateEdge.h
 	utility/messaging/type/MessageActivateFile.h
 	utility/messaging/type/MessageActivateNodes.h
 	utility/messaging/type/MessageActivateTokenLocations.h
+	utility/messaging/type/MessageActivateTokenIds.h
 	utility/messaging/type/MessageActivateTokens.h
 	utility/messaging/type/MessageActivateWindow.h
 	utility/messaging/type/MessageAutoRefreshChanged.h

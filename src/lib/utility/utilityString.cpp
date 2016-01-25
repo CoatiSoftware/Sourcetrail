@@ -128,6 +128,13 @@ namespace utility
 		return res.first == prefix.end();
 	}
 
+	std::string toUpperCase(const std::string& in)
+	{
+		std::string out;
+		std::transform(in.begin(), in.end(), std::back_inserter(out), toupper);
+		return out;
+	}
+
 	std::string toLowerCase(const std::string& in)
 	{
 		std::string out;

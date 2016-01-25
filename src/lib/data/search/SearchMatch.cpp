@@ -45,6 +45,28 @@ std::string SearchMatch::searchMatchesToString(const std::vector<SearchMatch>& m
 	return ss.str();
 }
 
+SearchMatch SearchMatch::createCommand(CommandType type)
+{
+	SearchMatch match;
+	match.nameHierarchy = NameHierarchy(getCommandName(type));
+	match.typeName = "command";
+	match.searchType = SEARCH_COMMAND;
+	return match;
+}
+
+std::string SearchMatch::getCommandName(CommandType type)
+{
+	switch (type)
+	{
+	case COMMAND_ALL:
+		return "overview";
+	case COMMAND_ERROR:
+		return "error";
+	}
+
+	return "none";
+}
+
 SearchMatch::SearchMatch()
 	: typeName("")
 	, searchType(SEARCH_NONE)

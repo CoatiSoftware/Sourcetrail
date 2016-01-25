@@ -135,6 +135,27 @@ void HierarchyCache::addFirstVisibleChildIdsForNodeId(Id nodeId, std::vector<Id>
 	}
 }
 
+bool HierarchyCache::isChildOfVisibleNodeOrInvisible(Id nodeId) const
+{
+	HierarchyNode* node = getNode(nodeId);
+	if (!node)
+	{
+		return false;
+	}
+
+	if (!node->isVisible())
+	{
+		return true;
+	}
+
+	if (node->getParent() && node->getParent()->isVisible())
+	{
+		return true;
+	}
+
+	return false;
+}
+
 HierarchyCache::HierarchyNode* HierarchyCache::getNode(Id nodeId) const
 {
 	std::map<Id, std::shared_ptr<HierarchyNode>>::const_iterator it = m_nodes.find(nodeId);

@@ -57,6 +57,11 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 
 	titleLayout->addWidget(m_title);
 
+	if (m_title->text().size() == 0)
+	{
+		m_title->hide();
+	}
+
 	m_titleBar->setMinimumHeight(m_title->height() + 4);
 
 	m_referenceCount = new QLabel(this);

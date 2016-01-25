@@ -24,13 +24,13 @@
 			body {
 				padding-top: 20px;
 			}
-			
+
 			#nav {
 				position:fixed;
 				width: 20%;
 				margin-left: 2%;
 			}
-			
+
 			.tocify {
 				position:static;
 				width: 100%;
@@ -50,14 +50,14 @@
 		<div class="container-fluid">
 			<div class="row-fluid">
 
-				<div class="col-xs-12 col-sm-3"> 
-					<div id="nav"> 
+				<div class="col-xs-12 col-sm-3">
+					<div id="nav">
 						<div class="row">
 							<div class="col-xs-12">
 								<p><span class="glyphicon glyphicon-arrow-left"></span> <a href="http://www.coati.io/">back to coati.io</a></p>
 							</div>
 						</div>
-						<div class="row" style="height:20px;"></div>
+						<div class="row" style="height:10px;"></div>
 						<div class="row">
 							<div class="col-xs-12">
 								<div id="toc"></div><!-- Our table of contents will be here !-->
@@ -75,7 +75,7 @@
 					<div class="row" style="text-align:center;">
 						<p>Documentation for version 0.5</p>
 					</div>
-					
+
 					<div class="row" style="height:120px;"></div>
 					<address>
 						<strong>Coati Software OG.</strong><br>
@@ -83,13 +83,13 @@
 						5412 Puch bei Hallein<br>
 						Austria<br>
 					</address>
-						
+
 					<address>
 						<strong>Contact</strong><br>
 						<a href="http://coati.io">coati.io</a><br>
 						<a href="mailto:mail@coati.io" target="_top">mail@coati.io</a><br>
 					</address>
-					
+
 					<div class="row" style="height:40px;"></div>
 
 					<h1>QUICK START GUIDE</h1>
@@ -198,7 +198,7 @@
 							<li>or Press ESC to stop the analysis (Coati will provide all information gathered so far and the analysis can be continued later by <a href="#Refresh">refreshing</a>).</li>
 						</ul>
 					</div>
-					<p>After analysis has finished, Coati will look for a function named <code>main</code> and activate it. In case it's not there, the first analyzed file will be activated. If the analysis found errors in your code, the code view will display them. You can see the error message by hovering an error's location.</p>
+					<p>After analysis has finished, Coati will show an overview of all analysed symbols in the <a href="#GraphView">graph view</a> and some statistics in the <a href="#CodeView">code view</a>. If the analysis found errors in your code, the code view will display them. You can see the error message by hovering an error's location.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/error_view.png" style="width:100%;">
@@ -416,98 +416,6 @@
 
 					<h1>USER INTERFACE</h1>
 
-					<h2>Start Window</h2>
-					<p>On every start of Coati you are shown the start window. It allows for creating new projects or opening existing ones.</p>
-					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/start_screen.png" style="width:100%;">
-						</div>
-					</div>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>New Project</var> will lead you to <a href="#ProjectSetupWindow">Project Setup</a>.</li>
-						<li>Clicking <var>Open Project</var> will let you open an existing Coati project by choosing from a file dialog.</li>
-						<li>Clicking on one of the <var>Recent Projects</var> will open this project. The list shows a maximum of 7 items ordered by recent first.</li>
-						<li>Pressing <var>ESC</var> will close the window.</li>
-					</ul>
-
-					<h2>Path List Box</h2>
-					<p>The Path List Box is a user interface element that is used within the <a href="#PreferencesWindow">Preferences Window</a>  and the <a href="#ProjectSetupWindow">Project Setup Window</a>. It allows for entering a list of file and directory paths.</p>
-					<div class="row">
-						<div class="col-sm-6 col-sm-offset-3">
-							<img src="img/path_list_box.png" style="width:100%;">
-						</div>
-					</div>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Click the "+" icon to add a new path line.</li>
-						<li>Click the "-" icon to remove a selected path line.</li>
-						<li>Click a path line to select it.</li>
-						<li>Enter the path by typing on your keyboard</li>
-						<li>Click "..." within the path line to open a file dialog for choosing a file or directory path.</li>
-						<li>Directly add multiple paths into the box by dropping elements from your filesystem.</li>
-					</ul>
-
-
-					<h2>Preferences Window</h2>
-					<p>The Preferences window lets you define settings for all projects. You can open the Preferences from the menu via <a href="#Help">Help/Preferences</a> or from the <a href="#ProjectSetupWindow">Project Setup Window</a> by pressing the <var>Preferences</var> button.</p>
-					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/preferences_screen.png" style="width:100%;">
-						</div>
-					</div>
-					<table class="table table-hover">
-						<thead>
-							<tr> <th>Setting</th> <th>Description</th> </tr>
-						</thead>
-						<tbody>
-							<tr> <th scope="row">Header Search Paths</th> <td>Set header search paths that are used for <strong>all</strong> of your projects (e.g. std headers). (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>)</td> </tr>
-							<tr> <th scope="row">Framework Search Paths</th> <td>Mac only. Define the search paths for <code>.framework</code> files for all of your projects. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
-						</tbody>
-					</table>
-
-
-					<h2>Project Setup Window</h2>
-					<p>The Project Setup Window lets you create a new Coati project.</p>
-					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/project_setup_screen.png" style="width:100%;">
-						</div>
-					</div>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>Cancel</var> will close the window.</li>
-						<li>Clicking <var>Create</var> will check your inputs, save the new project file and start analyzing the source files.</li>
-						<li>Pressing <var>ESC</var> will close the window.</li>
-					</ul>
-					<table class="table table-hover">
-						<thead>
-							<tr> <th>Setting</th> <th>Description</th> </tr>
-						</thead>
-						<tbody>
-							<tr> <th scope="row">Name</th> <td>The name of the project. This will also be the name of the project file.</td> </tr>
-							<tr> <th scope="row">Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
-							<tr> <th scope="row">Language</th> <td>Select the language of your project. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
-							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for analyzing your project. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
-							<tr> <th scope="row">Analyzed Paths</th> <td>Specify one or multiple locations that contain all the source and header files that should be analyzed by Coati. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
-							<tr> <th scope="row">Header Search Paths</th> <td>Specify where Coati should be looking for included headers. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
-							<tr> <th scope="row">Framework Search Paths</th> <td>Mac only. Define the search paths for <code>.framework</code> files for your project. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
-						</tbody>
-					</table>
-
-					<h2>Enter License Window</h2>
-					<p>The Enter License Window appears on your first start of Coati and is used to enter and check your Coati license key.</p>
-					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/enter_license_screen.png" style="width:100%;">
-						</div>
-					</div>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Copy and Paste your license key from your "Coati 0 License Key" e-mail into the textfield. The key should be formated as shown by the placeholder text.</li>
-						<li>Clicking <var>Activate</var> will check if your license key is valid and close the window. Otherwise an error message will be displayed.</li>
-					</ul>
-
 					<h2>Main Window</h2>
 
 					<h3>Widget Windows</h3>
@@ -539,10 +447,105 @@
 						</ul>
 					</p>
 
+					<h2>Other Windows</h2>
+					<h3>Start Window</h3>
+					<p>On every start of Coati you are shown the start window. It allows for creating new projects or opening existing ones.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/start_screen.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Clicking <var>New Project</var> will lead you to <a href="#ProjectSetupWindow">Project Setup</a>.</li>
+						<li>Clicking <var>Open Project</var> will let you open an existing Coati project by choosing from a file dialog.</li>
+						<li>Clicking on one of the <var>Recent Projects</var> will open this project. The list shows a maximum of 7 items ordered by recent first.</li>
+						<li>Pressing <var>ESC</var> will close the window.</li>
+					</ul>
 
-					<h2>Menu Structure</h2>
+					<h3>Path List Box</h3>
+					<p>The Path List Box is a user interface element that is used within the <a href="#PreferencesWindow">Preferences Window</a>  and the <a href="#ProjectSetupWindow">Project Setup Window</a>. It allows for entering a list of file and directory paths.</p>
+					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3">
+							<img src="img/path_list_box.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Click the "+" icon to add a new path line.</li>
+						<li>Click the "-" icon to remove a selected path line.</li>
+						<li>Click a path line to select it.</li>
+						<li>Enter the path by typing on your keyboard</li>
+						<li>Click "..." within the path line to open a file dialog for choosing a file or directory path.</li>
+						<li>Directly add multiple paths into the box by dropping elements from your filesystem.</li>
+					</ul>
 
-					<h3>Project</h3>
+
+					<h3>Preferences Window</h3>
+					<p>The Preferences window lets you define settings for all projects. You can open the Preferences from the menu via <a href="#Help">Help/Preferences</a> or from the <a href="#ProjectSetupWindow">Project Setup Window</a> by pressing the <var>Preferences</var> button.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/preferences_screen.png" style="width:100%;">
+						</div>
+					</div>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Setting</th> <th>Description</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">Header Search Paths</th> <td>Set header search paths that are used for <strong>all</strong> of your projects (e.g. std headers). (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>)</td> </tr>
+							<tr> <th scope="row">Framework Search Paths</th> <td>Mac only. Define the search paths for <code>.framework</code> files for all of your projects. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+						</tbody>
+					</table>
+
+
+					<h3>Project Setup Window</h3>
+					<p>The Project Setup Window lets you create a new Coati project.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/project_setup_screen.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Clicking <var>Cancel</var> will close the window.</li>
+						<li>Clicking <var>Create</var> will check your inputs, save the new project file and start analyzing the source files.</li>
+						<li>Pressing <var>ESC</var> will close the window.</li>
+					</ul>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Setting</th> <th>Description</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">Name</th> <td>The name of the project. This will also be the name of the project file.</td> </tr>
+							<tr> <th scope="row">Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
+							<tr> <th scope="row">Language</th> <td>Select the language of your project. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
+							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for analyzing your project. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
+							<tr> <th scope="row">Analyzed Paths</th> <td>Specify one or multiple locations that contain all the source and header files that should be analyzed by Coati. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+							<tr> <th scope="row">Header Search Paths</th> <td>Specify where Coati should be looking for included headers. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+							<tr> <th scope="row">Framework Search Paths</th> <td>Mac only. Define the search paths for <code>.framework</code> files for your project. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+						</tbody>
+					</table>
+
+					<h3>Enter License Window</h3>
+					<p>The Enter License Window appears on your first start of Coati and is used to enter and check your Coati license key.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/enter_license_screen.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Copy and Paste your license key from your "Coati 0 License Key" e-mail into the textfield. The key should be formated as shown by the placeholder text.</li>
+						<li>Clicking <var>Activate</var> will check if your license key is valid and close the window. Otherwise an error message will be displayed.</li>
+					</ul>
+
+
+					<h2>Menu</h2>
+
+					<h3>Structure</h3>
+
+					<h4>Project</h4>
 					<ul>
 						<li>
 							<strong>New Project</strong>
@@ -592,7 +595,7 @@
 						</li>
 					</ul>
 
-					<h3>Edit</h3>
+					<h4>Edit</h4>
 					<ul>
 						<li>
 							<strong>Back</strong>
@@ -631,7 +634,7 @@
 						</li>
 					</ul>
 
-					<h3>View</h3>
+					<h4>View</h4>
 					<ul>
 						<li>
 							<strong>Show Title Bars</strong>
@@ -686,7 +689,7 @@
 						</li>
 					</ul>
 
-					<h3>Help</h3>
+					<h4>Help</h4>
 					<ul>
 						<li>
 							<strong>About</strong>
@@ -716,7 +719,7 @@
 					</ul>
 
 
-					<h2>Shortcuts</h2>
+					<h3>Shortcuts</h3>
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>Shortcut</th> <th>Windows</th> <th>Mac OS X</th> <th>Linux</th> </tr>
@@ -1003,6 +1006,18 @@
 						<li>Pressing tab or clicking on the search result will insert it into the search field.</li>
 						<li>Pressing enter will select the search result and send the search request.</li>
 					</ul>
+
+					<h3>Keywords</h3>
+					<p>Additionally the search view provides specific keywords that select a certein group of symbols.</p>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>keyword</th> <th>effect</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">overview</th> <td>Shows an overview of all analysed symbols in the <a href="#GraphView">graph view</a> and some statistics in the <a href="#CodeView">code view</a>.</td> </tr>
+							<tr> <th scope="row">error</th> <td>Shows all errors in the <a href="#CodeView">code view</a>.</td> </tr>
+						</tbody>
+					</table>
 
 
 					<div class="row" style="height:80px;"></div>

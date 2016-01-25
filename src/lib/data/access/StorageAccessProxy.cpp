@@ -113,6 +113,16 @@ std::vector<SearchMatch> StorageAccessProxy::getSearchMatchesForTokenIds(const s
 	return std::vector<SearchMatch>();
 }
 
+std::shared_ptr<Graph> StorageAccessProxy::getGraphForAll() const
+{
+	if (hasSubject())
+	{
+		return m_subject->getGraphForAll();
+	}
+
+	return std::make_shared<Graph>();
+}
+
 std::shared_ptr<Graph> StorageAccessProxy::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const
 {
 	if (hasSubject())
@@ -273,4 +283,14 @@ TimePoint StorageAccessProxy::getFileModificationTime(const FilePath& filePath) 
 	}
 
 	return TimePoint(boost::posix_time::not_a_date_time);
+}
+
+StorageStats StorageAccessProxy::getStorageStats() const
+{
+	if (hasSubject())
+	{
+		return m_subject->getStorageStats();
+	}
+
+	return StorageStats();
 }

@@ -122,3 +122,8 @@ bool ProjectSettings::setSourceExtensions(const std::vector<std::string> &source
 {
 	return setValues("source/extensions/source_extensions", sourceExtensions);
 }
+
+std::string ProjectSettings::getDescription() const
+{
+	return getValue<std::string>("info/description", "");
+}

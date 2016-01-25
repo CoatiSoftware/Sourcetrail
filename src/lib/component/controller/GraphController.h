@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageFocusIn.h"
@@ -26,6 +27,7 @@ class StorageAccess;
 
 class GraphController
 	: public Controller
+	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageFlushUpdates>
 	, public MessageListener<MessageFocusIn>
@@ -40,6 +42,7 @@ public:
 	~GraphController();
 
 private:
+	virtual void handleMessage(MessageActivateAll* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageFlushUpdates* message);
 	virtual void handleMessage(MessageFocusIn* message);
@@ -53,20 +56,21 @@ private:
 
 	void clear();
 
-	void createDummyGraphForTokenIds(const std::vector<Id>& tokenIds);
+	void createDummyGraphForTokenIds(const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph);
 	DummyNode createDummyNodeTopDown(Node* node);
 
 	void autoExpandActiveNode(const std::vector<Id>& activeTokenIds);
 
 	void setActiveAndVisibility(const std::vector<Id>& activeTokenIds);
 	void setNodeActiveRecursive(DummyNode& node, const std::vector<Id>& activeTokenIds) const;
-	bool setNodeVisibilityRecursiveBottomUp(DummyNode& node) const;
+	bool setNodeVisibilityRecursiveBottomUp(DummyNode& node, bool noActive) const;
 	void setNodeVisibilityRecursiveTopDown(DummyNode& node, bool parentExpanded) const;
 
 	void bundleNodes();
 	void bundleNodesMatching(std::function<bool(const DummyNode&)> matcher, size_t count, const std::string& name);
 	bool isTypeNodeWithSingleAggregation(const DummyNode& node, TokenComponentAggregation::Direction direction) const;
 	bool isTypeNodeWithSingleInheritance(const DummyNode& node, bool isBase) const;
+	void bundleNodesByType();
 
 	void layoutNesting();
 	void layoutNestingRecursive(DummyNode& node) const;

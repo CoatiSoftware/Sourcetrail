@@ -126,11 +126,16 @@ void BucketGrid::createBuckets(std::vector<DummyNode>& nodes, const std::vector<
 	bool activeNodeAdded = false;
 	for (DummyNode& node : nodes)
 	{
-		if (node.hasActiveSubNode())
+		if (node.hasActiveSubNode() || !edges.size())
 		{
 			addNode(&node);
 			activeNodeAdded = true;
 		}
+	}
+
+	if (!edges.size())
+	{
+		return;
 	}
 
 	if (!activeNodeAdded)

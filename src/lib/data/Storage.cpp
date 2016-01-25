@@ -40,6 +40,9 @@ Version Storage::getVersion() const
 
 bool Storage::init()
 {
+	m_commandIndex.addNode(NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_ALL)));
+	m_commandIndex.addNode(NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR)));
+
 	return m_sqliteStorage.init();
 }
 
@@ -141,19 +144,21 @@ const SearchIndex& Storage::getSearchIndex() const
 void Storage::logStats() const
 {
 	std::stringstream ss;
+	StorageStats stats = getStorageStats();
 
 	ss << "\nGraph:\n";
-	ss << "\t" << m_sqliteStorage.getNodeCount() << " Nodes\n";
-	ss << "\t" << m_sqliteStorage.getEdgeCount() << " Edges\n";
+	ss << "\t" << stats.nodeCount << " Nodes\n";
+	ss << "\t" << stats.edgeCount << " Edges\n";
 
 	ss << "\nSearch:\n";
-	ss << "\t" << m_tokenIndex.getCharCount() << " Characters\n";
-	ss << "\t" << m_tokenIndex.getWordCount() << " Words\n";
-	ss << "\t" << m_tokenIndex.getNodeCount() << " SearchNodes\n";
+	ss << "\t" << stats.charCount << " Characters\n";
+	ss << "\t" << stats.wordCount << " Words\n";
+	ss << "\t" << stats.searchNodeCount << " SearchNodes\n";
 
 	ss << "\nCode:\n";
-	ss << "\t" << m_sqliteStorage.getFileCount() << " Files\n";
-	ss << "\t" << m_sqliteStorage.getSourceLocationCount() << " Source Locations\n";
+	ss << "\t" << stats.fileCount << " Files\n";
+	ss << "\t" << stats.fileLOCCount << " Lines of Code\n";
+	ss << "\t" << stats.sourceLocationCount << " Source Locations\n";
 
 	LOG_WARNING(ss.str());
 }
@@ -812,7 +817,12 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 
 	m_cachedQuery = query;
 
-	std::vector<SearchMatch> matches = SearchIndex::getMatches(m_cachedResults, query);
+	SearchResults results = m_cachedResults;
+	SearchResults commandResults = m_commandIndex.runFuzzySearch(query);
+	results.insert(commandResults.begin(), commandResults.end());
+
+	std::vector<SearchMatch> matches = SearchIndex::getMatches(results, query);
+
 	LOG_INFO_STREAM(<< matches.size() << " matches for \"" << query << "\"");
 
 	if (matches.size() > 100)
@@ -825,6 +835,7 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 		if (!match.tokenIds.size())
 		{
 			match.searchType = SearchMatch::SEARCH_COMMAND;
+			match.typeName = "command";
 			continue;
 		}
 
@@ -881,6 +892,25 @@ std::vector<SearchMatch> Storage::getSearchMatchesForTokenIds(const std::vector<
 	}
 
 	return matches;
+}
+
+std::shared_ptr<Graph> Storage::getGraphForAll() const
+{
+	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
+
+	std::vector<Id> tokenIds;
+	for (StorageNode node: m_sqliteStorage.getAllNodes())
+	{
+		if (node.defined && Node::intToType(node.type) != Node::NODE_TEMPLATE_PARAMETER_TYPE
+			&& !m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id))
+		{
+			tokenIds.push_back(node.id);
+		}
+	}
+
+	addNodesToGraph(tokenIds, graph.get());
+
+	return graph;
 }
 
 std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const
@@ -1291,6 +1321,26 @@ std::shared_ptr<TextAccess> Storage::getFileContent(const FilePath& filePath) co
 TimePoint Storage::getFileModificationTime(const FilePath& filePath) const
 {
 	return TimePoint(m_sqliteStorage.getFileByPath(filePath.str()).modificationTime);
+}
+
+StorageStats Storage::getStorageStats() const
+{
+	StorageStats stats;
+
+	stats.nodeCount = m_sqliteStorage.getNodeCount();
+	stats.edgeCount = m_sqliteStorage.getEdgeCount();
+
+	stats.charCount = m_tokenIndex.getCharCount();
+	stats.wordCount = m_tokenIndex.getWordCount();
+	stats.searchNodeCount = m_tokenIndex.getNodeCount();
+
+	stats.fileCount = m_sqliteStorage.getFileCount();
+	stats.fileLOCCount = m_sqliteStorage.getFileLOCCount();
+	stats.sourceLocationCount = m_sqliteStorage.getSourceLocationCount();
+
+	stats.errorCount = getErrorCount();
+
+	return stats;
 }
 
 Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool defined)

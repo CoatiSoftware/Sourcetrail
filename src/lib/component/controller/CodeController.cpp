@@ -5,6 +5,7 @@
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
+#include "utility/utilityString.h"
 
 #include "data/access/StorageAccess.h"
 #include "data/location/TokenLocation.h"
@@ -12,6 +13,7 @@
 #include "data/location/TokenLocationFile.h"
 #include "data/location/TokenLocationLine.h"
 #include "settings/ApplicationSettings.h"
+#include "settings/ProjectSettings.h"
 
 CodeController::CodeController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -23,6 +25,63 @@ CodeController::~CodeController()
 }
 
 const uint CodeController::s_lineRadius = 2;
+
+void CodeController::handleMessage(MessageActivateAll* message)
+{
+	std::vector<std::string> errorMessages;
+	std::vector<CodeView::CodeSnippetParams> snippets = getSnippetsForErrorLocations(&errorMessages);
+
+	StorageStats stats = m_storageAccess->getStorageStats();
+	CodeView::CodeSnippetParams statsSnippet;
+
+	statsSnippet.startLineNumber = 1;
+	statsSnippet.endLineNumber = 1;
+
+	statsSnippet.locationFile = std::make_shared<TokenLocationFile>(FilePath());
+	statsSnippet.locationFile->isWholeCopy = true;
+
+	std::vector<std::string> description = getProjectDescription(statsSnippet.locationFile.get());
+
+	std::stringstream ss;
+
+	ss << "\n";
+	ss << "\t" + ProjectSettings::getInstance()->getFilePath().withoutExtension().fileName() + "\n";
+
+	if (description.size())
+	{
+		ss << "\n";
+		for (const std::string& line : description)
+		{
+			ss << line + "\n";
+		}
+	}
+
+	ss << "\n";
+	ss << "\t" + std::to_string(stats.fileCount) + " files\n";
+	ss << "\t" + std::to_string(stats.fileLOCCount) + " lines of code\n";
+	ss << "\n";
+	ss << "\t" + std::to_string(stats.nodeCount) + " symbols\n";
+	ss << "\t" + std::to_string(stats.edgeCount) + " relations\n";
+	ss << "\n";
+	ss << "\t" + std::to_string(stats.errorCount) + " errors\n";
+	ss << "\n";
+
+	if (stats.errorCount > 0)
+	{
+		ss << "\tWarning: The analysis may be incomplete as long as it yields errors.\n";
+		ss << "\tTry resolving them and refresh the project.\n";
+		ss << "\n";
+	}
+
+	statsSnippet.code = ss.str();
+
+	snippets.insert(snippets.begin(), statsSnippet);
+
+	CodeView* view = getView();
+	view->setActiveTokenIds(std::vector<Id>());
+	view->setErrorMessages(errorMessages);
+	view->showCodeSnippets(snippets);
+}
 
 void CodeController::handleMessage(MessageActivateTokens* message)
 {
@@ -92,17 +151,7 @@ void CodeController::handleMessage(MessageFocusOut* message)
 void CodeController::handleMessage(MessageShowErrors* message)
 {
 	std::vector<std::string> errorMessages;
-	TokenLocationCollection errorCollection = m_storageAccess->getErrorTokenLocations(&errorMessages);
-
-	std::vector<CodeView::CodeSnippetParams> snippets;
-
-	errorCollection.forEachTokenLocationFile(
-		[&](std::shared_ptr<TokenLocationFile> file) -> void
-		{
-			std::vector<CodeView::CodeSnippetParams> fileSnippets = getSnippetsForFile(file);
-			snippets.insert(snippets.end(), fileSnippets.begin(), fileSnippets.end());
-		}
-	);
+	std::vector<CodeView::CodeSnippetParams> snippets = getSnippetsForErrorLocations(&errorMessages);
 
 	CodeView* view = getView();
 	view->setActiveTokenIds(std::vector<Id>());
@@ -356,4 +405,73 @@ std::shared_ptr<SnippetMerger> CodeController::buildMergerHierarchy(
 	);
 	nextMerger->addChild(currentMerger);
 	return currentMerger;
+}
+
+std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForErrorLocations(
+	std::vector<std::string>* errorMessages)
+const {
+	TokenLocationCollection errorCollection = m_storageAccess->getErrorTokenLocations(errorMessages);
+
+	std::vector<CodeView::CodeSnippetParams> snippets;
+
+	errorCollection.forEachTokenLocationFile(
+		[&](std::shared_ptr<TokenLocationFile> file) -> void
+		{
+			std::vector<CodeView::CodeSnippetParams> fileSnippets = getSnippetsForFile(file);
+			snippets.insert(snippets.end(), fileSnippets.begin(), fileSnippets.end());
+		}
+	);
+
+	return snippets;
+}
+
+std::vector<std::string> CodeController::getProjectDescription(TokenLocationFile* locationFile) const
+{
+	std::string description = ProjectSettings::getInstance()->getDescription();
+
+	if (!description.size())
+	{
+		return std::vector<std::string>();
+	}
+
+	std::vector<std::string> lines = utility::splitToVector(description, "\\n");
+	size_t startLineNumber = 4;
+
+	for (size_t i = 0; i < lines.size(); i++)
+	{
+		std::string line = "\t" + lines[i];
+
+		size_t pos = 0;
+
+		while (pos != std::string::npos)
+		{
+			size_t posA = line.find('[', pos);
+			size_t posB = line.find(']', posA);
+
+			if (posA == std::string::npos || posB == std::string::npos)
+			{
+				break;
+			}
+
+			std::string tokenName = line.substr(posA + 1, posB - posA - 1);
+
+			Id tokenId = m_storageAccess->getIdForNodeWithSearchNameHierarchy(NameHierarchy(tokenName));
+
+			if (tokenId > 0)
+			{
+				line.replace(posA, posB - posA + 1, tokenName);
+				locationFile->addTokenLocation(
+					0, tokenId,
+					startLineNumber + i, posA + 1,
+					startLineNumber + i, posA + tokenName.size()
+				);
+			}
+
+			pos = posA + tokenName.size();
+		}
+
+		lines[i] = line;
+	}
+
+	return lines;
 }

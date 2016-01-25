@@ -114,6 +114,8 @@ public:
 
 	// GraphNode
 	const Node* data;
+	std::string name;
+
 	bool active;
 	bool connected;
 	bool expanded;
@@ -127,7 +129,6 @@ public:
 
 	// BundleNode
 	std::vector<DummyNode> bundledNodes;
-	std::string name;
 };
 
 #endif // DUMMY_NODE_H

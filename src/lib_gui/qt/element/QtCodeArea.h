@@ -134,7 +134,6 @@ private:
 		std::string fill;
 	};
 
-	std::vector<Id> findLocationIdsForPosition(int pos) const;
 	std::vector<const Annotation*> getAnnotationsForPosition(int pos) const;
 
 	void createAnnotations(std::shared_ptr<TokenLocationFile> locationFile);

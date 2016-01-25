@@ -10,6 +10,7 @@
 
 #include "data/graph/Node.h"
 #include "data/search/SearchMatch.h"
+#include "data/StorageStats.h"
 
 struct FileInfo;
 class Graph;
@@ -37,6 +38,7 @@ public:
 	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const = 0;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const = 0;
 
+	virtual std::shared_ptr<Graph> getGraphForAll() const = 0;
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const = 0;
 
 	virtual std::vector<Id> getActiveTokenIdsForTokenIds(const std::vector<Id>& tokenIds) const = 0;
@@ -60,6 +62,8 @@ public:
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const = 0;
 	virtual TimePoint getFileModificationTime(const FilePath& filePath) const = 0;
+
+	virtual StorageStats getStorageStats() const = 0;
 };
 
 #endif // STORAGE_ACCESS_H

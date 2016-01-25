@@ -26,6 +26,7 @@ public:
 	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const;
 
+	virtual std::shared_ptr<Graph> getGraphForAll() const;
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const;
 
 	virtual std::vector<Id> getActiveTokenIdsForTokenIds(const std::vector<Id>& tokenIds) const;
@@ -50,6 +51,8 @@ public:
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const;
 	virtual TimePoint getFileModificationTime(const FilePath& filePath) const;
+
+	virtual StorageStats getStorageStats() const;
 
 private:
 	StorageAccess* m_subject;

@@ -4,6 +4,7 @@
 
 #include "utility/logging/logging.h"
 #include "utility/utility.h"
+#include "utility/utilityString.h"
 
 #include "component/controller/helper/DummyEdge.h"
 #include "component/controller/helper/DummyNode.h"
@@ -21,6 +22,21 @@ GraphController::GraphController(StorageAccess* storageAccess)
 
 GraphController::~GraphController()
 {
+}
+
+void GraphController::handleMessage(MessageActivateAll* message)
+{
+	m_activeNodeIds.clear();
+	m_activeEdgeIds.clear();
+
+	createDummyGraphForTokenIds(std::vector<Id>(), m_storageAccess->getGraphForAll());
+
+	bundleNodesByType();
+
+	layoutNesting();
+	layoutGraph();
+
+	buildGraph(message);
 }
 
 void GraphController::handleMessage(MessageActivateTokens* message)
@@ -49,7 +65,16 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 		return;
 	}
 
-	createDummyGraphForTokenIds(utility::concat(m_activeNodeIds, m_activeEdgeIds));
+	std::vector<Id> tokenIds = utility::concat(m_activeNodeIds, m_activeEdgeIds);
+
+	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForActiveTokenIds(tokenIds);
+
+	createDummyGraphForTokenIds(tokenIds, graph);
+
+	bundleNodes();
+
+	layoutNesting();
+	layoutGraph();
 
 	buildGraph(message);
 }
@@ -76,7 +101,7 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 		DummyNode& node = m_dummyNodes[i];
 		if (node.isBundleNode() && node.tokenId == message->bundleId)
 		{
-			m_dummyNodes.insert(m_dummyNodes.end(), node.bundledNodes.begin(), node.bundledNodes.end());
+			m_dummyNodes.insert(m_dummyNodes.begin() + i + 1, node.bundledNodes.begin(), node.bundledNodes.end());
 			m_dummyNodes.erase(m_dummyNodes.begin() + i);
 			break;
 		}
@@ -156,7 +181,7 @@ void GraphController::clear()
 	getView()->clear();
 }
 
-void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenIds)
+void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph)
 {
 	GraphView* view = getView();
 	if (!view)
@@ -164,8 +189,6 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 		LOG_ERROR("GraphController has no associated GraphView");
 		return;
 	}
-
-	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForActiveTokenIds(tokenIds);
 
 	m_dummyEdges.clear();
 
@@ -190,17 +213,13 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	for (DummyNode& node : dummyNodes)
 	{
 		node.hasParent = false;
+		node.name = node.data->getFullName();
 	}
 
 	m_dummyNodes = dummyNodes;
 
 	autoExpandActiveNode(tokenIds);
 	setActiveAndVisibility(tokenIds);
-
-	bundleNodes();
-
-	layoutNesting();
-	layoutGraph();
 
 	m_graph = graph;
 }
@@ -210,6 +229,7 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 	DummyNode result;
 	result.data = node;
 	result.tokenId = node->getId();
+	result.name = node->getName();
 
 	// there is a global root node with id 0 afaik, so here we actually want the one node below this global root
 	Node* parent = node;
@@ -314,6 +334,8 @@ void GraphController::autoExpandActiveNode(const std::vector<Id>& activeTokenIds
 
 void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenIds)
 {
+	bool noActive = activeTokenIds.size() == 0;
+
 	for (DummyNode& node : m_dummyNodes)
 	{
 		setNodeActiveRecursive(node, activeTokenIds);
@@ -335,7 +357,7 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 		DummyNode* from = findDummyNodeRecursive(m_dummyNodes, edge.ownerId);
 		DummyNode* to = findDummyNodeRecursive(m_dummyNodes, edge.targetId);
 
-		if (from && to && (from->active || to->active || edge.active))
+		if (from && to && (noActive || from->active || to->active || edge.active))
 		{
 			edge.visible = true;
 			from->connected = true;
@@ -345,7 +367,7 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 
 	for (DummyNode& node : m_dummyNodes)
 	{
-		setNodeVisibilityRecursiveBottomUp(node);
+		setNodeVisibilityRecursiveBottomUp(node, noActive);
 	}
 }
 
@@ -364,7 +386,7 @@ void GraphController::setNodeActiveRecursive(DummyNode& node, const std::vector<
 	}
 }
 
-bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode& node) const
+bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode& node, bool noActive) const
 {
 	node.visible = false;
 	node.childVisible = false;
@@ -382,13 +404,13 @@ bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode& node) const
 
 	for (DummyNode& subNode : node.subNodes)
 	{
-		if (setNodeVisibilityRecursiveBottomUp(subNode))
+		if (setNodeVisibilityRecursiveBottomUp(subNode, noActive))
 		{
 			node.childVisible = true;
 		}
 	}
 
-	if (node.active || node.connected || node.childVisible)
+	if (noActive || node.active || node.connected || node.childVisible)
 	{
 		setNodeVisibilityRecursiveTopDown(node, false);
 	}
@@ -617,6 +639,54 @@ bool GraphController::isTypeNodeWithSingleInheritance(const DummyNode& node, boo
 	return matches;
 }
 
+#define BUNDLE_BY_TYPE(__type__, __name__) \
+	bundleNodesMatching( \
+		[&](const DummyNode& node) \
+		{ \
+			return node.visible && node.isGraphNode() && node.data->isType(__type__); \
+		}, \
+		1, \
+		__name__ \
+	); \
+
+void GraphController::bundleNodesByType()
+{
+	BUNDLE_BY_TYPE(Node::NODE_CLASS, "Classes");
+	BUNDLE_BY_TYPE(Node::NODE_STRUCT, "Structs");
+
+	BUNDLE_BY_TYPE(Node::NODE_FUNCTION, "Functions");
+	BUNDLE_BY_TYPE(Node::NODE_GLOBAL_VARIABLE, "Global Variables");
+
+	BUNDLE_BY_TYPE(Node::NODE_TYPE, "Types");
+	BUNDLE_BY_TYPE(Node::NODE_TYPEDEF, "Typedefs");
+	BUNDLE_BY_TYPE(Node::NODE_ENUM, "Enums");
+
+	BUNDLE_BY_TYPE(Node::NODE_FILE, "Files");
+	BUNDLE_BY_TYPE(Node::NODE_MACRO, "Macros");
+
+	// should never be visible
+
+	BUNDLE_BY_TYPE(Node::NODE_METHOD, "Methods");
+	BUNDLE_BY_TYPE(Node::NODE_FIELD, "Fields");
+	BUNDLE_BY_TYPE(Node::NODE_ENUM_CONSTANT, "Enum Constants");
+	BUNDLE_BY_TYPE(Node::NODE_TEMPLATE_PARAMETER_TYPE, "Template Parameter Types");
+	BUNDLE_BY_TYPE(Node::NODE_UNDEFINED, "Undefined Symbols");
+	BUNDLE_BY_TYPE(Node::NODE_NAMESPACE, "Namespaces");
+
+	for (DummyNode& node : m_dummyNodes)
+	{
+		if (node.isBundleNode())
+		{
+			sort(node.bundledNodes.begin(), node.bundledNodes.end(),
+				[](const DummyNode& a, const DummyNode& b) -> bool
+				{
+					return utility::toLowerCase(a.name) < utility::toLowerCase(b.name);
+				}
+			);
+		}
+	}
+}
+
 void GraphController::layoutNesting()
 {
 	for (DummyNode& node : m_dummyNodes)
@@ -663,14 +733,13 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 
 	if (node.isGraphNode())
 	{
-		if (!node.hasParent)
+		size_t maxNameSize = 50;
+		if (!node.active && node.name.size() > maxNameSize)
 		{
-			width = margins.charWidth * node.data->getFullName().size();
+			node.name = node.name.substr(0, maxNameSize - 3) + "...";
 		}
-		else
-		{
-			width = margins.charWidth * node.data->getName().size();
-		}
+
+		width = margins.charWidth * node.name.size();
 
 		if (node.data->isType(Node::NODE_TYPE | Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM) && node.subNodes.size())
 		{

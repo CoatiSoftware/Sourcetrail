@@ -119,10 +119,11 @@ Id SqliteStorage::addFile(const std::string& serializedName, const std::string& 
 {
 	Id id = addNode(Node::NODE_FILE, serializedName, true);
 	std::shared_ptr<TextAccess> content = TextAccess::createFromFile(filePath);
+	unsigned int loc = content->getLineCount();
 
 	CppSQLite3Statement stmt = m_database.compileStatement((
-		"INSERT INTO file(id, path, modification_time, content) VALUES("
-		+ std::to_string(id) + ", '" + filePath + "', '" + modificationTime + "', ?);"
+		"INSERT INTO file(id, path, modification_time, content, loc) VALUES("
+		+ std::to_string(id) + ", '" + filePath + "', '" + modificationTime + "', ?, " + std::to_string(loc) + ");"
 	).c_str());
 
 	stmt.bind(1, content->getText().c_str());
@@ -653,6 +654,11 @@ int SqliteStorage::getFileCount() const
 	return m_database.execScalar("SELECT COUNT(*) FROM file;");
 }
 
+int SqliteStorage::getFileLOCCount() const
+{
+	return m_database.execScalar("SELECT SUM(loc) FROM file;");
+}
+
 int SqliteStorage::getSourceLocationCount() const
 {
 	return m_database.execScalar("SELECT COUNT(*) FROM source_location;");
@@ -719,6 +725,7 @@ void SqliteStorage::setupTables()
 			"path TEXT, "
 			"modification_time TEXT, "
 			"content TEXT, "
+			"loc INTEGER, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES node(id) ON DELETE CASCADE);"
 	);

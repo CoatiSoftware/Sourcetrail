@@ -18,6 +18,9 @@ public:
 
 	virtual void save(const FilePath& filePath);
 
+	// info
+	std::string getDescription() const;
+
 	// language settings
 	std::string getLanguage() const;
 	bool setLanguage(const std::string& language);

@@ -1,11 +1,14 @@
 #include "component/controller/helper/ActivationTranslator.h"
 
 #include "data/access/StorageAccess.h"
+#include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateEdge.h"
 #include "utility/messaging/type/MessageActivateFile.h"
 #include "utility/messaging/type/MessageActivateNodes.h"
+#include "utility/messaging/type/MessageActivateTokenIds.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageSearch.h"
+#include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/messaging/type/MessageShowFile.h"
 
 ActivationTranslator::ActivationTranslator(StorageAccess* storageAccess)
@@ -99,9 +102,40 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 	return m;
 }
 
+std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(const MessageActivateTokenIds* message) const
+{
+	std::shared_ptr<MessageActivateTokens> m;
+	m = std::make_shared<MessageActivateTokens>(message->tokenIds);
+	m->undoRedoType = message->undoRedoType;
+	m->setKeepContent(message->keepContent());
+	return m;
+}
+
 std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(const MessageSearch* message) const
 {
-	std::vector<Id> tokenIds = m_storageAccess->getTokenIdsForMatches(message->getMatches());
+	const std::vector<SearchMatch>& matches = message->getMatches();
+
+	for (const SearchMatch& match : matches)
+	{
+		if (match.searchType == SearchMatch::SEARCH_COMMAND &&
+			match.getFullName() == SearchMatch::getCommandName(SearchMatch::COMMAND_ALL))
+		{
+			MessageActivateAll msg;
+			msg.undoRedoType = message->undoRedoType;
+			msg.dispatchImmediately();
+			return nullptr;
+		}
+		else if (match.searchType == SearchMatch::SEARCH_COMMAND &&
+			match.getFullName() == SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR))
+		{
+			MessageShowErrors msg;
+			msg.undoRedoType = message->undoRedoType;
+			msg.dispatchImmediately();
+			return nullptr;
+		}
+	}
+
+	std::vector<Id> tokenIds = m_storageAccess->getTokenIdsForMatches(matches);
 	tokenIds = m_storageAccess->getActiveTokenIdsForTokenIds(tokenIds);
 
 	std::shared_ptr<MessageActivateTokens> m;

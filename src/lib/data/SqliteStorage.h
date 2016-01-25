@@ -98,6 +98,7 @@ public:
 	int getNodeCount() const;
 	int getEdgeCount() const;
 	int getFileCount() const;
+	int getFileLOCCount() const;
 	int getSourceLocationCount() const;
 
 private:

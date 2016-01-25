@@ -53,6 +53,15 @@ void FeatureController::handleMessage(MessageSearch* message)
 	}
 }
 
+void FeatureController::handleMessage(MessageActivateTokenIds* message)
+{
+	std::shared_ptr<MessageActivateTokens> m = m_activationTranslator.translateMessage(message);
+	if (m)
+	{
+		m->dispatchImmediately();
+	}
+}
+
 void FeatureController::handleMessage(MessageActivateTokenLocations* message)
 {
 	std::vector<Id> nodeIds = m_storageAccess->getNodeIdsForLocationIds(message->locationIds);

@@ -146,6 +146,7 @@ public:
 	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const;
 
+	virtual std::shared_ptr<Graph> getGraphForAll() const;
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const;
 
 	virtual std::vector<Id> getActiveTokenIdsForTokenIds(const std::vector<Id>& tokenIds) const;
@@ -170,6 +171,8 @@ public:
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const;
 	virtual TimePoint getFileModificationTime(const FilePath& filePath) const;
+
+	virtual StorageStats getStorageStats() const;
 
 private:
 	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool defined);
@@ -205,6 +208,8 @@ private:
 	void log(std::string type, std::string str, const ParseLocation& location) const;
 
 	SearchIndex m_tokenIndex;
+	SearchIndex m_commandIndex;
+
 	SqliteStorage m_sqliteStorage;
 
 	mutable std::map <FilePath, Id> m_fileNodeIds;

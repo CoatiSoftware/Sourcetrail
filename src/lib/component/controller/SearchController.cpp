@@ -12,6 +12,12 @@ SearchController::~SearchController()
 {
 }
 
+void SearchController::handleMessage(MessageActivateAll* message)
+{
+	SearchMatch match = SearchMatch::createCommand(SearchMatch::COMMAND_ALL);
+	getView()->setMatches(std::vector<SearchMatch>(1, match));
+}
+
 void SearchController::handleMessage(MessageActivateTokens* message)
 {
 	if (!message->keepContent() && !message->isFromSearch)
@@ -33,7 +39,8 @@ void SearchController::handleMessage(MessageSearchAutocomplete* message)
 
 void SearchController::handleMessage(MessageShowErrors* message)
 {
-	getView()->setMatches(std::vector<SearchMatch>());
+	SearchMatch match = SearchMatch::createCommand(SearchMatch::COMMAND_ERROR);
+	getView()->setMatches(std::vector<SearchMatch>(1, match));
 }
 
 SearchView* SearchController::getView()

@@ -19,10 +19,19 @@ struct SearchMatch
 		SEARCH_OPERATOR
 	};
 
+	enum CommandType
+	{
+		COMMAND_ALL,
+		COMMAND_ERROR
+	};
+
 	static void log(const std::vector<SearchMatch>& matches, const std::string& query);
 
 	static std::string getSearchTypeName(SearchType type);
 	static std::string searchMatchesToString(const std::vector<SearchMatch>& matches);
+
+	static SearchMatch createCommand(CommandType type);
+	static std::string getCommandName(CommandType type);
 
 	SearchMatch();
 	SearchMatch(const std::string& query);

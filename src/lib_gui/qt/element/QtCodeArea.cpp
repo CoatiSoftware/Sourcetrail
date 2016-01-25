@@ -10,6 +10,7 @@
 #include <qscrollbar.h>
 
 #include "utility/messaging/type/MessageActivateTokenLocations.h"
+#include "utility/messaging/type/MessageActivateTokenIds.h"
 #include "utility/messaging/type/MessageShowFile.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
@@ -369,13 +370,33 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 			m_eventPosition = event->pos();
 			setIDECursorPosition();
 		}
-		else
+		else if (!m_fileWidget->getErrorMessages().size())
 		{
 			QTextCursor cursor = this->cursorForPosition(event->pos());
-			std::vector<Id> locationIds = findLocationIdsForPosition(cursor.position());
-			if (locationIds.size() && !m_fileWidget->getErrorMessages().size())
+			std::vector<const Annotation*> annotations = getAnnotationsForPosition(cursor.position());
+
+			std::vector<Id> locationIds;
+			std::vector<Id> tokenIds;
+
+			for (const Annotation* annotation : annotations)
+			{
+				if (annotation->locationId > 0)
+				{
+					locationIds.push_back(annotation->locationId);
+				}
+				if (annotation->tokenId > 0)
+				{
+					tokenIds.push_back(annotation->tokenId);
+				}
+			}
+
+			if (locationIds.size())
 			{
 				MessageActivateTokenLocations(locationIds).dispatch();
+			}
+			else if (tokenIds.size())
+			{
+				MessageActivateTokenIds(tokenIds).dispatch();
 			}
 		}
 	}
@@ -383,7 +404,7 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 
 void QtCodeArea::mouseDoubleClickEvent(QMouseEvent* event)
 {
-	if (event->button() == Qt::LeftButton)
+	if (event->button() == Qt::LeftButton && m_fileWidget->getFilePath().str().size())
 	{
 		MessageShowFile(m_fileWidget->getFilePath().str(), (m_fileWidget->getErrorMessages().size() > 0)).dispatch();
 	}
@@ -480,21 +501,6 @@ void QtCodeArea::setIDECursorPosition()
 	std::pair<int, int> lineColumn = toLineColumn(this->cursorForPosition(m_eventPosition).position());
 
 	MessageMoveIDECursor(m_locationFile->getFilePath().str(), lineColumn.first, lineColumn.second).dispatch();
-}
-
-std::vector<Id> QtCodeArea::findLocationIdsForPosition(int pos) const
-{
-	std::vector<Id> locationIds;
-
-	for (const Annotation& annotation : m_annotations)
-	{
-		if (!annotation.isScope && pos >= annotation.start && pos <= annotation.end)
-		{
-			locationIds.push_back(annotation.locationId);
-		}
-	}
-
-	return locationIds;
 }
 
 std::vector<const QtCodeArea::Annotation*> QtCodeArea::getAnnotationsForPosition(int pos) const
