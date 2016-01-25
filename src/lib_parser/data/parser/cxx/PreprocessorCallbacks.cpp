@@ -52,8 +52,8 @@ void PreprocessorCallbacks::InclusionDirective(
 	const clang::FileEntry* baseFileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(hashLocation));
 	if (fileEntry && baseFileEntry)
 	{
-		std::string baseFilePath = baseFileEntry->getName();
-		std::string includedFilePath = fileEntry->getName();
+		FilePath baseFilePath = FilePath(baseFileEntry->getName()).canonical();
+		FilePath includedFilePath = FilePath(fileEntry->getName()).canonical();
 
 		const FileManager* fileManager = m_fileRegister->getFileManager();
 		if (fileManager->hasFilePath(baseFilePath) && fileManager->hasFilePath(includedFilePath) &&
