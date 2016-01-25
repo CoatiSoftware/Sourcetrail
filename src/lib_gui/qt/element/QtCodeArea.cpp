@@ -294,12 +294,44 @@ void QtCodeArea::paintEvent(QPaintEvent* event)
 
 	QTextBlock block = firstVisibleBlock();
 	int top = blockBoundingGeometry(block).translated(contentOffset()).top();
+	int bottom = top + blockBoundingRect(block).height();
 	int blockHeight = blockBoundingRect(block).height();
+
+	int firstVisibleLine = -1;
+	int lastVisibleLine = -1;
+	while (block.isValid() && top <= event->rect().bottom())
+	{
+		if (block.isVisible())
+		{
+			if (firstVisibleLine < 0 && bottom >= event->rect().top())
+			{
+				firstVisibleLine = block.blockNumber();;
+			}
+			lastVisibleLine = block.blockNumber();;
+		}
+
+		block = block.next();
+		top = bottom;
+		bottom = top + static_cast<int>(blockBoundingRect(block).height());
+	}
+	firstVisibleLine += m_startLineNumber;
+	lastVisibleLine += m_startLineNumber;
+
 	int borderRadius = 3;
 
 	for (const Annotation& annotation : m_annotations)
 	{
+		if (annotation.startLine > lastVisibleLine || annotation.endLine < firstVisibleLine)
+		{
+			continue;
+		}
+
 		const AnnotationColor& color = getAnnotationColorForAnnotation(annotation);
+
+		if (color.border == "transparent" && color.fill == "transparent")
+		{
+			continue;
+		}
 
 		painter.setPen(QPen(color.border.c_str()));
 		painter.setBrush(QBrush(color.fill.c_str()));
@@ -334,7 +366,9 @@ void QtCodeArea::paintEvent(QPaintEvent* event)
 
 	for (int i = 0; i < document()->blockCount(); i++)
 	{
-		if (!m_isActiveFile && activeLineNumbers.find(i + m_startLineNumber) == activeLineNumbers.end())
+		int lineNumber = i + m_startLineNumber;
+		if (!m_isActiveFile && activeLineNumbers.find(lineNumber) == activeLineNumbers.end() &&
+			lineNumber >= firstVisibleLine && lineNumber <= lastVisibleLine)
 		{
 			painter.fillRect(0, top + i * blockHeight, width(), blockHeight, backgroundColor);
 		}
