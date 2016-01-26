@@ -13,7 +13,6 @@
 QtAbout::QtAbout(QWidget *parent)
 	: QtSettingsWindow(parent)
 {
-	raise();
 }
 
 QSize QtAbout::sizeHint() const

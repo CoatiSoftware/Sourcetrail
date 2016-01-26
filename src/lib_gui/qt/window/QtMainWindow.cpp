@@ -321,6 +321,7 @@ void QtMainWindow::about()
 		m_aboutWindow->setup();
 
 		connect(m_aboutWindow.get(), SIGNAL(finished()), this, SLOT(popWindow()));
+		connect(m_aboutWindow.get(), SIGNAL(canceled()), this, SLOT(popWindow()));
 	}
 
 	pushWindow(m_aboutWindow.get());
@@ -349,6 +350,7 @@ void QtMainWindow::showLicenses()
 		m_licenseWindow->setup();
 
 		connect(m_licenseWindow.get(), SIGNAL(finished()), this, SLOT(popWindow()));
+		connect(m_licenseWindow.get(), SIGNAL(canceled()), this, SLOT(popWindow()));
 	}
 
 	pushWindow(m_licenseWindow.get());

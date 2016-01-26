@@ -14,7 +14,6 @@ QtApplicationSettingsScreen::QtApplicationSettingsScreen(QWidget *parent)
 	: QtSettingsWindow(parent)
 	, m_frameworkPaths(nullptr)
 {
-	raise();
 }
 
 QSize QtApplicationSettingsScreen::sizeHint() const

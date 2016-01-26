@@ -62,7 +62,6 @@ QtProjectSetupScreen::QtProjectSetupScreen(QWidget *parent)
 	: QtSettingsWindow(parent)
 	, m_frameworkPaths(nullptr)
 {
-	raise();
 }
 
 QSize QtProjectSetupScreen::sizeHint() const
