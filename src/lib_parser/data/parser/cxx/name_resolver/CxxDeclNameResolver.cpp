@@ -44,19 +44,7 @@ NameHierarchy CxxDeclNameResolver::getDeclNameHierarchy()
 
 		if (declName)
 		{
-			if ((clang::isa<clang::NonTypeTemplateParmDecl>(m_declaration) ||
-				clang::isa<clang::TemplateTypeParmDecl>(m_declaration) ||
-				clang::isa<clang::TemplateTemplateParmDecl>(m_declaration)) &&
-				contextNameHierarchy.size() > 0)
-			{
-				std::string lastContextElementName = contextNameHierarchy.back()->getFullName(); // TODO: what about the signature in this case?
-				contextNameHierarchy.pop();
-				contextNameHierarchy.push(std::make_shared<NameElement>(lastContextElementName + "::" + declName->getFullName()));
-			}
-			else
-			{
-				contextNameHierarchy.push(declName);
-			}
+			contextNameHierarchy.push(declName);
 		}
 	}
 	return contextNameHierarchy;
