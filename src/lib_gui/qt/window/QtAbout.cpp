@@ -9,6 +9,7 @@
 #include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/utility/utilityQt.h"
 #include "utility/Version.h"
+#include "utility/ResourcePaths.h"
 
 QtAbout::QtAbout(QWidget *parent)
 	: QtSettingsWindow(parent)
@@ -30,7 +31,7 @@ void QtAbout::setup()
 		"}"
 	);
 
-	setStyleSheet(utility::getStyleSheet("data/gui/about/about.css").c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "about/about.css").c_str());
 
 	QVBoxLayout* windowLayout = new QVBoxLayout();
 	windowLayout->setContentsMargins(30, 30, 30, 20);
@@ -39,8 +40,9 @@ void QtAbout::setup()
 	QHBoxLayout* rowTitle = new QHBoxLayout();
 	windowLayout->addLayout(rowTitle);
 
-	QtDeviceScaledPixmap coatiLogo("data/gui/about/logo.png");
+	QtDeviceScaledPixmap coatiLogo((ResourcePaths::getGuiPath() + "about/logo.png").c_str());
 	coatiLogo.scaleToWidth(120);
+
 	QLabel* coatiLogoLabel = new QLabel(this);
 	coatiLogoLabel->setPixmap(coatiLogo.pixmap());
 	coatiLogoLabel->resize(coatiLogo.width(), coatiLogo.height());
@@ -115,8 +117,9 @@ void QtAbout::setup()
 
 	rowAcknowledgementsLogos->addStretch();
 
-	QtDeviceScaledPixmap fhsLogo("data/gui/about/logo_fhs.png");
+	QtDeviceScaledPixmap fhsLogo((ResourcePaths::getGuiPath() + "about/logo_fhs.png").c_str());
 	fhsLogo.scaleToHeight(60);
+
 	QLabel* fhsLabel = new QLabel(this);
 	fhsLabel->setPixmap(fhsLogo.pixmap());
 	fhsLabel->resize(fhsLogo.width(), fhsLogo.height());

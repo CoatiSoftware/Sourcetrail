@@ -18,7 +18,8 @@
 #include "qt/view/QtViewFactory.h"
 #include "version.h"
 
-#include "component/controller/helper/NetworkProtocolHelper.h" // remove when done
+#include "utility/AppPath.h"
+#include "utility/ResourcePaths.h"
 
 void init()
 {
@@ -31,7 +32,7 @@ void init()
 	FileLogger::setFilePath(logPath);
 	LogManager::getInstance()->addLogger(fileLogger);
 
-	utility::loadFontsFromDirectory("data/fonts", ".otf");
+	utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
 }
 
 int main(int argc, char *argv[])

@@ -5,6 +5,8 @@
 #include "qt/view/QtMainView.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 
+#include "utility/ResourcePaths.h"
+
 QtUndoRedoView::QtUndoRedoView(ViewLayout* viewLayout)
 	: UndoRedoView(viewLayout)
 	, m_refreshFunctor(std::bind(&QtUndoRedoView::doRefreshView, this))
@@ -35,7 +37,7 @@ void QtUndoRedoView::refreshView()
 
 void QtUndoRedoView::setStyleSheet()
 {
-	m_widget->setStyleSheet(utility::getStyleSheet("data/gui/undoredo_view/undoredo_view.css").c_str());
+	m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "undoredo_view/undoredo_view.css").c_str());
 }
 
 void QtUndoRedoView::doRefreshView()

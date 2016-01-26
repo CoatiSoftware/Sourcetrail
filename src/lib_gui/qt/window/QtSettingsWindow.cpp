@@ -11,6 +11,7 @@
 #include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/utility/utilityQt.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
+#include "utility/ResourcePaths.h"
 
 QtSettingsWindow::QtSettingsWindow(QWidget *parent, int displacement)
 	: QWidget(parent, Qt::Dialog | Qt::FramelessWindowHint)
@@ -119,14 +120,14 @@ void QtSettingsWindow::mouseReleaseEvent(QMouseEvent *event)
 
 void QtSettingsWindow::setupForm()
 {
-	QtDeviceScaledPixmap coati_logo("data/gui/startscreen/logo_blurry.png");
+	QtDeviceScaledPixmap coati_logo((ResourcePaths::getGuiPath() + "startscreen/logo_blurry.png").c_str());
 	coati_logo.scaleToWidth(400);
 	QLabel* coatiLogoLabel = new QLabel(m_window);
 	coatiLogoLabel->setPixmap(coati_logo.pixmap());
 	coatiLogoLabel->resize(coati_logo.width(), coati_logo.height());
 	coatiLogoLabel->move(100, 100);
 
-	setStyleSheet(utility::getStyleSheet("data/gui/setting_window/window.css").c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "setting_window/window.css").c_str());
 	QVBoxLayout* windowLayout = new QVBoxLayout();
 	windowLayout->setContentsMargins(25, 30, 25, 20);
 
@@ -169,7 +170,7 @@ void QtSettingsWindow::populateForm(QFormLayout* layout)
 
 void QtSettingsWindow::addLogo()
 {
-	QtDeviceScaledPixmap coatiLogo("data/gui/startscreen/logo.png");
+	QtDeviceScaledPixmap coatiLogo((ResourcePaths::getGuiPath() + "startscreen/logo.png").c_str());
 	coatiLogo.scaleToWidth(200);
 
 	QLabel* coatiLogoLabel = new QLabel(this);

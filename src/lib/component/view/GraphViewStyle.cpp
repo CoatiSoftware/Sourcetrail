@@ -2,6 +2,8 @@
 
 #include "utility/logging/logging.h"
 
+#include "utility/ResourcePaths.h"
+
 #include "component/view/GraphViewStyleImpl.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
@@ -415,7 +417,7 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfBundleNode(bool isFocused)
 	style.color = getNodeColor("bundle", isFocused);
 
 	addIcon(Node::NODE_ENUM, false, &style);
-	style.iconPath = "data/gui/graph_view/images/bundle.png";
+	style.iconPath = ResourcePaths::getGuiPath() + "graph_view/images/bundle.png";
 
 	return style;
 }
@@ -562,16 +564,16 @@ void GraphViewStyle::addIcon(Node::NodeType type, bool hasChildren, NodeStyle* s
 	switch (type)
 	{
 	case Node::NODE_ENUM:
-		style->iconPath = "data/gui/graph_view/images/enum_1.png";
+		style->iconPath = ResourcePaths::getGuiPath() + "graph_view/images/enum_1.png";
 		break;
 	case Node::NODE_TYPEDEF:
-		style->iconPath = "data/gui/graph_view/images/typedef_2.png";
+		style->iconPath = ResourcePaths::getGuiPath() + "graph_view/images/typedef_2.png";
 		break;
 	case Node::NODE_MACRO:
-		style->iconPath = "data/gui/graph_view/images/macro_3.png";
+		style->iconPath = ResourcePaths::getGuiPath() + "graph_view/images/macro_3.png";
 		break;
 	case Node::NODE_FILE:
-		style->iconPath = "data/gui/graph_view/images/file.png";
+		style->iconPath = ResourcePaths::getGuiPath() + "graph_view/images/file.png";
 		break;
 	default:
 		return;

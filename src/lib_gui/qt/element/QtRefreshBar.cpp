@@ -6,6 +6,8 @@
 #include "utility/messaging/type/MessageAutoRefreshChanged.h"
 #include "utility/messaging/type/MessageRefresh.h"
 
+#include "utility/ResourcePaths.h"
+
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
@@ -60,13 +62,15 @@ void QtRefreshBar::refreshStyle()
 	m_refreshButton->setFixedHeight(height);
 	m_autoRefreshButton->setFixedHeight(height);
 
+	std::string map = ResourcePaths::getGuiPath() + "refresh_view/images/refresh.png";
 	m_refreshButton->setIcon(utility::colorizePixmap(
-		QPixmap("data/gui/refresh_view/images/refresh.png"),
+		QPixmap(map.c_str()),
 		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
 	));
 
+	map = ResourcePaths::getGuiPath() + "refresh_view/images/auto_refresh.png";
 	m_autoRefreshButton->setIcon(utility::colorizePixmap(
-		QPixmap("data/gui/refresh_view/images/auto_refresh.png"),
+		QPixmap(map.c_str()),
 		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
 	));
 }

@@ -2,6 +2,8 @@
 
 #include "qt/utility/utilityQt.h"
 
+#include "utility/ResourcePaths.h"
+
 #include "component/controller/RefreshController.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 
@@ -39,5 +41,5 @@ void QtRefreshView::doRefreshView()
 
 void QtRefreshView::setStyleSheet()
 {
-	m_widget->setStyleSheet(utility::getStyleSheet("data/gui/refresh_view/refresh_view.css").c_str());
+	m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "refresh_view/refresh_view.css").c_str());
 }

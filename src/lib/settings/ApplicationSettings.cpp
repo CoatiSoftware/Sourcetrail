@@ -1,5 +1,7 @@
 #include "settings/ApplicationSettings.h"
 
+#include "utility/ResourcePaths.h"
+
 std::shared_ptr<ApplicationSettings> ApplicationSettings::s_instance;
 
 std::shared_ptr<ApplicationSettings> ApplicationSettings::getInstance()
@@ -69,7 +71,7 @@ void ApplicationSettings::setFontSize(int fontSize)
 
 std::string ApplicationSettings::getColorSchemePath() const
 {
-	return getValue<std::string>("application/color_scheme", "./data/color_schemes/bright.xml");
+	return getValue<std::string>("application/color_scheme", ResourcePaths::getColorSchemesPath() + "bright.xml");
 }
 
 void ApplicationSettings::setColorSchemePath(const std::string& colorSchemePath)

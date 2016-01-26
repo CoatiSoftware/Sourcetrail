@@ -26,6 +26,7 @@
 #include "utility/messaging/type/MessageUndo.h"
 #include "utility/messaging/type/MessageWindowFocus.h"
 #include "utility/messaging/type/MessageZoom.h"
+#include "utility/ResourcePaths.h"
 #include "version.h"
 #include "isTrial.h"
 
@@ -112,7 +113,7 @@ QtMainWindow::QtMainWindow()
 	setCentralWidget(nullptr);
 	setDockNestingEnabled(true);
 
-	setWindowIcon(QIcon("./data/gui/icon/logo_1024_1024.png"));
+	setWindowIcon(QIcon((ResourcePaths::getGuiPath() + "icon/logo_1024_1024.png").c_str()));
 	setWindowFlags(Qt::Widget);
 
 //	QApplication::setOverrideCursor(Qt::ArrowCursor);
@@ -121,7 +122,7 @@ QtMainWindow::QtMainWindow()
 	app->installEventFilter(new MouseReleaseFilter(this));
 	app->installEventFilter(new MouseWheelFilter(this));
 
-	app->setStyleSheet(utility::getStyleSheet("data/gui/tooltip.css").c_str());
+	app->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "tooltip.css").c_str());
 
 	m_recentProjectAction = new QAction*[ApplicationSettings::MaximalAmountOfRecentProjects];
 
@@ -495,7 +496,7 @@ void QtMainWindow::resetZoom()
 
 void QtMainWindow::switchColorScheme()
 {
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "./data/color_schemes", "XML Files (*.xml)");
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), (ResourcePaths::getColorSchemesPath()).c_str(), "XML Files (*.xml)");
 
 	if (!fileName.isEmpty())
 	{

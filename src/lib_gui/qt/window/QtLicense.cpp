@@ -13,6 +13,8 @@
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FilePath.h"
+#include "utility/AppPath.h"
+#include "utility/ResourcePaths.h"
 
 QtLicense::QtLicense(QWidget *parent)
 	: QtSettingsWindow(parent, 68)
@@ -51,8 +53,8 @@ void QtLicense::load()
 void QtLicense::setup()
 {
 	setStyleSheet((
-		utility::getStyleSheet("data/gui/setting_window/window.css") +
-		utility::getStyleSheet("data/gui/license/license.css")
+		utility::getStyleSheet(ResourcePaths::getGuiPath() + "data/gui/setting_window/window.css") +
+		utility::getStyleSheet(ResourcePaths::getGuiPath() + "data/gui/license/license.css")
 	).c_str());
 
 	addLogo();
@@ -146,7 +148,8 @@ void QtLicense::handleUpdateButtonPress()
 	{
 		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 		appSettings->setLicenseString(license.getLicenseString());
-		FilePath p("");
+		std::string appLocation = AppPath::getAppPath(); // for easier debugging
+		FilePath p(appLocation);
 		appSettings->setLicenseCheck(license.hashLocation(p.absolute().str()));
 		appSettings->save();
 	}

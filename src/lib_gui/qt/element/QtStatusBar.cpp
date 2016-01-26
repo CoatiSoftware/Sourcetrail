@@ -4,11 +4,12 @@
 
 #include "qt/utility/utilityQt.h"
 #include "utility/messaging/type/MessageShowErrors.h"
+#include "utility/ResourcePaths.h"
 
 QtStatusBar::QtStatusBar()
     : m_text(this)
 {
-	QMovie* movie = new QMovie("data/gui/statusbar_view/loader.gif");
+	QMovie* movie = new QMovie((ResourcePaths::getGuiPath() + "statusbar_view/loader.gif").c_str());
 	// if movie doesn't loop forever, force it to.
 	if (movie->loopCount() != -1)
 	{
@@ -27,7 +28,7 @@ QtStatusBar::QtStatusBar()
 	m_errorButton.setFlat(true);
 	m_errorButton.setStyleSheet("QPushButton { color: #D00000; margin-right: 0; spacing: none; }");
 	m_errorButton.setIcon(utility::colorizePixmap(
-		QPixmap("data/gui/statusbar_view/octagon.png"),
+		QPixmap((ResourcePaths::getGuiPath() + "statusbar_view/octagon.png").c_str()),
 		"#D00000"
 	).scaledToHeight(10));
 	addPermanentWidget(&m_errorButton);

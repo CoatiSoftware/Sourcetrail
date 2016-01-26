@@ -19,7 +19,7 @@
 
 void setup(int argc, char *argv[])
 {
-	
+
 }
 
 #endif // INCLUDES_WINDOWS_H

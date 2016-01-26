@@ -4,6 +4,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
+#include "utility/ResourcePaths.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageActivateFile.h"
@@ -50,8 +51,10 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	m_title->setFixedHeight(std::max(m_title->fontMetrics().height() * 1.2, 28.0));
 	m_title->setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 
+	std::string text = ResourcePaths::getGuiPath() + "graph_view/images/file.png";
+
 	m_title->setIcon(utility::colorizePixmap(
-		QPixmap("data/gui/graph_view/images/file.png"),
+		QPixmap(text.c_str()),
 		ColorScheme::getInstance()->getColor("code/file/title/icon").c_str()
 	));
 
@@ -455,7 +458,9 @@ void QtCodeFile::doUpdateTitleBar()
 	if ((!FileSystem::exists(m_filePath.str())) ||
 		(FileSystem::getLastWriteTime(m_filePath) > m_modificationTime))
 	{
-		m_title->setStyleSheet("background-image: url(data/gui/code_view/images/pattern.png);");
+		std::string url = ResourcePaths::getGuiPath() + "code_view/images/pattern.png";
+		std::string foo = "background-image: url(" + url + ");";
+		m_title->setStyleSheet(foo.c_str());
 	}
 	else
 	{

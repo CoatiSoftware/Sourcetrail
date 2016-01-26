@@ -5,6 +5,7 @@
 
 #include "utility/messaging/type/MessageUndo.h"
 #include "utility/messaging/type/MessageRedo.h"
+#include "utility/ResourcePaths.h"
 
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
@@ -72,12 +73,12 @@ void QtUndoRedo::refreshStyle()
 	m_redoButton->setFixedHeight(height);
 
 	m_undoButton->setIcon(utility::colorizePixmap(
-		QPixmap("data/gui/undoredo_view/images/arrow_left.png"),
+		QPixmap((ResourcePaths::getGuiPath() + "undoredo_view/images/arrow_left.png").c_str()),
 		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
 	));
 
 	m_redoButton->setIcon(utility::colorizePixmap(
-		QPixmap("data/gui/undoredo_view/images/arrow_right.png"),
+		QPixmap((ResourcePaths::getGuiPath() + "undoredo_view/images/arrow_right.png").c_str()),
 		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
 	));
 }

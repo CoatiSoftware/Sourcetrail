@@ -274,9 +274,13 @@ add_files(
 	utility/text/TextAccess.cpp
 	utility/text/TextAccess.h
 
+	utility/AppPath.cpp
+	utility/AppPath.h
 	utility/ConfigManager.cpp
 	utility/ConfigManager.h
 	utility/Property.h
+	utility/ResourcePaths.cpp
+	utility/ResourcePaths.h
 	utility/TimePoint.cpp
 	utility/TimePoint.h
 	utility/types.h

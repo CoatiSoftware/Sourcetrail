@@ -4,6 +4,7 @@
 
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
+#include "utility/ResourcePaths.h"
 
 #include "qt/graphics/QtRoundedRectItem.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
@@ -23,7 +24,7 @@ QtGraphNodeExpandToggle::QtGraphNodeExpandToggle(bool expanded, int invisibleSub
 	const int iconHeight = 4;
 	m_icon = new QGraphicsPixmapItem(this);
 
-	QtDeviceScaledPixmap pixmap("data/gui/graph_view/images/arrow.png");
+	QtDeviceScaledPixmap pixmap((ResourcePaths::getGuiPath() + "graph_view/images/arrow.png").c_str());
 	pixmap.scaleToHeight(iconHeight);
 
 	if (invisibleSubNodeCount)

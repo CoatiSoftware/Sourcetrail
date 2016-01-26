@@ -7,8 +7,8 @@
 //------------------------------------------------------------------------------
 //
 // WHAT JUST HAPPENED?
-//  As I mentioned earlier, Coati knows the concept of an "active" symbol. You 
-//  just changed the active symbol by clicking on the name of a function. 
+//  Coati uses the concept of an "active" symbol. You just changed the active
+//	symbol by clicking on the name of a function. 
 //
 // OK, BUT WHAT IS AN ACTIVE SYMBOL?
 //  Coati doesn't show your entire code base on a single screen. Even for 

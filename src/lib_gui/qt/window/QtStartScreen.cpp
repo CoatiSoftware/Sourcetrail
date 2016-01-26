@@ -7,6 +7,7 @@
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageLoadProject.h"
+#include "utility/ResourcePaths.h"
 
 #include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/utility/utilityQt.h"
@@ -33,7 +34,7 @@ QtStartScreen::QtStartScreen(QWidget *parent)
 
 void QtStartScreen::setup()
 {
-	setStyleSheet(utility::getStyleSheet("data/gui/startscreen/startscreen.css").c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "startscreen/startscreen.css").c_str());
 
 	addLogo();
 
@@ -57,7 +58,7 @@ void QtStartScreen::setup()
 	recentProjectsLabel->setObjectName("recentLabel");
 
 	int position = 290;
-	QIcon cpp_icon("data/gui/startscreen/icon_cpp.png");
+	QIcon cpp_icon((ResourcePaths::getGuiPath() + "startscreen/icon_cpp.png").c_str());
 	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
 	for (size_t i = 0; i < recentProjects.size() && i < ApplicationSettings::MaximalAmountOfRecentProjects; i++)
 	{

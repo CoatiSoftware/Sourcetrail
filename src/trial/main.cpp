@@ -5,6 +5,8 @@
 #include "utility/logging/ConsoleLogger.h"
 #include "utility/logging/FileLogger.h"
 #include "utility/logging/LogManager.h"
+#include "utility/AppPath.h"
+#include "utility/ResourcePaths.h"
 #include "utility/Version.h"
 
 #include "Application.h"
@@ -29,7 +31,7 @@ void init()
 	FileLogger::setFilePath(logPath);
 	LogManager::getInstance()->addLogger(fileLogger);
 
-	utility::loadFontsFromDirectory("data/fonts", ".otf");
+	utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
 }
 
 int main(int argc, char *argv[])

@@ -646,12 +646,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_FB29EAD658C3497D9AC46ADE92D33C83"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -659,6 +653,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_F81B906E39E44A5DAC37B3D70BC8A8CE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -2975,6 +2975,29 @@
         }
         "FileType"
         {
+            "{5EB83D71-FA18-4901-BE56-DE22E13CC478}:_BA9B3A9BDD6D40688E6BCF9DFCF96473"
+            {
+            "Name" = "8:Coati Project File"
+            "Description" = "8:Coati project file"
+            "Extensions" = "8:.coatiproject"
+            "MIME" = "8:"
+            "Icon" = "8:_096D033F5DF740A6B6B190652E5276AF"
+            "IconIndex" = "3:0"
+                "Command"
+                {
+                "Command" = "8:_0BD1A36560F540F2AFAC7B3A755E3124"
+                }
+                "Verbs"
+                {
+                    "{95C0C507-CBF0-42B8-B119-07219E384A4A}:_C727665195B8487C977B0D15DFF34BC5"
+                    {
+                    "Command" = "8:Open"
+                    "Verb" = "8:open"
+                    "Arguments" = "8:\"--project\" \"%1\""
+                    "Order" = "3:0"
+                    }
+                }
+            }
         }
         "Folder"
         {
@@ -3327,7 +3350,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Coati"
         "ProductCode" = "8:{2A3B2FF5-A114-4CAB-88FB-DE8942D5B8EB}"
-        "PackageCode" = "8:{08D7C8AB-362B-4BBA-A1A3-992D5BBB3F0E}"
+        "PackageCode" = "8:{1FB7C5E9-FCA4-4EE0-B3B7-9677483310C1}"
         "UpgradeCode" = "8:{CFF09D53-87AF-4241-960D-98C21ED9D358}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -3608,7 +3631,7 @@
                 {
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_51EEFD238ED54FB389548F19CCABB01F"
                     {
-                    "Sequence" = "3:310"
+                    "Sequence" = "3:400"
                     "DisplayName" = "8:Checkboxes   (A)"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
@@ -3998,7 +4021,7 @@
                     }
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_FD3D5E2ADB2B4D67B173954D88B46362"
                     {
-                    "Sequence" = "3:400"
+                    "Sequence" = "3:500"
                     "DisplayName" = "8:Confirm Installation"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"

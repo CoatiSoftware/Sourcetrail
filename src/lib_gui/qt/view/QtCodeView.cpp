@@ -1,6 +1,7 @@
 #include "qt/view/QtCodeView.h"
 
 #include "utility/file/FileSystem.h"
+#include "utility/ResourcePaths.h"
 #include "qt/utility/utilityQt.h"
 
 #include "qt/element/QtCodeArea.h"
@@ -185,5 +186,5 @@ void QtCodeView::setStyleSheet() const
 {
 	utility::setWidgetBackgroundColor(m_widget, ColorScheme::getInstance()->getColor("code/background"));
 
-	m_widget->setStyleSheet(utility::getStyleSheet("data/gui/code_view/code_view.css").c_str());
+	m_widget->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "code_view/code_view.css").c_str());
 }

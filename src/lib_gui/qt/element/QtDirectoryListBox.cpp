@@ -5,6 +5,8 @@
 #include <QFileDialog>
 #include <QMimeData>
 
+#include "utility/ResourcePaths.h"
+
 #include "qt/utility/utilityQt.h"
 
 QtListItemWidget::QtListItemWidget(QtDirectoryListBox* list, QListWidgetItem* item, QWidget *parent)
@@ -95,7 +97,7 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent)
 	m_list->setObjectName("list");
 	m_list->setAttribute(Qt::WA_MacShowFocusRect, 0);
 
-	setStyleSheet(utility::getStyleSheet("data/gui/setting_window/listbox.css").c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "setting_window/listbox.css").c_str());
 	layout->addWidget(m_list);
 
 	QWidget* buttonContainer = new QWidget(this);
@@ -106,13 +108,15 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent)
 	innerLayout->setContentsMargins(8, 4, 8, 3);
 	innerLayout->setSpacing(0);
 
-	m_addButton = new QPushButton(QIcon("data/gui/setting_window/plus.png"), "", this);
+	std::string iconPath = ResourcePaths::getGuiPath() + "setting_window/plus.png";
+	m_addButton = new QPushButton(QIcon(iconPath.c_str()), "", this);
 	m_addButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	m_addButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_addButton->setObjectName("roundedButton");
 	innerLayout->addWidget(m_addButton);
 
-	m_removeButton = new QPushButton(QIcon("data/gui/setting_window/minus.png"), "", this);
+	iconPath = ResourcePaths::getGuiPath() + "setting_window/minus.png";
+	m_removeButton = new QPushButton(QIcon(iconPath.c_str()), "", this);
 	m_removeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	m_removeButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_removeButton->setObjectName("roundedButton");

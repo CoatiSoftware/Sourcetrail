@@ -6,6 +6,8 @@
 
 #include "qt/utility/QtDeviceScaledPixmap.h"
 
+#include "utility/ResourcePaths.h"
+
 namespace
 {
 	class InitThread : public QThread
@@ -23,11 +25,11 @@ QtSplashScreen::QtSplashScreen(const QPixmap &pixmap, Qt::WindowFlags f)
 	: QSplashScreen(pixmap, f)
 	, m_state(0)
 {
-	QtDeviceScaledPixmap foreground("data/gui/splash_white.png");
+	QtDeviceScaledPixmap foreground((ResourcePaths::getGuiPath() + "splash_white.png").c_str());
 	foreground.scaleToHeight(pixmap.size().height() * 0.8);
 	m_foreground = foreground.pixmap();
 
-	QtDeviceScaledPixmap background("data/gui/splash_blue.png");
+	QtDeviceScaledPixmap background((ResourcePaths::getGuiPath() + "splash_blue.png").c_str());
 	background.scaleToHeight(pixmap.size().height() * 0.9);
 	m_background = background.pixmap();
 }

@@ -4,6 +4,8 @@
 #include <QFontMetrics>
 #include <QPen>
 
+#include "utility/ResourcePaths.h"
+
 #include "component/view/GraphViewStyle.h"
 #include "qt/graphics/QtRoundedRectItem.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
@@ -35,9 +37,13 @@ QtGraphNodeAccess::QtGraphNodeAccess(TokenComponentAccess::AccessType accessType
 		break;
 	}
 
+	QtDeviceScaledPixmap pixmap(QString::fromStdString(ResourcePaths::getGuiPath() + "graph_view/images/" + accessString + ".png"));
+
+	pixmap.scaleToHeight(m_accessIconSize);
+
 	if (fileName.size() > 0)
 	{
-		QtDeviceScaledPixmap pixmap(QString::fromStdString("data/gui/graph_view/images/" + fileName + ".png"));
+		QtDeviceScaledPixmap pixmap(QString::fromStdString(ResourcePaths::getGuiPath() + fileName + ".png"));
 		pixmap.scaleToHeight(m_accessIconSize);
 
 		m_accessIcon = new QGraphicsPixmapItem(pixmap.pixmap(), this);

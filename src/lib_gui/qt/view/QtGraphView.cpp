@@ -14,6 +14,7 @@
 #include "component/controller/helper/GraphPostprocessor.h"
 #include "component/view/GraphViewStyle.h"
 #include "utility/messaging/type/MessageDeactivateEdge.h"
+#include "utility/ResourcePaths.h"
 
 #include "qt/utility/utilityQt.h"
 
@@ -287,7 +288,7 @@ void QtGraphView::doRefreshView()
 	doClear();
 	doResize();
 
-	std::string css = utility::getStyleSheet("data/gui/graph_view/graph_view.css");
+	std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath() + "graph_view/graph_view.css");
 	getView()->setStyleSheet(css.c_str());
 
 	float zoomFactor = GraphViewStyle::getZoomFactor();

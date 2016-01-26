@@ -5,6 +5,8 @@
 #include <QGraphicsSceneEvent>
 #include <QPen>
 
+#include "utility/ResourcePaths.h"
+
 #include "component/controller/helper/GraphPostprocessor.h"
 
 #include "qt/graphics/QtRoundedRectItem.h"
@@ -371,7 +373,7 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 
 	if (style.hasHatching)
 	{
-		QtDeviceScaledPixmap pattern("data/gui/graph_view/images/pattern.png");
+		QtDeviceScaledPixmap pattern((ResourcePaths::getGuiPath() + "graph_view/images/pattern.png").c_str());
 		pattern.scaleToHeight(10);
 		QPixmap pixmap = utility::colorizePixmap(pattern.pixmap(), style.color.hatching.c_str());
 

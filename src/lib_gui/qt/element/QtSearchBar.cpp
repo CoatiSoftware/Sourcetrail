@@ -9,6 +9,8 @@
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
 
+#include "utility/ResourcePaths.h"
+
 QtSearchBar::QtSearchBar()
 {
 	setObjectName("search_bar");
@@ -86,8 +88,9 @@ void QtSearchBar::refreshStyle()
 	m_searchBox->setFixedHeight(std::max(ApplicationSettings::getInstance()->getFontSize() + 11, 25));
 	m_searchButton->setFixedHeight(m_searchBox->height() + 5);
 
+	std::string map = ResourcePaths::getGuiPath() + "search_view/images/search.png";
 	m_searchButton->setIcon(utility::colorizePixmap(
-		QPixmap("data/gui/search_view/images/search.png"),
+		QPixmap(map.c_str()),
 		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
 	));
 }
