@@ -243,9 +243,9 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 		result.topLevelAncestorId = parent->getId();
 	}
 
-	// Expand nodes that were expanded before.
+	// Expand nodes that were expanded before, except functions.
 	DummyNode* oldNode = findDummyNodeRecursive(m_dummyNodes, node->getId());
-	if (oldNode)
+	if (oldNode && oldNode->isGraphNode() && !oldNode->data->isType(Node::NODE_FUNCTION | Node::NODE_METHOD))
 	{
 		result.expanded = oldNode->isExpanded();
 	}

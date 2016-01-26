@@ -265,6 +265,9 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfAccessNode(TokenComponen
 	case TokenComponentAccess::ACCESS_PRIVATE:
 		margins.minWidth = 64;
 		break;
+	case TokenComponentAccess::ACCESS_TEMPLATE:
+		margins.minWidth = 110;
+		break;
 	}
 
 	return margins;

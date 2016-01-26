@@ -393,11 +393,8 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const 
 
 		return qtEdge;
 	}
-	else
-	{
-		LOG_WARNING_STREAM(<< "Couldn't find owner or target node for edge: " << (edge.data ? edge.data->getName() : "<no data>"));
-		return NULL;
-	}
+
+	return NULL;
 }
 
 QRectF QtGraphView::itemsBoundingRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const

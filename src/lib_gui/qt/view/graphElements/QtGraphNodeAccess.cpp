@@ -12,16 +12,36 @@
 QtGraphNodeAccess::QtGraphNodeAccess(TokenComponentAccess::AccessType accessType)
 	: QtGraphNode()
 	, m_access(accessType)
+	, m_accessIcon(nullptr)
 	, m_accessIconSize(20)
 {
 	std::string accessString = TokenComponentAccess::getAccessString(accessType);
 	this->setName(accessString);
 	m_text->hide();
 
-	QtDeviceScaledPixmap pixmap(QString::fromStdString("data/gui/graph_view/images/" + accessString + ".png"));
-	pixmap.scaleToHeight(m_accessIconSize);
+	std::string fileName;
+	switch (accessType)
+	{
+	case TokenComponentAccess::ACCESS_PUBLIC:
+		fileName = "public";
+		break;
+	case TokenComponentAccess::ACCESS_PROTECTED:
+		fileName = "protected";
+		break;
+	case TokenComponentAccess::ACCESS_PRIVATE:
+		fileName = "private";
+		break;
+	default:
+		break;
+	}
 
-	m_accessIcon = new QGraphicsPixmapItem(pixmap.pixmap(), this);
+	if (fileName.size() > 0)
+	{
+		QtDeviceScaledPixmap pixmap(QString::fromStdString("data/gui/graph_view/images/" + fileName + ".png"));
+		pixmap.scaleToHeight(m_accessIconSize);
+
+		m_accessIcon = new QGraphicsPixmapItem(pixmap.pixmap(), this);
+	}
 }
 
 QtGraphNodeAccess::~QtGraphNodeAccess()
@@ -53,10 +73,17 @@ void QtGraphNodeAccess::updateStyle()
 	font.setCapitalization(QFont::AllUppercase);
 	m_text->setFont(font);
 
-	m_text->setPos(style.textOffset.x + m_accessIconSize + 3, style.textOffset.x + m_accessIconSize + 2 - style.fontSize);
-	m_accessIcon->setPos(style.textOffset.x, style.textOffset.y);
+	if (m_accessIcon)
+	{
+		m_text->setPos(style.textOffset.x + m_accessIconSize + 3, style.textOffset.y + m_accessIconSize + 2 - style.fontSize);
+		m_accessIcon->setPos(style.textOffset.x, style.textOffset.y);
 
-	m_accessIcon->setPixmap(utility::colorizePixmap(m_accessIcon->pixmap(), style.color.icon.c_str()));
+		m_accessIcon->setPixmap(utility::colorizePixmap(m_accessIcon->pixmap(), style.color.icon.c_str()));
+	}
+	else
+	{
+		m_text->setPos(style.textOffset.x, style.textOffset.y + m_accessIconSize + 2 - style.fontSize);
+	}
 }
 
 void QtGraphNodeAccess::hideLabel()

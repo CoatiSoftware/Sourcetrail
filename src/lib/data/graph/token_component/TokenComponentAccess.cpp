@@ -10,6 +10,8 @@ std::string TokenComponentAccess::getAccessString(AccessType access)
 		return "protected";
 	case ACCESS_PRIVATE:
 		return "private";
+	case ACCESS_TEMPLATE:
+		return "template parameter";
 	case ACCESS_NONE:
 		return "";
 	}
@@ -31,6 +33,8 @@ TokenComponentAccess::AccessType TokenComponentAccess::intToType(int value)
 		return ACCESS_PROTECTED;
 	case 0x4:
 		return ACCESS_PRIVATE;
+	case 0x8:
+		return ACCESS_TEMPLATE;
 	default:
 		break;
 	}

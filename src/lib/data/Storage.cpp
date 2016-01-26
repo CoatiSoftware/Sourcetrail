@@ -607,10 +607,9 @@ Id Storage::onTemplateRecordParameterTypeParsed(
 
 	Id parameterNodeId = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy, true);
 	addSourceLocation(parameterNodeId, location, false);
+	addAccess(parameterNodeId, TokenComponentAccess::ACCESS_TEMPLATE);
 
-	Id recordNodeId = addNodeHierarchy(Node::NODE_TYPE, templateRecordNameHierarchy, false);
-
-	addEdge(recordNodeId, parameterNodeId, Edge::EDGE_TEMPLATE_PARAMETER, location);
+	addNodeHierarchy(Node::NODE_TYPE, templateRecordNameHierarchy, false);
 
 	return parameterNodeId;
 }
@@ -667,9 +666,9 @@ Id Storage::onTemplateFunctionParameterTypeParsed(
 
 	Id parameterNodeId = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy, true);
 	addSourceLocation(parameterNodeId, location, false);
+	addAccess(parameterNodeId, TokenComponentAccess::ACCESS_TEMPLATE);
 
-	Id functionNodeId = addNodeHierarchy(Node::NODE_FUNCTION, function, false);
-	addEdge(functionNodeId, parameterNodeId, Edge::EDGE_TEMPLATE_PARAMETER, location);
+	addNodeHierarchy(Node::NODE_FUNCTION, function, false);
 
 	return parameterNodeId;
 }
@@ -901,8 +900,7 @@ std::shared_ptr<Graph> Storage::getGraphForAll() const
 	std::vector<Id> tokenIds;
 	for (StorageNode node: m_sqliteStorage.getAllNodes())
 	{
-		if (node.defined && Node::intToType(node.type) != Node::NODE_TEMPLATE_PARAMETER_TYPE
-			&& !m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id))
+		if (node.defined && !m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id))
 		{
 			tokenIds.push_back(node.id);
 		}

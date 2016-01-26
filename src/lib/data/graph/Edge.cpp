@@ -66,8 +66,6 @@ Edge::Edge(Id id, EdgeType type, Node* from, Node* to)
 {
 	m_from->addEdge(this);
 	m_to->addEdge(this);
-
-	checkType();
 }
 
 Edge::Edge(const Edge& other, Node* from, Node* to)
@@ -84,8 +82,6 @@ Edge::Edge(const Edge& other, Node* from, Node* to)
 	{
 		LOG_ERROR("Nodes are not plain copies.");
 	}
-
-	checkType();
 }
 
 Edge::~Edge()
@@ -238,130 +234,4 @@ std::ostream& operator<<(std::ostream& ostream, const Edge& edge)
 {
 	ostream << edge.getAsString();
 	return ostream;
-}
-
-bool Edge::checkType() const // TODO: remove this function
-{
-	Node::NodeTypeMask complexTypeMask = Node::NODE_CLASS | Node::NODE_STRUCT | Node:: NODE_TEMPLATE_PARAMETER_TYPE;
-	Node::NodeTypeMask typeMask = Node::NODE_UNDEFINED | Node::NODE_TYPE | Node::NODE_ENUM | Node::NODE_TYPEDEF | complexTypeMask;
-	Node::NodeTypeMask variableMask = Node::NODE_GLOBAL_VARIABLE | Node::NODE_FIELD;
-	Node::NodeTypeMask functionMask = Node::NODE_FUNCTION | Node::NODE_METHOD;
-
-	switch (m_type)
-	{
-	case EDGE_NONE:
-		break;
-
-	case EDGE_MEMBER:
-		if (!m_from->isType(typeMask | Node::NODE_NAMESPACE | functionMask) ||
-			(!m_from->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE) && m_to->isType(Node::NODE_NAMESPACE)) ||
-			(m_from->isType(Node::NODE_ENUM) && !m_to->isType(Node::NODE_ENUM_CONSTANT)) ||
-			(m_from->isType(functionMask) && !m_to->isType(Node::NODE_TEMPLATE_PARAMETER_TYPE)))
-		{
-			break;
-		}
-		return true;
-
-	case EDGE_TYPE_OF:
-		if (!m_from->isType(variableMask) || !m_to->isType(typeMask))
-		{
-			break;
-		}
-		return true;
-
-	case EDGE_RETURN_TYPE_OF:
-	case EDGE_PARAMETER_TYPE_OF:
-	case EDGE_TYPE_USAGE:
-		if (!m_from->isType(functionMask) || !m_to->isType(typeMask))
-		{
-			break;
-		}
-		return true;
-
-	case EDGE_INHERITANCE:
-		if (!m_from->isType(complexTypeMask) || !m_to->isType(complexTypeMask))
-		{
-			break;
-		}
-		return true;
-
-	case EDGE_OVERRIDE:
-		if (!m_from->isType(Node::NODE_METHOD) ||
-			!m_to->isType(Node::NODE_METHOD))
-		{
-			break;
-		}
-		return true;
-
-	case EDGE_CALL:
-		if (!m_from->isType(variableMask | functionMask) || !m_to->isType(functionMask))
-		{
-			break;
-		}
-		return true;
-
-	case EDGE_USAGE:
-		if (!m_from->isType(functionMask) || !m_to->isType(variableMask | Node::NODE_ENUM_CONSTANT))
-		{
-			break;
-		}
-		return true;
-
-	case EDGE_TYPEDEF_OF:
-		if (!m_from->isType(Node::NODE_TYPEDEF) || !m_to->isType(typeMask))
-		{
-			break;
-		}
-		return true;
-
-	case EDGE_TEMPLATE_PARAMETER:
-		if (!m_from->isType(Node::NODE_TEMPLATE_PARAMETER_TYPE) || !m_to->isType(typeMask | functionMask))
-		{
-			break;
-		}
-		return true;
-
-	case EDGE_TEMPLATE_ARGUMENT:
-	case EDGE_TEMPLATE_DEFAULT_ARGUMENT:
-		if (!m_from->isType(typeMask) || !m_to->isType(typeMask | functionMask))
-		{
-			break;
-		}
-		return true;
-
-	case EDGE_TEMPLATE_SPECIALIZATION_OF:
-	case EDGE_TEMPLATE_MEMBER_SPECIALIZATION_OF:
-		if (!m_from->isType(typeMask | functionMask) || !m_to->isType(typeMask | functionMask))
-		{
-			break;
-		}
-		return true;
-
-	case EDGE_INCLUDE:
-		if (!m_from->isType(Node::NODE_FILE) || !m_to->isType(Node::NODE_FILE))
-		{
-			break;
-		}
-		return true;
-
-	case EDGE_AGGREGATION:
-		if (!m_from->isType(typeMask | variableMask | functionMask) || !m_to->isType(typeMask | variableMask | functionMask))
-		{
-			break;
-		}
-		return true;
-	case EDGE_MACRO_USAGE:
-		if (!m_to->isType(Node::NODE_MACRO) || !m_from->isType(Node::NODE_FILE))
-		{
-			break;
-		}
-		return true;
-	}
-
-	LOG_ERROR_STREAM(
-		<< "Edge " << getTypeString()
-		<< " can't go from Node " << m_from->getTypeString()
-		<< " to Node " << m_to->getTypeString()
-	);
-	return false;
 }
