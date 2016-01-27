@@ -255,7 +255,7 @@ set_property(
 # include external header without warnings
 target_include_directories(${LIB_GUI_PROJECT_NAME} SYSTEM
 		PUBLIC "${CMAKE_SOURCE_DIR}/src/external"
-		PUBLIC "$ENV{BOTAN_DIR}/release"
+		PUBLIC "$ENV{BOTAN_DIR}"
 		PUBLIC ${Boost_INCLUDE_DIRS}
 )
 
