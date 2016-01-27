@@ -1,6 +1,8 @@
 #ifndef AST_VISITOR_H
 #define AST_VISITOR_H
 
+#include <unordered_map>
+
 #include "clang/AST/ASTContext.h"
 #include "clang/AST/RecursiveASTVisitor.h"
 
@@ -94,13 +96,16 @@ private:
 	ParseTypeUsage getParseTypeUsageOfReturnType(const clang::FunctionDecl* declaration) const;
 	std::vector<ParseTypeUsage> getParameters(const clang::FunctionDecl* declaration) const;
 
-	ParseVariable getParseVariable(const clang::DeclaratorDecl* declaration) const;
-	ParseFunction getParseFunction(const clang::FunctionDecl* declaration) const;
-	ParseFunction getParseFunction(const clang::FunctionTemplateDecl* declaration) const;
+	ParseVariable getParseVariable(const clang::DeclaratorDecl* declaration);
+	ParseFunction getParseFunction(const clang::FunctionDecl* declaration);
+	ParseFunction getParseFunction(const clang::FunctionTemplateDecl* declaration);
+
+	NameHierarchy getDeclNameHierarchy(const clang::Decl* decl);
 
 	clang::ASTContext* m_context;
 	ParserClient* m_client;
 	FileRegister* m_fileRegister;
+	std::unordered_map<const clang::Decl*, NameHierarchy> m_nameCache;
 };
 
 #endif // AST_VISITOR_H

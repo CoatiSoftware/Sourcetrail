@@ -41,7 +41,7 @@ bool ASTVisitor::VisitTypedefDecl(clang::TypedefDecl* declaration)
 	{
 		m_client->onTypedefParsed(
 			getParseLocationForNamedDecl(declaration),
-			utility::getDeclNameHierarchy(declaration),
+			getDeclNameHierarchy(declaration),
 			getParseTypeUsage(declaration->getTypeSourceInfo()->getTypeLoc(), declaration->getUnderlyingType()),
 			convertAccessType(declaration->getAccess())
 		);
@@ -58,7 +58,7 @@ bool ASTVisitor::VisitRecordDecl(clang::RecordDecl* declaration)
 		{
 			m_client->onClassParsed(
 				getParseLocationForNamedDecl(declaration),
-				utility::getDeclNameHierarchy(declaration),
+				getDeclNameHierarchy(declaration),
 				convertAccessType(declaration->getAccess()),
 				getParseLocationOfRecordBody(declaration)
 			);
@@ -67,7 +67,7 @@ bool ASTVisitor::VisitRecordDecl(clang::RecordDecl* declaration)
 		{
 			m_client->onStructParsed(
 				getParseLocationForNamedDecl(declaration),
-				utility::getDeclNameHierarchy(declaration),
+				getDeclNameHierarchy(declaration),
 				convertAccessType(declaration->getAccess()),
 				getParseLocationOfRecordBody(declaration)
 			);
@@ -82,7 +82,7 @@ bool ASTVisitor::VisitRecordDecl(clang::RecordDecl* declaration)
 				{
 					m_client->onInheritanceParsed(
 						getParseLocation(it.getSourceRange()),
-						utility::getDeclNameHierarchy(declaration),
+						getDeclNameHierarchy(declaration),
 						utility::qualTypeToDataType(it.getType())->getTypeNameHierarchy(),
 						convertAccessType(it.getAccessSpecifier())
 					);
@@ -234,7 +234,7 @@ bool ASTVisitor::VisitCXXConstructorDecl(clang::CXXConstructorDecl* declaration)
 					m_client->onFieldUsageParsed(
 						getParseLocationForTokenAtLocation(init->getMemberLocation()),
 						getParseFunction(declaration),
-						utility::getDeclNameHierarchy(init->getMember())
+						getDeclNameHierarchy(init->getMember())
 					);
 				}
 				else if (init->isBaseInitializer())
@@ -259,7 +259,7 @@ bool ASTVisitor::VisitNamespaceDecl(clang::NamespaceDecl* declaration)
 	{
 		m_client->onNamespaceParsed(
 			declaration->isAnonymousNamespace() ? ParseLocation() : getParseLocationForNamedDecl(declaration), // TODO: why no real parse loc for anonymous namespace?
-			utility::getDeclNameHierarchy(declaration),
+			getDeclNameHierarchy(declaration),
 			getParseLocation(declaration->getSourceRange())
 		);
 	}
@@ -272,7 +272,7 @@ bool ASTVisitor::VisitEnumDecl(clang::EnumDecl* declaration)
 	{
 		m_client->onEnumParsed(
 			getParseLocationForNamedDecl(declaration),
-			utility::getDeclNameHierarchy(declaration),
+			getDeclNameHierarchy(declaration),
 			convertAccessType(declaration->getAccess()),
 			getParseLocation(declaration->getSourceRange())
 		);
@@ -286,7 +286,7 @@ bool ASTVisitor::VisitEnumConstantDecl(clang::EnumConstantDecl* declaration)
 	{
 		m_client->onEnumConstantParsed(
 			getParseLocation(declaration->getSourceRange()),
-			utility::getDeclNameHierarchy(declaration)
+			getDeclNameHierarchy(declaration)
 		);
 	}
 	return true;
@@ -298,7 +298,7 @@ bool ASTVisitor::VisitTemplateTypeParmDecl(clang::TemplateTypeParmDecl *declarat
 	{
 		m_client->onTemplateDefaultArgumentTypeParsed(
 			getParseTypeUsage(declaration->getDefaultArgumentInfo()->getTypeLoc(), declaration->getDefaultArgument()),
-			utility::getDeclNameHierarchy(declaration)
+			getDeclNameHierarchy(declaration)
 		);
 	}
 	return true;
@@ -311,11 +311,11 @@ bool ASTVisitor::VisitTemplateTemplateParmDecl(clang::TemplateTemplateParmDecl *
 		const clang::TemplateArgumentLoc& defaultArgumentLoc = declaration->getDefaultArgument();
 		clang::SourceRange sr = defaultArgumentLoc.getSourceRange();
 		std::shared_ptr<DataType> defaultArgumentDataType = std::make_shared<NamedDataType>(
-			utility::getDeclNameHierarchy(defaultArgumentLoc.getArgument().getAsTemplate().getAsTemplateDecl())
+			getDeclNameHierarchy(defaultArgumentLoc.getArgument().getAsTemplate().getAsTemplateDecl())
 		);
 		m_client->onTemplateDefaultArgumentTypeParsed(
 			getParseTypeUsage(sr, defaultArgumentDataType),
-			utility::getDeclNameHierarchy(declaration)
+			getDeclNameHierarchy(declaration)
 		);
 	}
 	return true;
@@ -325,7 +325,7 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 {
 	if (isLocatedInUnparsedProjectFile(declaration))
 	{
-		NameHierarchy templateRecordNameHierarchy = utility::getDeclNameHierarchy(declaration);
+		NameHierarchy templateRecordNameHierarchy = getDeclNameHierarchy(declaration);
 		clang::TemplateParameterList* parameterList = declaration->getTemplateParameters();
 		for (size_t i = 0; i < parameterList->size(); i++)
 		{
@@ -334,7 +334,7 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 			{
 				m_client->onTemplateRecordParameterTypeParsed(
 					getParseLocationForNamedDecl(namedDecl),
-					utility::getDeclNameHierarchy(namedDecl),
+					getDeclNameHierarchy(namedDecl),
 					templateRecordNameHierarchy
 				);
 			}
@@ -347,7 +347,7 @@ bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
 	)
 	{
 		clang::ClassTemplateSpecializationDecl* specializationDecl = *it;
-		NameHierarchy specializationNameHierarchy = utility::getDeclNameHierarchy(specializationDecl);
+		NameHierarchy specializationNameHierarchy = getDeclNameHierarchy(specializationDecl);
 
 		ParseLocation specializationLocation = getParseLocationForNamedDecl(specializationDecl);
 		if (specializationDecl->getSpecializationKind() == clang::TSK_ImplicitInstantiation)
@@ -407,7 +407,7 @@ bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplat
 {
 	if (isLocatedInUnparsedProjectFile(declaration))
 	{
-		NameHierarchy specializedRecordNameHierarchy = utility::getDeclNameHierarchy(declaration);
+		NameHierarchy specializedRecordNameHierarchy = getDeclNameHierarchy(declaration);
 		NameHierarchy specializationParentNameHierarchy = utility::getTemplateSpecializationParentNameHierarchy(declaration);
 
 		ParserClient::RecordType specializedRecordType = declaration->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
@@ -423,7 +423,7 @@ bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplat
 			{
 				m_client->onTemplateRecordParameterTypeParsed(
 					getParseLocationForNamedDecl(namedDecl),
-					utility::getDeclNameHierarchy(namedDecl),
+					getDeclNameHierarchy(namedDecl),
 					specializedRecordNameHierarchy
 				);
 			}
@@ -447,7 +447,7 @@ bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declarat
 			{
 				m_client->onTemplateFunctionParameterTypeParsed(
 					getParseLocationForNamedDecl(namedDecl),
-					utility::getDeclNameHierarchy(namedDecl),
+					getDeclNameHierarchy(namedDecl),
 					templateFunction
 				);
 			}
@@ -596,7 +596,7 @@ void ASTVisitor::VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::Mem
 	m_client->onFieldUsageParsed(
 		parseLocation,
 		getParseFunction(decl),
-		utility::getDeclNameHierarchy(expr->getMemberDecl())
+		getDeclNameHierarchy(expr->getMemberDecl())
 	);
 }
 
@@ -610,7 +610,7 @@ void ASTVisitor::VisitMemberExprInDeclBody(clang::DeclaratorDecl* decl, clang::M
 	m_client->onFieldUsageParsed(
 		parseLocation,
 		getParseVariable(decl),
-		utility::getDeclNameHierarchy(expr->getMemberDecl())
+		getDeclNameHierarchy(expr->getMemberDecl())
 	);
 }
 
@@ -624,7 +624,7 @@ void ASTVisitor::VisitGlobalVariableExprInDeclBody(clang::FunctionDecl* decl, cl
 	m_client->onGlobalVariableUsageParsed(
 		parseLocation,
 		getParseFunction(decl),
-		utility::getDeclNameHierarchy(expr->getDecl())
+		getDeclNameHierarchy(expr->getDecl())
 	);
 }
 
@@ -638,7 +638,7 @@ void ASTVisitor::VisitGlobalVariableExprInDeclBody(clang::DeclaratorDecl* decl, 
 	m_client->onGlobalVariableUsageParsed(
 		parseLocation,
 		getParseVariable(decl),
-		utility::getDeclNameHierarchy(expr->getDecl())
+		getDeclNameHierarchy(expr->getDecl())
 	);
 }
 
@@ -652,7 +652,7 @@ void ASTVisitor::VisitEnumExprInDeclBody(clang::FunctionDecl* decl, clang::DeclR
 	m_client->onEnumConstantUsageParsed(
 		parseLocation,
 		getParseFunction(decl),
-		utility::getDeclNameHierarchy(expr->getDecl())
+		getDeclNameHierarchy(expr->getDecl())
 	);
 }
 
@@ -666,7 +666,7 @@ void ASTVisitor::VisitEnumExprInDeclBody(clang::DeclaratorDecl* decl, clang::Dec
 	m_client->onEnumConstantUsageParsed(
 		parseLocation,
 		getParseVariable(decl),
-		utility::getDeclNameHierarchy(expr->getDecl())
+		getDeclNameHierarchy(expr->getDecl())
 	);
 }
 
@@ -733,7 +733,7 @@ void ASTVisitor::processTemplateArgumentsOfExplicitSpecialization(clang::Functio
 
 void ASTVisitor::processTemplateArgumentsOfExplicitSpecialization(clang::ClassTemplateSpecializationDecl* specializationDecl)
 {
-	NameHierarchy specializedRecordNameHierarchy = utility::getDeclNameHierarchy(specializationDecl);
+	NameHierarchy specializedRecordNameHierarchy = getDeclNameHierarchy(specializationDecl);
 	if (clang::ClassTemplatePartialSpecializationDecl* partialSpecializationDecl =
 		clang::dyn_cast_or_null<clang::ClassTemplatePartialSpecializationDecl>(specializationDecl))
 	{
@@ -1107,10 +1107,10 @@ std::vector<ParseTypeUsage> ASTVisitor::getParameters(const clang::FunctionDecl*
 	return parameters;
 }
 
-ParseVariable ASTVisitor::getParseVariable(const clang::DeclaratorDecl* declaration) const
+ParseVariable ASTVisitor::getParseVariable(const clang::DeclaratorDecl* declaration)
 {
 	bool isStatic = false;
-	NameHierarchy hameHierarchy = utility::getDeclNameHierarchy(declaration);
+	NameHierarchy hameHierarchy = getDeclNameHierarchy(declaration);
 	if (clang::isa<clang::VarDecl>(declaration))
 	{
 		const clang::VarDecl* varDecl = clang::dyn_cast<const clang::VarDecl>(declaration);
@@ -1128,7 +1128,7 @@ ParseVariable ASTVisitor::getParseVariable(const clang::DeclaratorDecl* declarat
 	);
 }
 
-ParseFunction ASTVisitor::getParseFunction(const clang::FunctionDecl* declaration) const
+ParseFunction ASTVisitor::getParseFunction(const clang::FunctionDecl* declaration)
 {
 	bool isStatic = false;
 	bool isConst = false;
@@ -1146,14 +1146,30 @@ ParseFunction ASTVisitor::getParseFunction(const clang::FunctionDecl* declaratio
 
 	return ParseFunction(
 		getParseTypeUsageOfReturnType(declaration),
-		utility::getDeclNameHierarchy(declaration),
+		getDeclNameHierarchy(declaration),
 		getParameters(declaration),
 		isStatic,
 		isConst
 	);
 }
 
-ParseFunction ASTVisitor::getParseFunction(const clang::FunctionTemplateDecl* declaration) const
+ParseFunction ASTVisitor::getParseFunction(const clang::FunctionTemplateDecl* declaration)
 {
 	return getParseFunction(declaration->getTemplatedDecl());
+}
+
+NameHierarchy ASTVisitor::getDeclNameHierarchy(const clang::Decl* decl)
+{
+	NameHierarchy nameHierarchy;
+	std::unordered_map<const clang::Decl*, NameHierarchy>::const_iterator it = m_nameCache.find(decl);
+	if (it != m_nameCache.end())
+	{
+		nameHierarchy = it->second;
+	}
+	else
+	{
+		nameHierarchy = utility::getDeclNameHierarchy(decl);
+		m_nameCache[decl] = nameHierarchy;
+	}
+	return nameHierarchy;
 }
