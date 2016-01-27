@@ -12,8 +12,8 @@
 //
 // 5 - FORWARD AND BACKWARD
 //  You can use the buttons to the very left to go forward and backward, like
-//	in a web browser. They really come in handy in case you ask yourself something
-//	like "How did I end up here?"
+//	in a web browser. They really come in handy in case you ask yourself 
+//	something like "How did I end up here?"
 //
 // 6 - REFRESH
 //  The next button allows you to refresh the project in case you changed some

@@ -32,8 +32,6 @@ echo -e $INFO "create build folders"
 mkdir -p build
 mkdir -p bin/app/Debug
 mkdir -p bin/app/Release
-mkdir -p bin/gen/Debug
-mkdir -p bin/gen/Release
 mkdir -p bin/lib/Debug
 mkdir -p bin/lib/Release
 mkdir -p bin/test/Debug
@@ -50,6 +48,9 @@ if [ $PLATFORM == "Windows" ]; then
 
 	echo -e $INFO "creating program icon"
 	sh script/create_windows_icon.sh
+	
+	cmd //c 'mklink /d /j '.$MY_PATH.'\..\bin\app\Debug\data '.$MY_PATH.'\..\bin\app\data' &
+	cmd //c 'mklink /d /j '.$MY_PATH.'\..\bin\app\Release\data '.$MY_PATH.'\..\bin\app\data' &
 fi
 
 # Setup both Debug and Release configuration

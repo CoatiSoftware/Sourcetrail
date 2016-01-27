@@ -6,6 +6,10 @@ SUCCESS="\033[32mSuccess:\033[00m"
 MY_PATH=`dirname "$0"`
 cd $MY_PATH/..
 
+# Remove symbolic links
+cmd //c 'rmdir '.$MY_PATH.'\..\bin\app\Debug\data' &
+cmd //c 'rmdir '.$MY_PATH.'\..\bin\app\Release\data' &
+
 # Remove folders and contents
 rm -rf build
 rm -rf bin/app/Debug
