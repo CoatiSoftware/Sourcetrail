@@ -77,7 +77,8 @@ set(EIGEN_ROOT $ENV{EIGEN_DIR})
 # Botan -------------------------------------------------------------------------
 
 if(UNIX)
-    find_library(BOTAN botan-1.11 $ENV{BOTAN_DIR}  NO_DEFAULT_PATH)
+    find_library(BOTAN botan-1.11 $ENV{BOTAN_DIR}/release NO_DEFAULT_PATH)
+    find_library(BOTAN_D botan-1.11 $ENV{BOTAN_DIR}/debug NO_DEFAULT_PATH)
 else()
     find_library(BOTAN botan "$ENV{BOTAN_DIR}/release")
 	find_library(BOTAN_D botan "$ENV{BOTAN_DIR}/debug")
@@ -180,11 +181,15 @@ target_include_directories(${LIB_LICENSE_PROJECT_NAME} SYSTEM
 # target_include_directories(${LIB_LICENSE_PROJECT_NAME} optimized "$ENV{BOTAN_DIR}/release")
 # target_include_directories(${LIB_LICENSE_PROJECT_NAME} debug "$ENV{BOTAN_DIR}/debug")
 
-link_directories(optimized "$ENV{BOTAN_DIR}/release")
-link_directories(debug "$ENV{BOTAN_DIR}/debug")
+if(UNIX)
+	target_link_libraries(${LIB_LICENSE_PROJECT_NAME} ${BOTAN})
+else()
+	link_directories(optimized "$ENV{BOTAN_DIR}/release")
+	link_directories(debug "$ENV{BOTAN_DIR}/debug")
 
-target_link_libraries(${LIB_LICENSE_PROJECT_NAME} debug ${BOTAN_D})
-target_link_libraries(${LIB_LICENSE_PROJECT_NAME} optimized ${BOTAN})
+	target_link_libraries(${LIB_LICENSE_PROJECT_NAME} debug ${BOTAN_D})
+	target_link_libraries(${LIB_LICENSE_PROJECT_NAME} optimized ${BOTAN})
+endif()
 
 # Lib Gui ----------------------------------------------------------------------
 
@@ -250,7 +255,7 @@ set_property(
 # include external header without warnings
 target_include_directories(${LIB_GUI_PROJECT_NAME} SYSTEM
 		PUBLIC "${CMAKE_SOURCE_DIR}/src/external"
-		PUBLIC "$ENV{BOTAN_DIR}"
+		PUBLIC "$ENV{BOTAN_DIR}/release"
 		PUBLIC ${Boost_INCLUDE_DIRS}
 )
 
