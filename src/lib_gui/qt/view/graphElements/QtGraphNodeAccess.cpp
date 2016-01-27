@@ -37,13 +37,10 @@ QtGraphNodeAccess::QtGraphNodeAccess(TokenComponentAccess::AccessType accessType
 		break;
 	}
 
-	QtDeviceScaledPixmap pixmap(QString::fromStdString(ResourcePaths::getGuiPath() + "graph_view/images/" + accessString + ".png"));
-
-	pixmap.scaleToHeight(m_accessIconSize);
-
 	if (fileName.size() > 0)
 	{
-		QtDeviceScaledPixmap pixmap(QString::fromStdString(ResourcePaths::getGuiPath() + fileName + ".png"));
+		QtDeviceScaledPixmap pixmap(
+			QString::fromStdString(ResourcePaths::getGuiPath() + "graph_view/images/" + fileName + ".png"));
 		pixmap.scaleToHeight(m_accessIconSize);
 
 		m_accessIcon = new QGraphicsPixmapItem(pixmap.pixmap(), this);

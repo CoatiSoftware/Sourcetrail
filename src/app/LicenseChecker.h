@@ -46,12 +46,11 @@ private:
 			std::string licenseCheck = appSettings->getLicenseCheck();
 			std::string appPath = AppPath::getAppPath(); // for easier debugging...
 			FilePath p(appPath);
-			LOG_INFO_STREAM(<< "gonna check location: " << appPath);
+
 			if (!License::checkLocation(p.absolute().str(), licenseCheck))
 			{
 				break;
 			}
-			LOG_INFO_STREAM(<< "öhm...? done checking?");
 
 			std::string licenseString = appSettings->getLicenseString();
 			if (licenseString.size() == 0)
