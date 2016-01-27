@@ -11,6 +11,8 @@
 SqliteStorage::SqliteStorage(const std::string& dbFilePath)
 {
 	m_database.open(dbFilePath.c_str());
+
+	m_database.execDML("PRAGMA foreign_keys=ON;");
 }
 
 SqliteStorage::~SqliteStorage()
