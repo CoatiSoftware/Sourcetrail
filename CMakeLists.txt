@@ -382,6 +382,10 @@ create_source_groups(${TRIAL_FILES})
 
 target_link_libraries(${TRIAL_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} )
 
+if(UNIX AND NOT APPLE)
+	target_link_libraries(${TRIAL_PROJECT_NAME} pthread dl)
+endif()
+
 set_property(
 	TARGET ${TRIAL_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
