@@ -7,12 +7,12 @@
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
+#include "utility/messaging/type/MessageChangeFileView.h"
+#include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageShowErrors.h"
-#include "utility/messaging/type/MessageShowFile.h"
 #include "utility/messaging/type/MessageShowScope.h"
-#include "utility/messaging/type/MessageShowSnippets.h"
 #include "utility/types.h"
 
 #include "component/controller/helper/SnippetMerger.h"
@@ -27,12 +27,12 @@ class CodeController
 	: public Controller
 	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateTokens>
+	, public MessageListener<MessageChangeFileView>
+	, public MessageListener<MessageFlushUpdates>
 	, public MessageListener<MessageFocusIn>
 	, public MessageListener<MessageFocusOut>
 	, public MessageListener<MessageShowErrors>
-	, public MessageListener<MessageShowFile>
 	, public MessageListener<MessageShowScope>
-	, public MessageListener<MessageShowSnippets>
 {
 public:
 	CodeController(StorageAccess* storageAccess);
@@ -43,14 +43,15 @@ private:
 
 	virtual void handleMessage(MessageActivateAll* message);
 	virtual void handleMessage(MessageActivateTokens* message);
+	virtual void handleMessage(MessageChangeFileView* message);
+	virtual void handleMessage(MessageFlushUpdates* message);
 	virtual void handleMessage(MessageFocusIn* message);
 	virtual void handleMessage(MessageFocusOut* message);
 	virtual void handleMessage(MessageShowErrors* message);
-	virtual void handleMessage(MessageShowFile* message);
 	virtual void handleMessage(MessageShowScope* message);
-	virtual void handleMessage(MessageShowSnippets* message);
 
 	CodeView* getView();
+	void showContents(MessageBase* message);
 
 	std::vector<CodeView::CodeSnippetParams> getSnippetsForActiveTokenLocations(
 		const TokenLocationCollection* collection, Id declarationId) const;

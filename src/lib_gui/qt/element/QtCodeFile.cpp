@@ -8,8 +8,7 @@
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageActivateFile.h"
-#include "utility/messaging/type/MessageShowFile.h"
-#include "utility/messaging/type/MessageShowSnippets.h"
+#include "utility/messaging/type/MessageChangeFileView.h"
 
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
@@ -23,6 +22,7 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	, m_updateTitleBarFunctor(std::bind(&QtCodeFile::doUpdateTitleBar, this))
 	, m_parent(parent)
 	, m_filePath(filePath)
+	, m_snippetsRequested(false)
 {
 	setObjectName("code_file");
 
@@ -173,7 +173,7 @@ void QtCodeFile::addCodeSnippet(
 			m_fileSnippet->setIsActiveFile(true);
 		}
 
-		clickedMaximizeButton();
+		setMaximized();
 		if (refCount != -1)
 		{
 			updateRefCount(0);
@@ -284,7 +284,7 @@ bool QtCodeFile::openCollapsedActiveSnippet() const
 
 		if (isActiveFile)
 		{
-			MessageShowSnippets(m_locationFile).dispatch();
+			showSnippets();
 			return true;
 		}
 	}
@@ -308,9 +308,72 @@ void QtCodeFile::updateContent()
 void QtCodeFile::setLocationFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount)
 {
 	m_locationFile = locationFile;
-	clickedMinimizeButton();
+	setMinimized();
 
 	updateRefCount(refCount);
+}
+
+void QtCodeFile::setMinimized()
+{
+	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	{
+		snippet->hide();
+	}
+
+	if (m_fileSnippet)
+	{
+		m_fileSnippet->hide();
+	}
+
+	m_minimizeButton->setEnabled(false);
+	if (m_snippets.size() || m_locationFile)
+	{
+		m_snippetButton->setEnabled(true);
+	}
+	m_maximizeButton->setEnabled(true);
+
+	m_minimizePlaceholder->show();
+}
+
+void QtCodeFile::setSnippets()
+{
+	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	{
+		snippet->show();
+	}
+
+	if (m_fileSnippet)
+	{
+		m_fileSnippet->hide();
+	}
+
+	m_minimizeButton->setEnabled(true);
+	m_snippetButton->setEnabled(false);
+	m_maximizeButton->setEnabled(true);
+
+	m_minimizePlaceholder->hide();
+}
+
+void QtCodeFile::setMaximized()
+{
+	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	{
+		snippet->hide();
+	}
+
+	if (m_fileSnippet)
+	{
+		m_fileSnippet->show();
+	}
+
+	m_minimizeButton->setEnabled(true);
+	if (m_snippets.size())
+	{
+		m_snippetButton->setEnabled(true);
+	}
+	m_maximizeButton->setEnabled(false);
+
+	m_minimizePlaceholder->hide();
 }
 
 void QtCodeFile::clickedTitleBar()
@@ -334,77 +397,57 @@ void QtCodeFile::clickedTitle()
 	MessageActivateFile(m_filePath).dispatch();
 }
 
-void QtCodeFile::clickedMinimizeButton()
+void QtCodeFile::clickedMinimizeButton() const
 {
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
-	{
-		snippet->hide();
-	}
-
-	if (m_fileSnippet)
-	{
-		m_fileSnippet->hide();
-	}
-
-	m_minimizeButton->setEnabled(false);
-	if (m_snippets.size() || m_locationFile)
-	{
-		m_snippetButton->setEnabled(true);
-	}
-	m_maximizeButton->setEnabled(true);
-
-	m_minimizePlaceholder->show();
+	MessageChangeFileView(
+		m_filePath,
+		MessageChangeFileView::FILE_MINIMIZED,
+		false,
+		false,
+		nullptr
+	).dispatch();
 }
 
-void QtCodeFile::clickedSnippetButton()
+void QtCodeFile::clickedSnippetButton() const
 {
-	if (m_locationFile)
+	MessageChangeFileView(
+		m_filePath,
+		MessageChangeFileView::FILE_SNIPPETS,
+		(m_locationFile != nullptr),
+		false,
+		m_locationFile
+	).dispatch();
+}
+
+void QtCodeFile::clickedMaximizeButton() const
+{
+	MessageChangeFileView(
+		m_filePath,
+		MessageChangeFileView::FILE_MAXIMIZED,
+		(m_fileSnippet == nullptr),
+		false,
+		nullptr
+	).dispatch();
+}
+
+void QtCodeFile::showSnippets() const
+{
+	if (m_snippetsRequested)
 	{
-		MessageShowSnippets(m_locationFile).dispatch();
 		return;
 	}
 
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
-	{
-		snippet->show();
-	}
+	m_snippetsRequested = true;
 
-	if (m_fileSnippet)
-	{
-		m_fileSnippet->hide();
-	}
-
-	m_minimizeButton->setEnabled(true);
-	m_snippetButton->setEnabled(false);
-	m_maximizeButton->setEnabled(true);
-
-	m_minimizePlaceholder->hide();
-}
-
-void QtCodeFile::clickedMaximizeButton()
-{
-	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
-	{
-		snippet->hide();
-	}
-
-	if (m_fileSnippet)
-	{
-		m_fileSnippet->show();
-	}
-	else
-	{
-		MessageShowFile(m_filePath, (getErrorMessages().size() > 0)).dispatch();
-	}
-
-	m_minimizeButton->setEnabled(true);
-	if (m_snippets.size())
-	{
-		m_snippetButton->setEnabled(true);
-	}
-	m_maximizeButton->setEnabled(false);
-
-	m_minimizePlaceholder->hide();
+	MessageChangeFileView msg(
+		m_filePath,
+		MessageChangeFileView::FILE_SNIPPETS,
+		(m_locationFile != nullptr),
+		false,
+		m_locationFile
+	);
+	msg.undoRedoType = MessageBase::UNDOTYPE_IGNORE;
+	msg.dispatch();
 }
 
 void QtCodeFile::handleMessage(MessageWindowFocus* message)
@@ -431,7 +474,7 @@ void QtCodeFile::updateSnippets()
 	m_snippets.front()->setProperty("isFirst", true);
 	m_snippets.back()->setProperty("isLast", true);
 
-	clickedSnippetButton();
+	setSnippets();
 }
 
 void QtCodeFile::updateRefCount(int refCount)

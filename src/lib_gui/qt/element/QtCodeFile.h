@@ -65,14 +65,20 @@ public:
 
 	void setLocationFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount);
 
+	void setMinimized();
+	void setSnippets();
+	void setMaximized();
+
+	void showSnippets() const;
+
 public slots:
-	void clickedSnippetButton();
+	void clickedMinimizeButton() const;
+	void clickedSnippetButton() const;
+	void clickedMaximizeButton() const;
 
 private slots:
 	void clickedTitleBar();
 	void clickedTitle();
-	void clickedMinimizeButton();
-	void clickedMaximizeButton();
 
 private:
 	virtual void handleMessage(MessageWindowFocus* message);
@@ -101,7 +107,9 @@ private:
 
 	const FilePath m_filePath;
 	TimePoint m_modificationTime;
+
 	std::shared_ptr<TokenLocationFile> m_locationFile;
+	mutable bool m_snippetsRequested;
 };
 
 #endif // QT_CODE_FILE_H

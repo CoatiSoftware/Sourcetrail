@@ -79,6 +79,12 @@ void UndoRedoController::handleMessage(MessageActivateTokenIds* message)
 	processCommand(command);
 }
 
+void UndoRedoController::handleMessage(MessageChangeFileView* message)
+{
+	Command command(std::make_shared<MessageChangeFileView>(*message), 1);
+	processCommand(command);
+}
+
 void UndoRedoController::handleMessage(MessageDeactivateEdge* message)
 {
 	MessageBase* m = nullptr;
@@ -202,18 +208,6 @@ void UndoRedoController::handleMessage(MessageShowErrors* message)
 	}
 
 	Command command(std::make_shared<MessageShowErrors>(*message), 0);
-	processCommand(command);
-}
-
-void UndoRedoController::handleMessage(MessageShowFile* message)
-{
-	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() &&
-		static_cast<MessageShowFile*>(m_lastCommand.message.get())->filePath == message->filePath)
-	{
-		return;
-	}
-
-	Command command(std::make_shared<MessageShowFile>(*message), 1);
 	processCommand(command);
 }
 

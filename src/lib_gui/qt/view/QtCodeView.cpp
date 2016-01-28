@@ -12,13 +12,15 @@
 QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
 	, m_refreshViewFunctor(std::bind(&QtCodeView::doRefreshView, this))
-	, m_showCodeSnippetsFunctor(std::bind(&QtCodeView::doShowCodeSnippets, this, std::placeholders::_1))
+	, m_showCodeSnippetsFunctor(std::bind(&QtCodeView::doShowCodeSnippets, this, std::placeholders::_1, std::placeholders::_2))
 	, m_addCodeSnippetsFunctor(std::bind(&QtCodeView::doAddCodeSnippets, this, std::placeholders::_1, std::placeholders::_2))
 	, m_showCodeFileFunctor(std::bind(&QtCodeView::doShowCodeFile, this, std::placeholders::_1))
-	, m_doShowFirstActiveSnippetFunctor(std::bind(&QtCodeView::doShowFirstActiveSnippet, this))
-	, m_doShowActiveTokenIdsFunctor(std::bind(&QtCodeView::doShowActiveTokenIds, this))
+	, m_setFileStateFunctor(std::bind(&QtCodeView::doSetFileState, this, std::placeholders::_1, std::placeholders::_2))
+	, m_doShowFirstActiveSnippetFunctor(std::bind(&QtCodeView::doShowFirstActiveSnippet, this, std::placeholders::_1))
+	, m_doShowActiveTokenIdsFunctor(std::bind(&QtCodeView::doShowActiveTokenIds, this, std::placeholders::_1))
 	, m_focusTokenIdsFunctor(std::bind(&QtCodeView::doFocusTokenIds, this, std::placeholders::_1))
 	, m_defocusTokenIdsFunctor(std::bind(&QtCodeView::doDefocusTokenIds, this))
+	, m_showContentsFunctor(std::bind(&QtCodeView::doShowContents, this))
 	, m_isExpanding(false)
 {
 	m_widget = new QtCodeFileList();
@@ -53,9 +55,9 @@ void QtCodeView::setErrorMessages(const std::vector<std::string>& errorMessages)
 	m_errorMessages = errorMessages;
 }
 
-void QtCodeView::showCodeSnippets(const std::vector<CodeSnippetParams>& snippets)
+void QtCodeView::showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds)
 {
-	m_showCodeSnippetsFunctor(snippets);
+	m_showCodeSnippetsFunctor(snippets, activeTokenIds);
 }
 
 void QtCodeView::addCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert)
@@ -68,14 +70,19 @@ void QtCodeView::showCodeFile(const CodeSnippetParams& params)
 	m_showCodeFileFunctor(params);
 }
 
-void QtCodeView::showFirstActiveSnippet()
+void QtCodeView::setFileState(const FilePath filePath, FileState state)
 {
-	m_doShowFirstActiveSnippetFunctor();
+	m_setFileStateFunctor(filePath, state);
 }
 
-void QtCodeView::showActiveTokenIds()
+void QtCodeView::showFirstActiveSnippet(const std::vector<Id>& activeTokenIds)
 {
-	m_doShowActiveTokenIdsFunctor();
+	m_doShowFirstActiveSnippetFunctor(activeTokenIds);
+}
+
+void QtCodeView::showActiveTokenIds(const std::vector<Id>& activeTokenIds)
+{
+	m_doShowActiveTokenIdsFunctor(activeTokenIds);
 }
 
 void QtCodeView::focusTokenIds(const std::vector<Id>& focusedTokenIds)
@@ -88,6 +95,11 @@ void QtCodeView::defocusTokenIds()
 	m_defocusTokenIdsFunctor();
 }
 
+void QtCodeView::showContents()
+{
+	m_showContentsFunctor();
+}
+
 void QtCodeView::doRefreshView()
 {
 	setStyleSheet();
@@ -95,11 +107,11 @@ void QtCodeView::doRefreshView()
 	QtCodeArea::clearAnnotationColors();
 }
 
-void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets)
+void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds)
 {
 	m_widget->clearCodeSnippets();
 
-	m_widget->setActiveTokenIds(m_activeTokenIds);
+	m_widget->setActiveTokenIds(activeTokenIds);
 	m_widget->setErrorMessages(m_errorMessages);
 
 	for (const CodeSnippetParams& params : snippets)
@@ -155,9 +167,25 @@ void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
 	m_widget->addCodeSnippet(1, params.title, 0, params.code, params.locationFile, -1, params.modificationTime);
 }
 
-void QtCodeView::doShowFirstActiveSnippet()
+void QtCodeView::doSetFileState(const FilePath filePath, FileState state)
 {
-	m_widget->setActiveTokenIds(m_activeTokenIds);
+	switch (state)
+	{
+	case FILE_MINIMIZED:
+		m_widget->setFileMinimized(filePath);
+		break;
+	case FILE_SNIPPETS:
+		m_widget->setFileSnippets(filePath);
+		break;
+	case FILE_MAXIMIZED:
+		m_widget->setFileMaximized(filePath);
+		break;
+	}
+}
+
+void QtCodeView::doShowFirstActiveSnippet(const std::vector<Id>& activeTokenIds)
+{
+	m_widget->setActiveTokenIds(activeTokenIds);
 
 	if (!m_widget->scrollToFirstActiveSnippet())
 	{
@@ -166,9 +194,9 @@ void QtCodeView::doShowFirstActiveSnippet()
 	}
 }
 
-void QtCodeView::doShowActiveTokenIds()
+void QtCodeView::doShowActiveTokenIds(const std::vector<Id>& activeTokenIds)
 {
-	m_widget->setActiveTokenIds(m_activeTokenIds);
+	m_widget->setActiveTokenIds(activeTokenIds);
 	m_widget->showActiveTokenIds();
 }
 
@@ -180,6 +208,11 @@ void QtCodeView::doFocusTokenIds(const std::vector<Id>& focusedTokenIds)
 void QtCodeView::doDefocusTokenIds()
 {
 	m_widget->defocusTokenIds();
+}
+
+void QtCodeView::doShowContents() const
+{
+	m_widget->showContents();
 }
 
 void QtCodeView::setStyleSheet() const

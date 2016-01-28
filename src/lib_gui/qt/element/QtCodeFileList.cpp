@@ -50,7 +50,7 @@ void QtCodeFileList::addCodeSnippet(
 	TimePoint modificationTime,
 	bool insert
 ){
-	QtCodeFile* file = getFile(locationFile);
+	QtCodeFile* file = getFile(locationFile->getFilePath());
 
 	if (insert)
 	{
@@ -66,7 +66,7 @@ void QtCodeFileList::addCodeSnippet(
 
 void QtCodeFileList::addFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount, TimePoint modificationTime)
 {
-	QtCodeFile* file = getFile(locationFile);
+	QtCodeFile* file = getFile(locationFile->getFilePath());
 	file->setLocationFile(locationFile, refCount);
 	file->setModificationTime(modificationTime);
 }
@@ -124,7 +124,7 @@ bool QtCodeFileList::scrollToFirstActiveSnippet()
 		{
 			if (!snippet->isVisible())
 			{
-				file->clickedSnippetButton();
+				file->showSnippets();
 			}
 
 			emit shouldScrollToSnippet(snippet);
@@ -158,14 +158,48 @@ void QtCodeFileList::defocusTokenIds()
 	updateFiles();
 }
 
+void QtCodeFileList::setFileMinimized(const FilePath path)
+{
+	QtCodeFile* file = getFile(path);
+	if (file)
+	{
+		file->setMinimized();
+	}
+}
+
+void QtCodeFileList::setFileSnippets(const FilePath path)
+{
+	QtCodeFile* file = getFile(path);
+	if (file)
+	{
+		file->setSnippets();
+	}
+}
+
+void QtCodeFileList::setFileMaximized(const FilePath path)
+{
+	QtCodeFile* file = getFile(path);
+	if (file)
+	{
+		file->setMaximized();
+	}
+}
+
+void QtCodeFileList::showContents()
+{
+	for (std::shared_ptr<QtCodeFile> filePtr : m_files)
+	{
+		filePtr->show();
+	}
+}
+
 void QtCodeFileList::scrollToSnippet(QtCodeSnippet* snippet)
 {
 	this->ensureWidgetVisibleAnimated(snippet, snippet->getFirstActiveLineRect());
 }
 
-QtCodeFile* QtCodeFileList::getFile(std::shared_ptr<TokenLocationFile> locationFile)
+QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
 {
-	FilePath filePath = locationFile->getFilePath();
 	QtCodeFile* file = nullptr;
 
 	for (std::shared_ptr<QtCodeFile> filePtr : m_files)
@@ -179,11 +213,13 @@ QtCodeFile* QtCodeFileList::getFile(std::shared_ptr<TokenLocationFile> locationF
 
 	if (!file)
 	{
-		std::shared_ptr<QtCodeFile> filePtr = std::make_shared<QtCodeFile>(locationFile->getFilePath(), this);
+		std::shared_ptr<QtCodeFile> filePtr = std::make_shared<QtCodeFile>(filePath, this);
 		m_files.push_back(filePtr);
 
 		file = filePtr.get();
 		m_frame->layout()->addWidget(file);
+
+		file->hide();
 	}
 
 	return file;

@@ -5,7 +5,6 @@
 #include <QPushButton>
 
 #include "utility/messaging/type/MessageShowScope.h"
-#include "utility/messaging/type/MessageShowFile.h"
 #include "utility/text/TextAccess.h"
 
 #include "data/location/TokenLocationFile.h"
@@ -160,11 +159,11 @@ std::string QtCodeSnippet::getCode() const
 
 void QtCodeSnippet::contextMenuEvent(QContextMenuEvent* event)
 {
-	QMenu menu(this);
-	menu.addAction(new QAction("Bar", this));
-	menu.addAction(new QAction("Brew Tea", this));
-	menu.addAction(new QAction("Translate", this));
-	menu.exec(event->globalPos());
+	// QMenu menu(this);
+	// menu.addAction(new QAction("Bar", this));
+	// menu.addAction(new QAction("Brew Tea", this));
+	// menu.addAction(new QAction("Translate", this));
+	// menu.exec(event->globalPos());
 }
 
 void QtCodeSnippet::clickedTitle()
@@ -175,7 +174,7 @@ void QtCodeSnippet::clickedTitle()
 	}
 	else
 	{
-		MessageShowFile(FilePath(m_titleString), (dynamic_cast<QtCodeFile*>(parent())->getErrorMessages().size() > 0)).dispatch();
+		dynamic_cast<QtCodeFile*>(parent())->clickedMaximizeButton();
 	}
 }
 

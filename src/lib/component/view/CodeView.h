@@ -13,6 +13,13 @@ class CodeController;
 class CodeView: public View
 {
 public:
+	enum FileState
+	{
+		FILE_MINIMIZED,
+		FILE_SNIPPETS,
+		FILE_MAXIMIZED
+	};
+
 	struct CodeSnippetParams
 	{
 		CodeSnippetParams();
@@ -46,15 +53,19 @@ public:
 	virtual void setActiveTokenIds(const std::vector<Id>& activeTokenIds) = 0;
 	virtual void setErrorMessages(const std::vector<std::string>& errorMessages) = 0;
 
-	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets) = 0;
+	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds) = 0;
 	virtual void addCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert) = 0;
 	virtual void showCodeFile(const CodeSnippetParams& params) = 0;
 
-	virtual void showFirstActiveSnippet() = 0;
-	virtual void showActiveTokenIds() = 0;
+	virtual void setFileState(const FilePath filePath, FileState state) = 0;
+
+	virtual void showFirstActiveSnippet(const std::vector<Id>& activeTokenIds) = 0;
+	virtual void showActiveTokenIds(const std::vector<Id>& activeTokenIds) = 0;
 
 	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds) = 0;
 	virtual void defocusTokenIds() = 0;
+
+	virtual void showContents() = 0;
 
 private:
 	CodeController* getController();

@@ -9,6 +9,7 @@
 #include "utility/messaging/type/MessageActivateFile.h"
 #include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageActivateTokenIds.h"
+#include "utility/messaging/type/MessageChangeFileView.h"
 #include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
@@ -18,7 +19,6 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageShowErrors.h"
-#include "utility/messaging/type/MessageShowFile.h"
 #include "utility/messaging/type/MessageShowScope.h"
 #include "utility/messaging/type/MessageUndo.h"
 
@@ -34,6 +34,7 @@ class UndoRedoController
 	, public MessageListener<MessageActivateFile>
 	, public MessageListener<MessageActivateNodes>
 	, public MessageListener<MessageActivateTokenIds>
+	, public MessageListener<MessageChangeFileView>
 	, public MessageListener<MessageDeactivateEdge>
 	, public MessageListener<MessageGraphNodeBundleSplit>
 	, public MessageListener<MessageGraphNodeExpand>
@@ -43,7 +44,6 @@ class UndoRedoController
 	, public MessageListener<MessageRefresh>
 	, public MessageListener<MessageSearch>
 	, public MessageListener<MessageShowErrors>
-	, public MessageListener<MessageShowFile>
 	, public MessageListener<MessageShowScope>
 	, public MessageListener<MessageUndo>
 {
@@ -66,6 +66,7 @@ private:
 	virtual void handleMessage(MessageActivateFile* message);
 	virtual void handleMessage(MessageActivateNodes* message);
 	virtual void handleMessage(MessageActivateTokenIds* message);
+	virtual void handleMessage(MessageChangeFileView* message);
 	virtual void handleMessage(MessageDeactivateEdge* message);
 	virtual void handleMessage(MessageGraphNodeBundleSplit* message);
 	virtual void handleMessage(MessageGraphNodeExpand* message);
@@ -75,7 +76,6 @@ private:
 	virtual void handleMessage(MessageRefresh* message);
 	virtual void handleMessage(MessageSearch* message);
 	virtual void handleMessage(MessageShowErrors* message);
-	virtual void handleMessage(MessageShowFile* message);
 	virtual void handleMessage(MessageShowScope* message);
 	virtual void handleMessage(MessageUndo* message);
 

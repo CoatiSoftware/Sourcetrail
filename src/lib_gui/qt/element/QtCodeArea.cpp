@@ -11,7 +11,6 @@
 
 #include "utility/messaging/type/MessageActivateTokenLocations.h"
 #include "utility/messaging/type/MessageActivateTokenIds.h"
-#include "utility/messaging/type/MessageShowFile.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageMoveIDECursor.h"
@@ -433,14 +432,6 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 				MessageActivateTokenIds(tokenIds).dispatch();
 			}
 		}
-	}
-}
-
-void QtCodeArea::mouseDoubleClickEvent(QMouseEvent* event)
-{
-	if (event->button() == Qt::LeftButton && m_fileWidget->getFilePath().str().size())
-	{
-		MessageShowFile(m_fileWidget->getFilePath().str(), (m_fileWidget->getErrorMessages().size() > 0)).dispatch();
 	}
 }
 

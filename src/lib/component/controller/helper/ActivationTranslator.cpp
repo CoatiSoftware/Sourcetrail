@@ -7,9 +7,9 @@
 #include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageActivateTokenIds.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
+#include "utility/messaging/type/MessageChangeFileView.h"
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageShowErrors.h"
-#include "utility/messaging/type/MessageShowFile.h"
 
 ActivationTranslator::ActivationTranslator(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -58,7 +58,13 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 
 	if (fileId == 0)
 	{
-		MessageShowFile msg(message->filePath, true);
+		MessageChangeFileView msg(
+			message->filePath,
+			MessageChangeFileView::FILE_MAXIMIZED,
+			true,
+			false,
+			nullptr
+		);
 		msg.undoRedoType = message->undoRedoType;
 		msg.setKeepContent(message->keepContent());
 		msg.dispatch();

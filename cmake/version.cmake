@@ -40,7 +40,7 @@ endif(EXISTS "${CMAKE_SOURCE_DIR}/.git")
 message(STATUS "Git current branch: ${GIT_BRANCH}")
 message(STATUS "Git commit hash: ${GIT_COMMIT_HASH}")
 message(STATUS "Git commit time: ${GIT_COMMIT_TIME}")
-message(STATUS "Git version number:" ${GIT_VERSION_NUMBER} )
+message(STATUS "Git version number: " ${GIT_VERSION_NUMBER} )
 
 configure_file(
   ${CMAKE_SOURCE_DIR}/cmake/version.h.in

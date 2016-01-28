@@ -7,6 +7,7 @@
 #include <QFrame>
 #include <QScrollArea>
 
+#include "utility/file/FilePath.h"
 #include "utility/TimePoint.h"
 #include "utility/types.h"
 
@@ -60,11 +61,17 @@ public:
 	void focusTokenIds(const std::vector<Id>& focusedTokenIds);
 	void defocusTokenIds();
 
+	void setFileMinimized(const FilePath path);
+	void setFileSnippets(const FilePath path);
+	void setFileMaximized(const FilePath path);
+
+	void showContents();
+
 private slots:
 	void scrollToSnippet(QtCodeSnippet* snippet);
 
 private:
-	QtCodeFile* getFile(std::shared_ptr<TokenLocationFile> locationFile);
+	QtCodeFile* getFile(const FilePath filePath);
 
 	void updateFiles();
 
