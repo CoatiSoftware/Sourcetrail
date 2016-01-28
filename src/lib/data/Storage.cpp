@@ -165,6 +165,10 @@ void Storage::logStats() const
 
 void Storage::startParsing()
 {
+	MessageShowErrors msg(getErrorCount());
+	msg.setSendAsTask(false);
+	msg.dispatch();
+
 	m_sqliteStorage.setVersion(Version::getApplicationVersion());
 }
 
@@ -199,7 +203,7 @@ void Storage::onError(const ParseLocation& location, const std::string& message)
 
 	if (errorCount != getErrorCount())
 	{
-		MessageShowErrors msg;
+		MessageShowErrors msg(getErrorCount());
 		msg.setSendAsTask(false);
 		msg.dispatch();
 	}

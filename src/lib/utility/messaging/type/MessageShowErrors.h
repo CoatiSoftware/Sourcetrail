@@ -7,7 +7,8 @@ class MessageShowErrors
 	: public Message<MessageShowErrors>
 {
 public:
-	MessageShowErrors()
+	MessageShowErrors(int errorCount)
+		: errorCount(errorCount)
 	{
 	}
 
@@ -15,6 +16,8 @@ public:
 	{
 		return "MessageShowErrors";
 	}
+
+	int errorCount;
 };
 
 #endif // MESSAGE_SHOW_ERRORS_H

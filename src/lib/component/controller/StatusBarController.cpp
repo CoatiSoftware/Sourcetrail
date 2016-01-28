@@ -17,9 +17,12 @@ StatusBarView* StatusBarController::getView()
 	return Controller::getView<StatusBarView>();
 }
 
-void StatusBarController::handleMessage(MessageFinishedParsing* message)
+void StatusBarController::handleMessage(MessageShowErrors* message)
 {
-	getView()->setErrorCount(message->errorCount);
+	if (message->errorCount >= 0)
+	{
+		getView()->setErrorCount(message->errorCount);
+	}
 }
 
 void StatusBarController::handleMessage(MessageStatus* message)

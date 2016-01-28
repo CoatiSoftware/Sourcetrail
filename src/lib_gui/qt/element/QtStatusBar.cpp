@@ -78,5 +78,5 @@ void QtStatusBar::setErrorCount(size_t count)
 
 void QtStatusBar::showErrors()
 {
-	MessageShowErrors().dispatch();
+	MessageShowErrors(-1).dispatch();
 }
