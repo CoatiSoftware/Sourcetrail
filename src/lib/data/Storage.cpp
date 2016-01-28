@@ -5,6 +5,7 @@
 
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageClearErrorCount.h"
 #include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/TimePoint.h"
 #include "utility/utility.h"
@@ -165,9 +166,7 @@ void Storage::logStats() const
 
 void Storage::startParsing()
 {
-	MessageShowErrors msg(getErrorCount());
-	msg.setSendAsTask(false);
-	msg.dispatch();
+	MessageClearErrorCount().dispatch();
 
 	m_sqliteStorage.setVersion(Version::getApplicationVersion());
 }

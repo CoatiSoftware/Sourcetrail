@@ -3,7 +3,7 @@
 #include <QMovie>
 
 #include "qt/utility/utilityQt.h"
-#include "utility/messaging/type/MessageShowErrors.h"
+#include "utility/messaging/type/MessageSearch.h"
 #include "utility/ResourcePaths.h"
 
 QtStatusBar::QtStatusBar()
@@ -78,5 +78,6 @@ void QtStatusBar::setErrorCount(size_t count)
 
 void QtStatusBar::showErrors()
 {
-	MessageShowErrors(-1).dispatch();
+	SearchMatch match = SearchMatch::createCommand(SearchMatch::COMMAND_ERROR);
+	MessageSearch(std::vector<SearchMatch>(1, match)).dispatch();
 }
