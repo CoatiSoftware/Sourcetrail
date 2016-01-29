@@ -16,12 +16,12 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	, m_addCodeSnippetsFunctor(std::bind(&QtCodeView::doAddCodeSnippets, this, std::placeholders::_1, std::placeholders::_2))
 	, m_showCodeFileFunctor(std::bind(&QtCodeView::doShowCodeFile, this, std::placeholders::_1))
 	, m_setFileStateFunctor(std::bind(&QtCodeView::doSetFileState, this, std::placeholders::_1, std::placeholders::_2))
-	, m_doShowFirstActiveSnippetFunctor(std::bind(&QtCodeView::doShowFirstActiveSnippet, this, std::placeholders::_1))
+	, m_doShowFirstActiveSnippetFunctor(std::bind(&QtCodeView::doShowFirstActiveSnippet, this, std::placeholders::_1, std::placeholders::_2))
 	, m_doShowActiveTokenIdsFunctor(std::bind(&QtCodeView::doShowActiveTokenIds, this, std::placeholders::_1))
 	, m_focusTokenIdsFunctor(std::bind(&QtCodeView::doFocusTokenIds, this, std::placeholders::_1))
 	, m_defocusTokenIdsFunctor(std::bind(&QtCodeView::doDefocusTokenIds, this))
 	, m_showContentsFunctor(std::bind(&QtCodeView::doShowContents, this))
-	, m_isExpanding(false)
+	, m_scrollToValueFunctor(std::bind(&QtCodeView::doScrollToValue, this, std::placeholders::_1))
 {
 	m_widget = new QtCodeFileList();
 	setStyleSheet();
@@ -75,9 +75,9 @@ void QtCodeView::setFileState(const FilePath filePath, FileState state)
 	m_setFileStateFunctor(filePath, state);
 }
 
-void QtCodeView::showFirstActiveSnippet(const std::vector<Id>& activeTokenIds)
+void QtCodeView::showFirstActiveSnippet(const std::vector<Id>& activeTokenIds, bool scrollTo)
 {
-	m_doShowFirstActiveSnippetFunctor(activeTokenIds);
+	m_doShowFirstActiveSnippetFunctor(activeTokenIds, scrollTo);
 }
 
 void QtCodeView::showActiveTokenIds(const std::vector<Id>& activeTokenIds)
@@ -98,6 +98,11 @@ void QtCodeView::defocusTokenIds()
 void QtCodeView::showContents()
 {
 	m_showContentsFunctor();
+}
+
+void QtCodeView::scrollToValue(int value)
+{
+	m_scrollToValueFunctor(value);
 }
 
 void QtCodeView::doRefreshView()
@@ -155,11 +160,7 @@ void QtCodeView::doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippet
 
 	setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
 
-	if (m_isExpanding)
-	{
-		m_widget->scrollToFirstActiveSnippet();
-		m_isExpanding = false;
-	}
+	m_widget->scrollToActiveFileIfRequested();
 }
 
 void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
@@ -183,15 +184,10 @@ void QtCodeView::doSetFileState(const FilePath filePath, FileState state)
 	}
 }
 
-void QtCodeView::doShowFirstActiveSnippet(const std::vector<Id>& activeTokenIds)
+void QtCodeView::doShowFirstActiveSnippet(const std::vector<Id>& activeTokenIds, bool scrollTo)
 {
 	m_widget->setActiveTokenIds(activeTokenIds);
-
-	if (!m_widget->scrollToFirstActiveSnippet())
-	{
-		m_widget->expandActiveSnippetFile();
-		m_isExpanding = true;
-	}
+	m_widget->showFirstActiveSnippet(scrollTo);
 }
 
 void QtCodeView::doShowActiveTokenIds(const std::vector<Id>& activeTokenIds)
@@ -210,9 +206,14 @@ void QtCodeView::doDefocusTokenIds()
 	m_widget->defocusTokenIds();
 }
 
-void QtCodeView::doShowContents() const
+void QtCodeView::doShowContents()
 {
 	m_widget->showContents();
+}
+
+void QtCodeView::doScrollToValue(int value)
+{
+	m_widget->scrollToValue(value);
 }
 
 void QtCodeView::setStyleSheet() const

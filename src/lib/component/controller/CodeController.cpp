@@ -100,7 +100,7 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 
 	if (message->isEdge)
 	{
-		view->showFirstActiveSnippet(activeTokenIds);
+		view->showFirstActiveSnippet(activeTokenIds, message->isLast());
 	}
 
 	if (message->keepContent())
@@ -200,6 +200,14 @@ void CodeController::handleMessage(MessageFocusIn* message)
 void CodeController::handleMessage(MessageFocusOut* message)
 {
 	getView()->defocusTokenIds();
+}
+
+void CodeController::handleMessage(MessageScrollCode* message)
+{
+	if (!message->isFresh())
+	{
+		getView()->scrollToValue(message->value);
+	}
 }
 
 void CodeController::handleMessage(MessageShowErrors* message)

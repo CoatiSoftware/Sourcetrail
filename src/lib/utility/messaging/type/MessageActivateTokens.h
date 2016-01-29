@@ -8,13 +8,16 @@ class MessageActivateTokens
 	: public Message<MessageActivateTokens>
 {
 public:
-	MessageActivateTokens(const std::vector<Id>& tokenIds)
+	MessageActivateTokens(const MessageBase* other, const std::vector<Id>& tokenIds)
 		: tokenIds(tokenIds)
 		, isEdge(false)
 		, isAggregation(false)
 		, isFromSystem(false)
 		, isFromSearch(false)
 	{
+		undoRedoType = other->undoRedoType;
+		setKeepContent(other->keepContent());
+		setIsLast(other->isLast());
 	}
 
 	static const std::string getStaticType()

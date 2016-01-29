@@ -173,6 +173,11 @@ std::shared_ptr<TokenLocationFile> QtCodeArea::getTokenLocationFile() const
 	return m_locationFile;
 }
 
+QtCodeFile* QtCodeArea::getFile() const
+{
+	return m_fileWidget;
+}
+
 void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 {
 	QPainter painter(m_lineNumberArea);

@@ -238,6 +238,7 @@ add_files(
 	utility/messaging/type/MessageRefresh.h
 	utility/messaging/type/MessageResetZoom.h
 	utility/messaging/type/MessageSaveProject.h
+	utility/messaging/type/MessageScrollCode.h
 	utility/messaging/type/MessageSearch.h
 	utility/messaging/type/MessageSearchAutocomplete.h
 	utility/messaging/type/MessageShowErrors.h

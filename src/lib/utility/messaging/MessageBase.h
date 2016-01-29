@@ -20,6 +20,7 @@ public:
 		, m_sendAsTask(true)
 		, m_keepContent(false)
 		, m_cancelled(false)
+		, m_isLast(true)
 	{
 	}
 
@@ -45,9 +46,14 @@ public:
 		return (undoRedoType == UNDOTYPE_NORMAL);
 	}
 
-	bool isIgnorable() const
+	bool isLast() const
 	{
-		return (undoRedoType == UNDOTYPE_IGNORE);
+		return m_isLast;
+	}
+
+	void setIsLast(bool isLast)
+	{
+		m_isLast = isLast;
 	}
 
 	void setKeepContent(bool keepContent)
@@ -86,6 +92,7 @@ private:
 	bool m_sendAsTask;
 	bool m_keepContent;
 	bool m_cancelled;
+	bool m_isLast;
 };
 
 #endif // MESSAGE_BASE_H

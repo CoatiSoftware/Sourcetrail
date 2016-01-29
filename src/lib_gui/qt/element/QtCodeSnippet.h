@@ -32,6 +32,8 @@ public:
 	);
 	virtual ~QtCodeSnippet();
 
+	QtCodeFile* getFile() const;
+
 	uint getStartLineNumber() const;
 	uint getEndLineNumber() const;
 

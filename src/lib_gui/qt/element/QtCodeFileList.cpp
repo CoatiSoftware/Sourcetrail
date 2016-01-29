@@ -2,10 +2,12 @@
 
 #include <QPropertyAnimation>
 #include <QScrollBar>
+#include <QTimer>
 #include <QVariant>
 #include <QVBoxLayout>
 
 #include "utility/file/FileSystem.h"
+#include "utility/messaging/type/MessageScrollCode.h"
 
 #include "data/location/TokenLocationFile.h"
 #include "qt/element/QtCodeFile.h"
@@ -13,6 +15,8 @@
 
 QtCodeFileList::QtCodeFileList(QWidget* parent)
 	: QScrollArea(parent)
+	, m_scrollToFile(nullptr)
+	, m_value(0)
 {
 	setObjectName("code_file_list_base");
 
@@ -28,6 +32,7 @@ QtCodeFileList::QtCodeFileList(QWidget* parent)
 	setWidgetResizable(true);
 	setWidget(m_frame.get());
 
+	connect(this->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrolled(int)));
 	connect(this, SIGNAL(shouldScrollToSnippet(QtCodeSnippet*)), this, SLOT(scrollToSnippet(QtCodeSnippet*)), Qt::QueuedConnection);
 }
 
@@ -112,37 +117,26 @@ void QtCodeFileList::showActiveTokenIds()
 	updateFiles();
 }
 
-bool QtCodeFileList::scrollToFirstActiveSnippet()
+void QtCodeFileList::showFirstActiveSnippet(bool scrollTo)
 {
 	updateFiles();
 
-	QtCodeSnippet* snippet = nullptr;
-	for (std::shared_ptr<QtCodeFile> file: m_files)
-	{
-		snippet = file->findFirstActiveSnippet();
-		if (snippet)
-		{
-			if (!snippet->isVisible())
-			{
-				file->showSnippets();
-			}
+	QtCodeSnippet* snippet = getFirstActiveSnippet();
 
-			emit shouldScrollToSnippet(snippet);
-			return true;
-		}
+	if (!snippet)
+	{
+		expandActiveSnippetFile(scrollTo);
+		return;
 	}
 
-	return false;
-}
-
-void QtCodeFileList::expandActiveSnippetFile()
-{
-	for (std::shared_ptr<QtCodeFile> file: m_files)
+	if (!snippet->isVisible())
 	{
-		if (file->openCollapsedActiveSnippet())
-		{
-			return;
-		}
+		snippet->getFile()->setSnippets();
+	}
+
+	if (scrollTo)
+	{
+		emit shouldScrollToSnippet(snippet);
 	}
 }
 
@@ -193,9 +187,34 @@ void QtCodeFileList::showContents()
 	}
 }
 
+void QtCodeFileList::scrollToValue(int value)
+{
+	m_value = value;
+	QTimer::singleShot(100, this, SLOT(setValue()));
+}
+
+void QtCodeFileList::scrollToActiveFileIfRequested()
+{
+	if (m_scrollToFile && m_scrollToFile->hasSnippets())
+	{
+		showFirstActiveSnippet(true);
+		m_scrollToFile = nullptr;
+	}
+}
+
+void QtCodeFileList::scrolled(int value)
+{
+	MessageScrollCode(value).dispatch();
+}
+
 void QtCodeFileList::scrollToSnippet(QtCodeSnippet* snippet)
 {
 	this->ensureWidgetVisibleAnimated(snippet, snippet->getFirstActiveLineRect());
+}
+
+void QtCodeFileList::setValue()
+{
+	this->verticalScrollBar()->setValue(m_value);
 }
 
 QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
@@ -225,11 +244,44 @@ QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
 	return file;
 }
 
+QtCodeSnippet* QtCodeFileList::getFirstActiveSnippet() const
+{
+	QtCodeSnippet* snippet = nullptr;
+	for (std::shared_ptr<QtCodeFile> file: m_files)
+	{
+		snippet = file->findFirstActiveSnippet();
+		if (snippet)
+		{
+			break;
+		}
+	}
+
+	return snippet;
+}
+
 void QtCodeFileList::updateFiles()
 {
 	for (std::shared_ptr<QtCodeFile> file: m_files)
 	{
 		file->updateContent();
+	}
+}
+
+void QtCodeFileList::expandActiveSnippetFile(bool scrollTo)
+{
+	for (std::shared_ptr<QtCodeFile> file: m_files)
+	{
+		if (file->isCollapsedActiveFile())
+		{
+			file->requestSnippets();
+
+			if (scrollTo)
+			{
+				m_scrollToFile = file.get();
+			}
+
+			return;
+		}
 	}
 }
 
@@ -259,7 +311,7 @@ void QtCodeFileList::ensureWidgetVisibleAnimated(QWidget *childWidget, QRectF re
 	if (scrollBar && value != 0)
 	{
 		QPropertyAnimation* anim = new QPropertyAnimation(scrollBar, "value");
-		anim->setDuration(500);
+		anim->setDuration(300);
 		anim->setStartValue(scrollBar->value());
 		anim->setEndValue(scrollBar->value() + value);
 		anim->setEasingCurve(QEasingCurve::InOutQuad);

@@ -59,7 +59,7 @@ public:
 	);
 
 	QtCodeSnippet* findFirstActiveSnippet() const;
-	bool openCollapsedActiveSnippet() const;
+	bool isCollapsedActiveFile() const;
 
 	void updateContent();
 
@@ -69,7 +69,8 @@ public:
 	void setSnippets();
 	void setMaximized();
 
-	void showSnippets() const;
+	void requestSnippets() const;
+	bool hasSnippets() const;
 
 public slots:
 	void clickedMinimizeButton() const;

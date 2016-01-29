@@ -17,6 +17,7 @@
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageRedo.h"
 #include "utility/messaging/type/MessageRefresh.h"
+#include "utility/messaging/type/MessageScrollCode.h"
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageShowScope.h"
 #include "utility/messaging/type/MessageUndo.h"
@@ -41,6 +42,7 @@ class UndoRedoController
 	, public MessageListener<MessageLoadProject>
 	, public MessageListener<MessageRedo>
 	, public MessageListener<MessageRefresh>
+	, public MessageListener<MessageScrollCode>
 	, public MessageListener<MessageSearch>
 	, public MessageListener<MessageShowScope>
 	, public MessageListener<MessageUndo>
@@ -57,6 +59,7 @@ private:
 		Command(std::shared_ptr<MessageBase> message, size_t order);
 
 		std::shared_ptr<MessageBase> message;
+		std::shared_ptr<MessageBase> subMessage;
 		size_t order;
 	};
 
@@ -72,13 +75,14 @@ private:
 	virtual void handleMessage(MessageLoadProject* message);
 	virtual void handleMessage(MessageRedo* message);
 	virtual void handleMessage(MessageRefresh* message);
+	virtual void handleMessage(MessageScrollCode* message);
 	virtual void handleMessage(MessageSearch* message);
 	virtual void handleMessage(MessageShowScope* message);
 	virtual void handleMessage(MessageUndo* message);
 
 	void replayCommands(bool removeLast);
 
-	void processCommand(const Command& command);
+	void processCommand(Command command);
 	void processNormalCommand(const Command& command);
 	void processRedoCommand(const Command& command);
 	void processUndoCommand(const Command& command);

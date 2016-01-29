@@ -265,13 +265,13 @@ QtCodeSnippet* QtCodeFile::findFirstActiveSnippet() const
 	return nullptr;
 }
 
-bool QtCodeFile::openCollapsedActiveSnippet() const
+bool QtCodeFile::isCollapsedActiveFile() const
 {
+	bool isActiveFile = false;
 	if (m_locationFile)
 	{
 		std::vector<Id> ids = getActiveTokenIds();
 
-		bool isActiveFile = false;
 		m_locationFile->forEachTokenLocation(
 			[&](TokenLocation* location)
 			{
@@ -281,15 +281,9 @@ bool QtCodeFile::openCollapsedActiveSnippet() const
 				}
 			}
 		);
-
-		if (isActiveFile)
-		{
-			showSnippets();
-			return true;
-		}
 	}
 
-	return false;
+	return isActiveFile;
 }
 
 void QtCodeFile::updateContent()
@@ -430,7 +424,7 @@ void QtCodeFile::clickedMaximizeButton() const
 	).dispatch();
 }
 
-void QtCodeFile::showSnippets() const
+void QtCodeFile::requestSnippets() const
 {
 	if (m_snippetsRequested)
 	{
@@ -448,6 +442,11 @@ void QtCodeFile::showSnippets() const
 	);
 	msg.undoRedoType = MessageBase::UNDOTYPE_IGNORE;
 	msg.dispatch();
+}
+
+bool QtCodeFile::hasSnippets() const
+{
+	return m_snippets.size() > 0;
 }
 
 void QtCodeFile::handleMessage(MessageWindowFocus* message)

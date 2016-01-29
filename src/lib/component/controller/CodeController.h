@@ -11,6 +11,7 @@
 #include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
+#include "utility/messaging/type/MessageScrollCode.h"
 #include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/messaging/type/MessageShowScope.h"
 #include "utility/types.h"
@@ -31,6 +32,7 @@ class CodeController
 	, public MessageListener<MessageFlushUpdates>
 	, public MessageListener<MessageFocusIn>
 	, public MessageListener<MessageFocusOut>
+	, public MessageListener<MessageScrollCode>
 	, public MessageListener<MessageShowErrors>
 	, public MessageListener<MessageShowScope>
 {
@@ -47,6 +49,7 @@ private:
 	virtual void handleMessage(MessageFlushUpdates* message);
 	virtual void handleMessage(MessageFocusIn* message);
 	virtual void handleMessage(MessageFocusOut* message);
+	virtual void handleMessage(MessageScrollCode* message);
 	virtual void handleMessage(MessageShowErrors* message);
 	virtual void handleMessage(MessageShowScope* message);
 

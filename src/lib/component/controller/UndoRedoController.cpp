@@ -188,6 +188,22 @@ void UndoRedoController::handleMessage(MessageRefresh* message)
 	}
 }
 
+void UndoRedoController::handleMessage(MessageScrollCode* message)
+{
+	if (!m_lastCommand.message)
+	{
+		return;
+	}
+
+	if (m_lastCommand.subMessage && m_lastCommand.subMessage->getType() == message->getType())
+	{
+		static_cast<MessageScrollCode*>(m_lastCommand.subMessage.get())->value = message->value;
+		return;
+	}
+
+	m_lastCommand.subMessage = std::make_shared<MessageScrollCode>(*message);
+}
+
 void UndoRedoController::handleMessage(MessageSearch* message)
 {
 	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() &&
@@ -228,11 +244,18 @@ void UndoRedoController::replayCommands(bool removeLast)
 		{
 			m = m_undo[i].message;
 			m->undoRedoType = MessageBase::UNDOTYPE_IGNORE;
+			m->setIsLast(false);
 			m->dispatch();
 			i++;
 		}
 
 		m = m_undo.back().message;
+
+		std::shared_ptr<MessageBase> sm;
+		if (m_lastCommand.order == 0)
+		{
+			sm = m_undo.back().subMessage;
+		}
 
 		if (removeLast)
 		{
@@ -244,12 +267,25 @@ void UndoRedoController::replayCommands(bool removeLast)
 			m->undoRedoType = MessageBase::UNDOTYPE_IGNORE;
 		}
 
+		m->setIsLast(!sm);
 		m->dispatch();
+
+		if (sm)
+		{
+			sm->undoRedoType = MessageBase::UNDOTYPE_IGNORE;
+			sm->setIsLast(true);
+			sm->dispatch();
+		}
 	}
 }
 
-void UndoRedoController::processCommand(const Command& command)
+void UndoRedoController::processCommand(Command command)
 {
+	if (command.order == 0 && command.message->keepContent())
+	{
+		command.order = 1;
+	}
+
 	switch (command.message->undoRedoType)
 	{
 	case MessageBase::UNDOTYPE_NORMAL:

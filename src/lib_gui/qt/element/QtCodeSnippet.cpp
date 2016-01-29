@@ -110,6 +110,11 @@ QtCodeSnippet::~QtCodeSnippet()
 {
 }
 
+QtCodeFile* QtCodeSnippet::getFile() const
+{
+	return m_codeArea->getFile();
+}
+
 uint QtCodeSnippet::getStartLineNumber() const
 {
 	return m_codeArea->getStartLineNumber();

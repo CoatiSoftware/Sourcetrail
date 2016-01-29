@@ -35,13 +35,15 @@ public:
 
 	virtual void setFileState(const FilePath filePath, FileState state);
 
-	virtual void showFirstActiveSnippet(const std::vector<Id>& activeTokenIds);
+	virtual void showFirstActiveSnippet(const std::vector<Id>& activeTokenIds, bool scrollTo);
 	virtual void showActiveTokenIds(const std::vector<Id>& activeTokenIds);
 
 	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds);
 	virtual void defocusTokenIds();
 
 	virtual void showContents();
+
+	virtual void scrollToValue(int value);
 
 private:
 	void doRefreshView();
@@ -52,13 +54,15 @@ private:
 
 	void doSetFileState(const FilePath filePath, FileState state);
 
-	void doShowFirstActiveSnippet(const std::vector<Id>& activeTokenIds);
+	void doShowFirstActiveSnippet(const std::vector<Id>& activeTokenIds, bool scrollTo);
 	void doShowActiveTokenIds(const std::vector<Id>& activeTokenIds);
 
 	void doFocusTokenIds(const std::vector<Id>& focusedTokenIds);
 	void doDefocusTokenIds();
 
-	void doShowContents() const;
+	void doShowContents();
+
+	void doScrollToValue(int value);
 
 	void setStyleSheet() const;
 
@@ -67,18 +71,17 @@ private:
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&, bool> m_addCodeSnippetsFunctor;
 	QtThreadedFunctor<const CodeSnippetParams&> m_showCodeFileFunctor;
 	QtThreadedFunctor<const FilePath, FileState> m_setFileStateFunctor;
-	QtThreadedFunctor<const std::vector<Id>&> m_doShowFirstActiveSnippetFunctor;
+	QtThreadedFunctor<const std::vector<Id>&, bool> m_doShowFirstActiveSnippetFunctor;
 	QtThreadedFunctor<const std::vector<Id>&> m_doShowActiveTokenIdsFunctor;
 	QtThreadedFunctor<const std::vector<Id>&> m_focusTokenIdsFunctor;
 	QtThreadedFunctor<> m_defocusTokenIdsFunctor;
 	QtThreadedFunctor<> m_showContentsFunctor;
+	QtThreadedFunctor<int> m_scrollToValueFunctor;
 
 	QtCodeFileList* m_widget;
 
 	std::vector<Id> m_activeTokenIds;
 	std::vector<std::string> m_errorMessages;
-
-	bool m_isExpanding;
 };
 
 # endif // QT_CODE_VIEW_H

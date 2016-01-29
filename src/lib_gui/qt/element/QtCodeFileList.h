@@ -55,8 +55,7 @@ public:
 
 	void showActiveTokenIds();
 
-	bool scrollToFirstActiveSnippet();
-	void expandActiveSnippetFile();
+	void showFirstActiveSnippet(bool scrollTo);
 
 	void focusTokenIds(const std::vector<Id>& focusedTokenIds);
 	void defocusTokenIds();
@@ -66,15 +65,21 @@ public:
 	void setFileMaximized(const FilePath path);
 
 	void showContents();
+	void scrollToValue(int value);
+	void scrollToActiveFileIfRequested();
 
 private slots:
+	void scrolled(int value);
 	void scrollToSnippet(QtCodeSnippet* snippet);
+	void setValue();
 
 private:
 	QtCodeFile* getFile(const FilePath filePath);
+	QtCodeSnippet* getFirstActiveSnippet() const;
 
 	void updateFiles();
 
+	void expandActiveSnippetFile(bool scrollTo);
 	void ensureWidgetVisibleAnimated(QWidget *childWidget, QRectF rect);
 
 	std::shared_ptr<QFrame> m_frame;
@@ -83,6 +88,9 @@ private:
 	std::vector<Id> m_activeTokenIds;
 	std::vector<Id> m_focusedTokenIds;
 	std::vector<std::string> m_errorMessages;
+
+	QtCodeFile* m_scrollToFile;
+	int m_value;
 };
 
 #endif // QT_CODE_FILE_LIST

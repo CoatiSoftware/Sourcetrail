@@ -71,6 +71,7 @@ public:
 	uint getEndLineNumber() const;
 
 	std::shared_ptr<TokenLocationFile> getTokenLocationFile() const;
+	QtCodeFile* getFile() const;
 
 	void lineNumberAreaPaintEvent(QPaintEvent* event);
 	int lineNumberDigits() const;

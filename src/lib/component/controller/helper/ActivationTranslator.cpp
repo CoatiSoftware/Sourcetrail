@@ -28,9 +28,8 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 		const Id sourceId = m_storageAccess->getIdForNodeWithNameHierarchy(message->fromNameHierarchy);
 		const Id targetId = m_storageAccess->getIdForNodeWithNameHierarchy(message->toNameHierarchy);
 
-		m = std::make_shared<MessageActivateTokens>(m_storageAccess->getTokenIdsForAggregationEdge(sourceId, targetId));
+		m = std::make_shared<MessageActivateTokens>(message, m_storageAccess->getTokenIdsForAggregationEdge(sourceId, targetId));
 		m->isAggregation = true;
-		m->undoRedoType = message->undoRedoType;
 	}
 	else
 	{
@@ -43,10 +42,8 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 
 		if (edgeId)
 		{
-			m = std::make_shared<MessageActivateTokens>(std::vector<Id>(1, edgeId));
+			m = std::make_shared<MessageActivateTokens>(message, std::vector<Id>(1, edgeId));
 			m->isEdge = true;
-			m->undoRedoType = message->undoRedoType;
-			m->setKeepContent(message->keepContent());
 		}
 	}
 	return m;
@@ -71,11 +68,7 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 		return nullptr;
 	}
 
-	std::shared_ptr<MessageActivateTokens> m;
-	m = std::make_shared<MessageActivateTokens>(std::vector<Id>(1, fileId));
-	m->undoRedoType = message->undoRedoType;
-	m->setKeepContent(message->keepContent());
-	return m;
+	return std::make_shared<MessageActivateTokens>(message, std::vector<Id>(1, fileId));
 }
 
 std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(const MessageActivateNodes* message) const
@@ -101,20 +94,14 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 	}
 
 	std::shared_ptr<MessageActivateTokens> m;
-	m = std::make_shared<MessageActivateTokens>(nodeIds);
+	m = std::make_shared<MessageActivateTokens>(message, nodeIds);
 	m->isFromSystem = message->isFromSystem;
-	m->undoRedoType = message->undoRedoType;
-	m->setKeepContent(message->keepContent());
 	return m;
 }
 
 std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(const MessageActivateTokenIds* message) const
 {
-	std::shared_ptr<MessageActivateTokens> m;
-	m = std::make_shared<MessageActivateTokens>(message->tokenIds);
-	m->undoRedoType = message->undoRedoType;
-	m->setKeepContent(message->keepContent());
-	return m;
+	return std::make_shared<MessageActivateTokens>(message, message->tokenIds);
 }
 
 std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(const MessageSearch* message) const
@@ -144,13 +131,11 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 	std::vector<Id> tokenIds = m_storageAccess->getTokenIdsForMatches(matches);
 	tokenIds = m_storageAccess->getActiveTokenIdsForTokenIds(tokenIds);
 
-	std::shared_ptr<MessageActivateTokens> m;
-	m = std::make_shared<MessageActivateTokens>(tokenIds);
-	m->undoRedoType = message->undoRedoType;
-	m->setKeepContent(message->keepContent());
+	std::shared_ptr<MessageActivateTokens> m = std::make_shared<MessageActivateTokens>(message, tokenIds);
 	if (message->isFresh())
 	{
 		m->isFromSearch = true;
 	}
+
 	return m;
 }
