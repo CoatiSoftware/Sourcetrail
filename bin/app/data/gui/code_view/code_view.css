@@ -108,25 +108,25 @@
 }
 
 #code_file #maximize_button {
-	border-image: url(data/gui/code_view/images/maximize_inactive.png);
+	border-image: url(<setting:gui_path>code_view/images/maximize_inactive.png);
 }
 
 #code_file #maximize_button:enabled {
-	border-image: url(data/gui/code_view/images/maximize_active.png);
+	border-image: url(<setting:gui_path>code_view/images/maximize_active.png);
 }
 
 #code_file #snippet_button {
-	border-image: url(data/gui/code_view/images/snippet_inactive.png);
+	border-image: url(<setting:gui_path>code_view/images/snippet_inactive.png);
 }
 
 #code_file #snippet_button:enabled {
-	border-image: url(data/gui/code_view/images/snippet_active.png);
+	border-image: url(<setting:gui_path>code_view/images/snippet_active.png);
 }
 
 #code_file #minimize_button {
-	border-image: url(data/gui/code_view/images/minimize_inactive.png);
+	border-image: url(<setting:gui_path>code_view/images/minimize_inactive.png);
 }
 
 #code_file #minimize_button:enabled {
-	border-image: url(data/gui/code_view/images/minimize_active.png);
+	border-image: url(<setting:gui_path>code_view/images/minimize_active.png);
 }

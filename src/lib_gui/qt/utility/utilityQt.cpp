@@ -8,8 +8,9 @@
 
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
-#include "utility/utilityString.h"
+#include "utility/ResourcePaths.h"
 #include "utility/text/TextAccess.h"
+#include "utility/utilityString.h"
 
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
@@ -97,6 +98,10 @@ namespace utility
 				else if (val == "font_name")
 				{
 					val = ApplicationSettings::getInstance()->getFontName();
+				}
+				else if (val == "gui_path")
+				{
+					val = ResourcePaths::getGuiPath();
 				}
 				else
 				{
