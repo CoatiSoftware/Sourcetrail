@@ -53,8 +53,8 @@ void QtLicense::load()
 void QtLicense::setup()
 {
 	setStyleSheet((
-		utility::getStyleSheet(ResourcePaths::getGuiPath() + "data/gui/setting_window/window.css") +
-		utility::getStyleSheet(ResourcePaths::getGuiPath() + "data/gui/license/license.css")
+		utility::getStyleSheet(ResourcePaths::getGuiPath() + "setting_window/window.css") +
+		utility::getStyleSheet(ResourcePaths::getGuiPath() + "license/license.css")
 	).c_str());
 
 	addLogo();
