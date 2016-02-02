@@ -40,5 +40,20 @@
 	<string>icon</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.9</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleTypeName</key>
+			<string>Coati Project</string>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>coatiproject</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>project</string>
+		</dict>
+	</array>
 </dict>
 </plist>

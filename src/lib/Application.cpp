@@ -46,6 +46,8 @@ std::shared_ptr<Application> Application::create(
 
 	ptr->m_ideCommunicationController = networkFactory->createIDECommunicationController(ptr->m_storageCache.get());
 
+	ptr->startMessagingAndScheduling();
+
 	return ptr;
 }
 
@@ -59,9 +61,6 @@ void Application::loadSettings()
 
 Application::Application()
 {
-	TaskScheduler::getInstance()->startSchedulerLoopThreaded();
-	MessageQueue::getInstance()->setSendMessagesAsTasks(true);
-	MessageQueue::getInstance()->startMessageLoopThreaded();
 }
 
 Application::~Application()
@@ -159,6 +158,13 @@ void Application::handleMessage(MessageRefresh* message)
 void Application::handleMessage(MessageSaveProject* message)
 {
 	saveProject(message->projectSettingsFilePath);
+}
+
+void Application::startMessagingAndScheduling()
+{
+	TaskScheduler::getInstance()->startSchedulerLoopThreaded();
+	MessageQueue::getInstance()->setSendMessagesAsTasks(true);
+	MessageQueue::getInstance()->startMessageLoopThreaded();
 }
 
 void Application::updateRecentProjects(const FilePath& projectSettingsFilePath)

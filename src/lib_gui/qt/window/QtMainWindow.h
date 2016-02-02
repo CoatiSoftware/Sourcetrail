@@ -63,6 +63,7 @@ protected:
 	bool eventFilter(QObject* obj, QEvent* event);
 };
 
+
 class QtMainWindow
 	: public QMainWindow
 {

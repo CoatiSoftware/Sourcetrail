@@ -5,7 +5,8 @@
 #include "qt/window/QtMainWindow.h"
 
 QtMainView::QtMainView()
-	: m_setTitleFunctor(std::bind(&QtMainView::doSetTitle, this, std::placeholders::_1))
+	: m_hideStartScreenFunctor(std::bind(&QtMainView::doHideStartScreen, this))
+	, m_setTitleFunctor(std::bind(&QtMainView::doSetTitle, this, std::placeholders::_1))
 	, m_activateWindowFunctor(std::bind(&QtMainView::doActivateWindow, this))
 	, m_updateRecentProjectMenuFunctor(std::bind(&QtMainView::doUpdateRecentProjectMenu, this))
 	, m_showLicenseScreenFunctor(std::bind(&QtMainView::doShowLicenseScreen, this))
@@ -69,7 +70,7 @@ void QtMainView::setStatusBar(QStatusBar* statusbar)
 
 void QtMainView::hideStartScreen()
 {
-	m_window->clearWindows();
+	m_hideStartScreenFunctor();
 }
 
 void QtMainView::setTitle(const std::string& title)
@@ -95,6 +96,11 @@ void QtMainView::showLicenseScreen()
 void QtMainView::doUpdateRecentProjectMenu()
 {
 	m_window->updateRecentProjectMenu();
+}
+
+void QtMainView::doHideStartScreen()
+{
+	m_window->clearWindows();
 }
 
 void QtMainView::doSetTitle(const std::string& title)

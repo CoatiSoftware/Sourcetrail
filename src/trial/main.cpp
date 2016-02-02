@@ -1,24 +1,20 @@
-#include <memory>
-
-#include <QApplication>
-
+#include "utility/AppPath.h"
 #include "utility/logging/ConsoleLogger.h"
 #include "utility/logging/FileLogger.h"
 #include "utility/logging/LogManager.h"
-#include "utility/AppPath.h"
 #include "utility/ResourcePaths.h"
 #include "utility/Version.h"
 
 #include "Application.h"
 #include "includes.h" // defines 'void setup(int argc, char *argv[])'
-#include "qt/window/QtMainWindow.h"
-#include "qt/window/QtSplashScreen.h"
 #include "qt/network/QtNetworkFactory.h"
+#include "qt/QtApplication.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewFactory.h"
+#include "qt/window/QtMainWindow.h"
+#include "qt/window/QtSplashScreen.h"
 #include "version.h"
 
-#include "component/controller/helper/NetworkProtocolHelper.h" // remove when done
 
 void init()
 {
@@ -39,7 +35,7 @@ int main(int argc, char *argv[])
 	Version version = Version::fromString(GIT_VERSION_NUMBER);
 
 	setup(argc, argv);
-	QApplication qtApp(argc, argv);
+	QtApplication qtApp(argc, argv);
 
 	qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
 

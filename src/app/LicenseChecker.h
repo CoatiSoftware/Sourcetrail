@@ -2,6 +2,7 @@
 #define LICENSE_CHECKER_H
 
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/MessageEnteredLicense.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageStatus.h"
 
@@ -12,25 +13,49 @@
 #include "utility/AppPath.h"
 
 class LicenseChecker
-	: public MessageListener<MessageLoadProject>
+	: public MessageListener<MessageEnteredLicense>
+	, public MessageListener<MessageLoadProject>
 {
 public:
+	LicenseChecker()
+		: m_forcedLicenseEntering(false)
+	{
+	}
+
 	inline void setApp(Application* app)
 	{
 		m_app = app;
-		if (!checkLicenseString())
+		if (!m_forcedLicenseEntering && !checkLicenseString())
 		{
 			m_app->showLicenseScreen();
+			m_forcedLicenseEntering = true;
 		}
 	}
 
 private:
+	void handleMessage(MessageEnteredLicense* message)
+	{
+		m_forcedLicenseEntering = false;
+
+		if (m_resendMessage)
+		{
+			m_resendMessage->dispatch();
+			m_resendMessage.reset();
+		}
+	}
+
 	void handleMessage(MessageLoadProject* message)
 	{
 		if (!checkLicenseString())
 		{
+			m_resendMessage = std::make_shared<MessageLoadProject>(*message);
 			message->cancel();
-			m_app->showLicenseScreen();
+
+			if (!m_forcedLicenseEntering)
+			{
+				m_app->showLicenseScreen();
+				m_forcedLicenseEntering = true;
+			}
 		}
 	}
 
@@ -77,6 +102,8 @@ private:
 	}
 
 	Application* m_app;
+	std::shared_ptr<MessageBase> m_resendMessage;
+	bool m_forcedLicenseEntering;
 };
 
 #endif // LICENSE_CHECKER_H

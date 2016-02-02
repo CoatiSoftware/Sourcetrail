@@ -62,8 +62,6 @@ bool MouseReleaseFilter::eventFilter(QObject* obj, QEvent* event)
 	{
 		QMouseEvent* mouseEvent = dynamic_cast<QMouseEvent*>(event);
 
-
-
 		if (mouseEvent->button() == m_backButton)
 		{
 			MessageUndo().dispatch();
@@ -82,7 +80,6 @@ bool MouseReleaseFilter::eventFilter(QObject* obj, QEvent* event)
 MouseWheelFilter::MouseWheelFilter(QObject* parent)
 	: QObject(parent)
 {
-
 }
 
 bool MouseWheelFilter::eventFilter(QObject* obj, QEvent* event)
@@ -105,6 +102,7 @@ bool MouseWheelFilter::eventFilter(QObject* obj, QEvent* event)
 
 	return QObject::eventFilter(obj, event);
 }
+
 
 QtMainWindow::QtMainWindow()
 	: m_showDockWidgetTitleBars(true)
@@ -300,9 +298,9 @@ void QtMainWindow::popWindow()
 
 void QtMainWindow::clearWindows()
 {
-	if (m_windowStack.size())
+	for (QWidget* window : m_windowStack)
 	{
-		m_windowStack.back()->hide();
+		window->hide();
 	}
 
 	m_windowStack.clear();

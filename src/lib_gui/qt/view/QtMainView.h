@@ -40,6 +40,7 @@ public:
 	virtual void showLicenseScreen();
 
 private:
+	void doHideStartScreen();
 	void doSetTitle(const std::string& title);
 	void doActivateWindow();
 	void doUpdateRecentProjectMenu();
@@ -48,6 +49,7 @@ private:
 	std::shared_ptr<QtMainWindow> m_window;
 	std::vector<View*> m_views;
 
+	QtThreadedFunctor<> m_hideStartScreenFunctor;
 	QtThreadedFunctor<const std::string&> m_setTitleFunctor;
 	QtThreadedFunctor<> m_activateWindowFunctor;
 	QtThreadedFunctor<> m_updateRecentProjectMenuFunctor;

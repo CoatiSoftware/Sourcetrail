@@ -223,6 +223,7 @@ add_files(
 	utility/messaging/type/MessageChangeFileView.h
 	utility/messaging/type/MessageClearErrorCount.h
 	utility/messaging/type/MessageDeactivateEdge.h
+	utility/messaging/type/MessageEnteredLicense.h
 	utility/messaging/type/MessageFind.h
 	utility/messaging/type/MessageFinishedParsing.h
 	utility/messaging/type/MessageFlushUpdates.h

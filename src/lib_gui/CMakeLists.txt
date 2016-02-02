@@ -119,4 +119,7 @@ add_files(
 	qt/window/QtSplashScreen.h
 	qt/window/QtStartScreen.cpp
 	qt/window/QtStartScreen.h
+
+	qt/QtApplication.cpp
+	qt/QtApplication.h
 )

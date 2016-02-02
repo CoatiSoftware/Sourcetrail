@@ -102,9 +102,9 @@ do
 	echo "lib" $LIB_PATH $LIB_NAME
 done
 
-echo -e $INFO "Fixing lib dependencies"
-install_name_tool -change libboost_system.dylib @executable_path/../lib/libboost_system.dylib $DYNLIB_DIR/libboost_filesystem.dylib
-otool -L $DYNLIB_DIR/libboost_filesystem.dylib
+# echo -e $INFO "Fixing lib dependencies"
+# install_name_tool -change libboost_system.dylib @executable_path/../lib/libboost_system.dylib $DYNLIB_DIR/libboost_filesystem.dylib
+# otool -L $DYNLIB_DIR/libboost_filesystem.dylib
 
 
 echo -e $INFO "Copying Plugins"
@@ -160,7 +160,7 @@ echo -e $INFO "App dependencies"
 otool -L $APP_PATH
 
 echo -e $INFO "Create icon"
-ICON=../data/gui/installer/logo_1024_1024.png
+ICON=../data/gui/icon/logo_1024_1024.png
 ICON_SET=$RES_DIR/icon.iconset
 
 mkdir -p $ICON_SET
@@ -176,6 +176,26 @@ convert $ICON -resize 512x512 $ICON_SET/icon_512x512.png
 convert $ICON -resize 1024x1024 $ICON_SET/icon_512x512@2x.png
 
 iconutil -c icns -o $RES_DIR/icon.icns $ICON_SET
+
+echo -e $INFO "Create project icon"
+ICON=../data/gui/icon/project_256_256.png
+ICON_SET=$RES_DIR/project.iconset
+
+mkdir -p $ICON_SET
+convert $ICON -resize 16x16 $ICON_SET/icon_16x16.png
+convert $ICON -resize 32x32 $ICON_SET/icon_16x16@2x.png
+convert $ICON -resize 32x32 $ICON_SET/icon_32x32.png
+convert $ICON -resize 64x64 $ICON_SET/icon_32x32@2x.png
+convert $ICON -resize 64x64 $ICON_SET/icon_64x64.png
+convert $ICON -resize 128x128 $ICON_SET/icon_64x64@2x.png
+convert $ICON -resize 128x128 $ICON_SET/icon_128x128.png
+convert $ICON -resize 256x256 $ICON_SET/icon_128x128@2x.png
+convert $ICON -resize 256x256 $ICON_SET/icon_256x256.png
+convert $ICON -resize 512x512 $ICON_SET/icon_256x256@2x.png
+convert $ICON -resize 512x512 $ICON_SET/icon_512x512.png
+convert $ICON -resize 1024x1024 $ICON_SET/icon_512x512@2x.png
+
+iconutil -c icns -o $RES_DIR/project.icns $ICON_SET
 
 echo -e $INFO "Obfuscate binary"
 # upx -1 $APP_PATH
