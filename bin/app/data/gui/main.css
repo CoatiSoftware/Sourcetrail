@@ -3,3 +3,7 @@ QToolTip {
 	color: black;
 	font-size: <setting:font_size>pt;
 }
+
+* {
+	font-family: "Fira Sans";
+}

@@ -173,12 +173,12 @@ std::string GraphViewStyle::getFontNameForNodeType(Node::NodeType type)
 
 std::string GraphViewStyle::getFontNameOfAccessNode()
 {
-	return "Myriad Pro";
+	return "Fira Sans";
 }
 
 std::string GraphViewStyle::getFontNameOfExpandToggleNode()
 {
-	return "Myriad Pro";
+	return "Fira Sans";
 }
 
 GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType type, bool hasChildren)
@@ -262,13 +262,13 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfAccessNode(TokenComponen
 		margins.minWidth = 56;
 		break;
 	case TokenComponentAccess::ACCESS_PROTECTED:
-		margins.minWidth = 80;
+		margins.minWidth = 72;
 		break;
 	case TokenComponentAccess::ACCESS_PRIVATE:
-		margins.minWidth = 64;
+		margins.minWidth = 58;
 		break;
 	case TokenComponentAccess::ACCESS_TEMPLATE:
-		margins.minWidth = 110;
+		margins.minWidth = 103;
 		break;
 	}
 

@@ -120,7 +120,7 @@ QtMainWindow::QtMainWindow()
 	app->installEventFilter(new MouseReleaseFilter(this));
 	app->installEventFilter(new MouseWheelFilter(this));
 
-	app->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "tooltip.css").c_str());
+	app->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "main.css").c_str());
 
 	m_recentProjectAction = new QAction*[ApplicationSettings::MaximalAmountOfRecentProjects];
 
