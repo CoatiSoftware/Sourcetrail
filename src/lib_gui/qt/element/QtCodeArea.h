@@ -84,7 +84,8 @@ public:
 
 	void setIsActiveFile(bool isActiveFile);
 
-	QRectF getFirstActiveLineRect() const;
+	uint getFirstActiveLineNumber() const;
+	QRectF getLineRectForLineNumber(uint lineNumber) const;
 
 	std::string getCode() const;
 

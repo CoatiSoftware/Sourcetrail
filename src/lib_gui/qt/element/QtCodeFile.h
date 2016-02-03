@@ -14,6 +14,8 @@
 #include "utility/messaging/type/MessageWindowFocus.h"
 #include "qt/utility/QtThreadedFunctor.h"
 
+#include "component/view/helper/CodeSnippetParams.h"
+
 class QLabel;
 class QPushButton;
 class QtCodeFileList;
@@ -40,23 +42,8 @@ public:
 	const std::vector<Id>& getFocusedTokenIds() const;
 	const std::vector<std::string>& getErrorMessages() const;
 
-	void addCodeSnippet(
-		uint startLineNumber,
-		const std::string& title,
-		Id titleId,
-		const std::string& code,
-		std::shared_ptr<TokenLocationFile> locationFile,
-		int refCount
-	);
-
-	QtCodeSnippet* insertCodeSnippet(
-		uint startLineNumber,
-		const std::string& title,
-		Id titleId,
-		const std::string& code,
-		std::shared_ptr<TokenLocationFile> locationFile,
-		int refCount
-	);
+	void addCodeSnippet(const CodeSnippetParams& params);
+	QtCodeSnippet* insertCodeSnippet(const CodeSnippetParams& params);
 
 	QtCodeSnippet* findFirstActiveSnippet() const;
 	bool isCollapsedActiveFile() const;
@@ -104,7 +91,6 @@ private:
 	QVBoxLayout* m_snippetLayout;
 	std::vector<std::shared_ptr<QtCodeSnippet>> m_snippets;
 	std::shared_ptr<QtCodeSnippet> m_fileSnippet;
-	QWidget* m_minimizePlaceholder;
 
 	const FilePath m_filePath;
 	TimePoint m_modificationTime;

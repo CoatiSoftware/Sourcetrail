@@ -10,6 +10,9 @@
 
 #include "qt/element/QtCodeArea.h"
 
+#include "component/view/helper/CodeSnippetParams.h"
+
+class QBoxLayout;
 class QPushButton;
 class QtCodeFile;
 class TokenLocationFile;
@@ -22,14 +25,7 @@ class QtCodeSnippet
 public:
 	static std::shared_ptr<QtCodeSnippet> merged(QtCodeSnippet* a, QtCodeSnippet* b, QtCodeFile* file);
 
-	QtCodeSnippet(
-		uint startLineNumber,
-		const std::string& title,
-		Id titleId,
-		const std::string& code,
-		std::shared_ptr<TokenLocationFile> locationFile,
-		QtCodeFile* file
-	);
+	QtCodeSnippet(const CodeSnippetParams& params, QtCodeFile* file);
 	virtual ~QtCodeSnippet();
 
 	QtCodeFile* getFile() const;
@@ -46,7 +42,8 @@ public:
 
 	void setIsActiveFile(bool isActiveFile);
 
-	QRectF getFirstActiveLineRect() const;
+	uint getFirstActiveLineNumber() const;
+	QRectF getLineRectForLineNumber(uint lineNumber) const;
 
 	std::string getCode() const;
 
@@ -55,15 +52,22 @@ protected:
 
 private slots:
 	void clickedTitle();
+	void clickedFooter();
 
 private:
+	QPushButton* createScopeLine(QBoxLayout* layout);
 	void updateDots();
 
 	Id m_titleId;
 	std::string m_titleString;
 
-	QPushButton* m_dots;
+	Id m_footerId;
+	std::string m_footerString;
+
+	std::vector<QPushButton*> m_dots;
+
 	QPushButton* m_title;
+	QPushButton* m_footer;
 	std::shared_ptr<QtCodeArea> m_codeArea;
 };
 

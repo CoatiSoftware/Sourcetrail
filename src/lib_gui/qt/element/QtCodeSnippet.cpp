@@ -44,32 +44,27 @@ std::shared_ptr<QtCodeSnippet> QtCodeSnippet::merged(QtCodeSnippet* a, QtCodeSni
 	}
 	code += secondCode.substr(secondCodeStartIndex, secondCode.npos);
 
-	std::string title = first->m_titleString;
+	CodeSnippetParams params;
+	params.startLineNumber = first->getStartLineNumber();
+	params.title = first->m_titleString;
+	params.titleId = first->m_titleId;
+	params.footer = second->m_footerString;
+	params.footerId = second->m_footerId;
+	params.code = code;
+	params.locationFile = locationFile;
 
-	return std::shared_ptr<QtCodeSnippet>(new QtCodeSnippet(
-		first->getStartLineNumber(),
-		title,
-		first->m_titleId,
-		code,
-		locationFile,
-		file
-	));
+	return std::shared_ptr<QtCodeSnippet>(new QtCodeSnippet(params, file));
 }
 
-QtCodeSnippet::QtCodeSnippet(
-	uint startLineNumber,
-	const std::string& title,
-	Id titleId,
-	const std::string& code,
-	std::shared_ptr<TokenLocationFile> locationFile,
-	QtCodeFile* file
-)
+QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeFile* file)
 	: QFrame(file)
-	, m_titleId(titleId)
-	, m_titleString(title)
-	, m_dots(nullptr)
+	, m_titleId(params.titleId)
+	, m_titleString(params.title)
+	, m_footerId(params.footerId)
+	, m_footerString(params.footer)
 	, m_title(nullptr)
-	, m_codeArea(std::make_shared<QtCodeArea>(startLineNumber, code, locationFile, file, this))
+	, m_footer(nullptr)
+	, m_codeArea(std::make_shared<QtCodeArea>(params.startLineNumber, params.code, params.locationFile, file, this))
 {
 	setObjectName("code_snippet");
 
@@ -81,28 +76,20 @@ QtCodeSnippet::QtCodeSnippet(
 
 	if (m_titleString.size())
 	{
-		QHBoxLayout* titleLayout = new QHBoxLayout();
-		titleLayout->setMargin(0);
-		titleLayout->setSpacing(0);
-		titleLayout->setAlignment(Qt::AlignLeft);
-		layout->addLayout(titleLayout);
-
-		m_dots = new QPushButton(this);
-		m_dots->setObjectName("dots");
-		m_dots->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-		titleLayout->addWidget(m_dots);
-
-		m_title = new QPushButton(FilePath(m_titleString).fileName().c_str(), this);
-		m_title->setObjectName("scope_name");
-		m_title->minimumSizeHint(); // force font loading
-		m_title->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-		m_title->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-		titleLayout->addWidget(m_title);
-
+		m_title = createScopeLine(layout);
+		m_title->setText(FilePath(m_titleString).fileName().c_str());
 		connect(m_title, SIGNAL(clicked()), this, SLOT(clickedTitle()));
 	}
 
 	layout->addWidget(m_codeArea.get());
+
+	if (m_footerString.size())
+	{
+		m_footer = createScopeLine(layout);
+		m_footer->setText(FilePath(m_footerString).fileName().c_str());
+		connect(m_footer, SIGNAL(clicked()), this, SLOT(clickedFooter()));
+	}
+
 	updateDots();
 }
 
@@ -152,9 +139,14 @@ void QtCodeSnippet::setIsActiveFile(bool isActiveFile)
 	m_codeArea->setIsActiveFile(isActiveFile);
 }
 
-QRectF QtCodeSnippet::getFirstActiveLineRect() const
+uint QtCodeSnippet::getFirstActiveLineNumber() const
 {
-	return m_codeArea->getFirstActiveLineRect();
+	return m_codeArea->getFirstActiveLineNumber();
+}
+
+QRectF QtCodeSnippet::getLineRectForLineNumber(uint lineNumber) const
+{
+	return m_codeArea->getLineRectForLineNumber(lineNumber);
 }
 
 std::string QtCodeSnippet::getCode() const
@@ -183,13 +175,43 @@ void QtCodeSnippet::clickedTitle()
 	}
 }
 
+void QtCodeSnippet::clickedFooter()
+{
+	if (m_footerId > 0)
+	{
+		MessageShowScope(m_footerId).dispatch();
+	}
+}
+
+QPushButton* QtCodeSnippet::createScopeLine(QBoxLayout* layout)
+{
+	QHBoxLayout* lineLayout = new QHBoxLayout();
+	lineLayout->setMargin(0);
+	lineLayout->setSpacing(0);
+	lineLayout->setAlignment(Qt::AlignLeft);
+	layout->addLayout(lineLayout);
+
+	QPushButton* dots = new QPushButton(this);
+	dots->setObjectName("dots");
+	dots->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	lineLayout->addWidget(dots);
+	m_dots.push_back(dots);
+
+	QPushButton* line = new QPushButton(this);
+	line->setObjectName("scope_name");
+	line->minimumSizeHint(); // force font loading
+	line->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	line->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+	lineLayout->addWidget(line);
+
+	return line;
+}
+
 void QtCodeSnippet::updateDots()
 {
-	if (!m_dots)
+	for (QPushButton* dots : m_dots)
 	{
-		return;
+		dots->setText(QString::fromStdString(std::string(lineNumberDigits(), '.')));
+		dots->setMinimumWidth(m_codeArea->lineNumberAreaWidth());
 	}
-
-	m_dots->setText(QString::fromStdString(std::string(lineNumberDigits(), '.')));
-	m_dots->setMinimumWidth(m_codeArea->lineNumberAreaWidth());
 }

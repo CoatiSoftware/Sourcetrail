@@ -3,14 +3,15 @@
 
 #include <memory>
 
+#include "utility/file/FilePath.h"
+
+#include "component/view/helper/CodeSnippetParams.h"
 #include "component/view/View.h"
-#include "data/location/TokenLocationFile.h"
-#include "utility/TimePoint.h"
-#include "utility/types.h"
 
 class CodeController;
 
-class CodeView: public View
+class CodeView
+	: public View
 {
 public:
 	enum FileState
@@ -18,31 +19,6 @@ public:
 		FILE_MINIMIZED,
 		FILE_SNIPPETS,
 		FILE_MAXIMIZED
-	};
-
-	struct CodeSnippetParams
-	{
-		CodeSnippetParams();
-
-		// comparefunction for snippetsorting
-		static bool sort(const CodeSnippetParams& a, const CodeSnippetParams& b);
-
-		uint startLineNumber;
-		uint endLineNumber;
-
-		std::string title;
-		std::string code;
-
-		Id titleId;
-		TimePoint modificationTime;
-
-		std::shared_ptr<TokenLocationFile> locationFile;
-
-		int refCount;
-
-		bool isActive;
-		bool isDeclaration;
-		bool isCollapsed;
 	};
 
 	CodeView(ViewLayout* viewLayout);

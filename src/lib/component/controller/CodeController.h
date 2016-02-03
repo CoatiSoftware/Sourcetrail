@@ -56,15 +56,15 @@ private:
 	CodeView* getView();
 	void showContents(MessageBase* message);
 
-	std::vector<CodeView::CodeSnippetParams> getSnippetsForActiveTokenLocations(
+	std::vector<CodeSnippetParams> getSnippetsForActiveTokenLocations(
 		const TokenLocationCollection* collection, Id declarationId) const;
-	std::vector<CodeView::CodeSnippetParams> getSnippetsForActiveTokenLocationsInFile(
+	std::vector<CodeSnippetParams> getSnippetsForActiveTokenLocationsInFile(
 		std::shared_ptr<TokenLocationFile>) const;
-	std::vector<CodeView::CodeSnippetParams> getSnippetsForFile(std::shared_ptr<TokenLocationFile> file) const;
+	std::vector<CodeSnippetParams> getSnippetsForFile(std::shared_ptr<TokenLocationFile> file) const;
 	std::shared_ptr<SnippetMerger> buildMergerHierarchy(
 		TokenLocation* location, SnippetMerger& fileScopedMerger, std::map<int, std::shared_ptr<SnippetMerger>>& mergers) const;
 
-	std::vector<CodeView::CodeSnippetParams> getSnippetsForErrorLocations(std::vector<std::string>* errorMessages) const;
+	std::vector<CodeSnippetParams> getSnippetsForErrorLocations(std::vector<std::string>* errorMessages) const;
 
 	std::vector<std::string> getProjectDescription(TokenLocationFile* locationFile) const;
 

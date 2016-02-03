@@ -29,10 +29,10 @@ const uint CodeController::s_lineRadius = 2;
 void CodeController::handleMessage(MessageActivateAll* message)
 {
 	std::vector<std::string> errorMessages;
-	std::vector<CodeView::CodeSnippetParams> snippets = getSnippetsForErrorLocations(&errorMessages);
+	std::vector<CodeSnippetParams> snippets = getSnippetsForErrorLocations(&errorMessages);
 
 	StorageStats stats = m_storageAccess->getStorageStats();
-	CodeView::CodeSnippetParams statsSnippet;
+	CodeSnippetParams statsSnippet;
 
 	statsSnippet.startLineNumber = 1;
 	statsSnippet.endLineNumber = 1;
@@ -157,9 +157,9 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 	case MessageChangeFileView::FILE_MAXIMIZED:
 		if (message->needsData)
 		{
-			CodeView::CodeSnippetParams params;
-			params.startLineNumber = 0;
-			params.endLineNumber = 0;
+			CodeSnippetParams params;
+			params.startLineNumber = 1;
+			params.refCount = -1;
 
 			std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(message->filePath);
 			params.code = textAccess->getText();
@@ -213,7 +213,7 @@ void CodeController::handleMessage(MessageScrollCode* message)
 void CodeController::handleMessage(MessageShowErrors* message)
 {
 	std::vector<std::string> errorMessages;
-	std::vector<CodeView::CodeSnippetParams> snippets = getSnippetsForErrorLocations(&errorMessages);
+	std::vector<CodeSnippetParams> snippets = getSnippetsForErrorLocations(&errorMessages);
 
 	CodeView* view = getView();
 	view->setErrorMessages(errorMessages);
@@ -234,7 +234,7 @@ void CodeController::handleMessage(MessageShowScope* message)
 		return;
 	}
 
-	std::vector<CodeView::CodeSnippetParams> snippets = getSnippetsForActiveTokenLocations(collection.get(), 0);
+	std::vector<CodeSnippetParams> snippets = getSnippetsForActiveTokenLocations(collection.get(), 0);
 
 	if (snippets.size() != 1)
 	{
@@ -260,10 +260,10 @@ void CodeController::showContents(MessageBase* message)
 	}
 }
 
-std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocations(
+std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocations(
 	const TokenLocationCollection* collection, Id declarationId
 ) const {
-	std::vector<CodeView::CodeSnippetParams> snippets;
+	std::vector<CodeSnippetParams> snippets;
 
 	collection->forEachTokenLocationFile(
 		[&](std::shared_ptr<TokenLocationFile> file) -> void
@@ -281,9 +281,9 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTok
 
 			if (isDeclarationFile || collection->getTokenLocationFileCount() < 5 || file->isWholeCopy)
 			{
-				std::vector<CodeView::CodeSnippetParams> fileSnippets = getSnippetsForActiveTokenLocationsInFile(file);
+				std::vector<CodeSnippetParams> fileSnippets = getSnippetsForActiveTokenLocationsInFile(file);
 
-				for (CodeView::CodeSnippetParams& snippet : fileSnippets)
+				for (CodeSnippetParams& snippet : fileSnippets)
 				{
 					snippet.isDeclaration = isDeclarationFile;
 				}
@@ -292,7 +292,7 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTok
 			}
 			else
 			{
-				CodeView::CodeSnippetParams params;
+				CodeSnippetParams params;
 				params.locationFile = file;
 				params.refCount = file->getUnscopedStartTokenLocationCount();
 				params.modificationTime = m_storageAccess->getFileModificationTime(file->getFilePath());
@@ -303,19 +303,19 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTok
 		}
 	);
 
-	std::sort(snippets.begin(), snippets.end(), CodeView::CodeSnippetParams::sort);
+	std::sort(snippets.begin(), snippets.end(), CodeSnippetParams::sort);
 
 	return snippets;
 }
 
-std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocationsInFile(
+std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocationsInFile(
 	std::shared_ptr<TokenLocationFile> file
 ) const {
-	std::vector<CodeView::CodeSnippetParams> fileSnippets = getSnippetsForFile(file);
+	std::vector<CodeSnippetParams> fileSnippets = getSnippetsForFile(file);
 
 	if (!file->isWholeCopy)
 	{
-		for (CodeView::CodeSnippetParams& params : fileSnippets)
+		for (CodeSnippetParams& params : fileSnippets)
 		{
 			params.locationFile = m_storageAccess->getTokenLocationsForLinesInFile(
 				file->getFilePath().str(), params.startLineNumber, params.endLineNumber);
@@ -325,7 +325,7 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForActiveTok
 	return fileSnippets;
 }
 
-std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(std::shared_ptr<TokenLocationFile> file) const
+std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(std::shared_ptr<TokenLocationFile> file) const
 {
 	std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(file->getFilePath());
 
@@ -365,10 +365,10 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(std:
 	}
 
 	const int snippetExpandRange = ApplicationSettings::getInstance()->getCodeSnippetExpandRange();
-	std::vector<CodeView::CodeSnippetParams> snippets;
+	std::vector<CodeSnippetParams> snippets;
 	for (const SnippetMerger::Range& range: ranges)
 	{
-		CodeView::CodeSnippetParams params;
+		CodeSnippetParams params;
 		params.locationFile = file;
 		params.refCount = file->getUnscopedStartTokenLocationCount();
 		params.startLineNumber = std::max<int>(1, range.start.row - (range.start.strong ? 0 : snippetExpandRange));
@@ -400,6 +400,27 @@ std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForFile(std:
 		if (!file->isWholeCopy && params.titleId == 0)
 		{
 			params.title = file->getFilePath().str();
+		}
+
+
+		TokenLocationLine* lastUsedLine = nullptr;
+		for (size_t i = params.endLineNumber; i >= params.startLineNumber && lastUsedLine == nullptr; i--)
+		{
+			lastUsedLine = tempFile->findTokenLocationLineByNumber(i);
+		}
+
+		params.footerId = 0;
+		if (lastUsedLine && lastUsedLine->getTokenLocations().size())
+		{
+			m_storageAccess->getTokenLocationOfParentScope(
+				lastUsedLine->getTokenLocations().begin()->second.get()
+			)->forEachStartTokenLocation( // this TokenLocationFile only contains a single StartTokenLocation.
+				[&](TokenLocation* location)
+				{
+					params.footer = m_storageAccess->getNameHierarchyForNodeWithId(location->getTokenId()).getFullName();
+					params.footerId = location->getId();
+				}
+			);
 		}
 
 		for (const std::string& line: textAccess->getLines(params.startLineNumber, params.endLineNumber))
@@ -449,17 +470,17 @@ std::shared_ptr<SnippetMerger> CodeController::buildMergerHierarchy(
 	return currentMerger;
 }
 
-std::vector<CodeView::CodeSnippetParams> CodeController::getSnippetsForErrorLocations(
+std::vector<CodeSnippetParams> CodeController::getSnippetsForErrorLocations(
 	std::vector<std::string>* errorMessages)
 const {
 	TokenLocationCollection errorCollection = m_storageAccess->getErrorTokenLocations(errorMessages);
 
-	std::vector<CodeView::CodeSnippetParams> snippets;
+	std::vector<CodeSnippetParams> snippets;
 
 	errorCollection.forEachTokenLocationFile(
 		[&](std::shared_ptr<TokenLocationFile> file) -> void
 		{
-			std::vector<CodeView::CodeSnippetParams> fileSnippets = getSnippetsForFile(file);
+			std::vector<CodeSnippetParams> fileSnippets = getSnippetsForFile(file);
 			snippets.insert(snippets.end(), fileSnippets.begin(), fileSnippets.end());
 		}
 	);

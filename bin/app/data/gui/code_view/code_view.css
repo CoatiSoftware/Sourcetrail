@@ -9,13 +9,14 @@
 #code_file {
 	background-color: <color:code/snippet/background>;
 	border: 2px solid <color:code/file/background>;
-	border-radius: 14px;
+	border-radius: 12px;
+	padding-bottom: 7px;
 }
 
 #code_file #title_widget {
 	background-color: <color:code/file/background>;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
 	padding-right: 5px;
 }
 
@@ -60,11 +61,6 @@
 	padding-top: 0px;
 }
 
-#code_file #code_snippet[isLast=true] {
-	border-bottom-left-radius: 12px;
-	border-bottom-right-radius: 12px;
-}
-
 #code_file #code_snippet #scope_name, #code_file #code_snippet #dots {
 	background-color: <color:code/snippet/title/background>;
 	color: <color:code/snippet/title/text>;
@@ -90,10 +86,6 @@
 	background-color: <color:code/snippet/line_number/background>;
 	border: none;
 	color: <color:code/snippet/line_number/text>;
-}
-
-#code_file #code_snippet[isLast=true] #line_number_area {
-	border-bottom-left-radius: 12px;
 }
 
 #code_area {

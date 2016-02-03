@@ -255,18 +255,21 @@ void QtCodeArea::setIsActiveFile(bool isActiveFile)
 	m_isActiveFile = isActiveFile;
 }
 
-QRectF QtCodeArea::getFirstActiveLineRect() const
+uint QtCodeArea::getFirstActiveLineNumber() const
 {
-	int lineNumber = 0;
 	for (const Annotation& annotation : m_annotations)
 	{
 		if (annotation.isActive)
 		{
-			lineNumber = annotation.startLine;
-			break;
+			return annotation.startLine;
 		}
 	}
 
+	return 0;
+}
+
+QRectF QtCodeArea::getLineRectForLineNumber(uint lineNumber) const
+{
 	QTextBlock block = document()->findBlockByLineNumber(lineNumber - m_startLineNumber);
 	return blockBoundingGeometry(block);
 }

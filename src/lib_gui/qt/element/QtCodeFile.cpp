@@ -102,10 +102,6 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	connect(m_snippetButton, SIGNAL(clicked()), this, SLOT(clickedSnippetButton()));
 	connect(m_maximizeButton, SIGNAL(clicked()), this, SLOT(clickedMaximizeButton()));
 
-	m_minimizePlaceholder = new QWidget(this);
-	m_minimizePlaceholder->setMinimumHeight(5);
-	layout->addWidget(m_minimizePlaceholder);
-
 	m_snippetLayout = new QVBoxLayout();
 	layout->addLayout(m_snippetLayout);
 
@@ -147,22 +143,15 @@ const std::vector<std::string>& QtCodeFile::getErrorMessages() const
 	return m_parent->getErrorMessages();
 }
 
-void QtCodeFile::addCodeSnippet(
-	uint startLineNumber,
-	const std::string& title,
-	Id titleId,
-	const std::string& code,
-	std::shared_ptr<TokenLocationFile> locationFile,
-	int refCount
-){
+void QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
+{
 	m_locationFile.reset();
 
-	std::shared_ptr<QtCodeSnippet> snippet(
-		new QtCodeSnippet(startLineNumber, title, titleId, code, locationFile, this));
+	std::shared_ptr<QtCodeSnippet> snippet(new QtCodeSnippet(params, this));
 
 	m_snippetLayout->addWidget(snippet.get());
 
-	if (locationFile->isWholeCopy)
+	if (params.locationFile->isWholeCopy)
 	{
 		snippet->setProperty("isFirst", true);
 		snippet->setProperty("isLast", true);
@@ -174,7 +163,7 @@ void QtCodeFile::addCodeSnippet(
 		}
 
 		setMaximized();
-		if (refCount != -1)
+		if (params.refCount != -1)
 		{
 			updateRefCount(0);
 		}
@@ -184,21 +173,14 @@ void QtCodeFile::addCodeSnippet(
 	m_snippets.push_back(snippet);
 
 	updateSnippets();
-	updateRefCount(refCount);
+	updateRefCount(params.refCount);
 }
 
-QtCodeSnippet* QtCodeFile::insertCodeSnippet(
-	uint startLineNumber,
-	const std::string& title,
-	Id titleId,
-	const std::string& code,
-	std::shared_ptr<TokenLocationFile> locationFile,
-	int refCount
-){
+QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
+{
 	m_locationFile.reset();
 
-	std::shared_ptr<QtCodeSnippet> snippet(
-		new QtCodeSnippet(startLineNumber, title, titleId, code, locationFile, this));
+	std::shared_ptr<QtCodeSnippet> snippet(new QtCodeSnippet(params, this));
 
 	size_t i = 0;
 	while (i < m_snippets.size())
@@ -232,7 +214,7 @@ QtCodeSnippet* QtCodeFile::insertCodeSnippet(
 	m_snippets.insert(m_snippets.begin() + i, snippet);
 
 	updateSnippets();
-	updateRefCount(refCount);
+	updateRefCount(params.refCount);
 
 	return snippet.get();
 }
@@ -325,8 +307,6 @@ void QtCodeFile::setMinimized()
 		m_snippetButton->setEnabled(true);
 	}
 	m_maximizeButton->setEnabled(true);
-
-	m_minimizePlaceholder->show();
 }
 
 void QtCodeFile::setSnippets()
@@ -344,8 +324,6 @@ void QtCodeFile::setSnippets()
 	m_minimizeButton->setEnabled(true);
 	m_snippetButton->setEnabled(false);
 	m_maximizeButton->setEnabled(true);
-
-	m_minimizePlaceholder->hide();
 }
 
 void QtCodeFile::setMaximized()
@@ -366,8 +344,6 @@ void QtCodeFile::setMaximized()
 		m_snippetButton->setEnabled(true);
 	}
 	m_maximizeButton->setEnabled(false);
-
-	m_minimizePlaceholder->hide();
 }
 
 void QtCodeFile::clickedTitleBar()

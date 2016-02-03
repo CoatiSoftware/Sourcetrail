@@ -39,6 +39,8 @@ add_files(
 	component/controller/UndoRedoController.cpp
 	component/controller/UndoRedoController.h
 
+	component/view/helper/CodeSnippetParams.cpp
+	component/view/helper/CodeSnippetParams.h
 	component/view/CodeView.cpp
 	component/view/CodeView.h
 	component/view/CompositeView.cpp

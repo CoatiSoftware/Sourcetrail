@@ -127,15 +127,7 @@ void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippe
 		}
 		else
 		{
-			m_widget->addCodeSnippet(
-				params.startLineNumber,
-				params.title,
-				params.titleId,
-				params.code,
-				params.locationFile,
-				params.refCount,
-				params.modificationTime
-			);
+			m_widget->addCodeSnippet(params);
 		}
 	}
 
@@ -146,16 +138,7 @@ void QtCodeView::doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippet
 {
 	for (const CodeSnippetParams& params : snippets)
 	{
-		m_widget->addCodeSnippet(
-			params.startLineNumber,
-			params.title,
-			params.titleId,
-			params.code,
-			params.locationFile,
-			params.refCount,
-			params.modificationTime,
-			insert
-		);
+		m_widget->addCodeSnippet(params, insert);
 	}
 
 	setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
@@ -165,7 +148,7 @@ void QtCodeView::doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippet
 
 void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
 {
-	m_widget->addCodeSnippet(1, params.title, 0, params.code, params.locationFile, -1, params.modificationTime);
+	m_widget->addCodeSnippet(params);
 }
 
 void QtCodeView::doSetFileState(const FilePath filePath, FileState state)

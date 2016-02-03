@@ -11,6 +11,8 @@
 #include "utility/TimePoint.h"
 #include "utility/types.h"
 
+#include "component/view/helper/CodeSnippetParams.h"
+
 class QtCodeFile;
 class QtCodeSnippet;
 class TokenLocationFile;
@@ -21,7 +23,7 @@ class QtCodeFileList
 	Q_OBJECT
 
 signals:
-	void shouldScrollToSnippet(QtCodeSnippet* widget);
+	void shouldScrollToSnippet(QtCodeSnippet* widget, uint lineNumber);
 
 public:
 	QtCodeFileList(QWidget* parent = 0);
@@ -29,17 +31,7 @@ public:
 
 	virtual QSize sizeHint() const;
 
-	void addCodeSnippet(
-		uint startLineNumber,
-		const std::string& title,
-		Id titleId,
-		const std::string& code,
-		std::shared_ptr<TokenLocationFile> locationFile,
-		int refCount,
-		TimePoint modificationTime,
-		bool insert = false
-	);
-
+	void addCodeSnippet(const CodeSnippetParams& params, bool insert = false);
 	void addFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount, TimePoint modificationTime);
 
 	void clearCodeSnippets();
@@ -70,7 +62,7 @@ public:
 
 private slots:
 	void scrolled(int value);
-	void scrollToSnippet(QtCodeSnippet* snippet);
+	void scrollToSnippet(QtCodeSnippet* snippet, uint lineNumber);
 	void setValue();
 
 private:

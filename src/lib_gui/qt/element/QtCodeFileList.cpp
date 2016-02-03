@@ -33,7 +33,7 @@ QtCodeFileList::QtCodeFileList(QWidget* parent)
 	setWidget(m_frame.get());
 
 	connect(this->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrolled(int)));
-	connect(this, SIGNAL(shouldScrollToSnippet(QtCodeSnippet*)), this, SLOT(scrollToSnippet(QtCodeSnippet*)), Qt::QueuedConnection);
+	connect(this, SIGNAL(shouldScrollToSnippet(QtCodeSnippet*, uint)), this, SLOT(scrollToSnippet(QtCodeSnippet*, uint)), Qt::QueuedConnection);
 }
 
 QtCodeFileList::~QtCodeFileList()
@@ -46,27 +46,21 @@ QSize QtCodeFileList::sizeHint() const
 }
 
 void QtCodeFileList::addCodeSnippet(
-	uint startLineNumber,
-	const std::string& title,
-	Id titleId,
-	const std::string& code,
-	std::shared_ptr<TokenLocationFile> locationFile,
-	int refCount,
-	TimePoint modificationTime,
+	const CodeSnippetParams& params,
 	bool insert
 ){
-	QtCodeFile* file = getFile(locationFile->getFilePath());
+	QtCodeFile* file = getFile(params.locationFile->getFilePath());
 
 	if (insert)
 	{
-		QtCodeSnippet* snippet = file->insertCodeSnippet(startLineNumber, title, titleId, code, locationFile, refCount);
-		emit shouldScrollToSnippet(snippet);
+		QtCodeSnippet* snippet = file->insertCodeSnippet(params);
+		emit shouldScrollToSnippet(snippet, params.startLineNumber);
 	}
 	else
 	{
-		file->addCodeSnippet(startLineNumber, title, titleId, code, locationFile, refCount);
+		file->addCodeSnippet(params);
 	}
-	file->setModificationTime(modificationTime);
+	file->setModificationTime(params.modificationTime);
 }
 
 void QtCodeFileList::addFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount, TimePoint modificationTime)
@@ -136,7 +130,7 @@ void QtCodeFileList::showFirstActiveSnippet(bool scrollTo)
 
 	if (scrollTo)
 	{
-		emit shouldScrollToSnippet(snippet);
+		emit shouldScrollToSnippet(snippet, 0);
 	}
 }
 
@@ -207,9 +201,17 @@ void QtCodeFileList::scrolled(int value)
 	MessageScrollCode(value).dispatch();
 }
 
-void QtCodeFileList::scrollToSnippet(QtCodeSnippet* snippet)
+void QtCodeFileList::scrollToSnippet(QtCodeSnippet* snippet, uint lineNumber)
 {
-	this->ensureWidgetVisibleAnimated(snippet, snippet->getFirstActiveLineRect());
+	if (lineNumber == 0)
+	{
+		lineNumber = snippet->getFirstActiveLineNumber();
+	}
+
+	if (lineNumber)
+	{
+		this->ensureWidgetVisibleAnimated(snippet, snippet->getLineRectForLineNumber(lineNumber));
+	}
 }
 
 void QtCodeFileList::setValue()
