@@ -419,8 +419,14 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 			std::vector<Id> locationIds;
 			std::vector<Id> tokenIds;
 
+			bool allActive = true;
 			for (const Annotation* annotation : annotations)
 			{
+				if (!annotation->isActive)
+				{
+					allActive = false;
+				}
+
 				if (annotation->locationId > 0)
 				{
 					locationIds.push_back(annotation->locationId);
@@ -429,6 +435,11 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 				{
 					tokenIds.push_back(annotation->tokenId);
 				}
+			}
+
+			if (allActive)
+			{
+				return;
 			}
 
 			if (locationIds.size())

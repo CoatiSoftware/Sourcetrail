@@ -1,6 +1,7 @@
 #include "qt/view/graphElements/QtGraphNodeData.h"
 
 #include "utility/messaging/type/MessageActivateNodes.h"
+#include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
@@ -54,6 +55,12 @@ Id QtGraphNodeData::getTokenId() const
 
 void QtGraphNodeData::onClick()
 {
+	if (m_isActive)
+	{
+		MessageDeactivateEdge().dispatch();
+		return;
+	}
+
 	MessageActivateNodes message;
 	message.addNode(m_data->getId(), m_data->getType(), m_data->getNameHierarchy());
 	message.dispatch();

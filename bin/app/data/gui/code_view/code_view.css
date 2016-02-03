@@ -10,6 +10,8 @@
 	background-color: <color:code/snippet/background>;
 	border: 2px solid <color:code/file/background>;
 	border-radius: 12px;
+	border-top-left-radius: 14px;
+	border-top-right-radius: 14px;
 	padding-bottom: 7px;
 }
 

@@ -23,12 +23,13 @@ ActivationTranslator::~ActivationTranslator()
 std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(const MessageActivateEdge* message) const
 {
 	std::shared_ptr<MessageActivateTokens> m;
-	if (message->type == Edge::EDGE_AGGREGATION)
+	if (message->isAggregation())
 	{
 		const Id sourceId = m_storageAccess->getIdForNodeWithNameHierarchy(message->fromNameHierarchy);
 		const Id targetId = m_storageAccess->getIdForNodeWithNameHierarchy(message->toNameHierarchy);
 
 		m = std::make_shared<MessageActivateTokens>(message, m_storageAccess->getTokenIdsForAggregationEdge(sourceId, targetId));
+		m->setKeepContent(false);
 		m->isAggregation = true;
 	}
 	else
