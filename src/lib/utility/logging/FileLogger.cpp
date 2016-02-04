@@ -43,12 +43,16 @@ void FileLogger::setupFileName()
 {
 	time_t time;
 	std::time(&time);
-	tm localTime = *std::localtime(&time);
+	tm t = *std::localtime(&time);
 
 	std::stringstream filename;
 	filename << "log_";
-	filename << localTime.tm_mon + 1 << "-" << localTime.tm_mday << "_";
-	filename << localTime.tm_hour << "-" << localTime.tm_min << "-" << localTime.tm_sec << ".txt";
+	filename << t.tm_year + 1900 << "-";
+	filename << (t.tm_mon < 9 ? "0" : "") << t.tm_mon + 1 << "-";
+	filename << (t.tm_mday < 10 ? "0" : "") << t.tm_mday << "_";
+	filename << (t.tm_hour < 10 ? "0" : "") << t.tm_hour << "-";
+	filename << (t.tm_min < 10 ? "0" : "") << t.tm_min << "-";
+	filename << (t.tm_sec < 10 ? "0" : "") << t.tm_sec << ".txt";
 
 	m_fileName = filename.str();
 }
