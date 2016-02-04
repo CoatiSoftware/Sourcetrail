@@ -224,8 +224,15 @@ void BucketGrid::layoutBuckets()
 		{
 			Bucket* bucket = &m_buckets[j][i];
 
-			bucket->layout(x, y, widths[i], heights[j]);
+			int yOff = 0;
+			// move buckets over or below the middle one closer
+			if (i == 0 && (j == -1 || j == 1))
+			{
+				Bucket* midBucket = &m_buckets[0][0];
+				yOff = (heights[0] - midBucket->getHeight()) / 2 * -j;
+			}
 
+			bucket->layout(x, y + yOff, widths[i], heights[j]);
 			x += widths[i] + GraphViewStyle::toGridGap(85);
 		}
 

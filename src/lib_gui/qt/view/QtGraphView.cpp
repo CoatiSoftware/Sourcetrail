@@ -126,7 +126,9 @@ void QtGraphView::resizeView()
 Vec2i QtGraphView::getViewSize() const
 {
 	QGraphicsView* view = getView();
-	return Vec2i(view->width(), view->height());
+
+	float zoomFactor = GraphViewStyle::getZoomFactor();
+	return Vec2i(view->width() / zoomFactor - 80, view->height() / zoomFactor - 80);
 }
 
 void QtGraphView::centerScrollBars()
@@ -337,7 +339,7 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	}
 	else if (node.isBundleNode())
 	{
-		newNode = std::make_shared<QtGraphNodeBundle>(node.tokenId, node.bundledNodes.size(), node.name);
+		newNode = std::make_shared<QtGraphNodeBundle>(node.tokenId, node.getBundledNodeCount(), node.name);
 	}
 
 	newNode->setPosition(node.position);

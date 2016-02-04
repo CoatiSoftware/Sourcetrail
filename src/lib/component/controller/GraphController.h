@@ -70,6 +70,8 @@ private:
 	void bundleNodesMatching(std::function<bool(const DummyNode&)> matcher, size_t count, const std::string& name);
 	bool isTypeNodeWithSingleAggregation(const DummyNode& node, TokenComponentAggregation::Direction direction) const;
 	bool isTypeNodeWithSingleInheritance(const DummyNode& node, bool isBase) const;
+	bool isUndefinedNode(const DummyNode& node, bool isUsed) const;
+	bool isTypeUserNode(const DummyNode& node) const;
 	void bundleNodesByType();
 
 	void layoutNesting();

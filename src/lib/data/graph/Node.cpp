@@ -287,6 +287,20 @@ void Node::forEachChildNode(std::function<void(Node*)> func) const
 	);
 }
 
+void Node::forEachChildNodeRecursive(std::function<void(Node*)> func) const
+{
+	forEachEdgeOfType(Edge::EDGE_MEMBER,
+		[func, this](Edge* e)
+		{
+			if (this != e->getTo())
+			{
+				func(e->getTo());
+				e->getTo()->forEachChildNode(func);
+			}
+		}
+	);
+}
+
 bool Node::hasReferences() const
 {
 	if (getLocationIds().size() > 0)
