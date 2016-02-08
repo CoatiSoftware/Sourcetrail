@@ -18,6 +18,8 @@ using System.Collections.Generic;
 
 using EnvDTE;
 using EnvDTE80;
+using System.Windows.Forms;
+// using System.Windows.Forms.
 
 namespace CoatiSoftware.CoatiPlugin
 {
@@ -76,6 +78,11 @@ namespace CoatiSoftware.CoatiPlugin
 
     public sealed class CoatiPluginPackage : Package
     {
+        private MenuCommand _menuItemSetActiveToken = null;
+        private MenuCommand _menuItemCreateProject = null;
+
+        private SolutionEvents _solutionEvents = null;
+
         public uint ServerPort
         {
             get
@@ -114,9 +121,52 @@ namespace CoatiSoftware.CoatiPlugin
             if ( null != mcs )
             {
                 CommandID setActiveTokenCommandID = new CommandID(GuidList.guidCoatiPluginCmdSet, (int)PkgCmdIDList.cmdidCoatiSetActiveToken);
-                MenuCommand menuItemSetActiveToken = new MenuCommand(MenuItemCallback, setActiveTokenCommandID);
-                mcs.AddCommand(menuItemSetActiveToken);
+                CommandID createProjectID = new CommandID(GuidList.guidCoatiPluginCmdSet, (int)PkgCmdIDList.cmdidCoatiCreateProject); // cmdidCoatiCreateProject
+
+                _menuItemSetActiveToken = new MenuCommand(MenuItemCallback, setActiveTokenCommandID);
+                _menuItemCreateProject = new MenuCommand(MenuItemCallback, createProjectID);
+
+                _menuItemCreateProject.Enabled = false;
+                _menuItemSetActiveToken.Enabled = false;
+
+                mcs.AddCommand(_menuItemSetActiveToken);
+                mcs.AddCommand(_menuItemCreateProject);
             }
+
+            DTE dte = (DTE)GetService(typeof(DTE));
+
+            _solutionEvents = dte.Events.SolutionEvents;
+
+            _solutionEvents.Opened += OnSolutionOpened;
+            _solutionEvents.AfterClosing += OnSolutionClosed;
+        }
+
+        void OnSolutionOpened()
+        {
+            DTE dte = (DTE)GetService(typeof(DTE));
+            List<String> languages = SolutionUtility.GetSolutionLanguages(dte);
+
+            bool enable = true;
+            foreach (String language in languages)
+            {
+                if(language != CodeModelLanguageConstants.vsCMLanguageVC
+                    && language != CodeModelLanguageConstants.vsCMLanguageMC)
+                {
+                    enable = false;
+                }
+            }
+
+            if(enable)
+            {
+                _menuItemSetActiveToken.Enabled = true;
+                _menuItemCreateProject.Enabled = true;
+            }
+        }
+
+        void OnSolutionClosed()
+        {
+            _menuItemSetActiveToken.Enabled = false;
+            _menuItemCreateProject.Enabled = false;
         }
 
         private void InitNetwork()
@@ -131,6 +181,8 @@ namespace CoatiSoftware.CoatiPlugin
             AsynchronousClient._port = ClientPort;
             AsynchronousClient._onErrorCallback = new AsynchronousSocketListener.OnReadCallback(OnNetworkErrorCallback);
         }
+
+
 
         private void MenuItemCallback(object sender, EventArgs e)
         {
@@ -148,8 +200,16 @@ namespace CoatiSoftware.CoatiPlugin
                     int lineNumber = FileUtility.GetActiveLineNumber(dte);
                     int columnNumber = FileUtility.GetActiveColumnNumber(dte);
 
-                    string message = NetworkProtocolUtility.createOutMessage(filePath + fileName, lineNumber, columnNumber);
+                    string message = NetworkProtocolUtility.createActivateTokenMessage(filePath + fileName, lineNumber, columnNumber);
                     
+                    AsynchronousClient.Send(message);
+                }
+                else if(menuCommand.CommandID.ID == (int)PkgCmdIDList.cmdidCoatiCreateProject)
+                {
+                    string solutionName = SolutionUtility.GetSolutionPath(dte);
+
+                    string message = NetworkProtocolUtility.createCreateProjectMessage(solutionName);
+
                     AsynchronousClient.Send(message);
                 }
             }
@@ -157,7 +217,7 @@ namespace CoatiSoftware.CoatiPlugin
 
         private void OnNetworkReadCallback(string message)
         {
-            NetworkProtocolUtility.CursorPosition cursorPosition = NetworkProtocolUtility.parseInMessage(message);
+            NetworkProtocolUtility.CursorPosition cursorPosition = NetworkProtocolUtility.parseSetCursorMessage(message);
             if (cursorPosition.Valid)
             {
                 cursorPosition.ColumnNumber += 1; // VS counts columns starting at 1, coati starts at 0

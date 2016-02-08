@@ -18,6 +18,9 @@
 #include "version.h"
 
 
+#include "utility/solution/SolutionParserVisualStudio.h"
+#include "settings/ProjectSettings.h"
+
 void init()
 {
 	std::shared_ptr<ConsoleLogger> consoleLogger = std::make_shared<ConsoleLogger>();

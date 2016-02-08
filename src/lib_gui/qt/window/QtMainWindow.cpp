@@ -106,6 +106,7 @@ bool MouseWheelFilter::eventFilter(QObject* obj, QEvent* event)
 
 QtMainWindow::QtMainWindow()
 	: m_showDockWidgetTitleBars(true)
+	, m_createNewProjectFunctor(std::bind(&QtMainWindow::doCreateNewProject, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4))
 {
 	setObjectName("QtMainWindow");
 	setCentralWidget(nullptr);
@@ -250,6 +251,11 @@ void QtMainWindow::forceEnterLicense()
 
 	this->setEnabled(false);
 	m_enterLicenseWindow->setEnabled(true);
+}
+
+void QtMainWindow::handleMessage(MessageNewProject* message)
+{
+	m_createNewProjectFunctor(message->projectName, message->projectLocation, message->projectSourceFiles, message->projectIncludePaths);
 }
 
 bool QtMainWindow::event(QEvent* event)
@@ -597,6 +603,13 @@ void QtMainWindow::setWindowSettingsPath(const std::string& windowSettingsPath)
 void QtMainWindow::toggleShowDockWidgetTitleBars()
 {
 	setShowDockWidgetTitleBars(!m_showDockWidgetTitleBars);
+}
+
+void QtMainWindow::doCreateNewProject(const std::string& name, const std::string& location,
+	const std::vector<std::string>& sourceFiles, const std::vector<std::string>& includePaths)
+{
+	newProject();
+	m_newProjectDialog->setPresets(name, location, sourceFiles, includePaths);
 }
 
 void QtMainWindow::setupEditMenu()

@@ -35,32 +35,55 @@
       <Group guid="guidCoatiPluginCmdSet" id="MyMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
       </Group>
-      
 
+      <Group guid="guidCoatiPluginCmdSet" id="TopLevelMenu" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_TOOL_MAINMENU"/>
+      </Group>
+
+      <Group guid="guidCoatiPluginCmdSet" id="SubMenu" priority="0x0600">
+        <Parent guid="guidCoatiPluginCmdSet" id="TopLevelMenu"/>
+      </Group>
 
     </Groups>
     
-    <!--Buttons section. -->
-    <!--This section defines the elements the user can interact with, like a menu command or a button 
-        or combo box in a toolbar. -->
     <Buttons>
-      <!--To define a menu group you have to specify its ID, the parent menu and its display priority. 
-          The command is visible and enabled by default. If you need to change the visibility, status, etc, you can use
-          the CommandFlag node.
-          You can add more than one CommandFlag node e.g.:
-              <CommandFlag>DefaultInvisible</CommandFlag>
-              <CommandFlag>DynamicVisibility</CommandFlag>
-          If you do not want an image next to your command, remove the Icon node /> -->
-
+      
       <Button guid="guidCoatiPluginCmdSet" id="cmdidCoatiSetActiveToken" priority="0x0100" type="Button">
-          <Parent guid="guidCoatiPluginCmdSet" id="MyMenuGroup" />
-          <Icon guid="icon" id="icon0" />
-          <Strings>
-            <ButtonText>Set active Token</ButtonText>
-          </Strings>
-        </Button>
-    
+        <Parent guid="guidCoatiPluginCmdSet" id="MyMenuGroup" />
+        <Icon guid="icon" id="icon0" />
+        <Strings>
+          <ButtonText>Set active Token</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidCoatiPluginCmdSet" id="cmdidCoatiCreateProject" priority="0x0100" type="Button">
+        <Parent guid="guidCoatiPluginCmdSet" id="MyMenuGroup" />
+        <Icon guid="icon" id="icon0" />
+        <Strings>
+          <ButtonText>Create Coati Project</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidCoatiPluginCmdSet" id="cmdidCoatiCreateProject" priority="0x0100" type="Button">
+        <Parent guid="guidCoatiPluginCmdSet" id="SubMenu" />
+        <Icon guid="icon" id="icon0" />
+        <Strings>
+          <ButtonText>Create Coati Project</ButtonText>
+        </Strings>
+      </Button>
+      
     </Buttons>
+
+    <Menus>
+      <Menu guid="guidCoatiPluginCmdSet" id="TopLevelMenu" priority="0x700" type="Menu">
+        <Parent guid="guidSHLMainMenu"
+                id="IDG_VS_MM_TOOLSADDINS"/>
+        <Strings>
+          <ButtonText>Coati</ButtonText>
+          <CommandName>Coati</CommandName>
+        </Strings>
+      </Menu>
+    </Menus>
  
   </Commands>
 
@@ -81,6 +104,9 @@
       <IDSymbol name="cmdidCoatiGetActiveFileName" value="0x0102"/>
       <IDSymbol name="cmdidCoatiGetActiveLineNumber" value="0x0103"/>
       <IDSymbol name="cmdidCoatiSetActiveToken" value="0x0104"/>
+      <IDSymbol name="cmdidCoatiCreateProject" value="0x0105"/>
+      <IDSymbol name="TopLevelMenu" value="0x1021"/>
+      <IDSymbol name="SubMenu" value="0x1022"/>
     </GuidSymbol>
     
     

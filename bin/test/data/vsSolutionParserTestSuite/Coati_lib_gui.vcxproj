@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{CD5FE56F-D1AC-484E-9C6F-A36E77775749}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>Coati_lib_gui</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+    <PropertyGroup>
+      <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\Manuel\FH\MSc\Masterproject\Project\bin\lib_gui\Debug\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Coati_lib_gui.dir\Debug\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Coati_lib_gui</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\Manuel\FH\MSc\Masterproject\Project\bin\lib_gui\Release\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Coati_lib_gui.dir\Release\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Coati_lib_gui</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\Manuel\FH\MSc\Masterproject\Project\bin\lib_gui\MinSizeRel\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Coati_lib_gui.dir\MinSizeRel\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Coati_lib_gui</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.lib</TargetExt>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\Manuel\FH\MSc\Masterproject\Project\bin\lib_gui\RelWithDebInfo\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Coati_lib_gui.dir\RelWithDebInfo\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Coati_lib_gui</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.lib</TargetExt>
+    </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\Qt5.5\5.5\msvc2013\include;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtWidgets;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtGui;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtCore;D:\gameDevResources\Qt5.5\5.5\msvc2013\mkspecs\win32-msvc2013;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtNetwork;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NETWORK_LIB;BUILD_TYPE="";EIGEN_MPL2_ONLY;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NETWORK_LIB;BUILD_TYPE=\"\";EIGEN_MPL2_ONLY;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\Qt5.5\5.5\msvc2013\include;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtWidgets;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtGui;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtCore;D:\gameDevResources\Qt5.5\5.5\msvc2013\mkspecs\win32-msvc2013;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtNetwork;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\Qt5.5\5.5\msvc2013\include;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtWidgets;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtGui;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtCore;D:\gameDevResources\Qt5.5\5.5\msvc2013\mkspecs\win32-msvc2013;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtNetwork;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message>Automatic moc for target Coati_lib_gui</Message>
+      <Command>setlocal
+cd C:\Users\Manuel\FH\MSc\Masterproject\Project\build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_autogen C:/Users/Manuel/FH/MSc/Masterproject/Project/build/CMakeFiles/Coati_lib_gui_automoc.dir/ Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\Qt5.5\5.5\msvc2013\include;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtWidgets;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtGui;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtCore;D:\gameDevResources\Qt5.5\5.5\msvc2013\mkspecs\win32-msvc2013;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtNetwork;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NETWORK_LIB;BUILD_TYPE="";EIGEN_MPL2_ONLY;QT_NO_DEBUG;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat></DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NETWORK_LIB;BUILD_TYPE=\"\";EIGEN_MPL2_ONLY;QT_NO_DEBUG;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\Qt5.5\5.5\msvc2013\include;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtWidgets;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtGui;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtCore;D:\gameDevResources\Qt5.5\5.5\msvc2013\mkspecs\win32-msvc2013;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtNetwork;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\Qt5.5\5.5\msvc2013\include;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtWidgets;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtGui;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtCore;D:\gameDevResources\Qt5.5\5.5\msvc2013\mkspecs\win32-msvc2013;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtNetwork;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message>Automatic moc for target Coati_lib_gui</Message>
+      <Command>setlocal
+cd C:\Users\Manuel\FH\MSc\Masterproject\Project\build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_autogen C:/Users/Manuel/FH/MSc/Masterproject/Project/build/CMakeFiles/Coati_lib_gui_automoc.dir/ Release
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\Qt5.5\5.5\msvc2013\include;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtWidgets;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtGui;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtCore;D:\gameDevResources\Qt5.5\5.5\msvc2013\mkspecs\win32-msvc2013;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtNetwork;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NETWORK_LIB;BUILD_TYPE="";EIGEN_MPL2_ONLY;QT_NO_DEBUG;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat></DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NETWORK_LIB;BUILD_TYPE=\"\";EIGEN_MPL2_ONLY;QT_NO_DEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\Qt5.5\5.5\msvc2013\include;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtWidgets;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtGui;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtCore;D:\gameDevResources\Qt5.5\5.5\msvc2013\mkspecs\win32-msvc2013;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtNetwork;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\Qt5.5\5.5\msvc2013\include;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtWidgets;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtGui;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtCore;D:\gameDevResources\Qt5.5\5.5\msvc2013\mkspecs\win32-msvc2013;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtNetwork;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message>Automatic moc for target Coati_lib_gui</Message>
+      <Command>setlocal
+cd C:\Users\Manuel\FH\MSc\Masterproject\Project\build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_autogen C:/Users/Manuel/FH/MSc/Masterproject/Project/build/CMakeFiles/Coati_lib_gui_automoc.dir/ MinSizeRel
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\Qt5.5\5.5\msvc2013\include;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtWidgets;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtGui;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtCore;D:\gameDevResources\Qt5.5\5.5\msvc2013\mkspecs\win32-msvc2013;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtNetwork;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NETWORK_LIB;BUILD_TYPE="";EIGEN_MPL2_ONLY;QT_NO_DEBUG;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NETWORK_LIB;BUILD_TYPE=\"\";EIGEN_MPL2_ONLY;QT_NO_DEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\Qt5.5\5.5\msvc2013\include;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtWidgets;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtGui;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtCore;D:\gameDevResources\Qt5.5\5.5\msvc2013\mkspecs\win32-msvc2013;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtNetwork;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\src\lib_gui;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\Qt5.5\5.5\msvc2013\include;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtWidgets;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtGui;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtCore;D:\gameDevResources\Qt5.5\5.5\msvc2013\mkspecs\win32-msvc2013;D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtNetwork;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message>Automatic moc for target Coati_lib_gui</Message>
+      <Command>setlocal
+cd C:\Users\Manuel\FH\MSc\Masterproject\Project\build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_autogen C:/Users/Manuel/FH/MSc/Masterproject/Project/build/CMakeFiles/Coati_lib_gui_automoc.dir/ RelWithDebInfo
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule C:/Users/Manuel/FH/MSc/Masterproject/Project/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HC:/Users/Manuel/FH/MSc/Masterproject/Project -BC:/Users/Manuel/FH/MSc/Masterproject/Project/build --check-stamp-file C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:/Users/Manuel/FH/MSc/Masterproject/Project/CMakeLists.txt;C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\add_files.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\create_source_groups.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindGit.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version_setup.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\licenses.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\licenses.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeCCompiler.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeCXXCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\WindowsPaths.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeRCCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCommonLanguageInclude.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMConfigVersion.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMConfig.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMExports.cmake;D:\gameDevResources\clang-11vm\llvm\cmake\modules\LLVM-Config.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\CLANGConfig.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindBoost.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QDDSPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QJp2Plugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QMngPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupport_QWindowsPrinterSupportPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5NetworkConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5NetworkConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5Network_QGenericEnginePlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5Network_QNativeWifiEnginePlugin.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\platform_includes\includes.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.h.in;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPythonInterp.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindCxxTest.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPythonInterp.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPerl.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindCygwin.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule C:/Users/Manuel/FH/MSc/Masterproject/Project/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HC:/Users/Manuel/FH/MSc/Masterproject/Project -BC:/Users/Manuel/FH/MSc/Masterproject/Project/build --check-stamp-file C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:/Users/Manuel/FH/MSc/Masterproject/Project/CMakeLists.txt;C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\add_files.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\create_source_groups.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindGit.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version_setup.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\licenses.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\licenses.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeCCompiler.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeCXXCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\WindowsPaths.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeRCCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCommonLanguageInclude.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMConfigVersion.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMConfig.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMExports.cmake;D:\gameDevResources\clang-11vm\llvm\cmake\modules\LLVM-Config.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\CLANGConfig.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindBoost.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QDDSPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QJp2Plugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QMngPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupport_QWindowsPrinterSupportPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5NetworkConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5NetworkConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5Network_QGenericEnginePlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5Network_QNativeWifiEnginePlugin.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\platform_includes\includes.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.h.in;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPythonInterp.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindCxxTest.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPythonInterp.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPerl.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindCygwin.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule C:/Users/Manuel/FH/MSc/Masterproject/Project/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HC:/Users/Manuel/FH/MSc/Masterproject/Project -BC:/Users/Manuel/FH/MSc/Masterproject/Project/build --check-stamp-file C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:/Users/Manuel/FH/MSc/Masterproject/Project/CMakeLists.txt;C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\add_files.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\create_source_groups.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindGit.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version_setup.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\licenses.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\licenses.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeCCompiler.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeCXXCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\WindowsPaths.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeRCCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCommonLanguageInclude.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMConfigVersion.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMConfig.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMExports.cmake;D:\gameDevResources\clang-11vm\llvm\cmake\modules\LLVM-Config.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\CLANGConfig.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindBoost.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QDDSPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QJp2Plugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QMngPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupport_QWindowsPrinterSupportPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5NetworkConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5NetworkConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5Network_QGenericEnginePlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5Network_QNativeWifiEnginePlugin.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\platform_includes\includes.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.h.in;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPythonInterp.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindCxxTest.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPythonInterp.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPerl.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindCygwin.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule C:/Users/Manuel/FH/MSc/Masterproject/Project/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HC:/Users/Manuel/FH/MSc/Masterproject/Project -BC:/Users/Manuel/FH/MSc/Masterproject/Project/build --check-stamp-file C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:/Users/Manuel/FH/MSc/Masterproject/Project/CMakeLists.txt;C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\add_files.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\create_source_groups.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindGit.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version_setup.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\licenses.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\licenses.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeCCompiler.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeCXXCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\WindowsPaths.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeRCCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCommonLanguageInclude.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMConfigVersion.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMConfig.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMExports.cmake;D:\gameDevResources\clang-11vm\llvm\cmake\modules\LLVM-Config.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\CLANGConfig.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindBoost.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QDDSPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QJp2Plugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QMngPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupport_QWindowsPrinterSupportPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5NetworkConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5NetworkConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5Network_QGenericEnginePlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5Network_QNativeWifiEnginePlugin.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\platform_includes\includes.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.h.in;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPythonInterp.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindCxxTest.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPythonInterp.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPerl.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindCygwin.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\platform_includes\includesDefault.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\platform_includes\includesMac.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\platform_includes\includesWindows.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtAutocompletionList.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtCodeArea.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtCodeFile.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtCodeFileList.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtCodeSnippet.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtDirectoryListBox.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtLineEdit.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtRefreshBar.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtSearchBar.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtSmartSearchBox.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtStatusBar.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtUndoRedo.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\graphics\QtAngledLineItem.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\graphics\QtCountCircleItem.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\graphics\QtRoundedRectItem.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\graphics\QtStraightLineItem.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\network\QtIDECommunicationController.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\network\QtNetworkFactory.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\network\QtTcpWrapper.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\utility\QtDeviceScaledPixmap.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\utility\QtHighlighter.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\utility\QtThreadedFunctor.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\utility\utilityQt.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\nodeComponents\QtGraphNodeComponent.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\nodeComponents\QtGraphNodeComponentClickable.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\nodeComponents\QtGraphNodeComponentMoveable.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphEdge.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNode.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNodeAccess.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNodeBundle.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNodeData.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNodeExpandToggle.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtCodeView.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtCompositeView.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtGraphView.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtGraphViewStyleImpl.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtMainView.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtRefreshView.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtSearchView.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtStatusBarView.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtUndoRedoView.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtViewFactory.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtViewWidgetWrapper.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtAbout.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtAboutLicense.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtApplicationSettingsScreen.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtMainWindow.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtProjectSetupScreen.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtSettingsWindow.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtSplashScreen.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtStartScreen.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\build\src\lib_gui\version.h" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtAutocompletionList.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtCodeArea.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtCodeFile.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtCodeFileList.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtCodeSnippet.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtDirectoryListBox.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtLineEdit.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtRefreshBar.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtSearchBar.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtSmartSearchBox.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtStatusBar.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtUndoRedo.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\graphics\QtAngledLineItem.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\graphics\QtCountCircleItem.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\graphics\QtRoundedRectItem.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\graphics\QtStraightLineItem.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\network\QtIDECommunicationController.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\network\QtNetworkFactory.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\network\QtTcpWrapper.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\utility\QtDeviceScaledPixmap.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\utility\QtHighlighter.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\utility\utilityQt.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\nodeComponents\QtGraphNodeComponent.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\nodeComponents\QtGraphNodeComponentClickable.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\nodeComponents\QtGraphNodeComponentMoveable.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphEdge.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNode.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNodeAccess.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNodeBundle.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNodeData.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNodeExpandToggle.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtCodeView.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtCompositeView.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtGraphView.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtGraphViewStyleImpl.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtMainView.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtRefreshView.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtSearchView.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtStatusBarView.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtUndoRedoView.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtViewFactory.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtViewWidgetWrapper.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtAbout.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtAboutLicense.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtApplicationSettingsScreen.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtMainWindow.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtProjectSetupScreen.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtSettingsWindow.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtSplashScreen.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtStartScreen.cpp"  />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\build\Coati_lib_gui_automoc.cpp"  />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:/Users/Manuel/FH/MSc/Masterproject/Project/build/ZERO_CHECK.vcxproj">
+      <Project>1ED030FB-B3D6-42D3-A1A0-265176C455DB</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Users/Manuel/FH/MSc/Masterproject/Project/build/versionnumber.vcxproj">
+      <Project>B5918FF6-3CD0-4CB2-9DDB-456F7318CD36</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

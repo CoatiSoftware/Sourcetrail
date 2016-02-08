@@ -5,6 +5,8 @@
 
 #include "component/controller/Controller.h"
 
+#include "component/controller/helper/NetworkProtocolHelper.h"
+
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageMoveIDECursor.h"
 
@@ -21,6 +23,9 @@ public:
 	void handleIncomingMessage(const std::string& message);
 
 private:
+	void handleSetActiveTokenMessage(const NetworkProtocolHelper::SetActiveTokenMessage& message);
+	void handleCreateProjectMessage(const NetworkProtocolHelper::CreateProjectMessage& message);
+
 	virtual void handleMessage(MessageMoveIDECursor* message);
 	virtual void sendMessage(const std::string& message) const = 0;
 

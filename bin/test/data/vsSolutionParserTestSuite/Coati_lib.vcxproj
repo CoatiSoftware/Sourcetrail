@@ -1,0 +1,576 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{4C93DA19-9044-4CC2-B882-8BE3179BBC1B}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>Coati_lib</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\Manuel\FH\MSc\Masterproject\Project\bin\lib\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Coati_lib.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Coati_d</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\Manuel\FH\MSc\Masterproject\Project\bin\lib\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Coati_lib.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Coati</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\Manuel\FH\MSc\Masterproject\Project\bin\lib\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Coati_lib.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Coati_lib</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\Manuel\FH\MSc\Masterproject\Project\bin\lib\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Coati_lib.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Coati_lib</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;D:\gameDevResources\clang-11vm\llvm\include;D:\gameDevResources\clang-11vm\build\include;D:\gameDevResources\clang-11vm\llvm\tools\clang\include;D:\gameDevResources\clang-11vm\build\tools\clang\include;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\eigen;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;BUILD_TYPE="";EIGEN_MPL2_ONLY;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;BUILD_TYPE=\"\";EIGEN_MPL2_ONLY;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;D:\gameDevResources\clang-11vm\llvm\include;D:\gameDevResources\clang-11vm\build\include;D:\gameDevResources\clang-11vm\llvm\tools\clang\include;D:\gameDevResources\clang-11vm\build\tools\clang\include;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\eigen;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;D:\gameDevResources\clang-11vm\llvm\include;D:\gameDevResources\clang-11vm\build\include;D:\gameDevResources\clang-11vm\llvm\tools\clang\include;D:\gameDevResources\clang-11vm\build\tools\clang\include;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\eigen;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;D:\gameDevResources\clang-11vm\llvm\include;D:\gameDevResources\clang-11vm\build\include;D:\gameDevResources\clang-11vm\llvm\tools\clang\include;D:\gameDevResources\clang-11vm\build\tools\clang\include;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\eigen;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;BUILD_TYPE="";EIGEN_MPL2_ONLY;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;BUILD_TYPE=\"\";EIGEN_MPL2_ONLY;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;D:\gameDevResources\clang-11vm\llvm\include;D:\gameDevResources\clang-11vm\build\include;D:\gameDevResources\clang-11vm\llvm\tools\clang\include;D:\gameDevResources\clang-11vm\build\tools\clang\include;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\eigen;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;D:\gameDevResources\clang-11vm\llvm\include;D:\gameDevResources\clang-11vm\build\include;D:\gameDevResources\clang-11vm\llvm\tools\clang\include;D:\gameDevResources\clang-11vm\build\tools\clang\include;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\eigen;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;D:\gameDevResources\clang-11vm\llvm\include;D:\gameDevResources\clang-11vm\build\include;D:\gameDevResources\clang-11vm\llvm\tools\clang\include;D:\gameDevResources\clang-11vm\build\tools\clang\include;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\eigen;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;BUILD_TYPE="";EIGEN_MPL2_ONLY;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;BUILD_TYPE=\"\";EIGEN_MPL2_ONLY;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;D:\gameDevResources\clang-11vm\llvm\include;D:\gameDevResources\clang-11vm\build\include;D:\gameDevResources\clang-11vm\llvm\tools\clang\include;D:\gameDevResources\clang-11vm\build\tools\clang\include;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\eigen;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;D:\gameDevResources\clang-11vm\llvm\include;D:\gameDevResources\clang-11vm\build\include;D:\gameDevResources\clang-11vm\llvm\tools\clang\include;D:\gameDevResources\clang-11vm\build\tools\clang\include;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\eigen;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;D:\gameDevResources\clang-11vm\llvm\include;D:\gameDevResources\clang-11vm\build\include;D:\gameDevResources\clang-11vm\llvm\tools\clang\include;D:\gameDevResources\clang-11vm\build\tools\clang\include;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\eigen;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;BUILD_TYPE="";EIGEN_MPL2_ONLY;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;BUILD_TYPE=\"\";EIGEN_MPL2_ONLY;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;D:\gameDevResources\clang-11vm\llvm\include;D:\gameDevResources\clang-11vm\build\include;D:\gameDevResources\clang-11vm\llvm\tools\clang\include;D:\gameDevResources\clang-11vm\build\tools\clang\include;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\eigen;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Manuel\FH\MSc\Masterproject\Project\build;C:\Users\Manuel\FH\MSc\Masterproject\Project;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib;D:\gameDevResources\clang-11vm\llvm\include;D:\gameDevResources\clang-11vm\build\include;D:\gameDevResources\clang-11vm\llvm\tools\clang\include;D:\gameDevResources\clang-11vm\build\tools\clang\include;D:\gameDevResources\boost_1_59_0;D:\gameDevResources\eigen;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule C:/Users/Manuel/FH/MSc/Masterproject/Project/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HC:/Users/Manuel/FH/MSc/Masterproject/Project -BC:/Users/Manuel/FH/MSc/Masterproject/Project/build --check-stamp-file C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:/Users/Manuel/FH/MSc/Masterproject/Project/CMakeLists.txt;C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\add_files.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\create_source_groups.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindGit.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version_setup.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\licenses.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\licenses.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeCCompiler.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeCXXCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\WindowsPaths.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeRCCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCommonLanguageInclude.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMConfigVersion.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMConfig.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMExports.cmake;D:\gameDevResources\clang-11vm\llvm\cmake\modules\LLVM-Config.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\CLANGConfig.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindBoost.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QDDSPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QJp2Plugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QMngPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupport_QWindowsPrinterSupportPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5NetworkConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5NetworkConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5Network_QGenericEnginePlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5Network_QNativeWifiEnginePlugin.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\platform_includes\includes.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.h.in;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPythonInterp.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindCxxTest.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPythonInterp.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPerl.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindCygwin.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule C:/Users/Manuel/FH/MSc/Masterproject/Project/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HC:/Users/Manuel/FH/MSc/Masterproject/Project -BC:/Users/Manuel/FH/MSc/Masterproject/Project/build --check-stamp-file C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:/Users/Manuel/FH/MSc/Masterproject/Project/CMakeLists.txt;C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\add_files.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\create_source_groups.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindGit.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version_setup.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\licenses.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\licenses.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeCCompiler.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeCXXCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\WindowsPaths.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeRCCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCommonLanguageInclude.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMConfigVersion.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMConfig.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMExports.cmake;D:\gameDevResources\clang-11vm\llvm\cmake\modules\LLVM-Config.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\CLANGConfig.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindBoost.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QDDSPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QJp2Plugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QMngPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupport_QWindowsPrinterSupportPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5NetworkConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5NetworkConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5Network_QGenericEnginePlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5Network_QNativeWifiEnginePlugin.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\platform_includes\includes.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.h.in;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPythonInterp.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindCxxTest.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPythonInterp.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPerl.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindCygwin.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule C:/Users/Manuel/FH/MSc/Masterproject/Project/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HC:/Users/Manuel/FH/MSc/Masterproject/Project -BC:/Users/Manuel/FH/MSc/Masterproject/Project/build --check-stamp-file C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:/Users/Manuel/FH/MSc/Masterproject/Project/CMakeLists.txt;C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\add_files.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\create_source_groups.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindGit.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version_setup.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\licenses.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\licenses.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeCCompiler.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeCXXCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\WindowsPaths.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeRCCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCommonLanguageInclude.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMConfigVersion.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMConfig.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMExports.cmake;D:\gameDevResources\clang-11vm\llvm\cmake\modules\LLVM-Config.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\CLANGConfig.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindBoost.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QDDSPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QJp2Plugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QMngPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupport_QWindowsPrinterSupportPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5NetworkConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5NetworkConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5Network_QGenericEnginePlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5Network_QNativeWifiEnginePlugin.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\platform_includes\includes.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.h.in;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPythonInterp.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindCxxTest.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPythonInterp.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPerl.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindCygwin.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule C:/Users/Manuel/FH/MSc/Masterproject/Project/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HC:/Users/Manuel/FH/MSc/Masterproject/Project -BC:/Users/Manuel/FH/MSc/Masterproject/Project/build --check-stamp-file C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:/Users/Manuel/FH/MSc/Masterproject/Project/CMakeLists.txt;C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\add_files.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\create_source_groups.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindGit.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version_setup.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\licenses.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\licenses.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeCCompiler.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeCXXCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\WindowsPaths.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\3.3.2\CMakeRCCompiler.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeCommonLanguageInclude.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMConfigVersion.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMConfig.cmake;D:\gameDevResources\clang-11vm\build\share\llvm\cmake\LLVMExports.cmake;D:\gameDevResources\clang-11vm\llvm\cmake\modules\LLVM-Config.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\CLANGConfig.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindBoost.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QDDSPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QJp2Plugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QMngPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsConfigExtras.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Widgets\Qt5WidgetsMacros.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5PrintSupport\Qt5PrintSupport_QWindowsPrinterSupportPlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5NetworkConfigVersion.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5NetworkConfig.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5Network_QGenericEnginePlugin.cmake;D:\gameDevResources\Qt5.5\5.5\msvc2013\lib\cmake\Qt5Network\Qt5Network_QNativeWifiEnginePlugin.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\platform_includes\includes.h.in;C:\Users\Manuel\FH\MSc\Masterproject\Project\cmake\version.h.in;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPythonInterp.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindCxxTest.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPythonInterp.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPerl.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindCygwin.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\FindPackageMessage.cmake;C:\Program Files (x86)\CMake\share\cmake-3.3\Modules\CMakeParseArguments.cmake;C:\Users\Manuel\FH\MSc\Masterproject\Project\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\Manuel\FH\MSc\Masterproject\Project\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\lib\utility\solution\SolutionParserCMake.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\ActivationTranslator.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\BucketGrid.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\DummyEdge.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\DummyNode.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\GraphLayouter.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\GraphPostprocessor.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\NetworkProtocolHelper.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\SnippetMerger.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\CodeController.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\Controller.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\FeatureController.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\GraphController.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\IDECommunicationController.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\NetworkFactory.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\RefreshController.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\SearchController.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\StatusBarController.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\UndoRedoController.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\CodeView.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\CompositeView.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\GraphView.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\GraphViewStyle.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\GraphViewStyleImpl.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\MainView.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\RefreshView.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\SearchView.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\StatusBarView.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\UndoRedoView.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\View.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\ViewFactory.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\ViewLayout.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\ViewWidgetWrapper.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\Component.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\ComponentFactory.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\ComponentManager.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\access\StorageAccess.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\access\StorageAccessProxy.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponent.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentAbstraction.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentAccess.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentAggregation.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentConst.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentFilePath.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentSignature.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentStatic.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\Edge.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\Graph.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\Node.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\Token.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\location\TokenLocation.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\location\TokenLocationCollection.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\location\TokenLocationFile.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\location\TokenLocationLine.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\name\NameElement.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\name\NameHierarchy.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\cxx\TaskParseCxx.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParseFunction.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParseLocation.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\Parser.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParserClient.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParseTypeUsage.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParseVariable.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\search\SearchIndex.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\search\SearchNode.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\search\SearchMatch.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\search\SearchResult.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\ArrayModifiedDataType.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\DataType.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\ModifiedDataType.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\NamedDataType.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\PointerModifiedDataType.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\ReferenceModifiedDataType.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\HierarchyCache.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\SqliteStorage.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\Storage.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\StorageCache.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\StorageTypes.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\TaskCleanStorage.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\settings\ApplicationSettings.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\settings\ColorScheme.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\settings\ProjectSettings.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\settings\Settings.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FileInfo.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FileManager.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FilePath.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FileRegister.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FileSystem.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\ConsoleLogger.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\FileLogger.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\Logger.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\logging.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\LogManager.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\LogManagerImplementation.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\LogMessage.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\PlainFileLogger.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\math\Color.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\math\MatrixBase.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\math\MatrixDynamicBase.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\math\Vector2.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\math\Vector4.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\math\VectorBase.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageActivateEdge.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageActivateFile.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageActivateNodes.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageActivateTokenLocations.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageActivateTokens.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageActivateWindow.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageAutoRefreshChanged.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageDeactivateEdge.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageFind.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageFinishedParsing.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageFlushUpdates.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageFocusIn.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageFocusOut.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageGraphNodeBundleSplit.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageGraphNodeExpand.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageGraphNodeMove.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageInterruptTasks.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageLoadProject.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageMoveIDECursor.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageRedo.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageRefresh.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageResetZoom.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageSaveProject.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageSearch.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageSearchAutocomplete.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageShowErrors.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageShowFile.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageShowScope.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageShowSnippets.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageStatus.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageSwitchColorScheme.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageUndo.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageWindowFocus.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageZoom.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\Message.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\MessageBase.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\MessageListener.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\MessageListenerBase.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\MessageQueue.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\LambdaTask.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\SimpleTask.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\Task.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\TaskGroup.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\TaskGroupSequential.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\TaskScheduler.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\solution\ISolutionParser.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\solution\SolutionParserVisualStudio.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\text\Dictionary.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\text\TextAccess.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\ConfigManager.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\Property.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\TimePoint.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\types.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\utility.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\utilityString.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\Version.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\Application.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\isTrial.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\Project.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\sqlite\CppSQLite3.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\tinyxml\tinystr.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\tinyxml\tinyxml.h" />
+    <ClInclude Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\sqlite\sqlite3.h" />
+    <ClCompile Include="..\src\lib\utility\solution\SolutionParserCMake.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\ActivationTranslator.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\BucketGrid.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\GraphLayouter.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\GraphPostprocessor.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\NetworkProtocolHelper.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\SnippetMerger.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\CodeController.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\Controller.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\FeatureController.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\GraphController.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\IDECommunicationController.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\NetworkFactory.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\RefreshController.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\SearchController.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\StatusBarController.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\UndoRedoController.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\CodeView.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\CompositeView.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\GraphView.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\GraphViewStyle.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\MainView.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\RefreshView.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\SearchView.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\StatusBarView.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\UndoRedoView.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\View.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\ViewFactory.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\ViewLayout.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\ViewWidgetWrapper.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\Component.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\ComponentFactory.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\ComponentManager.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\access\StorageAccess.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\access\StorageAccessProxy.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponent.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentAbstraction.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentAccess.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentAggregation.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentConst.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentFilePath.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentSignature.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentStatic.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\Edge.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\Graph.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\Node.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\Token.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\location\TokenLocation.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\location\TokenLocationCollection.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\location\TokenLocationFile.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\location\TokenLocationLine.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\name\NameElement.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\name\NameHierarchy.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParseFunction.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParseLocation.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\Parser.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParserClient.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParseTypeUsage.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParseVariable.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\search\SearchIndex.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\search\SearchNode.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\search\SearchMatch.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\search\SearchResult.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\ArrayModifiedDataType.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\DataType.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\ModifiedDataType.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\NamedDataType.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\PointerModifiedDataType.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\ReferenceModifiedDataType.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\HierarchyCache.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\SqliteStorage.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\Storage.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\StorageCache.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\TaskCleanStorage.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\settings\ApplicationSettings.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\settings\ColorScheme.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\settings\ProjectSettings.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\settings\Settings.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FileInfo.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FileManager.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FilePath.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FileRegister.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FileSystem.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\ConsoleLogger.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\FileLogger.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\Logger.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\LogManager.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\LogManagerImplementation.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\PlainFileLogger.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\MessageListenerBase.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\MessageQueue.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\LambdaTask.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\SimpleTask.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\Task.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\TaskGroup.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\TaskGroupSequential.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\TaskScheduler.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\solution\ISolutionParser.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\solution\SolutionParserVisualStudio.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\text\Dictionary.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\text\TextAccess.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\ConfigManager.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\TimePoint.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\utility.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\utilityString.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\Version.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\Application.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\Project.cpp" />
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\sqlite\CppSQLite3.cpp">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\tinyxml\tinystr.cpp">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\tinyxml\tinyxml.cpp">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\tinyxml\tinyxmlerror.cpp">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\tinyxml\tinyxmlparser.cpp">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -w %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\sqlite\sqlite3.c">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> -std=gnu89 -w %(AdditionalOptions)</AdditionalOptions>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> -std=gnu89 -w %(AdditionalOptions)</AdditionalOptions>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsC</CompileAs>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> -std=gnu89 -w %(AdditionalOptions)</AdditionalOptions>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">CompileAsC</CompileAs>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> -std=gnu89 -w %(AdditionalOptions)</AdditionalOptions>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">CompileAsC</CompileAs>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:/Users/Manuel/FH/MSc/Masterproject/Project/build/ZERO_CHECK.vcxproj">
+      <Project>1ED030FB-B3D6-42D3-A1A0-265176C455DB</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -13,6 +13,9 @@ namespace CoatiSoftware.CoatiPlugin
         private static string s_moveCursorPrefix = "moveCursor";
         private static string s_endOfMessageToken = "<EOM>";
 
+        private static string s_createProjectPrefix = "createProject";
+        private static string s_ideId = "vs";
+
         public class CursorPosition
         {
             private string _filePath = "";
@@ -45,7 +48,7 @@ namespace CoatiSoftware.CoatiPlugin
             }
         }
 
-        public static string createOutMessage(string filePath, int lineNumber, int columnNumber)
+        public static string createActivateTokenMessage(string filePath, int lineNumber, int columnNumber)
         {
             string message = s_setActiveTokenPrefix;
 
@@ -66,10 +69,24 @@ namespace CoatiSoftware.CoatiPlugin
             return message;
         }
 
-        /**
-         * TODO: debug
-         */
-        public static CursorPosition parseInMessage(string message)
+        public static string createCreateProjectMessage(string solutionPath)
+        {
+            string message = s_createProjectPrefix;
+
+            message += s_divider;
+
+            message += solutionPath;
+
+            message += s_divider;
+
+            message += s_ideId;
+
+            message += s_endOfMessageToken;
+
+            return message;
+        }
+
+        public static CursorPosition parseSetCursorMessage(string message)
         {
             CursorPosition result = new CursorPosition();
 

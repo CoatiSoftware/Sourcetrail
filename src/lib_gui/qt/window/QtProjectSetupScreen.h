@@ -49,6 +49,10 @@ public:
 
 	void projectSetupScreen();
 
+	// fill screen without having to set project setting beforehand (e.g. when creating a new project)
+	void setPresets(const std::string& name, const std::string& location,
+		const std::vector<std::string>& sourceFiles, const std::vector<std::string>& includePaths);
+
 signals:
 	void showPreferences();
 

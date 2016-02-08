@@ -27,13 +27,25 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_036E57C4984B4D519AE705DC27702A21"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_037CA5C54AC54097A60194F7BF278651"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_096D033F5DF740A6B6B190652E5276AF"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_0AA7E092A0ED47FFA318EA67FACC0B6F"
+        "MsmKey" = "8:_0AD201C76EA849CFAEE2BBEA91772C06"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -63,7 +75,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_13A62AE76C7A4B14A4A5B828A2508896"
+        "MsmKey" = "8:_17E01ED758AE4C8DA24511FCB2EA736E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -111,6 +123,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_2DA06C4E301647A58D13904DAE5A1010"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2E166286273E4F7EA2228801AA8542FF"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -153,6 +171,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_38986F0870A14310AE4A8143F59891A8"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_3BBDED2875CD458A87214C0E16E0125B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -160,12 +184,6 @@
         "Entry"
         {
         "MsmKey" = "8:_3C809C3C204645B89EBFC13B6C3111E7"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3E99FE0A92C64DEFA3D6EB345808FF32"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -237,6 +255,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_55993726A36649E5A7357B132039C206"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_5789409592134E888A27F1B86B9E4232"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -285,7 +309,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_6A0708F3244C4AF6944941E76871C817"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_6C13C3D7D4344DFC9793B18AE5AF3212"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6DCE7F30A54646F88FAE4D50F74EE4EA"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -298,12 +334,6 @@
         "Entry"
         {
         "MsmKey" = "8:_722CC3CF0CA94ED0B60B14E33FC3CDD4"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7249F8BF91E94C32A5859172172B77A2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -322,12 +352,6 @@
         "Entry"
         {
         "MsmKey" = "8:_73B13876A9444C14A89921C95EABEC35"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_741F026634184D62942F9E450C0FA93B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -393,12 +417,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_983DE5F9B1924F0B9097DA979959CFEC"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_99D9D3AEB2B146C1A349CBB62E3DD589"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -406,12 +424,6 @@
         "Entry"
         {
         "MsmKey" = "8:_9A25601EC45E461F9496D4DD1E562C30"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A2BDA15FF0F044D1819D655405F1977D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -478,6 +490,12 @@
         "Entry"
         {
         "MsmKey" = "8:_B6FF0247120E43F0A6C7EA2200979F8A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B71FAEFCDCD34A8FB39491C4032DE7A0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -555,12 +573,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_D3F2A29A2A684CC4BBB0488C81199AD2"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_D5448E383AD1484DB744028FAB7BB842"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -598,6 +610,12 @@
         "Entry"
         {
         "MsmKey" = "8:_E804A57B366B4C8997C8AF316F72044C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E89B5E761ABA49648750E4DBADC6EBFB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1012,6 +1030,46 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_036E57C4984B4D519AE705DC27702A21"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\boost_filesystem-vc140-mt-1_59.dll"
+            "TargetName" = "8:boost_filesystem-vc140-mt-1_59.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_972788CBF3404779967EA0B73B72BF18"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_037CA5C54AC54097A60194F7BF278651"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\FiraSans_License.txt"
+            "TargetName" = "8:FiraSans_License.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_10C56793A3844205AF9C78F869786AC6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_096D033F5DF740A6B6B190652E5276AF"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\icon\\coati.ico"
@@ -1032,10 +1090,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0AA7E092A0ED47FFA318EA67FACC0B6F"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0AD201C76EA849CFAEE2BBEA91772C06"
             {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\Release\\boost_system-vc120-mt-1_59.dll"
-            "TargetName" = "8:boost_system-vc120-mt-1_59.dll"
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\boost_date_time-vc140-mt-1_59.dll"
+            "TargetName" = "8:boost_date_time-vc140-mt-1_59.dll"
             "Tag" = "8:"
             "Folder" = "8:_972788CBF3404779967EA0B73B72BF18"
             "Condition" = "8:"
@@ -1132,12 +1190,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_13A62AE76C7A4B14A4A5B828A2508896"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_17E01ED758AE4C8DA24511FCB2EA736E"
             {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\Release\\boost_filesystem-vc120-mt-1_59.dll"
-            "TargetName" = "8:boost_filesystem-vc120-mt-1_59.dll"
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\SourceCodePro-Bold.otf"
+            "TargetName" = "8:SourceCodePro-Bold.otf"
             "Tag" = "8:"
-            "Folder" = "8:_972788CBF3404779967EA0B73B72BF18"
+            "Folder" = "8:_10C56793A3844205AF9C78F869786AC6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1292,6 +1350,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2DA06C4E301647A58D13904DAE5A1010"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\FiraSans-Regular.otf"
+            "TargetName" = "8:FiraSans-Regular.otf"
+            "Tag" = "8:"
+            "Folder" = "8:_10C56793A3844205AF9C78F869786AC6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2E166286273E4F7EA2228801AA8542FF"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\projects\\tictactoe\\src\\tictactoe.h"
@@ -1412,6 +1490,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_38986F0870A14310AE4A8143F59891A8"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\SourceCodePro_License.txt"
+            "TargetName" = "8:SourceCodePro_License.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_10C56793A3844205AF9C78F869786AC6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3BBDED2875CD458A87214C0E16E0125B"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\graph_view\\images\\macro_1.png"
@@ -1438,26 +1536,6 @@
             "TargetName" = "8:loader.gif"
             "Tag" = "8:"
             "Folder" = "8:_2ACFBAEBF03542B9AF0745D365D0474E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3E99FE0A92C64DEFA3D6EB345808FF32"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\SourceCodePro-Regular.otf"
-            "TargetName" = "8:SourceCodePro-Regular.otf"
-            "Tag" = "8:"
-            "Folder" = "8:_10C56793A3844205AF9C78F869786AC6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1692,6 +1770,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_55993726A36649E5A7357B132039C206"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\FiraSans-SemiBold.otf"
+            "TargetName" = "8:FiraSans-SemiBold.otf"
+            "Tag" = "8:"
+            "Folder" = "8:_10C56793A3844205AF9C78F869786AC6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5789409592134E888A27F1B86B9E4232"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\projects\\tutorial\\src\\graph_tutorial_4.h"
@@ -1852,12 +1950,52 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6A0708F3244C4AF6944941E76871C817"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\icon\\project.ico"
+            "TargetName" = "8:project.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_D5F20C3B10A146A3ACB96AB52AD1FFA6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6C13C3D7D4344DFC9793B18AE5AF3212"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\code_view\\images\\maximize_active.png"
             "TargetName" = "8:maximize_active.png"
             "Tag" = "8:"
             "Folder" = "8:_C537FBECEC7349E8BF144CA021122109"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6DCE7F30A54646F88FAE4D50F74EE4EA"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\boost_system-vc140-mt-1_59.dll"
+            "TargetName" = "8:boost_system-vc140-mt-1_59.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_972788CBF3404779967EA0B73B72BF18"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1898,26 +2036,6 @@
             "TargetName" = "8:bundle.png"
             "Tag" = "8:"
             "Folder" = "8:_498223EEFBEB4B00BE52244D0651CB4F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7249F8BF91E94C32A5859172172B77A2"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\Release\\boost_date_time-vc120-mt-1_59.dll"
-            "TargetName" = "8:boost_date_time-vc120-mt-1_59.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_972788CBF3404779967EA0B73B72BF18"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1978,26 +2096,6 @@
             "TargetName" = "8:graph_tutorial_1.h"
             "Tag" = "8:"
             "Folder" = "8:_A38746A96F3F43108F3B9C1A88E43FD0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_741F026634184D62942F9E450C0FA93B"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\SourceCodePro-Medium.otf"
-            "TargetName" = "8:SourceCodePro-Medium.otf"
-            "Tag" = "8:"
-            "Folder" = "8:_10C56793A3844205AF9C78F869786AC6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2212,26 +2310,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_983DE5F9B1924F0B9097DA979959CFEC"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\MyriadPro-Regular.otf"
-            "TargetName" = "8:MyriadPro-Regular.otf"
-            "Tag" = "8:"
-            "Folder" = "8:_10C56793A3844205AF9C78F869786AC6"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_99D9D3AEB2B146C1A349CBB62E3DD589"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\code_view\\images\\minimize_inactive.png"
@@ -2258,26 +2336,6 @@
             "TargetName" = "8:search_tutorial_4.h"
             "Tag" = "8:"
             "Folder" = "8:_A38746A96F3F43108F3B9C1A88E43FD0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A2BDA15FF0F044D1819D655405F1977D"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\SourceCodePro-Bold.otf"
-            "TargetName" = "8:SourceCodePro-Bold.otf"
-            "Tag" = "8:"
-            "Folder" = "8:_10C56793A3844205AF9C78F869786AC6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2512,6 +2570,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B71FAEFCDCD34A8FB39491C4032DE7A0"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\SourceCodePro-Regular.otf"
+            "TargetName" = "8:SourceCodePro-Regular.otf"
+            "Tag" = "8:"
+            "Folder" = "8:_10C56793A3844205AF9C78F869786AC6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BA63BFA00BB2453AB1AAA53E5DCA9967"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\search_view\\search_view.css"
@@ -2732,26 +2810,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D3F2A29A2A684CC4BBB0488C81199AD2"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\MyriadPro-Semibold.otf"
-            "TargetName" = "8:MyriadPro-Semibold.otf"
-            "Tag" = "8:"
-            "Folder" = "8:_10C56793A3844205AF9C78F869786AC6"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D5448E383AD1484DB744028FAB7BB842"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\startscreen\\logo_blurry.png"
@@ -2892,6 +2950,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E89B5E761ABA49648750E4DBADC6EBFB"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\SourceCodePro-Medium.otf"
+            "TargetName" = "8:SourceCodePro-Medium.otf"
+            "Tag" = "8:"
+            "Folder" = "8:_10C56793A3844205AF9C78F869786AC6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EA117E55109E4929AD27B2D3FDF6AE2A"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\projects\\tictactoe\\src\\io.h"
@@ -2981,7 +3059,7 @@
             "Description" = "8:Coati project file"
             "Extensions" = "8:.coatiproject"
             "MIME" = "8:"
-            "Icon" = "8:_096D033F5DF740A6B6B190652E5276AF"
+            "Icon" = "8:_6A0708F3244C4AF6944941E76871C817"
             "IconIndex" = "3:0"
                 "Command"
                 {
@@ -3350,7 +3428,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Coati"
         "ProductCode" = "8:{2A3B2FF5-A114-4CAB-88FB-DE8942D5B8EB}"
-        "PackageCode" = "8:{1FB7C5E9-FCA4-4EE0-B3B7-9677483310C1}"
+        "PackageCode" = "8:{5D9BE539-F957-474F-BAA8-12F8EF1CC46A}"
         "UpgradeCode" = "8:{CFF09D53-87AF-4241-960D-98C21ED9D358}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -3551,7 +3629,7 @@
             "Target" = "8:_321D6469331341CC94DB61F825F7C38D"
             "Folder" = "8:_9537058B4FC1411F8480A52A91F7AB5C"
             "WorkingFolder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
-            "Icon" = "8:"
+            "Icon" = "8:_6A0708F3244C4AF6944941E76871C817"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_5EEE826460D748F98304CF1E4BAF5D35"

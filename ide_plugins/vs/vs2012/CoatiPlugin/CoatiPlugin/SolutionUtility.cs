@@ -9,6 +9,13 @@ namespace CoatiSoftware.CoatiPlugin
 {
     class SolutionUtility
     {
+        public static String GetSolutionPath(DTE dte)
+        {
+            EnvDTE.Solution solution = dte.Solution;
+
+            return solution.FullName;
+        }
+
         public static List<String> GetSolutionProjects(DTE dte)
         {
             List<String> projectNames = new List<String>();
@@ -49,6 +56,24 @@ namespace CoatiSoftware.CoatiPlugin
             }
 
             return projectItems;
+        }
+
+        public static List<String> GetSolutionLanguages(DTE dte)
+        {
+            List<String> languages = new List<String>();
+
+            EnvDTE.Solution solution = dte.Solution;
+            EnvDTE.Projects projects = solution.Projects;
+
+            foreach (EnvDTE.Project project in projects)
+            {
+                string language = project.CodeModel.Language;
+                languages.Add(language);
+            }
+
+            languages = languages.Distinct().ToList();
+
+            return languages;
         }
     }
 }

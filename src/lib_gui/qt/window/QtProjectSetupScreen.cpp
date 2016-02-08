@@ -142,6 +142,28 @@ void QtProjectSetupScreen::loadProjectSettings()
 	}
 }
 
+void QtProjectSetupScreen::setPresets(const std::string& name, const std::string& location,
+	const std::vector<std::string>& sourceFiles, const std::vector<std::string>& includePaths)
+{
+	m_projectName->setText(QString::fromStdString(name));
+	m_projectFileLocation->setText(QString::fromStdString(location));
+
+	std::vector<FilePath> sourceFilePaths;
+	for (unsigned int i = 0; i < sourceFiles.size(); i++)
+	{
+		sourceFilePaths.push_back(FilePath(sourceFiles[i]));
+	}
+
+	std::vector<FilePath> includePathsPaths;
+	for (unsigned int i = 0; i < includePaths.size(); i++)
+	{
+		includePathsPaths.push_back(FilePath(sourceFiles[i]));
+	}
+
+	m_sourcePaths->setList(sourceFilePaths);
+	m_includePaths->setList(includePathsPaths);
+}
+
 void QtProjectSetupScreen::populateForm(QFormLayout* layout)
 {
 	int minimumWidthForSecondCol = 360;

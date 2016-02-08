@@ -18,7 +18,7 @@ public:
 		std::stringstream message;
 		message << type << divider << filePath << divider << row << divider << column << endOfMessageToken;
 
-		NetworkProtocolHelper::NetworkMessage networkMessage = NetworkProtocolHelper::parseMessage(message.str());
+		NetworkProtocolHelper::SetActiveTokenMessage networkMessage = NetworkProtocolHelper::parseSetActiveTokenMessage(message.str());
 
 		TS_ASSERT_EQUALS(networkMessage.fileLocation, filePath);
 		TS_ASSERT_EQUALS(networkMessage.row, row);
@@ -28,7 +28,7 @@ public:
 		// invalid type
 		message.str("");
 		message << "foo" << divider << filePath << divider << row << divider << column << endOfMessageToken;
-		networkMessage = NetworkProtocolHelper::parseMessage(message.str());
+		networkMessage = NetworkProtocolHelper::parseSetActiveTokenMessage(message.str());
 
 		TS_ASSERT_EQUALS(networkMessage.fileLocation, "");
 		TS_ASSERT_EQUALS(networkMessage.row, 0);
@@ -38,7 +38,7 @@ public:
 		// missing divider
 		message.str("");
 		message << type << divider << filePath << row << divider << column << endOfMessageToken;
-		networkMessage = NetworkProtocolHelper::parseMessage(message.str());
+		networkMessage = NetworkProtocolHelper::parseSetActiveTokenMessage(message.str());
 
 		TS_ASSERT_EQUALS(networkMessage.fileLocation, "");
 		TS_ASSERT_EQUALS(networkMessage.row, 0);
@@ -48,7 +48,7 @@ public:
 		// invalid row
 		message.str("");
 		message << type << divider << filePath << divider << "potato" << divider << column << endOfMessageToken;
-		networkMessage = NetworkProtocolHelper::parseMessage(message.str());
+		networkMessage = NetworkProtocolHelper::parseSetActiveTokenMessage(message.str());
 
 		TS_ASSERT_EQUALS(networkMessage.fileLocation, "");
 		TS_ASSERT_EQUALS(networkMessage.row, 0);
@@ -58,7 +58,7 @@ public:
 		// invalid column
 		message.str("");
 		message << type << divider << filePath << divider << row << divider << "laz0r" << endOfMessageToken;
-		networkMessage = NetworkProtocolHelper::parseMessage(message.str());
+		networkMessage = NetworkProtocolHelper::parseSetActiveTokenMessage(message.str());
 
 		TS_ASSERT_EQUALS(networkMessage.fileLocation, "");
 		TS_ASSERT_EQUALS(networkMessage.row, 0);

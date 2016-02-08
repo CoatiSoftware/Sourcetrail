@@ -237,6 +237,7 @@ add_files(
 	utility/messaging/type/MessageInterruptTasks.h
 	utility/messaging/type/MessageLoadProject.h
 	utility/messaging/type/MessageMoveIDECursor.h
+	utility/messaging/type/MessageNewProject.h
 	utility/messaging/type/MessageRedo.h
 	utility/messaging/type/MessageRefresh.h
 	utility/messaging/type/MessageResetZoom.h
@@ -273,6 +274,11 @@ add_files(
 	utility/scheduling/TaskScheduler.cpp
 	utility/scheduling/TaskScheduler.h
 
+	utility/solution/ISolutionParser.cpp
+	utility/solution/ISolutionParser.h
+	utility/solution/SolutionParserVisualStudio.cpp
+	utility/solution/SolutionParserVisualStudio.h
+	
 	utility/text/Dictionary.cpp
 	utility/text/Dictionary.h
 	utility/text/TextAccess.cpp

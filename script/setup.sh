@@ -51,6 +51,7 @@ if [ $PLATFORM == "Windows" ]; then
 	
 	cmd //c 'mklink /d /j '.$MY_PATH.'\..\bin\app\Debug\data '.$MY_PATH.'\..\bin\app\data' &
 	cmd //c 'mklink /d /j '.$MY_PATH.'\..\bin\app\Release\data '.$MY_PATH.'\..\bin\app\data' &
+
 fi
 
 # Setup both Debug and Release configuration

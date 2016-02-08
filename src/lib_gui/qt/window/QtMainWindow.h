@@ -8,6 +8,10 @@
 #include <QMainWindow>
 #include <QShortcut>
 
+#include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/MessageNewProject.h"
+
+#include "qt/utility/QtThreadedFunctor.h"
 #include "qt/window/QtApplicationSettingsScreen.h"
 #include "qt/window/QtStartScreen.h"
 #include "qt/window/QtProjectSetupScreen.h"
@@ -66,6 +70,7 @@ protected:
 
 class QtMainWindow
 	: public QMainWindow
+	, public MessageListener<MessageNewProject>
 {
 	Q_OBJECT
 
@@ -85,6 +90,8 @@ public:
 	void saveLayout();
 
 	void forceEnterLicense();
+
+	void handleMessage(MessageNewProject* message);
 
 protected:
 	bool event(QEvent* event);
@@ -143,6 +150,8 @@ private:
 		QtViewToggle* toggle;
 	};
 
+	void doCreateNewProject(const std::string& name, const std::string& location,
+		const std::vector<std::string>& sourceFiles, const std::vector<std::string>& includePaths);
 
     void setupEditMenu();
 	void setupProjectMenu();
@@ -174,6 +183,8 @@ private:
 	QShortcut* m_escapeShortcut;
 
 	static std::string m_windowSettingsPath;
+
+	QtThreadedFunctor<std::string, std::string, std::vector<std::string>, std::vector<std::string>> m_createNewProjectFunctor;
 };
 
 #endif // QT_MAIN_WINDOW_H
