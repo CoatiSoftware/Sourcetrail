@@ -37,6 +37,8 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	statsSnippet.startLineNumber = 1;
 	statsSnippet.endLineNumber = 1;
 
+	statsSnippet.reduced = true;
+
 	statsSnippet.locationFile = std::make_shared<TokenLocationFile>(FilePath());
 	statsSnippet.locationFile->isWholeCopy = true;
 

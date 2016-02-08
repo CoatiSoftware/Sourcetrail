@@ -33,6 +33,8 @@ struct CodeSnippetParams
 	bool isActive;
 	bool isDeclaration;
 	bool isCollapsed;
+
+	bool reduced;
 };
 
 #endif // CODE_SNIPPET_PARAMS_H

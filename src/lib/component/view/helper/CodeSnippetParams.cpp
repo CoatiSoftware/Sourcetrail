@@ -12,6 +12,7 @@ CodeSnippetParams::CodeSnippetParams()
 	, isActive(false)
 	, isDeclaration(false)
 	, isCollapsed(false)
+	, reduced(false)
 {
 }
 

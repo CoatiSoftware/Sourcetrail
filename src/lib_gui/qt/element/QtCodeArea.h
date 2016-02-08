@@ -89,6 +89,8 @@ public:
 
 	std::string getCode() const;
 
+	void hideLineNumbers();
+
 protected:
 	virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
 	virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
@@ -102,7 +104,7 @@ protected:
 	virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
-	void updateLineNumberAreaWidth(int newBlockCount);
+	void updateLineNumberAreaWidth(int newBlockCount = 0);
 	void updateLineNumberArea(const QRect&, int);
 	void clearSelection();
 	void setIDECursorPosition();
@@ -177,6 +179,7 @@ private:
 							// the position where the context menu is opened needs to be stored]
 
 	bool m_isActiveFile;
+	bool m_lineNumbersHidden;
 };
 
 #endif // QT_CODE_AREA_H

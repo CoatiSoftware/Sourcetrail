@@ -56,6 +56,7 @@ public:
 	void setFileSnippets(const FilePath path);
 	void setFileMaximized(const FilePath path);
 
+	void updateFiles();
 	void showContents();
 	void scrollToValue(int value);
 	void scrollToActiveFileIfRequested();
@@ -68,8 +69,6 @@ private slots:
 private:
 	QtCodeFile* getFile(const FilePath filePath);
 	QtCodeSnippet* getFirstActiveSnippet() const;
-
-	void updateFiles();
 
 	void expandActiveSnippetFile(bool scrollTo);
 	void ensureWidgetVisibleAnimated(QWidget *childWidget, QRectF rect);

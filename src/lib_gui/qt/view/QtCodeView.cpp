@@ -131,6 +131,8 @@ void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippe
 		}
 	}
 
+	m_widget->updateFiles();
+
 	setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
 }
 

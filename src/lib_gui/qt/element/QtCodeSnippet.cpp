@@ -90,7 +90,10 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeFile* file)
 		connect(m_footer, SIGNAL(clicked()), this, SLOT(clickedFooter()));
 	}
 
-	updateDots();
+	if (params.reduced)
+	{
+		m_codeArea->hideLineNumbers();
+	}
 }
 
 QtCodeSnippet::~QtCodeSnippet()

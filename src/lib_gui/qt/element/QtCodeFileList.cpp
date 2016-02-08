@@ -60,6 +60,7 @@ void QtCodeFileList::addCodeSnippet(
 	{
 		file->addCodeSnippet(params);
 	}
+
 	file->setModificationTime(params.modificationTime);
 }
 
@@ -173,6 +174,14 @@ void QtCodeFileList::setFileMaximized(const FilePath path)
 	}
 }
 
+void QtCodeFileList::updateFiles()
+{
+	for (std::shared_ptr<QtCodeFile> file: m_files)
+	{
+		file->updateContent();
+	}
+}
+
 void QtCodeFileList::showContents()
 {
 	for (std::shared_ptr<QtCodeFile> filePtr : m_files)
@@ -259,14 +268,6 @@ QtCodeSnippet* QtCodeFileList::getFirstActiveSnippet() const
 	}
 
 	return snippet;
-}
-
-void QtCodeFileList::updateFiles()
-{
-	for (std::shared_ptr<QtCodeFile> file: m_files)
-	{
-		file->updateContent();
-	}
 }
 
 void QtCodeFileList::expandActiveSnippetFile(bool scrollTo)

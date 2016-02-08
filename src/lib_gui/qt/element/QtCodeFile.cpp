@@ -60,11 +60,6 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 
 	titleLayout->addWidget(m_title);
 
-	if (m_title->text().size() == 0)
-	{
-		m_title->hide();
-	}
-
 	m_titleBar->setMinimumHeight(m_title->height() + 4);
 
 	m_referenceCount = new QLabel(this);
@@ -149,6 +144,11 @@ void QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 
 	std::shared_ptr<QtCodeSnippet> snippet(new QtCodeSnippet(params, this));
 
+	if (params.reduced)
+	{
+		m_title->hide();
+	}
+
 	m_snippetLayout->addWidget(snippet.get());
 
 	if (params.locationFile->isWholeCopy)
@@ -172,7 +172,7 @@ void QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 
 	m_snippets.push_back(snippet);
 
-	updateSnippets();
+	setSnippets();
 	updateRefCount(params.refCount);
 }
 
@@ -213,7 +213,7 @@ QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 	m_snippetLayout->insertWidget(i, snippet.get());
 	m_snippets.insert(m_snippets.begin() + i, snippet);
 
-	updateSnippets();
+	setSnippets();
 	updateRefCount(params.refCount);
 
 	return snippet.get();
@@ -270,6 +270,8 @@ bool QtCodeFile::isCollapsedActiveFile() const
 
 void QtCodeFile::updateContent()
 {
+	updateSnippets();
+
 	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
 	{
 		snippet->updateContent();
@@ -425,13 +427,13 @@ bool QtCodeFile::hasSnippets() const
 	return m_snippets.size() > 0;
 }
 
-void QtCodeFile::handleMessage(MessageWindowFocus* message)
-{
-	updateTitleBar();
-}
-
 void QtCodeFile::updateSnippets()
 {
+	if (m_snippets.size() == 0)
+	{
+		return;
+	}
+
 	int maxDigits = 1;
 	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
 	{
@@ -448,8 +450,11 @@ void QtCodeFile::updateSnippets()
 
 	m_snippets.front()->setProperty("isFirst", true);
 	m_snippets.back()->setProperty("isLast", true);
+}
 
-	setSnippets();
+void QtCodeFile::handleMessage(MessageWindowFocus* message)
+{
+	updateTitleBar();
 }
 
 void QtCodeFile::updateRefCount(int refCount)

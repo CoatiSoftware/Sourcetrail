@@ -94,6 +94,7 @@ QtCodeArea::QtCodeArea(
 	, m_setIDECursorPositionAction(nullptr)
 	, m_eventPosition(0, 0)
 	, m_isActiveFile(false)
+	, m_lineNumbersHidden(false)
 {
 	setObjectName("code_area");
 	setReadOnly(true);
@@ -116,7 +117,7 @@ QtCodeArea::QtCodeArea(
 	annotateText();
 
 	m_digits = lineNumberDigits();
-	updateLineNumberAreaWidth(0);
+	updateLineNumberAreaWidth();
 
 	connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
 	connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
@@ -221,13 +222,18 @@ int QtCodeArea::lineNumberDigits() const
 
 int QtCodeArea::lineNumberAreaWidth() const
 {
-	return fontMetrics().width(QLatin1Char('9')) * m_digits + 30;
+	if (!m_lineNumbersHidden)
+	{
+		return fontMetrics().width(QLatin1Char('9')) * m_digits + 30;
+	}
+
+	return 0;
 }
 
 void QtCodeArea::updateLineNumberAreaWidthForDigits(int digits)
 {
 	m_digits = digits;
-	updateLineNumberAreaWidth(0);
+	updateLineNumberAreaWidth();
 }
 
 void QtCodeArea::updateContent()
@@ -277,6 +283,12 @@ QRectF QtCodeArea::getLineRectForLineNumber(uint lineNumber) const
 std::string QtCodeArea::getCode() const
 {
 	return m_code;
+}
+
+void QtCodeArea::hideLineNumbers()
+{
+	m_lineNumberArea->hide();
+	m_lineNumbersHidden = true;
 }
 
 void QtCodeArea::resizeEvent(QResizeEvent *e)
@@ -529,7 +541,7 @@ void QtCodeArea::updateLineNumberArea(const QRect &rect, int dy)
 
 	if (rect.contains(viewport()->rect()))
 	{
-		updateLineNumberAreaWidth(0);
+		updateLineNumberAreaWidth();
 	}
 }
 

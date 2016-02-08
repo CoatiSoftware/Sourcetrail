@@ -59,6 +59,8 @@ public:
 	void requestSnippets() const;
 	bool hasSnippets() const;
 
+	void updateSnippets();
+
 public slots:
 	void clickedMinimizeButton() const;
 	void clickedSnippetButton() const;
@@ -71,7 +73,6 @@ private slots:
 private:
 	virtual void handleMessage(MessageWindowFocus* message);
 
-	void updateSnippets();
 	void updateRefCount(int refCount);
 	void updateTitleBar();
 	void doUpdateTitleBar();
