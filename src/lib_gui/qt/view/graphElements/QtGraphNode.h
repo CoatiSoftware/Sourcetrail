@@ -60,6 +60,7 @@ public:
 
 	bool getIsActive() const;
 	void setIsActive(bool isActive);
+	void setMultipleActive(bool multipleActive);
 
 	std::string getName() const;
 	void setName(const std::string& name);
@@ -108,6 +109,7 @@ protected:
 	Vec2i m_size;
 
 	bool m_isActive;
+	bool m_multipleActive;
 	bool m_isHovering;
 
 private:

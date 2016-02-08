@@ -225,10 +225,11 @@
 
 			<undefined>
 				<fill>
-					<normal>#00000000</normal>
+					<normal>#78282D</normal>
 				</fill>
 				<border>
-					<normal>#78282D</normal>
+					<normal>#80C3C3C3</normal>
+					<focus>#C3C3C3</focus>
 				</border>
 			</undefined>
 			<namespace>

@@ -31,8 +31,8 @@
 				<hover>#CCCCCC</hover>
 			</none>
 			<command>
-				<normal>#406D4D</normal>
-				<hover>#4E855E</hover>
+				<normal>#86BD40</normal>
+				<hover>#9EC769</hover>
 			</command>
 			<operator>
 				<normal>#7D2724</normal>
@@ -192,6 +192,9 @@
 					<normal>transparent</normal>
 					<focus>#FFFFFF</focus>
 				</border>
+				<hatching>
+					<normal>#FFFFFF</normal>
+				</hatching>
 			</function>
 			<method>
 				<like>function</like>
@@ -206,6 +209,9 @@
 					<normal>transparent</normal>
 					<focus>#FFFFFF</focus>
 				</border>
+				<hatching>
+					<normal>#FFFFFF</normal>
+				</hatching>
 			</global_variable>
 			<field>
 				<like>global_variable</like>
@@ -216,10 +222,12 @@
 
 			<undefined>
 				<fill>
-					<normal>#00000000</normal>
+					<normal>#EE7326</normal>
+					<focus>#EE8A4C</focus>
 				</fill>
 				<border>
-					<normal>#78282D</normal>
+					<normal>#80FFFFFF</normal>
+					<focus>#FFFFFF</focus>
 				</border>
 			</undefined>
 			<namespace>

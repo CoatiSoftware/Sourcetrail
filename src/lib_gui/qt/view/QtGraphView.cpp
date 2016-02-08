@@ -230,10 +230,16 @@ void QtGraphView::doRebuildGraph(
 
 	QGraphicsView* view = getView();
 
+	size_t activeNodeCount = 0;
+	for (unsigned int i = 0; i < nodes.size(); i++)
+	{
+		activeNodeCount += nodes[i].getActiveSubNodeCount();
+	}
+
 	m_nodes.clear();
 	for (unsigned int i = 0; i < nodes.size(); i++)
 	{
-		std::shared_ptr<QtGraphNode> node = createNodeRecursive(view, NULL, nodes[i]);
+		std::shared_ptr<QtGraphNode> node = createNodeRecursive(view, NULL, nodes[i], activeNodeCount > 1);
 		if (node)
 		{
 			m_nodes.push_back(node);
@@ -317,7 +323,7 @@ std::shared_ptr<QtGraphNode> QtGraphView::findNodeRecursive(const std::list<std:
 }
 
 std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
-	QGraphicsView* view, std::shared_ptr<QtGraphNode> parentNode, const DummyNode& node
+	QGraphicsView* view, std::shared_ptr<QtGraphNode> parentNode, const DummyNode& node, bool multipleActive
 ){
 	if (!node.visible)
 	{
@@ -345,6 +351,7 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	newNode->setPosition(node.position);
 	newNode->setSize(node.size);
 	newNode->setIsActive(node.active);
+	newNode->setMultipleActive(multipleActive);
 
 	newNode->addComponent(std::make_shared<QtGraphNodeComponentClickable>(newNode));
 
@@ -361,7 +368,7 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 
 	for (unsigned int i = 0; i < node.subNodes.size(); i++)
 	{
-		std::shared_ptr<QtGraphNode> subNode = createNodeRecursive(view, newNode, node.subNodes[i]);
+		std::shared_ptr<QtGraphNode> subNode = createNodeRecursive(view, newNode, node.subNodes[i], multipleActive);
 		if (subNode)
 		{
 			newNode->addSubNode(subNode);

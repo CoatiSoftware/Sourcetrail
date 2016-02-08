@@ -34,6 +34,7 @@ public:
 	}
 
 	const std::vector<Id> tokenIds;
+	std::vector<Id> originalTokenIds;
 
 	bool isEdge;
 	bool isAggregation;

@@ -85,6 +85,23 @@ public:
 		return false;
 	}
 
+	size_t getActiveSubNodeCount() const
+	{
+		size_t count = 0;
+
+		if (active)
+		{
+			count += 1;
+		}
+
+		for (const DummyNode& node : subNodes)
+		{
+			count += node.getActiveSubNodeCount();
+		}
+
+		return count;
+	}
+
 	bool hasConnectedSubNode() const
 	{
 		if (connected)

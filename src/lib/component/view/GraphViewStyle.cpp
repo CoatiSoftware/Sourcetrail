@@ -130,8 +130,6 @@ size_t GraphViewStyle::getFontSizeForNodeType(Node::NodeType type)
 	{
 	case Node::NODE_UNDEFINED:
 	case Node::NODE_NAMESPACE:
-		return s_fontSize - 2;
-
 	case Node::NODE_TYPE:
 	case Node::NODE_STRUCT:
 	case Node::NODE_CLASS:
@@ -189,18 +187,13 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 
 	switch (type)
 	{
-	case Node::NODE_UNDEFINED:
-	case Node::NODE_NAMESPACE:
-		margins.left = margins.right = 15;
-		margins.top = 10;
-		margins.bottom = 15;
-		break;
-
 	case Node::NODE_ENUM:
 	case Node::NODE_TYPEDEF:
 	case Node::NODE_FILE:
 	case Node::NODE_MACRO:
 		margins.iconWidth = s_fontSize + 11;
+	case Node::NODE_UNDEFINED:
+	case Node::NODE_NAMESPACE:
 	case Node::NODE_TYPE:
 	case Node::NODE_STRUCT:
 	case Node::NODE_CLASS:
@@ -306,12 +299,6 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 		style.borderDashed = true;
 
 	case Node::NODE_NAMESPACE:
-		style.cornerRadius = 20;
-
-		style.textOffset.x = 15;
-		style.textOffset.y = 6;
-		break;
-
 	case Node::NODE_TYPE:
 	case Node::NODE_STRUCT:
 	case Node::NODE_CLASS:

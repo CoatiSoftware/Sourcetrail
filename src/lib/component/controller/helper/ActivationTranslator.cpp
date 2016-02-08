@@ -95,7 +95,11 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 	}
 
 	std::shared_ptr<MessageActivateTokens> m;
-	m = std::make_shared<MessageActivateTokens>(message, nodeIds);
+	m = std::make_shared<MessageActivateTokens>(message, m_storageAccess->getActiveTokenIdsForTokenIds(nodeIds));
+	if (nodeIds != m->tokenIds)
+	{
+		m->originalTokenIds = nodeIds;
+	}
 	m->isFromSystem = message->isFromSystem;
 	return m;
 }
@@ -130,9 +134,13 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 	}
 
 	std::vector<Id> tokenIds = m_storageAccess->getTokenIdsForMatches(matches);
-	tokenIds = m_storageAccess->getActiveTokenIdsForTokenIds(tokenIds);
 
-	std::shared_ptr<MessageActivateTokens> m = std::make_shared<MessageActivateTokens>(message, tokenIds);
+	std::shared_ptr<MessageActivateTokens> m =
+		std::make_shared<MessageActivateTokens>(message, m_storageAccess->getActiveTokenIdsForTokenIds(tokenIds));
+	if (tokenIds != m->tokenIds)
+	{
+		m->originalTokenIds = tokenIds;
+	}
 	if (message->isFresh())
 	{
 		m->isFromSearch = true;

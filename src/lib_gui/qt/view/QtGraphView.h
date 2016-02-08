@@ -79,7 +79,7 @@ private:
 	std::shared_ptr<QtGraphNode> findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId);
 
 	std::shared_ptr<QtGraphNode> createNodeRecursive(
-		QGraphicsView* view, std::shared_ptr<QtGraphNode> parentNode, const DummyNode& node);
+		QGraphicsView* view, std::shared_ptr<QtGraphNode> parentNode, const DummyNode& node, bool multipleActive);
 	std::shared_ptr<QtGraphEdge> createEdge(QGraphicsView* view, const DummyEdge& edge);
 
 	QRectF itemsBoundingRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const;

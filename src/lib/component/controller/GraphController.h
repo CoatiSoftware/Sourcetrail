@@ -65,6 +65,7 @@ private:
 	void setNodeActiveRecursive(DummyNode& node, const std::vector<Id>& activeTokenIds) const;
 	bool setNodeVisibilityRecursiveBottomUp(DummyNode& node, bool noActive) const;
 	void setNodeVisibilityRecursiveTopDown(DummyNode& node, bool parentExpanded) const;
+	void deactivateNodesRecursive(std::vector<DummyNode>* nodes) const;
 
 	void bundleNodes();
 	void bundleNodesMatching(std::function<bool(const DummyNode&)> matcher, size_t count, const std::string& name);

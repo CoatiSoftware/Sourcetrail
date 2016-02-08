@@ -26,6 +26,8 @@ public:
 
 	virtual std::string getName() const;
 
+	virtual void clear() = 0;
+
 	virtual void setActiveTokenIds(const std::vector<Id>& activeTokenIds) = 0;
 	virtual void setErrorMessages(const std::vector<std::string>& errorMessages) = 0;
 

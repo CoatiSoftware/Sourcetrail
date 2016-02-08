@@ -12,6 +12,7 @@
 QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
 	, m_refreshViewFunctor(std::bind(&QtCodeView::doRefreshView, this))
+	, m_clearFunctor(std::bind(&QtCodeView::doClear, this))
 	, m_showCodeSnippetsFunctor(std::bind(&QtCodeView::doShowCodeSnippets, this, std::placeholders::_1, std::placeholders::_2))
 	, m_addCodeSnippetsFunctor(std::bind(&QtCodeView::doAddCodeSnippets, this, std::placeholders::_1, std::placeholders::_2))
 	, m_showCodeFileFunctor(std::bind(&QtCodeView::doShowCodeFile, this, std::placeholders::_1))
@@ -43,6 +44,11 @@ void QtCodeView::initView()
 void QtCodeView::refreshView()
 {
 	m_refreshViewFunctor();
+}
+
+void QtCodeView::clear()
+{
+	m_clearFunctor();
 }
 
 void QtCodeView::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
@@ -112,6 +118,11 @@ void QtCodeView::doRefreshView()
 	QtCodeArea::clearAnnotationColors();
 }
 
+void QtCodeView::doClear()
+{
+	m_widget->clearCodeSnippets();
+}
+
 void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds)
 {
 	m_widget->clearCodeSnippets();
@@ -142,6 +153,8 @@ void QtCodeView::doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippet
 	{
 		m_widget->addCodeSnippet(params, insert);
 	}
+
+	m_widget->updateFiles();
 
 	setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
 

@@ -67,9 +67,15 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 
 	std::vector<Id> tokenIds = utility::concat(m_activeNodeIds, m_activeEdgeIds);
 
-	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForActiveTokenIds(tokenIds);
+	std::shared_ptr<Graph> graph =
+		m_storageAccess->getGraphForActiveTokenIds(tokenIds, message->originalTokenIds.size() > 0);
 
 	createDummyGraphForTokenIds(tokenIds, graph);
+
+	if (message->originalTokenIds.size() > 0)
+	{
+		deactivateNodesRecursive(&m_dummyNodes);
+	}
 
 	bundleNodes();
 
@@ -434,6 +440,15 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode& node, bool pa
 	}
 }
 
+void GraphController::deactivateNodesRecursive(std::vector<DummyNode>* nodes) const
+{
+	for (DummyNode& node : *nodes)
+	{
+		node.active = false;
+		deactivateNodesRecursive(&node.subNodes);
+	}
+}
+
 void GraphController::bundleNodes()
 {
 	bundleNodesMatching(
@@ -762,6 +777,7 @@ bool GraphController::isTypeUserNode(const DummyNode& node) const
 
 void GraphController::bundleNodesByType()
 {
+	BUNDLE_BY_TYPE(Node::NODE_NAMESPACE, "Namespaces");
 	BUNDLE_BY_TYPE(Node::NODE_CLASS, "Classes");
 	BUNDLE_BY_TYPE(Node::NODE_STRUCT, "Structs");
 
@@ -782,7 +798,6 @@ void GraphController::bundleNodesByType()
 	BUNDLE_BY_TYPE(Node::NODE_ENUM_CONSTANT, "Enum Constants");
 	BUNDLE_BY_TYPE(Node::NODE_TEMPLATE_PARAMETER_TYPE, "Template Parameter Types");
 	BUNDLE_BY_TYPE(Node::NODE_UNDEFINED, "Undefined Symbols");
-	BUNDLE_BY_TYPE(Node::NODE_NAMESPACE, "Namespaces");
 
 	for (DummyNode& node : m_dummyNodes)
 	{

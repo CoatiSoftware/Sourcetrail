@@ -26,6 +26,8 @@ public:
 	virtual void refreshView();
 
 	// CodeView implementation
+	virtual void clear();
+
 	virtual void setActiveTokenIds(const std::vector<Id>& activeTokenIds);
 	virtual void setErrorMessages(const std::vector<std::string>& errorMessages);
 
@@ -47,6 +49,7 @@ public:
 
 private:
 	void doRefreshView();
+	void doClear();
 
 	void doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds);
 	void doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert);
@@ -67,6 +70,7 @@ private:
 	void setStyleSheet() const;
 
 	QtThreadedFunctor<> m_refreshViewFunctor;
+	QtThreadedFunctor<> m_clearFunctor;
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&, const std::vector<Id>&> m_showCodeSnippetsFunctor;
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&, bool> m_addCodeSnippetsFunctor;
 	QtThreadedFunctor<const CodeSnippetParams&> m_showCodeFileFunctor;

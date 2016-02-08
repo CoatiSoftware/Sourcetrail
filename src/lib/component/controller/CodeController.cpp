@@ -88,17 +88,25 @@ void CodeController::handleMessage(MessageActivateAll* message)
 
 void CodeController::handleMessage(MessageActivateTokens* message)
 {
-	std::vector<Id> activeTokenIds = message->tokenIds;
-	Id declarationId = 0; // 0 means that no token is found.
-
-	if (activeTokenIds.size() == 1)
-	{
-		activeTokenIds = m_storageAccess->getActiveTokenIdsForId(activeTokenIds[0], &declarationId);
-	}
-	// TODO: what about declarationId if more than 1 token is active? FIX THIS!
-
 	CodeView* view = getView();
 	view->setErrorMessages(std::vector<std::string>());
+
+	std::vector<Id> activeTokenIds =
+		(message->originalTokenIds.size() > 0 ? message->originalTokenIds : message->tokenIds);
+
+	if (activeTokenIds.size() != 1)
+	{
+		view->clear();
+		return;
+	}
+
+	Id declarationId = 0; // 0 means that no token is found.
+	activeTokenIds = m_storageAccess->getActiveTokenIdsForId(activeTokenIds[0], &declarationId);
+
+	if (message->originalTokenIds.size() > 0)
+	{
+		declarationId = 0;
+	}
 
 	if (message->isEdge)
 	{

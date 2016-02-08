@@ -46,6 +46,7 @@ QtGraphNode::QtGraphNode()
 	: m_undefinedRect(nullptr)
 	, m_icon(nullptr)
 	, m_isActive(false)
+	, m_multipleActive(false)
 	, m_isHovering(false)
 {
 	this->setPen(QPen(Qt::transparent));
@@ -184,6 +185,11 @@ void QtGraphNode::setIsActive(bool isActive)
 	m_isActive = isActive;
 
 	updateStyle();
+}
+
+void QtGraphNode::setMultipleActive(bool multipleActive)
+{
+	m_multipleActive = multipleActive;
 }
 
 std::string QtGraphNode::getName() const

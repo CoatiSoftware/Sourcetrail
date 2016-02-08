@@ -903,7 +903,8 @@ std::shared_ptr<Graph> Storage::getGraphForAll() const
 	std::vector<Id> tokenIds;
 	for (StorageNode node: m_sqliteStorage.getAllNodes())
 	{
-		if (node.defined && !m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id))
+		if (node.defined && (!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id) ||
+			Node::intToType(node.type) == Node::NODE_NAMESPACE))
 		{
 			tokenIds.push_back(node.id);
 		}
@@ -914,12 +915,12 @@ std::shared_ptr<Graph> Storage::getGraphForAll() const
 	return graph;
 }
 
-std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const
+std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds, bool activeOnly) const
 {
 	std::shared_ptr<Graph> g = std::make_shared<Graph>();
 	Graph* graph = g.get();
 
-	if (tokenIds.size() == 1)
+	if (tokenIds.size() == 1 && !activeOnly)
 	{
 		const Id elementId = tokenIds[0];
 
@@ -946,7 +947,7 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 			addEdgeAndAllChildrenToGraph(elementId, graph);
 		}
 	}
-	else if (tokenIds.size() > 1)
+	else if (tokenIds.size() >= 1)
 	{
 		for (size_t i = 0; i < tokenIds.size(); i++)
 		{
@@ -970,6 +971,7 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 
 std::vector<Id> Storage::getActiveTokenIdsForTokenIds(const std::vector<Id>& tokenIds) const
 {
+	bool different = false;
 	std::vector<Id> activeIds;
 
 	for (Id id : tokenIds)
@@ -977,11 +979,20 @@ std::vector<Id> Storage::getActiveTokenIdsForTokenIds(const std::vector<Id>& tok
 		if (m_sqliteStorage.isNode(id))
 		{
 			m_hierarchyCache.addFirstVisibleChildIdsForNodeId(id, &activeIds);
+			if (id != activeIds.back())
+			{
+				different = true;
+			}
 		}
 		else
 		{
 			activeIds.push_back(id);
 		}
+	}
+
+	if (!different)
+	{
+		return tokenIds;
 	}
 
 	std::set<Id> idSet(activeIds.begin(), activeIds.end());

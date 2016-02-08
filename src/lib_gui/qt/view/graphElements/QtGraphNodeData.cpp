@@ -55,7 +55,7 @@ Id QtGraphNodeData::getTokenId() const
 
 void QtGraphNodeData::onClick()
 {
-	if (m_isActive)
+	if (m_isActive && !m_multipleActive)
 	{
 		MessageDeactivateEdge().dispatch();
 		return;
