@@ -102,6 +102,18 @@ namespace utility
 				else if (val == "gui_path")
 				{
 					val = ResourcePaths::getGuiPath();
+
+					size_t index = 0;
+					while (true)
+					{
+						index = val.find("\\", index);
+						if (index == std::string::npos)
+						{
+							break;
+						}
+						val.replace(index, 1, "/");
+						index += 3;
+					}
 				}
 				else
 				{
