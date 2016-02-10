@@ -15,11 +15,6 @@ namespace Botan
 class License
 {
 public:
-    enum LicenseType
-    {
-        LICENSETYPE_SINGLEUSER = 0,
-    };
-
     License();
     ~License();
 
@@ -33,19 +28,22 @@ public:
     std::string getPublicKeyFilename() const;
     std::string getVersion() const;
 
-    void create(std::string user, std::string version, Botan::RSA_PrivateKey* privateKey, unsigned int type = 0);
+    void create(std::string user, std::string version, Botan::RSA_PrivateKey* privateKey, std::string type="Private License");
 
     std::string getLicenseString() const;
+	std::string getLicenseEncodedString(std::string applicationLocation) const;
 
     void writeToFile(std::string filename);
     bool load(std::istream& stream);
     bool loadFromString(std::string licenseText);
     bool loadFromFile(std::string filename);
+	bool loadFromEncodedString(std::string encodedLicense, std::string applicationLocation);
 
-    bool loadPublicKeyFromFile(std::string);
+	bool loadPublicKeyFromFile(std::string);
+
     bool loadPublicKeyFromString(std::string);
+	void setVersion(const std::string&);
 
-    void setVersion(const std::string&);
     bool isValid() const;
 
     void print();
@@ -54,14 +52,15 @@ public:
     static bool checkLocation(const std::string&, const std::string&);
 
 private:
-    void createMessage(std::string user, std::string version, unsigned int type = 0);
-    void addSignature(std::string);
+	void createMessage(std::string user, std::string version, std::string type = 0);
+	void addSignature(std::string);
+	std::string getEncodeKey(const std::string applicationLocation) const;
 
-    std::string m_version;
-    std::string m_publicKeyFilename;
-    std::shared_ptr<Botan::RSA_PublicKey> m_publicKey;
-    std::vector<std::string> lines;
-    std::shared_ptr<Botan::AutoSeeded_RNG> m_rng;
+	std::string m_version;
+	std::string m_publicKeyFilename;
+	std::shared_ptr<Botan::RSA_PublicKey> m_publicKey;
+	std::vector<std::string> lines;
+	std::shared_ptr<Botan::AutoSeeded_RNG> m_rng;
 
     const std::string KEY_FILEENDING = ".pem";
     const std::string BEGIN_LICENSE = "-----BEGIN LICENSE-----";

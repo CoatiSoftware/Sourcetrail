@@ -20,6 +20,7 @@ class AppPath
 {
 public:
 	static std::string getAppPath();
+	static bool setAppPath(std::string path);
 
 private:
 	static void setupAppPath();

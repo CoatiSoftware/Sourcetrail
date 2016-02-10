@@ -65,6 +65,11 @@ int main(int argc, char *argv[])
 
 	QtMainWindow::setWindowSettingsPath(windowSettingsPath);
 	Application::setAppSettingsPath(appSettingsPath);
+	
+	if(AppPath::getAppPath().empty())
+	{
+		AppPath::setAppPath(QCoreApplication::applicationDirPath().toStdString());
+	}
 
 	LicenseChecker checker;
 

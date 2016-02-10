@@ -69,7 +69,7 @@ std::string License::getLicenseTypeLine() const
     return lines[2];
 }
 
-void License::create(std::string user, std::string version, Botan::RSA_PrivateKey* privateKey, unsigned int type)
+void License::create(std::string user, std::string version, Botan::RSA_PrivateKey* privateKey, std::string type)
 {
     m_version = version;
     createMessage(user, version, type);
@@ -85,20 +85,12 @@ void License::create(std::string user, std::string version, Botan::RSA_PrivateKe
     addSignature(signature);
 }
 
-void License::createMessage(std::string user, std::string version, unsigned int type)
+void License::createMessage(std::string user, std::string version, std::string type)
 {
     lines.clear();
     lines.push_back(BEGIN_LICENSE);
     lines.push_back(user);
-    std::string typestring;
-    switch(type)
-    {
-        case 0:
-        default:
-            typestring = "Single User License";
-
-    };
-    lines.push_back(typestring);
+    lines.push_back(type);
     std::string versionstring = "Coati " + getVersion();
     lines.push_back(versionstring);
 	std::string pass9 = Botan::generate_passhash9(versionstring, *(m_rng.get()));
@@ -155,7 +147,6 @@ bool License::load(std::istream& stream)
     return true;
 }
 
-
 bool License::loadFromFile(std::string filename)
 {
     lines.clear();
@@ -201,7 +192,7 @@ bool License::isValid() const
     }
     if(Botan::check_passhash9("Coati "+ getVersion(), getHashLine()))
     {
-        std::cout << "Hash from Coati "+ getVersion() + " confirmed" << std::endl;
+//        std::cout << "Hash from Coati "+ getVersion() + " confirmed" << std::endl;
     }
 
     Botan::secure_vector<Botan::byte> sig = Botan::base64_decode(getSignature());
@@ -267,7 +258,6 @@ bool License::loadPublicKeyFromString(std::string publicKey)
     return true;
 }
 
-
 void License::setVersion(const std::string& version)
 {
     if(!version.empty())
@@ -294,4 +284,56 @@ std::string License::hashLocation(const std::string& location)
 bool License::checkLocation(const std::string& location, const std::string& hash)
 {
     return Botan::check_passhash9(location, hash);
+}
+
+std::string License::getLicenseEncodedString(std::string applicationLocation) const
+{
+    Botan::AutoSeeded_RNG rng;
+    std::vector<Botan::byte> file_contents;
+    std::stringstream input(getLicenseString());
+
+    //prepare the license string to work with the botan cryptobox
+    while(input.good())
+    {
+        Botan::byte filebuf[4096] = { 0 };
+        input.read((char*)filebuf, sizeof(filebuf));
+        size_t got = input.gcount();
+
+        file_contents.insert(file_contents.end(), filebuf, filebuf+got);
+    }
+
+    std::string ret = Botan::CryptoBox::encrypt(&file_contents[0], file_contents.size(),getEncodeKey(applicationLocation),rng);
+
+    //remove Botan Cryptobox begin and end
+    //should not be in the application settings
+    ret = ret.substr(40,ret.length()-78);
+
+    return ret;
+}
+
+bool License::loadFromEncodedString(std::string encodedLicense, std::string applicationLocation)
+{
+    try {
+        //add cryptobox begin and end to loaded string
+        std::string crypbobxInput = "-----BEGIN BOTAN CRYPTOBOX MESSAGE-----\n";
+        crypbobxInput += encodedLicense;
+        crypbobxInput += "-----END BOTAN CRYPTOBOX MESSAGE-----";
+
+        //decrypt license
+        loadFromString(Botan::CryptoBox::decrypt(crypbobxInput,getEncodeKey(applicationLocation)));
+    }
+    catch(...)
+    {
+        //loaded string from application settings is invalid
+        return false;
+    }
+    return true;
+}
+
+std::string License::getEncodeKey(const std::string applicationLocation) const
+{
+    Botan::PBKDF *pbkdf = Botan::get_pbkdf("PBKDF2(SHA-256)");
+    Botan::secure_vector<Botan::byte> salt = Botan::base64_decode("34zA54n60v4CxjY5n20k3J40c976n690", 32);
+    Botan::AutoSeeded_RNG rng;
+    return pbkdf->derive_key(32, applicationLocation, &salt[0], salt.size(), 10000).as_string();
 }

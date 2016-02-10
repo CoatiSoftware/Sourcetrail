@@ -52,3 +52,13 @@ void AppPath::setupAppPath()
 	}
 #endif // WINDOWS
 }
+
+bool AppPath::setAppPath(std::string path)
+{
+	if(!path.empty())
+	{
+		m_appPath = path;
+		return true;
+	}
+	return false;
+}

@@ -17,7 +17,8 @@ bool process_command_line(int argc, char** argv)
         std::string version;
         std::string privateKey;
         std::string publicKey;
-        std::string license;
+        std::string license = "";
+        std::string type = "";
         po::options_description desc("Coati Generator");
 
         desc.add_options()
@@ -26,6 +27,7 @@ bool process_command_line(int argc, char** argv)
             ("generate,g", po::value<std::string>(&user), "Generate a License, USERNAME as value")
             ("check,c", "Validate a License")
             ("version,v", po::value<std::string>(&version), "Versionnumber of Coati")
+            ("licenseType,t", po::value<std::string>(&type), "License Type of ")
             ("public-file", po::value<std::string>(&publicKey), "Custom public key file")
             ("private-file", po::value<std::string>(&privateKey), "Custom private key file")
             ("license-file", po::value<std::string>(&license), "Custom license")
@@ -61,9 +63,14 @@ bool process_command_line(int argc, char** argv)
 
         if(vm.count("generate"))
         {
-//            std::cout << "generate License" << std::endl;
-            keygen.encodeLicense(user);
+            bool fail = false;
+            if(!vm.count("version"))
+            {
+                std::cout << "Version of Coati is needed to generate a License" << std::endl;
+                return false;
+            }
 
+            keygen.encodeLicense(user,type);
         }
 
         if(vm.count("check"))

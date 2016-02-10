@@ -45,9 +45,17 @@ void QtLicense::load()
 {
 	clear();
 
+	License license;
+	bool isLoaded = license.loadFromEncodedString(
+		ApplicationSettings::getInstance()->getLicenseString(), AppPath::getAppPath());
+	if (!isLoaded)
+	{
+		return;
+	}
+
 	if (m_licenseText)
 	{
-		m_licenseText->setText(ApplicationSettings::getInstance()->getLicenseString().c_str());
+		m_licenseText->setText(license.getLicenseString().c_str());
 	}
 }
 
@@ -148,8 +156,8 @@ void QtLicense::handleUpdateButtonPress()
 	if (license.isValid())
 	{
 		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-		appSettings->setLicenseString(license.getLicenseString());
-		std::string appLocation = AppPath::getAppPath(); // for easier debugging
+		std::string appLocation = AppPath::getAppPath();
+		appSettings->setLicenseString(license.getLicenseEncodedString(appLocation));
 		FilePath p(appLocation);
 		appSettings->setLicenseCheck(license.hashLocation(p.absolute().str()));
 		appSettings->save();

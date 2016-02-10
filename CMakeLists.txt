@@ -478,6 +478,10 @@ target_include_directories(${LICENSE_GENERATOR_PROJECT_NAME} SYSTEM
 		PUBLIC ${Boost_INCLUDE_DIRS}
 )
 
+if(UNIX AND NOT APPLE)
+	target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} pthread dl)
+endif()
+
 target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} ${Boost_LIBRARIES} )
 
 # CxxTest ----------------------------------------------------------------------

@@ -51,7 +51,7 @@ public:
         license.loadPublicKeyFromString(generator.getPublicKeyPEMFileAsString());
 
         TS_ASSERT_EQUALS(license.getOwnerLine(), "TestUser");
-        TS_ASSERT_EQUALS(license.getLicenseTypeLine(), "Single User License");
+        TS_ASSERT_EQUALS(license.getLicenseTypeLine(), "Private License");
         TS_ASSERT_EQUALS(license.getVersion(), "v2");
         TS_ASSERT(license.isValid());
     }

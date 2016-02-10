@@ -49,7 +49,7 @@ void Generator::setVersion(std::string version)
     }
 }
 
-std::string Generator::encodeLicense(std::string user)
+std::string Generator::encodeLicense(std::string user, std::string licenseType)
 {
     License license;
 
@@ -62,7 +62,7 @@ std::string Generator::encodeLicense(std::string user)
         std::cout << "The key is not a RSA key" << std::endl;
     }
 
-    license.create(user, m_version, rsaKey);
+    license.create(user, m_version, rsaKey, licenseType);
     license.writeToFile("license.txt");
     license.print();
 

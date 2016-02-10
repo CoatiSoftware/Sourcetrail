@@ -84,7 +84,7 @@ private:
 			}
 
 			License license;
-			bool isLoaded = license.loadFromString(licenseString);
+			bool isLoaded = license.loadFromEncodedString(licenseString,AppPath::getAppPath());
 			if (!isLoaded)
 			{
 				break;

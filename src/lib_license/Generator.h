@@ -11,7 +11,7 @@ public:
     Generator(std::string version = "x");
     ~Generator();
 
-    std::string encodeLicense(std::string message);
+    std::string encodeLicense(std::string message, std::string licenseType);
     bool verifyLicense(std::string filename = "license.txt");
     void generateKeys();
     void writeKeysToFiles();
