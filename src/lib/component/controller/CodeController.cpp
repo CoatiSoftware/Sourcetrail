@@ -93,15 +93,18 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 
 	std::vector<Id> activeTokenIds =
 		(message->originalTokenIds.size() > 0 ? message->originalTokenIds : message->tokenIds);
-
-	if (activeTokenIds.size() != 1)
-	{
-		view->clear();
-		return;
-	}
-
 	Id declarationId = 0; // 0 means that no token is found.
-	activeTokenIds = m_storageAccess->getActiveTokenIdsForId(activeTokenIds[0], &declarationId);
+
+	if (!message->isAggregation)
+	{
+		if (activeTokenIds.size() != 1)
+		{
+			view->clear();
+			return;
+		}
+
+		activeTokenIds = m_storageAccess->getActiveTokenIdsForId(activeTokenIds[0], &declarationId);
+	}
 
 	if (message->originalTokenIds.size() > 0)
 	{
