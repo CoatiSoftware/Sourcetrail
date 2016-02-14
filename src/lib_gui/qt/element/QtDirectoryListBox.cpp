@@ -1,9 +1,10 @@
 #include "qt/element/QtDirectoryListBox.h"
 
 #include <QBoxLayout>
-#include <QTreeView>
 #include <QFileDialog>
 #include <QMimeData>
+#include <QScrollBar>
+#include <QTreeView>
 
 #include "utility/ResourcePaths.h"
 
@@ -96,6 +97,7 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent)
 	m_list = new QListWidget(this);
 	m_list->setObjectName("list");
 	m_list->setAttribute(Qt::WA_MacShowFocusRect, 0);
+	m_list->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "setting_window/listbox.css").c_str());
 	layout->addWidget(m_list);
@@ -128,6 +130,8 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent)
 	dropInfoText->setAlignment(Qt::AlignRight);
 	innerLayout->addWidget(dropInfoText);
 
+	layout->addStretch();
+
 	buttonContainer->setLayout(innerLayout);
 	layout->addWidget(buttonContainer);
 	setLayout(layout);
@@ -136,12 +140,42 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent)
 	connect(m_removeButton, SIGNAL(clicked()), this, SLOT(removeListBoxItem()));
 
 	setAcceptDrops(true);
+	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Minimum);
+	setMaximumHeight(200);
 	resize();
+}
+
+QSize QtDirectoryListBox::sizeHint() const
+{
+	return QSize(QFrame::sizeHint().width(), 100);
 }
 
 void QtDirectoryListBox::clear()
 {
 	m_list->clear();
+}
+
+bool QtDirectoryListBox::event(QEvent* event)
+{
+	// Prevent nested ScrollAreas to scroll at the same time;
+	if (event->type() == QEvent::Wheel)
+	{
+		QRect rect = m_list->viewport()->rect();
+		QPoint pos = m_list->mapFromGlobal( dynamic_cast<QWheelEvent*>(event)->globalPos());
+		QScrollBar* bar = m_list->verticalScrollBar();
+
+		if (bar->minimum() != bar->maximum() && rect.contains(pos))
+		{
+			bool down = dynamic_cast<QWheelEvent*>(event)->angleDelta().y() < 0;
+
+			if ((down && bar->value() != bar->maximum()) || (!down && bar->value() != bar->minimum()))
+			{
+				return true;
+			}
+		}
+	}
+
+	return QFrame::event(event);
 }
 
 void QtDirectoryListBox::dropEvent(QDropEvent *event)
@@ -188,19 +222,14 @@ void QtDirectoryListBox::selectItem(QListWidgetItem* item)
 
 void QtDirectoryListBox::resize()
 {
-	int height = 25;
+	int height = m_list->height() - m_list->viewport()->height();
 
 	if (m_list->count() > 0)
 	{
-		height += (m_list->itemWidget(m_list->item(0))->height() + 1) * m_list->count() + 8;
+		height += (m_list->itemWidget(m_list->item(0))->height() + 1) * m_list->count() + 7;
 	}
 
-	if (height < 150)
-	{
-		height = 150;
-	}
-
-	setMinimumHeight(height);
+	m_list->setMaximumHeight(height);
 }
 
 QtListItemWidget* QtDirectoryListBox::addListBoxItem()
@@ -220,8 +249,21 @@ QtListItemWidget* QtDirectoryListBox::addListBoxItem()
 
 void QtDirectoryListBox::removeListBoxItem()
 {
+	if (!m_list->selectedItems().size())
+	{
+		return;
+	}
+
+	int rowIndex = m_list->row(m_list->selectedItems().first()) - 1;
+
 	qDeleteAll(m_list->selectedItems());
+
 	resize();
+
+	if (rowIndex >= 0)
+	{
+		m_list->setCurrentRow(rowIndex);
+	}
 }
 
 void QtDirectoryListBox::dragEnterEvent(QDragEnterEvent *event)

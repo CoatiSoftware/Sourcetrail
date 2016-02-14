@@ -1,7 +1,7 @@
 #include "qt/window/QtAboutLicense.h"
 
 #include <QComboBox>
-#include <QFormLayout>
+#include <QVBoxLayout>
 #include <QLineEdit>
 #include <QLabel>
 #include <QTextBrowser>
@@ -31,9 +31,11 @@ void QtAboutLicense::setup()
 	hideCancelButton(true);
 }
 
-void QtAboutLicense::populateForm(QFormLayout* layout)
+void QtAboutLicense::populateWindow(QWidget* widget)
 {
-	for(ThirdPartyLicense license : licenses3rdParties)
+	QVBoxLayout* layout = new QVBoxLayout(widget);
+
+	for (ThirdPartyLicense license : licenses3rdParties)
 	{
 		if( !(isTrial() && license.isNotInTrial) )
 		{
@@ -56,8 +58,9 @@ void QtAboutLicense::populateForm(QFormLayout* layout)
 			licenseText->setText(QString::fromLatin1(license.license));
 			layout->addWidget(licenseText);
 		}
-
 	}
+
+	widget->setLayout(layout);
 }
 
 void QtAboutLicense::handleCancelButtonPress()

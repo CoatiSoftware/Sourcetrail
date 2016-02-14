@@ -24,6 +24,9 @@ public:
 
 	void setCancelAble(bool cancelAble);
 
+	void updateTitle(QString title);
+	void updateDoneButton(QString text);
+
 signals:
 	void finished();
 	void canceled();
@@ -36,18 +39,12 @@ protected:
 	void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 	void setupForm();
-	virtual void populateForm(QFormLayout* layout);
+	virtual void populateWindow(QWidget* widget);
 
 	void addLogo();
 	void showButtons(QVBoxLayout* layout);
 
-	void updateTitle(QString title);
-	void updateDoneButton(QString text);
 	void hideCancelButton(bool hidden);
-
-	QWidget* createLabelWithHelpButton(QString name, QPushButton** helpButton);
-
-	void showHelpMessage(const QString& msg);
 
 	QWidget* m_window;
 

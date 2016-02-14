@@ -100,7 +100,7 @@ void QtMainView::doUpdateRecentProjectMenu()
 
 void QtMainView::doHideStartScreen()
 {
-	m_window->clearWindows();
+	m_window->hideStartScreen();
 }
 
 void QtMainView::doSetTitle(const std::string& title)

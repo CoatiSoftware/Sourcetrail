@@ -11,6 +11,7 @@ QListWidget {
 }
 
 QListWidget::item {
+	height: 20px;
 	border-bottom: 1px solid lightgray;
 }
 
@@ -29,8 +30,7 @@ QtListItemWidget #button {
 	border: 1px solid lightgray;
 	border-radius: 7px;
 	font-size: 12px;
-	margin-bottom: 2px;
-	margin-top: 2px;
+	height: 14px;
 	margin-right: 2px;
 	width: 20px;
 }

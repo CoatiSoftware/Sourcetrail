@@ -40,6 +40,9 @@ ProjectSettings::~ProjectSettings()
 
 void ProjectSettings::save(const FilePath& filePath)
 {
+	m_projectName = "";
+	m_projectFileLocation = "";
+
 	moveRelativePathValues("source/source_paths/source_path", filePath);
 	moveRelativePathValues("source/header_search_paths/header_search_path", filePath);
 	moveRelativePathValues("source/framework_search_paths/framework_search_path", filePath);
@@ -59,7 +62,7 @@ bool ProjectSettings::setLanguage(const std::string& language)
 
 std::string ProjectSettings::getStandard() const
 {
-	return getValue<std::string>("language_settings/standard", "11");
+	return getValue<std::string>("language_settings/standard", "1z");
 }
 
 bool ProjectSettings::setStandard(const std::string& standard)
@@ -126,4 +129,34 @@ bool ProjectSettings::setSourceExtensions(const std::vector<std::string> &source
 std::string ProjectSettings::getDescription() const
 {
 	return getValue<std::string>("info/description", "");
+}
+
+std::string ProjectSettings::getProjectName() const
+{
+	if (m_projectName.size())
+	{
+		return m_projectName;
+	}
+
+	return getFilePath().withoutExtension().fileName();
+}
+
+void ProjectSettings::setProjectName(const std::string& name)
+{
+	m_projectName = name;
+}
+
+std::string ProjectSettings::getProjectFileLocation() const
+{
+	if (m_projectFileLocation.size())
+	{
+		return m_projectFileLocation;
+	}
+
+	return getFilePath().parentDirectory().str();
+}
+
+void ProjectSettings::setProjectFileLocation(const std::string& location)
+{
+	m_projectFileLocation = location;
 }

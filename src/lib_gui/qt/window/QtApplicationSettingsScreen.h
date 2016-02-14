@@ -7,6 +7,7 @@
 #include "utility/file/FilePath.h"
 
 #include "qt/element/QtDirectoryListBox.h"
+#include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
 #include "qt/window/QtSettingsWindow.h"
 
 class QtApplicationSettingsScreen
@@ -23,21 +24,18 @@ public:
 	void load();
 
 protected:
-	virtual void populateForm(QFormLayout* layout) override;
+	virtual void populateWindow(QWidget* widget) override;
 
 private slots:
 	void handleCancelButtonPress();
 	void handleUpdateButtonPress();
 
-	void handleIncludePathHelpPress();
-	void handleFrameworkPathHelpPress();
-
 private:
 	QPushButton* m_cancelButton;
 	QPushButton* m_updateButton;
 
-	QtDirectoryListBox* m_includePaths;
-	QtDirectoryListBox* m_frameworkPaths;
+	QtProjectWizzardContentPathsHeaderSearchGlobal* m_headerPaths;
+	QtProjectWizzardContentPathsFrameworkSearchGlobal* m_frameworkPaths;
 };
 
 #endif //QT_APPLICATION_SETTINGS_SCREEN_H

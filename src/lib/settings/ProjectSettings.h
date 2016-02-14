@@ -14,6 +14,7 @@ public:
 	static std::vector<std::string> getDefaultSourceExtensions();
 
 	static std::shared_ptr<ProjectSettings> getInstance();
+	ProjectSettings();
 	~ProjectSettings();
 
 	virtual void save(const FilePath& filePath);
@@ -47,10 +48,16 @@ public:
 	bool setHeaderExtensions(const std::vector<std::string>& headerExtensions);
 	bool setSourceExtensions(const std::vector<std::string>& sourceExtensions);
 
+	// used in project wizzard
+	std::string getProjectName() const;
+	void setProjectName(const std::string& name);
+
+	std::string getProjectFileLocation() const;
+	void setProjectFileLocation(const std::string& location);
+
 private:
-	ProjectSettings();
-	ProjectSettings(const ProjectSettings&);
-	void operator=(const ProjectSettings&);
+	std::string m_projectName;
+	std::string m_projectFileLocation;
 
 	static std::shared_ptr<ProjectSettings> s_instance;
 };

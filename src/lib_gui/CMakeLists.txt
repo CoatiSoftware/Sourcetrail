@@ -22,6 +22,8 @@ add_files(
 	qt/element/QtDirectoryListBox.h
 	qt/element/QtLineEdit.cpp
 	qt/element/QtLineEdit.h
+	qt/element/QtLocationPicker.cpp
+	qt/element/QtLocationPicker.h
 	qt/element/QtRefreshBar.cpp
 	qt/element/QtRefreshBar.h
 	qt/element/QtSearchBar.cpp
@@ -101,6 +103,23 @@ add_files(
 	qt/view/QtViewWidgetWrapper.cpp
 	qt/view/QtViewWidgetWrapper.h
 
+	qt/window/project_wizzard/QtProjectWizzard.cpp
+	qt/window/project_wizzard/QtProjectWizzard.h
+	qt/window/project_wizzard/QtProjectWizzardContent.cpp
+	qt/window/project_wizzard/QtProjectWizzardContent.h
+	qt/window/project_wizzard/QtProjectWizzardContentData.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentData.h
+	qt/window/project_wizzard/QtProjectWizzardContentPaths.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentPaths.h
+	qt/window/project_wizzard/QtProjectWizzardContentSelect.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentSelect.h
+	qt/window/project_wizzard/QtProjectWizzardContentSimple.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentSimple.h
+	qt/window/project_wizzard/QtProjectWizzardContentSummary.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentSummary.h
+	qt/window/project_wizzard/QtProjectWizzardWindow.cpp
+	qt/window/project_wizzard/QtProjectWizzardWindow.h
+
 	qt/window/QtAbout.cpp
 	qt/window/QtAbout.h
 	qt/window/QtAboutLicense.cpp
@@ -111,14 +130,14 @@ add_files(
     qt/window/QtLicense.h
 	qt/window/QtMainWindow.cpp
 	qt/window/QtMainWindow.h
-	qt/window/QtProjectSetupScreen.cpp
-	qt/window/QtProjectSetupScreen.h
 	qt/window/QtSettingsWindow.cpp
 	qt/window/QtSettingsWindow.h
 	qt/window/QtSplashScreen.cpp
 	qt/window/QtSplashScreen.h
 	qt/window/QtStartScreen.cpp
 	qt/window/QtStartScreen.h
+	qt/window/QtWindowStack.cpp
+	qt/window/QtWindowStack.h
 
 	qt/QtApplication.cpp
 	qt/QtApplication.h

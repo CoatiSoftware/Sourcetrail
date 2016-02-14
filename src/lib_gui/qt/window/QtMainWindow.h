@@ -12,14 +12,10 @@
 #include "utility/messaging/type/MessageNewProject.h"
 
 #include "qt/utility/QtThreadedFunctor.h"
-#include "qt/window/QtApplicationSettingsScreen.h"
-#include "qt/window/QtStartScreen.h"
-#include "qt/window/QtProjectSetupScreen.h"
-#include "qt/window/QtAboutLicense.h"
-#include "qt/window/QtAbout.h"
-#include "qt/window/QtLicense.h"
+#include "qt/window/QtWindowStack.h"
 
 class QDockWidget;
+class QtSettingsWindow;
 class View;
 
 class QtViewToggle
@@ -98,18 +94,16 @@ protected:
 	void keyPressEvent(QKeyEvent* event);
 
 public slots:
-	void pushWindow(QWidget* window);
-	void popWindow();
-	void clearWindows();
-
 	void activateWindow();
 
-	void about();
-	void openSettings();
-	void showLicenses();
-	void enterLicense();
+	QtSettingsWindow* about();
+	QtSettingsWindow* openSettings();
+	QtSettingsWindow* showLicenses();
+	QtSettingsWindow* enterLicense();
 
-	void showStartScreen();
+	QtSettingsWindow* showStartScreen();
+	void hideStartScreen();
+
 	void newProject();
 	void openProject(const QString &path = QString());
 	void editProject();
@@ -164,6 +158,9 @@ private:
 
 	void setShowDockWidgetTitleBars(bool showTitleBars);
 
+	template<typename T>
+		T* createWindow();
+
 	std::vector<DockWidget> m_dockWidgets;
 	QMenu* m_viewMenu;
 	QAction* m_viewSeparator;
@@ -171,14 +168,7 @@ private:
 	QAction* m_showTitleBarsAction;
 	bool m_showDockWidgetTitleBars;
 
-	std::shared_ptr<QtApplicationSettingsScreen> m_applicationSettingsScreen;
-	std::shared_ptr<QtStartScreen> m_startScreen;
-	std::shared_ptr<QtProjectSetupScreen> m_newProjectDialog;
-	std::shared_ptr<QtAboutLicense> m_licenseWindow;
-	std::shared_ptr<QtAbout> m_aboutWindow;
-	std::shared_ptr<QtLicense> m_enterLicenseWindow;
-
-	std::vector<QWidget*> m_windowStack;
+	QtWindowStack m_windowStack;
 
 	QShortcut* m_escapeShortcut;
 

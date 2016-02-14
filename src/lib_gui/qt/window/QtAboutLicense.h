@@ -18,7 +18,7 @@ public:
 	virtual void setup() override;
 
 protected:
-	virtual void populateForm(QFormLayout* layout) override;
+	virtual void populateWindow(QWidget* widget) override;
 
 private slots:
 	void handleCancelButtonPress();

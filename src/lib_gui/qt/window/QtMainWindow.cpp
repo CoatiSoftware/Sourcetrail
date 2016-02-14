@@ -12,7 +12,14 @@
 #include "component/view/CompositeView.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
+#include "qt/window/project_wizzard/QtProjectWizzard.h"
+#include "qt/window/QtApplicationSettingsScreen.h"
+#include "qt/window/QtStartScreen.h"
+#include "qt/window/QtAboutLicense.h"
+#include "qt/window/QtAbout.h"
+#include "qt/window/QtLicense.h"
 #include "settings/ApplicationSettings.h"
+#include "settings/ProjectSettings.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageFind.h"
@@ -106,6 +113,7 @@ bool MouseWheelFilter::eventFilter(QObject* obj, QEvent* event)
 
 QtMainWindow::QtMainWindow()
 	: m_showDockWidgetTitleBars(true)
+	, m_windowStack(this)
 	, m_createNewProjectFunctor(std::bind(&QtMainWindow::doCreateNewProject, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4))
 {
 	setObjectName("QtMainWindow");
@@ -245,12 +253,13 @@ void QtMainWindow::saveLayout()
 
 void QtMainWindow::forceEnterLicense()
 {
-	enterLicense();
-	m_enterLicenseWindow->clear();
-	m_enterLicenseWindow->setCancelAble(false);
+	QtLicense* enterLicenseWindow = dynamic_cast<QtLicense*>(enterLicense());
+
+	enterLicenseWindow->clear();
+	enterLicenseWindow->setCancelAble(false);
 
 	this->setEnabled(false);
-	m_enterLicenseWindow->setEnabled(true);
+	enterLicenseWindow->setEnabled(true);
 }
 
 void QtMainWindow::handleMessage(MessageNewProject* message)
@@ -276,137 +285,90 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 	}
 }
 
-void QtMainWindow::pushWindow(QWidget* window)
-{
-	if (m_windowStack.size())
-	{
-		m_windowStack.back()->hide();
-	}
-
-	window->show();
-
-	m_windowStack.push_back(window);
-}
-
-void QtMainWindow::popWindow()
-{
-	if (m_windowStack.size())
-	{
-		m_windowStack.back()->hide();
-		m_windowStack.pop_back();
-	}
-
-	if (m_windowStack.size())
-	{
-		m_windowStack.back()->show();
-	}
-}
-
-void QtMainWindow::clearWindows()
-{
-	for (QWidget* window : m_windowStack)
-	{
-		window->hide();
-	}
-
-	m_windowStack.clear();
-}
-
 void QtMainWindow::activateWindow()
 {
 	this->setEnabled(true);
-	popWindow();
+	m_windowStack.popWindow();
 }
 
-void QtMainWindow::about()
+QtSettingsWindow* QtMainWindow::about()
 {
-	if (!m_aboutWindow)
-	{
-		m_aboutWindow = std::make_shared<QtAbout>(this);
-		m_aboutWindow->setup();
+	QtAbout* aboutWindow = new QtAbout(this);
+	aboutWindow->setup();
 
-		connect(m_aboutWindow.get(), SIGNAL(finished()), this, SLOT(popWindow()));
-		connect(m_aboutWindow.get(), SIGNAL(canceled()), this, SLOT(popWindow()));
-	}
+	connect(aboutWindow, SIGNAL(finished()), &m_windowStack, SLOT(popWindow()));
+	connect(aboutWindow, SIGNAL(canceled()), &m_windowStack, SLOT(popWindow()));
 
-	pushWindow(m_aboutWindow.get());
+	m_windowStack.pushWindow(aboutWindow);
+	return aboutWindow;
 }
 
-void QtMainWindow::openSettings()
+QtSettingsWindow* QtMainWindow::openSettings()
 {
-	if (!m_applicationSettingsScreen)
-	{
-		m_applicationSettingsScreen = std::make_shared<QtApplicationSettingsScreen>(this);
-		m_applicationSettingsScreen->setup();
+	QtApplicationSettingsScreen* applicationSettingsScreen = new QtApplicationSettingsScreen(this);
+	applicationSettingsScreen->setup();
 
-		connect(m_applicationSettingsScreen.get(), SIGNAL(finished()), this, SLOT(popWindow()));
-		connect(m_applicationSettingsScreen.get(), SIGNAL(canceled()), this, SLOT(popWindow()));
-	}
+	connect(applicationSettingsScreen, SIGNAL(finished()), &m_windowStack, SLOT(popWindow()));
+	connect(applicationSettingsScreen, SIGNAL(canceled()), &m_windowStack, SLOT(popWindow()));
 
-	m_applicationSettingsScreen->load();
-	pushWindow(m_applicationSettingsScreen.get());
+	applicationSettingsScreen->load();
+	m_windowStack.pushWindow(applicationSettingsScreen);
+
+	return applicationSettingsScreen;
 }
 
-void QtMainWindow::showLicenses()
+QtSettingsWindow* QtMainWindow::showLicenses()
 {
-	if (!m_licenseWindow)
-	{
-		m_licenseWindow = std::make_shared<QtAboutLicense>(this);
-		m_licenseWindow->setup();
+	QtAboutLicense* licenseWindow = new QtAboutLicense(this);
+	licenseWindow->setup();
 
-		connect(m_licenseWindow.get(), SIGNAL(finished()), this, SLOT(popWindow()));
-		connect(m_licenseWindow.get(), SIGNAL(canceled()), this, SLOT(popWindow()));
-	}
+	connect(licenseWindow, SIGNAL(finished()), &m_windowStack, SLOT(popWindow()));
+	connect(licenseWindow, SIGNAL(canceled()), &m_windowStack, SLOT(popWindow()));
 
-	pushWindow(m_licenseWindow.get());
+	m_windowStack.pushWindow(licenseWindow);
+
+	return licenseWindow;
 }
 
-void QtMainWindow::enterLicense()
+QtSettingsWindow* QtMainWindow::enterLicense()
 {
-	if (!m_enterLicenseWindow)
-	{
-		m_enterLicenseWindow = std::make_shared<QtLicense>(this);
-		m_enterLicenseWindow->setup();
+	QtLicense* enterLicenseWindow = new QtLicense(this);
+	enterLicenseWindow->setup();
 
-		connect(m_enterLicenseWindow.get(), SIGNAL(finished()), this, SLOT(activateWindow()));
-		connect(m_enterLicenseWindow.get(), SIGNAL(canceled()), this, SLOT(popWindow()));
-	}
+	connect(enterLicenseWindow, SIGNAL(finished()), this, SLOT(activateWindow()));
+	connect(enterLicenseWindow, SIGNAL(canceled()), &m_windowStack, SLOT(popWindow()));
 
-	m_enterLicenseWindow->load();
-	pushWindow(m_enterLicenseWindow.get());
+	enterLicenseWindow->load();
+	m_windowStack.pushWindow(enterLicenseWindow);
+
+	return enterLicenseWindow;
 }
 
-void QtMainWindow::showStartScreen()
+QtSettingsWindow* QtMainWindow::showStartScreen()
 {
-	if (!m_startScreen)
-	{
-		m_startScreen = std::make_shared<QtStartScreen>(this);
-		m_startScreen->setup();
+	QtStartScreen* startScreen = new QtStartScreen(this);
+	startScreen->setup();
 
-		connect(m_startScreen.get(), SIGNAL(finished()), this, SLOT(popWindow()));
-		connect(m_startScreen.get(), SIGNAL(canceled()), this, SLOT(popWindow()));
+	connect(startScreen, SIGNAL(finished()), &m_windowStack, SLOT(popWindow()));
+	connect(startScreen, SIGNAL(canceled()), &m_windowStack, SLOT(popWindow()));
 
-		connect(m_startScreen.get(), SIGNAL(openOpenProjectDialog()), this, SLOT(openProject()));
-		connect(m_startScreen.get(), SIGNAL(openNewProjectDialog()), this, SLOT(newProject()));
-	}
+	connect(startScreen, SIGNAL(openOpenProjectDialog()), this, SLOT(openProject()));
+	connect(startScreen, SIGNAL(openNewProjectDialog()), this, SLOT(newProject()));
 
-	pushWindow(m_startScreen.get());
+	m_windowStack.pushWindow(startScreen);
+
+	return startScreen;
+}
+
+void QtMainWindow::hideStartScreen()
+{
+	m_windowStack.clearWindows();
 }
 
 void QtMainWindow::newProject()
 {
-	if (!m_newProjectDialog)
-	{
-		m_newProjectDialog = std::make_shared<QtProjectSetupScreen>(this);
-		m_newProjectDialog->setup();
-
-		connect(m_newProjectDialog.get(), SIGNAL(finished()), this, SLOT(clearWindows()));
-		connect(m_newProjectDialog.get(), SIGNAL(canceled()), this, SLOT(popWindow()));
-		connect(m_newProjectDialog.get(), SIGNAL(showPreferences()), this, SLOT(openSettings()));
-	}
-
-	m_newProjectDialog->loadEmpty();
-	pushWindow(m_newProjectDialog.get());
+	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
+	wizzard->newProject();
 }
 
 void QtMainWindow::openProject(const QString &path)
@@ -421,14 +383,14 @@ void QtMainWindow::openProject(const QString &path)
 	if (!fileName.isEmpty())
 	{
 		MessageLoadProject(fileName.toStdString(), false).dispatch();
-		clearWindows();
+		m_windowStack.clearWindows();
 	}
 }
 
 void QtMainWindow::editProject()
 {
-	newProject();
-	m_newProjectDialog->loadProjectSettings();
+	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
+	wizzard->editProject(*ProjectSettings::getInstance().get());
 }
 
 void QtMainWindow::find()
@@ -465,7 +427,7 @@ void QtMainWindow::saveProject()
 void QtMainWindow::saveAsProject()
 {
 	QString filename = "";
-	filename = QFileDialog::getSaveFileName(this, "Save File as", "", "Coati Project Files(*.coatiproject)");
+	filename = QFileDialog::getSaveFileName(this, "Save File as", "", "Coati Project Files (*.coatiproject)");
 
 	if(!filename.isEmpty())
 	{
@@ -524,7 +486,7 @@ void QtMainWindow::toggleView(View* view, bool fromMenu)
 
 void QtMainWindow::handleEscapeShortcut()
 {
-	popWindow();
+	m_windowStack.popWindow();
 	MessageInterruptTasks().dispatch();
 }
 
@@ -608,8 +570,27 @@ void QtMainWindow::toggleShowDockWidgetTitleBars()
 void QtMainWindow::doCreateNewProject(const std::string& name, const std::string& location,
 	const std::vector<std::string>& sourceFiles, const std::vector<std::string>& includePaths)
 {
-	newProject();
-	m_newProjectDialog->setPresets(name, location, sourceFiles, includePaths);
+	ProjectSettings settings;
+	settings.setProjectName(name);
+	settings.setProjectFileLocation(location);
+
+	std::vector<FilePath> sourcePaths;
+	for (const std::string& p : sourceFiles)
+	{
+		sourcePaths.push_back(FilePath(p));
+	}
+
+	std::vector<FilePath> headerPaths;
+	for (const std::string& p : includePaths)
+	{
+		headerPaths.push_back(FilePath(p));
+	}
+
+	settings.setSourcePaths(sourcePaths);
+	settings.setHeaderSearchPaths(headerPaths);
+
+	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
+	wizzard->editProject(settings);
 }
 
 void QtMainWindow::setupEditMenu()
@@ -732,4 +713,17 @@ void QtMainWindow::setShowDockWidgetTitleBars(bool showTitleBars)
 			dock.widget->setTitleBarWidget(new QWidget());
 		}
 	}
+}
+
+template<typename T>
+	T* QtMainWindow::createWindow()
+{
+	T* window = new T(this);
+
+	connect(window, SIGNAL(canceled()), &m_windowStack, SLOT(popWindow()));
+	connect(window, SIGNAL(finished()), &m_windowStack, SLOT(clearWindows()));
+
+	m_windowStack.pushWindow(window);
+
+	return window;
 }

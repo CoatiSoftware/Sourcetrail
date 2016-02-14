@@ -48,6 +48,8 @@ class QtDirectoryListBox
 public:
 	QtDirectoryListBox(QWidget *parent);
 
+	virtual QSize sizeHint() const override;
+
 	void clear();
 
 	std::vector<FilePath> getList();
@@ -56,8 +58,10 @@ public:
 	void selectItem(QListWidgetItem* item);
 
 protected:
-	void dropEvent(QDropEvent *event);
-	void dragEnterEvent(QDragEnterEvent* event);
+	bool event(QEvent* event) override;
+
+	void dropEvent(QDropEvent *event) override;
+	void dragEnterEvent(QDragEnterEvent* event) override;
 
 private:
 	void resize();
