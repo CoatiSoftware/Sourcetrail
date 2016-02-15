@@ -42,7 +42,7 @@ namespace SetupCreateStartMenuShortcutLib
             }
 
             IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress + _appShortcutName);
-            shortcut.Description = "Fast source code reading and navigation";
+            shortcut.Description = "Fast source code navigation and visualization";
             shortcut.TargetPath = app;
             shortcut.WorkingDirectory = appDirectory;
             shortcut.IconLocation = appDirectory + "data\\gui\\icon\\coati.ico";

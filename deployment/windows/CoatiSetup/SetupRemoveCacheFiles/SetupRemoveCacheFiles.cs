@@ -35,7 +35,7 @@ namespace SetupRemoveCacheFiles
         {
             try
             {
-                string appDataCoatiPath = Environment.GetEnvironmentVariable("APPDATA") + "\\..\\local\\Coati Software\\Coati\\";
+                string appDataCoatiPath = Environment.GetEnvironmentVariable("APPDATA") + "\\..\\local\\Coati Software"; // \\Coati\\";
 
                 Directory.Delete(appDataCoatiPath, true);
             }

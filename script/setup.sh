@@ -67,3 +67,5 @@ if [ $PLATFORM == "Linux" ] || [ $PLATFORM == "MacOS" ]; then
 fi
 
 echo -e $SUCCESS "setup complete"
+
+sleep 5

@@ -18,7 +18,15 @@ public:
 	virtual std::vector<std::string> getProjectItems();
 	virtual std::vector<std::string> getIncludePaths();
 
+	std::vector<std::string> getProjectItemsNonCanonical(); // for testing purposes, paths returned are non canonical, don't use if you don't know what that means
+	std::vector<std::string> getIncludePathsNonCanonical(); // for testing purposes, paths returned are non canonical, don't use if you don't know what that means
+
 private:
+	std::vector<std::string> findProjectItems();
+	std::vector<std::string> findIncludePaths();
+
+	bool checkValidFileExtension(const std::string& file, const std::vector<std::string>& validExtensions);
+
 	std::vector<std::string> getProjectBlocks(const std::string& solution) const;
 	std::string getProjectFilePath(const std::string& projectBlock) const;
 

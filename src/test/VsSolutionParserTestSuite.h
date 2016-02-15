@@ -45,7 +45,7 @@ public:
 	{
 		SolutionParserVisualStudio parser;
 		parser.openSolutionFile("data/vsSolutionParserTestSuite/Coati.sln");
-		std::vector<std::string> includePaths = parser.getIncludePaths();
+		std::vector<std::string> includePaths = parser.getIncludePathsNonCanonical();
 
 		TS_ASSERT_EQUALS(23, includePaths.size());
 	}
@@ -54,8 +54,8 @@ public:
 	{
 		SolutionParserVisualStudio parser;
 		parser.openSolutionFile("data/vsSolutionParserTestSuite/Coati.sln");
-		std::vector<std::string> projectItems = parser.getProjectItems();
+		std::vector<std::string> projectItems = parser.getProjectItemsNonCanonical();
 
-		TS_ASSERT_EQUALS(447, projectItems.size());
+		TS_ASSERT_EQUALS(450, projectItems.size());
 	}
 };

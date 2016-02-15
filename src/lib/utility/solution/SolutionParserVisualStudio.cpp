@@ -74,12 +74,46 @@ std::vector<std::string> SolutionParserVisualStudio::getProjectFiles()
 
 std::vector<std::string> SolutionParserVisualStudio::getProjectItems()
 {
+	std::vector<std::string> projectItems = findProjectItems();
+
+	projectItems = makePathsCanonical(projectItems);
+
+	return projectItems;
+}
+
+std::vector<std::string> SolutionParserVisualStudio::getIncludePaths()
+{
+	std::vector<std::string> includePaths = findIncludePaths();
+
+	includePaths = makePathsCanonical(includePaths);
+
+	return includePaths;
+}
+
+std::vector<std::string> SolutionParserVisualStudio::getProjectItemsNonCanonical()
+{
+	return findProjectItems();
+}
+
+std::vector<std::string> SolutionParserVisualStudio::getIncludePathsNonCanonical()
+{
+	return findIncludePaths();
+}
+
+std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
+{
 	std::vector<std::string> projectItems;
 
 	std::vector<std::string> projectFilesNames = getProjects();
 	std::vector<std::string> projectFiles = getProjectFiles();
 
 	std::vector<std::string> relativeProjectPaths;
+
+	std::vector<std::string> validFileExtensions;
+	validFileExtensions.push_back(".c");
+	validFileExtensions.push_back(".cpp");
+	validFileExtensions.push_back(".h");
+	validFileExtensions.push_back(".hpp");
 
 	for (unsigned int i = 0; i < projectFilesNames.size(); i++)
 	{
@@ -157,7 +191,10 @@ std::vector<std::string> SolutionParserVisualStudio::getProjectItems()
 					filePath = relativeProjectPaths[i] + "/" + filePath;
 				}
 
-				projectItems.push_back(filePath);
+				if (checkValidFileExtension(filePath, validFileExtensions))
+				{
+					projectItems.push_back(filePath);
+				}
 			}
 		}
 	}
@@ -167,16 +204,21 @@ std::vector<std::string> SolutionParserVisualStudio::getProjectItems()
 
 	projectItems = resolveEnvironmentVariables(projectItems);
 	projectItems = makePathsAbsolute(projectItems);
-	projectItems = makePathsCanonical(projectItems);
 
 	return projectItems;
 }
 
-std::vector<std::string> SolutionParserVisualStudio::getIncludePaths()
+std::vector<std::string> SolutionParserVisualStudio::findIncludePaths()
 {
 	std::vector<std::string> includePaths;
 
 	std::vector<std::string> projectFiles = getProjectFiles();
+
+	std::vector<std::string> validExtensions;
+	validExtensions.push_back(".c");
+	validExtensions.push_back(".cpp");
+	validExtensions.push_back(".h");
+	validExtensions.push_back(".hpp");
 
 	for (unsigned int i = 0; i < projectFiles.size(); i++)
 	{
@@ -195,7 +237,9 @@ std::vector<std::string> SolutionParserVisualStudio::getIncludePaths()
 
 		for (unsigned int j = 0; j < nodes.size(); j++)
 		{
-			includePaths.push_back(nodes[j]->GetText());
+			std::string path = nodes[j]->GetText();
+
+			includePaths.push_back(path);
 		}
 	}
 
@@ -206,9 +250,23 @@ std::vector<std::string> SolutionParserVisualStudio::getIncludePaths()
 
 	includePaths = resolveEnvironmentVariables(includePaths);
 	includePaths = makePathsAbsolute(includePaths);
-	includePaths = makePathsCanonical(includePaths);
 
 	return includePaths;
+}
+
+bool SolutionParserVisualStudio::checkValidFileExtension(const std::string& file, const std::vector<std::string>& validExtensions)
+{
+	for (unsigned int i = 0; i < validExtensions.size(); i++)
+	{
+		size_t pos = file.find(validExtensions[i]);
+
+		if (pos != std::string::npos)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 std::vector<std::string> SolutionParserVisualStudio::getProjectBlocks(const std::string& solution) const
@@ -596,6 +654,7 @@ std::vector<std::string> SolutionParserVisualStudio::makePathsCanonical(const st
 		}
 		catch (std::exception& e)
 		{
+			std::string what = e.what();
 			LOG_WARNING_STREAM(<< e.what());
 		}
 	}

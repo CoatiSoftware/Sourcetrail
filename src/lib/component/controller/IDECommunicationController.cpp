@@ -92,7 +92,7 @@ void IDECommunicationController::handleCreateProjectMessage(const NetworkProtoco
 			std::vector<std::string> includePaths = parser.getIncludePaths();
 			std::vector<std::string> projectItems = parser.getProjectItems();
 
-			std::vector<FilePath> projectFPs;
+			/*std::vector<FilePath> projectFPs;
 			std::vector<FilePath> includeFPs;
 
 			for (unsigned int i = 0; i < projectItems.size(); i++)
@@ -103,7 +103,7 @@ void IDECommunicationController::handleCreateProjectMessage(const NetworkProtoco
 			for (unsigned int i = 0; i < includePaths.size(); i++)
 			{
 				includeFPs.push_back(FilePath(includePaths[i]));
-			}
+			}*/
 
 			/*ProjectSettings* projSettings = ProjectSettings::getInstance().get();
 			projSettings->clear();
