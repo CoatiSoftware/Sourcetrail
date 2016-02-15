@@ -157,9 +157,12 @@ namespace CoatiSoftware.CoatiPlugin
             Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             IAsyncResult ar = client.BeginConnect(remoteEP, new AsyncCallback(ConnectCallback), client);
-            if (!connectDone.WaitOne(1000))
+            if (!connectDone.WaitOne(2000))
             {
                 client.EndConnect(ar);
+                client.Shutdown(SocketShutdown.Both);
+                client.Close();
+                return;
             }
 
             Send(client, message);
@@ -214,7 +217,15 @@ namespace CoatiSoftware.CoatiPlugin
             {
                 if (_onErrorCallback != null)
                 {
-                    _onErrorCallback(e.ToString());
+                    if (e is ObjectDisposedException)
+                    {
+                        // get this exception every once in a while
+                        // doesn't seem to do much, no idea yet why it's there to begin with
+                    }
+                    else
+                    {
+                        _onErrorCallback(e.ToString());
+                    }
                 }
             }
         }
