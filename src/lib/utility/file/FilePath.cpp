@@ -63,12 +63,39 @@ FilePath FilePath::absolute() const
 
 FilePath FilePath::canonical() const
 {
-	if (m_exists)
+	if (!m_exists)
 	{
-		return boost::filesystem::canonical(m_path);
+		return FilePath(m_path);
 	}
 
-	return FilePath(m_path);
+	boost::filesystem::path abs_p = boost::filesystem::absolute(m_path);
+	boost::filesystem::path result;
+	for (boost::filesystem::path::iterator it = abs_p.begin(); it != abs_p.end(); ++it)
+	{
+		if (*it == "..")
+		{
+			// /a/b/.. is not necessarily /a if b is a symbolic link
+			if (boost::filesystem::is_symlink(result))
+				result /= *it;
+			// /a/b/../.. is not /a/b/.. under most circumstances
+			// We can end up with ..s in our result because of symbolic links
+			else if (result.filename() == "..")
+				result /= *it;
+			// Otherwise it should be safe to resolve the parent
+			else
+				result = result.parent_path();
+		}
+		else if (*it == ".")
+		{
+			// Ignore
+		}
+		else
+		{
+			// Just cat other path entries
+			result /= *it;
+		}
+	}
+	return result;
 }
 
 FilePath FilePath::relativeTo(const FilePath& other) const
