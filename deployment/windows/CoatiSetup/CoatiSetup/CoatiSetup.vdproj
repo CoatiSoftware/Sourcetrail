@@ -21,12 +21,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_036226D3849F4F7D8A38382F76AD1AEE"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_036E57C4984B4D519AE705DC27702A21"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -111,6 +105,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_21C394FC316D40DB9FAC9A08156618F0"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_26654D2AC1834A0F826EB841DB7BEED5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -166,6 +166,12 @@
         "Entry"
         {
         "MsmKey" = "8:_36444DD669CB429BAC655FCD009253CF"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_37BA6E64B7FD47FB954849E62EBC1136"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -441,6 +447,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_A4CC52A009F0456AA339C354E62EAD6B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_A4D5CA6D5A6A4E73968ED13026B71B9B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -484,12 +496,6 @@
         "Entry"
         {
         "MsmKey" = "8:_B2DD60E81AB44C34B721A8504CA87D2C"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B6FF0247120E43F0A6C7EA2200979F8A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -567,6 +573,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_D2C2F69F414F43CBB247E8FBEE410766"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D33CE7460F22481480C361E2F77402F0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -604,6 +616,12 @@
         "Entry"
         {
         "MsmKey" = "8:_E3DAD78771E94C709B9F629FF2060A58"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E43E09C8CB354F88BF671A1CFAD8B7BB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1010,26 +1028,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_036226D3849F4F7D8A38382F76AD1AEE"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\window_settings.ini"
-            "TargetName" = "8:window_settings.ini"
-            "Tag" = "8:"
-            "Folder" = "8:_E1FB5107670240B1B09FCDC91978DBAD"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_036E57C4984B4D519AE705DC27702A21"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\boost_filesystem-vc140-mt-1_59.dll"
@@ -1310,6 +1308,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_21C394FC316D40DB9FAC9A08156618F0"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\Roboto-Regular.ttf"
+            "TargetName" = "8:Roboto-Regular.ttf"
+            "Tag" = "8:"
+            "Folder" = "8:_10C56793A3844205AF9C78F869786AC6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_26654D2AC1834A0F826EB841DB7BEED5"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\graph_view\\images\\arrow.png"
@@ -1476,6 +1494,26 @@
             "TargetName" = "8:file.png"
             "Tag" = "8:"
             "Folder" = "8:_498223EEFBEB4B00BE52244D0651CB4F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_37BA6E64B7FD47FB954849E62EBC1136"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\user\\window_settings.ini"
+            "TargetName" = "8:window_settings.ini"
+            "Tag" = "8:"
+            "Folder" = "8:_E1FB5107670240B1B09FCDC91978DBAD"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2390,6 +2428,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A4CC52A009F0456AA339C354E62EAD6B"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\user\\ApplicationSettings.xml"
+            "TargetName" = "8:ApplicationSettings.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_E1FB5107670240B1B09FCDC91978DBAD"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A4D5CA6D5A6A4E73968ED13026B71B9B"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\projects\\tutorial\\src\\main.cpp"
@@ -2536,26 +2594,6 @@
             "TargetName" = "8:auto_refresh.png"
             "Tag" = "8:"
             "Folder" = "8:_53922E90296F4A0C983150AAB492A09D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B6FF0247120E43F0A6C7EA2200979F8A"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\ApplicationSettings.xml"
-            "TargetName" = "8:ApplicationSettings.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_E1FB5107670240B1B09FCDC91978DBAD"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2790,6 +2828,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D2C2F69F414F43CBB247E8FBEE410766"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\Roboto-Bold.ttf"
+            "TargetName" = "8:Roboto-Bold.ttf"
+            "Tag" = "8:"
+            "Folder" = "8:_10C56793A3844205AF9C78F869786AC6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D33CE7460F22481480C361E2F77402F0"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\projects\\tutorial\\src\\the_central_hub.h"
@@ -2916,6 +2974,26 @@
             "TargetName" = "8:tictactoe.cpp"
             "Tag" = "8:"
             "Folder" = "8:_CE5AAF4EE3764AACA06B8963D3F99884"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E43E09C8CB354F88BF671A1CFAD8B7BB"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\Roboto_License.txt"
+            "TargetName" = "8:Roboto_License.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_10C56793A3844205AF9C78F869786AC6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -3428,7 +3506,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Coati"
         "ProductCode" = "8:{2A3B2FF5-A114-4CAB-88FB-DE8942D5B8EB}"
-        "PackageCode" = "8:{C87131CC-CFB6-458C-BDD9-281ECEC192EF}"
+        "PackageCode" = "8:{EE6C0228-A208-4048-BA14-DF7DD9AD3377}"
         "UpgradeCode" = "8:{CFF09D53-87AF-4241-960D-98C21ED9D358}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
