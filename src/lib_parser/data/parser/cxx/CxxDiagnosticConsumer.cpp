@@ -60,6 +60,11 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 		info.FormatDiagnostic(messageStr);
 		std::string message = messageStr.str();
 
+		if (message == "MS-style inline assembly is not available: Unable to find target for this triple (no targets are registered)")
+		{
+			return;
+		}
+
 		std::string filePath;
 		uint line = 0;
 		uint column = 0;
