@@ -8,7 +8,9 @@ cd $MY_PATH/..
 
 # Remove symbolic links
 cmd //c 'rmdir '.$MY_PATH.'\..\bin\app\Debug\data' &
+cmd //c 'rmdir '.$MY_PATH.'\..\bin\app\Debug\user' &
 cmd //c 'rmdir '.$MY_PATH.'\..\bin\app\Release\data' &
+cmd //c 'rmdir '.$MY_PATH.'\..\bin\app\Release\user' &
 
 # Remove folders and contents
 rm -rf build
