@@ -18,7 +18,7 @@ QtAbout::QtAbout(QWidget *parent)
 
 QSize QtAbout::sizeHint() const
 {
-	return QSize(370, 750);
+	return QSize(480, 520);
 }
 
 void QtAbout::setup()
@@ -37,110 +37,114 @@ void QtAbout::setup()
 	windowLayout->setContentsMargins(30, 30, 30, 20);
 	m_window->setLayout(windowLayout);
 
-	QHBoxLayout* rowTitle = new QHBoxLayout();
-	windowLayout->addLayout(rowTitle);
-
-	QtDeviceScaledPixmap coatiLogo((ResourcePaths::getGuiPath() + "about/logo.png").c_str());
-	coatiLogo.scaleToWidth(120);
-
-	QLabel* coatiLogoLabel = new QLabel(this);
-	coatiLogoLabel->setPixmap(coatiLogo.pixmap());
-	coatiLogoLabel->resize(coatiLogo.width(), coatiLogo.height());
-	rowTitle->addWidget(coatiLogoLabel);
-
-	rowTitle->addSpacing(40);
-
-	QVBoxLayout* columnLayout = new QVBoxLayout();
-	rowTitle->addLayout(columnLayout);
-
-	columnLayout->addStretch();
-
-	QLabel* versionLabel = new QLabel(("Version " + Version::getApplicationVersion().toDisplayString()).c_str(), this);
-	columnLayout->addWidget(versionLabel);
-
 	windowLayout->addStretch();
 
-	QHBoxLayout* rowDeveloperTitle = new QHBoxLayout();
-	windowLayout->addLayout(rowDeveloperTitle);
+	{
+		QHBoxLayout* row = new QHBoxLayout();
+		windowLayout->addLayout(row);
+		{
+			QVBoxLayout* column = new QVBoxLayout();
+			row->addLayout(column);
 
-	QLabel* developerTitle = new QLabel("<b>Developed by:</b>", this);
-	rowDeveloperTitle->addWidget(developerTitle);
+			QtDeviceScaledPixmap coatiLogo((ResourcePaths::getGuiPath() + "about/logo_coati.png").c_str());
+			coatiLogo.scaleToHeight(180);
+			QLabel* coatiLogoLabel = new QLabel(this);
+			coatiLogoLabel->setPixmap(coatiLogo.pixmap());
+			coatiLogoLabel->resize(coatiLogo.width(), coatiLogo.height());
+			column->addWidget(coatiLogoLabel);
+		}
+		{
+			QVBoxLayout* column = new QVBoxLayout();
+			row->addLayout(column);
 
-	QHBoxLayout* rowTeam = new QHBoxLayout();
-	windowLayout->addLayout(rowTeam);
+			column->addStretch();
 
-	QLabel* developerLabel = new QLabel(
-		"Manuel Dobusch\n"
-		"Eberhard Gräther\n"
-		"Malte Langkabel\n"
-		"Viktoria Pfausler\n"
-		"Andreas Stallinger\n",
-		this
-	);
-	rowTeam->addWidget(developerLabel);
+			QLabel* developerTitle = new QLabel("<b>Developed by:</b>", this);
+			column->addWidget(developerTitle);
 
-	rowTeam->addSpacing(40);
-
-	QLabel* companyLabel = new QLabel(
-		"Coati Software OG\n"
-		"Schlossallee 7/1\n"
-		"5412 Puch bei Hallein\n"
-		"Austria\n"
-		"support@coati.io\n",
-		this
-	);
-	rowTeam->addWidget(companyLabel);
+			QLabel* developerLabel = new QLabel(
+				"Manuel Dobusch\n"
+				"Eberhard Gräther\n"
+				"Malte Langkabel\n"
+				"Viktoria Pfausler\n"
+				"Andreas Stallinger\n",
+				this
+			);
+			column->addWidget(developerLabel);
+			column->addSpacing(-10);
+		}
+	}
+	{
+		QHBoxLayout* row = new QHBoxLayout();
+		windowLayout->addLayout(row);
+		QLabel* versionLabel = new QLabel(("Version " + Version::getApplicationVersion().toDisplayString()).c_str(), this);
+		row->addWidget(versionLabel);
+	}
 
 	windowLayout->addStretch();
-
-	QHBoxLayout* rowAcknowledgementsTitle = new QHBoxLayout();
-	windowLayout->addLayout(rowAcknowledgementsTitle);
+	windowLayout->addStretch();
 
 	QLabel* acknowledgementsTitle = new QLabel("<b>Acknowledgements:</b>", this);
-	rowAcknowledgementsTitle->addWidget(acknowledgementsTitle);
-
+	windowLayout->addWidget(acknowledgementsTitle);
 
 	QLabel* acknowledgementsLabel = new QLabel(
-		"Coati 0.1 was created in the context of education \n"
-		"at the University of Applied Sciences Salzburg\n"
-		"\n"
-		"Coati Software OG takes part in the Startup Salzburg\n"
-		"initiative.\n"
-		"\n"
-		"The development of Coati is funded by the AWS\n",
+		"Coati 0.1 was created in the context of education at the\n"
+		"University of Applied Sciences Salzburg.\n"
+		"Coati Software OG takes part in the Startup Salzburg initiative.\n"
+		"The development of Coati is funded by the AWS.\n",
 		this
 	);
 	windowLayout->addWidget(acknowledgementsLabel);
 
-	QHBoxLayout* rowAcknowledgementsLogos = new QHBoxLayout();
-	windowLayout->addLayout(rowAcknowledgementsLogos);
 
-	rowAcknowledgementsLogos->addStretch();
+	{
+		QHBoxLayout* row = new QHBoxLayout();
+		windowLayout->addLayout(row);
 
-	QtDeviceScaledPixmap fhsLogo((ResourcePaths::getGuiPath() + "about/logo_fhs.png").c_str());
-	fhsLogo.scaleToHeight(60);
+		QLabel* companyLabel = new QLabel(
+			"<b>Coati Software OG</b><br />"
+			"<b>Schlossallee 7/1</b><br />"
+			"<b>5412 Puch bei Hallein</b><br />"
+			"<b>Austria</b><br />"
+			"<b>support@coati.io</b>",
+			this);
+		row->addWidget(companyLabel);
+		
+		{
+			QVBoxLayout* column = new QVBoxLayout();
+			row->addLayout(column);
 
-	QLabel* fhsLabel = new QLabel(this);
-	fhsLabel->setPixmap(fhsLogo.pixmap());
-	fhsLabel->resize(fhsLogo.width(), fhsLogo.height());
-	rowAcknowledgementsLogos->addWidget(fhsLabel);
+			column->addStretch();
 
-	rowAcknowledgementsLogos->addStretch();
+			{
+				QHBoxLayout* rowAcknowledgementsLogos = new QHBoxLayout();
+				column->addLayout(rowAcknowledgementsLogos);
 
-	QtDeviceScaledPixmap awsLogo("data/gui/about/logo_aws.png");
-	awsLogo.scaleToHeight(60);
-	QLabel* awsLabel = new QLabel(this);
-	awsLabel->setPixmap(awsLogo.pixmap());
-	awsLabel->resize(awsLogo.width(), awsLogo.height());
-	rowAcknowledgementsLogos->addWidget(awsLabel);
+				QtDeviceScaledPixmap fhsLogo((ResourcePaths::getGuiPath() + "about/logo_fhs.png").c_str());
+				fhsLogo.scaleToHeight(30);
+				QLabel* fhsLabel = new QLabel(this);
+				fhsLabel->setPixmap(fhsLogo.pixmap());
+				fhsLabel->resize(fhsLogo.width(), fhsLogo.height());
+				rowAcknowledgementsLogos->addWidget(fhsLabel);
 
-	rowAcknowledgementsLogos->addStretch();
+				QtDeviceScaledPixmap awsLogo((ResourcePaths::getGuiPath() + "about/logo_aws.png").c_str());
+				awsLogo.scaleToHeight(30);
+				QLabel* awsLabel = new QLabel(this);
+				awsLabel->setPixmap(awsLogo.pixmap());
+				awsLabel->resize(awsLogo.width(), awsLogo.height());
+				rowAcknowledgementsLogos->addWidget(awsLabel);
+			}
+		}
+	}
 
 	windowLayout->addStretch();
 
-	QPushButton* closeButton = new QPushButton("X", this);
+	QtDeviceScaledPixmap closePixmap((ResourcePaths::getGuiPath() + "about/icon_close.png").c_str());
+	closePixmap.scaleToHeight(20);
+	QPushButton* closeButton = new QPushButton(this);
+	closeButton->setIcon(QIcon(closePixmap.pixmap()));
 	closeButton->setObjectName("closeButton");
-	closeButton->move(320, 20);
+	closeButton->move(430, 20);
 
 	connect(closeButton, SIGNAL(clicked()), this, SLOT(handleUpdateButtonPress()));
 }

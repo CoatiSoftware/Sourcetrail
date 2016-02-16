@@ -1,6 +1,6 @@
 * {
 	color: white;
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: 100;
 }
 
@@ -13,11 +13,11 @@
 	border: none;
 	color: white;
 	font-size: 14pt;
-	height: 20px;
-	width: 20px;
+	height: 24px;
+	width: 24px;
 }
 
 #closeButton:hover {
 	border: 2px solid white;
-	border-radius: 10px;
+	border-radius: 12px;
 }
