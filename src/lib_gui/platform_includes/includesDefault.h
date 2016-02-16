@@ -1,12 +1,13 @@
 #ifndef INCLUDES_DEFAULT_H
 #define INCLUDES_DEFAULT_H
 
-static std::string appSettingsPath = "data/ApplicationSettings.xml";
-static std::string windowSettingsPath = "data/window_settings.ini";
-static std::string logPath = "data/log/";
+#include "utility/UserPaths.h"
 
 void setup(int argc, char *argv[])
 {
+    std::string userdir(std::getenv("HOME"));
+    userdir.append("/.config/coati/");
+    UserPaths::setUserDataPath(userdir);
 }
 
 #endif // INCLUDES_DEFAULT_H

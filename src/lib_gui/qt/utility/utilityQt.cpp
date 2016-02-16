@@ -2,6 +2,7 @@
 
 #include <set>
 
+#include <QDir>
 #include <QFile>
 #include <QFontDatabase>
 #include <QPainter>
@@ -149,5 +150,30 @@ namespace utility
 		painter.setCompositionMode(QPainter::CompositionMode_SourceAtop);
 		painter.drawImage(0, 0, colorImage);
 		return QPixmap::fromImage(image);
+	}
+
+	void copyNewFilesFromDirectory(QString src, QString dst)
+	{
+		QDir dir(src);
+		if (!dir.exists())
+		{
+			return;
+		}
+
+		foreach (QString d, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
+		{
+			QString dst_path = dst + QDir::separator() + d;
+
+			dir.mkpath(dst_path);
+			copyNewFilesFromDirectory(src + QDir::separator() + d, dst_path);
+		}
+
+		foreach (QString f, dir.entryList(QDir::Files))
+		{
+			if (!QFile::exists(dst + QDir::separator() + f))
+			{
+				QFile::copy(src + QDir::separator() + f, dst + QDir::separator() + f);
+			}
+		}
 	}
 }

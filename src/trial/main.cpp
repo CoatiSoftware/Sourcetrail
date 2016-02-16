@@ -3,6 +3,7 @@
 #include "utility/logging/FileLogger.h"
 #include "utility/logging/LogManager.h"
 #include "utility/ResourcePaths.h"
+#include "utility/UserPaths.h"
 #include "utility/Version.h"
 
 #include "Application.h"
@@ -24,7 +25,7 @@ void init()
 
 	std::shared_ptr<FileLogger> fileLogger = std::make_shared<FileLogger>();
 	fileLogger->setLogLevel(Logger::LOG_ALL);
-	FileLogger::setFilePath(logPath);
+	FileLogger::setFilePath(UserPaths::getLogPath());
 	LogManager::getInstance()->addLogger(fileLogger);
 
 	utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
@@ -32,9 +33,13 @@ void init()
 
 int main(int argc, char *argv[])
 {
+	QApplication::setApplicationName("Coati");
+
 	Version version = Version::fromString(GIT_VERSION_NUMBER);
+	QApplication::setApplicationVersion(version.toDisplayString().c_str());
 
 	setup(argc, argv);
+
 	QtApplication qtApp(argc, argv);
 
 	qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
@@ -52,8 +57,6 @@ int main(int argc, char *argv[])
 	QtViewFactory viewFactory;
 	QtNetworkFactory networkFactory;
 
-	QtMainWindow::setWindowSettingsPath(windowSettingsPath);
-	Application::setAppSettingsPath(appSettingsPath);
 	std::shared_ptr<Application> app = Application::create(version, &viewFactory, &networkFactory);
 
 	if (splash)

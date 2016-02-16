@@ -19,7 +19,7 @@ then
 	elif [ "$2" = "keygen" ]
 	then
 		#echo "release keygen"
-		ninja -C build/Release Coati_keygen && cd bin/gen && Release/Coati_keygen
+		ninja -C build/Release Coati_license_generator && cd bin/license_generator && Release/Coati_license_generator
 	else
 		#echo "release app"
 		ninja -C build/Release Coati && cd bin/app && Release/Coati
@@ -36,7 +36,7 @@ then
 	elif [ "$2" = "keygen" ]
 	then
 		#echo "debug keygen"
-		ninja -C build/Debug Coati_keygen && cd bin/gen && Debug/Coati_keygen_d
+		ninja -C build/Debug Coati_license_generator && cd bin/license_generator && Debug/Coati_license_generator_d
 	else
 		#echo "debug app"
 		ninja -C build/Debug Coati && cd bin/app && Debug/Coati

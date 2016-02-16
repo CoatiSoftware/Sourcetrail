@@ -4,10 +4,10 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <QApplication>
 #include <QDir>
+#include <QStandardPaths>
 
-static std::string appSettingsPath = "data/ApplicationSettings.xml";
-static std::string windowSettingsPath = "data/window_settings.ini";
-static std::string logPath = "data/log/";
+#include "qt/utility/utilityQt.h"
+#include "utility/UserPaths.h"
 
 void setup(int argc, char *argv[])
 {
@@ -46,6 +46,22 @@ void setup(int argc, char *argv[])
 		QCoreApplication::setLibraryPaths(QStringList(dir.absolutePath()));
 		// printf("after change, libraryPaths=(%s)\n", QCoreApplication::libraryPaths().join(",").toUtf8().data());
 	}
+	// ----------------------------------------------------------------------------
+
+
+	// ----------------------------------------------------------------------------
+	// Makes the mac bundle copy the user files to the Application Support folder
+	QString dataPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+
+	QDir dataDir(dataPath);
+	if (!dataDir.exists())
+	{
+		dataDir.mkpath(dataPath);
+	}
+
+	utility::copyNewFilesFromDirectory(QString::fromStdString(UserPaths::getUserDataPath()), dataPath);
+
+	UserPaths::setUserDataPath(dataPath.toStdString() + "/");
 	// ----------------------------------------------------------------------------
 }
 

@@ -37,8 +37,6 @@ public:
 	void saveProject(const FilePath& projectSettingsFilePath);
 	void showLicenseScreen();
 
-	static void setAppSettingsPath(const std::string& appSettingsPath);
-
 private:
 	Application();
 
@@ -59,8 +57,6 @@ private:
 	std::shared_ptr<ComponentManager> m_componentManager;
 
 	std::shared_ptr<IDECommunicationController> m_ideCommunicationController;
-
-	static std::string m_appSettingsPath;
 };
 
 #endif // APPLICATION_H

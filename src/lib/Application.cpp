@@ -5,6 +5,7 @@
 #include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/TaskScheduler.h"
+#include "utility/UserPaths.h"
 #include "utility/Version.h"
 
 #include "component/view/GraphViewStyle.h"
@@ -14,8 +15,6 @@
 #include "data/StorageCache.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
-
-std::string Application::m_appSettingsPath = "data/ApplicationSettings.xml";
 
 std::shared_ptr<Application> Application::create(
 	const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory
@@ -53,7 +52,7 @@ std::shared_ptr<Application> Application::create(
 
 void Application::loadSettings()
 {
-	ApplicationSettings::getInstance()->load(FilePath(m_appSettingsPath));
+	ApplicationSettings::getInstance()->load(FilePath(UserPaths::getAppSettingsPath()));
 	ColorScheme::getInstance()->load(ApplicationSettings::getInstance()->getColorSchemePath());
 
 	GraphViewStyle::loadStyleSettings();
@@ -112,11 +111,6 @@ void Application::saveProject(const FilePath& projectSettingsFilePath)
 void Application::showLicenseScreen()
 {
 	m_mainView->showLicenseScreen();
-}
-
-void Application::setAppSettingsPath(const std::string& appSettingsPath)
-{
-	m_appSettingsPath = appSettingsPath;
 }
 
 void Application::handleMessage(MessageActivateWindow* message)
@@ -187,5 +181,5 @@ void Application::updateRecentProjects(const FilePath& projectSettingsFilePath)
 	}
 
 	appSettings->setRecentProjects(recentProjects);
-	appSettings->save(m_appSettingsPath);
+	appSettings->save(UserPaths::getAppSettingsPath());
 }

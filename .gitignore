@@ -4,10 +4,10 @@
 
 /bin/app/Debug/
 /bin/app/Release/
-/bin/app/data/log/
 /bin/app/data/projects/ignored/
-/bin/app/data/ApplicationSettings.xml
-/bin/app/data/window_settings.ini
+/bin/app/user/log/
+/bin/app/user/ApplicationSettings.xml
+/bin/app/user/window_settings.ini
 
 /bin/lib/
 /bin/lib_gui/

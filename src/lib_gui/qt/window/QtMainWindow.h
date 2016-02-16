@@ -130,8 +130,6 @@ public slots:
 
 	void updateRecentProjectMenu();
 
-	static void setWindowSettingsPath(const std::string& windowSettingsPath);
-
 private slots:
 	void toggleShowDockWidgetTitleBars();
 
@@ -171,8 +169,6 @@ private:
 	QtWindowStack m_windowStack;
 
 	QShortcut* m_escapeShortcut;
-
-	static std::string m_windowSettingsPath;
 
 	QtThreadedFunctor<std::string, std::string, std::vector<std::string>, std::vector<std::string>> m_createNewProjectFunctor;
 };

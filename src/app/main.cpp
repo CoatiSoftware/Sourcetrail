@@ -1,8 +1,15 @@
 #include "utility/AppPath.h"
+
+#include <memory>
+
+#include <QApplication>
+
 #include "utility/logging/ConsoleLogger.h"
 #include "utility/logging/FileLogger.h"
 #include "utility/logging/LogManager.h"
+#include "utility/StandardHeaderDetection.h"
 #include "utility/ResourcePaths.h"
+#include "utility/UserPaths.h"
 #include "utility/Version.h"
 
 #include "Application.h"
@@ -17,9 +24,9 @@
 #include "qt/window/QtSplashScreen.h"
 #include "version.h"
 
-
 #include "utility/solution/SolutionParserVisualStudio.h"
 #include "settings/ProjectSettings.h"
+
 
 void init()
 {
@@ -29,30 +36,45 @@ void init()
 
 	std::shared_ptr<FileLogger> fileLogger = std::make_shared<FileLogger>();
 	fileLogger->setLogLevel(Logger::LOG_ALL);
-	FileLogger::setFilePath(logPath);
+	FileLogger::setFilePath(UserPaths::getLogPath());
 	LogManager::getInstance()->addLogger(fileLogger);
 
 	utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
 }
 
+QMainWindow* getMainWindow()
+{
+	QWidgetList widgets = qApp->topLevelWidgets();
+	for (QWidgetList::iterator i = widgets.begin(); i != widgets.end(); ++i)
+		if ((*i)->objectName() == "MainWindow")
+			return (QMainWindow*) (*i);
+	return NULL;
+}
+
 int main(int argc, char *argv[])
 {
+	QApplication::setApplicationName("Coati");
+
 	Version version = Version::fromString(GIT_VERSION_NUMBER);
+	QApplication::setApplicationVersion(version.toDisplayString().c_str());
 
 	setup(argc, argv);
+
 	QtApplication qtApp(argc, argv);
-	QApplication::setApplicationName("Coati");
-	QApplication::setApplicationVersion(version.toDisplayString().c_str());
 
 	qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
 
-	QPixmap whitePixmap(500, 500);
-	whitePixmap.fill(Qt::white);
-
-	QtSplashScreen* splash = new QtSplashScreen(whitePixmap, Qt::WindowStaysOnTopHint);
+	QtSplashScreen* splash = new QtSplashScreen();
 	splash->setMessage("Loading UI");
 	splash->setVersion(version.toDisplayString().c_str());
+
+//	QTimer* timer = new QTimer(splash);
+//	QObject::connect(timer, SIGNAL(timeout()), splash, SLOT(animate()));
+//	timer->start(150);
+
 	splash->exec(qtApp);
+
+	qtApp.processEvents();
 
 	init();
 
@@ -60,29 +82,38 @@ int main(int argc, char *argv[])
 	commandLineParser.setup();
 	commandLineParser.process(qtApp);
 
+	qtApp.processEvents();
+
 	QtViewFactory viewFactory;
 	QtNetworkFactory networkFactory;
+	std::shared_ptr<Application> app = Application::create(version, &viewFactory, &networkFactory);
 
-	QtMainWindow::setWindowSettingsPath(windowSettingsPath);
-	Application::setAppSettingsPath(appSettingsPath);
-	
-	if(AppPath::getAppPath().empty())
+	if (AppPath::getAppPath().empty())
 	{
 		AppPath::setAppPath(QCoreApplication::applicationDirPath().toStdString());
 	}
 
+	if(ApplicationSettings::getInstance()->getHeaderSearchPaths().empty())
+	{
+		StandardHeaderDetection headerDetection;
+		headerDetection.detectHeaders();
+		ApplicationSettings::getInstance()->setHeaderSearchPaths(headerDetection.getDefaultHeaderPaths());
+	}
+
+	splash->setMessage("Checking License");
 	LicenseChecker checker;
-
-	std::shared_ptr<Application> app = Application::create(version, &viewFactory, &networkFactory);
-
 	checker.setApp(app.get());
+
+	splash->setMessage("Parse Commandline Arguments");
+	commandLineParser.parseCommandline();
+
+	qtApp.processEvents();
+	splash->setMessage("Done");
 
 	if (splash)
 	{
 		delete splash;
 	}
-
-	commandLineParser.parseCommandline();
 
 	return qtApp.exec();
 }

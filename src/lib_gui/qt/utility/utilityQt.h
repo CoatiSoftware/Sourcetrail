@@ -12,6 +12,8 @@ namespace utility
 	std::string getStyleSheet(const std::string& path);
 
 	QPixmap colorizePixmap(const QPixmap& pixmap, QColor color);
+
+	void copyNewFilesFromDirectory(QString src, QString dst);
 }
 
 # endif // UTILITY_QT_H

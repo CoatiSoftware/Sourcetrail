@@ -294,6 +294,8 @@ add_files(
 	utility/TimePoint.cpp
 	utility/TimePoint.h
 	utility/types.h
+	utility/UserPaths.cpp
+	utility/UserPaths.h
 	utility/utility.cpp
 	utility/utility.h
 	utility/utilityString.cpp
