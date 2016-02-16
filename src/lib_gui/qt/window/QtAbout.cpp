@@ -18,7 +18,7 @@ QtAbout::QtAbout(QWidget *parent)
 
 QSize QtAbout::sizeHint() const
 {
-	return QSize(480, 520);
+	return QSize(500, 520);
 }
 
 void QtAbout::setup()
@@ -91,7 +91,7 @@ void QtAbout::setup()
 		"Coati 0.1 was created in the context of education at the\n"
 		"University of Applied Sciences Salzburg.\n"
 		"Coati Software OG takes part in the Startup Salzburg initiative.\n"
-		"The development of Coati is funded by the AWS.\n",
+		"The development of Coati is funded by aws.\n",
 		this
 	);
 	windowLayout->addWidget(acknowledgementsLabel);
@@ -109,7 +109,7 @@ void QtAbout::setup()
 			"<b>support@coati.io</b>",
 			this);
 		row->addWidget(companyLabel);
-		
+
 		{
 			QVBoxLayout* column = new QVBoxLayout();
 			row->addLayout(column);
@@ -144,7 +144,7 @@ void QtAbout::setup()
 	QPushButton* closeButton = new QPushButton(this);
 	closeButton->setIcon(QIcon(closePixmap.pixmap()));
 	closeButton->setObjectName("closeButton");
-	closeButton->move(430, 20);
+	closeButton->move(450, 20);
 
 	connect(closeButton, SIGNAL(clicked()), this, SLOT(handleUpdateButtonPress()));
 }
