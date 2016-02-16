@@ -12,7 +12,9 @@
 void setup(int argc, char *argv[])
 {
 #ifdef DEPLOY
-	UserPaths::setUserDataPath(std::getenv("APPDATA")) + "/../local/Coati Software/Coati/");
+	std::string path = std::getenv("APPDATA");
+	path += "/../local/Coati Software/Coati/";
+	UserPaths::setUserDataPath(path);
 #endif
 }
 
