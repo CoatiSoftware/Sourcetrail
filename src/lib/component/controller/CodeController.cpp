@@ -517,8 +517,9 @@ std::vector<std::string> CodeController::getProjectDescription(TokenLocationFile
 	{
 		std::string line = "\t" + lines[i];
 
-		size_t pos = 0;
+		line = utility::replace(line, "\\t", "\t");
 
+		size_t pos = 0;
 		while (pos != std::string::npos)
 		{
 			size_t posA = line.find('[', pos);

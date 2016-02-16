@@ -37,9 +37,9 @@ void function_with_snippets()
 // 9 - EDIT YOUR CODE
 //  In case you wondered if you can edit your code using Coati: You can't. Coati
 //  is designed for code exploration, not as a text editor or an IDE. But there
-//  is a chance that Coati can talk to your favourite editor (that you already
+//  is a chance that Coati can talk to your favorite editor (that you already
 //  know how to operate) via plugin. For more information about available
-//  plugins please take a look at Coati's user manual.
+//  plugins please take a look at Coati's documentation.
 //
 //  We hope you enjoyed this tutorial. You can follow the call below to get back
 //  to the central hub.
@@ -50,6 +50,7 @@ void function_with_snippets()
 //  include hierarchy.
 //
 //------------------------------------------------------------------------------
+
 
 	the_central_hub();
 

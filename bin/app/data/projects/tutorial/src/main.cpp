@@ -6,18 +6,10 @@
 
 //------------------------------------------------------------------------------
 //
-// WHAT IS THIS?
-//  This is a tutorial and it is one of the fastest ways to get to know Coati.
-//
-// WHERE AM I?
-//  This is Coati's Code View and you are looking at the main function of this 
-//  project's program.
-//
-// WHY AM I HERE? 
-//  Every time you open up a project in Coati it will look for a function called
-//	"main". In case this function is defined it will be displayed right away.
-//	Otherwise Coati will just activate the first thing in your codebase it
-//	happens to stumble across.
+// WHAT IS THIS? 
+//  Now the Code View finally shows some real code of the tutorial project.  
+//  And who could think of a better place to start a tutorial that involves 
+//  code than a main function?
 //
 // WHAT CAN I DO NOW?
 //  Left-click the "my_first_step()" function call inside the main function. 

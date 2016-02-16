@@ -2,7 +2,19 @@
 <config>
 	<info>
 		<description>
-			This is the tutorial project of Coati.\nIt will introduce you to Coati's user interface.\nPlease click on the function [main] below to start the tutorial\n\n[main](); // &lt;- start here\n\n
+			WHAT IS THIS?\n
+			\tThis is a tutorial and it is one of the fastest ways to get to know Coati.\n
+			\n
+			WHERE AM I?\n
+			\tYou're looking at Coati's Code View which usually displays source code,\n 
+			\tbut every time a new project is loaded it gives a quick summary to\n
+			\testimate the project's size. This is a fairly small project. It only\n 
+			\tcontains a few hundred lines of code as you can see by the numbers below.\n
+			\n
+			LET'S GET STARTED!\n
+			\tTo keep things simple just click the "main" symbol below to start the tour.\n
+			\n
+			[main](); // &lt;- start here\n\n
 		</description>
 	</info>
 	<source>
