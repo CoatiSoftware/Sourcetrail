@@ -87,6 +87,11 @@ $ ninja -j4 check-all
 
 * Boost lib dir: rename library directory for your system (e.g.: 'lib32-msvc-12.0') to 'lib'
 
+#### Tagging
+
+$ git tag -a VERSION_NUMBER -m "DESCRIPTION"
+$ git push --tags
+
 #### Changelog
 
 ##### 0.3.0
