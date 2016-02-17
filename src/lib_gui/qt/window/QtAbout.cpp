@@ -88,14 +88,16 @@ void QtAbout::setup()
 	windowLayout->addWidget(acknowledgementsTitle);
 
 	QLabel* acknowledgementsLabel = new QLabel(
-		"Coati 0.1 was created in the context of education at the\n"
-		"University of Applied Sciences Salzburg.\n"
-		"Coati Software OG takes part in the Startup Salzburg initiative.\n"
-		"The development of Coati is funded by aws.\n",
+		"Coati 0.1 was created in the context of education at<br />"
+		"<a href=\"http://www.fh-salzburg.ac.at/en/\" style=\"color: white;\">Salzburg University of Applied Sciences</a>.<br />"
+		"Coati Software OG takes part in the <a href=\"http://www.startup-salzburg.at/\" style=\"color: white;\">Startup Salzburg</a> initiative.<br />"
+		"The development of Coati is funded by <a href=\"http://awsg.at\" style=\"color: white;\">aws</a>.",
 		this
 	);
+	acknowledgementsLabel->setOpenExternalLinks(true);
 	windowLayout->addWidget(acknowledgementsLabel);
 
+	windowLayout->addStretch();
 
 	{
 		QHBoxLayout* row = new QHBoxLayout();
@@ -106,8 +108,10 @@ void QtAbout::setup()
 			"<b>Schlossallee 7/1</b><br />"
 			"<b>5412 Puch bei Hallein</b><br />"
 			"<b>Austria</b><br />"
-			"<b>support@coati.io</b>",
+			"<b>support@coati.io</b><br />"
+			"<b><a href=\"https://coati.io\" style=\"color: white;\">coati.io</a></b>",
 			this);
+		companyLabel->setOpenExternalLinks(true);
 		row->addWidget(companyLabel);
 
 		{
