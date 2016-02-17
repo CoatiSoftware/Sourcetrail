@@ -21,12 +21,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_036E57C4984B4D519AE705DC27702A21"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_037CA5C54AC54097A60194F7BF278651"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -34,12 +28,6 @@
         "Entry"
         {
         "MsmKey" = "8:_096D033F5DF740A6B6B190652E5276AF"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_0AD201C76EA849CFAEE2BBEA91772C06"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -327,12 +315,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_6DCE7F30A54646F88FAE4D50F74EE4EA"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_6E650850659A442CBDF2D6AA7B6024F5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -580,12 +562,6 @@
         "Entry"
         {
         "MsmKey" = "8:_D33CE7460F22481480C361E2F77402F0"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D5448E383AD1484DB744028FAB7BB842"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1028,26 +1004,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_036E57C4984B4D519AE705DC27702A21"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\boost_filesystem-vc140-mt-1_59.dll"
-            "TargetName" = "8:boost_filesystem-vc140-mt-1_59.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_972788CBF3404779967EA0B73B72BF18"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_037CA5C54AC54097A60194F7BF278651"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\FiraSans_License.txt"
@@ -1074,26 +1030,6 @@
             "TargetName" = "8:coati.ico"
             "Tag" = "8:"
             "Folder" = "8:_D5F20C3B10A146A3ACB96AB52AD1FFA6"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0AD201C76EA849CFAEE2BBEA91772C06"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\boost_date_time-vc140-mt-1_59.dll"
-            "TargetName" = "8:boost_date_time-vc140-mt-1_59.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_972788CBF3404779967EA0B73B72BF18"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2028,26 +1964,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6DCE7F30A54646F88FAE4D50F74EE4EA"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\boost_system-vc140-mt-1_59.dll"
-            "TargetName" = "8:boost_system-vc140-mt-1_59.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_972788CBF3404779967EA0B73B72BF18"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6E650850659A442CBDF2D6AA7B6024F5"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\code_view\\images\\pattern.png"
@@ -2854,26 +2770,6 @@
             "TargetName" = "8:the_central_hub.h"
             "Tag" = "8:"
             "Folder" = "8:_A38746A96F3F43108F3B9C1A88E43FD0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D5448E383AD1484DB744028FAB7BB842"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\startscreen\\logo_blurry.png"
-            "TargetName" = "8:logo_blurry.png"
-            "Tag" = "8:"
-            "Folder" = "8:_80DB34EC81744B7B9951BAB664E07BAA"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -4488,7 +4384,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3460FAB707F8431E87168499A7F51556"
             {
-            "SourcePath" = "8:..\\SetupApplicationSettingsLib\\obj\\Release\\SetupApplicationSettingsLib.dll"
+            "SourcePath" = "8:..\\SetupApplicationSettingsLib\\obj\\Debug\\SetupApplicationSettingsLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
@@ -4516,7 +4412,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
             {
-            "SourcePath" = "8:..\\SetupCreateStartMenuShortcutLib\\obj\\Release\\SetupCreateStartMenuShortcutLib.dll"
+            "SourcePath" = "8:..\\SetupCreateStartMenuShortcutLib\\obj\\Debug\\SetupCreateStartMenuShortcutLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
@@ -4544,7 +4440,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F81B906E39E44A5DAC37B3D70BC8A8CE"
             {
-            "SourcePath" = "8:..\\SetupCreateDesktopShortcutLib\\obj\\Release\\SetupCreateDesktopShortcutLib.dll"
+            "SourcePath" = "8:..\\SetupCreateDesktopShortcutLib\\obj\\Debug\\SetupCreateDesktopShortcutLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
@@ -4572,7 +4468,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_FB29EAD658C3497D9AC46ADE92D33C83"
             {
-            "SourcePath" = "8:..\\SetupRemoveCacheFiles\\obj\\Release\\SetupRemoveCacheFiles.dll"
+            "SourcePath" = "8:..\\SetupRemoveCacheFiles\\obj\\Debug\\SetupRemoveCacheFiles.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
