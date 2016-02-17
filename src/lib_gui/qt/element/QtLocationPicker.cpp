@@ -6,6 +6,7 @@
 
 QtLocationPicker::QtLocationPicker(QWidget *parent)
 	: QWidget(parent)
+	, m_pickDirectory(false)
 {
 	QBoxLayout* layout = new QHBoxLayout();
 	layout->setSpacing(0);
@@ -43,11 +44,30 @@ void QtLocationPicker::clearText()
 	m_data->clear();
 }
 
+void QtLocationPicker::setPickDirectory(bool pickDirectory)
+{
+	m_pickDirectory = pickDirectory;
+}
+
+void QtLocationPicker::setFileFilter(const QString& fileFilter)
+{
+	m_fileFilter = fileFilter;
+}
+
 void QtLocationPicker::handleButtonPress()
 {
-	QString file = QFileDialog::getExistingDirectory(this, tr("Select Directory"), "");
-	if (!file.isEmpty())
+	QString fileName;
+	if (m_pickDirectory)
 	{
-		m_data->setText(file);
+		fileName = QFileDialog::getExistingDirectory(this, tr("Select Directory"), m_data->text());
+	}
+	else
+	{
+		fileName = QFileDialog::getOpenFileName(this, tr("Open File"), m_data->text(), m_fileFilter);
+	}
+
+	if (!fileName.isEmpty())
+	{
+		m_data->setText(fileName);
 	}
 }

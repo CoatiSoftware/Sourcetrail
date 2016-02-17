@@ -11,6 +11,8 @@
 class Settings
 {
 public:
+	Settings(const Settings& other);
+	Settings& operator=(const Settings& other);
 	virtual ~Settings();
 
 	bool load(const FilePath& filePath);
@@ -42,6 +44,8 @@ protected:
 
 	bool setPathValues(const std::string& key, const std::vector<FilePath>& paths);
 	bool moveRelativePathValues(const std::string& key, const FilePath& filePath);
+
+	bool isValueDefined(const std::string& key) const;
 
 	void enableWarnings() const;
 	void disableWarnings() const;

@@ -5,6 +5,23 @@
 #include "utility/text/TextAccess.h"
 #include "utility/utilityString.h"
 
+Settings::Settings(const Settings& other)
+	: m_filePath(other.m_filePath)
+	, m_config(other.m_config->createCopy())
+{
+}
+
+Settings& Settings::operator=(const Settings& other)
+{
+	if (&other != this)
+	{
+		m_filePath = other.m_filePath;
+		m_config = other.m_config->createCopy();
+	}
+
+	return *this;
+}
+
 Settings::~Settings()
 {
 }
@@ -135,6 +152,11 @@ bool Settings::moveRelativePathValues(const std::string& key, const FilePath& fi
 	}
 
 	return setValues(key, values);
+}
+
+bool Settings::isValueDefined(const std::string& key) const
+{
+	return m_config->isValueDefined(key);
 }
 
 void Settings::enableWarnings() const

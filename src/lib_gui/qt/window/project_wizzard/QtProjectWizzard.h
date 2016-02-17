@@ -23,27 +23,43 @@ public:
 
 public slots:
 	void newProject();
+	void newProjectFromVisualStudioSolution(const std::string& visualStudioSolutionPath);
+	void refreshProjectFromVisualStudioSolution(const std::string& visualStudioSolutionPath);
 	void editProject(const ProjectSettings& settings);
 
 private:
 	template<typename T>
 		QtProjectWizzardWindow* createWindowWithContent();
+	template<typename T>
+		QtProjectWizzardWindow* createPopupWithContent();
+
+	ProjectSettings getSettingsForVisualStudioSolution(const std::string& visualStudioSolutionPath) const;
 
 	QtWindowStack m_windowStack;
+	std::shared_ptr<QtProjectWizzardWindow> m_popup;
 	ProjectSettings m_settings;
 
 private slots:
 	void cancelWizzard();
 	void windowStackChanged();
+	void popupClosed();
 
 	void selectedProjectType(QtProjectWizzardContentSelect::ProjectType type);
 
 	void emptyProject();
 	void simpleSetup();
+	void simpleSetupDone();
+
 	void sourcePaths();
 	void headerSearchPaths();
+
+	void simpleSourcePaths();
+	void simpleHeaderSearchPaths();
+
+	void headerSearchPathsDone();
 	void frameworkSearchPaths();
 
+	void showSourceFiles(std::vector<FilePath> sourcePaths);
 	void showSummary();
 
 	void createProject();

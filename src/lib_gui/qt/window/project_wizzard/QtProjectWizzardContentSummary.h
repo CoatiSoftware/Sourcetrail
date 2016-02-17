@@ -2,7 +2,9 @@
 #define QT_PROJECT_WIZZARD_CONTENT_SUMMARY_H
 
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
+#include "qt/window/project_wizzard/QtProjectWizzardContentBuildFile.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentData.h"
+#include "qt/window/project_wizzard/QtProjectWizzardContentSimple.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
 
 class QtProjectWizzardContentSummary
@@ -10,6 +12,9 @@ class QtProjectWizzardContentSummary
 {
 public:
 	QtProjectWizzardContentSummary(ProjectSettings* settings, QtProjectWizzardWindow* window);
+
+	QtProjectWizzardContentBuildFile* contentBuildFile();
+	QtProjectWizzardContentPathsSource* contentPathsSource();
 
 protected:
 	// QtProjectContentWindow implementation
@@ -21,7 +26,9 @@ protected:
 
 private:
 	QtProjectWizzardContentData* m_data;
+	QtProjectWizzardContentBuildFile* m_buildFile;
 	QtProjectWizzardContentPathsSource* m_source;
+	QtProjectWizzardContentSimple* m_simple;
 	QtProjectWizzardContentPathsHeaderSearch* m_headerSearch;
 	QtProjectWizzardContentPathsFrameworkSearch* m_frameworkSearch;
 };

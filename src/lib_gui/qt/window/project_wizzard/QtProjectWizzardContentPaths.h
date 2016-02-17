@@ -26,6 +26,11 @@ private:
 class QtProjectWizzardContentPaths
 	: public QtProjectWizzardContent
 {
+	Q_OBJECT
+
+signals:
+	void showSourceFiles(std::vector<FilePath>);
+
 public:
 	QtProjectWizzardContentPaths(ProjectSettings* settings, QtProjectWizzardWindow* window);
 
@@ -44,9 +49,17 @@ public:
 
 protected:
 	void setInfo(const QString& title, const QString& description, const QString& help);
+	void setTitleString(const QString& title);
+	void setDescriptionString(const QString& description);
+	void setHelpString(const QString& help);
 
 	QtDirectoryListBox* m_list;
 	QtProjectWizzardContentPaths* m_subPaths;
+
+	bool m_addShowSourcesButton;
+
+private slots:
+	void showSourcesClicked();
 
 private:
 	QString m_titleString;
@@ -67,6 +80,13 @@ public:
 	virtual bool checkPaths() override;
 };
 
+class QtProjectWizzardContentPathsSourceSimple
+	: public QtProjectWizzardContentPathsSource
+{
+public:
+	QtProjectWizzardContentPathsSourceSimple(ProjectSettings* settings, QtProjectWizzardWindow* window);
+};
+
 
 class QtProjectWizzardContentPathsHeaderSearch
 	: public QtProjectWizzardContentPaths
@@ -77,6 +97,13 @@ public:
 	// QtProjectWizzardContent implementation
 	virtual void loadPaths() override;
 	virtual void savePaths() override;
+};
+
+class QtProjectWizzardContentPathsHeaderSearchSimple
+	: public QtProjectWizzardContentPathsHeaderSearch
+{
+public:
+	QtProjectWizzardContentPathsHeaderSearchSimple(ProjectSettings* settings, QtProjectWizzardWindow* window);
 };
 
 class QtProjectWizzardContentPathsHeaderSearchGlobal

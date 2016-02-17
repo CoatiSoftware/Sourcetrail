@@ -14,8 +14,8 @@ public:
 	enum ProjectType : int
 	{
 		PROJECT_EMPTY = 0,
-		PROJECT_CDB = 1,
-		PROJECT_VS = 2
+		PROJECT_VS = 1,
+		PROJECT_CDB = 2
 	};
 
 	QtProjectWizzardContentSelect(ProjectSettings* settings, QtProjectWizzardWindow* window);
@@ -26,9 +26,11 @@ signals:
 protected:
 	// QtProjectWizzardContent implementation
 	virtual void populateWindow(QWidget* widget) override;
+	virtual void save() override;
 	virtual bool check() override;
 
 private:
+	QButtonGroup* m_languages;
 	QButtonGroup* m_buttons;
 };
 

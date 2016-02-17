@@ -14,6 +14,7 @@ class ConfigManager
 public:
 	static std::shared_ptr<ConfigManager> createEmpty();
 	static std::shared_ptr<ConfigManager> createAndLoad(const std::shared_ptr<TextAccess> textAccess);
+	std::shared_ptr<ConfigManager> createCopy();
 
 	void clear();
 
@@ -36,6 +37,8 @@ public:
 	void setValues(const std::string& key, const std::vector<int>& values);
 	void setValues(const std::string& key, const std::vector<float>& values);
 	void setValues(const std::string& key, const std::vector<bool>& values);
+
+	bool isValueDefined(const std::string& key) const;
 
 	bool load(const std::shared_ptr<TextAccess> textAccess);
 	void save(const std::string filepath);

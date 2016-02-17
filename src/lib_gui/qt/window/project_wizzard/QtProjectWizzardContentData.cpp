@@ -23,17 +23,16 @@ void QtProjectWizzardContentData::populateForm(QFormLayout* layout)
 {
 	int minimumWidthForSecondCol = 360;
 
-	QLabel* nameLabel = new QLabel("Name");
-	nameLabel->setObjectName("label");
+	QLabel* nameLabel = createFormLabel("Name");
 	m_projectName = new QLineEdit();
 	m_projectName->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 	m_projectName->setMinimumWidth(minimumWidthForSecondCol);
 	m_projectName->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	layout->addRow(nameLabel, m_projectName);
 
-	QLabel* locationLabel = new QLabel("Location");
-	locationLabel->setObjectName("label");
+	QLabel* locationLabel = createFormLabel("Location");
 	m_projectFileLocation = new QtLocationPicker(this);
+	m_projectFileLocation->setPickDirectory(true);
 	m_projectFileLocation->setMinimumWidth(minimumWidthForSecondCol);
 	layout->addRow(locationLabel, m_projectFileLocation);
 
@@ -45,8 +44,7 @@ void QtProjectWizzardContentData::populateForm(QFormLayout* layout)
 	connect(m_language, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectionChanged(int)));
 	layout->addRow(languageLabel, m_language);
 
-	m_cppStandardLabel = new QLabel("Standard");
-	m_cppStandardLabel->setObjectName("label");
+	m_cppStandardLabel = createFormLabel("Standard");
 
 	m_cppStandard = new QComboBox();
 	m_cppStandard->insertItem(0, "1z");
@@ -59,8 +57,7 @@ void QtProjectWizzardContentData::populateForm(QFormLayout* layout)
 	layout->addRow(m_cppStandardLabel, m_cppStandard);
 
 
-	m_cStandardLabel = new QLabel("Standard");
-	m_cStandardLabel->setObjectName("label");
+	m_cStandardLabel = createFormLabel("Standard");
 
 	m_cStandard = new QComboBox();
 	m_cStandard->insertItem(0, "1x");

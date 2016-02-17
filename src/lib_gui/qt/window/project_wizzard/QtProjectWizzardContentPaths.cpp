@@ -33,6 +33,7 @@ void QtHelpButton::handleHelpPress()
 QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(ProjectSettings* settings, QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(settings, window)
 	, m_subPaths(nullptr)
+	, m_addShowSourcesButton(false)
 {
 }
 
@@ -60,10 +61,18 @@ void QtProjectWizzardContentPaths::populateLayout(QVBoxLayout* layout)
 
 	QLabel* text = new QLabel(m_descriptionString);
 	text->setWordWrap(true);
+	text->setOpenExternalLinks(true);
 	layout->addWidget(text);
 
 	m_list = new QtDirectoryListBox(this);
 	layout->addWidget(m_list);
+
+	if (m_addShowSourcesButton)
+	{
+		QPushButton* button = new QPushButton("show files");
+		layout->addWidget(button);
+		connect(button, SIGNAL(clicked()), this, SLOT(showSourcesClicked()));
+	}
 }
 
 void QtProjectWizzardContentPaths::populateForm(QFormLayout* layout)
@@ -74,15 +83,20 @@ void QtProjectWizzardContentPaths::populateForm(QFormLayout* layout)
 	vlayout->setContentsMargins(0, 5, 0, 5);
 	vlayout->setSpacing(5);
 
-	QLabel* label = new QLabel(m_titleString);
-	label->setAlignment(Qt::AlignRight);
-	label->setObjectName("label");
-	label->setWordWrap(true);
+	QLabel* label = createFormLabel(m_titleString);
 	vlayout->addWidget(label);
 
 	QtHelpButton* button = new QtHelpButton(m_helpString);
 
 	vlayout->addWidget(button, 0, Qt::AlignRight);
+
+	if (m_addShowSourcesButton)
+	{
+		QPushButton* button = new QPushButton("files");
+		vlayout->addWidget(button);
+		connect(button, SIGNAL(clicked()), this, SLOT(showSourcesClicked()));
+	}
+
 	vlayout->addStretch();
 
 	widget->setLayout(vlayout);
@@ -148,17 +162,39 @@ void QtProjectWizzardContentPaths::setInfo(const QString& title, const QString& 
 	m_helpString = help;
 }
 
+void QtProjectWizzardContentPaths::setTitleString(const QString& title)
+{
+	m_titleString = title;
+}
+
+void QtProjectWizzardContentPaths::setDescriptionString(const QString& description)
+{
+	m_descriptionString = description;
+}
+
+void QtProjectWizzardContentPaths::setHelpString(const QString& help)
+{
+	m_helpString = help;
+}
+
+void QtProjectWizzardContentPaths::showSourcesClicked()
+{
+	emit showSourceFiles(m_list->getList());
+}
+
 
 QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 	ProjectSettings* settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
+	m_addShowSourcesButton = true;
+
 	setInfo(
-		"Analyzed Paths",
-		"Analyzed Paths define the source files and directories that will be analysed by Coati. Usually these are the "
-		"source and header files of your project or a subset of them.",
-		"Analyzed Paths define the source files and directories that will be analysed by Coati. Usually these are the "
+		"Project Paths",
+		"Add all directories or files you want to analyse. Usually these are all source and header files of "
+		"your project or a subset of them.",
+		"Project Paths define the source files and directories that will be analyzed by Coati. Usually these are the "
 		"source and header files of your project or a subset of them."
 	);
 }
@@ -178,12 +214,26 @@ bool QtProjectWizzardContentPathsSource::checkPaths()
 	if (m_list->getList().size() == 0)
 	{
 		QMessageBox msgBox;
-		msgBox.setText("Please set at least one source path for Coati to analyse.");
+		msgBox.setText("Please add at least one path.");
 		msgBox.exec();
 		return false;
 	}
 
 	return true;
+}
+
+QtProjectWizzardContentPathsSourceSimple::QtProjectWizzardContentPathsSourceSimple(
+	ProjectSettings* settings, QtProjectWizzardWindow* window
+)
+	: QtProjectWizzardContentPathsSource(settings, window)
+{
+	m_addShowSourcesButton = true;
+
+	setTitleString("Project Paths");
+	setDescriptionString(
+		"Add all directories or files you want to analyse with Coati. It is sufficient to just provide the top level "
+		"project directory."
+	);
 }
 
 
@@ -194,13 +244,10 @@ QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSear
 {
 	setInfo(
 		"Header Search Paths",
+		"Add the header search paths for resolving #include directives in the analyzed source and header files.",
 		"Header Search Paths define where additional headers, that your project depends on, are found. Usually they are "
-		"header files of frameworks or libraries that your project uses. These files won't be analysed, but Coati needs "
-		"them for correct analysis.",
-		"Header Search Paths define where additional headers, that your project depends on, are found. Usually they are "
-		"header files of frameworks or libraries that your project uses. These files won't be analysed, but Coati needs "
-		"them for correct analysis.\n\n"
-		"Header Search Paths defined here will be used for all projects."
+		"header files of frameworks or libraries that your project uses. These files won't be analyzed, but Coati needs "
+		"them for correct analysis."
 	);
 
 	m_subPaths = new QtProjectWizzardContentPathsHeaderSearchGlobal(settings, window);
@@ -216,6 +263,18 @@ void QtProjectWizzardContentPathsHeaderSearch::savePaths()
 	m_settings->setHeaderSearchPaths(m_list->getList());
 }
 
+QtProjectWizzardContentPathsHeaderSearchSimple::QtProjectWizzardContentPathsHeaderSearchSimple(
+	ProjectSettings* settings, QtProjectWizzardWindow* window
+)
+	: QtProjectWizzardContentPathsHeaderSearch(settings, window)
+{
+	setTitleString("External Header Search Paths");
+	setDescriptionString(
+		"Add the header search paths to external dependencies used in your project. The header search paths are "
+		"needed to resolve #include directives within your source and header files."
+	);
+}
+
 QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHeaderSearchGlobal(
 	ProjectSettings* settings, QtProjectWizzardWindow* window
 )
@@ -223,9 +282,11 @@ QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHead
 {
 	setInfo(
 		"Global Header Search Paths",
-		"Header Search Paths for all projects.",
+		"These header search paths will be used in all your projects. Use it to add system header and Standard Library "
+		"header paths (See <a href=\"https://staging.coati.io/documentation/#FindingSystemHeaderLocations\">Finding "
+		"System Header Locations</a>).",
 		"Header Search Paths define where additional headers, that your project depends on, are found. Usually they are "
-		"header files of frameworks or libraries that your project uses. These files won't be analysed, but Coati needs "
+		"header files of frameworks or libraries that your project uses. These files won't be analyzed, but Coati needs "
 		"them for correct analysis.\n\n"
 		"Header Search Paths defined here will be used for all projects."
 	);
@@ -249,9 +310,8 @@ QtProjectWizzardContentPathsFrameworkSearch::QtProjectWizzardContentPathsFramewo
 {
 	setInfo(
 		"Framework Search Paths",
-		"Framework Search Paths define where MacOS framework containers, that your project depends on, are found.",
-		"Framework Search Paths define where MacOS framework containers, that your project depends on, are found.\n\n"
-		"Framework Search Paths defined here will be used for all projects."
+		"Add search paths to Mac OS framework containers (.framework) that the project depends on.",
+		"Framework Search Paths define where MacOS framework containers (.framework), that your project depends on, are found."
 	);
 
 	m_subPaths = new QtProjectWizzardContentPathsFrameworkSearchGlobal(settings, window);
@@ -274,8 +334,10 @@ QtProjectWizzardContentPathsFrameworkSearchGlobal::QtProjectWizzardContentPathsF
 {
 	setInfo(
 		"Global Framework Search Paths",
-		"Framework Search Paths for all projects",
-		"Framework Search Paths define where MacOS framework containers, that your project depends on, are found.\n\n"
+		"These framework search paths will be used in all your projects. Use it to add system frameworks "
+		"(See <a href=\"https://staging.coati.io/documentation/#FindingSystemHeaderLocations\">"
+		"Finding System Header Locations</a>).",
+		"Framework Search Paths define where MacOS framework containers (.framework), that your project depends on, are found.\n\n"
 		"Framework Search Paths defined here will be used for all projects."
 	);
 }

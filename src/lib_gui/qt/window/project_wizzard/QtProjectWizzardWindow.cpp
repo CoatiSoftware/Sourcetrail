@@ -8,6 +8,7 @@ QtProjectWizzardWindow::QtProjectWizzardWindow(QWidget *parent)
 	: QtSettingsWindow(parent)
 	, m_content(nullptr)
 	, m_previousButton(nullptr)
+	, m_showAsPopup(false)
 {
 }
 
@@ -25,7 +26,7 @@ void QtProjectWizzardWindow::setup()
 {
 	setupForm();
 
-	updateTitle("NEW PROJECT WIZZARD");
+	updateTitle("NEW PROJECT");
 	updateDoneButton("Next");
 
 	m_previousButton = new QPushButton("Previous");
@@ -34,6 +35,16 @@ void QtProjectWizzardWindow::setup()
 
 	m_buttonsLayout->insertWidget(2, m_previousButton);
 	m_buttonsLayout->insertSpacing(3, 3);
+
+	if (m_showAsPopup)
+	{
+		updateDoneButton("Ok");
+		hideCancelButton(true);
+		hidePrevious();
+		m_title->hide();
+
+		setMaximumSize(QSize(500, 500));
+	}
 
 	m_content->windowReady();
 }
@@ -59,6 +70,14 @@ void QtProjectWizzardWindow::disableNext()
 	}
 }
 
+void QtProjectWizzardWindow::hideNext()
+{
+	if (m_doneButton)
+	{
+		m_doneButton->hide();
+	}
+}
+
 void QtProjectWizzardWindow::disablePrevious()
 {
 	if (m_previousButton)
@@ -75,6 +94,16 @@ void QtProjectWizzardWindow::hidePrevious()
 	}
 }
 
+bool QtProjectWizzardWindow::getShowAsPopup() const
+{
+	return m_showAsPopup;
+}
+
+void QtProjectWizzardWindow::setShowAsPopup(bool showAsPopup)
+{
+	m_showAsPopup = showAsPopup;
+}
+
 void QtProjectWizzardWindow::handleCancelButtonPress()
 {
 	emit canceled();
@@ -82,6 +111,12 @@ void QtProjectWizzardWindow::handleCancelButtonPress()
 
 void QtProjectWizzardWindow::handleUpdateButtonPress()
 {
+	if (m_showAsPopup)
+	{
+		hide();
+		emit closed();
+	}
+
 	if (m_content->check())
 	{
 		m_content->save();

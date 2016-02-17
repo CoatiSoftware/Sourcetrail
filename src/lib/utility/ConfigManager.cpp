@@ -18,6 +18,11 @@ std::shared_ptr<ConfigManager> ConfigManager::createAndLoad(const std::shared_pt
 	return configManager;
 }
 
+std::shared_ptr<ConfigManager> ConfigManager::createCopy()
+{
+	return std::shared_ptr<ConfigManager>(new ConfigManager(*this));
+}
+
 void ConfigManager::clear()
 {
 	m_values.clear();
@@ -215,6 +220,13 @@ void ConfigManager::setValues(const std::string& key, const std::vector<bool>& v
 	setValues(key, stringValues);
 }
 
+bool ConfigManager::isValueDefined(const std::string& key) const
+{
+	std::multimap<std::string, std::string>::const_iterator it = m_values.find(key);
+
+	return (it != m_values.end());
+}
+
 bool ConfigManager::load(const std::shared_ptr<TextAccess> textAccess)
 {
 	std::string text = textAccess->getText();
@@ -255,6 +267,12 @@ void ConfigManager::setWarnOnEmptyKey(bool warnOnEmptyKey) const
 }
 
 ConfigManager::ConfigManager()
+{
+}
+
+ConfigManager::ConfigManager(const ConfigManager& other)
+	: m_values(other.m_values)
+	, m_warnOnEmptyKey(other.m_warnOnEmptyKey)
 {
 }
 

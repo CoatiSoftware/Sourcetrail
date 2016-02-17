@@ -17,10 +17,9 @@ public:
 	ProjectSettings();
 	~ProjectSettings();
 
-	virtual void save(const FilePath& filePath);
+	bool operator==(const ProjectSettings& other) const;
 
-	// info
-	std::string getDescription() const;
+	virtual void save(const FilePath& filePath);
 
 	// language settings
 	std::string getLanguage() const;
@@ -41,12 +40,24 @@ public:
 
 	std::vector<std::string> getCompilerFlags() const;
 
-	// extensions
 	std::vector<std::string> getHeaderExtensions() const;
 	std::vector<std::string> getSourceExtensions() const;
 
 	bool setHeaderExtensions(const std::vector<std::string>& headerExtensions);
 	bool setSourceExtensions(const std::vector<std::string>& sourceExtensions);
+
+	bool isUseSourcePathsForHeaderSearchDefined() const;
+	bool getUseSourcePathsForHeaderSearch() const;
+	bool setUseSourcePathsForHeaderSearch(bool useSourcePathsForHeaderSearch);
+
+	FilePath getVisualStudioSolutionPath() const;
+	bool setVisualStudioSolutionPath(const FilePath& visualStudioSolutionPath);
+
+	FilePath getCompilationDatabasePath() const;
+	bool setCompilationDatabasePath(const FilePath& compilationDatabasePath);
+
+	// info
+	std::string getDescription() const;
 
 	// used in project wizzard
 	std::string getProjectName() const;

@@ -107,6 +107,8 @@ add_files(
 	qt/window/project_wizzard/QtProjectWizzard.h
 	qt/window/project_wizzard/QtProjectWizzardContent.cpp
 	qt/window/project_wizzard/QtProjectWizzardContent.h
+	qt/window/project_wizzard/QtProjectWizzardContentBuildFile.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentBuildFile.h
 	qt/window/project_wizzard/QtProjectWizzardContentData.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentData.h
 	qt/window/project_wizzard/QtProjectWizzardContentPaths.cpp
@@ -115,6 +117,8 @@ add_files(
 	qt/window/project_wizzard/QtProjectWizzardContentSelect.h
 	qt/window/project_wizzard/QtProjectWizzardContentSimple.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentSimple.h
+	qt/window/project_wizzard/QtProjectWizzardContentSourceList.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentSourceList.h
 	qt/window/project_wizzard/QtProjectWizzardContentSummary.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentSummary.h
 	qt/window/project_wizzard/QtProjectWizzardWindow.cpp

@@ -15,6 +15,7 @@ class QtProjectWizzardWindow
 signals:
 	void next();
 	void previous();
+	void closed();
 
 public:
 	QtProjectWizzardWindow(QWidget *parent);
@@ -28,17 +29,23 @@ public:
 
 	void enableNext();
 	void disableNext();
+	void hideNext();
 	void disablePrevious();
 	void hidePrevious();
 
-private:
-	QtProjectWizzardContent* m_content;
-	QPushButton* m_previousButton;
+	bool getShowAsPopup() const;
+	void setShowAsPopup(bool showAsPopup);
 
 private slots:
 	void handleCancelButtonPress();
 	void handleUpdateButtonPress();
 	void handlePreviousButtonPress();
+
+private:
+	QtProjectWizzardContent* m_content;
+	QPushButton* m_previousButton;
+
+	bool m_showAsPopup;
 };
 
 #endif // QT_PROJECT_WIZZARD_WINDOW_H

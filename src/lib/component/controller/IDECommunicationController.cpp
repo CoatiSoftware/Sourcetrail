@@ -7,10 +7,9 @@
 #include "utility/messaging/type/MessageActivateTokenLocations.h"
 #include "utility/messaging/type/MessageActivateWindow.h"
 #include "utility/messaging/type/MessageLoadProject.h"
+#include "utility/messaging/type/MessageProjectNew.h"
 #include "utility/messaging/type/MessageStatus.h"
-#include "utility/messaging/type/MessageNewProject.h"
 #include "utility/logging/logging.h"
-#include "utility/solution/SolutionParserVisualStudio.h"
 
 #include "settings/ProjectSettings.h"
 
@@ -86,38 +85,9 @@ void IDECommunicationController::handleCreateProjectMessage(const NetworkProtoco
 	{
 		if (message.ideId == NetworkProtocolHelper::CreateProjectMessage::IDE_ID::VS)
 		{
-			SolutionParserVisualStudio parser;
-
-			parser.openSolutionFile(message.solutionFileLocation);
-			std::vector<std::string> includePaths = parser.getIncludePaths();
-			std::vector<std::string> projectItems = parser.getProjectItems();
-
-			/*std::vector<FilePath> projectFPs;
-			std::vector<FilePath> includeFPs;
-
-			for (unsigned int i = 0; i < projectItems.size(); i++)
-			{
-				projectFPs.push_back(FilePath(projectItems[i]));
-			}
-
-			for (unsigned int i = 0; i < includePaths.size(); i++)
-			{
-				includeFPs.push_back(FilePath(includePaths[i]));
-			}*/
-
-			/*ProjectSettings* projSettings = ProjectSettings::getInstance().get();
-			projSettings->clear();
-
-			projSettings->setLanguage("c++");
-			projSettings->setStandard("11");
-
-			projSettings->setSourcePaths(projectFPs);
-			projSettings->setHeaderSearchPaths(includeFPs);
-
-			std::string filePath = parser.getSolutionPath() + parser.getSolutionName() + ".coatiproject";
-			projSettings->save(filePath);*/
-
-			MessageNewProject(parser.getSolutionName(), parser.getSolutionPath(), projectItems, includePaths).dispatch();
+			MessageProjectNew msg;
+			msg.setVisualStudioSolutionPath(message.solutionFileLocation);
+			msg.dispatch();
 		}
 		else
 		{

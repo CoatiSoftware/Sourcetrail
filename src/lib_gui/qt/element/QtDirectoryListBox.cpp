@@ -56,10 +56,14 @@ void QtListItemWidget::setFocus()
 void QtListItemWidget::handleButtonPress()
 {
 	QFileDialog dialog(this);
-	QListView *l = dialog.findChild<QListView*>("listView");
-
 	dialog.setFileMode(QFileDialog::Directory);
 
+	if (m_data->text().size())
+	{
+		dialog.setDirectory(m_data->text());
+	}
+
+	QListView *l = dialog.findChild<QListView*>("listView");
 	if (l)
     {
         l->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -69,6 +73,7 @@ void QtListItemWidget::handleButtonPress()
 	{
        t->setSelectionMode(QAbstractItemView::SingleSelection);
 	}
+
 	if (dialog.exec())
 	{
 		QStringList list = dialog.selectedFiles();
@@ -227,6 +232,11 @@ void QtDirectoryListBox::resize()
 	if (m_list->count() > 0)
 	{
 		height += (m_list->itemWidget(m_list->item(0))->height() + 1) * m_list->count() + 7;
+	}
+
+	if (height < 0)
+	{
+		height = 0;
 	}
 
 	m_list->setMaximumHeight(height);

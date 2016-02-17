@@ -113,7 +113,7 @@ bool MouseWheelFilter::eventFilter(QObject* obj, QEvent* event)
 QtMainWindow::QtMainWindow()
 	: m_showDockWidgetTitleBars(true)
 	, m_windowStack(this)
-	, m_createNewProjectFunctor(std::bind(&QtMainWindow::doCreateNewProject, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4))
+	, m_createNewProjectFunctor(std::bind(&QtMainWindow::doCreateNewProject, this, std::placeholders::_1))
 {
 	setObjectName("QtMainWindow");
 	setCentralWidget(nullptr);
@@ -261,9 +261,10 @@ void QtMainWindow::forceEnterLicense()
 	enterLicenseWindow->setEnabled(true);
 }
 
-void QtMainWindow::handleMessage(MessageNewProject* message)
+void QtMainWindow::handleMessage(MessageProjectNew* message)
 {
-	m_createNewProjectFunctor(message->projectName, message->projectLocation, message->projectSourceFiles, message->projectIncludePaths);
+	MessageProjectNew msg(*message);
+	m_createNewProjectFunctor(msg);
 }
 
 bool QtMainWindow::event(QEvent* event)
@@ -561,30 +562,18 @@ void QtMainWindow::toggleShowDockWidgetTitleBars()
 	setShowDockWidgetTitleBars(!m_showDockWidgetTitleBars);
 }
 
-void QtMainWindow::doCreateNewProject(const std::string& name, const std::string& location,
-	const std::vector<std::string>& sourceFiles, const std::vector<std::string>& includePaths)
+void QtMainWindow::doCreateNewProject(MessageProjectNew message)
 {
-	ProjectSettings settings;
-	settings.setProjectName(name);
-	settings.setProjectFileLocation(location);
-
-	std::vector<FilePath> sourcePaths;
-	for (const std::string& p : sourceFiles)
-	{
-		sourcePaths.push_back(FilePath(p));
-	}
-
-	std::vector<FilePath> headerPaths;
-	for (const std::string& p : includePaths)
-	{
-		headerPaths.push_back(FilePath(p));
-	}
-
-	settings.setSourcePaths(sourcePaths);
-	settings.setHeaderSearchPaths(headerPaths);
-
 	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
-	wizzard->editProject(settings);
+
+	if (message.fromVisualStudioSolution())
+	{
+		wizzard->newProjectFromVisualStudioSolution(message.visualStudioSolutionPath);
+	}
+	else
+	{
+		wizzard->newProject();
+	}
 }
 
 void QtMainWindow::setupEditMenu()

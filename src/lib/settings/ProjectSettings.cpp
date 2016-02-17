@@ -1,5 +1,7 @@
 #include "settings/ProjectSettings.h"
 
+#include "utility/utility.h"
+
 std::vector<std::string> ProjectSettings::getDefaultHeaderExtensions()
 {
 	std::vector<std::string> defaultValues;
@@ -36,6 +38,20 @@ ProjectSettings::ProjectSettings()
 
 ProjectSettings::~ProjectSettings()
 {
+}
+
+bool ProjectSettings::operator==(const ProjectSettings& other) const
+{
+	return
+		getFilePath() == other.getFilePath() &&
+		getLanguage() == other.getLanguage() &&
+		getStandard() == other.getStandard() &&
+		getVisualStudioSolutionPath() == other.getVisualStudioSolutionPath() &&
+		getCompilationDatabasePath() == other.getCompilationDatabasePath() &&
+		getUseSourcePathsForHeaderSearch() == other.getUseSourcePathsForHeaderSearch() &&
+		utility::isPermutation<FilePath>(getSourcePaths(), other.getSourcePaths()) &&
+		utility::isPermutation<FilePath>(getHeaderSearchPaths(), other.getHeaderSearchPaths()) &&
+		utility::isPermutation<FilePath>(getFrameworkSearchPaths(), other.getFrameworkSearchPaths());
 }
 
 void ProjectSettings::save(const FilePath& filePath)
@@ -124,6 +140,41 @@ bool ProjectSettings::setHeaderExtensions(const std::vector<std::string> &header
 bool ProjectSettings::setSourceExtensions(const std::vector<std::string> &sourceExtensions)
 {
 	return setValues("source/extensions/source_extensions", sourceExtensions);
+}
+
+bool ProjectSettings::isUseSourcePathsForHeaderSearchDefined() const
+{
+	return isValueDefined("source/use_source_paths_for_header_search");
+}
+
+bool ProjectSettings::getUseSourcePathsForHeaderSearch() const
+{
+	return getValue<bool>("source/use_source_paths_for_header_search", false);
+}
+
+bool ProjectSettings::setUseSourcePathsForHeaderSearch(bool useSourcePathsForHeaderSearch)
+{
+	return setValue<bool>("source/use_source_paths_for_header_search", useSourcePathsForHeaderSearch);
+}
+
+FilePath ProjectSettings::getVisualStudioSolutionPath() const
+{
+	return FilePath(getValue<std::string>("source/build_file_path/vs_solution_path", ""));
+}
+
+bool ProjectSettings::setVisualStudioSolutionPath(const FilePath& visualStudioSolutionPath)
+{
+	return setValue<std::string>("source/build_file_path/vs_solution_path", visualStudioSolutionPath.str());
+}
+
+FilePath ProjectSettings::getCompilationDatabasePath() const
+{
+	return FilePath(getValue<std::string>("source/build_file_path/compilation_db_path", ""));
+}
+
+bool ProjectSettings::setCompilationDatabasePath(const FilePath& compilationDatabasePath)
+{
+	return setValue<std::string>("source/build_file_path/compilation_db_path", compilationDatabasePath.str());
 }
 
 std::string ProjectSettings::getDescription() const

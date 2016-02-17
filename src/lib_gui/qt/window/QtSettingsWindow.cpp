@@ -120,13 +120,6 @@ void QtSettingsWindow::mouseReleaseEvent(QMouseEvent *event)
 
 void QtSettingsWindow::setupForm()
 {
-	QtDeviceScaledPixmap coati_logo((ResourcePaths::getGuiPath() + "startscreen/logo_blurry.png").c_str());
-	coati_logo.scaleToWidth(400);
-	QLabel* coatiLogoLabel = new QLabel(m_window);
-	coatiLogoLabel->setPixmap(coati_logo.pixmap());
-	coatiLogoLabel->resize(coati_logo.width(), coati_logo.height());
-	coatiLogoLabel->move(100, 100);
-
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "setting_window/window.css").c_str());
 	QVBoxLayout* windowLayout = new QVBoxLayout();
 	windowLayout->setContentsMargins(25, 30, 25, 20);

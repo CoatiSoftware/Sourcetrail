@@ -1,12 +1,17 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentSimple.h"
 
+#include <QCheckBox>
 #include <QButtonGroup>
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QMessageBox>
 #include <QRadioButton>
 
 QtProjectWizzardContentSimple::QtProjectWizzardContentSimple(ProjectSettings* settings, QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(settings, window)
+	, m_buttons(nullptr)
+	, m_checkBox(nullptr)
+	, m_isForm(false)
 {
 }
 
@@ -14,18 +19,14 @@ void QtProjectWizzardContentSimple::populateWindow(QWidget* widget)
 {
 	QVBoxLayout* layout = new QVBoxLayout(widget);
 
-	QLabel* title = new QLabel("simple setup");
+	QLabel* title = new QLabel("Simple Setup?");
 	title->setObjectName("label");
 	layout->addWidget(title);
 
 	QLabel* text = new QLabel(
-		"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do "
-		"eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut "
-		"enim ad minim veniam, quis nostrud exercitation ullamco laboris "
-		"nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in "
-		"reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla "
-		"pariatur. Excepteur sint occaecat cupidatat non proident, sunt in "
-		"culpa qui officia deserunt mollit anim id est laborum."
+		"In simple setup you just provide the directory of your project and Coati will find the source files and "
+		"resolve header search paths within. Please note that simple setup makes Coati's analysis slower.\n\n"
+		"In the advanced setup you define analyzed source files and the corresponding header search paths separately."
 	);
 	text->setWordWrap(true);
 	layout->addWidget(text);
@@ -55,15 +56,66 @@ void QtProjectWizzardContentSimple::populateWindow(QWidget* widget)
 	widget->setLayout(layout);
 }
 
+void QtProjectWizzardContentSimple::populateForm(QFormLayout* layout)
+{
+	QLabel* label = createFormLabel("search headers in project paths");
+	m_checkBox = new QCheckBox();
+
+	layout->addRow(label, m_checkBox);
+
+	m_isForm = true;
+}
+
+void QtProjectWizzardContentSimple::windowReady()
+{
+	if (!m_isForm)
+	{
+		m_window->disableNext();
+	}
+}
+
 void QtProjectWizzardContentSimple::load()
 {
+	if (m_isForm && m_checkBox)
+	{
+		m_checkBox->setChecked(m_settings->getUseSourcePathsForHeaderSearch());
+	}
+	else if (m_buttons && m_settings->isUseSourcePathsForHeaderSearchDefined())
+	{
+		m_buttons->button(m_settings->getUseSourcePathsForHeaderSearch() ? 0 : 1)->setChecked(true);
+		m_window->enableNext();
+	}
 }
 
 void QtProjectWizzardContentSimple::save()
 {
+	bool simpleSetup;
+
+	if (m_isForm)
+	{
+		simpleSetup = m_checkBox->isChecked();
+	}
+	else
+	{
+		switch (m_buttons->checkedId())
+		{
+		case 0: simpleSetup = true; break;
+		case 1: simpleSetup = false; break;
+		}
+	}
+
+	m_settings->setUseSourcePathsForHeaderSearch(simpleSetup);
 }
 
 bool QtProjectWizzardContentSimple::check()
 {
+	if (!m_isForm && m_buttons->checkedId() == -1)
+	{
+		QMessageBox msgBox;
+		msgBox.setText("Please choose if you want simple or advanced setup.");
+		msgBox.exec();
+		return false;
+	}
+
 	return true;
 }

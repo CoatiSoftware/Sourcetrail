@@ -1,6 +1,8 @@
 #ifndef QT_PROJECT_WIZZARD_CONTENT_H
 #define QT_PROJECT_WIZZARD_CONTENT_H
 
+#include <QFormLayout>
+#include <QLabel>
 #include <QWidget>
 
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
@@ -25,6 +27,8 @@ public:
 	virtual bool check();
 
 protected:
+	QLabel* createFormLabel(QString name) const;
+
 	ProjectSettings* m_settings;
 	QtProjectWizzardWindow* m_window;
 };

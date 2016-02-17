@@ -31,3 +31,12 @@ bool QtProjectWizzardContent::check()
 {
 	return true;
 }
+
+QLabel* QtProjectWizzardContent::createFormLabel(QString name) const
+{
+	QLabel* label = new QLabel(name);
+	label->setAlignment(Qt::AlignRight);
+	label->setObjectName("label");
+	label->setWordWrap(true);
+	return label;
+}
