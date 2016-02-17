@@ -291,6 +291,7 @@ add_files(
 	utility/Property.h
 	utility/ResourcePaths.cpp
 	utility/ResourcePaths.h
+	utility/ScopedSwitcher.h
 	utility/TimePoint.cpp
 	utility/TimePoint.h
 	utility/types.h

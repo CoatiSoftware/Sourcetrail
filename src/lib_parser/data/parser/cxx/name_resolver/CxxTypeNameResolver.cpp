@@ -134,11 +134,11 @@ std::shared_ptr<DataType> CxxTypeNameResolver::typeToDataType(const clang::Type*
 					}
 					templateArgumentNamePart += ">";
 
-					std::string declName = typeNameHerarchy.back()->getFullName();
+					std::string declName = typeNameHerarchy.back()->getName();
 					declName = declName.substr(0, declName.rfind("<"));	// remove template parameters
 					declName += templateArgumentNamePart;				// add template arguments
 					typeNameHerarchy.pop();
-					typeNameHerarchy.push(std::make_shared<NameElement>(declName));
+					typeNameHerarchy.push(std::make_shared<NameElement>(declName)); // templateSpecialization has no signature.
 				}
 			}
 			dataType = std::make_shared<NamedDataType>(typeNameHerarchy);
@@ -217,6 +217,11 @@ std::shared_ptr<DataType> CxxTypeNameResolver::typeToDataType(const clang::Type*
 		}
 	}
 	return dataType;
+}
+
+NameHierarchy CxxTypeNameResolver::getTypeNameHierarchy(const clang::Type* type)
+{
+	return typeToDataType(type)->getTypeNameHierarchy();
 }
 
 NameHierarchy CxxTypeNameResolver::getNameHierarchy(const clang::NestedNameSpecifier* nestedNameSpecifier)

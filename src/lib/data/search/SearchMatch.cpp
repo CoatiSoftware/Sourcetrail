@@ -87,7 +87,7 @@ bool SearchMatch::isValid() const
 
 void SearchMatch::print(std::ostream& ostream) const
 {
-	ostream << weight << '\t' << nameHierarchy.getFullName() << std::endl << '\t';
+	ostream << weight << '\t' << nameHierarchy.getQualifiedName() << std::endl << '\t';
 	size_t i = 0;
 	for (size_t index : indices)
 	{
@@ -104,7 +104,7 @@ void SearchMatch::print(std::ostream& ostream) const
 
 std::string SearchMatch::getFullName() const
 {
-	return nameHierarchy.getFullName();
+	return nameHierarchy.getQualifiedName();
 }
 
 std::string SearchMatch::getNodeTypeAsString() const

@@ -43,34 +43,29 @@ public:
 	virtual void startParsing();
 	virtual void finishParsing();
 
-	virtual void prepareParsingFile(const FilePath& filePath);
+	virtual void startParsingFile(const FilePath& filePath);
 	virtual void finishParsingFile(const FilePath& filePath);
 
 	virtual void onError(const ParseLocation& location, const std::string& message);
 	virtual size_t getErrorCount() const;
 
 	virtual Id onTypedefParsed(
-		const ParseLocation& location, const NameHierarchy& nameHierarchy,
-		const ParseTypeUsage& underlyingType, AccessType access);
+		const ParseLocation& location, const NameHierarchy& typedefName, AccessType access);
 	virtual Id onClassParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 		const ParseLocation& scopeLocation);
 	virtual Id onStructParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 		const ParseLocation& scopeLocation);
-
-	virtual Id onGlobalVariableParsed(const ParseLocation& location, const ParseVariable& variable);
-	virtual Id onFieldParsed(const ParseLocation& location, const ParseVariable& variable, AccessType access);
-
+	virtual Id onGlobalVariableParsed(const ParseLocation& location, const NameHierarchy& variable);
+	virtual Id onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessType access);
 	virtual Id onFunctionParsed(
-		const ParseLocation& location, const ParseFunction& function, const ParseLocation& scopeLocation);
+		const ParseLocation& location, const NameHierarchy& function, const ParseLocation& scopeLocation);
 	virtual Id onMethodParsed(
-		const ParseLocation& location, const ParseFunction& method, AccessType access, AbstractionType abstraction,
+		const ParseLocation& location, const NameHierarchy& method, AccessType access, AbstractionType abstraction,
 		const ParseLocation& scopeLocation);
-
 	virtual Id onNamespaceParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy, const ParseLocation& scopeLocation);
-
 	virtual Id onEnumParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 		const ParseLocation& scopeLocation);
@@ -80,47 +75,33 @@ public:
 		const ParseLocation& location, const NameHierarchy& childNameHierarchy,
 		const NameHierarchy& parentNameHierarchy, AccessType access);
 	virtual Id onMethodOverrideParsed(
-		const ParseLocation& location, const ParseFunction& base, const ParseFunction& overrider);
+		const ParseLocation& location, const NameHierarchy& overridden, const NameHierarchy& overrider);
 	virtual Id onCallParsed(
-		const ParseLocation& location, const ParseFunction& caller, const ParseFunction& callee);
-	virtual Id onCallParsed(
-		const ParseLocation& location, const ParseVariable& caller, const ParseFunction& callee);
+		const ParseLocation& location, const NameHierarchy& caller, const NameHierarchy& callee);
 	virtual Id onFieldUsageParsed(
-		const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy);
-	virtual Id onFieldUsageParsed(
-		const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy);
+		const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy);
 	virtual Id onGlobalVariableUsageParsed(
-		const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy);
-	virtual Id onGlobalVariableUsageParsed(
-		const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy);
+		const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy);
 	virtual Id onEnumConstantUsageParsed(
-		const ParseLocation& location, const ParseFunction& user, const NameHierarchy& usedNameHierarchy);
-	virtual Id onEnumConstantUsageParsed(
-		const ParseLocation& location, const ParseVariable& user, const NameHierarchy& usedNameHierarchy);
-	virtual Id onTypeUsageParsed(const ParseTypeUsage& typeUsage, const ParseFunction& function);
-	virtual Id onTypeUsageParsed(const ParseTypeUsage& typeUsage, const ParseVariable& variable);
+		const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy);
+	virtual Id onTypeUsageParsed(const ParseLocation& location, const NameHierarchy& user, const NameHierarchy& used);
 
-	virtual Id onTemplateArgumentTypeOfTemplateRecordParsed(
+	virtual Id onTemplateArgumentTypeParsed(
 		const ParseLocation& location, const NameHierarchy& argumentTypeNameHierarchy,
 		const NameHierarchy& templateNameHierarchy);
-	virtual Id onTemplateArgumentTypeOfTemplateFunctionParsed(
-		const ParseLocation& location, const NameHierarchy& argumentTypeNameHierarchy,
-		const ParseFunction& templateFunction);
 	virtual Id onTemplateDefaultArgumentTypeParsed(
-		const ParseTypeUsage& defaultArgumentTypeUsage, const NameHierarchy& templateParameterNameHierarchy);
-	virtual Id onTemplateRecordParameterTypeParsed(
-		const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy,
-		const NameHierarchy& templateRecordNameHierarchy);
-	virtual Id onTemplateRecordSpecializationParsed(
-		const ParseLocation& location, const NameHierarchy& specializedRecordNameHierarchy,
-		const RecordType specializedRecordType, const NameHierarchy& specializedFromNameHierarchy);
+		const ParseLocation& location, const NameHierarchy& defaultArgumentTypeNameHierarchy, 
+		const NameHierarchy& templateParameterNameHierarchy);
+	virtual Id onTemplateParameterTypeParsed(
+		const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy);
+	virtual Id onTemplateSpecializationParsed(
+		const ParseLocation& location, const NameHierarchy& specializedNameHierarchy,
+		const NameHierarchy& specializedFromNameHierarchy);
 	virtual Id onTemplateMemberFunctionSpecializationParsed(
-		const ParseLocation& location, const ParseFunction& instantiatedFunction, const ParseFunction& specializedFunction);
+		const ParseLocation& location, const NameHierarchy& instantiatedFunction, const NameHierarchy& specializedFunction);
 
-	virtual Id onTemplateFunctionParameterTypeParsed(
-		const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy, const ParseFunction function);
 	virtual Id onTemplateFunctionSpecializationParsed(
-		const ParseLocation& location, const ParseFunction specializedFunction, const ParseFunction templateFunction);
+		const ParseLocation& location, const NameHierarchy specializedFunction, const NameHierarchy templateFunction);
 
 	virtual Id onFileParsed(const FileInfo& fileInfo);
 	virtual Id onFileIncludeParsed(
@@ -176,7 +157,6 @@ public:
 
 private:
 	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool defined);
-	Id addNodeHierarchy(Node::NodeType type, const ParseFunction& function, bool defined);
 	Id addSourceLocation(Id elementNodeId, const ParseLocation &location, bool isScope = false);
 
 	Id addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type);

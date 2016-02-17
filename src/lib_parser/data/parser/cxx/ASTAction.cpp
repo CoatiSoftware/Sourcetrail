@@ -18,7 +18,7 @@ ASTAction::~ASTAction()
 
 std::unique_ptr<clang::ASTConsumer> ASTAction::CreateASTConsumer(clang::CompilerInstance& compiler, llvm::StringRef inFile)
 {
-	return std::unique_ptr<clang::ASTConsumer>(new ASTConsumer(&compiler.getASTContext(), m_client, m_fileRegister));
+	return std::unique_ptr<clang::ASTConsumer>(new ASTConsumer(&compiler.getASTContext(), &compiler.getPreprocessor(), m_client, m_fileRegister));
 }
 
 bool ASTAction::BeginSourceFileAction(clang::CompilerInstance& compiler, llvm::StringRef filePath)

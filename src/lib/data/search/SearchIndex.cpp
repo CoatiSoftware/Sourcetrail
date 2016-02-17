@@ -68,7 +68,7 @@ SearchNode* SearchIndex::addNode(NameHierarchy nameHierarchy)
 	std::deque<Id> nameIds;
 	for (size_t i = 0; i < nameHierarchy.size(); i++)
 	{
-		nameIds.push_back(m_dictionary.getWordId(nameHierarchy[i]->getFullName()));
+		nameIds.push_back(m_dictionary.getWordId(nameHierarchy[i]->getName()));
 	}
 
 	if (nameIds.size())

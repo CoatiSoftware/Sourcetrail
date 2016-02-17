@@ -1,12 +1,61 @@
 #include "data/name/NameElement.h"
 
-NameElement::NameElement(const std::string& name)
-	: m_name(name)
-	, m_signature("")
+#include "utility/logging/logging.h"
+#include "utility/utilityString.h"
+
+std::string NameElement::Signature::serialize(Signature signature)
+{
+	return signature.m_prefix + "\r" + signature.m_postfix;
+}
+
+NameElement::Signature NameElement::Signature::deserialize(const std::string& serialized)
+{
+	std::vector<std::string> serializedElements = utility::splitToVector(serialized, "\r");
+	if (serializedElements.size() != 2)
+	{
+		LOG_ERROR("unable to deserialize name signature: " + serialized); // todo: obfuscate serialized!
+	}
+	return Signature(serializedElements[0], serializedElements[1]);
+}
+
+NameElement::Signature::Signature()
 {
 }
 
-NameElement::NameElement(const std::string& name, const std::string& signature)
+NameElement::Signature::Signature(std::string prefix, std::string postfix)
+	: m_prefix(prefix)
+	, m_postfix(postfix)
+{
+}
+
+std::string NameElement::Signature::qualifyName(const std::string& name) const
+{
+	if (!isValid())
+	{
+		return name;
+	}
+
+	std::string qualifiedName = m_prefix;
+	if (name.size() > 0)
+	{
+		qualifiedName += " " + name;
+	}
+	qualifiedName += m_postfix;
+
+	return qualifiedName;
+}
+
+bool NameElement::Signature::isValid() const
+{
+	return ((m_prefix + m_postfix).size() > 0);
+}
+
+NameElement::NameElement(const std::string& name)
+	: m_name(name)
+{
+}
+
+NameElement::NameElement(const std::string& name, const Signature& signature)
 	: m_name(name)
 	, m_signature(signature)
 {
@@ -16,12 +65,22 @@ NameElement::~NameElement()
 {
 }
 
-std::string NameElement::getFullName() const
+std::string NameElement::getName() const
 {
 	return m_name;
 }
 
-std::string NameElement::getFullSignature() const
+std::string NameElement::getNameWithSignature() const
+{
+	return m_signature.qualifyName(m_name);
+}
+
+bool NameElement::hasSignature() const
+{
+	return m_signature.isValid();
+}
+
+NameElement::Signature NameElement::getSignature()
 {
 	return m_signature;
 }

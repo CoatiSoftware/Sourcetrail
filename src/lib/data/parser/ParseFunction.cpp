@@ -19,5 +19,5 @@ ParseFunction::ParseFunction(
 
 std::string ParseFunction::getFullName() const
 {
-	return nameHierarchy.getFullName();
+	return nameHierarchy.getQualifiedNameWithSignature();
 }

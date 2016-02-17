@@ -12,7 +12,7 @@ class ASTConsumer
 	: public clang::ASTConsumer
 {
 public:
-	explicit ASTConsumer(clang::ASTContext* context, ParserClient* client, FileRegister* fileRegister);
+	explicit ASTConsumer(clang::ASTContext* context, clang::Preprocessor* preprocessor, ParserClient* client, FileRegister* fileRegister);
 	virtual ~ASTConsumer();
 
 	virtual void HandleTranslationUnit(clang::ASTContext& context);

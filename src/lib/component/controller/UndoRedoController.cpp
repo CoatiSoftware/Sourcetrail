@@ -55,10 +55,12 @@ void UndoRedoController::handleMessage(MessageActivateFile* message)
 
 void UndoRedoController::handleMessage(MessageActivateNodes* message)
 {
-	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() && message->nodes.size() &&
+	if (m_lastCommand.message && 
+		m_lastCommand.message->getType() == message->getType() && 
+		message->nodes.size() &&
 		static_cast<MessageActivateNodes*>(m_lastCommand.message.get())->nodes.size() == message->nodes.size() &&
-		static_cast<MessageActivateNodes*>(m_lastCommand.message.get())->nodes[0].nameHierarchy.getFullName() ==
-			message->nodes[0].nameHierarchy.getFullName())
+		static_cast<MessageActivateNodes*>(m_lastCommand.message.get())->nodes[0].nameHierarchy.getQualifiedNameWithSignature() ==
+		message->nodes[0].nameHierarchy.getQualifiedNameWithSignature())
 	{
 		return;
 	}

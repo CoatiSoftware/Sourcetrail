@@ -12,6 +12,7 @@ public:
 	virtual ~CxxTypeNameResolver();
 
 	std::shared_ptr<DataType> qualTypeToDataType(clang::QualType qualType);
+	NameHierarchy getTypeNameHierarchy(const clang::Type* type);
 
 private:
 	std::shared_ptr<DataType> typeToDataType(const clang::Type* type);

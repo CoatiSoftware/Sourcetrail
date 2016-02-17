@@ -11,5 +11,5 @@ ParseVariable::ParseVariable(const ParseTypeUsage& type, const NameHierarchy& na
 
 std::string ParseVariable::getFullName() const
 {
-	return nameHierarchy.getFullName();
+	return nameHierarchy.getQualifiedNameWithSignature();
 }

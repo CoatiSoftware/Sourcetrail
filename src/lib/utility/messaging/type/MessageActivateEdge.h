@@ -32,7 +32,7 @@ public:
 
 	std::string getFullName() const
 	{
-		return Edge::getTypeString(type) + ":" + fromNameHierarchy.getFullName() + "->" + toNameHierarchy.getFullName();
+		return Edge::getTypeString(type) + ":" + fromNameHierarchy.getQualifiedNameWithSignature() + "->" + toNameHierarchy.getQualifiedNameWithSignature();
 	}
 
 	virtual void print(std::ostream& os) const

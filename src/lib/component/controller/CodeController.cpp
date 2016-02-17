@@ -405,7 +405,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(std::shared_pt
 			)->forEachStartTokenLocation( // this TokenLocationFile only contains a single StartTokenLocation.
 				[&](TokenLocation* location)
 				{
-					params.title = m_storageAccess->getNameHierarchyForNodeWithId(location->getTokenId()).getFullName();
+					params.title = m_storageAccess->getNameHierarchyForNodeWithId(location->getTokenId()).getQualifiedName();
 					params.titleId = location->getId();
 				}
 			);
@@ -430,7 +430,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(std::shared_pt
 			)->forEachStartTokenLocation( // this TokenLocationFile only contains a single StartTokenLocation.
 				[&](TokenLocation* location)
 				{
-					params.footer = m_storageAccess->getNameHierarchyForNodeWithId(location->getTokenId()).getFullName();
+					params.footer = m_storageAccess->getNameHierarchyForNodeWithId(location->getTokenId()).getQualifiedName();
 					params.footerId = location->getId();
 				}
 			);

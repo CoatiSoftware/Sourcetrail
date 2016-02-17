@@ -54,7 +54,7 @@ NameHierarchy CxxDeclNameResolver::getContextNameHierarchy(const clang::DeclCont
 {
 	NameHierarchy contextNameHierarchy;
 
-	if (!ignoresContext(declContext))
+	if (declContext && !ignoresContext(declContext))
 	{
 		const clang::DeclContext* parentContext = declContext->getParent();
 		if (parentContext)
@@ -139,7 +139,7 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(recordDecl->getLocStart());
 			std::string lambdaName = "lambda at " + std::to_string(presumedBegin.getLine()) + ":" + std::to_string(presumedBegin.getColumn());
-			return std::make_shared<NameElement>(lambdaName, lambdaName);
+			return std::make_shared<NameElement>(lambdaName, NameElement::Signature("void", "()"));
 		}
 		else if (declNameString.size() == 0)
 		{
@@ -160,15 +160,16 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 			}
 		}
 
-		const clang::FunctionDecl* functionDecl = clang::dyn_cast<clang::FunctionDecl>(declaration);
+		std::string functionName;
 
+		const clang::FunctionDecl* functionDecl = clang::dyn_cast<clang::FunctionDecl>(declaration);
 		if (clang::FunctionTemplateDecl* templateFunctionDeclaration = functionDecl->getDescribedFunctionTemplate())
 		{
-			return getDeclName(templateFunctionDeclaration);
+			functionName = getDeclName(templateFunctionDeclaration)->getName();
 		}
-		else 
+		else
 		{
-			std::string functionName = declNameString;
+			functionName = declNameString;
 			if (functionDecl->isFunctionTemplateSpecialization())
 			{
 				std::string templateArgumentNamePart = "<";
@@ -182,40 +183,40 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 				templateArgumentNamePart += ">";
 				functionName += templateArgumentNamePart;
 			}
-
-			bool isStatic = false;
-			bool isConst = false;
-
-			if (clang::isa<clang::CXXMethodDecl>(declaration))
-			{
-				const clang::CXXMethodDecl* methodDecl = clang::dyn_cast<const clang::CXXMethodDecl>(declaration);
-				isStatic = methodDecl->isStatic();
-				isConst = methodDecl->isConst();
-			}
-			else
-			{
-				isStatic = functionDecl->getStorageClass() == clang::SC_Static;
-			}
-
-			CxxTypeNameResolver typenNameResolver(getIgnoredContextDecls());
-			typenNameResolver.ignoreContextDecl(functionDecl);
-			std::string returnTypeString = typenNameResolver.qualTypeToDataType(functionDecl->getReturnType())->getFullTypeName();
-
-			std::string parameterString = "(";
-			for (unsigned int i = 0; i < functionDecl->param_size(); i++)
-			{
-				parameterString += typenNameResolver.qualTypeToDataType(functionDecl->parameters()[i]->getType())->getFullTypeName();
-				if (i < functionDecl->param_size() - 1)
-				{
-					parameterString += ", ";
-				}
-			}
-			parameterString += ")";
-
-			return std::make_shared<NameElement>(
-				functionName, 
-				(isStatic ? "static " : "") + returnTypeString + " " + functionName + parameterString + (isConst ? " const" : ""));
 		}
+
+		bool isStatic = false;
+		bool isConst = false;
+
+		if (clang::isa<clang::CXXMethodDecl>(declaration))
+		{
+			const clang::CXXMethodDecl* methodDecl = clang::dyn_cast<const clang::CXXMethodDecl>(declaration);
+			isStatic = methodDecl->isStatic();
+			isConst = methodDecl->isConst();
+		}
+		else
+		{
+			isStatic = functionDecl->getStorageClass() == clang::SC_Static;
+		}
+
+		CxxTypeNameResolver typenNameResolver(getIgnoredContextDecls());
+		typenNameResolver.ignoreContextDecl(functionDecl);
+		std::string returnTypeString = typenNameResolver.qualTypeToDataType(functionDecl->getReturnType())->getFullTypeName();
+
+		std::string parameterString = "(";
+		for (unsigned int i = 0; i < functionDecl->param_size(); i++)
+		{
+			if (i > 0)
+			{
+				parameterString += ", ";
+			}
+			parameterString += typenNameResolver.qualTypeToDataType(functionDecl->parameters()[i]->getType())->getFullTypeName();
+		}
+		parameterString += ")";
+
+		return std::make_shared<NameElement>(
+			functionName, 
+			NameElement::Signature((isStatic ? "static " : "") + returnTypeString, parameterString + (isConst ? " const" : "")));
 		
 	}
 	else if (clang::isa<clang::TemplateDecl>(declaration)) // also triggers on TemplateTemplateParmDecl

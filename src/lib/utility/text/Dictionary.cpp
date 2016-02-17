@@ -91,7 +91,7 @@ std::deque<Id> Dictionary::getWordIdsConst(const NameHierarchy& nameHierarchy) c
 
 	for (size_t i = 0; i < nameHierarchy.size(); i++)
 	{
-		ids.push_back(getWordIdConst(nameHierarchy[i]->getFullName()));
+		ids.push_back(getWordIdConst(nameHierarchy[i]->getName()));
 	}
 
 	return ids;

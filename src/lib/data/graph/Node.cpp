@@ -129,12 +129,12 @@ bool Node::isType(NodeTypeMask mask) const
 
 std::string Node::getName() const
 {
-	return m_nameHierarchy.getName();
+	return m_nameHierarchy.getRawName();
 }
 
 std::string Node::getFullName() const
 {
-	return m_nameHierarchy.getFullName();
+	return m_nameHierarchy.getQualifiedName();
 }
 
 NameHierarchy Node::getNameHierarchy() const

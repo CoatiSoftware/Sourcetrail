@@ -107,9 +107,10 @@ std::string ParserClient::parameterStr(const std::vector<ParseTypeUsage> paramet
 
 std::string ParserClient::functionStr(const ParseFunction& function)
 {
-	std::string str =
+	/*std::string str =
 		function.returnType.dataType->getFullTypeName() + " " + function.getFullName() + parameterStr(function.parameters);
-	return addConstPrefix(addStaticPrefix(str, function.isStatic), function.isConst, false);
+	return addConstPrefix(addStaticPrefix(str, function.isStatic), function.isConst, false);*/
+	return function.nameHierarchy.getQualifiedNameWithSignature();
 }
 
 ParserClient::ParserClient()

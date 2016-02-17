@@ -20,7 +20,7 @@ std::string NamedDataType::getFullTypeName() const
 
 std::string NamedDataType::getRawTypeName() const
 {
-	return m_nameHierarchy.getFullName();
+	return m_nameHierarchy.getQualifiedNameWithSignature();
 }
 
 const NameHierarchy& NamedDataType::getTypeNameHierarchy() const

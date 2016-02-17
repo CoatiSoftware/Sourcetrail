@@ -1,893 +1,1454 @@
 #include "data/parser/cxx/ASTVisitor.h"
 
-#include <clang/AST/ParentMap.h>
-#include <clang/Lex/Lexer.h>
+#include <clang/AST/Type.h>
+#include <clang/Lex/Preprocessor.h>
+#include <llvm/ADT/SmallString.h>
+#include <llvm/Support/Casting.h>
+#include <string>
 
+#include "data/parser/cxx/utilityCxx.h"
 #include "utility/file/FileManager.h"
 #include "utility/file/FileSystem.h"
-#include "utility/logging/logging.h"
-#include "utility/utilityString.h"
+#include "utility/ScopedSwitcher.h"
 
-#include "data/parser/cxx/ASTBodyVisitor.h"
-#include "data/parser/cxx/name_resolver/CxxDeclNameResolver.h"
-#include "data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h"
-#include "data/parser/cxx/utilityCxx.h"
-#include "data/parser/ParseFunction.h"
-#include "data/parser/ParseLocation.h"
-#include "data/parser/ParseTypeUsage.h"
-#include "data/parser/ParseVariable.h"
-#include "data/type/DataType.h"
-#include "data/type/NamedDataType.h"
 
-ASTVisitor::ASTVisitor(clang::ASTContext* context, ParserClient* client, FileRegister* fileRegister)
+// TODO: For an array access, X[I], skip over the array-to-pointer decay.  We
+// currently record that X's address is taken, which is technically true, but
+// the address does not generally escape.
+
+// TODO: A struct assignment in C++ turns into an operator= call, even if the
+// user did not define an operator= function.  Consider handling operator=
+// calls the same way that normal assignment operations are handled.  Consider
+// doing the same for the other overloadable operators.
+
+// TODO: Unary ++ and --
+// TODO: Fix local extern variables.  e.g. void func() { extern int var; }
+//     Consider extern "C", functions nested within classes or namespaces.
+
+///////////////////////////////////////////////////////////////////////////////
+// Misc routines
+
+ASTVisitor::ASTVisitor(clang::ASTContext* context, clang::Preprocessor* preprocessor, ParserClient* client, FileRegister* fileRegister)
 	: m_context(context)
+	, m_preprocessor(preprocessor)
 	, m_client(client)
 	, m_fileRegister(fileRegister)
+    , m_thisContext(0)
+    , m_childContext(0)
+    , m_typeContext(RT_Reference)
+	, m_contextAccess(ParserClient::ACCESS_NONE)
 {
+	m_declNameCache = std::make_shared<DeclNameCache>();
+	m_typeNameCache = std::make_shared<TypeNameCache>();
+	m_contextNameGenerator = std::make_shared<ContextDeclNameGenerator>(nullptr, m_declNameCache);
+	m_childContextNameGenerator = std::make_shared<ContextDeclNameGenerator>(nullptr, m_declNameCache);
 }
 
-ASTVisitor::~ASTVisitor()
+bool ASTVisitor::VisitTranslationUnitDecl(clang::TranslationUnitDecl* decl)
 {
-}
-
-bool ASTVisitor::VisitStmt(const clang::Stmt* statement)
-{
+	//decl->dump();
 	return true;
 }
 
-bool ASTVisitor::VisitTypedefDecl(clang::TypedefDecl* declaration)
+bool ASTVisitor::shouldUseDataRecursionFor(clang::Stmt *s) const
 {
-	if (isLocatedInUnparsedProjectFile(declaration))
+    if (s == NULL || !base::shouldUseDataRecursionFor(s))
+        return false;
+    if (clang::UnaryOperator *e = llvm::dyn_cast<clang::UnaryOperator>(s)) {
+        return e->getOpcode() >= clang::UO_Plus &&
+                e->getOpcode() <= clang::UO_Imag;
+    }
+    if (clang::BinaryOperator *e = llvm::dyn_cast<clang::BinaryOperator>(s)) {
+        return e->getOpcode() >= clang::BO_Mul &&
+                e->getOpcode() <= clang::BO_LOr;
+    }
+    return false;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Dispatcher routines
+
+// Set the "this" context to the "child" context and reset the child context
+// to default.
+
+bool ASTVisitor::TraverseStmt(clang::Stmt *stmt)
+{
+    if (stmt == NULL)
+        return true;
+
+    ScopedSwitcher<Context> sw1(m_thisContext, m_childContext);
+
+    if (clang::Expr *e = llvm::dyn_cast<clang::Expr>(stmt)) {
+        if (e->isRValue())
+            m_thisContext &= ~(CF_AddressTaken | CF_Assigned | CF_Modified);
+    } else {
+        m_thisContext = 0;
+    }
+
+    ScopedSwitcher<Context> sw2(m_childContext, m_thisContext);
+
+    return base::TraverseStmt(stmt);
+}
+
+bool ASTVisitor::TraverseType(clang::QualType t)
+{
+    ScopedSwitcher<Context> sw1(m_thisContext, 0);
+    ScopedSwitcher<Context> sw2(m_childContext, 0);
+    return base::TraverseType(t);
+}
+
+bool ASTVisitor::TraverseTypeLoc(clang::TypeLoc tl)
+{
+    ScopedSwitcher<Context> sw1(m_thisContext, 0);
+    ScopedSwitcher<Context> sw2(m_childContext, 0);
+    return base::TraverseTypeLoc(tl);
+}
+
+bool ASTVisitor::TraverseDecl(clang::Decl *d)
+{
+    ScopedSwitcher<Context> sw1(m_thisContext, 0);
+    ScopedSwitcher<Context> sw2(m_childContext, 0);
+
+	std::shared_ptr<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>> sw3;
+	if (d && clang::isa<clang::DeclContext>(d) && clang::isa<clang::NamedDecl>(d) && !clang::isa<clang::NamespaceDecl>(d))
 	{
-		m_client->onTypedefParsed(
-			getParseLocationForNamedDecl(declaration),
-			getDeclNameHierarchy(declaration),
-			getParseTypeUsage(declaration->getTypeSourceInfo()->getTypeLoc(), declaration->getUnderlyingType()),
-			convertAccessType(declaration->getAccess())
-		);
+		clang::NamedDecl* nd = clang::dyn_cast<clang::NamedDecl>(d);
+		sw3 = std::make_shared<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>>(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(nd, m_declNameCache));
 	}
 
+    return base::TraverseDecl(d);
+}
+
+bool ASTVisitor::TraverseLambdaExpr(clang::LambdaExpr* e)
+{
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(e->getCallOperator(), m_declNameCache));
+	return base::TraverseLambdaExpr(e);
+}
+
+bool ASTVisitor::TraverseFunctionDecl(clang::FunctionDecl* d)
+{
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_childContextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache)); // store context for template arguments of function specialitzation
+	return base::TraverseFunctionDecl(d);
+}
+
+bool ASTVisitor::TraverseTypedefDecl(clang::TypedefDecl *d)
+{
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
+	return base::TraverseTypedefDecl(d);
+}
+
+bool ASTVisitor::TraverseFieldDecl(clang::FieldDecl *d)
+{
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
+	return base::TraverseFieldDecl(d);
+}
+
+bool ASTVisitor::TraverseVarDecl(clang::VarDecl *d)
+{
+	std::shared_ptr<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>> switcher;
+	
+	NameHierarchy contextNameHierarchy = m_contextNameGenerator->getName();
+	if (!(contextNameHierarchy.size() > 0 && contextNameHierarchy.back()->hasSignature())) // TODO: optimize this: remove requirement to get the name here!
+	{
+		switcher = std::make_shared<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>>(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
+	}
+	return base::TraverseVarDecl(d);
+}
+
+bool ASTVisitor::TraverseClassTemplateDecl(clang::ClassTemplateDecl* d) 
+{
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
+	return base::TraverseClassTemplateDecl(d);
+}
+
+bool ASTVisitor::TraverseTemplateTypeParmDecl(clang::TemplateTypeParmDecl* d)
+{
+	// same as base::TraverseTemplateTypeParmDecl(..) but we need to integrate the setter for the context info.
+	WalkUpFromTemplateTypeParmDecl(d);
+
+	if (d->hasDefaultArgument() && !d->defaultArgumentWasInherited())
+	{
+		ScopedSwitcher<RefType> sw1(m_typeContext, RT_TemplateDefaultArgument);
+		ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> sw2(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
+		TraverseTypeLoc(d->getDefaultArgumentInfo()->getTypeLoc());
+	}
+
+	traverseDeclContextHelper(clang::dyn_cast<clang::DeclContext>(d));
 	return true;
 }
 
-bool ASTVisitor::VisitRecordDecl(clang::RecordDecl* declaration)
+bool ASTVisitor::TraverseTemplateTemplateParmDecl(clang::TemplateTemplateParmDecl* d)
 {
-	if (isLocatedInUnparsedProjectFile(declaration))
+	// same as base::TraverseTemplateTemplateParmDecl(..) but we need to integrate the setter for the context info.
+	WalkUpFromTemplateTemplateParmDecl(d);
+
+	TraverseDecl(d->getTemplatedDecl());
+
+	if (d->hasDefaultArgument() && !d->defaultArgumentWasInherited())
 	{
-		if (declaration->isClass())
-		{
-			m_client->onClassParsed(
-				getParseLocationForNamedDecl(declaration),
-				getDeclNameHierarchy(declaration),
-				convertAccessType(declaration->getAccess()),
-				getParseLocationOfRecordBody(declaration)
-			);
-		}
-		else if (declaration->isStruct())
-		{
-			m_client->onStructParsed(
-				getParseLocationForNamedDecl(declaration),
-				getDeclNameHierarchy(declaration),
-				convertAccessType(declaration->getAccess()),
-				getParseLocationOfRecordBody(declaration)
-			);
-		}
+		ScopedSwitcher<RefType> sw1(m_typeContext, RT_TemplateDefaultArgument);
+		ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> sw2(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
 
-		if ((declaration->isClass() || declaration->isStruct()) &&
-			declaration->isThisDeclarationADefinition())
-		{
-			if (clang::CXXRecordDecl* cxxDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(declaration))
-			{
-				for (const clang::CXXBaseSpecifier& it : cxxDecl->bases())
-				{
-					m_client->onInheritanceParsed(
-						getParseLocation(it.getSourceRange()),
-						getDeclNameHierarchy(declaration),
-						utility::qualTypeToDataType(it.getType())->getTypeNameHierarchy(),
-						convertAccessType(it.getAccessSpecifier())
-					);
+		//d->getDefaultArgument
+		TraverseTemplateArgumentLoc(d->getDefaultArgument());
+	}
 
-					// TODO: check for template class and add arguments!
-				}
-			}
+	clang::TemplateParameterList* TPL = d->getTemplateParameters();
+	if (TPL) 
+	{
+		for (clang::TemplateParameterList::iterator I = TPL->begin(), E = TPL->end(); I != E; ++I)
+		{
+			TraverseDecl(*I);
 		}
 	}
 
+	traverseDeclContextHelper(clang::dyn_cast<clang::DeclContext>(d));
 	return true;
 }
 
-bool ASTVisitor::VisitVarDecl(clang::VarDecl* declaration)
+bool ASTVisitor::TraverseClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* d)
 {
-	// Abort on local variables and parameters.
-	if (declaration->isFunctionOrMethodVarDecl() || clang::isa<clang::ParmVarDecl>(declaration))
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_childContextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
+	return base::TraverseClassTemplatePartialSpecializationDecl(d);
+}
+
+bool ASTVisitor::TraverseDeclRefExpr(clang::DeclRefExpr* e)
+{
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_childContextNameGenerator, std::make_shared<ContextDeclNameGenerator>(e->getDecl(), m_declNameCache));
+	return base::TraverseDeclRefExpr(e);
+}
+
+bool ASTVisitor::TraverseTemplateSpecializationTypeLoc(clang::TemplateSpecializationTypeLoc loc)
+{
+	const clang::Type* t = loc.getTypePtr();
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_childContextNameGenerator, std::make_shared<ContextTypeNameGenerator>(t, m_typeNameCache));
+	return base::TraverseTemplateSpecializationTypeLoc(loc);
+}
+
+bool ASTVisitor::TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc)
+{
+	std::shared_ptr<ScopedSwitcher<RefType>> sw1;
+	std::shared_ptr<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>> sw2;
+
+	if (m_typeContext != RT_TemplateDefaultArgument)
 	{
-		return true;
+		sw1 = std::make_shared<ScopedSwitcher<RefType>>(m_typeContext, RT_TemplateArgument);
+		sw2 = std::make_shared<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>>(m_contextNameGenerator, m_childContextNameGenerator);
 	}
 
-	if (isLocatedInUnparsedProjectFile(declaration))
+	clang::TemplateArgument::ArgKind kk = loc.getArgument().getKind();
+	if (kk == clang::TemplateArgument::Template)
 	{
-		clang::AccessSpecifier access = declaration->getAccess();
+		RecordDeclRef(loc.getArgument().getAsTemplate().getAsTemplateDecl(), loc.getLocation(), m_typeContext);
+	}
+	
+	return base::TraverseTemplateArgumentLoc(loc);
+}
 
-		if (access == clang::AS_none)
+//bool ASTVisitor::TraverseFunctionTemplateDecl(clang::FunctionTemplateDecl* d)
+//{
+//	ScopedSwitcher<clang::Decl*> switcher(m_contextDecl, d);
+//	return base::TraverseFunctionTemplateDecl(d);
+//}
+
+///////////////////////////////////////////////////////////////////////////////
+// Expression context propagation
+
+bool ASTVisitor::TraverseCallCommon(clang::CallExpr *call)
+{
+    {
+        m_childContext = CF_Called;
+        TraverseStmt(call->getCallee());
+    }
+    for (unsigned int i = 0; i < call->getNumArgs(); ++i) {
+        clang::Expr *arg = call->getArg(i);
+        // If the child is really an lvalue, then this call is passing a
+        // reference.  If the child is not an lvalue, then this address-taken
+        // flag will be masked out, and the rvalue will be assumed to be read.
+        m_childContext = CF_AddressTaken;
+        TraverseStmt(arg);
+    }
+    return true;
+}
+
+bool ASTVisitor::TraverseBinComma(clang::BinaryOperator *s)
+{
+    {
+        m_childContext = 0;
+        TraverseStmt(s->getLHS());
+    }
+    {
+        m_childContext = m_thisContext;
+        TraverseStmt(s->getRHS());
+    }
+    return true;
+}
+
+bool ASTVisitor::TraverseAssignCommon(
+        clang::BinaryOperator *e,
+        ContextFlags lhsFlag)
+{
+    {
+        m_childContext = m_thisContext | lhsFlag;
+        if (m_childContext & CF_Called) {
+            m_childContext ^= CF_Called;
+            m_childContext |= CF_Read;
+        }
+        TraverseStmt(e->getLHS());
+    }
+    {
+        m_childContext = 0;
+        TraverseStmt(e->getRHS());
+    }
+    return true;
+}
+
+bool ASTVisitor::VisitCastExpr(clang::CastExpr *e)
+{
+    if (e->getCastKind() == clang::CK_ArrayToPointerDecay) {
+        // Note that e->getSubExpr() can be an rvalue array, in which case the
+        // CF_AddressTaken context will be masked away to 0.
+        m_childContext = CF_AddressTaken;
+    } else if (e->getCastKind() == clang::CK_ToVoid) {
+        m_childContext = 0;
+    } else if (e->getCastKind() == clang::CK_LValueToRValue) {
+        m_childContext = CF_Read;
+    }
+    return true;
+}
+
+bool ASTVisitor::VisitUnaryAddrOf(clang::UnaryOperator *e)
+{
+    m_childContext = CF_AddressTaken;
+    return true;
+}
+
+bool ASTVisitor::VisitUnaryDeref(clang::UnaryOperator *e)
+{
+    m_childContext = 0;
+    return true;
+}
+
+bool ASTVisitor::VisitDeclStmt(clang::DeclStmt *s)
+{
+    // If a declaration is a reference to an lvalue initializer, then we
+    // record that that the initializer's address was taken.  If it is
+    // an rvalue instead, then we'll see something else in the tree indicating
+    // what kind of reference to record (e.g. lval-to-rval cast, assignment,
+    // call, & operator) or assume the rvalue is being read.
+    m_childContext = CF_AddressTaken;
+    return true;
+}
+
+bool ASTVisitor::VisitReturnStmt(clang::ReturnStmt *s)
+{
+    // See comment for VisitDeclStmt.
+    m_childContext = CF_AddressTaken;
+    return true;
+}
+
+bool ASTVisitor::VisitVarDecl(clang::VarDecl *d)
+{
+    // See comment for VisitDeclStmt.  Set the context for the variable's
+    // initializer.  Also handle default arguments on parameter declarations.
+    m_childContext = CF_AddressTaken;
+    return true;
+}
+
+bool ASTVisitor::VisitInitListExpr(clang::InitListExpr *e)
+{
+    // See comment for VisitDeclStmt.  An initializer list can also bind
+    // references.
+    m_childContext = CF_AddressTaken;
+    return true;
+}
+
+bool ASTVisitor::TraverseConstructorInitializer(clang::CXXCtorInitializer *init)
+{
+    if (init->getMember() != NULL) {
+        RecordDeclRef(init->getMember(),
+                      init->getMemberLocation(),
+                      RT_Initialized, 
+					  ST_Field);
+    }
+
+    // See comment for VisitDeclStmt.
+    m_childContext = CF_AddressTaken;
+    return base::TraverseConstructorInitializer(init);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Expression reference recording
+
+bool ASTVisitor::VisitLambdaExpr(clang::LambdaExpr* e)
+{
+	RecordDeclRef(e->getCallOperator(), e->getLocStart(), RT_Definition, ST_Function);
+	return true;
+}
+
+bool ASTVisitor::VisitMemberExpr(clang::MemberExpr *e)
+{
+    RecordDeclRefExpr(
+                e->getMemberDecl(),
+                e->getMemberLoc(),
+                e,
+                m_thisContext);
+
+    // Update the child context for the base sub-expression.
+    if (e->isArrow()) {
+        m_childContext = CF_Read;
+    } else {
+        m_childContext = 0;
+        if (m_thisContext & CF_AddressTaken)
+            m_childContext |= CF_AddressTaken;
+        if (m_thisContext & (CF_Assigned | CF_Modified))
+            m_childContext |= CF_Modified;
+        if (m_thisContext & CF_Read)
+            m_childContext |= CF_Read;
+        if (m_thisContext & CF_Called) {
+            // I'm not sure what the best behavior here is.
+            m_childContext |= CF_Read;
+        }
+    }
+
+    return true;
+}
+
+bool ASTVisitor::VisitDeclRefExpr(clang::DeclRefExpr *e)
+{
+    RecordDeclRefExpr(
+                e->getDecl(),
+                e->getLocation(),
+                e,
+                m_thisContext);
+    return true;
+}
+
+bool ASTVisitor::VisitCXXConstructExpr(clang::CXXConstructExpr *e)
+{
+    //if (e->getParenOrBraceRange().isValid()) {
+    //    // XXX: This code is a kludge.  Recording calls to constructors is
+    //    // troublesome because there isn't an obvious location to associate the
+    //    // call with.  Consider:
+    //    //     A::A() : field(1, 2, 3) {}
+    //    //     new A<B>(1, 2, 3)
+    //    //     struct A { A(B); }; A f() { B b; return b; }
+    //    // Implicit calls to conversion operator methods pose a similar
+    //    // problem.
+    //    //
+    //    // Recording constructor calls is very useful, though, so, as a
+    //    // temporary measure, when there are constructor arguments surrounded
+    //    // by parentheses, associate the call with the right parenthesis.
+    //    //
+    //    // Perhaps the right fix is to associate the call with the line itself
+    //    // or with a larger span which may have other references nested within
+    //    // it.  The fix may have implications for the navigator GUI.
+    //    RecordDeclRefExpr(
+    //                e->getConstructor(),
+    //                e->getParenOrBraceRange().getEnd(),
+    //                e,
+    //                CF_Called);
+    //}
+	clang::SourceLocation loc;
+	clang::SourceLocation braceBeginLoc = e->getParenOrBraceRange().getBegin();
+	clang::SourceLocation nameBeginLoc = e->getSourceRange().getBegin();
+	if (braceBeginLoc.isValid())
+	{
+		if (braceBeginLoc == nameBeginLoc)
 		{
-			m_client->onGlobalVariableParsed(
-				getParseLocationForNamedDecl(declaration),
-				getParseVariable(declaration)
-			);
-
-			if (declaration->getInit())
-			{
-				ASTBodyVisitor bodyVisitor(this, declaration);
-				bodyVisitor.Visit(declaration->getInit());
-			}
+			loc = nameBeginLoc;
 		}
 		else
 		{
-			m_client->onFieldParsed(
-				getParseLocationForNamedDecl(declaration),
-				getParseVariable(declaration),
-				convertAccessType(declaration->getAccess())
-			);
+			loc = braceBeginLoc.getLocWithOffset(-1);
+		}
+	}
+	else
+	{
+		loc = e->getSourceRange().getEnd();
+	}
+	loc = clang::Lexer::GetBeginningOfToken(loc, m_context->getSourceManager(), m_context->getLangOpts());
+	RecordDeclRefExpr(
+		e->getConstructor(),
+		loc,
+		e,
+		CF_Called);
+    return true;
+}
+
+void ASTVisitor::RecordDeclRefExpr(clang::NamedDecl *d, clang::SourceLocation loc, clang::Expr *e, Context context)
+{
+	SymbolType symbolType = ST_Max;
+	
+	if (clang::isa<clang::VarDecl>(d))
+	{
+		if (llvm::isa<clang::ParmVarDecl>(d))
+		{
+			symbolType = ST_Parameter;
+		}
+		else if (d->getParentFunctionOrMethod() == NULL)
+		{
+			symbolType = ST_GlobalVariable;
+		}
+		else
+		{
+			symbolType = ST_LocalVariable;
+		}
+	}
+	if (clang::isa<clang::EnumConstantDecl>(d))
+	{
+		symbolType = ST_Enumerator;
+	}
+	else if (clang::isa<clang::FieldDecl>(d))
+	{
+		symbolType = ST_Field;
+	}
+
+	if (m_typeContext == RT_TemplateArgument)
+	{
+		RecordDeclRef(d, loc, m_typeContext, symbolType);
+	}
+	else
+	{
+
+		if (llvm::isa<clang::FunctionDecl>(*d)) 
+		{
+			// XXX: This code seems sloppy, but I suspect it will work well enough.
+			if (context & CF_Called)
+				RecordDeclRef(d, loc, RT_Called, symbolType);
+			if (!(context & CF_Called) || (context & (CF_Read | CF_AddressTaken)))
+				RecordDeclRef(d, loc, RT_AddressTaken, symbolType);
+		}
+		else 
+		{
+			if (context & CF_Called)
+				RecordDeclRef(d, loc, RT_Called, symbolType);
+			if (context & CF_Read)
+				RecordDeclRef(d, loc, RT_Read, symbolType);
+			if (context & CF_AddressTaken)
+				RecordDeclRef(d, loc, RT_AddressTaken, symbolType);
+			if (context & CF_Assigned)
+				RecordDeclRef(d, loc, RT_Assigned, symbolType);
+			if (context & CF_Modified)
+				RecordDeclRef(d, loc, RT_Modified, symbolType);
+			if (context == 0)
+				RecordDeclRef(d, loc, e->isRValue() ? RT_Read : RT_Other, symbolType);
+		}
+	}
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// NestedNameSpecifier handling
+
+bool ASTVisitor::TraverseNestedNameSpecifierLoc(
+        clang::NestedNameSpecifierLoc qualifier)
+{
+    for (; qualifier; qualifier = qualifier.getPrefix()) {
+        clang::NestedNameSpecifier *nns = qualifier.getNestedNameSpecifier();
+        switch (nns->getKind()) {
+        case clang::NestedNameSpecifier::Namespace:
+            RecordDeclRef(nns->getAsNamespace(),
+                          qualifier.getLocalBeginLoc(),
+                          RT_Qualifier);
+            break;
+        case clang::NestedNameSpecifier::NamespaceAlias:
+            RecordDeclRef(nns->getAsNamespaceAlias(),
+                          qualifier.getLocalBeginLoc(),
+                          RT_Qualifier);
+            break;
+        case clang::NestedNameSpecifier::TypeSpec:
+        case clang::NestedNameSpecifier::TypeSpecWithTemplate:
+            if (const clang::TypedefType *tt = nns->getAsType()->getAs<clang::TypedefType>()) {
+                RecordDeclRef(tt->getDecl(),
+                              qualifier.getLocalBeginLoc(),
+                              RT_Qualifier);
+            } else if (const clang::RecordType *rt = nns->getAsType()->getAs<clang::RecordType>()) {
+                RecordDeclRef(rt->getDecl(),
+                              qualifier.getLocalBeginLoc(),
+                              RT_Qualifier);
+            } else if (const clang::TemplateSpecializationType *tst =
+                       nns->getAsType()->getAs<clang::TemplateSpecializationType>()) {
+
+                if (clang::TemplateDecl *decl = tst->getTemplateName().getAsTemplateDecl()) {
+                    if (clang::NamedDecl *templatedDecl = decl->getTemplatedDecl()) {
+                        RecordDeclRef(templatedDecl,
+                                      qualifier.getLocalBeginLoc(),
+                                      RT_Qualifier);
+
+                    }
+                }
+            }
+            break;
+        default:
+            // TODO: Do these cases matter?
+            break;
+        }
+    }
+    return true;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Declaration and TypeLoc handling
+
+void ASTVisitor::traverseDeclContextHelper(clang::DeclContext *d)
+{
+	if (!d)
+		return;
+
+    // Traverse children.
+    for (clang::DeclContext::decl_iterator it = d->decls_begin(),
+            itEnd = d->decls_end(); it != itEnd; ++it) {
+        // BlockDecls are traversed through BlockExprs.
+        if (!llvm::isa<clang::BlockDecl>(*it))
+            TraverseDecl(*it);
+    }
+}
+
+// Overriding TraverseCXXRecordDecl lets us mark the base-class references
+// with the "Base-Class" kind.
+bool ASTVisitor::TraverseCXXRecordDecl(clang::CXXRecordDecl *d)
+{
+    // Traverse qualifiers on the record decl.
+    TraverseNestedNameSpecifierLoc(d->getQualifierLoc());
+
+    // Visit the TagDecl to record its ref.
+    WalkUpFromCXXRecordDecl(d);
+
+    // Traverse base classes.
+    if (d->isThisDeclarationADefinition()) {
+        for (clang::CXXRecordDecl::base_class_iterator it = d->bases_begin();
+                it != d->bases_end();
+                ++it) {
+            clang::CXXBaseSpecifier *baseSpecifier = it;
+			ScopedSwitcher<RefType> sw1(m_typeContext, RT_BaseClass);
+			ScopedSwitcher<ParserClient::AccessType> sw2(m_contextAccess, convertAccessType(baseSpecifier->getAccessSpecifier()));
+			ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> sw3(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
+            TraverseTypeLoc(baseSpecifier->getTypeSourceInfo()->getTypeLoc());
+        }
+    }
+
+    traverseDeclContextHelper(d);
+    return true;
+}
+
+bool ASTVisitor::TraverseClassTemplateSpecializationDecl(
+        clang::ClassTemplateSpecializationDecl *d)
+{
+    // base::TraverseClassTemplateSpecializationDecl calls TraverseTypeLoc,
+    // which then visits a clang::TemplateSpecializationTypeLoc.  We want
+    // to mark the template specialization as Declaration or Definition,
+    // not Reference, so skip the TraverseTypeLoc call.
+    //
+    // The problem happens with code like this:
+    //     template <>
+    //     struct Vector<bool, void> {};
+
+    WalkUpFromClassTemplateSpecializationDecl(d);
+
+	if (clang::TypeSourceInfo* tsi = d->getTypeAsWritten())
+	{
+		ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_childContextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
+		clang::TypeLoc tl = tsi->getTypeLoc();
+		clang::TemplateSpecializationTypeLoc tstl = tl.castAs<clang::TemplateSpecializationTypeLoc>();
+		for (unsigned I = 0, E = tstl.getNumArgs(); I != E; ++I)
+		{
+			TraverseTemplateArgumentLoc(tstl.getArgLoc(I));
 		}
 	}
 
-	return true;
+    traverseDeclContextHelper(d);
+
+	
+
+    return true;
+	//base::TraverseClassTemplateSpecializationDecl(d);
 }
 
-bool ASTVisitor::VisitFieldDecl(clang::FieldDecl* declaration)
+bool ASTVisitor::TraverseNamespaceAliasDecl(clang::NamespaceAliasDecl *d)
 {
-	if (isLocatedInUnparsedProjectFile(declaration))
-	{
-		if (declaration->hasInClassInitializer())
-		{
-			ASTBodyVisitor bodyVisitor(this, declaration);
-			bodyVisitor.Visit(declaration->getInClassInitializer());
-		}
-		m_client->onFieldParsed(
-			getParseLocationForNamedDecl(declaration),
-			getParseVariable(declaration),
-			convertAccessType(declaration->getAccess())
-		);
-	}
+    // The base::TraverseNamespaceAliasDecl function avoids traversing the
+    // namespace decl itself because (I think) that would traverse the
+    // complete contents of the namespace.  However, it fails to traverse
+    // the qualifiers on the target namespace, so we do that here.
+    TraverseNestedNameSpecifierLoc(d->getQualifierLoc());
 
-	return true;
+    return base::TraverseNamespaceAliasDecl(d);
 }
 
-bool ASTVisitor::VisitFunctionDecl(clang::FunctionDecl* declaration)
+void ASTVisitor::templateParameterListsHelper(clang::DeclaratorDecl *d)
 {
-	// Abort for CXXMethodDecls to avoid duplicate call.
-	if (clang::isa<clang::CXXMethodDecl>(declaration))
-	{
-		return true;
-	}
-
-	if (isLocatedInUnparsedProjectFile(declaration))
-	{
-		processFunctionDecl(declaration);
-	}
-
-	return true;
+    for (unsigned i = 0, iEnd = d->getNumTemplateParameterLists();
+            i != iEnd; ++i) {
+        clang::TemplateParameterList *parmList =
+                d->getTemplateParameterList(i);
+        for (clang::NamedDecl *parm : *parmList)
+            TraverseDecl(parm);
+    }
 }
 
-bool ASTVisitor::VisitLambdaExpr(clang::LambdaExpr* expr)
+bool ASTVisitor::VisitDecl(clang::Decl *d)
 {
-	if (isLocatedInUnparsedProjectFile(expr->getCallOperator()))
-	{
-		processFunctionDecl(expr->getCallOperator());
-	}
-	return true;
-}
-
-bool ASTVisitor::VisitParmVarDecl(clang::ParmVarDecl* declaration)
-{
-	// todo: handle parameters here!
-	// maybe handle template args in visitvardecl to account for local variables and stuff...
-	processTemplateArguments(declaration->getTypeSourceInfo()->getTypeLoc());
-
-	return true;
-}
-
-bool ASTVisitor::VisitCXXMethodDecl(clang::CXXMethodDecl* declaration)
-{
-	if (isLocatedInUnparsedProjectFile(declaration))
-	{
-		ParseFunction parseFunction = getParseFunction(declaration);
-		ParseLocation location = getParseLocationForNamedDecl(declaration);
-
-		m_client->onMethodParsed(
-			location,
-			parseFunction,
-			convertAccessType(declaration->getAccess()),
-			getAbstractionType(declaration),
-			getParseLocationOfFunctionBody(declaration)
-		);
-
-		for (clang::CXXMethodDecl::method_iterator it = declaration->begin_overridden_methods();
-			it != declaration->end_overridden_methods(); it++)
-		{
-			m_client->onMethodOverrideParsed(location, getParseFunction(*it), parseFunction);
-		}
-
-		if (declaration->hasBody() && declaration->getBody() != NULL && declaration->isThisDeclarationADefinition() &&
-			!declaration->isDependentContext())
-		{
-			ASTBodyVisitor bodyVisitor(this, declaration);
-			bodyVisitor.Visit(declaration->getBody());
-		}
-	}
-
-	return true;
-}
-
-bool ASTVisitor::VisitCXXConstructorDecl(clang::CXXConstructorDecl* declaration)
-{
-	if (isLocatedInUnparsedProjectFile(declaration))
-	{
-		for (clang::CXXConstructorDecl::init_const_iterator it = declaration->init_begin(); it != declaration->init_end(); it++)
-		{
-			if ((*it)->getInit())
-			{
-				clang::CXXCtorInitializer* init = *it;
-
-				if (init->isMemberInitializer())
+    if (clang::NamedDecl *nd = llvm::dyn_cast<clang::NamedDecl>(d)) {
+        clang::SourceLocation loc = nd->getLocation();
+        if (clang::FunctionDecl *fd = llvm::dyn_cast<clang::FunctionDecl>(d)) {
+            //if (fd->getTemplateInstantiationPattern() != NULL) {
+            //    // When Clang instantiates a function template, it seems to
+            //    // create a FunctionDecl for the instantiation that returns
+            //    // false for fd->isThisDeclarationADefinition().  The result
+            //    // is that the template function definition's location is
+            //    // marked as both a Declaration and a Definition.  Fix this by
+            //    // omitting the ref on the instantiation.
+            //} else {
+#if 0
+                // This code recorded refs without appropriate qualifiers.  For
+                // example, with the code
+                //     template <typename A> void Vector<A>::clear() {}
+                // it would record the first A as "A", but it needs to record
+                // Vector::A.
+                templateParameterListsHelper(fd);
+#endif
+                RefType refType;
+                refType = fd->isThisDeclarationADefinition() ?
+                            RT_Definition : RT_Declaration;
+                SymbolType symbolType;
+                if (llvm::isa<clang::CXXMethodDecl>(fd)) 
 				{
-					m_client->onFieldUsageParsed(
-						getParseLocationForTokenAtLocation(init->getMemberLocation()),
-						getParseFunction(declaration),
-						getDeclNameHierarchy(init->getMember())
-					);
+                    if (llvm::isa<clang::CXXConstructorDecl>(fd))
+                        symbolType = ST_Constructor;
+                    else if (llvm::isa<clang::CXXDestructorDecl>(fd))
+                        symbolType = ST_Destructor;
+                    else
+                        symbolType = ST_Method;
+                } else 
+				{
+					symbolType = ST_Function;
+                }
+                RecordDeclRef(nd, loc, refType, symbolType);
+				if (fd->isFunctionTemplateSpecialization())
+				{
+					RecordDeclRef(nd, loc, refType, ST_FunctionTemplateSpecialization); // TODO: functiontemplatespec is more reftype than symboltype
 				}
-				else if (init->isBaseInitializer())
+            //}
+        } else if (clang::VarDecl *vd = llvm::dyn_cast<clang::VarDecl>(d)) {
+            // Don't record the parameter definitions in a function declaration
+            // (unless the function declaration is also a definition).  A
+            // definition will be recorded at the function's definition, and
+            // recording two definitions is unhelpful.  This code could record
+            // a different kind of reference, but recording the position of
+            // parameter names in declarations doesn't seem useful.
+            bool omitParamVar = false;
+            const bool isParam = llvm::isa<clang::ParmVarDecl>(vd);
+            if (isParam) {
+                clang::FunctionDecl *fd =
+                        llvm::dyn_cast_or_null<clang::FunctionDecl>(
+                            vd->getDeclContext());
+                if (fd && !fd->isThisDeclarationADefinition())
+                    omitParamVar = true;
+            }
+            if (!omitParamVar) {
+                RefType refType;
+                if (vd->isThisDeclarationADefinition() == clang::VarDecl::DeclarationOnly)
+                    refType = RT_Declaration;
+                else
+                    refType = RT_Definition;
+                // TODO: Review for correctness.  What about local extern?
+                SymbolType symbolType;
+				if (isParam)
 				{
-					m_client->onTypeUsageParsed(
-						getParseTypeUsage(init->getTypeSourceInfo()->getTypeLoc(), init->getTypeSourceInfo()->getType()), // TODO: rewrite this to old!
-						getParseFunction(declaration)
-					);
+					symbolType = ST_Parameter;
 				}
-
-				ASTBodyVisitor bodyVisitor(this, declaration);
-				bodyVisitor.Visit(init->getInit());
-			}
-		}
-	}
-	return true;
-}
-
-bool ASTVisitor::VisitNamespaceDecl(clang::NamespaceDecl* declaration)
-{
-	if (isLocatedInUnparsedProjectFile(declaration))
-	{
-		m_client->onNamespaceParsed(
-			declaration->isAnonymousNamespace() ? ParseLocation() : getParseLocationForNamedDecl(declaration), // TODO: why no real parse loc for anonymous namespace?
-			getDeclNameHierarchy(declaration),
-			getParseLocation(declaration->getSourceRange())
-		);
-	}
-	return true;
-}
-
-bool ASTVisitor::VisitEnumDecl(clang::EnumDecl* declaration)
-{
-	if (isLocatedInUnparsedProjectFile(declaration))
-	{
-		m_client->onEnumParsed(
-			getParseLocationForNamedDecl(declaration),
-			getDeclNameHierarchy(declaration),
-			convertAccessType(declaration->getAccess()),
-			getParseLocation(declaration->getSourceRange())
-		);
-	}
-	return true;
-}
-
-bool ASTVisitor::VisitEnumConstantDecl(clang::EnumConstantDecl* declaration)
-{
-	if (isLocatedInUnparsedProjectFile(declaration))
-	{
-		m_client->onEnumConstantParsed(
-			getParseLocation(declaration->getSourceRange()),
-			getDeclNameHierarchy(declaration)
-		);
-	}
-	return true;
-}
-
-bool ASTVisitor::VisitTemplateTypeParmDecl(clang::TemplateTypeParmDecl *declaration)
-{
-	if (isLocatedInUnparsedProjectFile(declaration) && declaration->hasDefaultArgument())
-	{
-		m_client->onTemplateDefaultArgumentTypeParsed(
-			getParseTypeUsage(declaration->getDefaultArgumentInfo()->getTypeLoc(), declaration->getDefaultArgument()),
-			getDeclNameHierarchy(declaration)
-		);
-	}
-	return true;
-}
-
-bool ASTVisitor::VisitTemplateTemplateParmDecl(clang::TemplateTemplateParmDecl *declaration)
-{
-	if (isLocatedInUnparsedProjectFile(declaration) && declaration->hasDefaultArgument())
-	{
-		const clang::TemplateArgumentLoc& defaultArgumentLoc = declaration->getDefaultArgument();
-		clang::SourceRange sr = defaultArgumentLoc.getSourceRange();
-		std::shared_ptr<DataType> defaultArgumentDataType = std::make_shared<NamedDataType>(
-			getDeclNameHierarchy(defaultArgumentLoc.getArgument().getAsTemplate().getAsTemplateDecl())
-		);
-		m_client->onTemplateDefaultArgumentTypeParsed(
-			getParseTypeUsage(sr, defaultArgumentDataType),
-			getDeclNameHierarchy(declaration)
-		);
-	}
-	return true;
-}
-
-bool ASTVisitor::VisitClassTemplateDecl(clang::ClassTemplateDecl* declaration)
-{
-	if (isLocatedInUnparsedProjectFile(declaration))
-	{
-		NameHierarchy templateRecordNameHierarchy = getDeclNameHierarchy(declaration);
-		clang::TemplateParameterList* parameterList = declaration->getTemplateParameters();
-		for (size_t i = 0; i < parameterList->size(); i++)
-		{
-			clang::NamedDecl* namedDecl = parameterList->getParam(i);
-			if (!namedDecl->getName().empty()) // do not create node for template param if the param has no name
-			{
-				m_client->onTemplateRecordParameterTypeParsed(
-					getParseLocationForNamedDecl(namedDecl),
-					getDeclNameHierarchy(namedDecl),
-					templateRecordNameHierarchy
-				);
-			}
-		}
-	}
-
-	// handles explicit specializations and implicit specializations but no explicit partial specializations
-	for (clang::ClassTemplateDecl::spec_iterator it = declaration->specializations().begin();
-		it != declaration->specializations().end(); it++
-	)
-	{
-		clang::ClassTemplateSpecializationDecl* specializationDecl = *it;
-		NameHierarchy specializationNameHierarchy = getDeclNameHierarchy(specializationDecl);
-
-		ParseLocation specializationLocation = getParseLocationForNamedDecl(specializationDecl);
-		if (specializationDecl->getSpecializationKind() == clang::TSK_ImplicitInstantiation)
-		{
-			specializationLocation = getParseLocation(specializationDecl->getPointOfInstantiation());
-		}
-
-		// handling template arguments
-		if (isLocatedInUnparsedProjectFile(specializationDecl) && specializationDecl->isExplicitSpecialization())
-		{
-			processTemplateArgumentsOfExplicitSpecialization(specializationDecl);
-		}
-
-		if (isLocatedInProjectFile(declaration))
-		{
-			m_client->onTemplateRecordSpecializationParsed(
-				specializationLocation,
-				specializationNameHierarchy,
-				specializationDecl->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS,
-				utility::getTemplateSpecializationParentNameHierarchy(specializationDecl)
-			);
-
-			// template member specializations
-			if (specializationDecl->getSpecializationKind() == clang::TSK_ImplicitInstantiation)
-			{
-				for (clang::CXXRecordDecl::method_iterator methodIt = specializationDecl->method_begin(); methodIt != specializationDecl->method_end(); methodIt++)
+				else if (vd->getParentFunctionOrMethod() == NULL)
 				{
-					clang::CXXMethodDecl* methodDecl = (*methodIt);
-					if (methodDecl->getTemplatedKind() == clang::FunctionDecl::TK_MemberSpecialization)
+					if (vd->getAccess() == clang::AS_none)
 					{
-						m_client->onMethodParsed(
-							getParseLocation(methodDecl->getMemberSpecializationInfo()->getPointOfInstantiation()),
-							getParseFunction(methodDecl),
-							convertAccessType(methodDecl->getAccess()),
-							getAbstractionType(methodDecl),
-							ParseLocation()
-						);
+						symbolType = ST_GlobalVariable;
+					}
+					else
+					{
+						symbolType = ST_Field;
+					}
+				}
+				else
+				{
+					symbolType = ST_LocalVariable;
+				}
+                RecordDeclRef(nd, loc, refType, symbolType);
+            }
+        } else if (clang::TagDecl *td = llvm::dyn_cast<clang::TagDecl>(d)) {
+            RefType refType;
+            refType = td->isThisDeclarationADefinition() ? RT_Definition : RT_Declaration;
+            // Mark an extern template declaration as a Declaration rather than
+            // a Definition.  For example:
+            //     template<typename T> class Foo {};  // Definition of Foo
+            //     extern template class Foo<int>;     // Declaration of Foo
+            if (clang::ClassTemplateSpecializationDecl *spec =
+                    llvm::dyn_cast<clang::ClassTemplateSpecializationDecl>(td)) {
+                if (spec->getTemplateSpecializationKind() !=
+                        clang::TSK_ExplicitSpecialization)
+                    refType = RT_Declaration;
+            }
 
-						clang::NamedDecl* specializedNamedDecel = methodDecl->getMemberSpecializationInfo()->getInstantiatedFrom();
-						if (clang::isa<clang::FunctionDecl>(specializedNamedDecel))
-						{
-							m_client->onTemplateMemberFunctionSpecializationParsed(
-								getParseLocation(methodDecl->getMemberSpecializationInfo()->getPointOfInstantiation()),
-								getParseFunction(methodDecl),
-								getParseFunction(clang::dyn_cast<clang::FunctionDecl>(specializedNamedDecel))
-							);
+			SymbolType symbolType = ST_Max;
+			// TODO: Handle the C++11 fixed underlying type of enumeration
+			// declarations.
+			switch (td->getTagKind()) 
+			{
+				case clang::TTK_Struct: symbolType = ST_Struct; break;
+				case clang::TTK_Union:  symbolType = ST_Union; break;
+				case clang::TTK_Class:  symbolType = ST_Class; break;
+				case clang::TTK_Enum:   symbolType = ST_Enum; break;
+				default: assert(false);
+			}
+            RecordDeclRef(nd, loc, refType, symbolType);
+
+			if (clang::isa<clang::ClassTemplateSpecializationDecl>(td))
+			{
+				RecordDeclRef(nd, loc, refType, ST_ClassTemplateSpecialization); // TODO: classtemplatespec is more reftype than symboltype
+			}
+        } else if (clang::UsingDirectiveDecl *ud = llvm::dyn_cast<clang::UsingDirectiveDecl>(d)) {
+            RecordDeclRef(
+                        ud->getNominatedNamespaceAsWritten(),
+                        loc, RT_UsingDirective);
+        } else if (clang::UsingDecl *usd = llvm::dyn_cast<clang::UsingDecl>(d)) {
+            for (auto it = usd->shadow_begin(), itEnd = usd->shadow_end();
+                    it != itEnd; ++it) {
+                clang::UsingShadowDecl *shadow = *it;
+                RecordDeclRef(shadow->getTargetDecl(), loc, RT_Using);
+            }
+        } else if (clang::NamespaceAliasDecl *nad = llvm::dyn_cast<clang::NamespaceAliasDecl>(d)) {
+			RecordDeclRef(nad, loc, RT_Declaration, ST_Namespace);
+//			not needed right now!
+//          RecordDeclRef(nad, loc, RT_Declaration, ST_Namespace);
+// 			RecordDeclRef(nad->getAliasedNamespace(),
+//                          nad->getTargetNameLoc(),
+//                          RT_NamespaceAlias);
+        } else if (llvm::isa<clang::FunctionTemplateDecl>(d)) {
+			// TODO: use these cases for creating the connection between two undefined template things
+			// Do nothing.  The function will be recorded when it appears as a
+            // FunctionDecl.
+        } else if (llvm::isa<clang::ClassTemplateDecl>(d)) {
+            // Do nothing.  The class will be recorded when it appears as a
+            // RecordDecl.
+        } else if (llvm::isa<clang::FieldDecl>(d)) {
+            RecordDeclRef(nd, loc, RT_Declaration, ST_Field);
+        } else if (llvm::isa<clang::TypedefDecl>(d)) {
+            RecordDeclRef(nd, loc, RT_Declaration, ST_Typedef);
+        } else if (llvm::isa<clang::NamespaceDecl>(d)) {
+            RecordDeclRef(nd, loc, RT_Declaration, ST_Namespace);
+        } else if (llvm::isa<clang::EnumConstantDecl>(d)) {
+            RecordDeclRef(nd, loc, RT_Declaration, ST_Enumerator);
+		} else if (
+			llvm::isa<clang::NonTypeTemplateParmDecl>(d) ||
+			llvm::isa<clang::TemplateTypeParmDecl>(d) || 
+			llvm::isa<clang::TemplateTemplateParmDecl>(d)) {
+			RecordDeclRef(nd, loc, RT_Declaration, ST_TemplateParameter);
+        } else {
+            RecordDeclRef(nd, loc, RT_Declaration);
+        }
+    }
+
+    return true;
+}
+
+//#include "data/parser/ParseFunction.h"
+//#include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
+//#include "data/type/NamedDataType.h"
+
+bool ASTVisitor::VisitTypeLoc(clang::TypeLoc tl)
+{
+	clang::TypeLoc::TypeLocClass tlc = tl.getTypeLocClass();
+
+	if (!tl.getAs<clang::TagTypeLoc>().isNull())
+	{
+		const clang::TagTypeLoc &ttl = tl.castAs<clang::TagTypeLoc>();
+		RecordDeclRef(ttl.getDecl(),
+			tl.getBeginLoc(),
+			m_typeContext);
+	} 
+	else if (!tl.getAs<clang::TypedefTypeLoc>().isNull()) 
+	{
+		const clang::TypedefTypeLoc &ttl = tl.castAs<clang::TypedefTypeLoc>();
+		RecordDeclRef(ttl.getTypedefNameDecl(),
+			tl.getBeginLoc(),
+			m_typeContext);
+	} 
+	else if (!tl.getAs<clang::TemplateTypeParmTypeLoc>().isNull()) 
+	{
+		const clang::TemplateTypeParmTypeLoc &ttptl =
+		tl.castAs<clang::TemplateTypeParmTypeLoc>();
+		RecordDeclRef(ttptl.getDecl(),
+			tl.getBeginLoc(),
+			m_typeContext);
+	}
+	else if (!tl.getAs<clang::TemplateSpecializationTypeLoc>().isNull())
+	{
+		const clang::TemplateSpecializationTypeLoc &tstl =
+			tl.castAs<clang::TemplateSpecializationTypeLoc>();
+		const clang::TemplateSpecializationType &tst =
+			*tstl.getTypePtr()->getAs<clang::TemplateSpecializationType>();
+		if (tst.getAsCXXRecordDecl()) 
+		{
+			RecordDeclRef(tst.getAsCXXRecordDecl(),
+				tl.getBeginLoc(),
+				m_typeContext);
+		}
+		else	// if template specialization cannot be resolved to a concrete declaration.
+		{		// this is the case when using a specialization of a template template parameter.
+			RecordTypeRef(tstl.getTypePtr(),
+				tl.getBeginLoc(),
+				m_typeContext);
+		}
+	} 
+	else if (!tl.getAs<clang::DependentNameTypeLoc>().isNull())
+	{
+		const clang::DependentNameTypeLoc& dntl =
+			tl.castAs<clang::DependentNameTypeLoc>();
+		RecordTypeRef(dntl.getTypePtr(),
+			dntl.getNameLoc(),
+			m_typeContext);
+	}
+	else if (!tl.getAs<clang::BuiltinTypeLoc>().isNull())
+	{
+		const clang::BuiltinTypeLoc &btl =
+			tl.castAs<clang::BuiltinTypeLoc>();
+		RecordTypeRef(btl.getTypePtr(),
+			tl.getBeginLoc(),
+			m_typeContext);
+	}
+
+	return true;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Reference recording
+
+static inline bool isNamedDeclUnnamed(clang::NamedDecl *d)
+{
+    return d->getDeclName().isIdentifier() && d->getIdentifier() == NULL;
+}
+
+ParseLocation ASTVisitor::getDeclRefRange(clang::NamedDecl *decl, clang::SourceLocation loc)
+{
+	ParseLocation parseLocation;
+	clang::SourceManager& sourceManager = m_context->getSourceManager();
+	clang::SourceLocation sloc = sourceManager.getSpellingLoc(loc);
+	{
+		clang::FileID fileId = sourceManager.getFileID(sloc);
+
+		if (!fileId.isInvalid())
+		{
+			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
+			if (fileEntry != NULL)
+			{
+				std::string fielName = fileEntry->getName();
+				std::string filePath = FileSystem::absoluteFilePath(fielName);
+				parseLocation.filePath = FilePath(filePath);
+			}
+		}
+
+		unsigned int offset = sourceManager.getFileOffset(sloc);
+		parseLocation.startLineNumber = sourceManager.getLineNumber(fileId, offset);
+		parseLocation.startColumnNumber = sourceManager.getColumnNumber(fileId, offset);
+	}
+	if (decl)
+	{
+		clang::DeclarationName name = decl->getDeclName();
+		clang::DeclarationName::NameKind nameKind = name.getNameKind();
+
+		// A C++ destructor name consists of two tokens, '~' and an identifier.
+		// Try to include both of them in the ref.
+		if (nameKind == clang::DeclarationName::CXXDestructorName) {
+			// Start by getting the destructor name, sans template arguments.
+			const clang::Type *nameType = name.getCXXNameType().getTypePtr();
+			assert(nameType != NULL);
+			llvm::StringRef className;
+			if (const clang::InjectedClassNameType *injectedNameType =
+				nameType->getAs<clang::InjectedClassNameType>()) {
+				className = injectedNameType->getDecl()->getName();
+			}
+			else if (const clang::RecordType *recordType =
+				nameType->getAs<clang::RecordType>()) {
+				className = recordType->getDecl()->getName();
+			}
+			if (!className.empty()) { // TODO: maybe its better to use tokens here.
+				// Scan the characters.
+				const char *const buffer = sourceManager.getCharacterData(sloc);
+				const char *p = buffer;
+				if (p != NULL && *p == '~') {
+					p++;
+					// Permit whitespace between the ~ and the class name.
+					// Technically there could be preprocessor tokens, comments,
+					// etc..
+					while (*p == ' ' || *p == '\t')
+						p++;
+					// Match the class name against the text in the source.
+					if (!strncmp(p, className.data(), className.size())) {
+						p += className.size();
+						if (!isalnum(*p) && *p != '_') {
+							parseLocation.endLineNumber = parseLocation.startLineNumber;
+							parseLocation.endColumnNumber = parseLocation.startColumnNumber;
+							parseLocation.endColumnNumber += p - buffer - 1;
+							return parseLocation;
 						}
 					}
 				}
 			}
 		}
-	}
-	return true;
-}
 
-bool ASTVisitor::VisitClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* declaration)
-{
-	if (isLocatedInUnparsedProjectFile(declaration))
-	{
-		NameHierarchy specializedRecordNameHierarchy = getDeclNameHierarchy(declaration);
-		NameHierarchy specializationParentNameHierarchy = utility::getTemplateSpecializationParentNameHierarchy(declaration);
-
-		ParserClient::RecordType specializedRecordType = declaration->isStruct() ? ParserClient::RECORD_STRUCT : ParserClient::RECORD_CLASS;
-		m_client->onTemplateRecordSpecializationParsed(
-			getParseLocationForNamedDecl(declaration), specializedRecordNameHierarchy, specializedRecordType, specializationParentNameHierarchy
-		);
-
-		clang::TemplateParameterList* parameterList = declaration->getTemplateParameters();
-		for (size_t i = 0; i < parameterList->size(); i++)
-		{
-			clang::NamedDecl* namedDecl = parameterList->getParam(i);
-			if (!namedDecl->getName().empty()) // do not create node for template param if the param has no name
-			{
-				m_client->onTemplateRecordParameterTypeParsed(
-					getParseLocationForNamedDecl(namedDecl),
-					getDeclNameHierarchy(namedDecl),
-					specializedRecordNameHierarchy
-				);
-			}
-		}
-
-		processTemplateArgumentsOfExplicitSpecialization(declaration);
-	}
-	return true;
-}
-
-bool ASTVisitor::VisitFunctionTemplateDecl(clang::FunctionTemplateDecl *declaration)
-{
-	const ParseFunction templateFunction = getParseFunction(declaration);
-	if (isLocatedInUnparsedProjectFile(declaration))
-	{
-		clang::TemplateParameterList* parameterList = declaration->getTemplateParameters();
-		for (size_t i = 0; i < parameterList->size(); i++)
-		{
-			clang::NamedDecl* namedDecl = parameterList->getParam(i);
-			if (!namedDecl->getName().empty()) // do not create node for template param if the param has no name
-			{
-				m_client->onTemplateFunctionParameterTypeParsed(
-					getParseLocationForNamedDecl(namedDecl),
-					getDeclNameHierarchy(namedDecl),
-					templateFunction
-				);
+		// For references to C++ overloaded operators, try to include both the
+		// operator keyword and the operator name in the ref.
+		if (nameKind == clang::DeclarationName::CXXOperatorName) {
+			const char *spelling = clang::getOperatorSpelling(
+				name.getCXXOverloadedOperator());
+			if (spelling != NULL) {
+				const char *const buffer = sourceManager.getCharacterData(sloc);
+				const char *p = buffer;
+				if (p != NULL && !strncmp(p, "operator", 8)) {
+					p += 8;
+					// Skip whitespace between "operator" and the operator itself.
+					while (*p == ' ' || *p == '\t')
+						p++;
+					// Look for the operator name.  This may be too restrictive for
+					// recognizing multi-token operators like operator[], operator
+					// delete[], or operator ->*.
+					if (!strncmp(p, spelling, strlen(spelling))) {
+						p += strlen(spelling);
+						parseLocation.endLineNumber = parseLocation.startLineNumber;
+						parseLocation.endColumnNumber = parseLocation.startColumnNumber;
+						parseLocation.endColumnNumber += p - buffer - 1;
+						return parseLocation;
+					}
+				}
 			}
 		}
 	}
-
-	for (clang::FunctionTemplateDecl::spec_iterator it = declaration->specializations().begin(); it != declaration->specializations().end(); it++)
+    // General case -- find the end of the token starting at loc.
+  
 	{
-		clang::FunctionDecl* specializationDecl = *it;
-		bool needsToProcessSpecialization = false;
+		clang::SourceLocation endSloc =
+			m_preprocessor->getLocForEndOfToken(sloc);
 
-		if (specializationDecl->getTemplateSpecializationKind() == clang::TSK_ExplicitSpecialization)
-		{
-			if (isLocatedInUnparsedProjectFile(declaration))
-			{
-				processTemplateArgumentsOfExplicitSpecialization(specializationDecl);
-				needsToProcessSpecialization = true;
-			}
-		}
-		else if (isLocatedInProjectFile(declaration))
-		{
-			needsToProcessSpecialization = true;
-		}
-
-		if (needsToProcessSpecialization)
-		{
-			processFunctionDecl(specializationDecl);
-
-			m_client->onTemplateFunctionSpecializationParsed(
-				getParseLocationForNamedDecl(specializationDecl),
-				getParseFunction(specializationDecl),
-				templateFunction
-			);
-		}
-
+		unsigned int offset = sourceManager.getFileOffset(endSloc);
+		clang::FileID fileId = sourceManager.getFileID(endSloc);
+		parseLocation.endLineNumber = sourceManager.getLineNumber(fileId, offset);
+		parseLocation.endColumnNumber = sourceManager.getColumnNumber(fileId, offset) - 1;
 	}
-	return true;
+	return parseLocation;
 }
 
-void ASTVisitor::VisitCallExprInDeclBody(clang::FunctionDecl* decl, clang::CallExpr* expr)
+void ASTVisitor::RecordTypeRef(
+	const clang::Type* type,
+	clang::SourceLocation beginLoc,
+	RefType refType,
+	SymbolType symbolType)
 {
-	clang::FunctionDecl* calleeFunctionDecl = expr->getDirectCallee();
-	if (!calleeFunctionDecl)
+	if (isLocatedInProjectFile(beginLoc))
 	{
-		// TODO: Save error at location.
+		ParseLocation parseLocation = getDeclRefRange(0, beginLoc);
+		NameHierarchy typeNameHierarchy = m_typeNameCache->getName(type);
+		NameHierarchy contextNameHierarchy = m_contextNameGenerator->getName();
+
+		if (refType == RT_TemplateArgument)
+		{
+			m_client->onTemplateArgumentTypeParsed(
+				parseLocation, typeNameHierarchy, contextNameHierarchy);
+		}
+		else if (refType == RT_BaseClass)
+		{
+			m_client->onInheritanceParsed(
+				parseLocation, contextNameHierarchy, typeNameHierarchy, m_contextAccess);
+		}
+		else if (refType == RT_TemplateDefaultArgument)
+		{
+			m_client->onTemplateDefaultArgumentTypeParsed( // TODO: rename second parameter to "parameter"
+				parseLocation, typeNameHierarchy, contextNameHierarchy);
+		}
+		else
+		{
+			m_client->onTypeUsageParsed(
+				parseLocation, contextNameHierarchy, typeNameHierarchy);
+		}
+	}
+}
+
+void ASTVisitor::RecordDeclRef(
+        clang::NamedDecl *d,
+        clang::SourceLocation beginLoc,
+        RefType refType,
+        SymbolType symbolType)
+{
+	if ((!d) ||
+		(d->isImplicit() && !isLocatedInProjectFile(beginLoc)) ||
+		(!d->isImplicit() && !isLocatedInUnparsedProjectFile(beginLoc)))
+	{
 		return;
 	}
 
-	m_client->onCallParsed(
-		getParseLocation(expr->getSourceRange()),
-		getParseFunction(decl),
-		getParseFunction(calleeFunctionDecl)
-	);
-}
+	ParseLocation parseLocation = getDeclRefRange(d, beginLoc);
+	NameHierarchy declNameHierarchy = m_declNameCache->getName(d);
+		
+	bool fallback = false;
 
-void ASTVisitor::VisitCallExprInDeclBody(clang::DeclaratorDecl* decl, clang::CallExpr* expr)
-{
-	if (!expr->getDirectCallee())
-	{
-		// TODO: Save error at location.
-		return;
-	}
-
-	m_client->onCallParsed(
-		getParseLocation(expr->getSourceRange()),
-		getParseVariable(decl),
-		getParseFunction(expr->getDirectCallee())
-	);
-}
-
-void ASTVisitor::VisitDeclRefExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr)
-{
-	processTemplateArguments(expr);
-}
-
-void ASTVisitor::VisitDeclRefExprInDeclBody(clang::DeclaratorDecl* decl, clang::DeclRefExpr* expr)
-{
-	processTemplateArguments(expr);
-}
-
-void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::FunctionDecl* decl, clang::CXXConstructExpr* expr)
-{
-	m_client->onCallParsed(
-		getParseLocationForTokensInRange(expr->getSourceRange()),
-		getParseFunction(decl),
-		getParseFunction(expr->getConstructor())
-	);
-}
-
-void ASTVisitor::VisitCXXConstructExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXConstructExpr* expr)
-{
-	m_client->onCallParsed(
-		getParseLocationForTokensInRange(expr->getSourceRange()),
-		getParseVariable(decl),
-		getParseFunction(expr->getConstructor())
-	);
-}
-
-void ASTVisitor::VisitExplicitCastExprInDeclBody(clang::FunctionDecl* decl, clang::ExplicitCastExpr* expr)
-{
-	processTemplateArguments(expr->getTypeInfoAsWritten()->getTypeLoc());
-}
-
-void ASTVisitor::VisitExplicitCastExprInDeclBody(clang::DeclaratorDecl* decl, clang::ExplicitCastExpr* expr)
-{
-	processTemplateArguments(expr->getTypeInfoAsWritten()->getTypeLoc());
-}
-
-void ASTVisitor::VisitCXXTemporaryObjectExprInDeclBody(clang::FunctionDecl* decl, clang::CXXTemporaryObjectExpr* expr)
-{
-	processTemplateArguments(expr->getTypeSourceInfo()->getTypeLoc());
-}
-
-void ASTVisitor::VisitCXXTemporaryObjectExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXTemporaryObjectExpr* expr)
-{
-	processTemplateArguments(expr->getTypeSourceInfo()->getTypeLoc());
-}
-
-void ASTVisitor::VisitCXXNewExprInDeclBody(clang::FunctionDecl* decl, clang::CXXNewExpr* expr)
-{
-	m_client->onTypeUsageParsed(
-		getParseTypeUsage(expr->getAllocatedTypeSourceInfo()->getTypeLoc(), expr->getAllocatedType()),
-		getParseFunction(decl)
-	);
-
-	processTemplateArguments(expr->getAllocatedTypeSourceInfo()->getTypeLoc());
-}
-
-void ASTVisitor::VisitCXXNewExprInDeclBody(clang::DeclaratorDecl* decl, clang::CXXNewExpr* expr)
-{
-	m_client->onTypeUsageParsed(
-		getParseTypeUsage(expr->getAllocatedTypeSourceInfo()->getTypeLoc(), expr->getAllocatedType()),
-		getParseVariable(decl)
-	);
-
-	processTemplateArguments(expr->getAllocatedTypeSourceInfo()->getTypeLoc());
-}
-
-void ASTVisitor::VisitMemberExprInDeclBody(clang::FunctionDecl* decl, clang::MemberExpr* expr)
-{
-	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
-
-	const std::string exprName = expr->getMemberNameInfo().getAsString();
-	parseLocation.endColumnNumber += exprName.size() - 1;
-
-	m_client->onFieldUsageParsed(
-		parseLocation,
-		getParseFunction(decl),
-		getDeclNameHierarchy(expr->getMemberDecl())
-	);
-}
-
-void ASTVisitor::VisitMemberExprInDeclBody(clang::DeclaratorDecl* decl, clang::MemberExpr* expr)
-{
-	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
-
-	const std::string exprName = expr->getMemberNameInfo().getAsString();
-	parseLocation.endColumnNumber += exprName.size() - 1;
-
-	m_client->onFieldUsageParsed(
-		parseLocation,
-		getParseVariable(decl),
-		getDeclNameHierarchy(expr->getMemberDecl())
-	);
-}
-
-void ASTVisitor::VisitGlobalVariableExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr)
-{
-	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
-
-	const std::string exprName = expr->getNameInfo().getAsString();
-	parseLocation.endColumnNumber += exprName.size() - 1;
-
-	m_client->onGlobalVariableUsageParsed(
-		parseLocation,
-		getParseFunction(decl),
-		getDeclNameHierarchy(expr->getDecl())
-	);
-}
-
-void ASTVisitor::VisitGlobalVariableExprInDeclBody(clang::DeclaratorDecl* decl, clang::DeclRefExpr* expr)
-{
-	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
-
-	const std::string exprName = expr->getNameInfo().getAsString();
-	parseLocation.endColumnNumber += exprName.size() - 1;
-
-	m_client->onGlobalVariableUsageParsed(
-		parseLocation,
-		getParseVariable(decl),
-		getDeclNameHierarchy(expr->getDecl())
-	);
-}
-
-void ASTVisitor::VisitEnumExprInDeclBody(clang::FunctionDecl* decl, clang::DeclRefExpr* expr)
-{
-	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
-
-	const std::string exprName = expr->getNameInfo().getAsString();
-	parseLocation.endColumnNumber += exprName.size() - 1;
-
-	m_client->onEnumConstantUsageParsed(
-		parseLocation,
-		getParseFunction(decl),
-		getDeclNameHierarchy(expr->getDecl())
-	);
-}
-
-void ASTVisitor::VisitEnumExprInDeclBody(clang::DeclaratorDecl* decl, clang::DeclRefExpr* expr)
-{
-	ParseLocation parseLocation = getParseLocation(expr->getSourceRange());
-
-	const std::string exprName = expr->getNameInfo().getAsString();
-	parseLocation.endColumnNumber += exprName.size() - 1;
-
-	m_client->onEnumConstantUsageParsed(
-		parseLocation,
-		getParseVariable(decl),
-		getDeclNameHierarchy(expr->getDecl())
-	);
-}
-
-void ASTVisitor::VisitVarDeclInDeclBody(clang::FunctionDecl* decl, clang::VarDecl* varDecl)
-{
-	m_client->onTypeUsageParsed(
-		getParseTypeUsage(varDecl->getTypeSourceInfo()->getTypeLoc(), varDecl->getType()),
-		getParseFunction(decl)
-	);
-
-	processTemplateArguments(varDecl->getTypeSourceInfo()->getTypeLoc());
-}
-
-void ASTVisitor::processFunctionDecl(clang::FunctionDecl* declaration)
-{
-	m_client->onFunctionParsed(
-		getParseLocationForNamedDecl(declaration),
-		getParseFunction(declaration),
-		getParseLocationOfFunctionBody(declaration)
-	);
-
-	// handle template arguments of return type.
-	clang::TypeLoc functionLoc = declaration->getTypeSourceInfo()->getTypeLoc();
-	if (functionLoc.getTypeLocClass() == clang::TypeLoc::TypeLocClass::FunctionProto)
-	{
-		processTemplateArguments(functionLoc.getAs<clang::FunctionProtoTypeLoc>().getReturnLoc());
-	}
-
-
-	if (declaration->hasBody() &&
-		declaration->isThisDeclarationADefinition() &&
-		!declaration->isDependentContext()
+	if (
+		refType == RT_Declaration ||
+		refType == RT_Definition
 	)
 	{
-		ASTBodyVisitor bodyVisitor(this, declaration);
-		bodyVisitor.Visit(declaration->getBody());
-	}
-}
-
-void ASTVisitor::processTemplateArgumentsOfExplicitSpecialization(clang::FunctionDecl* specializationDecl)
-{
-	ParseFunction specializationFunction = getParseFunction(specializationDecl);
-
-	if (specializationDecl->getTemplateSpecializationArgsAsWritten())
-	{
-		const clang::ASTTemplateArgumentListInfo* argumentInfoList = specializationDecl->getTemplateSpecializationArgsAsWritten();
-		for (size_t i = 0; i < argumentInfoList->NumTemplateArgs; i++)
+		switch (symbolType)
 		{
-			const clang::TemplateArgumentLoc& argumentLoc = argumentInfoList->operator[](i);
-
-			const clang::TemplateArgument& argument = argumentLoc.getArgument();
-			NameHierarchy argumentNameHierarchy = utility::templateArgumentToDataType(argument)->getTypeNameHierarchy();
-			if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
+		case ST_Typedef:
+			if (clang::TypedefDecl* typedefDecl = clang::dyn_cast<clang::TypedefDecl>(d))
 			{
-				m_client->onTemplateArgumentTypeOfTemplateFunctionParsed(
-					getParseLocation(argumentLoc.getSourceRange()),
-					argumentNameHierarchy,
-					specializationFunction
-					);
+				m_client->onTypedefParsed(
+					parseLocation,
+					declNameHierarchy,
+					convertAccessType(typedefDecl->getAccess()));
 			}
+			break;
+		case ST_Class:
+			if (clang::RecordDecl* recordDecl = clang::dyn_cast<clang::RecordDecl>(d))
+			{
+				m_client->onClassParsed(
+					parseLocation,
+					declNameHierarchy,
+					convertAccessType(recordDecl->getAccess()),
+					(refType == RT_Definition ? getParseLocationOfRecordBody(recordDecl) : ParseLocation()));
+			}
+			break;
+		case ST_Struct:
+			if (clang::RecordDecl* recordDecl = clang::dyn_cast<clang::RecordDecl>(d))
+			{
+				m_client->onStructParsed(
+					parseLocation,
+					declNameHierarchy,
+					convertAccessType(recordDecl->getAccess()),
+					(refType == RT_Definition ? getParseLocationOfRecordBody(recordDecl) : ParseLocation()));
+			}
+			break;
+		case ST_GlobalVariable:
+			m_client->onGlobalVariableParsed(
+				parseLocation,
+				declNameHierarchy);
+			break;
+		case ST_Field:
+			//if (clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(d))
+		{
+			m_client->onFieldParsed(
+				parseLocation,
+				declNameHierarchy,
+				convertAccessType(d->getAccess()));
 		}
-	}
-}
-
-void ASTVisitor::processTemplateArgumentsOfExplicitSpecialization(clang::ClassTemplateSpecializationDecl* specializationDecl)
-{
-	NameHierarchy specializedRecordNameHierarchy = getDeclNameHierarchy(specializationDecl);
-	if (clang::ClassTemplatePartialSpecializationDecl* partialSpecializationDecl =
-		clang::dyn_cast_or_null<clang::ClassTemplatePartialSpecializationDecl>(specializationDecl))
-	{
-		const clang::ASTTemplateArgumentListInfo* argumentInfoList = partialSpecializationDecl->getTemplateArgsAsWritten();
-		for (size_t i = 0; i < argumentInfoList->NumTemplateArgs; i++)
-		{
-			const clang::TemplateArgumentLoc& argumentLoc = argumentInfoList->operator[](i);
-			const clang::TemplateArgument& argument = argumentLoc.getArgument();
-
-			NameHierarchy argumentNameHierarchy = utility::templateArgumentToDataType(argument)->getTypeNameHierarchy();
-			if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
+		break;
+		case ST_Function:
+			if (clang::FunctionDecl* functionDecl = clang::dyn_cast<clang::FunctionDecl>(d))
 			{
-				m_client->onTemplateArgumentTypeOfTemplateRecordParsed(
-					getParseLocationForTokensInRange(argumentLoc.getSourceRange()),
-					argumentNameHierarchy,
-					specializedRecordNameHierarchy
-				);
+				m_client->onFunctionParsed(
+					parseLocation,
+					declNameHierarchy,
+					(refType == RT_Definition ? getParseLocationOfFunctionBody(functionDecl) : ParseLocation()));
 			}
+			break;
+		case ST_Constructor:
+		case ST_Destructor:
+		case ST_Method:
+			if (clang::CXXMethodDecl* methodDecl = clang::dyn_cast<clang::CXXMethodDecl>(d))
+			{
+				m_client->onMethodParsed(
+					parseLocation,
+					declNameHierarchy,
+					convertAccessType(methodDecl->getAccess()),
+					getAbstractionType(methodDecl),
+					(refType == RT_Definition ? getParseLocationOfFunctionBody(methodDecl) : ParseLocation()));
+
+				for (clang::CXXMethodDecl::method_iterator it = methodDecl->begin_overridden_methods(); // iterate in traversal and use RT_Overridden or so..
+					it != methodDecl->end_overridden_methods(); it++)
+				{
+					m_client->onMethodOverrideParsed(
+						parseLocation,
+						m_declNameCache->getName(*it),
+						declNameHierarchy);
+				}
+
+				clang::MemberSpecializationInfo* memberSpecializationInfo = methodDecl->getMemberSpecializationInfo();
+				if (memberSpecializationInfo)
+				{
+					clang::NamedDecl* specializedNamedDecl = memberSpecializationInfo->getInstantiatedFrom();
+					if (clang::isa<clang::FunctionDecl>(specializedNamedDecl))
+					{
+						m_client->onTemplateMemberFunctionSpecializationParsed(
+							parseLocation,
+							declNameHierarchy,
+							m_declNameCache->getName(specializedNamedDecl));
+					}
+				}
+			}
+			break;
+		case ST_Namespace:
+			if (clang::NamespaceDecl* namespaceDecl = clang::dyn_cast<clang::NamespaceDecl>(d))
+			{
+				m_client->onNamespaceParsed(
+					namespaceDecl->isAnonymousNamespace() ? ParseLocation() : parseLocation,
+					declNameHierarchy,
+					getParseLocation(namespaceDecl->getSourceRange()));
+			}
+			else if (clang::NamespaceAliasDecl* namespaceAliasDecl = clang::dyn_cast<clang::NamespaceAliasDecl>(d))
+			{
+				m_client->onNamespaceParsed(
+					parseLocation,
+					declNameHierarchy,
+					getParseLocation(namespaceAliasDecl->getAliasedNamespace()->getSourceRange()));
+			}
+			break;
+		case ST_Enum:
+			if (clang::EnumDecl* enumDecl = clang::dyn_cast<clang::EnumDecl>(d))
+			{
+				m_client->onEnumParsed(
+					parseLocation,
+					declNameHierarchy,
+					convertAccessType(enumDecl->getAccess()),
+					getParseLocation(enumDecl->getSourceRange()));
+			}
+			break;
+		case ST_Enumerator:
+			m_client->onEnumConstantParsed(
+				parseLocation,
+				declNameHierarchy);
+			break;
+		case ST_TemplateParameter:
+			if (!d->getName().empty()) // We don't create symbols for unnamed template parameters.
+			{
+				m_client->onTemplateParameterTypeParsed(
+					parseLocation,
+					declNameHierarchy);
+			}
+			break;
+		case ST_ClassTemplateSpecialization:
+			if (clang::ClassTemplateSpecializationDecl* classTemplateSpecializationDecl = clang::dyn_cast<clang::ClassTemplateSpecializationDecl>(d)) // TODO: we need a different reftype here! and st_max? mabe rewrite TraverseClassTemplateSpecializationDecl()
+			{
+				clang::NamedDecl* specializedFromDecl;
+				llvm::PointerUnion<clang::ClassTemplateDecl*, clang::ClassTemplatePartialSpecializationDecl*> pu = classTemplateSpecializationDecl->getSpecializedTemplateOrPartial();
+				if (pu.is<clang::ClassTemplateDecl*>())
+				{
+					specializedFromDecl = pu.get<clang::ClassTemplateDecl*>();
+				}
+				else if (pu.is<clang::ClassTemplatePartialSpecializationDecl*>())
+				{
+					specializedFromDecl = pu.get<clang::ClassTemplatePartialSpecializationDecl*>();
+				}
+
+				m_client->onTemplateSpecializationParsed(
+					parseLocation,
+					declNameHierarchy,
+					m_declNameCache->getName(specializedFromDecl)); // use context and childcontext!!
+			}
+			break;
+		case ST_FunctionTemplateSpecialization:
+			if (clang::FunctionDecl* functionDecl = clang::dyn_cast<clang::FunctionDecl>(d))
+			{
+				m_client->onTemplateSpecializationParsed(
+					parseLocation,
+					declNameHierarchy,
+					m_declNameCache->getName(functionDecl->getPrimaryTemplate()->getTemplatedDecl())); // TODO: use contect and childcontext!!
+			}
+			break;
+		case ST_LocalVariable:
+		case ST_Parameter:
+			// Do nothing.
+			break;
+		default:
+			fallback = true;
+			break;
 		}
 	}
 	else
 	{
-		if (clang::TypeSourceInfo* typeSourceInfo = specializationDecl->getTypeAsWritten())
+		const NameHierarchy contextNameHierarchy = m_contextNameGenerator->getName();
+		switch (symbolType)
 		{
-			processTemplateArguments(typeSourceInfo->getTypeLoc());
+		case ST_Field:
+			m_client->onFieldUsageParsed(
+				parseLocation,
+				contextNameHierarchy,
+				declNameHierarchy
+			);
+			break;
+		case ST_GlobalVariable:
+			if (refType == RT_TemplateArgument)
+			{
+				m_client->onTemplateArgumentTypeParsed(
+					parseLocation, declNameHierarchy, contextNameHierarchy);
+			}
+			else
+			{
+				m_client->onGlobalVariableUsageParsed(
+					parseLocation,
+					contextNameHierarchy,
+					declNameHierarchy);
+			}
+			break;
+		case ST_Enumerator:
+			m_client->onEnumConstantUsageParsed(
+				parseLocation,
+				contextNameHierarchy,
+				declNameHierarchy);
+			break;
+		case ST_Max:
+			switch (refType)
+			{
+			case RT_Called:
+				m_client->onCallParsed(
+					parseLocation, contextNameHierarchy, declNameHierarchy);
+				break;
+			case RT_Reference:
+				m_client->onTypeUsageParsed(
+					parseLocation, contextNameHierarchy, declNameHierarchy);
+				break;
+			case RT_TemplateArgument:
+				m_client->onTemplateArgumentTypeParsed(
+					parseLocation, declNameHierarchy, contextNameHierarchy);
+				break;
+			case RT_TemplateDefaultArgument:
+				m_client->onTemplateDefaultArgumentTypeParsed(
+					parseLocation, declNameHierarchy, contextNameHierarchy);
+				break;
+			case RT_BaseClass:
+				m_client->onInheritanceParsed(
+					parseLocation, contextNameHierarchy, declNameHierarchy, m_contextAccess);
+				break;
+			case RT_Assigned:
+			case RT_AddressTaken:
+			case RT_Read:
+			case RT_Qualifier:
+				// Do nothing.
+				break;
+			default:
+				fallback = true;
+				break;
+			}
+			break;
+		case ST_LocalVariable:
+		case ST_Parameter:
+			// Do nothing.
+			break;
+		default:
+			fallback = true;
+			break;
+		}
+	}
+
+	if (fallback)
+	{
+		std::string name = declNameHierarchy.back()->getName();
+		declNameHierarchy.pop();
+		declNameHierarchy.push(std::make_shared<NameElement>(name, NameElement::Signature("", "[" + std::to_string(symbolType) + "|" + std::to_string(refType) + "]")));
+
+		m_client->onFunctionParsed(
+			parseLocation,
+			declNameHierarchy,
+			parseLocation
+		);
+	}
+
+
+
+
+
+	//beginLoc = m_indexerContext.sourceManager().getSpellingLoc(beginLoc);
+	//clang::FileID fileID;
+	//if (beginLoc.isValid())
+	//    fileID = m_indexerContext.sourceManager().getFileID(beginLoc);
+	//IndexerFileContext &fileContext = m_indexerContext.fileContext(fileID);
+	//indexdb::ID symbolID = fileContext.getDeclSymbolID(d);
+
+	//// Pass the prepared data to the IndexBuilder to record.
+	//fileContext.builder().recordRef(
+	//            symbolID,
+	//            range.first,
+	//            range.second,
+	//            fileContext.getRefTypeID(refType));
+	//if (symbolType != ST_Max) {
+	//    fileContext.builder().recordSymbol(
+	//                symbolID,
+	//                fileContext.getSymbolTypeID(symbolType));
+	//    if (symbolType != ST_LocalVariable && symbolType != ST_Parameter) {
+	//        fileContext.builder().recordGlobalSymbol(symbolID);
+	//    }
+	//}
+}
+bool ASTVisitor::isLocatedInUnparsedProjectFile(clang::SourceLocation loc)
+{
+	clang::SourceManager& sourceManager = m_context->getSourceManager();
+	clang::SourceLocation spellingLoc = sourceManager.getSpellingLoc(loc);
+
+	clang::FileID fileId;
+
+	if (spellingLoc.isValid())
+	{
+		fileId = sourceManager.getFileID(spellingLoc);
+	}
+	if (!fileId.isInvalid())
+	{
+		auto it = m_inUnparsedProjectFileMap.find(fileId);
+		if (it != m_inUnparsedProjectFileMap.end())
+		{
+			return it->second;
+		}
+
+		bool ret = false;
+		if (m_context->getSourceManager().isWrittenInMainFile(spellingLoc))
+		{
+			ret = true;
 		}
 		else
 		{
-			LOG_WARNING("Could not locate template arguments of explicit template specialization: " + specializedRecordNameHierarchy.getFullName());
-		}
-	}
-}
-
-void ASTVisitor::processTemplateArguments(clang::DeclRefExpr* expr)
-{
-	if (!isLocatedInProjectFile(getParseLocation(expr->getSourceRange())))
-	{
-		return;
-	}
-	clang::FunctionDecl* specializationDecl = clang::dyn_cast_or_null<clang::FunctionDecl>(expr->getDecl());
-	if (!specializationDecl)
-	{
-		return;
-	}
-	clang::FunctionTemplateDecl* specializedDecl = specializationDecl->getPrimaryTemplate(); // just to check if it is really a template.. can be done differently
-	if (!specializedDecl)
-	{
-		return;
-	}
-
-	ParseFunction specializationFunction = getParseFunction(specializationDecl);
-
-	if (expr->hasExplicitTemplateArgs()) // handle explicit template args
-	{
-		const clang::TemplateArgumentLoc* arguments = expr->getTemplateArgs();
-
-		for (unsigned int i = 0; i < expr->getNumTemplateArgs(); i++)
-		{
-			clang::TemplateArgument argument = arguments[i].getArgument();
-			NameHierarchy argumentNameHierarchy = utility::templateArgumentToDataType(argument)->getTypeNameHierarchy();
-			if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
+			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
+			if (fileEntry != NULL)
 			{
-				m_client->onTemplateArgumentTypeOfTemplateFunctionParsed(
-					getParseLocation(arguments[i].getSourceRange()),
-					argumentNameHierarchy,
-					specializationFunction
-				);
+				std::string fielName = fileEntry->getName();
+				std::string filePath = FileSystem::absoluteFilePath(fielName);
+				ret = m_fileRegister->includeFileIsParsing(filePath);
 			}
 		}
-	}
-	else // handle implicit template args
-	{
-		const clang::TemplateArgumentList* argumentList = specializationDecl->getTemplateSpecializationArgs();
-		for (size_t i = 0; i < argumentList->size(); ++i)
-		{
-			const clang::TemplateArgument& argument = argumentList->get(i);
-			NameHierarchy argumentNameHierarchy = utility::templateArgumentToDataType(argument)->getTypeNameHierarchy();
-			if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
-			{
-				const clang::SourceLocation argumentSourceLoc = clang::Lexer::getLocForEndOfToken(
-					expr->getLocEnd(), 1, m_context->getSourceManager(), clang::LangOptions()
-				);
-				m_client->onTemplateArgumentTypeOfTemplateFunctionParsed(
-					getParseLocation(clang::SourceRange(argumentSourceLoc, argumentSourceLoc)),
-					argumentNameHierarchy,
-					specializationFunction
-				);
-			}
-		}
-	}
-}
-
-void ASTVisitor::processTemplateArguments(clang::TypeLoc typeLoc)
-{
-	clang::TemplateSpecializationTypeLoc specializationLoc = utility::getNextTypeLoc<clang::TemplateSpecializationTypeLoc>(typeLoc);
-	if (!specializationLoc.isNull())
-	{
-		NameHierarchy specializationNameHierarchy = utility::qualTypeToDataType(specializationLoc.getType())->getTypeNameHierarchy();
-
-		if (!isLocatedInProjectFile(getParseLocation(specializationLoc.getSourceRange())))
-		{
-			return;
-		}
-
-		for (unsigned int i = 0; i < specializationLoc.getNumArgs(); i++)
-		{
-			const clang::TemplateArgument& argument = specializationLoc.getArgLoc(i).getArgument();
-			NameHierarchy argumentNameHierarchy = utility::templateArgumentToDataType(argument)->getTypeNameHierarchy();
-			if (argumentNameHierarchy.size()) // FIXME: Some TemplateArgument kinds are not handled yet.
-			{
-				m_client->onTemplateArgumentTypeOfTemplateRecordParsed(
-					getParseLocationForTokensInRange(specializationLoc.getArgLoc(i).getSourceRange()),
-					argumentNameHierarchy,
-					specializationNameHierarchy
-				);
-			}
-		}
-	}
-}
-
-bool ASTVisitor::isLocatedInUnparsedProjectFile(const clang::Decl* declaration) const
-{
-	const clang::SourceLocation& location = declaration->getLocStart();
-
-	if (!location.isValid())
-	{
-		return false;
-	}
-
-	if (m_context->getSourceManager().isWrittenInMainFile(location))
-	{
-		return true;
-	}
-
-	return m_fileRegister->includeFileIsParsing(FilePath(m_context->getSourceManager().getFilename(location)));
-}
-
-bool ASTVisitor::isLocatedInProjectFile(const ParseLocation& location) const
-{
-	if (location.isValid())
-	{
-		return m_fileRegister->getFileManager()->hasFilePath(location.filePath);
+		m_inUnparsedProjectFileMap[fileId] = ret;
+		return ret;
 	}
 	return false;
 }
 
-bool ASTVisitor::isLocatedInProjectFile(const clang::Decl* declaration) const
+bool ASTVisitor::isLocatedInProjectFile(clang::SourceLocation loc)
 {
-	const clang::SourceLocation& location = declaration->getLocStart();
-	if (location.isValid())
+	clang::SourceManager& sourceManager = m_context->getSourceManager();
+	clang::SourceLocation spellingLoc = sourceManager.getSpellingLoc(loc);
+
+	clang::FileID fileId;
+
+	if (spellingLoc.isValid())
 	{
-		const clang::SourceManager& sourceManager = m_context->getSourceManager();
-		std::string filePath = FileSystem::absoluteFilePath(sourceManager.getFilename(location));
-		return m_fileRegister->getFileManager()->hasFilePath(filePath);
+		fileId = sourceManager.getFileID(spellingLoc);
+	}
+	if (!fileId.isInvalid())
+	{
+
+		auto it = m_inProjectFileMap.find(fileId);
+		if (it != m_inProjectFileMap.end())
+		{
+			return it->second;
+		}
+
+		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
+		if (fileEntry != NULL)
+		{
+			std::string fielName = fileEntry->getName();
+			std::string filePath = FileSystem::absoluteFilePath(fielName);
+			bool ret = m_fileRegister->getFileManager()->hasFilePath(filePath);
+			m_inProjectFileMap[fileId] = ret;
+			return ret;
+		}
 	}
 	return false;
 }
@@ -921,92 +1482,6 @@ ParserClient::AbstractionType ASTVisitor::getAbstractionType(const clang::CXXMet
 	return abstraction;
 }
 
-ParseLocation ASTVisitor::getParseLocation(const clang::SourceRange& sourceRange) const
-{
-	if (sourceRange.isInvalid())
-	{
-		return ParseLocation();
-	}
-
-	const clang::SourceManager& sourceManager = m_context->getSourceManager();
-	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(sourceRange.getBegin(), false);
-	const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(sourceRange.getEnd(), false);
-
-	return ParseLocation(
-		presumedBegin.getFilename(),
-		presumedBegin.getLine(),
-		presumedBegin.getColumn(),
-		presumedEnd.getLine(),
-		presumedEnd.getColumn()
-	);
-}
-
-ParseLocation ASTVisitor::getParseLocationForTokenAtLocation(const clang::SourceLocation& loc) const
-{
-	return getParseLocationForTokensInRange(clang::SourceRange(loc, loc));
-}
-
-ParseLocation ASTVisitor::getParseLocationForTokensInRange(const clang::SourceRange& range) const
-{
-	if (range.isInvalid())
-	{
-		return ParseLocation();
-	}
-
-	const clang::SourceManager& sourceManager = m_context->getSourceManager();
-
-	clang::SourceLocation startLoc = clang::Lexer::GetBeginningOfToken(range.getBegin(), sourceManager, clang::LangOptions());
-	clang::SourceLocation endLoc = clang::Lexer::getLocForEndOfToken(range.getEnd(), 1, sourceManager, clang::LangOptions());
-
-	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(startLoc);
-	if (endLoc.isValid())
-	{
-		const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(endLoc);
-		return ParseLocation(
-			presumedBegin.getFilename(),
-			presumedBegin.getLine(),
-			presumedBegin.getColumn(),
-			presumedEnd.getLine(),
-			presumedEnd.getColumn()
-		);
-	}
-
-	uint tokenLength = clang::Lexer::MeasureTokenLength(range.getEnd(), sourceManager, clang::LangOptions());
-	return ParseLocation(
-		presumedBegin.getFilename(),
-		presumedBegin.getLine(),
-		presumedBegin.getColumn(),
-		presumedBegin.getLine(),
-		presumedBegin.getColumn() + tokenLength - 1
-	);
-}
-
-ParseLocation ASTVisitor::getParseLocationForNamedDecl(const clang::NamedDecl* decl) const
-{
-	return getParseLocationForTokenAtLocation(decl->getLocation());
-}
-
-ParseLocation ASTVisitor::getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const
-{
-	if (decl->hasBody() && decl->isThisDeclarationADefinition())
-	{
-		clang::SourceRange range;
-		clang::FunctionTemplateDecl* templateDecl = decl->getDescribedFunctionTemplate();
-		if (templateDecl)
-		{
-			range = templateDecl->getSourceRange();
-		}
-		else
-		{
-			range = decl->getSourceRange();
-		}
-
-		return getParseLocation(range);
-	}
-
-	return ParseLocation();
-}
-
 ParseLocation ASTVisitor::getParseLocationOfRecordBody(clang::RecordDecl* decl) const
 {
 
@@ -1032,144 +1507,44 @@ ParseLocation ASTVisitor::getParseLocationOfRecordBody(clang::RecordDecl* decl) 
 	return ParseLocation();
 }
 
-ParseTypeUsage ASTVisitor::getParseTypeUsage(const clang::TypeLoc& typeLoc, const clang::QualType& type) const
+ParseLocation ASTVisitor::getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const
 {
-	std::shared_ptr<DataType> dataType = utility::qualTypeToDataType(type);
-	return getParseTypeUsage(typeLoc, dataType);
-}
-
-ParseTypeUsage ASTVisitor::getParseTypeUsage(const clang::TypeLoc& typeLoc, const std::shared_ptr<DataType> type) const
-{
-	ParseLocation parseLocation;
-
-	if (!typeLoc.isNull())
+	if (decl->hasBody() && decl->isThisDeclarationADefinition())
 	{
-		clang::SourceRange sr(
-			typeLoc.getLocStart(),
-			clang::Lexer::getLocForEndOfToken(typeLoc.getLocEnd(), 0, m_context->getSourceManager(), clang::LangOptions())
-		);
-
-		parseLocation = getParseLocation(sr);
-		parseLocation.endColumnNumber -= 1;
-	}
-
-	return ParseTypeUsage(parseLocation, type);
-}
-
-ParseTypeUsage ASTVisitor::getParseTypeUsage(const clang::SourceRange& sourceRange, const std::shared_ptr<DataType> type) const
-{
-	ParseLocation parseLocation;
-
-	if (sourceRange.isValid())
-	{
-		clang::SourceRange sr(
-			sourceRange.getBegin(),
-			clang::Lexer::getLocForEndOfToken(sourceRange.getEnd(), 0, m_context->getSourceManager(), clang::LangOptions())
-		);
-
-		parseLocation = getParseLocation(sr);
-		parseLocation.endColumnNumber -= 1;
-	}
-
-	return ParseTypeUsage(parseLocation, type);
-}
-
-ParseTypeUsage ASTVisitor::getParseTypeUsageOfReturnType(const clang::FunctionDecl* declaration) const
-{
-	clang::TypeLoc typeLoc;
-
-	const clang::TypeSourceInfo *TSI = declaration->getTypeSourceInfo();
-	if (TSI)
-	{
-		const clang::FunctionTypeLoc FTL = TSI->getTypeLoc().IgnoreParens().getAs<clang::FunctionTypeLoc>();
-		if (FTL)
+		clang::SourceRange range;
+		clang::FunctionTemplateDecl* templateDecl = decl->getDescribedFunctionTemplate();
+		if (templateDecl)
 		{
-			typeLoc = FTL.getReturnLoc();
+			range = templateDecl->getSourceRange();
 		}
-	}
-
-	return getParseTypeUsage(typeLoc, declaration->getReturnType());
-}
-
-std::vector<ParseTypeUsage> ASTVisitor::getParameters(const clang::FunctionDecl* declaration) const
-{
-	std::vector<ParseTypeUsage> parameters;
-
-	for (unsigned i = 0; i < declaration->getNumParams(); i++)
-	{
-		const clang::ParmVarDecl* paramDecl = declaration->getParamDecl(i);
-		if (paramDecl->getTypeSourceInfo())
+		else
 		{
-			parameters.push_back(getParseTypeUsage(paramDecl->getTypeSourceInfo()->getTypeLoc(), paramDecl->getType()));
+			range = decl->getSourceRange();
 		}
+
+		return getParseLocation(range);
 	}
 
-	return parameters;
+	return ParseLocation();
 }
 
-ParseVariable ASTVisitor::getParseVariable(const clang::DeclaratorDecl* declaration)
+ParseLocation ASTVisitor::getParseLocation(const clang::SourceRange& sourceRange) const
 {
-	bool isStatic = false;
-	NameHierarchy hameHierarchy = getDeclNameHierarchy(declaration);
-	if (clang::isa<clang::VarDecl>(declaration))
+	if (sourceRange.isInvalid())
 	{
-		const clang::VarDecl* varDecl = clang::dyn_cast<const clang::VarDecl>(declaration);
-		isStatic = varDecl->isStaticDataMember() || varDecl->getStorageClass() == clang::SC_Static;
-	}
-	else if (clang::isa<clang::FieldDecl>(declaration))
-	{
-		isStatic = false; // fieldDecls cannot be static. If they are, they are treated as VarDecls
+		return ParseLocation();
 	}
 
-	return ParseVariable(
-		getParseTypeUsage(declaration->getTypeSourceInfo()->getTypeLoc(), declaration->getType()),
-		hameHierarchy,
-		isStatic
+	const clang::SourceManager& sourceManager = m_context->getSourceManager();
+
+	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(sourceRange.getBegin(), false);
+	const clang::PresumedLoc& presumedEnd = sourceManager.getPresumedLoc(sourceRange.getEnd(), false);
+
+	return ParseLocation(
+		presumedBegin.getFilename(),
+		presumedBegin.getLine(),
+		presumedBegin.getColumn(),
+		presumedEnd.getLine(),
+		presumedEnd.getColumn()
 	);
-}
-
-ParseFunction ASTVisitor::getParseFunction(const clang::FunctionDecl* declaration)
-{
-	bool isStatic = false;
-	bool isConst = false;
-
-	if (clang::isa<clang::CXXMethodDecl>(declaration))
-	{
-		const clang::CXXMethodDecl* methodDecl = clang::dyn_cast<const clang::CXXMethodDecl>(declaration);
-		isStatic = methodDecl->isStatic();
-		isConst = methodDecl->isConst();
-	}
-	else
-	{
-		isStatic = declaration->getStorageClass() == clang::SC_Static;
-	}
-
-	return ParseFunction(
-		getParseTypeUsageOfReturnType(declaration),
-		getDeclNameHierarchy(declaration),
-		getParameters(declaration),
-		isStatic,
-		isConst
-	);
-}
-
-ParseFunction ASTVisitor::getParseFunction(const clang::FunctionTemplateDecl* declaration)
-{
-	return getParseFunction(declaration->getTemplatedDecl());
-}
-
-NameHierarchy ASTVisitor::getDeclNameHierarchy(const clang::Decl* decl)
-{
-	NameHierarchy nameHierarchy;
-	std::unordered_map<const clang::Decl*, NameHierarchy>::const_iterator it = m_nameCache.find(decl);
-	if (it != m_nameCache.end())
-	{
-		nameHierarchy = it->second;
-	}
-	else
-	{
-		nameHierarchy = utility::getDeclNameHierarchy(decl);
-		m_nameCache[decl] = nameHierarchy;
-	}
-	return nameHierarchy;
 }

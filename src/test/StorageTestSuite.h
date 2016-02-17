@@ -25,12 +25,10 @@ public:
 	void test_storage_saves_typedef()
 	{
 		TestStorage storage;
-		Id id = storage.onTypedefParsed(validLocation(1), createNameHierarchy("type"), typeUsage("int"), ParserClient::ACCESS_NONE);
+		Id id = storage.onTypedefParsed(validLocation(1), createNameHierarchy("type"), ParserClient::ACCESS_NONE);
 
-		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "type");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getQualifiedNameWithSignature(), "type");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_TYPEDEF);
-
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPEDEF_OF, "type", "int") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -41,7 +39,7 @@ public:
 		TestStorage storage;
 		Id id = storage.onClassParsed(validLocation(1), createNameHierarchy("Class"), ParserClient::ACCESS_NONE, validLocation(2));
 
-		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "Class");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getQualifiedNameWithSignature(), "Class");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_CLASS);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
@@ -54,7 +52,7 @@ public:
 		TestStorage storage;
 		Id id = storage.onStructParsed(validLocation(1), createNameHierarchy("Struct"), ParserClient::ACCESS_NONE, validLocation(2));
 
-		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "Struct");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getQualifiedNameWithSignature(), "Struct");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_STRUCT);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
@@ -65,28 +63,10 @@ public:
 	void test_storage_saves_global_variable()
 	{
 		TestStorage storage;
-		Id id = storage.onGlobalVariableParsed(validLocation(42), ParseVariable(typeUsage("char"), createNameHierarchy("Global"), false));
+		Id id = storage.onGlobalVariableParsed(validLocation(42), createNameHierarchy("Global"));
 
-		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "Global");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getQualifiedNameWithSignature(), "Global");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_GLOBAL_VARIABLE);
-
-		//TS_ASSERT(!node->getComponent<TokenComponentStatic>());
-
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPE_OF, "Global", "char") != 0);
-
-		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
-		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
-	}
-
-	void test_storage_saves_global_variable_static()
-	{
-		TestStorage storage;
-		Id id = storage.onGlobalVariableParsed(validLocation(7), ParseVariable(typeUsage("char"), createNameHierarchy("Global"), true));
-
-		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "Global");
-		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_GLOBAL_VARIABLE);
-
-		//TS_ASSERT(node->getComponent<TokenComponentStatic>());
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -96,13 +76,9 @@ public:
 	{
 		TestStorage storage;
 		Id id = storage.onFieldParsed(
-			validLocation(3), ParseVariable(typeUsage("bool"), createNameHierarchy("m_field"), false), ParserClient::ACCESS_NONE
-		);
-
-		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "m_field");
+			validLocation(3), createNameHierarchy("m_field"), ParserClient::ACCESS_NONE);
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getQualifiedNameWithSignature(), "m_field");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_FIELD);
-
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPE_OF, "m_field", "bool") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -110,22 +86,18 @@ public:
 
 	void test_storage_saves_field_as_member()
 	{
+		NameHierarchy a = createNameHierarchy("Struct::m_field");
+		NameHierarchy b = createNameHierarchy("Struct");
+
 		TestStorage storage;
 		Id id = storage.onFieldParsed(
-			validLocation(11), ParseVariable(typeUsage("bool"), createNameHierarchy("Struct::m_field"), false), ParserClient::ACCESS_PUBLIC
+			validLocation(11), a, ParserClient::ACCESS_PUBLIC
 		);
 
-		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "Struct::m_field");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getQualifiedNameWithSignature(), "Struct::m_field");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_FIELD);
 
-
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_MEMBER, "Struct", "Struct::m_field") != 0);
-		//TS_ASSERT(memberEdge->getComponent<TokenComponentAccess>());
-		//TS_ASSERT_EQUALS(
-		//	memberEdge->getComponent<TokenComponentAccess>()->getAccess(), TokenComponentAccess::ACCESS_PUBLIC
-		//);
-
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPE_OF, "Struct::m_field", "bool") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_MEMBER, b, a) != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -135,16 +107,11 @@ public:
 	{
 		TestStorage storage;
 		Id id = storage.onFunctionParsed(
-			validLocation(14), ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char")), validLocation(41)
+			validLocation(14), createFunctionNameHierarchy("bool", "isTrue", "(char)"), validLocation(41)
 		);
 
-		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "isTrue");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getQualifiedNameWithSignature(), "bool isTrue(char)");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_FUNCTION);
-
-		// TS_ASSERT(storage.getEdgeId(Edge::EDGE_RETURN_TYPE_OF, "isTrue", "bool") != 0);
-		// TS_ASSERT(storage.getEdgeId(Edge::EDGE_PARAMETER_TYPE_OF, "isTrue", "char") != 0);
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPE_USAGE, "isTrue", "bool") != 0);
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPE_USAGE, "isTrue", "char") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 2);
@@ -155,19 +122,14 @@ public:
 		TestStorage storage;
 		Id id = storage.onMethodParsed(
 			validLocation(9),
-			ParseFunction(typeUsage("void"), createNameHierarchy("isMethod"), parameters("bool")),
+			createFunctionNameHierarchy("void", "isMethod", "(bool)"),
 			ParserClient::ACCESS_NONE,
 			ParserClient::ABSTRACTION_NONE,
 			validLocation(4)
 		);
 
-		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "isMethod");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getQualifiedNameWithSignature(), "void isMethod(bool)");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_METHOD);
-
-		// TS_ASSERT(storage.getEdgeId(Edge::EDGE_RETURN_TYPE_OF, "isMethod", "void") != 0);
-		// TS_ASSERT(storage.getEdgeId(Edge::EDGE_PARAMETER_TYPE_OF, "isMethod", "bool") != 0);
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPE_USAGE, "isMethod", "void") != 0);
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPE_USAGE, "isMethod", "bool") != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 2);
@@ -186,33 +148,24 @@ public:
 
 		//Node* node = storage.getNodeWithId(id);
 		//TS_ASSERT(node);
-		//TS_ASSERT_EQUALS(node->getFullName(), "isMethod");
+		//TS_ASSERT_EQUALS(node->getQualifiedNameWithSignature(), "isMethod");
 		//TS_ASSERT_EQUALS(node->getType(), Node::NODE_METHOD);
 		//TS_ASSERT(node->getComponent<TokenComponentStatic>());
 	}
 
 	void test_storage_saves_method_as_member()
 	{
+		NameHierarchy a = createFunctionNameHierarchy("void", "Class::isMethod", "(bool)");
 		TestStorage storage;
 		storage.onMethodParsed(
 			validLocation(1),
-			ParseFunction(typeUsage("void"), createNameHierarchy("Class::isMethod"), parameters("bool")),
+			a,
 			ParserClient::ACCESS_PROTECTED,
 			ParserClient::ABSTRACTION_VIRTUAL,
 			validLocation(4)
 		);
 
-		//TS_ASSERT(node->getComponent<TokenComponentAbstraction>());
-		//TS_ASSERT_EQUALS(
-		//	node->getComponent<TokenComponentAbstraction>()->getAbstraction(),
-		//	TokenComponentAbstraction::ABSTRACTION_VIRTUAL
-		//);
-
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_MEMBER, "Class", "Class::isMethod") != 0);
-		//TS_ASSERT(memberEdge->getComponent<TokenComponentAccess>());
-		//TS_ASSERT_EQUALS(
-		//	memberEdge->getComponent<TokenComponentAccess>()->getAccess(), TokenComponentAccess::ACCESS_PROTECTED
-		//);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_MEMBER, createNameHierarchy("Class"), a) != 0);
 	}
 
 	void test_storage_saves_namespace()
@@ -220,7 +173,7 @@ public:
 		TestStorage storage;
 		Id id = storage.onNamespaceParsed(validLocation(1), createNameHierarchy("utility"), validLocation(2));
 
-		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "utility");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getQualifiedNameWithSignature(), "utility");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_NAMESPACE);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
@@ -233,7 +186,7 @@ public:
 		TestStorage storage;
 		Id id = storage.onEnumParsed(validLocation(17), createNameHierarchy("Category"), ParserClient::ACCESS_NONE, validLocation(23));
 
-		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "Category");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getQualifiedNameWithSignature(), "Category");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_ENUM);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
@@ -243,18 +196,14 @@ public:
 
 	void test_storage_saves_enum_as_member()
 	{
+		NameHierarchy a = createNameHierarchy("Class::Category");
 		TestStorage storage;
 		storage.onEnumParsed(
-			validLocation(1), createNameHierarchy("Class::Category"),
+			validLocation(1), a,
 			ParserClient::ACCESS_PRIVATE, validLocation(2)
 		);
 
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_MEMBER, "Class", "Class::Category") != 0);
-
-		//TS_ASSERT(memberEdge->getComponent<TokenComponentAccess>());
-		//TS_ASSERT_EQUALS(
-		//	memberEdge->getComponent<TokenComponentAccess>()->getAccess(), TokenComponentAccess::ACCESS_PRIVATE
-		//);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_MEMBER, createNameHierarchy("Class"), a) != 0);
 	}
 
 	void test_storage_saves_enum_constant()
@@ -262,7 +211,7 @@ public:
 		TestStorage storage;
 		Id id = storage.onEnumConstantParsed(validLocation(1), createNameHierarchy("VALUE"));
 
-		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "VALUE");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getQualifiedNameWithSignature(), "VALUE");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_ENUM_CONSTANT);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
@@ -279,7 +228,7 @@ public:
 			createNameHierarchy("ClassA"), ParserClient::ACCESS_PUBLIC
 		);
 
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_INHERITANCE, "ClassB", "ClassA") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_INHERITANCE, createNameHierarchy("ClassB"), createNameHierarchy("ClassA")) != 0);
 		//TS_ASSERT(edge->getComponent<TokenComponentAccess>());
 		//TS_ASSERT_EQUALS(edge->getComponent<TokenComponentAccess>()->getAccess(), TokenComponentAccess::ACCESS_PUBLIC);
 
@@ -297,7 +246,7 @@ public:
 			createNameHierarchy("StructA"), ParserClient::ACCESS_PUBLIC
 		);
 
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_INHERITANCE, "StructB", "StructA") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_INHERITANCE, createNameHierarchy("StructB"), createNameHierarchy("StructA")) != 0);
 
 		//TS_ASSERT(edge->getComponent<TokenComponentAccess>());
 		//TS_ASSERT_EQUALS(edge->getComponent<TokenComponentAccess>()->getAccess(), TokenComponentAccess::ACCESS_PUBLIC);
@@ -310,33 +259,47 @@ public:
 	{
 		TestStorage storage;
 
-		ParseFunction a(typeUsage("void"), createNameHierarchy("A::isMethod"), parameters("bool"));
-		ParseFunction b(typeUsage("void"), createNameHierarchy("B::isMethod"), parameters("bool"));
+		NameHierarchy a = createFunctionNameHierarchy("void", "A::isMethod", "(bool)");
+		NameHierarchy b = createFunctionNameHierarchy("void", "B::isMethod", "(bool)");
 
-		storage.onMethodParsed(validLocation(9), a, ParserClient::ACCESS_PRIVATE, ParserClient::ABSTRACTION_VIRTUAL, validLocation(4));
-		storage.onMethodParsed(validLocation(7), b, ParserClient::ACCESS_PRIVATE, ParserClient::ABSTRACTION_NONE, validLocation(3));
+		storage.onMethodParsed(
+			validLocation(9), 
+			a, 
+			ParserClient::ACCESS_PRIVATE, 
+			ParserClient::ABSTRACTION_VIRTUAL, 
+			validLocation(4));
+		storage.onMethodParsed(
+			validLocation(7), 
+			b,
+			ParserClient::ACCESS_PRIVATE, 
+			ParserClient::ABSTRACTION_NONE, 
+			validLocation(3));
 
 		storage.onMethodOverrideParsed(validLocation(4), a, b);
 
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_OVERRIDE, "B::isMethod", "A::isMethod") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_OVERRIDE, b, a) != 0);
 	}
 
 	void test_storage_saves_call()
 	{
 		TestStorage storage;
+
+		NameHierarchy a = createFunctionNameHierarchy("bool", "isTrue", "(char)");
+		NameHierarchy b = createFunctionNameHierarchy("void", "func", "(bool)");
+
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char")), validLocation()
+			validLocation(), a, validLocation()
 		);
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("void"), createNameHierarchy("func"), parameters("bool")), validLocation()
+			validLocation(), b, validLocation()
 		);
 		Id id = storage.onCallParsed(
 			validLocation(9),
-			ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char")),
-			ParseFunction(typeUsage("void"), createNameHierarchy("func"), parameters("bool"))
+			a,
+			b
 		);
 
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_CALL, "isTrue", "func") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_CALL, a, b) != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -344,19 +307,22 @@ public:
 
 	void test_storage_saves_call_in_global_variable_declaration()
 	{
+
 		TestStorage storage;
-		storage.onGlobalVariableParsed(validLocation(), ParseVariable(typeUsage("bool"), createNameHierarchy("global"), false));
+		storage.onGlobalVariableParsed(validLocation(), createNameHierarchy("global"));
+
+		NameHierarchy a = createFunctionNameHierarchy("bool", "isTrue", "(char)");
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char")), validLocation()
+			validLocation(), a, validLocation()
 		);
 
 		Id id = storage.onCallParsed(
 			validLocation(7),
-			ParseVariable(typeUsage("bool"), createNameHierarchy("global"), false),
-			ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char"))
+			createNameHierarchy("global"),
+			a
 		);
 
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_CALL, "global", "isTrue") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_CALL, createNameHierarchy("global"), a) != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -364,21 +330,23 @@ public:
 
 	void test_storage_saves_field_usage()
 	{
+		NameHierarchy a = createFunctionNameHierarchy("bool", "isTrue", "(char)");
+
 		TestStorage storage;
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char")), validLocation()
+			validLocation(), a, validLocation()
 		);
 		storage.onFieldParsed(
-			validLocation(), ParseVariable(typeUsage("bool"), createNameHierarchy("Foo::m_field"), false), ParserClient::ACCESS_PRIVATE
+			validLocation(), createNameHierarchy("Foo::m_field"), ParserClient::ACCESS_PRIVATE
 		);
 
 		Id id = storage.onFieldUsageParsed(
 			validLocation(7),
-			ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char")),
+			a,
 			createNameHierarchy("Foo::m_field")
 		);
 
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_USAGE, "isTrue", "Foo::m_field") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_USAGE, a, createNameHierarchy("Foo::m_field")) != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -386,19 +354,21 @@ public:
 
 	void test_storage_saves_global_variable_usage()
 	{
+		NameHierarchy a = createFunctionNameHierarchy("bool", "isTrue", "(char)");
+
 		TestStorage storage;
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char")), validLocation()
+			validLocation(), a, validLocation()
 		);
-		storage.onGlobalVariableParsed(validLocation(), ParseVariable(typeUsage("bool"), createNameHierarchy("global"), false));
+		storage.onGlobalVariableParsed(validLocation(), createNameHierarchy("global"));
 
 		Id id = storage.onGlobalVariableUsageParsed(
 			validLocation(7),
-			ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char")),
+			a,
 			createNameHierarchy("global")
 		);
 
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_USAGE, "isTrue", "global") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_USAGE, a, createNameHierarchy("global")) != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -406,20 +376,19 @@ public:
 
 	void test_storage_saves_type_usage()
 	{
+		NameHierarchy a = createFunctionNameHierarchy("Struct", "isTrue", "(char)");
 		TestStorage storage;
 		storage.onFunctionParsed(
-			validLocation(), ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"),
-			parameters("char")), validLocation()
+			validLocation(), a, validLocation()
 		);
 		storage.onStructParsed(
 			validLocation(), createNameHierarchy("Struct"), ParserClient::ACCESS_NONE, validLocation());
 
 		Id id = storage.onTypeUsageParsed(
-			typeUsage("Struct"),
-			ParseFunction(typeUsage("bool"), createNameHierarchy("isTrue"), parameters("char"))
+			validLocation(7), a, createNameHierarchy("Struct")
 		);
 
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPE_USAGE, "isTrue", "Struct") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_TYPE_USAGE, a, createNameHierarchy("Struct")) != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -548,7 +517,7 @@ public:
 
 		Id id = storage.onFileParsed(FileInfo("file.h"));
 
-		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getFullName(), "file.h");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getQualifiedNameWithSignature(), "file.h");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_FILE);
 	}
 
@@ -560,7 +529,7 @@ public:
 		storage.onFileParsed(FileInfo("file.cpp"));
 		Id id = storage.onFileIncludeParsed(validLocation(7), FileInfo("file.cpp"), FileInfo("file.h"));
 
-		TS_ASSERT(storage.getEdgeId(Edge::EDGE_INCLUDE, "file.cpp", "file.h") != 0);
+		TS_ASSERT(storage.getEdgeId(Edge::EDGE_INCLUDE, createNameHierarchy("file.cpp"), createNameHierarchy("file.h")) != 0);
 
 		std::shared_ptr<TokenLocationCollection> tlc = storage.getLocationCollectionForTokenId(id);
 		TS_ASSERT_EQUALS(tlc->getTokenLocationCount(), 1);
@@ -576,8 +545,8 @@ public:
 		//Id id4 = storage.onFileIncludeParsed(validLocation(), "file.h", "f.h");
 		//Id id5 = storage.onFileIncludeParsed(validLocation(), "file.cpp", "file.h");
 
-		//std::string name1 = storage.getNodeWithId(id2)->getFullName();
-		//std::string name2 = storage.getNodeWithId(id3)->getFullName();
+		//std::string name1 = storage.getNodeWithId(id2)->getQualifiedNameWithSignature();
+		//std::string name2 = storage.getNodeWithId(id3)->getQualifiedNameWithSignature();
 
 		//std::set<FilePath> filePaths;
 		//filePaths.insert(FilePath(name1));
@@ -632,22 +601,11 @@ private:
 			return getSearchIndex();
 		}
 
-		NameHierarchy nameHierarchyFromString(const std::string& str) const
-		{
-			NameHierarchy result;
-			std::vector<std::string> names = utility::splitToVector(str, "::");
-			for (const std::string& name : names)
-			{
-				result.push(std::make_shared<NameElement>(name));
-			}
-			return result;
-		}
-
-		Id getEdgeId(Edge::EdgeType type, const std::string& fromName, const std::string& toName) const
+		Id getEdgeId(Edge::EdgeType type, const NameHierarchy& fromName, const NameHierarchy& toName) const
 		{
 			NameHierarchy from;
 
-			return getIdForEdge(type, nameHierarchyFromString(fromName), nameHierarchyFromString(toName));
+			return getIdForEdge(type, fromName, toName);
 		}
 	};
 
@@ -664,27 +622,23 @@ private:
 			location->getColumnNumber() == locationId;
 	}
 
+	NameHierarchy createFunctionNameHierarchy(std::string ret, std::string name, std::string parameters) const
+	{
+		NameHierarchy nameHierarchy = createNameHierarchy(name);
+		std::string lastName = nameHierarchy.back()->getName();
+		nameHierarchy.pop();
+		nameHierarchy.push(std::make_shared<NameElement>(lastName, NameElement::Signature(ret, parameters)));
+		return nameHierarchy;
+	}
+
 	NameHierarchy createNameHierarchy(std::string s) const
 	{
 		NameHierarchy nameHierarchy;
 		for (std::string element: utility::splitToVector(s, "::"))
 		{
-			std::string signature = (element.find("(") != element.npos ? element : "");
-			nameHierarchy.push(std::make_shared<NameElement>(element, signature));
+			nameHierarchy.push(std::make_shared<NameElement>(element, NameElement::Signature()));
 		}
 		return nameHierarchy;
-	}
-
-	ParseTypeUsage typeUsage(const std::string& typeName) const
-	{
-		return ParseTypeUsage(validLocation(), std::make_shared<NamedDataType>(createNameHierarchy(typeName)));
-	}
-
-	std::vector<ParseTypeUsage> parameters(const std::string& param) const
-	{
-		std::vector<ParseTypeUsage> params;
-		params.push_back(typeUsage(param));
-		return params;
 	}
 
 	std::string m_filePath;

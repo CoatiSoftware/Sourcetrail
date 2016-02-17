@@ -70,7 +70,7 @@ Task::TaskState TaskParseCxx::update()
 
 	MessageStatus(ss.str(), false, true).dispatch();
 
-	m_client->prepareParsingFile(sourcePath);
+	m_client->startParsingFile(sourcePath);
 
 	m_parser->runTool(std::vector<std::string>(1, sourcePath.str()));
 

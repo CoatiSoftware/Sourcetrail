@@ -8,10 +8,12 @@ std::string NameHierarchy::serialize(NameHierarchy nameHierarchy)
 	std::string serializedName = "";
 	for (size_t i = 0; i < nameHierarchy.size(); i++)
 	{
-		serializedName += nameHierarchy[i]->getFullName() + "\t";
-		serializedName += nameHierarchy[i]->getFullSignature();
-		if (i + 1 < nameHierarchy.size())
+		if (i > 0)
+		{
 			serializedName += "\n";
+		}
+		serializedName += nameHierarchy[i]->getName() + "\t";
+		serializedName += NameElement::Signature::serialize(nameHierarchy[i]->getSignature());
 	}
 	return serializedName;
 }
@@ -29,7 +31,7 @@ NameHierarchy NameHierarchy::deserialize(const std::string& serializedName)
 			LOG_ERROR("unable to deserialize name hierarchy: " + serializedName); // todo: obfuscate serializedName!
 			return NameHierarchy();
 		}
-		nameHierarchy.push(std::make_shared<NameElement>(nameParts[0], nameParts[1]));
+		nameHierarchy.push(std::make_shared<NameElement>(nameParts[0], NameElement::Signature::deserialize(nameParts[1])));
 	}
 
 	return nameHierarchy;
@@ -77,26 +79,44 @@ size_t NameHierarchy::size() const
 	return m_elements.size();
 }
 
-std::string NameHierarchy::getFullName() const
+std::string NameHierarchy::getQualifiedName() const
 {
 	std::string name;
 	for (size_t i = 0; i < m_elements.size(); i++)
 	{
-		name += m_elements[i]->getFullName();
-		if (i + 1 < m_elements.size())
+		if (i > 0)
 		{
 			name += "::";
 		}
+		name += m_elements[i]->getName();
 	}
 	return name;
 }
 
-std::string NameHierarchy::getName() const
+std::string NameHierarchy::getQualifiedNameWithSignature() const
+{
+	std::string name = getQualifiedName();
+	if (m_elements.size())
+	{
+		name = m_elements.back()->getSignature().qualifyName(name);
+	}
+	return name;
+}
+
+std::string NameHierarchy::getRawName() const
 {
 	if (m_elements.size())
 	{
-		return m_elements.back()->getFullName();
+		return m_elements.back()->getName();
 	}
+	return "";
+}
 
+std::string NameHierarchy::getRawNameWithSignature() const
+{
+	if (m_elements.size())
+	{
+		return m_elements.back()->getNameWithSignature();
+	}
 	return "";
 }

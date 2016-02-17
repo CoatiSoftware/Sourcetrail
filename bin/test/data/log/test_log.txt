@@ -1,177 +1,189 @@
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
+ConfigManager.cpp WARNING: value path/to/nowhere is not present in config.
 ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
-Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:1:20
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:1:20
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:1:11
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:1:13
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:7:15
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:5:20
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:48
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:7:20
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:3:20
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
 Token.cpp ERROR: Location Id was not referenced by this Token.
 Node.cpp WARNING: Cannot change NodeType after it was already set from namespace to class
 Edge.cpp ERROR: Nodes are not plain copies.
@@ -220,10 +232,23 @@ Edge.cpp ERROR: Nodes are not plain copies.
 NetworkProtocolHelper.cpp ERROR: Failed to parse message, invalid type token
 NetworkProtocolHelper.cpp ERROR: Failed to parse setActiveToken message, invalid token count
 Settings.cpp WARNING: File for Settings not found: data/SettingsTestSuite/wrong_settings.xml
+ConfigManager.cpp WARNING: value Bool is not present in config.
+ConfigManager.cpp WARNING: value Int is not present in config.
+ConfigManager.cpp WARNING: value Float is not present in config.
+ConfigManager.cpp WARNING: value String is not present in config.
 Settings.cpp WARNING: File for Settings not found: data/SettingsTestSuite/wrong_settings.xml
+ConfigManager.cpp WARNING: value Bool is not present in config.
+ConfigManager.cpp WARNING: value Int is not present in config.
+ConfigManager.cpp WARNING: value Float is not present in config.
+ConfigManager.cpp WARNING: value String is not present in config.
+ConfigManager.cpp WARNING: value Bool is not present in config.
+ConfigManager.cpp WARNING: value Int is not present in config.
+ConfigManager.cpp WARNING: value Float is not present in config.
+ConfigManager.cpp WARNING: value String is not present in config.
+ConfigManager.cpp WARNING: value NewBool is not present in config.
  INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
- INFO: typedef: type -> int <file.cpp 1:1 1:1>
+ INFO: typedef: type <file.cpp 1:1 1:1>
  INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
  INFO: class: Class <file.cpp 1:1 1:1>
@@ -235,22 +260,19 @@ TextAccess.cpp ERROR: Could not open file file.cpp
  INFO: global: Global <file.cpp 1:42 1:42>
  INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
- INFO: global: Global <file.cpp 1:7 1:7>
- INFO: file: file.cpp < 0:0 0:0>
-TextAccess.cpp ERROR: Could not open file file.cpp
  INFO: field: m_field <file.cpp 1:3 1:3>
  INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
  INFO: field: Struct::m_field <file.cpp 1:11 1:11>
  INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
- INFO: function: isTrue <file.cpp 1:14 1:14>
+ INFO: function: bool isTrue(char) <file.cpp 1:14 1:14>
  INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
- INFO: method: isMethod <file.cpp 1:9 1:9>
+ INFO: method: void isMethod(bool) <file.cpp 1:9 1:9>
  INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
- INFO: method: Class::isMethod <file.cpp 1:1 1:1>
+ INFO: method: void Class::isMethod(bool) <file.cpp 1:1 1:1>
  INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
  INFO: namespace: utility <file.cpp 1:1 1:1>
@@ -275,34 +297,34 @@ TextAccess.cpp ERROR: Could not open file file.cpp
  INFO: inheritance: StructB : StructA <file.cpp 1:5 1:5>
  INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
- INFO: method: A::isMethod <file.cpp 1:9 1:9>
- INFO: method: B::isMethod <file.cpp 1:7 1:7>
- INFO: override: A::isMethod -> B::isMethod <file.cpp 1:4 1:4>
+ INFO: method: void A::isMethod(bool) <file.cpp 1:9 1:9>
+ INFO: method: void B::isMethod(bool) <file.cpp 1:7 1:7>
+ INFO: override: void A::isMethod(bool) -> void B::isMethod(bool) <file.cpp 1:4 1:4>
  INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
- INFO: function: isTrue <file.cpp 1:0 1:0>
- INFO: function: func <file.cpp 1:0 1:0>
- INFO: call: isTrue -> func <file.cpp 1:9 1:9>
+ INFO: function: bool isTrue(char) <file.cpp 1:0 1:0>
+ INFO: function: void func(bool) <file.cpp 1:0 1:0>
+ INFO: call: bool isTrue(char) -> void func(bool) <file.cpp 1:9 1:9>
  INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
  INFO: global: global <file.cpp 1:0 1:0>
- INFO: function: isTrue <file.cpp 1:0 1:0>
- INFO: call: global -> isTrue <file.cpp 1:7 1:7>
+ INFO: function: bool isTrue(char) <file.cpp 1:0 1:0>
+ INFO: call: global -> bool isTrue(char) <file.cpp 1:7 1:7>
  INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
- INFO: function: isTrue <file.cpp 1:0 1:0>
+ INFO: function: bool isTrue(char) <file.cpp 1:0 1:0>
  INFO: field: Foo::m_field <file.cpp 1:0 1:0>
- INFO: field usage: isTrue -> Foo::m_field <file.cpp 1:7 1:7>
+ INFO: field usage: bool isTrue(char) -> Foo::m_field <file.cpp 1:7 1:7>
  INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
- INFO: function: isTrue <file.cpp 1:0 1:0>
+ INFO: function: bool isTrue(char) <file.cpp 1:0 1:0>
  INFO: global: global <file.cpp 1:0 1:0>
- INFO: global usage: isTrue -> global <file.cpp 1:7 1:7>
+ INFO: global usage: bool isTrue(char) -> global <file.cpp 1:7 1:7>
  INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
- INFO: function: isTrue <file.cpp 1:0 1:0>
+ INFO: function: Struct isTrue(char) <file.cpp 1:0 1:0>
  INFO: struct: Struct <file.cpp 1:0 1:0>
- INFO: type usage: isTrue -> Struct <file.cpp 1:0 1:0>
+ INFO: type usage: Struct isTrue(char) -> Struct <file.cpp 1:7 1:7>
  INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
  INFO: file: file.h < 0:0 0:0>
@@ -322,3 +344,477 @@ TextAccess.cpp WARNING: Line numbers start with one, is 0
 TextAccess.cpp WARNING: Line numbers start with one, is 0
 TokenLocationCollection.cpp ERROR: Can't create TokenLocation with wrong boundaries.
 TokenLocationCollection.cpp ERROR: Can't create TokenLocation with wrong boundaries.
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Program Files (x86)\Visual Leak Detector\include"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\build"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\build\src\lib_gui"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\app"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\trial"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "D:\gameDevResources\Qt5.5\5.5\msvc2013\include"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtCore"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtGui"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtNetwork"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "D:\gameDevResources\Qt5.5\5.5\msvc2013\include\QtWidgets"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "D:\gameDevResources\Qt5.5\5.5\msvc2013\mkspecs\win32-msvc2013"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "D:\gameDevResources\boost_1_59_0"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "D:\gameDevResources\clang-11vm\build\include"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "D:\gameDevResources\clang-11vm\build\tools\clang\include"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "D:\gameDevResources\clang-11vm\llvm\include"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "D:\gameDevResources\clang-11vm\llvm\tools\clang\include"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "D:\gameDevResources\cxxtest-4.3"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "D:\gameDevResources\eigen"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "D:\projekte\code\2014_master_project\masterproject\bin\test\data/vsSolutionParserTestSuite/..\src\lib\utility\solution\SolutionParserCMake.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "D:\projekte\code\2014_master_project\masterproject\bin\test\data/vsSolutionParserTestSuite/..\src\lib\utility\solution\SolutionParserCMake.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\build\Coati.rc"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\build\Coati_lib_gui_automoc.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\build\src\lib_gui\version.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\build\test_main.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\app\data\parser\cxx\TaskParseCxx.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\app\isTrial.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\app\main.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\sqlite\CppSQLite3.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\sqlite\CppSQLite3.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\sqlite\sqlite3.c"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\sqlite\sqlite3.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\tinyxml\tinystr.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\tinyxml\tinystr.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\tinyxml\tinyxml.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\tinyxml\tinyxml.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\tinyxml\tinyxmlerror.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\external\tinyxml\tinyxmlparser.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\Application.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\Application.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\Project.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\Project.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\Component.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\Component.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\ComponentFactory.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\ComponentFactory.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\ComponentManager.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\ComponentManager.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\CodeController.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\CodeController.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\Controller.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\Controller.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\FeatureController.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\FeatureController.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\GraphController.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\GraphController.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\IDECommunicationController.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\IDECommunicationController.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\NetworkFactory.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\NetworkFactory.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\RefreshController.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\RefreshController.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\SearchController.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\SearchController.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\StatusBarController.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\StatusBarController.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\UndoRedoController.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\UndoRedoController.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\ActivationTranslator.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\ActivationTranslator.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\BucketGrid.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\BucketGrid.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\DummyEdge.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\DummyNode.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\GraphLayouter.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\GraphLayouter.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\GraphPostprocessor.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\GraphPostprocessor.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\NetworkProtocolHelper.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\NetworkProtocolHelper.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\SnippetMerger.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\controller\helper\SnippetMerger.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\CodeView.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\CodeView.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\CompositeView.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\CompositeView.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\GraphView.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\GraphView.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\GraphViewStyle.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\GraphViewStyle.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\GraphViewStyleImpl.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\MainView.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\MainView.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\RefreshView.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\RefreshView.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\SearchView.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\SearchView.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\StatusBarView.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\StatusBarView.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\UndoRedoView.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\UndoRedoView.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\View.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\View.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\ViewFactory.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\ViewFactory.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\ViewLayout.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\ViewLayout.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\ViewWidgetWrapper.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\component\view\ViewWidgetWrapper.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\HierarchyCache.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\HierarchyCache.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\SqliteStorage.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\SqliteStorage.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\Storage.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\Storage.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\StorageCache.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\StorageCache.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\StorageTypes.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\TaskCleanStorage.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\TaskCleanStorage.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\access\StorageAccess.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\access\StorageAccess.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\access\StorageAccessProxy.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\access\StorageAccessProxy.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\Edge.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\Edge.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\Graph.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\Graph.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\Node.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\Node.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\Token.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\Token.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponent.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponent.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentAbstraction.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentAbstraction.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentAccess.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentAccess.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentAggregation.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentAggregation.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentConst.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentConst.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentFilePath.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentFilePath.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentSignature.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentSignature.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentStatic.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\graph\token_component\TokenComponentStatic.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\location\TokenLocation.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\location\TokenLocation.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\location\TokenLocationCollection.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\location\TokenLocationCollection.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\location\TokenLocationFile.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\location\TokenLocationFile.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\location\TokenLocationLine.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\location\TokenLocationLine.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\name\NameElement.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\name\NameElement.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\name\NameHierarchy.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\name\NameHierarchy.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParseFunction.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParseFunction.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParseLocation.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParseLocation.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParseTypeUsage.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParseTypeUsage.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParseVariable.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParseVariable.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\Parser.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\Parser.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParserClient.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\ParserClient.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\parser\cxx\TaskParseCxx.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\search\SearchIndex.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\search\SearchIndex.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\search\SearchMatch.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\search\SearchMatch.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\search\SearchNode.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\search\SearchNode.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\search\SearchResult.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\search\SearchResult.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\ArrayModifiedDataType.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\ArrayModifiedDataType.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\DataType.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\DataType.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\ModifiedDataType.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\ModifiedDataType.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\NamedDataType.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\NamedDataType.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\PointerModifiedDataType.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\PointerModifiedDataType.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\ReferenceModifiedDataType.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\data\type\ReferenceModifiedDataType.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\isTrial.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\settings\ApplicationSettings.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\settings\ApplicationSettings.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\settings\ColorScheme.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\settings\ColorScheme.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\settings\ProjectSettings.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\settings\ProjectSettings.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\settings\Settings.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\settings\Settings.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\ConfigManager.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\ConfigManager.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\Property.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\TimePoint.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\TimePoint.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\Version.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\Version.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FileInfo.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FileInfo.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FileManager.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FileManager.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FilePath.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FilePath.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FileRegister.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FileRegister.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FileSystem.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\file\FileSystem.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\ConsoleLogger.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\ConsoleLogger.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\FileLogger.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\FileLogger.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\LogManager.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\LogManager.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\LogManagerImplementation.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\LogManagerImplementation.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\LogMessage.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\Logger.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\Logger.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\PlainFileLogger.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\PlainFileLogger.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\logging\logging.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\math\Color.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\math\MatrixBase.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\math\MatrixDynamicBase.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\math\Vector2.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\math\Vector4.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\math\VectorBase.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\Message.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\MessageBase.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\MessageListener.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\MessageListenerBase.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\MessageListenerBase.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\MessageQueue.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\MessageQueue.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageActivateEdge.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageActivateFile.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageActivateNodes.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageActivateTokenLocations.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageActivateTokens.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageActivateWindow.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageAutoRefreshChanged.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageDeactivateEdge.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageFind.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageFinishedParsing.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageFlushUpdates.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageFocusIn.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageFocusOut.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageGraphNodeBundleSplit.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageGraphNodeExpand.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageGraphNodeMove.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageInterruptTasks.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageLoadProject.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageMoveIDECursor.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageRedo.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageRefresh.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageResetZoom.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageSaveProject.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageSearch.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageSearchAutocomplete.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageShowErrors.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageShowFile.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageShowScope.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageShowSnippets.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageStatus.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageSwitchColorScheme.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageUndo.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageWindowFocus.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\messaging\type\MessageZoom.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\LambdaTask.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\LambdaTask.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\SimpleTask.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\SimpleTask.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\Task.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\Task.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\TaskGroup.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\TaskGroup.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\TaskGroupSequential.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\TaskGroupSequential.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\TaskScheduler.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\scheduling\TaskScheduler.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\solution\ISolutionParser.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\solution\ISolutionParser.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\solution\SolutionParserVisualStudio.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\solution\SolutionParserVisualStudio.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\text\Dictionary.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\text\Dictionary.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\text\TextAccess.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\text\TextAccess.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\types.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\utility.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\utility.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\utilityString.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib\utility\utilityString.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\platform_includes\includesDefault.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\platform_includes\includesMac.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\platform_includes\includesWindows.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtAutocompletionList.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtAutocompletionList.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtCodeArea.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtCodeArea.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtCodeFile.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtCodeFile.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtCodeFileList.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtCodeFileList.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtCodeSnippet.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtCodeSnippet.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtDirectoryListBox.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtDirectoryListBox.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtLineEdit.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtLineEdit.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtRefreshBar.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtRefreshBar.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtSearchBar.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtSearchBar.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtSmartSearchBox.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtSmartSearchBox.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtStatusBar.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtStatusBar.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtUndoRedo.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\element\QtUndoRedo.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\graphics\QtAngledLineItem.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\graphics\QtAngledLineItem.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\graphics\QtCountCircleItem.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\graphics\QtCountCircleItem.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\graphics\QtRoundedRectItem.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\graphics\QtRoundedRectItem.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\graphics\QtStraightLineItem.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\graphics\QtStraightLineItem.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\network\QtIDECommunicationController.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\network\QtIDECommunicationController.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\network\QtNetworkFactory.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\network\QtNetworkFactory.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\network\QtTcpWrapper.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\network\QtTcpWrapper.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\utility\QtDeviceScaledPixmap.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\utility\QtDeviceScaledPixmap.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\utility\QtHighlighter.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\utility\QtHighlighter.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\utility\QtThreadedFunctor.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\utility\utilityQt.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\utility\utilityQt.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtCodeView.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtCodeView.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtCompositeView.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtCompositeView.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtGraphView.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtGraphView.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtGraphViewStyleImpl.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtGraphViewStyleImpl.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtMainView.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtMainView.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtRefreshView.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtRefreshView.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtSearchView.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtSearchView.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtStatusBarView.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtStatusBarView.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtUndoRedoView.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtUndoRedoView.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtViewFactory.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtViewFactory.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtViewWidgetWrapper.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\QtViewWidgetWrapper.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphEdge.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphEdge.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNode.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNode.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNodeAccess.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNodeAccess.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNodeBundle.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNodeBundle.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNodeData.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNodeData.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNodeExpandToggle.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\QtGraphNodeExpandToggle.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\nodeComponents\QtGraphNodeComponent.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\nodeComponents\QtGraphNodeComponent.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\nodeComponents\QtGraphNodeComponentClickable.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\nodeComponents\QtGraphNodeComponentClickable.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\nodeComponents\QtGraphNodeComponentMoveable.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\view\graphElements\nodeComponents\QtGraphNodeComponentMoveable.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtAbout.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtAbout.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtAboutLicense.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtAboutLicense.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtApplicationSettingsScreen.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtApplicationSettingsScreen.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtMainWindow.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtMainWindow.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtProjectSetupScreen.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtProjectSetupScreen.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtSettingsWindow.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtSettingsWindow.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtSplashScreen.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtSplashScreen.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtStartScreen.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_gui\qt\window\QtStartScreen.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\ASTAction.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\ASTAction.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\ASTActionFactory.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\ASTActionFactory.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\ASTBodyVisitor.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\ASTBodyVisitor.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\ASTBodyVisitorClient.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\ASTBodyVisitorClient.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\ASTConsumer.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\ASTConsumer.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\ASTVisitor.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\ASTVisitor.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\CommentHandler.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\CommentHandler.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\CxxDiagnosticConsumer.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\CxxDiagnosticConsumer.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\CxxParser.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\CxxParser.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\PreprocessorCallbacks.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\PreprocessorCallbacks.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\name_resolver\CxxDeclNameResolver.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\name_resolver\CxxDeclNameResolver.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\name_resolver\CxxNameResolver.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\name_resolver\CxxNameResolver.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\name_resolver\CxxTemplateArgumentNameResolver.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\name_resolver\CxxTemplateArgumentNameResolver.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\name_resolver\CxxTypeNameResolver.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\name_resolver\CxxTypeNameResolver.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\utilityCxx.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\lib_parser\data\parser\cxx\utilityCxx.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\ConfigManagerTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\CxxParserTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\DataTypeTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\DictionaryTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\FileManagerTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\FilePathTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\FileSystemTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\GraphTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\LogManagerTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\MatrixBaseTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\MessageQueueTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\NetworkProtocolHelperTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\SearchIndexTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\SettingsTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\SqliteStorageTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\StorageTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\TaskSchedulerTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\TestSuiteFixture.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\TestSuiteFixture.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\TextAccessTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\TokenLocationCollectionTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\UtilityStringTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\Vector2TestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\VsSolutionParserTestSuite.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\helper\TestFileManager.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\helper\TestFileManager.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\helper\TestStorage.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\test\helper\TestStorage.h"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\trial\data\parser\cxx\TaskParseCxx.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\trial\isTrial.cpp"
+SolutionParserVisualStudio.cpp WARNING: boost::filesystem::canonical: No such file or directory: "C:\Users\Manuel\FH\MSc\Masterproject\Project\src\trial\main.cpp"
