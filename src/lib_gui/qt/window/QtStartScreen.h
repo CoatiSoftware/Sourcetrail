@@ -4,6 +4,7 @@
 #include <QPushButton>
 
 #include "qt/window/QtSettingsWindow.h"
+#include "utility/file/FilePath.h"
 
 class QtRecentProjectButton
 	: public QPushButton
@@ -11,13 +12,13 @@ class QtRecentProjectButton
 	Q_OBJECT
 
 public:
-	QtRecentProjectButton(const QString& text, QWidget* parent);
+	QtRecentProjectButton(const FilePath& projectFilePath, QWidget* parent);
 
 public slots:
 	void handleButtonClick();
 
 private:
-	std::string m_projectFile;
+	FilePath m_projectFilePath;
 };
 
 

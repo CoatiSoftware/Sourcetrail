@@ -13,17 +13,17 @@
 #include "qt/utility/utilityQt.h"
 #include "isTrial.h"
 
-QtRecentProjectButton::QtRecentProjectButton(const QString &text, QWidget *parent)
-	: QPushButton(text, parent)
+QtRecentProjectButton::QtRecentProjectButton(const FilePath& projectFilePath, QWidget* parent)
+	: QPushButton(parent)
+	, m_projectFilePath(projectFilePath)
 {
-	m_projectFile = text.toStdString();
-	this->setText(FileSystem::fileName(text.toStdString()).c_str());
-	this->setToolTip(m_projectFile.c_str());
+	this->setText(m_projectFilePath.withoutExtension().fileName().c_str());
+	this->setToolTip(m_projectFilePath.str().c_str());
 }
 
 void QtRecentProjectButton::handleButtonClick()
 {
-	MessageLoadProject(m_projectFile, false).dispatch();
+	MessageLoadProject(m_projectFilePath.str(), false).dispatch();
 };
 
 QtStartScreen::QtStartScreen(QWidget *parent)
@@ -62,8 +62,7 @@ void QtStartScreen::setup()
 	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
 	for (size_t i = 0; i < recentProjects.size() && i < ApplicationSettings::MaximalAmountOfRecentProjects; i++)
 	{
-		FilePath project = recentProjects[i];
-		QtRecentProjectButton* button = new QtRecentProjectButton(project.str().c_str(), this);
+		QtRecentProjectButton* button = new QtRecentProjectButton(recentProjects[i], this);
 		button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 		button->setIcon(cpp_icon);
 		button->setIconSize(QSize(25, 25));

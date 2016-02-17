@@ -47,7 +47,7 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	std::stringstream ss;
 
 	ss << "\n";
-	ss << "\t" + ProjectSettings::getInstance()->getFilePath().withoutExtension().fileName() + "\n";
+	ss << "\tProject: " + ProjectSettings::getInstance()->getFilePath().withoutExtension().fileName() + "\n";
 
 	if (description.size())
 	{
