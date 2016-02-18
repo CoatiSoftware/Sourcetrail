@@ -18,8 +18,6 @@
 #include "qt/window/QtSplashScreen.h"
 #include "version.h"
 
-
-#include "utility/solution/SolutionParserVisualStudio.h"
 #include "settings/ProjectSettings.h"
 
 void init()

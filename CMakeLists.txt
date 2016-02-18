@@ -11,6 +11,10 @@ include(cmake/version.cmake)
 include(cmake/version_setup.cmake)
 include(cmake/licenses.cmake)
 
+# set Standerd build type to Release
+set(CMAKE_BUILD_TYPE_INIT "Release")
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Variables --------------------------------------------------------------------
 
 set(PROJECT_NAME Coati)
@@ -42,25 +46,40 @@ endif ()
 # Project ----------------------------------------------------------------------
 project(${PROJECT_NAME})
 
+#RPATH
+set(CMAKE_SKIP_BUILD_RPATH FALSE)
+set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+set(CMAKE_INSTALL_RPATH "$ORIGIN/lib/:$$ORIGIN/lib/")
+
+if(UNIX AND NOT APPLE)
+    include(cmake/external.cmake)
+endif()
+
 # Clang ------------------------------------------------------------------------
 
-if (UNIX)
+if (UNIX AND APPLE)
 	if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
 		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_release/share/llvm/cmake" NO_DEFAULT_PATH)
 	else()
 		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_debug/share/llvm/cmake" NO_DEFAULT_PATH)
 	endif()
+elseif(UNIX)
+    find_package(LLVM REQUIRED PATHS "${EXTERNAL_BUILD}/llvm/share/llvm/cmake" NO_DEFAULT_PATH)
 else()
 	find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build/share/llvm/cmake")
 endif()
 
-find_package(CLANG REQUIRED PATHS "${CMAKE_SOURCE_DIR}/cmake")
+find_package(CLANG REQUIRED PATHS "${CMAKE_SOURCE_DIR}/cmake" NO_DEFAULT_PATH)
 
 add_definitions(${CLANG_DEFINITIONS})
 
 # Boost ------------------------------------------------------------------------
 
-set(BOOST_ROOT $ENV{BOOST_159_DIR})
+if(UNIX AND NOT APPLE)
+    set(BOOST_ROOT ${EXTERNAL_BUILD}/boost)
+else()
+    set(BOOST_ROOT $ENV{BOOST_159_DIR})
+endif()
 set(Boost_USE_MULTITHREAD ON)
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
@@ -72,16 +91,32 @@ find_package(Boost 1.59 COMPONENTS system program_options filesystem date_time R
 # Eigen ------------------------------------------------------------------------
 
 add_definitions(-DEIGEN_MPL2_ONLY)
-set(EIGEN_ROOT $ENV{EIGEN_DIR})
+if(UNIX AND NOT APPLE)
+    set(EIGEN_ROOT ${EXTERNAL_SRC}/eigen)
+else()
+    set(EIGEN_ROOT $ENV{EIGEN_DIR})
+endif()
 
 # Botan -------------------------------------------------------------------------
 
-if(UNIX)
+if(UNIX AND APPLE)
     find_library(BOTAN botan-1.11 $ENV{BOTAN_DIR}/release NO_DEFAULT_PATH)
     find_library(BOTAN_D botan-1.11 $ENV{BOTAN_DIR}/debug NO_DEFAULT_PATH)
+elseif(UNIX)
+    find_library(BOTAN botan-1.11 "${EXTERNAL_BUILD}/botan/lib" NO_DEFAULT_PATH)
 else()
     find_library(BOTAN botan "$ENV{BOTAN_DIR}/release")
 	find_library(BOTAN_D botan "$ENV{BOTAN_DIR}/debug")
+endif()
+if(${BOTAN} STREQUAL "BOTAN-NOTFOUND")
+    message(FATAL_ERROR "Botan not found")
+else()
+    message(STATUS "Botan found")
+endif()
+if(UNIX AND NOT APPLE)
+    set(BOTAN_INCLUDE_DIR "${EXTERNAL_SRC}/botan")
+else()
+    set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}")
 endif()
 
 # Lib --------------------------------------------------------------------------
@@ -151,8 +186,10 @@ target_include_directories(${LIB_PARSER_PROJECT_NAME} SYSTEM
 )
 
 link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
+llvm_map_components_to_libnames(REQ_LLVM_LIBS support core libdriver)
 
-target_link_libraries(${LIB_PARSER_PROJECT_NAME} ${CLANG_LIBRARIES} ${LLVM_AVAILABLE_LIBS})
+#target_link_libraries(${LIB_PARSER_PROJECT_NAME} ${CLANG_LIBRARIES} ${LLVM_AVAILABLE_LIBS})
+target_link_libraries(${LIB_PARSER_PROJECT_NAME} ${CLANG_LIBRARIES} ${REQ_LLVM_LIBS})
 
 # Lib License -------------------------------------------------------------------
 
@@ -175,7 +212,7 @@ target_include_directories(${LIB_LICENSE_PROJECT_NAME} SYSTEM
 	PUBLIC
 	${Boost_INCLUDE_DIRS}
 	${LIB_LICENSE_PROJECT_NAME}
-	"$ENV{BOTAN_DIR}"
+    ${BOTAN_INCLUDE_DIR}
 )
 
 # target_include_directories(${LIB_LICENSE_PROJECT_NAME} optimized "$ENV{BOTAN_DIR}/release")
@@ -204,10 +241,16 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
 # Find the QtWidgets library
-set(CMAKE_PREFIX_PATH "$ENV{QT_DIR}/")
+if(UNIX AND NOT APPLE)
+    set(CMAKE_PREFIX_PATH ${EXTERNAL_BUILD}/qt)
+else()
+    set(CMAKE_PREFIX_PATH "$ENV{QT_DIR}/")
+endif()
 
-set(Qt5Widgets_DIR "$ENV{QT_DIR}/cmake/Qt5Widgets/")
-set(Qt5PrintSupport_DIR "$ENV{QT_DIR}/cmake/Qt5PrintSupport/")
+if(UNIX AND APPLE)
+    set(Qt5Widgets_DIR "$ENV{QT_DIR}/cmake/Qt5Widgets/")
+    set(Qt5PrintSupport_DIR "$ENV{QT_DIR}/cmake/Qt5PrintSupport/")
+endif()
 
 find_package(Qt5Widgets)
 find_package(Qt5PrintSupport)
@@ -255,7 +298,7 @@ set_property(
 # include external header without warnings
 target_include_directories(${LIB_GUI_PROJECT_NAME} SYSTEM
 		PUBLIC "${CMAKE_SOURCE_DIR}/src/external"
-		PUBLIC "$ENV{BOTAN_DIR}"
+		PUBLIC ${BOTAN_INCLUDE_DIR}
 		PUBLIC ${Boost_INCLUDE_DIRS}
 )
 
@@ -383,7 +426,7 @@ create_source_groups(${TRIAL_FILES})
 target_link_libraries(${TRIAL_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} )
 
 if(UNIX AND NOT APPLE)
-	target_link_libraries(${TRIAL_PROJECT_NAME} pthread dl)
+	target_link_libraries(${TRIAL_PROJECT_NAME} pthread dl rt)
 endif()
 
 set_property(
@@ -479,7 +522,7 @@ target_include_directories(${LICENSE_GENERATOR_PROJECT_NAME} SYSTEM
 )
 
 if(UNIX AND NOT APPLE)
-	target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} pthread dl)
+	target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} pthread dl rt)
 endif()
 
 target_link_libraries(${LICENSE_GENERATOR_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} ${Boost_LIBRARIES} )
@@ -494,7 +537,11 @@ endif ()
 
 add_subdirectory(src/test)
 
-set(CXXTEST_INCLUDE_DIR $ENV{CXX_TEST_DIR})
+if(UNIX AND NOT APPLE)
+    set(CXXTEST_INCLUDE_DIR ${EXTERNAL_SRC}/cxxtest)
+else()
+    set(CXXTEST_INCLUDE_DIR $ENV{CXX_TEST_DIR})
+endif()
 set(CXXTEST_PYTHON_TESTGEN_EXECUTABLE ${CXXTEST_INCLUDE_DIR}/bin/cxxtestgen)
 set(TESTGEN_FILE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp)
 
