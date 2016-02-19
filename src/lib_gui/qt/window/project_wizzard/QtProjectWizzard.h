@@ -26,6 +26,7 @@ public slots:
 	void newProjectFromVisualStudioSolution(const std::string& visualStudioSolutionPath);
 	void refreshProjectFromVisualStudioSolution(const std::string& visualStudioSolutionPath);
 	void editProject(const ProjectSettings& settings);
+	void showPreferences();
 
 private:
 	template<typename T>
@@ -59,7 +60,7 @@ private slots:
 	void headerSearchPathsDone();
 	void frameworkSearchPaths();
 
-	void showSourceFiles(std::vector<FilePath> sourcePaths);
+	void showSourceFiles();
 	void showSummary();
 
 	void createProject();

@@ -14,8 +14,11 @@ public:
 
 	// QtSettingsWindow implementation
 	virtual void populateWindow(QWidget* widget) override;
+	virtual void windowReady() override;
 
-	void showFilesFromSourcePaths(const std::vector<FilePath>& sourcePaths);
+	virtual QSize preferredWindowSize() const override;
+
+	void showFilesFromSourcePaths();
 
 private:
 	QLabel* m_text;

@@ -1,33 +1,11 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
 
-#include <QFormLayout>
-#include <QVBoxLayout>
 #include <QLabel>
 #include <QMessageBox>
+#include <QVBoxLayout>
 
 #include "qt/element/QtDirectoryListBox.h"
 #include "settings/ApplicationSettings.h"
-
-QtHelpButton::QtHelpButton(const QString& helpText, QWidget* parent)
-	: QPushButton("?", parent)
-	, m_helpText(helpText)
-{
-	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-	setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	setObjectName("help");
-
-	connect(this, SIGNAL(clicked()), this, SLOT(handleHelpPress()));
-}
-
-void QtHelpButton::handleHelpPress()
-{
-	QMessageBox msgBox;
-	msgBox.setText("Help");
-	msgBox.setInformativeText(m_helpText);
-	msgBox.setStandardButtons(QMessageBox::Ok);
-	msgBox.setDefaultButton(QMessageBox::Ok);
-	msgBox.exec();
-}
 
 
 QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(ProjectSettings* settings, QtProjectWizzardWindow* window)
@@ -37,78 +15,79 @@ QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(ProjectSettings* sett
 {
 }
 
-void QtProjectWizzardContentPaths::populateWindow(QWidget* widget)
+void QtProjectWizzardContentPaths::populateWindow(QGridLayout* layout)
 {
-	QVBoxLayout* layout = new QVBoxLayout(widget);
+	int row = 0;
 
-	populateLayout(layout);
+	layout->setRowMinimumHeight(row, 10);
+	row++;
+
+	populateLayout(layout, row);
+
+	if (m_addShowSourcesButton)
+	{
+		layout->setRowStretch(row, 10);
+		addSourcesButton(layout, row);
+	}
 
 	if (m_subPaths)
 	{
-		layout->addSpacing(30);
+		layout->setRowMinimumHeight(row, 30);
+		row++;
 
-		m_subPaths->populateLayout(layout);
+		m_subPaths->populateLayout(layout, row);
+
+		layout->setRowMinimumHeight(row, 10);
+		row++;
 	}
 
-	layout->addStretch();
+	layout->setColumnStretch(QtProjectWizzardWindow::FRONT_COL, 1);
+	layout->setColumnStretch(QtProjectWizzardWindow::BACK_COL, 2);
 }
 
-void QtProjectWizzardContentPaths::populateLayout(QVBoxLayout* layout)
+void QtProjectWizzardContentPaths::populateLayout(QGridLayout* layout, int& row)
 {
 	QLabel* label = new QLabel(m_titleString);
-	label->setObjectName("label");
-	layout->addWidget(label);
+	label->setObjectName("section");
+	layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop | Qt::AlignLeft);
+	layout->setRowMinimumHeight(row, 20);
 
 	QLabel* text = new QLabel(m_descriptionString);
 	text->setWordWrap(true);
 	text->setOpenExternalLinks(true);
-	layout->addWidget(text);
+	layout->addWidget(text, row + 1, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
+	layout->setRowStretch(row + 1, 1);
 
 	m_list = new QtDirectoryListBox(this);
-	layout->addWidget(m_list);
+	layout->addWidget(m_list, row, QtProjectWizzardWindow::BACK_COL, 2, 1, Qt::AlignTop);
 
-	if (m_addShowSourcesButton)
-	{
-		QPushButton* button = new QPushButton("show files");
-		layout->addWidget(button);
-		connect(button, SIGNAL(clicked()), this, SLOT(showSourcesClicked()));
-	}
+	row += 2;
 }
 
-void QtProjectWizzardContentPaths::populateForm(QFormLayout* layout)
+void QtProjectWizzardContentPaths::populateForm(QGridLayout* layout, int& row)
 {
-	QWidget* widget = new QWidget();
-
-	QVBoxLayout* vlayout = new QVBoxLayout();
-	vlayout->setContentsMargins(0, 5, 0, 5);
-	vlayout->setSpacing(5);
-
 	QLabel* label = createFormLabel(m_titleString);
-	vlayout->addWidget(label);
+	layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
 
-	QtHelpButton* button = new QtHelpButton(m_helpString);
-
-	vlayout->addWidget(button, 0, Qt::AlignRight);
-
-	if (m_addShowSourcesButton)
+	if (m_helpString.size() > 0)
 	{
-		QPushButton* button = new QPushButton("files");
-		vlayout->addWidget(button);
-		connect(button, SIGNAL(clicked()), this, SLOT(showSourcesClicked()));
+		addHelpButton(m_helpString, layout, row);
 	}
-
-	vlayout->addStretch();
-
-	widget->setLayout(vlayout);
 
 	int minimumWidthForSecondCol = 360;
 	m_list = new QtDirectoryListBox(this);
 	m_list->setMinimumWidth(minimumWidthForSecondCol);
-	layout->addRow(widget, m_list);
+	layout->addWidget(m_list, row, QtProjectWizzardWindow::BACK_COL);
+	row++;
+
+	if (m_addShowSourcesButton)
+	{
+		addSourcesButton(layout, row);
+	}
 
 	if (m_subPaths)
 	{
-		m_subPaths->populateForm(layout);
+		m_subPaths->populateForm(layout, row);
 	}
 }
 
@@ -140,6 +119,11 @@ bool QtProjectWizzardContentPaths::check()
 	}
 
 	return checkPaths();
+}
+
+QSize QtProjectWizzardContentPaths::preferredWindowSize() const
+{
+	return QSize(700, 500);
 }
 
 void QtProjectWizzardContentPaths::loadPaths()
@@ -179,9 +163,22 @@ void QtProjectWizzardContentPaths::setHelpString(const QString& help)
 
 void QtProjectWizzardContentPaths::showSourcesClicked()
 {
-	emit showSourceFiles(m_list->getList());
+	emit showSourceFiles();
 }
 
+void QtProjectWizzardContentPaths::addSourcesButton(QGridLayout* layout, int& row)
+{
+	if (!m_addShowSourcesButton)
+	{
+		return;
+	}
+
+	QPushButton* button = new QPushButton("show files");
+	button->setObjectName("windowButton");
+	layout->addWidget(button, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
+	connect(button, SIGNAL(clicked()), this, SLOT(showSourcesClicked()));
+	row++;
+}
 
 QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 	ProjectSettings* settings, QtProjectWizzardWindow* window
@@ -197,6 +194,11 @@ QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 		"Project Paths define the source files and directories that will be analyzed by Coati. Usually these are the "
 		"source and header files of your project or a subset of them."
 	);
+}
+
+QSize QtProjectWizzardContentPathsSource::preferredWindowSize() const
+{
+	return QSize(700, 370);
 }
 
 void QtProjectWizzardContentPathsSource::loadPaths()
@@ -263,6 +265,11 @@ void QtProjectWizzardContentPathsHeaderSearch::savePaths()
 	m_settings->setHeaderSearchPaths(m_list->getList());
 }
 
+bool QtProjectWizzardContentPathsHeaderSearch::isScrollAble() const
+{
+	return true;
+}
+
 QtProjectWizzardContentPathsHeaderSearchSimple::QtProjectWizzardContentPathsHeaderSearchSimple(
 	ProjectSettings* settings, QtProjectWizzardWindow* window
 )
@@ -311,7 +318,8 @@ QtProjectWizzardContentPathsFrameworkSearch::QtProjectWizzardContentPathsFramewo
 	setInfo(
 		"Framework Search Paths",
 		"Add search paths to Mac OS framework containers (.framework) that the project depends on.",
-		"Framework Search Paths define where MacOS framework containers (.framework), that your project depends on, are found."
+		"Framework Search Paths define where MacOS framework containers (.framework), that your project depends on, are "
+		"found."
 	);
 
 	m_subPaths = new QtProjectWizzardContentPathsFrameworkSearchGlobal(settings, window);
@@ -327,6 +335,11 @@ void QtProjectWizzardContentPathsFrameworkSearch::savePaths()
 	m_settings->setFrameworkSearchPaths(m_list->getList());
 }
 
+bool QtProjectWizzardContentPathsFrameworkSearch::isScrollAble() const
+{
+	return true;
+}
+
 QtProjectWizzardContentPathsFrameworkSearchGlobal::QtProjectWizzardContentPathsFrameworkSearchGlobal(
 	ProjectSettings* settings, QtProjectWizzardWindow* window
 )
@@ -337,7 +350,8 @@ QtProjectWizzardContentPathsFrameworkSearchGlobal::QtProjectWizzardContentPathsF
 		"These framework search paths will be used in all your projects. Use it to add system frameworks "
 		"(See <a href=\"https://staging.coati.io/documentation/#FindingSystemHeaderLocations\">"
 		"Finding System Header Locations</a>).",
-		"Framework Search Paths define where MacOS framework containers (.framework), that your project depends on, are found.\n\n"
+		"Framework Search Paths define where MacOS framework containers (.framework), that your project depends on, are "
+		"found.\n\n"
 		"Framework Search Paths defined here will be used for all projects."
 	);
 }

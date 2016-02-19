@@ -25,9 +25,9 @@ QtListItemWidget::QtListItemWidget(QtDirectoryListBox* list, QListWidgetItem* it
 	m_data->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_data->setObjectName("field");
 
-	m_button = new QPushButton("...");
+	m_button = new QPushButton("");
 	m_button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	m_button->setObjectName("button");
+	m_button->setObjectName("dotsButton");
 
 	layout->addWidget(m_data);
 	layout->addWidget(m_button);
@@ -115,18 +115,16 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent)
 	innerLayout->setContentsMargins(8, 4, 8, 3);
 	innerLayout->setSpacing(0);
 
-	std::string iconPath = ResourcePaths::getGuiPath() + "setting_window/plus.png";
-	m_addButton = new QPushButton(QIcon(iconPath.c_str()), "", this);
+	m_addButton = new QPushButton("", this);
 	m_addButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	m_addButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	m_addButton->setObjectName("roundedButton");
+	m_addButton->setObjectName("plusButton");
 	innerLayout->addWidget(m_addButton);
 
-	iconPath = ResourcePaths::getGuiPath() + "setting_window/minus.png";
-	m_removeButton = new QPushButton(QIcon(iconPath.c_str()), "", this);
+	m_removeButton = new QPushButton("", this);
 	m_removeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	m_removeButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	m_removeButton->setObjectName("roundedButton");
+	m_removeButton->setObjectName("minusButton");
 	innerLayout->addWidget(m_removeButton);
 
 	QLabel* dropInfoText = new QLabel("Drop Files & Folders");

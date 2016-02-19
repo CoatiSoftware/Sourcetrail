@@ -113,6 +113,8 @@ add_files(
 	qt/window/project_wizzard/QtProjectWizzardContentData.h
 	qt/window/project_wizzard/QtProjectWizzardContentPaths.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentPaths.h
+	qt/window/project_wizzard/QtProjectWizzardContentPreferences.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentPreferences.h
 	qt/window/project_wizzard/QtProjectWizzardContentSelect.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentSelect.h
 	qt/window/project_wizzard/QtProjectWizzardContentSimple.cpp
@@ -128,8 +130,6 @@ add_files(
 	qt/window/QtAbout.h
 	qt/window/QtAboutLicense.cpp
 	qt/window/QtAboutLicense.h
-	qt/window/QtApplicationSettingsScreen.cpp
-	qt/window/QtApplicationSettingsScreen.h
     qt/window/QtLicense.cpp
     qt/window/QtLicense.h
 	qt/window/QtMainWindow.cpp

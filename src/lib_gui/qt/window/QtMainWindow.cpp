@@ -13,7 +13,6 @@
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "qt/window/project_wizzard/QtProjectWizzard.h"
-#include "qt/window/QtApplicationSettingsScreen.h"
 #include "qt/window/QtStartScreen.h"
 #include "qt/window/QtAboutLicense.h"
 #include "qt/window/QtAbout.h"
@@ -303,18 +302,10 @@ QtSettingsWindow* QtMainWindow::about()
 	return aboutWindow;
 }
 
-QtSettingsWindow* QtMainWindow::openSettings()
+void QtMainWindow::openSettings()
 {
-	QtApplicationSettingsScreen* applicationSettingsScreen = new QtApplicationSettingsScreen(this);
-	applicationSettingsScreen->setup();
-
-	connect(applicationSettingsScreen, SIGNAL(finished()), &m_windowStack, SLOT(popWindow()));
-	connect(applicationSettingsScreen, SIGNAL(canceled()), &m_windowStack, SLOT(popWindow()));
-
-	applicationSettingsScreen->load();
-	m_windowStack.pushWindow(applicationSettingsScreen);
-
-	return applicationSettingsScreen;
+	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
+	wizzard->showPreferences();
 }
 
 QtSettingsWindow* QtMainWindow::showLicenses()

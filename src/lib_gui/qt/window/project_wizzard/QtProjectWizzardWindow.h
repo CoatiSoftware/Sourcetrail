@@ -33,8 +33,13 @@ public:
 	void disablePrevious();
 	void hidePrevious();
 
-	bool getShowAsPopup() const;
 	void setShowAsPopup(bool showAsPopup);
+	void setScrollAble(bool scrollAble);
+
+	static const int FRONT_COL = 0;
+	static const int HELP_COL = 1;
+	static const int LINE_COL = 2;
+	static const int BACK_COL = 3;
 
 private slots:
 	void handleCancelButtonPress();
@@ -46,6 +51,7 @@ private:
 	QPushButton* m_previousButton;
 
 	bool m_showAsPopup;
+	bool m_scrollAble;
 };
 
 #endif // QT_PROJECT_WIZZARD_WINDOW_H

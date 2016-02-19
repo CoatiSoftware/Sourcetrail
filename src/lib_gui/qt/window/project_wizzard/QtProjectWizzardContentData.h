@@ -16,11 +16,14 @@ public:
 	QtProjectWizzardContentData(ProjectSettings* settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
-	virtual void populateWindow(QWidget* widget) override;
-	virtual void populateForm(QFormLayout* layout) override;
+	virtual void populateWindow(QGridLayout* layout) override;
+	virtual void populateForm(QGridLayout* layout, int& row) override;
+
 	virtual void load() override;
 	virtual void save() override;
 	virtual bool check() override;
+
+	virtual QSize preferredWindowSize() const override;
 
 private:
 	QLineEdit* m_projectName;
@@ -29,9 +32,6 @@ private:
 	QComboBox* m_language;
 	QComboBox* m_cppStandard;
 	QComboBox* m_cStandard;
-
-	QLabel* m_cppStandardLabel;
-	QLabel* m_cStandardLabel;
 
 private slots:
 	void handleSelectionChanged(int index);

@@ -20,14 +20,16 @@ public:
 
 	QtProjectWizzardContentSelect(ProjectSettings* settings, QtProjectWizzardWindow* window);
 
-signals:
-	void selected(QtProjectWizzardContentSelect::ProjectType);
-
-protected:
 	// QtProjectWizzardContent implementation
-	virtual void populateWindow(QWidget* widget) override;
+	virtual void populateWindow(QGridLayout* layout) override;
+
 	virtual void save() override;
 	virtual bool check() override;
+
+	virtual QSize preferredWindowSize() const override;
+
+signals:
+	void selected(QtProjectWizzardContentSelect::ProjectType);
 
 private:
 	QButtonGroup* m_languages;

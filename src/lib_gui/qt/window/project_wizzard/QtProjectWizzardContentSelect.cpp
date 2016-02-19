@@ -4,55 +4,22 @@
 #include <QMessageBox>
 #include <QLabel>
 #include <QPushButton>
-#include <QRadioButton>
 
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
+#include "utility/ResourcePaths.h"
 
 QtProjectWizzardContentSelect::QtProjectWizzardContentSelect(ProjectSettings* settings, QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(settings, window)
 {
 }
 
-void QtProjectWizzardContentSelect::populateWindow(QWidget* widget)
+void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 {
-	QVBoxLayout* vlayout = new QVBoxLayout();
-
-	QLabel* title = new QLabel("Project Type");
-	title->setObjectName("label");
-	vlayout->addWidget(title);
-
-	QRadioButton* a = new QRadioButton("empty project");
-	QRadioButton* b = new QRadioButton("from Visual Studio Solution");
-	QRadioButton* c = new QRadioButton("from Compilation Database");
-
-	m_buttons = new QButtonGroup(this);
-	m_buttons->addButton(a);
-	m_buttons->addButton(b);
-	m_buttons->addButton(c);
-
-	m_buttons->setId(a, PROJECT_EMPTY);
-	m_buttons->setId(b, PROJECT_VS);
-	m_buttons->setId(c, PROJECT_CDB);
-
-	connect(m_buttons, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
-		[this](int id)
-		{
-			m_window->enableNext();
-		}
-	);
-
-	vlayout->addWidget(a);
-	vlayout->addWidget(b);
-	vlayout->addWidget(c);
-
-	vlayout->addStretch();
-
-
-	QVBoxLayout* vlayout2 = new QVBoxLayout();
-
-
 	QPushButton* d = new QPushButton("C++");
 	QPushButton* e = new QPushButton("C");
+
+	d->setObjectName("menuButton");
+	e->setObjectName("menuButton");
 
 	d->setCheckable(true);
 	e->setCheckable(true);
@@ -80,16 +47,63 @@ void QtProjectWizzardContentSelect::populateWindow(QWidget* widget)
 		}
 	);
 
-	vlayout2->addWidget(d);
-	vlayout2->addWidget(e);
-	vlayout2->addStretch();
+	QVBoxLayout* vlayout = new QVBoxLayout();
+	vlayout->setContentsMargins(0, 30, 0, 0);
+
+	vlayout->addWidget(d);
+	vlayout->addWidget(e);
+
+	vlayout->addStretch();
+
+	layout->addLayout(vlayout, 0, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+
+
+	QToolButton* a = createProjectButton(
+		"empty project", (ResourcePaths::getGuiPath() + "icon/project_256_256.png").c_str());
+	QToolButton* b = createProjectButton(
+		"from Visual\nStudio Solution", (ResourcePaths::getGuiPath() + "icon/project_vs_256_256.png").c_str());
+	QToolButton* c = createProjectButton(
+		"from Compilation\nDatabase", (ResourcePaths::getGuiPath() + "icon/project_cdb_256_256.png").c_str());
+
+	m_buttons = new QButtonGroup(this);
+	m_buttons->addButton(a);
+	m_buttons->addButton(b);
+	m_buttons->addButton(c);
+
+	m_buttons->setId(a, PROJECT_EMPTY);
+	m_buttons->setId(b, PROJECT_VS);
+	m_buttons->setId(c, PROJECT_CDB);
+
+	connect(m_buttons, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
+		[this](int id)
+		{
+			m_window->enableNext();
+		}
+	);
 
 	QHBoxLayout* hlayout = new QHBoxLayout();
 
-	hlayout->addLayout(vlayout2);
-	hlayout->addLayout(vlayout);
+	hlayout->addWidget(a);
+	hlayout->addWidget(b);
+	hlayout->addWidget(c);
 
-	widget->setLayout(hlayout);
+	QFrame* container = new QFrame();
+	container->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+	container->setObjectName("projectContainer");
+	container->setLayout(hlayout);
+
+	layout->addWidget(container, 0, QtProjectWizzardWindow::BACK_COL);
+
+
+	QLabel* title = new QLabel("Project Type");
+	title->setObjectName("projectTitle");
+
+	layout->addWidget(title, 0, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
+
+
+	layout->setColumnStretch(QtProjectWizzardWindow::FRONT_COL, 0);
+	layout->setColumnStretch(QtProjectWizzardWindow::BACK_COL, 1);
+	layout->setHorizontalSpacing(0);
 }
 
 void QtProjectWizzardContentSelect::save()
@@ -119,4 +133,9 @@ bool QtProjectWizzardContentSelect::check()
 	}
 
 	return true;
+}
+
+QSize QtProjectWizzardContentSelect::preferredWindowSize() const
+{
+	return QSize(600, 340);
 }

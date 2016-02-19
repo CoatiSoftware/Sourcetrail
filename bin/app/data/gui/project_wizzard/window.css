@@ -1,0 +1,145 @@
+#title {
+	color: black;
+	font-size: 16pt;
+	font-weight: bold;
+}
+
+#section, #projectTitle {
+	color: black;
+	font-size: 15pt;
+	font-weight: bold;
+}
+
+#projectTitle {
+	background: white;
+	padding: 5px;
+	margin-left: 40px;
+}
+
+#label {
+	font-weight: bold;
+}
+
+#formArea {
+	background: white;
+	border: none;
+	border-top: 1px solid lightgrey;
+	border-bottom: 1px solid lightgrey;
+}
+
+#form {
+	background: white;
+}
+
+#helpButton, #dotsButton, #refreshButton {
+	border: none;
+	color: white;
+	height: 16px;
+	width: 16px;
+}
+
+#helpButton {
+	border-image: url(<setting:gui_path>setting_window/help.png);
+}
+
+#helpButton:hover {
+	border-image: url(<setting:gui_path>setting_window/help_hover.png);
+}
+
+#dotsButton {
+	border-image: url(<setting:gui_path>setting_window/dots.png);
+}
+
+#dotsButton:hover {
+	border-image: url(<setting:gui_path>setting_window/dots_hover.png);
+}
+
+#refreshButton {
+	border-image: url(<setting:gui_path>setting_window/refresh.png);
+}
+
+#refreshButton:hover {
+	border-image: url(<setting:gui_path>setting_window/refresh_hover.png);
+}
+
+#name, #picker {
+	border-radius: 10px;
+	border: 1px solid lightgrey;
+	height: 20px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#locationField {
+	background: white;
+	border: none;
+	border-radius: 5px;
+	margin-left: 5px;
+	height: 20px;
+}
+
+#dotsButton, #refreshButton {
+	margin-right: 2px;
+}
+
+#windowButton {
+	background: white;
+	border: 1px solid lightgray;
+	border-radius: 8px;
+	color: black;
+	font-size: 14pt;
+	height: 22px;
+	width: 90px;
+}
+
+#menuButton {
+	background: white;
+	border: none;
+	border-radius: 8px;
+	border-bottom-right-radius: 0px;
+	border-top-right-radius: 0px;
+	font-size: 15pt;
+	margin-right: 0px;
+	margin-bottom: 7px;
+	height: 25px;
+	width: 90px;
+}
+
+#windowButton:hover {
+	color: white;
+	background: #2D3F85;
+}
+
+#menuButton:hover, #menuButton:checked {
+	background: #CFD2E0;
+}
+
+#windowButton:disabled {
+	color: lightgray;
+}
+
+#projectContainer {
+	background: white;
+	border: 1px solid lightgray;
+	border-radius: 8px;
+	margin-top: 15px;
+	margin-left: 20px;
+}
+
+#projectButton {
+	background: white;
+	border-radius: 8px;
+	font-size: 12pt;
+	width: 110px;
+	height: 100px;
+}
+
+#projectButton:hover, #projectButton:checked {
+	background: #CFD2E0;
+}
+
+#files {
+	border: 1px solid lightgray;
+	border-radius: 12px;
+	padding: 6px;
+}

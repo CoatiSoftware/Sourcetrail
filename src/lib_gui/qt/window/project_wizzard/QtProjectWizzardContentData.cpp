@@ -8,33 +8,44 @@ QtProjectWizzardContentData::QtProjectWizzardContentData(ProjectSettings* settin
 {
 }
 
-void QtProjectWizzardContentData::populateWindow(QWidget* widget)
+void QtProjectWizzardContentData::populateWindow(QGridLayout* layout)
 {
-	QFormLayout* layout = new QFormLayout();
-	layout->setContentsMargins(10, 10, 10, 10);
-	layout->setHorizontalSpacing(20);
+	int row = 0;
+	layout->setRowMinimumHeight(0, 15);
+	row++;
 
-	populateForm(layout);
+	populateForm(layout, row);
 
-	widget->setLayout(layout);
+	layout->setRowMinimumHeight(row, 15);
+	layout->setRowStretch(row, 1);
+
+	layout->setColumnStretch(QtProjectWizzardWindow::FRONT_COL, 1);
+	layout->setColumnStretch(QtProjectWizzardWindow::BACK_COL, 3);
 }
 
-void QtProjectWizzardContentData::populateForm(QFormLayout* layout)
+void QtProjectWizzardContentData::populateForm(QGridLayout* layout, int& row)
 {
 	int minimumWidthForSecondCol = 360;
 
 	QLabel* nameLabel = createFormLabel("Name");
 	m_projectName = new QLineEdit();
+	m_projectName->setObjectName("name");
 	m_projectName->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 	m_projectName->setMinimumWidth(minimumWidthForSecondCol);
 	m_projectName->setAttribute(Qt::WA_MacShowFocusRect, 0);
-	layout->addRow(nameLabel, m_projectName);
+
+	layout->addWidget(nameLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(m_projectName, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
+	row++;
 
 	QLabel* locationLabel = createFormLabel("Location");
 	m_projectFileLocation = new QtLocationPicker(this);
 	m_projectFileLocation->setPickDirectory(true);
 	m_projectFileLocation->setMinimumWidth(minimumWidthForSecondCol);
-	layout->addRow(locationLabel, m_projectFileLocation);
+
+	layout->addWidget(locationLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(m_projectFileLocation, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
+	row++;
 
 	QLabel* languageLabel = new QLabel("Language");
 	languageLabel->setObjectName("label");
@@ -42,9 +53,13 @@ void QtProjectWizzardContentData::populateForm(QFormLayout* layout)
 	m_language->insertItem(0, "C++");
 	m_language->insertItem(1, "C");
 	connect(m_language, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectionChanged(int)));
-	layout->addRow(languageLabel, m_language);
 
-	m_cppStandardLabel = createFormLabel("Standard");
+	layout->addWidget(languageLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(m_language, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
+	row++;
+
+
+	QLabel* cppStandardLabel = createFormLabel("Standard");
 
 	m_cppStandard = new QComboBox();
 	m_cppStandard->insertItem(0, "1z");
@@ -54,10 +69,12 @@ void QtProjectWizzardContentData::populateForm(QFormLayout* layout)
 	m_cppStandard->insertItem(4, "0x");
 	m_cppStandard->insertItem(5, "03");
 	m_cppStandard->insertItem(6, "98");
-	layout->addRow(m_cppStandardLabel, m_cppStandard);
+
+	layout->addWidget(cppStandardLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(m_cppStandard, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
 
 
-	m_cStandardLabel = createFormLabel("Standard");
+	QLabel* cStandardLabel = createFormLabel("Standard");
 
 	m_cStandard = new QComboBox();
 	m_cStandard->insertItem(0, "1x");
@@ -66,9 +83,11 @@ void QtProjectWizzardContentData::populateForm(QFormLayout* layout)
 	m_cStandard->insertItem(3, "99");
 	m_cStandard->insertItem(4, "90");
 	m_cStandard->insertItem(5, "89");
-	layout->addRow(m_cStandardLabel, m_cStandard);
-	m_cStandardLabel->hide();
-	m_cStandard->hide();
+
+	layout->addWidget(cStandardLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(m_cStandard, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
+
+	row++;
 }
 
 void QtProjectWizzardContentData::load()
@@ -128,23 +147,32 @@ bool QtProjectWizzardContentData::check()
 		return false;
 	}
 
+	if (!FilePath(m_projectFileLocation->getText().toStdString()).exists())
+	{
+		QMessageBox msgBox;
+		msgBox.setText("The specified location does not exist.");
+		msgBox.exec();
+		return false;
+	}
+
 	return true;
+}
+
+QSize QtProjectWizzardContentData::preferredWindowSize() const
+{
+	return QSize(580, 340);
 }
 
 void QtProjectWizzardContentData::handleSelectionChanged(int index)
 {
 	if (index != 0)
 	{
-		m_cStandardLabel->show();
 		m_cStandard->show();
-		m_cppStandardLabel->hide();
 		m_cppStandard->hide();
 	}
 	else
 	{
-		m_cppStandardLabel->show();
 		m_cppStandard->show();
-		m_cStandardLabel->hide();
 		m_cStandard->hide();
 	}
 }

@@ -163,7 +163,7 @@ void QtSettingsWindow::addLogo()
 	QLabel* coatiLogoLabel = new QLabel(this);
 	coatiLogoLabel->setPixmap(coatiLogo.pixmap());
 	coatiLogoLabel->resize(coatiLogo.width(), coatiLogo.height());
-	coatiLogoLabel->move(30,10);
+	coatiLogoLabel->move(30, 10);
 }
 
 void QtSettingsWindow::showButtons(QVBoxLayout* layout)

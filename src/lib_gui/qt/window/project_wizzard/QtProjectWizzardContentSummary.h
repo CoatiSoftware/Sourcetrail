@@ -18,11 +18,14 @@ public:
 
 protected:
 	// QtProjectContentWindow implementation
-	virtual void populateWindow(QWidget* widget);
-	virtual void windowReady();
-	virtual void load();
-	virtual void save();
-	virtual bool check();
+	virtual void populateWindow(QGridLayout* layout) override;
+	virtual void windowReady() override;
+
+	virtual void load() override;
+	virtual void save() override;
+	virtual bool check() override;
+
+	virtual bool isScrollAble() const override;
 
 private:
 	QtProjectWizzardContentData* m_data;

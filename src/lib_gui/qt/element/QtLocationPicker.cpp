@@ -3,30 +3,41 @@
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QPainter>
+#include <QStyleOption>
 
 QtLocationPicker::QtLocationPicker(QWidget *parent)
 	: QWidget(parent)
 	, m_pickDirectory(false)
 {
+	setObjectName("picker");
+
 	QBoxLayout* layout = new QHBoxLayout();
 	layout->setSpacing(0);
 	layout->setContentsMargins(1, 1, 1, 1);
 	layout->setAlignment(Qt::AlignTop);
 
-	setLayout(layout);
-
 	m_data = new QtLineEdit(this);
 	m_data->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	m_data->setObjectName("locationField");
-
-	m_button = new QPushButton("...");
-	m_button->setObjectName("moreButton");
-	m_button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-
 	layout->addWidget(m_data);
+
+	m_button = new QPushButton("");
+	m_button->setObjectName("dotsButton");
+	m_button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	connect(m_button, SIGNAL(clicked()), this, SLOT(handleButtonPress()));
 	layout->addWidget(m_button);
 
-	connect(m_button, SIGNAL(clicked()), this, SLOT(handleButtonPress()));
+	setLayout(layout);
+}
+
+void QtLocationPicker::paintEvent(QPaintEvent*)
+{
+	QStyleOption opt;
+	opt.init(this);
+
+	QPainter p(this);
+	style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
 QString QtLocationPicker::getText()

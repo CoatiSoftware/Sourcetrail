@@ -1,6 +1,5 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentSummary.h"
 
-#include <QFormLayout>
 #include <QSysInfo>
 
 QtProjectWizzardContentSummary::QtProjectWizzardContentSummary(ProjectSettings* settings, QtProjectWizzardWindow* window)
@@ -34,24 +33,25 @@ QtProjectWizzardContentPathsSource* QtProjectWizzardContentSummary::contentPaths
 	return m_source;
 }
 
-void QtProjectWizzardContentSummary::populateWindow(QWidget* widget)
+void QtProjectWizzardContentSummary::populateWindow(QGridLayout* layout)
 {
-	QFormLayout* layout = new QFormLayout();
-	layout->setContentsMargins(10, 10, 10, 10);
-	layout->setHorizontalSpacing(20);
+	int row = 0;
 
-	m_data->populateForm(layout);
-	m_buildFile->populateForm(layout);
-	m_source->populateForm(layout);
-	m_simple->populateForm(layout);
-	m_headerSearch->populateForm(layout);
+	layout->setRowMinimumHeight(row, 10);
+	row++;
+
+	m_data->populateForm(layout, row);
+	m_buildFile->populateForm(layout, row);
+	m_source->populateForm(layout, row);
+	m_simple->populateForm(layout, row);
+	m_headerSearch->populateForm(layout, row);
 
 	if (m_frameworkSearch)
 	{
-		m_frameworkSearch->populateForm(layout);
+		m_frameworkSearch->populateForm(layout, row);
 	}
 
-	widget->setLayout(layout);
+	layout->setRowMinimumHeight(row, 10);
 }
 
 void QtProjectWizzardContentSummary::windowReady()
@@ -97,4 +97,9 @@ bool QtProjectWizzardContentSummary::check()
 		m_simple->check() &&
 		m_headerSearch->check() &&
 		(!m_frameworkSearch || m_frameworkSearch->check());
+}
+
+bool QtProjectWizzardContentSummary::isScrollAble() const
+{
+	return true;
 }

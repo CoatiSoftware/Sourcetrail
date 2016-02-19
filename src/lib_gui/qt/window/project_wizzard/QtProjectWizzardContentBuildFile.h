@@ -19,7 +19,7 @@ public:
 	QtProjectWizzardContentBuildFile(ProjectSettings* settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
-	virtual void populateForm(QFormLayout* layout) override;
+	virtual void populateForm(QGridLayout* layout, int& row) override;
 
 	virtual void load() override;
 

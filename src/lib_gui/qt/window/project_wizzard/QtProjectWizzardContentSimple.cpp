@@ -15,21 +15,21 @@ QtProjectWizzardContentSimple::QtProjectWizzardContentSimple(ProjectSettings* se
 {
 }
 
-void QtProjectWizzardContentSimple::populateWindow(QWidget* widget)
+void QtProjectWizzardContentSimple::populateWindow(QGridLayout* layout)
 {
-	QVBoxLayout* layout = new QVBoxLayout(widget);
+	layout->setRowMinimumHeight(0, 10);
 
-	QLabel* title = new QLabel("Simple Setup?");
-	title->setObjectName("label");
-	layout->addWidget(title);
+	QLabel* title = new QLabel("Simple Setup");
+	title->setObjectName("section");
+	layout->addWidget(title, 1, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop | Qt::AlignRight);
 
 	QLabel* text = new QLabel(
-		"In simple setup you just provide the directory of your project and Coati will find the source files and "
-		"resolve header search paths within. Please note that simple setup makes Coati's analysis slower.\n\n"
+		"In simple setup you just provide the directory of your project and Coati will find all source files and "
+		"resolve header search paths within. Please note that simple setup slows down the analysis.\n\n"
 		"In the advanced setup you define analyzed source files and the corresponding header search paths separately."
 	);
 	text->setWordWrap(true);
-	layout->addWidget(text);
+	layout->addWidget(text, 1, QtProjectWizzardWindow::BACK_COL);
 
 	QRadioButton* a = new QRadioButton("simple setup");
 	QRadioButton* b = new QRadioButton("advanced setup");
@@ -48,22 +48,29 @@ void QtProjectWizzardContentSimple::populateWindow(QWidget* widget)
 		}
 	);
 
-	layout->addWidget(a);
-	layout->addWidget(b);
+	QVBoxLayout* vlayout = new QVBoxLayout();
 
-	layout->addStretch();
+	vlayout->addWidget(a);
+	vlayout->addWidget(b);
 
-	widget->setLayout(layout);
+	vlayout->addStretch();
+
+	layout->addLayout(vlayout, 2, QtProjectWizzardWindow::BACK_COL);
+
+	layout->setColumnStretch(QtProjectWizzardWindow::FRONT_COL, 1);
+	layout->setColumnStretch(QtProjectWizzardWindow::BACK_COL, 3);
 }
 
-void QtProjectWizzardContentSimple::populateForm(QFormLayout* layout)
+void QtProjectWizzardContentSimple::populateForm(QGridLayout* layout, int& row)
 {
-	QLabel* label = createFormLabel("search headers in project paths");
-	m_checkBox = new QCheckBox();
+	QLabel* label = createFormLabel("Search headers in project paths");
+	layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL);
 
-	layout->addRow(label, m_checkBox);
+	m_checkBox = new QCheckBox();
+	layout->addWidget(m_checkBox, row, QtProjectWizzardWindow::BACK_COL);
 
 	m_isForm = true;
+	row++;
 }
 
 void QtProjectWizzardContentSimple::windowReady()
@@ -101,6 +108,7 @@ void QtProjectWizzardContentSimple::save()
 		{
 		case 0: simpleSetup = true; break;
 		case 1: simpleSetup = false; break;
+		default: return;
 		}
 	}
 
@@ -118,4 +126,9 @@ bool QtProjectWizzardContentSimple::check()
 	}
 
 	return true;
+}
+
+QSize QtProjectWizzardContentSimple::preferredWindowSize() const
+{
+	return QSize(580, 350);
 }

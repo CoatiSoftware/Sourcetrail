@@ -16,24 +16,34 @@ QtProjectWizzardContentSourceList::QtProjectWizzardContentSourceList(
 void QtProjectWizzardContentSourceList::populateWindow(QWidget* widget)
 {
 	QVBoxLayout* layout = new QVBoxLayout(widget);
-
-	QLabel* label = new QLabel("Analyzed Files");
-	label->setObjectName("label");
-	layout->addWidget(label);
+	layout->setContentsMargins(0, 0, 0, 0);
 
 	m_text = new QLabel("0 files will be analyzed.");
 	m_text->setWordWrap(true);
 	layout->addWidget(m_text);
 
 	m_list = new QListView(this);
+	m_list->setObjectName("files");
 	m_list->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	m_list->setSelectionMode(QAbstractItemView::NoSelection);
 	m_list->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	layout->addWidget(m_list);
 }
 
-void QtProjectWizzardContentSourceList::showFilesFromSourcePaths(const std::vector<FilePath>& sourcePaths)
+void QtProjectWizzardContentSourceList::windowReady()
 {
+	m_window->updateTitle("Analyzed Files");
+}
+
+QSize QtProjectWizzardContentSourceList::preferredWindowSize() const
+{
+	return QSize(500, 500);
+}
+
+void QtProjectWizzardContentSourceList::showFilesFromSourcePaths()
+{
+	std::vector<FilePath> sourcePaths = m_settings->getSourcePaths();
+
 	std::vector<std::string> extensions;
 	utility::append(extensions, m_settings->getSourceExtensions());
 	utility::append(extensions, m_settings->getHeaderExtensions());

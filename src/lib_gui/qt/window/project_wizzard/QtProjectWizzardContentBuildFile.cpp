@@ -21,7 +21,7 @@ QtProjectWizzardContentBuildFile::QtProjectWizzardContentBuildFile(
 	}
 }
 
-void QtProjectWizzardContentBuildFile::populateForm(QFormLayout* layout)
+void QtProjectWizzardContentBuildFile::populateForm(QGridLayout* layout, int& row)
 {
 	QString name;
 	QString filter;
@@ -29,10 +29,12 @@ void QtProjectWizzardContentBuildFile::populateForm(QFormLayout* layout)
 	switch (m_type)
 	{
 		case QtProjectWizzardContentSelect::PROJECT_EMPTY:
+			name = "Build Text";
+			filter = "Text (*.txt)";
 			return;
 		case QtProjectWizzardContentSelect::PROJECT_VS:
 			name = "Visual Studio Solution";
-			filter = "Visual Studio Solution (*.txt)";
+			filter = "Visual Studio Solution (*.sln)";
 			break;
 		case QtProjectWizzardContentSelect::PROJECT_CDB:
 			name = "Compilation Database";
@@ -40,21 +42,25 @@ void QtProjectWizzardContentBuildFile::populateForm(QFormLayout* layout)
 	}
 
 	QLabel* label = createFormLabel(name);
+	layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL);
+
 	m_picker = new QtLocationPicker(this);
 	m_picker->setFileFilter(filter);
 
 	int minimumWidthForSecondCol = 360;
 	m_picker->setMinimumWidth(minimumWidthForSecondCol);
 
-	QPushButton* button = new QPushButton("r");
-	button->setObjectName("moreButton");
+	QPushButton* button = new QPushButton("", this);
+	button->setObjectName("refreshButton");
 	button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	button->setToolTip("refresh paths");
 	connect(button, SIGNAL(clicked()), this, SLOT(refreshClicked()));
 
 	m_picker->layout()->addWidget(button);
 
-	layout->addRow(label, m_picker);
+	layout->addWidget(m_picker, row, QtProjectWizzardWindow::BACK_COL);
+
+	row++;
 }
 
 void QtProjectWizzardContentBuildFile::load()

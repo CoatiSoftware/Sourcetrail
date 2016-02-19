@@ -7,21 +7,6 @@
 
 class QtDirectoryListBox;
 
-class QtHelpButton
-	: public QPushButton
-{
-	Q_OBJECT
-
-public:
-	QtHelpButton(const QString& helpText, QWidget* parent = nullptr);
-
-private slots:
-	void handleHelpPress();
-
-private:
-	QString m_helpText;
-};
-
 
 class QtProjectWizzardContentPaths
 	: public QtProjectWizzardContent
@@ -29,19 +14,21 @@ class QtProjectWizzardContentPaths
 	Q_OBJECT
 
 signals:
-	void showSourceFiles(std::vector<FilePath>);
+	void showSourceFiles();
 
 public:
 	QtProjectWizzardContentPaths(ProjectSettings* settings, QtProjectWizzardWindow* window);
 
 	// QtSettingsWindow implementation
-	virtual void populateWindow(QWidget* widget) override;
-	void populateLayout(QVBoxLayout* layout);
-	virtual void populateForm(QFormLayout* layout) override;
+	virtual void populateWindow(QGridLayout* layout) override;
+	void populateLayout(QGridLayout* layout, int& row);
+	virtual void populateForm(QGridLayout* layout, int& row) override;
 
 	virtual void load() override;
 	virtual void save() override;
 	virtual bool check() override;
+
+	virtual QSize preferredWindowSize() const override;
 
 	virtual void loadPaths();
 	virtual void savePaths();
@@ -62,6 +49,8 @@ private slots:
 	void showSourcesClicked();
 
 private:
+	void addSourcesButton(QGridLayout* layout, int& row);
+
 	QString m_titleString;
 	QString m_descriptionString;
 	QString m_helpString;
@@ -75,6 +64,9 @@ public:
 	QtProjectWizzardContentPathsSource(ProjectSettings* settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
+	virtual QSize preferredWindowSize() const override;
+
+	// QtProjectWizzardContentPaths implementation
 	virtual void loadPaths() override;
 	virtual void savePaths() override;
 	virtual bool checkPaths() override;
@@ -97,6 +89,8 @@ public:
 	// QtProjectWizzardContent implementation
 	virtual void loadPaths() override;
 	virtual void savePaths() override;
+
+	virtual bool isScrollAble() const override;
 };
 
 class QtProjectWizzardContentPathsHeaderSearchSimple
@@ -127,6 +121,8 @@ public:
 	// QtProjectWizzardContent implementation
 	virtual void loadPaths() override;
 	virtual void savePaths() override;
+
+	virtual bool isScrollAble() const override;
 };
 
 class QtProjectWizzardContentPathsFrameworkSearchGlobal
