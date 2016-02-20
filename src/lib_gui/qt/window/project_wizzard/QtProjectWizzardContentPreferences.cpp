@@ -30,6 +30,8 @@ void QtProjectWizzardContentPreferences::populateWindow(QGridLayout* layout)
 	}
 
 	layout->setRowMinimumHeight(row, 10);
+
+	layout->setRowStretch(row, 1);
 }
 
 void QtProjectWizzardContentPreferences::windowReady()

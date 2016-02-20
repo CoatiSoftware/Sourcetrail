@@ -29,6 +29,7 @@ QtLocationPicker::QtLocationPicker(QWidget *parent)
 	layout->addWidget(m_button);
 
 	setLayout(layout);
+	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 }
 
 void QtLocationPicker::paintEvent(QPaintEvent*)

@@ -1,3 +1,7 @@
+* {
+	font-size: 12pt;
+}
+
 #title {
 	color: black;
 	font-size: 16pt;
@@ -6,7 +10,7 @@
 
 #section, #projectTitle {
 	color: black;
-	font-size: 15pt;
+	font-size: 14pt;
 	font-weight: bold;
 }
 
@@ -34,8 +38,8 @@
 #helpButton, #dotsButton, #refreshButton {
 	border: none;
 	color: white;
-	height: 16px;
-	width: 16px;
+	height: 1em;
+	width: 1em;
 }
 
 #helpButton {
@@ -65,9 +69,7 @@
 #name, #picker {
 	border-radius: 10px;
 	border: 1px solid lightgrey;
-	height: 20px;
-	padding-left: 5px;
-	padding-right: 5px;
+	padding: 2px 5px 0px;
 }
 
 #locationField {
@@ -75,7 +77,7 @@
 	border: none;
 	border-radius: 5px;
 	margin-left: 5px;
-	height: 20px;
+	margin-top: 2px;
 }
 
 #dotsButton, #refreshButton {
@@ -87,9 +89,9 @@
 	border: 1px solid lightgray;
 	border-radius: 8px;
 	color: black;
+	padding: 3px 5px 2px;
 	font-size: 14pt;
-	height: 22px;
-	width: 90px;
+	min-width: 5em;
 }
 
 #menuButton {
@@ -130,8 +132,8 @@
 	background: white;
 	border-radius: 8px;
 	font-size: 12pt;
-	width: 110px;
-	height: 100px;
+	width: 7em;
+	height: 7em;
 }
 
 #projectButton:hover, #projectButton:checked {

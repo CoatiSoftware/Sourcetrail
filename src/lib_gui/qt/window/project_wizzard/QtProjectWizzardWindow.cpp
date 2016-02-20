@@ -113,6 +113,11 @@ void QtProjectWizzardWindow::populateWindow(QWidget* widget)
 		layout->setColumnStretch(HELP_COL, 0);
 		layout->setColumnStretch(LINE_COL, 0);
 
+		if (m_scrollAble)
+		{
+			layout->setColumnMinimumWidth(BACK_COL + 1, 10);
+		}
+
 		widget->setLayout(layout);
 	}
 }

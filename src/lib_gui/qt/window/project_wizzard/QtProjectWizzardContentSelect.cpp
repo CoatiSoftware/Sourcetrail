@@ -44,6 +44,7 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 			m_buttons->setExclusive(true);
 
 			m_window->disableNext();
+			m_title->setText("Project Types - " + m_languages->checkedButton()->text());
 		}
 	);
 
@@ -95,10 +96,10 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 	layout->addWidget(container, 0, QtProjectWizzardWindow::BACK_COL);
 
 
-	QLabel* title = new QLabel("Project Type");
-	title->setObjectName("projectTitle");
+	m_title = new QLabel("Project Types - " + m_languages->checkedButton()->text());
+	m_title->setObjectName("projectTitle");
 
-	layout->addWidget(title, 0, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
+	layout->addWidget(m_title, 0, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
 
 
 	layout->setColumnStretch(QtProjectWizzardWindow::FRONT_COL, 0);
@@ -137,5 +138,5 @@ bool QtProjectWizzardContentSelect::check()
 
 QSize QtProjectWizzardContentSelect::preferredWindowSize() const
 {
-	return QSize(600, 340);
+	return QSize(750, 340);
 }

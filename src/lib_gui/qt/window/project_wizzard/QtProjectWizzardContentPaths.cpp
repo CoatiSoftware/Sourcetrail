@@ -47,10 +47,11 @@ void QtProjectWizzardContentPaths::populateWindow(QGridLayout* layout)
 
 void QtProjectWizzardContentPaths::populateLayout(QGridLayout* layout, int& row)
 {
-	QLabel* label = new QLabel(m_titleString);
-	label->setObjectName("section");
-	layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop | Qt::AlignLeft);
-	layout->setRowMinimumHeight(row, 20);
+	QLabel* title = new QLabel(m_titleString);
+	title->setWordWrap(true);
+	title->setObjectName("section");
+	layout->addWidget(title, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
+	layout->setRowStretch(row, 0);
 
 	QLabel* text = new QLabel(m_descriptionString);
 	text->setWordWrap(true);
@@ -74,9 +75,7 @@ void QtProjectWizzardContentPaths::populateForm(QGridLayout* layout, int& row)
 		addHelpButton(m_helpString, layout, row);
 	}
 
-	int minimumWidthForSecondCol = 360;
 	m_list = new QtDirectoryListBox(this);
-	m_list->setMinimumWidth(minimumWidthForSecondCol);
 	layout->addWidget(m_list, row, QtProjectWizzardWindow::BACK_COL);
 	row++;
 
@@ -123,7 +122,7 @@ bool QtProjectWizzardContentPaths::check()
 
 QSize QtProjectWizzardContentPaths::preferredWindowSize() const
 {
-	return QSize(700, 500);
+	return QSize(850, 500);
 }
 
 void QtProjectWizzardContentPaths::loadPaths()
@@ -198,7 +197,7 @@ QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 
 QSize QtProjectWizzardContentPathsSource::preferredWindowSize() const
 {
-	return QSize(700, 370);
+	return QSize(850, 370);
 }
 
 void QtProjectWizzardContentPathsSource::loadPaths()

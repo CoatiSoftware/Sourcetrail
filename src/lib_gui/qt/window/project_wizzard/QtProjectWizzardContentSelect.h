@@ -34,6 +34,8 @@ signals:
 private:
 	QButtonGroup* m_languages;
 	QButtonGroup* m_buttons;
+
+	QLabel* m_title;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_SELECT_H

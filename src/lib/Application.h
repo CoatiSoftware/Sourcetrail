@@ -32,7 +32,7 @@ public:
 
 	~Application();
 
-	void loadProject(const FilePath& projectSettingsFilePath, bool forceRefresh);
+	void loadProject(const FilePath& projectSettingsFilePath);
 	void refreshProject();
 	void saveProject(const FilePath& projectSettingsFilePath);
 	void showLicenseScreen();

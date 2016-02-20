@@ -1,5 +1,9 @@
+* {
+	font-size: 12pt;
+}
+
 QtDirectoryListBox {
-	background-color: rgba(255, 255, 255, 200);
+	background-color: white;
 	border: 1px solid lightgray;
 	border-radius: 12px;
 }
@@ -22,7 +26,6 @@ QListWidget::item:selected {
 QtListItemWidget #field {
 	background-color: transparent;
 	border: none;
-	font-size: 12px;
 	margin-top: 2px;
 	margin-left: 5px;
 }
@@ -33,9 +36,9 @@ QtListItemWidget #field {
 
 #plusButton, #minusButton, #dotsButton {
 	color: white;
-	height: 16px;
+	height: 1em;
 	margin-right: 3px;
-	width: 16px;
+	width: 1em;
 	border: none;
 }
 

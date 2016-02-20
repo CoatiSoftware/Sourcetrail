@@ -69,7 +69,7 @@ Application::~Application()
 	m_mainView->saveLayout();
 }
 
-void Application::loadProject(const FilePath& projectSettingsFilePath, bool forceRefresh)
+void Application::loadProject(const FilePath& projectSettingsFilePath)
 {
 	MessageStatus("Loading Project: " + projectSettingsFilePath.str()).dispatch();
 
@@ -84,7 +84,7 @@ void Application::loadProject(const FilePath& projectSettingsFilePath, bool forc
 	m_componentManager->refreshViews();
 
 	m_project = Project::create(m_storageCache.get());
-	m_project->load(projectSettingsFilePath, forceRefresh);
+	m_project->load(projectSettingsFilePath);
 
 	m_mainView->updateRecentProjectMenu();
 	m_mainView->hideStartScreen();
@@ -127,7 +127,16 @@ void Application::handleMessage(MessageFinishedParsing* message)
 
 void Application::handleMessage(MessageLoadProject* message)
 {
-	loadProject(message->projectSettingsFilePath, message->forceRefresh);
+	if (message->forceRefresh)
+	{
+		m_project->clearStorage();
+	}
+	else if (FilePath(message->projectSettingsFilePath) == m_project->getProjectSettingsFilePath())
+	{
+		return;
+	}
+
+	loadProject(message->projectSettingsFilePath);
 }
 
 void Application::handleMessage(MessageRefresh* message)

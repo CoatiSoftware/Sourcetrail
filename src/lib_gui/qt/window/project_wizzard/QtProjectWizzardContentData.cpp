@@ -25,26 +25,21 @@ void QtProjectWizzardContentData::populateWindow(QGridLayout* layout)
 
 void QtProjectWizzardContentData::populateForm(QGridLayout* layout, int& row)
 {
-	int minimumWidthForSecondCol = 360;
-
 	QLabel* nameLabel = createFormLabel("Name");
 	m_projectName = new QLineEdit();
 	m_projectName->setObjectName("name");
-	m_projectName->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-	m_projectName->setMinimumWidth(minimumWidthForSecondCol);
 	m_projectName->setAttribute(Qt::WA_MacShowFocusRect, 0);
 
 	layout->addWidget(nameLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_projectName, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
+	layout->addWidget(m_projectName, row, QtProjectWizzardWindow::BACK_COL);
 	row++;
 
 	QLabel* locationLabel = createFormLabel("Location");
 	m_projectFileLocation = new QtLocationPicker(this);
 	m_projectFileLocation->setPickDirectory(true);
-	m_projectFileLocation->setMinimumWidth(minimumWidthForSecondCol);
 
 	layout->addWidget(locationLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_projectFileLocation, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
+	layout->addWidget(m_projectFileLocation, row, QtProjectWizzardWindow::BACK_COL);
 	row++;
 
 	QLabel* languageLabel = new QLabel("Language");
@@ -59,7 +54,8 @@ void QtProjectWizzardContentData::populateForm(QGridLayout* layout, int& row)
 	row++;
 
 
-	QLabel* cppStandardLabel = createFormLabel("Standard");
+	QLabel* standardLabel = createFormLabel("Standard");
+	layout->addWidget(standardLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 
 	m_cppStandard = new QComboBox();
 	m_cppStandard->insertItem(0, "1z");
@@ -70,11 +66,7 @@ void QtProjectWizzardContentData::populateForm(QGridLayout* layout, int& row)
 	m_cppStandard->insertItem(5, "03");
 	m_cppStandard->insertItem(6, "98");
 
-	layout->addWidget(cppStandardLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_cppStandard, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
-
-
-	QLabel* cStandardLabel = createFormLabel("Standard");
 
 	m_cStandard = new QComboBox();
 	m_cStandard->insertItem(0, "1x");
@@ -84,7 +76,6 @@ void QtProjectWizzardContentData::populateForm(QGridLayout* layout, int& row)
 	m_cStandard->insertItem(4, "90");
 	m_cStandard->insertItem(5, "89");
 
-	layout->addWidget(cStandardLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_cStandard, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
 
 	row++;
@@ -110,6 +101,8 @@ void QtProjectWizzardContentData::load()
 		{
 			m_cStandard->setCurrentText(QString::fromStdString(m_settings->getStandard()));
 		}
+
+		handleSelectionChanged(m_language->currentIndex());
 	}
 }
 

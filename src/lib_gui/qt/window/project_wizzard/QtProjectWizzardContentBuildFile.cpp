@@ -31,7 +31,7 @@ void QtProjectWizzardContentBuildFile::populateForm(QGridLayout* layout, int& ro
 		case QtProjectWizzardContentSelect::PROJECT_EMPTY:
 			name = "Build Text";
 			filter = "Text (*.txt)";
-			return;
+			break;
 		case QtProjectWizzardContentSelect::PROJECT_VS:
 			name = "Visual Studio Solution";
 			filter = "Visual Studio Solution (*.sln)";
@@ -46,9 +46,6 @@ void QtProjectWizzardContentBuildFile::populateForm(QGridLayout* layout, int& ro
 
 	m_picker = new QtLocationPicker(this);
 	m_picker->setFileFilter(filter);
-
-	int minimumWidthForSecondCol = 360;
-	m_picker->setMinimumWidth(minimumWidthForSecondCol);
 
 	QPushButton* button = new QPushButton("", this);
 	button->setObjectName("refreshButton");

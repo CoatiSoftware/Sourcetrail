@@ -63,11 +63,13 @@ void QtProjectWizzardContentSimple::populateWindow(QGridLayout* layout)
 
 void QtProjectWizzardContentSimple::populateForm(QGridLayout* layout, int& row)
 {
-	QLabel* label = createFormLabel("Search headers in project paths");
+	QLabel* label = createFormLabel("Simple Setup");
 	layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL);
 
-	m_checkBox = new QCheckBox();
+	m_checkBox = new QCheckBox("Search headers in project paths");
 	layout->addWidget(m_checkBox, row, QtProjectWizzardWindow::BACK_COL);
+
+	// addHelpButton("help message", layout, row);
 
 	m_isForm = true;
 	row++;
@@ -130,5 +132,5 @@ bool QtProjectWizzardContentSimple::check()
 
 QSize QtProjectWizzardContentSimple::preferredWindowSize() const
 {
-	return QSize(580, 350);
+	return QSize(750, 350);
 }

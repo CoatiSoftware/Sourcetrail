@@ -67,7 +67,7 @@ bool QtProjectWizzardContent::isScrollAble() const
 
 QSize QtProjectWizzardContent::preferredWindowSize() const
 {
-	return QSize(600, 620);
+	return QSize(750, 620);
 }
 
 QLabel* QtProjectWizzardContent::createFormLabel(QString name) const
