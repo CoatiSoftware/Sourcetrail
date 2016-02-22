@@ -86,6 +86,7 @@ public:
 	StorageSourceLocation getSourceLocationById(const Id id) const;
 	std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const FilePath& filePath) const;
 	std::vector<StorageSourceLocation> getTokenLocationsForElementId(const Id elementId) const;
+	std::vector<StorageSourceLocation> getTokenLocationsForElementIds(const std::vector<Id> elementIds) const;
 
 	Id getElementIdByLocationId(Id locationId) const;
 

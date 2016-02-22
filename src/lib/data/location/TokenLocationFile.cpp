@@ -1,6 +1,9 @@
 #include "data/location/TokenLocationFile.h"
 
+#include <set>
+
 #include "utility/logging/logging.h"
+#include "utility/types.h"
 
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationLine.h"
@@ -164,6 +167,60 @@ TokenLocation* TokenLocationFile::addTokenLocationAsPlainCopy(const TokenLocatio
 	return copy;
 }
 
+std::shared_ptr<TokenLocationFile> TokenLocationFile::getFilteredByLines(unsigned int firstLineNumber, unsigned int lastLineNumber) const
+{
+	std::shared_ptr<TokenLocationFile> ret = std::make_shared<TokenLocationFile>(getFilePath().str());
+
+	if (getTokenLocationLines().size() == 0)
+	{
+		return ret;
+	}
+
+	uint endLineNumber = getTokenLocationLines().rbegin()->first;
+	std::set<Id> addedLocationIds;
+	for (uint i = firstLineNumber; i <= endLineNumber; i++)
+	{
+		TokenLocationLine* locationLine = findTokenLocationLineByNumber(i);
+		if (!locationLine)
+		{
+			continue;
+		}
+
+		if (locationLine->getLineNumber() <= lastLineNumber)
+		{
+			locationLine->forEachTokenLocation(
+				[&](TokenLocation* tokenLocation) -> void
+			{
+				const Id tokenId = tokenLocation->getId();
+				if (addedLocationIds.find(tokenId) == addedLocationIds.end())
+				{
+					ret->addTokenLocationAsPlainCopy(tokenLocation->getStartTokenLocation());
+					ret->addTokenLocationAsPlainCopy(tokenLocation->getEndTokenLocation());
+					addedLocationIds.insert(tokenId);
+				}
+			}
+			);
+		}
+		else
+		{
+			// Save start locations of TokenLocations that span accross the line range.
+			locationLine->forEachTokenLocation(
+				[&](TokenLocation* tokenLocation) -> void
+			{
+				if (tokenLocation->isEndTokenLocation() &&
+					tokenLocation->getStartTokenLocation()->getLineNumber() < firstLineNumber)
+				{
+					ret->addTokenLocationAsPlainCopy(tokenLocation->getStartTokenLocation());
+					ret->addTokenLocationAsPlainCopy(tokenLocation->getEndTokenLocation());
+				}
+			}
+			);
+		}
+	}
+
+	return ret;
+}
+
 TokenLocationLine* TokenLocationFile::findTokenLocationLine(unsigned int lineNumber) const
 {
 	TokenLocationLineMapType::const_iterator it = m_lines.find(lineNumber);
@@ -199,3 +256,4 @@ std::ostream& operator<<(std::ostream& ostream, const TokenLocationFile& file)
 	});
 	return ostream;
 }
+

@@ -11,6 +11,7 @@
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 #include "utility/Version.h"
+#include "utility/Cache.h"
 
 #include "data/graph/token_component/TokenComponentAggregation.h"
 #include "data/graph/token_component/TokenComponentSignature.h"
@@ -957,37 +958,52 @@ std::shared_ptr<TokenLocationCollection> Storage::getTokenLocationsForTokenIds(c
 {
 	std::shared_ptr<TokenLocationCollection> collection = std::make_shared<TokenLocationCollection>();
 
-	for (Id elementId: tokenIds)
+	std::vector<Id> fileIds;
+	std::vector<Id> nonFileIds;
+	for (size_t i = 0; i < tokenIds.size(); i++)
 	{
-		if (m_sqliteStorage.isFile(elementId))
+		if (m_sqliteStorage.isFile(tokenIds[i]))
 		{
-			StorageFile storageFile = m_sqliteStorage.getFileById(elementId);
-			collection->addTokenLocationFileAsPlainCopy(m_sqliteStorage.getTokenLocationsForFile(storageFile.filePath).get());
+			fileIds.push_back(tokenIds[i]);
 		}
 		else
 		{
-			std::vector<StorageSourceLocation> locations = m_sqliteStorage.getTokenLocationsForElementId(elementId);
-			for (size_t i = 0; i < locations.size(); i++)
-			{
-				// TODO: optimize: fileNodeId to name in a separate map
-				const StorageSourceLocation& location = locations[i];
-				StorageFile storageFile = m_sqliteStorage.getFileById(location.fileNodeId);
+			nonFileIds.push_back(tokenIds[i]);
+		}
+	}
 
-				TokenLocation* loc = collection->addTokenLocation(
-					location.id,
-					location.elementId,
-					storageFile.filePath,
-					location.startLine,
-					location.startCol,
-					location.endLine,
-					location.endCol
-				);
+	for (Id fileId: fileIds)
+	{
+		StorageFile storageFile = m_sqliteStorage.getFileById(fileId);
+		collection->addTokenLocationFileAsPlainCopy(m_sqliteStorage.getTokenLocationsForFile(storageFile.filePath).get());
+	}
 
-				if (loc)
-				{
-					loc->setType(location.isScope ? TokenLocation::LOCATION_SCOPE : TokenLocation::LOCATION_TOKEN);
-				}
-			}
+	Cache<Id, std::string> filePathCache(
+		[this](Id id) -> std::string
+		{
+			return m_sqliteStorage.getFileById(id).filePath;
+		}
+	);
+
+	std::vector<StorageSourceLocation> locations = m_sqliteStorage.getTokenLocationsForElementIds(nonFileIds);
+	for (size_t i = 0; i < locations.size(); i++)
+	{
+		const StorageSourceLocation& location = locations[i];
+		std::string filePath = filePathCache.getValue(location.fileNodeId);
+
+		TokenLocation* loc = collection->addTokenLocation(
+			location.id,
+			location.elementId,
+			filePath,
+			location.startLine,
+			location.startCol,
+			location.endLine,
+			location.endCol
+		);
+
+		if (loc)
+		{
+			loc->setType(location.isScope ? TokenLocation::LOCATION_SCOPE : TokenLocation::LOCATION_TOKEN);
 		}
 	}
 
@@ -1026,57 +1042,7 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
 ) const
 {
-	std::shared_ptr<TokenLocationFile> ret = std::make_shared<TokenLocationFile>(filePath);
-
-	std::shared_ptr<TokenLocationFile> locationFile = m_sqliteStorage.getTokenLocationsForFile(filePath);
-	if (!locationFile->getTokenLocationLines().size())
-	{
-		return ret;
-	}
-
-	uint endLineNumber = locationFile->getTokenLocationLines().rbegin()->first;
-	std::set<Id> addedLocationIds;
-	for (uint i = firstLineNumber; i <= endLineNumber; i++)
-	{
-		TokenLocationLine* locationLine = locationFile->findTokenLocationLineByNumber(i);
-		if (!locationLine)
-		{
-			continue;
-		}
-
-		if (locationLine->getLineNumber() <= lastLineNumber)
-		{
-			locationLine->forEachTokenLocation(
-				[&](TokenLocation* tokenLocation) -> void
-				{
-					const Id tokenId = tokenLocation->getId();
-					if (addedLocationIds.find(tokenId) == addedLocationIds.end())
-					{
-						ret->addTokenLocationAsPlainCopy(tokenLocation->getStartTokenLocation());
-						ret->addTokenLocationAsPlainCopy(tokenLocation->getEndTokenLocation());
-						addedLocationIds.insert(tokenId);
-					}
-				}
-			);
-		}
-		else
-		{
-			// Save start locations of TokenLocations that span accross the line range.
-			locationLine->forEachTokenLocation(
-				[&](TokenLocation* tokenLocation) -> void
-				{
-					if (tokenLocation->isEndTokenLocation() &&
-						tokenLocation->getStartTokenLocation()->getLineNumber() < firstLineNumber)
-					{
-						ret->addTokenLocationAsPlainCopy(tokenLocation->getStartTokenLocation());
-						ret->addTokenLocationAsPlainCopy(tokenLocation->getEndTokenLocation());
-					}
-				}
-			);
-		}
-	}
-
-	return ret;
+	return m_sqliteStorage.getTokenLocationsForFile(filePath)->getFilteredByLines(firstLineNumber, lastLineNumber);
 }
 
 TokenLocationCollection Storage::getErrorTokenLocations(std::vector<std::string>* errorMessages) const
@@ -1093,41 +1059,6 @@ TokenLocationCollection Storage::getErrorTokenLocations(std::vector<std::string>
 	}
 
 	return errorCollection;
-}
-
-std::shared_ptr<TokenLocationFile> Storage::getTokenLocationOfParentScope(const TokenLocation* child) const
-{
-	const TokenLocation* parent = child;
-	const FilePath filePath = child->getFilePath();
-
-	std::shared_ptr<TokenLocationFile> locationFile = m_sqliteStorage.getTokenLocationsForFile(filePath); // TODO: sqlite should not know TokenLocationFile!
-	locationFile->forEachStartTokenLocation(
-		[&](TokenLocation* tokenLocation) -> void
-		{
-			if (tokenLocation->getType() == TokenLocation::LOCATION_SCOPE &&
-				(*tokenLocation) < *(child->getStartTokenLocation()) &&
-				(*tokenLocation->getEndTokenLocation()) > *(child->getEndTokenLocation()))
-			{
-				if (parent == child)
-				{
-					parent = tokenLocation;
-				}
-				// since tokenLocation is a start location the > location indicates the scope that is closer to the child.
-				else if ((*tokenLocation) > *parent)
-				{
-					parent = tokenLocation;
-				}
-			}
-		}
-	);
-
-	std::shared_ptr<TokenLocationFile> file = std::make_shared<TokenLocationFile>(filePath);
-	if (parent != child)
-	{
-		file->addTokenLocationAsPlainCopy(parent);
-		file->addTokenLocationAsPlainCopy(parent->getOtherTokenLocation());
-	}
-	return file;
 }
 
 std::shared_ptr<TokenLocationFile> Storage::getCommentLocationsInFile(const FilePath& filePath) const

@@ -43,6 +43,8 @@ public:
 
 	TokenLocation* addTokenLocationAsPlainCopy(const TokenLocation* location);
 
+	std::shared_ptr<TokenLocationFile> getFilteredByLines(unsigned int firstLineNumber, unsigned int lastLineNumber) const;
+
 	bool isWholeCopy;
 
 private:

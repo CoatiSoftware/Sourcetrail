@@ -518,23 +518,30 @@ std::shared_ptr<TokenLocationFile> SqliteStorage::getTokenLocationsForFile(const
 
 std::vector<StorageSourceLocation> SqliteStorage::getTokenLocationsForElementId(const Id elementId) const
 {
+	std::vector<Id> elementIds {elementId};
+	return getTokenLocationsForElementIds(elementIds);
+}
+
+std::vector<StorageSourceLocation> SqliteStorage::getTokenLocationsForElementIds(const std::vector<Id> elementIds) const
+{
 	std::vector<StorageSourceLocation> locations;
 
 	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, file_node_id, start_line, start_column, end_line, end_column, is_scope FROM source_location WHERE element_id == " + std::to_string(elementId) + ";"
+		"SELECT id, element_id, file_node_id, start_line, start_column, end_line, end_column, is_scope FROM source_location WHERE element_id IN (" + utility::join(utility::toStrings(elementIds), ',') + ");"
 	).c_str());
 
 	while (!q.eof())
 	{
 		const Id id = q.getIntField(0, 0);
-		const Id fileNodeId = q.getIntField(1, 0);
-		const int startLineNumber = q.getIntField(2, -1);
-		const int startColNumber = q.getIntField(3, -1);
-		const int endLineNumber = q.getIntField(4, -1);
-		const int endColNumber = q.getIntField(5, -1);
-		const int isScope = q.getIntField(6, -1);
+		const Id elementId = q.getIntField(1, 0);
+		const Id fileNodeId = q.getIntField(2, 0);
+		const int startLineNumber = q.getIntField(3, -1);
+		const int startColNumber = q.getIntField(4, -1);
+		const int endLineNumber = q.getIntField(5, -1);
+		const int endColNumber = q.getIntField(6, -1);
+		const int isScope = q.getIntField(7, -1);
 
-		if (id != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1 && isScope != -1)
+		if (id != 0 && elementId != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1 && isScope != -1)
 		{
 			locations.push_back(StorageSourceLocation(
 				id, elementId, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber, isScope
