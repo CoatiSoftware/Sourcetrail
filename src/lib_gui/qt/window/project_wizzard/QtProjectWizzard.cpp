@@ -16,11 +16,31 @@
 #include "utility/solution/SolutionParserVisualStudio.h"
 
 QtProjectWizzard::QtProjectWizzard(QWidget* parent)
-	: QWidget(parent)
+	: QtWindowStackElement(parent)
 	, m_windowStack(this)
 {
 	connect(&m_windowStack, SIGNAL(push()), this, SLOT(windowStackChanged()));
 	connect(&m_windowStack, SIGNAL(pop()), this, SLOT(windowStackChanged()));
+}
+
+void QtProjectWizzard::showWindow()
+{
+	QtWindowStackElement* element = m_windowStack.getTopWindow();
+
+	if (element)
+	{
+		element->show();
+	}
+}
+
+void QtProjectWizzard::hideWindow()
+{
+	QtWindowStackElement* element = m_windowStack.getTopWindow();
+
+	if (element)
+	{
+		element->hide();
+	}
 }
 
 void QtProjectWizzard::newProject()

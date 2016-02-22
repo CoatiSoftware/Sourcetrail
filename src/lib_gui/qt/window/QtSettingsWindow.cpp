@@ -14,13 +14,15 @@
 #include "utility/ResourcePaths.h"
 
 QtSettingsWindow::QtSettingsWindow(QWidget *parent, int displacement)
-	: QWidget(parent, Qt::Dialog | Qt::FramelessWindowHint)
+	: QtWindowStackElement(parent)
 	, m_title(nullptr)
 	, m_cancelButton(nullptr)
 	, m_doneButton(nullptr)
 	, m_mousePressedInWindow(false)
 	, m_cancelAble(true)
 {
+	setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
+
 	QSize windowSize = sizeHint();
 	move(parent->pos().x() + parent->width() / 2 - 250, parent->pos().y() + parent->height() / 2 - 250);
 
@@ -199,6 +201,16 @@ void QtSettingsWindow::updateDoneButton(QString text)
 	{
 		m_doneButton->setText(text);
 	}
+}
+
+void QtSettingsWindow::showWindow()
+{
+	show();
+}
+
+void QtSettingsWindow::hideWindow()
+{
+	hide();
 }
 
 void QtSettingsWindow::hideCancelButton(bool hidden)

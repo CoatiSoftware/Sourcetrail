@@ -10,7 +10,7 @@ class ProjectSettings;
 class QtProjectWizzardWindow;
 
 class QtProjectWizzard
-	: public QWidget
+	: public QtWindowStackElement
 {
 	Q_OBJECT
 
@@ -20,6 +20,10 @@ signals:
 
 public:
 	QtProjectWizzard(QWidget* parent = nullptr);
+
+	// QtWindowStackElement implementation
+	virtual void showWindow() override;
+	virtual void hideWindow() override;
 
 public slots:
 	void newProject();

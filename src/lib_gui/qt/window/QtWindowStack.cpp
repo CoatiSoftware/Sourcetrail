@@ -1,11 +1,17 @@
 #include "qt/window/QtWindowStack.h"
 
+
+QtWindowStackElement::QtWindowStackElement(QWidget* parent)
+	: QWidget(parent)
+{
+}
+
 QtWindowStack::QtWindowStack(QObject* parent)
 	: QObject(parent)
 {
 }
 
-QWidget* QtWindowStack::getTopWindow()
+QtWindowStackElement* QtWindowStack::getTopWindow()
 {
 	if (m_stack.size())
 	{
@@ -15,14 +21,14 @@ QWidget* QtWindowStack::getTopWindow()
 	return nullptr;
 }
 
-void QtWindowStack::pushWindow(QWidget* window)
+void QtWindowStack::pushWindow(QtWindowStackElement* window)
 {
 	if (m_stack.size())
 	{
-		m_stack.back()->hide();
+		m_stack.back()->hideWindow();
 	}
 
-	window->show();
+	window->showWindow();
 
 	m_stack.push_back(window);
 
@@ -33,7 +39,7 @@ void QtWindowStack::popWindow()
 {
 	if (m_stack.size())
 	{
-		m_stack.back()->hide();
+		m_stack.back()->hideWindow();
 		delete m_stack.back();
 		m_stack.pop_back();
 
@@ -42,7 +48,7 @@ void QtWindowStack::popWindow()
 
 	if (m_stack.size())
 	{
-		m_stack.back()->show();
+		m_stack.back()->showWindow();
 	}
 	else
 	{
@@ -52,9 +58,9 @@ void QtWindowStack::popWindow()
 
 void QtWindowStack::clearWindows()
 {
-	for (QWidget* window : m_stack)
+	for (QtWindowStackElement* window : m_stack)
 	{
-		window->hide();
+		window->hideWindow();
 		delete window;
 	}
 

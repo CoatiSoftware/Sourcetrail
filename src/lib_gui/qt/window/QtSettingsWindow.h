@@ -5,13 +5,15 @@
 #include <QResizeEvent>
 #include <QWidget>
 
+#include "qt/window/QtWindowStack.h"
+
 class QFormLayout;
 class QLabel;
 class QPushButton;
 class QVBoxLayout;
 
 class QtSettingsWindow
-	: public QWidget
+	: public QtWindowStackElement
 {
 	Q_OBJECT
 
@@ -26,6 +28,10 @@ public:
 
 	void updateTitle(QString title);
 	void updateDoneButton(QString text);
+
+	// QtWindowStackElement implementation
+	virtual void showWindow() override;
+	virtual void hideWindow() override;
 
 signals:
 	void finished();
