@@ -116,7 +116,7 @@ std::shared_ptr<DataType> CxxTypeNameResolver::typeToDataType(const clang::Type*
 				CxxDeclNameResolver declNameResolver(tagType->getDecl(), getIgnoredContextDecls());
 				typeNameHerarchy = declNameResolver.getDeclNameHierarchy();
 			}
-			else // specialization of a template template parameter (no concrete class)
+			else // specialization of a template template parameter (no concrete class) important, may help: has no underlying decl!
 			{
 				const clang::TemplateSpecializationType* templateSpecializationType = type->getAs<clang::TemplateSpecializationType>();
 				CxxDeclNameResolver declNameResolver(templateSpecializationType->getTemplateName().getAsTemplateDecl(), getIgnoredContextDecls());

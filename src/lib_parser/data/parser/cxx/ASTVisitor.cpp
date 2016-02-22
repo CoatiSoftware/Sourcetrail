@@ -1076,15 +1076,35 @@ void ASTVisitor::RecordTypeRef(
 	}
 }
 
+bool ASTVisitor::isImpliciit(clang::Decl* d) const
+{
+	if (!d)
+	{
+		return false;
+	}
+
+	if (clang::ClassTemplateSpecializationDecl* ctsd = clang::dyn_cast_or_null<clang::ClassTemplateSpecializationDecl>(d))
+	{
+		if (!ctsd->isExplicitSpecialization())
+		{
+			return true;
+		}
+	}
+
+	return isImpliciit(clang::dyn_cast_or_null<clang::Decl>(d->getDeclContext()));
+}
+
 void ASTVisitor::RecordDeclRef(
-        clang::NamedDecl *d,
+        clang::NamedDecl* d,
         clang::SourceLocation beginLoc,
         RefType refType,
         SymbolType symbolType)
 {
-	if ((!d) ||
-		(d->isImplicit() && !isLocatedInProjectFile(beginLoc)) ||
-		(!d->isImplicit() && !isLocatedInUnparsedProjectFile(beginLoc)))
+	bool isImplicit = isImpliciit(d);
+
+	if (!d ||
+		(isImplicit && !isLocatedInProjectFile(beginLoc)) ||
+		(!isImplicit && !isLocatedInUnparsedProjectFile(beginLoc)))
 	{
 		return;
 	}

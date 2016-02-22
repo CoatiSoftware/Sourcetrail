@@ -287,6 +287,8 @@ private:
 		RefType refType,
 		SymbolType symbolType = ST_Max);
 
+	bool isImpliciit(clang::Decl* d) const;
+
     void RecordDeclRef(
             clang::NamedDecl *d,
             clang::SourceLocation beginLoc,
