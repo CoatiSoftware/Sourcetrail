@@ -34,6 +34,9 @@ namespace utility
 	std::vector<T> toVector(const std::deque<T>& d);
 
 	template<typename T>
+	std::vector<T> toVector(const std::set<T>& d);
+
+	template<typename T>
 	std::vector<std::string> toStrings(const std::vector<T>& d);
 
 	template<typename T>
@@ -75,6 +78,14 @@ void utility::append(std::set<T>& a, const std::set<T>& b)
 
 template<typename T>
 std::vector<T> utility::toVector(const std::deque<T>& d)
+{
+	std::vector<T> v;
+	v.insert(v.begin(), d.begin(), d.end());
+	return v;
+}
+
+template<typename T>
+std::vector<T> utility::toVector(const std::set<T>& d)
 {
 	std::vector<T> v;
 	v.insert(v.begin(), d.begin(), d.end());

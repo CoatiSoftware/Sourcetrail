@@ -881,7 +881,7 @@ std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId, Id* declarationId) c
 
 std::vector<Id> Storage::getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const
 {
-	std::vector<Id> nodeIds;
+	std::set<Id> nodeIds;
 
 	for (Id locationId : locationIds)
 	{
@@ -890,15 +890,15 @@ std::vector<Id> Storage::getNodeIdsForLocationIds(const std::vector<Id>& locatio
 		StorageEdge edge = m_sqliteStorage.getEdgeById(elementId);
 		if (edge.id != 0) // here we test if location is an edge.
 		{
-			nodeIds.push_back(edge.targetNodeId);
+			nodeIds.insert(edge.targetNodeId);
 		}
 		else
 		{
-			nodeIds.push_back(elementId);
+			nodeIds.insert(elementId);
 		}
 	}
 
-	return nodeIds;
+	return utility::toVector(nodeIds);
 }
 
 std::vector<Id> Storage::getTokenIdsForMatches(const std::vector<SearchMatch>& matches) const

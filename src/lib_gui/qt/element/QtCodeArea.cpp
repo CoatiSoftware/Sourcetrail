@@ -419,7 +419,6 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 
 		if (Qt::KeyboardModifier::ControlModifier && QApplication::keyboardModifiers())
 		{
-			// std::pair<int, int> lineColumn = toLineColumn(this->cursorForPosition(event->pos()).position());
 			m_eventPosition = event->pos();
 			setIDECursorPosition();
 		}
@@ -429,7 +428,7 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 			std::vector<const Annotation*> annotations = getAnnotationsForPosition(cursor.position());
 
 			std::vector<Id> locationIds;
-			std::vector<Id> tokenIds;
+			std::set<Id> tokenIds;
 
 			bool allActive = true;
 			for (const Annotation* annotation : annotations)
@@ -445,7 +444,7 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 				}
 				if (annotation->tokenId > 0)
 				{
-					tokenIds.push_back(annotation->tokenId);
+					tokenIds.insert(annotation->tokenId);
 				}
 			}
 
@@ -458,9 +457,9 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 			{
 				MessageActivateTokenLocations(locationIds).dispatch();
 			}
-			else if (tokenIds.size())
+			else if (tokenIds.size()) // fallback for links in project description
 			{
-				MessageActivateTokenIds(tokenIds).dispatch();
+				MessageActivateTokenIds(utility::toVector(tokenIds)).dispatch();
 			}
 		}
 	}
