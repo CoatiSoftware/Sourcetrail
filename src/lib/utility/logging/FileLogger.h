@@ -13,6 +13,8 @@ public:
 	virtual ~FileLogger();
 
 	static void setFilePath(const std::string& filePath);
+	static void setMaxLogCount(unsigned int logCount);
+	static void setNumberOfLogFiles(unsigned int amount);
 
 private:
 	virtual void logInfo(const LogMessage& message);
@@ -21,10 +23,16 @@ private:
 
 	static void createDirectory();
 	static std::string s_filePath;
+	static unsigned int s_maxLogCount;
+	static unsigned int s_amountOfLogFiles;
 
 	void setupFileName();
 	void logMessage(const std::string& type, const LogMessage& message);
+	void changeLogFile();
 
+	unsigned int m_logCount;
+	unsigned int m_suffix;
+	std::string m_currentLogFile;
 	std::string m_fileName;
 };
 
