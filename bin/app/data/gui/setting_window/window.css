@@ -65,11 +65,11 @@ QLineEdit:disabled {
 #windowButton {
 	background: white;
 	border: 1px solid lightgray;
-	border-radius: 10px;
+	border-radius: 8px;
 	color: black;
-	font-size: 17pt;
-	height: 30px;
-	width: 140px;
+	padding: 3px 5px 2px;
+	font-size: 14pt;
+	min-width: 5em;
 }
 
 #windowButton:hover {

@@ -72,7 +72,7 @@ void QtLicense::setup()
 	layout->setContentsMargins(25, 100, 25, 30);
 
 	QVBoxLayout* subLayout = new QVBoxLayout();
-	subLayout->setContentsMargins(250, 0, 0, 0);
+	subLayout->setContentsMargins(200, 0, 0, 0);
 
 	QLabel* licenseName = new QLabel(this);
 	licenseName->setText(QString::fromLatin1("Enter Licence"));
@@ -114,7 +114,7 @@ void QtLicense::setup()
 
 	QLabel* linkLabel = new QLabel(this);
 	linkLabel->setObjectName("linkLabel");
-	linkLabel->setText("<a href=\"http://coati.io/buy-license\">Don't have a license key yet?</a>");
+	linkLabel->setText("<a href=\"https://coati.io/buy-license\">Don't have a license key yet?</a>");
 	linkLabel->setOpenExternalLinks(true);
 	linkLabel->setGeometry(275, 300, 300, 50);
 	subLayout->addWidget(linkLabel);

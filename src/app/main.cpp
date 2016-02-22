@@ -15,7 +15,6 @@
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewFactory.h"
 #include "qt/window/QtMainWindow.h"
-#include "qt/window/QtSplashScreen.h"
 #include "version.h"
 
 #include "settings/ProjectSettings.h"
@@ -49,11 +48,6 @@ int main(int argc, char *argv[])
 	QPixmap whitePixmap(500, 500);
 	whitePixmap.fill(Qt::white);
 
-	QtSplashScreen* splash = new QtSplashScreen(whitePixmap, Qt::WindowStaysOnTopHint);
-	splash->setMessage("Loading UI");
-	splash->setVersion(version.toDisplayString().c_str());
-	splash->exec(qtApp);
-
 	init();
 
 	QtCommandLineParser commandLineParser;
@@ -73,11 +67,6 @@ int main(int argc, char *argv[])
 	std::shared_ptr<Application> app = Application::create(version, &viewFactory, &networkFactory);
 
 	checker.setApp(app.get());
-
-	if (splash)
-	{
-		delete splash;
-	}
 
 	commandLineParser.parseCommandline();
 

@@ -98,6 +98,7 @@ public slots:
 
 	QtSettingsWindow* about();
 	void openSettings();
+	void showDocumentation();
 	QtSettingsWindow* showLicenses();
 	QtSettingsWindow* enterLicense();
 

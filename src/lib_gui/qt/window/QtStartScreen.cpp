@@ -42,13 +42,13 @@ void QtStartScreen::setup()
 	{
 		m_newProjectButton = new QPushButton("New Project", this);
 		m_newProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-		m_newProjectButton->setGeometry(30, 495, 140, 30);
+		m_newProjectButton->move(30, 505);
 		m_newProjectButton->setObjectName("projectButton");
 		connect(m_newProjectButton, SIGNAL(clicked()), this, SLOT(handleNewProjectButton()));
 
 		m_openProjectButton = new QPushButton("Open Project", this);
 		m_openProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-		m_openProjectButton->setGeometry(30, 540, 140, 30);
+		m_openProjectButton->move(30, 540);
 		m_openProjectButton->setObjectName("projectButton");
 		connect(m_openProjectButton, SIGNAL(clicked()), this, SLOT(handleOpenProjectButton()));
 	}
@@ -58,7 +58,7 @@ void QtStartScreen::setup()
 	recentProjectsLabel->setObjectName("recentLabel");
 
 	int position = 290;
-	QIcon cpp_icon((ResourcePaths::getGuiPath() + "startscreen/icon_cpp.png").c_str());
+	QIcon cpp_icon((ResourcePaths::getGuiPath() + "icon/project_256_256.png").c_str());
 	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
 	for (size_t i = 0; i < recentProjects.size() && i < ApplicationSettings::MaximalAmountOfRecentProjects; i++)
 	{
@@ -74,7 +74,7 @@ void QtStartScreen::setup()
 		position += 40;
 	}
 
-	resize(600, 600);
+	resize(520, 600);
 }
 
 QSize QtStartScreen::sizeHint() const

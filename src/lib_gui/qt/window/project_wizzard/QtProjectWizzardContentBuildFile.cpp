@@ -31,7 +31,7 @@ void QtProjectWizzardContentBuildFile::populateForm(QGridLayout* layout, int& ro
 		case QtProjectWizzardContentSelect::PROJECT_EMPTY:
 			name = "Build Text";
 			filter = "Text (*.txt)";
-			break;
+			return;
 		case QtProjectWizzardContentSelect::PROJECT_VS:
 			name = "Visual Studio Solution";
 			filter = "Visual Studio Solution (*.sln)";

@@ -138,5 +138,5 @@ bool QtProjectWizzardContentSelect::check()
 
 QSize QtProjectWizzardContentSelect::preferredWindowSize() const
 {
-	return QSize(750, 340);
+	return QSize(700, 340);
 }

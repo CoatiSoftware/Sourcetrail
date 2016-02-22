@@ -1,3 +1,7 @@
+QLabel {
+	font-size: 12pt;
+}
+
 #licenseField {
 	font-family: "<setting:font_name>";
 	font-size: 12pt;

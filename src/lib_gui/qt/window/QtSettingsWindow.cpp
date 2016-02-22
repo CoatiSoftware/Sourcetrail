@@ -143,7 +143,7 @@ void QtSettingsWindow::setupForm()
 	populateWindow(form);
 
 	windowLayout->addWidget(scrollArea);
-	windowLayout->addSpacing(20);
+	windowLayout->addSpacing(25);
 
 	showButtons(windowLayout);
 
@@ -160,12 +160,12 @@ void QtSettingsWindow::populateWindow(QWidget* widget)
 void QtSettingsWindow::addLogo()
 {
 	QtDeviceScaledPixmap coatiLogo((ResourcePaths::getGuiPath() + "startscreen/logo.png").c_str());
-	coatiLogo.scaleToWidth(200);
+	coatiLogo.scaleToWidth(150);
 
 	QLabel* coatiLogoLabel = new QLabel(this);
 	coatiLogoLabel->setPixmap(coatiLogo.pixmap());
 	coatiLogoLabel->resize(coatiLogo.width(), coatiLogo.height());
-	coatiLogoLabel->move(30, 10);
+	coatiLogoLabel->move(30, 25);
 }
 
 void QtSettingsWindow::showButtons(QVBoxLayout* layout)

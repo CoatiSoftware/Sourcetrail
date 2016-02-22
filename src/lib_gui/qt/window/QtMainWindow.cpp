@@ -2,6 +2,7 @@
 
 #include <QApplication>
 #include <QFileDialog>
+#include <QDesktopServices>
 #include <QDockWidget>
 #include <QMenuBar>
 #include <QMessageBox>
@@ -306,6 +307,11 @@ void QtMainWindow::openSettings()
 {
 	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
 	wizzard->showPreferences();
+}
+
+void QtMainWindow::showDocumentation()
+{
+	QDesktopServices::openUrl(QUrl("https://coati.io/documentation/"));
 }
 
 QtSettingsWindow* QtMainWindow::showLicenses()
@@ -624,6 +630,7 @@ void QtMainWindow::setupHelpMenu()
 	menuBar()->addMenu(menu);
 
 	menu->addAction(tr("&About"), this, SLOT(about()));
+	menu->addAction(tr("Documentation"), this, SLOT(showDocumentation()));
 	menu->addAction(tr("Licences"), this, SLOT(showLicenses()));
 
 	if(!isTrial())

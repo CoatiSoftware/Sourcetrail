@@ -1,13 +1,16 @@
 #projectButton {
 	background: white;
 	border: 1px solid lightgray;
-	border-radius: 10px;
-	font-size: 17pt;
+	border-radius: 8px;
+	color: black;
+	padding: 3px 5px 2px;
+	font-size: 14pt;
+	min-width: 6em;
 }
 
 #projectButton:hover {
-	background: #2D3F85;
 	color: white;
+	background: #2D3F85;
 }
 
 #recentButton {
@@ -18,7 +21,7 @@
 }
 
 #recentButton:hover {
-	background-color: rgba(45, 63, 133, 70);
+	background-color: #CFD2E0;
 	border-radius: 10px;
 }
 

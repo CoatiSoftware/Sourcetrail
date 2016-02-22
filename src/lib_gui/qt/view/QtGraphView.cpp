@@ -89,7 +89,7 @@ void QtGraphView::initView()
 	QGraphicsView* view = new QtGraphicsView(widget);
 	view->setScene(scene);
 	view->setDragMode(QGraphicsView::ScrollHandDrag);
-	view->setRenderHints(QPainter::Antialiasing);
+	view->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 	view->viewport()->setCursor(Qt::ArrowCursor);
 
 

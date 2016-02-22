@@ -33,6 +33,9 @@ QtGraphNodeAccess::QtGraphNodeAccess(TokenComponentAccess::AccessType accessType
 	case TokenComponentAccess::ACCESS_PRIVATE:
 		fileName = "private";
 		break;
+	case TokenComponentAccess::ACCESS_TEMPLATE:
+		fileName = "template";
+		break;
 	default:
 		break;
 	}
@@ -44,6 +47,7 @@ QtGraphNodeAccess::QtGraphNodeAccess(TokenComponentAccess::AccessType accessType
 		pixmap.scaleToHeight(m_accessIconSize);
 
 		m_accessIcon = new QGraphicsPixmapItem(pixmap.pixmap(), this);
+		m_accessIcon->setTransformationMode(Qt::SmoothTransformation);
 	}
 }
 

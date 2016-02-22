@@ -26,11 +26,12 @@ QtStatusBar::QtStatusBar()
 
 	m_errorButton.hide();
 	m_errorButton.setFlat(true);
+	m_errorButton.setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_errorButton.setStyleSheet("QPushButton { color: #D00000; margin-right: 0; spacing: none; }");
 	m_errorButton.setIcon(utility::colorizePixmap(
-		QPixmap((ResourcePaths::getGuiPath() + "statusbar_view/octagon.png").c_str()),
+		QPixmap((ResourcePaths::getGuiPath() + "statusbar_view/dot.png").c_str()),
 		"#D00000"
-	).scaledToHeight(10));
+	).scaledToHeight(12));
 	addPermanentWidget(&m_errorButton);
 
 	connect(&m_errorButton, SIGNAL(clicked()), this, SLOT(showErrors()));

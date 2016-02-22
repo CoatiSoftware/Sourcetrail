@@ -23,6 +23,7 @@ QtGraphNodeExpandToggle::QtGraphNodeExpandToggle(bool expanded, int invisibleSub
 
 	const int iconHeight = 4;
 	m_icon = new QGraphicsPixmapItem(this);
+	m_icon->setTransformationMode(Qt::SmoothTransformation);
 
 	QtDeviceScaledPixmap pixmap((ResourcePaths::getGuiPath() + "graph_view/images/arrow.png").c_str());
 	pixmap.scaleToHeight(iconHeight);

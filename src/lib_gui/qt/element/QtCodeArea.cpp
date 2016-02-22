@@ -496,10 +496,10 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 		}
 	}
 
-	QToolTip::hideText();
-
 	if (!same)
 	{
+		QToolTip::hideText();
+
 		setHoveredAnnotations(annotations);
 
 		const std::vector<std::string>& errorMessages = m_fileWidget->getErrorMessages();

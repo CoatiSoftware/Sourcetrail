@@ -41,13 +41,28 @@ void QtProjectWizzardContentSummary::populateWindow(QGridLayout* layout)
 	row++;
 
 	m_data->populateForm(layout, row);
+	layout->setRowMinimumHeight(row, 15);
+	row++;
+
+	int row2 = row;
 	m_buildFile->populateForm(layout, row);
+	if (row != row2)
+	{
+		layout->setRowMinimumHeight(row, 15);
+		row++;
+	}
+
 	m_source->populateForm(layout, row);
+	layout->setRowMinimumHeight(row, 15);
+	row++;
+
 	m_simple->populateForm(layout, row);
 	m_headerSearch->populateForm(layout, row);
 
 	if (m_frameworkSearch)
 	{
+		layout->setRowMinimumHeight(row, 15);
+		row++;
 		m_frameworkSearch->populateForm(layout, row);
 	}
 
