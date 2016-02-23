@@ -31,19 +31,11 @@ std::vector<std::string> SolutionParserCompilationDatabase::getProjectItems()
 
 std::vector<std::string> SolutionParserCompilationDatabase::getIncludePaths()
 {
-	if(m_searchPaths.empty())
-	{
-		parseDatabase();
-	}
 	return m_searchPaths;
 }
 
 std::vector<std::string> SolutionParserCompilationDatabase::getFrameworkPaths()
 {
-	if(m_searchPaths.empty())
-	{
-		parseDatabase();
-	}
 	return m_frameworkPaths;
 }
 
@@ -88,6 +80,11 @@ void SolutionParserCompilationDatabase::parseDatabase()
     for(std::string p : searchPaths)
     {
 		m_searchPaths.push_back(p);
+    }
+
+    for(std::string p : frameworkPaths)
+    {
+        m_frameworkPaths.push_back(p);
     }
 }
 

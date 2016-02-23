@@ -14,6 +14,7 @@ class QtProjectWizzardContentBuildFile
 
 signals:
 	void refreshVisualStudioSolution(const std::string&);
+	void refreshCompilationDatabase(const std::string&);
 
 public:
 	QtProjectWizzardContentBuildFile(ProjectSettings* settings, QtProjectWizzardWindow* window);

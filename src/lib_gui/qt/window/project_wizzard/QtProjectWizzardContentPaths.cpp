@@ -6,6 +6,8 @@
 
 #include "qt/element/QtDirectoryListBox.h"
 #include "settings/ApplicationSettings.h"
+#include "utility/file/FileSystem.h"
+#include "utility/utility.h"
 
 
 QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(ProjectSettings* settings, QtProjectWizzardWindow* window)
@@ -106,7 +108,12 @@ void QtProjectWizzardContentPaths::save()
 
 	if (m_subPaths)
 	{
-		return m_subPaths->savePaths();
+		m_subPaths->savePaths();
+
+		if (dynamic_cast<QtProjectWizzardContentPathsCDBHeaders*>(m_subPaths))
+		{
+			loadPaths();
+		}
 	}
 }
 
@@ -238,6 +245,75 @@ QtProjectWizzardContentPathsSourceSimple::QtProjectWizzardContentPathsSourceSimp
 }
 
 
+QtProjectWizzardContentPathsCDBSource::QtProjectWizzardContentPathsCDBSource(
+	ProjectSettings* settings, QtProjectWizzardWindow* window
+)
+	: QtProjectWizzardContentPaths(settings, window)
+{
+	m_addShowSourcesButton = true;
+
+	setInfo(
+		"Compilation Database Files",
+		"These files were found within the provided compilation database. You can add or remove files here.",
+		""
+	);
+
+	m_subPaths = new QtProjectWizzardContentPathsCDBHeaders(settings, window);
+}
+
+void QtProjectWizzardContentPathsCDBSource::loadPaths()
+{
+	m_list->setList(m_settings->getSourcePaths());
+}
+
+void QtProjectWizzardContentPathsCDBSource::savePaths()
+{
+	m_settings->setSourcePaths(m_list->getList());
+}
+
+bool QtProjectWizzardContentPathsCDBSource::isScrollAble() const
+{
+	return true;
+}
+
+QtProjectWizzardContentPathsCDBHeaders::QtProjectWizzardContentPathsCDBHeaders(
+	ProjectSettings* settings, QtProjectWizzardWindow* window
+)
+	: QtProjectWizzardContentPaths(settings, window)
+{
+	setTitleString("Header Files");
+	setDescriptionString(
+		"Coati works best if you analyze both your source and header files, but the Compilation Database only contains "
+		"source files. Add the header files, or the directories containing them here. They will be added to the source "
+		"files above"
+	);
+}
+
+void QtProjectWizzardContentPathsCDBHeaders::loadPaths()
+{
+	m_list->clear();
+}
+
+void QtProjectWizzardContentPathsCDBHeaders::savePaths()
+{
+	std::vector<FilePath> headerPaths = m_list->getList();
+	std::vector<std::string> extensions = m_settings->getHeaderExtensions();
+	std::vector<FileInfo> fileInfos = FileSystem::getFileInfosFromPaths(headerPaths, extensions);
+
+	headerPaths.clear();
+	for (const FileInfo& info : fileInfos)
+	{
+		headerPaths.push_back(info.path);
+	}
+
+	std::vector<FilePath> sourcePaths = m_settings->getSourcePaths();
+	utility::append(sourcePaths, headerPaths);
+	m_settings->setSourcePaths(sourcePaths);
+
+	m_list->clear();
+}
+
+
 QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSearch(
 	ProjectSettings* settings, QtProjectWizzardWindow* window
 )
@@ -289,7 +365,7 @@ QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHead
 	setInfo(
 		"Global Header Search Paths",
 		"These header search paths will be used in all your projects. Use it to add system header and Standard Library "
-		"header paths (See <a href=\"https://staging.coati.io/documentation/#FindingSystemHeaderLocations\">Finding "
+		"header paths (See <a href=\"https://coati.io/documentation/#FindingSystemHeaderLocations\">Finding "
 		"System Header Locations</a>).",
 		"Header Search Paths define where additional headers, that your project depends on, are found. Usually they are "
 		"header files of frameworks or libraries that your project uses. These files won't be analyzed, but Coati needs "
@@ -347,7 +423,7 @@ QtProjectWizzardContentPathsFrameworkSearchGlobal::QtProjectWizzardContentPathsF
 	setInfo(
 		"Global Framework Search Paths",
 		"These framework search paths will be used in all your projects. Use it to add system frameworks "
-		"(See <a href=\"https://staging.coati.io/documentation/#FindingSystemHeaderLocations\">"
+		"(See <a href=\"https://coati.io/documentation/#FindingSystemHeaderLocations\">"
 		"Finding System Header Locations</a>).",
 		"Framework Search Paths define where MacOS framework containers (.framework), that your project depends on, are "
 		"found.\n\n"

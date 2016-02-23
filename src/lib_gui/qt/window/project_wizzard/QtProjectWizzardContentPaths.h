@@ -80,6 +80,31 @@ public:
 };
 
 
+class QtProjectWizzardContentPathsCDBSource
+	: public QtProjectWizzardContentPaths
+{
+public:
+	QtProjectWizzardContentPathsCDBSource(ProjectSettings* settings, QtProjectWizzardWindow* window);
+
+	// QtProjectWizzardContentPaths implementation
+	virtual void loadPaths() override;
+	virtual void savePaths() override;
+
+	virtual bool isScrollAble() const override;
+};
+
+class QtProjectWizzardContentPathsCDBHeaders
+	: public QtProjectWizzardContentPaths
+{
+public:
+	QtProjectWizzardContentPathsCDBHeaders(ProjectSettings* settings, QtProjectWizzardWindow* window);
+
+	// QtProjectWizzardContentPaths implementation
+	virtual void loadPaths() override;
+	virtual void savePaths() override;
+};
+
+
 class QtProjectWizzardContentPathsHeaderSearch
 	: public QtProjectWizzardContentPaths
 {

@@ -38,6 +38,7 @@ void QtProjectWizzardContentBuildFile::populateForm(QGridLayout* layout, int& ro
 			break;
 		case QtProjectWizzardContentSelect::PROJECT_CDB:
 			name = "Compilation Database";
+			filter = "JSON Compilation Database (*.json)";
 			break;
 	}
 
@@ -107,6 +108,7 @@ void QtProjectWizzardContentBuildFile::refreshClicked()
 			break;
 		}
 		case QtProjectWizzardContentSelect::PROJECT_CDB:
+			emit refreshCompilationDatabase(path.str());
 			break;
 	}
 }

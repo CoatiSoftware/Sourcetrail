@@ -29,6 +29,8 @@ public slots:
 	void newProject();
 	void newProjectFromVisualStudioSolution(const std::string& visualStudioSolutionPath);
 	void refreshProjectFromVisualStudioSolution(const std::string& visualStudioSolutionPath);
+	void newProjectFromCompilationDatabase(const std::string& compilationDatabasePath);
+	void refreshProjectFromCompilationDatabase(const std::string& compilationDatabasePath);
 	void editProject(const ProjectSettings& settings);
 	void showPreferences();
 
@@ -39,6 +41,7 @@ private:
 		QtProjectWizzardWindow* createPopupWithContent();
 
 	ProjectSettings getSettingsForVisualStudioSolution(const std::string& visualStudioSolutionPath) const;
+	ProjectSettings getSettingsForCompilationDatabase(const std::string& compilationDatabasePath) const;
 
 	QtWindowStack m_windowStack;
 	std::shared_ptr<QtProjectWizzardWindow> m_popup;

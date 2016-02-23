@@ -13,6 +13,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentSummary.h"
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
 #include "utility/messaging/type/MessageLoadProject.h"
+#include "utility/solution/SolutionParserCompilationDatabase.h"
 #include "utility/solution/SolutionParserVisualStudio.h"
 
 QtProjectWizzard::QtProjectWizzard(QWidget* parent)
@@ -84,6 +85,38 @@ void QtProjectWizzard::refreshProjectFromVisualStudioSolution(const std::string&
 	m_settings.setSourcePaths(settings.getSourcePaths());
 	m_settings.setHeaderSearchPaths(settings.getHeaderSearchPaths());
 	m_settings.setVisualStudioSolutionPath(FilePath(visualStudioSolutionPath));
+
+	if (window)
+	{
+		window->content()->load();
+	}
+}
+
+void QtProjectWizzard::newProjectFromCompilationDatabase(const std::string& compilationDatabasePath)
+{
+	m_settings = getSettingsForCompilationDatabase(compilationDatabasePath);
+
+	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentPathsCDBSource>();
+	connect(window, SIGNAL(next()), this, SLOT(showSummary()));
+
+	connect(dynamic_cast<QtProjectWizzardContentPathsCDBSource*>(window->content()),
+		SIGNAL(showSourceFiles()), this, SLOT(showSourceFiles()));
+}
+
+void QtProjectWizzard::refreshProjectFromCompilationDatabase(const std::string& compilationDatabasePath)
+{
+	QtProjectWizzardWindow* window = dynamic_cast<QtProjectWizzardWindow*>(m_windowStack.getTopWindow());
+	if (window)
+	{
+		window->content()->save();
+	}
+
+	ProjectSettings settings = getSettingsForCompilationDatabase(compilationDatabasePath);
+
+	m_settings.setSourcePaths(settings.getSourcePaths());
+	m_settings.setHeaderSearchPaths(settings.getHeaderSearchPaths());
+	m_settings.setFrameworkSearchPaths(settings.getFrameworkSearchPaths());
+	m_settings.setCompilationDatabasePath(FilePath(compilationDatabasePath));
 
 	if (window)
 	{
@@ -194,6 +227,45 @@ ProjectSettings QtProjectWizzard::getSettingsForVisualStudioSolution(const std::
 	return settings;
 }
 
+ProjectSettings QtProjectWizzard::getSettingsForCompilationDatabase(const std::string& compilationDatabasePath) const
+{
+	SolutionParserCompilationDatabase parser;
+	parser.openSolutionFile(compilationDatabasePath);
+	parser.parseDatabase();
+
+	ProjectSettings settings;
+	settings.setProjectName(parser.getSolutionName());
+	settings.setProjectFileLocation(parser.getSolutionPath());
+	settings.setCompilationDatabasePath(FilePath(compilationDatabasePath));
+
+	std::vector<std::string> sourceFiles = parser.getProjectItems();
+	std::vector<FilePath> sourcePaths;
+	for (const std::string& p : sourceFiles)
+	{
+		sourcePaths.push_back(FilePath(p));
+	}
+
+	std::vector<std::string> includePaths = parser.getIncludePaths();
+	std::vector<FilePath> headerPaths;
+	for (const std::string& p : includePaths)
+	{
+		headerPaths.push_back(FilePath(p));
+	}
+
+	std::vector<std::string> frameworkPaths = parser.getFrameworkPaths();
+	std::vector<FilePath> frameworkSearchPaths;
+	for (const std::string& p : frameworkPaths)
+	{
+		frameworkSearchPaths.push_back(FilePath(p));
+	}
+
+	settings.setSourcePaths(sourcePaths);
+	settings.setHeaderSearchPaths(headerPaths);
+	settings.setFrameworkSearchPaths(frameworkSearchPaths);
+
+	return settings;
+}
+
 void QtProjectWizzard::cancelWizzard()
 {
 	m_windowStack.clearWindows();
@@ -242,9 +314,17 @@ void QtProjectWizzard::selectedProjectType(QtProjectWizzardContentSelect::Projec
 		}
 
 	case QtProjectWizzardContentSelect::PROJECT_CDB:
-		QMessageBox msgBox;
-		msgBox.setText("Project type not implemented yet!");
-		msgBox.exec();
+		{
+			QString fileName = QFileDialog::getOpenFileName(
+				this, tr("Open JSON Compilation Database"), "", "JSON Compilation Database (*.json)"
+			);
+
+			if (!fileName.isNull())
+			{
+				newProjectFromCompilationDatabase(fileName.toStdString());
+			}
+			break;
+		}
 		break;
 	}
 }
@@ -343,6 +423,10 @@ void QtProjectWizzard::showSummary()
 	connect(dynamic_cast<QtProjectWizzardContentBuildFile*>(summary->contentBuildFile()),
 		SIGNAL(refreshVisualStudioSolution(const std::string&)),
 		this, SLOT(refreshProjectFromVisualStudioSolution(const std::string&)));
+
+	connect(dynamic_cast<QtProjectWizzardContentBuildFile*>(summary->contentBuildFile()),
+		SIGNAL(refreshCompilationDatabase(const std::string&)),
+		this, SLOT(refreshProjectFromCompilationDatabase(const std::string&)));
 
 	connect(dynamic_cast<QtProjectWizzardContentPathsSource*>(summary->contentPathsSource()),
 		SIGNAL(showSourceFiles()), this, SLOT(showSourceFiles()));
