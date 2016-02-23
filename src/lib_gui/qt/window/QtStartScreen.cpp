@@ -74,7 +74,7 @@ void QtStartScreen::setup()
 		position += 40;
 	}
 
-	resize(520, 600);
+	resize(570, 600);
 }
 
 QSize QtStartScreen::sizeHint() const
