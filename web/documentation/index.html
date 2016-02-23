@@ -130,7 +130,7 @@
 					<p>When running the full version of Coati for the first time you are greeted with the <a href="#EnterLicenseWindow">enter license window</a>. You need to enter the license key you received via e-mail when you purchased your Coati license.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/enter_license_screen.png" style="width:100%;">
+							<img src="img/license_key_window.png" style="width:100%;">
 						</div>
 					</div>
 					<div class="callout callout-info">
@@ -158,31 +158,19 @@
 
 
 					<h2>Creating a Project</h2>
-					<p>When creating a new Coati project you will use the <a href="#ProjectSetupWindow">project setup window</a>.</p>
-					<p>The <var>Name</var> and <var>Location</var> is used to define where and how your Coati project file will be saved.</p>
-					<p>The <var>Language</var> dropdown lets you select the programming language of the analyzed source code. The <var>Standard</var> dropdown is used to select a certain language standard. (See <a href="#SupportedLanguages"> supported languages</a>)</p>
-					<p>The <var>Analyzed Paths</var> list is used to define which source and header files will be analyzed by Coati. You can enter a paths to directories, single files or a mixture of these two approaches.</p>
-					<p>The <var>Header Search Paths</var> list defines the locations where Coati will look for included headers, e.g. <code>#include "sample.h"</code>. These can be your own project's header files or the headers of external frameworks or libraries.</p>
-					<p class="bg-info"><strong>Note:</strong> If you get include errors during analysis in the form <code>'sample.h' file not found</code> it means that you have Header Search Paths missing. If you get this error for system headers then please have a look at <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>.</p>
-					<p>If you use certain include files in all of your projects (e.g. standard library headers) you can add them for all projects in the <a href="#PreferencesWindow">preferences window</a>. It can be opened by clicking the <var>Preferences</var> button at the bottom of window.</p>
-					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/project_setup_screen.png" style="width:100%;">
-						</div>
-					</div>
+					<p>When creating a new Coati project you will use the <a href="#ProjectSetupWizard">project setup wizard</a>. This wizard splits the setup process into several subsequent steps.</p>
+					<p>The simplest way to set up a Coati project would be the following:</p>
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
-							<li>Enter your project name in the text field <var>Name</var>.</li>
-							<li>Select a location for your project file in <var>Location</var>.</li>
-							<li>Select your programming language and language standard.</li>
-							<li>Define the source files by adding at least one item to the <var>Analyzed Paths</var> list. (see <a href="#PathListBox">Path List Box</a> on how.)</li>
-							<li>Similarly add <var>Header Search Paths</var>.</li>
-							<li>If this is your first Coati project, click the <var>Preferences</var> Button to open the <a href="#PreferencesWindow">preferences window</a>, set the paths to your standard library headers and hit save. (see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a> to find out how to get them on your platform.)</li>
-							<li>Press "Create" to create your project.</li>
+							<li>Pick your project's programming language, select the empty project option and click <var>Next</var>.</li>
+							<li>Enter all of the project's meta information and click <var>Next</var>.</li>
+							<li>Select the simple setup option and click <var>Next</var>.</li>
+							<li>Provide the root directory that contains all your project's source and header files and click <var>Next</var>.</li>
+							<li>If your project requires any external headers to compile (e.g. Boost for C++), please provide the paths here and click <var>Next</var>.</li>
+							<li>You just completed the project setup. Click <var>Create</var> close the dialog. Coati will start analyzing your files now.</li>
 						</ul>
 					</div>
-
 
 					<h2>Source Analysis</h2>
 					<p>Coati will now start analyzing your source files, which might take a little while. The <a href="#Statusbar">status bar</a> will give you information about the progress. Otherwise the UI will be empty. Coati analyses all named symbols and their relationships throughout the provided source files. However, it stops the analysis at the level of local variables and symbols that are only valid within a certain function scope.</p>
@@ -387,7 +375,7 @@
 						</thead>
 						<tbody>
 							<tr> <th scope="row">Windows</th> <td>C:/Users/You/AppData/Local/Coati Software/Coati <small>(used for dynamic data and settings)</small><br />some_path/Coati Software/Coati/data <small>(used for static app data)</small></td> </tr>
-							<tr> <th scope="row">Mac</th> <td>/Applications/Coati.app/Contents/Resources/data</td> </tr>
+							<tr> <th scope="row">Mac</th> <td>~/Library/Application Support/Coati</td> </tr>
 							<tr> <th scope="row">Linux</th> <td>~/.config/coati</td> </tr>
 						</tbody>
 					</table>
@@ -397,6 +385,8 @@
 					<h3>on Windows</h3>
 					<p>These files usually ship with your compiler. For the Visual Studio IDE the system headers can be found at:</p>
 					<pre>path_to_visual_studio/VC/include/</pre>
+					<p>If you don't use the Visual Studio IDE you can also try to find your system headers in a subdirectory of:</p>
+					<pre>C:/Program Files (x86)/Windows Kits/</pre>
 
 					<h3>on Mac</h3>
 					<p>Run this command in your terminal:</p>
@@ -457,14 +447,14 @@
 					</div>
 					<strong>Interactions:</strong>
 					<ul>
-						<li>Clicking <var>New Project</var> will lead you to <a href="#ProjectSetupWindow">Project Setup</a>.</li>
+						<li>Clicking <var>New Project</var> will lead you to <a href="#ProjectSetupWizard">Project Setup</a>.</li>
 						<li>Clicking <var>Open Project</var> will let you open an existing Coati project by choosing from a file dialog.</li>
 						<li>Clicking on one of the <var>Recent Projects</var> will open this project. The list shows a maximum of 7 items ordered by recent first.</li>
 						<li>Pressing <var>ESC</var> will close the window.</li>
 					</ul>
 
 					<h3>Path List Box</h3>
-					<p>The Path List Box is a user interface element that is used within the <a href="#PreferencesWindow">Preferences Window</a>  and the <a href="#ProjectSetupWindow">Project Setup Window</a>. It allows for entering a list of file and directory paths.</p>
+					<p>The Path List Box is a user interface element that is used within the <a href="#PreferencesWindow">Preferences Window</a>  and the <a href="#ProjectSetupWizard">Project Setup Wizard</a>. It allows for entering a list of file and directory paths.</p>TODO: Replace
 					<div class="row">
 						<div class="col-sm-6 col-sm-offset-3">
 							<img src="img/path_list_box.png" style="width:100%;">
@@ -482,7 +472,7 @@
 
 
 					<h3>Preferences Window</h3>
-					<p>The Preferences window lets you define settings for all projects. You can open the Preferences from the menu via <a href="#Help">Help/Preferences</a> or from the <a href="#ProjectSetupWindow">Project Setup Window</a> by pressing the <var>Preferences</var> button.</p>
+					<p>The Preferences window lets you define settings for all projects. You can open the Preferences from the menu via <a href="#Help">Help/Preferences</a>.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/preferences_screen.png" style="width:100%;">
@@ -499,39 +489,154 @@
 					</table>
 
 
-					<h3>Project Setup Window</h3>
-					<p>The Project Setup Window lets you create a new Coati project.</p>
+					<h3>Project Setup Wizard</h3>
+					<p>The Project Setup Wizard consists of a sequence of windows that lets you create a new Coati project. After selecting the programming language for your project Coati offers several ways for you to provide all the required information.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/project_setup_screen.png" style="width:100%;">
+							<img src="img/project_setup_wizard_start.png" style="width:100%;">
 						</div>
 					</div>
 					<strong>Interactions:</strong>
 					<ul>
-						<li>Clicking <var>Cancel</var> will close the window.</li>
-						<li>Clicking <var>Create</var> will check your inputs, save the new project file and start analyzing the source files.</li>
-						<li>Pressing <var>ESC</var> will close the window.</li>
+						<li>Select the language used in code project.</li>
+						<li>Selecting a project type will determine how you enter all the required information.</li>
+						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window.</li>
+						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
 					</ul>
+
+					<h4>Create an Empty Project</h4>
+					<p>This is the way to go if you just have some source files you want to analyze and you don't have any files that instruct your compiler how to build a binary from those files. In case you actually have such a build instructions file, you might want to check out one of the other options for project setup described below.</p>
+
+					<strong>Project Meta Data</strong>
+					<p>In this first step Coati needs you to enter some meta information about the project.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/project_setup_wizard_empty_meta.png" style="width:100%;">
+						</div>
+					</div>
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Name</th> <td>The name of the project. This will also be the name of the project file.</td> </tr>
+							<tr> <th scope="row">Name</th> <td>The name of the project. This will also be the name of the *.coatiproject file generated by Coati.</td> </tr>
 							<tr> <th scope="row">Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
-							<tr> <th scope="row">Language</th> <td>Select the language of your project. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
-							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for analyzing your project. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
-							<tr> <th scope="row">Analyzed Paths</th> <td>Specify one or multiple locations that contain all the source and header files that should be analyzed by Coati. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
-							<tr> <th scope="row">Header Search Paths</th> <td>Specify where Coati should be looking for included headers. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
-							<tr> <th scope="row">Framework Search Paths</th> <td>Mac only. Define the search paths for <code>.framework</code> files for your project. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+							<tr> <th scope="row">Language</th> <td>Select the language of your project. This setting is preselected according to your choice in the previous screen. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
+							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for analyzing your project. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
 						</tbody>
 					</table>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
+						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
+						<li>Clicking <var>Previous</var> take you to the previous step of the setup process. All the information you entered will be saved.</li>
+					</ul>
+
+					<strong>Simple and Advanced Setup</strong>
+					<p>In this step you can choose between the simple setup and the advanced method.</p>
+					<p>In simple setup you just provide the directory of your project and Coati will find all source files and resolve header search paths within. Please note that simple setup slows down the analysis.</p>
+					<p>In the advanced setup you define analyzed source files and the corresponding header search paths separately.</p>
+					<div class="row">
+						<div class="col-sm-10 col-sm-offset-1">
+							<img src="img/project_setup_wizard_empty_simple.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
+						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
+						<li>Clicking <var>Previous</var> take you to the previous step of the setup process. All the information you entered will be saved.</li>
+					</ul>
+
+					<strong>Project Paths</strong>
+					<p>Provide the paths that contain your project's files. Coati will analyze all the source and header files in the specified paths, including subdirectories.</p>
+					<div class="row">
+						<div class="col-sm-10 col-sm-offset-1">
+							<img src="img/project_setup_wizard_empty_project_paths.png" style="width:100%;">
+						</div>
+					</div>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Setting</th> <th>Description</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">Project Paths</th> <td>Specify one or multiple locations that contain all the source and header files that should be analyzed by Coati. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+						</tbody>
+					</table>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Clicking <var>show files</var> will display a list of all the files Coati will analyze with the current settings.</li>
+						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
+						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
+						<li>Clicking <var>Previous</var> take you to the previous step of the setup process. All the information you entered will be saved.</li>
+					</ul>
+
+					<strong>Header Search Paths</strong>
+					<p>When you selected the simple setup method Coati will automatically search your source folder(s) for included headers. However, if your project requires additional includes to compile (e.g. Boost for C++, etc.), please specify them here.</p>
+					<div class="row">
+						<div class="col-sm-10 col-sm-offset-1">
+							<img src="img/project_setup_wizard_empty_header_paths_simple.png" style="width:100%;">
+						</div>
+					</div>
+					<p>If you chose the advanced setup method Coati needs you to specify all the project's internal include paths in addition to the external dependencies. Project internal include paths are those paths your project internal <code>#include</code> directives are relative to.</p>
+					<div class="row">
+						<div class="col-sm-10 col-sm-offset-1">
+							<img src="img/project_setup_wizard_empty_header_paths_advanced.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
+						<li>Clicking <var>Next</var> will take you to the <a href="#NewProjectSummary">New Project Summary Window</a>.</li>
+						<li>Clicking <var>Previous</var> take you to the previous step of the setup process. All the information you entered will be saved.</li>
+					</ul>
+
+
+					<h4 id="CreateAProjectFromVisualStudioSolution">Create a Project from Visual Studio Solution</h4>
+					<p>If you already have a Visual Studio solution file, this is the way to go. Just select the solution file in the file picker and Coati will automatically analyze (this may take a second) it to prepopulate the <a href="#NewProjectSummary">New Project Summary Window</a>.</p>
+
+
+					<h3>New Project Summary</h3>
+					<p>This window appears at the end of the <a href = "ProjectSetupWizard">Project Setup Wizard</a> to summarize all the information entered before. It is the same as the <a href="#EditProjectWindow">Edit Project Window</a>.</p>
+					<h3>Edit Project Window</h3>
+					<p>This window displays all the information relevant for your Coati project.</p>
+					<div class="row">
+						<div class="col-sm-10 col-sm-offset-1">
+							<img src="img/new_project_summary.png" style="width:100%;">
+						</div>
+					</div>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Setting</th> <th>Description</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">Name</th> <td>The name of the project. This will also be the name of the *.coatiproject file generated by Coati.</td> </tr>
+							<tr> <th scope="row">Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
+							<tr> <th scope="row">Language</th> <td>Select the language of your project. This setting is preselected according to your choice in the previous screen. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
+							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for analyzing your project. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
+
+							<tr> <th scope="row">Visual Studio Solution</th> <td>Only when using Setup from Visual Studio Solution. Provide the path to your Visual Studio Solution. Clicking the refresh arrow inside the text box will refresh the Project Paths and the Header Search Paths below.</td> </tr>
+
+							<tr> <th scope="row">Project Paths</th> <td>Provide the paths that contain your project's files. Coati will analyze all the source and header files in the specified paths, including subdirectories.</td> </tr>
+							<tr> <th scope="row">Simple Setup</th> <td>If this checkbox is checked Coati also looks into the analyzed paths (including subdirectories) when resolving <code>#include</code> directives.</td> </tr>
+							<tr> <th scope="row">Header Search Paths</th> <td>Specify where Coati should be looking for included headers.</td> </tr>
+							<tr> <th scope="row">Global Header Search Paths</th> <td>Same as Header Search Paths but these are used application wide for all of your Coati projects.</td> </tr>
+							<tr> <th scope="row">Framework Search Paths</th> <td>Mac only. Define the search paths for <code>.framework</code> files for your project. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+							<tr> <th scope="row">Global Framework Search Paths</th> <td>Same as Framework Search Paths but these are used application wide for all of your Coati projects.</td> </tr>
+						</tbody>
+					</table>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
+						<li>Clicking <var>Create</var> will check your inputs, save the new project file and start analyzing the source files.</li>
+						<li>Clicking <var>Previous</var> take you to the previous step of the setup process. All the information you entered will be saved.</li>
+					</ul>
 
 					<h3>Enter License Window</h3>
 					<p>The Enter License Window appears on your first start of Coati and is used to enter and check your Coati license key.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/enter_license_screen.png" style="width:100%;">
+							<img src="img/license_key_window.png" style="width:100%;">
 						</div>
 					</div>
 					<strong>Interactions:</strong>
@@ -551,7 +656,7 @@
 							<strong>New Project</strong>
 							<ul>
 								<li>Shortcut: <a href="#Shortcuts">New Project</a></li>
-								<li>Opens the <a href="#ProjectSetupWindow">New Project</a> Dialog to define a new project and loads it after creation.</li>
+								<li>Opens the <a href="#ProjectSetupWizard">New Project</a> Dialog to define a new project and loads it after creation.</li>
 							</ul>
 						</li>
 						<li>
@@ -564,7 +669,7 @@
 						<li>
 							<strong>Edit Project</strong>
 							<ul>
-								<li>Opens the <a href="#ProjectSetupWindow">New Project Dialog</a> prefilled with your project settings and allows for changing them.</li>
+								<li>Opens the <a href="#EditProjectWindow">Edit Project Window</a> prefilled with your project settings and allows for changing them.</li>
 							</ul>
 						</li>
 						<li>
