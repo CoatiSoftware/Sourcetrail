@@ -56,15 +56,6 @@ int main(int argc, char *argv[])
 	commandLineParser.setup();
 	commandLineParser.process(qtApp);
 
-
-	SolutionParserCompilationDatabase sp;
-	sp.openSolutionFile("/home/st4ll1/dev/coati/build/Release/compile_commands.json");
-	std::vector<std::string> v = sp.getIncludePaths();
-	for(std::string s : v)
-	{
-		std::cout << s << std::endl;
-	}
-
 	QtViewFactory viewFactory;
 	QtNetworkFactory networkFactory;
 
