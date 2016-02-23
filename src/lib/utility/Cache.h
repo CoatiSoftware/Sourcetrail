@@ -25,7 +25,7 @@ Cache<KeyType, ValType>::Cache(std::function<ValType(KeyType)> calculator)
 template <typename KeyType, typename ValType>
 ValType Cache<KeyType, ValType>::getValue(KeyType key)
 {
-	std::map<KeyType, ValType>::const_iterator it = m_map.find(key);
+	typename std::map<KeyType, ValType>::const_iterator it = m_map.find(key);
 	if (it != m_map.end())
 	{
 		return it->second;

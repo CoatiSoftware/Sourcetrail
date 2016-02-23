@@ -18,6 +18,7 @@
 #include "version.h"
 
 #include "settings/ProjectSettings.h"
+#include "utility/solution/SolutionParserCompilationDatabase.h"
 
 void init()
 {
@@ -32,6 +33,7 @@ void init()
 
 	utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
 }
+#include <iostream>
 
 int main(int argc, char *argv[])
 {
@@ -53,6 +55,15 @@ int main(int argc, char *argv[])
 	QtCommandLineParser commandLineParser;
 	commandLineParser.setup();
 	commandLineParser.process(qtApp);
+
+
+	SolutionParserCompilationDatabase sp;
+	sp.openSolutionFile("/home/st4ll1/dev/coati/build/Release/compile_commands.json");
+	std::vector<std::string> v = sp.getIncludePaths();
+	for(std::string s : v)
+	{
+		std::cout << s << std::endl;
+	}
 
 	QtViewFactory viewFactory;
 	QtNetworkFactory networkFactory;

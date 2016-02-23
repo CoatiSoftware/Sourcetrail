@@ -31,10 +31,30 @@ std::vector<std::string> SolutionParserCompilationDatabase::getProjectItems()
 
 std::vector<std::string> SolutionParserCompilationDatabase::getIncludePaths()
 {
-    std::vector<clang::tooling::CompileCommand> commands = getDatabase()->getAllCompileCommands();
+	if(m_searchPaths.empty())
+	{
+		parseDatabase();
+	}
+	return m_searchPaths;
+}
+
+std::vector<std::string> SolutionParserCompilationDatabase::getFrameworkPaths()
+{
+	if(m_searchPaths.empty())
+	{
+		parseDatabase();
+	}
+	return m_frameworkPaths;
+}
+
+void SolutionParserCompilationDatabase::parseDatabase()
+{
+	std::vector<clang::tooling::CompileCommand> commands = getDatabase()->getAllCompileCommands();
 
     std::set<std::string> searchPaths;
+	std::set<std::string> frameworkPaths;
     bool insertNext = false;
+	bool insertFramework = false;
     for(clang::tooling::CompileCommand command : commands)
     {
         std::string dir = command.Directory;
@@ -45,25 +65,32 @@ std::vector<std::string> SolutionParserCompilationDatabase::getIncludePaths()
                 searchPaths.insert(getIncludePath(argument, command.Directory));
                 insertNext = false;
             }
+			if(insertFramework)
+			{
+				frameworkPaths.insert(getIncludePath(argument,command.Directory));
+				insertFramework = false;
+			}
             if(argument.substr(0,2) == "-I")
             {
                 searchPaths.insert(getIncludePath(argument.substr(2), command.Directory));
             }
-            if(argument == "-isystem" || argument == "-iframework")
+            if(argument == "-isystem")
             {
                 insertNext = true;
             }
+			if (argument == "-iframework")
+			{
+				insertFramework = true;
+			}
         }
     }
 
-    std::vector<std::string> paths;
     for(std::string p : searchPaths)
     {
-        paths.push_back(p);
+		m_searchPaths.push_back(p);
     }
-
-    return paths;
 }
+
 
 std::vector<std::string> SolutionParserCompilationDatabase::getProjectFiles()
 {
