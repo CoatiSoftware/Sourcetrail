@@ -71,7 +71,15 @@ void ApplicationSettings::setFontSize(int fontSize)
 
 std::string ApplicationSettings::getColorSchemePath() const
 {
-	return getValue<std::string>("application/color_scheme", ResourcePaths::getColorSchemesPath() + "bright.xml");
+	std::string defaultPath = ResourcePaths::getColorSchemesPath() + "bright.xml";
+	std::string path = getValue<std::string>("application/color_scheme", defaultPath);
+
+	if (path != defaultPath && !FilePath(path).exists())
+	{
+		return defaultPath;
+	}
+
+	return path;
 }
 
 void ApplicationSettings::setColorSchemePath(const std::string& colorSchemePath)
