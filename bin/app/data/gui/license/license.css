@@ -4,7 +4,7 @@ QLabel {
 
 #licenseField {
 	font-family: "<setting:font_name>";
-	font-size: 12pt;
+	font-size: 10pt;
 	height: 200px;
 	padding: 5px;
 	width: 470px;

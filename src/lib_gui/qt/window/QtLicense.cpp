@@ -125,7 +125,7 @@ void QtLicense::setup()
 	showButtons(layout);
 	updateDoneButton("Activate");
 
-	resize(725, 550);
+	resize(800, 550);
 }
 
 void QtLicense::handleCancelButtonPress()
