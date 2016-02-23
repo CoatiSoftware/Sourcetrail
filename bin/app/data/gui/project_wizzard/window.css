@@ -32,6 +32,11 @@
 #formArea {
 	background: white;
 	border: none;
+}
+
+#scrollArea {
+	background: white;
+	border: none;
 	border-top: 1px solid lightgrey;
 	border-bottom: 1px solid lightgrey;
 }

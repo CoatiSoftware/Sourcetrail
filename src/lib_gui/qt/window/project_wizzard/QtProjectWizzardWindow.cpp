@@ -45,20 +45,22 @@ void QtProjectWizzardWindow::setup()
 
 	populateWindow(contentWidget);
 
-	if (m_scrollAble)
-	{
-		QScrollArea* scrollArea = new QScrollArea();
-		scrollArea->setObjectName("formArea");
-		scrollArea->setFrameShadow(QFrame::Plain);
-		scrollArea->setWidgetResizable(true);
+	QScrollArea* scrollArea = new QScrollArea();
+	scrollArea->setFrameShadow(QFrame::Plain);
+	scrollArea->setObjectName("formArea");
+	scrollArea->setWidgetResizable(true);
 
-		scrollArea->setWidget(contentWidget);
-		windowLayout->addWidget(scrollArea);
+	scrollArea->setWidget(contentWidget);
+	windowLayout->addWidget(scrollArea);
+
+	if (!m_scrollAble)
+	{
+		scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+		scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	}
 	else
 	{
-		windowLayout->addWidget(contentWidget);
-		windowLayout->setStretchFactor(contentWidget, 1);
+		scrollArea->setObjectName("scrollArea");
 	}
 
 	showButtons(windowLayout);

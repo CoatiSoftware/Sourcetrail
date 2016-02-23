@@ -56,7 +56,6 @@ void QtListItemWidget::setFocus()
 void QtListItemWidget::handleButtonPress()
 {
 	QFileDialog dialog(this);
-	dialog.setFileMode(QFileDialog::Directory);
 
 	if (m_data->text().size())
 	{
