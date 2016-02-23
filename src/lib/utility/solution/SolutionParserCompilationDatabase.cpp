@@ -49,11 +49,10 @@ std::vector<std::string> SolutionParserCompilationDatabase::getIncludePaths()
             {
                 searchPaths.insert(getIncludePath(argument.substr(2), command.Directory));
             }
-            if(argument == "-isystem")
+            if(argument == "-isystem" || argument == "-iframework")
             {
                 insertNext = true;
             }
-            // TODO Implement iframework handling
         }
     }
 
