@@ -50,6 +50,20 @@ std::shared_ptr<Application> Application::create(
 	return ptr;
 }
 
+std::shared_ptr<Application> Application::create(const Version& version)
+{
+    Version::setApplicationVersion(version);
+    loadSettings();
+
+    std::shared_ptr<Application> ptr(new Application());
+    ptr->m_storageCache = std::make_shared<StorageCache>();
+
+    ptr->m_project = Project::create(ptr->m_storageCache.get());
+    ptr->startMessagingAndScheduling();
+
+    return ptr;
+}
+
 void Application::loadSettings()
 {
 	ApplicationSettings::getInstance()->load(FilePath(UserPaths::getAppSettingsPath()));
@@ -66,7 +80,10 @@ Application::~Application()
 {
 	MessageQueue::getInstance()->stopMessageLoop();
 	TaskScheduler::getInstance()->stopSchedulerLoop();
-	m_mainView->saveLayout();
+    if(m_mainView)
+    {
+        m_mainView->saveLayout();
+    }
 }
 
 void Application::loadProject(const FilePath& projectSettingsFilePath)
@@ -76,18 +93,20 @@ void Application::loadProject(const FilePath& projectSettingsFilePath)
 	loadSettings();
 	updateRecentProjects(projectSettingsFilePath);
 
-	m_mainView->setTitle(
-			"Coati - " +
-			projectSettingsFilePath.fileName());
-
-	m_storageCache->clear();
-	m_componentManager->refreshViews();
+    m_storageCache->clear();
 
 	m_project = Project::create(m_storageCache.get());
 	m_project->load(projectSettingsFilePath);
 
-	m_mainView->updateRecentProjectMenu();
-	m_mainView->hideStartScreen();
+    if(m_mainView)
+    {
+        m_componentManager->refreshViews();
+        m_mainView->setTitle(
+                "Coati - " +
+                projectSettingsFilePath.fileName());
+        m_mainView->updateRecentProjectMenu();
+        m_mainView->hideStartScreen();
+    }
 }
 
 void Application::refreshProject()
@@ -95,7 +114,10 @@ void Application::refreshProject()
 	MessageStatus("Refreshing Project").dispatch();
 
 	m_storageCache->clear();
-	m_componentManager->refreshViews();
+    if(m_componentManager)
+    {
+        m_componentManager->refreshViews();
+    }
 
 	m_project->reload();
 }
@@ -110,19 +132,27 @@ void Application::saveProject(const FilePath& projectSettingsFilePath)
 
 void Application::showLicenseScreen()
 {
-	m_mainView->showLicenseScreen();
+    if(m_mainView)
+    {
+        m_mainView->showLicenseScreen();
+    }
 }
 
 void Application::handleMessage(MessageActivateWindow* message)
 {
-	m_mainView->activateWindow();
+    if(m_mainView)
+    {
+        m_mainView->activateWindow();
+    }
 }
 
 void Application::handleMessage(MessageFinishedParsing* message)
 {
 	m_project->logStats();
-
-	MessageRefresh().refreshUiOnly().dispatch();
+    if(m_mainView)
+    {
+        MessageRefresh().refreshUiOnly().dispatch();
+    }
 }
 
 void Application::handleMessage(MessageLoadProject* message)

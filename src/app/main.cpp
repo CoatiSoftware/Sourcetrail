@@ -18,7 +18,21 @@
 #include "version.h"
 
 #include "settings/ProjectSettings.h"
-#include "utility/solution/SolutionParserCompilationDatabase.h"
+#include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/MessageFinishedParsing.h"
+
+
+class Quitter : public MessageListener<MessageFinishedParsing>
+{
+public:
+    Quitter(QCoreApplication* app){};
+    virtual ~Quitter(){};
+private:
+    virtual void handleMessage(MessageFinishedParsing* message)
+    {
+        QCoreApplication::exit(0);
+    }
+};
 
 void init()
 {
@@ -30,8 +44,6 @@ void init()
 	fileLogger->setLogLevel(Logger::LOG_ALL);
 	FileLogger::setFilePath(UserPaths::getLogPath());
 	LogManager::getInstance()->addLogger(fileLogger);
-
-	utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
 }
 
 int main(int argc, char *argv[])
@@ -40,33 +52,52 @@ int main(int argc, char *argv[])
 
 	Version version = Version::fromString(GIT_VERSION_NUMBER);
 	QApplication::setApplicationVersion(version.toDisplayString().c_str());
+    QCoreApplication*  qtApp = new QCoreApplication(argc, argv);
 
 	setup(argc, argv);
-	QtApplication qtApp(argc, argv);
-
-	qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
-
-	init();
-
-	QtCommandLineParser commandLineParser;
-	commandLineParser.setup();
-	commandLineParser.process(qtApp);
-
-	QtViewFactory viewFactory;
-	QtNetworkFactory networkFactory;
-
-	if(AppPath::getAppPath().empty())
+    if(AppPath::getAppPath().empty())
 	{
 		AppPath::setAppPath(QCoreApplication::applicationDirPath().toStdString());
 	}
 
-	LicenseChecker checker;
+	init();
 
-	std::shared_ptr<Application> app = Application::create(version, &viewFactory, &networkFactory);
+    QtCommandLineParser commandLineParser;
+	commandLineParser.setup();
+	commandLineParser.process(*qtApp);
+    commandLineParser.evaluateCommandline();
+    std::shared_ptr<Application> app;
 
-	checker.setApp(app.get());
+    if(commandLineParser.noGUI())
+    {
+        app = Application::create( version );
+        commandLineParser.projectLoad();
 
-	commandLineParser.parseCommandline();
+        Quitter quitter(qtApp);
+        return qtApp->exec();
+    }
+    else
+    {
+        // replace the qt app with a gui qt app
+        // FIXME qtApp to shared_ptr
+        qtApp->quit();
+        delete qtApp;
+        qtApp = new QtApplication(argc, argv);
+        qtApp->setAttribute(Qt::AA_UseHighDpiPixmaps);
 
-	return qtApp.exec();
+        utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
+
+        QtViewFactory viewFactory;
+        QtNetworkFactory networkFactory;
+
+        LicenseChecker checker;
+
+        app = Application::create(version, &viewFactory, &networkFactory);
+
+        checker.setApp(app.get());
+
+		commandLineParser.projectLoad();
+        return qtApp->exec();
+    }
 }
+
