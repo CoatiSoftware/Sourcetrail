@@ -45,6 +45,7 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 
 			m_window->disableNext();
 			m_title->setText("Project Types - " + m_languages->checkedButton()->text());
+			m_description->setText("");
 		}
 	);
 
@@ -78,6 +79,22 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 	connect(m_buttons, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
 		[this](int id)
 		{
+			switch (id)
+			{
+			case 0: m_description->setText(
+					"Create a new Coati project by defining what files will be analyzed and header search paths."
+				); break;
+			case 1: m_description->setText(
+					"Create a new project from an existing Visual Studio Solution file."
+				); break;
+			case 2: m_description->setText(
+					"Create a project from an existing Compilation Database. Compilation Databases can be created from "
+					"cmake projects. Have a look at the "
+					"<a href=\"https://staging.coati.io/documentation/#CreateAProjectFromCompilationDatabase\">"
+					"documentation</a> to find out more."
+				); break;
+			}
+
 			m_window->enableNext();
 		}
 	);
@@ -95,13 +112,19 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 
 	layout->addWidget(container, 0, QtProjectWizzardWindow::BACK_COL);
 
+	m_description = new QLabel();
+	m_description->setWordWrap(true);
+	m_description->setOpenExternalLinks(true);
+	m_description->setObjectName("projectDescription");
+	layout->addWidget(m_description, 1, QtProjectWizzardWindow::BACK_COL);
 
 	m_title = new QLabel("Project Types - " + m_languages->checkedButton()->text());
 	m_title->setObjectName("projectTitle");
 
 	layout->addWidget(m_title, 0, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
 
-
+	layout->setRowStretch(0, 0);
+	layout->setRowStretch(1, 1);
 	layout->setColumnStretch(QtProjectWizzardWindow::FRONT_COL, 0);
 	layout->setColumnStretch(QtProjectWizzardWindow::BACK_COL, 1);
 	layout->setHorizontalSpacing(0);
@@ -138,5 +161,5 @@ bool QtProjectWizzardContentSelect::check()
 
 QSize QtProjectWizzardContentSelect::preferredWindowSize() const
 {
-	return QSize(700, 340);
+	return QSize(700, 380);
 }

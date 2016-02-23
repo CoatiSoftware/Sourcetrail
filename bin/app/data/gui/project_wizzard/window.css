@@ -20,6 +20,11 @@
 	margin-left: 40px;
 }
 
+#projectDescription {
+	font-size: 12pt;
+	margin-left: 20px;
+}
+
 #label {
 	font-weight: bold;
 }

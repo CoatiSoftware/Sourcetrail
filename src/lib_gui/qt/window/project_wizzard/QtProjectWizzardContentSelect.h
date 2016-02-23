@@ -36,6 +36,7 @@ private:
 	QButtonGroup* m_buttons;
 
 	QLabel* m_title;
+	QLabel* m_description;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_SELECT_H
