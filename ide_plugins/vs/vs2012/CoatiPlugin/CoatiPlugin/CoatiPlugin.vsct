@@ -56,6 +56,7 @@
         </Strings>
       </Button>
 
+      <!--
       <Button guid="guidCoatiPluginCmdSet" id="cmdidCoatiCreateProject" priority="0x0100" type="Button">
         <Parent guid="guidCoatiPluginCmdSet" id="MyMenuGroup" />
         <Icon guid="icon" id="icon0" />
@@ -63,6 +64,7 @@
           <ButtonText>Create Coati Project</ButtonText>
         </Strings>
       </Button>
+      -->
 
       <Button guid="guidCoatiPluginCmdSet" id="cmdidCoatiCreateProject" priority="0x0100" type="Button">
         <Parent guid="guidCoatiPluginCmdSet" id="SubMenu" />

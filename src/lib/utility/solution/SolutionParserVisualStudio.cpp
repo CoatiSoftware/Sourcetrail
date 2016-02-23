@@ -147,6 +147,7 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 		}
 
 		TiXmlElement* root = getFirstTagByNameWithAttribute(doc.RootElement(), "ClCompile", "Include");
+		TiXmlElement* headerRoot = getFirstTagByNameWithAttribute(doc.RootElement(), "ClInclude", "Include");
 		if (root != NULL)
 		{
 			// std::string text(root->GetText());
@@ -157,7 +158,7 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 				text = root->Attribute("Include");
 			}
 
-			if (text.find(".cpp") == std::string::npos)
+			if (text.find(".cpp") == std::string::npos && text.find(".c") == std::string::npos)
 			{
 				root = NULL;
 			}
@@ -167,7 +168,26 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 			}
 		}
 
-		if (root == NULL)
+		if (headerRoot != NULL)
+		{
+			std::string tag = headerRoot->Value();
+			std::string text = "";
+			if (headerRoot->Attribute("Include") != NULL)
+			{
+				text = headerRoot->Attribute("Include");
+			}
+
+			if (text.find(".h") == std::string::npos && text.find(".hpp") == std::string::npos)
+			{
+				headerRoot = NULL;
+			}
+			else
+			{
+				headerRoot = headerRoot->Parent()->ToElement();
+			}
+		}
+
+		/*if (root == NULL)
 		{
 			TiXmlElement* root = getFirstTagByNameWithAttribute(doc.RootElement(), "ClInclude", "Include");
 			if (root != NULL)
@@ -178,11 +198,31 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 			{
 				root = NULL;
 			}
-		}
+		}*/
+
+
 
 		if (root != NULL)
 		{
 			for (TiXmlElement* child = root->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+			{
+				std::string filePath = child->Attribute("Include");
+
+				if (relativeProjectPaths[i].size() > 0)
+				{
+					filePath = relativeProjectPaths[i] + "/" + filePath;
+				}
+
+				if (checkValidFileExtension(filePath, validFileExtensions))
+				{
+					projectItems.push_back(filePath);
+				}
+			}
+		}
+
+		if (headerRoot != NULL)
+		{
+			for (TiXmlElement* child = headerRoot->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
 			{
 				std::string filePath = child->Attribute("Include");
 
