@@ -94,13 +94,16 @@ void QtProjectWizzard::refreshProjectFromVisualStudioSolution(const std::string&
 
 void QtProjectWizzard::newProjectFromCompilationDatabase(const std::string& compilationDatabasePath)
 {
-	m_settings = getSettingsForCompilationDatabase(compilationDatabasePath);
+	ProjectSettings settings = getSettingsForCompilationDatabase(compilationDatabasePath);
 
-	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentPathsCDBSource>();
-	connect(window, SIGNAL(next()), this, SLOT(showSummary()));
+	editProject(settings);
 
-	connect(dynamic_cast<QtProjectWizzardContentPathsCDBSource*>(window->content()),
-		SIGNAL(showSourceFiles()), this, SLOT(showSourceFiles()));
+	QWidget* window = m_windowStack.getTopWindow();
+
+	if (window)
+	{
+		dynamic_cast<QtProjectWizzardWindow*>(window)->updateTitle("NEW PROJECT FROM COMPILATION DATABASE");
+	}
 }
 
 void QtProjectWizzard::refreshProjectFromCompilationDatabase(const std::string& compilationDatabasePath)
@@ -229,39 +232,39 @@ ProjectSettings QtProjectWizzard::getSettingsForVisualStudioSolution(const std::
 
 ProjectSettings QtProjectWizzard::getSettingsForCompilationDatabase(const std::string& compilationDatabasePath) const
 {
-	SolutionParserCompilationDatabase parser;
-	parser.openSolutionFile(compilationDatabasePath);
-	parser.parseDatabase();
+	// SolutionParserCompilationDatabase parser;
+	// parser.openSolutionFile(compilationDatabasePath);
+	// parser.parseDatabase();
 
 	ProjectSettings settings;
-	settings.setProjectName(parser.getSolutionName());
-	settings.setProjectFileLocation(parser.getSolutionPath());
-	settings.setCompilationDatabasePath(FilePath(compilationDatabasePath));
+	// settings.setProjectName(parser.getSolutionName());
+	// settings.setProjectFileLocation(parser.getSolutionPath());
+	// settings.setCompilationDatabasePath(FilePath(compilationDatabasePath));
 
-	std::vector<std::string> sourceFiles = parser.getProjectItems();
-	std::vector<FilePath> sourcePaths;
-	for (const std::string& p : sourceFiles)
-	{
-		sourcePaths.push_back(FilePath(p));
-	}
+	// std::vector<std::string> sourceFiles = parser.getProjectItems();
+	// std::vector<FilePath> sourcePaths;
+	// for (const std::string& p : sourceFiles)
+	// {
+	// 	sourcePaths.push_back(FilePath(p));
+	// }
 
-	std::vector<std::string> includePaths = parser.getIncludePaths();
-	std::vector<FilePath> headerPaths;
-	for (const std::string& p : includePaths)
-	{
-		headerPaths.push_back(FilePath(p));
-	}
+	// std::vector<std::string> includePaths = parser.getIncludePaths();
+	// std::vector<FilePath> headerPaths;
+	// for (const std::string& p : includePaths)
+	// {
+	// 	headerPaths.push_back(FilePath(p));
+	// }
 
-	std::vector<std::string> frameworkPaths = parser.getFrameworkPaths();
-	std::vector<FilePath> frameworkSearchPaths;
-	for (const std::string& p : frameworkPaths)
-	{
-		frameworkSearchPaths.push_back(FilePath(p));
-	}
+	// std::vector<std::string> frameworkPaths = parser.getFrameworkPaths();
+	// std::vector<FilePath> frameworkSearchPaths;
+	// for (const std::string& p : frameworkPaths)
+	// {
+	// 	frameworkSearchPaths.push_back(FilePath(p));
+	// }
 
-	settings.setSourcePaths(sourcePaths);
-	settings.setHeaderSearchPaths(headerPaths);
-	settings.setFrameworkSearchPaths(frameworkSearchPaths);
+	// settings.setSourcePaths(sourcePaths);
+	// settings.setHeaderSearchPaths(headerPaths);
+	// settings.setFrameworkSearchPaths(frameworkSearchPaths);
 
 	return settings;
 }

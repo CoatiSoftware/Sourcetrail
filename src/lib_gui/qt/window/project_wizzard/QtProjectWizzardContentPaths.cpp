@@ -6,8 +6,6 @@
 
 #include "qt/element/QtDirectoryListBox.h"
 #include "settings/ApplicationSettings.h"
-#include "utility/file/FileSystem.h"
-#include "utility/utility.h"
 
 
 QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(ProjectSettings* settings, QtProjectWizzardWindow* window)
@@ -109,11 +107,6 @@ void QtProjectWizzardContentPaths::save()
 	if (m_subPaths)
 	{
 		m_subPaths->savePaths();
-
-		if (dynamic_cast<QtProjectWizzardContentPathsCDBHeaders*>(m_subPaths))
-		{
-			loadPaths();
-		}
 	}
 }
 
@@ -242,75 +235,6 @@ QtProjectWizzardContentPathsSourceSimple::QtProjectWizzardContentPathsSourceSimp
 		"Add all directories or files you want to analyse with Coati. It is sufficient to just provide the top level "
 		"project directory."
 	);
-}
-
-
-QtProjectWizzardContentPathsCDBSource::QtProjectWizzardContentPathsCDBSource(
-	ProjectSettings* settings, QtProjectWizzardWindow* window
-)
-	: QtProjectWizzardContentPaths(settings, window)
-{
-	m_addShowSourcesButton = true;
-
-	setInfo(
-		"Compilation Database Files",
-		"These files were found within the provided compilation database. You can add or remove files here.",
-		""
-	);
-
-	m_subPaths = new QtProjectWizzardContentPathsCDBHeaders(settings, window);
-}
-
-void QtProjectWizzardContentPathsCDBSource::loadPaths()
-{
-	m_list->setList(m_settings->getSourcePaths());
-}
-
-void QtProjectWizzardContentPathsCDBSource::savePaths()
-{
-	m_settings->setSourcePaths(m_list->getList());
-}
-
-bool QtProjectWizzardContentPathsCDBSource::isScrollAble() const
-{
-	return true;
-}
-
-QtProjectWizzardContentPathsCDBHeaders::QtProjectWizzardContentPathsCDBHeaders(
-	ProjectSettings* settings, QtProjectWizzardWindow* window
-)
-	: QtProjectWizzardContentPaths(settings, window)
-{
-	setTitleString("Header Files");
-	setDescriptionString(
-		"Coati works best if you analyze both your source and header files, but the Compilation Database only contains "
-		"source files. Add the header files, or the directories containing them here. They will be added to the source "
-		"files above"
-	);
-}
-
-void QtProjectWizzardContentPathsCDBHeaders::loadPaths()
-{
-	m_list->clear();
-}
-
-void QtProjectWizzardContentPathsCDBHeaders::savePaths()
-{
-	std::vector<FilePath> headerPaths = m_list->getList();
-	std::vector<std::string> extensions = m_settings->getHeaderExtensions();
-	std::vector<FileInfo> fileInfos = FileSystem::getFileInfosFromPaths(headerPaths, extensions);
-
-	headerPaths.clear();
-	for (const FileInfo& info : fileInfos)
-	{
-		headerPaths.push_back(info.path);
-	}
-
-	std::vector<FilePath> sourcePaths = m_settings->getSourcePaths();
-	utility::append(sourcePaths, headerPaths);
-	m_settings->setSourcePaths(sourcePaths);
-
-	m_list->clear();
 }
 
 

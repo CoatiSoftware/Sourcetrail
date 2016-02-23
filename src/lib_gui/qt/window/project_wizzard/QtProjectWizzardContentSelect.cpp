@@ -67,6 +67,8 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 	QToolButton* c = createProjectButton(
 		"from Compilation\nDatabase", (ResourcePaths::getGuiPath() + "icon/project_cdb_256_256.png").c_str());
 
+	c->hide();
+
 	m_buttons = new QButtonGroup(this);
 	m_buttons->addButton(a);
 	m_buttons->addButton(b);
@@ -161,5 +163,5 @@ bool QtProjectWizzardContentSelect::check()
 
 QSize QtProjectWizzardContentSelect::preferredWindowSize() const
 {
-	return QSize(700, 380);
+	return QSize(570, 380);
 }

@@ -1,3 +1,4 @@
+/*
 #ifndef COATI_SOLUTIONPARSERCOMPILATIONDATABASE_H
 #define COATI_SOLUTIONPARSERCOMPILATIONDATABASE_H
 
@@ -36,9 +37,11 @@ private:
 
     std::shared_ptr<clang::tooling::JSONCompilationDatabase> m_database;
 
+    std::vector<FilePath> m_headerPaths;
     std::vector<std::string> m_searchPaths;
     std::vector<std::string> m_frameworkPaths;
 };
 
 
 #endif //COATI_SOLUTIONPARSERCOMPILATIONDATABASE_H
+*/

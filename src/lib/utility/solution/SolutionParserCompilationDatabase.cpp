@@ -1,10 +1,14 @@
+/*
 #include "utility/solution/SolutionParserCompilationDatabase.h"
 
 #include <set>
 
-#include "utility/file/FilePath.h"
-#include "utility/logging/logging.h"
 #include "clang/Tooling/JSONCompilationDatabase.h"
+#include "settings/ProjectSettings.h"
+#include "utility/file/FilePath.h"
+#include "utility/file/FileSystem.h"
+#include "utility/logging/logging.h"
+#include "utility/utility.h"
 
 SolutionParserCompilationDatabase::SolutionParserCompilationDatabase()
 {
@@ -26,7 +30,17 @@ std::vector<std::string> SolutionParserCompilationDatabase::getProjects()
 
 std::vector<std::string> SolutionParserCompilationDatabase::getProjectItems()
 {
-    return getDatabase()->getAllFiles();
+    std::vector<std::string> files = getDatabase()->getAllFiles();
+
+    std::vector<std::string> extensions = ProjectSettings::getInstance()->getHeaderExtensions();
+    std::vector<FileInfo> fileInfos = FileSystem::getFileInfosFromPaths(m_headerPaths, extensions);
+
+    for (const FileInfo& info : fileInfos)
+    {
+        files.push_back(info.path.str());
+    }
+
+    return files;
 }
 
 std::vector<std::string> SolutionParserCompilationDatabase::getIncludePaths()
@@ -43,6 +57,7 @@ void SolutionParserCompilationDatabase::parseDatabase()
 {
 	std::vector<clang::tooling::CompileCommand> commands = getDatabase()->getAllCompileCommands();
 
+    std::set<std::string> headerPaths;
     std::set<std::string> searchPaths;
 	std::set<std::string> frameworkPaths;
     bool insertNext = false;
@@ -64,7 +79,9 @@ void SolutionParserCompilationDatabase::parseDatabase()
 			}
             if(argument.substr(0,2) == "-I")
             {
-                searchPaths.insert(getIncludePath(argument.substr(2), command.Directory));
+                std::string includePath = getIncludePath(argument.substr(2), command.Directory);
+                headerPaths.insert(includePath);
+                searchPaths.insert(includePath);
             }
             if(argument == "-isystem")
             {
@@ -75,6 +92,11 @@ void SolutionParserCompilationDatabase::parseDatabase()
 				insertFramework = true;
 			}
         }
+    }
+
+    for(std::string p : headerPaths)
+    {
+        m_headerPaths.push_back(FilePath(p));
     }
 
     for(std::string p : searchPaths)
@@ -124,3 +146,4 @@ clang::tooling::JSONCompilationDatabase* SolutionParserCompilationDatabase::getD
     }
     return m_database.get();
 }
+*/

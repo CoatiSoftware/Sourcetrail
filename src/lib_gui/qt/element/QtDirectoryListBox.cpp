@@ -262,9 +262,14 @@ void QtDirectoryListBox::removeListBoxItem()
 		return;
 	}
 
-	int rowIndex = m_list->row(m_list->selectedItems().first()) - 1;
+	int rowIndex = m_list->row(m_list->selectedItems().first());
 
 	qDeleteAll(m_list->selectedItems());
+
+	if (rowIndex == m_list->count())
+	{
+		rowIndex -= 1;
+	}
 
 	resize();
 
