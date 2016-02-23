@@ -74,6 +74,8 @@ cp -r ../../../ide_plugins/vs/coati_plugin_vs_2015.vsix $PACKAGE_DIR/plugins/vis
 
 cp -R ../../../ide_plugins/sublime_text $PACKAGE_DIR/plugins/sublime_text/
 
+cp ../data/gui/installer/EULA.rtf $PACKAGE_DIR/EULA.rtf
+
 ln -s /Applications $PACKAGE_DIR/Applications
 
 echo -e $INFO "Copying bundle contents."
