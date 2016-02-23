@@ -494,6 +494,12 @@ if (APPLE)
 		@ONLY
 	)
 
+	configure_file(
+		${PROJECT_SOURCE_DIR}/setup/MacOSX/Info_trial.plist.in
+		${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/bundle_info_trial.plist
+		@ONLY
+	)
+
 endif ()
 
 # License Generator  --------------------------------------------------------

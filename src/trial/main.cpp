@@ -13,7 +13,6 @@
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewFactory.h"
 #include "qt/window/QtMainWindow.h"
-#include "qt/window/QtSplashScreen.h"
 #include "version.h"
 
 
@@ -33,7 +32,7 @@ void init()
 
 int main(int argc, char *argv[])
 {
-	QApplication::setApplicationName("Coati");
+	QApplication::setApplicationName("Coati Trial");
 
 	Version version = Version::fromString(GIT_VERSION_NUMBER);
 	QApplication::setApplicationVersion(version.toDisplayString().c_str());
@@ -44,25 +43,12 @@ int main(int argc, char *argv[])
 
 	qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
 
-	QPixmap whitePixmap(500, 500);
-	whitePixmap.fill(Qt::white);
-
-	QtSplashScreen* splash = new QtSplashScreen(whitePixmap, Qt::WindowStaysOnTopHint);
-	splash->setMessage("Loading UI");
-	splash->setVersion(version.toDisplayString().c_str());
-	splash->exec(qtApp);
-
 	init();
 
 	QtViewFactory viewFactory;
 	QtNetworkFactory networkFactory;
 
 	std::shared_ptr<Application> app = Application::create(version, &viewFactory, &networkFactory);
-
-	if (splash)
-	{
-		delete splash;
-	}
 
 	return qtApp.exec();
 }

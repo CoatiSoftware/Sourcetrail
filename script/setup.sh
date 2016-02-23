@@ -48,7 +48,7 @@ if [ $PLATFORM == "Windows" ]; then
 
 	echo -e $INFO "creating program icon"
 	sh script/create_windows_icon.sh
-	
+
 	cmd //c 'mklink /d /j '.$MY_PATH.'\..\bin\app\Debug\data '.$MY_PATH.'\..\bin\app\data' &
 	cmd //c 'mklink /d /j '.$MY_PATH.'\..\bin\app\Debug\user '.$MY_PATH.'\..\bin\app\user' &
 	cmd //c 'mklink /d /j '.$MY_PATH.'\..\bin\app\Release\data '.$MY_PATH.'\..\bin\app\data' &
@@ -69,5 +69,3 @@ if [ $PLATFORM == "Linux" ] || [ $PLATFORM == "MacOS" ]; then
 fi
 
 echo -e $SUCCESS "setup complete"
-
-sleep 5

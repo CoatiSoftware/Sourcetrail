@@ -33,7 +33,6 @@ void init()
 
 	utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
 }
-#include <iostream>
 
 int main(int argc, char *argv[])
 {
@@ -46,9 +45,6 @@ int main(int argc, char *argv[])
 	QtApplication qtApp(argc, argv);
 
 	qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
-
-	QPixmap whitePixmap(500, 500);
-	whitePixmap.fill(Qt::white);
 
 	init();
 

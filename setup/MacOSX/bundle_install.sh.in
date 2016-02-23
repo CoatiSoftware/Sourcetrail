@@ -13,6 +13,15 @@ BUNDLE_NAME="@MACOSX_BUNDLE_NAME@"
 APP_NAME="@MACOSX_BINARY_NAME@"
 DYNLIB_PATHS=(@MACOSX_DYNAMIC_LIBRARIES@)
 
+if [ "$1" = "trial" ]
+then
+	echo -e $INFO "Trial bundle"
+	BUNDLE_NAME="${BUNDLE_NAME}_Trial"
+	APP_NAME="${APP_NAME}_trial"
+	echo $BUNDLE_NAME
+	echo $APP_NAME
+fi
+
 VERSION_STRING=$(git describe)
 VERSION_STRING="${VERSION_STRING//-/_}"
 VERSION_STRING="${VERSION_STRING//./_}"
@@ -58,8 +67,6 @@ mkdir -p $FRAMEWORK_DIR
 mkdir -p $RES_DIR
 
 echo -e $INFO "Copying top level contents."
-cp ../../../web/coati_manual.pdf $PACKAGE_DIR/coati_manual.pdf
-
 mkdir -p $PACKAGE_DIR/plugins/visual_studio/
 cp -r ../../../ide_plugins/vs/coati_plugin_vs_2012.vsix $PACKAGE_DIR/plugins/visual_studio/
 cp -r ../../../ide_plugins/vs/coati_plugin_vs_2013.vsix $PACKAGE_DIR/plugins/visual_studio/
@@ -71,7 +78,13 @@ ln -s /Applications $PACKAGE_DIR/Applications
 
 echo -e $INFO "Copying bundle contents."
 cp $APP_NAME $APP_PATH
-cp bundle_info.plist $BUNDLE_PATH/Contents/Info.plist
+
+if [ "$1" = "trial" ]
+then
+	cp bundle_info_trial.plist $BUNDLE_PATH/Contents/Info.plist
+else
+	cp bundle_info.plist $BUNDLE_PATH/Contents/Info.plist
+fi
 
 mkdir -p $RES_DIR/data
 mkdir -p $RES_DIR/data/projects
@@ -83,8 +96,11 @@ cp -R ../data/gui $RES_DIR/data/gui
 cp -R ../data/projects/tictactoe $RES_DIR/data/projects/tictactoe
 cp -R ../data/projects/tutorial $RES_DIR/data/projects/tutorial
 
-rm $RES_DIR/data/projects/tictactoe/tictactoe.coatidb
-rm $RES_DIR/data/projects/tutorial/tutorial.coatidb
+if [ ! "$1" = "trial" ]
+then
+	rm $RES_DIR/data/projects/tictactoe/tictactoe.coatidb
+	rm $RES_DIR/data/projects/tutorial/tutorial.coatidb
+fi
 
 mkdir -p $RES_DIR/user
 mkdir -p $RES_DIR/user/log
@@ -199,11 +215,11 @@ convert $ICON -resize 1024x1024 $ICON_SET/icon_512x512@2x.png
 
 iconutil -c icns -o $RES_DIR/project.icns $ICON_SET
 
-echo -e $INFO "Obfuscate binary"
+# echo -e $INFO "Obfuscate binary"
 # upx -1 $APP_PATH
-upx --best $APP_PATH
+# upx --best $APP_PATH
 
-echo -e $INFO "create DMG"
-hdiutil create ${PACKAGE_DIR}.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR}
+# echo -e $INFO "create DMG"
+# hdiutil create ${PACKAGE_DIR}.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR}
 
 echo -e $SUCCESS "Installed bundle successfully!"
