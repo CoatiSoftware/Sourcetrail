@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include <QMimeData>
 #include <QScrollBar>
+#include <QSysInfo>
 #include <QTreeView>
 
 #include "utility/ResourcePaths.h"
@@ -56,6 +57,11 @@ void QtListItemWidget::setFocus()
 void QtListItemWidget::handleButtonPress()
 {
 	QFileDialog dialog(this);
+
+	if (QSysInfo::macVersion() == QSysInfo::MV_None)
+	{
+		dialog.setFileMode(QFileDialog::Directory);
+	}
 
 	if (m_data->text().size())
 	{
