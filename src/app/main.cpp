@@ -41,6 +41,10 @@ int main(int argc, char *argv[])
 	Version version = Version::fromString(GIT_VERSION_NUMBER);
 	QApplication::setApplicationVersion(version.toDisplayString().c_str());
 
+	if(AppPath::getAppPath().empty())
+	{
+		AppPath::setAppPath(QCoreApplication::applicationDirPath().toStdString());
+	}
 	setup(argc, argv);
 	QtApplication qtApp(argc, argv);
 
@@ -54,11 +58,6 @@ int main(int argc, char *argv[])
 
 	QtViewFactory viewFactory;
 	QtNetworkFactory networkFactory;
-
-	if(AppPath::getAppPath().empty())
-	{
-		AppPath::setAppPath(QCoreApplication::applicationDirPath().toStdString());
-	}
 
 	LicenseChecker checker;
 

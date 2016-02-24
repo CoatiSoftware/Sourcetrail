@@ -30,6 +30,8 @@ public:
 	static std::string fileName(const std::string& path);
 	static std::string absoluteFilePath(const std::string& path);
 
+	static bool copy_directory(const FilePath& from, const FilePath& to);
+
 	static std::string extension(const std::string& path);
 	static std::string filePathWithoutExtension(const std::string& path);
 	static bool hasExtension(const std::string& filepath, const std::vector<std::string>& extensions);

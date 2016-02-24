@@ -34,7 +34,7 @@ if (WIN32)
 elseif (APPLE)
 	set(PLATFORM_INCLUDE "includesMac.h")
 else ()
-	set(PLATFORM_INCLUDE "includesDefault.h")
+	set(PLATFORM_INCLUDE "includesLinux.h")
 endif ()
 
 # Settings ---------------------------------------------------------------------
@@ -331,7 +331,6 @@ else ()
 endif ()
 
 add_subdirectory(src/app)
-
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)

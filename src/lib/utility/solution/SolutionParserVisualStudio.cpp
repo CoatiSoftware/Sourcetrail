@@ -407,7 +407,6 @@ TiXmlElement* SolutionParserVisualStudio::getFirstTagByName(TiXmlElement* root, 
 	{
 		if (element == NULL)
 		{
-			int foo = 0;
 		}
 
 		std::string value = element->Value();
@@ -432,7 +431,6 @@ TiXmlElement* SolutionParserVisualStudio::getFirstTagByName(TiXmlElement* root, 
 		{
 			if (element == NULL)
 			{
-				int foo = 0;
 			}
 
 			while (element->Parent()->ToElement() != NULL && element->Parent()->NextSiblingElement() == NULL)
@@ -441,7 +439,6 @@ TiXmlElement* SolutionParserVisualStudio::getFirstTagByName(TiXmlElement* root, 
 
 				if (newElement == NULL)
 				{
-					int foo = 0;
 				}
 
 				element = newElement;
@@ -487,7 +484,6 @@ std::vector<TiXmlElement*> SolutionParserVisualStudio::getAllTagsByName(TiXmlEle
 		{
 			if (element == NULL)
 			{
-				int foo = 0;
 			}
 
 			while (element->Parent()->ToElement() != NULL && element->Parent()->NextSiblingElement() == NULL)
@@ -496,7 +492,6 @@ std::vector<TiXmlElement*> SolutionParserVisualStudio::getAllTagsByName(TiXmlEle
 
 				if (newElement == NULL)
 				{
-					int foo = 0;
 				}
 
 				element = newElement;
@@ -523,7 +518,6 @@ TiXmlElement* SolutionParserVisualStudio::getFirstTagByNameWithAttribute(TiXmlEl
 	{
 		if (element == NULL)
 		{
-			int foo = 0;
 		}
 
 		std::string value = element->Value();

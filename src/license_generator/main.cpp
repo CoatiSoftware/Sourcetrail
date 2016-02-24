@@ -63,7 +63,6 @@ bool process_command_line(int argc, char** argv)
 
         if(vm.count("generate"))
         {
-            bool fail = false;
             if(!vm.count("version"))
             {
                 std::cout << "Version of Coati is needed to generate a License" << std::endl;

@@ -164,6 +164,16 @@ void FileSystem::createDirectory(const FilePath& path)
 	boost::filesystem::create_directories(path.str());
 }
 
+bool FileSystem::copy_directory(const FilePath& from, const FilePath& to)
+{
+	if(!from.exists() || to.exists())
+	{
+		return false;
+	}
+	boost::filesystem::copy_directory(boost::filesystem::path(from.str()),boost::filesystem::path(to.str()));
+	return true;
+}
+
 std::vector<FilePath> FileSystem::getSubDirectories(const FilePath &path)
 {
 	std::vector<FilePath> v;
