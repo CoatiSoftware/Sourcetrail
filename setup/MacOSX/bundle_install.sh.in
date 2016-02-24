@@ -22,7 +22,7 @@ then
 	echo $APP_NAME
 fi
 
-VERSION_STRING=$(git describe)
+VERSION_STRING=$(git describe --long)
 VERSION_STRING="${VERSION_STRING//-/_}"
 VERSION_STRING="${VERSION_STRING//./_}"
 VERSION_STRING="${VERSION_STRING%_*}"
@@ -219,9 +219,9 @@ iconutil -c icns -o $RES_DIR/project.icns $ICON_SET
 
 # echo -e $INFO "Obfuscate binary"
 # upx -1 $APP_PATH
-# upx --best $APP_PATH
+upx --best $APP_PATH
 
 # echo -e $INFO "create DMG"
-# hdiutil create ${PACKAGE_DIR}.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR}
+hdiutil create ${PACKAGE_DIR}.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR}
 
 echo -e $SUCCESS "Installed bundle successfully!"
