@@ -12,6 +12,7 @@
 
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
+#include "isTrial.h"
 #include "qt/element/QtCodeFileList.h"
 #include "qt/element/QtCodeSnippet.h"
 #include "qt/utility/utilityQt.h"
@@ -477,6 +478,11 @@ void QtCodeFile::updateTitleBar()
 
 void QtCodeFile::doUpdateTitleBar()
 {
+	if (isTrial())
+	{
+		return;
+	}
+
 	// cannot use m_filePath.exists() here since it is only checked when FilePath is constructed.
 	if ((!FileSystem::exists(m_filePath.str())) ||
 		(FileSystem::getLastWriteTime(m_filePath) > m_modificationTime))
