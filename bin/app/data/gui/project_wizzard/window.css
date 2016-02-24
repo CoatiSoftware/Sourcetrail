@@ -144,6 +144,7 @@
 	font-size: 12pt;
 	width: 7em;
 	height: 7em;
+	margin-top: 10px;
 }
 
 #projectButton:hover, #projectButton:checked {
