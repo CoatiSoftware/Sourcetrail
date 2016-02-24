@@ -1,6 +1,7 @@
 add_files(
 	LIB_GUI_FILES
 
+	platform_includes/deploy.h
 	platform_includes/includesDefault.h
 	platform_includes/includesMac.h
 	platform_includes/includesWindows.h

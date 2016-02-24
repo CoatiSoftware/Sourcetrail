@@ -6,14 +6,22 @@
 #include "vld.h"
 
 #include "utility/UserPaths.h"
+#include "isTrial.h"
 
-// #define DEPLOY
+#include "platform_includes/deploy.h"
 
 void setup(int argc, char *argv[])
 {
 #ifdef DEPLOY
 	std::string path = std::getenv("APPDATA");
-	path += "/../local/Coati Software/Coati/";
+	if (isTrial())
+	{
+		path += "/../local/Coati Software/Coati Trial/";
+	}
+	else
+	{
+		path += "/../local/Coati Software/Coati/";
+	}
 	UserPaths::setUserDataPath(path);
 #endif
 }
