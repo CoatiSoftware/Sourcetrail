@@ -1,6 +1,6 @@
 # FLAGS
-REBUILD=false
-OBFUSCATE=false
+REBUILD=true
+OBFUSCATE=true
 
 
 # USEFUL VARIABLES
@@ -14,6 +14,7 @@ BASE_DIR=`dirname "$CLEANED_PATH_TO_SCRIPT"`
 
 
 cd $BASE_DIR/..
+
 
 if [ $REBUILD = false ]; then
 	echo -e "$INFO REBUILD flag is set to false. Do you want to proceed?"
@@ -99,7 +100,7 @@ echo -e "$INFO building the installer (trail)"
 
 
 # CREATING PACKAGE FOLDERS (APP)
-VERSION_STRING=$(git describe)
+VERSION_STRING=$(git describe --long)
 VERSION_STRING="${VERSION_STRING//-/_}"
 VERSION_STRING="${VERSION_STRING//./_}"
 VERSION_STRING="${VERSION_STRING%_*}"
@@ -136,7 +137,7 @@ rm -rf $APP_PACKAGE_DIR
 
 
 # CREATING PACKAGE FOLDERS (TRIAL)
-TRIAL_PACKAGE_NAME=Coati_Trail_${VERSION_STRING}
+TRIAL_PACKAGE_NAME=Coati_Trial_${VERSION_STRING}
 
 TRIAL_PACKAGE_DIR=release/$TRIAL_PACKAGE_NAME
 
