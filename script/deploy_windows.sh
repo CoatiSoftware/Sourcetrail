@@ -15,6 +15,16 @@ BASE_DIR=`dirname "$CLEANED_PATH_TO_SCRIPT"`
 
 cd $BASE_DIR/..
 
+if [ $REBUILD = false ]; then
+	echo -e "$INFO REBUILD flag is set to false. Do you want to proceed?"
+	read -p "Press [Enter] key to continue"
+fi
+
+if [ $OBFUSCATE = false ]; then
+	echo -e "$INFO OBFUSCATE flag is set to false. Do you want to proceed?"
+	read -p "Press [Enter] key to continue"
+fi
+
 echo -e "$INFO Did you set the correct version number for the installers?"
 read -p "Press [Enter] key to continue"
 
@@ -52,13 +62,11 @@ rm bin/app/data/projects/tutorial/tutorial.coatidb
 rm -rf temp
 mkdir -p temp
 cd temp
+echo -e "$INFO Please wait until Coati created the database for tictactoe. Close Coati to continue"
 ../bin/app/Release/Coati.exe -p ../bin/app/data/projects/tictactoe/tictactoe.coatiproject
-echo -e "$INFO Please wait until Coati created the database for tictactoe."
-read -p "Press [Enter] key to continue"
 
+echo -e "$INFO Please wait until Coati created the database for tutorial. Close Coati to continue"
 ../bin/app/Release/Coati.exe -p ../bin/app/data/projects/tutorial/tutorial.coatiproject
-echo -e "$INFO Please wait until Coati created the database for tutorial."
-read -p "Press [Enter] key to continue"
 
 cd ..
 rm -rf temp
@@ -86,8 +94,8 @@ echo -e "$INFO building the installer (trail)"
 
 
 # EDIT THE INSTALLERS
-echo -e "$INFO Please edit the msi files of the installers"
-read -p "Press [Enter] key to continue"
+"C:/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Bin/MsiTran.Exe" -a "deployment/windows/transform.mst" "deployment/windows/CoatiAppSetup/CoatiSetup/Release/Coati.msi"
+"C:/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Bin/MsiTran.Exe" -a "deployment/windows/transform.mst" "deployment/windows/CoatiTrialSetup/CoatiSetup/Release/CoatiTrial.msi"
 
 
 # CREATING PACKAGE FOLDERS (APP)
