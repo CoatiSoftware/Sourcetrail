@@ -5,7 +5,7 @@
 #include <QPainter>
 #include <QWidget>
 
-class QCoreApplication;
+class QApplication;
 class QPixmap;
 
 class QtSplashScreen
@@ -17,7 +17,7 @@ public:
 	QtSplashScreen(const QPixmap& pixmap, Qt::WindowFlags f = 0);
 	virtual ~QtSplashScreen();
 
-	void exec(QCoreApplication& app);
+	void exec(QApplication& app);
 	void setMessage(const QString& str);
 	void setVersion(const QString& str);
 

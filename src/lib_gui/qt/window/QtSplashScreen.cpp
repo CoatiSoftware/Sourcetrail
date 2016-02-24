@@ -1,6 +1,6 @@
 #include "qt/window/QtSplashScreen.h"
 
-#include <QCoreApplication>
+#include <QApplication>
 #include <QThread>
 #include <QTimer>
 
@@ -38,7 +38,7 @@ QtSplashScreen::~QtSplashScreen()
 {
 }
 
-void QtSplashScreen::exec(QCoreApplication& app)
+void QtSplashScreen::exec(QApplication& app)
 {
 	m_state = 0;
 	QTimer* timer = new QTimer(this);

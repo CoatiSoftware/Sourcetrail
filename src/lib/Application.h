@@ -28,7 +28,6 @@ class Application
 {
 public:
 	static std::shared_ptr<Application> create(const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory);
-	static std::shared_ptr<Application> create(const Version& version);
 	static void loadSettings();
 
 	~Application();
