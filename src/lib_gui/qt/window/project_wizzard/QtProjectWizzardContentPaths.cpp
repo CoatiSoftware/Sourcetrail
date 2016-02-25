@@ -306,6 +306,7 @@ void QtProjectWizzardContentPathsHeaderSearchGlobal::loadPaths()
 void QtProjectWizzardContentPathsHeaderSearchGlobal::savePaths()
 {
 	ApplicationSettings::getInstance()->setHeaderSearchPaths(m_list->getList());
+	ApplicationSettings::getInstance()->save();
 }
 
 
@@ -363,4 +364,5 @@ void QtProjectWizzardContentPathsFrameworkSearchGlobal::loadPaths()
 void QtProjectWizzardContentPathsFrameworkSearchGlobal::savePaths()
 {
 	ApplicationSettings::getInstance()->setFrameworkSearchPaths(m_list->getList());
+	ApplicationSettings::getInstance()->save();
 }
