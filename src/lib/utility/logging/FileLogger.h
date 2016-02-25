@@ -32,6 +32,7 @@ private:
 
 	unsigned int m_logCount;
 	unsigned int m_suffix;
+
 	std::string m_currentLogFile;
 	std::string m_fileName;
 };

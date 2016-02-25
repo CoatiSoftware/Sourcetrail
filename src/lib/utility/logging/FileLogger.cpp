@@ -6,13 +6,14 @@
 
 #include "utility/file/FileSystem.h"
 
-std::string FileLogger::s_filePath = "data/log/";
+std::string FileLogger::s_filePath = "user/log/";
 unsigned int FileLogger::s_maxLogCount = 1000;
 unsigned int FileLogger::s_amountOfLogFiles = 2;
 
 FileLogger::FileLogger()
 	: Logger("FileLogger")
-	, m_suffix(0)
+	, m_logCount(0)
+	, m_suffix(1)
 {
 	setupFileName();
 	changeLogFile();
@@ -78,9 +79,10 @@ void FileLogger::setMaxLogCount(unsigned int logCount)
 
 void FileLogger::changeLogFile()
 {
-	m_suffix = ++m_suffix%s_amountOfLogFiles;
-	m_currentLogFile = s_filePath + m_fileName + char(m_suffix + 48) + ".txt";
-	if(FileSystem::exists(m_currentLogFile))
+	m_suffix = ++m_suffix % s_amountOfLogFiles;
+	m_currentLogFile = m_fileName + (m_suffix ? "1" : "0") + ".txt";
+
+	if (FileSystem::exists(m_currentLogFile))
 	{
 		std::remove(m_currentLogFile.c_str());
 	}
@@ -89,7 +91,7 @@ void FileLogger::changeLogFile()
 void FileLogger::logMessage(const std::string& type, const LogMessage& message)
 {
 	std::ofstream fileStream;
-	fileStream.open(m_currentLogFile, std::ios::app);
+	fileStream.open(s_filePath + m_currentLogFile, std::ios::app);
 	fileStream << message.getTimeString("%H:%M:%S") << " | ";
 
 	if (message.filePath.size())
@@ -99,7 +101,8 @@ void FileLogger::logMessage(const std::string& type, const LogMessage& message)
 
 	fileStream << type << ": " << message.message << std::endl;
 	fileStream.close();
-	if(++m_logCount >= s_maxLogCount)
+
+	if (++m_logCount >= s_maxLogCount)
 	{
 		changeLogFile();
 		m_logCount = 0;
