@@ -13,6 +13,10 @@ QPushButton:hover, QPushButton:checked {
 	background: <color:search/button/hover>;
 }
 
+QPushButton:disabled {
+	background: <color:search/button/disabled>;
+}
+
 QPushButton:pressed {
 	background: <color:search/button/press>;
 }

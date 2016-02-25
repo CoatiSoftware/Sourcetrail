@@ -11,6 +11,7 @@
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
+#include "isTrial.h"
 
 QtRefreshBar::QtRefreshBar()
 {
@@ -34,6 +35,12 @@ QtRefreshBar::QtRefreshBar()
 	m_autoRefreshButton->setToolTip("automatic refresh on window focus");
 	m_autoRefreshButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	layout->addWidget(m_autoRefreshButton);
+
+	if (isTrial())
+	{
+		m_refreshButton->setEnabled(false);
+		m_autoRefreshButton->setEnabled(false);
+	}
 
 	connect(m_refreshButton, SIGNAL(clicked()), this, SLOT(refreshClicked()));
 	connect(m_autoRefreshButton, SIGNAL(clicked()), this, SLOT(autoRefreshClicked()));
