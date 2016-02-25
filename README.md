@@ -146,3 +146,37 @@ $ git push --tags
 * navigate back&forward via mouse buttons
 * navigate back via backspace key
 
+##### 0.5.0.4
+
+* Added option to hide widget window title bars to View menu
+* Added C support
+* Added shortcuts for font size resetting to View menu
+* Fixed number postions in graph
+* Improved performance of token name saving
+* Added commandline option for project file
+* Fixed cursor changing for resize and text interactions
+* Added C and C++ standard setting to project
+* Refresh project editing settings
+* Added license key window and license checker
+* Added trial target without analysis
+* Added web documentation
+* Improved code view annotation painting performance
+* Update error count while analysis
+* Improved back & forward in code view
+* Return to last scroll position when going back in code view
+* Added .coatiproject file associations with icon for Mac and Windows
+* Display scope name at bottom of code snippet
+* Improved graph view node bundeling to bundle more
+* Improved log file names to be sorted chronologically
+* Added application move protection to reenter license key
+* Show overview on project open with node bundles per type
+* Added overview and error keywords to search view
+* Added project setup wizard for step-by-step project setup
+* Added Visual Studio solution parsing via project wizard or VS plugin
+* Improved style of ui windows
+* Save user data in ~/Library/Application Support/Coati on Mac
+* Improved analysis performance to take only 66% of the time
+* Improved logging to alternate between 2 files of 1000 lines to decrease logfile sizes
+* Improved painting of icons in graph to be smoother
+* Added link to documentation to Help menu
+* Fixed preferences not saved
