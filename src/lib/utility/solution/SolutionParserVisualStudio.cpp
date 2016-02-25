@@ -208,6 +208,12 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 			{
 				std::string filePath = child->Attribute("Include");
 
+				if (boost::filesystem::exists(filePath) && checkValidFileExtension(filePath, validFileExtensions))
+				{
+					projectItems.push_back(filePath);
+					continue;
+				}
+
 				if (relativeProjectPaths[i].size() > 0)
 				{
 					filePath = relativeProjectPaths[i] + "/" + filePath;
@@ -225,6 +231,12 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 			for (TiXmlElement* child = headerRoot->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
 			{
 				std::string filePath = child->Attribute("Include");
+
+				if (boost::filesystem::exists(filePath) && checkValidFileExtension(filePath, validFileExtensions))
+				{
+					projectItems.push_back(filePath);
+					continue;
+				}
 
 				if (relativeProjectPaths[i].size() > 0)
 				{
