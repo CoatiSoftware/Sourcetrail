@@ -29,6 +29,9 @@ fi
 echo -e "$INFO Did you set the correct version number for the installers?"
 read -p "Press [Enter] key to continue"
 
+echo -e "$INFO Did you change the Product-IDs in the uninstall scripts?"
+read -p "Press [Enter] key to continue"
+
 echo -e "$INFO Did you set the correct version number for the Visual Studio plugins?"
 read -p "Press [Enter] key to continue"
 
