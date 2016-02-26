@@ -29,6 +29,7 @@ public:
 	static bool exists(const std::string& path);
 	static std::string fileName(const std::string& path);
 	static std::string absoluteFilePath(const std::string& path);
+	static bool remove(const std::string& path);
 
 	static bool copy_directory(const FilePath& from, const FilePath& to);
 

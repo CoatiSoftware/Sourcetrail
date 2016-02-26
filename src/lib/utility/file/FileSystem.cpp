@@ -115,6 +115,11 @@ bool FileSystem::exists(const std::string& path)
 	return boost::filesystem::exists(boost::filesystem::path(path));
 }
 
+bool FileSystem::remove(const std::string& path)
+{
+	return boost::filesystem::remove(path);
+}
+
 std::string FileSystem::fileName(const std::string& path)
 {
 	return boost::filesystem::path(path).filename().generic_string();

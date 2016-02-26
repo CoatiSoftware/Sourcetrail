@@ -82,10 +82,7 @@ void FileLogger::changeLogFile()
 	m_suffix = ++m_suffix % s_amountOfLogFiles;
 	m_currentLogFile = m_fileName + (m_suffix ? "1" : "0") + ".txt";
 
-	if (FileSystem::exists(m_currentLogFile))
-	{
-		std::remove(m_currentLogFile.c_str());
-	}
+	FileSystem::remove(s_filePath + m_currentLogFile);
 }
 
 void FileLogger::logMessage(const std::string& type, const LogMessage& message)
