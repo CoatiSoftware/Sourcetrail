@@ -136,7 +136,15 @@ void Application::handleMessage(MessageLoadProject* message)
 		return;
 	}
 
-	loadProject(message->projectSettingsFilePath);
+	try
+	{
+		loadProject(message->projectSettingsFilePath);
+	}
+	catch (...)
+	{
+		LOG_ERROR_STREAM(<< "Failed to load project. Try restarting Coati as admin");
+		MessageStatus("Failed to load project. Try restarting Coati as admin", true).dispatch();
+	}
 }
 
 void Application::handleMessage(MessageRefresh* message)
