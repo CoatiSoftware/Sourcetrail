@@ -47,27 +47,27 @@ QtListItemWidget #field {
 }
 
 #plusButton {
-	border-image: url(<setting:gui_path>setting_window/plus.png);
+	border-image: url(<setting:gui_path>window/plus.png);
 }
 
 #plusButton:hover {
-	border-image: url(<setting:gui_path>setting_window/plus_hover.png);
+	border-image: url(<setting:gui_path>window/plus_hover.png);
 }
 
 #minusButton {
-	border-image: url(<setting:gui_path>setting_window/minus.png);
+	border-image: url(<setting:gui_path>window/minus.png);
 }
 
 #minusButton:hover {
-	border-image: url(<setting:gui_path>setting_window/minus_hover.png);
+	border-image: url(<setting:gui_path>window/minus_hover.png);
 }
 
 #dotsButton {
-	border-image: url(<setting:gui_path>setting_window/dots.png);
+	border-image: url(<setting:gui_path>window/dots.png);
 }
 
 #dotsButton:hover {
-	border-image: url(<setting:gui_path>setting_window/dots_hover.png);
+	border-image: url(<setting:gui_path>window/dots_hover.png);
 }
 
 #dropInfo {

@@ -135,12 +135,12 @@ add_files(
     qt/window/QtLicense.h
 	qt/window/QtMainWindow.cpp
 	qt/window/QtMainWindow.h
-	qt/window/QtSettingsWindow.cpp
-	qt/window/QtSettingsWindow.h
 	qt/window/QtSplashScreen.cpp
 	qt/window/QtSplashScreen.h
 	qt/window/QtStartScreen.cpp
 	qt/window/QtStartScreen.h
+	qt/window/QtWindow.cpp
+	qt/window/QtWindow.h
 	qt/window/QtWindowStack.cpp
 	qt/window/QtWindowStack.h
 

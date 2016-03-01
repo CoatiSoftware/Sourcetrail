@@ -72,7 +72,7 @@ void QtProjectWizzardContentSummary::populateWindow(QGridLayout* layout)
 void QtProjectWizzardContentSummary::windowReady()
 {
 	m_window->updateTitle("NEW PROJECT - SUMMARY");
-	m_window->updateDoneButton("Create");
+	m_window->updateNextButton("Create");
 }
 
 void QtProjectWizzardContentSummary::load()

@@ -1,21 +1,15 @@
 #ifndef QT_PROJECT_WIZZARD_WINDOW_H
 #define QT_PROJECT_WIZZARD_WINDOW_H
 
-#include "qt/window/QtSettingsWindow.h"
+#include "qt/window/QtWindow.h"
 #include "settings/ProjectSettings.h"
 
-class QPushButton;
 class QtProjectWizzardContent;
 
 class QtProjectWizzardWindow
-	: public QtSettingsWindow
+	: public QtWindow
 {
 	Q_OBJECT
-
-signals:
-	void next();
-	void previous();
-	void closed();
 
 public:
 	QtProjectWizzardWindow(QWidget *parent);
@@ -23,35 +17,21 @@ public:
 	QtProjectWizzardContent* content() const;
 	void setContent(QtProjectWizzardContent* content);
 
-	// QtSettingsWindow implementation
-	virtual void setup() override;
-	virtual void populateWindow(QWidget* widget) override;
-
-	void enableNext();
-	void disableNext();
-	void hideNext();
-	void disablePrevious();
-	void hidePrevious();
-
-	void setShowAsPopup(bool showAsPopup);
-	void setScrollAble(bool scrollAble);
-
 	static const int FRONT_COL = 0;
 	static const int HELP_COL = 1;
 	static const int LINE_COL = 2;
 	static const int BACK_COL = 3;
 
-private slots:
-	void handleCancelButtonPress();
-	void handleUpdateButtonPress();
-	void handlePreviousButtonPress();
+protected:
+	// QtWindow implementation
+	virtual void populateWindow(QWidget* widget) override;
+	virtual void windowReady() override;
+
+	virtual void handleNext() override;
+	virtual void handlePrevious() override;
 
 private:
 	QtProjectWizzardContent* m_content;
-	QPushButton* m_previousButton;
-
-	bool m_showAsPopup;
-	bool m_scrollAble;
 };
 
 #endif // QT_PROJECT_WIZZARD_WINDOW_H

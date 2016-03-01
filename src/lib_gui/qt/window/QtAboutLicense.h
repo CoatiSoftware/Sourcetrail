@@ -1,28 +1,19 @@
 #ifndef QT_ABOUT_LICENSE_H
 #define QT_ABOUT_LICENSE_H
 
-#include <QPushButton>
-#include <QWidget>
-
-#include "qt/window/QtSettingsWindow.h"
+#include "qt/window/QtWindow.h"
 
 class QtAboutLicense
-	: public QtSettingsWindow
+	: public QtWindow
 {
-	Q_OBJECT
-
 public:
 	QtAboutLicense(QWidget* parent = 0);
-	QSize sizeHint() const Q_DECL_OVERRIDE;
-
-	virtual void setup() override;
+	QSize sizeHint() const override;
 
 protected:
+	// QtWindow implementation
 	virtual void populateWindow(QWidget* widget) override;
-
-private slots:
-	void handleCancelButtonPress();
-	void handleUpdateButtonPress();
+	virtual void windowReady() override;
 };
 
 #endif //QT_ABOUT_LICENSE_H

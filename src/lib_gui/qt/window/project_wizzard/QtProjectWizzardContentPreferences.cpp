@@ -37,8 +37,8 @@ void QtProjectWizzardContentPreferences::populateWindow(QGridLayout* layout)
 void QtProjectWizzardContentPreferences::windowReady()
 {
 	m_window->updateTitle("PREFERENCES");
-	m_window->updateDoneButton("Save");
-	m_window->hidePrevious();
+	m_window->updateNextButton("Save");
+	m_window->setPreviousVisible(false);
 }
 
 void QtProjectWizzardContentPreferences::load()

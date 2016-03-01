@@ -96,13 +96,13 @@ protected:
 public slots:
 	void activateWindow();
 
-	QtSettingsWindow* about();
+	void about();
 	void openSettings();
 	void showDocumentation();
-	QtSettingsWindow* showLicenses();
-	QtSettingsWindow* enterLicense();
+	void showLicenses();
+	void enterLicense();
 
-	QtSettingsWindow* showStartScreen();
+	void showStartScreen();
 	void hideStartScreen();
 
 	void newProject();

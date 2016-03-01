@@ -3,7 +3,7 @@
 
 #include <QPushButton>
 
-#include "qt/window/QtSettingsWindow.h"
+#include "qt/window/QtWindow.h"
 #include "utility/file/FilePath.h"
 
 class QtRecentProjectButton
@@ -23,14 +23,15 @@ private:
 
 
 class QtStartScreen
-	: public QtSettingsWindow
+	: public QtWindow
 {
 	Q_OBJECT
 
 public:
 	QtStartScreen(QWidget* parent = 0);
-	QSize sizeHint() const Q_DECL_OVERRIDE;
-	virtual void setup() override;
+	QSize sizeHint() const override;
+
+	void setupStartScreen();
 
 signals:
 	void openOpenProjectDialog();

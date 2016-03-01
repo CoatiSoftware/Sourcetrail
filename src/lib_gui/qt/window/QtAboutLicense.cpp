@@ -12,23 +12,16 @@
 #include "isTrial.h"
 
 QtAboutLicense::QtAboutLicense(QWidget *parent)
-	: QtSettingsWindow(parent)
+	: QtWindow(parent)
 {
+	setScrollAble(true);
+
 	raise();
 }
 
 QSize QtAboutLicense::sizeHint() const
 {
 	return QSize(600,600);
-}
-
-void QtAboutLicense::setup()
-{
-	setupForm();
-
-	updateTitle("3rd Party Licenses");
-	updateDoneButton("Ok");
-	hideCancelButton(true);
 }
 
 void QtAboutLicense::populateWindow(QWidget* widget)
@@ -63,11 +56,11 @@ void QtAboutLicense::populateWindow(QWidget* widget)
 	widget->setLayout(layout);
 }
 
-void QtAboutLicense::handleCancelButtonPress()
+void QtAboutLicense::windowReady()
 {
-}
+	updateTitle("3rd Party Licenses");
+	updateCloseButton("Close");
 
-void QtAboutLicense::handleUpdateButtonPress()
-{
-	emit finished();
+	setNextVisible(false);
+	setPreviousVisible(false);
 }

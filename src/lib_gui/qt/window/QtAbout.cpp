@@ -1,9 +1,8 @@
 #include "qt/window/QtAbout.h"
 
-#include <QFormLayout>
-#include <QLineEdit>
-#include <QLabel>
 #include <QHBoxLayout>
+#include <QLabel>
+#include <QPushButton>
 #include <QVBoxLayout>
 
 #include "qt/utility/QtDeviceScaledPixmap.h"
@@ -12,7 +11,7 @@
 #include "utility/ResourcePaths.h"
 
 QtAbout::QtAbout(QWidget *parent)
-	: QtSettingsWindow(parent)
+	: QtWindow(parent)
 {
 }
 
@@ -21,11 +20,11 @@ QSize QtAbout::sizeHint() const
 	return QSize(500, 520);
 }
 
-void QtAbout::setup()
+void QtAbout::setupAbout()
 {
 	m_window->setStyleSheet(
 		m_window->styleSheet() +
-		"#SettingWindow { "
+		"#window { "
 			"background: qlineargradient( x1:0 y1:0.4, x2:0 y2:1, stop:0 #2F3F86, stop:1 #1C7BBC );"
 			"border: none;"
 		"}"
@@ -143,21 +142,19 @@ void QtAbout::setup()
 
 	windowLayout->addStretch();
 
+
 	QtDeviceScaledPixmap closePixmap((ResourcePaths::getGuiPath() + "about/icon_close.png").c_str());
 	closePixmap.scaleToHeight(20);
 	QPushButton* closeButton = new QPushButton(this);
 	closeButton->setIcon(QIcon(closePixmap.pixmap()));
 	closeButton->setObjectName("closeButton");
 	closeButton->move(450, 20);
+	closeButton->show();
 
-	connect(closeButton, SIGNAL(clicked()), this, SLOT(handleUpdateButtonPress()));
+	connect(closeButton, SIGNAL(clicked()), this, SLOT(handleCloseButtonPress()));
 }
 
-void QtAbout::handleCancelButtonPress()
+void QtAbout::handleCloseButtonPress()
 {
-}
-
-void QtAbout::handleUpdateButtonPress()
-{
-	emit finished();
+	emit canceled();
 }

@@ -252,7 +252,14 @@ void QtMainWindow::saveLayout()
 
 void QtMainWindow::forceEnterLicense()
 {
-	QtLicense* enterLicenseWindow = dynamic_cast<QtLicense*>(enterLicense());
+	enterLicense();
+
+	QtLicense* enterLicenseWindow = dynamic_cast<QtLicense*>(m_windowStack.getTopWindow());
+	if (!enterLicenseWindow)
+	{
+		LOG_ERROR("No enter license window on top of stack");
+		return;
+	}
 
 	enterLicenseWindow->clear();
 	enterLicenseWindow->setCancelAble(false);
@@ -291,16 +298,10 @@ void QtMainWindow::activateWindow()
 	m_windowStack.popWindow();
 }
 
-QtSettingsWindow* QtMainWindow::about()
+void QtMainWindow::about()
 {
-	QtAbout* aboutWindow = new QtAbout(this);
-	aboutWindow->setup();
-
-	connect(aboutWindow, SIGNAL(finished()), &m_windowStack, SLOT(popWindow()));
-	connect(aboutWindow, SIGNAL(canceled()), &m_windowStack, SLOT(popWindow()));
-
-	m_windowStack.pushWindow(aboutWindow);
-	return aboutWindow;
+	QtAbout* aboutWindow = createWindow<QtAbout>();
+	aboutWindow->setupAbout();
 }
 
 void QtMainWindow::openSettings()
@@ -314,47 +315,30 @@ void QtMainWindow::showDocumentation()
 	QDesktopServices::openUrl(QUrl("https://coati.io/documentation/"));
 }
 
-QtSettingsWindow* QtMainWindow::showLicenses()
+void QtMainWindow::showLicenses()
 {
-	QtAboutLicense* licenseWindow = new QtAboutLicense(this);
+	QtAboutLicense* licenseWindow = createWindow<QtAboutLicense>();
 	licenseWindow->setup();
-
-	connect(licenseWindow, SIGNAL(finished()), &m_windowStack, SLOT(popWindow()));
-	connect(licenseWindow, SIGNAL(canceled()), &m_windowStack, SLOT(popWindow()));
-
-	m_windowStack.pushWindow(licenseWindow);
-
-	return licenseWindow;
 }
 
-QtSettingsWindow* QtMainWindow::enterLicense()
+void QtMainWindow::enterLicense()
 {
-	QtLicense* enterLicenseWindow = new QtLicense(this);
+	QtLicense* enterLicenseWindow = createWindow<QtLicense>();
 	enterLicenseWindow->setup();
 
+	disconnect(enterLicenseWindow, SIGNAL(finished()), &m_windowStack, SLOT(clearWindows()));
 	connect(enterLicenseWindow, SIGNAL(finished()), this, SLOT(activateWindow()));
-	connect(enterLicenseWindow, SIGNAL(canceled()), &m_windowStack, SLOT(popWindow()));
 
 	enterLicenseWindow->load();
-	m_windowStack.pushWindow(enterLicenseWindow);
-
-	return enterLicenseWindow;
 }
 
-QtSettingsWindow* QtMainWindow::showStartScreen()
+void QtMainWindow::showStartScreen()
 {
-	QtStartScreen* startScreen = new QtStartScreen(this);
-	startScreen->setup();
-
-	connect(startScreen, SIGNAL(finished()), &m_windowStack, SLOT(popWindow()));
-	connect(startScreen, SIGNAL(canceled()), &m_windowStack, SLOT(popWindow()));
+	QtStartScreen* startScreen = createWindow<QtStartScreen>();
+	startScreen->setupStartScreen();
 
 	connect(startScreen, SIGNAL(openOpenProjectDialog()), this, SLOT(openProject()));
 	connect(startScreen, SIGNAL(openNewProjectDialog()), this, SLOT(newProject()));
-
-	m_windowStack.pushWindow(startScreen);
-
-	return startScreen;
 }
 
 void QtMainWindow::hideStartScreen()

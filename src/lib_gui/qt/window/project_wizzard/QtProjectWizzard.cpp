@@ -54,8 +54,8 @@ void QtProjectWizzard::newProject()
 		SIGNAL(selected(QtProjectWizzardContentSelect::ProjectType)),
 		this, SLOT(selectedProjectType(QtProjectWizzardContentSelect::ProjectType)));
 
-	window->disableNext();
-	window->disablePrevious();
+	window->setNextEnabled(false);
+	window->setPreviousEnabled(false);
 }
 
 void QtProjectWizzard::newProjectFromVisualStudioSolution(const std::string& visualStudioSolutionPath)
@@ -140,9 +140,9 @@ void QtProjectWizzard::editProject(const ProjectSettings& settings)
 	}
 
 	window->updateTitle("EDIT PROJECT");
-	window->updateDoneButton("Save");
+	window->updateNextButton("Save");
 
-	window->hidePrevious();
+	window->setPreviousVisible(false);
 	connect(window, SIGNAL(next()), this, SLOT(createProject()));
 }
 
@@ -180,7 +180,7 @@ QtProjectWizzardWindow* QtProjectWizzard::createPopupWithContent()
 	window->move(window->pos() + QPoint(50, 50));
 	window->show();
 
-	connect(window, SIGNAL(closed()), this, SLOT(popupClosed()));
+	connect(window, SIGNAL(next()), this, SLOT(popupClosed()));
 
 	if (m_popup)
 	{

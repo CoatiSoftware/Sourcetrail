@@ -53,27 +53,27 @@
 }
 
 #helpButton {
-	border-image: url(<setting:gui_path>setting_window/help.png);
+	border-image: url(<setting:gui_path>window/help.png);
 }
 
 #helpButton:hover {
-	border-image: url(<setting:gui_path>setting_window/help_hover.png);
+	border-image: url(<setting:gui_path>window/help_hover.png);
 }
 
 #dotsButton {
-	border-image: url(<setting:gui_path>setting_window/dots.png);
+	border-image: url(<setting:gui_path>window/dots.png);
 }
 
 #dotsButton:hover {
-	border-image: url(<setting:gui_path>setting_window/dots_hover.png);
+	border-image: url(<setting:gui_path>window/dots_hover.png);
 }
 
 #refreshButton {
-	border-image: url(<setting:gui_path>setting_window/refresh.png);
+	border-image: url(<setting:gui_path>window/refresh.png);
 }
 
 #refreshButton:hover {
-	border-image: url(<setting:gui_path>setting_window/refresh_hover.png);
+	border-image: url(<setting:gui_path>window/refresh_hover.png);
 }
 
 #name, #picker {

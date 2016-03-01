@@ -1,25 +1,21 @@
 #ifndef QT_ABOUT_H
 #define QT_ABOUT_H
 
-#include <QPushButton>
-#include <QWidget>
-
-#include "qt/window/QtSettingsWindow.h"
+#include "qt/window/QtWindow.h"
 
 class QtAbout
-	: public QtSettingsWindow
+	: public QtWindow
 {
 	Q_OBJECT
 
 public:
 	QtAbout(QWidget* parent = 0);
-	QSize sizeHint() const Q_DECL_OVERRIDE;
+	QSize sizeHint() const override;
 
-	virtual void setup() override;
+	void setupAbout();
 
 private slots:
-	void handleCancelButtonPress();
-	void handleUpdateButtonPress();
+	void handleCloseButtonPress();
 };
 
-#endif //QT_ABOUT_H
+#endif // QT_ABOUT_H

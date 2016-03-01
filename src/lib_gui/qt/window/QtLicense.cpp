@@ -1,11 +1,7 @@
 #include "qt/window/QtLicense.h"
 
-#include <QComboBox>
-#include <QFormLayout>
 #include <QLineEdit>
 #include <QLabel>
-#include <QTextBrowser>
-#include <QTextBlock>
 #include <QTextEdit>
 
 #include "License.h"
@@ -18,7 +14,7 @@
 #include "utility/ResourcePaths.h"
 
 QtLicense::QtLicense(QWidget *parent)
-	: QtSettingsWindow(parent, 68)
+	: QtWindow(parent, 68)
 {
 	raise();
 }
@@ -59,34 +55,24 @@ void QtLicense::load()
 	}
 }
 
-void QtLicense::setup()
+void QtLicense::populateWindow(QWidget* widget)
 {
-	setStyleSheet((
-		utility::getStyleSheet(ResourcePaths::getGuiPath() + "setting_window/window.css") +
-		utility::getStyleSheet(ResourcePaths::getGuiPath() + "license/license.css")
-	).c_str());
-
-	addLogo();
-
-	QVBoxLayout* layout = new QVBoxLayout(this);
-	layout->setContentsMargins(25, 100, 25, 30);
-
 	QVBoxLayout* subLayout = new QVBoxLayout();
 	subLayout->setContentsMargins(200, 0, 0, 0);
 
-	QLabel* licenseName = new QLabel(this);
+	QLabel* licenseName = new QLabel();
 	licenseName->setText(QString::fromLatin1("Enter Licence"));
-	licenseName->setObjectName("titleLabel");
+	licenseName->setObjectName("title");
 	subLayout->addWidget(licenseName);
 
 	subLayout->addSpacing(10);
 
-	QLabel* licenseIntro = new QLabel(this);
+	QLabel* licenseIntro = new QLabel();
 	licenseIntro->setText(QString::fromLatin1("Please enter a licence key to activate Coati:"));
 	licenseIntro->setObjectName("licenseIntro");
 	subLayout->addWidget(licenseIntro);
 
-	m_licenseText = new QTextEdit(this);
+	m_licenseText = new QTextEdit();
 	m_licenseText->setObjectName("licenseField");
 	m_licenseText->setPlaceholderText(
 		"-----BEGIN LICENSE-----\n"
@@ -119,21 +105,35 @@ void QtLicense::setup()
 	linkLabel->setGeometry(275, 300, 300, 50);
 	subLayout->addWidget(linkLabel);
 
+
+	QVBoxLayout* layout = new QVBoxLayout();
+	layout->setContentsMargins(0, 0, 0, 0);
 	layout->addLayout(subLayout);
 	layout->addSpacing(20);
 
-	showButtons(layout);
-	updateDoneButton("Activate");
+	widget->setLayout(layout);
 
 	resize(750, 550);
 }
 
-void QtLicense::handleCancelButtonPress()
+void QtLicense::windowReady()
+{
+	setStyleSheet(styleSheet() + utility::getStyleSheet(ResourcePaths::getGuiPath() + "license/license.css").c_str());
+
+	addLogo();
+
+	updateNextButton("Activate");
+	setPreviousVisible(false);
+
+	m_title->hide();
+}
+
+void QtLicense::handleClose()
 {
 	emit canceled();
 }
 
-void QtLicense::handleUpdateButtonPress()
+void QtLicense::handleNext()
 {
 	std::string licenseString = m_licenseText->toPlainText().toStdString();
 	if (licenseString.size() == 0)

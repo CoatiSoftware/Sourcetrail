@@ -27,35 +27,38 @@ void QtRecentProjectButton::handleButtonClick()
 };
 
 QtStartScreen::QtStartScreen(QWidget *parent)
-	: QtSettingsWindow(parent, 68)
+	: QtWindow(parent, 68)
 {
 	this->raise();
 }
 
-void QtStartScreen::setup()
+void QtStartScreen::setupStartScreen()
 {
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "startscreen/startscreen.css").c_str());
 
 	addLogo();
 
-	if(!isTrial())
+	if (!isTrial())
 	{
 		m_newProjectButton = new QPushButton("New Project", this);
 		m_newProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 		m_newProjectButton->move(30, 505);
 		m_newProjectButton->setObjectName("projectButton");
+		m_newProjectButton->show();
 		connect(m_newProjectButton, SIGNAL(clicked()), this, SLOT(handleNewProjectButton()));
 
 		m_openProjectButton = new QPushButton("Open Project", this);
 		m_openProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 		m_openProjectButton->move(30, 540);
 		m_openProjectButton->setObjectName("projectButton");
+		m_openProjectButton->show();
 		connect(m_openProjectButton, SIGNAL(clicked()), this, SLOT(handleOpenProjectButton()));
 	}
 
 	QLabel* recentProjectsLabel = new QLabel("Recent Projects: ", this);
 	recentProjectsLabel->setGeometry(300, 234, 300, 50);
 	recentProjectsLabel->setObjectName("recentLabel");
+	recentProjectsLabel->show();
 
 	int position = 290;
 	QIcon cpp_icon((ResourcePaths::getGuiPath() + "icon/project_256_256.png").c_str());
@@ -69,6 +72,7 @@ void QtStartScreen::setup()
 		button->setObjectName("recentButton");
 		button->minimumSizeHint(); // force font loading
 		button->setGeometry(292, position, button->fontMetrics().width(button->text()) + 45, 40);
+		button->show();
 		connect(button, SIGNAL(clicked()), button, SLOT(handleButtonClick()));
 		connect(button, SIGNAL(clicked()), this, SLOT(handleRecentButton()));
 		position += 40;

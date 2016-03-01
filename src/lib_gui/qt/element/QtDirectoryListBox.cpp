@@ -109,7 +109,7 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent)
 	m_list->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	m_list->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "setting_window/listbox.css").c_str());
+	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "window/listbox.css").c_str());
 	layout->addWidget(m_list);
 
 	QWidget* buttonContainer = new QWidget(this);

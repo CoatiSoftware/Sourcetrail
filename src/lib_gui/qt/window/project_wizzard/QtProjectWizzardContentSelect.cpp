@@ -43,7 +43,7 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 			}
 			m_buttons->setExclusive(true);
 
-			m_window->disableNext();
+			m_window->setNextEnabled(false);
 			m_title->setText("Project Types - " + m_languages->checkedButton()->text());
 			m_description->setText("");
 		}
@@ -97,7 +97,7 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 				); break;
 			}
 
-			m_window->enableNext();
+			m_window->setNextEnabled(true);
 		}
 	);
 

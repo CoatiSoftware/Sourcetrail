@@ -44,7 +44,7 @@ void QtProjectWizzardContentSimple::populateWindow(QGridLayout* layout)
 	connect(m_buttons, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
 		[this](int id)
 		{
-			m_window->enableNext();
+			m_window->setNextEnabled(true);
 		}
 	);
 
@@ -79,7 +79,7 @@ void QtProjectWizzardContentSimple::windowReady()
 {
 	if (!m_isForm)
 	{
-		m_window->disableNext();
+		m_window->setNextEnabled(false);
 	}
 }
 
@@ -92,7 +92,7 @@ void QtProjectWizzardContentSimple::load()
 	else if (m_buttons && m_settings->isUseSourcePathsForHeaderSearchDefined())
 	{
 		m_buttons->button(m_settings->getUseSourcePathsForHeaderSearch() ? 0 : 1)->setChecked(true);
-		m_window->enableNext();
+		m_window->setNextEnabled(true);
 	}
 }
 
