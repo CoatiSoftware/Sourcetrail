@@ -46,7 +46,7 @@ class QtDirectoryListBox
 	Q_OBJECT
 
 public:
-	QtDirectoryListBox(QWidget *parent);
+	QtDirectoryListBox(QWidget *parent, bool forStrings = false);
 
 	virtual QSize sizeHint() const override;
 
@@ -55,7 +55,12 @@ public:
 	std::vector<FilePath> getList();
 	void setList(const std::vector<FilePath>& list);
 
+	std::vector<std::string> getStringList();
+	void setStringList(const std::vector<std::string>& list);
+
 	void selectItem(QListWidgetItem* item);
+
+	bool isForStrings() const;
 
 protected:
 	bool event(QEvent* event) override;
@@ -69,6 +74,8 @@ private:
 	QPushButton* m_addButton;
 	QPushButton* m_removeButton;
 	QListWidget* m_list;
+
+	bool m_forStrings;
 
 private slots:
 	QtListItemWidget* addListBoxItem();

@@ -7,7 +7,6 @@
 
 class QtDirectoryListBox;
 
-
 class QtProjectWizzardContentPaths
 	: public QtProjectWizzardContent
 {

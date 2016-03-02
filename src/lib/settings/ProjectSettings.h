@@ -39,6 +39,7 @@ public:
 	bool setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths);
 
 	std::vector<std::string> getCompilerFlags() const;
+	bool setCompilerFlags(const std::vector<std::string>& compilerFlags);
 
 	std::vector<std::string> getHeaderExtensions() const;
 	std::vector<std::string> getSourceExtensions() const;

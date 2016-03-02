@@ -33,6 +33,11 @@ QtListItemWidget::QtListItemWidget(QtDirectoryListBox* list, QListWidgetItem* it
 	layout->addWidget(m_data);
 	layout->addWidget(m_button);
 
+	if (list->isForStrings())
+	{
+		m_button->hide();
+	}
+
 	setLayout(layout);
 
 	connect(m_button, SIGNAL(clicked()), this, SLOT(handleButtonPress()));
@@ -96,8 +101,9 @@ void QtListItemWidget::handleFocus()
 }
 
 
-QtDirectoryListBox::QtDirectoryListBox(QWidget *parent)
-	:QFrame(parent)
+QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, bool forStrings)
+	: QFrame(parent)
+	, m_forStrings(forStrings)
 {
 	QBoxLayout* layout = new QVBoxLayout();
 	layout->setSpacing(0);
@@ -132,11 +138,18 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent)
 	m_removeButton->setObjectName("minusButton");
 	innerLayout->addWidget(m_removeButton);
 
+	innerLayout->addStretch();
+
 	QLabel* dropInfoText = new QLabel("Drop Files & Folders");
 	dropInfoText->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	dropInfoText->setObjectName("dropInfo");
 	dropInfoText->setAlignment(Qt::AlignRight);
 	innerLayout->addWidget(dropInfoText);
+
+	if (isForStrings())
+	{
+		dropInfoText->hide();
+	}
 
 	layout->addStretch();
 
@@ -198,7 +211,28 @@ void QtDirectoryListBox::dropEvent(QDropEvent *event)
 
 std::vector<FilePath> QtDirectoryListBox::getList()
 {
+	std::vector<std::string> strList = getStringList();
 	std::vector<FilePath> list;
+	for (const std::string& str : strList)
+	{
+		list.push_back(str);
+	}
+	return list;
+}
+
+void QtDirectoryListBox::setList(const std::vector<FilePath>& list)
+{
+	std::vector<std::string> strList;
+	for (const FilePath& path : list)
+	{
+		strList.push_back(path.str());
+	}
+	setStringList(strList);
+}
+
+std::vector<std::string> QtDirectoryListBox::getStringList()
+{
+	std::vector<std::string> list;
 	for (int i = 0; i < m_list->count(); ++i)
 	{
 		QtListItemWidget* widget = dynamic_cast<QtListItemWidget*>(m_list->itemWidget(m_list->item(i)));
@@ -207,14 +241,14 @@ std::vector<FilePath> QtDirectoryListBox::getList()
 	return list;
 }
 
-void QtDirectoryListBox::setList(const std::vector<FilePath>& list)
+void QtDirectoryListBox::setStringList(const std::vector<std::string>& list)
 {
 	m_list->clear();
 
-	for (const FilePath& path : list)
+	for (const std::string& str : list)
 	{
 		QtListItemWidget* widget = addListBoxItem();
-		widget->setText(QString::fromStdString(path.str()));
+		widget->setText(QString::fromStdString(str));
 	}
 }
 
@@ -226,6 +260,11 @@ void QtDirectoryListBox::selectItem(QListWidgetItem* item)
 	}
 
 	item->setSelected(true);
+}
+
+bool QtDirectoryListBox::isForStrings() const
+{
+	return m_forStrings;
 }
 
 void QtDirectoryListBox::resize()

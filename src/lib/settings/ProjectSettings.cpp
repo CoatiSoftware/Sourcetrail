@@ -51,7 +51,8 @@ bool ProjectSettings::operator==(const ProjectSettings& other) const
 		getUseSourcePathsForHeaderSearch() == other.getUseSourcePathsForHeaderSearch() &&
 		utility::isPermutation<FilePath>(getSourcePaths(), other.getSourcePaths()) &&
 		utility::isPermutation<FilePath>(getHeaderSearchPaths(), other.getHeaderSearchPaths()) &&
-		utility::isPermutation<FilePath>(getFrameworkSearchPaths(), other.getFrameworkSearchPaths());
+		utility::isPermutation<FilePath>(getFrameworkSearchPaths(), other.getFrameworkSearchPaths()) &&
+		utility::isPermutation<std::string>(getCompilerFlags(), other.getCompilerFlags());
 }
 
 void ProjectSettings::save(const FilePath& filePath)
@@ -120,6 +121,11 @@ std::vector<std::string> ProjectSettings::getCompilerFlags() const
 {
 	std::vector<std::string> defaultValues;
 	return getValues("source/compiler_flags/compiler_flag", defaultValues);
+}
+
+bool ProjectSettings::setCompilerFlags(const std::vector<std::string>& compilerFlags)
+{
+	return setValues("source/compiler_flags/compiler_flag", compilerFlags);
 }
 
 std::vector<std::string> ProjectSettings::getHeaderExtensions() const

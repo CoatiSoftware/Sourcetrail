@@ -21,6 +21,8 @@ QtProjectWizzardContentSummary::QtProjectWizzardContentSummary(ProjectSettings* 
 	{
 		m_frameworkSearch = new QtProjectWizzardContentPathsFrameworkSearch(settings, window);
 	}
+
+	m_compilerFlags = new QtProjectWizzardContentFlags(settings, window);
 }
 
 QtProjectWizzardContentBuildFile* QtProjectWizzardContentSummary::contentBuildFile()
@@ -66,6 +68,25 @@ void QtProjectWizzardContentSummary::populateWindow(QGridLayout* layout)
 		m_frameworkSearch->populateForm(layout, row);
 	}
 
+	layout->setRowMinimumHeight(row, 15);
+	row++;
+
+	QFrame* separator = new QFrame();
+	separator->setFrameShape(QFrame::HLine);
+
+	QPalette palette = separator->palette();
+	palette.setColor(QPalette::WindowText, Qt::lightGray);
+	separator->setPalette(palette);
+
+	layout->addWidget(separator, row, 0, 1, -1);
+	row++;
+
+	QLabel* advancedLabel = createFormLabel("ADVANCED");
+	layout->addWidget(advancedLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
+	row++;
+
+	m_compilerFlags->populateForm(layout, row);
+
 	layout->setRowMinimumHeight(row, 10);
 }
 
@@ -87,6 +108,8 @@ void QtProjectWizzardContentSummary::load()
 	{
 		m_frameworkSearch->load();
 	}
+
+	m_compilerFlags->load();
 }
 
 void QtProjectWizzardContentSummary::save()
@@ -101,6 +124,8 @@ void QtProjectWizzardContentSummary::save()
 	{
 		m_frameworkSearch->save();
 	}
+
+	m_compilerFlags->save();
 }
 
 bool QtProjectWizzardContentSummary::check()
@@ -111,7 +136,8 @@ bool QtProjectWizzardContentSummary::check()
 		m_source->check() &&
 		m_simple->check() &&
 		m_headerSearch->check() &&
-		(!m_frameworkSearch || m_frameworkSearch->check());
+		(!m_frameworkSearch || m_frameworkSearch->check()) &&
+		m_compilerFlags->check();
 }
 
 bool QtProjectWizzardContentSummary::isScrollAble() const

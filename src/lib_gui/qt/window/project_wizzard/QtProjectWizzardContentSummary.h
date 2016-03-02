@@ -4,6 +4,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentBuildFile.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentData.h"
+#include "qt/window/project_wizzard/QtProjectWizzardContentFlags.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSimple.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
 
@@ -34,6 +35,7 @@ private:
 	QtProjectWizzardContentSimple* m_simple;
 	QtProjectWizzardContentPathsHeaderSearch* m_headerSearch;
 	QtProjectWizzardContentPathsFrameworkSearch* m_frameworkSearch;
+	QtProjectWizzardContentFlags* m_compilerFlags;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_SUMMARY_H
