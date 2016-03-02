@@ -40,9 +40,9 @@ void QtStatusBarView::showMessage(const std::string& message, bool isError, bool
 	m_showMessageFunctor(message, isError, showLoader);
 }
 
-void QtStatusBarView::setErrorCount(size_t count)
+void QtStatusBarView::setErrorCount(ErrorCountInfo errorCount)
 {
-	m_setErrorCountFunctor(count);
+	m_setErrorCountFunctor(errorCount);
 }
 
 void QtStatusBarView::doShowMessage(const std::string& message, bool isError, bool showLoader)
@@ -50,7 +50,7 @@ void QtStatusBarView::doShowMessage(const std::string& message, bool isError, bo
 	m_widget->setText(message, isError, showLoader);
 }
 
-void QtStatusBarView::doSetErrorCount(size_t count)
+void QtStatusBarView::doSetErrorCount(ErrorCountInfo errorCount)
 {
-	m_widget->setErrorCount(count);
+	m_widget->setErrorCount(errorCount);
 }

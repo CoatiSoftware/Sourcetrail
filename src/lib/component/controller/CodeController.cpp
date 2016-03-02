@@ -65,12 +65,12 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	ss << "\t" + std::to_string(stats.nodeCount) + " symbols\n";
 	ss << "\t" + std::to_string(stats.edgeCount) + " relations\n";
 	ss << "\n";
-	ss << "\t" + std::to_string(stats.errorCount) + " errors\n";
+	ss << "\t" + std::to_string(stats.errorCount.total) + " errors (" + std::to_string(stats.errorCount.fatal) + " fatal)\n";
 	ss << "\n";
 
-	if (stats.errorCount > 0)
+	if (stats.errorCount.total > 0)
 	{
-		ss << "\tWarning: The analysis may be incomplete as long as it yields errors.\n";
+		ss << "\tWarning: The analysis may be incomplete as long as it yields fatal errors.\n";
 		ss << "\tTry resolving them and refresh the project.\n";
 		ss << "\n";
 	}

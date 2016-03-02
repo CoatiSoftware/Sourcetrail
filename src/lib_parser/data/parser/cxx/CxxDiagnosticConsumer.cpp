@@ -54,7 +54,7 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 		return;
 	}
 
-	if (level == clang::DiagnosticsEngine::Error || level == clang::DiagnosticsEngine::Fatal)
+	if (level >= clang::DiagnosticsEngine::Error)
 	{
 		llvm::SmallString<100> messageStr;
 		info.FormatDiagnostic(messageStr);
@@ -82,7 +82,7 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 		// if (m_fileManager->hasFilePath(filePath))
 		if (m_fileManager)
 		{
-			m_client->onError(ParseLocation(filePath, line, column), message);
+			m_client->onError(ParseLocation(filePath, line, column), message, (level == clang::DiagnosticsEngine::Fatal));
 		}
 	}
 }

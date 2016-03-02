@@ -42,7 +42,7 @@ public:
 	Id addComponentAccess(Id memberEdgeId, int type);
 
 	Id addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
-	Id addError(const std::string& message, const std::string& filePath, uint lineNumber, uint columnNumber);
+	Id addError(const std::string& message, bool fatal, const std::string& filePath, uint lineNumber, uint columnNumber);
 
 	void removeElement(Id id);
 	void removeElements(const std::vector<Id>& ids);
@@ -95,6 +95,7 @@ public:
 
 	std::vector<StorageCommentLocation> getCommentLocationsInFile(const FilePath& filePath) const;
 	std::vector<StorageError> getAllErrors() const;
+	std::vector<StorageError> getFatalErrors() const;
 
 	int getNodeCount() const;
 	int getEdgeCount() const;

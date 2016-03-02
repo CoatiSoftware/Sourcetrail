@@ -188,20 +188,20 @@ void Storage::finishParsingFile(const FilePath& filePath)
 	m_sqliteStorage.commitTransaction();
 }
 
-void Storage::onError(const ParseLocation& location, const std::string& message)
+void Storage::onError(const ParseLocation& location, const std::string& message, bool fatal)
 {
-	log("ERROR", message, location);
+	log(std::string(fatal ? "FATAL " : "") + "ERROR", message, location);
 
 	if (!location.isValid())
 	{
 		return;
 	}
 
-	size_t errorCount = getErrorCount();
+	size_t totalErrorCount = getErrorCount().total;
 
-	m_sqliteStorage.addError(message, location.filePath.str(), location.startLineNumber, location.startColumnNumber);
+	m_sqliteStorage.addError(message, fatal, location.filePath.str(), location.startLineNumber, location.startColumnNumber);
 
-	if (errorCount != getErrorCount())
+	if (totalErrorCount != getErrorCount().total)
 	{
 		MessageShowErrors msg(getErrorCount());
 		msg.setSendAsTask(false);
@@ -209,9 +209,9 @@ void Storage::onError(const ParseLocation& location, const std::string& message)
 	}
 }
 
-size_t Storage::getErrorCount() const
+ErrorCountInfo Storage::getErrorCount() const
 {
-	return m_sqliteStorage.getAllErrors().size();
+	return ErrorCountInfo(m_sqliteStorage.getAllErrors().size(), m_sqliteStorage.getFatalErrors().size());
 }
 
 Id Storage::onTypedefParsed(

@@ -19,7 +19,7 @@ StatusBarView* StatusBarController::getView()
 
 void StatusBarController::handleMessage(MessageClearErrorCount* message)
 {
-	getView()->setErrorCount(0);
+	getView()->setErrorCount(ErrorCountInfo());
 }
 
 void StatusBarController::handleMessage(MessageFinishedParsing* message)
@@ -29,7 +29,7 @@ void StatusBarController::handleMessage(MessageFinishedParsing* message)
 
 void StatusBarController::handleMessage(MessageShowErrors* message)
 {
-	if (message->errorCount >= 0)
+	if (message->errorCount.total >= 0)
 	{
 		getView()->setErrorCount(message->errorCount);
 	}

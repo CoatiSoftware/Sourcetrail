@@ -6,6 +6,7 @@
 
 #include "utility/types.h"
 #include "data/name/NameHierarchy.h"
+#include "data/ErrorCountInfo.h"
 
 #include "utility/file/FileInfo.h"
 
@@ -61,8 +62,8 @@ public:
 	virtual void startParsingFile(const FilePath& filePath) = 0;
 	virtual void finishParsingFile(const FilePath& filePath) = 0;
 
-	virtual void onError(const ParseLocation& location, const std::string& message) = 0;
-	virtual size_t getErrorCount() const = 0;
+	virtual void onError(const ParseLocation& location, const std::string& message, bool fatal) = 0;
+	virtual ErrorCountInfo getErrorCount() const = 0;
 
 	virtual Id onTypedefParsed(
 		const ParseLocation& location, const NameHierarchy& typedefName, AccessType access) = 0;

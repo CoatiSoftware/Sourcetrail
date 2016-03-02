@@ -5,6 +5,7 @@
 #include <string>
 
 #include "component/view/StatusBarView.h"
+#include "data/ErrorCountInfo.h"
 #include "qt/element/QtStatusBar.h"
 #include "qt/utility/QtThreadedFunctor.h"
 
@@ -22,14 +23,14 @@ public:
 
 	// StatusBar view implementation
 	virtual void showMessage(const std::string& message, bool isError, bool showLoader);
-	virtual void setErrorCount(size_t count);
+	virtual void setErrorCount(ErrorCountInfo errorCount);
 
 private:
 	void doShowMessage(const std::string& message, bool isError, bool showLoader);
-	void doSetErrorCount(size_t count);
+	void doSetErrorCount(ErrorCountInfo errorCount);
 
 	QtThreadedFunctor<const std::string&, bool, bool> m_showMessageFunctor;
-	QtThreadedFunctor<size_t> m_setErrorCountFunctor;
+	QtThreadedFunctor<ErrorCountInfo> m_setErrorCountFunctor;
 
 	std::shared_ptr<QtStatusBar> m_widget;
 };

@@ -2794,14 +2794,14 @@ private:
 		{
 		}
 
-		virtual void onError(const ParseLocation& location, const std::string& message)
+		virtual void onError(const ParseLocation& location, const std::string& message, bool fatal)
 		{
 			errors.push_back(addLocationSuffix(message, location));
 		}
 
-		virtual size_t getErrorCount() const
+		virtual ErrorCountInfo getErrorCount() const
 		{
-			return 0;
+			return ErrorCountInfo();
 		}
 
 		virtual Id onTypedefParsed(

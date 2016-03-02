@@ -64,11 +64,13 @@ void QtStatusBar::setText(const std::string& text, bool isError, bool showLoader
 	m_text.setText(text.c_str());
 }
 
-void QtStatusBar::setErrorCount(size_t count)
+void QtStatusBar::setErrorCount(ErrorCountInfo errorCount)
 {
-	if (count > 0)
+	if (errorCount.total > 0)
 	{
-		m_errorButton.setText(QString::number(count) + " error(s)");
+		m_errorButton.setText(
+			QString::number(errorCount.total) + " error" + (errorCount.total > 1 ? "s" : "") + 
+			(errorCount.fatal > 0 ? "(" + QString::number(errorCount.fatal) + " fatal)" : ""));
 		m_errorButton.show();
 	}
 	else

@@ -126,7 +126,7 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 		else if (match.searchType == SearchMatch::SEARCH_COMMAND &&
 			match.getFullName() == SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR))
 		{
-			MessageShowErrors msg(-1);
+			MessageShowErrors msg(ErrorCountInfo(-1, 0));
 			msg.undoRedoType = message->undoRedoType;
 			msg.dispatchImmediately();
 			return nullptr;

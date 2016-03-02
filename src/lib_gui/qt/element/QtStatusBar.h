@@ -7,6 +7,8 @@
 #include <QLabel>
 #include <QStatusBar>
 
+#include "data/ErrorCountInfo.h"
+
 class QtStatusBar
 	: public QStatusBar
 {
@@ -17,7 +19,7 @@ public:
 	virtual ~QtStatusBar(void);
 
 	void setText(const std::string& text, bool isError, bool showLoader);
-	void setErrorCount(size_t count);
+	void setErrorCount(ErrorCountInfo errorCount);
 
 private slots:
 	void showErrors();

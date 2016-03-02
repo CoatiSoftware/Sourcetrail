@@ -1,13 +1,14 @@
 #ifndef MESSAGE_SHOW_ERRORS_H
 #define MESSAGE_SHOW_ERRORS_H
 
+#include "data/ErrorCountInfo.h"
 #include "utility/messaging/Message.h"
 
 class MessageShowErrors
 	: public Message<MessageShowErrors>
 {
 public:
-	MessageShowErrors(int errorCount)
+	MessageShowErrors(ErrorCountInfo errorCount)
 		: errorCount(errorCount)
 	{
 	}
@@ -17,7 +18,7 @@ public:
 		return "MessageShowErrors";
 	}
 
-	int errorCount;
+	ErrorCountInfo errorCount;
 };
 
 #endif // MESSAGE_SHOW_ERRORS_H

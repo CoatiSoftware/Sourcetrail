@@ -1,6 +1,8 @@
 #ifndef STORAGE_STATS_H
 #define STORAGE_STATS_H
 
+#include "data/ErrorCountInfo.h"
+
 struct StorageStats
 {
 	StorageStats()
@@ -12,7 +14,7 @@ struct StorageStats
 		, fileCount(0)
 		, fileLOCCount(0)
 		, sourceLocationCount(0)
-		, errorCount(0)
+		, errorCount(ErrorCountInfo())
 	{}
 
 	size_t nodeCount;
@@ -26,7 +28,7 @@ struct StorageStats
 	size_t fileLOCCount;
 	size_t sourceLocationCount;
 
-	size_t errorCount;
+	ErrorCountInfo errorCount;
 };
 
 #endif // STORAGE_STATS_H

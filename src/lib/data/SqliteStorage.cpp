@@ -169,9 +169,9 @@ Id SqliteStorage::addCommentLocation(Id fileNodeId, uint startLine, uint startCo
 	return m_database.lastRowId();
 }
 
-Id SqliteStorage::addError(const std::string& message, const std::string& filePath, uint lineNumber, uint columnNumber)
+Id SqliteStorage::addError(const std::string& message, bool fatal, const std::string& filePath, uint lineNumber, uint columnNumber)
 {
-	std::string sanitizedMessage = utility::replace(message, "'", "''");
+	std::string sanitizedMessage = utility::replace((fatal ? "Fatal: " : "") + message, "'", "''");
 
 	// check for duplicate
 	CppSQLite3Query q = m_database.execQuery((
@@ -630,7 +630,29 @@ std::vector<StorageError> SqliteStorage::getAllErrors() const
 {
 	CppSQLite3Query q = m_database.execQuery(
 		"SELECT message, file_path, line_number, column_number FROM error;"
-	);
+		);
+
+	std::vector<StorageError> errors;
+	while (!q.eof())
+	{
+		const std::string message = q.getStringField(0, "");
+		const std::string filePath = q.getStringField(1, "");
+		const uint lineNumber = q.getIntField(2, 0);
+		const uint columnNumber = q.getIntField(3, 0);
+
+		errors.push_back(StorageError(message, filePath, lineNumber, columnNumber));
+
+		q.nextRow();
+	}
+
+	return errors;
+}
+
+std::vector<StorageError> SqliteStorage::getFatalErrors() const
+{
+	CppSQLite3Query q = m_database.execQuery(
+		"SELECT message, file_path, line_number, column_number FROM error WHERE message LIKE 'Fatal: %';"
+		);
 
 	std::vector<StorageError> errors;
 	while (!q.eof())
