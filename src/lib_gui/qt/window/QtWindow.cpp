@@ -10,31 +10,23 @@
 #include "qt/utility/utilityQt.h"
 #include "utility/ResourcePaths.h"
 
-QtWindow::QtWindow(QWidget* parent, int displacement)
+QtWindow::QtWindow(QWidget* parent)
 	: QtWindowStackElement(parent)
 	, m_window(nullptr)
 	, m_title(nullptr)
 	, m_nextButton(nullptr)
 	, m_previousButton(nullptr)
 	, m_closeButton(nullptr)
-	, m_displacement(displacement)
 	, m_cancelAble(true)
 	, m_scrollAble(false)
 	, m_showAsPopup(false)
+	, m_hasLogo(false)
 	, m_mousePressedInWindow(false)
 {
 	setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
 	setAttribute(Qt::WA_TranslucentBackground, true);
 
-	move(parent->pos().x() + parent->width() / 2 - 250, parent->pos().y() + parent->height() / 2 - 250);
-
-	QSize windowSize = sizeHint();
-
 	m_window = new QWidget(this);
-	windowSize.setHeight(windowSize.height() - displacement - 10);
-	windowSize.setWidth(windowSize.width() - 10);
-	m_window->move(0, displacement);
-	m_window->resize(windowSize);
 
 	std::string frameStyle =
 		"#window {"
@@ -56,6 +48,8 @@ QtWindow::QtWindow(QWidget* parent, int displacement)
 		effect->setColor(Qt::darkGray);
 		m_window->setGraphicsEffect(effect);
 	}
+
+	resize(sizeHint());
 
 	this->raise();
 }
@@ -245,9 +239,20 @@ void QtWindow::hideWindow()
 
 void QtWindow::resizeEvent(QResizeEvent *event)
 {
-	QSize windowSize = event->size() - QSize(10, 10 + m_displacement);
+	int displacement = 0;
+	if (m_hasLogo)
+	{
+		displacement = 58;
+	}
+
+	QSize windowSize = event->size() - QSize(10, 10 + displacement);
 	m_window->resize(windowSize);
-	m_window->move(0, m_displacement);
+	m_window->move(5, displacement + 10);
+
+	move(
+		parentWidget()->pos().x() + parentWidget()->width() / 2 - event->size().width() / 2,
+		parentWidget()->pos().y() + parentWidget()->height() / 2 - event->size().height() / 2
+	);
 }
 
 void QtWindow::keyPressEvent(QKeyEvent *event)
@@ -322,6 +327,9 @@ void QtWindow::addLogo()
 	coatiLogoLabel->resize(coatiLogo.width(), coatiLogo.height());
 	coatiLogoLabel->move(30, 25);
 	coatiLogoLabel->show();
+
+	m_hasLogo = true;
+	resize(sizeHint());
 }
 
 void QtWindow::handleNextPress()

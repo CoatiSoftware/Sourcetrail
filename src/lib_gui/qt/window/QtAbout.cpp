@@ -148,7 +148,7 @@ void QtAbout::setupAbout()
 	QPushButton* closeButton = new QPushButton(this);
 	closeButton->setIcon(QIcon(closePixmap.pixmap()));
 	closeButton->setObjectName("closeButton");
-	closeButton->move(450, 20);
+	closeButton->move(455, 25);
 	closeButton->show();
 
 	connect(closeButton, SIGNAL(clicked()), this, SLOT(handleCloseButtonPress()));

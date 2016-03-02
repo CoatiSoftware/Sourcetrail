@@ -21,7 +21,7 @@ QtAboutLicense::QtAboutLicense(QWidget *parent)
 
 QSize QtAboutLicense::sizeHint() const
 {
-	return QSize(600,600);
+	return QSize(600, 600);
 }
 
 void QtAboutLicense::populateWindow(QWidget* widget)

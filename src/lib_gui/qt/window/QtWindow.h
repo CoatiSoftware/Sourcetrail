@@ -17,7 +17,7 @@ class QtWindow
 	Q_OBJECT
 
 public:
-	QtWindow(QWidget* parent = nullptr, int displacement = 0);
+	QtWindow(QWidget* parent = nullptr);
 
 	QSize sizeHint() const override;
 
@@ -83,14 +83,14 @@ private slots:
 	void handleClosePress();
 
 private:
-	int m_displacement;
-
 	bool m_cancelAble;
 	bool m_scrollAble;
 	bool m_showAsPopup;
+
+	bool m_hasLogo;
 
 	QPoint m_dragPosition;
 	bool m_mousePressedInWindow;
 };
 
-#endif //QT_WINDOW_H
+#endif // QT_WINDOW_H

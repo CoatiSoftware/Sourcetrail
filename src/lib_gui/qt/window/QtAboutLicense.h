@@ -16,4 +16,4 @@ protected:
 	virtual void windowReady() override;
 };
 
-#endif //QT_ABOUT_LICENSE_H
+#endif // QT_ABOUT_LICENSE_H

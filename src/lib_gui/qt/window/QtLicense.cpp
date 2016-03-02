@@ -14,14 +14,14 @@
 #include "utility/ResourcePaths.h"
 
 QtLicense::QtLicense(QWidget *parent)
-	: QtWindow(parent, 68)
+	: QtWindow(parent)
 {
 	raise();
 }
 
 QSize QtLicense::sizeHint() const
 {
-	return QSize(725, 550);
+	return QSize(750, 550);
 }
 
 void QtLicense::clear()
@@ -112,8 +112,6 @@ void QtLicense::populateWindow(QWidget* widget)
 	layout->addSpacing(20);
 
 	widget->setLayout(layout);
-
-	resize(750, 550);
 }
 
 void QtLicense::windowReady()

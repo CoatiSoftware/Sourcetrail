@@ -26,10 +26,16 @@ void QtRecentProjectButton::handleButtonClick()
 	MessageLoadProject(m_projectFilePath.str(), false).dispatch();
 };
 
+
 QtStartScreen::QtStartScreen(QWidget *parent)
-	: QtWindow(parent, 68)
+	: QtWindow(parent)
 {
 	this->raise();
+}
+
+QSize QtStartScreen::sizeHint() const
+{
+	return QSize(570, 600);
 }
 
 void QtStartScreen::setupStartScreen()
@@ -77,13 +83,6 @@ void QtStartScreen::setupStartScreen()
 		connect(button, SIGNAL(clicked()), this, SLOT(handleRecentButton()));
 		position += 40;
 	}
-
-	resize(570, 600);
-}
-
-QSize QtStartScreen::sizeHint() const
-{
-	return QSize(500, 500);
 }
 
 void QtStartScreen::handleNewProjectButton()
