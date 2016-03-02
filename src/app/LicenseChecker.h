@@ -2,8 +2,10 @@
 #define LICENSE_CHECKER_H
 
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/MessageActivateTokenLocations.h"
 #include "utility/messaging/type/MessageEnteredLicense.h"
 #include "utility/messaging/type/MessageLoadProject.h"
+#include "utility/messaging/type/MessageProjectNew.h"
 #include "utility/messaging/type/MessageStatus.h"
 
 #include "License.h"
@@ -15,6 +17,8 @@
 class LicenseChecker
 	: public MessageListener<MessageEnteredLicense>
 	, public MessageListener<MessageLoadProject>
+	, public MessageListener<MessageProjectNew>
+	, public MessageListener<MessageActivateTokenLocations>
 {
 public:
 	LicenseChecker()
@@ -49,6 +53,36 @@ private:
 		if (!checkLicenseString())
 		{
 			m_resendMessage = std::make_shared<MessageLoadProject>(*message);
+			message->cancel();
+
+			if (!m_forcedLicenseEntering)
+			{
+				m_app->showLicenseScreen();
+				m_forcedLicenseEntering = true;
+			}
+		}
+	}
+
+	void handleMessage(MessageProjectNew* message)
+	{
+		if (!checkLicenseString())
+		{
+			m_resendMessage = std::make_shared<MessageProjectNew>(*message);
+			message->cancel();
+
+			if (!m_forcedLicenseEntering)
+			{
+				m_app->showLicenseScreen();
+				m_forcedLicenseEntering = true;
+			}
+		}
+	}
+
+	void handleMessage(MessageActivateTokenLocations* message)
+	{
+		if (!checkLicenseString())
+		{
+			m_resendMessage = std::make_shared<MessageActivateTokenLocations>(*message);
 			message->cancel();
 
 			if (!m_forcedLicenseEntering)

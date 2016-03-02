@@ -22,6 +22,9 @@ public:
 
 	void handleIncomingMessage(const std::string& message);
 
+	bool getEnabled() const;
+	void setEnabled(const bool enabled);
+
 private:
 	void handleSetActiveTokenMessage(const NetworkProtocolHelper::SetActiveTokenMessage& message);
 	void handleCreateProjectMessage(const NetworkProtocolHelper::CreateProjectMessage& message);
@@ -30,6 +33,8 @@ private:
 	virtual void sendMessage(const std::string& message) const = 0;
 
 	StorageAccess* m_storageAccess;
+
+	bool m_enabled;
 };
 
 #endif // IDE_COMMUNICATION_CONTROLLER_H

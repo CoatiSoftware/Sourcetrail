@@ -15,6 +15,7 @@
 
 IDECommunicationController::IDECommunicationController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
+	, m_enabled(true)
 {
 }
 
@@ -24,6 +25,11 @@ IDECommunicationController::~IDECommunicationController()
 
 void IDECommunicationController::handleIncomingMessage(const std::string& message)
 {
+	if (m_enabled == false)
+	{
+		return;
+	}
+
 	NetworkProtocolHelper::MESSAGE_TYPE type = NetworkProtocolHelper::getMessageType(message);
 
 	if (type == NetworkProtocolHelper::MESSAGE_TYPE::UNKNOWN)
@@ -38,6 +44,16 @@ void IDECommunicationController::handleIncomingMessage(const std::string& messag
 	{
 		handleCreateProjectMessage(NetworkProtocolHelper::parseCreateProjectMessage(message));
 	}
+}
+
+bool IDECommunicationController::getEnabled() const
+{
+	return m_enabled;
+}
+
+void IDECommunicationController::setEnabled(const bool enabled)
+{
+	m_enabled = enabled;
 }
 
 void IDECommunicationController::handleSetActiveTokenMessage(const NetworkProtocolHelper::SetActiveTokenMessage& message)
