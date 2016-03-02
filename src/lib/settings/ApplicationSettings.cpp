@@ -87,6 +87,36 @@ void ApplicationSettings::setColorSchemePath(const std::string& colorSchemePath)
 	setValue<std::string>("application/color_scheme", colorSchemePath);
 }
 
+int ApplicationSettings::getFontSizeMax() const
+{
+	return getValue<int>("application/font_size_max", 24);
+}
+
+void ApplicationSettings::setFontSizeMax(const int fontSizeMax)
+{
+	setValue<int>("application/font_size_max", fontSizeMax);
+}
+
+int ApplicationSettings::getFontSizeMin() const
+{
+	return getValue<int>("application/font_size_min", 4);
+}
+
+void ApplicationSettings::setFontSizeMin(const int fontSizeMin)
+{
+	setValue<int>("application/font_size_min", fontSizeMin);
+}
+
+int ApplicationSettings::getFontSizeStd() const
+{
+	return getValue<int>("application/font_size_std", 12);
+}
+
+void ApplicationSettings::setFontSizeStd(const int fontSizeStd)
+{
+	setValue<int>("application/font_size_std", fontSizeStd);
+}
+
 int ApplicationSettings::getCodeTabWidth() const
 {
 	return getValue<int>("code/tab_width", 4);

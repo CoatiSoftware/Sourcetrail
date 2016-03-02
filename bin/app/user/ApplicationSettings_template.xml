@@ -28,6 +28,9 @@
 		<font_name><!-- STRING: font name --></font_name>
 		<font_size><!-- INTEGER: font size in pt --></font_size>
 		<color_scheme><!-- STRING: color scheme path --></color_scheme>
+		<font_size_max><!-- INTEGER: maximum font size in pt --></font_size_max>
+		<font_size_min><!-- INTEGER: minimum font size in pt --></font_size_min>
+		<font_size_std><!-- INTEGER: standard font size in pt --></font_size_std>
 	</application>
 
 	<code>

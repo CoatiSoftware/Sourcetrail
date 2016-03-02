@@ -38,6 +38,15 @@ public:
 	std::string getColorSchemePath() const;
 	void setColorSchemePath(const std::string& colorSchemePath);
 
+	int getFontSizeMax() const;
+	void setFontSizeMax(const int fontSizeMax);
+
+	int getFontSizeMin() const;
+	void setFontSizeMin(const int fontSizeMin);
+
+	int getFontSizeStd() const;
+	void setFontSizeStd(const int fontSizeStd);
+
 	// code
 	int getCodeTabWidth() const;
 	void setCodeTabWidth(int codeTabWidth);

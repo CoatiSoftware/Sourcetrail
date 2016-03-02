@@ -82,10 +82,11 @@ void FeatureController::handleMessage(MessageActivateTokenLocations* message)
 void FeatureController::handleMessage(MessageResetZoom* message)
 {
 	ApplicationSettings* settings = ApplicationSettings::getInstance().get();
+	int fontSizeStd = settings->getFontSizeStd();
 
-	if (settings->getFontSize() != 12)
+	if (settings->getFontSize() != fontSizeStd)
 	{
-		settings->setFontSize(12);
+		settings->setFontSize(fontSizeStd);
 		settings->save();
 
 		MessageRefresh().refreshUiOnly().dispatch();
@@ -105,13 +106,26 @@ void FeatureController::handleMessage(MessageSwitchColorScheme* message)
 
 void FeatureController::handleMessage(MessageZoom* message)
 {
+	bool zoomIn = message->zoomIn;
+
 	ApplicationSettings* settings = ApplicationSettings::getInstance().get();
-	settings->setFontSize(std::max(settings->getFontSize() + (message->zoomIn ? 1 : -1), 5));
-	settings->save();
 
 	int fontSize = settings->getFontSize();
-	int standardSize = 12;
+	int standardSize = settings->getFontSizeStd();
+	int maxSize = settings->getFontSizeMax();
+	int minSize = settings->getFontSizeMin();
 
+	if (fontSize >= maxSize && zoomIn
+		|| fontSize <= minSize && !zoomIn)
+	{
+		return;
+	}
+
+	// settings->setFontSize(std::max(settings->getFontSize() + (message->zoomIn ? 1 : -1), 5));
+	settings->setFontSize((settings->getFontSize() + (message->zoomIn ? 1 : -1)));
+	settings->save();
+
+	fontSize = settings->getFontSize();
 	int zoom = (fontSize * 100) / standardSize;
 
 	std::stringstream text;
