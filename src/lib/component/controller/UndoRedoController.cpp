@@ -9,7 +9,6 @@
 
 UndoRedoController::UndoRedoController(StorageAccess* storageAccess)
 	: m_activationTranslator(storageAccess)
-	, m_storageAccess(storageAccess)
 	, m_lastCommand(nullptr, 0)
 {
 }

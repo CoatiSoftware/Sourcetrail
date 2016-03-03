@@ -120,10 +120,8 @@ public:
 		std::shared_ptr<TypeNameCache> m_nameCache;
 	};
 
-
-
-
 	ASTVisitor(clang::ASTContext* context, clang::Preprocessor* preprocessor, ParserClient* client, FileRegister* fileRegister);
+	virtual ~ASTVisitor();
 
 	// Left for debugging purposes. Uncomment to see a colored ast-dump of the parsed file.
 	virtual bool VisitTranslationUnitDecl(clang::TranslationUnitDecl* decl);

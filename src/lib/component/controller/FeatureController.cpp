@@ -115,8 +115,8 @@ void FeatureController::handleMessage(MessageZoom* message)
 	int maxSize = settings->getFontSizeMax();
 	int minSize = settings->getFontSizeMin();
 
-	if (fontSize >= maxSize && zoomIn
-		|| fontSize <= minSize && !zoomIn)
+	if ((fontSize >= maxSize && zoomIn)
+		|| (fontSize <= minSize && !zoomIn))
 	{
 		return;
 	}

@@ -201,7 +201,7 @@ void Storage::onError(const ParseLocation& location, const std::string& message,
 
 	m_sqliteStorage.addError(message, fatal, location.filePath.str(), location.startLineNumber, location.startColumnNumber);
 
-	if (totalErrorCount != getErrorCount().total)
+	if ((int)totalErrorCount != getErrorCount().total)
 	{
 		MessageShowErrors msg(getErrorCount());
 		msg.setSendAsTask(false);

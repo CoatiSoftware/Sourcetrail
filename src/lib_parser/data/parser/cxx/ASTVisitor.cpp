@@ -44,6 +44,10 @@ ASTVisitor::ASTVisitor(clang::ASTContext* context, clang::Preprocessor* preproce
 	m_childContextNameGenerator = std::make_shared<ContextDeclNameGenerator>(nullptr, m_declNameCache);
 }
 
+ASTVisitor::~ASTVisitor()
+{
+}
+
 bool ASTVisitor::VisitTranslationUnitDecl(clang::TranslationUnitDecl* decl)
 {
 	//decl->dump();
@@ -860,8 +864,6 @@ bool ASTVisitor::VisitDecl(clang::Decl *d)
 
 bool ASTVisitor::VisitTypeLoc(clang::TypeLoc tl)
 {
-	clang::TypeLoc::TypeLocClass tlc = tl.getTypeLocClass();
-
 	if (!tl.getAs<clang::TagTypeLoc>().isNull())
 	{
 		const clang::TagTypeLoc &ttl = tl.castAs<clang::TagTypeLoc>();

@@ -93,7 +93,6 @@ private:
 	bool checkCommandCausesTokenActivation(const Command& command) const;
 
 	ActivationTranslator m_activationTranslator;
-	StorageAccess* m_storageAccess;
 
 	Command m_lastCommand;
 
