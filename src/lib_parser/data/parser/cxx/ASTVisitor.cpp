@@ -63,7 +63,7 @@ ASTVisitor::~ASTVisitor()
 
 bool ASTVisitor::VisitTranslationUnitDecl(clang::TranslationUnitDecl* decl)
 {
-	decl->dump();
+	// decl->dump();
 	return true;
 }
 
@@ -164,7 +164,7 @@ bool ASTVisitor::TraverseFieldDecl(clang::FieldDecl *d)
 bool ASTVisitor::TraverseVarDecl(clang::VarDecl *d)
 {
 	std::shared_ptr<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>> switcher;
-	
+
 	NameHierarchy contextNameHierarchy = getContextName();
 	if (!(contextNameHierarchy.size() > 0 && contextNameHierarchy.back()->hasSignature())) // TODO: whle test if its a function. optimize this: remove requirement to get the name here!
 	{
@@ -173,7 +173,7 @@ bool ASTVisitor::TraverseVarDecl(clang::VarDecl *d)
 	return base::TraverseVarDecl(d);
 }
 
-bool ASTVisitor::TraverseClassTemplateDecl(clang::ClassTemplateDecl* d) 
+bool ASTVisitor::TraverseClassTemplateDecl(clang::ClassTemplateDecl* d)
 {
 	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
 	return base::TraverseClassTemplateDecl(d);
@@ -218,7 +218,7 @@ bool ASTVisitor::TraverseTemplateTemplateParmDecl(clang::TemplateTemplateParmDec
 	}
 
 	clang::TemplateParameterList* TPL = d->getTemplateParameters();
-	if (TPL) 
+	if (TPL)
 	{
 		for (clang::TemplateParameterList::iterator I = TPL->begin(), E = TPL->end(); I != E; ++I)
 		{
@@ -261,8 +261,8 @@ bool ASTVisitor::TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& l
 	std::shared_ptr<ScopedSwitcher<RefType>> sw1;
 	std::shared_ptr<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>> sw2;
 
-	if (m_typeContext != RT_TemplateDefaultArgument 
-	&& 
+	if (m_typeContext != RT_TemplateDefaultArgument
+	&&
 		m_childContextNameGenerator
 		)
 	{
@@ -275,7 +275,7 @@ bool ASTVisitor::TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& l
 	{
 		RecordDeclRef(loc.getArgument().getAsTemplate().getAsTemplateDecl(), loc.getLocation(), m_typeContext);
 	}
-	
+
 	return base::TraverseTemplateArgumentLoc(loc);
 }
 
@@ -396,7 +396,7 @@ bool ASTVisitor::TraverseConstructorInitializer(clang::CXXCtorInitializer *init)
     if (init->getMember() != NULL) {
         RecordDeclRef(init->getMember(),
                       init->getMemberLocation(),
-                      RT_Initialized, 
+                      RT_Initialized,
 					  ST_Field);
     }
 
@@ -508,7 +508,7 @@ bool ASTVisitor::VisitCXXConstructExpr(clang::CXXConstructExpr *e)
 void ASTVisitor::RecordDeclRefExpr(clang::NamedDecl *d, clang::SourceLocation loc, clang::Expr *e, Context context)
 {
 	SymbolType symbolType = ST_Max;
-	
+
 	if (clang::isa<clang::VarDecl>(d))
 	{
 		if (llvm::isa<clang::ParmVarDecl>(d))
@@ -540,7 +540,7 @@ void ASTVisitor::RecordDeclRefExpr(clang::NamedDecl *d, clang::SourceLocation lo
 	else
 	{
 
-		if (llvm::isa<clang::FunctionDecl>(*d)) 
+		if (llvm::isa<clang::FunctionDecl>(*d))
 		{
 			// XXX: This code seems sloppy, but I suspect it will work well enough.
 			if (context & CF_Called)
@@ -548,7 +548,7 @@ void ASTVisitor::RecordDeclRefExpr(clang::NamedDecl *d, clang::SourceLocation lo
 			if (!(context & CF_Called) || (context & (CF_Read | CF_AddressTaken)))
 				RecordDeclRef(d, loc, RT_AddressTaken, symbolType);
 		}
-		else 
+		else
 		{
 			if (context & CF_Called)
 				RecordDeclRef(d, loc, RT_Called, symbolType);
@@ -689,7 +689,7 @@ bool ASTVisitor::TraverseClassTemplateSpecializationDecl(
 
     traverseDeclContextHelper(d);
 
-	
+
 
     return true;
 	//base::TraverseClassTemplateSpecializationDecl(d);
@@ -742,7 +742,7 @@ bool ASTVisitor::VisitDecl(clang::Decl *d)
                 refType = fd->isThisDeclarationADefinition() ?
                             RT_Definition : RT_Declaration;
                 SymbolType symbolType;
-                if (llvm::isa<clang::CXXMethodDecl>(fd)) 
+                if (llvm::isa<clang::CXXMethodDecl>(fd))
 				{
                     if (llvm::isa<clang::CXXConstructorDecl>(fd))
                         symbolType = ST_Constructor;
@@ -750,7 +750,7 @@ bool ASTVisitor::VisitDecl(clang::Decl *d)
                         symbolType = ST_Destructor;
                     else
                         symbolType = ST_Method;
-                } else 
+                } else
 				{
 					symbolType = ST_Function;
                 }
@@ -822,7 +822,7 @@ bool ASTVisitor::VisitDecl(clang::Decl *d)
 			SymbolType symbolType = ST_Max;
 			// TODO: Handle the C++11 fixed underlying type of enumeration
 			// declarations.
-			switch (td->getTagKind()) 
+			switch (td->getTagKind())
 			{
 				case clang::TTK_Struct: symbolType = ST_Struct; break;
 				case clang::TTK_Union:  symbolType = ST_Union; break;
@@ -870,7 +870,7 @@ bool ASTVisitor::VisitDecl(clang::Decl *d)
             RecordDeclRef(nd, loc, RT_Declaration, ST_Enumerator);
 		} else if (
 			llvm::isa<clang::NonTypeTemplateParmDecl>(d) ||
-			llvm::isa<clang::TemplateTypeParmDecl>(d) || 
+			llvm::isa<clang::TemplateTypeParmDecl>(d) ||
 			llvm::isa<clang::TemplateTemplateParmDecl>(d)) {
 			RecordDeclRef(nd, loc, RT_Declaration, ST_TemplateParameter);
         } else {
@@ -893,15 +893,15 @@ bool ASTVisitor::VisitTypeLoc(clang::TypeLoc tl)
 		RecordDeclRef(ttl.getDecl(),
 			tl.getBeginLoc(),
 			m_typeContext);
-	} 
-	else if (!tl.getAs<clang::TypedefTypeLoc>().isNull()) 
+	}
+	else if (!tl.getAs<clang::TypedefTypeLoc>().isNull())
 	{
 		const clang::TypedefTypeLoc &ttl = tl.castAs<clang::TypedefTypeLoc>();
 		RecordDeclRef(ttl.getTypedefNameDecl(),
 			tl.getBeginLoc(),
 			m_typeContext);
-	} 
-	else if (!tl.getAs<clang::TemplateTypeParmTypeLoc>().isNull()) 
+	}
+	else if (!tl.getAs<clang::TemplateTypeParmTypeLoc>().isNull())
 	{
 		const clang::TemplateTypeParmTypeLoc &ttptl =
 		tl.castAs<clang::TemplateTypeParmTypeLoc>();
@@ -915,7 +915,7 @@ bool ASTVisitor::VisitTypeLoc(clang::TypeLoc tl)
 			tl.castAs<clang::TemplateSpecializationTypeLoc>();
 		const clang::TemplateSpecializationType &tst =
 			*tstl.getTypePtr()->getAs<clang::TemplateSpecializationType>();
-		if (tst.getAsCXXRecordDecl()) 
+		if (tst.getAsCXXRecordDecl())
 		{
 			RecordDeclRef(tst.getAsCXXRecordDecl(),
 				tl.getBeginLoc(),
@@ -927,7 +927,7 @@ bool ASTVisitor::VisitTypeLoc(clang::TypeLoc tl)
 				tl.getBeginLoc(),
 				m_typeContext);
 		}
-	} 
+	}
 	else if (!tl.getAs<clang::DependentNameTypeLoc>().isNull())
 	{
 		const clang::DependentNameTypeLoc& dntl =
@@ -1053,7 +1053,7 @@ ParseLocation ASTVisitor::getDeclRefRange(clang::NamedDecl *decl, clang::SourceL
 		}
 	}
     // General case -- find the end of the token starting at loc.
-  
+
 	{
 		clang::SourceLocation endSloc =
 			m_preprocessor->getLocForEndOfToken(sloc);
@@ -1072,7 +1072,7 @@ void ASTVisitor::RecordTypeRef(
 	RefType refType,
 	SymbolType symbolType)
 {
-	if (isLocatedInProjectFile(beginLoc))
+	if (isLocatedInUnparsedProjectFile(beginLoc))
 	{
 		ParseLocation parseLocation = getDeclRefRange(0, beginLoc);
 		NameHierarchy typeNameHierarchy = m_typeNameCache->getValue(type);
@@ -1135,9 +1135,8 @@ void ASTVisitor::RecordDeclRef(
 	}
 
 	ParseLocation parseLocation = getDeclRefRange(d, beginLoc);
-	//NameHierarchy declNameHierarchy = m_declNameCache->getValue(d);
-	NameHierarchy declNameHierarchy = utility::getDeclNameHierarchy(d);
-		
+	NameHierarchy declNameHierarchy = m_declNameCache->getValue(d);
+
 	bool fallback = false;
 
 	if (
