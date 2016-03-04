@@ -2625,6 +2625,27 @@ public:
 		TS_ASSERT_EQUALS(client->calls[1], "void lambdaCaller::lambda at 4:2() -> void func() <6:3 6:6>");
 	}
 
+	void test_cxx_parser_finds_template_argument_of_unresolved_lookup_expression_as_type_use()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"void a()\n"
+			"{\n"
+			"}\n"
+			"\n"
+			"template<typename MessageType>\n"
+			"void dispatch()\n"
+			"{\n"
+			"	a<MessageType>();\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->typeUses.size(), 3);
+		TS_ASSERT_EQUALS(client->typeUses[0], "void a<typename T>() -> void <2:1 2:4>");
+		TS_ASSERT_EQUALS(client->typeUses[1], "void dispatch<typename MessageType>() -> void <7:1 7:4>");
+		TS_ASSERT_EQUALS(client->typeUses[2], "void dispatch<typename MessageType>() -> dispatch<typename MessageType>::MessageType <9:4 9:14>");
+	}
+
 	///////////////////////////////////////////////////////////////////////////////
 	// test finding symbol locations
 

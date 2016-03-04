@@ -38,10 +38,23 @@ ASTVisitor::ASTVisitor(clang::ASTContext* context, clang::Preprocessor* preproce
     , m_typeContext(RT_Reference)
 	, m_contextAccess(ParserClient::ACCESS_NONE)
 {
-	m_declNameCache = std::make_shared<DeclNameCache>();
-	m_typeNameCache = std::make_shared<TypeNameCache>();
-	m_contextNameGenerator = std::make_shared<ContextDeclNameGenerator>(nullptr, m_declNameCache);
-	m_childContextNameGenerator = std::make_shared<ContextDeclNameGenerator>(nullptr, m_declNameCache);
+	m_declNameCache = std::make_shared<DeclNameCache>([](const clang::NamedDecl* decl) -> NameHierarchy
+	{
+		if (decl)
+		{
+			return utility::getDeclNameHierarchy(decl);
+		}
+		return NameHierarchy("global");
+	});
+	m_typeNameCache = std::make_shared<TypeNameCache>([](const clang::Type* type) -> NameHierarchy
+	{
+		if (type)
+		{
+			CxxTypeNameResolver resolver;
+			return resolver.getTypeNameHierarchy(type);
+		}
+		return NameHierarchy("global");
+	});
 }
 
 ASTVisitor::~ASTVisitor()
@@ -50,7 +63,7 @@ ASTVisitor::~ASTVisitor()
 
 bool ASTVisitor::VisitTranslationUnitDecl(clang::TranslationUnitDecl* decl)
 {
-	//decl->dump();
+	decl->dump();
 	return true;
 }
 
@@ -152,8 +165,8 @@ bool ASTVisitor::TraverseVarDecl(clang::VarDecl *d)
 {
 	std::shared_ptr<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>> switcher;
 	
-	NameHierarchy contextNameHierarchy = m_contextNameGenerator->getName();
-	if (!(contextNameHierarchy.size() > 0 && contextNameHierarchy.back()->hasSignature())) // TODO: optimize this: remove requirement to get the name here!
+	NameHierarchy contextNameHierarchy = getContextName();
+	if (!(contextNameHierarchy.size() > 0 && contextNameHierarchy.back()->hasSignature())) // TODO: whle test if its a function. optimize this: remove requirement to get the name here!
 	{
 		switcher = std::make_shared<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>>(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
 	}
@@ -164,6 +177,13 @@ bool ASTVisitor::TraverseClassTemplateDecl(clang::ClassTemplateDecl* d)
 {
 	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
 	return base::TraverseClassTemplateDecl(d);
+}
+
+bool ASTVisitor::TraverseFunctionTemplateDecl(clang::FunctionTemplateDecl* d)
+{
+	// we need to use the templated decl here because name resolving for FunctionTemplateDecl is not returning a correct signature yet.
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d->getTemplatedDecl(), m_declNameCache));
+	return base::TraverseFunctionTemplateDecl(d);
 }
 
 bool ASTVisitor::TraverseTemplateTypeParmDecl(clang::TemplateTypeParmDecl* d)
@@ -194,7 +214,6 @@ bool ASTVisitor::TraverseTemplateTemplateParmDecl(clang::TemplateTemplateParmDec
 		ScopedSwitcher<RefType> sw1(m_typeContext, RT_TemplateDefaultArgument);
 		ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> sw2(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
 
-		//d->getDefaultArgument
 		TraverseTemplateArgumentLoc(d->getDefaultArgument());
 	}
 
@@ -230,12 +249,22 @@ bool ASTVisitor::TraverseTemplateSpecializationTypeLoc(clang::TemplateSpecializa
 	return base::TraverseTemplateSpecializationTypeLoc(loc);
 }
 
+bool ASTVisitor::TraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* e) // TODO: do this for unresolved and dependent stuff
+{
+	std::shared_ptr<ContextNameGenerator> n;
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> sw(m_childContextNameGenerator, n);
+	return base::TraverseUnresolvedLookupExpr(e);
+}
+
 bool ASTVisitor::TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc)
 {
 	std::shared_ptr<ScopedSwitcher<RefType>> sw1;
 	std::shared_ptr<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>> sw2;
 
-	if (m_typeContext != RT_TemplateDefaultArgument)
+	if (m_typeContext != RT_TemplateDefaultArgument 
+	&& 
+		m_childContextNameGenerator
+		)
 	{
 		sw1 = std::make_shared<ScopedSwitcher<RefType>>(m_typeContext, RT_TemplateArgument);
 		sw2 = std::make_shared<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>>(m_contextNameGenerator, m_childContextNameGenerator);
@@ -249,12 +278,6 @@ bool ASTVisitor::TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& l
 	
 	return base::TraverseTemplateArgumentLoc(loc);
 }
-
-//bool ASTVisitor::TraverseFunctionTemplateDecl(clang::FunctionTemplateDecl* d)
-//{
-//	ScopedSwitcher<clang::Decl*> switcher(m_contextDecl, d);
-//	return base::TraverseFunctionTemplateDecl(d);
-//}
 
 ///////////////////////////////////////////////////////////////////////////////
 // Expression context propagation
@@ -1052,8 +1075,8 @@ void ASTVisitor::RecordTypeRef(
 	if (isLocatedInProjectFile(beginLoc))
 	{
 		ParseLocation parseLocation = getDeclRefRange(0, beginLoc);
-		NameHierarchy typeNameHierarchy = m_typeNameCache->getName(type);
-		NameHierarchy contextNameHierarchy = m_contextNameGenerator->getName();
+		NameHierarchy typeNameHierarchy = m_typeNameCache->getValue(type);
+		NameHierarchy contextNameHierarchy = getContextName();
 
 		if (refType == RT_TemplateArgument)
 		{
@@ -1112,7 +1135,8 @@ void ASTVisitor::RecordDeclRef(
 	}
 
 	ParseLocation parseLocation = getDeclRefRange(d, beginLoc);
-	NameHierarchy declNameHierarchy = m_declNameCache->getName(d);
+	//NameHierarchy declNameHierarchy = m_declNameCache->getValue(d);
+	NameHierarchy declNameHierarchy = utility::getDeclNameHierarchy(d);
 		
 	bool fallback = false;
 
@@ -1192,7 +1216,7 @@ void ASTVisitor::RecordDeclRef(
 				{
 					m_client->onMethodOverrideParsed(
 						parseLocation,
-						m_declNameCache->getName(*it),
+						m_declNameCache->getValue(*it),
 						declNameHierarchy);
 				}
 
@@ -1205,7 +1229,7 @@ void ASTVisitor::RecordDeclRef(
 						m_client->onTemplateMemberFunctionSpecializationParsed(
 							parseLocation,
 							declNameHierarchy,
-							m_declNameCache->getName(specializedNamedDecl));
+							m_declNameCache->getValue(specializedNamedDecl));
 					}
 				}
 			}
@@ -1266,7 +1290,7 @@ void ASTVisitor::RecordDeclRef(
 				m_client->onTemplateSpecializationParsed(
 					parseLocation,
 					declNameHierarchy,
-					m_declNameCache->getName(specializedFromDecl)); // use context and childcontext!!
+					m_declNameCache->getValue(specializedFromDecl)); // use context and childcontext!!
 			}
 			break;
 		case ST_FunctionTemplateSpecialization:
@@ -1275,7 +1299,7 @@ void ASTVisitor::RecordDeclRef(
 				m_client->onTemplateSpecializationParsed(
 					parseLocation,
 					declNameHierarchy,
-					m_declNameCache->getName(functionDecl->getPrimaryTemplate()->getTemplatedDecl())); // TODO: use contect and childcontext!!
+					m_declNameCache->getValue(functionDecl->getPrimaryTemplate()->getTemplatedDecl())); // TODO: use contect and childcontext!!
 			}
 			break;
 		case ST_LocalVariable:
@@ -1289,7 +1313,7 @@ void ASTVisitor::RecordDeclRef(
 	}
 	else
 	{
-		const NameHierarchy contextNameHierarchy = m_contextNameGenerator->getName();
+		const NameHierarchy contextNameHierarchy = getContextName();
 		switch (symbolType)
 		{
 		case ST_Field:
@@ -1569,4 +1593,13 @@ ParseLocation ASTVisitor::getParseLocation(const clang::SourceRange& sourceRange
 		presumedEnd.getLine(),
 		presumedEnd.getColumn()
 	);
+}
+
+NameHierarchy ASTVisitor::getContextName()
+{
+	if (m_contextNameGenerator)
+	{
+		return m_contextNameGenerator->getName();
+	}
+	return NameHierarchy("global");
 }

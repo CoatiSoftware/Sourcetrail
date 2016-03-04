@@ -10,14 +10,24 @@
 
 CxxDeclNameResolver::CxxDeclNameResolver(const clang::Decl* declaration)
 	: CxxNameResolver(std::vector<const clang::Decl*>())
-	, m_declaration(declaration)
 {
+	const clang::Decl* prev = declaration;
+	while (prev)
+	{
+		m_declaration = prev;
+		prev = prev->getPreviousDecl();
+	}
 }
 
 CxxDeclNameResolver::CxxDeclNameResolver(const clang::Decl* declaration, std::vector<const clang::Decl*> ignoredContextDecls)
 	: CxxNameResolver(ignoredContextDecls)
-	, m_declaration(declaration)
 {
+	const clang::Decl* prev = declaration;
+	while (prev)
+	{
+		m_declaration = prev;
+		prev = prev->getPreviousDecl();
+	}
 }
 
 CxxDeclNameResolver::~CxxDeclNameResolver()

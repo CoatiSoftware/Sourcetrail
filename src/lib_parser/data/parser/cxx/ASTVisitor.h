@@ -10,6 +10,7 @@
 
 #include "data/parser/ParserClient.h"
 #include "utility/file/FileRegister.h"
+#include "utility/Cache.h"
 
 
 
@@ -19,61 +20,8 @@
 class ASTVisitor: clang::RecursiveASTVisitor<ASTVisitor>
 {
 public:
-
-	class TypeNameCache
-	{
-	public:
-		NameHierarchy getName(const clang::Type* type)
-		{
-			if (type)
-			{
-				NameHierarchy nameHierarchy;
-				std::unordered_map<const clang::Type*, NameHierarchy>::const_iterator it = m_typeNameMap.find(type);
-				if (it != m_typeNameMap.end())
-				{
-					nameHierarchy = it->second;
-				}
-				else
-				{
-					CxxTypeNameResolver resolver;
-					nameHierarchy = resolver.getTypeNameHierarchy(type);
-					m_typeNameMap[type] = nameHierarchy;
-				}
-				return nameHierarchy;
-			}
-			return NameHierarchy("global");
-		}
-
-	private:
-		std::unordered_map<const clang::Type*, NameHierarchy> m_typeNameMap;
-	};
-
-	class DeclNameCache
-	{
-	public:
-		NameHierarchy getName(const clang::NamedDecl* decl)
-		{
-			if (decl)
-			{
-				NameHierarchy nameHierarchy;
-				std::unordered_map<const clang::Decl*, NameHierarchy>::const_iterator it = m_declNameCache.find(decl);
-				if (it != m_declNameCache.end())
-				{
-					nameHierarchy = it->second;
-				}
-				else
-				{
-					nameHierarchy = utility::getDeclNameHierarchy(decl);
-					m_declNameCache[decl] = nameHierarchy;
-				}
-				return nameHierarchy;
-			}
-			return NameHierarchy("global");
-		}
-
-	private:
-		std::unordered_map<const clang::Decl*, NameHierarchy> m_declNameCache;
-	};
+	typedef Cache<const clang::NamedDecl*, NameHierarchy> DeclNameCache;
+	typedef Cache<const clang::Type*, NameHierarchy> TypeNameCache;
 
 	class ContextNameGenerator
 	{
@@ -94,8 +42,9 @@ public:
 
 		virtual NameHierarchy getName() const
 		{
-			return m_nameCache->getName(m_decl);
+			return m_nameCache->getValue(m_decl);
 		}
+
 	private:
 		const clang::NamedDecl* m_decl;
 		std::shared_ptr<DeclNameCache> m_nameCache;
@@ -113,8 +62,9 @@ public:
 
 		virtual NameHierarchy getName() const
 		{
-			return m_nameCache->getName(m_type);
+			return m_nameCache->getValue(m_type);
 		}
+
 	private:
 		const clang::Type* m_type;
 		std::shared_ptr<TypeNameCache> m_nameCache;
@@ -225,11 +175,13 @@ private:
 	bool TraverseFieldDecl(clang::FieldDecl *d);
 	bool TraverseVarDecl(clang::VarDecl *d);
 	bool TraverseClassTemplateDecl(clang::ClassTemplateDecl* d);
+	bool TraverseFunctionTemplateDecl(clang::FunctionTemplateDecl* d);
 	bool TraverseTemplateTypeParmDecl(clang::TemplateTypeParmDecl* d);
 	bool TraverseTemplateTemplateParmDecl(clang::TemplateTemplateParmDecl* d);
 	bool TraverseClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* d);
-	bool TraverseDeclRefExpr(clang::DeclRefExpr* expr);
+	bool TraverseDeclRefExpr(clang::DeclRefExpr* e);
 	bool TraverseTemplateSpecializationTypeLoc(clang::TemplateSpecializationTypeLoc loc);
+	bool TraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* e);
 	bool TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc);
 
     // Expression context propagation
@@ -302,6 +254,8 @@ private:
 	ParseLocation getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const;
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
 
+	NameHierarchy getContextName();
+
 	struct FileIdHash {
 		size_t operator()(clang::FileID fileID) const {
 			return fileID.getHashValue();
@@ -312,7 +266,7 @@ private:
 	std::unordered_map<const clang::FileID, bool, FileIdHash> m_inProjectFileMap;
 
 	std::shared_ptr<ContextNameGenerator> m_contextNameGenerator;
-	std::shared_ptr<ContextNameGenerator> m_childContextNameGenerator;
+	std::shared_ptr<ContextNameGenerator> m_childContextNameGenerator; //  TODO: rename templateArgumentContextNameGenerator
 
 	std::shared_ptr<DeclNameCache> m_declNameCache;
 	std::shared_ptr<TypeNameCache> m_typeNameCache;

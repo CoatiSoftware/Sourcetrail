@@ -23,6 +23,8 @@ CxxTemplateArgumentNameResolver::~CxxTemplateArgumentNameResolver()
 
 std::string CxxTemplateArgumentNameResolver::getTemplateArgumentName(const clang::TemplateArgument& argument)
 {
+	// This doesn't work correctly if the template argument is dependent. 
+	// If that's required: build name from depth and index of template arg.
 	const clang::TemplateArgument::ArgKind kind = argument.getKind();
 	switch (kind)
 	{
