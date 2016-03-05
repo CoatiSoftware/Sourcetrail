@@ -31,6 +31,21 @@ namespace CoatiSoftware.CoatiPlugin
             return projectNames;
         }
 
+        public static List<String> GetSolutionProjectsFullNames(DTE dte)
+        {
+            List<String> projectNames = new List<String>();
+
+            EnvDTE.Solution solution = dte.Solution;
+            EnvDTE.Projects projects = solution.Projects;
+
+            foreach (EnvDTE.Project project in projects)
+            {
+                projectNames.Add(project.FullName);
+            }
+
+            return projectNames;
+        }
+
         public static List<List<String>> GetSolutionProjectItems(DTE dte)
         {
             List<List<String>> projectItems = new List<List<String>>();
@@ -67,13 +82,23 @@ namespace CoatiSoftware.CoatiPlugin
 
             foreach (EnvDTE.Project project in projects)
             {
-                string language = project.CodeModel.Language;
-                languages.Add(language);
+                if (project.CodeModel != null)
+                {
+                    string language = project.CodeModel.Language;
+                    languages.Add(language);
+                }
             }
 
             languages = languages.Distinct().ToList();
 
             return languages;
+        }
+
+        public static bool GetSolutionIsSaved(DTE dte)
+        {
+            EnvDTE.Solution solution = dte.Solution;
+
+            return solution.Saved;
         }
     }
 }

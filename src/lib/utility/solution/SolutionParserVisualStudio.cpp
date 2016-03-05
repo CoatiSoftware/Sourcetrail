@@ -26,6 +26,10 @@ std::string SolutionParserVisualStudio::getSolutionName()
 	if (m_solutionName.size() > 0)
 	{
 		size_t pos = m_solutionName.find(".sln");
+		if (pos == std::string::npos)
+		{
+			pos = m_solutionName.find(".vcxproj");
+		}
 
 		if (pos != std::string::npos)
 		{
@@ -43,6 +47,12 @@ std::string SolutionParserVisualStudio::getSolutionName()
 std::vector<std::string> SolutionParserVisualStudio::getProjects()
 {
 	std::vector<std::string> projectFiles;
+
+	if (m_solutionName.size() > 0 && m_solutionName.find(".vcxproj") != std::string::npos)
+	{
+		projectFiles.push_back(m_solutionName);
+		return projectFiles;
+	}
 
 	if (m_solution.size() > 0)
 	{

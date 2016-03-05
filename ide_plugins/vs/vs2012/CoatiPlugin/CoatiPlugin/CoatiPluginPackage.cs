@@ -143,23 +143,30 @@ namespace CoatiSoftware.CoatiPlugin
 
         void OnSolutionOpened()
         {
-            DTE dte = (DTE)GetService(typeof(DTE));
-            List<String> languages = SolutionUtility.GetSolutionLanguages(dte);
-
-            bool enable = true;
-            foreach (String language in languages)
+            try
             {
-                if(language != CodeModelLanguageConstants.vsCMLanguageVC
-                    && language != CodeModelLanguageConstants.vsCMLanguageMC)
+                DTE dte = (DTE)GetService(typeof(DTE));
+                List<String> languages = SolutionUtility.GetSolutionLanguages(dte);
+
+                bool enable = false;
+                foreach (String language in languages)
                 {
-                    enable = false;
+                    if (language == CodeModelLanguageConstants.vsCMLanguageVC
+                        || language == CodeModelLanguageConstants.vsCMLanguageMC)
+                    {
+                        enable = true;
+                    }
+                }
+
+                if (enable)
+                {
+                    _menuItemSetActiveToken.Enabled = true;
+                    _menuItemCreateProject.Enabled = true;
                 }
             }
-
-            if(enable)
+            catch(Exception e)
             {
-                _menuItemSetActiveToken.Enabled = true;
-                _menuItemCreateProject.Enabled = true;
+                DisplayMessage("Error", e.Message);
             }
         }
 
@@ -208,9 +215,26 @@ namespace CoatiSoftware.CoatiPlugin
                 {
                     string solutionName = SolutionUtility.GetSolutionPath(dte);
 
-                    string message = NetworkProtocolUtility.createCreateProjectMessage(solutionName);
+                    if(solutionName == "")
+                    {
+                        List<string> items = SolutionUtility.GetSolutionProjectsFullNames(dte);
 
-                    AsynchronousClient.Send(message);
+                        if(items.Count > 0)
+                        {
+                            solutionName = items[0];
+                        }
+                    }
+
+                    if(solutionName.Length > 0)
+                    {
+                        string message = NetworkProtocolUtility.createCreateProjectMessage(solutionName);
+
+                        AsynchronousClient.Send(message);
+                    }
+                    else
+                    {
+                        DisplayMessage("Coati", "Can not create a Coati Project. Please check whether your VS solution is a valid C or C++ solution and is saved.");
+                    }
                 }
             }
         }

@@ -2741,7 +2741,7 @@ public:
 		TS_ASSERT_EQUALS(client.inheritances.size(), 1);
 		TS_ASSERT_EQUALS(client.calls.size(), 1);
 		TS_ASSERT_EQUALS(client.usages.size(), 3);
-		TS_ASSERT_EQUALS(client.typeUses.size(), 19);
+		TS_ASSERT_EQUALS(client.typeUses.size(), 19); // TODO: this test fails?!
 
 		TS_ASSERT_EQUALS(client.files.size(), 3);
 		TS_ASSERT_EQUALS(client.includes.size(), 1);
