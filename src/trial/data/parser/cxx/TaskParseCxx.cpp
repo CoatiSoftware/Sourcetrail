@@ -28,7 +28,7 @@ void TaskParseCxx::exit()
 {
 	m_client->finishParsing();
 
-	MessageFinishedParsing(0, 0, 0, ErrorCountInfo()).dispatch();
+	MessageFinishedParsing(0, 0, 0).dispatch();
 }
 
 void TaskParseCxx::interrupt()
