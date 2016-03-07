@@ -7,4 +7,5 @@ Exec=/usr/bin/coati
 Icon=coati
 Terminal=true
 Type=Application
+MimeType=application/x-coati
 StartupNotify=true

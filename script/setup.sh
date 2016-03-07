@@ -21,10 +21,10 @@ cd $MY_PATH/..
 # git settings
 echo -e $INFO "install git settings"
 
-git config commit.template .git_commit_template.txt
+git config commit.template setup/git/git_commit_template.txt
 git config color.ui true
-cp .git_pre_commit_hook.sh .git/hooks/pre-commit
-
+cp setup/git/git_pre_commit_hook.sh .git/hooks/pre-commit
+cp setup/git/git_pre_push_hook.sh .git/hooks/pre-push
 
 # Create Debug and Release folders
 echo -e $INFO "create build folders"

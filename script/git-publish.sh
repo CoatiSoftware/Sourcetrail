@@ -77,7 +77,7 @@ fi
 
 # Prepare publish message with commit messages
 GIT_DIR=$(git rev-parse --show-toplevel)/.git
-cat $GIT_DIR/../.git_commit_template.txt > $GIT_DIR/PUBLISH_MSG
+cat $GIT_DIR/../setup/git/git_commit_template.txt > $GIT_DIR/PUBLISH_MSG
 printf "\n# commits:\n" >> $GIT_DIR/PUBLISH_MSG
 git log --graph --format=%B $BASE_COMMIT..HEAD | sed 's/^/#   &/' >> $GIT_DIR/PUBLISH_MSG
 

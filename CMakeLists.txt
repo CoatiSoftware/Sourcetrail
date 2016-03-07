@@ -120,8 +120,8 @@ endif()
 
 # Lib --------------------------------------------------------------------------
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
 
 add_subdirectory(src/lib)
 add_subdirectory(src/external)
@@ -160,8 +160,8 @@ target_link_libraries(${LIB_PROJECT_NAME} ${Boost_LIBRARIES})
 
 # Lib Parser -------------------------------------------------------------------
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_parser)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_parser)
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_parser)
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_parser)
 
 add_subdirectory(src/lib_parser)
 
@@ -178,6 +178,13 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/lib"
 )
 
+set_target_properties(
+	${LIB_PARSER_PROJECT_NAME}
+	PROPERTIES
+		DEBUG_OUTPUT_NAME ${LIB_PARSER_PROJECT_NAME}_d
+		RELEASE_OUTPUT_NAME ${LIB_PARSER_PROJECT_NAME}
+)
+
 target_include_directories(${LIB_PARSER_PROJECT_NAME} SYSTEM
 	PUBLIC ${LLVM_INCLUDE_DIRS}
 	${CLANG_INCLUDE_DIRS}
@@ -192,8 +199,8 @@ target_link_libraries(${LIB_PARSER_PROJECT_NAME} ${CLANG_LIBRARIES} ${REQ_LLVM_L
 
 # Lib License -------------------------------------------------------------------
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_license)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_license)
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_license)
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_license)
 
 add_subdirectory(src/lib_license)
 
@@ -205,6 +212,13 @@ set_property(
 		TARGET ${LIB_LICENSE_PROJECT_NAME}
 		PROPERTY INCLUDE_DIRECTORIES
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
+)
+
+set_target_properties(
+	${LIB_LICENSE_PROJECT_NAME}
+	PROPERTIES
+		DEBUG_OUTPUT_NAME ${LIB_LICENSE_PROJECT_NAME}_d
+		RELEASE_OUTPUT_NAME ${LIB_LICENSE_PROJECT_NAME}
 )
 
 target_include_directories(${LIB_LICENSE_PROJECT_NAME} SYSTEM
@@ -229,8 +243,8 @@ endif()
 
 # Lib Gui ----------------------------------------------------------------------
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_gui)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_gui)
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_gui)
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_gui)
 
 add_subdirectory(src/lib_gui)
 
@@ -292,6 +306,13 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/lib_gui"
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
+)
+
+set_target_properties(
+	${LIB_GUI_PROJECT_NAME}
+	PROPERTIES
+		DEBUG_OUTPUT_NAME ${LIB_GUI_PROJECT_NAME}_d
+		RELEASE_OUTPUT_NAME ${LIB_GUI_PROJECT_NAME}
 )
 
 # include external header without warnings

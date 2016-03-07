@@ -16,6 +16,7 @@ cp $MY_PATH/setup/coati.desktop /usr/share/applications/ > /dev/null
 cp $MY_PATH/data/gui/icon/logo_1024_1024.png /usr/share/icons/coati.png > /dev/null
 cp $MY_PATH/data/gui/icon/project_256_256.png /usr/share/icons/project-coati.png > /dev/null
 update-mime-database /usr/share/mime > /dev/null
+update-desktop-database > /dev/null
 
-ln -s /opt/coati/coati.sh /usr/bin/coati > /dev/null
+ln -s /opt/coati/Coati.sh /usr/bin/coati > /dev/null
 

@@ -1,6 +1,6 @@
 
 MY_PATH=`dirname "$0"`
-MY_PATH=../$MY_PATH 
+MY_PATH=../$MY_PATH
 
 echo "Remove coati form system"
 printf 'enter [y/n] '
@@ -16,4 +16,5 @@ rm /usr/share/icons/coati.png
 rm /usr/share/icons/project-coati.png
 rm /opt/coati -rf
 update-mime/database /usr/share/mime
+update-desktop-database
 
