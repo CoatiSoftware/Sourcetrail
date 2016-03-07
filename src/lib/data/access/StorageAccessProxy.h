@@ -51,6 +51,7 @@ public:
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const;
 	virtual TimePoint getFileModificationTime(const FilePath& filePath) const;
 
+	virtual ErrorCountInfo getErrorCount() const;
 	virtual StorageStats getStorageStats() const;
 
 private:

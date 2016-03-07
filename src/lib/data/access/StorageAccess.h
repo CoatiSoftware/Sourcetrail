@@ -10,6 +10,7 @@
 
 #include "data/graph/Node.h"
 #include "data/search/SearchMatch.h"
+#include "data/ErrorCountInfo.h"
 #include "data/StorageStats.h"
 
 struct FileInfo;
@@ -62,6 +63,7 @@ public:
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const = 0;
 	virtual TimePoint getFileModificationTime(const FilePath& filePath) const = 0;
 
+	virtual ErrorCountInfo getErrorCount() const = 0;
 	virtual StorageStats getStorageStats() const = 0;
 };
 

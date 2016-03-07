@@ -7,6 +7,8 @@
 #include <string>
 
 #include "data/parser/cxx/utilityCxx.h"
+#include "data/parser/ParseLocation.h"
+
 #include "utility/file/FileManager.h"
 #include "utility/file/FileSystem.h"
 #include "utility/ScopedSwitcher.h"
@@ -131,7 +133,9 @@ bool ASTVisitor::TraverseDecl(clang::Decl *d)
 	if (d && clang::isa<clang::DeclContext>(d) && clang::isa<clang::NamedDecl>(d) && !clang::isa<clang::NamespaceDecl>(d))
 	{
 		clang::NamedDecl* nd = clang::dyn_cast<clang::NamedDecl>(d);
-		sw3 = std::make_shared<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>>(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(nd, m_declNameCache));
+		sw3 = std::make_shared<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>>(
+			m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(nd, m_declNameCache)
+		);
 	}
 
     return base::TraverseDecl(d);
@@ -139,25 +143,33 @@ bool ASTVisitor::TraverseDecl(clang::Decl *d)
 
 bool ASTVisitor::TraverseLambdaExpr(clang::LambdaExpr* e)
 {
-	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(e->getCallOperator(), m_declNameCache));
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(
+		m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(e->getCallOperator(), m_declNameCache)
+	);
 	return base::TraverseLambdaExpr(e);
 }
 
 bool ASTVisitor::TraverseFunctionDecl(clang::FunctionDecl* d)
 {
-	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_childContextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache)); // store context for template arguments of function specialitzation
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(
+		m_childContextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache)
+	); // store context for template arguments of function specialitzation
 	return base::TraverseFunctionDecl(d);
 }
 
 bool ASTVisitor::TraverseTypedefDecl(clang::TypedefDecl *d)
 {
-	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(
+		m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache)
+	);
 	return base::TraverseTypedefDecl(d);
 }
 
 bool ASTVisitor::TraverseFieldDecl(clang::FieldDecl *d)
 {
-	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(
+		m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache)
+	);
 	return base::TraverseFieldDecl(d);
 }
 
@@ -168,21 +180,27 @@ bool ASTVisitor::TraverseVarDecl(clang::VarDecl *d)
 	NameHierarchy contextNameHierarchy = getContextName();
 	if (!(contextNameHierarchy.size() > 0 && contextNameHierarchy.back()->hasSignature())) // TODO: whle test if its a function. optimize this: remove requirement to get the name here!
 	{
-		switcher = std::make_shared<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>>(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
+		switcher = std::make_shared<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>>(
+			m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache)
+		);
 	}
 	return base::TraverseVarDecl(d);
 }
 
 bool ASTVisitor::TraverseClassTemplateDecl(clang::ClassTemplateDecl* d)
 {
-	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(
+		m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache)
+	);
 	return base::TraverseClassTemplateDecl(d);
 }
 
 bool ASTVisitor::TraverseFunctionTemplateDecl(clang::FunctionTemplateDecl* d)
 {
 	// we need to use the templated decl here because name resolving for FunctionTemplateDecl is not returning a correct signature yet.
-	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d->getTemplatedDecl(), m_declNameCache));
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(
+		m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d->getTemplatedDecl(), m_declNameCache)
+	);
 	return base::TraverseFunctionTemplateDecl(d);
 }
 
@@ -194,7 +212,9 @@ bool ASTVisitor::TraverseTemplateTypeParmDecl(clang::TemplateTypeParmDecl* d)
 	if (d->hasDefaultArgument() && !d->defaultArgumentWasInherited())
 	{
 		ScopedSwitcher<RefType> sw1(m_typeContext, RT_TemplateDefaultArgument);
-		ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> sw2(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
+		ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> sw2(
+			m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache)
+		);
 		TraverseTypeLoc(d->getDefaultArgumentInfo()->getTypeLoc());
 	}
 
@@ -212,7 +232,9 @@ bool ASTVisitor::TraverseTemplateTemplateParmDecl(clang::TemplateTemplateParmDec
 	if (d->hasDefaultArgument() && !d->defaultArgumentWasInherited())
 	{
 		ScopedSwitcher<RefType> sw1(m_typeContext, RT_TemplateDefaultArgument);
-		ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> sw2(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
+		ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> sw2(
+			m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache)
+		);
 
 		TraverseTemplateArgumentLoc(d->getDefaultArgument());
 	}
@@ -232,20 +254,26 @@ bool ASTVisitor::TraverseTemplateTemplateParmDecl(clang::TemplateTemplateParmDec
 
 bool ASTVisitor::TraverseClassTemplatePartialSpecializationDecl(clang::ClassTemplatePartialSpecializationDecl* d)
 {
-	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_childContextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(
+		m_childContextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache)
+	);
 	return base::TraverseClassTemplatePartialSpecializationDecl(d);
 }
 
 bool ASTVisitor::TraverseDeclRefExpr(clang::DeclRefExpr* e)
 {
-	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_childContextNameGenerator, std::make_shared<ContextDeclNameGenerator>(e->getDecl(), m_declNameCache));
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(
+		m_childContextNameGenerator, std::make_shared<ContextDeclNameGenerator>(e->getDecl(), m_declNameCache)
+	);
 	return base::TraverseDeclRefExpr(e);
 }
 
 bool ASTVisitor::TraverseTemplateSpecializationTypeLoc(clang::TemplateSpecializationTypeLoc loc)
 {
 	const clang::Type* t = loc.getTypePtr();
-	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_childContextNameGenerator, std::make_shared<ContextTypeNameGenerator>(t, m_typeNameCache));
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(
+		m_childContextNameGenerator, std::make_shared<ContextTypeNameGenerator>(t, m_typeNameCache)
+	);
 	return base::TraverseTemplateSpecializationTypeLoc(loc);
 }
 
@@ -262,12 +290,12 @@ bool ASTVisitor::TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& l
 	std::shared_ptr<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>> sw2;
 
 	if (m_typeContext != RT_TemplateDefaultArgument
-	&&
-		m_childContextNameGenerator
-		)
+		&& m_childContextNameGenerator)
 	{
 		sw1 = std::make_shared<ScopedSwitcher<RefType>>(m_typeContext, RT_TemplateArgument);
-		sw2 = std::make_shared<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>>(m_contextNameGenerator, m_childContextNameGenerator);
+		sw2 = std::make_shared<ScopedSwitcher<std::shared_ptr<ContextNameGenerator>>>(
+			m_contextNameGenerator, m_childContextNameGenerator
+		);
 	}
 
 	clang::TemplateArgument::ArgKind kk = loc.getArgument().getKind();
@@ -652,8 +680,12 @@ bool ASTVisitor::TraverseCXXRecordDecl(clang::CXXRecordDecl *d)
                 ++it) {
             clang::CXXBaseSpecifier *baseSpecifier = it;
 			ScopedSwitcher<RefType> sw1(m_typeContext, RT_BaseClass);
-			ScopedSwitcher<ParserClient::AccessType> sw2(m_contextAccess, convertAccessType(baseSpecifier->getAccessSpecifier()));
-			ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> sw3(m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
+			ScopedSwitcher<ParserClient::AccessType> sw2(
+				m_contextAccess, convertAccessType(baseSpecifier->getAccessSpecifier())
+			);
+			ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> sw3(
+				m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache)
+			);
             TraverseTypeLoc(baseSpecifier->getTypeSourceInfo()->getTypeLoc());
         }
     }
@@ -678,7 +710,9 @@ bool ASTVisitor::TraverseClassTemplateSpecializationDecl(
 
 	if (clang::TypeSourceInfo* tsi = d->getTypeAsWritten())
 	{
-		ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(m_childContextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache));
+		ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(
+			m_childContextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache)
+		);
 		clang::TypeLoc tl = tsi->getTypeLoc();
 		clang::TemplateSpecializationTypeLoc tstl = tl.castAs<clang::TemplateSpecializationTypeLoc>();
 		for (unsigned I = 0, E = tstl.getNumArgs(); I != E; ++I)

@@ -123,18 +123,12 @@ add_files(
 
 	data/parser/cxx/TaskParseCxx.h
 
-	data/parser/ParseFunction.cpp
-	data/parser/ParseFunction.h
 	data/parser/ParseLocation.cpp
 	data/parser/ParseLocation.h
 	data/parser/Parser.cpp
 	data/parser/Parser.h
 	data/parser/ParserClient.cpp
 	data/parser/ParserClient.h
-	data/parser/ParseTypeUsage.cpp
-	data/parser/ParseTypeUsage.h
-	data/parser/ParseVariable.cpp
-	data/parser/ParseVariable.h
 
 	data/search/SearchIndex.cpp
 	data/search/SearchIndex.h

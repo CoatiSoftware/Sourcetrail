@@ -6,17 +6,10 @@
 
 #include "utility/types.h"
 #include "data/name/NameHierarchy.h"
-#include "data/ErrorCountInfo.h"
 
 #include "utility/file/FileInfo.h"
 
-#include "ParseLocation.h"
-
-
-struct ParseFunction;
 struct ParseLocation;
-struct ParseTypeUsage;
-struct ParseVariable;
 class DataType;
 
 class ParserClient
@@ -48,10 +41,6 @@ public:
 	static std::string addLocationSuffix(
 		const std::string& str, const ParseLocation& location, const ParseLocation& scopeLocation);
 
-	static std::string variableStr(const ParseVariable& variable);
-	static std::string parameterStr(const std::vector<ParseTypeUsage> parameters);
-	static std::string functionStr(const ParseFunction& function);
-	static std::string functionSignatureStr(const ParseFunction& function); // should this be in here? consider languages other than c++.
 
 	ParserClient();
 	virtual ~ParserClient();
@@ -63,7 +52,6 @@ public:
 	virtual void finishParsingFile(const FilePath& filePath) = 0;
 
 	virtual void onError(const ParseLocation& location, const std::string& message, bool fatal) = 0;
-	virtual ErrorCountInfo getErrorCount() const = 0;
 
 	virtual Id onTypedefParsed(
 		const ParseLocation& location, const NameHierarchy& typedefName, AccessType access) = 0;
@@ -107,7 +95,7 @@ public:
 		const ParseLocation& location, const NameHierarchy& argumentTypeNameHierarchy,
 		const NameHierarchy& templateNameHierarchy) = 0;
 	virtual Id onTemplateDefaultArgumentTypeParsed(
-		const ParseLocation& location, const NameHierarchy& defaultArgumentTypeNameHierarchy, 
+		const ParseLocation& location, const NameHierarchy& defaultArgumentTypeNameHierarchy,
 		const NameHierarchy& templateArgumentTypeNameHierarchy) = 0;
 	virtual Id onTemplateParameterTypeParsed(
 		const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy) = 0;
@@ -120,7 +108,6 @@ public:
 	virtual Id onFileParsed(const FileInfo& fileInfo) = 0;
 	virtual Id onFileIncludeParsed(
 		const ParseLocation& location, const FileInfo& fileInfo, const FileInfo& includedFileInfo) = 0;
-
 
 	virtual Id onMacroDefineParsed(
 		const ParseLocation& location, const NameHierarchy& macroNameHierarchy, const ParseLocation& scopeLocation) = 0;

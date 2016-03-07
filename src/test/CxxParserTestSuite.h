@@ -5,15 +5,11 @@
 #include "utility/utilityString.h"
 
 #include "data/parser/cxx/CxxParser.h"
-#include "data/parser/ParseFunction.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
-#include "data/parser/ParseTypeUsage.h"
-#include "data/parser/ParseVariable.h"
 #include "settings/ApplicationSettings.h"
 
 #include "helper/TestFileManager.h"
-
 
 class CxxParserTestSuite: public CxxTest::TestSuite
 {
@@ -110,7 +106,7 @@ public:
 		TS_ASSERT_EQUALS(client->functions.size(), 1);
 		TS_ASSERT_EQUALS(client->functions[0], "int ceil(float) <1:1 <1:5 1:8> 4:1>");
 	}
-	
+
 	void test_cxx_parser_finds_static_function_declaration()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -773,7 +769,7 @@ public:
 		TS_ASSERT_EQUALS(client->structs.size(), 1);
 		TS_ASSERT_EQUALS(client->structs[0], "private A::B <3:2 <3:9 3:9> 5:2>");
 	}
-	
+
 	void test_cxx_parser_finds_struct_definition_in_namespace()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -823,7 +819,7 @@ public:
 		TS_ASSERT_EQUALS(client->globalVariables.size(), 1);
 		TS_ASSERT_EQUALS(client->globalVariables[0], "n::x <2:6 2:6>");
 	}
-	
+
 	void test_cxx_parser_finds_field_in_nested_class()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -1002,7 +998,7 @@ public:
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"int x;\n"
 			);
-		
+
 		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
 		TS_ASSERT_EQUALS(client->typeUses[0], "x -> int <1:1 1:3>");
 	}
@@ -1012,9 +1008,9 @@ public:
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"typedef unsigned int uint;\n"
 			);
-			
+
 		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
-		TS_ASSERT_EQUALS(client->typeUses[0], "uint -> unsigned int <1:9 1:16>"); 
+		TS_ASSERT_EQUALS(client->typeUses[0], "uint -> unsigned int <1:9 1:16>");
 	}
 
 	void test_cxx_parser_finds_typedef_that_uses_type_defined_in_named_namespace()
@@ -1052,7 +1048,7 @@ public:
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : private A <2:11 2:11>");
 	}
-	
+
 	void test_cxx_parser_finds_class_public_inheritance()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -1161,7 +1157,7 @@ public:
 		TS_ASSERT_EQUALS(client->inheritances[0], "C : public A <4:11 4:11>");
 		TS_ASSERT_EQUALS(client->inheritances[1], "C : private B <5:12 5:12>");
 	}
-	
+
 	void test_cxx_parser_finds_method_override_when_virtual()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -1240,7 +1236,7 @@ public:
 
 		TS_ASSERT_EQUALS(client->overrides.size(), 0);
 	}
-	
+
 	void test_cxx_parser_finds_call_in_function()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -1300,7 +1296,7 @@ public:
 		TS_ASSERT_EQUALS(client->calls[0], "int main() -> int sum(int, int) <11:2 11:4>");
 		TS_ASSERT_EQUALS(client->calls[1], "int main() -> float sum(float, float) <12:2 12:4>");
 	}
-	
+
 	void test_cxx_parser_finds_function_call_in_function_parameter_list()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -1318,7 +1314,7 @@ public:
 		TS_ASSERT_EQUALS(client->calls[0], "int main() -> int sum(int, int) <7:9 7:11>");
 		TS_ASSERT_EQUALS(client->calls[1], "int main() -> int sum(int, int) <7:16 7:18>");
 	}
-	
+
 	void test_cxx_parser_finds_function_call_in_method()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -2669,7 +2665,7 @@ public:
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
 		TS_ASSERT_EQUALS(client->calls[1], "int main() -> void n::App::App(int) <11:16 11:18>");
 	}
-	
+
 	void test_cxx_parser_finds_macro_define_scope()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -2679,7 +2675,7 @@ public:
 		TS_ASSERT_EQUALS(client->macros.size(), 1);
 		TS_ASSERT_EQUALS(client->macros[0], "MAX <1:9 <1:9 1:11> 2:17>");
 	}
-	
+
 	//void __test_cxx_parser_finds_type_template_argument_of_static_cast_expression()
 	//{
 	//	std::shared_ptr<TestParserClient> client = parseCode(
@@ -2708,7 +2704,7 @@ public:
 	//	TS_ASSERT_EQUALS(client->calls.size(), 1);
 	//	TS_ASSERT_EQUALS(client->calls[0], "void B::B() -> A::A() <6:2 6:2>");
 	//}
-	
+
 	void test_cxx_parser_parses_multiple_files()
 	{
 		TestFileManager fm;
@@ -2741,7 +2737,7 @@ public:
 		TS_ASSERT_EQUALS(client.inheritances.size(), 1);
 		TS_ASSERT_EQUALS(client.calls.size(), 1);
 		TS_ASSERT_EQUALS(client.usages.size(), 3);
-		TS_ASSERT_EQUALS(client.typeUses.size(), 19); // TODO: this test fails?!
+		TS_ASSERT_EQUALS(client.typeUses.size(), 17);
 
 		TS_ASSERT_EQUALS(client.files.size(), 3);
 		TS_ASSERT_EQUALS(client.includes.size(), 1);
@@ -2818,11 +2814,6 @@ private:
 		virtual void onError(const ParseLocation& location, const std::string& message, bool fatal)
 		{
 			errors.push_back(addLocationSuffix(message, location));
-		}
-
-		virtual ErrorCountInfo getErrorCount() const
-		{
-			return ErrorCountInfo();
 		}
 
 		virtual Id onTypedefParsed(

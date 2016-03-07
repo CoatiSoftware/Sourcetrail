@@ -85,7 +85,7 @@ std::shared_ptr<Component> ComponentFactory::createUndoRedoComponent(ViewLayout*
 std::shared_ptr<Component> ComponentFactory::createStatusBarComponent(ViewLayout* viewLayout)
 {
 	std::shared_ptr<StatusBarView> view = m_viewFactory->createStatusBarView(viewLayout);
-	std::shared_ptr<StatusBarController> controller = std::make_shared<StatusBarController>();
+	std::shared_ptr<StatusBarController> controller = std::make_shared<StatusBarController>(m_storageAccess);
 
 	return std::make_shared<Component>(view, controller);
 }

@@ -6,10 +6,7 @@
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
 #include "data/location/TokenLocation.h"
-#include "data/parser/ParseFunction.h"
 #include "data/parser/ParseLocation.h"
-#include "data/parser/ParseTypeUsage.h"
-#include "data/parser/ParseVariable.h"
 #include "data/Storage.h"
 #include "data/type/DataType.h"
 #include "data/type/NamedDataType.h"
@@ -263,16 +260,16 @@ public:
 		NameHierarchy b = createFunctionNameHierarchy("void", "B::isMethod", "(bool)");
 
 		storage.onMethodParsed(
-			validLocation(9), 
-			a, 
-			ParserClient::ACCESS_PRIVATE, 
-			ParserClient::ABSTRACTION_VIRTUAL, 
+			validLocation(9),
+			a,
+			ParserClient::ACCESS_PRIVATE,
+			ParserClient::ABSTRACTION_VIRTUAL,
 			validLocation(4));
 		storage.onMethodParsed(
-			validLocation(7), 
+			validLocation(7),
 			b,
-			ParserClient::ACCESS_PRIVATE, 
-			ParserClient::ABSTRACTION_NONE, 
+			ParserClient::ACCESS_PRIVATE,
+			ParserClient::ABSTRACTION_NONE,
 			validLocation(3));
 
 		storage.onMethodOverrideParsed(validLocation(4), a, b);

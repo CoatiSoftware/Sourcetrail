@@ -275,6 +275,16 @@ TimePoint StorageAccessProxy::getFileModificationTime(const FilePath& filePath) 
 	return TimePoint(boost::posix_time::not_a_date_time);
 }
 
+ErrorCountInfo StorageAccessProxy::getErrorCount() const
+{
+	if (hasSubject())
+	{
+		return m_subject->getErrorCount();
+	}
+
+	return ErrorCountInfo();
+}
+
 StorageStats StorageAccessProxy::getStorageStats() const
 {
 	if (hasSubject())

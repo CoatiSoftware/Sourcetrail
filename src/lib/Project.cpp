@@ -43,7 +43,7 @@ bool Project::load(const FilePath& projectSettingsFile)
 	{
 		m_storage->startParsing();
 		m_storage->finishParsing();
-		MessageFinishedParsing(0, 0, 0, m_storage->getErrorCount()).dispatch();
+		MessageFinishedParsing(0, 0, 0).dispatch();
 	}
 	else
 	{

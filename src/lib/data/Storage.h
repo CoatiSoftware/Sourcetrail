@@ -90,7 +90,7 @@ public:
 		const ParseLocation& location, const NameHierarchy& argumentTypeNameHierarchy,
 		const NameHierarchy& templateNameHierarchy);
 	virtual Id onTemplateDefaultArgumentTypeParsed(
-		const ParseLocation& location, const NameHierarchy& defaultArgumentTypeNameHierarchy, 
+		const ParseLocation& location, const NameHierarchy& defaultArgumentTypeNameHierarchy,
 		const NameHierarchy& templateParameterNameHierarchy);
 	virtual Id onTemplateParameterTypeParsed(
 		const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy);

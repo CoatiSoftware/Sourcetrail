@@ -19,10 +19,7 @@
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
 #include "data/location/TokenLocationLine.h"
-#include "data/parser/ParseFunction.h"
 #include "data/parser/ParseLocation.h"
-#include "data/parser/ParseTypeUsage.h"
-#include "data/parser/ParseVariable.h"
 #include "data/type/DataType.h"
 #include "settings/ApplicationSettings.h"
 
@@ -207,11 +204,6 @@ void Storage::onError(const ParseLocation& location, const std::string& message,
 		msg.setSendAsTask(false);
 		msg.dispatch();
 	}
-}
-
-ErrorCountInfo Storage::getErrorCount() const
-{
-	return ErrorCountInfo(m_sqliteStorage.getAllErrors().size(), m_sqliteStorage.getFatalErrors().size());
 }
 
 Id Storage::onTypedefParsed(
@@ -1089,6 +1081,11 @@ std::shared_ptr<TextAccess> Storage::getFileContent(const FilePath& filePath) co
 TimePoint Storage::getFileModificationTime(const FilePath& filePath) const
 {
 	return TimePoint(m_sqliteStorage.getFileByPath(filePath.str()).modificationTime);
+}
+
+ErrorCountInfo Storage::getErrorCount() const
+{
+	return ErrorCountInfo(m_sqliteStorage.getAllErrors().size(), m_sqliteStorage.getFatalErrors().size());
 }
 
 StorageStats Storage::getStorageStats() const

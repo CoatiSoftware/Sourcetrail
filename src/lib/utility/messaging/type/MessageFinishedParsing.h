@@ -12,11 +12,10 @@ class MessageFinishedParsing
 	: public Message<MessageFinishedParsing>
 {
 public:
-	MessageFinishedParsing(size_t fileCount, size_t totalFileCount, float parseTime, ErrorCountInfo errorCount)
+	MessageFinishedParsing(size_t fileCount, size_t totalFileCount, float parseTime)
 		: fileCount(fileCount)
 		, totalFileCount(totalFileCount)
 		, parseTime(parseTime)
-		, errorCount(errorCount)
 	{
 	}
 
@@ -27,8 +26,6 @@ public:
 
 	virtual void dispatch()
 	{
-		MessageStatus(getStatusStr(), errorCount.total > 0).dispatch();
-
 		Message<MessageFinishedParsing>::dispatch();
 	}
 
@@ -37,12 +34,7 @@ public:
 		std::stringstream ss;
 		ss << "Finished analysis: ";
 		ss << fileCount << "/" << totalFileCount << " files, ";
-		ss << std::setprecision(2) << std::fixed << parseTime << " seconds, ";
-		ss << errorCount.total << " error" << (errorCount.total > 1 ? "s" : "");
-		if (errorCount.fatal > 0)
-		{
-			ss << " (" << errorCount.fatal << " fatal)";
-		}
+		ss << std::setprecision(2) << std::fixed << parseTime << " seconds.";
 		return ss.str();
 	}
 
@@ -54,7 +46,6 @@ public:
 	size_t fileCount;
 	size_t totalFileCount;
 	float parseTime;
-	ErrorCountInfo errorCount;
 };
 
 #endif // MESSAGE_FINISHED_PARSING_H

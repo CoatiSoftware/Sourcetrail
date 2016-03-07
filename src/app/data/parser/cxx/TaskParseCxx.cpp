@@ -95,8 +95,7 @@ void TaskParseCxx::exit()
 	MessageFinishedParsing(
 		fileRegister->getParsedFilesCount(),
 		fileRegister->getFilesCount(),
-		utility::duration(m_start),
-		m_parser->getParserClient()->getErrorCount()
+		utility::duration(m_start)
 	).dispatch();
 }
 

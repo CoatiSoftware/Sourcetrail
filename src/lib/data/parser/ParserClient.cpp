@@ -2,10 +2,7 @@
 
 #include <sstream>
 
-#include "data/parser/ParseFunction.h"
 #include "data/parser/ParseLocation.h"
-#include "data/parser/ParseTypeUsage.h"
-#include "data/parser/ParseVariable.h"
 #include "data/type/DataType.h"
 #include "utility/utilityString.h"
 
@@ -83,34 +80,6 @@ std::string ParserClient::addLocationSuffix(
 	ss << location.endLineNumber << ":" << location.endColumnNumber << "> ";
 	ss << scopeLocation.endLineNumber << ":" << scopeLocation.endColumnNumber << ">";
 	return ss.str();
-}
-
-std::string ParserClient::variableStr(const ParseVariable& variable)
-{
-	std::string str = variable.type.dataType->getFullTypeName() + " " + variable.getFullName();
-	return addStaticPrefix(str, variable.isStatic);
-}
-
-std::string ParserClient::parameterStr(const std::vector<ParseTypeUsage> parameters)
-{
-	std::string str = "(";
-	for (size_t i = 0; i < parameters.size(); i++)
-	{
-		str += parameters[i].dataType->getFullTypeName();
-		if (i < parameters.size() - 1)
-		{
-			str += ", ";
-		}
-	}
-	return str + ")";
-}
-
-std::string ParserClient::functionStr(const ParseFunction& function)
-{
-	/*std::string str =
-		function.returnType.dataType->getFullTypeName() + " " + function.getFullName() + parameterStr(function.parameters);
-	return addConstPrefix(addStaticPrefix(str, function.isStatic), function.isConst, false);*/
-	return function.nameHierarchy.getQualifiedNameWithSignature();
 }
 
 ParserClient::ParserClient()

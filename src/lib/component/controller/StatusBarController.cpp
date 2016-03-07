@@ -1,10 +1,11 @@
 #include "component/controller/StatusBarController.h"
 
+#include "component/view/StatusBarView.h"
+#include "data/access/StorageAccess.h"
 #include "utility/logging/logging.h"
 
-#include "component/view/StatusBarView.h"
-
-StatusBarController::StatusBarController()
+StatusBarController::StatusBarController(StorageAccess* storageAccess)
+	: m_storageAccess(storageAccess)
 {
 }
 
@@ -24,7 +25,17 @@ void StatusBarController::handleMessage(MessageClearErrorCount* message)
 
 void StatusBarController::handleMessage(MessageFinishedParsing* message)
 {
-	getView()->setErrorCount(message->errorCount);
+	ErrorCountInfo errorCount = m_storageAccess->getErrorCount();
+	getView()->setErrorCount(errorCount);
+
+	std::string status = message->getStatusStr();
+	status += " " + std::to_string(errorCount.total) + " error" + (errorCount.total > 1 ? "s" : "");
+	if (errorCount.fatal > 0)
+	{
+		status += " (" + std::to_string(errorCount.fatal) + " fatal)";
+	}
+
+	MessageStatus(status, errorCount.total > 0).dispatch();
 }
 
 void StatusBarController::handleMessage(MessageShowErrors* message)

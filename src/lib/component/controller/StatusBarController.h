@@ -12,6 +12,7 @@
 #include "utility/messaging/type/MessageStatus.h"
 
 class StatusBarView;
+class StorageAccess;
 
 class StatusBarController
 	: public Controller
@@ -21,7 +22,7 @@ class StatusBarController
 	, public MessageListener<MessageStatus>
 {
 public:
-	StatusBarController(void);
+	StatusBarController(StorageAccess* storageAccess);
 	virtual ~StatusBarController(void);
 
 	StatusBarView* getView();
@@ -33,6 +34,8 @@ private:
 	virtual void handleMessage(MessageStatus* message);
 
 	void setStatus(const std::string& status, bool isError, bool showLoader);
+
+	StorageAccess* m_storageAccess;
 };
 
 #endif // STATUS_BAR_CONTROLLER_H
