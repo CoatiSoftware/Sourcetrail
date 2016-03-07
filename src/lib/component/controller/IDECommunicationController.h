@@ -25,6 +25,8 @@ public:
 	bool getEnabled() const;
 	void setEnabled(const bool enabled);
 
+	virtual bool isListening() const = 0;
+
 private:
 	void handleSetActiveTokenMessage(const NetworkProtocolHelper::SetActiveTokenMessage& message);
 	void handleCreateProjectMessage(const NetworkProtocolHelper::CreateProjectMessage& message);

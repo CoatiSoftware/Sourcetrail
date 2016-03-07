@@ -28,6 +28,8 @@ public:
 	quint16 getClientPort() const;
 	void setClientPort(const quint16 clientPort);
 
+	bool isListening() const;
+
 signals:
 
 public slots:

@@ -79,6 +79,11 @@ void QtTcpWrapper::setClientPort(const quint16 clientPort)
 	m_clientPort = clientPort;
 }
 
+bool QtTcpWrapper::isListening() const
+{
+	return m_tcpServer->isListening();
+}
+
 void QtTcpWrapper::acceptConnection()
 {
 	m_tcpClient = m_tcpServer->nextPendingConnection();

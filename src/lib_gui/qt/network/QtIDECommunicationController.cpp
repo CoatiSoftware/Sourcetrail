@@ -17,6 +17,11 @@ QtIDECommunicationController::QtIDECommunicationController(QObject* parent, Stor
 QtIDECommunicationController::~QtIDECommunicationController()
 {}
 
+bool QtIDECommunicationController::isListening() const
+{
+	return m_tcpWrapper.isListening();
+}
+
 void QtIDECommunicationController::sendMessage(const std::string& message) const
 {
 	m_tcpWrapper.sendMessage(message);

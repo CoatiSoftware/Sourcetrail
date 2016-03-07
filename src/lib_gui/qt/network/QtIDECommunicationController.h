@@ -17,6 +17,8 @@ public:
 	QtIDECommunicationController(QObject* parent, StorageAccess* storageAccess);
 	~QtIDECommunicationController();
 
+	virtual bool isListening() const;
+
 private:
 	virtual void sendMessage(const std::string& message) const;
 
