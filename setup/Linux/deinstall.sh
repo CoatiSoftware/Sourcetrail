@@ -10,9 +10,10 @@ case ${ans:=y} in [yY]*) ;; *) exit ;; esac
 echo "Run this script as root"
 
 rm /usr/bin/Coati
-rm /usr/share/mime/packages/application-x-coatiproject
+rm /usr/share/mime/packages/coati-mime.xml
 rm /usr/share/applications/coati.desktop
 rm /usr/share/icons/coati.png
 rm /usr/share/icons/project-coati.png
+rm /opt/coati -rf
 update-mime/database /usr/share/mime
 

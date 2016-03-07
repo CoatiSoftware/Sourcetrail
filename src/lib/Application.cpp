@@ -50,15 +50,31 @@ std::shared_ptr<Application> Application::create(
 	return ptr;
 }
 
+std::shared_ptr<Application> Application::create(const Version& version)
+{
+	Version::setApplicationVersion(version);
+	loadSettings();
+
+	std::shared_ptr<Application> ptr(new Application(false));
+
+	ptr->m_storageCache = std::make_shared<StorageCache>();
+	ptr->m_project = Project::create(ptr->m_storageCache.get());
+
+	ptr->startMessagingAndScheduling();
+
+	return ptr;
+}
+
 void Application::loadSettings()
 {
 	ApplicationSettings::getInstance()->load(FilePath(UserPaths::getAppSettingsPath()));
-	ColorScheme::getInstance()->load(ApplicationSettings::getInstance()->getColorSchemePath());
 
+	ColorScheme::getInstance()->load(ApplicationSettings::getInstance()->getColorSchemePath());
 	GraphViewStyle::loadStyleSettings();
 }
 
-Application::Application()
+Application::Application(bool withGUI)
+	: m_hasGUI(withGUI)
 {
 }
 
@@ -66,7 +82,15 @@ Application::~Application()
 {
 	MessageQueue::getInstance()->stopMessageLoop();
 	TaskScheduler::getInstance()->stopSchedulerLoop();
-	m_mainView->saveLayout();
+	if (m_hasGUI)
+	{
+		m_mainView->saveLayout();
+	}
+}
+
+bool Application::hasGUI()
+{
+	return m_hasGUI;
 }
 
 void Application::loadProject(const FilePath& projectSettingsFilePath)
@@ -76,18 +100,21 @@ void Application::loadProject(const FilePath& projectSettingsFilePath)
 	loadSettings();
 	updateRecentProjects(projectSettingsFilePath);
 
-	m_mainView->setTitle(
-			"Coati - " +
-			projectSettingsFilePath.fileName());
-
 	m_storageCache->clear();
-	m_componentManager->refreshViews();
 
 	m_project = Project::create(m_storageCache.get());
 	m_project->load(projectSettingsFilePath);
 
-	m_mainView->updateRecentProjectMenu();
-	m_mainView->hideStartScreen();
+	if (m_hasGUI)
+	{
+		m_mainView->setTitle(
+				"Coati - " +
+				projectSettingsFilePath.fileName());
+
+		m_mainView->updateRecentProjectMenu();
+		m_mainView->hideStartScreen();
+		m_componentManager->refreshViews();
+	}
 }
 
 void Application::refreshProject()
@@ -95,7 +122,10 @@ void Application::refreshProject()
 	MessageStatus("Refreshing Project").dispatch();
 
 	m_storageCache->clear();
-	m_componentManager->refreshViews();
+	if (m_hasGUI)
+	{
+		m_componentManager->refreshViews();
+	}
 
 	m_project->reload();
 }
@@ -110,19 +140,27 @@ void Application::saveProject(const FilePath& projectSettingsFilePath)
 
 void Application::showLicenseScreen()
 {
-	m_mainView->showLicenseScreen();
+	if (m_hasGUI)
+	{
+		m_mainView->showLicenseScreen();
+	}
 }
 
 void Application::handleMessage(MessageActivateWindow* message)
 {
-	m_mainView->activateWindow();
+	if (m_hasGUI)
+	{
+		m_mainView->activateWindow();
+	}
 }
 
 void Application::handleMessage(MessageFinishedParsing* message)
 {
 	m_project->logStats();
-
-	MessageRefresh().refreshUiOnly().dispatch();
+	if (m_hasGUI)
+	{
+		MessageRefresh().refreshUiOnly().dispatch();
+	}
 }
 
 void Application::handleMessage(MessageLoadProject* message)
@@ -180,23 +218,26 @@ void Application::startMessagingAndScheduling()
 
 void Application::updateRecentProjects(const FilePath& projectSettingsFilePath)
 {
-	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-	std::vector<FilePath> recentProjects = appSettings->getRecentProjects();
-	if (recentProjects.size())
+	if (m_hasGUI)
 	{
-		std::vector<FilePath>::iterator it = std::find(recentProjects.begin(), recentProjects.end(), projectSettingsFilePath);
-		if (it != recentProjects.end())
+		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+		std::vector<FilePath> recentProjects = appSettings->getRecentProjects();
+		if (recentProjects.size())
 		{
-			recentProjects.erase(it);
+			std::vector<FilePath>::iterator it = std::find(recentProjects.begin(), recentProjects.end(), projectSettingsFilePath);
+			if (it != recentProjects.end())
+			{
+				recentProjects.erase(it);
+			}
 		}
-	}
 
-	recentProjects.insert(recentProjects.begin(), projectSettingsFilePath);
-	if (recentProjects.size() > 7)
-	{
-		recentProjects.pop_back();
-	}
+		recentProjects.insert(recentProjects.begin(), projectSettingsFilePath);
+		if (recentProjects.size() > 7)
+		{
+			recentProjects.pop_back();
+		}
 
-	appSettings->setRecentProjects(recentProjects);
-	appSettings->save(UserPaths::getAppSettingsPath());
+		appSettings->setRecentProjects(recentProjects);
+		appSettings->save(UserPaths::getAppSettingsPath());
+	}
 }

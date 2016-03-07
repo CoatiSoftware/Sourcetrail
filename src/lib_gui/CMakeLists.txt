@@ -6,9 +6,6 @@ add_files(
 	platform_includes/includesMac.h
 	platform_includes/includesWindows.h
 
-	qt/commandline/QtCommandLineParser.cpp
-	qt/commandline/QtCommandLineParser.h
-
 	qt/element/QtAutocompletionList.cpp
 	qt/element/QtAutocompletionList.h
 	qt/element/QtCodeArea.cpp
@@ -148,4 +145,6 @@ add_files(
 
 	qt/QtApplication.cpp
 	qt/QtApplication.h
+	qt/QtCoreApplication.cpp
+	qt/QtCoreApplication.h
 )

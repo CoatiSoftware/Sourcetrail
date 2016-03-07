@@ -28,6 +28,7 @@ class Application
 {
 public:
 	static std::shared_ptr<Application> create(const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory);
+	static std::shared_ptr<Application> create(const Version& version);
 	static void loadSettings();
 
 	~Application();
@@ -36,9 +37,10 @@ public:
 	void refreshProject();
 	void saveProject(const FilePath& projectSettingsFilePath);
 	void showLicenseScreen();
+	bool hasGUI();
 
 private:
-	Application();
+	Application(bool withGUI=true);
 
 	virtual void handleMessage(MessageActivateWindow* message);
 	virtual void handleMessage(MessageFinishedParsing* message);
@@ -50,6 +52,7 @@ private:
 
 	void updateRecentProjects(const FilePath& projectSettingsFilePath);
 
+	bool m_hasGUI;
 	std::shared_ptr<Project> m_project;
 	std::shared_ptr<StorageCache> m_storageCache;
 

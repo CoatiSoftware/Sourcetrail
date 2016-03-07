@@ -8,6 +8,7 @@
 #include "utility/messaging/type/MessageProjectNew.h"
 #include "utility/messaging/type/MessageStatus.h"
 
+#include "Application.h"
 #include "License.h"
 #include "PublicKey.h"
 #include "settings/ApplicationSettings.h"
