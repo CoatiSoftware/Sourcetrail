@@ -61,6 +61,12 @@ public:
 
 protected:
 	bool eventFilter(QObject* obj, QEvent* event);
+
+private slots:
+	void stopWaiting();
+
+private:
+	bool m_isWaiting;
 };
 
 

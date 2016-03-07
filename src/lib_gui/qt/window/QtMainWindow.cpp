@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QSysInfo>
+#include <QTimer>
 
 #include "component/view/View.h"
 #include "component/view/CompositeView.h"
@@ -85,28 +86,43 @@ bool MouseReleaseFilter::eventFilter(QObject* obj, QEvent* event)
 
 MouseWheelFilter::MouseWheelFilter(QObject* parent)
 	: QObject(parent)
+	, m_isWaiting(false)
 {
 }
 
 bool MouseWheelFilter::eventFilter(QObject* obj, QEvent* event)
 {
-	if (event->type() == QEvent::Wheel && QApplication::keyboardModifiers() == Qt::ControlModifier)
+	bool dispatched = false;
+
+	if (!m_isWaiting && event->type() == QEvent::Wheel && QApplication::keyboardModifiers() == Qt::ControlModifier)
 	{
 		QWheelEvent* wheelEvent = dynamic_cast<QWheelEvent*>(event);
 
 		if (wheelEvent->delta() > 0.0f)
 		{
 			MessageZoom(true).dispatch();
-			return true;
+			dispatched = true;
 		}
 		else if (wheelEvent->delta() < 0.0f)
 		{
 			MessageZoom(false).dispatch();
-			return true;
+			dispatched = true;
 		}
 	}
 
+	if (dispatched)
+	{
+		QTimer::singleShot(250, this, SLOT(stopWaiting()));
+		m_isWaiting = true;
+		return true;
+	}
+
 	return QObject::eventFilter(obj, event);
+}
+
+void MouseWheelFilter::stopWaiting()
+{
+	m_isWaiting = false;
 }
 
 
