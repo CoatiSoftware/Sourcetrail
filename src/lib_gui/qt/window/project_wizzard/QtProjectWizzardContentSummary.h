@@ -3,9 +3,13 @@
 
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 
+class QCheckBox;
+
 class QtProjectWizzardContentSummary
 	: public QtProjectWizzardContent
 {
+	Q_OBJECT
+
 private:
 	struct Element
 	{
@@ -31,8 +35,15 @@ protected:
 
 	virtual bool isScrollAble() const override;
 
+private slots:
+	void advancedToggled(bool checked);
+
 private:
 	std::vector<Element> m_elements;
+
+	QGridLayout* m_layout;
+	QCheckBox* m_checkBox;
+	int m_checkBoxRow;
 
 	bool m_isForm;
 };
