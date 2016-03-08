@@ -1,6 +1,7 @@
 #ifndef INCLUDES_DEFAULT_H
 #define INCLUDES_DEFAULT_H
 
+#include <QCoreApplication>
 #include "utility/AppPath.h"
 #include "utility/UserPaths.h"
 #include "utility/file/FilePath.h"
@@ -9,7 +10,12 @@
 
 void setup(int argc, char *argv[])
 {
-    std::string userdir(std::getenv("HOME"));
+	if (AppPath::getAppPath().empty())
+	{
+		AppPath::setAppPath(QCoreApplication::applicationDirPath().toStdString() + "/");
+	}
+
+	std::string userdir(std::getenv("HOME"));
 	if(isTrial())
 	{
 		userdir.append("/.config/coatitrial/");

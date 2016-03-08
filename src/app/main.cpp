@@ -35,10 +35,6 @@ void init()
 
 void prepare(int argc, char *argv[])
 {
-	if (AppPath::getAppPath().empty())
-	{
-		AppPath::setAppPath(QCoreApplication::applicationDirPath().toStdString() + "/");
-	}
 	setup(argc, argv);
 
 	init();
