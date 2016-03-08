@@ -5,15 +5,16 @@
 #include <QSysInfo>
 
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
+#include "qt/window/project_wizzard/QtProjectWizzardContentBuildFile.h"
+#include "qt/window/project_wizzard/QtProjectWizzardContentCDBSource.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentData.h"
+#include "qt/window/project_wizzard/QtProjectWizzardContentFlags.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
-#include "qt/window/project_wizzard/QtProjectWizzardContentPreferences.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSimple.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSourceList.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSummary.h"
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
 #include "utility/messaging/type/MessageLoadProject.h"
-#include "utility/solution/SolutionParserCompilationDatabase.h"
 #include "utility/solution/SolutionParserVisualStudio.h"
 
 QtProjectWizzard::QtProjectWizzard(QWidget* parent)
@@ -64,11 +65,15 @@ void QtProjectWizzard::newProjectFromVisualStudioSolution(const std::string& vis
 
 	editProject(settings);
 
-	QWidget* window = m_windowStack.getTopWindow();
+	QWidget* widget = m_windowStack.getTopWindow();
 
-	if (window)
+	if (widget)
 	{
-		dynamic_cast<QtProjectWizzardWindow*>(window)->updateTitle("NEW PROJECT FROM VS SOLUTION");
+		QtProjectWizzardWindow* window = dynamic_cast<QtProjectWizzardWindow*>(widget);
+
+		window->updateTitle("NEW PROJECT FROM VS SOLUTION");
+		window->updateNextButton("Create");
+		window->setPreviousVisible(m_windowStack.getWindowCount() > 0);
 	}
 }
 
@@ -94,16 +99,9 @@ void QtProjectWizzard::refreshProjectFromVisualStudioSolution(const std::string&
 
 void QtProjectWizzard::newProjectFromCompilationDatabase(const std::string& compilationDatabasePath)
 {
-	ProjectSettings settings = getSettingsForCompilationDatabase(compilationDatabasePath);
+	m_settings = getSettingsForCompilationDatabase(compilationDatabasePath);
 
-	editProject(settings);
-
-	QWidget* window = m_windowStack.getTopWindow();
-
-	if (window)
-	{
-		dynamic_cast<QtProjectWizzardWindow*>(window)->updateTitle("NEW PROJECT FROM COMPILATION DATABASE");
-	}
+	headerPathsCDB();
 }
 
 void QtProjectWizzard::refreshProjectFromCompilationDatabase(const std::string& compilationDatabasePath)
@@ -141,14 +139,33 @@ void QtProjectWizzard::editProject(const ProjectSettings& settings)
 
 	window->updateTitle("EDIT PROJECT");
 	window->updateNextButton("Save");
-
 	window->setPreviousVisible(false);
-	connect(window, SIGNAL(next()), this, SLOT(createProject()));
 }
 
 void QtProjectWizzard::showPreferences()
 {
-	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentPreferences>();
+	QtProjectWizzardWindow* window = createWindowWithSummary(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+		{
+			summary->setIsForm(true);
+
+			ProjectSettings* settings = &m_settings;
+
+			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(settings, window), false, false);
+
+			if (QSysInfo::macVersion() != QSysInfo::MV_None)
+			{
+				summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(settings, window), false, false);
+			}
+
+			window->setup();
+
+			window->updateTitle("PREFERENCES");
+			window->updateNextButton("Save");
+			window->setPreviousVisible(false);
+		}
+	);
+
 	connect(window, SIGNAL(next()), this, SLOT(cancelWizzard()));
 }
 
@@ -157,11 +174,29 @@ QtProjectWizzardWindow* QtProjectWizzard::createWindowWithContent()
 {
 	QtProjectWizzardWindow* window = new QtProjectWizzardWindow(parentWidget());
 
+	connect(window, SIGNAL(previous()), &m_windowStack, SLOT(popWindow()));
+	connect(window, SIGNAL(canceled()), this, SLOT(cancelWizzard()));
+
 	window->setContent(new T(&m_settings, window));
 	window->setup();
 
+	m_windowStack.pushWindow(window);
+
+	return window;
+}
+
+QtProjectWizzardWindow* QtProjectWizzard::createWindowWithSummary(
+	std::function<void(QtProjectWizzardWindow*, QtProjectWizzardContentSummary*)> func
+){
+	QtProjectWizzardWindow* window = new QtProjectWizzardWindow(parentWidget());
+
 	connect(window, SIGNAL(previous()), &m_windowStack, SLOT(popWindow()));
 	connect(window, SIGNAL(canceled()), this, SLOT(cancelWizzard()));
+
+	QtProjectWizzardContentSummary* summary = new QtProjectWizzardContentSummary(&m_settings, window);
+
+	window->setContent(summary);
+	func(window, summary);
 
 	m_windowStack.pushWindow(window);
 
@@ -232,41 +267,15 @@ ProjectSettings QtProjectWizzard::getSettingsForVisualStudioSolution(const std::
 
 ProjectSettings QtProjectWizzard::getSettingsForCompilationDatabase(const std::string& compilationDatabasePath) const
 {
-	// SolutionParserCompilationDatabase parser;
-	// parser.openSolutionFile(compilationDatabasePath);
-	// parser.parseDatabase();
-
 	ProjectSettings settings;
-	// settings.setProjectName(parser.getSolutionName());
-	// settings.setProjectFileLocation(parser.getSolutionPath());
-	// settings.setCompilationDatabasePath(FilePath(compilationDatabasePath));
-
-	// std::vector<std::string> sourceFiles = parser.getProjectItems();
-	// std::vector<FilePath> sourcePaths;
-	// for (const std::string& p : sourceFiles)
-	// {
-	// 	sourcePaths.push_back(FilePath(p));
-	// }
-
-	// std::vector<std::string> includePaths = parser.getIncludePaths();
-	// std::vector<FilePath> headerPaths;
-	// for (const std::string& p : includePaths)
-	// {
-	// 	headerPaths.push_back(FilePath(p));
-	// }
-
-	// std::vector<std::string> frameworkPaths = parser.getFrameworkPaths();
-	// std::vector<FilePath> frameworkSearchPaths;
-	// for (const std::string& p : frameworkPaths)
-	// {
-	// 	frameworkSearchPaths.push_back(FilePath(p));
-	// }
-
-	// settings.setSourcePaths(sourcePaths);
-	// settings.setHeaderSearchPaths(headerPaths);
-	// settings.setFrameworkSearchPaths(frameworkSearchPaths);
-
+	settings.setCompilationDatabasePath(FilePath(compilationDatabasePath));
 	return settings;
+}
+
+void QtProjectWizzard::connectShowFiles(QtProjectWizzardContent* content)
+{
+	connect(content, SIGNAL(filesButtonClicked(QtProjectWizzardContent*)),
+		this, SLOT(showFiles(QtProjectWizzardContent*)));
 }
 
 void QtProjectWizzard::cancelWizzard()
@@ -360,14 +369,23 @@ void QtProjectWizzard::sourcePaths()
 {
 	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentPathsSource>();
 	connect(window, SIGNAL(next()), this, SLOT(headerSearchPaths()));
-
-	connect(dynamic_cast<QtProjectWizzardContentPathsSource*>(window->content()),
-		SIGNAL(showSourceFiles()), this, SLOT(showSourceFiles()));
+	connectShowFiles(window->content());
 }
 
 void QtProjectWizzard::headerSearchPaths()
 {
-	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentPathsHeaderSearch>();
+	QtProjectWizzardWindow* window = createWindowWithSummary(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+		{
+			ProjectSettings* settings = &m_settings;
+
+			summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(settings, window), false, false);
+			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(settings, window), false, false);
+
+			window->setup();
+		}
+	);
+
 	connect(window, SIGNAL(next()), this, SLOT(headerSearchPathsDone()));
 }
 
@@ -375,14 +393,23 @@ void QtProjectWizzard::simpleSourcePaths()
 {
 	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentPathsSourceSimple>();
 	connect(window, SIGNAL(next()), this, SLOT(simpleHeaderSearchPaths()));
-
-	connect(dynamic_cast<QtProjectWizzardContentPathsSourceSimple*>(window->content()),
-		SIGNAL(showSourceFiles()), this, SLOT(showSourceFiles()));
+	connectShowFiles(window->content());
 }
 
 void QtProjectWizzard::simpleHeaderSearchPaths()
 {
-	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentPathsHeaderSearchSimple>();
+	QtProjectWizzardWindow* window = createWindowWithSummary(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+		{
+			ProjectSettings* settings = &m_settings;
+
+			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchSimple(settings, window), false, false);
+			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(settings, window), false, false);
+
+			window->setup();
+		}
+	);
+
 	connect(window, SIGNAL(next()), this, SLOT(headerSearchPathsDone()));
 }
 
@@ -400,39 +427,125 @@ void QtProjectWizzard::headerSearchPathsDone()
 
 void QtProjectWizzard::frameworkSearchPaths()
 {
-	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentPathsFrameworkSearch>();
+	QtProjectWizzardWindow* window = createWindowWithSummary(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+		{
+			ProjectSettings* settings = &m_settings;
+
+			summary->addContent(new QtProjectWizzardContentPathsFrameworkSearch(settings, window), false, false);
+			summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(settings, window), false, false);
+
+			window->setup();
+		}
+	);
+
 	connect(window, SIGNAL(next()), this, SLOT(showSummary()));
 }
 
-void QtProjectWizzard::showSourceFiles()
+void QtProjectWizzard::headerPathsCDB()
 {
-	QWidget* topWindow = m_windowStack.getTopWindow();
-	if (topWindow)
-	{
-		dynamic_cast<QtProjectWizzardWindow*>(topWindow)->content()->save();
-	}
+	QtProjectWizzardWindow* window = createWindowWithSummary(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+		{
+			ProjectSettings* settings = &m_settings;
 
+			QtProjectWizzardContent* source = new QtProjectWizzardContentCDBSource(settings, window);
+			summary->addContent(source, false, false);
+			connectShowFiles(source);
+
+			QtProjectWizzardContent* header = new QtProjectWizzardContentPathsCDBHeader(settings, window);
+			summary->addContent(header, false, false);
+			connectShowFiles(header);
+
+			window->setup();
+
+			window->updateTitle("NEW PROJECT FROM COMPILATION DATABASE");
+		}
+	);
+
+	connect(window, SIGNAL(next()), this, SLOT(headerPathsCDBDone()));
+}
+
+void QtProjectWizzard::headerPathsCDBDone()
+{
+	showSummary();
+
+	QWidget* widget = m_windowStack.getTopWindow();
+
+	if (widget)
+	{
+		QtProjectWizzardWindow* window = dynamic_cast<QtProjectWizzardWindow*>(widget);
+
+		window->updateTitle("NEW PROJECT FROM COMPILATION DATABASE - SUMMARY");
+		window->updateNextButton("Create");
+		window->setPreviousVisible(m_windowStack.getWindowCount() > 0);
+	}
+}
+
+void QtProjectWizzard::showFiles(QtProjectWizzardContent* content)
+{
 	QtProjectWizzardWindow* window = createPopupWithContent<QtProjectWizzardContentSourceList>();
-	dynamic_cast<QtProjectWizzardContentSourceList*>(window->content())->showFilesFromSourcePaths();
+	dynamic_cast<QtProjectWizzardContentSourceList*>(window->content())->showFilesFromContent(content);
 }
 
 void QtProjectWizzard::showSummary()
 {
-	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentSummary>();
+	QtProjectWizzardWindow* window = createWindowWithSummary(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+		{
+			summary->setIsForm(true);
+
+			ProjectSettings* settings = &m_settings;
+
+			QtProjectWizzardContentData* data = new QtProjectWizzardContentData(settings, window);
+			summary->addContent(data, false, false);
+
+			QtProjectWizzardContentBuildFile* buildFile = new QtProjectWizzardContentBuildFile(settings, window);
+
+			if (buildFile->getType() != QtProjectWizzardContentSelect::PROJECT_EMPTY)
+			{
+				summary->addContent(buildFile, false, true);
+
+				connect(dynamic_cast<QtProjectWizzardContentBuildFile*>(buildFile),
+					SIGNAL(refreshVisualStudioSolution(const std::string&)),
+					this, SLOT(refreshProjectFromVisualStudioSolution(const std::string&)));
+			}
+
+			if (buildFile->getType() != QtProjectWizzardContentSelect::PROJECT_CDB)
+			{
+				QtProjectWizzardContentPathsSource* source = new QtProjectWizzardContentPathsSource(settings, window);
+				summary->addContent(source, false, true);
+				connectShowFiles(source);
+
+				summary->addContent(new QtProjectWizzardContentSimple(settings, window), false, true);
+				summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(settings, window), false, false);
+				summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(settings, window), false, false);
+
+				if (QSysInfo::macVersion() != QSysInfo::MV_None)
+				{
+					summary->addContent(new QtProjectWizzardContentPathsFrameworkSearch(settings, window), false, true);
+					summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(settings, window), false, false);
+				}
+			}
+			else
+			{
+				QtProjectWizzardContent* headers = new QtProjectWizzardContentPathsCDBHeader(settings, window);
+				summary->addContent(headers, false, true);
+				connectShowFiles(headers);
+
+				data->hideLanguage();
+			}
+
+			summary->addContent(new QtProjectWizzardContentFlags(settings, window), true, false);
+
+			window->setup();
+
+			window->updateTitle("NEW PROJECT - SUMMARY");
+			window->updateNextButton("Create");
+		}
+	);
+
 	connect(window, SIGNAL(next()), this, SLOT(createProject()));
-
-	QtProjectWizzardContentSummary* summary = dynamic_cast<QtProjectWizzardContentSummary*>(window->content());
-
-	connect(dynamic_cast<QtProjectWizzardContentBuildFile*>(summary->contentBuildFile()),
-		SIGNAL(refreshVisualStudioSolution(const std::string&)),
-		this, SLOT(refreshProjectFromVisualStudioSolution(const std::string&)));
-
-	connect(dynamic_cast<QtProjectWizzardContentBuildFile*>(summary->contentBuildFile()),
-		SIGNAL(refreshCompilationDatabase(const std::string&)),
-		this, SLOT(refreshProjectFromCompilationDatabase(const std::string&)));
-
-	connect(dynamic_cast<QtProjectWizzardContentPathsSource*>(summary->contentPathsSource()),
-		SIGNAL(showSourceFiles()), this, SLOT(showSourceFiles()));
 }
 
 void QtProjectWizzard::createProject()

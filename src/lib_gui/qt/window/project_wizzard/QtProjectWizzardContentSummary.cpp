@@ -1,143 +1,134 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentSummary.h"
 
-#include <QSysInfo>
-
-QtProjectWizzardContentSummary::QtProjectWizzardContentSummary(ProjectSettings* settings, QtProjectWizzardWindow* window)
+QtProjectWizzardContentSummary::QtProjectWizzardContentSummary(
+	ProjectSettings* settings, QtProjectWizzardWindow* window
+)
 	: QtProjectWizzardContent(settings, window)
-	, m_data(nullptr)
-	, m_buildFile(nullptr)
-	, m_source(nullptr)
-	, m_simple(nullptr)
-	, m_headerSearch(nullptr)
-	, m_frameworkSearch(nullptr)
+	, m_isForm(false)
 {
-	m_data = new QtProjectWizzardContentData(settings, window);
-	m_buildFile = new QtProjectWizzardContentBuildFile(settings, window);
-	m_source = new QtProjectWizzardContentPathsSource(settings, window);
-	m_simple = new QtProjectWizzardContentSimple(settings, window);
-	m_headerSearch = new QtProjectWizzardContentPathsHeaderSearch(settings, window);
-
-	if (QSysInfo::macVersion() != QSysInfo::MV_None)
-	{
-		m_frameworkSearch = new QtProjectWizzardContentPathsFrameworkSearch(settings, window);
-	}
-
-	m_compilerFlags = new QtProjectWizzardContentFlags(settings, window);
 }
 
-QtProjectWizzardContentBuildFile* QtProjectWizzardContentSummary::contentBuildFile()
+void QtProjectWizzardContentSummary::addContent(QtProjectWizzardContent* content, bool advanced, bool gapBefore)
 {
-	return m_buildFile;
+	Element element;
+	element.content = content;
+	element.advanced = advanced;
+	element.gapBefore = gapBefore;
+	m_elements.push_back(element);
 }
 
-QtProjectWizzardContentPathsSource* QtProjectWizzardContentSummary::contentPathsSource()
+void QtProjectWizzardContentSummary::setIsForm(bool isForm)
 {
-	return m_source;
+	m_isForm = isForm;
 }
 
 void QtProjectWizzardContentSummary::populateWindow(QGridLayout* layout)
 {
 	int row = 0;
 
-	layout->setRowMinimumHeight(row, 10);
-	row++;
-
-	m_data->populateForm(layout, row);
-	layout->setRowMinimumHeight(row, 15);
-	row++;
-
-	int row2 = row;
-	m_buildFile->populateForm(layout, row);
-	if (row != row2)
+	if (m_isForm)
 	{
-		layout->setRowMinimumHeight(row, 15);
-		row++;
+		populateForm(layout, row);
+		return;
 	}
 
-	m_source->populateForm(layout, row);
-	layout->setRowMinimumHeight(row, 15);
-	row++;
+	layout->setRowMinimumHeight(row++, 10);
 
-	m_simple->populateForm(layout, row);
-	m_headerSearch->populateForm(layout, row);
-
-	if (m_frameworkSearch)
+	for (const Element& element : m_elements)
 	{
-		layout->setRowMinimumHeight(row, 15);
-		row++;
-		m_frameworkSearch->populateForm(layout, row);
+		if (element.advanced)
+		{
+			continue;
+		}
+
+		if (element.gapBefore)
+		{
+			layout->setRowMinimumHeight(row++, 20);
+		}
+
+		element.content->populateWindow(layout, row);
 	}
 
-	layout->setRowMinimumHeight(row, 15);
-	row++;
-
-	QFrame* separator = new QFrame();
-	separator->setFrameShape(QFrame::HLine);
-
-	QPalette palette = separator->palette();
-	palette.setColor(QPalette::WindowText, Qt::lightGray);
-	separator->setPalette(palette);
-
-	layout->addWidget(separator, row, 0, 1, -1);
-	row++;
-
-	QLabel* advancedLabel = createFormLabel("ADVANCED");
-	layout->addWidget(advancedLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
-	row++;
-
-	m_compilerFlags->populateForm(layout, row);
-
 	layout->setRowMinimumHeight(row, 10);
+	layout->setRowStretch(row, 1);
 }
 
-void QtProjectWizzardContentSummary::windowReady()
+void QtProjectWizzardContentSummary::populateForm(QGridLayout* layout, int& row)
 {
-	m_window->updateTitle("NEW PROJECT - SUMMARY");
-	m_window->updateNextButton("Create");
+	layout->setRowMinimumHeight(row++, 10);
+
+	bool hasAdvanced = false;
+	for (int i = 0; i < 2; i++)
+	{
+		bool advanced = i > 0;
+
+		for (const Element& element : m_elements)
+		{
+			if (element.advanced != advanced)
+			{
+				hasAdvanced = true;
+				continue;
+			}
+
+			if (element.gapBefore)
+			{
+				layout->setRowMinimumHeight(row++, 15);
+			}
+
+			element.content->populateForm(layout, row);
+		}
+
+		if (i > 0 || !hasAdvanced)
+		{
+			continue;
+		}
+
+		QFrame* separator = new QFrame();
+		separator->setFrameShape(QFrame::HLine);
+
+		QPalette palette = separator->palette();
+		palette.setColor(QPalette::WindowText, Qt::lightGray);
+		separator->setPalette(palette);
+
+		layout->addWidget(separator, row++, 0, 1, -1);
+
+		QLabel* advancedLabel = createFormLabel("ADVANCED");
+		layout->addWidget(advancedLabel, row++, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
+
+		layout->setRowMinimumHeight(row++, 15);
+	}
+
+	layout->setRowMinimumHeight(row, 10);
+	layout->setRowStretch(row, 1);
 }
 
 void QtProjectWizzardContentSummary::load()
 {
-	m_data->load();
-	m_buildFile->load();
-	m_source->load();
-	m_simple->load();
-	m_headerSearch->load();
-
-	if (m_frameworkSearch)
+	for (const Element& element : m_elements)
 	{
-		m_frameworkSearch->load();
+		element.content->load();
 	}
-
-	m_compilerFlags->load();
 }
 
 void QtProjectWizzardContentSummary::save()
 {
-	m_data->save();
-	m_buildFile->save();
-	m_source->save();
-	m_simple->save();
-	m_headerSearch->save();
-
-	if (m_frameworkSearch)
+	for (const Element& element : m_elements)
 	{
-		m_frameworkSearch->save();
+		element.content->save();
 	}
-
-	m_compilerFlags->save();
 }
 
 bool QtProjectWizzardContentSummary::check()
 {
-	return
-		m_data->check() &&
-		m_buildFile->check() &&
-		m_source->check() &&
-		m_simple->check() &&
-		m_headerSearch->check() &&
-		(!m_frameworkSearch || m_frameworkSearch->check()) &&
-		m_compilerFlags->check();
+	for (const Element& element : m_elements)
+	{
+		if (!element.content->check())
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 bool QtProjectWizzardContentSummary::isScrollAble() const

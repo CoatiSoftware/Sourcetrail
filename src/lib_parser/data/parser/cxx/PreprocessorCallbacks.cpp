@@ -36,6 +36,7 @@ void PreprocessorCallbacks::FileChanged(
 	}
 
 	FilePath filePath(fileEntry->getName());
+	filePath = filePath.canonical();
 
 	if (m_fileRegister->getFileManager()->hasFilePath(filePath.str()))
 	{

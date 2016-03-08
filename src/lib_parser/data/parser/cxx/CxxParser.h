@@ -1,15 +1,8 @@
 #ifndef CXX_PARSER_H
 #define CXX_PARSER_H
 
+#include "data/parser/cxx/CxxCompilationDatabaseSingle.h"
 #include "data/parser/Parser.h"
-
-namespace clang
-{
-	namespace tooling
-	{
-		class FixedCompilationDatabase;
-	}
-}
 
 class CxxDiagnosticConsumer;
 class FileManager;
@@ -27,6 +20,7 @@ public:
 	virtual void parseFile(const FilePath& filePath, std::shared_ptr<TextAccess> textAccess, const Arguments& arguments);
 
 private:
+	std::vector<std::string> getCommandlineArgumentsEssential(const Arguments& arguments) const;
 	std::vector<std::string> getCommandlineArguments(const Arguments& arguments) const;
 	std::shared_ptr<clang::tooling::FixedCompilationDatabase> getCompilationDatabase(const Arguments& arguments) const;
 
@@ -34,7 +28,10 @@ private:
 
 	// Accessed by TaskParseCxx
 	void setupParsing(const std::vector<FilePath>& filePaths, const Arguments& arguments);
+	void setupParsingCDB(const std::vector<FilePath>& filePaths, const Arguments& arguments);
+
 	void runTool(const std::vector<std::string>& files);
+	void runTool(clang::tooling::CompileCommand command, const Arguments& arguments);
 
 	FileRegister* getFileRegister();
 	ParserClient* getParserClient();
@@ -45,7 +42,7 @@ private:
 
 	std::shared_ptr<FileRegister> m_fileRegister;
 
-	std::shared_ptr<clang::tooling::FixedCompilationDatabase> m_compilationDatabase;
+	std::shared_ptr<clang::tooling::CompilationDatabase> m_compilationDatabase;
 	std::shared_ptr<CxxDiagnosticConsumer> m_diagnostics;
 };
 

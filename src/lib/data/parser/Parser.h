@@ -24,6 +24,8 @@ public:
 		bool logErrors;
 		std::string language;
 		std::string languageStandard;
+
+		FilePath compilationDatabasePath;
 	};
 
 	Parser(ParserClient* client);

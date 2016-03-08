@@ -18,7 +18,7 @@ public:
 
 	virtual QSize preferredWindowSize() const override;
 
-	void showFilesFromSourcePaths();
+	void showFilesFromContent(QtProjectWizzardContent* content);
 
 private:
 	QLabel* m_text;

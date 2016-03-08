@@ -7,6 +7,7 @@
 #include "qt/window/QtWindowStack.h"
 
 class ProjectSettings;
+class QtProjectWizzardContentSummary;
 class QtProjectWizzardWindow;
 
 class QtProjectWizzard
@@ -37,11 +38,15 @@ public slots:
 private:
 	template<typename T>
 		QtProjectWizzardWindow* createWindowWithContent();
+	QtProjectWizzardWindow* createWindowWithSummary(
+		std::function<void(QtProjectWizzardWindow*, QtProjectWizzardContentSummary*)> func);
 	template<typename T>
 		QtProjectWizzardWindow* createPopupWithContent();
 
 	ProjectSettings getSettingsForVisualStudioSolution(const std::string& visualStudioSolutionPath) const;
 	ProjectSettings getSettingsForCompilationDatabase(const std::string& compilationDatabasePath) const;
+
+	void connectShowFiles(QtProjectWizzardContent* content);
 
 	QtWindowStack m_windowStack;
 	std::shared_ptr<QtProjectWizzardWindow> m_popup;
@@ -67,7 +72,11 @@ private slots:
 	void headerSearchPathsDone();
 	void frameworkSearchPaths();
 
-	void showSourceFiles();
+	void headerPathsCDB();
+	void headerPathsCDBDone();
+
+	void showFiles(QtProjectWizzardContent* content);
+
 	void showSummary();
 
 	void createProject();

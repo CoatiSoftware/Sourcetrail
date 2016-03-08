@@ -43,7 +43,7 @@ namespace utility
 	bool isPermutation(const std::vector<T>& a, const std::vector<T>& b)
 	{
 		return (
-			a.size() == b.size() && 
+			a.size() == b.size() &&
 			std::is_permutation(a.begin(), a.end(), b.begin())
 		);
 	}

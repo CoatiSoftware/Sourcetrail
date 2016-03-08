@@ -107,14 +107,14 @@ add_files(
 	qt/window/project_wizzard/QtProjectWizzardContent.h
 	qt/window/project_wizzard/QtProjectWizzardContentBuildFile.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentBuildFile.h
+	qt/window/project_wizzard/QtProjectWizzardContentCDBSource.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentCDBSource.h
 	qt/window/project_wizzard/QtProjectWizzardContentData.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentData.h
 	qt/window/project_wizzard/QtProjectWizzardContentFlags.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentFlags.h
 	qt/window/project_wizzard/QtProjectWizzardContentPaths.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentPaths.h
-	qt/window/project_wizzard/QtProjectWizzardContentPreferences.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentPreferences.h
 	qt/window/project_wizzard/QtProjectWizzardContentSelect.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentSelect.h
 	qt/window/project_wizzard/QtProjectWizzardContentSimple.cpp

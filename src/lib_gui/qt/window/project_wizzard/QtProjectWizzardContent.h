@@ -37,6 +37,7 @@ public:
 
 	virtual void populateWindow(QWidget* widget);
 	virtual void populateWindow(QGridLayout* layout);
+	virtual void populateWindow(QGridLayout* layout, int& row);
 	virtual void populateForm(QGridLayout* layout, int& row);
 	virtual void windowReady();
 
@@ -48,14 +49,25 @@ public:
 
 	virtual QSize preferredWindowSize() const;
 
+	virtual QStringList getFileNames() const;
+	virtual QString getFileNamesTitle() const;
+	virtual QString getFileNamesDescription() const;
+
+signals:
+	void filesButtonClicked(QtProjectWizzardContent* content);
+
 protected:
 	QLabel* createFormLabel(QString name) const;
 	QToolButton* createProjectButton(QString name, QString iconPath) const;
 
 	QtHelpButton* addHelpButton(QString helpString, QGridLayout* layout, int row) const;
+	QPushButton* addFilesButton(QString name, QGridLayout* layout, int row) const;
 
 	ProjectSettings* m_settings;
 	QtProjectWizzardWindow* m_window;
+
+private slots:
+	void buttonClicked();
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_H

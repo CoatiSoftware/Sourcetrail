@@ -17,6 +17,7 @@ public:
 
 	void setPaths(
 		std::vector<FilePath> sourcePaths,
+		std::vector<FilePath> headerPaths,
 		std::vector<std::string> sourceExtensions,
 		std::vector<std::string> includeExtensions
 	);
@@ -40,6 +41,8 @@ private:
 	std::map<FilePath, FileInfo> m_files;
 
 	std::vector<FilePath> m_sourcePaths;
+	std::vector<FilePath> m_headerPaths;
+
 	std::vector<std::string> m_sourceExtensions;
 	std::vector<std::string> m_includeExtensions;
 

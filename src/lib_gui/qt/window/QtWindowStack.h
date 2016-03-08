@@ -30,6 +30,7 @@ public:
 	QtWindowStack(QObject* parent = nullptr);
 
 	QtWindowStackElement* getTopWindow();
+	size_t getWindowCount();
 
 public slots:
 	void pushWindow(QtWindowStackElement* window);

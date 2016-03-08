@@ -138,7 +138,17 @@ size_t FileRegister::getFilesCount() const
 	return m_sourceFilePaths.size() + m_includeFilePaths.size();
 }
 
+size_t FileRegister::getSourceFilesCount() const
+{
+	return m_sourceFilePaths.size();
+}
+
 size_t FileRegister::getParsedFilesCount() const
 {
 	return getFilesCount() - getUnparsedSourceFilePaths().size() - getUnparsedIncludeFilePaths().size();
+}
+
+size_t FileRegister::getParsedSourceFilesCount() const
+{
+	return getSourceFilesCount() - getUnparsedSourceFilePaths().size();
 }

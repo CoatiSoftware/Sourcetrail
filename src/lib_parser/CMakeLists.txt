@@ -21,6 +21,8 @@ add_files(
 	data/parser/cxx/ASTVisitor.h
 	data/parser/cxx/CommentHandler.cpp
 	data/parser/cxx/CommentHandler.h
+	data/parser/cxx/CxxCompilationDatabaseSingle.cpp
+	data/parser/cxx/CxxCompilationDatabaseSingle.h
 	data/parser/cxx/CxxDiagnosticConsumer.cpp
 	data/parser/cxx/CxxDiagnosticConsumer.h
 	data/parser/cxx/CxxParser.cpp

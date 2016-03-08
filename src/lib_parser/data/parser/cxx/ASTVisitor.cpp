@@ -10,7 +10,6 @@
 #include "data/parser/ParseLocation.h"
 
 #include "utility/file/FileManager.h"
-#include "utility/file/FileSystem.h"
 #include "utility/ScopedSwitcher.h"
 
 
@@ -1004,9 +1003,7 @@ ParseLocation ASTVisitor::getDeclRefRange(clang::NamedDecl *decl, clang::SourceL
 			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
 			if (fileEntry != NULL)
 			{
-				std::string fielName = fileEntry->getName();
-				std::string filePath = FileSystem::absoluteFilePath(fielName);
-				parseLocation.filePath = FilePath(filePath);
+				parseLocation.filePath = FilePath(fileEntry->getName()).canonical();
 			}
 		}
 
@@ -1488,9 +1485,9 @@ bool ASTVisitor::isLocatedInUnparsedProjectFile(clang::SourceLocation loc)
 			const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
 			if (fileEntry != NULL)
 			{
-				std::string fielName = fileEntry->getName();
-				std::string filePath = FileSystem::absoluteFilePath(fielName);
-				ret = m_fileRegister->includeFileIsParsing(filePath);
+                std::string fileName = fileEntry->getName();
+                FilePath filePath = FilePath(fileName).canonical();
+				ret = m_fileRegister->includeFileIsParsing(filePath.str());
 			}
 		}
 		m_inUnparsedProjectFileMap[fileId] = ret;
@@ -1522,9 +1519,9 @@ bool ASTVisitor::isLocatedInProjectFile(clang::SourceLocation loc)
 		const clang::FileEntry* fileEntry = sourceManager.getFileEntryForID(fileId);
 		if (fileEntry != NULL)
 		{
-			std::string fielName = fileEntry->getName();
-			std::string filePath = FileSystem::absoluteFilePath(fielName);
-			bool ret = m_fileRegister->getFileManager()->hasFilePath(filePath);
+			std::string fileName = fileEntry->getName();
+			FilePath filePath = FilePath(fileName).canonical();
+			bool ret = m_fileRegister->getFileManager()->hasFilePath(filePath.str());
 			m_inProjectFileMap[fileId] = ret;
 			return ret;
 		}

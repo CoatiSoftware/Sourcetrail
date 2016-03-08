@@ -168,12 +168,19 @@ void Project::updateFileManager()
 {
 	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
 
-	std::vector<FilePath> sourcePaths(projSettings->getSourcePaths());
+	std::vector<FilePath> sourcePaths = projSettings->getSourcePaths();
+	std::vector<FilePath> headerPaths;
+
+	if (projSettings->getCompilationDatabasePath().exists())
+	{
+		headerPaths = sourcePaths;
+		sourcePaths = TaskParseCxx::getSourceFilesFromCDB(projSettings->getCompilationDatabasePath());
+	}
 
 	std::vector<std::string> sourceExtensions = projSettings->getSourceExtensions();
 	std::vector<std::string> includeExtensions = projSettings->getHeaderExtensions();
 
-	m_fileManager.setPaths(sourcePaths, sourceExtensions, includeExtensions);
+	m_fileManager.setPaths(sourcePaths, headerPaths, sourceExtensions, includeExtensions);
 }
 
 Parser::Arguments Project::getParserArguments() const
@@ -212,6 +219,7 @@ Parser::Arguments Project::getParserArguments() const
 
 	args.language = projSettings->getLanguage();
 	args.languageStandard = projSettings->getStandard();
+	args.compilationDatabasePath = projSettings->getCompilationDatabasePath();
 
 	return args;
 }

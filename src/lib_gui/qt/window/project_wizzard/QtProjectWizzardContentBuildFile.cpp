@@ -21,6 +21,11 @@ QtProjectWizzardContentBuildFile::QtProjectWizzardContentBuildFile(
 	}
 }
 
+QtProjectWizzardContentSelect::ProjectType QtProjectWizzardContentBuildFile::getType() const
+{
+	return m_type;
+}
+
 void QtProjectWizzardContentBuildFile::populateForm(QGridLayout* layout, int& row)
 {
 	QString name;
@@ -54,6 +59,11 @@ void QtProjectWizzardContentBuildFile::populateForm(QGridLayout* layout, int& ro
 	button->setToolTip("refresh paths");
 	connect(button, SIGNAL(clicked()), this, SLOT(refreshClicked()));
 
+	if (m_type == QtProjectWizzardContentSelect::PROJECT_CDB)
+	{
+		button->hide();
+	}
+
 	m_picker->layout()->addWidget(button);
 
 	layout->addWidget(m_picker, row, QtProjectWizzardWindow::BACK_COL);
@@ -74,6 +84,49 @@ void QtProjectWizzardContentBuildFile::load()
 			m_picker->setText(QString::fromStdString(m_settings->getCompilationDatabasePath().str()));
 			break;
 	}
+}
+
+void QtProjectWizzardContentBuildFile::save()
+{
+	switch (m_type)
+	{
+		case QtProjectWizzardContentSelect::PROJECT_EMPTY:
+		case QtProjectWizzardContentSelect::PROJECT_VS:
+			break;
+		case QtProjectWizzardContentSelect::PROJECT_CDB:
+		{
+			FilePath path = m_picker->getText().toStdString();
+			if (!path.exists() || path.extension() != ".json")
+			{
+				return;
+			}
+			m_settings->setCompilationDatabasePath(m_picker->getText().toStdString());
+			break;
+		}
+	}
+}
+
+bool QtProjectWizzardContentBuildFile::check()
+{
+	switch (m_type)
+	{
+		case QtProjectWizzardContentSelect::PROJECT_EMPTY:
+		case QtProjectWizzardContentSelect::PROJECT_VS:
+			break;
+		case QtProjectWizzardContentSelect::PROJECT_CDB:
+		{
+			FilePath path = m_picker->getText().toStdString();
+			if (!path.exists() || path.extension() != ".json")
+			{
+				QMessageBox msgBox;
+				msgBox.setText("Please enter a valid compilation database file (*.json).");
+				msgBox.exec();
+				return false;
+			}
+		}
+	}
+
+	return true;
 }
 
 void QtProjectWizzardContentBuildFile::refreshClicked()
@@ -101,14 +154,10 @@ void QtProjectWizzardContentBuildFile::refreshClicked()
 	switch (m_type)
 	{
 		case QtProjectWizzardContentSelect::PROJECT_EMPTY:
+		case QtProjectWizzardContentSelect::PROJECT_CDB:
 			break;
 		case QtProjectWizzardContentSelect::PROJECT_VS:
-		{
 			emit refreshVisualStudioSolution(path.str());
-			break;
-		}
-		case QtProjectWizzardContentSelect::PROJECT_CDB:
-			emit refreshCompilationDatabase(path.str());
 			break;
 	}
 }

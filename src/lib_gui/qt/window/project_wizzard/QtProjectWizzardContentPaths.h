@@ -20,18 +20,10 @@ public:
 
 	// QtSettingsWindow implementation
 	virtual void populateWindow(QGridLayout* layout) override;
-	void populateLayout(QGridLayout* layout, int& row);
+	virtual void populateWindow(QGridLayout* layout, int& row) override;
 	virtual void populateForm(QGridLayout* layout, int& row) override;
 
-	virtual void load() override;
-	virtual void save() override;
-	virtual bool check() override;
-
 	virtual QSize preferredWindowSize() const override;
-
-	virtual void loadPaths();
-	virtual void savePaths();
-	virtual bool checkPaths();
 
 protected:
 	void setInfo(const QString& title, const QString& description, const QString& help);
@@ -40,16 +32,10 @@ protected:
 	void setHelpString(const QString& help);
 
 	QtDirectoryListBox* m_list;
-	QtProjectWizzardContentPaths* m_subPaths;
 
-	bool m_addShowSourcesButton;
-
-private slots:
-	void showSourcesClicked();
+	QString m_showFilesString;
 
 private:
-	void addSourcesButton(QGridLayout* layout, int& row);
-
 	QString m_titleString;
 	QString m_descriptionString;
 	QString m_helpString;
@@ -65,10 +51,16 @@ public:
 	// QtProjectWizzardContent implementation
 	virtual QSize preferredWindowSize() const override;
 
-	// QtProjectWizzardContentPaths implementation
-	virtual void loadPaths() override;
-	virtual void savePaths() override;
-	virtual bool checkPaths() override;
+	virtual void load() override;
+	virtual void save() override;
+	virtual bool check() override;
+
+	virtual QStringList getFileNames() const override;
+	virtual QString getFileNamesTitle() const override;
+	virtual QString getFileNamesDescription() const override;
+
+protected:
+	QStringList getSourceFileNames(bool headersOnly) const;
 };
 
 class QtProjectWizzardContentPathsSourceSimple
@@ -76,6 +68,20 @@ class QtProjectWizzardContentPathsSourceSimple
 {
 public:
 	QtProjectWizzardContentPathsSourceSimple(ProjectSettings* settings, QtProjectWizzardWindow* window);
+};
+
+class QtProjectWizzardContentPathsCDBHeader
+	: public QtProjectWizzardContentPathsSource
+{
+public:
+	QtProjectWizzardContentPathsCDBHeader(ProjectSettings* settings, QtProjectWizzardWindow* window);
+
+	// QtProjectWizzardContent implementation
+	virtual bool check() override;
+
+	virtual QStringList getFileNames() const override;
+	virtual QString getFileNamesTitle() const override;
+	virtual QString getFileNamesDescription() const override;
 };
 
 
@@ -86,8 +92,8 @@ public:
 	QtProjectWizzardContentPathsHeaderSearch(ProjectSettings* settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
-	virtual void loadPaths() override;
-	virtual void savePaths() override;
+	virtual void load() override;
+	virtual void save() override;
 
 	virtual bool isScrollAble() const override;
 };
@@ -106,8 +112,8 @@ public:
 	QtProjectWizzardContentPathsHeaderSearchGlobal(ProjectSettings* settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
-	virtual void loadPaths() override;
-	virtual void savePaths() override;
+	virtual void load() override;
+	virtual void save() override;
 };
 
 
@@ -118,8 +124,8 @@ public:
 	QtProjectWizzardContentPathsFrameworkSearch(ProjectSettings* settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
-	virtual void loadPaths() override;
-	virtual void savePaths() override;
+	virtual void load() override;
+	virtual void save() override;
 
 	virtual bool isScrollAble() const override;
 };
@@ -131,8 +137,8 @@ public:
 	QtProjectWizzardContentPathsFrameworkSearchGlobal(ProjectSettings* settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
-	virtual void loadPaths() override;
-	virtual void savePaths() override;
+	virtual void load() override;
+	virtual void save() override;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_PATHS_H

@@ -6,47 +6,24 @@
 
 #include "qt/element/QtDirectoryListBox.h"
 #include "settings/ApplicationSettings.h"
-
+#include "utility/file/FileSystem.h"
+#include "utility/utility.h"
 
 QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(ProjectSettings* settings, QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(settings, window)
-	, m_subPaths(nullptr)
-	, m_addShowSourcesButton(false)
 {
 }
 
 void QtProjectWizzardContentPaths::populateWindow(QGridLayout* layout)
 {
 	int row = 0;
-
-	layout->setRowMinimumHeight(row, 10);
-	row++;
-
-	populateLayout(layout, row);
-
-	if (m_addShowSourcesButton)
-	{
-		layout->setRowStretch(row, 10);
-		addSourcesButton(layout, row);
-	}
-
-	if (m_subPaths)
-	{
-		layout->setRowMinimumHeight(row, 30);
-		row++;
-
-		m_subPaths->populateLayout(layout, row);
-
-		layout->setRowMinimumHeight(row, 10);
-		row++;
-	}
-
-	layout->setColumnStretch(QtProjectWizzardWindow::FRONT_COL, 1);
-	layout->setColumnStretch(QtProjectWizzardWindow::BACK_COL, 2);
+	populateWindow(layout, row);
 }
 
-void QtProjectWizzardContentPaths::populateLayout(QGridLayout* layout, int& row)
+void QtProjectWizzardContentPaths::populateWindow(QGridLayout* layout, int& row)
 {
+	layout->setRowMinimumHeight(row++, 10);
+
 	QLabel* title = new QLabel(m_titleString);
 	title->setWordWrap(true);
 	title->setObjectName("section");
@@ -63,6 +40,17 @@ void QtProjectWizzardContentPaths::populateLayout(QGridLayout* layout, int& row)
 	layout->addWidget(m_list, row, QtProjectWizzardWindow::BACK_COL, 2, 1, Qt::AlignTop);
 
 	row += 2;
+
+	if (m_showFilesString.size() > 0)
+	{
+		layout->setRowStretch(row, 10);
+		addFilesButton(m_showFilesString, layout, row);
+	}
+
+	row++;
+
+	layout->setColumnStretch(QtProjectWizzardWindow::FRONT_COL, 1);
+	layout->setColumnStretch(QtProjectWizzardWindow::BACK_COL, 2);
 }
 
 void QtProjectWizzardContentPaths::populateForm(QGridLayout* layout, int& row)
@@ -79,63 +67,16 @@ void QtProjectWizzardContentPaths::populateForm(QGridLayout* layout, int& row)
 	layout->addWidget(m_list, row, QtProjectWizzardWindow::BACK_COL);
 	row++;
 
-	if (m_addShowSourcesButton)
+	if (m_showFilesString.size() > 0)
 	{
-		addSourcesButton(layout, row);
+		addFilesButton(m_showFilesString, layout, row);
+		row++;
 	}
-
-	if (m_subPaths)
-	{
-		m_subPaths->populateForm(layout, row);
-	}
-}
-
-void QtProjectWizzardContentPaths::load()
-{
-	loadPaths();
-
-	if (m_subPaths)
-	{
-		return m_subPaths->loadPaths();
-	}
-}
-
-void QtProjectWizzardContentPaths::save()
-{
-	savePaths();
-
-	if (m_subPaths)
-	{
-		m_subPaths->savePaths();
-	}
-}
-
-bool QtProjectWizzardContentPaths::check()
-{
-	if (m_subPaths)
-	{
-		return checkPaths() && m_subPaths->checkPaths();
-	}
-
-	return checkPaths();
 }
 
 QSize QtProjectWizzardContentPaths::preferredWindowSize() const
 {
 	return QSize(850, 500);
-}
-
-void QtProjectWizzardContentPaths::loadPaths()
-{
-}
-
-void QtProjectWizzardContentPaths::savePaths()
-{
-}
-
-bool QtProjectWizzardContentPaths::checkPaths()
-{
-	return true;
 }
 
 void QtProjectWizzardContentPaths::setInfo(const QString& title, const QString& description, const QString& help)
@@ -160,31 +101,12 @@ void QtProjectWizzardContentPaths::setHelpString(const QString& help)
 	m_helpString = help;
 }
 
-void QtProjectWizzardContentPaths::showSourcesClicked()
-{
-	emit showSourceFiles();
-}
-
-void QtProjectWizzardContentPaths::addSourcesButton(QGridLayout* layout, int& row)
-{
-	if (!m_addShowSourcesButton)
-	{
-		return;
-	}
-
-	QPushButton* button = new QPushButton("show files");
-	button->setObjectName("windowButton");
-	layout->addWidget(button, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
-	connect(button, SIGNAL(clicked()), this, SLOT(showSourcesClicked()));
-	row++;
-}
-
 QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 	ProjectSettings* settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
-	m_addShowSourcesButton = true;
+	m_showFilesString = "show files";
 
 	setInfo(
 		"Project Paths",
@@ -200,17 +122,17 @@ QSize QtProjectWizzardContentPathsSource::preferredWindowSize() const
 	return QSize(850, 370);
 }
 
-void QtProjectWizzardContentPathsSource::loadPaths()
+void QtProjectWizzardContentPathsSource::load()
 {
 	m_list->setList(m_settings->getSourcePaths());
 }
 
-void QtProjectWizzardContentPathsSource::savePaths()
+void QtProjectWizzardContentPathsSource::save()
 {
 	m_settings->setSourcePaths(m_list->getList());
 }
 
-bool QtProjectWizzardContentPathsSource::checkPaths()
+bool QtProjectWizzardContentPathsSource::check()
 {
 	if (m_list->getList().size() == 0)
 	{
@@ -223,12 +145,58 @@ bool QtProjectWizzardContentPathsSource::checkPaths()
 	return true;
 }
 
+QStringList QtProjectWizzardContentPathsSource::getFileNames() const
+{
+	return getSourceFileNames(false);
+}
+
+QString QtProjectWizzardContentPathsSource::getFileNamesTitle() const
+{
+	return "Analyzed Files";
+}
+
+QString QtProjectWizzardContentPathsSource::getFileNamesDescription() const
+{
+	return "files will be analyzed.";
+}
+
+QStringList QtProjectWizzardContentPathsSource::getSourceFileNames(bool headersOnly) const
+{
+	std::vector<FilePath> sourcePaths = m_settings->getSourcePaths();
+
+	std::vector<std::string> extensions;
+	if (!headersOnly)
+	{
+		utility::append(extensions, m_settings->getSourceExtensions());
+	}
+	utility::append(extensions, m_settings->getHeaderExtensions());
+
+	std::vector<FileInfo> fileInfos = FileSystem::getFileInfosFromPaths(sourcePaths, extensions);
+
+	FilePath projectPath = FilePath(m_settings->getProjectFileLocation());
+
+	QStringList list;
+	for (const FileInfo& info : fileInfos)
+	{
+		FilePath path = info.path;
+
+		if (projectPath.exists())
+		{
+			path = path.relativeTo(projectPath);
+		}
+
+		list << QString::fromStdString(path.str());
+	}
+
+	return list;
+}
+
 QtProjectWizzardContentPathsSourceSimple::QtProjectWizzardContentPathsSourceSimple(
 	ProjectSettings* settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPathsSource(settings, window)
 {
-	m_addShowSourcesButton = true;
+	m_showFilesString = "show files";
 
 	setTitleString("Project Paths");
 	setDescriptionString(
@@ -237,6 +205,43 @@ QtProjectWizzardContentPathsSourceSimple::QtProjectWizzardContentPathsSourceSimp
 	);
 }
 
+QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
+	ProjectSettings* settings, QtProjectWizzardWindow* window
+)
+	: QtProjectWizzardContentPathsSource(settings, window)
+{
+	m_showFilesString = "show header files";
+
+	setTitleString("Header Paths");
+	setDescriptionString(
+		"Add the header files or directories containing the header files of the source files above. These header files "
+		"will be analyzed if included."
+	);
+	setHelpString(
+		"The compilation database only contains source files. Add the header files or directories containing the header "
+		"files of these source files. The header files will be analyzed if included."
+	);
+}
+
+bool QtProjectWizzardContentPathsCDBHeader::check()
+{
+	return true;
+}
+
+QStringList QtProjectWizzardContentPathsCDBHeader::getFileNames() const
+{
+	return getSourceFileNames(true);
+}
+
+QString QtProjectWizzardContentPathsCDBHeader::getFileNamesTitle() const
+{
+	return "Header Files";
+}
+
+QString QtProjectWizzardContentPathsCDBHeader::getFileNamesDescription() const
+{
+	return "header files found.";
+}
 
 QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSearch(
 	ProjectSettings* settings, QtProjectWizzardWindow* window
@@ -250,16 +255,14 @@ QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSear
 		"header files of frameworks or libraries that your project uses. These files won't be analyzed, but Coati needs "
 		"them for correct analysis."
 	);
-
-	m_subPaths = new QtProjectWizzardContentPathsHeaderSearchGlobal(settings, window);
 }
 
-void QtProjectWizzardContentPathsHeaderSearch::loadPaths()
+void QtProjectWizzardContentPathsHeaderSearch::load()
 {
 	m_list->setList(m_settings->getHeaderSearchPaths());
 }
 
-void QtProjectWizzardContentPathsHeaderSearch::savePaths()
+void QtProjectWizzardContentPathsHeaderSearch::save()
 {
 	m_settings->setHeaderSearchPaths(m_list->getList());
 }
@@ -298,12 +301,12 @@ QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHead
 	);
 }
 
-void QtProjectWizzardContentPathsHeaderSearchGlobal::loadPaths()
+void QtProjectWizzardContentPathsHeaderSearchGlobal::load()
 {
 	m_list->setList(ApplicationSettings::getInstance()->getHeaderSearchPaths());
 }
 
-void QtProjectWizzardContentPathsHeaderSearchGlobal::savePaths()
+void QtProjectWizzardContentPathsHeaderSearchGlobal::save()
 {
 	ApplicationSettings::getInstance()->setHeaderSearchPaths(m_list->getList());
 	ApplicationSettings::getInstance()->save();
@@ -321,16 +324,14 @@ QtProjectWizzardContentPathsFrameworkSearch::QtProjectWizzardContentPathsFramewo
 		"Framework Search Paths define where MacOS framework containers (.framework), that your project depends on, are "
 		"found."
 	);
-
-	m_subPaths = new QtProjectWizzardContentPathsFrameworkSearchGlobal(settings, window);
 }
 
-void QtProjectWizzardContentPathsFrameworkSearch::loadPaths()
+void QtProjectWizzardContentPathsFrameworkSearch::load()
 {
 	m_list->setList(m_settings->getFrameworkSearchPaths());
 }
 
-void QtProjectWizzardContentPathsFrameworkSearch::savePaths()
+void QtProjectWizzardContentPathsFrameworkSearch::save()
 {
 	m_settings->setFrameworkSearchPaths(m_list->getList());
 }
@@ -356,12 +357,12 @@ QtProjectWizzardContentPathsFrameworkSearchGlobal::QtProjectWizzardContentPathsF
 	);
 }
 
-void QtProjectWizzardContentPathsFrameworkSearchGlobal::loadPaths()
+void QtProjectWizzardContentPathsFrameworkSearchGlobal::load()
 {
 	m_list->setList(ApplicationSettings::getInstance()->getFrameworkSearchPaths());
 }
 
-void QtProjectWizzardContentPathsFrameworkSearchGlobal::savePaths()
+void QtProjectWizzardContentPathsFrameworkSearchGlobal::save()
 {
 	ApplicationSettings::getInstance()->setFrameworkSearchPaths(m_list->getList());
 	ApplicationSettings::getInstance()->save();

@@ -271,8 +271,6 @@ add_files(
 
 	utility/solution/ISolutionParser.cpp
 	utility/solution/ISolutionParser.h
-    	utility/solution/SolutionParserCompilationDatabase.cpp
-    	utility/solution/SolutionParserCompilationDatabase.h
 	utility/solution/SolutionParserVisualStudio.cpp
 	utility/solution/SolutionParserVisualStudio.h
 

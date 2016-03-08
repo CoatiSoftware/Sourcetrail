@@ -14,15 +14,18 @@ class QtProjectWizzardContentBuildFile
 
 signals:
 	void refreshVisualStudioSolution(const std::string&);
-	void refreshCompilationDatabase(const std::string&);
 
 public:
 	QtProjectWizzardContentBuildFile(ProjectSettings* settings, QtProjectWizzardWindow* window);
+
+	QtProjectWizzardContentSelect::ProjectType getType() const;
 
 	// QtProjectWizzardContent implementation
 	virtual void populateForm(QGridLayout* layout, int& row) override;
 
 	virtual void load() override;
+	virtual void save() override;
+	virtual bool check() override;
 
 private slots:
 	void refreshClicked();

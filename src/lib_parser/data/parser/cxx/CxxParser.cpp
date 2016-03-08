@@ -8,6 +8,7 @@
 #include "utility/text/TextAccess.h"
 
 #include "data/parser/cxx/ASTActionFactory.h"
+#include "data/parser/cxx/CxxCompilationDatabaseSingle.h"
 #include "data/parser/cxx/CxxDiagnosticConsumer.h"
 
 namespace
@@ -50,6 +51,7 @@ namespace
 		return Invocation.run();
 	}
 }
+
 
 CxxParser::CxxParser(ParserClient* client, const FileManager* fileManager)
 	: Parser(client)
@@ -94,7 +96,7 @@ void CxxParser::parseFile(const FilePath& filePath, std::shared_ptr<TextAccess> 
 	runToolOnCodeWithArgs(diagnostics.get(), actionFactory.create(), textAccess->getText(), args);
 }
 
-std::vector<std::string> CxxParser::getCommandlineArguments(const Arguments& arguments) const
+std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(const Arguments& arguments) const
 {
 	std::vector<std::string> args;
 
@@ -111,6 +113,32 @@ std::vector<std::string> CxxParser::getCommandlineArguments(const Arguments& arg
 	// The option -c signals that no executable is built.
 	args.push_back("-c");
 
+	args.insert(args.begin(), arguments.compilerFlags.begin(), arguments.compilerFlags.end());
+
+	for (const FilePath& path : arguments.headerSearchPaths)
+	{
+		args.push_back("-I" + path.str());
+	}
+
+	for (const FilePath& path : arguments.systemHeaderSearchPaths)
+	{
+		args.push_back("-isystem");
+		args.push_back(path.str());
+	}
+
+	for (const FilePath& path : arguments.frameworkSearchPaths)
+	{
+		args.push_back("-iframework");
+		args.push_back(path.str());
+	}
+
+	return args;
+}
+
+std::vector<std::string> CxxParser::getCommandlineArguments(const Arguments& arguments) const
+{
+	std::vector<std::string> args = getCommandlineArgumentsEssential(arguments);
+
 	// The option '-x c++' treats subsequent input files as C++.
 	args.push_back("-x");
 	std::string language = getLanguageArgument(arguments.language);
@@ -121,23 +149,6 @@ std::vector<std::string> CxxParser::getCommandlineArguments(const Arguments& arg
 	standard += language;
 	standard += arguments.languageStandard;
 	args.push_back(standard);
-
-	args.insert(args.begin(), arguments.compilerFlags.begin(), arguments.compilerFlags.end());
-
-	for (const FilePath& path : arguments.headerSearchPaths)
-	{
-		args.push_back("-I" + path.str());
-	}
-
-	for (const FilePath& path : arguments.systemHeaderSearchPaths)
-	{
-		args.push_back("-isystem" + path.str());
-	}
-
-	for (const FilePath& path : arguments.frameworkSearchPaths)
-	{
-		args.push_back("-iframework" + path.str());
-	}
 
 	return args;
 }
@@ -186,9 +197,28 @@ void CxxParser::setupParsing(const std::vector<FilePath>& filePaths, const Argum
 	m_diagnostics = getDiagnostics(arguments);
 }
 
+void CxxParser::setupParsingCDB(const std::vector<FilePath>& filePaths, const Arguments& arguments)
+{
+	m_fileRegister->setFilePaths(filePaths);
+	m_diagnostics = getDiagnostics(arguments);
+}
+
 void CxxParser::runTool(const std::vector<std::string>& files)
 {
 	clang::tooling::ClangTool tool(*m_compilationDatabase, files);
+	tool.setDiagnosticConsumer(m_diagnostics.get());
+
+	ASTActionFactory actionFactory(m_client, m_fileRegister.get());
+	tool.run(&actionFactory);
+}
+
+void CxxParser::runTool(clang::tooling::CompileCommand command, const Arguments& arguments)
+{
+	std::vector<std::string> args = getCommandlineArgumentsEssential(arguments);
+	command.CommandLine.insert(command.CommandLine.end(), args.begin(), args.end());
+
+	CxxCompilationDatabaseSingle compilationDatabase(command);
+	clang::tooling::ClangTool tool(compilationDatabase, std::vector<std::string>(1, command.Filename));
 	tool.setDiagnosticConsumer(m_diagnostics.get());
 
 	ASTActionFactory actionFactory(m_client, m_fileRegister.get());

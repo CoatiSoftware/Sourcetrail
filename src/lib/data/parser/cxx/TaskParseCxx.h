@@ -2,7 +2,7 @@
 #define TASK_PARSE_CXX_H
 
 #include <memory>
-#include <queue>
+#include <deque>
 
 #include "data/parser/Parser.h"
 #include "utility/scheduling/Task.h"
@@ -11,6 +11,14 @@
 class ParserClient;
 class FileManager;
 class CxxParser;
+
+namespace clang
+{
+	namespace tooling
+	{
+		class JSONCompilationDatabase;
+	}
+}
 
 class TaskParseCxx
 	: public Task
@@ -22,6 +30,8 @@ public:
 		const Parser::Arguments& arguments,
 		const std::vector<FilePath>& files
 	);
+
+	static std::vector<FilePath> getSourceFilesFromCDB(const FilePath& compilationDatabasePath);
 
 	virtual void enter();
 	virtual TaskState update();
@@ -36,9 +46,12 @@ private:
 	const Parser::Arguments m_arguments;
 	const std::vector<FilePath> m_files;
 
-	std::queue<FilePath> m_sourcePaths;
+	std::deque<FilePath> m_sourcePaths;
 
 	TimePoint m_start;
+
+	bool m_isCDB;
+	std::shared_ptr<clang::tooling::JSONCompilationDatabase> m_cdb;
 };
 
 #endif // TASK_PARSE_CXX_H

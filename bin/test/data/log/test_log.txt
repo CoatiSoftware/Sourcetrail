@@ -1,4 +1,4 @@
-ConfigManager.cpp WARNING: value source/header_search_paths/header_search_path is not present in config.
+ConfigManager.cpp WARNING: value path/to/nowhere is not present in config.
 CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:1:20
 CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
 CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:1:20
@@ -66,6 +66,7 @@ NetworkProtocolHelper.cpp ERROR: Failed to parse message, invalid type token
 NetworkProtocolHelper.cpp ERROR: Failed to parse setActiveToken message, invalid token count
 Settings.cpp WARNING: File for Settings not found: data/SettingsTestSuite/wrong_settings.xml
 Settings.cpp WARNING: File for Settings not found: data/SettingsTestSuite/wrong_settings.xml
+ConfigManager.cpp WARNING: value NewBool is not present in config.
  INFO: file: file.cpp < 0:0 0:0>
 TextAccess.cpp ERROR: Could not open file file.cpp
  INFO: typedef: type <file.cpp 1:1 1:1>

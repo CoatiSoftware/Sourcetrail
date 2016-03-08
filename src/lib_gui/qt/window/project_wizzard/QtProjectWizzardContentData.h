@@ -15,6 +15,8 @@ class QtProjectWizzardContentData
 public:
 	QtProjectWizzardContentData(ProjectSettings* settings, QtProjectWizzardWindow* window);
 
+	void hideLanguage();
+
 	// QtProjectWizzardContent implementation
 	virtual void populateWindow(QGridLayout* layout) override;
 	virtual void populateForm(QGridLayout* layout, int& row) override;
@@ -32,6 +34,8 @@ private:
 	QComboBox* m_language;
 	QComboBox* m_cppStandard;
 	QComboBox* m_cStandard;
+
+	bool m_showLanguage;
 
 private slots:
 	void handleSelectionChanged(int index);

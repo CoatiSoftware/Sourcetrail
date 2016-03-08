@@ -31,7 +31,9 @@ public:
 	void markParsingIncludeFilesParsed();
 
 	size_t getFilesCount() const;
+	size_t getSourceFilesCount() const;
 	size_t getParsedFilesCount() const;
+	size_t getParsedSourceFilesCount() const;
 
 private:
 	enum ParseState

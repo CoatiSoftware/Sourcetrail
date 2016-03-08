@@ -22,10 +22,12 @@ const std::vector<FilePath>& FileManager::getSourcePaths() const
 
 void FileManager::setPaths(
 	std::vector<FilePath> sourcePaths,
+	std::vector<FilePath> headerPaths,
 	std::vector<std::string> sourceExtensions,
 	std::vector<std::string> includeExtensions
 ){
 	m_sourcePaths = sourcePaths;
+	m_headerPaths = headerPaths;
 	m_sourceExtensions = sourceExtensions;
 	m_includeExtensions = includeExtensions;
 }
@@ -123,6 +125,7 @@ std::vector<FileInfo> FileManager::getFileInfosInProject() const
 	std::vector<std::pair<std::vector<FilePath>, std::vector<std::string>>> pathsExtensionsPairs;
 	pathsExtensionsPairs.push_back(std::make_pair(m_sourcePaths, m_includeExtensions));
 	pathsExtensionsPairs.push_back(std::make_pair(m_sourcePaths, m_sourceExtensions));
+	pathsExtensionsPairs.push_back(std::make_pair(m_headerPaths, m_includeExtensions));
 
 	for (size_t i = 0; i < pathsExtensionsPairs.size(); i++)
 	{

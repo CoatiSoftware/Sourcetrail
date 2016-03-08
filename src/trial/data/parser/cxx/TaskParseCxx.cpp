@@ -14,6 +14,11 @@ TaskParseCxx::TaskParseCxx(
 {
 }
 
+std::vector<FilePath> TaskParseCxx::getSourceFilesFromCDB(const FilePath& compilationDatabasePath)
+{
+	return std::vector<FilePath>();
+}
+
 void TaskParseCxx::enter()
 {
 	m_client->startParsing();

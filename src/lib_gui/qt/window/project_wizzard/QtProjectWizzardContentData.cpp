@@ -5,7 +5,13 @@
 
 QtProjectWizzardContentData::QtProjectWizzardContentData(ProjectSettings* settings, QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(settings, window)
+	, m_showLanguage(true)
 {
+}
+
+void QtProjectWizzardContentData::hideLanguage()
+{
+	m_showLanguage = false;
 }
 
 void QtProjectWizzardContentData::populateWindow(QGridLayout* layout)
@@ -42,6 +48,7 @@ void QtProjectWizzardContentData::populateForm(QGridLayout* layout, int& row)
 	layout->addWidget(m_projectFileLocation, row, QtProjectWizzardWindow::BACK_COL);
 	row++;
 
+
 	QLabel* languageLabel = new QLabel("Language");
 	languageLabel->setObjectName("label");
 	m_language = new QComboBox();
@@ -49,13 +56,8 @@ void QtProjectWizzardContentData::populateForm(QGridLayout* layout, int& row)
 	m_language->insertItem(1, "C");
 	connect(m_language, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectionChanged(int)));
 
-	layout->addWidget(languageLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_language, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
-	row++;
-
 
 	QLabel* standardLabel = createFormLabel("Standard");
-	layout->addWidget(standardLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 
 	m_cppStandard = new QComboBox();
 	m_cppStandard->insertItem(0, "1z");
@@ -66,8 +68,6 @@ void QtProjectWizzardContentData::populateForm(QGridLayout* layout, int& row)
 	m_cppStandard->insertItem(5, "03");
 	m_cppStandard->insertItem(6, "98");
 
-	layout->addWidget(m_cppStandard, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
-
 	m_cStandard = new QComboBox();
 	m_cStandard->insertItem(0, "1x");
 	m_cStandard->insertItem(1, "11");
@@ -76,7 +76,26 @@ void QtProjectWizzardContentData::populateForm(QGridLayout* layout, int& row)
 	m_cStandard->insertItem(4, "90");
 	m_cStandard->insertItem(5, "89");
 
-	layout->addWidget(m_cStandard, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
+	if (m_showLanguage)
+	{
+		layout->addWidget(languageLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+		layout->addWidget(m_language, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
+
+		row++;
+
+		layout->addWidget(standardLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+		layout->addWidget(m_cppStandard, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
+		layout->addWidget(m_cStandard, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
+	}
+	else
+	{
+		languageLabel->hide();
+		m_language->hide();
+
+		standardLabel->hide();
+		m_cppStandard->hide();
+		m_cStandard->hide();
+	}
 
 	row++;
 }
@@ -158,6 +177,11 @@ QSize QtProjectWizzardContentData::preferredWindowSize() const
 
 void QtProjectWizzardContentData::handleSelectionChanged(int index)
 {
+	if (!m_showLanguage)
+	{
+		return;
+	}
+
 	if (index != 0)
 	{
 		m_cStandard->show();

@@ -19,7 +19,6 @@
 #include "version.h"
 
 #include "settings/ProjectSettings.h"
-#include "utility/solution/SolutionParserCompilationDatabase.h"
 
 void init()
 {

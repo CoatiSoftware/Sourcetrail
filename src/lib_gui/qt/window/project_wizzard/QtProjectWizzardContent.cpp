@@ -39,6 +39,10 @@ void QtProjectWizzardContent::populateWindow(QGridLayout* layout)
 {
 }
 
+void QtProjectWizzardContent::populateWindow(QGridLayout* layout, int& row)
+{
+}
+
 void QtProjectWizzardContent::populateForm(QGridLayout* layout, int& row)
 {
 }
@@ -70,6 +74,21 @@ QSize QtProjectWizzardContent::preferredWindowSize() const
 	return QSize(750, 620);
 }
 
+QStringList QtProjectWizzardContent::getFileNames() const
+{
+	return QStringList();
+}
+
+QString QtProjectWizzardContent::getFileNamesTitle() const
+{
+	return "File List";
+}
+
+QString QtProjectWizzardContent::getFileNamesDescription() const
+{
+	return "files";
+}
+
 QLabel* QtProjectWizzardContent::createFormLabel(QString name) const
 {
 	QLabel* label = new QLabel(name);
@@ -96,4 +115,21 @@ QtHelpButton* QtProjectWizzardContent::addHelpButton(QString helpString, QGridLa
 	QtHelpButton* button = new QtHelpButton(helpString);
 	layout->addWidget(button, row, QtProjectWizzardWindow::HELP_COL, Qt::AlignTop);
 	return button;
+}
+
+QPushButton* QtProjectWizzardContent::addFilesButton(QString name, QGridLayout* layout, int row) const
+{
+	QPushButton* button = new QPushButton(name);
+	button->setObjectName("windowButton");
+	layout->addWidget(button, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
+	connect(button, SIGNAL(clicked()), this, SLOT(buttonClicked()));
+
+	return button;
+}
+
+void QtProjectWizzardContent::buttonClicked()
+{
+	save();
+
+	emit filesButtonClicked(this);
 }
