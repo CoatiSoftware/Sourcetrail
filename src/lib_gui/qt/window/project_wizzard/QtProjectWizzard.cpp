@@ -8,6 +8,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentBuildFile.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentCDBSource.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentData.h"
+#include "qt/window/project_wizzard/QtProjectWizzardContentExtensions.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentFlags.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSimple.h"
@@ -537,6 +538,7 @@ void QtProjectWizzard::showSummary()
 			}
 
 			summary->addContent(new QtProjectWizzardContentFlags(settings, window), true, false);
+			summary->addContent(new QtProjectWizzardContentExtensions(settings, window), true, true);
 
 			window->setup();
 

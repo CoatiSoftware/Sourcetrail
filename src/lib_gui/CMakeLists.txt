@@ -111,6 +111,8 @@ add_files(
 	qt/window/project_wizzard/QtProjectWizzardContentCDBSource.h
 	qt/window/project_wizzard/QtProjectWizzardContentData.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentData.h
+	qt/window/project_wizzard/QtProjectWizzardContentExtensions.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentExtensions.h
 	qt/window/project_wizzard/QtProjectWizzardContentFlags.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentFlags.h
 	qt/window/project_wizzard/QtProjectWizzardContentPaths.cpp

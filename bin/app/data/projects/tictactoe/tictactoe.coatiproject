@@ -5,8 +5,17 @@
         <standard>11</standard>
     </language_settings>
     <source>
+        <extensions>
+            <header_extensions>.h</header_extensions>
+            <header_extensions>.hpp</header_extensions>
+            <source_extensions>.cpp</source_extensions>
+            <source_extensions>.cxx</source_extensions>
+            <source_extensions>.cc</source_extensions>
+            <source_extensions>.c</source_extensions>
+        </extensions>
         <source_paths>
-            <source_path>./src</source_path>
+            <source_path>/Users/ebsi/Documents/Coati/bin/app/data/projects/tictactoe/src</source_path>
         </source_paths>
+        <use_source_paths_for_header_search>0</use_source_paths_for_header_search>
     </source>
 </config>

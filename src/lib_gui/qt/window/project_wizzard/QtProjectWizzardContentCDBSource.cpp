@@ -34,11 +34,15 @@ void QtProjectWizzardContentCDBSource::populateWindow(QGridLayout* layout, int& 
 void QtProjectWizzardContentCDBSource::load()
 {
 	std::vector<FilePath> filePaths = TaskParseCxx::getSourceFilesFromCDB(m_settings->getCompilationDatabasePath());
+	std::vector<std::string> extensions = m_settings->getSourceExtensions();
 
 	m_fileNames.clear();
 	for (const FilePath& path : filePaths)
 	{
-		m_fileNames << QString::fromStdString(path.str());
+		if (path.hasExtension(extensions))
+		{
+			m_fileNames << QString::fromStdString(path.str());
+		}
 	}
 
 	if (m_text)

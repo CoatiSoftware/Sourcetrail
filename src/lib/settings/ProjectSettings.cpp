@@ -13,10 +13,10 @@ std::vector<std::string> ProjectSettings::getDefaultHeaderExtensions()
 std::vector<std::string> ProjectSettings::getDefaultSourceExtensions()
 {
 	std::vector<std::string> defaultValues;
+	defaultValues.push_back(".c");
 	defaultValues.push_back(".cpp");
 	defaultValues.push_back(".cxx");
 	defaultValues.push_back(".cc");
-	defaultValues.push_back(".c");
 	return defaultValues;
 }
 
@@ -52,7 +52,9 @@ bool ProjectSettings::operator==(const ProjectSettings& other) const
 		utility::isPermutation<FilePath>(getSourcePaths(), other.getSourcePaths()) &&
 		utility::isPermutation<FilePath>(getHeaderSearchPaths(), other.getHeaderSearchPaths()) &&
 		utility::isPermutation<FilePath>(getFrameworkSearchPaths(), other.getFrameworkSearchPaths()) &&
-		utility::isPermutation<std::string>(getCompilerFlags(), other.getCompilerFlags());
+		utility::isPermutation<std::string>(getCompilerFlags(), other.getCompilerFlags()) &&
+		utility::isPermutation<std::string>(getHeaderExtensions(), other.getHeaderExtensions()) &&
+		utility::isPermutation<std::string>(getSourceExtensions(), other.getSourceExtensions());
 }
 
 void ProjectSettings::save(const FilePath& filePath)

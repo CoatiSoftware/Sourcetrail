@@ -134,6 +134,9 @@ void QtProjectWizzardContentBuildFile::refreshClicked()
 	FilePath path = FilePath(m_picker->getText().toStdString());
 	if (!path.exists())
 	{
+		QMessageBox msgBox;
+		msgBox.setText("Please enter a valid file path.");
+		msgBox.exec();
 		return;
 	}
 

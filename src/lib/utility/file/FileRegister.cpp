@@ -26,7 +26,7 @@ void FileRegister::setFilePaths(const std::vector<FilePath>& filePaths)
 		{
 			m_sourceFilePaths.emplace(path, STATE_UNPARSED);
 		}
-		else
+		else if (m_fileManager->hasIncludeExtension(path))
 		{
 			m_includeFilePaths.emplace(path, STATE_UNPARSED);
 		}
