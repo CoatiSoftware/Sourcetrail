@@ -77,7 +77,10 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 		deactivateNodesRecursive(&m_dummyNodes);
 	}
 
-	bundleNodes();
+	if (m_activeNodeIds.size() == 1)
+	{
+		bundleNodes();
+	}
 
 	layoutNesting();
 	layoutGraph();
