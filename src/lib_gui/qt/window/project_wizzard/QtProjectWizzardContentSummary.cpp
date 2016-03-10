@@ -112,7 +112,10 @@ void QtProjectWizzardContentSummary::populateForm(QGridLayout* layout, int& row)
 	layout->setRowMinimumHeight(row, 10);
 	layout->setRowStretch(row, 1);
 
-	advancedToggled(false);
+	if (m_checkBox)
+	{
+		advancedToggled(false);
+	}
 }
 
 void QtProjectWizzardContentSummary::load()

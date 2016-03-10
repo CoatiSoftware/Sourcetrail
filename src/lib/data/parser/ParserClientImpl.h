@@ -92,7 +92,7 @@ private:
 	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;
 	void addAccess(Id nodeId, ParserClient::AccessType access);
 	void addAccess(Id nodeId, TokenComponentAccess::AccessType access);
-	Id ParserClientImpl::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool defined);
+	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool defined);
 
 	Id addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime);
 	Id addFile(const std::string& filePath);
