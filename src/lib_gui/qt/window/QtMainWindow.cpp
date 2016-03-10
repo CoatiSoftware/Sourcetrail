@@ -483,7 +483,6 @@ void QtMainWindow::toggleView(View* view, bool fromMenu)
 
 void QtMainWindow::handleEscapeShortcut()
 {
-	m_windowStack.popWindow();
 	MessageInterruptTasks().dispatch();
 }
 

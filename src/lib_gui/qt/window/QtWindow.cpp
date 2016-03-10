@@ -260,6 +260,7 @@ void QtWindow::keyPressEvent(QKeyEvent *event)
 	if (m_cancelAble && event->key() == Qt::Key_Escape)
 	{
 		emit canceled();
+		return;
 	}
 
 	QWidget::keyPressEvent(event);
