@@ -105,14 +105,16 @@ struct StorageCommentLocation
 
 struct StorageError
 {
-	StorageError(const std::string& message, const std::string& filePath, uint lineNumber, uint columnNumber)
+	StorageError(const std::string& message, bool fatal, const std::string& filePath, uint lineNumber, uint columnNumber)
 		: message(message)
+		, fatal(fatal)
 		, filePath(filePath)
 		, lineNumber(lineNumber)
 		, columnNumber(columnNumber)
 	{}
 
 	std::string message;
+	bool fatal;
 	std::string filePath;
 	uint lineNumber;
 	uint columnNumber;

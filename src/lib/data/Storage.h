@@ -14,9 +14,9 @@
 #include "data/search/SearchIndex.h"
 #include "data/SqliteStorage.h"
 
-class Storage
-	: public ParserClient
-	, public StorageAccess
+#include "data/parser/ParserClientImpl.h"
+
+class Storage: public StorageAccess
 {
 public:
 	Storage(const FilePath& dbPath);
@@ -39,79 +39,10 @@ public:
 
 	void logStats() const;
 
-	// ParserClient implementation
-	virtual void startParsing();
-	virtual void finishParsing();
+	void startParsing();
+	void finishParsing();
 
-	virtual void startParsingFile(const FilePath& filePath);
-	virtual void finishParsingFile(const FilePath& filePath);
-
-	virtual void onError(const ParseLocation& location, const std::string& message, bool fatal);
-	virtual ErrorCountInfo getErrorCount() const;
-
-	virtual Id onTypedefParsed(
-		const ParseLocation& location, const NameHierarchy& typedefName, AccessType access);
-	virtual Id onClassParsed(
-		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
-		const ParseLocation& scopeLocation);
-	virtual Id onStructParsed(
-		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
-		const ParseLocation& scopeLocation);
-	virtual Id onGlobalVariableParsed(const ParseLocation& location, const NameHierarchy& variable);
-	virtual Id onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessType access);
-	virtual Id onFunctionParsed(
-		const ParseLocation& location, const NameHierarchy& function, const ParseLocation& scopeLocation);
-	virtual Id onMethodParsed(
-		const ParseLocation& location, const NameHierarchy& method, AccessType access, AbstractionType abstraction,
-		const ParseLocation& scopeLocation);
-	virtual Id onNamespaceParsed(
-		const ParseLocation& location, const NameHierarchy& nameHierarchy, const ParseLocation& scopeLocation);
-	virtual Id onEnumParsed(
-		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
-		const ParseLocation& scopeLocation);
-	virtual Id onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy);
-
-	virtual Id onInheritanceParsed(
-		const ParseLocation& location, const NameHierarchy& childNameHierarchy,
-		const NameHierarchy& parentNameHierarchy, AccessType access);
-	virtual Id onMethodOverrideParsed(
-		const ParseLocation& location, const NameHierarchy& overridden, const NameHierarchy& overrider);
-	virtual Id onCallParsed(
-		const ParseLocation& location, const NameHierarchy& caller, const NameHierarchy& callee);
-	virtual Id onFieldUsageParsed(
-		const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy);
-	virtual Id onGlobalVariableUsageParsed(
-		const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy);
-	virtual Id onEnumConstantUsageParsed(
-		const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy);
-	virtual Id onTypeUsageParsed(const ParseLocation& location, const NameHierarchy& user, const NameHierarchy& used);
-
-	virtual Id onTemplateArgumentTypeParsed(
-		const ParseLocation& location, const NameHierarchy& argumentTypeNameHierarchy,
-		const NameHierarchy& templateNameHierarchy);
-	virtual Id onTemplateDefaultArgumentTypeParsed(
-		const ParseLocation& location, const NameHierarchy& defaultArgumentTypeNameHierarchy,
-		const NameHierarchy& templateParameterNameHierarchy);
-	virtual Id onTemplateParameterTypeParsed(
-		const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy);
-	virtual Id onTemplateSpecializationParsed(
-		const ParseLocation& location, const NameHierarchy& specializedNameHierarchy,
-		const NameHierarchy& specializedFromNameHierarchy);
-	virtual Id onTemplateMemberFunctionSpecializationParsed(
-		const ParseLocation& location, const NameHierarchy& instantiatedFunction, const NameHierarchy& specializedFunction);
-
-	virtual Id onTemplateFunctionSpecializationParsed(
-		const ParseLocation& location, const NameHierarchy specializedFunction, const NameHierarchy templateFunction);
-
-	virtual Id onFileParsed(const FileInfo& fileInfo);
-	virtual Id onFileIncludeParsed(
-		const ParseLocation& location, const FileInfo& fileInfo, const FileInfo& includedFileInfo);
-
-	virtual Id onMacroDefineParsed(
-		const ParseLocation& location, const NameHierarchy& macroNameHierarchy, const ParseLocation& scopeLocation);
-	virtual Id onMacroExpandParsed(const ParseLocation& location, const NameHierarchy& macroNameHierarchy);
-
-	virtual Id onCommentParsed(const ParseLocation& location);
+	void injectData(std::shared_ptr<IntermediateStorage> injectedStorage);
 
 	// StorageAccess implementation
 	virtual Id getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const;
@@ -152,6 +83,7 @@ public:
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const;
 	virtual TimePoint getFileModificationTime(const FilePath& filePath) const;
 
+	virtual ErrorCountInfo getErrorCount() const;
 	virtual StorageStats getStorageStats() const;
 
 private:
@@ -173,11 +105,6 @@ private:
 
 	void addNodesToGraph(const std::vector<Id> nodeIds, Graph* graph) const;
 	void addEdgesToGraph(const std::vector<Id> edgeIds, Graph* graph) const;
-
-	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;
-	void addAccess(Id nodeId, TokenComponentAccess::AccessType access);
-	void addAccess(Id nodeId, ParserClient::AccessType access);
-	TokenComponentAccess::AccessType getAccess(Id nodeId) const;
 
 	void addComponentAccessToGraph(Graph* graph) const;
 

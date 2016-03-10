@@ -5,10 +5,11 @@
 #include <deque>
 
 #include "data/parser/Parser.h"
+#include "data/parser/ParserClientImpl.h"
 #include "utility/scheduling/Task.h"
 #include "utility/TimePoint.h"
 
-class ParserClient;
+class Storage;
 class FileManager;
 class CxxParser;
 
@@ -25,7 +26,7 @@ class TaskParseCxx
 {
 public:
 	TaskParseCxx(
-		ParserClient* client,
+		Storage* storage,
 		const FileManager* fileManager,
 		const Parser::Arguments& arguments,
 		const std::vector<FilePath>& files
@@ -41,8 +42,9 @@ public:
 	virtual void revert();
 
 private:
-	ParserClient* m_client;
+	Storage* m_storage;
 	std::shared_ptr<CxxParser> m_parser;
+	std::shared_ptr<ParserClientImpl> m_parserClient;
 	const Parser::Arguments m_arguments;
 	const std::vector<FilePath> m_files;
 

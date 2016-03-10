@@ -129,6 +129,8 @@ add_files(
 	data/parser/Parser.h
 	data/parser/ParserClient.cpp
 	data/parser/ParserClient.h
+	data/parser/ParserClientImpl.cpp
+	data/parser/ParserClientImpl.h
 
 	data/search/SearchIndex.cpp
 	data/search/SearchIndex.h
@@ -155,6 +157,8 @@ add_files(
 	data/ErrorCountInfo.h
 	data/HierarchyCache.cpp
 	data/HierarchyCache.h
+	data/IntermediateStorage.cpp
+	data/IntermediateStorage.h
 	data/SqliteStorage.cpp
 	data/SqliteStorage.h
 	data/Storage.cpp

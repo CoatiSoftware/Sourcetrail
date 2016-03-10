@@ -110,7 +110,7 @@ Id SqliteStorage::addNode(int type, const std::string& serializedName, bool defi
 	Id id = m_database.lastRowId();
 
 	m_database.execDML((
-		"INSERT INTO node(id, type, serializedName, defined) VALUES("
+		"INSERT INTO node(id, type, serialized_name, defined) VALUES("
 		+ std::to_string(id) + ", " + std::to_string(type) + ", '" + serializedName + "', " + std::to_string(defined) + ");"
 	).c_str());
 
@@ -134,8 +134,8 @@ Id SqliteStorage::addFile(const std::string& serializedName, const std::string& 
 	return id;
 }
 
-Id SqliteStorage::addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine,
-									uint endCol, bool isScope)
+Id SqliteStorage::addSourceLocation(
+	Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope)
 {
 	m_database.execDML((
 		"INSERT INTO source_location(id, element_id, file_node_id, start_line, start_column, end_line, end_column, is_scope) "
@@ -171,12 +171,13 @@ Id SqliteStorage::addCommentLocation(Id fileNodeId, uint startLine, uint startCo
 
 Id SqliteStorage::addError(const std::string& message, bool fatal, const std::string& filePath, uint lineNumber, uint columnNumber)
 {
-	std::string sanitizedMessage = utility::replace((fatal ? "Fatal: " : "") + message, "'", "''");
+	std::string sanitizedMessage = utility::replace((fatal ? "Fatal: " : "Error: ") + message, "'", "''");
 
 	// check for duplicate
 	CppSQLite3Query q = m_database.execQuery((
 		"SELECT * FROM error WHERE "
 			"message == '" + sanitizedMessage + "' AND "
+			"fatal == " + std::to_string(fatal) + " AND "
 			"file_path == '" + filePath + "' AND "
 			"line_number == " + std::to_string(lineNumber) + " AND "
 			"column_number == " + std::to_string(columnNumber) + ";"
@@ -188,8 +189,8 @@ Id SqliteStorage::addError(const std::string& message, bool fatal, const std::st
 	}
 
 	m_database.execDML((
-		"INSERT INTO error(message, file_path, line_number, column_number) "
-		"VALUES ('" + sanitizedMessage + "', '" + filePath + "', " + std::to_string(lineNumber) + ", " + std::to_string(columnNumber) + ");"
+		"INSERT INTO error(message, fatal, file_path, line_number, column_number) "
+		"VALUES ('" + sanitizedMessage + "', " + std::to_string(fatal) + ", '" + filePath + "', " + std::to_string(lineNumber) + ", " + std::to_string(columnNumber) + ");"
 	).c_str());
 
 	return m_database.lastRowId();
@@ -410,7 +411,7 @@ StorageNode SqliteStorage::getNodeById(Id id) const
 
 StorageNode SqliteStorage::getNodeBySerializedName(const std::string& serializedName) const
 {
-	std::vector<StorageNode> nodes = getAllNodes("WHERE serializedName == '" + serializedName + "'"); // Todo: use getfirstnode here
+	std::vector<StorageNode> nodes = getAllNodes("WHERE serialized_name == '" + serializedName + "'"); // Todo: use getfirstnode here
 	if (nodes.size() > 0)
 	{
 		return nodes[0];
@@ -426,7 +427,7 @@ std::vector<StorageNode> SqliteStorage::getNodesByIds(const std::vector<Id>& nod
 StorageFile SqliteStorage::getFileById(const Id id) const
 {
 	return getFirstFile(
-		"SELECT node.id, node.serializedName, file.path, file.modification_time FROM node INNER JOIN file ON node.id = file.id "
+		"SELECT node.id, node.serialized_name, file.path, file.modification_time FROM node INNER JOIN file ON node.id = file.id "
 		"WHERE node.id == " + std::to_string(id) + ";"
 	);
 }
@@ -434,7 +435,7 @@ StorageFile SqliteStorage::getFileById(const Id id) const
 StorageFile SqliteStorage::getFileByPath(const std::string& filePath) const
 {
 	StorageFile storageFile = getFirstFile(
-		"SELECT node.id, node.serializedName, file.path, file.modification_time FROM node INNER JOIN file ON node.id = file.id "
+		"SELECT node.id, node.serialized_name, file.path, file.modification_time FROM node INNER JOIN file ON node.id = file.id "
 		"WHERE file.path == '" + filePath + "';"
 	);
 
@@ -443,7 +444,7 @@ StorageFile SqliteStorage::getFileByPath(const std::string& filePath) const
 
 std::vector<StorageFile> SqliteStorage::getAllFiles() const
 {
-	return getAllFiles("SELECT file.id, node.serializedName, file.path, file.modification_time FROM file INNER JOIN node ON file.id = node.id;");
+	return getAllFiles("SELECT file.id, node.serialized_name, file.path, file.modification_time FROM file INNER JOIN node ON file.id = node.id;");
 }
 
 std::shared_ptr<TextAccess> SqliteStorage::getFileContentByPath(const std::string& filePath) const
@@ -629,18 +630,19 @@ std::vector<StorageCommentLocation> SqliteStorage::getCommentLocationsInFile(con
 std::vector<StorageError> SqliteStorage::getAllErrors() const
 {
 	CppSQLite3Query q = m_database.execQuery(
-		"SELECT message, file_path, line_number, column_number FROM error;"
-		);
+		"SELECT message, fatal, file_path, line_number, column_number FROM error;"
+	);
 
 	std::vector<StorageError> errors;
 	while (!q.eof())
 	{
 		const std::string message = q.getStringField(0, "");
-		const std::string filePath = q.getStringField(1, "");
-		const uint lineNumber = q.getIntField(2, 0);
-		const uint columnNumber = q.getIntField(3, 0);
+		const bool fatal = q.getIntField(1, 0);
+		const std::string filePath = q.getStringField(2, "");
+		const uint lineNumber = q.getIntField(3, 0);
+		const uint columnNumber = q.getIntField(4, 0);
 
-		errors.push_back(StorageError(message, filePath, lineNumber, columnNumber));
+		errors.push_back(StorageError(message, fatal, filePath, lineNumber, columnNumber));
 
 		q.nextRow();
 	}
@@ -651,18 +653,19 @@ std::vector<StorageError> SqliteStorage::getAllErrors() const
 std::vector<StorageError> SqliteStorage::getFatalErrors() const
 {
 	CppSQLite3Query q = m_database.execQuery(
-		"SELECT message, file_path, line_number, column_number FROM error WHERE message LIKE 'Fatal: %';"
-		);
+		"SELECT message, fatal, file_path, line_number, column_number FROM error WHERE fatal == 1;"
+	);
 
 	std::vector<StorageError> errors;
 	while (!q.eof())
 	{
 		const std::string message = q.getStringField(0, "");
-		const std::string filePath = q.getStringField(1, "");
-		const uint lineNumber = q.getIntField(2, 0);
-		const uint columnNumber = q.getIntField(3, 0);
+		const bool fatal = q.getIntField(1, 0);
+		const std::string filePath = q.getStringField(2, "");
+		const uint lineNumber = q.getIntField(3, 0);
+		const uint columnNumber = q.getIntField(4, 0);
 
-		errors.push_back(StorageError(message, filePath, lineNumber, columnNumber));
+		errors.push_back(StorageError(message, fatal, filePath, lineNumber, columnNumber));
 
 		q.nextRow();
 	}
@@ -736,18 +739,22 @@ void SqliteStorage::setupTables()
 			"FOREIGN KEY(target_node_id) REFERENCES node(id) ON DELETE CASCADE);"
 	);
 
+	m_database.execDML( // used for checking for duplicates during code analysis // TODO: move to createIndexesForAnalysis() or prepareForAnalysis
+		"CREATE INDEX IF NOT EXISTS edge_multipart_index ON edge(type, source_node_id, target_node_id);"
+	);
+
 	m_database.execDML(
 		"CREATE TABLE IF NOT EXISTS node("
 			"id INTEGER NOT NULL, "
 			"type INTEGER NOT NULL, "
-			"serializedName TEXT, "
+			"serialized_name TEXT, "
 			"defined INTEGER NOT NULL, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);"
 	);
 
 	m_database.execDML(
-		"CREATE INDEX IF NOT EXISTS node_serializedName_index ON node(serializedName);"
+		"CREATE INDEX IF NOT EXISTS node_serialized_name_index ON node(serialized_name);"
 	);
 
 	m_database.execDML(
@@ -801,6 +808,7 @@ void SqliteStorage::setupTables()
 		"CREATE TABLE IF NOT EXISTS error("
 			"id INTEGER NOT NULL, "
 			"message TEXT, "
+			"fatal INTEGER NOT NULL, "
 			"file_path TEXT, "
 			"line_number INTEGER, "
 			"column_number INTEGER, "
@@ -940,7 +948,7 @@ std::vector<StorageEdge> SqliteStorage::getAllEdges(const std::string& query) co
 std::vector<StorageNode> SqliteStorage::getAllNodes(const std::string& query) const
 {
 	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, type, serializedName, defined FROM node " + query + ";"
+		"SELECT id, type, serialized_name, defined FROM node " + query + ";"
 	).c_str());
 
 	std::vector<StorageNode> nodes;

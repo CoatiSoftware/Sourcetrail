@@ -5,20 +5,19 @@
 #include "clang/Tooling/JSONCompilationDatabase.h"
 
 #include "data/parser/cxx/CxxParser.h"
-#include "data/parser/ParserClient.h"
+#include "data/Storage.h"
 #include "utility/file/FileRegister.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/utility.h"
 
 TaskParseCxx::TaskParseCxx(
-	ParserClient* client,
+	Storage* storage,
 	const FileManager* fileManager,
 	const Parser::Arguments& arguments,
 	const std::vector<FilePath>& files
 )
-	: m_client(client)
-	, m_parser(std::make_shared<CxxParser>(client, fileManager))
+	: m_storage(storage)
 	, m_arguments(arguments)
 	, m_files(files)
 	, m_isCDB(false)
@@ -27,6 +26,8 @@ TaskParseCxx::TaskParseCxx(
 	{
 		m_isCDB = true;
 	}
+	m_parserClient = std::make_shared<ParserClientImpl>();
+	m_parser = std::make_shared<CxxParser>(m_parserClient.get(), fileManager);
 }
 
 std::vector<FilePath> TaskParseCxx::getSourceFilesFromCDB(const FilePath& compilationDatabasePath)
@@ -66,7 +67,7 @@ void TaskParseCxx::enter()
 		m_sourcePaths.push_back(path.absolute());
 	}
 
-	m_client->startParsing();
+	m_storage->startParsing();
 }
 
 Task::TaskState TaskParseCxx::update()
@@ -104,7 +105,10 @@ Task::TaskState TaskParseCxx::update()
 
 	MessageStatus(ss.str(), false, true).dispatch();
 
-	m_client->startParsingFile(sourcePath);
+	std::shared_ptr<IntermediateStorage> intermediateStorage = std::make_shared<IntermediateStorage>();
+
+	m_parserClient->setStorage(intermediateStorage);
+	m_parserClient->startParsingFile(sourcePath);
 
 	if (m_isCDB)
 	{
@@ -119,7 +123,10 @@ Task::TaskState TaskParseCxx::update()
 		m_parser->runTool(std::vector<std::string>(1, sourcePath.str()));
 	}
 
-	m_client->finishParsingFile(sourcePath);
+	m_parserClient->finishParsingFile(sourcePath);
+	m_parserClient->resetStorage();
+
+	m_storage->injectData(intermediateStorage);
 
 	if (isSource)
 	{
@@ -133,7 +140,7 @@ void TaskParseCxx::exit()
 {
 	MessageStatus("building search index").dispatch();
 
-	m_client->finishParsing();
+	m_storage->finishParsing();
 
 	FileRegister* fileRegister = m_parser->getFileRegister();
 

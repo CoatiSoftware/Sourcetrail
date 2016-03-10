@@ -355,11 +355,11 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(std::shared_pt
 			{
 				TokenLocation* endLoc = startLoc->getOtherTokenLocation();
 				TokenLocation* scopeLoc = scopeLocations->addTokenLocation(
-					startLoc->getId(), 
-					startLoc->getTokenId(), 
-					startLoc->getLineNumber(), 
-					startLoc->getColumnNumber(), 
-					endLoc->getLineNumber(), 
+					startLoc->getId(),
+					startLoc->getTokenId(),
+					startLoc->getLineNumber(),
+					startLoc->getColumnNumber(),
+					endLoc->getLineNumber(),
 					endLoc->getColumnNumber());
 				scopeLoc->setType(TokenLocation::LOCATION_SCOPE);
 			}
