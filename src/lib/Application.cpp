@@ -95,7 +95,7 @@ bool Application::hasGUI()
 
 void Application::loadProject(const FilePath& projectSettingsFilePath)
 {
-	MessageStatus("Loading Project: " + projectSettingsFilePath.str()).dispatch();
+	MessageStatus("Loading Project: " + projectSettingsFilePath.str(), false, true).dispatch();
 
 	loadSettings();
 	updateRecentProjects(projectSettingsFilePath);

@@ -138,7 +138,7 @@ Task::TaskState TaskParseCxx::update()
 
 void TaskParseCxx::exit()
 {
-	MessageStatus("building search index").dispatch();
+	MessageStatus("building search index", false, true).dispatch();
 
 	m_storage->finishParsing();
 
