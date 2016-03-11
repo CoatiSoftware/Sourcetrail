@@ -10,6 +10,7 @@ public:
 	MessageScrollCode(int value)
 		: value(value)
 	{
+		setIsLogged(false);
 	}
 
 	static const std::string getStaticType()

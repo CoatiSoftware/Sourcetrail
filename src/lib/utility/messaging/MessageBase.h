@@ -21,6 +21,7 @@ public:
 		, m_keepContent(false)
 		, m_cancelled(false)
 		, m_isLast(true)
+		, m_isLogged(true)
 	{
 	}
 
@@ -54,6 +55,16 @@ public:
 	void setIsLast(bool isLast)
 	{
 		m_isLast = isLast;
+	}
+
+	bool isLogged() const
+	{
+		return m_isLogged;
+	}
+
+	void setIsLogged(bool isLogged)
+	{
+		m_isLogged = isLogged;
 	}
 
 	void setKeepContent(bool keepContent)
@@ -93,6 +104,7 @@ private:
 	bool m_keepContent;
 	bool m_cancelled;
 	bool m_isLast;
+	bool m_isLogged;
 };
 
 #endif // MESSAGE_BASE_H

@@ -25,7 +25,11 @@ private:
 
 	virtual void doHandleMessageBase(MessageBase* message)
 	{
-		LOG_INFO_STREAM_BARE(<< "handle " << message->str());
+		if (message->isLogged())
+		{
+			LOG_INFO_STREAM_BARE(<< "handle " << message->str());
+		}
+
 		handleMessage(dynamic_cast<MessageType*>(message));
 	}
 

@@ -13,6 +13,7 @@ public:
 	MessageFocusIn(const std::vector<Id>& tokenIds)
 		: tokenIds(tokenIds)
 	{
+		setIsLogged(false);
 	}
 
 	static const std::string getStaticType()
