@@ -13,6 +13,7 @@ class QtProjectWizzardWindow
 
 public:
 	QtProjectWizzardWindow(QWidget *parent);
+	virtual QSize sizeHint() const override;
 
 	QtProjectWizzardContent* content() const;
 	void setContent(QtProjectWizzardContent* content);

@@ -125,7 +125,7 @@ void QtWindow::setup()
 		setPreviousVisible(false);
 	}
 
-	windowReady();
+	setupDone();
 }
 
 void QtWindow::setCancelAble(bool cancelable)
@@ -316,6 +316,24 @@ void QtWindow::handlePrevious()
 void QtWindow::handleClose()
 {
 	emit canceled();
+}
+
+void QtWindow::setupDone()
+{
+	windowReady();
+
+	QSize actualSize = m_window->sizeHint() + QSize(50, 50);
+	QSize preferredSize = sizeHint();
+
+	if (actualSize.height() > preferredSize.height())
+	{
+		resize(actualSize);
+	}
+	else
+	{
+		resize(preferredSize);
+	}
+
 }
 
 void QtWindow::addLogo()

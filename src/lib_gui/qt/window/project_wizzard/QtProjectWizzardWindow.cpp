@@ -15,6 +15,15 @@ QtProjectWizzardWindow::QtProjectWizzardWindow(QWidget *parent)
 {
 }
 
+QSize QtProjectWizzardWindow::sizeHint() const
+{
+	if (content())
+	{
+		return content()->preferredWindowSize();
+	}
+	return QSize();
+}
+
 QtProjectWizzardContent* QtProjectWizzardWindow::content() const
 {
 	return m_content;
@@ -65,18 +74,6 @@ void QtProjectWizzardWindow::windowReady()
 	updateTitle("NEW PROJECT");
 
 	m_content->windowReady();
-
-	QSize actualSize = m_window->sizeHint() + QSize(50, 50);
-	QSize preferredSize = content()->preferredWindowSize();
-
-	if (actualSize.height() > preferredSize.height())
-	{
-		resize(actualSize);
-	}
-	else
-	{
-		resize(preferredSize);
-	}
 }
 
 void QtProjectWizzardWindow::handleNext()

@@ -67,6 +67,7 @@ protected:
 	virtual void handlePrevious();
 	virtual void handleClose();
 
+	void setupDone();
 	void addLogo();
 
 	QWidget* m_window;
