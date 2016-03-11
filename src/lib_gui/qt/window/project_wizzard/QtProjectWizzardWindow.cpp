@@ -66,7 +66,17 @@ void QtProjectWizzardWindow::windowReady()
 
 	m_content->windowReady();
 
-	resize(content()->preferredWindowSize());
+	QSize actualSize = m_window->sizeHint() + QSize(50, 50);
+	QSize preferredSize = content()->preferredWindowSize();
+
+	if (actualSize.height() > preferredSize.height())
+	{
+		resize(actualSize);
+	}
+	else
+	{
+		resize(preferredSize);
+	}
 }
 
 void QtProjectWizzardWindow::handleNext()

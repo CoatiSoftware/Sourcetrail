@@ -76,7 +76,7 @@ void QtProjectWizzardContentPaths::populateForm(QGridLayout* layout, int& row)
 
 QSize QtProjectWizzardContentPaths::preferredWindowSize() const
 {
-	return QSize(850, 500);
+	return QSize(750, 500);
 }
 
 void QtProjectWizzardContentPaths::setInfo(const QString& title, const QString& description, const QString& help)
@@ -119,7 +119,7 @@ QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 
 QSize QtProjectWizzardContentPathsSource::preferredWindowSize() const
 {
-	return QSize(850, 370);
+	return QSize(750, 370);
 }
 
 void QtProjectWizzardContentPathsSource::load()

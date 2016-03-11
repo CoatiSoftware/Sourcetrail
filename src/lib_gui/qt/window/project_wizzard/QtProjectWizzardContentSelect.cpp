@@ -112,7 +112,7 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 
 	layout->addWidget(container, 0, QtProjectWizzardWindow::BACK_COL);
 
-	m_description = new QLabel();
+	m_description = new QLabel(" \n \n");
 	m_description->setWordWrap(true);
 	m_description->setOpenExternalLinks(true);
 	m_description->setObjectName("projectDescription");
