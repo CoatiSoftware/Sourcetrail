@@ -13,25 +13,8 @@ struct DummyNode;
 class QMouseEvent;
 class QSequentialAnimationGroup;
 class QtGraphEdge;
+class QtGraphicsView;
 class QtGraphNode;
-
-class QtGraphicsView
-	: public QGraphicsView
-{
-	Q_OBJECT
-
-public:
-	QtGraphicsView(QWidget* parent);
-	void mousePressEvent(QMouseEvent *event);
-	void mouseReleaseEvent(QMouseEvent *event);
-
-signals:
-	void emptySpaceClicked();
-
-private:
-	QPoint m_last;
-};
-
 
 class QtGraphView
 	: public QObject
@@ -66,7 +49,7 @@ private slots:
 private:
 	void switchToNewGraphData();
 
-	QGraphicsView* getView() const;
+	QtGraphicsView* getView() const;
 
 	void doRebuildGraph(std::shared_ptr<Graph> graph, const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);
 	void doClear();

@@ -38,6 +38,8 @@ add_files(
 	qt/graphics/QtAngledLineItem.h
 	qt/graphics/QtCountCircleItem.cpp
 	qt/graphics/QtCountCircleItem.h
+	qt/graphics/QtGraphicsView.cpp
+	qt/graphics/QtGraphicsView.h
 	qt/graphics/QtRoundedRectItem.cpp
 	qt/graphics/QtRoundedRectItem.h
 	qt/graphics/QtStraightLineItem.cpp

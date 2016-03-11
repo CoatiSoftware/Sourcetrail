@@ -18,6 +18,7 @@
 
 #include "qt/utility/utilityQt.h"
 
+#include "qt/graphics/QtGraphicsView.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentClickable.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.h"
@@ -27,33 +28,6 @@
 #include "qt/view/graphElements/QtGraphNodeData.h"
 #include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
 #include "settings/ColorScheme.h"
-
-QtGraphicsView::QtGraphicsView(QWidget* parent)
-	: QGraphicsView(parent)
-{
-}
-
-void QtGraphicsView::mousePressEvent(QMouseEvent *event)
-{
-	if (event->button() == Qt::LeftButton && !itemAt(event->pos()))
-	{
-		m_last = event->pos();
-	}
-
-	QGraphicsView::mousePressEvent(event);
-}
-
-void QtGraphicsView::mouseReleaseEvent(QMouseEvent *event)
-{
-	if (event->button() == Qt::LeftButton && !itemAt(event->pos()) && event->pos() == m_last)
-	{
-		emit emptySpaceClicked();
-	}
-
-	QGraphicsView::mouseReleaseEvent(event);
-	viewport()->setCursor(Qt::ArrowCursor);
-}
-
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)
@@ -86,7 +60,7 @@ void QtGraphView::initView()
 	widget->setLayout(layout);
 
 	QGraphicsScene* scene = new QGraphicsScene(widget);
-	QGraphicsView* view = new QtGraphicsView(widget);
+	QtGraphicsView* view = new QtGraphicsView(widget);
 	view->setScene(scene);
 	view->setDragMode(QGraphicsView::ScrollHandDrag);
 	view->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
@@ -125,9 +99,9 @@ void QtGraphView::resizeView()
 
 Vec2i QtGraphView::getViewSize() const
 {
-	QGraphicsView* view = getView();
+	QtGraphicsView* view = getView();
 
-	float zoomFactor = GraphViewStyle::getZoomFactor();
+	float zoomFactor = view->getZoomFactor();
 	return Vec2i(view->width() / zoomFactor - 80, view->height() / zoomFactor - 80);
 }
 
@@ -203,11 +177,11 @@ void QtGraphView::switchToNewGraphData()
 	}
 }
 
-QGraphicsView* QtGraphView::getView() const
+QtGraphicsView* QtGraphView::getView() const
 {
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 
-	QGraphicsView* view = widget->findChild<QGraphicsView*>("");
+	QtGraphicsView* view = widget->findChild<QtGraphicsView*>("");
 
 	if (!view)
 	{
@@ -299,8 +273,7 @@ void QtGraphView::doRefreshView()
 	std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath() + "graph_view/graph_view.css");
 	getView()->setStyleSheet(css.c_str());
 
-	float zoomFactor = GraphViewStyle::getZoomFactor();
-	getView()->setTransform(QTransform(zoomFactor, 0, 0, zoomFactor, 0, 0));
+	getView()->setAppZoomFactor(GraphViewStyle::getZoomFactor());
 }
 
 std::shared_ptr<QtGraphNode> QtGraphView::findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId)
