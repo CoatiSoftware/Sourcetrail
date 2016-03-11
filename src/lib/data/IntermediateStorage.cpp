@@ -46,7 +46,7 @@ Id IntermediateStorage::addNode(int type, const NameHierarchy& nameHierarchy, bo
 		// refine stored information
 		if (defined)
 		{
-			std::unordered_map<Id, std::shared_ptr<StorageNode>>::const_iterator it2 = m_nodeIdsToData.find(it->second);
+			std::map<Id, std::shared_ptr<StorageNode>>::const_iterator it2 = m_nodeIdsToData.find(it->second);
 			std::shared_ptr<StorageNode> storageNode = it2->second;
 			if (!storageNode->defined && storageNode->type < type)
 			{
@@ -184,7 +184,7 @@ void IntermediateStorage::transferToStorage(SqliteStorage& storage)
 		}
 	}
 
-	for (std::unordered_map<Id, std::shared_ptr<StorageNode>>::const_iterator it = m_nodeIdsToData.begin(); it != m_nodeIdsToData.end(); it++)
+	for (std::map<Id, std::shared_ptr<StorageNode>>::const_iterator it = m_nodeIdsToData.begin(); it != m_nodeIdsToData.end(); it++)
 	{
 		StorageNode clientNode = *(it->second.get());
 		StorageNode storageNode = storage.getNodeBySerializedName(clientNode.serializedName);
@@ -207,7 +207,7 @@ void IntermediateStorage::transferToStorage(SqliteStorage& storage)
 		clientIdToStorageId[it->first] = storageNodeId;
 	}
 
-	for (std::unordered_map<Id, std::shared_ptr<StorageEdge>>::const_iterator it = m_edgeIdsToData.begin(); it != m_edgeIdsToData.end(); it++)
+	for (std::map<Id, std::shared_ptr<StorageEdge>>::const_iterator it = m_edgeIdsToData.begin(); it != m_edgeIdsToData.end(); it++)
 	{
 		std::unordered_map<Id, Id>::const_iterator it2;
 		it2 = clientIdToStorageId.find(it->second->sourceNodeId);
@@ -324,7 +324,7 @@ void IntermediateStorage::forEachFile(std::function<void(const Id /*id*/, const 
 
 void IntermediateStorage::forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const
 {
-	for (std::unordered_map<Id, std::shared_ptr<StorageNode>>::const_iterator it = m_nodeIdsToData.begin(); it != m_nodeIdsToData.end(); it++)
+	for (std::map<Id, std::shared_ptr<StorageNode>>::const_iterator it = m_nodeIdsToData.begin(); it != m_nodeIdsToData.end(); it++)
 	{
 		callback(it->first, *(it->second.get()));
 	}
@@ -332,7 +332,7 @@ void IntermediateStorage::forEachNode(std::function<void(const Id /*id*/, const 
 
 void IntermediateStorage::forEachEdge(std::function<void(const Id /*id*/, const StorageEdge& /*data*/)> callback) const
 {
-	for (std::unordered_map<Id, std::shared_ptr<StorageEdge>>::const_iterator it = m_edgeIdsToData.begin(); it != m_edgeIdsToData.end(); it++)
+	for (std::map<Id, std::shared_ptr<StorageEdge>>::const_iterator it = m_edgeIdsToData.begin(); it != m_edgeIdsToData.end(); it++)
 	{
 		callback(it->first, *(it->second.get()));
 	}

@@ -45,10 +45,10 @@ private:
 	std::unordered_map<Id, std::shared_ptr<StorageFile>> m_fileIdsToData;
 
 	std::unordered_map<std::string, Id> m_nodeNamesToIds; // this is used to prevent duplicates (unique)
-	std::unordered_map<Id, std::shared_ptr<StorageNode>> m_nodeIdsToData;
+	std::map<Id, std::shared_ptr<StorageNode>> m_nodeIdsToData;
 
 	std::unordered_map<std::string, Id> m_edgeNamesToIds; // this is used to prevent duplicates (unique)
-	std::unordered_map<Id, std::shared_ptr<StorageEdge>> m_edgeIdsToData;
+	std::map<Id, std::shared_ptr<StorageEdge>> m_edgeIdsToData;
 
 	std::vector<StorageSourceLocation> m_sourceLocations;
 	std::vector<StorageComponentAccess> m_componentAccesses;
