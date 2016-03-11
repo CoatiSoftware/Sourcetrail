@@ -640,7 +640,7 @@ void QtCodeArea::annotateText()
 	const std::vector<Id>& activeIds = m_fileWidget->getActiveTokenIds();
 	const std::vector<Id>& focusIds = m_fileWidget->getFocusedTokenIds();
 
-	bool isError = m_fileWidget->getErrorMessages().size() > 0;
+	bool isError = m_fileWidget->hasErrors();
 
 	bool needsUpdate = false;
 	for (Annotation& annotation: m_annotations)

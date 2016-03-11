@@ -40,7 +40,9 @@ public:
 
 	const std::vector<Id>& getActiveTokenIds() const;
 	const std::vector<Id>& getFocusedTokenIds() const;
+
 	const std::vector<std::string>& getErrorMessages() const;
+	bool hasErrors() const;
 
 	void addCodeSnippet(const CodeSnippetParams& params);
 	QtCodeSnippet* insertCodeSnippet(const CodeSnippetParams& params);

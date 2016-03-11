@@ -170,7 +170,7 @@ void QtCodeSnippet::clickedTitle()
 {
 	if (m_titleId > 0)
 	{
-		MessageShowScope(m_titleId).dispatch();
+		MessageShowScope(m_titleId, dynamic_cast<QtCodeFile*>(parent())->hasErrors()).dispatch();
 	}
 	else
 	{
@@ -182,7 +182,7 @@ void QtCodeSnippet::clickedFooter()
 {
 	if (m_footerId > 0)
 	{
-		MessageShowScope(m_footerId).dispatch();
+		MessageShowScope(m_footerId, dynamic_cast<QtCodeFile*>(parent())->hasErrors()).dispatch();
 	}
 }
 

@@ -8,8 +8,9 @@ class MessageShowScope
 	: public Message<MessageShowScope>
 {
 public:
-	MessageShowScope(Id scopeLocationId)
+	MessageShowScope(Id scopeLocationId, bool showErrors)
 		: scopeLocationId(scopeLocationId)
+		, showErrors(showErrors)
 	{
 	}
 
@@ -24,6 +25,7 @@ public:
 	}
 
 	const Id scopeLocationId;
+	const bool showErrors;
 };
 
 #endif // MESSAGE_SHOW_SCOPE_H

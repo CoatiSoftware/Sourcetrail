@@ -248,11 +248,24 @@ void CodeController::handleMessage(MessageShowScope* message)
 	}
 
 	std::vector<CodeSnippetParams> snippets = getSnippetsForActiveTokenLocations(collection.get(), 0);
-
 	if (snippets.size() != 1)
 	{
 		LOG_ERROR("MessageShowScope didn't result in one single snippet to be created");
 		return;
+	}
+
+	if (message->showErrors)
+	{
+		std::vector<std::string> errorMessages;
+		std::vector<CodeSnippetParams> errorSnippets = getSnippetsForErrorLocations(&errorMessages);
+
+		for (const CodeSnippetParams& error : errorSnippets)
+		{
+			if (error.locationFile->getFilePath() == snippets[0].locationFile->getFilePath())
+			{
+				snippets[0].locationFile = error.locationFile;
+			}
+		}
 	}
 
 	getView()->addCodeSnippets(snippets, true);

@@ -139,6 +139,11 @@ const std::vector<std::string>& QtCodeFile::getErrorMessages() const
 	return m_parent->getErrorMessages();
 }
 
+bool QtCodeFile::hasErrors() const
+{
+	return getErrorMessages().size() > 0;
+}
+
 void QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 {
 	m_locationFile.reset();
@@ -376,7 +381,7 @@ void QtCodeFile::clickedMinimizeButton() const
 		m_filePath,
 		MessageChangeFileView::FILE_MINIMIZED,
 		false,
-		false,
+		hasErrors(),
 		nullptr
 	).dispatch();
 }
@@ -387,7 +392,7 @@ void QtCodeFile::clickedSnippetButton() const
 		m_filePath,
 		MessageChangeFileView::FILE_SNIPPETS,
 		(m_locationFile != nullptr),
-		false,
+		hasErrors(),
 		m_locationFile
 	).dispatch();
 }
@@ -398,7 +403,7 @@ void QtCodeFile::clickedMaximizeButton() const
 		m_filePath,
 		MessageChangeFileView::FILE_MAXIMIZED,
 		(m_fileSnippet == nullptr),
-		false,
+		hasErrors(),
 		nullptr
 	).dispatch();
 }
@@ -416,7 +421,7 @@ void QtCodeFile::requestSnippets() const
 		m_filePath,
 		MessageChangeFileView::FILE_SNIPPETS,
 		(m_locationFile != nullptr),
-		false,
+		hasErrors(),
 		m_locationFile
 	);
 	msg.undoRedoType = MessageBase::UNDOTYPE_IGNORE;
