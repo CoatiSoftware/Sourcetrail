@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="acf15780-03b5-440e-a41e-db79b7043fc2" Version="0.5.0" Language="en-US" Publisher="Coati Software OG" />
+    <Identity Id="acf15780-03b5-440e-a41e-db79b7043fc2" Version="0.5.1" Language="en-US" Publisher="Coati Software OG" />
     <DisplayName>CoatiPlugin</DisplayName>
     <Description xml:space="preserve">This package allows Coati to communicate with Visual Studio and vice versa.
 More infos at www.coati.io</Description>
