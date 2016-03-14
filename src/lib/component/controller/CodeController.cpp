@@ -556,8 +556,8 @@ std::shared_ptr<TokenLocationFile> CodeController::getTokenLocationOfParentScope
 }
 
 std::vector<CodeSnippetParams> CodeController::getSnippetsForErrorLocations(
-	std::vector<std::string>* errorMessages)
-const {
+	std::vector<std::string>* errorMessages) const
+{
 	TokenLocationCollection errorCollection = m_storageAccess->getErrorTokenLocations(errorMessages);
 
 	std::vector<CodeSnippetParams> snippets;

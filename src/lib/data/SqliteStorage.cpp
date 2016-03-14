@@ -2,6 +2,7 @@
 
 #include "data/graph/Node.h"
 #include "data/location/TokenLocation.h"
+#include "data/SqliteIndex.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
@@ -782,6 +783,9 @@ void SqliteStorage::setupTables()
 			"FOREIGN KEY(element_id) REFERENCES element(id) ON DELETE CASCADE, "
 			"FOREIGN KEY(file_node_id) REFERENCES node(id) ON DELETE CASCADE);"
 	);
+
+	SqliteIndex("source_location_element_id_index", "source_location(element_id)").createOnDatabase(m_database);
+	SqliteIndex("source_location_file_node_id_index", "source_location(file_node_id)").createOnDatabase(m_database);
 
 	m_database.execDML(
 		"CREATE TABLE IF NOT EXISTS component_access("

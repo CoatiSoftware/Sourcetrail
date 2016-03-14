@@ -1083,9 +1083,13 @@ void Storage::buildHierarchyCache()
 {
 	std::vector<StorageEdge> memberEdges = m_sqliteStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_MEMBER));
 
+	Cache<Id, Node::NodeType> nodeTypeCache([this](Id id){
+		return Node::intToType(m_sqliteStorage.getNodeById(id).type);
+	});
+
 	for (const StorageEdge& edge : memberEdges)
 	{
-		bool isVisible = !(Node::intToType(m_sqliteStorage.getNodeById(edge.sourceNodeId).type) & Node::NODE_NOT_VISIBLE);
+		bool isVisible = !(nodeTypeCache.getValue(edge.sourceNodeId) & Node::NODE_NOT_VISIBLE);
 		m_hierarchyCache.createConnection(edge.id, edge.sourceNodeId, edge.targetNodeId, isVisible);
 	}
 }

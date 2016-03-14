@@ -24,9 +24,9 @@ size_t SearchNode::getNodeCount() const
 {
 	size_t count = 1;
 
-	for (std::shared_ptr<SearchNode> n: m_nodes)
+	for (const std::pair<Id, std::shared_ptr<SearchNode>>& p : m_nodes)
 	{
-		count += n->getNodeCount();
+		count += p.second->getNodeCount();
 	}
 
 	return count;
@@ -104,9 +104,9 @@ bool SearchNode::hasTokenIdsRecursive() const
 		return true;
 	}
 
-	for (std::shared_ptr<SearchNode> n: m_nodes)
+	for (const std::pair<Id, std::shared_ptr<SearchNode>>& p : m_nodes)
 	{
-		if (n->hasTokenIdsRecursive())
+		if (p.second->hasTokenIdsRecursive())
 		{
 			return true;
 		}
@@ -148,7 +148,7 @@ std::deque<SearchNode*> SearchNode::getParentsWithoutTokenId()
 	return nodes;
 }
 
-const std::set<std::shared_ptr<SearchNode>>& SearchNode::getChildren() const
+const std::map<Id, std::shared_ptr<SearchNode>>& SearchNode::getChildren() const
 {
 	return m_nodes;
 }
@@ -157,12 +157,12 @@ SearchResults SearchNode::runFuzzySearch(const std::string& query) const
 {
 	SearchResults result;
 
-	for (std::shared_ptr<SearchNode> n: m_nodes)
+	for (const std::pair<Id, std::shared_ptr<SearchNode>>& p : m_nodes)
 	{
-		FuzzyMap m = n->fuzzyMatchRecursive(query, 0, 0, 0);
-		for (const std::pair<size_t, const SearchNode*>& p : m)
+		FuzzyMap m = p.second->fuzzyMatchRecursive(query, 0, 0, 0);
+		for (const std::pair<size_t, const SearchNode*>& p2 : m)
 		{
-			addResultsRecursive(&result, p.first, p.second, n.get());
+			addResultsRecursive(&result, p2.first, p2.second, p.second.get());
 		}
 	}
 
@@ -208,9 +208,9 @@ void SearchNode::addResultsRecursive(
 ) const {
 	results->insert(SearchResult(weight, node, parent));
 
-	for (std::shared_ptr<SearchNode> n: node->m_nodes)
+	for (const std::pair<Id, std::shared_ptr<SearchNode>>& p : node->m_nodes)
 	{
-		addResultsRecursive(results, weight, n.get(), parent);
+		addResultsRecursive(results, weight, p.second.get(), parent);
 	}
 }
 
@@ -224,7 +224,7 @@ std::shared_ptr<SearchNode> SearchNode::addNodeRecursive(
 	if (!node)
 	{
 		node = std::make_shared<SearchNode>(this, dictionary.getWord(nameId), nameId);
-		m_nodes.insert(node);
+		m_nodes.emplace(nameId, node);
 	}
 
 	if (nameIds->size() > 0)
@@ -256,13 +256,11 @@ std::shared_ptr<SearchNode> SearchNode::getNodeRecursive(std::deque<Id>* nameIds
 
 void SearchNode::removeSearchNode(SearchNode* node)
 {
-	for (std::set<std::shared_ptr<SearchNode>>::iterator it = m_nodes.begin(); it != m_nodes.end(); it++)
+	std::map<Id, std::shared_ptr<SearchNode>>::iterator it = m_nodes.find(node->getNameId());
+
+	if (it != m_nodes.end())
 	{
-		if ((*it)->m_nameId == node->m_nameId)
-		{
-			m_nodes.erase(it);
-			return;
-		}
+		m_nodes.erase(it);
 	}
 }
 
@@ -315,9 +313,9 @@ SearchNode::FuzzyMap SearchNode::fuzzyMatchRecursive(
 		return result;
 	}
 
-	for (std::shared_ptr<SearchNode> n: m_nodes)
+	for (const std::pair<Id, std::shared_ptr<SearchNode>>& p : m_nodes)
 	{
-		FuzzyMap m = n->fuzzyMatchRecursive(query, pos, weight, size + m_name.size() + SearchIndex::DELIMITER.size());
+		FuzzyMap m = p.second->fuzzyMatchRecursive(query, pos, weight, size + m_name.size() + SearchIndex::DELIMITER.size());
 		result.insert(m.begin(), m.end());
 	}
 
@@ -413,12 +411,11 @@ std::pair<size_t, size_t> SearchNode::fuzzyMatch(
 
 std::shared_ptr<SearchNode> SearchNode::getChildWithNameId(Id nameId) const
 {
-	for (std::shared_ptr<SearchNode> n: m_nodes)
+	std::map<Id, std::shared_ptr<SearchNode>>::const_iterator it = m_nodes.find(nameId);
+
+	if (it != m_nodes.end())
 	{
-		if (n->m_nameId == nameId)
-		{
-			return n;
-		}
+		return it->second;
 	}
 
 	return nullptr;
@@ -449,9 +446,9 @@ std::ostream& operator<<(std::ostream& ostream, const SearchNode* node)
 
 	ostream << '\n';
 
-	for (const std::shared_ptr<SearchNode> n : node->m_nodes)
+	for (const std::pair<Id, std::shared_ptr<SearchNode>> p : node->m_nodes)
 	{
-		ostream << n.get();
+		ostream << p.second.get();
 	}
 
 	return ostream;

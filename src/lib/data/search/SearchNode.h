@@ -42,7 +42,7 @@ public:
 	SearchNode* getParent() const;
 	std::deque<SearchNode*> getParentsWithoutTokenId();
 
-	const std::set<std::shared_ptr<SearchNode>>& getChildren() const;
+	const std::map<Id, std::shared_ptr<SearchNode>>& getChildren() const;
 
 	SearchResults runFuzzySearch(const std::string& query) const;
 	SearchResults runFuzzySearchCached(const std::string& query, const SearchResults& searchResults) const;
@@ -71,7 +71,7 @@ private:
 	std::shared_ptr<SearchNode> getChildWithNameId(Id nameId) const;
 	std::deque<const SearchNode*> getNodesToParent(const SearchNode* parent) const;
 
-	std::set<std::shared_ptr<SearchNode>> m_nodes;
+	std::map<Id, std::shared_ptr<SearchNode>> m_nodes;
 	SearchNode* m_parent;
 
 	std::set<Id> m_tokenIds;

@@ -159,6 +159,8 @@ add_files(
 	data/HierarchyCache.h
 	data/IntermediateStorage.cpp
 	data/IntermediateStorage.h
+	data/SqliteIndex.cpp
+	data/SqliteIndex.h
 	data/SqliteStorage.cpp
 	data/SqliteStorage.h
 	data/Storage.cpp
