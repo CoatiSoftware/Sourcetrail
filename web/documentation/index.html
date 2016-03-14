@@ -454,9 +454,9 @@
 					</ul>
 
 					<h3>Path List Box</h3>
-					<p>The Path List Box is a user interface element that is used within the <a href="#PreferencesWindow">Preferences Window</a>  and the <a href="#ProjectSetupWizard">Project Setup Wizard</a>. It allows for entering a list of file and directory paths.</p>TODO: Replace
+					<p>The Path List Box is a user interface element that is used within the <a href="#PreferencesWindow">Preferences Window</a>  and the <a href="#ProjectSetupWizard">Project Setup Wizard</a>. It allows for entering a list of file and directory paths.</p>
 					<div class="row">
-						<div class="col-sm-6 col-sm-offset-3">
+						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/path_list_box.png" style="width:100%;">
 						</div>
 					</div>
@@ -595,6 +595,32 @@
 					<h4 id="CreateAProjectFromVisualStudioSolution">Create a Project from Visual Studio Solution</h4>
 					<p>If you already have a Visual Studio solution file, this is the way to go. Just select the solution file in the file picker and Coati will automatically analyze (this may take a second) it to prepopulate the <a href="#NewProjectSummary">New Project Summary Window</a>.</p>
 
+					<h4 id="CreateAProjectFromCompilationDatabase">Create a Project from Compilation Database</h4>
+					<p>If you are using <a href="https://cmake.org/">CMake</a> you can export compile commands by defining the flag <code>CMAKE_EXPORT_COMPILE_COMMANDS</code>. Just select the exportet <code>.json</code> file in the file picker.</p>
+
+					<strong>Compilation Database Headers</strong>
+					<p>In the next step you can define the locations of the corresponding header files of the source files in the compilation database.</p>
+					<p>These header files will only be analyzed if they are included in one of the source files.</p>
+					<div class="row">
+						<div class="col-sm-10 col-sm-offset-1">
+							<img src="img/project_setup_wizard_compilation_header.png" style="width:100%;">
+						</div>
+					</div>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Setting</th> <th>Description</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">Source Files</th> <td>Clicking <var>show source files</var> will show you a list of all source files in the compilation database</td> </tr>
+							<tr> <th scope="row">Header Paths</th> <td>Specify one or multiple locations that contain the header files to the source files defined in the compilation database. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.) Clicking <var>show header files</var> will show you the list of the header files that will be analyzed if included.</td> </tr>
+						</tbody>
+					</table>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
+						<li>Clicking <var>Next</var> will take you to the <a href="#NewProjectSummary">New Project Summary Window</a>.</li>
+						<li>Clicking <var>Previous</var> take you to the previous step of the setup process.</li>
+					</ul>
 
 					<h3>New Project Summary</h3>
 					<p>This window appears at the end of the <a href = "ProjectSetupWizard">Project Setup Wizard</a> to summarize all the information entered before. It is the same as the <a href="#EditProjectWindow">Edit Project Window</a>.</p>
@@ -615,9 +641,12 @@
 							<tr> <td scope="row">Language</td> <td>Select the language of your project. This setting is preselected according to your choice in the previous screen. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
 							<tr> <td scope="row">Standard</td> <td>Select the language standard that should be used for analyzing your project. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
 
-							<tr> <td scope="row">Visual Studio Solution</td> <td>Only when using Setup from Visual Studio Solution. Provide the path to your Visual Studio Solution. Clicking the refresh arrow inside the text box will refresh the Project Paths and the Header Search Paths below.</td> </tr>
-
 							<tr> <td scope="row">Project Paths</td> <td>Provide the paths that contain your project's files. Coati will analyze all the source and header files in the specified paths, including subdirectories.</td> </tr>
+
+							<tr> <td scope="row">Visual Studio Solution</td> <td>Only when using Setup from Visual Studio Solution. Provide the path to your Visual Studio Solution. Clicking the refresh arrow inside the text box will refresh the Project Paths and the Header Search Paths below.</td> </tr>
+							<tr> <td scope="row">Compilation Database</td> <td>Only when using Setup from Compilation Database. Provide the path to your Compilation Database.</td> </tr>
+							<tr> <td scope="row">Header Paths</td> <td>Only when using Setup from Compilation Database. Provide the paths to the corresponding header paths of your Compilation Database.</td> </tr>
+
 							<tr> <td scope="row">Simple Setup</td> <td>If this checkbox is checked Coati also looks into the analyzed paths (including subdirectories) when resolving <code>#include</code> directives.</td> </tr>
 							<tr> <td scope="row">Header Search Paths</td> <td>Specify where Coati should be looking for included headers.</td> </tr>
 							<tr> <td scope="row">Global Header Search Paths</td> <td>Same as Header Search Paths but these are used application wide for all of your Coati projects.</td> </tr>
@@ -632,6 +661,8 @@
 						</thead>
 						<tbody>
 							<tr> <td scope="row">Compiler Flags</td> <td>Define compiler flags used during analysis e.g. <code>-v</code></td> </tr>
+							<tr> <td scope="row">Header File Extensions</td> <td>Define extensions for header files including the dot e.g. <code>.h</code></td> </tr>
+							<tr> <td scope="row">Source File Extensions</td> <td>Define extensions for source files including the dot e.g. <code>.cpp</code></td> </tr>
 						</tbody>
 					</table>
 					<strong>Interactions:</strong>
@@ -940,10 +971,17 @@
 							<img src="img/graph_view.png" style="width:100%;">
 						</div>
 					</div>
-					<strong>Interactions:</strong>
+					<h4>Interactions:</h4>
+					<strong>Panning:</strong>
 					<ul>
-						<li>Scroll left-right and up-down for big graphs.</li>
-						<li>Drag the background area to move the whole graph for big graphs.</li>
+						<li>Drag the background area with the mouse.</li>
+						<li>Scroll left-right and up-down on the mouse pad.</li>
+						<li>Use the keys <kbd>WASD</kbd>.</li>
+					</ul>
+					<strong>Zooming:</strong>
+					<ul>
+						<li>Hold <kbd>Shift</kbd> and scroll with mouse wheel or mouse pad.</li>
+						<li>Press <kbd>Shift + WS</kbd>.</li>
 					</ul>
 
 					<h3>Nodes</h3>

@@ -690,9 +690,10 @@ StorageStats Storage::getStorageStats() const
 	stats.nodeCount = m_sqliteStorage.getNodeCount();
 	stats.edgeCount = m_sqliteStorage.getEdgeCount();
 
-	stats.charCount = m_tokenIndex.getCharCount();
-	stats.wordCount = m_tokenIndex.getWordCount();
-	stats.searchNodeCount = m_tokenIndex.getNodeCount();
+	// Takes too much time
+	// stats.charCount = m_tokenIndex.getCharCount();
+	// stats.wordCount = m_tokenIndex.getWordCount();
+	// stats.searchNodeCount = m_tokenIndex.getNodeCount();
 
 	stats.fileCount = m_sqliteStorage.getFileCount();
 	stats.fileLOCCount = m_sqliteStorage.getFileLOCCount();

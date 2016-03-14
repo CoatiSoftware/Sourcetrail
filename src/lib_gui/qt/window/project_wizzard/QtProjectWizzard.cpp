@@ -534,6 +534,13 @@ void QtProjectWizzard::showSummary()
 				summary->addContent(headers, false, true);
 				connectShowFiles(headers);
 
+				summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(settings, window), false, true);
+
+				if (QSysInfo::macVersion() != QSysInfo::MV_None)
+				{
+					summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(settings, window), false, false);
+				}
+
 				data->hideLanguage();
 			}
 
