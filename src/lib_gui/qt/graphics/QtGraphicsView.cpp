@@ -30,7 +30,7 @@ qreal QtGraphicsView::zoom() const
 
 void QtGraphicsView::setZoom(qreal zoom)
 {
-	m_zoomFactor = zoom;
+	m_zoomFactor = qBound(0.1, zoom, 100.0);
 	updateTransform();
 }
 
@@ -65,7 +65,7 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 	{
 		if (event->modifiers() == Qt::ShiftModifier)
 		{
-			updateZoom(true);
+			updateZoom(200.0f, true);
 			return;
 		}
 
@@ -79,7 +79,7 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 	{
 		if (event->modifiers() == Qt::ShiftModifier)
 		{
-			updateZoom(false);
+			updateZoom(-200.0f, true);
 			return;
 		}
 
@@ -116,7 +116,7 @@ void QtGraphicsView::wheelEvent(QWheelEvent* event)
 {
 	if (event->modifiers() == Qt::ShiftModifier && event->delta() != 0.0f)
 	{
-		updateZoom(event->delta() > 0.0f);
+		updateZoom(event->delta(), false);
 		return;
 	}
 
@@ -129,11 +129,27 @@ void QtGraphicsView::updateTransform()
 	setTransform(QTransform(zoomFactor, 0, 0, zoomFactor, 0, 0));
 }
 
-void QtGraphicsView::updateZoom(bool in)
+void QtGraphicsView::updateZoom(float delta, bool animate)
 {
-	QPropertyAnimation* anim = new QPropertyAnimation(this, "zoom");
-	anim->setDuration(100);
-	anim->setStartValue(m_zoomFactor);
-	anim->setEndValue(m_zoomFactor * (1.0f + 0.3 * (in ? 1 : -1)));
-	anim->start();
+	float factor = 1.0f + 0.001 * delta;
+
+	if (factor <= 0.0f)
+	{
+		factor = 0.000001;
+	}
+
+	float newZoom = m_zoomFactor * factor;
+
+	if (animate)
+	{
+		QPropertyAnimation* anim = new QPropertyAnimation(this, "zoom");
+		anim->setDuration(100);
+		anim->setStartValue(m_zoomFactor);
+		anim->setEndValue(newZoom);
+		anim->start();
+	}
+	else
+	{
+		setZoom(newZoom);
+	}
 }

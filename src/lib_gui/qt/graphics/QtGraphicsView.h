@@ -29,7 +29,7 @@ signals:
 
 private:
 	void updateTransform();
-	void updateZoom(bool in);
+	void updateZoom(float delta, bool animate);
 
 	QPoint m_last;
 
