@@ -218,8 +218,7 @@ void CxxParser::runTool(clang::tooling::CompileCommand command, const Arguments&
 	command.CommandLine.insert(command.CommandLine.end(), args.begin(), args.end());
 
 	CxxCompilationDatabaseSingle compilationDatabase(command);
-	// clang::tooling::ClangTool tool(compilationDatabase, std::vector<std::string>(1, command.Filename));
-	clang::tooling::ClangTool tool(compilationDatabase, std::vector<std::string>());
+	clang::tooling::ClangTool tool(compilationDatabase, std::vector<std::string>(1, command.Filename));
 	tool.setDiagnosticConsumer(m_diagnostics.get());
 
 	ASTActionFactory actionFactory(m_client, m_fileRegister.get());

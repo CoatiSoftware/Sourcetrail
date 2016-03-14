@@ -13,8 +13,7 @@ std::vector<clang::tooling::CompileCommand> CxxCompilationDatabaseSingle::getCom
 
 std::vector<std::string> CxxCompilationDatabaseSingle::getAllFiles() const
 {
-	// return std::vector<std::string>(1, m_command.Filename);
-	return std::vector<std::string>();
+	return std::vector<std::string>(1, m_command.Filename);
 }
 
 std::vector<clang::tooling::CompileCommand> CxxCompilationDatabaseSingle::getAllCompileCommands() const
