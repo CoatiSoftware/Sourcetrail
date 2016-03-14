@@ -30,7 +30,7 @@ bool SqliteStorage::init()
 		setup();
 		return false;
 	}
-	else if (version.isOlderStorageVersionThan(Version::getApplicationVersion()))
+	else if (version.isDifferentStorageVersionThan(Version::getApplicationVersion()))
 	{
 		clear();
 		return false;

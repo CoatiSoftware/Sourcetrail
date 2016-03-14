@@ -83,24 +83,11 @@ bool Version::operator<(const Version& other) const
 	}
 }
 
-bool Version::isOlderStorageVersionThan(const Version& other) const
+bool Version::isDifferentStorageVersionThan(const Version& other) const
 {
-	if (m_majorNumber != other.m_majorNumber)
-	{
-		return m_majorNumber < other.m_majorNumber;
-	}
-	else if (m_minorNumber != other.m_minorNumber)
-	{
-		return m_minorNumber < other.m_minorNumber;
-	}
-	else if (m_refreshNumber != other.m_refreshNumber)
-	{
-		return m_refreshNumber < other.m_refreshNumber;
-	}
-	else
-	{
-		return false;
-	}
+	return m_majorNumber != other.m_majorNumber ||
+		m_minorNumber != other.m_minorNumber ||
+		m_refreshNumber != other.m_refreshNumber;
 }
 
 std::string Version::toString() const
