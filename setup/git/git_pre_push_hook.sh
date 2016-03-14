@@ -7,6 +7,9 @@ proteced_branches=("forced_tests" "master")
 #proteced_branch='master'
 current_branch=$(git symbolic-ref -q --short HEAD)
 
+remote="$1"
+url="$2"
+
 FAIL="\033[31mFail:\033[00m"
 PASS="\033[32mPass:\033[00m"
 INFO="\033[33mInfo:\033[00m"
@@ -72,6 +75,32 @@ function run_tests {
 	fi
 	cd $ROOTDIR
 }
+
+
+#handle delete remote branches
+while read local_ref lorem_sha remote_ref remote_sha
+do
+	if [ "$local_ref" == "(delete)" ]
+	then
+		if [ "$remote_ref" == "refs/heads/master" ]
+		then
+			echo "seriously dont delete the master"
+			exit 1
+		else
+			echo "delete remote branch $remote_ref"
+			exit 0
+		fi
+	fi
+done
+
+# handle push --tags
+while read -d $'\0' arg ; do
+    if [[ "$arg" == '--tags' ]] ; then
+		echo "pushing tags"
+		exit 0
+    fi
+done < /proc/$PPID/cmdline
+
 
 for branch in "${proteced_branches[@]}"
 do
