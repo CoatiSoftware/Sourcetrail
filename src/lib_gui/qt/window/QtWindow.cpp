@@ -325,15 +325,8 @@ void QtWindow::setupDone()
 	QSize actualSize = m_window->sizeHint() + QSize(50, 50);
 	QSize preferredSize = sizeHint();
 
-	if (actualSize.height() > preferredSize.height())
-	{
-		resize(actualSize);
-	}
-	else
-	{
-		resize(preferredSize);
-	}
-
+	QSize size(qMax(actualSize.width(), preferredSize.width()), qMax(actualSize.height(), preferredSize.height()));
+	resize(size);
 }
 
 void QtWindow::addLogo()
