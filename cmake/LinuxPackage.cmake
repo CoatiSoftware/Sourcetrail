@@ -75,12 +75,6 @@ function(AddSharedToComponent componentName)
 		COMPONENT ${componentName}
 	)
 
-	INSTALL(DIRECTORY
-		${CMAKE_SOURCE_DIR}/bin/app/data/projects
-		DESTINATION user
-		COMPONENT ${componentName}
-	)
-
 	INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/user
 		DESTINATION .
 		COMPONENT ${componentName}
@@ -105,6 +99,19 @@ INSTALL(DIRECTORY
 	${CMAKE_SOURCE_DIR}/ide_plugins/sublime_text
     DESTINATION plugin
 	COMPONENT FULL
+)
+
+INSTALL(DIRECTORY
+		${CMAKE_SOURCE_DIR}/bin/app/data/projects
+		DESTINATION user
+		COMPONENT FULL
+		PATTERN "*.coatidb" EXCLUDE
+)
+
+INSTALL(DIRECTORY
+		${CMAKE_SOURCE_DIR}/bin/app/data/projects
+		DESTINATION user
+		COMPONENT TRIAL
 )
 
 INSTALL(FILES
@@ -133,18 +140,30 @@ INSTALL(PROGRAMS
 	COMPONENT FULL
 )
 
-INSTALL(PROGRAMS
-	${CMAKE_SOURCE_DIR}/bin/app/Release/Coati_upx
+#INSTALL(PROGRAMS
+	#${CMAKE_SOURCE_DIR}/bin/app/Release/Coati_upx
+	#DESTINATION .
+	#COMPONENT FULL
+	#RENAME Coati
+#)
+
+#INSTALL(PROGRAMS
+	#${CMAKE_SOURCE_DIR}/bin/app/Release/Coati_trial_upx
+	#DESTINATION .
+	#COMPONENT TRIAL
+	#RENAME Coati_trial
+#)
+
+INSTALL(TARGETS
+	${APP_PROJECT_NAME}
 	DESTINATION .
 	COMPONENT FULL
-	RENAME Coati
 )
 
-INSTALL(PROGRAMS
-	${CMAKE_SOURCE_DIR}/bin/app/Release/Coati_trial_upx
+INSTALL(TARGETS
+	${TRIAL_PROJECT_NAME}
 	DESTINATION .
 	COMPONENT TRIAL
-	RENAME Coati_trial
 )
 
 # SET(CPACK_GENERATOR "DEB;TGZ")

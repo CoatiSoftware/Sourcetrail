@@ -30,7 +30,7 @@ public:
 
 	// source
 	std::vector<FilePath> getSourcePaths() const;
-	std::vector<FilePath> ProjectSettings::getAbsoluteSourcePaths() const;
+	std::vector<FilePath> getAbsoluteSourcePaths() const;
 	bool setSourcePaths(const std::vector<FilePath>& sourcePaths);
 
 	std::vector<FilePath> getHeaderSearchPaths() const;

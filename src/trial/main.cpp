@@ -37,9 +37,9 @@ int main(int argc, char *argv[])
 	Version version = Version::fromString(GIT_VERSION_NUMBER);
 	QApplication::setApplicationVersion(version.toDisplayString().c_str());
 
-	setup(argc, argv);
-
 	QtApplication qtApp(argc, argv);
+
+	setup(argc, argv);
 
 	qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
 
