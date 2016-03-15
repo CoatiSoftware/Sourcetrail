@@ -36,11 +36,11 @@ int main(int argc, char *argv[])
 	QApplication::setApplicationVersion(version.toDisplayString().c_str());
 
 	setupPlatform(argc, argv);
-	init();
 
 	QtApplication qtApp(argc, argv);
 
 	setupApp(argc, argv);
+	init();
 
 	qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
 

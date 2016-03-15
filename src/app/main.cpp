@@ -48,12 +48,12 @@ int main(int argc, char *argv[])
 	if (commandLineParser.runWithoutGUI())
 	{
 		setupPlatform(argc, argv);
-		init();
 
 		// headless Coati
 		QtCoreApplication qtApp(argc, argv);
 
 		setupApp(argc, argv);
+		init();
 
 		std::shared_ptr<Application> app = Application::create( version );
 
@@ -70,11 +70,11 @@ int main(int argc, char *argv[])
 	else
 	{
 		setupPlatform(argc, argv);
-		init();
 
 		QtApplication qtApp(argc, argv);
 
 		setupApp(argc, argv);
+		init();
 
 		qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
 
