@@ -27,12 +27,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_02CD8C9B8B0E409B907B9B6AC665E91B"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_037CA5C54AC54097A60194F7BF278651"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -40,6 +34,12 @@
         "Entry"
         {
         "MsmKey" = "8:_046F2DAB656F421B891CD5E4063A4D9A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_05B5BA0EDD4A4E8B8704D08591FBCC5A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -81,12 +81,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_16F7D67EEC604D6BAA1FD46EA6958CE9"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_17E01ED758AE4C8DA24511FCB2EA736E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -100,6 +94,12 @@
         "Entry"
         {
         "MsmKey" = "8:_193A82D32C19456B8EFBFDE83C3AAA5F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1C13C20D88154B1C955263E273E4D3DA"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -153,12 +153,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_30A1423820DB45E5891A961CDA65E45A"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_32FDBCE164294A2DAAFD67F4579D89DF"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -166,18 +160,6 @@
         "Entry"
         {
         "MsmKey" = "8:_3460FAB707F8431E87168499A7F51556"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_36C36F93916E41918F44C3328357E17F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_373E826B62454662887F482B3EED2872"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -195,7 +177,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_394783D0BC30465C9CC8D6E45060F29C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_3FCDDB859BC247E0B2634CBD56E2B763"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_40F860133DBD41678E02018710BA1BF9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -231,12 +225,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_4D80F151B3F143659EEBFFF07E91C65A"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_4D9D70D2CA3244CD919DDB78843614FD"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -244,12 +232,6 @@
         "Entry"
         {
         "MsmKey" = "8:_52F96C45EF1F42B49711E42EAAC7A32B"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_546F15E809DF45859A0C194380B70843"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -280,6 +262,12 @@
         "Entry"
         {
         "MsmKey" = "8:_5D661D36B48C48BE973A4BE2192E3B2F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5D9910FDB208494F955E16F93FB749EC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -369,6 +357,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_79B9FEF9E5924699B7D3425EB286D165"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_7AB220117A0D4C4CB8EB6141745CF164"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -382,12 +376,6 @@
         "Entry"
         {
         "MsmKey" = "8:_7BCB2E5ECE164D39AD46CF9F41732648"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7FBF72581FBE44908B1D35EDBFFC118F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -429,6 +417,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_8E46CF66E6674CB08C9EBE7E5D3DD4B5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_8E87461C68FD41E3BF1077B9E7DA946B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -459,6 +453,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_97B3481E91FA4C21942C995D3F1B41EF"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_99A1F803D402483EBBF1AD06C31A1D50"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -466,12 +466,6 @@
         "Entry"
         {
         "MsmKey" = "8:_9A25601EC45E461F9496D4DD1E562C30"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9F28F57590444079920CE22A4A1EAF5E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -501,12 +495,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_A8968320B28343E28508DE2F37C12919"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_A9914A775BCE41B4A68A5348DC7326B6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -514,6 +502,12 @@
         "Entry"
         {
         "MsmKey" = "8:_AAE08FAECFF54292B13E061BA1E12E4D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ABD9143C77284EBCA7EF19F012F7E2AF"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -531,7 +525,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B88D0D6B803B40C1AA0CCEDED05662ED"
+        "MsmKey" = "8:_BD45AF18BAFB4F88BB8BEE8EBCE82EF1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -633,6 +627,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_D10DA9239C28497AA681D941CC83AFC6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D2C2F69F414F43CBB247E8FBEE410766"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -663,13 +663,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_DB44703A777E4FC3803F2F59A5EF1FAD"
+        "MsmKey" = "8:_DBCBA153A5EF4B869CF8A9003DFB5C35"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_DBCBA153A5EF4B869CF8A9003DFB5C35"
+        "MsmKey" = "8:_DBD6A17A0D3E4DD7BE265D5D921ADD62"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -729,18 +729,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_EA82EEC5EE4E458FB44322D937583352"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_EB5D1E4836BB4AF6AF35821DC45F990A"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_F0F1AA2EBF404C6F87EC93AC1BAC0390"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -783,6 +771,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_FFC8343DC704415B85912121E543F649"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_3460FAB707F8431E87168499A7F51556"
         "MsmSig" = "8:_UNDEFINED"
@@ -790,7 +784,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FB29EAD658C3497D9AC46ADE92D33C83"
+        "OwnerKey" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -802,7 +796,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
+        "OwnerKey" = "8:_FB29EAD658C3497D9AC46ADE92D33C83"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -1156,26 +1150,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_02CD8C9B8B0E409B907B9B6AC665E91B"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\project_wizzard\\window.css"
-            "TargetName" = "8:window.css"
-            "Tag" = "8:"
-            "Folder" = "8:_C0D58E5F41914679BBF77A64F4AD9883"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_037CA5C54AC54097A60194F7BF278651"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\FiraSans_License.txt"
@@ -1202,6 +1176,26 @@
             "TargetName" = "8:minimize_inactive.png"
             "Tag" = "8:"
             "Folder" = "8:_6F23DECDC0B546EAACE918CC5C17F653"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_05B5BA0EDD4A4E8B8704D08591FBCC5A"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\window\\dots.png"
+            "TargetName" = "8:dots.png"
+            "Tag" = "8:"
+            "Folder" = "8:_991DBD2EDC144CE79F23005FB99BF9AF"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1336,26 +1330,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_16F7D67EEC604D6BAA1FD46EA6958CE9"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\setting_window\\plus_hover.png"
-            "TargetName" = "8:plus_hover.png"
-            "Tag" = "8:"
-            "Folder" = "8:_6BFBF58A706240718B8E6BF738AEABA9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_17E01ED758AE4C8DA24511FCB2EA736E"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\SourceCodePro-Bold.otf"
@@ -1402,6 +1376,26 @@
             "TargetName" = "8:logo_aws.png"
             "Tag" = "8:"
             "Folder" = "8:_EB28E483C50D494BB46D3FA082BC6B6D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1C13C20D88154B1C955263E273E4D3DA"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\window\\refresh.png"
+            "TargetName" = "8:refresh.png"
+            "Tag" = "8:"
+            "Folder" = "8:_991DBD2EDC144CE79F23005FB99BF9AF"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1576,72 +1570,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_30A1423820DB45E5891A961CDA65E45A"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\startscreen\\logo.png"
-            "TargetName" = "8:logo.png"
-            "Tag" = "8:"
-            "Folder" = "8:_48309CB0659B48DA90B6CC258F802FC3"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_32FDBCE164294A2DAAFD67F4579D89DF"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\code_view\\images\\minimize_active.png"
             "TargetName" = "8:minimize_active.png"
             "Tag" = "8:"
             "Folder" = "8:_6F23DECDC0B546EAACE918CC5C17F653"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_36C36F93916E41918F44C3328357E17F"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\setting_window\\dots.png"
-            "TargetName" = "8:dots.png"
-            "Tag" = "8:"
-            "Folder" = "8:_6BFBF58A706240718B8E6BF738AEABA9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_373E826B62454662887F482B3EED2872"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\setting_window\\listbox.css"
-            "TargetName" = "8:listbox.css"
-            "Tag" = "8:"
-            "Folder" = "8:_6BFBF58A706240718B8E6BF738AEABA9"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1696,12 +1630,52 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_394783D0BC30465C9CC8D6E45060F29C"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\window\\window.css"
+            "TargetName" = "8:window.css"
+            "Tag" = "8:"
+            "Folder" = "8:_991DBD2EDC144CE79F23005FB99BF9AF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3FCDDB859BC247E0B2634CBD56E2B763"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\projects\\tictactoe\\src\\artificial_player.h"
             "TargetName" = "8:artificial_player.h"
             "Tag" = "8:"
             "Folder" = "8:_CE5AAF4EE3764AACA06B8963D3F99884"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_40F860133DBD41678E02018710BA1BF9"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\window\\listbox.css"
+            "TargetName" = "8:listbox.css"
+            "Tag" = "8:"
+            "Folder" = "8:_991DBD2EDC144CE79F23005FB99BF9AF"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1816,26 +1790,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4D80F151B3F143659EEBFFF07E91C65A"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\setting_window\\refresh_hover.png"
-            "TargetName" = "8:refresh_hover.png"
-            "Tag" = "8:"
-            "Folder" = "8:_6BFBF58A706240718B8E6BF738AEABA9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4D9D70D2CA3244CD919DDB78843614FD"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\about\\logo_coati.png"
@@ -1862,26 +1816,6 @@
             "TargetName" = "8:icon_close.png"
             "Tag" = "8:"
             "Folder" = "8:_EB28E483C50D494BB46D3FA082BC6B6D"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_546F15E809DF45859A0C194380B70843"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\setting_window\\minus.png"
-            "TargetName" = "8:minus.png"
-            "Tag" = "8:"
-            "Folder" = "8:_6BFBF58A706240718B8E6BF738AEABA9"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1982,6 +1916,26 @@
             "TargetName" = "8:macro_1.png"
             "Tag" = "8:"
             "Folder" = "8:_6F2CF686BD9740B4823D889F5D0C3F87"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5D9910FDB208494F955E16F93FB749EC"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\window\\plus_hover.png"
+            "TargetName" = "8:plus_hover.png"
+            "Tag" = "8:"
+            "Folder" = "8:_991DBD2EDC144CE79F23005FB99BF9AF"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2276,6 +2230,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_79B9FEF9E5924699B7D3425EB286D165"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\window\\plus.png"
+            "TargetName" = "8:plus.png"
+            "Tag" = "8:"
+            "Folder" = "8:_991DBD2EDC144CE79F23005FB99BF9AF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7AB220117A0D4C4CB8EB6141745CF164"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\code_view\\code_view.css"
@@ -2322,26 +2296,6 @@
             "TargetName" = "8:private.png"
             "Tag" = "8:"
             "Folder" = "8:_6F2CF686BD9740B4823D889F5D0C3F87"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7FBF72581FBE44908B1D35EDBFFC118F"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\setting_window\\plus.png"
-            "TargetName" = "8:plus.png"
-            "Tag" = "8:"
-            "Folder" = "8:_6BFBF58A706240718B8E6BF738AEABA9"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2476,6 +2430,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8E46CF66E6674CB08C9EBE7E5D3DD4B5"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\window\\refresh_hover.png"
+            "TargetName" = "8:refresh_hover.png"
+            "Tag" = "8:"
+            "Folder" = "8:_991DBD2EDC144CE79F23005FB99BF9AF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8E87461C68FD41E3BF1077B9E7DA946B"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\code_view\\images\\maximize_inactive.png"
@@ -2576,6 +2550,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_97B3481E91FA4C21942C995D3F1B41EF"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\window\\minus_hover.png"
+            "TargetName" = "8:minus_hover.png"
+            "Tag" = "8:"
+            "Folder" = "8:_991DBD2EDC144CE79F23005FB99BF9AF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_99A1F803D402483EBBF1AD06C31A1D50"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\graph_view\\images\\enum_1.png"
@@ -2602,26 +2596,6 @@
             "TargetName" = "8:search_tutorial_4.h"
             "Tag" = "8:"
             "Folder" = "8:_A38746A96F3F43108F3B9C1A88E43FD0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9F28F57590444079920CE22A4A1EAF5E"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\setting_window\\help_hover.png"
-            "TargetName" = "8:help_hover.png"
-            "Tag" = "8:"
-            "Folder" = "8:_6BFBF58A706240718B8E6BF738AEABA9"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2716,26 +2690,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A8968320B28343E28508DE2F37C12919"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\setting_window\\help.png"
-            "TargetName" = "8:help.png"
-            "Tag" = "8:"
-            "Folder" = "8:_6BFBF58A706240718B8E6BF738AEABA9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A9914A775BCE41B4A68A5348DC7326B6"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\icon\\project_cdb_256_256.png"
@@ -2762,6 +2716,26 @@
             "TargetName" = "8:macro_2.png"
             "Tag" = "8:"
             "Folder" = "8:_6F2CF686BD9740B4823D889F5D0C3F87"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_ABD9143C77284EBCA7EF19F012F7E2AF"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\window\\dots_hover.png"
+            "TargetName" = "8:dots_hover.png"
+            "Tag" = "8:"
+            "Folder" = "8:_991DBD2EDC144CE79F23005FB99BF9AF"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2816,12 +2790,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B88D0D6B803B40C1AA0CCEDED05662ED"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BD45AF18BAFB4F88BB8BEE8EBCE82EF1"
             {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\setting_window\\dots_hover.png"
-            "TargetName" = "8:dots_hover.png"
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\window\\logo.png"
+            "TargetName" = "8:logo.png"
             "Tag" = "8:"
-            "Folder" = "8:_6BFBF58A706240718B8E6BF738AEABA9"
+            "Folder" = "8:_991DBD2EDC144CE79F23005FB99BF9AF"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -3136,6 +3110,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D10DA9239C28497AA681D941CC83AFC6"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\window\\help_hover.png"
+            "TargetName" = "8:help_hover.png"
+            "Tag" = "8:"
+            "Folder" = "8:_991DBD2EDC144CE79F23005FB99BF9AF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D2C2F69F414F43CBB247E8FBEE410766"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\fonts\\Roboto-Bold.ttf"
@@ -3236,12 +3230,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DB44703A777E4FC3803F2F59A5EF1FAD"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DBCBA153A5EF4B869CF8A9003DFB5C35"
             {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\setting_window\\window.css"
-            "TargetName" = "8:window.css"
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\Release\\Qt5Core.dll"
+            "TargetName" = "8:Qt5Core.dll"
             "Tag" = "8:"
-            "Folder" = "8:_6BFBF58A706240718B8E6BF738AEABA9"
+            "Folder" = "8:_972788CBF3404779967EA0B73B72BF18"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -3256,12 +3250,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DBCBA153A5EF4B869CF8A9003DFB5C35"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DBD6A17A0D3E4DD7BE265D5D921ADD62"
             {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\Release\\Qt5Core.dll"
-            "TargetName" = "8:Qt5Core.dll"
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\window\\minus.png"
+            "TargetName" = "8:minus.png"
             "Tag" = "8:"
-            "Folder" = "8:_972788CBF3404779967EA0B73B72BF18"
+            "Folder" = "8:_991DBD2EDC144CE79F23005FB99BF9AF"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -3456,46 +3450,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EA82EEC5EE4E458FB44322D937583352"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\setting_window\\refresh.png"
-            "TargetName" = "8:refresh.png"
-            "Tag" = "8:"
-            "Folder" = "8:_6BFBF58A706240718B8E6BF738AEABA9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EB5D1E4836BB4AF6AF35821DC45F990A"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\setting_window\\minus_hover.png"
-            "TargetName" = "8:minus_hover.png"
-            "Tag" = "8:"
-            "Folder" = "8:_6BFBF58A706240718B8E6BF738AEABA9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F0F1AA2EBF404C6F87EC93AC1BAC0390"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\projects\\tictactoe\\tictactoe.coatidb"
@@ -3582,6 +3536,26 @@
             "TargetName" = "8:player.cpp"
             "Tag" = "8:"
             "Folder" = "8:_CE5AAF4EE3764AACA06B8963D3F99884"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FFC8343DC704415B85912121E543F649"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\window\\help.png"
+            "TargetName" = "8:help.png"
+            "Tag" = "8:"
+            "Folder" = "8:_991DBD2EDC144CE79F23005FB99BF9AF"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -3729,17 +3703,6 @@
                                         {
                                         }
                                     }
-                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_6BFBF58A706240718B8E6BF738AEABA9"
-                                    {
-                                    "Name" = "8:setting_window"
-                                    "AlwaysCreate" = "11:FALSE"
-                                    "Condition" = "8:"
-                                    "Transitive" = "11:FALSE"
-                                    "Property" = "8:_2AEF36E74AAE4273BB268878DB34AF21"
-                                        "Folders"
-                                        {
-                                        }
-                                    }
                                     "{9EF0B969-E518-4E46-987F-47570745A589}:_726D4EDF4337432EBB3AB25F6CAC02A9"
                                     {
                                     "Name" = "8:installer"
@@ -3773,6 +3736,17 @@
                                         {
                                         }
                                     }
+                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_991DBD2EDC144CE79F23005FB99BF9AF"
+                                    {
+                                    "Name" = "8:window"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "Property" = "8:_810B2D4AE8584D3EB4310B5850C1C282"
+                                        "Folders"
+                                        {
+                                        }
+                                    }
                                     "{9EF0B969-E518-4E46-987F-47570745A589}:_ADE835DF05A44414B99BCD953C9CF395"
                                     {
                                     "Name" = "8:undoredo_view"
@@ -3793,17 +3767,6 @@
                                                 {
                                                 }
                                             }
-                                        }
-                                    }
-                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_C0D58E5F41914679BBF77A64F4AD9883"
-                                    {
-                                    "Name" = "8:project_wizzard"
-                                    "AlwaysCreate" = "11:FALSE"
-                                    "Condition" = "8:"
-                                    "Transitive" = "11:FALSE"
-                                    "Property" = "8:_26458E233C5C4B0A9851F56E612F1E3A"
-                                        "Folders"
-                                        {
                                         }
                                     }
                                     "{9EF0B969-E518-4E46-987F-47570745A589}:_E007ADDCA0E04EE4BED2606D4D221F69"
