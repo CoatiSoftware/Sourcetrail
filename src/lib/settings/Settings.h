@@ -34,7 +34,6 @@ protected:
 	std::vector<T> getValues(const std::string& key, std::vector<T> defaultValues) const;
 
 	std::vector<FilePath> getPathValues(const std::string& key) const;
-	std::vector<FilePath> getRelativePathValues(const std::string& key) const;
 
 	template<typename T>
 	bool setValue(const std::string& key, T value);
@@ -43,7 +42,6 @@ protected:
 	bool setValues(const std::string& key, std::vector<T> values);
 
 	bool setPathValues(const std::string& key, const std::vector<FilePath>& paths);
-	bool moveRelativePathValues(const std::string& key, const FilePath& filePath);
 
 	bool isValueDefined(const std::string& key) const;
 

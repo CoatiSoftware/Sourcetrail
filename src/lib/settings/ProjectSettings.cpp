@@ -62,10 +62,6 @@ void ProjectSettings::save(const FilePath& filePath)
 	m_projectName = "";
 	m_projectFileLocation = "";
 
-	moveRelativePathValues("source/source_paths/source_path", filePath);
-	moveRelativePathValues("source/header_search_paths/header_search_path", filePath);
-	moveRelativePathValues("source/framework_search_paths/framework_search_path", filePath);
-
 	Settings::save(filePath);
 }
 
@@ -91,7 +87,14 @@ bool ProjectSettings::setStandard(const std::string& standard)
 
 std::vector<FilePath> ProjectSettings::getSourcePaths() const
 {
-	return getRelativePathValues("source/source_paths/source_path");
+	return getPathValues("source/source_paths/source_path");
+}
+
+std::vector<FilePath> ProjectSettings::getAbsoluteSourcePaths() const
+{
+	std::vector<FilePath> paths = getSourcePaths();
+	makePathsAbsolute(paths);
+	return paths;
 }
 
 bool ProjectSettings::setSourcePaths(const std::vector<FilePath>& sourcePaths)
@@ -101,7 +104,14 @@ bool ProjectSettings::setSourcePaths(const std::vector<FilePath>& sourcePaths)
 
 std::vector<FilePath> ProjectSettings::getHeaderSearchPaths() const
 {
-	return getRelativePathValues("source/header_search_paths/header_search_path");
+	return getPathValues("source/header_search_paths/header_search_path");
+}
+
+std::vector<FilePath> ProjectSettings::getAbsoluteHeaderSearchPaths() const
+{
+	std::vector<FilePath> paths = getHeaderSearchPaths();
+	makePathsAbsolute(paths);
+	return paths;
 }
 
 bool ProjectSettings::setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths)
@@ -111,7 +121,14 @@ bool ProjectSettings::setHeaderSearchPaths(const std::vector<FilePath>& headerSe
 
 std::vector<FilePath> ProjectSettings::getFrameworkSearchPaths() const
 {
-	return getRelativePathValues("source/framework_search_paths/framework_search_path");
+	return getPathValues("source/framework_search_paths/framework_search_path");
+}
+
+std::vector<FilePath> ProjectSettings::getAbsoluteFrameworkSearchPaths() const
+{
+	std::vector<FilePath> paths = getFrameworkSearchPaths();
+	makePathsAbsolute(paths);
+	return paths;
 }
 
 bool ProjectSettings::setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths)
@@ -218,4 +235,16 @@ std::string ProjectSettings::getProjectFileLocation() const
 void ProjectSettings::setProjectFileLocation(const std::string& location)
 {
 	m_projectFileLocation = location;
+}
+
+void ProjectSettings::makePathsAbsolute(std::vector<FilePath>& paths) const
+{
+	FilePath basePath = getFilePath().parentDirectory();
+	for (size_t i = 0; i < paths.size(); i++)
+	{
+		if (!paths[i].isAbsolute())
+		{
+			paths[i] = basePath.concat(paths[i]).canonical();
+		}
+	}
 }

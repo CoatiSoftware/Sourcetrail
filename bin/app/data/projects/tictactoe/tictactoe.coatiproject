@@ -14,7 +14,7 @@
             <source_extensions>.c</source_extensions>
         </extensions>
         <source_paths>
-            <source_path>/Users/ebsi/Documents/Coati/bin/app/data/projects/tictactoe/src</source_path>
+            <source_path>./src</source_path>
         </source_paths>
         <use_source_paths_for_header_search>0</use_source_paths_for_header_search>
     </source>

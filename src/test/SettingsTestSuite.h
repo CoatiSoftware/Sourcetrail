@@ -117,7 +117,7 @@ public:
 		std::vector<FilePath> paths = ProjectSettings::getInstance()->getSourcePaths();
 
 		TS_ASSERT_EQUALS(paths.size(), 1);
-		TS_ASSERT_EQUALS(paths[0].str(), "data/SettingsTestSuite/data");
+		TS_ASSERT_EQUALS(paths[0].str(), "data");
 	}
 
 	void test_load_header_search_paths_from_file()
@@ -126,8 +126,8 @@ public:
 		std::vector<FilePath> paths = ProjectSettings::getInstance()->getHeaderSearchPaths();
 
 		TS_ASSERT_EQUALS(paths.size(), 2);
-		TS_ASSERT_EQUALS(paths[0].str(), "data/SettingsTestSuite/data/");
-		TS_ASSERT_EQUALS(paths[1].str(), "data/SettingsTestSuite/src/");
+		TS_ASSERT_EQUALS(paths[0].str(), "data/");
+		TS_ASSERT_EQUALS(paths[1].str(), "src/");
 	}
 
 private:

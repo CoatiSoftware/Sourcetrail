@@ -30,12 +30,15 @@ public:
 
 	// source
 	std::vector<FilePath> getSourcePaths() const;
+	std::vector<FilePath> ProjectSettings::getAbsoluteSourcePaths() const;
 	bool setSourcePaths(const std::vector<FilePath>& sourcePaths);
 
 	std::vector<FilePath> getHeaderSearchPaths() const;
+	std::vector<FilePath> getAbsoluteHeaderSearchPaths() const;
 	bool setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths);
 
 	std::vector<FilePath> getFrameworkSearchPaths() const;
+	std::vector<FilePath> getAbsoluteFrameworkSearchPaths() const;
 	bool setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths);
 
 	std::vector<std::string> getCompilerFlags() const;
@@ -68,6 +71,8 @@ public:
 	void setProjectFileLocation(const std::string& location);
 
 private:
+	void makePathsAbsolute(std::vector<FilePath>& paths) const;
+
 	std::string m_projectName;
 	std::string m_projectFileLocation;
 

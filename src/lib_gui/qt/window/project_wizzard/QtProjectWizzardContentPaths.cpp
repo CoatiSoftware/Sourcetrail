@@ -162,7 +162,7 @@ QString QtProjectWizzardContentPathsSource::getFileNamesDescription() const
 
 QStringList QtProjectWizzardContentPathsSource::getSourceFileNames(bool headersOnly) const
 {
-	std::vector<FilePath> sourcePaths = m_settings->getSourcePaths();
+	std::vector<FilePath> sourcePaths = m_settings->getAbsoluteSourcePaths();
 
 	std::vector<std::string> extensions;
 	if (!headersOnly)

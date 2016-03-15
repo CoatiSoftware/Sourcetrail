@@ -168,7 +168,7 @@ void Project::updateFileManager()
 {
 	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
 
-	std::vector<FilePath> sourcePaths = projSettings->getSourcePaths();
+	std::vector<FilePath> sourcePaths = projSettings->getAbsoluteSourcePaths();
 	std::vector<FilePath> headerPaths;
 
 	if (projSettings->getCompilationDatabasePath().exists())
@@ -196,7 +196,7 @@ Parser::Arguments Project::getParserArguments() const
 	// Add the source paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
 	utility::append(args.systemHeaderSearchPaths, m_fileManager.getSourcePaths());
 
-	utility::append(args.systemHeaderSearchPaths, projSettings->getHeaderSearchPaths());
+	utility::append(args.systemHeaderSearchPaths, projSettings->getAbsoluteHeaderSearchPaths());
 
 	utility::append(args.systemHeaderSearchPaths, appSettings->getHeaderSearchPaths());
 
@@ -204,7 +204,7 @@ Parser::Arguments Project::getParserArguments() const
 	if (projSettings->getUseSourcePathsForHeaderSearch())
 	{
 		std::vector<FilePath> headerSearchSubPaths;
-		for (FilePath p : projSettings->getHeaderSearchPaths())
+		for (FilePath p : projSettings->getAbsoluteHeaderSearchPaths())
 		{
 			std::vector<FilePath> tempPaths = FileSystem::getSubDirectories(p);
 			headerSearchSubPaths.insert( headerSearchSubPaths.end(), tempPaths.begin(), tempPaths.end() );
@@ -214,7 +214,7 @@ Parser::Arguments Project::getParserArguments() const
 		utility::append(args.systemHeaderSearchPaths, headerSearchSubPaths);
 	}
 
-	utility::append(args.frameworkSearchPaths, projSettings->getFrameworkSearchPaths());
+	utility::append(args.frameworkSearchPaths, projSettings->getAbsoluteFrameworkSearchPaths());
 	utility::append(args.frameworkSearchPaths, appSettings->getFrameworkSearchPaths());
 
 	args.language = projSettings->getLanguage();
