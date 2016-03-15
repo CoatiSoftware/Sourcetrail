@@ -10,7 +10,11 @@
 
 #include "platform_includes/deploy.h"
 
-void setup(int argc, char *argv[])
+void setupPlatform(int argc, char *argv[])
+{
+}
+
+void setupApp(int argc, char *argv[])
 {
 #ifdef DEPLOY
 	std::string path = std::getenv("APPDATA");

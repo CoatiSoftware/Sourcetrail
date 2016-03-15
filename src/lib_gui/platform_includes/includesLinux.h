@@ -8,7 +8,11 @@
 #include "utility/file/FileSystem.h"
 #include "isTrial.h"
 
-void setup(int argc, char *argv[])
+void setupPlatform(int argc, char *argv[])
+{
+}
+
+void setupApp(int argc, char *argv[])
 {
 	if (AppPath::getAppPath().empty())
 	{

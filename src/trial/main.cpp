@@ -26,8 +26,6 @@ void init()
 	fileLogger->setLogLevel(Logger::LOG_ALL);
 	FileLogger::setFilePath(UserPaths::getLogPath());
 	LogManager::getInstance()->addLogger(fileLogger);
-
-	utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
 }
 
 int main(int argc, char *argv[])
@@ -37,13 +35,16 @@ int main(int argc, char *argv[])
 	Version version = Version::fromString(GIT_VERSION_NUMBER);
 	QApplication::setApplicationVersion(version.toDisplayString().c_str());
 
+	setupPlatform(argc, argv);
+	init();
+
 	QtApplication qtApp(argc, argv);
 
-	setup(argc, argv);
+	setupApp(argc, argv);
 
 	qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
 
-	init();
+	utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
 
 	QtViewFactory viewFactory;
 	QtNetworkFactory networkFactory;

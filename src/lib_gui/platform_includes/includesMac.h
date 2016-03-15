@@ -9,7 +9,7 @@
 #include "qt/utility/utilityQt.h"
 #include "utility/UserPaths.h"
 
-void setup(int argc, char *argv[])
+void setupPlatform(int argc, char *argv[])
 {
 	// ----------------------------------------------------------------------------
 	// This makes relative paths work in C++ in Xcode by changing directory to the Resources folder inside the .app bundle
@@ -63,6 +63,10 @@ void setup(int argc, char *argv[])
 
 	UserPaths::setUserDataPath(dataPath.toStdString() + "/");
 	// ----------------------------------------------------------------------------
+}
+
+void setupApp(int argc, char *argv[])
+{
 }
 
 #endif // INCLUDES_MAC_H
