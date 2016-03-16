@@ -1,15 +1,23 @@
 #include "qt/graphics/QtGraphicsView.h"
 
-#include <QPropertyAnimation>
-#include <QScrollBar>
 #include <QMouseEvent>
+#include <QScrollBar>
+#include <QTimer>
 
 QtGraphicsView::QtGraphicsView(QWidget* parent)
 	: QGraphicsView(parent)
 	, m_zoomFactor(1.0f)
 	, m_appZoomFactor(1.0f)
+	, m_up(false)
+	, m_down(false)
+	, m_left(false)
+	, m_right(false)
+	, m_shift(false)
 {
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+
+	m_timer = std::make_shared<QTimer>(this);
+	connect(m_timer.get(), SIGNAL(timeout()), this, SLOT(update()));
 }
 
 float QtGraphicsView::getZoomFactor() const
@@ -20,17 +28,6 @@ float QtGraphicsView::getZoomFactor() const
 void QtGraphicsView::setAppZoomFactor(float appZoomFactor)
 {
 	m_appZoomFactor = appZoomFactor;
-	updateTransform();
-}
-
-qreal QtGraphicsView::zoom() const
-{
-	return m_zoomFactor;
-}
-
-void QtGraphicsView::setZoom(qreal zoom)
-{
-	m_zoomFactor = qBound(0.1, zoom, 100.0);
 	updateTransform();
 }
 
@@ -57,58 +54,63 @@ void QtGraphicsView::mouseReleaseEvent(QMouseEvent *event)
 
 void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 {
-	float delta = 150;
-	float x = 0.0f;
-	float y = 0.0f;
-
-	if (event->key() == Qt::Key_W)
+	switch (event->key())
 	{
-		if (event->modifiers() == Qt::ShiftModifier)
-		{
-			updateZoom(200.0f, true);
+		case Qt::Key_W:
+			m_up = true;
+			break;
+		case Qt::Key_A:
+			m_left = true;
+			break;
+		case Qt::Key_S:
+			m_down = true;
+			break;
+		case Qt::Key_D:
+			m_right = true;
+			break;
+		case Qt::Key_0:
+			m_zoomFactor = 1.0f;
+			updateTransform();
+			break;
+		case Qt::Key_Shift:
+			m_shift = true;
+			break;
+		default:
 			return;
-		}
+	}
 
-		y -= delta;
-	}
-	else if (event->key() == Qt::Key_A)
+	if (moves())
 	{
-		x -= delta;
+		m_timer->start(20);
 	}
-	else if (event->key() == Qt::Key_S)
+}
+
+void QtGraphicsView::keyReleaseEvent(QKeyEvent* event)
+{
+	switch (event->key())
 	{
-		if (event->modifiers() == Qt::ShiftModifier)
-		{
-			updateZoom(-200.0f, true);
+		case Qt::Key_W:
+			m_up = false;
+			break;
+		case Qt::Key_A:
+			m_left = false;
+			break;
+		case Qt::Key_S:
+			m_down = false;
+			break;
+		case Qt::Key_D:
+			m_right = false;
+			break;
+		case Qt::Key_Shift:
+			m_shift = false;
+			break;
+		default:
 			return;
-		}
-
-		y += delta;
-	}
-	else if (event->key() == Qt::Key_D)
-	{
-		x += delta;
-	}
-	else
-	{
-		return;
 	}
 
-	if (x != 0)
+	if (!moves())
 	{
-		QPropertyAnimation* anim = new QPropertyAnimation(horizontalScrollBar(), "value");
-		anim->setDuration(100);
-		anim->setStartValue(horizontalScrollBar()->value());
-		anim->setEndValue(horizontalScrollBar()->value() + x);
-		anim->start();
-	}
-	if (y != 0)
-	{
-		QPropertyAnimation* anim = new QPropertyAnimation(verticalScrollBar(), "value");
-		anim->setDuration(100);
-		anim->setStartValue(verticalScrollBar()->value());
-		anim->setEndValue(verticalScrollBar()->value() + y);
-		anim->start();
+		m_timer->stop();
 	}
 }
 
@@ -116,11 +118,73 @@ void QtGraphicsView::wheelEvent(QWheelEvent* event)
 {
 	if (event->modifiers() == Qt::ShiftModifier && event->delta() != 0.0f)
 	{
-		updateZoom(event->delta(), false);
+		updateZoom(event->delta());
 		return;
 	}
 
 	QGraphicsView::wheelEvent(event);
+}
+
+void QtGraphicsView::update()
+{
+	float ds = 25.0f;
+	float dz = 50.0f;
+
+	float x = 0.0f;
+	float y = 0.0f;
+	float z = 0.0f;
+
+	if (m_shift)
+	{
+		if (m_up)
+		{
+			z += dz;
+		}
+		else if (m_down)
+		{
+			z -= dz;
+		}
+	}
+	else
+	{
+		if (m_up)
+		{
+			y -= ds;
+		}
+		else if (m_down)
+		{
+			y += ds;
+		}
+
+		if (m_left)
+		{
+			x -= ds;
+		}
+		else if (m_right)
+		{
+			x += ds;
+		}
+	}
+
+	if (x != 0)
+	{
+		horizontalScrollBar()->setValue(horizontalScrollBar()->value() + x);
+	}
+
+	if (y != 0)
+	{
+		verticalScrollBar()->setValue(verticalScrollBar()->value() + y);
+	}
+
+	if (z != 0)
+	{
+		updateZoom(z);
+	}
+}
+
+bool QtGraphicsView::moves() const
+{
+	return m_up || m_down || m_left || m_right;
 }
 
 void QtGraphicsView::updateTransform()
@@ -129,7 +193,7 @@ void QtGraphicsView::updateTransform()
 	setTransform(QTransform(zoomFactor, 0, 0, zoomFactor, 0, 0));
 }
 
-void QtGraphicsView::updateZoom(float delta, bool animate)
+void QtGraphicsView::updateZoom(float delta)
 {
 	float factor = 1.0f + 0.001 * delta;
 
@@ -138,18 +202,8 @@ void QtGraphicsView::updateZoom(float delta, bool animate)
 		factor = 0.000001;
 	}
 
-	float newZoom = m_zoomFactor * factor;
+	double newZoom = m_zoomFactor * factor;
+	m_zoomFactor = qBound(0.1, newZoom, 100.0);
 
-	if (animate)
-	{
-		QPropertyAnimation* anim = new QPropertyAnimation(this, "zoom");
-		anim->setDuration(100);
-		anim->setStartValue(m_zoomFactor);
-		anim->setEndValue(newZoom);
-		anim->start();
-	}
-	else
-	{
-		setZoom(newZoom);
-	}
+	updateTransform();
 }
