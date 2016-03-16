@@ -33,6 +33,12 @@ rm -rf bin/lib/Debug
 rm -rf bin/lib/Release
 rm -rf bin/test/Debug
 rm -rf bin/test/Release
+rm -rf bin/gen
+rm -rf bin/lib
+rm -rf bin/lib_gui
+rm -rf bin/lib_license
+rm -rf bin/lib_parser
+rm -rf bin/license_generator
 
 # Remove log files
 find bin/test/data/log -type f -name 'log*' -delete

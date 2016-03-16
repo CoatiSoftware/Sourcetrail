@@ -13,7 +13,6 @@ include(cmake/licenses.cmake)
 
 # set Standerd build type to Release
 set(CMAKE_BUILD_TYPE_INIT "Release")
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Variables --------------------------------------------------------------------
 
@@ -44,6 +43,7 @@ if (UNIX)
 endif ()
 
 # Project ----------------------------------------------------------------------
+
 project(${PROJECT_NAME})
 
 #RPATH
@@ -54,6 +54,8 @@ if(UNIX AND NOT APPLE)
 	set(CMAKE_INSTALL_RPATH "$ORIGIN/lib/:$$ORIGIN/lib/")
     include(cmake/external.cmake)
 endif()
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Clang ------------------------------------------------------------------------
 
