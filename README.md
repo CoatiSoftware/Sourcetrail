@@ -180,3 +180,33 @@ $ git push --tags
 * Improved painting of icons in graph to be smoother
 * Added link to documentation to Help menu
 * Fixed preferences not saved
+
+##### 0.5.1.21
+
+* Added project setup for Compilation Databases
+* Improved analysis performance for large projects (10x as fast for 1.000.000 LoC)
+* Improved project load and code view performance
+* Added graph panning with WASD
+* Added graph zooming with Shift + mouse wheel or Shift + WS
+* Added file extension UI to advanced settings in project setup summary
+* Added compiler flags UI to advanced settings in project setup summary
+* Show fatal errors in UI that stopped analysis
+* Fixed linux package creating ~/.config if not there
+* Fixed project setup window sizes to adapt to content size
+* Fixed project paths are now saved relative if defined relative
+* Fixed crash when opening newer project with older version of Coati
+* Removed high traffic log messages
+* Show loader animation when loading project
+* Fixed expanding file with errors showed all locations in red
+* Fixed children on namespace activation were bundled
+* Fixed interrupting of analysis to show message in status bar
+* Disabled config file warnings
+* Added delay for changing fontsize via mouse wheel
+* Fixed Visual Studio plugin project loading
+* Improved context detection for template parameters
+* Fixed type references in headers saved multiple times
+* Prevent network message handling without valid license
+* Added font size limits
+* Center windows on top of main window
+* Fixed crash when accessing files without read permission
+* Fixed file logger using wrong directory for first log file
