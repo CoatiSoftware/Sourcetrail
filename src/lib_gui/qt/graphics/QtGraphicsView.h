@@ -1,6 +1,8 @@
 #ifndef QT_GRAPHICS_VIEW_H
 #define QT_GRAPHICS_VIEW_H
 
+#include <memory>
+
 #include <QGraphicsView>
 
 class QTimer;

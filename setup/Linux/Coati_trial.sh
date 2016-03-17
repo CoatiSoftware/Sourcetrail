@@ -13,7 +13,7 @@ COATI_PATH="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 echo $COATI_PATH
 if [ ! -d "${HOME}/.config/coatitrial" ]; then
   # Control will enter here if $DIRECTORY doesn't exist.
-  mkdir ${HOME}/.config/coatitrial
+  mkdir -p ${HOME}/.config/coatitrial
   cp $COATI_PATH/user/* ${HOME}/.config/coatitrial/
   echo "First start of Coati from this user, copy default configfiles to ~/.config/coati"
 fi

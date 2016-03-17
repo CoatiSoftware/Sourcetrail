@@ -2,10 +2,12 @@
 #define INCLUDES_DEFAULT_H
 
 #include <QCoreApplication>
+#include <QDir>
 #include "utility/AppPath.h"
 #include "utility/UserPaths.h"
 #include "utility/file/FilePath.h"
 #include "utility/file/FileSystem.h"
+#include "qt/utility/utilityQt.h"
 #include "isTrial.h"
 
 void setupPlatform(int argc, char *argv[])
@@ -29,13 +31,15 @@ void setupApp(int argc, char *argv[])
 		userdir.append("/.config/coati/");
 	}
     UserPaths::setUserDataPath(userdir);
-	FilePath userDataPath(userdir);
-	//copy default user folder to .config/coati if it does not exist
-	if (!userDataPath.exists())
+
+	QString userDataPath(userdir.c_str());
+	QDir dataDir(userdir.c_str());
+	if (!dataDir.exists())
 	{
-		FilePath from(AppPath::getAppPath() + "user");
-		FileSystem::copy_directory(from, userDataPath);
+		dataDir.mkpath(userDataPath);
 	}
+
+	utility::copyNewFilesFromDirectory(QString::fromStdString(UserPaths::getUserDataPath()), userDataPath);
 }
 
 #endif // INCLUDES_DEFAULT_H
