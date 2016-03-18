@@ -22,17 +22,17 @@ struct StorageEdge
 
 struct StorageNode
 {
-	StorageNode(Id id, int type, const std::string& serializedName, bool defined)
+	StorageNode(Id id, int type, const std::string& serializedName, int definitionType)
 		: id(id)
 		, type(type)
 		, serializedName(serializedName)
-		, defined(defined)
+		, definitionType(definitionType)
 	{}
 
 	Id id;
 	int type;
 	std::string serializedName;
-	bool defined;
+	int definitionType;
 };
 
 struct StorageFile

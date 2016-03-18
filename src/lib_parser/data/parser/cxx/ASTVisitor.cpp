@@ -666,6 +666,12 @@ void ASTVisitor::traverseDeclContextHelper(clang::DeclContext *d)
 // with the "Base-Class" kind.
 bool ASTVisitor::TraverseCXXRecordDecl(clang::CXXRecordDecl *d)
 {
+	if (d->isImplicit())
+	{
+		// do nothing
+		return true;
+	}
+
     // Traverse qualifiers on the record decl.
     TraverseNestedNameSpecifierLoc(d->getQualifierLoc());
 
@@ -1132,7 +1138,7 @@ void ASTVisitor::RecordTypeRef(
 	}
 }
 
-bool ASTVisitor::isImpliciit(clang::Decl* d) const
+bool ASTVisitor::isPartOfImplicitTemplateSpecialization(clang::Decl* d) const
 {
 	if (!d)
 	{
@@ -1146,8 +1152,20 @@ bool ASTVisitor::isImpliciit(clang::Decl* d) const
 			return true;
 		}
 	}
+	else if (clang::FunctionDecl* fd = clang::dyn_cast_or_null<clang::FunctionDecl>(d))
+	{
+		if (fd->isTemplateInstantiation() && fd->getTemplateSpecializationKind() != clang::TSK_ExplicitSpecialization) // or undefined??
+		{
+			return true;
+		}
+	}
 
-	return isImpliciit(clang::dyn_cast_or_null<clang::Decl>(d->getDeclContext()));
+	return isPartOfImplicitTemplateSpecialization(clang::dyn_cast_or_null<clang::Decl>(d->getDeclContext()));
+}
+
+bool ASTVisitor::isImplicit(clang::Decl* d) const
+{
+	return d->isImplicit() || isPartOfImplicitTemplateSpecialization(d);
 }
 
 void ASTVisitor::RecordDeclRef(
@@ -1156,11 +1174,11 @@ void ASTVisitor::RecordDeclRef(
         RefType refType,
         SymbolType symbolType)
 {
-	bool isImplicit = isImpliciit(d);
+	bool declIsImplicit = isImplicit(d);
 
 	if (!d ||
-		(isImplicit && !isLocatedInProjectFile(beginLoc)) ||
-		(!isImplicit && !isLocatedInUnparsedProjectFile(beginLoc)))
+		(declIsImplicit && !isLocatedInProjectFile(beginLoc)) ||
+		(!declIsImplicit && !isLocatedInUnparsedProjectFile(beginLoc)))
 	{
 		return;
 	}
@@ -1183,7 +1201,8 @@ void ASTVisitor::RecordDeclRef(
 				m_client->onTypedefParsed(
 					parseLocation,
 					declNameHierarchy,
-					convertAccessType(typedefDecl->getAccess()));
+					convertAccessType(typedefDecl->getAccess()),
+					declIsImplicit);
 			}
 			break;
 		case ST_Class:
@@ -1193,7 +1212,8 @@ void ASTVisitor::RecordDeclRef(
 					parseLocation,
 					declNameHierarchy,
 					convertAccessType(recordDecl->getAccess()),
-					(refType == RT_Definition ? getParseLocationOfRecordBody(recordDecl) : ParseLocation()));
+					(refType == RT_Definition ? getParseLocationOfRecordBody(recordDecl) : ParseLocation()),
+					declIsImplicit);
 			}
 			break;
 		case ST_Struct:
@@ -1203,13 +1223,15 @@ void ASTVisitor::RecordDeclRef(
 					parseLocation,
 					declNameHierarchy,
 					convertAccessType(recordDecl->getAccess()),
-					(refType == RT_Definition ? getParseLocationOfRecordBody(recordDecl) : ParseLocation()));
+					(refType == RT_Definition ? getParseLocationOfRecordBody(recordDecl) : ParseLocation()),
+					declIsImplicit);
 			}
 			break;
 		case ST_GlobalVariable:
 			m_client->onGlobalVariableParsed(
 				parseLocation,
-				declNameHierarchy);
+				declNameHierarchy,
+				declIsImplicit);
 			break;
 		case ST_Field:
 			//if (clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(d))
@@ -1217,7 +1239,8 @@ void ASTVisitor::RecordDeclRef(
 			m_client->onFieldParsed(
 				parseLocation,
 				declNameHierarchy,
-				convertAccessType(d->getAccess()));
+				convertAccessType(d->getAccess()),
+				declIsImplicit);
 		}
 		break;
 		case ST_Function:
@@ -1226,7 +1249,8 @@ void ASTVisitor::RecordDeclRef(
 				m_client->onFunctionParsed(
 					parseLocation,
 					declNameHierarchy,
-					(refType == RT_Definition ? getParseLocationOfFunctionBody(functionDecl) : ParseLocation()));
+					(refType == RT_Definition ? getParseLocationOfFunctionBody(functionDecl) : ParseLocation()),
+					declIsImplicit);
 			}
 			break;
 		case ST_Constructor:
@@ -1239,7 +1263,8 @@ void ASTVisitor::RecordDeclRef(
 					declNameHierarchy,
 					convertAccessType(methodDecl->getAccess()),
 					getAbstractionType(methodDecl),
-					(refType == RT_Definition ? getParseLocationOfFunctionBody(methodDecl) : ParseLocation()));
+					(refType == RT_Definition ? getParseLocationOfFunctionBody(methodDecl) : ParseLocation()),
+					declIsImplicit);
 
 				for (clang::CXXMethodDecl::method_iterator it = methodDecl->begin_overridden_methods(); // iterate in traversal and use RT_Overridden or so..
 					it != methodDecl->end_overridden_methods(); it++)
@@ -1270,14 +1295,16 @@ void ASTVisitor::RecordDeclRef(
 				m_client->onNamespaceParsed(
 					namespaceDecl->isAnonymousNamespace() ? ParseLocation() : parseLocation,
 					declNameHierarchy,
-					getParseLocation(namespaceDecl->getSourceRange()));
+					getParseLocation(namespaceDecl->getSourceRange()),
+					declIsImplicit);
 			}
 			else if (clang::NamespaceAliasDecl* namespaceAliasDecl = clang::dyn_cast<clang::NamespaceAliasDecl>(d))
 			{
 				m_client->onNamespaceParsed(
 					parseLocation,
 					declNameHierarchy,
-					getParseLocation(namespaceAliasDecl->getAliasedNamespace()->getSourceRange()));
+					getParseLocation(namespaceAliasDecl->getAliasedNamespace()->getSourceRange()),
+					declIsImplicit);
 			}
 			break;
 		case ST_Enum:
@@ -1287,20 +1314,23 @@ void ASTVisitor::RecordDeclRef(
 					parseLocation,
 					declNameHierarchy,
 					convertAccessType(enumDecl->getAccess()),
-					getParseLocation(enumDecl->getSourceRange()));
+					getParseLocation(enumDecl->getSourceRange()),
+					declIsImplicit);
 			}
 			break;
 		case ST_Enumerator:
 			m_client->onEnumConstantParsed(
 				parseLocation,
-				declNameHierarchy);
+				declNameHierarchy,
+				declIsImplicit);
 			break;
 		case ST_TemplateParameter:
 			if (!d->getName().empty()) // We don't create symbols for unnamed template parameters.
 			{
 				m_client->onTemplateParameterTypeParsed(
 					parseLocation,
-					declNameHierarchy);
+					declNameHierarchy,
+					declIsImplicit);
 			}
 			break;
 		case ST_ClassTemplateSpecialization:
@@ -1426,7 +1456,8 @@ void ASTVisitor::RecordDeclRef(
 		m_client->onFunctionParsed(
 			parseLocation,
 			declNameHierarchy,
-			parseLocation
+			parseLocation,
+			declIsImplicit
 		);
 	}
 
@@ -1625,7 +1656,7 @@ ParseLocation ASTVisitor::getParseLocation(const clang::SourceRange& sourceRange
 	);
 }
 
-NameHierarchy ASTVisitor::getContextName()
+NameHierarchy ASTVisitor::getContextName() const
 {
 	if (m_contextNameGenerator)
 	{

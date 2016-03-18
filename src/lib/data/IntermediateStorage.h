@@ -18,7 +18,7 @@ public:
 	IntermediateStorage();
 	~IntermediateStorage();
 	Id addEdge(int type, Id sourceId, Id targetId);
-	Id addNode(int type, const NameHierarchy& nameHierarchy, bool defined);
+	Id addNode(int type, const NameHierarchy& nameHierarchy, int definitionType);
 	Id addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime);
 	Id addFile(const std::string& filePath);
 	void addSourceLocation(Id elementId, const ParseLocation& location, bool isScope);

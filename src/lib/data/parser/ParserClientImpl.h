@@ -6,6 +6,7 @@
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/graph/Node.h"
 
+#include "data/DefinitionType.h"
 #include "data/SqliteStorage.h"
 
 class ParserClientImpl: public ParserClient
@@ -26,27 +27,29 @@ public:
 	virtual void onError(const ParseLocation& location, const std::string& message, bool fatal);
 
 	virtual Id onTypedefParsed(
-		const ParseLocation& location, const NameHierarchy& typedefName, AccessType access);
+		const ParseLocation& location, const NameHierarchy& typedefName, AccessType access, bool isImplicit);
 	virtual Id onClassParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
-		const ParseLocation& scopeLocation);
+		const ParseLocation& scopeLocation, bool isImplicit);
 	virtual Id onStructParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
-		const ParseLocation& scopeLocation);
-	virtual Id onGlobalVariableParsed(const ParseLocation& location, const NameHierarchy& variable);
-	virtual Id onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessType access);
+		const ParseLocation& scopeLocation, bool isImplicit);
+	virtual Id onGlobalVariableParsed(const ParseLocation& location, const NameHierarchy& variable, bool isImplicit);
+	virtual Id onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessType access, bool isImplicit);
 	virtual Id onFunctionParsed(
-		const ParseLocation& location, const NameHierarchy& function, const ParseLocation& scopeLocation);
+		const ParseLocation& location, const NameHierarchy& function, const ParseLocation& scopeLocation, bool isImplicit);
 	virtual Id onMethodParsed(
 		const ParseLocation& location, const NameHierarchy& method, AccessType access, AbstractionType abstraction,
-		const ParseLocation& scopeLocation);
+		const ParseLocation& scopeLocation, bool isImplicit);
 	virtual Id onNamespaceParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy,
-		const ParseLocation& scopeLocation);
+		const ParseLocation& scopeLocation, bool isImplicit);
 	virtual Id onEnumParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
-		const ParseLocation& scopeLocation);
-	virtual Id onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy);
+		const ParseLocation& scopeLocation, bool isImplicit);
+	virtual Id onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy, bool isImplicit);
+	virtual Id onTemplateParameterTypeParsed(
+		const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy, bool isImplicit);
 
 	virtual Id onInheritanceParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy,
@@ -69,8 +72,6 @@ public:
 	virtual Id onTemplateDefaultArgumentTypeParsed(
 		const ParseLocation& location, const NameHierarchy& defaultArgumentTypeNameHierarchy,
 		const NameHierarchy& templateArgumentTypeNameHierarchy);
-	virtual Id onTemplateParameterTypeParsed(
-		const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy);
 	virtual Id onTemplateSpecializationParsed(
 		const ParseLocation& location, const NameHierarchy& specializedNameHierarchy,
 		const NameHierarchy& specializedFromNameHierarchy);
@@ -92,11 +93,11 @@ private:
 	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;
 	void addAccess(Id nodeId, ParserClient::AccessType access);
 	void addAccess(Id nodeId, TokenComponentAccess::AccessType access);
-	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool defined);
+	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, DefinitionType definitionType);
 
 	Id addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime);
 	Id addFile(const std::string& filePath);
-	Id addNode(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool defined);
+	Id addNode(Node::NodeType nodeType, NameHierarchy nameHierarchy, DefinitionType definitionType);
 	Id addEdge(int type, Id sourceId, Id targetId);
 	void addSourceLocation(Id elementId, const ParseLocation& location, bool isScope);
 	void addComponentAccess(Id nodeId , int type);

@@ -87,12 +87,6 @@ public:
 	virtual StorageStats getStorageStats() const;
 
 private:
-	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool defined);
-	Id addSourceLocation(Id elementNodeId, const ParseLocation &location, bool isScope = false);
-
-	Id addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type);
-	Id addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type, ParseLocation location);
-
 	Id getFileNodeId(const FilePath& filePath) const;
 	FilePath getFileNodePath(Id fileId) const;
 

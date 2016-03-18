@@ -35,26 +35,28 @@ Id IntermediateStorage::addEdge(int type, Id sourceId, Id targetId)
 	return id;
 }
 
-Id IntermediateStorage::addNode(int type, const NameHierarchy& nameHierarchy, bool defined)
+Id IntermediateStorage::addNode(int type, const NameHierarchy& nameHierarchy, int definitionType)
 {
-	std::shared_ptr<StorageNode> node = std::make_shared<StorageNode>(0, type, NameHierarchy::serialize(nameHierarchy), defined);
+	std::shared_ptr<StorageNode> node = std::make_shared<StorageNode>(0, type, NameHierarchy::serialize(nameHierarchy), definitionType);
 
 	std::string serialized = serialize(*(node.get()));
 	std::unordered_map<std::string, Id>::const_iterator it = m_nodeNamesToIds.find(serialized);
 	if (it != m_nodeNamesToIds.end())
 	{
-		// refine stored information
-		if (defined)
+		// update stored information
+		if (definitionType > 0)
 		{
 			std::map<Id, std::shared_ptr<StorageNode>>::const_iterator it2 = m_nodeIdsToData.find(it->second);
 			std::shared_ptr<StorageNode> storageNode = it2->second;
-			if (!storageNode->defined && storageNode->type < type)
+			if (storageNode->definitionType == 0)
 			{
-				storageNode->type = type;
+				storageNode->definitionType = definitionType;
+				if (storageNode->type < type)
+				{
+					storageNode->type = type;
+				}
 			}
-			storageNode->defined = true;
 		}
-
 		return it->second;
 	}
 
@@ -191,18 +193,21 @@ void IntermediateStorage::transferToStorage(SqliteStorage& storage)
 		Id storageNodeId = storageNode.id;
 		if (storageNodeId)
 		{
-			if (clientNode.defined)
+			if (clientNode.definitionType > 0)
 			{
-				storage.setNodeDefined(true, storageNode.id);
-				if (!storageNode.defined && storageNode.type < clientNode.type)
+				if (storageNode.definitionType == 0)
 				{
-					storage.setNodeType(clientNode.type, storageNode.id);
+					storage.setNodeDefinitionType(clientNode.definitionType, storageNode.id);
+					if(storageNode.type < clientNode.type)
+					{
+						storage.setNodeType(clientNode.type, storageNode.id);
+					}
 				}
 			}
 		}
 		else
 		{
-			storageNodeId = storage.addNode(clientNode.type, clientNode.serializedName, clientNode.defined);
+			storageNodeId = storage.addNode(clientNode.type, clientNode.serializedName, clientNode.definitionType);
 		}
 		clientIdToStorageId[it->first] = storageNodeId;
 	}

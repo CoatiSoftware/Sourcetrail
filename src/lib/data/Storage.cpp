@@ -271,7 +271,7 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 			match.nodeType = Node::intToType(node.type);
 			match.typeName = Node::getTypeString(match.nodeType);
 
-			if (!node.defined && match.nodeType != Node::NODE_UNDEFINED)
+			if (intToDefinitionType(node.definitionType) == DEFINITION_NONE && match.nodeType != Node::NODE_UNDEFINED)
 			{
 				match.typeName = "undefined " + match.typeName;
 			}
@@ -326,7 +326,7 @@ std::shared_ptr<Graph> Storage::getGraphForAll() const
 	std::vector<Id> tokenIds;
 	for (StorageNode node: m_sqliteStorage.getAllNodes())
 	{
-		if (node.defined && (!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id) ||
+		if (intToDefinitionType(node.definitionType) != DEFINITION_NONE && (!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id) ||
 			Node::intToType(node.type) == Node::NODE_NAMESPACE))
 		{
 			tokenIds.push_back(node.id);
@@ -704,124 +704,6 @@ StorageStats Storage::getStorageStats() const
 	return stats;
 }
 
-Id Storage::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, bool defined)
-{
-	if (nameHierarchy.size() == 0)
-	{
-		return 0;
-	}
-
-	Id parentNodeId = 0;
-	bool nodeMayExist = true;
-	NameHierarchy currentNameHierarchy;
-
-	for (size_t i = 0; i < nameHierarchy.size(); i++)
-	{
-		currentNameHierarchy.push(nameHierarchy[i]);
-		const bool isLastElement = (i == nameHierarchy.size() - 1);
-		Node::NodeType type = (isLastElement ? nodeType : Node::NODE_UNDEFINED);
-
-		StorageNode node(0, 0, "", false);
-
-		if (nodeMayExist)
-		{
-			node = m_sqliteStorage.getNodeBySerializedName(NameHierarchy::serialize(currentNameHierarchy));
-		}
-
-		Id nodeId = node.id;
-
-		if (nodeId && !node.defined && isLastElement && defined) // todo: move this down!
-		{
-			m_sqliteStorage.setNodeDefined(true, nodeId);
-		}
-
-		if (nodeId == 0)
-		{
-			nodeMayExist = false;
-			nodeId = m_sqliteStorage.addNode(Node::typeToInt(type), NameHierarchy::serialize(currentNameHierarchy), isLastElement && defined);
-
-			if (parentNodeId != 0)
-			{
-				addEdge(parentNodeId, nodeId, Edge::EDGE_MEMBER);
-			}
-		}
-		else if (isLastElement) // Update the type of the last node if the new type is more specific.
-		{
-			Node::NodeType storedType = Node::intToType(node.type);
-			if (!node.defined && type > storedType)
-			{
-				m_sqliteStorage.setNodeType(Node::typeToInt(type), nodeId);
-			}
-		}
-
-		parentNodeId = nodeId;
-	}
-
-	return parentNodeId;
-}
-
-Id Storage::addSourceLocation(Id elementNodeId, const ParseLocation &location, bool isScope)
-{
-	if (!location.isValid())
-	{
-		return 0;
-	}
-
-	if (location.filePath.empty())
-	{
-		LOG_ERROR("no filename set!");
-		return 0;
-	}
-	else
-	{
-		Id fileNodeId = getFileNodeId(location.filePath);
-
-		if (!fileNodeId)
-		{
-			LOG_ERROR("Can't create source location, file node does not exist for: " + location.filePath.str());
-			return 0;
-		}
-
-		Id locationId = m_sqliteStorage.addSourceLocation(
-			elementNodeId, fileNodeId, location.startLineNumber, location.startColumnNumber,
-			location.endLineNumber, location.endColumnNumber, isScope
-		);
-
-		return locationId;
-	}
-}
-
-Id Storage::addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type)
-{
-	if (!sourceNodeId || !targetNodeId)
-	{
-		return 0;
-	}
-
-	Id edgeId = m_sqliteStorage.getEdgeBySourceTargetType(sourceNodeId, targetNodeId, type).id;
-
-	if (!edgeId)
-	{
-		edgeId = m_sqliteStorage.addEdge(type, sourceNodeId, targetNodeId);
-	}
-
-	return edgeId;
-}
-
-Id Storage::addEdge(Id sourceNodeId, Id targetNodeId, Edge::EdgeType type, ParseLocation location)
-{
-	if (!sourceNodeId || !targetNodeId)
-	{
-		return 0;
-	}
-
-	Id edgeId = addEdge(sourceNodeId, targetNodeId, type);
-
-	addSourceLocation(edgeId, location, false);
-
-	return edgeId;
-}
-
 Id Storage::getFileNodeId(const FilePath& filePath) const
 {
 	std::map<FilePath, Id>::const_iterator it = m_fileNodeIds.find(filePath);
@@ -1010,7 +892,7 @@ void Storage::addNodesToGraph(const std::vector<Id> nodeIds, Graph* graph) const
 			storageNode.id,
 			type,
 			nameHierarchy,
-			storageNode.defined
+			intToDefinitionType(storageNode.definitionType) != DEFINITION_NONE
 		);
 
 		if (type == Node::NODE_FUNCTION || type == Node::NODE_METHOD)

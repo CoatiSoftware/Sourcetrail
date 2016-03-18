@@ -163,6 +163,7 @@ private:
     // Misc routines
     bool shouldVisitTemplateInstantiations() const { return true; }
     bool shouldUseDataRecursionFor(clang::Stmt *s) const;
+	//bool shouldVisitImplicitCode() const { return true; } // TODO: uncomment this when implicit nodes are hidden in the ui
 
     // Dispatcher routines
     bool TraverseStmt(clang::Stmt *stmt);
@@ -237,7 +238,8 @@ private:
 		RefType refType,
 		SymbolType symbolType = ST_Max);
 
-	bool isImpliciit(clang::Decl* d) const;
+	bool isPartOfImplicitTemplateSpecialization(clang::Decl* d) const;
+	bool isImplicit(clang::Decl* d) const;
 
     void RecordDeclRef(
             clang::NamedDecl *d,
@@ -247,14 +249,14 @@ private:
 
 	bool isLocatedInUnparsedProjectFile(clang::SourceLocation loc);
 	bool isLocatedInProjectFile(clang::SourceLocation loc);
-	
+
 	ParserClient::AccessType convertAccessType(clang::AccessSpecifier access) const;
 	ParserClient::AbstractionType getAbstractionType(const clang::CXXMethodDecl* methodDecl) const;
 	ParseLocation getParseLocationOfRecordBody(clang::RecordDecl* decl) const;
 	ParseLocation getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const;
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
 
-	NameHierarchy getContextName();
+	NameHierarchy getContextName() const;
 
 	struct FileIdHash {
 		size_t operator()(clang::FileID fileID) const {

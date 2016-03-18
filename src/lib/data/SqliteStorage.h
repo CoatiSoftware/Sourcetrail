@@ -35,7 +35,7 @@ public:
 	void setVersion(const Version& version);
 
 	Id addEdge(int type, Id sourceNodeId, Id targetNodeId);
-	Id addNode(int type, const std::string& serializedName, bool defined);
+	Id addNode(int type, const std::string& serializedName, int definitionType);
 	Id addFile(const std::string& serializedName, const std::string& filePath, const std::string& modificationTime);
 	Id addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope);
 
@@ -81,7 +81,7 @@ public:
 	std::shared_ptr<TextAccess> getFileContentByPath(const std::string& filePath) const;
 
 	void setNodeType(int type, Id nodeId);
-	void setNodeDefined(bool defined, Id nodeId);
+	void setNodeDefinitionType(int definitionType, Id nodeId);
 
 	StorageSourceLocation getSourceLocationById(const Id id) const;
 	std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const FilePath& filePath) const;

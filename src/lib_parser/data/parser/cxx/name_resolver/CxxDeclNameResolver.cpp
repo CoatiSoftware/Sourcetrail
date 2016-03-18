@@ -225,9 +225,8 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 		parameterString += ")";
 
 		return std::make_shared<NameElement>(
-			functionName, 
+			functionName,
 			NameElement::Signature((isStatic ? "static " : "") + returnTypeString, parameterString + (isConst ? " const" : "")));
-		
 	}
 	else if (clang::isa<clang::TemplateDecl>(declaration)) // also triggers on TemplateTemplateParmDecl
 	{
@@ -253,7 +252,24 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
 		return std::make_shared<NameElement>("anonymous enum (" + FilePath(presumedBegin.getFilename()).fileName() + ")");
 	}
-	
+	else if (
+		(
+			clang::isa<clang::TemplateTypeParmDecl>(declaration) ||
+			clang::isa<clang::NonTypeTemplateParmDecl>(declaration) ||
+			clang::isa<clang::TemplateTemplateParmDecl>(declaration)
+		) && declNameString.size() == 0)
+	{
+		const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
+		return std::make_shared<NameElement>("anonymous template parameter (" + FilePath(presumedBegin.getFilename()).fileName() + ")");
+	}
+	else if (clang::isa<clang::ParmVarDecl>(declaration) && declNameString.size() == 0)
+	{
+		const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
+		return std::make_shared<NameElement>("anonymous parameter (" + FilePath(presumedBegin.getFilename()).fileName() + ")");
+	}
+
 	if (declNameString.size() > 0)
 	{
 		return std::make_shared<NameElement>(declNameString);

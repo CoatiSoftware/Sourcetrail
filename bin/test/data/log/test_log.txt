@@ -1,21 +1,3 @@
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:1:20
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:1:20
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:1:11
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:1:13
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:7:15
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:5:20
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:48
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:7:20
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:3:20
-CxxDeclNameResolver.cpp ERROR: could not resolve name of decl at: input.cc:4:20
 Token.cpp ERROR: Location Id was not referenced by this Token.
 Node.cpp WARNING: Cannot change NodeType after it was already set from namespace to class
 Edge.cpp ERROR: Nodes are not plain copies.

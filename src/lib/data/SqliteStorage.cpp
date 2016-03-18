@@ -2,6 +2,7 @@
 
 #include "data/graph/Node.h"
 #include "data/location/TokenLocation.h"
+#include "data/DefinitionType.h"
 #include "data/SqliteIndex.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
@@ -103,7 +104,7 @@ Id SqliteStorage::addEdge(int type, Id sourceNodeId, Id targetNodeId)
 	return id;
 }
 
-Id SqliteStorage::addNode(int type, const std::string& serializedName, bool defined)
+Id SqliteStorage::addNode(int type, const std::string& serializedName, int definitionType)
 {
 	m_database.execDML(
 		"INSERT INTO element(id) VALUES(NULL);"
@@ -111,8 +112,8 @@ Id SqliteStorage::addNode(int type, const std::string& serializedName, bool defi
 	Id id = m_database.lastRowId();
 
 	m_database.execDML((
-		"INSERT INTO node(id, type, serialized_name, defined) VALUES("
-		+ std::to_string(id) + ", " + std::to_string(type) + ", '" + serializedName + "', " + std::to_string(defined) + ");"
+		"INSERT INTO node(id, type, serialized_name, definition_type) VALUES("
+		+ std::to_string(id) + ", " + std::to_string(type) + ", '" + serializedName + "', " + std::to_string(definitionType) + ");"
 	).c_str());
 
 	return id;
@@ -120,7 +121,7 @@ Id SqliteStorage::addNode(int type, const std::string& serializedName, bool defi
 
 Id SqliteStorage::addFile(const std::string& serializedName, const std::string& filePath, const std::string& modificationTime)
 {
-	Id id = addNode(Node::NODE_FILE, serializedName, true);
+	Id id = addNode(Node::NODE_FILE, serializedName, definitionTypeToInt(DEFINITION_EXPLICIT));
 	std::shared_ptr<TextAccess> content = TextAccess::createFromFile(filePath);
 	unsigned int loc = content->getLineCount();
 
@@ -251,7 +252,7 @@ StorageNode SqliteStorage::getFirstNode() const
 		return nodes[0];
 	}
 
-	return StorageNode(0, 0, "", false);
+	return StorageNode(0, 0, "", definitionTypeToInt(DEFINITION_NONE));
 }
 
 std::vector<StorageNode> SqliteStorage::getAllNodes() const
@@ -407,7 +408,7 @@ StorageNode SqliteStorage::getNodeById(Id id) const
 			return nodes[0];
 		}
 	}
-	return StorageNode(0, 0, 0, false);
+	return StorageNode(0, 0, 0, definitionTypeToInt(DEFINITION_NONE));
 }
 
 StorageNode SqliteStorage::getNodeBySerializedName(const std::string& serializedName) const
@@ -417,7 +418,7 @@ StorageNode SqliteStorage::getNodeBySerializedName(const std::string& serialized
 	{
 		return nodes[0];
 	}
-	return StorageNode(0, 0, "", 0);
+	return StorageNode(0, 0, "", definitionTypeToInt(DEFINITION_NONE));
 }
 
 std::vector<StorageNode> SqliteStorage::getNodesByIds(const std::vector<Id>& nodeIds) const
@@ -469,10 +470,10 @@ void SqliteStorage::setNodeType(int type, Id nodeId)
 	).c_str());
 }
 
-void SqliteStorage::setNodeDefined(bool defined, Id nodeId)
+void SqliteStorage::setNodeDefinitionType(int definitionType, Id nodeId)
 {
 	m_database.execDML((
-		"UPDATE node SET defined = " + std::to_string(defined) + " WHERE id == " + std::to_string(nodeId) + ";"
+		"UPDATE node SET definition_type = " + std::to_string(definitionType) + " WHERE id == " + std::to_string(nodeId) + ";"
 	).c_str());
 }
 
@@ -749,7 +750,7 @@ void SqliteStorage::setupTables()
 			"id INTEGER NOT NULL, "
 			"type INTEGER NOT NULL, "
 			"serialized_name TEXT, "
-			"defined INTEGER NOT NULL, "
+			"definition_type INTEGER NOT NULL, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);"
 	);
@@ -952,7 +953,7 @@ std::vector<StorageEdge> SqliteStorage::getAllEdges(const std::string& query) co
 std::vector<StorageNode> SqliteStorage::getAllNodes(const std::string& query) const
 {
 	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, type, serialized_name, defined FROM node " + query + ";"
+		"SELECT id, type, serialized_name, definition_type FROM node " + query + ";"
 	).c_str());
 
 	std::vector<StorageNode> nodes;
@@ -961,11 +962,11 @@ std::vector<StorageNode> SqliteStorage::getAllNodes(const std::string& query) co
 		const Id id = q.getIntField(0, 0);
 		const int type = q.getIntField(1, -1);
 		const std::string serializedName = q.getStringField(2, "");
-		const bool defined = q.getIntField(3, 0);
+		const int definitionType = q.getIntField(3, 0);
 
 		if (id != 0 && type != -1)
 		{
-			nodes.push_back(StorageNode(id, type, serializedName, defined));
+			nodes.push_back(StorageNode(id, type, serializedName, definitionType));
 		}
 
 		q.nextRow();

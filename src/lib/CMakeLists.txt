@@ -154,6 +154,8 @@ add_files(
 	data/type/ReferenceModifiedDataType.cpp
 	data/type/ReferenceModifiedDataType.h
 
+	data/DefinitionType.cpp
+	data/DefinitionType.h
 	data/ErrorCountInfo.h
 	data/HierarchyCache.cpp
 	data/HierarchyCache.h

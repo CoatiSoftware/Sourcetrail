@@ -2817,7 +2817,7 @@ private:
 		}
 
 		virtual Id onTypedefParsed(
-			const ParseLocation& location, const NameHierarchy& typedefName, AccessType access
+			const ParseLocation& location, const NameHierarchy& typedefName, AccessType access, bool isImplicit
 		)
 		{
 			std::string str = addAccessPrefix(typedefName.getQualifiedName(), access);
@@ -2827,7 +2827,7 @@ private:
 
 		virtual Id onClassParsed(
 			const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
-			const ParseLocation& scopeLocation)
+			const ParseLocation& scopeLocation, bool isImplicit)
 		{
 			classes.push_back(addLocationSuffix(addAccessPrefix(nameHierarchy.getQualifiedName(), access), location, scopeLocation));
 			return 0;
@@ -2835,26 +2835,26 @@ private:
 
 		virtual Id onStructParsed(
 			const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
-			const ParseLocation& scopeLocation)
+			const ParseLocation& scopeLocation, bool isImplicit)
 		{
 			structs.push_back(addLocationSuffix(addAccessPrefix(nameHierarchy.getQualifiedName(), access), location, scopeLocation));
 			return 0;
 		}
 
-		virtual Id onGlobalVariableParsed(const ParseLocation& location, const NameHierarchy& variable)
+		virtual Id onGlobalVariableParsed(const ParseLocation& location, const NameHierarchy& variable, bool isImplicit)
 		{
 			globalVariables.push_back(addLocationSuffix(variable.getQualifiedName(), location));
 			return 0;
 		}
 
-		virtual Id onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessType access)
+		virtual Id onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessType access, bool isImplicit)
 		{
 			fields.push_back(addLocationSuffix(addAccessPrefix(field.getQualifiedName(), access), location));
 			return 0;
 		}
 
 		virtual Id onFunctionParsed(
-			const ParseLocation& location, const NameHierarchy& function, const ParseLocation& scopeLocation)
+			const ParseLocation& location, const NameHierarchy& function, const ParseLocation& scopeLocation, bool isImplicit)
 		{
 			functions.push_back(addLocationSuffix(function.getQualifiedNameWithSignature(), location, scopeLocation));
 			return 0;
@@ -2862,7 +2862,7 @@ private:
 
 		virtual Id onMethodParsed(
 			const ParseLocation& location, const NameHierarchy& method, AccessType access, AbstractionType abstraction,
-			const ParseLocation& scopeLocation)
+			const ParseLocation& scopeLocation, bool isImplicit)
 		{
 			std::string str = method.getQualifiedNameWithSignature();
 			str = addAbstractionPrefix(str, abstraction);
@@ -2873,7 +2873,7 @@ private:
 		}
 
 		virtual Id onNamespaceParsed(
-			const ParseLocation& location, const NameHierarchy& nameHierarchy, const ParseLocation& scopeLocation)
+			const ParseLocation& location, const NameHierarchy& nameHierarchy, const ParseLocation& scopeLocation, bool isImplicit)
 		{
 			namespaces.push_back(addLocationSuffix(nameHierarchy.getQualifiedName(), location, scopeLocation));
 			return 0;
@@ -2881,13 +2881,13 @@ private:
 
 		virtual Id onEnumParsed(
 			const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
-			const ParseLocation& scopeLocation)
+			const ParseLocation& scopeLocation, bool isImplicit)
 		{
 			enums.push_back(addLocationSuffix(addAccessPrefix(nameHierarchy.getQualifiedName(), access), location, scopeLocation));
 			return 0;
 		}
 
-		virtual Id onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy)
+		virtual Id onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy, bool isImplicit)
 		{
 			enumConstants.push_back(addLocationSuffix(nameHierarchy.getQualifiedName(), location));
 			return 0;
@@ -2938,6 +2938,15 @@ private:
 			return 0;
 		}
 
+		virtual Id onTemplateParameterTypeParsed(
+			const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy, bool isImplicit)
+		{
+			templateParameterTypes.push_back(
+				addLocationSuffix(templateParameterTypeNameHierarchy.getQualifiedName(), location)
+				);
+			return 0;
+		}
+
 		virtual Id onTypeUsageParsed(const ParseLocation& location, const NameHierarchy& user, const NameHierarchy& used)
 		{
 			typeUses.push_back(addLocationSuffix(user.getQualifiedNameWithSignature() + " -> " + used.getQualifiedNameWithSignature(), location));
@@ -2960,15 +2969,6 @@ private:
 		{
 			templateDefaultArgumentTypes.push_back(
 				addLocationSuffix(defaultArgumentTypeNameHierarchy.getQualifiedNameWithSignature() + " -> " + templateParameterNameHierarchy.getQualifiedName(), location)
-			);
-			return 0;
-		}
-
-		virtual Id onTemplateParameterTypeParsed(
-			const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy)
-		{
-			templateParameterTypes.push_back(
-				addLocationSuffix(templateParameterTypeNameHierarchy.getQualifiedName(), location)
 			);
 			return 0;
 		}

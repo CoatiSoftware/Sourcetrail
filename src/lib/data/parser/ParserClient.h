@@ -54,27 +54,29 @@ public:
 	virtual void onError(const ParseLocation& location, const std::string& message, bool fatal) = 0;
 
 	virtual Id onTypedefParsed(
-		const ParseLocation& location, const NameHierarchy& typedefName, AccessType access) = 0;
+		const ParseLocation& location, const NameHierarchy& typedefName, AccessType access, bool isImplicit) = 0;
 	virtual Id onClassParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
-		const ParseLocation& scopeLocation) = 0;
+		const ParseLocation& scopeLocation, bool isImplicit) = 0;
 	virtual Id onStructParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
-		const ParseLocation& scopeLocation) = 0;
-	virtual Id onGlobalVariableParsed(const ParseLocation& location, const NameHierarchy& variable) = 0;
-	virtual Id onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessType access) = 0;
+		const ParseLocation& scopeLocation, bool isImplicit) = 0;
+	virtual Id onGlobalVariableParsed(const ParseLocation& location, const NameHierarchy& variable, bool isImplicit) = 0;
+	virtual Id onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessType access, bool isImplicit) = 0;
 	virtual Id onFunctionParsed(
-		const ParseLocation& location, const NameHierarchy& function, const ParseLocation& scopeLocation) = 0;
+		const ParseLocation& location, const NameHierarchy& function, const ParseLocation& scopeLocation, bool isImplicit) = 0;
 	virtual Id onMethodParsed(
 		const ParseLocation& location, const NameHierarchy& method, AccessType access, AbstractionType abstraction,
-		const ParseLocation& scopeLocation) = 0;
+		const ParseLocation& scopeLocation, bool isImplicit) = 0;
 	virtual Id onNamespaceParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy,
-		const ParseLocation& scopeLocation) = 0;
+		const ParseLocation& scopeLocation, bool isImplicit) = 0;
 	virtual Id onEnumParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
-		const ParseLocation& scopeLocation) = 0;
-	virtual Id onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy) = 0;
+		const ParseLocation& scopeLocation, bool isImplicit) = 0;
+	virtual Id onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy, bool isImplicit) = 0;
+	virtual Id onTemplateParameterTypeParsed(
+		const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy, bool isImplicit) = 0;
 
 	virtual Id onInheritanceParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy,
@@ -97,8 +99,6 @@ public:
 	virtual Id onTemplateDefaultArgumentTypeParsed(
 		const ParseLocation& location, const NameHierarchy& defaultArgumentTypeNameHierarchy,
 		const NameHierarchy& templateArgumentTypeNameHierarchy) = 0;
-	virtual Id onTemplateParameterTypeParsed(
-		const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy) = 0;
 	virtual Id onTemplateSpecializationParsed(
 		const ParseLocation& location, const NameHierarchy& specializedNameHierarchy,
 		const NameHierarchy& specializedFromNameHierarchy) = 0;
