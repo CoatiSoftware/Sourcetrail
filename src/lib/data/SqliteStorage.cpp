@@ -232,8 +232,11 @@ void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fil
 	).c_str());
 
 	m_database.execDML((
-		"DELETE FROM element WHERE element.id IN (" + utility::join(utility::toStrings(elementIds), ',') + ") AND element.id NOT IN "
-			"( SELECT source_location.element_id FROM source_location WHERE source_location.element_id == element.id );"
+		"DELETE FROM element WHERE "
+			"element.id IN (" + utility::join(utility::toStrings(elementIds), ',') + ") " // skip all elements that dont have a matching id.
+			"AND element.id NOT IN ("
+				"SELECT source_location.element_id FROM source_location WHERE source_location.element_id == element.id LIMIT 1"
+			");" // delete all elements that dont have a source location. This query is executed for each element that passed the first test.
 	).c_str());
 }
 
@@ -402,23 +405,14 @@ StorageNode SqliteStorage::getNodeById(Id id) const
 {
 	if (id != 0)
 	{
-		std::vector<StorageNode> nodes = getAllNodes("WHERE id == " + std::to_string(id));
-		if (nodes.size())
-		{
-			return nodes[0];
-		}
+		return getFirstNode("WHERE id == " + std::to_string(id));
 	}
 	return StorageNode(0, 0, 0, definitionTypeToInt(DEFINITION_NONE));
 }
 
 StorageNode SqliteStorage::getNodeBySerializedName(const std::string& serializedName) const
 {
-	std::vector<StorageNode> nodes = getAllNodes("WHERE serialized_name == '" + serializedName + "'"); // Todo: use getfirstnode here
-	if (nodes.size() > 0)
-	{
-		return nodes[0];
-	}
-	return StorageNode(0, 0, "", definitionTypeToInt(DEFINITION_NONE));
+	return getFirstNode("WHERE serialized_name == '" + serializedName + "'");
 }
 
 std::vector<StorageNode> SqliteStorage::getNodesByIds(const std::vector<Id>& nodeIds) const
@@ -972,4 +966,14 @@ std::vector<StorageNode> SqliteStorage::getAllNodes(const std::string& query) co
 		q.nextRow();
 	}
 	return nodes;
+}
+
+StorageNode SqliteStorage::getFirstNode(const std::string& query) const
+{
+	std::vector<StorageNode> nodes = getAllNodes(query + " LIMIT 1");
+	if (nodes.size() > 0)
+	{
+		return nodes[0];
+	}
+	return StorageNode(0, 0, "", definitionTypeToInt(DEFINITION_NONE));
 }

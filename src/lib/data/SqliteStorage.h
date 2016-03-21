@@ -118,6 +118,7 @@ private:
 
 	std::vector<StorageEdge> getAllEdges(const std::string& query) const;
 	std::vector<StorageNode> getAllNodes(const std::string& query) const;
+	StorageNode getFirstNode(const std::string& query) const;
 
 	template <typename ResultType>
 	ResultType getFirstResult(const std::string& query) const;
