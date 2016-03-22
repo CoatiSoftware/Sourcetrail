@@ -71,7 +71,7 @@ public:
 		const NameHierarchy& templateNameHierarchy);
 	virtual Id onTemplateDefaultArgumentTypeParsed(
 		const ParseLocation& location, const NameHierarchy& defaultArgumentTypeNameHierarchy,
-		const NameHierarchy& templateArgumentTypeNameHierarchy);
+		const NameHierarchy& templateParameterNameHierarchy);
 	virtual Id onTemplateSpecializationParsed(
 		const ParseLocation& location, const NameHierarchy& specializedNameHierarchy,
 		const NameHierarchy& specializedFromNameHierarchy);

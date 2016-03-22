@@ -98,7 +98,7 @@ public:
 		const NameHierarchy& templateNameHierarchy) = 0;
 	virtual Id onTemplateDefaultArgumentTypeParsed(
 		const ParseLocation& location, const NameHierarchy& defaultArgumentTypeNameHierarchy,
-		const NameHierarchy& templateArgumentTypeNameHierarchy) = 0;
+		const NameHierarchy& templateParameterNameHierarchy) = 0;
 	virtual Id onTemplateSpecializationParsed(
 		const ParseLocation& location, const NameHierarchy& specializedNameHierarchy,
 		const NameHierarchy& specializedFromNameHierarchy) = 0;

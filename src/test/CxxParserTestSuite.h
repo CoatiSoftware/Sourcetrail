@@ -76,10 +76,10 @@ public:
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"class A\n"
 			"{\n"
-			"	int a;"
+			"	int a;\n"
 			"public:\n"
 			"	A() : d(0) {};\n"
-			"	int b;"
+			"	int b;\n"
 			"protected:\n"
 			"	static int c;\n"
 			"private:\n"
@@ -89,9 +89,9 @@ public:
 
 		TS_ASSERT_EQUALS(client->fields.size(), 4);
 		TS_ASSERT_EQUALS(client->fields[0], "private A::a <3:6 3:6>");
-		TS_ASSERT_EQUALS(client->fields[1], "public A::b <5:6 5:6>");
-		TS_ASSERT_EQUALS(client->fields[2], "protected A::c <6:13 6:13>");
-		TS_ASSERT_EQUALS(client->fields[3], "private A::d <8:12 8:12>");
+		TS_ASSERT_EQUALS(client->fields[1], "public A::b <6:6 6:6>");
+		TS_ASSERT_EQUALS(client->fields[2], "protected A::c <8:13 8:13>");
+		TS_ASSERT_EQUALS(client->fields[3], "private A::d <10:12 10:12>");
 	}
 
 	void test_cxx_parser_finds_function_declaration()

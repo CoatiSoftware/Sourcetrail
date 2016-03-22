@@ -6,12 +6,12 @@
 #include <llvm/Support/Casting.h>
 #include <string>
 
+#include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
 #include "data/parser/cxx/utilityCxx.h"
 #include "data/parser/ParseLocation.h"
 
 #include "utility/file/FileManager.h"
 #include "utility/ScopedSwitcher.h"
-
 
 // TODO: For an array access, X[I], skip over the array-to-pointer decay.  We
 // currently record that X's address is taken, which is technically true, but
@@ -278,8 +278,8 @@ bool ASTVisitor::TraverseTemplateSpecializationTypeLoc(clang::TemplateSpecializa
 
 bool ASTVisitor::TraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* e) // TODO: do this for unresolved and dependent stuff
 {
-	std::shared_ptr<ContextNameGenerator> n;
-	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> sw(m_childContextNameGenerator, n);
+	std::shared_ptr<ContextNameGenerator> clear;
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> sw(m_childContextNameGenerator, clear);
 	return base::TraverseUnresolvedLookupExpr(e);
 }
 
@@ -636,8 +636,8 @@ bool ASTVisitor::TraverseNestedNameSpecifierLoc(
                 }
             }
             break;
-        default:
-            // TODO: Do these cases matter?
+        default: // case Global: case Super:
+            // do nothing for the remaining cases
             break;
         }
     }
@@ -796,7 +796,7 @@ bool ASTVisitor::VisitDecl(clang::Decl *d)
                 RecordDeclRef(nd, loc, refType, symbolType);
 				if (fd->isFunctionTemplateSpecialization())
 				{
-					RecordDeclRef(nd, loc, refType, ST_FunctionTemplateSpecialization); // TODO: functiontemplatespec is more reftype than symboltype
+					RecordDeclRef(nd, loc, RT_TemplateSpecialization, symbolType);
 				}
             //}
         } else if (clang::VarDecl *vd = llvm::dyn_cast<clang::VarDecl>(d)) {
@@ -873,7 +873,7 @@ bool ASTVisitor::VisitDecl(clang::Decl *d)
 
 			if (clang::isa<clang::ClassTemplateSpecializationDecl>(td))
 			{
-				RecordDeclRef(nd, loc, refType, ST_ClassTemplateSpecialization); // TODO: classtemplatespec is more reftype than symboltype
+				RecordDeclRef(nd, loc, RT_TemplateSpecialization, symbolType);
 			}
         } else if (clang::UsingDirectiveDecl *ud = llvm::dyn_cast<clang::UsingDirectiveDecl>(d)) {
             RecordDeclRef(
@@ -1127,7 +1127,7 @@ void ASTVisitor::RecordTypeRef(
 		}
 		else if (refType == RT_TemplateDefaultArgument)
 		{
-			m_client->onTemplateDefaultArgumentTypeParsed( // TODO: rename second parameter to "parameter"
+			m_client->onTemplateDefaultArgumentTypeParsed(
 				parseLocation, typeNameHierarchy, contextNameHierarchy);
 		}
 		else
@@ -1136,36 +1136,6 @@ void ASTVisitor::RecordTypeRef(
 				parseLocation, contextNameHierarchy, typeNameHierarchy);
 		}
 	}
-}
-
-bool ASTVisitor::isPartOfImplicitTemplateSpecialization(clang::Decl* d) const
-{
-	if (!d)
-	{
-		return false;
-	}
-
-	if (clang::ClassTemplateSpecializationDecl* ctsd = clang::dyn_cast_or_null<clang::ClassTemplateSpecializationDecl>(d))
-	{
-		if (!ctsd->isExplicitSpecialization())
-		{
-			return true;
-		}
-	}
-	else if (clang::FunctionDecl* fd = clang::dyn_cast_or_null<clang::FunctionDecl>(d))
-	{
-		if (fd->isTemplateInstantiation() && fd->getTemplateSpecializationKind() != clang::TSK_ExplicitSpecialization) // or undefined??
-		{
-			return true;
-		}
-	}
-
-	return isPartOfImplicitTemplateSpecialization(clang::dyn_cast_or_null<clang::Decl>(d->getDeclContext()));
-}
-
-bool ASTVisitor::isImplicit(clang::Decl* d) const
-{
-	return d->isImplicit() || isPartOfImplicitTemplateSpecialization(d);
 }
 
 void ASTVisitor::RecordDeclRef(
@@ -1188,153 +1158,164 @@ void ASTVisitor::RecordDeclRef(
 
 	bool fallback = false;
 
-	if (
-		refType == RT_Declaration ||
-		refType == RT_Definition
-	)
+	switch (refType)
 	{
-		switch (symbolType)
+	case RT_Declaration:
+	case RT_Definition:
 		{
-		case ST_Typedef:
-			if (clang::TypedefDecl* typedefDecl = clang::dyn_cast<clang::TypedefDecl>(d))
+			switch (symbolType)
 			{
-				m_client->onTypedefParsed(
-					parseLocation,
-					declNameHierarchy,
-					convertAccessType(typedefDecl->getAccess()),
-					declIsImplicit);
-			}
-			break;
-		case ST_Class:
-			if (clang::RecordDecl* recordDecl = clang::dyn_cast<clang::RecordDecl>(d))
-			{
-				m_client->onClassParsed(
-					parseLocation,
-					declNameHierarchy,
-					convertAccessType(recordDecl->getAccess()),
-					(refType == RT_Definition ? getParseLocationOfRecordBody(recordDecl) : ParseLocation()),
-					declIsImplicit);
-			}
-			break;
-		case ST_Struct:
-			if (clang::RecordDecl* recordDecl = clang::dyn_cast<clang::RecordDecl>(d))
-			{
-				m_client->onStructParsed(
-					parseLocation,
-					declNameHierarchy,
-					convertAccessType(recordDecl->getAccess()),
-					(refType == RT_Definition ? getParseLocationOfRecordBody(recordDecl) : ParseLocation()),
-					declIsImplicit);
-			}
-			break;
-		case ST_GlobalVariable:
-			m_client->onGlobalVariableParsed(
-				parseLocation,
-				declNameHierarchy,
-				declIsImplicit);
-			break;
-		case ST_Field:
-			//if (clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(d))
-		{
-			m_client->onFieldParsed(
-				parseLocation,
-				declNameHierarchy,
-				convertAccessType(d->getAccess()),
-				declIsImplicit);
-		}
-		break;
-		case ST_Function:
-			if (clang::FunctionDecl* functionDecl = clang::dyn_cast<clang::FunctionDecl>(d))
-			{
-				m_client->onFunctionParsed(
-					parseLocation,
-					declNameHierarchy,
-					(refType == RT_Definition ? getParseLocationOfFunctionBody(functionDecl) : ParseLocation()),
-					declIsImplicit);
-			}
-			break;
-		case ST_Constructor:
-		case ST_Destructor:
-		case ST_Method:
-			if (clang::CXXMethodDecl* methodDecl = clang::dyn_cast<clang::CXXMethodDecl>(d))
-			{
-				m_client->onMethodParsed(
-					parseLocation,
-					declNameHierarchy,
-					convertAccessType(methodDecl->getAccess()),
-					getAbstractionType(methodDecl),
-					(refType == RT_Definition ? getParseLocationOfFunctionBody(methodDecl) : ParseLocation()),
-					declIsImplicit);
-
-				for (clang::CXXMethodDecl::method_iterator it = methodDecl->begin_overridden_methods(); // iterate in traversal and use RT_Overridden or so..
-					it != methodDecl->end_overridden_methods(); it++)
+			case ST_Typedef:
+				if (clang::TypedefDecl* typedefDecl = clang::dyn_cast<clang::TypedefDecl>(d))
 				{
-					m_client->onMethodOverrideParsed(
+					m_client->onTypedefParsed(
 						parseLocation,
-						m_declNameCache->getValue(*it),
-						declNameHierarchy);
+						declNameHierarchy,
+						convertAccessType(typedefDecl->getAccess()),
+						declIsImplicit);
 				}
-
-				clang::MemberSpecializationInfo* memberSpecializationInfo = methodDecl->getMemberSpecializationInfo();
-				if (memberSpecializationInfo)
+				break;
+			case ST_Class:
+				if (clang::RecordDecl* recordDecl = clang::dyn_cast<clang::RecordDecl>(d))
 				{
-					clang::NamedDecl* specializedNamedDecl = memberSpecializationInfo->getInstantiatedFrom();
-					if (clang::isa<clang::FunctionDecl>(specializedNamedDecl))
+					m_client->onClassParsed(
+						parseLocation,
+						declNameHierarchy,
+						convertAccessType(recordDecl->getAccess()),
+						(refType == RT_Definition ? getParseLocationOfRecordBody(recordDecl) : ParseLocation()),
+						declIsImplicit);
+				}
+				break;
+			case ST_Struct:
+				if (clang::RecordDecl* recordDecl = clang::dyn_cast<clang::RecordDecl>(d))
+				{
+					m_client->onStructParsed(
+						parseLocation,
+						declNameHierarchy,
+						convertAccessType(recordDecl->getAccess()),
+						(refType == RT_Definition ? getParseLocationOfRecordBody(recordDecl) : ParseLocation()),
+						declIsImplicit);
+				}
+				break;
+			case ST_GlobalVariable:
+				m_client->onGlobalVariableParsed(
+					parseLocation,
+					declNameHierarchy,
+					declIsImplicit);
+				break;
+			case ST_Field:
+				//if (clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(d))
+			{
+				m_client->onFieldParsed(
+					parseLocation,
+					declNameHierarchy,
+					convertAccessType(d->getAccess()),
+					declIsImplicit);
+			}
+			break;
+			case ST_Function:
+				if (clang::FunctionDecl* functionDecl = clang::dyn_cast<clang::FunctionDecl>(d))
+				{
+					m_client->onFunctionParsed(
+						parseLocation,
+						declNameHierarchy,
+						(refType == RT_Definition ? getParseLocationOfFunctionBody(functionDecl) : ParseLocation()),
+						declIsImplicit);
+				}
+				break;
+			case ST_Constructor:
+			case ST_Destructor:
+			case ST_Method:
+				if (clang::CXXMethodDecl* methodDecl = clang::dyn_cast<clang::CXXMethodDecl>(d))
+				{
+					m_client->onMethodParsed(
+						parseLocation,
+						declNameHierarchy,
+						convertAccessType(methodDecl->getAccess()),
+						getAbstractionType(methodDecl),
+						(refType == RT_Definition ? getParseLocationOfFunctionBody(methodDecl) : ParseLocation()),
+						declIsImplicit);
+
+					for (clang::CXXMethodDecl::method_iterator it = methodDecl->begin_overridden_methods(); // iterate in traversal and use RT_Overridden or so..
+						it != methodDecl->end_overridden_methods(); it++)
 					{
-						m_client->onTemplateMemberFunctionSpecializationParsed(
+						m_client->onMethodOverrideParsed(
 							parseLocation,
-							declNameHierarchy,
-							m_declNameCache->getValue(specializedNamedDecl));
+							m_declNameCache->getValue(*it),
+							declNameHierarchy);
+					}
+
+					clang::MemberSpecializationInfo* memberSpecializationInfo = methodDecl->getMemberSpecializationInfo();
+					if (memberSpecializationInfo)
+					{
+						clang::NamedDecl* specializedNamedDecl = memberSpecializationInfo->getInstantiatedFrom();
+						if (clang::isa<clang::FunctionDecl>(specializedNamedDecl))
+						{
+							m_client->onTemplateMemberFunctionSpecializationParsed(
+								parseLocation,
+								declNameHierarchy,
+								m_declNameCache->getValue(specializedNamedDecl));
+						}
 					}
 				}
-			}
-			break;
-		case ST_Namespace:
-			if (clang::NamespaceDecl* namespaceDecl = clang::dyn_cast<clang::NamespaceDecl>(d))
-			{
-				m_client->onNamespaceParsed(
-					namespaceDecl->isAnonymousNamespace() ? ParseLocation() : parseLocation,
-					declNameHierarchy,
-					getParseLocation(namespaceDecl->getSourceRange()),
-					declIsImplicit);
-			}
-			else if (clang::NamespaceAliasDecl* namespaceAliasDecl = clang::dyn_cast<clang::NamespaceAliasDecl>(d))
-			{
-				m_client->onNamespaceParsed(
-					parseLocation,
-					declNameHierarchy,
-					getParseLocation(namespaceAliasDecl->getAliasedNamespace()->getSourceRange()),
-					declIsImplicit);
-			}
-			break;
-		case ST_Enum:
-			if (clang::EnumDecl* enumDecl = clang::dyn_cast<clang::EnumDecl>(d))
-			{
-				m_client->onEnumParsed(
-					parseLocation,
-					declNameHierarchy,
-					convertAccessType(enumDecl->getAccess()),
-					getParseLocation(enumDecl->getSourceRange()),
-					declIsImplicit);
-			}
-			break;
-		case ST_Enumerator:
-			m_client->onEnumConstantParsed(
-				parseLocation,
-				declNameHierarchy,
-				declIsImplicit);
-			break;
-		case ST_TemplateParameter:
-			if (!d->getName().empty()) // We don't create symbols for unnamed template parameters.
-			{
-				m_client->onTemplateParameterTypeParsed(
+				break;
+			case ST_Namespace:
+				if (clang::NamespaceDecl* namespaceDecl = clang::dyn_cast<clang::NamespaceDecl>(d))
+				{
+					m_client->onNamespaceParsed(
+						namespaceDecl->isAnonymousNamespace() ? ParseLocation() : parseLocation,
+						declNameHierarchy,
+						getParseLocation(namespaceDecl->getSourceRange()),
+						declIsImplicit);
+				}
+				else if (clang::NamespaceAliasDecl* namespaceAliasDecl = clang::dyn_cast<clang::NamespaceAliasDecl>(d))
+				{
+					m_client->onNamespaceParsed(
+						parseLocation,
+						declNameHierarchy,
+						getParseLocation(namespaceAliasDecl->getAliasedNamespace()->getSourceRange()),
+						declIsImplicit);
+				}
+				break;
+			case ST_Enum:
+				if (clang::EnumDecl* enumDecl = clang::dyn_cast<clang::EnumDecl>(d))
+				{
+					m_client->onEnumParsed(
+						parseLocation,
+						declNameHierarchy,
+						convertAccessType(enumDecl->getAccess()),
+						getParseLocation(enumDecl->getSourceRange()),
+						declIsImplicit);
+				}
+				break;
+			case ST_Enumerator:
+				m_client->onEnumConstantParsed(
 					parseLocation,
 					declNameHierarchy,
 					declIsImplicit);
+				break;
+			case ST_TemplateParameter:
+				if (!d->getName().empty()) // We don't create symbols for unnamed template parameters.
+				{
+					m_client->onTemplateParameterTypeParsed(
+						parseLocation,
+						declNameHierarchy,
+						declIsImplicit);
+				}
+				break;
+			case ST_LocalVariable:
+			case ST_Parameter:
+				// Do nothing.
+				break;
+			default:
+				fallback = true;
+				break;
 			}
 			break;
-		case ST_ClassTemplateSpecialization:
-			if (clang::ClassTemplateSpecializationDecl* classTemplateSpecializationDecl = clang::dyn_cast<clang::ClassTemplateSpecializationDecl>(d)) // TODO: we need a different reftype here! and st_max? mabe rewrite TraverseClassTemplateSpecializationDecl()
+		}
+	case RT_TemplateSpecialization:
+		{
+			if (clang::ClassTemplateSpecializationDecl* classTemplateSpecializationDecl = clang::dyn_cast<clang::ClassTemplateSpecializationDecl>(d))
 			{
 				clang::NamedDecl* specializedFromDecl;
 				llvm::PointerUnion<clang::ClassTemplateDecl*, clang::ClassTemplatePartialSpecializationDecl*> pu = classTemplateSpecializationDecl->getSpecializedTemplateOrPartial();
@@ -1350,100 +1331,91 @@ void ASTVisitor::RecordDeclRef(
 				m_client->onTemplateSpecializationParsed(
 					parseLocation,
 					declNameHierarchy,
-					m_declNameCache->getValue(specializedFromDecl)); // use context and childcontext!!
+					m_declNameCache->getValue(specializedFromDecl)); // todo: use context and childcontext!!
 			}
-			break;
-		case ST_FunctionTemplateSpecialization:
-			if (clang::FunctionDecl* functionDecl = clang::dyn_cast<clang::FunctionDecl>(d))
+			else if (clang::FunctionDecl* functionDecl = clang::dyn_cast<clang::FunctionDecl>(d))
 			{
 				m_client->onTemplateSpecializationParsed(
 					parseLocation,
 					declNameHierarchy,
-					m_declNameCache->getValue(functionDecl->getPrimaryTemplate()->getTemplatedDecl())); // TODO: use contect and childcontext!!
+					m_declNameCache->getValue(functionDecl->getPrimaryTemplate()->getTemplatedDecl())); // TODO: use context and childcontext!!
 			}
-			break;
-		case ST_LocalVariable:
-		case ST_Parameter:
-			// Do nothing.
-			break;
-		default:
-			fallback = true;
 			break;
 		}
-	}
-	else
-	{
-		const NameHierarchy contextNameHierarchy = getContextName();
-		switch (symbolType)
+	default:
 		{
-		case ST_Field:
-			m_client->onFieldUsageParsed(
-				parseLocation,
-				contextNameHierarchy,
-				declNameHierarchy
-			);
-			break;
-		case ST_GlobalVariable:
-			if (refType == RT_TemplateArgument)
+			const NameHierarchy contextNameHierarchy = getContextName();
+			switch (symbolType)
 			{
-				m_client->onTemplateArgumentTypeParsed(
-					parseLocation, declNameHierarchy, contextNameHierarchy);
-			}
-			else
-			{
-				m_client->onGlobalVariableUsageParsed(
+			case ST_Field:
+				m_client->onFieldUsageParsed(
+					parseLocation,
+					contextNameHierarchy,
+					declNameHierarchy
+				);
+				break;
+			case ST_GlobalVariable:
+				if (refType == RT_TemplateArgument)
+				{
+					m_client->onTemplateArgumentTypeParsed(
+						parseLocation, declNameHierarchy, contextNameHierarchy);
+				}
+				else
+				{
+					m_client->onGlobalVariableUsageParsed(
+						parseLocation,
+						contextNameHierarchy,
+						declNameHierarchy);
+				}
+				break;
+			case ST_Enumerator:
+				m_client->onEnumConstantUsageParsed(
 					parseLocation,
 					contextNameHierarchy,
 					declNameHierarchy);
-			}
-			break;
-		case ST_Enumerator:
-			m_client->onEnumConstantUsageParsed(
-				parseLocation,
-				contextNameHierarchy,
-				declNameHierarchy);
-			break;
-		case ST_Max:
-			switch (refType)
-			{
-			case RT_Called:
-				m_client->onCallParsed(
-					parseLocation, contextNameHierarchy, declNameHierarchy);
 				break;
-			case RT_Reference:
-				m_client->onTypeUsageParsed(
-					parseLocation, contextNameHierarchy, declNameHierarchy);
+			case ST_Max:
+				switch (refType)
+				{
+				case RT_Called:
+					m_client->onCallParsed(
+						parseLocation, contextNameHierarchy, declNameHierarchy);
+					break;
+				case RT_Reference:
+					m_client->onTypeUsageParsed(
+						parseLocation, contextNameHierarchy, declNameHierarchy);
+					break;
+				case RT_TemplateArgument:
+					m_client->onTemplateArgumentTypeParsed(
+						parseLocation, declNameHierarchy, contextNameHierarchy);
+					break;
+				case RT_TemplateDefaultArgument:
+					m_client->onTemplateDefaultArgumentTypeParsed(
+						parseLocation, declNameHierarchy, contextNameHierarchy);
+					break;
+				case RT_BaseClass:
+					m_client->onInheritanceParsed(
+						parseLocation, contextNameHierarchy, declNameHierarchy, m_contextAccess);
+					break;
+				case RT_Assigned:
+				case RT_AddressTaken:
+				case RT_Read:
+				case RT_Qualifier:
+					// Do nothing.
+					break;
+				default:
+					fallback = true;
+					break;
+				}
 				break;
-			case RT_TemplateArgument:
-				m_client->onTemplateArgumentTypeParsed(
-					parseLocation, declNameHierarchy, contextNameHierarchy);
-				break;
-			case RT_TemplateDefaultArgument:
-				m_client->onTemplateDefaultArgumentTypeParsed(
-					parseLocation, declNameHierarchy, contextNameHierarchy);
-				break;
-			case RT_BaseClass:
-				m_client->onInheritanceParsed(
-					parseLocation, contextNameHierarchy, declNameHierarchy, m_contextAccess);
-				break;
-			case RT_Assigned:
-			case RT_AddressTaken:
-			case RT_Read:
-			case RT_Qualifier:
+			case ST_LocalVariable:
+			case ST_Parameter:
 				// Do nothing.
 				break;
 			default:
 				fallback = true;
 				break;
 			}
-			break;
-		case ST_LocalVariable:
-		case ST_Parameter:
-			// Do nothing.
-			break;
-		default:
-			fallback = true;
-			break;
 		}
 	}
 
@@ -1487,6 +1459,37 @@ void ASTVisitor::RecordDeclRef(
 	//    }
 	//}
 }
+
+bool ASTVisitor::isPartOfImplicitTemplateSpecialization(clang::Decl* d) const
+{
+	if (!d)
+	{
+		return false;
+	}
+
+	if (clang::ClassTemplateSpecializationDecl* ctsd = clang::dyn_cast_or_null<clang::ClassTemplateSpecializationDecl>(d))
+	{
+		if (!ctsd->isExplicitSpecialization())
+		{
+			return true;
+		}
+	}
+	else if (clang::FunctionDecl* fd = clang::dyn_cast_or_null<clang::FunctionDecl>(d))
+	{
+		if (fd->isTemplateInstantiation() && fd->getTemplateSpecializationKind() != clang::TSK_ExplicitSpecialization) // or undefined??
+		{
+			return true;
+		}
+	}
+
+	return isPartOfImplicitTemplateSpecialization(clang::dyn_cast_or_null<clang::Decl>(d->getDeclContext()));
+}
+
+bool ASTVisitor::isImplicit(clang::Decl* d) const
+{
+	return d->isImplicit() || isPartOfImplicitTemplateSpecialization(d);
+}
+
 bool ASTVisitor::isLocatedInUnparsedProjectFile(clang::SourceLocation loc)
 {
 	clang::SourceManager& sourceManager = m_context->getSourceManager();

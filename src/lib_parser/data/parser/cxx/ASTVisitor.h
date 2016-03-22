@@ -12,11 +12,6 @@
 #include "utility/file/FileRegister.h"
 #include "utility/Cache.h"
 
-
-
-#include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
-#include "data/parser/cxx/utilityCxx.h"
-
 class ASTVisitor: clang::RecursiveASTVisitor<ASTVisitor>
 {
 public:
@@ -113,6 +108,7 @@ private:
 		RT_Reference,
 		RT_TemplateArgument,
 		RT_TemplateDefaultArgument,
+		RT_TemplateSpecialization,
 		RT_Undefinition,
 		RT_Using,
 		RT_UsingDirective,
@@ -121,14 +117,12 @@ private:
 
 	enum SymbolType : int { // we dont need this. decl already knows it!
 		ST_Class,
-		ST_ClassTemplateSpecialization,
 		ST_Constructor,
 		ST_Destructor,
 		ST_Enum,
 		ST_Enumerator,
 		ST_Field,
 		ST_Function,
-		ST_FunctionTemplateSpecialization,
 		ST_GlobalVariable,
 		ST_LocalVariable,
 		ST_Macro,
@@ -141,12 +135,6 @@ private:
 		ST_TemplateParameter,
 		ST_Union,
 		ST_Max
-	};
-
-	struct Location {
-		unsigned int fileID;
-		unsigned int line;  // 1-based
-		int column;         // 1-based
 	};
 
     typedef unsigned int Context;
@@ -238,14 +226,14 @@ private:
 		RefType refType,
 		SymbolType symbolType = ST_Max);
 
-	bool isPartOfImplicitTemplateSpecialization(clang::Decl* d) const;
-	bool isImplicit(clang::Decl* d) const;
-
     void RecordDeclRef(
             clang::NamedDecl *d,
             clang::SourceLocation beginLoc,
             RefType refType,
             SymbolType symbolType = ST_Max);
+
+	bool isPartOfImplicitTemplateSpecialization(clang::Decl* d) const;
+	bool isImplicit(clang::Decl* d) const;
 
 	bool isLocatedInUnparsedProjectFile(clang::SourceLocation loc);
 	bool isLocatedInProjectFile(clang::SourceLocation loc);
