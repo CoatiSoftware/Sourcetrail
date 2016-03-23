@@ -77,7 +77,14 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeFile* file)
 	if (m_titleString.size())
 	{
 		m_title = createScopeLine(layout);
-		m_title->setText(FilePath(m_titleString).fileName().c_str());
+		if (m_titleId == 0) // title is a file path
+		{
+			m_title->setText(FilePath(m_titleString).fileName().c_str());
+		}
+		else
+		{
+			m_title->setText(m_titleString.c_str());
+		}
 		connect(m_title, SIGNAL(clicked()), this, SLOT(clickedTitle()));
 	}
 
@@ -86,7 +93,14 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeFile* file)
 	if (m_footerString.size())
 	{
 		m_footer = createScopeLine(layout);
-		m_footer->setText(FilePath(m_footerString).fileName().c_str());
+		if (m_footerId == 0) // footer is a file path
+		{
+			m_footer->setText(FilePath(m_footerString).fileName().c_str());
+		}
+		else
+		{
+			m_footer->setText(m_footerString.c_str());
+		}
 		connect(m_footer, SIGNAL(clicked()), this, SLOT(clickedFooter()));
 	}
 
