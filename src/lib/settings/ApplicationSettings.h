@@ -14,10 +14,7 @@ public:
 
 	std::string getStartupProjectFilePath() const;
 
-	enum
-	{
-		MaximalAmountOfRecentProjects = 7
-	};
+	int getMaxRecentProjectsCount() const;
 
 	// source
 	std::vector<FilePath> getHeaderSearchPaths() const;

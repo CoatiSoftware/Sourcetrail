@@ -23,6 +23,11 @@ std::string ApplicationSettings::getStartupProjectFilePath() const
 	return getValue<std::string>("startup_project", "");
 }
 
+int ApplicationSettings::getMaxRecentProjectsCount() const
+{
+	return 7;
+}
+
 std::vector<FilePath> ApplicationSettings::getHeaderSearchPaths() const
 {
 	return getPathValues("source/header_search_paths/header_search_path");

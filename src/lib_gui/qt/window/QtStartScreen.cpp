@@ -69,7 +69,7 @@ void QtStartScreen::setupStartScreen()
 	int position = 290;
 	QIcon cpp_icon((ResourcePaths::getGuiPath() + "icon/project_256_256.png").c_str());
 	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
-	for (size_t i = 0; i < recentProjects.size() && i < ApplicationSettings::MaximalAmountOfRecentProjects; i++)
+	for (size_t i = 0; i < recentProjects.size() && i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount(); i++)
 	{
 		QtRecentProjectButton* button = new QtRecentProjectButton(recentProjects[i], this);
 		button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac

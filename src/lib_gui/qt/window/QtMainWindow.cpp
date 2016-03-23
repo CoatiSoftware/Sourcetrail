@@ -146,7 +146,7 @@ QtMainWindow::QtMainWindow()
 
 	app->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "main.css").c_str());
 
-	m_recentProjectAction = new QAction*[ApplicationSettings::MaximalAmountOfRecentProjects];
+	m_recentProjectAction = new QAction*[ApplicationSettings::getInstance()->getMaxRecentProjectsCount()];
 
 	setupProjectMenu();
 	setupEditMenu();
@@ -495,6 +495,27 @@ void QtMainWindow::setupProjectMenu()
 	{
 		menu->addAction(tr("&New Project..."), this, SLOT(newProject()), QKeySequence::New);
 		menu->addAction(tr("&Open Project..."), this, SLOT(openProject()), QKeySequence::Open);
+	}
+
+	QMenu *recentProjectMenu = new QMenu(tr("Recent Projects"));
+	menu->addMenu(recentProjectMenu);
+
+	for (int i = 0; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount(); ++i)
+	{
+		m_recentProjectAction[i] = new QAction(this);
+		m_recentProjectAction[i]->setVisible(false);
+		connect(m_recentProjectAction[i], SIGNAL(triggered()),
+			this, SLOT(openRecentProject()));
+		recentProjectMenu->addAction(m_recentProjectAction[i]);
+	}
+	updateRecentProjectMenu();
+
+	menu->addMenu(recentProjectMenu);
+
+	menu->addSeparator();
+
+	if(!isTrial())
+	{
 		menu->addAction(tr("&Edit Project..."), this, SLOT(editProject()));
 
 		menu->addSeparator();
@@ -504,23 +525,6 @@ void QtMainWindow::setupProjectMenu()
 
 		menu->addSeparator();
 	}
-
-	QMenu *recentProjectMenu = new QMenu(tr("Recent Projects"));
-	menu->addMenu(recentProjectMenu);
-
-	for (int i = 0; i < ApplicationSettings::MaximalAmountOfRecentProjects; ++i)
-	{
-		m_recentProjectAction[i] = new QAction(this);
-		m_recentProjectAction[i]->setVisible(false);
-		connect(m_recentProjectAction[i], SIGNAL(triggered()),
-				this, SLOT(openRecentProject()));
-		recentProjectMenu->addAction(m_recentProjectAction[i]);
-	}
-	updateRecentProjectMenu();
-
-	menu->addMenu(recentProjectMenu);
-
-	menu->addSeparator();
 
 	menu->addAction(tr("E&xit"), QCoreApplication::instance(), SLOT(quit()), QKeySequence::Quit);
 }
@@ -537,7 +541,7 @@ void QtMainWindow::openRecentProject()
 void QtMainWindow::updateRecentProjectMenu()
 {
 	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
-	for (size_t i = 0; i < ApplicationSettings::MaximalAmountOfRecentProjects; i++)
+	for (size_t i = 0; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount(); i++)
 	{
 		if(i < recentProjects.size())
 		{
