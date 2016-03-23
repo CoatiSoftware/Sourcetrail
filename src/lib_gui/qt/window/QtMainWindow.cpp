@@ -566,9 +566,9 @@ void QtMainWindow::doCreateNewProject(MessageProjectNew message)
 {
 	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
 
-	if (message.fromVisualStudioSolution())
+	if (message.fromSolution())
 	{
-		wizzard->newProjectFromVisualStudioSolution(message.visualStudioSolutionPath);
+		wizzard->newProjectFromSolution(message.ideId ,message.solutionPath);
 	}
 	else
 	{

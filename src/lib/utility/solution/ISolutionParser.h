@@ -4,6 +4,8 @@
 #include <fstream>
 #include <vector>
 
+#include "settings/ProjectSettings.h"
+
 class ISolutionParser
 {
 public:
@@ -12,6 +14,8 @@ public:
 		, m_solution("")
 	{};
 	virtual ~ISolutionParser(){};
+
+	virtual std::string getToolID() const;
 
 	void openSolutionFile(const std::string& solutionFilePath);
 	unsigned int getSolutionCharCount() const;
@@ -23,8 +27,17 @@ public:
 	virtual std::vector<std::string> getProjectFiles() = 0;
 	virtual std::vector<std::string> getProjectItems() = 0;
 
+	virtual ProjectSettings getProjectSettings(const std::string& solutionFilePath) = 0;
+
+	virtual std::string getIdeName() const = 0;
+	virtual std::string getDescription() const = 0;
+	virtual std::string getIconPath() const = 0;
+	virtual std::string getFileExtension() const = 0;
+
 protected:
 	std::string loadFile(const std::string& filePath);
+
+	std::vector<std::string> makePathsAbsolute(const std::vector<std::string>& paths);
 
 	std::string m_solutionName;
 	std::string m_solutionPath;

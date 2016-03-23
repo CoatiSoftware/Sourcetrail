@@ -3,7 +3,11 @@
 #include <sstream>
 #include <string>
 
+#include <boost/algorithm/string.hpp>
+
 #include "utility/logging/logging.h"
+
+#include "utility/solution/SolutionParserVisualStudio.h"
 
 std::string NetworkProtocolHelper::m_divider = ">>";
 std::string NetworkProtocolHelper::m_setActiveTokenPrefix = "setActiveToken";
@@ -100,14 +104,10 @@ NetworkProtocolHelper::CreateProjectMessage NetworkProtocolHelper::parseCreatePr
 				{
 					networkMessage.solutionFileLocation = fileLocation;
 
-					if (ideId == "vs")
-					{
-						networkMessage.ideId = CreateProjectMessage::IDE_ID::VS;
-					}
-					else
-					{
-						networkMessage.ideId = CreateProjectMessage::IDE_ID::UNKNOWN;
-					}
+					std::string nonConstId = ideId;
+					boost::algorithm::to_lower(nonConstId);
+
+					networkMessage.ideId = nonConstId;
 
 					networkMessage.valid = true;
 				}

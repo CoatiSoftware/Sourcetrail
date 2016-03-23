@@ -8,8 +8,11 @@
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
 #include "utility/ResourcePaths.h"
 
-QtProjectWizzardContentSelect::QtProjectWizzardContentSelect(ProjectSettings* settings, QtProjectWizzardWindow* window)
+#include "utility/solution/SolutionParserManager.h"
+
+QtProjectWizzardContentSelect::QtProjectWizzardContentSelect(ProjectSettings* settings, QtProjectWizzardWindow* window, std::weak_ptr<SolutionParserManager> solutionParserManager)
 	: QtProjectWizzardContent(settings, window)
+	, m_solutionParserManager(solutionParserManager)
 {
 }
 
@@ -67,6 +70,14 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 	QToolButton* c = createProjectButton(
 		"from Compilation\nDatabase", (ResourcePaths::getGuiPath() + "icon/project_cdb_256_256.png").c_str());
 
+
+	m_solutionDescription.push_back("Create a new Coati project by defining what files will be analyzed and header search paths.");
+	m_solutionDescription.push_back("Create a new project from an existing Visual Studio Solution file.");
+	m_solutionDescription.push_back("Create a project from an existing Compilation Database. Compilation Databases can be created from "
+					"cmake projects. Have a look at the "
+					"<a href=\"https://staging.coati.io/documentation/#CreateAProjectFromCompilationDatabase\">"
+					"documentation</a> to find out more.");
+
 	m_buttons = new QButtonGroup(this);
 	m_buttons->addButton(a);
 	m_buttons->addButton(b);
@@ -76,10 +87,39 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 	m_buttons->setId(b, PROJECT_VS);
 	m_buttons->setId(c, PROJECT_CDB);
 
+	QHBoxLayout* hlayout = new QHBoxLayout();
+
+	hlayout->addWidget(a);
+	hlayout->addWidget(b);
+	hlayout->addWidget(c);
+
+	unsigned int runningId = 3;
+	std::shared_ptr<SolutionParserManager> manager = m_solutionParserManager.lock();
+	if (manager != NULL)
+	{
+		for (unsigned int i = 0; i < manager->getParserCount(); i++)
+		{
+			std::string name = manager->getParserName(i);
+
+			QToolButton* button = createProjectButton(name.c_str(),
+				(ResourcePaths::getGuiPath() + "icon/project_vs_256_256.png").c_str());
+
+			m_buttons->addButton(button);
+
+			m_solutionDescription.push_back(manager->getParserDescription(i));
+
+			hlayout->addWidget(button);
+
+			m_buttons->setId(button, runningId);
+
+			runningId++;
+		}
+	}
+
 	connect(m_buttons, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
 		[this](int id)
 		{
-			switch (id)
+			/*switch (id)
 			{
 			case 0: m_description->setText(
 					"Create a new Coati project by defining what files will be analyzed and header search paths."
@@ -93,17 +133,15 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 					"<a href=\"https://staging.coati.io/documentation/#CreateAProjectFromCompilationDatabase\">"
 					"documentation</a> to find out more."
 				); break;
-			}
+			}*/
+
+			m_description->setText(m_solutionDescription[id].c_str());
 
 			m_window->setNextEnabled(true);
 		}
 	);
 
-	QHBoxLayout* hlayout = new QHBoxLayout();
-
-	hlayout->addWidget(a);
-	hlayout->addWidget(b);
-	hlayout->addWidget(c);
+	
 
 	QFrame* container = new QFrame();
 	container->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -141,9 +179,12 @@ void QtProjectWizzardContentSelect::save()
 	case 0: type = PROJECT_EMPTY; break;
 	case 1: type = PROJECT_VS; break;
 	case 2: type = PROJECT_CDB; break;
+	default: type = PROJECT_VS; break; // use vs for "standard" solutions TODO: change name of enum to reflect this is the default type
 	}
 
 	emit selected(type);
+
+	// emit selected(m_buttons->checkedId());
 }
 
 bool QtProjectWizzardContentSelect::check()

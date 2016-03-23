@@ -279,6 +279,14 @@ add_files(
 
 	utility/solution/ISolutionParser.cpp
 	utility/solution/ISolutionParser.h
+	utility/solution/SolutionParserCodeBlocks.cpp
+	utility/solution/SolutionParserCodeBlocks.h
+	utility/solution/SolutionParserEclipse.cpp
+	utility/solution/SolutionParserEclipse.h
+	utility/solution/SolutionParserManager.cpp
+	utility/solution/SolutionParserManager.h
+	utility/solution/SolutionParserUtility.cpp
+	utility/solution/SolutionParserUtility.h
 	utility/solution/SolutionParserVisualStudio.cpp
 	utility/solution/SolutionParserVisualStudio.h
 

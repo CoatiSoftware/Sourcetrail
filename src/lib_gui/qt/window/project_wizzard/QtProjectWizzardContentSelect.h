@@ -4,6 +4,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 
 class QButtonGroup;
+class SolutionParserManager;
 
 class QtProjectWizzardContentSelect
 	: public QtProjectWizzardContent
@@ -18,7 +19,7 @@ public:
 		PROJECT_CDB = 2
 	};
 
-	QtProjectWizzardContentSelect(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentSelect(ProjectSettings* settings, QtProjectWizzardWindow* window, std::weak_ptr<SolutionParserManager> solutionParserManager);
 
 	// QtProjectWizzardContent implementation
 	virtual void populateWindow(QGridLayout* layout) override;
@@ -31,12 +32,21 @@ public:
 signals:
 	void selected(QtProjectWizzardContentSelect::ProjectType);
 
+	// void selected(unsigned int type);
+
 private:
 	QButtonGroup* m_languages;
 	QButtonGroup* m_buttons;
 
 	QLabel* m_title;
 	QLabel* m_description;
+
+	std::vector<std::string> m_projectTypeNames;
+	std::vector<std::string> m_projectTypeDescriptions;
+	std::vector<std::string> m_projectTypeIconPaths;
+
+	std::weak_ptr<SolutionParserManager> m_solutionParserManager;
+	std::vector<std::string> m_solutionDescription;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_SELECT_H

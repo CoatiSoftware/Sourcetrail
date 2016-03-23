@@ -5,6 +5,11 @@ std::string ISolutionParser::getSolutionPath()
 	return m_solutionPath;
 }
 
+std::string ISolutionParser::getToolID() const
+{
+	return "NONE";
+}
+
 void ISolutionParser::openSolutionFile(const std::string& solutionFilePath)
 {
 	m_solution = loadFile(solutionFilePath);
@@ -45,4 +50,24 @@ std::string ISolutionParser::loadFile(const std::string& filePath)
 	}
 
 	return file;
+}
+
+std::vector<std::string> ISolutionParser::makePathsAbsolute(const std::vector<std::string>& paths)
+{
+	std::vector<std::string> absolutePaths;
+
+	for (unsigned int i = 0; i < paths.size(); i++)
+	{
+		std::string path = paths[i];
+
+		boost::filesystem::path boostPath(path);
+		if (boostPath.is_relative())
+		{
+			path = m_solutionPath + path;
+		}
+
+		absolutePaths.push_back(path);
+	}
+
+	return absolutePaths;
 }

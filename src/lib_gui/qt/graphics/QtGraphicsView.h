@@ -5,6 +5,8 @@
 
 #include <QGraphicsView>
 
+#include <memory>
+
 class QTimer;
 
 class QtGraphicsView

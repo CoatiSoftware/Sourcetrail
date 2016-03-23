@@ -160,7 +160,7 @@ void QtProjectWizzardContentBuildFile::refreshClicked()
 		case QtProjectWizzardContentSelect::PROJECT_CDB:
 			break;
 		case QtProjectWizzardContentSelect::PROJECT_VS:
-			emit refreshVisualStudioSolution(path.str());
+			emit refreshVisualStudioSolution("vs", path.str());
 			break;
 	}
 }

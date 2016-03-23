@@ -1,5 +1,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzard.h"
 
+#include <boost/algorithm/string.hpp>
+
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QSysInfo>
@@ -16,7 +18,14 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentSummary.h"
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
 #include "utility/messaging/type/MessageLoadProject.h"
+
+// #include "utility/solution/SolutionParserCompilationDatabase.h"
 #include "utility/solution/SolutionParserVisualStudio.h"
+#include "utility/solution/SolutionParserCodeBlocks.h"
+
+#include "utility/messaging/type/MessageStatus.h"
+
+#include "utility/logging/logging.h"
 
 QtProjectWizzard::QtProjectWizzard(QWidget* parent)
 	: QtWindowStackElement(parent)
@@ -24,6 +33,12 @@ QtProjectWizzard::QtProjectWizzard(QWidget* parent)
 {
 	connect(&m_windowStack, SIGNAL(push()), this, SLOT(windowStackChanged()));
 	connect(&m_windowStack, SIGNAL(pop()), this, SLOT(windowStackChanged()));
+
+	m_parserManager = std::make_shared<SolutionParserManager>();
+
+	// wip
+	/*m_parserManager->pushSolutionParser(std::make_shared<SolutionParserVisualStudio>());
+	m_parserManager->pushSolutionParser(std::make_shared<SolutionParserCodeBlocks>());*/
 }
 
 void QtProjectWizzard::showWindow()
@@ -60,41 +75,63 @@ void QtProjectWizzard::newProject()
 	window->setPreviousEnabled(false);
 }
 
-void QtProjectWizzard::newProjectFromVisualStudioSolution(const std::string& visualStudioSolutionPath)
+void QtProjectWizzard::newProjectFromSolution(const std::string& ideId, const std::string& visualStudioSolutionPath)
 {
-	ProjectSettings settings = getSettingsForVisualStudioSolution(visualStudioSolutionPath);
-
-	editProject(settings);
-
-	QWidget* widget = m_windowStack.getTopWindow();
-
-	if (widget)
+	if (m_parserManager->canParseSolution(ideId))
 	{
-		QtProjectWizzardWindow* window = dynamic_cast<QtProjectWizzardWindow*>(widget);
+		ProjectSettings settings = m_parserManager->getProjectSettings(ideId, visualStudioSolutionPath);
 
-		window->updateTitle("NEW PROJECT FROM VS SOLUTION");
-		window->updateNextButton("Create");
-		window->setPreviousVisible(m_windowStack.getWindowCount() > 0);
+		editProject(settings);
+
+		QWidget* widget = m_windowStack.getTopWindow();
+
+		if (widget)
+		{
+			QtProjectWizzardWindow* window = dynamic_cast<QtProjectWizzardWindow*>(widget);
+
+			std::string title = "NEW PROJECT FROM ";
+			title += ideId;
+			title += " SOLUTION";
+			
+			boost::algorithm::to_upper(title);
+
+			window->updateTitle(QString(title.c_str()));
+			window->updateNextButton("Create");
+			window->setPreviousVisible(m_windowStack.getWindowCount() > 0);
+		}
+	}
+	else
+	{
+		LOG_ERROR_STREAM(<< "Unknown solution type");
+		MessageStatus("Unable to parse given solution", true).dispatch();
 	}
 }
 
-void QtProjectWizzard::refreshProjectFromVisualStudioSolution(const std::string& visualStudioSolutionPath)
+void QtProjectWizzard::refreshProjectFromSolution(const std::string& ideId, const std::string& visualStudioSolutionPath)
 {
-	QtProjectWizzardWindow* window = dynamic_cast<QtProjectWizzardWindow*>(m_windowStack.getTopWindow());
-	if (window)
+	if (m_parserManager->canParseSolution(ideId))
 	{
-		window->content()->save();
+		QtProjectWizzardWindow* window = dynamic_cast<QtProjectWizzardWindow*>(m_windowStack.getTopWindow());
+		if (window)
+		{
+			window->content()->save();
+		}
+
+		ProjectSettings settings = m_parserManager->getProjectSettings(ideId, visualStudioSolutionPath);
+
+		m_settings.setSourcePaths(settings.getSourcePaths());
+		m_settings.setHeaderSearchPaths(settings.getHeaderSearchPaths());
+		m_settings.setVisualStudioSolutionPath(FilePath(visualStudioSolutionPath));
+
+		if (window)
+		{
+			window->content()->load();
+		}
 	}
-
-	ProjectSettings settings = getSettingsForVisualStudioSolution(visualStudioSolutionPath);
-
-	m_settings.setSourcePaths(settings.getSourcePaths());
-	m_settings.setHeaderSearchPaths(settings.getHeaderSearchPaths());
-	m_settings.setVisualStudioSolutionPath(FilePath(visualStudioSolutionPath));
-
-	if (window)
+	else
 	{
-		window->content()->load();
+		LOG_ERROR_STREAM(<< "Unknown solution type");
+		MessageStatus("Unable to parse given solution", true).dispatch();
 	}
 }
 
@@ -186,6 +223,26 @@ QtProjectWizzardWindow* QtProjectWizzard::createWindowWithContent()
 	return window;
 }
 
+template<>
+QtProjectWizzardWindow* QtProjectWizzard::createWindowWithContent<QtProjectWizzardContentSelect>()
+{
+	QtProjectWizzardWindow* window = new QtProjectWizzardWindow(parentWidget());
+
+	connect(window, SIGNAL(previous()), &m_windowStack, SLOT(popWindow()));
+	connect(window, SIGNAL(canceled()), this, SLOT(cancelWizzard()));
+
+	QtProjectWizzardContentSelect* content = new QtProjectWizzardContentSelect(&m_settings, window, m_parserManager);
+	
+	
+
+	window->setContent(content);
+	window->setup();
+
+	m_windowStack.pushWindow(window);
+
+	return window;
+}
+
 QtProjectWizzardWindow* QtProjectWizzard::createWindowWithSummary(
 	std::function<void(QtProjectWizzardWindow*, QtProjectWizzardContentSummary*)> func
 ){
@@ -226,44 +283,6 @@ QtProjectWizzardWindow* QtProjectWizzard::createPopupWithContent()
 	m_popup = std::shared_ptr<QtProjectWizzardWindow>(window);
 
 	return window;
-}
-
-ProjectSettings QtProjectWizzard::getSettingsForVisualStudioSolution(const std::string& visualStudioSolutionPath) const
-{
-	SolutionParserVisualStudio parser;
-	parser.openSolutionFile(visualStudioSolutionPath);
-
-	ProjectSettings settings;
-	settings.setProjectName(parser.getSolutionName());
-	settings.setProjectFileLocation(parser.getSolutionPath());
-	settings.setVisualStudioSolutionPath(FilePath(visualStudioSolutionPath));
-
-	std::vector<std::string> sourceFiles = parser.getProjectItems();
-	std::vector<FilePath> sourcePaths;
-	for (const std::string& p : sourceFiles)
-	{
-		sourcePaths.push_back(FilePath(p));
-	}
-
-	std::vector<std::string> includePaths = parser.getIncludePaths();
-	std::vector<FilePath> headerPaths;
-	for (const std::string& p : includePaths)
-	{
-		headerPaths.push_back(FilePath(p));
-	}
-
-	settings.setSourcePaths(sourcePaths);
-	settings.setHeaderSearchPaths(headerPaths);
-
-	// For testing
-
-	// ProjectSettings settings;
-	// settings.setProjectName("hallo");
-	// settings.setProjectFileLocation("~/Desktop");
-	// settings.setVisualStudioSolutionPath(FilePath(visualStudioSolutionPath));
-	// settings.setSourcePaths(std::vector<FilePath>(1, visualStudioSolutionPath));
-
-	return settings;
 }
 
 ProjectSettings QtProjectWizzard::getSettingsForCompilationDatabase(const std::string& compilationDatabasePath) const
@@ -315,13 +334,26 @@ void QtProjectWizzard::selectedProjectType(QtProjectWizzardContentSelect::Projec
 
 	case QtProjectWizzardContentSelect::PROJECT_VS:
 		{
+			std::string fileEndings = "(";
+			for (unsigned int i = 0; i < m_parserManager->getParserCount(); i++)
+			{
+				fileEndings += " *" + m_parserManager->getParserFileEnding(i);
+			}
+			fileEndings += ")";
+
 			QString fileName = QFileDialog::getOpenFileName(
-				this, tr("Open Visual Studio Solution"), "", "Visual Studio Solution (*.sln)"
+				this, tr("Open Solution"), "", fileEndings.c_str()
 			);
 
 			if (!fileName.isNull())
 			{
-				newProjectFromVisualStudioSolution(fileName.toStdString());
+				for (unsigned int i = 0; i < m_parserManager->getParserCount(); i++)
+				{
+					if (fileName.contains(m_parserManager->getParserFileEnding(i).c_str()))
+					{
+						newProjectFromSolution(m_parserManager->getParserIdeId(i), fileName.toStdString());
+					}
+				}
 			}
 			break;
 		}
@@ -508,8 +540,8 @@ void QtProjectWizzard::showSummary()
 				summary->addContent(buildFile, false, true);
 
 				connect(dynamic_cast<QtProjectWizzardContentBuildFile*>(buildFile),
-					SIGNAL(refreshVisualStudioSolution(const std::string&)),
-					this, SLOT(refreshProjectFromVisualStudioSolution(const std::string&)));
+					SIGNAL(refreshVisualStudioSolution(const std::string&, const std::string&)),
+					this, SLOT(refreshProjectFromSolution(const std::string&, const std::string&)));
 			}
 
 			if (buildFile->getType() != QtProjectWizzardContentSelect::PROJECT_CDB)

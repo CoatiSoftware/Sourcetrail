@@ -99,10 +99,11 @@ void IDECommunicationController::handleCreateProjectMessage(const NetworkProtoco
 {
 	if (message.valid)
 	{
-		if (message.ideId == NetworkProtocolHelper::CreateProjectMessage::IDE_ID::VS)
+		if (message.ideId == "vs")
 		{
 			MessageProjectNew msg;
-			msg.setVisualStudioSolutionPath(message.solutionFileLocation);
+			msg.setSolutionPath(message.solutionFileLocation);
+			msg.ideId = message.ideId;
 			msg.dispatch();
 		}
 		else

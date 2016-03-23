@@ -13,7 +13,7 @@ class QtProjectWizzardContentBuildFile
 	Q_OBJECT
 
 signals:
-	void refreshVisualStudioSolution(const std::string&);
+	void refreshVisualStudioSolution(const std::string& ideId, const std::string& solutionPath);
 
 public:
 	QtProjectWizzardContentBuildFile(ProjectSettings* settings, QtProjectWizzardWindow* window);

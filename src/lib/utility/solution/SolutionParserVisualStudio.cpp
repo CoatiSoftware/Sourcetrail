@@ -7,6 +7,8 @@
 #include "boost/filesystem/path.hpp"
 #include "boost/filesystem.hpp"
 
+#include "SolutionParserUtility.h"
+
 #include "utility/logging/logging.h"
 
 SolutionParserVisualStudio::SolutionParserVisualStudio()
@@ -17,6 +19,11 @@ SolutionParserVisualStudio::SolutionParserVisualStudio()
 SolutionParserVisualStudio::~SolutionParserVisualStudio()
 {
 
+}
+
+std::string SolutionParserVisualStudio::getToolID() const
+{
+	return "vs";
 }
 
 std::string SolutionParserVisualStudio::getSolutionName()
@@ -86,7 +93,7 @@ std::vector<std::string> SolutionParserVisualStudio::getProjectItems()
 {
 	std::vector<std::string> projectItems = findProjectItems();
 
-	projectItems = makePathsCanonical(projectItems);
+	projectItems = SolutionParserUtility::makePathsCanonical(projectItems);
 
 	return projectItems;
 }
@@ -95,9 +102,59 @@ std::vector<std::string> SolutionParserVisualStudio::getIncludePaths()
 {
 	std::vector<std::string> includePaths = findIncludePaths();
 
-	includePaths = makePathsCanonical(includePaths);
+	includePaths = SolutionParserUtility::makePathsCanonical(includePaths);
 
 	return includePaths;
+}
+
+ProjectSettings SolutionParserVisualStudio::getProjectSettings(const std::string& solutionFilePath)
+{
+	openSolutionFile(solutionFilePath);
+
+	ProjectSettings settings;
+	settings.setProjectName(getSolutionName());
+	settings.setProjectFileLocation(getSolutionPath());
+	settings.setVisualStudioSolutionPath(solutionFilePath);
+
+	std::vector<std::string> sourceFiles = getProjectItems();
+	std::vector<FilePath> sourcePaths;
+	for (const std::string& p : sourceFiles)
+	{
+		sourcePaths.push_back(FilePath(p));
+	}
+
+	std::vector<std::string> includePaths = getIncludePaths();
+
+	std::vector<FilePath> headerPaths;
+	for (const std::string& p : includePaths)
+	{
+		headerPaths.push_back(FilePath(p));
+	}
+
+	settings.setSourcePaths(sourcePaths);
+	settings.setHeaderSearchPaths(headerPaths);
+
+	return settings;
+}
+
+std::string SolutionParserVisualStudio::getIdeName() const
+{
+	return "Visual Studio";
+}
+
+std::string SolutionParserVisualStudio::getDescription() const
+{
+	return "Create a new project from an existing Visual Studio Solution file.";
+}
+
+std::string SolutionParserVisualStudio::getIconPath() const
+{
+	return "icon/project_vs_256_256.png";
+}
+
+std::string SolutionParserVisualStudio::getFileExtension() const
+{
+	return ".sln";
 }
 
 std::vector<std::string> SolutionParserVisualStudio::getProjectItemsNonCanonical()
@@ -156,8 +213,8 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 			continue;
 		}
 
-		TiXmlElement* root = getFirstTagByNameWithAttribute(doc.RootElement(), "ClCompile", "Include");
-		TiXmlElement* headerRoot = getFirstTagByNameWithAttribute(doc.RootElement(), "ClInclude", "Include");
+		TiXmlElement* root = SolutionParserUtility::getFirstTagByNameWithAttribute(doc.RootElement(), "ClCompile", "Include");
+		TiXmlElement* headerRoot = SolutionParserUtility::getFirstTagByNameWithAttribute(doc.RootElement(), "ClInclude", "Include");
 		if (root != NULL)
 		{
 			// std::string text(root->GetText());
@@ -218,7 +275,7 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 			{
 				std::string filePath = child->Attribute("Include");
 
-				if (boost::filesystem::exists(filePath) && checkValidFileExtension(filePath, validFileExtensions))
+				if (boost::filesystem::exists(filePath) && SolutionParserUtility::checkValidFileExtension(filePath, validFileExtensions))
 				{
 					projectItems.push_back(filePath);
 					continue;
@@ -229,7 +286,7 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 					filePath = relativeProjectPaths[i] + "/" + filePath;
 				}
 
-				if (checkValidFileExtension(filePath, validFileExtensions))
+				if (SolutionParserUtility::checkValidFileExtension(filePath, validFileExtensions))
 				{
 					projectItems.push_back(filePath);
 				}
@@ -242,7 +299,7 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 			{
 				std::string filePath = child->Attribute("Include");
 
-				if (boost::filesystem::exists(filePath) && checkValidFileExtension(filePath, validFileExtensions))
+				if (boost::filesystem::exists(filePath) && SolutionParserUtility::checkValidFileExtension(filePath, validFileExtensions))
 				{
 					projectItems.push_back(filePath);
 					continue;
@@ -253,7 +310,7 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 					filePath = relativeProjectPaths[i] + "/" + filePath;
 				}
 
-				if (checkValidFileExtension(filePath, validFileExtensions))
+				if (SolutionParserUtility::checkValidFileExtension(filePath, validFileExtensions))
 				{
 					projectItems.push_back(filePath);
 				}
@@ -264,7 +321,7 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 	std::set<std::string> s(projectItems.begin(), projectItems.end());
 	projectItems.assign(s.begin(), s.end());
 
-	projectItems = resolveEnvironmentVariables(projectItems);
+	projectItems = SolutionParserUtility::resolveEnvironmentVariables(projectItems);
 	projectItems = makePathsAbsolute(projectItems);
 
 	return projectItems;
@@ -295,7 +352,7 @@ std::vector<std::string> SolutionParserVisualStudio::findIncludePaths()
 			continue;
 		}
 
-		std::vector<TiXmlElement*> nodes = getAllTagsByName(doc.RootElement(), "AdditionalIncludeDirectories");
+		std::vector<TiXmlElement*> nodes = SolutionParserUtility::getAllTagsByName(doc.RootElement(), "AdditionalIncludeDirectories");
 
 		for (unsigned int j = 0; j < nodes.size(); j++)
 		{
@@ -310,25 +367,10 @@ std::vector<std::string> SolutionParserVisualStudio::findIncludePaths()
 	std::set<std::string> s(includePaths.begin(), includePaths.end());
 	includePaths.assign(s.begin(), s.end());
 
-	includePaths = resolveEnvironmentVariables(includePaths);
+	includePaths = SolutionParserUtility::resolveEnvironmentVariables(includePaths);
 	includePaths = makePathsAbsolute(includePaths);
 
 	return includePaths;
-}
-
-bool SolutionParserVisualStudio::checkValidFileExtension(const std::string& file, const std::vector<std::string>& validExtensions)
-{
-	for (unsigned int i = 0; i < validExtensions.size(); i++)
-	{
-		size_t pos = file.find(validExtensions[i]);
-
-		if (pos != std::string::npos)
-		{
-			return true;
-		}
-	}
-
-	return false;
 }
 
 std::vector<std::string> SolutionParserVisualStudio::getProjectBlocks(const std::string& solution) const
@@ -419,301 +461,4 @@ std::vector<std::string> SolutionParserVisualStudio::seperateIncludePaths(const 
 	}
 
 	return seperatedPaths;
-}
-
-TiXmlElement* SolutionParserVisualStudio::getFirstTagByName(TiXmlElement* root, const std::string& tag)
-{
-	TiXmlElement* element = root;
-
-	while (element)
-	{
-		if (element == NULL)
-		{
-		}
-
-		std::string value = element->Value();
-
-		if (value == tag) // "ClInclude") // || value == "ClCompile")
-		{
-			if (element->Parent() != NULL)
-			{
-				return element; // ->Parent()->ToElement();
-			}
-		}
-		
-		if (element->FirstChildElement() != NULL)
-		{
-			element = element->FirstChildElement();
-		}
-		else if (element->NextSiblingElement() != NULL)
-		{
-			element = element->NextSiblingElement();
-		}
-		else
-		{
-			if (element == NULL)
-			{
-			}
-
-			while (element->Parent()->ToElement() != NULL && element->Parent()->NextSiblingElement() == NULL)
-			{
-				TiXmlElement* newElement = element->Parent()->ToElement();
-
-				if (newElement == NULL)
-				{
-				}
-
-				element = newElement;
-			}
-			if (element->Parent() != NULL && element->Parent()->NextSiblingElement() != NULL)
-			{
-				element = element->Parent()->NextSiblingElement();
-			}
-			else
-			{
-				return NULL;
-			}
-		}
-	}
-
-	return NULL;
-}
-
-std::vector<TiXmlElement*> SolutionParserVisualStudio::getAllTagsByName(TiXmlElement* root, const std::string& tag)
-{
-	std::vector<TiXmlElement*> nodes;
-
-	TiXmlElement* element = root;
-
-	while (element)
-	{
-		std::string value = element->Value();
-
-		if (value == tag)
-		{
-			nodes.push_back(element);
-		}
-
-		if (element->FirstChildElement() != NULL)
-		{
-			element = element->FirstChildElement();
-		}
-		else if (element->NextSiblingElement() != NULL)
-		{
-			element = element->NextSiblingElement();
-		}
-		else
-		{
-			if (element == NULL)
-			{
-			}
-
-			while (element->Parent()->ToElement() != NULL && element->Parent()->NextSiblingElement() == NULL)
-			{
-				TiXmlElement* newElement = element->Parent()->ToElement();
-
-				if (newElement == NULL)
-				{
-				}
-
-				element = newElement;
-			}
-			if (element->Parent() != NULL && element->Parent()->NextSiblingElement() != NULL)
-			{
-				element = element->Parent()->NextSiblingElement();
-			}
-			else
-			{
-				break;
-			}
-		}
-	}
-
-	return nodes;
-}
-
-TiXmlElement* SolutionParserVisualStudio::getFirstTagByNameWithAttribute(TiXmlElement* root, const std::string& tag, const std::string& attribute)
-{
-	TiXmlElement* element = root;
-
-	while (element)
-	{
-		if (element == NULL)
-		{
-		}
-
-		std::string value = element->Value();
-
-		bool hasAttribute = false;
-		if (element->Attribute(attribute.c_str()) != NULL)
-		{
-			hasAttribute = true;
-		}
-
-		if (value == tag && hasAttribute) // "ClInclude") // || value == "ClCompile")
-		{
-			if (element->Parent() != NULL)
-			{
-				return element; // ->Parent()->ToElement();
-			}
-		}
-
-		if (element->FirstChildElement() != NULL)
-		{
-			element = element->FirstChildElement();
-		}
-		else if (element->NextSiblingElement() != NULL)
-		{
-			element = element->NextSiblingElement();
-		}
-		else
-		{
-			while (element->Parent()->ToElement() != NULL && element->Parent()->NextSiblingElement() == NULL)
-			{
-				TiXmlElement* newElement = element->Parent()->ToElement();
-
-				element = newElement;
-			}
-			if (element->Parent() != NULL && element->Parent()->NextSiblingElement() != NULL)
-			{
-				element = element->Parent()->NextSiblingElement();
-			}
-			else
-			{
-				return NULL;
-			}
-		}
-	}
-
-	return NULL;
-}
-
-std::vector<TiXmlElement*> SolutionParserVisualStudio::getAllTagsByNameWithAttribute(TiXmlElement* root, const std::string& tag, const std::string& attribute)
-{
-	std::vector<TiXmlElement*> nodes;
-
-	TiXmlElement* element = root;
-
-	while (element)
-	{
-		std::string value = element->Value();
-
-		bool hasAttribute = false;
-		if (element->Attribute(attribute.c_str()) != NULL)
-		{
-			hasAttribute = true;
-		}
-
-		if (value == tag && hasAttribute)
-		{
-			nodes.push_back(element);
-		}
-
-		if (element->FirstChildElement() != NULL)
-		{
-			element = element->FirstChildElement();
-		}
-		else if (element->NextSiblingElement() != NULL)
-		{
-			element = element->NextSiblingElement();
-		}
-		else
-		{
-			while (element->Parent()->ToElement() != NULL && element->Parent()->NextSiblingElement() == NULL)
-			{
-				TiXmlElement* newElement = element->Parent()->ToElement();
-
-				element = newElement;
-			}
-			if (element->Parent() != NULL && element->Parent()->NextSiblingElement() != NULL)
-			{
-				element = element->Parent()->NextSiblingElement();
-			}
-			else
-			{
-				break;
-			}
-		}
-	}
-
-	return nodes;
-}
-
-std::vector<std::string> SolutionParserVisualStudio::resolveEnvironmentVariables(const std::vector<std::string>& paths)
-{
-	std::vector<std::string> resolvedPaths;
-
-	for (unsigned int i = 0; i < paths.size(); i++)
-	{
-		resolvedPaths.push_back(findAndResolveEnvironmentVariable(paths[i]));
-	}
-
-	return resolvedPaths;
-}
-
-std::string SolutionParserVisualStudio::findAndResolveEnvironmentVariable(const std::string& path)
-{
-	std::string resolvedPath;
-
-	size_t pos = path.find("$(");
-
-	if (pos != std::string::npos)
-	{
-		size_t endPos = path.substr(pos).find(")");
-
-		std::string envVariable = path.substr(pos+2, (endPos-2) - pos);
-		std::string envPath = getenv(envVariable.c_str());
-
-		std::string prePath = path.substr(0, pos);
-		std::string postPath = path.substr(endPos + 1);
-
-		resolvedPath = prePath + envPath + postPath;
-	}
-	else
-	{
-		resolvedPath = path;
-	}
-
-	return resolvedPath;
-}
-
-std::vector<std::string> SolutionParserVisualStudio::makePathsAbsolute(const std::vector<std::string>& paths)
-{
-	std::vector<std::string> absolutePaths;
-
-	for (unsigned int i = 0; i < paths.size(); i++)
-	{
-		std::string path = paths[i];
-
-		boost::filesystem::path boostPath(path);
-		if (boostPath.is_relative())
-		{
-			path = m_solutionPath + path;
-		}
-
-		absolutePaths.push_back(path);
-	}
-
-	return absolutePaths;
-}
-
-std::vector<std::string> SolutionParserVisualStudio::makePathsCanonical(const std::vector<std::string>& paths)
-{
-	std::vector<std::string> canonicalPaths;
-
-	for (unsigned int i = 0; i < paths.size(); i++)
-	{
-		try
-		{
-			boost::filesystem::path canonicalPath = boost::filesystem::canonical(boost::filesystem::path(paths[i]));
-			canonicalPaths.push_back(canonicalPath.string());
-		}
-		catch (std::exception& e)
-		{
-			std::string what = e.what();
-			LOG_WARNING_STREAM(<< e.what());
-		}
-	}
-	
-	return canonicalPaths;
 }

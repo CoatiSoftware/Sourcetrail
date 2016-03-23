@@ -28,18 +28,12 @@ public:
 	public:
 		CreateProjectMessage()
 			: solutionFileLocation("")
-			, ideId(IDE_ID::UNKNOWN)
+			, ideId("")
 			, valid(false)
 		{}
 
-		enum IDE_ID
-		{
-			UNKNOWN = 0,
-			VS
-		};
-
 		std::string solutionFileLocation;
-		IDE_ID ideId;
+		std::string ideId;
 		bool valid;
 	};
 

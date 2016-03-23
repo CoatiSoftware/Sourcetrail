@@ -8,6 +8,8 @@ class MessageProjectNew
 {
 public:
 	MessageProjectNew()
+		: solutionPath("")
+		, ideId("")
 	{
 	}
 
@@ -16,17 +18,18 @@ public:
 		return "MessageProjectNew";
 	}
 
-	bool fromVisualStudioSolution() const
+	bool fromSolution() const
 	{
-		return visualStudioSolutionPath.size() > 0;
+		return solutionPath.size() > 0;
 	}
 
-	void setVisualStudioSolutionPath(const std::string& path)
+	void setSolutionPath(const std::string& path)
 	{
-		visualStudioSolutionPath = path;
+		solutionPath = path;
 	}
 
-	std::string visualStudioSolutionPath;
+	std::string solutionPath;
+	std::string ideId;
 };
 
 #endif // MESSAGE_PROJECT_NEW_H

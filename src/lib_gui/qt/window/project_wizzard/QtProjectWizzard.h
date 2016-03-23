@@ -6,6 +6,8 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentSelect.h"
 #include "qt/window/QtWindowStack.h"
 
+#include "utility/solution/SolutionParserManager.h"
+
 class ProjectSettings;
 class QtProjectWizzardContentSummary;
 class QtProjectWizzardWindow;
@@ -28,8 +30,11 @@ public:
 
 public slots:
 	void newProject();
-	void newProjectFromVisualStudioSolution(const std::string& visualStudioSolutionPath);
-	void refreshProjectFromVisualStudioSolution(const std::string& visualStudioSolutionPath);
+
+	void newProjectFromSolution(const std::string& ideId, const std::string& visualStudioSolutionPath);
+
+	void refreshProjectFromSolution(const std::string& ideId, const std::string& visualStudioSolutionPath);
+
 	void newProjectFromCompilationDatabase(const std::string& compilationDatabasePath);
 	void refreshProjectFromCompilationDatabase(const std::string& compilationDatabasePath);
 	void editProject(const ProjectSettings& settings);
@@ -38,12 +43,15 @@ public slots:
 private:
 	template<typename T>
 		QtProjectWizzardWindow* createWindowWithContent();
+
+	template<>
+	QtProjectWizzardWindow* createWindowWithContent<QtProjectWizzardContentSelect>();
+
 	QtProjectWizzardWindow* createWindowWithSummary(
 		std::function<void(QtProjectWizzardWindow*, QtProjectWizzardContentSummary*)> func);
 	template<typename T>
 		QtProjectWizzardWindow* createPopupWithContent();
 
-	ProjectSettings getSettingsForVisualStudioSolution(const std::string& visualStudioSolutionPath) const;
 	ProjectSettings getSettingsForCompilationDatabase(const std::string& compilationDatabasePath) const;
 
 	void connectShowFiles(QtProjectWizzardContent* content);
@@ -51,6 +59,8 @@ private:
 	QtWindowStack m_windowStack;
 	std::shared_ptr<QtProjectWizzardWindow> m_popup;
 	ProjectSettings m_settings;
+
+	std::shared_ptr<SolutionParserManager> m_parserManager;
 
 private slots:
 	void cancelWizzard();
