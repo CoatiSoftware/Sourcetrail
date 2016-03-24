@@ -33,8 +33,26 @@ public:
 	{
 		std::stringstream ss;
 		ss << "Finished analysis: ";
-		ss << fileCount << "/" << totalFileCount << " files, ";
-		ss << std::setprecision(2) << std::fixed << parseTime << " seconds.";
+		ss << fileCount << "/" << totalFileCount << " files; ";
+
+		float secondsLeft = parseTime;
+		int hours = int(secondsLeft / 3600);
+		secondsLeft -= hours * 3600;
+		int minutes = int(secondsLeft / 60);
+		secondsLeft -= minutes * 60;
+		int seconds = int(secondsLeft);
+
+		if (hours > 9)
+		{
+			ss << hours;
+		}
+		else
+		{
+			ss << std::setw(2) << std::setfill('0') << hours;
+		}
+		ss << ":" << std::setw(2) << std::setfill('0') << minutes;
+		ss << ":" << std::setw(2) << std::setfill('0') << seconds << ". ";
+
 		return ss.str();
 	}
 
