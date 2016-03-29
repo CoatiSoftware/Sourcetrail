@@ -44,9 +44,6 @@ private:
 	template<typename T>
 		QtProjectWizzardWindow* createWindowWithContent();
 
-	template<>
-	QtProjectWizzardWindow* createWindowWithContent<QtProjectWizzardContentSelect>();
-
 	QtProjectWizzardWindow* createWindowWithSummary(
 		std::function<void(QtProjectWizzardWindow*, QtProjectWizzardContentSummary*)> func);
 	template<typename T>
@@ -91,5 +88,8 @@ private slots:
 
 	void createProject();
 };
+
+template<>
+QtProjectWizzardWindow* QtProjectWizzard::createWindowWithContent<QtProjectWizzardContentSelect>();
 
 #endif // QT_PROJECT_WIZZARD_H
