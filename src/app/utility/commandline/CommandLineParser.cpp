@@ -13,10 +13,10 @@
 namespace po = boost::program_options;
 
 CommandLineParser::CommandLineParser(int argc, char** argv, const std::string& version)
-	: m_withoutGUI(false)
+	: m_force(false)
 	, m_quit(false)
 	, m_withLicense(false)
-	, m_force(false)
+	, m_withoutGUI(false)
 {
 	std::string projectfile;
 	std::string projectfile_db;

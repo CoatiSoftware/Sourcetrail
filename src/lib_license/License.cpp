@@ -8,6 +8,7 @@
 #include <istream>
 
 #include "botan_all.h"
+#include "boost/date_time.hpp"
 #include "boost/filesystem.hpp"
 
 namespace
@@ -69,7 +70,27 @@ std::string License::getLicenseTypeLine() const
     return lines[2];
 }
 
-void License::create(std::string user, std::string version, Botan::RSA_PrivateKey* privateKey, std::string type)
+int License::getTimeLeft() const
+{
+	const std::string testText = "Test License - valid till ";
+	if(getLicenseTypeLine().substr(0, testText.length()) == testText)
+	{
+		boost::gregorian::date expireDate(
+			boost::gregorian::from_simple_string(getLicenseTypeLine().substr(testText.length(),11))
+		);
+		boost::gregorian::date today = boost::gregorian::day_clock::local_day();
+		boost::gregorian::days daysLeft = expireDate - today;
+		return (daysLeft.days() < 0 ? 0 : daysLeft.days());
+	}
+	else
+	{
+		return -1;
+	}
+}
+
+void License::create(
+		const std::string& user, const std::string& version,
+		Botan::RSA_PrivateKey* privateKey, const std::string& type)
 {
     m_version = version;
     createMessage(user, version, type);
@@ -85,7 +106,7 @@ void License::create(std::string user, std::string version, Botan::RSA_PrivateKe
     addSignature(signature);
 }
 
-void License::createMessage(std::string user, std::string version, std::string type)
+void License::createMessage(const std::string& user, const std::string& version, const std::string& type)
 {
     lines.clear();
     lines.push_back(BEGIN_LICENSE);
@@ -97,7 +118,7 @@ void License::createMessage(std::string user, std::string version, std::string t
     lines.push_back(pass9);
 }
 
-void License::writeToFile(std::string filename)
+void License::writeToFile(const std::string& filename)
 {
     std::ofstream licenseFile(filename);
     for(std::string line : lines)
@@ -106,7 +127,7 @@ void License::writeToFile(std::string filename)
     }
 }
 
-bool License::loadFromString(std::string licenseText)
+bool License::loadFromString(const std::string& licenseText)
 {
     lines.clear();
     std::istringstream license(licenseText);
@@ -147,7 +168,7 @@ bool License::load(std::istream& stream)
     return true;
 }
 
-bool License::loadFromFile(std::string filename)
+bool License::loadFromFile(const std::string& filename)
 {
     lines.clear();
     std::ifstream sigfile(filename);
@@ -159,7 +180,7 @@ void License::print()
     std::cout << getLicenseString();
 }
 
-void License::addSignature(std::string signature)
+void License::addSignature(const std::string& signature)
 {
     if(lines.size() > 5)
     {
@@ -190,24 +211,38 @@ bool License::isValid() const
         std::cout << "No public key loaded" << std::endl;
         return false;
     }
-    if(Botan::check_passhash9("Coati "+ getVersion(), getHashLine()))
-    {
-//        std::cout << "Hash from Coati "+ getVersion() + " confirmed" << std::endl;
-    }
+	try
+	{
 
-    Botan::secure_vector<Botan::byte> sig = Botan::base64_decode(getSignature());
+		if(Botan::check_passhash9("Coati "+ getVersion(), getHashLine()))
+		{
+	//        std::cout << "Hash from Coati "+ getVersion() + " confirmed" << std::endl;
+		}
 
-    Botan::PK_Verifier verifier(*m_publicKey.get(), "EMSA4(SHA-256)");
+		Botan::secure_vector<Botan::byte> sig = Botan::base64_decode(getSignature());
 
-    Botan::DataSource_Memory in(getMessage());
-    Botan::byte buf[4096] = {0};
-    while(size_t got = in.read(buf, sizeof(buf)))
-    {
-        verifier.update(buf, got);
-    }
+		Botan::PK_Verifier verifier(*m_publicKey.get(), "EMSA4(SHA-256)");
 
-    const bool ok = verifier.check_signature(sig);
-    return ok;
+		Botan::DataSource_Memory in(getMessage());
+		Botan::byte buf[4096] = {0};
+		while(size_t got = in.read(buf, sizeof(buf)))
+		{
+			verifier.update(buf, got);
+		}
+
+		const bool ok = verifier.check_signature(sig);
+		return ok;
+	}
+	catch(...)
+	{
+		std::cout << "Invalid character in Licensekey" << std::endl;
+	}
+	return false;
+}
+
+bool License::isExpired() const
+{
+	return !getTimeLeft();
 }
 
 std::string License::getPublicKeyFilename() const
@@ -228,7 +263,7 @@ std::string License::getVersion() const
     return m_version;
 }
 
-bool License::loadPublicKeyFromFile(std::string filename)
+bool License::loadPublicKeyFromFile(const std::string& filename)
 {
     if (!filename.empty()) {
         m_publicKeyFilename = filename;
@@ -246,7 +281,7 @@ bool License::loadPublicKeyFromFile(std::string filename)
     return false;
 }
 
-bool License::loadPublicKeyFromString(std::string publicKey)
+bool License::loadPublicKeyFromString(const std::string& publicKey)
 {
     Botan::DataSource_Memory in(publicKey);
     Botan::RSA_PublicKey *rsaPublicKey = dynamic_cast<Botan::RSA_PublicKey *>(Botan::X509::load_key(in));
@@ -286,7 +321,7 @@ bool License::checkLocation(const std::string& location, const std::string& hash
     return Botan::check_passhash9(location, hash);
 }
 
-std::string License::getLicenseEncodedString(std::string applicationLocation) const
+std::string License::getLicenseEncodedString(const std::string& applicationLocation) const
 {
     Botan::AutoSeeded_RNG rng;
     std::vector<Botan::byte> file_contents;
@@ -311,7 +346,7 @@ std::string License::getLicenseEncodedString(std::string applicationLocation) co
     return ret;
 }
 
-bool License::loadFromEncodedString(std::string encodedLicense, std::string applicationLocation)
+bool License::loadFromEncodedString(const std::string& encodedLicense, const std::string& applicationLocation)
 {
     try {
         //add cryptobox begin and end to loaded string

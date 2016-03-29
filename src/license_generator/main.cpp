@@ -19,19 +19,21 @@ bool process_command_line(int argc, char** argv)
         std::string publicKey;
         std::string license = "";
         std::string type = "";
+		int days = 0;
         po::options_description desc("Coati Generator");
 
         desc.add_options()
-            ("help,h", "Print this help message")
-            ("key,k", "Generate the private and public key")
-            ("generate,g", po::value<std::string>(&user), "Generate a License, USERNAME as value")
-            ("check,c", "Validate a License")
-            ("version,v", po::value<std::string>(&version), "Versionnumber of Coati")
-            ("licenseType,t", po::value<std::string>(&type), "License Type of ")
-            ("public-file", po::value<std::string>(&publicKey), "Custom public key file")
-            ("private-file", po::value<std::string>(&privateKey), "Custom private key file")
-            ("license-file", po::value<std::string>(&license), "Custom license")
-             ;
+			("help,h", "Print this help message")
+			("key,k", "Generate the private and public key")
+			("generate,g", po::value<std::string>(&user), "Generate a License, USERNAME as value")
+			("check,c", "Validate a License")
+			("version,v", po::value<std::string>(&version), "Versionnumber of Coati")
+			("licenseType,t", po::value<std::string>(&type), "License Type of ")
+			("testLicense,e", po::value<int>(&days), "Generates a test license for <value> days")
+			("public-file", po::value<std::string>(&publicKey), "Custom public key file")
+			("private-file", po::value<std::string>(&privateKey), "Custom private key file")
+			("license-file", po::value<std::string>(&license), "Custom license")
+			 ;
         po::variables_map vm;
 
         po::store(po::parse_command_line(argc,argv,desc), vm);
@@ -68,8 +70,14 @@ bool process_command_line(int argc, char** argv)
                 std::cout << "Version of Coati is needed to generate a License" << std::endl;
                 return false;
             }
-
-            keygen.encodeLicense(user,type);
+			if(vm.count("testLicense"))
+			{
+				keygen.encodeLicense(user,days);
+			}
+			else
+			{
+				keygen.encodeLicense(user,type);
+			}
         }
 
         if(vm.count("check"))

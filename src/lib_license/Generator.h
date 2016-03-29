@@ -8,21 +8,22 @@
 class Generator
 {
 public:
-    Generator(std::string version = "x");
+    Generator(const std::string& version = "x");
     ~Generator();
 
-    std::string encodeLicense(std::string message, std::string licenseType);
-    bool verifyLicense(std::string filename = "license.txt");
+    std::string encodeLicense(const std::string& message, const std::string& licenseType);
+	std::string encodeLicense(const std::string& message, const int days);
+    bool verifyLicense(const std::string& filename = "license.txt");
     void generateKeys();
     void writeKeysToFiles();
-    void setVersion(std::string version);
-    void setCustomPrivateKeyFile(std::string file);
-    void setCustomPublicKeyFile(std::string file);
+    void setVersion(const std::string& version);
+    void setCustomPrivateKeyFile(const std::string& file);
+    void setCustomPublicKeyFile(const std::string& file);
 
     std::string getPublicKeyPEMFileAsString();
     std::string getPrivateKeyPEMFileAsString();
     bool loadPrivateKeyFromFile();
-    bool loadPrivateKeyFromString(std::string key);
+    bool loadPrivateKeyFromString(const std::string& key);
 
     void PrintLicense();
 

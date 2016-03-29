@@ -127,6 +127,10 @@ private:
 
 			license.loadPublicKeyFromString(PublicKey);
 			valid = license.isValid();
+			if (license.isExpired())
+			{
+				valid = false;
+			}
 
 		}
 		while (false);

@@ -20,10 +20,12 @@ private:
 	void processProjectfile(const std::string& file);
 	void processLicense(const bool isLoaded);
 	std::string m_projectFile;
-	bool m_withoutGUI;
-	bool m_quit;
+
 	bool m_force;
+	bool m_quit;
 	bool m_withLicense;
+	bool m_withoutGUI;
+
 	License m_license;
 };
 

@@ -6,10 +6,11 @@
 
 #include "botan_all.h"
 #include "boost/filesystem.hpp"
+#include "boost/date_time/gregorian/gregorian.hpp"
 
 #include "License.h"
 
-Generator::Generator(std::string version)
+Generator::Generator(const std::string& version)
     : m_version(version)
 {
 }
@@ -41,7 +42,7 @@ std::string Generator::getPublicKeyFilename()
     return m_publicKeyFile;
 }
 
-void Generator::setVersion(std::string version)
+void Generator::setVersion(const std::string& version)
 {
     if(!version.empty())
     {
@@ -49,7 +50,17 @@ void Generator::setVersion(std::string version)
     }
 }
 
-std::string Generator::encodeLicense(std::string user, std::string licenseType)
+std::string Generator::encodeLicense(const std::string& user, const int days)
+{
+	boost::gregorian::date today = boost::gregorian::day_clock::local_day();
+	boost::gregorian::days daysToTry(days);
+	boost::gregorian::date expireDate = today + daysToTry;
+
+	std::string testLicenseTypeString = "Test License - valid till " + boost::gregorian::to_simple_string(expireDate);
+	return encodeLicense(user, testLicenseTypeString);
+}
+
+std::string Generator::encodeLicense(const std::string& user, const std::string& licenseType)
 {
     License license;
 
@@ -69,7 +80,7 @@ std::string Generator::encodeLicense(std::string user, std::string licenseType)
     return license.getLicenseString();
 }
 
-bool Generator::verifyLicense(std::string filename)
+bool Generator::verifyLicense(const std::string& filename)
 {
     License license;
     license.loadFromFile(filename);
@@ -78,7 +89,7 @@ bool Generator::verifyLicense(std::string filename)
     return license.isValid();
 }
 
-void Generator::setCustomPrivateKeyFile(std::string file)
+void Generator::setCustomPrivateKeyFile(const std::string& file)
 {
     if(!file.empty())
     {
@@ -86,7 +97,7 @@ void Generator::setCustomPrivateKeyFile(std::string file)
     }
 }
 
-void Generator::setCustomPublicKeyFile(std::string file)
+void Generator::setCustomPublicKeyFile(const std::string& file)
 {
     if(!file.empty())
     {
@@ -134,7 +145,7 @@ bool Generator::loadPrivateKeyFromFile()
     return true;
 }
 
-bool Generator::loadPrivateKeyFromString(std::string key)
+bool Generator::loadPrivateKeyFromString(const std::string& key)
 {
     Botan::DataSource_Memory in(key);
     Botan::Private_Key* privateKey= Botan::PKCS8::load_key(in, m_rng, PRIVATE_KEY_PASSWORD);

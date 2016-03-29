@@ -28,23 +28,30 @@ public:
     std::string getPublicKeyFilename() const;
     std::string getVersion() const;
 
-    void create(std::string user, std::string version, Botan::RSA_PrivateKey* privateKey, std::string type="Private License");
+	/// if Test License return >=0 else -1
+	int getTimeLeft() const;
+
+    void create(
+			const std::string& user, const std::string& version,
+			Botan::RSA_PrivateKey* privateKey, const std::string& type="Private License"
+	);
 
     std::string getLicenseString() const;
-	std::string getLicenseEncodedString(std::string applicationLocation) const;
+	std::string getLicenseEncodedString(const std::string& applicationLocation) const;
 
-    void writeToFile(std::string filename);
+    void writeToFile(const std::string& filename);
     bool load(std::istream& stream);
-    bool loadFromString(std::string licenseText);
-    bool loadFromFile(std::string filename);
-	bool loadFromEncodedString(std::string encodedLicense, std::string applicationLocation);
+    bool loadFromString(const std::string& licenseText);
+    bool loadFromFile(const std::string& filename);
+	bool loadFromEncodedString(const std::string& encodedLicense, const std::string& applicationLocation);
 
-	bool loadPublicKeyFromFile(std::string);
+	bool loadPublicKeyFromFile(const std::string&);
 
-    bool loadPublicKeyFromString(std::string);
+    bool loadPublicKeyFromString(const std::string&);
 	void setVersion(const std::string&);
 
     bool isValid() const;
+	bool isExpired() const;
 
     void print();
 
@@ -52,8 +59,8 @@ public:
     static bool checkLocation(const std::string&, const std::string&);
 
 private:
-	void createMessage(std::string user, std::string version, std::string type = 0);
-	void addSignature(std::string);
+	void createMessage(const std::string& user, const std::string& version, const std::string& type = 0);
+	void addSignature(const std::string&);
 	std::string getEncodeKey(const std::string applicationLocation) const;
 
 	std::string m_version;

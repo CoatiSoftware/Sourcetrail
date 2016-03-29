@@ -32,6 +32,8 @@ namespace utility
 	std::string substrBefore(const std::string& str, char delimiter);
 	std::string substrAfter(const std::string& str, char delimiter);
 
+	std::string substrBetween(const std::string& str, const std::string& delimiter1, const std::string& delimiter2);
+
 	bool isPrefix(const std::string& prefix, const std::string& text);
 
 	std::string toUpperCase(const std::string& in);

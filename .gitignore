@@ -41,6 +41,7 @@
 .ycm_extra_conf.py
 .ycm_extra_conf.pyc
 compile_commands.json
+Makefile
 
 /deployment/windows/CoatiAppSetup/CoatiSetup/Debug
 /deployment/windows/CoatiAppSetup/CoatiSetup/Release

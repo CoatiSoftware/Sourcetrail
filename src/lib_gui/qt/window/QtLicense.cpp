@@ -151,7 +151,12 @@ void QtLicense::handleNext()
 	license.loadPublicKeyFromString(PublicKey);
 	license.print();
 
-	if (license.isValid())
+	if (license.isExpired())
+	{
+		m_errorLabel->setText("The entered license key is expired");
+		return;
+	}
+	else if (license.isValid())
 	{
 		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 		std::string appLocation = AppPath::getAppPath();
