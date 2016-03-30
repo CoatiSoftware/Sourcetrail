@@ -14,12 +14,28 @@ VisualStudioDetector::VisualStudioDetector(const std::string name)
 
 VisualStudioDetector::~VisualStudioDetector()
 {
+}
 
+void VisualStudioDetector::setName(const std::string& name)
+{
+	if (name.substr(0,2) == "VS")
+	{
+		m_versionNumber = std::stoi(name.substr(2,name.size()-3).c_str());
+		if (m_versionNumber == 0)
+		{
+			// no version
+		}
+		DetectorBase::setName(name);
+	}
+	else
+	{
+		// invalid Visual Studio detector name
+	}
 }
 
 std::string VisualStudioDetector::getFullName()
 {
-
+	return "Visual Studio " + std::to_string(m_versionNumber + 1);
 }
 
 std::vector<FilePath> VisualStudioDetector::getStandardHeaderPaths()
@@ -33,7 +49,7 @@ std::vector<FilePath> VisualStudioDetector::getStandardHeaderPaths()
 		VSHeaderPath = VSHeaderPath.concat("../VC/include");
 		if(VSHeaderPath.exists())
 		{
-			LOG_INFO_STREAM(<< "Visual Studio 20" << m_name.substr(2,m_name.length()-3) << " includes detected");
+			LOG_INFO_STREAM(<< getFullName() << " includes detected");
 			path.push_back(VSHeaderPath.str());
 		}
 	}
@@ -42,19 +58,22 @@ std::vector<FilePath> VisualStudioDetector::getStandardHeaderPaths()
 
 std::string getInstallDir(const std::string RegistryKey)
 {
-
 	return "";
+}
+
+std::string getWindowsSDKDir()
+{
+	return ""; 
 }
 
 bool searchForExpress()
 {
-
+	QSettings expressKey("HKLM\\SOFTWARE\\Microsoft\\Visual Studio\\", QSettings::NativeFormat);
 	return false;
 }
 
 bool searchForStandard()
 {
-
 	return false;
 }
 

@@ -14,7 +14,8 @@ public:
 	virtual std::vector<FilePath> getStandardHeaderPaths();
 private:
 	std::string getFullName();
-
+	void setName(const std::string& name);
+	int m_versionNumber;
 };
 
 #endif // VISUAL_STUDIO_DETECTOR_H
