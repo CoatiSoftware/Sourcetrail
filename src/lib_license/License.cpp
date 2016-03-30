@@ -80,11 +80,11 @@ int License::getTimeLeft() const
 		);
 		boost::gregorian::date today = boost::gregorian::day_clock::local_day();
 		boost::gregorian::days daysLeft = expireDate - today;
-		return (daysLeft.days() < 0 ? 0 : daysLeft.days());
+		return (daysLeft.days() < 0 ? -1 : daysLeft.days());
 	}
 	else
 	{
-		return -1;
+		return -2;
 	}
 }
 
@@ -231,6 +231,10 @@ bool License::isValid() const
 		}
 
 		const bool ok = verifier.check_signature(sig);
+		if (isExpired())
+		{
+			return false;
+		}
 		return ok;
 	}
 	catch(...)
@@ -242,7 +246,7 @@ bool License::isValid() const
 
 bool License::isExpired() const
 {
-	return !getTimeLeft();
+	return (getTimeLeft()==-1);
 }
 
 std::string License::getPublicKeyFilename() const

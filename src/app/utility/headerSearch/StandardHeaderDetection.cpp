@@ -12,6 +12,13 @@
 #include "utility/utilityApp.h"
 #include "utility/utilityString.h"
 
+#include "clang/Driver/ToolChain.h"
+#include "clang/Driver/Options.h"
+#include "clang/Driver/Tool.h"
+#include "clang/Driver/DriverDiagnostic.h"
+
+typedef std::pair<std::string, std::shared_ptr<DetectorBase>> DetectorPair;
+
 DetectorMap* StandardHeaderDetection::s_availableDetectors;
 
 StandardHeaderDetection::StandardHeaderDetection()
@@ -29,7 +36,7 @@ StandardHeaderDetection::~StandardHeaderDetection()
 
 void StandardHeaderDetection::detectHeaders()
 {
-	for ( std::pair<std::string, std::shared_ptr<DetectorBase>> detector : *s_availableDetectors)
+	for ( DetectorPair detector : *s_availableDetectors)
 	{
 		if ( detector.second->detect() )
 		{
@@ -41,7 +48,7 @@ void StandardHeaderDetection::detectHeaders()
 std::vector<std::string> StandardHeaderDetection::getDetectedCompilers()
 {
     std::vector<std::string> v;
-	for ( std::pair<std::string, std::shared_ptr<DetectorBase>> detector : m_detectedCompilers)
+	for ( DetectorPair detector : m_detectedCompilers)
 	{
         v.push_back(detector.first);
 	}
@@ -72,7 +79,7 @@ void StandardHeaderDetection::printAvailableDetectors()
 {
 	std::cout << "printAvailableDetectors: " << std::endl;
 
-	for ( std::pair<std::string, std::shared_ptr<DetectorBase>> detector : *s_availableDetectors)
+	for ( DetectorPair detector : *s_availableDetectors)
 	{
 		std::cout << detector.first << std::endl;
 	}

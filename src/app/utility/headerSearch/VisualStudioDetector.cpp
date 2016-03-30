@@ -7,7 +7,17 @@
 #include "utility/logging/logging.h"
 #include "utility/headerSearch/StandardHeaderDetection.h"
 
+VisualStudioDetector::VisualStudioDetector(const std::string name)
+	: DetectorBase(name)
+{
+}
+
 VisualStudioDetector::~VisualStudioDetector()
+{
+
+}
+
+std::string VisualStudioDetector::getFullName()
 {
 
 }
@@ -28,6 +38,24 @@ std::vector<FilePath> VisualStudioDetector::getStandardHeaderPaths()
 		}
 	}
 	return path;
+}
+
+std::string getInstallDir(const std::string RegistryKey)
+{
+
+	return "";
+}
+
+bool searchForExpress()
+{
+
+	return false;
+}
+
+bool searchForStandard()
+{
+
+	return false;
 }
 
 // Add Visual Studio Version to the available detectors

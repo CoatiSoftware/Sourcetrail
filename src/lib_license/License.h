@@ -28,7 +28,8 @@ public:
     std::string getPublicKeyFilename() const;
     std::string getVersion() const;
 
-	/// if Test License return >=0 else -1
+	/// if Test License return >=0 or -1 if expired
+	/// for non Test License -2
 	int getTimeLeft() const;
 
     void create(

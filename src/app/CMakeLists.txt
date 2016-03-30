@@ -6,15 +6,10 @@ add_files(
 	utility/commandline/CommandLineParser.cpp
 	utility/commandline/CommandLineParser.h
 
-	utility/headerSearch/ClangDetector.cpp
-	utility/headerSearch/ClangDetector.h
-	utility/headerSearch/CompilerDetectorBase.cpp
-	utility/headerSearch/CompilerDetectorBase.h
+	utility/headerSearch/CompilerDetector.cpp
+	utility/headerSearch/CompilerDetector.h
 	utility/headerSearch/DetectorBase.cpp
 	utility/headerSearch/DetectorBase.h
-	utility/headerSearch/DetectorProxy.h
-	utility/headerSearch/GCCDetector.cpp
-	utility/headerSearch/GCCDetector.h
 	utility/headerSearch/StandardHeaderDetection.cpp
 	utility/headerSearch/StandardHeaderDetection.h
 	utility/headerSearch/VisualStudioDetector.cpp

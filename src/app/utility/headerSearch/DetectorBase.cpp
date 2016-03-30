@@ -2,6 +2,11 @@
 
 #include <iostream>
 
+DetectorBase::DetectorBase(const std::string name)
+{
+	setName(name);
+}
+
 bool DetectorBase::detect()
 {
 	return !getStandardHeaderPaths().empty();
@@ -14,10 +19,8 @@ std::string DetectorBase::getName() const
 
 void DetectorBase::setName(const std::string& name)
 {
-	std::cout << "setName()" << std::endl;
 	if (!name.empty())
 	{
-		std::cout << "name set to " << name << std::endl;
 		m_name = name;
 	}
 }

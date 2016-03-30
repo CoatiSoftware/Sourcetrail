@@ -3,11 +3,16 @@
 # Determine path to script
 MY_PATH=`dirname "$0"`
 
+# build target
 $MY_PATH/buildonly.sh $@
+if [ $? -ne 0 ]
+then
+	exit 1;
+fi
 
 cd $MY_PATH/..
 
-# Build and run target
+# run target
 
 if [ "$1" = "release" ] || [ "$1" = "r" ]
 then
@@ -38,7 +43,7 @@ then
 	elif [ "$2" = "keygen" ]
 	then
 		#echo "debug keygen"
-		cd bin/license_generator && Debug/Coati_license_generator_d
+		cd bin/license_generator && Debug/Coati_license_generator
 	else
 		#echo "debug app"
 		cd bin/app && Debug/Coati

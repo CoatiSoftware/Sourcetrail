@@ -33,11 +33,7 @@ public:
 	public:
 		Add(const std::string& name)
 		{
-			std::shared_ptr<DetectorBase> detector = std::shared_ptr<U>(new U());
-			if (!name.empty())
-			{
-				detector->setName(name);
-			}
+			std::shared_ptr<DetectorBase> detector = std::shared_ptr<U>(new U(name));
 			if (!s_availableDetectors)
 			{
 				s_availableDetectors = new DetectorMap();

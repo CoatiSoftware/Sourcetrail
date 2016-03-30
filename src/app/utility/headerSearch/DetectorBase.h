@@ -7,6 +7,7 @@
 class DetectorBase
 {
 public:
+	DetectorBase(const std::string name);
 	virtual ~DetectorBase(){};
 	virtual bool detect();
 	virtual std::vector<FilePath> getStandardHeaderPaths() = 0;

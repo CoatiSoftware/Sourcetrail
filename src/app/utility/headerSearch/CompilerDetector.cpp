@@ -1,9 +1,18 @@
-#include "utility/headerSearch/CompilerDetectorBase.h"
+#include "utility/headerSearch/CompilerDetector.h"
 
 #include "utility/utilityApp.h"
 #include "utility/utilityString.h"
 
-std::vector<FilePath> CompilerDetectorBase::getStandardHeaderPaths()
+CompilerDetector::CompilerDetector(const std::string& name)
+	: DetectorBase(name)
+{
+}
+
+CompilerDetector::~CompilerDetector()
+{
+}
+
+std::vector<FilePath> CompilerDetector::getStandardHeaderPaths()
 {
     std::string command = m_name + " -x c++ -v -E /dev/null";
     std::string clangOutput = utility::executeProcess(command.c_str());

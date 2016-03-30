@@ -55,8 +55,11 @@ if [ $PLATFORM == "Windows" ]; then
 	cmd //c 'mklink /d /j '.$MY_PATH.'\..\bin\app\Release\user '.$MY_PATH.'\..\bin\app\user' &
 elif [ $PLATFORM == "Linux" ]; then
 	echo -e $INFO "create symbolic links for data"
-	ln -sr bin/app/data bin/app/Release/data
-	ln -sr bin/app/data bin/app/Debug/data
+	cd bin/app/Release
+	ln -s ../data data
+	cd ../Debug
+	ln -s ../data data
+	cd ../../..
 fi
 
 # Setup both Debug and Release configuration
