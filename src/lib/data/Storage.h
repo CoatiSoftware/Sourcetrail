@@ -93,13 +93,11 @@ private:
 	Id getLastVisibleParentNodeId(const Id nodeId) const;
 	std::vector<Id> getAllChildNodeIds(const Id nodeId) const;
 
-	void addEdgeAndAllChildrenToGraph(const Id edgeId, Graph* graph) const;
-	Node* addNodeAndAllChildrenToGraph(const Id nodeId, Graph* graph) const;
+	void addNodesToGraph(const std::vector<Id>& nodeIds, Graph* graph) const;
+	void addEdgesToGraph(const std::vector<Id>& edgeIds, Graph* graph) const;
+	void addNodesAndEdgesToGraph(const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graph) const;
+
 	void addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const;
-
-	void addNodesToGraph(const std::vector<Id> nodeIds, Graph* graph) const;
-	void addEdgesToGraph(const std::vector<Id> edgeIds, Graph* graph) const;
-
 	void addComponentAccessToGraph(Graph* graph) const;
 
 	void buildSearchIndex();

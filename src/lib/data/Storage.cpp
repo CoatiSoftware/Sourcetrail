@@ -343,31 +343,32 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 	std::shared_ptr<Graph> g = std::make_shared<Graph>();
 	Graph* graph = g.get();
 
+	std::vector<Id> nodeIds;
+	std::vector<Id> edgeIds;
+	bool addAggregations = false;
+
 	if (tokenIds.size() == 1 && !activeOnly)
 	{
 		const Id elementId = tokenIds[0];
 
 		if (m_sqliteStorage.isNode(elementId))
 		{
-			const StorageNode node = m_sqliteStorage.getNodeById(elementId);
+			nodeIds.push_back(elementId);
 
-			addNodeAndAllChildrenToGraph(getLastVisibleParentNodeId(node.id), graph);
-
-			std::vector<StorageEdge> edges = m_sqliteStorage.getEdgesBySourceOrTargetId(node.id);
-
-			for (size_t i = 0; i < edges.size(); i++)
+			std::vector<StorageEdge> edges = m_sqliteStorage.getEdgesBySourceOrTargetId(elementId);
+			for (const StorageEdge& edge : edges)
 			{
-				if (Edge::intToType(edges[i].type) != Edge::EDGE_MEMBER)
+				if (Edge::intToType(edge.type) != Edge::EDGE_MEMBER)
 				{
-					addEdgeAndAllChildrenToGraph(edges[i].id, graph);
+					edgeIds.push_back(edge.id);
 				}
 			}
 
-			addAggregationEdgesToGraph(elementId, graph);
+			addAggregations = true;
 		}
 		else if (m_sqliteStorage.isEdge(elementId))
 		{
-			addEdgeAndAllChildrenToGraph(elementId, graph);
+			edgeIds.push_back(elementId);
 		}
 	}
 	else if (tokenIds.size() >= 1)
@@ -378,13 +379,20 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 
 			if (m_sqliteStorage.isNode(elementId))
 			{
-				addNodeAndAllChildrenToGraph(getLastVisibleParentNodeId(elementId), graph);
+				nodeIds.push_back(elementId);
 			}
 			else
 			{
-				addEdgeAndAllChildrenToGraph(elementId, graph);
+				edgeIds.push_back(elementId);
 			}
 		}
+	}
+
+	addNodesAndEdgesToGraph(nodeIds, edgeIds, graph);
+
+	if (addAggregations)
+	{
+		addAggregationEdgesToGraph(tokenIds[0], graph);
 	}
 
 	addComponentAccessToGraph(graph);
@@ -759,47 +767,94 @@ std::vector<Id> Storage::getAllChildNodeIds(const Id nodeId) const
 	return childNodeIds;
 }
 
-void Storage::addEdgeAndAllChildrenToGraph(const Id edgeId, Graph* graph) const
+void Storage::addNodesToGraph(const std::vector<Id>& nodeIds, Graph* graph) const
 {
-	StorageEdge storageEdge = m_sqliteStorage.getEdgeById(edgeId);
-
-	Node* sourceNode = graph->getNodeById(storageEdge.sourceNodeId);
-	Node* targetNode = graph->getNodeById(storageEdge.targetNodeId);
-
-	if (!sourceNode)
+	if (nodeIds.size() == 0)
 	{
-		addNodeAndAllChildrenToGraph(getLastVisibleParentNodeId(storageEdge.sourceNodeId), graph);
-		sourceNode = graph->getNodeById(storageEdge.sourceNodeId);
+		return;
 	}
 
-	if (!targetNode)
-	{
-		addNodeAndAllChildrenToGraph(getLastVisibleParentNodeId(storageEdge.targetNodeId), graph);
-		targetNode = graph->getNodeById(storageEdge.targetNodeId);
-	}
+	std::vector<StorageNode> storageNodes = m_sqliteStorage.getNodesByIds(nodeIds);
 
-	graph->createEdge(edgeId, Edge::intToType(storageEdge.type), sourceNode, targetNode);
+	for (const StorageNode& storageNode : storageNodes)
+	{
+		NameHierarchy nameHierarchy = NameHierarchy::deserialize(storageNode.serializedName);
+
+		Node::NodeType type = Node::intToType(storageNode.type);
+		Node* node = graph->createNode(
+			storageNode.id,
+			type,
+			nameHierarchy,
+			intToDefinitionType(storageNode.definitionType) != DEFINITION_NONE
+		);
+
+		if (type == Node::NODE_FUNCTION || type == Node::NODE_METHOD)
+		{
+			std::string signatureString = nameHierarchy.getRawNameWithSignature();
+			if (signatureString.size() > 0) // this should always be the case since functions and methods must have sigs.
+			{
+				node->addComponentSignature(
+					std::make_shared<TokenComponentSignature>(signatureString)
+				);
+			}
+		}
+	}
 }
 
-Node* Storage::addNodeAndAllChildrenToGraph(const Id nodeId, Graph* graph) const
+void Storage::addEdgesToGraph(const std::vector<Id>& edgeIds, Graph* graph) const
 {
-	Node* node = graph->getNodeById(nodeId);
-	if (node)
+	if (edgeIds.size() == 0)
 	{
-		return node;
+		return;
 	}
 
-	std::vector<Id> nodeIdsToAdd;
-	std::vector<Id> edgeIdsToAdd;
+	std::vector<StorageEdge> storageEdges = m_sqliteStorage.getEdgesByIds(edgeIds);
+	for (const StorageEdge& storageEdge : storageEdges)
+	{
+		Node* sourceNode = graph->getNodeById(storageEdge.sourceNodeId);
+		Node* targetNode = graph->getNodeById(storageEdge.targetNodeId);
 
-	nodeIdsToAdd.push_back(nodeId);
+		if (sourceNode && targetNode)
+		{
+			graph->createEdge(storageEdge.id, Edge::intToType(storageEdge.type), sourceNode, targetNode);
+		}
+		else
+		{
+			LOG_ERROR("Can't add edge because nodes are not present");
+		}
+	}
+}
 
-	m_hierarchyCache.addAllChildIdsForNodeId(nodeId, &nodeIdsToAdd, &edgeIdsToAdd);
+void Storage::addNodesAndEdgesToGraph(const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graph) const
+{
+	std::set<Id> parentNodeIds;
 
-	addNodesToGraph(nodeIdsToAdd, graph);
-	addEdgesToGraph(edgeIdsToAdd, graph);
+	for (Id nodeId : nodeIds)
+	{
+		parentNodeIds.insert(getLastVisibleParentNodeId(nodeId));
+	}
 
-	return graph->getNodeById(nodeId);
+	if (edgeIds.size() > 0)
+	{
+		std::vector<StorageEdge> storageEdges = m_sqliteStorage.getEdgesByIds(edgeIds);
+		for (const StorageEdge& storageEdge : storageEdges)
+		{
+			parentNodeIds.insert(getLastVisibleParentNodeId(storageEdge.sourceNodeId));
+			parentNodeIds.insert(getLastVisibleParentNodeId(storageEdge.targetNodeId));
+		}
+	}
+
+	std::vector<Id> allNodeIds;
+	std::vector<Id> allEdgeIds = edgeIds;
+
+	for (Id parentNodeId : parentNodeIds)
+	{
+		allNodeIds.push_back(parentNodeId);
+		m_hierarchyCache.addAllChildIdsForNodeId(parentNodeId, &allNodeIds, &allEdgeIds);
+	}
+
+	addNodesToGraph(allNodeIds, graph);
+	addEdgesToGraph(allEdgeIds, graph);
 }
 
 void Storage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
@@ -813,6 +868,10 @@ void Storage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
 	// build aggregation edges:
 	// get all children of the active node
 	std::vector<Id> childNodeIds = getAllChildNodeIds(nodeId);
+	if (childNodeIds.size() == 0)
+	{
+		return;
+	}
 
 	// get all edges of the children
 	std::map<Id, std::vector<EdgeInfo>> connectedNodeIds;
@@ -849,9 +908,20 @@ void Storage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
 		}
 	}
 
-	// add hierarchies for these parents and create aggregation edges between parents and active node
-	Node* sourceNode = graph->getNodeById(nodeId);
+	// add hierarchies of these parents
+	std::vector<Id> nodeIdsToAdd;
+	for (const std::pair<Id, std::vector<EdgeInfo>> p : connectedParentNodeIds)
+	{
+		const Id aggregationTargetNodeId = p.first;
+		if (!graph->getNodeById(aggregationTargetNodeId))
+		{
+			nodeIdsToAdd.push_back(aggregationTargetNodeId);
+		}
+	}
+	addNodesAndEdgesToGraph(nodeIdsToAdd, std::vector<Id>(), graph);
 
+	// create aggregation edges between parents and active node
+	Node* sourceNode = graph->getNodeById(nodeId);
 	for (const std::pair<Id, std::vector<EdgeInfo>> p : connectedParentNodeIds)
 	{
 		const Id aggregationTargetNodeId = p.first;
@@ -859,7 +929,7 @@ void Storage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
 		Node* targetNode = graph->getNodeById(aggregationTargetNodeId);
 		if (!targetNode)
 		{
-			targetNode = addNodeAndAllChildrenToGraph(aggregationTargetNodeId, graph);
+			LOG_ERROR("Aggregation target node not present.");
 		}
 
 		std::shared_ptr<TokenComponentAggregation> componentAggregation = std::make_shared<TokenComponentAggregation>();
@@ -876,54 +946,6 @@ void Storage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
 		);
 
 		edge->addComponentAggregation(componentAggregation);
-	}
-}
-
-void Storage::addNodesToGraph(const std::vector<Id> nodeIds, Graph* graph) const
-{
-	std::vector<StorageNode> storageNodes = m_sqliteStorage.getNodesByIds(nodeIds);
-
-	for (const StorageNode& storageNode : storageNodes)
-	{
-		NameHierarchy nameHierarchy = NameHierarchy::deserialize(storageNode.serializedName);
-
-		Node::NodeType type = Node::intToType(storageNode.type);
-		Node* node = graph->createNode(
-			storageNode.id,
-			type,
-			nameHierarchy,
-			intToDefinitionType(storageNode.definitionType) != DEFINITION_NONE
-		);
-
-		if (type == Node::NODE_FUNCTION || type == Node::NODE_METHOD)
-		{
-			std::string signatureString = nameHierarchy.getRawNameWithSignature();
-			if (signatureString.size() > 0) // this should always be the case since functions and methods must have sigs.
-			{
-				node->addComponentSignature(
-					std::make_shared<TokenComponentSignature>(signatureString)
-				);
-			}
-		}
-	}
-}
-
-void Storage::addEdgesToGraph(const std::vector<Id> edgeIds, Graph* graph) const
-{
-	std::vector<StorageEdge> storageEdges = m_sqliteStorage.getEdgesByIds(edgeIds);
-	for (const StorageEdge& storageEdge : storageEdges)
-	{
-		Node* sourceNode = graph->getNodeById(storageEdge.sourceNodeId);
-		Node* targetNode = graph->getNodeById(storageEdge.targetNodeId);
-
-		if (sourceNode && targetNode)
-		{
-			graph->createEdge(storageEdge.id, Edge::intToType(storageEdge.type), sourceNode, targetNode);
-		}
-		else
-		{
-			LOG_ERROR("Can't add edge because nodes are not present");
-		}
 	}
 }
 
