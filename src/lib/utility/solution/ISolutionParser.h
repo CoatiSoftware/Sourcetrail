@@ -26,6 +26,7 @@ public:
 	virtual std::vector<std::string> getProjects() = 0;
 	virtual std::vector<std::string> getProjectFiles() = 0;
 	virtual std::vector<std::string> getProjectItems() = 0;
+	virtual std::vector<std::string> getCompileFlags() = 0;
 
 	virtual ProjectSettings getProjectSettings(const std::string& solutionFilePath) = 0;
 

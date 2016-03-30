@@ -12,8 +12,11 @@
 #include "utility/logging/logging.h"
 
 SolutionParserVisualStudio::SolutionParserVisualStudio()
+	: m_compatibilityFlags()
 {
-
+	m_compatibilityFlags.push_back("-fms-extensions");
+	m_compatibilityFlags.push_back("-fms-compatibility");
+	m_compatibilityFlags.push_back("-fms-compatibility-version=19.00");
 }
 
 SolutionParserVisualStudio::~SolutionParserVisualStudio()
@@ -107,6 +110,62 @@ std::vector<std::string> SolutionParserVisualStudio::getIncludePaths()
 	return includePaths;
 }
 
+std::vector<std::string> SolutionParserVisualStudio::getCompileFlags()
+{
+	std::vector<std::string> compilerFlags;
+
+	std::vector<std::string> projectFiles = getProjectFiles();
+
+	std::vector<std::string> validExtensions;
+	validExtensions.push_back(".c");
+	validExtensions.push_back(".cpp");
+	validExtensions.push_back(".h");
+	validExtensions.push_back(".hpp");
+
+	for (unsigned int i = 0; i < projectFiles.size(); i++)
+	{
+		TiXmlDocument doc;
+		doc.Parse(projectFiles[i].c_str(), 0, TIXML_ENCODING_UTF8);
+
+		std::string error = doc.ErrorDesc();
+
+		if (error.length() > 0)
+		{
+			LOG_ERROR_STREAM(<< "Failed to parse project file " << i << ": " << error);
+			continue;
+		}
+
+		std::vector<TiXmlElement*> nodes = SolutionParserUtility::getAllTagsByName(doc.RootElement(), "PreprocessorDefinitions");
+
+		for (unsigned int j = 0; j < nodes.size(); j++)
+		{
+			compilerFlags.push_back(std::string(nodes[j]->GetText()));
+		}
+	}
+
+	compilerFlags = seperateCompilerFlags(compilerFlags);
+
+	for (unsigned int i = 0; i < compilerFlags.size(); i++)
+	{
+		compilerFlags[i] = "-D " + compilerFlags[i];
+	}
+
+	for (unsigned int i = 0; i < m_compatibilityFlags.size(); i++)
+	{
+		compilerFlags.push_back(m_compatibilityFlags[i]);
+	}
+
+	//for (unsigned int i = 0; i < compilerFlags.size(); i++)
+	//{
+	//	LOG_INFO_STREAM(<< "flag: " << compilerFlags[i]);
+	//}
+
+	std::set<std::string> s(compilerFlags.begin(), compilerFlags.end());
+	compilerFlags.assign(s.begin(), s.end());
+
+	return compilerFlags;
+}
+
 ProjectSettings SolutionParserVisualStudio::getProjectSettings(const std::string& solutionFilePath)
 {
 	openSolutionFile(solutionFilePath);
@@ -130,6 +189,9 @@ ProjectSettings SolutionParserVisualStudio::getProjectSettings(const std::string
 	{
 		headerPaths.push_back(FilePath(p));
 	}
+
+	std::vector<std::string> compilerFlags = getCompileFlags();
+	settings.setCompilerFlags(compilerFlags);
 
 	settings.setSourcePaths(sourcePaths);
 	settings.setHeaderSearchPaths(headerPaths);
@@ -461,4 +523,42 @@ std::vector<std::string> SolutionParserVisualStudio::seperateIncludePaths(const 
 	}
 
 	return seperatedPaths;
+}
+
+std::vector<std::string> SolutionParserVisualStudio::seperateCompilerFlags(const std::vector<std::string>& compilerFlags) const
+{
+	std::vector<std::string> seperatedFlags;
+
+	for (unsigned int i = 0; i < compilerFlags.size(); i++)
+	{
+		std::vector<std::string> paths = seperateCompilerFlags(compilerFlags[i]);
+		for (unsigned int j = 0; j < paths.size(); j++)
+		{
+			seperatedFlags.push_back(paths[j]);
+		}
+	}
+
+	return seperatedFlags;
+}
+
+std::vector<std::string> SolutionParserVisualStudio::seperateCompilerFlags(const std::string& compilerFlags) const
+{
+	std::string flags = compilerFlags;
+	std::string seperator = ";";
+
+	std::vector<std::string> seperatedFlags;
+
+	size_t pos = flags.find(seperator);
+
+	while (pos != std::string::npos)
+	{
+		std::string flag = flags.substr(0, pos);
+		flags = flags.substr(pos + 1);
+
+		seperatedFlags.push_back(flag);
+
+		pos = flags.find(seperator);
+	}
+
+	return seperatedFlags;
 }

@@ -15,8 +15,8 @@ public:
 	enum ProjectType : int
 	{
 		PROJECT_EMPTY = 0,
-		PROJECT_VS = 1,
-		PROJECT_CDB = 2
+		PROJECT_CDB = 1,
+		PROJECT_VS = 2
 	};
 
 	QtProjectWizzardContentSelect(ProjectSettings* settings, QtProjectWizzardWindow* window, std::weak_ptr<SolutionParserManager> solutionParserManager);

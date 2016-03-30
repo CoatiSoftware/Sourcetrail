@@ -65,35 +65,36 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 
 	QToolButton* a = createProjectButton(
 		"empty project", (ResourcePaths::getGuiPath() + "icon/project_256_256.png").c_str());
-	QToolButton* b = createProjectButton(
-		"from Visual\nStudio Solution", (ResourcePaths::getGuiPath() + "icon/project_vs_256_256.png").c_str());
 	QToolButton* c = createProjectButton(
 		"from Compilation\nDatabase", (ResourcePaths::getGuiPath() + "icon/project_cdb_256_256.png").c_str());
 
+	/*QToolButton* b = createProjectButton(
+		"from Visual\nStudio Solution", (ResourcePaths::getGuiPath() + "icon/project_vs_256_256.png").c_str());*/
+
 
 	m_solutionDescription.push_back("Create a new Coati project by defining what files will be analyzed and header search paths.");
-	m_solutionDescription.push_back("Create a new project from an existing Visual Studio Solution file.");
 	m_solutionDescription.push_back("Create a project from an existing Compilation Database. Compilation Databases can be created from "
 					"cmake projects. Have a look at the "
 					"<a href=\"https://staging.coati.io/documentation/#CreateAProjectFromCompilationDatabase\">"
 					"documentation</a> to find out more.");
+	//m_solutionDescription.push_back("Create a new project from an existing Visual Studio Solution file.");
 
 	m_buttons = new QButtonGroup(this);
 	m_buttons->addButton(a);
-	m_buttons->addButton(b);
 	m_buttons->addButton(c);
+	//m_buttons->addButton(b);
 
 	m_buttons->setId(a, PROJECT_EMPTY);
-	m_buttons->setId(b, PROJECT_VS);
 	m_buttons->setId(c, PROJECT_CDB);
+	//m_buttons->setId(b, PROJECT_VS);
 
 	QHBoxLayout* hlayout = new QHBoxLayout();
 
 	hlayout->addWidget(a);
-	hlayout->addWidget(b);
 	hlayout->addWidget(c);
+	//hlayout->addWidget(b);
 
-	unsigned int runningId = 3;
+	unsigned int runningId = 2;
 	std::shared_ptr<SolutionParserManager> manager = m_solutionParserManager.lock();
 	if (manager != NULL)
 	{
@@ -177,8 +178,8 @@ void QtProjectWizzardContentSelect::save()
 	switch (m_buttons->checkedId())
 	{
 	case 0: type = PROJECT_EMPTY; break;
-	case 1: type = PROJECT_VS; break;
-	case 2: type = PROJECT_CDB; break;
+	case 1: type = PROJECT_CDB; break;
+	case 2: type = PROJECT_VS; break;
 	default: type = PROJECT_VS; break; // use vs for "standard" solutions TODO: change name of enum to reflect this is the default type
 	}
 

@@ -19,6 +19,7 @@ public:
 	virtual std::vector<std::string> getProjectFiles();
 	virtual std::vector<std::string> getProjectItems();
 	virtual std::vector<std::string> getIncludePaths();
+	virtual std::vector<std::string> getCompileFlags();
 
 	virtual ProjectSettings getProjectSettings(const std::string& solutionFilePath);
 

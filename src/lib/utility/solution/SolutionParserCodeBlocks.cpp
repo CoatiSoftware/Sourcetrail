@@ -167,6 +167,13 @@ std::vector<std::string> SolutionParserCodeBlocks::getIncludePaths()
 	return includePaths;
 }
 
+std::vector<std::string> SolutionParserCodeBlocks::getCompileFlags()
+{
+	std::vector<std::string> compilerFlags;
+
+	return compilerFlags;
+}
+
 ProjectSettings SolutionParserCodeBlocks::getProjectSettings(const std::string& solutionFilePath)
 {
 	openSolutionFile(solutionFilePath);

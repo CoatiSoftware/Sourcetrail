@@ -37,8 +37,8 @@ QtProjectWizzard::QtProjectWizzard(QWidget* parent)
 	m_parserManager = std::make_shared<SolutionParserManager>();
 
 	// wip
-	/*m_parserManager->pushSolutionParser(std::make_shared<SolutionParserVisualStudio>());
-	m_parserManager->pushSolutionParser(std::make_shared<SolutionParserCodeBlocks>());*/
+	m_parserManager->pushSolutionParser(std::make_shared<SolutionParserVisualStudio>());
+	m_parserManager->pushSolutionParser(std::make_shared<SolutionParserCodeBlocks>());
 }
 
 void QtProjectWizzard::showWindow()

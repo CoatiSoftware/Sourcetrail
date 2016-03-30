@@ -19,6 +19,7 @@ public:
 	virtual std::vector<std::string> getProjectFiles();
 	virtual std::vector<std::string> getProjectItems();
 	virtual std::vector<std::string> getIncludePaths();
+	virtual std::vector<std::string> getCompileFlags();
 
 	virtual ProjectSettings getProjectSettings(const std::string& solutionFilePath);
 
@@ -39,6 +40,11 @@ private:
 
 	std::vector<std::string> seperateIncludePaths(const std::vector<std::string>& includePaths) const;
 	std::vector<std::string> seperateIncludePaths(const std::string& includePaths) const;
+
+	std::vector<std::string> seperateCompilerFlags(const std::vector<std::string>& compilerFlags) const;
+	std::vector<std::string> seperateCompilerFlags(const std::string& compilerFlags) const;
+
+	std::vector<std::string> m_compatibilityFlags;
 };
 
 #endif // SOLUTION_PARSER_VISUAL_STUDIO_H
