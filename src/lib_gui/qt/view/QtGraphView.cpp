@@ -365,9 +365,8 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const 
 
 	if (owner != NULL && target != NULL)
 	{
-		std::shared_ptr<QtGraphEdge> qtEdge = std::make_shared<QtGraphEdge>(owner, target, edge.data, edge.getWeight());
-		qtEdge->setIsActive(edge.active);
-		qtEdge->setDirection(edge.getDirection());
+		std::shared_ptr<QtGraphEdge> qtEdge =
+			std::make_shared<QtGraphEdge>(owner, target, edge.data, edge.getWeight(), edge.active, edge.getDirection());
 
 		owner->addOutEdge(qtEdge);
 		target->addInEdge(qtEdge);

@@ -29,6 +29,9 @@ private:
 	QPolygon getPath() const;
 	int getDirection(const QPointF& a, const QPointF& b) const;
 
+	QRectF getArrowBoundingRect(const QPolygon& poly) const;
+	void drawArrow(const QPolygon& poly, QPainterPath* path) const;
+
 	Vec4i m_ownerRect;
 	Vec4i m_targetRect;
 
@@ -39,6 +42,8 @@ private:
 
 	bool m_onBack;
 	bool m_horizontalIn;
+
+	mutable QPolygon m_polygon;
 };
 
 #endif // QT_ANGLED_LINE_ITEM_H

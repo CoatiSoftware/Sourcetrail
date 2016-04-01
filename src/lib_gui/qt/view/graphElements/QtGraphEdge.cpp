@@ -15,17 +15,22 @@
 #include "qt/view/graphElements/QtGraphNode.h"
 
 QtGraphEdge::QtGraphEdge(
-	const std::weak_ptr<QtGraphNode>& owner, const std::weak_ptr<QtGraphNode>& target, const Edge* data, size_t weight
+	const std::weak_ptr<QtGraphNode>& owner,
+	const std::weak_ptr<QtGraphNode>& target,
+	const Edge* data,
+	size_t weight,
+	bool isActive,
+	TokenComponentAggregation::Direction direction
 )
 	: m_data(data)
 	, m_owner(owner)
 	, m_target(target)
 	, m_child(nullptr)
-	, m_isActive(false)
+	, m_isActive(isActive)
 	, m_fromActive(false)
 	, m_toActive(false)
 	, m_weight(weight)
-	, m_direction(TokenComponentAggregation::DIRECTION_NONE)
+	, m_direction(direction)
 	, m_mousePos(0.0f, 0.0f)
 	, m_mouseMoved(false)
 {

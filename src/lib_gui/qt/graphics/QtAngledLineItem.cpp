@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include <QPainter>
+#include <QStyleOptionGraphicsItem>
 
 #include "utility/math/Vector2.h"
 
@@ -12,6 +13,7 @@ QtAngledLineItem::QtAngledLineItem(QGraphicsItem* parent)
 	, m_horizontalIn(false)
 {
 	this->setAcceptHoverEvents(true);
+	this->setFlag(QGraphicsItem::ItemUsesExtendedStyleOption, true);
 }
 
 QtAngledLineItem::~QtAngledLineItem()
@@ -24,6 +26,7 @@ void QtAngledLineItem::updateLine(
 	GraphViewStyle::EdgeStyle style
 ){
 	prepareGeometryChange();
+	m_polygon.clear();
 
 	m_ownerRect = ownerRect;
 	m_targetRect = targetRect;
@@ -52,13 +55,16 @@ void QtAngledLineItem::setHorizontalIn(bool horizontal)
 
 QPainterPath QtAngledLineItem::shape() const
 {
-	int w = m_style.arrowWidth / 2 + 1;
 	QPainterPath path;
 	QPolygon poly = getPath();
+
 	for (int i = 0; i < poly.size() - 1; i++)
 	{
-		path.addRect(QRectF(poly.at(i), poly.at(i + 1)).normalized().adjusted(-w, -w, w, w));
+		path.addRect(QRectF(poly.at(i), poly.at(i + 1)).normalized().adjusted(-3, -3, 3, 3));
 	}
+
+	path.addRect(getArrowBoundingRect(poly).adjusted(-3, -3, 3, 3));
+
 	return path;
 }
 
@@ -72,6 +78,9 @@ void QtAngledLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem* 
 	int i = poly.length() - 1;
 
 	path.moveTo(poly.at(i));
+
+	QRectF drawRect = options->exposedRect;
+	QRectF partRect;
 
 	int radius = m_style.cornerRadius;
 	int dir = getDirection(poly.at(i), poly.at(i - 1));
@@ -115,85 +124,96 @@ void QtAngledLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem* 
 		case 3: b.setX(b.x() - br); break;
 		}
 
-		switch (dir)
+		partRect = QRectF(poly.at(i + 1), poly.at(i)).adjusted(-1, -1, 1, 1);
+		if (drawRect.intersects(partRect))
 		{
-		case 0:
-			if (newDir == 1)
+			path.lineTo(a);
+		}
+		else
+		{
+			path.moveTo(a);
+		}
+
+		partRect = QRectF(a, b).normalized().adjusted(-1, -1, 1, 1);
+		if (drawRect.intersects(partRect))
+		{
+			switch (dir)
 			{
-				path.arcTo(a.x(), b.y(), 2 * br, 2 * ar, 180, -90);
+			case 0:
+				if (newDir == 1)
+				{
+					path.arcTo(a.x(), b.y(), 2 * br, 2 * ar, 180, -90);
+				}
+				else if (newDir == 3)
+				{
+					path.arcTo(b.x() - br, a.y() - ar, 2 * br, 2 * ar, 0, 90);
+				}
+				break;
+			case 1:
+				if (newDir == 0)
+				{
+					path.arcTo(a.x() - ar, b.y() - br, 2 * ar, 2 * br, -90, 90);
+				}
+				else if (newDir == 2)
+				{
+					path.arcTo(a.x() - ar, a.y(), 2 * ar, 2 * br, 90, -90);
+				}
+				break;
+			case 2:
+				if (newDir == 1)
+				{
+					path.arcTo(a.x(), a.y() - ar, 2 * br, 2 * ar, 180, 90);
+				}
+				else if (newDir == 3)
+				{
+					path.arcTo(b.x() - br, a.y() - ar, 2 * br, 2 * ar, 0, -90);
+				}
+				break;
+			case 3:
+				if (newDir == 0)
+				{
+					path.arcTo(b.x(), b.y() - br, 2 * ar, 2 * br, -90, -90);
+				}
+				else if (newDir == 2)
+				{
+					path.arcTo(b.x(), a.y(), 2 * ar, 2 * br, 90, 90);
+				}
+				break;
 			}
-			else if (newDir == 3)
-			{
-				path.arcTo(b.x() - br, a.y() - ar, 2 * br, 2 * ar, 0, 90);
-			}
-			break;
-		case 1:
-			if (newDir == 0)
-			{
-				path.arcTo(a.x() - ar, b.y() - br, 2 * ar, 2 * br, -90, 90);
-			}
-			else if (newDir == 2)
-			{
-				path.arcTo(a.x() - ar, a.y(), 2 * ar, 2 * br, 90, -90);
-			}
-			break;
-		case 2:
-			if (newDir == 1)
-			{
-				path.arcTo(a.x(), a.y() - ar, 2 * br, 2 * ar, 180, 90);
-			}
-			else if (newDir == 3)
-			{
-				path.arcTo(b.x() - br, a.y() - ar, 2 * br, 2 * ar, 0, -90);
-			}
-			break;
-		case 3:
-			if (newDir == 0)
-			{
-				path.arcTo(b.x(), b.y() - br, 2 * ar, 2 * br, -90, -90);
-			}
-			else if (newDir == 2)
-			{
-				path.arcTo(b.x(), a.y(), 2 * ar, 2 * br, 90, 90);
-			}
-			break;
+		}
+		else
+		{
+			path.moveTo(b);
 		}
 
 		dir = newDir;
 		radius = br;
 	}
 
-	QPointF arrow = poly.at(0) + QPointF((poly.at(0).x() - poly.at(1).x() > 0 ? -1 : 1) * m_style.arrowLength, 0);
-
-	if (m_style.arrowClosed)
+	partRect = QRectF(poly.at(0), poly.at(1)).adjusted(-1, -1, 1, 1);
+	if (drawRect.intersects(partRect))
 	{
-		path.lineTo(arrow);
-		path.moveTo(poly.at(0));
+		partRect = getArrowBoundingRect(poly);
+		if (drawRect.intersects(partRect))
+		{
+			drawArrow(poly, &path);
+		}
+		else
+		{
+			path.lineTo(poly.at(0));
+		}
 	}
-	else
-	{
-		path.lineTo(poly.at(0));
-	}
-
-	arrow.setY(arrow.y() - m_style.arrowWidth / 2);
-	path.lineTo(arrow);
-	arrow.setY(arrow.y() + m_style.arrowWidth);
-
-	if (m_style.arrowClosed)
-	{
-		path.lineTo(arrow);
-	}
-	else
-	{
-		path.moveTo(arrow);
-	}
-	path.lineTo(poly.at(0));
 
 	painter->drawPath(path);
 }
 
 QPolygon QtAngledLineItem::getPath() const
 {
+	if (m_polygon.size() > 0)
+	{
+		return m_polygon;
+	}
+
 	const Vec4i& oR = m_ownerRect;
 	const Vec4i& tR = m_targetRect;
 
@@ -287,6 +307,9 @@ QPolygon QtAngledLineItem::getPath() const
 	poly << tp;
 	poly << op;
 	poly << QPoint(o[io].x, o[io].y + m_style.originOffset.y);
+
+	m_polygon = poly;
+
 	return poly;
 }
 
@@ -296,22 +319,107 @@ int QtAngledLineItem::getDirection(const QPointF& a, const QPointF& b) const
 	{
 		if (a.x() < b.x())
 		{
-			return 1;
+			return 1; // right
 		}
 		else
 		{
-			return 3;
+			return 3; // left
 		}
 	}
 	else
 	{
 		if (a.y() < b.y())
 		{
-			return 2;
+			return 2; // down
 		}
 		else
 		{
-			return 0;
+			return 0; // up
 		}
 	}
+}
+
+QRectF QtAngledLineItem::getArrowBoundingRect(const QPolygon& poly) const
+{
+	int dir = getDirection(poly.at(1), poly.at(0));
+
+	QRectF rect(
+		poly.at(0).x(),
+		poly.at(0).y(),
+		(dir % 2 == 1 ? m_style.arrowLength : m_style.arrowWidth),
+		(dir % 2 == 0 ? m_style.arrowLength : m_style.arrowWidth)
+	);
+
+	switch (dir)
+	{
+	case 0:
+		rect.moveLeft(rect.left() - rect.width() / 2);
+		break;
+	case 1:
+		rect.moveLeft(rect.left() - rect.width());
+		rect.moveTop(rect.top() - rect.height() / 2);
+		break;
+	case 2:
+		rect.moveLeft(rect.left() - rect.width() / 2);
+		rect.moveTop(rect.top() - rect.height());
+		break;
+	case 3:
+		rect.moveTop(rect.top() - rect.height() / 2);
+		break;
+	}
+
+	return rect;
+}
+
+void QtAngledLineItem::drawArrow(const QPolygon& poly, QPainterPath* path) const
+{
+	int dir = getDirection(poly.at(1), poly.at(0));
+
+	QPointF tip = poly.at(0);
+	QPointF toBack;
+	QPointF toLeft;
+
+	switch (dir)
+	{
+	case 0:
+		toBack.setY(m_style.arrowLength);
+		toLeft.setX(-m_style.arrowWidth / 2);
+		break;
+	case 1:
+		toBack.setX(-m_style.arrowLength);
+		toLeft.setY(-m_style.arrowWidth / 2);
+		break;
+	case 2:
+		toBack.setY(-m_style.arrowLength);
+		toLeft.setX(m_style.arrowWidth / 2);
+		break;
+	case 3:
+		toBack.setX(m_style.arrowLength);
+		toLeft.setY(m_style.arrowWidth / 2);
+		break;
+	}
+
+
+	if (m_style.arrowClosed)
+	{
+		path->lineTo(tip + toBack);
+		path->moveTo(tip);
+	}
+	else
+	{
+		path->lineTo(tip);
+	}
+
+	path->lineTo(tip + toBack + toLeft);
+
+	if (m_style.arrowClosed)
+	{
+		path->lineTo(tip + toBack - toLeft);
+	}
+	else
+	{
+		path->moveTo(tip + toBack - toLeft);
+	}
+
+	path->lineTo(tip);
 }

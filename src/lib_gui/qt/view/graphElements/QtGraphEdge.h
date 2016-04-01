@@ -20,7 +20,13 @@ class QtGraphEdge
 	Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
 
 public:
-	QtGraphEdge(const std::weak_ptr<QtGraphNode>& owner, const std::weak_ptr<QtGraphNode>& target, const Edge* data, size_t weight);
+	QtGraphEdge(
+		const std::weak_ptr<QtGraphNode>& owner,
+		const std::weak_ptr<QtGraphNode>& target,
+		const Edge* data,
+		size_t weight,
+		bool isActive,
+		TokenComponentAggregation::Direction direction);
 	virtual ~QtGraphEdge();
 
 	const Edge* getData() const;
