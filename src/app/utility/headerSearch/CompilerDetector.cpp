@@ -30,3 +30,8 @@ std::vector<FilePath> CompilerDetector::getStandardHeaderPaths()
 	return paths;
 }
 
+// Add Gcc to Available Detectors
+static StandardHeaderDetection::Add<CompilerDetector> gcc("gcc");
+// Add Clang to Available Detectors
+static StandardHeaderDetection::Add<CompilerDetector> clang("clang");
+

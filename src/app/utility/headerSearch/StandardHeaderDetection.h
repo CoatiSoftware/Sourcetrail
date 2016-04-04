@@ -42,6 +42,7 @@ public:
 		}
 	};
 
+	/// Debugging Output
 	void printAvailableDetectors();
 	void printdetectedCompilers();
 private:

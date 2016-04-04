@@ -13,8 +13,5 @@ public:
 private:
 };
 
-static StandardHeaderDetection::Add<CompilerDetector> gcc("gcc");
-static StandardHeaderDetection::Add<CompilerDetector> clang("clang");
-static StandardHeaderDetection::Add<CompilerDetector> fakecomplier("fakecompiler");
 
 #endif // COMPILER_DETECTOR_H

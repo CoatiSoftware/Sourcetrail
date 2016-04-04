@@ -20,6 +20,9 @@
 
 #include "settings/ProjectSettings.h"
 
+
+#include "utility/headerSearch/StandardHeaderDetection.h"
+
 void init()
 {
 	std::shared_ptr<ConsoleLogger> consoleLogger = std::make_shared<ConsoleLogger>();
@@ -82,6 +85,10 @@ int main(int argc, char *argv[])
 		QtNetworkFactory networkFactory;
 
 		LicenseChecker checker;
+
+		StandardHeaderDetection detection;
+		detection.printdetectedCompilers();
+		detection.printAvailableDetectors();
 
 		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
 		std::shared_ptr<Application> app = Application::create(version, &viewFactory, &networkFactory);
