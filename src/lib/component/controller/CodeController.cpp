@@ -582,6 +582,7 @@ std::vector<std::string> CodeController::getProjectDescription(TokenLocationFile
 		return std::vector<std::string>();
 	}
 
+	// todo fixme: this split currently prevents the next step from recognizing multi level name hierarchies.
 	std::vector<std::string> lines = utility::splitToVector(description, "\\n");
 	size_t startLineNumber = 4;
 
@@ -590,6 +591,7 @@ std::vector<std::string> CodeController::getProjectDescription(TokenLocationFile
 		std::string line = "\t" + lines[i];
 
 		line = utility::replace(line, "\\t", "\t");
+		line = utility::replace(line, "\\r", "\r");
 
 		size_t pos = 0;
 		while (pos != std::string::npos)
@@ -602,21 +604,23 @@ std::vector<std::string> CodeController::getProjectDescription(TokenLocationFile
 				break;
 			}
 
-			std::string tokenName = line.substr(posA + 1, posB - posA - 1);
+			std::string serializedName = line.substr(posA + 1, posB - posA - 1);
 
-			Id tokenId = m_storageAccess->getIdForNodeWithSearchNameHierarchy(NameHierarchy(tokenName));
+			NameHierarchy nameHierarchy = NameHierarchy::deserialize(serializedName);
+			Id tokenId = m_storageAccess->getIdForNodeWithNameHierarchy(nameHierarchy);
 
 			if (tokenId > 0)
 			{
-				line.replace(posA, posB - posA + 1, tokenName);
+				std::string nameString = nameHierarchy.getQualifiedName();
+				line.replace(posA, posB - posA + 1, nameString);
 				locationFile->addTokenLocation(
 					0, tokenId,
 					startLineNumber + i, posA + 1,
-					startLineNumber + i, posA + tokenName.size()
+					startLineNumber + i, posA + nameString.size()
 				);
 			}
 
-			pos = posA + tokenName.size();
+			pos = posA + serializedName.size();
 		}
 
 		lines[i] = line;

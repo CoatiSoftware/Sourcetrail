@@ -14,7 +14,7 @@
 			LET'S GET STARTED!\n
 			\tTo keep things simple just click the "main" symbol below to start the tour.\n
 			\n
-			[main](); // &lt;- start here\n\n
+			[main\tint\r()](); // &lt;- start here\n\n
 		</description>
 	</info>
 	<source>

@@ -1,59 +1,66 @@
 #ifndef SEARCH_INDEX_H
 #define SEARCH_INDEX_H
 
-#include <ostream>
-#include <set>
+#include <map>
+#include <memory>
 #include <vector>
-
-#include "utility/text/Dictionary.h"
-#include "utility/types.h"
+#include <set>
+#include <string>
+#include <unordered_set>
 
 #include "data/name/NameHierarchy.h"
-#include "data/search/SearchNode.h"
+#include "utility/types.h"
+
+struct SearchResult
+{
+	std::string text;
+	std::set<Id> elementIds;
+	std::vector<size_t> indices;
+};
 
 class SearchIndex
 {
 public:
-	static std::vector<SearchMatch> getMatches(const SearchResults& searchResults, const std::string& query);
-
 	SearchIndex();
 	virtual ~SearchIndex();
 
+	void addNode(Id id, const NameHierarchy& nameHierarchy);
+	void finishSetup();
 	void clear();
 
-	size_t getNodeCount() const;
-	size_t getCharCount() const;
-	size_t getWordCount() const;
-
-	Id getWordId(const std::string& word);
-	const std::string& getWord(Id wordId) const;
-
-	SearchNode* addNode(NameHierarchy nameHierarchy);
-	SearchNode* getNode(const NameHierarchy& nameHierarchy) const;
-	SearchNode* getNode(const std::string& fullName) const;
-	SearchNode* getNode(const SearchNode* searchNode) const;
-
-	void removeNode(SearchNode* searchNode);
-	bool removeNodeIfUnreferencedRecursive(SearchNode* searchNode);
-
-	void addTokenId(SearchNode* node, Id tokenId);
-	NameHierarchy getNameHierarchyForTokenId(Id tokenId) const;
-
-	SearchResults runFuzzySearch(const std::string& query) const;
-	SearchResults runFuzzySearchCached(const std::string& query, const SearchResults& searchResults) const;
-	std::vector<SearchMatch> runFuzzySearchAndGetMatches(const std::string& query) const;
-
-	static const std::string DELIMITER;
+	// maxResultCount == 0 means "no restriction".
+	std::vector<SearchResult> search(const std::string& query, size_t maxResultCount) const;
 
 private:
-	SearchNode m_root;
-	Dictionary m_dictionary;
+	struct Node;
+	struct Edge;
 
-	std::map<Id, SearchNode*> m_tokenIds;
+	struct Node
+	{
+		std::set<Id> elementIds;
+		std::vector<Edge*> edges;
+	};
 
-	friend std::ostream& operator<<(std::ostream& ostream, const SearchIndex& index);
+	struct Edge
+	{
+		Node* target;
+		std::string s;
+		std::unordered_set<char> gate;
+	};
+
+	struct Path
+	{
+		std::string text;
+		std::vector<size_t> indices;
+		Node* node;
+	};
+
+	void populateEdgeGate(Edge* e);
+	std::vector<Path> search(const Path& path, const std::string& remainingQuery) const;
+
+	std::vector<std::shared_ptr<Node>> m_nodes;
+	std::vector<std::shared_ptr<Edge>> m_edges;
+	Node* m_root;
 };
-
-std::ostream& operator<<(std::ostream& ostream, const SearchIndex& index);
 
 #endif // SEARCH_INDEX_H

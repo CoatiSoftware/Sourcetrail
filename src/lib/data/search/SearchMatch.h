@@ -44,16 +44,13 @@ struct SearchMatch
 	std::string getNodeTypeAsString() const;
 	std::string getSearchTypeName() const;
 
-	NameHierarchy nameHierarchy;
+	std::string text;
 	std::string typeName;
-
 	Node::NodeType nodeType;
 	SearchType searchType;
-
-	std::set<Id> tokenIds;
-
 	std::vector<size_t> indices;
-	size_t weight;
+
+	std::vector<NameHierarchy> nameHierarchies;
 };
 
 

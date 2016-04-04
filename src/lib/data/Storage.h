@@ -7,11 +7,11 @@
 #include "utility/file/FilePath.h"
 
 #include "data/access/StorageAccess.h"
-#include "data/HierarchyCache.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/parser/ParserClient.h"
 #include "data/search/SearchIndex.h"
+#include "data/HierarchyCache.h"
 #include "data/SqliteStorage.h"
 
 #include "data/parser/ParserClientImpl.h"
@@ -35,7 +35,6 @@ public:
 	void removeUnusedNames();
 
 	std::vector<FileInfo> getInfoOnAllFiles() const;
-	const SearchIndex& getSearchIndex() const;
 
 	void logStats() const;
 
@@ -46,7 +45,6 @@ public:
 
 	// StorageAccess implementation
 	virtual Id getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const;
-	virtual Id getIdForNodeWithSearchNameHierarchy(const NameHierarchy& nameHierarchy) const;
 	virtual Id getIdForEdge(
 		Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy) const;
 
@@ -56,7 +54,7 @@ public:
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id nodeId) const;
 
 	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const;
-	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const;
+	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& elementIds) const;
 
 	virtual std::shared_ptr<Graph> getGraphForAll() const;
 	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds, bool activeOnly) const;
@@ -105,16 +103,13 @@ private:
 
 	void log(std::string type, std::string str, const ParseLocation& location) const;
 
-	SearchIndex m_tokenIndex;
 	SearchIndex m_commandIndex;
+	SearchIndex m_searchIndex;
 
 	SqliteStorage m_sqliteStorage;
 
 	mutable std::map <FilePath, Id> m_fileNodeIds;
 	HierarchyCache m_hierarchyCache;
-
-	mutable SearchResults m_cachedResults;
-	mutable std::string m_cachedQuery;
 };
 
 #endif // STORAGE_H

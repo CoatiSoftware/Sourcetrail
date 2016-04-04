@@ -3,302 +3,95 @@
 #include "utility/utilityString.h"
 
 #include "data/search/SearchIndex.h"
-#include "data/search/SearchMatch.h"
 
 class SearchIndexTestSuite : public CxxTest::TestSuite
 {
 public:
-	void test_add_node()
+
+	void test_search_index_finds_id_of_element_added()
 	{
 		SearchIndex index;
-		SearchNode* node = index.addNode(createNameHierarchy("util"));
+		index.addNode(1, NameHierarchy::deserialize("foo\tvoid\r() const"));
+		index.finishSetup();
+		std::vector<SearchResult> results = index.search("oo", 0);
 
-		TS_ASSERT(node);
-		TS_ASSERT_EQUALS("util", node->getName());
-		TS_ASSERT_EQUALS("util", node->getFullName());
-
-		TS_ASSERT(node->getNameId());
-		TS_ASSERT(!node->getFirstTokenId());
-		TS_ASSERT(node->getParent());
-		TS_ASSERT(!node->getParent()->getNameId());
+		TS_ASSERT_EQUALS(1, results.size());
+		TS_ASSERT_EQUALS(1, results[0].elementIds.size());
+		TS_ASSERT_DIFFERS(results[0].elementIds.end(), results[0].elementIds.find(1));
 	}
 
-	void test_get_node()
+	void test_search_index_finds_correct_indices_for_query()
 	{
 		SearchIndex index;
-		index.addNode(createNameHierarchy("util"));
-		SearchNode* node = index.getNode("util");
+		index.addNode(1, NameHierarchy::deserialize("foo\tvoid\r() const"));
+		index.finishSetup();
+		std::vector<SearchResult> results = index.search("oo", 0);
 
-		TS_ASSERT(node);
-		TS_ASSERT_EQUALS("util", node->getName());
-		TS_ASSERT_EQUALS("util", node->getFullName());
-
-		TS_ASSERT(node->getNameId());
-		TS_ASSERT(!node->getFirstTokenId());
-		TS_ASSERT(node->getParent());
-		TS_ASSERT(!node->getParent()->getNameId());
-
-		node = index.getNode("math");
-		TS_ASSERT(!node);
+		TS_ASSERT_EQUALS(1, results.size());
+		TS_ASSERT_EQUALS(2, results[0].indices.size());
+		TS_ASSERT_EQUALS(1, results[0].indices[0]);
+		TS_ASSERT_EQUALS(2, results[0].indices[1]);
 	}
 
-	void test_add_hierarchy_node()
+	void test_search_index_finds_ids_for_ambiguous_query()
 	{
 		SearchIndex index;
-		SearchNode* node = index.addNode(createNameHierarchy("util::math::pow"));
+		index.addNode(1, NameHierarchy::deserialize("for\tvoid\r() const"));
+		index.addNode(2, NameHierarchy::deserialize("fos\tvoid\r() const"));
+		index.finishSetup();
+		std::vector<SearchResult> results = index.search("fo", 0);
 
-		TS_ASSERT(node);
-		TS_ASSERT_EQUALS("pow", node->getName());
-		TS_ASSERT_EQUALS("util::math::pow", node->getFullName());
-
-		TS_ASSERT(node->getNameId());
-		TS_ASSERT(!node->getFirstTokenId());
-
-		TS_ASSERT(node->getParent());
-		TS_ASSERT_EQUALS("math", node->getParent()->getName());
-
-		TS_ASSERT(node->getParent()->getParent());
-		TS_ASSERT_EQUALS("util", node->getParent()->getParent()->getName());
+		TS_ASSERT_EQUALS(2, results.size());
+		TS_ASSERT_EQUALS(1, results[0].elementIds.size());
+		TS_ASSERT_DIFFERS(results[0].elementIds.end(), results[0].elementIds.find(1));
+		TS_ASSERT_EQUALS(1, results[1].elementIds.size());
+		TS_ASSERT_DIFFERS(results[1].elementIds.end(), results[1].elementIds.find(2));
 	}
 
-	void test_reuse_hierarchy_node()
+	void test_search_index_does_not_find_anything_after_clear()
 	{
 		SearchIndex index;
-		SearchNode* node1 = index.addNode(createNameHierarchy("math::pow"));
-		SearchNode* node2 = index.addNode(createNameHierarchy("math::floor"));
-
-		TS_ASSERT(node1);
-		TS_ASSERT(node2);
-
-		TS_ASSERT_EQUALS("pow", node1->getName());
-		TS_ASSERT_EQUALS("floor", node2->getName());
-
-		TS_ASSERT_EQUALS(node1->getParent(), node2->getParent());
-	}
-
-	void test_remove_nodes()
-	{
-		SearchIndex index;
-		index.addNode(createNameHierarchy("util::math::pow"));
-		index.addNode(createNameHierarchy("util::math::floor"));
-
-		index.removeNode(index.getNode("util::math::pow"));
-
-		TS_ASSERT(!index.getNode("util::math::pow"));
-		TS_ASSERT(index.getNode("util::math::floor"));
-		TS_ASSERT(index.getNode("util::math"));
-
-		index.removeNode(index.getNode("util::math"));
-
-		TS_ASSERT(!index.getNode("util::math::floor"));
-		TS_ASSERT(!index.getNode("util::math"));
-		TS_ASSERT(index.getNode("util"));
-	}
-
-	void test_remove_unreferenced_nodes()
-	{
-		SearchIndex index;
-		SearchNode* node1 = index.addNode(createNameHierarchy("util::math::pow"));
-		SearchNode* node2 = index.addNode(createNameHierarchy("util::math::floor"));
-
-		node1->addTokenId(1);
-		node2->addTokenId(2);
-
-		TS_ASSERT(index.getNode("util")->hasTokenIdsRecursive());
-
-		TS_ASSERT(!index.removeNodeIfUnreferencedRecursive(index.getNode("util")));
-		TS_ASSERT(!index.removeNodeIfUnreferencedRecursive(index.getNode("util::math")));
-		TS_ASSERT(!index.removeNodeIfUnreferencedRecursive(index.getNode("util::math::pow")));
-
-		node1->removeTokenId(1);
-
-		TS_ASSERT(index.removeNodeIfUnreferencedRecursive(index.getNode("util::math::pow")));
-		TS_ASSERT(!index.getNode("util::math::pow"));
-		TS_ASSERT(index.getNode("util::math"));
-		TS_ASSERT(index.getNode("util"));
-
-		node2->removeTokenId(2);
-
-		TS_ASSERT(index.removeNodeIfUnreferencedRecursive(index.getNode("util::math")));
-
-		TS_ASSERT(!index.getNode("util::math"));
-		TS_ASSERT(!index.getNode("util"));
-	}
-
-	void test_clear()
-	{
-		SearchIndex index;
-		index.addNode(createNameHierarchy("math"));
-		index.addNode(createNameHierarchy("string"));
-
-		TS_ASSERT(index.getNode("math"));
-
+		index.addNode(1, NameHierarchy::deserialize("foo\tvoid\r() const"));
+		index.finishSetup();
 		index.clear();
+		std::vector<SearchResult> results = index.search("oo", 0);
 
-		TS_ASSERT(!index.getNode("math"));
-		TS_ASSERT(!index.getNode("string"));
+		TS_ASSERT_EQUALS(0, results.size());
 	}
 
-	void test_fuzzy_matching()
+	void test_search_index_does_not_find_all_results_when_max_amount_is_limited()
 	{
 		SearchIndex index;
-		index.addNode(createNameHierarchy("util"));
-		index.addNode(createNameHierarchy("math"));
-		index.addNode(createNameHierarchy("string"));
+		index.addNode(1, NameHierarchy::deserialize("foo1\tvoid\r() const"));
+		index.addNode(2, NameHierarchy::deserialize("foo2\tvoid\r() const"));
+		index.finishSetup();
+		std::vector<SearchResult> results = index.search("oo", 1);
 
-		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("u");
-
-		TS_ASSERT_EQUALS(1, matches.size());
-		TS_ASSERT_EQUALS("util", matches[0].getFullName());
-
-		TS_ASSERT_EQUALS(1, matches[0].indices.size());
-		TS_ASSERT_EQUALS(0, matches[0].indices[0]);
-
-		matches = index.runFuzzySearchAndGetMatches("");
-		TS_ASSERT_EQUALS(3, matches.size());
-		TS_ASSERT_EQUALS("math", matches[0].getFullName());
-		TS_ASSERT_EQUALS("string", matches[1].getFullName());
-		TS_ASSERT_EQUALS("util", matches[2].getFullName());
-
-		TS_ASSERT_EQUALS(0, matches[0].weight);
-		TS_ASSERT_EQUALS(0, matches[1].weight);
-		TS_ASSERT_EQUALS(0, matches[2].weight);
+		TS_ASSERT_EQUALS(1, results.size());
 	}
 
-	void test_fuzzy_matching_is_case_insensitive()
+	void test_search_index_query_is_case_insensitive()
 	{
 		SearchIndex index;
-		index.addNode(createNameHierarchy("util"));
-		index.addNode(createNameHierarchy("MATH"));
+		index.addNode(1, NameHierarchy::deserialize("foo1\tvoid\r() const"));
+		index.addNode(2, NameHierarchy::deserialize("FOO2\tvoid\r() const"));
+		index.finishSetup();
+		std::vector<SearchResult> results = index.search("oo", 0);
 
-		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
-
-		TS_ASSERT_EQUALS(2, matches.size());
-		TS_ASSERT_EQUALS("util", matches[0].getFullName());
-		TS_ASSERT_EQUALS("MATH", matches[1].getFullName());
-
-		matches = index.runFuzzySearchAndGetMatches("T");
-
-		TS_ASSERT_EQUALS(2, matches.size());
-		TS_ASSERT_EQUALS("util", matches[0].getFullName());
-		TS_ASSERT_EQUALS("MATH", matches[1].getFullName());
+		TS_ASSERT_EQUALS(2, results.size());
 	}
 
-	void test_fuzzy_matching_wheighs_by_distance_and_alphabet()
+	void test_search_index_rates_higher_on_consecutive_letters()
 	{
+
 		SearchIndex index;
-		index.addNode(createNameHierarchy("util"));
-		index.addNode(createNameHierarchy("math"));
-		index.addNode(createNameHierarchy("string"));
+		index.addNode(1, NameHierarchy::deserialize("oaabbcc\tvoid\r() const"));
+		index.addNode(2, NameHierarchy::deserialize("ocbcabc\tvoid\r() const"));
+		index.finishSetup();
+		std::vector<SearchResult> results = index.search("abc", 0);
 
-		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
-
-		TS_ASSERT_EQUALS(3, matches.size());
-		TS_ASSERT_EQUALS("string", matches[0].getFullName());
-		TS_ASSERT_EQUALS("util", matches[1].getFullName());
-		TS_ASSERT_EQUALS("math", matches[2].getFullName());
-
-		TS_ASSERT_EQUALS(1, matches[0].indices.size());
-		TS_ASSERT_EQUALS(1, matches[0].indices[0]);
-
-		TS_ASSERT_EQUALS(1, matches[1].indices.size());
-		TS_ASSERT_EQUALS(1, matches[1].indices[0]);
-
-		TS_ASSERT_EQUALS(1, matches[2].indices.size());
-		TS_ASSERT_EQUALS(2, matches[2].indices[0]);
-	}
-
-	void test_fuzzy_matching_wheighs_higher_by_uppercase()
-	{
-		SearchIndex index;
-		index.addNode(createNameHierarchy("uTil"));
-		index.addNode(createNameHierarchy("string"));
-
-		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
-
-		TS_ASSERT_EQUALS(2, matches.size());
-		TS_ASSERT_EQUALS("uTil", matches[0].getFullName());
-		TS_ASSERT_EQUALS("string", matches[1].getFullName());
-	}
-
-	void test_fuzzy_matching_wheighs_higher_on_consecutive_letters()
-	{
-		SearchIndex index;
-		index.addNode(createNameHierarchy("oaabbcc"));
-		index.addNode(createNameHierarchy("ocbcabc"));
-
-		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("abc");
-
-		TS_ASSERT_EQUALS(2, matches.size());
-		TS_ASSERT_EQUALS("ocbcabc", matches[0].getFullName());
-		TS_ASSERT_EQUALS("oaabbcc", matches[1].getFullName());
-	}
-
-	void test_fuzzy_matching_in_hierarchy()
-	{
-		SearchIndex index;
-		index.addNode(createNameHierarchy("util::math::ceil"));
-		index.addNode(createNameHierarchy("util::math::floor"));
-		index.addNode(createNameHierarchy("util::string::concat"));
-
-		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("t");
-
-		TS_ASSERT_EQUALS(6, matches.size());
-		TS_ASSERT_EQUALS("util", matches[0].getFullName());
-		TS_ASSERT_EQUALS("util::math", matches[1].getFullName());
-		TS_ASSERT_EQUALS("util::math::ceil", matches[2].getFullName());
-		TS_ASSERT_EQUALS("util::math::floor", matches[3].getFullName());
-		TS_ASSERT_EQUALS("util::string", matches[4].getFullName());
-		TS_ASSERT_EQUALS("util::string::concat", matches[5].getFullName());
-
-		matches = index.runFuzzySearchAndGetMatches("uml");
-
-		TS_ASSERT_EQUALS(2, matches.size());
-		TS_ASSERT_EQUALS("util::math::ceil", matches[0].getFullName());
-		TS_ASSERT_EQUALS("util::math::floor", matches[1].getFullName());
-	}
-
-	void test_fuzzy_matching_in_hierarchy_respects_collin()
-	{
-		SearchIndex index;
-		index.addNode(createNameHierarchy("util::math::ceil"));
-		index.addNode(createNameHierarchy("util::math::floor"));
-		index.addNode(createNameHierarchy("util::string::concat"));
-
-		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("u:i");
-
-		TS_ASSERT_EQUALS(3, matches.size());
-		TS_ASSERT_EQUALS("util::string", matches[0].getFullName());
-		TS_ASSERT_EQUALS("util::string::concat", matches[1].getFullName());
-		TS_ASSERT_EQUALS("util::math::ceil", matches[2].getFullName());
-
-		matches = index.runFuzzySearchAndGetMatches("u:t:i");
-
-		TS_ASSERT_EQUALS(1, matches.size());
-		TS_ASSERT_EQUALS("util::math::ceil", matches[0].getFullName());
-	}
-
-	void test_fuzzy_matching_in_hierarchy_weighs_front_letters_higher()
-	{
-		SearchIndex index;
-		index.addNode(createNameHierarchy("abc::dfe::ghi"));
-		index.addNode(createNameHierarchy("abc::hgi"));
-
-		std::vector<SearchMatch> matches = index.runFuzzySearchAndGetMatches("g");
-
-		TS_ASSERT_EQUALS(2, matches.size());
-		TS_ASSERT_EQUALS("abc::dfe::ghi", matches[0].getFullName());
-		TS_ASSERT_EQUALS("abc::hgi", matches[1].getFullName());
-	}
-
-private:
-	NameHierarchy createNameHierarchy(std::string s) const
-	{
-		NameHierarchy nameHierarchy;
-		for (std::string element: utility::splitToVector(s, "::"))
-		{
-			nameHierarchy.push(std::make_shared<NameElement>(element));
-		}
-		return nameHierarchy;
+		TS_ASSERT_EQUALS(2, results.size());
+		TS_ASSERT_EQUALS("ocbcabc", results[0].text);
+		TS_ASSERT_EQUALS("oaabbcc", results[1].text);
 	}
 };

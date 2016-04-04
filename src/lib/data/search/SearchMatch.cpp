@@ -48,7 +48,7 @@ std::string SearchMatch::searchMatchesToString(const std::vector<SearchMatch>& m
 SearchMatch SearchMatch::createCommand(CommandType type)
 {
 	SearchMatch match;
-	match.nameHierarchy = NameHierarchy(getCommandName(type));
+	match.text = getCommandName(type);
 	match.typeName = "command";
 	match.searchType = SEARCH_COMMAND;
 	return match;
@@ -74,7 +74,7 @@ SearchMatch::SearchMatch()
 }
 
 SearchMatch::SearchMatch(const std::string& query)
-	: nameHierarchy(query)
+	: text(query)
 	, typeName("")
 	, searchType(SEARCH_NONE)
 {
@@ -87,7 +87,7 @@ bool SearchMatch::isValid() const
 
 void SearchMatch::print(std::ostream& ostream) const
 {
-	ostream << weight << '\t' << nameHierarchy.getQualifiedName() << std::endl << '\t';
+	ostream << text << std::endl << '\t';
 	size_t i = 0;
 	for (size_t index : indices)
 	{
@@ -104,7 +104,7 @@ void SearchMatch::print(std::ostream& ostream) const
 
 std::string SearchMatch::getFullName() const
 {
-	return nameHierarchy.getQualifiedName();
+	return text;
 }
 
 std::string SearchMatch::getNodeTypeAsString() const

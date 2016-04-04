@@ -134,12 +134,8 @@ add_files(
 
 	data/search/SearchIndex.cpp
 	data/search/SearchIndex.h
-	data/search/SearchNode.cpp
-	data/search/SearchNode.h
 	data/search/SearchMatch.cpp
 	data/search/SearchMatch.h
-	data/search/SearchResult.cpp
-	data/search/SearchResult.h
 
 	data/type/ArrayModifiedDataType.cpp
 	data/type/ArrayModifiedDataType.h

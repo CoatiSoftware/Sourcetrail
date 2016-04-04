@@ -39,8 +39,9 @@ Version Storage::getVersion() const
 
 bool Storage::init()
 {
-	m_commandIndex.addNode(NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_ALL)));
-	m_commandIndex.addNode(NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR)));
+	m_commandIndex.addNode(0, NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_ALL)));
+	m_commandIndex.addNode(0, NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR)));
+	m_commandIndex.finishSetup();
 
 	return m_sqliteStorage.init();
 }
@@ -54,7 +55,7 @@ void Storage::clear()
 
 void Storage::clearCaches()
 {
-	m_tokenIndex.clear();
+	m_searchIndex.clear();
 	m_fileNodeIds.clear();
 	m_hierarchyCache.clear();
 }
@@ -135,11 +136,6 @@ std::vector<FileInfo> Storage::getInfoOnAllFiles() const
 	return fileInfos;
 }
 
-const SearchIndex& Storage::getSearchIndex() const
-{
-	return m_tokenIndex;
-}
-
 void Storage::logStats() const
 {
 	std::stringstream ss;
@@ -194,17 +190,6 @@ Id Storage::getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) co
 	return m_sqliteStorage.getNodeBySerializedName(NameHierarchy::serialize(nameHierarchy)).id;
 }
 
-Id Storage::getIdForNodeWithSearchNameHierarchy(const NameHierarchy& nameHierarchy) const
-{
-	SearchNode* node = m_tokenIndex.getNode(nameHierarchy);
-	if (node)
-	{
-		return node->getFirstTokenId();
-	}
-
-	return 0;
-}
-
 Id Storage::getIdForEdge(
 	Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy
 ) const
@@ -231,77 +216,80 @@ Node::NodeType Storage::getNodeTypeForNodeWithId(Id nodeId) const
 
 std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& query) const
 {
-	if (query.size() == m_cachedQuery.size() + 1 && query.find(m_cachedQuery) == 0 && m_cachedResults.size())
+	const size_t maxResultCount = 100;
+	std::vector<SearchResult> results = m_commandIndex.search(query, 0);
+	utility::append(results, m_searchIndex.search(query, maxResultCount));
+
+	std::vector<SearchMatch> matches;
+	for (size_t i = 0; i < results.size(); i++)
 	{
-		m_cachedResults = m_tokenIndex.runFuzzySearchCached(query, m_cachedResults);
-	}
-	else
-	{
-		m_cachedResults = m_tokenIndex.runFuzzySearch(query);
-	}
+		SearchMatch match;
 
-	m_cachedQuery = query;
-
-	SearchResults results = m_cachedResults;
-	SearchResults commandResults = m_commandIndex.runFuzzySearch(query);
-	results.insert(commandResults.begin(), commandResults.end());
-
-	std::vector<SearchMatch> matches = SearchIndex::getMatches(results, query);
-
-	LOG_INFO_STREAM(<< matches.size() << " matches for \"" << query << "\"");
-
-	if (matches.size() > 100)
-	{
-		matches.resize(100);
-	}
-
-	for (SearchMatch& match : matches)
-	{
-		if (!match.tokenIds.size())
+		if (results[i].elementIds.size() > 0)
 		{
-			match.searchType = SearchMatch::SEARCH_COMMAND;
-			match.typeName = "command";
-			continue;
-		}
-
-		Id elementId = *(match.tokenIds.cbegin());
-		if (m_sqliteStorage.isNode(elementId))
-		{
-			StorageNode node = m_sqliteStorage.getNodeById(elementId);
-			match.nodeType = Node::intToType(node.type);
-			match.typeName = Node::getTypeString(match.nodeType);
-
-			if (intToDefinitionType(node.definitionType) == DEFINITION_NONE && match.nodeType != Node::NODE_UNDEFINED)
+			StorageNode firstNode(0, 0, "", 0);
+			for (std::set<Id>::const_iterator itElementIds = results[i].elementIds.begin(); itElementIds != results[i].elementIds.end(); itElementIds++)
 			{
-				match.typeName = "undefined " + match.typeName;
+				Id elementId = *itElementIds;
+				if (elementId != 0)
+				{
+					StorageNode node = m_sqliteStorage.getNodeById(elementId);
+					match.nameHierarchies.push_back(NameHierarchy::deserialize(node.serializedName));
+
+					if (firstNode.id == 0)
+					{
+						firstNode = node;
+					}
+				}
+			}
+
+			match.text = results[i].text;
+			match.indices = results[i].indices;
+
+			if (firstNode.id != 0)
+			{
+				match.nodeType = Node::intToType(firstNode.type);
+				match.typeName = Node::getTypeString(match.nodeType);
+
+				if (intToDefinitionType(firstNode.definitionType) == DEFINITION_NONE && match.nodeType != Node::NODE_UNDEFINED)
+				{
+					match.typeName = "undefined " + match.typeName;
+				}
+				match.searchType = SearchMatch::SEARCH_TOKEN;
+			}
+			else
+			{
+				match.searchType = SearchMatch::SEARCH_COMMAND;
+				match.typeName = "command";
 			}
 		}
-		else
-		{
-			match.typeName = Edge::getTypeString(Edge::intToType(m_sqliteStorage.getEdgeById(elementId).type));
-		}
 
-		match.searchType = SearchMatch::SEARCH_TOKEN;
+		matches.push_back(match);
 	}
+
+	std::sort(matches.begin(), matches.end(), [](SearchMatch a, SearchMatch b){
+		return b.text.size() > a.text.size();
+	});
 
 	return matches;
 }
 
-std::vector<SearchMatch> Storage::getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const
+std::vector<SearchMatch> Storage::getSearchMatchesForTokenIds(const std::vector<Id>& elementIds) const
 {
+	// todo: what if all these elements share the same node in the searchindex? in that case there should be only one search match.
 	std::vector<SearchMatch> matches;
 
-	for (Id tokenId : tokenIds)
+	for (Id elementId : elementIds)
 	{
 		SearchMatch match;
 
-		if (m_sqliteStorage.isFile(tokenId))
+		if (m_sqliteStorage.isFile(elementId))
 		{
 			match.nodeType = Node::NODE_FILE;
 		}
-		else if (m_sqliteStorage.isNode(tokenId))
+		else if (m_sqliteStorage.isNode(elementId))
 		{
-			StorageNode node = m_sqliteStorage.getNodeById(tokenId);
+			StorageNode node = m_sqliteStorage.getNodeById(elementId);
 			match.nodeType = Node::intToType(node.type);
 		}
 		else
@@ -309,8 +297,9 @@ std::vector<SearchMatch> Storage::getSearchMatchesForTokenIds(const std::vector<
 			continue;
 		}
 
-		match.tokenIds.insert(tokenId);
-		match.nameHierarchy = m_tokenIndex.getNameHierarchyForTokenId(tokenId);
+		NameHierarchy nameHierarchy = NameHierarchy::deserialize(m_sqliteStorage.getNodeById(elementId).serializedName);
+		match.text = nameHierarchy.getQualifiedName();
+		match.nameHierarchies.push_back(nameHierarchy.getQualifiedName());
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 
 		matches.push_back(match);
@@ -492,10 +481,9 @@ std::vector<Id> Storage::getTokenIdsForMatches(const std::vector<SearchMatch>& m
 	std::set<Id> idSet;
 	for (const SearchMatch& match : matches)
 	{
-		SearchNode* searchNode = m_tokenIndex.getNode(match.nameHierarchy);
-		if (searchNode)
+		for (size_t i = 0; i < match.nameHierarchies.size(); i++)
 		{
-			utility::append(idSet, searchNode->getTokenIds());
+			idSet.insert(m_sqliteStorage.getNodeBySerializedName(NameHierarchy::serialize(match.nameHierarchies[i])).id);
 		}
 	}
 
@@ -980,8 +968,9 @@ void Storage::buildSearchIndex()
 {
 	for (StorageNode node: m_sqliteStorage.getAllNodes())
 	{
-		m_tokenIndex.addTokenId(m_tokenIndex.addNode(NameHierarchy::deserialize(node.serializedName)), node.id);
+		m_searchIndex.addNode(node.id, NameHierarchy::deserialize(node.serializedName));
 	}
+	m_searchIndex.finishSetup();
 }
 
 void Storage::buildHierarchyCache()

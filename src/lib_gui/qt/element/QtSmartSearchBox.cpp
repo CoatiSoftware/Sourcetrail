@@ -396,7 +396,7 @@ void QtSmartSearchBox::onTextEdited(const QString& text)
 		}
 	}
 
-	if (match.nameHierarchy.size() && !m_allowMultipleElements)
+	if (match.text.size() && !m_allowMultipleElements)
 	{
 		if (m_matches.size())
 		{
@@ -415,7 +415,7 @@ void QtSmartSearchBox::onTextEdited(const QString& text)
 		layoutElements();
 	}
 
-	if (match.nameHierarchy.size() || m_elements.size())
+	if (match.text.size() || m_elements.size())
 	{
 		requestAutoCompletions();
 	}
@@ -446,7 +446,7 @@ void QtSmartSearchBox::onAutocompletionActivated(const SearchMatch& match)
 {
 	addMatchAndUpdate(match);
 
-	if (match.nameHierarchy.size())
+	if (match.text.size())
 	{
 		search();
 	}
@@ -516,7 +516,7 @@ void QtSmartSearchBox::moveCursorTo(int target)
 
 void QtSmartSearchBox::addMatch(const SearchMatch& match)
 {
-	if (!match.nameHierarchy.size())
+	if (!match.text.size())
 	{
 		return;
 	}
@@ -543,7 +543,7 @@ void QtSmartSearchBox::addMatch(const SearchMatch& match)
 
 void QtSmartSearchBox::addMatchAndUpdate(const SearchMatch& match)
 {
-	if (match.nameHierarchy.size())
+	if (match.text.size())
 	{
 		m_oldText.clear();
 		clearLineEdit();

@@ -5,6 +5,7 @@
 #include <deque>
 #include <set>
 #include <time.h>
+#include <unordered_set>
 
 #include "boost/date_time/posix_time/posix_time.hpp"
 
@@ -29,6 +30,9 @@ namespace utility
 
 	template<typename T>
 	void append(std::set<T>& a, const std::set<T>& b);
+
+	template<typename T>
+	void append(std::unordered_set<T>& a, const std::unordered_set<T>& b);
 
 	template<typename T>
 	std::vector<T> toVector(const std::deque<T>& d);
@@ -72,6 +76,12 @@ void utility::append(std::vector<T>& a, const std::vector<T>& b)
 
 template<typename T>
 void utility::append(std::set<T>& a, const std::set<T>& b)
+{
+	a.insert(b.begin(), b.end());
+}
+
+template<typename T>
+void utility::append(std::unordered_set<T>& a, const std::unordered_set<T>& b)
 {
 	a.insert(b.begin(), b.end());
 }

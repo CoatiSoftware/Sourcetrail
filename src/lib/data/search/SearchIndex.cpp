@@ -1,208 +1,258 @@
 #include "data/search/SearchIndex.h"
 
 #include <algorithm>
-#include <cctype>
+#include <ctype.h>
 
-#include "utility/logging/logging.h"
-
-#include "data/search/SearchMatch.h"
-
-std::vector<SearchMatch> SearchIndex::getMatches(
-	const SearchResults& searchResults,
-	const std::string& query
-){
-	std::vector<SearchMatch> result;
-
-	for (SearchResultsIterator it = searchResults.begin(); it != searchResults.end(); it++)
-	{
-		SearchMatch match = it->node->fuzzyMatchData(query, it->parent->getParent());
-		result.push_back(match);
-	}
-
-	return result;
-}
+#include "utility/utility.h"
 
 SearchIndex::SearchIndex()
-	: m_root(nullptr, DELIMITER, 0)
 {
+	clear();
 }
 
 SearchIndex::~SearchIndex()
 {
 }
 
-void SearchIndex::clear()
+void SearchIndex::addNode(Id id, const NameHierarchy& nameHierarchy)
 {
-	m_root.m_nodes.clear();
-	m_dictionary.clear();
-	m_tokenIds.clear();
-}
+	Node* currentNode = m_root;
 
-size_t SearchIndex::getNodeCount() const
-{
-	return m_root.getNodeCount() - 1;
-}
+	// we don't use the signature here, so elements with the same signature share the same node in the search index.
+	std::string remaining = nameHierarchy.getQualifiedName();
 
-size_t SearchIndex::getCharCount() const
-{
-	return m_dictionary.getCharCount();
-}
-
-size_t SearchIndex::getWordCount() const
-{
-	return m_dictionary.getWordCount();
-}
-
-Id SearchIndex::getWordId(const std::string& word)
-{
-	return m_dictionary.getWordId(word);
-}
-
-const std::string& SearchIndex::getWord(Id wordId) const
-{
-	return m_dictionary.getWord(wordId);
-}
-
-SearchNode* SearchIndex::addNode(NameHierarchy nameHierarchy)
-{
-	std::deque<Id> nameIds;
-	for (size_t i = 0; i < nameHierarchy.size(); i++)
+	while (remaining.size() > 0)
 	{
-		nameIds.push_back(m_dictionary.getWordId(nameHierarchy[i]->getName()));
-	}
-
-	if (nameIds.size())
-	{
-		return m_root.addNodeRecursive(&nameIds, m_dictionary).get();
-	}
-
-	return nullptr;
-}
-
-SearchNode* SearchIndex::getNode(const NameHierarchy& nameHierarchy) const
-{
-	std::deque<Id> nameIds = m_dictionary.getWordIdsConst(nameHierarchy);
-
-	if (nameIds.size())
-	{
-		return m_root.getNodeRecursive(&nameIds).get();
-	}
-
-	return nullptr;
-}
-
-SearchNode* SearchIndex::getNode(const std::string& fullName) const
-{
-	std::deque<Id> nameIds = m_dictionary.getWordIdsConst(fullName, DELIMITER);
-
-	if (nameIds.size())
-	{
-		return m_root.getNodeRecursive(&nameIds).get();
-	}
-
-	return nullptr;
-}
-
-SearchNode* SearchIndex::getNode(const SearchNode* searchNode) const
-{
-	if(searchNode == nullptr)
-	{
-		return nullptr;
-	}
-	std::deque<Id> nameIds = searchNode->getNameIdsRecursive();
-
-	if (nameIds.size())
-	{
-		return m_root.getNodeRecursive(&nameIds).get();
-	}
-
-	return nullptr;
-}
-
-void SearchIndex::removeNode(SearchNode* searchNode)
-{
-	if(searchNode == nullptr)
-	{
-		return;
-	}
-	SearchNode* parent = searchNode->getParent();
-
-	if (!parent)
-	{
-		LOG_ERROR_STREAM(<< "SearchNode to be removed has no parent: " << searchNode->getFullName());
-		return;
-	}
-
-	parent->removeSearchNode(searchNode);
-}
-
-bool SearchIndex::removeNodeIfUnreferencedRecursive(SearchNode* searchNode)
-{
-	if(searchNode == nullptr)
-	{
-		return false;
-	}
-	if (!searchNode->hasTokenIdsRecursive())
-	{
-		SearchNode* parent = searchNode->getParent();
-
-		removeNode(searchNode);
-
-		if (parent && parent != &m_root)
+		bool matchingEdgeFound = false;
+		// has edge starting with c?
+		for (size_t i = 0; i < currentNode->edges.size(); i++)
 		{
-			removeNodeIfUnreferencedRecursive(parent);
+			Edge* currentEdge = currentNode->edges[i];
+			const std::string& edgeString = currentEdge->s;
+
+			int matchCount = 0;
+			for (size_t j = 0; j < edgeString.size() && j < remaining.size(); j++)
+			{
+				if (edgeString[j] != remaining[j])
+				{
+					break;
+				}
+				matchCount++;
+			}
+
+			if (matchCount != 0)
+			{
+				remaining = remaining.substr(matchCount);
+				if (matchCount < edgeString.size())
+				{
+					// split current edge
+					std::shared_ptr<Node> n = std::make_shared<Node>();
+					m_nodes.push_back(n);
+					std::shared_ptr<Edge> e = std::make_shared<Edge>();
+					m_edges.push_back(e);
+
+					n->edges.push_back(e.get());
+
+					e->s = edgeString.substr(matchCount);
+					e->target = currentEdge->target;
+
+					currentEdge->s = edgeString.substr(0, matchCount);
+					currentEdge->target = n.get();
+				}
+				currentNode = currentEdge->target;
+				matchingEdgeFound = true;
+				break;
+			}
 		}
 
-		return true;
+		if (!matchingEdgeFound)
+		{
+			std::shared_ptr<Node> n = std::make_shared<Node>();
+			m_nodes.push_back(n);
+			std::shared_ptr<Edge> e = std::make_shared<Edge>();
+			m_edges.push_back(e);
+
+			e->s = remaining;
+			e->target = n.get();
+
+			currentNode->edges.push_back(e.get());
+			currentNode = n.get();
+
+			remaining = "";
+		}
 	}
 
-	return false;
+	currentNode->elementIds.insert(id);
 }
 
-void SearchIndex::addTokenId(SearchNode* node, Id tokenId)
+void SearchIndex::finishSetup()
 {
-	if(node == nullptr)
+	for (size_t i = 0; i < m_root->edges.size(); i++)
 	{
-		LOG_ERROR("Node points to nullptr: Can't add tokenid");
-		return;
+		populateEdgeGate(m_root->edges[i]);
 	}
-	node->addTokenId(tokenId);
-	m_tokenIds.emplace(tokenId, node);
 }
 
-NameHierarchy SearchIndex::getNameHierarchyForTokenId(Id tokenId) const
+void SearchIndex::clear()
 {
-	std::map<Id, SearchNode*>::const_iterator it = m_tokenIds.find(tokenId);
+	m_nodes.clear();
+	m_edges.clear();
 
-	if (it != m_tokenIds.end())
+	std::shared_ptr<Node> n = std::make_shared<Node>();
+	m_nodes.push_back(n);
+
+	m_root = n.get();
+}
+
+std::vector<SearchResult> SearchIndex::search(const std::string& query, size_t maxResultCount) const
+{
+	std::string lowerCaseQuery = "";
+	for (size_t i = 0; i < query.size(); i++)
 	{
-		SearchNode* node = it->second;
-		return node->getNameHierarchy();
+		lowerCaseQuery += tolower(query[i]);
 	}
 
-	return NameHierarchy();
+	Path startPath;
+	startPath.node = m_root;
+	std::vector<Path> paths = search(startPath, lowerCaseQuery);
+
+	// scoring paths
+	std::vector<std::pair<float, Path>> scoredPaths;
+	for (size_t i = 0; i < paths.size(); i++)
+	{
+		const std::vector<size_t>& currentIndices = paths[i].indices;
+
+		int gapCount = 0;
+		for (size_t j = 1; j < currentIndices.size(); j++)
+		{
+			if (currentIndices[j] - currentIndices[j-1] > 1)
+			{
+				gapCount++;
+			}
+		}
+		float score = (1.0f / (gapCount + 1)) + (1.0f / (paths[i].text.size() + 1));
+		scoredPaths.push_back(std::make_pair(score, paths[i]));
+	}
+
+	// sorting paths
+	std::sort(scoredPaths.begin(), scoredPaths.end(), [](
+		std::pair<float, Path> a,
+		std::pair<float, Path> b)
+		{
+			return b.first < a.first;
+		}
+	);
+
+	// preparing results
+	std::vector<SearchResult> searchResults;
+	for (size_t i = 0; i < scoredPaths.size() && (maxResultCount == 0 || searchResults.size() < maxResultCount); i++)
+	{
+		std::vector<Path> currentPaths;
+		currentPaths.push_back(scoredPaths[i].second);
+
+		while (currentPaths.size() > 0)
+		{
+			std::vector<Path> nextPaths;
+
+			for (size_t j = 0; j < currentPaths.size(); j++)
+			{
+				Path& currentPath = currentPaths[j];
+				if (currentPath.node->elementIds.size() > 0 && (maxResultCount == 0 || searchResults.size() < maxResultCount))
+				{
+					SearchResult result;
+					result.elementIds = currentPath.node->elementIds;
+					result.indices = currentPath.indices;
+					result.text = currentPath.text;
+					searchResults.push_back(result);
+				}
+
+				for (size_t k = 0; k < currentPath.node->edges.size(); k++)
+				{
+					Path nextPath;
+					nextPath.indices = currentPath.indices;
+					nextPath.node = currentPath.node->edges[k]->target;
+					nextPath.text = currentPath.text + currentPath.node->edges[k]->s;
+					nextPaths.push_back(nextPath);
+				}
+			}
+
+			currentPaths = nextPaths;
+
+			if (!(maxResultCount == 0 || searchResults.size() < maxResultCount))
+			{
+				break;
+			}
+		}
+	}
+
+	return searchResults;
 }
 
-SearchResults SearchIndex::runFuzzySearch(const std::string& query) const
+void SearchIndex::populateEdgeGate(Edge* e)
 {
-	return m_root.runFuzzySearch(query);
+	Node* target = e->target;
+	for (size_t i = 0; i < target->edges.size(); i++)
+	{
+		Edge* targetEdge = target->edges[i];
+		populateEdgeGate(targetEdge);
+		utility::append(e->gate, targetEdge->gate);
+	}
+	for (size_t i = 0; i < e->s.size(); i++)
+	{
+		e->gate.insert(tolower(e->s[i]));
+	}
 }
 
-SearchResults SearchIndex::runFuzzySearchCached(const std::string& query, const SearchResults& searchResults) const
+std::vector<SearchIndex::Path> SearchIndex::search(const Path& path, const std::string& remainingQuery) const
 {
-	return m_root.runFuzzySearchCached(query, searchResults);
-}
+	std::vector<Path> results;
 
-std::vector<SearchMatch> SearchIndex::runFuzzySearchAndGetMatches(const std::string& query) const
-{
-	return getMatches(runFuzzySearch(query), query);
-}
+	if (remainingQuery.size() == 0)
+	{
+		results.push_back(path);
+	}
+	else
+	{
+		for (size_t i = 0; i < path.node->edges.size(); i++)
+		{
+			const Edge* currentEdge = path.node->edges[i];
 
-const std::string SearchIndex::DELIMITER = "::";
+			// test if s passes the edge's gate.
+			bool passesGate = true;
+			for (size_t j = 0; j < remainingQuery.size(); j++)
+			{
+				if (currentEdge->gate.find(tolower(remainingQuery[j])) == currentEdge->gate.end())
+				{
+					passesGate = false;
+					break;
+				}
+			}
 
-std::ostream& operator<<(std::ostream& ostream, const SearchIndex& index)
-{
-	ostream << "SearchIndex:\n";
-	ostream << &index.m_root;
-	return ostream;
+			if (passesGate)
+			{
+				// consume characters for edge
+				const std::string& edgeString = currentEdge->s;
+
+				std::vector<size_t> currentFoundIds = path.indices;
+				std::string currentRemainingQuery = remainingQuery;
+
+				for (size_t j = 0; j < edgeString.size() && currentRemainingQuery.size() > 0; j++)
+				{
+					if (currentRemainingQuery[0] == tolower(edgeString[j]))
+					{
+						currentFoundIds.push_back(path.text.size() + j);
+						currentRemainingQuery = currentRemainingQuery.substr(1);
+					}
+				}
+
+				Path currentPath;
+				currentPath.node = currentEdge->target;
+				currentPath.indices = currentFoundIds;
+				currentPath.text = path.text + edgeString;
+
+				utility::append(results, search(currentPath, currentRemainingQuery));
+			}
+		}
+	}
+	return results;
 }

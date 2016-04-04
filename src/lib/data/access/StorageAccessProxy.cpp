@@ -43,16 +43,6 @@ Id StorageAccessProxy::getIdForNodeWithNameHierarchy(const NameHierarchy& nameHi
 	return 0;
 }
 
-Id StorageAccessProxy::getIdForNodeWithSearchNameHierarchy(const NameHierarchy& nameHierarchy) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getIdForNodeWithSearchNameHierarchy(nameHierarchy);
-	}
-
-	return 0;
-}
-
 Id StorageAccessProxy::getIdForEdge(
 	Edge::EdgeType type, const NameHierarchy& fromNameHierarchy, const NameHierarchy& toNameHierarchy
 ) const {

@@ -97,7 +97,6 @@ public:
 		TS_ASSERT_EQUALS(storage.getNodeCount(), 3);
 		TS_ASSERT_EQUALS(storage.getEdgeCount(), 2);
 		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 4);
-		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 3);
 
 		std::set<FilePath> files;
 		files.insert(FilePath(m_filePath));
@@ -105,8 +104,7 @@ public:
 
 		TS_ASSERT_EQUALS(storage.getNodeCount(), 0);
 		TS_ASSERT_EQUALS(storage.getEdgeCount(), 0);
-		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 0);
-		TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 0);*/
+		TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 0);*/
 	}
 
 	void test_storage_clears_unreferenced_single_file_data_of_multi_file_storage()
@@ -128,7 +126,6 @@ public:
 		//TS_ASSERT_EQUALS(storage.getNodeCount(), 6);
 		//TS_ASSERT_EQUALS(storage.getEdgeCount(), 5);
 		//TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 9);
-		//TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 6);
 
 		//std::set<FilePath> files;
 		//files.insert(FilePath("file.cpp"));
@@ -136,8 +133,7 @@ public:
 
 		//TS_ASSERT_EQUALS(storage.getNodeCount(), 3);
 		//TS_ASSERT_EQUALS(storage.getEdgeCount(), 2);
-		//TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 4);
-		//TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 3);
+		//TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 4);*/
 	}
 
 	void test_storage_clears_referenced_single_file_data_of_multi_file_storage()
@@ -159,7 +155,6 @@ public:
 		//TS_ASSERT_EQUALS(storage.getNodeCount(), 5);
 		//TS_ASSERT_EQUALS(storage.getEdgeCount(), 5);
 		//TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 9);
-		//TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 5);
 
 		//std::set<FilePath> files;
 		//files.insert(FilePath("file.h"));
@@ -168,7 +163,6 @@ public:
 		//TS_ASSERT_EQUALS(storage.getNodeCount(), 4);
 		//TS_ASSERT_EQUALS(storage.getEdgeCount(), 3);
 		//TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 5);
-		//TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 4);
 	}
 
 	void test_storage_clears_multi_file_data_of_multi_file_storage()
@@ -190,7 +184,6 @@ public:
 		//TS_ASSERT_EQUALS(storage.getNodeCount(), 5);
 		//TS_ASSERT_EQUALS(storage.getEdgeCount(), 5);
 		//TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 9);
-		//TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 5);
 
 		//std::set<FilePath> filePaths;
 		//filePaths.insert(FilePath("file.cpp"));
@@ -200,7 +193,6 @@ public:
 		//TS_ASSERT_EQUALS(storage.getNodeCount(), 0);
 		//TS_ASSERT_EQUALS(storage.getEdgeCount(), 0);
 		//TS_ASSERT_EQUALS(storage.tokenLocationCollection().getTokenLocations().size(), 0);
-		//TS_ASSERT_EQUALS(storage.searchIndex().getNodeCount(), 0);
 	}
 
 	void test_storage_finds_and_removes_depending_file_nodes()
@@ -248,11 +240,6 @@ private:
 			return getTokenLocationsForTokenIds(tokenIds);
 		}
 
-		//const std::string& getWord(Id wordId) const
-		//{
-		//	return getSearchIndex().getWord(wordId);
-		//}
-
 		//const size_t getNodeCount() const
 		//{
 		//	return getGraph().getNodeCount();
@@ -262,11 +249,6 @@ private:
 		//{
 		//	return getGraph().getEdgeCount();
 		//}
-
-		const SearchIndex& searchIndex() const
-		{
-			return getSearchIndex();
-		}
 
 		Id getEdgeId(Edge::EdgeType type, const NameHierarchy& fromName, const NameHierarchy& toName) const
 		{
