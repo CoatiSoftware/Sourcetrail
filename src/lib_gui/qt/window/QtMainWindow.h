@@ -104,6 +104,7 @@ public slots:
 
 	void about();
 	void openSettings();
+	void showBugtracker();
 	void showDocumentation();
 	void showLicenses();
 	void enterLicense();

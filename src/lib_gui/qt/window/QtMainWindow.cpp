@@ -331,6 +331,11 @@ void QtMainWindow::showDocumentation()
 	QDesktopServices::openUrl(QUrl("https://coati.io/documentation/"));
 }
 
+void QtMainWindow::showBugtracker()
+{
+	QDesktopServices::openUrl(QUrl("https://github.com/CoatiSoftware/CoatiBugTracker/issues"));
+}
+
 void QtMainWindow::showLicenses()
 {
 	QtAboutLicense* licenseWindow = createWindow<QtAboutLicense>();
@@ -541,9 +546,9 @@ void QtMainWindow::openRecentProject()
 void QtMainWindow::updateRecentProjectMenu()
 {
 	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
-	for (size_t i = 0; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount(); i++)
+	for (int i = 0; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount(); i++)
 	{
-		if(i < recentProjects.size())
+		if ((size_t)i < recentProjects.size())
 		{
 			FilePath project = recentProjects[i];
 			m_recentProjectAction[i]->setVisible(true);
@@ -634,6 +639,7 @@ void QtMainWindow::setupHelpMenu()
 
 	menu->addAction(tr("&About"), this, SLOT(about()));
 	menu->addAction(tr("Documentation"), this, SLOT(showDocumentation()));
+	menu->addAction(tr("Bug Tracker"), this, SLOT(showBugtracker()));
 	menu->addAction(tr("Licences"), this, SLOT(showLicenses()));
 
 	if(!isTrial())
