@@ -34,6 +34,11 @@ QtGraphEdge::QtGraphEdge(
 	, m_mousePos(0.0f, 0.0f)
 	, m_mouseMoved(false)
 {
+	if (m_direction == TokenComponentAggregation::DIRECTION_BACKWARD)
+	{
+		m_owner.swap(m_target);
+	}
+
 	m_fromActive = m_owner.lock()->getIsActive();
 	m_toActive = m_target.lock()->getIsActive();
 
@@ -91,11 +96,6 @@ void QtGraphEdge::updateLine()
 
 		bool showArrow = m_direction != TokenComponentAggregation::DIRECTION_NONE;
 
-		if (m_direction == TokenComponentAggregation::DIRECTION_BACKWARD)
-		{
-			owner.swap(target);
-		}
-
 		GraphViewStyle::NodeStyle countStyle = GraphViewStyle::getStyleOfCountCircle();
 
 		dynamic_cast<QtStraightLineItem*>(m_child)->updateLine(
@@ -108,30 +108,52 @@ void QtGraphEdge::updateLine()
 			m_child = new QtAngledLineItem(this);
 		}
 
-		dynamic_cast<QtAngledLineItem*>(m_child)->updateLine(
-			owner->getBoundingRect(), target->getBoundingRect(),
-			owner->getParentBoundingRect(), target->getParentBoundingRect(),
-			style);
+		QtAngledLineItem* child = dynamic_cast<QtAngledLineItem*>(m_child);
 
 		if (m_fromActive && owner->getLastParent() == target->getLastParent())
 		{
-			dynamic_cast<QtAngledLineItem*>(m_child)->setOnBack(true);
+			child->setOnBack(true);
 		}
 
 		if (m_toActive)
 		{
-			dynamic_cast<QtAngledLineItem*>(m_child)->setHorizontalIn(true);
+			child->setHorizontalIn(true);
+
+			if (owner->getLastParent() == target->getLastParent())
+			{
+				child->setOnFront(true);
+			}
 		}
+
+		if (type != Edge::EDGE_INHERITANCE && type != Edge::EDGE_AGGREGATION)
+		{
+			child->setRoute(QtAngledLineItem::ROUTE_HORIZONTAL);
+		}
+
+		bool showArrow = true;
+		if (type == Edge::EDGE_AGGREGATION)
+		{
+			child->setPivot(QtAngledLineItem::PIVOT_MIDDLE);
+
+			showArrow = m_direction != TokenComponentAggregation::DIRECTION_NONE;
+		}
+
+		child->updateLine(
+			owner->getBoundingRect(), target->getBoundingRect(),
+			owner->getParentBoundingRect(), target->getParentBoundingRect(),
+			style, m_weight, showArrow);
 	}
 
-	if (m_data)
+	QString toolTip = Edge::getTypeString(type).c_str();
+	if (type == Edge::EDGE_AGGREGATION)
 	{
-		m_child->setToolTip(QString::fromStdString(m_data->getTypeString()));
+		toolTip += ": " + QString::number(m_weight) + " edge";
+		if (m_weight != 1)
+		{
+			toolTip += "s";
+		}
 	}
-	else
-	{
-		m_child->setToolTip(QString::fromStdString(Edge::getTypeString(Edge::EDGE_AGGREGATION)));
-	}
+	m_child->setToolTip(toolTip);
 
 	this->setZValue(style.zValue); // Used to draw edges always on top of nodes.
 }

@@ -295,8 +295,8 @@
 			</template_member_specialization>
 
 			<aggregation>
-				<normal>#EEE</normal>
-				<focus>#DDD</focus>
+				<normal>#DDD</normal>
+				<focus>#CCC</focus>
 			</aggregation>
 		</edge>
 	</graph>

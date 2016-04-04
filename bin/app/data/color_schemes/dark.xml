@@ -317,8 +317,8 @@
 			</macro_use>
 
 			<aggregation>
-				<normal>#5D5D5D</normal>
-				<focus>#6D6D6D</focus>
+				<normal>#3D3D3D</normal>
+				<focus>#4D4D4D</focus>
 			</aggregation>
 		</edge>
 	</graph>

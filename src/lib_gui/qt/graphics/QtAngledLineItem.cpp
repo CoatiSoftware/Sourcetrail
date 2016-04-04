@@ -9,8 +9,12 @@
 
 QtAngledLineItem::QtAngledLineItem(QGraphicsItem* parent)
 	: QGraphicsLineItem(parent)
+	, m_route(ROUTE_ANY)
+	, m_pivot(PIVOT_THIRD)
+	, m_onFront(false)
 	, m_onBack(false)
 	, m_horizontalIn(false)
+	, m_showArrow(true)
 {
 	this->setAcceptHoverEvents(true);
 	this->setFlag(QGraphicsItem::ItemUsesExtendedStyleOption, true);
@@ -23,7 +27,8 @@ QtAngledLineItem::~QtAngledLineItem()
 void QtAngledLineItem::updateLine(
 	Vec4i ownerRect, Vec4i targetRect,
 	Vec4i ownerParentRect, Vec4i targetParentRect,
-	GraphViewStyle::EdgeStyle style
+	GraphViewStyle::EdgeStyle style,
+	size_t weight, bool showArrow
 ){
 	prepareGeometryChange();
 	m_polygon.clear();
@@ -39,8 +44,24 @@ void QtAngledLineItem::updateLine(
 	m_targetRect.z = m_targetRect.z + 1;
 
 	m_style = style;
+	m_showArrow = showArrow;
 
-	this->setPen(QPen(QBrush(style.color.c_str()), style.width, Qt::SolidLine, Qt::RoundCap));
+	this->setPen(QPen(QBrush(style.color.c_str()), style.width + int(log10(weight)), Qt::SolidLine, Qt::RoundCap));
+}
+
+void QtAngledLineItem::setRoute(Route route)
+{
+	m_route = route;
+}
+
+void QtAngledLineItem::setPivot(Pivot pivot)
+{
+	m_pivot = pivot;
+}
+
+void QtAngledLineItem::setOnFront(bool front)
+{
+	m_onFront = front;
 }
 
 void QtAngledLineItem::setOnBack(bool back)
@@ -68,7 +89,7 @@ QPainterPath QtAngledLineItem::shape() const
 	return path;
 }
 
-void QtAngledLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem* options, QWidget* widget)
+void QtAngledLineItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* options, QWidget* widget)
 {
 	painter->setPen(pen());
 
@@ -78,6 +99,17 @@ void QtAngledLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem* 
 	int i = poly.length() - 1;
 
 	path.moveTo(poly.at(i));
+
+
+	// while (i > 0)
+	// {
+	// 	i--;
+
+	// 	path.lineTo(poly.at(i));
+	// }
+	// painter->drawPath(path);
+	// return;
+
 
 	QRectF drawRect = options->exposedRect;
 	QRectF partRect;
@@ -194,7 +226,7 @@ void QtAngledLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem* 
 	if (drawRect.intersects(partRect))
 	{
 		partRect = getArrowBoundingRect(poly);
-		if (drawRect.intersects(partRect))
+		if (drawRect.intersects(partRect) && m_showArrow)
 		{
 			drawArrow(poly, &path);
 		}
@@ -215,30 +247,61 @@ QPolygon QtAngledLineItem::getPath() const
 	}
 
 	const Vec4i& oR = m_ownerRect;
+	const Vec4i& oPR = m_ownerParentRect;
 	const Vec4i& tR = m_targetRect;
+	const Vec4i& tPR = m_targetParentRect;
 
-	Vec2f o[2] = { Vec2f(m_ownerParentRect.x, (2 * oR.y + oR.w) / 3), Vec2f(m_ownerParentRect.z, (2 * oR.y + oR.w) / 3) };
-	Vec2f t[2] = { Vec2f(m_targetParentRect.x, (tR.y + 2 * tR.w) / 3), Vec2f(m_targetParentRect.z, (tR.y + 2 * tR.w) / 3) };
+	const Vec2i& oOff = m_style.originOffset;
+	const Vec2i& tOff = m_style.targetOffset;
+
+	Vec2f oP[4];
+	getPivotPoints(oP, oR, oPR, oOff.y, false);
+
+	Vec2f tP[4];
+	getPivotPoints(tP, tR, tPR, tOff.y, true);
 
 	int io = -1;
 	int it = -1;
-	float dist = -1;
 
-	if (m_onBack)
+	float dist = -1;
+	std::map<int, float> dists;
+
+	if (m_onFront)
+	{
+		io = 3;
+		it = 3;
+	}
+	else if (m_onBack)
 	{
 		io = 1;
 		it = 1;
 	}
 	else
 	{
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 4; i++)
 		{
-			for (int j = 0; j < 2; j++)
+			for (int j = 0; j < 4; j++)
 			{
-				Vec2f diff = o[i] - t[j];
-				if (dist < 0 || diff.getLength() < dist)
+				if (m_route == ROUTE_HORIZONTAL && (i % 2 == 0 || j % 2 == 0))
 				{
-					dist = diff.getLength();
+					continue;
+				}
+				else if (m_route == ROUTE_VERTICAL && (i % 2 == 1 || j % 2 == 1))
+				{
+					continue;
+				}
+				else if (i % 2 != j % 2)
+				{
+					continue;
+				}
+
+				Vec2f diff = oP[i] - tP[j];
+				float d = diff.getLength();
+				dists.emplace((i << 2) + j, d);
+
+				if (dist < 0 || d < dist)
+				{
+					dist = d;
 					io = i;
 					it = j;
 				}
@@ -246,67 +309,139 @@ QPolygon QtAngledLineItem::getPath() const
 		}
 	}
 
-	QPoint tp((it ? 1 : -1) * m_style.targetOffset.x + t[it].x, t[it].y + m_style.targetOffset.y);
-	QPoint op((io ? 1 : -1) * m_style.originOffset.x + o[io].x, o[io].y + m_style.originOffset.y);
+	Vec2f o[4];
+	getPivotPoints(o, oR, oR, oOff.y, false);
+
+	Vec2f t[4];
+	getPivotPoints(t, tR, tR, tOff.y, true);
+
+	QPoint a(t[it].x, t[it].y);
+	QPoint d(o[io].x, o[io].y);
+
+	QPoint b(tP[it].x, tP[it].y);
+	QPoint c(oP[io].x, oP[io].y);
+
+	switch (it)
+	{
+		case 0: b.setY(b.y() - tOff.x); break;
+		case 1: b.setX(b.x() + tOff.x); break;
+		case 2: b.setY(b.y() + tOff.x); break;
+		case 3: b.setX(b.x() - tOff.x); break;
+	}
+
+	switch (io)
+	{
+		case 0: c.setY(c.y() - oOff.x); break;
+		case 1: c.setX(c.x() + oOff.x); break;
+		case 2: c.setY(c.y() + oOff.x); break;
+		case 3: c.setX(c.x() - oOff.x); break;
+	}
 
 	if (it != io)
 	{
-		if (it && tp.x() < op.x())
+		if ((it == 1 && b.x() < c.x()) || (io == 1 && b.x() > c.x()))
 		{
-			io = 0;
-			op = QPoint(o[io].x - m_style.originOffset.x, o[io].y + m_style.originOffset.y);
+			if (m_horizontalIn)
+			{
+				b.setX(c.x());
+			}
+			else
+			{
+				c.setX(b.x());
+			}
 		}
-		else if (!it && tp.x() < op.x())
+		else if ((it == 2 && b.y() < c.y()) || (io == 2 && b.y() > c.y()))
 		{
-			it = 1;
-			tp = QPoint(t[it].x + m_style.targetOffset.x, t[it].y + m_style.targetOffset.y);
+			c.setY(b.y());
 		}
-		else if (io && tp.x() > op.x())
+		else if (
+			(it == 3 && b.x() < c.x()) || (io == 3 && b.x() > c.x()) ||
+			(it == 0 && b.y() < c.y()) || (io == 0 && b.y() > c.y()))
 		{
-			io = 1;
-			op = QPoint(o[io].x + m_style.originOffset.x, o[io].y + m_style.originOffset.y);
-		}
-		else if (!io && tp.x() > op.x())
-		{
-			it = 0;
-			tp = QPoint(t[it].x - m_style.targetOffset.x, t[it].y + m_style.targetOffset.y);
+			float dist1 = dists[(io << 2) + ((it + 2) % 4)];
+			float dist2 = dists[(((io + 2) % 4) << 2) + it];
+
+			if (dist1 < dist2)
+			{
+				it = (it + 2) % 4;
+
+				a = QPoint(t[it].x, t[it].y);
+				b = QPoint(tP[it].x, tP[it].y);
+
+				switch (it)
+				{
+					case 0: b.setY(b.y() - tOff.x); break;
+					case 1: b.setX(b.x() + tOff.x); break;
+					case 2: b.setY(b.y() + tOff.x); break;
+					case 3: b.setX(b.x() - tOff.x); break;
+				}
+			}
+			else
+			{
+				io = (io + 2) % 4;
+
+				c = QPoint(o[io].x, o[io].y);
+				d = QPoint(oP[io].x, oP[io].y);
+
+				switch (io)
+				{
+					case 0: c.setY(c.y() - oOff.x); break;
+					case 1: c.setX(c.x() + oOff.x); break;
+					case 2: c.setY(c.y() + oOff.x); break;
+					case 3: c.setX(c.x() - oOff.x); break;
+				}
+			}
 		}
 	}
 
-	if (it == io && ((it && tp.x() < op.x()) || (!it && tp.x() > op.x())))
+	if (it % 2 == 1)
 	{
-		tp.setX(op.x());
-	}
-	else if (it != io && m_horizontalIn)
-	{
-		tp.setX(op.x());
+		if (it == io && ((it == 1 && b.x() < c.x()) || (it == 3 && b.x() > c.x())))
+		{
+			b.setX(c.x());
+		}
+		else
+		{
+			c.setX(b.x());
+		}
 	}
 	else
 	{
-		op.setX(tp.x());
+		if (it == io && ((it == 0 && b.y() > c.y()) || (it == 2 && b.y() < c.y())))
+		{
+			b.setY(c.y());
+		}
+		else
+		{
+			c.setY(b.y());
+		}
 	}
 
-	o[0] = Vec2f(oR.x, (2 * oR.y + oR.w) / 3);
-	o[1] = Vec2f(oR.z, (2 * oR.y + oR.w) / 3);
-	t[0] = Vec2f(tR.x, (tR.y + 2 * tR.w) / 3);
-	t[1] = Vec2f(tR.z, (tR.y + 2 * tR.w) / 3);
-
-	if (o[io].y < t[it].y)
+	if (it % 2 == 0)
 	{
-		op.setX(op.x() + m_style.verticalOffset);
-		tp.setX(tp.x() + m_style.verticalOffset);
+		int vo = m_style.verticalOffset;
+		if (c.x() > b.x())
+		{
+			vo *= -1;
+		}
+
+		b.setY(b.y() + vo);
+		c.setY(c.y() + vo);
 	}
 	else
 	{
-		op.setX(op.x() - m_style.verticalOffset);
-		tp.setX(tp.x() - m_style.verticalOffset);
+		int vo = m_style.verticalOffset;
+		if (c.y() > b.y())
+		{
+			vo *= -1;
+		}
+
+		b.setX(b.x() + vo);
+		c.setX(c.x() + vo);
 	}
 
 	QPolygon poly;
-	poly << QPoint(t[it].x, t[it].y + m_style.targetOffset.y);
-	poly << tp;
-	poly << op;
-	poly << QPoint(o[io].x, o[io].y + m_style.originOffset.y);
+	poly << a << b << c << d;
 
 	m_polygon = poly;
 
@@ -422,4 +557,15 @@ void QtAngledLineItem::drawArrow(const QPolygon& poly, QPainterPath* path) const
 	}
 
 	path->lineTo(tip);
+}
+
+void QtAngledLineItem::getPivotPoints(Vec2f* p, const Vec4i& in, const Vec4i& out, int offset, bool target) const
+{
+	float f = m_pivot == PIVOT_THIRD ? (target ? 2 / 3.f : 1 / 3.f) : 1 / 2.f;
+
+	p[0] = Vec2f(in.x + (in.z - in.x) * f + offset, out.y);
+	p[2] = Vec2f(in.x + (in.z - in.x) * f + offset, out.w);
+
+	p[1] = Vec2f(out.z, in.y + (in.w - in.y) * f + offset);
+	p[3] = Vec2f(out.x, in.y + (in.w - in.y) * f + offset);
 }
