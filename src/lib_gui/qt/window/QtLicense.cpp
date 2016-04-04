@@ -1,5 +1,6 @@
 #include "qt/window/QtLicense.h"
 
+#include <QApplication>
 #include <QLineEdit>
 #include <QLabel>
 #include <QTextEdit>
@@ -105,7 +106,6 @@ void QtLicense::populateWindow(QWidget* widget)
 	linkLabel->setGeometry(275, 300, 300, 50);
 	subLayout->addWidget(linkLabel);
 
-
 	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setContentsMargins(0, 0, 0, 0);
 	layout->addLayout(subLayout);
@@ -123,12 +123,14 @@ void QtLicense::windowReady()
 	updateNextButton("Activate");
 	setPreviousVisible(false);
 
+	updateCloseButton("Quit Coati");
+
 	m_title->hide();
 }
 
 void QtLicense::handleClose()
 {
-	emit canceled();
+	QApplication::quit();
 }
 
 void QtLicense::handleNext()

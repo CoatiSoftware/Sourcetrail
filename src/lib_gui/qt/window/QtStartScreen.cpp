@@ -1,6 +1,7 @@
 #include "qt/window/QtStartScreen.h"
 
 #include <QLabel>
+#include <QString>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
@@ -18,7 +19,16 @@ QtRecentProjectButton::QtRecentProjectButton(const FilePath& projectFilePath, QW
 	, m_projectFilePath(projectFilePath)
 {
 	this->setText(m_projectFilePath.withoutExtension().fileName().c_str());
-	this->setToolTip(m_projectFilePath.str().c_str());
+	if ( projectFilePath.exists() )
+	{
+		this->setToolTip(m_projectFilePath.str().c_str());
+	}
+	else
+	{
+		std::string missingFileText = "Couldn't find " + m_projectFilePath.str() + " in your filesystem";
+		this->setToolTip(missingFileText.c_str());
+		this->setEnabled(false);
+	}
 }
 
 void QtRecentProjectButton::handleButtonClick()
@@ -69,7 +79,7 @@ void QtStartScreen::setupStartScreen()
 	int position = 290;
 	QIcon cpp_icon((ResourcePaths::getGuiPath() + "icon/project_256_256.png").c_str());
 	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
-	for (size_t i = 0; i < recentProjects.size() && i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount(); i++)
+	for (size_t i = 0; i < recentProjects.size() && (int)i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount(); i++)
 	{
 		QtRecentProjectButton* button = new QtRecentProjectButton(recentProjects[i], this);
 		button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac

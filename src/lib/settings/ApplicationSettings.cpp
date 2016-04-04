@@ -163,10 +163,7 @@ std::vector<FilePath> ApplicationSettings::getRecentProjects() const
 
 	for (FilePath project: loadedRecentProjects)
 	{
-		if (project.exists())
-		{
 			recentProjects.push_back(project);
-		}
 	}
 	return recentProjects;
 }

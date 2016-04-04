@@ -30,7 +30,7 @@ void SearchIndex::addNode(Id id, const NameHierarchy& nameHierarchy)
 			Edge* currentEdge = currentNode->edges[i];
 			const std::string& edgeString = currentEdge->s;
 
-			int matchCount = 0;
+			size_t matchCount = 0;
 			for (size_t j = 0; j < edgeString.size() && j < remaining.size(); j++)
 			{
 				if (edgeString[j] != remaining[j])
