@@ -2,6 +2,7 @@
 #define VISUAL_STUDIO_DETECTOR_H
 
 #include <vector>
+
 #include "utility/headerSearch/DetectorBase.h"
 
 class FilePath;

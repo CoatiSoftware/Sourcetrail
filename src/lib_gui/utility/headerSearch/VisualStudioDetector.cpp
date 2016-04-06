@@ -1,14 +1,13 @@
 #include "utility/headerSearch/VisualStudioDetector.h"
 
+#include <string>
+
 #include <QSettings>
 #include <QSysInfo>
 #include <QDir>
 
-#include <string>
 #include "utility/file/FilePath.h"
 #include "utility/logging/logging.h"
-#include "utility/headerSearch/StandardHeaderDetection.h"
-#include <iostream>
 
 VisualStudioDetector::VisualStudioDetector(const std::string name)
 	: DetectorBase("")
@@ -116,10 +115,3 @@ bool VisualStudioDetector::getStanardHeaderPathsUsingRegistry(std::vector<FilePa
 
 	return false;
 }
-
-// Add Visual Studio Version to the available detectors
-static StandardHeaderDetection::Add<VisualStudioDetector> vs2015("14");
-static StandardHeaderDetection::Add<VisualStudioDetector> vs2013("12");
-static StandardHeaderDetection::Add<VisualStudioDetector> vs2012("11");
-static StandardHeaderDetection::Add<VisualStudioDetector> vs2010("9");
-

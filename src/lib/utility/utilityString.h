@@ -35,6 +35,7 @@ namespace utility
 	std::string substrBetween(const std::string& str, const std::string& delimiter1, const std::string& delimiter2);
 
 	bool isPrefix(const std::string& prefix, const std::string& text);
+	bool isPostfix(const std::string& postfix, const std::string& text);
 
 	std::string toUpperCase(const std::string& in);
 	std::string toLowerCase(const std::string& in);

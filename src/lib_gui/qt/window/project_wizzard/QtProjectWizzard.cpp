@@ -92,7 +92,7 @@ void QtProjectWizzard::newProjectFromSolution(const std::string& ideId, const st
 			std::string title = "NEW PROJECT FROM ";
 			title += ideId;
 			title += " SOLUTION";
-			
+
 			boost::algorithm::to_upper(title);
 
 			window->updateTitle(QString(title.c_str()));
@@ -232,8 +232,8 @@ QtProjectWizzardWindow* QtProjectWizzard::createWindowWithContent<QtProjectWizza
 	connect(window, SIGNAL(canceled()), this, SLOT(cancelWizzard()));
 
 	QtProjectWizzardContentSelect* content = new QtProjectWizzardContentSelect(&m_settings, window, m_parserManager);
-	
-	
+
+
 
 	window->setContent(content);
 	window->setup();

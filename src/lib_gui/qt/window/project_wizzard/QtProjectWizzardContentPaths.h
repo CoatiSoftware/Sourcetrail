@@ -1,6 +1,7 @@
 #ifndef QT_PROJECT_WIZZARD_CONTENT_PATHS_H
 #define QT_PROJECT_WIZZARD_CONTENT_PATHS_H
 
+#include <QComboBox>
 #include <QPushButton>
 
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
@@ -31,14 +32,22 @@ protected:
 	void setDescriptionString(const QString& description);
 	void setHelpString(const QString& help);
 
+	void addDetection(QString name, QGridLayout* layout, int row);
+
 	QtDirectoryListBox* m_list;
 
 	QString m_showFilesString;
+	QString m_detectionString;
+
+private slots:
+	void detectionClicked();
 
 private:
 	QString m_titleString;
 	QString m_descriptionString;
 	QString m_helpString;
+
+	QComboBox* m_detectorBox;
 };
 
 

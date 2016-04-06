@@ -579,13 +579,24 @@
 						</div>
 					</div>
 					<p>If you chose the advanced setup method Coati needs you to specify all the project's internal include paths in addition to the external dependencies. Project internal include paths are those paths your project internal <code>#include</code> directives are relative to.</p>
+					<p>Additionally you can also specify Global Header Search Paths, which will be used by all yout projects. These are usually the paths to system headers, which can also be auto detected by choosing a compiler below and pressing <var>detect</var>.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/project_setup_wizard_empty_header_paths_advanced.png" style="width:100%;">
 						</div>
 					</div>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Setting</th> <th>Description</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">Header Search Paths</th> <td>These paths are used to find the files specified by <code>#include</code> directives. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+							<tr> <th scope="row">Global Header Search Paths</th> <td>These Header Search Paths will be used in all your projects. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>)</td> </tr>
+						</tbody>
+					</table>
 					<strong>Interactions:</strong>
 					<ul>
+						<li>Selecting a compiler from the dropdown list below and pressing <var>detect</var> will automatically detect system header search paths used by this compiler and add them to the Global Header Search Paths.</li>
 						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
 						<li>Clicking <var>Next</var> will take you to the <a href="#NewProjectSummary">New Project Summary Window</a>.</li>
 						<li>Clicking <var>Previous</var> take you to the previous step of the setup process. All the information you entered will be saved.</li>

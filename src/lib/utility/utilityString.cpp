@@ -122,10 +122,15 @@ namespace utility
 
 	bool isPrefix(const std::string& prefix, const std::string& text)
 	{
-		typedef std::pair<std::string::const_iterator, std::string::const_iterator> ResType;
-		ResType res = std::mismatch(prefix.begin(), prefix.end(), text.begin());
+		std::pair<std::string::const_iterator, std::string::const_iterator> res =
+			std::mismatch(prefix.begin(), prefix.end(), text.begin());
 
 		return res.first == prefix.end();
+	}
+
+	bool isPostfix(const std::string& postfix, const std::string& text)
+	{
+		return text.size() >= postfix.size() && text.rfind(postfix) == (text.size() - postfix.size());
 	}
 
 	std::string toUpperCase(const std::string& in)

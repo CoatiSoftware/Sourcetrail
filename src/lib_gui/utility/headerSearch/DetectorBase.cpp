@@ -1,7 +1,5 @@
 #include "utility/headerSearch/DetectorBase.h"
 
-#include <iostream>
-
 DetectorBase::DetectorBase(const std::string name)
 {
 	setName(name);
@@ -10,6 +8,11 @@ DetectorBase::DetectorBase(const std::string name)
 bool DetectorBase::detect()
 {
 	return !getStandardHeaderPaths().empty();
+}
+
+std::vector<FilePath> DetectorBase::getStandardFrameworkPaths()
+{
+	return std::vector<FilePath>();
 }
 
 std::string DetectorBase::getName() const

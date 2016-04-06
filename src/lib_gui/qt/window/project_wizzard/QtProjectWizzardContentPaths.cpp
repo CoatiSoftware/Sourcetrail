@@ -7,6 +7,7 @@
 #include "qt/element/QtDirectoryListBox.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileSystem.h"
+#include "utility/headerSearch/StandardHeaderDetection.h"
 #include "utility/utility.h"
 
 QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(ProjectSettings* settings, QtProjectWizzardWindow* window)
@@ -47,6 +48,11 @@ void QtProjectWizzardContentPaths::populateWindow(QGridLayout* layout, int& row)
 		addFilesButton(m_showFilesString, layout, row);
 	}
 
+	if (m_detectionString.size() > 0)
+	{
+		addDetection(m_detectionString, layout, row);
+	}
+
 	row++;
 
 	layout->setColumnStretch(QtProjectWizzardWindow::FRONT_COL, 1);
@@ -70,6 +76,12 @@ void QtProjectWizzardContentPaths::populateForm(QGridLayout* layout, int& row)
 	if (m_showFilesString.size() > 0)
 	{
 		addFilesButton(m_showFilesString, layout, row);
+		row++;
+	}
+
+	if (m_detectionString.size() > 0)
+	{
+		addDetection(m_detectionString, layout, row);
 		row++;
 	}
 }
@@ -100,6 +112,60 @@ void QtProjectWizzardContentPaths::setHelpString(const QString& help)
 {
 	m_helpString = help;
 }
+
+void QtProjectWizzardContentPaths::addDetection(QString name, QGridLayout* layout, int row)
+{
+	StandardHeaderDetection detection;
+	std::vector<std::string> compilers = detection.getDetectedCompilers();
+	if (!compilers.size())
+	{
+		return;
+	}
+
+	QLabel* label = new QLabel("Auto detection from:");
+
+	m_detectorBox = new QComboBox();
+
+	for (const std::string& compiler : compilers)
+	{
+		m_detectorBox->addItem(compiler.c_str());
+	}
+
+	QPushButton* button = new QPushButton("detect");
+	button->setObjectName("windowButton");
+	connect(button, SIGNAL(clicked()), this, SLOT(detectionClicked()));
+
+	QHBoxLayout* hlayout = new QHBoxLayout();
+	hlayout->addWidget(label);
+	hlayout->addWidget(m_detectorBox);
+	hlayout->addWidget(button);
+
+	layout->addLayout(hlayout, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
+}
+
+void QtProjectWizzardContentPaths::detectionClicked()
+{
+	StandardHeaderDetection detection;
+
+	std::vector<FilePath> paths;
+	if (m_detectionString == "headers")
+	{
+		paths = detection.getStandardHeaderPaths(m_detectorBox->currentText().toStdString());
+	}
+	else if (m_detectionString == "frameworks")
+	{
+		paths = detection.getStandardFrameworkPaths(m_detectorBox->currentText().toStdString());
+	}
+
+	std::vector<FilePath> oldPaths = m_list->getList();
+
+	std::set<FilePath> uniquePaths;
+	uniquePaths.insert(oldPaths.begin(), oldPaths.end());
+	uniquePaths.insert(paths.begin(), paths.end());
+
+	m_list->setList(utility::toVector(uniquePaths));
+}
+
 
 QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 	ProjectSettings* settings, QtProjectWizzardWindow* window
@@ -291,14 +357,16 @@ QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHead
 {
 	setInfo(
 		"Global Header Search Paths",
-		"These header search paths will be used in all your projects. Use it to add system header and Standard Library "
-		"header paths (See <a href=\"https://coati.io/documentation/#FindingSystemHeaderLocations\">Finding "
-		"System Header Locations</a>).",
+		"These header search paths will be used in all your projects. Use it to add system header paths "
+		"(See <a href=\"https://coati.io/documentation/#FindingSystemHeaderLocations\">Finding System Header Locations</a> "
+		"or use the auto detection below).",
 		"Header Search Paths define where additional headers, that your project depends on, are found. Usually they are "
 		"header files of frameworks or libraries that your project uses. These files won't be analyzed, but Coati needs "
 		"them for correct analysis.\n\n"
 		"Header Search Paths defined here will be used for all projects."
 	);
+
+	m_detectionString = "headers";
 }
 
 void QtProjectWizzardContentPathsHeaderSearchGlobal::load()
@@ -350,11 +418,13 @@ QtProjectWizzardContentPathsFrameworkSearchGlobal::QtProjectWizzardContentPathsF
 		"Global Framework Search Paths",
 		"These framework search paths will be used in all your projects. Use it to add system frameworks "
 		"(See <a href=\"https://coati.io/documentation/#FindingSystemHeaderLocations\">"
-		"Finding System Header Locations</a>).",
+		"Finding System Header Locations</a> or use the auto detection below).",
 		"Framework Search Paths define where MacOS framework containers (.framework), that your project depends on, are "
 		"found.\n\n"
 		"Framework Search Paths defined here will be used for all projects."
 	);
+
+	m_detectionString = "frameworks";
 }
 
 void QtProjectWizzardContentPathsFrameworkSearchGlobal::load()
