@@ -117,27 +117,51 @@ std::vector<SearchResult> SearchIndex::search(const std::string& query, size_t m
 	std::vector<Path> paths = search(startPath, lowerCaseQuery);
 
 	// scoring paths
-	std::vector<std::pair<float, Path>> scoredPaths;
+	std::vector<std::pair<int, Path>> scoredPaths;
 	for (size_t i = 0; i < paths.size(); i++)
 	{
 		const std::vector<size_t>& currentIndices = paths[i].indices;
 
-		int gapCount = 0;
+		const int unmatchedLetterBonus = -1;
+		const int consecutiveLetterBonus = 5;
+		const int camelCaseBonus = 10;
+		const int delayedStartBonus = -3;
+		const int minDelayedStartBonus = -9;
+
+		int unmatchedLetterScore = 0;
+		int consecutiveLetterScore = 0;
 		for (size_t j = 1; j < currentIndices.size(); j++)
 		{
-			if (currentIndices[j] - currentIndices[j-1] > 1)
+			unmatchedLetterScore += (currentIndices[j] - currentIndices[j-1] - 1) * unmatchedLetterBonus;
+			consecutiveLetterScore += (currentIndices[j] - currentIndices[j-1] == 1 ? consecutiveLetterBonus : 0);
+		}
+
+		int camelCaseScore = 0;
+		for (size_t j = 0; j < currentIndices.size(); j++)
+		{
+			size_t index = currentIndices[j];
+			if (index == 0 || islower(paths[i].text[index-1]))
 			{
-				gapCount++;
+				camelCaseScore += (isupper(paths[i].text[index]) ? camelCaseBonus : 0);
 			}
 		}
-		float score = (1.0f / (gapCount + 1)) + (1.0f / (paths[i].text.size() + 1));
+
+		int leadingStartScore = 0;
+		leadingStartScore += std::max(int(currentIndices[0]) * delayedStartBonus, minDelayedStartBonus);
+
+		int score =
+			unmatchedLetterScore +
+			consecutiveLetterScore +
+			camelCaseScore +
+			leadingStartScore;
+
 		scoredPaths.push_back(std::make_pair(score, paths[i]));
 	}
 
 	// sorting paths
 	std::sort(scoredPaths.begin(), scoredPaths.end(), [](
-		std::pair<float, Path> a,
-		std::pair<float, Path> b)
+		std::pair<int, Path> a,
+		std::pair<int, Path> b)
 		{
 			return b.first < a.first;
 		}

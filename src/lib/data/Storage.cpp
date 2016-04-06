@@ -267,10 +267,6 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 		matches.push_back(match);
 	}
 
-	std::sort(matches.begin(), matches.end(), [](SearchMatch a, SearchMatch b){
-		return b.text.size() > a.text.size();
-	});
-
 	return matches;
 }
 
