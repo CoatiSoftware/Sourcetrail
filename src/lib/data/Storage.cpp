@@ -145,15 +145,13 @@ void Storage::logStats() const
 	ss << "\t" << stats.nodeCount << " Nodes\n";
 	ss << "\t" << stats.edgeCount << " Edges\n";
 
-	ss << "\nSearch:\n";
-	ss << "\t" << stats.charCount << " Characters\n";
-	ss << "\t" << stats.wordCount << " Words\n";
-	ss << "\t" << stats.searchNodeCount << " SearchNodes\n";
-
 	ss << "\nCode:\n";
 	ss << "\t" << stats.fileCount << " Files\n";
 	ss << "\t" << stats.fileLOCCount << " Lines of Code\n";
-	ss << "\t" << stats.sourceLocationCount << " Source Locations\n";
+
+	ss << "\nErrors:\n";
+	ss << "\t" << stats.errorCount.total << " Errors\n";
+	ss << "\t" << stats.errorCount.fatal << " Fatal Errors\n";
 
 	LOG_WARNING(ss.str());
 }
@@ -682,14 +680,8 @@ StorageStats Storage::getStorageStats() const
 	stats.nodeCount = m_sqliteStorage.getNodeCount();
 	stats.edgeCount = m_sqliteStorage.getEdgeCount();
 
-	// Takes too much time
-	// stats.charCount = m_tokenIndex.getCharCount();
-	// stats.wordCount = m_tokenIndex.getWordCount();
-	// stats.searchNodeCount = m_tokenIndex.getNodeCount();
-
 	stats.fileCount = m_sqliteStorage.getFileCount();
 	stats.fileLOCCount = m_sqliteStorage.getFileLOCCount();
-	stats.sourceLocationCount = m_sqliteStorage.getSourceLocationCount();
 
 	stats.errorCount = getErrorCount();
 
