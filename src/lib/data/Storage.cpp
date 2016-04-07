@@ -458,7 +458,11 @@ std::vector<Id> Storage::getNodeIdsForLocationIds(const std::vector<Id>& locatio
 		}
 		else
 		{
-			nodeIds.insert(elementId);
+			StorageNode node = m_sqliteStorage.getNodeById(elementId);
+			if (node.id != 0 && intToDefinitionType(node.definitionType) == DEFINITION_EXPLICIT)
+			{
+				nodeIds.insert(elementId);
+			}
 		}
 	}
 
@@ -757,12 +761,22 @@ void Storage::addNodesToGraph(const std::vector<Id>& nodeIds, Graph* graph) cons
 		NameHierarchy nameHierarchy = NameHierarchy::deserialize(storageNode.serializedName);
 
 		Node::NodeType type = Node::intToType(storageNode.type);
+		DefinitionType defType = intToDefinitionType(storageNode.definitionType);
 		Node* node = graph->createNode(
 			storageNode.id,
 			type,
 			nameHierarchy,
-			intToDefinitionType(storageNode.definitionType) != DEFINITION_NONE
+			defType != DEFINITION_NONE
 		);
+
+		if (defType == DEFINITION_IMPLICIT)
+		{
+			node->setImplicit(true);
+		}
+		else if (defType == DEFINITION_EXPLICIT)
+		{
+			node->setExplicit(true);
+		}
 
 		if (type == Node::NODE_FUNCTION || type == Node::NODE_METHOD)
 		{

@@ -63,6 +63,12 @@ public:
 	bool isDefined() const;
 	void setDefined(bool defined);
 
+	bool isImplicit() const;
+	void setImplicit(bool implicit);
+
+	bool isExplicit() const;
+	void setExplicit(bool bExplicit);
+
 	const std::vector<Edge*>& getEdges() const;
 
 	void addEdge(Edge* edge);
@@ -107,6 +113,8 @@ private:
 	NodeType m_type;
 	NameHierarchy m_nameHierarchy;
 	bool m_defined;
+	bool m_implicit;
+	bool m_explicit;
 };
 
 std::ostream& operator<<(std::ostream& ostream, const Node& node);

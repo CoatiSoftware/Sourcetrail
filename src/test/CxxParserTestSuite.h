@@ -147,9 +147,11 @@ public:
 			"}\n"
 			);
 
-		TS_ASSERT_EQUALS(client->methods.size(), 2);
+		TS_ASSERT_EQUALS(client->methods.size(), 4);
 		TS_ASSERT_EQUALS(client->methods[0], "public void B::B() <4:2 4:2>");
-		TS_ASSERT_EQUALS(client->methods[1], "public void B::B() <6:1 <6:4 6:4> 8:1>");
+		TS_ASSERT_EQUALS(client->methods[1], "public void B::B(B const &) <1:7 1:7>");
+		TS_ASSERT_EQUALS(client->methods[2], "public void B::B(B &) <1:7 1:7>");
+		TS_ASSERT_EQUALS(client->methods[3], "public void B::B() <6:1 <6:4 6:4> 8:1>");
 	}
 
 	void test_cxx_parser_finds_virtual_method_declaration()
@@ -162,7 +164,7 @@ public:
 			"};\n"
 			);
 
-		TS_ASSERT_EQUALS(client->methods.size(), 1);
+		TS_ASSERT_EQUALS(client->methods.size(), 4);
 		TS_ASSERT_EQUALS(client->methods[0], "public virtual void B::process() <4:15 4:21>");
 	}
 
@@ -176,7 +178,7 @@ public:
 			"};\n"
 			);
 
-		TS_ASSERT_EQUALS(client->methods.size(), 1);
+		TS_ASSERT_EQUALS(client->methods.size(), 4);
 		TS_ASSERT_EQUALS(client->methods[0], "protected pure virtual void B::process() <4:15 4:21>");
 	}
 
@@ -2730,12 +2732,12 @@ public:
 		TS_ASSERT_EQUALS(client.functions.size(), 2);
 		TS_ASSERT_EQUALS(client.fields.size(), 4);
 		TS_ASSERT_EQUALS(client.globalVariables.size(), 2);
-		TS_ASSERT_EQUALS(client.methods.size(), 5);
+		TS_ASSERT_EQUALS(client.methods.size(), 15);
 		TS_ASSERT_EQUALS(client.namespaces.size(), 2);
 		TS_ASSERT_EQUALS(client.structs.size(), 1);
 
 		TS_ASSERT_EQUALS(client.inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client.calls.size(), 1);
+		TS_ASSERT_EQUALS(client.calls.size(), 3);
 		TS_ASSERT_EQUALS(client.usages.size(), 3);
 		TS_ASSERT_EQUALS(client.typeUses.size(), 17);
 

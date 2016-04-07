@@ -176,7 +176,9 @@ void QtGraphEdge::onClick()
 {
 	if (!getData())
 	{
-		MessageGraphNodeBundleSplit(m_target.lock()->getTokenId()).dispatch();
+		std::weak_ptr<QtGraphNode> node =
+			(m_direction == TokenComponentAggregation::DIRECTION_BACKWARD ? m_owner : m_target);
+		MessageGraphNodeBundleSplit(node.lock()->getTokenId()).dispatch();
 	}
 	else
 	{

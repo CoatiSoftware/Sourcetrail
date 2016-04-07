@@ -151,7 +151,7 @@ private:
     // Misc routines
     bool shouldVisitTemplateInstantiations() const { return true; }
     bool shouldUseDataRecursionFor(clang::Stmt *s) const;
-	//bool shouldVisitImplicitCode() const { return true; } // TODO: uncomment this when implicit nodes are hidden in the ui
+	bool shouldVisitImplicitCode() const { return true; }
 
     // Dispatcher routines
     bool TraverseStmt(clang::Stmt *stmt);

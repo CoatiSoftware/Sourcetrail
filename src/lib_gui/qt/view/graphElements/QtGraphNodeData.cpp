@@ -21,6 +21,10 @@ QtGraphNodeData::QtGraphNodeData(const Node* data, const std::string& name, bool
 	{
 		toolTip = "undefined " + toolTip;
 	}
+	else if (data->isImplicit())
+	{
+		toolTip = "implicit " + toolTip;
+	}
 
 	if (data->isType(Node::NODE_FUNCTION | Node::NODE_METHOD))
 	{
@@ -75,8 +79,8 @@ void QtGraphNodeData::moved(const Vec2i& oldPosition)
 
 void QtGraphNodeData::updateStyle()
 {
-	GraphViewStyle::NodeStyle style =
-		GraphViewStyle::getStyleForNodeType(m_data->getType(), m_data->isDefined(), m_isActive, m_isHovering, m_childVisible);
+	GraphViewStyle::NodeStyle style = GraphViewStyle::getStyleForNodeType(
+		m_data->getType(), m_data->isExplicit(), m_isActive, m_isHovering, m_childVisible);
 	setStyle(style);
 }
 

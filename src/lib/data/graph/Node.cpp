@@ -98,6 +98,8 @@ Node::Node(Id id, NodeType type, NameHierarchy nameHierarchy, bool defined)
 	, m_type(type)
 	, m_nameHierarchy(nameHierarchy)
 	, m_defined(defined)
+	, m_implicit(false)
+	, m_explicit(false)
 {
 }
 
@@ -150,6 +152,26 @@ bool Node::isDefined() const
 void Node::setDefined(bool defined)
 {
 	m_defined = defined;
+}
+
+bool Node::isImplicit() const
+{
+	return m_implicit;
+}
+
+void Node::setImplicit(bool implicit)
+{
+	m_implicit = implicit;
+}
+
+bool Node::isExplicit() const
+{
+	return m_explicit;
+}
+
+void Node::setExplicit(bool bExplicit)
+{
+	m_explicit = bExplicit;
 }
 
 const std::vector<Edge*>& Node::getEdges() const
