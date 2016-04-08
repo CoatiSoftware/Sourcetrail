@@ -485,7 +485,7 @@ void GraphController::deactivateNodesRecursive(std::vector<DummyNode>* nodes) co
 
 void GraphController::bundleNodes()
 {
-	bundleNodesMatching(
+	bundleNodesAndEdgesMatching(
 		[&](const DummyNode& node)
 		{
 			return isTypeNodeWithSingleAggregation(node, TokenComponentAggregation::DIRECTION_BACKWARD);
@@ -494,7 +494,7 @@ void GraphController::bundleNodes()
 		"Referenced Types"
 	);
 
-	// bundleNodesMatching(
+	// bundleNodesAndEdgesMatching(
 	// 	[&](const DummyNode& node)
 	// 	{
 	// 		return isTypeNodeWithSingleAggregation(node, TokenComponentAggregation::DIRECTION_FORWARD);
@@ -503,7 +503,7 @@ void GraphController::bundleNodes()
 	// 	"Referencing Types"
 	// );
 
-	bundleNodesMatching(
+	bundleNodesAndEdgesMatching(
 		[&](const DummyNode& node)
 		{
 			return isTypeNodeWithSingleInheritance(node, true);
@@ -512,7 +512,7 @@ void GraphController::bundleNodes()
 		"Base Types"
 	);
 
-	bundleNodesMatching(
+	bundleNodesAndEdgesMatching(
 		[&](const DummyNode& node)
 		{
 			return isTypeNodeWithSingleInheritance(node, false);
@@ -521,7 +521,7 @@ void GraphController::bundleNodes()
 		"Derived Types"
 	);
 
-	bundleNodesMatching(
+	bundleNodesAndEdgesMatching(
 		[&](const DummyNode& node)
 		{
 			return isUndefinedNode(node, false);
@@ -530,7 +530,7 @@ void GraphController::bundleNodes()
 		"Undefined Symbols"
 	);
 
-	bundleNodesMatching(
+	bundleNodesAndEdgesMatching(
 		[&](const DummyNode& node)
 		{
 			return isUndefinedNode(node, true);
@@ -539,7 +539,7 @@ void GraphController::bundleNodes()
 		"Undefined Symbols"
 	);
 
-	bundleNodesMatching(
+	bundleNodesAndEdgesMatching(
 		[&](const DummyNode& node)
 		{
 			return isTypeUserNode(node);
@@ -549,23 +549,18 @@ void GraphController::bundleNodes()
 	);
 }
 
-void GraphController::bundleNodesMatching(std::function<bool(const DummyNode&)> matcher, size_t count, const std::string& name)
+void GraphController::bundleNodesAndEdgesMatching(std::function<bool(const DummyNode&)> matcher, size_t count, const std::string& name)
 {
-	size_t matchCount = 0;
-	std::vector<size_t> nodeIndices;
-
+	std::vector<size_t> matchedNodeIndices;
 	for (size_t i = 0; i < m_dummyNodes.size(); i++)
 	{
-		const DummyNode& node = m_dummyNodes[i];
-
-		if (matcher(node))
+		if (matcher(m_dummyNodes[i]))
 		{
-			matchCount++;
-			nodeIndices.push_back(i);
+			matchedNodeIndices.push_back(i);
 		}
 	}
 
-	if (matchCount < count || matchCount == m_dummyNodes.size())
+	if (!matchedNodeIndices.size() || matchedNodeIndices.size() < count || matchedNodeIndices.size() == m_dummyNodes.size())
 	{
 		return;
 	}
@@ -574,20 +569,23 @@ void GraphController::bundleNodesMatching(std::function<bool(const DummyNode&)> 
 	bundleNode.name = name;
 	bundleNode.visible = true;
 
-	for (int i = nodeIndices.size() - 1; i >= 0; i--)
+	for (int i = matchedNodeIndices.size() - 1; i >= 0; i--)
 	{
-		DummyNode& node = m_dummyNodes[nodeIndices[i]];
+		DummyNode node = m_dummyNodes[matchedNodeIndices[i]];
 		node.visible = false;
 
 		bundleNode.bundledNodes.push_back(node);
 		bundleNode.bundledNodeCount += node.getConnectedSubNodeCount();
 
-		if (!bundleNode.tokenId)
-		{
-			bundleNode.tokenId = node.data->getId();
-		}
+		m_dummyNodes.erase(m_dummyNodes.begin() + matchedNodeIndices[i]);
+	}
 
-		m_dummyNodes.erase(m_dummyNodes.begin() + nodeIndices[i]);
+	bundleNode.tokenId = bundleNode.bundledNodes[0].data->getId();
+	m_dummyNodes.push_back(bundleNode);
+
+	if (m_dummyEdges.size() == 0)
+	{
+		return;
 	}
 
 	std::vector<DummyEdge> bundleEdges;
@@ -632,6 +630,40 @@ void GraphController::bundleNodesMatching(std::function<bool(const DummyNode&)> 
 	}
 
 	m_dummyEdges.insert(m_dummyEdges.end(), bundleEdges.begin(), bundleEdges.end());
+}
+
+void GraphController::bundleNodesMatching(std::list<DummyNode*>& nodes, std::function<bool(const DummyNode&)> matcher, const std::string& name)
+{
+	std::vector<std::list<DummyNode*>::iterator> matchedNodes;
+	for (std::list<DummyNode*>::iterator it = nodes.begin(); it != nodes.end(); it++)
+	{
+		if (matcher(**it))
+		{
+			matchedNodes.push_back(it);
+		}
+	}
+
+	if (!matchedNodes.size())
+	{
+		return;
+	}
+
+	DummyNode bundleNode;
+	bundleNode.name = name;
+	bundleNode.visible = true;
+
+	for (int i = matchedNodes.size() - 1; i >= 0; i--)
+	{
+		DummyNode* node = *matchedNodes[i];
+		node->visible = false;
+
+		bundleNode.bundledNodes.push_back(*node);
+		bundleNode.bundledNodeCount += node->getConnectedSubNodeCount();
+
+		nodes.erase(matchedNodes[i]);
+	}
+
+	bundleNode.tokenId = bundleNode.bundledNodes[0].data->getId();
 	m_dummyNodes.push_back(bundleNode);
 }
 
@@ -799,39 +831,53 @@ bool GraphController::isTypeUserNode(const DummyNode& node) const
 	return matches;
 }
 
-#define BUNDLE_BY_TYPE(__type__, __name__) \
+#define BUNDLE_BY_TYPE(__nodes__, __type__, __name__) \
 	bundleNodesMatching( \
+		__nodes__, \
 		[&](const DummyNode& node) \
 		{ \
 			return node.visible && node.isGraphNode() && node.data->isType(__type__); \
 		}, \
-		1, \
 		__name__ \
 	); \
 
 void GraphController::bundleNodesByType()
 {
-	BUNDLE_BY_TYPE(Node::NODE_NAMESPACE, "Namespaces");
-	BUNDLE_BY_TYPE(Node::NODE_CLASS, "Classes");
-	BUNDLE_BY_TYPE(Node::NODE_STRUCT, "Structs");
+	size_t size = m_dummyNodes.size();
+	std::list<DummyNode*> nodes;
+	for (DummyNode& node : m_dummyNodes)
+	{
+		nodes.push_back(&node);
+	}
 
-	BUNDLE_BY_TYPE(Node::NODE_FUNCTION, "Functions");
-	BUNDLE_BY_TYPE(Node::NODE_GLOBAL_VARIABLE, "Global Variables");
+	BUNDLE_BY_TYPE(nodes, Node::NODE_NAMESPACE, "Namespaces");
+	BUNDLE_BY_TYPE(nodes, Node::NODE_CLASS, "Classes");
+	BUNDLE_BY_TYPE(nodes, Node::NODE_STRUCT, "Structs");
 
-	BUNDLE_BY_TYPE(Node::NODE_TYPE, "Types");
-	BUNDLE_BY_TYPE(Node::NODE_TYPEDEF, "Typedefs");
-	BUNDLE_BY_TYPE(Node::NODE_ENUM, "Enums");
+	BUNDLE_BY_TYPE(nodes, Node::NODE_FUNCTION, "Functions");
+	BUNDLE_BY_TYPE(nodes, Node::NODE_GLOBAL_VARIABLE, "Global Variables");
 
-	BUNDLE_BY_TYPE(Node::NODE_FILE, "Files");
-	BUNDLE_BY_TYPE(Node::NODE_MACRO, "Macros");
+	BUNDLE_BY_TYPE(nodes, Node::NODE_TYPE, "Types");
+	BUNDLE_BY_TYPE(nodes, Node::NODE_TYPEDEF, "Typedefs");
+	BUNDLE_BY_TYPE(nodes, Node::NODE_ENUM, "Enums");
 
-	// should never be visible
+	BUNDLE_BY_TYPE(nodes, Node::NODE_FILE, "Files");
+	BUNDLE_BY_TYPE(nodes, Node::NODE_MACRO, "Macros");
 
-	BUNDLE_BY_TYPE(Node::NODE_METHOD, "Methods");
-	BUNDLE_BY_TYPE(Node::NODE_FIELD, "Fields");
-	BUNDLE_BY_TYPE(Node::NODE_ENUM_CONSTANT, "Enum Constants");
-	BUNDLE_BY_TYPE(Node::NODE_TEMPLATE_PARAMETER_TYPE, "Template Parameter Types");
-	BUNDLE_BY_TYPE(Node::NODE_UNDEFINED, "Undefined Symbols");
+	// // should never be visible
+
+	BUNDLE_BY_TYPE(nodes, Node::NODE_METHOD, "Methods");
+	BUNDLE_BY_TYPE(nodes, Node::NODE_FIELD, "Fields");
+	BUNDLE_BY_TYPE(nodes, Node::NODE_ENUM_CONSTANT, "Enum Constants");
+	BUNDLE_BY_TYPE(nodes, Node::NODE_TEMPLATE_PARAMETER_TYPE, "Template Parameter Types");
+	BUNDLE_BY_TYPE(nodes, Node::NODE_UNDEFINED, "Undefined Symbols");
+
+	std::vector<DummyNode> newNodes;
+	for (size_t i = size; i < m_dummyNodes.size(); i++)
+	{
+		newNodes.push_back(m_dummyNodes[i]);
+	}
+	m_dummyNodes = newNodes;
 
 	for (DummyNode& node : m_dummyNodes)
 	{

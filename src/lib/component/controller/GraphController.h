@@ -1,6 +1,7 @@
 #ifndef GRAPH_CONTROLLER_H
 #define GRAPH_CONTROLLER_H
 
+#include <list>
 #include <vector>
 
 #include "utility/messaging/MessageListener.h"
@@ -69,7 +70,8 @@ private:
 	void deactivateNodesRecursive(std::vector<DummyNode>* nodes) const;
 
 	void bundleNodes();
-	void bundleNodesMatching(std::function<bool(const DummyNode&)> matcher, size_t count, const std::string& name);
+	void bundleNodesAndEdgesMatching(std::function<bool(const DummyNode&)> matcher, size_t count, const std::string& name);
+	void bundleNodesMatching(std::list<DummyNode*>& nodes, std::function<bool(const DummyNode&)> matcher, const std::string& name);
 	bool isTypeNodeWithSingleAggregation(const DummyNode& node, TokenComponentAggregation::Direction direction) const;
 	bool isTypeNodeWithSingleInheritance(const DummyNode& node, bool isBase) const;
 	bool isUndefinedNode(const DummyNode& node, bool isUsed) const;
