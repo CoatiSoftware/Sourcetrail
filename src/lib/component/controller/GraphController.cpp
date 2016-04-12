@@ -843,11 +843,13 @@ bool GraphController::isTypeUserNode(const DummyNode& node) const
 
 void GraphController::bundleNodesByType()
 {
-	size_t size = m_dummyNodes.size();
+	std::vector<DummyNode> oldNodes = m_dummyNodes;
+	m_dummyNodes.clear();
+
 	std::list<DummyNode*> nodes;
-	for (DummyNode& node : m_dummyNodes)
+	for (size_t i = 0; i < oldNodes.size(); i++)
 	{
-		nodes.push_back(&node);
+		nodes.push_back(&oldNodes[i]);
 	}
 
 	BUNDLE_BY_TYPE(nodes, Node::NODE_NAMESPACE, "Namespaces");
@@ -871,13 +873,6 @@ void GraphController::bundleNodesByType()
 	BUNDLE_BY_TYPE(nodes, Node::NODE_ENUM_CONSTANT, "Enum Constants");
 	BUNDLE_BY_TYPE(nodes, Node::NODE_TEMPLATE_PARAMETER_TYPE, "Template Parameter Types");
 	BUNDLE_BY_TYPE(nodes, Node::NODE_UNDEFINED, "Undefined Symbols");
-
-	std::vector<DummyNode> newNodes;
-	for (size_t i = size; i < m_dummyNodes.size(); i++)
-	{
-		newNodes.push_back(m_dummyNodes[i]);
-	}
-	m_dummyNodes = newNodes;
 
 	for (DummyNode& node : m_dummyNodes)
 	{
