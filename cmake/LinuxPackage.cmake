@@ -13,6 +13,25 @@
 	#-d ${CMAKE_SOURCE_DIR}/bin/app/data/projects/tutorial/tutorial.coatiproject)"
 #)
 
+function(InstallQtModule module qtversion componentName)
+	get_filename_component(realpath ${EXTERNAL_BUILD}/qt/lib/libQt5${module}.so.${qtversion} REALPATH)
+	INSTALL(FILES
+		${realpath}
+		DESTINATION lib
+		COMPONENT ${componentName}
+		RENAME libQt5${module}.so.${qtversion}
+	)
+endfunction(InstallQtModule)
+
+function(InstallQt qtversion componentName)
+	InstallQtModule(Gui ${qtversion} ${componentName})
+	InstallQtModule(Core ${qtversion} ${componentName})
+	InstallQtModule(Network ${qtversion} ${componentName})
+	InstallQtModule(XcbQpa ${qtversion} ${componentName})
+	InstallQtModule(Widgets ${qtversion} ${componentName})
+	InstallQtModule(DBus ${qtversion} ${componentName})
+endfunction(InstallQt)
+
 function(AddSharedToComponent componentName)
 	INSTALL(DIRECTORY
 		${CMAKE_SOURCE_DIR}/bin/app/data
@@ -41,30 +60,12 @@ function(AddSharedToComponent componentName)
 		DESTINATION .
 	)
 
-	INSTALL(FILES
-		#Qt libs
-		# FIXME need a better solution for that
-		${EXTERNAL_BUILD}/qt/lib/libQt5Gui.so.5
-		${EXTERNAL_BUILD}/qt/lib/libQt5Gui.so.5.5
-		${EXTERNAL_BUILD}/qt/lib/libQt5Gui.so.5.5.1
-		${EXTERNAL_BUILD}/qt/lib/libQt5Core.so.5
-		${EXTERNAL_BUILD}/qt/lib/libQt5Core.so.5.5
-		${EXTERNAL_BUILD}/qt/lib/libQt5Core.so.5.5.1
-		${EXTERNAL_BUILD}/qt/lib/libQt5Network.so.5
-		${EXTERNAL_BUILD}/qt/lib/libQt5Network.so.5.5
-		${EXTERNAL_BUILD}/qt/lib/libQt5Network.so.5.5.1
-		${EXTERNAL_BUILD}/qt/lib/libQt5XcbQpa.so.5
-		${EXTERNAL_BUILD}/qt/lib/libQt5XcbQpa.so.5.5
-		${EXTERNAL_BUILD}/qt/lib/libQt5XcbQpa.so.5.5.1
-		${EXTERNAL_BUILD}/qt/lib/libQt5Widgets.so.5
-		${EXTERNAL_BUILD}/qt/lib/libQt5Widgets.so.5.5
-		${EXTERNAL_BUILD}/qt/lib/libQt5Widgets.so.5.5.1
-		${EXTERNAL_BUILD}/qt/lib/libQt5DBus.so.5
-		${EXTERNAL_BUILD}/qt/lib/libQt5DBus.so.5.5
-		${EXTERNAL_BUILD}/qt/lib/libQt5DBus.so.5.5.1
+	InstallQt(5 ${componentName})
 
+	get_filename_component(realpath ${LIBSTDCPP} REALPATH)
+	INSTALL(FILES
 		#C++
-		${LIBSTDCPP}
+		${realpath}
 		DESTINATION lib
 		COMPONENT ${componentName}
 	)
@@ -97,7 +98,7 @@ AddSharedToComponent(TRIAL)
 
 INSTALL(DIRECTORY
 	${CMAKE_SOURCE_DIR}/ide_plugins/sublime_text
-    DESTINATION plugin
+	DESTINATION plugin
 	COMPONENT FULL
 )
 
@@ -115,28 +116,28 @@ INSTALL(DIRECTORY
 )
 
 INSTALL(FILES
-    ${CMAKE_SOURCE_DIR}/setup/Linux/coati.desktop
-    ${CMAKE_SOURCE_DIR}/setup/Linux/coati-mime.xml
-    DESTINATION setup
+	${CMAKE_SOURCE_DIR}/setup/Linux/coati.desktop
+	${CMAKE_SOURCE_DIR}/setup/Linux/coati-mime.xml
+	DESTINATION setup
 	COMPONENT FULL
-)
+	)
 INSTALL(PROGRAMS
 	${CMAKE_SOURCE_DIR}/setup/Linux/install.sh
 	${CMAKE_SOURCE_DIR}/setup/Linux/deinstall.sh
 	${CMAKE_SOURCE_DIR}/setup/Linux/removeConfigs.sh
 	DESTINATION setup
 	COMPONENT FULL
-)
+	)
 
 INSTALL(PROGRAMS
 	${CMAKE_SOURCE_DIR}/setup/Linux/Coati_trial.sh
-    DESTINATION .
+	DESTINATION .
 	COMPONENT TRIAL
-)
+	)
 
 INSTALL(PROGRAMS
-    ${CMAKE_SOURCE_DIR}/setup/Linux/Coati.sh
-    DESTINATION .
+	${CMAKE_SOURCE_DIR}/setup/Linux/Coati.sh
+	DESTINATION .
 	COMPONENT FULL
 )
 

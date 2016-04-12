@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.9)
 
 # to get CMP0043 warnings, upgrade to version 3 and change the line above to VERSION 3.0 and remove the line below
 if(POLICY CMP0043)
-   cmake_policy(SET CMP0043 OLD)
+	cmake_policy(SET CMP0043 OLD)
 endif()
 
 include(cmake/add_files.cmake)
@@ -52,7 +52,7 @@ if(UNIX AND NOT APPLE)
 	set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 	set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 	set(CMAKE_INSTALL_RPATH "$ORIGIN/lib/:$$ORIGIN/lib/")
-    include(cmake/external.cmake)
+	include(cmake/external.cmake)
 endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -66,7 +66,7 @@ if (UNIX AND APPLE)
 		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_debug/share/llvm/cmake" NO_DEFAULT_PATH)
 	endif()
 elseif(UNIX)
-    find_package(LLVM REQUIRED PATHS "${EXTERNAL_BUILD}/llvm/share/llvm/cmake" NO_DEFAULT_PATH)
+	find_package(LLVM REQUIRED PATHS "${EXTERNAL_BUILD}/llvm/share/llvm/cmake" NO_DEFAULT_PATH)
 else()
 	find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build/share/llvm/cmake")
 endif()
@@ -78,9 +78,9 @@ add_definitions(${CLANG_DEFINITIONS})
 # Boost ------------------------------------------------------------------------
 
 if(UNIX AND NOT APPLE)
-    set(BOOST_ROOT ${EXTERNAL_BUILD}/boost)
+	set(BOOST_ROOT ${EXTERNAL_BUILD}/boost)
 else()
-    set(BOOST_ROOT $ENV{BOOST_159_DIR})
+	set(BOOST_ROOT $ENV{BOOST_159_DIR})
 endif()
 set(Boost_USE_MULTITHREAD ON)
 set(Boost_USE_STATIC_LIBS ON)
@@ -94,9 +94,9 @@ find_package(Boost 1.59 COMPONENTS system program_options filesystem date_time R
 
 add_definitions(-DEIGEN_MPL2_ONLY)
 if(UNIX AND NOT APPLE)
-    set(EIGEN_ROOT ${EXTERNAL_SRC}/eigen)
+	set(EIGEN_ROOT ${EXTERNAL_SRC}/eigen)
 else()
-    set(EIGEN_ROOT $ENV{EIGEN_DIR})
+	set(EIGEN_ROOT $ENV{EIGEN_DIR})
 endif()
 
 # Botan -------------------------------------------------------------------------
@@ -104,23 +104,23 @@ endif()
 set(BOTAN_VERSION "botan-1.11")
 
 if(UNIX AND APPLE)
-    find_library(BOTAN ${BOTAN_VERSION} $ENV{BOTAN_DIR}/release NO_DEFAULT_PATH)
-    find_library(BOTAN_D ${BOTAN_VERSION} $ENV{BOTAN_DIR}/debug NO_DEFAULT_PATH)
+	find_library(BOTAN ${BOTAN_VERSION} $ENV{BOTAN_DIR}/release NO_DEFAULT_PATH)
+	find_library(BOTAN_D ${BOTAN_VERSION} $ENV{BOTAN_DIR}/debug NO_DEFAULT_PATH)
 elseif(UNIX)
-    find_library(BOTAN ${BOTAN_VERSION} "${EXTERNAL_BUILD}/botan" NO_DEFAULT_PATH)
+	find_library(BOTAN ${BOTAN_VERSION} "${EXTERNAL_BUILD}/botan" NO_DEFAULT_PATH)
 else()
-    find_library(BOTAN botan "$ENV{BOTAN_DIR}/release")
+	find_library(BOTAN botan "$ENV{BOTAN_DIR}/release")
 	find_library(BOTAN_D botan "$ENV{BOTAN_DIR}/debug")
 endif()
 if(${BOTAN} STREQUAL "BOTAN-NOTFOUND")
-    message(FATAL_ERROR "Botan not found")
+	message(FATAL_ERROR "Botan not found")
 else()
-    message(STATUS "Botan found")
+	message(STATUS "Botan found")
 endif()
 if(UNIX AND NOT APPLE)
-    set(BOTAN_INCLUDE_DIR "${EXTERNAL_BUILD}/botan")
+	set(BOTAN_INCLUDE_DIR "${EXTERNAL_BUILD}/botan")
 else()
-    set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}")
+	set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}")
 endif()
 
 # Lib --------------------------------------------------------------------------
@@ -158,7 +158,7 @@ target_include_directories(${LIB_PROJECT_NAME} SYSTEM
 	${CLANG_INCLUDE_DIRS}
 	${Boost_INCLUDE_DIRS}
 	${EIGEN_ROOT}
-    "${CMAKE_SOURCE_DIR}/src/external"
+	"${CMAKE_SOURCE_DIR}/src/external"
 )
 
 target_link_libraries(${LIB_PROJECT_NAME} ${Boost_LIBRARIES})
@@ -230,7 +230,7 @@ target_include_directories(${LIB_LICENSE_PROJECT_NAME} SYSTEM
 	PUBLIC
 	${Boost_INCLUDE_DIRS}
 	${LIB_LICENSE_PROJECT_NAME}
-    ${BOTAN_INCLUDE_DIR}
+	${BOTAN_INCLUDE_DIR}
 )
 
 # target_include_directories(${LIB_LICENSE_PROJECT_NAME} optimized "$ENV{BOTAN_DIR}/release")
@@ -260,14 +260,14 @@ set(CMAKE_AUTOMOC ON)
 
 # Find the QtWidgets library
 if(UNIX AND NOT APPLE)
-    set(CMAKE_PREFIX_PATH ${EXTERNAL_BUILD}/qt)
+	set(CMAKE_PREFIX_PATH ${EXTERNAL_BUILD}/qt)
 else()
-    set(CMAKE_PREFIX_PATH "$ENV{QT_DIR}/")
+	set(CMAKE_PREFIX_PATH "$ENV{QT_DIR}/")
 endif()
 
 if(UNIX AND APPLE)
-    set(Qt5Widgets_DIR "$ENV{QT_DIR}/cmake/Qt5Widgets/")
-    set(Qt5PrintSupport_DIR "$ENV{QT_DIR}/cmake/Qt5PrintSupport/")
+	set(Qt5Widgets_DIR "$ENV{QT_DIR}/cmake/Qt5Widgets/")
+	set(Qt5PrintSupport_DIR "$ENV{QT_DIR}/cmake/Qt5PrintSupport/")
 endif()
 
 find_package(Qt5Widgets)
@@ -275,11 +275,11 @@ find_package(Qt5PrintSupport)
 find_package(Qt5Network)
 
 if(Qt5Widgets_FOUND)
-    MESSAGE(STATUS "Found Qt ${Qt5Widgets_VERSION_STRING}")
-    # FIX: Qt was built with -reduce-relocations
-    if (Qt5_POSITION_INDEPENDENT_CODE)
-        SET(CMAKE_POSITION_INDEPENDENT_CODE ON)
-    endif()
+	MESSAGE(STATUS "Found Qt ${Qt5Widgets_VERSION_STRING}")
+	# FIX: Qt was built with -reduce-relocations
+	if (Qt5_POSITION_INDEPENDENT_CODE)
+		SET(CMAKE_POSITION_INDEPENDENT_CODE ON)
+	endif()
 endif()
 
 # target for running versionnumber script
@@ -297,7 +297,7 @@ add_custom_command(
 	COMMAND ${CMAKE_COMMAND} -P ${CMAKE_SOURCE_DIR}/cmake/version.cmake
 	BYPRODUCTS ${PROJECT_SOURCE_DIR}/build/src/lib_gui/version.h
 	DEPENDS ${LIB_GUI_PROJECT_NAME}
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 	COMMENT "check/update version number"
 )
 add_dependencies(${LIB_GUI_PROJECT_NAME} versionnumber)
@@ -339,8 +339,8 @@ configure_file(
 
 #configure the versioning file
 configure_file(
-  ${CMAKE_SOURCE_DIR}/cmake/version.h.in
-  ${CMAKE_SOURCE_DIR}/build/src/lib_gui/version.h
+	${CMAKE_SOURCE_DIR}/cmake/version.h.in
+	${CMAKE_SOURCE_DIR}/build/src/lib_gui/version.h
 )
 
 # configure public key for the coati version
@@ -568,9 +568,9 @@ endif ()
 add_subdirectory(src/test)
 
 if(UNIX AND NOT APPLE)
-    set(CXXTEST_INCLUDE_DIR ${EXTERNAL_SRC}/cxxtest)
+	set(CXXTEST_INCLUDE_DIR ${EXTERNAL_SRC}/cxxtest)
 else()
-    set(CXXTEST_INCLUDE_DIR $ENV{CXX_TEST_DIR})
+	set(CXXTEST_INCLUDE_DIR $ENV{CXX_TEST_DIR})
 endif()
 set(CXXTEST_PYTHON_TESTGEN_EXECUTABLE ${CXXTEST_INCLUDE_DIR}/bin/cxxtestgen)
 set(TESTGEN_FILE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp)

@@ -1,8 +1,8 @@
 
 MY_PATH=`dirname "$0"`
-MY_PATH=../$MY_PATH 
+MY_PATH=../$MY_PATH
 
-cat ../EULA.txt
+cat ${MY_PATH}/EULA.txt
 echo "Agree to the EULA"
 printf 'enter [y/n] '
 read ans
@@ -18,5 +18,5 @@ cp $MY_PATH/data/gui/icon/project_256_256.png /usr/share/icons/project-coati.png
 update-mime-database /usr/share/mime > /dev/null
 update-desktop-database > /dev/null
 
-ln -s /opt/coati/Coati.sh /usr/bin/coati > /dev/null
+ln -f -s /opt/coati/Coati.sh /usr/bin/coati > /dev/null
 
