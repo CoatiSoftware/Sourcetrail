@@ -20,7 +20,14 @@
 	font-size: 12pt;
 }
 
-#recentButton:hover {
+#recentButtonMissing {
+	background: none;
+	border: none;
+	color: grey;
+	font-size: 12pt;
+}
+
+#recentButton:hover, #recentButtonMissing:hover {
 	background-color: #CFD2E0;
 	border-radius: 10px;
 }

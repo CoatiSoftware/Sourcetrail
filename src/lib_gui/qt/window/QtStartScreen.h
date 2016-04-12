@@ -12,12 +12,15 @@ class QtRecentProjectButton
 	Q_OBJECT
 
 public:
-	QtRecentProjectButton(const FilePath& projectFilePath, QWidget* parent);
-
+	QtRecentProjectButton(QWidget* parent);
+	bool projectExists() const;
+	void setProjectPath(const FilePath& projectFilePath);
 public slots:
 	void handleButtonClick();
-
+signals:
+	void updateButtons();
 private:
+	bool m_projectExists;
 	FilePath m_projectFilePath;
 };
 
@@ -41,11 +44,12 @@ private slots:
 	void handleNewProjectButton();
 	void handleOpenProjectButton();
 	void handleRecentButton();
+	void updateButtons();
 
 private:
 	QPushButton* m_openProjectButton;
 	QPushButton* m_newProjectButton;
-	std::vector<QPushButton*> m_recentProjects;
+	std::vector<QtRecentProjectButton*> m_recentProjectsButtons;
 };
 
 #endif // QT_START_SCREEN_H
