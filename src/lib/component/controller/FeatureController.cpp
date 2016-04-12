@@ -65,8 +65,6 @@ void FeatureController::handleMessage(MessageActivateTokenIds* message)
 void FeatureController::handleMessage(MessageActivateTokenLocations* message)
 {
 	std::vector<Id> nodeIds = m_storageAccess->getNodeIdsForLocationIds(message->locationIds);
-	nodeIds = m_storageAccess->getActiveTokenIdsForTokenIds(nodeIds);
-
 	MessageActivateNodes m;
 	for (Id nodeId : nodeIds)
 	{

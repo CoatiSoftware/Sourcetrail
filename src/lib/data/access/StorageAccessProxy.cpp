@@ -113,24 +113,14 @@ std::shared_ptr<Graph> StorageAccessProxy::getGraphForAll() const
 	return std::make_shared<Graph>();
 }
 
-std::shared_ptr<Graph> StorageAccessProxy::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds, bool activeOnly) const
+std::shared_ptr<Graph> StorageAccessProxy::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getGraphForActiveTokenIds(tokenIds, activeOnly);
+		return m_subject->getGraphForActiveTokenIds(tokenIds);
 	}
 
 	return std::make_shared<Graph>();
-}
-
-std::vector<Id> StorageAccessProxy::getActiveTokenIdsForTokenIds(const std::vector<Id>& tokenIds) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getActiveTokenIdsForTokenIds(tokenIds);
-	}
-
-	return std::vector<Id>();
 }
 
 std::vector<Id> StorageAccessProxy::getActiveTokenIdsForId(Id tokenId, Id* delcarationId) const

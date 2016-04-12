@@ -105,7 +105,7 @@ bool QtGraphNode::setPosition(const Vec2i& position)
 	Vec2i currentPosition = getPosition();
 	Vec2i offset = position - currentPosition;
 
-	if (offset.getLength() > 0.0f)
+	if (offset.x != 0 || offset.y != 0)
 	{
 		this->moveBy(offset.x, offset.y);
 		notifyEdgesAfterMove();

@@ -91,8 +91,7 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	CodeView* view = getView();
 	view->setErrorMessages(std::vector<std::string>());
 
-	std::vector<Id> activeTokenIds =
-		(message->originalTokenIds.size() > 0 ? message->originalTokenIds : message->tokenIds);
+	std::vector<Id> activeTokenIds = message->tokenIds;
 	Id declarationId = 0; // 0 means that no token is found.
 
 	if (!message->isAggregation)
@@ -104,11 +103,6 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 		}
 
 		activeTokenIds = m_storageAccess->getActiveTokenIdsForId(activeTokenIds[0], &declarationId);
-	}
-
-	if (message->originalTokenIds.size() > 0)
-	{
-		declarationId = 0;
 	}
 
 	if (message->isEdge)
@@ -305,7 +299,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocation
 				}
 			);
 
-			if (isDeclarationFile || collection->getTokenLocationFileCount() < 5 || file->isWholeCopy)
+			if (snippets.size() < 10 && (isDeclarationFile || collection->getTokenLocationFileCount() < 5 || file->isWholeCopy))
 			{
 				std::vector<CodeSnippetParams> fileSnippets = getSnippetsForActiveTokenLocationsInFile(file);
 

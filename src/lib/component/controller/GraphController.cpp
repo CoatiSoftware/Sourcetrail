@@ -67,15 +67,9 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 
 	std::vector<Id> tokenIds = utility::concat(m_activeNodeIds, m_activeEdgeIds);
 
-	std::shared_ptr<Graph> graph =
-		m_storageAccess->getGraphForActiveTokenIds(tokenIds, message->originalTokenIds.size() > 0);
+	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForActiveTokenIds(tokenIds);
 
 	createDummyGraphForTokenIds(tokenIds, graph);
-
-	if (message->originalTokenIds.size() > 0)
-	{
-		deactivateNodesRecursive(&m_dummyNodes);
-	}
 
 	if (m_activeNodeIds.size() == 1)
 	{
@@ -344,10 +338,13 @@ void GraphController::autoExpandActiveNode(const std::vector<Id>& activeTokenIds
 void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenIds)
 {
 	bool noActive = activeTokenIds.size() == 0;
-
-	for (DummyNode& node : m_dummyNodes)
+	if (activeTokenIds.size() > 0)
 	{
-		setNodeActiveRecursive(node, activeTokenIds);
+		noActive = true;
+		for (DummyNode& node : m_dummyNodes)
+		{
+			setNodeActiveRecursive(node, activeTokenIds, &noActive);
+		}
 	}
 
 	for (DummyEdge& edge : m_dummyEdges)
@@ -382,18 +379,23 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 	}
 }
 
-void GraphController::setNodeActiveRecursive(DummyNode& node, const std::vector<Id>& activeTokenIds) const
+void GraphController::setNodeActiveRecursive(DummyNode& node, const std::vector<Id>& activeTokenIds, bool* noActive) const
 {
 	node.active = false;
 
 	if (node.isGraphNode())
 	{
 		node.active = find(activeTokenIds.begin(), activeTokenIds.end(), node.data->getId()) != activeTokenIds.end();
+
+		if (node.active)
+		{
+			*noActive = false;
+		}
 	}
 
 	for (DummyNode& subNode : node.subNodes)
 	{
-		setNodeActiveRecursive(subNode, activeTokenIds);
+		setNodeActiveRecursive(subNode, activeTokenIds, noActive);
 	}
 }
 
@@ -471,15 +473,6 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode& node, bool pa
 			node.childVisible = true;
 			setNodeVisibilityRecursiveTopDown(subNode, node.isExpanded());
 		}
-	}
-}
-
-void GraphController::deactivateNodesRecursive(std::vector<DummyNode>* nodes) const
-{
-	for (DummyNode& node : *nodes)
-	{
-		node.active = false;
-		deactivateNodesRecursive(&node.subNodes);
 	}
 }
 

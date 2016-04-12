@@ -63,11 +63,10 @@ private:
 	void autoExpandActiveNode(const std::vector<Id>& activeTokenIds);
 
 	void setActiveAndVisibility(const std::vector<Id>& activeTokenIds);
-	void setNodeActiveRecursive(DummyNode& node, const std::vector<Id>& activeTokenIds) const;
+	void setNodeActiveRecursive(DummyNode& node, const std::vector<Id>& activeTokenIds, bool* noActive) const;
 	void removeImplicitAndUndefinedChildrenRecursive(DummyNode& node);
 	bool setNodeVisibilityRecursiveBottomUp(DummyNode& node, bool noActive) const;
 	void setNodeVisibilityRecursiveTopDown(DummyNode& node, bool parentExpanded) const;
-	void deactivateNodesRecursive(std::vector<DummyNode>* nodes) const;
 
 	void bundleNodes();
 	void bundleNodesAndEdgesMatching(std::function<bool(const DummyNode&)> matcher, size_t count, const std::string& name);

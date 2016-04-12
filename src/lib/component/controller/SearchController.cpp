@@ -22,10 +22,7 @@ void SearchController::handleMessage(MessageActivateTokens* message)
 {
 	if (!message->keepContent() && !message->isFromSearch)
 	{
-		const std::vector<Id>& tokenIds =
-			(message->originalTokenIds.size() > 0 ? message->originalTokenIds : message->tokenIds);
-
-		getView()->setMatches(m_storageAccess->getSearchMatchesForTokenIds(tokenIds));
+		getView()->setMatches(m_storageAccess->getSearchMatchesForTokenIds(message->tokenIds));
 	}
 }
 

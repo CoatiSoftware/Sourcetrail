@@ -226,7 +226,9 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 		if (results[i].elementIds.size() > 0)
 		{
 			StorageNode firstNode(0, 0, "", 0);
-			for (std::set<Id>::const_iterator itElementIds = results[i].elementIds.begin(); itElementIds != results[i].elementIds.end(); itElementIds++)
+			for (std::set<Id>::const_iterator itElementIds = results[i].elementIds.begin();
+				itElementIds != results[i].elementIds.end();
+				itElementIds++)
 			{
 				Id elementId = *itElementIds;
 				if (elementId != 0)
@@ -270,7 +272,8 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 
 std::vector<SearchMatch> Storage::getSearchMatchesForTokenIds(const std::vector<Id>& elementIds) const
 {
-	// todo: what if all these elements share the same node in the searchindex? in that case there should be only one search match.
+	// todo: what if all these elements share the same node in the searchindex?
+	// In that case there should be only one search match.
 	std::vector<SearchMatch> matches;
 
 	for (Id elementId : elementIds)
@@ -309,7 +312,8 @@ std::shared_ptr<Graph> Storage::getGraphForAll() const
 	std::vector<Id> tokenIds;
 	for (StorageNode node: m_sqliteStorage.getAllNodes())
 	{
-		if (intToDefinitionType(node.definitionType) != DEFINITION_NONE && (!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id) ||
+		if (intToDefinitionType(node.definitionType) == DEFINITION_EXPLICIT &&
+			(!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id) ||
 			Node::intToType(node.type) == Node::NODE_NAMESPACE))
 		{
 			tokenIds.push_back(node.id);
@@ -321,57 +325,86 @@ std::shared_ptr<Graph> Storage::getGraphForAll() const
 	return graph;
 }
 
-std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds, bool activeOnly) const
+std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const
 {
 	std::shared_ptr<Graph> g = std::make_shared<Graph>();
 	Graph* graph = g.get();
+
+	std::vector<Id> ids(tokenIds);
+	bool isNamespace = false;
 
 	std::vector<Id> nodeIds;
 	std::vector<Id> edgeIds;
 	bool addAggregations = false;
 
-	if (tokenIds.size() == 1 && !activeOnly)
+	if (tokenIds.size() == 1)
 	{
 		const Id elementId = tokenIds[0];
+		StorageNode node = m_sqliteStorage.getNodeById(elementId);
 
-		if (m_sqliteStorage.isNode(elementId))
+		if (node.id > 0)
 		{
-			nodeIds.push_back(elementId);
-
-			std::vector<StorageEdge> edges = m_sqliteStorage.getEdgesBySourceOrTargetId(elementId);
-			for (const StorageEdge& edge : edges)
+			if (Node::intToType(node.type) == Node::NODE_NAMESPACE)
 			{
-				if (Edge::intToType(edge.type) != Edge::EDGE_MEMBER)
-				{
-					edgeIds.push_back(edge.id);
-				}
-			}
+				ids.clear();
+				m_hierarchyCache.addFirstVisibleChildIdsForNodeId(elementId, &ids);
 
-			addAggregations = true;
+				isNamespace = true;
+			}
+			else
+			{
+				nodeIds.push_back(elementId);
+
+				std::vector<StorageEdge> edges = m_sqliteStorage.getEdgesBySourceOrTargetId(elementId);
+				for (const StorageEdge& edge : edges)
+				{
+					if (Edge::intToType(edge.type) != Edge::EDGE_MEMBER)
+					{
+						edgeIds.push_back(edge.id);
+					}
+				}
+
+				addAggregations = true;
+			}
 		}
 		else if (m_sqliteStorage.isEdge(elementId))
 		{
 			edgeIds.push_back(elementId);
 		}
 	}
-	else if (tokenIds.size() >= 1)
-	{
-		for (size_t i = 0; i < tokenIds.size(); i++)
-		{
-			const Id elementId = tokenIds[i];
 
-			if (m_sqliteStorage.isNode(elementId))
+	if (ids.size() >= 1 || isNamespace)
+	{
+		std::vector<StorageNode> nodes = m_sqliteStorage.getNodesByIds(ids);
+		for (const StorageNode& node : nodes)
+		{
+			if (node.id > 0 && (!isNamespace || intToDefinitionType(node.definitionType) == DEFINITION_EXPLICIT))
 			{
-				nodeIds.push_back(elementId);
+				nodeIds.push_back(node.id);
 			}
-			else
+		}
+
+		if (nodeIds.size() != ids.size())
+		{
+			std::vector<StorageEdge> edges = m_sqliteStorage.getEdgesByIds(ids);
+			for (const StorageEdge& edge : edges)
 			{
-				edgeIds.push_back(elementId);
+				if (edge.id > 0)
+				{
+					edgeIds.push_back(edge.id);
+				}
 			}
 		}
 	}
 
-	addNodesAndEdgesToGraph(nodeIds, edgeIds, graph);
+	if (isNamespace)
+	{
+		addNodesToGraph(nodeIds, graph);
+	}
+	else
+	{
+		addNodesWithChildrenAndEdgesToGraph(nodeIds, edgeIds, graph);
+	}
 
 	if (addAggregations)
 	{
@@ -381,39 +414,6 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 	addComponentAccessToGraph(graph);
 
 	return g;
-}
-
-std::vector<Id> Storage::getActiveTokenIdsForTokenIds(const std::vector<Id>& tokenIds) const
-{
-	bool different = false;
-	std::vector<Id> activeIds;
-
-	for (Id id : tokenIds)
-	{
-		if (m_sqliteStorage.isNode(id))
-		{
-			m_hierarchyCache.addFirstVisibleChildIdsForNodeId(id, &activeIds);
-			if (id != activeIds.back())
-			{
-				different = true;
-			}
-		}
-		else
-		{
-			activeIds.push_back(id);
-		}
-	}
-
-	if (!different)
-	{
-		return tokenIds;
-	}
-
-	std::set<Id> idSet(activeIds.begin(), activeIds.end());
-	activeIds.clear();
-	activeIds.insert(activeIds.end(), idSet.begin(), idSet.end());
-
-	return activeIds;
 }
 
 // TODO: rename: getActiveElementIdsForId; TODO: make separate function for declarationId
@@ -815,7 +815,7 @@ void Storage::addEdgesToGraph(const std::vector<Id>& edgeIds, Graph* graph) cons
 	}
 }
 
-void Storage::addNodesAndEdgesToGraph(const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graph) const
+void Storage::addNodesWithChildrenAndEdgesToGraph(const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graph) const
 {
 	std::set<Id> parentNodeIds;
 
@@ -908,7 +908,7 @@ void Storage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
 			nodeIdsToAdd.push_back(aggregationTargetNodeId);
 		}
 	}
-	addNodesAndEdgesToGraph(nodeIdsToAdd, std::vector<Id>(), graph);
+	addNodesWithChildrenAndEdgesToGraph(nodeIdsToAdd, std::vector<Id>(), graph);
 
 	// create aggregation edges between parents and active node
 	Node* sourceNode = graph->getNodeById(nodeId);

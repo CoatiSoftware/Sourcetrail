@@ -57,9 +57,8 @@ public:
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& elementIds) const;
 
 	virtual std::shared_ptr<Graph> getGraphForAll() const;
-	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds, bool activeOnly) const;
+	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const;
 
-	virtual std::vector<Id> getActiveTokenIdsForTokenIds(const std::vector<Id>& tokenIds) const;
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const;
 
 	virtual std::vector<Id> getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const;
@@ -93,7 +92,7 @@ private:
 
 	void addNodesToGraph(const std::vector<Id>& nodeIds, Graph* graph) const;
 	void addEdgesToGraph(const std::vector<Id>& edgeIds, Graph* graph) const;
-	void addNodesAndEdgesToGraph(const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graph) const;
+	void addNodesWithChildrenAndEdgesToGraph(const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graph) const;
 
 	void addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const;
 	void addComponentAccessToGraph(Graph* graph) const;
