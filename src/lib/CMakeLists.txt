@@ -107,6 +107,8 @@ add_files(
 	data/graph/Token.cpp
 	data/graph/Token.h
 
+	data/location/LocationType.cpp
+	data/location/LocationType.h
 	data/location/TokenLocation.cpp
 	data/location/TokenLocation.h
 	data/location/TokenLocationCollection.cpp
@@ -215,6 +217,7 @@ add_files(
 	utility/messaging/type/MessageActivateAll.h
 	utility/messaging/type/MessageActivateEdge.h
 	utility/messaging/type/MessageActivateFile.h
+	utility/messaging/type/MessageActivateLocalSymbols.h
 	utility/messaging/type/MessageActivateNodes.h
 	utility/messaging/type/MessageActivateTokenLocations.h
 	utility/messaging/type/MessageActivateTokenIds.h

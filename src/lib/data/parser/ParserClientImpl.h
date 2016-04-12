@@ -78,6 +78,8 @@ public:
 	virtual Id onTemplateMemberFunctionSpecializationParsed(
 		const ParseLocation& location, const NameHierarchy& instantiatedFunction, const NameHierarchy& specializedFunction);
 
+	virtual Id onLocalSymbolParsed(const std::string& name, const ParseLocation& location);
+
 	virtual Id onFileParsed(const FileInfo& fileInfo);
 	virtual Id onFileIncludeParsed(
 		const ParseLocation& location, const FileInfo& fileInfo, const FileInfo& includedFileInfo);
@@ -99,7 +101,8 @@ private:
 	Id addFile(const std::string& filePath);
 	Id addNode(Node::NodeType nodeType, NameHierarchy nameHierarchy, DefinitionType definitionType);
 	Id addEdge(int type, Id sourceId, Id targetId);
-	void addSourceLocation(Id elementId, const ParseLocation& location, bool isScope);
+	Id addLocalSymbol(const std::string& name);
+	void addSourceLocation(Id elementId, const ParseLocation& location, int type);
 	void addComponentAccess(Id nodeId , int type);
 	void addCommentLocation(const ParseLocation& location);
 	void addError(const std::string& message, bool fatal, const ParseLocation& location);

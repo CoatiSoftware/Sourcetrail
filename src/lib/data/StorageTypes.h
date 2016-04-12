@@ -50,9 +50,20 @@ struct StorageFile
 	std::string modificationTime;
 };
 
+struct StorageLocalSymbol
+{
+	StorageLocalSymbol(Id id, const std::string& name)
+		: id(id)
+		, name(name)
+	{}
+
+	Id id;
+	std::string name;
+};
+
 struct StorageSourceLocation
 {
-	StorageSourceLocation(Id id, Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope)
+	StorageSourceLocation(Id id, Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
 		: id(id)
 		, elementId(elementId)
 		, fileNodeId(fileNodeId)
@@ -60,7 +71,7 @@ struct StorageSourceLocation
 		, startCol(startCol)
 		, endLine(endLine)
 		, endCol(endCol)
-		, isScope(isScope)
+		, type(type)
 	{}
 
 	Id id;
@@ -70,7 +81,7 @@ struct StorageSourceLocation
 	uint startCol;
 	uint endLine;
 	uint endCol;
-	bool isScope;
+	int type;
 };
 
 struct StorageComponentAccess

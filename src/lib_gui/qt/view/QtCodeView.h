@@ -39,6 +39,7 @@ public:
 
 	virtual void showFirstActiveSnippet(const std::vector<Id>& activeTokenIds, bool scrollTo);
 	virtual void showActiveTokenIds(const std::vector<Id>& activeTokenIds);
+	virtual void showActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds);
 
 	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds);
 	virtual void defocusTokenIds();
@@ -59,6 +60,7 @@ private:
 
 	void doShowFirstActiveSnippet(const std::vector<Id>& activeTokenIds, bool scrollTo);
 	void doShowActiveTokenIds(const std::vector<Id>& activeTokenIds);
+	void doShowActiveLocalSymbolIds(const std::vector<Id>& localSymbolIds);
 
 	void doFocusTokenIds(const std::vector<Id>& focusedTokenIds);
 	void doDefocusTokenIds();
@@ -77,6 +79,7 @@ private:
 	QtThreadedFunctor<const FilePath, FileState> m_setFileStateFunctor;
 	QtThreadedFunctor<const std::vector<Id>&, bool> m_doShowFirstActiveSnippetFunctor;
 	QtThreadedFunctor<const std::vector<Id>&> m_doShowActiveTokenIdsFunctor;
+	QtThreadedFunctor<const std::vector<Id>&> m_doShowActiveLocalSymbolIdsFunctor;
 	QtThreadedFunctor<const std::vector<Id>&> m_focusTokenIdsFunctor;
 	QtThreadedFunctor<> m_defocusTokenIdsFunctor;
 	QtThreadedFunctor<> m_showContentsFunctor;

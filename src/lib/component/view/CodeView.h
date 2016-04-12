@@ -39,6 +39,7 @@ public:
 
 	virtual void showFirstActiveSnippet(const std::vector<Id>& activeTokenIds, bool scrollTo) = 0;
 	virtual void showActiveTokenIds(const std::vector<Id>& activeTokenIds) = 0;
+	virtual void showActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds) = 0;
 
 	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds) = 0;
 	virtual void defocusTokenIds() = 0;

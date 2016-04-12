@@ -87,7 +87,7 @@
 			</syntax>
 
 			<selection>
-				<location>
+				<token>
 					<normal>
 						<border>transparent</border>
 						<fill>transparent</fill>
@@ -100,7 +100,21 @@
 						<border>#B2B2B2</border>
 						<fill>#4A4A4A</fill>
 					</active>
-				</location>
+				</token>
+				<local_symbol>
+					<normal>
+						<border>transparent</border>
+						<fill>transparent</fill>
+					</normal>
+					<focus>
+						<border>#FF9C3C</border>
+						<fill>transparent</fill>
+					</focus>
+					<active>
+						<border>#FF9C3C</border>
+						<fill>#695540</fill>
+					</active>
+				</local_symbol>
 				<scope>
 					<normal>
 						<border>transparent</border>

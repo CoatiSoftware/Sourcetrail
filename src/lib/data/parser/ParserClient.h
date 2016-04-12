@@ -105,6 +105,8 @@ public:
 	virtual Id onTemplateMemberFunctionSpecializationParsed(
 		const ParseLocation& location, const NameHierarchy& instantiatedFunction, const NameHierarchy& specializedFunction) = 0;
 
+	virtual Id onLocalSymbolParsed(const std::string& name, const ParseLocation& location) = 0;
+
 	virtual Id onFileParsed(const FileInfo& fileInfo) = 0;
 	virtual Id onFileIncludeParsed(
 		const ParseLocation& location, const FileInfo& fileInfo, const FileInfo& includedFileInfo) = 0;

@@ -72,7 +72,7 @@ void FeatureController::handleMessage(MessageActivateTokenLocations* message)
 			nodeId,
 			m_storageAccess->getNodeTypeForNodeWithId(nodeId),
 			m_storageAccess->getNameHierarchyForNodeWithId(nodeId)
-			);
+		);
 	}
 	m.dispatchImmediately();
 }

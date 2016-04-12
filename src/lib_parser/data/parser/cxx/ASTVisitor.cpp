@@ -1305,7 +1305,18 @@ void ASTVisitor::RecordDeclRef(
 				break;
 			case ST_LocalVariable:
 			case ST_Parameter:
-				// Do nothing.
+				if (clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(d))
+				{
+					ParseLocation declLocation = getParseLocation(varDecl->getSourceRange()); // i think we dont need this since this is the decl/def
+					std::string name =
+						declLocation.filePath.str() + "::" +
+						varDecl->getNameAsString() + "<" +
+						std::to_string(declLocation.startLineNumber) + ":" +
+						std::to_string(declLocation.startColumnNumber) + ">";
+					m_client->onLocalSymbolParsed(
+						name,
+						parseLocation);
+				}
 				break;
 			default:
 				fallback = true;
@@ -1374,6 +1385,21 @@ void ASTVisitor::RecordDeclRef(
 					contextNameHierarchy,
 					declNameHierarchy);
 				break;
+			case ST_LocalVariable:
+			case ST_Parameter:
+				if (clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(d))
+				{
+					ParseLocation declLocation = getParseLocation(varDecl->getSourceRange()); // i think we dont need this since this is the decl/def
+					std::string name =
+						declLocation.filePath.str() + "::" +
+						varDecl->getNameAsString() + "<" +
+						std::to_string(declLocation.startLineNumber) + ":" +
+						std::to_string(declLocation.startColumnNumber) + ">";
+					m_client->onLocalSymbolParsed(
+						name,
+						parseLocation);
+				}
+				break;
 			case ST_Max:
 				switch (refType)
 				{
@@ -1407,10 +1433,6 @@ void ASTVisitor::RecordDeclRef(
 					fallback = true;
 					break;
 				}
-				break;
-			case ST_LocalVariable:
-			case ST_Parameter:
-				// Do nothing.
 				break;
 			default:
 				fallback = true;

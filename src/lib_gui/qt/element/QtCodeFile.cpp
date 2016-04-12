@@ -129,6 +129,11 @@ const std::vector<Id>& QtCodeFile::getActiveTokenIds() const
 	return m_parent->getActiveTokenIds();
 }
 
+const std::vector<Id>& QtCodeFile::getActiveLocalSymbolIds() const
+{
+	return m_parent->getActiveLocalSymbolIds();
+}
+
 const std::vector<Id>& QtCodeFile::getFocusedTokenIds() const
 {
 	return m_parent->getFocusedTokenIds();

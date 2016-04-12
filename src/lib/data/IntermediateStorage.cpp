@@ -108,7 +108,25 @@ Id IntermediateStorage::addFile(const std::string& filePath)
 	return id;
 }
 
-void IntermediateStorage::addSourceLocation(Id elementId, const ParseLocation& location, bool isScope)
+Id IntermediateStorage::addLocalSymbol(const std::string& name)
+{
+	std::shared_ptr<StorageLocalSymbol> localSymbol = std::make_shared<StorageLocalSymbol>(0, name);
+
+	std::string serialized = serialize(*(localSymbol.get()));
+	std::unordered_map<std::string, Id>::const_iterator it = m_localSymbolNamesToIds.find(serialized);
+	if (it != m_localSymbolNamesToIds.end())
+	{
+		return it->second;
+	}
+
+	Id id = m_nextId++;
+	m_localSymbolNamesToIds[serialized] = id;
+	m_localSymbolIdsToData[id] = localSymbol;
+
+	return id;
+}
+
+void IntermediateStorage::addSourceLocation(Id elementId, const ParseLocation& location, int type)
 {
 	Id fileNodeId = addFile(location.filePath.str());
 	m_sourceLocations.push_back(StorageSourceLocation(
@@ -119,7 +137,7 @@ void IntermediateStorage::addSourceLocation(Id elementId, const ParseLocation& l
 		location.startColumnNumber,
 		location.endLineNumber,
 		location.endColumnNumber,
-		isScope
+		type
 	));
 }
 
@@ -238,6 +256,18 @@ void IntermediateStorage::transferToStorage(SqliteStorage& storage)
 		clientIdToStorageId[it->first] = edgeId;
 	}
 
+	for (std::map<Id, std::shared_ptr<StorageLocalSymbol>>::const_iterator it = m_localSymbolIdsToData.begin(); it != m_localSymbolIdsToData.end(); it++)
+	{
+		StorageLocalSymbol clientLocalSymbol = *(it->second.get());
+		StorageLocalSymbol storageLocalSymbol = storage.getLocalSymbolByName(clientLocalSymbol.name);
+		Id storageLocalSymbolId = storageLocalSymbol.id;
+		if (storageLocalSymbolId == 0)
+		{
+			storageLocalSymbolId = storage.addLocalSymbol(clientLocalSymbol.name);
+		}
+		clientIdToStorageId[it->first] = storageLocalSymbolId;
+	}
+
 	for (size_t i = 0; i < m_sourceLocations.size(); i++)
 	{
 		StorageSourceLocation sourceLocation = m_sourceLocations[i];
@@ -263,7 +293,7 @@ void IntermediateStorage::transferToStorage(SqliteStorage& storage)
 			sourceLocation.startCol,
 			sourceLocation.endLine,
 			sourceLocation.endCol,
-			sourceLocation.isScope
+			sourceLocation.type
 		);
 	}
 
@@ -392,4 +422,9 @@ std::string IntermediateStorage::serialize(const StorageNode& node)
 std::string IntermediateStorage::serialize(const StorageFile& file)
 {
 	return file.filePath;
+}
+
+std::string IntermediateStorage::serialize(const StorageLocalSymbol& localSymbol)
+{
+	return localSymbol.name;
 }

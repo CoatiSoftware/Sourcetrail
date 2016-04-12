@@ -39,6 +39,7 @@ public:
 	std::string getFileName() const;
 
 	const std::vector<Id>& getActiveTokenIds() const;
+	const std::vector<Id>& getActiveLocalSymbolIds() const;
 	const std::vector<Id>& getFocusedTokenIds() const;
 
 	const std::vector<std::string>& getErrorMessages() const;

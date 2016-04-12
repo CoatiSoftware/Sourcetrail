@@ -19,6 +19,7 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	, m_setFileStateFunctor(std::bind(&QtCodeView::doSetFileState, this, std::placeholders::_1, std::placeholders::_2))
 	, m_doShowFirstActiveSnippetFunctor(std::bind(&QtCodeView::doShowFirstActiveSnippet, this, std::placeholders::_1, std::placeholders::_2))
 	, m_doShowActiveTokenIdsFunctor(std::bind(&QtCodeView::doShowActiveTokenIds, this, std::placeholders::_1))
+	, m_doShowActiveLocalSymbolIdsFunctor(std::bind(&QtCodeView::doShowActiveLocalSymbolIds, this, std::placeholders::_1))
 	, m_focusTokenIdsFunctor(std::bind(&QtCodeView::doFocusTokenIds, this, std::placeholders::_1))
 	, m_defocusTokenIdsFunctor(std::bind(&QtCodeView::doDefocusTokenIds, this))
 	, m_showContentsFunctor(std::bind(&QtCodeView::doShowContents, this))
@@ -89,6 +90,11 @@ void QtCodeView::showFirstActiveSnippet(const std::vector<Id>& activeTokenIds, b
 void QtCodeView::showActiveTokenIds(const std::vector<Id>& activeTokenIds)
 {
 	m_doShowActiveTokenIdsFunctor(activeTokenIds);
+}
+
+void QtCodeView::showActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds)
+{
+	m_doShowActiveLocalSymbolIdsFunctor(activeLocalSymbolIds);
 }
 
 void QtCodeView::focusTokenIds(const std::vector<Id>& focusedTokenIds)
@@ -191,6 +197,12 @@ void QtCodeView::doShowFirstActiveSnippet(const std::vector<Id>& activeTokenIds,
 void QtCodeView::doShowActiveTokenIds(const std::vector<Id>& activeTokenIds)
 {
 	m_widget->setActiveTokenIds(activeTokenIds);
+	m_widget->showActiveTokenIds();
+}
+
+void QtCodeView::doShowActiveLocalSymbolIds(const std::vector<Id>& localSymbolIds)
+{
+	m_widget->setActiveLocalSymbolIds(localSymbolIds);
 	m_widget->showActiveTokenIds();
 }
 

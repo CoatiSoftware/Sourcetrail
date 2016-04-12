@@ -136,14 +136,29 @@ Id SqliteStorage::addFile(const std::string& serializedName, const std::string& 
 	return id;
 }
 
+Id SqliteStorage::addLocalSymbol(const std::string& name)
+{
+	m_database.execDML(
+		"INSERT INTO element(id) VALUES(NULL);"
+	);
+	Id id = m_database.lastRowId();
+
+	m_database.execDML((
+		"INSERT INTO local_symbol(id, name) VALUES("
+		+ std::to_string(id) + ", '" + name + "');"
+	).c_str());
+
+	return id;
+}
+
 Id SqliteStorage::addSourceLocation(
-	Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope)
+	Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
 {
 	m_database.execDML((
-		"INSERT INTO source_location(id, element_id, file_node_id, start_line, start_column, end_line, end_column, is_scope) "
+		"INSERT INTO source_location(id, element_id, file_node_id, start_line, start_column, end_line, end_column, type) "
 		"VALUES(NULL, " + std::to_string(elementId) + ", " + std::to_string(fileNodeId) + ", "
 		+ std::to_string(startLine) + ", " + std::to_string(startCol) + ", "
-		+ std::to_string(endLine) + ", " + std::to_string(endCol) + ", " + std::to_string(isScope) + ");"
+		+ std::to_string(endLine) + ", " + std::to_string(endCol) + ", " + std::to_string(type) + ");"
 	).c_str());
 
 	return m_database.lastRowId();
@@ -420,6 +435,18 @@ std::vector<StorageNode> SqliteStorage::getNodesByIds(const std::vector<Id>& nod
 	return getAllNodes("WHERE id IN (" + utility::join(utility::toStrings(nodeIds), ',') + ")");
 }
 
+StorageLocalSymbol SqliteStorage::getLocalSymbolByName(const std::string& name) const
+{
+	StorageLocalSymbol localSymbol(
+		getFirstResult<Id>(
+			"SELECT id FROM local_symbol WHERE "
+			"name == '" + name + "';"
+		),
+		name
+	);
+	return localSymbol;
+}
+
 StorageFile SqliteStorage::getFileById(const Id id) const
 {
 	return getFirstFile(
@@ -474,7 +501,7 @@ void SqliteStorage::setNodeDefinitionType(int definitionType, Id nodeId)
 StorageSourceLocation SqliteStorage::getSourceLocationById(const Id id) const
 {
 	return getFirstSourceLocation(
-		"SELECT id, element_id, file_node_id, start_line, start_column, end_line, end_column, is_scope FROM source_location WHERE id == " + std::to_string(id) + ";"
+		"SELECT id, element_id, file_node_id, start_line, start_column, end_line, end_column, type FROM source_location WHERE id == " + std::to_string(id) + ";"
 	);
 }
 
@@ -489,7 +516,7 @@ std::shared_ptr<TokenLocationFile> SqliteStorage::getTokenLocationsForFile(const
 	}
 
 	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, element_id, start_line, start_column, end_line, end_column, is_scope FROM source_location WHERE file_node_id == " + std::to_string(fileNodeId) + ";"
+		"SELECT id, element_id, start_line, start_column, end_line, end_column, type FROM source_location WHERE file_node_id == " + std::to_string(fileNodeId) + ";"
 	).c_str());
 
 	while (!q.eof())
@@ -500,12 +527,12 @@ std::shared_ptr<TokenLocationFile> SqliteStorage::getTokenLocationsForFile(const
 		const int startColNumber	= q.getIntField(3, -1);
 		const int endLineNumber		= q.getIntField(4, -1);
 		const int endColNumber		= q.getIntField(5, -1);
-		const int isScope			= q.getIntField(6, -1);
+		const int type				= q.getIntField(6, -1);
 
-		if (locationId != 0 && elementId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1 && isScope != -1)
+		if (locationId != 0 && elementId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1 && type != -1)
 		{
 			TokenLocation* loc = ret->addTokenLocation(locationId, elementId, startLineNumber, startColNumber, endLineNumber, endColNumber);
-			loc->setType(isScope ? TokenLocation::LOCATION_SCOPE : TokenLocation::LOCATION_TOKEN);
+			loc->setType(intToLocationType(type));
 		}
 		q.nextRow();
 	}
@@ -524,7 +551,7 @@ std::vector<StorageSourceLocation> SqliteStorage::getTokenLocationsForElementIds
 	std::vector<StorageSourceLocation> locations;
 
 	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, element_id, file_node_id, start_line, start_column, end_line, end_column, is_scope FROM source_location WHERE element_id IN (" + utility::join(utility::toStrings(elementIds), ',') + ");"
+		"SELECT id, element_id, file_node_id, start_line, start_column, end_line, end_column, type FROM source_location WHERE element_id IN (" + utility::join(utility::toStrings(elementIds), ',') + ");"
 	).c_str());
 
 	while (!q.eof())
@@ -536,12 +563,12 @@ std::vector<StorageSourceLocation> SqliteStorage::getTokenLocationsForElementIds
 		const int startColNumber = q.getIntField(4, -1);
 		const int endLineNumber = q.getIntField(5, -1);
 		const int endColNumber = q.getIntField(6, -1);
-		const int isScope = q.getIntField(7, -1);
+		const int type = q.getIntField(7, -1);
 
-		if (id != 0 && elementId != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1 && isScope != -1)
+		if (id != 0 && elementId != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1 && type != -1)
 		{
 			locations.push_back(StorageSourceLocation(
-				id, elementId, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber, isScope
+				id, elementId, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber, type
 			));
 		}
 		q.nextRow();
@@ -700,6 +727,7 @@ void SqliteStorage::clearTables()
 	m_database.execDML("DROP TABLE IF EXISTS main.comment_location;");
 	m_database.execDML("DROP TABLE IF EXISTS main.component_access;");
 	m_database.execDML("DROP TABLE IF EXISTS main.source_location;");
+	m_database.execDML("DROP TABLE IF EXISTS main.local_symbol;");
 	m_database.execDML("DROP TABLE IF EXISTS main.file;");
 	m_database.execDML("DROP TABLE IF EXISTS main.node;");
 	m_database.execDML("DROP TABLE IF EXISTS main.edge;");
@@ -765,6 +793,14 @@ void SqliteStorage::setupTables()
 	);
 
 	m_database.execDML(
+		"CREATE TABLE IF NOT EXISTS local_symbol("
+			"id INTEGER NOT NULL, "
+			"name TEXT, "
+			"PRIMARY KEY(id), "
+			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);"
+	);
+
+	m_database.execDML(
 		"CREATE TABLE IF NOT EXISTS source_location("
 			"id INTEGER NOT NULL, "
 			"element_id INTEGER, "
@@ -773,7 +809,7 @@ void SqliteStorage::setupTables()
 			"start_column INTEGER, "
 			"end_line INTEGER, "
 			"end_column INTEGER, "
-			"is_scope INTEGER, "
+			"type INTEGER, "
 			"PRIMARY KEY(id), "
 			"FOREIGN KEY(element_id) REFERENCES element(id) ON DELETE CASCADE, "
 			"FOREIGN KEY(file_node_id) REFERENCES node(id) ON DELETE CASCADE);"
@@ -907,12 +943,12 @@ StorageSourceLocation SqliteStorage::getFirstSourceLocation(const std::string& q
 		const int startColNumber	= q.getIntField(4, -1);
 		const int endLineNumber		= q.getIntField(5, -1);
 		const int endColNumber		= q.getIntField(6, -1);
-		const int isScope			= q.getIntField(7, -1);
+		const int type				= q.getIntField(7, -1);
 
-		if (id != 0 && elementId != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1 && isScope != -1)
+		if (id != 0 && elementId != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1 && type != -1)
 		{
 			return StorageSourceLocation(
-				id, elementId, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber, isScope
+				id, elementId, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber, type
 			);
 		}
 	}

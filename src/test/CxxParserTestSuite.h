@@ -45,7 +45,7 @@ public:
 			"struct A\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->structs.size(), 1);
 		TS_ASSERT_EQUALS(client->structs[0], "A <1:1 <1:8 1:8> 3:1>");
@@ -55,7 +55,7 @@ public:
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"struct A;\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->structs.size(), 1);
 		TS_ASSERT_EQUALS(client->structs[0], "A <1:8 1:8>");
@@ -65,7 +65,7 @@ public:
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"int x;\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->globalVariables.size(), 1);
 		TS_ASSERT_EQUALS(client->globalVariables[0], "x <1:5 1:5>");
@@ -85,7 +85,7 @@ public:
 			"private:\n"
 			"	const int d;\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->fields.size(), 4);
 		TS_ASSERT_EQUALS(client->fields[0], "private A::a <3:6 3:6>");
@@ -101,7 +101,7 @@ public:
 			"{\n"
 			"	return 1;\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->functions.size(), 1);
 		TS_ASSERT_EQUALS(client->functions[0], "int ceil(float) <1:1 <1:5 1:8> 4:1>");
@@ -114,7 +114,7 @@ public:
 			"{\n"
 			"	return static_cast<int>(a) + 1;\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->functions.size(), 1);
 		TS_ASSERT_EQUALS(client->functions[0], "static int ceil(float) <1:1 <1:12 1:15> 4:1>");
@@ -128,7 +128,7 @@ public:
 			"public:\n"
 			"	B();\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->methods.size(), 1);
 		TS_ASSERT_EQUALS(client->methods[0], "public void B::B() <4:2 4:2>");
@@ -145,7 +145,7 @@ public:
 			"B::B()\n"
 			"{\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->methods.size(), 4);
 		TS_ASSERT_EQUALS(client->methods[0], "public void B::B() <4:2 4:2>");
@@ -162,7 +162,7 @@ public:
 			"public:\n"
 			"	virtual void process();\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->methods.size(), 4);
 		TS_ASSERT_EQUALS(client->methods[0], "public virtual void B::process() <4:15 4:21>");
@@ -176,7 +176,7 @@ public:
 			"protected:\n"
 			"	virtual void process() = 0;\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->methods.size(), 4);
 		TS_ASSERT_EQUALS(client->methods[0], "protected pure virtual void B::process() <4:15 4:21>");
@@ -188,7 +188,7 @@ public:
 			"namespace A\n"
 			"{\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->namespaces.size(), 1);
 		TS_ASSERT_EQUALS(client->namespaces[0], "A <1:1 <1:11 1:11> 3:1>");
@@ -200,7 +200,7 @@ public:
 			"namespace\n"
 			"{\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->namespaces.size(), 1);
 		TS_ASSERT_EQUALS(client->namespaces[0], "anonymous namespace (input.cc) <1:1 3:1>");
@@ -212,7 +212,7 @@ public:
 			"enum E\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->enums.size(), 1);
 		TS_ASSERT_EQUALS(client->enums[0], "E <1:1 <1:6 1:6> 3:1>");
@@ -225,7 +225,7 @@ public:
 			"{\n"
 			"	P\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->enumConstants.size(), 1);
 		TS_ASSERT_EQUALS(client->enumConstants[0], "E::P <3:2 3:2>");
@@ -235,7 +235,7 @@ public:
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"typedef unsigned int uint;\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
 		TS_ASSERT_EQUALS(client->typedefs[0], "uint <1:22 1:25>");
@@ -248,7 +248,7 @@ public:
 			"{\n"
 			"	typedef unsigned int uint;\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
 		TS_ASSERT_EQUALS(client->typedefs[0], "test::uint <3:23 3:26>");
@@ -261,7 +261,7 @@ public:
 			"{\n"
 			"	typedef unsigned int uint;\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
 		TS_ASSERT_EQUALS(client->typedefs[0], "anonymous namespace (input.cc)::uint <3:23 3:26>");
@@ -274,7 +274,8 @@ public:
 			"void test()\n"
 			"{\n"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->macros.size(), 1);
 		TS_ASSERT_EQUALS(client->macros[0], "PI <1:9 <1:9 1:10> 1:8>");
 	}
@@ -286,7 +287,7 @@ public:
 			"class A\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<typename T>::T <1:20 1:20>");
@@ -299,7 +300,7 @@ public:
 			"class A\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<class T>::T <1:17 1:17>");
@@ -312,7 +313,7 @@ public:
 			"class A\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<int T>::T <1:15 1:15>");
@@ -325,7 +326,7 @@ public:
 			"class A\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<bool T>::T <1:16 1:16>");
@@ -339,7 +340,7 @@ public:
 			"template <P* p>\n"
 			"class A\n"
 			"{};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<P * p>::p <3:14 3:14>");
@@ -353,7 +354,7 @@ public:
 			"template <P& p>\n"
 			"class A\n"
 			"{};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<P & p>::p <3:14 3:14>");
@@ -365,7 +366,7 @@ public:
 			"template <typename T1, T1& T2>\n"
 			"class A\n"
 			"{};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 2);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<typename T1, T1 & T2>::T1 <1:20 1:21>");
@@ -378,7 +379,7 @@ public:
 			"template <template<typename> class T1, T1<int>& T2>\n"
 			"class A\n"
 			"{};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 2);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<template<typename> typename T1, T1<int> & T2>::T1<typename> <1:36 1:37>");
@@ -391,7 +392,7 @@ public:
 	//		"template <template<typename> class T1, T1<int>& T2>\n" // test that t1<int> uses int
 	//		"class A\n"
 	//		"{};\n"
-	//		);
+	//	);
 	//}
 
 	void test_cxx_parser_finds_template_template_parameter_of_template_class()
@@ -407,7 +408,7 @@ public:
 			"{\n"
 			"	B<A> ba;\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 2);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<typename T>::T <1:20 1:20>");
@@ -421,7 +422,7 @@ public:
 			"class A\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<typename... T>::T <1:23 1:23>");
@@ -436,7 +437,7 @@ public:
 			"class A\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<int... T>::T <1:18 1:18>");
@@ -449,7 +450,7 @@ public:
 			"class A\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<template<typename> typename... T>::T<typename> <1:42 1:42>");
@@ -462,7 +463,7 @@ public:
 			"class A\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 2);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<typename T, typename U>::T <1:20 1:20>");
@@ -476,7 +477,7 @@ public:
 			"class A\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->classes.size(), 1);
 		TS_ASSERT_EQUALS(client->classes[0], "A<typename> <1:1 <2:7 2:7> 4:1>");
@@ -495,7 +496,8 @@ public:
 			"template <typename U>\n"
 			"U A<T>::foo()\n"
 			"{}\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 3);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<typename T>::foo<typename U>::U <4:21 4:21>");
 		TS_ASSERT_EQUALS(client->templateParameterTypes[1], "A<typename T>::T <1:20 1:20>");
@@ -513,7 +515,8 @@ public:
 			"class A<int>\n"
 			"{\n"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->classes.size(), 2);
 		TS_ASSERT_EQUALS(client->classes[0], "A<typename T> <1:1 <2:7 2:7> 4:1>");
 		TS_ASSERT_EQUALS(client->classes[1], "A<int> <5:1 <6:7 6:7> 8:1>");
@@ -530,7 +533,8 @@ public:
 			"class A<T, int>\n"
 			"{\n"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->classes.size(), 2);
 		TS_ASSERT_EQUALS(client->classes[0], "A<typename T, typename U> <1:1 <2:7 2:7> 4:1>");
 		TS_ASSERT_EQUALS(client->classes[1], "A<typename T, int> <5:1 <6:7 6:7> 8:1>");
@@ -547,7 +551,7 @@ public:
 			"class A<T, int>\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->classes.size(), 2);
 		TS_ASSERT_EQUALS(client->classes[0], "A<typename T, typename U> <1:1 <2:7 2:7> 4:1>");
@@ -562,7 +566,7 @@ public:
 			"{\n"
 			"	int foo;\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->fields.size(), 1);
 		TS_ASSERT_EQUALS(client->fields[0], "private A<typename T>::foo <4:6 4:8>");
@@ -576,7 +580,7 @@ public:
 			"{\n"
 			"	T foo;\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->fields.size(), 1);
 		TS_ASSERT_EQUALS(client->fields[0], "private A<typename T>::foo <4:4 4:6>");
@@ -590,7 +594,7 @@ public:
 			"{\n"
 			"	int foo();\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->methods.size(), 1);
 		TS_ASSERT_EQUALS(client->methods[0], "private int A<typename T>::foo() <4:6 4:8>");
@@ -604,7 +608,7 @@ public:
 			"{\n"
 			"	return a;\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "test<typename T>::T <1:20 1:20>");
@@ -618,7 +622,7 @@ public:
 			"{\n"
 			"	return a + T;\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "test<int T>::T <1:15 1:15>");
@@ -632,7 +636,7 @@ public:
 			"{\n"
 			"	return T ? a : 0;\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "test<bool T>::T <1:16 1:16>");
@@ -648,7 +652,7 @@ public:
 			"{\n"
 			"	return a;\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "test<P * p>::p <3:14 3:14>");
@@ -664,7 +668,7 @@ public:
 			"{\n"
 			"	return a;\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "test<P & p>::p <3:14 3:14>");
@@ -681,7 +685,7 @@ public:
 			"{\n"
 			"	return a;\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 2);
 		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<typename T>::T <1:20 1:20>");
@@ -701,7 +705,7 @@ public:
 			"{\n"
 			"	return test(1);\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->functions.size(), 3);
 		TS_ASSERT_EQUALS(client->functions[0], "T test<typename T>(T) <1:1 <2:3 2:6> 5:1>");
@@ -716,7 +720,7 @@ public:
 			"{\n"
 			"	[](){}();\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->functions.size(), 2);
 		TS_ASSERT_EQUALS(client->functions[0], "void lambdaCaller() <1:1 <1:6 1:17> 4:1>");
@@ -725,6 +729,30 @@ public:
 		TS_ASSERT_EQUALS(client->calls[0], "void lambdaCaller() -> void lambdaCaller::lambda at 3:2() <3:8 3:8>");
 	}
 
+	void test_cxx_parser_finds_definition_of_local_symbol_in_function_parameter_list()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"void test(int a)\n"
+			"{\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->localSymbols.size(), 1);
+		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc::a<1:11>");
+	}
+
+	void test_cxx_parser_finds_definition_of_local_symbol_in_function_scope()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"void test()\n"
+			"{\n"
+			"	int a;\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->localSymbols.size(), 1);
+		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc::a<3:2>");
+	}
 
 ///////////////////////////////////////////////////////////////////////////////
 // test finding nested symbol definitions and declarations
@@ -816,7 +844,7 @@ public:
 			"{\n"
 			"	int x;\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->globalVariables.size(), 1);
 		TS_ASSERT_EQUALS(client->globalVariables[0], "n::x <2:6 2:6>");
@@ -834,7 +862,7 @@ public:
 			"		static const int amount;\n"
 			"	};\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->fields.size(), 1);
 		TS_ASSERT_EQUALS(client->fields[0], "private B::C::amount <7:20 7:25>");
@@ -847,7 +875,7 @@ public:
 			"{\n"
 			"	int sum(int a, int b);\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->functions.size(), 1);
 		TS_ASSERT_EQUALS(client->functions[0], "int anonymous namespace (input.cc)::sum(int, int) <3:6 3:8>");
@@ -863,7 +891,7 @@ public:
 			"		bool isGreat() const;\n"
 			"	};\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->methods.size(), 1);
 		TS_ASSERT_EQUALS(client->methods[0], "private bool B::C::isGreat() const <5:8 5:14>");
@@ -878,7 +906,7 @@ public:
 			"	{\n"
 			"	}\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->namespaces.size(), 2);
 		TS_ASSERT_EQUALS(client->namespaces[0], "A <1:1 <1:11 1:11> 6:1>");
@@ -895,7 +923,7 @@ public:
 			"	{\n"
 			"	};\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->enums.size(), 1);
 		TS_ASSERT_EQUALS(client->enums[0], "public B::Z <4:2 <4:7 4:7> 6:2>");
@@ -910,7 +938,7 @@ public:
 			"	{\n"
 			"	};\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->enums.size(), 1);
 		TS_ASSERT_EQUALS(client->enums[0], "n::Z <3:2 <3:7 3:7> 5:2>");
@@ -928,7 +956,7 @@ public:
 			"		TEST_TWO\n"
 			"	};\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->enums.size(), 1);
 		TS_ASSERT_EQUALS(client->enums[0], "private A<typename T>::TestType <4:2 <4:7 4:14> 8:2>");
@@ -947,7 +975,7 @@ public:
 			"	};\n"
 			"	TestType foo;\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
 		TS_ASSERT_EQUALS(client->typeUses[0], "A<typename T>::foo -> A<typename T>::TestType <9:2 9:9>");
@@ -965,7 +993,7 @@ public:
 			"		TEST_TWO\n"
 			"	};\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->enumConstants.size(), 2);
 		TS_ASSERT_EQUALS(client->enumConstants[0], "A<typename T>::TestType::TEST_ONE <6:3 6:10>");
@@ -983,7 +1011,7 @@ public:
 			"		T foo;\n"
 			"	};\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
 		TS_ASSERT_EQUALS(client->typeUses[0], "A<typename T>::B::foo -> A<typename T>::T <6:3 6:3>");
@@ -999,7 +1027,7 @@ public:
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"int x;\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
 		TS_ASSERT_EQUALS(client->typeUses[0], "x -> int <1:1 1:3>");
@@ -1009,7 +1037,7 @@ public:
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"typedef unsigned int uint;\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
 		TS_ASSERT_EQUALS(client->typeUses[0], "uint -> unsigned int <1:9 1:16>");
@@ -1023,7 +1051,7 @@ public:
 			"	struct TestStruct{};\n"
 			"}\n"
 			"typedef test::TestStruct globalTestStruct;\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
 		TS_ASSERT_EQUALS(client->typeUses[0], "globalTestStruct -> test::TestStruct <5:15 5:24>");
@@ -1034,7 +1062,7 @@ public:
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"typedef unsigned int uint;\n"
 			"uint number;\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
 		TS_ASSERT_EQUALS(client->typeUses[1], "number -> uint <2:1 2:4>");
@@ -1045,7 +1073,7 @@ public:
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"class A {};\n"
 			"class B : A {};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : private A <2:11 2:11>");
@@ -1056,7 +1084,7 @@ public:
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"class A {};\n"
 			"class B : public A {};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : public A <2:18 2:18>");
@@ -1067,7 +1095,7 @@ public:
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"class A {};\n"
 			"class B : protected A {};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : protected A <2:21 2:21>");
@@ -1078,7 +1106,7 @@ public:
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"class A {};\n"
 			"class B : private A {};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : private A <2:19 2:19>");
@@ -1093,7 +1121,7 @@ public:
 			"	: public A\n"
 			"	, private B\n"
 			"{};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 2);
 		TS_ASSERT_EQUALS(client->inheritances[0], "C : public A <4:11 4:11>");
@@ -1105,7 +1133,7 @@ public:
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"struct A {};\n"
 			"struct B : A {};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : public A <2:12 2:12>");
@@ -1116,7 +1144,7 @@ public:
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"struct A {};\n"
 			"struct B : public A {};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : public A <2:19 2:19>");
@@ -1127,7 +1155,7 @@ public:
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"struct A {};\n"
 			"struct B : protected A {};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : protected A <2:22 2:22>");
@@ -1138,7 +1166,7 @@ public:
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"struct A {};\n"
 			"struct B : private A {};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : private A <2:20 2:20>");
@@ -1153,7 +1181,7 @@ public:
 			"	: public A\n"
 			"	, private B\n"
 			"{};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 2);
 		TS_ASSERT_EQUALS(client->inheritances[0], "C : public A <4:11 4:11>");
@@ -1169,7 +1197,7 @@ public:
 			"class B : public A {\n"
 			"	void foo();\n"
 			"};"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->overrides.size(), 1);
 		TS_ASSERT_EQUALS(client->overrides[0], "void A::foo() -> void B::foo() <5:7 5:9>");
@@ -1187,7 +1215,7 @@ public:
 			"class C : public B {\n"
 			"	void foo();\n"
 			"};"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->overrides.size(), 2);
 		TS_ASSERT_EQUALS(client->overrides[0], "void A::foo() -> void B::foo() <5:7 5:9>");
@@ -1204,7 +1232,7 @@ public:
 			"	int foo();\n"
 			"};\n",
 			false
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->overrides.size(), 1);
 		TS_ASSERT_EQUALS(client->overrides[0], "void A::foo() -> int B::foo() <5:6 5:8>");
@@ -1220,7 +1248,7 @@ public:
 			"class B : public A {\n"
 			"	void foo();\n"
 			"};"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->overrides.size(), 0);
 	}
@@ -1234,7 +1262,7 @@ public:
 			"class B : public A {\n"
 			"	int foo(int a, int b);\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->overrides.size(), 0);
 	}
@@ -1250,7 +1278,7 @@ public:
 			"{\n"
 			"	sum(1, 2);\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
 		TS_ASSERT_EQUALS(client->calls[0], "int main() -> int sum(int, int) <7:2 7:4>");
@@ -1270,7 +1298,7 @@ public:
 			"{\n"
 			"	sum(1, 2);\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
 		TS_ASSERT_EQUALS(client->calls[0], "void func(bool) -> int sum(int, int) <10:2 10:4>");
@@ -1292,7 +1320,7 @@ public:
 			"	sum(1, 2);\n"
 			"	sum(1.0f, 0.5f);\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
 		TS_ASSERT_EQUALS(client->calls[0], "int main() -> int sum(int, int) <11:2 11:4>");
@@ -1310,7 +1338,7 @@ public:
 			"{\n"
 			"	return sum(1, sum(2, 3));\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
 		TS_ASSERT_EQUALS(client->calls[0], "int main() -> int sum(int, int) <7:9 7:11>");
@@ -1331,7 +1359,7 @@ public:
 			"		return sum(1, 2);\n"
 			"	}\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
 		TS_ASSERT_EQUALS(client->calls[0], "int App::main() -> int sum(int, int) <9:10 9:12>");
@@ -1347,7 +1375,7 @@ public:
 			"{\n"
 			"	App app;\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
 		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <6:6 6:8>");
@@ -1365,7 +1393,7 @@ public:
 			"{\n"
 			"	App();\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
 		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <8:2 8:4>");
@@ -1383,7 +1411,7 @@ public:
 			"	App() : item() {}\n"
 			"	Item item;\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
 		TS_ASSERT_EQUALS(client->calls[0], "void App::App() -> void Item::Item() <7:10 7:13>");
@@ -1405,7 +1433,7 @@ public:
 			"	{}\n"
 			"	Item item;\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
 		TS_ASSERT_EQUALS(client->calls[0], "void App::App() -> void Item::Item(int) <10:5 10:8>");
@@ -1426,7 +1454,7 @@ public:
 			"	App app;\n"
 			"	App app2(app);\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
 		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <9:6 9:8>");
@@ -1442,7 +1470,7 @@ public:
 			"	App() {}\n"
 			"};\n"
 			"App app;\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
 		TS_ASSERT_EQUALS(client->calls[0], "app -> void App::App() <6:5 6:7>");
@@ -1453,7 +1481,7 @@ public:
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"int one() { return 1; }\n"
 			"int a = one();\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
 		TS_ASSERT_EQUALS(client->calls[0], "a -> int one() <2:9 2:11>");
@@ -1474,7 +1502,7 @@ public:
 			"	App app;\n"
 			"	app + 2;\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
 		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <10:6 10:8>");
@@ -1490,7 +1518,7 @@ public:
 			"{\n"
 			"	bar = 1;\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->usages.size(), 1);
 		TS_ASSERT_EQUALS(client->usages[0], "int main() -> bar <5:2 5:4>");
@@ -1501,7 +1529,7 @@ public:
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"int a = 0;\n"
 			"int b[] = {a};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->usages.size(), 2); // FIXME: this usage is recorded twice (by InitList and ImplicitCast)
 		TS_ASSERT_EQUALS(client->usages[0], "b -> a <2:12 2:12>");
@@ -1519,7 +1547,7 @@ public:
 			"		bar = 1;\n"
 			"	}\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->usages.size(), 1);
 		TS_ASSERT_EQUALS(client->usages[0], "void App::foo() -> bar <7:3 7:5>");
@@ -1537,7 +1565,7 @@ public:
 			"	}\n"
 			"	int bar;\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->usages.size(), 2);
 		TS_ASSERT_EQUALS(client->usages[0], "void App::foo() -> App::bar <5:3 5:5>");
@@ -1554,7 +1582,7 @@ public:
 			"	{}\n"
 			"	int bar;\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->usages.size(), 1);
 		TS_ASSERT_EQUALS(client->usages[0], "void App::App() -> App::bar <4:5 4:7>");
@@ -1567,7 +1595,7 @@ public:
 			"{\n"
 			"	return 3.14159265359;\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
 		TS_ASSERT_EQUALS(client->typeUses[0], "double PI() -> double <1:1 1:6>");
@@ -1579,7 +1607,7 @@ public:
 			"void ceil(float a)\n"
 			"{\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
 		TS_ASSERT_EQUALS(client->typeUses[0], "void ceil(float) -> void <1:1 1:4>");
@@ -1593,7 +1621,7 @@ public:
 			"{\n"
 			"	A(int a);\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
 		TS_ASSERT_EQUALS(client->typeUses[0], "void A::A(int) -> int <3:4 3:6>");
@@ -1606,7 +1634,7 @@ public:
 			"{\n"
 			"	int a = 42;\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
 		TS_ASSERT_EQUALS(client->typeUses[0], "int main() -> int <1:1 1:3>");
@@ -1624,7 +1652,7 @@ public:
 			"		return a;\n"
 			"	}\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
 		TS_ASSERT_EQUALS(client->typeUses[0], "int A::main() -> int <3:2 3:4>");
@@ -1645,7 +1673,7 @@ public:
 			"		int b = i * 2;\n"
 			"	}\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 4);
 		TS_ASSERT_EQUALS(client->typeUses[0], "int main() -> int <1:1 1:3>");
@@ -1667,7 +1695,7 @@ public:
 			"public:\n"
 			"	B() : A(42) {}\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
 		TS_ASSERT_EQUALS(client->typeUses[0], "void A::A(int) -> int <4:4 4:6>");
@@ -1684,7 +1712,7 @@ public:
 			"};\n"
 			"A a = B;\n"
 			"A* aPtr = new A;\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->usages.size(), 1);
 		TS_ASSERT_EQUALS(client->usages[0], "a -> A::B <6:7 6:7>");
@@ -1710,7 +1738,7 @@ public:
 			"	A a = B;\n"
 			"	A* aPtr = new A;\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->usages.size(), 1);
 		TS_ASSERT_EQUALS(client->usages[0], "int main() -> A::B <8:8 8:8>");
@@ -1729,7 +1757,8 @@ public:
 			"{\n"
 			"double i = PI;"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->macroUses.size(), 1);
 		TS_ASSERT_EQUALS(client->macroUses[0], "PI <4:12 4:13>");
 	}
@@ -1746,7 +1775,7 @@ public:
 			"	void foo(T<int> parameter)\n"
 			"	{}\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
 		TS_ASSERT_EQUALS(client->typeUses[0], "void B<template<typename> typename T>::foo(B<template<typename> typename T>::T<int>) -> void <7:2 7:5>");
@@ -1766,7 +1795,7 @@ public:
 			"	void foo(T<U> parameter)\n"
 			"	{}\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
 		TS_ASSERT_EQUALS(client->typeUses[0], "void B<template<typename> typename T>::foo<typename U>(B<template<typename> typename T>::T<U>) -> void <8:2 8:5>");
@@ -1788,10 +1817,8 @@ public:
 			"public:\n"
 			"	typedef typename A<U>::type type;\n"
 			"};\n"
-
 			"B<int>::type f = 0;\n"
-
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typedefs.size(), 4);
 		TS_ASSERT_EQUALS(client->typedefs[0], "public A<typename T>::type <5:12 5:15>");
@@ -1819,7 +1846,8 @@ public:
 			"	A<int> a;\n"
 			"	return 0;\n"
 			"}\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int>->int <7:4 7:6>");
 	}
@@ -1834,7 +1862,7 @@ public:
 			"{\n"
 			"   A<int, float>();\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<<int, float>>->int <7:6 7:8>");
@@ -1854,7 +1882,8 @@ public:
 			"{\n"
 			"	A<int>(5);\n"
 			"}\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int>->int <9:4 9:6>");
 	}
@@ -1872,7 +1901,8 @@ public:
 			"{\n"
 			"	A<int>();\n"
 			"}\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int>->int <9:4 9:6>");
 	}
@@ -1890,7 +1920,8 @@ public:
 			"{\n"
 			"	new A<int>();\n"
 			"}\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int>->int <9:8 9:10>");
 	}
@@ -1907,7 +1938,8 @@ public:
 			"	A<1> a;\n"
 			"	return 0;\n"
 			"}\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 0);
 	}
 
@@ -1923,7 +1955,8 @@ public:
 			"	A<true> a;\n"
 			"	return 0;\n"
 			"}\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 0);
 	}
 
@@ -1940,7 +1973,8 @@ public:
 			"{\n"
 			"	A<&g_p> a;\n"
 			"}\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&g_p>->g_p <9:5 9:7>");
 	}
@@ -1958,7 +1992,8 @@ public:
 			"{\n"
 			"	A<g_p> a;\n"
 			"}\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&g_p>->g_p <9:4 9:6>");
 	}
@@ -1974,7 +2009,7 @@ public:
 			"{\n"
 			"   A<1, 2, 33>();\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 0);
 	}
@@ -1992,7 +2027,7 @@ public:
 			"{\n"
 			"	B<A> ba;\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "B<A>->A<typename T> <9:4 9:4>");
@@ -2013,7 +2048,7 @@ public:
 			"{\n"
 			"	B<A, A>();\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "B<<A, A>>->A<typename T> <11:4 11:4>");
@@ -2033,7 +2068,7 @@ public:
 			"{\n"
 			"	A<int> a;\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateMemberSpecializations.size(), 1);
 		TS_ASSERT_EQUALS(client->templateMemberSpecializations[0], "int A<int>::foo() -> A<typename T>::T A<typename T>::foo() <5:4 5:6>");
@@ -2050,7 +2085,8 @@ public:
 			"class A<int>\n"
 			"{\n"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int>->int <6:9 6:11>");
 	}
@@ -2066,7 +2102,8 @@ public:
 			"class A<1>\n"
 			"{\n"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 0);
 	}
 
@@ -2081,7 +2118,8 @@ public:
 			"class A<true>\n"
 			"{\n"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 0);
 	}
 
@@ -2098,7 +2136,8 @@ public:
 			"class A<&g_p>\n"
 			"{\n"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&g_p>->g_p <8:10 8:12>");
 	}
@@ -2116,7 +2155,8 @@ public:
 			"class A<g_p>\n"
 			"{\n"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&g_p>->g_p <8:9 8:11>");
 	}
@@ -2134,7 +2174,7 @@ public:
 			"class B<A>\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "B<A>->A<typename T> <8:9 8:9>");
@@ -2151,7 +2191,8 @@ public:
 			"class A<T, int>\n"
 			"{\n"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<typename T, int>->A<typename T, int>::T <6:9 6:9>");
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<typename T, int>->int <6:12 6:14>");
@@ -2168,7 +2209,7 @@ public:
 			"class A<3, U>\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<3, int U>->A<3, int U>::U <6:12 6:12>");
@@ -2185,7 +2226,7 @@ public:
 			"class A<true, U>\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<true, bool U>->A<true, bool U>::U <6:15 6:15>");
@@ -2204,7 +2245,7 @@ public:
 			"class A<&g_p, q>\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&g_p, P * q>->g_p <8:10 8:12>");
@@ -2224,7 +2265,7 @@ public:
 			"class A<g_p, q>\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&g_p, P & q>->g_p <8:9 8:11>"); // why reference here?
@@ -2244,7 +2285,7 @@ public:
 			"class B<A, U>\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "B<A, template<typename> typename U>->A<typename T> <8:9 8:9>");
@@ -2262,7 +2303,7 @@ public:
 			"class A<3, T2, T3>\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<3, typename T2, T2 T3>->A<3, typename T2, T2 T3>::T2 <6:12 6:13>");
@@ -2280,7 +2321,7 @@ public:
 	//		"class A<3, T2, T3>\n"
 	//		"{\n"
 	//		"};\n"
-	//		);
+	//	);
 
 	//	TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
 	//	TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<3, template<typename> typename T2, T2<int> T3>->A<3, template<typename> typename T2, T2<int> T3>::T2<typename> <6:12 6:13>");
@@ -2297,7 +2338,7 @@ public:
 			"};\n"
 			"\n"
 			"A<int> a;\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateSpecializations.size(), 1);
 		TS_ASSERT_EQUALS(client->templateSpecializations[0], "A<int> -> A<typename T> <2:7 2:7>");
@@ -2315,7 +2356,7 @@ public:
 			"class B: public A<int>\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
 		TS_ASSERT_EQUALS(client->inheritances[0], "B : public A<int> <7:17 7:17>");
@@ -2334,7 +2375,7 @@ public:
 			"class B: public A<U>\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<B<typename U>::U>->B<typename U>::U <8:19 8:19>");
@@ -2349,7 +2390,7 @@ public:
 			"	A(): foo() {}\n"
 			"	T foo;\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->usages.size(), 1);
 		TS_ASSERT_EQUALS(client->usages[0], "void A<typename T>::A<T>() -> A<typename T>::foo <4:7 4:9>");
@@ -2363,7 +2404,7 @@ public:
 			"{\n"
 			"	T foo();\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
 		TS_ASSERT_EQUALS(client->typeUses[0], "A<typename T>::T A<typename T>::foo() -> A<typename T>::T <4:2 4:2>");
@@ -2376,7 +2417,7 @@ public:
 			"class A\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes[0], "int -> A<typename T>::T <1:24 1:26>");
@@ -2389,7 +2430,7 @@ public:
 			"class A\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes.size(), 0);
 	}
@@ -2403,7 +2444,7 @@ public:
 			"template <template<typename> class T = A>\n"
 			"class B\n"
 			"{};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes[0], "A<typename T> -> B<template<typename> typename T>::T<typename> <4:40 4:40>");
@@ -2422,7 +2463,7 @@ public:
 			"{\n"
 			"	return test(1);\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateSpecializations.size(), 1);
 		TS_ASSERT_EQUALS(client->templateSpecializations[0], "int test<int>(int) -> T test<typename T>(T) <2:3 2:6>");
@@ -2442,7 +2483,7 @@ public:
 			"{\n"
 			"	return a + a;\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateSpecializations.size(), 1);
 		TS_ASSERT_EQUALS(client->templateSpecializations[0], "int test<int>(int) -> T test<typename T>(T) <8:5 8:8>");
@@ -2460,7 +2501,8 @@ public:
 			"void test<int>()\n"
 			"{\n"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "void test<int>()->int <7:11 7:13>");
 	}
@@ -2476,7 +2518,8 @@ public:
 			"	test<int>();\n"
 			"	return 1;\n"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "void test<int>()->int <6:7 6:9>");
 	}
@@ -2492,7 +2535,8 @@ public:
 			"	test<33>();\n"
 			"	return 1;\n"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 0);
 	}
 
@@ -2508,7 +2552,8 @@ public:
 			"	test<A>();\n"
 			"	return 1;\n"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "void test<A>()->A<typename T> <7:7 7:7>");
 	}
@@ -2524,7 +2569,8 @@ public:
 			"	test(1);\n"
 			"	return 1;\n"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 0);
 	}
 
@@ -2538,7 +2584,8 @@ public:
 			"{\n"
 			"	int foo = test<int>();\n"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "int test<int>()->int <6:17 6:19>");
 	}
@@ -2553,7 +2600,8 @@ public:
 			"{\n"
 			"	int foo = test(1);\n"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 0);
 	}
 
@@ -2570,7 +2618,8 @@ public:
 			"	test();\n"
 			"	return 1;\n"
 			"};\n"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes[0], "int -> test<typename T>::T <1:24 1:26>");
 	}
@@ -2582,7 +2631,7 @@ public:
 			"void test()\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes.size(), 0);
 	}
@@ -2597,7 +2646,7 @@ public:
 			"void test()\n"
 			"{\n"
 			"};\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes.size(), 1);
 		TS_ASSERT_EQUALS(
@@ -2616,7 +2665,7 @@ public:
 			"		func();\n"
 			"	}();\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
 		TS_ASSERT_EQUALS(client->calls[0], "void lambdaCaller() -> void lambdaCaller::lambda at 4:2() <7:3 7:3>");
@@ -2662,7 +2711,7 @@ public:
 			"{\n"
 			"	n::App a = n::App(2);\n"
 			"}\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
 		TS_ASSERT_EQUALS(client->calls[1], "int main() -> void n::App::App(int) <11:16 11:18>");
@@ -2673,7 +2722,8 @@ public:
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"#define MAX(a,b) \\\n"
 			"	((a)>(b)?(a):(b))"
-			);
+		);
+
 		TS_ASSERT_EQUALS(client->macros.size(), 1);
 		TS_ASSERT_EQUALS(client->macros[0], "MAX <1:9 <1:9 1:11> 2:17>");
 	}
@@ -2685,7 +2735,8 @@ public:
 	//		"{\n"
 	//		"	return static_cast<int>(4.0f);"
 	//		"}\n"
-	//		);
+	//	);
+
 	//	TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
 	//	TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<1>->int <0:0 0:0>");
 	//}
@@ -2760,7 +2811,7 @@ public:
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"// this is a line comment\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->comments.size(), 1);
 		TS_ASSERT_EQUALS(client->comments[0], "comment <1:1 1:26>");
@@ -2771,7 +2822,7 @@ public:
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"/* this is a\n"
 			"block comment */\n"
-			);
+		);
 
 		TS_ASSERT_EQUALS(client->comments.size(), 1);
 		TS_ASSERT_EQUALS(client->comments[0], "comment <1:1 2:17>");
@@ -2994,6 +3045,13 @@ private:
 			return 0;
 		}
 
+		virtual Id onLocalSymbolParsed(const std::string& name, const ParseLocation& location)
+		{
+			localSymbols.push_back(name);
+			return 0;
+		}
+
+
 		virtual Id onFileParsed(const FileInfo& fileInfo)
 		{
 			files.push_back(fileInfo.path.str());
@@ -3052,6 +3110,7 @@ private:
 		std::vector<std::string> templateDefaultArgumentTypes;
 		std::vector<std::string> templateSpecializations;
 		std::vector<std::string> templateMemberSpecializations;
+		std::vector<std::string> localSymbols;
 
 		std::vector<std::string> files;
 		std::vector<std::string> includes;

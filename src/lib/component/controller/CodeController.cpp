@@ -86,6 +86,12 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	showContents(message);
 }
 
+void CodeController::handleMessage(MessageActivateLocalSymbols* message)
+{
+	CodeView* view = getView();
+	view->showActiveLocalSymbolIds(message->symbolIds);
+}
+
 void CodeController::handleMessage(MessageActivateTokens* message)
 {
 	CodeView* view = getView();
@@ -358,7 +364,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(std::shared_pt
 	fileLocations->forEachStartTokenLocation(
 		[&](TokenLocation* startLoc) -> void
 		{
-			if (startLoc->getType() == TokenLocation::LOCATION_SCOPE)
+			if (startLoc->getType() == LOCATION_SCOPE)
 			{
 				TokenLocation* endLoc = startLoc->getOtherTokenLocation();
 				TokenLocation* scopeLoc = scopeLocations->addTokenLocation(
@@ -368,7 +374,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(std::shared_pt
 					startLoc->getColumnNumber(),
 					endLoc->getLineNumber(),
 					endLoc->getColumnNumber());
-				scopeLoc->setType(TokenLocation::LOCATION_SCOPE);
+				scopeLoc->setType(LOCATION_SCOPE);
 			}
 		}
 	);

@@ -456,7 +456,7 @@ std::vector<Id> Storage::getNodeIdsForLocationIds(const std::vector<Id>& locatio
 		{
 			edgeIds.insert(edge.targetNodeId);
 		}
-		else
+		else if(m_sqliteStorage.isNode(elementId))
 		{
 			StorageNode node = m_sqliteStorage.getNodeById(elementId);
 			if (node.id != 0 && intToDefinitionType(node.definitionType) == DEFINITION_EXPLICIT)
@@ -472,6 +472,23 @@ std::vector<Id> Storage::getNodeIdsForLocationIds(const std::vector<Id>& locatio
 	}
 
 	return utility::toVector(edgeIds);
+}
+
+std::vector<Id> Storage::getLocalSymbolIdsForLocationIds(const std::vector<Id>& locationIds) const
+{
+	std::set<Id> localSymbolIds;
+
+	for (Id locationId : locationIds)
+	{
+		Id elementId = m_sqliteStorage.getElementIdByLocationId(locationId);
+
+		if (m_sqliteStorage.getNodeById(elementId).id == 0 && m_sqliteStorage.getEdgeById(elementId).id == 0)
+		{
+			localSymbolIds.insert(elementId);
+		}
+	}
+
+	return utility::toVector(localSymbolIds);
 }
 
 std::vector<Id> Storage::getTokenIdsForMatches(const std::vector<SearchMatch>& matches) const
@@ -584,7 +601,7 @@ std::shared_ptr<TokenLocationCollection> Storage::getTokenLocationsForTokenIds(c
 
 		if (loc)
 		{
-			loc->setType(location.isScope ? TokenLocation::LOCATION_SCOPE : TokenLocation::LOCATION_TOKEN);
+			loc->setType(intToLocationType(location.type));
 		}
 	}
 
@@ -605,8 +622,8 @@ std::shared_ptr<TokenLocationCollection> Storage::getTokenLocationsForLocationId
 			location.startLine,
 			location.startCol,
 			location.endLine,
-			location.endCol)->setType(location.isScope ? TokenLocation::LOCATION_SCOPE : TokenLocation::LOCATION_TOKEN
-		);
+			location.endCol
+		)->setType(intToLocationType(location.type));
 	}
 
 	return collection;

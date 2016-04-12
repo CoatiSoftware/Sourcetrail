@@ -9,6 +9,7 @@
 #include <QToolTip>
 #include <qscrollbar.h>
 
+#include "utility/messaging/type/MessageActivateLocalSymbols.h"
 #include "utility/messaging/type/MessageActivateTokenLocations.h"
 #include "utility/messaging/type/MessageActivateTokenIds.h"
 #include "utility/messaging/type/MessageFocusIn.h"
@@ -355,7 +356,7 @@ void QtCodeArea::paintEvent(QPaintEvent* event)
 		painter.setPen(QPen(color.border.c_str()));
 		painter.setBrush(QBrush(color.fill.c_str()));
 
-		if (annotation.isScope)
+		if (annotation.locationType == LOCATION_SCOPE)
 		{
 			painter.drawRoundedRect(
 				0, top + (annotation.startLine - m_startLineNumber) * blockHeight,
@@ -425,42 +426,10 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 		else if (!m_fileWidget->getErrorMessages().size())
 		{
 			QTextCursor cursor = this->cursorForPosition(event->pos());
-			std::vector<const Annotation*> annotations = getAnnotationsForPosition(cursor.position());
+			std::vector<const Annotation*> annotations = getNonScopeAnnotationsForPosition(cursor.position());
 
-			std::vector<Id> locationIds;
-			std::set<Id> tokenIds;
-
-			bool allActive = true;
-			for (const Annotation* annotation : annotations)
-			{
-				if (!annotation->isActive)
-				{
-					allActive = false;
-				}
-
-				if (annotation->locationId > 0)
-				{
-					locationIds.push_back(annotation->locationId);
-				}
-				if (annotation->tokenId > 0)
-				{
-					tokenIds.insert(annotation->tokenId);
-				}
-			}
-
-			if (allActive)
-			{
-				return;
-			}
-
-			if (locationIds.size())
-			{
-				MessageActivateTokenLocations(locationIds).dispatch();
-			}
-			else if (tokenIds.size()) // fallback for links in project description
-			{
-				MessageActivateTokenIds(utility::toVector(tokenIds)).dispatch();
-			}
+			activateTokenLocations(annotations);
+			activateLocalSymbols(annotations);
 		}
 	}
 }
@@ -481,7 +450,7 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 
 
 	QTextCursor cursor = this->cursorForPosition(event->pos());
-	std::vector<const Annotation*> annotations = getAnnotationsForPosition(cursor.position());
+	std::vector<const Annotation*> annotations = getNonScopeAnnotationsForPosition(cursor.position());
 
 	bool same = annotations.size() == m_hoveredAnnotations.size();
 	if (same)
@@ -558,19 +527,88 @@ void QtCodeArea::setIDECursorPosition()
 	MessageMoveIDECursor(m_locationFile->getFilePath().str(), lineColumn.first, lineColumn.second).dispatch();
 }
 
-std::vector<const QtCodeArea::Annotation*> QtCodeArea::getAnnotationsForPosition(int pos) const
+std::vector<const QtCodeArea::Annotation*> QtCodeArea::getNonScopeAnnotationsForPosition(int pos) const
 {
 	std::vector<const QtCodeArea::Annotation*> annotations;
 
 	for (const Annotation& annotation : m_annotations)
 	{
-		if (!annotation.isScope && pos >= annotation.start && pos <= annotation.end)
+		if (annotation.locationType != LOCATION_SCOPE && pos >= annotation.start && pos <= annotation.end)
 		{
 			annotations.push_back(&annotation);
 		}
 	}
 
 	return annotations;
+}
+
+void QtCodeArea::activateTokenLocations(const std::vector<const Annotation*>& annotations)
+{
+	std::vector<Id> tokenLocationIds;
+	std::set<Id> tokenIds;
+
+	bool allActive = true;
+	for (const Annotation* annotation : annotations)
+	{
+		if (annotation->locationType == LOCATION_TOKEN)
+		{
+			if (!annotation->isActive)
+			{
+				allActive = false;
+			}
+
+			if (annotation->locationId > 0)
+			{
+				tokenLocationIds.push_back(annotation->locationId);
+			}
+			if (annotation->tokenId > 0)
+			{
+				tokenIds.insert(annotation->tokenId);
+			}
+		}
+	}
+
+	if (!allActive)
+	{
+		if (tokenLocationIds.size())
+		{
+			MessageActivateTokenLocations(tokenLocationIds).dispatch();
+		}
+		else if (tokenIds.size()) // fallback for links in project description
+		{
+			MessageActivateTokenIds(utility::toVector(tokenIds)).dispatch();
+		}
+	}
+}
+
+void QtCodeArea::activateLocalSymbols(const std::vector<const Annotation*>& annotations)
+{
+	std::vector<Id> localSymbolIds;
+
+	bool allActive = true;
+	for (const Annotation* annotation : annotations)
+	{
+		if (annotation->locationType == LOCATION_LOCAL_SYMBOL)
+		{
+			if (!annotation->isActive)
+			{
+				allActive = false;
+			}
+
+			if (annotation->tokenId > 0)
+			{
+				localSymbolIds.push_back(annotation->tokenId);
+			}
+		}
+	}
+
+	if (!allActive)
+	{
+		if (localSymbolIds.size())
+		{
+			MessageActivateLocalSymbols(localSymbolIds).dispatch();
+		}
+	}
 }
 
 void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFile)
@@ -624,7 +662,7 @@ void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFi
 			annotation.tokenId = startLocation->getTokenId();
 			annotation.locationId = startLocation->getId();
 
-			annotation.isScope = (startLocation->getType() == TokenLocation::LOCATION_SCOPE);
+			annotation.locationType = startLocation->getType();
 			annotation.isError = false;
 
 			annotation.isActive = false;
@@ -637,7 +675,8 @@ void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFi
 
 void QtCodeArea::annotateText()
 {
-	const std::vector<Id>& activeIds = m_fileWidget->getActiveTokenIds();
+	const std::vector<Id>& activeTokenIds = m_fileWidget->getActiveTokenIds();
+	const std::vector<Id>& activeLocalSymbolIds = m_fileWidget->getActiveLocalSymbolIds();
 	const std::vector<Id>& focusIds = m_fileWidget->getFocusedTokenIds();
 
 	bool isError = m_fileWidget->hasErrors();
@@ -648,7 +687,10 @@ void QtCodeArea::annotateText()
 		bool wasActive = annotation.isActive;
 		bool wasFocused = annotation.isFocused;
 
-		annotation.isActive = std::find(activeIds.begin(), activeIds.end(), annotation.tokenId) != activeIds.end();
+		annotation.isActive = (
+			std::find(activeTokenIds.begin(), activeTokenIds.end(), annotation.tokenId) != activeTokenIds.end() ||
+			std::find(activeLocalSymbolIds.begin(), activeLocalSymbolIds.end(), annotation.tokenId) != activeLocalSymbolIds.end()
+		);
 		annotation.isFocused = std::find(focusIds.begin(), focusIds.end(), annotation.tokenId) != focusIds.end();
 
 		annotation.isError = isError;
@@ -827,7 +869,8 @@ const QtCodeArea::AnnotationColor& QtCodeArea::getAnnotationColorForAnnotation(c
 	{
 		ColorScheme* scheme = ColorScheme::getInstance().get();
 		std::vector<std::string> types;
-		types.push_back("location");
+		types.push_back("token");
+		types.push_back("local_symbol");
 		types.push_back("scope");
 		types.push_back("error");
 
@@ -850,13 +893,17 @@ const QtCodeArea::AnnotationColor& QtCodeArea::getAnnotationColorForAnnotation(c
 
 	size_t i = 0;
 
-	if (annotation.isScope)
+	if (annotation.locationType == LOCATION_LOCAL_SYMBOL)
 	{
 		i = 3;
 	}
-	else if (annotation.isError)
+	else if (annotation.locationType == LOCATION_SCOPE)
 	{
 		i = 6;
+	}
+	else if (annotation.isError)
+	{
+		i = 9;
 	}
 
 	if (annotation.isActive)

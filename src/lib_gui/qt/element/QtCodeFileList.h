@@ -39,6 +39,9 @@ public:
 	const std::vector<Id>& getActiveTokenIds() const;
 	void setActiveTokenIds(const std::vector<Id>& activeTokenIds);
 
+	const std::vector<Id>& getActiveLocalSymbolIds() const;
+	void setActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds);
+
 	const std::vector<Id>& getFocusedTokenIds() const;
 	void setFocusedTokenIds(const std::vector<Id>& focusedTokenIds);
 
@@ -77,6 +80,7 @@ private:
 	std::vector<std::shared_ptr<QtCodeFile>> m_files;
 
 	std::vector<Id> m_activeTokenIds;
+	std::vector<Id> m_activeLocalSymbolIds;
 	std::vector<Id> m_focusedTokenIds;
 	std::vector<std::string> m_errorMessages;
 

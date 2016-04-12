@@ -7,6 +7,7 @@
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateEdge.h"
 #include "utility/messaging/type/MessageActivateFile.h"
+#include "utility/messaging/type/MessageActivateLocalSymbols.h"
 #include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageActivateTokenIds.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
@@ -32,6 +33,7 @@ class UndoRedoController
 	: public Controller
 	, public MessageListener<MessageActivateEdge>
 	, public MessageListener<MessageActivateFile>
+	, public MessageListener<MessageActivateLocalSymbols>
 	, public MessageListener<MessageActivateNodes>
 	, public MessageListener<MessageActivateTokenIds>
 	, public MessageListener<MessageChangeFileView>
@@ -65,6 +67,7 @@ private:
 
 	virtual void handleMessage(MessageActivateEdge* message);
 	virtual void handleMessage(MessageActivateFile* message);
+	virtual void handleMessage(MessageActivateLocalSymbols* message);
 	virtual void handleMessage(MessageActivateNodes* message);
 	virtual void handleMessage(MessageActivateTokenIds* message);
 	virtual void handleMessage(MessageChangeFileView* message);

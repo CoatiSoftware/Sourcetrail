@@ -143,6 +143,16 @@ std::vector<Id> StorageAccessProxy::getNodeIdsForLocationIds(const std::vector<I
 	return std::vector<Id>();
 }
 
+std::vector<Id> StorageAccessProxy::getLocalSymbolIdsForLocationIds(const std::vector<Id>& locationIds) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getLocalSymbolIdsForLocationIds(locationIds);
+	}
+
+	return std::vector<Id>();
+}
+
 std::vector<Id> StorageAccessProxy::getTokenIdsForMatches(const std::vector<SearchMatch>& matches) const
 {
 	if (hasSubject())

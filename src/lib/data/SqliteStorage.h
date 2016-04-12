@@ -37,7 +37,8 @@ public:
 	Id addEdge(int type, Id sourceNodeId, Id targetNodeId);
 	Id addNode(int type, const std::string& serializedName, int definitionType);
 	Id addFile(const std::string& serializedName, const std::string& filePath, const std::string& modificationTime);
-	Id addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, bool isScope);
+	Id addLocalSymbol(const std::string& name);
+	Id addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
 
 	Id addComponentAccess(Id memberEdgeId, int type);
 
@@ -74,6 +75,8 @@ public:
 	StorageNode getNodeById(Id id) const;
 	StorageNode getNodeBySerializedName(const std::string& serializedName) const;
 	std::vector<StorageNode> getNodesByIds(const std::vector<Id>& nodeIds) const;
+
+	StorageLocalSymbol getLocalSymbolByName(const std::string& name) const;
 
 	StorageFile getFileById(const Id id) const;
 	StorageFile getFileByPath(const std::string& filePath) const;

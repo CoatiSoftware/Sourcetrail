@@ -69,7 +69,7 @@ Id TokenLocation::getTokenId() const
 	return m_tokenId;
 }
 
-TokenLocation::LocationType TokenLocation::getType() const
+LocationType TokenLocation::getType() const
 {
 	return m_type;
 }

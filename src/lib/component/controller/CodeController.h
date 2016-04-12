@@ -6,6 +6,7 @@
 
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateAll.h"
+#include "utility/messaging/type/MessageActivateLocalSymbols.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
 #include "utility/messaging/type/MessageFlushUpdates.h"
@@ -27,6 +28,7 @@ class TokenLocationFile;
 class CodeController
 	: public Controller
 	, public MessageListener<MessageActivateAll>
+	, public MessageListener<MessageActivateLocalSymbols>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageChangeFileView>
 	, public MessageListener<MessageFlushUpdates>
@@ -44,6 +46,7 @@ private:
 	static const uint s_lineRadius;
 
 	virtual void handleMessage(MessageActivateAll* message);
+	virtual void handleMessage(MessageActivateLocalSymbols* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageChangeFileView* message);
 	virtual void handleMessage(MessageFlushUpdates* message);

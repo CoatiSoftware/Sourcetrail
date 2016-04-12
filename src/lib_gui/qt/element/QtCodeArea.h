@@ -7,6 +7,7 @@
 
 #include <QPlainTextEdit>
 
+#include "data/location/LocationType.h"
 #include "utility/types.h"
 
 class QDragMoveEvent;
@@ -124,7 +125,7 @@ private:
 		Id tokenId;
 		Id locationId;
 
-		bool isScope;
+		LocationType locationType;
 		bool isError;
 
 		bool isActive;
@@ -137,7 +138,9 @@ private:
 		std::string fill;
 	};
 
-	std::vector<const Annotation*> getAnnotationsForPosition(int pos) const;
+	std::vector<const Annotation*> getNonScopeAnnotationsForPosition(int pos) const;
+	void activateTokenLocations(const std::vector<const Annotation*>& annotations);
+	void activateLocalSymbols(const std::vector<const Annotation*>& annotations);
 
 	void createAnnotations(std::shared_ptr<TokenLocationFile> locationFile);
 	void annotateText();

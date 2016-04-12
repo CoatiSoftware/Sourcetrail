@@ -5,6 +5,7 @@
 #include <ostream>
 #include <string>
 
+#include "data/location/LocationType.h"
 #include "utility/file/FilePath.h"
 #include "utility/types.h"
 
@@ -15,13 +16,6 @@ class TokenLocationLine;
 class TokenLocation
 {
 public:
-	enum LocationType
-	{
-		LOCATION_TOKEN,
-		LOCATION_SCOPE
-	};
-
-	TokenLocation(Id tokenId, TokenLocationLine* line, unsigned int columnNumber, bool isStart);
 	TokenLocation(Id locationId, Id tokenId, TokenLocationLine* line, unsigned int columnNumber, bool isStart);
 	TokenLocation(TokenLocation* other, TokenLocationLine* line, unsigned int columnNumber, bool isStart);
 	TokenLocation(const TokenLocation& other, TokenLocationLine* line);

@@ -85,6 +85,17 @@ const std::vector<Id>& QtCodeFileList::getActiveTokenIds() const
 void QtCodeFileList::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
 {
 	m_activeTokenIds = activeTokenIds;
+	m_activeLocalSymbolIds.clear();
+}
+
+const std::vector<Id>& QtCodeFileList::getActiveLocalSymbolIds() const
+{
+	return m_activeLocalSymbolIds;
+}
+
+void QtCodeFileList::setActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds)
+{
+	m_activeLocalSymbolIds = activeLocalSymbolIds;
 }
 
 const std::vector<Id>& QtCodeFileList::getFocusedTokenIds() const
