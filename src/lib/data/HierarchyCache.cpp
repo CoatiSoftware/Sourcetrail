@@ -43,6 +43,14 @@ const std::vector<HierarchyCache::HierarchyNode*>& HierarchyCache::HierarchyNode
 	return m_children;
 }
 
+void HierarchyCache::HierarchyNode::addChildIds(std::vector<Id>* nodeIds) const
+{
+	for (const HierarchyNode* child : m_children)
+	{
+		nodeIds->push_back(child->getNodeId());
+	}
+}
+
 void HierarchyCache::HierarchyNode::addChildIdsRecursive(std::vector<Id>* nodeIds, std::vector<Id>* edgeIds) const
 {
 	for (const HierarchyNode* child : m_children)
@@ -119,6 +127,19 @@ void HierarchyCache::addAllChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds
 	if (node)
 	{
 		node->addChildIdsRecursive(nodeIds, edgeIds);
+	}
+}
+
+void HierarchyCache::addFirstChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds) const
+{
+	HierarchyNode* node = getNode(nodeId);
+	if (node)
+	{
+		node->addChildIds(nodeIds);
+	}
+	else
+	{
+		nodeIds->push_back(nodeId);
 	}
 }
 

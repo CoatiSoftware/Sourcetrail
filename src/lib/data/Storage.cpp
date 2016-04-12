@@ -347,7 +347,7 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 			if (Node::intToType(node.type) == Node::NODE_NAMESPACE)
 			{
 				ids.clear();
-				m_hierarchyCache.addFirstVisibleChildIdsForNodeId(elementId, &ids);
+				m_hierarchyCache.addFirstChildIdsForNodeId(elementId, &ids);
 
 				isNamespace = true;
 			}

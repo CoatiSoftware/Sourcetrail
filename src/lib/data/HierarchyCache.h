@@ -17,6 +17,7 @@ public:
 	Id getLastVisibleParentNodeId(Id nodeId) const;
 
 	void addAllChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds, std::vector<Id>* edgeIds) const;
+	void addFirstChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds) const;
 	void addFirstVisibleChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds) const;
 
 	bool isChildOfVisibleNodeOrInvisible(Id nodeId) const;
@@ -38,6 +39,7 @@ private:
 		void addChild(HierarchyNode* child);
 		const std::vector<HierarchyNode*>& getChildren() const;
 
+		void addChildIds(std::vector<Id>* nodeIds) const;
 		void addChildIdsRecursive(std::vector<Id>* nodeIds, std::vector<Id>* edgeIds) const;
 		void addVisibleNodeIdsRecursive(std::vector<Id>* nodeIds) const;
 
