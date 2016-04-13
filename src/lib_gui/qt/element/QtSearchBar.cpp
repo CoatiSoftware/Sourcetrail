@@ -4,12 +4,13 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 
+#include "utility/messaging/type/MessageSearch.h"
+#include "utility/ResourcePaths.h"
+
 #include "qt/element/QtSmartSearchBox.h"
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
-
-#include "utility/ResourcePaths.h"
 
 QtSearchBar::QtSearchBar()
 {
@@ -20,6 +21,13 @@ QtSearchBar::QtSearchBar()
 	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
+
+	m_homeButton = new QPushButton(this);
+	m_homeButton->setObjectName("home_button");
+	m_homeButton->setToolTip("show overview");
+	m_homeButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	layout->addWidget(m_homeButton);
+	connect(m_homeButton, SIGNAL(clicked()), this, SLOT(homeButtonClicked()));
 
 	m_searchBoxContainer = new QWidget(this);
 	m_searchBoxContainer->setObjectName("search_box_container");
@@ -87,10 +95,24 @@ void QtSearchBar::refreshStyle()
 {
 	m_searchBox->setFixedHeight(std::max(ApplicationSettings::getInstance()->getFontSize() + 11, 25));
 	m_searchButton->setFixedHeight(m_searchBox->height() + 5);
+	m_homeButton->setFixedHeight(m_searchBox->height() + 5);
 
 	std::string map = ResourcePaths::getGuiPath() + "search_view/images/search.png";
 	m_searchButton->setIcon(utility::colorizePixmap(
 		QPixmap(map.c_str()),
 		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
 	));
+
+	map = ResourcePaths::getGuiPath() + "search_view/images/home.png";
+	m_homeButton->setIcon(utility::colorizePixmap(
+		QPixmap(map.c_str()),
+		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
+	));
+}
+
+void QtSearchBar::homeButtonClicked()
+{
+	SearchMatch match = SearchMatch::createCommand(SearchMatch::COMMAND_ALL);
+	MessageSearch msg(std::vector<SearchMatch>(1, match));
+	msg.dispatch();
 }

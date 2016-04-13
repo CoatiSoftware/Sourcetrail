@@ -16,6 +16,7 @@ QWidget#search_box_container {
 	border: none;
 	border-bottom-left-radius: 12px;
 	border-top-left-radius: 12px;
+	margin-left: 5px;
 	margin-right: 2px;
 }
 
@@ -41,19 +42,23 @@ QAbstractItemView#search_box_popup {
 	selection-background-color: <color:search/popup/highlight>;
 }
 
-QPushButton#search_button {
+#search_button, #home_button {
 	background: <color:search/button/normal>;
 	border: none;
-	border-bottom-right-radius: 12px;
-	border-top-right-radius: 12px;
+	border-radius: 12px;
 	background-position: 15px 5px;
 	width: 30px;
 }
 
-#search_button:hover {
+#search_button {
+	border-bottom-left-radius: 0px;
+	border-top-left-radius: 0px;
+}
+
+#search_button:hover, #home_button:hover {
 	background: <color:search/button/hover>;
 }
 
-#search_button:pressed {
+#search_button:pressed, #home_button:pressed {
 	background: <color:search/button/press>;
 }

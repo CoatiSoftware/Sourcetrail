@@ -30,10 +30,14 @@ public:
 
 	void refreshStyle();
 
+private slots:
+	void homeButtonClicked();
+
 private:
 	QWidget* m_searchBoxContainer; // used for correct clipping inside the search box
 	QtSmartSearchBox* m_searchBox;
 	QPushButton* m_searchButton;
+	QPushButton* m_homeButton;
 };
 
 #endif // QT_SEARCH_BAR_H
