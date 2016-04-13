@@ -24,6 +24,7 @@ QLineEdit#search_box {
 	background-color: transparent;
 	border: none;
 	color: <color:search/field/text>;
+	margin-left: 5px;
 	selection-background-color: <color:search/field/highlight>;
 }
 

@@ -24,7 +24,7 @@ QtSearchBar::QtSearchBar()
 
 	m_homeButton = new QPushButton(this);
 	m_homeButton->setObjectName("home_button");
-	m_homeButton->setToolTip("show overview");
+	m_homeButton->setToolTip("to overview");
 	m_homeButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	layout->addWidget(m_homeButton);
 	connect(m_homeButton, SIGNAL(clicked()), this, SLOT(homeButtonClicked()));
@@ -112,7 +112,5 @@ void QtSearchBar::refreshStyle()
 
 void QtSearchBar::homeButtonClicked()
 {
-	SearchMatch match = SearchMatch::createCommand(SearchMatch::COMMAND_ALL);
-	MessageSearch msg(std::vector<SearchMatch>(1, match));
-	msg.dispatch();
+	MessageSearch(std::vector<SearchMatch>(1, SearchMatch::createCommand(SearchMatch::COMMAND_ALL))).dispatch();
 }

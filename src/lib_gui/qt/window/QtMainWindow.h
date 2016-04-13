@@ -118,6 +118,8 @@ public slots:
 	void openRecentProject();
 
 	void find();
+	void overview();
+
 	void closeWindow();
 	void refresh();
 	void forceRefresh();

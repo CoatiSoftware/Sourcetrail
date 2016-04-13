@@ -30,6 +30,7 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageResetZoom.h"
 #include "utility/messaging/type/MessageSaveProject.h"
+#include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageSwitchColorScheme.h"
 #include "utility/messaging/type/MessageUndo.h"
 #include "utility/messaging/type/MessageWindowFocus.h"
@@ -400,6 +401,11 @@ void QtMainWindow::find()
 	MessageFind().dispatch();
 }
 
+void QtMainWindow::overview()
+{
+	MessageSearch(std::vector<SearchMatch>(1, SearchMatch::createCommand(SearchMatch::COMMAND_ALL))).dispatch();
+}
+
 void QtMainWindow::closeWindow()
 {
 	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
@@ -604,6 +610,10 @@ void QtMainWindow::setupEditMenu()
 	}
 
 	menu->addAction(tr("&Find"), this, SLOT(find()), QKeySequence::Find);
+
+	menu->addSeparator();
+
+	menu->addAction(tr("&To overview"), this, SLOT(overview()), QKeySequence::MoveToStartOfDocument);
 }
 
 void QtMainWindow::setupViewMenu()
