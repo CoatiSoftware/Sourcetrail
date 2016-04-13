@@ -401,6 +401,11 @@ void GraphController::setNodeActiveRecursive(DummyNode& node, const std::vector<
 
 void GraphController::removeImplicitAndUndefinedChildrenRecursive(DummyNode& node)
 {
+	if (node.isGraphNode() && !node.data->isExplicit())
+	{
+		return;
+	}
+
 	for (size_t i = 0; i < node.subNodes.size(); i++)
 	{
 		bool removeNode = false;
