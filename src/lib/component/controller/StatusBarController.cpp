@@ -29,13 +29,13 @@ void StatusBarController::handleMessage(MessageFinishedParsing* message)
 	getView()->setErrorCount(errorCount);
 
 	std::string status = message->getStatusStr();
-	status += " " + std::to_string(errorCount.total) + " error" + (errorCount.total != 1 ? "s" : "");
+	status += "; " + std::to_string(errorCount.total) + " error" + (errorCount.total != 1 ? "s" : "");
 	if (errorCount.fatal > 0)
 	{
 		status += " (" + std::to_string(errorCount.fatal) + " fatal)";
 	}
 
-	MessageStatus(status, errorCount.total > 0).dispatch();
+	MessageStatus(status, false).dispatch();
 }
 
 void StatusBarController::handleMessage(MessageShowErrors* message)

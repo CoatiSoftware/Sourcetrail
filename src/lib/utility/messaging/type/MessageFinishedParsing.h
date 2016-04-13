@@ -12,10 +12,11 @@ class MessageFinishedParsing
 	: public Message<MessageFinishedParsing>
 {
 public:
-	MessageFinishedParsing(size_t fileCount, size_t totalFileCount, float parseTime)
+	MessageFinishedParsing(size_t fileCount, size_t totalFileCount, float parseTime, bool loadedOnly = false)
 		: fileCount(fileCount)
 		, totalFileCount(totalFileCount)
 		, parseTime(parseTime)
+		, loadedOnly(loadedOnly)
 	{
 	}
 
@@ -31,6 +32,11 @@ public:
 
 	std::string getStatusStr() const
 	{
+		if (loadedOnly)
+		{
+			return "Finished loading";
+		}
+
 		std::stringstream ss;
 		ss << "Finished analysis: ";
 		ss << fileCount << "/" << totalFileCount << " files; ";
@@ -41,6 +47,8 @@ public:
 		int minutes = int(secondsLeft / 60);
 		secondsLeft -= minutes * 60;
 		int seconds = int(secondsLeft);
+		secondsLeft -= seconds;
+		int milliSeconds = secondsLeft * 1000;
 
 		if (hours > 9)
 		{
@@ -51,7 +59,12 @@ public:
 			ss << std::setw(2) << std::setfill('0') << hours;
 		}
 		ss << ":" << std::setw(2) << std::setfill('0') << minutes;
-		ss << ":" << std::setw(2) << std::setfill('0') << seconds << ". ";
+		ss << ":" << std::setw(2) << std::setfill('0') << seconds;
+
+		if (!hours && !minutes)
+		{
+			ss << ":" << std::setw(3) << std::setfill('0') << milliSeconds;
+		}
 
 		return ss.str();
 	}
@@ -64,6 +77,7 @@ public:
 	size_t fileCount;
 	size_t totalFileCount;
 	float parseTime;
+	bool loadedOnly;
 };
 
 #endif // MESSAGE_FINISHED_PARSING_H

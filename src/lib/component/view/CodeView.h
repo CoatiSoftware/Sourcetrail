@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "data/ErrorInfo.h"
 #include "utility/file/FilePath.h"
 
 #include "component/view/helper/CodeSnippetParams.h"
@@ -29,7 +30,7 @@ public:
 	virtual void clear() = 0;
 
 	virtual void setActiveTokenIds(const std::vector<Id>& activeTokenIds) = 0;
-	virtual void setErrorMessages(const std::vector<std::string>& errorMessages) = 0;
+	virtual void setErrorInfos(const std::vector<ErrorInfo>& errorInfos) = 0;
 
 	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds) = 0;
 	virtual void addCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert) = 0;

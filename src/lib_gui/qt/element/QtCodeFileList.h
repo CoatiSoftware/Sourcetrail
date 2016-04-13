@@ -11,6 +11,7 @@
 #include "utility/TimePoint.h"
 #include "utility/types.h"
 
+#include "data/ErrorInfo.h"
 #include "component/view/helper/CodeSnippetParams.h"
 
 class QtCodeFile;
@@ -45,8 +46,11 @@ public:
 	const std::vector<Id>& getFocusedTokenIds() const;
 	void setFocusedTokenIds(const std::vector<Id>& focusedTokenIds);
 
-	const std::vector<std::string>& getErrorMessages() const;
-	void setErrorMessages(const std::vector<std::string>& errorMessages);
+	std::vector<std::string> getErrorMessages() const;
+	void setErrorInfos(const std::vector<ErrorInfo>& errorInfos);
+
+	bool hasErrors() const;
+	size_t getFatalErrorCountForFile(const FilePath& filePath) const;
 
 	void showActiveTokenIds();
 
@@ -82,7 +86,7 @@ private:
 	std::vector<Id> m_activeTokenIds;
 	std::vector<Id> m_activeLocalSymbolIds;
 	std::vector<Id> m_focusedTokenIds;
-	std::vector<std::string> m_errorMessages;
+	std::vector<ErrorInfo> m_errorInfos;
 
 	QtCodeFile* m_scrollToFile;
 	int m_value;

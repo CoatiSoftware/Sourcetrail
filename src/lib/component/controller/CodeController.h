@@ -70,7 +70,7 @@ private:
 		TokenLocation* location, std::shared_ptr<TokenLocationFile> context, SnippetMerger& fileScopedMerger, std::map<int, std::shared_ptr<SnippetMerger>>& mergers) const;
 	std::shared_ptr<TokenLocationFile> getTokenLocationOfParentScope(const TokenLocation* location, std::shared_ptr<TokenLocationFile> context) const;
 
-	std::vector<CodeSnippetParams> getSnippetsForErrorLocations(std::vector<std::string>* errorMessages) const;
+	std::vector<CodeSnippetParams> getSnippetsForErrorLocations(std::vector<ErrorInfo>* errors) const;
 
 	std::vector<std::string> getProjectDescription(TokenLocationFile* locationFile) const;
 

@@ -75,7 +75,7 @@ public:
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
 	) const;
 
-	virtual TokenLocationCollection getErrorTokenLocations(std::vector<std::string>* errorMessages) const;
+	virtual TokenLocationCollection getErrorTokenLocations(std::vector<ErrorInfo>* errors) const;
 	virtual std::shared_ptr<TokenLocationFile> getCommentLocationsInFile(const FilePath& filePath) const;
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const;

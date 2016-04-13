@@ -29,7 +29,7 @@ public:
 	virtual void clear();
 
 	virtual void setActiveTokenIds(const std::vector<Id>& activeTokenIds);
-	virtual void setErrorMessages(const std::vector<std::string>& errorMessages);
+	virtual void setErrorInfos(const std::vector<ErrorInfo>& errorInfos);
 
 	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds);
 	virtual void addCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert);
@@ -88,7 +88,7 @@ private:
 	QtCodeFileList* m_widget;
 
 	std::vector<Id> m_activeTokenIds;
-	std::vector<std::string> m_errorMessages;
+	std::vector<ErrorInfo> m_errorInfos;
 };
 
 # endif // QT_CODE_VIEW_H

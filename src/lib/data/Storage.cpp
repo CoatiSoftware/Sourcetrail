@@ -643,17 +643,17 @@ std::shared_ptr<TokenLocationFile> Storage::getTokenLocationsForLinesInFile(
 	return m_sqliteStorage.getTokenLocationsForFile(filePath)->getFilteredByLines(firstLineNumber, lastLineNumber);
 }
 
-TokenLocationCollection Storage::getErrorTokenLocations(std::vector<std::string>* errorMessages) const
+TokenLocationCollection Storage::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const
 {
 	TokenLocationCollection errorCollection;
 
-	std::vector<StorageError> errors = m_sqliteStorage.getAllErrors();
-	for (size_t i = 0; i < errors.size(); i++)
+	std::vector<StorageError> storageErrors = m_sqliteStorage.getAllErrors();
+	for (size_t i = 0; i < storageErrors.size(); i++)
 	{
-		const StorageError& error = errors[i];
+		const StorageError& error = storageErrors[i];
 		errorCollection.addTokenLocation(
 			i, i, error.filePath, error.lineNumber, error.columnNumber, error.lineNumber, error.columnNumber);
-		errorMessages->push_back(error.message);
+		errors->push_back(ErrorInfo(error.message, error.filePath, i, error.fatal));
 	}
 
 	return errorCollection;

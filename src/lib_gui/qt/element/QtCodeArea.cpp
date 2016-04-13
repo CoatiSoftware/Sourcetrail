@@ -423,7 +423,7 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 			m_eventPosition = event->pos();
 			setIDECursorPosition();
 		}
-		else if (!m_fileWidget->getErrorMessages().size())
+		else if (!m_fileWidget->hasErrors())
 		{
 			QTextCursor cursor = this->cursorForPosition(event->pos());
 			std::vector<const Annotation*> annotations = getNonScopeAnnotationsForPosition(cursor.position());
@@ -471,7 +471,7 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 
 		setHoveredAnnotations(annotations);
 
-		const std::vector<std::string>& errorMessages = m_fileWidget->getErrorMessages();
+		std::vector<std::string> errorMessages = m_fileWidget->getErrorMessages();
 		if (annotations.size() == 1 && errorMessages.size() > annotations[0]->tokenId)
 		{
 			QToolTip::showText(event->globalPos(), QString::fromStdString(errorMessages[annotations[0]->tokenId]));

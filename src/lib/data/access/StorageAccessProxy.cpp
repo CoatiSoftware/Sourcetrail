@@ -225,11 +225,11 @@ std::shared_ptr<TokenLocationFile> StorageAccessProxy::getTokenLocationsForLines
 	return std::make_shared<TokenLocationFile>("");
 }
 
-TokenLocationCollection StorageAccessProxy::getErrorTokenLocations(std::vector<std::string>* errorMessages) const
+TokenLocationCollection StorageAccessProxy::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getErrorTokenLocations(errorMessages);
+		return m_subject->getErrorTokenLocations(errors);
 	}
 
 	return TokenLocationCollection();

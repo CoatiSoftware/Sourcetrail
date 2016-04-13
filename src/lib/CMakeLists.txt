@@ -155,6 +155,7 @@ add_files(
 	data/DefinitionType.cpp
 	data/DefinitionType.h
 	data/ErrorCountInfo.h
+	data/ErrorInfo.h
 	data/HierarchyCache.cpp
 	data/HierarchyCache.h
 	data/IntermediateStorage.cpp

@@ -57,9 +57,9 @@ void QtCodeView::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
 	m_activeTokenIds = activeTokenIds;
 }
 
-void QtCodeView::setErrorMessages(const std::vector<std::string>& errorMessages)
+void QtCodeView::setErrorInfos(const std::vector<ErrorInfo>& errorInfos)
 {
-	m_errorMessages = errorMessages;
+	m_errorInfos = errorInfos;
 }
 
 void QtCodeView::showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds)
@@ -134,7 +134,7 @@ void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippe
 	m_widget->clearCodeSnippets();
 
 	m_widget->setActiveTokenIds(activeTokenIds);
-	m_widget->setErrorMessages(m_errorMessages);
+	m_widget->setErrorInfos(m_errorInfos);
 
 	for (const CodeSnippetParams& params : snippets)
 	{

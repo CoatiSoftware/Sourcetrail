@@ -14,6 +14,7 @@
 #include "utility/messaging/type/MessageWindowFocus.h"
 #include "qt/utility/QtThreadedFunctor.h"
 
+#include "data/ErrorInfo.h"
 #include "component/view/helper/CodeSnippetParams.h"
 
 class QLabel;
@@ -42,7 +43,7 @@ public:
 	const std::vector<Id>& getActiveLocalSymbolIds() const;
 	const std::vector<Id>& getFocusedTokenIds() const;
 
-	const std::vector<std::string>& getErrorMessages() const;
+	std::vector<std::string> getErrorMessages() const;
 	bool hasErrors() const;
 
 	void addCodeSnippet(const CodeSnippetParams& params);

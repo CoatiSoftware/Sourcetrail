@@ -139,14 +139,14 @@ const std::vector<Id>& QtCodeFile::getFocusedTokenIds() const
 	return m_parent->getFocusedTokenIds();
 }
 
-const std::vector<std::string>& QtCodeFile::getErrorMessages() const
+std::vector<std::string> QtCodeFile::getErrorMessages() const
 {
 	return m_parent->getErrorMessages();
 }
 
 bool QtCodeFile::hasErrors() const
 {
-	return getErrorMessages().size() > 0;
+	return m_parent->hasErrors();;
 }
 
 void QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
@@ -472,7 +472,19 @@ void QtCodeFile::updateRefCount(int refCount)
 {
 	if (refCount > 0)
 	{
-		m_referenceCount->setText(QString::fromStdString(std::to_string(refCount) + (refCount == 1 ? " reference" : " references")));
+		QString label = hasErrors() ? "error" : "reference";
+		if (refCount > 1)
+		{
+			label += "s";
+		}
+
+		size_t fatalErrorCount = m_parent->getFatalErrorCountForFile(m_filePath);
+		if (fatalErrorCount > 0)
+		{
+			label += " (" + QString::number(fatalErrorCount) + " fatal)";
+		}
+
+		m_referenceCount->setText(QString::number(refCount) + " " + label);
 		m_referenceCount->show();
 	}
 	else

@@ -11,6 +11,7 @@
 #include "data/graph/Node.h"
 #include "data/search/SearchMatch.h"
 #include "data/ErrorCountInfo.h"
+#include "data/ErrorInfo.h"
 #include "data/StorageStats.h"
 
 struct FileInfo;
@@ -56,7 +57,7 @@ public:
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber) const = 0;
 
-	virtual TokenLocationCollection getErrorTokenLocations(std::vector<std::string>* errorMessages) const = 0;
+	virtual TokenLocationCollection getErrorTokenLocations(std::vector<ErrorInfo>* errors) const = 0;
 	virtual std::shared_ptr<TokenLocationFile> getCommentLocationsInFile(const FilePath& filePath) const = 0;
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const = 0;

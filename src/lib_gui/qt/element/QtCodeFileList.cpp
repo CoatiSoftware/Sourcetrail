@@ -108,14 +108,37 @@ void QtCodeFileList::setFocusedTokenIds(const std::vector<Id>& focusedTokenIds)
 	m_focusedTokenIds = focusedTokenIds;
 }
 
-const std::vector<std::string>& QtCodeFileList::getErrorMessages() const
+std::vector<std::string> QtCodeFileList::getErrorMessages() const
 {
-	return m_errorMessages;
+	std::vector<std::string> errorMessages;
+	for (const ErrorInfo& error : m_errorInfos)
+	{
+		errorMessages.push_back(error.message);
+	}
+	return errorMessages;
 }
 
-void QtCodeFileList::setErrorMessages(const std::vector<std::string>& errorMessages)
+void QtCodeFileList::setErrorInfos(const std::vector<ErrorInfo>& errorInfos)
 {
-	m_errorMessages = errorMessages;
+	m_errorInfos = errorInfos;
+}
+
+bool QtCodeFileList::hasErrors() const
+{
+	return m_errorInfos.size() > 0;
+}
+
+size_t QtCodeFileList::getFatalErrorCountForFile(const FilePath& filePath) const
+{
+	size_t fatalErrorCount = 0;
+	for (const ErrorInfo& error : m_errorInfos)
+	{
+		if (error.filePath == filePath && error.isFatal)
+		{
+			fatalErrorCount++;
+		}
+	}
+	return fatalErrorCount;
 }
 
 void QtCodeFileList::showActiveTokenIds()
