@@ -1,5 +1,8 @@
 #include "utility/file/FilePath.h"
 
+#include <regex>
+#include "utility/logging/logging.h"
+
 FilePath::FilePath()
 	: m_exists(false)
 {
@@ -96,6 +99,29 @@ FilePath FilePath::canonical() const
 		}
 	}
 	return result;
+}
+
+FilePath FilePath::expandEnvironmentVariables() const
+{
+	return FilePath(expandEnvironmentVariables(str()));
+}
+
+std::string FilePath::expandEnvironmentVariables(const std::string& path) const
+{
+	std::string text = path;
+
+	static std::regex env( "\\$\\{([^}]+)\\}|%([0-9A-Za-z\\/]*)%" );
+	std::smatch match;
+	while ( std::regex_search( text, match, env ) ) {
+		const char * s = getenv( match[1].str().c_str() );
+		if (s == nullptr)
+		{
+			LOG_ERROR(match[1].str() + " is no a environment variable");
+			return path;
+		}
+		text.replace( match[0].first, match[0].second, s);
+	}
+	return text;
 }
 
 FilePath FilePath::relativeTo(const FilePath& other) const
@@ -202,7 +228,8 @@ bool FilePath::operator<(const FilePath& other) const
 
 void FilePath::init()
 {
-	if (boost::filesystem::exists(m_path))
+	boost::filesystem::path p(expandEnvironmentVariables(m_path.generic_string()));
+	if (boost::filesystem::exists(p))
 	{
 		m_exists = true;
 	}

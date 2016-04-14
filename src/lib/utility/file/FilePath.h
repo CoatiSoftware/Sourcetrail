@@ -26,6 +26,8 @@ public:
 	FilePath canonical() const;
 	FilePath relativeTo(const FilePath& other) const;
 	FilePath concat(const FilePath& other) const;
+	FilePath expandEnvironmentVariables() const;
+	std::string expandEnvironmentVariables(const std::string & path) const;
 
 	std::string str() const;
 	std::string fileName() const;

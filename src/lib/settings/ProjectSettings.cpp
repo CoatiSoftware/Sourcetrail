@@ -242,6 +242,7 @@ void ProjectSettings::makePathsAbsolute(std::vector<FilePath>& paths) const
 	FilePath basePath = getFilePath().parentDirectory();
 	for (size_t i = 0; i < paths.size(); i++)
 	{
+		paths[i] = paths[i].expandEnvironmentVariables();
 		if (!paths[i].isAbsolute())
 		{
 			paths[i] = basePath.concat(paths[i]).canonical();

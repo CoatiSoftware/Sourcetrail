@@ -15,8 +15,10 @@ elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
 fi
 
 # Enter masterproject directory
+SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
+ROOT_DIR=$SCRIPT_DIR/..
 MY_PATH=`dirname "$0"`
-cd $MY_PATH/..
+cd $ROOT_DIR
 
 # git settings
 echo -e $INFO "install git settings"
@@ -49,17 +51,17 @@ if [ $PLATFORM == "Windows" ]; then
 	echo -e $INFO "creating program icon"
 	sh script/create_windows_icon.sh
 
-	cmd //c 'mklink /d /j '.$MY_PATH.'\..\bin\app\Debug\data '.$MY_PATH.'\..\bin\app\data' &
-	cmd //c 'mklink /d /j '.$MY_PATH.'\..\bin\app\Debug\user '.$MY_PATH.'\..\bin\app\user' &
-	cmd //c 'mklink /d /j '.$MY_PATH.'\..\bin\app\Release\data '.$MY_PATH.'\..\bin\app\data' &
-	cmd //c 'mklink /d /j '.$MY_PATH.'\..\bin\app\Release\user '.$MY_PATH.'\..\bin\app\user' &
+	cmd //c 'mklink /d /j '.$ROOT_DIR.'\bin\app\Debug\data '.$ROOT_DIR.'\bin\app\data' &
+	cmd //c 'mklink /d /j '.$ROOT_DIR.'\bin\app\Debug\user '.$ROOT_DIR.'\bin\app\user' &
+	cmd //c 'mklink /d /j '.$ROOT_DIR.'\bin\app\Release\data '.$ROOT_DIR.'\bin\app\data' &
+	cmd //c 'mklink /d /j '.$ROOT_DIR.'\bin\app\Release\user '.$ROOT_DIR.'\bin\app\user' &
 elif [ $PLATFORM == "Linux" ]; then
 	echo -e $INFO "create symbolic links for data"
-	cd bin/app/Release
-	ln -s ../data data
-	cd ../Debug
-	ln -s ../data data
-	cd ../../..
+	cd $ROOT_DIR/bin/app/Release
+	ln -s ../data
+	cd $ROOT_DIR/bin/app/Debug
+	ln -s ../data
+	cd $ROOT_DIR
 fi
 
 # Setup both Debug and Release configuration

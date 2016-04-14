@@ -6,6 +6,7 @@
 
 #include "qt/element/QtDirectoryListBox.h"
 #include "settings/ApplicationSettings.h"
+#include "utility/file/FileManager.h"
 #include "utility/file/FileSystem.h"
 #include "utility/headerSearch/StandardHeaderDetection.h"
 #include "utility/utility.h"
@@ -206,6 +207,25 @@ bool QtProjectWizzardContentPathsSource::check()
 		msgBox.setText("Please add at least one path.");
 		msgBox.exec();
 		return false;
+	}
+	QString missingPaths;
+	for(FilePath f : m_list->getList())
+	{
+		if(!f.exists())
+		{
+			if(!missingPaths.isEmpty())
+			{
+				missingPaths.append("\n");
+			}
+			missingPaths.append(f.expandEnvironmentVariables().str().c_str());
+		}
+		if(!missingPaths.isEmpty())
+		{
+			QMessageBox msgBox;
+			msgBox.setText("The following paths do not exist:\n" + missingPaths );
+			msgBox.exec();
+			return false;
+		}
 	}
 
 	return true;

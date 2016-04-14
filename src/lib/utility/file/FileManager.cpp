@@ -26,8 +26,14 @@ void FileManager::setPaths(
 	std::vector<std::string> sourceExtensions,
 	std::vector<std::string> includeExtensions
 ){
-	m_sourcePaths = sourcePaths;
-	m_headerPaths = headerPaths;
+	for ( FilePath path : sourcePaths )
+	{
+		m_sourcePaths.push_back(path.expandEnvironmentVariables());
+	}
+	for ( FilePath path : headerPaths )
+	{
+		m_headerPaths.push_back(path.expandEnvironmentVariables());
+	}
 	m_sourceExtensions = sourceExtensions;
 	m_includeExtensions = includeExtensions;
 }

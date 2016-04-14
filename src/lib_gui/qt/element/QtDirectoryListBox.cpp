@@ -76,13 +76,13 @@ void QtListItemWidget::handleButtonPress()
 
 	QListView *l = dialog.findChild<QListView*>("listView");
 	if (l)
-    {
-        l->setSelectionMode(QAbstractItemView::SingleSelection);
-    }
-    QTreeView *t = dialog.findChild<QTreeView*>();
+	{
+		l->setSelectionMode(QAbstractItemView::SingleSelection);
+	}
+	QTreeView *t = dialog.findChild<QTreeView*>();
 	if (t)
 	{
-       t->setSelectionMode(QAbstractItemView::SingleSelection);
+		t->setSelectionMode(QAbstractItemView::SingleSelection);
 	}
 
 	if (dialog.exec())

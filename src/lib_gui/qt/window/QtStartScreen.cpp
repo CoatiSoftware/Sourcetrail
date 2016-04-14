@@ -98,7 +98,6 @@ void QtStartScreen::updateButtons()
 			button->setProjectPath(recentProjects[i]);
 			button->setFixedWidth(button->fontMetrics().width(button->text()) + 45);
 			connect(button, SIGNAL(clicked()), button, SLOT(handleButtonClick()));
-			//button->setGeometry(292, button->pos().y(), button->fontMetrics().width(button->text()) + 45, 40);
 			if (button->projectExists())
 			{
 				button->setObjectName("recentButton");
