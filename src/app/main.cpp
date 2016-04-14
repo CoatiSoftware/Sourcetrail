@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 		}
 
 		commandLineParser.projectLoad();
-
+		// todo: set app of license checker.
 		return qtApp.exec();
 	}
 	else
@@ -81,12 +81,12 @@ int main(int argc, char *argv[])
 		QtViewFactory viewFactory;
 		QtNetworkFactory networkFactory;
 
-		LicenseChecker checker;
+		std::shared_ptr<LicenseChecker> checker = LicenseChecker::getInstance();
 
 		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
 		std::shared_ptr<Application> app = Application::create(version, &viewFactory, &networkFactory);
 
-		checker.setApp(app.get());
+		checker->setApp(app.get());
 
 		commandLineParser.projectLoad();
 

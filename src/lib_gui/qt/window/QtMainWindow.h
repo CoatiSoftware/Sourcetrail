@@ -8,9 +8,6 @@
 #include <QMainWindow>
 #include <QShortcut>
 
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageProjectNew.h"
-
 #include "qt/utility/QtThreadedFunctor.h"
 #include "qt/window/QtWindowStack.h"
 
@@ -72,15 +69,12 @@ private:
 
 class QtMainWindow
 	: public QMainWindow
-	, public MessageListener<MessageProjectNew>
 {
 	Q_OBJECT
 
 public:
 	QtMainWindow();
 	~QtMainWindow();
-
-	void init();
 
 	void addView(View* view);
 	void removeView(View* view);
@@ -92,8 +86,6 @@ public:
 	void saveLayout();
 
 	void forceEnterLicense();
-
-	void handleMessage(MessageProjectNew* message);
 
 protected:
 	bool event(QEvent* event);
@@ -113,6 +105,7 @@ public slots:
 	void hideStartScreen();
 
 	void newProject();
+	void newProjectFromSolution(const std::string& ideId, const std::string& solutionPath);
 	void openProject(const QString &path = QString());
 	void editProject();
 	void openRecentProject();
@@ -152,8 +145,6 @@ private:
 		QtViewToggle* toggle;
 	};
 
-	void doCreateNewProject(MessageProjectNew message);
-
     void setupEditMenu();
 	void setupProjectMenu();
 	void setupViewMenu();
@@ -178,8 +169,6 @@ private:
 	QtWindowStack m_windowStack;
 
 	QShortcut* m_escapeShortcut;
-
-	QtThreadedFunctor<MessageProjectNew> m_createNewProjectFunctor;
 };
 
 #endif // QT_MAIN_WINDOW_H

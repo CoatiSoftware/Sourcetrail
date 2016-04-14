@@ -2,13 +2,14 @@
 
 #include "boost/program_options.hpp"
 
-#include "License.h"
-#include "PublicKey.h"
 #include "utility/ConfigManager.h"
 #include "utility/file/FileSystem.h"
+#include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/text/TextAccess.h"
+#include "License.h"
+#include "PublicKey.h"
 
 namespace po = boost::program_options;
 
@@ -175,7 +176,9 @@ void CommandLineParser::projectLoad()
 {
 	if (!m_projectFile.empty())
 	{
-		MessageLoadProject(m_projectFile, m_force).dispatch();
+		MessageDispatchWhenLicenseValid(
+			std::make_shared<MessageLoadProject>(m_projectFile, m_force)
+		).dispatch();
 	}
 }
 

@@ -8,6 +8,7 @@
 
 #include "Application.h"
 #include "includes.h" // defines 'void setup(int argc, char *argv[])'
+#include "LicenseChecker.h"
 #include "qt/network/QtNetworkFactory.h"
 #include "qt/QtApplication.h"
 #include "qt/utility/utilityQt.h"
@@ -44,12 +45,14 @@ int main(int argc, char *argv[])
 
 	qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
 
-	utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
-
 	QtViewFactory viewFactory;
 	QtNetworkFactory networkFactory;
 
+	utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
+
 	std::shared_ptr<Application> app = Application::create(version, &viewFactory, &networkFactory);
+
+	LicenseChecker::createInstance();
 
 	return qtApp.exec();
 }

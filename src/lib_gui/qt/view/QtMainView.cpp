@@ -5,15 +5,16 @@
 #include "qt/window/QtMainWindow.h"
 
 QtMainView::QtMainView()
-	: m_hideStartScreenFunctor(std::bind(&QtMainView::doHideStartScreen, this))
+	: m_createNewProjectFromSolutionFunctor(std::bind(&QtMainView::doCreateNewProjectFromSolution, this, std::placeholders::_1, std::placeholders::_2))
+	, m_showStartScreenFunctor(std::bind(&QtMainView::doShowStartScreen, this))
+	, m_hideStartScreenFunctor(std::bind(&QtMainView::doHideStartScreen, this))
 	, m_setTitleFunctor(std::bind(&QtMainView::doSetTitle, this, std::placeholders::_1))
 	, m_activateWindowFunctor(std::bind(&QtMainView::doActivateWindow, this))
 	, m_updateRecentProjectMenuFunctor(std::bind(&QtMainView::doUpdateRecentProjectMenu, this))
-	, m_showLicenseScreenFunctor(std::bind(&QtMainView::doShowLicenseScreen, this))
+	, m_forceLicenseScreenFunctor(std::bind(&QtMainView::doForceLicenseScreen, this))
 {
 	m_window = std::make_shared<QtMainWindow>();
 	m_window->show();
-	m_window->init();
 }
 
 QtMainView::~QtMainView()
@@ -88,14 +89,32 @@ void QtMainView::updateRecentProjectMenu()
 	m_updateRecentProjectMenuFunctor();
 }
 
-void QtMainView::showLicenseScreen()
+void QtMainView::forceLicenseScreen()
 {
-	m_showLicenseScreenFunctor();
+	m_forceLicenseScreenFunctor();
 }
 
-void QtMainView::doUpdateRecentProjectMenu()
+void QtMainView::handleMessage(MessageProjectNew* message)
 {
-	m_window->updateRecentProjectMenu();
+	if (message->ideId.size() != 0 && message->solutionPath.size() != 0)
+	{
+		m_createNewProjectFromSolutionFunctor(message->ideId, message->solutionPath);
+	}
+}
+
+void QtMainView::handleMessage(MessageShowStartScreen* message)
+{
+	m_showStartScreenFunctor();
+}
+
+void QtMainView::doCreateNewProjectFromSolution(const std::string& ideId, const std::string& solutionPath)
+{
+	m_window->newProjectFromSolution(ideId, solutionPath);
+}
+
+void QtMainView::doShowStartScreen()
+{
+	m_window->showStartScreen();
 }
 
 void QtMainView::doHideStartScreen()
@@ -116,7 +135,12 @@ void QtMainView::doActivateWindow()
 	m_window->setFocus(Qt::ActiveWindowFocusReason);
 }
 
-void QtMainView::doShowLicenseScreen()
+void QtMainView::doUpdateRecentProjectMenu()
+{
+	m_window->updateRecentProjectMenu();
+}
+
+void QtMainView::doForceLicenseScreen()
 {
 	m_window->forceEnterLicense();
 }

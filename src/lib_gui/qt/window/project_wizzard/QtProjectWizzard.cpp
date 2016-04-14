@@ -17,9 +17,9 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentSourceList.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSummary.h"
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
+#include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 
-// #include "utility/solution/SolutionParserCompilationDatabase.h"
 #include "utility/solution/SolutionParserVisualStudio.h"
 #include "utility/solution/SolutionParserCodeBlocks.h"
 
@@ -597,7 +597,9 @@ void QtProjectWizzard::createProject()
 
 	bool forceRefresh = !(m_settings == *ProjectSettings::getInstance().get());
 
-	MessageLoadProject(path, forceRefresh).dispatch();
+	MessageDispatchWhenLicenseValid(
+		std::make_shared<MessageLoadProject>(path, forceRefresh)
+	).dispatch();
 
 	m_windowStack.clearWindows();
 	emit finished();

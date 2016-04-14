@@ -16,7 +16,7 @@ public:
 	virtual void setTitle(const std::string& title) = 0;
 	virtual void activateWindow() = 0;
 	virtual void updateRecentProjectMenu() = 0;
-	virtual void showLicenseScreen() = 0;
+	virtual void forceLicenseScreen() = 0;
 };
 
 #endif // MAIN_VIEW_H

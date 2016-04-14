@@ -228,6 +228,7 @@ add_files(
 	utility/messaging/type/MessageChangeFileView.h
 	utility/messaging/type/MessageClearErrorCount.h
 	utility/messaging/type/MessageDeactivateEdge.h
+	utility/messaging/type/MessageDispatchWhenLicenseValid.h
 	utility/messaging/type/MessageEnteredLicense.h
 	utility/messaging/type/MessageFind.h
 	utility/messaging/type/MessageFinishedParsing.h
@@ -250,6 +251,7 @@ add_files(
 	utility/messaging/type/MessageSearchAutocomplete.h
 	utility/messaging/type/MessageShowErrors.h
 	utility/messaging/type/MessageShowScope.h
+	utility/messaging/type/MessageShowStartScreen.h
 	utility/messaging/type/MessageStatus.h
 	utility/messaging/type/MessageSwitchColorScheme.h
 	utility/messaging/type/MessageUndo.h
@@ -319,6 +321,8 @@ add_files(
 	Application.cpp
 	Application.h
 	isTrial.h
+	LicenseChecker.cpp
+	LicenseChecker.h
 	Project.cpp
 	Project.h
 )

@@ -31,8 +31,8 @@ public:
 
 protected:
 	ColorScheme();
-	ColorScheme(const ColorScheme&);
-	void operator=(const ColorScheme&);
+	ColorScheme(const ColorScheme&) = delete;
+	void operator=(const ColorScheme&) = delete;
 
 	static std::shared_ptr<ColorScheme> s_instance;
 

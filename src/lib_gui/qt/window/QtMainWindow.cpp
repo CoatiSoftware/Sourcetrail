@@ -23,6 +23,7 @@
 #include "settings/ProjectSettings.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
 #include "utility/messaging/type/MessageLoadProject.h"
@@ -130,7 +131,6 @@ void MouseWheelFilter::stopWaiting()
 QtMainWindow::QtMainWindow()
 	: m_showDockWidgetTitleBars(true)
 	, m_windowStack(this)
-	, m_createNewProjectFunctor(std::bind(&QtMainWindow::doCreateNewProject, this, std::placeholders::_1))
 {
 	setObjectName("QtMainWindow");
 	setCentralWidget(nullptr);
@@ -159,11 +159,6 @@ QtMainWindow::QtMainWindow()
 	// Need to call loadLayout here for right DockWidget size on Linux
 	// Seconde call is in Application.cpp
 	loadLayout();
-}
-
-void QtMainWindow::init()
-{
-	showStartScreen();
 }
 
 QtMainWindow::~QtMainWindow()
@@ -285,12 +280,6 @@ void QtMainWindow::forceEnterLicense()
 	enterLicenseWindow->setEnabled(true);
 }
 
-void QtMainWindow::handleMessage(MessageProjectNew* message)
-{
-	MessageProjectNew msg(*message);
-	m_createNewProjectFunctor(msg);
-}
-
 bool QtMainWindow::event(QEvent* event)
 {
 	if (event->type() == QEvent::WindowActivate)
@@ -374,6 +363,12 @@ void QtMainWindow::newProject()
 	wizzard->newProject();
 }
 
+void QtMainWindow::newProjectFromSolution(const std::string& ideId, const std::string& solutionPath)
+{
+	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
+	wizzard->newProjectFromSolution(ideId, solutionPath);
+}
+
 void QtMainWindow::openProject(const QString &path)
 {
 	QString fileName = path;
@@ -385,7 +380,9 @@ void QtMainWindow::openProject(const QString &path)
 
 	if (!fileName.isEmpty())
 	{
-		MessageLoadProject(fileName.toStdString(), false).dispatch();
+		MessageDispatchWhenLicenseValid(
+			std::make_shared<MessageLoadProject>(fileName.toStdString(), false)
+		).dispatch();
 		m_windowStack.clearWindows();
 	}
 }
@@ -571,20 +568,6 @@ void QtMainWindow::updateRecentProjectMenu()
 void QtMainWindow::toggleShowDockWidgetTitleBars()
 {
 	setShowDockWidgetTitleBars(!m_showDockWidgetTitleBars);
-}
-
-void QtMainWindow::doCreateNewProject(MessageProjectNew message)
-{
-	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
-
-	if (message.fromSolution())
-	{
-		wizzard->newProjectFromSolution(message.ideId ,message.solutionPath);
-	}
-	else
-	{
-		wizzard->newProject();
-	}
 }
 
 void QtMainWindow::setupEditMenu()

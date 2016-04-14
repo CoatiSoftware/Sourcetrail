@@ -12,8 +12,6 @@ public:
 	static std::shared_ptr<ApplicationSettings> getInstance();
 	~ApplicationSettings();
 
-	std::string getStartupProjectFilePath() const;
-
 	int getMaxRecentProjectsCount() const;
 
 	// source

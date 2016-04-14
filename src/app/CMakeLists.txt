@@ -7,6 +7,5 @@ add_files(
 	utility/commandline/CommandLineParser.h
 
 	isTrial.cpp
-	LicenseChecker.h
 	main.cpp
 )

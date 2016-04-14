@@ -6,6 +6,7 @@
 
 #include "utility/messaging/type/MessageActivateTokenLocations.h"
 #include "utility/messaging/type/MessageActivateWindow.h"
+#include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageProjectNew.h"
 #include "utility/messaging/type/MessageStatus.h"
@@ -83,14 +84,14 @@ void IDECommunicationController::handleSetActiveTokenMessage(const NetworkProtoc
 		if (selectedLocationIds.size() > 0)
 		{
 			MessageStatus("Activating a source location from external succeeded.").dispatch();
-			MessageActivateTokenLocations(selectedLocationIds).dispatch();
+			MessageDispatchWhenLicenseValid(std::make_shared<MessageActivateTokenLocations>(selectedLocationIds)).dispatch();
 			MessageActivateWindow().dispatch();
 		}
 		else
 		{
 			MessageStatus(
 				"Activating a source location from external failed. No symbol(s) have been found at the selected location."
-				).dispatch();
+			).dispatch();
 		}
 	}
 }
@@ -101,10 +102,10 @@ void IDECommunicationController::handleCreateProjectMessage(const NetworkProtoco
 	{
 		if (message.ideId == "vs")
 		{
-			MessageProjectNew msg;
-			msg.setSolutionPath(message.solutionFileLocation);
-			msg.ideId = message.ideId;
-			msg.dispatch();
+			std::shared_ptr<MessageProjectNew> msg = std::make_shared<MessageProjectNew>();
+			msg->setSolutionPath(message.solutionFileLocation);
+			msg->ideId = message.ideId;
+			MessageDispatchWhenLicenseValid(msg).dispatch();
 		}
 		else
 		{

@@ -15,8 +15,12 @@ std::shared_ptr<MessageQueue> MessageQueue::getInstance()
 	{
 		s_instance = std::shared_ptr<MessageQueue>(new MessageQueue());
 	}
-
 	return s_instance;
+}
+
+MessageQueue::~MessageQueue()
+{
+	// TODO: remove remaining listeners. And tell them that they shouldn't unregister anymore.
 }
 
 void MessageQueue::registerListener(MessageListenerBase* listener)

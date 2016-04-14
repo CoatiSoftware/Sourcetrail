@@ -18,5 +18,5 @@ endif()
 
 configure_file(
   ${CMAKE_SOURCE_DIR}/cmake/PublicKey.h.in
-  ${CMAKE_SOURCE_DIR}/build/src/lib_gui/PublicKey.h
+  ${CMAKE_SOURCE_DIR}/build/src/lib_license/PublicKey.h
 )

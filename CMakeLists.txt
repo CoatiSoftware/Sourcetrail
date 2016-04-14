@@ -123,85 +123,6 @@ else()
 	set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}")
 endif()
 
-# Lib --------------------------------------------------------------------------
-
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
-
-add_subdirectory(src/lib)
-add_subdirectory(src/external)
-
-set_source_files_properties(${EXTERNAL_FILES} PROPERTIES COMPILE_FLAGS "-w")
-set_source_files_properties(${EXTERNAL_C_FILES} PROPERTIES COMPILE_FLAGS "-std=gnu89 -w")
-
-add_library(${LIB_PROJECT_NAME} ${LIB_FILES} ${EXTERNAL_FILES} ${EXTERNAL_C_FILES})
-
-create_source_groups(${LIB_FILES})
-create_source_groups(${EXTERNAL_FILES})
-create_source_groups(${EXTERNAL_C_FILES})
-
-set_target_properties(
-	${LIB_PROJECT_NAME}
-	PROPERTIES
-		DEBUG_OUTPUT_NAME ${PROJECT_NAME}_d
-		RELEASE_OUTPUT_NAME ${PROJECT_NAME}
-)
-
-set_property(
-	TARGET ${LIB_PROJECT_NAME}
-	PROPERTY INCLUDE_DIRECTORIES
-		"${CMAKE_SOURCE_DIR}/src/lib"
-)
-
-target_include_directories(${LIB_PROJECT_NAME} SYSTEM
-	PUBLIC ${LLVM_INCLUDE_DIRS}
-	${CLANG_INCLUDE_DIRS}
-	${Boost_INCLUDE_DIRS}
-	${EIGEN_ROOT}
-	"${CMAKE_SOURCE_DIR}/src/external"
-)
-
-target_link_libraries(${LIB_PROJECT_NAME} ${Boost_LIBRARIES})
-
-# Lib Parser -------------------------------------------------------------------
-
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_parser)
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_parser)
-
-add_subdirectory(src/lib_parser)
-
-set_source_files_properties(${CLANG_FILES} PROPERTIES COMPILE_FLAGS "-fno-rtti")
-
-add_library(${LIB_PARSER_PROJECT_NAME} ${CLANG_FILES})
-
-create_source_groups(${CLANG_FILES})
-
-set_property(
-		TARGET ${LIB_PARSER_PROJECT_NAME}
-		PROPERTY INCLUDE_DIRECTORIES
-		"${CMAKE_SOURCE_DIR}/src/lib_parser"
-		"${CMAKE_SOURCE_DIR}/src/lib"
-)
-
-set_target_properties(
-	${LIB_PARSER_PROJECT_NAME}
-	PROPERTIES
-		DEBUG_OUTPUT_NAME ${LIB_PARSER_PROJECT_NAME}_d
-		RELEASE_OUTPUT_NAME ${LIB_PARSER_PROJECT_NAME}
-)
-
-target_include_directories(${LIB_PARSER_PROJECT_NAME} SYSTEM
-	PUBLIC ${LLVM_INCLUDE_DIRS}
-	${CLANG_INCLUDE_DIRS}
-	${Boost_INCLUDE_DIRS}
-)
-
-link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
-llvm_map_components_to_libnames(REQ_LLVM_LIBS support core libdriver)
-
-#target_link_libraries(${LIB_PARSER_PROJECT_NAME} ${CLANG_LIBRARIES} ${LLVM_AVAILABLE_LIBS})
-target_link_libraries(${LIB_PARSER_PROJECT_NAME} ${CLANG_LIBRARIES} ${REQ_LLVM_LIBS})
-
 # Lib License -------------------------------------------------------------------
 
 #set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_license)
@@ -245,6 +166,86 @@ else()
 	target_link_libraries(${LIB_LICENSE_PROJECT_NAME} debug ${BOTAN_D})
 	target_link_libraries(${LIB_LICENSE_PROJECT_NAME} optimized ${BOTAN})
 endif()
+
+# Lib --------------------------------------------------------------------------
+
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
+
+add_subdirectory(src/lib)
+add_subdirectory(src/external)
+
+set_source_files_properties(${EXTERNAL_FILES} PROPERTIES COMPILE_FLAGS "-w")
+set_source_files_properties(${EXTERNAL_C_FILES} PROPERTIES COMPILE_FLAGS "-std=gnu89 -w")
+
+add_library(${LIB_PROJECT_NAME} ${LIB_FILES} ${EXTERNAL_FILES} ${EXTERNAL_C_FILES})
+
+create_source_groups(${LIB_FILES})
+create_source_groups(${EXTERNAL_FILES})
+create_source_groups(${EXTERNAL_C_FILES})
+
+set_target_properties(
+	${LIB_PROJECT_NAME}
+	PROPERTIES
+		DEBUG_OUTPUT_NAME ${PROJECT_NAME}_d
+		RELEASE_OUTPUT_NAME ${PROJECT_NAME}
+)
+
+set_property(
+	TARGET ${LIB_PROJECT_NAME}
+	PROPERTY INCLUDE_DIRECTORIES
+		"${CMAKE_SOURCE_DIR}/src/lib"
+		"${CMAKE_SOURCE_DIR}/src/lib_license"
+		"${CMAKE_SOURCE_DIR}/build/src/lib_license"
+)
+
+target_include_directories(${LIB_PROJECT_NAME} SYSTEM
+	PUBLIC ${LLVM_INCLUDE_DIRS}
+	${CLANG_INCLUDE_DIRS}
+	${Boost_INCLUDE_DIRS}
+	${EIGEN_ROOT}
+	"${CMAKE_SOURCE_DIR}/src/external"
+)
+
+target_link_libraries(${LIB_PROJECT_NAME} ${Boost_LIBRARIES} ${LIB_LICENSE_PROJECT_NAME})
+
+# Lib Parser -------------------------------------------------------------------
+
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_parser)
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_parser)
+
+add_subdirectory(src/lib_parser)
+
+set_source_files_properties(${CLANG_FILES} PROPERTIES COMPILE_FLAGS "-fno-rtti")
+
+add_library(${LIB_PARSER_PROJECT_NAME} ${CLANG_FILES})
+
+create_source_groups(${CLANG_FILES})
+
+set_property(
+	TARGET ${LIB_PARSER_PROJECT_NAME}
+	PROPERTY INCLUDE_DIRECTORIES
+		"${CMAKE_SOURCE_DIR}/src/lib_parser"
+		"${CMAKE_SOURCE_DIR}/src/lib"
+)
+
+set_target_properties(
+	${LIB_PARSER_PROJECT_NAME}
+	PROPERTIES
+		DEBUG_OUTPUT_NAME ${LIB_PARSER_PROJECT_NAME}_d
+		RELEASE_OUTPUT_NAME ${LIB_PARSER_PROJECT_NAME}
+)
+
+target_include_directories(${LIB_PARSER_PROJECT_NAME} SYSTEM
+	PUBLIC ${LLVM_INCLUDE_DIRS}
+	${CLANG_INCLUDE_DIRS}
+	${Boost_INCLUDE_DIRS}
+)
+
+link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
+llvm_map_components_to_libnames(REQ_LLVM_LIBS support core libdriver)
+
+target_link_libraries(${LIB_PARSER_PROJECT_NAME} ${CLANG_LIBRARIES} ${REQ_LLVM_LIBS})
 
 # Lib Gui ----------------------------------------------------------------------
 
@@ -368,7 +369,7 @@ if (WIN32)
 		"IDI_ICON1               ICON                    \"${CMAKE_SOURCE_DIR}/build/coati.ico\"\n"
 	)
 
-	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CLANG_FILES} ${GEN_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc ${CMAKE_SOURCE_DIR}/build/src/lib_gui/version.h)
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CLANG_FILES} ${GEN_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc)
 
 	# hide the console when running a release build.
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE")
@@ -378,7 +379,7 @@ if (WIN32)
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "/ENTRY:\"mainCRTStartup\" /SUBSYSTEM:WINDOWS")
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
 else ()
-	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${GEN_FILES} ${CMAKE_SOURCE_DIR}/build/src/lib_gui/version.h)
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${GEN_FILES})
 endif ()
 
 create_source_groups(${APP_FILES})
@@ -394,6 +395,7 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
 		"${CMAKE_SOURCE_DIR}/src/lib_parser"
 		"${CMAKE_SOURCE_DIR}/build/src/lib_gui"
+		"${CMAKE_SOURCE_DIR}/build/src/lib_license"
 		"${CMAKE_SOURCE_DIR}/build/src/app"
 )
 
@@ -460,6 +462,7 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/lib_gui"
 		"${CMAKE_SOURCE_DIR}/build/src/lib_gui"
+		"${CMAKE_SOURCE_DIR}/build/src/lib_license"
 )
 
 target_include_directories(${TRIAL_PROJECT_NAME} SYSTEM

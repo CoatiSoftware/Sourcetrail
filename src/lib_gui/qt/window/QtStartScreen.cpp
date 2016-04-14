@@ -8,6 +8,7 @@
 
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileSystem.h"
+#include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/ResourcePaths.h"
 
@@ -31,7 +32,7 @@ void QtRecentProjectButton::setProjectPath(const FilePath& projectFilePath)
 	m_projectFilePath = projectFilePath;
 	m_projectExists = projectFilePath.exists();
 	this->setText(m_projectFilePath.withoutExtension().fileName().c_str());
-	if ( m_projectExists )
+	if (m_projectExists)
 	{
 		this->setToolTip(m_projectFilePath.str().c_str());
 	}
@@ -44,9 +45,11 @@ void QtRecentProjectButton::setProjectPath(const FilePath& projectFilePath)
 
 void QtRecentProjectButton::handleButtonClick()
 {
-	if ( m_projectExists )
+	if (m_projectExists)
 	{
-		MessageLoadProject(m_projectFilePath.str(), false).dispatch();
+		MessageDispatchWhenLicenseValid(
+			std::make_shared<MessageLoadProject>(m_projectFilePath.str(), false)
+		).dispatch();
 	}
 	else
 	{
@@ -54,14 +57,13 @@ void QtRecentProjectButton::handleButtonClick()
 			+ " in your filesystem. Delete it from this recent Proejct list?";
 		int ret = QMessageBox::question(this, "Missing Project File", text.c_str(), QMessageBox::Yes | QMessageBox::No);
 
-		if ( ret == QMessageBox::Yes )
+		if (ret == QMessageBox::Yes)
 		{
 			std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
-			for (int i = 0
-				; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount()
-				; i++)
+			const int maxRecentProjectsCount = ApplicationSettings::getInstance()->getMaxRecentProjectsCount();
+			for (int i = 0; i < maxRecentProjectsCount; i++)
 			{
-				if (recentProjects[i].str() == m_projectFilePath.str() )
+				if (recentProjects[i].str() == m_projectFilePath.str())
 				{
 					recentProjects.erase(recentProjects.begin()+i);
 					ApplicationSettings::getInstance()->setRecentProjects(recentProjects);
@@ -90,7 +92,7 @@ void QtStartScreen::updateButtons()
 {
 	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
 	size_t i = 0;
-	for ( QtRecentProjectButton* button : m_recentProjectsButtons )
+	for (QtRecentProjectButton* button : m_recentProjectsButtons)
 	{
 		button->disconnect();
 		if (i < recentProjects.size())

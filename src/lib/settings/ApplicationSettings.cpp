@@ -18,11 +18,6 @@ ApplicationSettings::~ApplicationSettings()
 {
 }
 
-std::string ApplicationSettings::getStartupProjectFilePath() const
-{
-	return getValue<std::string>("startup_project", "");
-}
-
 int ApplicationSettings::getMaxRecentProjectsCount() const
 {
 	return 7;

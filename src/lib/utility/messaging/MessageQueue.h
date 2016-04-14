@@ -15,6 +15,8 @@ class MessageQueue
 public:
 	static std::shared_ptr<MessageQueue> getInstance();
 
+	~MessageQueue();
+
 	void registerListener(MessageListenerBase* listener);
 	void unregisterListener(MessageListenerBase* listener);
 
@@ -38,8 +40,8 @@ private:
 	static std::shared_ptr<MessageQueue> s_instance;
 
 	MessageQueue();
-	MessageQueue(const MessageQueue&);
-	void operator=(const MessageQueue&);
+	MessageQueue(const MessageQueue&) = delete;
+	void operator=(const MessageQueue&) = delete;
 
 	void processMessages();
 	void sendMessage(std::shared_ptr<MessageBase> message);

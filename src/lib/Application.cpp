@@ -3,7 +3,9 @@
 #include "utility/logging/logging.h"
 #include "utility/messaging/MessageQueue.h"
 #include "utility/messaging/type/MessageActivateNodes.h"
+#include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageStatus.h"
+#include "utility/messaging/type/MessageShowStartScreen.h"
 #include "utility/scheduling/TaskScheduler.h"
 #include "utility/UserPaths.h"
 #include "utility/Version.h"
@@ -31,17 +33,12 @@ std::shared_ptr<Application> Application::create(
 	ptr->m_mainView = viewFactory->createMainView();
 	ptr->m_mainView->setTitle("Coati");
 
+	MessageDispatchWhenLicenseValid(std::make_shared<MessageShowStartScreen>()).dispatch();
+
 	ptr->m_componentManager->setup(ptr->m_mainView.get());
 	ptr->m_mainView->loadLayout();
 
 	ptr->m_project = Project::create(ptr->m_storageCache.get());
-
-	std::string startupProjectFilePath = ApplicationSettings::getInstance()->getStartupProjectFilePath();
-	if (startupProjectFilePath.size())
-	{
-		MessageLoadProject(startupProjectFilePath, false).dispatch();
-		ptr->m_mainView->hideStartScreen();
-	}
 
 	ptr->m_ideCommunicationController = networkFactory->createIDECommunicationController(ptr->m_storageCache.get());
 
@@ -138,11 +135,11 @@ void Application::saveProject(const FilePath& projectSettingsFilePath)
 	}
 }
 
-void Application::showLicenseScreen()
+void Application::forceEnterLicense()
 {
 	if (m_hasGUI)
 	{
-		m_mainView->showLicenseScreen();
+		m_mainView->forceLicenseScreen();
 	}
 }
 
