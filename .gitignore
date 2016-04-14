@@ -40,6 +40,7 @@
 .clang_complete
 .ycm_extra_conf.py
 .ycm_extra_conf.pyc
+coati.coatiproject
 compile_commands.json
 Makefile
 /__pycache__/

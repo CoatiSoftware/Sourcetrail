@@ -1,6 +1,5 @@
-
-MY_PATH=`dirname "$0"`
-MY_PATH=../$MY_PATH
+SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
+MY_PATH=$SCRIPT_DIR/..
 
 cat ${MY_PATH}/EULA.txt
 echo "Agree to the EULA"
