@@ -73,15 +73,20 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 		{
 			boost::filesystem::recursive_directory_iterator it(path.path());
 			boost::filesystem::recursive_directory_iterator endit;
-			while (it != endit)
+			boost::system::error_code ec;
+			for ( ; it != endit ; it.increment(ec) )
 			{
+				if (ec)
+				{
+					it.pop();
+					continue;
+				}
 				if (boost::filesystem::is_regular_file(*it) && hasExtension(it->path().string(), fileExtensions))
 				{
 					std::time_t t = boost::filesystem::last_write_time(*it);
 					boost::posix_time::ptime lastWriteTime = boost::posix_time::from_time_t(t);
 					files.push_back(FileInfo(it->path(), lastWriteTime));
 				}
-				++it;
 			}
 		}
 		else if (path.exists() && path.hasExtension(fileExtensions))
