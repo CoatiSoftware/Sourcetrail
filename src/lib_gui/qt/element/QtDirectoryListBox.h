@@ -68,18 +68,18 @@ protected:
 	void dropEvent(QDropEvent *event) override;
 	void dragEnterEvent(QDragEnterEvent* event) override;
 
-private:
+private slots:
 	void resize();
 
+	QtListItemWidget* addListBoxItem();
+	void removeListBoxItem();
+
+private:
 	QPushButton* m_addButton;
 	QPushButton* m_removeButton;
 	QListWidget* m_list;
 
 	bool m_forStrings;
-
-private slots:
-	QtListItemWidget* addListBoxItem();
-	void removeListBoxItem();
 };
 
 #endif // QT_DIRECTORY_LIST_BOX_H

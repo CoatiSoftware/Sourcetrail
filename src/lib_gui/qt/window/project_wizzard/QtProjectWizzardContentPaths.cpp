@@ -185,7 +185,7 @@ QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 
 QSize QtProjectWizzardContentPathsSource::preferredWindowSize() const
 {
-	return QSize(750, 370);
+	return QSize(750, 400);
 }
 
 void QtProjectWizzardContentPathsSource::load()

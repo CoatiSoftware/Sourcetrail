@@ -5,6 +5,7 @@
 #include <QMimeData>
 #include <QScrollBar>
 #include <QSysInfo>
+#include <QTimer>
 #include <QTreeView>
 
 #include "utility/ResourcePaths.h"
@@ -243,13 +244,15 @@ std::vector<std::string> QtDirectoryListBox::getStringList()
 
 void QtDirectoryListBox::setStringList(const std::vector<std::string>& list)
 {
-	m_list->clear();
+	clear();
 
 	for (const std::string& str : list)
 	{
 		QtListItemWidget* widget = addListBoxItem();
 		widget->setText(QString::fromStdString(str));
 	}
+
+	QTimer::singleShot(1, this, SLOT(resize()));
 }
 
 void QtDirectoryListBox::selectItem(QListWidgetItem* item)
@@ -292,9 +295,9 @@ QtListItemWidget* QtDirectoryListBox::addListBoxItem()
 	QtListItemWidget* widget = new QtListItemWidget(this, item);
 	m_list->setItemWidget(item, widget);
 
-	resize();
-
 	widget->setFocus();
+
+	resize();
 
 	return widget;
 }
@@ -315,12 +318,12 @@ void QtDirectoryListBox::removeListBoxItem()
 		rowIndex -= 1;
 	}
 
-	resize();
-
 	if (rowIndex >= 0)
 	{
 		m_list->setCurrentRow(rowIndex);
 	}
+
+	resize();
 }
 
 void QtDirectoryListBox::dragEnterEvent(QDragEnterEvent *event)
