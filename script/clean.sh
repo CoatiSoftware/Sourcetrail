@@ -12,17 +12,27 @@ elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
 	PLATFORM='Windows'
 fi
 
-# Enter masterproject directory
-MY_PATH=`dirname "$0"`
-cd $MY_PATH/..
 
 if [ $PLATFORM == "Windows" ]; then
-    # Remove symbolic links
-    cmd //c 'rmdir '.$MY_PATH.'\..\bin\app\Debug\data' &
-    cmd //c 'rmdir '.$MY_PATH.'\..\bin\app\Debug\user' &
-    cmd //c 'rmdir '.$MY_PATH.'\..\bin\app\Release\data' &
-    cmd //c 'rmdir '.$MY_PATH.'\..\bin\app\Release\user' &
+	ORIGINAL_PATH_TO_SCRIPT="${0}"
+	CLEANED_PATH_TO_SCRIPT="${ORIGINAL_PATH_TO_SCRIPT//\\//}"
+	ROOT_DIR=`dirname "$CLEANED_PATH_TO_SCRIPT"`
+else
+	ROOT_DIR="$( cd "$( dirname "$0" )" && pwd )"
+fi
 
+ROOT_DIR=$ROOT_DIR/..
+
+# Enter masterproject directory
+cd $ROOT_DIR/
+
+if [ $PLATFORM == "Windows" ]; then
+	BACKSLASHED_ROOT_DIR="${ROOT_DIR//\//\\}"
+    # Remove symbolic links
+    cmd //c 'rmdir '$BACKSLASHED_ROOT_DIR'\bin\app\Debug\data' &
+    cmd //c 'rmdir '$BACKSLASHED_ROOT_DIR'\bin\app\Debug\user' &
+    cmd //c 'rmdir '$BACKSLASHED_ROOT_DIR'\bin\app\Release\data' &
+    cmd //c 'rmdir '$BACKSLASHED_ROOT_DIR'\bin\app\Release\user' &
 fi
 
 # Remove folders and contents

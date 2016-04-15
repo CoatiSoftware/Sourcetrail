@@ -14,10 +14,17 @@ elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
 	PLATFORM='Windows'
 fi
 
+if [ $PLATFORM == "Windows" ]; then
+	ORIGINAL_PATH_TO_SCRIPT="${0}"
+	CLEANED_PATH_TO_SCRIPT="${ORIGINAL_PATH_TO_SCRIPT//\\//}"
+	ROOT_DIR=`dirname "$CLEANED_PATH_TO_SCRIPT"`
+else
+	ROOT_DIR="$( cd "$( dirname "$0" )" && pwd )"
+fi
+
+ROOT_DIR=$ROOT_DIR/..
+
 # Enter masterproject directory
-SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
-ROOT_DIR=$SCRIPT_DIR/..
-MY_PATH=`dirname "$0"`
 cd $ROOT_DIR
 
 # git settings
@@ -51,10 +58,12 @@ if [ $PLATFORM == "Windows" ]; then
 	echo -e $INFO "creating program icon"
 	sh script/create_windows_icon.sh
 
-	cmd //c 'mklink /d /j '.$ROOT_DIR.'\bin\app\Debug\data '.$ROOT_DIR.'\bin\app\data' &
-	cmd //c 'mklink /d /j '.$ROOT_DIR.'\bin\app\Debug\user '.$ROOT_DIR.'\bin\app\user' &
-	cmd //c 'mklink /d /j '.$ROOT_DIR.'\bin\app\Release\data '.$ROOT_DIR.'\bin\app\data' &
-	cmd //c 'mklink /d /j '.$ROOT_DIR.'\bin\app\Release\user '.$ROOT_DIR.'\bin\app\user' &
+	BACKSLASHED_ROOT_DIR="${ROOT_DIR//\//\\}"
+
+	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\bin\app\Debug\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &
+	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\bin\app\Debug\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
+	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\bin\app\Release\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &
+	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\bin\app\Release\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
 elif [ $PLATFORM == "Linux" ]; then
 	echo -e $INFO "create symbolic links for data"
 	cd $ROOT_DIR/bin/app/Release

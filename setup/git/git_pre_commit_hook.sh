@@ -71,7 +71,7 @@ function run_tests {
 }
 
 #testing before commiting to a publish branch
-if [[ $BRANCH_NAME =~ ^_publish_.*_$ ]]
+if [[ ${BRANCH_NAME:0:9} == "_publish_"  ]]
 then
 	echo Try to publish
 	echo Run builds and test

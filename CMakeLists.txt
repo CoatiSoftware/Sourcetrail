@@ -312,6 +312,7 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/lib_gui"
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
+		"${CMAKE_SOURCE_DIR}/build/src/lib_license"
 )
 
 set_target_properties(
