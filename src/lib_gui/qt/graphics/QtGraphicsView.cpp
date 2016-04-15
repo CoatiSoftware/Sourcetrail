@@ -76,6 +76,7 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 			m_shift = true;
 			break;
 		default:
+			QGraphicsView::keyPressEvent(event);
 			return;
 	}
 
@@ -127,7 +128,7 @@ void QtGraphicsView::wheelEvent(QWheelEvent* event)
 
 void QtGraphicsView::update()
 {
-	float ds = 25.0f;
+	float ds = 30.0f;
 	float dz = 50.0f;
 
 	float x = 0.0f;
