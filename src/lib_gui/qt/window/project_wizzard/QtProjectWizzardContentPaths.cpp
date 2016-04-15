@@ -117,8 +117,8 @@ void QtProjectWizzardContentPaths::setHelpString(const QString& help)
 void QtProjectWizzardContentPaths::addDetection(QString name, QGridLayout* layout, int row)
 {
 	StandardHeaderDetection detection;
-	std::vector<std::string> compilers = detection.getDetectedCompilers();
-	if (!compilers.size())
+	std::vector<std::string> detectorNames = detection.getWorkingDetectorNames();
+	if (!detectorNames.size())
 	{
 		return;
 	}
@@ -127,9 +127,9 @@ void QtProjectWizzardContentPaths::addDetection(QString name, QGridLayout* layou
 
 	m_detectorBox = new QComboBox();
 
-	for (const std::string& compiler : compilers)
+	for (const std::string& detectorName: detectorNames)
 	{
-		m_detectorBox->addItem(compiler.c_str());
+		m_detectorBox->addItem(detectorName.c_str());
 	}
 
 	QPushButton* button = new QPushButton("detect");

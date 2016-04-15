@@ -9,12 +9,14 @@ class DetectorBase
 {
 public:
 	DetectorBase(const std::string name);
-	virtual ~DetectorBase(){};
-	virtual bool detect();
+	virtual ~DetectorBase();
+
+	std::string getName() const;
+	bool isWorking();
+
 	virtual std::vector<FilePath> getStandardHeaderPaths() = 0;
-	virtual std::vector<FilePath> getStandardFrameworkPaths();
-	virtual std::string getName() const;
-	virtual void setName(const std::string& name);
+	virtual std::vector<FilePath> getStandardFrameworkPaths() = 0;
+
 protected:
 	std::string m_name;
 };

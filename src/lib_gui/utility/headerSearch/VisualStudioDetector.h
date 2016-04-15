@@ -7,19 +7,20 @@
 
 class FilePath;
 
-class VisualStudioDetector : public DetectorBase
+class VisualStudioDetector: public DetectorBase
 {
 public:
-	VisualStudioDetector(const std::string name = "14");
+	VisualStudioDetector(const std::string name, int version, bool isExpress);
 	virtual ~VisualStudioDetector();
-	virtual std::vector<FilePath> getStandardHeaderPaths();
-private:
-	std::string getFullName();
-	bool getStanardHeaderPathsUsingEnvironmentVariable(std::vector<FilePath>& paths);
-	bool getStanardHeaderPathsUsingRegistry(std::vector<FilePath>& paths, bool lookForExpressVersion = false);
 
-	void setName(const std::string& version);
-	int m_versionNumber;
+	virtual std::vector<FilePath> getStandardHeaderPaths();
+	virtual std::vector<FilePath> getStandardFrameworkPaths();
+
+private:
+	FilePath getVsInstallPathUsingRegistry();
+	FilePath getWindowsSdkPathUsingRegistry(const std::string& version);
+
+	int m_version;
 	bool m_isExpress;
 };
 

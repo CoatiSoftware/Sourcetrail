@@ -2,20 +2,14 @@
 
 #include <cstdlib>
 #include <iostream>
-#include <map>
-#include <string>
 #include <utility>
-#include <vector>
 
-#include "utility/file/FilePath.h"
 #include "utility/headerSearch/CompilerDetector.h"
 #include "utility/headerSearch/VisualStudioDetector.h"
 #include "utility/logging/logging.h"
-#include "utility/utilityApp.h"
-#include "utility/utilityString.h"
 
 StandardHeaderDetection::DetectorMap StandardHeaderDetection::s_availableDetectors;
-StandardHeaderDetection::DetectorMap StandardHeaderDetection::s_detectedCompilers;
+StandardHeaderDetection::DetectorMap StandardHeaderDetection::s_workingDetectors;
 
 StandardHeaderDetection::StandardHeaderDetection()
 {
@@ -23,11 +17,14 @@ StandardHeaderDetection::StandardHeaderDetection()
 	{
 		addDetector(std::make_shared<CompilerDetector>("gcc"));
 		addDetector(std::make_shared<CompilerDetector>("clang"));
-
-		addDetector(std::make_shared<VisualStudioDetector>("14"));
-		addDetector(std::make_shared<VisualStudioDetector>("12"));
-		addDetector(std::make_shared<VisualStudioDetector>("11"));
-		addDetector(std::make_shared<VisualStudioDetector>("9"));
+		addDetector(std::make_shared<VisualStudioDetector>("Visual Studio 2010", 9, false));
+		addDetector(std::make_shared<VisualStudioDetector>("Visual Studio 2010 Express", 9, true));
+		addDetector(std::make_shared<VisualStudioDetector>("Visual Studio 2012", 11, false));
+		addDetector(std::make_shared<VisualStudioDetector>("Visual Studio 2012 Express", 11, true));
+		addDetector(std::make_shared<VisualStudioDetector>("Visual Studio 2013", 12, false));
+		addDetector(std::make_shared<VisualStudioDetector>("Visual Studio 2013 Express", 12, true));
+		addDetector(std::make_shared<VisualStudioDetector>("Visual Studio 2015", 14, false));
+		addDetector(std::make_shared<VisualStudioDetector>("Visual Studio 2015 Express", 14, true));
 
 		detectHeaders();
 	}
@@ -44,63 +41,62 @@ void StandardHeaderDetection::addDetector(std::shared_ptr<DetectorBase> detector
 
 void StandardHeaderDetection::detectHeaders()
 {
-	for ( DetectorPair detector : s_availableDetectors)
+	for (DetectorPair detector: s_availableDetectors)
 	{
-		if ( detector.second->detect() )
+		if (detector.second->isWorking())
 		{
-			s_detectedCompilers.insert(detector);
+			s_workingDetectors.insert(detector);
 		}
 	}
 }
 
-std::vector<std::string> StandardHeaderDetection::getDetectedCompilers()
+std::vector<std::string> StandardHeaderDetection::getWorkingDetectorNames()
 {
-    std::vector<std::string> v;
-	for ( DetectorPair detector : s_detectedCompilers)
+    std::vector<std::string> detectorNames;
+	for (DetectorPair detector: s_workingDetectors)
 	{
-        v.push_back(detector.first);
+		detectorNames.push_back(detector.first);
 	}
-    return v;
+    return detectorNames;
 }
 
-std::vector<FilePath> StandardHeaderDetection::getStandardHeaderPaths(std::string compiler)
+std::vector<FilePath> StandardHeaderDetection::getStandardHeaderPaths(std::string detectorName)
 {
-    auto it = s_detectedCompilers.find(compiler);
-    if (it != s_detectedCompilers.end())
+	DetectorMap::const_iterator it = s_workingDetectors.find(detectorName);
+    if (it != s_workingDetectors.end())
     {
         return it->second->getStandardHeaderPaths();
     }
     return std::vector<FilePath>();
 }
 
-std::vector<FilePath> StandardHeaderDetection::getStandardFrameworkPaths(std::string compiler)
+std::vector<FilePath> StandardHeaderDetection::getStandardFrameworkPaths(std::string detectorName)
 {
-    auto it = s_detectedCompilers.find(compiler);
-    if (it != s_detectedCompilers.end())
+	DetectorMap::const_iterator it = s_workingDetectors.find(detectorName);
+    if (it != s_workingDetectors.end())
     {
         return it->second->getStandardFrameworkPaths();
     }
     return std::vector<FilePath>();
 }
 
-void StandardHeaderDetection::printDetectedCompilers()
+void StandardHeaderDetection::logAvailableDetectors()
 {
-	std::cout << "Detected Compilers: " << std::endl;
+	LOG_INFO("Available Header Detectors:");
 
-	std::vector<std::string> compilers = getDetectedCompilers();
-	for ( std::string compiler : compilers)
+	for (DetectorPair detector: s_availableDetectors)
 	{
-		std::cout << compiler << std::endl;
+		LOG_INFO("Detector: " + detector.first);
 	}
 }
 
-void StandardHeaderDetection::printAvailableDetectors()
+void StandardHeaderDetection::logWorkingDetectors()
 {
-	std::cout << "Available Detectors: " << std::endl;
+	LOG_INFO("Working Header Detectors:");
 
-	for ( DetectorPair detector : s_availableDetectors)
+	for (std::string detectorName: getWorkingDetectorNames())
 	{
-		std::cout << detector.first << std::endl;
+		LOG_INFO("Detector: " + detectorName);
 	}
 }
 

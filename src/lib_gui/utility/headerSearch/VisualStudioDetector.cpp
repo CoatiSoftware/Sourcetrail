@@ -4,93 +4,94 @@
 
 #include <QSettings>
 #include <QSysInfo>
-#include <QDir>
 
 #include "utility/file/FilePath.h"
 #include "utility/logging/logging.h"
 
-VisualStudioDetector::VisualStudioDetector(const std::string name)
-	: DetectorBase("")
-	, m_isExpress(false)
+VisualStudioDetector::VisualStudioDetector(const std::string name, int version, bool isExpress)
+	: DetectorBase(name)
+	, m_version(version)
+	, m_isExpress(isExpress)
 {
-	setName(name);
 }
 
 VisualStudioDetector::~VisualStudioDetector()
 {
 }
 
-void VisualStudioDetector::setName(const std::string& version)
-{
-	m_versionNumber = std::stoi(version);
-	if (m_versionNumber > 8 && m_versionNumber < 15)
-	{
-		DetectorBase::setName("VS" + version + "0");
-	}
-	else
-	{
-		// unsupported Visual Studio version
-	}
-}
-
-std::string VisualStudioDetector::getFullName()
-{
-	return "Visual Studio " + std::to_string(m_versionNumber + 1) + (m_isExpress ? " Express" : "");
-}
-
 std::vector<FilePath> VisualStudioDetector::getStandardHeaderPaths()
 {
-	std::vector<FilePath> headerPaths;
+	FilePath vsInstallPath = getVsInstallPathUsingRegistry();
+
 	// vc++ headers
-	if ( !getStanardHeaderPathsUsingEnvironmentVariable(headerPaths) )
+	std::vector<FilePath> headerPaths;
+	if (vsInstallPath.exists())
 	{
-		if ( !getStanardHeaderPathsUsingRegistry(headerPaths) )
+		std::vector<std::string> subdirectories;
+		subdirectories.push_back("vc/include");
+		subdirectories.push_back("vc/atlmfc/include");
+
+		for (size_t i = 0; i < subdirectories.size(); i++)
 		{
-			if ( !getStanardHeaderPathsUsingRegistry(headerPaths, true) )
+			FilePath headerSearchPath = vsInstallPath.concat(subdirectories[i]);
+			if (headerSearchPath.exists())
 			{
-				return headerPaths;
+				headerPaths.push_back(headerSearchPath.canonical().str());
 			}
 		}
 	}
 
-	//windows sdk
-	//TODO
+	if (headerPaths.size() > 0)
+	{
+		//windows sdk
+		std::vector<std::string> windowsSdkVersions;
+		windowsSdkVersions.push_back("v8.1A");
+		windowsSdkVersions.push_back("v8.0A");
+		windowsSdkVersions.push_back("v7.1A");
+		windowsSdkVersions.push_back("v7.0A");
 
+		for (size_t i = 0; i < windowsSdkVersions.size(); i++)
+		{
+			FilePath sdkPath = getWindowsSdkPathUsingRegistry(windowsSdkVersions[i]);
+			if (sdkPath.exists())
+			{
+				FilePath sdkIncludePath = sdkPath.concat("include/");
+				if (sdkIncludePath.exists())
+				{
+					std::vector<std::string> subdirectories;
+					subdirectories.push_back("shared");
+					subdirectories.push_back("um");
+					subdirectories.push_back("winrt");
 
+					bool usingSubdirectories = false;
+					for (size_t j = 0; j < subdirectories.size(); j++)
+					{
+						FilePath sdkSubdirectory = sdkPath.concat(subdirectories[j]);
+						if (sdkSubdirectory.exists())
+						{
+							headerPaths.push_back(sdkSubdirectory);
+							usingSubdirectories = true;
+						}
+					}
+
+					if (!usingSubdirectories)
+					{
+						headerPaths.push_back(sdkIncludePath);
+					}
+					break;
+				}
+			}
+		}
+	}
 	return headerPaths;
 }
 
-std::string getInstallDir(const std::string RegistryKey)
+std::vector<FilePath> VisualStudioDetector::getStandardFrameworkPaths()
 {
-	return "";
+	return std::vector<FilePath>();
 }
 
-std::string getWindowsSDKDir()
-{
-	return "";
-}
-
-bool VisualStudioDetector::getStanardHeaderPathsUsingEnvironmentVariable(std::vector<FilePath>& paths)
-{
-	std::string VSToolstring = m_name + "comntools";
-	std::vector<FilePath> path;
-
-	if ( const char* vs_env = std::getenv(VSToolstring.c_str()))
-	{
-		FilePath VSHeaderpath(vs_env);
-		VSHeaderpath = VSHeaderpath.concat("../vc/include");
-		if (VSHeaderpath.exists())
-		{
-			LOG_INFO_STREAM(<< getFullName() << " includes detected");
-			path.push_back(VSHeaderpath.str());
-			paths = std::move(path);
-			return true;
-		}
-	}
-	return false;
-}
-
-bool VisualStudioDetector::getStanardHeaderPathsUsingRegistry(std::vector<FilePath>& paths, bool lookForExpressVersion)
+FilePath VisualStudioDetector::getVsInstallPathUsingRegistry()
 {
 	QString key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\";
 	if (QSysInfo::currentCpuArchitecture() == "x86_64")
@@ -98,20 +99,33 @@ bool VisualStudioDetector::getStanardHeaderPathsUsingRegistry(std::vector<FilePa
 		key += "Wow6432Node\\";
 	}
 	key += "Microsoft\\";
-	key += ( lookForExpressVersion ? "VCExpress" : "VisualStudio" );
-	key += "\\" + QString::number(m_versionNumber) + ".0";
+	key += (m_isExpress ? "VCExpress" : "VisualStudio");
+	key += "\\" + QString::number(m_version) + ".0";
 
-	QSettings expressKey(key, QSettings::NativeFormat);
-	QString value = expressKey.value("InstallDir").toString() + "../VC/include";
-	QDir dir(value);
-	if ( dir.exists())
+	QSettings expressKey(key, QSettings::NativeFormat); // NativeFormat means from Registry on Windows.
+	QString value = expressKey.value("InstallDir").toString() + "../../";
+
+	FilePath path(value.toStdString());
+	if (path.exists())
 	{
-		if ( lookForExpressVersion )
-		{
-			m_isExpress = true;
-		}
-		return true;
+		return path;
 	}
 
-	return false;
+	return FilePath();
+}
+
+FilePath VisualStudioDetector::getWindowsSdkPathUsingRegistry(const std::string& version)
+{
+	QString key(("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Microsoft SDKs\\Windows\\" + version).c_str());
+
+	QSettings expressKey(key, QSettings::NativeFormat); // NativeFormat means from Registry on Windows.
+	QString value = expressKey.value("InstallationFolder").toString();
+
+	FilePath path(value.toStdString());
+	if (path.exists())
+	{
+		return path;
+	}
+
+	return FilePath();
 }

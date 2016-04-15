@@ -11,10 +11,11 @@ public:
 
 	virtual ~CompilerDetector();
 
-	std::vector<std::string> getHeaderPaths();
-
 	virtual std::vector<FilePath> getStandardHeaderPaths();
 	virtual std::vector<FilePath> getStandardFrameworkPaths();
+
+private:
+	std::vector<std::string> getHeaderPaths();
 };
 
 #endif // COMPILER_DETECTOR_H
