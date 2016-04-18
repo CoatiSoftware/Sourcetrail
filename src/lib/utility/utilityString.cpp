@@ -133,6 +133,22 @@ namespace utility
 		return text.size() >= postfix.size() && text.rfind(postfix) == (text.size() - postfix.size());
 	}
 
+	std::string switchCases(std::string s)
+	{
+		for (char& c: s)
+		{
+			if (islower(c))
+			{
+				c = toupper(c);
+			}
+			else if (isupper(c))
+			{
+				c = tolower(c);
+			}
+		}
+		return s;
+	}
+
 	std::string toUpperCase(const std::string& in)
 	{
 		std::string out;

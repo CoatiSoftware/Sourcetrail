@@ -422,7 +422,7 @@ StorageNode SqliteStorage::getNodeById(Id id) const
 	{
 		return getFirstNode("WHERE id == " + std::to_string(id));
 	}
-	return StorageNode(0, 0, 0, definitionTypeToInt(DEFINITION_NONE));
+	return StorageNode(0, 0, "", definitionTypeToInt(DEFINITION_NONE));
 }
 
 StorageNode SqliteStorage::getNodeBySerializedName(const std::string& serializedName) const

@@ -104,7 +104,7 @@ private:
 	void log(std::string type, std::string str, const ParseLocation& location) const;
 
 	SearchIndex m_commandIndex;
-	SearchIndex m_searchIndex;
+	SearchIndex m_elementIndex;
 
 	SqliteStorage m_sqliteStorage;
 

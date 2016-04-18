@@ -16,6 +16,7 @@ struct SearchResult
 	std::string text;
 	std::set<Id> elementIds;
 	std::vector<size_t> indices;
+	int score;
 };
 
 class SearchIndex

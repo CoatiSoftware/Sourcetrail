@@ -12,6 +12,7 @@
 #include "utility/utilityString.h"
 #include "utility/Version.h"
 #include "utility/Cache.h"
+#include "utility/utilityString.h"
 
 #include "data/graph/token_component/TokenComponentAggregation.h"
 #include "data/graph/token_component/TokenComponentSignature.h"
@@ -55,7 +56,7 @@ void Storage::clear()
 
 void Storage::clearCaches()
 {
-	m_searchIndex.clear();
+	m_elementIndex.clear();
 	m_fileNodeIds.clear();
 	m_hierarchyCache.clear();
 }
@@ -214,9 +215,41 @@ Node::NodeType Storage::getNodeTypeForNodeWithId(Id nodeId) const
 
 std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& query) const
 {
+	std::vector<SearchResult> commandResults = m_commandIndex.search(query, 0);
+
 	const size_t maxResultCount = 100;
-	std::vector<SearchResult> results = m_commandIndex.search(query, 0);
-	utility::append(results, m_searchIndex.search(query, maxResultCount));
+	std::vector<SearchResult> elementResults = m_elementIndex.search(query, maxResultCount);
+	std::sort(elementResults.begin(), elementResults.end(), [](
+		SearchResult a,
+		SearchResult b)
+		{
+			// should a be ranked higher than b?
+			if (a.score > b.score)
+			{
+				return true;
+			}
+			else if (a.score == b.score)
+			{
+
+				if (a.text.size() < b.text.size())
+				{
+					return true;
+				}
+				else if (a.text.size() == b.text.size())
+				{
+					// move uppercase letters to higher ascii range
+					std::string sA = utility::switchCases(a.text);
+					std::string sB = utility::switchCases(b.text);
+					return (sA.compare(sB) <= 0);
+				}
+			}
+			return false;
+		}
+	);
+
+	std::vector<SearchResult> results;
+	utility::append(results, commandResults);
+	utility::append(results, elementResults);
 
 	std::vector<SearchMatch> matches;
 	for (size_t i = 0; i < results.size(); i++)
@@ -987,9 +1020,9 @@ void Storage::buildSearchIndex()
 {
 	for (StorageNode node: m_sqliteStorage.getAllNodes())
 	{
-		m_searchIndex.addNode(node.id, NameHierarchy::deserialize(node.serializedName));
+		m_elementIndex.addNode(node.id, NameHierarchy::deserialize(node.serializedName));
 	}
-	m_searchIndex.finishSetup();
+	m_elementIndex.finishSetup();
 }
 
 void Storage::buildHierarchyCache()

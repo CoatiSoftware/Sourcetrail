@@ -140,9 +140,16 @@ std::vector<SearchResult> SearchIndex::search(const std::string& query, size_t m
 		for (size_t j = 0; j < currentIndices.size(); j++)
 		{
 			size_t index = currentIndices[j];
-			if (index == 0 || islower(paths[i].text[index-1]))
+
+			if (isupper(paths[i].text[index]))
 			{
-				camelCaseScore += (isupper(paths[i].text[index]) ? camelCaseBonus : 0);
+				bool prevIsLower = (index == 0 || islower(paths[i].text[index-1]));
+				bool nextIsLower = (index + 1 == paths[i].text.size() || islower(paths[i].text[index+1]));
+
+				if (prevIsLower && nextIsLower)
+				{
+					camelCaseScore += camelCaseBonus;
+				}
 			}
 		}
 
@@ -171,6 +178,7 @@ std::vector<SearchResult> SearchIndex::search(const std::string& query, size_t m
 	std::vector<SearchResult> searchResults;
 	for (size_t i = 0; i < scoredPaths.size() && (maxResultCount == 0 || searchResults.size() < maxResultCount); i++)
 	{
+		int currentScore = scoredPaths[i].first;
 		std::vector<Path> currentPaths;
 		currentPaths.push_back(scoredPaths[i].second);
 
@@ -187,6 +195,7 @@ std::vector<SearchResult> SearchIndex::search(const std::string& query, size_t m
 					result.elementIds = currentPath.node->elementIds;
 					result.indices = currentPath.indices;
 					result.text = currentPath.text;
+					result.score = currentScore;
 					searchResults.push_back(result);
 				}
 
