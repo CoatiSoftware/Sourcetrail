@@ -991,10 +991,10 @@ bool ASTVisitor::VisitTypeLoc(clang::TypeLoc tl)
 ///////////////////////////////////////////////////////////////////////////////
 // Reference recording
 
-static inline bool isNamedDeclUnnamed(clang::NamedDecl *d)
-{
-    return d->getDeclName().isIdentifier() && d->getIdentifier() == NULL;
-}
+// static inline bool isNamedDeclUnnamed(clang::NamedDecl *d)
+// {
+//     return d->getDeclName().isIdentifier() && d->getIdentifier() == NULL;
+// }
 
 ParseLocation ASTVisitor::getDeclRefRange(clang::NamedDecl *decl, clang::SourceLocation loc)
 {

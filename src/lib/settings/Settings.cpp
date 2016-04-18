@@ -102,6 +102,14 @@ std::vector<FilePath> Settings::getPathValues(const std::string& key) const
 	return paths;
 }
 
+void Settings::expandPaths(std::vector<FilePath>& paths) const
+{
+	for (FilePath& path : paths)
+	{
+		path = path.expandEnvironmentVariables();
+	}
+}
+
 bool Settings::setPathValues(const std::string& key, const std::vector<FilePath>& paths)
 {
 	std::vector<std::string> values;

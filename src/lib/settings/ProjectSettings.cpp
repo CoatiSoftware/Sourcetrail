@@ -93,6 +93,7 @@ std::vector<FilePath> ProjectSettings::getSourcePaths() const
 std::vector<FilePath> ProjectSettings::getAbsoluteSourcePaths() const
 {
 	std::vector<FilePath> paths = getSourcePaths();
+	expandPaths(paths);
 	makePathsAbsolute(paths);
 	return paths;
 }
@@ -110,6 +111,7 @@ std::vector<FilePath> ProjectSettings::getHeaderSearchPaths() const
 std::vector<FilePath> ProjectSettings::getAbsoluteHeaderSearchPaths() const
 {
 	std::vector<FilePath> paths = getHeaderSearchPaths();
+	expandPaths(paths);
 	makePathsAbsolute(paths);
 	return paths;
 }
@@ -127,6 +129,7 @@ std::vector<FilePath> ProjectSettings::getFrameworkSearchPaths() const
 std::vector<FilePath> ProjectSettings::getAbsoluteFrameworkSearchPaths() const
 {
 	std::vector<FilePath> paths = getFrameworkSearchPaths();
+	expandPaths(paths);
 	makePathsAbsolute(paths);
 	return paths;
 }
@@ -242,7 +245,6 @@ void ProjectSettings::makePathsAbsolute(std::vector<FilePath>& paths) const
 	FilePath basePath = getFilePath().parentDirectory();
 	for (size_t i = 0; i < paths.size(); i++)
 	{
-		paths[i] = paths[i].expandEnvironmentVariables();
 		if (!paths[i].isAbsolute())
 		{
 			paths[i] = basePath.concat(paths[i]).canonical();

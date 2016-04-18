@@ -198,7 +198,7 @@ Parser::Arguments Project::getParserArguments() const
 
 	utility::append(args.systemHeaderSearchPaths, projSettings->getAbsoluteHeaderSearchPaths());
 
-	utility::append(args.systemHeaderSearchPaths, appSettings->getHeaderSearchPaths());
+	utility::append(args.systemHeaderSearchPaths, appSettings->getHeaderSearchPathsExpanded());
 
 	// Add all subdirectories of the header search paths
 	if (projSettings->getUseSourcePathsForHeaderSearch())
@@ -215,7 +215,7 @@ Parser::Arguments Project::getParserArguments() const
 	}
 
 	utility::append(args.frameworkSearchPaths, projSettings->getAbsoluteFrameworkSearchPaths());
-	utility::append(args.frameworkSearchPaths, appSettings->getFrameworkSearchPaths());
+	utility::append(args.frameworkSearchPaths, appSettings->getFrameworkSearchPathsExpanded());
 
 	args.language = projSettings->getLanguage();
 	args.languageStandard = projSettings->getStandard();

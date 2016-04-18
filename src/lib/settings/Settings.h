@@ -34,6 +34,7 @@ protected:
 	std::vector<T> getValues(const std::string& key, std::vector<T> defaultValues) const;
 
 	std::vector<FilePath> getPathValues(const std::string& key) const;
+	void expandPaths(std::vector<FilePath>& paths) const;
 
 	template<typename T>
 	bool setValue(const std::string& key, T value);

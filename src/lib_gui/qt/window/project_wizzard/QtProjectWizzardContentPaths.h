@@ -26,6 +26,8 @@ public:
 
 	virtual QSize preferredWindowSize() const override;
 
+	virtual bool check() override;
+
 protected:
 	void setInfo(const QString& title, const QString& description, const QString& help);
 	void setTitleString(const QString& title);
@@ -86,8 +88,6 @@ public:
 	QtProjectWizzardContentPathsCDBHeader(ProjectSettings* settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
-	virtual bool check() override;
-
 	virtual QStringList getFileNames() const override;
 	virtual QString getFileNamesTitle() const override;
 	virtual QString getFileNamesDescription() const override;

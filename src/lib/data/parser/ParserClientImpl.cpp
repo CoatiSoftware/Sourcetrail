@@ -431,7 +431,7 @@ Id ParserClientImpl::onCommentParsed(const ParseLocation& location) // TODO: mov
 {
 	log("comment", "no name", location);
 
-	Id fileNodeId = addFile(location.filePath.str());
+	addFile(location.filePath.str());
 	addCommentLocation(location);
 
 	return 0;
@@ -475,7 +475,6 @@ Id ParserClientImpl::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nam
 	}
 
 	Id parentNodeId = 0;
-	bool nodeMayExist = true;
 	NameHierarchy currentNameHierarchy;
 
 	for (size_t i = 0; i < nameHierarchy.size(); i++)

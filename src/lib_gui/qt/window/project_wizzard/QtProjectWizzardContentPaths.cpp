@@ -92,6 +92,34 @@ QSize QtProjectWizzardContentPaths::preferredWindowSize() const
 	return QSize(750, 500);
 }
 
+bool QtProjectWizzardContentPaths::check()
+{
+	QString missingPaths;
+	for (FilePath f : m_list->getList())
+	{
+		f = f.expandEnvironmentVariables();
+
+		if (!f.exists())
+		{
+			if (!missingPaths.isEmpty())
+			{
+				missingPaths.append("\n");
+			}
+			missingPaths.append(f.str().c_str());
+		}
+
+		if (!missingPaths.isEmpty())
+		{
+			QMessageBox msgBox;
+			msgBox.setText("These paths do not exist:\n" + missingPaths);
+			msgBox.exec();
+			return false;
+		}
+	}
+
+	return true;
+}
+
 void QtProjectWizzardContentPaths::setInfo(const QString& title, const QString& description, const QString& help)
 {
 	m_titleString = title;
@@ -208,27 +236,8 @@ bool QtProjectWizzardContentPathsSource::check()
 		msgBox.exec();
 		return false;
 	}
-	QString missingPaths;
-	for(FilePath f : m_list->getList())
-	{
-		if(!f.exists())
-		{
-			if(!missingPaths.isEmpty())
-			{
-				missingPaths.append("\n");
-			}
-			missingPaths.append(f.expandEnvironmentVariables().str().c_str());
-		}
-		if(!missingPaths.isEmpty())
-		{
-			QMessageBox msgBox;
-			msgBox.setText("The following paths do not exist:\n" + missingPaths );
-			msgBox.exec();
-			return false;
-		}
-	}
 
-	return true;
+	return QtProjectWizzardContentPaths::check();
 }
 
 QStringList QtProjectWizzardContentPathsSource::getFileNames() const
@@ -307,11 +316,6 @@ QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 		"The compilation database only contains source files. Add the header files or directories containing the header "
 		"files of these source files. The header files will be analyzed if included."
 	);
-}
-
-bool QtProjectWizzardContentPathsCDBHeader::check()
-{
-	return true;
 }
 
 QStringList QtProjectWizzardContentPathsCDBHeader::getFileNames() const

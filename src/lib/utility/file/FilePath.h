@@ -27,14 +27,13 @@ public:
 	FilePath relativeTo(const FilePath& other) const;
 	FilePath concat(const FilePath& other) const;
 	FilePath expandEnvironmentVariables() const;
-	std::string expandEnvironmentVariables(const std::string & path) const;
 
 	std::string str() const;
 	std::string fileName() const;
 
 	std::string extension() const;
 	FilePath withoutExtension() const;
-	FilePath replaceExtension(const std::string& extension);
+	FilePath replaceExtension(const std::string& extension) const;
 	bool hasExtension(const std::vector<std::string>& extensions) const;
 
 	bool operator==(const FilePath& other) const;
@@ -42,10 +41,10 @@ public:
 	bool operator<(const FilePath& other) const;
 
 private:
-	void init();
-
 	boost::filesystem::path m_path;
-	bool m_exists;
+
+	mutable bool m_exists;
+	mutable bool m_checkedExists;
 };
 
 #endif // FILE_PATH_H

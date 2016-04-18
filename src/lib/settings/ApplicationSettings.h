@@ -16,9 +16,11 @@ public:
 
 	// source
 	std::vector<FilePath> getHeaderSearchPaths() const;
+	std::vector<FilePath> getHeaderSearchPathsExpanded() const;
 	bool setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths);
 
 	std::vector<FilePath> getFrameworkSearchPaths() const;
+	std::vector<FilePath> getFrameworkSearchPathsExpanded() const;
 	bool setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths);
 
 	std::vector<std::string> getCompilerFlags() const;
