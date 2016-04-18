@@ -55,6 +55,7 @@ void function_with_snippets()
 	the_central_hub();
 
 
+
 	unrelated_but_very_important();
 };
 

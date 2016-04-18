@@ -2,7 +2,7 @@
 #define MY_FIRST_STEP_H
 
 
-#include "the_central_hub.h"
+#include "my_next_step.h"
 
 //------------------------------------------------------------------------------
 //
@@ -19,14 +19,14 @@
 //  did, Coati allows you to jump through the code base on your own.
 //
 // I THINK I GOT IT!
-//  Now that you understand Coati's central concept you are ready to jump 
-//  further by activating "the_central_hub()" of this tutorial.
+//  Now that you understand Coati's central concept you are ready to activate 
+//  the "my_next_step()" symbol below.
 //
 //------------------------------------------------------------------------------
 
 void my_first_step()
 {
-	the_central_hub();
+	my_next_step(2);
 }
 
 

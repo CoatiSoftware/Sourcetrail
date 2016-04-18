@@ -20,7 +20,10 @@
 //  of your code. The second button toggels the auto-refresh option. When
 //  enabled Coati refreshes your project every time it's window gets focused.
 //
-// 7 - WHAT'S NEXT?
+// 7 - HOME
+//  This last button takes you back to the initial overview screen.
+//
+// 8 - WHAT'S NEXT?
 //  Instead of the class activate the struct with the same name as before.
 //
 //------------------------------------------------------------------------------
