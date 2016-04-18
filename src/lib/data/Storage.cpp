@@ -538,7 +538,10 @@ std::vector<Id> Storage::getTokenIdsForMatches(const std::vector<SearchMatch>& m
 	std::vector<Id> ids;
 	for (std::set<Id>::const_iterator it = idSet.begin(); it != idSet.end(); it++)
 	{
-		ids.push_back(*it);
+		if (*it != 0)
+		{
+			ids.push_back(*it);
+		}
 	}
 
 	return ids;

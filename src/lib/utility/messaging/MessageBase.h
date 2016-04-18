@@ -7,16 +7,8 @@
 class MessageBase
 {
 public:
-	enum UndoType
-	{
-		UNDOTYPE_NORMAL,
-		UNDOTYPE_REDO,
-		UNDOTYPE_UNDO,
-		UNDOTYPE_IGNORE
-	};
-
 	MessageBase()
-		: undoRedoType(UNDOTYPE_NORMAL)
+		: m_isReplayed(false)
 		, m_sendAsTask(true)
 		, m_keepContent(false)
 		, m_cancelled(false)
@@ -42,9 +34,14 @@ public:
 		m_sendAsTask = sendAsTask;
 	}
 
-	bool isFresh() const
+	bool isReplayed() const
 	{
-		return (undoRedoType == UNDOTYPE_NORMAL);
+		return m_isReplayed;
+	}
+
+	void setIsReplayed(bool isReplayed)
+	{
+		m_isReplayed = isReplayed;
 	}
 
 	bool isLast() const
@@ -97,9 +94,8 @@ public:
 		return ss.str();
 	}
 
-	UndoType undoRedoType;
-
 private:
+	bool m_isReplayed;
 	bool m_sendAsTask;
 	bool m_keepContent;
 	bool m_cancelled;

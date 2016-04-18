@@ -224,7 +224,7 @@ void CodeController::handleMessage(MessageFocusOut* message)
 
 void CodeController::handleMessage(MessageScrollCode* message)
 {
-	if (!message->isFresh())
+	if (message->isReplayed())
 	{
 		getView()->scrollToValue(message->value);
 	}
@@ -287,7 +287,7 @@ CodeView* CodeController::getView()
 
 void CodeController::showContents(MessageBase* message)
 {
-	if (message->undoRedoType == MessageBase::UNDOTYPE_NORMAL)
+	if (!message->isReplayed())
 	{
 		getView()->showContents();
 	}

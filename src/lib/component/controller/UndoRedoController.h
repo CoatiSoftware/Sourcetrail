@@ -1,12 +1,13 @@
 #ifndef UNDO_REDO_CONTROLLER_H
 #define UNDO_REDO_CONTROLLER_H
 
-#include <deque>
+#include <list>
 
 #include "utility/messaging/MessageBase.h"
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateEdge.h"
 #include "utility/messaging/type/MessageActivateFile.h"
+#include "utility/messaging/type/MessageActivateLocalSymbols.h"
 #include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageActivateTokenIds.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
@@ -32,6 +33,7 @@ class UndoRedoController
 	: public Controller
 	, public MessageListener<MessageActivateEdge>
 	, public MessageListener<MessageActivateFile>
+	, public MessageListener<MessageActivateLocalSymbols>
 	, public MessageListener<MessageActivateNodes>
 	, public MessageListener<MessageActivateTokenIds>
 	, public MessageListener<MessageChangeFileView>
@@ -56,15 +58,22 @@ public:
 private:
 	struct Command
 	{
-		Command(std::shared_ptr<MessageBase> message, size_t order);
+		enum Order
+		{
+			ORDER_ACTIVATE,
+			ORDER_ADAPT,
+			ORDER_VIEW
+		};
+
+		Command(std::shared_ptr<MessageBase> message, Order order);
 
 		std::shared_ptr<MessageBase> message;
-		std::shared_ptr<MessageBase> subMessage;
-		size_t order;
+		Order order;
 	};
 
 	virtual void handleMessage(MessageActivateEdge* message);
 	virtual void handleMessage(MessageActivateFile* message);
+	virtual void handleMessage(MessageActivateLocalSymbols* message);
 	virtual void handleMessage(MessageActivateNodes* message);
 	virtual void handleMessage(MessageActivateTokenIds* message);
 	virtual void handleMessage(MessageChangeFileView* message);
@@ -80,24 +89,23 @@ private:
 	virtual void handleMessage(MessageShowScope* message);
 	virtual void handleMessage(MessageUndo* message);
 
-	void replayCommands(bool removeLast);
+	void replayCommands();
+	void replayCommands(std::list<Command>::iterator iterator);
 
 	void processCommand(Command command);
-	void processNormalCommand(const Command& command);
-	void processRedoCommand(const Command& command);
-	void processUndoCommand(const Command& command);
 
 	void clear();
+
+	bool sameMessageTypeAsLast(MessageBase* message) const;
+	MessageBase* lastMessage() const;
 
 	bool requiresActivateFallbackToken() const;
 	bool checkCommandCausesTokenActivation(const Command& command) const;
 
 	ActivationTranslator m_activationTranslator;
 
-	Command m_lastCommand;
-
-	std::deque<Command> m_undo;
-	std::deque<Command> m_redo;
+	std::list<Command> m_list;
+	std::list<Command>::iterator m_iterator;
 };
 
 #endif // UNDO_REDO_CONTROLLER_H

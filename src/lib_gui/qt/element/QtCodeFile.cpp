@@ -429,7 +429,8 @@ void QtCodeFile::requestSnippets() const
 		hasErrors(),
 		m_locationFile
 	);
-	msg.undoRedoType = MessageBase::UNDOTYPE_IGNORE;
+
+	msg.setIsReplayed(true);
 	msg.dispatch();
 }
 

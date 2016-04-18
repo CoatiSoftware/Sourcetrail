@@ -36,7 +36,7 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 	{
 		Id edgeId = message->tokenId;
 
-		if (!message->isFresh())
+		if (message->isReplayed())
 		{
 			edgeId = m_storageAccess->getIdForEdge(message->type, message->fromNameHierarchy, message->toNameHierarchy);
 		}
@@ -63,7 +63,7 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 			false,
 			nullptr
 		);
-		msg.undoRedoType = message->undoRedoType;
+		msg.setIsReplayed(message->isReplayed());
 		msg.setKeepContent(message->keepContent());
 		msg.dispatch();
 		return nullptr;
@@ -75,7 +75,7 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(const MessageActivateNodes* message) const
 {
 	std::vector<Id> nodeIds;
-	if (message->isFresh())
+	if (!message->isReplayed())
 	{
 		for (const MessageActivateNodes::ActiveNode& node : message->nodes)
 		{
@@ -115,7 +115,7 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 			match.getFullName() == SearchMatch::getCommandName(SearchMatch::COMMAND_ALL))
 		{
 			MessageActivateAll msg;
-			msg.undoRedoType = message->undoRedoType;
+			msg.setIsReplayed(message->isReplayed());
 			msg.dispatchImmediately();
 			return nullptr;
 		}
@@ -123,7 +123,7 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 			match.getFullName() == SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR))
 		{
 			MessageShowErrors msg(ErrorCountInfo(-1, 0));
-			msg.undoRedoType = message->undoRedoType;
+			msg.setIsReplayed(message->isReplayed());
 			msg.dispatchImmediately();
 			return nullptr;
 		}
@@ -132,7 +132,7 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 	std::vector<Id> tokenIds = m_storageAccess->getTokenIdsForMatches(matches);
 
 	std::shared_ptr<MessageActivateTokens> m = std::make_shared<MessageActivateTokens>(message, tokenIds);
-	if (message->isFresh())
+	if (!message->isReplayed())
 	{
 		m->isFromSearch = true;
 	}

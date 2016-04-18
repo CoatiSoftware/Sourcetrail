@@ -151,13 +151,13 @@ void GraphController::handleMessage(MessageGraphNodeMove* message)
 	{
 		node->position += message->delta;
 
-		if (message->isFresh())
+		if (message->isReplayed())
 		{
-			getView()->resizeView();
+			buildGraph(message);
 		}
 		else
 		{
-			buildGraph(message);
+			getView()->resizeView();
 		}
 	}
 }
@@ -1176,7 +1176,7 @@ DummyNode* GraphController::findDummyNodeAccessRecursive(
 
 void GraphController::buildGraph(MessageBase* message)
 {
-	if (message->undoRedoType == MessageBase::UNDOTYPE_NORMAL)
+	if (!message->isReplayed())
 	{
 		getView()->rebuildGraph(m_graph, m_dummyNodes, m_dummyEdges);
 		m_graph.reset();

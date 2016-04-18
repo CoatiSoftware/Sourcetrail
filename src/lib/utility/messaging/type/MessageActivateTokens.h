@@ -15,7 +15,7 @@ public:
 		, isFromSystem(false)
 		, isFromSearch(false)
 	{
-		undoRedoType = other->undoRedoType;
+		setIsReplayed(other->isReplayed());
 		setKeepContent(other->keepContent());
 		setIsLast(other->isLast());
 	}

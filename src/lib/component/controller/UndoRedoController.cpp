@@ -10,8 +10,8 @@
 
 UndoRedoController::UndoRedoController(StorageAccess* storageAccess)
 	: m_activationTranslator(storageAccess)
-	, m_lastCommand(nullptr, 0)
 {
+	m_iterator = m_list.end();
 }
 
 UndoRedoController::~UndoRedoController()
@@ -23,7 +23,7 @@ UndoRedoView* UndoRedoController::getView()
 	return Controller::getView<UndoRedoView>();
 }
 
-UndoRedoController::Command::Command(std::shared_ptr<MessageBase> message, size_t order)
+UndoRedoController::Command::Command(std::shared_ptr<MessageBase> message, Order order)
 	: message(message)
 	, order(order)
 {
@@ -31,105 +31,115 @@ UndoRedoController::Command::Command(std::shared_ptr<MessageBase> message, size_
 
 void UndoRedoController::handleMessage(MessageActivateEdge* message)
 {
-	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() &&
-		static_cast<MessageActivateEdge*>(m_lastCommand.message.get())->getFullName() == message->getFullName())
+	if (sameMessageTypeAsLast(message) &&
+		static_cast<MessageActivateEdge*>(lastMessage())->getFullName() == message->getFullName())
 	{
 		return;
 	}
 
-	Command command(std::make_shared<MessageActivateEdge>(*message), (message->isAggregation() ? 0 : 1));
+	Command command(
+		std::make_shared<MessageActivateEdge>(*message),
+		(message->isAggregation() ? Command::ORDER_ACTIVATE : Command::ORDER_ADAPT)
+	);
 	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageActivateFile* message)
 {
-	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() &&
-		static_cast<MessageActivateFile*>(m_lastCommand.message.get())->filePath == message->filePath)
+	if (sameMessageTypeAsLast(message) &&
+		static_cast<MessageActivateFile*>(lastMessage())->filePath == message->filePath)
 	{
 		return;
 	}
 
-	Command command(std::make_shared<MessageActivateFile>(*message), 0);
+	Command command(std::make_shared<MessageActivateFile>(*message), Command::ORDER_ACTIVATE);
+	processCommand(command);
+}
+
+void UndoRedoController::handleMessage(MessageActivateLocalSymbols* message)
+{
+	if (sameMessageTypeAsLast(message))
+	{
+		static_cast<MessageActivateLocalSymbols*>(lastMessage())->symbolIds = message->symbolIds;
+		return;
+	}
+
+	Command command(std::make_shared<MessageActivateLocalSymbols>(*message), Command::ORDER_VIEW);
 	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageActivateNodes* message)
 {
-	if (m_lastCommand.message &&
-		m_lastCommand.message->getType() == message->getType() &&
+	if (sameMessageTypeAsLast(message) &&
 		message->nodes.size() &&
-		static_cast<MessageActivateNodes*>(m_lastCommand.message.get())->nodes.size() == message->nodes.size() &&
-		static_cast<MessageActivateNodes*>(m_lastCommand.message.get())->nodes[0].nameHierarchy.getQualifiedNameWithSignature() ==
+		static_cast<MessageActivateNodes*>(lastMessage())->nodes.size() == message->nodes.size() &&
+		static_cast<MessageActivateNodes*>(lastMessage())->nodes[0].nameHierarchy.getQualifiedNameWithSignature() ==
 		message->nodes[0].nameHierarchy.getQualifiedNameWithSignature())
 	{
 		return;
 	}
 
-	Command command(std::make_shared<MessageActivateNodes>(*message), 0);
+	Command command(std::make_shared<MessageActivateNodes>(*message), Command::ORDER_ACTIVATE);
 	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageActivateTokenIds* message)
 {
-	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() && message->tokenIds.size() &&
-		static_cast<MessageActivateTokenIds*>(m_lastCommand.message.get())->tokenIds == message->tokenIds)
+	if (sameMessageTypeAsLast(message) && message->tokenIds.size() &&
+		static_cast<MessageActivateTokenIds*>(lastMessage())->tokenIds == message->tokenIds)
 	{
 		return;
 	}
 
-	Command command(std::make_shared<MessageActivateTokenIds>(*message), 0);
+	Command command(std::make_shared<MessageActivateTokenIds>(*message), Command::ORDER_ACTIVATE);
 	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageChangeFileView* message)
 {
-	Command command(std::make_shared<MessageChangeFileView>(*message), 1);
+	Command command(std::make_shared<MessageChangeFileView>(*message), Command::ORDER_ADAPT);
 	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageDeactivateEdge* message)
 {
-	MessageBase* m = nullptr;
-
-	if (m_lastCommand.message && m_lastCommand.order == 0)
+	if (m_iterator == m_list.begin())
 	{
-		m = m_lastCommand.message.get();
-	}
-	else if (m_undo.size())
-	{
-		int i = m_undo.size() - 1;
-		while (i >= 0 && m_undo[i].order > 0)
-		{
-			i--;
-		}
-		m = m_undo[i].message.get();
+		return;
 	}
 
-	if (m)
+	std::list<Command>::iterator it = m_iterator;
+	do
 	{
-		bool keepContent = m->keepContent();
-		m->undoRedoType = MessageBase::UNDOTYPE_NORMAL;
-		m->setKeepContent(true);
-		m->dispatch();
-		m->setKeepContent(keepContent);
+		std::advance(it, -1);
 	}
+	while (it != m_list.begin() && it->order != Command::ORDER_ACTIVATE);
+
+	MessageBase* m = it->message.get();
+	bool keepContent = m->keepContent();
+
+	m->setIsReplayed(false);
+	m->setKeepContent(true);
+	m->dispatch();
+
+	m->setKeepContent(keepContent);
 }
 
 void UndoRedoController::handleMessage(MessageGraphNodeBundleSplit* message)
 {
-	Command command(std::make_shared<MessageGraphNodeBundleSplit>(*message), 1);
+	Command command(std::make_shared<MessageGraphNodeBundleSplit>(*message), Command::ORDER_ADAPT);
 	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageGraphNodeExpand* message)
 {
-	Command command(std::make_shared<MessageGraphNodeExpand>(*message), 1);
+	Command command(std::make_shared<MessageGraphNodeExpand>(*message), Command::ORDER_ADAPT);
 	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageGraphNodeMove* message)
 {
-	Command command(std::make_shared<MessageGraphNodeMove>(*message), 1);
+	Command command(std::make_shared<MessageGraphNodeMove>(*message), Command::ORDER_ADAPT);
 	processCommand(command);
 }
 
@@ -140,15 +150,28 @@ void UndoRedoController::handleMessage(MessageLoadProject* message)
 
 void UndoRedoController::handleMessage(MessageRedo* message)
 {
-	if (!m_redo.empty())
+	if (m_iterator == m_list.end())
 	{
-		std::shared_ptr<MessageBase> m = m_redo.back().message;
-		m_redo.pop_back();
-		m->undoRedoType = MessageBase::UNDOTYPE_REDO;
-		m->dispatch();
-
-		MessageFlushUpdates().dispatch();
+		return;
 	}
+
+	std::list<Command>::iterator oldIterator = m_iterator;
+
+	std::advance(m_iterator, 1);
+	while (m_iterator->order == Command::ORDER_VIEW)
+	{
+		std::advance(m_iterator, 1);
+	}
+
+	getView()->setUndoButtonEnabled(true);
+	if (m_iterator == m_list.end())
+	{
+		getView()->setRedoButtonEnabled(false);
+	}
+
+	replayCommands(oldIterator);
+
+	MessageFlushUpdates().dispatch();
 }
 
 void UndoRedoController::handleMessage(MessageRefresh* message)
@@ -166,25 +189,7 @@ void UndoRedoController::handleMessage(MessageRefresh* message)
 	}
 	else
 	{
-		if (m_lastCommand.order > 0)
-		{
-			replayCommands(false);
-		}
-
-		std::shared_ptr<MessageBase> msg = m_lastCommand.message;
-
-		if (m_undo.size() > 0)
-		{
-			m_lastCommand = m_undo.back();
-			m_undo.pop_back();
-		}
-		else
-		{
-			m_lastCommand.message.reset();
-		}
-
-		msg->undoRedoType = MessageBase::UNDOTYPE_REDO;
-		msg->dispatch();
+		replayCommands();
 
 		MessageFlushUpdates().dispatch();
 	}
@@ -192,197 +197,198 @@ void UndoRedoController::handleMessage(MessageRefresh* message)
 
 void UndoRedoController::handleMessage(MessageScrollCode* message)
 {
-	if (!m_lastCommand.message)
+	if (sameMessageTypeAsLast(message))
 	{
+		static_cast<MessageScrollCode*>(lastMessage())->value = message->value;
 		return;
 	}
 
-	if (m_lastCommand.subMessage && m_lastCommand.subMessage->getType() == message->getType())
-	{
-		static_cast<MessageScrollCode*>(m_lastCommand.subMessage.get())->value = message->value;
-		return;
-	}
-
-	m_lastCommand.subMessage = std::make_shared<MessageScrollCode>(*message);
+	Command command(std::make_shared<MessageScrollCode>(*message), Command::ORDER_VIEW);
+	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageSearch* message)
 {
-	if (m_lastCommand.message && m_lastCommand.message->getType() == message->getType() &&
-		static_cast<MessageSearch*>(m_lastCommand.message.get())->getMatchesAsString() == message->getMatchesAsString())
+	if (sameMessageTypeAsLast(message) &&
+		static_cast<MessageSearch*>(lastMessage())->getMatchesAsString() == message->getMatchesAsString())
 	{
 		return;
 	}
 
-	Command command(std::make_shared<MessageSearch>(*message), 0);
+	Command command(std::make_shared<MessageSearch>(*message), Command::ORDER_ACTIVATE);
 	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageShowScope* message)
 {
-	Command command(std::make_shared<MessageShowScope>(*message), 1);
+	Command command(std::make_shared<MessageShowScope>(*message), Command::ORDER_ADAPT);
 	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageUndo* message)
 {
-	replayCommands(true);
+	if (!m_list.size() || std::prev(m_iterator) == m_list.begin())
+	{
+		return;
+	}
+
+	while (std::prev(m_iterator)->order == Command::ORDER_VIEW)
+	{
+		std::advance(m_iterator, -1);
+	}
+	std::advance(m_iterator, -1);
+
+	if (std::distance(m_list.begin(), m_iterator) <= 1)
+	{
+		getView()->setUndoButtonEnabled(false);
+	}
+	getView()->setRedoButtonEnabled(true);
+
+	replayCommands();
 
 	MessageFlushUpdates().dispatch();
 }
 
-void UndoRedoController::replayCommands(bool removeLast)
+void UndoRedoController::replayCommands()
 {
-	if (!m_undo.empty())
+	std::list<Command>::iterator startIterator = m_iterator;
+
+	do
 	{
-		int i = m_undo.size() - 1;
-		while (i >= 1 && m_undo[i].order > 0)
-		{
-			i--;
-		}
+		std::advance(startIterator, -1);
+	}
+	while (startIterator != m_list.begin() && startIterator->order != Command::ORDER_ACTIVATE);
 
-		std::shared_ptr<MessageBase> m;
-		while (i < int(m_undo.size() - 1))
+	replayCommands(startIterator);
+}
+
+void UndoRedoController::replayCommands(std::list<Command>::iterator it)
+{
+	std::vector<std::list<Command>::iterator> viewCommands;
+
+	std::shared_ptr<MessageBase> m;
+	while (it != m_iterator)
+	{
+		m = it->message;
+		if (it->order != Command::ORDER_VIEW)
 		{
-			m = m_undo[i].message;
-			m->undoRedoType = MessageBase::UNDOTYPE_IGNORE;
-			m->setIsLast(false);
+			m->setIsReplayed(true);
+			m->setIsLast(it == std::prev(m_iterator));
 			m->dispatch();
-			i++;
-		}
 
-		m = m_undo.back().message;
-
-		std::shared_ptr<MessageBase> sm;
-		if (m_lastCommand.order == 0)
-		{
-			sm = m_undo.back().subMessage;
-		}
-
-		if (removeLast)
-		{
-			m_undo.pop_back();
-			m->undoRedoType = MessageBase::UNDOTYPE_UNDO;
+			viewCommands.clear();
 		}
 		else
 		{
-			m->undoRedoType = MessageBase::UNDOTYPE_IGNORE;
+			viewCommands.push_back(it);
 		}
 
-		m->setIsLast(!sm);
-		m->dispatch();
+		std::advance(it, 1);
+	}
 
-		if (sm)
+	std::set<std::string> messageTypes;
+	std::vector<std::list<Command>::iterator> lastViewCommands;
+
+	for (size_t i = viewCommands.size(); i > 0; i--)
+	{
+		it = viewCommands[i - 1];
+		if (messageTypes.find(it->message->getType()) == messageTypes.end())
 		{
-			sm->undoRedoType = MessageBase::UNDOTYPE_IGNORE;
-			sm->setIsLast(true);
-			sm->dispatch();
+			messageTypes.insert(it->message->getType());
+			lastViewCommands.push_back(it);
 		}
+	}
+
+	for (size_t i = lastViewCommands.size(); i > 0; i--)
+	{
+		it = lastViewCommands[i - 1];
+		m = it->message;
+		m->setIsReplayed(true);
+		m->setIsLast(it == std::prev(m_iterator));
+		m->dispatch();
 	}
 }
 
 void UndoRedoController::processCommand(Command command)
 {
-	if (command.order == 0 && command.message->keepContent())
+	if (command.order == Command::ORDER_ACTIVATE && command.message->keepContent())
 	{
-		command.order = 1;
+		command.order = Command::ORDER_ADAPT;
 	}
 
-	switch (command.message->undoRedoType)
+	if (!command.message->isReplayed())
 	{
-	case MessageBase::UNDOTYPE_NORMAL:
-		processNormalCommand(command);
-		break;
-	case MessageBase::UNDOTYPE_REDO:
-		processRedoCommand(command);
-		break;
-	case MessageBase::UNDOTYPE_UNDO:
-		processUndoCommand(command);
-		break;
-	case MessageBase::UNDOTYPE_IGNORE:
-		break;
-	}
-}
+		if (command.order == Command::ORDER_ACTIVATE)
+		{
+			m_iterator = m_list.erase(m_iterator, m_list.end());
+		}
+		else if (command.order == Command::ORDER_ADAPT)
+		{
+			std::list<Command>::iterator end = m_iterator;
+			while (end != m_list.end())
+			{
+				if (end->order == Command::ORDER_ACTIVATE)
+				{
+					break;
+				}
+				std::advance(end, 1);
+			}
 
-void UndoRedoController::processNormalCommand(const Command& command)
-{
-	if (m_lastCommand.message)
-	{
-		m_undo.push_back(m_lastCommand);
-		getView()->setUndoButtonEnabled(true);
-	}
+			m_iterator = m_list.erase(m_iterator, end);
+		}
 
-	m_lastCommand = command;
+		m_list.insert(m_iterator, command);
 
-	m_redo.clear();
-	getView()->setRedoButtonEnabled(false);
-}
+		if (command.order != Command::ORDER_VIEW)
+		{
+			if (m_list.begin() != std::prev(m_iterator))
+			{
+				getView()->setUndoButtonEnabled(true);
+			}
 
-void UndoRedoController::processRedoCommand(const Command& command)
-{
-	if (m_lastCommand.message)
-	{
-		m_undo.push_back(m_lastCommand);
-		getView()->setUndoButtonEnabled(true);
-	}
-
-	m_lastCommand = command;
-
-	if (m_redo.empty())
-	{
-		getView()->setRedoButtonEnabled(false);
-	}
-}
-
-void UndoRedoController::processUndoCommand(const Command& command)
-{
-	if (m_lastCommand.message)
-	{
-		m_redo.push_back(m_lastCommand);
-		getView()->setRedoButtonEnabled(true);
-	}
-
-	m_lastCommand = command;
-
-	if (m_undo.empty())
-	{
-		getView()->setUndoButtonEnabled(false);
+			if (m_list.end() == m_iterator)
+			{
+				getView()->setRedoButtonEnabled(false);
+			}
+		}
 	}
 }
 
 void UndoRedoController::clear()
 {
-	m_lastCommand = Command(nullptr, 0);
-
-	m_undo.clear();
-	m_redo.clear();
+	m_list.clear();
+	m_iterator = m_list.end();
 
 	getView()->setUndoButtonEnabled(false);
 	getView()->setRedoButtonEnabled(false);
 }
 
+bool UndoRedoController::sameMessageTypeAsLast(MessageBase* message) const
+{
+	if (!m_list.size() || m_list.begin() == m_iterator)
+	{
+		return false;
+	}
+
+	return std::prev(m_iterator)->message->getType() == message->getType();
+}
+
+MessageBase* UndoRedoController::lastMessage() const
+{
+	return std::prev(m_iterator)->message.get();
+}
+
 bool UndoRedoController::requiresActivateFallbackToken() const
 {
-	bool activateFallbackToken = true;
-	if (m_lastCommand.message)
+	std::list<Command>::iterator it = m_iterator;
+
+	do
 	{
-		if (m_lastCommand.order == 0)
-		{
-			activateFallbackToken = !checkCommandCausesTokenActivation(m_lastCommand);
-		}
-		else
-		{
-			for (int i = m_undo.size() - 1; i >= 0; i--)
-			{
-				if (m_undo[i].order == 0)
-				{
-					activateFallbackToken = !checkCommandCausesTokenActivation(m_undo[i]);
-					break;
-				}
-			}
-		}
+		std::advance(it, -1);
 	}
-	return activateFallbackToken;
+	while (it != m_list.begin() && it->order != Command::ORDER_ACTIVATE);
+
+	return !checkCommandCausesTokenActivation(*it);
 }
 
 bool UndoRedoController::checkCommandCausesTokenActivation(const Command& command) const
@@ -403,7 +409,7 @@ bool UndoRedoController::checkCommandCausesTokenActivation(const Command& comman
 		else if (commandMessageTypeString == MessageActivateNodes::getStaticType())
 		{
 			MessageActivateNodes inputMessage(*dynamic_cast<MessageActivateNodes*>(commandMessage));
-			inputMessage.undoRedoType = MessageBase::UNDOTYPE_REDO;
+			inputMessage.setIsReplayed(true);
 			m = m_activationTranslator.translateMessage(&inputMessage);
 		}
 		else if (commandMessageTypeString == MessageSearch::getStaticType())
