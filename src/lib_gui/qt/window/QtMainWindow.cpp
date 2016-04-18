@@ -272,12 +272,11 @@ void QtMainWindow::forceEnterLicense()
 		LOG_ERROR("No enter license window on top of stack");
 		return;
 	}
-
 	enterLicenseWindow->clear();
-	enterLicenseWindow->setCancelAble(false);
 
 	this->setEnabled(false);
 	enterLicenseWindow->setEnabled(true);
+	enterLicenseWindow->setCloseVisible(true);
 }
 
 bool QtMainWindow::event(QEvent* event)
@@ -341,6 +340,7 @@ void QtMainWindow::enterLicense()
 	connect(enterLicenseWindow, SIGNAL(finished()), this, SLOT(activateWindow()));
 
 	enterLicenseWindow->load();
+	enterLicenseWindow->setCloseVisible(false);
 }
 
 void QtMainWindow::showStartScreen()
