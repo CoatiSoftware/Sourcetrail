@@ -130,12 +130,15 @@ private:
 
 		bool isActive;
 		bool isFocused;
+
+		QColor oldTextColor;
 	};
 
 	struct AnnotationColor
 	{
 		std::string border;
 		std::string fill;
+		std::string text;
 	};
 
 	std::vector<const Annotation*> getNonScopeAnnotationsForPosition(int pos) const;
@@ -156,6 +159,7 @@ private:
 
 	std::vector<QRect> getCursorRectsForAnnotation(const Annotation& annotation) const;
 	const AnnotationColor& getAnnotationColorForAnnotation(const Annotation& annotation);
+	void setTextColorForAnnotation(Annotation& annotation, QColor color) const;
 
 	void createActions();
 
@@ -183,6 +187,7 @@ private:
 
 	bool m_isActiveFile;
 	bool m_lineNumbersHidden;
+	bool m_wasAnnotated;
 };
 
 #endif // QT_CODE_AREA_H

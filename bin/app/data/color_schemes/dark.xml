@@ -99,6 +99,7 @@
 					<active>
 						<border>#B2B2B2</border>
 						<fill>#4A4A4A</fill>
+						<text>#F7F7F7</text>
 					</active>
 				</token>
 				<local_symbol>

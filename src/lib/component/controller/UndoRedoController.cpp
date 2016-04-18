@@ -53,22 +53,6 @@ void UndoRedoController::handleMessage(MessageActivateFile* message)
 	processCommand(command);
 }
 
-void UndoRedoController::handleMessage(MessageActivateLocalSymbols* message)
-{
-	if (m_lastCommand.message &&
-		m_lastCommand.message->getType() == message->getType() &&
-		utility::isPermutation(
-			message->symbolIds,
-			static_cast<MessageActivateLocalSymbols*>(m_lastCommand.message.get())->symbolIds)
-		)
-	{
-		return;
-	}
-
-	Command command(std::make_shared<MessageActivateLocalSymbols>(*message), 1);
-	processCommand(command);
-}
-
 void UndoRedoController::handleMessage(MessageActivateNodes* message)
 {
 	if (m_lastCommand.message &&

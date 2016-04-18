@@ -6,6 +6,7 @@
 
 #include "qt/element/QtCodeArea.h"
 #include "qt/element/QtCodeFileList.h"
+#include "qt/utility/QtHighlighter.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "settings/ColorScheme.h"
 
@@ -121,7 +122,9 @@ void QtCodeView::doRefreshView()
 {
 	setStyleSheet();
 	m_widget->clearCodeSnippets();
+
 	QtCodeArea::clearAnnotationColors();
+	QtHighlighter::clearHighlightingRules();
 }
 
 void QtCodeView::doClear()

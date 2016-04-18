@@ -96,6 +96,7 @@ QtCodeArea::QtCodeArea(
 	, m_eventPosition(0, 0)
 	, m_isActiveFile(false)
 	, m_lineNumbersHidden(false)
+	, m_wasAnnotated(false)
 {
 	setObjectName("code_area");
 	setReadOnly(true);
@@ -114,8 +115,6 @@ QtCodeArea::QtCodeArea(
 	}
 
 	setPlainText(QString::fromUtf8(displayCode.c_str()));
-	createAnnotations(locationFile);
-	annotateText();
 
 	m_digits = lineNumberDigits();
 	updateLineNumberAreaWidth();
@@ -130,6 +129,11 @@ QtCodeArea::QtCodeArea(
 	horizontalScrollBar()->installEventFilter(new MouseWheelOverScrollbarFilter(this));
 
 	createActions();
+
+	m_highlighter->highlightDocument();
+
+	createAnnotations(locationFile);
+	annotateText();
 }
 
 QtCodeArea::~QtCodeArea()
@@ -602,12 +606,9 @@ void QtCodeArea::activateLocalSymbols(const std::vector<const Annotation*>& anno
 		}
 	}
 
-	if (!allActive)
+	if (!allActive || !localSymbolIds.size())
 	{
-		if (localSymbolIds.size())
-		{
-			MessageActivateLocalSymbols(localSymbolIds).dispatch();
-		}
+		MessageActivateLocalSymbols(localSymbolIds).dispatch();
 	}
 }
 
@@ -686,6 +687,7 @@ void QtCodeArea::annotateText()
 	{
 		bool wasActive = annotation.isActive;
 		bool wasFocused = annotation.isFocused;
+		const AnnotationColor& oldColor = getAnnotationColorForAnnotation(annotation);
 
 		annotation.isActive = (
 			std::find(activeTokenIds.begin(), activeTokenIds.end(), annotation.tokenId) != activeTokenIds.end() ||
@@ -694,6 +696,21 @@ void QtCodeArea::annotateText()
 		annotation.isFocused = std::find(focusIds.begin(), focusIds.end(), annotation.tokenId) != focusIds.end();
 
 		annotation.isError = isError;
+
+		const AnnotationColor& newColor = getAnnotationColorForAnnotation(annotation);
+		if ((newColor.text != oldColor.text || !m_wasAnnotated))
+		{
+			if (newColor.text.size() > 0 && newColor.text != "transparent")
+			{
+				annotation.oldTextColor = m_highlighter->getFormat(annotation.start, annotation.end).foreground().color();
+				setTextColorForAnnotation(annotation, QColor(newColor.text.c_str()));
+			}
+			else if (annotation.oldTextColor.isValid())
+			{
+				setTextColorForAnnotation(annotation, annotation.oldTextColor);
+				annotation.oldTextColor = QColor();
+			}
+		}
 
 		if (wasFocused != annotation.isFocused || wasActive != annotation.isActive)
 		{
@@ -706,6 +723,8 @@ void QtCodeArea::annotateText()
 		m_lineNumberArea->update();
 		viewport()->update();
 	}
+
+	m_wasAnnotated = true;
 }
 
 void QtCodeArea::setHoveredAnnotations(const std::vector<const Annotation*>& annotations)
@@ -838,7 +857,8 @@ std::vector<QRect> QtCodeArea::getCursorRectsForAnnotation(const Annotation& ann
 		if (line == annotation.endLine)
 		{
 			// Avoid that annotations at line end span down to first column of the next line.
-			if (annotation.startLine != annotation.endLine || document()->findBlockByLineNumber(line - m_startLineNumber).length() != annotation.endCol)
+			if (annotation.startLine != annotation.endLine ||
+				document()->findBlockByLineNumber(line - m_startLineNumber).length() != annotation.endCol)
 			{
 				cursor.setPosition(annotation.end);
 			}
@@ -849,7 +869,12 @@ std::vector<QRect> QtCodeArea::getCursorRectsForAnnotation(const Annotation& ann
 		}
 
 		rectEnd = cursorRect(cursor);
-		rects.push_back(QRect(rectStart.left(), rectStart.top(), rectEnd.right() - rectStart.left(), rectEnd.bottom() - rectStart.top()));
+		rects.push_back(QRect(
+			rectStart.left(),
+			rectStart.top(),
+			rectEnd.right() - rectStart.left(),
+			rectEnd.bottom() - rectStart.top()
+		));
 
 		line++;
 
@@ -886,6 +911,7 @@ const QtCodeArea::AnnotationColor& QtCodeArea::getAnnotationColorForAnnotation(c
 				AnnotationColor color;
 				color.border = scheme->getColor("code/snippet/selection/" + type + "/" + state + "/border");
 				color.fill = scheme->getColor("code/snippet/selection/" + type + "/" + state + "/fill");
+				color.text = scheme->getColor("code/snippet/selection/" + type + "/" + state + "/text");
 				s_annotationColors.push_back(color);
 			}
 		}
@@ -916,6 +942,13 @@ const QtCodeArea::AnnotationColor& QtCodeArea::getAnnotationColorForAnnotation(c
 	}
 
 	return s_annotationColors[i];
+}
+
+void QtCodeArea::setTextColorForAnnotation(Annotation& annotation, QColor color) const
+{
+	QTextCharFormat format;
+	format.setForeground(color);
+	m_highlighter->applyFormat(annotation.start, annotation.end, format);
 }
 
 void QtCodeArea::createActions()

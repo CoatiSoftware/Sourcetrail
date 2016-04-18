@@ -99,6 +99,7 @@
 					<active>
 						<border>#B2B2B2</border>
 						<fill>#EDEDED</fill>
+						<text>#000000</text>
 					</active>
 				</token>
 				<local_symbol>
@@ -133,14 +134,17 @@
 					<normal>
 						<border>transparent</border>
 						<fill>#80FF0000</fill>
+						<text>#000000</text>
 					</normal>
 					<focus>
 						<border>transparent</border>
 						<fill>#FFFF0000</fill>
+						<text>#000000</text>
 					</focus>
 					<active>
 						<border>transparent</border>
 						<fill>#FFFF0000</fill>
+						<text>#000000</text>
 					</active>
 				</error>
 			</selection>

@@ -12,7 +12,14 @@ class QtHighlighter
 	Q_OBJECT
 
 public:
+	static void createHighlightingRules();
+	static void clearHighlightingRules();
+
 	QtHighlighter(QTextDocument *parent = 0);
+	void highlightDocument();
+
+	void applyFormat(int startPosition, int endPosition, const QTextCharFormat& format);
+	QTextCharFormat getFormat(int startPosition, int endPosition) const;
 
 protected:
 	void highlightBlock(const QString& text);
@@ -27,18 +34,14 @@ private:
 		QTextCharFormat format;
 	};
 
-	void highlightDocument();
 	void highlightMultiLineComments(std::vector<std::pair<int, int>>* ranges);
-
-	void addHighlightingRule(const QColor& color, const QRegExp& regExp);
 
 	bool isInRange(int index, const std::vector<std::pair<int, int>>& ranges) const;
 	void formatBlock(const QTextBlock& block, const HighlightingRule& rule, std::vector<std::pair<int, int>>* ranges, bool saveRange);
-	void applyFormat(int startPosition, int endPosition, const QTextCharFormat& format);
 
-	QVector<HighlightingRule> m_highlightingRules;
-	HighlightingRule m_quotationRule;
-	HighlightingRule m_commentRule;
+	static QVector<HighlightingRule> s_highlightingRules;
+	static HighlightingRule s_quotationRule;
+	static HighlightingRule s_commentRule;
 };
 
 #endif // QT_HIGHLIGHTER_H

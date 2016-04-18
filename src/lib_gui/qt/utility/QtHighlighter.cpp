@@ -5,8 +5,11 @@
 
 #include "settings/ColorScheme.h"
 
-QtHighlighter::QtHighlighter(QTextDocument *parent)
-	: QSyntaxHighlighter(parent)
+QVector<QtHighlighter::HighlightingRule> QtHighlighter::s_highlightingRules;
+QtHighlighter::HighlightingRule QtHighlighter::s_quotationRule;
+QtHighlighter::HighlightingRule QtHighlighter::s_commentRule;
+
+void QtHighlighter::createHighlightingRules()
 {
 	QStringList keywordPatterns;
 	keywordPatterns
@@ -41,47 +44,60 @@ QtHighlighter::QtHighlighter(QTextDocument *parent)
 	QColor quotationColor(scheme->getSyntaxColor("quotation").c_str());
 	QColor commentColor = scheme->getSyntaxColor("comment").c_str();
 
+	s_highlightingRules.clear();
+
 	foreach (const QString &pattern, keywordPatterns)
 	{
-		addHighlightingRule(keywordColor, QRegExp("\\b" + pattern + "\\b"));
+		s_highlightingRules.append(HighlightingRule(keywordColor, QRegExp("\\b" + pattern + "\\b")));
 	}
 
 	foreach (const QString &pattern, typePatterns)
 	{
-		addHighlightingRule(typeColor, QRegExp("\\b" + pattern + "\\b"));
+		s_highlightingRules.append(HighlightingRule(typeColor, QRegExp("\\b" + pattern + "\\b")));
 	}
 
-	addHighlightingRule(directiveColor, directiveRegExp);
-	addHighlightingRule(numberColor, numberRegExp);
-	addHighlightingRule(functionColor, functionRegExp);
-	addHighlightingRule(quotationColor, quotation2RegExp);
+	s_highlightingRules.append(HighlightingRule(directiveColor, directiveRegExp));
+	s_highlightingRules.append(HighlightingRule(numberColor, numberRegExp));
+	s_highlightingRules.append(HighlightingRule(functionColor, functionRegExp));
+	s_highlightingRules.append(HighlightingRule(quotationColor, quotation2RegExp));
 
-	m_quotationRule = HighlightingRule(quotationColor, quotationRegExp);
-	m_commentRule = HighlightingRule(commentColor, commentRegExp);
+	s_quotationRule = HighlightingRule(quotationColor, quotationRegExp);
+	s_commentRule = HighlightingRule(commentColor, commentRegExp);
+}
+
+void QtHighlighter::clearHighlightingRules()
+{
+	s_highlightingRules.clear();
+}
+
+QtHighlighter::QtHighlighter(QTextDocument *parent)
+	: QSyntaxHighlighter(parent)
+{
 }
 
 void QtHighlighter::highlightBlock(const QString& text)
 {
-	if (currentBlock().blockNumber() == 0)
-	{
-		highlightDocument();
-	}
 }
 
 void QtHighlighter::highlightDocument()
 {
+	if (!s_highlightingRules.size())
+	{
+		createHighlightingRules();
+	}
+
 	QTextDocument* doc = document();
 
 	std::vector<std::pair<int, int>> ranges;
 
 	for (QTextBlock it = doc->begin(); it != doc->end(); it = it.next())
 	{
-		formatBlock(it, m_quotationRule, &ranges, true);
+		formatBlock(it, s_quotationRule, &ranges, true);
 	}
 
 	for (QTextBlock it = doc->begin(); it != doc->end(); it = it.next())
 	{
-		foreach (const HighlightingRule &rule, m_highlightingRules)
+		foreach (const HighlightingRule &rule, s_highlightingRules)
 		{
 			formatBlock(it, rule, &ranges, false);
 		}
@@ -91,7 +107,7 @@ void QtHighlighter::highlightDocument()
 
 	for (QTextBlock it = doc->begin(); it != doc->end(); it = it.next())
 	{
-		formatBlock(it, m_commentRule, &ranges, true);
+		formatBlock(it, s_commentRule, &ranges, true);
 	}
 }
 
@@ -128,7 +144,7 @@ void QtHighlighter::highlightMultiLineComments(std::vector<std::pair<int, int>>*
 			break;
 		}
 
-		applyFormat(cursorStart.selectionStart(), cursorEnd.position(), m_commentRule.format);
+		applyFormat(cursorStart.selectionStart(), cursorEnd.position(), s_commentRule.format);
 		ranges->push_back(std::pair<int, int>(cursorStart.selectionStart(), cursorEnd.position()));
 
 		cursorStart = cursorEnd;
@@ -143,11 +159,6 @@ QtHighlighter::HighlightingRule::HighlightingRule(const QColor& color, const QRe
 {
 	format.setForeground(color);
 	pattern = regExp;
-}
-
-void QtHighlighter::addHighlightingRule(const QColor& color, const QRegExp& regExp)
-{
-	m_highlightingRules.append(HighlightingRule(color, regExp));
 }
 
 bool QtHighlighter::isInRange(int pos, const std::vector<std::pair<int, int>>& ranges) const
@@ -196,4 +207,11 @@ void QtHighlighter::applyFormat(int startPosition, int endPosition, const QTextC
 	cursor.setPosition(startPosition);
 	cursor.setPosition(endPosition, QTextCursor::KeepAnchor);
 	cursor.setCharFormat(format);
+}
+
+QTextCharFormat QtHighlighter::getFormat(int startPosition, int endPosition) const
+{
+	QTextCursor cursor(document());
+	cursor.setPosition(endPosition);
+	return cursor.charFormat();
 }
