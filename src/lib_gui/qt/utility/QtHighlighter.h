@@ -42,6 +42,7 @@ private:
 	static QVector<HighlightingRule> s_highlightingRules;
 	static HighlightingRule s_quotationRule;
 	static HighlightingRule s_commentRule;
+	static QTextCharFormat s_textFormat;
 };
 
 #endif // QT_HIGHLIGHTER_H

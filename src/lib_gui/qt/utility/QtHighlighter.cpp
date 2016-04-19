@@ -8,6 +8,7 @@
 QVector<QtHighlighter::HighlightingRule> QtHighlighter::s_highlightingRules;
 QtHighlighter::HighlightingRule QtHighlighter::s_quotationRule;
 QtHighlighter::HighlightingRule QtHighlighter::s_commentRule;
+QTextCharFormat QtHighlighter::s_textFormat;
 
 void QtHighlighter::createHighlightingRules()
 {
@@ -35,6 +36,8 @@ void QtHighlighter::createHighlightingRules()
 	QRegExp commentRegExp = QRegExp("//[^\n]*");
 
 	ColorScheme* scheme = ColorScheme::getInstance().get();
+
+	s_textFormat.setForeground(QColor(scheme->getSyntaxColor("normal").c_str()));
 
 	QColor directiveColor(scheme->getSyntaxColor("directive").c_str());
 	QColor keywordColor(scheme->getSyntaxColor("keyword").c_str());
@@ -87,6 +90,15 @@ void QtHighlighter::highlightDocument()
 	}
 
 	QTextDocument* doc = document();
+
+	int docStart = 0;
+	int docEnd = 0;
+	for (int i = 0; i < doc->blockCount(); i++)
+	{
+		docEnd += doc->findBlockByLineNumber(i).length();
+	}
+	docEnd -= 1;
+	applyFormat(docStart, docEnd, s_textFormat);
 
 	std::vector<std::pair<int, int>> ranges;
 
