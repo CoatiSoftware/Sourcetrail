@@ -373,7 +373,7 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 
 	for (DummyNode& node : m_dummyNodes)
 	{
-		removeImplicitAndUndefinedChildrenRecursive(node);
+		removeImplicitChildrenRecursive(node);
 
 		setNodeVisibilityRecursiveBottomUp(node, noActive);
 	}
@@ -399,7 +399,7 @@ void GraphController::setNodeActiveRecursive(DummyNode& node, const std::vector<
 	}
 }
 
-void GraphController::removeImplicitAndUndefinedChildrenRecursive(DummyNode& node)
+void GraphController::removeImplicitChildrenRecursive(DummyNode& node)
 {
 	if (node.isGraphNode() && !node.data->isExplicit())
 	{
@@ -411,13 +411,13 @@ void GraphController::removeImplicitAndUndefinedChildrenRecursive(DummyNode& nod
 		bool removeNode = false;
 
 		DummyNode& subNode = node.subNodes[i];
-		if (subNode.isGraphNode() && !subNode.data->isExplicit() && !subNode.connected && !subNode.active && !subNode.subNodes.size())
+		if (subNode.isGraphNode() && subNode.data->isImplicit() && !subNode.connected && !subNode.active && !subNode.subNodes.size())
 		{
 			removeNode = true;
 		}
 		else
 		{
-			removeImplicitAndUndefinedChildrenRecursive(subNode);
+			removeImplicitChildrenRecursive(subNode);
 
 			if (subNode.isAccessNode() && subNode.subNodes.size() == 0)
 			{
