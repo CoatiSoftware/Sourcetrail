@@ -2998,7 +2998,7 @@ private:
 		}
 
 		virtual Id onUsageParsed(
-			const ParseLocation& location, const NameHierarchy& userName, Node::NodeType usedType, const NameHierarchy& usedName)
+			const ParseLocation& location, const NameHierarchy& userName, int usedType, const NameHierarchy& usedName)
 		{
 			usages.push_back(addLocationSuffix(userName.getQualifiedNameWithSignature() + " -> " + usedName.getQualifiedName(), location));
 			return 0;

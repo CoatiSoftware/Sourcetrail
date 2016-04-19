@@ -1400,23 +1400,23 @@ void ASTVisitor::RecordDeclRef(
 	case RT_AddressTaken:
 	{
 			const NameHierarchy contextNameHierarchy = getContextName();
-			Node::NodeType usedType = Node::NODE_UNDEFINED;
+			int usedType = 0x1;
 			switch (symbolType)
 			{
 			case ST_Field:
-				usedType = Node::NODE_FIELD;
+				usedType = 0x40;
 				break;
 			case ST_GlobalVariable:
-				usedType = Node::NODE_GLOBAL_VARIABLE;
+				usedType = 0x20;
 				break;
 			case ST_Enumerator:
-				usedType = Node::NODE_ENUM_CONSTANT;
+				usedType = 0x400;
 				break;
 			case ST_Function:
-				usedType = Node::NODE_FUNCTION;
+				usedType = 0x80;
 				break;
 			case ST_Method:
-				usedType = Node::NODE_METHOD;
+				usedType = 0x100;
 				break;
 			}
 

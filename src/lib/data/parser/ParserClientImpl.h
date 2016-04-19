@@ -1,10 +1,10 @@
 #ifndef PARSER_CLIENT_IMPL_H
 #define PARSER_CLIENT_IMPL_H
 
+#include "data/graph/Node.h"
 #include "data/parser/ParserClient.h"
 #include "data/IntermediateStorage.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
-#include "data/graph/Node.h"
 
 #include "data/DefinitionType.h"
 #include "data/SqliteStorage.h"
@@ -59,7 +59,7 @@ public:
 	virtual Id onCallParsed(
 		const ParseLocation& location, const NameHierarchy& caller, const NameHierarchy& callee);
 	virtual Id onUsageParsed(
-		const ParseLocation& location, const NameHierarchy& userName, Node::NodeType usedType, const NameHierarchy& usedName);
+		const ParseLocation& location, const NameHierarchy& userName, int usedType, const NameHierarchy& usedName);
 	virtual Id onTypeUsageParsed(const ParseLocation& location, const NameHierarchy& user, const NameHierarchy& used);
 
 	virtual Id onTemplateArgumentTypeParsed(

@@ -240,12 +240,12 @@ Id ParserClientImpl::onCallParsed(const ParseLocation& location, const NameHiera
 }
 
 Id ParserClientImpl::onUsageParsed(
-	const ParseLocation& location, const NameHierarchy& userName, Node::NodeType usedType, const NameHierarchy& usedName)
+	const ParseLocation& location, const NameHierarchy& userName, int usedType, const NameHierarchy& usedName)
 {
 	log("usage", userName.getQualifiedNameWithSignature() + " -> " + usedName.getQualifiedName(), location);
 
 	Id userNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, userName, DEFINITION_NONE);
-	Id usedNodeId = addNodeHierarchy(usedType, usedName, DEFINITION_NONE);
+	Id usedNodeId = addNodeHierarchy(Node::intToType(usedType), usedName, DEFINITION_NONE);
 	Id edgeId = addEdge(Edge::EDGE_USAGE, userNodeId, usedNodeId);
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
 

@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 
-#include "data/graph/Node.h"
 #include "data/name/NameHierarchy.h"
 #include "utility/file/FileInfo.h"
 #include "utility/types.h"
@@ -86,7 +85,7 @@ public:
 	virtual Id onCallParsed(
 		const ParseLocation& location, const NameHierarchy& caller, const NameHierarchy& callee) = 0;
 	virtual Id onUsageParsed(
-		const ParseLocation& location, const NameHierarchy& userName, Node::NodeType usedType, const NameHierarchy& usedName) = 0;
+		const ParseLocation& location, const NameHierarchy& userName, int usedType, const NameHierarchy& usedName) = 0;
 	virtual Id onTypeUsageParsed(const ParseLocation& location, const NameHierarchy& user, const NameHierarchy& used) = 0;
 
 	virtual Id onTemplateArgumentTypeParsed(
