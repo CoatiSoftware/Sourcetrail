@@ -18,6 +18,10 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 
 	m_timer = std::make_shared<QTimer>(this);
 	connect(m_timer.get(), SIGNAL(timeout()), this, SLOT(update()));
+
+	m_timerStopper = std::make_shared<QTimer>(this);
+	m_timerStopper->setSingleShot(true);
+	connect(m_timerStopper.get(), SIGNAL(timeout()), this, SLOT(stopTimer()));
 }
 
 float QtGraphicsView::getZoomFactor() const
@@ -54,6 +58,8 @@ void QtGraphicsView::mouseReleaseEvent(QMouseEvent *event)
 
 void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 {
+	bool moved = moves();
+
 	switch (event->key())
 	{
 		case Qt::Key_W:
@@ -80,10 +86,12 @@ void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 			return;
 	}
 
-	if (moves())
+	if (!moved && moves())
 	{
 		m_timer->start(20);
 	}
+
+	m_timerStopper->start(1000);
 }
 
 void QtGraphicsView::keyReleaseEvent(QKeyEvent* event)
@@ -181,6 +189,11 @@ void QtGraphicsView::update()
 	{
 		updateZoom(z);
 	}
+}
+
+void QtGraphicsView::stopTimer()
+{
+	m_timer->stop();
 }
 
 bool QtGraphicsView::moves() const

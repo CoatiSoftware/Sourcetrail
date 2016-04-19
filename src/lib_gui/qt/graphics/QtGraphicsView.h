@@ -34,6 +34,7 @@ signals:
 
 private slots:
 	void update();
+	void stopTimer();
 
 private:
 	bool moves() const;
@@ -53,6 +54,7 @@ private:
 	bool m_shift;
 
 	std::shared_ptr<QTimer> m_timer;
+	std::shared_ptr<QTimer> m_timerStopper;
 };
 
 #endif // QT_GRAPHICS_VIEW_H
