@@ -158,7 +158,7 @@ void UndoRedoController::handleMessage(MessageRedo* message)
 	std::list<Command>::iterator oldIterator = m_iterator;
 
 	std::advance(m_iterator, 1);
-	while (m_iterator->order == Command::ORDER_VIEW)
+	while (m_iterator != m_list.end() && m_iterator->order == Command::ORDER_VIEW)
 	{
 		std::advance(m_iterator, 1);
 	}
