@@ -58,12 +58,8 @@ public:
 		const ParseLocation& location, const NameHierarchy& overridden, const NameHierarchy& overrider);
 	virtual Id onCallParsed(
 		const ParseLocation& location, const NameHierarchy& caller, const NameHierarchy& callee);
-	virtual Id onFieldUsageParsed(
-		const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy);
-	virtual Id onGlobalVariableUsageParsed(
-		const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy);
-	virtual Id onEnumConstantUsageParsed(
-		const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy);
+	virtual Id onUsageParsed(
+		const ParseLocation& location, const NameHierarchy& userName, Node::NodeType usedType, const NameHierarchy& usedName);
 	virtual Id onTypeUsageParsed(const ParseLocation& location, const NameHierarchy& user, const NameHierarchy& used);
 
 	virtual Id onTemplateArgumentTypeParsed(

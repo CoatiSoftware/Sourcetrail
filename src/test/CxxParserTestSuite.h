@@ -1284,7 +1284,7 @@ public:
 		TS_ASSERT_EQUALS(client->calls[0], "int main() -> int sum(int, int) <7:2 7:4>");
 	}
 
-	void test_cxx_parser_finds_call_in_function_with_right_signature()
+	void test_cxx_parser_finds_call_in_function_with_correct_signature()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"int sum(int a, int b)\n"
@@ -1507,6 +1507,24 @@ public:
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
 		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <10:6 10:8>");
 		TS_ASSERT_EQUALS(client->calls[1], "int main() -> void App::operator+(int) <11:6 11:6>");
+	}
+
+	void test_cxx_parser_finds_usage_of_function_pointer()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"void my_int_func(int x)\n"
+			"{\n"
+			"}\n"
+			"\n"
+			"void test()\n"
+			"{\n"
+			"	void (*foo)(int);\n"
+			"	foo = &my_int_func;\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->usages.size(), 1);
+		TS_ASSERT_EQUALS(client->usages[0], "void test() -> my_int_func <8:9 8:19>");
 	}
 
 	void test_cxx_parser_finds_usage_of_global_variable_in_function()
@@ -2946,6 +2964,15 @@ private:
 			return 0;
 		}
 
+		virtual Id onTemplateParameterTypeParsed(
+			const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy, bool isImplicit)
+		{
+			templateParameterTypes.push_back(
+				addLocationSuffix(templateParameterTypeNameHierarchy.getQualifiedName(), location)
+				);
+			return 0;
+		}
+
 		virtual Id onInheritanceParsed(
 			const ParseLocation& location, const NameHierarchy& childNameHierarchy,
 			const NameHierarchy& parentNameHierarchy, AccessType access)
@@ -2970,33 +2997,10 @@ private:
 			return 0;
 		}
 
-		virtual Id onFieldUsageParsed(
-			const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy)
+		virtual Id onUsageParsed(
+			const ParseLocation& location, const NameHierarchy& userName, Node::NodeType usedType, const NameHierarchy& usedName)
 		{
-			usages.push_back(addLocationSuffix(userNameHierarchy.getQualifiedNameWithSignature() + " -> " + usedNameHierarchy.getQualifiedName(), location));
-			return 0;
-		}
-
-		virtual Id onGlobalVariableUsageParsed(
-			const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy)
-		{
-			usages.push_back(addLocationSuffix(userNameHierarchy.getQualifiedNameWithSignature() + " -> " + usedNameHierarchy.getQualifiedName(), location));
-			return 0;
-		}
-
-		virtual Id onEnumConstantUsageParsed(
-			const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy)
-		{
-			usages.push_back(addLocationSuffix(userNameHierarchy.getQualifiedNameWithSignature() + " -> " + usedNameHierarchy.getQualifiedName(), location));
-			return 0;
-		}
-
-		virtual Id onTemplateParameterTypeParsed(
-			const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy, bool isImplicit)
-		{
-			templateParameterTypes.push_back(
-				addLocationSuffix(templateParameterTypeNameHierarchy.getQualifiedName(), location)
-				);
+			usages.push_back(addLocationSuffix(userName.getQualifiedNameWithSignature() + " -> " + usedName.getQualifiedName(), location));
 			return 0;
 		}
 

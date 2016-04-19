@@ -4,10 +4,10 @@
 #include <string>
 #include <vector>
 
-#include "utility/types.h"
+#include "data/graph/Node.h"
 #include "data/name/NameHierarchy.h"
-
 #include "utility/file/FileInfo.h"
+#include "utility/types.h"
 
 struct ParseLocation;
 class DataType;
@@ -85,12 +85,8 @@ public:
 		const ParseLocation& location, const NameHierarchy& overridden, const NameHierarchy& overrider) = 0;
 	virtual Id onCallParsed(
 		const ParseLocation& location, const NameHierarchy& caller, const NameHierarchy& callee) = 0;
-	virtual Id onFieldUsageParsed(
-		const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy) = 0;
-	virtual Id onGlobalVariableUsageParsed(
-		const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy) = 0;
-	virtual Id onEnumConstantUsageParsed(
-		const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy) = 0;
+	virtual Id onUsageParsed(
+		const ParseLocation& location, const NameHierarchy& userName, Node::NodeType usedType, const NameHierarchy& usedName) = 0;
 	virtual Id onTypeUsageParsed(const ParseLocation& location, const NameHierarchy& user, const NameHierarchy& used) = 0;
 
 	virtual Id onTemplateArgumentTypeParsed(

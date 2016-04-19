@@ -1158,6 +1158,24 @@ void ASTVisitor::RecordDeclRef(
 
 	bool fallback = false;
 
+
+	if (symbolType == ST_LocalVariable || symbolType == ST_Parameter)
+	{
+		if (clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(d))
+		{
+			ParseLocation declLocation = getParseLocation(varDecl->getSourceRange());
+			std::string name =
+				declLocation.filePath.str() + "::" +
+				varDecl->getNameAsString() + "<" +
+				std::to_string(declLocation.startLineNumber) + ":" +
+				std::to_string(declLocation.startColumnNumber) + ">";
+			m_client->onLocalSymbolParsed(
+				name,
+				parseLocation);
+		}
+		return;
+	}
+
 	switch (refType)
 	{
 	case RT_Declaration:
@@ -1303,21 +1321,6 @@ void ASTVisitor::RecordDeclRef(
 						declIsImplicit);
 				}
 				break;
-			case ST_LocalVariable:
-			case ST_Parameter:
-				if (clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(d))
-				{
-					ParseLocation declLocation = getParseLocation(varDecl->getSourceRange()); // i think we dont need this since this is the decl/def
-					std::string name =
-						declLocation.filePath.str() + "::" +
-						varDecl->getNameAsString() + "<" +
-						std::to_string(declLocation.startLineNumber) + ":" +
-						std::to_string(declLocation.startColumnNumber) + ">";
-					m_client->onLocalSymbolParsed(
-						name,
-						parseLocation);
-				}
-				break;
 			default:
 				fallback = true;
 				break;
@@ -1353,91 +1356,85 @@ void ASTVisitor::RecordDeclRef(
 			}
 			break;
 		}
-	default:
+	case RT_TemplateArgument:
 		{
 			const NameHierarchy contextNameHierarchy = getContextName();
+			m_client->onTemplateArgumentTypeParsed(
+				parseLocation, declNameHierarchy, contextNameHierarchy);
+			break;
+		}
+
+	case RT_Called:
+		{
+			const NameHierarchy contextNameHierarchy = getContextName();
+			m_client->onCallParsed(
+				parseLocation, contextNameHierarchy, declNameHierarchy);
+			break;
+		}
+	case RT_Reference:
+		{
+			const NameHierarchy contextNameHierarchy = getContextName();
+			m_client->onTypeUsageParsed(
+				parseLocation, contextNameHierarchy, declNameHierarchy);
+			break;
+		}
+	case RT_TemplateDefaultArgument:
+		{
+			const NameHierarchy contextNameHierarchy = getContextName();
+			m_client->onTemplateDefaultArgumentTypeParsed(
+				parseLocation, declNameHierarchy, contextNameHierarchy);
+			break;
+		}
+	case RT_BaseClass:
+		{
+			const NameHierarchy contextNameHierarchy = getContextName();
+			m_client->onInheritanceParsed(
+				parseLocation, contextNameHierarchy, declNameHierarchy, m_contextAccess);
+			break;
+		}
+	case RT_Assigned:
+	case RT_Read:
+	case RT_Initialized:
+	case RT_Modified:
+	case RT_Other:
+	case RT_AddressTaken:
+	{
+			const NameHierarchy contextNameHierarchy = getContextName();
+			Node::NodeType usedType = Node::NODE_UNDEFINED;
 			switch (symbolType)
 			{
 			case ST_Field:
-				m_client->onFieldUsageParsed(
-					parseLocation,
-					contextNameHierarchy,
-					declNameHierarchy
-				);
+				usedType = Node::NODE_FIELD;
 				break;
 			case ST_GlobalVariable:
-				if (refType == RT_TemplateArgument)
-				{
-					m_client->onTemplateArgumentTypeParsed(
-						parseLocation, declNameHierarchy, contextNameHierarchy);
-				}
-				else
-				{
-					m_client->onGlobalVariableUsageParsed(
-						parseLocation,
-						contextNameHierarchy,
-						declNameHierarchy);
-				}
+				usedType = Node::NODE_GLOBAL_VARIABLE;
 				break;
 			case ST_Enumerator:
-				m_client->onEnumConstantUsageParsed(
-					parseLocation,
-					contextNameHierarchy,
-					declNameHierarchy);
+				usedType = Node::NODE_ENUM_CONSTANT;
 				break;
-			case ST_LocalVariable:
-			case ST_Parameter:
-				if (clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(d))
-				{
-					ParseLocation declLocation = getParseLocation(varDecl->getSourceRange()); // i think we dont need this since this is the decl/def
-					std::string name =
-						declLocation.filePath.str() + "::" +
-						varDecl->getNameAsString() + "<" +
-						std::to_string(declLocation.startLineNumber) + ":" +
-						std::to_string(declLocation.startColumnNumber) + ">";
-					m_client->onLocalSymbolParsed(
-						name,
-						parseLocation);
-				}
+			case ST_Function:
+				usedType = Node::NODE_FUNCTION;
 				break;
-			case ST_Max:
-				switch (refType)
-				{
-				case RT_Called:
-					m_client->onCallParsed(
-						parseLocation, contextNameHierarchy, declNameHierarchy);
-					break;
-				case RT_Reference:
-					m_client->onTypeUsageParsed(
-						parseLocation, contextNameHierarchy, declNameHierarchy);
-					break;
-				case RT_TemplateArgument:
-					m_client->onTemplateArgumentTypeParsed(
-						parseLocation, declNameHierarchy, contextNameHierarchy);
-					break;
-				case RT_TemplateDefaultArgument:
-					m_client->onTemplateDefaultArgumentTypeParsed(
-						parseLocation, declNameHierarchy, contextNameHierarchy);
-					break;
-				case RT_BaseClass:
-					m_client->onInheritanceParsed(
-						parseLocation, contextNameHierarchy, declNameHierarchy, m_contextAccess);
-					break;
-				case RT_Assigned:
-				case RT_AddressTaken:
-				case RT_Read:
-				case RT_Qualifier:
-					// Do nothing.
-					break;
-				default:
-					fallback = true;
-					break;
-				}
-				break;
-			default:
-				fallback = true;
+			case ST_Method:
+				usedType = Node::NODE_METHOD;
 				break;
 			}
+
+			m_client->onUsageParsed(
+				parseLocation,
+				contextNameHierarchy,
+				usedType,
+				declNameHierarchy
+			);
+			break;
+		}
+	case RT_Qualifier:
+		// Do nothing.
+		break;
+	default:
+		{
+			fallback = true;
+			break;
 		}
 	}
 

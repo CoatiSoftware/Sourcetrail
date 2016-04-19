@@ -239,39 +239,13 @@ Id ParserClientImpl::onCallParsed(const ParseLocation& location, const NameHiera
 	return edgeId;
 }
 
-Id ParserClientImpl::onFieldUsageParsed(
-	const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy)
+Id ParserClientImpl::onUsageParsed(
+	const ParseLocation& location, const NameHierarchy& userName, Node::NodeType usedType, const NameHierarchy& usedName)
 {
-	log("field usage", userNameHierarchy.getQualifiedNameWithSignature() + " -> " + usedNameHierarchy.getQualifiedName(), location);
+	log("usage", userName.getQualifiedNameWithSignature() + " -> " + usedName.getQualifiedName(), location);
 
-	Id userNodeId = addNodeHierarchy(Node::NODE_FUNCTION, userNameHierarchy, DEFINITION_NONE);
-	Id usedNodeId = addNodeHierarchy(Node::NODE_FIELD, usedNameHierarchy, DEFINITION_NONE);
-	Id edgeId = addEdge(Edge::EDGE_USAGE, userNodeId, usedNodeId);
-	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-
-	return edgeId;
-}
-
-Id ParserClientImpl::onGlobalVariableUsageParsed( // or static variable used
-	const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy)
-{
-	log("global usage", userNameHierarchy.getQualifiedNameWithSignature() + " -> " + usedNameHierarchy.getQualifiedNameWithSignature(), location);
-
-	Id userNodeId = addNodeHierarchy(Node::NODE_FUNCTION, userNameHierarchy, DEFINITION_NONE);
-	Id usedNodeId = addNodeHierarchy(Node::NODE_GLOBAL_VARIABLE, usedNameHierarchy, DEFINITION_NONE);
-	Id edgeId = addEdge(Edge::EDGE_USAGE, userNodeId, usedNodeId);
-	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-
-	return edgeId;
-}
-
-Id ParserClientImpl::onEnumConstantUsageParsed(
-	const ParseLocation& location, const NameHierarchy& userNameHierarchy, const NameHierarchy& usedNameHierarchy)
-{
-	log("enum constant usage", userNameHierarchy.getQualifiedNameWithSignature() + " -> " + usedNameHierarchy.getQualifiedNameWithSignature(), location);
-
-	Id userNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, userNameHierarchy, DEFINITION_NONE);
-	Id usedNodeId = addNodeHierarchy(Node::NODE_ENUM_CONSTANT, usedNameHierarchy, DEFINITION_NONE);
+	Id userNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, userName, DEFINITION_NONE);
+	Id usedNodeId = addNodeHierarchy(usedType, usedName, DEFINITION_NONE);
 	Id edgeId = addEdge(Edge::EDGE_USAGE, userNodeId, usedNodeId);
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
 
