@@ -74,7 +74,7 @@ FilePath FilePath::absolute() const
 
 FilePath FilePath::canonical() const
 {
-	if (!m_exists)
+	if (!exists())
 	{
 		return FilePath(m_path);
 	}
