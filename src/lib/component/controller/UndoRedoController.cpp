@@ -380,6 +380,11 @@ MessageBase* UndoRedoController::lastMessage() const
 
 bool UndoRedoController::requiresActivateFallbackToken() const
 {
+	if (m_iterator == m_list.begin())
+	{
+		return true;
+	}
+
 	std::list<Command>::iterator it = m_iterator;
 
 	do
