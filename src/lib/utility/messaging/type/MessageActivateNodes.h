@@ -18,7 +18,6 @@ public:
 	};
 
 	MessageActivateNodes()
-		: isFromSystem(false)
 	{
 	}
 
@@ -46,8 +45,6 @@ public:
 	}
 
 	std::vector<ActiveNode> nodes;
-
-	bool isFromSystem;
 };
 
 #endif // MESSAGE_ACTIVATE_NODES_H

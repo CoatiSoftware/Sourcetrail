@@ -12,7 +12,6 @@ public:
 		: tokenIds(tokenIds)
 		, isEdge(false)
 		, isAggregation(false)
-		, isFromSystem(false)
 		, isFromSearch(false)
 	{
 		setIsReplayed(other->isReplayed());
@@ -37,7 +36,6 @@ public:
 
 	bool isEdge;
 	bool isAggregation;
-	bool isFromSystem;
 	bool isFromSearch;
 };
 

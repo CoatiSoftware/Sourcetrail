@@ -125,25 +125,22 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 		std::shared_ptr<TokenLocationCollection> collection = m_storageAccess->getTokenLocationsForTokenIds(activeTokenIds);
 		view->showCodeSnippets(getSnippetsForActiveTokenLocations(collection.get(), declarationId), activeTokenIds);
 
-		if (!message->isFromSystem)
+		size_t fileCount = collection->getTokenLocationFileCount();
+		size_t referenceCount = collection->getTokenLocationCount();
+
+		std::stringstream ss;
+		ss << message->tokenIds.size() << ' ';
+		ss << (message->tokenIds.size() == 1 ? "result" : "results");
+
+		if (fileCount > 0)
 		{
-			size_t fileCount = collection->getTokenLocationFileCount();
-			size_t referenceCount = collection->getTokenLocationCount();
-
-			std::stringstream ss;
-			ss << message->tokenIds.size() << ' ';
-			ss << (message->tokenIds.size() == 1 ? "result" : "results");
-
-			if (fileCount > 0)
-			{
-				ss << " with " << referenceCount << ' ';
-				ss << (referenceCount == 1 ? "reference" : "references");
-				ss << " in " << fileCount << ' ';
-				ss << (fileCount == 1 ? "file" : "files");
-			}
-
-			MessageStatus(ss.str()).dispatch();
+			ss << " with " << referenceCount << ' ';
+			ss << (referenceCount == 1 ? "reference" : "references");
+			ss << " in " << fileCount << ' ';
+			ss << (fileCount == 1 ? "file" : "files");
 		}
+
+		MessageStatus(ss.str()).dispatch();
 	}
 
 	showContents(message);

@@ -96,7 +96,6 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 
 	std::shared_ptr<MessageActivateTokens> m;
 	m = std::make_shared<MessageActivateTokens>(message, nodeIds);
-	m->isFromSystem = message->isFromSystem;
 	return m;
 }
 
