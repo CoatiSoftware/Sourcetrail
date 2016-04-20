@@ -294,6 +294,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocation
 	const TokenLocationCollection* collection, Id declarationId
 ) const {
 	std::vector<CodeSnippetParams> snippets;
+	size_t declarationFileCount = 0;
 
 	collection->forEachTokenLocationFile(
 		[&](std::shared_ptr<TokenLocationFile> file) -> void
@@ -309,7 +310,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocation
 				}
 			);
 
-			if (snippets.size() < 10 && (isDeclarationFile || collection->getTokenLocationFileCount() < 5 || file->isWholeCopy))
+			if (declarationFileCount < 5 && (isDeclarationFile || collection->getTokenLocationFileCount() < 5 || file->isWholeCopy))
 			{
 				std::vector<CodeSnippetParams> fileSnippets = getSnippetsForActiveTokenLocationsInFile(file);
 
@@ -329,6 +330,11 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocation
 
 				params.isCollapsed = true;
 				snippets.push_back(params);
+			}
+
+			if (isDeclarationFile)
+			{
+				declarationFileCount++;
 			}
 		}
 	);
