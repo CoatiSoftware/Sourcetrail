@@ -91,10 +91,10 @@ fi
 
 # BUILDING THE INSTALLERS
 echo -e "$INFO building the installer (app)"
-"D:/programme/Microsoft Visual Studio 12/Common7/IDE/devenv.com" deployment/windows/CoatiAppSetup/CoatiAppSetup.sln //build Release //project deployment/windows/CoatiAppSetup/CoatiSetup/CoatiSetup.vdproj
+"D:/programme/Microsoft Visual Studio14/Common7/IDE/devenv.com" deployment/windows/CoatiAppSetup/CoatiAppSetup.sln //build Release //project deployment/windows/CoatiAppSetup/CoatiSetup/CoatiSetup.vdproj
 
 echo -e "$INFO building the installer (trail)"
-"D:/programme/Microsoft Visual Studio 12/Common7/IDE/devenv.com" deployment/windows/CoatiTrialSetup/CoatiTrialSetup.sln //build Release //project deployment/windows/CoatiTrialSetup/CoatiSetup/CoatiSetup.vdproj
+"D:/programme/Microsoft Visual Studio14/Common7/IDE/devenv.com" deployment/windows/CoatiTrialSetup/CoatiTrialSetup.sln //build Release //project deployment/windows/CoatiTrialSetup/CoatiSetup/CoatiSetup.vdproj
 
 
 # EDIT THE INSTALLERS
@@ -120,9 +120,7 @@ cp -u -r deployment/windows/CoatiAppSetup/CoatiSetup/Release/Coati.msi $APP_PACK
 cp -u -r deployment/windows/CoatiAppSetup/CoatiSetup/Release/setup.exe $APP_PACKAGE_DIR/
 
 mkdir -p $APP_PACKAGE_DIR/plugins/visual_studio/
-cp -u -r ide_plugins/vs/coati_plugin_vs_2012.vsix $APP_PACKAGE_DIR/plugins/visual_studio/
-cp -u -r ide_plugins/vs/coati_plugin_vs_2013.vsix $APP_PACKAGE_DIR/plugins/visual_studio/
-cp -u -r ide_plugins/vs/coati_plugin_vs_2015.vsix $APP_PACKAGE_DIR/plugins/visual_studio/
+cp -u -r ide_plugins/vs/coati_plugin_vs.vsix $APP_PACKAGE_DIR/plugins/visual_studio/
 mkdir -p $APP_PACKAGE_DIR/plugins/sublime_text/
 cp -u -r ide_plugins/sublime_text/* $APP_PACKAGE_DIR/plugins/sublime_text/
 
@@ -152,9 +150,7 @@ cp -u -r deployment/windows/CoatiTrialSetup/CoatiSetup/Release/CoatiTrial.msi $T
 cp -u -r deployment/windows/CoatiTrialSetup/CoatiSetup/Release/setup.exe $TRIAL_PACKAGE_DIR/
 
 mkdir -p $TRIAL_PACKAGE_DIR/plugins/visual_studio/
-cp -u -r ide_plugins/vs/coati_plugin_vs_2012.vsix $TRIAL_PACKAGE_DIR/plugins/visual_studio/
-cp -u -r ide_plugins/vs/coati_plugin_vs_2013.vsix $TRIAL_PACKAGE_DIR/plugins/visual_studio/
-cp -u -r ide_plugins/vs/coati_plugin_vs_2015.vsix $TRIAL_PACKAGE_DIR/plugins/visual_studio/
+cp -u -r ide_plugins/vs/coati_plugin_vs.vsix $TRIAL_PACKAGE_DIR/plugins/visual_studio/
 mkdir -p $TRIAL_PACKAGE_DIR/plugins/sublime_text/
 cp -u -r ide_plugins/sublime_text/* $TRIAL_PACKAGE_DIR/plugins/sublime_text/
 
