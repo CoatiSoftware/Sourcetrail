@@ -219,9 +219,13 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 
 	const size_t maxResultCount = 100;
 	std::vector<SearchResult> elementResults = m_elementIndex.search(query, maxResultCount);
-	std::sort(elementResults.begin(), elementResults.end(), [](
-		const SearchResult& a,
-		const SearchResult& b)
+
+	std::vector<SearchResult> results;
+	utility::append(results, commandResults);
+	utility::append(results, elementResults);
+
+	std::sort(results.begin(), results.end(),
+		[](const SearchResult& a, const SearchResult& b)
 		{
 			// should a be ranked higher than b?
 			if (a.score > b.score)
@@ -230,26 +234,31 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 			}
 			else if (a.score == b.score)
 			{
-
 				if (a.text.size() < b.text.size())
 				{
 					return true;
 				}
 				else if (a.text.size() == b.text.size())
 				{
-					// move uppercase letters to higher ascii range
-					std::string sA = utility::switchCases(a.text);
-					std::string sB = utility::switchCases(b.text);
-					return (sA.compare(sB) < 0);
+					for (size_t i = 0; i < a.text.size(); i++)
+					{
+						if (tolower(a.text[i]) != tolower(b.text[i]))
+						{
+							return tolower(a.text[i]) < tolower(b.text[i]);
+						}
+						else
+						{
+							if (a.text[i] < b.text[i])
+							{
+								return true;
+							}
+						}
+					}
 				}
 			}
 			return false;
 		}
 	);
-
-	std::vector<SearchResult> results;
-	utility::append(results, commandResults);
-	utility::append(results, elementResults);
 
 	std::vector<SearchMatch> matches;
 	for (size_t i = 0; i < results.size(); i++)

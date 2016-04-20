@@ -4,6 +4,7 @@
 #include <ctype.h>
 
 #include "utility/utility.h"
+#include "utility/utilityString.h"
 
 SearchIndex::SearchIndex()
 {
@@ -106,81 +107,101 @@ void SearchIndex::clear()
 
 std::vector<SearchResult> SearchIndex::search(const std::string& query, size_t maxResultCount) const
 {
-	std::string lowerCaseQuery = "";
-	for (size_t i = 0; i < query.size(); i++)
-	{
-		lowerCaseQuery += tolower(query[i]);
-	}
-
+	std::string lowerCaseQuery = utility::toLowerCase(query);
 	Path startPath;
 	startPath.node = m_root;
-	std::vector<Path> paths = search(startPath, lowerCaseQuery);
+	std::vector<Path> paths;
+	search(startPath, lowerCaseQuery, &paths);
+
+	std::set<char> noLetters;
+	noLetters.insert(' ');
+	noLetters.insert('.');
+	noLetters.insert(',');
+	noLetters.insert('_');
+	noLetters.insert(':');
+	noLetters.insert('<');
+	noLetters.insert('>');
 
 	// scoring paths
-	std::vector<std::pair<int, Path>> scoredPaths;
+	std::multiset<std::pair<int, Path>, bool(*)(const std::pair<int, Path>&, const std::pair<int, Path>&)> scoredPaths(
+		[](const std::pair<int, Path>& a, const std::pair<int, Path>& b)
+		{
+			return a.first > b.first;
+		}
+	);
+
 	for (size_t i = 0; i < paths.size(); i++)
 	{
 		const std::vector<size_t>& currentIndices = paths[i].indices;
+		const std::string& currentText = paths[i].text;
 
 		const int unmatchedLetterBonus = -1;
 		const int consecutiveLetterBonus = 5;
-		const int camelCaseBonus = 10;
+		const int camelCaseBonus = 5;
+		const int noLetterBonus = 3;
 		const int delayedStartBonus = -3;
-		const int minDelayedStartBonus = -9;
+		const int minDelayedStartBonus = -15;
 
 		int unmatchedLetterScore = 0;
 		int consecutiveLetterScore = 0;
-		for (size_t j = 1; j < currentIndices.size(); j++)
-		{
-			unmatchedLetterScore += (currentIndices[j] - currentIndices[j-1] - 1) * unmatchedLetterBonus;
-			consecutiveLetterScore += (currentIndices[j] - currentIndices[j-1] == 1 ? consecutiveLetterBonus : 0);
-		}
-
 		int camelCaseScore = 0;
+		int noLetterScore = 0;
+
 		for (size_t j = 0; j < currentIndices.size(); j++)
 		{
+			// unmatched and consecutive
+			if (j > 0)
+			{
+				unmatchedLetterScore += (currentIndices[j] - currentIndices[j-1] - 1) * unmatchedLetterBonus;
+				consecutiveLetterScore += (currentIndices[j] - currentIndices[j-1] == 1 ? consecutiveLetterBonus : 0);
+			}
+
 			size_t index = currentIndices[j];
 
-			if (isupper(paths[i].text[index]))
+			// camel case
+			if (isupper(currentText[index]))
 			{
-				bool prevIsLower = (index == 0 || islower(paths[i].text[index-1]));
-				bool nextIsLower = (index + 1 == paths[i].text.size() || islower(paths[i].text[index+1]));
+				bool prevIsLower = (index > 0 && islower(currentText[index-1]));
+				bool nextIsLower = (index + 1 == currentText.size() || islower(currentText[index+1]));
 
 				if (prevIsLower && nextIsLower)
 				{
 					camelCaseScore += camelCaseBonus;
 				}
 			}
+
+			// after no letter
+			bool prevIsNoLetter = (index > 0 && noLetters.find(currentText[index-1]) != noLetters.end());
+			if (prevIsNoLetter)
+			{
+				noLetterScore += noLetterBonus;
+			}
 		}
 
-		int leadingStartScore = 0;
-		leadingStartScore += std::max(int(currentIndices[0]) * delayedStartBonus, minDelayedStartBonus);
+		int leadingStartScore = std::max(int(currentIndices[0]) * delayedStartBonus, minDelayedStartBonus);
 
 		int score =
 			unmatchedLetterScore +
 			consecutiveLetterScore +
 			camelCaseScore +
+			noLetterScore +
 			leadingStartScore;
 
-		scoredPaths.push_back(std::make_pair(score, paths[i]));
+		scoredPaths.insert(std::make_pair(score, paths[i]));
 	}
-
-	// sorting paths
-	std::sort(scoredPaths.begin(), scoredPaths.end(), [](
-		std::pair<int, Path> a,
-		std::pair<int, Path> b)
-		{
-			return b.first < a.first;
-		}
-	);
 
 	// preparing results
 	std::vector<SearchResult> searchResults;
-	for (size_t i = 0; i < scoredPaths.size() && (maxResultCount == 0 || searchResults.size() < maxResultCount); i++)
+	for (const std::pair<int, Path> currentResult : scoredPaths)
 	{
-		int currentScore = scoredPaths[i].first;
+		if (maxResultCount > 0 && searchResults.size() >= maxResultCount)
+		{
+			break;
+		}
+
+		int currentScore = currentResult.first;
 		std::vector<Path> currentPaths;
-		currentPaths.push_back(scoredPaths[i].second);
+		currentPaths.push_back(currentResult.second);
 
 		while (currentPaths.size() > 0)
 		{
@@ -236,13 +257,11 @@ void SearchIndex::populateEdgeGate(Edge* e)
 	}
 }
 
-std::vector<SearchIndex::Path> SearchIndex::search(const Path& path, const std::string& remainingQuery) const
+void SearchIndex::search(const Path& path, const std::string& remainingQuery, std::vector<SearchIndex::Path>* results) const
 {
-	std::vector<Path> results;
-
 	if (remainingQuery.size() == 0)
 	{
-		results.push_back(path);
+		results->push_back(path);
 	}
 	else
 	{
@@ -283,9 +302,8 @@ std::vector<SearchIndex::Path> SearchIndex::search(const Path& path, const std::
 				currentPath.indices = currentFoundIds;
 				currentPath.text = path.text + edgeString;
 
-				utility::append(results, search(currentPath, currentRemainingQuery));
+				search(currentPath, currentRemainingQuery, results);
 			}
 		}
 	}
-	return results;
 }

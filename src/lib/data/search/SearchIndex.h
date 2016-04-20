@@ -57,7 +57,7 @@ private:
 	};
 
 	void populateEdgeGate(Edge* e);
-	std::vector<Path> search(const Path& path, const std::string& remainingQuery) const;
+	void search(const Path& path, const std::string& remainingQuery, std::vector<SearchIndex::Path>* results) const;
 
 	std::vector<std::shared_ptr<Node>> m_nodes;
 	std::vector<std::shared_ptr<Edge>> m_edges;
