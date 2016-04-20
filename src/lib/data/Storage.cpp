@@ -477,8 +477,9 @@ std::vector<Id> Storage::getActiveTokenIdsForId(Id tokenId, Id* declarationId) c
 
 std::vector<Id> Storage::getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const
 {
-	std::set<Id> nodeIds;
 	std::set<Id> edgeIds;
+	std::set<Id> nodeIds;
+	std::set<Id> implicitNodeIds;
 
 	for (Id locationId : locationIds)
 	{
@@ -492,11 +493,23 @@ std::vector<Id> Storage::getNodeIdsForLocationIds(const std::vector<Id>& locatio
 		else if(m_sqliteStorage.isNode(elementId))
 		{
 			StorageNode node = m_sqliteStorage.getNodeById(elementId);
-			if (node.id != 0 && intToDefinitionType(node.definitionType) == DEFINITION_EXPLICIT)
+			if (node.id != 0)
 			{
-				nodeIds.insert(elementId);
+				if (intToDefinitionType(node.definitionType) == DEFINITION_IMPLICIT)
+				{
+					implicitNodeIds.insert(elementId);
+				}
+				else
+				{
+					nodeIds.insert(elementId);
+				}
 			}
 		}
+	}
+
+	if (nodeIds.size() == 0)
+	{
+		nodeIds = implicitNodeIds;
 	}
 
 	if (nodeIds.size())
