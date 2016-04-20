@@ -71,7 +71,7 @@ std::vector<T> utility::concat(const std::vector<T>& a, const std::vector<T>& b)
 template<typename T>
 void utility::append(std::vector<T>& a, const std::vector<T>& b)
 {
-	a.insert(a.begin(), b.begin(), b.end());
+	a.insert(a.end(), b.begin(), b.end());
 }
 
 template<typename T>
