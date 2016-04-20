@@ -5,6 +5,8 @@
 
 #include "utility/types.h"
 
+#include "data/DefinitionType.h"
+
 struct StorageEdge
 {
 	StorageEdge(Id id, int type, Id sourceNodeId, Id targetNodeId)
@@ -22,6 +24,12 @@ struct StorageEdge
 
 struct StorageNode
 {
+	StorageNode()
+		: id(0)
+		, type(0)
+		, definitionType(definitionTypeToInt(DEFINITION_NONE))
+	{}
+
 	StorageNode(Id id, int type, const std::string& serializedName, int definitionType)
 		: id(id)
 		, type(type)

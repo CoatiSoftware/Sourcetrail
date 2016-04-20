@@ -74,6 +74,8 @@ private:
 
 	std::vector<std::string> getProjectDescription(TokenLocationFile* locationFile) const;
 
+	void addModificationTimes(std::vector<CodeSnippetParams>& snippets) const;
+
 	StorageAccess* m_storageAccess;
 };
 

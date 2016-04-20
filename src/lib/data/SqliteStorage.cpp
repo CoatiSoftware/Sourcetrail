@@ -270,7 +270,7 @@ StorageNode SqliteStorage::getFirstNode() const
 		return nodes[0];
 	}
 
-	return StorageNode(0, 0, "", definitionTypeToInt(DEFINITION_NONE));
+	return StorageNode();
 }
 
 std::vector<StorageNode> SqliteStorage::getAllNodes() const
@@ -422,7 +422,7 @@ StorageNode SqliteStorage::getNodeById(Id id) const
 	{
 		return getFirstNode("WHERE id == " + std::to_string(id));
 	}
-	return StorageNode(0, 0, "", definitionTypeToInt(DEFINITION_NONE));
+	return StorageNode();
 }
 
 StorageNode SqliteStorage::getNodeBySerializedName(const std::string& serializedName) const
@@ -455,19 +455,24 @@ StorageFile SqliteStorage::getFileById(const Id id) const
 	);
 }
 
-StorageFile SqliteStorage::getFileByPath(const std::string& filePath) const
+StorageFile SqliteStorage::getFileByPath(const FilePath& filePath) const
 {
 	StorageFile storageFile = getFirstFile(
 		"SELECT node.id, node.serialized_name, file.path, file.modification_time FROM node INNER JOIN file ON node.id = file.id "
-		"WHERE file.path == '" + filePath + "';"
+		"WHERE file.path == '" + filePath.str() + "';"
 	);
 
 	return storageFile;
 }
 
+std::vector<StorageFile> SqliteStorage::getFilesByPaths(const std::vector<FilePath>& filePaths) const
+{
+	return getAllFiles("WHERE file.path IN ('" + utility::join(utility::toStrings(filePaths), "', '") + "')");
+}
+
 std::vector<StorageFile> SqliteStorage::getAllFiles() const
 {
-	return getAllFiles("SELECT file.id, node.serialized_name, file.path, file.modification_time FROM file INNER JOIN node ON file.id = node.id;");
+	return getAllFiles("");
 }
 
 std::shared_ptr<TextAccess> SqliteStorage::getFileContentByPath(const std::string& filePath) const
@@ -909,10 +914,12 @@ StorageFile SqliteStorage::getFirstFile(const std::string& query) const
 
 std::vector<StorageFile> SqliteStorage::getAllFiles(const std::string& query) const
 {
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT file.id, node.serialized_name, file.path, file.modification_time FROM file "
+			"INNER JOIN node ON file.id = node.id " + query + ";"
+	).c_str());
+
 	std::vector<StorageFile> files;
-
-	CppSQLite3Query q = m_database.execQuery(query.c_str());
-
 	while (!q.eof())
 	{
 		const Id id							= q.getIntField(0, 0);
@@ -1011,5 +1018,5 @@ StorageNode SqliteStorage::getFirstNode(const std::string& query) const
 	{
 		return nodes[0];
 	}
-	return StorageNode(0, 0, "", definitionTypeToInt(DEFINITION_NONE));
+	return StorageNode();
 }

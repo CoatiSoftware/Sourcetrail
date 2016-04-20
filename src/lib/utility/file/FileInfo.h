@@ -6,15 +6,16 @@
 #include "boost/date_time.hpp"
 
 #include "utility/file/FilePath.h"
+#include "utility/TimePoint.h"
 
 struct FileInfo
 {
 	FileInfo();
 	FileInfo(const FilePath& path);
-	FileInfo(const FilePath& path, boost::posix_time::ptime lastWriteTime);
+	FileInfo(const FilePath& path, const TimePoint& lastWriteTime);
 
 	FilePath path;
-	boost::posix_time::ptime lastWriteTime;
+	TimePoint lastWriteTime;
 };
 
 #endif // FILE_INFO_H

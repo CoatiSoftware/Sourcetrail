@@ -181,7 +181,7 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 			std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(message->filePath);
 			params.code = textAccess->getText();
 
-			params.modificationTime = m_storageAccess->getFileModificationTime(message->filePath);
+			params.modificationTime = m_storageAccess->getFileInfoForFilePath(message->filePath).lastWriteTime;
 
 			if (message->showErrors)
 			{
@@ -326,7 +326,6 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocation
 				CodeSnippetParams params;
 				params.locationFile = file;
 				params.refCount = file->getUnscopedStartTokenLocationCount();
-				params.modificationTime = m_storageAccess->getFileModificationTime(file->getFilePath());
 
 				params.isCollapsed = true;
 				snippets.push_back(params);
@@ -340,6 +339,8 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocation
 	);
 
 	std::sort(snippets.begin(), snippets.end(), CodeSnippetParams::sort);
+
+	addModificationTimes(snippets);
 
 	return snippets;
 }
@@ -425,7 +426,6 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(std::shared_pt
 	}
 
 	const int snippetExpandRange = ApplicationSettings::getInstance()->getCodeSnippetExpandRange();
-	TimePoint fileModificationTime = m_storageAccess->getFileModificationTime(activeTokenLocations->getFilePath());
 	std::vector<CodeSnippetParams> snippets;
 	for (const SnippetMerger::Range& range: ranges)
 	{
@@ -434,7 +434,6 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(std::shared_pt
 		params.refCount = activeTokenLocations->getUnscopedStartTokenLocationCount();
 		params.startLineNumber = std::max<int>(1, range.start.row - (range.start.strong ? 0 : snippetExpandRange));
 		params.endLineNumber = std::min<int>(textAccess->getLineCount(), range.end.row + (range.end.strong ? 0 : snippetExpandRange));
-		params.modificationTime = fileModificationTime;
 
 		std::shared_ptr<TokenLocationFile> tempFile =
 			m_storageAccess->getTokenLocationsForLinesInFile(activeTokenLocations->getFilePath().str(), params.startLineNumber, params.endLineNumber);
@@ -585,13 +584,14 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForErrorLocations(
 				CodeSnippetParams params;
 				params.locationFile = file;
 				params.refCount = file->getUnscopedStartTokenLocationCount();
-				params.modificationTime = m_storageAccess->getFileModificationTime(file->getFilePath());
 
 				params.isCollapsed = true;
 				snippets.push_back(params);
 			}
 		}
 	);
+
+	addModificationTimes(snippets);
 
 	return snippets;
 }
@@ -650,4 +650,25 @@ std::vector<std::string> CodeController::getProjectDescription(TokenLocationFile
 	}
 
 	return lines;
+}
+
+void CodeController::addModificationTimes(std::vector<CodeSnippetParams>& snippets) const
+{
+	std::vector<FilePath> filePaths;
+	for (const CodeSnippetParams& snippet : snippets)
+	{
+		filePaths.push_back(snippet.locationFile->getFilePath());
+	}
+	std::vector<FileInfo> fileInfos = m_storageAccess->getFileInfosForFilePaths(filePaths);
+
+	std::map<FilePath, FileInfo> fileInfoMap;
+	for (FileInfo& fileInfo : fileInfos)
+	{
+		fileInfoMap.emplace(fileInfo.path, fileInfo);
+	}
+
+	for (CodeSnippetParams& snippet : snippets)
+	{
+		snippet.modificationTime = fileInfoMap[snippet.locationFile->getFilePath()].lastWriteTime;
+	}
 }

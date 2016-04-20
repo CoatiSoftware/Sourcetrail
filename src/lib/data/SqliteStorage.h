@@ -79,7 +79,9 @@ public:
 	StorageLocalSymbol getLocalSymbolByName(const std::string& name) const;
 
 	StorageFile getFileById(const Id id) const;
-	StorageFile getFileByPath(const std::string& filePath) const;
+	StorageFile getFileByPath(const FilePath& filePath) const;
+
+	std::vector<StorageFile> getFilesByPaths(const std::vector<FilePath>& filePaths) const;
 	std::vector<StorageFile> getAllFiles() const;
 	std::shared_ptr<TextAccess> getFileContentByPath(const std::string& filePath) const;
 

@@ -358,7 +358,7 @@ Id ParserClientImpl::onFileParsed(const FileInfo& fileInfo) // TODO: move up to 
 {
 	log("file", fileInfo.path.str(), ParseLocation());
 
-	addFile(fileInfo.path.fileName(), fileInfo.path.str(), utility::timeToString(fileInfo.lastWriteTime));
+	addFile(fileInfo.path.fileName(), fileInfo.path.str(), fileInfo.lastWriteTime.toString());
 
 	return 0;
 }
@@ -367,8 +367,8 @@ Id ParserClientImpl::onFileIncludeParsed(const ParseLocation& location, const Fi
 {
 	log("include", includedFileInfo.path.str(), location);
 
-	Id fileNodeId = addFile(fileInfo.path.fileName(), fileInfo.path.str(), utility::timeToString(fileInfo.lastWriteTime));
-	Id includedFileNodeId = addFile(includedFileInfo.path.fileName(), includedFileInfo.path.str(), utility::timeToString(includedFileInfo.lastWriteTime));
+	Id fileNodeId = addFile(fileInfo.path.fileName(), fileInfo.path.str(), fileInfo.lastWriteTime.toString());
+	Id includedFileNodeId = addFile(includedFileInfo.path.fileName(), includedFileInfo.path.str(), includedFileInfo.lastWriteTime.toString());
 	Id edgeId = addEdge(Edge::EDGE_INCLUDE, fileNodeId, includedFileNodeId);
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
 

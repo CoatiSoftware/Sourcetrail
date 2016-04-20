@@ -48,7 +48,9 @@ public:
 	virtual std::shared_ptr<TokenLocationFile> getCommentLocationsInFile(const FilePath& filePath) const;
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const;
-	virtual TimePoint getFileModificationTime(const FilePath& filePath) const;
+
+	virtual FileInfo getFileInfoForFilePath(const FilePath& filePath) const;
+	virtual std::vector<FileInfo> getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const;
 
 	virtual ErrorCountInfo getErrorCount() const;
 	virtual StorageStats getStorageStats() const;

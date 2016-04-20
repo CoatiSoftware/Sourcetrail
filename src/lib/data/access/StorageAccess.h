@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "utility/types.h"
+#include "utility/file/FileInfo.h"
 #include "utility/file/FilePath.h"
 
 #include "data/graph/Node.h"
@@ -14,7 +15,6 @@
 #include "data/ErrorInfo.h"
 #include "data/StorageStats.h"
 
-struct FileInfo;
 class Graph;
 class TextAccess;
 class TokenLocation;
@@ -61,7 +61,9 @@ public:
 	virtual std::shared_ptr<TokenLocationFile> getCommentLocationsInFile(const FilePath& filePath) const = 0;
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const = 0;
-	virtual TimePoint getFileModificationTime(const FilePath& filePath) const = 0;
+
+	virtual FileInfo getFileInfoForFilePath(const FilePath& filePath) const = 0;
+	virtual std::vector<FileInfo> getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const = 0;
 
 	virtual ErrorCountInfo getErrorCount() const = 0;
 	virtual StorageStats getStorageStats() const = 0;

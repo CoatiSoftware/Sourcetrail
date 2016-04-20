@@ -260,50 +260,69 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 		}
 	);
 
-	std::vector<SearchMatch> matches;
-	for (size_t i = 0; i < results.size(); i++)
+	std::map<Id, StorageNode> storageNodesMap;
 	{
+		std::vector<Id> elementIds;
+
+		for (const SearchResult& result : results)
+		{
+			elementIds.insert(elementIds.end(), result.elementIds.begin(), result.elementIds.end());
+		}
+
+		std::vector<StorageNode> storageNodes = m_sqliteStorage.getNodesByIds(elementIds);
+
+		for (StorageNode& node : storageNodes)
+		{
+			if (node.id > 0)
+			{
+				storageNodesMap.emplace(node.id, node);
+			}
+		}
+	}
+
+	std::vector<SearchMatch> matches;
+	for (const SearchResult& result : results)
+	{
+		if (result.elementIds.size() == 0)
+		{
+			continue;
+		}
+
 		SearchMatch match;
 
-		if (results[i].elementIds.size() > 0)
+		const StorageNode* firstNode = nullptr;
+		for (const Id& elementId : result.elementIds)
 		{
-			StorageNode firstNode(0, 0, "", 0);
-			for (std::set<Id>::const_iterator itElementIds = results[i].elementIds.begin();
-				itElementIds != results[i].elementIds.end();
-				itElementIds++)
+			if (elementId != 0)
 			{
-				Id elementId = *itElementIds;
-				if (elementId != 0)
-				{
-					StorageNode node = m_sqliteStorage.getNodeById(elementId);
-					match.nameHierarchies.push_back(NameHierarchy::deserialize(node.serializedName));
+				const StorageNode& node = storageNodesMap[elementId];
+				match.nameHierarchies.push_back(NameHierarchy::deserialize(node.serializedName));
 
-					if (firstNode.id == 0)
-					{
-						firstNode = node;
-					}
+				if (!firstNode)
+				{
+					firstNode = &node;
 				}
 			}
+		}
 
-			match.text = results[i].text;
-			match.indices = results[i].indices;
+		match.text = result.text;
+		match.indices = result.indices;
 
-			if (firstNode.id != 0)
+		if (firstNode)
+		{
+			match.nodeType = Node::intToType(firstNode->type);
+			match.typeName = Node::getTypeString(match.nodeType);
+
+			if (intToDefinitionType(firstNode->definitionType) == DEFINITION_NONE && match.nodeType != Node::NODE_UNDEFINED)
 			{
-				match.nodeType = Node::intToType(firstNode.type);
-				match.typeName = Node::getTypeString(match.nodeType);
-
-				if (intToDefinitionType(firstNode.definitionType) == DEFINITION_NONE && match.nodeType != Node::NODE_UNDEFINED)
-				{
-					match.typeName = "undefined " + match.typeName;
-				}
-				match.searchType = SearchMatch::SEARCH_TOKEN;
+				match.typeName = "undefined " + match.typeName;
 			}
-			else
-			{
-				match.searchType = SearchMatch::SEARCH_COMMAND;
-				match.typeName = "command";
-			}
+			match.searchType = SearchMatch::SEARCH_TOKEN;
+		}
+		else
+		{
+			match.searchType = SearchMatch::SEARCH_COMMAND;
+			match.typeName = "command";
 		}
 
 		matches.push_back(match);
@@ -742,9 +761,22 @@ std::shared_ptr<TextAccess> Storage::getFileContent(const FilePath& filePath) co
 	return m_sqliteStorage.getFileContentByPath(filePath.str());
 }
 
-TimePoint Storage::getFileModificationTime(const FilePath& filePath) const
+FileInfo Storage::getFileInfoForFilePath(const FilePath& filePath) const
 {
-	return TimePoint(m_sqliteStorage.getFileByPath(filePath.str()).modificationTime);
+	return FileInfo(filePath, m_sqliteStorage.getFileByPath(filePath).modificationTime);
+}
+
+std::vector<FileInfo> Storage::getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const
+{
+	std::vector<FileInfo> fileInfos;
+
+	std::vector<StorageFile> storageFiles = m_sqliteStorage.getFilesByPaths(filePaths);
+	for (const StorageFile& file : storageFiles)
+	{
+		fileInfos.push_back(FileInfo(FilePath(file.filePath), file.modificationTime));
+	}
+
+	return fileInfos;
 }
 
 ErrorCountInfo Storage::getErrorCount() const

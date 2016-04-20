@@ -255,14 +255,24 @@ std::shared_ptr<TextAccess> StorageAccessProxy::getFileContent(const FilePath& f
 	return nullptr;
 }
 
-TimePoint StorageAccessProxy::getFileModificationTime(const FilePath& filePath) const
+FileInfo StorageAccessProxy::getFileInfoForFilePath(const FilePath& filePath) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getFileModificationTime(filePath);
+		return m_subject->getFileInfoForFilePath(filePath);
 	}
 
-	return TimePoint(boost::posix_time::not_a_date_time);
+	return FileInfo();
+}
+
+std::vector<FileInfo> StorageAccessProxy::getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getFileInfosForFilePaths(filePaths);
+	}
+
+	return std::vector<FileInfo>();
 }
 
 ErrorCountInfo StorageAccessProxy::getErrorCount() const
