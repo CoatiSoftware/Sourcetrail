@@ -439,7 +439,7 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 		std::vector<StorageNode> nodes = m_sqliteStorage.getNodesByIds(ids);
 		for (const StorageNode& node : nodes)
 		{
-			if (node.id > 0 && (!isNamespace || intToDefinitionType(node.definitionType) == DEFINITION_EXPLICIT))
+			if (node.id > 0 && (!isNamespace || intToDefinitionType(node.definitionType) != DEFINITION_IMPLICIT))
 			{
 				nodeIds.push_back(node.id);
 			}
