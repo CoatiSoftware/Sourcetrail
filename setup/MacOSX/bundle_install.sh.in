@@ -30,7 +30,7 @@ VERSION_STRING="${VERSION_STRING%_*}"
 PACKAGE_DIR=${BUNDLE_NAME}_${VERSION_STRING}
 
 QT_DIR="@MACOSX_QT_DIR@"
-QT_FRAMEWORK_PATHS=(/Users/ebsi/Documents/Qt/5.5/clang_64/lib/QtDBus.framework/Versions/5/QtDBus @MACOSX_QT_FRAMEWORKS@)
+QT_FRAMEWORK_PATHS=(/Users/ebsi/Documents/Qt/5.6/clang_64/lib/QtDBus.framework/Versions/5/QtDBus @MACOSX_QT_FRAMEWORKS@)
 
 if [ ! -x "$APP_NAME" ]
 then
@@ -219,9 +219,9 @@ iconutil -c icns -o $RES_DIR/project.icns $ICON_SET
 
 # echo -e $INFO "Obfuscate binary"
 # upx -1 $APP_PATH
-upx --best $APP_PATH
+# upx --best $APP_PATH
 
 # echo -e $INFO "create DMG"
-hdiutil create ${PACKAGE_DIR}.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR}
+# hdiutil create ${PACKAGE_DIR}.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR}
 
 echo -e $SUCCESS "Installed bundle successfully!"
