@@ -21,7 +21,7 @@
 #include "utility/messaging/type/MessageLoadProject.h"
 
 #include "utility/solution/SolutionParserVisualStudio.h"
-#include "utility/solution/SolutionParserCodeBlocks.h"
+// #include "utility/solution/SolutionParserCodeBlocks.h"
 
 #include "utility/messaging/type/MessageStatus.h"
 
@@ -38,7 +38,7 @@ QtProjectWizzard::QtProjectWizzard(QWidget* parent)
 
 	// wip
 	m_parserManager->pushSolutionParser(std::make_shared<SolutionParserVisualStudio>());
-	m_parserManager->pushSolutionParser(std::make_shared<SolutionParserCodeBlocks>());
+	// m_parserManager->pushSolutionParser(std::make_shared<SolutionParserCodeBlocks>());
 }
 
 void QtProjectWizzard::showWindow()

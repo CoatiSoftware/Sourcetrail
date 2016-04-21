@@ -100,7 +100,7 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 	{
 		for (unsigned int i = 0; i < manager->getParserCount(); i++)
 		{
-			std::string name = manager->getParserName(i);
+			std::string name = manager->getParserButtonText(i);
 
 			QToolButton* button = createProjectButton(name.c_str(),
 				(ResourcePaths::getGuiPath() + "icon/project_vs_256_256.png").c_str());
@@ -142,7 +142,7 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 		}
 	);
 
-	
+
 
 	QFrame* container = new QFrame();
 	container->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);

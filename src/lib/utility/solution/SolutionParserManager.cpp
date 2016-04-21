@@ -77,6 +77,18 @@ std::string SolutionParserManager::getParserName(const unsigned int idx) const
 	return "";
 }
 
+std::string SolutionParserManager::getParserButtonText(const unsigned int idx) const
+{
+	if (checkIndex(idx))
+	{
+		return m_solutionParsers[idx]->getButtonText();
+	}
+
+	LOG_WARNING_STREAM(<< "Index is out of range, was " << idx << ". Max is " << m_solutionParsers.size() - 1);
+
+	return "";
+}
+
 std::string SolutionParserManager::getParserDescription(const unsigned int idx) const
 {
 	if (checkIndex(idx))

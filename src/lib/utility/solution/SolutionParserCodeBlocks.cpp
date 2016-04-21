@@ -208,6 +208,11 @@ std::string SolutionParserCodeBlocks::getIdeName() const
 	return "Code Blocks";
 }
 
+std::string SolutionParserCodeBlocks::getButtonText() const
+{
+	return "from Code\nBlocks Project";
+}
+
 std::string SolutionParserCodeBlocks::getDescription() const
 {
 	return "idunno";

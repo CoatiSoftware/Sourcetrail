@@ -31,6 +31,7 @@ public:
 	virtual ProjectSettings getProjectSettings(const std::string& solutionFilePath) = 0;
 
 	virtual std::string getIdeName() const = 0;
+	virtual std::string getButtonText() const = 0;
 	virtual std::string getDescription() const = 0;
 	virtual std::string getIconPath() const = 0;
 	virtual std::string getFileExtension() const = 0;

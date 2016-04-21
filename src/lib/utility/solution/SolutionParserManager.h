@@ -20,6 +20,7 @@ public:
 	unsigned int getParserCount() const;
 
 	std::string getParserName(const unsigned int idx) const;
+	std::string getParserButtonText(const unsigned int idx) const;
 	std::string getParserDescription(const unsigned int idx) const;
 	std::string getParserFileEnding(const unsigned int idx) const;
 	std::string getParserIdeId(const unsigned int idx) const;

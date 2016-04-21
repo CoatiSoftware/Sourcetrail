@@ -204,6 +204,11 @@ std::string SolutionParserVisualStudio::getIdeName() const
 	return "Visual Studio";
 }
 
+std::string SolutionParserVisualStudio::getButtonText() const
+{
+	return "from Visual\nStudio Solution";
+}
+
 std::string SolutionParserVisualStudio::getDescription() const
 {
 	return "Create a new project from an existing Visual Studio Solution file.";
@@ -462,7 +467,7 @@ std::vector<std::string> SolutionParserVisualStudio::getProjectBlocks(const std:
 
 		blockStart = subSolution.find(solutionOpenTag);
 		blockEnd = subSolution.find(solutionCloseTag);
-		
+
 		blocks.push_back(block);
 	}
 
@@ -490,7 +495,7 @@ std::string SolutionParserVisualStudio::getProjectFilePath(const std::string& pr
 std::vector<std::string> SolutionParserVisualStudio::seperateIncludePaths(const std::vector<std::string>& includePaths) const
 {
 	std::vector<std::string> seperatedPaths;
-	
+
 	for (unsigned int i = 0; i < includePaths.size(); i++)
 	{
 		std::vector<std::string> paths = seperateIncludePaths(includePaths[i]);
