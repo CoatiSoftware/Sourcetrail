@@ -48,7 +48,6 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	m_title->minimumSizeHint(); // force font loading
 	m_title->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_title->setToolTip(QString::fromStdString(filePath.str()));
-	m_title->setFixedWidth(m_title->fontMetrics().width(filePath.fileName().c_str()) + 52);
 	m_title->setFixedHeight(std::max(m_title->fontMetrics().height() * 1.2, 28.0));
 	m_title->setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 
@@ -510,12 +509,12 @@ void QtCodeFile::doUpdateTitleBar()
 	if ((!FileSystem::exists(m_filePath.str())) ||
 		(FileSystem::getLastWriteTime(m_filePath) > m_modificationTime))
 	{
-		std::string url = ResourcePaths::getGuiPath() + "code_view/images/pattern.png";
-		std::string foo = "background-image: url(" + url + ");";
-		m_title->setStyleSheet(foo.c_str());
+		m_title->setText((m_filePath.fileName() + " \u25CF").c_str());
+		m_title->setToolTip(QString::fromStdString("out of date: " + m_filePath.str()));
 	}
 	else
 	{
-		m_title->setStyleSheet("");
+		m_title->setText(m_filePath.fileName().c_str());
+		m_title->setToolTip(QString::fromStdString(m_filePath.str()));
 	}
 }
