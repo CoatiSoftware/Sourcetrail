@@ -701,7 +701,7 @@ bool GraphController::isTypeNodeWithSingleAggregation(
 
 	if (count > 1)
 	{
-		return false;
+		matches = false;
 	}
 
 	return matches;
@@ -812,13 +812,26 @@ bool GraphController::isTypeUserNode(const DummyNode& node) const
 		n->forEachEdge(
 			[tokenId, &matches](Edge* edge)
 			{
-				if (edge->isType(Edge::EDGE_MEMBER | Edge::EDGE_AGGREGATION))
+				if (edge->isType(Edge::EDGE_MEMBER))
 				{
 					return;
 				}
 
+				if (edge->isType(Edge::EDGE_AGGREGATION))
+				{
+					TokenComponentAggregation::Direction dir =
+						edge->getComponent<TokenComponentAggregation>()->getDirection();
+					if ((dir == TokenComponentAggregation::DIRECTION_FORWARD && edge->getTo()->getId() == tokenId) ||
+						(dir == TokenComponentAggregation::DIRECTION_BACKWARD && edge->getTo()->getId() != tokenId))
+					{
+						matches = false;
+					}
+
+					return;
+				}
+
 				if (!edge->isType(Edge::EDGE_TYPE_USAGE | Edge::EDGE_TYPE_OF | Edge::EDGE_TEMPLATE_ARGUMENT | Edge::EDGE_TYPEDEF_OF) ||
-					edge->getFrom()->getId() != tokenId)
+					edge->getTo()->getId() == tokenId)
 				{
 					matches = false;
 				}
