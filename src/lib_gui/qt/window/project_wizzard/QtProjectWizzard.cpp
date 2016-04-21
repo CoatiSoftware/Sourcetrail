@@ -517,6 +517,13 @@ void QtProjectWizzard::headerPathsCDBDone()
 
 void QtProjectWizzard::showFiles(QtProjectWizzardContent* content)
 {
+	QWidget* widget = m_windowStack.getTopWindow();
+	if (widget)
+	{
+		QtProjectWizzardWindow* win = dynamic_cast<QtProjectWizzardWindow*>(widget);
+		win->content()->save();
+	}
+
 	QtProjectWizzardWindow* window = createPopupWithContent<QtProjectWizzardContentSourceList>();
 	dynamic_cast<QtProjectWizzardContentSourceList*>(window->content())->showFilesFromContent(content);
 }
@@ -591,7 +598,7 @@ void QtProjectWizzard::showSummary()
 
 void QtProjectWizzard::createProject()
 {
-	std::string path = m_settings.getProjectFileLocation() + "/" + m_settings.getProjectName() + ".coatiproject";
+	std::string path = m_settings.getProjectFileLocation().str() + "/" + m_settings.getProjectName() + ".coatiproject";
 
 	m_settings.save(path);
 

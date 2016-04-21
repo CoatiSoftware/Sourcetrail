@@ -97,24 +97,25 @@ bool QtProjectWizzardContentPaths::check()
 	QString missingPaths;
 	for (FilePath f : m_list->getList())
 	{
-		f = f.expandEnvironmentVariables();
-
-		if (!f.exists())
+		FilePath fi = f.expandEnvironmentVariables();
+		if (!fi.isAbsolute())
 		{
-			if (!missingPaths.isEmpty())
-			{
-				missingPaths.append("\n");
-			}
+			fi = FilePath(m_settings->getProjectFileLocation()).concat(fi);
+		}
+
+		if (!fi.exists())
+		{
+			missingPaths.append("\n");
 			missingPaths.append(f.str().c_str());
 		}
+	}
 
-		if (!missingPaths.isEmpty())
-		{
-			QMessageBox msgBox;
-			msgBox.setText("These paths do not exist:\n" + missingPaths);
-			msgBox.exec();
-			return false;
-		}
+	if (!missingPaths.isEmpty())
+	{
+		QMessageBox msgBox;
+		msgBox.setText("These paths do not exist:" + missingPaths);
+		msgBox.exec();
+		return false;
 	}
 
 	return true;
@@ -267,8 +268,7 @@ QStringList QtProjectWizzardContentPathsSource::getSourceFileNames(bool headersO
 	utility::append(extensions, m_settings->getHeaderExtensions());
 
 	std::vector<FileInfo> fileInfos = FileSystem::getFileInfosFromPaths(sourcePaths, extensions);
-
-	FilePath projectPath = FilePath(m_settings->getProjectFileLocation());
+	FilePath projectPath = m_settings->getProjectFileLocation();
 
 	QStringList list;
 	for (const FileInfo& info : fileInfos)

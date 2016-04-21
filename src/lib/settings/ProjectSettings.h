@@ -67,14 +67,14 @@ public:
 	std::string getProjectName() const;
 	void setProjectName(const std::string& name);
 
-	std::string getProjectFileLocation() const;
-	void setProjectFileLocation(const std::string& location);
+	FilePath getProjectFileLocation() const;
+	void setProjectFileLocation(const FilePath& location);
 
 private:
 	void makePathsAbsolute(std::vector<FilePath>& paths) const;
 
 	std::string m_projectName;
-	std::string m_projectFileLocation;
+	FilePath m_projectFileLocation;
 
 	static std::shared_ptr<ProjectSettings> s_instance;
 };

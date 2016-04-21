@@ -225,24 +225,24 @@ void ProjectSettings::setProjectName(const std::string& name)
 	m_projectName = name;
 }
 
-std::string ProjectSettings::getProjectFileLocation() const
+FilePath ProjectSettings::getProjectFileLocation() const
 {
-	if (m_projectFileLocation.size())
+	if (!m_projectFileLocation.empty())
 	{
 		return m_projectFileLocation;
 	}
 
-	return getFilePath().parentDirectory().str();
+	return getFilePath().parentDirectory();
 }
 
-void ProjectSettings::setProjectFileLocation(const std::string& location)
+void ProjectSettings::setProjectFileLocation(const FilePath& location)
 {
 	m_projectFileLocation = location;
 }
 
 void ProjectSettings::makePathsAbsolute(std::vector<FilePath>& paths) const
 {
-	FilePath basePath = getFilePath().parentDirectory();
+	FilePath basePath = getProjectFileLocation();
 	for (size_t i = 0; i < paths.size(); i++)
 	{
 		if (!paths[i].isAbsolute())

@@ -84,9 +84,10 @@ void QtProjectWizzardWindow::handleNext()
 		emit next();
 	}
 
+	m_content->save();
+
 	if (m_content->check())
 	{
-		m_content->save();
 		emit next();
 	}
 }

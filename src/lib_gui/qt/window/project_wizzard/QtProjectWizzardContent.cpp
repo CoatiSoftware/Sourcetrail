@@ -129,7 +129,5 @@ QPushButton* QtProjectWizzardContent::addFilesButton(QString name, QGridLayout* 
 
 void QtProjectWizzardContent::buttonClicked()
 {
-	save();
-
 	emit filesButtonClicked(this);
 }

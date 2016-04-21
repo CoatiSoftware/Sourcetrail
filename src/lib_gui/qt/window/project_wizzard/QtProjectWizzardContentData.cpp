@@ -103,7 +103,7 @@ void QtProjectWizzardContentData::populateForm(QGridLayout* layout, int& row)
 void QtProjectWizzardContentData::load()
 {
 	m_projectName->setText(QString::fromStdString(m_settings->getProjectName()));
-	m_projectFileLocation->setText(QString::fromStdString(m_settings->getProjectFileLocation()));
+	m_projectFileLocation->setText(QString::fromStdString(m_settings->getProjectFileLocation().str()));
 
 	if (m_settings->getLanguage().length() > 0)
 	{
