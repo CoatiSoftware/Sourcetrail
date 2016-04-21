@@ -806,6 +806,10 @@ void SqliteStorage::setupTables()
 	);
 
 	m_database.execDML(
+		"CREATE INDEX IF NOT EXISTS local_symbol_name_index ON local_symbol(name);"
+	);
+
+	m_database.execDML(
 		"CREATE TABLE IF NOT EXISTS source_location("
 			"id INTEGER NOT NULL, "
 			"element_id INTEGER, "
