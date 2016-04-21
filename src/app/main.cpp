@@ -35,6 +35,7 @@ void init()
 int main(int argc, char *argv[])
 {
 	QApplication::setApplicationName("Coati");
+	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 
 	Version version = Version::fromString(GIT_VERSION_NUMBER);
 	QApplication::setApplicationVersion(version.toDisplayString().c_str());
