@@ -53,7 +53,7 @@ void ParserClientImpl::onError(const ParseLocation& location, const std::string&
 	addError(message, fatal, location);
 }
 
-Id ParserClientImpl::onTypedefParsed(
+void ParserClientImpl::onTypedefParsed(
 	const ParseLocation& location, const NameHierarchy& typedefName, AccessType access, bool isImplicit)
 {
 	log("typedef", typedefName.getQualifiedName(), location);
@@ -61,11 +61,9 @@ Id ParserClientImpl::onTypedefParsed(
 	Id nodeId = addNodeHierarchy(Node::NODE_TYPEDEF, typedefName, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
 	addAccess(nodeId, access);
-
-	return 0;
 }
 
-Id ParserClientImpl::onClassParsed(
+void ParserClientImpl::onClassParsed(
 	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 	const ParseLocation& scopeLocation, bool isImplicit)
 {
@@ -79,11 +77,9 @@ Id ParserClientImpl::onClassParsed(
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
 	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
 	addAccess(nodeId, access);
-
-	return 0;
 }
 
-Id ParserClientImpl::onStructParsed(
+void ParserClientImpl::onStructParsed(
 	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 	const ParseLocation& scopeLocation, bool isImplicit)
 {
@@ -97,32 +93,26 @@ Id ParserClientImpl::onStructParsed(
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
 	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
 	addAccess(nodeId, access);
-
-	return 0;
 }
 
-Id ParserClientImpl::onGlobalVariableParsed(const ParseLocation& location, const NameHierarchy& variable, bool isImplicit)
+void ParserClientImpl::onGlobalVariableParsed(const ParseLocation& location, const NameHierarchy& variable, bool isImplicit)
 {
 	log("global", variable.getQualifiedName(), location);
 
 	Id nodeId = addNodeHierarchy(Node::NODE_GLOBAL_VARIABLE, variable, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
-
-	return 0;
 }
 
-Id ParserClientImpl::onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessType access, bool isImplicit)
+void ParserClientImpl::onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessType access, bool isImplicit)
 {
 	log("field", field.getQualifiedName(), location);
 
 	Id nodeId = addNodeHierarchy(Node::NODE_FIELD, field, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
 	addAccess(nodeId, access);
-
-	return 0;
 }
 
-Id ParserClientImpl::onFunctionParsed(
+void ParserClientImpl::onFunctionParsed(
 	const ParseLocation& location, const NameHierarchy& function, const ParseLocation& scopeLocation, bool isImplicit)
 {
 	log("function", function.getQualifiedNameWithSignature(), location);
@@ -130,11 +120,9 @@ Id ParserClientImpl::onFunctionParsed(
 	Id nodeId = addNodeHierarchy(Node::NODE_FUNCTION, function, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
 	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
-
-	return 0;
 }
 
-Id ParserClientImpl::onMethodParsed(
+void ParserClientImpl::onMethodParsed(
 	const ParseLocation& location, const NameHierarchy& method, AccessType access, AbstractionType abstraction,
 	const ParseLocation& scopeLocation, bool isImplicit)
 {
@@ -148,11 +136,9 @@ Id ParserClientImpl::onMethodParsed(
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
 	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
 	addAccess(nodeId, access);
-
-	return 0;
 }
 
-Id ParserClientImpl::onNamespaceParsed(
+void ParserClientImpl::onNamespaceParsed(
 	const ParseLocation& location, const NameHierarchy& nameHierarchy, const ParseLocation& scopeLocation, bool isImplicit)
 {
 	log("namespace", nameHierarchy.getQualifiedName(), location);
@@ -160,11 +146,9 @@ Id ParserClientImpl::onNamespaceParsed(
 	Id nodeId = addNodeHierarchy(Node::NODE_NAMESPACE, nameHierarchy, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
 	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
-
-	return 0;
 }
 
-Id ParserClientImpl::onEnumParsed(
+void ParserClientImpl::onEnumParsed(
 	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 	const ParseLocation& scopeLocation, bool isImplicit)
 {
@@ -174,21 +158,17 @@ Id ParserClientImpl::onEnumParsed(
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
 	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
 	addAccess(nodeId, access);
-
-	return 0;
 }
 
-Id ParserClientImpl::onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy, bool isImplicit)
+void ParserClientImpl::onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy, bool isImplicit)
 {
 	log("enum constant", nameHierarchy.getQualifiedName(), location);
 
 	Id nodeId = addNodeHierarchy(Node::NODE_ENUM_CONSTANT, nameHierarchy, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
-
-	return 0;
 }
 
-Id ParserClientImpl::onTemplateParameterTypeParsed(
+void ParserClientImpl::onTemplateParameterTypeParsed(
 	const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy, bool isImplicit)
 {
 	log("template parameter type", templateParameterTypeNameHierarchy.getQualifiedName(), location);
@@ -196,11 +176,48 @@ Id ParserClientImpl::onTemplateParameterTypeParsed(
 	Id nodeId = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
 	addAccess(nodeId, TokenComponentAccess::ACCESS_TEMPLATE);
-
-	return 0;
 }
 
-Id ParserClientImpl::onInheritanceParsed(
+void ParserClientImpl::onLocalSymbolParsed(const std::string& name, const ParseLocation& location)
+{
+	log(
+		"local symbol",
+		name,
+		location
+		);
+
+	Id localSymbolId = addLocalSymbol(name);
+	addSourceLocation(localSymbolId, location, locationTypeToInt(LOCATION_LOCAL_SYMBOL));
+}
+
+void ParserClientImpl::onFileParsed(const FileInfo& fileInfo)
+{
+	log("file", fileInfo.path.str(), ParseLocation());
+
+	addFile(fileInfo.path.fileName(), fileInfo.path.str(), fileInfo.lastWriteTime.toString());
+}
+
+void ParserClientImpl::onMacroDefineParsed(
+	const ParseLocation& location, const NameHierarchy& macroNameHierarchy, const ParseLocation& scopeLocation)
+{
+	log("macro", macroNameHierarchy.getQualifiedName(), location);
+
+	Id macroId = addNodeHierarchy(Node::NODE_MACRO, macroNameHierarchy, DEFINITION_EXPLICIT);
+	addSourceLocation(macroId, location, locationTypeToInt(LOCATION_TOKEN));
+	addSourceLocation(macroId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
+	//Id fileNodeId = getFileNodeId(location.filePath); // do we need this???
+	//addEdge(Edge::EDGE_MACRO_USAGE, fileNodeId, macroId, , location);
+}
+
+void ParserClientImpl::onCommentParsed(const ParseLocation& location)
+{
+	log("comment", "no name", location);
+
+	addFile(location.filePath.str());
+	addCommentLocation(location);
+}
+
+void ParserClientImpl::onInheritanceParsed(
 	const ParseLocation& location, const NameHierarchy& childNameHierarchy,
 	const NameHierarchy& parentNameHierarchy, AccessType access)
 {
@@ -210,11 +227,9 @@ Id ParserClientImpl::onInheritanceParsed(
 	Id parentNodeId = addNodeHierarchy(Node::NODE_TYPE, parentNameHierarchy, DEFINITION_NONE);
 	Id edgeId = addEdge(Edge::EDGE_INHERITANCE, childNodeId, parentNodeId);
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-
-	return edgeId;
 }
 
-Id ParserClientImpl::onMethodOverrideParsed(
+void ParserClientImpl::onMethodOverrideParsed(
 	const ParseLocation& location, const NameHierarchy& overridden, const NameHierarchy& overrider)
 {
 	log("override", overridden.getQualifiedNameWithSignature() + " -> " + overrider.getQualifiedNameWithSignature(), location);
@@ -223,11 +238,9 @@ Id ParserClientImpl::onMethodOverrideParsed(
 	Id overriderNodeId = addNodeHierarchy(Node::NODE_FUNCTION, overrider, DEFINITION_NONE);
 	Id edgeId = addEdge(Edge::EDGE_OVERRIDE, overriderNodeId, overriddenNodeId);
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-
-	return edgeId;
 }
 
-Id ParserClientImpl::onCallParsed(const ParseLocation& location, const NameHierarchy& caller, const NameHierarchy& callee)
+void ParserClientImpl::onCallParsed(const ParseLocation& location, const NameHierarchy& caller, const NameHierarchy& callee)
 {
 	log("call", caller.getQualifiedNameWithSignature() + " -> " + callee.getQualifiedNameWithSignature(), location);
 
@@ -235,41 +248,35 @@ Id ParserClientImpl::onCallParsed(const ParseLocation& location, const NameHiera
 	Id calleeNodeId = addNodeHierarchy(Node::NODE_FUNCTION, callee, DEFINITION_NONE);
 	Id edgeId = addEdge(Edge::EDGE_CALL, callerNodeId, calleeNodeId);
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-
-	return edgeId;
 }
 
-Id ParserClientImpl::onUsageParsed(
-	const ParseLocation& location, const NameHierarchy& userName, int usedType, const NameHierarchy& usedName)
+void ParserClientImpl::onUsageParsed(
+	const ParseLocation& location, const NameHierarchy& userName, SymbolType usedType, const NameHierarchy& usedName)
 {
 	log("usage", userName.getQualifiedNameWithSignature() + " -> " + usedName.getQualifiedName(), location);
 
 	Id userNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, userName, DEFINITION_NONE);
-	Id usedNodeId = addNodeHierarchy(Node::intToType(usedType), usedName, DEFINITION_NONE);
+	Id usedNodeId = addNodeHierarchy(symbolTypeToNodeType(usedType), usedName, DEFINITION_NONE);
 	Id edgeId = addEdge(Edge::EDGE_USAGE, userNodeId, usedNodeId);
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-
-	return edgeId;
 }
 
-Id ParserClientImpl::onTypeUsageParsed(const ParseLocation& location, const NameHierarchy& user, const NameHierarchy& used)
+void ParserClientImpl::onTypeUsageParsed(const ParseLocation& location, const NameHierarchy& user, const NameHierarchy& used)
 {
 	log("type usage", user.getQualifiedNameWithSignature() + " -> " + used.getQualifiedName(), location);
 
 	if (!location.isValid())
 	{
-		return 0;
+		return;
 	}
 
 	Id functionNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, user, DEFINITION_NONE);
 	Id typeNodeId = addNodeHierarchy(Node::NODE_TYPE, used, DEFINITION_NONE);
 	Id edgeId = addEdge(Edge::EDGE_TYPE_USAGE, functionNodeId, typeNodeId);
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-
-	return edgeId;
 }
 
-Id ParserClientImpl::onTemplateArgumentTypeParsed(
+void ParserClientImpl::onTemplateArgumentTypeParsed(
 	const ParseLocation& location, const NameHierarchy& argumentTypeNameHierarchy,
 	const NameHierarchy& templateNameHierarchy)
 {
@@ -277,17 +284,15 @@ Id ParserClientImpl::onTemplateArgumentTypeParsed(
 		"template argument type",
 		argumentTypeNameHierarchy.getQualifiedName() + " -> " + templateNameHierarchy.getQualifiedName(),
 		location
-		);
+	);
 
 	Id argumentNodeId = addNodeHierarchy(Node::NODE_TYPE, argumentTypeNameHierarchy, DEFINITION_NONE);
 	Id templateNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, templateNameHierarchy, DEFINITION_NONE);
 	Id edgeId = addEdge(Edge::EDGE_TEMPLATE_ARGUMENT, templateNodeId, argumentNodeId);
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-
-	return argumentNodeId;
 }
 
-Id ParserClientImpl::onTemplateDefaultArgumentTypeParsed(
+void ParserClientImpl::onTemplateDefaultArgumentTypeParsed(
 	const ParseLocation& location, const NameHierarchy& defaultArgumentTypeNameHierarchy,
 	const NameHierarchy& templateParameterNameHierarchy)
 {
@@ -295,17 +300,15 @@ Id ParserClientImpl::onTemplateDefaultArgumentTypeParsed(
 		"template default argument",
 		defaultArgumentTypeNameHierarchy.getQualifiedNameWithSignature() + " -> " + templateParameterNameHierarchy.getQualifiedName(),
 		location
-		);
+	);
 
 	Id defaultArgumentNodeId = addNodeHierarchy(Node::NODE_TYPE, defaultArgumentTypeNameHierarchy, DEFINITION_NONE);
 	Id parameterNodeId = addNodeHierarchy(Node::NODE_TYPE, templateParameterNameHierarchy, DEFINITION_NONE);
 	Id edgeId = addEdge(Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT, parameterNodeId, defaultArgumentNodeId);
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-
-	return defaultArgumentNodeId;
 }
 
-Id ParserClientImpl::onTemplateSpecializationParsed(
+void ParserClientImpl::onTemplateSpecializationParsed(
 	const ParseLocation& location, const NameHierarchy& specializedNameHierarchy,
 	const NameHierarchy& specializedFromNameHierarchy)
 {
@@ -313,17 +316,15 @@ Id ParserClientImpl::onTemplateSpecializationParsed(
 		"template record specialization",
 		specializedNameHierarchy.getQualifiedName() + " -> " + specializedFromNameHierarchy.getQualifiedName(),
 		location
-		);
+	);
 
 	Id specializedId = addNodeHierarchy(Node::NODE_TYPE, specializedNameHierarchy, DEFINITION_NONE);
 	Id recordNodeId = addNodeHierarchy(Node::NODE_TYPE, specializedFromNameHierarchy, DEFINITION_NONE);
 	Id edgeId = addEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, specializedId, recordNodeId);
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-
-	return edgeId;
 }
 
-Id ParserClientImpl::onTemplateMemberFunctionSpecializationParsed(
+void ParserClientImpl::onTemplateMemberFunctionSpecializationParsed(
 	const ParseLocation& location, const NameHierarchy& instantiatedFunction, const NameHierarchy& specializedFunction)
 {
 	log(
@@ -336,34 +337,9 @@ Id ParserClientImpl::onTemplateMemberFunctionSpecializationParsed(
 	Id specializedFunctionNodeId = addNodeHierarchy(Node::NODE_FUNCTION, specializedFunction, DEFINITION_NONE);
 	Id edgeId = addEdge(Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION_OF, instantiatedFunctionNodeId, specializedFunctionNodeId);
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-
-	return edgeId;
 }
 
-Id ParserClientImpl::onLocalSymbolParsed(const std::string& name, const ParseLocation& location)
-{
-	log(
-		"local symbol",
-		name,
-		location
-	);
-
-	Id localSymbolId = addLocalSymbol(name);
-	addSourceLocation(localSymbolId, location, locationTypeToInt(LOCATION_LOCAL_SYMBOL));
-
-	return localSymbolId;
-}
-
-Id ParserClientImpl::onFileParsed(const FileInfo& fileInfo) // TODO: move up to nodes
-{
-	log("file", fileInfo.path.str(), ParseLocation());
-
-	addFile(fileInfo.path.fileName(), fileInfo.path.str(), fileInfo.lastWriteTime.toString());
-
-	return 0;
-}
-
-Id ParserClientImpl::onFileIncludeParsed(const ParseLocation& location, const FileInfo& fileInfo, const FileInfo& includedFileInfo)
+void ParserClientImpl::onFileIncludeParsed(const ParseLocation& location, const FileInfo& fileInfo, const FileInfo& includedFileInfo)
 {
 	log("include", includedFileInfo.path.str(), location);
 
@@ -371,25 +347,9 @@ Id ParserClientImpl::onFileIncludeParsed(const ParseLocation& location, const Fi
 	Id includedFileNodeId = addFile(includedFileInfo.path.fileName(), includedFileInfo.path.str(), includedFileInfo.lastWriteTime.toString());
 	Id edgeId = addEdge(Edge::EDGE_INCLUDE, fileNodeId, includedFileNodeId);
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-
-	return fileNodeId;
 }
 
-Id ParserClientImpl::onMacroDefineParsed(
-	const ParseLocation& location, const NameHierarchy& macroNameHierarchy, const ParseLocation& scopeLocation)
-{
-	log("macro", macroNameHierarchy.getQualifiedName(), location);
-
-	Id macroId = addNodeHierarchy(Node::NODE_MACRO, macroNameHierarchy, DEFINITION_EXPLICIT);
-	addSourceLocation(macroId, location, locationTypeToInt(LOCATION_TOKEN));
-	addSourceLocation(macroId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
-	//Id fileNodeId = getFileNodeId(location.filePath); // do we need this???
-	//addEdge(Edge::EDGE_MACRO_USAGE, fileNodeId, macroId, , location);
-
-	return macroId;
-}
-
-Id ParserClientImpl::onMacroExpandParsed(const ParseLocation &location, const NameHierarchy& macroNameHierarchy)
+void ParserClientImpl::onMacroExpandParsed(const ParseLocation &location, const NameHierarchy& macroNameHierarchy)
 {
 	log("macro use", macroNameHierarchy.getQualifiedName(), location);
 
@@ -397,18 +357,40 @@ Id ParserClientImpl::onMacroExpandParsed(const ParseLocation &location, const Na
 	Id fileNodeId = addFile(location.filePath.str());
 	Id edgeId = addEdge(Edge::EDGE_MACRO_USAGE, fileNodeId, macroExpandId);
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-
-	return edgeId;
 }
 
-Id ParserClientImpl::onCommentParsed(const ParseLocation& location) // TODO: move up to nodes
+Node::NodeType ParserClientImpl::symbolTypeToNodeType(SymbolType symbolType) const
 {
-	log("comment", "no name", location);
-
-	addFile(location.filePath.str());
-	addCommentLocation(location);
-
-	return 0;
+	switch (symbolType)
+	{
+	case SYMBOL_CLASS:
+		return Node::NODE_CLASS;
+	case SYMBOL_ENUM:
+		return Node::NODE_ENUM;
+	case SYMBOL_ENUM_CONSTANT:
+		return Node::NODE_ENUM_CONSTANT;
+	case SYMBOL_FIELD:
+		return Node::NODE_FIELD;
+	case SYMBOL_FUNCTION:
+		return Node::NODE_FUNCTION;
+	case SYMBOL_GLOBAL_VARIABLE:
+		return Node::NODE_GLOBAL_VARIABLE;
+	case SYMBOL_MACRO:
+		return Node::NODE_MACRO;
+	case SYMBOL_METHOD:
+		return Node::NODE_METHOD;
+	case SYMBOL_NAMESPACE:
+		return Node::NODE_NAMESPACE;
+	case SYMBOL_STRUCT:
+		return Node::NODE_STRUCT;
+	case SYMBOL_TYPEDEF:
+		return Node::NODE_TYPEDEF;
+	case SYMBOL_TEMPLATE_PARAMETER:
+		return Node::NODE_TEMPLATE_PARAMETER_TYPE;
+	case SYMBOL_UNION:
+		return Node::NODE_TYPE;
+	}
+	return Node::NODE_UNDEFINED;
 }
 
 TokenComponentAccess::AccessType ParserClientImpl::convertAccessType(ParserClient::AccessType access) const
@@ -470,8 +452,6 @@ Id ParserClientImpl::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nam
 	}
 	return parentNodeId;
 }
-
-
 
 
 Id ParserClientImpl::addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime)

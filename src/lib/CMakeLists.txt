@@ -133,6 +133,7 @@ add_files(
 	data/parser/ParserClient.h
 	data/parser/ParserClientImpl.cpp
 	data/parser/ParserClientImpl.h
+	data/parser/SymbolType.h
 
 	data/search/SearchIndex.cpp
 	data/search/SearchIndex.h

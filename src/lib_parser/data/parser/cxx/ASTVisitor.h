@@ -9,6 +9,7 @@
 #include <clang/Basic/SourceManager.h>
 
 #include "data/parser/ParserClient.h"
+#include "data/parser/SymbolType.h"
 #include "utility/file/FileRegister.h"
 #include "utility/Cache.h"
 
@@ -115,28 +116,6 @@ private:
 		RT_Max
 	};
 
-	enum SymbolType : int { // we dont need this. decl already knows it!
-		ST_Class,
-		ST_Constructor,
-		ST_Destructor,
-		ST_Enum,
-		ST_Enumerator,
-		ST_Field,
-		ST_Function,
-		ST_GlobalVariable,
-		ST_LocalVariable,
-		ST_Macro,
-		ST_Method,
-		ST_Namespace,
-		ST_Parameter,
-		ST_Path,
-		ST_Struct,
-		ST_Typedef,
-		ST_TemplateParameter,
-		ST_Union,
-		ST_Max
-	};
-
     typedef unsigned int Context;
 
 	clang::ASTContext* m_context;
@@ -224,13 +203,13 @@ private:
 		const clang::Type* type,
 		clang::SourceLocation beginLoc,
 		RefType refType,
-		SymbolType symbolType = ST_Max);
+		SymbolType symbolType = SYMBOL_TYPE_MAX);
 
     void RecordDeclRef(
             clang::NamedDecl *d,
             clang::SourceLocation beginLoc,
             RefType refType,
-            SymbolType symbolType = ST_Max);
+            SymbolType symbolType = SYMBOL_TYPE_MAX);
 
 	bool isPartOfImplicitTemplateSpecialization(clang::Decl* d) const;
 	bool isImplicit(clang::Decl* d) const;

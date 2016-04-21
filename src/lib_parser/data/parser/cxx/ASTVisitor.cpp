@@ -420,11 +420,12 @@ bool ASTVisitor::VisitInitListExpr(clang::InitListExpr *e)
 
 bool ASTVisitor::TraverseConstructorInitializer(clang::CXXCtorInitializer *init)
 {
-    if (init->getMember() != NULL) {
+    if (init->getMember() != NULL)
+	{
         RecordDeclRef(init->getMember(),
                       init->getMemberLocation(),
                       RT_Initialized,
-					  ST_Field);
+					  SYMBOL_FIELD);
     }
 
     // See comment for VisitDeclStmt.
@@ -438,7 +439,7 @@ bool ASTVisitor::TraverseConstructorInitializer(clang::CXXCtorInitializer *init)
 
 bool ASTVisitor::VisitLambdaExpr(clang::LambdaExpr* e)
 {
-	RecordDeclRef(e->getCallOperator(), e->getLocStart(), RT_Definition, ST_Function);
+	RecordDeclRef(e->getCallOperator(), e->getLocStart(), RT_Definition, SYMBOL_FUNCTION);
 	return true;
 }
 
@@ -534,30 +535,30 @@ bool ASTVisitor::VisitCXXConstructExpr(clang::CXXConstructExpr *e)
 
 void ASTVisitor::RecordDeclRefExpr(clang::NamedDecl *d, clang::SourceLocation loc, clang::Expr *e, Context context)
 {
-	SymbolType symbolType = ST_Max;
+	SymbolType symbolType = SYMBOL_TYPE_MAX;
 
 	if (clang::isa<clang::VarDecl>(d))
 	{
 		if (llvm::isa<clang::ParmVarDecl>(d))
 		{
-			symbolType = ST_Parameter;
+			symbolType = SYMBOL_PARAMETER;
 		}
 		else if (d->getParentFunctionOrMethod() == NULL)
 		{
-			symbolType = ST_GlobalVariable;
+			symbolType = SYMBOL_GLOBAL_VARIABLE;
 		}
 		else
 		{
-			symbolType = ST_LocalVariable;
+			symbolType = SYMBOL_LOCAL_VARIABLE;
 		}
 	}
 	if (clang::isa<clang::EnumConstantDecl>(d))
 	{
-		symbolType = ST_Enumerator;
+		symbolType = SYMBOL_ENUM_CONSTANT;
 	}
 	else if (clang::isa<clang::FieldDecl>(d))
 	{
-		symbolType = ST_Field;
+		symbolType = SYMBOL_FIELD;
 	}
 
 	if (m_typeContext == RT_TemplateArgument)
@@ -783,15 +784,11 @@ bool ASTVisitor::VisitDecl(clang::Decl *d)
                 SymbolType symbolType;
                 if (llvm::isa<clang::CXXMethodDecl>(fd))
 				{
-                    if (llvm::isa<clang::CXXConstructorDecl>(fd))
-                        symbolType = ST_Constructor;
-                    else if (llvm::isa<clang::CXXDestructorDecl>(fd))
-                        symbolType = ST_Destructor;
-                    else
-                        symbolType = ST_Method;
-                } else
+					symbolType = SYMBOL_METHOD;
+                }
+				else
 				{
-					symbolType = ST_Function;
+					symbolType = SYMBOL_FUNCTION;
                 }
                 RecordDeclRef(nd, loc, refType, symbolType);
 				if (fd->isFunctionTemplateSpecialization())
@@ -825,22 +822,22 @@ bool ASTVisitor::VisitDecl(clang::Decl *d)
                 SymbolType symbolType;
 				if (isParam)
 				{
-					symbolType = ST_Parameter;
+					symbolType = SYMBOL_PARAMETER;
 				}
 				else if (vd->getParentFunctionOrMethod() == NULL)
 				{
 					if (vd->getAccess() == clang::AS_none)
 					{
-						symbolType = ST_GlobalVariable;
+						symbolType = SYMBOL_GLOBAL_VARIABLE;
 					}
 					else
 					{
-						symbolType = ST_Field;
+						symbolType = SYMBOL_FIELD;
 					}
 				}
 				else
 				{
-					symbolType = ST_LocalVariable;
+					symbolType = SYMBOL_LOCAL_VARIABLE;
 				}
                 RecordDeclRef(nd, loc, refType, symbolType);
             }
@@ -858,15 +855,15 @@ bool ASTVisitor::VisitDecl(clang::Decl *d)
                     refType = RT_Declaration;
             }
 
-			SymbolType symbolType = ST_Max;
+			SymbolType symbolType = SYMBOL_TYPE_MAX;
 			// TODO: Handle the C++11 fixed underlying type of enumeration
 			// declarations.
 			switch (td->getTagKind())
 			{
-				case clang::TTK_Struct: symbolType = ST_Struct; break;
-				case clang::TTK_Union:  symbolType = ST_Union; break;
-				case clang::TTK_Class:  symbolType = ST_Class; break;
-				case clang::TTK_Enum:   symbolType = ST_Enum; break;
+				case clang::TTK_Struct: symbolType = SYMBOL_STRUCT; break;
+				case clang::TTK_Union:  symbolType = SYMBOL_UNION; break;
+				case clang::TTK_Class:  symbolType = SYMBOL_CLASS; break;
+				case clang::TTK_Enum:   symbolType = SYMBOL_ENUM; break;
 				default: assert(false);
 			}
             RecordDeclRef(nd, loc, refType, symbolType);
@@ -886,7 +883,7 @@ bool ASTVisitor::VisitDecl(clang::Decl *d)
                 RecordDeclRef(shadow->getTargetDecl(), loc, RT_Using);
             }
         } else if (clang::NamespaceAliasDecl *nad = llvm::dyn_cast<clang::NamespaceAliasDecl>(d)) {
-			RecordDeclRef(nad, loc, RT_Declaration, ST_Namespace);
+			RecordDeclRef(nad, loc, RT_Declaration, SYMBOL_NAMESPACE);
 //			not needed right now!
 //          RecordDeclRef(nad, loc, RT_Declaration, ST_Namespace);
 // 			RecordDeclRef(nad->getAliasedNamespace(),
@@ -900,18 +897,18 @@ bool ASTVisitor::VisitDecl(clang::Decl *d)
             // Do nothing.  The class will be recorded when it appears as a
             // RecordDecl.
         } else if (llvm::isa<clang::FieldDecl>(d)) {
-            RecordDeclRef(nd, loc, RT_Declaration, ST_Field);
+            RecordDeclRef(nd, loc, RT_Declaration, SYMBOL_FIELD);
         } else if (llvm::isa<clang::TypedefDecl>(d)) {
-            RecordDeclRef(nd, loc, RT_Declaration, ST_Typedef);
+            RecordDeclRef(nd, loc, RT_Declaration, SYMBOL_TYPEDEF);
         } else if (llvm::isa<clang::NamespaceDecl>(d)) {
-            RecordDeclRef(nd, loc, RT_Declaration, ST_Namespace);
+            RecordDeclRef(nd, loc, RT_Declaration, SYMBOL_NAMESPACE);
         } else if (llvm::isa<clang::EnumConstantDecl>(d)) {
-            RecordDeclRef(nd, loc, RT_Declaration, ST_Enumerator);
+            RecordDeclRef(nd, loc, RT_Declaration, SYMBOL_ENUM_CONSTANT);
 		} else if (
 			llvm::isa<clang::NonTypeTemplateParmDecl>(d) ||
 			llvm::isa<clang::TemplateTypeParmDecl>(d) ||
 			llvm::isa<clang::TemplateTemplateParmDecl>(d)) {
-			RecordDeclRef(nd, loc, RT_Declaration, ST_TemplateParameter);
+			RecordDeclRef(nd, loc, RT_Declaration, SYMBOL_TEMPLATE_PARAMETER);
         } else {
             RecordDeclRef(nd, loc, RT_Declaration);
         }
@@ -1159,7 +1156,7 @@ void ASTVisitor::RecordDeclRef(
 	bool fallback = false;
 
 
-	if (symbolType == ST_LocalVariable || symbolType == ST_Parameter)
+	if (symbolType == SYMBOL_LOCAL_VARIABLE || symbolType == SYMBOL_PARAMETER)
 	{
 		if (clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(d))
 		{
@@ -1183,7 +1180,7 @@ void ASTVisitor::RecordDeclRef(
 		{
 			switch (symbolType)
 			{
-			case ST_Typedef:
+			case SYMBOL_TYPEDEF:
 				if (clang::TypedefDecl* typedefDecl = clang::dyn_cast<clang::TypedefDecl>(d))
 				{
 					m_client->onTypedefParsed(
@@ -1193,7 +1190,7 @@ void ASTVisitor::RecordDeclRef(
 						declIsImplicit);
 				}
 				break;
-			case ST_Class:
+			case SYMBOL_CLASS:
 				if (clang::RecordDecl* recordDecl = clang::dyn_cast<clang::RecordDecl>(d))
 				{
 					m_client->onClassParsed(
@@ -1204,7 +1201,7 @@ void ASTVisitor::RecordDeclRef(
 						declIsImplicit);
 				}
 				break;
-			case ST_Struct:
+			case SYMBOL_STRUCT:
 				if (clang::RecordDecl* recordDecl = clang::dyn_cast<clang::RecordDecl>(d))
 				{
 					m_client->onStructParsed(
@@ -1215,23 +1212,23 @@ void ASTVisitor::RecordDeclRef(
 						declIsImplicit);
 				}
 				break;
-			case ST_GlobalVariable:
+			case SYMBOL_GLOBAL_VARIABLE:
 				m_client->onGlobalVariableParsed(
 					parseLocation,
 					declNameHierarchy,
 					declIsImplicit);
 				break;
-			case ST_Field:
+			case SYMBOL_FIELD:
 				//if (clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(d))
-			{
-				m_client->onFieldParsed(
-					parseLocation,
-					declNameHierarchy,
-					convertAccessType(d->getAccess()),
-					declIsImplicit);
-			}
-			break;
-			case ST_Function:
+				{
+					m_client->onFieldParsed(
+						parseLocation,
+						declNameHierarchy,
+						convertAccessType(d->getAccess()),
+						declIsImplicit);
+				}
+				break;
+			case SYMBOL_FUNCTION:
 				if (clang::FunctionDecl* functionDecl = clang::dyn_cast<clang::FunctionDecl>(d))
 				{
 					m_client->onFunctionParsed(
@@ -1241,9 +1238,7 @@ void ASTVisitor::RecordDeclRef(
 						declIsImplicit);
 				}
 				break;
-			case ST_Constructor:
-			case ST_Destructor:
-			case ST_Method:
+			case SYMBOL_METHOD:
 				if (clang::CXXMethodDecl* methodDecl = clang::dyn_cast<clang::CXXMethodDecl>(d))
 				{
 					m_client->onMethodParsed(
@@ -1277,7 +1272,7 @@ void ASTVisitor::RecordDeclRef(
 					}
 				}
 				break;
-			case ST_Namespace:
+			case SYMBOL_NAMESPACE:
 				if (clang::NamespaceDecl* namespaceDecl = clang::dyn_cast<clang::NamespaceDecl>(d))
 				{
 					m_client->onNamespaceParsed(
@@ -1295,7 +1290,7 @@ void ASTVisitor::RecordDeclRef(
 						declIsImplicit);
 				}
 				break;
-			case ST_Enum:
+			case SYMBOL_ENUM:
 				if (clang::EnumDecl* enumDecl = clang::dyn_cast<clang::EnumDecl>(d))
 				{
 					m_client->onEnumParsed(
@@ -1306,13 +1301,13 @@ void ASTVisitor::RecordDeclRef(
 						declIsImplicit);
 				}
 				break;
-			case ST_Enumerator:
+			case SYMBOL_ENUM_CONSTANT:
 				m_client->onEnumConstantParsed(
 					parseLocation,
 					declNameHierarchy,
 					declIsImplicit);
 				break;
-			case ST_TemplateParameter:
+			case SYMBOL_TEMPLATE_PARAMETER:
 				if (!d->getName().empty()) // We don't create symbols for unnamed template parameters.
 				{
 					m_client->onTemplateParameterTypeParsed(
@@ -1400,30 +1395,10 @@ void ASTVisitor::RecordDeclRef(
 	case RT_AddressTaken:
 	{
 			const NameHierarchy contextNameHierarchy = getContextName();
-			int usedType = 0x1;
-			switch (symbolType)
-			{
-			case ST_Field:
-				usedType = 0x40;
-				break;
-			case ST_GlobalVariable:
-				usedType = 0x20;
-				break;
-			case ST_Enumerator:
-				usedType = 0x400;
-				break;
-			case ST_Function:
-				usedType = 0x80;
-				break;
-			case ST_Method:
-				usedType = 0x100;
-				break;
-			}
-
 			m_client->onUsageParsed(
 				parseLocation,
 				contextNameHierarchy,
-				usedType,
+				symbolType,
 				declNameHierarchy
 			);
 			break;

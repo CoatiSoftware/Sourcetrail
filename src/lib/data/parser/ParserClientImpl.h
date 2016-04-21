@@ -26,68 +26,67 @@ public:
 
 	virtual void onError(const ParseLocation& location, const std::string& message, bool fatal);
 
-	virtual Id onTypedefParsed(
+	virtual void onTypedefParsed(
 		const ParseLocation& location, const NameHierarchy& typedefName, AccessType access, bool isImplicit);
-	virtual Id onClassParsed(
+	virtual void onClassParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 		const ParseLocation& scopeLocation, bool isImplicit);
-	virtual Id onStructParsed(
+	virtual void onStructParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 		const ParseLocation& scopeLocation, bool isImplicit);
-	virtual Id onGlobalVariableParsed(const ParseLocation& location, const NameHierarchy& variable, bool isImplicit);
-	virtual Id onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessType access, bool isImplicit);
-	virtual Id onFunctionParsed(
+	virtual void onGlobalVariableParsed(const ParseLocation& location, const NameHierarchy& variable, bool isImplicit);
+	virtual void onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessType access, bool isImplicit);
+	virtual void onFunctionParsed(
 		const ParseLocation& location, const NameHierarchy& function, const ParseLocation& scopeLocation, bool isImplicit);
-	virtual Id onMethodParsed(
+	virtual void onMethodParsed(
 		const ParseLocation& location, const NameHierarchy& method, AccessType access, AbstractionType abstraction,
 		const ParseLocation& scopeLocation, bool isImplicit);
-	virtual Id onNamespaceParsed(
+	virtual void onNamespaceParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy,
 		const ParseLocation& scopeLocation, bool isImplicit);
-	virtual Id onEnumParsed(
+	virtual void onEnumParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
 		const ParseLocation& scopeLocation, bool isImplicit);
-	virtual Id onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy, bool isImplicit);
-	virtual Id onTemplateParameterTypeParsed(
+	virtual void onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy, bool isImplicit);
+	virtual void onTemplateParameterTypeParsed(
 		const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy, bool isImplicit);
+	virtual void onLocalSymbolParsed(const std::string& name, const ParseLocation& location);
+	virtual void onFileParsed(const FileInfo& fileInfo);
+	virtual void onMacroDefineParsed(
+		const ParseLocation& location, const NameHierarchy& macroNameHierarchy, const ParseLocation& scopeLocation);
+	virtual void onCommentParsed(const ParseLocation& location);
 
-	virtual Id onInheritanceParsed(
+	virtual void onInheritanceParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy,
 		const NameHierarchy& baseNameHierarchy, AccessType access);
-	virtual Id onMethodOverrideParsed(
+	virtual void onMethodOverrideParsed(
 		const ParseLocation& location, const NameHierarchy& overridden, const NameHierarchy& overrider);
-	virtual Id onCallParsed(
+	virtual void onCallParsed(
 		const ParseLocation& location, const NameHierarchy& caller, const NameHierarchy& callee);
-	virtual Id onUsageParsed(
-		const ParseLocation& location, const NameHierarchy& userName, int usedType, const NameHierarchy& usedName);
-	virtual Id onTypeUsageParsed(const ParseLocation& location, const NameHierarchy& user, const NameHierarchy& used);
+	virtual void onUsageParsed(
+		const ParseLocation& location, const NameHierarchy& userName, SymbolType usedType, const NameHierarchy& usedName);
+	virtual void onTypeUsageParsed(const ParseLocation& location, const NameHierarchy& user, const NameHierarchy& used);
 
-	virtual Id onTemplateArgumentTypeParsed(
+	virtual void onTemplateArgumentTypeParsed(
 		const ParseLocation& location, const NameHierarchy& argumentTypeNameHierarchy,
 		const NameHierarchy& templateNameHierarchy);
-	virtual Id onTemplateDefaultArgumentTypeParsed(
+	virtual void onTemplateDefaultArgumentTypeParsed(
 		const ParseLocation& location, const NameHierarchy& defaultArgumentTypeNameHierarchy,
 		const NameHierarchy& templateParameterNameHierarchy);
-	virtual Id onTemplateSpecializationParsed(
+	virtual void onTemplateSpecializationParsed(
 		const ParseLocation& location, const NameHierarchy& specializedNameHierarchy,
 		const NameHierarchy& specializedFromNameHierarchy);
-	virtual Id onTemplateMemberFunctionSpecializationParsed(
+	virtual void onTemplateMemberFunctionSpecializationParsed(
 		const ParseLocation& location, const NameHierarchy& instantiatedFunction, const NameHierarchy& specializedFunction);
 
-	virtual Id onLocalSymbolParsed(const std::string& name, const ParseLocation& location);
-
-	virtual Id onFileParsed(const FileInfo& fileInfo);
-	virtual Id onFileIncludeParsed(
+	virtual void onFileIncludeParsed(
 		const ParseLocation& location, const FileInfo& fileInfo, const FileInfo& includedFileInfo);
 
-	virtual Id onMacroDefineParsed(
-		const ParseLocation& location, const NameHierarchy& macroNameHierarchy, const ParseLocation& scopeLocation);
-	virtual Id onMacroExpandParsed(
+	virtual void onMacroExpandParsed(
 		const ParseLocation& location, const NameHierarchy& macroNameHierarchy);
 
-	virtual Id onCommentParsed(const ParseLocation& location);
-
 private:
+	Node::NodeType symbolTypeToNodeType(SymbolType symbolType) const;
 	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;
 	void addAccess(Id nodeId, ParserClient::AccessType access);
 	void addAccess(Id nodeId, TokenComponentAccess::AccessType access);
