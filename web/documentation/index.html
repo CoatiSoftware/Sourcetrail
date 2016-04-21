@@ -1107,7 +1107,7 @@
 					</ul>
 
 					<h3>Snippets</h3>
-					<p>A code snippet contains the line of interest for the currently active symbols. Other symbols that were analyzed by Coati are framed by a box when hovered. In case the snippet is part of a class, function or namespace, an additional line at the top of the snippet provides information about the snippet’s context (e.g. the surrounding scope).</p>
+					<p>A code snippet contains the lines of interest for the currently active symbol surrounded by some more lines to provide some context. Other symbols that were analyzed by Coati are framed by a box when hovered. Here Coati distinguishes between local symbols and symbols that can be related to any other part of the code base. In case the snippet is part of a class, function or namespace, an additional line at the top of the snippet provides information about the snippet’s context (e.g. the surrounding scope).</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/code_view_snippet.png" style="width:100%;">
@@ -1117,6 +1117,7 @@
 					<ul>
 						<li>Click the top line to show the whole scope around the snippet.</li>
 						<li>Click a boxed symbol to activate it.</li>
+						<li>Click a boxed local symbol to highlight all its usages in the visible code.</li>
 					</ul>
 
 
