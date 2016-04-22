@@ -56,7 +56,10 @@ int main(int argc, char *argv[])
 		setupApp(argc, argv);
 		init();
 
-		std::shared_ptr<Application> app = Application::create( version );
+		std::shared_ptr<Application> app = Application::create(version);
+
+		std::shared_ptr<LicenseChecker> checker = LicenseChecker::getInstance();
+		checker->setApp(app.get());
 
 		if (commandLineParser.startedWithLicense())
 		{
@@ -64,8 +67,13 @@ int main(int argc, char *argv[])
 			return 0;
 		}
 
+		if (!checker->isCurrentLicenseValid()) // this works because the user cannot enter a license string while running the app in headless more.
+		{
+			LOG_WARNING("Your current Coati license seems to be invalid. Please update your license info.");
+			return 0;
+		}
+
 		commandLineParser.projectLoad();
-		// todo: set app of license checker.
 		return qtApp.exec();
 	}
 	else
@@ -82,11 +90,10 @@ int main(int argc, char *argv[])
 		QtViewFactory viewFactory;
 		QtNetworkFactory networkFactory;
 
-		std::shared_ptr<LicenseChecker> checker = LicenseChecker::getInstance();
-
 		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
 		std::shared_ptr<Application> app = Application::create(version, &viewFactory, &networkFactory);
 
+		std::shared_ptr<LicenseChecker> checker = LicenseChecker::getInstance();
 		checker->setApp(app.get());
 
 		commandLineParser.projectLoad();

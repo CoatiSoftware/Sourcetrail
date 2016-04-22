@@ -19,6 +19,8 @@ public:
 
 	void setApp(Application* app);
 
+	bool isCurrentLicenseValid();
+
 private:
 	LicenseChecker();
 	LicenseChecker(const LicenseChecker&) = delete;
@@ -26,7 +28,6 @@ private:
 
 	void handleMessage(MessageDispatchWhenLicenseValid* message);
 	void handleMessage(MessageEnteredLicense* message);
-	bool checkLicenseString();
 
 	static std::shared_ptr<LicenseChecker> s_instance;
 

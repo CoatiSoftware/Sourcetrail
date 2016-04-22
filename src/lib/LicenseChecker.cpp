@@ -33,42 +33,7 @@ void LicenseChecker::setApp(Application* app)
 	m_app = app;
 }
 
-LicenseChecker::LicenseChecker()
-	: m_app(nullptr)
-	, m_forcedLicenseEntering(false)
-{
-}
-
-void LicenseChecker::handleMessage(MessageDispatchWhenLicenseValid* message)
-{
-	if (m_app != nullptr && !checkLicenseString())
-	{
-		m_pendingMessage = message->content;
-
-		if (!m_forcedLicenseEntering)
-		{
-			m_app->forceEnterLicense();
-			m_forcedLicenseEntering = true;
-		}
-	}
-	else
-	{
-		message->content->dispatch();
-	}
-}
-
-void LicenseChecker::handleMessage(MessageEnteredLicense* message)
-{
-	m_forcedLicenseEntering = false;
-
-	if (m_pendingMessage)
-	{
-		m_pendingMessage->dispatch();
-		m_pendingMessage.reset();
-	}
-}
-
-bool LicenseChecker::checkLicenseString()
+bool LicenseChecker::isCurrentLicenseValid()
 {
 	MessageStatus("preparing...", false, true).dispatch();
 
@@ -112,6 +77,41 @@ bool LicenseChecker::checkLicenseString()
 	MessageStatus("ready").dispatch();
 
 	return valid;
+}
+
+LicenseChecker::LicenseChecker()
+	: m_app(nullptr)
+	, m_forcedLicenseEntering(false)
+{
+}
+
+void LicenseChecker::handleMessage(MessageDispatchWhenLicenseValid* message)
+{
+	if (m_app != nullptr && !isCurrentLicenseValid())
+	{
+		m_pendingMessage = message->content;
+
+		if (!m_forcedLicenseEntering)
+		{
+			m_app->forceEnterLicense();
+			m_forcedLicenseEntering = true;
+		}
+	}
+	else
+	{
+		message->content->dispatch();
+	}
+}
+
+void LicenseChecker::handleMessage(MessageEnteredLicense* message)
+{
+	m_forcedLicenseEntering = false;
+
+	if (m_pendingMessage)
+	{
+		m_pendingMessage->dispatch();
+		m_pendingMessage.reset();
+	}
 }
 
 std::shared_ptr<LicenseChecker> LicenseChecker::s_instance;
