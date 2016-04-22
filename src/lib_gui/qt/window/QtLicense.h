@@ -19,6 +19,8 @@ public:
 	void clear();
 	void load();
 
+	void setErrorMessage(const QString& errorMessage);
+
 protected:
 	// QtWindow implementation
 	virtual void populateWindow(QWidget* widget) override;

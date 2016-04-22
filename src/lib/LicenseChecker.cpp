@@ -1,13 +1,13 @@
 #include "LicenseChecker.h"
 
+#include "utility/AppPath.h"
+#include "utility/messaging/type/MessageForceEnterLicense.h"
 #include "utility/messaging/type/MessageStatus.h"
 
+#include "isTrial.h"
 #include "License.h"
-#include "Application.h"
 #include "PublicKey.h"
 #include "settings/ApplicationSettings.h"
-
-#include "utility/AppPath.h"
 
 void LicenseChecker::createInstance()
 {
@@ -28,79 +28,119 @@ LicenseChecker::~LicenseChecker()
 {
 }
 
-void LicenseChecker::setApp(Application* app)
+std::string LicenseChecker::getCurrentLicenseString() const
 {
-	m_app = app;
+	License license;
+	bool isLoaded = license.loadFromEncodedString(
+		ApplicationSettings::getInstance()->getLicenseString(), AppPath::getAppPath());
+
+	if (isLoaded)
+	{
+		return license.getLicenseString();
+	}
+
+	return "";
+}
+
+void LicenseChecker::saveCurrentLicenseString(const std::string& licenseString) const
+{
+	License license;
+	bool isLoaded = license.loadFromString(licenseString);
+	if (!isLoaded)
+	{
+		return;
+	}
+
+	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+	std::string appPath(AppPath::getAppPath());
+
+	appSettings->setLicenseString(license.getLicenseEncodedString(appPath));
+	appSettings->setLicenseCheck(license.hashLocation(FilePath(appPath).absolute().str()));
+	appSettings->save();
 }
 
 bool LicenseChecker::isCurrentLicenseValid()
 {
-	MessageStatus("preparing...", false, true).dispatch();
+	return checkCurrentLicense() == LICENSE_VALID;
+}
 
-	bool valid = false;
-	do
+LicenseChecker::LicenseState LicenseChecker::checkCurrentLicense() const
+{
+	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+
+	std::string licenseCheck = appSettings->getLicenseCheck();
+	std::string appPath(AppPath::getAppPath());
+
+	std::string licenseString = appSettings->getLicenseString();
+	if (licenseString.size() == 0)
 	{
-		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-
-		std::string licenseCheck = appSettings->getLicenseCheck();
-		std::string appPath = AppPath::getAppPath(); // for easier debugging...
-		FilePath p(appPath);
-
-		if (!License::checkLocation(p.absolute().str(), licenseCheck))
-		{
-			break;
-		}
-
-		std::string licenseString = appSettings->getLicenseString();
-		if (licenseString.size() == 0)
-		{
-			break;
-		}
-
-		License license;
-		bool isLoaded = license.loadFromEncodedString(licenseString,AppPath::getAppPath());
-		if (!isLoaded)
-		{
-			break;
-		}
-
-		license.loadPublicKeyFromString(PublicKey);
-		valid = license.isValid();
-		if (license.isExpired())
-		{
-			valid = false;
-		}
-
+		return LICENSE_EMPTY;
 	}
-	while (false);
 
-	MessageStatus("ready").dispatch();
+	if (!License::checkLocation(FilePath(appPath).absolute().str(), licenseCheck))
+	{
+		return LICENSE_MOVED;
+	}
 
-	return valid;
+	License license;
+	bool isLoaded = license.loadFromEncodedString(licenseString, appPath);
+	if (!isLoaded)
+	{
+		return LICENSE_MOVED;
+	}
+
+	return checkLicense(license);
+}
+
+LicenseChecker::LicenseState LicenseChecker::checkLicenseString(const std::string licenseString) const
+{
+	if (licenseString.size() == 0)
+	{
+		return LICENSE_EMPTY;
+	}
+
+	License license;
+	bool isLoaded = license.loadFromString(licenseString);
+	if (!isLoaded)
+	{
+		return LICENSE_MALFORMED;
+	}
+
+	license.print();
+
+	return checkLicense(license);
 }
 
 LicenseChecker::LicenseChecker()
-	: m_app(nullptr)
-	, m_forcedLicenseEntering(false)
+	: m_forcedLicenseEntering(false)
 {
 }
 
 void LicenseChecker::handleMessage(MessageDispatchWhenLicenseValid* message)
 {
-	if (m_app != nullptr && !isCurrentLicenseValid())
+	if (!isTrial())
 	{
-		m_pendingMessage = message->content;
+		MessageStatus("preparing...", false, true).dispatch();
 
-		if (!m_forcedLicenseEntering)
+		LicenseState state = checkCurrentLicense();
+
+		MessageStatus("ready").dispatch();
+
+		if (state != LICENSE_VALID)
 		{
-			m_app->forceEnterLicense();
-			m_forcedLicenseEntering = true;
+			m_pendingMessage = message->content;
+
+			if (!m_forcedLicenseEntering)
+			{
+				m_forcedLicenseEntering = true;
+				MessageForceEnterLicense(state == LICENSE_EXPIRED).dispatch();
+			}
+
+			return;
 		}
 	}
-	else
-	{
-		message->content->dispatch();
-	}
+
+	message->content->dispatch();
 }
 
 void LicenseChecker::handleMessage(MessageEnteredLicense* message)
@@ -112,6 +152,23 @@ void LicenseChecker::handleMessage(MessageEnteredLicense* message)
 		m_pendingMessage->dispatch();
 		m_pendingMessage.reset();
 	}
+}
+
+LicenseChecker::LicenseState LicenseChecker::checkLicense(License& license) const
+{
+	license.loadPublicKeyFromString(PublicKey);
+
+	if (license.isExpired())
+	{
+		return LICENSE_EXPIRED;
+	}
+
+	if (license.isValid())
+	{
+		return LICENSE_VALID;
+	}
+
+	return LICENSE_INVALID;
 }
 
 std::shared_ptr<LicenseChecker> LicenseChecker::s_instance;

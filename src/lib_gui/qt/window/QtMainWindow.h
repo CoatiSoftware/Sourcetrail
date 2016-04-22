@@ -85,7 +85,7 @@ public:
 	void loadLayout();
 	void saveLayout();
 
-	void forceEnterLicense();
+	void forceEnterLicense(bool expired);
 
 protected:
 	bool event(QEvent* event);

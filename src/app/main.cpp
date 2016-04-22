@@ -18,8 +18,6 @@
 #include "qt/window/QtMainWindow.h"
 #include "version.h"
 
-#include "settings/ProjectSettings.h"
-
 void init()
 {
 	std::shared_ptr<ConsoleLogger> consoleLogger = std::make_shared<ConsoleLogger>();
@@ -59,7 +57,6 @@ int main(int argc, char *argv[])
 		std::shared_ptr<Application> app = Application::create(version);
 
 		std::shared_ptr<LicenseChecker> checker = LicenseChecker::getInstance();
-		checker->setApp(app.get());
 
 		if (commandLineParser.startedWithLicense())
 		{
@@ -92,9 +89,6 @@ int main(int argc, char *argv[])
 
 		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
 		std::shared_ptr<Application> app = Application::create(version, &viewFactory, &networkFactory);
-
-		std::shared_ptr<LicenseChecker> checker = LicenseChecker::getInstance();
-		checker->setApp(app.get());
 
 		commandLineParser.projectLoad();
 

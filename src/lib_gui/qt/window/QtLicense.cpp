@@ -5,11 +5,8 @@
 #include <QLabel>
 #include <QTextEdit>
 
-#include "License.h"
-#include "PublicKey.h"
+#include "LicenseChecker.h"
 #include "qt/utility/utilityQt.h"
-#include "settings/ApplicationSettings.h"
-#include "utility/AppPath.h"
 #include "utility/file/FilePath.h"
 #include "utility/messaging/type/MessageEnteredLicense.h"
 #include "utility/ResourcePaths.h"
@@ -42,17 +39,19 @@ void QtLicense::load()
 {
 	clear();
 
-	License license;
-	bool isLoaded = license.loadFromEncodedString(
-		ApplicationSettings::getInstance()->getLicenseString(), AppPath::getAppPath());
-	if (!isLoaded)
-	{
-		return;
-	}
+	std::string licenseString = LicenseChecker::getInstance()->getCurrentLicenseString();
 
-	if (m_licenseText)
+	if (licenseString.size() && m_licenseText)
 	{
-		m_licenseText->setText(license.getLicenseString().c_str());
+		m_licenseText->setText(licenseString.c_str());
+	}
+}
+
+void QtLicense::setErrorMessage(const QString& errorMessage)
+{
+	if (m_errorLabel)
+	{
+		m_errorLabel->setText(errorMessage);
 	}
 }
 
@@ -136,47 +135,39 @@ void QtLicense::handleClose()
 void QtLicense::handleNext()
 {
 	std::string licenseString = m_licenseText->toPlainText().toStdString();
-	if (licenseString.size() == 0)
+
+	LicenseChecker* checker = LicenseChecker::getInstance().get();
+	LicenseChecker::LicenseState state = checker->checkLicenseString(licenseString);
+
+	std::string errorString;
+
+	switch (state)
 	{
-		m_errorLabel->setText("No licence key was entered.");
-		return;
+		case LicenseChecker::LICENSE_EMPTY:
+			errorString = "No licence key was entered.";
+			break;
+		case LicenseChecker::LICENSE_MOVED:
+		case LicenseChecker::LICENSE_MALFORMED:
+			errorString = "The entered license key is malformed.";
+			break;
+		case LicenseChecker::LICENSE_INVALID:
+			errorString = "The entered license key is invalid.";
+			break;
+		case LicenseChecker::LICENSE_EXPIRED:
+			errorString = "The entered license key is expired.";
+			break;
+		case LicenseChecker::LICENSE_VALID:
+		{
+			checker->saveCurrentLicenseString(licenseString);
+			MessageEnteredLicense().dispatch();
+
+			setCancelAble(true);
+			m_errorLabel->setText(" ");
+
+			emit finished();
+			return;
+		}
 	}
 
-	License license;
-	bool isLoaded = license.loadFromString(licenseString);
-	if (!isLoaded)
-	{
-		m_errorLabel->setText("The entered license key is malformed.");
-		return;
-	}
-
-	license.loadPublicKeyFromString(PublicKey);
-	license.print();
-
-	if (license.isExpired())
-	{
-		m_errorLabel->setText("The entered license key is expired");
-		return;
-	}
-	else if (license.isValid())
-	{
-		ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
-		std::string appLocation = AppPath::getAppPath();
-		appSettings->setLicenseString(license.getLicenseEncodedString(appLocation));
-		FilePath p(appLocation);
-		appSettings->setLicenseCheck(license.hashLocation(p.absolute().str()));
-		appSettings->save();
-
-		MessageEnteredLicense().dispatch();
-	}
-	else
-	{
-		m_errorLabel->setText("The entered license key is invalid.");
-		return;
-	}
-
-	m_errorLabel->setText(" ");
-	setCancelAble(true);
-
-	emit finished();
+	m_errorLabel->setText(errorString.c_str());
 }

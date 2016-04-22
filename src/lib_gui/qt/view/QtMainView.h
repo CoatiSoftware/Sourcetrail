@@ -10,6 +10,7 @@
 #include "qt/utility/QtThreadedFunctor.h"
 
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/MessageForceEnterLicense.h"
 #include "utility/messaging/type/MessageProjectNew.h"
 #include "utility/messaging/type/MessageShowStartScreen.h"
 
@@ -18,6 +19,7 @@ class View;
 
 class QtMainView
 	: public MainView
+	, public MessageListener<MessageForceEnterLicense>
 	, public MessageListener<MessageProjectNew>
 	, public MessageListener<MessageShowStartScreen>
 {
@@ -43,9 +45,9 @@ public:
 	virtual void setTitle(const std::string& title);
 	virtual void activateWindow();
 	virtual void updateRecentProjectMenu();
-	virtual void forceLicenseScreen();
 
 private:
+	void handleMessage(MessageForceEnterLicense* message);
 	void handleMessage(MessageProjectNew* message);
 	void handleMessage(MessageShowStartScreen* message);
 
@@ -55,7 +57,7 @@ private:
 	void doSetTitle(const std::string& title);
 	void doActivateWindow();
 	void doUpdateRecentProjectMenu();
-	void doForceLicenseScreen();
+	void doForceLicenseScreen(bool expired);
 
 	std::shared_ptr<QtMainWindow> m_window;
 	std::vector<View*> m_views;
@@ -66,7 +68,7 @@ private:
 	QtThreadedFunctor<const std::string&> m_setTitleFunctor;
 	QtThreadedFunctor<> m_activateWindowFunctor;
 	QtThreadedFunctor<> m_updateRecentProjectMenuFunctor;
-	QtThreadedFunctor<> m_forceLicenseScreenFunctor;
+	QtThreadedFunctor<bool> m_forceLicenseScreenFunctor;
 };
 
 #endif // QT_MAIN_VIEW_H

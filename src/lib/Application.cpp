@@ -15,6 +15,7 @@
 #include "component/view/MainView.h"
 #include "component/view/ViewFactory.h"
 #include "data/StorageCache.h"
+#include "LicenseChecker.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
 
@@ -73,6 +74,7 @@ void Application::loadSettings()
 Application::Application(bool withGUI)
 	: m_hasGUI(withGUI)
 {
+	LicenseChecker::createInstance();
 }
 
 Application::~Application()
@@ -132,14 +134,6 @@ void Application::saveProject(const FilePath& projectSettingsFilePath)
 	if (!m_project->save(projectSettingsFilePath))
 	{
 		LOG_ERROR("No Project Settings File defined");
-	}
-}
-
-void Application::forceEnterLicense()
-{
-	if (m_hasGUI)
-	{
-		m_mainView->forceLicenseScreen();
 	}
 }
 

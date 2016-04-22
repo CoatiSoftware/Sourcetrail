@@ -262,7 +262,7 @@ void QtMainWindow::saveLayout()
 	settings.setValue("DOCK_LOCATIONS", this->saveState());
 }
 
-void QtMainWindow::forceEnterLicense()
+void QtMainWindow::forceEnterLicense(bool expired)
 {
 	enterLicense();
 
@@ -272,7 +272,15 @@ void QtMainWindow::forceEnterLicense()
 		LOG_ERROR("No enter license window on top of stack");
 		return;
 	}
-	enterLicenseWindow->clear();
+
+	if (expired)
+	{
+		enterLicenseWindow->setErrorMessage("The license key is expired.");
+	}
+	else
+	{
+		enterLicenseWindow->clear();
+	}
 
 	this->setEnabled(false);
 	enterLicenseWindow->setEnabled(true);

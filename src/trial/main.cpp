@@ -8,14 +8,12 @@
 
 #include "Application.h"
 #include "includes.h" // defines 'void setup(int argc, char *argv[])'
-#include "LicenseChecker.h"
 #include "qt/network/QtNetworkFactory.h"
 #include "qt/QtApplication.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewFactory.h"
 #include "qt/window/QtMainWindow.h"
 #include "version.h"
-
 
 void init()
 {
@@ -52,8 +50,6 @@ int main(int argc, char *argv[])
 	utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
 
 	std::shared_ptr<Application> app = Application::create(version, &viewFactory, &networkFactory);
-
-	LicenseChecker::createInstance();
 
 	return qtApp.exec();
 }

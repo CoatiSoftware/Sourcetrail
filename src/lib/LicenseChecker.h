@@ -5,21 +5,34 @@
 #include "utility/messaging/type/MessageEnteredLicense.h"
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 
-class Application;
+class License;
 
 class LicenseChecker
 	: public MessageListener<MessageDispatchWhenLicenseValid>
 	, public MessageListener<MessageEnteredLicense>
 {
 public:
+	enum LicenseState
+	{
+		LICENSE_EMPTY,
+		LICENSE_MOVED,
+		LICENSE_MALFORMED,
+		LICENSE_INVALID,
+		LICENSE_EXPIRED,
+		LICENSE_VALID
+	};
+
 	static void createInstance();
 	static std::shared_ptr<LicenseChecker> getInstance();
 
 	~LicenseChecker();
 
-	void setApp(Application* app);
+	std::string getCurrentLicenseString() const;
+	void saveCurrentLicenseString(const std::string& licenseString) const;
 
 	bool isCurrentLicenseValid();
+	LicenseState checkCurrentLicense() const;
+	LicenseState checkLicenseString(const std::string licenseString) const;
 
 private:
 	LicenseChecker();
@@ -29,9 +42,10 @@ private:
 	void handleMessage(MessageDispatchWhenLicenseValid* message);
 	void handleMessage(MessageEnteredLicense* message);
 
+	LicenseState checkLicense(License& license) const;
+
 	static std::shared_ptr<LicenseChecker> s_instance;
 
-	Application* m_app;
 	std::shared_ptr<MessageBase> m_pendingMessage;
 	bool m_forcedLicenseEntering;
 };

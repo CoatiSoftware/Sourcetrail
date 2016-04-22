@@ -36,7 +36,6 @@ public:
 	void loadProject(const FilePath& projectSettingsFilePath);
 	void refreshProject();
 	void saveProject(const FilePath& projectSettingsFilePath);
-	void forceEnterLicense();
 	bool hasGUI();
 
 private:

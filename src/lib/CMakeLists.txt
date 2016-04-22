@@ -236,6 +236,7 @@ add_files(
 	utility/messaging/type/MessageFlushUpdates.h
 	utility/messaging/type/MessageFocusIn.h
 	utility/messaging/type/MessageFocusOut.h
+	utility/messaging/type/MessageForceEnterLicense.h
 	utility/messaging/type/MessageGraphNodeBundleSplit.h
 	utility/messaging/type/MessageGraphNodeExpand.h
 	utility/messaging/type/MessageGraphNodeMove.h

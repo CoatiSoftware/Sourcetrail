@@ -11,7 +11,7 @@ QtMainView::QtMainView()
 	, m_setTitleFunctor(std::bind(&QtMainView::doSetTitle, this, std::placeholders::_1))
 	, m_activateWindowFunctor(std::bind(&QtMainView::doActivateWindow, this))
 	, m_updateRecentProjectMenuFunctor(std::bind(&QtMainView::doUpdateRecentProjectMenu, this))
-	, m_forceLicenseScreenFunctor(std::bind(&QtMainView::doForceLicenseScreen, this))
+	, m_forceLicenseScreenFunctor(std::bind(&QtMainView::doForceLicenseScreen, this, std::placeholders::_1))
 {
 	m_window = std::make_shared<QtMainWindow>();
 	m_window->show();
@@ -89,9 +89,9 @@ void QtMainView::updateRecentProjectMenu()
 	m_updateRecentProjectMenuFunctor();
 }
 
-void QtMainView::forceLicenseScreen()
+void QtMainView::handleMessage(MessageForceEnterLicense* message)
 {
-	m_forceLicenseScreenFunctor();
+	m_forceLicenseScreenFunctor(message->licenseExpired);
 }
 
 void QtMainView::handleMessage(MessageProjectNew* message)
@@ -140,7 +140,7 @@ void QtMainView::doUpdateRecentProjectMenu()
 	m_window->updateRecentProjectMenu();
 }
 
-void QtMainView::doForceLicenseScreen()
+void QtMainView::doForceLicenseScreen(bool expired)
 {
-	m_window->forceEnterLicense();
+	m_window->forceEnterLicense(expired);
 }
