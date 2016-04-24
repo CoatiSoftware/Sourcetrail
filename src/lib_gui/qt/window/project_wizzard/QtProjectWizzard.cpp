@@ -30,9 +30,14 @@
 QtProjectWizzard::QtProjectWizzard(QWidget* parent)
 	: QtWindowStackElement(parent)
 	, m_windowStack(this)
+	, m_editing(false)
 {
 	connect(&m_windowStack, SIGNAL(push()), this, SLOT(windowStackChanged()));
 	connect(&m_windowStack, SIGNAL(pop()), this, SLOT(windowStackChanged()));
+
+	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+	m_appSettings.setHeaderSearchPaths(appSettings->getHeaderSearchPaths());
+	m_appSettings.setFrameworkSearchPaths(appSettings->getFrameworkSearchPaths());
 
 	m_parserManager = std::make_shared<SolutionParserManager>();
 
@@ -166,6 +171,7 @@ void QtProjectWizzard::refreshProjectFromCompilationDatabase(const std::string& 
 void QtProjectWizzard::editProject(const ProjectSettings& settings)
 {
 	m_settings = settings;
+	m_editing = true;
 
 	showSummary();
 
@@ -204,7 +210,7 @@ void QtProjectWizzard::showPreferences()
 		}
 	);
 
-	connect(window, SIGNAL(next()), this, SLOT(cancelWizzard()));
+	connect(window, SIGNAL(next()), this, SLOT(savePreferences()));
 }
 
 template<typename T>
@@ -302,6 +308,12 @@ void QtProjectWizzard::cancelWizzard()
 {
 	m_windowStack.clearWindows();
 	emit canceled();
+}
+
+void QtProjectWizzard::finishWizzard()
+{
+	m_windowStack.clearWindows();
+	emit finished();
 }
 
 void QtProjectWizzard::windowStackChanged()
@@ -602,12 +614,35 @@ void QtProjectWizzard::createProject()
 
 	m_settings.save(path);
 
-	bool forceRefresh = !(m_settings == *ProjectSettings::getInstance().get());
+	bool edited = false;
+	if (m_editing)
+	{
+		bool settingsChanged = !(m_settings == *ProjectSettings::getInstance().get());
+		bool appSettingsChanged = !(m_appSettings == *ApplicationSettings::getInstance().get());
+
+		if (settingsChanged || appSettingsChanged)
+		{
+			edited = true;
+		}
+	}
 
 	MessageDispatchWhenLicenseValid(
-		std::make_shared<MessageLoadProject>(path, forceRefresh)
+		std::make_shared<MessageLoadProject>(path, edited)
 	).dispatch();
 
-	m_windowStack.clearWindows();
-	emit finished();
+	finishWizzard();
+}
+
+void QtProjectWizzard::savePreferences()
+{
+	bool appSettingsChanged = !(m_appSettings == *ApplicationSettings::getInstance().get());
+
+	if (appSettingsChanged)
+	{
+		MessageDispatchWhenLicenseValid(
+			std::make_shared<MessageLoadProject>("", true)
+		).dispatch();
+	}
+
+	cancelWizzard();
 }

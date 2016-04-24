@@ -92,7 +92,7 @@ bool Application::hasGUI()
 	return m_hasGUI;
 }
 
-void Application::loadProject(const FilePath& projectSettingsFilePath)
+void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 {
 	MessageStatus("Loading Project: " + projectSettingsFilePath.str(), false, true).dispatch();
 
@@ -102,17 +102,60 @@ void Application::loadProject(const FilePath& projectSettingsFilePath)
 	m_storageCache->clear();
 
 	m_project = Project::create(m_storageCache.get());
-	m_project->load(projectSettingsFilePath);
+	loadProject(projectSettingsFilePath);
 
 	if (m_hasGUI)
 	{
-		m_mainView->setTitle(
-				"Coati - " +
-				projectSettingsFilePath.fileName());
-
+		m_mainView->setTitle("Coati - " + projectSettingsFilePath.fileName());
 		m_mainView->updateRecentProjectMenu();
 		m_mainView->hideStartScreen();
+
 		m_componentManager->refreshViews();
+	}
+}
+
+void Application::loadProject(const FilePath& projectSettingsFilePath)
+{
+	bool reparse = false;
+
+	Project::ProjectState state = m_project->load(projectSettingsFilePath);
+	if (state == Project::PROJECT_OUTDATED)
+	{
+		if (m_hasGUI)
+		{
+			std::vector<std::string> options;
+			options.push_back("Yes");
+			options.push_back("No");
+			int result = m_mainView->confirm(
+				"The project file was changed after the last analysis. The project needs to get fully reanalysed to "
+				"reflect the current project state. Do you want to reanalyze the project?", options);
+
+			reparse = (result == 0);
+		}
+	}
+	else if (state == Project::PROJECT_OUTVERSIONED)
+	{
+		MessageStatus("Can't load project").dispatch();
+
+		reparse = true;
+
+		if (m_hasGUI)
+		{
+			std::vector<std::string> options;
+			options.push_back("Yes");
+			options.push_back("No");
+			int result = m_mainView->confirm(
+				"This project was analyzed with a different version of Coati. It needs to be fully reanalyzed to be used "
+				"with this version of Coati. Do you want to reanalyze the project?", options);
+
+			reparse = (result == 0);
+		}
+	}
+
+	if (reparse)
+	{
+		m_project->clearStorage();
+		m_project->load(projectSettingsFilePath);
 	}
 }
 
@@ -126,7 +169,12 @@ void Application::refreshProject()
 		m_componentManager->refreshViews();
 	}
 
-	m_project->reload();
+	Project::ProjectState state = m_project->reload();
+	if (state != Project::PROJECT_LOADED)
+	{
+		MessageStatus("Can't refresh project").dispatch();
+		loadProject(m_project->getProjectSettingsFilePath());
+	}
 }
 
 void Application::saveProject(const FilePath& projectSettingsFilePath)
@@ -156,18 +204,43 @@ void Application::handleMessage(MessageFinishedParsing* message)
 
 void Application::handleMessage(MessageLoadProject* message)
 {
+	FilePath projectSettingsFilePath(message->projectSettingsFilePath);
+	if (projectSettingsFilePath.empty())
+	{
+		projectSettingsFilePath = m_project->getProjectSettingsFilePath();
+		if (projectSettingsFilePath.empty())
+		{
+			return;
+		}
+	}
+
 	if (message->forceRefresh)
 	{
+		if (m_hasGUI)
+		{
+			std::vector<std::string> options;
+			options.push_back("Yes");
+			options.push_back("No");
+			int result = m_mainView->confirm(
+				"Some settings were changed, the project needs to be fully reanalyzed. "
+				"Do you want to reanalyze the project?", options);
+
+			if (result == 1)
+			{
+				return;
+			}
+		}
+
 		m_project->clearStorage();
 	}
-	else if (FilePath(message->projectSettingsFilePath) == m_project->getProjectSettingsFilePath())
+	else if (projectSettingsFilePath == m_project->getProjectSettingsFilePath())
 	{
 		return;
 	}
 
 	try
 	{
-		loadProject(message->projectSettingsFilePath);
+		createAndLoadProject(projectSettingsFilePath);
 	}
 	catch (...)
 	{

@@ -6,9 +6,11 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentSelect.h"
 #include "qt/window/QtWindowStack.h"
 
+#include "settings/ApplicationSettings.h"
+#include "settings/ProjectSettings.h"
+
 #include "utility/solution/SolutionParserManager.h"
 
-class ProjectSettings;
 class QtProjectWizzardContentSummary;
 class QtProjectWizzardWindow;
 
@@ -55,12 +57,18 @@ private:
 
 	QtWindowStack m_windowStack;
 	std::shared_ptr<QtProjectWizzardWindow> m_popup;
+
 	ProjectSettings m_settings;
+	ApplicationSettings m_appSettings;
+
+	bool m_editing;
 
 	std::shared_ptr<SolutionParserManager> m_parserManager;
 
 private slots:
 	void cancelWizzard();
+	void finishWizzard();
+
 	void windowStackChanged();
 	void popupClosed();
 
@@ -87,6 +95,7 @@ private slots:
 	void showSummary();
 
 	void createProject();
+	void savePreferences();
 };
 
 template<>

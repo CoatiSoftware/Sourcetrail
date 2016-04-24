@@ -33,6 +33,7 @@ public:
 
 	~Application();
 
+	void createAndLoadProject(const FilePath& projectSettingsFilePath);
 	void loadProject(const FilePath& projectSettingsFilePath);
 	void refreshProject();
 	void saveProject(const FilePath& projectSettingsFilePath);

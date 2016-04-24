@@ -20,16 +20,18 @@ class Version;
 class SqliteStorage
 {
 public:
-	SqliteStorage(const std::string& dbFilePath);
+	SqliteStorage(const FilePath& dbFilePath);
 	~SqliteStorage();
 
-	bool init();
+	void init();
 	void setup();
 	void clear();
 
 	void beginTransaction();
 	void commitTransaction();
 	void rollbackTransaction();
+
+	FilePath getDbFilePath() const;
 
 	Version getVersion() const;
 	void setVersion(const Version& version);
@@ -129,6 +131,7 @@ private:
 	ResultType getFirstResult(const std::string& query) const;
 
 	mutable CppSQLite3DB m_database;
+	FilePath m_dbFilePath;
 };
 
 template <typename ResultType>

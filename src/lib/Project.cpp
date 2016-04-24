@@ -30,29 +30,62 @@ const FilePath& Project::getProjectSettingsFilePath() const
 	return m_projectSettingsFilepath;
 }
 
-bool Project::load(const FilePath& projectSettingsFile)
+Project::ProjectState Project::load(const FilePath& projectSettingsFile)
 {
-	bool success = ProjectSettings::getInstance()->load(projectSettingsFile);
+	m_state = PROJECT_NONE;
+
+	bool success = true;
+	if (!projectSettingsFile.empty() && projectSettingsFile != m_projectSettingsFilepath)
+	{
+		success = ProjectSettings::getInstance()->load(projectSettingsFile);
+	}
+
 	if (success)
 	{
 		setProjectSettingsFilePath(projectSettingsFile);
 		updateFileManager();
+
+		switch (m_state)
+		{
+			case PROJECT_NONE:
+				break;
+
+			case PROJECT_EMPTY:
+				parseCode();
+				break;
+
+			case PROJECT_LOADED:
+			case PROJECT_OUTDATED:
+				m_storage->finishParsing();
+				MessageFinishedParsing(0, 0, 0, true).dispatch();
+				break;
+
+			case PROJECT_OUTVERSIONED:
+				m_storage.reset();
+				break;
+		}
 	}
 
-	if (m_storageWasLoaded)
+	return m_state;
+}
+
+Project::ProjectState Project::reload()
+{
+	if (m_state == PROJECT_LOADED &&
+		FileSystem::getFileInfoForPath(m_projectSettingsFilepath).lastWriteTime >
+		FileSystem::getFileInfoForPath(m_storage->getDbFilePath()).lastWriteTime)
 	{
-		m_storage->startParsing();
-		m_storage->finishParsing();
-		MessageFinishedParsing(0, 0, 0, true).dispatch();
+		m_state = PROJECT_OUTDATED;
 	}
-	else
+	else if (!m_projectSettingsFilepath.empty() && (m_state == PROJECT_EMPTY || m_state == PROJECT_LOADED))
 	{
+		ProjectSettings::getInstance()->load(m_projectSettingsFilepath);
+		updateFileManager();
+
 		parseCode();
 	}
 
-	m_storageWasLoaded = true;
-
-	return success;
+	return m_state;
 }
 
 bool Project::save(const FilePath& projectSettingsFile)
@@ -74,25 +107,17 @@ bool Project::save(const FilePath& projectSettingsFile)
 	return true;
 }
 
-void Project::reload()
-{
-	if (!m_projectSettingsFilepath.empty())
-	{
-		ProjectSettings::getInstance()->load(m_projectSettingsFilepath);
-		updateFileManager();
-
-		setProjectSettingsFilePath(m_projectSettingsFilepath);
-	}
-
-	parseCode();
-}
-
 void Project::clearStorage()
 {
+	if (m_state == PROJECT_OUTVERSIONED)
+	{
+		loadStorage(m_projectSettingsFilepath);
+	}
+
 	if (m_storage)
 	{
 		m_storage->clear();
-		m_storageWasLoaded = false;
+		m_state = PROJECT_EMPTY;
 	}
 }
 
@@ -133,6 +158,8 @@ void Project::parseCode()
 	));
 
 	Task::dispatch(taskGroup);
+
+	m_state = PROJECT_LOADED;
 }
 
 void Project::logStats() const
@@ -142,26 +169,47 @@ void Project::logStats() const
 
 void Project::setProjectSettingsFilePath(const FilePath& path)
 {
-	m_storageWasLoaded = false;
-
 	if (path.empty())
 	{
 		m_storage.reset();
+		m_state = PROJECT_NONE;
 	}
 	else
 	{
-		FilePath dbPath = FilePath(path).replaceExtension("coatidb");
-		m_storageWasLoaded = dbPath.exists();
+		loadStorage(path);
 
-		if (!m_storage || !dbPath.exists())
+		Version version = m_storage->getVersion();
+		if (version.isEmpty())
 		{
-			m_storage = std::make_shared<Storage>(dbPath);
-			m_storageWasLoaded = m_storage->init();
+			m_state = PROJECT_EMPTY;
+			m_storage->init();
+		}
+		else if (version.isDifferentStorageVersionThan(Version::getApplicationVersion()))
+		{
+			m_state = PROJECT_OUTVERSIONED;
+			m_storage.reset();
+		}
+		else if (FileSystem::getFileInfoForPath(path).lastWriteTime > FileSystem::getFileInfoForPath(m_storage->getDbFilePath()).lastWriteTime)
+		{
+			m_state = PROJECT_OUTDATED;
+		}
+		else
+		{
+			m_state = PROJECT_LOADED;
 		}
 	}
 
 	m_storageAccessProxy->setSubject(m_storage.get());
 	m_projectSettingsFilepath = path;
+}
+
+void Project::loadStorage(const FilePath& path)
+{
+	FilePath dbPath = FilePath(path).replaceExtension("coatidb");
+	if (!m_storage || path != m_projectSettingsFilepath || !dbPath.exists())
+	{
+		m_storage = std::make_shared<Storage>(dbPath);
+	}
 }
 
 void Project::updateFileManager()
@@ -226,6 +274,6 @@ Parser::Arguments Project::getParserArguments() const
 
 Project::Project(StorageAccessProxy* storageAccessProxy)
 	: m_storageAccessProxy(storageAccessProxy)
-	, m_storageWasLoaded(false)
+	, m_state(PROJECT_NONE)
 {
 }

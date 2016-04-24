@@ -22,9 +22,10 @@ public:
 	Storage(const FilePath& dbPath);
 	virtual ~Storage();
 
+	FilePath getDbFilePath() const;
 	Version getVersion() const;
 
-	bool init();
+	void init();
 	void clear();
 	void clearCaches();
 

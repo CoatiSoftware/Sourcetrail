@@ -10,7 +10,10 @@ class ApplicationSettings
 {
 public:
 	static std::shared_ptr<ApplicationSettings> getInstance();
+	ApplicationSettings();
 	~ApplicationSettings();
+
+	bool operator==(const ApplicationSettings& other) const;
 
 	int getMaxRecentProjectsCount() const;
 
@@ -77,7 +80,6 @@ public:
 	void setLicenseCheck(const std::string& hash);
 
 private:
-	ApplicationSettings();
 	ApplicationSettings(const ApplicationSettings&);
 	void operator=(const ApplicationSettings&);
 

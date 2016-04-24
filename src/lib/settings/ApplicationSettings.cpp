@@ -1,6 +1,7 @@
 #include "settings/ApplicationSettings.h"
 
 #include "utility/ResourcePaths.h"
+#include "utility/utility.h"
 
 std::shared_ptr<ApplicationSettings> ApplicationSettings::s_instance;
 
@@ -14,8 +15,19 @@ std::shared_ptr<ApplicationSettings> ApplicationSettings::getInstance()
 	return s_instance;
 }
 
+ApplicationSettings::ApplicationSettings()
+{
+}
+
 ApplicationSettings::~ApplicationSettings()
 {
+}
+
+bool ApplicationSettings::operator==(const ApplicationSettings& other) const
+{
+	return
+		utility::isPermutation<FilePath>(getHeaderSearchPaths(), other.getHeaderSearchPaths()) &&
+		utility::isPermutation<FilePath>(getFrameworkSearchPaths(), other.getFrameworkSearchPaths());
 }
 
 int ApplicationSettings::getMaxRecentProjectsCount() const
@@ -159,10 +171,6 @@ int ApplicationSettings::getCodeSnippetExpandRange() const
 void ApplicationSettings::setCodeSnippetExpandRange(int range)
 {
 	setValue<int>("code/snippet/expand_range", range);
-}
-
-ApplicationSettings::ApplicationSettings()
-{
 }
 
 std::vector<FilePath> ApplicationSettings::getRecentProjects() const

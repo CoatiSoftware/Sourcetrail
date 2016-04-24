@@ -10,9 +10,10 @@
 #include "utility/utilityString.h"
 #include "utility/Version.h"
 
-SqliteStorage::SqliteStorage(const std::string& dbFilePath)
+SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
+	: m_dbFilePath(dbFilePath)
 {
-	m_database.open(dbFilePath.c_str());
+	m_database.open(m_dbFilePath.str().c_str());
 
 	m_database.execDML("PRAGMA foreign_keys=ON;");
 }
@@ -22,23 +23,17 @@ SqliteStorage::~SqliteStorage()
 	m_database.close();
 }
 
-bool SqliteStorage::init()
+void SqliteStorage::init()
 {
 	Version version = getVersion();
 
 	if (version.isEmpty())
 	{
 		setup();
-		return false;
 	}
 	else if (version.isDifferentStorageVersionThan(Version::getApplicationVersion()))
 	{
 		clear();
-		return false;
-	}
-	else
-	{
-		return true;
 	}
 }
 
@@ -69,6 +64,11 @@ void SqliteStorage::commitTransaction()
 void SqliteStorage::rollbackTransaction()
 {
 	m_database.execDML("ROLLBACK TRANSACTION;");
+}
+
+FilePath SqliteStorage::getDbFilePath() const
+{
+	return m_dbFilePath;
 }
 
 Version SqliteStorage::getVersion() const

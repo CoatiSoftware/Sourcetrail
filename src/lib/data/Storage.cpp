@@ -25,7 +25,7 @@
 #include "settings/ApplicationSettings.h"
 
 Storage::Storage(const FilePath& dbPath)
-	: m_sqliteStorage(dbPath.str())
+	: m_sqliteStorage(dbPath)
 {
 }
 
@@ -33,18 +33,23 @@ Storage::~Storage()
 {
 }
 
+FilePath Storage::getDbFilePath() const
+{
+	return m_sqliteStorage.getDbFilePath();
+}
+
 Version Storage::getVersion() const
 {
 	return m_sqliteStorage.getVersion();
 }
 
-bool Storage::init()
+void Storage::init()
 {
 	m_commandIndex.addNode(0, NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_ALL)));
 	m_commandIndex.addNode(0, NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR)));
 	m_commandIndex.finishSetup();
 
-	return m_sqliteStorage.init();
+	m_sqliteStorage.init();
 }
 
 void Storage::clear()
