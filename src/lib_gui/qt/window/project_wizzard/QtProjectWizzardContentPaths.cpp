@@ -286,20 +286,6 @@ QStringList QtProjectWizzardContentPathsSource::getSourceFileNames(bool headersO
 	return list;
 }
 
-QtProjectWizzardContentPathsSourceSimple::QtProjectWizzardContentPathsSourceSimple(
-	ProjectSettings* settings, QtProjectWizzardWindow* window
-)
-	: QtProjectWizzardContentPathsSource(settings, window)
-{
-	m_showFilesString = "show files";
-
-	setTitleString("Project Paths");
-	setDescriptionString(
-		"Add all directories or files you want to analyse with Coati. It is sufficient to just provide the top level "
-		"project directory."
-	);
-}
-
 QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 	ProjectSettings* settings, QtProjectWizzardWindow* window
 )
@@ -339,9 +325,9 @@ QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSear
 	: QtProjectWizzardContentPaths(settings, window)
 {
 	setInfo(
-		"Header Search Paths",
-		"Add the header search paths for resolving #include directives in the analyzed source and header files.",
-		"Header Search Paths define where additional headers, that your project depends on, are found. Usually they are "
+		"Include Paths",
+		"Add the paths for resolving #include directives in the analyzed source and header files.",
+		"Include Paths define where additional files, that your project depends on, are found. Usually they are "
 		"header files of frameworks or libraries that your project uses. These files won't be analyzed, but Coati needs "
 		"them for correct analysis."
 	);
@@ -362,32 +348,20 @@ bool QtProjectWizzardContentPathsHeaderSearch::isScrollAble() const
 	return true;
 }
 
-QtProjectWizzardContentPathsHeaderSearchSimple::QtProjectWizzardContentPathsHeaderSearchSimple(
-	ProjectSettings* settings, QtProjectWizzardWindow* window
-)
-	: QtProjectWizzardContentPathsHeaderSearch(settings, window)
-{
-	setTitleString("External Header Search Paths");
-	setDescriptionString(
-		"Add the header search paths to external dependencies used in your project. The header search paths are "
-		"needed to resolve #include directives within your source and header files."
-	);
-}
-
 QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHeaderSearchGlobal(
 	ProjectSettings* settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
 	setInfo(
-		"Global Header Search Paths",
-		"These header search paths will be used in all your projects. Use it to add system header paths "
+		"Global Include Paths",
+		"These include paths will be used in all your projects. Use it to add system header paths "
 		"(See <a href=\"https://coati.io/documentation/#FindingSystemHeaderLocations\">Finding System Header Locations</a> "
 		"or use the auto detection below).",
-		"Header Search Paths define where additional headers, that your project depends on, are found. Usually they are "
+		"Include Paths define where additional files, that your project depends on, are found. Usually they are "
 		"header files of frameworks or libraries that your project uses. These files won't be analyzed, but Coati needs "
 		"them for correct analysis.\n\n"
-		"Header Search Paths defined here will be used for all projects."
+		"Include Paths defined here will be used for all projects."
 	);
 
 	m_detectionString = "headers";

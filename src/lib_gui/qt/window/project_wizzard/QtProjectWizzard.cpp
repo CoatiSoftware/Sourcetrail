@@ -389,25 +389,7 @@ void QtProjectWizzard::selectedProjectType(QtProjectWizzardContentSelect::Projec
 void QtProjectWizzard::emptyProject()
 {
 	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentData>();
-	connect(window, SIGNAL(next()), this, SLOT(simpleSetup()));
-}
-
-void QtProjectWizzard::simpleSetup()
-{
-	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentSimple>();
-	connect(window, SIGNAL(next()), this, SLOT(simpleSetupDone()));
-}
-
-void QtProjectWizzard::simpleSetupDone()
-{
-	if (m_settings.getUseSourcePathsForHeaderSearch())
-	{
-		simpleSourcePaths();
-	}
-	else
-	{
-		sourcePaths();
-	}
+	connect(window, SIGNAL(next()), this, SLOT(sourcePaths()));
 }
 
 void QtProjectWizzard::sourcePaths()
@@ -425,31 +407,8 @@ void QtProjectWizzard::headerSearchPaths()
 			ProjectSettings* settings = &m_settings;
 
 			summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(settings, window), false, false);
-			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(settings, window), false, false);
-
-			window->setup();
-		}
-	);
-
-	connect(window, SIGNAL(next()), this, SLOT(headerSearchPathsDone()));
-}
-
-void QtProjectWizzard::simpleSourcePaths()
-{
-	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentPathsSourceSimple>();
-	connect(window, SIGNAL(next()), this, SLOT(simpleHeaderSearchPaths()));
-	connectShowFiles(window->content());
-}
-
-void QtProjectWizzard::simpleHeaderSearchPaths()
-{
-	QtProjectWizzardWindow* window = createWindowWithSummary(
-		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
-		{
-			ProjectSettings* settings = &m_settings;
-
-			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchSimple(settings, window), false, false);
-			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(settings, window), false, false);
+			summary->addContent(new QtProjectWizzardContentSimple(settings, window), false, false);
+			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(settings, window), false, true);
 
 			window->setup();
 		}

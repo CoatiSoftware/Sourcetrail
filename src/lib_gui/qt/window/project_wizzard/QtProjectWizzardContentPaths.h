@@ -74,13 +74,6 @@ protected:
 	QStringList getSourceFileNames(bool headersOnly) const;
 };
 
-class QtProjectWizzardContentPathsSourceSimple
-	: public QtProjectWizzardContentPathsSource
-{
-public:
-	QtProjectWizzardContentPathsSourceSimple(ProjectSettings* settings, QtProjectWizzardWindow* window);
-};
-
 class QtProjectWizzardContentPathsCDBHeader
 	: public QtProjectWizzardContentPathsSource
 {
@@ -105,13 +98,6 @@ public:
 	virtual void save() override;
 
 	virtual bool isScrollAble() const override;
-};
-
-class QtProjectWizzardContentPathsHeaderSearchSimple
-	: public QtProjectWizzardContentPathsHeaderSearch
-{
-public:
-	QtProjectWizzardContentPathsHeaderSearchSimple(ProjectSettings* settings, QtProjectWizzardWindow* window);
 };
 
 class QtProjectWizzardContentPathsHeaderSearchGlobal

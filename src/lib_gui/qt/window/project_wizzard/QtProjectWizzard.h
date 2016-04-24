@@ -75,14 +75,9 @@ private slots:
 	void selectedProjectType(QtProjectWizzardContentSelect::ProjectType type);
 
 	void emptyProject();
-	void simpleSetup();
-	void simpleSetupDone();
 
 	void sourcePaths();
 	void headerSearchPaths();
-
-	void simpleSourcePaths();
-	void simpleHeaderSearchPaths();
 
 	void headerSearchPathsDone();
 	void frameworkSearchPaths();
