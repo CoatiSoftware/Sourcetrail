@@ -91,7 +91,7 @@ QtCodeArea::QtCodeArea(
 	, m_code(code)
 	, m_locationFile(locationFile)
 	, m_digits(0)
-	, m_panningValue(-1)
+	, m_isPanning(false)
 	, m_setIDECursorPositionAction(nullptr)
 	, m_eventPosition(0, 0)
 	, m_isActiveFile(false)
@@ -412,44 +412,54 @@ void QtCodeArea::mousePressEvent(QMouseEvent* event)
 {
 	if (event->button() == Qt::LeftButton)
 	{
-		m_panningValue = event->pos().x();
+		m_isPanning = true;
+		m_oldMousePosition = event->pos();
+		m_panningDistance = 0;
 	}
 }
 
 void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 {
+	const int panningThreshold = 5;
 	if (event->button() == Qt::LeftButton)
 	{
-		m_panningValue = -1;
+		m_isPanning = false;
 
-		if (Qt::KeyboardModifier::ControlModifier && QApplication::keyboardModifiers())
+		if (m_panningDistance < panningThreshold) // dont do anything if mouse is release to end some real panning action.
 		{
-			m_eventPosition = event->pos();
-			setIDECursorPosition();
-		}
-		else if (!m_fileWidget->hasErrors())
-		{
-			QTextCursor cursor = this->cursorForPosition(event->pos());
-			std::vector<const Annotation*> annotations = getNonScopeAnnotationsForPosition(cursor.position());
+			if (Qt::KeyboardModifier::ControlModifier && QApplication::keyboardModifiers())
+			{
+				m_eventPosition = event->pos();
+				setIDECursorPosition();
+			}
+			else if (!m_fileWidget->hasErrors())
+			{
+				QTextCursor cursor = this->cursorForPosition(event->pos());
+				std::vector<const Annotation*> annotations = getNonScopeAnnotationsForPosition(cursor.position());
 
-			activateTokenLocations(annotations);
-			activateLocalSymbols(annotations);
+				activateTokenLocations(annotations);
+				activateLocalSymbols(annotations);
+			}
 		}
 	}
 }
 
 void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 {
-	if (m_panningValue != -1)
+	if (m_isPanning)
 	{
-		int panningCurrentPosition = event->pos().x();
-		int deltaPos = panningCurrentPosition - m_panningValue;
-		m_panningValue = panningCurrentPosition;
+		const QPoint currentMousePosition = event->pos();
+		const int deltaX = currentMousePosition.x() - m_oldMousePosition.x();
+		const int deltaY = currentMousePosition.y() - m_oldMousePosition.y();
+		m_oldMousePosition = currentMousePosition;
 
 		QScrollBar* scrollbar = horizontalScrollBar();
 		int visibleContentWidth = width() - lineNumberAreaWidth();
-		float deltaPosRatio = float(deltaPos) / (visibleContentWidth);
+		float deltaPosRatio = float(deltaX) / (visibleContentWidth);
 		scrollbar->setValue(scrollbar->value() - utility::roundToInt(deltaPosRatio * scrollbar->pageStep()));
+
+		m_panningDistance += abs(deltaX + deltaY);
+		std::cout << m_panningDistance << std::endl;
 	}
 
 

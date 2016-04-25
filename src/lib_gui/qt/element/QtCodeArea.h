@@ -179,7 +179,9 @@ private:
 	std::vector<const Annotation*> m_hoveredAnnotations;
 
 	int m_digits;
-	int m_panningValue; // just for horizontal panning
+	bool m_isPanning;
+	QPoint m_oldMousePosition;
+	int m_panningDistance;
 
 	QAction* m_setIDECursorPositionAction;
 	QPoint m_eventPosition; // is needed for IDE cursor control via context menu
