@@ -131,8 +131,9 @@ FilePath FilePath::expandEnvironmentVariables() const
 
 FilePath FilePath::relativeTo(const FilePath& other) const
 {
-	boost::filesystem::path a = m_path;
-	boost::filesystem::path b = other.m_path;
+
+	boost::filesystem::path a = this->canonical().m_path;
+	boost::filesystem::path b = other.canonical().m_path;
 
 	if (a.root_path() != b.root_path())
 	{
