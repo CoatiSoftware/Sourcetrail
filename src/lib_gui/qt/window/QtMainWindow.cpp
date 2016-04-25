@@ -559,7 +559,7 @@ void QtMainWindow::updateRecentProjectMenu()
 	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
 	for (int i = 0; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount(); i++)
 	{
-		if ((size_t)i < recentProjects.size())
+		if ((size_t)i < recentProjects.size() && recentProjects[i].exists())
 		{
 			FilePath project = recentProjects[i];
 			m_recentProjectAction[i]->setVisible(true);

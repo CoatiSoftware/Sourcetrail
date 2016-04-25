@@ -606,7 +606,7 @@ std::vector<std::string> CodeController::getProjectDescription(TokenLocationFile
 
 	// todo fixme: this split currently prevents the next step from recognizing multi level name hierarchies.
 	std::vector<std::string> lines = utility::splitToVector(description, "\\n");
-	size_t startLineNumber = 4;
+	size_t startLineNumber = 2;
 
 	for (size_t i = 0; i < lines.size(); i++)
 	{

@@ -358,6 +358,7 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 		if (find(activeTokenIds.begin(), activeTokenIds.end(), edge.data->getId()) != activeTokenIds.end())
 		{
 			edge.active = true;
+			noActive = false;
 		}
 
 		DummyNode* from = findDummyNodeRecursive(m_dummyNodes, edge.ownerId);

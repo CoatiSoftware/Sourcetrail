@@ -20,7 +20,12 @@ std::shared_ptr<MessageQueue> MessageQueue::getInstance()
 
 MessageQueue::~MessageQueue()
 {
-	// TODO: remove remaining listeners. And tell them that they shouldn't unregister anymore.
+	std::lock_guard<std::mutex> lock(m_listenersMutex);
+	for (size_t i = 0; i < m_listeners.size(); i++)
+	{
+		m_listeners[i]->removedListener();
+	}
+	m_listeners.clear();
 }
 
 void MessageQueue::registerListener(MessageListenerBase* listener)

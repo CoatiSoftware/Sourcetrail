@@ -24,4 +24,5 @@ LocationType intToLocationType(int value)
 	case 2:
 		return LOCATION_LOCAL_SYMBOL;
 	}
+	return LOCATION_TOKEN;
 }

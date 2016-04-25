@@ -27,6 +27,9 @@
 Storage::Storage(const FilePath& dbPath)
 	: m_sqliteStorage(dbPath)
 {
+	m_commandIndex.addNode(0, NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_ALL)));
+	m_commandIndex.addNode(0, NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR)));
+	m_commandIndex.finishSetup();
 }
 
 Storage::~Storage()
@@ -45,10 +48,6 @@ Version Storage::getVersion() const
 
 void Storage::init()
 {
-	m_commandIndex.addNode(0, NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_ALL)));
-	m_commandIndex.addNode(0, NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR)));
-	m_commandIndex.finishSetup();
-
 	m_sqliteStorage.init();
 }
 
@@ -288,11 +287,6 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 	std::vector<SearchMatch> matches;
 	for (const SearchResult& result : results)
 	{
-		if (result.elementIds.size() == 0)
-		{
-			continue;
-		}
-
 		SearchMatch match;
 
 		const StorageNode* firstNode = nullptr;

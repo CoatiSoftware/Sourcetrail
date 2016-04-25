@@ -19,8 +19,11 @@ public:
 
 	virtual ~MessageListenerBase()
 	{
+		if (m_alive)
+		{
+			MessageQueue::getInstance()->unregisterListener(this);
+		}
 		m_alive = false;
-		MessageQueue::getInstance()->unregisterListener(this);
 	}
 
 	uint getId() const
@@ -43,6 +46,11 @@ public:
 		{
 			doHandleMessageBase(message);
 		}
+	}
+
+	void removedListener()
+	{
+		m_alive = false;
 	}
 
 private:

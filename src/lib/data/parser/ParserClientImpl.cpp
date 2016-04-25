@@ -389,6 +389,8 @@ Node::NodeType ParserClientImpl::symbolTypeToNodeType(SymbolType symbolType) con
 		return Node::NODE_TEMPLATE_PARAMETER_TYPE;
 	case SYMBOL_UNION:
 		return Node::NODE_TYPE;
+	default:
+		break;
 	}
 	return Node::NODE_UNDEFINED;
 }

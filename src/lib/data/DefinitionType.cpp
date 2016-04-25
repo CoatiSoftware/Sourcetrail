@@ -16,4 +16,5 @@ DefinitionType intToDefinitionType(int definitionType)
 	case 2:
 		return DEFINITION_EXPLICIT;
 	}
+	return DEFINITION_NONE;
 }

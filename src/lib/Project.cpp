@@ -35,7 +35,7 @@ Project::ProjectState Project::load(const FilePath& projectSettingsFile)
 	m_state = PROJECT_NONE;
 
 	bool success = true;
-	if (!projectSettingsFile.empty() && projectSettingsFile != m_projectSettingsFilepath)
+	if (!projectSettingsFile.empty())
 	{
 		success = ProjectSettings::getInstance()->load(projectSettingsFile);
 	}

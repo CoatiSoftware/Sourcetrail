@@ -107,7 +107,6 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 	if (m_hasGUI)
 	{
 		m_mainView->setTitle("Coati - " + projectSettingsFilePath.fileName());
-		m_mainView->updateRecentProjectMenu();
 		m_mainView->hideStartScreen();
 
 		m_componentManager->refreshViews();
@@ -227,6 +226,7 @@ void Application::handleMessage(MessageLoadProject* message)
 
 			if (result == 1)
 			{
+				m_project->load(projectSettingsFilePath);
 				return;
 			}
 		}
@@ -296,12 +296,14 @@ void Application::updateRecentProjects(const FilePath& projectSettingsFilePath)
 		}
 
 		recentProjects.insert(recentProjects.begin(), projectSettingsFilePath);
-		if (recentProjects.size() > 7)
+		while (recentProjects.size() > 7)
 		{
 			recentProjects.pop_back();
 		}
 
 		appSettings->setRecentProjects(recentProjects);
 		appSettings->save(UserPaths::getAppSettingsPath());
+
+		m_mainView->updateRecentProjectMenu();
 	}
 }

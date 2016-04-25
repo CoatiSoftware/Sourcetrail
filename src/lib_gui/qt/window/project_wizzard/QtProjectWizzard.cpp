@@ -528,8 +528,8 @@ void QtProjectWizzard::showSummary()
 				summary->addContent(source, false, true);
 				connectShowFiles(source);
 
-				summary->addContent(new QtProjectWizzardContentSimple(settings, window), false, true);
-				summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(settings, window), false, false);
+				summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(settings, window), false, true);
+				summary->addContent(new QtProjectWizzardContentSimple(settings, window), false, false);
 				summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(settings, window), false, false);
 
 				if (QSysInfo::macVersion() != QSysInfo::MV_None)
