@@ -211,7 +211,6 @@ private:
             RefType refType,
             SymbolType symbolType = SYMBOL_TYPE_MAX);
 
-	bool isPartOfImplicitTemplateSpecialization(clang::Decl* d) const;
 	bool isImplicit(clang::Decl* d) const;
 
 	bool isLocatedInUnparsedProjectFile(clang::SourceLocation loc);

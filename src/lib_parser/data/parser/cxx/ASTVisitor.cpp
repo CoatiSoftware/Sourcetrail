@@ -1158,17 +1158,21 @@ void ASTVisitor::RecordDeclRef(
 
 	if (symbolType == SYMBOL_LOCAL_VARIABLE || symbolType == SYMBOL_PARAMETER)
 	{
-		if (clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(d))
+		if (!declIsImplicit)
 		{
-			ParseLocation declLocation = getParseLocation(varDecl->getSourceRange());
-			std::string name =
-				declLocation.filePath.str() + "::" +
-				varDecl->getNameAsString() + "<" +
-				std::to_string(declLocation.startLineNumber) + ":" +
-				std::to_string(declLocation.startColumnNumber) + ">";
-			m_client->onLocalSymbolParsed(
-				name,
-				parseLocation);
+			if (clang::VarDecl* varDecl = clang::dyn_cast<clang::VarDecl>(d))
+			{
+				ParseLocation declLocation = getParseLocation(varDecl->getSourceRange());
+				std::string name =
+					declLocation.filePath.str() + "::" +
+					varDecl->getNameAsString() + "<" +
+					std::to_string(declLocation.startLineNumber) + ":" +
+					std::to_string(declLocation.startColumnNumber) + ">";
+				m_client->onLocalSymbolParsed(
+					name,
+					parseLocation
+				);
+			}
 		}
 		return;
 	}
@@ -1454,14 +1458,18 @@ void ASTVisitor::RecordDeclRef(
 	//}
 }
 
-bool ASTVisitor::isPartOfImplicitTemplateSpecialization(clang::Decl* d) const
+bool ASTVisitor::isImplicit(clang::Decl* d) const
 {
 	if (!d)
 	{
 		return false;
 	}
 
-	if (clang::ClassTemplateSpecializationDecl* ctsd = clang::dyn_cast_or_null<clang::ClassTemplateSpecializationDecl>(d))
+	if (d->isImplicit())
+	{
+		return true;
+	}
+	else if (clang::ClassTemplateSpecializationDecl* ctsd = clang::dyn_cast_or_null<clang::ClassTemplateSpecializationDecl>(d))
 	{
 		if (!ctsd->isExplicitSpecialization())
 		{
@@ -1476,12 +1484,7 @@ bool ASTVisitor::isPartOfImplicitTemplateSpecialization(clang::Decl* d) const
 		}
 	}
 
-	return isPartOfImplicitTemplateSpecialization(clang::dyn_cast_or_null<clang::Decl>(d->getDeclContext()));
-}
-
-bool ASTVisitor::isImplicit(clang::Decl* d) const
-{
-	return d->isImplicit() || isPartOfImplicitTemplateSpecialization(d);
+	return isImplicit(clang::dyn_cast_or_null<clang::Decl>(d->getDeclContext()));
 }
 
 bool ASTVisitor::isLocatedInUnparsedProjectFile(clang::SourceLocation loc)
