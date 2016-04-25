@@ -66,11 +66,15 @@ rm bin/app/data/projects/tutorial/tutorial.coatidb
 rm -rf temp
 mkdir -p temp
 cd temp
-echo -e "$INFO Please wait until Coati created the database for tictactoe. Close Coati to continue"
-../bin/app/Release/Coati.exe -p ../bin/app/data/projects/tictactoe/tictactoe.coatiproject
 
-echo -e "$INFO Please wait until Coati created the database for tutorial. Close Coati to continue"
-../bin/app/Release/Coati.exe -p ../bin/app/data/projects/tutorial/tutorial.coatiproject
+echo -e "$INFO saving license key"
+../bin/app/Release/Coati.exe -z ../script/license.txt
+
+echo -e "$INFO creating database for tictactie"
+../bin/app/Release/Coati.exe -p ../bin/app/data/projects/tictactoe/tictactoe.coatiproject -d
+
+echo -e "$INFO creating database for tutorial"
+../bin/app/Release/Coati.exe -p ../bin/app/data/projects/tutorial/tutorial.coatiproject -d
 
 cd ..
 rm -rf temp

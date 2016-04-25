@@ -8,6 +8,7 @@
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/text/TextAccess.h"
+#include "utility/utilityString.h"
 #include "License.h"
 #include "PublicKey.h"
 
@@ -67,6 +68,7 @@ CommandLineParser::CommandLineParser(int argc, char** argv, const std::string& v
 
 	if (vm.count("license"))
 	{
+		licensetext = utility::replace(licensetext, "\\n", "\n");
 		processLicense(m_license.loadFromString(licensetext));
 	}
 
