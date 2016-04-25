@@ -42,12 +42,11 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	statsSnippet.locationFile = std::make_shared<TokenLocationFile>(FilePath());
 	statsSnippet.locationFile->isWholeCopy = true;
 
+	statsSnippet.title = ProjectSettings::getInstance()->getFilePath().withoutExtension().fileName();
+
 	std::vector<std::string> description = getProjectDescription(statsSnippet.locationFile.get());
 
 	std::stringstream ss;
-
-	ss << "\n";
-	ss << "\tProject: " + ProjectSettings::getInstance()->getFilePath().withoutExtension().fileName() + "\n";
 
 	if (description.size())
 	{

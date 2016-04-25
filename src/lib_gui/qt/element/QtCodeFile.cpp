@@ -9,6 +9,7 @@
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageActivateFile.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
+#include "utility/messaging/type/MessageProjectEdit.h"
 
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
@@ -157,6 +158,31 @@ void QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 	if (params.reduced)
 	{
 		m_title->hide();
+
+		QPushButton* title = new QPushButton(params.title.c_str(), this);
+		title->setObjectName("title_label");
+		title->minimumSizeHint(); // force font loading
+		title->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+		title->setFixedHeight(std::max(title->fontMetrics().height() * 1.2, 28.0));
+		title->setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
+
+		if (isTrial())
+		{
+			title->setEnabled(false);
+		}
+		else
+		{
+			std::string text = ResourcePaths::getGuiPath() + "code_view/images/edit.png";
+
+			title->setIcon(utility::colorizePixmap(
+				QPixmap(text.c_str()),
+				ColorScheme::getInstance()->getColor("code/file/title/icon").c_str()
+			));
+
+			connect(title, SIGNAL(clicked()), this, SLOT(editProject()));
+		}
+
+		dynamic_cast<QHBoxLayout*>(m_titleBar->layout())->insertWidget(1, title);
 	}
 
 	m_snippetLayout->addWidget(snippet.get());
@@ -377,6 +403,11 @@ void QtCodeFile::clickedTitleBar()
 void QtCodeFile::clickedTitle()
 {
 	MessageActivateFile(m_filePath).dispatch();
+}
+
+void QtCodeFile::editProject()
+{
+	MessageProjectEdit().dispatch();
 }
 
 void QtCodeFile::clickedMinimizeButton() const

@@ -74,7 +74,7 @@ QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeFile* file)
 	layout->setAlignment(Qt::AlignTop);
 	setLayout(layout);
 
-	if (m_titleString.size())
+	if (m_titleString.size() && !params.reduced)
 	{
 		m_title = createScopeLine(layout);
 		if (m_titleId == 0) // title is a file path

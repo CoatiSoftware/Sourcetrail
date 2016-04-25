@@ -73,6 +73,7 @@ public slots:
 private slots:
 	void clickedTitleBar();
 	void clickedTitle();
+	void editProject();
 
 private:
 	virtual void handleMessage(MessageWindowFocus* message);

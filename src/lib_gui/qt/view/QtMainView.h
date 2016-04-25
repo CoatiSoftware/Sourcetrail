@@ -11,6 +11,7 @@
 
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageForceEnterLicense.h"
+#include "utility/messaging/type/MessageProjectEdit.h"
 #include "utility/messaging/type/MessageProjectNew.h"
 #include "utility/messaging/type/MessageShowStartScreen.h"
 
@@ -20,6 +21,7 @@ class View;
 class QtMainView
 	: public MainView
 	, public MessageListener<MessageForceEnterLicense>
+	, public MessageListener<MessageProjectEdit>
 	, public MessageListener<MessageProjectNew>
 	, public MessageListener<MessageShowStartScreen>
 {
@@ -50,9 +52,11 @@ public:
 
 private:
 	void handleMessage(MessageForceEnterLicense* message);
+	void handleMessage(MessageProjectEdit* message);
 	void handleMessage(MessageProjectNew* message);
 	void handleMessage(MessageShowStartScreen* message);
 
+	void doEditProject();
 	void doCreateNewProjectFromSolution(const std::string& ideId, const std::string& solutionPath);
 	void doShowStartScreen();
 	void doHideStartScreen();
@@ -66,6 +70,7 @@ private:
 	std::shared_ptr<QtMainWindow> m_window;
 	std::vector<View*> m_views;
 
+	QtThreadedFunctor<> m_editProjectFunctor;
 	QtThreadedFunctor<const std::string&, const std::string&> m_createNewProjectFromSolutionFunctor;
 	QtThreadedFunctor<> m_showStartScreenFunctor;
 	QtThreadedFunctor<> m_hideStartScreenFunctor;

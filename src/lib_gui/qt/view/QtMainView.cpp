@@ -10,7 +10,8 @@
 #include "qt/window/QtMainWindow.h"
 
 QtMainView::QtMainView()
-	: m_createNewProjectFromSolutionFunctor(std::bind(&QtMainView::doCreateNewProjectFromSolution, this, std::placeholders::_1, std::placeholders::_2))
+	: m_editProjectFunctor(std::bind(&QtMainView::doEditProject, this))
+	, m_createNewProjectFromSolutionFunctor(std::bind(&QtMainView::doCreateNewProjectFromSolution, this, std::placeholders::_1, std::placeholders::_2))
 	, m_showStartScreenFunctor(std::bind(&QtMainView::doShowStartScreen, this))
 	, m_hideStartScreenFunctor(std::bind(&QtMainView::doHideStartScreen, this))
 	, m_setTitleFunctor(std::bind(&QtMainView::doSetTitle, this, std::placeholders::_1))
@@ -124,6 +125,11 @@ void QtMainView::handleMessage(MessageForceEnterLicense* message)
 	m_forceLicenseScreenFunctor(message->licenseExpired);
 }
 
+void QtMainView::handleMessage(MessageProjectEdit* message)
+{
+	m_editProjectFunctor();
+}
+
 void QtMainView::handleMessage(MessageProjectNew* message)
 {
 	if (message->ideId.size() != 0 && message->solutionPath.size() != 0)
@@ -135,6 +141,11 @@ void QtMainView::handleMessage(MessageProjectNew* message)
 void QtMainView::handleMessage(MessageShowStartScreen* message)
 {
 	m_showStartScreenFunctor();
+}
+
+void QtMainView::doEditProject()
+{
+	m_window->editProject();
 }
 
 void QtMainView::doCreateNewProjectFromSolution(const std::string& ideId, const std::string& solutionPath)
