@@ -159,7 +159,7 @@ bool QtProjectWizzardContentData::check()
 		return false;
 	}
 
-	if (!FilePath(m_projectFileLocation->getText().toStdString()).exists())
+	if (!FilePath(m_projectFileLocation->getText().toStdString()).expandEnvironmentVariables().exists())
 	{
 		QMessageBox msgBox;
 		msgBox.setText("The specified location does not exist.");

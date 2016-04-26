@@ -123,7 +123,7 @@ FilePath FilePath::expandEnvironmentVariables() const
 			LOG_ERROR(match[1].str() + " is no a environment variable");
 			return FilePath();
 		}
-		text.replace( match[0].first, match[0].second, s);
+		text.replace( match.position(0), match.length(0), s);
 	}
 
 	return FilePath(text);
