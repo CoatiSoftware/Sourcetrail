@@ -37,3 +37,8 @@
 	font-size: 16pt;
 	font-weight: bold;
 }
+
+#welcomeLabel {
+	color: black;
+	font-size: 12pt;
+}

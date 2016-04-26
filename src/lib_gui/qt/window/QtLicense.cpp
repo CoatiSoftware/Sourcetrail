@@ -100,7 +100,7 @@ void QtLicense::populateWindow(QWidget* widget)
 
 	QLabel* linkLabel = new QLabel(this);
 	linkLabel->setObjectName("linkLabel");
-	linkLabel->setText("<a href=\"https://coati.io/buy-license\">Don't have a license key yet?</a>");
+	linkLabel->setText("<a href=\"https://coati.io/buy-license\" style=\"color: #007AC2;\">Don't have a license key yet?</a>");
 	linkLabel->setOpenExternalLinks(true);
 	linkLabel->setGeometry(275, 300, 300, 50);
 	subLayout->addWidget(linkLabel);

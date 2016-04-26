@@ -125,7 +125,22 @@ void QtStartScreen::setupStartScreen()
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "startscreen/startscreen.css").c_str());
 	addLogo();
 
-	if (!isTrial())
+	if (isTrial())
+	{
+		QLabel* welcomeLabel = new QLabel(
+			"Welcome to the <b>Coati trial</b>!<br /><br />"
+			"Explore our preanalyzed projects to experience Coati's unique user interface.<br /><br />"
+			"If you want to use Coati on your own source code please "
+			"<a href=\"http://coati.io/buy-license\" style=\"color: #007AC2;\">purchase a license</a>, "
+			"or ask us for a temporary test license by writing to <b>support@coati.io</b>.", this);
+		welcomeLabel->setOpenExternalLinks(true);
+		welcomeLabel->setGeometry(30, 303, 200, 500);
+		welcomeLabel->setObjectName("welcomeLabel");
+		welcomeLabel->show();
+		welcomeLabel->setWordWrap(true);
+		welcomeLabel->setAlignment(Qt::AlignTop);
+	}
+	else
 	{
 		m_newProjectButton = new QPushButton("New Project", this);
 		m_newProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
@@ -143,6 +158,10 @@ void QtStartScreen::setupStartScreen()
 	}
 
 	QLabel* recentProjectsLabel = new QLabel("Recent Projects: ", this);
+	if (isTrial())
+	{
+		recentProjectsLabel->setText("Projects:");
+	}
 	recentProjectsLabel->setGeometry(300, 234, 300, 50);
 	recentProjectsLabel->setObjectName("recentLabel");
 	recentProjectsLabel->show();
