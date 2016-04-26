@@ -18,6 +18,7 @@ public:
 
 	void clear();
 	void load();
+	void loadForced();
 
 	void setErrorMessage(const QString& errorMessage);
 
@@ -32,6 +33,8 @@ protected:
 private:
 	QTextEdit* m_licenseText;
 	QLabel* m_errorLabel;
+
+	bool m_forced;
 };
 
 #endif // QT_LICENSE_H

@@ -13,6 +13,7 @@
 
 QtLicense::QtLicense(QWidget *parent)
 	: QtWindow(parent)
+	, m_forced(false)
 {
 	raise();
 }
@@ -45,6 +46,15 @@ void QtLicense::load()
 	{
 		m_licenseText->setText(licenseString.c_str());
 	}
+
+	m_forced = false;
+	updateCloseButton("Cancel");
+}
+
+void QtLicense::loadForced()
+{
+	m_forced = true;
+	updateCloseButton("Quit Coati");
 }
 
 void QtLicense::setErrorMessage(const QString& errorMessage)
@@ -122,14 +132,19 @@ void QtLicense::windowReady()
 	updateNextButton("Activate");
 	setPreviousVisible(false);
 
-	updateCloseButton("Quit Coati");
-
 	m_title->hide();
 }
 
 void QtLicense::handleClose()
 {
-	QApplication::quit();
+	if (m_forced)
+	{
+		QApplication::quit();
+	}
+	else
+	{
+		emit canceled();
+	}
 }
 
 void QtLicense::handleNext()
