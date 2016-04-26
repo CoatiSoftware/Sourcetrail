@@ -32,15 +32,21 @@ read -p "Press [Enter] key to continue"
 echo -e "$INFO Did you change the Product-IDs in the uninstall scripts?"
 read -p "Press [Enter] key to continue"
 
-echo -e "$INFO Did you set the correct version number for the Visual Studio plugins?"
+echo -e "$INFO Did you set the correct version number for the Visual Studio plugin?"
 read -p "Press [Enter] key to continue"
 
-echo -e "$INFO Are the Visual Studio plugins up to date?"
+echo -e "$INFO Is the Visual Studio plugin up to date?"
 read -p "Press [Enter] key to continue"
+
 
 # SETTING THE DEPLOY FLAG
 rm -rf src/lib_gui/platform_includes/deploy.h
 echo "#define DEPLOY" >src/lib_gui/platform_includes/deploy.h
+
+
+### TODO: RUN CMAKE!
+
+### TODO: add HKEY_CURRENT_USER\Software\Microsoft\VisualStudio\12.0_Config\MSBuild\EnableOutOfProcBuild
 
 
 # CLEANING THE PROJECT

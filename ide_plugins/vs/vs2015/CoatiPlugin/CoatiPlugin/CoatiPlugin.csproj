@@ -20,7 +20,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CoatiSoftware.CoatiPlugin</RootNamespace>
-    <AssemblyName>CoatiPlugin</AssemblyName>
+    <AssemblyName>coati_plugin_vs</AssemblyName>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>

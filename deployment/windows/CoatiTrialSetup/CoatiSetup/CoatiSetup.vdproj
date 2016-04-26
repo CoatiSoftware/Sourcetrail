@@ -4285,15 +4285,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Coati Trial"
-        "ProductCode" = "8:{99D5E031-E895-47B2-B108-AD026571FD29}"
-        "PackageCode" = "8:{7C41DFA9-3814-4C1B-A50F-F7442697A957}"
+        "ProductCode" = "8:{8732C041-A948-4D7F-BE08-FBCEF8BF4586}"
+        "PackageCode" = "8:{11F55D62-3346-49A5-AD7B-FCA50F3C1D98}"
         "UpgradeCode" = "8:{00D35BB8-F11C-4179-9962-47B3D55E412C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.5.0004"
+        "ProductVersion" = "8:0.6.0000"
         "Manufacturer" = "8:Coati Software"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:www.coati.io/support"
@@ -5254,7 +5254,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3460FAB707F8431E87168499A7F51556"
             {
-            "SourcePath" = "8:..\\SetupApplicationSettingsLib\\obj\\Debug\\SetupApplicationSettingsLib.dll"
+            "SourcePath" = "8:..\\SetupApplicationSettingsLib\\obj\\Release\\SetupApplicationSettingsLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
@@ -5282,7 +5282,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
             {
-            "SourcePath" = "8:..\\SetupCreateStartMenuShortcutLib\\obj\\Debug\\SetupCreateStartMenuShortcutLib.dll"
+            "SourcePath" = "8:..\\SetupCreateStartMenuShortcutLib\\obj\\Release\\SetupCreateStartMenuShortcutLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
@@ -5310,7 +5310,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F81B906E39E44A5DAC37B3D70BC8A8CE"
             {
-            "SourcePath" = "8:..\\SetupCreateDesktopShortcutLib\\obj\\Debug\\SetupCreateDesktopShortcutLib.dll"
+            "SourcePath" = "8:..\\SetupCreateDesktopShortcutLib\\obj\\Release\\SetupCreateDesktopShortcutLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
@@ -5338,7 +5338,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_FB29EAD658C3497D9AC46ADE92D33C83"
             {
-            "SourcePath" = "8:..\\SetupRemoveCacheFiles\\obj\\Debug\\SetupRemoveCacheFiles.dll"
+            "SourcePath" = "8:..\\SetupRemoveCacheFiles\\obj\\Release\\SetupRemoveCacheFiles.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
