@@ -67,7 +67,7 @@ void QtStatusBar::setErrorCount(ErrorCountInfo errorCount)
 	if (errorCount.total > 0)
 	{
 		m_errorButton.setText(
-			QString::fromStdString("\u25CF ") + QString::number(errorCount.total) + " error" + (errorCount.total > 1 ? "s" : "") +
+			QChar(0x25CF) + QString::number(errorCount.total) + " error" + (errorCount.total > 1 ? "s" : "") +
 			(errorCount.fatal > 0 ? " (" + QString::number(errorCount.fatal) + " fatal)" : ""));
 		m_errorButton.show();
 	}
