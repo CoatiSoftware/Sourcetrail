@@ -1008,7 +1008,7 @@
             "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_3BBF42F2D0554015BCF7349671B9EFFD"
             {
             "Name" = "8:Primary output from SetupCreateStartMenuShortcutLib (Active)"
-            "Condition" = "8:"
+            "Condition" = "8:CHECKBOXA2=1"
             "Object" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
             "FileType" = "3:1"
             "InstallAction" = "3:2"
@@ -4655,7 +4655,7 @@
                             "ContextData" = "8:1;True=1;False=0"
                             "Attributes" = "3:0"
                             "Setting" = "3:0"
-                            "Value" = "3:0"
+                            "Value" = "3:1"
                             "DefaultValue" = "3:1"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -5225,7 +5225,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3460FAB707F8431E87168499A7F51556"
             {
-            "SourcePath" = "8:..\\SetupApplicationSettingsLib\\obj\\Release\\SetupApplicationSettingsLib.dll"
+            "SourcePath" = "8:..\\SetupApplicationSettingsLib\\obj\\Debug\\SetupApplicationSettingsLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
@@ -5253,7 +5253,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
             {
-            "SourcePath" = "8:..\\SetupCreateStartMenuShortcutLib\\obj\\Release\\SetupCreateStartMenuShortcutLib.dll"
+            "SourcePath" = "8:..\\SetupCreateStartMenuShortcutLib\\obj\\Debug\\SetupCreateStartMenuShortcutLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
@@ -5281,7 +5281,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F81B906E39E44A5DAC37B3D70BC8A8CE"
             {
-            "SourcePath" = "8:..\\SetupCreateDesktopShortcutLib\\obj\\Release\\SetupCreateDesktopShortcutLib.dll"
+            "SourcePath" = "8:..\\SetupCreateDesktopShortcutLib\\obj\\Debug\\SetupCreateDesktopShortcutLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
@@ -5309,7 +5309,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_FB29EAD658C3497D9AC46ADE92D33C83"
             {
-            "SourcePath" = "8:..\\SetupRemoveCacheFiles\\obj\\Release\\SetupRemoveCacheFiles.dll"
+            "SourcePath" = "8:..\\SetupRemoveCacheFiles\\obj\\Debug\\SetupRemoveCacheFiles.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
