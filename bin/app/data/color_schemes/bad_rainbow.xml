@@ -93,12 +93,13 @@
 						<fill>transparent</fill>
 					</normal>
 					<focus>
-						<border>#B2B2B2</border>
+						<border>#EDEDED</border>
 						<fill>transparent</fill>
 					</focus>
 					<active>
-						<border>#B2B2B2</border>
-						<fill>#4A4A4A</fill>
+						<border>#EDEDED</border>
+						<fill>#EDEDED</fill>
+						<text>#262626</text>
 					</active>
 				</token>
 				<local_symbol>
@@ -107,12 +108,14 @@
 						<fill>transparent</fill>
 					</normal>
 					<focus>
-						<border>#FF9C3C</border>
-						<fill>transparent</fill>
+						<border>#9BDAFF</border>
+						<fill>#A5DEFF</fill>
+						<text>#262626</text>
 					</focus>
 					<active>
-						<border>#FF9C3C</border>
-						<fill>#695540</fill>
+						<border>transparent</border>
+						<fill>#A5DEFF</fill>
+						<text>#262626</text>
 					</active>
 				</local_symbol>
 				<scope>

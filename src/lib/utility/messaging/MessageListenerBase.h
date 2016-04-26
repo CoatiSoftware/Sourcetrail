@@ -21,9 +21,9 @@ public:
 	{
 		if (m_alive)
 		{
+			m_alive = false;
 			MessageQueue::getInstance()->unregisterListener(this);
 		}
-		m_alive = false;
 	}
 
 	uint getId() const

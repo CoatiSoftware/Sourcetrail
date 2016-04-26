@@ -15,6 +15,7 @@
 #include "component/view/MainView.h"
 #include "component/view/ViewFactory.h"
 #include "data/StorageCache.h"
+#include "isTrial.h"
 #include "LicenseChecker.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
@@ -120,7 +121,7 @@ void Application::loadProject(const FilePath& projectSettingsFilePath)
 	Project::ProjectState state = m_project->load(projectSettingsFilePath);
 	if (state == Project::PROJECT_OUTDATED)
 	{
-		if (m_hasGUI)
+		if (m_hasGUI && !isTrial())
 		{
 			std::vector<std::string> options;
 			options.push_back("Yes");
@@ -182,6 +183,10 @@ void Application::saveProject(const FilePath& projectSettingsFilePath)
 	{
 		LOG_ERROR("No Project Settings File defined");
 	}
+	else
+	{
+		MessageStatus("Project saved").dispatch();
+	}
 }
 
 void Application::handleMessage(MessageActivateWindow* message)
@@ -213,7 +218,7 @@ void Application::handleMessage(MessageLoadProject* message)
 		}
 	}
 
-	if (message->forceRefresh)
+	if (message->forceRefresh && !isTrial())
 	{
 		if (m_hasGUI)
 		{

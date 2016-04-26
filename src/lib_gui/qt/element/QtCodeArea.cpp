@@ -712,7 +712,11 @@ void QtCodeArea::annotateText()
 		{
 			if (newColor.text.size() > 0 && newColor.text != "transparent")
 			{
-				annotation.oldTextColor = m_highlighter->getFormat(annotation.start, annotation.end).foreground().color();
+				if (!annotation.oldTextColor.isValid())
+				{
+					annotation.oldTextColor = m_highlighter->getFormat(annotation.start, annotation.end).foreground().color();
+				}
+
 				setTextColorForAnnotation(annotation, QColor(newColor.text.c_str()));
 			}
 			else if (annotation.oldTextColor.isValid())

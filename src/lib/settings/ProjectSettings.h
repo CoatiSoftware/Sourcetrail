@@ -18,6 +18,7 @@ public:
 	~ProjectSettings();
 
 	bool operator==(const ProjectSettings& other) const;
+	bool operator!=(const ProjectSettings& other) const;
 
 	virtual void save(const FilePath& filePath);
 

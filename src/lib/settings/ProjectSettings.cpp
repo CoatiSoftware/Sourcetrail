@@ -57,6 +57,11 @@ bool ProjectSettings::operator==(const ProjectSettings& other) const
 		utility::isPermutation<std::string>(getSourceExtensions(), other.getSourceExtensions());
 }
 
+bool ProjectSettings::operator!=(const ProjectSettings& other) const
+{
+	return !(*this == other);
+}
+
 void ProjectSettings::save(const FilePath& filePath)
 {
 	m_projectName = "";

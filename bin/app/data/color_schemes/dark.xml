@@ -93,13 +93,13 @@
 						<fill>transparent</fill>
 					</normal>
 					<focus>
-						<border>#B2B2B2</border>
+						<border>#F7F7F7</border>
 						<fill>transparent</fill>
 					</focus>
 					<active>
-						<border>#B2B2B2</border>
-						<fill>#4A4A4A</fill>
-						<text>#F7F7F7</text>
+						<border>transparent</border>
+						<fill>#F7F7F7</fill>
+						<text>#272728</text>
 					</active>
 				</token>
 				<local_symbol>
@@ -108,12 +108,14 @@
 						<fill>transparent</fill>
 					</normal>
 					<focus>
-						<border>#FF9C3C</border>
-						<fill>transparent</fill>
+						<border>#A0A0A0</border>
+						<fill>#969696</fill>
+						<text>#191919</text>
 					</focus>
 					<active>
-						<border>#FF9C3C</border>
-						<fill>#695540</fill>
+						<border>transparent</border>
+						<fill>#969696</fill>
+						<text>#272728</text>
 					</active>
 				</local_symbol>
 				<scope>

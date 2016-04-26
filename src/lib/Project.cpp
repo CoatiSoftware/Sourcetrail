@@ -90,9 +90,14 @@ Project::ProjectState Project::reload()
 
 bool Project::save(const FilePath& projectSettingsFile)
 {
+	bool differentLocation = (projectSettingsFile != m_projectSettingsFilepath);
 	if (!projectSettingsFile.empty())
 	{
 		setProjectSettingsFilePath(projectSettingsFile);
+	}
+	else
+	{
+		differentLocation = false;
 	}
 
 	if (m_projectSettingsFilepath.empty())
@@ -100,9 +105,15 @@ bool Project::save(const FilePath& projectSettingsFile)
 		return false;
 	}
 
-	ProjectSettings::getInstance()->save(m_projectSettingsFilepath);
+	ProjectSettings settings;
+	settings.load(m_projectSettingsFilepath);
 
-	LOG_INFO_STREAM(<< "ProjectSettings saved to file: " << m_projectSettingsFilepath.str());
+	if (differentLocation || settings != *ProjectSettings::getInstance().get())
+	{
+		ProjectSettings::getInstance()->save(m_projectSettingsFilepath);
+
+		LOG_INFO_STREAM(<< "ProjectSettings saved to file: " << m_projectSettingsFilepath.str());
+	}
 
 	return true;
 }
