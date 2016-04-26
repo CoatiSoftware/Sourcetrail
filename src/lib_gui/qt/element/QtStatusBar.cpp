@@ -2,6 +2,7 @@
 
 #include <QMovie>
 
+#include "qt/utility/utilityQt.h"
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/ResourcePaths.h"
 
@@ -26,10 +27,11 @@ QtStatusBar::QtStatusBar()
 	m_errorButton.hide();
 	m_errorButton.setFlat(true);
 	m_errorButton.setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	m_errorButton.setStyleSheet(
-		"QPushButton { color: #D00000; background: none; border: none; margin-right: 0; spacing: none; } "
-		"QPushButton:hover { text-decoration: underline; }"
-	);
+	m_errorButton.setStyleSheet("QPushButton { color: #D00000; margin-right: 0; spacing: none; }");
+	m_errorButton.setIcon(utility::colorizePixmap(
+		QPixmap((ResourcePaths::getGuiPath() + "statusbar_view/dot.png").c_str()),
+		"#D00000"
+	).scaledToHeight(12));
 	addPermanentWidget(&m_errorButton);
 
 	connect(&m_errorButton, SIGNAL(clicked()), this, SLOT(showErrors()));
@@ -67,7 +69,7 @@ void QtStatusBar::setErrorCount(ErrorCountInfo errorCount)
 	if (errorCount.total > 0)
 	{
 		m_errorButton.setText(
-			QChar(0x25CF) + QString::number(errorCount.total) + " error" + (errorCount.total > 1 ? "s" : "") +
+			QString::number(errorCount.total) + " error" + (errorCount.total > 1 ? "s" : "") +
 			(errorCount.fatal > 0 ? " (" + QString::number(errorCount.fatal) + " fatal)" : ""));
 		m_errorButton.show();
 	}

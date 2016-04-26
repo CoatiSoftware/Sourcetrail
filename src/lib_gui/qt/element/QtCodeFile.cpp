@@ -541,7 +541,7 @@ void QtCodeFile::doUpdateTitleBar()
 	if ((!FileSystem::exists(m_filePath.str())) ||
 		(FileSystem::getLastWriteTime(m_filePath) > m_modificationTime))
 	{
-		m_title->setText(QString(m_filePath.fileName().c_str()) + " " + QChar(0x25CF));
+		m_title->setText(QString(m_filePath.fileName().c_str()) + "*");
 		m_title->setToolTip(QString::fromStdString("out of date: " + m_filePath.str()));
 	}
 	else
