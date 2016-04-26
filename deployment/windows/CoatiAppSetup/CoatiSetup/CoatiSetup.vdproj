@@ -862,7 +862,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FB29EAD658C3497D9AC46ADE92D33C83"
+        "OwnerKey" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -874,7 +874,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
+        "OwnerKey" = "8:_FB29EAD658C3497D9AC46ADE92D33C83"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -1131,6 +1131,20 @@
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_E205CE8B062C43868BDE25A72E0C223B"
+            {
+            "Name" = "8:Primary output from SetupRemoveCacheFiles (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_FB29EAD658C3497D9AC46ADE92D33C83"
+            "FileType" = "3:1"
+            "InstallAction" = "3:1"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:4"
+            "Identifier" = "8:_FD51D5E1_5220_457B_A52C_BA4D30C739D9"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
             "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_EA511606B8E840088DBD733FF462117D"
             {
             "Name" = "8:Primary output from SetupRemoveCacheFiles (Active)"
@@ -1142,6 +1156,20 @@
             "EntryPoint" = "8:"
             "Sequence" = "3:2"
             "Identifier" = "8:_7303D854_DA22_4BDC_BB51_E2DE8535B1DB"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_F154A16DF6B54CBC903712C72B4AC39F"
+            {
+            "Name" = "8:Primary output from SetupRemoveCacheFiles (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_FB29EAD658C3497D9AC46ADE92D33C83"
+            "FileType" = "3:1"
+            "InstallAction" = "3:2"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:4"
+            "Identifier" = "8:_6604FE3C_63D0_4375_B8AA_B542EF55F7E7"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }

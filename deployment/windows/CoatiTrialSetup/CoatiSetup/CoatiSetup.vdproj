@@ -1087,6 +1087,20 @@
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_7D15ADF3B4AD4AA4931FF2E1856055F3"
+            {
+            "Name" = "8:Primary output from SetupRemoveCacheFiles (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_FB29EAD658C3497D9AC46ADE92D33C83"
+            "FileType" = "3:1"
+            "InstallAction" = "3:1"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:4"
+            "Identifier" = "8:_0C236A7F_F717_4461_861E_85327DF9014E"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
             "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_B1A592F73CCB404297211C5D3D86AB5F"
             {
             "Name" = "8:Primary output from SetupApplicationSettingsLib (Active)"
@@ -1140,6 +1154,20 @@
             "EntryPoint" = "8:"
             "Sequence" = "3:3"
             "Identifier" = "8:_73BFCC58_37EB_4D02_A2F8_7A0D5C37AF81"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_E2A07A15A0E64CDDB5DC9AFC2B45D5DA"
+            {
+            "Name" = "8:Primary output from SetupRemoveCacheFiles (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_FB29EAD658C3497D9AC46ADE92D33C83"
+            "FileType" = "3:1"
+            "InstallAction" = "3:2"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:4"
+            "Identifier" = "8:_188D7632_09B7_4A7A_8AEA_892522E64DA0"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
