@@ -172,7 +172,7 @@
 					</div>
 
 					<h2>Source Analysis</h2>
-					<p>Coati will now start analyzing your source files, which might take a little while. The <a href="#Statusbar">status bar</a> will give you information about the progress. Otherwise the UI will be empty. Coati analyses all named symbols and their relationships throughout the provided source files. However, it stops the analysis at the level of local variables and symbols that are only valid within a certain function scope.</p>
+					<p>Coati will now start analyzing your source files, which might take a little while. The <a href="#Statusbar">status bar</a> will give you information about the progress. Otherwise the UI will be empty. Coati analyses all named symbols and their relationships throughout the provided source files.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/analyse.png" style="width:100%;">
@@ -185,7 +185,7 @@
 							<li>or Press ESC to stop the analysis (Coati will provide all information gathered so far and the analysis can be continued later by <a href="#Refresh">refreshing</a>).</li>
 						</ul>
 					</div>
-					<p>After analysis has finished, Coati will show an overview of all analysed symbols in the <a href="#GraphView">graph view</a> and some statistics in the <a href="#CodeView">code view</a>. If the analysis found errors in your code, the code view will display them. You can see the error message by hovering an error's location.</p>
+					<p>After the analysis has finished, Coati will show an overview of all analysed symbols in the <a href="#GraphView">graph view</a> and some statistics in the <a href="#CodeView">code view</a>. If the analysis found errors in your code, the code view will display them. You can see the error message by hovering an error's location.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/error_view.png" style="width:100%;">
@@ -257,7 +257,7 @@
 					</div>
 
 					<h3>Code View</h3>
-					<p>The <a href="#CodeView">code view</a> displays all locations of the currently active symbol within the analyzed source files. It does not allow for editing the source code. Syntax highlighting is used to increase readability. Source locations that are surrounded by a box when hovered can be clicked to activate the respective symbol. Active source locations are highlighted gray.</p>
+					<p>The <a href="#CodeView">code view</a> displays all locations of the currently active symbol within the analyzed source files. It does not allow for editing the source code. Syntax highlighting is used to increase readability. Source locations that are surrounded by a box when hovered can be clicked to activate the respective symbol. Active source locations are highlighted.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/code_view.png" style="width:100%;">
@@ -352,10 +352,10 @@
 
 					<h1>INSTALLATION</h1>
 
-					<h2>on Windows</h2>
+					<h2>On Windows</h2>
 					<p>Download and open the zip file and extract its contents into a temporary folder of your choice. Run the <var>setup.exe</var> and go through the wizard. You can now launch Coati from your start menu.</p>
 
-					<h2>on Mac</h2>
+					<h2>On Mac</h2>
 					<p>Download and open the Coati.dmg file and drag Coati.app into the applications folder. You can now launch Coati from your Applications.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
@@ -363,7 +363,7 @@
 						</div>
 					</div>
 
-					<h2>on Linux</h2>
+					<h2>On Linux</h2>
 					<p>Download Coati.tar.gz file and extract it. To start Coati run the Coati.sh script. Coati creates a folder ~/.config/coati at the first run, this is the folder for Coati settings.</p>
 
 					<h2>Data folder</h2>
@@ -381,19 +381,19 @@
 
 					<h2>Finding System Header Locations</h2>
 
-					<h3>on Windows</h3>
+					<h3>On Windows</h3>
 					<p>These files usually ship with your compiler. For the Visual Studio IDE the system headers can be found at:</p>
 					<pre>path_to_visual_studio/VC/include/</pre>
 					<p>If you don't use the Visual Studio IDE you can also try to find your system headers in a subdirectory of:</p>
 					<pre>C:/Program Files (x86)/Windows Kits/</pre>
 
-					<h3>on Mac</h3>
+					<h3>On Mac</h3>
 					<p>Run this command in your terminal:</p>
 					<pre>gcc -x c++ -v -E /dev/null</pre>
 					<p>You will find the header search paths your compiler uses in the output between these two lines:</p>
 					<pre>#include <...> search starts here:<br />.<br />.<br />.<br />End of search list.</pre>
 
-					<h3>on Linux</h3>
+					<h3>On Linux</h3>
 					<pre>gcc -x c++ -v -E /dev/null</pre>
 					or
 					<pre>clang -x c++ -v -E /dev/null</pre>
@@ -482,8 +482,8 @@
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Header Search Paths</th> <td>Set header search paths that are used for <strong>all</strong> of your projects (e.g. std headers). (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>)</td> </tr>
-							<tr> <th scope="row">Framework Search Paths</th> <td>Mac only. Define the search paths for <code>.framework</code> files for all of your projects. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+							<tr> <th scope="row">Header Search Paths</th> <td>Set header search paths that are used for <strong>all</strong> of your projects (e.g. std headers). An option for automatic detection of these paths is available for Clang, GCC and the Visual Studio compiler. (For instructions on how to add paths manually see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>.)</td> </tr>
+							<tr> <th scope="row">Framework Search Paths</th> <td>Mac only. Define the search paths for <code>.framework</code> files for all of your projects. An option for automatic detection of these paths is available for Clang and GCC. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
 						</tbody>
 					</table>
 
@@ -586,9 +586,7 @@
 
 					<h4 id="CreateAProjectFromCompilationDatabase">Create a Project from Compilation Database</h4>
 					<p>If you are using <a href="https://cmake.org/">CMake</a> you can export compile commands by defining the flag <code>CMAKE_EXPORT_COMPILE_COMMANDS</code>. Just select the exportet <code>.json</code> file in the file picker.</p>
-					<p>For non-CMake projects you can use <a href="https://github.com/rizsotto/Bear">Bear</a>. Bear
-					generates a json file during the build process. Bear has been tested on FreeBSD, GNU/Linux and OS
-					X.</p>
+					<p>For non-CMake projects you can use <a href="https://github.com/rizsotto/Bear">Bear</a>. Bear generates a json file during the simulated build process. Bear has been tested on FreeBSD, GNU/Linux and OS X.</p>
 
 					<strong>Compilation Database Headers</strong>
 					<p>In the next step you can define the locations of the corresponding header files of the source files in the compilation database.</p>
@@ -1149,7 +1147,7 @@
 						<li>Press the right auto refresh button to toggle automatic refreshing.</li>
 					</ul>
 
-					<h3>Overview button</h3>
+					<h3>Overview Button</h3>
 					<p>Show the overview screen, which gives a summary of the loaded project. The overview screen is shown after the project was loaded. Alternatively use the shortcut <a href="#Shortcuts">To overview</a>.</p>
 					<div class="row">
 						<div class="col-sm-2 col-sm-offset-5">
@@ -1161,7 +1159,7 @@
 						<li>Press the overview button to show the project overview.</li>
 					</ul>
 
-					<h3>Search bar</h3>
+					<h3>Search Bar</h3>
 					<p>The search bar allows you to enter search requests to find one of Coati's analyzed symbols. It doesn't allow for full text searching across all files so far. The search field allows for most text editing interactions common to text fields. When typing your request the <a href="#AutocompletionPopup">Autocompletion Popup</a> will show you search results matching to your entered string.</p>
 					<div class="row">
 						<div class="col-sm-6 col-sm-offset-3">
