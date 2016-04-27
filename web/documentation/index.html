@@ -73,7 +73,7 @@
 						</div>
 					</div>
 					<div class="row" style="text-align:center;">
-						<p>Documentation for version 0.5</p>
+						<p>Documentation for version 0.6</p>
 					</div>
 
 					<div class="row" style="height:120px;"></div>
@@ -165,7 +165,6 @@
 						<ul>
 							<li>Pick your project's programming language, select the empty project option and click <var>Next</var>.</li>
 							<li>Enter all of the project's meta information and click <var>Next</var>.</li>
-							<li>Select the simple setup option and click <var>Next</var>.</li>
 							<li>Provide the root directory that contains all your project's source and header files and click <var>Next</var>.</li>
 							<li>If your project requires any external headers to compile (e.g. Boost for C++), please provide the paths here and click <var>Next</var>.</li>
 							<li>You just completed the project setup. Click <var>Create</var> close the dialog. Coati will start analyzing your files now.</li>
@@ -532,22 +531,6 @@
 						<li>Clicking <var>Previous</var> take you to the previous step of the setup process. All the information you entered will be saved.</li>
 					</ul>
 
-					<strong>Simple and Advanced Setup</strong>
-					<p>In this step you can choose between the simple setup and the advanced method.</p>
-					<p>In simple setup you just provide the directory of your project and Coati will find all source files and resolve header search paths within. Please note that simple setup slows down the analysis.</p>
-					<p>In the advanced setup you define analyzed source files and the corresponding header search paths separately.</p>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_empty_simple.png" style="width:100%;">
-						</div>
-					</div>
-					<strong>Interactions:</strong>
-					<ul>
-						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> take you to the previous step of the setup process. All the information you entered will be saved.</li>
-					</ul>
-
 					<strong>Project Paths</strong>
 					<p>Provide the paths that contain your project's files. Coati will analyze all the source and header files in the specified paths, including subdirectories.</p>
 					<div class="row">
@@ -571,18 +554,12 @@
 						<li>Clicking <var>Previous</var> take you to the previous step of the setup process. All the information you entered will be saved.</li>
 					</ul>
 
-					<strong>Header Search Paths</strong>
-					<p>When you selected the simple setup method Coati will automatically search your source folder(s) for included headers. However, if your project requires additional includes to compile (e.g. Boost for C++, etc.), please specify them here.</p>
+					<strong>Include Paths</strong>
+					<p>Coati needs you to specify all the include paths the analyzed source files rely on. Project include paths are those paths your project's <code>#include</code> directives are relative to. If your project requires additional includes to compile (e.g. Boost for C++, etc.), please specify them here.</p>
+					<p>Additionally you can also specify Global Header Search Paths, which will be used by all your projects. These are usually the paths to system headers, which can also be auto detected by choosing a compiler below and pressing <var>detect</var>.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_empty_header_paths_simple.png" style="width:100%;">
-						</div>
-					</div>
-					<p>If you chose the advanced setup method Coati needs you to specify all the project's internal include paths in addition to the external dependencies. Project internal include paths are those paths your project internal <code>#include</code> directives are relative to.</p>
-					<p>Additionally you can also specify Global Header Search Paths, which will be used by all yout projects. These are usually the paths to system headers, which can also be auto detected by choosing a compiler below and pressing <var>detect</var>.</p>
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/project_setup_wizard_empty_header_paths_advanced.png" style="width:100%;">
+							<img src="img/project_setup_wizard_empty_include_paths.png" style="width:100%;">
 						</div>
 					</div>
 					<table class="table table-hover">
@@ -590,7 +567,8 @@
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Header Search Paths</th> <td>These paths are used to find the files specified by <code>#include</code> directives. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+							<tr> <th scope="row">Include Paths</th> <td>These paths are used to find the files specified by <code>#include</code> directives. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+							<tr> <th scope="row">Lazy Include Search</th> <td>When checked Coati also looks for included files within the project paths and all their subdirectories. Use this option if you are not familiar with the project to save yourself from figuring the projects include paths. Warning: When activated analysis speed is slower.</td> </tr>
 							<tr> <th scope="row">Global Header Search Paths</th> <td>These Header Search Paths will be used in all your projects. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>)</td> </tr>
 						</tbody>
 					</table>
@@ -658,9 +636,9 @@
 							<tr> <td scope="row">Compilation Database</td> <td>Only when using Setup from Compilation Database. Provide the path to your Compilation Database.</td> </tr>
 							<tr> <td scope="row">Header Paths</td> <td>Only when using Setup from Compilation Database. Provide the paths to the corresponding header paths of your Compilation Database.</td> </tr>
 
-							<tr> <td scope="row">Simple Setup</td> <td>If this checkbox is checked Coati also looks into the analyzed paths (including subdirectories) when resolving <code>#include</code> directives.</td> </tr>
-							<tr> <td scope="row">Header Search Paths</td> <td>Specify where Coati should be looking for included headers.</td> </tr>
-							<tr> <td scope="row">Global Header Search Paths</td> <td>Same as Header Search Paths but these are used application wide for all of your Coati projects.</td> </tr>
+							<tr> <td scope="row">Include Paths</td> <td>Specify where Coati should be looking for included headers.</td> </tr>
+							<tr> <td scope="row">Lazy Include Search</td> <td>If this checkbox is checked Coati also looks into the project paths (including subdirectories) when resolving <code>#include</code> directives.</td> </tr>
+							<tr> <td scope="row">Global Include Paths</td> <td>Same as Header Search Paths but these are used application wide for all of your Coati projects.</td> </tr>
 							<tr> <td scope="row">Framework Search Paths</td> <td>Mac only. Define the search paths for <code>.framework</code> files for your project. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
 							<tr> <td scope="row">Global Framework Search Paths</td> <td>Mac only. Same as Framework Search Paths but these are used application wide for all of your Coati projects.</td> </tr>
 						<tbody>
@@ -858,6 +836,18 @@
 							<strong>About</strong>
 							<ul>
 								<li>Shows copyright information about Coati.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Documentation</strong>
+							<ul>
+								<li>Opens the documentation of Coati in your web browser by URL.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Bug Tracker</strong>
+							<ul>
+								<li>Opens Coati's bug tracker in your web browser by URL.</li>
 							</ul>
 						</li>
 						<li>
