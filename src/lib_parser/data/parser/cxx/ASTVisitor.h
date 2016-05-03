@@ -129,7 +129,6 @@ private:
 
     // Misc routines
     bool shouldVisitTemplateInstantiations() const { return true; }
-    bool shouldUseDataRecursionFor(clang::Stmt *s) const;
 	bool shouldVisitImplicitCode() const { return true; }
 
     // Dispatcher routines

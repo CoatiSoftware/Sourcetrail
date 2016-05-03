@@ -4,19 +4,19 @@
 
 #### External Software
 
-* QT 5.5
+* QT 5.6
 * CxxTest 4.3
 * Valgrind 3.9.0 (linux)
-* Clang & LLVM (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
+* Clang & LLVM 3.8 (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
 * Boost 1.59
 * Eigen 3.2.6
 * Botan 1.11.24
 
 #### Environment Variables
 
-* QT_DIR - ...\Qt\Qt5.2.1\5.2.1\<IDE>\
-* CXX_TEST_DIR - .../cxxtest-4.3/
-* CLANG_DIR - .../clang-llvm/
+* QT_DIR - .../Qt/Qt5.6.0/5.6/<IDE>
+* CXX_TEST_DIR - .../cxxtest-4.3
+* CLANG_DIR - .../clang-llvm
 * BOOST_159_DIR - .../boost_1_59_0
 * EIGEN_DIR - .../eigen
 * BOTAN_DIR - .../Botan-1.11.24
