@@ -30,8 +30,6 @@ public:
 	QtCodeFileList(QWidget* parent = 0);
 	virtual ~QtCodeFileList();
 
-	virtual QSize sizeHint() const;
-
 	void addCodeSnippet(const CodeSnippetParams& params, bool insert = false);
 	void addFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount, TimePoint modificationTime);
 

@@ -256,6 +256,10 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 							{
 								return true;
 							}
+							else if (a.text[i] > b.text[i])
+							{
+								return false;
+							}
 						}
 					}
 				}

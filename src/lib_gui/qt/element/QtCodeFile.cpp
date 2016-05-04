@@ -27,6 +27,7 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	, m_snippetsRequested(false)
 {
 	setObjectName("code_file");
+	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
 
 	QVBoxLayout* layout = new QVBoxLayout(this);
 	layout->setMargin(0);

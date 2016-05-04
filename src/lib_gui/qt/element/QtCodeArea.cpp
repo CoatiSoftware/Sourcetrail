@@ -102,7 +102,8 @@ QtCodeArea::QtCodeArea(
 	setReadOnly(true);
 	setFrameStyle(QFrame::NoFrame);
 	setLineWrapMode(QPlainTextEdit::NoWrap);
-	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
+	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+
 	viewport()->setCursor(Qt::ArrowCursor);
 
 	m_lineNumberArea = new LineNumberArea(this);
@@ -161,7 +162,7 @@ QSize QtCodeArea::sizeHint() const
 		height += horizontalScrollBar()->height();
 	}
 
-	return QSize(320, height + 1);
+	return QSize(0, height + 1);
 }
 
 uint QtCodeArea::getStartLineNumber() const
@@ -459,7 +460,6 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 		scrollbar->setValue(scrollbar->value() - utility::roundToInt(deltaPosRatio * scrollbar->pageStep()));
 
 		m_panningDistance += abs(deltaX + deltaY);
-		std::cout << m_panningDistance << std::endl;
 	}
 
 

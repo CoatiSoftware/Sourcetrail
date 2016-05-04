@@ -40,11 +40,6 @@ QtCodeFileList::~QtCodeFileList()
 {
 }
 
-QSize QtCodeFileList::sizeHint() const
-{
-	return QSize(800, 800);
-}
-
 void QtCodeFileList::addCodeSnippet(
 	const CodeSnippetParams& params,
 	bool insert

@@ -171,15 +171,6 @@ std::string QtCodeSnippet::getCode() const
 	return m_codeArea->getCode();
 }
 
-void QtCodeSnippet::contextMenuEvent(QContextMenuEvent* event)
-{
-	// QMenu menu(this);
-	// menu.addAction(new QAction("Bar", this));
-	// menu.addAction(new QAction("Brew Tea", this));
-	// menu.addAction(new QAction("Translate", this));
-	// menu.exec(event->globalPos());
-}
-
 void QtCodeSnippet::clickedTitle()
 {
 	if (m_titleId > 0)
