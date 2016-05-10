@@ -1,0 +1,8 @@
+staging: true
+
+disqus_shortname: staging-coati
+
+url: https://staging.coati.io/blog
+
+owner:
+  url: https://staging.coati.io

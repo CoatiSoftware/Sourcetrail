@@ -1,0 +1,315 @@
+// UTILITY MIXINS
+// --------------------------------------------------
+
+// Clearfix
+// --------------------
+// For clearing floats like a boss h5bp.com/q
+@mixin clearfix {
+  *zoom: 1;
+  &:before,
+  &:after {
+    display: table;
+    content: "";
+    // Fixes Opera/contenteditable bug:
+    // http://nicolasgallagher.com/micro-clearfix-hack/#comment-36952
+    line-height: 0;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+// Webkit-style focus
+// --------------------
+@mixin tab-focus() {
+  // Default
+  outline: thin dotted #333;
+  // Webkit
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+// Center-align a block level element
+// ----------------------------------
+@mixin center-block() {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// TYPOGRAPHY
+// --------------------------------------------------
+
+// Full-fat vertical rhythm
+// ------------------------
+@mixin font-size($size) {
+  font-size: 0px + $size;
+  font-size: 0rem + $size / $doc-font-size;
+  line-height: 0 + round($doc-line-height / $size*10000) / 10000;
+  margin-bottom: 0px + $doc-line-height;
+  margin-bottom: 0rem + ($doc-line-height / $doc-font-size);
+}
+
+// Just the REMs
+// -------------
+@mixin font-rem($size) {
+  font-size: 0px + $size;
+  font-size: 0rem + $size / $doc-font-size;
+}
+
+// Just font-size and line-height
+// ------------------------------
+@mixin font($size) {
+  font-size: 0px + $size;
+  font-size: 0rem + $size / $doc-font-size;
+  line-height: 0 + round($doc-line-height / $size*10000) / 10000;
+}
+
+@mixin text-overflow() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; 
+}
+
+// GRADIENTS
+// --------------------------------------------------
+
+@mixin horizontal($startColor : $white, $endColor : $lightergrey) {
+  background-color: $endColor;
+  background-image  : -webkit-gradient(linear, 0 0, 100% 0, from($startColor), to($endColor)); // Safari 4+, Chrome 2+
+  background-image  : -webkit-linear-gradient(left, $startColor, $endColor); 					 // Safari 5.1+, Chrome 10+
+  background-image  : -moz-linear-gradient(left, $startColor, $endColor); 					 // FF 3.6+
+  background-image  : -ms-linear-gradient(left, $startColor, $endColor); 						 // IE10
+  background-image  : -o-linear-gradient(left, $startColor, $endColor); 						 // Opera 11.10
+  background-image  : linear-gradient(left, $startColor, $endColor); 							 // W3C
+  background-repeat : repeat-x; 
+}
+
+@mixin vertical($startColor : $white, $endColor:  $lightergrey) {
+  background-image  : -webkit-gradient(linear, 0 0, 0 100%, from($startColor), to($endColor)); // Safari 4+, Chrome 2+
+  background-image  : -webkit-linear-gradient(top, $startColor, $endColor); 					 // Safari 5.1+, Chrome 10+
+  background-color  : $endColor;
+  background-image  : -moz-linear-gradient(top, $startColor, $endColor);   					 // FF 3.6+
+  background-image  : -ms-linear-gradient(top, $startColor, $endColor); 						 // IE10
+  background-image  : -o-linear-gradient(top, $startColor, $endColor); 						 // Opera 11.10
+  background-image  : linear-gradient(top, $startColor, $endColor); 							 // W3C
+  background-repeat : repeat-x; 
+}
+
+@mixin directional($startColor : $white, $endColor : $lightergrey, $deg : 45deg) {
+  background-color  : $endColor;
+  background-image  : -moz-linear-gradient($deg, $startColor, $endColor); 					// FF 3.6+
+  background-image  : -ms-linear-gradient($deg, $startColor, $endColor); 						// IE10
+  background-image  : -webkit-linear-gradient($deg, $startColor, $endColor); 					// Safari 5.1+, Chrome 10+
+  background-image  : -o-linear-gradient($deg, $startColor, $endColor); 						// Opera 11.10
+  background-image  : linear-gradient($deg, $startColor, $endColor); 							// W3C
+  background-repeat : repeat-x; 
+}
+
+// .bordered(COLOR, COLOR, COLOR, COLOR);
+@mixin bordered($top-color: #eee, $right-color: #eee, $bottom-color: #eee, $left-color: #eee) {
+  border-top : solid 1px $top-color;
+  border-left : solid 1px $left-color;
+  border-right : solid 1px $right-color;
+  border-bottom : solid 1px $bottom-color; 
+}
+
+// ROUND CORNERS
+// --------------------------------------------------
+
+// .rounded(VALUE);
+@mixin rounded($radius:4px) {
+  -webkit-border-radius : $radius;
+  -moz-border-radius : $radius;
+  border-radius : $radius; 
+}
+
+// .border-radius(VALUE,VALUE,VALUE,VALUE);
+@mixin border-radius($topright: 0, $bottomright: 0, $bottomleft: 0, $topleft: 0) {
+  -webkit-border-top-right-radius : $topright;
+  -webkit-border-bottom-right-radius : $bottomright;
+  -webkit-border-bottom-left-radius : $bottomleft;
+  -webkit-border-top-left-radius : $topleft;
+  -moz-border-radius-topright : $topright;
+  -moz-border-radius-bottomright : $bottomright;
+  -moz-border-radius-bottomleft : $bottomleft;
+  -moz-border-radius-topleft : $topleft;
+  border-top-right-radius : $topright;
+  border-bottom-right-radius : $bottomright;
+  border-bottom-left-radius : $bottomleft;
+  border-top-left-radius : $topleft;
+  -webkit-background-clip : padding-box;
+  -moz-background-clip : padding;  
+  background-clip : padding-box; 
+}
+
+// .box-shadow(HORIZONTAL VERTICAL BLUR COLOR))
+@mixin box-shadow($shadow: 0 1px 3px rgba(0,0,0,.25)) {
+  -webkit-box-shadow : $shadow;
+  -moz-box-shadow : $shadow;
+  box-shadow : $shadow; 
+}
+
+// .drop-shadow(HORIZONTAL, VERTICAL, BLUR, ALPHA);
+@mixin drop-shadow($x-axis: 0, $y-axis: 1px, $blur: 2px, $alpha: 0.1) {
+  -webkit-box-shadow : $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
+  -moz-box-shadow : $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
+  box-shadow : $x-axis $y-axis $blur rgba(0, 0, 0, $alpha); 
+}
+
+// .text-shadow();
+@mixin text-shadow($shadow: 0 2px 3px rgba(0,0,0,.25)) {
+  text-shadow : $shadow; 
+}
+
+// TRANSFORMATIONS
+// --------------------------------------------------
+
+// .rotate(VALUEdeg);
+@mixin rotate($deg) {
+  -webkit-transform : rotate($deg);
+  -moz-transform : rotate($deg);
+  -ms-transform : rotate($deg);
+  -o-transform : rotate($deg);
+  transform : rotate($deg); 
+}
+
+// .scale(VALUE);
+@mixin scale($ratio) {
+  -webkit-transform : scale($ratio);
+  -moz-transform : scale($ratio);
+  -ms-transform : scale($ratio);
+  -o-transform : scale($ratio);
+  transform : scale($ratio); 
+}
+
+// .skew(VALUE, VALUE);
+@mixin skew($x: 0, $y: 0) {
+  -webkit-transform : skew($x, $y);
+  -moz-transform : skew($x, $y);
+  -ms-transform : skew($x, $y);
+  -o-transform : skew($x, $y);
+  transform : skew($x, $y); 
+}
+
+// .transition(PROPERTY DURATION DELAY(OPTIONAL) TIMING-FINCTION);
+@mixin transition($transition) {
+  -webkit-transition : $transition;
+  -moz-transition : $transition;
+  -ms-transition : $transition;
+  -o-transition : $transition;
+  transition : $transition; 
+}
+
+// .translate(VALUE, VALUE)
+@mixin translate($x: 0, $y: 0) {
+  -webkit-transform : translate($x, $y);
+  -moz-transform : translate($x, $y);
+  -ms-transform : translate($x, $y);
+  -o-transform : translate($x, $y);
+  transform : translate($x, $y); 
+}
+
+@mixin translate3d($x: 0, $y: 0, $z: 0) {
+  -webkit-transform : translate($x, $y, $z);
+  -moz-transform : translate($x, $y, $z);
+  -ms-transform : translate($x, $y, $z);
+  -o-transform : translate($x, $y, $z);
+  transform : translate($x, $y, $z); 
+}
+
+@mixin animation($name, $duration: 300ms, $delay: 0, $ease: ease) {
+  -webkit-animation: $name $duration $delay $ease;
+  -moz-animation:    $name $duration $delay $ease;
+  -ms-animation:     $name $duration $delay $ease;
+}
+
+// BACKGROUND
+// --------------------------------------------------
+
+// .background-alpha(VALUE VALUE);
+@mixin background-alpha($color: $white, $alpha: 1) {
+  background-color : hsla(hue($color), saturation($color), lightness($color), $alpha); 
+}
+
+// .background-size(VALUE VALUE);
+@mixin background-size($size){
+  -webkit-background-size : $size;
+  -moz-background-size : $size;
+  -o-background-size : $size;
+  background-size : $size; 
+}
+
+// .background-clip(VALUE); (border-box, padding-box, content-box)
+@mixin background-clip($clip) {
+  -webkit-background-clip : $clip;
+  -moz-background-clip : $clip;
+  background-clip : $clip; 
+}
+
+// .box-sizing(VALUE); (border-box, padding-box, content-box)
+@mixin box-sizing($boxsize: border-box) {
+  -webkit-box-sizing : $boxsize;
+  -moz-box-sizing : $boxsize;
+  -ms-box-sizing : $boxsize;
+  box-sizing : $boxsize; 
+}
+
+// For image replacement
+@mixin hide-text() {
+  text-indent : 100%;
+  white-space : nowrap;
+  overflow : hidden; 
+}
+
+// Hide from visual and speaking browsers
+@mixin hidden() {
+  display : none !important; 
+  visibility : hidden; 
+}
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+// Hide but maintain layout
+@mixin invisible() { 
+  visibility : hidden; 
+}
+
+// .resize(VALUE) (none, both, horizontal, vertical, inherit)
+@mixin resize($direction: both) {
+  resize : $direction;
+  overflow : auto; 
+}
+
+// .userselect(VALUE) (all, element, none, text)
+@mixin user-select($select) {
+  -webkit-user-select : $select;
+  -moz-user-select : $select;
+  -o-user-select : $select;
+  user-select : $select; 
+}
+
+// Hidden but available to speaking browsers
+@mixin visuallyhidden() { 
+  overflow : hidden; 
+  position : absolute;
+  clip : rect(0 0 0 0); 
+  height : 1px; 
+  width : 1px;
+  margin : -1px; 
+  padding : 0; 
+  border : 0; 
+}
+
+// Make visuallyhidden focusable with a keyboard
+.visuallyhidden.focusable:active, 
+.visuallyhidden.focusable:focus { 
+  position : static;
+  clip : auto; 
+  height : auto; 
+  width : auto;
+  margin : 0; 
+  overflow: visible; 
+}

@@ -1,0 +1,56 @@
+// Selection
+// --------------------------------------------------
+::-moz-selection { 
+	background-color: lighten($base-color, 65%); 
+	color: $base-color; 
+	text-shadow: none; 
+}  	
+::selection { 
+	background-color: lighten($base-color, 65%); 
+	color: $base-color; 
+	text-shadow: none; 
+}
+
+// Global Classes
+// --------------------------------------------------
+.wrap {
+	margin: 0 auto;
+}
+.all-caps {
+	text-transform: uppercase;
+}
+.image-left {
+	float: none;
+	@media #{$medium} {
+		float: left;
+	}
+}
+.image-right {
+	float: none;
+	@media #{$medium} {
+		float: right;
+	}
+}
+.unstyled-list {
+	list-style: none;
+	margin-left: 0;
+	padding-left: 0;
+	li {
+		list-style-type: none;
+	}
+}
+.inline-list {
+	list-style: none;
+	margin-left: 0;
+	padding-left: 0;
+	li {
+		list-style-type: none;
+		display: inline;
+	}
+}
+
+// Global Transition
+// ---------------------------------------------------
+b, i, strong, em, blockquote, p, q, span, figure, img, h1, h2, header, input, a {
+	@include transition(all .2s ease);
+}

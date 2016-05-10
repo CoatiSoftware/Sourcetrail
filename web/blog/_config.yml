@@ -1,0 +1,78 @@
+title:            Coati Developer Blog
+description:      "The developer blog of Coati, featuring news and updates of the development progress."
+disqus_shortname: coati
+reading_time:     false
+words_per_minute: 200
+# Your site's domain goes here (eg: //mmistakes.github.io, http://mademistakes.com, etc)
+# When testing locally leave blank or use http://localhost:4000
+url: https://coati.io/blog
+tracking: true
+
+# Owner/author information
+owner:
+  name:           Coati Software OG
+  avatar:         coati_logo.png
+  bio:            "Coati is cross-platform source explorer for C/C++"
+  url:            https://www.coati.io
+  email:          mail@coati.io
+  # Social networking links used in footer. Update and remove as you like.
+  twitter:        CoatiSoftware
+  facebook:       Coati-1529980600658370
+  github:         CoatiSoftware/CoatiBugTracker
+  stackexchange:
+  linkedin:
+  instagram:
+  flickr:
+  tumblr:
+  # google plus id, include the '+', eg +mmistakes
+  google_plus:    https://plus.google.com/112204384831411821587
+
+
+# Background image to be tiled on all pages
+background:
+
+# http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+timezone:    Europe/Vienna
+future:      true
+highlighter: rouge
+markdown:    kramdown
+gems:
+  - jekyll-sitemap
+  - jekyll-paginate
+  - jekyll-gist
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# https://github.com/mojombo/jekyll/wiki/Permalinks
+permalink:   /:categories/:title/
+
+# Amount of post to show on home page
+paginate: 5
+
+kramdown:
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  enable_coderay: false
+
+  coderay:
+    coderay_line_numbers: nil
+    coderay_line_numbers_start: 1
+    coderay_tab_width: 4
+    coderay_bold_every: 10
+    coderay_css: class
+
+# Octopress
+# Default extensions
+post_ext: md
+page_ext: md
+# Found in _templates/
+post_layout: post
+page_layout: page
+# Format titles with titlecase?
+titlecase: true
+
+include: [".htaccess"]
+exclude: ["lib", "config.rb", "Capfile", "config", "Gemfile", "Gemfile.lock", "README.md", "LICENSE", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules"]
