@@ -51,7 +51,7 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	m_title->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_title->setToolTip(QString::fromStdString(filePath.str()));
 	m_title->setFixedHeight(std::max(m_title->fontMetrics().height() * 1.2, 28.0));
-	m_title->setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
+	m_title->setSizePolicy(m_title->sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 
 	std::string text = ResourcePaths::getGuiPath() + "graph_view/images/file.png";
 
@@ -165,7 +165,7 @@ void QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 		title->minimumSizeHint(); // force font loading
 		title->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 		title->setFixedHeight(std::max(title->fontMetrics().height() * 1.2, 28.0));
-		title->setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
+		title->setSizePolicy(title->sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 
 		if (isTrial())
 		{
