@@ -252,6 +252,7 @@ add_files(
 	utility/messaging/type/MessageScrollCode.h
 	utility/messaging/type/MessageSearch.h
 	utility/messaging/type/MessageSearchAutocomplete.h
+	utility/messaging/type/MessageSearchFullText.h
 	utility/messaging/type/MessageShowErrors.h
 	utility/messaging/type/MessageShowScope.h
 	utility/messaging/type/MessageShowStartScreen.h

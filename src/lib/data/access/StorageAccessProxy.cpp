@@ -93,6 +93,17 @@ std::vector<SearchMatch> StorageAccessProxy::getAutocompletionMatches(const std:
 	return std::vector<SearchMatch>();
 }
 
+std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getFullTextSearchLocations(
+		const std::string &searchTerm) const
+{
+	if (hasSubject())
+	{
+		return m_subject->getFullTextSearchLocations(searchTerm);
+	}
+
+	return std::make_shared<TokenLocationCollection>();
+}
+
 std::vector<SearchMatch> StorageAccessProxy::getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const
 {
 	if (hasSubject())
@@ -183,7 +194,8 @@ std::vector<Id> StorageAccessProxy::getTokenIdsForAggregationEdge(Id sourceId, I
 	return std::vector<Id>();
 }
 
-std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const
+std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getTokenLocationsForTokenIds(
+		const std::vector<Id>& tokenIds) const
 {
 	if (hasSubject())
 	{
@@ -193,7 +205,8 @@ std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getTokenLocationsFo
 	return std::make_shared<TokenLocationCollection>();
 }
 
-std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const
+std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getTokenLocationsForLocationIds(
+		const std::vector<Id>& locationIds) const
 {
 	if (hasSubject())
 	{

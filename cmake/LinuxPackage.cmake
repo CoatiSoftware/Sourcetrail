@@ -38,7 +38,6 @@ function(AddSharedToComponent componentName)
 		DESTINATION .
 		COMPONENT ${componentName}
 		PATTERN "log/*" EXCLUDE
-		PATTERN "projects/ignored" EXCLUDE
 		PATTERN "data/src" EXCLUDE
 		PATTERN "data/gui/installer" EXCLUDE
 		PATTERN "data/install" EXCLUDE
@@ -83,7 +82,13 @@ function(AddSharedToComponent componentName)
 		PATTERN "ApplicationSettings_for_package.xml" EXCLUDE
 		PATTERN "ProjectSettings_template.xml" EXCLUDE
 		PATTERN "ApplicationSettings_template.xml" EXCLUDE
-		PATTERN "window_settings.ini_for_package" EXCLUDE
+		PATTERN "window_settings_for_package.ini" EXCLUDE
+	)
+
+	INSTALL(FILES ${CMAKE_SOURCE_DIR}/bin/app/user/window_settings_for_package.ini
+		DESTINATION user
+		COMPONENT ${componentName}
+		RENAME window_settings.ini
 	)
 endfunction(AddSharedToComponent)
 
@@ -141,31 +146,31 @@ INSTALL(PROGRAMS
 	COMPONENT FULL
 )
 
-#INSTALL(PROGRAMS
-	#${CMAKE_SOURCE_DIR}/bin/app/Release/Coati_upx
-	#DESTINATION .
-	#COMPONENT FULL
-	#RENAME Coati
-#)
-
-#INSTALL(PROGRAMS
-	#${CMAKE_SOURCE_DIR}/bin/app/Release/Coati_trial_upx
-	#DESTINATION .
-	#COMPONENT TRIAL
-	#RENAME Coati_trial
-#)
-
-INSTALL(TARGETS
-	${APP_PROJECT_NAME}
+INSTALL(PROGRAMS
+	${CMAKE_SOURCE_DIR}/bin/app/Release/Coati_upx
 	DESTINATION .
 	COMPONENT FULL
+	RENAME Coati
 )
 
-INSTALL(TARGETS
-	${TRIAL_PROJECT_NAME}
+INSTALL(PROGRAMS
+	${CMAKE_SOURCE_DIR}/bin/app/Release/Coati_trial_upx
 	DESTINATION .
 	COMPONENT TRIAL
+	RENAME Coati_trial
 )
+
+#INSTALL(TARGETS
+	#${APP_PROJECT_NAME}
+	#DESTINATION .
+	#COMPONENT FULL
+#)
+
+#INSTALL(TARGETS
+	#${TRIAL_PROJECT_NAME}
+	#DESTINATION .
+	#COMPONENT TRIAL
+#)
 
 # SET(CPACK_GENERATOR "DEB;TGZ")
 SET(CPACK_GENERATOR "TGZ")
@@ -186,6 +191,7 @@ endif()
 
 SET(CPACK_PACKAGE_NAME "Coati")
 SET(CPACK_PACKAGING_INSTALL_PREFIX "")
+SET(CPACK_INCLUDE_TOPLEVEL_DIRECTORY 1)
 SET(CPACK_PACKAGING_INSTALL_DIRECTORY "Coati")
 SET(CPACK_PACKAGE_VERSION ${VERSION_NUMBER})
 SET(CPACK_PACKAGE_VENDOR "Coati Software")

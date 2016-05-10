@@ -238,6 +238,15 @@ void CodeController::handleMessage(MessageShowErrors* message)
 	showContents(message);
 }
 
+void CodeController::handleMessage(MessageSearchFullText* message)
+{
+	CodeView* view = getView();
+	std::vector<CodeSnippetParams> snippets = getSnippetsForFullTextSearch(message->searchTerm);
+	view->showCodeSnippets(snippets, std::vector<Id>());
+
+	showContents(message);
+}
+
 void CodeController::handleMessage(MessageShowScope* message)
 {
 	std::shared_ptr<TokenLocationCollection> collection =
@@ -362,15 +371,25 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocation
 	return fileSnippets;
 }
 
-std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(std::shared_ptr<TokenLocationFile> activeTokenLocations) const
+std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
+		std::shared_ptr<TokenLocationFile> activeTokenLocations
+) const
 {
-	return getSnippetsForFile(activeTokenLocations, m_storageAccess->getTokenLocationsForFile(activeTokenLocations->getFilePath().str()));
+	return getSnippetsForFile(
+			activeTokenLocations,
+			m_storageAccess->getTokenLocationsForFile(activeTokenLocations->getFilePath().str())
+	);
 }
 
-std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(std::shared_ptr<TokenLocationFile> activeTokenLocations, const std::shared_ptr<TokenLocationFile> fileLocations) const
+std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
+		std::shared_ptr<TokenLocationFile> activeTokenLocations,
+		const std::shared_ptr<TokenLocationFile> fileLocations
+) const
 {
+
 	std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(activeTokenLocations->getFilePath());
-	std::shared_ptr<TokenLocationFile> scopeLocations = std::make_shared<TokenLocationFile>(activeTokenLocations->getFilePath().str());
+	std::shared_ptr<TokenLocationFile> scopeLocations
+		= std::make_shared<TokenLocationFile>(activeTokenLocations->getFilePath().str());
 	fileLocations->forEachStartTokenLocation(
 		[&](TokenLocation* startLoc) -> void
 		{
@@ -423,9 +442,10 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(std::shared_pt
 
 		ranges = fileScopedMerger.merge(atomicRanges);
 	}
-
 	const int snippetExpandRange = ApplicationSettings::getInstance()->getCodeSnippetExpandRange();
 	std::vector<CodeSnippetParams> snippets;
+
+	std::shared_ptr<TokenLocationFile> file = m_storageAccess->getTokenLocationsForFile(activeTokenLocations->getFilePath().str());
 	for (const SnippetMerger::Range& range: ranges)
 	{
 		CodeSnippetParams params;
@@ -434,8 +454,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(std::shared_pt
 		params.startLineNumber = std::max<int>(1, range.start.row - (range.start.strong ? 0 : snippetExpandRange));
 		params.endLineNumber = std::min<int>(textAccess->getLineCount(), range.end.row + (range.end.strong ? 0 : snippetExpandRange));
 
-		std::shared_ptr<TokenLocationFile> tempFile =
-			m_storageAccess->getTokenLocationsForLinesInFile(activeTokenLocations->getFilePath().str(), params.startLineNumber, params.endLineNumber);
+		std::shared_ptr<TokenLocationFile> tempFile = file->getFilteredByLines(params.startLineNumber, params.endLineNumber);
 		TokenLocationLine* firstUsedLine = nullptr;
 		for (size_t i = params.startLineNumber; i <= params.endLineNumber && firstUsedLine == nullptr; i++)
 		{
@@ -460,7 +479,6 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(std::shared_pt
 		{
 			params.title = activeTokenLocations->getFilePath().str();
 		}
-
 
 		TokenLocationLine* lastUsedLine = nullptr;
 		for (size_t i = params.endLineNumber; i >= params.startLineNumber && lastUsedLine == nullptr; i--)
@@ -495,7 +513,11 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(std::shared_pt
 }
 
 std::shared_ptr<SnippetMerger> CodeController::buildMergerHierarchy(
-	TokenLocation* location, std::shared_ptr<TokenLocationFile> scopeLocations, SnippetMerger& fileScopedMerger, std::map<int, std::shared_ptr<SnippetMerger>>& mergers) const
+	TokenLocation* location,
+	std::shared_ptr<TokenLocationFile> scopeLocations,
+	SnippetMerger& fileScopedMerger,
+	std::map<int, std::shared_ptr<SnippetMerger>>& mergers
+) const
 {
 	const TokenLocation* currentLocation = location;
 	std::shared_ptr<SnippetMerger> currentMerger = std::make_shared<SnippetMerger>(
@@ -530,7 +552,10 @@ std::shared_ptr<SnippetMerger> CodeController::buildMergerHierarchy(
 	return currentMerger;
 }
 
-std::shared_ptr<TokenLocationFile> CodeController::getTokenLocationOfParentScope(const TokenLocation* location, std::shared_ptr<TokenLocationFile> scopeLocations) const
+std::shared_ptr<TokenLocationFile> CodeController::getTokenLocationOfParentScope(
+	const TokenLocation* location,
+	std::shared_ptr<TokenLocationFile> scopeLocations
+) const
 {
 	const TokenLocation* parent = location;
 	const FilePath filePath = location->getFilePath();
@@ -545,7 +570,8 @@ std::shared_ptr<TokenLocationFile> CodeController::getTokenLocationOfParentScope
 				{
 					parent = tokenLocation;
 				}
-				// since tokenLocation is a start location the > location indicates the scope that is closer to the child.
+				// since tokenLocation is a start location the > location indicates the scope
+				// that is closer to the child.
 				else if ((*tokenLocation) > *parent)
 				{
 					parent = tokenLocation;
@@ -561,6 +587,37 @@ std::shared_ptr<TokenLocationFile> CodeController::getTokenLocationOfParentScope
 		file->addTokenLocationAsPlainCopy(parent->getOtherTokenLocation());
 	}
 	return file;
+}
+
+std::vector<CodeSnippetParams> CodeController::getSnippetsForFullTextSearch(
+		const std::string& searchTerm) const
+{
+	std::shared_ptr<TokenLocationCollection> collection =
+		m_storageAccess->getFullTextSearchLocations(searchTerm);
+
+	std::vector<CodeSnippetParams> snippets;
+
+	collection->forEachTokenLocationFile(
+		[&](std::shared_ptr<TokenLocationFile> file) -> void
+		{
+			//if (snippets.size() < 10)
+			{
+				std::vector<CodeSnippetParams> fileSnippets = getSnippetsForFile(file);
+				snippets.insert(snippets.end(), fileSnippets.begin(), fileSnippets.end());
+			}
+			//else
+			//{
+				//CodeSnippetParams params;
+				//params.locationFile = file;
+				//params.refCount = file->getUnscopedStartTokenLocationCount();
+				//params.isCollapsed = true;
+				//snippets.push_back(params);
+			//}
+		}
+	);
+
+	addModificationTimes(snippets);
+	return snippets;
 }
 
 std::vector<CodeSnippetParams> CodeController::getSnippetsForErrorLocations(

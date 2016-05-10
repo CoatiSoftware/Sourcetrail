@@ -219,6 +219,18 @@ void UndoRedoController::handleMessage(MessageSearch* message)
 	processCommand(command);
 }
 
+void UndoRedoController::handleMessage(MessageSearchFullText* message)
+{
+	if (sameMessageTypeAsLast(message))// &&
+		//static_cast<MessageSearchFullText*>(lastMessage())->getMatchesAsString() == message->getMatchesAsString())
+	{
+		return;
+	}
+
+	Command command(std::make_shared<MessageSearchFullText>(*message), Command::ORDER_ACTIVATE);
+	processCommand(command);
+}
+
 void UndoRedoController::handleMessage(MessageShowScope* message)
 {
 	Command command(std::make_shared<MessageShowScope>(*message), Command::ORDER_ADAPT);

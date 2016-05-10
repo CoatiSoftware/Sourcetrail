@@ -22,6 +22,7 @@ public:
 	virtual NameHierarchy getNameHierarchyForNodeWithId(Id id) const;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const;
 
+	virtual std::shared_ptr<TokenLocationCollection> getFullTextSearchLocations(const std::string& searchTerm) const;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const;
 
@@ -37,8 +38,12 @@ public:
 	virtual Id getTokenIdForFileNode(const FilePath& filePath) const;
 	virtual std::vector<Id> getTokenIdsForAggregationEdge(Id sourceId, Id targetId) const;
 
-	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const;
-	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const;
+	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForTokenIds(
+			const std::vector<Id>& tokenIds
+	) const;
+	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForLocationIds(
+			const std::vector<Id>& locationIds
+	) const;
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const std::string& filePath) const;
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber

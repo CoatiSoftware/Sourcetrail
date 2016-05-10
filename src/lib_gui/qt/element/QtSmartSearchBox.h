@@ -32,6 +32,7 @@ class QtSmartSearchBox
 
 public slots:
 	void search();
+	void fullTextSearch();
 
 public:
 	QtSmartSearchBox(QWidget* parent);

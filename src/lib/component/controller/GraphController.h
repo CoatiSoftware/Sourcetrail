@@ -13,6 +13,7 @@
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
+#include "utility/messaging/type/MessageSearchFullText.h"
 #include "utility/messaging/type/MessageShowErrors.h"
 
 #include "component/controller/Controller.h"
@@ -36,6 +37,7 @@ class GraphController
 	, public MessageListener<MessageGraphNodeBundleSplit>
 	, public MessageListener<MessageGraphNodeExpand>
 	, public MessageListener<MessageGraphNodeMove>
+	, public MessageListener<MessageSearchFullText>
 	, public MessageListener<MessageShowErrors>
 {
 public:
@@ -51,6 +53,7 @@ private:
 	virtual void handleMessage(MessageGraphNodeBundleSplit* message);
 	virtual void handleMessage(MessageGraphNodeExpand* message);
 	virtual void handleMessage(MessageGraphNodeMove* message);
+	virtual void handleMessage(MessageSearchFullText* message);
 	virtual void handleMessage(MessageShowErrors* message);
 
 	GraphView* getView() const;

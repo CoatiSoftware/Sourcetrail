@@ -87,6 +87,11 @@ void GraphController::handleMessage(MessageFlushUpdates* message)
 	buildGraph(message);
 }
 
+void GraphController::handleMessage(MessageSearchFullText* message)
+{
+	clear();
+}
+
 void GraphController::handleMessage(MessageFocusIn* message)
 {
 	getView()->focusTokenIds(message->tokenIds);

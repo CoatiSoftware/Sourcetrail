@@ -36,12 +36,6 @@ else ()
 	set(PLATFORM_INCLUDE "includesLinux.h")
 endif ()
 
-# Settings ---------------------------------------------------------------------
-
-if (UNIX)
-	add_definitions(-std=c++11 -Wno-unknown-warning-option -fcolor-diagnostics -DQT_COMPILING_QSTRING_COMPAT_CPP )
-endif ()
-
 # Project ----------------------------------------------------------------------
 
 project(${PROJECT_NAME})
@@ -56,6 +50,15 @@ if(UNIX AND NOT APPLE)
 endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# Settings ---------------------------------------------------------------------
+
+if (UNIX)
+	add_definitions(-std=c++11 -Wno-unknown-warning-option -fcolor-diagnostics -DQT_COMPILING_QSTRING_COMPAT_CPP )
+endif ()
+
+# enable fts4 module for sqlite
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_FTS4_PARENTHESIS")
 
 # Clang ------------------------------------------------------------------------
 
@@ -622,6 +625,7 @@ elseif (UNIX)
 	add_custom_command(
 		OUTPUT ${TESTGEN_FILE}
 		PRE_BUILD
+		COMMAND rm -f ${TESTGEN_FILE}
 		COMMAND cd ${PROJECT_SOURCE_DIR} && ${PYTHON_EXECUTABLE} ${CXXTEST_PYTHON_TESTGEN_EXECUTABLE} --runner=ParenPrinter -o ${TESTGEN_FILE} ${TEST_FILES}
 		COMMENT "Generating unittest code with cxxtestgen"
 	)

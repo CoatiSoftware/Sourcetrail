@@ -3,6 +3,7 @@
 #include "data/graph/Node.h"
 #include "data/location/TokenLocation.h"
 #include "data/DefinitionType.h"
+#include "data/parser/ParseLocation.h"
 #include "data/SqliteIndex.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
@@ -207,7 +208,8 @@ Id SqliteStorage::addError(const std::string& message, bool fatal, const std::st
 
 	m_database.execDML((
 		"INSERT INTO error(message, fatal, file_path, line_number, column_number) "
-		"VALUES ('" + sanitizedMessage + "', " + std::to_string(fatal) + ", '" + filePath + "', " + std::to_string(lineNumber) + ", " + std::to_string(columnNumber) + ");"
+		"VALUES ('" + sanitizedMessage + "', " + std::to_string(fatal) + ", '" + filePath +
+		"', " + std::to_string(lineNumber) + ", " + std::to_string(columnNumber) + ");"
 	).c_str());
 
 	return m_database.lastRowId();
@@ -416,6 +418,92 @@ std::vector<StorageEdge> SqliteStorage::getEdgesByTargetType(Id targetId, int ty
 	return edges;
 }
 
+void SqliteStorage::optimizeFTSTable() const
+{
+	try
+	{
+		CppSQLite3Query q = m_database.execQuery("INSERT INTO file(file) VALUES('optimize');");
+	}
+	catch(CppSQLite3Exception e)
+	{
+		LOG_ERROR(e.errorMessage());
+	}
+}
+
+std::vector<ParseLocation> SqliteStorage::getFullTextSearch(const std::string& searchTerm) const
+{
+	std::vector<ParseLocation> matches;
+	try
+	{
+		CppSQLite3Query q = m_database.execQuery((
+					"SELECT id,offsets(file) FROM file WHERE content MATCH '\"*" + searchTerm + "*\"'"
+		).c_str());
+
+		while(!q.eof())
+		{
+			const Id fileId = q.getIntField(0,0);
+
+			// convert the string "0 2 0 2" to int vector
+			std::stringstream temp_results(q.getStringField(1,0));
+			std::vector<int> results((std::istream_iterator<int>(temp_results)),std::istream_iterator<int>());
+
+			ParseLocation location;
+			location.filePath = getFileById(fileId).filePath;
+			std::shared_ptr<TextAccess> file = getFileContentByPath(location.filePath.str());
+
+			int charsInPreviousLines = 0;
+			int lineNumber = 1;
+			std::string line;
+			// results
+			// i   ... col
+			// i+1 ... term
+			// i+2 ... offset
+			// i+3 ... length
+			line = file->getLine(lineNumber);
+			for (size_t i = 0; i < results.size() ; i+=4)
+			{
+				while( ((charsInPreviousLines + (int)line.length()) < results[i+2]) && results[i+1] == 0 )
+				{
+					lineNumber++;
+					charsInPreviousLines += line.length();
+					line = file->getLine(lineNumber);
+				}
+
+				//only set start if its the first term of the match
+				if ( results[i+1] == 0 )
+				{
+					location.startLineNumber = lineNumber;
+					// +1 to be consistent with the rest of the codebase
+					location.startColumnNumber = results[i+2] - charsInPreviousLines + 1;
+				}
+
+				while( (charsInPreviousLines + (int)line.length()) < (results[i+2] + results[i+3]) )
+				{
+					lineNumber++;
+					charsInPreviousLines += line.length();
+					line = file->getLine(lineNumber);
+				}
+
+				location.endLineNumber = lineNumber;
+				location.endColumnNumber = results[i+2] + results[i+3] - charsInPreviousLines;
+
+				// add match if the next term is the first term of a match or its the last term in the file
+				if ( (i+4 < results.size() && results[i+5] == 0) || i+4 >= results.size() )
+				{
+					matches.push_back(location);
+				}
+			}
+
+			q.nextRow();
+		}
+	}
+	catch(CppSQLite3Exception e)
+	{
+		LOG_ERROR(e.errorMessage());
+	}
+	return matches;
+}
+
 StorageNode SqliteStorage::getNodeById(Id id) const
 {
 	if (id != 0)
@@ -473,6 +561,23 @@ std::vector<StorageFile> SqliteStorage::getFilesByPaths(const std::vector<FilePa
 std::vector<StorageFile> SqliteStorage::getAllFiles() const
 {
 	return getAllFiles("");
+}
+
+std::vector<Id> SqliteStorage::getAllFileIds() const
+{
+	std::vector<Id> ids;
+
+	CppSQLite3Query q = m_database.execQuery(
+		"SELECT id FROM file;"
+	);
+
+	while (!q.eof())
+	{
+		ids.push_back(q.getIntField(0,0));
+		q.nextRow();
+	}
+
+	return ids;
 }
 
 std::shared_ptr<TextAccess> SqliteStorage::getFileContentByPath(const std::string& filePath) const
@@ -786,16 +891,24 @@ void SqliteStorage::setupTables()
 		"CREATE INDEX IF NOT EXISTS node_serialized_name_index ON node(serialized_name);"
 	);
 
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS file("
-			"id INTEGER NOT NULL, "
-			"path TEXT, "
-			"modification_time TEXT, "
-			"content TEXT, "
-			"loc INTEGER, "
-			"PRIMARY KEY(id), "
-			"FOREIGN KEY(id) REFERENCES node(id) ON DELETE CASCADE);"
-	);
+	try
+	{
+		m_database.execDML(
+			"CREATE VIRTUAL TABLE IF NOT EXISTS file USING fts4("
+			//"CREATE TABLE IF NOT EXISTS file ("
+				"id INTEGER NOT NULL, "
+				"path TEXT, "
+				"modification_time TEXT, "
+				"content TEXT, "
+				"loc INTEGER, "
+				"PRIMARY KEY(id), "
+				"FOREIGN KEY(id) REFERENCES node(id) ON DELETE CASCADE);"
+		);
+	}
+	catch (CppSQLite3Exception& e)
+	{
+		std::cerr << e.errorCode() << ":" << e.errorMessage() << std::endl;
+	}
 
 	m_database.execDML(
 		"CREATE TABLE IF NOT EXISTS local_symbol("

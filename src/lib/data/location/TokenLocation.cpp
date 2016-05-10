@@ -182,6 +182,11 @@ bool TokenLocation::isScopeTokenLocation() const
 	return m_type == LOCATION_SCOPE;
 }
 
+bool TokenLocation::isFullTextSearchMatch() const
+{
+	return m_type == LOCATION_FULLTEXTSEARCH_MATCH;
+}
+
 std::ostream& operator<<(std::ostream& ostream, const TokenLocation& location)
 {
 	if ((&location)->isStartTokenLocation())

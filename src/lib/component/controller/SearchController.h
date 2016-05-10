@@ -7,6 +7,7 @@
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageSearchAutocomplete.h"
+#include "utility/messaging/type/MessageSearchFullText.h"
 #include "utility/messaging/type/MessageShowErrors.h"
 
 class StorageAccess;
@@ -18,6 +19,7 @@ class SearchController
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageFind>
 	, public MessageListener<MessageSearchAutocomplete>
+	, public MessageListener<MessageSearchFullText>
 	, public MessageListener<MessageShowErrors>
 {
 public:
@@ -29,6 +31,7 @@ private:
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageFind* message);
 	virtual void handleMessage(MessageSearchAutocomplete* message);
+	virtual void handleMessage(MessageSearchFullText* message);
 	virtual void handleMessage(MessageShowErrors* message);
 
 	SearchView* getView();

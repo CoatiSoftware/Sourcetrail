@@ -172,6 +172,7 @@ void Storage::finishParsing()
 {
 	buildSearchIndex();
 	buildHierarchyCache();
+	optimizeFTSTable();
 }
 
 void Storage::injectData(std::shared_ptr<IntermediateStorage> injectedStorage)
@@ -215,6 +216,29 @@ NameHierarchy Storage::getNameHierarchyForNodeWithId(Id nodeId) const
 Node::NodeType Storage::getNodeTypeForNodeWithId(Id nodeId) const
 {
 	return Node::intToType(m_sqliteStorage.getNodeById(nodeId).type);
+}
+
+std::shared_ptr<TokenLocationCollection> Storage::getFullTextSearchLocations(const std::string& searchTerm) const
+{
+	std::shared_ptr<TokenLocationCollection> collection = std::make_shared<TokenLocationCollection>();
+
+	std::vector<ParseLocation> parseLocations = m_sqliteStorage.getFullTextSearch(searchTerm);
+	size_t i = 0;
+	for(ParseLocation location : parseLocations)
+	{
+		collection->addTokenLocation(
+				i,
+				0,
+				location.filePath,
+				location.startLineNumber,
+				location.startColumnNumber,
+				location.endLineNumber,
+				location.endColumnNumber
+		)->setType(LOCATION_FULLTEXTSEARCH_MATCH);
+		i++;
+	}
+
+	return collection;
 }
 
 std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& query) const
@@ -316,7 +340,8 @@ std::vector<SearchMatch> Storage::getAutocompletionMatches(const std::string& qu
 			match.nodeType = Node::intToType(firstNode->type);
 			match.typeName = Node::getTypeString(match.nodeType);
 
-			if (intToDefinitionType(firstNode->definitionType) == DEFINITION_NONE && match.nodeType != Node::NODE_UNDEFINED)
+			if (intToDefinitionType(firstNode->definitionType) == DEFINITION_NONE
+					&& match.nodeType != Node::NODE_UNDEFINED)
 			{
 				match.typeName = "undefined " + match.typeName;
 			}
@@ -401,6 +426,7 @@ std::shared_ptr<Graph> Storage::getGraphForActiveTokenIds(const std::vector<Id>&
 	std::vector<Id> edgeIds;
 	bool addAggregations = false;
 
+	//m_sqliteStorage.getFullTextSearch("const int");
 	if (tokenIds.size() == 1)
 	{
 		const Id elementId = tokenIds[0];
@@ -575,7 +601,9 @@ std::vector<Id> Storage::getTokenIdsForMatches(const std::vector<SearchMatch>& m
 	{
 		for (size_t i = 0; i < match.nameHierarchies.size(); i++)
 		{
-			idSet.insert(m_sqliteStorage.getNodeBySerializedName(NameHierarchy::serialize(match.nameHierarchies[i])).id);
+			idSet.insert(
+				m_sqliteStorage.getNodeBySerializedName(NameHierarchy::serialize(match.nameHierarchies[i])).id
+			);
 		}
 	}
 
@@ -638,9 +666,10 @@ std::shared_ptr<TokenLocationCollection> Storage::getTokenLocationsForTokenIds(c
 
 	std::vector<Id> fileIds;
 	std::vector<Id> nonFileIds;
+	std::vector<Id> allFileIds = m_sqliteStorage.getAllFileIds();
 	for (size_t i = 0; i < tokenIds.size(); i++)
 	{
-		if (m_sqliteStorage.isFile(tokenIds[i]))
+		if (std::find(allFileIds.begin(), allFileIds.end(),tokenIds[i]) != allFileIds.end())
 		{
 			fileIds.push_back(tokenIds[i]);
 		}
@@ -653,7 +682,9 @@ std::shared_ptr<TokenLocationCollection> Storage::getTokenLocationsForTokenIds(c
 	for (Id fileId: fileIds)
 	{
 		StorageFile storageFile = m_sqliteStorage.getFileById(fileId);
-		collection->addTokenLocationFileAsPlainCopy(m_sqliteStorage.getTokenLocationsForFile(storageFile.filePath).get());
+		collection->addTokenLocationFileAsPlainCopy(
+				m_sqliteStorage.getTokenLocationsForFile(storageFile.filePath).get()
+		);
 	}
 
 	Cache<Id, std::string> filePathCache(
@@ -688,7 +719,9 @@ std::shared_ptr<TokenLocationCollection> Storage::getTokenLocationsForTokenIds(c
 	return collection;
 }
 
-std::shared_ptr<TokenLocationCollection> Storage::getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const
+std::shared_ptr<TokenLocationCollection> Storage::getTokenLocationsForLocationIds(
+		const std::vector<Id>& locationIds
+) const
 {
 	std::shared_ptr<TokenLocationCollection> collection = std::make_shared<TokenLocationCollection>();
 
@@ -925,7 +958,11 @@ void Storage::addEdgesToGraph(const std::vector<Id>& edgeIds, Graph* graph) cons
 	}
 }
 
-void Storage::addNodesWithChildrenAndEdgesToGraph(const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graph) const
+void Storage::addNodesWithChildrenAndEdgesToGraph(
+	const std::vector<Id>& nodeIds, 
+	const std::vector<Id>& edgeIds, 
+	Graph* graph
+) const
 {
 	std::set<Id> parentNodeIds;
 
@@ -1098,4 +1135,9 @@ void Storage::buildHierarchyCache()
 		bool isVisible = !(nodeTypeCache.getValue(edge.sourceNodeId) & Node::NODE_NOT_VISIBLE);
 		m_hierarchyCache.createConnection(edge.id, edge.sourceNodeId, edge.targetNodeId, isVisible);
 	}
+}
+
+void Storage::optimizeFTSTable()
+{
+	m_sqliteStorage.optimizeFTSTable();
 }

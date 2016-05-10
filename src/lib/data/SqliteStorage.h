@@ -9,13 +9,14 @@
 
 #include "utility/file/FilePath.h"
 #include "utility/types.h"
-#include "data/name/NameHierarchy.h"
 #include "data/location/TokenLocationFile.h"
 #include "data/location/TokenLocationCollection.h"
+#include "data/name/NameHierarchy.h"
 #include "data/StorageTypes.h"
 
 class TextAccess;
 class Version;
+struct ParseLocation;
 
 class SqliteStorage
 {
@@ -83,6 +84,7 @@ public:
 	StorageFile getFileById(const Id id) const;
 	StorageFile getFileByPath(const FilePath& filePath) const;
 
+	std::vector<Id> getAllFileIds() const;
 	std::vector<StorageFile> getFilesByPaths(const std::vector<FilePath>& filePaths) const;
 	std::vector<StorageFile> getAllFiles() const;
 	std::shared_ptr<TextAccess> getFileContentByPath(const std::string& filePath) const;
@@ -99,6 +101,9 @@ public:
 
 	StorageComponentAccess getComponentAccessByMemberEdgeId(Id memberEdgeId) const;
 	std::vector<StorageComponentAccess> getComponentAccessByMemberEdgeIds(const std::vector<Id>& memberEdgeIds) const;
+
+	std::vector<ParseLocation> getFullTextSearch(const std::string& searchTerm) const;
+	void optimizeFTSTable() const;
 
 	std::vector<StorageCommentLocation> getCommentLocationsInFile(const FilePath& filePath) const;
 	std::vector<StorageError> getAllErrors() const;

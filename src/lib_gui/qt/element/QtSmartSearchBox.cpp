@@ -8,6 +8,7 @@
 
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageSearch.h"
+#include "utility/messaging/type/MessageSearchFullText.h"
 #include "utility/messaging/type/MessageSearchAutocomplete.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
@@ -30,6 +31,11 @@ void QtSearchElement::onChecked(bool)
 	emit wasChecked(this);
 }
 
+void QtSmartSearchBox::fullTextSearch()
+{
+	LOG_INFO_STREAM(<< "FullTextsearch: " << text().toStdString().substr(1));
+	MessageSearchFullText(text().toStdString().substr(1)).dispatch();
+}
 
 void QtSmartSearchBox::search()
 {
@@ -144,6 +150,11 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 
 	if (event->key() == Qt::Key_Return)
 	{
+		if (text().startsWith('@'))
+		{
+			fullTextSearch();
+			return;
+		}
 		if (!completer()->popup()->isVisible())
 		{
 			search();

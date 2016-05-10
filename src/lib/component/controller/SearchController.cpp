@@ -37,6 +37,13 @@ void SearchController::handleMessage(MessageSearchAutocomplete* message)
 	getView()->setAutocompletionList(m_storageAccess->getAutocompletionMatches(message->query));
 }
 
+void SearchController::handleMessage(MessageSearchFullText* message)
+{
+	LOG_INFO("fulltext string: \"" + message->searchTerm + "\"");
+	SearchMatch match("@" + message->searchTerm);
+	getView()->setMatches(std::vector<SearchMatch>(1, match));
+}
+
 void SearchController::handleMessage(MessageShowErrors* message)
 {
 	SearchMatch match = SearchMatch::createCommand(SearchMatch::COMMAND_ERROR);

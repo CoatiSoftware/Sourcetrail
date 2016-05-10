@@ -1,6 +1,7 @@
 
 # upx
 set(upxPath ${CMAKE_CURRENT_LIST_DIR}/../bin/app/Release)
+
 message(STATUS "upx the app")
 execute_process(
 	COMMAND rm ${upxPath}/Coati_upx
@@ -13,6 +14,9 @@ execute_process(
 	COMMAND upx --brute ${upxPath}/Coati_trial -o ${upxPath}/Coati_trial_upx
 )
 
+execute_process(
+	COMMAND ${upxPath}/Coati -z /home/vagrant/dev/license.txt
+)
 
 execute_process(
 	COMMAND ${upxPath}/Coati -f -d ${upxPath}/../data/projects/tictactoe/tictactoe.coatiproject

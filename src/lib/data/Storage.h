@@ -10,6 +10,7 @@
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/parser/ParserClient.h"
+#include "data/parser/ParseLocation.h"
 #include "data/search/SearchIndex.h"
 #include "data/HierarchyCache.h"
 #include "data/SqliteStorage.h"
@@ -54,6 +55,7 @@ public:
 	virtual NameHierarchy getNameHierarchyForNodeWithId(Id nodeId) const;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id nodeId) const;
 
+	virtual std::shared_ptr<TokenLocationCollection> getFullTextSearchLocations(const std::string& searchTerm) const;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& elementIds) const;
 
@@ -69,8 +71,12 @@ public:
 	virtual Id getTokenIdForFileNode(const FilePath& filePath) const;
 	virtual std::vector<Id> getTokenIdsForAggregationEdge(Id sourceId, Id targetId) const;
 
-	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const;
-	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const;
+	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForTokenIds(
+			const std::vector<Id>& tokenIds
+	) const;
+	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForLocationIds(
+			const std::vector<Id>& locationIds
+	) const;
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const std::string& filePath) const;
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
@@ -96,13 +102,17 @@ private:
 
 	void addNodesToGraph(const std::vector<Id>& nodeIds, Graph* graph) const;
 	void addEdgesToGraph(const std::vector<Id>& edgeIds, Graph* graph) const;
-	void addNodesWithChildrenAndEdgesToGraph(const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graph) const;
+	void addNodesWithChildrenAndEdgesToGraph(
+			const std::vector<Id>& nodeIds,
+			const std::vector<Id>& edgeIds, Graph* graph
+	) const;
 
 	void addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const;
 	void addComponentAccessToGraph(Graph* graph) const;
 
 	void buildSearchIndex();
 	void buildHierarchyCache();
+	void optimizeFTSTable();
 
 	void log(std::string type, std::string str, const ParseLocation& location) const;
 

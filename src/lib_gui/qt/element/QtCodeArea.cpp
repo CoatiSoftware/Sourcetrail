@@ -907,16 +907,9 @@ const QtCodeArea::AnnotationColor& QtCodeArea::getAnnotationColorForAnnotation(c
 	if (!s_annotationColors.size())
 	{
 		ColorScheme* scheme = ColorScheme::getInstance().get();
-		std::vector<std::string> types;
-		types.push_back("token");
-		types.push_back("local_symbol");
-		types.push_back("scope");
-		types.push_back("error");
+		std::vector<std::string> types = { "token", "local_symbol", "scope", "error", "fulltextmatch"};
 
-		std::vector<std::string> states;
-		states.push_back("normal");
-		states.push_back("focus");
-		states.push_back("active");
+		std::vector<std::string> states = { "normal", "focus", "active"};
 
 		for (const std::string& type : types)
 		{
@@ -944,6 +937,10 @@ const QtCodeArea::AnnotationColor& QtCodeArea::getAnnotationColorForAnnotation(c
 	else if (annotation.isError)
 	{
 		i = 9;
+	}
+	else if (annotation.locationType == LOCATION_FULLTEXTSEARCH_MATCH)
+	{
+		i = 12;
 	}
 
 	if (annotation.isActive)

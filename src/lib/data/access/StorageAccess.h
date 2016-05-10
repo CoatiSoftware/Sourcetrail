@@ -9,6 +9,7 @@
 #include "utility/file/FileInfo.h"
 #include "utility/file/FilePath.h"
 
+#include "data/parser/ParseLocation.h"
 #include "data/graph/Node.h"
 #include "data/search/SearchMatch.h"
 #include "data/ErrorCountInfo.h"
@@ -36,6 +37,8 @@ public:
 	virtual NameHierarchy getNameHierarchyForNodeWithId(Id id) const = 0;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const = 0;
 
+	virtual std::shared_ptr<TokenLocationCollection> getFullTextSearchLocations(
+			const std::string& searchTerm) const = 0;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const = 0;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const = 0;
 
@@ -51,8 +54,10 @@ public:
 	virtual Id getTokenIdForFileNode(const FilePath& filePath) const = 0;
 	virtual std::vector<Id> getTokenIdsForAggregationEdge(Id sourceId, Id targetId) const = 0;
 
-	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const = 0;
-	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForLocationIds(const std::vector<Id>& locationIds) const = 0;
+	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForTokenIds(
+			const std::vector<Id>& tokenIds) const = 0;
+	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForLocationIds(
+			const std::vector<Id>& locationIds) const = 0;
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const std::string& filePath) const = 0;
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber) const = 0;

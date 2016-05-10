@@ -50,6 +50,7 @@ public:
 	bool isEndTokenLocation() const;
 
 	bool isScopeTokenLocation() const;
+	bool isFullTextSearchMatch() const;
 
 private:
 	const Id m_id;			// own id

@@ -20,6 +20,7 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageScrollCode.h"
 #include "utility/messaging/type/MessageSearch.h"
+#include "utility/messaging/type/MessageSearchFullText.h"
 #include "utility/messaging/type/MessageShowScope.h"
 #include "utility/messaging/type/MessageUndo.h"
 
@@ -46,6 +47,7 @@ class UndoRedoController
 	, public MessageListener<MessageRefresh>
 	, public MessageListener<MessageScrollCode>
 	, public MessageListener<MessageSearch>
+	, public MessageListener<MessageSearchFullText>
 	, public MessageListener<MessageShowScope>
 	, public MessageListener<MessageUndo>
 {
@@ -86,6 +88,7 @@ private:
 	virtual void handleMessage(MessageRefresh* message);
 	virtual void handleMessage(MessageScrollCode* message);
 	virtual void handleMessage(MessageSearch* message);
+	virtual void handleMessage(MessageSearchFullText* message);
 	virtual void handleMessage(MessageShowScope* message);
 	virtual void handleMessage(MessageUndo* message);
 
