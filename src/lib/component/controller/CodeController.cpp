@@ -386,10 +386,10 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 		const std::shared_ptr<TokenLocationFile> fileLocations
 ) const
 {
-
 	std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(activeTokenLocations->getFilePath());
 	std::shared_ptr<TokenLocationFile> scopeLocations
 		= std::make_shared<TokenLocationFile>(activeTokenLocations->getFilePath().str());
+
 	fileLocations->forEachStartTokenLocation(
 		[&](TokenLocation* startLoc) -> void
 		{
@@ -588,6 +588,7 @@ std::shared_ptr<TokenLocationFile> CodeController::getTokenLocationOfParentScope
 	}
 	return file;
 }
+
 
 std::vector<CodeSnippetParams> CodeController::getSnippetsForFullTextSearch(
 		const std::string& searchTerm) const

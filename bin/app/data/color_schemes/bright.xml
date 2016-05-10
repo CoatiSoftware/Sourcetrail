@@ -147,6 +147,23 @@
 						<text>#000000</text>
 					</active>
 				</error>
+				<fulltextmatch>
+					<normal>
+						<border>transparent</border>
+						<fill>#80FFFF00</fill>
+						<text>#000000</text>
+					</normal>
+					<focus>
+						<border>transparent</border>
+						<fill>#FFFFFF00</fill>
+						<text>#000000</text>
+					</focus>
+					<active>
+						<border>transparent</border>
+						<fill>#FFFFFF00</fill>
+						<text>#000000</text>
+					</active>
+				</fulltextmatch>
 			</selection>
 		</snippet>
 	</code>
