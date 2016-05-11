@@ -2,40 +2,35 @@
 #define INTERMEDIATE_STORAGE_H
 
 #include <memory>
-#include <string>
+#include <map>
 #include <unordered_map>
 
-#include "utility/types.h"
-#include "data/name/NameHierarchy.h"
-#include "data/parser/ParseLocation.h"
-
-#include "data/SqliteStorage.h"
 #include "data/StorageTypes.h"
+#include "data/Storage.h"
 
-class IntermediateStorage
+class IntermediateStorage: public Storage
 {
 public:
 	IntermediateStorage();
-	~IntermediateStorage();
-	Id addEdge(int type, Id sourceId, Id targetId);
-	Id addNode(int type, const NameHierarchy& nameHierarchy, int definitionType);
-	Id addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime);
-	Id addFile(const std::string& filePath);
-	Id addLocalSymbol(const std::string& name);
-	void addSourceLocation(Id elementId, const ParseLocation& location, int type);
-	void addComponentAccess(Id nodeId , int type);
-	void addCommentLocation(const ParseLocation& location);
-	void addError(const std::string& message, bool fatal, const ParseLocation& location);
+	virtual ~IntermediateStorage();
 
-	void transferToStorage(SqliteStorage& storage); // TODO: remove this and use foreach-callbacks instead
+	virtual Id addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime);
+	virtual Id addNode(int type, const std::string& serializedName, int definitionType);
+	virtual Id addEdge(int type, Id sourceId, Id targetId);
+	virtual Id addLocalSymbol(const std::string& name);
+	virtual void addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
+	virtual void addComponentAccess(Id edgeId , int type);
+	virtual void addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
+	virtual void addError(const std::string& message, bool fatal, const std::string& filePath, uint startLine, uint startCol);
 
-	void forEachFile(std::function<void(const Id /*id*/, const StorageFile& /*data*/)> callback) const;
-	void forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const;
-	void forEachEdge(std::function<void(const Id /*id*/, const StorageEdge& /*data*/)> callback) const;
-	void forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const;
-	void forEachComponentAccess(std::function<void(const StorageComponentAccess& /*data*/)> callback) const;
-	void forEachCommentLocation(std::function<void(const StorageCommentLocation& /*data*/)> callback) const;
-	void forEachError(std::function<void(const StorageError& /*data*/)> callback) const;
+	virtual void forEachFile(std::function<void(const Id /*id*/, const StorageFile& /*data*/)> callback) const;
+	virtual void forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const;
+	virtual void forEachEdge(std::function<void(const Id /*id*/, const StorageEdge& /*data*/)> callback) const;
+	virtual void forEachLocalSymbol(std::function<void(const Id /*id*/, const StorageLocalSymbol& /*data*/)> callback) const;
+	virtual void forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const;
+	virtual void forEachComponentAccess(std::function<void(const StorageComponentAccess& /*data*/)> callback) const;
+	virtual void forEachCommentLocation(std::function<void(const StorageCommentLocation& /*data*/)> callback) const;
+	virtual void forEachError(std::function<void(const StorageError& /*data*/)> callback) const;
 
 private:
 	std::string serialize(const StorageEdge& edge);

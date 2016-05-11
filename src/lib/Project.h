@@ -7,7 +7,7 @@
 
 #include "data/parser/Parser.h"
 
-class Storage;
+class PersistentStorage;
 class StorageAccessProxy;
 
 class Project
@@ -57,7 +57,7 @@ private:
 	FilePath m_projectSettingsFilepath;
 	FileManager m_fileManager;
 
-	std::shared_ptr<Storage> m_storage;
+	std::shared_ptr<PersistentStorage> m_storage;
 };
 
 #endif // PROJECT_H

@@ -42,9 +42,7 @@ public:
 	Id addFile(const std::string& serializedName, const std::string& filePath, const std::string& modificationTime);
 	Id addLocalSymbol(const std::string& name);
 	Id addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
-
 	Id addComponentAccess(Id memberEdgeId, int type);
-
 	Id addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
 	Id addError(const std::string& message, bool fatal, const std::string& filePath, uint lineNumber, uint columnNumber);
 
@@ -53,9 +51,6 @@ public:
 	void removeElementsWithLocationInFiles(const std::vector<Id>& fileIds);
 
 	void removeErrorsInFiles(const std::vector<FilePath>& filePaths);
-
-	StorageNode getFirstNode() const;
-	std::vector<StorageNode> getAllNodes() const;
 
 	bool isEdge(Id elementId) const;
 	bool isNode(Id elementId) const;
@@ -86,7 +81,6 @@ public:
 
 	std::vector<Id> getAllFileIds() const;
 	std::vector<StorageFile> getFilesByPaths(const std::vector<FilePath>& filePaths) const;
-	std::vector<StorageFile> getAllFiles() const;
 	std::shared_ptr<TextAccess> getFileContentByPath(const std::string& filePath) const;
 
 	void setNodeType(int type, Id nodeId);
@@ -106,8 +100,16 @@ public:
 	void optimizeFTSTable() const;
 
 	std::vector<StorageCommentLocation> getCommentLocationsInFile(const FilePath& filePath) const;
-	std::vector<StorageError> getAllErrors() const;
 	std::vector<StorageError> getFatalErrors() const;
+
+	std::vector<StorageFile> getAllFiles() const;
+	std::vector<StorageNode> getAllNodes() const;
+	std::vector<StorageEdge> getAllEdges() const;
+	std::vector<StorageLocalSymbol> getAllLocalSymbols() const;
+	std::vector<StorageSourceLocation> getAllSourceLocations() const;
+	std::vector<StorageComponentAccess> getAllComponentAccesses() const;
+	std::vector<StorageCommentLocation> getAllCommentLocations() const;
+	std::vector<StorageError> getAllErrors() const;
 
 	int getNodeCount() const;
 	int getEdgeCount() const;
@@ -124,26 +126,40 @@ private:
 	std::string getMetaValue(const std::string& key) const;
 	void insertOrUpdateMetaValue(const std::string& key, const std::string& value);
 
-	StorageFile getFirstFile(const std::string& query) const;
-	std::vector<StorageFile> getAllFiles(const std::string& query) const;
-	StorageSourceLocation getFirstSourceLocation(const std::string& query) const;
+	template <typename ResultType>
+	std::vector<ResultType> getAll(const std::string& query) const;
 
-	std::vector<StorageEdge> getAllEdges(const std::string& query) const;
-	std::vector<StorageNode> getAllNodes(const std::string& query) const;
-	StorageNode getFirstNode(const std::string& query) const;
+	template <>
+	std::vector<StorageFile> getAll<StorageFile>(const std::string& query) const;
+	template <>
+	std::vector<StorageEdge> getAll<StorageEdge>(const std::string& query) const;
+	template <>
+	std::vector<StorageNode> getAll<StorageNode>(const std::string& query) const;
+	template <>
+	std::vector<StorageLocalSymbol> getAll<StorageLocalSymbol>(const std::string& query) const;
+	template <>
+	std::vector<StorageSourceLocation> getAll<StorageSourceLocation>(const std::string& query) const;
+	template <>
+	std::vector<StorageComponentAccess> getAll<StorageComponentAccess>(const std::string& query) const;
+	template <>
+	std::vector<StorageCommentLocation> getAll<StorageCommentLocation>(const std::string& query) const;
+	template <>
+	std::vector<StorageError> getAll<StorageError>(const std::string& query) const;
 
 	template <typename ResultType>
-	ResultType getFirstResult(const std::string& query) const;
+	ResultType getFirst(const std::string& query) const
+	{
+		std::vector<ResultType> results = getAll<ResultType>(query + " LIMIT 1");
+		if (results.size() > 0)
+		{
+			return results[0];
+		}
+		return ResultType();
+	}
 
 	mutable CppSQLite3DB m_database;
 	FilePath m_dbFilePath;
 };
 
-template <typename ResultType>
-ResultType SqliteStorage::getFirstResult(const std::string& query) const
-{
-	CppSQLite3Query q = m_database.execQuery(query.c_str());
-	return q.getIntField(0, 0);
-}
 
 #endif // SQLITE_STORAGE_H

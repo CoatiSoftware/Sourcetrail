@@ -9,7 +9,7 @@
 #include "utility/scheduling/Task.h"
 #include "utility/TimePoint.h"
 
-class Storage;
+class PersistentStorage;
 class FileManager;
 class CxxParser;
 
@@ -26,7 +26,7 @@ class TaskParseCxx
 {
 public:
 	TaskParseCxx(
-		Storage* storage,
+		PersistentStorage* storage,
 		const FileManager* fileManager,
 		const Parser::Arguments& arguments,
 		const std::vector<FilePath>& files
@@ -42,7 +42,7 @@ public:
 	virtual void revert();
 
 private:
-	Storage* m_storage;
+	PersistentStorage* m_storage;
 	std::shared_ptr<CxxParser> m_parser;
 	std::shared_ptr<ParserClientImpl> m_parserClient;
 	const Parser::Arguments m_arguments;

@@ -7,14 +7,14 @@
 #include "utility/scheduling/Task.h"
 #include "utility/TimePoint.h"
 
-class Storage;
+class PersistentStorage;
 
 class TaskCleanStorage
 	: public Task
 {
 public:
 	TaskCleanStorage(
-		Storage* storage,
+		PersistentStorage* storage,
 		const std::vector<FilePath>& filePaths
 	);
 
@@ -26,7 +26,7 @@ public:
 	virtual void revert();
 
 private:
-	Storage* m_storage;
+	PersistentStorage* m_storage;
 	std::vector<FilePath> m_filePaths;
 	const size_t m_fileCount;
 

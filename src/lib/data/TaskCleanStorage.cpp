@@ -1,10 +1,10 @@
 #include "data/TaskCleanStorage.h"
 
-#include "data/Storage.h"
+#include "data/PersistentStorage.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/utility.h"
 
-TaskCleanStorage::TaskCleanStorage(Storage* storage, const std::vector<FilePath>& filePaths)
+TaskCleanStorage::TaskCleanStorage(PersistentStorage* storage, const std::vector<FilePath>& filePaths)
 	: m_storage(storage)
 	, m_filePaths(filePaths)
 	, m_fileCount(filePaths.size())

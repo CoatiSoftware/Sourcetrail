@@ -7,7 +7,7 @@
 #include "data/graph/token_component/TokenComponentStatic.h"
 #include "data/location/TokenLocation.h"
 #include "data/parser/ParseLocation.h"
-#include "data/Storage.h"
+#include "data/PersistentStorage.h"
 #include "data/type/DataType.h"
 #include "data/type/NamedDataType.h"
 
@@ -26,7 +26,7 @@ public:
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
 		Id id = intermetiateStorage->addFile("test.h", "path/to/test.h", "someTime");
 
-		storage.injectData(intermetiateStorage);
+		storage.inject(intermetiateStorage.get());
 
 		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getQualifiedNameWithSignature(), "test.h");
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_FILE);
@@ -39,9 +39,9 @@ public:
 		TestStorage storage;
 
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
-		Id id = intermetiateStorage->addNode(Node::typeToInt(Node::NODE_TYPEDEF), a, true);
+		Id id = intermetiateStorage->addNode(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(a), true);
 
-		storage.injectData(intermetiateStorage);
+		storage.inject(intermetiateStorage.get());
 
 		Id storedId = storage.getIdForNodeWithNameHierarchy(a);
 
@@ -58,11 +58,11 @@ public:
 		TestStorage storage;
 
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
-		Id aId = intermetiateStorage->addNode(Node::typeToInt(Node::NODE_STRUCT), a, true);
-		Id bId = intermetiateStorage->addNode(Node::typeToInt(Node::NODE_FIELD), b, true);
+		Id aId = intermetiateStorage->addNode(Node::typeToInt(Node::NODE_STRUCT), NameHierarchy::serialize(a), true);
+		Id bId = intermetiateStorage->addNode(Node::typeToInt(Node::NODE_FIELD), NameHierarchy::serialize(b), true);
 		intermetiateStorage->addEdge(Edge::typeToInt(Edge::EDGE_MEMBER), aId, bId);
 
-		storage.injectData(intermetiateStorage);
+		storage.inject(intermetiateStorage.get());
 
 		TS_ASSERT(storage.getIdForEdge(Edge::EDGE_MEMBER, a, b) != 0);
 	}
@@ -224,11 +224,11 @@ public:
 
 private:
 	class TestStorage
-		: public Storage
+		: public PersistentStorage
 	{
 	public:
 		TestStorage()
-			: Storage("data/test.sqlite")
+			: PersistentStorage("data/test.sqlite")
 		{
 			clear();
 		}

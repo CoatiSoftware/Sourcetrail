@@ -54,16 +54,6 @@ Id StorageAccessProxy::getIdForEdge(
 	return 0;
 }
 
-Id StorageAccessProxy::getIdForFirstNode() const
-{
-	if (hasSubject())
-	{
-		return m_subject->getIdForFirstNode();
-	}
-
-	return 0;
-}
-
 Node::NodeType StorageAccessProxy::getNodeTypeForNodeWithId(Id id) const
 {
 	if (hasSubject())

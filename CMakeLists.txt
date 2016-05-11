@@ -59,6 +59,7 @@ endif ()
 
 # enable fts4 module for sqlite
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_FTS4_PARENTHESIS")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_FTS4_PARENTHESIS")
 
 # Clang ------------------------------------------------------------------------
 

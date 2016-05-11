@@ -5,14 +5,14 @@
 #include "clang/Tooling/JSONCompilationDatabase.h"
 
 #include "data/parser/cxx/CxxParser.h"
-#include "data/Storage.h"
+#include "data/PersistentStorage.h"
 #include "utility/file/FileRegister.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/utility.h"
 
 TaskParseCxx::TaskParseCxx(
-	Storage* storage,
+	PersistentStorage* storage,
 	const FileManager* fileManager,
 	const Parser::Arguments& arguments,
 	const std::vector<FilePath>& files
@@ -126,7 +126,7 @@ Task::TaskState TaskParseCxx::update()
 	m_parserClient->finishParsingFile(sourcePath);
 	m_parserClient->resetStorage();
 
-	m_storage->injectData(intermediateStorage);
+	m_storage->inject(intermediateStorage.get());
 
 	if (isSource)
 	{

@@ -25,16 +25,9 @@ void ParserClientImpl::resetStorage()
 	m_storage.reset();
 }
 
-void ParserClientImpl::startParsing()
-{
-}
-
-void ParserClientImpl::finishParsing()
-{
-}
-
 void ParserClientImpl::startParsingFile(const FilePath& filePath)
 {
+	m_nodeIdsToMemberEdgeIds.clear();
 }
 
 void ParserClientImpl::finishParsingFile(const FilePath& filePath)
@@ -473,7 +466,7 @@ Id ParserClientImpl::addFile(const std::string& filePath)
 		return 0;
 	}
 
-	return m_storage->addFile(filePath);
+	return m_storage->addFile("", filePath, "");
 }
 
 Id ParserClientImpl::addNode(Node::NodeType nodeType, NameHierarchy nameHierarchy, DefinitionType definitionType)
@@ -483,7 +476,7 @@ Id ParserClientImpl::addNode(Node::NodeType nodeType, NameHierarchy nameHierarch
 		return 0;
 	}
 
-	return m_storage->addNode(Node::typeToInt(nodeType), nameHierarchy, definitionTypeToInt(definitionType));
+	return m_storage->addNode(Node::typeToInt(nodeType), NameHierarchy::serialize(nameHierarchy), definitionTypeToInt(definitionType));
 }
 
 Id ParserClientImpl::addEdge(int type, Id sourceId, Id targetId)
@@ -498,7 +491,14 @@ Id ParserClientImpl::addEdge(int type, Id sourceId, Id targetId)
 		return 0;
 	}
 
-	return m_storage->addEdge(type, sourceId, targetId);
+	Id edgeId = m_storage->addEdge(type, sourceId, targetId);
+
+	if (type == Edge::EDGE_MEMBER)
+	{
+		m_nodeIdsToMemberEdgeIds[targetId] = edgeId;
+	}
+
+	return edgeId;
 }
 
 Id ParserClientImpl::addLocalSymbol(const std::string& name)
@@ -529,7 +529,15 @@ void ParserClientImpl::addSourceLocation(Id elementId, const ParseLocation& loca
 		return;
 	}
 
-	m_storage->addSourceLocation(elementId, location, type);
+	m_storage->addSourceLocation(
+		elementId,
+		addFile(location.filePath.str()),
+		location.startLineNumber,
+		location.startColumnNumber,
+		location.endLineNumber,
+		location.endColumnNumber,
+		type
+	);
 }
 
 void ParserClientImpl::addComponentAccess(Id nodeId , int type)
@@ -539,7 +547,15 @@ void ParserClientImpl::addComponentAccess(Id nodeId , int type)
 		return;
 	}
 
-	m_storage->addComponentAccess(nodeId, type);
+	std::unordered_map<Id, Id>::const_iterator it = m_nodeIdsToMemberEdgeIds.find(nodeId);
+	if (it != m_nodeIdsToMemberEdgeIds.end())
+	{
+		m_storage->addComponentAccess(it->second, type);
+	}
+	else
+	{
+		LOG_ERROR_STREAM(<< "Cannot assign access" << type << " to node id " << nodeId << " because it's not a child node.");
+	}
 }
 
 void ParserClientImpl::addCommentLocation(const ParseLocation& location)
@@ -549,7 +565,13 @@ void ParserClientImpl::addCommentLocation(const ParseLocation& location)
 		return;
 	}
 
-	m_storage->addCommentLocation(location);
+	m_storage->addCommentLocation(
+		addFile(location.filePath.str()),
+		location.startLineNumber,
+		location.startColumnNumber,
+		location.endLineNumber,
+		location.endColumnNumber
+	);
 }
 
 void ParserClientImpl::addError(const std::string& message, bool fatal, const ParseLocation& location)
@@ -559,7 +581,7 @@ void ParserClientImpl::addError(const std::string& message, bool fatal, const Pa
 		return;
 	}
 
-	m_storage->addError(message, fatal, location);
+	m_storage->addError(message, fatal, location.filePath.str(), location.startLineNumber, location.startColumnNumber);
 }
 
 void ParserClientImpl::log(std::string type, std::string str, const ParseLocation& location) const

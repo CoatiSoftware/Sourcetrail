@@ -217,9 +217,9 @@ Id SqliteStorage::addError(const std::string& message, bool fatal, const std::st
 
 void SqliteStorage::removeElement(Id id)
 {
-	m_database.execDML((
-		"DELETE FROM element WHERE id == " + std::to_string(id) + ";"
-	).c_str());
+	std::vector<Id> ids;
+	ids.push_back(id);
+	removeElements(ids);
 }
 
 void SqliteStorage::removeElements(const std::vector<Id>& ids)
@@ -264,22 +264,6 @@ void SqliteStorage::removeErrorsInFiles(const std::vector<FilePath>& filePaths)
 	).c_str());
 }
 
-StorageNode SqliteStorage::getFirstNode() const
-{
-	std::vector<StorageNode> nodes = getAllNodes("LIMIT 1");
-	if (nodes.size())
-	{
-		return nodes[0];
-	}
-
-	return StorageNode();
-}
-
-std::vector<StorageNode> SqliteStorage::getAllNodes() const
-{
-	return getAllNodes("");
-}
-
 bool SqliteStorage::isEdge(Id elementId) const
 {
 	int count = m_database.execScalar(("SELECT count(*) FROM edge WHERE id = " + std::to_string(elementId) + ";").c_str());
@@ -321,101 +305,56 @@ StorageEdge SqliteStorage::getEdgeById(Id edgeId) const
 
 StorageEdge SqliteStorage::getEdgeBySourceTargetType(Id sourceId, Id targetId, int type) const
 {
-	StorageEdge edge(
-		getFirstResult<Id>(
-			"SELECT id FROM edge WHERE "
-				"source_node_id == " + std::to_string(sourceId) + " AND "
-				"target_node_id == " + std::to_string(targetId) + " AND "
-				"type == " + std::to_string(type) + ";"
-		),
-		type, sourceId, targetId
+	return getFirst<StorageEdge>("WHERE "
+		"source_node_id == " + std::to_string(sourceId) + " AND "
+		"target_node_id == " + std::to_string(targetId) + " AND "
+		"type == " + std::to_string(type)
 	);
-	return edge;
 }
 
 std::vector<StorageEdge> SqliteStorage::getEdgesByIds(const std::vector<Id>& edgeIds) const
 {
-	return getAllEdges("WHERE id IN (" + utility::join(utility::toStrings(edgeIds), ',') + ")");
+	return getAll<StorageEdge>("WHERE id IN (" + utility::join(utility::toStrings(edgeIds), ',') + ")");
 }
 
 std::vector<StorageEdge> SqliteStorage::getEdgesBySourceId(Id sourceId) const
 {
-	return getAllEdges("WHERE source_node_id == " + std::to_string(sourceId));
+	return getAll<StorageEdge>("WHERE source_node_id == " + std::to_string(sourceId));
 }
 
 std::vector<StorageEdge> SqliteStorage::getEdgesBySourceIds(const std::vector<Id>& sourceIds) const
 {
-	return getAllEdges("WHERE source_node_id IN (" + utility::join(utility::toStrings(sourceIds), ',') + ")");
+	return getAll<StorageEdge>("WHERE source_node_id IN (" + utility::join(utility::toStrings(sourceIds), ',') + ")");
 }
 
 std::vector<StorageEdge> SqliteStorage::getEdgesByTargetId(Id targetId) const
 {
-	return getAllEdges("WHERE target_node_id == " + std::to_string(targetId));
+	return getAll<StorageEdge>("WHERE target_node_id == " + std::to_string(targetId));
 }
 
 std::vector<StorageEdge> SqliteStorage::getEdgesByTargetIds(const std::vector<Id>& targetIds) const
 {
-	return getAllEdges("WHERE target_node_id IN (" + utility::join(utility::toStrings(targetIds), ',') + ")");
+	return getAll<StorageEdge>("WHERE target_node_id IN (" + utility::join(utility::toStrings(targetIds), ',') + ")");
 }
 
 std::vector<StorageEdge> SqliteStorage::getEdgesBySourceOrTargetId(Id id) const
 {
-	return getAllEdges("WHERE source_node_id == " + std::to_string(id) + " OR target_node_id == " + std::to_string(id));
+	return getAll<StorageEdge>("WHERE source_node_id == " + std::to_string(id) + " OR target_node_id == " + std::to_string(id));
 }
 
 std::vector<StorageEdge> SqliteStorage::getEdgesByType(int type) const
 {
-	return getAllEdges("WHERE type == " + std::to_string(type));
+	return getAll<StorageEdge>("WHERE type == " + std::to_string(type));
 }
 
 std::vector<StorageEdge> SqliteStorage::getEdgesBySourceType(Id sourceId, int type) const
 {
-	std::vector<StorageEdge> edges;
-
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, target_node_id FROM edge WHERE "
-			"source_node_id == " + std::to_string(sourceId) + " AND "
-			"type == " + std::to_string(type) + ";"
-	).c_str());
-
-	while (!q.eof())
-	{
-		const Id id = q.getIntField(0, 0);
-		const Id targetId = q.getIntField(1, 0);
-
-		if (id != 0 && targetId != 0)
-		{
-			edges.push_back(StorageEdge(id, type, sourceId, targetId));
-		}
-
-		q.nextRow();
-	}
-	return edges;
+	return getAll<StorageEdge>("WHERE source_node_id == " + std::to_string(sourceId) + " AND type == " + std::to_string(type));
 }
 
 std::vector<StorageEdge> SqliteStorage::getEdgesByTargetType(Id targetId, int type) const
 {
-	std::vector<StorageEdge> edges;
-
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, source_node_id FROM edge WHERE "
-			"target_node_id == " + std::to_string(targetId) + " AND "
-			"type == " + std::to_string(type) + ";"
-	).c_str());
-
-	while (!q.eof())
-	{
-		const Id id = q.getIntField(0, 0);
-		const Id sourceId = q.getIntField(1, 0);
-
-		if (id != 0 && sourceId != 0)
-		{
-			edges.push_back(StorageEdge(id, type, sourceId, targetId));
-		}
-
-		q.nextRow();
-	}
-	return edges;
+	return getAll<StorageEdge>("WHERE target_node_id == " + std::to_string(targetId) + " AND type == " + std::to_string(type));
 }
 
 void SqliteStorage::optimizeFTSTable() const
@@ -508,59 +447,39 @@ StorageNode SqliteStorage::getNodeById(Id id) const
 {
 	if (id != 0)
 	{
-		return getFirstNode("WHERE id == " + std::to_string(id));
+		return getFirst<StorageNode>("WHERE id == " + std::to_string(id));
 	}
 	return StorageNode();
 }
 
 StorageNode SqliteStorage::getNodeBySerializedName(const std::string& serializedName) const
 {
-	return getFirstNode("WHERE serialized_name == '" + serializedName + "'");
+	return getFirst<StorageNode>("WHERE serialized_name == '" + serializedName + "'");
 }
 
 std::vector<StorageNode> SqliteStorage::getNodesByIds(const std::vector<Id>& nodeIds) const
 {
-	return getAllNodes("WHERE id IN (" + utility::join(utility::toStrings(nodeIds), ',') + ")");
+	return getAll<StorageNode>("WHERE id IN (" + utility::join(utility::toStrings(nodeIds), ',') + ")");
 }
 
 StorageLocalSymbol SqliteStorage::getLocalSymbolByName(const std::string& name) const
 {
-	StorageLocalSymbol localSymbol(
-		getFirstResult<Id>(
-			"SELECT id FROM local_symbol WHERE "
-			"name == '" + name + "';"
-		),
-		name
-	);
-	return localSymbol;
+	return getFirst<StorageLocalSymbol>("WHERE name == '" + name + "'");
 }
 
 StorageFile SqliteStorage::getFileById(const Id id) const
 {
-	return getFirstFile(
-		"SELECT node.id, node.serialized_name, file.path, file.modification_time FROM node INNER JOIN file ON node.id = file.id "
-		"WHERE node.id == " + std::to_string(id) + ";"
-	);
+	return getFirst<StorageFile>("WHERE node.id == " + std::to_string(id));
 }
 
 StorageFile SqliteStorage::getFileByPath(const FilePath& filePath) const
 {
-	StorageFile storageFile = getFirstFile(
-		"SELECT node.id, node.serialized_name, file.path, file.modification_time FROM node INNER JOIN file ON node.id = file.id "
-		"WHERE file.path == '" + filePath.str() + "';"
-	);
-
-	return storageFile;
+	return getFirst<StorageFile>("WHERE file.path == '" + filePath.str() + "'");
 }
 
 std::vector<StorageFile> SqliteStorage::getFilesByPaths(const std::vector<FilePath>& filePaths) const
 {
-	return getAllFiles("WHERE file.path IN ('" + utility::join(utility::toStrings(filePaths), "', '") + "')");
-}
-
-std::vector<StorageFile> SqliteStorage::getAllFiles() const
-{
-	return getAllFiles("");
+	return getAll<StorageFile>("WHERE file.path IN ('" + utility::join(utility::toStrings(filePaths), "', '") + "')");
 }
 
 std::vector<Id> SqliteStorage::getAllFileIds() const
@@ -610,8 +529,8 @@ void SqliteStorage::setNodeDefinitionType(int definitionType, Id nodeId)
 
 StorageSourceLocation SqliteStorage::getSourceLocationById(const Id id) const
 {
-	return getFirstSourceLocation(
-		"SELECT id, element_id, file_node_id, start_line, start_column, end_line, end_column, type FROM source_location WHERE id == " + std::to_string(id) + ";"
+	return getFirst<StorageSourceLocation>(
+		"WHERE id == " + std::to_string(id) + ";"
 	);
 }
 
@@ -689,9 +608,14 @@ std::vector<StorageSourceLocation> SqliteStorage::getTokenLocationsForElementIds
 
 Id SqliteStorage::getElementIdByLocationId(Id locationId) const
 {
-	return getFirstResult<Id>(
-		"SELECT element_id FROM source_location WHERE id == " + std::to_string(locationId) + ";"
-	);
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT element_id FROM source_location WHERE id == " + std::to_string(locationId) + " LIMIT 1;"
+	).c_str());
+	if (!q.eof())
+	{
+		return q.getIntField(0, 0);
+	}
+	return 0;
 }
 
 StorageComponentAccess SqliteStorage::getComponentAccessByMemberEdgeId(Id memberEdgeId) const
@@ -733,77 +657,52 @@ std::vector<StorageComponentAccess> SqliteStorage::getComponentAccessByMemberEdg
 std::vector<StorageCommentLocation> SqliteStorage::getCommentLocationsInFile(const FilePath& filePath) const
 {
 	Id fileNodeId = getFileByPath(filePath.str()).id;
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, file_node_id, start_line, start_column, end_line, end_column FROM comment_location "
-		"WHERE file_node_id == " + std::to_string(fileNodeId) + ";"
-	).c_str());
-
-	std::vector<StorageCommentLocation> commentLocations;
-	while (!q.eof())
-	{
-		const Id id = q.getIntField(0, 0);
-		const Id fileNodeId = q.getIntField(1, 0);
-		const int startLineNumber = q.getIntField(2, -1);
-		const int startColNumber = q.getIntField(3, -1);
-		const int endLineNumber = q.getIntField(4, -1);
-		const int endColNumber = q.getIntField(5, -1);
-
-		if (id != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1)
-		{
-			commentLocations.push_back(StorageCommentLocation(
-				id, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber
-			));
-		}
-		q.nextRow();
-	}
-
-	return commentLocations;
-}
-
-std::vector<StorageError> SqliteStorage::getAllErrors() const
-{
-	CppSQLite3Query q = m_database.execQuery(
-		"SELECT message, fatal, file_path, line_number, column_number FROM error;"
-	);
-
-	std::vector<StorageError> errors;
-	while (!q.eof())
-	{
-		const std::string message = q.getStringField(0, "");
-		const bool fatal = q.getIntField(1, 0);
-		const std::string filePath = q.getStringField(2, "");
-		const uint lineNumber = q.getIntField(3, 0);
-		const uint columnNumber = q.getIntField(4, 0);
-
-		errors.push_back(StorageError(message, fatal, filePath, lineNumber, columnNumber));
-
-		q.nextRow();
-	}
-
-	return errors;
+	return getAll<StorageCommentLocation>("WHERE file_node_id == " + std::to_string(fileNodeId));
 }
 
 std::vector<StorageError> SqliteStorage::getFatalErrors() const
 {
-	CppSQLite3Query q = m_database.execQuery(
-		"SELECT message, fatal, file_path, line_number, column_number FROM error WHERE fatal == 1;"
-	);
+	return getAll<StorageError>("WHERE fatal == 1");
+}
 
-	std::vector<StorageError> errors;
-	while (!q.eof())
-	{
-		const std::string message = q.getStringField(0, "");
-		const bool fatal = q.getIntField(1, 0);
-		const std::string filePath = q.getStringField(2, "");
-		const uint lineNumber = q.getIntField(3, 0);
-		const uint columnNumber = q.getIntField(4, 0);
+std::vector<StorageFile> SqliteStorage::getAllFiles() const
+{
+	return getAll<StorageFile>("");
+}
 
-		errors.push_back(StorageError(message, fatal, filePath, lineNumber, columnNumber));
+std::vector<StorageNode> SqliteStorage::getAllNodes() const
+{
+	return getAll<StorageNode>("");
+}
 
-		q.nextRow();
-	}
+std::vector<StorageEdge> SqliteStorage::getAllEdges() const
+{
+	return getAll<StorageEdge>("");
+}
 
-	return errors;
+std::vector<StorageLocalSymbol> SqliteStorage::getAllLocalSymbols() const
+{
+	return getAll<StorageLocalSymbol>("");
+}
+
+std::vector<StorageSourceLocation> SqliteStorage::getAllSourceLocations() const
+{
+	return getAll<StorageSourceLocation>("");
+}
+
+std::vector<StorageComponentAccess> SqliteStorage::getAllComponentAccesses() const
+{
+	return getAll<StorageComponentAccess>("");
+}
+
+std::vector<StorageCommentLocation> SqliteStorage::getAllCommentLocations() const
+{
+	return getAll<StorageCommentLocation>("");
+}
+
+std::vector<StorageError> SqliteStorage::getAllErrors() const
+{
+	return getAll<StorageError>("");
 }
 
 int SqliteStorage::getNodeCount() const
@@ -895,7 +794,6 @@ void SqliteStorage::setupTables()
 	{
 		m_database.execDML(
 			"CREATE VIRTUAL TABLE IF NOT EXISTS file USING fts4("
-			//"CREATE TABLE IF NOT EXISTS file ("
 				"id INTEGER NOT NULL, "
 				"path TEXT, "
 				"modification_time TEXT, "
@@ -907,7 +805,7 @@ void SqliteStorage::setupTables()
 	}
 	catch (CppSQLite3Exception& e)
 	{
-		std::cerr << e.errorCode() << ":" << e.errorMessage() << std::endl;
+		LOG_ERROR(std::to_string(e.errorCode()) + ": " + e.errorMessage());
 	}
 
 	m_database.execDML(
@@ -1010,26 +908,15 @@ void SqliteStorage::insertOrUpdateMetaValue(const std::string& key, const std::s
 	).c_str());
 }
 
-StorageFile SqliteStorage::getFirstFile(const std::string& query) const
-{
-	CppSQLite3Query q = m_database.execQuery(query.c_str());
 
-	if (!q.eof())
-	{
-		const Id id							= q.getIntField(0, 0);
-		const std::string serializedName	= q.getStringField(1, "");
-		const std::string filePath			= q.getStringField(2, "");
-		const std::string modificationTime	= q.getStringField(3, "");
 
-		if (id != 0)
-		{
-			return StorageFile(id, serializedName, filePath, modificationTime);
-		}
-	}
-	return StorageFile(0, "", "", "");
-}
 
-std::vector<StorageFile> SqliteStorage::getAllFiles(const std::string& query) const
+
+
+
+
+template <>
+std::vector<StorageFile> SqliteStorage::getAll<StorageFile>(const std::string& query) const
 {
 	CppSQLite3Query q = m_database.execQuery((
 		"SELECT file.id, node.serialized_name, file.path, file.modification_time FROM file "
@@ -1054,33 +941,8 @@ std::vector<StorageFile> SqliteStorage::getAllFiles(const std::string& query) co
 	return files;
 }
 
-StorageSourceLocation SqliteStorage::getFirstSourceLocation(const std::string& query) const
-{
-	CppSQLite3Query q = m_database.execQuery(query.c_str());
-
-	if (!q.eof())
-	{
-		const Id id					= q.getIntField(0, 0);
-		const Id elementId			= q.getIntField(1, 0);
-		const Id fileNodeId			= q.getIntField(2, 0);
-		const int startLineNumber	= q.getIntField(3, -1);
-		const int startColNumber	= q.getIntField(4, -1);
-		const int endLineNumber		= q.getIntField(5, -1);
-		const int endColNumber		= q.getIntField(6, -1);
-		const int type				= q.getIntField(7, -1);
-
-		if (id != 0 && elementId != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1 && type != -1)
-		{
-			return StorageSourceLocation(
-				id, elementId, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber, type
-			);
-		}
-	}
-
-	return StorageSourceLocation(0, 0, 0, -1, -1, -1, -1, -1);
-}
-
-std::vector<StorageEdge> SqliteStorage::getAllEdges(const std::string& query) const
+template <>
+std::vector<StorageEdge> SqliteStorage::getAll<StorageEdge>(const std::string& query) const
 {
 	CppSQLite3Query q = m_database.execQuery((
 		"SELECT id, type, source_node_id, target_node_id FROM edge " + query + ";"
@@ -1104,7 +966,8 @@ std::vector<StorageEdge> SqliteStorage::getAllEdges(const std::string& query) co
 	return edges;
 }
 
-std::vector<StorageNode> SqliteStorage::getAllNodes(const std::string& query) const
+template <>
+std::vector<StorageNode> SqliteStorage::getAll<StorageNode>(const std::string& query) const
 {
 	CppSQLite3Query q = m_database.execQuery((
 		"SELECT id, type, serialized_name, definition_type FROM node " + query + ";"
@@ -1128,12 +991,138 @@ std::vector<StorageNode> SqliteStorage::getAllNodes(const std::string& query) co
 	return nodes;
 }
 
-StorageNode SqliteStorage::getFirstNode(const std::string& query) const
+template <>
+std::vector<StorageLocalSymbol> SqliteStorage::getAll<StorageLocalSymbol>(const std::string& query) const
 {
-	std::vector<StorageNode> nodes = getAllNodes(query + " LIMIT 1");
-	if (nodes.size() > 0)
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT id, name FROM local_symbol " + query + ";"
+	).c_str());
+
+	std::vector<StorageLocalSymbol> localSymbols;
+
+	while (!q.eof())
 	{
-		return nodes[0];
+		const Id id = q.getIntField(0, 0);
+		const std::string name = q.getStringField(1, "");
+
+		if (id != 0)
+		{
+			localSymbols.push_back(StorageLocalSymbol(id, name));
+		}
+
+		q.nextRow();
 	}
-	return StorageNode();
+	return localSymbols;
+}
+
+template <>
+std::vector<StorageSourceLocation> SqliteStorage::getAll<StorageSourceLocation>(const std::string& query) const
+{
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT id, element_id, file_node_id, start_line, start_column, end_line, end_column, type FROM source_location " + query + ";"
+	).c_str());
+
+	std::vector<StorageSourceLocation> sourceLocations;
+
+	while (!q.eof())
+	{
+		const Id id					= q.getIntField(0, 0);
+		const Id elementId			= q.getIntField(1, 0);
+		const Id fileNodeId			= q.getIntField(2, 0);
+		const int startLineNumber	= q.getIntField(3, -1);
+		const int startColNumber	= q.getIntField(4, -1);
+		const int endLineNumber		= q.getIntField(5, -1);
+		const int endColNumber		= q.getIntField(6, -1);
+		const int type				= q.getIntField(7, -1);
+
+		if (id != 0 && elementId != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1 && type != -1)
+		{
+			sourceLocations.push_back(StorageSourceLocation(id, elementId, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber, type));
+		}
+
+		q.nextRow();
+	}
+	return sourceLocations;
+}
+
+template <>
+std::vector<StorageComponentAccess> SqliteStorage::getAll<StorageComponentAccess>(const std::string& query) const
+{
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT id, edge_id, type FROM component_access " + query + ";"
+	).c_str());
+
+	std::vector<StorageComponentAccess> componentAccesses;
+
+	while (!q.eof())
+	{
+		const Id id		= q.getIntField(0, 0);
+		const Id edgeId	= q.getIntField(1, 0);
+		const int type	= q.getIntField(2, -1);
+
+		if (id != 0 && edgeId != 0 && type != -1)
+		{
+			componentAccesses.push_back(StorageComponentAccess(edgeId, type));
+		}
+
+		q.nextRow();
+	}
+	return componentAccesses;
+}
+
+template <>
+std::vector<StorageCommentLocation> SqliteStorage::getAll<StorageCommentLocation>(const std::string& query) const
+{
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT id, file_node_id, start_line, start_column, end_line, end_column FROM comment_location " + query + ";"
+	).c_str());
+
+	std::vector<StorageCommentLocation> commentLocations;
+
+	while (!q.eof())
+	{
+		const Id id = q.getIntField(0, 0);
+		const Id fileNodeId = q.getIntField(1, 0);
+		const int startLineNumber = q.getIntField(2, -1);
+		const int startColNumber = q.getIntField(3, -1);
+		const int endLineNumber = q.getIntField(4, -1);
+		const int endColNumber = q.getIntField(5, -1);
+
+		if (id != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1)
+		{
+			commentLocations.push_back(StorageCommentLocation(
+				id, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber
+			));
+		}
+
+		q.nextRow();
+	}
+	return commentLocations;
+}
+
+template <>
+std::vector<StorageError> SqliteStorage::getAll<StorageError>(const std::string& query) const
+{
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT message, fatal, file_path, line_number, column_number FROM error " + query + ";"
+	).c_str());
+
+	std::vector<StorageError> errors;
+	while (!q.eof())
+	{
+		const std::string message = q.getStringField(0, "");
+		const bool fatal = q.getIntField(1, 0);
+		const std::string filePath = q.getStringField(2, "");
+		const uint lineNumber = q.getIntField(3, -1);
+		const uint columnNumber = q.getIntField(4, -1);
+
+		if (lineNumber != -1 && columnNumber != -1)
+		{
+			errors.push_back(StorageError(message, fatal, filePath, lineNumber, columnNumber));
+		}
+
+		q.nextRow();
+	}
+
+	return errors;
 }

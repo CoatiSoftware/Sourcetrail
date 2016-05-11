@@ -10,7 +10,7 @@
 #include "data/access/StorageAccessProxy.h"
 #include "data/graph/Token.h"
 #include "data/parser/cxx/TaskParseCxx.h"
-#include "data/Storage.h"
+#include "data/PersistentStorage.h"
 #include "data/TaskCleanStorage.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
@@ -219,7 +219,7 @@ void Project::loadStorage(const FilePath& path)
 	FilePath dbPath = FilePath(path).replaceExtension("coatidb");
 	if (!m_storage || path != m_projectSettingsFilepath || !dbPath.exists())
 	{
-		m_storage = std::make_shared<Storage>(dbPath);
+		m_storage = std::make_shared<PersistentStorage>(dbPath);
 	}
 }
 

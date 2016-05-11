@@ -3,8 +3,6 @@ add_files(
 
 	helper/TestFileManager.cpp
 	helper/TestFileManager.h
-	helper/TestStorage.cpp
-	helper/TestStorage.h
 
 	TestSuiteFixture.cpp
 	TestSuiteFixture.h

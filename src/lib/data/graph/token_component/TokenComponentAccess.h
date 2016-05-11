@@ -9,7 +9,7 @@ class TokenComponentAccess
 	: public TokenComponent
 {
 public:
-	enum AccessType : int
+	enum AccessType : int // todo: use normal numbers here. not 2^x
 	{
 		ACCESS_PUBLIC = 0x1,
 		ACCESS_PROTECTED = 0x2,

@@ -12,32 +12,36 @@ IntermediateStorage::~IntermediateStorage()
 {
 }
 
-Id IntermediateStorage::addEdge(int type, Id sourceId, Id targetId)
+Id IntermediateStorage::addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime)
 {
-	std::shared_ptr<StorageEdge> edge = std::make_shared<StorageEdge>(0, type, sourceId, targetId);
+	std::shared_ptr<StorageFile> file = std::make_shared<StorageFile>(0, name, filePath, modificationTime);
 
-	std::string serialized = serialize(*(edge.get()));
-	std::unordered_map<std::string, Id>::const_iterator it = m_edgeNamesToIds.find(serialized);
-	if (it != m_edgeNamesToIds.end())
+	std::string serialized = serialize(*(file.get()));
+	std::unordered_map<std::string, Id>::const_iterator it = m_fileNamesToIds.find(serialized);
+	if (it != m_fileNamesToIds.end())
 	{
-		return it->second;
+		Id id = it->second;
+		if (m_fileIdsToData[id]->filePath.size() == 0) // stored information is incomplete.
+		{
+			m_fileIdsToData[id]->filePath = filePath; // so we replace it.
+		}
+		if (m_fileIdsToData[id]->modificationTime.size() == 0) // stored information is incomplete.
+		{
+			m_fileIdsToData[id]->modificationTime = modificationTime; // so we replace it.
+		}
+		return id;
 	}
 
 	Id id = m_nextId++;
-	m_edgeNamesToIds[serialized] = id;
-	m_edgeIdsToData[id] = edge;
-
-	if (type == Edge::EDGE_MEMBER)
-	{
-		m_nodeIdsToMemberEdgeIds[targetId] = id;
-	}
+	m_fileNamesToIds[serialized] = id;
+	m_fileIdsToData[id] = file;
 
 	return id;
 }
 
-Id IntermediateStorage::addNode(int type, const NameHierarchy& nameHierarchy, int definitionType)
+Id IntermediateStorage::addNode(int type, const std::string& serializedName, int definitionType)
 {
-	std::shared_ptr<StorageNode> node = std::make_shared<StorageNode>(0, type, NameHierarchy::serialize(nameHierarchy), definitionType);
+	std::shared_ptr<StorageNode> node = std::make_shared<StorageNode>(0, type, serializedName, definitionType);
 
 	std::string serialized = serialize(*(node.get()));
 	std::unordered_map<std::string, Id>::const_iterator it = m_nodeNamesToIds.find(serialized);
@@ -67,43 +71,20 @@ Id IntermediateStorage::addNode(int type, const NameHierarchy& nameHierarchy, in
 	return id;
 }
 
-Id IntermediateStorage::addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime)
+Id IntermediateStorage::addEdge(int type, Id sourceId, Id targetId)
 {
-	std::shared_ptr<StorageFile> file = std::make_shared<StorageFile>(0, name, filePath, modificationTime);
+	std::shared_ptr<StorageEdge> edge = std::make_shared<StorageEdge>(0, type, sourceId, targetId);
 
-	std::string serialized = serialize(*(file.get()));
-	std::unordered_map<std::string, Id>::const_iterator it = m_fileNamesToIds.find(serialized);
-	if (it != m_fileNamesToIds.end())
-	{
-		Id id = it->second;
-		if (m_fileIdsToData[id]->filePath.size() == 0) // stored information is incomplete.
-		{
-			m_fileIdsToData[id] = file; // so we replace it.
-		}
-		return id;
-	}
-
-	Id id = m_nextId++;
-	m_fileNamesToIds[serialized] = id;
-	m_fileIdsToData[id] = file;
-
-	return id;
-}
-
-Id IntermediateStorage::addFile(const std::string& filePath)
-{
-	std::shared_ptr<StorageFile> file = std::make_shared<StorageFile>(0, "", filePath, "");
-
-	std::string serialized = serialize(*(file.get()));
-	std::unordered_map<std::string, Id>::const_iterator it = m_fileNamesToIds.find(serialized);
-	if (it != m_fileNamesToIds.end())
+	std::string serialized = serialize(*(edge.get()));
+	std::unordered_map<std::string, Id>::const_iterator it = m_edgeNamesToIds.find(serialized);
+	if (it != m_edgeNamesToIds.end())
 	{
 		return it->second;
 	}
 
 	Id id = m_nextId++;
-	m_fileNamesToIds[serialized] = id;
-	m_fileIdsToData[id] = file;
+	m_edgeNamesToIds[serialized] = id;
+	m_edgeIdsToData[id] = edge;
 
 	return id;
 }
@@ -126,227 +107,46 @@ Id IntermediateStorage::addLocalSymbol(const std::string& name)
 	return id;
 }
 
-void IntermediateStorage::addSourceLocation(Id elementId, const ParseLocation& location, int type)
+void IntermediateStorage::addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
 {
-	Id fileNodeId = addFile(location.filePath.str());
 	m_sourceLocations.push_back(StorageSourceLocation(
 		0,
 		elementId,
 		fileNodeId,
-		location.startLineNumber,
-		location.startColumnNumber,
-		location.endLineNumber,
-		location.endColumnNumber,
+		startLine,
+		startCol,
+		endLine,
+		endCol,
 		type
 	));
 }
 
-void IntermediateStorage::addComponentAccess(Id nodeId, int type)
+void IntermediateStorage::addComponentAccess(Id edgeId, int type)
 {
-	std::unordered_map<Id, Id>::const_iterator it = m_nodeIdsToMemberEdgeIds.find(nodeId);
-	if (it != m_nodeIdsToMemberEdgeIds.end())
-	{
-		m_componentAccesses.push_back(StorageComponentAccess(it->second, type));
-	}
-	else
-	{
-		LOG_ERROR_STREAM(<< "Cannot assign access" << type << " to node id " << nodeId << " because it's not a child node.");
-	}
+	m_componentAccesses.push_back(StorageComponentAccess(edgeId, type));
 }
 
-void IntermediateStorage::addCommentLocation(const ParseLocation& location)
+void IntermediateStorage::addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol)
 {
-	Id fileNodeId = addFile(location.filePath.str());
 	m_commentLocations.push_back(StorageCommentLocation(
 		0,
 		fileNodeId,
-		location.startLineNumber,
-		location.startColumnNumber,
-		location.endLineNumber,
-		location.endColumnNumber
+		startLine,
+		startCol,
+		endLine,
+		endCol
 	));
 }
 
-void IntermediateStorage::addError(const std::string& message, bool fatal, const ParseLocation& location)
+void IntermediateStorage::addError(const std::string& message, bool fatal, const std::string& filePath, uint startLine, uint startCol)
 {
 	m_errors.push_back(StorageError(
 		message,
 		fatal,
-		location.filePath.str(),
-		location.startLineNumber,
-		location.startColumnNumber
+		filePath,
+		startLine,
+		startCol
 	));
-}
-
-void IntermediateStorage::transferToStorage(SqliteStorage& storage)
-{
-	storage.beginTransaction();
-
-	std::unordered_map<Id, Id> clientIdToStorageId;
-
-	for (std::unordered_map<Id, std::shared_ptr<StorageFile>>::const_iterator it = m_fileIdsToData.begin(); it != m_fileIdsToData.end(); it++)
-	{
-		if (it->second->name.size() > 0)
-		{
-			Id fileNodeId = storage.getFileByPath(it->second->filePath).id;
-			if (fileNodeId == 0)
-			{
-				NameHierarchy nameHierarchy;
-				nameHierarchy.push(std::make_shared<NameElement>(it->second->name));
-
-				fileNodeId = storage.addFile(
-					NameHierarchy::serialize(nameHierarchy),
-					it->second->filePath,
-					it->second->modificationTime
-				);
-			}
-			clientIdToStorageId[it->first] = fileNodeId;
-		}
-	}
-
-	for (std::map<Id, std::shared_ptr<StorageNode>>::const_iterator it = m_nodeIdsToData.begin(); it != m_nodeIdsToData.end(); it++)
-	{
-		StorageNode clientNode = *(it->second.get());
-		StorageNode storageNode = storage.getNodeBySerializedName(clientNode.serializedName);
-		Id storageNodeId = storageNode.id;
-		if (storageNodeId)
-		{
-			if (clientNode.definitionType > 0)
-			{
-				if (storageNode.definitionType == 0)
-				{
-					storage.setNodeDefinitionType(clientNode.definitionType, storageNode.id);
-					if(storageNode.type < clientNode.type)
-					{
-						storage.setNodeType(clientNode.type, storageNode.id);
-					}
-				}
-			}
-		}
-		else
-		{
-			storageNodeId = storage.addNode(clientNode.type, clientNode.serializedName, clientNode.definitionType);
-		}
-		clientIdToStorageId[it->first] = storageNodeId;
-	}
-
-	for (std::map<Id, std::shared_ptr<StorageEdge>>::const_iterator it = m_edgeIdsToData.begin(); it != m_edgeIdsToData.end(); it++)
-	{
-		std::unordered_map<Id, Id>::const_iterator it2;
-		it2 = clientIdToStorageId.find(it->second->sourceNodeId);
-		if (it2 == clientIdToStorageId.end())
-		{
-			continue;
-		}
-		Id storageSourceId = it2->second;
-
-		it2 = clientIdToStorageId.find(it->second->targetNodeId);
-		if (it2 == clientIdToStorageId.end())
-		{
-			continue;
-		}
-		Id storageTargetId = it2->second;
-
-		Id edgeId = storage.getEdgeBySourceTargetType(storageSourceId, storageTargetId, it->second->type).id;
-
-		if (!edgeId)
-		{
-			edgeId = storage.addEdge(it->second->type, storageSourceId, storageTargetId);
-		}
-		clientIdToStorageId[it->first] = edgeId;
-	}
-
-	for (std::map<Id, std::shared_ptr<StorageLocalSymbol>>::const_iterator it = m_localSymbolIdsToData.begin(); it != m_localSymbolIdsToData.end(); it++)
-	{
-		StorageLocalSymbol clientLocalSymbol = *(it->second.get());
-		StorageLocalSymbol storageLocalSymbol = storage.getLocalSymbolByName(clientLocalSymbol.name);
-		Id storageLocalSymbolId = storageLocalSymbol.id;
-		if (storageLocalSymbolId == 0)
-		{
-			storageLocalSymbolId = storage.addLocalSymbol(clientLocalSymbol.name);
-		}
-		clientIdToStorageId[it->first] = storageLocalSymbolId;
-	}
-
-	for (size_t i = 0; i < m_sourceLocations.size(); i++)
-	{
-		StorageSourceLocation sourceLocation = m_sourceLocations[i];
-		std::unordered_map<Id, Id>::const_iterator it;
-		it = clientIdToStorageId.find(sourceLocation.elementId);
-		if (it == clientIdToStorageId.end())
-		{
-			continue;
-		}
-		Id storageElementId = it->second;
-
-		it = clientIdToStorageId.find(sourceLocation.fileNodeId);
-		if (it == clientIdToStorageId.end())
-		{
-			continue;
-		}
-		Id storageFileNodeId = it->second;
-
-		storage.addSourceLocation(
-			storageElementId,
-			storageFileNodeId,
-			sourceLocation.startLine,
-			sourceLocation.startCol,
-			sourceLocation.endLine,
-			sourceLocation.endCol,
-			sourceLocation.type
-		);
-	}
-
-	for (size_t i = 0; i < m_componentAccesses.size(); i++)
-	{
-		StorageComponentAccess componentAccess = m_componentAccesses[i];
-
-		std::unordered_map<Id, Id>::const_iterator it;
-		it = clientIdToStorageId.find(componentAccess.memberEdgeId);
-		if (it == clientIdToStorageId.end())
-		{
-			continue;
-		}
-		Id storageMemberEdgeId = it->second;
-
-		storage.addComponentAccess(storageMemberEdgeId, componentAccess.type);
-	}
-
-	for (size_t i = 0; i < m_commentLocations.size(); i++)
-	{
-		StorageCommentLocation commentLocation = m_commentLocations[i];
-
-		std::unordered_map<Id, Id>::const_iterator it;
-		it = clientIdToStorageId.find(commentLocation.fileNodeId);
-		if (it == clientIdToStorageId.end())
-		{
-			continue;
-		}
-		Id storageFileNodeId = it->second;
-
-		storage.addCommentLocation(
-			storageFileNodeId,
-			commentLocation.startLine,
-			commentLocation.startCol,
-			commentLocation.endLine,
-			commentLocation.endCol
-		);
-	}
-
-	for (size_t i = 0; i < m_errors.size(); i++)
-	{
-		StorageError error = m_errors[i];
-
-		storage.addError(
-			error.message,
-			error.fatal,
-			error.filePath,
-			error.lineNumber,
-			error.columnNumber
-		);
-	}
-
-	storage.commitTransaction();
 }
 
 void IntermediateStorage::forEachFile(std::function<void(const Id /*id*/, const StorageFile& /*data*/)> callback) const
@@ -368,6 +168,14 @@ void IntermediateStorage::forEachNode(std::function<void(const Id /*id*/, const 
 void IntermediateStorage::forEachEdge(std::function<void(const Id /*id*/, const StorageEdge& /*data*/)> callback) const
 {
 	for (std::map<Id, std::shared_ptr<StorageEdge>>::const_iterator it = m_edgeIdsToData.begin(); it != m_edgeIdsToData.end(); it++)
+	{
+		callback(it->first, *(it->second.get()));
+	}
+}
+
+void IntermediateStorage::forEachLocalSymbol(std::function<void(const Id /*id*/, const StorageLocalSymbol& /*data*/)> callback) const
+{
+	for (std::map<Id, std::shared_ptr<StorageLocalSymbol>>::const_iterator it = m_localSymbolIdsToData.begin(); it != m_localSymbolIdsToData.end(); it++)
 	{
 		callback(it->first, *(it->second.get()));
 	}

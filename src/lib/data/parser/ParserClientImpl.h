@@ -18,9 +18,6 @@ public:
 	void setStorage(std::shared_ptr<IntermediateStorage> storage);
 	void resetStorage();
 
-	virtual void startParsing();
-	virtual void finishParsing();
-
 	virtual void startParsingFile(const FilePath& filePath);
 	virtual void finishParsingFile(const FilePath& filePath);
 
@@ -105,6 +102,7 @@ private:
 	void log(std::string type, std::string str, const ParseLocation& location) const;
 
 	std::shared_ptr<IntermediateStorage> m_storage;
+	std::unordered_map<Id, Id> m_nodeIdsToMemberEdgeIds;
 };
 
 #endif // PARSER_CLIENT_IMPL_H

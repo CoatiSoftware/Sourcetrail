@@ -1,10 +1,10 @@
 #include "data/parser/cxx/TaskParseCxx.h"
 
-#include "data/Storage.h"
+#include "data/PersistentStorage.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 
 TaskParseCxx::TaskParseCxx(
-	Storage* storage,
+	PersistentStorage* storage,
 	const FileManager* fileManager,
 	const Parser::Arguments& arguments,
 	const std::vector<FilePath>& files
