@@ -482,23 +482,6 @@ std::vector<StorageFile> SqliteStorage::getFilesByPaths(const std::vector<FilePa
 	return getAll<StorageFile>("WHERE file.path IN ('" + utility::join(utility::toStrings(filePaths), "', '") + "')");
 }
 
-std::vector<Id> SqliteStorage::getAllFileIds() const
-{
-	std::vector<Id> ids;
-
-	CppSQLite3Query q = m_database.execQuery(
-		"SELECT id FROM file;"
-	);
-
-	while (!q.eof())
-	{
-		ids.push_back(q.getIntField(0,0));
-		q.nextRow();
-	}
-
-	return ids;
-}
-
 std::shared_ptr<TextAccess> SqliteStorage::getFileContentByPath(const std::string& filePath) const
 {
 	CppSQLite3Query q = m_database.execQuery((
@@ -1113,8 +1096,8 @@ std::vector<StorageError> SqliteStorage::getAll<StorageError>(const std::string&
 		const std::string message = q.getStringField(0, "");
 		const bool fatal = q.getIntField(1, 0);
 		const std::string filePath = q.getStringField(2, "");
-		const uint lineNumber = q.getIntField(3, -1);
-		const uint columnNumber = q.getIntField(4, -1);
+		const int lineNumber = q.getIntField(3, -1);
+		const int columnNumber = q.getIntField(4, -1);
 
 		if (lineNumber != -1 && columnNumber != -1)
 		{

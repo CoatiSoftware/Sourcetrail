@@ -79,7 +79,6 @@ public:
 	StorageFile getFileById(const Id id) const;
 	StorageFile getFileByPath(const FilePath& filePath) const;
 
-	std::vector<Id> getAllFileIds() const;
 	std::vector<StorageFile> getFilesByPaths(const std::vector<FilePath>& filePaths) const;
 	std::shared_ptr<TextAccess> getFileContentByPath(const std::string& filePath) const;
 
@@ -129,23 +128,6 @@ private:
 	template <typename ResultType>
 	std::vector<ResultType> getAll(const std::string& query) const;
 
-	template <>
-	std::vector<StorageFile> getAll<StorageFile>(const std::string& query) const;
-	template <>
-	std::vector<StorageEdge> getAll<StorageEdge>(const std::string& query) const;
-	template <>
-	std::vector<StorageNode> getAll<StorageNode>(const std::string& query) const;
-	template <>
-	std::vector<StorageLocalSymbol> getAll<StorageLocalSymbol>(const std::string& query) const;
-	template <>
-	std::vector<StorageSourceLocation> getAll<StorageSourceLocation>(const std::string& query) const;
-	template <>
-	std::vector<StorageComponentAccess> getAll<StorageComponentAccess>(const std::string& query) const;
-	template <>
-	std::vector<StorageCommentLocation> getAll<StorageCommentLocation>(const std::string& query) const;
-	template <>
-	std::vector<StorageError> getAll<StorageError>(const std::string& query) const;
-
 	template <typename ResultType>
 	ResultType getFirst(const std::string& query) const
 	{
@@ -160,6 +142,23 @@ private:
 	mutable CppSQLite3DB m_database;
 	FilePath m_dbFilePath;
 };
+
+template <>
+std::vector<StorageFile> SqliteStorage::getAll<StorageFile>(const std::string& query) const;
+template <>
+std::vector<StorageEdge> SqliteStorage::getAll<StorageEdge>(const std::string& query) const;
+template <>
+std::vector<StorageNode> SqliteStorage::getAll<StorageNode>(const std::string& query) const;
+template <>
+std::vector<StorageLocalSymbol> SqliteStorage::getAll<StorageLocalSymbol>(const std::string& query) const;
+template <>
+std::vector<StorageSourceLocation> SqliteStorage::getAll<StorageSourceLocation>(const std::string& query) const;
+template <>
+std::vector<StorageComponentAccess> SqliteStorage::getAll<StorageComponentAccess>(const std::string& query) const;
+template <>
+std::vector<StorageCommentLocation> SqliteStorage::getAll<StorageCommentLocation>(const std::string& query) const;
+template <>
+std::vector<StorageError> SqliteStorage::getAll<StorageError>(const std::string& query) const;
 
 
 #endif // SQLITE_STORAGE_H

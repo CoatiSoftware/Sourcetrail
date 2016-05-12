@@ -248,6 +248,7 @@ void PersistentStorage::clearCaches()
 {
 	m_elementIndex.clear();
 	m_fileNodeIds.clear();
+	m_fileNodePaths.clear();
 	m_hierarchyCache.clear();
 }
 
@@ -357,6 +358,7 @@ void PersistentStorage::startParsing()
 void PersistentStorage::finishParsing()
 {
 	buildSearchIndex();
+	buildFilePathMaps();
 	buildHierarchyCache();
 	optimizeFTSTable();
 }
@@ -833,16 +835,16 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsFor
 
 	std::vector<Id> fileIds;
 	std::vector<Id> nonFileIds;
-	std::vector<Id> allFileIds = m_sqliteStorage.getAllFileIds();
-	for (size_t i = 0; i < tokenIds.size(); i++)
+
+	for (const Id tokenId : tokenIds)
 	{
-		if (std::find(allFileIds.begin(), allFileIds.end(),tokenIds[i]) != allFileIds.end())
+		if (!getFileNodePath(tokenId).empty())
 		{
-			fileIds.push_back(tokenIds[i]);
+			fileIds.push_back(tokenId);
 		}
 		else
 		{
-			nonFileIds.push_back(tokenIds[i]);
+			nonFileIds.push_back(tokenId);
 		}
 	}
 
@@ -854,23 +856,15 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsFor
 		);
 	}
 
-	Cache<Id, std::string> filePathCache(
-		[this](Id id) -> std::string
-		{
-			return m_sqliteStorage.getFileById(id).filePath;
-		}
-	);
-
 	std::vector<StorageSourceLocation> locations = m_sqliteStorage.getTokenLocationsForElementIds(nonFileIds);
 	for (size_t i = 0; i < locations.size(); i++)
 	{
 		const StorageSourceLocation& location = locations[i];
-		std::string filePath = filePathCache.getValue(location.fileNodeId);
 
 		TokenLocation* loc = collection->addTokenLocation(
 			location.id,
 			location.elementId,
-			filePath,
+			getFileNodePath(location.fileNodeId),
 			location.startLine,
 			location.startCol,
 			location.endLine,
@@ -1004,6 +998,12 @@ StorageStats PersistentStorage::getStorageStats() const
 
 Id PersistentStorage::getFileNodeId(const FilePath& filePath) const
 {
+	if (filePath.empty())
+	{
+		LOG_ERROR("No file path set");
+		return 0;
+	}
+
 	std::map<FilePath, Id>::const_iterator it = m_fileNodeIds.find(filePath);
 
 	if (it != m_fileNodeIds.end())
@@ -1011,35 +1011,25 @@ Id PersistentStorage::getFileNodeId(const FilePath& filePath) const
 		return it->second;
 	}
 
-	if (filePath.empty())
-	{
-		LOG_ERROR("No file path set");
-		return 0;
-	}
-
-	StorageFile storageFile = m_sqliteStorage.getFileByPath(filePath.str());
-
-	if (storageFile.id == 0)
-	{
-		return 0;
-	}
-
-	m_fileNodeIds.emplace(filePath, storageFile.id);
-
-	return storageFile.id;
+	return 0;
 }
 
 FilePath PersistentStorage::getFileNodePath(Id fileId) const
 {
-	for (const std::pair<FilePath, Id>& p : m_fileNodeIds)
+	if (fileId == 0)
 	{
-		if (p.second == fileId)
-		{
-			return p.first;
-		}
+		LOG_ERROR("No file id set");
+		return FilePath();
 	}
 
-	return m_sqliteStorage.getFileById(fileId).filePath;
+	std::map<Id, FilePath>::const_iterator it = m_fileNodePaths.find(fileId);
+
+	if (it != m_fileNodePaths.end())
+	{
+		return it->second;
+	}
+
+	return FilePath();
 }
 
 Id PersistentStorage::getLastVisibleParentNodeId(const Id nodeId) const
@@ -1285,6 +1275,15 @@ void PersistentStorage::buildSearchIndex()
 		m_elementIndex.addNode(node.id, NameHierarchy::deserialize(node.serializedName));
 	}
 	m_elementIndex.finishSetup();
+}
+
+void PersistentStorage::buildFilePathMaps()
+{
+	for (StorageFile file: m_sqliteStorage.getAllFiles())
+	{
+		m_fileNodeIds.emplace(file.filePath, file.id);
+		m_fileNodePaths.emplace(file.id, file.filePath);
+	}
 }
 
 void PersistentStorage::buildHierarchyCache()

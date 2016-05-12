@@ -134,6 +134,7 @@ private:
 	void addComponentAccessToGraph(Graph* graph) const;
 
 	void buildSearchIndex();
+	void buildFilePathMaps();
 	void buildHierarchyCache();
 	void optimizeFTSTable();
 
@@ -147,6 +148,8 @@ private:
 	SqliteStorage m_sqliteStorage;
 
 	mutable std::map <FilePath, Id> m_fileNodeIds;
+	mutable std::map <Id, FilePath> m_fileNodePaths;
+
 	HierarchyCache m_hierarchyCache;
 };
 

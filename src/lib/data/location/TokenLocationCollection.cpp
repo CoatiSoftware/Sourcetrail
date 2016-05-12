@@ -101,14 +101,7 @@ TokenLocation* TokenLocationCollection::findTokenLocationById(Id id) const
 
 TokenLocationFile* TokenLocationCollection::findTokenLocationFileByPath(const FilePath& filePath) const
 {
-	std::map<FilePath, std::shared_ptr<TokenLocationFile>>::const_iterator it =
-		find_if(m_files.begin(), m_files.end(),
-			[&](const std::pair<FilePath, std::shared_ptr<TokenLocationFile>>& p)
-			{
-				return p.first == filePath;
-			}
-		);
-
+	std::map<FilePath, std::shared_ptr<TokenLocationFile>>::const_iterator it = m_files.find(filePath);
 	if (it != m_files.end())
 	{
 		return it->second.get();
