@@ -2,6 +2,7 @@
 #define TASK_PARSE_CXX_H
 
 #include <memory>
+#include <mutex>
 #include <deque>
 
 #include "data/parser/Parser.h"
@@ -10,7 +11,7 @@
 #include "utility/TimePoint.h"
 
 class PersistentStorage;
-class FileManager;
+class FileRegister;
 class CxxParser;
 
 namespace clang
@@ -25,14 +26,14 @@ class TaskParseCxx
 	: public Task
 {
 public:
+	static std::vector<FilePath> getSourceFilesFromCDB(const FilePath& compilationDatabasePath);
+
 	TaskParseCxx(
 		PersistentStorage* storage,
-		const FileManager* fileManager,
-		const Parser::Arguments& arguments,
-		const std::vector<FilePath>& files
+		std::shared_ptr<std::mutex> storageMutex,
+		std::shared_ptr<FileRegister> fileRegister,
+		const Parser::Arguments& arguments
 	);
-
-	static std::vector<FilePath> getSourceFilesFromCDB(const FilePath& compilationDatabasePath);
 
 	virtual void enter();
 	virtual TaskState update();
@@ -43,14 +44,10 @@ public:
 
 private:
 	PersistentStorage* m_storage;
+	std::shared_ptr<std::mutex> m_storageMutex;
 	std::shared_ptr<CxxParser> m_parser;
 	std::shared_ptr<ParserClientImpl> m_parserClient;
 	const Parser::Arguments m_arguments;
-	const std::vector<FilePath> m_files;
-
-	std::deque<FilePath> m_sourcePaths;
-
-	TimePoint m_start;
 
 	bool m_isCDB;
 	std::shared_ptr<clang::tooling::JSONCompilationDatabase> m_cdb;

@@ -3,16 +3,21 @@
 
 #include <functional>
 
-#include "utility/scheduling/SimpleTask.h"
+#include "utility/scheduling/Task.h"
 
 class LambdaTask
-	: public SimpleTask
+	: public Task
 {
 public:
 	LambdaTask(std::function<void()> func);
 	virtual ~LambdaTask();
 
-	virtual void perform();
+	virtual void enter();
+	virtual TaskState update();
+	virtual void exit();
+
+	virtual void interrupt();
+	virtual void revert();
 
 private:
 	std::function<void()> m_func;

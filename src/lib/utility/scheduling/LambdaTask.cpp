@@ -9,7 +9,25 @@ LambdaTask::~LambdaTask()
 {
 }
 
-void LambdaTask::perform()
+void LambdaTask::enter()
+{
+}
+
+Task::TaskState LambdaTask::update()
 {
 	m_func();
+
+	return Task::STATE_FINISHED;
+}
+
+void LambdaTask::exit()
+{
+}
+
+void LambdaTask::interrupt()
+{
+}
+
+void LambdaTask::revert()
+{
 }

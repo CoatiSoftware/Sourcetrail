@@ -39,8 +39,8 @@ public:
 	ParserClient();
 	virtual ~ParserClient();
 
-	virtual void startParsingFile(const FilePath& filePath) = 0;
-	virtual void finishParsingFile(const FilePath& filePath) = 0;
+	virtual void startParsingFile() = 0;
+	virtual void finishParsingFile() = 0;
 
 	virtual void onError(const ParseLocation& location, const std::string& message, bool fatal) = 0;
 

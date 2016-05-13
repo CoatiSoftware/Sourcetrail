@@ -8,13 +8,11 @@ FileRegister::FileRegister(const FileManager* fileManager)
 {
 }
 
-const FileManager* FileRegister::getFileManager() const
-{
-	return m_fileManager;
-}
-
 void FileRegister::setFilePaths(const std::vector<FilePath>& filePaths)
 {
+	std::lock_guard<std::mutex> sourceFileLock(m_sourceFileMutex);
+	std::lock_guard<std::mutex> includeFileLock(m_includeFileMutex);
+
 	m_sourceFilePaths.clear();
 	m_includeFilePaths.clear();
 
@@ -33,96 +31,18 @@ void FileRegister::setFilePaths(const std::vector<FilePath>& filePaths)
 	}
 }
 
+const FileManager* FileRegister::getFileManager() const
+{
+	return m_fileManager;
+}
+
 std::vector<FilePath> FileRegister::getUnparsedSourceFilePaths() const
 {
-	return getUnparsedFilePaths(m_sourceFilePaths);
-}
+	std::lock_guard<std::mutex> lock(m_sourceFileMutex);
 
-std::vector<FilePath> FileRegister::getUnparsedIncludeFilePaths() const
-{
-	return getUnparsedFilePaths(m_includeFilePaths);
-}
-
-bool FileRegister::fileIsParsed(const FilePath& filePath) const
-{
-	std::map<FilePath, ParseState>::const_iterator it = m_includeFilePaths.find(filePath);
-	if (it != m_includeFilePaths.end())
-	{
-		return it->second == STATE_PARSED;
-	}
-
-	it = m_sourceFilePaths.find(filePath);
-	if (it != m_sourceFilePaths.end())
-	{
-		return it->second == STATE_PARSED;
-	}
-
-	return true;
-}
-
-bool FileRegister::includeFileIsParsing(const FilePath& filePath) const
-{
-	std::map<FilePath, ParseState>::const_iterator it = m_includeFilePaths.find(filePath);
-	if (it == m_includeFilePaths.end())
-	{
-		return false;
-	}
-
-	return it->second == STATE_PARSING;
-}
-
-bool FileRegister::includeFileIsParsed(const FilePath& filePath) const
-{
-	std::map<FilePath, ParseState>::const_iterator it = m_includeFilePaths.find(filePath);
-	if (it == m_includeFilePaths.end())
-	{
-		return false;
-	}
-
-	return it->second == STATE_PARSED;
-}
-
-void FileRegister::markSourceFileParsed(const std::string& filePath)
-{
-	std::map<FilePath, ParseState>::iterator it = m_sourceFilePaths.find(FilePath(filePath));
-	if (it == m_sourceFilePaths.end())
-	{
-		return;
-	}
-
-	it->second = STATE_PARSED;
-}
-
-void FileRegister::markIncludeFileParsing(const std::string& filePath)
-{
-	std::map<FilePath, ParseState>::iterator it = m_includeFilePaths.find(FilePath(filePath));
-	if (it == m_includeFilePaths.end())
-	{
-		return;
-	}
-
-	if (it->second != STATE_PARSED)
-	{
-		it->second = STATE_PARSING;
-	}
-}
-
-void FileRegister::markParsingIncludeFilesParsed()
-{
-	for (auto& p : m_includeFilePaths)
-	{
-		if (p.second == STATE_PARSING)
-		{
-			p.second = STATE_PARSED;
-		}
-	}
-}
-
-std::vector<FilePath> FileRegister::getUnparsedFilePaths(const std::map<FilePath, ParseState> filePaths) const
-{
 	std::vector<FilePath> files;
 
-	for (std::pair<FilePath, ParseState>&& p : filePaths)
+	for (std::pair<FilePath, ParseState>&& p : m_sourceFilePaths)
 	{
 		if (p.second == STATE_UNPARSED)
 		{
@@ -133,19 +53,140 @@ std::vector<FilePath> FileRegister::getUnparsedFilePaths(const std::map<FilePath
 	return files;
 }
 
-size_t FileRegister::getFilesCount() const
+bool FileRegister::fileIsParsed(const FilePath& filePath) const
 {
-	return m_sourceFilePaths.size() + m_includeFilePaths.size();
+	return sourceFileIsParsed(filePath) || includeFileIsParsed(filePath);
+}
+
+bool FileRegister::sourceFileIsParsed(const FilePath& filePath) const
+{
+	{
+		std::lock_guard<std::mutex> lock(m_sourceFileMutex);
+
+		std::map<FilePath, ParseState>::const_iterator it = m_sourceFilePaths.find(filePath);
+		if (it == m_sourceFilePaths.end())
+		{
+			return false;
+		}
+
+		if (it->second == STATE_UNPARSED)
+		{
+			return false;
+		}
+		else if (it->second == STATE_PARSED)
+		{
+			return true;
+		}
+	}
+
+	{
+		std::lock_guard<std::mutex> lock(m_threadFileMutex);
+
+		std::map<std::thread::id, std::set<FilePath>>::const_iterator it2 = m_threadParsingFiles.find(std::this_thread::get_id());
+		if (it2 != m_threadParsingFiles.end())
+		{
+			if (it2->second.find(filePath) != it2->second.end())
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+}
+
+bool FileRegister::includeFileIsParsed(const FilePath& filePath) const
+{
+	{
+		std::lock_guard<std::mutex> lock(m_includeFileMutex);
+
+		std::map<FilePath, ParseState>::const_iterator it = m_includeFilePaths.find(filePath);
+		if (it == m_includeFilePaths.end())
+		{
+			return false;
+		}
+
+		if (it->second == STATE_UNPARSED)
+		{
+			return false;
+		}
+		else if (it->second == STATE_PARSED)
+		{
+			return true;
+		}
+	}
+
+	{
+		std::lock_guard<std::mutex> lock(m_threadFileMutex);
+
+		std::map<std::thread::id, std::set<FilePath>>::const_iterator it2 = m_threadParsingFiles.find(std::this_thread::get_id());
+		if (it2 != m_threadParsingFiles.end())
+		{
+			if (it2->second.find(filePath) != it2->second.end())
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+}
+
+FilePath FileRegister::consumeSourceFile()
+{
+	std::lock_guard<std::mutex> lock(m_sourceFileMutex);
+	for (std::map<FilePath, ParseState>::iterator it = m_sourceFilePaths.begin(); it != m_sourceFilePaths.end(); it++)
+	{
+		if (it->second == STATE_UNPARSED)
+		{
+			it->second = STATE_PARSING;
+			m_threadParsingFiles[std::this_thread::get_id()].insert(it->first);
+			return it->first;
+		}
+	}
+	return FilePath();
+}
+
+void FileRegister::markIncludeFileParsing(const FilePath& filePath)
+{
+	std::lock_guard<std::mutex> lock(m_includeFileMutex);
+	std::map<FilePath, ParseState>::iterator it = m_includeFilePaths.find(filePath);
+	if (it != m_includeFilePaths.end())
+	{
+		if (it->second == STATE_UNPARSED)
+		{
+			it->second = STATE_PARSING;
+			m_threadParsingFiles[std::this_thread::get_id()].insert(it->first);
+		}
+	}
+}
+
+void FileRegister::markThreadFilesParsed()
+{
+	std::lock_guard<std::mutex> sourceFileLock(m_sourceFileMutex);
+	std::lock_guard<std::mutex> includeFileLock(m_includeFileMutex);
+	std::lock_guard<std::mutex> threadFileLock(m_threadFileMutex);
+	for (std::set<FilePath>::iterator it = m_threadParsingFiles[std::this_thread::get_id()].begin(); it != m_threadParsingFiles[std::this_thread::get_id()].end(); it++)
+	{
+		std::map<FilePath, ParseState>::iterator it2;
+		it2 = m_sourceFilePaths.find(*it);
+		if (it2 != m_sourceFilePaths.end())
+		{
+			it2->second = STATE_PARSED;
+			continue;
+		}
+
+		it2 = m_includeFilePaths.find(*it);
+		if (it2 != m_includeFilePaths.end())
+		{
+			it2->second = STATE_PARSED;
+		}
+	}
+	m_threadParsingFiles[std::this_thread::get_id()].clear();
 }
 
 size_t FileRegister::getSourceFilesCount() const
 {
+	std::lock_guard<std::mutex> lock(m_sourceFileMutex);
 	return m_sourceFilePaths.size();
-}
-
-size_t FileRegister::getParsedFilesCount() const
-{
-	return getFilesCount() - getUnparsedSourceFilePaths().size() - getUnparsedIncludeFilePaths().size();
 }
 
 size_t FileRegister::getParsedSourceFilesCount() const

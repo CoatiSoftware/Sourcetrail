@@ -2,7 +2,6 @@
 
 #include "clang/Tooling/Tooling.h"
 
-#include "utility/file/FileManager.h"
 #include "utility/file/FileRegister.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
@@ -53,9 +52,9 @@ namespace
 }
 
 
-CxxParser::CxxParser(ParserClient* client, const FileManager* fileManager)
+CxxParser::CxxParser(ParserClient* client, std::shared_ptr<FileRegister> fileRegister)
 	: Parser(client)
-	, m_fileRegister(std::make_shared<FileRegister>(fileManager))
+	, m_fileRegister(fileRegister)
 {
 }
 
@@ -65,29 +64,22 @@ CxxParser::~CxxParser()
 
 void CxxParser::parseFiles(const std::vector<FilePath>& filePaths, const Arguments& arguments)
 {
-	setupParsing(filePaths, arguments);
+	m_fileRegister->setFilePaths(filePaths);
+	setupParsing(arguments);
 
 	std::vector<std::string> sourcePaths;
-	for (const FilePath& path : m_fileRegister->getUnparsedSourceFilePaths())
+	for (const FilePath& path : m_fileRegister->getUnparsedSourceFilePaths()) // filter headers
 	{
 		sourcePaths.push_back(path.absolute().str());
 	}
 
 	runTool(sourcePaths);
-
-	std::vector<FilePath> unparsedHeaders = m_fileRegister->getUnparsedIncludeFilePaths();
-	for (const FilePath& path : unparsedHeaders)
-	{
-		if (!m_fileRegister->includeFileIsParsed(path))
-		{
-			runTool(std::vector<std::string>(1, path.str()));
-		}
-	}
 }
 
 void CxxParser::parseFile(const FilePath& filePath, std::shared_ptr<TextAccess> textAccess, const Arguments& arguments)
 {
-	setupParsing(std::vector<FilePath>(1, filePath), arguments);
+	m_fileRegister->setFilePaths(std::vector<FilePath>(1, filePath));
+	setupParsing(arguments);
 
 	std::vector<std::string> args = getCommandlineArguments(arguments);
 	std::shared_ptr<CxxDiagnosticConsumer> diagnostics = getDiagnostics(arguments);
@@ -190,16 +182,14 @@ std::shared_ptr<CxxDiagnosticConsumer> CxxParser::getDiagnostics(const Arguments
 		llvm::errs(), &*options, m_client, m_fileRegister->getFileManager(), arguments.logErrors);
 }
 
-void CxxParser::setupParsing(const std::vector<FilePath>& filePaths, const Arguments& arguments)
+void CxxParser::setupParsing(const Arguments& arguments)
 {
-	m_fileRegister->setFilePaths(filePaths);
 	m_compilationDatabase = getCompilationDatabase(arguments);
 	m_diagnostics = getDiagnostics(arguments);
 }
 
-void CxxParser::setupParsingCDB(const std::vector<FilePath>& filePaths, const Arguments& arguments)
+void CxxParser::setupParsingCDB(const Arguments& arguments)
 {
-	m_fileRegister->setFilePaths(filePaths);
 	m_diagnostics = getDiagnostics(arguments);
 }
 

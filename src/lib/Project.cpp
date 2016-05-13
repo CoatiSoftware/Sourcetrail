@@ -1,19 +1,22 @@
 #include "Project.h"
 
-#include "utility/file/FileSystem.h"
-#include "utility/logging/logging.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
-#include "utility/scheduling/TaskGroupSequential.h"
-#include "utility/utility.h"
-#include "utility/Version.h"
-
 #include "data/access/StorageAccessProxy.h"
 #include "data/graph/Token.h"
 #include "data/parser/cxx/TaskParseCxx.h"
+#include "data/parser/cxx/TaskParseWrapper.h"
 #include "data/PersistentStorage.h"
 #include "data/TaskCleanStorage.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
+
+#include "utility/file/FileRegister.h"
+#include "utility/file/FileSystem.h"
+#include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/scheduling/TaskGroupSequential.h"
+#include "utility/scheduling/TaskGroupParallel.h"
+#include "utility/utility.h"
+#include "utility/Version.h"
 
 std::shared_ptr<Project> Project::create(StorageAccessProxy* storageAccessProxy)
 {
@@ -149,26 +152,42 @@ void Project::parseCode()
 	utility::append(updatedFilePaths, m_storage->getDependingFilePaths(updatedFilePaths));
 	utility::append(updatedFilePaths, m_storage->getDependingFilePaths(removedFilePaths));
 
-	std::shared_ptr<TaskGroupSequential> taskGroup = std::make_shared<TaskGroupSequential>();
+	std::shared_ptr<TaskGroupSequential> taskSequential = std::make_shared<TaskGroupSequential>();
 
 	std::vector<FilePath> filesToClean;
 	filesToClean.insert(filesToClean.end(), removedFilePaths.begin(), removedFilePaths.end());
 	filesToClean.insert(filesToClean.end(), updatedFilePaths.begin(), updatedFilePaths.end());
 
-	taskGroup->addTask(std::make_shared<TaskCleanStorage>(m_storage.get(), filesToClean));
+	taskSequential->addTask(std::make_shared<TaskCleanStorage>(m_storage.get(), filesToClean));
 
 	std::vector<FilePath> filesToParse;
 	filesToParse.insert(filesToParse.end(), addedFilePaths.begin(), addedFilePaths.end());
 	filesToParse.insert(filesToParse.end(), updatedFilePaths.begin(), updatedFilePaths.end());
 
-	taskGroup->addTask(std::make_shared<TaskParseCxx>(
+	std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(&m_fileManager);
+	fileRegister->setFilePaths(filesToParse);
+
+	std::shared_ptr<TaskGroupParallel> taskParallel = std::make_shared<TaskGroupParallel>();
+
+	taskSequential->addTask(std::make_shared<TaskParseWrapper>(
+		taskParallel,
 		m_storage.get(),
-		&m_fileManager,
-		getParserArguments(),
-		filesToParse
+		fileRegister
 	));
 
-	Task::dispatch(taskGroup);
+	std::shared_ptr<std::mutex> storageMutex = std::make_shared<std::mutex>();
+
+	for (int i = 0; i < 4; i++)
+	{
+		taskParallel->addTask(std::make_shared<TaskParseCxx>(
+			m_storage.get(),
+			storageMutex,
+			fileRegister,
+			getParserArguments()
+		));
+	}
+
+	Task::dispatch(taskSequential);
 
 	m_state = PROJECT_LOADED;
 }

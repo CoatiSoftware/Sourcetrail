@@ -18,8 +18,8 @@ public:
 	void setStorage(std::shared_ptr<IntermediateStorage> storage);
 	void resetStorage();
 
-	virtual void startParsingFile(const FilePath& filePath);
-	virtual void finishParsingFile(const FilePath& filePath);
+	virtual void startParsingFile();
+	virtual void finishParsingFile();
 
 	virtual void onError(const ParseLocation& location, const std::string& message, bool fatal);
 

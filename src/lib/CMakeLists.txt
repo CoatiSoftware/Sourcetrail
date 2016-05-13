@@ -124,6 +124,7 @@ add_files(
 	data/name/NameHierarchy.h
 
 	data/parser/cxx/TaskParseCxx.h
+	data/parser/cxx/TaskParseWrapper.h
 
 	data/parser/ParseLocation.cpp
 	data/parser/ParseLocation.h
@@ -274,12 +275,12 @@ add_files(
 
 	utility/scheduling/LambdaTask.cpp
 	utility/scheduling/LambdaTask.h
-	utility/scheduling/SimpleTask.cpp
-	utility/scheduling/SimpleTask.h
 	utility/scheduling/Task.cpp
 	utility/scheduling/Task.h
 	utility/scheduling/TaskGroup.cpp
 	utility/scheduling/TaskGroup.h
+	utility/scheduling/TaskGroupParallel.cpp
+	utility/scheduling/TaskGroupParallel.h
 	utility/scheduling/TaskGroupSequential.cpp
 	utility/scheduling/TaskGroupSequential.h
 	utility/scheduling/TaskScheduler.cpp

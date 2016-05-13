@@ -18,7 +18,6 @@ protected:
 	virtual std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(clang::CompilerInstance& compiler, llvm::StringRef inFile);
 
 	virtual bool BeginSourceFileAction(clang::CompilerInstance& compiler, llvm::StringRef filePath);
-	virtual void EndSourceFileAction();
 
 private:
 	ParserClient* m_client;

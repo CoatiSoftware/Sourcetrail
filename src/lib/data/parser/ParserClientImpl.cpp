@@ -25,12 +25,12 @@ void ParserClientImpl::resetStorage()
 	m_storage.reset();
 }
 
-void ParserClientImpl::startParsingFile(const FilePath& filePath)
+void ParserClientImpl::startParsingFile()
 {
-	m_nodeIdsToMemberEdgeIds.clear();
+	m_nodeIdsToMemberEdgeIds.clear(); // remove this when one parserclient is created per file
 }
 
-void ParserClientImpl::finishParsingFile(const FilePath& filePath)
+void ParserClientImpl::finishParsingFile()
 {
 }
 

@@ -1,16 +1,11 @@
 #include "data/parser/cxx/TaskParseCxx.h"
 
-#include "data/PersistentStorage.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
-
 TaskParseCxx::TaskParseCxx(
 	PersistentStorage* storage,
-	const FileManager* fileManager,
-	const Parser::Arguments& arguments,
-	const std::vector<FilePath>& files
+	std::shared_ptr<std::mutex> storageMutex,
+	std::shared_ptr<FileRegister> fileRegister,
+	const Parser::Arguments& arguments
 )
-	: m_storage(storage)
-	, m_arguments(arguments)
 {
 }
 
@@ -21,7 +16,6 @@ std::vector<FilePath> TaskParseCxx::getSourceFilesFromCDB(const FilePath& compil
 
 void TaskParseCxx::enter()
 {
-	m_storage->startParsing();
 }
 
 Task::TaskState TaskParseCxx::update()
@@ -31,9 +25,6 @@ Task::TaskState TaskParseCxx::update()
 
 void TaskParseCxx::exit()
 {
-	m_storage->finishParsing();
-
-	MessageFinishedParsing(0, 0, 0).dispatch();
 }
 
 void TaskParseCxx::interrupt()

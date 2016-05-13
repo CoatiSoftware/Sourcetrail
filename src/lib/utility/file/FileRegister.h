@@ -2,7 +2,10 @@
 #define FILE_REGISTER_H
 
 #include <map>
+#include <mutex>
+#include <set>
 #include <string>
+#include <thread>
 #include <vector>
 
 #include "utility/file/FilePath.h"
@@ -14,25 +17,22 @@ class FileRegister
 public:
 	explicit FileRegister(const FileManager* fileManager);
 
-	const FileManager* getFileManager() const;
-
 	void setFilePaths(const std::vector<FilePath>& filePaths);
 
+	const FileManager* getFileManager() const;
+
 	std::vector<FilePath> getUnparsedSourceFilePaths() const;
-	std::vector<FilePath> getUnparsedIncludeFilePaths() const;
 
 	bool fileIsParsed(const FilePath& filePath) const;
-
-	bool includeFileIsParsing(const FilePath& filePath) const;
 	bool includeFileIsParsed(const FilePath& filePath) const;
+	bool sourceFileIsParsed(const FilePath& filePath) const;
 
-	void markSourceFileParsed(const std::string& filePath);
-	void markIncludeFileParsing(const std::string& filePath);
-	void markParsingIncludeFilesParsed();
+	FilePath consumeSourceFile();
 
-	size_t getFilesCount() const;
+	void markIncludeFileParsing(const FilePath& filePath);
+	void markThreadFilesParsed();
+
 	size_t getSourceFilesCount() const;
-	size_t getParsedFilesCount() const;
 	size_t getParsedSourceFilesCount() const;
 
 private:
@@ -43,12 +43,16 @@ private:
 		STATE_PARSED
 	};
 
-	std::vector<FilePath> getUnparsedFilePaths(const std::map<FilePath, ParseState> filePaths) const;
-
 	const FileManager* m_fileManager;
 
 	std::map<FilePath, ParseState> m_sourceFilePaths;
 	std::map<FilePath, ParseState> m_includeFilePaths;
+
+	std::map<std::thread::id, std::set<FilePath>> m_threadParsingFiles;
+
+	mutable std::mutex m_sourceFileMutex;
+	mutable std::mutex m_includeFileMutex;
+	mutable std::mutex m_threadFileMutex;
 };
 
 #endif // FILE_REGISTER_H

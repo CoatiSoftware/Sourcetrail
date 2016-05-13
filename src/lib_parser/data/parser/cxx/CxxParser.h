@@ -5,14 +5,14 @@
 #include "data/parser/Parser.h"
 
 class CxxDiagnosticConsumer;
-class FileManager;
+class FileRegister;
 class FileRegister;
 class TaskParseCxx;
 
 class CxxParser: public Parser
 {
 public:
-	CxxParser(ParserClient* client, const FileManager* fileManager);
+	CxxParser(ParserClient* client, std::shared_ptr<FileRegister> fileRegister);
 	~CxxParser();
 
 	// ParserClient implementation
@@ -27,8 +27,8 @@ private:
 	std::shared_ptr<CxxDiagnosticConsumer> getDiagnostics(const Arguments& arguments) const;
 
 	// Accessed by TaskParseCxx
-	void setupParsing(const std::vector<FilePath>& filePaths, const Arguments& arguments);
-	void setupParsingCDB(const std::vector<FilePath>& filePaths, const Arguments& arguments);
+	void setupParsing(const Arguments& arguments);
+	void setupParsingCDB(const Arguments& arguments);
 
 	void runTool(const std::vector<std::string>& files);
 	void runTool(clang::tooling::CompileCommand command, const Arguments& arguments);

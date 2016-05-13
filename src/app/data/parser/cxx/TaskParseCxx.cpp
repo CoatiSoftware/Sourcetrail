@@ -11,25 +11,6 @@
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/utility.h"
 
-TaskParseCxx::TaskParseCxx(
-	PersistentStorage* storage,
-	const FileManager* fileManager,
-	const Parser::Arguments& arguments,
-	const std::vector<FilePath>& files
-)
-	: m_storage(storage)
-	, m_arguments(arguments)
-	, m_files(files)
-	, m_isCDB(false)
-{
-	if (arguments.compilationDatabasePath.exists())
-	{
-		m_isCDB = true;
-	}
-	m_parserClient = std::make_shared<ParserClientImpl>();
-	m_parser = std::make_shared<CxxParser>(m_parserClient.get(), fileManager);
-}
-
 std::vector<FilePath> TaskParseCxx::getSourceFilesFromCDB(const FilePath& compilationDatabasePath)
 {
 	std::string error;
@@ -45,52 +26,46 @@ std::vector<FilePath> TaskParseCxx::getSourceFilesFromCDB(const FilePath& compil
 	return filePaths;
 }
 
+TaskParseCxx::TaskParseCxx(
+	PersistentStorage* storage,
+	std::shared_ptr<std::mutex> storageMutex,
+	std::shared_ptr<FileRegister> fileRegister,
+	const Parser::Arguments& arguments
+)
+	: m_storage(storage)
+	, m_storageMutex(storageMutex)
+	, m_arguments(arguments)
+	, m_isCDB(false)
+{
+	if (arguments.compilationDatabasePath.exists())
+	{
+		m_isCDB = true;
+	}
+	m_parserClient = std::make_shared<ParserClientImpl>(); // todo: create one parserclient per file
+	m_parser = std::make_shared<CxxParser>(m_parserClient.get(), fileRegister);
+}
+
 void TaskParseCxx::enter()
 {
-	m_start = utility::durationStart();
-
 	if (m_isCDB)
 	{
 		std::string error;
 		m_cdb = std::shared_ptr<clang::tooling::JSONCompilationDatabase>
 			(clang::tooling::JSONCompilationDatabase::loadFromFile(m_arguments.compilationDatabasePath.str(), error));
 
-		m_parser->setupParsingCDB(m_files, m_arguments);
+		m_parser->setupParsingCDB(m_arguments);
 	}
 	else
 	{
-		m_parser->setupParsing(m_files, m_arguments);
+		m_parser->setupParsing(m_arguments);
 	}
-
-	for (const FilePath& path : m_parser->getFileRegister()->getUnparsedSourceFilePaths())
-	{
-		m_sourcePaths.push_back(path.absolute());
-	}
-
-	m_storage->startParsing();
 }
 
 Task::TaskState TaskParseCxx::update()
 {
-	FilePath sourcePath;
-	bool isSource = false;
-
 	FileRegister* fileRegister = m_parser->getFileRegister();
 
-	if (m_sourcePaths.size())
-	{
-		sourcePath = m_sourcePaths.front();
-		m_sourcePaths.pop_front();
-		isSource = true;
-	}
-	else if (!m_isCDB)
-	{
-		std::vector<FilePath> unparsedHeaders = fileRegister->getUnparsedIncludeFilePaths();
-		if (unparsedHeaders.size())
-		{
-			sourcePath = unparsedHeaders[0];
-		}
-	}
+	FilePath sourcePath = fileRegister->consumeSourceFile();
 
 	if (sourcePath.empty())
 	{
@@ -99,16 +74,15 @@ Task::TaskState TaskParseCxx::update()
 
 	std::stringstream ss;
 	ss << "analyzing files (ESC to quit): [";
-	ss << (m_isCDB ? fileRegister->getParsedSourceFilesCount() : fileRegister->getParsedFilesCount()) + 1 << "/";
-	ss << (m_isCDB ? fileRegister->getSourceFilesCount() : fileRegister->getFilesCount()) << "] ";
+	ss << fileRegister->getParsedSourceFilesCount() << "/";
+	ss << fileRegister->getSourceFilesCount() << "] ";
 	ss << sourcePath.str();
-
 	MessageStatus(ss.str(), false, true).dispatch();
 
 	std::shared_ptr<IntermediateStorage> intermediateStorage = std::make_shared<IntermediateStorage>();
 
 	m_parserClient->setStorage(intermediateStorage);
-	m_parserClient->startParsingFile(sourcePath);
+	m_parserClient->startParsingFile();
 
 	if (m_isCDB)
 	{
@@ -123,37 +97,25 @@ Task::TaskState TaskParseCxx::update()
 		m_parser->runTool(std::vector<std::string>(1, sourcePath.str()));
 	}
 
-	m_parserClient->finishParsingFile(sourcePath);
+	m_parserClient->finishParsingFile();
 	m_parserClient->resetStorage();
 
-	m_storage->inject(intermediateStorage.get());
-
-	if (isSource)
 	{
-		fileRegister->markSourceFileParsed(sourcePath.str());
+		std::lock_guard<std::mutex> lock(*(m_storageMutex.get()));
+		m_storage->inject(intermediateStorage.get());
 	}
+
+	fileRegister->markThreadFilesParsed();
 
 	return Task::STATE_RUNNING;
 }
 
 void TaskParseCxx::exit()
 {
-	MessageStatus("building search index", false, true).dispatch();
-
-	m_storage->finishParsing();
-
-	FileRegister* fileRegister = m_parser->getFileRegister();
-
-	MessageFinishedParsing(
-		(m_isCDB ? fileRegister->getParsedSourceFilesCount() : fileRegister->getParsedFilesCount()),
-		(m_isCDB ? fileRegister->getSourceFilesCount() : fileRegister->getFilesCount()),
-		utility::duration(m_start)
-	).dispatch();
 }
 
 void TaskParseCxx::interrupt()
 {
-	MessageStatus("analyzing files interrupted", false, true).dispatch();
 }
 
 void TaskParseCxx::revert()

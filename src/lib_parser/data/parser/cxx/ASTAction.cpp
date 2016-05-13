@@ -29,8 +29,3 @@ bool ASTAction::BeginSourceFileAction(clang::CompilerInstance& compiler, llvm::S
 	preprocessor.addCommentHandler(&m_commentHandler);
 	return true;
 }
-
-void ASTAction::EndSourceFileAction()
-{
-	m_fileRegister->markParsingIncludeFilesParsed();
-}

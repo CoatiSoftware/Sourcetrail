@@ -2779,8 +2779,9 @@ public:
 	void test_cxx_parser_parses_multiple_files()
 	{
 		TestFileManager fm;
+		std::shared_ptr<FileRegister> fr = std::make_shared<FileRegister>(&fm);
 		TestParserClient client;
-		CxxParser parser(&client, &fm);
+		CxxParser parser(&client, fr);
 
 		std::vector<FilePath> filePaths;
 		filePaths.push_back(FilePath("data/CxxParserTestSuite/header.h"));
@@ -2866,19 +2867,11 @@ private:
 	class TestParserClient: public ParserClient
 	{
 	public:
-		virtual void startParsing()
+		virtual void startParsingFile()
 		{
 		}
 
-		virtual void finishParsing()
-		{
-		}
-
-		virtual void startParsingFile(const FilePath& filePath)
-		{
-		}
-
-		virtual void finishParsingFile(const FilePath& filePath)
+		virtual void finishParsingFile()
 		{
 		}
 
@@ -3109,8 +3102,9 @@ private:
 		m_args.languageStandard = "1z";
 
 		TestFileManager fm;
+		std::shared_ptr<FileRegister> fr = std::make_shared<FileRegister>(&fm);
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-		CxxParser parser(client.get(), &fm);
+		CxxParser parser(client.get(), fr);
 		parser.parseFile("input.cc", TextAccess::createFromString(code), m_args);
 		return client;
 	}
