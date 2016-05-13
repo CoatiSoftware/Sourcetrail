@@ -309,15 +309,16 @@ void Node::forEachChildNode(std::function<void(Node*)> func) const
 	);
 }
 
-void Node::forEachChildNodeRecursive(std::function<void(Node*)> func) const
+void Node::forEachNodeRecursive(std::function<void(const Node*)> func) const
 {
+	func(this);
+
 	forEachEdgeOfType(Edge::EDGE_MEMBER,
 		[func, this](Edge* e)
 		{
 			if (this != e->getTo())
 			{
-				func(e->getTo());
-				e->getTo()->forEachChildNode(func);
+				e->getTo()->forEachNodeRecursive(func);
 			}
 		}
 	);

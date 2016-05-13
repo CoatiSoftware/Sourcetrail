@@ -86,7 +86,7 @@ public:
 	void forEachEdge(std::function<void(Edge*)> func) const;
 	void forEachEdgeOfType(Edge::EdgeTypeMask mask, std::function<void(Edge*)> func) const;
 	void forEachChildNode(std::function<void(Node*)> func) const;
-	void forEachChildNodeRecursive(std::function<void(Node*)> func) const;
+	void forEachNodeRecursive(std::function<void(const Node*)> func) const;
 
 	bool hasReferences() const;
 

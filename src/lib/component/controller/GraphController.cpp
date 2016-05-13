@@ -6,8 +6,6 @@
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 
-#include "component/controller/helper/DummyEdge.h"
-#include "component/controller/helper/DummyNode.h"
 #include "component/controller/helper/GraphLayouter.h"
 #include "component/controller/helper/GraphPostprocessor.h"
 #include "component/view/GraphView.h"
@@ -489,76 +487,151 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode& node, bool pa
 
 void GraphController::bundleNodes()
 {
-	bundleNodesAndEdgesMatching(
-		[&](const DummyNode& node)
+	// evaluate top level nodes
+	for (DummyNode& node : m_dummyNodes)
+	{
+		if (!node.isGraphNode() || !node.visible)
 		{
-			return isTypeNodeWithSingleAggregation(node, TokenComponentAggregation::DIRECTION_BACKWARD);
-		},
-		3,
-		"Referenced Types"
-	);
+			continue;
+		}
 
-	// bundleNodesAndEdgesMatching(
-	// 	[&](const DummyNode& node)
-	// 	{
-	// 		return isTypeNodeWithSingleAggregation(node, TokenComponentAggregation::DIRECTION_FORWARD);
-	// 	},
-	// 	3,
-	// 	"Referencing Types"
-	// );
+		DummyNode::BundleInfo* bundleInfo = &node.bundleInfo;
+		bundleInfo->isActive = node.hasActiveSubNode();
 
-	bundleNodesAndEdgesMatching(
-		[&](const DummyNode& node)
+		node.data->forEachNodeRecursive(
+			[&bundleInfo](const Node* n)
+			{
+				if (n->isDefined())
+				{
+					bundleInfo->isDefined = true;
+				}
+
+				n->forEachEdgeOfType(
+					~Edge::EDGE_MEMBER,
+					[&bundleInfo, &n](Edge* e)
+					{
+						if (e->isType(Edge::EDGE_INHERITANCE | Edge::EDGE_OVERRIDE))
+						{
+							bundleInfo->layoutVertical = true;
+						}
+
+						if (e->isType(Edge::EDGE_AGGREGATION))
+						{
+							TokenComponentAggregation::Direction dir =
+								e->getComponent<TokenComponentAggregation>()->getDirection();
+
+							if (dir == TokenComponentAggregation::DIRECTION_NONE)
+							{
+								bundleInfo->isReferenced = true;
+								bundleInfo->isReferencing = true;
+							}
+							else if ((dir == TokenComponentAggregation::DIRECTION_FORWARD && e->getFrom() == n) ||
+								(dir == TokenComponentAggregation::DIRECTION_BACKWARD && e->getTo() == n))
+							{
+								bundleInfo->isReferencing = true;
+							}
+							else if ((dir == TokenComponentAggregation::DIRECTION_FORWARD && e->getTo() == n) ||
+								(dir == TokenComponentAggregation::DIRECTION_BACKWARD && e->getFrom() == n))
+							{
+								bundleInfo->isReferenced = true;
+							}
+						}
+						else
+						{
+							if (e->getTo() == n)
+							{
+								bundleInfo->isReferenced = true;
+							}
+							else if (e->getFrom() == n)
+							{
+								bundleInfo->isReferencing = true;
+							}
+						}
+					}
+				);
+			}
+		);
+
+		if (bundleInfo->isReferenced && bundleInfo->isReferencing)
 		{
-			return isTypeNodeWithSingleInheritance(node, true);
-		},
-		3,
-		"Base Types"
-	);
+			bundleInfo->isReferenced = false;
+			bundleInfo->isReferencing = false;
+		}
 
-	bundleNodesAndEdgesMatching(
-		[&](const DummyNode& node)
+		if (bundleInfo->isActive)
 		{
-			return isTypeNodeWithSingleInheritance(node, false);
-		},
-		3,
-		"Derived Types"
-	);
+			bundleInfo->layoutVertical = false;
+		}
+	}
 
+	// bundle
 	bundleNodesAndEdgesMatching(
-		[&](const DummyNode& node)
+		[](const DummyNode::BundleInfo& info)
 		{
-			return isUndefinedNode(node, false);
+			return !info.isDefined && info.isReferencing && !info.layoutVertical;
 		},
 		2,
 		"Undefined Symbols"
 	);
 
 	bundleNodesAndEdgesMatching(
-		[&](const DummyNode& node)
+		[](const DummyNode::BundleInfo& info)
 		{
-			return isUndefinedNode(node, true);
+			return !info.isDefined && info.isReferenced && !info.layoutVertical;
 		},
 		2,
 		"Undefined Symbols"
 	);
 
 	bundleNodesAndEdgesMatching(
-		[&](const DummyNode& node)
+		[](const DummyNode::BundleInfo& info)
 		{
-			return isTypeUserNode(node);
+			return info.isDefined && info.isReferencing && !info.layoutVertical;
 		},
-		8,
+		10,
 		"Referencing Symbols"
+	);
+
+	bundleNodesAndEdgesMatching(
+		[](const DummyNode::BundleInfo& info)
+		{
+			return info.isDefined && info.isReferenced && !info.layoutVertical;
+		},
+		10,
+		"Referenced Symbols"
+	);
+
+	bundleNodesAndEdgesMatching(
+		[](const DummyNode::BundleInfo& info)
+		{
+			return info.isReferencing && info.layoutVertical;
+		},
+		5,
+		"Derived Symbols"
+	);
+
+	bundleNodesAndEdgesMatching(
+		[](const DummyNode::BundleInfo& info)
+		{
+			return info.isReferenced && info.layoutVertical;
+		},
+		5,
+		"Base Symbols"
 	);
 }
 
-void GraphController::bundleNodesAndEdgesMatching(std::function<bool(const DummyNode&)> matcher, size_t count, const std::string& name)
+void GraphController::bundleNodesAndEdgesMatching(std::function<bool(const DummyNode::BundleInfo&)> matcher, size_t count, const std::string& name)
 {
 	std::vector<size_t> matchedNodeIndices;
 	for (size_t i = 0; i < m_dummyNodes.size(); i++)
 	{
-		if (matcher(m_dummyNodes[i]))
+		const DummyNode& node = m_dummyNodes[i];
+		if (node.bundleInfo.isActive || !node.visible)
+		{
+			continue;
+		}
+
+		if (matcher(node.bundleInfo))
 		{
 			matchedNodeIndices.push_back(i);
 		}
@@ -585,6 +658,7 @@ void GraphController::bundleNodesAndEdgesMatching(std::function<bool(const Dummy
 	}
 
 	bundleNode.tokenId = bundleNode.bundledNodes[0].data->getId();
+	bundleNode.bundleInfo.layoutVertical = bundleNode.bundledNodes[0].bundleInfo.layoutVertical;
 	m_dummyNodes.push_back(bundleNode);
 
 	if (m_dummyEdges.size() == 0)
@@ -669,183 +743,6 @@ void GraphController::bundleNodesMatching(std::list<DummyNode*>& nodes, std::fun
 
 	bundleNode.tokenId = bundleNode.bundledNodes[0].data->getId();
 	m_dummyNodes.push_back(bundleNode);
-}
-
-bool GraphController::isTypeNodeWithSingleAggregation(
-	const DummyNode& node, TokenComponentAggregation::Direction direction
-) const {
-	const Node::NodeTypeMask typeMask = Node::NODE_STRUCT | Node::NODE_CLASS | Node::NODE_TYPEDEF;
-
-	if (!node.visible || !node.isGraphNode() || node.hasVisibleSubNode() || !node.data->isType(typeMask))
-	{
-		return false;
-	}
-
-	bool matches = false;
-	int count = 0;
-	Id tokenId = node.data->getId();
-
-	node.data->forEachEdgeOfType(
-		~Edge::EDGE_MEMBER,
-		[direction, tokenId, &matches, &count](Edge* edge)
-		{
-			count++;
-
-			if (edge->isType(Edge::EDGE_AGGREGATION))
-			{
-				TokenComponentAggregation::Direction dir =
-					edge->getComponent<TokenComponentAggregation>()->getDirection();
-
-				if ((edge->getFrom()->getId() == tokenId && dir == direction) ||
-					(edge->getTo()->getId() == tokenId && dir == TokenComponentAggregation::opposite(direction)))
-				{
-					matches = true;
-				}
-			}
-		}
-	);
-
-	if (count > 1)
-	{
-		matches = false;
-	}
-
-	return matches;
-}
-
-bool GraphController::isTypeNodeWithSingleInheritance(const DummyNode& node, bool isBase) const
-{
-	const Node::NodeTypeMask typeMask = Node::NODE_STRUCT | Node::NODE_CLASS;
-
-	if (!node.visible || !node.isGraphNode() || node.hasVisibleSubNode() || !node.data->isType(typeMask))
-	{
-		return false;
-	}
-
-	bool matches = false;
-	Id tokenId = node.data->getId();
-
-	node.data->forEachEdgeOfType(
-		Edge::EDGE_INHERITANCE,
-		[isBase, tokenId, &matches](Edge* edge)
-		{
-			if ((!isBase && edge->getFrom()->getId() == tokenId) ||
-				(isBase && edge->getTo()->getId() == tokenId))
-			{
-				matches = true;
-			}
-		}
-	);
-
-	return matches;
-}
-
-bool GraphController::isUndefinedNode(const DummyNode& node, bool isUsed) const
-{
-	if (!node.visible || node.active || !node.isGraphNode() || node.hasActiveSubNode() || node.data->isDefined())
-	{
-		return false;
-	}
-
-	bool matches = true;
-	Id tokenId = node.data->getId();
-
-	node.data->forEachEdge(
-		[isUsed, tokenId, &matches](Edge* edge)
-		{
-			if (edge->isType(Edge::EDGE_MEMBER))
-			{
-				return;
-			}
-
-			Id fromId = edge->getFrom()->getId();
-			Id toId = edge->getTo()->getId();
-
-			if (edge->isType(Edge::EDGE_AGGREGATION))
-			{
-				TokenComponentAggregation::Direction dir = edge->getComponent<TokenComponentAggregation>()->getDirection();
-
-				switch (dir)
-				{
-				case TokenComponentAggregation::DIRECTION_BACKWARD:
-					{
-						Id id = fromId;
-						fromId = toId;
-						toId = id;
-					}
-					break;
-				case TokenComponentAggregation::DIRECTION_NONE:
-					matches = false;
-					return;
-				default:
-					break;
-				}
-			}
-
-			if ((!isUsed && toId == tokenId) ||
-				(isUsed && fromId == tokenId))
-			{
-				matches = false;
-			}
-		}
-	);
-
-	return matches;
-}
-
-bool GraphController::isTypeUserNode(const DummyNode& node) const
-{
-	if (!node.visible || node.active || !node.isGraphNode() || node.hasActiveSubNode())
-	{
-		return false;
-	}
-
-	std::vector<const Node*> nodes;
-	nodes.push_back(node.data);
-
-	node.data->forEachChildNodeRecursive(
-		[&nodes](Node* n)
-		{
-			nodes.push_back(n);
-		}
-	);
-
-	bool matches = true;
-	for (const Node* n : nodes)
-	{
-		Id tokenId = n->getId();
-
-		n->forEachEdge(
-			[tokenId, &matches](Edge* edge)
-			{
-				if (edge->isType(Edge::EDGE_MEMBER))
-				{
-					return;
-				}
-
-				if (edge->isType(Edge::EDGE_AGGREGATION))
-				{
-					TokenComponentAggregation::Direction dir =
-						edge->getComponent<TokenComponentAggregation>()->getDirection();
-					if ((dir == TokenComponentAggregation::DIRECTION_FORWARD && edge->getTo()->getId() == tokenId) ||
-						(dir == TokenComponentAggregation::DIRECTION_BACKWARD && edge->getTo()->getId() != tokenId))
-					{
-						matches = false;
-					}
-
-					return;
-				}
-
-				if (!edge->isType(Edge::EDGE_TYPE_USAGE | Edge::EDGE_TYPE_OF | Edge::EDGE_TEMPLATE_ARGUMENT | Edge::EDGE_TYPEDEF_OF) ||
-					edge->getTo()->getId() == tokenId)
-				{
-					matches = false;
-				}
-			}
-		);
-	}
-
-	return matches;
 }
 
 #define BUNDLE_BY_TYPE(__nodes__, __type__, __name__) \

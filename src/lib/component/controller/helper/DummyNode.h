@@ -13,6 +13,23 @@ class Node;
 struct DummyNode
 {
 public:
+	struct BundleInfo
+	{
+		BundleInfo()
+			: isActive(false)
+			, isDefined(false)
+			, layoutVertical(false)
+			, isReferenced(false)
+			, isReferencing(false)
+		{}
+
+		bool isActive;
+		bool isDefined;
+		bool layoutVertical;
+		bool isReferenced;
+		bool isReferencing;
+	};
+
 	DummyNode()
 		: visible(false)
 		, childVisible(false)
@@ -199,6 +216,9 @@ public:
 
 	// ExpandToggleNode
 	size_t invisibleSubNodeCount;
+
+	// Bundling
+	BundleInfo bundleInfo;
 
 	// BundleNode
 	std::vector<DummyNode> bundledNodes;

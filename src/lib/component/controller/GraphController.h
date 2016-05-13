@@ -17,12 +17,12 @@
 #include "utility/messaging/type/MessageShowErrors.h"
 
 #include "component/controller/Controller.h"
+#include "component/controller/helper/DummyEdge.h"
+#include "component/controller/helper/DummyNode.h"
 #include "component/view/GraphView.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/graph/token_component/TokenComponentAggregation.h"
 
-struct DummyNode;
-struct DummyEdge;
 class Graph;
 class Node;
 class StorageAccess;
@@ -72,12 +72,8 @@ private:
 	void setNodeVisibilityRecursiveTopDown(DummyNode& node, bool parentExpanded) const;
 
 	void bundleNodes();
-	void bundleNodesAndEdgesMatching(std::function<bool(const DummyNode&)> matcher, size_t count, const std::string& name);
+	void bundleNodesAndEdgesMatching(std::function<bool(const DummyNode::BundleInfo&)> matcher, size_t count, const std::string& name);
 	void bundleNodesMatching(std::list<DummyNode*>& nodes, std::function<bool(const DummyNode&)> matcher, const std::string& name);
-	bool isTypeNodeWithSingleAggregation(const DummyNode& node, TokenComponentAggregation::Direction direction) const;
-	bool isTypeNodeWithSingleInheritance(const DummyNode& node, bool isBase) const;
-	bool isUndefinedNode(const DummyNode& node, bool isUsed) const;
-	bool isTypeUserNode(const DummyNode& node) const;
 	void bundleNodesByType();
 
 	void layoutNesting();
