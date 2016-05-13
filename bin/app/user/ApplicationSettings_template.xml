@@ -29,6 +29,7 @@
 		<font_size_max><!-- INTEGER: maximum font size in pt --></font_size_max>
 		<font_size_min><!-- INTEGER: minimum font size in pt --></font_size_min>
 		<font_size_std><!-- INTEGER: standard font size in pt --></font_size_std>
+		<indexer_thread_count><!-- INTEGER: number of threads indexing the source code --></indexer_thread_count>
 	</application>
 
 	<code>

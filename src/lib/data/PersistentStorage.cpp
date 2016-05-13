@@ -65,10 +65,14 @@ Id PersistentStorage::addNode(int type, const std::string& serializedName, int d
 	}
 	else
 	{
-		if (storedNode.definitionType == 0 && definitionType > 0)
+		if (storedNode.definitionType == 0)
 		{
-			m_sqliteStorage.setNodeDefinitionType(definitionType, nodeId);
-			if(storedNode.type < type)
+			if (definitionType > 0)
+			{
+				m_sqliteStorage.setNodeDefinitionType(definitionType, nodeId);
+			}
+
+			if (storedNode.type < type)
 			{
 				m_sqliteStorage.setNodeType(type, nodeId);
 			}

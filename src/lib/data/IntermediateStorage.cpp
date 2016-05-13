@@ -47,18 +47,18 @@ Id IntermediateStorage::addNode(int type, const std::string& serializedName, int
 	std::unordered_map<std::string, Id>::const_iterator it = m_nodeNamesToIds.find(serialized);
 	if (it != m_nodeNamesToIds.end())
 	{
-		// update stored information
-		if (definitionType > 0)
+		std::map<Id, std::shared_ptr<StorageNode>>::const_iterator it2 = m_nodeIdsToData.find(it->second);
+		std::shared_ptr<StorageNode> storageNode = it2->second;
+		if (storageNode->definitionType == 0)
 		{
-			std::map<Id, std::shared_ptr<StorageNode>>::const_iterator it2 = m_nodeIdsToData.find(it->second);
-			std::shared_ptr<StorageNode> storageNode = it2->second;
-			if (storageNode->definitionType == 0)
+			if (definitionType > 0)
 			{
 				storageNode->definitionType = definitionType;
-				if (storageNode->type < type)
-				{
-					storageNode->type = type;
-				}
+			}
+
+			if (storageNode->type < type)
+			{
+				storageNode->type = type;
 			}
 		}
 		return it->second;

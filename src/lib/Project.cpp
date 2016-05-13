@@ -177,7 +177,7 @@ void Project::parseCode()
 
 	std::shared_ptr<std::mutex> storageMutex = std::make_shared<std::mutex>();
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < ApplicationSettings::getInstance()->getIndexerThreadCount(); i++)
 	{
 		taskParallel->addTask(std::make_shared<TaskParseCxx>(
 			m_storage.get(),

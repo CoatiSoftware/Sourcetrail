@@ -23,6 +23,8 @@ public:
 
 	std::vector<FilePath> getUnparsedSourceFilePaths() const;
 
+	bool hasIncludeFile(const FilePath& filePath) const;
+
 	bool fileIsParsed(const FilePath& filePath) const;
 	bool includeFileIsParsed(const FilePath& filePath) const;
 	bool sourceFileIsParsed(const FilePath& filePath) const;

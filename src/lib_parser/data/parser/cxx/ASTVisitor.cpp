@@ -1503,7 +1503,11 @@ bool ASTVisitor::isLocatedInUnparsedProjectFile(clang::SourceLocation loc)
 			{
                 std::string fileName = fileEntry->getName();
                 FilePath filePath = FilePath(fileName).canonical();
-				ret = m_fileRegister->includeFileIsParsed(filePath.str());
+
+				if (m_fileRegister->hasIncludeFile(filePath))
+				{
+					ret = !(m_fileRegister->includeFileIsParsed(filePath));
+				}
 			}
 		}
 		m_inUnparsedProjectFileMap[fileId] = ret;

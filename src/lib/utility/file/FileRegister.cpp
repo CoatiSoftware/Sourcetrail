@@ -53,6 +53,14 @@ std::vector<FilePath> FileRegister::getUnparsedSourceFilePaths() const
 	return files;
 }
 
+bool FileRegister::hasIncludeFile(const FilePath& filePath) const
+{
+	std::lock_guard<std::mutex> lock(m_includeFileMutex);
+
+	std::map<FilePath, ParseState>::const_iterator it = m_includeFilePaths.find(filePath);
+	return (it != m_includeFilePaths.end());
+}
+
 bool FileRegister::fileIsParsed(const FilePath& filePath) const
 {
 	return sourceFileIsParsed(filePath) || includeFileIsParsed(filePath);

@@ -143,6 +143,16 @@ void ApplicationSettings::setFontSizeStd(const int fontSizeStd)
 	setValue<int>("application/font_size_std", fontSizeStd);
 }
 
+int ApplicationSettings::getIndexerThreadCount() const
+{
+	return getValue<int>("application/indexer_thread_count", 4);
+}
+
+void ApplicationSettings::setIndexerThreadCount(const int count)
+{
+	setValue<int>("application/indexer_thread_count", count);
+}
+
 int ApplicationSettings::getCodeTabWidth() const
 {
 	return getValue<int>("code/tab_width", 4);

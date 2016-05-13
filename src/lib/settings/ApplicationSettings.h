@@ -47,6 +47,9 @@ public:
 	int getFontSizeStd() const;
 	void setFontSizeStd(const int fontSizeStd);
 
+	int getIndexerThreadCount() const;
+	void setIndexerThreadCount(const int count);
+
 	// code
 	int getCodeTabWidth() const;
 	void setCodeTabWidth(int codeTabWidth);

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <config>
-    <user>
-        <recent_projects>
-            <recent_project>./data/projects/tutorial/tutorial.coatiproject</recent_project>
-            <recent_project>./data/projects/tictactoe/tictactoe.coatiproject</recent_project>
-        </recent_projects>
-    </user>
+	<application>
+		<indexer_thread_count>4</indexer_thread_count>
+	</application>
+	<user>
+		<recent_projects>
+			<recent_project>./data/projects/tutorial/tutorial.coatiproject</recent_project>
+			<recent_project>./data/projects/tictactoe/tictactoe.coatiproject</recent_project>
+		</recent_projects>
+	</user>
 </config>
