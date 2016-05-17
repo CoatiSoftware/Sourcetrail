@@ -1452,6 +1452,13 @@ bool ASTVisitor::isImplicit(clang::Decl* d) const
 
 	if (d->isImplicit())
 	{
+		if (clang::RecordDecl* rd = clang::dyn_cast_or_null<clang::RecordDecl>(d))
+		{
+			if (rd->isLambda())
+			{
+				return isImplicit(clang::dyn_cast_or_null<clang::Decl>(d->getDeclContext()));
+			}
+		}
 		return true;
 	}
 	else if (clang::ClassTemplateSpecializationDecl* ctsd = clang::dyn_cast_or_null<clang::ClassTemplateSpecializationDecl>(d))
