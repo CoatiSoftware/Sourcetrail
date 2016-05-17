@@ -122,10 +122,11 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 		}
 	}
 
-	setActiveAndVisibility(utility::concat(m_activeNodeIds, m_activeEdgeIds));
+	std::vector<Id> tokenIds = utility::concat(m_activeNodeIds, m_activeEdgeIds);
+	setActiveAndVisibility(tokenIds);
 
 	layoutNesting();
-	layoutGraph(true);
+	layoutGraph(tokenIds.size() > 0);
 
 	buildGraph(message);
 }
