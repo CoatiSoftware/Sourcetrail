@@ -23,6 +23,8 @@ public:
 	bool hasNode(DummyNode* node) const;
 	void addNode(DummyNode* node);
 
+	void sort();
+
 	void preLayout(Vec2i viewSize);
 	void layout(int x, int y, int width, int height);
 
@@ -40,16 +42,12 @@ private:
 class BucketGrid
 {
 public:
-	static void layout(std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges, Vec2i viewSize);
-
-private:
-	static const Edge::EdgeTypeMask s_verticalEdgeMask;
-
 	BucketGrid(Vec2i viewSize);
-
 	void createBuckets(std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);
+	void sortBuckets();
 	void layoutBuckets();
 
+private:
 	DummyNode* findTopMostDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId, DummyNode* top = nullptr);
 
 	void addNode(DummyNode* node);

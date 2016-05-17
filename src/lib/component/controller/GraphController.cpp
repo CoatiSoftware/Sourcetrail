@@ -6,8 +6,7 @@
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 
-#include "component/controller/helper/GraphLayouter.h"
-#include "component/controller/helper/GraphPostprocessor.h"
+#include "component/controller/helper/BucketGrid.h"
 #include "component/view/GraphView.h"
 #include "component/view/GraphViewStyle.h"
 #include "data/access/StorageAccess.h"
@@ -75,7 +74,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 	}
 
 	layoutNesting();
-	layoutGraph();
+	layoutGraph(true);
 
 	buildGraph(message);
 }
@@ -126,7 +125,7 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 	setActiveAndVisibility(utility::concat(m_activeNodeIds, m_activeEdgeIds));
 
 	layoutNesting();
-	layoutGraph();
+	layoutGraph(true);
 
 	buildGraph(message);
 }
@@ -1033,12 +1032,17 @@ void GraphController::layoutToGrid(DummyNode& node) const
 	}
 }
 
-void GraphController::layoutGraph()
+void GraphController::layoutGraph(bool sort)
 {
-	// GraphLayouter::layoutSpectralPrototype(m_dummyNodes, m_dummyEdges);
-	// GraphPostprocessor::doPostprocessing(m_dummyNodes);
+	BucketGrid grid(getView()->getViewSize());
+	grid.createBuckets(m_dummyNodes, m_dummyEdges);
 
-	GraphLayouter::layoutBucket(m_dummyNodes, m_dummyEdges, getView()->getViewSize());
+	if (sort)
+	{
+		grid.sortBuckets();
+	}
+
+	grid.layoutBuckets();
 }
 
 DummyNode* GraphController::findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId) const

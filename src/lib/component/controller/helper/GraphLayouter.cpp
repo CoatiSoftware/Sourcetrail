@@ -4,7 +4,6 @@
 #include <map>
 #include <queue>
 
-#include "component/controller/helper/BucketGrid.h"
 #include "component/controller/helper/DummyEdge.h"
 #include "component/controller/helper/DummyNode.h"
 #include "data/graph/Node.h"
@@ -62,11 +61,6 @@ void GraphLayouter::layoutSimpleRing(std::vector<DummyNode>& nodes)
 			}
 		}
 	}
-}
-
-void GraphLayouter::layoutBucket(std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges, Vec2i viewSize)
-{
-	BucketGrid::layout(nodes, edges, viewSize);
 }
 
 void GraphLayouter::layoutSpectralPrototype(std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges)

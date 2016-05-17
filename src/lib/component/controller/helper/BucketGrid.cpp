@@ -1,5 +1,7 @@
 #include "component/controller/helper/BucketGrid.h"
 
+#include "utility/utilityString.h"
+
 #include "component/controller/helper/DummyEdge.h"
 #include "component/controller/helper/DummyNode.h"
 #include "component/view/GraphViewStyle.h"
@@ -51,6 +53,27 @@ void Bucket::addNode(DummyNode* node)
 	m_height += node->size.y + GraphViewStyle::toGridGap(10);
 }
 
+void Bucket::sort()
+{
+	std::sort(m_nodes.begin(), m_nodes.end(),
+		[](const DummyNode* a, const DummyNode* b) -> bool
+		{
+			if ((a->isGraphNode() && b->isGraphNode()) || (a->isBundleNode() && b->isBundleNode()))
+			{
+				return utility::toLowerCase(a->name) < utility::toLowerCase(b->name);
+			}
+			else if (a->isGraphNode())
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	);
+}
+
 void Bucket::preLayout(Vec2i viewSize)
 {
 	int cols = m_height / viewSize.y + 1;
@@ -76,7 +99,7 @@ void Bucket::preLayout(Vec2i viewSize)
 		{
 			y = 0;
 
-			x += width + GraphViewStyle::toGridGap(25);
+			x += width + GraphViewStyle::toGridGap(30);
 			width = 0;
 		}
 	}
@@ -96,13 +119,6 @@ void Bucket::layout(int x, int y, int width, int height)
 	}
 }
 
-
-void BucketGrid::layout(std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges, Vec2i viewSize)
-{
-	BucketGrid grid(viewSize);
-	grid.createBuckets(nodes, edges);
-	grid.layoutBuckets();
-}
 
 BucketGrid::BucketGrid(Vec2i viewSize)
 	: m_viewSize(viewSize)
@@ -183,6 +199,17 @@ void BucketGrid::createBuckets(std::vector<DummyNode>& nodes, const std::vector<
 		if (i == remainingEdges.size())
 		{
 			i = 0;
+		}
+	}
+}
+
+void BucketGrid::sortBuckets()
+{
+	for (int j = m_j1; j <= m_j2; j++)
+	{
+		for (int i = m_i1; i <= m_i2; i++)
+		{
+			m_buckets[j][i].sort();
 		}
 	}
 }

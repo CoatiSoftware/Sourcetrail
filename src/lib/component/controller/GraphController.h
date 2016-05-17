@@ -81,7 +81,7 @@ private:
 	void addExpandToggleNode(DummyNode& node) const;
 	void layoutToGrid(DummyNode& node) const;
 
-	void layoutGraph();
+	void layoutGraph(bool sort = false);
 
 	DummyNode* findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId) const;
 	DummyNode* findTopLevelDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId) const;

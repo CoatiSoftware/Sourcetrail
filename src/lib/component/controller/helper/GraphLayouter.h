@@ -16,8 +16,6 @@ public:
 	static void layoutSimpleRaster(std::vector<DummyNode>& nodes);
 	static void layoutSimpleRing(std::vector<DummyNode>& nodes);
 
-	static void layoutBucket(std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges, Vec2i viewSize);
-
 	static void layoutSpectralPrototype(std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);
 
 private:

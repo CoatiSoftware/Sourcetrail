@@ -436,8 +436,8 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 		style.width = 2;
 		style.arrowLength = 7;
 		style.arrowWidth = 10;
-		style.originOffset.x = 22;
-		style.targetOffset.x = 22;
+		style.originOffset.x = 24;
+		style.targetOffset.x = 24;
 		style.originOffset.y = 0;
 		style.targetOffset.y = 0;
 		style.verticalOffset = 0;
