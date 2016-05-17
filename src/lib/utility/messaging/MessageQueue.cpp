@@ -6,8 +6,8 @@
 #include "utility/logging/logging.h"
 #include "utility/messaging/MessageBase.h"
 #include "utility/messaging/MessageListenerBase.h"
-#include "utility/scheduling/LambdaTask.h"
 #include "utility/scheduling/TaskGroupSequential.h"
+#include "utility/scheduling/TaskLambda.h"
 
 std::shared_ptr<MessageQueue> MessageQueue::getInstance()
 {
@@ -273,7 +273,7 @@ void MessageQueue::sendMessageAsTask(std::shared_ptr<MessageBase> message, bool 
 		if (listener->getType() == message->getType())
 		{
 			uint listenerId = listener->getId();
-			taskGroup->addTask(std::make_shared<LambdaTask>(
+			taskGroup->addTask(std::make_shared<TaskLambda>(
 				[listenerId, message]()
 				{
 					MessageListenerBase* listener = MessageQueue::getInstance()->getListenerById(listenerId);

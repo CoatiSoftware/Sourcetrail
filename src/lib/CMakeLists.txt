@@ -273,8 +273,6 @@ add_files(
 	utility/messaging/MessageQueue.cpp
 	utility/messaging/MessageQueue.h
 
-	utility/scheduling/LambdaTask.cpp
-	utility/scheduling/LambdaTask.h
 	utility/scheduling/Task.cpp
 	utility/scheduling/Task.h
 	utility/scheduling/TaskGroup.cpp
@@ -283,6 +281,8 @@ add_files(
 	utility/scheduling/TaskGroupParallel.h
 	utility/scheduling/TaskGroupSequential.cpp
 	utility/scheduling/TaskGroupSequential.h
+	utility/scheduling/TaskLambda.cpp
+	utility/scheduling/TaskLambda.h
 	utility/scheduling/TaskScheduler.cpp
 	utility/scheduling/TaskScheduler.h
 

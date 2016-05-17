@@ -5,12 +5,12 @@
 
 #include "utility/scheduling/Task.h"
 
-class LambdaTask
+class TaskLambda
 	: public Task
 {
 public:
-	LambdaTask(std::function<void()> func);
-	virtual ~LambdaTask();
+	TaskLambda(std::function<void()> func);
+	virtual ~TaskLambda();
 
 	virtual void enter();
 	virtual TaskState update();

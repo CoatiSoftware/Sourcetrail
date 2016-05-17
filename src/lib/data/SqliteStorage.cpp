@@ -284,23 +284,7 @@ bool SqliteStorage::isFile(Id elementId) const
 
 StorageEdge SqliteStorage::getEdgeById(Id edgeId) const
 {
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT type, source_node_id, target_node_id FROM edge WHERE "
-			"id == " + std::to_string(edgeId) + ";"
-	).c_str());
-
-	if (!q.eof())
-	{
-		const int type = q.getIntField(0, -1);
-		const Id sourceId = q.getIntField(1, 0);
-		const Id targetId = q.getIntField(2, 0);
-
-		if (type != -1 && sourceId != 0 && targetId != 0)
-		{
-			return StorageEdge(edgeId, type, sourceId, targetId);
-		}
-	}
-	return StorageEdge(0, -1, 0, 0);
+	return getFirst<StorageEdge>("WHERE id == " + std::to_string(edgeId));
 }
 
 StorageEdge SqliteStorage::getEdgeBySourceTargetType(Id sourceId, Id targetId, int type) const
@@ -527,26 +511,17 @@ std::shared_ptr<TokenLocationFile> SqliteStorage::getTokenLocationsForFile(const
 		return ret;
 	}
 
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, element_id, start_line, start_column, end_line, end_column, type FROM source_location WHERE file_node_id == " + std::to_string(fileNodeId) + ";"
-	).c_str());
-
-	while (!q.eof())
+	for (StorageSourceLocation& location: getAll<StorageSourceLocation>("WHERE file_node_id == " + std::to_string(fileNodeId)))
 	{
-		const Id locationId			= q.getIntField(0, 0);
-		const Id elementId			= q.getIntField(1, 0);
-		const int startLineNumber	= q.getIntField(2, -1);
-		const int startColNumber	= q.getIntField(3, -1);
-		const int endLineNumber		= q.getIntField(4, -1);
-		const int endColNumber		= q.getIntField(5, -1);
-		const int type				= q.getIntField(6, -1);
-
-		if (locationId != 0 && elementId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1 && type != -1)
-		{
-			TokenLocation* loc = ret->addTokenLocation(locationId, elementId, startLineNumber, startColNumber, endLineNumber, endColNumber);
-			loc->setType(intToLocationType(type));
-		}
-		q.nextRow();
+		TokenLocation* loc = ret->addTokenLocation(
+			location.id,
+			location.elementId,
+			location.startLine,
+			location.startCol,
+			location.endLine,
+			location.endCol
+		);
+		loc->setType(intToLocationType(location.type));
 	}
 
 	return ret;
@@ -560,33 +535,7 @@ std::vector<StorageSourceLocation> SqliteStorage::getTokenLocationsForElementId(
 
 std::vector<StorageSourceLocation> SqliteStorage::getTokenLocationsForElementIds(const std::vector<Id> elementIds) const
 {
-	std::vector<StorageSourceLocation> locations;
-
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, element_id, file_node_id, start_line, start_column, end_line, end_column, type FROM source_location WHERE element_id IN (" + utility::join(utility::toStrings(elementIds), ',') + ");"
-	).c_str());
-
-	while (!q.eof())
-	{
-		const Id id = q.getIntField(0, 0);
-		const Id elementId = q.getIntField(1, 0);
-		const Id fileNodeId = q.getIntField(2, 0);
-		const int startLineNumber = q.getIntField(3, -1);
-		const int startColNumber = q.getIntField(4, -1);
-		const int endLineNumber = q.getIntField(5, -1);
-		const int endColNumber = q.getIntField(6, -1);
-		const int type = q.getIntField(7, -1);
-
-		if (id != 0 && elementId != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1 && type != -1)
-		{
-			locations.push_back(StorageSourceLocation(
-				id, elementId, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber, type
-			));
-		}
-		q.nextRow();
-	}
-
-	return locations;
+	return getAll<StorageSourceLocation>("WHERE element_id IN (" + utility::join(utility::toStrings(elementIds), ',') + ")");
 }
 
 Id SqliteStorage::getElementIdByLocationId(Id locationId) const
@@ -603,38 +552,12 @@ Id SqliteStorage::getElementIdByLocationId(Id locationId) const
 
 StorageComponentAccess SqliteStorage::getComponentAccessByMemberEdgeId(Id memberEdgeId) const
 {
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, edge_id, type FROM component_access WHERE edge_id == " + std::to_string(memberEdgeId) + ";"
-	).c_str());
-
-	while (!q.eof())
-	{
-		return StorageComponentAccess(
-			q.getIntField(1, 0),
-			q.getIntField(2, 0)
-		);
-	}
-
-	return StorageComponentAccess(0, 0);
+	return getFirst<StorageComponentAccess>("WHERE edge_id == " + std::to_string(memberEdgeId));
 }
 
 std::vector<StorageComponentAccess> SqliteStorage::getComponentAccessByMemberEdgeIds(const std::vector<Id>& memberEdgeIds) const
 {
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, edge_id, type FROM component_access WHERE edge_id IN (" + utility::join(utility::toStrings(memberEdgeIds), ',') + ");"
-	).c_str());
-
-	std::vector<StorageComponentAccess> accesses;
-	while (!q.eof())
-	{
-		accesses.push_back(StorageComponentAccess(
-			q.getIntField(1, 0),
-			q.getIntField(2, 0)
-		));
-
-		q.nextRow();
-	}
-	return accesses;
+	return getAll<StorageComponentAccess>("WHERE edge_id IN (" + utility::join(utility::toStrings(memberEdgeIds), ',') + ")");
 }
 
 std::vector<StorageCommentLocation> SqliteStorage::getCommentLocationsInFile(const FilePath& filePath) const
@@ -890,13 +813,6 @@ void SqliteStorage::insertOrUpdateMetaValue(const std::string& key, const std::s
 			"VALUES( (SELECT id FROM meta WHERE key = '" + key + "'), '" + key + "', '" + value + "');"
 	).c_str());
 }
-
-
-
-
-
-
-
 
 template <>
 std::vector<StorageFile> SqliteStorage::getAll<StorageFile>(const std::string& query) const
