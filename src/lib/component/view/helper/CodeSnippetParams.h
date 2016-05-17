@@ -31,8 +31,10 @@ struct CodeSnippetParams
 	int refCount;
 
 	bool isActive;
-	bool isDeclaration;
 	bool isCollapsed;
+
+	bool isDeclaration;
+	bool isDefinition;
 
 	bool reduced;
 };

@@ -302,29 +302,36 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocation
 	const TokenLocationCollection* collection, Id declarationId
 ) const {
 	std::vector<CodeSnippetParams> snippets;
-	size_t declarationFileCount = 0;
+	size_t definitionFileCount = 0;
 
 	collection->forEachTokenLocationFile(
 		[&](std::shared_ptr<TokenLocationFile> file) -> void
 		{
 			bool isDeclarationFile = false;
+			bool isDefinitionFile = false;
 			file->forEachTokenLocation(
 				[&](TokenLocation* location)
 				{
 					if (location->getTokenId() == declarationId)
 					{
 						isDeclarationFile = true;
+
+						if (location->getType() == LOCATION_SCOPE)
+						{
+							isDefinitionFile = true;
+						}
 					}
 				}
 			);
 
-			if (declarationFileCount < 5 && (isDeclarationFile || collection->getTokenLocationFileCount() < 5 || file->isWholeCopy))
+			if (definitionFileCount < 5 && (isDeclarationFile || collection->getTokenLocationFileCount() < 5 || file->isWholeCopy))
 			{
 				std::vector<CodeSnippetParams> fileSnippets = getSnippetsForActiveTokenLocationsInFile(file);
 
 				for (CodeSnippetParams& snippet : fileSnippets)
 				{
 					snippet.isDeclaration = isDeclarationFile;
+					snippet.isDefinition = isDefinitionFile;
 				}
 
 				utility::append(snippets, fileSnippets);
@@ -339,9 +346,9 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocation
 				snippets.push_back(params);
 			}
 
-			if (isDeclarationFile)
+			if (isDefinitionFile)
 			{
-				declarationFileCount++;
+				definitionFileCount++;
 			}
 		}
 	);

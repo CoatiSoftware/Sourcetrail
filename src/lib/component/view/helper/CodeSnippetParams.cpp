@@ -10,8 +10,9 @@ CodeSnippetParams::CodeSnippetParams()
 	, locationFile()
 	, refCount(0)
 	, isActive(false)
-	, isDeclaration(false)
 	, isCollapsed(false)
+	, isDeclaration(false)
+	, isDefinition(false)
 	, reduced(false)
 {
 }
@@ -24,6 +25,16 @@ bool CodeSnippetParams::sort(const CodeSnippetParams& a, const CodeSnippetParams
 		return true;
 	}
 	else if (!a.isActive && b.isActive)
+	{
+		return false;
+	}
+
+	// sort definitions
+	if (a.isDefinition && !b.isDefinition)
+	{
+		return true;
+	}
+	else if (!a.isDefinition && b.isDefinition)
 	{
 		return false;
 	}
