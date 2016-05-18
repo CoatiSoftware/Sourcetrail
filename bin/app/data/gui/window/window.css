@@ -26,6 +26,12 @@
 }
 
 #label {
+	font-size: 12pt;
+	font-weight: bold;
+}
+
+#titleLabel {
+	font-size: 14pt;
 	font-weight: bold;
 }
 

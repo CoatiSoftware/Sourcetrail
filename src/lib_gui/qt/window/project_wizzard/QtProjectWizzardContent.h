@@ -58,6 +58,7 @@ signals:
 
 protected:
 	QLabel* createFormLabel(QString name) const;
+	QLabel* createFormTitle(QString name) const;
 	QToolButton* createProjectButton(QString name, QString iconPath) const;
 
 	QtHelpButton* addHelpButton(QString helpString, QGridLayout* layout, int row) const;

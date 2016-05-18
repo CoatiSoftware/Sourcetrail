@@ -13,12 +13,14 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentExtensions.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentFlags.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
+#include "qt/window/project_wizzard/QtProjectWizzardContentPreferences.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSimple.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSourceList.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSummary.h"
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageLoadProject.h"
+#include "utility/messaging/type/MessageRefresh.h"
 
 #include "utility/solution/SolutionParserVisualStudio.h"
 // #include "utility/solution/SolutionParserCodeBlocks.h"
@@ -195,8 +197,9 @@ void QtProjectWizzard::showPreferences()
 
 			ProjectSettings* settings = &m_settings;
 
-			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(settings, window), false, false);
+			summary->addContent(new QtProjectWizzardContentPreferences(settings, window), false, false);
 
+			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(settings, window), false, false);
 			if (QSysInfo::macVersion() != QSysInfo::MV_None)
 			{
 				summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(settings, window), false, false);
@@ -601,6 +604,10 @@ void QtProjectWizzard::savePreferences()
 		MessageDispatchWhenLicenseValid(
 			std::make_shared<MessageLoadProject>("", true)
 		).dispatch();
+	}
+	else
+	{
+		MessageRefresh().refreshUiOnly().dispatch();
 	}
 
 	cancelWizzard();

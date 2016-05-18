@@ -98,6 +98,14 @@ QLabel* QtProjectWizzardContent::createFormLabel(QString name) const
 	return label;
 }
 
+QLabel* QtProjectWizzardContent::createFormTitle(QString name) const
+{
+	QLabel* label = new QLabel(name);
+	label->setObjectName("titleLabel");
+	label->setWordWrap(true);
+	return label;
+}
+
 QToolButton* QtProjectWizzardContent::createProjectButton(QString name, QString iconPath) const
 {
 	QToolButton* button = new QToolButton();

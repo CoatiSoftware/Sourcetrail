@@ -119,6 +119,8 @@ add_files(
 	qt/window/project_wizzard/QtProjectWizzardContentFlags.h
 	qt/window/project_wizzard/QtProjectWizzardContentPaths.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentPaths.h
+	qt/window/project_wizzard/QtProjectWizzardContentPreferences.cpp
+	qt/window/project_wizzard/QtProjectWizzardContentPreferences.h
 	qt/window/project_wizzard/QtProjectWizzardContentSelect.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentSelect.h
 	qt/window/project_wizzard/QtProjectWizzardContentSimple.cpp
