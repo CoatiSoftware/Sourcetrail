@@ -13,7 +13,7 @@ QtProjectWizzardContentBuildFile::QtProjectWizzardContentBuildFile(
 {
 	if (!m_settings->getVisualStudioSolutionPath().empty())
 	{
-		m_type = QtProjectWizzardContentSelect::PROJECT_VS;
+		m_type = QtProjectWizzardContentSelect::PROJECT_MANAGED;
 	}
 	else if (!m_settings->getCompilationDatabasePath().empty())
 	{
@@ -37,7 +37,7 @@ void QtProjectWizzardContentBuildFile::populateForm(QGridLayout* layout, int& ro
 			name = "Build Text";
 			filter = "Text (*.txt)";
 			return;
-		case QtProjectWizzardContentSelect::PROJECT_VS:
+		case QtProjectWizzardContentSelect::PROJECT_MANAGED:
 			name = "Visual Studio Solution";
 			filter = "Visual Studio Solution (*.sln)";
 			break;
@@ -77,7 +77,7 @@ void QtProjectWizzardContentBuildFile::load()
 	{
 		case QtProjectWizzardContentSelect::PROJECT_EMPTY:
 			return;
-		case QtProjectWizzardContentSelect::PROJECT_VS:
+		case QtProjectWizzardContentSelect::PROJECT_MANAGED:
 			m_picker->setText(QString::fromStdString(m_settings->getVisualStudioSolutionPath().str()));
 			break;
 		case QtProjectWizzardContentSelect::PROJECT_CDB:
@@ -91,7 +91,7 @@ void QtProjectWizzardContentBuildFile::save()
 	switch (m_type)
 	{
 		case QtProjectWizzardContentSelect::PROJECT_EMPTY:
-		case QtProjectWizzardContentSelect::PROJECT_VS:
+		case QtProjectWizzardContentSelect::PROJECT_MANAGED:
 			break;
 		case QtProjectWizzardContentSelect::PROJECT_CDB:
 		{
@@ -111,7 +111,7 @@ bool QtProjectWizzardContentBuildFile::check()
 	switch (m_type)
 	{
 		case QtProjectWizzardContentSelect::PROJECT_EMPTY:
-		case QtProjectWizzardContentSelect::PROJECT_VS:
+		case QtProjectWizzardContentSelect::PROJECT_MANAGED:
 			break;
 		case QtProjectWizzardContentSelect::PROJECT_CDB:
 		{
@@ -159,7 +159,7 @@ void QtProjectWizzardContentBuildFile::refreshClicked()
 		case QtProjectWizzardContentSelect::PROJECT_EMPTY:
 		case QtProjectWizzardContentSelect::PROJECT_CDB:
 			break;
-		case QtProjectWizzardContentSelect::PROJECT_VS:
+		case QtProjectWizzardContentSelect::PROJECT_MANAGED:
 			emit refreshVisualStudioSolution("vs", path.str());
 			break;
 	}

@@ -24,6 +24,7 @@ public:
 	std::string getParserDescription(const unsigned int idx) const;
 	std::string getParserFileEnding(const unsigned int idx) const;
 	std::string getParserIdeId(const unsigned int idx) const;
+	std::string getIconPath(const unsigned int idx) const;
 
 private:
 	bool checkIndex(const unsigned int idx) const;

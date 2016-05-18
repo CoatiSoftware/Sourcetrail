@@ -16,7 +16,7 @@ public:
 	{
 		PROJECT_EMPTY = 0,
 		PROJECT_CDB = 1,
-		PROJECT_VS = 2
+		PROJECT_MANAGED = 2 // use this type for all standard parser (parsers that are handled by the parser manager)
 	};
 
 	QtProjectWizzardContentSelect(ProjectSettings* settings, QtProjectWizzardWindow* window, std::weak_ptr<SolutionParserManager> solutionParserManager);

@@ -347,7 +347,7 @@ void QtProjectWizzard::selectedProjectType(QtProjectWizzardContentSelect::Projec
 		emptyProject();
 		break;
 
-	case QtProjectWizzardContentSelect::PROJECT_VS:
+	case QtProjectWizzardContentSelect::PROJECT_MANAGED:
 		{
 			std::string fileEndings = "(";
 			for (unsigned int i = 0; i < m_parserManager->getParserCount(); i++)

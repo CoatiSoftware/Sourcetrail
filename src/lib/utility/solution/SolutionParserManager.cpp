@@ -125,6 +125,18 @@ std::string SolutionParserManager::getParserIdeId(const unsigned int idx) const
 	return "";
 }
 
+std::string SolutionParserManager::getIconPath(const unsigned int idx) const
+{
+	if (checkIndex(idx))
+	{
+		return m_solutionParsers[idx]->getIconPath();
+	}
+
+	LOG_WARNING_STREAM(<< "Index is out of range, was " << idx << ". Max is " << m_solutionParsers.size() - 1);
+
+	return "";
+}
+
 bool SolutionParserManager::checkIndex(const unsigned int idx) const
 {
 	return (idx < m_solutionParsers.size());
