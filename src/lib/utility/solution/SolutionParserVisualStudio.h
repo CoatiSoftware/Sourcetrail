@@ -48,4 +48,46 @@ private:
 	std::vector<std::string> m_compatibilityFlags;
 };
 
+// list of possible vs ide macros
+// source: https://msdn.microsoft.com/en-us/library/c02as0cs.aspx
+/*
+"RemoteMachine",
+"Configuration",
+"Platform",
+"ParentName",
+"RootNameSpace",
+"IntDir",
+"OutDir",
+"DevEnvDir",
+"InputDir",
+"InputPath",
+"InputName",
+"InputFileName",
+"InputExt",
+"ProjectDir",
+"ProjectPath",
+"ProjectName",
+"ProjectFileName",
+"ProjectExt",
+"SolutionDir",
+"SolutionPath",
+"SolutionName",
+"SolutionExt",
+"TargetDir",
+"TargetPath",
+"TargetName",
+"TargetFileName",
+"VSInstallDir",
+"VCInstallDir",
+"FrameworkDir",
+"FrameworkVersion",
+"FrameworkSDKDir",
+"WebDeployPath",
+"WebDeployRoot",
+"SafeParentName",
+"SafeInputName",
+"SafeRootNamespace",
+"FxCopDir"
+*/
+
 #endif // SOLUTION_PARSER_VISUAL_STUDIO_H

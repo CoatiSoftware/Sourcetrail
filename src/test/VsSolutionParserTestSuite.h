@@ -47,7 +47,7 @@ public:
 		parser.openSolutionFile("data/vsSolutionParserTestSuite/Coati.sln");
 		std::vector<std::string> includePaths = parser.getIncludePathsNonCanonical();
 
-		TS_ASSERT_EQUALS(23, includePaths.size());
+		TS_ASSERT_EQUALS(24, includePaths.size());
 	}
 
 	void test_get_()

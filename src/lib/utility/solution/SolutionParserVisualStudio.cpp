@@ -17,6 +17,45 @@ SolutionParserVisualStudio::SolutionParserVisualStudio()
 	m_compatibilityFlags.push_back("-fms-extensions");
 	m_compatibilityFlags.push_back("-fms-compatibility");
 	m_compatibilityFlags.push_back("-fms-compatibility-version=19.00");
+
+	SolutionParserUtility::m_ideMacros.clear();
+
+	SolutionParserUtility::m_ideMacros.push_back("RemoteMachine");
+	SolutionParserUtility::m_ideMacros.push_back("Configuration");
+	SolutionParserUtility::m_ideMacros.push_back("Platform");
+	SolutionParserUtility::m_ideMacros.push_back("ParentName");
+	SolutionParserUtility::m_ideMacros.push_back("RootNameSpace");
+	SolutionParserUtility::m_ideMacros.push_back("IntDir");
+	SolutionParserUtility::m_ideMacros.push_back("OutDir");
+	SolutionParserUtility::m_ideMacros.push_back("DevEnvDir");
+	SolutionParserUtility::m_ideMacros.push_back("InputPath");
+	SolutionParserUtility::m_ideMacros.push_back("InputName");
+	SolutionParserUtility::m_ideMacros.push_back("InputFileName");
+	SolutionParserUtility::m_ideMacros.push_back("InputExt");
+	SolutionParserUtility::m_ideMacros.push_back("ProjectDir");
+	SolutionParserUtility::m_ideMacros.push_back("ProjectPath");
+	SolutionParserUtility::m_ideMacros.push_back("ProjectName");
+	SolutionParserUtility::m_ideMacros.push_back("ProjectFileName");
+	SolutionParserUtility::m_ideMacros.push_back("ProjectExt");
+	SolutionParserUtility::m_ideMacros.push_back("SolutionDir");
+	SolutionParserUtility::m_ideMacros.push_back("SolutionPath");
+	SolutionParserUtility::m_ideMacros.push_back("SolutionName");
+	SolutionParserUtility::m_ideMacros.push_back("SolutionExt");
+	SolutionParserUtility::m_ideMacros.push_back("TargetDir");
+	SolutionParserUtility::m_ideMacros.push_back("TargetPath");
+	SolutionParserUtility::m_ideMacros.push_back("TargetName");
+	SolutionParserUtility::m_ideMacros.push_back("TargetFileName");
+	SolutionParserUtility::m_ideMacros.push_back("VSInstallDir");
+	SolutionParserUtility::m_ideMacros.push_back("VCInstallDir");
+	SolutionParserUtility::m_ideMacros.push_back("FrameworkDir");
+	SolutionParserUtility::m_ideMacros.push_back("FrameworkVersion");
+	SolutionParserUtility::m_ideMacros.push_back("FrameworkSDKDir");
+	SolutionParserUtility::m_ideMacros.push_back("WebDeployPath");
+	SolutionParserUtility::m_ideMacros.push_back("WebDeployRoot");
+	SolutionParserUtility::m_ideMacros.push_back("SafeParentName");
+	SolutionParserUtility::m_ideMacros.push_back("SafeInputName");
+	SolutionParserUtility::m_ideMacros.push_back("SafeRootNamespace");
+	SolutionParserUtility::m_ideMacros.push_back("FxCopDir");
 }
 
 SolutionParserVisualStudio::~SolutionParserVisualStudio()
@@ -155,11 +194,6 @@ std::vector<std::string> SolutionParserVisualStudio::getCompileFlags()
 		compilerFlags.push_back(m_compatibilityFlags[i]);
 	}
 
-	//for (unsigned int i = 0; i < compilerFlags.size(); i++)
-	//{
-	//	LOG_INFO_STREAM(<< "flag: " << compilerFlags[i]);
-	//}
-
 	std::set<std::string> s(compilerFlags.begin(), compilerFlags.end());
 	compilerFlags.assign(s.begin(), s.end());
 
@@ -168,12 +202,28 @@ std::vector<std::string> SolutionParserVisualStudio::getCompileFlags()
 
 ProjectSettings SolutionParserVisualStudio::getProjectSettings(const std::string& solutionFilePath)
 {
+	LOG_INFO_STREAM(<< "Starting to parse VS solution");
+
+	LOG_INFO_STREAM(<< "Opening solution file");
+
 	openSolutionFile(solutionFilePath);
+
+	SolutionParserUtility::m_ideMacroValues.clear();
+	SolutionParserUtility::m_ideMacroValues["SolutionPath"] = solutionFilePath;
+	SolutionParserUtility::m_ideMacroValues["SolutionDir"] = m_solutionPath.substr(0, m_solutionPath.size() - 1); // remove trailing slash, would cause problems during path resolving
+	SolutionParserUtility::m_ideMacroValues["SolutionName"] = getSolutionName();
+	SolutionParserUtility::m_ideMacroValues["SolutionFileName"] = m_solutionName;
+
+	LOG_INFO_STREAM(<< "Setting meta information");
 
 	ProjectSettings settings;
 	settings.setProjectName(getSolutionName());
 	settings.setProjectFileLocation(getSolutionPath());
 	settings.setVisualStudioSolutionPath(solutionFilePath);
+
+	LOG_INFO_STREAM(<< "Parsing project files");
+
+	LOG_INFO_STREAM(<< "Setting source files");
 
 	std::vector<std::string> sourceFiles = getProjectItems();
 	std::vector<FilePath> sourcePaths;
@@ -181,6 +231,8 @@ ProjectSettings SolutionParserVisualStudio::getProjectSettings(const std::string
 	{
 		sourcePaths.push_back(FilePath(p));
 	}
+
+	LOG_INFO_STREAM(<< "Parsing include files");
 
 	std::vector<std::string> includePaths = getIncludePaths();
 
@@ -190,11 +242,15 @@ ProjectSettings SolutionParserVisualStudio::getProjectSettings(const std::string
 		headerPaths.push_back(FilePath(p));
 	}
 
+	LOG_INFO_STREAM(<< "Setting compile flags");
+
 	std::vector<std::string> compilerFlags = getCompileFlags();
 	settings.setCompilerFlags(compilerFlags);
 
 	settings.setSourcePaths(sourcePaths);
 	settings.setHeaderSearchPaths(headerPaths);
+
+	LOG_INFO_STREAM(<< "Done parsing VS solution");
 
 	return settings;
 }
@@ -388,6 +444,8 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 	std::set<std::string> s(projectItems.begin(), projectItems.end());
 	projectItems.assign(s.begin(), s.end());
 
+	LOG_INFO_STREAM(<< "Found " << projectItems.size() << " code files");
+
 	projectItems = SolutionParserUtility::resolveEnvironmentVariables(projectItems);
 	projectItems = makePathsAbsolute(projectItems);
 
@@ -433,6 +491,8 @@ std::vector<std::string> SolutionParserVisualStudio::findIncludePaths()
 
 	std::set<std::string> s(includePaths.begin(), includePaths.end());
 	includePaths.assign(s.begin(), s.end());
+
+	LOG_INFO_STREAM(<< "Found " << includePaths.size() << " additional include paths");
 
 	includePaths = SolutionParserUtility::resolveEnvironmentVariables(includePaths);
 	includePaths = makePathsAbsolute(includePaths);
@@ -525,6 +585,11 @@ std::vector<std::string> SolutionParserVisualStudio::seperateIncludePaths(const 
 		seperatedPaths.push_back(path);
 
 		pos = paths.find(seperator);
+	}
+
+	if (paths.size() > 0)
+	{
+		seperatedPaths.push_back(paths);
 	}
 
 	return seperatedPaths;

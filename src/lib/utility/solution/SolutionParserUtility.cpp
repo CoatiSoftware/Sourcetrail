@@ -7,6 +7,9 @@
 #include "boost/filesystem/path.hpp"
 #include "boost/filesystem.hpp"
 
+std::vector<std::string> SolutionParserUtility::m_ideMacros;
+std::map<std::string, std::string> SolutionParserUtility::m_ideMacroValues;
+
 TiXmlElement* SolutionParserUtility::getFirstTagByName(TiXmlElement* root, const std::string& tag)
 {
 	TiXmlElement* element = root;
@@ -246,7 +249,18 @@ std::vector<std::string> SolutionParserUtility::resolveEnvironmentVariables(cons
 
 	for (unsigned int i = 0; i < paths.size(); i++)
 	{
-		resolvedPaths.push_back(findAndResolveEnvironmentVariable(paths[i]));
+		std::string resolvedPath = "";
+
+		try
+		{
+			resolvedPath = findAndResolveEnvironmentVariable(paths[i]);
+
+			resolvedPaths.push_back(resolvedPath);
+		}
+		catch (std::exception &e)
+		{
+			LOG_ERROR_STREAM(<< "Failed to resolve environment variable, exception was: \"" << e.what() << "\"");
+		}
 	}
 
 	return resolvedPaths;
@@ -263,7 +277,29 @@ std::string SolutionParserUtility::findAndResolveEnvironmentVariable(const std::
 		size_t endPos = path.substr(pos).find(")");
 
 		std::string envVariable = path.substr(pos + 2, (endPos - 2) - pos);
-		std::string envPath = getenv(envVariable.c_str());
+
+		std::string envPath = "";
+
+		std::string macro = checkIsIdeMacro(envVariable);
+		if (macro != "")
+		{
+			LOG_WARNING_STREAM(<< "Encountered IDE macro \"" << macro << "\"");
+			
+			if (m_ideMacroValues.find(macro) == m_ideMacroValues.end())
+			{
+				LOG_WARNING_STREAM(<< "Could not resolve IDE macro \"" << macro << "\"");
+
+				return "";
+			}
+			else
+			{
+				envPath = m_ideMacroValues[macro];
+			}
+		}
+		else
+		{
+			envPath = getenv(envVariable.c_str());
+		}
 
 		std::string prePath = path.substr(0, pos);
 		std::string postPath = path.substr(endPos + 1);
@@ -307,4 +343,17 @@ std::vector<std::string> SolutionParserUtility::makePathsCanonical(const std::ve
 	}
 
 	return canonicalPaths;
+}
+
+std::string SolutionParserUtility::checkIsIdeMacro(const std::string& text)
+{
+	for (unsigned int i = 0; i < m_ideMacros.size(); i++)
+	{
+		if (text == m_ideMacros[i])
+		{
+			return m_ideMacros[i];
+		}
+	}
+
+	return "";
 }
