@@ -28,6 +28,8 @@ public:
 	FilePath concat(const FilePath& other) const;
 	FilePath expandEnvironmentVariables() const;
 
+	bool contains(const FilePath& other) const;
+
 	std::string str() const;
 	std::string fileName() const;
 

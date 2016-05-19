@@ -2784,7 +2784,6 @@ public:
 		CxxParser parser(&client, fr);
 
 		std::vector<FilePath> filePaths;
-		filePaths.push_back(FilePath("data/CxxParserTestSuite/header.h"));
 		filePaths.push_back(FilePath("data/CxxParserTestSuite/code.cpp"));
 
 		Parser::Arguments args;
@@ -2811,7 +2810,7 @@ public:
 		TS_ASSERT_EQUALS(client.usages.size(), 3);
 		TS_ASSERT_EQUALS(client.typeUses.size(), 17);
 
-		TS_ASSERT_EQUALS(client.files.size(), 3);
+		TS_ASSERT_EQUALS(client.files.size(), 2);
 		TS_ASSERT_EQUALS(client.includes.size(), 1);
 	}
 
@@ -3090,13 +3089,6 @@ private:
 
 	std::shared_ptr<TestParserClient> parseCode(std::string code, bool logErrors = true)
 	{
-		if (!m_args.headerSearchPaths.size())
-		{
-			std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
-			settings->load("data/TestSettings.xml");
-			m_args.headerSearchPaths = settings->getHeaderSearchPaths();
-		}
-
 		m_args.logErrors = logErrors;
 		m_args.language = "c++";
 		m_args.languageStandard = "1z";

@@ -174,6 +174,27 @@ FilePath FilePath::concat(const FilePath& other) const
 	return boost::filesystem::path(m_path) / other.m_path;
 }
 
+bool FilePath::contains(const FilePath& other) const
+{
+	if (!isDirectory())
+	{
+		return false;
+	}
+
+	boost::filesystem::path dir = m_path;
+	boost::filesystem::path dir2 = other.m_path;
+
+	auto dir_len = std::distance(dir.begin(), dir.end());
+	auto dir2_len = std::distance(dir2.begin(), dir2.end());
+
+	if (dir_len > dir2_len)
+	{
+		return false;
+	}
+
+	return std::equal(dir.begin(), dir.end(), dir2.begin());
+}
+
 std::string FilePath::str() const
 {
 	return m_path.generic_string();

@@ -35,7 +35,6 @@
 		</framework_search_paths>
 
 		<extensions>
-			<header_extensions><!-- STRING: extension for header/include e.g. .h --></header_extensions>
 			<source_extensions><!-- STRING: extension for source e.g. .cpp --></source_extensions>
 		</extensions>
 

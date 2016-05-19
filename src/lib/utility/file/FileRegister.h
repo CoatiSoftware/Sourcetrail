@@ -2,6 +2,7 @@
 #define FILE_REGISTER_H
 
 #include <map>
+#include <unordered_map>
 #include <mutex>
 #include <set>
 #include <string>
@@ -12,6 +13,8 @@
 
 class FileManager;
 
+struct FileInfo;
+
 class FileRegister
 {
 public:
@@ -19,7 +22,8 @@ public:
 
 	void setFilePaths(const std::vector<FilePath>& filePaths);
 
-	const FileManager* getFileManager() const;
+	bool hasFilePath(const FilePath& filePath) const;
+	const FileInfo getFileInfo(const FilePath& filePath) const;
 
 	std::vector<FilePath> getUnparsedSourceFilePaths() const;
 
@@ -47,6 +51,12 @@ private:
 
 	const FileManager* m_fileManager;
 
+	mutable std::unordered_map<std::string, bool> m_projectFiles;
+	mutable std::mutex m_projectFilesMutex;
+
+	mutable std::unordered_map<std::string, FileInfo> m_projectFileInfos;
+	mutable std::mutex m_projectFileInfosMutex;
+
 	std::map<FilePath, ParseState> m_sourceFilePaths;
 	std::map<FilePath, ParseState> m_includeFilePaths;
 
@@ -55,6 +65,7 @@ private:
 	mutable std::mutex m_sourceFileMutex;
 	mutable std::mutex m_includeFileMutex;
 	mutable std::mutex m_threadFileMutex;
+	mutable std::mutex m_fileManagerMutex;
 };
 
 #endif // FILE_REGISTER_H

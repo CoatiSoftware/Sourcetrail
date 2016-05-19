@@ -23,14 +23,11 @@ public:
 		std::vector<std::string> sourceExtensions;
 		sourceExtensions.push_back(".cpp");
 		sourceExtensions.push_back(".c");
-		std::vector<std::string> includeExtensions;
-		includeExtensions.push_back(".hpp");
-		includeExtensions.push_back(".h");
 
 		FileManager fm;
-		fm.setPaths(sourcePaths, headerPaths, sourceExtensions, includeExtensions);
+		fm.setPaths(sourcePaths, headerPaths, sourceExtensions);
 		fm.fetchFilePaths(std::vector<FileInfo>());
 
-		TS_ASSERT_EQUALS(fm.getAddedFilePaths().size(), 4);
+		TS_ASSERT_EQUALS(fm.getAddedFilePaths().size(), 2);
 	}
 };

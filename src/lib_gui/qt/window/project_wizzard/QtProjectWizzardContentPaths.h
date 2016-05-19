@@ -69,9 +69,6 @@ public:
 	virtual QStringList getFileNames() const override;
 	virtual QString getFileNamesTitle() const override;
 	virtual QString getFileNamesDescription() const override;
-
-protected:
-	QStringList getSourceFileNames(bool headersOnly) const;
 };
 
 class QtProjectWizzardContentPathsCDBHeader
@@ -79,11 +76,6 @@ class QtProjectWizzardContentPathsCDBHeader
 {
 public:
 	QtProjectWizzardContentPathsCDBHeader(ProjectSettings* settings, QtProjectWizzardWindow* window);
-
-	// QtProjectWizzardContent implementation
-	virtual QStringList getFileNames() const override;
-	virtual QString getFileNamesTitle() const override;
-	virtual QString getFileNamesDescription() const override;
 };
 
 

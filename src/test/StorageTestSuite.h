@@ -39,7 +39,7 @@ public:
 		TestStorage storage;
 
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
-		Id id = intermetiateStorage->addNode(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(a), true);
+		intermetiateStorage->addNode(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(a), true);
 
 		storage.inject(intermetiateStorage.get());
 

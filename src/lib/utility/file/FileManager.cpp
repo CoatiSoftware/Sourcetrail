@@ -23,13 +23,11 @@ const std::vector<FilePath>& FileManager::getSourcePaths() const
 void FileManager::setPaths(
 	std::vector<FilePath> sourcePaths,
 	std::vector<FilePath> headerPaths,
-	std::vector<std::string> sourceExtensions,
-	std::vector<std::string> includeExtensions
+	std::vector<std::string> sourceExtensions
 ){
 	m_sourcePaths = sourcePaths;
 	m_headerPaths = headerPaths;
 	m_sourceExtensions = sourceExtensions;
-	m_includeExtensions = includeExtensions;
 }
 
 void FileManager::fetchFilePaths(const std::vector<FileInfo>& oldFileInfos)
@@ -46,10 +44,24 @@ void FileManager::fetchFilePaths(const std::vector<FileInfo>& oldFileInfos)
 
 	for (std::map<FilePath, FileInfo>::iterator it = m_files.begin(); it != m_files.end(); it++)
 	{
-		m_removedFiles.insert(it->first);
+		const FilePath& filePath = it->first;
+		if (filePath.exists() && !hasSourceExtension(filePath))
+		{
+			FileInfo fileInfo = FileSystem::getFileInfoForPath(filePath);
+
+			if (fileInfo.lastWriteTime > it->second.lastWriteTime)
+			{
+				it->second.lastWriteTime = fileInfo.lastWriteTime;
+				m_updatedFiles.insert(filePath);
+			}
+		}
+		else
+		{
+			m_removedFiles.insert(filePath);
+		}
 	}
 
-	std::vector<FileInfo> fileInfos = getFileInfosInProject();
+	std::vector<FileInfo> fileInfos = FileSystem::getFileInfosFromPaths(m_sourcePaths, m_sourceExtensions);
 	for (FileInfo fileInfo: fileInfos)
 	{
 		const FilePath& filePath = fileInfo.path;
@@ -60,7 +72,7 @@ void FileManager::fetchFilePaths(const std::vector<FileInfo>& oldFileInfos)
 			if (fileInfo.lastWriteTime > it->second.lastWriteTime)
 			{
 				it->second.lastWriteTime = fileInfo.lastWriteTime;
-				m_updatedFiles.insert(fileInfo.path);
+				m_updatedFiles.insert(filePath);
 			}
 		}
 		else
@@ -93,17 +105,25 @@ std::set<FilePath> FileManager::getRemovedFilePaths() const
 
 bool FileManager::hasFilePath(const FilePath& filePath) const
 {
-	return (m_files.find(filePath) != m_files.end());
+	if (m_files.find(filePath) != m_files.end())
+	{
+		return true;
+	}
+
+	for (FilePath path : m_headerPaths)
+	{
+		if (path == filePath || path.contains(filePath))
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 bool FileManager::hasSourceExtension(const FilePath& filePath) const
 {
 	return filePath.hasExtension(m_sourceExtensions);
-}
-
-bool FileManager::hasIncludeExtension(const FilePath& filePath) const
-{
-	return filePath.hasExtension(m_includeExtensions);
 }
 
 const FileInfo FileManager::getFileInfo(const FilePath& filePath) const
@@ -112,28 +132,8 @@ const FileInfo FileManager::getFileInfo(const FilePath& filePath) const
 
 	if (it == m_files.end())
 	{
-		LOG_ERROR("No FileInfo found for file: " + filePath.str());
+		return FileSystem::getFileInfoForPath(filePath);
 	}
 
 	return it->second;
-}
-
-std::vector<FileInfo> FileManager::getFileInfosInProject() const
-{
-	std::vector<FileInfo> fileInfos;
-
-	std::vector<std::pair<std::vector<FilePath>, std::vector<std::string>>> pathsExtensionsPairs;
-	pathsExtensionsPairs.push_back(std::make_pair(m_sourcePaths, m_includeExtensions));
-	pathsExtensionsPairs.push_back(std::make_pair(m_sourcePaths, m_sourceExtensions));
-	pathsExtensionsPairs.push_back(std::make_pair(m_headerPaths, m_includeExtensions));
-
-	for (size_t i = 0; i < pathsExtensionsPairs.size(); i++)
-	{
-		utility::append(
-			fileInfos,
-			FileSystem::getFileInfosFromPaths(pathsExtensionsPairs[i].first, pathsExtensionsPairs[i].second)
-		);
-	}
-
-	return fileInfos;
 }

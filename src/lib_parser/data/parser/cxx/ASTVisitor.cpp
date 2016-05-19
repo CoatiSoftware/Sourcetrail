@@ -10,7 +10,6 @@
 #include "data/parser/cxx/utilityCxx.h"
 #include "data/parser/ParseLocation.h"
 
-#include "utility/file/FileManager.h"
 #include "utility/ScopedSwitcher.h"
 
 // TODO: For an array access, X[I], skip over the array-to-pointer decay.  We
@@ -1534,9 +1533,9 @@ bool ASTVisitor::isLocatedInProjectFile(clang::SourceLocation loc)
 	{
 		fileId = sourceManager.getFileID(spellingLoc);
 	}
+
 	if (!fileId.isInvalid())
 	{
-
 		auto it = m_inProjectFileMap.find(fileId);
 		if (it != m_inProjectFileMap.end())
 		{
@@ -1548,11 +1547,12 @@ bool ASTVisitor::isLocatedInProjectFile(clang::SourceLocation loc)
 		{
 			std::string fileName = fileEntry->getName();
 			FilePath filePath = FilePath(fileName).canonical();
-			bool ret = m_fileRegister->getFileManager()->hasFilePath(filePath.str());
+			bool ret = m_fileRegister->hasFilePath(filePath.str());
 			m_inProjectFileMap[fileId] = ret;
 			return ret;
 		}
 	}
+
 	return false;
 }
 

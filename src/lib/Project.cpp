@@ -247,18 +247,16 @@ void Project::updateFileManager()
 	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
 
 	std::vector<FilePath> sourcePaths = projSettings->getAbsoluteSourcePaths();
-	std::vector<FilePath> headerPaths;
+	std::vector<FilePath> headerPaths = sourcePaths;
 
 	if (projSettings->getCompilationDatabasePath().exists())
 	{
-		headerPaths = sourcePaths;
 		sourcePaths = TaskParseCxx::getSourceFilesFromCDB(projSettings->getCompilationDatabasePath());
 	}
 
 	std::vector<std::string> sourceExtensions = projSettings->getSourceExtensions();
-	std::vector<std::string> includeExtensions = projSettings->getHeaderExtensions();
 
-	m_fileManager.setPaths(sourcePaths, headerPaths, sourceExtensions, includeExtensions);
+	m_fileManager.setPaths(sourcePaths, headerPaths, sourceExtensions);
 }
 
 Parser::Arguments Project::getParserArguments() const

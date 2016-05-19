@@ -18,11 +18,9 @@ public:
 	void setPaths(
 		std::vector<FilePath> sourcePaths,
 		std::vector<FilePath> headerPaths,
-		std::vector<std::string> sourceExtensions,
-		std::vector<std::string> includeExtensions
+		std::vector<std::string> sourceExtensions
 	);
 
-	void clear();
 	void fetchFilePaths(const std::vector<FileInfo>& oldFileInfos);
 
 	std::set<FilePath> getAddedFilePaths() const;
@@ -31,13 +29,10 @@ public:
 
 	virtual bool hasFilePath(const FilePath& filePath) const;
 	virtual bool hasSourceExtension(const FilePath& filePath) const;
-	virtual bool hasIncludeExtension(const FilePath& filePath) const;
 
 	virtual const FileInfo getFileInfo(const FilePath& filePath) const;
 
 private:
-	std::vector<FileInfo> getFileInfosInProject() const;
-
 	std::map<FilePath, FileInfo> m_files;
 
 	std::vector<FilePath> m_sourcePaths;

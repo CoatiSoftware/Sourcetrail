@@ -1,11 +1,9 @@
 #include "data/parser/cxx/PreprocessorCallbacks.h"
 
-
 #include "clang/Driver/Util.h"
 #include "clang/Basic/IdentifierTable.h"
 #include "clang/Lex/MacroArgs.h"
 
-#include "utility/file/FileManager.h"
 #include "utility/file/FileRegister.h"
 
 #include "data/parser/ParserClient.h"
@@ -29,19 +27,17 @@ void PreprocessorCallbacks::FileChanged(
 	}
 
 	const clang::FileEntry *fileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(location));
-
 	if (!fileEntry)
 	{
 		return;
 	}
 
-	FilePath filePath(fileEntry->getName());
-	filePath = filePath.canonical();
+	FilePath filePath = FilePath(fileEntry->getName()).canonical();
 
-	if (m_fileRegister->getFileManager()->hasFilePath(filePath.str()))
+	if (m_fileRegister->hasFilePath(filePath) && !m_fileRegister->includeFileIsParsed(filePath))
 	{
-		m_client->onFileParsed(m_fileRegister->getFileManager()->getFileInfo(filePath));
-		m_fileRegister->markIncludeFileParsing(filePath.str());
+		m_client->onFileParsed(m_fileRegister->getFileInfo(filePath));
+		m_fileRegister->markIncludeFileParsing(filePath);
 	}
 }
 
@@ -54,16 +50,18 @@ void PreprocessorCallbacks::InclusionDirective(
 	if (fileEntry && baseFileEntry)
 	{
 		FilePath baseFilePath = FilePath(baseFileEntry->getName()).canonical();
-		FilePath includedFilePath = FilePath(fileEntry->getName()).canonical();
+		if (!m_fileRegister->hasFilePath(baseFilePath) || m_fileRegister->fileIsParsed(baseFilePath))
+		{
+			return;
+		}
 
-		const FileManager* fileManager = m_fileRegister->getFileManager();
-		if (fileManager->hasFilePath(baseFilePath) && fileManager->hasFilePath(includedFilePath) &&
-			!m_fileRegister->fileIsParsed(baseFilePath))
+		FilePath includedFilePath = FilePath(fileEntry->getName()).canonical();
+		if (m_fileRegister->hasFilePath(includedFilePath))
 		{
 			m_client->onFileIncludeParsed(
 				getParseLocation(fileNameRange.getAsRange()),
-				fileManager->getFileInfo(baseFilePath),
-				fileManager->getFileInfo(includedFilePath)
+				m_fileRegister->getFileInfo(baseFilePath),
+				m_fileRegister->getFileInfo(includedFilePath)
 			);
 		}
 	}
@@ -78,7 +76,7 @@ void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, con
 	}
 
 	FilePath filePath = FilePath(fileStr);
-	if (m_fileRegister->getFileManager()->hasFilePath(filePath) && !m_fileRegister->fileIsParsed(filePath))
+	if (m_fileRegister->hasFilePath(filePath) && !m_fileRegister->fileIsParsed(filePath))
 	{
 		// ignore builtin macros
 		if (m_sourceManager.getSpellingLoc(macroNameToken.getLocation()).printToString(m_sourceManager)[0] == '<')
@@ -105,7 +103,7 @@ void PreprocessorCallbacks::MacroExpands(
 	}
 
 	FilePath filePath = FilePath(fileStr);
-	if (m_fileRegister->getFileManager()->hasFilePath(filePath) && !m_fileRegister->fileIsParsed(filePath))
+	if (m_fileRegister->hasFilePath(filePath) && !m_fileRegister->fileIsParsed(filePath))
 	{
 		NameHierarchy nameHierarchy;
 		nameHierarchy.push(std::make_shared<NameElement>(macroNameToken.getIdentifierInfo()->getName().str()));

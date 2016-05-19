@@ -397,9 +397,22 @@ void QtProjectWizzard::emptyProject()
 
 void QtProjectWizzard::sourcePaths()
 {
-	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentPathsSource>();
+	QtProjectWizzardWindow* window = createWindowWithSummary(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+		{
+			ProjectSettings* settings = &m_settings;
+
+			QtProjectWizzardContent* source = new QtProjectWizzardContentPathsSource(settings, window);
+			summary->addContent(source, false, false);
+			connectShowFiles(source);
+
+			summary->addContent(new QtProjectWizzardContentExtensions(settings, window), false, false);
+
+			window->setup();
+		}
+	);
+
 	connect(window, SIGNAL(next()), this, SLOT(headerSearchPaths()));
-	connectShowFiles(window->content());
 }
 
 void QtProjectWizzard::headerSearchPaths()
@@ -462,7 +475,6 @@ void QtProjectWizzard::headerPathsCDB()
 
 			QtProjectWizzardContent* header = new QtProjectWizzardContentPathsCDBHeader(settings, window);
 			summary->addContent(header, false, false);
-			connectShowFiles(header);
 
 			window->setup();
 

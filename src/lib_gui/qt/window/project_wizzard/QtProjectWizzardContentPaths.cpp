@@ -45,7 +45,7 @@ void QtProjectWizzardContentPaths::populateWindow(QGridLayout* layout, int& row)
 
 	if (m_showFilesString.size() > 0)
 	{
-		layout->setRowStretch(row, 10);
+		layout->setRowStretch(row, 0);
 		addFilesButton(m_showFilesString, layout, row);
 	}
 
@@ -243,29 +243,9 @@ bool QtProjectWizzardContentPathsSource::check()
 
 QStringList QtProjectWizzardContentPathsSource::getFileNames() const
 {
-	return getSourceFileNames(false);
-}
-
-QString QtProjectWizzardContentPathsSource::getFileNamesTitle() const
-{
-	return "Analyzed Files";
-}
-
-QString QtProjectWizzardContentPathsSource::getFileNamesDescription() const
-{
-	return "files will be analyzed.";
-}
-
-QStringList QtProjectWizzardContentPathsSource::getSourceFileNames(bool headersOnly) const
-{
 	std::vector<FilePath> sourcePaths = m_settings->getAbsoluteSourcePaths();
 
-	std::vector<std::string> extensions;
-	if (!headersOnly)
-	{
-		utility::append(extensions, m_settings->getSourceExtensions());
-	}
-	utility::append(extensions, m_settings->getHeaderExtensions());
+	std::vector<std::string> extensions = m_settings->getSourceExtensions();
 
 	std::vector<FileInfo> fileInfos = FileSystem::getFileInfosFromPaths(sourcePaths, extensions);
 	FilePath projectPath = m_settings->getProjectFileLocation();
@@ -286,37 +266,32 @@ QStringList QtProjectWizzardContentPathsSource::getSourceFileNames(bool headersO
 	return list;
 }
 
+QString QtProjectWizzardContentPathsSource::getFileNamesTitle() const
+{
+	return "Analyzed Files";
+}
+
+QString QtProjectWizzardContentPathsSource::getFileNamesDescription() const
+{
+	return "files will be analyzed.";
+}
+
 QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 	ProjectSettings* settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPathsSource(settings, window)
 {
-	m_showFilesString = "show header files";
+	m_showFilesString = "";
 
 	setTitleString("Header Paths");
 	setDescriptionString(
 		"Add the header files or directories containing the header files of the source files above. These header files "
-		"will be analyzed if included."
+		"or files within these directories will be analyzed if included."
 	);
 	setHelpString(
 		"The compilation database only contains source files. Add the header files or directories containing the header "
 		"files of these source files. The header files will be analyzed if included."
 	);
-}
-
-QStringList QtProjectWizzardContentPathsCDBHeader::getFileNames() const
-{
-	return getSourceFileNames(true);
-}
-
-QString QtProjectWizzardContentPathsCDBHeader::getFileNamesTitle() const
-{
-	return "Header Files";
-}
-
-QString QtProjectWizzardContentPathsCDBHeader::getFileNamesDescription() const
-{
-	return "header files found.";
 }
 
 QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSearch(

@@ -2,14 +2,6 @@
 
 #include "utility/utility.h"
 
-std::vector<std::string> ProjectSettings::getDefaultHeaderExtensions()
-{
-	std::vector<std::string> defaultValues;
-	defaultValues.push_back(".h");
-	defaultValues.push_back(".hpp");
-	return defaultValues;
-}
-
 std::vector<std::string> ProjectSettings::getDefaultSourceExtensions()
 {
 	std::vector<std::string> defaultValues;
@@ -53,7 +45,6 @@ bool ProjectSettings::operator==(const ProjectSettings& other) const
 		utility::isPermutation<FilePath>(getHeaderSearchPaths(), other.getHeaderSearchPaths()) &&
 		utility::isPermutation<FilePath>(getFrameworkSearchPaths(), other.getFrameworkSearchPaths()) &&
 		utility::isPermutation<std::string>(getCompilerFlags(), other.getCompilerFlags()) &&
-		utility::isPermutation<std::string>(getHeaderExtensions(), other.getHeaderExtensions()) &&
 		utility::isPermutation<std::string>(getSourceExtensions(), other.getSourceExtensions());
 }
 
@@ -155,19 +146,9 @@ bool ProjectSettings::setCompilerFlags(const std::vector<std::string>& compilerF
 	return setValues("source/compiler_flags/compiler_flag", compilerFlags);
 }
 
-std::vector<std::string> ProjectSettings::getHeaderExtensions() const
-{
-	return getValues("source/extensions/header_extensions", getDefaultHeaderExtensions());
-}
-
 std::vector<std::string> ProjectSettings::getSourceExtensions() const
 {
 	return getValues("source/extensions/source_extensions", getDefaultSourceExtensions());
-}
-
-bool ProjectSettings::setHeaderExtensions(const std::vector<std::string> &headerExtensions)
-{
-	return setValues("source/extensions/header_extensions", headerExtensions);
 }
 
 bool ProjectSettings::setSourceExtensions(const std::vector<std::string> &sourceExtensions)
