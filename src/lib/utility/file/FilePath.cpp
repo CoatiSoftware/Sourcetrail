@@ -182,17 +182,33 @@ bool FilePath::contains(const FilePath& other) const
 	}
 
 	boost::filesystem::path dir = m_path;
-	boost::filesystem::path dir2 = other.m_path;
+	const boost::filesystem::path& dir2 = other.m_path;
 
-	auto dir_len = std::distance(dir.begin(), dir.end());
-	auto dir2_len = std::distance(dir2.begin(), dir2.end());
+  	if (dir.filename() == ".")
+  	{
+  		dir.remove_filename();
+  	}
 
-	if (dir_len > dir2_len)
+	auto it = dir.begin();
+	auto it2 = dir2.begin();
+
+	while (it != dir.end())
 	{
-		return false;
+		if (it2 == dir2.end())
+		{
+			return false;
+		}
+
+		if (*it != *it2)
+		{
+			return false;
+		}
+
+		it++;
+		it2++;
 	}
 
-	return std::equal(dir.begin(), dir.end(), dir2.begin());
+	return true;
 }
 
 std::string FilePath::str() const
