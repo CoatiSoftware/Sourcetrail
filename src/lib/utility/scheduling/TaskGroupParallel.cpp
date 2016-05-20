@@ -1,7 +1,5 @@
 #include "utility/scheduling/TaskGroupParallel.h"
 
-#include <thread>
-
 TaskGroupParallel::TaskGroupParallel()
 {
 }

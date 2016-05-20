@@ -103,10 +103,10 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 {
 	for (size_t i = 0; i < m_dummyNodes.size(); i++)
 	{
-		DummyNode& node = m_dummyNodes[i];
-		if (node.isBundleNode() && node.tokenId == message->bundleId)
+		DummyNode* node = m_dummyNodes[i].get();
+		if (node->isBundleNode() && node->tokenId == message->bundleId)
 		{
-			m_dummyNodes.insert(m_dummyNodes.begin() + i + 1, node.bundledNodes.begin(), node.bundledNodes.end());
+			m_dummyNodes.insert(m_dummyNodes.begin() + i + 1, node->bundledNodes.begin(), node->bundledNodes.end());
 			m_dummyNodes.erase(m_dummyNodes.begin() + i);
 			break;
 		}
@@ -114,8 +114,8 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 
 	for (size_t i = 0; i < m_dummyEdges.size(); i++)
 	{
-		DummyEdge& edge = m_dummyEdges[i];
-		if (!edge.data && edge.targetId == message->bundleId)
+		DummyEdge* edge = m_dummyEdges[i].get();
+		if (!edge->data && edge->targetId == message->bundleId)
 		{
 			m_dummyEdges.erase(m_dummyEdges.begin() + i);
 			break;
@@ -133,7 +133,7 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 
 void GraphController::handleMessage(MessageGraphNodeExpand* message)
 {
-	DummyNode* node = findDummyNodeRecursive(m_dummyNodes, message->tokenId);
+	DummyNode* node = getDummyGraphNodeById(message->tokenId);
 	if (node)
 	{
 		node->expanded = message->expand;
@@ -149,7 +149,7 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 
 void GraphController::handleMessage(MessageGraphNodeMove* message)
 {
-	DummyNode* node = findDummyNodeRecursive(m_dummyNodes, message->tokenId);
+	DummyNode* node = getDummyGraphNodeById(message->tokenId);
 	if (node)
 	{
 		node->position += message->delta;
@@ -180,6 +180,8 @@ void GraphController::clear()
 	m_dummyNodes.clear();
 	m_dummyEdges.clear();
 
+	m_dummyGraphNodes.clear();
+
 	m_activeNodeIds.clear();
 	m_activeEdgeIds.clear();
 
@@ -197,9 +199,10 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	}
 
 	m_dummyEdges.clear();
+	m_dummyGraphNodes.clear();
 
 	std::set<Id> addedNodes;
-	std::vector<DummyNode> dummyNodes;
+	std::vector<std::shared_ptr<DummyNode>> dummyNodes;
 
 	graph->forEachNode(
 		[&addedNodes, &dummyNodes, this](Node* node)
@@ -216,10 +219,22 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 		}
 	);
 
-	for (DummyNode& node : dummyNodes)
+	std::set<Id> addedEdges;
+	graph->forEachEdge(
+		[&addedEdges, this](Edge* edge)
+		{
+			if (!edge->isType(Edge::EDGE_MEMBER) && addedEdges.find(edge->getId()) == addedEdges.end())
+			{
+				m_dummyEdges.push_back(std::make_shared<DummyEdge>(edge->getFrom()->getId(), edge->getTo()->getId(), edge));
+				addedEdges.insert(edge->getId());
+			}
+		}
+	);
+
+	for (std::shared_ptr<DummyNode> node : dummyNodes)
 	{
-		node.hasParent = false;
-		node.name = node.data->getFullName();
+		node->hasParent = false;
+		node->name = node->data->getFullName();
 	}
 
 	m_dummyNodes = dummyNodes;
@@ -230,12 +245,12 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	m_graph = graph;
 }
 
-DummyNode GraphController::createDummyNodeTopDown(Node* node)
+std::shared_ptr<DummyNode> GraphController::createDummyNodeTopDown(Node* node)
 {
-	DummyNode result;
-	result.data = node;
-	result.tokenId = node->getId();
-	result.name = node->getName();
+	std::shared_ptr<DummyNode> result = std::make_shared<DummyNode>();
+	result->data = node;
+	result->tokenId = node->getId();
+	result->name = node->getName();
 
 	// there is a global root node with id 0 afaik, so here we actually want the one node below this global root
 	Node* parent = node;
@@ -246,14 +261,14 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 
 	if (parent != NULL)
 	{
-		result.topLevelAncestorId = parent->getId();
+		result->topLevelAncestorId = parent->getId();
 	}
 
 	// Expand nodes that were expanded before, except functions.
-	DummyNode* oldNode = findDummyNodeRecursive(m_dummyNodes, node->getId());
+	DummyNode* oldNode = getDummyGraphNodeById(node->getId());
 	if (oldNode && oldNode->isGraphNode() && !oldNode->data->isType(Node::NODE_FUNCTION | Node::NODE_METHOD))
 	{
-		result.expanded = oldNode->isExpanded();
+		result->expanded = oldNode->isExpanded();
 	}
 
 	node->forEachChildNode(
@@ -277,27 +292,27 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 				}
 				else
 				{
-					parent = &result;
+					parent = result.get();
 				}
 			}
 
 			if (accessType != TokenComponentAccess::ACCESS_NONE)
 			{
-				for (DummyNode& dummy : result.subNodes)
+				for (std::shared_ptr<DummyNode> dummy : result->subNodes)
 				{
-					if (dummy.accessType == accessType)
+					if (dummy->accessType == accessType)
 					{
-						parent = &dummy;
+						parent = dummy.get();
 						break;
 					}
 				}
 
 				if (!parent)
 				{
-					DummyNode accessNode;
-					accessNode.accessType = accessType;
-					result.subNodes.push_back(accessNode);
-					parent = &result.subNodes.back();
+					std::shared_ptr<DummyNode> accessNode = std::make_shared<DummyNode>();
+					accessNode->accessType = accessType;
+					result->subNodes.push_back(accessNode);
+					parent = accessNode.get();
 				}
 			}
 
@@ -305,21 +320,7 @@ DummyNode GraphController::createDummyNodeTopDown(Node* node)
 		}
 	);
 
-	node->forEachEdgeOfType(
-		~Edge::EDGE_MEMBER,
-		[&result, node, this](Edge* edge)
-		{
-			for (const DummyEdge& dummy : m_dummyEdges)
-			{
-				if (dummy.data->getId() == edge->getId())
-				{
-					return;
-				}
-			}
-
-			m_dummyEdges.push_back(DummyEdge(edge->getFrom()->getId(), edge->getTo()->getId(), edge));
-		}
-	);
+	m_dummyGraphNodes.emplace(result->data->getId(), result.get());
 
 	return result;
 }
@@ -329,7 +330,7 @@ void GraphController::autoExpandActiveNode(const std::vector<Id>& activeTokenIds
 	DummyNode* node = nullptr;
 	if (activeTokenIds.size() == 1)
 	{
-		node = findDummyNodeRecursive(m_dummyNodes, activeTokenIds[0]);
+		node = getDummyGraphNodeById(activeTokenIds[0]);
 	}
 
 	if (node)
@@ -344,78 +345,78 @@ void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenI
 	if (activeTokenIds.size() > 0)
 	{
 		noActive = true;
-		for (DummyNode& node : m_dummyNodes)
+		for (std::shared_ptr<DummyNode> node : m_dummyNodes)
 		{
-			setNodeActiveRecursive(node, activeTokenIds, &noActive);
+			setNodeActiveRecursive(node.get(), activeTokenIds, &noActive);
 		}
 	}
 
-	for (DummyEdge& edge : m_dummyEdges)
+	for (std::shared_ptr<DummyEdge> edge : m_dummyEdges)
 	{
-		if (!edge.data)
+		if (!edge->data)
 		{
 			continue;
 		}
 
-		edge.active = false;
-		if (find(activeTokenIds.begin(), activeTokenIds.end(), edge.data->getId()) != activeTokenIds.end())
+		edge->active = false;
+		if (find(activeTokenIds.begin(), activeTokenIds.end(), edge->data->getId()) != activeTokenIds.end())
 		{
-			edge.active = true;
+			edge->active = true;
 			noActive = false;
 		}
 
-		DummyNode* from = findDummyNodeRecursive(m_dummyNodes, edge.ownerId);
-		DummyNode* to = findDummyNodeRecursive(m_dummyNodes, edge.targetId);
+		DummyNode* from = getDummyGraphNodeById(edge->ownerId);
+		DummyNode* to = getDummyGraphNodeById(edge->targetId);
 
-		if (from && to && (noActive || from->active || to->active || edge.active))
+		if (from && to && (noActive || from->active || to->active || edge->active))
 		{
-			edge.visible = true;
+			edge->visible = true;
 			from->connected = true;
 			to->connected = true;
 		}
 	}
 
-	for (DummyNode& node : m_dummyNodes)
+	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
 	{
-		removeImplicitChildrenRecursive(node);
+		removeImplicitChildrenRecursive(node.get());
 
-		setNodeVisibilityRecursiveBottomUp(node, noActive);
+		setNodeVisibilityRecursiveBottomUp(node.get(), noActive);
 	}
 }
 
-void GraphController::setNodeActiveRecursive(DummyNode& node, const std::vector<Id>& activeTokenIds, bool* noActive) const
+void GraphController::setNodeActiveRecursive(DummyNode* node, const std::vector<Id>& activeTokenIds, bool* noActive) const
 {
-	node.active = false;
+	node->active = false;
 
-	if (node.isGraphNode())
+	if (node->isGraphNode())
 	{
-		node.active = find(activeTokenIds.begin(), activeTokenIds.end(), node.data->getId()) != activeTokenIds.end();
+		node->active = find(activeTokenIds.begin(), activeTokenIds.end(), node->data->getId()) != activeTokenIds.end();
 
-		if (node.active)
+		if (node->active)
 		{
 			*noActive = false;
 		}
 	}
 
-	for (DummyNode& subNode : node.subNodes)
+	for (std::shared_ptr<DummyNode> subNode : node->subNodes)
 	{
-		setNodeActiveRecursive(subNode, activeTokenIds, noActive);
+		setNodeActiveRecursive(subNode.get(), activeTokenIds, noActive);
 	}
 }
 
-void GraphController::removeImplicitChildrenRecursive(DummyNode& node)
+void GraphController::removeImplicitChildrenRecursive(DummyNode* node)
 {
-	if (node.isGraphNode() && !node.data->isExplicit())
+	if (node->isGraphNode() && !node->data->isExplicit())
 	{
 		return;
 	}
 
-	for (size_t i = 0; i < node.subNodes.size(); i++)
+	for (size_t i = 0; i < node->subNodes.size(); i++)
 	{
 		bool removeNode = false;
 
-		DummyNode& subNode = node.subNodes[i];
-		if (subNode.isGraphNode() && subNode.data->isImplicit() && !subNode.connected && !subNode.active && !subNode.subNodes.size())
+		DummyNode* subNode = node->subNodes[i].get();
+		if (subNode->isGraphNode() && subNode->data->isImplicit() && !subNode->connected && !subNode->active && !subNode->subNodes.size())
 		{
 			removeNode = true;
 		}
@@ -423,7 +424,7 @@ void GraphController::removeImplicitChildrenRecursive(DummyNode& node)
 		{
 			removeImplicitChildrenRecursive(subNode);
 
-			if (subNode.isAccessNode() && subNode.subNodes.size() == 0)
+			if (subNode->isAccessNode() && subNode->subNodes.size() == 0)
 			{
 				removeNode = true;
 			}
@@ -431,56 +432,56 @@ void GraphController::removeImplicitChildrenRecursive(DummyNode& node)
 
 		if (removeNode)
 		{
-			node.subNodes.erase(node.subNodes.begin() + i);
+			node->subNodes.erase(node->subNodes.begin() + i);
 			i--;
 		}
 	}
 }
 
-bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode& node, bool noActive) const
+bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode* node, bool noActive) const
 {
-	node.visible = false;
-	node.childVisible = false;
+	node->visible = false;
+	node->childVisible = false;
 
-	if (node.isExpandToggleNode())
+	if (node->isExpandToggleNode())
 	{
-		node.visible = true;
+		node->visible = true;
 		return false;
 	}
-	else if (node.isBundleNode())
+	else if (node->isBundleNode())
 	{
-		node.visible = true;
+		node->visible = true;
 		return true;
 	}
 
-	for (DummyNode& subNode : node.subNodes)
+	for (std::shared_ptr<DummyNode> subNode : node->subNodes)
 	{
-		if (setNodeVisibilityRecursiveBottomUp(subNode, noActive))
+		if (setNodeVisibilityRecursiveBottomUp(subNode.get(), noActive))
 		{
-			node.childVisible = true;
+			node->childVisible = true;
 		}
 	}
 
-	if (noActive || node.active || node.connected || node.childVisible)
+	if (noActive || node->active || node->connected || node->childVisible)
 	{
 		setNodeVisibilityRecursiveTopDown(node, false);
 	}
 
-	return node.visible;
+	return node->visible;
 }
 
-void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode& node, bool parentExpanded) const
+void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode* node, bool parentExpanded) const
 {
-	node.visible = true;
+	node->visible = true;
 
-	if ((node.isGraphNode() && node.isExpanded()) ||
-		(node.isAccessNode() && parentExpanded) ||
-		(node.isGraphNode() && parentExpanded && node.data->isType(Node::NODE_ENUM_CONSTANT)))
+	if ((node->isGraphNode() && node->isExpanded()) ||
+		(node->isAccessNode() && parentExpanded) ||
+		(node->isGraphNode() && parentExpanded && node->data->isType(Node::NODE_ENUM_CONSTANT)))
 	{
-		for (DummyNode& subNode : node.subNodes)
+		for (std::shared_ptr<DummyNode> subNode : node->subNodes)
 		{
-			node.childVisible = true;
-			setNodeVisibilityRecursiveTopDown(subNode, node.isExpanded());
+			node->childVisible = true;
+			setNodeVisibilityRecursiveTopDown(subNode.get(), node->isExpanded());
 		}
 	}
 }
@@ -488,17 +489,17 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode& node, bool pa
 void GraphController::bundleNodes()
 {
 	// evaluate top level nodes
-	for (DummyNode& node : m_dummyNodes)
+	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
 	{
-		if (!node.isGraphNode() || !node.visible)
+		if (!node->isGraphNode() || !node->visible)
 		{
 			continue;
 		}
 
-		DummyNode::BundleInfo* bundleInfo = &node.bundleInfo;
-		bundleInfo->isActive = node.hasActiveSubNode();
+		DummyNode::BundleInfo* bundleInfo = &node->bundleInfo;
+		bundleInfo->isActive = node->hasActiveSubNode();
 
-		node.data->forEachNodeRecursive(
+		node->data->forEachNodeRecursive(
 			[&bundleInfo](const Node* n)
 			{
 				if (n->isDefined())
@@ -625,13 +626,13 @@ void GraphController::bundleNodesAndEdgesMatching(std::function<bool(const Dummy
 	std::vector<size_t> matchedNodeIndices;
 	for (size_t i = 0; i < m_dummyNodes.size(); i++)
 	{
-		const DummyNode& node = m_dummyNodes[i];
-		if (node.bundleInfo.isActive || !node.visible)
+		const DummyNode* node = m_dummyNodes[i].get();
+		if (node->bundleInfo.isActive || !node->visible)
 		{
 			continue;
 		}
 
-		if (matcher(node.bundleInfo))
+		if (matcher(node->bundleInfo))
 		{
 			matchedNodeIndices.push_back(i);
 		}
@@ -642,23 +643,23 @@ void GraphController::bundleNodesAndEdgesMatching(std::function<bool(const Dummy
 		return;
 	}
 
-	DummyNode bundleNode;
-	bundleNode.name = name;
-	bundleNode.visible = true;
+	std::shared_ptr<DummyNode> bundleNode = std::make_shared<DummyNode>();
+	bundleNode->name = name;
+	bundleNode->visible = true;
 
 	for (int i = matchedNodeIndices.size() - 1; i >= 0; i--)
 	{
-		DummyNode node = m_dummyNodes[matchedNodeIndices[i]];
-		node.visible = false;
+		std::shared_ptr<DummyNode> node = m_dummyNodes[matchedNodeIndices[i]];
+		node->visible = false;
 
-		bundleNode.bundledNodes.push_back(node);
-		bundleNode.bundledNodeCount += node.getConnectedSubNodeCount();
+		bundleNode->bundledNodes.push_back(node);
+		bundleNode->bundledNodeCount += node->getConnectedSubNodeCount();
 
 		m_dummyNodes.erase(m_dummyNodes.begin() + matchedNodeIndices[i]);
 	}
 
-	bundleNode.tokenId = bundleNode.bundledNodes[0].data->getId();
-	bundleNode.bundleInfo.layoutVertical = bundleNode.bundledNodes[0].bundleInfo.layoutVertical;
+	bundleNode->tokenId = bundleNode->bundledNodes[0]->data->getId();
+	bundleNode->bundleInfo.layoutVertical = bundleNode->bundledNodes[0]->bundleInfo.layoutVertical;
 	m_dummyNodes.push_back(bundleNode);
 
 	if (m_dummyEdges.size() == 0)
@@ -666,14 +667,14 @@ void GraphController::bundleNodesAndEdgesMatching(std::function<bool(const Dummy
 		return;
 	}
 
-	std::vector<DummyEdge> bundleEdges;
-	std::vector<const DummyNode*> bundledNodes = bundleNode.getAllBundledNodes();
+	std::vector<std::shared_ptr<DummyEdge>> bundleEdges;
+	std::vector<const DummyNode*> bundledNodes = bundleNode->getAllBundledNodes();
 	for (const DummyNode* node : bundledNodes)
 	{
-		for (DummyEdge& edge : m_dummyEdges)
+		for (std::shared_ptr<DummyEdge> edge : m_dummyEdges)
 		{
-			bool owner = (edge.ownerId == node->data->getId());
-			bool target = (edge.targetId == node->data->getId());
+			bool owner = (edge->ownerId == node->data->getId());
+			bool target = (edge->targetId == node->data->getId());
 
 			if (!owner && !target)
 			{
@@ -681,41 +682,41 @@ void GraphController::bundleNodesAndEdgesMatching(std::function<bool(const Dummy
 			}
 
 			DummyEdge* bundleEdgePtr = nullptr;
-			for (DummyEdge& bundleEdge : bundleEdges)
+			for (std::shared_ptr<DummyEdge> bundleEdge : bundleEdges)
 			{
-				if ((owner && bundleEdge.ownerId == edge.targetId) ||
-					(target && bundleEdge.ownerId == edge.ownerId))
+				if ((owner && bundleEdge->ownerId == edge->targetId) ||
+					(target && bundleEdge->ownerId == edge->ownerId))
 				{
-					bundleEdgePtr = &bundleEdge;
+					bundleEdgePtr = bundleEdge.get();
 					break;
 				}
 			}
 
 			if (!bundleEdgePtr)
 			{
-				DummyEdge bundleEdge;
-				bundleEdge.visible = true;
-				bundleEdge.ownerId = (owner ? edge.targetId : edge.ownerId);
-				bundleEdge.targetId = bundleNode.bundledNodes.front().data->getId();
+				std::shared_ptr<DummyEdge> bundleEdge = std::make_shared<DummyEdge>();
+				bundleEdge->visible = true;
+				bundleEdge->ownerId = (owner ? edge->targetId : edge->ownerId);
+				bundleEdge->targetId = bundleNode->bundledNodes.front()->data->getId();
 				bundleEdges.push_back(bundleEdge);
-				bundleEdgePtr = &bundleEdges.back();
+				bundleEdgePtr = bundleEdges.back().get();
 			}
 
-			bundleEdgePtr->weight += edge.getWeight();
-			bundleEdgePtr->updateDirection(edge.getDirection(), owner);
-			edge.visible = false;
+			bundleEdgePtr->weight += edge->getWeight();
+			bundleEdgePtr->updateDirection(edge->getDirection(), owner);
+			edge->visible = false;
 		}
 	}
 
 	m_dummyEdges.insert(m_dummyEdges.end(), bundleEdges.begin(), bundleEdges.end());
 }
 
-void GraphController::bundleNodesMatching(std::list<DummyNode*>& nodes, std::function<bool(const DummyNode&)> matcher, const std::string& name)
+void GraphController::bundleNodesMatching(std::list<std::shared_ptr<DummyNode>>& nodes, std::function<bool(const DummyNode*)> matcher, const std::string& name)
 {
-	std::vector<std::list<DummyNode*>::iterator> matchedNodes;
-	for (std::list<DummyNode*>::iterator it = nodes.begin(); it != nodes.end(); it++)
+	std::vector<std::list<std::shared_ptr<DummyNode>>::iterator> matchedNodes;
+	for (std::list<std::shared_ptr<DummyNode>>::iterator it = nodes.begin(); it != nodes.end(); it++)
 	{
-		if (matcher(**it))
+		if (matcher(it->get()))
 		{
 			matchedNodes.push_back(it);
 		}
@@ -726,44 +727,44 @@ void GraphController::bundleNodesMatching(std::list<DummyNode*>& nodes, std::fun
 		return;
 	}
 
-	DummyNode bundleNode;
-	bundleNode.name = name;
-	bundleNode.visible = true;
+	std::shared_ptr<DummyNode> bundleNode = std::make_shared<DummyNode>();
+	bundleNode->name = name;
+	bundleNode->visible = true;
 
 	for (int i = matchedNodes.size() - 1; i >= 0; i--)
 	{
-		DummyNode* node = *matchedNodes[i];
+		std::shared_ptr<DummyNode> node = *matchedNodes[i];
 		node->visible = false;
 
-		bundleNode.bundledNodes.push_back(*node);
-		bundleNode.bundledNodeCount += node->getConnectedSubNodeCount();
+		bundleNode->bundledNodes.push_back(node);
+		bundleNode->bundledNodeCount += node->getConnectedSubNodeCount();
 
 		nodes.erase(matchedNodes[i]);
 	}
 
-	bundleNode.tokenId = bundleNode.bundledNodes[0].data->getId();
+	bundleNode->tokenId = bundleNode->bundledNodes[0]->data->getId();
 	m_dummyNodes.push_back(bundleNode);
 }
 
 #define BUNDLE_BY_TYPE(__nodes__, __type__, __name__) \
 	bundleNodesMatching( \
 		__nodes__, \
-		[&](const DummyNode& node) \
+		[&](const DummyNode* node) \
 		{ \
-			return node.visible && node.isGraphNode() && node.data->isType(__type__); \
+			return node->visible && node->isGraphNode() && node->data->isType(__type__); \
 		}, \
 		__name__ \
 	); \
 
 void GraphController::bundleNodesByType()
 {
-	std::vector<DummyNode> oldNodes = m_dummyNodes;
+	std::vector<std::shared_ptr<DummyNode>> oldNodes = m_dummyNodes;
 	m_dummyNodes.clear();
 
-	std::list<DummyNode*> nodes;
+	std::list<std::shared_ptr<DummyNode>> nodes;
 	for (size_t i = 0; i < oldNodes.size(); i++)
 	{
-		nodes.push_back(&oldNodes[i]);
+		nodes.push_back(oldNodes[i]);
 	}
 
 	BUNDLE_BY_TYPE(nodes, Node::NODE_NAMESPACE, "Namespaces");
@@ -788,14 +789,14 @@ void GraphController::bundleNodesByType()
 	BUNDLE_BY_TYPE(nodes, Node::NODE_TEMPLATE_PARAMETER_TYPE, "Template Parameter Types");
 	BUNDLE_BY_TYPE(nodes, Node::NODE_UNDEFINED, "Undefined Symbols");
 
-	for (DummyNode& node : m_dummyNodes)
+	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
 	{
-		if (node.isBundleNode())
+		if (node->isBundleNode())
 		{
-			sort(node.bundledNodes.begin(), node.bundledNodes.end(),
-				[](const DummyNode& a, const DummyNode& b) -> bool
+			sort(node->bundledNodes.begin(), node->bundledNodes.end(),
+				[](const std::shared_ptr<DummyNode> a, const std::shared_ptr<DummyNode> b) -> bool
 				{
-					return utility::toLowerCase(a.name) < utility::toLowerCase(b.name);
+					return utility::toLowerCase(a->name) < utility::toLowerCase(b->name);
 				}
 			);
 		}
@@ -804,39 +805,39 @@ void GraphController::bundleNodesByType()
 
 void GraphController::layoutNesting()
 {
-	for (DummyNode& node : m_dummyNodes)
+	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
 	{
-		layoutNestingRecursive(node);
+		layoutNestingRecursive(node.get());
 	}
 
-	for (DummyNode& node : m_dummyNodes)
+	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
 	{
-		layoutToGrid(node);
+		layoutToGrid(node.get());
 	}
 }
 
-void GraphController::layoutNestingRecursive(DummyNode& node) const
+void GraphController::layoutNestingRecursive(DummyNode* node) const
 {
-	if (!node.visible)
+	if (!node->visible)
 	{
 		return;
 	}
 
 	GraphViewStyle::NodeMargins margins;
 
-	if (node.isGraphNode())
+	if (node->isGraphNode())
 	{
-		margins = GraphViewStyle::getMarginsForNodeType(node.data->getType(), node.childVisible);
+		margins = GraphViewStyle::getMarginsForNodeType(node->data->getType(), node->childVisible);
 	}
-	else if (node.isAccessNode())
+	else if (node->isAccessNode())
 	{
-		margins = GraphViewStyle::getMarginsOfAccessNode(node.accessType);
+		margins = GraphViewStyle::getMarginsOfAccessNode(node->accessType);
 	}
-	else if (node.isExpandToggleNode())
+	else if (node->isExpandToggleNode())
 	{
 		margins = GraphViewStyle::getMarginsOfExpandToggleNode();
 	}
-	else if (node.isBundleNode())
+	else if (node->isBundleNode())
 	{
 		margins = GraphViewStyle::getMarginsOfBundleNode();
 	}
@@ -846,24 +847,24 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 	int width = margins.minWidth;
 	int height = 0;
 
-	if (node.isGraphNode())
+	if (node->isGraphNode())
 	{
 		size_t maxNameSize = 50;
-		if (!node.active && node.name.size() > maxNameSize)
+		if (!node->active && node->name.size() > maxNameSize)
 		{
-			node.name = node.name.substr(0, maxNameSize - 3) + "...";
+			node->name = node->name.substr(0, maxNameSize - 3) + "...";
 		}
 
-		width = margins.charWidth * node.name.size();
+		width = margins.charWidth * node->name.size();
 
-		if (node.data->isType(Node::NODE_TYPE | Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM) && node.subNodes.size())
+		if (node->data->isType(Node::NODE_TYPE | Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM) && node->subNodes.size())
 		{
 			addExpandToggleNode(node);
 		}
 	}
-	else if (node.isBundleNode())
+	else if (node->isBundleNode())
 	{
-		width = margins.charWidth * node.name.size();
+		width = margins.charWidth * node->name.size();
 	}
 
 	width += margins.iconWidth;
@@ -871,45 +872,45 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 	// Horizontal layouting is currently not used, but left in place for experimentation.
 	bool layoutHorizontal = false;
 
-	for (DummyNode& subNode : node.subNodes)
+	for (std::shared_ptr<DummyNode> subNode : node->subNodes)
 	{
-		if (!subNode.visible)
+		if (!subNode->visible)
 		{
 			continue;
 		}
 
-		layoutNestingRecursive(subNode);
+		layoutNestingRecursive(subNode.get());
 
-		if (subNode.isExpandToggleNode())
+		if (subNode->isExpandToggleNode())
 		{
-			width += margins.spacingX + subNode.size.x;
+			width += margins.spacingX + subNode->size.x;
 		}
 	}
 
-	for (DummyNode& subNode : node.subNodes)
+	for (std::shared_ptr<DummyNode> subNode : node->subNodes)
 	{
-		if (!subNode.visible || subNode.isExpandToggleNode())
+		if (!subNode->visible || subNode->isExpandToggleNode())
 		{
 			continue;
 		}
 
-		subNode.position.x = margins.left + x;
-		subNode.position.y = margins.top + margins.charHeight + y;
+		subNode->position.x = margins.left + x;
+		subNode->position.y = margins.top + margins.charHeight + y;
 
 		if (layoutHorizontal)
 		{
-			x += subNode.size.x + margins.spacingX;
-			if (subNode.size.y > height)
+			x += subNode->size.x + margins.spacingX;
+			if (subNode->size.y > height)
 			{
-				height = subNode.size.y;
+				height = subNode->size.y;
 			}
 		}
 		else
 		{
-			y += subNode.size.y + margins.spacingY;
-			if (subNode.size.x > width)
+			y += subNode->size.y + margins.spacingY;
+			if (subNode->size.x > width)
 			{
-				width = subNode.size.x;
+				width = subNode->size.x;
 			}
 		}
 	}
@@ -928,102 +929,102 @@ void GraphController::layoutNestingRecursive(DummyNode& node) const
 		width = x;
 	}
 
-	node.size.x = margins.left + width + margins.right;
-	node.size.y = margins.top + margins.charHeight + y + height + margins.bottom;
+	node->size.x = margins.left + width + margins.right;
+	node->size.y = margins.top + margins.charHeight + y + height + margins.bottom;
 
-	for (DummyNode& subNode : node.subNodes)
+	for (std::shared_ptr<DummyNode> subNode : node->subNodes)
 	{
-		if (!subNode.visible)
+		if (!subNode->visible)
 		{
 			continue;
 		}
 
-		if (subNode.isAccessNode())
+		if (subNode->isAccessNode())
 		{
-			subNode.size.x = width;
+			subNode->size.x = width;
 		}
-		else if (subNode.isExpandToggleNode())
+		else if (subNode->isExpandToggleNode())
 		{
-			subNode.position.x = margins.left + width - subNode.size.x;
-			subNode.position.y = 6;
+			subNode->position.x = margins.left + width - subNode->size.x;
+			subNode->position.y = 6;
 		}
 	}
 }
 
-void GraphController::addExpandToggleNode(DummyNode& node) const
+void GraphController::addExpandToggleNode(DummyNode* node) const
 {
-	DummyNode expandNode;
-	expandNode.visible = true;
-	expandNode.expanded = node.expanded;
+	std::shared_ptr<DummyNode> expandNode = std::make_shared<DummyNode>();
+	expandNode->visible = true;
+	expandNode->expanded = node->expanded;
 
-	for (size_t i = 0; i < node.subNodes.size(); i++)
+	for (size_t i = 0; i < node->subNodes.size(); i++)
 	{
-		DummyNode& subNode = node.subNodes[i];
+		DummyNode* subNode = node->subNodes[i].get();
 
-		if (subNode.isExpandToggleNode())
+		if (subNode->isExpandToggleNode())
 		{
-			node.subNodes.erase(node.subNodes.begin() + i);
+			node->subNodes.erase(node->subNodes.begin() + i);
 			i--;
 			continue;
 		}
-		else if (subNode.isGraphNode() && subNode.data->isType(Node::NODE_ENUM_CONSTANT) && !subNode.visible)
+		else if (subNode->isGraphNode() && subNode->data->isType(Node::NODE_ENUM_CONSTANT) && !subNode->visible)
 		{
-			expandNode.invisibleSubNodeCount++;
+			expandNode->invisibleSubNodeCount++;
 			continue;
 		}
 
-		for (DummyNode& subSubNode : subNode.subNodes)
+		for (std::shared_ptr<DummyNode> subSubNode : subNode->subNodes)
 		{
-			if (!subSubNode.visible)
+			if (!subSubNode->visible)
 			{
-				expandNode.invisibleSubNodeCount++;
+				expandNode->invisibleSubNodeCount++;
 			}
 		}
 	}
 
-	if (expandNode.isExpanded() || expandNode.invisibleSubNodeCount)
+	if (expandNode->isExpanded() || expandNode->invisibleSubNodeCount)
 	{
-		node.subNodes.push_back(expandNode);
+		node->subNodes.push_back(expandNode);
 	}
 }
 
-void GraphController::layoutToGrid(DummyNode& node) const
+void GraphController::layoutToGrid(DummyNode* node) const
 {
-	if (!node.visible)
+	if (!node->visible)
 	{
 		return;
 	}
 
-	size_t width = GraphViewStyle::toGridSize(node.size.x);
-	size_t height = GraphViewStyle::toGridSize(node.size.y);
+	size_t width = GraphViewStyle::toGridSize(node->size.x);
+	size_t height = GraphViewStyle::toGridSize(node->size.y);
 
-	size_t incX = width - node.size.x;
-	size_t incY = height - node.size.y;
+	size_t incX = width - node->size.x;
+	size_t incY = height - node->size.y;
 
-	node.size.x = width;
-	node.size.y = height;
+	node->size.x = width;
+	node->size.y = height;
 
-	if (!node.isGraphNode())
+	if (!node->isGraphNode())
 	{
 		return;
 	}
 
 	DummyNode* lastAccessNode = nullptr;
-	for (DummyNode& subNode : node.subNodes)
+	for (std::shared_ptr<DummyNode> subNode : node->subNodes)
 	{
-		if (!subNode.visible)
+		if (!subNode->visible)
 		{
 			continue;
 		}
 
-		if (subNode.isAccessNode())
+		if (subNode->isAccessNode())
 		{
-			subNode.size.x = subNode.size.x + incX;
-			lastAccessNode = &subNode;
+			subNode->size.x = subNode->size.x + incX;
+			lastAccessNode = subNode.get();
 		}
-		else if (subNode.isExpandToggleNode())
+		else if (subNode->isExpandToggleNode())
 		{
-			subNode.position.x = subNode.position.x + incX;
+			subNode->position.x = subNode->position.x + incX;
 		}
 	}
 
@@ -1046,52 +1047,14 @@ void GraphController::layoutGraph(bool sort)
 	grid.layoutBuckets();
 }
 
-DummyNode* GraphController::findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId) const
+DummyNode* GraphController::getDummyGraphNodeById(Id tokenId) const
 {
-	for (DummyNode& node : nodes)
+	std::map<Id, DummyNode*>::const_iterator it = m_dummyGraphNodes.find(tokenId);
+	if (it != m_dummyGraphNodes.end())
 	{
-		if (node.isGraphNode() && node.data->getId() == tokenId)
-		{
-			return &node;
-		}
-
-		DummyNode* result = findDummyNodeRecursive(node.subNodes, tokenId);
-		if (result != nullptr)
-		{
-			return result;
-		}
+		return it->second;
 	}
 
-	return nullptr;
-}
-
-DummyNode* GraphController::findTopLevelDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId) const
-{
-	for (DummyNode& node : nodes)
-	{
-		if (node.isGraphNode() && node.data->getId() == tokenId)
-		{
-			return &node;
-		}
-	}
-
-	return nullptr;
-}
-
-DummyNode* GraphController::findDummyNodeAccessRecursive(
-	std::vector<DummyNode>& nodes, Id parentId, TokenComponentAccess::AccessType type
-) const {
-	DummyNode* node = findDummyNodeRecursive(nodes, parentId);
-	if (node)
-	{
-		for (DummyNode& subNode : node->subNodes)
-		{
-			if (subNode.isAccessNode() && subNode.accessType == type)
-			{
-				return &subNode;
-			}
-		}
-	}
 	return nullptr;
 }
 

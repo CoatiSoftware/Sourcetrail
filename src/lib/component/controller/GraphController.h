@@ -61,38 +61,38 @@ private:
 	void clear();
 
 	void createDummyGraphForTokenIds(const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph);
-	DummyNode createDummyNodeTopDown(Node* node);
+	std::shared_ptr<DummyNode> createDummyNodeTopDown(Node* node);
 
 	void autoExpandActiveNode(const std::vector<Id>& activeTokenIds);
 
 	void setActiveAndVisibility(const std::vector<Id>& activeTokenIds);
-	void setNodeActiveRecursive(DummyNode& node, const std::vector<Id>& activeTokenIds, bool* noActive) const;
-	void removeImplicitChildrenRecursive(DummyNode& node);
-	bool setNodeVisibilityRecursiveBottomUp(DummyNode& node, bool noActive) const;
-	void setNodeVisibilityRecursiveTopDown(DummyNode& node, bool parentExpanded) const;
+	void setNodeActiveRecursive(DummyNode* node, const std::vector<Id>& activeTokenIds, bool* noActive) const;
+	void removeImplicitChildrenRecursive(DummyNode* node);
+	bool setNodeVisibilityRecursiveBottomUp(DummyNode* node, bool noActive) const;
+	void setNodeVisibilityRecursiveTopDown(DummyNode* node, bool parentExpanded) const;
 
 	void bundleNodes();
 	void bundleNodesAndEdgesMatching(std::function<bool(const DummyNode::BundleInfo&)> matcher, size_t count, const std::string& name);
-	void bundleNodesMatching(std::list<DummyNode*>& nodes, std::function<bool(const DummyNode&)> matcher, const std::string& name);
+	void bundleNodesMatching(std::list<std::shared_ptr<DummyNode>>& nodes, std::function<bool(const DummyNode*)> matcher, const std::string& name);
 	void bundleNodesByType();
 
 	void layoutNesting();
-	void layoutNestingRecursive(DummyNode& node) const;
-	void addExpandToggleNode(DummyNode& node) const;
-	void layoutToGrid(DummyNode& node) const;
+	void layoutNestingRecursive(DummyNode* node) const;
+	void addExpandToggleNode(DummyNode* node) const;
+	void layoutToGrid(DummyNode* node) const;
 
 	void layoutGraph(bool sort = false);
 
-	DummyNode* findDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId) const;
-	DummyNode* findTopLevelDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId) const;
-	DummyNode* findDummyNodeAccessRecursive(std::vector<DummyNode>& nodes, Id parentId, TokenComponentAccess::AccessType type) const;
+	DummyNode* getDummyGraphNodeById(Id tokenId) const;
 
 	void buildGraph(MessageBase* message);
 
 	StorageAccess* m_storageAccess;
 
-	std::vector<DummyNode> m_dummyNodes;
-	std::vector<DummyEdge> m_dummyEdges;
+	std::vector<std::shared_ptr<DummyNode>> m_dummyNodes;
+	std::vector<std::shared_ptr<DummyEdge>> m_dummyEdges;
+
+	std::map<Id, DummyNode*> m_dummyGraphNodes;
 
 	std::vector<Id> m_activeNodeIds;
 	std::vector<Id> m_activeEdgeIds;

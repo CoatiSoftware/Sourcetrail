@@ -1,8 +1,10 @@
 #ifndef TASK_GROUP_PARALLEL_H
 #define TASK_GROUP_PARALLEL_H
 
-#include "utility/scheduling/TaskGroup.h"
 #include <mutex>
+#include <thread>
+
+#include "utility/scheduling/TaskGroup.h"
 
 class TaskGroupParallel
 	: public TaskGroup

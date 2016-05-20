@@ -303,6 +303,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocation
 ) const {
 	std::vector<CodeSnippetParams> snippets;
 	size_t definitionFileCount = 0;
+	size_t declarationFileCount = 0;
 
 	collection->forEachTokenLocationFile(
 		[&](std::shared_ptr<TokenLocationFile> file) -> void
@@ -324,7 +325,9 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocation
 				}
 			);
 
-			if (definitionFileCount < 5 && (isDeclarationFile || collection->getTokenLocationFileCount() < 5 || file->isWholeCopy))
+			if (collection->getTokenLocationFileCount() < 5 || file->isWholeCopy ||
+				(isDefinitionFile && definitionFileCount < 3) ||
+				(!isDefinitionFile && isDeclarationFile && declarationFileCount < 3))
 			{
 				std::vector<CodeSnippetParams> fileSnippets = getSnippetsForActiveTokenLocationsInFile(file);
 
@@ -349,6 +352,10 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocation
 			if (isDefinitionFile)
 			{
 				definitionFileCount++;
+			}
+			else if (isDeclarationFile)
+			{
+				declarationFileCount++;
 			}
 		}
 	);

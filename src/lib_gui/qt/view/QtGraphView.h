@@ -31,7 +31,10 @@ public:
 	virtual void initView();
 	virtual void refreshView();
 
-	virtual void rebuildGraph(std::shared_ptr<Graph> graph, const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);
+	virtual void rebuildGraph(
+		std::shared_ptr<Graph> graph,
+		const std::vector<std::shared_ptr<DummyNode>>& nodes,
+		const std::vector<std::shared_ptr<DummyEdge>>& edges);
 	virtual void clear();
 
 	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds);
@@ -51,7 +54,10 @@ private:
 
 	QtGraphicsView* getView() const;
 
-	void doRebuildGraph(std::shared_ptr<Graph> graph, const std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);
+	void doRebuildGraph(
+		std::shared_ptr<Graph> graph,
+		const std::vector<std::shared_ptr<DummyNode>>& nodes,
+		const std::vector<std::shared_ptr<DummyEdge>>& edges);
 	void doClear();
 	void doResize();
 	void doRefreshView();
@@ -62,8 +68,8 @@ private:
 	std::shared_ptr<QtGraphNode> findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId);
 
 	std::shared_ptr<QtGraphNode> createNodeRecursive(
-		QGraphicsView* view, std::shared_ptr<QtGraphNode> parentNode, const DummyNode& node, bool multipleActive);
-	std::shared_ptr<QtGraphEdge> createEdge(QGraphicsView* view, const DummyEdge& edge);
+		QGraphicsView* view, std::shared_ptr<QtGraphNode> parentNode, const DummyNode* node, bool multipleActive);
+	std::shared_ptr<QtGraphEdge> createEdge(QGraphicsView* view, const DummyEdge* edge);
 
 	QRectF itemsBoundingRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const;
 	QRectF getSceneRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const;
@@ -77,7 +83,11 @@ private:
 
 	void createTransition();
 
-	QtThreadedFunctor<std::shared_ptr<Graph>, const std::vector<DummyNode>&, const std::vector<DummyEdge>&> m_rebuildGraphFunctor;
+	QtThreadedFunctor<
+		std::shared_ptr<Graph>,
+		const std::vector<std::shared_ptr<DummyNode>>&,
+		const std::vector<std::shared_ptr<DummyEdge>>&
+	> m_rebuildGraphFunctor;
 	QtThreadedFunctor<void> m_clearFunctor;
 	QtThreadedFunctor<void> m_resizeFunctor;
 	QtThreadedFunctor<void> m_refreshFunctor;

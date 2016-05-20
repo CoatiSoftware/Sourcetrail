@@ -43,12 +43,15 @@ class BucketGrid
 {
 public:
 	BucketGrid(Vec2i viewSize);
-	void createBuckets(std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges);
+	void createBuckets(
+		std::vector<std::shared_ptr<DummyNode>>& nodes,
+		const std::vector<std::shared_ptr<DummyEdge>>& edges);
 	void sortBuckets();
 	void layoutBuckets();
 
 private:
-	DummyNode* findTopMostDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId, DummyNode* top = nullptr);
+	DummyNode* findTopMostDummyNodeRecursive(
+		std::vector<std::shared_ptr<DummyNode>>& nodes, Id tokenId, DummyNode* top = nullptr);
 
 	void addNode(DummyNode* node);
 	bool addNode(DummyNode* owner, DummyNode* target, bool horizontal);

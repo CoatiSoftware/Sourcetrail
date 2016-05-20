@@ -776,6 +776,8 @@ void SqliteStorage::setupTables()
 			"FOREIGN KEY(edge_id) REFERENCES edge(id) ON DELETE CASCADE);"
 	);
 
+	SqliteIndex("component_access_edge_id_index", "component_access(edge_id)").createOnDatabase(m_database);
+
 	m_database.execDML(
 		"CREATE TABLE IF NOT EXISTS comment_location("
 			"id INTEGER NOT NULL, "

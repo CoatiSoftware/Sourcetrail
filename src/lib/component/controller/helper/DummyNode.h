@@ -73,9 +73,9 @@ public:
 
 	bool hasVisibleSubNode() const
 	{
-		for (const DummyNode& node : subNodes)
+		for (std::shared_ptr<DummyNode> node : subNodes)
 		{
-			if (node.visible)
+			if (node->visible)
 			{
 				return true;
 			}
@@ -91,9 +91,9 @@ public:
 			return true;
 		}
 
-		for (const DummyNode& node : subNodes)
+		for (std::shared_ptr<DummyNode> node : subNodes)
 		{
-			if (node.hasActiveSubNode())
+			if (node->hasActiveSubNode())
 			{
 				return true;
 			}
@@ -111,9 +111,9 @@ public:
 			count += 1;
 		}
 
-		for (const DummyNode& node : subNodes)
+		for (std::shared_ptr<DummyNode> node : subNodes)
 		{
-			count += node.getActiveSubNodeCount();
+			count += node->getActiveSubNodeCount();
 		}
 
 		return count;
@@ -126,9 +126,9 @@ public:
 			return true;
 		}
 
-		for (const DummyNode& node : subNodes)
+		for (std::shared_ptr<DummyNode> node : subNodes)
 		{
-			if (node.hasConnectedSubNode())
+			if (node->hasConnectedSubNode())
 			{
 				return true;
 			}
@@ -146,9 +146,9 @@ public:
 			count += 1;
 		}
 
-		for (const DummyNode& node : subNodes)
+		for (std::shared_ptr<DummyNode> node : subNodes)
 		{
-			count += node.getConnectedSubNodeCount();
+			count += node->getConnectedSubNodeCount();
 		}
 
 		return count;
@@ -163,9 +163,9 @@ public:
 			nodes.push_back(this);
 		}
 
-		for (const DummyNode& node : subNodes)
+		for (std::shared_ptr<DummyNode> node : subNodes)
 		{
-			utility::append(nodes, node.getConnectedSubNodes());
+			utility::append(nodes, node->getConnectedSubNodes());
 		}
 
 		return nodes;
@@ -174,9 +174,9 @@ public:
 	std::vector<const DummyNode*> getAllBundledNodes() const
 	{
 		std::vector<const DummyNode*> nodes;
-		for (const DummyNode& node : bundledNodes)
+		for (std::shared_ptr<DummyNode> node : bundledNodes)
 		{
-			utility::append(nodes, node.getConnectedSubNodes());
+			utility::append(nodes, node->getConnectedSubNodes());
 		}
 		return nodes;
 	}
@@ -200,7 +200,7 @@ public:
 	Id topLevelAncestorId;
 	Id tokenId;
 
-	std::vector<DummyNode> subNodes;
+	std::vector<std::shared_ptr<DummyNode>> subNodes;
 
 	// GraphNode
 	const Node* data;
@@ -221,7 +221,7 @@ public:
 	BundleInfo bundleInfo;
 
 	// BundleNode
-	std::vector<DummyNode> bundledNodes;
+	std::vector<std::shared_ptr<DummyNode>> bundledNodes;
 	size_t bundledNodeCount;
 };
 

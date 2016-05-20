@@ -170,7 +170,7 @@ MatrixDynamicBase<int> GraphLayouter::buildLaplacianMatrix(
 		{
 			for(unsigned int i = 0; i < remainingNodes.front().subNodes.size(); i++)
 			{
-				remainingNodes.push(remainingNodes.front().subNodes[i]);
+				remainingNodes.push(*remainingNodes.front().subNodes[i].get());
 			}
 		}
 

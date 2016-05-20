@@ -130,19 +130,20 @@ BucketGrid::BucketGrid(Vec2i viewSize)
 	m_buckets[0][0] = Bucket(0, 0);
 }
 
-void BucketGrid::createBuckets(std::vector<DummyNode>& nodes, const std::vector<DummyEdge>& edges)
-{
+void BucketGrid::createBuckets(
+	std::vector<std::shared_ptr<DummyNode>>& nodes, const std::vector<std::shared_ptr<DummyEdge>>& edges
+){
 	if (!nodes.size())
 	{
 		return;
 	}
 
 	bool activeNodeAdded = false;
-	for (DummyNode& node : nodes)
+	for (std::shared_ptr<DummyNode> node : nodes)
 	{
-		if (node.hasActiveSubNode() || !edges.size())
+		if (node->hasActiveSubNode() || !edges.size())
 		{
-			addNode(&node);
+			addNode(node.get());
 			activeNodeAdded = true;
 		}
 	}
@@ -154,13 +155,13 @@ void BucketGrid::createBuckets(std::vector<DummyNode>& nodes, const std::vector<
 
 	if (!activeNodeAdded)
 	{
-		addNode(&nodes[0]);
+		addNode(nodes[0].get());
 	}
 
 	std::vector<const DummyEdge*> remainingEdges;
-	for (const DummyEdge& edge : edges)
+	for (std::shared_ptr<DummyEdge> edge : edges)
 	{
-		remainingEdges.push_back(&edge);
+		remainingEdges.push_back(edge.get());
 	}
 
 	size_t i = 0;
@@ -265,18 +266,19 @@ void BucketGrid::layoutBuckets()
 	}
 }
 
-DummyNode* BucketGrid::findTopMostDummyNodeRecursive(std::vector<DummyNode>& nodes, Id tokenId, DummyNode* top)
-{
-	for (DummyNode& node : nodes)
+DummyNode* BucketGrid::findTopMostDummyNodeRecursive(
+	std::vector<std::shared_ptr<DummyNode>>& nodes, Id tokenId, DummyNode* top
+){
+	for (std::shared_ptr<DummyNode> node : nodes)
 	{
-		DummyNode* t = (top ? top : &node);
+		DummyNode* t = (top ? top : node.get());
 
-		if (node.visible && node.tokenId == tokenId)
+		if (node->visible && node->tokenId == tokenId)
 		{
 			return t;
 		}
 
-		DummyNode* result = findTopMostDummyNodeRecursive(node.subNodes, tokenId, t);
+		DummyNode* result = findTopMostDummyNodeRecursive(node->subNodes, tokenId, t);
 		if (result != nullptr)
 		{
 			return result;
