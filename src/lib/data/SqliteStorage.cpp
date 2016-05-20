@@ -112,10 +112,13 @@ Id SqliteStorage::addNode(int type, const std::string& serializedName, int defin
 	);
 	Id id = m_database.lastRowId();
 
-	m_database.execDML((
+	CppSQLite3Statement stmt = m_database.compileStatement((
 		"INSERT INTO node(id, type, serialized_name, definition_type) VALUES("
-		+ std::to_string(id) + ", " + std::to_string(type) + ", '" + serializedName + "', " + std::to_string(definitionType) + ");"
+		+ std::to_string(id) + ", " + std::to_string(type) + ", ?, " + std::to_string(definitionType) + ");"
 	).c_str());
+
+	stmt.bind(1, serializedName.c_str());
+	stmt.execDML();
 
 	return id;
 }
@@ -438,7 +441,27 @@ StorageNode SqliteStorage::getNodeById(Id id) const
 
 StorageNode SqliteStorage::getNodeBySerializedName(const std::string& serializedName) const
 {
-	return getFirst<StorageNode>("WHERE serialized_name == '" + serializedName + "'");
+	CppSQLite3Statement stmt = m_database.compileStatement(
+		"SELECT id, type, serialized_name, definition_type FROM node WHERE serialized_name == ? LIMIT 1;"
+	);
+
+	stmt.bind(1, serializedName.c_str());
+	CppSQLite3Query q = stmt.execQuery();
+
+	if (!q.eof())
+	{
+		const Id id = q.getIntField(0, 0);
+		const int type = q.getIntField(1, -1);
+		const std::string serializedName = q.getStringField(2, "");
+		const int definitionType = q.getIntField(3, 0);
+
+		if (id != 0 && type != -1)
+		{
+			return StorageNode(id, type, serializedName, definitionType);
+		}
+	}
+
+	return StorageNode();
 }
 
 std::vector<StorageNode> SqliteStorage::getNodesByIds(const std::vector<Id>& nodeIds) const

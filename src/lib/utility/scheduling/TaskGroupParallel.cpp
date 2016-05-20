@@ -23,7 +23,7 @@ Task::TaskState TaskGroupParallel::update()
 	{
 		for (size_t i = 0; i < m_tasks.size(); i++)
 		{
-			std::thread(&TaskGroupParallel::processTask, this, m_tasks[i]).detach();
+			m_threads.push_back(std::thread(&TaskGroupParallel::processTask, this, m_tasks[i]));
 
 			std::lock_guard<std::mutex> lock(m_activeTaskCountMutex);
 			m_activeTaskCount++;
@@ -47,6 +47,11 @@ Task::TaskState TaskGroupParallel::update()
 
 void TaskGroupParallel::exit()
 {
+	for (size_t i = 0; i < m_threads.size(); i++)
+	{
+		m_threads[i].join();
+	}
+	m_threads.clear();
 }
 
 void TaskGroupParallel::interrupt()

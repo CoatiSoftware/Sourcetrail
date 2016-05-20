@@ -110,7 +110,7 @@ QtCodeArea::QtCodeArea(
 	m_highlighter = new QtHighlighter(document());
 
 	std::string displayCode = m_code;
-	if (*displayCode.rbegin() == '\n')
+	if (!displayCode.empty() && *displayCode.rbegin() == '\n')
 	{
 		displayCode.pop_back();
 	}

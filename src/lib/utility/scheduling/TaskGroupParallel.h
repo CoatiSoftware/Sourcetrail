@@ -23,6 +23,9 @@ private:
 
 	volatile bool m_interrupt;
 	bool m_running;
+
+	std::vector<std::thread> m_threads;
+
 	volatile int m_activeTaskCount;
 	std::mutex m_activeTaskCountMutex;
 };
