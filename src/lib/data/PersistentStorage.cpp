@@ -797,42 +797,6 @@ Id PersistentStorage::getTokenIdForFileNode(const FilePath& filePath) const
 	return m_sqliteStorage.getFileByPath(filePath.str()).id;
 }
 
-std::vector<Id> PersistentStorage::getTokenIdsForAggregationEdge(Id sourceId, Id targetId) const
-{
-	std::vector<Id> edgeIds;
-
-	std::vector<Id> aggregationEndpointsA = getAllChildNodeIds(sourceId);
-	std::set<Id> aggregationEndpointsB;
-	aggregationEndpointsB.insert(targetId);
-	for (const Id targetChildId: getAllChildNodeIds(targetId))
-	{
-		aggregationEndpointsB.insert(targetChildId);
-	}
-
-	for (size_t i = 0; i < aggregationEndpointsA.size(); i++)
-	{
-		std::vector<StorageEdge> outgoingEdges = m_sqliteStorage.getEdgesBySourceId(aggregationEndpointsA[i]);
-		for (size_t j = 0; j < outgoingEdges.size(); j++)
-		{
-			if (aggregationEndpointsB.find(outgoingEdges[j].targetNodeId) != aggregationEndpointsB.end())
-			{
-				edgeIds.push_back(outgoingEdges[j].id);
-			}
-		}
-
-		std::vector<StorageEdge> incomingEdges = m_sqliteStorage.getEdgesByTargetId(aggregationEndpointsA[i]);
-		for (size_t j = 0; j < incomingEdges.size(); j++)
-		{
-			if (aggregationEndpointsB.find(incomingEdges[j].sourceNodeId) != aggregationEndpointsB.end())
-			{
-				edgeIds.push_back(incomingEdges[j].id);
-			}
-		}
-	}
-
-	return edgeIds;
-}
-
 std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const
 {
 	std::shared_ptr<TokenLocationCollection> collection = std::make_shared<TokenLocationCollection>();

@@ -25,10 +25,8 @@ std::shared_ptr<MessageActivateTokens> ActivationTranslator::translateMessage(co
 	std::shared_ptr<MessageActivateTokens> m;
 	if (message->isAggregation())
 	{
-		const Id sourceId = m_storageAccess->getIdForNodeWithNameHierarchy(message->fromNameHierarchy);
-		const Id targetId = m_storageAccess->getIdForNodeWithNameHierarchy(message->toNameHierarchy);
-
-		m = std::make_shared<MessageActivateTokens>(message, m_storageAccess->getTokenIdsForAggregationEdge(sourceId, targetId));
+		// TODO: validate aggregationIds
+		m = std::make_shared<MessageActivateTokens>(message, message->aggregationIds);
 		m->setKeepContent(false);
 		m->isAggregation = true;
 	}

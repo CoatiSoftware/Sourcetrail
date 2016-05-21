@@ -32,7 +32,10 @@ public:
 
 	std::string getFullName() const
 	{
-		return Edge::getTypeString(type) + ":" + fromNameHierarchy.getQualifiedNameWithSignature() + "->" + toNameHierarchy.getQualifiedNameWithSignature();
+		std::string name = Edge::getTypeString(type) + ":";
+		name += fromNameHierarchy.getQualifiedNameWithSignature() + "->";
+		name += toNameHierarchy.getQualifiedNameWithSignature();
+		return name;
 	}
 
 	virtual void print(std::ostream& os) const
@@ -44,6 +47,8 @@ public:
 	const Edge::EdgeType type;
 	const NameHierarchy fromNameHierarchy;
 	const NameHierarchy toNameHierarchy;
+
+	std::vector<Id> aggregationIds;
 };
 
 #endif // MESSAGE_ACTIVATE_EDGE_H

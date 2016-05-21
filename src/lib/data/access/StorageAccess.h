@@ -50,7 +50,6 @@ public:
 
 	virtual std::vector<Id> getTokenIdsForMatches(const std::vector<SearchMatch>& matches) const = 0;
 	virtual Id getTokenIdForFileNode(const FilePath& filePath) const = 0;
-	virtual std::vector<Id> getTokenIdsForAggregationEdge(Id sourceId, Id targetId) const = 0;
 
 	virtual std::shared_ptr<TokenLocationCollection> getTokenLocationsForTokenIds(
 			const std::vector<Id>& tokenIds) const = 0;

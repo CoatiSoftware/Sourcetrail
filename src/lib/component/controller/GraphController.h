@@ -61,10 +61,14 @@ private:
 	void clear();
 
 	void createDummyGraphForTokenIds(const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph);
-	std::shared_ptr<DummyNode> createDummyNodeTopDown(Node* node);
+	std::shared_ptr<DummyNode> createDummyNodeTopDown(Node* node, Id parentId);
 
+	std::vector<Id> getExpandedNodeIds() const;
+	void setExpandedNodeIds(const std::vector<Id>& nodeIds);
 	void autoExpandActiveNode(const std::vector<Id>& activeTokenIds);
 
+	bool setActive(const std::vector<Id>& activeTokenIds);
+	void setVisibility(bool noActive);
 	void setActiveAndVisibility(const std::vector<Id>& activeTokenIds);
 	void setNodeActiveRecursive(DummyNode* node, const std::vector<Id>& activeTokenIds, bool* noActive) const;
 	void removeImplicitChildrenRecursive(DummyNode* node);
@@ -92,7 +96,7 @@ private:
 	std::vector<std::shared_ptr<DummyNode>> m_dummyNodes;
 	std::vector<std::shared_ptr<DummyEdge>> m_dummyEdges;
 
-	std::map<Id, DummyNode*> m_dummyGraphNodes;
+	std::map<Id, std::shared_ptr<DummyNode>> m_dummyGraphNodes;
 
 	std::vector<Id> m_activeNodeIds;
 	std::vector<Id> m_activeEdgeIds;

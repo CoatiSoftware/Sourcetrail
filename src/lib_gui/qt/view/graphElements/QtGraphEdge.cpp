@@ -6,6 +6,7 @@
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
+#include "utility/utility.h"
 
 #include "component/view/GraphViewStyle.h"
 #include "data/graph/Edge.h"
@@ -182,12 +183,20 @@ void QtGraphEdge::onClick()
 	}
 	else
 	{
-		MessageActivateEdge(
+		MessageActivateEdge msg(
 			getData()->getId(),
 			getData()->getType(),
 			getData()->getFrom()->getNameHierarchy(),
 			getData()->getTo()->getNameHierarchy()
-		).dispatch();
+		);
+
+		if (getData()->getType() == Edge::EDGE_AGGREGATION)
+		{
+			msg.aggregationIds =
+				utility::toVector<Id>(getData()->getComponent<TokenComponentAggregation>()->getAggregationIds());
+		}
+
+		msg.dispatch();
 	}
 }
 
