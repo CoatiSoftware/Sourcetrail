@@ -2,9 +2,9 @@
 #define CACHE_H
 
 #include <functional>
-#include <map>
+#include <unordered_map>
 
-template <typename KeyType, typename ValType>
+template <typename KeyType, typename ValType, typename Hasher = std::hash<KeyType>>
 class Cache
 {
 public:
@@ -13,19 +13,19 @@ public:
 
 private:
 	std::function<ValType(KeyType)> m_calculator;
-	std::map<KeyType, ValType> m_map;
+	std::unordered_map<KeyType, ValType, Hasher> m_map;
 };
 
-template <typename KeyType, typename ValType>
-Cache<KeyType, ValType>::Cache(std::function<ValType(KeyType)> calculator)
+template <typename KeyType, typename ValType, typename Hasher>
+Cache<KeyType, ValType, Hasher>::Cache(std::function<ValType(KeyType)> calculator)
 	: m_calculator(calculator)
 {
 }
 
-template <typename KeyType, typename ValType>
-ValType Cache<KeyType, ValType>::getValue(KeyType key)
+template <typename KeyType, typename ValType, typename Hasher = hash<KeyType>>
+ValType Cache<KeyType, ValType, Hasher>::getValue(KeyType key)
 {
-	typename std::map<KeyType, ValType>::const_iterator it = m_map.find(key);
+	typename std::unordered_map<KeyType, ValType>::const_iterator it = m_map.find(key);
 	if (it != m_map.end())
 	{
 		return it->second;

@@ -107,28 +107,12 @@ bool FileRegister::sourceFileIsParsed(const FilePath& filePath) const
 			return false;
 		}
 
-		if (it->second == STATE_UNPARSED)
-		{
-			return false;
-		}
-		else if (it->second == STATE_PARSED)
+		if (it->second == STATE_PARSED)
 		{
 			return true;
 		}
-	}
 
-	{
-		std::lock_guard<std::mutex> lock(m_threadFileMutex);
-
-		std::map<std::thread::id, std::set<FilePath>>::const_iterator it2 = m_threadParsingFiles.find(std::this_thread::get_id());
-		if (it2 != m_threadParsingFiles.end())
-		{
-			if (it2->second.find(filePath) != it2->second.end())
-			{
-				return false;
-			}
-		}
-		return true;
+		return false;
 	}
 }
 
@@ -143,28 +127,12 @@ bool FileRegister::includeFileIsParsed(const FilePath& filePath) const
 			return false;
 		}
 
-		if (it->second == STATE_UNPARSED)
-		{
-			return false;
-		}
-		else if (it->second == STATE_PARSED)
+		if (it->second == STATE_PARSED)
 		{
 			return true;
 		}
-	}
 
-	{
-		std::lock_guard<std::mutex> lock(m_threadFileMutex);
-
-		std::map<std::thread::id, std::set<FilePath>>::const_iterator it2 = m_threadParsingFiles.find(std::this_thread::get_id());
-		if (it2 != m_threadParsingFiles.end())
-		{
-			if (it2->second.find(filePath) != it2->second.end())
-			{
-				return false;
-			}
-		}
-		return true;
+		return false;
 	}
 }
 
