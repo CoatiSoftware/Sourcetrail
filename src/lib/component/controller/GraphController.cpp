@@ -537,13 +537,25 @@ void GraphController::bundleNodes()
 					bundleInfo->isDefined = true;
 				}
 
+				if (bundleInfo->layoutVertical)
+				{
+					return;
+				}
+
 				n->forEachEdgeOfType(
 					~Edge::EDGE_MEMBER,
 					[&bundleInfo, &n](Edge* e)
 					{
+						if (bundleInfo->layoutVertical)
+						{
+							return;
+						}
+
 						if (e->isType(Edge::EDGE_INHERITANCE | Edge::EDGE_OVERRIDE))
 						{
 							bundleInfo->layoutVertical = true;
+							bundleInfo->isReferenced = false;
+							bundleInfo->isReferencing = false;
 						}
 
 						if (e->isType(Edge::EDGE_AGGREGATION))

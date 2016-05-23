@@ -22,7 +22,7 @@ Cache<KeyType, ValType, Hasher>::Cache(std::function<ValType(KeyType)> calculato
 {
 }
 
-template <typename KeyType, typename ValType, typename Hasher = hash<KeyType>>
+template <typename KeyType, typename ValType, typename Hasher>
 ValType Cache<KeyType, ValType, Hasher>::getValue(KeyType key)
 {
 	typename std::unordered_map<KeyType, ValType>::const_iterator it = m_map.find(key);

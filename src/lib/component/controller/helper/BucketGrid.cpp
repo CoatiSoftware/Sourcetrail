@@ -172,11 +172,6 @@ void BucketGrid::createBuckets(
 		DummyNode* owner = findTopMostDummyNodeRecursive(nodes, edge->ownerId);
 		DummyNode* target = findTopMostDummyNodeRecursive(nodes, edge->targetId);
 
-		if (edge->getDirection() == TokenComponentAggregation::DIRECTION_BACKWARD)
-		{
-			std::swap(owner, target);
-		}
-
 		bool removeEdge = false;
 		if (!owner || !target)
 		{
@@ -185,6 +180,20 @@ void BucketGrid::createBuckets(
 		else
 		{
 			bool horizontal = !owner->bundleInfo.layoutVertical && !target->bundleInfo.layoutVertical;
+
+			if (!horizontal)
+			{
+				if ((owner->bundleInfo.layoutVertical && owner->bundleInfo.isReferenced) ||
+					(target->bundleInfo.layoutVertical && target->bundleInfo.isReferencing))
+				{
+					std::swap(owner, target);
+				}
+			}
+			else if (edge->getDirection() == TokenComponentAggregation::DIRECTION_BACKWARD)
+			{
+				std::swap(owner, target);
+			}
+
 			removeEdge = addNode(owner, target, horizontal);
 		}
 
