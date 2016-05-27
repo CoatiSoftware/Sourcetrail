@@ -147,10 +147,13 @@ Id SqliteStorage::addLocalSymbol(const std::string& name)
 	);
 	Id id = m_database.lastRowId();
 
-	m_database.execDML((
+	CppSQLite3Statement stmt = m_database.compileStatement((
 		"INSERT INTO local_symbol(id, name) VALUES("
-		+ std::to_string(id) + ", '" + name + "');"
+		+ std::to_string(id) + ", ?);"
 	).c_str());
+
+	stmt.bind(1, name.c_str());
+	stmt.execDML();
 
 	return id;
 }
@@ -195,25 +198,32 @@ Id SqliteStorage::addError(const std::string& message, bool fatal, const std::st
 	std::string sanitizedMessage = utility::replace((fatal ? "Fatal: " : "Error: ") + message, "'", "''");
 
 	// check for duplicate
-	CppSQLite3Query q = m_database.execQuery((
+	CppSQLite3Statement stmt = m_database.compileStatement((
+	//CppSQLite3Query q = m_database.execQuery((
 		"SELECT * FROM error WHERE "
-			"message == '" + sanitizedMessage + "' AND "
+			"message == ? AND "
 			"fatal == " + std::to_string(fatal) + " AND "
 			"file_path == '" + filePath + "' AND "
 			"line_number == " + std::to_string(lineNumber) + " AND "
 			"column_number == " + std::to_string(columnNumber) + ";"
 	).c_str());
 
+	stmt.bind(1, sanitizedMessage.c_str());
+	CppSQLite3Query q = stmt.execQuery();
+
 	if (!q.eof())
 	{
 		return q.getIntField(0, -1);
 	}
 
-	m_database.execDML((
+	stmt = m_database.compileStatement((
 		"INSERT INTO error(message, fatal, file_path, line_number, column_number) "
-		"VALUES ('" + sanitizedMessage + "', " + std::to_string(fatal) + ", '" + filePath +
+		"VALUES (?, " + std::to_string(fatal) + ", '" + filePath +
 		"', " + std::to_string(lineNumber) + ", " + std::to_string(columnNumber) + ");"
 	).c_str());
+
+	stmt.bind(1, sanitizedMessage.c_str());
+	stmt.execDML();
 
 	return m_database.lastRowId();
 }
