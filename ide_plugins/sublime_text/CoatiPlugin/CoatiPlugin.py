@@ -3,6 +3,7 @@ import sublime_plugin
 import threading
 import socket
 import os.path
+import encodings.idna
 
 try:						# use this for Sublime Text 2
 	import SocketServer

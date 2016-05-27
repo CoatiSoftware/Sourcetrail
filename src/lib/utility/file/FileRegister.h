@@ -9,11 +9,10 @@
 #include <thread>
 #include <vector>
 
+#include "utility/file/FileInfo.h"
 #include "utility/file/FilePath.h"
 
 class FileManager;
-
-struct FileInfo;
 
 class FileRegister
 {
