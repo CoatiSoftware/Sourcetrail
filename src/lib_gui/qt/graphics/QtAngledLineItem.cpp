@@ -380,8 +380,8 @@ QPolygon QtAngledLineItem::getPath() const
 			{
 				io = (io + 2) % 4;
 
-				c = QPoint(o[io].x, o[io].y);
-				d = QPoint(oP[io].x, oP[io].y);
+				d = QPoint(o[io].x, o[io].y);
+				c = QPoint(oP[io].x, oP[io].y);
 
 				switch (io)
 				{
