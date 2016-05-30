@@ -138,18 +138,16 @@ bool FileRegister::includeFileIsParsed(const FilePath& filePath) const
 
 FilePath FileRegister::consumeSourceFile()
 {
+	std::vector<FilePath> paths = getUnparsedSourceFilePaths();
+
 	FilePath path;
+
+	if (paths.size())
 	{
+		path = paths[rand() % paths.size()];
+
 		std::lock_guard<std::mutex> lock(m_sourceFileMutex);
-		for (std::map<FilePath, ParseState>::iterator it = m_sourceFilePaths.begin(); it != m_sourceFilePaths.end(); it++)
-		{
-			if (it->second == STATE_UNPARSED)
-			{
-				it->second = STATE_PARSING;
-				path = it->first;
-				break;
-			}
-		}
+		m_sourceFilePaths[path] = STATE_PARSING;
 	}
 
 	if (!path.empty())
