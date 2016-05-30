@@ -61,7 +61,6 @@ public:
 	std::set<FilePath> getDependingFilePaths(const FilePath& filePath);
 
 	void clearFileElements(const std::vector<FilePath>& filePaths);
-	void removeUnusedNames();
 
 	std::vector<FileInfo> getInfoOnAllFiles() const;
 

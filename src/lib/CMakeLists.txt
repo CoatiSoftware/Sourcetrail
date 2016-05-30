@@ -299,8 +299,6 @@ add_files(
 	utility/solution/SolutionParserVisualStudio.cpp
 	utility/solution/SolutionParserVisualStudio.h
 
-	utility/text/Dictionary.cpp
-	utility/text/Dictionary.h
 	utility/text/TextAccess.cpp
 	utility/text/TextAccess.h
 

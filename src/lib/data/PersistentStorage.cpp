@@ -304,13 +304,6 @@ void PersistentStorage::clearFileElements(const std::vector<FilePath>& filePaths
 	}
 }
 
-void PersistentStorage::removeUnusedNames() // maybe rename this function. look for callers first.
-{
-//	m_sqliteStorage.removeUnusedNameHierarchyElements();
-
-	clearCaches();
-}
-
 std::vector<FileInfo> PersistentStorage::getInfoOnAllFiles() const
 {
 	std::vector<FileInfo> fileInfos;
