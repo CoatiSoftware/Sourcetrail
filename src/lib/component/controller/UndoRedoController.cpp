@@ -9,7 +9,6 @@
 #include "data/access/StorageAccess.h"
 
 UndoRedoController::UndoRedoController(StorageAccess* storageAccess)
-	: m_activationTranslator(storageAccess)
 {
 	m_iterator = m_list.end();
 }
@@ -181,7 +180,7 @@ void UndoRedoController::handleMessage(MessageRefresh* message)
 		return;
 	}
 
-	if (requiresActivateFallbackToken())
+	if (m_iterator == m_list.begin())
 	{
 		SearchMatch match = SearchMatch::createCommand(SearchMatch::COMMAND_ALL);
 		MessageSearch msg(std::vector<SearchMatch>(1, match));
@@ -388,52 +387,4 @@ bool UndoRedoController::sameMessageTypeAsLast(MessageBase* message) const
 MessageBase* UndoRedoController::lastMessage() const
 {
 	return std::prev(m_iterator)->message.get();
-}
-
-bool UndoRedoController::requiresActivateFallbackToken() const
-{
-	if (m_iterator == m_list.begin())
-	{
-		return true;
-	}
-
-	std::list<Command>::iterator it = m_iterator;
-
-	do
-	{
-		std::advance(it, -1);
-	}
-	while (it != m_list.begin() && it->order != Command::ORDER_ACTIVATE);
-
-	return !checkCommandCausesTokenActivation(*it);
-}
-
-bool UndoRedoController::checkCommandCausesTokenActivation(const Command& command) const
-{
-	MessageBase* commandMessage = command.message.get();
-	if (commandMessage)
-	{
-		std::shared_ptr<MessageActivateTokens> m;
-		std::string commandMessageTypeString = commandMessage->getType();
-		if (commandMessageTypeString == MessageActivateEdge::getStaticType())
-		{
-			m = m_activationTranslator.translateMessage(dynamic_cast<const MessageActivateEdge*>(commandMessage));
-		}
-		else if (commandMessageTypeString == MessageActivateFile::getStaticType())
-		{
-			m = m_activationTranslator.translateMessage(dynamic_cast<const MessageActivateFile*>(commandMessage));
-		}
-		else if (commandMessageTypeString == MessageActivateNodes::getStaticType())
-		{
-			MessageActivateNodes inputMessage(*dynamic_cast<MessageActivateNodes*>(commandMessage));
-			inputMessage.setIsReplayed(true);
-			m = m_activationTranslator.translateMessage(&inputMessage);
-		}
-		else if (commandMessageTypeString == MessageSearch::getStaticType())
-		{
-			m = m_activationTranslator.translateMessage(dynamic_cast<const MessageSearch*>(commandMessage));
-		}
-		return (m && m->tokenIds.size() > 0);
-	}
-	return false;
 }

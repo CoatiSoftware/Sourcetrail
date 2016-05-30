@@ -24,7 +24,6 @@
 #include "utility/messaging/type/MessageShowScope.h"
 #include "utility/messaging/type/MessageUndo.h"
 
-#include "component/controller/helper/ActivationTranslator.h"
 #include "component/controller/Controller.h"
 
 class StorageAccess;
@@ -101,11 +100,6 @@ private:
 
 	bool sameMessageTypeAsLast(MessageBase* message) const;
 	MessageBase* lastMessage() const;
-
-	bool requiresActivateFallbackToken() const;
-	bool checkCommandCausesTokenActivation(const Command& command) const;
-
-	ActivationTranslator m_activationTranslator;
 
 	std::list<Command> m_list;
 	std::list<Command>::iterator m_iterator;

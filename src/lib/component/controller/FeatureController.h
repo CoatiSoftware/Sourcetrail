@@ -3,7 +3,6 @@
 
 #include <memory>
 
-#include "component/controller/helper/ActivationTranslator.h"
 #include "component/controller/Controller.h"
 
 #include "utility/messaging/MessageListener.h"
@@ -47,7 +46,6 @@ private:
 	virtual void handleMessage(MessageZoom* message);
 
 	StorageAccess* m_storageAccess;
-	ActivationTranslator m_activationTranslator;
 };
 
 #endif // FEATURE_CONTROLLER_H

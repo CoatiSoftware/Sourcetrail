@@ -20,9 +20,28 @@ void SearchController::handleMessage(MessageActivateAll* message)
 
 void SearchController::handleMessage(MessageActivateTokens* message)
 {
-	if (!message->keepContent() && !message->isFromSearch)
+	if (!message->isFromSearch)
 	{
-		getView()->setMatches(m_storageAccess->getSearchMatchesForTokenIds(message->tokenIds));
+		if (!message->keepContent() && message->tokenIds.size())
+		{
+			getView()->setMatches(m_storageAccess->getSearchMatchesForTokenIds(message->tokenIds));
+		}
+		else if (message->isReplayed() || message->unknownNames.size())
+		{
+			std::vector<SearchMatch> matches;
+
+			for (const std::string& name : message->unknownNames)
+			{
+				matches.push_back(SearchMatch(name));
+			}
+
+			if (!matches.size())
+			{
+				matches.push_back(SearchMatch("<invalid>"));
+			}
+
+			getView()->setMatches(matches);
+		}
 	}
 }
 

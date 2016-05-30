@@ -37,6 +37,8 @@ public:
 	bool isEdge;
 	bool isAggregation;
 	bool isFromSearch;
+
+	std::vector<std::string> unknownNames;
 };
 
 #endif // MESSAGE_ACTIVATE_TOKENS_H

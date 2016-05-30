@@ -405,6 +405,19 @@ void QtCodeFile::clickedTitleBar()
 void QtCodeFile::clickedTitle()
 {
 	MessageActivateFile(m_filePath).dispatch();
+
+	// TODO: check if external file and maximize instead
+
+	// MessageChangeFileView msg(
+	// 	message->filePath,
+	// 	MessageChangeFileView::FILE_MAXIMIZED,
+	// 	true,
+	// 	false,
+	// 	nullptr
+	// );
+	// msg.setIsReplayed(message->isReplayed());
+	// msg.setKeepContent(message->keepContent());
+	// msg.dispatch();
 }
 
 void QtCodeFile::editProject()
