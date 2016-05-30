@@ -198,8 +198,10 @@ void ParserClientImpl::onMacroDefineParsed(
 	Id macroId = addNodeHierarchy(Node::NODE_MACRO, macroNameHierarchy, DEFINITION_EXPLICIT);
 	addSourceLocation(macroId, location, locationTypeToInt(LOCATION_TOKEN));
 	addSourceLocation(macroId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
-	//Id fileNodeId = getFileNodeId(location.filePath); // do we need this???
-	//addEdge(Edge::EDGE_MACRO_USAGE, fileNodeId, macroId, , location);
+
+	Id fileNodeId = addFile(location.filePath.str());
+	Id edgeId = addEdge(Edge::EDGE_MACRO_USAGE, fileNodeId, macroId);
+	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
 }
 
 void ParserClientImpl::onCommentParsed(const ParseLocation& location)
