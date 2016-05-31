@@ -175,6 +175,9 @@ void QtGraphView::switchToNewGraphData()
 			node->hoverEnter();
 		}
 	}
+
+	// Repaint to make sure all artifacts are removed
+	view->update();
 }
 
 QtGraphicsView* QtGraphView::getView() const
