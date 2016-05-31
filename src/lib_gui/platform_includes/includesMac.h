@@ -67,6 +67,8 @@ void setupPlatform(int argc, char *argv[])
 
 void setupApp(int argc, char *argv[])
 {
+	FilePath path(QDir::currentPath().toStdString());
+	AppPath::setAppPath(path.absolute().str() + "/");
 }
 
 #endif // INCLUDES_MAC_H
