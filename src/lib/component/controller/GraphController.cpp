@@ -607,6 +607,17 @@ void GraphController::bundleNodes()
 		}
 	}
 
+	// Left for debugging
+	// for (std::shared_ptr<DummyNode> node : m_dummyNodes)
+	// {
+	// 	std::cout << node->bundleInfo.isActive << " ";
+	// 	std::cout << node->bundleInfo.isDefined << " ";
+	// 	std::cout << node->bundleInfo.layoutVertical << " ";
+	// 	std::cout << node->bundleInfo.isReferenced << " ";
+	// 	std::cout << node->bundleInfo.isReferencing << " ";
+	// 	std::cout << node->name << std::endl;
+	// }
+
 	// bundle
 	bundleNodesAndEdgesMatching(
 		[](const DummyNode::BundleInfo& info)
@@ -701,8 +712,11 @@ void GraphController::bundleNodesAndEdgesMatching(
 		m_dummyNodes.erase(m_dummyNodes.begin() + matchedNodeIndices[i]);
 	}
 
-	bundleNode->tokenId = bundleNode->bundledNodes[0]->data->getId();
-	bundleNode->bundleInfo.layoutVertical = bundleNode->bundledNodes[0]->bundleInfo.layoutVertical;
+	DummyNode* firstNode = bundleNode->bundledNodes[0].get();
+	bundleNode->tokenId = firstNode->data->getId();
+	bundleNode->bundleInfo.layoutVertical = firstNode->bundleInfo.layoutVertical;
+	bundleNode->bundleInfo.isReferenced = firstNode->bundleInfo.isReferenced;
+	bundleNode->bundleInfo.isReferencing = firstNode->bundleInfo.isReferencing;
 	m_dummyNodes.push_back(bundleNode);
 
 	if (m_dummyEdges.size() == 0)
@@ -740,7 +754,7 @@ void GraphController::bundleNodesAndEdgesMatching(
 				std::shared_ptr<DummyEdge> bundleEdge = std::make_shared<DummyEdge>();
 				bundleEdge->visible = true;
 				bundleEdge->ownerId = (owner ? edge->targetId : edge->ownerId);
-				bundleEdge->targetId = bundleNode->bundledNodes.front()->data->getId();
+				bundleEdge->targetId = bundleNode->tokenId;
 				bundleEdges.push_back(bundleEdge);
 				bundleEdgePtr = bundleEdges.back().get();
 			}
