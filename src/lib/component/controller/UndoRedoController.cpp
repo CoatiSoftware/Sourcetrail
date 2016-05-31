@@ -22,9 +22,10 @@ UndoRedoView* UndoRedoController::getView()
 	return Controller::getView<UndoRedoView>();
 }
 
-UndoRedoController::Command::Command(std::shared_ptr<MessageBase> message, Order order)
+UndoRedoController::Command::Command(std::shared_ptr<MessageBase> message, Order order, bool replayLastOnly)
 	: message(message)
 	, order(order)
+	, replayLastOnly(replayLastOnly)
 {
 }
 
@@ -63,7 +64,7 @@ void UndoRedoController::handleMessage(MessageActivateLocalSymbols* message)
 		return;
 	}
 
-	Command command(std::make_shared<MessageActivateLocalSymbols>(*message), Command::ORDER_VIEW);
+	Command command(std::make_shared<MessageActivateLocalSymbols>(*message), Command::ORDER_VIEW, true);
 	processCommand(command);
 }
 
@@ -96,7 +97,7 @@ void UndoRedoController::handleMessage(MessageActivateTokenIds* message)
 
 void UndoRedoController::handleMessage(MessageChangeFileView* message)
 {
-	Command command(std::make_shared<MessageChangeFileView>(*message), Command::ORDER_ADAPT);
+	Command command(std::make_shared<MessageChangeFileView>(*message), Command::ORDER_VIEW);
 	processCommand(command);
 }
 
@@ -132,13 +133,13 @@ void UndoRedoController::handleMessage(MessageGraphNodeBundleSplit* message)
 
 void UndoRedoController::handleMessage(MessageGraphNodeExpand* message)
 {
-	Command command(std::make_shared<MessageGraphNodeExpand>(*message), Command::ORDER_ADAPT);
+	Command command(std::make_shared<MessageGraphNodeExpand>(*message), Command::ORDER_VIEW);
 	processCommand(command);
 }
 
 void UndoRedoController::handleMessage(MessageGraphNodeMove* message)
 {
-	Command command(std::make_shared<MessageGraphNodeMove>(*message), Command::ORDER_ADAPT);
+	Command command(std::make_shared<MessageGraphNodeMove>(*message), Command::ORDER_VIEW);
 	processCommand(command);
 }
 
@@ -202,7 +203,7 @@ void UndoRedoController::handleMessage(MessageScrollCode* message)
 		return;
 	}
 
-	Command command(std::make_shared<MessageScrollCode>(*message), Command::ORDER_VIEW);
+	Command command(std::make_shared<MessageScrollCode>(*message), Command::ORDER_VIEW, true);
 	processCommand(command);
 }
 
@@ -232,7 +233,7 @@ void UndoRedoController::handleMessage(MessageSearchFullText* message)
 
 void UndoRedoController::handleMessage(MessageShowScope* message)
 {
-	Command command(std::make_shared<MessageShowScope>(*message), Command::ORDER_ADAPT);
+	Command command(std::make_shared<MessageShowScope>(*message), Command::ORDER_VIEW);
 	processCommand(command);
 }
 
@@ -281,13 +282,16 @@ void UndoRedoController::replayCommands(std::list<Command>::iterator it)
 	while (it != m_iterator)
 	{
 		m = it->message;
-		if (it->order != Command::ORDER_VIEW)
+		if (it->order != Command::ORDER_VIEW || it->replayLastOnly == false)
 		{
 			m->setIsReplayed(true);
 			m->setIsLast(it == std::prev(m_iterator));
 			m->dispatch();
 
-			viewCommands.clear();
+			if (it->order != Command::ORDER_VIEW)
+			{
+				viewCommands.clear();
+			}
 		}
 		else
 		{

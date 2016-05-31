@@ -66,10 +66,11 @@ private:
 			ORDER_VIEW
 		};
 
-		Command(std::shared_ptr<MessageBase> message, Order order);
+		Command(std::shared_ptr<MessageBase> message, Order order, bool replayLastOnly = false);
 
 		std::shared_ptr<MessageBase> message;
 		Order order;
+		bool replayLastOnly;
 	};
 
 	virtual void handleMessage(MessageActivateEdge* message);
