@@ -95,6 +95,8 @@ public:
 	StorageComponentAccess getComponentAccessByMemberEdgeId(Id memberEdgeId) const;
 	std::vector<StorageComponentAccess> getComponentAccessByMemberEdgeIds(const std::vector<Id>& memberEdgeIds) const;
 
+	void optimizeMemory() const;
+
 	std::vector<ParseLocation> getFullTextSearch(const std::string& searchTerm) const;
 	void optimizeFTSTable() const;
 

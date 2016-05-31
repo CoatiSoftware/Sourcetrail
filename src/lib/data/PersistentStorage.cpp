@@ -360,6 +360,11 @@ void PersistentStorage::finishParsing()
 	optimizeFTSTable();
 }
 
+void PersistentStorage::optimizeMemory()
+{
+	m_sqliteStorage.optimizeMemory();
+}
+
 Id PersistentStorage::getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const
 {
 	return m_sqliteStorage.getNodeBySerializedName(NameHierarchy::serialize(nameHierarchy)).id;

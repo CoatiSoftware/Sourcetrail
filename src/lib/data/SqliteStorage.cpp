@@ -361,6 +361,18 @@ std::vector<StorageEdge> SqliteStorage::getEdgesByTargetType(Id targetId, int ty
 	return getAll<StorageEdge>("WHERE target_node_id == " + std::to_string(targetId) + " AND type == " + std::to_string(type));
 }
 
+void SqliteStorage::optimizeMemory() const
+{
+	try
+	{
+		m_database.execDML("VACUUM;");
+	}
+	catch(CppSQLite3Exception e)
+	{
+		LOG_ERROR(e.errorMessage());
+	}
+}
+
 void SqliteStorage::optimizeFTSTable() const
 {
 	try

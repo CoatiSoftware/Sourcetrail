@@ -16,7 +16,6 @@ class TaskParseWrapper
 	: public Task
 {
 public:
-
 	TaskParseWrapper(
 		std::shared_ptr<Task> child,
 		PersistentStorage* storage,

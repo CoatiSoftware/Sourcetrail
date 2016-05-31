@@ -1148,7 +1148,7 @@ void ASTVisitor::RecordDeclRef(
 			{
 				ParseLocation declLocation = getParseLocation(varDecl->getSourceRange());
 				std::string name =
-					declLocation.filePath.str() + "::" +
+					declLocation.filePath.fileName() + "::" +
 					varDecl->getNameAsString() + "<" +
 					std::to_string(declLocation.startLineNumber) + ":" +
 					std::to_string(declLocation.startColumnNumber) + ">";

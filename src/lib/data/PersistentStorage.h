@@ -69,6 +69,8 @@ public:
 	void startParsing();
 	void finishParsing();
 
+	void optimizeMemory();
+
 	// StorageAccess implementation
 	virtual Id getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const;
 	virtual Id getIdForEdge(

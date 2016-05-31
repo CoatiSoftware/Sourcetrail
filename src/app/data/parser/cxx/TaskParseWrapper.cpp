@@ -34,7 +34,11 @@ void TaskParseWrapper::exit()
 {
 	m_child->exit();
 
-	MessageStatus("building search index", false, true).dispatch();
+	MessageStatus("optimizing database", false, true).dispatch();
+
+	m_storage->optimizeMemory();
+
+	MessageStatus("building caches", false, true).dispatch();
 
 	m_storage->finishParsing();
 
