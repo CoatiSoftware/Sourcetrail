@@ -26,7 +26,7 @@ void SearchController::handleMessage(MessageActivateTokens* message)
 		{
 			getView()->setMatches(m_storageAccess->getSearchMatchesForTokenIds(message->tokenIds));
 		}
-		else if (message->isReplayed() || message->unknownNames.size())
+		else if ((message->isReplayed() || message->unknownNames.size()) && !message->tokenIds.size())
 		{
 			std::vector<SearchMatch> matches;
 
