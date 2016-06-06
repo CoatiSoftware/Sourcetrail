@@ -99,7 +99,7 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 	}
 
 	QString name = index.data().toString();
-	float charWidth = option.fontMetrics.width("FontWidth") / 9.0f;
+
 
 	QString type = index.sibling(index.row(), index.column() + 1).data().toString();
 	QColor color("#FFFFFF");
@@ -114,23 +114,17 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 		color = QColor(scheme->getSearchTypeColor(SearchMatch::getSearchTypeName(SearchMatch::SEARCH_COMMAND)).c_str());
 	}
 
-
+	float charWidth = option.fontMetrics.width(
+		"----------------------------------------------------------------------------------------------------"
+	) / 100.0f;
 	QList<QVariant> indices = index.sibling(index.row(), index.column() + 2).data().toList();
 	if (indices.size())
 	{
-		int idx = 0;
-		float x = charWidth + 2;
-		for (int i = 0; i < name.size(); i++)
+		for (int i = 0; i < indices.size(); i++)
 		{
-			if (idx < indices.size() && i == indices[idx])
-			{
-				QRect rect = option.rect.adjusted(x, 2, 0, -1);
-				rect.setWidth(charWidth + 1);
-				painter->fillRect(rect, color);
-				idx++;
-			}
-
-			x += charWidth;
+			QRect rect = option.rect.adjusted(charWidth * (indices[i].toInt() + 1) + 1, 2, 0, -1);
+			rect.setWidth(charWidth + 2);
+			painter->fillRect(rect, color);
 		}
 	}
 	else
