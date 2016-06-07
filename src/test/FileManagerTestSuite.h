@@ -20,12 +20,13 @@ public:
 		sourcePaths.push_back("./data/FileManagerTestSuite/src/");
 		sourcePaths.push_back("./data/FileManagerTestSuite/include/");
 		std::vector<FilePath> headerPaths;
+		std::vector<FilePath> excludePaths;
 		std::vector<std::string> sourceExtensions;
 		sourceExtensions.push_back(".cpp");
 		sourceExtensions.push_back(".c");
 
 		FileManager fm;
-		fm.setPaths(sourcePaths, headerPaths, sourceExtensions);
+		fm.setPaths(sourcePaths, headerPaths, excludePaths, sourceExtensions);
 		fm.fetchFilePaths(std::vector<FileInfo>());
 
 		TS_ASSERT_EQUALS(fm.getAddedFilePaths().size(), 2);

@@ -254,9 +254,11 @@ void Project::updateFileManager()
 		sourcePaths = TaskParseCxx::getSourceFilesFromCDB(projSettings->getCompilationDatabasePath());
 	}
 
+	std::vector<FilePath> excludePaths = projSettings->getAbsoluteExcludePaths();
+
 	std::vector<std::string> sourceExtensions = projSettings->getSourceExtensions();
 
-	m_fileManager.setPaths(sourcePaths, headerPaths, sourceExtensions);
+	m_fileManager.setPaths(sourcePaths, headerPaths, excludePaths, sourceExtensions);
 }
 
 Parser::Arguments Project::getParserArguments() const

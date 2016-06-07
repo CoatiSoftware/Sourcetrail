@@ -18,6 +18,7 @@ public:
 	void setPaths(
 		std::vector<FilePath> sourcePaths,
 		std::vector<FilePath> headerPaths,
+		std::vector<FilePath> excludePaths,
 		std::vector<std::string> sourceExtensions
 	);
 
@@ -33,13 +34,15 @@ public:
 	virtual const FileInfo getFileInfo(const FilePath& filePath) const;
 
 private:
+	bool isExcluded(const FilePath& filePath) const;
+
 	std::map<FilePath, FileInfo> m_files;
 
 	std::vector<FilePath> m_sourcePaths;
 	std::vector<FilePath> m_headerPaths;
+	std::vector<FilePath> m_excludePaths;
 
 	std::vector<std::string> m_sourceExtensions;
-	std::vector<std::string> m_includeExtensions;
 
 	std::set<FilePath> m_addedFiles;
 	std::set<FilePath> m_updatedFiles;

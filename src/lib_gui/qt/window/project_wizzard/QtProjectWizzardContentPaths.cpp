@@ -244,7 +244,7 @@ bool QtProjectWizzardContentPathsSource::check()
 QStringList QtProjectWizzardContentPathsSource::getFileNames() const
 {
 	std::vector<FilePath> sourcePaths = m_settings->getAbsoluteSourcePaths();
-
+	std::vector<FilePath> excludePaths = m_settings->getAbsoluteExcludePaths();
 	std::vector<std::string> extensions = m_settings->getSourceExtensions();
 
 	std::vector<FileInfo> fileInfos = FileSystem::getFileInfosFromPaths(sourcePaths, extensions);
@@ -254,6 +254,21 @@ QStringList QtProjectWizzardContentPathsSource::getFileNames() const
 	for (const FileInfo& info : fileInfos)
 	{
 		FilePath path = info.path;
+
+		bool excluded = false;
+		for (FilePath p : excludePaths)
+		{
+			if (p == path || p.contains(path))
+			{
+				excluded = true;
+				break;
+			}
+		}
+
+		if (excluded)
+		{
+			continue;
+		}
 
 		if (projectPath.exists())
 		{
@@ -293,6 +308,30 @@ QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 		"files of these source files. The header files will be analyzed if included."
 	);
 }
+
+
+QtProjectWizzardContentPathsExclude::QtProjectWizzardContentPathsExclude(
+	ProjectSettings* settings, QtProjectWizzardWindow* window
+)
+	: QtProjectWizzardContentPaths(settings, window)
+{
+	setInfo(
+		"Exclude Paths",
+		"Add all directories or files you want to exclude from the analysis.",
+		"Exclude Paths define the files and directories that will be left out from the analysis by Coati."
+	);
+}
+
+void QtProjectWizzardContentPathsExclude::load()
+{
+	m_list->setList(m_settings->getExcludePaths());
+}
+
+void QtProjectWizzardContentPathsExclude::save()
+{
+	m_settings->setExcludePaths(m_list->getList());
+}
+
 
 QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSearch(
 	ProjectSettings* settings, QtProjectWizzardWindow* window

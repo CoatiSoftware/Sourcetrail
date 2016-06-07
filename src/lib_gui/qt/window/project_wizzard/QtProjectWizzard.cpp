@@ -571,6 +571,7 @@ void QtProjectWizzard::showSummary()
 
 			summary->addContent(new QtProjectWizzardContentFlags(settings, window), true, false);
 			summary->addContent(new QtProjectWizzardContentExtensions(settings, window), true, true);
+			summary->addContent(new QtProjectWizzardContentPathsExclude(settings, window), true, true);
 
 			window->setup();
 

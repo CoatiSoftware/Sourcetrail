@@ -44,6 +44,7 @@ bool ProjectSettings::operator==(const ProjectSettings& other) const
 		utility::isPermutation<FilePath>(getSourcePaths(), other.getSourcePaths()) &&
 		utility::isPermutation<FilePath>(getHeaderSearchPaths(), other.getHeaderSearchPaths()) &&
 		utility::isPermutation<FilePath>(getFrameworkSearchPaths(), other.getFrameworkSearchPaths()) &&
+		utility::isPermutation<FilePath>(getExcludePaths(), other.getExcludePaths()) &&
 		utility::isPermutation<std::string>(getCompilerFlags(), other.getCompilerFlags()) &&
 		utility::isPermutation<std::string>(getSourceExtensions(), other.getSourceExtensions());
 }
@@ -169,6 +170,24 @@ bool ProjectSettings::getUseSourcePathsForHeaderSearch() const
 bool ProjectSettings::setUseSourcePathsForHeaderSearch(bool useSourcePathsForHeaderSearch)
 {
 	return setValue<bool>("source/use_source_paths_for_header_search", useSourcePathsForHeaderSearch);
+}
+
+std::vector<FilePath> ProjectSettings::getExcludePaths() const
+{
+	return getPathValues("source/exclude_paths/exclude_path");
+}
+
+std::vector<FilePath> ProjectSettings::getAbsoluteExcludePaths() const
+{
+	std::vector<FilePath> paths = getExcludePaths();
+	expandPaths(paths);
+	makePathsAbsolute(paths);
+	return paths;
+}
+
+bool ProjectSettings::setExcludePaths(const std::vector<FilePath>& excludePaths)
+{
+	return setPathValues("source/exclude_paths/exclude_path", excludePaths);
 }
 
 FilePath ProjectSettings::getVisualStudioSolutionPath() const

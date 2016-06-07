@@ -44,15 +44,16 @@ public:
 	std::vector<std::string> getCompilerFlags() const;
 	bool setCompilerFlags(const std::vector<std::string>& compilerFlags);
 
-	std::vector<std::string> getHeaderExtensions() const;
 	std::vector<std::string> getSourceExtensions() const;
-
-	bool setHeaderExtensions(const std::vector<std::string>& headerExtensions);
 	bool setSourceExtensions(const std::vector<std::string>& sourceExtensions);
 
 	bool isUseSourcePathsForHeaderSearchDefined() const;
 	bool getUseSourcePathsForHeaderSearch() const;
 	bool setUseSourcePathsForHeaderSearch(bool useSourcePathsForHeaderSearch);
+
+	std::vector<FilePath> getExcludePaths() const;
+	std::vector<FilePath> getAbsoluteExcludePaths() const;
+	bool setExcludePaths(const std::vector<FilePath>& excludePaths);
 
 	FilePath getVisualStudioSolutionPath() const;
 	bool setVisualStudioSolutionPath(const FilePath& visualStudioSolutionPath);

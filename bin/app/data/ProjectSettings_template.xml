@@ -40,6 +40,10 @@
 
 		<use_source_paths_for_header_search><!-- BOOL: If enabled all subfolder of the source paths will be used for header search --></use_source_paths_for_header_search>
 
+		<exclude_paths>
+			<exclude_path><!-- STRING: path to file or directory to exclude from analysis --></source_path>
+		</exclude_paths>
+
 		<build_file_path>
 			<vs_solution_path><!-- STRING: path to Visual Studio solution *.sln --></vs_solution_path>
 			<compilation_db_path><!-- STRING: path to Compilation Database --></compilation_db_path>

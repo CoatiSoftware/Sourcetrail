@@ -79,6 +79,17 @@ public:
 };
 
 
+class QtProjectWizzardContentPathsExclude
+	: public QtProjectWizzardContentPaths
+{
+public:
+	QtProjectWizzardContentPathsExclude(ProjectSettings* settings, QtProjectWizzardWindow* window);
+
+	virtual void load() override;
+	virtual void save() override;
+};
+
+
 class QtProjectWizzardContentPathsHeaderSearch
 	: public QtProjectWizzardContentPaths
 {

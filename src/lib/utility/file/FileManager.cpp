@@ -23,10 +23,12 @@ const std::vector<FilePath>& FileManager::getSourcePaths() const
 void FileManager::setPaths(
 	std::vector<FilePath> sourcePaths,
 	std::vector<FilePath> headerPaths,
+	std::vector<FilePath> excludePaths,
 	std::vector<std::string> sourceExtensions
 ){
 	m_sourcePaths = sourcePaths;
 	m_headerPaths = headerPaths;
+	m_excludePaths = excludePaths;
 	m_sourceExtensions = sourceExtensions;
 }
 
@@ -65,6 +67,11 @@ void FileManager::fetchFilePaths(const std::vector<FileInfo>& oldFileInfos)
 	for (FileInfo fileInfo: fileInfos)
 	{
 		const FilePath& filePath = fileInfo.path;
+		if (isExcluded(filePath))
+		{
+			continue;
+		}
+
 		std::map<FilePath, FileInfo>::iterator it = m_files.find(filePath);
 		if (it != m_files.end())
 		{
@@ -110,6 +117,11 @@ bool FileManager::hasFilePath(const FilePath& filePath) const
 		return true;
 	}
 
+	if (isExcluded(filePath))
+	{
+		return false;
+	}
+
 	for (FilePath path : m_headerPaths)
 	{
 		if (path == filePath || path.contains(filePath))
@@ -136,4 +148,17 @@ const FileInfo FileManager::getFileInfo(const FilePath& filePath) const
 	}
 
 	return it->second;
+}
+
+bool FileManager::isExcluded(const FilePath& filePath) const
+{
+	for (FilePath path : m_excludePaths)
+	{
+		if (path == filePath || path.contains(filePath))
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
