@@ -241,7 +241,9 @@ void CodeController::handleMessage(MessageShowErrors* message)
 void CodeController::handleMessage(MessageSearchFullText* message)
 {
 	CodeView* view = getView();
-	std::vector<CodeSnippetParams> snippets = getSnippetsForFullTextSearch(message->searchTerm);
+	view->setErrorInfos(std::vector<ErrorInfo>());
+
+	std::vector<CodeSnippetParams> snippets = getSnippetsForFullTextSearch(message->searchTerm, message->caseSensitive);
 	view->showCodeSnippets(snippets, std::vector<Id>());
 
 	showContents(message);
@@ -603,23 +605,32 @@ std::shared_ptr<TokenLocationFile> CodeController::getTokenLocationOfParentScope
 	return file;
 }
 
-
 std::vector<CodeSnippetParams> CodeController::getSnippetsForFullTextSearch(
-		const std::string& searchTerm) const
+		const std::string& searchTerm, bool caseSensitive) const
 {
 	std::shared_ptr<TokenLocationCollection> collection =
-		m_storageAccess->getFullTextSearchLocations(searchTerm);
+		m_storageAccess->getFullTextSearchLocations(searchTerm, caseSensitive);
 
 	std::vector<CodeSnippetParams> snippets;
+	snippets.reserve(collection->getTokenLocationFileCount());
 
 	collection->forEachTokenLocationFile(
 		[&](std::shared_ptr<TokenLocationFile> file) -> void
 		{
+			//CodeSnippetParams params;
+			//params.locationFile = file;
+			//params.startLineNumber = 1;
+
+			//std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(file->getFilePath());
+			//params.code = textAccess->getText();
+
+			//snippets.push_back(params);
+
 			//if (snippets.size() < 10)
-			{
+			//{
 				std::vector<CodeSnippetParams> fileSnippets = getSnippetsForFile(file);
 				snippets.insert(snippets.end(), fileSnippets.begin(), fileSnippets.end());
-			}
+			//}
 			//else
 			//{
 				//CodeSnippetParams params;

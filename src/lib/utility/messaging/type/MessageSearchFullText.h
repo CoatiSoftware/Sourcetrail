@@ -7,8 +7,9 @@
 class MessageSearchFullText: public Message<MessageSearchFullText>
 {
 public:
-	MessageSearchFullText(const std::string& searchTerm)
+	MessageSearchFullText(const std::string& searchTerm, bool caseSensitive = false)
 		: searchTerm(searchTerm)
+		, caseSensitive(caseSensitive)
 	{
 	}
 
@@ -23,6 +24,7 @@ public:
 	}
 
 	const std::string searchTerm;
+	bool caseSensitive;
 };
 
 #endif // MESSAGE_SEARCH_FULLTEXT_H

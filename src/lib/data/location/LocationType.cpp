@@ -10,7 +10,7 @@ int locationTypeToInt(LocationType type)
 		return 1;
 	case LOCATION_LOCAL_SYMBOL:
 		return 2;
-	case LOCATION_FULLTEXTSEARCH_MATCH:
+	case LOCATION_FULLTEXT:
 		return 3;
 	}
 }
@@ -26,7 +26,7 @@ LocationType intToLocationType(int value)
 	case 2:
 		return LOCATION_LOCAL_SYMBOL;
 	case 3:
-		return LOCATION_FULLTEXTSEARCH_MATCH;
+		return LOCATION_FULLTEXT;
 	}
 	return LOCATION_TOKEN;
 }

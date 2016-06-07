@@ -1,9 +1,4 @@
-cmake_minimum_required(VERSION 2.8.9)
-
-# to get CMP0043 warnings, upgrade to version 3 and change the line above to VERSION 3.0 and remove the line below
-if(POLICY CMP0043)
-	cmake_policy(SET CMP0043 OLD)
-endif()
+cmake_minimum_required(VERSION 3.1)
 
 include(cmake/add_files.cmake)
 include(cmake/create_source_groups.cmake)
@@ -11,8 +6,6 @@ include(cmake/version.cmake)
 include(cmake/version_setup.cmake)
 include(cmake/licenses.cmake)
 
-# set Standerd build type to Release
-set(CMAKE_BUILD_TYPE_INIT "Release")
 
 # Variables --------------------------------------------------------------------
 
@@ -40,6 +33,9 @@ endif ()
 
 project(${PROJECT_NAME})
 
+# set Standerd build type to Release
+set(CMAKE_BUILD_TYPE_INIT "Release")
+
 #RPATH
 if(UNIX AND NOT APPLE)
 	set(CMAKE_SKIP_BUILD_RPATH FALSE)
@@ -50,16 +46,18 @@ if(UNIX AND NOT APPLE)
 endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_C_STANDARD 99)
 
 # Settings ---------------------------------------------------------------------
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option -fcolor-diagnostics")
+endif()
 
 if (UNIX)
-	add_definitions(-std=c++11 -Wno-unknown-warning-option -fcolor-diagnostics -DQT_COMPILING_QSTRING_COMPAT_CPP )
+	#add_definitions(-std=c++11 -Wno-unknown-warning-option -fcolor-diagnostics -DQT_COMPILING_QSTRING_COMPAT_CPP )
+	add_definitions(-fno-omit-frame-pointer  -DQT_COMPILING_QSTRING_COMPAT_CPP )
 endif ()
-
-# enable fts4 module for sqlite
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_FTS4_PARENTHESIS")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_FTS4_PARENTHESIS")
 
 # Clang ------------------------------------------------------------------------
 

@@ -20,7 +20,8 @@ public:
 	virtual NameHierarchy getNameHierarchyForNodeWithId(Id id) const;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const;
 
-	virtual std::shared_ptr<TokenLocationCollection> getFullTextSearchLocations(const std::string& searchTerm) const;
+	virtual std::shared_ptr<TokenLocationCollection> getFullTextSearchLocations(
+			const std::string& searchTerm, bool caseSensitive) const;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const;
 

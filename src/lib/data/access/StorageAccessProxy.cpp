@@ -84,11 +84,11 @@ std::vector<SearchMatch> StorageAccessProxy::getAutocompletionMatches(const std:
 }
 
 std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getFullTextSearchLocations(
-		const std::string &searchTerm) const
+		const std::string &searchTerm, bool caseSensitive) const
 {
 	if (hasSubject())
 	{
-		return m_subject->getFullTextSearchLocations(searchTerm);
+		return m_subject->getFullTextSearchLocations(searchTerm, caseSensitive);
 	}
 
 	return std::make_shared<TokenLocationCollection>();

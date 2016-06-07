@@ -7,6 +7,7 @@
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageClearErrorCount.h"
 #include "utility/messaging/type/MessageShowErrors.h"
+#include "utility/text/TextAccess.h"
 #include "utility/TimePoint.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
@@ -254,6 +255,7 @@ void PersistentStorage::clearCaches()
 	m_fileNodeIds.clear();
 	m_fileNodePaths.clear();
 	m_hierarchyCache.clear();
+	m_fullTextSearchIndex.clear();
 }
 
 std::set<FilePath> PersistentStorage::getDependingFilePaths(const std::set<FilePath>& filePaths)
@@ -357,7 +359,6 @@ void PersistentStorage::finishParsing()
 	buildSearchIndex();
 	buildFilePathMaps();
 	buildHierarchyCache();
-	optimizeFTSTable();
 }
 
 void PersistentStorage::optimizeMemory()
@@ -389,24 +390,76 @@ Node::NodeType PersistentStorage::getNodeTypeForNodeWithId(Id nodeId) const
 	return Node::intToType(m_sqliteStorage.getNodeById(nodeId).type);
 }
 
-std::shared_ptr<TokenLocationCollection> PersistentStorage::getFullTextSearchLocations(const std::string& searchTerm) const
+std::shared_ptr<TokenLocationCollection> PersistentStorage::getFullTextSearchLocations(
+		const std::string& searchTerm, bool caseSensitive
+) const
 {
+	if (m_fullTextSearchIndex.fileCount() == 0)
+	{
+		buildFullTextSearchIndex();
+	}
+
 	std::shared_ptr<TokenLocationCollection> collection = std::make_shared<TokenLocationCollection>();
 
-	std::vector<ParseLocation> parseLocations = m_sqliteStorage.getFullTextSearch(searchTerm);
-	size_t i = 0;
-	for(ParseLocation location : parseLocations)
+	std::vector<FullTextSearchResult> hits = m_fullTextSearchIndex.searchForTerm(searchTerm);
+
+	int termLength = searchTerm.length();
+	FilePath filepath;
+	std::shared_ptr<TextAccess> file;
+	ParseLocation location;
+	for (size_t i = 0; i < hits.size(); i++)
 	{
-		collection->addTokenLocation(
-			i,
-			0,
-			location.filePath,
-			location.startLineNumber,
-			location.startColumnNumber,
-			location.endLineNumber,
-			location.endColumnNumber
-		)->setType(LOCATION_FULLTEXTSEARCH_MATCH);
-		i++;
+		filepath = getFileNodePath(hits[i].fileId);
+		file = getFileContent(filepath);
+
+		int charsInPreviousLines = 0;
+		int lineNumber = 1;
+		std::string line;
+		line = file->getLine(lineNumber);
+
+		for (int pos : hits[i].positions)
+		{
+			bool addHit = true;
+			while( (charsInPreviousLines + (int)line.length()) < pos)
+			{
+				lineNumber++;
+				charsInPreviousLines += line.length();
+				line = file->getLine(lineNumber);
+			}
+			location.startLineNumber = lineNumber;
+			location.startColumnNumber = pos - charsInPreviousLines + 1;
+
+			if ( caseSensitive )
+			{
+				if( line.substr(location.startColumnNumber-1, termLength) != searchTerm )
+				{
+					addHit = false;
+				}
+			}
+
+			while( (charsInPreviousLines + (int)line.length()) < pos + termLength)
+			{
+				lineNumber++;
+				charsInPreviousLines += line.length();
+				line = file->getLine(lineNumber);
+			}
+
+			location.endLineNumber = lineNumber;
+			location.endColumnNumber = pos + termLength - charsInPreviousLines;
+
+			if ( addHit )
+			{
+				collection->addTokenLocation(
+					i,
+					0,
+					filepath,
+					location.startLineNumber,
+					location.startColumnNumber,
+					location.endLineNumber,
+					location.endColumnNumber
+				)->setType(LOCATION_FULLTEXT);
+			}
+		}
 	}
 
 	return collection;
@@ -597,7 +650,6 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(const std::v
 	std::vector<Id> edgeIds;
 	bool addAggregations = false;
 
-	//m_sqliteStorage.getFullTextSearch("const int");
 	if (tokenIds.size() == 1)
 	{
 		const Id elementId = tokenIds[0];
@@ -1252,6 +1304,14 @@ void PersistentStorage::buildFilePathMaps()
 	}
 }
 
+void PersistentStorage::buildFullTextSearchIndex() const
+{
+	for (StorageFile file : m_sqliteStorage.getAllFiles())
+	{
+		m_fullTextSearchIndex.addFile(file.id, m_sqliteStorage.getFileContentById(file.id)->getText());
+	}
+}
+
 void PersistentStorage::buildHierarchyCache()
 {
 	std::vector<StorageEdge> memberEdges = m_sqliteStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_MEMBER));
@@ -1267,7 +1327,3 @@ void PersistentStorage::buildHierarchyCache()
 	}
 }
 
-void PersistentStorage::optimizeFTSTable()
-{
-	m_sqliteStorage.optimizeFTSTable();
-}

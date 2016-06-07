@@ -79,6 +79,11 @@ add_files(
 	data/access/StorageAccessProxy.cpp
 	data/access/StorageAccessProxy.h
 
+	data/fulltextsearch/FullTextSearchIndex.cpp
+	data/fulltextsearch/FullTextSearchIndex.h
+	data/fulltextsearch/SuffixArray.cpp
+	data/fulltextsearch/SuffixArray.h
+
 	data/graph/token_component/TokenComponent.cpp
 	data/graph/token_component/TokenComponent.h
 	data/graph/token_component/TokenComponentAbstraction.cpp

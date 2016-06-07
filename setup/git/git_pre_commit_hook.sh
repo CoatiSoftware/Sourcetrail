@@ -20,6 +20,13 @@ elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
 	PLATFORM='Windows'
 fi
 
+function fallback {
+	FALLBACK_BRANCH=${BRANCH_NAME:3}
+	FALLBACK_BRANCH="${FALLBACK_BRANCH%?}"
+	git checkout ${FALLBACK_BRANCH}
+	git branch -D ${BRANCH_NAME}
+}
+
 function build {
 	echo -e $INFO Building $1 \($2\)
 	cmake --build build/$2 --target $1 > /dev/null
@@ -30,6 +37,7 @@ function build {
 		echo -e $PASS Building $1 \($2\) passed
 	else
 		echo -e $FAIL Building $1 \($2\) failed
+		fallback
 		exit 1
 	fi
 }
@@ -43,6 +51,7 @@ function build_type {
 		if [ $? -ne 0 ]
 		then
 			echo -e $FAIL At least one build or test failed, no push to $branch
+			fallback
 			exit 1
 		fi
 	else
@@ -65,6 +74,7 @@ function run_tests {
 		echo -e $PASS $1 Tests passed
 	else
 		echo -e $FAIL $1 Tests failed
+		fallback
 		exit 1
 	fi
 	cd $ROOTDIR

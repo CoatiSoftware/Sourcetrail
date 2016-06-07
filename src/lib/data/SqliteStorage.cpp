@@ -373,92 +373,6 @@ void SqliteStorage::optimizeMemory() const
 	}
 }
 
-void SqliteStorage::optimizeFTSTable() const
-{
-	try
-	{
-		CppSQLite3Query q = m_database.execQuery("INSERT INTO file(file) VALUES('optimize');");
-	}
-	catch(CppSQLite3Exception e)
-	{
-		LOG_ERROR(e.errorMessage());
-	}
-}
-
-std::vector<ParseLocation> SqliteStorage::getFullTextSearch(const std::string& searchTerm) const
-{
-	std::vector<ParseLocation> matches;
-	try
-	{
-		CppSQLite3Query q = m_database.execQuery((
-					"SELECT id,offsets(file) FROM file WHERE content MATCH '\"*" + searchTerm + "*\"'"
-		).c_str());
-
-		while(!q.eof())
-		{
-			const Id fileId = q.getIntField(0,0);
-
-			// convert the string "0 2 0 2" to int vector
-			std::stringstream temp_results(q.getStringField(1,0));
-			std::vector<int> results((std::istream_iterator<int>(temp_results)),std::istream_iterator<int>());
-
-			ParseLocation location;
-			location.filePath = getFileById(fileId).filePath;
-			std::shared_ptr<TextAccess> file = getFileContentByPath(location.filePath.str());
-
-			int charsInPreviousLines = 0;
-			int lineNumber = 1;
-			std::string line;
-			// results
-			// i   ... col
-			// i+1 ... term
-			// i+2 ... offset
-			// i+3 ... length
-			line = file->getLine(lineNumber);
-			for (size_t i = 0; i < results.size() ; i+=4)
-			{
-				while( ((charsInPreviousLines + (int)line.length()) < results[i+2]) && results[i+1] == 0 )
-				{
-					lineNumber++;
-					charsInPreviousLines += line.length();
-					line = file->getLine(lineNumber);
-				}
-
-				//only set start if its the first term of the match
-				if ( results[i+1] == 0 )
-				{
-					location.startLineNumber = lineNumber;
-					// +1 to be consistent with the rest of the codebase
-					location.startColumnNumber = results[i+2] - charsInPreviousLines + 1;
-				}
-
-				while( (charsInPreviousLines + (int)line.length()) < (results[i+2] + results[i+3]) )
-				{
-					lineNumber++;
-					charsInPreviousLines += line.length();
-					line = file->getLine(lineNumber);
-				}
-
-				location.endLineNumber = lineNumber;
-				location.endColumnNumber = results[i+2] + results[i+3] - charsInPreviousLines;
-
-				// add match if the next term is the first term of a match or its the last term in the file
-				if ( (i+4 < results.size() && results[i+5] == 0) || i+4 >= results.size() )
-				{
-					matches.push_back(location);
-				}
-			}
-
-			q.nextRow();
-		}
-	}
-	catch(CppSQLite3Exception e)
-	{
-		LOG_ERROR(e.errorMessage());
-	}
-	return matches;
-}
-
 StorageNode SqliteStorage::getNodeById(Id id) const
 {
 	if (id != 0)
@@ -516,6 +430,20 @@ StorageFile SqliteStorage::getFileByPath(const FilePath& filePath) const
 std::vector<StorageFile> SqliteStorage::getFilesByPaths(const std::vector<FilePath>& filePaths) const
 {
 	return getAll<StorageFile>("WHERE file.path IN ('" + utility::join(utility::toStrings(filePaths), "', '") + "')");
+}
+
+std::shared_ptr<TextAccess> SqliteStorage::getFileContentById(Id fileId) const
+{
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT content FROM file WHERE id = '" + std::to_string(fileId) + "';"
+	).c_str());
+
+	if (!q.eof())
+	{
+		return TextAccess::createFromString(q.getStringField(0, ""));
+	}
+
+	return TextAccess::createFromString("");
 }
 
 std::shared_ptr<TextAccess> SqliteStorage::getFileContentByPath(const std::string& filePath) const
@@ -704,54 +632,55 @@ void SqliteStorage::clearTables()
 
 void SqliteStorage::setupTables()
 {
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS meta("
-			"id INTEGER, "
-			"key TEXT, "
-			"value TEXT, "
-			"PRIMARY KEY(id));"
-	);
-
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS element("
-			"id INTEGER, "
-			"PRIMARY KEY(id));"
-	);
-
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS edge("
-			"id INTEGER NOT NULL, "
-			"type INTEGER NOT NULL, "
-			"source_node_id INTEGER NOT NULL, "
-			"target_node_id INTEGER NOT NULL, "
-			"PRIMARY KEY(id), "
-			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE, "
-			"FOREIGN KEY(source_node_id) REFERENCES node(id) ON DELETE CASCADE, "
-			"FOREIGN KEY(target_node_id) REFERENCES node(id) ON DELETE CASCADE);"
-	);
-
-	m_database.execDML( // used for checking for duplicates during code analysis // TODO: move to createIndexesForAnalysis() or prepareForAnalysis
-		"CREATE INDEX IF NOT EXISTS edge_multipart_index ON edge(type, source_node_id, target_node_id);"
-	);
-
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS node("
-			"id INTEGER NOT NULL, "
-			"type INTEGER NOT NULL, "
-			"serialized_name TEXT, "
-			"definition_type INTEGER NOT NULL, "
-			"PRIMARY KEY(id), "
-			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);"
-	);
-
-	m_database.execDML(
-		"CREATE INDEX IF NOT EXISTS node_serialized_name_index ON node(serialized_name);"
-	);
-
 	try
 	{
 		m_database.execDML(
-			"CREATE VIRTUAL TABLE IF NOT EXISTS file USING fts4("
+			"CREATE TABLE IF NOT EXISTS meta("
+				"id INTEGER, "
+				"key TEXT, "
+				"value TEXT, "
+				"PRIMARY KEY(id));"
+		);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS element("
+				"id INTEGER, "
+				"PRIMARY KEY(id));"
+		);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS edge("
+				"id INTEGER NOT NULL, "
+				"type INTEGER NOT NULL, "
+				"source_node_id INTEGER NOT NULL, "
+				"target_node_id INTEGER NOT NULL, "
+				"PRIMARY KEY(id), "
+				"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE, "
+				"FOREIGN KEY(source_node_id) REFERENCES node(id) ON DELETE CASCADE, "
+				"FOREIGN KEY(target_node_id) REFERENCES node(id) ON DELETE CASCADE);"
+		);
+
+		// TODO: move to createIndexesForAnalysis() or prepareForAnalysis
+		m_database.execDML( // used for checking for duplicates during code analysis 
+			"CREATE INDEX IF NOT EXISTS edge_multipart_index ON edge(type, source_node_id, target_node_id);"
+		);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS node("
+				"id INTEGER NOT NULL, "
+				"type INTEGER NOT NULL, "
+				"serialized_name TEXT, "
+				"definition_type INTEGER NOT NULL, "
+				"PRIMARY KEY(id), "
+				"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);"
+		);
+
+		m_database.execDML(
+			"CREATE INDEX IF NOT EXISTS node_serialized_name_index ON node(serialized_name);"
+		);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS file("
 				"id INTEGER NOT NULL, "
 				"path TEXT, "
 				"modification_time TEXT, "
@@ -760,75 +689,75 @@ void SqliteStorage::setupTables()
 				"PRIMARY KEY(id), "
 				"FOREIGN KEY(id) REFERENCES node(id) ON DELETE CASCADE);"
 		);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS local_symbol("
+				"id INTEGER NOT NULL, "
+				"name TEXT, "
+				"PRIMARY KEY(id), "
+				"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);"
+		);
+
+		m_database.execDML(
+			"CREATE INDEX IF NOT EXISTS local_symbol_name_index ON local_symbol(name);"
+		);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS source_location("
+				"id INTEGER NOT NULL, "
+				"element_id INTEGER, "
+				"file_node_id INTEGER, "
+				"start_line INTEGER, "
+				"start_column INTEGER, "
+				"end_line INTEGER, "
+				"end_column INTEGER, "
+				"type INTEGER, "
+				"PRIMARY KEY(id), "
+				"FOREIGN KEY(element_id) REFERENCES element(id) ON DELETE CASCADE, "
+				"FOREIGN KEY(file_node_id) REFERENCES node(id) ON DELETE CASCADE);"
+		);
+
+		SqliteIndex("source_location_element_id_index", "source_location(element_id)").createOnDatabase(m_database);
+		SqliteIndex("source_location_file_node_id_index", "source_location(file_node_id)").createOnDatabase(m_database);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS component_access("
+				"id INTEGER NOT NULL, "
+				"edge_id INTEGER, "
+				"type INTEGER NOT NULL, "
+				"PRIMARY KEY(id), "
+				"FOREIGN KEY(edge_id) REFERENCES edge(id) ON DELETE CASCADE);"
+		);
+
+		SqliteIndex("component_access_edge_id_index", "component_access(edge_id)").createOnDatabase(m_database);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS comment_location("
+				"id INTEGER NOT NULL, "
+				"file_node_id INTEGER, "
+				"start_line INTEGER, "
+				"start_column INTEGER, "
+				"end_line INTEGER, "
+				"end_column INTEGER, "
+				"PRIMARY KEY(id), "
+				"FOREIGN KEY(file_node_id) REFERENCES node(id) ON DELETE CASCADE);"
+		);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS error("
+				"id INTEGER NOT NULL, "
+				"message TEXT, "
+				"fatal INTEGER NOT NULL, "
+				"file_path TEXT, "
+				"line_number INTEGER, "
+				"column_number INTEGER, "
+				"PRIMARY KEY(id));"
+		);
 	}
 	catch (CppSQLite3Exception& e)
 	{
 		LOG_ERROR(std::to_string(e.errorCode()) + ": " + e.errorMessage());
 	}
-
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS local_symbol("
-			"id INTEGER NOT NULL, "
-			"name TEXT, "
-			"PRIMARY KEY(id), "
-			"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);"
-	);
-
-	m_database.execDML(
-		"CREATE INDEX IF NOT EXISTS local_symbol_name_index ON local_symbol(name);"
-	);
-
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS source_location("
-			"id INTEGER NOT NULL, "
-			"element_id INTEGER, "
-			"file_node_id INTEGER, "
-			"start_line INTEGER, "
-			"start_column INTEGER, "
-			"end_line INTEGER, "
-			"end_column INTEGER, "
-			"type INTEGER, "
-			"PRIMARY KEY(id), "
-			"FOREIGN KEY(element_id) REFERENCES element(id) ON DELETE CASCADE, "
-			"FOREIGN KEY(file_node_id) REFERENCES node(id) ON DELETE CASCADE);"
-	);
-
-	SqliteIndex("source_location_element_id_index", "source_location(element_id)").createOnDatabase(m_database);
-	SqliteIndex("source_location_file_node_id_index", "source_location(file_node_id)").createOnDatabase(m_database);
-
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS component_access("
-			"id INTEGER NOT NULL, "
-			"edge_id INTEGER, "
-			"type INTEGER NOT NULL, "
-			"PRIMARY KEY(id), "
-			"FOREIGN KEY(edge_id) REFERENCES edge(id) ON DELETE CASCADE);"
-	);
-
-	SqliteIndex("component_access_edge_id_index", "component_access(edge_id)").createOnDatabase(m_database);
-
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS comment_location("
-			"id INTEGER NOT NULL, "
-			"file_node_id INTEGER, "
-			"start_line INTEGER, "
-			"start_column INTEGER, "
-			"end_line INTEGER, "
-			"end_column INTEGER, "
-			"PRIMARY KEY(id), "
-			"FOREIGN KEY(file_node_id) REFERENCES node(id) ON DELETE CASCADE);"
-	);
-
-	m_database.execDML(
-		"CREATE TABLE IF NOT EXISTS error("
-			"id INTEGER NOT NULL, "
-			"message TEXT, "
-			"fatal INTEGER NOT NULL, "
-			"file_path TEXT, "
-			"line_number INTEGER, "
-			"column_number INTEGER, "
-			"PRIMARY KEY(id));"
-	);
 }
 
 bool SqliteStorage::hasTable(const std::string& tableName) const

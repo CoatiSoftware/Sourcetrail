@@ -938,7 +938,7 @@ const QtCodeArea::AnnotationColor& QtCodeArea::getAnnotationColorForAnnotation(c
 	{
 		i = 9;
 	}
-	else if (annotation.locationType == LOCATION_FULLTEXTSEARCH_MATCH)
+	else if (annotation.locationType == LOCATION_FULLTEXT)
 	{
 		i = 12;
 	}

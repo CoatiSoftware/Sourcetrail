@@ -33,8 +33,18 @@ void QtSearchElement::onChecked(bool)
 
 void QtSmartSearchBox::fullTextSearch()
 {
-	LOG_INFO_STREAM(<< "FullTextsearch: " << text().toStdString().substr(1));
-	MessageSearchFullText(text().toStdString().substr(1)).dispatch();
+	std::string term = text().toStdString().substr(1);
+	if(term.at(0) == '@')
+	{
+		term = term.substr(1);
+		LOG_INFO_STREAM(<< "FullTextsearch(case sensitive): " << term);
+		MessageSearchFullText(term, true).dispatch();
+	}
+	else
+	{
+		LOG_INFO_STREAM(<< "FullTextsearch: " << term);
+		MessageSearchFullText(term).dispatch();
+	}
 }
 
 void QtSmartSearchBox::search()

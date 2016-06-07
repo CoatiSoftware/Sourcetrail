@@ -81,6 +81,7 @@ public:
 
 	std::vector<StorageFile> getFilesByPaths(const std::vector<FilePath>& filePaths) const;
 	std::shared_ptr<TextAccess> getFileContentByPath(const std::string& filePath) const;
+	std::shared_ptr<TextAccess> getFileContentById(Id fileId) const;
 
 	void setNodeType(int type, Id nodeId);
 	void setNodeDefinitionType(int definitionType, Id nodeId);
@@ -98,7 +99,6 @@ public:
 	void optimizeMemory() const;
 
 	std::vector<ParseLocation> getFullTextSearch(const std::string& searchTerm) const;
-	void optimizeFTSTable() const;
 
 	std::vector<StorageCommentLocation> getCommentLocationsInFile(const FilePath& filePath) const;
 	std::vector<StorageError> getFatalErrors() const;

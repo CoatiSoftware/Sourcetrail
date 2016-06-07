@@ -7,6 +7,7 @@
 #include "utility/file/FilePath.h"
 
 #include "data/access/StorageAccess.h"
+#include "data/fulltextsearch/FullTextSearchIndex.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/parser/ParserClient.h"
@@ -47,9 +48,6 @@ public:
 	virtual void startInjection();
 	virtual void finishInjection();
 
-
-
-
 	FilePath getDbFilePath() const;
 	Version getVersion() const;
 
@@ -79,7 +77,8 @@ public:
 	virtual NameHierarchy getNameHierarchyForNodeWithId(Id nodeId) const;
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id nodeId) const;
 
-	virtual std::shared_ptr<TokenLocationCollection> getFullTextSearchLocations(const std::string& searchTerm) const;
+	virtual std::shared_ptr<TokenLocationCollection> getFullTextSearchLocations(
+			const std::string& searchTerm, bool caseSensitive) const;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& elementIds) const;
 
@@ -135,8 +134,8 @@ private:
 
 	void buildSearchIndex();
 	void buildFilePathMaps();
+	void buildFullTextSearchIndex() const;
 	void buildHierarchyCache();
-	void optimizeFTSTable();
 
 	void log(std::string type, std::string str, const ParseLocation& location) const;
 
@@ -144,6 +143,8 @@ private:
 
 	SearchIndex m_commandIndex;
 	SearchIndex m_elementIndex;
+
+	mutable FullTextSearchIndex m_fullTextSearchIndex;
 
 	SqliteStorage m_sqliteStorage;
 

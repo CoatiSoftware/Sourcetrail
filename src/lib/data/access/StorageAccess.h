@@ -36,7 +36,7 @@ public:
 	virtual Node::NodeType getNodeTypeForNodeWithId(Id id) const = 0;
 
 	virtual std::shared_ptr<TokenLocationCollection> getFullTextSearchLocations(
-			const std::string& searchTerm) const = 0;
+			const std::string& searchTerm, bool caseSensitive) const = 0;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const = 0;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const = 0;
 

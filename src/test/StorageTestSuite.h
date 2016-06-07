@@ -233,6 +233,11 @@ private:
 			clear();
 		}
 
+		~TestStorage()
+		{
+			boost::filesystem::remove("data/test.sqlite");
+		}
+
 		std::shared_ptr<TokenLocationCollection> getLocationCollectionForTokenId(Id id) const
 		{
 			std::vector<Id> tokenIds;

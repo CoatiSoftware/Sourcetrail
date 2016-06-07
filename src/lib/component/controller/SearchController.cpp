@@ -59,7 +59,12 @@ void SearchController::handleMessage(MessageSearchAutocomplete* message)
 void SearchController::handleMessage(MessageSearchFullText* message)
 {
 	LOG_INFO("fulltext string: \"" + message->searchTerm + "\"");
-	SearchMatch match("@" + message->searchTerm);
+	std::string prefix = "@";
+	if (message->caseSensitive)
+	{
+		prefix += "@";
+	}
+	SearchMatch match(prefix + message->searchTerm);
 	getView()->setMatches(std::vector<SearchMatch>(1, match));
 }
 

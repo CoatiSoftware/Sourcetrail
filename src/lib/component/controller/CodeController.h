@@ -69,7 +69,7 @@ private:
 	std::vector<CodeSnippetParams> getSnippetsForFile(
 		std::shared_ptr<TokenLocationFile> activeTokenLocations, std::shared_ptr<TokenLocationFile> fileLocations) const;
 	std::vector<CodeSnippetParams> getSnippetsForFile(std::shared_ptr<TokenLocationFile> file) const;
-	std::vector<CodeSnippetParams> getSnippetsForFullTextSearch(const std::string& searchTerm) const;
+	std::vector<CodeSnippetParams> getSnippetsForFullTextSearch(const std::string& searchTerm, bool caseSensitive) const;
 	std::shared_ptr<SnippetMerger> buildMergerHierarchy(
 		TokenLocation* location, std::shared_ptr<TokenLocationFile> context, SnippetMerger& fileScopedMerger, std::map<int, std::shared_ptr<SnippetMerger>>& mergers) const;
 	std::shared_ptr<TokenLocationFile> getTokenLocationOfParentScope(const TokenLocation* location, std::shared_ptr<TokenLocationFile> context) const;
