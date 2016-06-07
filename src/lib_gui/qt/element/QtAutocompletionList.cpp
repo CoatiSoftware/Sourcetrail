@@ -103,28 +103,40 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 
 	QString type = index.sibling(index.row(), index.column() + 1).data().toString();
 	QColor color("#FFFFFF");
+	QColor textColor("#000000");
 
 	Node::NodeType nodeType = static_cast<Node::NodeType>(index.sibling(index.row(), index.column() + 3).data().toInt());
 	if (type.size() && type != "command")
 	{
-		color = QColor(GraphViewStyle::getNodeColor(Node::getTypeString(nodeType), false).fill.c_str());
+		const GraphViewStyle::NodeColor& nodeColor = GraphViewStyle::getNodeColor(Node::getTypeString(nodeType), false);
+		color = QColor(nodeColor.fill.c_str());
+		textColor = QColor(nodeColor.text.c_str());
 	}
 	else
 	{
-		color = QColor(scheme->getSearchTypeColor(SearchMatch::getSearchTypeName(SearchMatch::SEARCH_COMMAND)).c_str());
+		color = QColor(scheme->getSearchTypeColor(SearchMatch::getSearchTypeName(SearchMatch::SEARCH_COMMAND), "fill").c_str());
+		textColor = QColor(scheme->getSearchTypeColor(SearchMatch::getSearchTypeName(SearchMatch::SEARCH_COMMAND), "text").c_str());
 	}
 
 	float charWidth = option.fontMetrics.width(
 		"----------------------------------------------------------------------------------------------------"
 	) / 100.0f;
+	painter->drawText(option.rect.adjusted(charWidth + 2, -1, 0, 0), Qt::AlignLeft, name);
+
+	QString highlightName(name.size(), ' ');
+
 	QList<QVariant> indices = index.sibling(index.row(), index.column() + 2).data().toList();
 	if (indices.size())
 	{
 		for (int i = 0; i < indices.size(); i++)
 		{
-			QRect rect = option.rect.adjusted(charWidth * (indices[i].toInt() + 1) + 1, 2, 0, -1);
+			int idx = indices[i].toInt();
+
+			QRect rect = option.rect.adjusted(charWidth * (idx + 1) + 1, 2, 0, -1);
 			rect.setWidth(charWidth + 2);
 			painter->fillRect(rect, color);
+
+			highlightName[idx] = name.at(idx);
 		}
 	}
 	else
@@ -134,7 +146,12 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 		painter->fillRect(rect, color);
 	}
 
-	painter->drawText(option.rect.adjusted(charWidth + 2, -1, 0, 0), Qt::AlignLeft, name);
+	painter->save();
+	QPen highlightPen = painter->pen();
+	highlightPen.setColor(textColor);
+	painter->setPen(highlightPen);
+	painter->drawText(option.rect.adjusted(charWidth + 2, -1, 0, 0), Qt::AlignLeft, highlightName);
+	painter->restore();
 
 	if (type.size())
 	{

@@ -16,7 +16,8 @@ struct SearchMatch
 		SEARCH_NONE,
 		SEARCH_TOKEN,
 		SEARCH_COMMAND,
-		SEARCH_OPERATOR
+		SEARCH_OPERATOR,
+		SEARCH_FULLTEXT
 	};
 
 	enum CommandType

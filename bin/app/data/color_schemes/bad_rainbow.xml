@@ -13,7 +13,7 @@
 		</button>
 
 		<field>
-			<text>#3D3D3D</text>
+			<text>#FFFFFF</text>
 			<background>#808080</background>
 			<highlight>#B1B1B1</highlight>
 		</field>
@@ -27,17 +27,45 @@
 
 		<query>
 			<none>
-				<normal>#B1B1B1</normal>
-				<hover>#CCCCCC</hover>
+				<normal>
+					<fill>#B1B1B1</fill>
+					<text>#3D3D3D</text>
+				</normal>
+				<hover>
+					<fill>#CCCCCC</fill>
+					<text>#3D3D3D</text>
+				</hover>
 			</none>
 			<command>
-				<normal>#86BD40</normal>
-				<hover>#9EC769</hover>
+				<normal>
+					<fill>#86BD40</fill>
+					<text>#3D3D3D</text>
+				</normal>
+				<hover>
+					<fill>#9EC769</fill>
+					<text>#3D3D3D</text>
+				</hover>
 			</command>
 			<operator>
-				<normal>#7D2724</normal>
-				<hover>#8C2B29</hover>
+				<normal>
+					<fill>#7D2724</fill>
+					<text>#3D3D3D</text>
+				</normal>
+				<hover>
+					<fill>#8C2B29</fill>
+					<text>#3D3D3D</text>
+				</hover>
 			</operator>
+			<fulltext>
+				<normal>
+					<fill>#C2AFEF</fill>
+					<text>#3D3D3D</text>
+				</normal>
+				<hover>
+					<fill>#AB96EA</fill>
+					<text>#3D3D3D</text>
+				</hover>
+			</fulltext>
 		</query>
 	</search>
 
@@ -123,46 +151,23 @@
 						<border>transparent</border>
 						<fill>transparent</fill>
 					</normal>
-					<focus>
-						<border>transparent</border>
-						<fill>transparent</fill>
-					</focus>
-					<active>
-						<border>transparent</border>
-						<fill>transparent</fill>
-					</active>
 				</scope>
 				<error>
 					<normal>
 						<border>transparent</border>
 						<fill>#A0FF0000</fill>
+						<text>#000000</text>
 					</normal>
 					<focus>
-						<border>transparent</border>
 						<fill>#FFFF0000</fill>
 					</focus>
-					<active>
-						<border>transparent</border>
-						<fill>#FFFF0000</fill>
-					</active>
 				</error>
-				<fulltextmatch>
+				<fulltext>
 					<normal>
-						<border>transparent</border>
-						<fill>#80FFFF00</fill>
-						<text>#000000</text>
+						<fill>#C2AFEF</fill>
+						<text>#3D3D3D</text>
 					</normal>
-					<focus>
-						<border>transparent</border>
-						<fill>#FFFFFF00</fill>
-						<text>#000000</text>
-					</focus>
-					<active>
-						<border>transparent</border>
-						<fill>#FFFFFF00</fill>
-						<text>#000000</text>
-					</active>
-				</fulltextmatch>
+				</fulltext>
 			</selection>
 		</snippet>
 	</code>
@@ -277,6 +282,12 @@
 					<normal>#20FFFFFF</normal>
 					<focus>#FFFFFF</focus>
 				</border>
+				<text>
+					<normal>#FFFFFF</normal>
+				</text>
+				<icon>
+					<normal>#FFFFFF</normal>
+				</icon>
 			</file>
 			<macro>
 				<like>file</like>

@@ -27,17 +27,45 @@
 
 		<query>
 			<none>
-				<normal>white</normal>
-				<hover>#F5F5F5</hover>
+				<normal>
+					<fill>white</fill>
+					<text>black</text>
+				</normal>
+				<hover>
+					<fill>#F5F5F5</fill>
+					<text>black</text>
+				</hover>
 			</none>
 			<command>
-				<normal>#8FBC92</normal>
-				<hover>#5EA071</hover>
+				<normal>
+					<fill>#8FBC92</fill>
+					<text>black</text>
+				</normal>
+				<hover>
+					<fill>#5EA071</fill>
+					<text>black</text>
+				</hover>
 			</command>
 			<operator>
-				<normal>#FCA47E</normal>
-				<hover>#F97A4E</hover>
+				<normal>
+					<fill>#FCA47E</fill>
+					<text>black</text>
+				</normal>
+				<hover>
+					<fill>#F97A4E</fill>
+					<text>black</text>
+				</hover>
 			</operator>
+			<fulltext>
+				<normal>
+					<fill>#C7C7E2</fill>
+					<text>black</text>
+				</normal>
+				<hover>
+					<fill>#ABABDD</fill>
+					<text>black</text>
+				</hover>
+			</fulltext>
 		</query>
 	</search>
 
@@ -121,14 +149,6 @@
 						<border>transparent</border>
 						<fill>transparent</fill>
 					</normal>
-					<focus>
-						<border>transparent</border>
-						<fill>transparent</fill>
-					</focus>
-					<active>
-						<border>transparent</border>
-						<fill>transparent</fill>
-					</active>
 				</scope>
 				<error>
 					<normal>
@@ -137,33 +157,15 @@
 						<text>#000000</text>
 					</normal>
 					<focus>
-						<border>transparent</border>
 						<fill>#FFFF0000</fill>
-						<text>#000000</text>
 					</focus>
-					<active>
-						<border>transparent</border>
-						<fill>#FFFF0000</fill>
-						<text>#000000</text>
-					</active>
 				</error>
-				<fulltextmatch>
+				<fulltext>
 					<normal>
-						<border>transparent</border>
-						<fill>#80FFFF00</fill>
+						<fill>#C7C7E2</fill>
 						<text>#000000</text>
 					</normal>
-					<focus>
-						<border>transparent</border>
-						<fill>#FFFFFF00</fill>
-						<text>#000000</text>
-					</focus>
-					<active>
-						<border>transparent</border>
-						<fill>#FFFFFF00</fill>
-						<text>#000000</text>
-					</active>
-				</fulltextmatch>
+				</fulltext>
 			</selection>
 		</snippet>
 	</code>

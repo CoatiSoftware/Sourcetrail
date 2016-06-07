@@ -907,18 +907,17 @@ const QtCodeArea::AnnotationColor& QtCodeArea::getAnnotationColorForAnnotation(c
 	if (!s_annotationColors.size())
 	{
 		ColorScheme* scheme = ColorScheme::getInstance().get();
-		std::vector<std::string> types = { "token", "local_symbol", "scope", "error", "fulltextmatch"};
-
-		std::vector<std::string> states = { "normal", "focus", "active"};
+		std::vector<std::string> types = { "token", "local_symbol", "scope", "error", "fulltext" };
+		std::vector<ColorScheme::ColorState> states = { ColorScheme::NORMAL, ColorScheme::FOCUS, ColorScheme::ACTIVE };
 
 		for (const std::string& type : types)
 		{
-			for (const std::string& state : states)
+			for (const ColorScheme::ColorState& state : states)
 			{
 				AnnotationColor color;
-				color.border = scheme->getColor("code/snippet/selection/" + type + "/" + state + "/border");
-				color.fill = scheme->getColor("code/snippet/selection/" + type + "/" + state + "/fill");
-				color.text = scheme->getColor("code/snippet/selection/" + type + "/" + state + "/text");
+				color.border = scheme->getCodeSelectionTypeColor(type, "border", state);
+				color.fill = scheme->getCodeSelectionTypeColor(type, "fill", state);
+				color.text = scheme->getCodeSelectionTypeColor(type, "text", state);
 				s_annotationColors.push_back(color);
 			}
 		}

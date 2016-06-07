@@ -31,10 +31,21 @@ void QtSearchElement::onChecked(bool)
 	emit wasChecked(this);
 }
 
+void QtSmartSearchBox::search()
+{
+	editTextToElement();
+
+	std::vector<SearchMatch> matches = utility::toVector(m_matches);
+
+	LOG_INFO_STREAM(<< "Search query: " << SearchMatch::searchMatchesToString(matches) << text().toStdString());
+
+	MessageSearch(matches).dispatch();
+}
+
 void QtSmartSearchBox::fullTextSearch()
 {
 	std::string term = text().toStdString().substr(1);
-	if(term.at(0) == '@')
+	if (term.at(0) == '@')
 	{
 		term = term.substr(1);
 		LOG_INFO_STREAM(<< "FullTextsearch(case sensitive): " << term);
@@ -45,17 +56,6 @@ void QtSmartSearchBox::fullTextSearch()
 		LOG_INFO_STREAM(<< "FullTextsearch: " << term);
 		MessageSearchFullText(term).dispatch();
 	}
-}
-
-void QtSmartSearchBox::search()
-{
-	editTextToElement();
-
-	std::vector<SearchMatch> matches = utility::toVector(m_matches);
-
-	LOG_INFO_STREAM(<< "Search query: " << SearchMatch::searchMatchesToString(matches) << text().toStdString());
-
-	MessageSearch(matches).dispatch();
 }
 
 QtSmartSearchBox::QtSmartSearchBox(QWidget* parent)
@@ -165,7 +165,7 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 			fullTextSearch();
 			return;
 		}
-		if (!completer()->popup()->isVisible())
+		else if (!completer()->popup()->isVisible())
 		{
 			search();
 		}
@@ -653,8 +653,10 @@ void QtSmartSearchBox::updateElements()
 			std::string typeName = match.getSearchTypeName();
 
 			element->setObjectName(QString::fromStdString("search_element_" + typeName));
-			color = scheme->getSearchTypeColor(typeName);
-			hoverColor = scheme->getSearchTypeColor(typeName, "hover");
+			color = scheme->getSearchTypeColor(typeName, "fill");
+			hoverColor = scheme->getSearchTypeColor(typeName, "fill", "hover");
+			textColor = scheme->getSearchTypeColor(typeName, "text");
+			textHoverColor = scheme->getSearchTypeColor(typeName, "text", "hover");;
 		}
 
 		std::stringstream css;

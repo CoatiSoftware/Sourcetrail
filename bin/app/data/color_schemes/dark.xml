@@ -27,17 +27,64 @@
 
 		<query>
 			<none>
-				<normal>#2F2F2F</normal>
-				<hover>black</hover>
+				<normal></normal>
+				<hover></hover>
 			</none>
 			<command>
-				<normal>#406D4D</normal>
-				<hover>#4E855E</hover>
+				<normal></normal>
+				<hover></hover>
 			</command>
 			<operator>
-				<normal>#7D2724</normal>
-				<hover>#8C2B29</hover>
+				<normal></normal>
+				<hover></hover>
 			</operator>
+			<fulltext>
+				<normal></normal>
+				<hover></hover>
+			</fulltext>
+		</query>
+
+		<query>
+			<none>
+				<normal>
+					<fill>#2F2F2F</fill>
+					<text>#F7F7F7</text>
+				</normal>
+				<hover>
+					<fill>black</fill>
+					<text>#F7F7F7</text>
+				</hover>
+			</none>
+			<command>
+				<normal>
+					<fill>#406D4D</fill>
+					<text>#F7F7F7</text>
+				</normal>
+				<hover>
+					<fill>#4E855E</fill>
+					<text>#F7F7F7</text>
+				</hover>
+			</command>
+			<operator>
+				<normal>
+					<fill>#7D2724</fill>
+					<text>#F7F7F7</text>
+				</normal>
+				<hover>
+					<fill>#8C2B29</fill>
+					<text>#F7F7F7</text>
+				</hover>
+			</operator>
+			<fulltext>
+				<normal>
+					<fill>#207EA8</fill>
+					<text>#F7F7F7</text>
+				</normal>
+				<hover>
+					<fill>#006D93</fill>
+					<text>#F7F7F7</text>
+				</hover>
+			</fulltext>
 		</query>
 	</search>
 
@@ -123,46 +170,23 @@
 						<border>transparent</border>
 						<fill>transparent</fill>
 					</normal>
-					<focus>
-						<border>transparent</border>
-						<fill>transparent</fill>
-					</focus>
-					<active>
-						<border>transparent</border>
-						<fill>transparent</fill>
-					</active>
 				</scope>
 				<error>
 					<normal>
 						<border>transparent</border>
 						<fill>#A0FF0000</fill>
+						<text>#000000</text>
 					</normal>
 					<focus>
-						<border>transparent</border>
 						<fill>#FFFF0000</fill>
 					</focus>
-					<active>
-						<border>transparent</border>
-						<fill>#FFFF0000</fill>
-					</active>
 				</error>
-				<fulltextmatch>
+				<fulltext>
 					<normal>
-						<border>transparent</border>
-						<fill>#80FFFF00</fill>
-						<text>#000000</text>
+						<fill>#207EA8</fill>
+						<text>#F7F7F7</text>
 					</normal>
-					<focus>
-						<border>transparent</border>
-						<fill>#FFFFFF00</fill>
-						<text>#000000</text>
-					</focus>
-					<active>
-						<border>transparent</border>
-						<fill>#FFFFFF00</fill>
-						<text>#000000</text>
-					</active>
-				</fulltextmatch>
+				</fulltext>
 			</selection>
 		</snippet>
 	</code>

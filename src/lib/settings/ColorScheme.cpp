@@ -21,6 +21,11 @@ std::string ColorScheme::getColor(const std::string& key) const
 	return getValue<std::string>(key, "");
 }
 
+std::string ColorScheme::getColor(const std::string& key, const std::string& defaultColor) const
+{
+	return getValue<std::string>(key, defaultColor);
+}
+
 std::string ColorScheme::getNodeTypeColor(Node::NodeType type, const std::string& key, ColorState state) const
 {
 	return getNodeTypeColor(Node::getTypeString(type), key, state);
@@ -85,15 +90,41 @@ std::string ColorScheme::getEdgeTypeColor(const std::string& typeStr, ColorState
 	return color;
 }
 
-std::string ColorScheme::getSearchTypeColor(const std::string& searchTypeName, const std::string& state) const
+std::string ColorScheme::getSearchTypeColor(
+	const std::string& searchTypeName, const std::string& key, const std::string& state) const
 {
-	std::string path = "search/query/" + searchTypeName + "/" + state;
+	std::string path = "search/query/" + searchTypeName + "/" + state + "/" + key;
 	return getValue<std::string>(path, "#FFFFFF");
 }
 
 std::string ColorScheme::getSyntaxColor(const std::string& key) const
 {
 	return getValue<std::string>("code/snippet/syntax/" + key, "#FFFFFF");
+}
+
+std::string ColorScheme::getCodeSelectionTypeColor(const std::string& typeStr, const std::string& key, ColorState state) const
+{
+	disableWarnings();
+	std::string color = getValue<std::string>("code/snippet/selection/" + typeStr + "/" + stateToString(state) + "/" + key, "");
+
+	if (!color.size() && state == ACTIVE)
+	{
+		color = getValue<std::string>("code/snippet/selection/" + typeStr + "/" + stateToString(FOCUS) + "/" + key, "");
+	}
+
+	if (!color.size() && state != NORMAL)
+	{
+		color = getValue<std::string>("code/snippet/selection/" + typeStr + "/" + stateToString(NORMAL) + "/" + key, "");
+	}
+
+	if (!color.size())
+	{
+		color = "transparent";
+	}
+
+	enableWarnings();
+
+	return color;
 }
 
 ColorScheme::ColorScheme()
@@ -106,6 +137,7 @@ std::string ColorScheme::stateToString(ColorState state)
 	{
 	case NORMAL: return "normal";
 	case FOCUS: return "focus";
+	case ACTIVE: return "active";
 	}
 
 	return "";

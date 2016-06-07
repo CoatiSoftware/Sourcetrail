@@ -65,6 +65,7 @@ void SearchController::handleMessage(MessageSearchFullText* message)
 		prefix += "@";
 	}
 	SearchMatch match(prefix + message->searchTerm);
+	match.searchType = SearchMatch::SEARCH_FULLTEXT;
 	getView()->setMatches(std::vector<SearchMatch>(1, match));
 }
 
