@@ -59,7 +59,7 @@ public:
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber) const = 0;
 
-	virtual TokenLocationCollection getErrorTokenLocations(std::vector<ErrorInfo>* errors) const = 0;
+	virtual std::shared_ptr<TokenLocationCollection> getErrorTokenLocations(std::vector<ErrorInfo>* errors) const = 0;
 	virtual std::shared_ptr<TokenLocationFile> getCommentLocationsInFile(const FilePath& filePath) const = 0;
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const = 0;

@@ -431,8 +431,7 @@ void QtCodeFile::clickedMinimizeButton() const
 		m_filePath,
 		MessageChangeFileView::FILE_MINIMIZED,
 		false,
-		hasErrors(),
-		nullptr
+		hasErrors()
 	).dispatch();
 }
 
@@ -442,8 +441,7 @@ void QtCodeFile::clickedSnippetButton() const
 		m_filePath,
 		MessageChangeFileView::FILE_SNIPPETS,
 		(m_locationFile != nullptr),
-		hasErrors(),
-		m_locationFile
+		hasErrors()
 	).dispatch();
 }
 
@@ -453,8 +451,7 @@ void QtCodeFile::clickedMaximizeButton() const
 		m_filePath,
 		MessageChangeFileView::FILE_MAXIMIZED,
 		(m_fileSnippet == nullptr),
-		hasErrors(),
-		nullptr
+		hasErrors()
 	).dispatch();
 }
 
@@ -471,8 +468,7 @@ void QtCodeFile::requestSnippets() const
 		m_filePath,
 		MessageChangeFileView::FILE_SNIPPETS,
 		(m_locationFile != nullptr),
-		hasErrors(),
-		m_locationFile
+		hasErrors()
 	);
 
 	msg.setIsReplayed(true);

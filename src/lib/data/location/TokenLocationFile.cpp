@@ -128,11 +128,11 @@ void TokenLocationFile::forEachEndTokenLocation(std::function<void(TokenLocation
 
 TokenLocation* TokenLocationFile::addTokenLocationAsPlainCopy(const TokenLocation* location)
 {
-	unsigned int lineNumber = location->getTokenLocationLine()->getLineNumber();
+	unsigned int lineNumber = location->getLineNumber();
 	TokenLocationLine* line = createTokenLocationLine(lineNumber);
 
 	// Check whether this location was already added or if the other TokenLocation was added.
-	TokenLocation* otherLocation = line->getTokenLocationById(location->getId());
+	TokenLocation* otherLocation = line->getTokenLocationByIdAndType(location->getId(), location->getType());
 	if (otherLocation)
 	{
 		if (otherLocation->isStartTokenLocation() == location->isStartTokenLocation())
@@ -144,13 +144,13 @@ TokenLocation* TokenLocationFile::addTokenLocationAsPlainCopy(const TokenLocatio
 	else
 	{
 		// Look for the other location in it's line.
-		unsigned int otherLineNumber = location->getOtherTokenLocation()->getTokenLocationLine()->getLineNumber();
+		unsigned int otherLineNumber = location->getOtherTokenLocation()->getLineNumber();
 		if (lineNumber != otherLineNumber)
 		{
 			TokenLocationLine* otherLine = findTokenLocationLine(otherLineNumber);
 			if (otherLine)
 			{
-				otherLocation = otherLine->getTokenLocationById(location->getId());
+				otherLocation = otherLine->getTokenLocationByIdAndType(location->getId(), location->getType());
 			}
 		}
 	}

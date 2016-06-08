@@ -6,7 +6,8 @@ enum LocationType
 	LOCATION_TOKEN,
 	LOCATION_SCOPE,
 	LOCATION_LOCAL_SYMBOL,
-	LOCATION_FULLTEXT
+	LOCATION_FULLTEXT,
+	LOCATION_ERROR
 };
 
 int locationTypeToInt(LocationType type);

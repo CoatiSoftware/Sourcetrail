@@ -24,11 +24,12 @@ public:
 	~TokenLocationCollection();
 
 	const TokenLocationFileMapType& getTokenLocationFiles() const;
-	size_t getTokenLocationFileCount() const;
-
-	size_t getTokenLocationLineCount() const;
-
 	const std::map<Id, TokenLocation*>& getTokenLocations() const;
+
+	std::shared_ptr<TokenLocationFile> getTokenLocationFileByPath(const FilePath& filePath) const;
+
+	size_t getTokenLocationFileCount() const;
+	size_t getTokenLocationLineCount() const;
 	size_t getTokenLocationCount() const;
 
 	TokenLocation* addTokenLocation(

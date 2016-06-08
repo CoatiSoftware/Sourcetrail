@@ -218,14 +218,14 @@ std::shared_ptr<TokenLocationFile> StorageAccessProxy::getTokenLocationsForLines
 	return std::make_shared<TokenLocationFile>("");
 }
 
-TokenLocationCollection StorageAccessProxy::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const
+std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const
 {
 	if (hasSubject())
 	{
 		return m_subject->getErrorTokenLocations(errors);
 	}
 
-	return TokenLocationCollection();
+	return std::make_shared<TokenLocationCollection>();
 }
 
 std::shared_ptr<TokenLocationFile> StorageAccessProxy::getCommentLocationsInFile(const FilePath& filePath) const

@@ -450,7 +450,7 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getFullTextSearchLoc
 			if ( addHit )
 			{
 				collection->addTokenLocation(
-					i,
+					collection->getTokenLocationCount(),
 					0,
 					filepath,
 					location.startLineNumber,
@@ -935,16 +935,17 @@ std::shared_ptr<TokenLocationFile> PersistentStorage::getTokenLocationsForLinesI
 	return m_sqliteStorage.getTokenLocationsForFile(filePath)->getFilteredByLines(firstLineNumber, lastLineNumber);
 }
 
-TokenLocationCollection PersistentStorage::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const
+std::shared_ptr<TokenLocationCollection> PersistentStorage::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const
 {
-	TokenLocationCollection errorCollection;
+	std::shared_ptr<TokenLocationCollection> errorCollection = std::make_shared<TokenLocationCollection>();
 
 	std::vector<StorageError> storageErrors = m_sqliteStorage.getAllErrors();
 	for (size_t i = 0; i < storageErrors.size(); i++)
 	{
 		const StorageError& error = storageErrors[i];
-		errorCollection.addTokenLocation(
-			i, i, error.filePath, error.lineNumber, error.columnNumber, error.lineNumber, error.columnNumber);
+		errorCollection->addTokenLocation(
+			i, i, error.filePath, error.lineNumber, error.columnNumber, error.lineNumber, error.columnNumber
+		)->setType(LOCATION_ERROR);
 		errors->push_back(ErrorInfo(error.message, error.filePath, i, error.fatal));
 	}
 

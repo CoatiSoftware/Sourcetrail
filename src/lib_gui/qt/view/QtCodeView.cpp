@@ -51,6 +51,9 @@ void QtCodeView::refreshView()
 void QtCodeView::clear()
 {
 	m_clearFunctor();
+
+	m_errorInfos.clear();
+	m_activeTokenIds.clear();
 }
 
 void QtCodeView::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
@@ -134,9 +137,9 @@ void QtCodeView::doClear()
 
 void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds)
 {
-	m_widget->clearCodeSnippets();
+	setActiveTokenIds(activeTokenIds);
 
-	m_widget->setActiveTokenIds(activeTokenIds);
+	m_widget->setActiveTokenIds(m_activeTokenIds);
 	m_widget->setErrorInfos(m_errorInfos);
 
 	for (const CodeSnippetParams& params : snippets)

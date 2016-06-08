@@ -126,7 +126,6 @@ private:
 		Id locationId;
 
 		LocationType locationType;
-		bool isError;
 
 		bool isActive;
 		bool isFocused;
@@ -141,7 +140,7 @@ private:
 		std::string text;
 	};
 
-	std::vector<const Annotation*> getNonScopeAnnotationsForPosition(int pos) const;
+	std::vector<const Annotation*> getInteractiveAnnotationsForPosition(int pos) const;
 	void activateTokenLocations(const std::vector<const Annotation*>& annotations);
 	void activateLocalSymbols(const std::vector<const Annotation*>& annotations);
 

@@ -22,6 +22,22 @@ const TokenLocationCollection::TokenLocationFileMapType& TokenLocationCollection
 	return m_files;
 }
 
+const std::map<Id, TokenLocation*>& TokenLocationCollection::getTokenLocations() const
+{
+	return m_locations;
+}
+
+std::shared_ptr<TokenLocationFile> TokenLocationCollection::getTokenLocationFileByPath(const FilePath& filePath) const
+{
+	std::map<FilePath, std::shared_ptr<TokenLocationFile>>::const_iterator it = m_files.find(filePath);
+	if (it != m_files.end())
+	{
+		return it->second;
+	}
+
+	return nullptr;
+}
+
 size_t TokenLocationCollection::getTokenLocationFileCount() const
 {
 	return m_files.size();
@@ -37,11 +53,6 @@ size_t TokenLocationCollection::getTokenLocationLineCount() const
 	}
 
 	return count;
-}
-
-const std::map<Id, TokenLocation*>& TokenLocationCollection::getTokenLocations() const
-{
-	return m_locations;
 }
 
 size_t TokenLocationCollection::getTokenLocationCount() const
@@ -101,13 +112,7 @@ TokenLocation* TokenLocationCollection::findTokenLocationById(Id id) const
 
 TokenLocationFile* TokenLocationCollection::findTokenLocationFileByPath(const FilePath& filePath) const
 {
-	std::map<FilePath, std::shared_ptr<TokenLocationFile>>::const_iterator it = m_files.find(filePath);
-	if (it != m_files.end())
-	{
-		return it->second.get();
-	}
-
-	return nullptr;
+	return getTokenLocationFileByPath(filePath).get();
 }
 
 void TokenLocationCollection::forEachTokenLocationFile(std::function<void(std::shared_ptr<TokenLocationFile>)> func) const

@@ -1,10 +1,9 @@
 #ifndef MESSAGE_CHANGE_FILE_VIEW_H
 #define MESSAGE_CHANGE_FILE_VIEW_H
 
+#include "utility/file/FilePath.h"
 #include "utility/messaging/Message.h"
 #include "utility/types.h"
-
-#include "data/location/TokenLocationFile.h"
 
 class MessageChangeFileView
 	: public Message<MessageChangeFileView>
@@ -21,14 +20,12 @@ public:
 		const FilePath filePath,
 		FileState state,
 		bool needsData,
-		bool showErrors,
-		std::shared_ptr<TokenLocationFile> locationFile
+		bool showErrors
 	)
 		: filePath(filePath)
 		, state(state)
 		, needsData(needsData)
 		, showErrors(showErrors)
-		, locationFile(locationFile)
 	{
 	}
 
@@ -57,8 +54,6 @@ public:
 
 	bool needsData;
 	bool showErrors;
-
-	std::shared_ptr<TokenLocationFile> locationFile;
 };
 
 #endif // MESSAGE_CHANGE_FILE_VIEW_H

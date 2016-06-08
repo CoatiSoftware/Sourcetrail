@@ -71,11 +71,11 @@ void TokenLocationLine::removeTokenLocation(TokenLocation* location)
 	LOG_ERROR("TokenLocation can't be removed, it's not part of the TokenLocationLine.");
 }
 
-TokenLocation* TokenLocationLine::getTokenLocationById(Id id) const
+TokenLocation* TokenLocationLine::getTokenLocationByIdAndType(Id id, LocationType type) const
 {
 	for (const TokenLocationPairType& p : m_locations)
 	{
-		if (p.second->getId() == id)
+		if (p.second->getId() == id && p.second->getType() == type)
 		{
 			return p.second.get();
 		}

@@ -12,6 +12,8 @@ int locationTypeToInt(LocationType type)
 		return 2;
 	case LOCATION_FULLTEXT:
 		return 3;
+	case LOCATION_ERROR:
+		return 4;
 	}
 }
 
@@ -27,6 +29,8 @@ LocationType intToLocationType(int value)
 		return LOCATION_LOCAL_SYMBOL;
 	case 3:
 		return LOCATION_FULLTEXT;
+	case 4:
+		return LOCATION_ERROR;
 	}
 	return LOCATION_TOKEN;
 }

@@ -23,6 +23,7 @@
 #include "component/view/CodeView.h"
 
 class StorageAccess;
+class TokenLocation;
 class TokenLocationCollection;
 class TokenLocationFile;
 
@@ -64,23 +65,23 @@ private:
 
 	std::vector<CodeSnippetParams> getSnippetsForActiveTokenLocations(
 		const TokenLocationCollection* collection, Id declarationId) const;
-	std::vector<CodeSnippetParams> getSnippetsForActiveTokenLocationsInFile(
-		std::shared_ptr<TokenLocationFile>) const;
+	std::vector<CodeSnippetParams> getSnippetsForCollection(
+		std::shared_ptr<TokenLocationCollection> collection, bool addTokenLocations = false) const;
 	std::vector<CodeSnippetParams> getSnippetsForFile(
-		std::shared_ptr<TokenLocationFile> activeTokenLocations, std::shared_ptr<TokenLocationFile> fileLocations) const;
-	std::vector<CodeSnippetParams> getSnippetsForFile(std::shared_ptr<TokenLocationFile> file) const;
-	std::vector<CodeSnippetParams> getSnippetsForFullTextSearch(const std::string& searchTerm, bool caseSensitive) const;
-	std::shared_ptr<SnippetMerger> buildMergerHierarchy(
-		TokenLocation* location, std::shared_ptr<TokenLocationFile> context, SnippetMerger& fileScopedMerger, std::map<int, std::shared_ptr<SnippetMerger>>& mergers) const;
-	std::shared_ptr<TokenLocationFile> getTokenLocationOfParentScope(const TokenLocation* location, std::shared_ptr<TokenLocationFile> context) const;
+		std::shared_ptr<TokenLocationFile> file, bool addTokenLocations = false) const;
 
-	std::vector<CodeSnippetParams> getSnippetsForErrorLocations(std::vector<ErrorInfo>* errors) const;
+	std::shared_ptr<SnippetMerger> buildMergerHierarchy(
+		TokenLocation* location, std::shared_ptr<TokenLocationFile> context, SnippetMerger& fileScopedMerger,
+		std::map<int, std::shared_ptr<SnippetMerger>>& mergers) const;
+	std::shared_ptr<TokenLocationFile> getTokenLocationOfParentScope(
+		const TokenLocation* location, std::shared_ptr<TokenLocationFile> context) const;
 
 	std::vector<std::string> getProjectDescription(TokenLocationFile* locationFile) const;
 
 	void addModificationTimes(std::vector<CodeSnippetParams>& snippets) const;
 
 	StorageAccess* m_storageAccess;
+	mutable std::shared_ptr<TokenLocationCollection> m_collection;
 };
 
 #endif // CODE_CONTROLLER_H

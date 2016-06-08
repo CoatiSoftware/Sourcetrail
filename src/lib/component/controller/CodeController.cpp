@@ -29,7 +29,8 @@ const uint CodeController::s_lineRadius = 2;
 void CodeController::handleMessage(MessageActivateAll* message)
 {
 	std::vector<ErrorInfo> errors;
-	std::vector<CodeSnippetParams> snippets = getSnippetsForErrorLocations(&errors);
+	m_collection = m_storageAccess->getErrorTokenLocations(&errors);
+	std::vector<CodeSnippetParams> snippets = getSnippetsForCollection(m_collection);
 
 	StorageStats stats = m_storageAccess->getStorageStats();
 	CodeSnippetParams statsSnippet;
@@ -79,6 +80,7 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	snippets.insert(snippets.begin(), statsSnippet);
 
 	CodeView* view = getView();
+	view->clear();
 	view->setErrorInfos(errors);
 	view->showCodeSnippets(snippets, std::vector<Id>());
 
@@ -94,19 +96,17 @@ void CodeController::handleMessage(MessageActivateLocalSymbols* message)
 void CodeController::handleMessage(MessageActivateTokens* message)
 {
 	CodeView* view = getView();
-	view->setErrorInfos(std::vector<ErrorInfo>());
+
+	if (!message->keepContent())
+	{
+		view->clear();
+	}
 
 	std::vector<Id> activeTokenIds = message->tokenIds;
 	Id declarationId = 0; // 0 means that no token is found.
 
 	if (!message->isAggregation)
 	{
-		if (activeTokenIds.size() != 1)
-		{
-			view->clear();
-			return;
-		}
-
 		activeTokenIds = m_storageAccess->getActiveTokenIdsForId(activeTokenIds[0], &declarationId);
 	}
 
@@ -114,18 +114,17 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	{
 		view->showFirstActiveSnippet(activeTokenIds, message->isLast());
 	}
-
-	if (message->keepContent())
+	else if (message->keepContent())
 	{
 		view->showActiveTokenIds(activeTokenIds);
 	}
 	else
 	{
-		std::shared_ptr<TokenLocationCollection> collection = m_storageAccess->getTokenLocationsForTokenIds(activeTokenIds);
-		view->showCodeSnippets(getSnippetsForActiveTokenLocations(collection.get(), declarationId), activeTokenIds);
+		m_collection = m_storageAccess->getTokenLocationsForTokenIds(activeTokenIds);
+		view->showCodeSnippets(getSnippetsForActiveTokenLocations(m_collection.get(), declarationId), activeTokenIds);
 
-		size_t fileCount = collection->getTokenLocationFileCount();
-		size_t referenceCount = collection->getTokenLocationCount();
+		size_t fileCount = m_collection->getTokenLocationFileCount();
+		size_t referenceCount = m_collection->getTokenLocationCount();
 
 		std::stringstream ss;
 		ss << message->tokenIds.size() << ' ';
@@ -158,14 +157,8 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 	case MessageChangeFileView::FILE_SNIPPETS:
 		if (message->needsData)
 		{
-			if (message->showErrors)
-			{
-				view->addCodeSnippets(getSnippetsForFile(message->locationFile), false);
-			}
-			else
-			{
-				view->addCodeSnippets(getSnippetsForActiveTokenLocationsInFile(message->locationFile), false);
-			}
+			view->addCodeSnippets(getSnippetsForFile(
+				m_collection->getTokenLocationFileByPath(message->filePath), !message->showErrors), false);
 		}
 		view->setFileState(message->filePath, CodeView::FILE_SNIPPETS);
 		break;
@@ -184,14 +177,26 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 
 			if (message->showErrors)
 			{
-				std::vector<ErrorInfo> errors;
-				TokenLocationCollection errorCollection = m_storageAccess->getErrorTokenLocations(&errors);
-				params.locationFile = std::make_shared<TokenLocationFile>(*errorCollection.findTokenLocationFileByPath(message->filePath));
+				params.locationFile = m_collection->getTokenLocationFileByPath(message->filePath);
 				params.locationFile->isWholeCopy = true;
 			}
 			else
 			{
-				params.locationFile = m_storageAccess->getTokenLocationsForFile(message->filePath.str());
+				std::shared_ptr<TokenLocationFile> file =
+					m_storageAccess->getTokenLocationsForFile(message->filePath.str());
+
+				TokenLocationFile* activeLocations = m_collection->findTokenLocationFileByPath(message->filePath);
+				if (activeLocations)
+				{
+					activeLocations->forEachTokenLocation(
+						[&file](TokenLocation* location)
+						{
+							file->addTokenLocationAsPlainCopy(location);
+						}
+					);
+				}
+
+				params.locationFile = file;
 			}
 
 			getView()->showCodeFile(params);
@@ -229,9 +234,11 @@ void CodeController::handleMessage(MessageScrollCode* message)
 void CodeController::handleMessage(MessageShowErrors* message)
 {
 	std::vector<ErrorInfo> errors;
-	std::vector<CodeSnippetParams> snippets = getSnippetsForErrorLocations(&errors);
+	m_collection = m_storageAccess->getErrorTokenLocations(&errors);
+	std::vector<CodeSnippetParams> snippets = getSnippetsForCollection(m_collection);
 
 	CodeView* view = getView();
+	view->clear();
 	view->setErrorInfos(errors);
 	view->showCodeSnippets(snippets, std::vector<Id>());
 
@@ -241,10 +248,10 @@ void CodeController::handleMessage(MessageShowErrors* message)
 void CodeController::handleMessage(MessageSearchFullText* message)
 {
 	CodeView* view = getView();
-	view->setErrorInfos(std::vector<ErrorInfo>());
+	view->clear();
 
-	std::vector<CodeSnippetParams> snippets = getSnippetsForFullTextSearch(message->searchTerm, message->caseSensitive);
-	view->showCodeSnippets(snippets, std::vector<Id>());
+	m_collection = m_storageAccess->getFullTextSearchLocations(message->searchTerm, message->caseSensitive);
+	view->showCodeSnippets(getSnippetsForCollection(m_collection, true), std::vector<Id>());
 
 	showContents(message);
 }
@@ -261,7 +268,8 @@ void CodeController::handleMessage(MessageShowScope* message)
 		return;
 	}
 
-	std::vector<CodeSnippetParams> snippets = getSnippetsForActiveTokenLocations(collection.get(), 0);
+	std::vector<CodeSnippetParams> snippets =
+		getSnippetsForFile(collection->getTokenLocationFiles().begin()->second, true);
 	if (snippets.size() != 1)
 	{
 		LOG_ERROR("MessageShowScope didn't result in one single snippet to be created");
@@ -270,15 +278,21 @@ void CodeController::handleMessage(MessageShowScope* message)
 
 	if (message->showErrors)
 	{
-		std::vector<ErrorInfo> errors;
-		std::vector<CodeSnippetParams> errorSnippets = getSnippetsForErrorLocations(&errors);
-
-		for (const CodeSnippetParams& error : errorSnippets)
+		snippets[0].locationFile = m_collection->getTokenLocationFileByPath(snippets[0].locationFile->getFilePath());
+	}
+	else
+	{
+		TokenLocationFile* activeLocations =
+			m_collection->findTokenLocationFileByPath(snippets[0].locationFile->getFilePath());
+		if (activeLocations)
 		{
-			if (error.locationFile->getFilePath() == snippets[0].locationFile->getFilePath())
-			{
-				snippets[0].locationFile = error.locationFile;
-			}
+			std::shared_ptr<TokenLocationFile> file = snippets[0].locationFile;
+			activeLocations->forEachTokenLocation(
+				[&file](TokenLocation* location)
+				{
+					file->addTokenLocationAsPlainCopy(location);
+				}
+			);
 		}
 	}
 
@@ -331,7 +345,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocation
 				(isDefinitionFile && definitionFileCount < 3) ||
 				(!isDefinitionFile && isDeclarationFile && declarationFileCount < 3))
 			{
-				std::vector<CodeSnippetParams> fileSnippets = getSnippetsForActiveTokenLocationsInFile(file);
+				std::vector<CodeSnippetParams> fileSnippets = getSnippetsForFile(file, true);
 
 				for (CodeSnippetParams& snippet : fileSnippets)
 				{
@@ -369,42 +383,47 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocation
 	return snippets;
 }
 
-std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocationsInFile(
-	std::shared_ptr<TokenLocationFile> activeTokenLocations
-) const {
-	std::shared_ptr<TokenLocationFile> fileLocations = m_storageAccess->getTokenLocationsForFile(activeTokenLocations->getFilePath().str());
-
-	std::vector<CodeSnippetParams> fileSnippets = getSnippetsForFile(activeTokenLocations, fileLocations);
-
-	if (!activeTokenLocations->isWholeCopy)
-	{
-		for (CodeSnippetParams& params : fileSnippets)
-		{
-			params.locationFile = fileLocations->getFilteredByLines(params.startLineNumber, params.endLineNumber);
-		}
-	}
-
-	return fileSnippets;
-}
-
-std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
-		std::shared_ptr<TokenLocationFile> activeTokenLocations
+std::vector<CodeSnippetParams> CodeController::getSnippetsForCollection(
+	std::shared_ptr<TokenLocationCollection> collection, bool addTokenLocations
 ) const
 {
-	return getSnippetsForFile(
-			activeTokenLocations,
-			m_storageAccess->getTokenLocationsForFile(activeTokenLocations->getFilePath().str())
+	std::vector<CodeSnippetParams> snippets;
+
+	collection->forEachTokenLocationFile(
+		[&](std::shared_ptr<TokenLocationFile> file) -> void
+		{
+			if (snippets.size() < 10)
+			{
+				std::vector<CodeSnippetParams> fileSnippets = getSnippetsForFile(file, addTokenLocations);
+				snippets.insert(snippets.end(), fileSnippets.begin(), fileSnippets.end());
+			}
+			else
+			{
+				CodeSnippetParams params;
+				params.locationFile = file;
+				params.refCount = file->getUnscopedStartTokenLocationCount();
+
+				params.isCollapsed = true;
+				snippets.push_back(params);
+			}
+		}
 	);
+
+	addModificationTimes(snippets);
+
+	return snippets;
 }
 
 std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
-		std::shared_ptr<TokenLocationFile> activeTokenLocations,
-		const std::shared_ptr<TokenLocationFile> fileLocations
+		std::shared_ptr<TokenLocationFile> activeTokenLocations, bool addTokenLocations
 ) const
 {
 	std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(activeTokenLocations->getFilePath());
 	std::shared_ptr<TokenLocationFile> scopeLocations
 		= std::make_shared<TokenLocationFile>(activeTokenLocations->getFilePath().str());
+
+	std::shared_ptr<TokenLocationFile> fileLocations =
+		m_storageAccess->getTokenLocationsForFile(activeTokenLocations->getFilePath().str());
 
 	fileLocations->forEachStartTokenLocation(
 		[&](TokenLocation* startLoc) -> void
@@ -461,14 +480,16 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 	const int snippetExpandRange = ApplicationSettings::getInstance()->getCodeSnippetExpandRange();
 	std::vector<CodeSnippetParams> snippets;
 
-	std::shared_ptr<TokenLocationFile> file = m_storageAccess->getTokenLocationsForFile(activeTokenLocations->getFilePath().str());
+	std::shared_ptr<TokenLocationFile> file =
+		m_storageAccess->getTokenLocationsForFile(activeTokenLocations->getFilePath().str());
 	for (const SnippetMerger::Range& range: ranges)
 	{
 		CodeSnippetParams params;
 		params.locationFile = activeTokenLocations;
 		params.refCount = activeTokenLocations->getUnscopedStartTokenLocationCount();
 		params.startLineNumber = std::max<int>(1, range.start.row - (range.start.strong ? 0 : snippetExpandRange));
-		params.endLineNumber = std::min<int>(textAccess->getLineCount(), range.end.row + (range.end.strong ? 0 : snippetExpandRange));
+		params.endLineNumber =
+			std::min<int>(textAccess->getLineCount(), range.end.row + (range.end.strong ? 0 : snippetExpandRange));
 
 		std::shared_ptr<TokenLocationFile> tempFile = file->getFilteredByLines(params.startLineNumber, params.endLineNumber);
 		TokenLocationLine* firstUsedLine = nullptr;
@@ -523,6 +544,24 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 		}
 
 		snippets.push_back(params);
+	}
+
+	if (addTokenLocations && !activeTokenLocations->isWholeCopy)
+	{
+		for (CodeSnippetParams& params : snippets)
+		{
+			std::shared_ptr<TokenLocationFile> lines =
+				fileLocations->getFilteredByLines(params.startLineNumber, params.endLineNumber);
+
+			params.locationFile->forEachTokenLocation(
+				[&lines](TokenLocation* location)
+				{
+					lines->addTokenLocationAsPlainCopy(location);
+				}
+			);
+
+			params.locationFile = lines;
+		}
 	}
 
 	return snippets;
@@ -603,79 +642,6 @@ std::shared_ptr<TokenLocationFile> CodeController::getTokenLocationOfParentScope
 		file->addTokenLocationAsPlainCopy(parent->getOtherTokenLocation());
 	}
 	return file;
-}
-
-std::vector<CodeSnippetParams> CodeController::getSnippetsForFullTextSearch(
-		const std::string& searchTerm, bool caseSensitive) const
-{
-	std::shared_ptr<TokenLocationCollection> collection =
-		m_storageAccess->getFullTextSearchLocations(searchTerm, caseSensitive);
-
-	std::vector<CodeSnippetParams> snippets;
-	snippets.reserve(collection->getTokenLocationFileCount());
-
-	collection->forEachTokenLocationFile(
-		[&](std::shared_ptr<TokenLocationFile> file) -> void
-		{
-			//CodeSnippetParams params;
-			//params.locationFile = file;
-			//params.startLineNumber = 1;
-
-			//std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(file->getFilePath());
-			//params.code = textAccess->getText();
-
-			//snippets.push_back(params);
-
-			//if (snippets.size() < 10)
-			//{
-				std::vector<CodeSnippetParams> fileSnippets = getSnippetsForFile(file);
-				snippets.insert(snippets.end(), fileSnippets.begin(), fileSnippets.end());
-			//}
-			//else
-			//{
-				//CodeSnippetParams params;
-				//params.locationFile = file;
-				//params.refCount = file->getUnscopedStartTokenLocationCount();
-				//params.isCollapsed = true;
-				//snippets.push_back(params);
-			//}
-		}
-	);
-
-	addModificationTimes(snippets);
-	return snippets;
-}
-
-std::vector<CodeSnippetParams> CodeController::getSnippetsForErrorLocations(
-	std::vector<ErrorInfo>* errors) const
-{
-	TokenLocationCollection errorCollection = m_storageAccess->getErrorTokenLocations(errors);
-
-	std::vector<CodeSnippetParams> snippets;
-
-	errorCollection.forEachTokenLocationFile(
-		[&](std::shared_ptr<TokenLocationFile> file) -> void
-		{
-			if (snippets.size() < 10)
-			{
-				std::vector<CodeSnippetParams> fileSnippets = getSnippetsForFile(file);
-				snippets.insert(snippets.end(), fileSnippets.begin(), fileSnippets.end());
-			}
-			else
-			{
-				CodeSnippetParams params;
-				params.locationFile = file;
-				params.refCount = file->getUnscopedStartTokenLocationCount();
-
-				params.isCollapsed = true;
-				snippets.push_back(params);
-			}
-		}
-	);
-
-	addModificationTimes(snippets);
-
-	return snippets;
 }
 
 std::vector<std::string> CodeController::getProjectDescription(TokenLocationFile* locationFile) const
