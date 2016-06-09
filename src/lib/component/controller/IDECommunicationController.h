@@ -20,6 +20,8 @@ public:
 	IDECommunicationController(StorageAccess* storageAccess);
 	virtual ~IDECommunicationController();
 
+	virtual void clear();
+
 	void handleIncomingMessage(const std::string& message);
 
 	bool getEnabled() const;

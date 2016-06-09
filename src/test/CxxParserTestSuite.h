@@ -2779,7 +2779,7 @@ public:
 	void test_cxx_parser_parses_multiple_files()
 	{
 		TestFileManager fm;
-		std::shared_ptr<FileRegister> fr = std::make_shared<FileRegister>(&fm);
+		std::shared_ptr<FileRegister> fr = std::make_shared<FileRegister>(&fm, false);
 		TestParserClient client;
 		CxxParser parser(&client, fr);
 
@@ -3094,7 +3094,7 @@ private:
 		m_args.languageStandard = "1z";
 
 		TestFileManager fm;
-		std::shared_ptr<FileRegister> fr = std::make_shared<FileRegister>(&fm);
+		std::shared_ptr<FileRegister> fr = std::make_shared<FileRegister>(&fm, false);
 		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
 		CxxParser parser(client.get(), fr);
 		parser.parseFile("input.cc", TextAccess::createFromString(code), m_args);

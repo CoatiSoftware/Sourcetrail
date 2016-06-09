@@ -24,6 +24,10 @@ IDECommunicationController::~IDECommunicationController()
 {
 }
 
+void IDECommunicationController::clear()
+{
+}
+
 void IDECommunicationController::handleIncomingMessage(const std::string& message)
 {
 	if (m_enabled == false)

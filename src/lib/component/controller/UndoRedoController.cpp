@@ -22,6 +22,15 @@ UndoRedoView* UndoRedoController::getView()
 	return Controller::getView<UndoRedoView>();
 }
 
+void UndoRedoController::clear()
+{
+	m_list.clear();
+	m_iterator = m_list.begin();
+
+	getView()->setUndoButtonEnabled(false);
+	getView()->setRedoButtonEnabled(false);
+}
+
 UndoRedoController::Command::Command(std::shared_ptr<MessageBase> message, Order order, bool replayLastOnly)
 	: message(message)
 	, order(order)
@@ -141,11 +150,6 @@ void UndoRedoController::handleMessage(MessageGraphNodeMove* message)
 {
 	Command command(std::make_shared<MessageGraphNodeMove>(*message), Command::ORDER_VIEW);
 	processCommand(command);
-}
-
-void UndoRedoController::handleMessage(MessageLoadProject* message)
-{
-	clear();
 }
 
 void UndoRedoController::handleMessage(MessageRedo* message)
@@ -326,6 +330,11 @@ void UndoRedoController::replayCommands(std::list<Command>::iterator it)
 
 void UndoRedoController::processCommand(Command command)
 {
+	if (command.order != Command::ORDER_ACTIVATE && m_iterator == m_list.begin())
+	{
+		return;
+	}
+
 	if (command.order == Command::ORDER_ACTIVATE && command.message->keepContent())
 	{
 		command.order = Command::ORDER_ADAPT;
@@ -367,15 +376,6 @@ void UndoRedoController::processCommand(Command command)
 			}
 		}
 	}
-}
-
-void UndoRedoController::clear()
-{
-	m_list.clear();
-	m_iterator = m_list.end();
-
-	getView()->setUndoButtonEnabled(false);
-	getView()->setRedoButtonEnabled(false);
 }
 
 bool UndoRedoController::sameMessageTypeAsLast(MessageBase* message) const

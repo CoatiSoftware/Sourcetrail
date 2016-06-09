@@ -53,7 +53,7 @@ TextAccess.cpp WARNING: Tried to access index 10. Maximum index is 8
 TextAccess.cpp WARNING: Tried to access index 10. Maximum index is 8
 TextAccess.cpp WARNING: Line numbers start with one, is 0
 TextAccess.cpp WARNING: Line numbers start with one, is 0
-TokenLocationCollection.cpp ERROR: Can't create TokenLocation with wrong boundaries.
-TokenLocationCollection.cpp ERROR: Can't create TokenLocation with wrong boundaries.
+TokenLocationCollection.cpp ERROR: TokenLocation has wrong boundaries: file.c 2:3 2:1
+TokenLocationCollection.cpp ERROR: TokenLocation has wrong boundaries: file.c 4:1 1:10
 SolutionParserVisualStudio.cpp INFO: Found 24 additional include paths
 SolutionParserVisualStudio.cpp INFO: Found 450 code files

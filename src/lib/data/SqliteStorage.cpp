@@ -504,6 +504,8 @@ std::shared_ptr<TokenLocationFile> SqliteStorage::getTokenLocationsForFile(const
 		loc->setType(intToLocationType(location.type));
 	}
 
+	ret->isWholeCopy = true;
+
 	return ret;
 }
 
@@ -661,7 +663,7 @@ void SqliteStorage::setupTables()
 		);
 
 		// TODO: move to createIndexesForAnalysis() or prepareForAnalysis
-		m_database.execDML( // used for checking for duplicates during code analysis 
+		m_database.execDML( // used for checking for duplicates during code analysis
 			"CREATE INDEX IF NOT EXISTS edge_multipart_index ON edge(type, source_node_id, target_node_id);"
 		);
 

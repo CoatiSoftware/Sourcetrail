@@ -61,6 +61,9 @@ private:
 	virtual void handleMessage(MessageShowScope* message);
 
 	CodeView* getView();
+
+	virtual void clear();
+
 	void showContents(MessageBase* message);
 
 	std::vector<CodeSnippetParams> getSnippetsForActiveTokenLocations(

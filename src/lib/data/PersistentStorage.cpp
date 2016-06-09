@@ -869,9 +869,7 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsFor
 	for (Id fileId: fileIds)
 	{
 		StorageFile storageFile = m_sqliteStorage.getFileById(fileId);
-		collection->addTokenLocationFileAsPlainCopy(
-				m_sqliteStorage.getTokenLocationsForFile(storageFile.filePath).get()
-		);
+		collection->addTokenLocationFile(m_sqliteStorage.getTokenLocationsForFile(storageFile.filePath));
 	}
 
 	std::vector<StorageSourceLocation> locations = m_sqliteStorage.getTokenLocationsForElementIds(nonFileIds);
@@ -923,16 +921,14 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsFor
 
 std::shared_ptr<TokenLocationFile> PersistentStorage::getTokenLocationsForFile(const std::string& filePath) const
 {
-	std::shared_ptr<TokenLocationFile> locationFile = m_sqliteStorage.getTokenLocationsForFile(filePath);
-	locationFile->isWholeCopy = true;
-	return locationFile;
+	return m_sqliteStorage.getTokenLocationsForFile(filePath);
 }
 
 std::shared_ptr<TokenLocationFile> PersistentStorage::getTokenLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
 ) const
 {
-	return m_sqliteStorage.getTokenLocationsForFile(filePath)->getFilteredByLines(firstLineNumber, lastLineNumber);
+	return getTokenLocationsForFile(filePath)->getFilteredByLines(firstLineNumber, lastLineNumber);
 }
 
 std::shared_ptr<TokenLocationCollection> PersistentStorage::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const

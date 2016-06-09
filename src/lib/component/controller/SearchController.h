@@ -36,6 +36,8 @@ private:
 
 	SearchView* getView();
 
+	virtual void clear();
+
 	StorageAccess* m_storageAccess;
 };
 

@@ -2,6 +2,7 @@
 
 #include "component/controller/NetworkFactory.h"
 
+#include "component/controller/Controller.h"
 #include "component/view/CodeView.h"
 #include "component/view/CompositeView.h"
 #include "component/view/GraphView.h"
@@ -49,6 +50,19 @@ void ComponentManager::setup(ViewLayout* viewLayout)
 
 	std::shared_ptr<Component> featureComponent = m_componentFactory->createFeatureComponent();
 	m_components.push_back(featureComponent);
+}
+
+void ComponentManager::clearComponents()
+{
+	for (std::shared_ptr<Component> component : m_components)
+	{
+		Controller* controller = component->getController<Controller>();
+
+		if (controller)
+		{
+			controller->clear();
+		}
+	}
 }
 
 void ComponentManager::refreshViews()

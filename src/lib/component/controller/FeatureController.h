@@ -34,6 +34,8 @@ public:
 	FeatureController(StorageAccess* storageAccess);
 	~FeatureController();
 
+	virtual void clear();
+
 private:
 	virtual void handleMessage(MessageActivateEdge* message);
 	virtual void handleMessage(MessageActivateFile* message);

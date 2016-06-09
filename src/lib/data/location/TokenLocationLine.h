@@ -7,8 +7,6 @@
 #include <ostream>
 #include <string>
 
-#include "data/location/LocationType.h"
-
 #include "utility/file/FilePath.h"
 #include "utility/types.h"
 
@@ -36,7 +34,7 @@ public:
 	TokenLocation* addEndTokenLocation(TokenLocation* start, unsigned int columnNumber);
 	void removeTokenLocation(TokenLocation* location);
 
-	TokenLocation* getTokenLocationByIdAndType(Id id, LocationType type) const;
+	TokenLocation* getTokenLocationById(Id id) const;
 
 	void forEachTokenLocation(std::function<void(TokenLocation*)> func) const;
 	void forEachStartTokenLocation(std::function<void(TokenLocation*)> func) const;

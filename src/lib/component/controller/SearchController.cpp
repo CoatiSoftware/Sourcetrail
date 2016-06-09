@@ -79,3 +79,8 @@ SearchView* SearchController::getView()
 {
 	return Controller::getView<SearchView>();
 }
+
+void SearchController::clear()
+{
+	getView()->setMatches(std::vector<SearchMatch>());
+}

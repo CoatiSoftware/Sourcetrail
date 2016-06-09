@@ -38,14 +38,15 @@ public:
 		unsigned int endLineNumber, unsigned int endColumnNumber);
 	void removeTokenLocation(TokenLocation* location);
 
+	TokenLocationFile* addTokenLocationFile(std::shared_ptr<TokenLocationFile> locationFile);
+	void removeTokenLocationFile(TokenLocationFile* file);
+
 	TokenLocation* findTokenLocationById(Id id) const;
 	TokenLocationFile* findTokenLocationFileByPath(const FilePath& filePath) const;
 
 	void forEachTokenLocationFile(std::function<void(std::shared_ptr<TokenLocationFile>)> func) const;
 	void forEachTokenLocationLine(std::function<void(TokenLocationLine*)> func) const;
 	void forEachTokenLocation(std::function<void(TokenLocation*)> func) const;
-
-	void removeTokenLocationFile(TokenLocationFile* file);
 
 	TokenLocationFile* addTokenLocationFileAsPlainCopy(const TokenLocationFile* locationFile);
 	TokenLocation* addTokenLocationAsPlainCopy(const TokenLocation* location);

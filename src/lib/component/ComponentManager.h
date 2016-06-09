@@ -23,6 +23,7 @@ public:
 
 	void setup(ViewLayout* viewLayout);
 
+	void clearComponents();
 	void refreshViews();
 
 private:

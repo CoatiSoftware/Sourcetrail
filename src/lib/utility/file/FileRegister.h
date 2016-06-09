@@ -17,7 +17,7 @@ class FileManager;
 class FileRegister
 {
 public:
-	explicit FileRegister(const FileManager* fileManager);
+	explicit FileRegister(const FileManager* fileManager, bool randomizeParseOrder);
 
 	void setFilePaths(const std::vector<FilePath>& filePaths);
 
@@ -49,6 +49,7 @@ private:
 	};
 
 	const FileManager* m_fileManager;
+	bool m_randomizeParseOrder;
 
 	mutable std::unordered_map<std::string, bool> m_projectFiles;
 	mutable std::mutex m_projectFilesMutex;

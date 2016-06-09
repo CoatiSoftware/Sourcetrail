@@ -142,8 +142,6 @@ void Project::parseCode()
 		return;
 	}
 
-	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
-
 	m_fileManager.fetchFilePaths(m_storage->getInfoOnAllFiles());
 	std::set<FilePath> addedFilePaths = m_fileManager.getAddedFilePaths();
 	std::set<FilePath> updatedFilePaths = m_fileManager.getUpdatedFilePaths();
@@ -164,7 +162,10 @@ void Project::parseCode()
 	filesToParse.insert(filesToParse.end(), addedFilePaths.begin(), addedFilePaths.end());
 	filesToParse.insert(filesToParse.end(), updatedFilePaths.begin(), updatedFilePaths.end());
 
-	std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(&m_fileManager);
+
+	int indexerThreadCount = ApplicationSettings::getInstance()->getIndexerThreadCount();
+
+	std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(&m_fileManager, indexerThreadCount > 1);
 	fileRegister->setFilePaths(filesToParse);
 
 	std::shared_ptr<TaskGroupParallel> taskParallel = std::make_shared<TaskGroupParallel>();
@@ -177,7 +178,7 @@ void Project::parseCode()
 
 	std::shared_ptr<std::mutex> storageMutex = std::make_shared<std::mutex>();
 
-	for (int i = 0; i < ApplicationSettings::getInstance()->getIndexerThreadCount(); i++)
+	for (int i = 0; i < indexerThreadCount; i++)
 	{
 		taskParallel->addTask(std::make_shared<TaskParseCxx>(
 			m_storage.get(),

@@ -67,13 +67,21 @@ TokenLocation* TokenLocationCollection::addTokenLocation(
 {
 	if (startLineNumber > endLineNumber || (startLineNumber == endLineNumber && startColumnNumber > endColumnNumber))
 	{
-		LOG_ERROR("Can't create TokenLocation with wrong boundaries.");
+		LOG_ERROR_STREAM(<< "TokenLocation has wrong boundaries: "<< filePath.str() << " "
+			<< startLineNumber << ":" << startColumnNumber << " "
+			<< endLineNumber << ":" << endColumnNumber);
 		return nullptr;
 	}
 
+	TokenLocation* location = findTokenLocationById(locationId);
+	if (location)
+	{
+		return location;
+	}
+
 	TokenLocationFile* file = createTokenLocationFile(filePath);
-	TokenLocation* location =
-		file->addTokenLocation(locationId, tokenId, startLineNumber, startColumnNumber, endLineNumber, endColumnNumber);
+	location = file->addTokenLocation(
+		locationId, tokenId, startLineNumber, startColumnNumber, endLineNumber, endColumnNumber);
 
 	m_locations.emplace(location->getId(), location);
 	return location;
@@ -98,6 +106,37 @@ void TokenLocationCollection::removeTokenLocation(TokenLocation* location)
 	}
 }
 
+TokenLocationFile* TokenLocationCollection::addTokenLocationFile(std::shared_ptr<TokenLocationFile> locationFile)
+{
+	TokenLocationFile* file = findTokenLocationFileByPath(locationFile->getFilePath());
+	if (file)
+	{
+		LOG_ERROR("TokenLocationFile with same path already exists.");
+		return file;
+	}
+
+	m_files.emplace(locationFile->getFilePath(), locationFile);
+	locationFile->forEachTokenLocation(
+		[this, &file](TokenLocation* tokenLocation) -> void
+		{
+			m_locations.emplace(tokenLocation->getId(), tokenLocation);
+		}
+	);
+	return locationFile.get();
+}
+
+void TokenLocationCollection::removeTokenLocationFile(TokenLocationFile* file)
+{
+	file->forEachTokenLocation(
+		[&](TokenLocation* location)
+		{
+			m_locations.erase(location->getId());
+		}
+	);
+
+	m_files.erase(file->getFilePath());
+}
+
 TokenLocation* TokenLocationCollection::findTokenLocationById(Id id) const
 {
 	std::map<Id, TokenLocation*>::const_iterator it = m_locations.find(id);
@@ -115,7 +154,8 @@ TokenLocationFile* TokenLocationCollection::findTokenLocationFileByPath(const Fi
 	return getTokenLocationFileByPath(filePath).get();
 }
 
-void TokenLocationCollection::forEachTokenLocationFile(std::function<void(std::shared_ptr<TokenLocationFile>)> func) const
+void TokenLocationCollection::forEachTokenLocationFile(
+	std::function<void(std::shared_ptr<TokenLocationFile>)> func) const
 {
 	for (const TokenLocationFilePairType& file : m_files)
 	{
@@ -139,18 +179,6 @@ void TokenLocationCollection::forEachTokenLocation(std::function<void(TokenLocat
 	}
 }
 
-void TokenLocationCollection::removeTokenLocationFile(TokenLocationFile* file)
-{
-	file->forEachTokenLocation(
-		[&](TokenLocation* location)
-		{
-			m_locations.erase(location->getId());
-		}
-	);
-
-	m_files.erase(file->getFilePath());
-}
-
 TokenLocationFile* TokenLocationCollection::addTokenLocationFileAsPlainCopy(const TokenLocationFile* locationFile)
 {
 	TokenLocationFile* file = createTokenLocationFile(locationFile->getFilePath());
@@ -161,7 +189,6 @@ TokenLocationFile* TokenLocationCollection::addTokenLocationFileAsPlainCopy(cons
 			m_locations.emplace(copy->getId(), copy);
 		}
 	);
-	file->isWholeCopy = true;
 	return file;
 }
 

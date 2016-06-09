@@ -116,6 +116,8 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 
 void Application::loadProject(const FilePath& projectSettingsFilePath)
 {
+	m_componentManager->clearComponents();
+
 	bool reparse = false;
 
 	Project::ProjectState state = m_project->load(projectSettingsFilePath);

@@ -11,13 +11,14 @@ public:
 
 	void setComponent(Component* component);
 
+	virtual void clear() = 0;
+
 protected:
 	template <typename ViewType>
-	ViewType* getView() const;
+		ViewType* getView() const;
 
 private:
 	Component* m_component;
-
 };
 
 
@@ -25,8 +26,11 @@ template <typename ViewType>
 ViewType* Controller::getView() const
 {
 	if (m_component)
+	{
 		return m_component->getView<ViewType>();
-	return NULL;
+	}
+
+	return nullptr;
 }
 
 #endif // CONTROLLER_H

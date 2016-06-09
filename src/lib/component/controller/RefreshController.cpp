@@ -13,6 +13,10 @@ RefreshController::~RefreshController()
 {
 }
 
+void RefreshController::clear()
+{
+}
+
 void RefreshController::handleMessage(MessageAutoRefreshChanged* message)
 {
 	m_autoRefreshEnabled = message->enabled;

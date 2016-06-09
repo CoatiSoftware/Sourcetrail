@@ -3,8 +3,9 @@
 #include "utility/file/FileManager.h"
 #include "utility/file/FileSystem.h"
 
-FileRegister::FileRegister(const FileManager* fileManager)
+FileRegister::FileRegister(const FileManager* fileManager, bool randomizeParseOrder)
 	: m_fileManager(fileManager)
+	, m_randomizeParseOrder(randomizeParseOrder)
 {
 }
 
@@ -144,7 +145,14 @@ FilePath FileRegister::consumeSourceFile()
 
 	if (paths.size())
 	{
-		path = paths[rand() % paths.size()];
+		if (m_randomizeParseOrder)
+		{
+			path = paths[rand() % paths.size()];
+		}
+		else
+		{
+			path = paths[0];
+		}
 
 		std::lock_guard<std::mutex> lock(m_sourceFileMutex);
 		m_sourceFilePaths[path] = STATE_PARSING;

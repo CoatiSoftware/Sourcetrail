@@ -27,6 +27,8 @@ public:
 
 	StatusBarView* getView();
 
+	virtual void clear();
+
 private:
 	virtual void handleMessage(MessageClearErrorCount* message);
 	virtual void handleMessage(MessageFinishedParsing* message);

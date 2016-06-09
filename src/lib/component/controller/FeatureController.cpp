@@ -19,6 +19,10 @@ FeatureController::~FeatureController()
 {
 }
 
+void FeatureController::clear()
+{
+}
+
 void FeatureController::handleMessage(MessageActivateEdge* message)
 {
 	if (message->isAggregation())
@@ -61,9 +65,15 @@ void FeatureController::handleMessage(MessageActivateFile* message)
 	}
 	else
 	{
-		MessageActivateTokens m(message, std::vector<Id>());
-		m.unknownNames.push_back(message->filePath.fileName());
-		m.dispatchImmediately();
+		MessageChangeFileView msg(
+			message->filePath,
+			MessageChangeFileView::FILE_MAXIMIZED,
+			true,
+			true
+		);
+		msg.setIsReplayed(message->isReplayed());
+		msg.setKeepContent(message->keepContent());
+		msg.dispatchImmediately();
 	}
 }
 

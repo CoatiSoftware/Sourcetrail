@@ -58,7 +58,7 @@ private:
 
 	GraphView* getView() const;
 
-	void clear();
+	virtual void clear();
 
 	void createDummyGraphForTokenIds(const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph);
 	std::shared_ptr<DummyNode> createDummyNodeTopDown(Node* node, Id parentId);

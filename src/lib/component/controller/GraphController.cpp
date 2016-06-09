@@ -186,6 +186,7 @@ void GraphController::clear()
 	m_activeEdgeIds.clear();
 
 	m_graph.reset();
+
 	getView()->clear();
 }
 

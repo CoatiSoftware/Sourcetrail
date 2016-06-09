@@ -15,7 +15,6 @@
 #include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
 #include "utility/messaging/type/MessageGraphNodeExpand.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
-#include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageRedo.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageScrollCode.h"
@@ -41,7 +40,6 @@ class UndoRedoController
 	, public MessageListener<MessageGraphNodeBundleSplit>
 	, public MessageListener<MessageGraphNodeExpand>
 	, public MessageListener<MessageGraphNodeMove>
-	, public MessageListener<MessageLoadProject>
 	, public MessageListener<MessageRedo>
 	, public MessageListener<MessageRefresh>
 	, public MessageListener<MessageScrollCode>
@@ -55,6 +53,8 @@ public:
 	virtual ~UndoRedoController();
 
 	UndoRedoView* getView();
+
+	virtual void clear();
 
 private:
 	struct Command
@@ -83,7 +83,6 @@ private:
 	virtual void handleMessage(MessageGraphNodeBundleSplit* message);
 	virtual void handleMessage(MessageGraphNodeExpand* message);
 	virtual void handleMessage(MessageGraphNodeMove* message);
-	virtual void handleMessage(MessageLoadProject* message);
 	virtual void handleMessage(MessageRedo* message);
 	virtual void handleMessage(MessageRefresh* message);
 	virtual void handleMessage(MessageScrollCode* message);
@@ -96,8 +95,6 @@ private:
 	void replayCommands(std::list<Command>::iterator iterator);
 
 	void processCommand(Command command);
-
-	void clear();
 
 	bool sameMessageTypeAsLast(MessageBase* message) const;
 	MessageBase* lastMessage() const;

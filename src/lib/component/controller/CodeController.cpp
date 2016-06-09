@@ -103,8 +103,12 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	}
 
 	std::vector<Id> activeTokenIds = message->tokenIds;
-	Id declarationId = 0; // 0 means that no token is found.
+	if (!activeTokenIds.size())
+	{
+		return;
+	}
 
+	Id declarationId = 0; // 0 means that no token is found.
 	if (!message->isAggregation)
 	{
 		activeTokenIds = m_storageAccess->getActiveTokenIdsForId(activeTokenIds[0], &declarationId);
@@ -304,6 +308,13 @@ void CodeController::handleMessage(MessageShowScope* message)
 CodeView* CodeController::getView()
 {
 	return Controller::getView<CodeView>();
+}
+
+void CodeController::clear()
+{
+	getView()->clear();
+
+	m_collection.reset();
 }
 
 void CodeController::showContents(MessageBase* message)

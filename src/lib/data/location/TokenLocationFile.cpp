@@ -57,14 +57,41 @@ TokenLocation* TokenLocationFile::addTokenLocation(
 	unsigned int endLineNumber, unsigned int endColumnNumber)
 {
 	TokenLocationLine* line = createTokenLocationLine(startLineNumber);
-	TokenLocation* start = line->addStartTokenLocation(locationId, tokenId, startColumnNumber);
 
-	if (startLineNumber != endLineNumber)
+	// Check if a TokenLocation with the same start and end was already added.
+	TokenLocation* start = nullptr;
+	line->forEachStartTokenLocation(
+		[&](TokenLocation* startLocation)
+		{
+			if (start)
+			{
+				return;
+			}
+
+			TokenLocation* endLocation = startLocation->getEndTokenLocation();
+
+			if (startLocation->getTokenId() == tokenId &&
+				startLocation->getColumnNumber() == startColumnNumber &&
+				endLocation &&
+				endLocation->getLineNumber() == endLineNumber &&
+				endLocation->getColumnNumber() == endColumnNumber)
+			{
+				start = startLocation;
+			}
+		}
+	);
+
+	if (!start)
 	{
-		line = createTokenLocationLine(endLineNumber);
-	}
+		start = line->addStartTokenLocation(locationId, tokenId, startColumnNumber);
 
-	line->addEndTokenLocation(start, endColumnNumber);
+		if (startLineNumber != endLineNumber)
+		{
+			line = createTokenLocationLine(endLineNumber);
+		}
+
+		line->addEndTokenLocation(start, endColumnNumber);
+	}
 
 	return start;
 }
@@ -132,7 +159,7 @@ TokenLocation* TokenLocationFile::addTokenLocationAsPlainCopy(const TokenLocatio
 	TokenLocationLine* line = createTokenLocationLine(lineNumber);
 
 	// Check whether this location was already added or if the other TokenLocation was added.
-	TokenLocation* otherLocation = line->getTokenLocationByIdAndType(location->getId(), location->getType());
+	TokenLocation* otherLocation = line->getTokenLocationById(location->getId());
 	if (otherLocation)
 	{
 		if (otherLocation->isStartTokenLocation() == location->isStartTokenLocation())
@@ -150,7 +177,7 @@ TokenLocation* TokenLocationFile::addTokenLocationAsPlainCopy(const TokenLocatio
 			TokenLocationLine* otherLine = findTokenLocationLine(otherLineNumber);
 			if (otherLine)
 			{
-				otherLocation = otherLine->getTokenLocationByIdAndType(location->getId(), location->getType());
+				otherLocation = otherLine->getTokenLocationById(location->getId());
 			}
 		}
 	}

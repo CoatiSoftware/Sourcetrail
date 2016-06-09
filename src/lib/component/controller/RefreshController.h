@@ -17,6 +17,8 @@ public:
 	RefreshController();
 	virtual ~RefreshController();
 
+	virtual void clear();
+
 private:
 	virtual void handleMessage(MessageAutoRefreshChanged* message);
 	virtual void handleMessage(MessageWindowFocus* message);
