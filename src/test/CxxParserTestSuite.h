@@ -1781,6 +1781,22 @@ public:
 		TS_ASSERT_EQUALS(client->macroUses[0], "PI <4:12 4:13>");
 	}
 
+	void test_cxx_parser_finds_macro_expand_within_macro()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"#define PI 3.14159265359\n"
+			"#define TAU (2 * PI)\n"
+			"void test()\n"
+			"{\n"
+			"double i = TAU;"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->macroUses.size(), 2);
+		TS_ASSERT_EQUALS(client->macroUses[0], "TAU <5:12 5:14>");
+		TS_ASSERT_EQUALS(client->macroUses[1], "PI <2:18 2:19>");
+	}
+
 	void test_cxx_parser_finds_usage_of_template_template_parameter_of_template_class_specialized_with_concrete_type()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(

@@ -96,7 +96,7 @@ void PreprocessorCallbacks::MacroExpands(
 	const clang::Token& macroNameToken, const clang::MacroDefinition& macroDirective,
 	clang::SourceRange range, const clang::MacroArgs* args
 ){
-	const std::string& fileStr = m_sourceManager.getFilename(macroNameToken.getLocation());
+	const std::string& fileStr = m_sourceManager.getFilename(m_sourceManager.getFileLoc(macroNameToken.getLocation()));
 	if (!fileStr.size())
 	{
 		return;
@@ -116,7 +116,7 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::Token& macroN
 {
 	clang::SourceLocation location = macroNameTok.getLocation();
 	return ParseLocation(
-		m_sourceManager.getFilename(location),
+		m_sourceManager.getFilename(m_sourceManager.getFileLoc(location)),
 		m_sourceManager.getSpellingLineNumber(location),
 		m_sourceManager.getSpellingColumnNumber(location),
 		m_sourceManager.getSpellingLineNumber(macroNameTok.getEndLoc()),
