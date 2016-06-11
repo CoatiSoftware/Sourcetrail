@@ -65,7 +65,8 @@ private:
 	mutable std::mutex m_sourceFileMutex;
 	mutable std::mutex m_includeFileMutex;
 	mutable std::mutex m_threadFileMutex;
-	mutable std::mutex m_fileManagerMutex;
+
+	std::mutex m_consumeFileMutex;
 };
 
 #endif // FILE_REGISTER_H

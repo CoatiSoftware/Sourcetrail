@@ -99,46 +99,44 @@ bool FileRegister::fileIsParsed(const FilePath& filePath) const
 
 bool FileRegister::sourceFileIsParsed(const FilePath& filePath) const
 {
+	std::lock_guard<std::mutex> lock(m_sourceFileMutex);
+
+	std::map<FilePath, ParseState>::const_iterator it = m_sourceFilePaths.find(filePath);
+	if (it == m_sourceFilePaths.end())
 	{
-		std::lock_guard<std::mutex> lock(m_sourceFileMutex);
-
-		std::map<FilePath, ParseState>::const_iterator it = m_sourceFilePaths.find(filePath);
-		if (it == m_sourceFilePaths.end())
-		{
-			return false;
-		}
-
-		if (it->second == STATE_PARSED)
-		{
-			return true;
-		}
-
 		return false;
 	}
+
+	if (it->second == STATE_PARSED)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 bool FileRegister::includeFileIsParsed(const FilePath& filePath) const
 {
+	std::lock_guard<std::mutex> lock(m_includeFileMutex);
+
+	std::map<FilePath, ParseState>::const_iterator it = m_includeFilePaths.find(filePath);
+	if (it == m_includeFilePaths.end())
 	{
-		std::lock_guard<std::mutex> lock(m_includeFileMutex);
-
-		std::map<FilePath, ParseState>::const_iterator it = m_includeFilePaths.find(filePath);
-		if (it == m_includeFilePaths.end())
-		{
-			return false;
-		}
-
-		if (it->second == STATE_PARSED)
-		{
-			return true;
-		}
-
 		return false;
 	}
+
+	if (it->second == STATE_PARSED)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 FilePath FileRegister::consumeSourceFile()
 {
+	std::lock_guard<std::mutex> lock(m_consumeFileMutex);
+
 	std::vector<FilePath> paths = getUnparsedSourceFilePaths();
 
 	FilePath path;
