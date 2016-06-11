@@ -9,6 +9,8 @@
 #include "qt/utility/utilityQt.h"
 #include "utility/UserPaths.h"
 
+bool appIsMacBundle = false;
+
 void setupPlatform(int argc, char *argv[])
 {
 	// ----------------------------------------------------------------------------
@@ -63,12 +65,19 @@ void setupPlatform(int argc, char *argv[])
 
 	UserPaths::setUserDataPath(dataPath.toStdString() + "/");
 	// ----------------------------------------------------------------------------
+
+	appIsMacBundle = true;
 }
 
 void setupApp(int argc, char *argv[])
 {
 	FilePath path(QDir::currentPath().toStdString());
 	AppPath::setAppPath(path.absolute().str() + "/");
+
+	if (!appIsMacBundle)
+	{
+		UserPaths::setUserDataPath(path.absolute().str() + "/" + UserPaths::getUserDataPath());
+	}
 }
 
 #endif // INCLUDES_MAC_H
