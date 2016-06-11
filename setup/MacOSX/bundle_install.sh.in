@@ -54,7 +54,7 @@ fi
 BUNDLE_PATH=$PACKAGE_DIR/$BUNDLE_NAME.app
 BIN_DIR=$BUNDLE_PATH/Contents/MacOS
 DYNLIB_DIR=$BUNDLE_PATH/Contents/lib
-PLUGIN_DIR=$BUNDLE_PATH/Contents/PlugIns/platforms
+PLUGIN_DIR=$BUNDLE_PATH/Contents/PlugIns
 FRAMEWORK_DIR=$BUNDLE_PATH/Contents/Frameworks
 RES_DIR=$BUNDLE_PATH/Contents/Resources
 APP_PATH=$BIN_DIR/$APP_NAME
@@ -125,7 +125,11 @@ done
 
 
 echo -e $INFO "Copying Plugins"
-cp $QT_DIR/plugins/platforms/libqcocoa.dylib $PLUGIN_DIR/libqcocoa.dylib
+mkdir -p $PLUGIN_DIR/platforms
+mkdir -p $PLUGIN_DIR/imageformats
+
+cp $QT_DIR/plugins/platforms/libqcocoa.dylib $PLUGIN_DIR/platforms/libqcocoa.dylib
+cp $QT_DIR/plugins/imageformats/libqgif.dylib $PLUGIN_DIR/imageformats/libqgif.dylib
 
 
 echo -e $INFO "Copying frameworks."
@@ -153,11 +157,14 @@ install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_
 install_name_tool -change @rpath/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $FRAMEWORK_DIR/QtPrintSupport.framework/Versions/5/QtPrintSupport
 install_name_tool -change @rpath/QtWidgets.framework/Versions/5/QtWidgets @executable_path/../Frameworks/QtWidgets.framework/Versions/5/QtWidgets $FRAMEWORK_DIR/QtPrintSupport.framework/Versions/5/QtPrintSupport
 
-install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $PLUGIN_DIR/libqcocoa.dylib
-install_name_tool -change @rpath/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $PLUGIN_DIR/libqcocoa.dylib
-install_name_tool -change @rpath/QtWidgets.framework/Versions/5/QtWidgets @executable_path/../Frameworks/QtWidgets.framework/Versions/5/QtWidgets $PLUGIN_DIR/libqcocoa.dylib
-install_name_tool -change @rpath/QtPrintSupport.framework/Versions/5/QtPrintSupport @executable_path/../Frameworks/QtPrintSupport.framework/Versions/5/QtPrintSupport $PLUGIN_DIR/libqcocoa.dylib
-install_name_tool -change @rpath/QtDBus.framework/Versions/5/QtDBus @executable_path/../Frameworks/QtDBus.framework/Versions/5/QtDBus $PLUGIN_DIR/libqcocoa.dylib
+install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $PLUGIN_DIR/platforms/libqcocoa.dylib
+install_name_tool -change @rpath/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $PLUGIN_DIR/platforms/libqcocoa.dylib
+install_name_tool -change @rpath/QtWidgets.framework/Versions/5/QtWidgets @executable_path/../Frameworks/QtWidgets.framework/Versions/5/QtWidgets $PLUGIN_DIR/platforms/libqcocoa.dylib
+install_name_tool -change @rpath/QtPrintSupport.framework/Versions/5/QtPrintSupport @executable_path/../Frameworks/QtPrintSupport.framework/Versions/5/QtPrintSupport $PLUGIN_DIR/platforms/libqcocoa.dylib
+install_name_tool -change @rpath/QtDBus.framework/Versions/5/QtDBus @executable_path/../Frameworks/QtDBus.framework/Versions/5/QtDBus $PLUGIN_DIR/platforms/libqcocoa.dylib
+
+install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $PLUGIN_DIR/imageformats/libqgif.dylib
+install_name_tool -change @rpath/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $PLUGIN_DIR/imageformats/libqgif.dylib
 
 install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $FRAMEWORK_DIR/QtDBus.framework/Versions/5/QtDBus
 
@@ -170,7 +177,8 @@ otool -L $FRAMEWORK_DIR/QtWidgets.framework/Versions/5/QtWidgets
 otool -L $FRAMEWORK_DIR/QtPrintSupport.framework/Versions/5/QtPrintSupport
 otool -L $FRAMEWORK_DIR/QtDBus.framework/Versions/5/QtDBus
 otool -L $FRAMEWORK_DIR/QtNetwork.framework/Versions/5/QtNetwork
-otool -L $PLUGIN_DIR/libqcocoa.dylib
+otool -L $PLUGIN_DIR/platforms/libqcocoa.dylib
+otool -L $PLUGIN_DIR/imageformats/libqgif.dylib
 
 
 echo -e $INFO "App dependencies"
@@ -214,11 +222,11 @@ convert $ICON -resize 1024x1024 $ICON_SET/icon_512x512@2x.png
 
 iconutil -c icns -o $RES_DIR/project.icns $ICON_SET
 
-# echo -e $INFO "Obfuscate binary"
+echo -e $INFO "Obfuscate binary"
 # upx -1 $APP_PATH
 upx --best $APP_PATH
 
-# echo -e $INFO "create DMG"
+echo -e $INFO "create DMG"
 hdiutil create ${PACKAGE_DIR}.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR}
 
 echo -e $SUCCESS "Installed bundle successfully!"
