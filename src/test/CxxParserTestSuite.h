@@ -280,6 +280,105 @@ public:
 		TS_ASSERT_EQUALS(client->macros[0], "PI <1:9 <1:9 1:10> 1:8>");
 	}
 
+	void test_cxx_parser_finds_macro_undefine()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"#undef PI\n"
+			"void test()\n"
+			"{\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->macroUses.size(), 1);
+		TS_ASSERT_EQUALS(client->macroUses[0], "PI <1:8 1:9>");
+	}
+
+	void test_cxx_parser_finds_macro_in_ifdef()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"#define PI\n"
+			"#ifdef PI\n"
+			"void test()\n"
+			"{\n"
+			"};\n"
+			"#endif\n"
+		);
+
+		TS_ASSERT_EQUALS(client->macroUses.size(), 1);
+		TS_ASSERT_EQUALS(client->macroUses[0], "PI <2:8 2:9>");
+	}
+
+	void test_cxx_parser_finds_macro_in_ifndef()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"#define PI\n"
+			"#ifndef PI\n"
+			"void test()\n"
+			"{\n"
+			"};\n"
+			"#endif\n"
+		);
+
+		TS_ASSERT_EQUALS(client->macroUses.size(), 1);
+		TS_ASSERT_EQUALS(client->macroUses[0], "PI <2:9 2:10>");
+	}
+
+	void test_cxx_parser_finds_macro_in_ifdefined()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"#define PI\n"
+			"#if defined(PI)\n"
+			"void test()\n"
+			"{\n"
+			"};\n"
+			"#endif\n"
+		);
+
+		TS_ASSERT_EQUALS(client->macroUses.size(), 1);
+		TS_ASSERT_EQUALS(client->macroUses[0], "PI <2:13 2:14>");
+	}
+
+	void test_cxx_parser_finds_macro_expand()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"#define PI 3.14159265359\n"
+			"void test()\n"
+			"{\n"
+			"double i = PI;"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->macroUses.size(), 1);
+		TS_ASSERT_EQUALS(client->macroUses[0], "PI <4:12 4:13>");
+	}
+
+	void test_cxx_parser_finds_macro_expand_within_macro()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"#define PI 3.14159265359\n"
+			"#define TAU (2 * PI)\n"
+			"void test()\n"
+			"{\n"
+			"double i = TAU;"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->macroUses.size(), 2);
+		TS_ASSERT_EQUALS(client->macroUses[0], "TAU <5:12 5:14>");
+		TS_ASSERT_EQUALS(client->macroUses[1], "PI <2:18 2:19>");
+	}
+
+	void test_cxx_parser_finds_macro_define_scope()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"#define MAX(a,b) \\\n"
+			"	((a)>(b)?(a):(b))"
+		);
+
+		TS_ASSERT_EQUALS(client->macros.size(), 1);
+		TS_ASSERT_EQUALS(client->macros[0], "MAX <1:9 <1:9 1:11> 2:17>");
+	}
+
 	void test_cxx_parser_finds_type_template_parameter_type_of_template_class()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -1767,36 +1866,6 @@ public:
 		TS_ASSERT_EQUALS(client->typeUses[3], "int main() -> A <9:16 9:16>");
 	}
 
-	void test_cxx_parser_finds_macro_expand()
-	{
-		std::shared_ptr<TestParserClient> client = parseCode(
-			"#define PI 3.14159265359\n"
-			"void test()\n"
-			"{\n"
-			"double i = PI;"
-			"};\n"
-		);
-
-		TS_ASSERT_EQUALS(client->macroUses.size(), 1);
-		TS_ASSERT_EQUALS(client->macroUses[0], "PI <4:12 4:13>");
-	}
-
-	void test_cxx_parser_finds_macro_expand_within_macro()
-	{
-		std::shared_ptr<TestParserClient> client = parseCode(
-			"#define PI 3.14159265359\n"
-			"#define TAU (2 * PI)\n"
-			"void test()\n"
-			"{\n"
-			"double i = TAU;"
-			"};\n"
-		);
-
-		TS_ASSERT_EQUALS(client->macroUses.size(), 2);
-		TS_ASSERT_EQUALS(client->macroUses[0], "TAU <5:12 5:14>");
-		TS_ASSERT_EQUALS(client->macroUses[1], "PI <2:18 2:19>");
-	}
-
 	void test_cxx_parser_finds_usage_of_template_template_parameter_of_template_class_specialized_with_concrete_type()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -2749,17 +2818,6 @@ public:
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
 		TS_ASSERT_EQUALS(client->calls[1], "int main() -> void n::App::App(int) <11:16 11:18>");
-	}
-
-	void test_cxx_parser_finds_macro_define_scope()
-	{
-		std::shared_ptr<TestParserClient> client = parseCode(
-			"#define MAX(a,b) \\\n"
-			"	((a)>(b)?(a):(b))"
-		);
-
-		TS_ASSERT_EQUALS(client->macros.size(), 1);
-		TS_ASSERT_EQUALS(client->macros[0], "MAX <1:9 <1:9 1:11> 2:17>");
 	}
 
 	//void __test_cxx_parser_finds_type_template_argument_of_static_cast_expression()

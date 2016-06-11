@@ -92,10 +92,38 @@ void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, con
 	}
 }
 
+void PreprocessorCallbacks::MacroUndefined(
+	const clang::Token& macroNameToken, const clang::MacroDefinition& macroDefinition)
+{
+	onMacroUsage(macroNameToken);
+}
+
+void PreprocessorCallbacks::Defined(
+		const clang::Token& macroNameToken, const clang::MacroDefinition& macroDefinition, clang::SourceRange range)
+{
+	onMacroUsage(macroNameToken);
+}
+
+void PreprocessorCallbacks::Ifdef(clang::SourceLocation location, const clang::Token& macroNameToken,
+		const clang::MacroDefinition& macroDefinition)
+{
+	onMacroUsage(macroNameToken);
+}
+void PreprocessorCallbacks::Ifndef(clang::SourceLocation location, const clang::Token& macroNameToken,
+		const clang::MacroDefinition& macroDefinition)
+{
+	onMacroUsage(macroNameToken);
+}
+
 void PreprocessorCallbacks::MacroExpands(
 	const clang::Token& macroNameToken, const clang::MacroDefinition& macroDirective,
 	clang::SourceRange range, const clang::MacroArgs* args
 ){
+	onMacroUsage(macroNameToken);
+}
+
+void PreprocessorCallbacks::onMacroUsage(const clang::Token& macroNameToken)
+{
 	const std::string& fileStr = m_sourceManager.getFilename(m_sourceManager.getFileLoc(macroNameToken.getLocation()));
 	if (!fileStr.size())
 	{

@@ -17,7 +17,8 @@ class PreprocessorCallbacks
 public:
 	explicit PreprocessorCallbacks(clang::SourceManager& sourceManager, ParserClient* client, FileRegister* fileRegister);
 
-	virtual void FileChanged(clang::SourceLocation location, FileChangeReason reason, clang::SrcMgr::CharacteristicKind, clang::FileID);
+	virtual void FileChanged(
+		clang::SourceLocation location, FileChangeReason reason, clang::SrcMgr::CharacteristicKind, clang::FileID);
 
 	virtual void InclusionDirective(
 		clang::SourceLocation hashLocation, const clang::Token& includeToken, llvm::StringRef fileName, bool isAngled,
@@ -25,6 +26,14 @@ public:
 		llvm::StringRef relativePath, const clang::Module* imported);
 
 	virtual void MacroDefined(const clang::Token& macroNameToken, const clang::MacroDirective* macroDirective);
+	virtual void MacroUndefined(const clang::Token& macroNameToken, const clang::MacroDefinition& macroDefinition);
+
+	virtual void Defined(
+		const clang::Token& macroNameToken, const clang::MacroDefinition& macroDefinition, clang::SourceRange range);
+	virtual void Ifdef(clang::SourceLocation location, const clang::Token& macroNameToken,
+		const clang::MacroDefinition& macroDefinition);
+	virtual void Ifndef(clang::SourceLocation location, const clang::Token& macroNameToken,
+		const clang::MacroDefinition& macroDefinition);
 
 	virtual void MacroExpands(
 		const clang::Token& macroNameToken, const clang::MacroDefinition& macroDirective,
@@ -32,6 +41,8 @@ public:
 	);
 
 private:
+	void onMacroUsage(const clang::Token& macroNameToken);
+
 	ParseLocation getParseLocation(const clang::Token& macroNameToc) const;
 	ParseLocation getParseLocation(const clang::MacroInfo* macroNameToc) const;
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
