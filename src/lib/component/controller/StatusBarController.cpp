@@ -21,7 +21,6 @@ StatusBarView* StatusBarController::getView()
 void StatusBarController::clear()
 {
 	getView()->setErrorCount(ErrorCountInfo());
-	getView()->showMessage("", false, false);
 }
 
 void StatusBarController::handleMessage(MessageClearErrorCount* message)

@@ -7,6 +7,7 @@
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageClearErrorCount.h"
 #include "utility/messaging/type/MessageShowErrors.h"
+#include "utility/messaging/type/MessageStatus.h"
 #include "utility/text/TextAccess.h"
 #include "utility/TimePoint.h"
 #include "utility/utility.h"
@@ -102,7 +103,8 @@ Id PersistentStorage::addLocalSymbol(const std::string& name)
 	return localSymbolId;
 }
 
-void PersistentStorage::addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
+void PersistentStorage::addSourceLocation(
+	Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
 {
 	m_sqliteStorage.addSourceLocation(
 		elementId,
@@ -131,7 +133,8 @@ void PersistentStorage::addCommentLocation(Id fileNodeId, uint startLine, uint s
 	);
 }
 
-void PersistentStorage::addError(const std::string& message, bool fatal, const std::string& filePath, uint startLine, uint startCol)
+void PersistentStorage::addError(
+	const std::string& message, bool fatal, const std::string& filePath, uint startLine, uint startCol)
 {
 	m_sqliteStorage.addError(
 		message,
@@ -166,7 +169,8 @@ void PersistentStorage::forEachEdge(std::function<void(const Id /*id*/, const St
 	}
 }
 
-void PersistentStorage::forEachLocalSymbol(std::function<void(const Id /*id*/, const StorageLocalSymbol& /*data*/)> callback) const
+void PersistentStorage::forEachLocalSymbol(std::function<void(
+	const Id /*id*/, const StorageLocalSymbol& /*data*/)> callback) const
 {
 	for (StorageLocalSymbol& localSymbol: m_sqliteStorage.getAllLocalSymbols())
 	{
@@ -217,10 +221,11 @@ void PersistentStorage::finishInjection()
 {
 	m_sqliteStorage.commitTransaction();
 
+	ErrorCountInfo errorCount = getErrorCount();
 	if (m_preInjectionErrorCount != -1 &&
-		m_preInjectionErrorCount != getErrorCount().total)
+		m_preInjectionErrorCount != errorCount.total)
 	{
-		MessageShowErrors msg(getErrorCount());
+		MessageShowErrors msg(errorCount);
 		msg.setSendAsTask(false);
 		msg.dispatch();
 	}
@@ -396,8 +401,14 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getFullTextSearchLoc
 {
 	if (m_fullTextSearchIndex.fileCount() == 0)
 	{
+		MessageStatus("Building fulltext search index", false, true).dispatch();
 		buildFullTextSearchIndex();
 	}
+
+	MessageStatus(
+		std::string("Searching fulltext (case-") + (caseSensitive ? "sensitive" : "insensitive") + "): " + searchTerm,
+		false, true
+	).dispatch();
 
 	std::shared_ptr<TokenLocationCollection> collection = std::make_shared<TokenLocationCollection>();
 
@@ -461,6 +472,13 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getFullTextSearchLoc
 			}
 		}
 	}
+
+	MessageStatus(
+		std::to_string(collection->getTokenLocationCount()) + " results in " +
+			std::to_string(collection->getTokenLocationFileCount()) + " files for fulltext search (case-" +
+			(caseSensitive ? "sensitive" : "insensitive") + "): " + searchTerm,
+		false, false
+	).dispatch();
 
 	return collection;
 }
@@ -847,7 +865,8 @@ Id PersistentStorage::getTokenIdForFileNode(const FilePath& filePath) const
 	return m_sqliteStorage.getFileByPath(filePath.str()).id;
 }
 
-std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsForTokenIds(const std::vector<Id>& tokenIds) const
+std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsForTokenIds(
+	const std::vector<Id>& tokenIds) const
 {
 	std::shared_ptr<TokenLocationCollection> collection = std::make_shared<TokenLocationCollection>();
 
