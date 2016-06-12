@@ -38,6 +38,17 @@
 	font-weight: bold;
 }
 
+#versionLabel {
+	color: black;
+	font-size: 12pt;
+	font-weight: bold;
+}
+
+#updateLabel {
+	color: black;
+	font-size: 12pt;
+}
+
 #welcomeLabel {
 	color: black;
 	font-size: 12pt;

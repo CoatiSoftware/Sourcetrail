@@ -15,6 +15,7 @@
 #include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/utility/utilityQt.h"
 #include "utility/logging/logging.h"
+#include "utility/Version.h"
 #include "isTrial.h"
 
 QtRecentProjectButton::QtRecentProjectButton(QWidget* parent)
@@ -155,6 +156,18 @@ void QtStartScreen::setupStartScreen()
 		m_openProjectButton->setObjectName("projectButton");
 		m_openProjectButton->show();
 		connect(m_openProjectButton, SIGNAL(clicked()), this, SLOT(handleOpenProjectButton()));
+
+		QLabel* versionLabel = new QLabel(("Version " + Version::getApplicationVersion().toDisplayString()).c_str(), this);
+		versionLabel->setGeometry(30, 234, 300, 50);
+		versionLabel->setObjectName("versionLabel");
+		versionLabel->show();
+
+		QLabel* updateLabel = new QLabel(
+			"<a href=\"https://coati.io/downloads\" style=\"color: #007AC2;\">check for new version</a>", this);
+		updateLabel->setOpenExternalLinks(true);
+		updateLabel->setGeometry(30, 255, 300, 50);
+		updateLabel->setObjectName("updateLabel");
+		updateLabel->show();
 	}
 
 	QLabel* recentProjectsLabel = new QLabel("Recent Projects: ", this);
