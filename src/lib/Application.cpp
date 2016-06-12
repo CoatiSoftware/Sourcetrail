@@ -19,6 +19,7 @@
 #include "LicenseChecker.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
+#include "settings/ProjectSettings.h"
 
 std::shared_ptr<Application> Application::create(
 	const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory
@@ -164,6 +165,23 @@ void Application::loadProject(const FilePath& projectSettingsFilePath)
 void Application::refreshProject()
 {
 	MessageStatus("Refreshing Project").dispatch();
+
+	FilePath cdbPath = ProjectSettings::getInstance()->getCompilationDatabasePath();
+	if (!cdbPath.empty() && !cdbPath.exists())
+	{
+		MessageStatus("Can't refresh project").dispatch();
+
+		if (m_hasGUI)
+		{
+			std::vector<std::string> options;
+			options.push_back("Ok");
+			m_mainView->confirm(
+				"Can't refresh. The compilation database of the project does not exist anymore: " + cdbPath.str(),
+				options);
+		}
+
+		return;
+	}
 
 	m_storageCache->clear();
 	if (m_hasGUI)
