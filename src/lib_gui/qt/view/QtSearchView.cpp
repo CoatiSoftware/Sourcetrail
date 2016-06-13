@@ -12,6 +12,7 @@ QtSearchView::QtSearchView(ViewLayout* viewLayout)
 	, m_refreshViewFunctor(std::bind(&QtSearchView::doRefreshView, this))
 	, m_setMatchesFunctor(std::bind(&QtSearchView::doSetMatches, this, std::placeholders::_1))
 	, m_setFocusFunctor(std::bind(&QtSearchView::doSetFocus, this))
+	, m_findFulltextFunctor(std::bind(&QtSearchView::doFindFulltext, this))
 	, m_setAutocompletionListFunctor(std::bind(&QtSearchView::doSetAutocompletionList, this, std::placeholders::_1))
 {
 	m_widget = new QtSearchBar();
@@ -46,6 +47,11 @@ void QtSearchView::setFocus()
 	m_setFocusFunctor();
 }
 
+void QtSearchView::findFulltext()
+{
+	m_findFulltextFunctor();
+}
+
 void QtSearchView::setAutocompletionList(const std::vector<SearchMatch>& autocompletionList)
 {
 	m_setAutocompletionListFunctor(autocompletionList);
@@ -67,6 +73,12 @@ void QtSearchView::doSetFocus()
 {
 	getViewLayout()->showView(this);
 	m_widget->setFocus();
+}
+
+void QtSearchView::doFindFulltext()
+{
+	getViewLayout()->showView(this);
+	m_widget->findFulltext();
 }
 
 void QtSearchView::doSetAutocompletionList(const std::vector<SearchMatch>& autocompletionList)

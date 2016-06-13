@@ -406,6 +406,11 @@ void QtMainWindow::find()
 	MessageFind().dispatch();
 }
 
+void QtMainWindow::findFulltext()
+{
+	MessageFind(true).dispatch();
+}
+
 void QtMainWindow::overview()
 {
 	MessageSearch(std::vector<SearchMatch>(1, SearchMatch::createCommand(SearchMatch::COMMAND_ALL))).dispatch();
@@ -600,7 +605,10 @@ void QtMainWindow::setupEditMenu()
 		}
 	}
 
-	menu->addAction(tr("&Find"), this, SLOT(find()), QKeySequence::Find);
+	menu->addSeparator();
+
+	menu->addAction(tr("&Find Symbol"), this, SLOT(find()), QKeySequence::Find);
+	menu->addAction(tr("&Find Text"), this, SLOT(findFulltext()), QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_F));
 
 	menu->addSeparator();
 

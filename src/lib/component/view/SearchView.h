@@ -16,7 +16,10 @@ public:
 	virtual std::string getName() const;
 
 	virtual void setMatches(const std::vector<SearchMatch>& matches) = 0;
+
 	virtual void setFocus() = 0;
+	virtual void findFulltext() = 0;
+
 	virtual void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList) = 0;
 
 protected:

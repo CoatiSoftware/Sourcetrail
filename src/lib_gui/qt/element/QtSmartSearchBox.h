@@ -41,6 +41,7 @@ public:
 	void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList);
 	void setMatches(const std::vector<SearchMatch>& matches);
 	void setFocus();
+	void findFulltext();
 
 protected:
 	virtual bool event(QEvent *event);

@@ -24,6 +24,7 @@ public:
 
 	void setMatches(const std::vector<SearchMatch>& matches);
 	void setFocus();
+	void findFulltext();
 	void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList);
 
 	QAbstractItemView* getCompleterPopup();

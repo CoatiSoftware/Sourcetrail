@@ -111,6 +111,7 @@ public slots:
 	void openRecentProject();
 
 	void find();
+	void findFulltext();
 	void overview();
 
 	void closeWindow();

@@ -34,6 +34,8 @@ struct SearchMatch
 	static SearchMatch createCommand(CommandType type);
 	static std::string getCommandName(CommandType type);
 
+	static const char FULLTEXT_SEARCH_CHARACTER = '?';
+
 	SearchMatch();
 	SearchMatch(const std::string& query);
 

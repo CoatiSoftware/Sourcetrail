@@ -77,6 +77,11 @@ void QtSearchBar::setFocus()
 	m_searchBox->setFocus();
 }
 
+void QtSearchBar::findFulltext()
+{
+	m_searchBox->findFulltext();
+}
+
 void QtSearchBar::setAutocompletionList(const std::vector<SearchMatch>& autocompletionList)
 {
 	m_searchBox->setAutocompletionList(autocompletionList);

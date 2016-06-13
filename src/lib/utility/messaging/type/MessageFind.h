@@ -4,10 +4,12 @@
 #include "utility/messaging/Message.h"
 #include "utility/types.h"
 
-class MessageFind: public Message<MessageFind>
+class MessageFind
+	: public Message<MessageFind>
 {
 public:
-	MessageFind()
+	MessageFind(bool fulltext = false)
+		: findFulltext(fulltext)
 	{
 	}
 
@@ -15,6 +17,8 @@ public:
 	{
 		return "MessageFind";
 	}
+
+	bool findFulltext;
 };
 
 #endif // MESSAGE_FIND_H

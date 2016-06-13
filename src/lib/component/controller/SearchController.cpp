@@ -47,7 +47,14 @@ void SearchController::handleMessage(MessageActivateTokens* message)
 
 void SearchController::handleMessage(MessageFind* message)
 {
-	getView()->setFocus();
+	if (message->findFulltext)
+	{
+		getView()->findFulltext();
+	}
+	else
+	{
+		getView()->setFocus();
+	}
 }
 
 void SearchController::handleMessage(MessageSearchAutocomplete* message)
@@ -59,11 +66,8 @@ void SearchController::handleMessage(MessageSearchAutocomplete* message)
 void SearchController::handleMessage(MessageSearchFullText* message)
 {
 	LOG_INFO("fulltext string: \"" + message->searchTerm + "\"");
-	std::string prefix = "@";
-	if (message->caseSensitive)
-	{
-		prefix += "@";
-	}
+	std::string prefix(message->caseSensitive ? 2 : 1, SearchMatch::FULLTEXT_SEARCH_CHARACTER);
+
 	SearchMatch match(prefix + message->searchTerm);
 	match.searchType = SearchMatch::SEARCH_FULLTEXT;
 	getView()->setMatches(std::vector<SearchMatch>(1, match));

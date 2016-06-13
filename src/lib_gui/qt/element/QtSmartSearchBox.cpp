@@ -37,25 +37,21 @@ void QtSmartSearchBox::search()
 
 	std::vector<SearchMatch> matches = utility::toVector(m_matches);
 
-	LOG_INFO_STREAM(<< "Search query: " << SearchMatch::searchMatchesToString(matches) << text().toStdString());
-
 	MessageSearch(matches).dispatch();
 }
 
 void QtSmartSearchBox::fullTextSearch()
 {
 	std::string term = text().toStdString().substr(1);
-	if (term.at(0) == '@')
+	bool caseSensitive = false;
+
+	if (term.at(0) == SearchMatch::FULLTEXT_SEARCH_CHARACTER)
 	{
 		term = term.substr(1);
-		LOG_INFO_STREAM(<< "FullTextsearch(case sensitive): " << term);
-		MessageSearchFullText(term, true).dispatch();
+		caseSensitive = true;
 	}
-	else
-	{
-		LOG_INFO_STREAM(<< "FullTextsearch: " << term);
-		MessageSearchFullText(term).dispatch();
-	}
+
+	MessageSearchFullText(term, caseSensitive).dispatch();
 }
 
 QtSmartSearchBox::QtSmartSearchBox(QWidget* parent)
@@ -126,6 +122,15 @@ void QtSmartSearchBox::setFocus()
 	layoutElements();
 }
 
+void QtSmartSearchBox::findFulltext()
+{
+	QLineEdit::setFocus(Qt::ShortcutFocusReason);
+	selectAllElementsWith(true);
+	deleteSelectedElements();
+
+	setEditText(QChar(SearchMatch::FULLTEXT_SEARCH_CHARACTER));
+}
+
 bool QtSmartSearchBox::event(QEvent *event)
 {
 	if (event->type() == QEvent::KeyPress)
@@ -160,7 +165,7 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 
 	if (event->key() == Qt::Key_Return)
 	{
-		if (text().startsWith('@'))
+		if (text().startsWith(SearchMatch::FULLTEXT_SEARCH_CHARACTER))
 		{
 			fullTextSearch();
 			return;
