@@ -142,13 +142,15 @@ void PreprocessorCallbacks::onMacroUsage(const clang::Token& macroNameToken)
 
 ParseLocation PreprocessorCallbacks::getParseLocation(const clang::Token& macroNameTok) const
 {
-	clang::SourceLocation location = macroNameTok.getLocation();
+	const clang::SourceLocation& location = m_sourceManager.getSpellingLoc(macroNameTok.getLocation());
+	const clang::SourceLocation& endLocation = m_sourceManager.getSpellingLoc(macroNameTok.getEndLoc());
+
 	return ParseLocation(
-		m_sourceManager.getFilename(m_sourceManager.getFileLoc(location)),
+		m_sourceManager.getFilename(location),
 		m_sourceManager.getSpellingLineNumber(location),
 		m_sourceManager.getSpellingColumnNumber(location),
-		m_sourceManager.getSpellingLineNumber(macroNameTok.getEndLoc()),
-		m_sourceManager.getSpellingColumnNumber(macroNameTok.getEndLoc()) - 1
+		m_sourceManager.getSpellingLineNumber(endLocation),
+		m_sourceManager.getSpellingColumnNumber(endLocation) - 1
 	);
 }
 
