@@ -81,5 +81,6 @@ void QtLocationPicker::handleButtonPress()
 	if (!fileName.isEmpty())
 	{
 		m_data->setText(fileName);
+		emit locationPicked();
 	}
 }

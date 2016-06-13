@@ -19,7 +19,7 @@ void FileRegister::setFilePaths(const std::vector<FilePath>& filePaths)
 		{
 			FilePath path = p.exists() ? p.absolute() : p;
 
-			if (m_fileManager->hasSourceExtension(path))
+			if (m_fileManager->hasSourceFilePath(path))
 			{
 				m_sourceFilePaths.emplace(path, STATE_UNPARSED);
 			}

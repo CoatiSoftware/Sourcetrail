@@ -9,12 +9,7 @@ bool TestFileManager::hasFilePath(const FilePath& filePath) const
 	return true;
 }
 
-bool TestFileManager::hasSourceExtension(const FilePath& filePath) const
-{
-	return true;
-}
-
-bool TestFileManager::hasIncludeExtension(const FilePath& filePath) const
+bool TestFileManager::hasSourceFilePath(const FilePath& filePath) const
 {
 	return true;
 }

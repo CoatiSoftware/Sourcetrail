@@ -144,8 +144,8 @@ void QtProjectWizzardContentBuildFile::refreshClicked()
 		QMessageBox::question(
 			this,
 			"Refresh Paths",
-			"Do you really want to refresh from the given file? All changes you have made to the project's analyzed "
-			"paths and header search paths will be lost.",
+			"Do you really want to refresh from the given file? All changes you have made to the project paths "
+			"and include paths will be lost.",
 			QMessageBox::Yes | QMessageBox::No
 		);
 

@@ -10,8 +10,7 @@ public:
 	TestFileManager();
 
 	virtual bool hasFilePath(const FilePath& filePath) const;
-	virtual bool hasSourceExtension(const FilePath& filePath) const;
-	virtual bool hasIncludeExtension(const FilePath& filePath) const;
+	virtual bool hasSourceFilePath(const FilePath& filePath) const;
 
 	virtual const FileInfo getFileInfo(const FilePath& filePath) const;
 };

@@ -70,7 +70,7 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 
 	m_solutionDescription.push_back("Create a new Coati project by defining what files will be analyzed and header search paths.");
 	m_solutionDescription.push_back("Create a project from an existing Compilation Database. Compilation Databases can be created from "
-					"cmake projects. Have a look at the "
+					"Make and CMake projects. Have a look at the "
 					"<a href=\"https://staging.coati.io/documentation/#CreateAProjectFromCompilationDatabase\">"
 					"documentation</a> to find out more.");
 

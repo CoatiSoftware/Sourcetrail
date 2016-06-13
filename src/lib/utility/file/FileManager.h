@@ -29,7 +29,7 @@ public:
 	std::set<FilePath> getRemovedFilePaths() const;
 
 	virtual bool hasFilePath(const FilePath& filePath) const;
-	virtual bool hasSourceExtension(const FilePath& filePath) const;
+	virtual bool hasSourceFilePath(const FilePath& filePath) const;
 
 	virtual const FileInfo getFileInfo(const FilePath& filePath) const;
 
@@ -47,6 +47,8 @@ private:
 	std::set<FilePath> m_addedFiles;
 	std::set<FilePath> m_updatedFiles;
 	std::set<FilePath> m_removedFiles;
+
+	std::set<FilePath> m_sourceFiles;
 };
 
 #endif // FILE_MANAGER_H

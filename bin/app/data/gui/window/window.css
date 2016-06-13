@@ -25,6 +25,10 @@
 	margin-left: 20px;
 }
 
+#description {
+	font-size: 12pt;
+}
+
 #label {
 	font-size: 12pt;
 	font-weight: bold;

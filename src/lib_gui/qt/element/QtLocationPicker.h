@@ -22,6 +22,9 @@ public:
 	void setPickDirectory(bool pickDirectory);
 	void setFileFilter(const QString& fileFilter);
 
+signals:
+	void locationPicked();
+
 private slots:
 	void handleButtonPress();
 

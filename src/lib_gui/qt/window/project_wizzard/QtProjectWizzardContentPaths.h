@@ -64,7 +64,6 @@ public:
 
 	virtual void load() override;
 	virtual void save() override;
-	virtual bool check() override;
 
 	virtual QStringList getFileNames() const override;
 	virtual QString getFileNamesTitle() const override;

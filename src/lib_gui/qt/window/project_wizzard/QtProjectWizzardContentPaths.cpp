@@ -170,7 +170,10 @@ void QtProjectWizzardContentPaths::addDetection(QString name, QGridLayout* layou
 	hlayout->addWidget(m_detectorBox);
 	hlayout->addWidget(button);
 
-	layout->addLayout(hlayout, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
+	QWidget* detectionWidget = new QWidget();
+	detectionWidget->setLayout(hlayout);
+
+	layout->addWidget(detectionWidget, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
 }
 
 void QtProjectWizzardContentPaths::detectionClicked()
@@ -208,7 +211,7 @@ QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 		"Project Paths",
 		"Add all directories or files you want to analyse. Usually these are all source and header files of "
 		"your project or a subset of them.",
-		"Project Paths define the source files and directories that will be analyzed by Coati. Usually these are the "
+		"Project Paths define the files and directories that will be analyzed by Coati. Usually these are the "
 		"source and header files of your project or a subset of them."
 	);
 }
@@ -226,19 +229,6 @@ void QtProjectWizzardContentPathsSource::load()
 void QtProjectWizzardContentPathsSource::save()
 {
 	m_settings->setSourcePaths(m_list->getList());
-}
-
-bool QtProjectWizzardContentPathsSource::check()
-{
-	if (m_list->getList().size() == 0)
-	{
-		QMessageBox msgBox;
-		msgBox.setText("Please add at least one path.");
-		msgBox.exec();
-		return false;
-	}
-
-	return QtProjectWizzardContentPaths::check();
 }
 
 QStringList QtProjectWizzardContentPathsSource::getFileNames() const
@@ -300,12 +290,12 @@ QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 
 	setTitleString("Header Paths");
 	setDescriptionString(
-		"Add the header files or directories containing the header files of the source files above. These header files "
-		"or files within these directories will be analyzed if included."
+		"Where are the header files of the source files? Add the directories or files that should be "
+		"analyzed if included by one of the source files."
 	);
 	setHelpString(
 		"The compilation database only contains source files. Add the header files or directories containing the header "
-		"files of these source files. The header files will be analyzed if included."
+		"files here. Header files will be analyzed if included."
 	);
 }
 

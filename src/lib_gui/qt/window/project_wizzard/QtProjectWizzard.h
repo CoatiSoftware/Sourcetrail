@@ -34,11 +34,8 @@ public slots:
 	void newProject();
 
 	void newProjectFromSolution(const std::string& ideId, const std::string& visualStudioSolutionPath);
-
 	void refreshProjectFromSolution(const std::string& ideId, const std::string& visualStudioSolutionPath);
 
-	void newProjectFromCompilationDatabase(const std::string& compilationDatabasePath);
-	void refreshProjectFromCompilationDatabase(const std::string& compilationDatabasePath);
 	void editProject(const ProjectSettings& settings);
 	void showPreferences();
 
@@ -82,6 +79,7 @@ private slots:
 	void headerSearchPathsDone();
 	void frameworkSearchPaths();
 
+	void emptyProjectCDB();
 	void headerPathsCDB();
 	void headerPathsCDBDone();
 

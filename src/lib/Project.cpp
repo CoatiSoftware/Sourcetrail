@@ -250,14 +250,18 @@ void Project::updateFileManager()
 	std::vector<FilePath> sourcePaths = projSettings->getAbsoluteSourcePaths();
 	std::vector<FilePath> headerPaths = sourcePaths;
 
+	std::vector<std::string> sourceExtensions;
+
 	if (projSettings->getCompilationDatabasePath().exists())
 	{
 		sourcePaths = TaskParseCxx::getSourceFilesFromCDB(projSettings->getCompilationDatabasePath());
 	}
+	else
+	{
+		sourceExtensions = projSettings->getSourceExtensions();
+	}
 
 	std::vector<FilePath> excludePaths = projSettings->getAbsoluteExcludePaths();
-
-	std::vector<std::string> sourceExtensions = projSettings->getSourceExtensions();
 
 	m_fileManager.setPaths(sourcePaths, headerPaths, excludePaths, sourceExtensions);
 }

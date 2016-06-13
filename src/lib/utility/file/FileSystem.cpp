@@ -81,7 +81,8 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 					it.pop();
 					continue;
 				}
-				if (boost::filesystem::is_regular_file(*it) && hasExtension(it->path().string(), fileExtensions))
+				if (boost::filesystem::is_regular_file(*it) &&
+					(!fileExtensions.size() || hasExtension(it->path().string(), fileExtensions)))
 				{
 					std::time_t t = boost::filesystem::last_write_time(*it);
 					boost::posix_time::ptime lastWriteTime = boost::posix_time::from_time_t(t);
@@ -89,7 +90,7 @@ std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
 				}
 			}
 		}
-		else if (path.exists() && path.hasExtension(fileExtensions))
+		else if (path.exists() && (!fileExtensions.size() || path.hasExtension(fileExtensions)))
 		{
 			std::time_t t = boost::filesystem::last_write_time(path.path());
 			boost::posix_time::ptime lastWriteTime = boost::posix_time::from_time_t(t);

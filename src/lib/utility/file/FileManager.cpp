@@ -47,7 +47,7 @@ void FileManager::fetchFilePaths(const std::vector<FileInfo>& oldFileInfos)
 	for (std::map<FilePath, FileInfo>::iterator it = m_files.begin(); it != m_files.end(); it++)
 	{
 		const FilePath& filePath = it->first;
-		if (filePath.exists() && !hasSourceExtension(filePath))
+		if (filePath.exists() && !hasSourceFilePath(filePath))
 		{
 			FileInfo fileInfo = FileSystem::getFileInfoForPath(filePath);
 
@@ -63,6 +63,8 @@ void FileManager::fetchFilePaths(const std::vector<FileInfo>& oldFileInfos)
 		}
 	}
 
+	m_sourceFiles.clear();
+
 	std::vector<FileInfo> fileInfos = FileSystem::getFileInfosFromPaths(m_sourcePaths, m_sourceExtensions);
 	for (FileInfo fileInfo: fileInfos)
 	{
@@ -71,6 +73,8 @@ void FileManager::fetchFilePaths(const std::vector<FileInfo>& oldFileInfos)
 		{
 			continue;
 		}
+
+		m_sourceFiles.insert(filePath);
 
 		std::map<FilePath, FileInfo>::iterator it = m_files.find(filePath);
 		if (it != m_files.end())
@@ -112,7 +116,7 @@ std::set<FilePath> FileManager::getRemovedFilePaths() const
 
 bool FileManager::hasFilePath(const FilePath& filePath) const
 {
-	if (m_files.find(filePath) != m_files.end())
+	if (hasSourceFilePath(filePath))
 	{
 		return true;
 	}
@@ -133,9 +137,14 @@ bool FileManager::hasFilePath(const FilePath& filePath) const
 	return false;
 }
 
-bool FileManager::hasSourceExtension(const FilePath& filePath) const
+bool FileManager::hasSourceFilePath(const FilePath& filePath) const
 {
-	return filePath.hasExtension(m_sourceExtensions);
+	if (m_sourceFiles.find(filePath) != m_sourceFiles.end())
+	{
+		return true;
+	}
+
+	return false;
 }
 
 const FileInfo FileManager::getFileInfo(const FilePath& filePath) const

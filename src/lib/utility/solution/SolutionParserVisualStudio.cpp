@@ -157,8 +157,10 @@ std::vector<std::string> SolutionParserVisualStudio::getCompileFlags()
 
 	std::vector<std::string> validExtensions;
 	validExtensions.push_back(".c");
+	validExtensions.push_back(".cc");
 	validExtensions.push_back(".cpp");
 	validExtensions.push_back(".h");
+	validExtensions.push_back(".hh");
 	validExtensions.push_back(".hpp");
 
 	for (unsigned int i = 0; i < projectFiles.size(); i++)
@@ -301,8 +303,10 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 
 	std::vector<std::string> validFileExtensions;
 	validFileExtensions.push_back(".c");
+	validFileExtensions.push_back(".cc");
 	validFileExtensions.push_back(".cpp");
 	validFileExtensions.push_back(".h");
+	validFileExtensions.push_back(".hh");
 	validFileExtensions.push_back(".hpp");
 
 	for (unsigned int i = 0; i < projectFilesNames.size(); i++)
@@ -460,8 +464,10 @@ std::vector<std::string> SolutionParserVisualStudio::findIncludePaths()
 
 	std::vector<std::string> validExtensions;
 	validExtensions.push_back(".c");
+	validExtensions.push_back(".cc");
 	validExtensions.push_back(".cpp");
 	validExtensions.push_back(".h");
+	validExtensions.push_back(".hh");
 	validExtensions.push_back(".hpp");
 
 	for (unsigned int i = 0; i < projectFiles.size(); i++)

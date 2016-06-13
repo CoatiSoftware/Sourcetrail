@@ -15,8 +15,6 @@ class QtProjectWizzardContentData
 public:
 	QtProjectWizzardContentData(ProjectSettings* settings, QtProjectWizzardWindow* window);
 
-	void hideLanguage();
-
 	// QtProjectWizzardContent implementation
 	virtual void populateWindow(QGridLayout* layout) override;
 	virtual void populateForm(QGridLayout* layout, int& row) override;
@@ -27,7 +25,11 @@ public:
 
 	virtual QSize preferredWindowSize() const override;
 
-private:
+protected:
+	virtual void addNameAndLocation(QGridLayout* layout, int& row);
+	virtual void addLanguageAndStandard(QGridLayout* layout, int& row);
+	virtual void addBuildFilePicker(QGridLayout* layout, int& row, const QString& name, const QString& filter);
+
 	QLineEdit* m_projectName;
 	QtLocationPicker* m_projectFileLocation;
 
@@ -35,10 +37,29 @@ private:
 	QComboBox* m_cppStandard;
 	QComboBox* m_cStandard;
 
-	bool m_showLanguage;
+	QtLocationPicker* m_buildFilePicker;
 
 private slots:
 	void handleSelectionChanged(int index);
+};
+
+
+class QtProjectWizzardContentDataCDB
+	: public QtProjectWizzardContentData
+{
+	Q_OBJECT
+
+public:
+	QtProjectWizzardContentDataCDB(ProjectSettings* settings, QtProjectWizzardWindow* window);
+
+	virtual void populateForm(QGridLayout* layout, int& row) override;
+
+	virtual void load() override;
+	virtual void save() override;
+	virtual bool check() override;
+
+private slots:
+	void refreshClicked();
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_DATA_H
