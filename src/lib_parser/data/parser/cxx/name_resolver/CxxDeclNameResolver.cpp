@@ -47,7 +47,7 @@ NameHierarchy CxxDeclNameResolver::getDeclNameHierarchy()
 		}
 		else
 		{
-			LOG_ERROR("unhandled declaration type: " + std::string(m_declaration->getDeclKindName()));
+			// LOG_ERROR("unhandled declaration type: " + std::string(m_declaration->getDeclKindName()));
 		}
 
 		contextNameHierarchy = getContextNameHierarchy(m_declaration->getDeclContext());
@@ -118,8 +118,8 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 					else
 					{
 						//this if fixes the crash, but not the problem TODO
-						const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-						LOG_ERROR("Template getParam out of Range " + declaration->getLocation().printToString(sourceManager));
+						// const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+						// LOG_ERROR("Template getParam out of Range " + declaration->getLocation().printToString(sourceManager));
 					}
 					currentParameterIndex++;
 				}
@@ -277,7 +277,7 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 
 	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-	LOG_ERROR("could not resolve name of decl at: " + declaration->getLocation().printToString(sourceManager));
+	// LOG_ERROR("could not resolve name of decl at: " + declaration->getLocation().printToString(sourceManager));
 	return std::make_shared<NameElement>("anonymous symbol (" + FilePath(presumedBegin.getFilename()).fileName() + ")");
 }
 
@@ -304,7 +304,8 @@ std::string CxxDeclNameResolver::getTemplateParameterString(const clang::NamedDe
 		templateParameterTypeString = getTemplateParameterTypeString(clang::dyn_cast<clang::TemplateTemplateParmDecl>(parameter));
 		break;
 	default:
-		LOG_ERROR("Unhandled kind of template parameter.");
+		// LOG_ERROR("Unhandled kind of template parameter.");
+		break;
 	}
 
 	std::string parameterName = parameter->getName();
