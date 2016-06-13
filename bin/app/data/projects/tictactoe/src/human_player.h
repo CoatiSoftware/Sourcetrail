@@ -3,6 +3,7 @@
 
 #include "player.h"
 
+
 class HumanPlayer : public Player {
 public:
 	HumanPlayer( Field::Token token, const char* name  );

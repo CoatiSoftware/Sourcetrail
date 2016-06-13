@@ -150,18 +150,24 @@ void Project::parseCode()
 	utility::append(updatedFilePaths, m_storage->getDependingFilePaths(updatedFilePaths));
 	utility::append(updatedFilePaths, m_storage->getDependingFilePaths(removedFilePaths));
 
-	std::shared_ptr<TaskGroupSequential> taskSequential = std::make_shared<TaskGroupSequential>();
-
 	std::vector<FilePath> filesToClean;
 	filesToClean.insert(filesToClean.end(), removedFilePaths.begin(), removedFilePaths.end());
 	filesToClean.insert(filesToClean.end(), updatedFilePaths.begin(), updatedFilePaths.end());
-
-	taskSequential->addTask(std::make_shared<TaskCleanStorage>(m_storage.get(), filesToClean));
 
 	std::vector<FilePath> filesToParse;
 	filesToParse.insert(filesToParse.end(), addedFilePaths.begin(), addedFilePaths.end());
 	filesToParse.insert(filesToParse.end(), updatedFilePaths.begin(), updatedFilePaths.end());
 
+	m_state = PROJECT_LOADED;
+
+	if (!filesToClean.size() && !filesToParse.size())
+	{
+		MessageFinishedParsing(0, 0, 0, true).dispatch();
+		return;
+	}
+
+	std::shared_ptr<TaskGroupSequential> taskSequential = std::make_shared<TaskGroupSequential>();
+	taskSequential->addTask(std::make_shared<TaskCleanStorage>(m_storage.get(), filesToClean));
 
 	int indexerThreadCount = ApplicationSettings::getInstance()->getIndexerThreadCount();
 
@@ -189,8 +195,6 @@ void Project::parseCode()
 	}
 
 	Task::dispatch(taskSequential);
-
-	m_state = PROJECT_LOADED;
 }
 
 void Project::logStats() const

@@ -33,7 +33,7 @@ Task::TaskState TaskCleanStorage::update()
 
 	if (m_fileCount)
 	{
-		MessageStatus("Cleaning up names (ESC to quit)", false, true).dispatch();
+		MessageStatus("Clearing caches (ESC to quit)", false, true).dispatch();
 		m_storage->clearCaches();
 	}
 
