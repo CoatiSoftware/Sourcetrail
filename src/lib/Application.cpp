@@ -117,7 +117,10 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 
 void Application::loadProject(const FilePath& projectSettingsFilePath)
 {
-	m_componentManager->clearComponents();
+	if (m_hasGUI)
+	{
+		m_componentManager->clearComponents();
+	}
 
 	bool reparse = false;
 
