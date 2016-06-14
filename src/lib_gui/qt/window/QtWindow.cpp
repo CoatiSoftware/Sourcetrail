@@ -8,6 +8,7 @@
 
 #include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/utility/utilityQt.h"
+#include "settings/ApplicationSettings.h"
 #include "utility/ResourcePaths.h"
 
 QtWindow::QtWindow(QWidget* parent)
@@ -56,7 +57,10 @@ QtWindow::QtWindow(QWidget* parent)
 
 QSize QtWindow::sizeHint() const
 {
-	return QSize(500, 500);
+	return QSize(
+		ApplicationSettings::getInstance()->getWindowBaseWidth(),
+		ApplicationSettings::getInstance()->getWindowBaseHeight()
+	);
 }
 
 void QtWindow::setup()

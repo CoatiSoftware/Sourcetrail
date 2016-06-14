@@ -153,6 +153,16 @@ void ApplicationSettings::setIndexerThreadCount(const int count)
 	setValue<int>("application/indexer_thread_count", count);
 }
 
+int ApplicationSettings::getWindowBaseWidth() const
+{
+	return getValue<int>("application/window_base_width", 500);
+}
+
+int ApplicationSettings::getWindowBaseHeight() const
+{
+	return getValue<int>("application/window_base_height", 500);
+}
+
 int ApplicationSettings::getCodeTabWidth() const
 {
 	return getValue<int>("code/tab_width", 4);

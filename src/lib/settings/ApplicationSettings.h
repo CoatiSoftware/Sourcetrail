@@ -50,6 +50,9 @@ public:
 	int getIndexerThreadCount() const;
 	void setIndexerThreadCount(const int count);
 
+	int getWindowBaseWidth() const;
+	int getWindowBaseHeight() const;
+
 	// code
 	int getCodeTabWidth() const;
 	void setCodeTabWidth(int codeTabWidth);

@@ -2,6 +2,8 @@
 <config>
 	<application>
 		<indexer_thread_count>4</indexer_thread_count>
+		<window_base_width>500</window_base_width>
+		<window_base_height>500</window_base_height>
 	</application>
 	<user>
 		<recent_projects>
