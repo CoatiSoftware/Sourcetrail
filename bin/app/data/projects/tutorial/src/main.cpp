@@ -2,6 +2,19 @@
 #define MAIN_H
 
 
+#include "code_tutorial_1.h"
+#include "code_tutorial_2.h"
+#include "code_tutorial_3.h"
+#include "graph_tutorial_1.h"
+#include "graph_tutorial_2.h"
+#include "graph_tutorial_3.h"
+#include "graph_tutorial_4.h"
+#include "search_tutorial_1.h"
+#include "search_tutorial_2.h"
+#include "search_tutorial_3.h"
+#include "search_tutorial_4.h"
+#include "search_tutorial_5.h"
+
 #include "my_first_step.h"
 
 //------------------------------------------------------------------------------
