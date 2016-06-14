@@ -24,7 +24,7 @@ void QtProjectWizzardContentSimple::populateWindow(QGridLayout* layout, int& row
 	layout->setRowStretch(row, 0);
 
 	QLabel* text = new QLabel("Search for included files in all subdirectories of the project paths. "
-		"Warning: This slows down analysis speed.");
+		"Warning: This slows down indexing speed.");
 	text->setWordWrap(true);
 	layout->addWidget(text, row + 1, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
 	layout->setRowStretch(row + 1, 1);
@@ -44,8 +44,8 @@ void QtProjectWizzardContentSimple::populateForm(QGridLayout* layout, int& row)
 	layout->addWidget(m_checkBox, row, QtProjectWizzardWindow::BACK_COL);
 
 	addHelpButton("Check this box to search for included files in all subdirectories of the project paths. "
-		"This avoids setting them manually if you are not familiar with the project you want to analyse.\n"
-		"Warning: This option slows down analysis speed.", layout, row);
+		"This avoids setting them manually if you are not familiar with the project you want to index.\n"
+		"Warning: This option slows down indexing speed.", layout, row);
 
 	row++;
 }

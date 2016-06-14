@@ -68,7 +68,7 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 	QToolButton* c = createProjectButton(
 		"from Compilation\nDatabase", (ResourcePaths::getGuiPath() + "icon/project_cdb_256_256.png").c_str());
 
-	m_solutionDescription.push_back("Create a new Coati project by defining what files will be analyzed and header search paths.");
+	m_solutionDescription.push_back("Create a new Coati project by defining what files will be indexed.");
 	m_solutionDescription.push_back("Create a project from an existing Compilation Database. Compilation Databases can be created from "
 					"Make and CMake projects. Have a look at the "
 					"<a href=\"https://staging.coati.io/documentation/#CreateAProjectFromCompilationDatabase\">"

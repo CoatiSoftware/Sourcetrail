@@ -15,7 +15,7 @@ void QtProjectWizzardContentSourceList::populateWindow(QWidget* widget)
 	QVBoxLayout* layout = new QVBoxLayout(widget);
 	layout->setContentsMargins(0, 0, 0, 0);
 
-	m_text = new QLabel("0 files will be analyzed.");
+	m_text = new QLabel("0 files will be indexed.");
 	m_text->setWordWrap(true);
 	layout->addWidget(m_text);
 

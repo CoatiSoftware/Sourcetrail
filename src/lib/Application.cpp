@@ -130,8 +130,8 @@ void Application::loadProject(const FilePath& projectSettingsFilePath)
 			options.push_back("Yes");
 			options.push_back("No");
 			int result = m_mainView->confirm(
-				"The project file was changed after the last analysis. The project needs to get fully reanalysed to "
-				"reflect the current project state. Do you want to reanalyze the project?", options);
+				"The project file was changed after the last indexing. The project needs to get fully reindexed to "
+				"reflect the current project state. Do you want to reindex the project?", options);
 
 			reparse = (result == 0);
 		}
@@ -148,8 +148,8 @@ void Application::loadProject(const FilePath& projectSettingsFilePath)
 			options.push_back("Yes");
 			options.push_back("No");
 			int result = m_mainView->confirm(
-				"This project was analyzed with a different version of Coati. It needs to be fully reanalyzed to be used "
-				"with this version of Coati. Do you want to reanalyze the project?", options);
+				"This project was indexed with a different version of Coati. It needs to be fully reindexed to be used "
+				"with this version of Coati. Do you want to reindex the project?", options);
 
 			reparse = (result == 0);
 		}
@@ -246,8 +246,8 @@ void Application::handleMessage(MessageLoadProject* message)
 			options.push_back("Yes");
 			options.push_back("No");
 			int result = m_mainView->confirm(
-				"Some settings were changed, the project needs to be fully reanalyzed. "
-				"Do you want to reanalyze the project?", options);
+				"Some settings were changed, the project needs to be fully reindexed. "
+				"Do you want to reindex the project?", options);
 
 			if (result == 1)
 			{

@@ -82,5 +82,5 @@ QString QtProjectWizzardContentCDBSource::getFileNamesTitle() const
 
 QString QtProjectWizzardContentCDBSource::getFileNamesDescription() const
 {
-	return "source files will be analyzed.";
+	return "source files will be indexed.";
 }

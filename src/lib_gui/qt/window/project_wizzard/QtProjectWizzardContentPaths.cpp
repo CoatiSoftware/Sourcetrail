@@ -209,9 +209,9 @@ QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 
 	setInfo(
 		"Project Paths",
-		"Add all directories or files you want to analyse. Usually these are all source and header files of "
+		"Add all directories or files you want to index. Usually these are all source and header files of "
 		"your project or a subset of them.",
-		"Project Paths define the files and directories that will be analyzed by Coati. Usually these are the "
+		"Project Paths define the files and directories that will be indexed by Coati. Usually these are the "
 		"source and header files of your project or a subset of them."
 	);
 }
@@ -273,12 +273,12 @@ QStringList QtProjectWizzardContentPathsSource::getFileNames() const
 
 QString QtProjectWizzardContentPathsSource::getFileNamesTitle() const
 {
-	return "Analyzed Files";
+	return "Indexed Files";
 }
 
 QString QtProjectWizzardContentPathsSource::getFileNamesDescription() const
 {
-	return "files will be analyzed.";
+	return "files will be indexed.";
 }
 
 QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
@@ -291,11 +291,11 @@ QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 	setTitleString("Header Paths");
 	setDescriptionString(
 		"Where are the header files of the source files? Add the directories or files that should be "
-		"analyzed if included by one of the source files."
+		"indexed if included by one of the source files."
 	);
 	setHelpString(
 		"The compilation database only contains source files. Add the header files or directories containing the header "
-		"files here. Header files will be analyzed if included."
+		"files here. Header files will be indexed if included."
 	);
 }
 
@@ -307,8 +307,8 @@ QtProjectWizzardContentPathsExclude::QtProjectWizzardContentPathsExclude(
 {
 	setInfo(
 		"Exclude Paths",
-		"Add all directories or files you want to exclude from the analysis.",
-		"Exclude Paths define the files and directories that will be left out from the analysis by Coati."
+		"Add all directories or files you want to exclude from indexing.",
+		"Exclude Paths define the files and directories that will be left out from indexing."
 	);
 }
 
@@ -330,10 +330,10 @@ QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSear
 {
 	setInfo(
 		"Include Paths",
-		"Add the paths for resolving #include directives in the analyzed source and header files.",
+		"Add the paths for resolving #include directives in the indexed source and header files.",
 		"Include Paths define where additional files, that your project depends on, are found. Usually they are "
-		"header files of frameworks or libraries that your project uses. These files won't be analyzed, but Coati needs "
-		"them for correct analysis."
+		"header files of frameworks or libraries that your project uses. These files won't be indexed, but Coati needs "
+		"them for correct indexing."
 	);
 }
 
@@ -363,8 +363,8 @@ QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHead
 		"(See <a href=\"https://coati.io/documentation/#FindingSystemHeaderLocations\">Finding System Header Locations</a> "
 		"or use the auto detection below).",
 		"Include Paths define where additional files, that your project depends on, are found. Usually they are "
-		"header files of frameworks or libraries that your project uses. These files won't be analyzed, but Coati needs "
-		"them for correct analysis.\n\n"
+		"header files of frameworks or libraries that your project uses. These files won't be indexed, but Coati needs "
+		"them for correct indexing.\n\n"
 		"Include Paths defined here will be used for all projects."
 	);
 

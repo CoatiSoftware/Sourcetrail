@@ -73,7 +73,7 @@ Task::TaskState TaskParseCxx::update()
 	}
 
 	std::stringstream ss;
-	ss << "analyzing files (ESC to quit): [";
+	ss << "indexing files (ESC to quit): [";
 	ss << fileRegister->getParsedSourceFilesCount() << "/";
 	ss << fileRegister->getSourceFilesCount() << "] ";
 	ss << sourcePath.str();

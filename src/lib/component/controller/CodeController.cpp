@@ -70,7 +70,7 @@ void CodeController::handleMessage(MessageActivateAll* message)
 
 	if (stats.errorCount.total > 0)
 	{
-		ss << "\tWarning: The analysis may be incomplete as long as it yields fatal errors.\n";
+		ss << "\tWarning: Indexing may be incomplete as long as it yields fatal errors.\n";
 		ss << "\tTry resolving them and refresh the project.\n";
 		ss << "\n";
 	}

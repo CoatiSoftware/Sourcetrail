@@ -62,12 +62,12 @@ void QtProjectWizzardContentPreferences::populateForm(QGridLayout* layout, int& 
 	layout->setRowMinimumHeight(row++, 20);
 
 
-	// analysis
-	layout->addWidget(createFormTitle("ANALYSIS"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
+	// indexing
+	layout->addWidget(createFormTitle("INDEXING"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
 	row++;
 
-	// analysis threads
-	QLabel* threadsLabel = createFormLabel("Analysis threads");
+	// indexer threads
+	QLabel* threadsLabel = createFormLabel("Indexer threads");
 
 	m_threads = new QComboBox();
 	for (int i = 1; i <= 24; i++)
@@ -79,7 +79,7 @@ void QtProjectWizzardContentPreferences::populateForm(QGridLayout* layout, int& 
 	layout->addWidget(m_threads, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
 
 	addHelpButton(
-		"Number of parallel threads used to analyse your projects."
+		"Number of parallel threads used to index your projects."
 		, layout, row
 	);
 

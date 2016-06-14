@@ -38,7 +38,7 @@ public:
 		}
 
 		std::stringstream ss;
-		ss << "Finished analysis: ";
+		ss << "Finished indexing: ";
 		ss << fileCount << "/" << totalFileCount << " files; ";
 
 		float secondsLeft = parseTime;

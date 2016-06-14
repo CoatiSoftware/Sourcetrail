@@ -15,7 +15,7 @@ void QtProjectWizzardContentFlags::populateForm(QGridLayout* layout, int& row)
 	label->setObjectName("label");
 	layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 
-	addHelpButton("Define compiler flags used during analysis including the dash e.g. -v", layout, row);
+	addHelpButton("Define compiler flags used during indexing including the dash e.g. -v", layout, row);
 
 	m_list = new QtDirectoryListBox(this, true);
 	layout->addWidget(m_list, row, QtProjectWizzardWindow::BACK_COL);

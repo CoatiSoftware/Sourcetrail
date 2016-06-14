@@ -51,7 +51,7 @@ void TaskParseWrapper::exit()
 
 void TaskParseWrapper::interrupt()
 {
-	MessageStatus("analyzing files interrupted", false, true).dispatch();
+	MessageStatus("indexing files interrupted", false, true).dispatch();
 	m_child->interrupt();
 }
 
