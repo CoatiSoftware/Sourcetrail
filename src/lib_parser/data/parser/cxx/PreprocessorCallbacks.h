@@ -6,6 +6,8 @@
 #include "clang/Lex/PPCallbacks.h"
 #include "clang/Lex/Token.h"
 
+#include "utility/file/FilePath.h"
+
 class FileRegister;
 class ParserClient;
 
@@ -50,6 +52,8 @@ private:
 	const clang::SourceManager& m_sourceManager;
 	ParserClient* m_client;
 	FileRegister* m_fileRegister;
+
+	FilePath m_currentPath;
 };
 
 #endif // PREPROCESSOR_CALLBACKS_H

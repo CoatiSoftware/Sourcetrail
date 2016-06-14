@@ -19,25 +19,29 @@ PreprocessorCallbacks::PreprocessorCallbacks(
 }
 
 void PreprocessorCallbacks::FileChanged(
-	clang::SourceLocation location, FileChangeReason reason, clang::SrcMgr::CharacteristicKind, clang::FileID)
+	clang::SourceLocation location, FileChangeReason reason, clang::SrcMgr::CharacteristicKind, clang::FileID prevID)
 {
-	if (reason != EnterFile)
-	{
-		return;
-	}
+	FilePath filePath;
 
 	const clang::FileEntry *fileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(location));
-	if (!fileEntry)
+	if (fileEntry)
 	{
-		return;
+		filePath = FilePath(fileEntry->getName()).canonical();
 	}
 
-	FilePath filePath = FilePath(fileEntry->getName()).canonical();
-
-	if (m_fileRegister->hasFilePath(filePath) && !m_fileRegister->includeFileIsParsed(filePath))
+	if (!filePath.empty() && m_fileRegister->hasFilePath(filePath) && !m_fileRegister->fileIsParsed(filePath))
 	{
-		m_client->onFileParsed(m_fileRegister->getFileInfo(filePath));
-		m_fileRegister->markIncludeFileParsing(filePath);
+		m_currentPath = filePath;
+
+		if (reason == EnterFile && !m_fileRegister->includeFileIsParsed(filePath))
+		{
+			m_client->onFileParsed(m_fileRegister->getFileInfo(filePath));
+			m_fileRegister->markIncludeFileParsing(filePath);
+		}
+	}
+	else
+	{
+		m_currentPath = FilePath();
 	}
 }
 
@@ -69,14 +73,7 @@ void PreprocessorCallbacks::InclusionDirective(
 
 void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, const clang::MacroDirective* macroDirective)
 {
-	const std::string& fileStr = m_sourceManager.getFilename(macroNameToken.getLocation());
-	if (!fileStr.size())
-	{
-		return;
-	}
-
-	FilePath filePath = FilePath(fileStr);
-	if (m_fileRegister->hasFilePath(filePath) && !m_fileRegister->fileIsParsed(filePath))
+	if (!m_currentPath.empty())
 	{
 		// ignore builtin macros
 		if (m_sourceManager.getSpellingLoc(macroNameToken.getLocation()).printToString(m_sourceManager)[0] == '<')
@@ -124,14 +121,7 @@ void PreprocessorCallbacks::MacroExpands(
 
 void PreprocessorCallbacks::onMacroUsage(const clang::Token& macroNameToken)
 {
-	const std::string& fileStr = m_sourceManager.getFilename(m_sourceManager.getFileLoc(macroNameToken.getLocation()));
-	if (!fileStr.size())
-	{
-		return;
-	}
-
-	FilePath filePath = FilePath(fileStr);
-	if (m_fileRegister->hasFilePath(filePath) && !m_fileRegister->fileIsParsed(filePath))
+	if (!m_currentPath.empty())
 	{
 		NameHierarchy nameHierarchy;
 		nameHierarchy.push(std::make_shared<NameElement>(macroNameToken.getIdentifierInfo()->getName().str()));
