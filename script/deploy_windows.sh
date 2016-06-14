@@ -129,10 +129,12 @@ mkdir -p $APP_PACKAGE_DIR
 cp -u -r deployment/windows/CoatiAppSetup/CoatiSetup/Release/Coati.msi $APP_PACKAGE_DIR/
 cp -u -r deployment/windows/CoatiAppSetup/CoatiSetup/Release/setup.exe $APP_PACKAGE_DIR/
 
-mkdir -p $APP_PACKAGE_DIR/plugins/visual_studio/
-cp -u -r ide_plugins/vs/coati_plugin_vs.vsix $APP_PACKAGE_DIR/plugins/visual_studio/
 mkdir -p $APP_PACKAGE_DIR/plugins/sublime_text/
 cp -u -r ide_plugins/sublime_text/* $APP_PACKAGE_DIR/plugins/sublime_text/
+mkdir -p $APP_PACKAGE_DIR/plugins/vim/
+cp -u -r ide_plugins/vim/* $APP_PACKAGE_DIR/plugins/vim/
+mkdir -p $APP_PACKAGE_DIR/plugins/visual_studio/
+cp -u -r ide_plugins/vs/coati_plugin_vs.vsix $APP_PACKAGE_DIR/plugins/visual_studio/
 
 
 # PACKAGING COATI (APP)
