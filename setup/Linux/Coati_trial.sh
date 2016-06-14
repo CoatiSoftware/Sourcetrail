@@ -21,6 +21,6 @@ cp -nr $COATI_PATH/user/* ${HOME}/.config/coatitrial/
 
 export LD_LIBRARY_PATH="$COATI_PATH/lib:LD_LIBRARY_PATH"
 export QT_XKB_CONFIG_ROOT="/usr/share/X11/xkb:$QT_XKB_CONFIG_ROOT"
-#export QT_QPA_FONTDIR="$COATI_PATH/data/fonts:$QT_QPA_FONTDIR"
+export QT_QPA_FONTDIR="$COATI_PATH/data/fonts:$QT_QPA_FONTDIR"
 exec $COATI_PATH/Coati_trial
 
