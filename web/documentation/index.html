@@ -13,6 +13,23 @@
 		<link type="text/css" rel="stylesheet" href="css/jquery.tocify.css" />
 		<link type="text/css" rel="stylesheet" href="css/jquery-ui.min.css" />
 
+		<!-- Piwik -->
+<!-- 		<script type="text/javascript">
+		  var _paq = _paq || [];
+		  _paq.push(['trackPageView']);
+		  _paq.push(['enableLinkTracking']);
+		  (function() {
+		    var u="//piwik.coati.io/";
+		    _paq.push(['setTrackerUrl', u+'piwik.php']);
+		    _paq.push(['setSiteId', 1]);
+		    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+		    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+		  })();
+		</script>
+		<noscript><p><img src="//piwik.coati.io/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript> -->
+		<!-- End Piwik Code -->
+
+
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -73,10 +90,10 @@
 						</div>
 					</div>
 					<div class="row" style="text-align:center;">
-						<p>Documentation for version 0.6</p>
+						<p>Documentation for version 0.7</p>
 					</div>
 
-					<div class="row" style="height:120px;"></div>
+					<div class="row" style="height:40px;"></div>
 					<address>
 						<strong>Coati Software OG.</strong><br>
 						Schlossallee 1/7<br>
@@ -90,7 +107,7 @@
 						<a href="mailto:mail@coati.io" target="_top">mail@coati.io</a><br>
 					</address>
 
-					<div class="row" style="height:40px;"></div>
+					<div class="row" style="height:20px;"></div>
 
 					<h1>QUICK START GUIDE</h1>
 					<p>This short introduction will briefly guide you through the project setup and the user interface of Coati. The bullet point lists will tell you what to do:</p>
@@ -103,14 +120,14 @@
 
 
 					<h2>Short description</h2>
-					<p>Coati is an interactive source explorer that simplifies navigation in existing source code. Coati's aim is to give answers to all your questions about your source code. Coati first analyses your code and gathers data about its structure and then provides you with a simple interface consisting of three linked views, each having a key role in getting information:</p>
+					<p>Coati is an interactive source explorer that simplifies navigation in existing source code. Coati's aim is to give answers to all your questions about your source code. Coati first indexes your code and gathers data about its structure and then provides you a simple interface consisting of three interactive views, each playing a key role in getting information:</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/concept.png" style="width:100%;">
 						</div>
 					</div>
 					<ul>
-						<li><strong>Search:</strong> Use the search field to quickly find and select analyzed symbols in your source code. The autocompletion box will instantly provide an overview of all matching results throughout your codebase.</li>
+						<li><strong>Search:</strong> Use the search field to quickly find and select indexed symbols in your source code. The autocompletion box will instantly provide an overview of all matching results throughout your codebase.</li>
 						<li><strong>Graph:</strong> The graph displays the structure of your source code. It focuses on the currently selected symbol and directly shows all incoming and outgoing dependencies to other symbols.</li>
 						<li><strong>Code:</strong> The Code view displays all source locations of the currently selected symbol in a list of code snippets. Clicking on a different source location allows you to change the selection and dig deeper.</li>
 					</ul>
@@ -159,20 +176,77 @@
 
 					<h2>Creating a Project</h2>
 					<p>When creating a new Coati project you will use the <a href="#ProjectSetupWizard">project setup wizard</a>. This wizard splits the setup process into several subsequent steps.</p>
-					<p>The simplest way to set up a Coati project would be the following:</p>
+					<p>The simplest way to set up a Coati project is:</p>
+
+
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/project_setup_guide_select.png" style="width:100%;">
+						</div>
+					</div>
+
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
 							<li>Pick your project's programming language, select the empty project option and click <var>Next</var>.</li>
-							<li>Enter all of the project's meta information and click <var>Next</var>.</li>
-							<li>Provide the root directory that contains all your project's source and header files and click <var>Next</var>.</li>
-							<li>If your project requires any external headers to compile (e.g. Boost for C++), please provide the paths here and click <var>Next</var>.</li>
-							<li>You just completed the project setup. Click <var>Create</var> close the dialog. Coati will start analyzing your files now.</li>
 						</ul>
 					</div>
 
-					<h2>Source Analysis</h2>
-					<p>Coati will now start analyzing your source files, which might take a little while. The <a href="#Statusbar">status bar</a> will give you information about the progress. Otherwise the UI will be empty. Coati analyses all named symbols and their relationships throughout the provided source files.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/project_setup_guide_data.png" style="width:100%;">
+						</div>
+					</div>
+
+					<div class="callout callout-info">
+						<strong>Tasks:</strong>
+						<ul>
+							<li>Enter the project's name and location, define language standard and click <var>Next</var>.</li>
+						</ul>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/project_setup_guide_paths.png" style="width:100%;">
+						</div>
+					</div>
+
+					<div class="callout callout-info">
+						<strong>Tasks:</strong>
+						<ul>
+							<li>Provide the root directory that contains all your project's source and header files and click <var>Next</var>.</li>
+						</ul>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/project_setup_guide_include.png" style="width:100%;">
+						</div>
+					</div>
+
+					<div class="callout callout-info">
+						<strong>Tasks:</strong>
+						<ul>
+							<li>If your project requires any external headers to compile (e.g. Boost for C++). Please provide the paths here and click <var>Next</var>.</li>
+							<li>Your project will probably include system headers (e.g. STL). Please provide the paths at Global Include Paths or click <var>Detect</var> to automatically retrieve them.</li>
+						</ul>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/project_setup_guide_summary.png" style="width:100%;">
+						</div>
+					</div>
+
+					<div class="callout callout-info">
+						<strong>Tasks:</strong>
+						<ul>
+							<li>As last step a summary of all settings is shown. Click <var>Create</var> to close the dialog. Coati will start indexing your files now.</li>
+						</ul>
+					</div>
+
+					<h2>Source Indexing</h2>
+					<p>Coati will now start indexing your source files, which might take a little while. The <a href="#Statusbar">status bar</a> will give you information about the progress. Otherwise the UI will be empty. Coati indexes all named symbols and their relationships throughout the provided source files.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/analyse.png" style="width:100%;">
@@ -181,11 +255,11 @@
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
-							<li>Wait until the analysis of your source files has finished.</li>
-							<li>or Press ESC to stop the analysis (Coati will provide all information gathered so far and the analysis can be continued later by <a href="#Refresh">refreshing</a>).</li>
+							<li>Wait until the indexing of your source files has finished.</li>
+							<li>or Press ESC to stop indexing (Coati will provide all information gathered so far and the indexing can be continued later by <a href="#Refresh">refreshing</a>).</li>
 						</ul>
 					</div>
-					<p>After the analysis has finished, Coati will show an overview of all analysed symbols in the <a href="#GraphView">graph view</a> and some statistics in the <a href="#CodeView">code view</a>. If the analysis found errors in your code, the code view will display them. You can see the error message by hovering an error's location.</p>
+					<p>After indexing has finished, Coati will show an overview of all indexed symbols in the <a href="#GraphView">graph view</a> and some statistics in the <a href="#CodeView">code view</a>. If the indexing yielded errors, the code view will display them. You can see the error message by hovering an error's location.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/error_view.png" style="width:100%;">
@@ -194,8 +268,8 @@
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
-							<li>Fix your errors and <a href="#Refresh">refresh</a> to reanalyze the files with errors (Open Issue: As long as there was no change in the specific file, Coati won't reanalyze it, do a <a href="#ForceRefresh">force refresh</a> until fixed).</li>
-							<li>or ignore them and continue with an incomplete analysis.</li>
+							<li>Fix your errors and <a href="#Refresh">refresh</a> to reindex the files with errors (Open Issue: As long as there was no change in the specific file, Coati won't reindex it, do a <a href="#ForceRefresh">force refresh</a> until fixed).</li>
+							<li>or ignore them and continue with an incomplete index.</li>
 						</ul>
 					</div>
 
@@ -210,7 +284,7 @@
 					<p>The three views show information about the currently selected symbol. The search field provides the name, the graph visualization shows its relationships to other symbols and the code view displays all locations the symbol gets referenced throughout the codebase.</p>
 
 					<h3>Search Field</h3>
-					<p>The <a href="#Searchbar">search field</a> allows for easy access to all analyzed symbols. Use it to find all the classes and functions you wish to investigate. Apart from that is also holds the UI buttons for navigating <a href="#Back&Forward">back & forward</a> as well as <a href="#Refresh">refreshing</a>.</p>
+					<p>The <a href="#Searchbar">search field</a> allows for easy access to all indexed symbols. Use it to find all the classes and functions you wish to investigate. Apart from that is also holds the UI buttons for navigating <a href="#Back&Forward">back & forward</a> as well as <a href="#Refresh">refreshing</a>.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/search_view.png" style="width:100%;">
@@ -249,7 +323,7 @@
 					</table>
 
 					<h4>Hatching:</h4>
-					<p>Nodes displayed with a striped hatching, are nodes that were used within your analyzed source files, but were not analyzed themselves. Clicking them shows all locations where they are used, without providing where they got defined.</p>
+					<p>Nodes displayed with a striped hatching, are nodes that were used within your indexed source files, but were not defined. Clicking them shows all locations where they are used, without providing their declaration.</p>
 					<div class="row">
 						<div class="col-xs-4 col-sm-2 col-xs-offset-4 col-sm-offset-5">
 							<img src="img/node_undefined.png" style="width:100%;">
@@ -257,7 +331,7 @@
 					</div>
 
 					<h3>Code View</h3>
-					<p>The <a href="#CodeView">code view</a> displays all locations of the currently active symbol within the analyzed source files. It does not allow for editing the source code. Syntax highlighting is used to increase readability. Source locations that are surrounded by a box when hovered can be clicked to activate the respective symbol. Active source locations are highlighted.</p>
+					<p>The <a href="#CodeView">code view</a> displays all locations of the currently active symbol within the indexed source files. It does not allow for editing the source code. Syntax highlighting is used to increase readability. Source locations that are surrounded by a box when hovered can be clicked to activate the respective symbol. Active source locations are highlighted.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/code_view.png" style="width:100%;">
@@ -295,7 +369,7 @@
 
 
 					<h2>Start exploring!</h2>
-					<p>After reading this quick guide, you know the basics of Coati's user interface and you are able to start exploring your codebase. Coati will allow you to see your source code from a whole new perspective, by giving you a concise overview of its parts and a faster way of drilling down to its internals while always maintaining the connection to the implementation details of the actual source code.</p>
+					<p>After reading this quick guide, you know the basics of Coati's user interface and you are able to start exploring your codebase. Coati will allow you to see your source code from a whole new perspective, by giving you a concise overview of its parts and a faster way of drilling down to its internals, while always maintaining the connection to the implementation details of the actual source code.</p>
 					<p>For more detailed information please have a look at the much more extensive instruction manual below.</p>
 					<p>If you have feedback for us, please don't hesitate and let us know by writing to <a href="mailto:support@coati.io" target="_top">support@coati.io</a>, we'd be glad to hear from you.</p>
 					<p>The Coati team wishes you a good start with our product, lots of saved time, increased productivity and much cleaner code.</p>
@@ -318,16 +392,16 @@
 
 					<h2>Supported Languages</h2>
 					<h3>C</h3>
-					<p>C support is powered by <a href="http://clang.llvm.org/" target="_blank">Clang 3.7</a>. If you have a problem loading C code, please have a look at <a href="http://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug at our <a href="https://github.com/CoatiSoftware/CoatiBugTracker">bug tracker</a>.</p>
+					<p>C support is powered by <a href="http://clang.llvm.org/" target="_blank">Clang 3.8</a>. If you have a problem loading C code, please have a look at <a href="http://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug at our <a href="https://github.com/CoatiSoftware/CoatiBugTracker">bug tracker</a>.</p>
 
 					<h3>C++</h3>
-					<p>C++ support is powered by <a href="http://clang.llvm.org/" target="_blank">Clang 3.7</a>. For more Information please visit <a href="http://clang.llvm.org/cxx_status.html" target="_blank">Clang C++ Status</a>. If you have a problem loading C++ code, please have a look at <a href="http://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug at our <a href="https://github.com/CoatiSoftware/CoatiBugTracker">bug tracker</a>.</p>
+					<p>C++ support is powered by <a href="http://clang.llvm.org/" target="_blank">Clang 3.8</a>. For more Information please visit <a href="http://clang.llvm.org/cxx_status.html" target="_blank">Clang C++ Status</a>. If you have a problem loading C++ code, please have a look at <a href="http://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug at our <a href="https://github.com/CoatiSoftware/CoatiBugTracker">bug tracker</a>.</p>
 
 					<h2>FAQ</h2>
 
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Can I use Coati on confidental code?</h3>
+							<h3 class="panel-title">Can I use Coati on confidental source code?</h3>
 						</div>
 						<div class="panel-body">
 							Yes. Coati works completely offline and establishes no connection to the internet whatsoever. All data stays on your computer.
@@ -336,12 +410,12 @@
 
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">What happens to the data?</h3>
+							<h3 class="panel-title">What happens to the indexed data?</h3>
 						</div>
 						<div class="panel-body">
-							<p>Coati does two things with the data collected during analysis:</p>
+							<p>Coati does two things with the data collected during indexing:</p>
 							<ol>
-								<li>The data is stored in the <code>.coatidb</code> file in the same directory as the <code>.coatiproject</code> file. This data file is used by Coati to serve its purpose of letting you navigate your source code. And it allows Coati to reopen the project without reanalysing the source code.</li>
+								<li>The data is stored in the <code>.coatidb</code> file in the same directory as the <code>.coatiproject</code> file. This database file is used by Coati to serve its purpose of letting you navigate your source code. And it allows Coati to reopen the project without reindexing the source code every time.</li>
 								<li>Some of the data gets logged into a log file saved in <a href="#Datafolder">data</a>/logs. These logs can be useful to us for fixing bugs. We might ask for log information on bug reports, but you should only provide it, if your source code is not confidental.</li>
 							</ol>
 						</div>
@@ -423,7 +497,7 @@
 
 					<h3>Statusbar</h3>
 					<p>The Statusbar is located on the bottom of the <a href="#MainWindow">Main Window</a> and is used to convey information about Coati's status and currently running processes to the user.</p>
-					<p>If your analysis yielded errors the status bar will display their count on the right side.
+					<p>If indexing yielded errors the status bar will display their count on the right side.
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/status_bar.png" style="width:100%;">
@@ -436,7 +510,7 @@
 						</ul>
 					</p>
 
-					<h2>Other Windows</h2>
+					<h2>Windows</h2>
 					<h3>Start Window</h3>
 					<p>On every start of Coati you are shown the start window. It allows for creating new projects or opening existing ones.</p>
 					<div class="row">
@@ -482,14 +556,36 @@
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Header Search Paths</th> <td>Set header search paths that are used for <strong>all</strong> of your projects (e.g. std headers). An option for automatic detection of these paths is available for Clang, GCC and the Visual Studio compiler. (For instructions on how to add paths manually see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>.)</td> </tr>
-							<tr> <th scope="row">Framework Search Paths</th> <td>Mac only. Define the search paths for <code>.framework</code> files for all of your projects. An option for automatic detection of these paths is available for Clang and GCC. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+							<tr>
+								<th scope="row">Font face</th>
+								<td>Define the font face used throughout the UI</td>
+							</tr>
+							<tr>
+								<th scope="row">Font size</th>
+								<td>Set the font size used throughout the UI. It can also be changed with the actions in the <a href="#View">View Menu</a></td>
+							</tr>
+							<tr>
+								<th scope="row">Tab width</th>
+								<td>Define the space width of tabs in the code view.</td>
+							</tr>
+							<tr>
+								<th scope="row">Indexer threads</th>
+								<td>Define how many parallel threads are used during indexing.</td>
+							</tr>
+							<tr>
+								<th scope="row">Header Search Paths</th>
+								<td>Set header search paths that are used for <strong>all</strong> of your projects (e.g. std headers). An option for automatic detection of these paths is available for Clang, GCC and the Visual Studio compiler. (For instructions on how to add paths manually see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>.)</td>
+							</tr>
+							<tr>
+								<th scope="row">Framework Search Paths</th>
+								<td>Mac only. Define the search paths for <code>.framework</code> files for all of your projects. An option for automatic detection of these paths is available for Clang and GCC. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td>
+							</tr>
 						</tbody>
 					</table>
 
 
 					<h3>Project Setup Wizard</h3>
-					<p>The Project Setup Wizard consists of a sequence of windows that lets you create a new Coati project. After selecting the programming language for your project Coati offers several ways for you to provide all the required information.</p>
+					<p>The Project Setup Wizard consists of a sequence of windows that let you create a new Coati project. After selecting the programming language for your project Coati offers several ways for you to provide all the required information.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/project_setup_wizard_start.png" style="width:100%;">
@@ -503,11 +599,13 @@
 						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
 					</ul>
 
+					<div class="row" style="height:20px;"></div>
+
 					<h4>Create an Empty Project</h4>
-					<p>This is the way to go if you just have some source files you want to analyze and you don't have any files that instruct your compiler how to build a binary from those files. In case you actually have such a build instructions file, you might want to check out one of the other options for project setup described below.</p>
+					<p>This is the way to go if you just have some source files you want to index. In case you have a build instructions file, you might want to check out one of the other options for project setup described below.</p>
 
 					<strong>Project Meta Data</strong>
-					<p>In this first step Coati needs you to enter some meta information about the project.</p>
+					<p>In the first step you need to enter meta information about the project.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/project_setup_wizard_empty_meta.png" style="width:100%;">
@@ -518,21 +616,23 @@
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Name</th> <td>The name of the project. This will also be the name of the *.coatiproject file generated by Coati.</td> </tr>
+							<tr> <th scope="row">Name</th> <td>The name of the project. This will also be the name of the <code>.coatiproject</code> file generated by Coati.</td> </tr>
 							<tr> <th scope="row">Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
 							<tr> <th scope="row">Language</th> <td>Select the language of your project. This setting is preselected according to your choice in the previous screen. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
-							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for analyzing your project. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
+							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for indexing your project. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
 						</tbody>
 					</table>
 					<strong>Interactions:</strong>
 					<ul>
 						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
 						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> take you to the previous step of the setup process. All the information you entered will be saved.</li>
+						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
 					</ul>
 
+					<div class="row" style="height:20px;"></div>
+
 					<strong>Project Paths</strong>
-					<p>Provide the paths that contain your project's files. Coati will analyze all the source and header files in the specified paths, including subdirectories.</p>
+					<p>Provide the paths that contain your project's files. Coati will index all the source and header files in the specified paths, including subdirectories.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/project_setup_wizard_empty_project_paths.png" style="width:100%;">
@@ -543,20 +643,25 @@
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">Project Paths</th> <td>Specify one or multiple locations that contain all the source and header files that should be analyzed by Coati. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+							<tr> <th scope="row">Project Paths</th> <td>Specify one or multiple locations that contain all the source and header files that should be indexed by Coati. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+						</tbody>
+						<tbody>
+							<tr> <th scope="row">Source File Extensions</th> <td>Define the valid extensions for source files including the dot e.g. <code>.cpp</code></td> </tr>
 						</tbody>
 					</table>
 					<strong>Interactions:</strong>
 					<ul>
-						<li>Clicking <var>show files</var> will display a list of all the files Coati will analyze with the current settings.</li>
+						<li>Clicking <var>show files</var> will display a list of all the files Coati will index with the current settings.</li>
 						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
 						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
-						<li>Clicking <var>Previous</var> take you to the previous step of the setup process. All the information you entered will be saved.</li>
+						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
 					</ul>
 
+					<div class="row" style="height:20px;"></div>
+
 					<strong>Include Paths</strong>
-					<p>Coati needs you to specify all the include paths the analyzed source files rely on. Project include paths are those paths your project's <code>#include</code> directives are relative to. If your project requires additional includes to compile (e.g. Boost for C++, etc.), please specify them here.</p>
-					<p>Additionally you can also specify Global Header Search Paths, which will be used by all your projects. These are usually the paths to system headers, which can also be auto detected by choosing a compiler below and pressing <var>detect</var>.</p>
+					<p>Coati needs you to specify all the include paths the indexed source and header files rely on. The include paths are those paths your project's <code>#include</code> directives are relative to. If your project requires additional includes to compile (e.g. Boost for C++, etc.), please specify their location here.</p>
+					<p>Additionally you can also specify Global Include Paths, which will be used by all your projects. These are usually the paths to system headers, which can also be auto detected by choosing a compiler below and pressing <var>detect</var>.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/project_setup_wizard_empty_include_paths.png" style="width:100%;">
@@ -568,8 +673,35 @@
 						</thead>
 						<tbody>
 							<tr> <th scope="row">Include Paths</th> <td>These paths are used to find the files specified by <code>#include</code> directives. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
-							<tr> <th scope="row">Lazy Include Search</th> <td>When checked Coati also looks for included files within the project paths and all their subdirectories. Use this option if you are not familiar with the project to save yourself from figuring the projects include paths. Warning: When activated analysis speed is slower.</td> </tr>
-							<tr> <th scope="row">Global Header Search Paths</th> <td>These Header Search Paths will be used in all your projects. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>)</td> </tr>
+							<tr> <th scope="row">Lazy Include Search</th> <td>When checked Coati also looks for included files within the project paths and all their subdirectories. Use this option if you are not familiar with the project to save yourself from figuring the projects include paths. Warning: When activated indexing speed is slower.</td> </tr>
+							<tr> <th scope="row">Global Include Paths</th> <td>These Header Search Paths will be used in all your projects. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>)</td> </tr>
+						</tbody>
+					</table>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Selecting a compiler from the dropdown list below and pressing <var>detect</var> will automatically detect system include search paths used by this compiler and add them to the Global Include Paths.</li>
+						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
+						<li>Clicking <var>Next</var> will take you to the <a href="#NewProjectSummary">New Project Summary Window</a>.</li>
+						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
+					</ul>
+
+					<div class="row" style="height:20px;"></div>
+
+					<strong>Framework Search Paths (Mac only)</strong>
+					<p>Coati needs you to specify the locations of <code>.framework</code> files, your indexed source and header files rely on.</p>
+					<p>Additionally you can also specify Global Framework Search Paths, which will be used by all your projects. They can also be auto detected by choosing a compiler below and pressing <var>detect</var>.</p>
+					<div class="row">
+						<div class="col-sm-10 col-sm-offset-1">
+							<img src="img/project_setup_wizard_empty_framework_paths.png" style="width:100%;">
+						</div>
+					</div>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Setting</th> <th>Description</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">Framework Search Paths</th> <td>These paths are used to find <code>.framework</code> files used by your project. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+							<tr> <th scope="row">Global Framework Search Paths</th> <td>These Framework Search Paths will be used in all your projects. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>)</td> </tr>
 						</tbody>
 					</table>
 					<strong>Interactions:</strong>
@@ -577,20 +709,51 @@
 						<li>Selecting a compiler from the dropdown list below and pressing <var>detect</var> will automatically detect system header search paths used by this compiler and add them to the Global Header Search Paths.</li>
 						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
 						<li>Clicking <var>Next</var> will take you to the <a href="#NewProjectSummary">New Project Summary Window</a>.</li>
-						<li>Clicking <var>Previous</var> take you to the previous step of the setup process. All the information you entered will be saved.</li>
+						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
 					</ul>
 
+					<div class="row" style="height:20px;"></div>
 
 					<h4 id="CreateAProjectFromVisualStudioSolution">Create a Project from Visual Studio Solution</h4>
-					<p>If you already have a Visual Studio solution file, this is the way to go. Just select the solution file in the file picker and Coati will automatically analyze (this may take a second) it to prepopulate the <a href="#NewProjectSummary">New Project Summary Window</a>.</p>
+					<p>If you already have a Visual Studio solution file, this is the way to go. Just select the solution file in the file picker and Coati will automatically analyze it to prepopulate the <a href="#NewProjectSummary">New Project Summary Window</a> (this may take a second or two).</p>
+
+					<div class="row" style="height:20px;"></div>
 
 					<h4 id="CreateAProjectFromCompilationDatabase">Create a Project from Compilation Database</h4>
-					<p>If you are using <a href="https://cmake.org/">CMake</a> you can export compile commands by defining the flag <code>CMAKE_EXPORT_COMPILE_COMMANDS</code>. Just select the exportet <code>.json</code> file in the file picker.</p>
-					<p>For non-CMake projects you can use <a href="https://github.com/rizsotto/Bear">Bear</a>. Bear generates a json file during the simulated build process. Bear has been tested on FreeBSD, GNU/Linux and OS X.</p>
+					<p>If you are using <a href="https://cmake.org/">CMake</a> you can export compile commands by defining the <code>CMAKE_EXPORT_COMPILE_COMMANDS</code> flag and then use the exportet <code>.json</code> file for Coati project setup.</p>
+					<p>For non-CMake projects you can use <a href="https://github.com/rizsotto/Bear">Bear</a>. Bear generates a <code>.json</code> file during the simulated build process. Bear has been tested on FreeBSD, GNU/Linux and OS X.</p>
+
+					<div class="row" style="height:20px;"></div>
+
+					<strong>Compilation Database Meta Data</strong>
+					<p>In the first step you need to enter meta information about the project and define the compilation database.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/project_setup_wizard_compilation_data.png" style="width:100%;">
+						</div>
+					</div>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Setting</th> <th>Description</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">Name</th> <td>The name of the project. This will also be the name of the <code>.coatiproject</code> file generated by Coati.</td> </tr>
+							<tr> <th scope="row">Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
+							<tr> <th scope="row">Compilation Database</th> <td>Select the compilation database <code>.json</code> for the project. Coati will index the project based on the compile commands in this file. If the compilation database changes you can <a href="#Refresh">Refresh</a> Coati to the new files.</td> </tr>
+						</tbody>
+					</table>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
+						<li>Clicking <var>Next</var> will take you to the next step of the setup process.</li>
+						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
+					</ul>
+
+					<div class="row" style="height:20px;"></div>
 
 					<strong>Compilation Database Headers</strong>
-					<p>In the next step you can define the locations of the corresponding header files of the source files in the compilation database.</p>
-					<p>These header files will only be analyzed if they are included in one of the source files.</p>
+					<p>In the next step you can see which source files are in the compilation database and define the locations of the corresponding header files.</p>
+					<p>Header files will only be indexed if they are included in one of the source files.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/project_setup_wizard_compilation_header.png" style="width:100%;">
@@ -602,18 +765,23 @@
 						</thead>
 						<tbody>
 							<tr> <th scope="row">Source Files</th> <td>Clicking <var>show source files</var> will show you a list of all source files in the compilation database</td> </tr>
-							<tr> <th scope="row">Header Paths</th> <td>Specify one or multiple locations that contain the header files to the source files defined in the compilation database. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.) Clicking <var>show header files</var> will show you the list of the header files that will be analyzed if included.</td> </tr>
+							<tr> <th scope="row">Header Paths</th> <td>Specify one or multiple locations that contain the header files to the source files defined in the compilation database. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
 						</tbody>
 					</table>
 					<strong>Interactions:</strong>
 					<ul>
 						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
 						<li>Clicking <var>Next</var> will take you to the <a href="#NewProjectSummary">New Project Summary Window</a>.</li>
-						<li>Clicking <var>Previous</var> take you to the previous step of the setup process.</li>
+						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process.</li>
 					</ul>
+
+					<div class="row" style="height:20px;"></div>
 
 					<h3>New Project Summary</h3>
 					<p>This window appears at the end of the <a href = "ProjectSetupWizard">Project Setup Wizard</a> to summarize all the information entered before. It is the same as the <a href="#EditProjectWindow">Edit Project Window</a>.</p>
+
+					<div class="row" style="height:20px;"></div>
+
 					<h3>Edit Project Window</h3>
 					<p>This window displays all the information relevant for your Coati project.</p>
 					<div class="row">
@@ -626,12 +794,12 @@
 							<tr> <th>Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <td scope="row">Name</td> <td>The name of the project. This will also be the name of the *.coatiproject file generated by Coati.</td> </tr>
+							<tr> <td scope="row">Name</td> <td>The name of the project. This will also be the name of the <code>.coatiproject</code> file generated by Coati.</td> </tr>
 							<tr> <td scope="row">Location</td> <td>Choose the location of the project file from the dialog.</td> </tr>
 							<tr> <td scope="row">Language</td> <td>Select the language of your project. This setting is preselected according to your choice in the previous screen. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
-							<tr> <td scope="row">Standard</td> <td>Select the language standard that should be used for analyzing your project. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
+							<tr> <td scope="row">Standard</td> <td>Select the language standard that should be used for indexing your project. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
 
-							<tr> <td scope="row">Project Paths</td> <td>Provide the paths that contain your project's files. Coati will analyze all the source and header files in the specified paths, including subdirectories.</td> </tr>
+							<tr> <td scope="row">Project Paths</td> <td>Provide the paths that contain your project's files. Coati will index all the source and header files in the specified paths, including subdirectories.</td> </tr>
 
 							<tr> <td scope="row">Visual Studio Solution</td> <td>Only when using Setup from Visual Studio Solution. Provide the path to your Visual Studio Solution. Clicking the refresh arrow inside the text box will refresh the Project Paths and the Header Search Paths below.</td> </tr>
 							<tr> <td scope="row">Compilation Database</td> <td>Only when using Setup from Compilation Database. Provide the path to your Compilation Database.</td> </tr>
@@ -650,17 +818,19 @@
 							<tr> <th>Advanced Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <td scope="row">Compiler Flags</td> <td>Define compiler flags used during analysis e.g. <code>-v</code></td> </tr>
-							<tr> <td scope="row">Header File Extensions</td> <td>Define extensions for header files including the dot e.g. <code>.h</code></td> </tr>
+							<tr> <td scope="row">Compiler Flags</td> <td>Define compiler flags used during indexing e.g. <code>-v</code></td> </tr>
 							<tr> <td scope="row">Source File Extensions</td> <td>Define extensions for source files including the dot e.g. <code>.cpp</code></td> </tr>
+							<tr> <td scope="row">Exclude Paths</td> <td>Define files and directories that should not be indexed by Coati, although they appear in the Project Paths.</td> </tr>
 						</tbody>
 					</table>
 					<strong>Interactions:</strong>
 					<ul>
 						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
-						<li>Clicking <var>Create</var> will check your inputs, save the new project file and start analyzing the source files.</li>
-						<li>Clicking <var>Previous</var> take you to the previous step of the setup process. All the information you entered will be saved.</li>
+						<li>Clicking <var>Create</var> will check your inputs, save the new project file and start indexing the source files.</li>
+						<li>Clicking <var>Previous</var> will take you to the previous step of the setup process. All the information you entered will be saved.</li>
 					</ul>
+
+					<div class="row" style="height:20px;"></div>
 
 					<h3>Enter License Window</h3>
 					<p>The Enter License Window appears on your first start of Coati and is used to enter and check your Coati license key.</p>
@@ -697,6 +867,12 @@
 							</ul>
 						</li>
 						<li>
+							<strong>Recent Projects</strong>
+							<ul>
+								<li>Opens a submenu to choose recent opened Coati projects.</li>
+							</ul>
+						</li>
+						<li>
 							<strong>Edit Project</strong>
 							<ul>
 								<li>Opens the <a href="#EditProjectWindow">Edit Project Window</a> prefilled with your project settings and allows for changing them.</li>
@@ -714,12 +890,6 @@
 							<ul>
 								<li>Shortcut: <a href="#"Shortcuts>Save Project As</a></li>
 								<li>Save the project file to another location. The project file will be duplicated.</li>
-							</ul>
-						</li>
-						<li>
-							<strong>Recent Projects</strong>
-							<ul>
-								<li>Opens a submenu to choose recent opened Coati projects.</li>
 							</ul>
 						</li>
 						<li>
@@ -750,21 +920,28 @@
 							<strong>Refresh</strong>
 							<ul>
 								<li>Shortcut: <a href="#Shortcuts">Refresh</a></li>
-								<li>Refresh will check all analyzed source files for updates and reanalyze the ones that changed and their depending ones.</li>
+								<li>Refresh will check all indexed source files for updates and reindex the ones that changed and their depending ones.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Force Refresh</strong>
 							<ul>
 								<li>Shortcut: <a href="#Shortcuts">Force Refresh</a></li>
-								<li>Force Refresh will reanalyze the whole project.</li>
+								<li>Force Refresh will reindex the whole project.</li>
 							</ul>
 						</li>
 						<li>
-							<strong>Find</strong>
+							<strong>Find Symbol</strong>
 							<ul>
-								<li>Shortcut: <a href="#Shortcuts">Find</a></li>
+								<li>Shortcut: <a href="#Shortcuts">Find Symbol</a></li>
 								<li>This option will put the focus into the search field, so you can start typing your search query. Alternatively you can click the search field.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Find Text</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">Find Text</a></li>
+								<li>This option will put the focus into the search field and start a new full text search query</li>
 							</ul>
 						</li>
 						<li>
@@ -882,98 +1059,104 @@
 							<tr>
 								<th scope="row">Preferences</th>
 								<td></td>
-								<td><kbd><kbd>Cmd</kbd> + <kbd>,</kbd></kbd></td>
+								<td><kbd>Cmd + ,</kbd></td>
 								<td></td>
 							</tr>
 							<tr>
 								<th scope="row">New Project</th>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>N</kbd></kbd></td>
-								<td><kbd><kbd>Cmd</kbd> + <kbd>N</kbd></kbd></td>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>N</kbd></kbd></td>
+								<td><kbd>Ctrl + N</kbd></td>
+								<td><kbd>Cmd + N</kbd></td>
+								<td><kbd>Ctrl + N</kbd></td>
 							</tr>
 							<tr>
 								<th scope="row">Open Project</th>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>O</kbd></kbd></td>
-								<td><kbd><kbd>Cmd</kbd> + <kbd>O</kbd></kbd></td>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>O</kbd></kbd></td>
+								<td><kbd>Ctrl + O</kbd></td>
+								<td><kbd>Cmd + O</kbd></td>
+								<td><kbd>Ctrl + O</kbd></td>
 							</tr>
 							<tr>
 								<th scope="row">Save Project</th>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>S</kbd></kbd></td>
-								<td><kbd><kbd>Cmd</kbd> + <kbd>S</kbd></kbd></td>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>S</kbd></kbd></td>
+								<td><kbd>Ctrl + S</kbd></td>
+								<td><kbd>Cmd + S</kbd></td>
+								<td><kbd>Ctrl + S</kbd></td>
 							</tr>
 							<tr>
 								<th scope="row">Save Project As</th>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd></kbd></td>
-								<td><kbd><kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd></kbd></td>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd></kbd></td>
+								<td><kbd>Ctrl + Shift + S</kbd></td>
+								<td><kbd>Cmd + Shift + S</kbd></td>
+								<td><kbd>Ctrl + Shift + S</kbd></td>
 							</tr>
 							<tr>
 								<th scope="row">Close Window</th>
-								<td><kbd><kbd>Alt</kbd> + <kbd>F4</kbd></kbd></td>
-								<td><kbd><kbd>Cmd</kbd> + <kbd>W</kbd></kbd></td>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>W</kbd></kbd></td>
+								<td><kbd>Alt + F4</kbd></td>
+								<td><kbd>Cmd + W</kbd></td>
+								<td><kbd>Ctrl + W</kbd></td>
 							</tr>
 							<tr>
 								<th scope="row">Hide Window</th>
 								<td></td>
-								<td><kbd><kbd>Cmd</kbd> + <kbd>H</kbd></kbd></td>
+								<td><kbd>Cmd + H</kbd></td>
 								<td></td>
 							</tr>
 							<tr>
 								<th scope="row">Refresh</th>
 								<td><kbd>F5</kbd></td>
-								<td><kbd><kbd>Cmd</kbd> + <kbd>R</kbd></kbd></td>
+								<td><kbd>Cmd + R</kbd></td>
 								<td><kbd>F5</kbd></td>
 							</tr>
 							<tr>
 								<th scope="row">Force Refresh</th>
-								<td><kbd><kbd>Shift</kbd> + <kbd>F5</kbd></kbd></td>
-								<td><kbd><kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd></kbd></td>
-								<td><kbd><kbd>Shift</kbd> + <kbd>F5</kbd></kbd></td>
+								<td><kbd>Shift + F5</kbd></td>
+								<td><kbd>Cmd + Shift + R</kbd></td>
+								<td><kbd>Shift + F5</kbd></td>
 							</tr>
 							<tr>
 								<th scope="row">Back</th>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>Z</kbd></kbd></td>
-								<td><kbd><kbd>Cmd</kbd> + <kbd>Z</kbd></kbd></td>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>Z</kbd></kbd></td>
+								<td><kbd>Ctrl + Z</kbd> / <kbd>Backspace</kbd></td>
+								<td><kbd>Cmd + Z</kbd> / <kbd>Backspace</kbd></td>
+								<td><kbd>Ctrl + Z</kbd> / <kbd>Backspace</kbd></td>
 							</tr>
 							<tr>
 								<th scope="row">Forward</th>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></kbd></td>
-								<td><kbd><kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></kbd></td>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></kbd></td>
+								<td><kbd>Ctrl + Shift + Z</kbd></td>
+								<td><kbd>Cmd + Shift + Z</kbd></td>
+								<td><kbd>Ctrl + Shift + Z</kbd></td>
 							</tr>
 							<tr>
-								<th scope="row">Find</th>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>F</kbd></kbd></td>
-								<td><kbd><kbd>Cmd</kbd> + <kbd>F</kbd></kbd></td>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>F</kbd></kbd></td>
+								<th scope="row">Find Symbol</th>
+								<td><kbd>Ctrl + F</kbd></td>
+								<td><kbd>Cmd + F</kbd></td>
+								<td><kbd>Ctrl + F</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Find Text</th>
+								<td><kbd>Ctrl + Shift + F</kbd></td>
+								<td><kbd>Cmd + Shift + F</kbd></td>
+								<td><kbd>Ctrl + Shift + F</kbd></td>
 							</tr>
 							<tr>
 								<th scope="row">To overview</th>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>HOME</kbd></kbd></td>
-								<td><kbd><kbd>Cmd</kbd> + <kbd>HOME</kbd></kbd></td>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>HOME</kbd></kbd></td>
+								<td><kbd>Ctrl + Home</kbd></td>
+								<td><kbd>Cmd + Home</kbd> / <kbd>Cmd + Up</kbd></td>
+								<td><kbd>Ctrl + Home</kbd></td>
 							</tr>
 							<tr>
 								<th scope="row">Larger Font</th>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>+</kbd></kbd></td>
-								<td><kbd><kbd>Cmd</kbd> + <kbd>+</kbd></kbd></td>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>+</kbd></kbd></td>
+								<td><kbd>Ctrl + +</kbd></td>
+								<td><kbd>Cmd + +</kbd></td>
+								<td><kbd>Ctrl + +</kbd></td>
 							</tr>
 							<tr>
 								<th scope="row">Smaller Font</th>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>-</kbd></kbd></td>
-								<td><kbd><kbd>Cmd</kbd> + <kbd>-</kbd></kbd></td>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>-</kbd></kbd></td>
+								<td><kbd>Ctrl + -</kbd></td>
+								<td><kbd>Cmd + -</kbd></td>
+								<td><kbd>Ctrl + -</kbd></td>
 							</tr>
 							<tr>
 								<th scope="row">Reset Font Size</th>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>0</kbd></kbd></td>
-								<td><kbd><kbd>Cmd</kbd> + <kbd>0</kbd></kbd></td>
-								<td><kbd><kbd>Ctrl</kbd> + <kbd>0</kbd></kbd></td>
+								<td><kbd>Ctrl + 0</kbd></td>
+								<td><kbd>Cmd + 0</kbd></td>
+								<td><kbd>Ctrl + 0</kbd></td>
 							</tr>
 						</tbody>
 					</table>
@@ -1014,7 +1197,7 @@
 							<tr> <th scope="row">Variable & Field</th> <td><img src="img/node_variable.png" style="height:40px;"></td> </tr>
 							<tr> <th scope="row">Function & Method</th> <td><img src="img/node_function.png" style="height:40px;"></td> </tr>
 							<tr> <th scope="row">Enum</th> <td><img src="img/node_enum.png" style="height:160px;"></td> </tr>
-							<tr> <th scope="row">Undefined: <span style="font-weight:normal">Nodes that were not defined within the analyzed files are shown with hatched background.</span></th> <td><img src="img/node_undefined.png" style="height:40px;"></td> </tr>
+							<tr> <th scope="row">Undefined: <span style="font-weight:normal">Nodes that were not defined within the indexed files are shown with hatched background.</span></th> <td><img src="img/node_undefined.png" style="height:40px;"></td> </tr>
 							<tr> <th scope="row">Bundle: <span style="font-weight:normal">A bundle node combines multiple nodes to reduce the size of the graph visualization. The name describes what kind of nodes are bundled. The number tells how many nodes are bundled.</span></th> <td><img src="img/node_bundle.png" style="height:40px;"></td> </tr>
 						</tbody>
 					</table>
@@ -1098,7 +1281,7 @@
 					</ul>
 
 					<h3>Snippets</h3>
-					<p>A code snippet contains the lines of interest for the currently active symbol surrounded by some more lines to provide some context. Other symbols that were analyzed by Coati are framed by a box when hovered. Here Coati distinguishes between local symbols and symbols that can be related to any other part of the code base. In case the snippet is part of a class, function or namespace, an additional line at the top of the snippet provides information about the snippet’s context (e.g. the surrounding scope).</p>
+					<p>A code snippet contains the lines of interest for the currently active symbol surrounded by some more lines to provide some context. Other symbols that were indexed by Coati are framed by a box when hovered. Here Coati distinguishes between local symbols and symbols that can be related to any other part of the code base. In case the snippet is part of a class, function or namespace, an additional line at the top of the snippet provides information about the snippet’s context (e.g. the surrounding scope).</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/code_view_snippet.png" style="width:100%;">
@@ -1134,7 +1317,7 @@
 					</ul>
 
 					<h3>Refresh</h3>
-					<p>The left refresh button allows you to refresh the current project and reanalyze all updated files (see <a href="#Refresh">Refresh</a>). With the right auto refresh toggle button you can activate automatic refresh, which will reanalyze all updated files whenever you put window focus on Coati's <a href="#MainWindow">Main Window</a>.</p>
+					<p>The left refresh button allows you to refresh the current project and reindex all updated files (see <a href="#Refresh">Refresh</a>). With the right auto refresh toggle button you can activate automatic refresh, which will reindex all updated files whenever you put window focus on Coati's <a href="#MainWindow">Main Window</a>.</p>
 					<div class="row">
 						<div class="col-xs-2 col-xs-offset-5">
 							<img src="img/refresh_buttons.png" style="width:100%;">
@@ -1160,7 +1343,7 @@
 					</ul>
 
 					<h3>Search Bar</h3>
-					<p>The search bar allows you to enter search requests to find one of Coati's analyzed symbols. It doesn't allow for full text searching across all files so far. The search field allows for most text editing interactions common to text fields. When typing your request the <a href="#AutocompletionPopup">Autocompletion Popup</a> will show you search results matching to your entered string.</p>
+					<p>The search bar allows you to enter search requests to find one of Coati's indexed symbols. It doesn't allow for full text searching across all files so far. The search field allows for most text editing interactions common to text fields. When typing your request the <a href="#AutocompletionPopup">Autocompletion Popup</a> will show you search results matching to your entered string.</p>
 					<div class="row">
 						<div class="col-sm-6 col-sm-offset-3">
 							<img src="img/search_bar.png" style="width:100%;">
@@ -1168,14 +1351,14 @@
 					</div>
 					<strong>Interactions:</strong>
 					<ul>
-						<li>Focus the search field by clicking it or using the <a href="#Find">Find Action</a>.</li>
+						<li>Focus the search field by clicking it or using the <a href="#FindSymbol">Find Symbol</a> action.</li>
 						<li>Enter your search request by typing on your keyboard.</li>
 						<li>By pressing enter or clicking on the search icon on the right you send your request.</li>
 						<li>The search field allows for most interactions known from other text fields such as moving the cursor, copy&paste and text selection.</li>
 					</ul>
 
 					<h3>Autocompletion Popup</h3>
-					<p>The Autocompletion Popup displays all <a href="#Nodes">Nodes</a> matching your search request within all analyzed symbols. The match results are determined by a fuzzy matching algorithm, that allows you to skip characters. The popup shows which characters in the words are matching and displays their corresponding node color. The node type is displayed on the right.</p>
+					<p>The Autocompletion Popup displays all <a href="#Nodes">Nodes</a> matching your search request within all indexed symbols. The match results are determined by a fuzzy matching algorithm, that allows you to skip characters. The popup shows which characters in the words are matching and displays their corresponding node color. The node type is displayed on the right.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/search_view_completion.png" style="width:100%;">
@@ -1195,11 +1378,23 @@
 							<tr> <th>keyword</th> <th>effect</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <th scope="row">overview</th> <td>Shows an overview of all analysed symbols in the <a href="#GraphView">graph view</a> and some statistics in the <a href="#CodeView">code view</a>.</td> </tr>
+							<tr> <th scope="row">overview</th> <td>Shows an overview of all indexed symbols in the <a href="#GraphView">graph view</a> and some statistics in the <a href="#CodeView">code view</a>.</td> </tr>
 							<tr> <th scope="row">error</th> <td>Shows all errors in the <a href="#CodeView">code view</a>.</td> </tr>
 						</tbody>
 					</table>
 
+					<h3>Full text search</h3>
+					<p>Search for a certain string in all indexed files by putting <code>?</code> at the front of your search query. The default full text search is case-insensitive, use <code>??</code> to search case-sensitive.</p>
+					<div class="row">
+						<div class="col-sm-12">
+							<img src="img/search_view_fulltext.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Start a query with <code>?</code> or use the <a href="#FindText">Find Text</a> action to do a case-insensitive full text serach.</li>
+						<li>Start a query with <code>??</code> to do a case-sensitive full text search.</li>
+					</ul>
 
 					<div class="row" style="height:80px;"></div>
 
@@ -1243,6 +1438,9 @@
 						</div>
 					</div>
 
+					<h3>Vim</h3>
+					<p>Please visit the <a href="https://github.com/CoatiSoftware/vim-coati">vim-coati</a> repository on Github for details.</p>
+
 					<h3>Visual Studio</h3>
 					<strong>Installation</strong>
 					<p>To install the Coati plugin for any version of Visual Studio, just execute the corresponding vsix file located in your <code>ide_plugins/visual_studio</code>.</p>
@@ -1253,7 +1451,6 @@
 							<img src="img/plugin_use_in_visual_studio.png" style="width:100%;">
 						</div>
 					</div>
-
 
 				</div> <!-- .span9 !-->
 			</div> <!-- .row !-->
