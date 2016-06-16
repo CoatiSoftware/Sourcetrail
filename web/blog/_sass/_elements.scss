@@ -18,18 +18,6 @@ figure {
   img {
     margin-bottom: 10px;
   }
-  a {
-    img {
-      @include translate(0, 0);
-      -webkit-transition-duration: 0.25s;
-      -moz-transition-duration: 0.25s;
-      -o-transition-duration: 0.25s;
-      &:hover {
-        @include translate(0, -5px);
-        @include box-shadow(0 0 10px fade($base-color, 20));
-      }
-    }
-  }
   &.half {
     @media #{$large} {
       img {
