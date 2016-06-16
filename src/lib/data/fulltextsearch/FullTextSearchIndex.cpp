@@ -1,8 +1,9 @@
 #include "data/fulltextsearch/FullTextSearchIndex.h"
 #include <limits>
 
-#include "utility/utility.h"
 #include "utility/logging/logging.h"
+#include "utility/tracing.h"
+#include "utility/utility.h"
 
 void FullTextSearchIndex::addFile(Id fileId, const std::string& file)
 {
@@ -22,6 +23,8 @@ void FullTextSearchIndex::addFile(Id fileId, const std::string& file)
 
 std::vector<FullTextSearchResult> FullTextSearchIndex::searchForTerm(const std::string& term) const
 {
+	TRACE();
+
 	std::vector<FullTextSearchResult> ret;
 	FullTextSearchResult hit;
 	for (auto f : m_files)

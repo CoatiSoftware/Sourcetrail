@@ -7,6 +7,7 @@
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/messaging/type/MessageShowStartScreen.h"
 #include "utility/scheduling/TaskScheduler.h"
+#include "utility/tracing.h"
 #include "utility/UserPaths.h"
 #include "utility/Version.h"
 
@@ -231,6 +232,8 @@ void Application::handleMessage(MessageFinishedParsing* message)
 
 void Application::handleMessage(MessageLoadProject* message)
 {
+	TRACE("app load project");
+
 	FilePath projectSettingsFilePath(message->projectSettingsFilePath);
 	if (projectSettingsFilePath.empty())
 	{
@@ -279,6 +282,8 @@ void Application::handleMessage(MessageLoadProject* message)
 
 void Application::handleMessage(MessageRefresh* message)
 {
+	TRACE("app refresh");
+
 	loadSettings();
 
 	if (message->uiOnly)

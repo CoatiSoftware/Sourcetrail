@@ -3,6 +3,7 @@
 #include <set>
 
 #include "utility/logging/logging.h"
+#include "utility/tracing.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 
@@ -23,6 +24,8 @@ GraphController::~GraphController()
 
 void GraphController::handleMessage(MessageActivateAll* message)
 {
+	TRACE("graph all");
+
 	m_activeNodeIds.clear();
 	m_activeEdgeIds.clear();
 
@@ -38,6 +41,8 @@ void GraphController::handleMessage(MessageActivateAll* message)
 
 void GraphController::handleMessage(MessageActivateTokens* message)
 {
+	TRACE("graph activate");
+
 	if (message->isEdge || message->keepContent())
 	{
 		m_activeEdgeIds = message->tokenIds;
@@ -192,6 +197,8 @@ void GraphController::clear()
 
 void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph)
 {
+	TRACE();
+
 	GraphView* view = getView();
 	if (!view)
 	{
@@ -361,6 +368,8 @@ void GraphController::autoExpandActiveNode(const std::vector<Id>& activeTokenIds
 
 bool GraphController::setActive(const std::vector<Id>& activeTokenIds)
 {
+	TRACE();
+
 	bool noActive = activeTokenIds.size() == 0;
 	if (activeTokenIds.size() > 0)
 	{
@@ -401,6 +410,8 @@ bool GraphController::setActive(const std::vector<Id>& activeTokenIds)
 
 void GraphController::setVisibility(bool noActive)
 {
+	TRACE();
+
 	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
 	{
 		removeImplicitChildrenRecursive(node.get());
@@ -411,6 +422,8 @@ void GraphController::setVisibility(bool noActive)
 
 void GraphController::setActiveAndVisibility(const std::vector<Id>& activeTokenIds)
 {
+	TRACE();
+
 	setVisibility(setActive(activeTokenIds));
 }
 
@@ -519,6 +532,8 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode* node, bool pa
 
 void GraphController::bundleNodes()
 {
+	TRACE();
+
 	// evaluate top level nodes
 	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
 	{
@@ -817,6 +832,8 @@ void GraphController::bundleNodesMatching(
 
 void GraphController::bundleNodesByType()
 {
+	TRACE();
+
 	std::vector<std::shared_ptr<DummyNode>> oldNodes = m_dummyNodes;
 	m_dummyNodes.clear();
 
@@ -864,6 +881,8 @@ void GraphController::bundleNodesByType()
 
 void GraphController::layoutNesting()
 {
+	TRACE();
+
 	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
 	{
 		layoutNestingRecursive(node.get());
@@ -1096,6 +1115,8 @@ void GraphController::layoutToGrid(DummyNode* node) const
 
 void GraphController::layoutGraph(bool sort)
 {
+	TRACE();
+
 	BucketGrid grid(getView()->getViewSize());
 	grid.createBuckets(m_dummyNodes, m_dummyEdges);
 

@@ -37,6 +37,7 @@
 #include "utility/messaging/type/MessageWindowFocus.h"
 #include "utility/messaging/type/MessageZoom.h"
 #include "utility/ResourcePaths.h"
+#include "utility/tracing.h"
 #include "utility/UserPaths.h"
 #include "version.h"
 #include "isTrial.h"
@@ -507,6 +508,11 @@ void QtMainWindow::handleEscapeShortcut()
 	MessageInterruptTasks().dispatch();
 }
 
+void QtMainWindow::handleSpaceShortcut()
+{
+	PRINT_TRACES();
+}
+
 void QtMainWindow::setupProjectMenu()
 {
 	QMenu *menu = new QMenu(tr("&Project"), this);
@@ -662,6 +668,9 @@ void QtMainWindow::setupShortcuts()
 {
 	m_escapeShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), this);
 	connect(m_escapeShortcut, SIGNAL(activated()), SLOT(handleEscapeShortcut()));
+
+	m_spaceShortcut = new QShortcut(QKeySequence(Qt::Key_Space), this);
+	connect(m_spaceShortcut, SIGNAL(activated()), SLOT(handleSpaceShortcut()));
 }
 
 QtMainWindow::DockWidget* QtMainWindow::getDockWidgetForView(View* view)

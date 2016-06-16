@@ -131,6 +131,7 @@ public slots:
 	void toggleView(View* view, bool fromMenu);
 
 	void handleEscapeShortcut();
+	void handleSpaceShortcut();
 
 	void updateRecentProjectMenu();
 
@@ -170,6 +171,7 @@ private:
 	QtWindowStack m_windowStack;
 
 	QShortcut* m_escapeShortcut;
+	QShortcut* m_spaceShortcut;
 };
 
 #endif // QT_MAIN_WINDOW_H

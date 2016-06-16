@@ -316,6 +316,8 @@ add_files(
 	utility/ScopedSwitcher.h
 	utility/TimePoint.cpp
 	utility/TimePoint.h
+	utility/tracing.cpp
+	utility/tracing.h
 	utility/types.h
 	utility/UserPaths.cpp
 	utility/UserPaths.h

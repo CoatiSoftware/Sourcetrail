@@ -5,6 +5,7 @@
 #include "data/graph/Edge.h"
 #include "data/StorageTypes.h"
 #include "utility/logging/logging.h"
+#include "utility/tracing.h"
 
 Storage::Storage()
 {
@@ -26,6 +27,8 @@ void Storage::finishInjection()
 
 void Storage::inject(Storage* injected)
 {
+	TRACE();
+
 	startInjection();
 
 	std::unordered_map<Id, Id> injectedIdToOwnId;

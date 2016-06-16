@@ -4,6 +4,7 @@
 
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/text/TextAccess.h"
+#include "utility/tracing.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 
@@ -28,6 +29,8 @@ const uint CodeController::s_lineRadius = 2;
 
 void CodeController::handleMessage(MessageActivateAll* message)
 {
+	TRACE("code all");
+
 	std::vector<ErrorInfo> errors;
 	m_collection = m_storageAccess->getErrorTokenLocations(&errors);
 	std::vector<CodeSnippetParams> snippets = getSnippetsForCollection(m_collection);
@@ -95,6 +98,8 @@ void CodeController::handleMessage(MessageActivateLocalSymbols* message)
 
 void CodeController::handleMessage(MessageActivateTokens* message)
 {
+	TRACE("code activate");
+
 	CodeView* view = getView();
 
 	if (!message->keepContent())
@@ -150,6 +155,8 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 
 void CodeController::handleMessage(MessageChangeFileView* message)
 {
+	TRACE("code change file");
+
 	CodeView* view = getView();
 
 	switch (message->state)
@@ -237,6 +244,8 @@ void CodeController::handleMessage(MessageScrollCode* message)
 
 void CodeController::handleMessage(MessageShowErrors* message)
 {
+	TRACE("code errors");
+
 	std::vector<ErrorInfo> errors;
 	m_collection = m_storageAccess->getErrorTokenLocations(&errors);
 	std::vector<CodeSnippetParams> snippets = getSnippetsForCollection(m_collection);
@@ -251,6 +260,8 @@ void CodeController::handleMessage(MessageShowErrors* message)
 
 void CodeController::handleMessage(MessageSearchFullText* message)
 {
+	TRACE("code fulltext");
+
 	CodeView* view = getView();
 	view->clear();
 
@@ -262,6 +273,8 @@ void CodeController::handleMessage(MessageSearchFullText* message)
 
 void CodeController::handleMessage(MessageShowScope* message)
 {
+	TRACE("code scope");
+
 	std::shared_ptr<TokenLocationCollection> collection =
 		m_storageAccess->getTokenLocationsForLocationIds(std::vector<Id>(1, message->scopeLocationId));
 
@@ -328,6 +341,8 @@ void CodeController::showContents(MessageBase* message)
 std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocations(
 	const TokenLocationCollection* collection, Id declarationId
 ) const {
+	TRACE();
+
 	std::vector<CodeSnippetParams> snippets;
 	size_t definitionFileCount = 0;
 	size_t declarationFileCount = 0;
@@ -429,6 +444,8 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 		std::shared_ptr<TokenLocationFile> activeTokenLocations, bool addTokenLocations
 ) const
 {
+	TRACE();
+
 	std::shared_ptr<TextAccess> textAccess = m_storageAccess->getFileContent(activeTokenLocations->getFilePath());
 	std::shared_ptr<TokenLocationFile> scopeLocations
 		= std::make_shared<TokenLocationFile>(activeTokenLocations->getFilePath().str());
@@ -713,6 +730,8 @@ std::vector<std::string> CodeController::getProjectDescription(TokenLocationFile
 
 void CodeController::addModificationTimes(std::vector<CodeSnippetParams>& snippets) const
 {
+	TRACE();
+
 	std::vector<FilePath> filePaths;
 	for (const CodeSnippetParams& snippet : snippets)
 	{

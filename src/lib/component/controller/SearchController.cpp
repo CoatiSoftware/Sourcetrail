@@ -2,6 +2,7 @@
 
 #include "component/view/SearchView.h"
 #include "data/access/StorageAccess.h"
+#include "utility/tracing.h"
 
 SearchController::SearchController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -59,6 +60,8 @@ void SearchController::handleMessage(MessageFind* message)
 
 void SearchController::handleMessage(MessageSearchAutocomplete* message)
 {
+	TRACE("search autocomplete");
+
 	LOG_INFO("autocomplete string: \"" + message->query + "\"");
 	getView()->setAutocompletionList(m_storageAccess->getAutocompletionMatches(message->query));
 }

@@ -3,6 +3,7 @@
 #include <sstream>
 #include <queue>
 
+#include "utility/Cache.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageClearErrorCount.h"
@@ -10,10 +11,10 @@
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/text/TextAccess.h"
 #include "utility/TimePoint.h"
+#include "utility/tracing.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 #include "utility/Version.h"
-#include "utility/Cache.h"
 #include "utility/utilityString.h"
 
 #include "data/graph/token_component/TokenComponentAggregation.h"
@@ -265,6 +266,8 @@ void PersistentStorage::clearCaches()
 
 std::set<FilePath> PersistentStorage::getDependingFilePaths(const std::set<FilePath>& filePaths)
 {
+	TRACE();
+
 	std::set<FilePath> dependingFilePaths;
 	for (const FilePath& filePath: filePaths)
 	{
@@ -295,6 +298,8 @@ std::set<FilePath> PersistentStorage::getDependingFilePaths(const FilePath& file
 
 void PersistentStorage::clearFileElements(const std::vector<FilePath>& filePaths)
 {
+	TRACE();
+
 	std::vector<Id> fileNodeIds;
 
 	for (const FilePath& path : filePaths)
@@ -313,6 +318,8 @@ void PersistentStorage::clearFileElements(const std::vector<FilePath>& filePaths
 
 std::vector<FileInfo> PersistentStorage::getInfoOnAllFiles() const
 {
+	TRACE();
+
 	std::vector<FileInfo> fileInfos;
 
 	std::vector<StorageFile> storageFiles = m_sqliteStorage.getAllFiles();
@@ -334,6 +341,8 @@ std::vector<FileInfo> PersistentStorage::getInfoOnAllFiles() const
 
 void PersistentStorage::logStats() const
 {
+	TRACE();
+
 	std::stringstream ss;
 	StorageStats stats = getStorageStats();
 
@@ -361,6 +370,8 @@ void PersistentStorage::startParsing()
 
 void PersistentStorage::finishParsing()
 {
+	TRACE();
+
 	buildSearchIndex();
 	buildFilePathMaps();
 	buildHierarchyCache();
@@ -368,6 +379,8 @@ void PersistentStorage::finishParsing()
 
 void PersistentStorage::optimizeMemory()
 {
+	TRACE();
+
 	m_sqliteStorage.optimizeMemory();
 }
 
@@ -399,6 +412,8 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getFullTextSearchLoc
 		const std::string& searchTerm, bool caseSensitive
 ) const
 {
+	TRACE();
+
 	if (m_fullTextSearchIndex.fileCount() == 0)
 	{
 		MessageStatus("Building fulltext search index", false, true).dispatch();
@@ -485,6 +500,8 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getFullTextSearchLoc
 
 std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::string& query) const
 {
+	TRACE();
+
 	std::vector<SearchResult> commandResults = m_commandIndex.search(query, 0);
 
 	const size_t maxResultCount = 100;
@@ -638,6 +655,8 @@ std::vector<SearchMatch> PersistentStorage::getSearchMatchesForTokenIds(const st
 
 std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 {
+	TRACE();
+
 	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
 
 	std::vector<Id> tokenIds;
@@ -658,6 +677,8 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 
 std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const
 {
+	TRACE();
+
 	std::shared_ptr<Graph> g = std::make_shared<Graph>();
 	Graph* graph = g.get();
 
@@ -775,6 +796,8 @@ std::vector<Id> PersistentStorage::getActiveTokenIdsForId(Id tokenId, Id* declar
 
 std::vector<Id> PersistentStorage::getNodeIdsForLocationIds(const std::vector<Id>& locationIds) const
 {
+	TRACE();
+
 	std::set<Id> edgeIds;
 	std::set<Id> nodeIds;
 	std::set<Id> implicitNodeIds;
@@ -868,6 +891,8 @@ Id PersistentStorage::getTokenIdForFileNode(const FilePath& filePath) const
 std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsForTokenIds(
 	const std::vector<Id>& tokenIds) const
 {
+	TRACE();
+
 	std::shared_ptr<TokenLocationCollection> collection = std::make_shared<TokenLocationCollection>();
 
 	std::vector<Id> fileIds;
@@ -919,6 +944,8 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsFor
 		const std::vector<Id>& locationIds
 ) const
 {
+	TRACE();
+
 	std::shared_ptr<TokenLocationCollection> collection = std::make_shared<TokenLocationCollection>();
 
 	for (size_t i = 0; i < locationIds.size(); i++)
@@ -940,6 +967,8 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsFor
 
 std::shared_ptr<TokenLocationFile> PersistentStorage::getTokenLocationsForFile(const std::string& filePath) const
 {
+	TRACE();
+
 	return m_sqliteStorage.getTokenLocationsForFile(filePath);
 }
 
@@ -947,11 +976,15 @@ std::shared_ptr<TokenLocationFile> PersistentStorage::getTokenLocationsForLinesI
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
 ) const
 {
+	TRACE();
+
 	return getTokenLocationsForFile(filePath)->getFilteredByLines(firstLineNumber, lastLineNumber);
 }
 
 std::shared_ptr<TokenLocationCollection> PersistentStorage::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const
 {
+	TRACE();
+
 	std::shared_ptr<TokenLocationCollection> errorCollection = std::make_shared<TokenLocationCollection>();
 
 	std::vector<StorageError> storageErrors = m_sqliteStorage.getAllErrors();
@@ -969,6 +1002,8 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getErrorTokenLocatio
 
 std::shared_ptr<TokenLocationFile> PersistentStorage::getCommentLocationsInFile(const FilePath& filePath) const
 {
+	TRACE();
+
 	std::shared_ptr<TokenLocationFile> file = std::make_shared<TokenLocationFile>(filePath);
 
 	std::vector<StorageCommentLocation> storageLocations = m_sqliteStorage.getCommentLocationsInFile(filePath);
@@ -1017,6 +1052,8 @@ ErrorCountInfo PersistentStorage::getErrorCount() const
 
 StorageStats PersistentStorage::getStorageStats() const
 {
+	TRACE();
+
 	StorageStats stats;
 
 	stats.nodeCount = m_sqliteStorage.getNodeCount();
@@ -1083,6 +1120,8 @@ std::vector<Id> PersistentStorage::getAllChildNodeIds(const Id nodeId) const
 
 void PersistentStorage::addNodesToGraph(const std::vector<Id>& nodeIds, Graph* graph) const
 {
+	TRACE();
+
 	if (nodeIds.size() == 0)
 	{
 		return;
@@ -1127,6 +1166,8 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& nodeIds, Graph* g
 
 void PersistentStorage::addEdgesToGraph(const std::vector<Id>& edgeIds, Graph* graph) const
 {
+	TRACE();
+
 	if (edgeIds.size() == 0)
 	{
 		return;
@@ -1153,6 +1194,8 @@ void PersistentStorage::addNodesWithChildrenAndEdgesToGraph(
 	const std::vector<Id>& nodeIds, const std::vector<Id>& edgeIds, Graph* graph
 ) const
 {
+	TRACE();
+
 	std::set<Id> parentNodeIds;
 
 	for (Id nodeId : nodeIds)
@@ -1185,6 +1228,8 @@ void PersistentStorage::addNodesWithChildrenAndEdgesToGraph(
 
 void PersistentStorage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
 {
+	TRACE();
+
 	struct EdgeInfo
 	{
 		Id edgeId;
@@ -1277,6 +1322,8 @@ void PersistentStorage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph
 
 void PersistentStorage::addComponentAccessToGraph(Graph* graph) const
 {
+	TRACE();
+
 	std::vector<Id> memberEdgeIds;
 
 	graph->forEachEdge(
@@ -1304,6 +1351,8 @@ void PersistentStorage::addComponentAccessToGraph(Graph* graph) const
 
 void PersistentStorage::buildSearchIndex()
 {
+	TRACE();
+
 	for (StorageNode node: m_sqliteStorage.getAllNodes())
 	{
 		m_elementIndex.addNode(node.id, NameHierarchy::deserialize(node.serializedName));
@@ -1313,6 +1362,8 @@ void PersistentStorage::buildSearchIndex()
 
 void PersistentStorage::buildFilePathMaps()
 {
+	TRACE();
+
 	for (StorageFile file: m_sqliteStorage.getAllFiles())
 	{
 		m_fileNodeIds.emplace(file.filePath, file.id);
@@ -1322,6 +1373,8 @@ void PersistentStorage::buildFilePathMaps()
 
 void PersistentStorage::buildFullTextSearchIndex() const
 {
+	TRACE();
+
 	for (StorageFile file : m_sqliteStorage.getAllFiles())
 	{
 		m_fullTextSearchIndex.addFile(file.id, m_sqliteStorage.getFileContentById(file.id)->getText());
@@ -1330,6 +1383,8 @@ void PersistentStorage::buildFullTextSearchIndex() const
 
 void PersistentStorage::buildHierarchyCache()
 {
+	TRACE();
+
 	std::vector<StorageEdge> memberEdges = m_sqliteStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_MEMBER));
 
 	Cache<Id, Node::NodeType> nodeTypeCache([this](Id id){

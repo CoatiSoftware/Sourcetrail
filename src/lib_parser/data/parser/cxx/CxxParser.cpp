@@ -5,6 +5,7 @@
 #include "utility/file/FileRegister.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
+#include "utility/tracing.h"
 
 #include "data/parser/cxx/ASTActionFactory.h"
 #include "data/parser/cxx/CxxCompilationDatabaseSingle.h"
@@ -195,6 +196,8 @@ void CxxParser::setupParsingCDB(const Arguments& arguments)
 
 void CxxParser::runTool(const std::vector<std::string>& files)
 {
+	TRACE();
+
 	clang::tooling::ClangTool tool(*m_compilationDatabase, files);
 	tool.setDiagnosticConsumer(m_diagnostics.get());
 
@@ -204,6 +207,8 @@ void CxxParser::runTool(const std::vector<std::string>& files)
 
 void CxxParser::runTool(clang::tooling::CompileCommand command, const Arguments& arguments)
 {
+	TRACE();
+
 	std::vector<std::string> args = getCommandlineArgumentsEssential(arguments);
 	command.CommandLine.insert(command.CommandLine.end(), args.begin(), args.end());
 
