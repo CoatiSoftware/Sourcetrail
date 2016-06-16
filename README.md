@@ -94,6 +94,50 @@ $ git push --tags
 
 ### Changelog
 
+#### 0.7.0.0
+released 2016-06-15
+
+* Updated to clang 3.8
+* Fixed crash in search autocompletion retrieval due to edge case in sorting
+* Fixed size policies in code view to avoid global scrollbar
+* Added full text search via search field: ?<query> for case-insensitive search, ??<query> for case-sensitive search
+* Made initialization for full text search lazy: done on first full text search
+* Defined full text search color in all color schemes
+* Increased code view performance by caching file IDs and paths
+* Added multithreaded indexing. Number of threads can be set in the Preferences UI, default is 4
+* Reworked graph node bundling to only distinguish defined and undefined nodes in each bucket
+* Made graph node sorting alphabetical and put bundles at end
+* Changed code view snippet sorting to always show definition on top
+* Fixed local symbols were not available within lambdas
+* Added settings for font family, font size and tab with to Preferences UI
+* Fixed VS solution parser issue with internal macros
+* Removed header extensions, all included files within the project paths are now analyzed
+* Fixed crash in sqlite when symbol name has special characters
+* Improved code view performance by reducing amount of initially open code files
+* Improved graph view performance through faster data retrieval and smarter structures
+* Increased aggregation click speed with faster edge id retrieval
+* Fixed png color profiles to avoid console warning: "libpng warning: iCCP: known incorrect sRGB profile"
+* Fixed graph edge drawn wrong when leaving from child node of smaller node
+* Fixed Sublime Text Plugin issue with wrong encoding
+* Randomized source file order for multithreaded analysis to increase performance
+* Show name of removed symbol when going back after refreshing
+* Fixed macro definition not connected to file
+* Fixed macro use not found in #ifdef, #ifndef, defined() and some expand cases
+* Removed back and forward steps for some graph and code view manipulations
+* Fixed code view style broken on Mac due to change of working directory when analyzing compilation database
+* Added database optimization step after indexing to reduce database size by ~25%
+* Fixed artifacts after graph view change by clearing view
+* Fixed autocompletion list highlights at wrong location for long names
+* Allow files and directories to be excluded from analysis in advanced settings for project setup
+* Added Qt gif plugin to Mac Release so that loader gif in status bar is visible
+* Added link to download page to start screen to remind users of updating once in a while
+* Check if compilation database still exists before refreshing
+* Added separate step for defining project name, project location and compiliation database to project setup
+* Explain that the project stays up-to-date with the compilation databes on refresh in project setup UI
+* Disregard source extensions when loading from compilation database
+* Removed error logs in name resolver
+* Added plugin for VIM: https://github.com/CoatiSoftware/vim-coati
+
 #### 0.6.0.0
 released 2016-04-27
 
