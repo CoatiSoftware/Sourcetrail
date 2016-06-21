@@ -1,6 +1,7 @@
 #ifndef TRACING_H
 #define TRACING_H
 
+#include <mutex>
 #include <stack>
 #include <thread>
 
