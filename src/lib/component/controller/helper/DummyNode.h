@@ -42,6 +42,7 @@ public:
 		, hasParent(true)
 		, accessType(TokenComponentAccess::ACCESS_NONE)
 		, invisibleSubNodeCount(0)
+		, layoutBucket(0, 0)
 		, bundledNodeCount(0)
 	{
 	}
@@ -191,6 +192,16 @@ public:
 		return bundledNodes.size();
 	}
 
+	void forEachDummyNodeRecursive(std::function<void(DummyNode*)> func)
+	{
+		func(this);
+
+		for (std::shared_ptr<DummyNode> node : subNodes)
+		{
+			node->forEachDummyNodeRecursive(func);
+		}
+	}
+
 	Vec2i position;
 	Vec2i size;
 
@@ -219,6 +230,9 @@ public:
 
 	// Bundling
 	BundleInfo bundleInfo;
+
+	// Layout
+	Vec2i layoutBucket;
 
 	// BundleNode
 	std::vector<std::shared_ptr<DummyNode>> bundledNodes;

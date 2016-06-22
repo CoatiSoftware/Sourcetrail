@@ -21,7 +21,7 @@ std::string NameHierarchy::serialize(NameHierarchy nameHierarchy)
 NameHierarchy NameHierarchy::deserialize(const std::string& serializedName)
 {
 	NameHierarchy nameHierarchy;
-	
+
 	std::vector<std::string> serializedNameElements = utility::splitToVector(serializedName, "\n");
 	for (size_t i = 0; i < serializedNameElements.size(); i++)
 	{
@@ -44,6 +44,14 @@ NameHierarchy::NameHierarchy()
 NameHierarchy::NameHierarchy(const std::string& name)
 {
 	push(std::make_shared<NameElement>(name));
+}
+
+NameHierarchy::NameHierarchy(const std::vector<std::string>& names)
+{
+	for (const std::string& name : names)
+	{
+		push(std::make_shared<NameElement>(name));
+	}
 }
 
 NameHierarchy::~NameHierarchy()

@@ -29,7 +29,7 @@ void GraphController::handleMessage(MessageActivateAll* message)
 	m_activeNodeIds.clear();
 	m_activeEdgeIds.clear();
 
-	createDummyGraphForTokenIds(std::vector<Id>(), m_storageAccess->getGraphForAll());
+	createDummyGraphForTokenIdsAndSetActiveAndVisibility(std::vector<Id>(), m_storageAccess->getGraphForAll());
 
 	bundleNodesByType();
 
@@ -71,7 +71,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 
 	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForActiveTokenIds(tokenIds);
 
-	createDummyGraphForTokenIds(tokenIds, graph);
+	createDummyGraphForTokenIdsAndSetActiveAndVisibility(tokenIds, graph);
 
 	if (m_activeNodeIds.size() == 1)
 	{
@@ -206,8 +206,6 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 		return;
 	}
 
-	std::vector<Id> expandedNodeIds = getExpandedNodeIds();
-
 	m_dummyEdges.clear();
 	m_dummyGraphNodes.clear();
 
@@ -249,14 +247,22 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 
 	m_dummyNodes = dummyNodes;
 
+	m_graph = graph;
+}
+
+void GraphController::createDummyGraphForTokenIdsAndSetActiveAndVisibility(
+	const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph
+){
+	std::vector<Id> expandedNodeIds = getExpandedNodeIds();
+
+	createDummyGraphForTokenIds(tokenIds, graph);
+
 	bool noActive = setActive(tokenIds);
 
 	autoExpandActiveNode(tokenIds);
 	setExpandedNodeIds(expandedNodeIds);
 
 	setVisibility(noActive);
-
-	m_graph = graph;
 }
 
 std::shared_ptr<DummyNode> GraphController::createDummyNodeTopDown(Node* node, Id parentId)
@@ -729,7 +735,9 @@ void GraphController::bundleNodesAndEdgesMatching(
 	}
 
 	DummyNode* firstNode = bundleNode->bundledNodes[0].get();
-	bundleNode->tokenId = firstNode->data->getId();
+
+	// Use token Id of first node and make first bit 1
+	bundleNode->tokenId = ~(~size_t(0) >> 1) + firstNode->data->getId();
 	bundleNode->bundleInfo.layoutVertical = firstNode->bundleInfo.layoutVertical;
 	bundleNode->bundleInfo.isReferenced = firstNode->bundleInfo.isReferenced;
 	bundleNode->bundleInfo.isReferencing = firstNode->bundleInfo.isReferencing;
@@ -816,7 +824,8 @@ void GraphController::bundleNodesMatching(
 		nodes.erase(matchedNodes[i]);
 	}
 
-	bundleNode->tokenId = bundleNode->bundledNodes[0]->data->getId();
+	// Use token Id of first node and make first bit 1
+	bundleNode->tokenId = ~(~size_t(0) >> 1) + bundleNode->bundledNodes[0]->data->getId();
 	m_dummyNodes.push_back(bundleNode);
 }
 
@@ -1139,10 +1148,295 @@ DummyNode* GraphController::getDummyGraphNodeById(Id tokenId) const
 	return nullptr;
 }
 
-void GraphController::buildGraph(MessageBase* message)
+void GraphController::buildGraph(MessageBase* message, bool animated)
 {
 	if (!message->isReplayed())
 	{
-		getView()->rebuildGraph(m_graph, m_dummyNodes, m_dummyEdges);
+		getView()->rebuildGraph(m_graph, m_dummyNodes, m_dummyEdges, animated);
 	}
+}
+
+void GraphController::forEachDummyNodeRecursive(std::function<void(DummyNode*)> func)
+{
+	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
+	{
+		node->forEachDummyNodeRecursive(func);
+	}
+}
+
+void GraphController::forEachDummyEdge(std::function<void(DummyEdge*)> func)
+{
+	for (std::shared_ptr<DummyEdge> edge : m_dummyEdges)
+	{
+		func(edge.get());
+	}
+}
+
+void GraphController::handleMessage(MessageColorSchemeTest* message)
+{
+	clear();
+
+	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
+
+	std::function<void(Id, Node::NodeType)> createNodes(
+		[&](Id id, Node::NodeType type)
+		{
+			std::string name = Node::getTypeString(type);
+			graph->createNode(id + 1, type, NameHierarchy(name), true);
+			graph->createNode(id + 2, type, NameHierarchy("focused " + name), true);
+			graph->createNode(id + 3, type, NameHierarchy("active " + name), true);
+
+			graph->createNode(id + 4, type, NameHierarchy("undefined " + name), true);
+			graph->createNode(id + 5, type, NameHierarchy("undefined focused " + name), true);
+			graph->createNode(id + 6, type, NameHierarchy("undefined active " + name), true);
+		}
+	);
+
+	createNodes( 0, Node::NODE_FUNCTION);
+	createNodes(10, Node::NODE_GLOBAL_VARIABLE);
+	createNodes(20, Node::NODE_UNDEFINED);
+	createNodes(30, Node::NODE_TYPE);
+	createNodes(40, Node::NODE_TYPEDEF);
+	createNodes(50, Node::NODE_NAMESPACE);
+	createNodes(60, Node::NODE_FILE);
+	createNodes(70, Node::NODE_MACRO);
+
+	std::function<Node*(Node*, Id, Node::NodeType, std::string, TokenComponentAccess::AccessType)> createChild(
+		[&](Node* parent, Id id, Node::NodeType type, std::string name, TokenComponentAccess::AccessType access)
+		{
+			Node* node = graph->createNode(id + 1000, type, NameHierarchy(name), true);
+			Edge* edge = graph->createEdge(id + 10000, Edge::EDGE_MEMBER, parent, node);
+
+			if (access != TokenComponentAccess::ACCESS_NONE)
+			{
+				edge->addComponentAccess(std::make_shared<TokenComponentAccess>(access));
+			}
+
+			return node;
+		}
+	);
+
+	std::function<void(Id, std::string)> createEnum(
+		[&](Id id, std::string name)
+		{
+			Node* enumNode = graph->createNode(id, Node::NODE_ENUM,
+				NameHierarchy(name + Node::getTypeString(Node::NODE_ENUM)), true);
+			createChild(enumNode, id + 10, Node::NODE_ENUM_CONSTANT, name + Node::getTypeString(Node::NODE_ENUM_CONSTANT),
+				TokenComponentAccess::ACCESS_NONE);
+		}
+	);
+
+	createEnum(101, "");
+	createEnum(102, "focused ");
+	createEnum(103, "active ");
+
+	createEnum(104, "undefined ");
+	createEnum(105, "undefined focused ");
+	createEnum(106, "undefined active ");
+
+	std::function<void(Id, Node::NodeType, std::string)> createClass(
+		[&](Id id, Node::NodeType type, std::string name)
+		{
+			Node* classNode = graph->createNode(id, type, NameHierarchy(name + Node::getTypeString(type)), true);
+
+			if (type == Node::NODE_CLASS)
+			{
+				createChild(classNode, id, Node::NODE_TEMPLATE_PARAMETER_TYPE, name + "temp_param",
+					TokenComponentAccess::ACCESS_TEMPLATE);
+			}
+
+			createChild(classNode, id + 10, Node::NODE_METHOD, name + "method", TokenComponentAccess::ACCESS_PUBLIC);
+			if (type == Node::NODE_CLASS)
+			{
+				createChild(classNode, id + 30, Node::NODE_METHOD, name + "method",
+					TokenComponentAccess::ACCESS_PROTECTED);
+			}
+			createChild(classNode, id + 60, Node::NODE_FIELD, name + "field", TokenComponentAccess::ACCESS_PRIVATE);
+		}
+	);
+
+	std::function<void(Id, Node::NodeType)> createClasses(
+		[&](Id id, Node::NodeType type)
+		{
+			createClass(id + 1, type, "");
+			createClass(id + 2, type, "focused ");
+			createClass(id + 3, type, "active ");
+
+			createClass(id + 4, type, "undefined ");
+			createClass(id + 5, type, "undefined focused ");
+			createClass(id + 6, type, "undefined active ");
+		}
+	);
+
+	createClasses(200, Node::NODE_STRUCT);
+	createClasses(300, Node::NODE_CLASS);
+
+
+	std::function<void(Id, Edge::EdgeType, Node::NodeType, Node::NodeType, std::string)> createEdge(
+		[&](Id id, Edge::EdgeType type, Node::NodeType origin, Node::NodeType target, std::string name)
+		{
+			Node* originNode;
+			if (origin == Node::NODE_METHOD)
+			{
+				Node* classNode = graph->createNode(id + 101, Node::NODE_CLASS,
+					NameHierarchy(name + Node::getTypeString(Node::NODE_CLASS)), true);
+				originNode = createChild(classNode, id + 111, Node::NODE_METHOD, name + Edge::getTypeString(type),
+					TokenComponentAccess::ACCESS_PUBLIC);
+			}
+			else
+			{
+				originNode = graph->createNode(id + 1, origin, NameHierarchy(name + Edge::getTypeString(type)), true);
+			}
+
+			Node* targetNode;
+			if (target == Node::NODE_METHOD)
+			{
+				Node* classNode = graph->createNode(id + 201, Node::NODE_CLASS,
+					NameHierarchy(name + Node::getTypeString(Node::NODE_CLASS)), true);
+				targetNode = createChild(classNode, id + 211, Node::NODE_METHOD, name + Edge::getTypeString(type),
+					TokenComponentAccess::ACCESS_PUBLIC);
+			}
+			else
+			{
+				targetNode = graph->createNode(id + 11, target, NameHierarchy(name + Edge::getTypeString(type)), true);
+			}
+
+			Edge* edge = graph->createEdge(id, type, originNode, targetNode);
+
+			if (type == Edge::EDGE_AGGREGATION)
+			{
+				std::shared_ptr<TokenComponentAggregation> agg = std::make_shared<TokenComponentAggregation>();
+				for (Id i = 1; i < 11; i++)
+				{
+					agg->addAggregationId(i, true);
+				}
+				edge->addComponentAggregation(agg);
+			}
+		}
+	);
+
+	std::function<void(Id, Edge::EdgeType, Node::NodeType, Node::NodeType)> createEdges(
+		[&](Id id, Edge::EdgeType type, Node::NodeType origin, Node::NodeType target)
+		{
+			createEdge(id, type, origin, target, "");
+			createEdge(id + 1000, type, origin, target, "focused ");
+			createEdge(id + 2000, type, origin, target, "active ");
+		}
+	);
+
+	createEdges( 100000, Edge::EDGE_CALL, Node::NODE_FUNCTION, Node::NODE_FUNCTION);
+	createEdges( 200000, Edge::EDGE_USAGE, Node::NODE_GLOBAL_VARIABLE, Node::NODE_GLOBAL_VARIABLE);
+	createEdges( 300000, Edge::EDGE_TYPE_USAGE, Node::NODE_FUNCTION, Node::NODE_TYPE);
+	createEdges( 400000, Edge::EDGE_TYPE_OF, Node::NODE_GLOBAL_VARIABLE, Node::NODE_TYPE);
+
+	createEdges( 500000, Edge::EDGE_TYPEDEF_OF, Node::NODE_TYPEDEF, Node::NODE_TYPE);
+	createEdges( 600000, Edge::EDGE_AGGREGATION, Node::NODE_TYPE, Node::NODE_TYPE);
+	createEdges( 700000, Edge::EDGE_INCLUDE, Node::NODE_FILE, Node::NODE_FILE);
+	createEdges( 800000, Edge::EDGE_MACRO_USAGE, Node::NODE_MACRO, Node::NODE_MACRO);
+
+	createEdges( 900000, Edge::EDGE_INHERITANCE, Node::NODE_CLASS, Node::NODE_CLASS);
+	createEdges(1000000, Edge::EDGE_OVERRIDE, Node::NODE_METHOD, Node::NODE_METHOD);
+
+	createEdges(1100000, Edge::EDGE_TEMPLATE_ARGUMENT, Node::NODE_TYPE, Node::NODE_TYPE);
+	createEdges(1200000, Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT, Node::NODE_TYPE, Node::NODE_TYPE);
+	createEdges(1300000, Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, Node::NODE_TYPE, Node::NODE_TYPE);
+	createEdges(1400000, Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION_OF, Node::NODE_METHOD, Node::NODE_METHOD);
+
+	std::vector<Id> focusedTokenIds;
+	std::vector<Id> activeTokenIds;
+
+	graph->forEachNode(
+		[&](Node* node)
+		{
+			Id id = node->getId();
+			if (id % 10 < 4)
+			{
+				node->setExplicit(true);
+			}
+
+			if (id % 10 == 2 || id % 10 == 5)
+			{
+				focusedTokenIds.push_back(id);
+			}
+			else if (id % 10 == 3 || id % 10 == 6)
+			{
+				activeTokenIds.push_back(id);
+			}
+		}
+	);
+
+	graph->forEachEdge(
+		[&](Edge* edge)
+		{
+			Id id = edge->getId();
+			if (id % 10000 == 1000)
+			{
+				focusedTokenIds.push_back(id);
+			}
+			else if (id % 10000 == 2000)
+			{
+				activeTokenIds.push_back(id);
+			}
+		}
+	);
+
+	createDummyGraphForTokenIds(std::vector<Id>(), graph);
+
+	for (size_t i = 0; i < 2; i++)
+	{
+		std::shared_ptr<DummyNode> bundleNode = std::make_shared<DummyNode>();
+		bundleNode->tokenId = 10000001 + i;
+		bundleNode->name = "bundle";
+
+		if (i == 1)
+		{
+			bundleNode->name = "focused bundle";
+			focusedTokenIds.push_back(bundleNode->tokenId);
+		}
+
+		bundleNode->bundledNodes.push_back(std::make_shared<DummyNode>());
+		bundleNode->bundledNodeCount = 123;
+		m_dummyNodes.push_back(bundleNode);
+	}
+
+	forEachDummyNodeRecursive(
+		[](DummyNode* node)
+		{
+			node->visible = true;
+
+			if (node->subNodes.size())
+			{
+				node->expanded = true;
+				node->childVisible = true;
+			}
+		}
+	);
+
+	forEachDummyEdge(
+		[](DummyEdge* edge)
+		{
+			edge->visible = true;
+			edge->active = true;
+		}
+	);
+
+	setActive(activeTokenIds);
+
+	layoutNesting();
+
+	for (size_t i = 0; i < m_dummyNodes.size(); i++)
+	{
+		DummyNode* node = m_dummyNodes[i].get();
+
+		node->layoutBucket.x = i % 6 + 1;
+		node->layoutBucket.y = (i / 6) + 1;
+	}
+
+	BucketGrid grid(Vec2i(0, 0));
+	grid.createBuckets(m_dummyNodes, std::vector<std::shared_ptr<DummyEdge>>());
+	grid.layoutBuckets();
+
+	buildGraph(message, false);
+
+	getView()->focusTokenIds(focusedTokenIds);
 }

@@ -76,7 +76,7 @@ void Bucket::sort()
 
 void Bucket::preLayout(Vec2i viewSize)
 {
-	int cols = m_height / viewSize.y + 1;
+	int cols = (viewSize.y > 0 ? (m_height / viewSize.y) : 0) + 1;
 
 	int x = 0;
 	int y = 0;
@@ -299,7 +299,7 @@ DummyNode* BucketGrid::findTopMostDummyNodeRecursive(
 
 void BucketGrid::addNode(DummyNode* node)
 {
-	Bucket* bucket = getBucket(0, 0);
+	Bucket* bucket = getBucket(node->layoutBucket.x, node->layoutBucket.y);
 	bucket->addNode(node);
 }
 
@@ -310,7 +310,8 @@ bool BucketGrid::addNode(DummyNode* owner, DummyNode* target, bool horizontal)
 
 	if (!ownerBucket && !targetBucket)
 	{
-		return false;
+		ownerBucket = getBucket(0, 0);
+		ownerBucket->addNode(owner);
 	}
 	else if (ownerBucket && targetBucket)
 	{

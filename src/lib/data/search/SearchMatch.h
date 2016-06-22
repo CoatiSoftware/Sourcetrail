@@ -23,7 +23,8 @@ struct SearchMatch
 	enum CommandType
 	{
 		COMMAND_ALL,
-		COMMAND_ERROR
+		COMMAND_ERROR,
+		COMMAND_COLOR_SCHEME_TEST
 	};
 
 	static void log(const std::vector<SearchMatch>& matches, const std::string& query);
@@ -33,6 +34,7 @@ struct SearchMatch
 
 	static SearchMatch createCommand(CommandType type);
 	static std::string getCommandName(CommandType type);
+	static CommandType getCommandType(const std::string& name);
 
 	static const char FULLTEXT_SEARCH_CHARACTER = '?';
 

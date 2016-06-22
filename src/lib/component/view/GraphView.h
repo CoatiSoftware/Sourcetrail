@@ -20,7 +20,8 @@ public:
 	virtual void rebuildGraph(
 		std::shared_ptr<Graph> graph,
 		const std::vector<std::shared_ptr<DummyNode>>& nodes,
-		const std::vector<std::shared_ptr<DummyEdge>>& edges) = 0;
+		const std::vector<std::shared_ptr<DummyEdge>>& edges,
+		bool animated) = 0;
 	virtual void clear() = 0;
 
 	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds) = 0;

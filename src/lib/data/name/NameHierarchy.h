@@ -15,6 +15,7 @@ public:
 
 	NameHierarchy();
 	NameHierarchy(const std::string& name);
+	NameHierarchy(const std::vector<std::string>& names);
 	~NameHierarchy();
 
 	void push(std::shared_ptr<NameElement> element);

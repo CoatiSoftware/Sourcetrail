@@ -13,12 +13,6 @@ SearchController::~SearchController()
 {
 }
 
-void SearchController::handleMessage(MessageActivateAll* message)
-{
-	SearchMatch match = SearchMatch::createCommand(SearchMatch::COMMAND_ALL);
-	getView()->setMatches(std::vector<SearchMatch>(1, match));
-}
-
 void SearchController::handleMessage(MessageActivateTokens* message)
 {
 	if (!message->isFromSearch)
@@ -55,6 +49,21 @@ void SearchController::handleMessage(MessageFind* message)
 	else
 	{
 		getView()->setFocus();
+	}
+}
+
+void SearchController::handleMessage(MessageSearch* message)
+{
+	const std::vector<SearchMatch>& matches = message->getMatches();
+
+	for (const SearchMatch& match : matches)
+	{
+		if (match.searchType == SearchMatch::SEARCH_COMMAND)
+		{
+			SearchMatch m = SearchMatch::createCommand(SearchMatch::getCommandType(match.getFullName()));
+			getView()->setMatches(std::vector<SearchMatch>(1, m));
+			return;
+		}
 	}
 }
 

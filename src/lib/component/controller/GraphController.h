@@ -7,6 +7,7 @@
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
+#include "utility/messaging/type/MessageColorSchemeTest.h"
 #include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
@@ -31,6 +32,7 @@ class GraphController
 	: public Controller
 	, public MessageListener<MessageActivateAll>
 	, public MessageListener<MessageActivateTokens>
+	, public MessageListener<MessageColorSchemeTest>
 	, public MessageListener<MessageFlushUpdates>
 	, public MessageListener<MessageFocusIn>
 	, public MessageListener<MessageFocusOut>
@@ -61,6 +63,8 @@ private:
 	virtual void clear();
 
 	void createDummyGraphForTokenIds(const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph);
+	void createDummyGraphForTokenIdsAndSetActiveAndVisibility(
+		const std::vector<Id>& tokenIds, const std::shared_ptr<Graph> graph);
 	std::shared_ptr<DummyNode> createDummyNodeTopDown(Node* node, Id parentId);
 
 	std::vector<Id> getExpandedNodeIds() const;
@@ -89,7 +93,12 @@ private:
 
 	DummyNode* getDummyGraphNodeById(Id tokenId) const;
 
-	void buildGraph(MessageBase* message);
+	void buildGraph(MessageBase* message, bool animated = true);
+
+	void forEachDummyNodeRecursive(std::function<void(DummyNode*)> func);
+	void forEachDummyEdge(std::function<void(DummyEdge*)> func);
+
+	virtual void handleMessage(MessageColorSchemeTest* message);
 
 	StorageAccess* m_storageAccess;
 

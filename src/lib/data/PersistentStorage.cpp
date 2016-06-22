@@ -32,6 +32,7 @@ PersistentStorage::PersistentStorage(const FilePath& dbPath)
 {
 	m_commandIndex.addNode(0, NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_ALL)));
 	m_commandIndex.addNode(0, NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR)));
+	m_commandIndex.addNode(0, NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_COLOR_SCHEME_TEST)));
 	m_commandIndex.finishSetup();
 }
 

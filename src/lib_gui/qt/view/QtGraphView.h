@@ -34,7 +34,8 @@ public:
 	virtual void rebuildGraph(
 		std::shared_ptr<Graph> graph,
 		const std::vector<std::shared_ptr<DummyNode>>& nodes,
-		const std::vector<std::shared_ptr<DummyEdge>>& edges);
+		const std::vector<std::shared_ptr<DummyEdge>>& edges,
+		bool animated);
 	virtual void clear();
 
 	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds);
@@ -57,7 +58,8 @@ private:
 	void doRebuildGraph(
 		std::shared_ptr<Graph> graph,
 		const std::vector<std::shared_ptr<DummyNode>>& nodes,
-		const std::vector<std::shared_ptr<DummyEdge>>& edges);
+		const std::vector<std::shared_ptr<DummyEdge>>& edges,
+		bool animated);
 	void doClear();
 	void doResize();
 	void doRefreshView();
@@ -86,7 +88,8 @@ private:
 	QtThreadedFunctor<
 		std::shared_ptr<Graph>,
 		const std::vector<std::shared_ptr<DummyNode>>&,
-		const std::vector<std::shared_ptr<DummyEdge>>&
+		const std::vector<std::shared_ptr<DummyEdge>>&,
+		bool
 	> m_rebuildGraphFunctor;
 	QtThreadedFunctor<void> m_clearFunctor;
 	QtThreadedFunctor<void> m_resizeFunctor;

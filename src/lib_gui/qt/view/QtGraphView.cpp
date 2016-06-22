@@ -32,7 +32,8 @@
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)
 	, m_rebuildGraphFunctor(
-		std::bind(&QtGraphView::doRebuildGraph, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
+		std::bind(&QtGraphView::doRebuildGraph, this,
+			std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4))
 	, m_clearFunctor(std::bind(&QtGraphView::doClear, this))
 	, m_resizeFunctor(std::bind(&QtGraphView::doResize, this))
 	, m_refreshFunctor(std::bind(&QtGraphView::doRefreshView, this))
@@ -82,9 +83,10 @@ void QtGraphView::refreshView()
 void QtGraphView::rebuildGraph(
 	std::shared_ptr<Graph> graph,
 	const std::vector<std::shared_ptr<DummyNode>>& nodes,
-	const std::vector<std::shared_ptr<DummyEdge>>& edges
+	const std::vector<std::shared_ptr<DummyEdge>>& edges,
+	bool animated
 ){
-	m_rebuildGraphFunctor(graph, nodes, edges);
+	m_rebuildGraphFunctor(graph, nodes, edges, animated);
 }
 
 void QtGraphView::clear()
@@ -197,7 +199,8 @@ QtGraphicsView* QtGraphView::getView() const
 void QtGraphView::doRebuildGraph(
 	std::shared_ptr<Graph> graph,
 	const std::vector<std::shared_ptr<DummyNode>>& nodes,
-	const std::vector<std::shared_ptr<DummyEdge>>& edges
+	const std::vector<std::shared_ptr<DummyEdge>>& edges,
+	bool animated
 ){
 	if (m_transition && m_transition->currentTime() < m_transition->totalDuration())
 	{
@@ -248,7 +251,14 @@ void QtGraphView::doRebuildGraph(
 		m_graph = graph;
 	}
 
-	createTransition();
+	if (animated)
+	{
+		createTransition();
+	}
+	else
+	{
+		switchToNewGraphData();
+	}
 }
 
 void QtGraphView::doClear()
@@ -596,7 +606,7 @@ void QtGraphView::doFocusIn(const std::vector<Id>& tokenIds)
 	for (const Id& tokenId : tokenIds)
 	{
 		std::shared_ptr<QtGraphNode> node = findNodeRecursive(m_oldNodes, tokenId);
-		if (node && node->isDataNode())
+		if (node)
 		{
 			node->focusIn();
 			continue;

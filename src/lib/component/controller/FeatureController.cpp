@@ -6,6 +6,7 @@
 #include "utility/messaging/type/MessageActivateAll.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
+#include "utility/messaging/type/MessageColorSchemeTest.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/messaging/type/MessageStatus.h"
@@ -114,21 +115,34 @@ void FeatureController::handleMessage(MessageSearch* message)
 
 	for (const SearchMatch& match : matches)
 	{
-		if (match.searchType == SearchMatch::SEARCH_COMMAND &&
-			match.getFullName() == SearchMatch::getCommandName(SearchMatch::COMMAND_ALL))
+		if (match.searchType == SearchMatch::SEARCH_COMMAND)
 		{
-			MessageActivateAll msg;
-			msg.setIsReplayed(message->isReplayed());
-			msg.dispatchImmediately();
-			return;
-		}
-		else if (match.searchType == SearchMatch::SEARCH_COMMAND &&
-			match.getFullName() == SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR))
-		{
-			MessageShowErrors msg(ErrorCountInfo(-1, 0));
-			msg.setIsReplayed(message->isReplayed());
-			msg.dispatchImmediately();
-			return;
+			SearchMatch::CommandType type = SearchMatch::getCommandType(match.getFullName());
+
+			switch (type)
+			{
+				case SearchMatch::COMMAND_ALL:
+				{
+					MessageActivateAll msg;
+					msg.setIsReplayed(message->isReplayed());
+					msg.dispatchImmediately();
+					return;
+				}
+
+				case SearchMatch::COMMAND_ERROR:
+				{
+					MessageShowErrors msg(ErrorCountInfo(-1, 0));
+					msg.setIsReplayed(message->isReplayed());
+					msg.dispatchImmediately();
+					return;
+				}
+
+				case SearchMatch::COMMAND_COLOR_SCHEME_TEST:
+				{
+					MessageColorSchemeTest().dispatchImmediately();
+					return;
+				}
+			}
 		}
 	}
 

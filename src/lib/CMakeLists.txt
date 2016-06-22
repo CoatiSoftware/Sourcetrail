@@ -234,6 +234,7 @@ add_files(
 	utility/messaging/type/MessageAutoRefreshChanged.h
 	utility/messaging/type/MessageChangeFileView.h
 	utility/messaging/type/MessageClearErrorCount.h
+	utility/messaging/type/MessageColorSchemeTest.h
 	utility/messaging/type/MessageDeactivateEdge.h
 	utility/messaging/type/MessageDispatchWhenLicenseValid.h
 	utility/messaging/type/MessageEnteredLicense.h

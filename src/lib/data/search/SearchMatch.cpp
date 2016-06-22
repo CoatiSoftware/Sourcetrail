@@ -32,7 +32,6 @@ std::string SearchMatch::getSearchTypeName(SearchType type)
 	case SEARCH_FULLTEXT:
 		return "fulltext";
 	}
-
 }
 
 std::string SearchMatch::searchMatchesToString(const std::vector<SearchMatch>& matches)
@@ -64,9 +63,29 @@ std::string SearchMatch::getCommandName(CommandType type)
 		return "overview";
 	case COMMAND_ERROR:
 		return "error";
+	case COMMAND_COLOR_SCHEME_TEST:
+		return "color_scheme_test";
 	}
 
 	return "none";
+}
+
+SearchMatch::CommandType SearchMatch::getCommandType(const std::string& name)
+{
+	if (name == "overview")
+	{
+		return COMMAND_ALL;
+	}
+	else if (name == "error")
+	{
+		return COMMAND_ERROR;
+	}
+	else if (name == "color_scheme_test")
+	{
+		return COMMAND_COLOR_SCHEME_TEST;
+	}
+
+	return COMMAND_ALL;
 }
 
 SearchMatch::SearchMatch()
