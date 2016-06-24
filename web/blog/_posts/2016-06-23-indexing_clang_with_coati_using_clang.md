@@ -2,13 +2,14 @@
 layout: post
 title: "Indexing Clang with Coati using Clang"
 description: "An indroduction on how to setup Coati for navigating and exploring Clang"
+modified: 2016-06-24
 author: Malte Langkabel
 author-link: http://www.maltelangkabel.com/
 image:
   feature: post_background.png
 ---
 
-In this post I'm gonna use [Clang](http://clang.llvm.org/) as a sample project for [Coati](https://www.coati.io) to chew on. Clang is an open source compiler front-end for the LLVM compiler. Clang is responsible for all the lexing and parsing related tasks, but does not perform any code optimizations or bytecode generation in the compiler context. Clang's current version is 3.8 which roughly consists of a million lines of code.
+In this post I'm gonna use [Clang](http://clang.llvm.org/) as a sample project for [Coati](https://www.coati.io) to chew on. Clang is an open source compiler front-end for the LLVM compiler. Clang is responsible for all the lexing and parsing related tasks, but does not perform any code optimizations or machine code generation in the compiler context. Clang's current version is 3.8 which roughly consists of a million lines of code.
 
 <figure style="text-align:center;">
 	<a href="../images/indexing_clang_with_coati_using_clang/clang_named_decl.png">
@@ -99,3 +100,9 @@ This is a shout-out to all the contributors of the Clang project. You are doing 
 
 ### Remarks
 For everyone else: If this article hasn't convinced you yet and you want to test Coati on your own projects, write us an e-mail to **support@coati.io** and ask for a test license.
+
+<br />
+
+___
+
+**Edit:** Changed description of Clang due to comment of Jonas Devlieghere
