@@ -50,21 +50,14 @@ void PreprocessorCallbacks::InclusionDirective(
 	clang::CharSourceRange fileNameRange, const clang::FileEntry* fileEntry, llvm::StringRef searchPath,
 	llvm::StringRef relativePath, const clang::Module* imported
 ){
-	const clang::FileEntry* baseFileEntry = m_sourceManager.getFileEntryForID(m_sourceManager.getFileID(hashLocation));
-	if (fileEntry && baseFileEntry)
+	if (!m_currentPath.empty())
 	{
-		FilePath baseFilePath = FilePath(baseFileEntry->getName()).canonical();
-		if (!m_fileRegister->hasFilePath(baseFilePath) || m_fileRegister->fileIsParsed(baseFilePath))
-		{
-			return;
-		}
-
 		FilePath includedFilePath = FilePath(fileEntry->getName()).canonical();
 		if (m_fileRegister->hasFilePath(includedFilePath))
 		{
 			m_client->onFileIncludeParsed(
 				getParseLocation(fileNameRange.getAsRange()),
-				m_fileRegister->getFileInfo(baseFilePath),
+				m_fileRegister->getFileInfo(m_currentPath),
 				m_fileRegister->getFileInfo(includedFilePath)
 			);
 		}
