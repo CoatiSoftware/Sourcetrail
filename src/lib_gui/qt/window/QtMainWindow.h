@@ -6,7 +6,6 @@
 #include <vector>
 
 #include <QMainWindow>
-#include <QShortcut>
 
 #include "qt/utility/QtThreadedFunctor.h"
 #include "qt/window/QtWindowStack.h"
@@ -130,9 +129,6 @@ public slots:
 
 	void toggleView(View* view, bool fromMenu);
 
-	void handleEscapeShortcut();
-	void handleSpaceShortcut();
-
 	void updateRecentProjectMenu();
 
 private slots:
@@ -152,8 +148,6 @@ private:
 	void setupViewMenu();
 	void setupHelpMenu();
 
-	void setupShortcuts();
-
 	DockWidget* getDockWidgetForView(View* view);
 
 	void setShowDockWidgetTitleBars(bool showTitleBars);
@@ -169,9 +163,6 @@ private:
 	bool m_showDockWidgetTitleBars;
 
 	QtWindowStack m_windowStack;
-
-	QShortcut* m_escapeShortcut;
-	QShortcut* m_spaceShortcut;
 };
 
 #endif // QT_MAIN_WINDOW_H

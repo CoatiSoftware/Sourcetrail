@@ -155,8 +155,6 @@ QtMainWindow::QtMainWindow()
 	setupViewMenu();
 	setupHelpMenu();
 
-	setupShortcuts();
-
 	// Need to call loadLayout here for right DockWidget size on Linux
 	// Seconde call is in Application.cpp
 	loadLayout();
@@ -301,9 +299,19 @@ bool QtMainWindow::event(QEvent* event)
 
 void QtMainWindow::keyPressEvent(QKeyEvent* event)
 {
-	if (event->key() == Qt::Key_Backspace)
+	switch (event->key())
 	{
-		MessageUndo().dispatch();
+		case Qt::Key_Backspace:
+			MessageUndo().dispatch();
+			break;
+
+		case Qt::Key_Escape:
+			MessageInterruptTasks().dispatch();
+			break;
+
+		case Qt::Key_Space:
+			PRINT_TRACES();
+			break;
 	}
 }
 
@@ -503,16 +511,6 @@ void QtMainWindow::toggleView(View* view, bool fromMenu)
 	}
 }
 
-void QtMainWindow::handleEscapeShortcut()
-{
-	MessageInterruptTasks().dispatch();
-}
-
-void QtMainWindow::handleSpaceShortcut()
-{
-	PRINT_TRACES();
-}
-
 void QtMainWindow::setupProjectMenu()
 {
 	QMenu *menu = new QMenu(tr("&Project"), this);
@@ -662,15 +660,6 @@ void QtMainWindow::setupHelpMenu()
 		menu->addAction(tr("Enter License..."), this, SLOT(enterLicense()));
 		menu->addAction(tr("Preferences..."), this, SLOT(openSettings()));
 	}
-}
-
-void QtMainWindow::setupShortcuts()
-{
-	m_escapeShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), this);
-	connect(m_escapeShortcut, SIGNAL(activated()), SLOT(handleEscapeShortcut()));
-
-	m_spaceShortcut = new QShortcut(QKeySequence(Qt::Key_Space), this);
-	connect(m_spaceShortcut, SIGNAL(activated()), SLOT(handleSpaceShortcut()));
 }
 
 QtMainWindow::DockWidget* QtMainWindow::getDockWidgetForView(View* view)
