@@ -50,7 +50,7 @@ My co-workers are working on a Mac and Linux. They can use that same CMakeLists 
 #### Manual setup
 For the sake of this post I decided not to use any of the automated approaches. Instead I wanted to setup the project manually. As I only needed to look at Clang and leave the rest of LLVW untouched this was rather simple. First I added all the *Project Paths* I wanted Coati to analyze:
 
-```
+```plaintext
 Project Paths:
   <clang-llvm-dir>/llvm/tools/clang/lib
   <clang-llvm-dir>/llvm/tools/clang/include
@@ -59,7 +59,7 @@ Project Paths:
 
 Please note that I also added some paths called *include* to the project paths above. Even though these paths only contain header files I still wanted Coati to know that once it encounters a header file located in one of these folders it should index it. Furthermore we need to add the following rows to the *Include Paths*. This tells Coati where to look for additional includes that should not be indexed.
 
-```
+```plaintext
 Include Paths:
   <clang-llvm-dir>/llvm/include
   <clang-llvm-dir>/build/include
