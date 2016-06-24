@@ -191,12 +191,7 @@ void QtProjectWizzardContentPaths::detectionClicked()
 	}
 
 	std::vector<FilePath> oldPaths = m_list->getList();
-
-	std::set<FilePath> uniquePaths;
-	uniquePaths.insert(oldPaths.begin(), oldPaths.end());
-	uniquePaths.insert(paths.begin(), paths.end());
-
-	m_list->setList(utility::toVector(uniquePaths));
+	m_list->setList(utility::unique(utility::concat(oldPaths, paths)));
 }
 
 

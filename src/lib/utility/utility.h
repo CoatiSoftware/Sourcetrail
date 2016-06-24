@@ -35,6 +35,9 @@ namespace utility
 	void append(std::unordered_set<T>& a, const std::unordered_set<T>& b);
 
 	template<typename T>
+	std::vector<T> unique(const std::vector<T>& a);
+
+	template<typename T>
 	std::vector<T> toVector(const std::deque<T>& d);
 
 	template<typename T>
@@ -84,6 +87,29 @@ template<typename T>
 void utility::append(std::unordered_set<T>& a, const std::unordered_set<T>& b)
 {
 	a.insert(b.begin(), b.end());
+}
+
+template<typename T>
+std::vector<T> utility::unique(const std::vector<T>& a)
+{
+	std::map<T, size_t> unique;
+
+	size_t i = 0;
+	for (const T& t : a)
+	{
+		if (unique.emplace(t, i).second)
+		{
+			i++;
+		}
+	}
+
+	std::vector<T> r(i, T());
+	for (const std::pair<T, size_t>& p : unique)
+	{
+		r[p.second] = p.first;
+	}
+
+	return r;
 }
 
 template<typename T>
