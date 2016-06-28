@@ -1,12 +1,14 @@
 #ifndef MESSAGE_LOAD_PROJECT_H
 #define MESSAGE_LOAD_PROJECT_H
 
+#include "utility/file/FilePath.h"
 #include "utility/messaging/Message.h"
 
-class MessageLoadProject: public Message<MessageLoadProject>
+class MessageLoadProject
+	: public Message<MessageLoadProject>
 {
 public:
-	MessageLoadProject(const std::string& filePath, bool forceRefresh)
+	MessageLoadProject(const FilePath& filePath, bool forceRefresh)
 		: projectSettingsFilePath(filePath)
 		, forceRefresh(forceRefresh)
 	{
@@ -19,10 +21,10 @@ public:
 
 	virtual void print(std::ostream& os) const
 	{
-		os << projectSettingsFilePath << ", forceRefresh: " << std::boolalpha << forceRefresh;
+		os << projectSettingsFilePath.str() << ", forceRefresh: " << std::boolalpha << forceRefresh;
 	}
 
-	const std::string projectSettingsFilePath;
+	const FilePath projectSettingsFilePath;
 	const bool forceRefresh;
 };
 

@@ -91,36 +91,6 @@ Project::ProjectState Project::reload()
 	return m_state;
 }
 
-bool Project::save(const FilePath& projectSettingsFile)
-{
-	bool differentLocation = (projectSettingsFile != m_projectSettingsFilepath);
-	if (!projectSettingsFile.empty())
-	{
-		setProjectSettingsFilePath(projectSettingsFile);
-	}
-	else
-	{
-		differentLocation = false;
-	}
-
-	if (m_projectSettingsFilepath.empty())
-	{
-		return false;
-	}
-
-	ProjectSettings settings;
-	settings.load(m_projectSettingsFilepath);
-
-	if (differentLocation || settings != *ProjectSettings::getInstance().get())
-	{
-		ProjectSettings::getInstance()->save(m_projectSettingsFilepath);
-
-		LOG_INFO_STREAM(<< "ProjectSettings saved to file: " << m_projectSettingsFilepath.str());
-	}
-
-	return true;
-}
-
 void Project::clearStorage()
 {
 	if (m_state == PROJECT_OUTVERSIONED)
@@ -291,14 +261,12 @@ Parser::Arguments Project::getParserArguments() const
 	if (projSettings->getUseSourcePathsForHeaderSearch())
 	{
 		std::vector<FilePath> headerSearchSubPaths;
-		for (FilePath p : projSettings->getAbsoluteHeaderSearchPaths())
+		for (FilePath p : projSettings->getSourcePaths())
 		{
-			std::vector<FilePath> tempPaths = FileSystem::getSubDirectories(p);
-			headerSearchSubPaths.insert( headerSearchSubPaths.end(), tempPaths.begin(), tempPaths.end() );
+			utility::append(headerSearchSubPaths, FileSystem::getSubDirectories(p));
 		}
 
-		std::unique(headerSearchSubPaths.begin(),headerSearchSubPaths.end());
-		utility::append(args.systemHeaderSearchPaths, headerSearchSubPaths);
+		utility::append(args.systemHeaderSearchPaths, utility::unique(headerSearchSubPaths));
 	}
 
 	utility::append(args.frameworkSearchPaths, projSettings->getAbsoluteFrameworkSearchPaths());

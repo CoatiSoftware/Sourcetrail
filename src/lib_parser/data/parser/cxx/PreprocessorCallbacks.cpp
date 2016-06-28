@@ -50,7 +50,7 @@ void PreprocessorCallbacks::InclusionDirective(
 	clang::CharSourceRange fileNameRange, const clang::FileEntry* fileEntry, llvm::StringRef searchPath,
 	llvm::StringRef relativePath, const clang::Module* imported
 ){
-	if (!m_currentPath.empty())
+	if (!m_currentPath.empty() && fileEntry)
 	{
 		FilePath includedFilePath = FilePath(fileEntry->getName()).canonical();
 		if (m_fileRegister->hasFilePath(includedFilePath))

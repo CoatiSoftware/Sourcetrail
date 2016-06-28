@@ -157,11 +157,6 @@ bool ProjectSettings::setSourceExtensions(const std::vector<std::string> &source
 	return setValues("source/extensions/source_extensions", sourceExtensions);
 }
 
-bool ProjectSettings::isUseSourcePathsForHeaderSearchDefined() const
-{
-	return isValueDefined("source/use_source_paths_for_header_search");
-}
-
 bool ProjectSettings::getUseSourcePathsForHeaderSearch() const
 {
 	return getValue<bool>("source/use_source_paths_for_header_search", false);

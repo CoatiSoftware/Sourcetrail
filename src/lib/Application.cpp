@@ -1,5 +1,6 @@
 #include "Application.h"
 
+#include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/MessageQueue.h"
 #include "utility/messaging/type/MessageActivateNodes.h"
@@ -201,18 +202,6 @@ void Application::refreshProject()
 	}
 }
 
-void Application::saveProject(const FilePath& projectSettingsFilePath)
-{
-	if (!m_project->save(projectSettingsFilePath))
-	{
-		LOG_ERROR("No Project Settings File defined");
-	}
-	else
-	{
-		MessageStatus("Project saved").dispatch();
-	}
-}
-
 void Application::handleMessage(MessageActivateWindow* message)
 {
 	if (m_hasGUI)
@@ -248,17 +237,50 @@ void Application::handleMessage(MessageLoadProject* message)
 	{
 		if (m_hasGUI)
 		{
-			std::vector<std::string> options;
-			options.push_back("Yes");
-			options.push_back("No");
-			int result = m_mainView->confirm(
-				"Some settings were changed, the project needs to be fully reindexed. "
-				"Do you want to reindex the project?", options);
+			FilePath path = projectSettingsFilePath;
+			FilePath oldPath = m_project->getProjectSettingsFilePath();
 
-			if (result == 1)
+			if (oldPath.exists() && oldPath != path)
 			{
-				m_project->load(projectSettingsFilePath);
-				return;
+				std::vector<std::string> options;
+				options.push_back("Yes");
+				options.push_back("No");
+				int result = m_mainView->confirm(
+					"You changed the project location. The project file (.coatiproject) and the database file (.coatidb) will "
+					"be moved to the new location. Do you want to keep a copy of the files in the previous location?"
+					, options);
+
+				FilePath dbPath = FilePath(path).replaceExtension("coatidb");
+				FilePath olddbPath = FilePath(oldPath).replaceExtension("coatidb");
+
+				m_project = Project::create(m_storageCache.get());
+
+				if (result == 0)
+				{
+					FileSystem::copyFile(olddbPath, dbPath);
+				}
+				else
+				{
+					FileSystem::remove(oldPath);
+					FileSystem::rename(olddbPath, dbPath);
+				}
+			}
+			else
+			{
+				std::vector<std::string> options;
+				options.push_back("Yes");
+				options.push_back("No");
+				int result = m_mainView->confirm(
+					"Some settings were changed, the project needs to be fully reindexed. "
+					"Do you want to reindex the project?", options);
+
+				if (result == 1)
+				{
+					m_project->load(projectSettingsFilePath);
+					updateRecentProjects(projectSettingsFilePath);
+					m_mainView->setTitle("Coati - " + projectSettingsFilePath.fileName());
+					return;
+				}
 			}
 		}
 
@@ -299,11 +321,6 @@ void Application::handleMessage(MessageRefresh* message)
 	{
 		refreshProject();
 	}
-}
-
-void Application::handleMessage(MessageSaveProject* message)
-{
-	saveProject(message->projectSettingsFilePath);
 }
 
 void Application::startMessagingAndScheduling()

@@ -555,8 +555,7 @@ void QtProjectWizzard::showSummary()
 
 void QtProjectWizzard::createProject()
 {
-	std::string path = m_settings.getProjectFileLocation().str() + "/" + m_settings.getProjectName() + ".coatiproject";
-
+	FilePath path(m_settings.getProjectFileLocation().str() + "/" + m_settings.getProjectName() + ".coatiproject");
 	m_settings.save(path);
 
 	bool edited = false;

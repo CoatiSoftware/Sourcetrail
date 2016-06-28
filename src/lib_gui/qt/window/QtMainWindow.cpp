@@ -30,7 +30,6 @@
 #include "utility/messaging/type/MessageRedo.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageResetZoom.h"
-#include "utility/messaging/type/MessageSaveProject.h"
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageSwitchColorScheme.h"
 #include "utility/messaging/type/MessageUndo.h"
@@ -446,22 +445,6 @@ void QtMainWindow::forceRefresh()
 	MessageRefresh().refreshAll().dispatch();
 }
 
-void QtMainWindow::saveProject()
-{
-	MessageSaveProject("").dispatch();
-}
-
-void QtMainWindow::saveAsProject()
-{
-	QString filename = "";
-	filename = QFileDialog::getSaveFileName(this, "Save File as", "", "Coati Project Files (*.coatiproject)");
-
-	if(!filename.isEmpty())
-	{
-		MessageSaveProject(filename.toStdString()).dispatch();
-	}
-}
-
 void QtMainWindow::undo()
 {
 	MessageUndo().dispatch();
@@ -542,11 +525,6 @@ void QtMainWindow::setupProjectMenu()
 	if(!isTrial())
 	{
 		menu->addAction(tr("&Edit Project..."), this, SLOT(editProject()));
-
-		menu->addSeparator();
-
-		menu->addAction(tr("&Save Project"), this, SLOT(saveProject()), QKeySequence::Save);
-		menu->addAction(tr("Save Project as..."), this, SLOT(saveAsProject()), QKeySequence::SaveAs);
 
 		menu->addSeparator();
 	}

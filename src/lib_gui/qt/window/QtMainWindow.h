@@ -117,9 +117,6 @@ public slots:
 	void refresh();
 	void forceRefresh();
 
-	void saveProject();
-	void saveAsProject();
-
 	void undo();
 	void redo();
 	void zoomIn();

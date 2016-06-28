@@ -31,8 +31,6 @@ public:
 	ProjectState load(const FilePath& projectSettingsFile);
 	ProjectState reload();
 
-	bool save(const FilePath& projectSettingsFile);
-
 	void clearStorage();
 
 	void logStats() const;

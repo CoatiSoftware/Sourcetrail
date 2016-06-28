@@ -10,7 +10,6 @@
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageRefresh.h"
-#include "utility/messaging/type/MessageSaveProject.h"
 
 class IDECommunicationController;
 class NetworkFactory;
@@ -24,7 +23,6 @@ class Application
 	, public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageLoadProject>
 	, public MessageListener<MessageRefresh>
-	, public MessageListener<MessageSaveProject>
 {
 public:
 	static std::shared_ptr<Application> create(const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory);
@@ -36,7 +34,6 @@ public:
 	void createAndLoadProject(const FilePath& projectSettingsFilePath);
 	void loadProject(const FilePath& projectSettingsFilePath);
 	void refreshProject();
-	void saveProject(const FilePath& projectSettingsFilePath);
 	bool hasGUI();
 
 private:
@@ -46,7 +43,6 @@ private:
 	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageLoadProject* message);
 	virtual void handleMessage(MessageRefresh* message);
-	virtual void handleMessage(MessageSaveProject* message);
 
 	void startMessagingAndScheduling();
 

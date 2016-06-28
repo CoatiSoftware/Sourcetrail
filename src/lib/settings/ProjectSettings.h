@@ -47,7 +47,6 @@ public:
 	std::vector<std::string> getSourceExtensions() const;
 	bool setSourceExtensions(const std::vector<std::string>& sourceExtensions);
 
-	bool isUseSourcePathsForHeaderSearchDefined() const;
 	bool getUseSourcePathsForHeaderSearch() const;
 	bool setUseSourcePathsForHeaderSearch(bool useSourcePathsForHeaderSearch);
 
