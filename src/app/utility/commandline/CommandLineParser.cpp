@@ -46,7 +46,7 @@ CommandLineParser::CommandLineParser(int argc, char** argv, const std::string& v
 	all.add(desc).add(hidden_desc);
 
 	po::variables_map vm;
-	po::store(po::command_line_parser(argc,argv).options(all).positional(positionalOption).run(), vm);
+	po::store(po::command_line_parser(argc,argv).options(all).positional(positionalOption).allow_unregistered().run(), vm);
 	po::notify(vm);
 
 	if (vm.count("help"))
