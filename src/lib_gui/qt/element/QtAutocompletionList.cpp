@@ -120,7 +120,11 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 
 	float charWidth = option.fontMetrics.width(
 		"----------------------------------------------------------------------------------------------------"
-	) / 100.0f;
+		"----------------------------------------------------------------------------------------------------"
+		"----------------------------------------------------------------------------------------------------"
+		"----------------------------------------------------------------------------------------------------"
+		"----------------------------------------------------------------------------------------------------"
+	) / 500.0f;
 	painter->drawText(option.rect.adjusted(charWidth + 2, -1, 0, 0), Qt::AlignLeft, name);
 
 	QString highlightName(name.size(), ' ');
@@ -173,11 +177,11 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 	painter->restore();
 }
 
-QSize QtAutocompletionDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const
+QSize QtAutocompletionDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
 	QString name = index.data().toString();
 	QString type = index.sibling(index.row(), index.column() + 1).data().toString();
-	return QSize( option.fontMetrics.width(name+type)+5, option.fontMetrics.height());
+	return QSize(option.fontMetrics.width(name + type) + 5, option.fontMetrics.height());
 }
 
 QtAutocompletionList::QtAutocompletionList(QWidget* parent)
@@ -196,44 +200,34 @@ QtAutocompletionList::QtAutocompletionList(QWidget* parent)
 	setPopup(list);
 
 	setCaseSensitivity(Qt::CaseInsensitive);
-	// setCompletionMode(QCompleter::UnfilteredPopupCompletion);
+	setCompletionMode(QCompleter::UnfilteredPopupCompletion);
+	setModelSorting(QCompleter::UnsortedModel);
+	setCompletionPrefix("");
+	setMaxVisibleItems(20);
 }
 
 QtAutocompletionList::~QtAutocompletionList()
 {
 }
 
-
 void QtAutocompletionList::completeAt(const QPoint& pos, const std::vector<SearchMatch>& autocompletionList)
 {
 	m_model->setMatchList(autocompletionList);
 
-	QSize minSize(400, 253);
 	QListView* list = dynamic_cast<QListView*>(popup());
-
 	if (!autocompletionList.size())
 	{
 		list->hide();
 		return;
 	}
 
-	setCompletionPrefix("");
-
-	const QModelIndex& index = completionModel()->index(0, 0);
-	list->setCurrentIndex(index);
-
-	QRect rect = list->visualRect(index);
-	minSize.setHeight(std::min(minSize.height(), m_model->rowCount(index) * rect.height() + 16));
-
-	list->setMinimumSize(minSize);
-	list->verticalScrollBar()->setValue(list->verticalScrollBar()->minimum());
-
 	disconnect(); // must be done because of a bug where signals are no longer received by QtSmartSearchBox
 	connect(this, SIGNAL(highlighted(const QModelIndex&)), this, SLOT(onHighlighted(const QModelIndex&)), Qt::DirectConnection);
 	connect(this, SIGNAL(activated(const QModelIndex&)), this, SLOT(onActivated(const QModelIndex&)), Qt::DirectConnection);
 
-	QWidget* textBox = dynamic_cast<QWidget*>(parent());
-	complete(QRect(pos.x(), pos.y(), textBox->width(), 1));
+	complete(QRect(pos.x(), pos.y(), std::max(dynamic_cast<QWidget*>(parent())->width(), 400), 1));
+
+	list->setCurrentIndex(completionModel()->index(0, 0));
 }
 
 const SearchMatch* QtAutocompletionList::getSearchMatchAt(int idx) const

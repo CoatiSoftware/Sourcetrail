@@ -1,6 +1,5 @@
 #include "qt/element/QtSearchBar.h"
 
-#include <QCompleter>
 #include <QHBoxLayout>
 #include <QPushButton>
 
@@ -89,11 +88,7 @@ void QtSearchBar::setAutocompletionList(const std::vector<SearchMatch>& autocomp
 
 QAbstractItemView* QtSearchBar::getCompleterPopup()
 {
-	if (m_searchBox->completer())
-	{
-		return m_searchBox->completer()->popup();
-	}
-	return nullptr;
+	return m_searchBox->getCompleter()->popup();
 }
 
 void QtSearchBar::refreshStyle()

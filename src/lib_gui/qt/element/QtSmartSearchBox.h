@@ -8,6 +8,7 @@
 #include <QPushButton>
 
 #include "data/search/SearchMatch.h"
+#include "qt/element/QtAutocompletionList.h"
 
 class QtSearchElement
 	: public QPushButton
@@ -37,6 +38,8 @@ public slots:
 public:
 	QtSmartSearchBox(QWidget* parent);
 	virtual ~QtSmartSearchBox();
+
+	QCompleter* getCompleter() const;
 
 	void setAutocompletionList(const std::vector<SearchMatch>& autocompletionList);
 	void setMatches(const std::vector<SearchMatch>& matches);
@@ -109,6 +112,7 @@ private:
 	int m_mouseX;
 
 	QWidget* m_highlightRect;
+	QtAutocompletionList* m_completer;
 };
 
 #endif // QT_SMART_SEARCH_BOX_H
