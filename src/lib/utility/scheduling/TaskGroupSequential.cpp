@@ -27,7 +27,7 @@ Task::TaskState TaskGroupSequential::update()
 
 	std::shared_ptr<Task> task = m_tasks[m_taskIndex];
 
-	TaskState state = task->process(false);
+	TaskState state = task->processTask();
 
 	if (state == Task::STATE_FINISHED && size_t(m_taskIndex + 1) == m_tasks.size())
 	{
@@ -47,7 +47,7 @@ void TaskGroupSequential::interrupt()
 	{
 		for (int i = m_taskIndex; i >= 0; i--)
 		{
-			m_tasks[i]->process(true);
+			m_tasks[i]->interruptTask();
 		}
 	}
 }
@@ -56,6 +56,6 @@ void TaskGroupSequential::revert()
 {
 	for (int i = m_tasks.size() - 1; i >= 0; i--)
 	{
-		m_tasks[i]->process(true);
+		m_tasks[i]->interruptTask();
 	}
 }

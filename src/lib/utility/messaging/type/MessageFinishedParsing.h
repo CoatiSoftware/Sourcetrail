@@ -25,11 +25,6 @@ public:
 		return "MessageFinishedParsing";
 	}
 
-	virtual void dispatch()
-	{
-		Message<MessageFinishedParsing>::dispatch();
-	}
-
 	std::string getStatusStr() const
 	{
 		if (loadedOnly)

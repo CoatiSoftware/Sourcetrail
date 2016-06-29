@@ -229,7 +229,7 @@ void PersistentStorage::finishInjection()
 	{
 		MessageShowErrors msg(errorCount);
 		msg.setSendAsTask(false);
-		msg.dispatch();
+		msg.dispatchImmediately();
 	}
 	m_preInjectionErrorCount = -1;
 }

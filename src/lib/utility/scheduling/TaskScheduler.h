@@ -33,7 +33,7 @@ private:
 	TaskScheduler(const TaskScheduler&);
 	void operator=(const TaskScheduler&);
 
-	void updateTasks();
+	void processTasks();
 
 	virtual void handleMessage(MessageInterruptTasks* message);
 

@@ -21,7 +21,7 @@ public:
 	virtual void revert();
 
 private:
-	void processTask(std::shared_ptr<Task> task);
+	void processTaskThreaded(std::shared_ptr<Task> task);
 
 	volatile bool m_interrupt;
 	bool m_running;

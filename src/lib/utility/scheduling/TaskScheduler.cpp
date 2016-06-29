@@ -66,7 +66,7 @@ void TaskScheduler::startSchedulerLoop()
 
 	while (true)
 	{
-		updateTasks();
+		processTasks();
 
 		{
 			std::lock_guard<std::mutex> lock(m_loopMutex);
@@ -141,26 +141,33 @@ TaskScheduler::TaskScheduler()
 {
 }
 
-void TaskScheduler::updateTasks()
+void TaskScheduler::processTasks()
 {
 	std::lock_guard<std::mutex> lock(m_tasksMutex);
 
-	bool interrupt = m_interruptTask;
-
 	while (m_tasks.size())
 	{
+		bool interrupt = m_interruptTask;
+		m_interruptTask = false;
+
 		std::shared_ptr<Task> task = m_tasks.front();
+		Task::TaskState state;
 
 		m_tasksMutex.unlock();
-		Task::TaskState state = task->process(interrupt);
+		if (interrupt)
+		{
+			state = task->interruptTask();
+		}
+		else
+		{
+			state = task->processTask();
+		}
 		m_tasksMutex.lock();
 
 		if (state == Task::STATE_FINISHED || state == Task::STATE_CANCELED)
 		{
 			m_tasks.pop_front();
 		}
-
-		interrupt = m_interruptTask;
 	}
 
 	m_interruptTask = false;

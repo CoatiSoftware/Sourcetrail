@@ -11,7 +11,6 @@ public:
 		: m_isReplayed(false)
 		, m_sendAsTask(true)
 		, m_keepContent(false)
-		, m_cancelled(false)
 		, m_isLast(true)
 		, m_isLogged(true)
 	{
@@ -74,16 +73,6 @@ public:
 		return m_keepContent;
 	}
 
-	void cancel()
-	{
-		m_cancelled = true;
-	}
-
-	bool cancelled()
-	{
-		return m_cancelled;
-	}
-
 	virtual void print(std::ostream& os) const = 0;
 
 	std::string str() const
@@ -98,7 +87,6 @@ private:
 	bool m_isReplayed;
 	bool m_sendAsTask;
 	bool m_keepContent;
-	bool m_cancelled;
 	bool m_isLast;
 	bool m_isLogged;
 };

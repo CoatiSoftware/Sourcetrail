@@ -22,8 +22,10 @@ public:
 
 	TaskState getState() const;
 
-	TaskState process(bool interruptTask);
-	void execute();
+	TaskState processTask();
+	TaskState interruptTask();
+
+	void executeTask();
 
 	virtual void enter() = 0;
 	virtual TaskState update() = 0;

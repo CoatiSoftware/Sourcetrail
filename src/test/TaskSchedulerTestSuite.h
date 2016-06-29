@@ -32,7 +32,7 @@ public:
 		int order = 0;
 		TestTask task(&order, 1);
 
-		task.execute();
+		task.executeTask();
 
 		TS_ASSERT_EQUALS(3, order);
 

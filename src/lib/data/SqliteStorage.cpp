@@ -223,6 +223,8 @@ Id SqliteStorage::addError(const std::string& message, bool fatal, const std::st
 		return q.getIntField(0, -1);
 	}
 
+	stmt.finalize();
+
 	stmt = m_database.compileStatement((
 		"INSERT INTO error(message, fatal, file_path, line_number, column_number) "
 		"VALUES (?, " + std::to_string(fatal) + ", '" + filePath +

@@ -21,7 +21,7 @@ Task::TaskState TaskGroupParallel::update()
 	{
 		for (size_t i = 0; i < m_tasks.size(); i++)
 		{
-			m_threads.push_back(std::thread(&TaskGroupParallel::processTask, this, m_tasks[i]));
+			m_threads.push_back(std::thread(&TaskGroupParallel::processTaskThreaded, this, m_tasks[i]));
 
 			std::lock_guard<std::mutex> lock(m_activeTaskCountMutex);
 			m_activeTaskCount++;
@@ -63,12 +63,19 @@ void TaskGroupParallel::revert()
 }
 
 
-void TaskGroupParallel::processTask(std::shared_ptr<Task> task)
+void TaskGroupParallel::processTaskThreaded(std::shared_ptr<Task> task)
 {
 	Task::TaskState state = Task::STATE_NEW;
 	while (state != Task::STATE_FINISHED && state != Task::STATE_CANCELED)
 	{
-		state = task->process(m_interrupt);
+		if (m_interrupt)
+		{
+			state = task->interruptTask();
+		}
+		else
+		{
+			state = task->processTask();
+		}
 	}
 
 	{
