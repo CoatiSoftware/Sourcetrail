@@ -3,6 +3,7 @@
 
 #include <QHBoxLayout>
 #include <QResizeEvent>
+#include <QSizeGrip>
 #include <QWidget>
 
 #include "qt/window/QtWindowStack.h"
@@ -71,6 +72,7 @@ protected:
 	void addLogo();
 
 	QWidget* m_window;
+	QWidget* m_content;
 
 	QLabel* m_title;
 
@@ -92,6 +94,8 @@ private:
 
 	QPoint m_dragPosition;
 	bool m_mousePressedInWindow;
+
+	QSizeGrip* m_sizeGrip;
 };
 
 #endif // QT_WINDOW_H

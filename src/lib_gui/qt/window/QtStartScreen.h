@@ -47,8 +47,6 @@ private slots:
 	void updateButtons();
 
 private:
-	QPushButton* m_openProjectButton;
-	QPushButton* m_newProjectButton;
 	std::vector<QtRecentProjectButton*> m_recentProjectsButtons;
 };
 

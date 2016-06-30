@@ -33,10 +33,9 @@ void QtAbout::setupAbout()
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "about/about.css").c_str());
 
 	QVBoxLayout* windowLayout = new QVBoxLayout();
-	windowLayout->setContentsMargins(30, 30, 30, 20);
-	m_window->setLayout(windowLayout);
-
-	windowLayout->addStretch();
+	windowLayout->setContentsMargins(10, 10, 10, 0);
+	windowLayout->setSpacing(1);
+	m_content->setLayout(windowLayout);
 
 	{
 		QHBoxLayout* row = new QHBoxLayout();
@@ -55,6 +54,16 @@ void QtAbout::setupAbout()
 		{
 			QVBoxLayout* column = new QVBoxLayout();
 			row->addLayout(column);
+
+			QtDeviceScaledPixmap closePixmap((ResourcePaths::getGuiPath() + "about/icon_close.png").c_str());
+			closePixmap.scaleToHeight(20);
+			QPushButton* closeButton = new QPushButton(this);
+			closeButton->setIcon(QIcon(closePixmap.pixmap()));
+			closeButton->setObjectName("closeButton");
+			closeButton->show();
+			connect(closeButton, SIGNAL(clicked()), this, SLOT(handleCloseButtonPress()));
+
+			column->addWidget(closeButton, 0, Qt::AlignTop | Qt::AlignRight);
 
 			column->addStretch();
 
@@ -104,9 +113,9 @@ void QtAbout::setupAbout()
 
 		QLabel* companyLabel = new QLabel(
 			"<b>Coati Software OG</b><br />"
-			"<b>Schlossallee 7/1</b><br />"
-			"<b>5412 Puch bei Hallein</b><br />"
-			"<b>Austria</b><br />"
+			"Schlossallee 7/1<br />"
+			"5412 Puch bei Hallein<br />"
+			"Austria<br />"
 			"<b>support@coati.io</b><br />"
 			"<b><a href=\"https://coati.io\" style=\"color: white;\">coati.io</a></b>",
 			this);
@@ -139,19 +148,6 @@ void QtAbout::setupAbout()
 			}
 		}
 	}
-
-	windowLayout->addStretch();
-
-
-	QtDeviceScaledPixmap closePixmap((ResourcePaths::getGuiPath() + "about/icon_close.png").c_str());
-	closePixmap.scaleToHeight(20);
-	QPushButton* closeButton = new QPushButton(this);
-	closeButton->setIcon(QIcon(closePixmap.pixmap()));
-	closeButton->setObjectName("closeButton");
-	closeButton->move(455, 25);
-	closeButton->show();
-
-	connect(closeButton, SIGNAL(clicked()), this, SLOT(handleCloseButtonPress()));
 }
 
 void QtAbout::handleCloseButtonPress()

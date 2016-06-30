@@ -50,6 +50,18 @@ QtWindow::QtWindow(QWidget* parent)
 		m_window->setGraphicsEffect(effect);
 	}
 
+	QVBoxLayout* layout = new QVBoxLayout(m_window);
+	layout->setSpacing(1);
+
+	m_content = new QWidget();
+	layout->addWidget(m_content);
+
+	QHBoxLayout* gripLayout = new QHBoxLayout();
+	QSizeGrip* sizeGrip = new QSizeGrip(m_window);
+	gripLayout->addWidget(new QWidget());
+	gripLayout->addWidget(sizeGrip);
+	layout->addLayout(gripLayout);
+
 	resize(sizeHint());
 
 	this->raise();
@@ -67,7 +79,7 @@ void QtWindow::setup()
 {
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "window/window.css").c_str());
 	QVBoxLayout* layout = new QVBoxLayout();
-	layout->setContentsMargins(25, 30, 25, 20);
+	layout->setContentsMargins(25, 30, 25, 0);
 
 	m_title = new QLabel();
 	m_title->setObjectName("title");
@@ -120,7 +132,7 @@ void QtWindow::setup()
 		layout->addLayout(buttons);
 	}
 
-	m_window->setLayout(layout);
+	m_content->setLayout(layout);
 
 	if (m_showAsPopup)
 	{
@@ -243,20 +255,32 @@ void QtWindow::hideWindow()
 
 void QtWindow::resizeEvent(QResizeEvent *event)
 {
+	QSize size = event->size();
+
+	if (size.width() < 300)
+	{
+		size.setWidth(300);
+		resize(size);
+		return;
+	}
+
+	if (size.height() < 200)
+	{
+		size.setHeight(200);
+		resize(size);
+		return;
+	}
+
 	int displacement = 0;
 	if (m_hasLogo)
 	{
 		displacement = 58;
 	}
 
-	QSize windowSize = event->size() - QSize(10, 10 + displacement);
+	QSize windowSize = size - QSize(10, 10 + displacement);
+
 	m_window->resize(windowSize);
 	m_window->move(5, displacement + 10);
-
-	move(
-		parentWidget()->pos().x() + parentWidget()->width() / 2 - event->size().width() / 2,
-		parentWidget()->pos().y() + parentWidget()->height() / 2 - event->size().height() / 2
-	);
 }
 
 void QtWindow::keyPressEvent(QKeyEvent *event)
@@ -331,6 +355,11 @@ void QtWindow::setupDone()
 
 	QSize size(qMax(actualSize.width(), preferredSize.width()), qMax(actualSize.height(), preferredSize.height()));
 	resize(size);
+
+	move(
+		parentWidget()->pos().x() + parentWidget()->width() / 2 - size.width() / 2,
+		parentWidget()->pos().y() + parentWidget()->height() / 2 - size.height() / 2
+	);
 }
 
 void QtWindow::addLogo()

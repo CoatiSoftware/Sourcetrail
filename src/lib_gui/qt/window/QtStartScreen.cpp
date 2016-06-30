@@ -126,77 +126,111 @@ void QtStartScreen::setupStartScreen()
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "startscreen/startscreen.css").c_str());
 	addLogo();
 
-	if (isTrial())
+	QHBoxLayout* layout = new QHBoxLayout();
+	layout->setContentsMargins(15, 170, 15, 10);
+	layout->setSpacing(1);
+	m_content->setLayout(layout);
+
 	{
-		QLabel* welcomeLabel = new QLabel(
-			"Welcome to the <b>Coati trial</b>!<br /><br />"
-			"Explore our preindexed projects to experience Coati's unique user interface.<br /><br />"
-			"If you want to use Coati on your own source code please "
-			"<a href=\"http://coati.io/buy-license\" style=\"color: #007AC2;\">purchase a license</a>, "
-			"or ask us for a temporary test license by writing to <b>support@coati.io</b>.", this);
-		welcomeLabel->setOpenExternalLinks(true);
-		welcomeLabel->setGeometry(30, 303, 200, 500);
-		welcomeLabel->setObjectName("welcomeLabel");
-		welcomeLabel->show();
-		welcomeLabel->setWordWrap(true);
-		welcomeLabel->setAlignment(Qt::AlignTop);
+		QVBoxLayout* col = new QVBoxLayout();
+		layout->addLayout(col, 2);
+
+		if (isTrial())
+		{
+			col->addSpacing(50);
+
+			QLabel* welcomeLabel = new QLabel(
+				"Welcome to the <b>Coati trial</b>!<br /><br />"
+				"Explore our preindexed projects to experience Coati's unique user interface.<br /><br />"
+				"If you want to use Coati on your own source code please "
+				"<a href=\"http://coati.io/buy-license\" style=\"color: #007AC2;\">purchase a license</a>, "
+				"or ask us for a temporary test license by writing to <b>support@coati.io</b>.", this);
+			welcomeLabel->setOpenExternalLinks(true);
+			welcomeLabel->setObjectName("welcomeLabel");
+			welcomeLabel->setWordWrap(true);
+			welcomeLabel->setAlignment(Qt::AlignTop);
+
+			col->addWidget(welcomeLabel, 0, Qt::AlignHCenter | Qt::AlignTop);
+			col->addStretch();
+
+			layout->addStretch(1);
+		}
+		else
+		{
+			QLabel* versionLabel = new QLabel(("Version " + Version::getApplicationVersion().toDisplayString()).c_str(), this);
+			versionLabel->setObjectName("versionLabel");
+			col->addWidget(versionLabel);
+
+			QLabel* updateLabel = new QLabel(
+				"<a href=\"https://coati.io/downloads\" style=\"color: #007AC2;\">check for new version</a>", this);
+			updateLabel->setOpenExternalLinks(true);
+			updateLabel->setObjectName("updateLabel");
+			col->addWidget(updateLabel);
+
+			col->addStretch();
+
+			QPushButton* newProjectButton = new QPushButton("New Project", this);
+			newProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+			newProjectButton->setObjectName("projectButton");
+			newProjectButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+			connect(newProjectButton, SIGNAL(clicked()), this, SLOT(handleNewProjectButton()));
+			col->addWidget(newProjectButton);
+
+			col->addSpacing(8);
+
+			QPushButton* openProjectButton = new QPushButton("Open Project", this);
+			openProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+			openProjectButton->setObjectName("projectButton");
+			openProjectButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+			connect(openProjectButton, SIGNAL(clicked()), this, SLOT(handleOpenProjectButton()));
+			col->addWidget(openProjectButton);
+
+			layout->addStretch(2);
+		}
 	}
-	else
+
 	{
-		m_newProjectButton = new QPushButton("New Project", this);
-		m_newProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-		m_newProjectButton->move(30, 505);
-		m_newProjectButton->setObjectName("projectButton");
-		m_newProjectButton->show();
-		connect(m_newProjectButton, SIGNAL(clicked()), this, SLOT(handleNewProjectButton()));
+		QVBoxLayout* col = new QVBoxLayout();
+		layout->addLayout(col, 1);
 
-		m_openProjectButton = new QPushButton("Open Project", this);
-		m_openProjectButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-		m_openProjectButton->move(30, 540);
-		m_openProjectButton->setObjectName("projectButton");
-		m_openProjectButton->show();
-		connect(m_openProjectButton, SIGNAL(clicked()), this, SLOT(handleOpenProjectButton()));
+		QLabel* recentProjectsLabel = new QLabel("Recent Projects: ", this);
+		if (isTrial())
+		{
+			recentProjectsLabel->setText("Projects:");
+		}
+		recentProjectsLabel->setObjectName("recentLabel");
+		col->addWidget(recentProjectsLabel);
 
-		QLabel* versionLabel = new QLabel(("Version " + Version::getApplicationVersion().toDisplayString()).c_str(), this);
-		versionLabel->setGeometry(30, 234, 300, 50);
-		versionLabel->setObjectName("versionLabel");
-		versionLabel->show();
+		col->addSpacing(20);
 
-		QLabel* updateLabel = new QLabel(
-			"<a href=\"https://coati.io/downloads\" style=\"color: #007AC2;\">check for new version</a>", this);
-		updateLabel->setOpenExternalLinks(true);
-		updateLabel->setGeometry(30, 255, 300, 50);
-		updateLabel->setObjectName("updateLabel");
-		updateLabel->show();
+		QIcon cpp_icon((ResourcePaths::getGuiPath() + "icon/project_256_256.png").c_str());
+		for (int i = 0
+			; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount()
+			; i++)
+		{
+			QtRecentProjectButton* button = new QtRecentProjectButton(this);
+			button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+			button->setIcon(cpp_icon);
+			button->setIconSize(QSize(25, 25));
+			button->setMinimumSize(button->fontMetrics().width(button->text()) + 45, 40);
+			button->setObjectName("recentButtonMissing");
+			button->minimumSizeHint(); // force font loading
+			m_recentProjectsButtons.push_back(button);
+			col->addWidget(button);
+		}
+
+		col->addStretch();
 	}
 
-	QLabel* recentProjectsLabel = new QLabel("Recent Projects: ", this);
-	if (isTrial())
-	{
-		recentProjectsLabel->setText("Projects:");
-	}
-	recentProjectsLabel->setGeometry(300, 234, 300, 50);
-	recentProjectsLabel->setObjectName("recentLabel");
-	recentProjectsLabel->show();
+	layout->addStretch(1);
 
-	int position = 290;
-	QIcon cpp_icon((ResourcePaths::getGuiPath() + "icon/project_256_256.png").c_str());
-	for (int i = 0
-		; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount()
-		; i++)
-	{
-		QtRecentProjectButton* button = new QtRecentProjectButton(this);
-		button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-		button->setIcon(cpp_icon);
-		button->setIconSize(QSize(25, 25));
-		button->setObjectName("recentButtonMissing");
-		button->setGeometry(292, position, button->fontMetrics().width(button->text()) + 45, 40);
-		button->minimumSizeHint(); // force font loading
-		button->show();
-		position += 40;
-		m_recentProjectsButtons.push_back(button);
-	}
 	updateButtons();
+
+	QSize size = sizeHint();
+	move(
+		parentWidget()->pos().x() + parentWidget()->width() / 2 - size.width() / 2,
+		parentWidget()->pos().y() + parentWidget()->height() / 2 - size.height() / 2
+	);
 }
 
 void QtStartScreen::handleNewProjectButton()

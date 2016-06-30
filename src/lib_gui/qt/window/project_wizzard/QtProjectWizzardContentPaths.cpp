@@ -105,15 +105,16 @@ bool QtProjectWizzardContentPaths::check()
 
 		if (!fi.exists())
 		{
-			missingPaths.append("\n");
 			missingPaths.append(f.str().c_str());
+			missingPaths.append("\n");
 		}
 	}
 
 	if (!missingPaths.isEmpty())
 	{
 		QMessageBox msgBox;
-		msgBox.setText("These paths do not exist:" + missingPaths);
+		msgBox.setText("Some project paths do not exist.");
+		msgBox.setDetailedText(missingPaths);
 		msgBox.exec();
 		return false;
 	}
