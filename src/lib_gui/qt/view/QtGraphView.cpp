@@ -19,7 +19,6 @@
 #include "qt/utility/utilityQt.h"
 
 #include "qt/graphics/QtGraphicsView.h"
-#include "qt/view/QtViewWidgetWrapper.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentClickable.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
@@ -27,6 +26,8 @@
 #include "qt/view/graphElements/QtGraphNodeBundle.h"
 #include "qt/view/graphElements/QtGraphNodeData.h"
 #include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
+#include "qt/view/QtViewOverlay.h"
+#include "qt/view/QtViewWidgetWrapper.h"
 #include "settings/ColorScheme.h"
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
@@ -71,6 +72,8 @@ void QtGraphView::initView()
 	widget->layout()->addWidget(view);
 
 	connect(view, SIGNAL(emptySpaceClicked()), this, SLOT(clickedInEmptySpace()));
+
+	m_overlay = new QtViewOverlay(widget);
 
 	doRefreshView();
 }

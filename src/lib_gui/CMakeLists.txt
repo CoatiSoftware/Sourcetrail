@@ -102,6 +102,8 @@ add_files(
 	qt/view/QtUndoRedoView.h
 	qt/view/QtViewFactory.cpp
 	qt/view/QtViewFactory.h
+	qt/view/QtViewOverlay.cpp
+	qt/view/QtViewOverlay.h
 	qt/view/QtViewWidgetWrapper.cpp
 	qt/view/QtViewWidgetWrapper.h
 
