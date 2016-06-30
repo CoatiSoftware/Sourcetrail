@@ -11,6 +11,7 @@
 
 class QFrame;
 class QtCodeFileList;
+class QtViewOverlay;
 class QWidget;
 
 class QtCodeView
@@ -89,6 +90,8 @@ private:
 
 	std::vector<Id> m_activeTokenIds;
 	std::vector<ErrorInfo> m_errorInfos;
+
+	QtViewOverlay* m_overlay;
 };
 
 # endif // QT_CODE_VIEW_H

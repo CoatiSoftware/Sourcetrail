@@ -23,10 +23,9 @@ bool ResizeFilter::eventFilter(QObject* obj, QEvent* event)
 	return QObject::eventFilter(obj, event);
 }
 
-
 QtOverlay::QtOverlay(QWidget* parent)
 	: QWidget(parent)
-	, m_count(0)
+	, m_count(rand() % 1000000)
 	, m_size(40)
 {
 }
@@ -65,11 +64,11 @@ void QtOverlay::paintEvent(QPaintEvent *event)
 
 	if (s > 50 && s < 150)
 	{
-		painter.setBrush(QBrush("#CC2E3C86"));
+		painter.setBrush(QBrush("#882E3C86"));
 	}
 	else
 	{
-		painter.setBrush(QBrush("#CC007AC2"));
+		painter.setBrush(QBrush("#88007AC2"));
 	}
 
 	painter.setPen(QPen(Qt::transparent));

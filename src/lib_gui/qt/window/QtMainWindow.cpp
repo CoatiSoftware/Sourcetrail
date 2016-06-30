@@ -27,7 +27,6 @@
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
-#include "utility/messaging/type/MessageLoadBefore.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageRedo.h"
 #include "utility/messaging/type/MessageRefresh.h"
@@ -371,8 +370,6 @@ void QtMainWindow::showStartScreen()
 
 	connect(startScreen, SIGNAL(openOpenProjectDialog()), this, SLOT(openProject()));
 	connect(startScreen, SIGNAL(openNewProjectDialog()), this, SLOT(newProject()));
-
-	MessageLoadBefore().dispatch();
 }
 
 void QtMainWindow::hideStartScreen()

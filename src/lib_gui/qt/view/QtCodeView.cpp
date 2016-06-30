@@ -7,6 +7,7 @@
 #include "qt/element/QtCodeArea.h"
 #include "qt/element/QtCodeFileList.h"
 #include "qt/utility/QtHighlighter.h"
+#include "qt/view/QtViewOverlay.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "settings/ColorScheme.h"
 
@@ -41,6 +42,7 @@ void QtCodeView::createWidgetWrapper()
 
 void QtCodeView::initView()
 {
+	m_overlay = new QtViewOverlay(m_widget);
 }
 
 void QtCodeView::refreshView()
