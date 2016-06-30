@@ -89,6 +89,7 @@ public:
 protected:
 	bool event(QEvent* event);
 	void keyPressEvent(QKeyEvent* event);
+	void contextMenuEvent(QContextMenuEvent* event);
 
 public slots:
 	void activateWindow();
@@ -157,6 +158,7 @@ private:
 	QAction* m_viewSeparator;
 	QAction** m_recentProjectAction;
 	QAction* m_showTitleBarsAction;
+
 	bool m_showDockWidgetTitleBars;
 
 	QtWindowStack m_windowStack;

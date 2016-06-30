@@ -2,16 +2,13 @@
 	background-color: <color:code/background>;
 }
 
-* {
-	font-size: <setting:font_size>pt;
-}
-
 #code_file {
 	background-color: <color:code/snippet/background>;
 	border: 2px solid <color:code/file/background>;
 	border-radius: 12px;
 	border-top-left-radius: 14px;
 	border-top-right-radius: 14px;
+	font-size: <setting:font_size>pt;
 	padding-bottom: 7px;
 }
 
@@ -19,6 +16,7 @@
 	background-color: <color:code/file/background>;
 	border-top-left-radius: 7px;
 	border-top-right-radius: 7px;
+	font-size: <setting:font_size>pt;
 	padding-right: 5px;
 }
 
@@ -27,6 +25,7 @@
 	border: none;
 	border-radius: 3px;
 	color: <color:code/file/title/text>;
+	font-size: <setting:font_size>pt;
 	padding: 2px 4px;
 	margin: 1px 8px 3px;
 }
@@ -52,10 +51,7 @@
 #code_file #code_snippet {
 	background-color: <color:code/snippet/background>;
 	border-top: 2px solid <color:code/file/background>;
-}
-
-#code_file #code_snippet * {
-	font-family: "<setting:font_name>";
+	font-size: <setting:font_size>pt;
 }
 
 #code_file #code_snippet[isFirst=true] {
@@ -65,8 +61,10 @@
 
 #code_file #code_snippet #scope_name, #code_file #code_snippet #dots {
 	background-color: <color:code/snippet/title/background>;
-	color: <color:code/snippet/title/text>;
 	border: none;
+	color: <color:code/snippet/title/text>;
+	font-family: "<setting:font_name>";
+	font-size: <setting:font_size>pt;
 }
 
 #code_file #code_snippet #scope_name:hover {
@@ -88,11 +86,15 @@
 	background-color: <color:code/snippet/line_number/background>;
 	border: none;
 	color: <color:code/snippet/line_number/text>;
+	font-family: "<setting:font_name>";
+	font-size: <setting:font_size>pt;
 }
 
 #code_area {
 	background-color: transparent;
 	color: <color:code/snippet/syntax/normal>;
+	font-family: "<setting:font_name>";
+	font-size: <setting:font_size>pt;
 }
 
 #code_file #maximize_button, #code_file #snippet_button, #code_file #minimize_button {

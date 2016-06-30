@@ -52,6 +52,8 @@ add_files(
 	qt/network/QtTcpWrapper.cpp
 	qt/network/QtTcpWrapper.h
 
+	qt/utility/QtContextMenu.cpp
+	qt/utility/QtContextMenu.h
 	qt/utility/QtDeviceScaledPixmap.cpp
 	qt/utility/QtDeviceScaledPixmap.h
 	qt/utility/QtHighlighter.cpp

@@ -99,6 +99,8 @@ private:
 	bool sameMessageTypeAsLast(MessageBase* message) const;
 	MessageBase* lastMessage() const;
 
+	void dump() const;
+
 	std::list<Command> m_list;
 	std::list<Command>::iterator m_iterator;
 };

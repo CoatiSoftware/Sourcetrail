@@ -12,6 +12,7 @@
 
 #include "component/view/View.h"
 #include "component/view/CompositeView.h"
+#include "qt/utility/QtContextMenu.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "qt/window/project_wizzard/QtProjectWizzard.h"
@@ -138,8 +139,6 @@ QtMainWindow::QtMainWindow()
 
 	setWindowIcon(QIcon((ResourcePaths::getGuiPath() + "icon/logo_1024_1024.png").c_str()));
 	setWindowFlags(Qt::Widget);
-
-//	QApplication::setOverrideCursor(Qt::ArrowCursor);
 
 	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
 	app->installEventFilter(new MouseReleaseFilter(this));
@@ -312,6 +311,11 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 			PRINT_TRACES();
 			break;
 	}
+}
+
+void QtMainWindow::contextMenuEvent(QContextMenuEvent* event)
+{
+	QtContextMenu::getInstance()->showDefault(event, this);
 }
 
 void QtMainWindow::activateWindow()

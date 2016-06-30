@@ -21,6 +21,7 @@
 #include "data/location/TokenLocationFile.h"
 #include "qt/element/QtCodeFile.h"
 #include "qt/element/QtCodeSnippet.h"
+#include "qt/utility/QtContextMenu.h"
 #include "qt/utility/QtHighlighter.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
@@ -498,10 +499,7 @@ void QtCodeArea::contextMenuEvent(QContextMenuEvent* event)
 	if (m_setIDECursorPositionAction != nullptr)
 	{
 		m_eventPosition = event->pos();
-
-		QMenu menu(this);
-		menu.addAction(m_setIDECursorPositionAction);
-		menu.exec(event->globalPos());
+		QtContextMenu::getInstance()->showExtended(event, this, std::vector<QAction*>(1, m_setIDECursorPositionAction));
 	}
 }
 

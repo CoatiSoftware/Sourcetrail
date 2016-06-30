@@ -243,22 +243,39 @@ void UndoRedoController::handleMessage(MessageShowScope* message)
 
 void UndoRedoController::handleMessage(MessageUndo* message)
 {
-	if (!m_list.size() || std::prev(m_iterator) == m_list.begin())
+	if (!m_list.size())
 	{
 		return;
 	}
 
-	while (std::prev(m_iterator)->order == Command::ORDER_VIEW)
+	// return to last non view command
+	std::list<Command>::iterator it = m_iterator;
+	while (std::prev(it)->order == Command::ORDER_VIEW)
 	{
-		std::advance(m_iterator, -1);
+		std::advance(it, -1);
 	}
-	std::advance(m_iterator, -1);
+	std::advance(it, -1);
 
-	if (std::distance(m_list.begin(), m_iterator) <= 1)
+	// disable undo button if there is no non view command till the first command
+	std::list<Command>::iterator it2 = std::prev(it);
+	while (it2->order == Command::ORDER_VIEW)
+	{
+		std::advance(it2, -1);
+	}
+	if (it2 == m_list.begin())
 	{
 		getView()->setUndoButtonEnabled(false);
 	}
+
+	// abort if first command is reached
+	if (it == m_list.begin())
+	{
+		return;
+	}
+
 	getView()->setRedoButtonEnabled(true);
+
+	m_iterator = it;
 
 	replayCommands();
 
@@ -391,4 +408,40 @@ bool UndoRedoController::sameMessageTypeAsLast(MessageBase* message) const
 MessageBase* UndoRedoController::lastMessage() const
 {
 	return std::prev(m_iterator)->message.get();
+}
+
+void UndoRedoController::dump() const
+{
+	std::cout << "Undo Redo Stack:\n\n";
+
+	std::list<Command>::const_iterator it = m_list.begin();
+	while (it != m_list.end())
+	{
+		switch (it->order)
+		{
+			case Command::ORDER_VIEW:
+				std::cout << "\t";
+			case Command::ORDER_ADAPT:
+				std::cout << "\t";
+			case Command::ORDER_ACTIVATE:
+				break;
+		}
+
+		std::cout << it->message->getType() << " " << it->replayLastOnly;
+
+		if (it == m_iterator)
+		{
+			std::cout << " <-";
+		}
+		std::cout << std::endl;
+
+		std::advance(it, 1);
+	}
+
+	if (m_list.end() == m_iterator)
+	{
+		std::cout << " <-";
+	}
+
+	std::cout << std::endl;
 }
