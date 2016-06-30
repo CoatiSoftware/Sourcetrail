@@ -1,14 +1,14 @@
 #ifndef QT_VIEW_OVERLAY
 #define QT_VIEW_OVERLAY
 
-#include <QObject>
+#include <QWidget>
 
 #include "qt/utility/QtThreadedFunctor.h"
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageLoadBefore.h"
 #include "utility/messaging/type/MessageLoadAfter.h"
 
-class QWidget;
+class QTimer;
 
 class ResizeFilter
 	: public QObject
@@ -29,6 +29,26 @@ private:
 };
 
 
+class QtOverlay
+	: public QWidget
+{
+	Q_OBJECT
+
+public:
+	QtOverlay(QWidget* parent = nullptr);
+
+public slots:
+	void animate();
+
+protected:
+	void paintEvent(QPaintEvent *event);
+
+private:
+	size_t m_count;
+	size_t m_size;
+};
+
+
 class QtViewOverlay
 	: public MessageListener<MessageLoadBefore>
 	, public MessageListener<MessageLoadAfter>
@@ -44,7 +64,9 @@ private:
 	void doAfter();
 
 	QWidget* m_parent;
-	QWidget* m_overlay;
+	QtOverlay* m_overlay;
+
+	QTimer* m_timer;
 
 	QtThreadedFunctor<void> m_beforeFunctor;
 	QtThreadedFunctor<void> m_afterFunctor;
