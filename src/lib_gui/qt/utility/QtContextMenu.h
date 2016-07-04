@@ -1,6 +1,7 @@
 #ifndef QT_CONTEXT_MENU_H
 #define QT_CONTEXT_MENU_H
 
+#include <memory>
 #include <QAction>
 #include <QObject>
 
