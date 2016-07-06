@@ -340,6 +340,8 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 			continue;
 		}
 
+		setProjectMacros(projectFilesNames[i]);
+
 		TiXmlElement* root = SolutionParserUtility::getFirstTagByNameWithAttribute(doc.RootElement(), "ClCompile", "Include");
 		TiXmlElement* headerRoot = SolutionParserUtility::getFirstTagByNameWithAttribute(doc.RootElement(), "ClInclude", "Include");
 		if (root != NULL)
@@ -394,7 +396,7 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 			}
 		}*/
 
-
+		std::vector<std::string> filePaths;
 
 		if (root != NULL)
 		{
@@ -404,7 +406,7 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 
 				if (boost::filesystem::exists(filePath) && SolutionParserUtility::checkValidFileExtension(filePath, validFileExtensions))
 				{
-					projectItems.push_back(filePath);
+					filePaths.push_back(filePath);
 					continue;
 				}
 
@@ -415,7 +417,7 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 
 				if (SolutionParserUtility::checkValidFileExtension(filePath, validFileExtensions))
 				{
-					projectItems.push_back(filePath);
+					filePaths.push_back(filePath);
 				}
 			}
 		}
@@ -428,7 +430,7 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 
 				if (boost::filesystem::exists(filePath) && SolutionParserUtility::checkValidFileExtension(filePath, validFileExtensions))
 				{
-					projectItems.push_back(filePath);
+					filePaths.push_back(filePath);
 					continue;
 				}
 
@@ -439,9 +441,19 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 
 				if (SolutionParserUtility::checkValidFileExtension(filePath, validFileExtensions))
 				{
-					projectItems.push_back(filePath);
+					filePaths.push_back(filePath);
 				}
 			}
+		}
+
+		std::set<std::string> s(filePaths.begin(), filePaths.end());
+		filePaths.assign(s.begin(), s.end());
+
+		filePaths = SolutionParserUtility::resolveEnvironmentVariables(filePaths);
+
+		for (unsigned int j = 0; j < filePaths.size(); j++)
+		{
+			projectItems.push_back(filePaths[j]);
 		}
 	}
 
@@ -450,7 +462,7 @@ std::vector<std::string> SolutionParserVisualStudio::findProjectItems()
 
 	LOG_INFO_STREAM(<< "Found " << projectItems.size() << " code files");
 
-	projectItems = SolutionParserUtility::resolveEnvironmentVariables(projectItems);
+	// projectItems = SolutionParserUtility::resolveEnvironmentVariables(projectItems);
 	projectItems = makePathsAbsolute(projectItems);
 
 	return projectItems;
@@ -461,6 +473,7 @@ std::vector<std::string> SolutionParserVisualStudio::findIncludePaths()
 	std::vector<std::string> includePaths;
 
 	std::vector<std::string> projectFiles = getProjectFiles();
+	std::vector<std::string> projectFilesNames = getProjects();
 
 	std::vector<std::string> validExtensions;
 	validExtensions.push_back(".c");
@@ -475,6 +488,8 @@ std::vector<std::string> SolutionParserVisualStudio::findIncludePaths()
 		TiXmlDocument doc;
 		doc.Parse(projectFiles[i].c_str(), 0, TIXML_ENCODING_UTF8);
 
+		setProjectMacros(projectFilesNames[i]);
+
 		std::string error = doc.ErrorDesc();
 
 		if (error.length() > 0)
@@ -485,22 +500,36 @@ std::vector<std::string> SolutionParserVisualStudio::findIncludePaths()
 
 		std::vector<TiXmlElement*> nodes = SolutionParserUtility::getAllTagsByName(doc.RootElement(), "AdditionalIncludeDirectories");
 
+		std::vector<std::string> paths;
+
 		for (unsigned int j = 0; j < nodes.size(); j++)
 		{
 			std::string path = nodes[j]->GetText();
 
-			includePaths.push_back(path);
+			paths.push_back(path);
+		}
+
+		paths = seperateIncludePaths(paths);
+
+		std::set<std::string> s(paths.begin(), paths.end());
+		paths.assign(s.begin(), s.end());
+
+		paths = SolutionParserUtility::resolveEnvironmentVariables(paths);
+
+		for (unsigned int j = 0; j < paths.size(); j++)
+		{
+			includePaths.push_back(paths[j]);
 		}
 	}
 
-	includePaths = seperateIncludePaths(includePaths);
+	// includePaths = seperateIncludePaths(includePaths);
 
 	std::set<std::string> s(includePaths.begin(), includePaths.end());
 	includePaths.assign(s.begin(), s.end());
 
 	LOG_INFO_STREAM(<< "Found " << includePaths.size() << " additional include paths");
 
-	includePaths = SolutionParserUtility::resolveEnvironmentVariables(includePaths);
+	// includePaths = SolutionParserUtility::resolveEnvironmentVariables(includePaths);
 	includePaths = makePathsAbsolute(includePaths);
 
 	return includePaths;
@@ -637,4 +666,56 @@ std::vector<std::string> SolutionParserVisualStudio::seperateCompilerFlags(const
 	}
 
 	return seperatedFlags;
+}
+
+void SolutionParserVisualStudio::setProjectMacros(const std::string& projectName)
+{
+	std::string solutionPath = getSolutionPath();
+
+	std::string projectNameBase = projectName;
+
+	std::replace(solutionPath.begin(), solutionPath.end(), '/', '\\');
+	std::replace(projectNameBase.begin(), projectNameBase.end(), '/', '\\');
+
+	std::string projectPath = solutionPath + projectNameBase;
+
+	std::string projectDirectory = "";
+	std::string projectNameOnly = "";
+
+	size_t pos = projectNameBase.find_last_of('\\');
+	if (pos != std::string::npos)
+	{
+		projectDirectory = projectNameBase.substr(0, pos);
+		projectNameOnly = projectNameBase.substr(pos + 1);
+	}
+	else
+	{
+		projectNameOnly = projectNameBase;
+	}
+
+	std::string projectExtension = "";
+
+	pos = projectNameOnly.find_last_of('.');
+	if (pos != std::string::npos)
+	{
+		projectExtension = projectNameOnly.substr(pos + 1);
+		projectNameOnly = projectNameOnly.substr(0, pos);
+	}
+
+	projectPath = SolutionParserUtility::findAndResolveEnvironmentVariable(projectPath);
+	projectPath = SolutionParserUtility::makePathCanonical(projectPath);
+
+	std::string projectDir = "";
+
+	pos = projectPath.find_last_of('\\');
+	if (pos != std::string::npos)
+	{
+		projectDir = projectPath.substr(0, pos+1);
+	}
+
+	SolutionParserUtility::m_ideMacroValues["ProjectDir"] = projectDir;
+	SolutionParserUtility::m_ideMacroValues["ProjectPath"] = projectPath;
+	SolutionParserUtility::m_ideMacroValues["ProjectName"] = projectNameOnly;
+	SolutionParserUtility::m_ideMacroValues["ProjectFileName"] = projectNameOnly + "." + projectExtension;
+	SolutionParserUtility::m_ideMacroValues["ProjectExt"] = projectExtension;
 }

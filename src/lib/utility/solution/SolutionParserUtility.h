@@ -21,6 +21,7 @@ public:
 	static std::vector<std::string> resolveEnvironmentVariables(const std::vector<std::string>& paths);
 	static std::string findAndResolveEnvironmentVariable(const std::string& path);
 	static std::vector<std::string> makePathsCanonical(const std::vector<std::string>& paths);
+	static std::string makePathCanonical(const std::string& path);
 
 	static std::string checkIsIdeMacro(const std::string& text); // returns matching macro or empty string if no match was found
 	

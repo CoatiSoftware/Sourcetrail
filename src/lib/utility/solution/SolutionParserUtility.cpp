@@ -345,6 +345,28 @@ std::vector<std::string> SolutionParserUtility::makePathsCanonical(const std::ve
 	return canonicalPaths;
 }
 
+std::string SolutionParserUtility::makePathCanonical(const std::string& path)
+{
+	std::string result = "";
+
+	try
+	{
+		boost::filesystem::path canonicalPath = boost::filesystem::canonical(boost::filesystem::path(path));
+		result = canonicalPath.string();
+	}
+	catch (std::exception& e)
+	{
+		std::string what = e.what();
+		LOG_WARNING_STREAM(<< e.what());
+		
+		std::stringstream errorMessage;
+		errorMessage << "Could not make path \"" << path << "\" canonical. Check if it really exists.";
+		MessageStatus(errorMessage.str(), true).dispatch();
+	}
+
+	return result;
+}
+
 std::string SolutionParserUtility::checkIsIdeMacro(const std::string& text)
 {
 	for (unsigned int i = 0; i < m_ideMacros.size(); i++)

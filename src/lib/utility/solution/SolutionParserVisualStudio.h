@@ -45,6 +45,8 @@ private:
 	std::vector<std::string> seperateCompilerFlags(const std::vector<std::string>& compilerFlags) const;
 	std::vector<std::string> seperateCompilerFlags(const std::string& compilerFlags) const;
 
+	void setProjectMacros(const std::string& projectName);
+
 	std::vector<std::string> m_compatibilityFlags;
 };
 
