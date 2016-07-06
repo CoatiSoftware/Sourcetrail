@@ -359,7 +359,7 @@ void PersistentStorage::logStats() const
 	ss << "\t" << stats.errorCount.total << " Errors\n";
 	ss << "\t" << stats.errorCount.fatal << " Fatal Errors\n";
 
-	LOG_WARNING(ss.str());
+	LOG_INFO(ss.str());
 }
 
 void PersistentStorage::startParsing()

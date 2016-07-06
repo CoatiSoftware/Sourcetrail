@@ -106,6 +106,9 @@ std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(const Argum
 	// The option -c signals that no executable is built.
 	args.push_back("-c");
 
+	// The option -w disables all warnings.
+	args.push_back("-w");
+
 	args.insert(args.begin(), arguments.compilerFlags.begin(), arguments.compilerFlags.end());
 
 	for (const FilePath& path : arguments.headerSearchPaths)
