@@ -501,6 +501,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_8C02107F94A64029901B8B190E8C6BAC"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_8E2479A7DD6C48F88B7BCC1567A53892"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -2776,6 +2782,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8C02107F94A64029901B8B190E8C6BAC"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\window\\size_grip.png"
+            "TargetName" = "8:size_grip.png"
+            "Tag" = "8:"
+            "Folder" = "8:_56A98FDB83CE48C489B793615E24C057"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8E2479A7DD6C48F88B7BCC1567A53892"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\projects\\tutorial\\src\\code_tutorial_2.h"
@@ -4284,15 +4310,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Coati"
-        "ProductCode" = "8:{8C114E1D-F40F-4197-9184-F6E91147E966}"
-        "PackageCode" = "8:{AD79B9D4-D47B-4576-82F8-685D112E06A2}"
+        "ProductCode" = "8:{E6E16577-C547-4A66-8202-AB30A02DDBC2}"
+        "PackageCode" = "8:{55D5307B-C6AB-4E1D-A512-239F7E164FCD}"
         "UpgradeCode" = "8:{CFF09D53-87AF-4241-960D-98C21ED9D358}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.7.0000"
+        "ProductVersion" = "8:0.7.0022"
         "Manufacturer" = "8:Coati Software"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:www.coati.io/support"
