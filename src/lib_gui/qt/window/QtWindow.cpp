@@ -58,6 +58,12 @@ QtWindow::QtWindow(QWidget* parent)
 
 	QHBoxLayout* gripLayout = new QHBoxLayout();
 	QSizeGrip* sizeGrip = new QSizeGrip(m_window);
+	sizeGrip->setStyleSheet(
+		QString::fromStdString("QSizeGrip {"
+			"max-height: 12px; max-width: 12px;"
+			"border-image: url(" + ResourcePaths::getGuiPath() + "window/size_grip.png);"
+		"}")
+	);
 	gripLayout->addWidget(new QWidget());
 	gripLayout->addWidget(sizeGrip);
 	layout->addLayout(gripLayout);
@@ -277,7 +283,7 @@ void QtWindow::resizeEvent(QResizeEvent *event)
 		displacement = 58;
 	}
 
-	QSize windowSize = size - QSize(10, 10 + displacement);
+	QSize windowSize = size - QSize(10, 20 + displacement);
 
 	m_window->resize(windowSize);
 	m_window->move(5, displacement + 10);

@@ -41,21 +41,21 @@ public:
 		TS_ASSERT_EQUALS("Coati", solutionName);
 	}
 
-	void test_get_include_paths()
-	{
-		SolutionParserVisualStudio parser;
-		parser.openSolutionFile("data/vsSolutionParserTestSuite/Coati.sln");
-		std::vector<std::string> includePaths = parser.getIncludePathsNonCanonical();
+	// void test_get_include_paths()
+	// {
+	// 	SolutionParserVisualStudio parser;
+	// 	parser.openSolutionFile("data/vsSolutionParserTestSuite/Coati.sln");
+	// 	std::vector<std::string> includePaths = parser.getIncludePathsNonCanonical();
 
-		TS_ASSERT_EQUALS(24, includePaths.size());
-	}
+	// 	TS_ASSERT_EQUALS(24, includePaths.size());
+	// }
 
-	void test_get_()
-	{
-		SolutionParserVisualStudio parser;
-		parser.openSolutionFile("data/vsSolutionParserTestSuite/Coati.sln");
-		std::vector<std::string> projectItems = parser.getProjectItemsNonCanonical();
+	// void test_get_()
+	// {
+	// 	SolutionParserVisualStudio parser;
+	// 	parser.openSolutionFile("data/vsSolutionParserTestSuite/Coati.sln");
+	// 	std::vector<std::string> projectItems = parser.getProjectItemsNonCanonical();
 
-		TS_ASSERT_EQUALS(450, projectItems.size());
-	}
+	// 	TS_ASSERT_EQUALS(450, projectItems.size());
+	// }
 };
