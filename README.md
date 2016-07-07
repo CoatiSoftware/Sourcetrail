@@ -94,6 +94,21 @@ $ git push --tags
 
 ### Changelog
 
+#### 0.7.0.22
+released 2016-07-07
+
+* Fixed detected global header search paths lost correct order and caused problems with #include_next directives
+* Fixed MaxOSX build crashed on launch due to unknown command line option passed
+* Removed 'Save Project' and 'Save Project As' actions from menu
+* Fixed indexer getting stuck at 'building caches' when indexing is interrupted
+* Fixed database not properly closed when errors appeared during indexing
+* Fixed autocompletions popup flickering while typing
+* Added resize grip to bottom right corner of every dialog window
+* Fixed 'paths don't exist' dialog window getting too big with lots of paths shown
+* Added context menu with 'back' and 'forward' actions available in all views
+* Removed Clang compiler warnings from console output
+* Added handling of project specific VS macros to VS solution parser
+
 #### 0.7.0.0
 released 2016-06-15
 
