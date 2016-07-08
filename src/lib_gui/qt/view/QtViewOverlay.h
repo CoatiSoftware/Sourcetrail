@@ -37,12 +37,16 @@ public:
 	static const size_t FRAME_DELAY_MS = 25;
 
 public slots:
+	void start();
+	void stop();
 	void animate();
 
 protected:
 	void paintEvent(QPaintEvent *event);
 
 private:
+	QTimer* m_timer;
+
 	size_t m_count;
 	size_t m_size;
 };
@@ -63,7 +67,7 @@ private:
 	QWidget* m_parent;
 	QtOverlay* m_overlay;
 
-	QTimer* m_timer;
+	QTimer* m_delayTimer;
 
 	QtThreadedFunctor<void> m_showFunctor;
 	QtThreadedFunctor<void> m_hideFunctor;

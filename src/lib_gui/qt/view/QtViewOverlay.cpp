@@ -28,6 +28,20 @@ QtOverlay::QtOverlay(QWidget* parent)
 	, m_count(rand() % 1000000)
 	, m_size(40)
 {
+	m_timer = new QTimer(this);
+	QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(animate()));
+}
+
+void QtOverlay::start()
+{
+	m_timer->start(FRAME_DELAY_MS);
+	show();
+}
+
+void QtOverlay::stop()
+{
+	m_timer->stop();
+	hide();
 }
 
 void QtOverlay::animate()
@@ -87,8 +101,9 @@ QtViewOverlay::QtViewOverlay(QWidget* parent)
 
 	m_parent->installEventFilter(new ResizeFilter(m_overlay));
 
-	m_timer = new QTimer(m_overlay);
-	QObject::connect(m_timer, SIGNAL(timeout()), m_overlay, SLOT(animate()));
+	m_delayTimer = new QTimer(m_overlay);
+	m_delayTimer->setSingleShot(true);
+	QObject::connect(m_delayTimer, SIGNAL(timeout()), m_overlay, SLOT(start()));
 }
 
 void QtViewOverlay::showOverlay()
@@ -103,14 +118,11 @@ void QtViewOverlay::hideOverlay()
 
 void QtViewOverlay::doShowOverlay()
 {
-	m_timer->start(QtOverlay::FRAME_DELAY_MS);
-
-	m_overlay->show();
+	m_delayTimer->start(500);
 }
 
 void QtViewOverlay::doHideOverlay()
 {
-	m_timer->stop();
-
-	m_overlay->hide();
+	m_delayTimer->stop();
+	m_overlay->stop();
 }
