@@ -11,6 +11,8 @@ public:
 	//TimePoint(time_t t);
 	TimePoint(std::string s);
 
+	static TimePoint now();
+
 	std::string toString() const;
 
 	inline bool operator==(const TimePoint& rhs){ return m_time == rhs.m_time; }
@@ -20,7 +22,9 @@ public:
 	inline bool operator<=(const TimePoint& rhs){ return m_time <= rhs.m_time; }
 	inline bool operator>=(const TimePoint& rhs){ return m_time >= rhs.m_time; }
 
-	inline float operator-(const TimePoint& rhs){ return (m_time - rhs.m_time).total_milliseconds() / 1000.0f; }
+	inline float operator-(const TimePoint& rhs){ return deltaMS(rhs) / 1000.0f; }
+
+	size_t deltaMS(const TimePoint& other) const;
 
 private:
 	boost::posix_time::ptime m_time;

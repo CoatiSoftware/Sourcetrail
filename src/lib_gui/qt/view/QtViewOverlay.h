@@ -4,6 +4,7 @@
 #include <QWidget>
 
 #include "qt/utility/QtThreadedFunctor.h"
+#include "utility/TimePoint.h"
 
 class QTimer;
 
@@ -49,6 +50,8 @@ private:
 
 	size_t m_count;
 	size_t m_size;
+
+	TimePoint m_timePoint;
 };
 
 

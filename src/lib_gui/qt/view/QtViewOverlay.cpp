@@ -34,6 +34,7 @@ QtOverlay::QtOverlay(QWidget* parent)
 
 void QtOverlay::start()
 {
+	m_timePoint = TimePoint::now();
 	m_timer->start(FRAME_DELAY_MS);
 	show();
 }
@@ -46,7 +47,16 @@ void QtOverlay::stop()
 
 void QtOverlay::animate()
 {
-	m_count += FRAME_DELAY_MS;
+	TimePoint t = TimePoint::now();
+	size_t dt = t.deltaMS(m_timePoint);
+
+	if (dt < 5)
+	{
+		return;
+	}
+
+	m_timePoint = t;
+	m_count += dt;
 
 	QPoint center = geometry().center();
 	update(QRect(center.x() - m_size / 2, center.y() - m_size / 2, m_size, m_size));
