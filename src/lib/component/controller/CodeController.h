@@ -46,8 +46,6 @@ public:
 	~CodeController();
 
 private:
-	static const uint s_lineRadius;
-
 	virtual void handleMessage(MessageActivateAll* message);
 	virtual void handleMessage(MessageActivateLocalSymbols* message);
 	virtual void handleMessage(MessageActivateTokens* message);

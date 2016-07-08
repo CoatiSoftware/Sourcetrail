@@ -157,6 +157,8 @@ void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippe
 	m_widget->updateFiles();
 
 	setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
+
+	hideOverlay();
 }
 
 void QtCodeView::doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert)
@@ -170,12 +172,16 @@ void QtCodeView::doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippet
 
 	setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
 
+	hideOverlay();
+
 	m_widget->scrollToActiveFileIfRequested();
 }
 
 void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
 {
 	m_widget->addCodeSnippet(params);
+
+	hideOverlay();
 }
 
 void QtCodeView::doSetFileState(const FilePath filePath, FileState state)
@@ -192,6 +198,8 @@ void QtCodeView::doSetFileState(const FilePath filePath, FileState state)
 		m_widget->setFileMaximized(filePath);
 		break;
 	}
+
+	hideOverlay();
 }
 
 void QtCodeView::doShowFirstActiveSnippet(const std::vector<Id>& activeTokenIds, bool scrollTo)

@@ -25,11 +25,12 @@ CodeController::~CodeController()
 {
 }
 
-const uint CodeController::s_lineRadius = 2;
-
 void CodeController::handleMessage(MessageActivateAll* message)
 {
 	TRACE("code all");
+
+	CodeView* view = getView();
+	view->showOverlay();
 
 	std::vector<ErrorInfo> errors;
 	m_collection = m_storageAccess->getErrorTokenLocations(&errors);
@@ -82,7 +83,6 @@ void CodeController::handleMessage(MessageActivateAll* message)
 
 	snippets.insert(snippets.begin(), statsSnippet);
 
-	CodeView* view = getView();
 	view->clear();
 	view->setErrorInfos(errors);
 	view->showCodeSnippets(snippets, std::vector<Id>());
@@ -101,6 +101,7 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	TRACE("code activate");
 
 	CodeView* view = getView();
+	view->showOverlay();
 
 	if (!message->keepContent())
 	{
@@ -168,6 +169,7 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 	case MessageChangeFileView::FILE_SNIPPETS:
 		if (message->needsData)
 		{
+			view->showOverlay();
 			view->addCodeSnippets(getSnippetsForFile(
 				m_collection->getTokenLocationFileByPath(message->filePath), !message->showErrors), false);
 		}
@@ -177,6 +179,8 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 	case MessageChangeFileView::FILE_MAXIMIZED:
 		if (message->needsData)
 		{
+			view->showOverlay();
+
 			CodeSnippetParams params;
 			params.startLineNumber = 1;
 			params.refCount = -1;
@@ -246,11 +250,13 @@ void CodeController::handleMessage(MessageShowErrors* message)
 {
 	TRACE("code errors");
 
+	CodeView* view = getView();
+	view->showOverlay();
+
 	std::vector<ErrorInfo> errors;
 	m_collection = m_storageAccess->getErrorTokenLocations(&errors);
 	std::vector<CodeSnippetParams> snippets = getSnippetsForCollection(m_collection);
 
-	CodeView* view = getView();
 	view->clear();
 	view->setErrorInfos(errors);
 	view->showCodeSnippets(snippets, std::vector<Id>());
@@ -263,6 +269,7 @@ void CodeController::handleMessage(MessageSearchFullText* message)
 	TRACE("code fulltext");
 
 	CodeView* view = getView();
+	view->showOverlay();
 	view->clear();
 
 	m_collection = m_storageAccess->getFullTextSearchLocations(message->searchTerm, message->caseSensitive);
