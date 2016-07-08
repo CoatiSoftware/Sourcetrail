@@ -32,7 +32,7 @@ QtOverlay::QtOverlay(QWidget* parent)
 
 void QtOverlay::animate()
 {
-	m_count += 25;
+	m_count += FRAME_DELAY_MS;
 
 	QPoint center = geometry().center();
 	update(QRect(center.x() - m_size / 2, center.y() - m_size / 2, m_size, m_size));
@@ -83,9 +83,12 @@ QtViewOverlay::QtViewOverlay(QWidget* parent)
 	, m_hideFunctor(std::bind(&QtViewOverlay::doHideOverlay, this))
 {
 	m_overlay = new QtOverlay(m_parent);
-	m_parent->installEventFilter(new ResizeFilter(m_overlay));
 	m_overlay->hide();
+
+	m_parent->installEventFilter(new ResizeFilter(m_overlay));
+
 	m_timer = new QTimer(m_overlay);
+	QObject::connect(m_timer, SIGNAL(timeout()), m_overlay, SLOT(animate()));
 }
 
 void QtViewOverlay::showOverlay()
@@ -100,9 +103,7 @@ void QtViewOverlay::hideOverlay()
 
 void QtViewOverlay::doShowOverlay()
 {
-	QObject::connect(m_timer, SIGNAL(timeout()), m_overlay, SLOT(animate()));
-
-	m_timer->start(25);
+	m_timer->start(QtOverlay::FRAME_DELAY_MS);
 
 	m_overlay->show();
 }

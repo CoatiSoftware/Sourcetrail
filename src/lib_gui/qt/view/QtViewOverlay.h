@@ -34,6 +34,8 @@ class QtOverlay
 public:
 	QtOverlay(QWidget* parent = nullptr);
 
+	static const size_t FRAME_DELAY_MS = 25;
+
 public slots:
 	void animate();
 
