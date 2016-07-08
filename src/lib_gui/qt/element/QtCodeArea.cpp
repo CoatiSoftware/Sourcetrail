@@ -98,6 +98,7 @@ QtCodeArea::QtCodeArea(
 	, m_isActiveFile(false)
 	, m_lineNumbersHidden(false)
 	, m_wasAnnotated(false)
+	, m_endTextEditPosition(0)
 {
 	setObjectName("code_area");
 	setReadOnly(true);
@@ -117,6 +118,7 @@ QtCodeArea::QtCodeArea(
 	}
 
 	setPlainText(QString::fromUtf8(displayCode.c_str()));
+	createLineLengthCache();
 
 	m_digits = lineNumberDigits();
 	updateLineNumberAreaWidth();
@@ -656,7 +658,7 @@ void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFi
 				{
 					annotation.end = endTextEditPosition();
 					annotation.endLine = endLineNumber;
-					annotation.endCol = document()->findBlockByLineNumber(document()->blockCount() - 1).length();
+					annotation.endCol = m_lineLengths[document()->blockCount() - 1];
 				}
 				else
 				{
@@ -770,7 +772,7 @@ int QtCodeArea::toTextEditPosition(int lineNumber, int columnNumber) const
 
 	for (int i = 0; i < lineNumber - 1; i++)
 	{
-		position += document()->findBlockByLineNumber(i).length();
+		position += m_lineLengths[i];
 	}
 
 	position += columnNumber;
@@ -782,7 +784,7 @@ std::pair<int, int> QtCodeArea::toLineColumn(int textEditPosition) const
 	int lineNumber = m_startLineNumber;
 	for (int i = 0; i < document()->lineCount(); i++)
 	{
-		int nextTextEditPosition = textEditPosition - document()->findBlockByLineNumber(i).length();
+		int nextTextEditPosition = textEditPosition - m_lineLengths[i];
 		if (nextTextEditPosition >= 0)
 		{
 			textEditPosition = nextTextEditPosition;
@@ -803,14 +805,7 @@ int QtCodeArea::startTextEditPosition() const
 
 int QtCodeArea::endTextEditPosition() const
 {
-	int position = 0;
-
-	for (int i = 0; i < document()->blockCount(); i++)
-	{
-		position += document()->findBlockByLineNumber(i).length();
-	}
-
-	return position - 1;
+	return m_endTextEditPosition;
 }
 
 std::set<int> QtCodeArea::getActiveLineNumbers() const
@@ -867,14 +862,14 @@ std::vector<QRect> QtCodeArea::getCursorRectsForAnnotation(const Annotation& ann
 		{
 			// Avoid that annotations at line end span down to first column of the next line.
 			if (annotation.startLine != annotation.endLine ||
-				document()->findBlockByLineNumber(line - m_startLineNumber).length() != annotation.endCol)
+				m_lineLengths[line - m_startLineNumber] != annotation.endCol)
 			{
 				cursor.setPosition(annotation.end);
 			}
 		}
 		else
 		{
-			cursor.setPosition(toTextEditPosition(line, document()->findBlockByLineNumber(line - m_startLineNumber).length() - 1));
+			cursor.setPosition(toTextEditPosition(line, m_lineLengths[line - m_startLineNumber] - 1));
 		}
 
 		rectEnd = cursorRect(cursor);
@@ -962,4 +957,17 @@ void QtCodeArea::createActions()
 	m_setIDECursorPositionAction->setStatusTip(tr("Set the IDE Cursor to this code position"));
 	m_setIDECursorPositionAction->setToolTip(tr("Set the IDE Cursor to this code position"));
 	connect(m_setIDECursorPositionAction, SIGNAL(triggered()), this, SLOT(setIDECursorPosition()));
+}
+
+void QtCodeArea::createLineLengthCache()
+{
+	m_endTextEditPosition = -1;
+
+	m_lineLengths.clear();
+
+	for (QTextBlock it = document()->begin(); it != document()->end(); it = it.next())
+	{
+		m_lineLengths.push_back(it.length());
+		m_endTextEditPosition += it.length();
+	}
 }

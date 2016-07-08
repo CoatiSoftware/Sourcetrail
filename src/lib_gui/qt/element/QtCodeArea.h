@@ -162,6 +162,8 @@ private:
 
 	void createActions();
 
+	void createLineLengthCache();
+
 	static std::vector<AnnotationColor> s_annotationColors;
 
 	QtCodeFile* m_fileWidget;
@@ -189,6 +191,9 @@ private:
 	bool m_isActiveFile;
 	bool m_lineNumbersHidden;
 	bool m_wasAnnotated;
+
+	std::vector<int> m_lineLengths;
+	int m_endTextEditPosition;
 };
 
 #endif // QT_CODE_AREA_H
