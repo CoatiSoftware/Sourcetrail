@@ -1354,9 +1354,12 @@ void PersistentStorage::buildSearchIndex()
 {
 	TRACE();
 
-	for (StorageNode node: m_sqliteStorage.getAllNodes())
+	for (StorageNode node : m_sqliteStorage.getAllNodes())
 	{
-		m_elementIndex.addNode(node.id, NameHierarchy::deserialize(node.serializedName));
+		if (intToDefinitionType(node.definitionType) != DEFINITION_IMPLICIT)
+		{
+			m_elementIndex.addNode(node.id, NameHierarchy::deserialize(node.serializedName));
+		}
 	}
 	m_elementIndex.finishSetup();
 }
