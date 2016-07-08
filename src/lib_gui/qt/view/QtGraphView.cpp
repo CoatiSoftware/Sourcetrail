@@ -26,7 +26,6 @@
 #include "qt/view/graphElements/QtGraphNodeBundle.h"
 #include "qt/view/graphElements/QtGraphNodeData.h"
 #include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
-#include "qt/view/QtViewOverlay.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "settings/ColorScheme.h"
 
@@ -72,8 +71,6 @@ void QtGraphView::initView()
 	widget->layout()->addWidget(view);
 
 	connect(view, SIGNAL(emptySpaceClicked()), this, SLOT(clickedInEmptySpace()));
-
-	m_overlay = new QtViewOverlay(widget);
 
 	doRefreshView();
 }
@@ -253,6 +250,8 @@ void QtGraphView::doRebuildGraph(
 	{
 		m_graph = graph;
 	}
+
+	hideOverlay();
 
 	if (animated)
 	{

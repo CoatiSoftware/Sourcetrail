@@ -1,6 +1,7 @@
 #include "qt/view/QtViewWidgetWrapper.h"
 
 #include "component/view/View.h"
+#include "qt/view/QtViewOverlay.h"
 #include "utility/logging/logging.h"
 
 QWidget* QtViewWidgetWrapper::getWidgetOfView(const View* view)
@@ -24,11 +25,33 @@ QWidget* QtViewWidgetWrapper::getWidgetOfView(const View* view)
 
 QtViewWidgetWrapper::QtViewWidgetWrapper(QWidget* widget)
 	: m_widget(widget)
+	, m_overlay(nullptr)
 {
 }
 
 QtViewWidgetWrapper::~QtViewWidgetWrapper()
 {
+}
+
+void QtViewWidgetWrapper::createOverlay()
+{
+	m_overlay = new QtViewOverlay(m_widget);
+}
+
+void QtViewWidgetWrapper::showOverlay()
+{
+	if (m_overlay)
+	{
+		m_overlay->showOverlay();
+	}
+}
+
+void QtViewWidgetWrapper::hideOverlay()
+{
+	if (m_overlay)
+	{
+		m_overlay->hideOverlay();
+	}
 }
 
 QWidget* QtViewWidgetWrapper::getWidget()

@@ -38,6 +38,8 @@ ViewFactory* ComponentFactory::getViewFactory() const
 std::shared_ptr<Component> ComponentFactory::createCodeComponent(ViewLayout* viewLayout)
 {
 	std::shared_ptr<CodeView> view = m_viewFactory->createCodeView(viewLayout);
+	view->createOverlay();
+
 	std::shared_ptr<CodeController> controller = std::make_shared<CodeController>(m_storageAccess);
 
 	return std::make_shared<Component>(view, controller);
@@ -53,6 +55,8 @@ std::shared_ptr<Component> ComponentFactory::createFeatureComponent()
 std::shared_ptr<Component> ComponentFactory::createGraphComponent(ViewLayout* viewLayout)
 {
 	std::shared_ptr<View> view = m_viewFactory->createGraphView(viewLayout);
+	view->createOverlay();
+
 	std::shared_ptr<GraphController> controller = std::make_shared<GraphController>(m_storageAccess);
 
 	return std::make_shared<Component>(view, controller);

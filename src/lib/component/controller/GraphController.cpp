@@ -26,6 +26,8 @@ void GraphController::handleMessage(MessageActivateAll* message)
 {
 	TRACE("graph all");
 
+	getView()->showOverlay();
+
 	m_activeNodeIds.clear();
 	m_activeEdgeIds.clear();
 
@@ -42,6 +44,8 @@ void GraphController::handleMessage(MessageActivateAll* message)
 void GraphController::handleMessage(MessageActivateTokens* message)
 {
 	TRACE("graph activate");
+
+	getView()->showOverlay();
 
 	if (message->isEdge || message->keepContent())
 	{

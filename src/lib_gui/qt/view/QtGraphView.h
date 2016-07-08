@@ -15,7 +15,6 @@ class QSequentialAnimationGroup;
 class QtGraphEdge;
 class QtGraphicsView;
 class QtGraphNode;
-class QtViewOverlay;
 
 class QtGraphView
 	: public QObject
@@ -109,8 +108,6 @@ private:
 
 	std::shared_ptr<QSequentialAnimationGroup> m_transition;
 	QPointF m_sceneRectOffset;
-
-	QtViewOverlay* m_overlay;
 };
 
 #endif // QT_GRAPH_VIEW_H

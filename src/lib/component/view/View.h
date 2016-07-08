@@ -35,6 +35,10 @@ public:
 
 	ViewWidgetWrapper* getWidgetWrapper() const;
 
+	void createOverlay();
+	void showOverlay();
+	void hideOverlay();
+
 protected:
 	template <typename ControllerType>
 	ControllerType* getController();

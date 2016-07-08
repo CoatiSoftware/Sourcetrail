@@ -79,8 +79,8 @@ void QtOverlay::paintEvent(QPaintEvent *event)
 
 QtViewOverlay::QtViewOverlay(QWidget* parent)
 	: m_parent(parent)
-	, m_beforeFunctor(std::bind(&QtViewOverlay::doBefore, this))
-	, m_afterFunctor(std::bind(&QtViewOverlay::doAfter, this))
+	, m_showFunctor(std::bind(&QtViewOverlay::doShowOverlay, this))
+	, m_hideFunctor(std::bind(&QtViewOverlay::doHideOverlay, this))
 {
 	m_overlay = new QtOverlay(m_parent);
 	m_parent->installEventFilter(new ResizeFilter(m_overlay));
@@ -88,17 +88,17 @@ QtViewOverlay::QtViewOverlay(QWidget* parent)
 	m_timer = new QTimer(m_overlay);
 }
 
-void QtViewOverlay::handleMessage(MessageLoadBefore* message)
+void QtViewOverlay::showOverlay()
 {
-	m_beforeFunctor();
+	m_showFunctor();
 }
 
-void QtViewOverlay::handleMessage(MessageLoadAfter* message)
+void QtViewOverlay::hideOverlay()
 {
-	m_afterFunctor();
+	m_hideFunctor();
 }
 
-void QtViewOverlay::doBefore()
+void QtViewOverlay::doShowOverlay()
 {
 	QObject::connect(m_timer, SIGNAL(timeout()), m_overlay, SLOT(animate()));
 
@@ -107,7 +107,7 @@ void QtViewOverlay::doBefore()
 	m_overlay->show();
 }
 
-void QtViewOverlay::doAfter()
+void QtViewOverlay::doHideOverlay()
 {
 	m_timer->stop();
 

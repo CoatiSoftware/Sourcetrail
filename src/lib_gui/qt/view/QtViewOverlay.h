@@ -4,9 +4,6 @@
 #include <QWidget>
 
 #include "qt/utility/QtThreadedFunctor.h"
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageLoadBefore.h"
-#include "utility/messaging/type/MessageLoadAfter.h"
 
 class QTimer;
 
@@ -50,26 +47,24 @@ private:
 
 
 class QtViewOverlay
-	: public MessageListener<MessageLoadBefore>
-	, public MessageListener<MessageLoadAfter>
 {
 public:
 	QtViewOverlay(QWidget* parent = 0);
 
-private:
-	void handleMessage(MessageLoadBefore* message);
-	void handleMessage(MessageLoadAfter* message);
+	void showOverlay();
+	void hideOverlay();
 
-	void doBefore();
-	void doAfter();
+private:
+	void doShowOverlay();
+	void doHideOverlay();
 
 	QWidget* m_parent;
 	QtOverlay* m_overlay;
 
 	QTimer* m_timer;
 
-	QtThreadedFunctor<void> m_beforeFunctor;
-	QtThreadedFunctor<void> m_afterFunctor;
+	QtThreadedFunctor<void> m_showFunctor;
+	QtThreadedFunctor<void> m_hideFunctor;
 };
 
 #endif // QT_VIEW_OVERLAY

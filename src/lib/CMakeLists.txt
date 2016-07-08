@@ -248,8 +248,6 @@ add_files(
 	utility/messaging/type/MessageGraphNodeExpand.h
 	utility/messaging/type/MessageGraphNodeMove.h
 	utility/messaging/type/MessageInterruptTasks.h
-	utility/messaging/type/MessageLoadAfter.h
-	utility/messaging/type/MessageLoadBefore.h
 	utility/messaging/type/MessageLoadProject.h
 	utility/messaging/type/MessageMoveIDECursor.h
 	utility/messaging/type/MessageProjectEdit.h

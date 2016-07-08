@@ -25,14 +25,29 @@ void View::addToLayout()
 	m_viewLayout->addView(this);
 }
 
+void View::setComponent(Component* component)
+{
+	m_component = component;
+}
+
 ViewWidgetWrapper* View::getWidgetWrapper() const
 {
 	return m_widgetWrapper.get();
 }
 
-void View::setComponent(Component* component)
+void View::createOverlay()
 {
-	m_component = component;
+	getWidgetWrapper()->createOverlay();
+}
+
+void View::showOverlay()
+{
+	getWidgetWrapper()->showOverlay();
+}
+
+void View::hideOverlay()
+{
+	getWidgetWrapper()->hideOverlay();
 }
 
 ViewLayout* View::getViewLayout() const
