@@ -2,6 +2,7 @@
 layout: post
 title: "Parameter or Argument?"
 description: "What's the difference between a parameter and an argument? And how do I remember which one is what?"
+modified: 2016-07-14
 author: Malte Langkabel
 author-link: http://www.maltelangkabel.com/
 image:
@@ -10,7 +11,7 @@ image:
 
 I often hear people getting confused when talking about parameters and arguments. That confusion grows even stronger when one of them knows the difference but the other one doesn't. So let's shed some light on this issue and spread the knowledge! Programming involves talking to each other but that doesn't have to be more painful than it already is ;)
 
-A **Parameter** is a variable in the signature of a function declaration or definition:
+A [**Parameter**](http://eel.is/c++draft/defns.argument) is a variable in the signature of a function declaration or definition:
 
 ```
 void function(int parameter) {
@@ -18,7 +19,7 @@ void function(int parameter) {
 }
 ```
 
-An **Argument** is the value that gets passed to the function when calling it:
+An [**Argument**](http://eel.is/c++draft/defns.parameter) is the value that gets passed to the function when calling it:
 
 ```
 function(argument);
@@ -37,7 +38,7 @@ A **Template Parameter** is a placeholder in declaration of a template:
 template <typename TemplateParameter>
 class TemplateClass
 {
-}
+};
 ```
 
 A **Template Argument** is the actual value or type that is used to instantiate that template:
@@ -48,4 +49,10 @@ TemplateClass<TemplateArgument> templateClass;
 
 Following the example set by functions and methods one can also provide a **Template Default Argument** that specifies which value or type should be used when instantiating the template with no argument provided!
 
+Even though these terms apply for C and C like languages, please note that other programming languages may have other terms to differentiate between these concepts. 
 
+<br />
+
+___
+
+**Edit:** Added links to the definition of the terms Parameter and Argument in the latest C++ draft. Added the above note regarding other languages. Added a semicolon to complete the syntax of the template class example ;) 
