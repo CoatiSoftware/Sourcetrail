@@ -1,14 +1,15 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="{{ site.url }}/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 <script src="{{ site.url }}/assets/js/scripts.min.js"></script>
+<script src="{{ site.url }}/assets/js/navigation.js"></script>
 
 <script>
 
 $(".content-toggle").each(function(index) {
 	var that = $(this);
 	var children = that.children();
-	
-	for (i = 0; i < children.length; i++) { 
+
+	for (i = 0; i < children.length; i++) {
 		if (i != 0) {
 			$(children[i]).hide();
 		}
@@ -17,10 +18,10 @@ $(".content-toggle").each(function(index) {
 		if (i == children.length - 1) {
 			nextId = 0;
 		}
-		
+
 		$(children[i]).attr('nextId', nextId);
-		
-		$(children[i]).click(function(event) 
+
+		$(children[i]).click(function(event)
 		{
 			content = $(this);
 			content.hide();

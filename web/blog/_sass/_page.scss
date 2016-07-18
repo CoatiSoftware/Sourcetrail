@@ -61,13 +61,18 @@ body {
 		color: lighten($base-color,20);
 	}
 	.author {
-		color: $white;
+		color: $white !important;
 		text-decoration: none;
 		&:hover {
 			text-decoration: underline;
 		}
 	}
 }
+
+.feature {
+	position: relative;
+}
+
 .feature .header-title {
 	position: absolute;
 	top: 0;

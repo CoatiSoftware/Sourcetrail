@@ -13,7 +13,7 @@ I often hear people getting confused when talking about parameters and arguments
 
 A [**Parameter**](http://eel.is/c++draft/defns.argument) is a variable in the signature of a function declaration or definition:
 
-```
+```plaintext
 void function(int parameter) {
     // do something
 }
@@ -21,7 +21,7 @@ void function(int parameter) {
 
 An [**Argument**](http://eel.is/c++draft/defns.parameter) is the value that gets passed to the function when calling it:
 
-```
+```plaintext
 function(argument);
 ```
 
@@ -34,7 +34,7 @@ The 1st best part is that this concept doesn't only apply to functions and metho
 
 A **Template Parameter** is a placeholder in declaration of a template:
 
-```
+```plaintext
 template <typename TemplateParameter>
 class TemplateClass
 {
@@ -43,16 +43,16 @@ class TemplateClass
 
 A **Template Argument** is the actual value or type that is used to instantiate that template:
 
-```
+```plaintext
 TemplateClass<TemplateArgument> templateClass;
 ```
 
 Following the example set by functions and methods one can also provide a **Template Default Argument** that specifies which value or type should be used when instantiating the template with no argument provided!
 
-Even though these terms apply for C and C like languages, please note that other programming languages may have other terms to differentiate between these concepts. 
+Even though these terms apply for C and C like languages, please note that other programming languages may have other terms to differentiate between these concepts.
 
 <br />
 
 ___
 
-**Edit:** Added links to the definition of the terms Parameter and Argument in the latest C++ draft. Added the above note regarding other languages. Added a semicolon to complete the syntax of the template class example ;) 
+**Edit:** Added links to the definition of the terms Parameter and Argument in the latest C++ draft. Added the above note regarding other languages. Added a semicolon to complete the syntax of the template class example ;)
