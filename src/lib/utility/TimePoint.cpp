@@ -24,6 +24,11 @@ TimePoint::TimePoint(std::string s)
 	}
 }
 
+bool TimePoint::isValid() const
+{
+	return m_time != boost::posix_time::not_a_date_time;
+}
+
 std::string TimePoint::toString() const
 {
 	std::stringstream stream;

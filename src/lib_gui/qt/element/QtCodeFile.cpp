@@ -111,8 +111,11 @@ QtCodeFile::~QtCodeFile()
 
 void QtCodeFile::setModificationTime(TimePoint modificationTime)
 {
-	m_modificationTime = modificationTime;
-	updateTitleBar();
+	if (modificationTime.isValid())
+	{
+		m_modificationTime = modificationTime;
+		updateTitleBar();
+	}
 }
 
 const FilePath& QtCodeFile::getFilePath() const

@@ -11,6 +11,8 @@ public:
 	//TimePoint(time_t t);
 	TimePoint(std::string s);
 
+	bool isValid() const;
+
 	std::string toString() const;
 
 	inline bool operator==(const TimePoint& rhs){ return m_time == rhs.m_time; }
