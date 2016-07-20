@@ -1,6 +1,7 @@
 #ifndef QT_PROJECT_WIZZARD_CONTENT_PREFERENCES_H
 #define QT_PROJECT_WIZZARD_CONTENT_PREFERENCES_H
 
+#include <QCheckBox>
 #include <QComboBox>
 #include <QLineEdit>
 
@@ -27,6 +28,7 @@ private:
 	QComboBox* m_fontSize;
 	QComboBox* m_tabWidth;
 	QComboBox* m_threads;
+	QCheckBox* m_fatalErrors;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_PREFERENCES_H

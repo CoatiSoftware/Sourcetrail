@@ -171,14 +171,16 @@ struct StorageError
 	StorageError()
 		: message("")
 		, fatal(0)
+		, indexed(0)
 		, filePath("")
 		, lineNumber(-1)
 		, columnNumber(-1)
 	{}
 
-	StorageError(const std::string& message, bool fatal, const std::string& filePath, uint lineNumber, uint columnNumber)
+	StorageError(const std::string& message, bool fatal, bool indexed, const std::string& filePath, uint lineNumber, uint columnNumber)
 		: message(message)
 		, fatal(fatal)
+		, indexed(indexed)
 		, filePath(filePath)
 		, lineNumber(lineNumber)
 		, columnNumber(columnNumber)
@@ -186,6 +188,7 @@ struct StorageError
 
 	std::string message;
 	bool fatal;
+	bool indexed;
 	std::string filePath;
 	uint lineNumber;
 	uint columnNumber;

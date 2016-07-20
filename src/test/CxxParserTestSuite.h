@@ -2948,7 +2948,7 @@ private:
 		{
 		}
 
-		virtual void onError(const ParseLocation& location, const std::string& message, bool fatal)
+		virtual void onError(const ParseLocation& location, const std::string& message, bool fatal, bool indexed)
 		{
 			errors.push_back(addLocationSuffix(message, location));
 		}

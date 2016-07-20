@@ -200,7 +200,7 @@ Id SqliteStorage::addCommentLocation(Id fileNodeId, uint startLine, uint startCo
 	return m_database.lastRowId();
 }
 
-Id SqliteStorage::addError(const std::string& message, bool fatal, const std::string& filePath, uint lineNumber, uint columnNumber)
+Id SqliteStorage::addError(const std::string& message, bool fatal, bool indexed, const std::string& filePath, uint lineNumber, uint columnNumber)
 {
 	std::string sanitizedMessage = utility::replace((fatal ? "Fatal: " : "Error: ") + message, "'", "''");
 
@@ -226,8 +226,8 @@ Id SqliteStorage::addError(const std::string& message, bool fatal, const std::st
 	stmt.finalize();
 
 	stmt = m_database.compileStatement((
-		"INSERT INTO error(message, fatal, file_path, line_number, column_number) "
-		"VALUES (?, " + std::to_string(fatal) + ", '" + filePath +
+		"INSERT INTO error(message, fatal, indexed, file_path, line_number, column_number) "
+		"VALUES (?, " + std::to_string(fatal) + ", " + std::to_string(indexed) + ", '" + filePath +
 		"', " + std::to_string(lineNumber) + ", " + std::to_string(columnNumber) + ");"
 	).c_str());
 
@@ -550,11 +550,6 @@ std::vector<StorageCommentLocation> SqliteStorage::getCommentLocationsInFile(con
 	return getAll<StorageCommentLocation>("WHERE file_node_id == " + std::to_string(fileNodeId));
 }
 
-std::vector<StorageError> SqliteStorage::getFatalErrors() const
-{
-	return getAll<StorageError>("WHERE fatal == 1");
-}
-
 std::vector<StorageFile> SqliteStorage::getAllFiles() const
 {
 	return getAll<StorageFile>("");
@@ -752,6 +747,7 @@ void SqliteStorage::setupTables()
 				"id INTEGER NOT NULL, "
 				"message TEXT, "
 				"fatal INTEGER NOT NULL, "
+				"indexed INTEGER NOT NULL, "
 				"file_path TEXT, "
 				"line_number INTEGER, "
 				"column_number INTEGER, "
@@ -990,7 +986,7 @@ template <>
 std::vector<StorageError> SqliteStorage::getAll<StorageError>(const std::string& query) const
 {
 	CppSQLite3Query q = m_database.execQuery((
-		"SELECT message, fatal, file_path, line_number, column_number FROM error " + query + ";"
+		"SELECT message, fatal, indexed, file_path, line_number, column_number FROM error " + query + ";"
 	).c_str());
 
 	std::vector<StorageError> errors;
@@ -998,13 +994,14 @@ std::vector<StorageError> SqliteStorage::getAll<StorageError>(const std::string&
 	{
 		const std::string message = q.getStringField(0, "");
 		const bool fatal = q.getIntField(1, 0);
-		const std::string filePath = q.getStringField(2, "");
-		const int lineNumber = q.getIntField(3, -1);
-		const int columnNumber = q.getIntField(4, -1);
+		const bool indexed = q.getIntField(2, 0);
+		const std::string filePath = q.getStringField(3, "");
+		const int lineNumber = q.getIntField(4, -1);
+		const int columnNumber = q.getIntField(5, -1);
 
 		if (lineNumber != -1 && columnNumber != -1)
 		{
-			errors.push_back(StorageError(message, fatal, filePath, lineNumber, columnNumber));
+			errors.push_back(StorageError(message, fatal, indexed, filePath, lineNumber, columnNumber));
 		}
 
 		q.nextRow();

@@ -84,6 +84,21 @@ void QtProjectWizzardContentPreferences::populateForm(QGridLayout* layout, int& 
 	);
 
 	row++;
+
+	// ignore non-fatal errors in non-indexed files
+	QLabel* errorsLabel = createFormLabel("Non-Fatal Errors");
+
+	m_fatalErrors = new QCheckBox("Display non-fatal errors in unindexed files", this);
+
+	layout->addWidget(errorsLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(m_fatalErrors, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
+
+	addHelpButton(
+		"When checked non-fatal errors within included unindexed files are also shown."
+		, layout, row
+	);
+
+	row++;
 }
 
 void QtProjectWizzardContentPreferences::load()
@@ -96,6 +111,7 @@ void QtProjectWizzardContentPreferences::load()
 	m_tabWidth->setCurrentIndex(appSettings->getCodeTabWidth() - 1);
 
 	m_threads->setCurrentIndex(appSettings->getIndexerThreadCount() - 1);
+	m_fatalErrors->setChecked(appSettings->getShowExternalNonFatalErrors());
 }
 
 void QtProjectWizzardContentPreferences::save()
@@ -108,6 +124,7 @@ void QtProjectWizzardContentPreferences::save()
 	appSettings->setCodeTabWidth(m_tabWidth->currentIndex() + 1);
 
 	appSettings->setIndexerThreadCount(m_threads->currentIndex() + 1);
+	appSettings->setShowExternalNonFatalErrors(m_fatalErrors->isChecked());
 }
 
 bool QtProjectWizzardContentPreferences::check()

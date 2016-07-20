@@ -8,12 +8,12 @@ struct ErrorCountInfo
 		, fatal(0)
 	{}
 
-	ErrorCountInfo(int total, size_t fatal)
+	ErrorCountInfo(size_t total, size_t fatal)
 		: total(total)
 		, fatal(fatal)
 	{}
 
-	int total;
+	size_t total;
 	size_t fatal;
 };
 

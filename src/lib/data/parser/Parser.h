@@ -21,7 +21,9 @@ public:
 		std::vector<FilePath> systemHeaderSearchPaths;
 		std::vector<FilePath> frameworkSearchPaths;
 		std::vector<std::string> compilerFlags;
+
 		bool logErrors;
+
 		std::string language;
 		std::string languageStandard;
 

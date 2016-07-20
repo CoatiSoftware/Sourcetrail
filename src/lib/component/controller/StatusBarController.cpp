@@ -43,12 +43,14 @@ void StatusBarController::handleMessage(MessageFinishedParsing* message)
 	MessageStatus(status, false).dispatch();
 }
 
+void StatusBarController::handleMessage(MessageRefresh* message)
+{
+	getView()->setErrorCount(m_storageAccess->getErrorCount());
+}
+
 void StatusBarController::handleMessage(MessageShowErrors* message)
 {
-	if (message->errorCount.total >= 0)
-	{
-		getView()->setErrorCount(message->errorCount);
-	}
+	getView()->setErrorCount(message->errorCount);
 }
 
 void StatusBarController::handleMessage(MessageStatus* message)

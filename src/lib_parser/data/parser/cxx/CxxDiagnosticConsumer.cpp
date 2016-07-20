@@ -4,15 +4,18 @@
 
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
+#include "utility/file/FileRegister.h"
 
 CxxDiagnosticConsumer::CxxDiagnosticConsumer(
 	clang::raw_ostream &os,
 	clang::DiagnosticOptions *diags,
 	ParserClient* client,
+	FileRegister* fileRegister,
 	bool useLogging
 )
 	: clang::TextDiagnosticPrinter(os, diags)
 	, m_client(client)
+	, m_register(fileRegister)
 	, m_isParsingFile(false)
 	, m_useLogging(useLogging)
 {
@@ -75,6 +78,11 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 			column = presumedLocation.getColumn();
 		}
 
-		m_client->onError(ParseLocation(filePath, line, column), message, (level == clang::DiagnosticsEngine::Fatal));
+		m_client->onError(
+			ParseLocation(filePath, line, column),
+			message,
+			level == clang::DiagnosticsEngine::Fatal,
+			m_register->hasFilePath(filePath)
+		);
 	}
 }

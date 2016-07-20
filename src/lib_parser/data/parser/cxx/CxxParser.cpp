@@ -183,7 +183,7 @@ std::shared_ptr<CxxDiagnosticConsumer> CxxParser::getDiagnostics(const Arguments
 {
 	llvm::IntrusiveRefCntPtr<clang::DiagnosticOptions> options = new clang::DiagnosticOptions();
 	return std::make_shared<CxxDiagnosticConsumer>(
-		llvm::errs(), &*options, m_client, arguments.logErrors);
+		llvm::errs(), &*options, m_client, m_fileRegister.get(), arguments.logErrors);
 }
 
 void CxxParser::setupParsing(const Arguments& arguments)

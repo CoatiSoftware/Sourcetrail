@@ -34,7 +34,7 @@ void ParserClientImpl::finishParsingFile()
 {
 }
 
-void ParserClientImpl::onError(const ParseLocation& location, const std::string& message, bool fatal)
+void ParserClientImpl::onError(const ParseLocation& location, const std::string& message, bool fatal, bool indexed)
 {
 	log(std::string(fatal ? "FATAL: " : "ERROR: "), message, location);
 
@@ -43,7 +43,7 @@ void ParserClientImpl::onError(const ParseLocation& location, const std::string&
 		return;
 	}
 
-	addError(message, fatal, location);
+	addError(message, fatal, indexed, location);
 }
 
 void ParserClientImpl::onTypedefParsed(
@@ -576,14 +576,14 @@ void ParserClientImpl::addCommentLocation(const ParseLocation& location)
 	);
 }
 
-void ParserClientImpl::addError(const std::string& message, bool fatal, const ParseLocation& location)
+void ParserClientImpl::addError(const std::string& message, bool fatal, bool indexed, const ParseLocation& location)
 {
 	if (!m_storage)
 	{
 		return;
 	}
 
-	m_storage->addError(message, fatal, location.filePath.str(), location.startLineNumber, location.startColumnNumber);
+	m_storage->addError(message, fatal, indexed, location.filePath.str(), location.startLineNumber, location.startColumnNumber);
 }
 
 void ParserClientImpl::log(std::string type, std::string str, const ParseLocation& location) const

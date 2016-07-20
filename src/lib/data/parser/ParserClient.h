@@ -42,7 +42,7 @@ public:
 	virtual void startParsingFile() = 0;
 	virtual void finishParsingFile() = 0;
 
-	virtual void onError(const ParseLocation& location, const std::string& message, bool fatal) = 0;
+	virtual void onError(const ParseLocation& location, const std::string& message, bool fatal, bool indexed) = 0;
 
 	virtual void onTypedefParsed(
 		const ParseLocation& location, const NameHierarchy& typedefName, AccessType access, bool isImplicit) = 0;

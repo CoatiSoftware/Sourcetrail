@@ -21,7 +21,7 @@ public:
 	virtual void startParsingFile();
 	virtual void finishParsingFile();
 
-	virtual void onError(const ParseLocation& location, const std::string& message, bool fatal);
+	virtual void onError(const ParseLocation& location, const std::string& message, bool fatal, bool indexed);
 
 	virtual void onTypedefParsed(
 		const ParseLocation& location, const NameHierarchy& typedefName, AccessType access, bool isImplicit);
@@ -97,7 +97,7 @@ private:
 	void addSourceLocation(Id elementId, const ParseLocation& location, int type);
 	void addComponentAccess(Id nodeId , int type);
 	void addCommentLocation(const ParseLocation& location);
-	void addError(const std::string& message, bool fatal, const ParseLocation& location);
+	void addError(const std::string& message, bool fatal, bool indexed, const ParseLocation& location);
 
 	void log(std::string type, std::string str, const ParseLocation& location) const;
 

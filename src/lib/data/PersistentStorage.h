@@ -34,7 +34,7 @@ public:
 	virtual void addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
 	virtual void addComponentAccess(Id edgeId , int type);
 	virtual void addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
-	virtual void addError(const std::string& message, bool fatal, const std::string& filePath, uint startLine, uint startCol);
+	virtual void addError(const std::string& message, bool fatal, bool indexed, const std::string& filePath, uint startLine, uint startCol);
 
 	virtual void forEachFile(std::function<void(const Id /*id*/, const StorageFile& /*data*/)> callback) const;
 	virtual void forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const;
@@ -139,7 +139,7 @@ private:
 
 	void log(std::string type, std::string str, const ParseLocation& location) const;
 
-	int m_preInjectionErrorCount;
+	size_t m_preInjectionErrorCount;
 
 	SearchIndex m_commandIndex;
 	SearchIndex m_elementIndex;

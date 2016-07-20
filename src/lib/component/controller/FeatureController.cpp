@@ -131,7 +131,7 @@ void FeatureController::handleMessage(MessageSearch* message)
 
 				case SearchMatch::COMMAND_ERROR:
 				{
-					MessageShowErrors msg(ErrorCountInfo(-1, 0));
+					MessageShowErrors msg(m_storageAccess->getErrorCount());
 					msg.setIsReplayed(message->isReplayed());
 					msg.dispatchImmediately();
 					return;

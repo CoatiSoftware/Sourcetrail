@@ -153,6 +153,16 @@ void ApplicationSettings::setIndexerThreadCount(const int count)
 	setValue<int>("application/indexer_thread_count", count);
 }
 
+bool ApplicationSettings::getShowExternalNonFatalErrors() const
+{
+	return getValue<bool>("application/show_external_non_fatal_errors", false);
+}
+
+void ApplicationSettings::setShowExternalNonFatalErrors(const bool show)
+{
+	setValue<bool>("application/show_external_non_fatal_errors", show);
+}
+
 int ApplicationSettings::getWindowBaseWidth() const
 {
 	return getValue<int>("application/window_base_width", 500);

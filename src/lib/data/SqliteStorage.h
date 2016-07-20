@@ -44,7 +44,7 @@ public:
 	Id addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
 	Id addComponentAccess(Id memberEdgeId, int type);
 	Id addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
-	Id addError(const std::string& message, bool fatal, const std::string& filePath, uint lineNumber, uint columnNumber);
+	Id addError(const std::string& message, bool fatal, bool indexed, const std::string& filePath, uint lineNumber, uint columnNumber);
 
 	void removeElement(Id id);
 	void removeElements(const std::vector<Id>& ids);
@@ -101,7 +101,6 @@ public:
 	std::vector<ParseLocation> getFullTextSearch(const std::string& searchTerm) const;
 
 	std::vector<StorageCommentLocation> getCommentLocationsInFile(const FilePath& filePath) const;
-	std::vector<StorageError> getFatalErrors() const;
 
 	std::vector<StorageFile> getAllFiles() const;
 	std::vector<StorageNode> getAllNodes() const;

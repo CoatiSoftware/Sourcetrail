@@ -50,6 +50,9 @@ public:
 	int getIndexerThreadCount() const;
 	void setIndexerThreadCount(const int count);
 
+	bool getShowExternalNonFatalErrors() const;
+	void setShowExternalNonFatalErrors(const bool show);
+
 	int getWindowBaseWidth() const;
 	int getWindowBaseHeight() const;
 

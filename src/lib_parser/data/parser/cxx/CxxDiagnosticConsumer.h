@@ -3,6 +3,7 @@
 
 #include "clang/Frontend/TextDiagnosticPrinter.h"
 
+class FileRegister;
 class ParserClient;
 
 class CxxDiagnosticConsumer
@@ -13,6 +14,7 @@ public:
 		clang::raw_ostream &os,
 		clang::DiagnosticOptions *diags,
 		ParserClient* client,
+		FileRegister* fileRegister,
 		bool useLogging = true
 	);
 
@@ -23,6 +25,8 @@ public:
 
 private:
 	ParserClient* m_client;
+	FileRegister* m_register;
+
 	bool m_isParsingFile;
 	bool m_useLogging;
 };
