@@ -49,9 +49,11 @@ public:
 	virtual void finishInjection();
 
 	FilePath getDbFilePath() const;
-	Version getVersion() const;
 
-	void init();
+	bool isEmpty() const;
+	bool isIncompatible() const;
+
+	void setup();
 	void clear();
 	void clearCaches();
 

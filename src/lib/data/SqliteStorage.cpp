@@ -11,6 +11,8 @@
 #include "utility/utilityString.h"
 #include "utility/Version.h"
 
+const size_t SqliteStorage::STORAGE_VERSION = 1;
+
 SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 	: m_dbFilePath(dbFilePath)
 {
@@ -28,20 +30,6 @@ SqliteStorage::~SqliteStorage()
 	catch(CppSQLite3Exception e)
 	{
 		LOG_ERROR(e.errorMessage());
-	}
-}
-
-void SqliteStorage::init()
-{
-	Version version = getVersion();
-
-	if (version.isEmpty())
-	{
-		setup();
-	}
-	else if (version.isDifferentStorageVersionThan(Version::getApplicationVersion()))
-	{
-		clear();
 	}
 }
 
@@ -79,21 +67,33 @@ FilePath SqliteStorage::getDbFilePath() const
 	return m_dbFilePath;
 }
 
-Version SqliteStorage::getVersion() const
+bool SqliteStorage::isEmpty() const
 {
-	std::string versionStr = getMetaValue("version");
-
-	if (versionStr.size())
+	size_t storageVersion = getStorageVersion();
+	if (storageVersion > 0)
 	{
-		return Version::fromString(versionStr);
+		return false;
 	}
 
-	return Version();
+	Version applicationVersion = getApplicationVersion();
+	return applicationVersion.isEmpty();
 }
 
-void SqliteStorage::setVersion(const Version& version)
+bool SqliteStorage::isIncompatible() const
 {
-	insertOrUpdateMetaValue("version", version.toString());
+	size_t storageVersion = getStorageVersion();
+	if (storageVersion == 0 || storageVersion != STORAGE_VERSION)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void SqliteStorage::setVersion()
+{
+	setStorageVersion();
+	setApplicationVersion();
 }
 
 Id SqliteStorage::addEdge(int type, Id sourceNodeId, Id targetNodeId)
@@ -795,6 +795,40 @@ void SqliteStorage::insertOrUpdateMetaValue(const std::string& key, const std::s
 		"INSERT OR REPLACE INTO meta(id, key, value) "
 			"VALUES( (SELECT id FROM meta WHERE key = '" + key + "'), '" + key + "', '" + value + "');"
 	).c_str());
+}
+
+size_t SqliteStorage::getStorageVersion() const
+{
+	std::string storageVersionStr = getMetaValue("storage_version");
+
+	if (storageVersionStr.size())
+	{
+		return std::stoi(storageVersionStr);
+	}
+
+	return 0;
+}
+
+void SqliteStorage::setStorageVersion()
+{
+	insertOrUpdateMetaValue("storage_version", std::to_string(STORAGE_VERSION));
+}
+
+Version SqliteStorage::getApplicationVersion() const
+{
+	std::string versionStr = getMetaValue("version");
+
+	if (versionStr.size())
+	{
+		return Version::fromString(versionStr);
+	}
+
+	return Version();
+}
+
+void SqliteStorage::setApplicationVersion()
+{
+	insertOrUpdateMetaValue("version", Version::getApplicationVersion().toString());
 }
 
 template <>

@@ -183,13 +183,12 @@ void Project::setProjectSettingsFilePath(const FilePath& path)
 	{
 		loadStorage(path);
 
-		Version version = m_storage->getVersion();
-		if (version.isEmpty())
+		if (m_storage->isEmpty())
 		{
 			m_state = PROJECT_EMPTY;
-			m_storage->init();
+			m_storage->setup();
 		}
-		else if (version.isDifferentStorageVersionThan(Version::getApplicationVersion()))
+		else if (m_storage->isIncompatible())
 		{
 			m_state = PROJECT_OUTVERSIONED;
 			m_storage.reset();

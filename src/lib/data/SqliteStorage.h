@@ -24,7 +24,6 @@ public:
 	SqliteStorage(const FilePath& dbFilePath);
 	~SqliteStorage();
 
-	void init();
 	void setup();
 	void clear();
 
@@ -34,8 +33,10 @@ public:
 
 	FilePath getDbFilePath() const;
 
-	Version getVersion() const;
-	void setVersion(const Version& version);
+	bool isEmpty() const;
+	bool isIncompatible() const;
+
+	void setVersion();
 
 	Id addEdge(int type, Id sourceNodeId, Id targetNodeId);
 	Id addNode(int type, const std::string& serializedName, int definitionType);
@@ -118,6 +119,8 @@ public:
 	int getSourceLocationCount() const;
 
 private:
+	static const size_t STORAGE_VERSION;
+
 	void clearTables();
 	void setupTables();
 
@@ -125,6 +128,12 @@ private:
 
 	std::string getMetaValue(const std::string& key) const;
 	void insertOrUpdateMetaValue(const std::string& key, const std::string& value);
+
+	size_t getStorageVersion() const;
+	void setStorageVersion();
+
+	Version getApplicationVersion() const;
+	void setApplicationVersion();
 
 	template <typename ResultType>
 	std::vector<ResultType> getAll(const std::string& query) const;

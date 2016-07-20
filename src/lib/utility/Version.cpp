@@ -49,51 +49,24 @@ const Version& Version::getApplicationVersion()
 Version::Version()
 	: m_majorNumber(0)
 	, m_minorNumber(0)
-	, m_refreshNumber(0)
+	, m_refreshNumber(-1)
 	, m_commitNumber(0)
 {
 }
 
 bool Version::isEmpty() const
 {
-	return m_majorNumber == 0 && m_minorNumber == 0 && m_refreshNumber == 0 && m_commitNumber == 0;
-}
-
-bool Version::operator<(const Version& other) const
-{
-	if (m_majorNumber != other.m_majorNumber)
-	{
-		return m_majorNumber < other.m_majorNumber;
-	}
-	else if (m_minorNumber != other.m_minorNumber)
-	{
-		return m_minorNumber < other.m_minorNumber;
-	}
-	else if (m_refreshNumber != other.m_refreshNumber)
-	{
-		return m_refreshNumber < other.m_refreshNumber;
-	}
-	else if (m_commitNumber != other.m_commitNumber)
-	{
-		return m_commitNumber < other.m_commitNumber;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-bool Version::isDifferentStorageVersionThan(const Version& other) const
-{
-	return m_majorNumber != other.m_majorNumber ||
-		m_minorNumber != other.m_minorNumber ||
-		m_refreshNumber != other.m_refreshNumber;
+	return m_majorNumber == 0 && m_minorNumber == 0 && m_refreshNumber == -1 && m_commitNumber == 0;
 }
 
 std::string Version::toString() const
 {
 	std::stringstream ss;
-	ss << m_majorNumber << '.' << m_minorNumber << '.' << m_refreshNumber;
+	ss << m_majorNumber << '.' << m_minorNumber;
+	if (m_refreshNumber != -1)
+	{
+		ss << '.' << m_refreshNumber;
+	}
 	ss << '-' << m_commitNumber << '-' << m_commitHash;
 	return ss.str();
 }
@@ -101,6 +74,11 @@ std::string Version::toString() const
 std::string Version::toDisplayString() const
 {
 	std::stringstream ss;
-	ss << m_majorNumber << '.' << m_minorNumber << '.' << m_refreshNumber << '.' << m_commitNumber;
+	ss << m_majorNumber << '.' << m_minorNumber;
+	if (m_refreshNumber != -1)
+	{
+		ss << '.' << m_refreshNumber;
+	}
+	ss << '.' <<  m_commitNumber;
 	return ss.str();
 }

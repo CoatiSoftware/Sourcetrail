@@ -238,14 +238,19 @@ FilePath PersistentStorage::getDbFilePath() const
 	return m_sqliteStorage.getDbFilePath();
 }
 
-Version PersistentStorage::getVersion() const
+bool PersistentStorage::isEmpty() const
 {
-	return m_sqliteStorage.getVersion();
+	return m_sqliteStorage.isEmpty();
 }
 
-void PersistentStorage::init()
+bool PersistentStorage::isIncompatible() const
 {
-	m_sqliteStorage.init();
+	return m_sqliteStorage.isIncompatible();
+}
+
+void PersistentStorage::setup()
+{
+	m_sqliteStorage.setup();
 }
 
 void PersistentStorage::clear()
@@ -365,7 +370,7 @@ void PersistentStorage::startParsing()
 {
 	MessageClearErrorCount().dispatch();
 
-	m_sqliteStorage.setVersion(Version::getApplicationVersion());
+	m_sqliteStorage.setVersion();
 }
 
 void PersistentStorage::finishParsing()

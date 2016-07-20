@@ -14,8 +14,6 @@ public:
 	Version();
 
 	bool isEmpty() const;
-	bool operator<(const Version& other) const;
-	bool isDifferentStorageVersionThan(const Version& other) const;
 
 	std::string toString() const;
 	std::string toDisplayString() const;
@@ -25,7 +23,7 @@ private:
 
 	int m_majorNumber;
 	int m_minorNumber;
-	int m_refreshNumber;
+	int m_refreshNumber; // deprecated since switch to storage_version, left for downward compatibility
 	int m_commitNumber;
 
 	std::string m_commitHash;
