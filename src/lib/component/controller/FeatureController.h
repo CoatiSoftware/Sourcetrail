@@ -13,7 +13,6 @@
 #include "utility/messaging/type/MessageActivateTokenLocations.h"
 #include "utility/messaging/type/MessageResetZoom.h"
 #include "utility/messaging/type/MessageSearch.h"
-#include "utility/messaging/type/MessageSwitchColorScheme.h"
 #include "utility/messaging/type/MessageZoom.h"
 
 class StorageAccess;
@@ -27,7 +26,6 @@ class FeatureController
 	, public MessageListener<MessageActivateTokenLocations>
 	, public MessageListener<MessageResetZoom>
 	, public MessageListener<MessageSearch>
-	, public MessageListener<MessageSwitchColorScheme>
 	, public MessageListener<MessageZoom>
 {
 public:
@@ -44,7 +42,6 @@ private:
 	virtual void handleMessage(MessageActivateTokenIds* message);
 	virtual void handleMessage(MessageActivateTokenLocations* message);
 	virtual void handleMessage(MessageResetZoom* message);
-	virtual void handleMessage(MessageSwitchColorScheme* message);
 	virtual void handleMessage(MessageZoom* message);
 
 	StorageAccess* m_storageAccess;

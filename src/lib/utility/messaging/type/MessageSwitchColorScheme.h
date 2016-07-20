@@ -7,8 +7,8 @@ class MessageSwitchColorScheme
 	: public Message<MessageSwitchColorScheme>
 {
 public:
-	MessageSwitchColorScheme(const std::string& filePath)
-		: colorSchemeFilePath(filePath)
+	MessageSwitchColorScheme(const FilePath& filePath)
+		: colorSchemePath(filePath)
 	{
 	}
 
@@ -19,10 +19,10 @@ public:
 
 	virtual void print(std::ostream& os) const
 	{
-		os << colorSchemeFilePath;
+		os << colorSchemePath.str();
 	}
 
-	const std::string colorSchemeFilePath;
+	const FilePath colorSchemePath;
 };
 
 #endif // MESSAGE_SWITCH_COLOR_SCHEME_H

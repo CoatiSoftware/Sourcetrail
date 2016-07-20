@@ -14,6 +14,7 @@ class QtProjectWizzardContentPreferences
 
 public:
 	QtProjectWizzardContentPreferences(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	~QtProjectWizzardContentPreferences();
 
 	// QtProjectWizzardContent implementation
 	virtual void populateWindow(QGridLayout* layout) override;
@@ -23,12 +24,20 @@ public:
 	virtual void save() override;
 	virtual bool check() override;
 
+private slots:
+	void colorSchemeChanged(int index);
+
 private:
 	QLineEdit* m_fontFace;
 	QComboBox* m_fontSize;
 	QComboBox* m_tabWidth;
+	QComboBox* m_colorSchemes;
+
 	QComboBox* m_threads;
 	QCheckBox* m_fatalErrors;
+
+	std::vector<FilePath> m_colorSchemePaths;
+	int m_oldColorSchemeIndex;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_PREFERENCES_H

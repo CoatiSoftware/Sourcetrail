@@ -123,7 +123,6 @@ public slots:
 	void zoomIn();
 	void zoomOut();
 	void resetZoom();
-	void switchColorScheme();
 
 	void toggleView(View* view, bool fromMenu);
 

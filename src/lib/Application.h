@@ -10,6 +10,7 @@
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageRefresh.h"
+#include "utility/messaging/type/MessageSwitchColorScheme.h"
 
 class IDECommunicationController;
 class NetworkFactory;
@@ -23,11 +24,13 @@ class Application
 	, public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageLoadProject>
 	, public MessageListener<MessageRefresh>
+	, public MessageListener<MessageSwitchColorScheme>
 {
 public:
 	static std::shared_ptr<Application> create(const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory);
 	static std::shared_ptr<Application> create(const Version& version);
 	static void loadSettings();
+	static void loadStyle(const FilePath& colorSchemePath);
 
 	~Application();
 
@@ -43,6 +46,7 @@ private:
 	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageLoadProject* message);
 	virtual void handleMessage(MessageRefresh* message);
+	virtual void handleMessage(MessageSwitchColorScheme* message);
 
 	void startMessagingAndScheduling();
 

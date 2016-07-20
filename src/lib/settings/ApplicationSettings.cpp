@@ -95,12 +95,12 @@ void ApplicationSettings::setFontSize(int fontSize)
 	setValue<int>("application/font_size", fontSize);
 }
 
-std::string ApplicationSettings::getColorSchemePath() const
+FilePath ApplicationSettings::getColorSchemePath() const
 {
-	std::string defaultPath = ResourcePaths::getColorSchemesPath() + "bright.xml";
-	std::string path = getValue<std::string>("application/color_scheme", defaultPath);
+	FilePath defaultPath(ResourcePaths::getColorSchemesPath() + "bright.xml");
+	FilePath path(getValue<std::string>("application/color_scheme", defaultPath.str()));
 
-	if (path != defaultPath && !FilePath(path).exists())
+	if (path != defaultPath && !path.exists())
 	{
 		return defaultPath;
 	}
@@ -108,9 +108,9 @@ std::string ApplicationSettings::getColorSchemePath() const
 	return path;
 }
 
-void ApplicationSettings::setColorSchemePath(const std::string& colorSchemePath)
+void ApplicationSettings::setColorSchemePath(const FilePath& colorSchemePath)
 {
-	setValue<std::string>("application/color_scheme", colorSchemePath);
+	setValue<std::string>("application/color_scheme", colorSchemePath.str());
 }
 
 int ApplicationSettings::getFontSizeMax() const

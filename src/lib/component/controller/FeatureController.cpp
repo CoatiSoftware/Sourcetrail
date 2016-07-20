@@ -196,15 +196,6 @@ void FeatureController::handleMessage(MessageResetZoom* message)
 	MessageStatus("Zoom: 100%").dispatch();
 }
 
-void FeatureController::handleMessage(MessageSwitchColorScheme* message)
-{
-	ApplicationSettings* settings = ApplicationSettings::getInstance().get();
-	settings->setColorSchemePath(message->colorSchemeFilePath);
-	settings->save();
-
-	MessageRefresh().refreshUiOnly().dispatch();
-}
-
 void FeatureController::handleMessage(MessageZoom* message)
 {
 	bool zoomIn = message->zoomIn;

@@ -32,7 +32,6 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageResetZoom.h"
 #include "utility/messaging/type/MessageSearch.h"
-#include "utility/messaging/type/MessageSwitchColorScheme.h"
 #include "utility/messaging/type/MessageUndo.h"
 #include "utility/messaging/type/MessageWindowFocus.h"
 #include "utility/messaging/type/MessageZoom.h"
@@ -474,16 +473,6 @@ void QtMainWindow::resetZoom()
 	MessageResetZoom().dispatch();
 }
 
-void QtMainWindow::switchColorScheme()
-{
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), (ResourcePaths::getColorSchemesPath()).c_str(), "XML Files (*.xml)");
-
-	if (!fileName.isEmpty())
-	{
-		MessageSwitchColorScheme(fileName.toStdString()).dispatch();
-	}
-}
-
 void QtMainWindow::toggleView(View* view, bool fromMenu)
 {
 	DockWidget* dock = getDockWidgetForView(view);
@@ -623,10 +612,6 @@ void QtMainWindow::setupViewMenu()
 	menu->addAction(tr("Larger font"), this, SLOT(zoomIn()), QKeySequence::ZoomIn);
 	menu->addAction(tr("Smaller font"), this, SLOT(zoomOut()), QKeySequence::ZoomOut);
 	menu->addAction(tr("Reset font size"), this, SLOT(resetZoom()), QKeySequence(Qt::CTRL + Qt::Key_0));
-
-	menu->addSeparator();
-
-	menu->addAction(tr("Switch Color Scheme..."), this, SLOT(switchColorScheme()));
 
 	m_viewMenu = menu;
 }

@@ -71,7 +71,12 @@ void Application::loadSettings()
 {
 	ApplicationSettings::getInstance()->load(FilePath(UserPaths::getAppSettingsPath()));
 
-	ColorScheme::getInstance()->load(ApplicationSettings::getInstance()->getColorSchemePath());
+	loadStyle(ApplicationSettings::getInstance()->getColorSchemePath());
+}
+
+void Application::loadStyle(const FilePath& colorSchemePath)
+{
+	ColorScheme::getInstance()->load(colorSchemePath);
 	GraphViewStyle::loadStyleSettings();
 }
 
@@ -321,6 +326,12 @@ void Application::handleMessage(MessageRefresh* message)
 	{
 		refreshProject();
 	}
+}
+
+void Application::handleMessage(MessageSwitchColorScheme* message)
+{
+	loadStyle(message->colorSchemePath);
+	m_componentManager->refreshViews();
 }
 
 void Application::startMessagingAndScheduling()

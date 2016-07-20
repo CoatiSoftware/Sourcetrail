@@ -35,8 +35,8 @@ public:
 	int getFontSize() const;
 	void setFontSize(int fontSize);
 
-	std::string getColorSchemePath() const;
-	void setColorSchemePath(const std::string& colorSchemePath);
+	FilePath getColorSchemePath() const;
+	void setColorSchemePath(const FilePath& colorSchemePath);
 
 	int getFontSizeMax() const;
 	void setFontSizeMax(const int fontSizeMax);
