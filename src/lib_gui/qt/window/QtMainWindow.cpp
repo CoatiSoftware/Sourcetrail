@@ -599,6 +599,10 @@ void QtMainWindow::setupEditMenu()
 	menu->addSeparator();
 
 	menu->addAction(tr("&To overview"), this, SLOT(overview()), QKeySequence::MoveToStartOfDocument);
+
+	menu->addSeparator();
+
+	menu->addAction(tr("Preferences..."), this, SLOT(openSettings()));
 }
 
 void QtMainWindow::setupViewMenu()
@@ -640,7 +644,6 @@ void QtMainWindow::setupHelpMenu()
 	if(!isTrial())
 	{
 		menu->addAction(tr("Enter License..."), this, SLOT(enterLicense()));
-		menu->addAction(tr("Preferences..."), this, SLOT(openSettings()));
 	}
 }
 
