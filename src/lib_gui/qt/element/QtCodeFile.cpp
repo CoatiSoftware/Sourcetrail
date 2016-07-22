@@ -25,6 +25,7 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
 	, m_parent(parent)
 	, m_filePath(filePath)
 	, m_snippetsRequested(false)
+	, m_scrollToLine(0)
 {
 	setObjectName("code_file");
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
@@ -153,7 +154,7 @@ bool QtCodeFile::hasErrors() const
 	return m_parent->hasErrors();;
 }
 
-void QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
+QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 {
 	m_locationFile.reset();
 
@@ -208,13 +209,16 @@ void QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 		{
 			updateRefCount(0);
 		}
-		return;
+
+		return m_fileSnippet.get();
 	}
 
 	m_snippets.push_back(snippet);
 
 	setSnippets();
 	updateRefCount(params.refCount);
+
+	return snippet.get();
 }
 
 QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
@@ -493,6 +497,16 @@ void QtCodeFile::updateSnippets()
 
 	m_snippets.front()->setProperty("isFirst", true);
 	m_snippets.back()->setProperty("isLast", true);
+}
+
+uint QtCodeFile::getScrollToLine() const
+{
+	return m_scrollToLine;
+}
+
+void QtCodeFile::setScrollToLine(uint line)
+{
+	m_scrollToLine = line;
 }
 
 void QtCodeFile::handleMessage(MessageWindowFocus* message)

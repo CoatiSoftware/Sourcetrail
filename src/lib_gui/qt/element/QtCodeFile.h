@@ -46,7 +46,7 @@ public:
 	std::vector<std::string> getErrorMessages() const;
 	bool hasErrors() const;
 
-	void addCodeSnippet(const CodeSnippetParams& params);
+	QtCodeSnippet* addCodeSnippet(const CodeSnippetParams& params);
 	QtCodeSnippet* insertCodeSnippet(const CodeSnippetParams& params);
 
 	QtCodeSnippet* findFirstActiveSnippet() const;
@@ -64,6 +64,9 @@ public:
 	bool hasSnippets() const;
 
 	void updateSnippets();
+
+	uint getScrollToLine() const;
+	void setScrollToLine(uint line);
 
 public slots:
 	void clickedMinimizeButton() const;
@@ -103,6 +106,8 @@ private:
 
 	std::shared_ptr<TokenLocationFile> m_locationFile;
 	mutable bool m_snippetsRequested;
+
+	uint m_scrollToLine;
 };
 
 #endif // QT_CODE_FILE_H

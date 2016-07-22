@@ -45,15 +45,21 @@ void QtCodeFileList::addCodeSnippet(
 	bool insert
 ){
 	QtCodeFile* file = getFile(params.locationFile->getFilePath());
+	QtCodeSnippet* snippet = nullptr;
 
 	if (insert)
 	{
-		QtCodeSnippet* snippet = file->insertCodeSnippet(params);
-		emit shouldScrollToSnippet(snippet, params.startLineNumber);
+		snippet = file->insertCodeSnippet(params);
 	}
 	else
 	{
-		file->addCodeSnippet(params);
+		snippet = file->addCodeSnippet(params);
+	}
+
+	if (snippet && file->getScrollToLine())
+	{
+		emit shouldScrollToSnippet(snippet, file->getScrollToLine());
+		file->setScrollToLine(0);
 	}
 
 	file->setModificationTime(params.modificationTime);
