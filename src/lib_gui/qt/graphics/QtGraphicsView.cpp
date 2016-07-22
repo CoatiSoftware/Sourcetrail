@@ -4,6 +4,9 @@
 #include <QScrollBar>
 #include <QTimer>
 
+#include <QPropertyAnimation>
+#include <QParallelAnimationGroup>
+
 QtGraphicsView::QtGraphicsView(QWidget* parent)
 	: QGraphicsView(parent)
 	, m_zoomFactor(1.0f)
@@ -17,7 +20,7 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 
 	m_timer = std::make_shared<QTimer>(this);
-	connect(m_timer.get(), SIGNAL(timeout()), this, SLOT(update()));
+	connect(m_timer.get(), SIGNAL(timeout()), this, SLOT(updateTimer()));
 
 	m_timerStopper = std::make_shared<QTimer>(this);
 	m_timerStopper->setSingleShot(true);
@@ -33,6 +36,38 @@ void QtGraphicsView::setAppZoomFactor(float appZoomFactor)
 {
 	m_appZoomFactor = appZoomFactor;
 	updateTransform();
+}
+
+void QtGraphicsView::ensureVisibleAnimated(const QRectF& rect, int xmargin, int ymargin)
+{
+	int xval = horizontalScrollBar()->value();
+	int yval = verticalScrollBar()->value();
+
+	ensureVisible(rect, xmargin, ymargin);
+
+	int xval2 = horizontalScrollBar()->value();
+	int yval2 = verticalScrollBar()->value();
+
+	horizontalScrollBar()->setValue(xval);
+	verticalScrollBar()->setValue(yval);
+
+	QParallelAnimationGroup* move = new QParallelAnimationGroup();
+
+	QPropertyAnimation* xanim = new QPropertyAnimation(horizontalScrollBar(), "value");
+	xanim->setDuration(150);
+	xanim->setStartValue(xval);
+	xanim->setEndValue(xval2);
+	xanim->setEasingCurve(QEasingCurve::InOutQuad);
+	move->addAnimation(xanim);
+
+	QPropertyAnimation* yanim = new QPropertyAnimation(verticalScrollBar(), "value");
+	yanim->setDuration(150);
+	yanim->setStartValue(yval);
+	yanim->setEndValue(yval2);
+	yanim->setEasingCurve(QEasingCurve::InOutQuad);
+	move->addAnimation(yanim);
+
+	move->start();
 }
 
 void QtGraphicsView::mousePressEvent(QMouseEvent *event)
@@ -134,7 +169,7 @@ void QtGraphicsView::wheelEvent(QWheelEvent* event)
 	QGraphicsView::wheelEvent(event);
 }
 
-void QtGraphicsView::update()
+void QtGraphicsView::updateTimer()
 {
 	float ds = 30.0f;
 	float dz = 50.0f;

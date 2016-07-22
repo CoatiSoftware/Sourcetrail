@@ -36,7 +36,7 @@ void GraphController::handleMessage(MessageActivateAll* message)
 	layoutNesting();
 	layoutGraph();
 
-	buildGraph(message);
+	buildGraph(message, false);
 }
 
 void GraphController::handleMessage(MessageActivateTokens* message)
@@ -47,7 +47,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 	{
 		m_activeEdgeIds = message->tokenIds;
 		setActiveAndVisibility(utility::concat(m_activeNodeIds, m_activeEdgeIds));
-		buildGraph(message);
+		buildGraph(message, false);
 		return;
 	}
 	else if (message->isAggregation)
@@ -81,12 +81,12 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 	layoutNesting();
 	layoutGraph(true);
 
-	buildGraph(message);
+	buildGraph(message, true);
 }
 
 void GraphController::handleMessage(MessageFlushUpdates* message)
 {
-	buildGraph(message);
+	buildGraph(message, true);
 }
 
 void GraphController::handleMessage(MessageSearchFullText* message)
@@ -133,7 +133,7 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 	layoutNesting();
 	layoutGraph(tokenIds.size() > 0);
 
-	buildGraph(message);
+	buildGraph(message, false);
 }
 
 void GraphController::handleMessage(MessageGraphNodeExpand* message)
@@ -148,7 +148,7 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 		layoutNesting();
 		layoutGraph();
 
-		buildGraph(message);
+		buildGraph(message, false);
 	}
 }
 
@@ -161,7 +161,7 @@ void GraphController::handleMessage(MessageGraphNodeMove* message)
 
 		if (message->isReplayed())
 		{
-			buildGraph(message);
+			buildGraph(message, false);
 		}
 		else
 		{
@@ -1148,11 +1148,15 @@ DummyNode* GraphController::getDummyGraphNodeById(Id tokenId) const
 	return nullptr;
 }
 
-void GraphController::buildGraph(MessageBase* message, bool animated)
+void GraphController::buildGraph(MessageBase* message, bool centerActiveNode, bool animatedTransition)
 {
 	if (!message->isReplayed())
 	{
-		getView()->rebuildGraph(m_graph, m_dummyNodes, m_dummyEdges, animated);
+		GraphView::GraphParams params;
+		params.centerActiveNode = centerActiveNode;
+		params.animatedTransition = animatedTransition;
+
+		getView()->rebuildGraph(m_graph, m_dummyNodes, m_dummyEdges, params);
 	}
 }
 

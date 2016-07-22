@@ -9,9 +9,16 @@ struct DummyEdge;
 struct DummyNode;
 class Graph;
 
-class GraphView : public View
+class GraphView
+	: public View
 {
 public:
+	struct GraphParams
+	{
+		bool animatedTransition;
+		bool centerActiveNode;
+	};
+
 	GraphView(ViewLayout* viewLayout);
 	virtual ~GraphView();
 
@@ -21,7 +28,7 @@ public:
 		std::shared_ptr<Graph> graph,
 		const std::vector<std::shared_ptr<DummyNode>>& nodes,
 		const std::vector<std::shared_ptr<DummyEdge>>& edges,
-		bool animated) = 0;
+		const GraphParams params) = 0;
 	virtual void clear() = 0;
 
 	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds) = 0;

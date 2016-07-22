@@ -84,9 +84,9 @@ void QtGraphView::rebuildGraph(
 	std::shared_ptr<Graph> graph,
 	const std::vector<std::shared_ptr<DummyNode>>& nodes,
 	const std::vector<std::shared_ptr<DummyEdge>>& edges,
-	bool animated
+	const GraphParams params
 ){
-	m_rebuildGraphFunctor(graph, nodes, edges, animated);
+	m_rebuildGraphFunctor(graph, nodes, edges, params);
 }
 
 void QtGraphView::clear()
@@ -166,7 +166,7 @@ void QtGraphView::switchToNewGraphData()
 	doResize();
 
 	// Manually hover the item below the mouse cursor.
-	QGraphicsView* view = getView();
+	QtGraphicsView* view = getView();
 	QPointF point = view->mapToScene(view->mapFromGlobal(QCursor::pos()));
 	QGraphicsItem* item = view->scene()->itemAt(point, QTransform());
 	if (item)
@@ -176,6 +176,22 @@ void QtGraphView::switchToNewGraphData()
 		{
 			node->hoverEnter();
 		}
+	}
+
+	if (m_activeNode)
+	{
+		Vec2i pos = m_activeNode->getPosition();
+		Vec2i size = m_activeNode->getSize();
+
+		QRectF rect(pos.x, pos.y, size.x, size.y);
+
+		if (rect.height() > view->height() - 200)
+		{
+			rect.setHeight(view->height() - 200);
+		}
+
+		view->ensureVisibleAnimated(rect, 100, 100);
+		m_activeNode.reset();
 	}
 
 	// Repaint to make sure all artifacts are removed
@@ -200,7 +216,7 @@ void QtGraphView::doRebuildGraph(
 	std::shared_ptr<Graph> graph,
 	const std::vector<std::shared_ptr<DummyNode>>& nodes,
 	const std::vector<std::shared_ptr<DummyEdge>>& edges,
-	bool animated
+	const GraphParams params
 ){
 	if (m_transition && m_transition->currentTime() < m_transition->totalDuration())
 	{
@@ -217,6 +233,7 @@ void QtGraphView::doRebuildGraph(
 	}
 
 	m_nodes.clear();
+	m_activeNode.reset();
 	for (unsigned int i = 0; i < nodes.size(); i++)
 	{
 		std::shared_ptr<QtGraphNode> node = createNodeRecursive(view, NULL, nodes[i].get(), activeNodeCount > 1);
@@ -251,13 +268,18 @@ void QtGraphView::doRebuildGraph(
 		m_graph = graph;
 	}
 
-	if (animated)
+	if (params.animatedTransition)
 	{
 		createTransition();
 	}
 	else
 	{
 		switchToNewGraphData();
+	}
+
+	if (!params.centerActiveNode)
+	{
+		m_activeNode.reset();
 	}
 }
 
@@ -350,6 +372,11 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	else
 	{
 		newNode->addComponent(std::make_shared<QtGraphNodeComponentMoveable>(newNode));
+	}
+
+	if (node->active && !m_activeNode)
+	{
+		m_activeNode = newNode;
 	}
 
 	for (unsigned int i = 0; i < node->subNodes.size(); i++)
@@ -544,13 +571,10 @@ void QtGraphView::createTransition()
 		anim->setStartValue(view->sceneRect());
 		anim->setEndValue(getSceneRect(m_nodes));
 
-		if (remainingNodes.size())
+		anim->setDuration(300);
+
+		if (!remainingNodes.size())
 		{
-			anim->setDuration(300);
-		}
-		else
-		{
-			anim->setDuration(300);
 			connect(anim, SIGNAL(finished()), this, SLOT(centerScrollBars()));
 		}
 

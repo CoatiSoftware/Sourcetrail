@@ -93,7 +93,7 @@ private:
 
 	DummyNode* getDummyGraphNodeById(Id tokenId) const;
 
-	void buildGraph(MessageBase* message, bool animated = true);
+	void buildGraph(MessageBase* message, bool centerActiveNode, bool animatedTransition = true);
 
 	void forEachDummyNodeRecursive(std::function<void(DummyNode*)> func);
 	void forEachDummyEdge(std::function<void(DummyEdge*)> func);

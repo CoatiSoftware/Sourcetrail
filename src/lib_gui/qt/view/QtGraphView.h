@@ -35,7 +35,7 @@ public:
 		std::shared_ptr<Graph> graph,
 		const std::vector<std::shared_ptr<DummyNode>>& nodes,
 		const std::vector<std::shared_ptr<DummyEdge>>& edges,
-		bool animated);
+		const GraphParams params);
 	virtual void clear();
 
 	virtual void focusTokenIds(const std::vector<Id>& focusedTokenIds);
@@ -59,7 +59,7 @@ private:
 		std::shared_ptr<Graph> graph,
 		const std::vector<std::shared_ptr<DummyNode>>& nodes,
 		const std::vector<std::shared_ptr<DummyEdge>>& edges,
-		bool animated);
+		const GraphParams params);
 	void doClear();
 	void doResize();
 	void doRefreshView();
@@ -89,7 +89,7 @@ private:
 		std::shared_ptr<Graph>,
 		const std::vector<std::shared_ptr<DummyNode>>&,
 		const std::vector<std::shared_ptr<DummyEdge>>&,
-		bool
+		const GraphParams
 	> m_rebuildGraphFunctor;
 	QtThreadedFunctor<void> m_clearFunctor;
 	QtThreadedFunctor<void> m_resizeFunctor;
@@ -105,6 +105,8 @@ private:
 
 	std::list<std::shared_ptr<QtGraphNode>> m_nodes;
 	std::list<std::shared_ptr<QtGraphNode>> m_oldNodes;
+
+	std::shared_ptr<QtGraphNode> m_activeNode;
 
 	std::shared_ptr<QSequentialAnimationGroup> m_transition;
 	QPointF m_sceneRectOffset;

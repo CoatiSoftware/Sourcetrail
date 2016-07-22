@@ -20,6 +20,8 @@ public:
 	float getZoomFactor() const;
 	void setAppZoomFactor(float appZoomFactor);
 
+	void ensureVisibleAnimated(const QRectF& rect, int xmargin = 50, int ymargin = 50);
+
 protected:
 	void mousePressEvent(QMouseEvent *event);
 	void mouseReleaseEvent(QMouseEvent *event);
@@ -33,7 +35,7 @@ signals:
 	void emptySpaceClicked();
 
 private slots:
-	void update();
+	void updateTimer();
 	void stopTimer();
 
 private:
