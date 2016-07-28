@@ -576,7 +576,12 @@ void QtMainWindow::setupEditMenu()
 		}
 		else
 		{
-			menu->addAction(tr("&Force Refresh"), this, SLOT(forceRefresh()), QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_R));
+			menu->addAction(
+				tr("&Force Refresh"),
+				this,
+				SLOT(forceRefresh()),
+				QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_R)
+			);
 		}
 	}
 
@@ -591,7 +596,7 @@ void QtMainWindow::setupEditMenu()
 
 	menu->addSeparator();
 
-	menu->addAction(tr("Preferences..."), this, SLOT(openSettings()));
+	menu->addAction(tr("Preferences..."), this, SLOT(openSettings()), QKeySequence(Qt::CTRL + Qt::Key_Comma));
 }
 
 void QtMainWindow::setupViewMenu()
