@@ -48,6 +48,7 @@ public:
 	virtual void showContents() = 0;
 
 	virtual void scrollToValue(int value) = 0;
+	virtual void scrollToLine(std::string filename, unsigned int line) = 0;
 
 private:
 	CodeController* getController();

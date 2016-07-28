@@ -225,6 +225,19 @@ void QtCodeFileList::showContents()
 	}
 }
 
+void QtCodeFileList::scrollToLine(std::string filename, unsigned int line)
+{
+	for (std::shared_ptr<QtCodeFile> file: m_files)
+	{
+		if( filename == file->getFilePath().str() )
+		{
+			emit shouldScrollToSnippet(file->getFileSnippet(), line);
+			return;
+		}
+	}
+
+}
+
 void QtCodeFileList::scrollToValue(int value)
 {
 	m_value = value;

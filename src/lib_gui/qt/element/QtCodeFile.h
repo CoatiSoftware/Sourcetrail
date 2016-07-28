@@ -50,6 +50,7 @@ public:
 	QtCodeSnippet* insertCodeSnippet(const CodeSnippetParams& params);
 
 	QtCodeSnippet* findFirstActiveSnippet() const;
+	QtCodeSnippet* getFileSnippet() const;
 	bool isCollapsedActiveFile() const;
 
 	void updateContent();

@@ -7,8 +7,9 @@
 class MessageActivateFile: public Message<MessageActivateFile>
 {
 public:
-	MessageActivateFile(const FilePath& filePath)
+	MessageActivateFile(const FilePath& filePath, unsigned int line = 0)
 		: filePath(filePath)
+		, line(line)
 	{
 	}
 
@@ -23,6 +24,7 @@ public:
 	}
 
 	const FilePath filePath;
+	unsigned int line;
 };
 
 #endif // MESSAGE_ACTIVATE_FILE_H

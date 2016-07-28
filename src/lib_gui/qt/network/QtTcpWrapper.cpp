@@ -43,7 +43,7 @@ void QtTcpWrapper::sendMessage(const std::string& message) const
 	data.append(message.c_str());
 
 	QTcpSocket socket;
-	socket.connectToHost(QHostAddress::LocalHost, 6666);
+	socket.connectToHost(QHostAddress::LocalHost, m_clientPort);
 
 	if (socket.waitForConnected())
 	{

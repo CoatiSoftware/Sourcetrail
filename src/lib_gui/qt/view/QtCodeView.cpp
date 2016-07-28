@@ -25,6 +25,7 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	, m_defocusTokenIdsFunctor(std::bind(&QtCodeView::doDefocusTokenIds, this))
 	, m_showContentsFunctor(std::bind(&QtCodeView::doShowContents, this))
 	, m_scrollToValueFunctor(std::bind(&QtCodeView::doScrollToValue, this, std::placeholders::_1))
+	, m_scrollToLineFunctor(std::bind(&QtCodeView::doScrollToLine, this, std::placeholders::_1, std::placeholders::_2))
 {
 	m_widget = new QtCodeFileList();
 	setStyleSheet();
@@ -119,6 +120,11 @@ void QtCodeView::showContents()
 void QtCodeView::scrollToValue(int value)
 {
 	m_scrollToValueFunctor(value);
+}
+
+void QtCodeView::scrollToLine(std::string filename, unsigned int line)
+{
+	m_scrollToLineFunctor(filename, line);
 }
 
 void QtCodeView::doRefreshView()
@@ -230,6 +236,11 @@ void QtCodeView::doShowContents()
 void QtCodeView::doScrollToValue(int value)
 {
 	m_widget->scrollToValue(value);
+}
+
+void QtCodeView::doScrollToLine(std::string filename, unsigned int line)
+{
+	m_widget->scrollToLine(filename, line);
 }
 
 void QtCodeView::setStyleSheet() const

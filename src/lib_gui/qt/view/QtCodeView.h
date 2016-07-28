@@ -47,6 +47,7 @@ public:
 	virtual void showContents();
 
 	virtual void scrollToValue(int value);
+	virtual void scrollToLine(std::string filename, unsigned int line);
 
 private:
 	void doRefreshView();
@@ -68,6 +69,7 @@ private:
 	void doShowContents();
 
 	void doScrollToValue(int value);
+	void doScrollToLine(std::string filename, unsigned int line);
 
 	void setStyleSheet() const;
 
@@ -84,6 +86,7 @@ private:
 	QtThreadedFunctor<> m_defocusTokenIdsFunctor;
 	QtThreadedFunctor<> m_showContentsFunctor;
 	QtThreadedFunctor<int> m_scrollToValueFunctor;
+	QtThreadedFunctor<std::string, unsigned int> m_scrollToLineFunctor;
 
 	QtCodeFileList* m_widget;
 

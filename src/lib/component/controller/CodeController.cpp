@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "utility/messaging/type/MessageStatus.h"
+#include "utility/messaging/type/MessageScrollToLine.h"
 #include "utility/text/TextAccess.h"
 #include "utility/tracing.h"
 #include "utility/utility.h"
@@ -232,6 +233,26 @@ void CodeController::handleMessage(MessageFocusIn* message)
 void CodeController::handleMessage(MessageFocusOut* message)
 {
 	getView()->defocusTokenIds();
+}
+
+void CodeController::handleMessage(MessageScrollToLine* message)
+{
+	getView()->scrollToLine(message->filename, message->line);
+
+	if ( message->isModified )
+	{
+		MessageStatus(
+				"File was modified. Showing the File: " + message->filename
+				+ " at line " + std::to_string(message->line) + " now. Please refresh."
+		).dispatch();
+	}
+	else
+	{
+		MessageStatus(
+				"Showing the File: " + message->filename
+				+ " at line " + std::to_string(message->line) + "."
+		).dispatch();
+	}
 }
 
 void CodeController::handleMessage(MessageScrollCode* message)

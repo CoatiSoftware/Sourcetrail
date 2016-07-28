@@ -64,6 +64,7 @@ public:
 	void updateFiles();
 	void showContents();
 	void scrollToValue(int value);
+	void scrollToLine(std::string, unsigned int line);
 	void scrollToActiveFileIfRequested();
 
 private slots:

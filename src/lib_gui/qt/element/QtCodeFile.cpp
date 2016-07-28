@@ -264,6 +264,11 @@ QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 	return snippet.get();
 }
 
+QtCodeSnippet* QtCodeFile::getFileSnippet() const
+{
+	return m_fileSnippet.get();
+}
+
 QtCodeSnippet* QtCodeFile::findFirstActiveSnippet() const
 {
 	if (m_locationFile)

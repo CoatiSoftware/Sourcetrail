@@ -10,6 +10,7 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/messaging/type/MessageStatus.h"
+#include "utility/messaging/type/MessageScrollToLine.h"
 
 FeatureController::FeatureController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -75,6 +76,10 @@ void FeatureController::handleMessage(MessageActivateFile* message)
 		msg.setIsReplayed(message->isReplayed());
 		msg.setKeepContent(message->keepContent());
 		msg.dispatchImmediately();
+	}
+	if( message->line > 0 )
+	{
+		MessageScrollToLine(message->filePath.str(), message->line, true).dispatch();
 	}
 }
 
