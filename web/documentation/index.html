@@ -1377,10 +1377,15 @@
 					<h1>CODE EDITOR PLUGINS</h1>
 					<p>In order to make Coati the perfect partner for your development workflow you can connect Coati with different code editors. You can find the plugins in Coati's download package located in the folder <code>/ide_plugins</code>. Have a look at the following list of supported code editors to find out what editors are currently supported.</p>
 					<p>We are eager to expand the range of supported editors, so if you can't find a plugin for the code editor you are using, please let us know by writing to <a href="mailto:support@coati.io" target="_top">support@coati.io</a>.</p>
+					<p>The plugins are Opensource and available on <a href="https://github.com/CoatiSoftware/">github</a>.</p>
 					<strong>Supported Editors:</strong>
 					<ul>
+						<li>CLion</li>
+						<li>Eclipse</li>
+						<li>Emacs</li>
 						<li>Sublime Text 2</li>
 						<li>Sublime Text 3</li>
+						<li>Vim</li>
 						<li>Visual Studio 2012</li>
 						<li>Visual Studio 2013</li>
 						<li>Visual Studio 2015</li>
@@ -1403,19 +1408,23 @@
 					<h2>To Coati</h2>
 					<p>By using a Coati plugin for your code editor, you can select a location within a source file and Coati will show you all symbols found at this location. Please have look at the list below to see which plugins are currently available and how they are used.</p>
 
-					<h3>Sublime Text</h3>
+					<h3>Clion/IntelliJ</h3>
 					<strong>Installation</strong>
-					<p>To install the Coati plugin for Sublime Text copy the CoatiPlugin folder located in your <code>ide_plugins/sublime_text</code> to your <code>SublimeText/Packages</code> folder and restart Sublime.</p>
+					<p>
+					<ol>
+						<li>Go to File -&gt; Settings</li>
+						<li>Plugins -&gt; Browser Repositories</li>
+						<li>Search for coati</li>
+						<li>Install idea-coati</li>
+					</p>
 					<strong>Use</strong>
-					<p>If you want Sublime to activate a certain element in Coati, click a location to place the cursor, right-click to bring up the context menu and choose the “Coati - Set active Token” option. Please note that the position of the cursor will be sent to Coati and not the position you opened the context menu at.</p>
+					<p>If you want IntelliJ/CLion to activate a certain element in Coati, right-click that element to
+					bring up the context menu and choose the “Sent Location” option.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/plugin_use_in_sublime_text.png" style="width:100%;">
+							<img src="img/plugin_use_in_clion.png" style="width:100%;">
 						</div>
 					</div>
-
-					<h3>Vim</h3>
-					<p>Please visit the <a href="https://github.com/CoatiSoftware/vim-coati">vim-coati</a> repository on Github for details.</p>
 
 					<h3>Eclipse</h3>
 					<strong>Installation</strong>
@@ -1441,23 +1450,41 @@
 						</div>
 					</div>
 
-					<h3>Clion/IntelliJ</h3>
+					<h3>Emacs</h3>
 					<strong>Installation</strong>
 					<p>
 					<ol>
-						<li>Go to File -&gt; Settings</li>
-						<li>Plugins -&gt; Browser Repositories</li>
-						<li>Search for coati</li>
-						<li>Install idea-coati</li>
+						<li>Download the coati.el from <a href="https://github.com/CoatiSoftware/emacs-coati">https://github.com/CoatiSoftware/emacs-coati</a></li>
+						<li>In Emacs press <kbd>M-x</kbd> and type in <code>package-install-file</code></li>
+						<li>Type in the path to the downloaded coati.el file</li>
+					</ol>
 					</p>
 					<strong>Use</strong>
-					<p>If you want IntelliJ/CLion to activate a certain element in Coati, right-click that element to
-					bring up the context menu and choose the “Sent Location” option.</p>
+					<p>If you want Emacs to activate a certain element in Coati, set your cursor to that element and
+					<kbd>M-x</kbd> and type in <code>coati-send-location</code>.</p>
+					<p>To get Location from Coati the coati-mode need to be active. To active the coati-mode
+					press <kbd>M-x</kbd> and type in <code>coati-mode</code></p>
+
+					<h3>Sublime Text</h3>
+					<strong>Installation</strong>
+					<p>To install the Coati plugin for Sublime Text copy the CoatiPlugin folder located in your <code>ide_plugins/sublime_text</code> to your <code>SublimeText/Packages</code> folder and restart Sublime.</p>
+					<strong>Use</strong>
+					<p>If you want Sublime to activate a certain element in Coati, click a location to place the cursor, right-click to bring up the context menu and choose the “Coati - Set active Token” option. Please note that the position of the cursor will be sent to Coati and not the position you opened the context menu at.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/plugin_use_in_clion.png" style="width:100%;">
+							<img src="img/plugin_use_in_sublime_text.png" style="width:100%;">
 						</div>
 					</div>
+
+					<h3>Vim</h3>
+					<strong>Installation</strong>
+					<p>
+						<p>Please visit the <a href="https://github.com/CoatiSoftware/vim-coati">vim-coati</a> repository on Github for details.</p>
+					</p>
+					<strong>Use</strong>
+					<p>If you want Vim to activate a certain element in Coati, go to the code location and use
+					<code>:CoatiActivateToken</code>, now Coati should display your the chosen location.</p>
+					<p>Use<code>:help coati.txt</code> get get more information about the plugin</p>
 
 					<h3>Visual Studio</h3>
 					<strong>Installation</strong>
