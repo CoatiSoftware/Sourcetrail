@@ -1,0 +1,121 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Consolas", monospace;
+}
+
+#paper {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#files {
+  padding-top: 100px;
+}
+
+#files > * {
+  display: none;
+}
+
+#wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 450px;
+/*  width: 0;*/
+  height: 100%;
+  overflow: scroll;
+  border-left: 2px solid gray;
+  background: white;
+}
+
+#header {
+  position: fixed;
+  z-index: 100;
+  background: white;
+  padding-bottom: 5px;
+  margin-right: 15px;
+}
+
+#header .button {
+  float: left;
+  margin: 5px 0 0 5px;
+}
+
+#top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  border-right: 2px solid gray;
+  border-bottom: 2px solid gray;
+  border-bottom-right-radius: 10px;
+  background: white;
+}
+
+#top .button {
+  display: inline-block;
+  background: white;
+  margin: 0 10px 0;
+  line-height: 20px;
+  outline: none;
+}
+
+#top .button.inactive {
+  color: #acacac;
+  border-color: #ccc;
+}
+
+#top > * {
+  float: left;
+}
+
+.gap {
+  clear: both;
+  height: 10px;
+}
+
+.button {
+  border: 2px solid gray;
+  color: gray;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 18px;
+  padding: 4px 10px;
+}
+
+.button:hover {
+  border-color: black;
+  color: black;
+}
+
+.button.selected {
+  border-color: #48A65B;
+  color: black;
+}
+
+.syntaxhighlighter {
+  overflow: visible !important;
+}
+
+.syntaxhighlighter .code .line:hover {
+  background-color: #EEE !important;
+}
+
+.syntaxhighlighter .code .line.highlighted {
+  background-color: #8FFFA5 !important;
+}
+
+.syntaxhighlighter .gutter .line {
+  border-color: #888 !important;
+}
+
+.syntaxhighlighter .gutter .line.highlighted {
+  background-color: #DDD !important;
+  color: #000 !important;
+}

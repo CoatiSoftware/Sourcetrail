@@ -1,0 +1,61 @@
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+#header {
+  height: 30px;
+  margin: 10px;
+}
+
+#header div {
+  margin-right: 5px;
+  float: left;
+  padding: 5px 8px;
+  border: 2px #555 solid;
+  border-radius: 5px;
+  font-family: Consolas, monospace;
+  font-size: 10pt;
+  color: #555;
+}
+
+#header div:hover {
+  border-color: #AAA;
+}
+
+#header div.selected {
+  border-color: #EC3636;
+}
+
+#wrapper {
+  margin: 0 10px;
+  border: 2px solid #555;
+  border-radius: 5px;
+}
+
+#files {
+  float: left;
+  height: 100%;
+  width: 35%;
+  overflow: auto;
+  border-right: 2px solid #555;
+}
+
+#files > * {
+  display: none;
+}
+
+#paper {
+  float: left;
+  height: 100%;
+  width: 64%;
+}
+
+.syntaxhighlighter {
+  overflow: visible !important;
+}
+
+.syntaxhighlighter .line.highlighted.alt1,
+.syntaxhighlighter .line.highlighted.alt2 {
+  background-color: #ABF8AB !important;
+}

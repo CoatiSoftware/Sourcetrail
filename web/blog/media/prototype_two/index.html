@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+
+	<title>Concept Prototype</title>
+
+	<meta name="robots" content="noindex" />
+
+	<link type="text/css" rel="stylesheet" href="lib/syntaxhighlighter/styles/shCoreDefault.css"/>
+	<link type="text/css" rel="stylesheet" href="css/typeahead.css" />
+	<link type="text/css" rel="stylesheet" href="css/style.css" />
+
+</head>
+<body>
+
+<div id="paper"></div>
+
+<div id="top">
+	<input type="button" class="button" id="back" value="&#9664;" />
+	<input class="typeahead search" type="text" placeholder="Search Code">
+	<input type="button" class="button" id="all" value="all" />
+</div>
+
+<div id="wrapper">
+	<div id="header"></div>
+
+	<div class="gap"></div>
+
+	<div id="files">
+		<div id="main">
+			<pre class="brush:cpp">
+#include "tictactoe.h"
+
+int main() {
+	TicTacToe tictactoe;
+
+	while ( tictactoe.Start() ) {
+		tictactoe.Run();
+	}
+
+	return 0;
+}
+			</pre>
+		</div>
+		<div id="tictactoe">
+			<pre class="brush:cpp">
+#ifndef _TIC_TAC_TOE_
+#define _TIC_TAC_TOE_
+
+#include "artificial_player.h"
+#include "field.h"
+#include "human_player.h"
+#include "input.h"
+#include "player.h"
+
+class TicTacToe {
+public:
+	TicTacToe() {
+		players_[0] = NULL;
+		players_[1] = NULL;
+	}
+
+	~TicTacToe() {
+		Reset();
+	}
+
+	bool Start() {
+		Reset();
+		std::cout << "Tic Tac Toe\n\n[1] Human\n[2] Computer\n[3] Quit\n\n";
+
+		players_[0] = SelectPlayer( Field::PlayerA, "PlayerA" );
+		if ( !players_[0] ) {
+			return false;
+		}
+
+		players_[1] = SelectPlayer( Field::PlayerB, "PlayerB" );
+		if ( !players_[1] ) {
+			return false;
+		}
+
+		std::cout << '\n';
+		return true;
+	}
+
+	void Run() {
+		field_.Show();
+
+		int playerIndex = 0;
+
+		for ( int i = 0; i < 9; i++ ) {
+			Player& player = *players_[playerIndex];
+
+			field_.MakeMove( player.Turn( field_ ), player.token_ );
+			field_.Show();
+
+			if ( field_.SameInRow( player.token_, 3 ) ) {
+				std::cout << player.name_ << " won!\n\n";
+				return;
+			}
+
+			playerIndex = ( playerIndex + 1 ) % 2;
+		}
+
+		std::cout << "Game ends in draw!\n\n";
+	}
+
+private:
+	void Reset() {
+		field_.Clear();
+
+		for ( int i = 0; i < 2; i++ ) {
+			if ( players_[i] ) {
+				delete players_[i];
+				players_[i] = NULL;
+			}
+		}
+	}
+
+	Player* SelectPlayer( Field::Token token, const std::string& name ) const {
+		int selection;
+
+		while ( true ) {
+			std::cout << "Choose " << name << ": ";
+			input::number( &selection );
+
+			switch ( selection ) {
+				case 1 : return new HumanPlayer( token, name );
+				case 2 : return new ArtificialPlayer( token, name );
+				case 3 : return NULL;
+				default : std::cout << "Wrong input!\n";
+			}
+		}
+	}
+
+	Player* players_[2];
+	Field field_;
+};
+
+#endif // _TIC_TAC_TOE_
+			</pre>
+		</div>
+		<div id="field">
+			<pre class="brush:cpp">
+#ifndef _FIELD_
+#define _FIELD_
+
+#include &lt;cassert&gt;
+#include &lt;iostream&gt;
+
+class Field {
+public:
+	enum Token {
+		None = 0,
+		PlayerA = 1,
+		PlayerB = 4
+	};
+
+	static Token Opponent( Token token ) {
+		assert( token != None );
+		if ( token == PlayerA ) {
+			return PlayerB;
+		} else {
+			return PlayerA;
+		}
+	}
+
+	struct Move {
+		int row;
+		int col;
+	};
+
+	Field()
+		: left_( 9 ) {
+		grid_ = new Token* [3];
+		for ( int i = 0; i < 3 ; i++ ) {
+			grid_[i] = new Token[3];
+		}
+	}
+
+	~Field() {
+		for ( int i = 0; i < 3; i++ ) {
+			delete grid_[i];
+		}
+		delete [] grid_;
+	}
+
+	Field Clone() const {
+		Field field;
+		for ( int i = 0; i < 3; i++ ) {
+			for ( int j = 0; j < 3; j++ ) {
+				field.grid_[i][j] = grid_[i][j];
+			}
+		}
+		field.left_ = left_;
+		return field;
+	}
+
+	void Clear() {
+		for ( int i = 0; i < 3; i++ ) {
+			for ( int j = 0; j < 3; j++ ) {
+				grid_[i][j] = None;
+			}
+		}
+		left_ = 9;
+	}
+
+	void Show() const {
+		std::cout << "   1   2   3\n";
+		for ( int row = 0; row < 3; row++ ) {
+			std::cout << row + 1 << " ";
+
+			for ( int col = 0; col < 3; col++ ) {
+				if ( grid_[row][col] == PlayerA ) {
+					std::cout << " X ";
+				} else if ( grid_[row][col] == PlayerB ) {
+					std::cout << " O ";
+				} else {
+					std::cout << "   ";
+				}
+
+				if ( col < 2 ) {
+					std::cout << "|";
+				}
+			}
+
+			if ( row < 2 ) {
+				std::cout << "\n  -----------\n";
+			}
+		}
+		std::cout << "\n\n";
+	}
+
+	int SameInRow( Token token, int amount ) const {
+		int sum = amount * token;
+		int count = 0;
+
+		for ( int i = 0; i < 3; i++ ) {
+			if ( grid_[i][0] + grid_[i][1] + grid_[i][2] == sum ) {
+				count++;
+			} else if ( grid_[0][i] + grid_[1][i] + grid_[2][i] == sum ) {
+				count++;
+			}
+		}
+
+		if ( grid_[0][0] + grid_[1][1] + grid_[2][2] == sum ) {
+			count++;
+		} else if ( grid_[2][0] + grid_[1][1] + grid_[0][2] == sum ) {
+			count++;
+		}
+
+		return count;
+	}
+
+	bool InRange( const Move& move ) const {
+		return move.row >= 0 && move.row < 3 && move.col >= 0 && move.col < 3;
+	}
+
+	bool IsEmpty( const Move& move ) const {
+		return grid_[move.row][move.col] == None;
+	}
+
+	bool IsFull() const {
+		return left_ == 0;
+	}
+
+	void MakeMove( const Move& move, Token token ) {
+		assert( InRange( move ) );
+		assert( IsEmpty( move ) );
+		assert( token != None );
+		assert( left_ );
+
+		grid_[move.row][move.col] = token;
+		left_--;
+	}
+
+	void ClearMove( const Move& move ) {
+		assert( InRange(move) );
+		assert( !IsEmpty(move) );
+		assert( left_ < 9 );
+
+		grid_[move.row][move.col] = None;
+		left_++;
+	}
+
+private:
+	Token** grid_;
+	int left_;
+};
+
+#endif // _FIELD_
+			</pre>
+		</div>
+		<div id="player">
+			<pre class="brush:cpp">
+#ifndef _PLAYER_
+#define _PLAYER_
+
+#include &lt;string&gt;
+
+#include "field.h"
+
+class Player {
+public:
+	Player( Field::Token token, const std::string& name )
+		: token_( token )
+		, name_( name ) {
+	}
+
+	virtual Field::Move Turn( const Field& field ) const = 0;
+
+	const Field::Token token_;
+	const std::string name_;
+};
+
+#endif // _PLAYER_
+			</pre>
+		</div>
+		<div id="human_player">
+			<pre class="brush:cpp">
+#ifndef _HUMAN_
+#define _HUMAN_
+
+#include "input.h"
+#include "player.h"
+
+class HumanPlayer : public Player {
+public:
+	HumanPlayer( Field::Token token, const std::string& name  )
+		: Player( token, name ) {
+	}
+
+	virtual Field::Move Turn( const Field& field ) const {
+		Field::Move move;
+		std::cout << name_ << '\n';
+		do {
+			move = Input();
+			move.row -= 1;
+			move.col -= 1;
+		} while ( !Check( field, move ) );
+		return move;
+	}
+
+private:
+	Field::Move Input() const {
+		Field::Move move;
+
+		std::cout << "Insert row: ";
+		input::number( &move.row );
+
+		std::cout << "Insert column: ";
+		input::number( &move.col );
+
+		std::cout << '\n';
+		return move;
+	}
+
+	bool Check( const Field& field, const Field::Move& move ) const {
+		if ( !field.InRange( move ) ) {
+			std::cout << "Wrong input!\n";
+			return false;
+		} else if ( !field.IsEmpty( move ) ) {
+			std::cout << "Is occupied!\n";
+			return false;
+		}
+		return true;
+	}
+};
+
+#endif // _HUMAN_
+			</pre>
+		</div>
+		<div id="artificial_player">
+			<pre class="brush:cpp">
+#ifndef _ARTIFICIAL_
+#define _ARTIFICIAL_
+
+#include "player.h"
+
+class ArtificialPlayer : public Player {
+public:
+	ArtificialPlayer( Field::Token token, const std::string& name  )
+		: Player( token, name ) {
+	}
+
+	virtual Field::Move Turn( const Field& field ) const {
+		srand( static_cast&lt;unsigned int&gt;( time( NULL ) ) );
+		Field fakeField = field.Clone();
+		Node node = MinMax( fakeField, token_ );
+		return node.move;
+	}
+
+private:
+	struct Node {
+		Field::Move move;
+		int value;
+	};
+
+	Node MinMax( Field& field, Field::Token token ) const {
+		Node node;
+		node.value = -10000;
+
+		Field::Move move;
+		int sameMove;
+
+		for ( int i = 0; i < 3; i++ ) {
+			move.row = i;
+
+			for ( int j = 0; j < 3; j++ ) {
+				move.col = j;
+
+				if ( !field.IsEmpty( move ) ) {
+					continue;
+				}
+
+				field.MakeMove( move, token );
+
+				int turnValue = Evaluate( field, token );
+				if ( !turnValue && !field.IsFull() ) {
+					turnValue = -MinMax( field, Field::Opponent( token ) ).value;
+				}
+
+				field.ClearMove( move );
+
+				if ( turnValue > node.value ) {
+					node.move = move;
+					node.value = turnValue;
+					sameMove = 1;
+				} else if ( turnValue == node.value ) {
+					sameMove++;
+					if ( rand() % sameMove == 0 ) {
+						node.move = move;
+					}
+				}
+			}
+		}
+
+		return node;
+	}
+
+	int Evaluate( const Field& field, Field::Token token ) const {
+		if ( field.SameInRow( token, 3 ) ) {
+			return 2;
+		} else if ( field.SameInRow( Field::Opponent( token ), 2 ) ) {
+			return -1;
+		} else if ( field.SameInRow( token, 2 ) > 1 ) {
+			return 1;
+		}
+		return 0;
+	}
+};
+
+#endif // _ARTIFICIAL_
+			</pre>
+		</div>
+		<div id="input">
+			<pre class="brush:cpp">
+#ifndef _INPUT_
+#define _INPUT_
+
+#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+#include &lt;string&gt;
+
+namespace input {
+
+template&lt;typename T&gt;
+bool number( T* number ) {
+	std::string input;
+	getline( std::cin, input );
+	std::stringstream stream( input );
+	return stream >> *number;
+}
+
+}
+
+#endif // _INPUT_
+			</pre>
+		</div>
+		<div id="sample">
+			<pre class="brush:cpp">
+
+class Player {
+public:
+  void Do() {}
+};
+
+class Base {};
+
+class Game : public Base {
+public:
+  Game() {
+    Init();
+  }
+
+  void Init() {}
+
+  void Run() {
+    player.Do();
+  }
+
+private:
+  Player player;
+};
+
+Game* game;
+
+int main() {
+  game = new Game();
+
+  game->Run();
+
+  delete game;
+  return 0;
+}
+			</pre>
+		</div>
+	</div>
+</div>
+
+	<script src="lib/jquery-2.0.0.min.js"></script>
+	<script src="lib/jquery.scrollTo-1.4.3.1-min.js"></script>
+	<script src="lib/typeahead-0.9.3.js"></script>
+	<script src="lib/raphael-2.1.2.js"></script>
+
+	<script src="lib/syntaxhighlighter/scripts/shCore.js"></script>
+	<script src="lib/syntaxhighlighter/scripts/shBrushCpp.js"></script>
+
+	<script src="src/utils/vector.js"></script>
+	<script src="src/utils/utilities.js"></script>
+	<script src="src/utils/raphael_extensions.js"></script>
+
+	<script src="src/kit.js"></script>
+	<script src="src/location.js"></script>
+
+	<script src="src/model/node_model.js"></script>
+	<script src="src/model/edge_model.js"></script>
+	<script src="src/model/graph_model.js"></script>
+	<script src="src/model/class_model.js"></script>
+	<script src="src/model/program_model.js"></script>
+
+	<script src="src/view/animation_layout.js"></script>
+	<script src="src/view/force_layout.js"></script>
+
+	<script src="src/view/view.js"></script>
+	<script src="src/view/node_view.js"></script>
+	<script src="src/view/edge_view.js"></script>
+	<script src="src/view/class_view.js"></script>
+	<script src="src/view/program_view.js"></script>
+
+	<script src="src/interpreter.js"></script>
+	<script src="src/fileviewer.js"></script>
+
+	<script src="src/main.js"></script>
+
+	<script> var data = []; </script>
+	<script src="data/sample.js"></script>
+	<script src="data/input.js"></script>
+	<script src="data/field.js"></script>
+	<script src="data/player.js"></script>
+	<script src="data/human_player.js"></script>
+	<script src="data/artificial_player.js"></script>
+	<script src="data/tictactoe.js"></script>
+	<script src="data/main.js"></script>
+	<script> main( data ); </script>
+</body>
+</html>
