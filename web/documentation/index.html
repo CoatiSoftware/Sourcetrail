@@ -1380,6 +1380,7 @@
 					<p>The plugins are Opensource and available on <a href="https://github.com/CoatiSoftware/">github</a>.</p>
 					<strong>Supported Editors:</strong>
 					<ul>
+						<li>Atom</li>
 						<li>CLion</li>
 						<li>Eclipse</li>
 						<li>Emacs</li>
@@ -1407,6 +1408,20 @@
 
 					<h2>To Coati</h2>
 					<p>By using a Coati plugin for your code editor, you can select a location within a source file and Coati will show you all symbols found at this location. Please have look at the list below to see which plugins are currently available and how they are used.</p>
+
+					<h3>Atom</h3>
+					<strong>Installation</strong>
+					<p>
+					<ol>
+						<li>In Atom go to Settings with <code>Edit -&gt; Preferences</code> or <kbd>Ctrl</kbd> + <kbd>,</kbd></li>
+						<li>Go to Install and search for coati</li>
+						<li>Install atom-coati</li>
+					</ol>
+					</p>
+					<strong>Use</strong>
+					<p>To start the Tcp Server got <code>Packages -&gt; Coati -&gt; Start Server</code></p>
+					<p>To send a location to Coati, place the cursor and right-click and select <code>Send location to Coati</code>
+					or <code>Packages -&gt; Coati -&gt; Send location to Coati</code></p>
 
 					<h3>Clion/IntelliJ</h3>
 					<strong>Installation</strong>
@@ -1453,17 +1468,26 @@
 					<h3>Emacs</h3>
 					<strong>Installation</strong>
 					<p>
+					<ul>
+						<li>Manuelly</li>
 					<ol>
 						<li>Download the coati.el from <a href="https://github.com/CoatiSoftware/emacs-coati">https://github.com/CoatiSoftware/emacs-coati</a></li>
-						<li>In Emacs press <kbd>M-x</kbd> and type in <code>package-install-file</code></li>
+						<li>In Emacs press <kbd>M</kbd> + <kbd>x</kbd> and type in <code>package-install-file</code></li>
 						<li>Type in the path to the downloaded coati.el file</li>
 					</ol>
+					<li>Melpa</li>
+					<ol>
+						<li>Add Melpa to your package-archives</li>
+						<li>Press <kbd>M</kbd> + <kbd>x</kbd> and type <code>list-packages</code></li>
+						<li>Search for coati and mark coati with <kbd>i</kbd> then press <kbd>x</kbd> and the confirm with yes</li>
+					</ol>
+					</ul>
 					</p>
 					<strong>Use</strong>
 					<p>If you want Emacs to activate a certain element in Coati, set your cursor to that element and
-					<kbd>M-x</kbd> and type in <code>coati-send-location</code>.</p>
+					<kbd>M</kbd> + <kbd>x</kbd> and type in <code>coati-send-location</code>.</p>
 					<p>To get Location from Coati the coati-mode need to be active. To active the coati-mode
-					press <kbd>M-x</kbd> and type in <code>coati-mode</code></p>
+					press <kbd>M</kbd> + <kbd>x</kbd> and type in <code>coati-mode</code></p>
 
 					<h3>Sublime Text</h3>
 					<strong>Installation</strong>
