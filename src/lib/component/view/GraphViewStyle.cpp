@@ -151,7 +151,7 @@ size_t GraphViewStyle::getFontSizeForNodeType(Node::NodeType type)
 
 size_t GraphViewStyle::getFontSizeOfAccessNode()
 {
-	return s_fontSize - 3;
+	return s_fontSize - 2;
 }
 
 size_t GraphViewStyle::getFontSizeOfExpandToggleNode()

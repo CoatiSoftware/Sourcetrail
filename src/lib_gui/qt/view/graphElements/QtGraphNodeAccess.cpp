@@ -15,7 +15,7 @@ QtGraphNodeAccess::QtGraphNodeAccess(TokenComponentAccess::AccessType accessType
 	: QtGraphNode()
 	, m_access(accessType)
 	, m_accessIcon(nullptr)
-	, m_accessIconSize(20)
+	, m_accessIconSize(16)
 {
 	std::string accessString = TokenComponentAccess::getAccessString(accessType);
 	this->setName(accessString);
