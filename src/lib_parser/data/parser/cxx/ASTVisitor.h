@@ -139,6 +139,7 @@ private:
 	bool TraverseLambdaExpr(clang::LambdaExpr* e);
 	bool TraverseFunctionDecl(clang::FunctionDecl* d);
 	bool TraverseTypedefDecl(clang::TypedefDecl *d);
+	bool TraverseTypeAliasDecl(clang::TypeAliasDecl *d);
 	bool TraverseFieldDecl(clang::FieldDecl *d);
 	bool TraverseVarDecl(clang::VarDecl *d);
 	bool TraverseClassTemplateDecl(clang::ClassTemplateDecl* d);

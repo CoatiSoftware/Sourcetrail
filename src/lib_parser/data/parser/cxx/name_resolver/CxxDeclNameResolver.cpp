@@ -88,6 +88,14 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 {
 	const clang::NamedDecl* declaration = clang::dyn_cast<clang::NamedDecl>(m_declaration);
 	std::string declNameString = declaration->getNameAsString();
+	if (const clang::TypeAliasDecl* typeAliasDecl = clang::dyn_cast_or_null<clang::TypeAliasDecl>(declaration))
+	{
+		clang::TypeAliasTemplateDecl* templatedDeclaration = typeAliasDecl->getDescribedAliasTemplate();
+		if (templatedDeclaration)
+		{
+			return getDeclName(templatedDeclaration);
+		}
+	}
 	if (const clang::CXXRecordDecl* recordDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(declaration))
 	{
 		clang::ClassTemplateDecl* templateClassDeclaration = recordDecl->getDescribedClassTemplate();

@@ -266,6 +266,19 @@ public:
 		TS_ASSERT_EQUALS(client->typedefs[0], "anonymous namespace (input.cc)::uint <3:23 3:26>");
 	}
 
+	void test_cxx_parser_finds_type_alias_in_class()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class Foo\n"
+			"{\n"
+			"	using Bar = Foo;\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
+		TS_ASSERT_EQUALS(client->typedefs[0], "private Foo::Bar <3:8 3:10>");
+	}
+
 	void test_cxx_parser_finds_macro_define()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -377,6 +390,17 @@ public:
 		TS_ASSERT_EQUALS(client->macros.size(), 1);
 		TS_ASSERT_EQUALS(client->macros[0], "MAX <1:9 <1:9 1:11> 2:17>");
 	}
+
+	//void __test_cxx_parser_finds_type_template_parameter_type_of_template_type_alias()
+	//{
+	//	std::shared_ptr<TestParserClient> client = parseCode(
+	//		"template<class T>\n"
+	//		"using MyType = int;\n"
+	//	);
+
+	//	TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
+	//	TS_ASSERT_EQUALS(client->templateParameterTypes[0], "MyType<class T>::T <1:17 1:17>");
+	//}
 
 	void test_cxx_parser_finds_type_template_parameter_type_of_template_class()
 	{

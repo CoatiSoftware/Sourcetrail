@@ -148,6 +148,14 @@ bool ASTVisitor::TraverseTypedefDecl(clang::TypedefDecl *d)
 	return base::TraverseTypedefDecl(d);
 }
 
+bool ASTVisitor::TraverseTypeAliasDecl(clang::TypeAliasDecl *d)
+{
+	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(
+		m_contextNameGenerator, std::make_shared<ContextDeclNameGenerator>(d, m_declNameCache)
+	);
+	return base::TraverseTypeAliasDecl(d);
+}
+
 bool ASTVisitor::TraverseFieldDecl(clang::FieldDecl *d)
 {
 	ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> switcher(
@@ -878,12 +886,17 @@ bool ASTVisitor::VisitDecl(clang::Decl *d)
 			// Do nothing.  The function will be recorded when it appears as a
             // FunctionDecl.
         } else if (llvm::isa<clang::ClassTemplateDecl>(d)) {
-            // Do nothing.  The class will be recorded when it appears as a
-            // RecordDecl.
-        } else if (llvm::isa<clang::FieldDecl>(d)) {
+			// Do nothing.  The class will be recorded when it appears as a
+			// RecordDecl.
+		} else if (llvm::isa<clang::TypeAliasTemplateDecl>(d)) {
+			// Do nothing.  The type alias will be recorded when it appears as a
+			// TypeAliasDecl.
+		} else if (llvm::isa<clang::FieldDecl>(d)) {
             RecordDeclRef(nd, loc, RT_Declaration, SYMBOL_FIELD);
-        } else if (llvm::isa<clang::TypedefDecl>(d)) {
-            RecordDeclRef(nd, loc, RT_Declaration, SYMBOL_TYPEDEF);
+		} else if (llvm::isa<clang::TypedefDecl>(d)) {
+			RecordDeclRef(nd, loc, RT_Declaration, SYMBOL_TYPEDEF);
+		} else if (llvm::isa<clang::TypeAliasDecl>(d)) {
+			RecordDeclRef(nd, loc, RT_Declaration, SYMBOL_TYPEDEF);
         } else if (llvm::isa<clang::NamespaceDecl>(d)) {
             RecordDeclRef(nd, loc, RT_Declaration, SYMBOL_NAMESPACE);
         } else if (llvm::isa<clang::EnumConstantDecl>(d)) {
@@ -1169,12 +1182,21 @@ void ASTVisitor::RecordDeclRef(
 			switch (symbolType)
 			{
 			case SYMBOL_TYPEDEF:
-				if (clang::TypedefDecl* typedefDecl = clang::dyn_cast<clang::TypedefDecl>(d))
 				{
+					clang::AccessSpecifier accessSpecifier = clang::AccessSpecifier::AS_none;
+					if (clang::TypeAliasDecl* typeAliasDecl = clang::dyn_cast<clang::TypeAliasDecl>(d))
+					{
+						accessSpecifier = typeAliasDecl->getAccess();
+					}
+					else if (clang::TypedefDecl* typedefDecl = clang::dyn_cast<clang::TypedefDecl>(d))
+					{
+						accessSpecifier = typedefDecl->getAccess();
+					}
+
 					m_client->onTypedefParsed(
 						parseLocation,
 						declNameHierarchy,
-						convertAccessType(typedefDecl->getAccess()),
+						convertAccessType(accessSpecifier),
 						declIsImplicit);
 				}
 				break;
