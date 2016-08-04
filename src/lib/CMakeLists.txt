@@ -128,7 +128,15 @@ add_files(
 
 	data/parser/cxx/TaskParseCxx.h
 	data/parser/cxx/TaskParseWrapper.h
-
+	
+	data/parser/java/JavaEnvironment.cpp
+	data/parser/java/JavaEnvironment.h
+	data/parser/java/JavaEnvironmentFactory.cpp
+	data/parser/java/JavaEnvironmentFactory.h
+	data/parser/java/TaskParseJava.h
+	
+	data/parser/AccessKind.cpp
+	data/parser/AccessKind.h
 	data/parser/ParseLocation.cpp
 	data/parser/ParseLocation.h
 	data/parser/Parser.cpp
@@ -137,7 +145,10 @@ add_files(
 	data/parser/ParserClient.h
 	data/parser/ParserClientImpl.cpp
 	data/parser/ParserClientImpl.h
-	data/parser/SymbolType.h
+	data/parser/ReferenceKind.cpp
+	data/parser/ReferenceKind.h
+	data/parser/SymbolKind.cpp
+	data/parser/SymbolKind.h
 
 	data/search/SearchIndex.cpp
 	data/search/SearchIndex.h
@@ -279,6 +290,8 @@ add_files(
 
 	utility/scheduling/Task.cpp
 	utility/scheduling/Task.h
+	utility/scheduling/TaskDecorator.cpp
+	utility/scheduling/TaskDecorator.h
 	utility/scheduling/TaskGroup.cpp
 	utility/scheduling/TaskGroup.h
 	utility/scheduling/TaskGroupParallel.cpp

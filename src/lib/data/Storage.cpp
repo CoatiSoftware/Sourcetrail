@@ -132,14 +132,14 @@ void Storage::inject(Storage* injected)
 		[&](const StorageComponentAccess& injectedData)
 		{
 			std::unordered_map<Id, Id>::const_iterator it;
-			it = injectedIdToOwnId.find(injectedData.memberEdgeId);
+			it = injectedIdToOwnId.find(injectedData.nodeId);
 			if (it == injectedIdToOwnId.end())
 			{
 				return;
 			}
-			Id ownMemberEdgeId = it->second;
+			Id ownNodeId = it->second;
 
-			addComponentAccess(ownMemberEdgeId, injectedData.type);
+			addComponentAccess(ownNodeId, injectedData.type);
 		}
 	);
 

@@ -11,7 +11,7 @@
 #include "utility/utilityString.h"
 #include "utility/Version.h"
 
-const size_t SqliteStorage::STORAGE_VERSION = 1;
+const size_t SqliteStorage::STORAGE_VERSION = 2;
 
 SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 	: m_dbFilePath(dbFilePath)
@@ -178,11 +178,11 @@ Id SqliteStorage::addSourceLocation(
 	return m_database.lastRowId();
 }
 
-Id SqliteStorage::addComponentAccess(Id memberEdgeId, int type)
+Id SqliteStorage::addComponentAccess(Id nodeId, int type)
 {
 	m_database.execDML((
-		"INSERT INTO component_access(id, edge_id, type) "
-		"VALUES (NULL, " + std::to_string(memberEdgeId) + ", " + std::to_string(type) + ");"
+		"INSERT INTO component_access(id, node_id, type) "
+		"VALUES (NULL, " + std::to_string(nodeId) + ", " + std::to_string(type) + ");"
 	).c_str());
 
 	return m_database.lastRowId();
@@ -534,14 +534,14 @@ Id SqliteStorage::getElementIdByLocationId(Id locationId) const
 	return 0;
 }
 
-StorageComponentAccess SqliteStorage::getComponentAccessByMemberEdgeId(Id memberEdgeId) const
+StorageComponentAccess SqliteStorage::getComponentAccessByNodeId(Id nodeId) const
 {
-	return getFirst<StorageComponentAccess>("WHERE edge_id == " + std::to_string(memberEdgeId));
+	return getFirst<StorageComponentAccess>("WHERE node_id == " + std::to_string(nodeId));
 }
 
-std::vector<StorageComponentAccess> SqliteStorage::getComponentAccessByMemberEdgeIds(const std::vector<Id>& memberEdgeIds) const
+std::vector<StorageComponentAccess> SqliteStorage::getComponentAccessesByNodeIds(const std::vector<Id>& nodeIds) const
 {
-	return getAll<StorageComponentAccess>("WHERE edge_id IN (" + utility::join(utility::toStrings(memberEdgeIds), ',') + ")");
+	return getAll<StorageComponentAccess>("WHERE node_id IN (" + utility::join(utility::toStrings(nodeIds), ',') + ")");
 }
 
 std::vector<StorageCommentLocation> SqliteStorage::getCommentLocationsInFile(const FilePath& filePath) const
@@ -722,13 +722,13 @@ void SqliteStorage::setupTables()
 		m_database.execDML(
 			"CREATE TABLE IF NOT EXISTS component_access("
 				"id INTEGER NOT NULL, "
-				"edge_id INTEGER, "
+				"node_id INTEGER, "
 				"type INTEGER NOT NULL, "
 				"PRIMARY KEY(id), "
-				"FOREIGN KEY(edge_id) REFERENCES edge(id) ON DELETE CASCADE);"
+				"FOREIGN KEY(node_id) REFERENCES node(id) ON DELETE CASCADE);"
 		);
 
-		SqliteIndex("component_access_edge_id_index", "component_access(edge_id)").createOnDatabase(m_database);
+		SqliteIndex("component_access_node_id_index", "component_access(node_id)").createOnDatabase(m_database);
 
 		m_database.execDML(
 			"CREATE TABLE IF NOT EXISTS comment_location("
@@ -965,7 +965,7 @@ template <>
 std::vector<StorageComponentAccess> SqliteStorage::getAll<StorageComponentAccess>(const std::string& query) const
 {
 	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, edge_id, type FROM component_access " + query + ";"
+		"SELECT id, node_id, type FROM component_access " + query + ";"
 	).c_str());
 
 	std::vector<StorageComponentAccess> componentAccesses;
@@ -973,12 +973,12 @@ std::vector<StorageComponentAccess> SqliteStorage::getAll<StorageComponentAccess
 	while (!q.eof())
 	{
 		const Id id		= q.getIntField(0, 0);
-		const Id edgeId	= q.getIntField(1, 0);
+		const Id nodeId	= q.getIntField(1, 0);
 		const int type	= q.getIntField(2, -1);
 
-		if (id != 0 && edgeId != 0 && type != -1)
+		if (id != 0 && nodeId != 0 && type != -1)
 		{
-			componentAccesses.push_back(StorageComponentAccess(edgeId, type));
+			componentAccesses.push_back(StorageComponentAccess(nodeId, type));
 		}
 
 		q.nextRow();

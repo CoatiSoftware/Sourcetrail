@@ -43,7 +43,7 @@ public:
 	Id addFile(const std::string& serializedName, const std::string& filePath, const std::string& modificationTime);
 	Id addLocalSymbol(const std::string& name);
 	Id addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
-	Id addComponentAccess(Id memberEdgeId, int type);
+	Id addComponentAccess(Id nodeId, int type);
 	Id addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
 	Id addError(const std::string& message, bool fatal, bool indexed, const std::string& filePath, uint lineNumber, uint columnNumber);
 
@@ -94,8 +94,8 @@ public:
 
 	Id getElementIdByLocationId(Id locationId) const;
 
-	StorageComponentAccess getComponentAccessByMemberEdgeId(Id memberEdgeId) const;
-	std::vector<StorageComponentAccess> getComponentAccessByMemberEdgeIds(const std::vector<Id>& memberEdgeIds) const;
+	StorageComponentAccess getComponentAccessByNodeId(Id memberEdgeId) const;
+	std::vector<StorageComponentAccess> getComponentAccessesByNodeIds(const std::vector<Id>& memberEdgeIds) const;
 
 	void optimizeMemory() const;
 

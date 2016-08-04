@@ -35,46 +35,6 @@ int ApplicationSettings::getMaxRecentProjectsCount() const
 	return 7;
 }
 
-std::vector<FilePath> ApplicationSettings::getHeaderSearchPaths() const
-{
-	return getPathValues("source/header_search_paths/header_search_path");
-}
-
-std::vector<FilePath> ApplicationSettings::getHeaderSearchPathsExpanded() const
-{
-	std::vector<FilePath> paths = getPathValues("source/header_search_paths/header_search_path");
-	expandPaths(paths);
-	return paths;
-}
-
-bool ApplicationSettings::setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths)
-{
-	return setPathValues("source/header_search_paths/header_search_path", headerSearchPaths);
-}
-
-std::vector<FilePath> ApplicationSettings::getFrameworkSearchPaths() const
-{
-	return getPathValues("source/framework_search_paths/framework_search_path");
-}
-
-std::vector<FilePath> ApplicationSettings::getFrameworkSearchPathsExpanded() const
-{
-	std::vector<FilePath> paths = getPathValues("source/framework_search_paths/framework_search_path");
-	expandPaths(paths);
-	return paths;
-}
-
-bool ApplicationSettings::setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths)
-{
-	return setPathValues("source/framework_search_paths/framework_search_path", frameworkSearchPaths);
-}
-
-std::vector<std::string> ApplicationSettings::getCompilerFlags() const
-{
-	std::vector<std::string> defaultValues;
-	return getValues("source/compiler_flags/compiler_flag", defaultValues);
-}
-
 std::string ApplicationSettings::getFontName() const
 {
 	return getValue<std::string>("application/font_name", "Source Code Pro");
@@ -143,14 +103,24 @@ void ApplicationSettings::setFontSizeStd(const int fontSizeStd)
 	setValue<int>("application/font_size_std", fontSizeStd);
 }
 
+int ApplicationSettings::getWindowBaseWidth() const
+{
+	return getValue<int>("application/window_base_width", 500);
+}
+
+int ApplicationSettings::getWindowBaseHeight() const
+{
+	return getValue<int>("application/window_base_height", 500);
+}
+
 int ApplicationSettings::getIndexerThreadCount() const
 {
-	return getValue<int>("application/indexer_thread_count", 4);
+	return getValue<int>("indexing/indexer_thread_count", 4);
 }
 
 void ApplicationSettings::setIndexerThreadCount(const int count)
 {
-	setValue<int>("application/indexer_thread_count", count);
+	setValue<int>("indexing/indexer_thread_count", count);
 }
 
 bool ApplicationSettings::getShowExternalNonFatalErrors() const
@@ -163,14 +133,58 @@ void ApplicationSettings::setShowExternalNonFatalErrors(const bool show)
 	setValue<bool>("application/show_external_non_fatal_errors", show);
 }
 
-int ApplicationSettings::getWindowBaseWidth() const
+std::string ApplicationSettings::getJavaPath() const
 {
-	return getValue<int>("application/window_base_width", 500);
+	return getValue<std::string>("indexing/java/java_path", "");
 }
 
-int ApplicationSettings::getWindowBaseHeight() const
+void ApplicationSettings::setJavaPath(const std::string path)
 {
-	return getValue<int>("application/window_base_height", 500);
+	setValue<std::string>("indexing/java/java_path", path);
+}
+
+int ApplicationSettings::getJavaMaximumMemory() const
+{
+	return getValue<int>("indexing/java/java_maximum_memory", 512);
+}
+
+void ApplicationSettings::setJavaMaximumMemory(int size)
+{
+	setValue<int>("indexing/java/java_maximum_memory", size);
+}
+
+std::vector<FilePath> ApplicationSettings::getHeaderSearchPaths() const
+{
+	return getPathValues("indexing/cxx/header_search_paths/header_search_path");
+}
+
+std::vector<FilePath> ApplicationSettings::getHeaderSearchPathsExpanded() const
+{
+	std::vector<FilePath> paths = getHeaderSearchPaths();
+	expandPaths(paths);
+	return paths;
+}
+
+bool ApplicationSettings::setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths)
+{
+	return setPathValues("indexing/cxx/header_search_paths/header_search_path", headerSearchPaths);
+}
+
+std::vector<FilePath> ApplicationSettings::getFrameworkSearchPaths() const
+{
+	return getPathValues("indexing/cxx/framework_search_paths/framework_search_path");
+}
+
+std::vector<FilePath> ApplicationSettings::getFrameworkSearchPathsExpanded() const
+{
+	std::vector<FilePath> paths = getFrameworkSearchPaths();
+	expandPaths(paths);
+	return paths;
+}
+
+bool ApplicationSettings::setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths)
+{
+	return setPathValues("indexing/cxx/framework_search_paths/framework_search_path", frameworkSearchPaths);
 }
 
 int ApplicationSettings::getCodeTabWidth() const

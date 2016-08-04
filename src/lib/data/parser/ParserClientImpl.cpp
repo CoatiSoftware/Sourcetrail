@@ -27,12 +27,56 @@ void ParserClientImpl::resetStorage()
 
 void ParserClientImpl::startParsingFile()
 {
-	m_nodeIdsToMemberEdgeIds.clear(); // remove this when one parserclient is created per file
 }
 
 void ParserClientImpl::finishParsingFile()
 {
 }
+
+
+Id ParserClientImpl::recordSymbol(
+	const NameHierarchy& symbolName, SymbolKind symbolType,
+	AccessKind access, bool isImplicit
+)
+{
+	Id nodeId = addNodeHierarchy(symbolKindToNodeType(symbolType), symbolName, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
+	addAccess(nodeId, access);
+	return nodeId;
+}
+
+Id ParserClientImpl::recordSymbol(
+	const NameHierarchy& symbolName, SymbolKind symbolType,
+	const ParseLocation& location,
+	AccessKind access, bool isImplicit
+)
+{
+	Id nodeId = recordSymbol(symbolName, symbolType, access, isImplicit);
+	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
+	return nodeId;
+}
+
+Id ParserClientImpl::recordSymbol(
+	const NameHierarchy& symbolName, SymbolKind symbolType,
+	 const ParseLocation& location, const ParseLocation& scopeLocation,
+	AccessKind access, bool isImplicit
+)
+{
+	Id nodeId = recordSymbol(symbolName, symbolType, location, access, isImplicit);
+	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
+	return nodeId;
+}
+
+void ParserClientImpl::recordReference(
+	ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,
+	const ParseLocation& location)
+{
+	Id contextNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, contextName, DEFINITION_NONE);
+	Id referencedNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, referencedName, DEFINITION_NONE);
+	Id edgeId = addEdge(referenceKindToEdgeType(referenceKind), contextNodeId, referencedNodeId);
+	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
+}
+
+
 
 void ParserClientImpl::onError(const ParseLocation& location, const std::string& message, bool fatal, bool indexed)
 {
@@ -47,7 +91,7 @@ void ParserClientImpl::onError(const ParseLocation& location, const std::string&
 }
 
 void ParserClientImpl::onTypedefParsed(
-	const ParseLocation& location, const NameHierarchy& typedefName, AccessType access, bool isImplicit)
+	const ParseLocation& location, const NameHierarchy& typedefName, AccessKind access, bool isImplicit)
 {
 	log("typedef", typedefName.getQualifiedName(), location);
 
@@ -57,7 +101,7 @@ void ParserClientImpl::onTypedefParsed(
 }
 
 void ParserClientImpl::onClassParsed(
-	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
+	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessKind access,
 	const ParseLocation& scopeLocation, bool isImplicit)
 {
 	log("class", nameHierarchy.getQualifiedName(), location);
@@ -73,7 +117,7 @@ void ParserClientImpl::onClassParsed(
 }
 
 void ParserClientImpl::onStructParsed(
-	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
+	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessKind access,
 	const ParseLocation& scopeLocation, bool isImplicit)
 {
 	log("struct", nameHierarchy.getQualifiedName(), location);
@@ -96,7 +140,7 @@ void ParserClientImpl::onGlobalVariableParsed(const ParseLocation& location, con
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
 }
 
-void ParserClientImpl::onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessType access, bool isImplicit)
+void ParserClientImpl::onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessKind access, bool isImplicit)
 {
 	log("field", field.getQualifiedName(), location);
 
@@ -116,7 +160,7 @@ void ParserClientImpl::onFunctionParsed(
 }
 
 void ParserClientImpl::onMethodParsed(
-	const ParseLocation& location, const NameHierarchy& method, AccessType access, AbstractionType abstraction,
+	const ParseLocation& location, const NameHierarchy& method, AccessKind access, AbstractionType abstraction, // todo: remove abstractio... better: remove this method!
 	const ParseLocation& scopeLocation, bool isImplicit)
 {
 	log("method", method.getQualifiedNameWithSignature(), location);
@@ -142,7 +186,7 @@ void ParserClientImpl::onNamespaceParsed(
 }
 
 void ParserClientImpl::onEnumParsed(
-	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
+	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessKind access,
 	const ParseLocation& scopeLocation, bool isImplicit)
 {
 	log("enum", nameHierarchy.getQualifiedName(), location);
@@ -168,7 +212,7 @@ void ParserClientImpl::onTemplateParameterTypeParsed(
 
 	Id nodeId = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
-	addAccess(nodeId, TokenComponentAccess::ACCESS_TEMPLATE);
+	addAccess(nodeId, ACCESS_TEMPLATE_PARAMETER);
 }
 
 void ParserClientImpl::onLocalSymbolParsed(const std::string& name, const ParseLocation& location)
@@ -214,7 +258,7 @@ void ParserClientImpl::onCommentParsed(const ParseLocation& location)
 
 void ParserClientImpl::onInheritanceParsed(
 	const ParseLocation& location, const NameHierarchy& childNameHierarchy,
-	const NameHierarchy& parentNameHierarchy, AccessType access)
+	const NameHierarchy& parentNameHierarchy)
 {
 	log("inheritance", childNameHierarchy.getQualifiedName() + " : " + parentNameHierarchy.getQualifiedName(), location);
 
@@ -246,12 +290,12 @@ void ParserClientImpl::onCallParsed(const ParseLocation& location, const NameHie
 }
 
 void ParserClientImpl::onUsageParsed(
-	const ParseLocation& location, const NameHierarchy& userName, SymbolType usedType, const NameHierarchy& usedName)
+	const ParseLocation& location, const NameHierarchy& userName, SymbolKind usedType, const NameHierarchy& usedName)
 {
 	log("usage", userName.getQualifiedNameWithSignature() + " -> " + usedName.getQualifiedName(), location);
 
 	Id userNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, userName, DEFINITION_NONE);
-	Id usedNodeId = addNodeHierarchy(symbolTypeToNodeType(usedType), usedName, DEFINITION_NONE);
+	Id usedNodeId = addNodeHierarchy(symbolKindToNodeType(usedType), usedName, DEFINITION_NONE);
 	Id edgeId = addEdge(Edge::EDGE_USAGE, userNodeId, usedNodeId);
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
 }
@@ -354,10 +398,12 @@ void ParserClientImpl::onMacroExpandParsed(const ParseLocation &location, const 
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
 }
 
-Node::NodeType ParserClientImpl::symbolTypeToNodeType(SymbolType symbolType) const
+Node::NodeType ParserClientImpl::symbolKindToNodeType(SymbolKind symbolType) const
 {
 	switch (symbolType)
 	{
+	case SYMBOL_BUILTIN_TYPE:
+		return Node::NODE_BUILTIN_TYPE;
 	case SYMBOL_CLASS:
 		return Node::NODE_CLASS;
 	case SYMBOL_ENUM:
@@ -370,18 +416,24 @@ Node::NodeType ParserClientImpl::symbolTypeToNodeType(SymbolType symbolType) con
 		return Node::NODE_FUNCTION;
 	case SYMBOL_GLOBAL_VARIABLE:
 		return Node::NODE_GLOBAL_VARIABLE;
+	case SYMBOL_INTERFACE:
+		return Node::NODE_INTERFACE;
 	case SYMBOL_MACRO:
 		return Node::NODE_MACRO;
 	case SYMBOL_METHOD:
 		return Node::NODE_METHOD;
 	case SYMBOL_NAMESPACE:
 		return Node::NODE_NAMESPACE;
+	case SYMBOL_PACKAGE:
+		return Node::NODE_PACKAGE;
 	case SYMBOL_STRUCT:
 		return Node::NODE_STRUCT;
-	case SYMBOL_TYPEDEF:
-		return Node::NODE_TYPEDEF;
 	case SYMBOL_TEMPLATE_PARAMETER:
 		return Node::NODE_TEMPLATE_PARAMETER_TYPE;
+	case SYMBOL_TYPEDEF:
+		return Node::NODE_TYPEDEF;
+	case SYMBOL_TYPE_PARAMETER:
+		return Node::NODE_TYPE_PARAMETER;
 	case SYMBOL_UNION:
 		return Node::NODE_TYPE;
 	default:
@@ -390,34 +442,48 @@ Node::NodeType ParserClientImpl::symbolTypeToNodeType(SymbolType symbolType) con
 	return Node::NODE_UNDEFINED;
 }
 
-TokenComponentAccess::AccessType ParserClientImpl::convertAccessType(ParserClient::AccessType access) const
+Edge::EdgeType ParserClientImpl::referenceKindToEdgeType(ReferenceKind referenceKind) const
 {
-	switch (access)
+	switch (referenceKind)
 	{
-	case ACCESS_PUBLIC:
-		return TokenComponentAccess::ACCESS_PUBLIC;
-	case ACCESS_PROTECTED:
-		return TokenComponentAccess::ACCESS_PROTECTED;
-	case ACCESS_PRIVATE:
-		return TokenComponentAccess::ACCESS_PRIVATE;
-	case ACCESS_NONE:
-		return TokenComponentAccess::ACCESS_NONE;
+	case REFERENCE_TYPE_USAGE:
+		return Edge::EDGE_TYPE_USAGE;
+	case REFERENCE_USAGE:
+		return Edge::EDGE_USAGE;
+	case REFERENCE_CALL:
+		return Edge::EDGE_CALL;
+	case REFERENCE_INHERITANCE:
+		return Edge::EDGE_INHERITANCE;
+	case REFERENCE_OVERRIDE:
+		return Edge::EDGE_OVERRIDE;
+	case REFERENCE_TEMPLATE_ARGUMENT:
+		return Edge::EDGE_TEMPLATE_ARGUMENT;
+	case REFERENCE_TYPE_ARGUMENT:
+		return Edge::EDGE_TYPE_ARGUMENT;
+	case REFERENCE_TEMPLATE_DEFAULT_ARGUMENT:
+		return Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT;
+	case REFERENCE_TEMPLATE_SPECIALIZATION_OF:
+		return Edge::EDGE_TEMPLATE_SPECIALIZATION_OF;
+	case REFERENCE_TEMPLATE_MEMBER_SPECIALIZATION_OF:
+		return Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION_OF;
+	case REFERENCE_INCLUDE:
+		return Edge::EDGE_INCLUDE;
+	case REFERENCE_IMPORT:
+		return Edge::EDGE_IMPORT;
+	case REFERENCE_MACRO_USAGE:
+		return Edge::EDGE_MACRO_USAGE;
+	default:
+		break;
 	}
+	return Edge::EDGE_UNDEFINED;
 }
 
-void ParserClientImpl::addAccess(Id nodeId, ParserClient::AccessType access)
+void ParserClientImpl::addAccess(Id nodeId, AccessKind access)
 {
-	addAccess(nodeId, convertAccessType(access));
-}
-
-void ParserClientImpl::addAccess(Id nodeId, TokenComponentAccess::AccessType access)
-{
-	if (access == TokenComponentAccess::ACCESS_NONE)
+	if (access != ACCESS_NONE)
 	{
-		return;
+		addComponentAccess(nodeId, accessKindToInt(access));
 	}
-
-	addComponentAccess(nodeId, access);
 }
 
 Id ParserClientImpl::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, DefinitionType definitionType)
@@ -493,14 +559,7 @@ Id ParserClientImpl::addEdge(int type, Id sourceId, Id targetId)
 		return 0;
 	}
 
-	Id edgeId = m_storage->addEdge(type, sourceId, targetId);
-
-	if (type == Edge::EDGE_MEMBER)
-	{
-		m_nodeIdsToMemberEdgeIds[targetId] = edgeId;
-	}
-
-	return edgeId;
+	return m_storage->addEdge(type, sourceId, targetId);
 }
 
 Id ParserClientImpl::addLocalSymbol(const std::string& name)
@@ -549,15 +608,7 @@ void ParserClientImpl::addComponentAccess(Id nodeId , int type)
 		return;
 	}
 
-	std::unordered_map<Id, Id>::const_iterator it = m_nodeIdsToMemberEdgeIds.find(nodeId);
-	if (it != m_nodeIdsToMemberEdgeIds.end())
-	{
-		m_storage->addComponentAccess(it->second, type);
-	}
-	else
-	{
-		LOG_ERROR_STREAM(<< "Cannot assign access" << type << " to node id " << nodeId << " because it's not a child node.");
-	}
+	m_storage->addComponentAccess(nodeId, type);
 }
 
 void ParserClientImpl::addCommentLocation(const ParseLocation& location)

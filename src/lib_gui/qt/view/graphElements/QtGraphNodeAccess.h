@@ -8,10 +8,10 @@ class QtGraphNodeAccess
 	: public QtGraphNode
 {
 public:
-	QtGraphNodeAccess(TokenComponentAccess::AccessType accessType);
+	QtGraphNodeAccess(AccessKind accessKind);
 	virtual ~QtGraphNodeAccess();
 
-	TokenComponentAccess::AccessType getAccessType() const;
+	AccessKind getAccessKind() const;
 
 	// QtGraphNode implementation
 	virtual bool isAccessNode() const;
@@ -22,7 +22,7 @@ public:
 	void hideLabel();
 
 private:
-	TokenComponentAccess::AccessType m_access;
+	AccessKind m_accessKind;
 
 	QGraphicsPixmapItem* m_accessIcon;
 	int m_accessIconSize;

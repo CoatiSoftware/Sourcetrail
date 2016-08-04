@@ -130,12 +130,16 @@ size_t GraphViewStyle::getFontSizeForNodeType(Node::NodeType type)
 	{
 	case Node::NODE_UNDEFINED:
 	case Node::NODE_NAMESPACE:
+	case Node::NODE_PACKAGE:
 	case Node::NODE_TYPE:
+	case Node::NODE_BUILTIN_TYPE:
 	case Node::NODE_STRUCT:
 	case Node::NODE_CLASS:
+	case Node::NODE_INTERFACE:
 	case Node::NODE_ENUM:
 	case Node::NODE_TYPEDEF:
 	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
+	case Node::NODE_TYPE_PARAMETER:
 	case Node::NODE_FILE:
 	case Node::NODE_MACRO:
 		return s_fontSize;
@@ -194,10 +198,14 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 		margins.iconWidth = s_fontSize + 11;
 	case Node::NODE_UNDEFINED:
 	case Node::NODE_NAMESPACE:
+	case Node::NODE_PACKAGE:
 	case Node::NODE_TYPE:
+	case Node::NODE_BUILTIN_TYPE:
 	case Node::NODE_STRUCT:
 	case Node::NODE_CLASS:
+	case Node::NODE_INTERFACE:
 	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
+	case Node::NODE_TYPE_PARAMETER:
 		if (hasChildren)
 		{
 			margins.left = margins.right = 10;
@@ -237,7 +245,7 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsForNodeType(Node::NodeType
 	return margins;
 }
 
-GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfAccessNode(TokenComponentAccess::AccessType type)
+GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfAccessNode(AccessKind access)
 {
 	NodeMargins margins;
 	margins.spacingX = margins.spacingY = 8;
@@ -246,21 +254,22 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfAccessNode(TokenComponen
 	margins.top = 40;
 	margins.bottom = 10;
 
-	switch (type)
+	switch (access)
 	{
-	case TokenComponentAccess::ACCESS_NONE:
+	case ACCESS_NONE:
 		margins.minWidth = 30;
 		break;
-	case TokenComponentAccess::ACCESS_PUBLIC:
+	case ACCESS_PUBLIC:
 		margins.minWidth = 56;
 		break;
-	case TokenComponentAccess::ACCESS_PROTECTED:
+	case ACCESS_PROTECTED:
 		margins.minWidth = 72;
 		break;
-	case TokenComponentAccess::ACCESS_PRIVATE:
+	case ACCESS_PRIVATE:
 		margins.minWidth = 58;
 		break;
-	case TokenComponentAccess::ACCESS_TEMPLATE:
+	case ACCESS_TEMPLATE_PARAMETER:
+	case ACCESS_TYPE_PARAMETER:
 		margins.minWidth = 133;
 		break;
 	}
@@ -299,12 +308,16 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 		style.borderDashed = true;
 
 	case Node::NODE_NAMESPACE:
+	case Node::NODE_PACKAGE:
 	case Node::NODE_TYPE:
+	case Node::NODE_BUILTIN_TYPE:
 	case Node::NODE_STRUCT:
 	case Node::NODE_CLASS:
+	case Node::NODE_INTERFACE:
 	case Node::NODE_ENUM:
 	case Node::NODE_TYPEDEF:
 	case Node::NODE_TEMPLATE_PARAMETER_TYPE:
+	case Node::NODE_TYPE_PARAMETER:
 	case Node::NODE_FILE:
 	case Node::NODE_MACRO:
 		if (hasChildren)

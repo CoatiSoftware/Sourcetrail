@@ -198,9 +198,15 @@
 					<focus>#3C3C3C</focus>
 				</border>
 			</type>
+			<builtin_type>
+				<like>type</like>
+			</builtin_type>
 			<class>
 				<like>type</like>
 			</class>
+			<interface>
+				<like>type</like>
+			</interface>
 			<struct>
 				<like>type</like>
 			</struct>
@@ -213,6 +219,9 @@
 			<template_parameter_type>
 				<like>type</like>
 			</template_parameter_type>
+			<type_parameter>
+				<like>type</like>
+			</type_parameter>
 
 			<function>
 				<fill>
@@ -257,6 +266,9 @@
 			<namespace>
 				<like>undefined</like>
 			</namespace>
+			<package>
+				<like>undefined</like>
+			</package>
 
 			<file>
 				<fill>
@@ -315,20 +327,20 @@
 				<normal>#3190BA</normal>
 			</use>
 
-			<template_parameter>
-				<normal>#C1305D</normal>
-			</template_parameter>
 			<template_argument>
-				<like>template_parameter</like>
+				<normal>#C1305D</normal>
 			</template_argument>
+			<type_argument>
+				<like>template_argument</like>
+			</type_argument>
 			<template_default_argument>
-				<like>template_parameter</like>
+				<like>template_argument</like>
 			</template_default_argument>
 			<template_specialization>
-				<like>template_parameter</like>
+				<like>template_argument</like>
 			</template_specialization>
 			<template_member_specialization>
-				<like>template_parameter</like>
+				<like>template_argument</like>
 			</template_member_specialization>
 
 			<aggregation>

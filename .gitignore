@@ -5,6 +5,7 @@
 /bin/app/Debug/
 /bin/app/Release/
 /bin/app/data/projects/ignored/
+/bin/app/data/java/
 /bin/app/user/log/
 /bin/app/user/ApplicationSettings.xml
 /bin/app/user/window_settings.ini
@@ -23,7 +24,10 @@
 /bin/test/data/temp.xml
 /bin/test/data/TestSettings.xml
 
-/setup/Linux/lib/*
+/java_indexer/bin/
+/java_indexer/lib/
+
+/setup/Linux/lib/
 
 .DS_Store
 .idea

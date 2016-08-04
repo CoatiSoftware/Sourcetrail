@@ -28,6 +28,10 @@ public:
 	std::string getStandard() const;
 	bool setStandard(const std::string& standard);
 
+	// java... todo: move this
+	std::vector<FilePath> getJavaClasspaths() const;
+	std::vector<FilePath> getAbsoluteJavaClasspaths() const;
+
 	// source
 	std::vector<FilePath> getSourcePaths() const;
 	std::vector<FilePath> getAbsoluteSourcePaths() const;

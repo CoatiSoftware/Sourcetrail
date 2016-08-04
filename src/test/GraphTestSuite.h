@@ -102,7 +102,7 @@ public:
 	{
 		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
 		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"), false);
-		Edge e(3, Edge::EDGE_TYPE_OF, &a, &b);
+		Edge e(3, Edge::EDGE_USAGE, &a, &b);
 
 		TS_ASSERT(!e.isNode());
 		TS_ASSERT(e.isEdge());
@@ -150,16 +150,16 @@ public:
 	{
 		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
 		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"), false);
-		Edge e(3, Edge::EDGE_TYPE_OF, &a, &b);
+		Edge e(3, Edge::EDGE_USAGE, &a, &b);
 
-		TS_ASSERT_EQUALS(Edge::EDGE_TYPE_OF, e.getType());
+		TS_ASSERT_EQUALS(Edge::EDGE_USAGE, e.getType());
 	}
 
 	void test_edge_can_be_copied_and_keeps_same_id()
 	{
 		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
 		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"), false);
-		Edge e(3, Edge::EDGE_TYPE_OF, &a, &b);
+		Edge e(3, Edge::EDGE_USAGE, &a, &b);
 		Edge e2(e, &a, &b);
 
 		TS_ASSERT_DIFFERS(&e, &e2);
@@ -171,10 +171,10 @@ public:
 	{
 		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
 		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"), false);
-		Edge e(3, Edge::EDGE_TYPE_OF, &a, &b);
+		Edge e(3, Edge::EDGE_USAGE, &a, &b);
 
-		TS_ASSERT(e.isType(Edge::EDGE_MEMBER | Edge::EDGE_CALL | Edge::EDGE_TYPE_OF));
-		TS_ASSERT(!e.isType(Edge::EDGE_USAGE | Edge::EDGE_MEMBER | Edge::EDGE_CALL));
+		TS_ASSERT(e.isType(Edge::EDGE_MEMBER | Edge::EDGE_CALL | Edge::EDGE_USAGE));
+		TS_ASSERT(!e.isType(Edge::EDGE_MEMBER | Edge::EDGE_CALL));
 	}
 
 	void test_node_finds_child_node()
@@ -235,21 +235,6 @@ public:
 		TS_ASSERT_EQUALS(children[1], &c);
 	}
 
-	void test_node_has_references()
-	{
-		Node a(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
-		Node b(2, Node::NODE_UNDEFINED, NameHierarchy("B"), false);
-		Node c(3, Node::NODE_UNDEFINED, NameHierarchy("C"), false);
-		Node d(4, Node::NODE_UNDEFINED, NameHierarchy("D"), false);
-		Edge e(5, Edge::EDGE_MEMBER, &a, &b);
-		Edge e2(6, Edge::EDGE_MEMBER, &a, &c);
-		Edge e3(7, Edge::EDGE_USAGE, &c, &d);
-
-		TS_ASSERT(a.hasReferences());
-		TS_ASSERT(!b.hasReferences());
-		TS_ASSERT(c.hasReferences());
-	}
-
 	void test_graph_saves_nodes()
 	{
 		Graph graph;
@@ -297,31 +282,6 @@ public:
 		graph.removeNode(graph.getNodeById(a->getId()));
 
 		TS_ASSERT_EQUALS(1, graph.getNodeCount());
-	}
-
-	void test_graph_removes_unreferenced_nodes()
-	{
-		Graph graph;
-
-		Node* a = graph.createNode(1, Node::NODE_UNDEFINED, NameHierarchy("A"), false);
-		Node* b = graph.createNode(2, Node::NODE_UNDEFINED, NameHierarchy("B"), false);
-		Node* c = graph.createNode(3, Node::NODE_UNDEFINED, NameHierarchy("C"), false);
-		Node* d = graph.createNode(4, Node::NODE_UNDEFINED, NameHierarchy("D"), false);
-		Node* e = graph.createNode(5, Node::NODE_UNDEFINED, NameHierarchy("E"), false);
-
-		graph.createEdge(6, Edge::EDGE_MEMBER, a, b);
-		graph.createEdge(7, Edge::EDGE_MEMBER, a, c);
-		graph.createEdge(8, Edge::EDGE_USAGE, c, d);
-		graph.createEdge(9, Edge::EDGE_MEMBER, b, e);
-
-		TS_ASSERT_EQUALS(5, graph.getNodeCount());
-		TS_ASSERT_EQUALS(4, graph.getEdgeCount());
-
-		TS_ASSERT(!graph.removeNodeIfUnreferencedRecursive(graph.getNodeById(a->getId())));
-		TS_ASSERT(graph.removeNodeIfUnreferencedRecursive(graph.getNodeById(b->getId())));
-
-		TS_ASSERT_EQUALS(3, graph.getNodeCount());
-		TS_ASSERT_EQUALS(2, graph.getEdgeCount());
 	}
 
 private:

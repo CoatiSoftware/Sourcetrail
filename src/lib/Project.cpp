@@ -4,6 +4,8 @@
 #include "data/graph/Token.h"
 #include "data/parser/cxx/TaskParseCxx.h"
 #include "data/parser/cxx/TaskParseWrapper.h"
+#include "data/parser/java/JavaEnvironmentFactory.h"
+#include "data/parser/java/TaskParseJava.h"
 #include "data/PersistentStorage.h"
 #include "data/TaskCleanStorage.h"
 #include "settings/ApplicationSettings.h"
@@ -16,6 +18,7 @@
 #include "utility/scheduling/TaskGroupSequential.h"
 #include "utility/scheduling/TaskGroupParallel.h"
 #include "utility/utility.h"
+#include "utility/utilityString.h"
 #include "utility/Version.h"
 
 std::shared_ptr<Project> Project::create(StorageAccessProxy* storageAccessProxy)
@@ -144,24 +147,78 @@ void Project::parseCode()
 	std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(&m_fileManager, indexerThreadCount > 1);
 	fileRegister->setFilePaths(filesToParse);
 
-	std::shared_ptr<TaskGroupParallel> taskParallel = std::make_shared<TaskGroupParallel>();
+	if (ProjectSettings::getInstance()->getLanguage() == "Java")
+	{
+		if (!JavaEnvironmentFactory::getInstance())
+		{
+			JavaEnvironmentFactory::createInstance(
+				"data/java/asm-5.0.3.jar;"
+				"data/java/cglib-3.1.jar;"
+				"data/java/easymock-3.3.1.jar;"
+				"data/java/guava-18.0.jar;"
+				"data/java/hamcrest-core-1.3.jar;"
+				"data/java/java-indexer.jar;"
+				"data/java/javaparser-core-2.4.1-SNAPSHOT.jar;"
+				"data/java/javaslang-2.0.0-beta.jar;"
+				"data/java/javassist-3.19.0-GA.jar;"
+				"data/java/java-symbol-solver-core-0.2.0-SNAPSHOT.jar;"
+				"data/java/java-symbol-solver-logic-0.2.0-SNAPSHOT.jar;"
+				"data/java/java-symbol-solver-model-0.2.0-SNAPSHOT.jar;"
+				"data/java/objenesis-2.1.jar;"
+			);
+		}
+	}
 
-	taskSequential->addTask(std::make_shared<TaskParseWrapper>(
-		taskParallel,
+	std::shared_ptr<TaskParseWrapper> taskParserWrapper = std::make_shared<TaskParseWrapper>(
 		m_storage.get(),
 		fileRegister
-	));
+	);
+	taskSequential->addTask(taskParserWrapper);
+
+	std::shared_ptr<TaskGroupParallel> taskParallelIndexing = std::make_shared<TaskGroupParallel>();
+	taskParserWrapper->setTask(taskParallelIndexing);
 
 	std::shared_ptr<std::mutex> storageMutex = std::make_shared<std::mutex>();
 
 	for (int i = 0; i < indexerThreadCount; i++)
 	{
-		taskParallel->addTask(std::make_shared<TaskParseCxx>(
-			m_storage.get(),
-			storageMutex,
-			fileRegister,
-			getParserArguments()
-		));
+		if (ProjectSettings::getInstance()->getLanguage() == "Java")
+		{
+			std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
+
+			Parser::Arguments arguments;
+
+			for (FilePath classpath: projSettings->getAbsoluteJavaClasspaths())
+			{
+				arguments.javaClassPaths.push_back(classpath.str());
+			}
+
+			for (FilePath sourcePath: projSettings->getAbsoluteSourcePaths())
+			{
+				if (sourcePath.extension().empty())
+				{
+					arguments.javaClassPaths.push_back(sourcePath.str());
+				}
+			}
+
+			taskParallelIndexing->addTask(
+				std::make_shared<TaskParseJava>(
+					m_storage.get(),
+					storageMutex,
+					fileRegister,
+					arguments
+				)
+			);
+		}
+		else // c or cxx
+		{
+			taskParallelIndexing->addTask(std::make_shared<TaskParseCxx>(
+				m_storage.get(),
+				storageMutex,
+				fileRegister,
+				getParserArguments()
+			));
+		}
 	}
 
 	Task::dispatch(taskSequential);
@@ -247,7 +304,6 @@ Parser::Arguments Project::getParserArguments() const
 	Parser::Arguments args;
 
 	utility::append(args.compilerFlags, projSettings->getCompilerFlags());
-	utility::append(args.compilerFlags, appSettings->getCompilerFlags());
 
 	// Add the source paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
 	utility::append(args.systemHeaderSearchPaths, m_fileManager.getSourcePaths());

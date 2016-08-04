@@ -17,17 +17,6 @@ public:
 
 	int getMaxRecentProjectsCount() const;
 
-	// source
-	std::vector<FilePath> getHeaderSearchPaths() const;
-	std::vector<FilePath> getHeaderSearchPathsExpanded() const;
-	bool setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths);
-
-	std::vector<FilePath> getFrameworkSearchPaths() const;
-	std::vector<FilePath> getFrameworkSearchPathsExpanded() const;
-	bool setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths);
-
-	std::vector<std::string> getCompilerFlags() const;
-
 	// application
 	std::string getFontName() const;
 	void setFontName(const std::string& fontName);
@@ -47,14 +36,28 @@ public:
 	int getFontSizeStd() const;
 	void setFontSizeStd(const int fontSizeStd);
 
+	int getWindowBaseWidth() const;
+	int getWindowBaseHeight() const;
+
 	int getIndexerThreadCount() const;
 	void setIndexerThreadCount(const int count);
 
 	bool getShowExternalNonFatalErrors() const;
 	void setShowExternalNonFatalErrors(const bool show);
 
-	int getWindowBaseWidth() const;
-	int getWindowBaseHeight() const;
+	std::string getJavaPath() const;
+	void setJavaPath(const std::string path);
+
+	int getJavaMaximumMemory() const;
+	void setJavaMaximumMemory(int size);
+
+	std::vector<FilePath> getHeaderSearchPaths() const;
+	std::vector<FilePath> getHeaderSearchPathsExpanded() const;
+	bool setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths);
+
+	std::vector<FilePath> getFrameworkSearchPaths() const;
+	std::vector<FilePath> getFrameworkSearchPathsExpanded() const;
+	bool setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths);
 
 	// code
 	int getCodeTabWidth() const;

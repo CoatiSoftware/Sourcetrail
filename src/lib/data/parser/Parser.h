@@ -17,6 +17,8 @@ public:
 	{
 		Arguments();
 
+		std::vector<FilePath> javaClassPaths;
+
 		std::vector<FilePath> headerSearchPaths;
 		std::vector<FilePath> systemHeaderSearchPaths;
 		std::vector<FilePath> frameworkSearchPaths;

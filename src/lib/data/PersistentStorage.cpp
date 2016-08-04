@@ -119,9 +119,9 @@ void PersistentStorage::addSourceLocation(
 	);
 }
 
-void PersistentStorage::addComponentAccess(Id edgeId , int type)
+void PersistentStorage::addComponentAccess(Id nodeId , int type)
 {
-	m_sqliteStorage.addComponentAccess(edgeId, type);
+	m_sqliteStorage.addComponentAccess(nodeId, type);
 }
 
 void PersistentStorage::addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol)
@@ -668,8 +668,14 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 	for (StorageNode node: m_sqliteStorage.getAllNodes())
 	{
 		if (intToDefinitionType(node.definitionType) == DEFINITION_EXPLICIT &&
-			(!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id) ||
-			Node::intToType(node.type) == Node::NODE_NAMESPACE))
+			(
+				!m_hierarchyCache.isChildOfVisibleNodeOrInvisible(node.id) ||
+				(
+					Node::intToType(node.type) == Node::NODE_NAMESPACE || // TODO: use & here
+					Node::intToType(node.type) == Node::NODE_PACKAGE
+				)
+			)
+		)
 		{
 			tokenIds.push_back(node.id);
 		}
@@ -701,7 +707,8 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(const std::v
 
 		if (node.id > 0)
 		{
-			if (Node::intToType(node.type) == Node::NODE_NAMESPACE)
+			if (Node::intToType(node.type) == Node::NODE_NAMESPACE || // TODO: use & here
+				Node::intToType(node.type) == Node::NODE_PACKAGE)
 			{
 				ids.clear();
 				m_hierarchyCache.addFirstChildIdsForNodeId(elementId, &ids);
@@ -1352,27 +1359,21 @@ void PersistentStorage::addComponentAccessToGraph(Graph* graph) const
 {
 	TRACE();
 
-	std::vector<Id> memberEdgeIds;
-
-	graph->forEachEdge(
-		[&memberEdgeIds](Edge* edge)
+	std::vector<Id> nodeIds;
+	graph->forEachNode(
+		[&nodeIds](Node* node)
 		{
-			if (!edge->isType(Edge::EDGE_MEMBER))
-			{
-				return;
-			}
-
-			memberEdgeIds.push_back(edge->getId());
+			nodeIds.push_back(node->getId());
 		}
 	);
 
-	std::vector<StorageComponentAccess> accesses = m_sqliteStorage.getComponentAccessByMemberEdgeIds(memberEdgeIds);
+	std::vector<StorageComponentAccess> accesses = m_sqliteStorage.getComponentAccessesByNodeIds(nodeIds);
 	for (const StorageComponentAccess& access : accesses)
 	{
-		if (access.memberEdgeId && access.type)
+		if (access.nodeId != 0)
 		{
-			graph->getEdgeById(access.memberEdgeId)->addComponentAccess(
-				std::make_shared<TokenComponentAccess>(TokenComponentAccess::intToType(access.type)));
+			graph->getNodeById(access.nodeId)->addComponentAccess(
+				std::make_shared<TokenComponentAccess>(intToAccessKind(access.type)));
 		}
 	}
 }

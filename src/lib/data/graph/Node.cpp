@@ -5,12 +5,13 @@
 #include "utility/logging/logging.h"
 
 #include "data/graph/token_component/TokenComponentAbstraction.h"
+#include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/graph/token_component/TokenComponentConst.h"
 #include "data/graph/token_component/TokenComponentStatic.h"
 #include "data/graph/token_component/TokenComponentFilePath.h"
 #include "data/graph/token_component/TokenComponentSignature.h"
 
-const Node::NodeTypeMask Node::NODE_NOT_VISIBLE = Node::NODE_UNDEFINED | Node::NODE_NAMESPACE;
+const Node::NodeTypeMask Node::NODE_NOT_VISIBLE = Node::NODE_UNDEFINED | Node::NODE_NAMESPACE | Node::NODE_PACKAGE;
 
 std::string Node::getTypeString(NodeType type)
 {
@@ -18,14 +19,20 @@ std::string Node::getTypeString(NodeType type)
 	{
 	case NODE_UNDEFINED:
 		return "undefined";
+	case NODE_BUILTIN_TYPE:
+		return "builtin_type";
 	case NODE_TYPE:
 		return "type";
 	case NODE_NAMESPACE:
 		return "namespace";
-	case NODE_CLASS:
-		return "class";
+	case NODE_PACKAGE:
+		return "package";
 	case NODE_STRUCT:
 		return "struct";
+	case NODE_CLASS:
+		return "class";
+	case NODE_INTERFACE:
+		return "interface";
 	case NODE_GLOBAL_VARIABLE:
 		return "global_variable";
 	case NODE_FIELD:
@@ -42,6 +49,8 @@ std::string Node::getTypeString(NodeType type)
 		return "typedef";
 	case NODE_TEMPLATE_PARAMETER_TYPE:
 		return "template_parameter_type";
+	case NODE_TYPE_PARAMETER:
+		return "type_parameter";
 	case NODE_FILE:
 		return "file";
 	case NODE_MACRO:
@@ -60,33 +69,41 @@ Node::NodeType Node::intToType(int value)
 {
 	switch (value)
 	{
-	case 0x2:
+	case NODE_TYPE:
 		return NODE_TYPE;
-	case 0x4:
+	case NODE_BUILTIN_TYPE:
+		return NODE_BUILTIN_TYPE;
+	case NODE_NAMESPACE:
 		return NODE_NAMESPACE;
-	case 0x8:
+	case NODE_PACKAGE:
+		return NODE_PACKAGE;
+	case NODE_STRUCT:
 		return NODE_STRUCT;
-	case 0x10:
+	case NODE_CLASS:
 		return NODE_CLASS;
-	case 0x20:
+	case NODE_INTERFACE:
+		return NODE_INTERFACE;
+	case NODE_GLOBAL_VARIABLE:
 		return NODE_GLOBAL_VARIABLE;
-	case 0x40:
+	case NODE_FIELD:
 		return NODE_FIELD;
-	case 0x80:
+	case NODE_FUNCTION:
 		return NODE_FUNCTION;
-	case 0x100:
+	case NODE_METHOD:
 		return NODE_METHOD;
-	case 0x200:
+	case NODE_ENUM:
 		return NODE_ENUM;
-	case 0x400:
+	case NODE_ENUM_CONSTANT:
 		return NODE_ENUM_CONSTANT;
-	case 0x800:
+	case NODE_TYPEDEF:
 		return NODE_TYPEDEF;
-	case 0x1000:
+	case NODE_TEMPLATE_PARAMETER_TYPE:
 		return NODE_TEMPLATE_PARAMETER_TYPE;
-	case 0x2000:
+	case NODE_TYPE_PARAMETER:
+		return NODE_TYPE_PARAMETER;
+	case NODE_FILE:
 		return NODE_FILE;
-	case 0x4000:
+	case NODE_MACRO:
 		return NODE_MACRO;
 	}
 
@@ -324,37 +341,6 @@ void Node::forEachNodeRecursive(std::function<void(const Node*)> func) const
 	);
 }
 
-bool Node::hasReferences() const
-{
-	if (getLocationIds().size() > 0)
-	{
-		return true;
-	}
-
-	bool hasChildrenWithReferences = false;
-	size_t childNodeCount = 0;
-
-	forEachEdgeOfType(
-		Edge::EDGE_MEMBER,
-		[&](Edge* edge)
-		{
-			childNodeCount++;
-
-			if (!hasChildrenWithReferences && edge->getTo() != this && edge->getTo()->hasReferences())
-			{
-				hasChildrenWithReferences = true;
-			}
-		}
-	);
-
-	if (hasChildrenWithReferences || getEdges().size() > childNodeCount)
-	{
-		return true;
-	}
-
-	return false;
-}
-
 bool Node::isNode() const
 {
 	return true;
@@ -450,6 +436,19 @@ void Node::addComponentSignature(std::shared_ptr<TokenComponentSignature> compon
 	}
 }
 
+void Node::addComponentAccess(std::shared_ptr<TokenComponentAccess> component)
+{
+	if (getComponent<TokenComponentAccess>())
+	{
+		LOG_ERROR("TokenComponentAccess has been set before!");
+		return;
+	}
+	else
+	{
+		addComponent(component);
+	}
+}
+
 std::string Node::getTypeString() const
 {
 	return getTypeString(m_type);
@@ -459,6 +458,12 @@ std::string Node::getAsString() const
 {
 	std::stringstream str;
 	str << "[" << getId() << "] " << getTypeString() << ": " << "\"" << getName() << "\"";
+
+	TokenComponentAccess* access = getComponent<TokenComponentAccess>();
+	if (access)
+	{
+		str << " " << access->getAccessString();
+	}
 
 	if (getComponent<TokenComponentStatic>())
 	{

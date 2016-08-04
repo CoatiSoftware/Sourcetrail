@@ -82,6 +82,19 @@ bool ProjectSettings::setStandard(const std::string& standard)
 	return setValue<std::string>("language_settings/standard", standard);
 }
 
+std::vector<FilePath> ProjectSettings::getJavaClasspaths() const
+{
+	return getPathValues("source/class_paths/class_path");
+}
+
+std::vector<FilePath> ProjectSettings::getAbsoluteJavaClasspaths() const
+{
+	std::vector<FilePath> paths = getJavaClasspaths();
+	expandPaths(paths);
+	makePathsAbsolute(paths);
+	return paths;
+}
+
 std::vector<FilePath> ProjectSettings::getSourcePaths() const
 {
 	return getPathValues("source/source_paths/source_path");

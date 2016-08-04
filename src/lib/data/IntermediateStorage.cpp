@@ -121,9 +121,9 @@ void IntermediateStorage::addSourceLocation(Id elementId, Id fileNodeId, uint st
 	));
 }
 
-void IntermediateStorage::addComponentAccess(Id edgeId, int type)
+void IntermediateStorage::addComponentAccess(Id nodeId, int type)
 {
-	m_componentAccesses.push_back(StorageComponentAccess(edgeId, type));
+	m_componentAccesses.push_back(StorageComponentAccess(nodeId, type));
 }
 
 void IntermediateStorage::addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol)

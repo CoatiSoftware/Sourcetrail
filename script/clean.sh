@@ -1,6 +1,8 @@
 #!/bin/bash
 
+ABORT="\033[31mAbort:\033[00m"
 SUCCESS="\033[32mSuccess:\033[00m"
+INFO="\033[33mInfo:\033[00m"
 
 # Determine current platform
 PLATFORM='unknown'
@@ -11,7 +13,6 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
 	PLATFORM='Windows'
 fi
-
 
 if [ $PLATFORM == "Windows" ]; then
 	ORIGINAL_PATH_TO_SCRIPT="${0}"
@@ -36,6 +37,7 @@ if [ $PLATFORM == "Windows" ]; then
 fi
 
 # Remove folders and contents
+rm -rf java_indexer/lib
 rm -rf build
 rm -rf bin/app/Debug
 rm -rf bin/app/Release

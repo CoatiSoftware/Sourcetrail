@@ -38,7 +38,11 @@ std::string NameElement::Signature::qualifyName(const std::string& name) const
 	std::string qualifiedName = m_prefix;
 	if (name.size() > 0)
 	{
-		qualifiedName += " " + name;
+		if (!m_prefix.empty())
+		{
+			qualifiedName += " ";
+		}
+		qualifiedName += name;
 	}
 	qualifiedName += m_postfix;
 

@@ -24,8 +24,8 @@ public:
 	std::shared_ptr<NameElement> operator[](size_t pos) const;
 	size_t size() const;
 
-	std::string getQualifiedName() const;
-	std::string getQualifiedNameWithSignature() const;
+	std::string getQualifiedName(const std::string& delimiter = "::") const;
+	std::string getQualifiedNameWithSignature(const std::string& delimiter = "::") const;
 	std::string getRawName() const;
 	std::string getRawNameWithSignature() const;
 

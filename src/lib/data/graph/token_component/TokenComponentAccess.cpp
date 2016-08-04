@@ -1,6 +1,6 @@
 #include "data/graph/token_component/TokenComponentAccess.h"
 
-std::string TokenComponentAccess::getAccessString(AccessType access)
+std::string TokenComponentAccess::getAccessString(AccessKind access)
 {
 	switch (access)
 	{
@@ -10,38 +10,18 @@ std::string TokenComponentAccess::getAccessString(AccessType access)
 		return "protected";
 	case ACCESS_PRIVATE:
 		return "private";
-	case ACCESS_TEMPLATE:
+	case ACCESS_DEFAULT:
+		return "default";
+	case ACCESS_TEMPLATE_PARAMETER:
 		return "template parameter";
-	case ACCESS_NONE:
-		return "";
+	case ACCESS_TYPE_PARAMETER:
+		return "type parameter";
 	}
 	return "";
 }
 
-int TokenComponentAccess::typeToInt(AccessType type)
-{
-	return type;
-}
 
-TokenComponentAccess::AccessType TokenComponentAccess::intToType(int value)
-{
-	switch (value)
-	{
-	case 0x1:
-		return ACCESS_PUBLIC;
-	case 0x2:
-		return ACCESS_PROTECTED;
-	case 0x4:
-		return ACCESS_PRIVATE;
-	case 0x8:
-		return ACCESS_TEMPLATE;
-	default:
-		break;
-	}
-	return ACCESS_NONE;
-}
-
-TokenComponentAccess::TokenComponentAccess(AccessType access)
+TokenComponentAccess::TokenComponentAccess(AccessKind access)
 	: m_access(access)
 {
 }
@@ -55,7 +35,7 @@ std::shared_ptr<TokenComponent> TokenComponentAccess::copy() const
 	return std::make_shared<TokenComponentAccess>(*this);
 }
 
-TokenComponentAccess::AccessType TokenComponentAccess::getAccess() const
+AccessKind TokenComponentAccess::getAccess() const
 {
 	return m_access;
 }

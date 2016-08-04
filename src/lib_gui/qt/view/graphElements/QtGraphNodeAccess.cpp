@@ -11,39 +11,42 @@
 #include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/utility/utilityQt.h"
 
-QtGraphNodeAccess::QtGraphNodeAccess(TokenComponentAccess::AccessType accessType)
+QtGraphNodeAccess::QtGraphNodeAccess(AccessKind accessKind)
 	: QtGraphNode()
-	, m_access(accessType)
+	, m_accessKind(accessKind)
 	, m_accessIcon(nullptr)
 	, m_accessIconSize(16)
 {
-	std::string accessString = TokenComponentAccess::getAccessString(accessType);
+	std::string accessString = TokenComponentAccess::getAccessString(m_accessKind);
 	this->setName(accessString);
 	m_text->hide();
 
-	std::string fileName;
-	switch (accessType)
+	std::string iconFileName;
+	switch (m_accessKind)
 	{
-	case TokenComponentAccess::ACCESS_PUBLIC:
-		fileName = "public";
+	case ACCESS_PUBLIC:
+		iconFileName = "public";
 		break;
-	case TokenComponentAccess::ACCESS_PROTECTED:
-		fileName = "protected";
+	case ACCESS_PROTECTED:
+		iconFileName = "protected";
 		break;
-	case TokenComponentAccess::ACCESS_PRIVATE:
-		fileName = "private";
+	case ACCESS_PRIVATE:
+		iconFileName = "private";
+	case ACCESS_DEFAULT:
+		iconFileName = "default";
 		break;
-	case TokenComponentAccess::ACCESS_TEMPLATE:
-		fileName = "template";
+	case ACCESS_TEMPLATE_PARAMETER:
+	case ACCESS_TYPE_PARAMETER:
+		iconFileName = "template";
 		break;
 	default:
 		break;
 	}
 
-	if (fileName.size() > 0)
+	if (iconFileName.size() > 0)
 	{
 		QtDeviceScaledPixmap pixmap(
-			QString::fromStdString(ResourcePaths::getGuiPath() + "graph_view/images/" + fileName + ".png"));
+			QString::fromStdString(ResourcePaths::getGuiPath() + "graph_view/images/" + iconFileName + ".png"));
 		pixmap.scaleToHeight(m_accessIconSize);
 
 		m_accessIcon = new QGraphicsPixmapItem(pixmap.pixmap(), this);
@@ -55,9 +58,9 @@ QtGraphNodeAccess::~QtGraphNodeAccess()
 {
 }
 
-TokenComponentAccess::AccessType QtGraphNodeAccess::getAccessType() const
+AccessKind QtGraphNodeAccess::getAccessKind() const
 {
-	return m_access;
+	return m_accessKind;
 }
 
 bool QtGraphNodeAccess::isAccessNode() const

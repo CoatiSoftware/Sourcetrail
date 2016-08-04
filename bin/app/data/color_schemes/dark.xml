@@ -219,36 +219,30 @@
 					<focus>#C3C3C3</focus>
 				</border>
 			</type>
+			<builtin_type>
+				<like>type</like>
+			</builtin_type>
 			<class>
-				<border>
-					<normal>#20C3C3C3</normal>
-					<focus>#C3C3C3</focus>
-				</border>
+				<like>type</like>
 			</class>
+			<interface>
+				<like>type</like>
+			</interface>
 			<struct>
-				<border>
-					<normal>#20C3C3C3</normal>
-					<focus>#C3C3C3</focus>
-				</border>
+				<like>type</like>
 			</struct>
 			<enum>
-				<border>
-					<normal>#20C3C3C3</normal>
-					<focus>#C3C3C3</focus>
-				</border>
+				<like>type</like>
 			</enum>
 			<typedef>
-				<border>
-					<normal>#20C3C3C3</normal>
-					<focus>#C3C3C3</focus>
-				</border>
+				<like>type</like>
 			</typedef>
 			<template_parameter_type>
-				<border>
-					<normal>#20C3C3C3</normal>
-					<focus>#C3C3C3</focus>
-				</border>
+				<like>type</like>
 			</template_parameter_type>
+			<type_parameter>
+				<like>type</like>
+			</type_parameter>
 
 			<function>
 				<fill>
@@ -293,6 +287,9 @@
 			<namespace>
 				<like>undefined</like>
 			</namespace>
+			<package>
+				<like>undefined</like>
+			</package>
 
 			<file>
 				<fill>
@@ -351,20 +348,20 @@
 				<normal>#2A6484</normal>
 			</use>
 
-			<template_parameter>
-				<normal>#C1305D</normal>
-			</template_parameter>
 			<template_argument>
 				<normal>#C1305D</normal>
 			</template_argument>
+			<type_argument>
+				<like>template_argument</like>
+			</type_argument>
 			<template_default_argument>
-				<normal>#C1305D</normal>
+				<like>template_argument</like>
 			</template_default_argument>
 			<template_specialization>
-				<normal>#C1305D</normal>
+				<like>template_argument</like>
 			</template_specialization>
 			<template_member_specialization>
-				<normal>#C1305D</normal>
+				<like>template_argument</like>
 			</template_member_specialization>
 
 			<include>

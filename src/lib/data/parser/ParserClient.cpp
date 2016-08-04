@@ -6,7 +6,7 @@
 #include "data/type/DataType.h"
 #include "utility/utilityString.h"
 
-std::string ParserClient::addAccessPrefix(const std::string& str, AccessType access)
+std::string ParserClient::addAccessPrefix(const std::string& str, AccessKind access)
 {
 	switch (access)
 	{
@@ -16,9 +16,10 @@ std::string ParserClient::addAccessPrefix(const std::string& str, AccessType acc
 		return "protected " + str;
 	case ACCESS_PRIVATE:
 		return "private " + str;
-	case ACCESS_NONE:
-		return str;
+	case ACCESS_DEFAULT:
+		return "default " + str;
 	}
+	return str;
 }
 
 std::string ParserClient::addAbstractionPrefix(const std::string& str, AbstractionType abstraction)

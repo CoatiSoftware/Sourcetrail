@@ -40,7 +40,7 @@ public:
 		, connected(false)
 		, expanded(false)
 		, hasParent(true)
-		, accessType(TokenComponentAccess::ACCESS_NONE)
+		, accessKind(ACCESS_NONE)
 		, invisibleSubNodeCount(0)
 		, layoutBucket(0, 0)
 		, bundledNodeCount(0)
@@ -54,7 +54,7 @@ public:
 
 	bool isAccessNode() const
 	{
-		return accessType != TokenComponentAccess::ACCESS_NONE;
+		return accessKind != ACCESS_NONE;
 	}
 
 	bool isExpandToggleNode() const
@@ -223,7 +223,7 @@ public:
 	bool hasParent;
 
 	// AccessNode
-	TokenComponentAccess::AccessType accessType;
+	AccessKind accessKind;
 
 	// ExpandToggleNode
 	size_t invisibleSubNodeCount;

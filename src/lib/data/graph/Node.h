@@ -11,6 +11,7 @@
 #include "data/name/NameHierarchy.h"
 
 class TokenComponentAbstraction;
+class TokenComponentAccess;
 class TokenComponentConst;
 class TokenComponentStatic;
 class TokenComponentFilePath;
@@ -22,25 +23,29 @@ class Node
 public:
 	typedef int NodeTypeMask;
 	enum NodeType : NodeTypeMask
-	{
+	{ // make sure that the value of 0x0 is not used here because it doesn't work for bitmasking.
 		NODE_UNDEFINED					= 0x1,
 		NODE_TYPE						= 0x2,
+		NODE_BUILTIN_TYPE				= 0x4,
 
-		NODE_NAMESPACE					= 0x4,
-		NODE_STRUCT						= 0x8,
-		NODE_CLASS						= 0x10,
-		NODE_GLOBAL_VARIABLE			= 0x20,
-		NODE_FIELD						= 0x40,
-		NODE_FUNCTION					= 0x80,
-		NODE_METHOD						= 0x100,
+		NODE_NAMESPACE					= 0x8,
+		NODE_PACKAGE					= 0x10,
+		NODE_STRUCT						= 0x20,
+		NODE_CLASS						= 0x40,
+		NODE_INTERFACE					= 0x80,
+		NODE_GLOBAL_VARIABLE			= 0x100,
+		NODE_FIELD						= 0x200,
+		NODE_FUNCTION					= 0x400,
+		NODE_METHOD						= 0x800,
 
-		NODE_ENUM						= 0x200,
-		NODE_ENUM_CONSTANT				= 0x400,
-		NODE_TYPEDEF					= 0x800,
-		NODE_TEMPLATE_PARAMETER_TYPE	= 0x1000,
+		NODE_ENUM						= 0x1000,
+		NODE_ENUM_CONSTANT				= 0x2000,
+		NODE_TYPEDEF					= 0x4000,
+		NODE_TEMPLATE_PARAMETER_TYPE	= 0x8000,
+		NODE_TYPE_PARAMETER				= 0x10000,
 
-		NODE_FILE						= 0x2000,
-		NODE_MACRO						= 0x4000
+		NODE_FILE						= 0x20000,
+		NODE_MACRO						= 0x40000
 	};
 
 	static std::string getTypeString(NodeType type);
@@ -88,8 +93,6 @@ public:
 	void forEachChildNode(std::function<void(Node*)> func) const;
 	void forEachNodeRecursive(std::function<void(const Node*)> func) const;
 
-	bool hasReferences() const;
-
 	// Token implementation.
 	virtual bool isNode() const;
 	virtual bool isEdge() const;
@@ -100,6 +103,7 @@ public:
 	void addComponentStatic(std::shared_ptr<TokenComponentStatic> component);
 	void addComponentFilePath(std::shared_ptr<TokenComponentFilePath> component);
 	void addComponentSignature(std::shared_ptr<TokenComponentSignature> component);
+	void addComponentAccess(std::shared_ptr<TokenComponentAccess> component);
 
 	// Logging.
 	virtual std::string getTypeString() const;

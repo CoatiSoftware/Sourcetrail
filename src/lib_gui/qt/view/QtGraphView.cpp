@@ -345,7 +345,7 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	}
 	else if (node->isAccessNode())
 	{
-		newNode = std::make_shared<QtGraphNodeAccess>(node->accessType);
+		newNode = std::make_shared<QtGraphNodeAccess>(node->accessKind);
 	}
 	else if (node->isExpandToggleNode())
 	{
@@ -449,8 +449,8 @@ void QtGraphView::compareNodesRecursive(
 		{
 			if (((*it)->isDataNode() && (*it2)->isDataNode() && (*it)->getTokenId() == (*it2)->getTokenId()) ||
 				((*it)->isAccessNode() && (*it2)->isAccessNode() &&
-					dynamic_cast<QtGraphNodeAccess*>((*it).get())->getAccessType() ==
-						dynamic_cast<QtGraphNodeAccess*>((*it2).get())->getAccessType()) ||
+					dynamic_cast<QtGraphNodeAccess*>((*it).get())->getAccessKind() ==
+						dynamic_cast<QtGraphNodeAccess*>((*it2).get())->getAccessKind()) ||
 				((*it)->isExpandToggleNode() && (*it2)->isExpandToggleNode()) ||
 				((*it)->isBundleNode() && (*it2)->isBundleNode() && (*it)->getTokenId() == (*it2)->getTokenId()))
 			{

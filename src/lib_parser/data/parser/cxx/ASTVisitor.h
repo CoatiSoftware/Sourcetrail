@@ -9,7 +9,7 @@
 #include <clang/Basic/SourceManager.h>
 
 #include "data/parser/ParserClient.h"
-#include "data/parser/SymbolType.h"
+#include "data/parser/SymbolKind.h"
 #include "utility/file/FileRegister.h"
 #include "utility/Cache.h"
 
@@ -202,20 +202,20 @@ private:
 		const clang::Type* type,
 		clang::SourceLocation beginLoc,
 		RefType refType,
-		SymbolType symbolType = SYMBOL_TYPE_MAX);
+		SymbolKind symbolType = SYMBOL_KIND_MAX);
 
     void RecordDeclRef(
-            clang::NamedDecl *d,
-            clang::SourceLocation beginLoc,
-            RefType refType,
-            SymbolType symbolType = SYMBOL_TYPE_MAX);
+        clang::NamedDecl *d,
+        clang::SourceLocation beginLoc,
+        RefType refType,
+		SymbolKind symbolType = SYMBOL_KIND_MAX);
 
 	bool isImplicit(clang::Decl* d) const;
 
 	bool isLocatedInUnparsedProjectFile(clang::SourceLocation loc);
 	bool isLocatedInProjectFile(clang::SourceLocation loc);
 
-	ParserClient::AccessType convertAccessType(clang::AccessSpecifier access) const;
+	AccessKind convertAccessType(clang::AccessSpecifier access) const;
 	ParserClient::AbstractionType getAbstractionType(const clang::CXXMethodDecl* methodDecl) const;
 	ParseLocation getParseLocationOfRecordBody(clang::RecordDecl* decl) const;
 	ParseLocation getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const;
@@ -238,7 +238,7 @@ private:
 	std::shared_ptr<DeclNameCache> m_declNameCache;
 	std::shared_ptr<TypeNameCache> m_typeNameCache;
 
-	ParserClient::AccessType m_contextAccess;
+	AccessKind m_contextAccess;
 };
 
 #endif // AST_VISITOR_H

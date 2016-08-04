@@ -7,7 +7,6 @@
 #include "data/parser/cxx/CxxParser.h"
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
-#include "settings/ApplicationSettings.h"
 
 #include "helper/TestFileManager.h"
 
@@ -1175,7 +1174,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B : private A <2:11 2:11>");
+		TS_ASSERT_EQUALS(client->inheritances[0], "B : A <2:11 2:11>");
 	}
 
 	void test_cxx_parser_finds_class_public_inheritance()
@@ -1186,7 +1185,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B : public A <2:18 2:18>");
+		TS_ASSERT_EQUALS(client->inheritances[0], "B : A <2:18 2:18>");
 	}
 
 	void test_cxx_parser_finds_class_protected_inheritance()
@@ -1197,7 +1196,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B : protected A <2:21 2:21>");
+		TS_ASSERT_EQUALS(client->inheritances[0], "B : A <2:21 2:21>");
 	}
 
 	void test_cxx_parser_finds_class_private_inheritance()
@@ -1208,7 +1207,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B : private A <2:19 2:19>");
+		TS_ASSERT_EQUALS(client->inheritances[0], "B : A <2:19 2:19>");
 	}
 
 	void test_cxx_parser_finds_class_multiple_inheritance()
@@ -1223,8 +1222,8 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 2);
-		TS_ASSERT_EQUALS(client->inheritances[0], "C : public A <4:11 4:11>");
-		TS_ASSERT_EQUALS(client->inheritances[1], "C : private B <5:12 5:12>");
+		TS_ASSERT_EQUALS(client->inheritances[0], "C : A <4:11 4:11>");
+		TS_ASSERT_EQUALS(client->inheritances[1], "C : B <5:12 5:12>");
 	}
 
 	void test_cxx_parser_finds_struct_default_public_inheritance()
@@ -1235,7 +1234,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B : public A <2:12 2:12>");
+		TS_ASSERT_EQUALS(client->inheritances[0], "B : A <2:12 2:12>");
 	}
 
 	void test_cxx_parser_finds_struct_public_inheritance()
@@ -1246,7 +1245,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B : public A <2:19 2:19>");
+		TS_ASSERT_EQUALS(client->inheritances[0], "B : A <2:19 2:19>");
 	}
 
 	void test_cxx_parser_finds_struct_protected_inheritance()
@@ -1257,7 +1256,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B : protected A <2:22 2:22>");
+		TS_ASSERT_EQUALS(client->inheritances[0], "B : A <2:22 2:22>");
 	}
 
 	void test_cxx_parser_finds_struct_private_inheritance()
@@ -1268,7 +1267,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B : private A <2:20 2:20>");
+		TS_ASSERT_EQUALS(client->inheritances[0], "B : A <2:20 2:20>");
 	}
 
 	void test_cxx_parser_finds_struct_multiple_inheritance()
@@ -1283,8 +1282,8 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 2);
-		TS_ASSERT_EQUALS(client->inheritances[0], "C : public A <4:11 4:11>");
-		TS_ASSERT_EQUALS(client->inheritances[1], "C : private B <5:12 5:12>");
+		TS_ASSERT_EQUALS(client->inheritances[0], "C : A <4:11 4:11>");
+		TS_ASSERT_EQUALS(client->inheritances[1], "C : B <5:12 5:12>");
 	}
 
 	void test_cxx_parser_finds_method_override_when_virtual()
@@ -2462,7 +2461,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B : public A<int> <7:17 7:17>");
+		TS_ASSERT_EQUALS(client->inheritances[0], "B : A<int> <7:17 7:17>");
 	}
 
 	void test_cxx_parser_finds_template_class_specialization_with_template_argument()
@@ -2948,13 +2947,45 @@ private:
 		{
 		}
 
+		virtual Id recordSymbol(
+			const NameHierarchy& symbolName, SymbolKind symbolKind,
+			AccessKind access = ACCESS_NONE, bool isImplicit = false)
+		{
+			// todo: implement and replace all the on..DeclParsed
+			return 0;
+		}
+
+		virtual Id recordSymbol(
+			const NameHierarchy& symbolName, SymbolKind symbolKind,
+			const ParseLocation& location,
+			AccessKind access = ACCESS_NONE, bool isImplicit = false)
+		{
+			// todo: implement and replace all the on..DeclParsed
+			return 0;
+		}
+
+		virtual Id recordSymbol(
+			const NameHierarchy& symbolName, SymbolKind symbolKind,
+			const ParseLocation& location, const ParseLocation& scopeLocation,
+			AccessKind access = ACCESS_NONE, bool isImplicit = false)
+		{
+			// todo: implement and replace all the on..DeclParsed
+			return 0;
+		}
+
+		virtual void recordReference(
+			ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,
+			const ParseLocation& location)
+		{
+		}
+
 		virtual void onError(const ParseLocation& location, const std::string& message, bool fatal, bool indexed)
 		{
 			errors.push_back(addLocationSuffix(message, location));
 		}
 
 		virtual void onTypedefParsed(
-			const ParseLocation& location, const NameHierarchy& typedefName, AccessType access, bool isImplicit
+			const ParseLocation& location, const NameHierarchy& typedefName, AccessKind access, bool isImplicit
 		)
 		{
 			std::string str = addAccessPrefix(typedefName.getQualifiedName(), access);
@@ -2962,14 +2993,14 @@ private:
 		}
 
 		virtual void onClassParsed(
-			const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
+			const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessKind access,
 			const ParseLocation& scopeLocation, bool isImplicit)
 		{
 			classes.push_back(addLocationSuffix(addAccessPrefix(nameHierarchy.getQualifiedName(), access), location, scopeLocation));
 		}
 
 		virtual void onStructParsed(
-			const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
+			const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessKind access,
 			const ParseLocation& scopeLocation, bool isImplicit)
 		{
 			structs.push_back(addLocationSuffix(addAccessPrefix(nameHierarchy.getQualifiedName(), access), location, scopeLocation));
@@ -2980,7 +3011,7 @@ private:
 			globalVariables.push_back(addLocationSuffix(variable.getQualifiedName(), location));
 		}
 
-		virtual void onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessType access, bool isImplicit)
+		virtual void onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessKind access, bool isImplicit)
 		{
 			fields.push_back(addLocationSuffix(addAccessPrefix(field.getQualifiedName(), access), location));
 		}
@@ -2992,7 +3023,7 @@ private:
 		}
 
 		virtual void onMethodParsed(
-			const ParseLocation& location, const NameHierarchy& method, AccessType access, AbstractionType abstraction,
+			const ParseLocation& location, const NameHierarchy& method, AccessKind access, AbstractionType abstraction,
 			const ParseLocation& scopeLocation, bool isImplicit)
 		{
 			std::string str = method.getQualifiedNameWithSignature();
@@ -3009,7 +3040,7 @@ private:
 		}
 
 		virtual void onEnumParsed(
-			const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
+			const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessKind access,
 			const ParseLocation& scopeLocation, bool isImplicit)
 		{
 			enums.push_back(addLocationSuffix(addAccessPrefix(nameHierarchy.getQualifiedName(), access), location, scopeLocation));
@@ -3051,9 +3082,9 @@ private:
 
 		virtual void onInheritanceParsed(
 			const ParseLocation& location, const NameHierarchy& childNameHierarchy,
-			const NameHierarchy& parentNameHierarchy, AccessType access)
+			const NameHierarchy& parentNameHierarchy)
 		{
-			std::string str = childNameHierarchy.getQualifiedName() + " : " + addAccessPrefix(parentNameHierarchy.getQualifiedName(), access);
+			std::string str = childNameHierarchy.getQualifiedName() + " : " + parentNameHierarchy.getQualifiedName();
 			inheritances.push_back(addLocationSuffix(str, location));
 		}
 
@@ -3071,7 +3102,7 @@ private:
 		}
 
 		virtual void onUsageParsed(
-			const ParseLocation& location, const NameHierarchy& userName, SymbolType usedType, const NameHierarchy& usedName)
+			const ParseLocation& location, const NameHierarchy& userName, SymbolKind usedType, const NameHierarchy& usedName)
 		{
 			usages.push_back(addLocationSuffix(userName.getQualifiedNameWithSignature() + " -> " + usedName.getQualifiedName(), location));
 		}

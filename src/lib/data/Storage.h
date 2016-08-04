@@ -19,7 +19,7 @@ public:
 	virtual Id addEdge(int type, Id sourceId, Id targetId) = 0;
 	virtual Id addLocalSymbol(const std::string& name) = 0;
 	virtual void addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type) = 0;
-	virtual void addComponentAccess(Id edgeId , int type) = 0;
+	virtual void addComponentAccess(Id nodeId , int type) = 0;
 	virtual void addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol) = 0;
 	virtual void addError(const std::string& message, bool fatal, bool indexed, const std::string& filePath, uint startLine, uint startCol) = 0;
 

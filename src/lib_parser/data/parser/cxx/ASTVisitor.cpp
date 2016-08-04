@@ -36,7 +36,7 @@ ASTVisitor::ASTVisitor(clang::ASTContext* context, clang::Preprocessor* preproce
     , m_thisContext(0)
     , m_childContext(0)
     , m_typeContext(RT_Reference)
-	, m_contextAccess(ParserClient::ACCESS_NONE)
+	, m_contextAccess(ACCESS_NONE)
 {
 	m_declNameCache = std::make_shared<DeclNameCache>([](const clang::NamedDecl* decl) -> NameHierarchy
 	{
@@ -519,7 +519,7 @@ bool ASTVisitor::VisitCXXConstructExpr(clang::CXXConstructExpr *e)
 
 void ASTVisitor::RecordDeclRefExpr(clang::NamedDecl *d, clang::SourceLocation loc, clang::Expr *e, Context context)
 {
-	SymbolType symbolType = SYMBOL_TYPE_MAX;
+	SymbolKind symbolType = SYMBOL_KIND_MAX;
 
 	if (clang::isa<clang::VarDecl>(d))
 	{
@@ -670,7 +670,7 @@ bool ASTVisitor::TraverseCXXRecordDecl(clang::CXXRecordDecl *d)
                 ++it) {
             clang::CXXBaseSpecifier *baseSpecifier = it;
 			ScopedSwitcher<RefType> sw1(m_typeContext, RT_BaseClass);
-			ScopedSwitcher<ParserClient::AccessType> sw2(
+			ScopedSwitcher<AccessKind> sw2(
 				m_contextAccess, convertAccessType(baseSpecifier->getAccessSpecifier())
 			);
 			ScopedSwitcher<std::shared_ptr<ContextNameGenerator>> sw3(
@@ -765,7 +765,7 @@ bool ASTVisitor::VisitDecl(clang::Decl *d)
                 RefType refType;
                 refType = fd->isThisDeclarationADefinition() ?
                             RT_Definition : RT_Declaration;
-                SymbolType symbolType;
+				SymbolKind symbolType;
                 if (llvm::isa<clang::CXXMethodDecl>(fd))
 				{
 					symbolType = SYMBOL_METHOD;
@@ -803,7 +803,7 @@ bool ASTVisitor::VisitDecl(clang::Decl *d)
                 else
                     refType = RT_Definition;
                 // TODO: Review for correctness.  What about local extern?
-                SymbolType symbolType;
+				SymbolKind symbolType;
 				if (isParam)
 				{
 					symbolType = SYMBOL_PARAMETER;
@@ -839,7 +839,7 @@ bool ASTVisitor::VisitDecl(clang::Decl *d)
                     refType = RT_Declaration;
             }
 
-			SymbolType symbolType = SYMBOL_TYPE_MAX;
+			SymbolKind symbolType = SYMBOL_KIND_MAX;
 			// TODO: Handle the C++11 fixed underlying type of enumeration
 			// declarations.
 			switch (td->getTagKind())
@@ -1088,7 +1088,7 @@ void ASTVisitor::RecordTypeRef(
 	const clang::Type* type,
 	clang::SourceLocation beginLoc,
 	RefType refType,
-	SymbolType symbolType)
+	SymbolKind symbolType)
 {
 	if (isLocatedInUnparsedProjectFile(beginLoc))
 	{
@@ -1104,7 +1104,7 @@ void ASTVisitor::RecordTypeRef(
 		else if (refType == RT_BaseClass)
 		{
 			m_client->onInheritanceParsed(
-				parseLocation, contextNameHierarchy, typeNameHierarchy, m_contextAccess);
+				parseLocation, contextNameHierarchy, typeNameHierarchy);
 		}
 		else if (refType == RT_TemplateDefaultArgument)
 		{
@@ -1120,10 +1120,10 @@ void ASTVisitor::RecordTypeRef(
 }
 
 void ASTVisitor::RecordDeclRef(
-        clang::NamedDecl* d,
-        clang::SourceLocation beginLoc,
-        RefType refType,
-        SymbolType symbolType)
+    clang::NamedDecl* d,
+    clang::SourceLocation beginLoc,
+    RefType refType,
+	SymbolKind symbolType)
 {
 	bool declIsImplicit = isImplicit(d);
 
@@ -1181,10 +1181,15 @@ void ASTVisitor::RecordDeclRef(
 			case SYMBOL_CLASS:
 				if (clang::RecordDecl* recordDecl = clang::dyn_cast<clang::RecordDecl>(d))
 				{
+					AccessKind access = convertAccessType(recordDecl->getAccess());
+	/*				if (access == ACCESS_NONE) // todo: test what's the default access if none is provided
+					{
+						access =
+					}*/
 					m_client->onClassParsed(
 						parseLocation,
 						declNameHierarchy,
-						convertAccessType(recordDecl->getAccess()),
+						access,
 						(refType == RT_Definition ? getParseLocationOfRecordBody(recordDecl) : ParseLocation()),
 						declIsImplicit);
 				}
@@ -1372,7 +1377,7 @@ void ASTVisitor::RecordDeclRef(
 		{
 			const NameHierarchy contextNameHierarchy = getContextName();
 			m_client->onInheritanceParsed(
-				parseLocation, contextNameHierarchy, declNameHierarchy, m_contextAccess);
+				parseLocation, contextNameHierarchy, declNameHierarchy);
 			break;
 		}
 	case RT_Assigned:
@@ -1556,18 +1561,18 @@ bool ASTVisitor::isLocatedInProjectFile(clang::SourceLocation loc)
 	return false;
 }
 
-ParserClient::AccessType ASTVisitor::convertAccessType(clang::AccessSpecifier access) const
+AccessKind ASTVisitor::convertAccessType(clang::AccessSpecifier access) const
 {
 	switch (access)
 	{
 	case clang::AS_public:
-		return ParserClient::ACCESS_PUBLIC;
+		return ACCESS_PUBLIC;
 	case clang::AS_protected:
-		return ParserClient::ACCESS_PROTECTED;
+		return ACCESS_PROTECTED;
 	case clang::AS_private:
-		return ParserClient::ACCESS_PRIVATE;
+		return ACCESS_PRIVATE;
 	case clang::AS_none:
-		return ParserClient::ACCESS_NONE;
+		return ACCESS_NONE;
 	}
 }
 

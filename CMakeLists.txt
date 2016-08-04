@@ -33,7 +33,7 @@ endif ()
 
 project(${PROJECT_NAME})
 
-# set Standerd build type to Release
+# set Standard build type to Release
 set(CMAKE_BUILD_TYPE_INIT "Release")
 
 #RPATH
@@ -174,6 +174,8 @@ endif()
 #set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
 #set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
 
+find_package(JNI)
+
 add_subdirectory(src/lib)
 add_subdirectory(src/external)
 
@@ -206,10 +208,11 @@ target_include_directories(${LIB_PROJECT_NAME} SYSTEM
 	${CLANG_INCLUDE_DIRS}
 	${Boost_INCLUDE_DIRS}
 	${EIGEN_ROOT}
+	${JNI_INCLUDE_DIRS}
 	"${CMAKE_SOURCE_DIR}/src/external"
 )
 
-target_link_libraries(${LIB_PROJECT_NAME} ${Boost_LIBRARIES} ${LIB_LICENSE_PROJECT_NAME})
+target_link_libraries(${LIB_PROJECT_NAME} ${Boost_LIBRARIES} ${LIB_LICENSE_PROJECT_NAME} ${JNI_LIBRARIES})
 
 # Lib Parser -------------------------------------------------------------------
 
@@ -242,6 +245,7 @@ target_include_directories(${LIB_PARSER_PROJECT_NAME} SYSTEM
 	PUBLIC ${LLVM_INCLUDE_DIRS}
 	${CLANG_INCLUDE_DIRS}
 	${Boost_INCLUDE_DIRS}
+	${JNI_INCLUDE_DIRS}
 )
 
 link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
@@ -388,6 +392,12 @@ endif ()
 create_source_groups(${APP_FILES})
 
 target_link_libraries(${APP_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME})
+
+if (WIN32)
+SET_TARGET_PROPERTIES(
+	${APP_PROJECT_NAME} PROPERTIES 
+	LINK_FLAGS "/DELAYLOAD:jvm.dll")
+endif()
 
 set_property(
 	TARGET ${APP_PROJECT_NAME}
@@ -588,6 +598,12 @@ add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE} ${TEST_FILES} )
 create_source_groups(${TEST_FILES})
 
 target_link_libraries(${TEST_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME})
+
+if (WIN32)
+SET_TARGET_PROPERTIES(
+	${TEST_PROJECT_NAME} PROPERTIES 
+	LINK_FLAGS "/DELAYLOAD:jvm.dll")
+endif()
 
 find_package(CxxTest)
 if (CXXTEST_FOUND)

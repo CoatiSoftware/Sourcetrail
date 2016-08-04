@@ -6,6 +6,7 @@
 #include "utility/logging/logging.h"
 #include "utility/logging/LogManager.h"
 #include "utility/logging/PlainFileLogger.h"
+#include "settings/ApplicationSettings.h"
 
 TestSuiteFixture::TestSuiteFixture()
 {
@@ -19,6 +20,7 @@ bool TestSuiteFixture::setUpWorld()
 {
 	LogManager::getInstance()->addLogger(std::make_shared<PlainFileLogger>("data/log/test_log.txt"));
 	LogManager::getInstance()->addLogger(std::make_shared<FileLogger>());
+	ApplicationSettings::getInstance()->load(FilePath("data/TestSettings.xml"));
 
 	return true;
 }

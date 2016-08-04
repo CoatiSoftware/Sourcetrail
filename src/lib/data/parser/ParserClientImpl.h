@@ -1,6 +1,8 @@
 #ifndef PARSER_CLIENT_IMPL_H
 #define PARSER_CLIENT_IMPL_H
 
+#include <set>
+
 #include "data/graph/Node.h"
 #include "data/parser/ParserClient.h"
 #include "data/IntermediateStorage.h"
@@ -21,28 +23,47 @@ public:
 	virtual void startParsingFile();
 	virtual void finishParsingFile();
 
+
+	virtual Id recordSymbol(
+		const NameHierarchy& symbolName, SymbolKind symbolType,
+		AccessKind access = ACCESS_NONE, bool isImplicit = false);
+
+	virtual Id recordSymbol(
+		const NameHierarchy& symbolName, SymbolKind symbolType,
+		const ParseLocation& location,
+		AccessKind access = ACCESS_NONE, bool isImplicit = false);
+
+	virtual Id recordSymbol(
+		const NameHierarchy& symbolName, SymbolKind symbolType,
+		const ParseLocation& location, const ParseLocation& scopeLocation,
+		AccessKind access = ACCESS_NONE, bool isImplicit = false);
+
+	virtual void recordReference(
+		ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,
+		const ParseLocation& location);
+
 	virtual void onError(const ParseLocation& location, const std::string& message, bool fatal, bool indexed);
 
 	virtual void onTypedefParsed(
-		const ParseLocation& location, const NameHierarchy& typedefName, AccessType access, bool isImplicit);
+		const ParseLocation& location, const NameHierarchy& typedefName, AccessKind access, bool isImplicit);
 	virtual void onClassParsed(
-		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
+		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessKind access,
 		const ParseLocation& scopeLocation, bool isImplicit);
 	virtual void onStructParsed(
-		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
+		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessKind access,
 		const ParseLocation& scopeLocation, bool isImplicit);
 	virtual void onGlobalVariableParsed(const ParseLocation& location, const NameHierarchy& variable, bool isImplicit);
-	virtual void onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessType access, bool isImplicit);
+	virtual void onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessKind access, bool isImplicit);
 	virtual void onFunctionParsed(
 		const ParseLocation& location, const NameHierarchy& function, const ParseLocation& scopeLocation, bool isImplicit);
 	virtual void onMethodParsed(
-		const ParseLocation& location, const NameHierarchy& method, AccessType access, AbstractionType abstraction,
+		const ParseLocation& location, const NameHierarchy& method, AccessKind access, AbstractionType abstraction,
 		const ParseLocation& scopeLocation, bool isImplicit);
 	virtual void onNamespaceParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy,
 		const ParseLocation& scopeLocation, bool isImplicit);
 	virtual void onEnumParsed(
-		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessType access,
+		const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessKind access,
 		const ParseLocation& scopeLocation, bool isImplicit);
 	virtual void onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy, bool isImplicit);
 	virtual void onTemplateParameterTypeParsed(
@@ -55,13 +76,13 @@ public:
 
 	virtual void onInheritanceParsed(
 		const ParseLocation& location, const NameHierarchy& nameHierarchy,
-		const NameHierarchy& baseNameHierarchy, AccessType access);
+		const NameHierarchy& baseNameHierarchy);
 	virtual void onMethodOverrideParsed(
 		const ParseLocation& location, const NameHierarchy& overridden, const NameHierarchy& overrider);
 	virtual void onCallParsed(
 		const ParseLocation& location, const NameHierarchy& caller, const NameHierarchy& callee);
 	virtual void onUsageParsed(
-		const ParseLocation& location, const NameHierarchy& userName, SymbolType usedType, const NameHierarchy& usedName);
+		const ParseLocation& location, const NameHierarchy& userName, SymbolKind usedType, const NameHierarchy& usedName);
 	virtual void onTypeUsageParsed(const ParseLocation& location, const NameHierarchy& user, const NameHierarchy& used);
 
 	virtual void onTemplateArgumentTypeParsed(
@@ -83,10 +104,9 @@ public:
 		const ParseLocation& location, const NameHierarchy& macroNameHierarchy);
 
 private:
-	Node::NodeType symbolTypeToNodeType(SymbolType symbolType) const;
-	TokenComponentAccess::AccessType convertAccessType(ParserClient::AccessType access) const;
-	void addAccess(Id nodeId, ParserClient::AccessType access);
-	void addAccess(Id nodeId, TokenComponentAccess::AccessType access);
+	Node::NodeType symbolKindToNodeType(SymbolKind symbolType) const;
+	Edge::EdgeType referenceKindToEdgeType(ReferenceKind referenceKind) const;
+	void addAccess(Id nodeId, AccessKind access);
 	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, DefinitionType definitionType);
 
 	Id addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime);
@@ -102,7 +122,6 @@ private:
 	void log(std::string type, std::string str, const ParseLocation& location) const;
 
 	std::shared_ptr<IntermediateStorage> m_storage;
-	std::unordered_map<Id, Id> m_nodeIdsToMemberEdgeIds;
 };
 
 #endif // PARSER_CLIENT_IMPL_H

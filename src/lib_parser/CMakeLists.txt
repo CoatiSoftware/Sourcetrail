@@ -31,4 +31,7 @@ add_files(
 	data/parser/cxx/PreprocessorCallbacks.h
 	data/parser/cxx/utilityCxx.cpp
 	data/parser/cxx/utilityCxx.h
+	
+	data/parser/java/JavaParser.cpp
+	data/parser/java/JavaParser.h
 )

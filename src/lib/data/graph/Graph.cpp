@@ -164,25 +164,6 @@ void Graph::removeEdge(Edge* edge)
 	m_edges.erase(it);
 }
 
-bool Graph::removeNodeIfUnreferencedRecursive(Node* node)
-{
-	if (!node->hasReferences())
-	{
-		Node* parent = node->getParentNode();
-
-		removeNode(node);
-
-		if (parent)
-		{
-			removeNodeIfUnreferencedRecursive(parent);
-		}
-
-		return true;
-	}
-
-	return false;
-}
-
 Node* Graph::findNode(std::function<bool(Node*)> func) const
 {
 	std::map<Id, std::shared_ptr<Node>>::const_iterator it = find_if(m_nodes.begin(), m_nodes.end(),

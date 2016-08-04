@@ -17,45 +17,39 @@ Edge::EdgeType Edge::intToType(int value)
 {
 	switch (value)
 	{
-	case 0x1:
+	case EDGE_MEMBER:
 		return EDGE_MEMBER;
-	case 0x2:
-		return EDGE_TYPE_OF;
-	case 0x4:
-		return EDGE_RETURN_TYPE_OF;
-	case 0x8:
-		return EDGE_PARAMETER_TYPE_OF;
-	case 0x10:
+	case EDGE_TYPE_USAGE:
 		return EDGE_TYPE_USAGE;
-	case 0x20:
+	case EDGE_USAGE:
 		return EDGE_USAGE;
-	case 0x40:
+	case EDGE_CALL:
 		return EDGE_CALL;
-	case 0x80:
+	case EDGE_INHERITANCE:
 		return EDGE_INHERITANCE;
-	case 0x100:
+	case EDGE_OVERRIDE:
 		return EDGE_OVERRIDE;
-	case 0x200:
-		return EDGE_TYPEDEF_OF;
-	case 0x400:
-		return EDGE_TEMPLATE_PARAMETER;
-	case 0x800:
+	case EDGE_TEMPLATE_ARGUMENT:
 		return EDGE_TEMPLATE_ARGUMENT;
-	case 0x1000:
+	case EDGE_TYPE_ARGUMENT:
+		return EDGE_TYPE_ARGUMENT;
+	case EDGE_TEMPLATE_DEFAULT_ARGUMENT:
 		return EDGE_TEMPLATE_DEFAULT_ARGUMENT;
-	case 0x2000:
+	case EDGE_TEMPLATE_SPECIALIZATION_OF:
 		return EDGE_TEMPLATE_SPECIALIZATION_OF;
-	case 0x4000:
+	case EDGE_TEMPLATE_MEMBER_SPECIALIZATION_OF:
 		return EDGE_TEMPLATE_MEMBER_SPECIALIZATION_OF;
-	case 0x8000:
+	case EDGE_INCLUDE:
 		return EDGE_INCLUDE;
-	case 0x10000:
+	case EDGE_IMPORT:
+		return EDGE_IMPORT;
+	case EDGE_AGGREGATION:
 		return EDGE_AGGREGATION;
-	case 0x20000:
+	case EDGE_MACRO_USAGE:
 		return EDGE_MACRO_USAGE;
 	}
 
-	return EDGE_NONE;
+	return EDGE_UNDEFINED;
 }
 
 Edge::Edge(Id id, EdgeType type, Node* from, Node* to)
@@ -141,53 +135,28 @@ void Edge::addComponentAggregation(std::shared_ptr<TokenComponentAggregation> co
 	}
 }
 
-void Edge::addComponentAccess(std::shared_ptr<TokenComponentAccess> component)
-{
-	if (getComponent<TokenComponentAccess>())
-	{
-		// LOG_ERROR("TokenComponentAccess has been set before!");
-		return;
-	}
-	else if (m_type != EDGE_MEMBER && m_type != EDGE_INHERITANCE)
-	{
-		LOG_ERROR("TokenComponentAccess can't be set on edge of type: " + getTypeString());
-	}
-	else
-	{
-		addComponent(component);
-	}
-}
-
 std::string Edge::getTypeString(EdgeType type)
 {
 	switch (type)
 	{
-	case EDGE_NONE:
-		return "none";
+	case EDGE_UNDEFINED:
+		return "undefined";
 	case EDGE_MEMBER:
 		return "child";
-	case EDGE_TYPE_OF:
-		return "type_of";
-	case EDGE_RETURN_TYPE_OF:
-		return "return_type";
-	case EDGE_PARAMETER_TYPE_OF:
-		return "parameter_type";
 	case EDGE_TYPE_USAGE:
 		return "type_use";
+	case EDGE_USAGE:
+		return "use";
+	case EDGE_CALL:
+		return "call";
 	case EDGE_INHERITANCE:
 		return "inheritance";
 	case EDGE_OVERRIDE:
 		return "override";
-	case EDGE_CALL:
-		return "call";
-	case EDGE_USAGE:
-		return "use";
-	case EDGE_TYPEDEF_OF:
-		return "typedef";
-	case EDGE_TEMPLATE_PARAMETER:
-		return "template_parameter";
 	case EDGE_TEMPLATE_ARGUMENT:
 		return "template_argument";
+	case EDGE_TYPE_ARGUMENT:
+		return "type_argument";
 	case EDGE_TEMPLATE_DEFAULT_ARGUMENT:
 		return "template_default_argument";
 	case EDGE_TEMPLATE_SPECIALIZATION_OF:
@@ -196,6 +165,8 @@ std::string Edge::getTypeString(EdgeType type)
 		return "template_member_specialization";
 	case EDGE_INCLUDE:
 		return "include";
+	case EDGE_IMPORT:
+		return "import";
 	case EDGE_AGGREGATION:
 		return "aggregation";
 	case EDGE_MACRO_USAGE:
@@ -214,12 +185,6 @@ std::string Edge::getAsString() const
 {
 	std::stringstream str;
 	str << "[" << getId() << "] " << getTypeString() << ": \"" << m_from->getName() << "\" -> \"" + m_to->getName() << "\"";
-
-	TokenComponentAccess* access = getComponent<TokenComponentAccess>();
-	if (access)
-	{
-		str << " " << access->getAccessString();
-	}
 
 	TokenComponentAggregation* aggregation = getComponent<TokenComponentAggregation>();
 	if (aggregation)

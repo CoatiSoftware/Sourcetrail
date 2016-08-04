@@ -24,8 +24,10 @@ fi
 
 ROOT_DIR=$ROOT_DIR/..
 
+
 # Enter masterproject directory
 cd $ROOT_DIR
+
 
 # git settings
 echo -e $INFO "install git settings"
@@ -34,6 +36,22 @@ git config commit.template setup/git/git_commit_template.txt
 git config color.ui true
 cp setup/git/git_pre_commit_hook.sh .git/hooks/pre-commit
 cp setup/git/git_pre_push_hook.sh .git/hooks/pre-push
+
+
+# Copy necessary jars for java indexer
+echo -e $INFO "copy jars for java indexer"
+
+mkdir -p java_indexer/lib
+
+if [ $PLATFORM == "Windows" ]; then
+	cp -u -r setup/jars/windows/*.jar java_indexer/lib
+elif [ $PLATFORM == "Linux" ]; then
+	cp -u -r setup/jars/linux/*.jar java_indexer/lib
+	# what about 32/64 bit?
+elif [ $PLATFORM == "MacOS" ]; then
+	cp -u -r setup/jars/macos/*.jar java_indexer/lib
+fi
+
 
 # Create Debug and Release folders
 echo -e $INFO "create build folders"
@@ -45,6 +63,7 @@ mkdir -p bin/lib/Debug
 mkdir -p bin/lib/Release
 mkdir -p bin/test/Debug
 mkdir -p bin/test/Release
+
 
 # Copy necessary dynamic libraries to bin folder
 if [ $PLATFORM == "Windows" ]; then
@@ -60,6 +79,7 @@ if [ $PLATFORM == "Windows" ]; then
 
 	BACKSLASHED_ROOT_DIR="${ROOT_DIR//\//\\}"
 
+	echo -e $INFO "create symbolic links for data"
 	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\bin\app\Debug\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &
 	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\bin\app\Debug\user '$BACKSLASHED_ROOT_DIR'\bin\app\user' &
 	cmd //c 'mklink /d /j '$BACKSLASHED_ROOT_DIR'\bin\app\Release\data '$BACKSLASHED_ROOT_DIR'\bin\app\data' &

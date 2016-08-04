@@ -108,7 +108,7 @@ public:
 	static std::string getFontNameOfExpandToggleNode();
 
 	static NodeMargins getMarginsForNodeType(Node::NodeType type, bool hasChildren);
-	static NodeMargins getMarginsOfAccessNode(TokenComponentAccess::AccessType type);
+	static NodeMargins getMarginsOfAccessNode(AccessKind access);
 	static NodeMargins getMarginsOfExpandToggleNode();
 	static NodeMargins getMarginsOfBundleNode();
 

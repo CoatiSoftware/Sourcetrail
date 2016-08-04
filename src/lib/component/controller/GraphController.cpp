@@ -11,6 +11,7 @@
 #include "component/view/GraphView.h"
 #include "component/view/GraphViewStyle.h"
 #include "data/access/StorageAccess.h"
+#include "data/parser/AccessKind.h"
 #include "data/graph/Graph.h"
 
 GraphController::GraphController(StorageAccess* storageAccess)
@@ -278,31 +279,14 @@ std::shared_ptr<DummyNode> GraphController::createDummyNodeTopDown(Node* node, I
 		{
 			DummyNode* parent = nullptr;
 
-			Edge* edge = child->getMemberEdge();
-			TokenComponentAccess* access = edge->getComponent<TokenComponentAccess>();
-			TokenComponentAccess::AccessType accessType = TokenComponentAccess::ACCESS_NONE;
+			TokenComponentAccess* access = child->getComponent<TokenComponentAccess>();
 
-			if (access)
+			if (access && access->getAccess() != ACCESS_NONE)
 			{
-				accessType = access->getAccess();
-			}
-			else
-			{
-				if (node->isType(Node::NODE_TYPE | Node::NODE_CLASS | Node::NODE_STRUCT))
-				{
-					accessType = TokenComponentAccess::ACCESS_PUBLIC;
-				}
-				else
-				{
-					parent = result.get();
-				}
-			}
-
-			if (accessType != TokenComponentAccess::ACCESS_NONE)
-			{
+				AccessKind accessKind = access->getAccess();
 				for (std::shared_ptr<DummyNode> dummy : result->subNodes)
 				{
-					if (dummy->accessType == accessType)
+					if (dummy->accessKind == accessKind)
 					{
 						parent = dummy.get();
 						break;
@@ -312,12 +296,15 @@ std::shared_ptr<DummyNode> GraphController::createDummyNodeTopDown(Node* node, I
 				if (!parent)
 				{
 					std::shared_ptr<DummyNode> accessNode = std::make_shared<DummyNode>();
-					accessNode->accessType = accessType;
+					accessNode->accessKind = accessKind;
 					result->subNodes.push_back(accessNode);
 					parent = accessNode.get();
 				}
 			}
-
+			else
+			{
+				parent = result.get();
+			}
 			parent->subNodes.push_back(createDummyNodeTopDown(child, parentId));
 		}
 	);
@@ -853,7 +840,10 @@ void GraphController::bundleNodesByType()
 	}
 
 	BUNDLE_BY_TYPE(nodes, Node::NODE_NAMESPACE, "Namespaces");
+	BUNDLE_BY_TYPE(nodes, Node::NODE_PACKAGE, "Packages");
+	BUNDLE_BY_TYPE(nodes, Node::NODE_BUILTIN_TYPE, "Builtin Types");
 	BUNDLE_BY_TYPE(nodes, Node::NODE_CLASS, "Classes");
+	BUNDLE_BY_TYPE(nodes, Node::NODE_INTERFACE, "Interfaces");
 	BUNDLE_BY_TYPE(nodes, Node::NODE_STRUCT, "Structs");
 
 	BUNDLE_BY_TYPE(nodes, Node::NODE_FUNCTION, "Functions");
@@ -872,6 +862,7 @@ void GraphController::bundleNodesByType()
 	BUNDLE_BY_TYPE(nodes, Node::NODE_FIELD, "Fields");
 	BUNDLE_BY_TYPE(nodes, Node::NODE_ENUM_CONSTANT, "Enum Constants");
 	BUNDLE_BY_TYPE(nodes, Node::NODE_TEMPLATE_PARAMETER_TYPE, "Template Parameter Types");
+	BUNDLE_BY_TYPE(nodes, Node::NODE_TYPE_PARAMETER, "Type Parameters");
 	BUNDLE_BY_TYPE(nodes, Node::NODE_UNDEFINED, "Undefined Symbols");
 
 	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
@@ -918,7 +909,7 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 	}
 	else if (node->isAccessNode())
 	{
-		margins = GraphViewStyle::getMarginsOfAccessNode(node->accessType);
+		margins = GraphViewStyle::getMarginsOfAccessNode(node->accessKind);
 	}
 	else if (node->isExpandToggleNode())
 	{
@@ -944,7 +935,7 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 
 		width = margins.charWidth * node->name.size();
 
-		if (node->data->isType(Node::NODE_TYPE | Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM) &&
+		if (node->data->isType(Node::NODE_TYPE | Node::NODE_BUILTIN_TYPE | Node::NODE_CLASS | Node::NODE_STRUCT | Node::NODE_ENUM) &&
 			node->subNodes.size())
 		{
 			addExpandToggleNode(node);
@@ -1178,6 +1169,9 @@ void GraphController::forEachDummyEdge(std::function<void(DummyEdge*)> func)
 
 void GraphController::handleMessage(MessageColorSchemeTest* message)
 {
+	// todo: add nodes: package, interface, type_parameter, builtin_type
+	// todo: add edges: EDGE_TYPE_ARGUMENT, EDGE_IMPORT
+	// todo: add access: TYPE_PARAMETER
 	clear();
 
 	std::shared_ptr<Graph> graph = std::make_shared<Graph>();
@@ -1205,15 +1199,15 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 	createNodes(60, Node::NODE_FILE);
 	createNodes(70, Node::NODE_MACRO);
 
-	std::function<Node*(Node*, Id, Node::NodeType, std::string, TokenComponentAccess::AccessType)> createChild(
-		[&](Node* parent, Id id, Node::NodeType type, std::string name, TokenComponentAccess::AccessType access)
+	std::function<Node*(Node*, Id, Node::NodeType, std::string, AccessKind)> createChild(
+		[&](Node* parent, Id id, Node::NodeType type, std::string name, AccessKind access)
 		{
 			Node* node = graph->createNode(id + 1000, type, NameHierarchy(name), true);
 			Edge* edge = graph->createEdge(id + 10000, Edge::EDGE_MEMBER, parent, node);
 
-			if (access != TokenComponentAccess::ACCESS_NONE)
+			if (access != ACCESS_NONE)
 			{
-				edge->addComponentAccess(std::make_shared<TokenComponentAccess>(access));
+				node->addComponentAccess(std::make_shared<TokenComponentAccess>(access));
 			}
 
 			return node;
@@ -1225,8 +1219,7 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 		{
 			Node* enumNode = graph->createNode(id, Node::NODE_ENUM,
 				NameHierarchy(name + Node::getTypeString(Node::NODE_ENUM)), true);
-			createChild(enumNode, id + 10, Node::NODE_ENUM_CONSTANT, name + Node::getTypeString(Node::NODE_ENUM_CONSTANT),
-				TokenComponentAccess::ACCESS_NONE);
+			createChild(enumNode, id + 10, Node::NODE_ENUM_CONSTANT, name + Node::getTypeString(Node::NODE_ENUM_CONSTANT), ACCESS_NONE);
 		}
 	);
 
@@ -1245,17 +1238,15 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 
 			if (type == Node::NODE_CLASS)
 			{
-				createChild(classNode, id, Node::NODE_TEMPLATE_PARAMETER_TYPE, name + "temp_param",
-					TokenComponentAccess::ACCESS_TEMPLATE);
+				createChild(classNode, id, Node::NODE_TEMPLATE_PARAMETER_TYPE, name + "temp_param", ACCESS_TEMPLATE_PARAMETER);
 			}
 
-			createChild(classNode, id + 10, Node::NODE_METHOD, name + "method", TokenComponentAccess::ACCESS_PUBLIC);
+			createChild(classNode, id + 10, Node::NODE_METHOD, name + "method", ACCESS_PUBLIC);
 			if (type == Node::NODE_CLASS)
 			{
-				createChild(classNode, id + 30, Node::NODE_METHOD, name + "method",
-					TokenComponentAccess::ACCESS_PROTECTED);
+				createChild(classNode, id + 30, Node::NODE_METHOD, name + "method", ACCESS_PROTECTED);
 			}
-			createChild(classNode, id + 60, Node::NODE_FIELD, name + "field", TokenComponentAccess::ACCESS_PRIVATE);
+			createChild(classNode, id + 60, Node::NODE_FIELD, name + "field", ACCESS_PRIVATE);
 		}
 	);
 
@@ -1284,8 +1275,7 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 			{
 				Node* classNode = graph->createNode(id + 101, Node::NODE_CLASS,
 					NameHierarchy(name + Node::getTypeString(Node::NODE_CLASS)), true);
-				originNode = createChild(classNode, id + 111, Node::NODE_METHOD, name + Edge::getTypeString(type),
-					TokenComponentAccess::ACCESS_PUBLIC);
+				originNode = createChild(classNode, id + 111, Node::NODE_METHOD, name + Edge::getTypeString(type), ACCESS_PUBLIC);
 			}
 			else
 			{
@@ -1297,8 +1287,7 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 			{
 				Node* classNode = graph->createNode(id + 201, Node::NODE_CLASS,
 					NameHierarchy(name + Node::getTypeString(Node::NODE_CLASS)), true);
-				targetNode = createChild(classNode, id + 211, Node::NODE_METHOD, name + Edge::getTypeString(type),
-					TokenComponentAccess::ACCESS_PUBLIC);
+				targetNode = createChild(classNode, id + 211, Node::NODE_METHOD, name + Edge::getTypeString(type), ACCESS_PUBLIC);
 			}
 			else
 			{
@@ -1331,20 +1320,18 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 	createEdges( 100000, Edge::EDGE_CALL, Node::NODE_FUNCTION, Node::NODE_FUNCTION);
 	createEdges( 200000, Edge::EDGE_USAGE, Node::NODE_GLOBAL_VARIABLE, Node::NODE_GLOBAL_VARIABLE);
 	createEdges( 300000, Edge::EDGE_TYPE_USAGE, Node::NODE_FUNCTION, Node::NODE_TYPE);
-	createEdges( 400000, Edge::EDGE_TYPE_OF, Node::NODE_GLOBAL_VARIABLE, Node::NODE_TYPE);
 
-	createEdges( 500000, Edge::EDGE_TYPEDEF_OF, Node::NODE_TYPEDEF, Node::NODE_TYPE);
-	createEdges( 600000, Edge::EDGE_AGGREGATION, Node::NODE_TYPE, Node::NODE_TYPE);
-	createEdges( 700000, Edge::EDGE_INCLUDE, Node::NODE_FILE, Node::NODE_FILE);
-	createEdges( 800000, Edge::EDGE_MACRO_USAGE, Node::NODE_MACRO, Node::NODE_MACRO);
+	createEdges( 400000, Edge::EDGE_AGGREGATION, Node::NODE_TYPE, Node::NODE_TYPE);
+	createEdges( 500000, Edge::EDGE_INCLUDE, Node::NODE_FILE, Node::NODE_FILE);
+	createEdges( 600000, Edge::EDGE_MACRO_USAGE, Node::NODE_MACRO, Node::NODE_MACRO);
 
-	createEdges( 900000, Edge::EDGE_INHERITANCE, Node::NODE_CLASS, Node::NODE_CLASS);
-	createEdges(1000000, Edge::EDGE_OVERRIDE, Node::NODE_METHOD, Node::NODE_METHOD);
+	createEdges( 700000, Edge::EDGE_INHERITANCE, Node::NODE_CLASS, Node::NODE_CLASS);
+	createEdges( 800000, Edge::EDGE_OVERRIDE, Node::NODE_METHOD, Node::NODE_METHOD);
 
-	createEdges(1100000, Edge::EDGE_TEMPLATE_ARGUMENT, Node::NODE_TYPE, Node::NODE_TYPE);
-	createEdges(1200000, Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT, Node::NODE_TYPE, Node::NODE_TYPE);
-	createEdges(1300000, Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, Node::NODE_TYPE, Node::NODE_TYPE);
-	createEdges(1400000, Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION_OF, Node::NODE_METHOD, Node::NODE_METHOD);
+	createEdges( 900000, Edge::EDGE_TEMPLATE_ARGUMENT, Node::NODE_TYPE, Node::NODE_TYPE);
+	createEdges(1000000, Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT, Node::NODE_TYPE, Node::NODE_TYPE);
+	createEdges(1100000, Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, Node::NODE_TYPE, Node::NODE_TYPE);
+	createEdges(1200000, Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION_OF, Node::NODE_METHOD, Node::NODE_METHOD);
 
 	std::vector<Id> focusedTokenIds;
 	std::vector<Id> activeTokenIds;

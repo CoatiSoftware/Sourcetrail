@@ -173,11 +173,14 @@
 
 			<!-- OPTIONAL: type specific node colors can be overriden by using the TEMPLATE within a type tag below -->
 			<type></type>
+			<builtin_type></builtin_type>
 			<class></class>
+			<interface></interface>
 			<struct></struct>
 			<enum></enum>
 			<typedef></typedef>
 			<template_parameter_type></template_parameter_type>
+			<type_parameter></type_parameter>
 
 			<function></function>
 			<method></method>
@@ -188,6 +191,7 @@
 
 			<undefined></undefined>
 			<namespace></namespace>
+			<package></package>
 
 			<file></file>
 			<macro></macro>

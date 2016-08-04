@@ -87,26 +87,26 @@ size_t NameHierarchy::size() const
 	return m_elements.size();
 }
 
-std::string NameHierarchy::getQualifiedName() const
+std::string NameHierarchy::getQualifiedName(const std::string& delimiter) const
 {
 	std::string name;
 	for (size_t i = 0; i < m_elements.size(); i++)
 	{
 		if (i > 0)
 		{
-			name += "::";
+			name += delimiter;
 		}
 		name += m_elements[i]->getName();
 	}
 	return name;
 }
 
-std::string NameHierarchy::getQualifiedNameWithSignature() const
+std::string NameHierarchy::getQualifiedNameWithSignature(const std::string& delimiter) const
 {
-	std::string name = getQualifiedName();
+	std::string name = getQualifiedName(delimiter);
 	if (m_elements.size())
 	{
-		name = m_elements.back()->getSignature().qualifyName(name);
+		name = m_elements.back()->getSignature().qualifyName(name); // todo: use separator for signature!
 	}
 	return name;
 }

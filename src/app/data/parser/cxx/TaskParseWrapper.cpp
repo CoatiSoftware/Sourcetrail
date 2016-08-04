@@ -7,13 +7,15 @@
 #include "utility/utility.h"
 
 TaskParseWrapper::TaskParseWrapper(
-	std::shared_ptr<Task> child,
 	PersistentStorage* storage,
 	std::shared_ptr<FileRegister> fileRegister
 )
-	: m_child(child)
-	, m_storage(storage)
+	: m_storage(storage)
 	, m_fileRegister(fileRegister)
+{
+}
+
+TaskParseWrapper::~TaskParseWrapper()
 {
 }
 
@@ -22,17 +24,17 @@ void TaskParseWrapper::enter()
 	m_start = utility::durationStart();
 	m_storage->startParsing();
 
-	m_child->enter();
+	m_task->enter();
 }
 
 Task::TaskState TaskParseWrapper::update()
 {
-	return m_child->update();
+	return m_task->update();
 }
 
 void TaskParseWrapper::exit()
 {
-	m_child->exit();
+	m_task->exit();
 
 	MessageStatus("optimizing database", false, true).dispatch();
 
@@ -52,10 +54,10 @@ void TaskParseWrapper::exit()
 void TaskParseWrapper::interrupt()
 {
 	MessageStatus("indexing files interrupted", false, true).dispatch();
-	m_child->interrupt();
+	m_task->interrupt();
 }
 
 void TaskParseWrapper::revert()
 {
-	m_child->revert();
+	m_task->revert();
 }

@@ -4,35 +4,24 @@
 #include <string>
 
 #include "data/graph/token_component/TokenComponent.h"
+#include "data/parser/AccessKind.h"
 
 class TokenComponentAccess
 	: public TokenComponent
 {
 public:
-	enum AccessType : int // todo: use normal numbers here. not 2^x
-	{
-		ACCESS_PUBLIC = 0x1,
-		ACCESS_PROTECTED = 0x2,
-		ACCESS_PRIVATE = 0x4,
-		ACCESS_TEMPLATE = 0x8,
-		ACCESS_NONE = 0x0
-	};
+	static std::string getAccessString(AccessKind access);
 
-	static std::string getAccessString(AccessType access);
-
-	static int typeToInt(AccessType type);
-	static AccessType intToType(int value);
-
-	TokenComponentAccess(AccessType access);
+	TokenComponentAccess(AccessKind access);
 	virtual ~TokenComponentAccess();
 
 	virtual std::shared_ptr<TokenComponent> copy() const;
 
-	AccessType getAccess() const;
+	AccessKind getAccess() const;
 	std::string getAccessString() const;
 
 private:
-	const AccessType m_access;
+	const AccessKind m_access;
 };
 
 #endif // TOKEN_COMPONENT_ACCESS_H

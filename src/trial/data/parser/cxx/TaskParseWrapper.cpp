@@ -4,12 +4,14 @@
 #include "utility/messaging/type/MessageFinishedParsing.h"
 
 TaskParseWrapper::TaskParseWrapper(
-	std::shared_ptr<Task> child,
 	PersistentStorage* storage,
 	std::shared_ptr<FileRegister> fileRegister
 )
-	: m_child(child)
-	, m_storage(storage)
+	: m_storage(storage)
+{
+}
+
+TaskParseWrapper::~TaskParseWrapper()
 {
 }
 
@@ -17,17 +19,17 @@ void TaskParseWrapper::enter()
 {
 	m_storage->startParsing();
 
-	m_child->enter();
+	m_task->enter();
 }
 
 Task::TaskState TaskParseWrapper::update()
 {
-	return m_child->update();
+	return m_task->update();
 }
 
 void TaskParseWrapper::exit()
 {
-	m_child->exit();
+	m_task->exit();
 
 	m_storage->finishParsing();
 
@@ -36,10 +38,10 @@ void TaskParseWrapper::exit()
 
 void TaskParseWrapper::interrupt()
 {
-	m_child->interrupt();
+	m_task->interrupt();
 }
 
 void TaskParseWrapper::revert()
 {
-	m_child->revert();
+	m_task->revert();
 }
