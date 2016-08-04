@@ -92,6 +92,23 @@ $ ninja -j4 check-all
 $ git tag -a VERSION_NUMBER -m "DESCRIPTION"
 $ git push --tags
 
+### Loader gif creation from png sequence
+
+// from png sequence
+convert -delay 3 -loop 0 coati_*.png coati.gif
+
+// less colors
+gifsicle --colors 255 coati.gif > color.gif
+
+// crop size
+gifsicle --crop 0,5+0x-5 color.gif > crop.gif
+
+// add transparency
+gifsicle --unoptimize --disposal=previous --transparent="#FFFFFF" crop.gif > trans.gif
+
+// resize
+gifsicle --resize-height 18 trans.gif > loader.gif
+
 ### Changelog
 
 #### 0.7.0.22
