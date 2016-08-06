@@ -101,6 +101,9 @@ public slots:
 	void showLicenses();
 	void enterLicense();
 
+	void showDataFolder();
+	void showLogFolder();
+
 	void showStartScreen();
 	void hideStartScreen();
 

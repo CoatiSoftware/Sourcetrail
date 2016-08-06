@@ -362,6 +362,16 @@ void QtMainWindow::enterLicense()
 	enterLicenseWindow->load();
 }
 
+void QtMainWindow::showDataFolder()
+{
+	QDesktopServices::openUrl(QUrl(("file:///" + UserPaths::getUserDataPath()).c_str(), QUrl::TolerantMode));
+}
+
+void QtMainWindow::showLogFolder()
+{
+	QDesktopServices::openUrl(QUrl(("file:///" + UserPaths::getLogPath()).c_str(), QUrl::TolerantMode));
+}
+
 void QtMainWindow::showStartScreen()
 {
 	QtStartScreen* startScreen = createWindow<QtStartScreen>();
@@ -635,6 +645,11 @@ void QtMainWindow::setupHelpMenu()
 	{
 		menu->addAction(tr("Enter License..."), this, SLOT(enterLicense()));
 	}
+
+	menu->addSeparator();
+
+	menu->addAction(tr("Show Data Folder"), this, SLOT(showDataFolder()));
+	menu->addAction(tr("Show Log Folder"), this, SLOT(showLogFolder()));
 }
 
 QtMainWindow::DockWidget* QtMainWindow::getDockWidgetForView(View* view)
