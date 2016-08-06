@@ -62,6 +62,11 @@ void QtGraphNodeExpandToggle::onClick()
 
 void QtGraphNodeExpandToggle::updateStyle()
 {
+	if (!m_icon)
+	{
+		return;
+	}
+
 	GraphViewStyle::NodeStyle style = GraphViewStyle::getStyleOfExpandToggleNode();
 	setStyle(style);
 

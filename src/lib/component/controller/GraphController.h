@@ -21,11 +21,11 @@
 #include "component/controller/helper/DummyEdge.h"
 #include "component/controller/helper/DummyNode.h"
 #include "component/view/GraphView.h"
+#include "data/graph/Node.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/graph/token_component/TokenComponentAggregation.h"
 
 class Graph;
-class Node;
 class StorageAccess;
 
 class GraphController
@@ -81,7 +81,8 @@ private:
 
 	void bundleNodes();
 	void bundleNodesAndEdgesMatching(std::function<bool(const DummyNode::BundleInfo&)> matcher, size_t count, const std::string& name);
-	void bundleNodesMatching(std::list<std::shared_ptr<DummyNode>>& nodes, std::function<bool(const DummyNode*)> matcher, const std::string& name);
+	std::shared_ptr<DummyNode> bundleNodesMatching(std::list<std::shared_ptr<DummyNode>>& nodes, std::function<bool(const DummyNode*)> matcher, const std::string& name);
+	void bundleByType(std::list<std::shared_ptr<DummyNode>>& nodes, Node::NodeType type, const std::string& name);
 	void bundleNodesByType();
 
 	void layoutNesting();

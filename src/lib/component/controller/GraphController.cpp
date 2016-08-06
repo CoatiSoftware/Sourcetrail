@@ -779,7 +779,7 @@ void GraphController::bundleNodesAndEdgesMatching(
 	m_dummyEdges.insert(m_dummyEdges.end(), bundleEdges.begin(), bundleEdges.end());
 }
 
-void GraphController::bundleNodesMatching(
+std::shared_ptr<DummyNode> GraphController::bundleNodesMatching(
 	std::list<std::shared_ptr<DummyNode>>& nodes, std::function<bool(const DummyNode*)> matcher, const std::string& name
 ){
 	std::vector<std::list<std::shared_ptr<DummyNode>>::iterator> matchedNodes;
@@ -793,7 +793,7 @@ void GraphController::bundleNodesMatching(
 
 	if (!matchedNodes.size())
 	{
-		return;
+		return nullptr;
 	}
 
 	std::shared_ptr<DummyNode> bundleNode = std::make_shared<DummyNode>();
@@ -806,25 +806,31 @@ void GraphController::bundleNodesMatching(
 		node->visible = false;
 
 		bundleNode->bundledNodes.push_back(node);
-		bundleNode->bundledNodeCount += node->getConnectedSubNodeCount();
-
 		nodes.erase(matchedNodes[i]);
 	}
 
 	// Use token Id of first node and make first bit 1
 	bundleNode->tokenId = ~(~size_t(0) >> 1) + bundleNode->bundledNodes[0]->data->getId();
-	m_dummyNodes.push_back(bundleNode);
+	return bundleNode;
 }
 
-#define BUNDLE_BY_TYPE(__nodes__, __type__, __name__) \
-	bundleNodesMatching( \
-		__nodes__, \
-		[&](const DummyNode* node) \
-		{ \
-			return node->visible && node->isGraphNode() && node->data->isType(__type__); \
-		}, \
-		__name__ \
-	); \
+void GraphController::bundleByType(
+	std::list<std::shared_ptr<DummyNode>>& nodes, Node::NodeType type, const std::string& name)
+{
+	std::shared_ptr<DummyNode> bundleNode = bundleNodesMatching(
+		nodes,
+		[&](const DummyNode* node)
+		{
+			return node->visible && node->isGraphNode() && node->data->isType(type);
+		},
+		name
+	);
+
+	if (bundleNode)
+	{
+		m_dummyNodes.push_back(bundleNode);
+	}
+}
 
 void GraphController::bundleNodesByType()
 {
@@ -839,43 +845,77 @@ void GraphController::bundleNodesByType()
 		nodes.push_back(oldNodes[i]);
 	}
 
-	BUNDLE_BY_TYPE(nodes, Node::NODE_NAMESPACE, "Namespaces");
-	BUNDLE_BY_TYPE(nodes, Node::NODE_PACKAGE, "Packages");
-	BUNDLE_BY_TYPE(nodes, Node::NODE_BUILTIN_TYPE, "Builtin Types");
-	BUNDLE_BY_TYPE(nodes, Node::NODE_CLASS, "Classes");
-	BUNDLE_BY_TYPE(nodes, Node::NODE_INTERFACE, "Interfaces");
-	BUNDLE_BY_TYPE(nodes, Node::NODE_STRUCT, "Structs");
+	bundleByType(nodes, Node::NODE_NAMESPACE, "Namespaces");
+	bundleByType(nodes, Node::NODE_PACKAGE, "Packages");
+	bundleByType(nodes, Node::NODE_BUILTIN_TYPE, "Builtin Types");
+	bundleByType(nodes, Node::NODE_CLASS, "Classes");
+	bundleByType(nodes, Node::NODE_INTERFACE, "Interfaces");
+	bundleByType(nodes, Node::NODE_STRUCT, "Structs");
 
-	BUNDLE_BY_TYPE(nodes, Node::NODE_FUNCTION, "Functions");
-	BUNDLE_BY_TYPE(nodes, Node::NODE_GLOBAL_VARIABLE, "Global Variables");
+	bundleByType(nodes, Node::NODE_FUNCTION, "Functions");
+	bundleByType(nodes, Node::NODE_GLOBAL_VARIABLE, "Global Variables");
 
-	BUNDLE_BY_TYPE(nodes, Node::NODE_TYPE, "Types");
-	BUNDLE_BY_TYPE(nodes, Node::NODE_TYPEDEF, "Typedefs");
-	BUNDLE_BY_TYPE(nodes, Node::NODE_ENUM, "Enums");
+	bundleByType(nodes, Node::NODE_TYPE, "Types");
+	bundleByType(nodes, Node::NODE_TYPEDEF, "Typedefs");
+	bundleByType(nodes, Node::NODE_ENUM, "Enums");
 
-	BUNDLE_BY_TYPE(nodes, Node::NODE_FILE, "Files");
-	BUNDLE_BY_TYPE(nodes, Node::NODE_MACRO, "Macros");
+	bundleByType(nodes, Node::NODE_FILE, "Files");
+	bundleByType(nodes, Node::NODE_MACRO, "Macros");
 
 	// // should never be visible
 
-	BUNDLE_BY_TYPE(nodes, Node::NODE_METHOD, "Methods");
-	BUNDLE_BY_TYPE(nodes, Node::NODE_FIELD, "Fields");
-	BUNDLE_BY_TYPE(nodes, Node::NODE_ENUM_CONSTANT, "Enum Constants");
-	BUNDLE_BY_TYPE(nodes, Node::NODE_TEMPLATE_PARAMETER_TYPE, "Template Parameter Types");
-	BUNDLE_BY_TYPE(nodes, Node::NODE_TYPE_PARAMETER, "Type Parameters");
-	BUNDLE_BY_TYPE(nodes, Node::NODE_UNDEFINED, "Undefined Symbols");
+	bundleByType(nodes, Node::NODE_METHOD, "Methods");
+	bundleByType(nodes, Node::NODE_FIELD, "Fields");
+	bundleByType(nodes, Node::NODE_ENUM_CONSTANT, "Enum Constants");
+	bundleByType(nodes, Node::NODE_TEMPLATE_PARAMETER_TYPE, "Template Parameter Types");
+	bundleByType(nodes, Node::NODE_TYPE_PARAMETER, "Type Parameters");
+	bundleByType(nodes, Node::NODE_UNDEFINED, "Undefined Symbols");
 
-	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
+	if (nodes.size())
 	{
-		if (node->isBundleNode())
+		LOG_ERROR("Nodes left after bundling for overview");
+	}
+
+	for (std::shared_ptr<DummyNode> bundleNode : m_dummyNodes)
+	{
+		if (!bundleNode->isBundleNode())
 		{
-			sort(node->bundledNodes.begin(), node->bundledNodes.end(),
-				[](const std::shared_ptr<DummyNode> a, const std::shared_ptr<DummyNode> b) -> bool
-				{
-					return utility::toLowerCase(a->name) < utility::toLowerCase(b->name);
-				}
-			);
+			LOG_ERROR("Non-Bundle node in overview");
 		}
+
+		if (bundleNode->name == "Namespaces")
+		{
+			std::list<std::shared_ptr<DummyNode>> nodes;
+			for (std::shared_ptr<DummyNode> node : bundleNode->bundledNodes)
+			{
+				nodes.push_back(node);
+			}
+			bundleNode->bundledNodes.clear();
+
+			std::shared_ptr<DummyNode> anonymousBundle = bundleNodesMatching(
+				nodes,
+				[&](const DummyNode* node)
+				{
+					return utility::isPrefix("anonymous", node->name);
+				},
+				"Anonymous Namespaces"
+			);
+
+			for (std::shared_ptr<DummyNode> node : nodes)
+			{
+				bundleNode->bundledNodes.push_back(node);
+			}
+
+			if (anonymousBundle)
+			{
+				anonymousBundle->sortBundleNode();
+
+				bundleNode->bundledNodeCount = bundleNode->getBundledNodeCount() + anonymousBundle->getBundledNodeCount();
+				bundleNode->bundledNodes.push_back(anonymousBundle);
+			}
+		}
+
+		bundleNode->sortBundleNode();
 	}
 }
 

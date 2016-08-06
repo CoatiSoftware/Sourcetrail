@@ -4,6 +4,7 @@
 #include "utility/math/Vector2.h"
 #include "utility/types.h"
 #include "utility/utility.h"
+#include "utility/utilityString.h"
 
 #include "data/graph/token_component/TokenComponentAccess.h"
 
@@ -190,6 +191,21 @@ public:
 		}
 
 		return bundledNodes.size();
+	}
+
+	void sortBundleNode()
+	{
+		sort(bundledNodes.begin(), bundledNodes.end(),
+			[](const std::shared_ptr<DummyNode> a, const std::shared_ptr<DummyNode> b) -> bool
+			{
+				if (a->isBundleNode() != b->isBundleNode())
+				{
+					return a->isBundleNode();
+				}
+
+				return utility::toLowerCase(a->name) < utility::toLowerCase(b->name);
+			}
+		);
 	}
 
 	void forEachDummyNodeRecursive(std::function<void(DummyNode*)> func)
