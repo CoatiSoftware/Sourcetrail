@@ -32,6 +32,7 @@ QtGraphNodeAccess::QtGraphNodeAccess(AccessKind accessKind)
 		break;
 	case ACCESS_PRIVATE:
 		iconFileName = "private";
+		break;
 	case ACCESS_DEFAULT:
 		iconFileName = "default";
 		break;

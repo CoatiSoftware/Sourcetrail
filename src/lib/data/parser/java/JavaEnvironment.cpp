@@ -67,7 +67,7 @@ void JavaEnvironment::registerNativeMethods(std::string className, std::vector<N
 {
 	JNINativeMethod* jniMethods = new JNINativeMethod[methods.size()];
 
-	for (int i = 0; i < methods.size(); i++)
+	for (size_t i = 0; i < methods.size(); i++)
 	{
 		jniMethods[i].name = const_cast<char*>(methods[i].name.c_str());
 		jniMethods[i].signature = const_cast<char*>(methods[i].signature.c_str());

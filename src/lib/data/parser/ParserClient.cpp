@@ -18,6 +18,8 @@ std::string ParserClient::addAccessPrefix(const std::string& str, AccessKind acc
 		return "private " + str;
 	case ACCESS_DEFAULT:
 		return "default " + str;
+	default:
+		break;
 	}
 	return str;
 }

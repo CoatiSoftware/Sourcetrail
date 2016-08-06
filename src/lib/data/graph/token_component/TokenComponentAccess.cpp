@@ -4,6 +4,8 @@ std::string TokenComponentAccess::getAccessString(AccessKind access)
 {
 	switch (access)
 	{
+	case ACCESS_NONE:
+		break;
 	case ACCESS_PUBLIC:
 		return "public";
 	case ACCESS_PROTECTED:

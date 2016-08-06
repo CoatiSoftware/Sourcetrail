@@ -268,6 +268,9 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfAccessNode(AccessKind ac
 	case ACCESS_PRIVATE:
 		margins.minWidth = 58;
 		break;
+	case ACCESS_DEFAULT:
+		margins.minWidth = 60;
+		break;
 	case ACCESS_TEMPLATE_PARAMETER:
 	case ACCESS_TYPE_PARAMETER:
 		margins.minWidth = 133;

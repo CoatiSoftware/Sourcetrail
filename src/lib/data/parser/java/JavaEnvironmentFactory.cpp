@@ -41,7 +41,7 @@ void JavaEnvironmentFactory::createInstance(std::string classPath)
 	JavaVMOption* options = new JavaVMOption[3];   // JVM invocation options
 	std::string classPathOption = "-Djava.class.path=" + classPath;
 	options[0].optionString = const_cast<char*>(classPathOption.c_str());
-	options[1].optionString = "-Xms1m";
+	options[1].optionString = const_cast<char*>("-Xms1m");
 	std::string maximumMemoryOprionString = "-Xmx" + std::to_string(ApplicationSettings::getInstance()->getJavaMaximumMemory()) + "m";
 	options[2].optionString =  const_cast<char*>(maximumMemoryOprionString.c_str());
 //	options[3].optionString = "-verbose:jni";
@@ -52,7 +52,7 @@ void JavaEnvironmentFactory::createInstance(std::string classPath)
 
 	jint rc = JNI_CreateJavaVM(&jvm, (void**)&env, &vm_args);  // YES !!
 
-	delete options;
+	delete [] options;
 
 	if(rc != JNI_OK)
 	{

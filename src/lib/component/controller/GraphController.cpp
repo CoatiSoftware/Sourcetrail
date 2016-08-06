@@ -1203,7 +1203,7 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 		[&](Node* parent, Id id, Node::NodeType type, std::string name, AccessKind access)
 		{
 			Node* node = graph->createNode(id + 1000, type, NameHierarchy(name), true);
-			Edge* edge = graph->createEdge(id + 10000, Edge::EDGE_MEMBER, parent, node);
+			graph->createEdge(id + 10000, Edge::EDGE_MEMBER, parent, node);
 
 			if (access != ACCESS_NONE)
 			{
