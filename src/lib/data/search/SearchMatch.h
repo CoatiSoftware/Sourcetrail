@@ -56,6 +56,8 @@ struct SearchMatch
 	std::vector<size_t> indices;
 
 	std::vector<NameHierarchy> nameHierarchies;
+
+	bool hasChildren;
 };
 
 

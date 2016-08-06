@@ -21,6 +21,7 @@ public:
 	void addFirstVisibleChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds) const;
 
 	bool isChildOfVisibleNodeOrInvisible(Id nodeId) const;
+	bool nodeHasChildren(Id nodeId) const;
 
 private:
 	class HierarchyNode

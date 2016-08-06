@@ -91,6 +91,7 @@ SearchMatch::CommandType SearchMatch::getCommandType(const std::string& name)
 SearchMatch::SearchMatch()
 	: typeName("")
 	, searchType(SEARCH_NONE)
+	, hasChildren(false)
 {
 }
 
@@ -98,6 +99,7 @@ SearchMatch::SearchMatch(const std::string& query)
 	: text(query)
 	, typeName("")
 	, searchType(SEARCH_NONE)
+	, hasChildren(false)
 {
 }
 

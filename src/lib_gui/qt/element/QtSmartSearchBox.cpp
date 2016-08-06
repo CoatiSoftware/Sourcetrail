@@ -17,6 +17,8 @@
 #include "component/view/GraphViewStyle.h"
 #include "settings/ColorScheme.h"
 
+std::string QtSmartSearchBox::s_delimiter = "::";
+
 QtSearchElement::QtSearchElement(const QString& text, QWidget* parent)
 	: QPushButton(text, parent)
 {
@@ -144,7 +146,16 @@ bool QtSmartSearchBox::event(QEvent *event)
 		{
 			if (m_completer->popup()->isVisible())
 			{
-				addMatchAndUpdate(m_highlightedMatch);
+				if (m_highlightedMatch.hasChildren)
+				{
+					setEditText((m_highlightedMatch.text + s_delimiter).c_str());
+				}
+				else
+				{
+					setEditText(m_highlightedMatch.text.c_str());
+				}
+
+				requestAutoCompletions();
 			}
 			else if (m_allowMultipleElements)
 			{
@@ -193,7 +204,7 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 			return;
 		}
 	}
-	else if (event->matches(QKeySequence::Delete))
+	else if (event->matches(QKeySequence::Delete) || event->matches(QKeySequence::DeleteStartOfWord))
 	{
 		if (hasSelectedElements())
 		{
@@ -204,6 +215,27 @@ void QtSmartSearchBox::keyPressEvent(QKeyEvent* event)
 		{
 			m_elements[m_cursorIndex]->setChecked(true);
 			deleteSelectedElements();
+			return;
+		}
+		else
+		{
+			std::vector<std::string> names = utility::splitToVector(text().toStdString(), s_delimiter);
+			if (names.back() == "")
+			{
+				names.pop_back();
+			}
+
+			if (names.size() < 2)
+			{
+				setEditText("");
+			}
+			else
+			{
+				names.back() = "";
+				setEditText(utility::join(names, s_delimiter).c_str());
+			}
+
+			requestAutoCompletions();
 			return;
 		}
 	}
@@ -863,9 +895,16 @@ void QtSmartSearchBox::clearLineEdit()
 	hideAutoCompletions();
 }
 
-void QtSmartSearchBox::requestAutoCompletions() const
+void QtSmartSearchBox::requestAutoCompletions()
 {
-	MessageSearchAutocomplete(text().toStdString()).dispatch();
+	if (text().size())
+	{
+		MessageSearchAutocomplete(text().toStdString()).dispatch();
+	}
+	else
+	{
+		hideAutoCompletions();
+	}
 }
 
 void QtSmartSearchBox::hideAutoCompletions()

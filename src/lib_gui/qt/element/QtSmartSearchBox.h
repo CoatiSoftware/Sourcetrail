@@ -66,6 +66,8 @@ private slots:
 	void onElementSelected(QtSearchElement* element);
 
 private:
+	static std::string s_delimiter;
+
 	void moveCursor(int offset);
 	void moveCursorTo(int goal);
 
@@ -90,7 +92,7 @@ private:
 	void updatePlaceholder();
 	void clearLineEdit();
 
-	void requestAutoCompletions() const;
+	void requestAutoCompletions();
 	void hideAutoCompletions();
 
 	std::deque<SearchMatch> getMatchesForInput(const std::string& text) const;

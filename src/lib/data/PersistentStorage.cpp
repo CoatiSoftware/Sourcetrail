@@ -589,6 +589,11 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 				const StorageNode& node = storageNodesMap[elementId];
 				match.nameHierarchies.push_back(NameHierarchy::deserialize(node.serializedName));
 
+				if (!match.hasChildren)
+				{
+					match.hasChildren = m_hierarchyCache.nodeHasChildren(node.id);
+				}
+
 				if (!firstNode)
 				{
 					firstNode = &node;
