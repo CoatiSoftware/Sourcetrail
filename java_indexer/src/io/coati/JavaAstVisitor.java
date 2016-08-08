@@ -239,35 +239,46 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		
 		if (!ancestors.isEmpty())
 		{
+			boolean parametersResolved = true;
 			List<TypeUsage> parameterTypes = new ArrayList<>();
-			for (Parameter parameter: overrider.getParameters())
+			try
 			{
-				Type parameterType = parameter.getType();
-				parameterTypes.add(JavaParserFacade.get(m_typeSolver).convert(parameterType, parameterType));
+				for (Parameter parameter: overrider.getParameters())
+				{
+					Type parameterType = parameter.getType();
+					parameterTypes.add(JavaParserFacade.get(m_typeSolver).convert(parameterType, parameterType));
+				}
+			}
+			catch (UnsolvedSymbolException e)
+			{
+				parametersResolved = false;
 			}
 			
-			for (ClassOrInterfaceType ancestor: ancestors)
+			if (parametersResolved)
 			{
-				try
+				for (ClassOrInterfaceType ancestor: ancestors)
 				{
-					TypeUsage ancestorTypeUsage = JavaParserFacade.get(m_typeSolver).convert(ancestor, ancestor);
-					if (ancestorTypeUsage.isReferenceType())
+					try
 					{
-						SymbolReference<me.tomassetti.symbolsolver.model.declarations.MethodDeclaration> solvedMethod = ancestorTypeUsage.asReferenceTypeUsage().solveMethod(overrider.getName(), parameterTypes);
-						if (solvedMethod.isSolved())
+						TypeUsage ancestorTypeUsage = JavaParserFacade.get(m_typeSolver).convert(ancestor, ancestor);
+						if (ancestorTypeUsage.isReferenceType())
 						{
-							return solvedMethod.getCorrespondingDeclaration();
+							SymbolReference<me.tomassetti.symbolsolver.model.declarations.MethodDeclaration> solvedMethod = ancestorTypeUsage.asReferenceTypeUsage().solveMethod(overrider.getName(), parameterTypes);
+							if (solvedMethod.isSolved())
+							{
+								return solvedMethod.getCorrespondingDeclaration();
+							}
 						}
 					}
-				}
-				catch (UnsolvedSymbolException e)
-				{
-					// nothing to do here, just try to solve in the next ancestor
-				}
-				catch (Exception e)
-				{
-					// hmm, maybe we should handle these cases. soon..
-					// don't do anything for parse exceptions. they are displayed as errors anyways.
+					catch (UnsolvedSymbolException e)
+					{
+						// nothing to do here, just try to solve in the next ancestor
+					}
+					catch (Exception e)
+					{
+						// hmm, maybe we should handle these cases. soon..
+						// don't do anything for parse exceptions. they are displayed as errors anyways.
+					}
 				}
 			}
 		}
