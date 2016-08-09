@@ -30,7 +30,6 @@ struct CodeSnippetParams
 
 	int refCount;
 
-	bool isActive;
 	bool isCollapsed;
 
 	bool isDeclaration;

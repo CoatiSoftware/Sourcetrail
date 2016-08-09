@@ -115,6 +115,8 @@ public slots:
 
 	void find();
 	void findFulltext();
+	void codeReferencePrevious();
+	void codeReferenceNext();
 	void overview();
 
 	void closeWindow();

@@ -1,39 +1,27 @@
 #include "qt/element/QtCodeFileList.h"
 
-#include <QPropertyAnimation>
-#include <QScrollBar>
-#include <QTimer>
-#include <QVariant>
 #include <QVBoxLayout>
 
 #include "utility/file/FileSystem.h"
-#include "utility/messaging/type/MessageScrollCode.h"
 
 #include "data/location/TokenLocationFile.h"
 #include "qt/element/QtCodeFile.h"
+#include "qt/element/QtCodeNavigator.h"
 #include "qt/element/QtCodeSnippet.h"
 
-QtCodeFileList::QtCodeFileList(QWidget* parent)
-	: QScrollArea(parent)
+QtCodeFileList::QtCodeFileList(QtCodeNavigator* navigator)
+	: QFrame()
+	, m_navigator(navigator)
 	, m_scrollToFile(nullptr)
-	, m_value(0)
+	, m_scrollToLocationId(0)
 {
-	setObjectName("code_file_list_base");
+	setObjectName("code_file_list");
 
-	m_frame = std::make_shared<QFrame>(this);
-	m_frame->setObjectName("code_file_list");
-
-	QVBoxLayout* layout = new QVBoxLayout(m_frame.get());
+	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setSpacing(8);
 	layout->setContentsMargins(8, 8, 8, 8);
 	layout->setAlignment(Qt::AlignTop);
-	m_frame->setLayout(layout);
-
-	setWidgetResizable(true);
-	setWidget(m_frame.get());
-
-	connect(this->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrolled(int)));
-	connect(this, SIGNAL(shouldScrollToSnippet(QtCodeSnippet*, uint)), this, SLOT(scrollToSnippet(QtCodeSnippet*, uint)), Qt::QueuedConnection);
+	setLayout(layout);
 }
 
 QtCodeFileList::~QtCodeFileList()
@@ -75,143 +63,53 @@ void QtCodeFileList::addFile(std::shared_ptr<TokenLocationFile> locationFile, in
 void QtCodeFileList::clearCodeSnippets()
 {
 	m_files.clear();
-	this->verticalScrollBar()->setValue(0);
 }
 
-const std::vector<Id>& QtCodeFileList::getActiveTokenIds() const
+void QtCodeFileList::showLocation(const FilePath& filePath, Id locationId, bool scrollTo)
 {
-	return m_activeTokenIds;
-}
+	updateFiles();
 
-void QtCodeFileList::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
-{
-	m_activeTokenIds = activeTokenIds;
-	m_activeLocalSymbolIds.clear();
-}
+	QtCodeFile* file = getFile(filePath);
 
-const std::vector<Id>& QtCodeFileList::getActiveLocalSymbolIds() const
-{
-	return m_activeLocalSymbolIds;
-}
-
-void QtCodeFileList::setActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds)
-{
-	m_activeLocalSymbolIds = activeLocalSymbolIds;
-}
-
-const std::vector<Id>& QtCodeFileList::getFocusedTokenIds() const
-{
-	return m_focusedTokenIds;
-}
-
-void QtCodeFileList::setFocusedTokenIds(const std::vector<Id>& focusedTokenIds)
-{
-	m_focusedTokenIds = focusedTokenIds;
-}
-
-std::vector<std::string> QtCodeFileList::getErrorMessages() const
-{
-	std::vector<std::string> errorMessages;
-	for (const ErrorInfo& error : m_errorInfos)
+	if (file->isCollapsed())
 	{
-		errorMessages.push_back(error.message);
-	}
-	return errorMessages;
-}
+		file->requestContent();
 
-void QtCodeFileList::setErrorInfos(const std::vector<ErrorInfo>& errorInfos)
-{
-	m_errorInfos = errorInfos;
-}
-
-bool QtCodeFileList::hasErrors() const
-{
-	return m_errorInfos.size() > 0;
-}
-
-size_t QtCodeFileList::getFatalErrorCountForFile(const FilePath& filePath) const
-{
-	size_t fatalErrorCount = 0;
-	for (const ErrorInfo& error : m_errorInfos)
-	{
-		if (error.filePath == filePath && error.isFatal)
+		if (scrollTo)
 		{
-			fatalErrorCount++;
+			m_scrollToFile = file;
+			m_scrollToLocationId = locationId;
 		}
 	}
-	return fatalErrorCount;
-}
-
-void QtCodeFileList::showActiveTokenIds()
-{
-	updateFiles();
-}
-
-void QtCodeFileList::showFirstActiveSnippet(bool scrollTo)
-{
-	updateFiles();
-
-	QtCodeSnippet* snippet = getFirstActiveSnippet();
-
-	if (!snippet)
+	else
 	{
-		expandActiveSnippetFile(scrollTo);
-		return;
-	}
-
-	if (!snippet->isVisible())
-	{
-		snippet->getFile()->setSnippets();
-	}
-
-	if (scrollTo)
-	{
-		emit shouldScrollToSnippet(snippet, 0);
+		scrollToLocation(file, locationId, scrollTo);
 	}
 }
 
-void QtCodeFileList::focusTokenIds(const std::vector<Id>& focusedTokenIds)
+void QtCodeFileList::requestFileContent(const FilePath& filePath)
 {
-	setFocusedTokenIds(focusedTokenIds);
-	updateFiles();
-}
-
-void QtCodeFileList::defocusTokenIds()
-{
-	setFocusedTokenIds(std::vector<Id>());
-	updateFiles();
+	getFile(filePath)->requestContent();
 }
 
 void QtCodeFileList::setFileMinimized(const FilePath path)
 {
-	QtCodeFile* file = getFile(path);
-	if (file)
-	{
-		file->setMinimized();
-	}
+	getFile(path)->setMinimized();
 }
 
 void QtCodeFileList::setFileSnippets(const FilePath path)
 {
-	QtCodeFile* file = getFile(path);
-	if (file)
-	{
-		file->setSnippets();
-	}
+	getFile(path)->setSnippets();
 }
 
 void QtCodeFileList::setFileMaximized(const FilePath path)
 {
-	QtCodeFile* file = getFile(path);
-	if (file)
-	{
-		file->setMaximized();
-	}
+	getFile(path)->setMaximized();
 }
 
 void QtCodeFileList::updateFiles()
 {
-	for (std::shared_ptr<QtCodeFile> file: m_files)
+	for (std::shared_ptr<QtCodeFile> file : m_files)
 	{
 		file->updateContent();
 	}
@@ -225,55 +123,63 @@ void QtCodeFileList::showContents()
 	}
 }
 
+void QtCodeFileList::scrollToLocation(QtCodeFile* file, Id locationId, bool scrollTo)
+{
+	QtCodeSnippet* snippet = nullptr;
+
+	if (locationId)
+	{
+		snippet = file->getSnippetForLocationId(locationId);
+	}
+	else
+	{
+		snippet = file->getFileSnippet();
+	}
+
+	if (!snippet)
+	{
+		return;
+	}
+
+	if (!snippet->isVisible())
+	{
+		file->setSnippets();
+	}
+
+	if (scrollTo)
+	{
+		if (locationId)
+		{
+			emit shouldScrollToSnippet(snippet, snippet->getLineNumberForLocationId(locationId));
+		}
+		else
+		{
+			emit shouldScrollToSnippet(snippet, 1);
+		}
+	}
+}
+
 void QtCodeFileList::scrollToLine(std::string filename, unsigned int line)
 {
 	for (std::shared_ptr<QtCodeFile> file: m_files)
 	{
-		if( filename == file->getFilePath().str() )
+		if (filename == file->getFilePath().str())
 		{
 			emit shouldScrollToSnippet(file->getFileSnippet(), line);
 			return;
 		}
 	}
-
 }
 
-void QtCodeFileList::scrollToValue(int value)
-{
-	m_value = value;
-	QTimer::singleShot(100, this, SLOT(setValue()));
-}
-
-void QtCodeFileList::scrollToActiveFileIfRequested()
+void QtCodeFileList::scrollToSnippetIfRequested()
 {
 	if (m_scrollToFile && m_scrollToFile->hasSnippets())
 	{
-		showFirstActiveSnippet(true);
+		scrollToLocation(m_scrollToFile, m_scrollToLocationId, true);
+
 		m_scrollToFile = nullptr;
+		m_scrollToLocationId = 0;
 	}
-}
-
-void QtCodeFileList::scrolled(int value)
-{
-	MessageScrollCode(value).dispatch();
-}
-
-void QtCodeFileList::scrollToSnippet(QtCodeSnippet* snippet, uint lineNumber)
-{
-	if (lineNumber == 0)
-	{
-		lineNumber = snippet->getFirstActiveLineNumber();
-	}
-
-	if (lineNumber)
-	{
-		this->ensureWidgetVisibleAnimated(snippet, snippet->getLineRectForLineNumber(lineNumber));
-	}
-}
-
-void QtCodeFileList::setValue()
-{
-	this->verticalScrollBar()->setValue(m_value);
 }
 
 QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
@@ -291,81 +197,14 @@ QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
 
 	if (!file)
 	{
-		std::shared_ptr<QtCodeFile> filePtr = std::make_shared<QtCodeFile>(filePath, this);
+		std::shared_ptr<QtCodeFile> filePtr = std::make_shared<QtCodeFile>(filePath, m_navigator);
 		m_files.push_back(filePtr);
 
 		file = filePtr.get();
-		m_frame->layout()->addWidget(file);
+		layout()->addWidget(file);
 
 		file->hide();
 	}
 
 	return file;
-}
-
-QtCodeSnippet* QtCodeFileList::getFirstActiveSnippet() const
-{
-	QtCodeSnippet* snippet = nullptr;
-	for (std::shared_ptr<QtCodeFile> file: m_files)
-	{
-		snippet = file->findFirstActiveSnippet();
-		if (snippet)
-		{
-			break;
-		}
-	}
-
-	return snippet;
-}
-
-void QtCodeFileList::expandActiveSnippetFile(bool scrollTo)
-{
-	for (std::shared_ptr<QtCodeFile> file: m_files)
-	{
-		if (file->isCollapsedActiveFile())
-		{
-			file->requestSnippets();
-
-			if (scrollTo)
-			{
-				m_scrollToFile = file.get();
-			}
-
-			return;
-		}
-	}
-}
-
-void QtCodeFileList::ensureWidgetVisibleAnimated(QWidget *childWidget, QRectF rect)
-{
-	if (!widget()->isAncestorOf(childWidget))
-	{
-		return;
-	}
-
-	const QRect microFocus = childWidget->inputMethodQuery(Qt::ImCursorRectangle).toRect();
-	const QRect defaultMicroFocus = childWidget->QWidget::inputMethodQuery(Qt::ImCursorRectangle).toRect();
-	QRect focusRect = (microFocus != defaultMicroFocus)
-		? QRect(childWidget->mapTo(widget(), microFocus.topLeft()), microFocus.size())
-		: QRect(childWidget->mapTo(widget(), QPoint(0, 0)), childWidget->size());
-	const QRect visibleRect(-widget()->pos(), viewport()->size());
-
-	if (rect.height() > 0)
-	{
-		focusRect = QRect(childWidget->mapTo(widget(), rect.topLeft().toPoint()), rect.size().toSize());
-		focusRect.adjust(0, 0, 0, 100);
-	}
-
-	QScrollBar* scrollBar = verticalScrollBar();
-	int value = focusRect.center().y() - visibleRect.center().y();
-
-	if (scrollBar && value != 0)
-	{
-		QPropertyAnimation* anim = new QPropertyAnimation(scrollBar, "value");
-		anim->setDuration(300);
-		anim->setStartValue(scrollBar->value());
-		anim->setEndValue(scrollBar->value() + value);
-		anim->setEasingCurve(QEasingCurve::InOutQuad);
-		anim->start();
-	}
 }

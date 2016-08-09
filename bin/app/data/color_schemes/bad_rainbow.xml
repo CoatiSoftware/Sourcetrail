@@ -167,6 +167,9 @@
 						<fill>#C2AFEF</fill>
 						<text>#3D3D3D</text>
 					</normal>
+					<focus>
+						<fill>#987CEA</fill>
+					</focus>
 				</fulltext>
 			</selection>
 		</snippet>

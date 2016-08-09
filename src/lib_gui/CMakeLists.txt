@@ -14,6 +14,8 @@ add_files(
 	qt/element/QtCodeFile.h
 	qt/element/QtCodeFileList.cpp
 	qt/element/QtCodeFileList.h
+	qt/element/QtCodeNavigator.cpp
+	qt/element/QtCodeNavigator.h
 	qt/element/QtCodeSnippet.cpp
 	qt/element/QtCodeSnippet.h
 	qt/element/QtDirectoryListBox.cpp

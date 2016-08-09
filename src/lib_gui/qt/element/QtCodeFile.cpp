@@ -14,17 +14,17 @@
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
 #include "isTrial.h"
-#include "qt/element/QtCodeFileList.h"
+#include "qt/element/QtCodeNavigator.h"
 #include "qt/element/QtCodeSnippet.h"
 #include "qt/utility/utilityQt.h"
 #include "settings/ColorScheme.h"
 
-QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeFileList* parent)
-	: QFrame(parent)
+QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
+	: QFrame()
 	, m_updateTitleBarFunctor(std::bind(&QtCodeFile::doUpdateTitleBar, this))
-	, m_parent(parent)
+	, m_navigator(navigator)
 	, m_filePath(filePath)
-	, m_snippetsRequested(false)
+	, m_contentRequested(false)
 	, m_scrollToLine(0)
 {
 	setObjectName("code_file");
@@ -129,36 +129,11 @@ std::string QtCodeFile::getFileName() const
 	return m_filePath.fileName();
 }
 
-const std::vector<Id>& QtCodeFile::getActiveTokenIds() const
-{
-	return m_parent->getActiveTokenIds();
-}
-
-const std::vector<Id>& QtCodeFile::getActiveLocalSymbolIds() const
-{
-	return m_parent->getActiveLocalSymbolIds();
-}
-
-const std::vector<Id>& QtCodeFile::getFocusedTokenIds() const
-{
-	return m_parent->getFocusedTokenIds();
-}
-
-std::vector<std::string> QtCodeFile::getErrorMessages() const
-{
-	return m_parent->getErrorMessages();
-}
-
-bool QtCodeFile::hasErrors() const
-{
-	return m_parent->hasErrors();;
-}
-
 QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 {
 	m_locationFile.reset();
 
-	std::shared_ptr<QtCodeSnippet> snippet(new QtCodeSnippet(params, this));
+	std::shared_ptr<QtCodeSnippet> snippet(new QtCodeSnippet(params, m_navigator, this));
 
 	if (params.reduced)
 	{
@@ -225,7 +200,7 @@ QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 {
 	m_locationFile.reset();
 
-	std::shared_ptr<QtCodeSnippet> snippet(new QtCodeSnippet(params, this));
+	std::shared_ptr<QtCodeSnippet> snippet(new QtCodeSnippet(params, m_navigator, this));
 
 	size_t i = 0;
 	while (i < m_snippets.size())
@@ -246,7 +221,7 @@ QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 		}
 		else if (s->getStartLineNumber() < start || s->getEndLineNumber() > end)
 		{
-			snippet = QtCodeSnippet::merged(snippet.get(), s.get(), this);
+			snippet = QtCodeSnippet::merged(snippet.get(), s.get(), m_navigator, this);
 		}
 
 		s->hide();
@@ -264,58 +239,47 @@ QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 	return snippet.get();
 }
 
-QtCodeSnippet* QtCodeFile::getFileSnippet() const
+QtCodeSnippet* QtCodeFile::getSnippetForLocationId(Id locationId) const
 {
-	return m_fileSnippet.get();
-}
-
-QtCodeSnippet* QtCodeFile::findFirstActiveSnippet() const
-{
-	if (m_locationFile)
+	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
 	{
-		return nullptr;
-	}
-
-	if (m_maximizeButton->isEnabled())
-	{
-		for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+		if (snippet->getLineNumberForLocationId(locationId))
 		{
-			if (snippet->isActive())
-			{
-				return snippet.get();
-			}
-		}
-	}
-	else
-	{
-		if (m_fileSnippet->isActive())
-		{
-			return m_fileSnippet.get();
+			return snippet.get();
 		}
 	}
 
 	return nullptr;
 }
 
-bool QtCodeFile::isCollapsedActiveFile() const
+QtCodeSnippet* QtCodeFile::getFileSnippet() const
 {
-	bool isActiveFile = false;
-	if (m_locationFile)
-	{
-		std::vector<Id> ids = getActiveTokenIds();
+	return m_fileSnippet.get();
+}
 
-		m_locationFile->forEachTokenLocation(
-			[&](TokenLocation* location)
-			{
-				if (std::find(ids.begin(), ids.end(), location->getTokenId()) != ids.end())
-				{
-					isActiveFile = true;
-				}
-			}
-		);
+bool QtCodeFile::isCollapsed() const
+{
+	return m_locationFile != nullptr;
+}
+
+void QtCodeFile::requestContent() const
+{
+	if (!isCollapsed() || m_contentRequested)
+	{
+		return;
 	}
 
-	return isActiveFile;
+	m_contentRequested = true;
+
+	MessageChangeFileView msg(
+		m_filePath,
+		m_locationFile->isWholeCopy ? MessageChangeFileView::FILE_MAXIMIZED : MessageChangeFileView::FILE_SNIPPETS,
+		isCollapsed(),
+		m_navigator->hasErrors()
+	);
+
+	msg.setIsReplayed(true);
+	msg.dispatch();
 }
 
 void QtCodeFile::updateContent()
@@ -338,7 +302,7 @@ void QtCodeFile::setLocationFile(std::shared_ptr<TokenLocationFile> locationFile
 	m_locationFile = locationFile;
 	setMinimized();
 
-	updateRefCount(refCount);
+	updateRefCount(locationFile->isWholeCopy ? 0 : refCount);
 }
 
 void QtCodeFile::setMinimized()
@@ -354,10 +318,7 @@ void QtCodeFile::setMinimized()
 	}
 
 	m_minimizeButton->setEnabled(false);
-	if (m_snippets.size() || m_locationFile)
-	{
-		m_snippetButton->setEnabled(true);
-	}
+	m_snippetButton->setEnabled(m_snippets.size() || (isCollapsed() && !m_locationFile->isWholeCopy));
 	m_maximizeButton->setEnabled(true);
 }
 
@@ -391,87 +352,8 @@ void QtCodeFile::setMaximized()
 	}
 
 	m_minimizeButton->setEnabled(true);
-	if (m_snippets.size())
-	{
-		m_snippetButton->setEnabled(true);
-	}
+	m_snippetButton->setEnabled(m_snippets.size());
 	m_maximizeButton->setEnabled(false);
-}
-
-void QtCodeFile::clickedTitleBar()
-{
-	if (m_minimizeButton->isEnabled())
-	{
-		clickedMinimizeButton();
-	}
-	else if (m_snippetButton->isEnabled())
-	{
-		clickedSnippetButton();
-	}
-	else
-	{
-		clickedMaximizeButton();
-	}
-}
-
-void QtCodeFile::clickedTitle()
-{
-	MessageActivateFile(m_filePath).dispatch();
-}
-
-void QtCodeFile::editProject()
-{
-	MessageProjectEdit().dispatch();
-}
-
-void QtCodeFile::clickedMinimizeButton() const
-{
-	MessageChangeFileView(
-		m_filePath,
-		MessageChangeFileView::FILE_MINIMIZED,
-		false,
-		hasErrors()
-	).dispatch();
-}
-
-void QtCodeFile::clickedSnippetButton() const
-{
-	MessageChangeFileView(
-		m_filePath,
-		MessageChangeFileView::FILE_SNIPPETS,
-		(m_locationFile != nullptr),
-		hasErrors()
-	).dispatch();
-}
-
-void QtCodeFile::clickedMaximizeButton() const
-{
-	MessageChangeFileView(
-		m_filePath,
-		MessageChangeFileView::FILE_MAXIMIZED,
-		(m_fileSnippet == nullptr),
-		hasErrors()
-	).dispatch();
-}
-
-void QtCodeFile::requestSnippets() const
-{
-	if (m_snippetsRequested)
-	{
-		return;
-	}
-
-	m_snippetsRequested = true;
-
-	MessageChangeFileView msg(
-		m_filePath,
-		MessageChangeFileView::FILE_SNIPPETS,
-		(m_locationFile != nullptr),
-		hasErrors()
-	);
-
-	msg.setIsReplayed(true);
-	msg.dispatch();
 }
 
 bool QtCodeFile::hasSnippets() const
@@ -514,6 +396,62 @@ void QtCodeFile::setScrollToLine(uint line)
 	m_scrollToLine = line;
 }
 
+void QtCodeFile::clickedMinimizeButton() const
+{
+	MessageChangeFileView(
+		m_filePath,
+		MessageChangeFileView::FILE_MINIMIZED,
+		false,
+		m_navigator->hasErrors()
+	).dispatch();
+}
+
+void QtCodeFile::clickedSnippetButton() const
+{
+	MessageChangeFileView(
+		m_filePath,
+		MessageChangeFileView::FILE_SNIPPETS,
+		isCollapsed(),
+		m_navigator->hasErrors()
+	).dispatch();
+}
+
+void QtCodeFile::clickedMaximizeButton() const
+{
+	MessageChangeFileView(
+		m_filePath,
+		MessageChangeFileView::FILE_MAXIMIZED,
+		!isCollapsed(),
+		m_navigator->hasErrors()
+	).dispatch();
+}
+
+void QtCodeFile::clickedTitleBar()
+{
+	if (m_minimizeButton->isEnabled())
+	{
+		clickedMinimizeButton();
+	}
+	else if (m_snippetButton->isEnabled())
+	{
+		clickedSnippetButton();
+	}
+	else
+	{
+		clickedMaximizeButton();
+	}
+}
+
+void QtCodeFile::clickedTitle()
+{
+	MessageActivateFile(m_filePath).dispatch();
+}
+
+void QtCodeFile::editProject()
+{
+	MessageProjectEdit().dispatch();
+}
+
 void QtCodeFile::handleMessage(MessageWindowFocus* message)
 {
 	updateTitleBar();
@@ -523,13 +461,13 @@ void QtCodeFile::updateRefCount(int refCount)
 {
 	if (refCount > 0)
 	{
-		QString label = hasErrors() ? "error" : "reference";
+		QString label = m_navigator->hasErrors() ? "error" : "reference";
 		if (refCount > 1)
 		{
 			label += "s";
 		}
 
-		size_t fatalErrorCount = m_parent->getFatalErrorCountForFile(m_filePath);
+		size_t fatalErrorCount = m_navigator->getFatalErrorCountForFile(m_filePath);
 		if (fatalErrorCount > 0)
 		{
 			label += " (" + QString::number(fatalErrorCount) + " fatal)";

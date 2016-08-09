@@ -165,6 +165,9 @@
 						<fill>#C7C7E2</fill>
 						<text>#000000</text>
 					</normal>
+					<focus>
+						<fill>#ABABDD</fill>
+					</focus>
 				</fulltext>
 			</selection>
 		</snippet>

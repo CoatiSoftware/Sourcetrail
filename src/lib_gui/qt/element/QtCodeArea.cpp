@@ -19,8 +19,7 @@
 
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
-#include "qt/element/QtCodeFile.h"
-#include "qt/element/QtCodeSnippet.h"
+#include "qt/element/QtCodeNavigator.h"
 #include "qt/utility/QtContextMenu.h"
 #include "qt/utility/QtHighlighter.h"
 #include "settings/ApplicationSettings.h"
@@ -83,11 +82,11 @@ QtCodeArea::QtCodeArea(
 	uint startLineNumber,
 	const std::string& code,
 	std::shared_ptr<TokenLocationFile> locationFile,
-	QtCodeFile* file,
-	QtCodeSnippet* parent
+	QtCodeNavigator* navigator,
+	QWidget* parent
 )
 	: QPlainTextEdit(parent)
-	, m_fileWidget(file)
+	, m_navigator(navigator)
 	, m_startLineNumber(startLineNumber)
 	, m_code(code)
 	, m_locationFile(locationFile)
@@ -183,11 +182,6 @@ std::shared_ptr<TokenLocationFile> QtCodeArea::getTokenLocationFile() const
 	return m_locationFile;
 }
 
-QtCodeFile* QtCodeArea::getFile() const
-{
-	return m_fileWidget;
-}
-
 void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 {
 	QPainter painter(m_lineNumberArea);
@@ -250,31 +244,16 @@ void QtCodeArea::updateContent()
 	annotateText();
 }
 
-bool QtCodeArea::isActive() const
-{
-	const std::vector<Id>& ids = m_fileWidget->getActiveTokenIds();
-
-	for (const Annotation& annotation: m_annotations)
-	{
-		if (std::find(ids.begin(), ids.end(), annotation.tokenId) != ids.end())
-		{
-			return true;
-		}
-	}
-
-	return false;
-}
-
 void QtCodeArea::setIsActiveFile(bool isActiveFile)
 {
 	m_isActiveFile = isActiveFile;
 }
 
-uint QtCodeArea::getFirstActiveLineNumber() const
+uint QtCodeArea::getLineNumberForLocationId(Id locationId) const
 {
 	for (const Annotation& annotation : m_annotations)
 	{
-		if (annotation.isActive)
+		if (annotation.locationId == locationId)
 		{
 			return annotation.startLine;
 		}
@@ -488,7 +467,7 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 
 		setHoveredAnnotations(annotations);
 
-		std::vector<std::string> errorMessages = m_fileWidget->getErrorMessages();
+		std::vector<std::string> errorMessages = m_navigator->getErrorMessages();
 		if (annotations.size() == 1 && errorMessages.size() > annotations[0]->tokenId)
 		{
 			QToolTip::showText(event->globalPos(), QString::fromStdString(errorMessages[annotations[0]->tokenId]));
@@ -687,9 +666,12 @@ void QtCodeArea::createAnnotations(std::shared_ptr<TokenLocationFile> locationFi
 
 void QtCodeArea::annotateText()
 {
-	const std::vector<Id>& activeTokenIds = m_fileWidget->getActiveTokenIds();
-	const std::vector<Id>& activeLocalSymbolIds = m_fileWidget->getActiveLocalSymbolIds();
-	const std::vector<Id>& focusIds = m_fileWidget->getFocusedTokenIds();
+	const std::vector<Id>& currentActiveTokenIds = m_navigator->getCurrentActiveTokenIds();
+	const std::vector<Id>& currentActiveLocationIds = m_navigator->getCurrentActiveLocationIds();
+
+	const std::vector<Id>& activeTokenIds = m_navigator->getActiveTokenIds();
+	const std::vector<Id>& activeLocalSymbolIds = m_navigator->getActiveLocalSymbolIds();
+	const std::vector<Id>& focusIds = m_navigator->getFocusedTokenIds();
 
 	bool needsUpdate = false;
 	for (Annotation& annotation: m_annotations)
@@ -699,10 +681,17 @@ void QtCodeArea::annotateText()
 		const AnnotationColor& oldColor = getAnnotationColorForAnnotation(annotation);
 
 		annotation.isActive = (
-			std::find(activeTokenIds.begin(), activeTokenIds.end(), annotation.tokenId) != activeTokenIds.end() ||
+			std::find(currentActiveTokenIds.begin(), currentActiveTokenIds.end(), annotation.tokenId) != currentActiveTokenIds.end() ||
+			std::find(currentActiveLocationIds.begin(), currentActiveLocationIds.end(), annotation.locationId) != currentActiveLocationIds.end() ||
 			std::find(activeLocalSymbolIds.begin(), activeLocalSymbolIds.end(), annotation.tokenId) != activeLocalSymbolIds.end()
 		);
-		annotation.isFocused = std::find(focusIds.begin(), focusIds.end(), annotation.tokenId) != focusIds.end();
+		if (!annotation.isActive)
+		{
+			annotation.isFocused = (
+				std::find(focusIds.begin(), focusIds.end(), annotation.tokenId) != focusIds.end() ||
+				std::find(activeTokenIds.begin(), activeTokenIds.end(), annotation.tokenId) != activeTokenIds.end()
+			);
+		}
 
 		const AnnotationColor& newColor = getAnnotationColorForAnnotation(annotation);
 		if ((newColor.text != oldColor.text || !m_wasAnnotated))

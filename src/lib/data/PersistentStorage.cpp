@@ -480,8 +480,11 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getFullTextSearchLoc
 
 			if ( addHit )
 			{
+				// Set first bit to 1 to avoid collisions
+				Id locationId = ~(~size_t(0) >> 1) + collection->getTokenLocationCount();
+
 				collection->addTokenLocation(
-					collection->getTokenLocationCount(),
+					locationId,
 					0,
 					filepath,
 					location.startLineNumber,
@@ -1012,8 +1015,11 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getErrorTokenLocatio
 		const StorageError& error = storageErrors[i];
 		if (error.fatal || error.indexed || showExternalNonFatalErrors)
 		{
+			// Set first bit to 1 to avoid collisions
+			Id locationId = ~(~size_t(0) >> 1) + i;
+
 			errorCollection->addTokenLocation(
-				i, i, error.filePath, error.lineNumber, error.columnNumber, error.lineNumber, error.columnNumber
+				locationId, i, error.filePath, error.lineNumber, error.columnNumber, error.lineNumber, error.columnNumber
 			)->setType(LOCATION_ERROR);
 			errors->push_back(ErrorInfo(error.message, error.filePath, i, error.fatal));
 		}

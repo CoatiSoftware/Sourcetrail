@@ -128,13 +128,13 @@ add_files(
 
 	data/parser/cxx/TaskParseCxx.h
 	data/parser/cxx/TaskParseWrapper.h
-	
+
 	data/parser/java/JavaEnvironment.cpp
 	data/parser/java/JavaEnvironment.h
 	data/parser/java/JavaEnvironmentFactory.cpp
 	data/parser/java/JavaEnvironmentFactory.h
 	data/parser/java/TaskParseJava.h
-	
+
 	data/parser/AccessKind.cpp
 	data/parser/AccessKind.h
 	data/parser/ParseLocation.cpp
@@ -245,6 +245,7 @@ add_files(
 	utility/messaging/type/MessageAutoRefreshChanged.h
 	utility/messaging/type/MessageChangeFileView.h
 	utility/messaging/type/MessageClearErrorCount.h
+	utility/messaging/type/MessageCodeReference.h
 	utility/messaging/type/MessageColorSchemeTest.h
 	utility/messaging/type/MessageDeactivateEdge.h
 	utility/messaging/type/MessageDispatchWhenLicenseValid.h
@@ -272,6 +273,7 @@ add_files(
 	utility/messaging/type/MessageSearchAutocomplete.h
 	utility/messaging/type/MessageSearchFullText.h
 	utility/messaging/type/MessageShowErrors.h
+	utility/messaging/type/MessageShowReference.h
 	utility/messaging/type/MessageShowScope.h
 	utility/messaging/type/MessageShowStartScreen.h
 	utility/messaging/type/MessageStatus.h

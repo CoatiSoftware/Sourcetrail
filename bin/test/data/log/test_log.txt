@@ -1,3 +1,4 @@
+Settings.cpp WARNING: File for Settings not found: data/TestSettings.xml
 Token.cpp ERROR: Location Id was not referenced by this Token.
 Node.cpp WARNING: Cannot change NodeType after it was already set from namespace to class
 Edge.cpp ERROR: Nodes are not plain copies.

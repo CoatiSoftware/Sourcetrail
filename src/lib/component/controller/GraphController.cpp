@@ -176,6 +176,18 @@ void GraphController::handleMessage(MessageShowErrors* message)
 	clear();
 }
 
+void GraphController::handleMessage(MessageShowReference* message)
+{
+	if (!message->tokenId)
+	{
+		return;
+	}
+
+	m_activeEdgeIds = std::vector<Id>(1, message->tokenId);
+	setActiveAndVisibility(utility::concat(m_activeNodeIds, m_activeEdgeIds));
+	buildGraph(message, false);
+}
+
 GraphView* GraphController::getView() const
 {
 	return Controller::getView<GraphView>();

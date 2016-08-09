@@ -10,7 +10,7 @@
 #include "qt/utility/QtThreadedFunctor.h"
 
 class QFrame;
-class QtCodeFileList;
+class QtCodeNavigator;
 class QWidget;
 
 class QtCodeView
@@ -28,7 +28,6 @@ public:
 	// CodeView implementation
 	virtual void clear();
 
-	virtual void setActiveTokenIds(const std::vector<Id>& activeTokenIds);
 	virtual void setErrorInfos(const std::vector<ErrorInfo>& errorInfos);
 
 	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds);
@@ -37,7 +36,8 @@ public:
 
 	virtual void setFileState(const FilePath filePath, FileState state);
 
-	virtual void showFirstActiveSnippet(const std::vector<Id>& activeTokenIds, bool scrollTo);
+	virtual void showActiveSnippet(
+		const std::vector<Id>& activeTokenIds, std::shared_ptr<TokenLocationCollection> collection, bool scrollTo);
 	virtual void showActiveTokenIds(const std::vector<Id>& activeTokenIds);
 	virtual void showActiveLocalSymbolIds(const std::vector<Id>& activeLocalSymbolIds);
 
@@ -59,7 +59,8 @@ private:
 
 	void doSetFileState(const FilePath filePath, FileState state);
 
-	void doShowFirstActiveSnippet(const std::vector<Id>& activeTokenIds, bool scrollTo);
+	void doShowActiveSnippet(
+		const std::vector<Id>& activeTokenIds, std::shared_ptr<TokenLocationCollection> collection, bool scrollTo);
 	void doShowActiveTokenIds(const std::vector<Id>& activeTokenIds);
 	void doShowActiveLocalSymbolIds(const std::vector<Id>& localSymbolIds);
 
@@ -79,7 +80,7 @@ private:
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&, bool> m_addCodeSnippetsFunctor;
 	QtThreadedFunctor<const CodeSnippetParams&> m_showCodeFileFunctor;
 	QtThreadedFunctor<const FilePath, FileState> m_setFileStateFunctor;
-	QtThreadedFunctor<const std::vector<Id>&, bool> m_doShowFirstActiveSnippetFunctor;
+	QtThreadedFunctor<const std::vector<Id>&, std::shared_ptr<TokenLocationCollection>, bool> m_doShowActiveSnippetFunctor;
 	QtThreadedFunctor<const std::vector<Id>&> m_doShowActiveTokenIdsFunctor;
 	QtThreadedFunctor<const std::vector<Id>&> m_doShowActiveLocalSymbolIdsFunctor;
 	QtThreadedFunctor<const std::vector<Id>&> m_focusTokenIdsFunctor;
@@ -88,9 +89,8 @@ private:
 	QtThreadedFunctor<int> m_scrollToValueFunctor;
 	QtThreadedFunctor<std::string, unsigned int> m_scrollToLineFunctor;
 
-	QtCodeFileList* m_widget;
+	QtCodeNavigator* m_widget;
 
-	std::vector<Id> m_activeTokenIds;
 	std::vector<ErrorInfo> m_errorInfos;
 };
 

@@ -2,9 +2,9 @@
 #define MESSAGE_REDO_H
 
 #include "utility/messaging/Message.h"
-#include "utility/types.h"
 
-class MessageRedo: public Message<MessageRedo>
+class MessageRedo
+	: public Message<MessageRedo>
 {
 public:
 	MessageRedo()

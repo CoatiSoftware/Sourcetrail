@@ -5,7 +5,7 @@
 #include "qt/utility/utilityQt.h"
 
 #include "qt/element/QtCodeArea.h"
-#include "qt/element/QtCodeFileList.h"
+#include "qt/element/QtCodeNavigator.h"
 #include "qt/utility/QtHighlighter.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "settings/ColorScheme.h"
@@ -18,7 +18,8 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	, m_addCodeSnippetsFunctor(std::bind(&QtCodeView::doAddCodeSnippets, this, std::placeholders::_1, std::placeholders::_2))
 	, m_showCodeFileFunctor(std::bind(&QtCodeView::doShowCodeFile, this, std::placeholders::_1))
 	, m_setFileStateFunctor(std::bind(&QtCodeView::doSetFileState, this, std::placeholders::_1, std::placeholders::_2))
-	, m_doShowFirstActiveSnippetFunctor(std::bind(&QtCodeView::doShowFirstActiveSnippet, this, std::placeholders::_1, std::placeholders::_2))
+	, m_doShowActiveSnippetFunctor(
+		std::bind(&QtCodeView::doShowActiveSnippet, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
 	, m_doShowActiveTokenIdsFunctor(std::bind(&QtCodeView::doShowActiveTokenIds, this, std::placeholders::_1))
 	, m_doShowActiveLocalSymbolIdsFunctor(std::bind(&QtCodeView::doShowActiveLocalSymbolIds, this, std::placeholders::_1))
 	, m_focusTokenIdsFunctor(std::bind(&QtCodeView::doFocusTokenIds, this, std::placeholders::_1))
@@ -27,7 +28,7 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	, m_scrollToValueFunctor(std::bind(&QtCodeView::doScrollToValue, this, std::placeholders::_1))
 	, m_scrollToLineFunctor(std::bind(&QtCodeView::doScrollToLine, this, std::placeholders::_1, std::placeholders::_2))
 {
-	m_widget = new QtCodeFileList();
+	m_widget = new QtCodeNavigator();
 	setStyleSheet();
 }
 
@@ -54,12 +55,6 @@ void QtCodeView::clear()
 	m_clearFunctor();
 
 	m_errorInfos.clear();
-	m_activeTokenIds.clear();
-}
-
-void QtCodeView::setActiveTokenIds(const std::vector<Id>& activeTokenIds)
-{
-	m_activeTokenIds = activeTokenIds;
 }
 
 void QtCodeView::setErrorInfos(const std::vector<ErrorInfo>& errorInfos)
@@ -87,9 +82,10 @@ void QtCodeView::setFileState(const FilePath filePath, FileState state)
 	m_setFileStateFunctor(filePath, state);
 }
 
-void QtCodeView::showFirstActiveSnippet(const std::vector<Id>& activeTokenIds, bool scrollTo)
+void QtCodeView::showActiveSnippet(
+	const std::vector<Id>& activeTokenIds, std::shared_ptr<TokenLocationCollection> collection, bool scrollTo)
 {
-	m_doShowFirstActiveSnippetFunctor(activeTokenIds, scrollTo);
+	m_doShowActiveSnippetFunctor(activeTokenIds, collection, scrollTo);
 }
 
 void QtCodeView::showActiveTokenIds(const std::vector<Id>& activeTokenIds)
@@ -143,9 +139,7 @@ void QtCodeView::doClear()
 
 void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds)
 {
-	setActiveTokenIds(activeTokenIds);
-
-	m_widget->setActiveTokenIds(m_activeTokenIds);
+	m_widget->setActiveTokenIds(activeTokenIds);
 	m_widget->setErrorInfos(m_errorInfos);
 
 	for (const CodeSnippetParams& params : snippets)
@@ -160,7 +154,7 @@ void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippe
 		}
 	}
 
-	m_widget->updateFiles();
+	m_widget->setupFiles();
 
 	setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
 }
@@ -176,7 +170,7 @@ void QtCodeView::doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippet
 
 	setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
 
-	m_widget->scrollToActiveFileIfRequested();
+	m_widget->scrollToSnippetIfRequested();
 }
 
 void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
@@ -200,22 +194,22 @@ void QtCodeView::doSetFileState(const FilePath filePath, FileState state)
 	}
 }
 
-void QtCodeView::doShowFirstActiveSnippet(const std::vector<Id>& activeTokenIds, bool scrollTo)
+void QtCodeView::doShowActiveSnippet(
+	const std::vector<Id>& activeTokenIds, std::shared_ptr<TokenLocationCollection> collection, bool scrollTo)
 {
-	m_widget->setActiveTokenIds(activeTokenIds);
-	m_widget->showFirstActiveSnippet(scrollTo);
+	m_widget->showActiveSnippet(activeTokenIds, collection, scrollTo);
 }
 
 void QtCodeView::doShowActiveTokenIds(const std::vector<Id>& activeTokenIds)
 {
 	m_widget->setActiveTokenIds(activeTokenIds);
-	m_widget->showActiveTokenIds();
+	m_widget->updateFiles();
 }
 
 void QtCodeView::doShowActiveLocalSymbolIds(const std::vector<Id>& localSymbolIds)
 {
 	m_widget->setActiveLocalSymbolIds(localSymbolIds);
-	m_widget->showActiveTokenIds();
+	m_widget->updateFiles();
 }
 
 void QtCodeView::doFocusTokenIds(const std::vector<Id>& focusedTokenIds)

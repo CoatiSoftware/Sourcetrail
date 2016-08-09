@@ -14,8 +14,7 @@ class QDragMoveEvent;
 class QPaintEvent;
 class QResizeEvent;
 class QSize;
-class QtCodeFile;
-class QtCodeSnippet;
+class QtCodeNavigator;
 class QtHighlighter;
 class QWidget;
 class TokenLocation;
@@ -61,8 +60,8 @@ public:
 		uint startLineNumber,
 		const std::string& code,
 		std::shared_ptr<TokenLocationFile> locationFile,
-		QtCodeFile* file,
-		QtCodeSnippet* parent
+		QtCodeNavigator* navigator,
+		QWidget* parent = nullptr
 	);
 	virtual ~QtCodeArea();
 
@@ -72,7 +71,6 @@ public:
 	uint getEndLineNumber() const;
 
 	std::shared_ptr<TokenLocationFile> getTokenLocationFile() const;
-	QtCodeFile* getFile() const;
 
 	void lineNumberAreaPaintEvent(QPaintEvent* event);
 	int lineNumberDigits() const;
@@ -81,11 +79,9 @@ public:
 
 	void updateContent();
 
-	bool isActive() const;
-
 	void setIsActiveFile(bool isActiveFile);
 
-	uint getFirstActiveLineNumber() const;
+	uint getLineNumberForLocationId(Id locationId) const;
 	QRectF getLineRectForLineNumber(uint lineNumber) const;
 
 	std::string getCode() const;
@@ -166,7 +162,7 @@ private:
 
 	static std::vector<AnnotationColor> s_annotationColors;
 
-	QtCodeFile* m_fileWidget;
+	QtCodeNavigator* m_navigator;
 
 	QWidget* m_lineNumberArea;
 	QtHighlighter* m_highlighter;

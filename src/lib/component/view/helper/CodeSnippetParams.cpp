@@ -9,7 +9,6 @@ CodeSnippetParams::CodeSnippetParams()
 	, footerId(0)
 	, locationFile()
 	, refCount(0)
-	, isActive(false)
 	, isCollapsed(false)
 	, isDeclaration(false)
 	, isDefinition(false)
@@ -19,16 +18,6 @@ CodeSnippetParams::CodeSnippetParams()
 
 bool CodeSnippetParams::sort(const CodeSnippetParams& a, const CodeSnippetParams& b)
 {
-	// sort active snippet first
-	if (a.isActive && !b.isActive)
-	{
-		return true;
-	}
-	else if (!a.isActive && b.isActive)
-	{
-		return false;
-	}
-
 	// sort definitions
 	if (a.isDefinition && !b.isDefinition)
 	{

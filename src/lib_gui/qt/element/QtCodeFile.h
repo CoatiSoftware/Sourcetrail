@@ -19,7 +19,7 @@
 
 class QLabel;
 class QPushButton;
-class QtCodeFileList;
+class QtCodeNavigator;
 class QtCodeSnippet;
 class QVBoxLayout;
 class TokenLocationFile;
@@ -31,7 +31,7 @@ class QtCodeFile
 	Q_OBJECT
 
 public:
-	QtCodeFile(const FilePath& filePath, QtCodeFileList* parent);
+	QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator);
 	virtual ~QtCodeFile();
 
 	void setModificationTime(TimePoint modificationTime);
@@ -39,20 +39,15 @@ public:
 	const FilePath& getFilePath() const;
 	std::string getFileName() const;
 
-	const std::vector<Id>& getActiveTokenIds() const;
-	const std::vector<Id>& getActiveLocalSymbolIds() const;
-	const std::vector<Id>& getFocusedTokenIds() const;
-
-	std::vector<std::string> getErrorMessages() const;
-	bool hasErrors() const;
-
 	QtCodeSnippet* addCodeSnippet(const CodeSnippetParams& params);
 	QtCodeSnippet* insertCodeSnippet(const CodeSnippetParams& params);
 
-	QtCodeSnippet* findFirstActiveSnippet() const;
+	QtCodeSnippet* getSnippetForLocationId(Id locationId) const;
 	QtCodeSnippet* getFileSnippet() const;
-	bool isCollapsedActiveFile() const;
 
+	bool isCollapsed() const;
+
+	void requestContent() const;
 	void updateContent();
 
 	void setLocationFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount);
@@ -61,9 +56,7 @@ public:
 	void setSnippets();
 	void setMaximized();
 
-	void requestSnippets() const;
 	bool hasSnippets() const;
-
 	void updateSnippets();
 
 	uint getScrollToLine() const;
@@ -88,7 +81,7 @@ private:
 
 	QtThreadedFunctor<> m_updateTitleBarFunctor;
 
-	QtCodeFileList* m_parent;
+	QtCodeNavigator* m_navigator;
 
 	QPushButton* m_titleBar;
 	QPushButton* m_title;
@@ -106,7 +99,7 @@ private:
 	TimePoint m_modificationTime;
 
 	std::shared_ptr<TokenLocationFile> m_locationFile;
-	mutable bool m_snippetsRequested;
+	mutable bool m_contentRequested;
 
 	uint m_scrollToLine;
 };

@@ -8,9 +8,11 @@
 #include "utility/text/TextAccess.h"
 
 #include "data/location/TokenLocationFile.h"
+#include "qt/element/QtCodeNavigator.h"
 #include "qt/element/QtCodeFile.h"
 
-std::shared_ptr<QtCodeSnippet> QtCodeSnippet::merged(QtCodeSnippet* a, QtCodeSnippet* b, QtCodeFile* file)
+std::shared_ptr<QtCodeSnippet> QtCodeSnippet::merged(
+	QtCodeSnippet* a, QtCodeSnippet* b, QtCodeNavigator* navigator, QtCodeFile* file)
 {
 	QtCodeSnippet* first = a->getStartLineNumber() < b->getStartLineNumber() ? a : b;
 	QtCodeSnippet* second = a->getStartLineNumber() > b->getStartLineNumber() ? a : b;
@@ -53,18 +55,20 @@ std::shared_ptr<QtCodeSnippet> QtCodeSnippet::merged(QtCodeSnippet* a, QtCodeSni
 	params.code = code;
 	params.locationFile = locationFile;
 
-	return std::shared_ptr<QtCodeSnippet>(new QtCodeSnippet(params, file));
+	return std::shared_ptr<QtCodeSnippet>(new QtCodeSnippet(params, navigator, file));
 }
 
-QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeFile* file)
+QtCodeSnippet::QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* navigator, QtCodeFile* file)
 	: QFrame(file)
+	, m_navigator(navigator)
+	, m_file(file)
 	, m_titleId(params.titleId)
 	, m_titleString(params.title)
 	, m_footerId(params.footerId)
 	, m_footerString(params.footer)
 	, m_title(nullptr)
 	, m_footer(nullptr)
-	, m_codeArea(std::make_shared<QtCodeArea>(params.startLineNumber, params.code, params.locationFile, file, this))
+	, m_codeArea(std::make_shared<QtCodeArea>(params.startLineNumber, params.code, params.locationFile, navigator, this))
 {
 	setObjectName("code_snippet");
 
@@ -116,7 +120,7 @@ QtCodeSnippet::~QtCodeSnippet()
 
 QtCodeFile* QtCodeSnippet::getFile() const
 {
-	return m_codeArea->getFile();
+	return m_file;
 }
 
 uint QtCodeSnippet::getStartLineNumber() const
@@ -146,19 +150,14 @@ void QtCodeSnippet::updateContent()
 	updateDots();
 }
 
-bool QtCodeSnippet::isActive() const
-{
-	return m_codeArea->isActive();
-}
-
 void QtCodeSnippet::setIsActiveFile(bool isActiveFile)
 {
 	m_codeArea->setIsActiveFile(isActiveFile);
 }
 
-uint QtCodeSnippet::getFirstActiveLineNumber() const
+uint QtCodeSnippet::getLineNumberForLocationId(Id locationId) const
 {
-	return m_codeArea->getFirstActiveLineNumber();
+	return m_codeArea->getLineNumberForLocationId(locationId);
 }
 
 QRectF QtCodeSnippet::getLineRectForLineNumber(uint lineNumber) const
@@ -177,7 +176,7 @@ void QtCodeSnippet::clickedTitle()
 
 	if (m_titleId > 0)
 	{
-		MessageShowScope(m_titleId, getFile()->hasErrors()).dispatch();
+		MessageShowScope(m_titleId, m_navigator->hasErrors()).dispatch();
 	}
 	else
 	{
@@ -190,7 +189,7 @@ void QtCodeSnippet::clickedFooter()
 	if (m_footerId > 0)
 	{
 		getFile()->setScrollToLine(getEndLineNumber());
-		MessageShowScope(m_footerId, getFile()->hasErrors()).dispatch();
+		MessageShowScope(m_footerId, m_navigator->hasErrors()).dispatch();
 	}
 }
 

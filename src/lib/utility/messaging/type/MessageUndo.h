@@ -2,9 +2,9 @@
 #define MESSAGE_UNDO_H
 
 #include "utility/messaging/Message.h"
-#include "utility/types.h"
 
-class MessageUndo: public Message<MessageUndo>
+class MessageUndo
+	: public Message<MessageUndo>
 {
 public:
 	MessageUndo()

@@ -16,6 +16,7 @@
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 #include "utility/messaging/type/MessageSearchFullText.h"
 #include "utility/messaging/type/MessageShowErrors.h"
+#include "utility/messaging/type/MessageShowReference.h"
 
 #include "component/controller/Controller.h"
 #include "component/controller/helper/DummyEdge.h"
@@ -41,6 +42,7 @@ class GraphController
 	, public MessageListener<MessageGraphNodeMove>
 	, public MessageListener<MessageSearchFullText>
 	, public MessageListener<MessageShowErrors>
+	, public MessageListener<MessageShowReference>
 {
 public:
 	GraphController(StorageAccess* storageAccess);
@@ -57,6 +59,7 @@ private:
 	virtual void handleMessage(MessageGraphNodeMove* message);
 	virtual void handleMessage(MessageSearchFullText* message);
 	virtual void handleMessage(MessageShowErrors* message);
+	virtual void handleMessage(MessageShowReference* message);
 
 	GraphView* getView() const;
 

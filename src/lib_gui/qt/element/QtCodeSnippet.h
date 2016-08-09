@@ -15,6 +15,7 @@
 class QBoxLayout;
 class QPushButton;
 class QtCodeFile;
+class QtCodeNavigator;
 class TokenLocationFile;
 
 class QtCodeSnippet
@@ -23,9 +24,10 @@ class QtCodeSnippet
 	Q_OBJECT
 
 public:
-	static std::shared_ptr<QtCodeSnippet> merged(QtCodeSnippet* a, QtCodeSnippet* b, QtCodeFile* file);
+	static std::shared_ptr<QtCodeSnippet> merged(
+		QtCodeSnippet* a, QtCodeSnippet* b, QtCodeNavigator* navigator, QtCodeFile* file);
 
-	QtCodeSnippet(const CodeSnippetParams& params, QtCodeFile* file);
+	QtCodeSnippet(const CodeSnippetParams& params, QtCodeNavigator* navigator, QtCodeFile* file);
 	virtual ~QtCodeSnippet();
 
 	QtCodeFile* getFile() const;
@@ -38,11 +40,9 @@ public:
 	void updateLineNumberAreaWidthForDigits(int digits);
 	void updateContent();
 
-	bool isActive() const;
-
 	void setIsActiveFile(bool isActiveFile);
 
-	uint getFirstActiveLineNumber() const;
+	uint getLineNumberForLocationId(Id locationId) const;
 	QRectF getLineRectForLineNumber(uint lineNumber) const;
 
 	std::string getCode() const;
@@ -54,6 +54,9 @@ private slots:
 private:
 	QPushButton* createScopeLine(QBoxLayout* layout);
 	void updateDots();
+
+	QtCodeNavigator* m_navigator;
+	QtCodeFile* m_file;
 
 	Id m_titleId;
 	std::string m_titleString;

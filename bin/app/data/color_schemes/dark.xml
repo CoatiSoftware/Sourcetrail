@@ -186,6 +186,10 @@
 						<fill>#207EA8</fill>
 						<text>#F7F7F7</text>
 					</normal>
+					<focus>
+						<border>#006D93</border>
+						<fill>#134B63</fill>
+					</focus>
 				</fulltext>
 			</selection>
 		</snippet>

@@ -24,6 +24,7 @@
 #include "settings/ProjectSettings.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageCodeReference.h"
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
@@ -432,6 +433,16 @@ void QtMainWindow::findFulltext()
 	MessageFind(true).dispatch();
 }
 
+void QtMainWindow::codeReferencePrevious()
+{
+	MessageCodeReference(MessageCodeReference::REFERENCE_PREVIOUS).dispatch();
+}
+
+void QtMainWindow::codeReferenceNext()
+{
+	MessageCodeReference(MessageCodeReference::REFERENCE_NEXT).dispatch();
+}
+
 void QtMainWindow::overview()
 {
 	MessageSearch(std::vector<SearchMatch>(1, SearchMatch::createCommand(SearchMatch::COMMAND_ALL))).dispatch();
@@ -599,6 +610,11 @@ void QtMainWindow::setupEditMenu()
 
 	menu->addAction(tr("&Find Symbol"), this, SLOT(find()), QKeySequence::Find);
 	menu->addAction(tr("&Find Text"), this, SLOT(findFulltext()), QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_F));
+
+	menu->addSeparator();
+
+	menu->addAction(tr("Code Reference Next"), this, SLOT(codeReferenceNext()), QKeySequence(Qt::CTRL + Qt::Key_G));
+	menu->addAction(tr("Code Reference Previous"), this, SLOT(codeReferencePrevious()), QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_G));
 
 	menu->addSeparator();
 

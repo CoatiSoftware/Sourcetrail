@@ -122,7 +122,8 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 
 	if (message->isEdge)
 	{
-		view->showFirstActiveSnippet(activeTokenIds, message->isLast());
+		std::shared_ptr<TokenLocationCollection> collection = m_storageAccess->getTokenLocationsForTokenIds(activeTokenIds);
+		view->showActiveSnippet(activeTokenIds, collection, message->isLast());
 	}
 	else if (message->keepContent())
 	{
@@ -365,9 +366,6 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocation
 	TRACE();
 
 	std::vector<CodeSnippetParams> snippets;
-	size_t definitionFileCount = 0;
-	size_t declarationFileCount = 0;
-
 	collection->forEachTokenLocationFile(
 		[&](std::shared_ptr<TokenLocationFile> file) -> void
 		{
@@ -388,38 +386,15 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForActiveTokenLocation
 				}
 			);
 
-			if (collection->getTokenLocationFileCount() < 5 || file->isWholeCopy ||
-				(isDefinitionFile && definitionFileCount < 3) ||
-				(!isDefinitionFile && isDeclarationFile && declarationFileCount < 3))
-			{
-				std::vector<CodeSnippetParams> fileSnippets = getSnippetsForFile(file, true);
+			CodeSnippetParams params;
+			params.locationFile = file;
+			params.refCount = file->getUnscopedStartTokenLocationCount();
 
-				for (CodeSnippetParams& snippet : fileSnippets)
-				{
-					snippet.isDeclaration = isDeclarationFile;
-					snippet.isDefinition = isDefinitionFile;
-				}
+			params.isDeclaration = isDeclarationFile;
+			params.isDefinition = isDefinitionFile;
 
-				utility::append(snippets, fileSnippets);
-			}
-			else
-			{
-				CodeSnippetParams params;
-				params.locationFile = file;
-				params.refCount = file->getUnscopedStartTokenLocationCount();
-
-				params.isCollapsed = true;
-				snippets.push_back(params);
-			}
-
-			if (isDefinitionFile)
-			{
-				definitionFileCount++;
-			}
-			else if (isDeclarationFile)
-			{
-				declarationFileCount++;
-			}
+			params.isCollapsed = true;
+			snippets.push_back(params);
 		}
 	);
 
@@ -439,20 +414,12 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForCollection(
 	collection->forEachTokenLocationFile(
 		[&](std::shared_ptr<TokenLocationFile> file) -> void
 		{
-			if (snippets.size() < 10)
-			{
-				std::vector<CodeSnippetParams> fileSnippets = getSnippetsForFile(file, addTokenLocations);
-				snippets.insert(snippets.end(), fileSnippets.begin(), fileSnippets.end());
-			}
-			else
-			{
-				CodeSnippetParams params;
-				params.locationFile = file;
-				params.refCount = file->getUnscopedStartTokenLocationCount();
+			CodeSnippetParams params;
+			params.locationFile = file;
+			params.refCount = file->getUnscopedStartTokenLocationCount();
 
-				params.isCollapsed = true;
-				snippets.push_back(params);
-			}
+			params.isCollapsed = true;
+			snippets.push_back(params);
 		}
 	);
 
