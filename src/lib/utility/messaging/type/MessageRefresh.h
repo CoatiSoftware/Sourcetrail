@@ -9,6 +9,7 @@ public:
 	MessageRefresh()
 		: uiOnly(false)
 		, all(false)
+		, reloadSettings(true)
 	{
 	}
 
@@ -29,6 +30,12 @@ public:
 		return *this;
 	}
 
+	MessageRefresh& keepSettings()
+	{
+		reloadSettings = false;
+		return *this;
+	}
+
 	virtual void print(std::ostream& os) const
 	{
 		if (uiOnly)
@@ -43,6 +50,7 @@ public:
 
 	bool uiOnly;
 	bool all;
+	bool reloadSettings;
 };
 
 #endif // MESSAGE_REFRESH_H

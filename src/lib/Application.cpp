@@ -302,8 +302,8 @@ void Application::handleMessage(MessageLoadProject* message)
 	}
 	catch (...)
 	{
-		LOG_ERROR_STREAM(<< "Failed to load project. Try restarting Coati as admin");
-		MessageStatus("Failed to load project. Try restarting Coati as admin", true).dispatch();
+		LOG_ERROR_STREAM(<< "Failed to load project.");
+		MessageStatus("Failed to load project.", true).dispatch();
 	}
 }
 
@@ -311,7 +311,10 @@ void Application::handleMessage(MessageRefresh* message)
 {
 	TRACE("app refresh");
 
-	loadSettings();
+	if (message->reloadSettings)
+	{
+		loadSettings();
+	}
 
 	if (message->uiOnly)
 	{
@@ -331,7 +334,7 @@ void Application::handleMessage(MessageRefresh* message)
 void Application::handleMessage(MessageSwitchColorScheme* message)
 {
 	loadStyle(message->colorSchemePath);
-	m_componentManager->refreshViews();
+	MessageRefresh().refreshUiOnly().keepSettings().dispatch();
 }
 
 void Application::startMessagingAndScheduling()
