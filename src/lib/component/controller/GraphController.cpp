@@ -139,6 +139,11 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 
 void GraphController::handleMessage(MessageGraphNodeExpand* message)
 {
+	if (message->ignoreIfNotReplayed && !message->isReplayed())
+	{
+		return;
+	}
+
 	DummyNode* node = getDummyGraphNodeById(message->tokenId);
 	if (node)
 	{
@@ -332,7 +337,8 @@ std::vector<Id> GraphController::getExpandedNodeIds() const
 	for (std::pair<Id, std::shared_ptr<DummyNode>> p : m_dummyGraphNodes)
 	{
 		DummyNode* oldNode = p.second.get();
-		if (oldNode->expanded && oldNode->isGraphNode() && !oldNode->data->isType(Node::NODE_FUNCTION | Node::NODE_METHOD))
+		if (oldNode->expanded && !oldNode->autoExpanded && oldNode->isGraphNode() &&
+			!oldNode->data->isType(Node::NODE_FUNCTION | Node::NODE_METHOD))
 		{
 			nodeIds.push_back(p.first);
 		}
@@ -345,14 +351,10 @@ void GraphController::setExpandedNodeIds(const std::vector<Id>& nodeIds)
 	for (Id id : nodeIds)
 	{
 		DummyNode* node = getDummyGraphNodeById(id);
-		if (node && node->topLevelAncestorId)
+		if (node)
 		{
-			DummyNode* parent = getDummyGraphNodeById(node->topLevelAncestorId);
-
-			if (parent && parent->hasActiveSubNode())
-			{
-				node->expanded = true;
-			}
+			node->expanded = true;
+			MessageGraphNodeExpand(id, true, true);
 		}
 	}
 }
@@ -368,6 +370,7 @@ void GraphController::autoExpandActiveNode(const std::vector<Id>& activeTokenIds
 	if (node)
 	{
 		node->expanded = true;
+		node->autoExpanded = true;
 	}
 }
 

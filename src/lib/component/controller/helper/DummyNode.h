@@ -40,6 +40,7 @@ public:
 		, active(false)
 		, connected(false)
 		, expanded(false)
+		, autoExpanded(false)
 		, hasParent(true)
 		, accessKind(ACCESS_NONE)
 		, invisibleSubNodeCount(0)
@@ -236,6 +237,7 @@ public:
 	bool active;
 	bool connected;
 	bool expanded;
+	bool autoExpanded;
 	bool hasParent;
 
 	// AccessNode

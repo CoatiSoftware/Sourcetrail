@@ -8,9 +8,10 @@ class MessageGraphNodeExpand
 	: public Message<MessageGraphNodeExpand>
 {
 public:
-	MessageGraphNodeExpand(Id tokenId, bool expand)
+	MessageGraphNodeExpand(Id tokenId, bool expand, bool ignoreIfNotReplayed = false)
 		: tokenId(tokenId)
 		, expand(expand)
+		, ignoreIfNotReplayed(ignoreIfNotReplayed)
 	{
 	}
 
@@ -34,6 +35,7 @@ public:
 
 	const Id tokenId;
 	const bool expand;
+	const bool ignoreIfNotReplayed;
 };
 
 #endif // MESSAGE_GRAPH_NODE_EXPAND_H
