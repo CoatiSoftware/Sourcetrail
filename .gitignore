@@ -71,3 +71,4 @@ Makefile
 /deployment/windows/CoatiTrialSetup/SetupRemoveCacheFiles/bin/
 /deployment/windows/CoatiTrialSetup/SetupRemoveCacheFiles/obj/
 
+/deployment/windows/wixSetup/

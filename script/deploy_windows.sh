@@ -107,6 +107,10 @@ echo -e "$INFO building the installer (trail)"
 "D:/programme/Microsoft Visual Studio14/Common7/IDE/devenv.com" deployment/windows/CoatiTrialSetup/CoatiTrialSetup.sln //build Release //project deployment/windows/CoatiTrialSetup/CoatiSetup/CoatiSetup.vdproj
 
 
+# BUILDING WIX INSTALLERS
+call deployment/windows/wixSetup/build.bat
+
+
 # EDIT THE INSTALLERS
 "C:/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Bin/MsiTran.Exe" -a "deployment/windows/transform.mst" "deployment/windows/CoatiAppSetup/CoatiSetup/Release/Coati.msi"
 "C:/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Bin/MsiTran.Exe" -a "deployment/windows/transform.mst" "deployment/windows/CoatiTrialSetup/CoatiSetup/Release/CoatiTrial.msi"

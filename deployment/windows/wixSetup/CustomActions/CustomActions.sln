@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetupAppSettings", "SetupAppSettings\SetupAppSettings.csproj", "{A3901962-55C5-457B-873D-5842F2B3B2BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UninstallRemoveLogFolder", "UninstallRemoveLogFolder\UninstallRemoveLogFolder.csproj", "{7B853830-9077-4803-8ADF-12D7B2886958}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A3901962-55C5-457B-873D-5842F2B3B2BE}.Debug|Any CPU.ActiveCfg = Release|x86
+		{A3901962-55C5-457B-873D-5842F2B3B2BE}.Debug|Any CPU.Build.0 = Release|x86
+		{A3901962-55C5-457B-873D-5842F2B3B2BE}.Debug|x86.ActiveCfg = Debug|x86
+		{A3901962-55C5-457B-873D-5842F2B3B2BE}.Debug|x86.Build.0 = Debug|x86
+		{A3901962-55C5-457B-873D-5842F2B3B2BE}.Release|Any CPU.ActiveCfg = Release|x86
+		{A3901962-55C5-457B-873D-5842F2B3B2BE}.Release|Any CPU.Build.0 = Release|x86
+		{A3901962-55C5-457B-873D-5842F2B3B2BE}.Release|x86.ActiveCfg = Release|x86
+		{A3901962-55C5-457B-873D-5842F2B3B2BE}.Release|x86.Build.0 = Release|x86
+		{7B853830-9077-4803-8ADF-12D7B2886958}.Debug|Any CPU.ActiveCfg = Release|x86
+		{7B853830-9077-4803-8ADF-12D7B2886958}.Debug|Any CPU.Build.0 = Release|x86
+		{7B853830-9077-4803-8ADF-12D7B2886958}.Debug|x86.ActiveCfg = Debug|x86
+		{7B853830-9077-4803-8ADF-12D7B2886958}.Debug|x86.Build.0 = Debug|x86
+		{7B853830-9077-4803-8ADF-12D7B2886958}.Release|Any CPU.ActiveCfg = Release|x86
+		{7B853830-9077-4803-8ADF-12D7B2886958}.Release|Any CPU.Build.0 = Release|x86
+		{7B853830-9077-4803-8ADF-12D7B2886958}.Release|x86.ActiveCfg = Release|x86
+		{7B853830-9077-4803-8ADF-12D7B2886958}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

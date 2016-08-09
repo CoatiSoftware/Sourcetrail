@@ -1,0 +1,104 @@
+<?xml version='1.0'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+	<Fragment>
+		<DirectoryRef Id='CoatiAppData'>
+			<Component Id="ApplicationSettingsXml" Guid="C8883C69-3123-4382-BDB1-771C206EE461">
+							<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\coatiApplicationSettings" Root="HKCU" >
+								<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+							</RegistryKey>
+							<File Id='ApplicationSettings' Name='ApplicationSettings.xml' DiskId='1' Source='./../../../bin/app/user/ApplicationSettings_for_package.xml' KeyPath='no' />
+						</Component>
+						
+						<Directory Id="SampleProjects" Name="projects">
+						
+							<Component Id="SampleProjects" Guid="12F6C3BE-CE83-441A-8A5D-E49EA1483F24">
+								<RemoveFolder Id='SampleProjects' On='uninstall' />
+								<RegistryValue Root='HKCU' Key='SampleProjectDir' Type='string' Value='' KeyPath='yes' />
+							</Component>
+						
+							<Directory Id="SampleProjectTictactoe" Name="tictactoe">
+								<Component Id="TictactoeCoatiproject" Guid="E353FD02-79FD-4409-9874-3282B038DD12">
+									<CreateFolder />
+									<RemoveFolder Id='SampleProjectTictactoe' On='uninstall' />
+									<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tictactoeProjectKey" Root="HKCU" >
+										<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+									</RegistryKey>
+									<File Id='Tictactoe' Name='tictactoe.coatiproject' DiskId='1' Source='./../../../bin/app/data/projects/tictactoe/tictactoe.coatiproject' KeyPath='no' />
+								</Component>
+								
+								<Directory Id="TictactoeSrc" Name="src">
+									<Component Id="TictactoeCode" Guid="393ED988-A69D-4B10-974A-401EBB56C6A3">
+										<CreateFolder />
+										<RemoveFolder Id='TictactoeSrc' On='uninstall' />
+										<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tictactoeCodeKey" Root="HKCU" >
+											<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+										</RegistryKey>
+										<File Id='ArtificialPlayer' Name='artificial_player.cpp' DiskId='1' Source='./../../../bin/app/data/projects/tictactoe/src/artificial_player.cpp' KeyPath='no' />
+										<File Id='ArtificialPlayerHeader' Name='artificial_player.h' DiskId='1' Source='./../../../bin/app/data/projects/tictactoe/src/artificial_player.h' KeyPath='no' />
+										<File Id='Field' Name='field.cpp' DiskId='1' Source='./../../../bin/app/data/projects/tictactoe/src/field.cpp' KeyPath='no' />
+										<File Id='FieldHeader' Name='field.h' DiskId='1' Source='./../../../bin/app/data/projects/tictactoe/src/field.h' KeyPath='no' />
+										
+										<File Id='HumanPlayer' Name='human_player.cpp' DiskId='1' Source='./../../../bin/app/data/projects/tictactoe/src/human_player.cpp' KeyPath='no' />
+										<File Id='HumanPlayerHeader' Name='human_player.h' DiskId='1' Source='./../../../bin/app/data/projects/tictactoe/src/human_player.h' KeyPath='no' />
+										
+										<File Id='IO' Name='io.cpp' DiskId='1' Source='./../../../bin/app/data/projects/tictactoe/src/io.cpp' KeyPath='no' />
+										<File Id='IOHeader' Name='io.h' DiskId='1' Source='./../../../bin/app/data/projects/tictactoe/src/io.h' KeyPath='no' />
+										
+										<File Id='tictactoeMain' Name='main.cpp' DiskId='1' Source='./../../../bin/app/data/projects/tictactoe/src/main.cpp' KeyPath='no' />
+										
+										<File Id='Player' Name='player.cpp' DiskId='1' Source='./../../../bin/app/data/projects/tictactoe/src/player.cpp' KeyPath='no' />
+										<File Id='PlayerHeader' Name='player.h' DiskId='1' Source='./../../../bin/app/data/projects/tictactoe/src/player.h' KeyPath='no' />
+										
+										<File Id='tictactoeFile' Name='tictactoe.cpp' DiskId='1' Source='./../../../bin/app/data/projects/tictactoe/src/tictactoe.cpp' KeyPath='no' />
+										<File Id='tictactoeHeader' Name='tictactoe.h' DiskId='1' Source='./../../../bin/app/data/projects/tictactoe/src/tictactoe.h' KeyPath='no' />
+									</Component>
+									
+								</Directory>
+								
+							</Directory>
+							
+							<Directory Id="SampleProjectTutorial" Name="tutorial">
+								<Component Id="TutorialCoatiproject" Guid="D7976D20-0447-4628-942B-0C8BE49E190E">
+									<CreateFolder />
+									<RemoveFolder Id='SampleProjectTutorial' On='uninstall' />
+									<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tutorialProjectKey" Root="HKCU" >
+										<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+									</RegistryKey>
+									<File Id='Tutorial' Name='tutorial.coatiproject' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/tutorial.coatiproject' KeyPath='no' />
+								</Component>
+								
+								<Directory Id="TutorialSrc" Name="src">
+									<Component Id="TutorialCode" Guid="DA247C7A-16F4-4297-928D-02C713B9967A">
+										<CreateFolder />
+										<RemoveFolder Id='TutorialSrc' On='uninstall' />
+										<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\tutorialCodeKey" Root="HKCU" >
+											<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+										</RegistryKey>
+										
+										<File Id='CodeTutorial1Header' Name='code_tutorial_1.h' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/code_tutorial_1.h' KeyPath='no' />
+										<File Id='CodeTutorial2Header' Name='code_tutorial_2.h' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/code_tutorial_2.h' KeyPath='no' />
+										<File Id='CodeTutorial3Header' Name='code_tutorial_3.h' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/code_tutorial_3.h' KeyPath='no' />
+										<File Id='GraphTutorial1Header' Name='graph_tutorial_1.h' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/graph_tutorial_1.h' KeyPath='no' />
+										<File Id='GraphTutorial2Header' Name='graph_tutorial_2.h' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/graph_tutorial_2.h' KeyPath='no' />
+										<File Id='GraphTutorial3Header' Name='graph_tutorial_3.h' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/graph_tutorial_3.h' KeyPath='no' />
+										<File Id='GraphTutorial4Header' Name='graph_tutorial_4.h' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/graph_tutorial_4.h' KeyPath='no' />
+										<File Id='MainCpp' Name='main.cpp' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/main.cpp' KeyPath='no' />
+										<File Id='MyFirstStepHeader' Name='my_first_step.h' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/my_first_step.h' KeyPath='no' />
+										<File Id='MyNextStepHeader' Name='my_next_step.h' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/my_next_step.h' KeyPath='no' />
+										<File Id='SearchTutorial1Header' Name='search_tutorial_1.h' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/search_tutorial_1.h' KeyPath='no' />
+										<File Id='SearchTutorial2Header' Name='search_tutorial_2.h' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/search_tutorial_2.h' KeyPath='no' />
+										<File Id='SearchTutorial3Header' Name='search_tutorial_3.h' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/search_tutorial_3.h' KeyPath='no' />
+										<File Id='SearchTutorial4Header' Name='search_tutorial_4.h' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/search_tutorial_4.h' KeyPath='no' />
+										<File Id='SearchTutorial5Header' Name='search_tutorial_5.h' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/search_tutorial_5.h' KeyPath='no' />
+										<File Id='StartExploringHeader' Name='start_exploring.h' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/start_exploring.h' KeyPath='no' />
+										<File Id='TheCentralHubHeader' Name='the_central_hub.h' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/the_central_hub.h' KeyPath='no' />
+										<File Id='UtilityHeader' Name='utility.h' DiskId='1' Source='./../../../bin/app/data/projects/tutorial/src/utility.h' KeyPath='no' />
+									</Component>
+								</Directory>
+								
+							</Directory>
+							
+						</Directory>
+		</DirectoryRef>
+	</Fragment>
+</Wix>

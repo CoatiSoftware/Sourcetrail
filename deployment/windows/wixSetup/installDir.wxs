@@ -1,0 +1,393 @@
+<?xml version='1.0'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+	<Fragment>
+		<DirectoryRef Id='INSTALLDIR'>
+			
+			<Component Id='MainExecutable' Guid='A6136907-B3C5-4393-88D7-2ACF63E138A8'>
+				<File Id='CoatiEXE' Name='Coati.exe' DiskId='1' Source='./../../../bin/app/Release/Coati.exe' KeyPath='yes' />
+				
+				<!-- File association -->
+				<RegistryValue Root="HKLM" Key="SOFTWARE\Classes\[ProductName].Document" Name="projectfile" Value="Coati project file" Type="string" />
+				<ProgId Id='Coati.coatiprojectfile' Description='Coati project file' Advertise='yes' Icon='Project.ico'>
+					<Extension Id='coatiproject'>  <!-- ContentType='application/coatiproject' Advertise='no' -->
+						<Verb Id='open' Command='Open' Argument='"%1"' />
+						<MIME Advertise='yes' ContentType='application/coatiproject' Default='yes' />
+					</Extension>
+				</ProgId>
+				
+			</Component>
+			
+			<Component Id='Qt5CoreDll' Guid='0C899A49-DE40-4D35-A0E9-9B64E330BCFA'>
+				<File Id='qt5coreDLL' Name='Qt5Core.dll' DiskId='1' Source='./../../../bin/app/Release/Qt5Core.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='Qt5GuiDll' Guid='F57A8F21-7420-49BC-98B9-2ECD3C5B9674'>
+				<File Id='qt5guiDLL' Name='Qt5Gui.dll' DiskId='1' Source='./../../../bin/app/Release/Qt5Gui.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='Qt5NetworkDll' Guid='78E8699E-42EA-48BD-B844-DD0F9C0ED432'>
+				<File Id='qt5networkDLL' Name='Qt5Network.dll' DiskId='1' Source='./../../../bin/app/Release/Qt5Network.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='Qt5WidgetsDll' Guid='462F10F3-6AC7-473C-95EA-C5616E2822A3'>
+				<File Id='qt5widgetsDLL' Name='Qt5Widgets.dll' DiskId='1' Source='./../../../bin/app/Release/Qt5Widgets.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCrtConvert_l1_1_0Dll' Guid='947B7587-3C4D-4706-BFE2-F3FAC60D7AC0'>
+				<File Id='apiMsWinCrtConvert_l1_1_0' Name='api-ms-win-crt-convert-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-convert-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCrtEnvironment_l1_1_0Dll' Guid='105CDF55-7DC2-40D3-9F0D-9327EB5972DC'>
+				<File Id='apiMsWinCrtEnvironment_l1_1_0' Name='api-ms-win-crt-environment-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-environment-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCrtFilesystem_l1_1_0Dll' Guid='C68E183F-6346-4B67-AE41-880A7CB696D5'>
+				<File Id='apiMsWinCrtFilesystem_l1_1_0' Name='api-ms-win-crt-filesystem-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-filesystem-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCrtHeap_l1_1_0Dll' Guid='0CC58622-7280-48E8-92B5-8E2329449215'>
+				<File Id='apiMsWinCrtHeap_l1_1_0' Name='api-ms-win-crt-heap-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-heap-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCrtLocale_l1_1_0Dll' Guid='50833B74-8A48-4994-A176-A28BFBBAEFC1'>
+				<File Id='apiMsWinCrtLocale_l1_1_0' Name='api-ms-win-crt-locale-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-locale-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCrtMath_l1_1_0Dll' Guid='9A608BBB-3152-4B1D-BFD4-E5D6A10039BB'>
+				<File Id='apiMsWinCrtMath_l1_1_0' Name='api-ms-win-crt-math-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-math-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCrtRuntime_l1_1_0Dll' Guid='48419CF9-BFE3-4B48-BC44-B4A610E0DAA1'>
+				<File Id='apiMsWinCrtRuntime_l1_1_0' Name='api-ms-win-crt-runtime-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-runtime-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCrtStdio_l1_1_0Dll' Guid='DFD68FED-5E68-46DF-A015-999B0A0C1008'>
+				<File Id='apiMsWinCrtStdio_l1_1_0' Name='api-ms-win-crt-stdio-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-stdio-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCrtString_l1_1_0Dll' Guid='6A3BF854-00C7-4813-BFE9-3BD4C2A3A0AB'>
+				<File Id='apiMsWinCrtString_l1_1_0' Name='api-ms-win-crt-string-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-string-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCrtTime_l1_1_0Dll' Guid='AB413622-275D-4D37-976D-4BD04DCCCE91'>
+				<File Id='apiMsWinCrtTime_l1_1_0' Name='api-ms-win-crt-time-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-time-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCrtUtility_l1_1_0Dll' Guid='40F5F1AA-1849-45F2-A15F-816CE20AFECB'>
+				<File Id='apiMsWinCrtUtility_l1_1_0' Name='api-ms-win-crt-utility-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-utility-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Directory Id='Platforms' Name='platforms'>
+			
+				<Component Id='QWindowsDll' Guid='0B57B111-1068-42D1-891B-A21C6C0CC63E'>
+					<File Id='qwindowsDLL' Name='qwindows.dll' DiskId='1' Source='./../../../bin/app/Release/platforms/qwindows.dll' KeyPath='yes' />
+				</Component>
+			
+			</Directory>
+			
+			<Directory Id='LieutenantCommanderData' Name='data'>
+				
+				<Directory Id='DataFonts' Name='fonts'>
+					
+					<Component Id='FontSet' Guid='F5330EDB-A1E2-4B1D-BBA3-A65DAFE34814'>
+						<File Id='FiraSansLicensetxt' Name='FiraSans_License.txt' DiskId='1' Source='./../../../bin/app/data/fonts/FiraSans_License.txt' KeyPath='yes' />
+						<File Id='FiraSansRegularotf' Name='FiraSans-Regular.otf' DiskId='1' Source='./../../../bin/app/data/fonts/FiraSans-Regular.otf' KeyPath='no' />
+						<File Id='FiraSansSemiBoldotf' Name='FiraSans-SemiBold.otf' DiskId='1' Source='./../../../bin/app/data/fonts/FiraSans-SemiBold.otf' KeyPath='no' />
+						
+						<File Id='RobotoLicensetxt' Name='Roboto_License.txt' DiskId='1' Source='./../../../bin/app/data/fonts/Roboto_License.txt' KeyPath='no' />
+						<File Id='RobotoBoldttf' Name='Roboto-Bold.ttf' DiskId='1' Source='./../../../bin/app/data/fonts/Roboto-Bold.ttf' KeyPath='no' />
+						<File Id='RobotoRegularttf' Name='Roboto-Regular.ttf' DiskId='1' Source='./../../../bin/app/data/fonts/Roboto-Regular.ttf' KeyPath='no' />
+						
+						<File Id='SourceCodeProLicensetxt' Name='SourceCodePro_License.txt' DiskId='1' Source='./../../../bin/app/data/fonts/SourceCodePro_License.txt' KeyPath='no' />
+						<File Id='SourceCodeProBoldotf' Name='SourceCodePro-Bold.otf' DiskId='1' Source='./../../../bin/app/data/fonts/SourceCodePro-Bold.otf' KeyPath='no' />
+						<File Id='SourceCodeProMediumotf' Name='SourceCodePro-Medium.otf' DiskId='1' Source='./../../../bin/app/data/fonts/SourceCodePro-Medium.otf' KeyPath='no' />
+						<File Id='SourceCodeProRegularotf' Name='SourceCodePro-Regular.otf' DiskId='1' Source='./../../../bin/app/data/fonts/SourceCodePro-Regular.otf' KeyPath='no' />
+					</Component>
+					
+				</Directory>
+				
+				<Directory Id='DataColorSchemes' Name='color_schemes'>
+					<Component Id='ColorSchemes' Guid='D6F2E227-6442-4415-B2F6-050E2A142D09'>
+						<File Id='badRainbowXml' Name='bad_rainbow.xml' DiskId='1' Source='./../../../bin/app/data/color_schemes/bad_rainbow.xml' KeyPath='yes' />
+						<File Id='brightXml' Name='bright.xml' DiskId='1' Source='./../../../bin/app/data/color_schemes/bright.xml' KeyPath='no' />
+						<File Id='darkXml' Name='dark.xml' DiskId='1' Source='./../../../bin/app/data/color_schemes/dark.xml' KeyPath='no' />
+					</Component>
+				</Directory>
+				
+				<Directory Id='DataGui' Name='gui'>
+					<Component Id='MainCss' Guid='70C63F6F-C13B-4EDA-94D4-7884A8BEFA55'>
+						<File Id='Main' Name='main.css' DiskId='1' Source='./../../../bin/app/data/gui/main.css' KeyPath='yes' />
+					</Component>
+					<Component Id='SplashBluePng' Guid='914A5336-8D25-4748-8874-AF78A7A2669E'>
+						<File Id='SplashBlue' Name='splash_blue.png' DiskId='1' Source='./../../../bin/app/data/gui/splash_blue.png' KeyPath='yes' />
+					</Component>
+					<Component Id='SplashWhitePng' Guid='0567B438-1770-4201-B040-E63480544315'>
+						<File Id='SplashWhite' Name='splash_white.png' DiskId='1' Source='./../../../bin/app/data/gui/splash_white.png' KeyPath='yes' />
+					</Component>
+					
+					<Directory Id='DataAbout' Name='about'>
+						<Component Id='AboutCss' Guid='137816FE-E17E-47FF-8826-FBD74E4E5BB7'>
+							<File Id='About' Name='splash_white.png' DiskId='1' Source='./../../../bin/app/data/gui/about/about.css' KeyPath='yes' />
+						</Component>
+						<Component Id='IconClosePng' Guid='42FE1C4F-B78E-49C5-91F2-FBCA584B802E'>
+							<File Id='IconClose' Name='icon_close.png' DiskId='1' Source='./../../../bin/app/data/gui/about/icon_close.png' KeyPath='yes' />
+						</Component>
+						<Component Id='LogoAwsPng' Guid='B20C4EB0-1782-4575-A653-F48DE9D9C4B8'>
+							<File Id='LogoAws' Name='logo_aws.png' DiskId='1' Source='./../../../bin/app/data/gui/about/logo_aws.png' KeyPath='yes' />
+						</Component>
+						<Component Id='LogoCoatiPng' Guid='3ACD90D9-6099-4E95-AD99-AF7CD695BEB9'>
+							<File Id='LogoCoati' Name='logo_coati.png' DiskId='1' Source='./../../../bin/app/data/gui/about/logo_coati.png' KeyPath='yes' />
+						</Component>
+						<Component Id='LogoFhsPng' Guid='1CEBF789-6E41-4E33-A04B-5B809343C665'>
+							<File Id='LogoFhs' Name='logo_fhs.png' DiskId='1' Source='./../../../bin/app/data/gui/about/logo_fhs.png' KeyPath='yes' />
+						</Component>
+					</Directory>
+					
+					<Directory Id='DataCodeView' Name='code_view'>
+						<Component Id='CodeViewCss' Guid='D880FDCE-037E-4401-95D5-38D4472C9A47'>
+							<File Id='CodeView' Name='code_view.css' DiskId='1' Source='./../../../bin/app/data/gui/code_view/code_view.css' KeyPath='yes' />
+						</Component>
+						
+						<Directory Id='DataCodeViewImages' Name='images'>
+							<Component Id='EditPng' Guid='09F23361-CE52-4D04-8E3D-34821EBF57B3'>
+								<File Id='Edit' Name='edit.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/edit.png' KeyPath='yes' />
+							</Component>
+							<Component Id='MaximizeActivePng' Guid='9B88537F-5FB8-4066-AD68-BE7DA72B935D'>
+								<File Id='MaximizeActive' Name='maximize_active.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/maximize_active.png' KeyPath='yes' />
+							</Component>
+							<Component Id='MaximizeInactivePng' Guid='77B2BF1E-3692-458E-8320-05865EE810F7'>
+								<File Id='MaximizeInactive' Name='maximize_inactive.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/maximize_inactive.png' KeyPath='yes' />
+							</Component>
+							<Component Id='MinimizeActivePng' Guid='572C5209-BF5C-470B-9586-35895D273B71'>
+								<File Id='MinimizeActive' Name='minimize_active.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/minimize_active.png' KeyPath='yes' />
+							</Component>
+							<Component Id='MinimizeInactivePng' Guid='0C8E74E5-7BF3-4AC7-BE87-EBD3C43491ED'>
+								<File Id='MinimizeInactive' Name='minimize_inactive.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/minimize_inactive.png' KeyPath='yes' />
+							</Component>
+							<Component Id='PatternPng' Guid='400BD0CD-3309-497E-9135-7E34C45B4A8E'>
+								<File Id='Pattern' Name='pattern.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/pattern.png' KeyPath='yes' />
+							</Component>
+							<Component Id='SnippetActivePng' Guid='59121177-A2D9-4A9E-BF92-EFA3CA0955D2'>
+								<File Id='SnippetActive' Name='snippet_active.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/snippet_active.png' KeyPath='yes' />
+							</Component>
+							<Component Id='SnippetInactivePng' Guid='EA3522FC-EF33-4732-8F93-586985EB0549'>
+								<File Id='SnippetInactive' Name='snippet_inactive.png' DiskId='1' Source='./../../../bin/app/data/gui/code_view/images/snippet_inactive.png' KeyPath='yes' />
+							</Component>
+							
+						</Directory>
+					</Directory>
+					
+					<Directory Id='DataGraphView' Name='graph_view'>
+						<Component Id='GraphViewCss' Guid='BC8CDF1A-5831-4686-927C-C9E26ED85A3B'>
+							<File Id='GraphView' Name='graph_view.css' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/graph_view.css' KeyPath='yes' />
+						</Component>
+						
+						<Directory Id='DataGraphViewImages' Name='images'>
+							<Component Id='ArrowPng' Guid='EEC8C2CE-A647-4640-81DB-8297C46355E8'>
+								<File Id='Arrow' Name='arrow.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/arrow.png' KeyPath='yes' />
+							</Component>
+							<Component Id='BundlePng' Guid='67CA6A53-7DEA-48F1-9BD3-2CFA65AB554E'>
+								<File Id='Bundle' Name='bundle.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/bundle.png' KeyPath='yes' />
+							</Component>
+							<Component Id='Enum_1Png' Guid='E7F21BA5-8C3A-4373-B636-7BDA0475C96F'>
+								<File Id='Enum_1' Name='enum_1.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/enum_1.png' KeyPath='yes' />
+							</Component>
+							<Component Id='Enum_2Png' Guid='E9AC8702-7D24-4F8B-A3E3-03DF584017F6'>
+								<File Id='Enum_2' Name='enum_2.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/enum_2.png' KeyPath='yes' />
+							</Component>
+							<Component Id='FilePng' Guid='72DA9267-AFB9-46B3-996E-67116FB6852E'>
+								<File Id='File' Name='file.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/file.png' KeyPath='yes' />
+							</Component>
+							<Component Id='Macro_1Png' Guid='FC845B09-C5E6-40D0-9F21-6C5F901B5A00'>
+								<File Id='Macro_1' Name='macro_1.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/macro_1.png' KeyPath='yes' />
+							</Component>
+							<Component Id='Macro_2Png' Guid='3E769590-29C4-4245-99EE-559C9AFD59AE'>
+								<File Id='Macro_2' Name='macro_2.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/macro_2.png' KeyPath='yes' />
+							</Component>
+							<Component Id='Macro_3Png' Guid='7164912E-53B8-472E-B756-1315A187CFE2'>
+								<File Id='Macro_3' Name='macro_3.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/macro_3.png' KeyPath='yes' />
+							</Component>
+							<Component Id='GraphPatternPng' Guid='80B2562B-3DB0-42DA-B68A-B43120646EBA'>
+								<File Id='GraphPattern' Name='pattern.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/pattern.png' KeyPath='yes' />
+							</Component>
+							<Component Id='PrivatePng' Guid='E7FC3AAE-634F-4012-9AE4-41598C303183'>
+								<File Id='Private' Name='private.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/private.png' KeyPath='yes' />
+							</Component>
+							<Component Id='ProtectedPng' Guid='D7EE1C80-C68E-42BB-B16F-F114DA635BB9'>
+								<File Id='Protected' Name='protected.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/protected.png' KeyPath='yes' />
+							</Component>		
+							<Component Id='PublicPng' Guid='66E2CB4C-A9D8-4450-B630-393009D021A1'>
+								<File Id='Public' Name='public.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/public.png' KeyPath='yes' />
+							</Component>
+							<Component Id='TemplatePng' Guid='0CEF2BCE-C9C8-417A-89E9-8CB6478C4E89'>
+								<File Id='Template' Name='template.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/template.png' KeyPath='yes' />
+							</Component>
+							<Component Id='Typedef_1Png' Guid='47CC3CCE-9912-4039-B9DF-4BCC9F891700'>
+								<File Id='Typedef_1' Name='typedef_1.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/typedef_1.png' KeyPath='yes' />
+							</Component>
+							<Component Id='Typedef_2Png' Guid='6C65CE19-EBE1-4611-9E21-45A91B0C1B77'>
+								<File Id='Typedef_2' Name='typedef_2.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/typedef_2.png' KeyPath='yes' />
+							</Component>
+							<Component Id='Typedef_3Png' Guid='CDEF6B3F-AA7C-4BB0-B327-5448D84AF42C'>
+								<File Id='Typedef_3' Name='typedef_3.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/typedef_3.png' KeyPath='yes' />
+							</Component>
+							
+						</Directory>
+					</Directory>
+					
+					<Directory Id='DataIcon' Name='icon'>
+						<Component Id='CoatiIco' Guid='9D65B057-EA87-4251-8898-9FAD23AD3371'>
+							<File Id='Coati' Name='coati.ico' DiskId='1' Source='./../../../bin/app/data/gui/icon/coati.ico' KeyPath='yes' />
+						</Component>
+						<Component Id='Logo_1024_1024_Png' Guid='4A25272C-380F-4414-BFBA-06C92D19B116'>
+							<File Id='Logo_1024_1024' Name='logo_1024_1024.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/logo_1024_1024.png' KeyPath='yes' />
+						</Component>									
+						<Component Id='ProjectIco' Guid='CDAC3217-C104-4D88-98F9-C138825721D4'>
+							<File Id='Project' Name='project.ico' DiskId='1' Source='./../../../bin/app/data/gui/icon/project.ico' KeyPath='yes' />
+						</Component>
+						<Component Id='Project_256_256_Png' Guid='AD536928-0DE5-49BC-B33C-D1A9E9DDB74D'>
+							<File Id='Project_256_256' Name='project_256_256.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/project_256_256.png' KeyPath='yes' />
+						</Component>
+						<Component Id='Project_cdb_256_256_Png' Guid='72B4E345-88E0-4BE9-AC94-94947EE2E9B5'>
+							<File Id='Project_cdb_256_256' Name='project_cdb_256_256.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/project_cdb_256_256.png' KeyPath='yes' />
+						</Component>	
+						<Component Id='Project_vs_256_256_Png' Guid='DA7698DC-8E10-4168-9E45-4B8ED48CC49F'>
+							<File Id='Project_vs_256_256' Name='project_vs_256_256.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/project_vs_256_256.png' KeyPath='yes' />
+						</Component>
+						
+					</Directory>
+					
+					<Directory Id='DataLicense' Name='license'>
+						<Component Id='LicenseCss' Guid='3A9B9310-10B0-477E-A1D8-027666F22476'>
+							<File Id='License' Name='license.css' DiskId='1' Source='./../../../bin/app/data/gui/license/license.css' KeyPath='yes' />
+						</Component>
+					</Directory>
+					
+					<Directory Id='DataRefreshView' Name='refresh_view'>
+						<Component Id='RefreshViewCss' Guid='8AF888D9-BC4B-4AC3-8E2C-20B74F82A888'>
+							<File Id='RefreshView' Name='refresh_view.css' DiskId='1' Source='./../../../bin/app/data/gui/refresh_view/refresh_view.css' KeyPath='yes' />
+						</Component>
+						
+						<Directory Id='DataRefreshViewImages' Name='images'>
+							<Component Id='AutoRefreshPng' Guid='BA036858-6511-4260-9F58-E2BF30DACF25'>
+								<File Id='AutoRefresh' Name='auto_refresh.png' DiskId='1' Source='./../../../bin/app/data/gui/refresh_view/images/auto_refresh.png' KeyPath='yes' />
+							</Component>
+							<Component Id='RefreshPng' Guid='AD5F7B6B-0373-4207-B053-16293FC4C631'>
+								<File Id='Refresh' Name='refresh.png' DiskId='1' Source='./../../../bin/app/data/gui/refresh_view/images/refresh.png' KeyPath='yes' />
+							</Component>
+						</Directory>
+						
+					</Directory>
+					
+					<Directory Id='DataSearchView' Name='search_view'>
+					
+						<Component Id='SearchViewCss' Guid='77634E10-B955-48E1-BA12-12C1FA131C00'>
+							<File Id='SearchView' Name='search_view.css' DiskId='1' Source='./../../../bin/app/data/gui/search_view/search_view.css' KeyPath='yes' />
+						</Component>
+						
+						<Directory Id='DataSearchViewImages' Name='images'>
+							<Component Id='HomePng' Guid='1D00476F-52C2-47F9-8A27-B583D9499311'>
+								<File Id='Home' Name='home.png' DiskId='1' Source='./../../../bin/app/data/gui/search_view/images/home.png' KeyPath='yes' />
+							</Component>
+							<Component Id='SearchPng' Guid='A7B6B305-1B68-4085-9ED9-EF0DCD810116'>
+								<File Id='Search' Name='search.png' DiskId='1' Source='./../../../bin/app/data/gui/search_view/images/search.png' KeyPath='yes' />
+							</Component>
+						</Directory>
+						
+					</Directory>
+					
+					<Directory Id='DataStartScreen' Name='startscreen'>
+					
+						<Component Id='StartscreenCss' Guid='9D3496D5-735A-4686-ADE9-DEB19DF69045'>
+							<File Id='Startscreen' Name='startscreen.css' DiskId='1' Source='./../../../bin/app/data/gui/startscreen/startscreen.css' KeyPath='yes' />
+						</Component>
+					
+					</Directory>
+					
+					<Directory Id='DataStatusbarView' Name='statusbar_view'>
+					
+						<Component Id='DotPng' Guid='7F7173DC-E888-4F03-82CC-3DD86BF402C4'>
+							<File Id='Dot' Name='dot.png' DiskId='1' Source='./../../../bin/app/data/gui/statusbar_view/dot.png' KeyPath='yes' />
+						</Component>
+						<Component Id='LoaderGif' Guid='E0F92524-DDE8-442E-9AD6-A1B2123A979F'>
+							<File Id='Loader' Name='loader.gif' DiskId='1' Source='./../../../bin/app/data/gui/statusbar_view/loader.gif' KeyPath='yes' />
+						</Component>
+					
+					</Directory>
+					
+					<Directory Id='DataUndoRedoView' Name='undoredo_view'>
+					
+						<Component Id='UndoRedoViewCss' Guid='4B2A3FB0-C8F4-4FFE-AE49-93204C35506C'>
+							<File Id='UndoRedoView' Name='undoredo_view.css' DiskId='1' Source='./../../../bin/app/data/gui/undoredo_view/undoredo_view.css' KeyPath='yes' />
+						</Component>
+						
+						<Directory Id='DataUndoRedoViewImages' Name='images'>
+						
+							<Component Id='ArrowLeftPng' Guid='71CD283C-88A6-4E3A-B3BD-D9F94B835875'>
+								<File Id='ArrowLeft' Name='arrow_left.png' DiskId='1' Source='./../../../bin/app/data/gui/undoredo_view/images/arrow_left.png' KeyPath='yes' />
+							</Component>
+							<Component Id='ArrowRightPng' Guid='95C3B2B2-4411-4086-A75B-2E03B7A3119F'>
+								<File Id='ArrowRight' Name='arrow_right.png' DiskId='1' Source='./../../../bin/app/data/gui/undoredo_view/images/arrow_right.png' KeyPath='yes' />
+							</Component>
+					
+						</Directory>
+					</Directory>
+					
+					<Directory Id='DataWindow' Name='window'>
+					
+						<Component Id='WindowDotsPng' Guid='CA2C89C9-91E3-4755-B7BB-DA2253807784'>
+							<File Id='WindowDots' Name='dots.png' DiskId='1' Source='./../../../bin/app/data/gui/window/dots.png' KeyPath='yes' />
+						</Component>
+						<Component Id='WindowDotsHoverPng' Guid='794B67FC-4E6D-4C26-B823-90981BA377BC'>
+							<File Id='WindowDotsHover' Name='dots_hover.png' DiskId='1' Source='./../../../bin/app/data/gui/window/dots_hover.png' KeyPath='yes' />
+						</Component>
+						<Component Id='HelpPng' Guid='0C8176BC-3976-4DF4-815E-B8D149856DD5'>
+							<File Id='Help' Name='help.png' DiskId='1' Source='./../../../bin/app/data/gui/window/help.png' KeyPath='yes' />
+						</Component>
+						<Component Id='HelpHoverPng' Guid='9DB32AA5-AE80-43AC-B2AE-6043BF5E41BB'>
+							<File Id='HelpHover' Name='help_hover.png' DiskId='1' Source='./../../../bin/app/data/gui/window/help_hover.png' KeyPath='yes' />
+						</Component>
+						<Component Id='ListboxCss' Guid='ABA6E005-3E7D-4C08-8008-2F08F92C6196'>
+							<File Id='Listbox' Name='listbox.css' DiskId='1' Source='./../../../bin/app/data/gui/window/listbox.css' KeyPath='yes' />
+						</Component>
+						<Component Id='LogoPng' Guid='F136A7ED-FC0D-40AB-8BC0-B95CA9C3C0F1'>
+							<File Id='Logo' Name='logo.png' DiskId='1' Source='./../../../bin/app/data/gui/window/logo.png' KeyPath='yes' />
+						</Component>
+						<Component Id='MinusPng' Guid='4D8D904E-60C2-499F-865F-56B1A88AE13C'>
+							<File Id='Minus' Name='minus.png' DiskId='1' Source='./../../../bin/app/data/gui/window/minus.png' KeyPath='yes' />
+						</Component>
+						<Component Id='MinusHoverPng' Guid='DC6A016A-4FB3-48A3-ABB1-33534D2188D0'>
+							<File Id='MinusHover' Name='minus_hover.png' DiskId='1' Source='./../../../bin/app/data/gui/window/minus_hover.png' KeyPath='yes' />
+						</Component>
+						<Component Id='PlusPng' Guid='4A6C90C5-929B-4759-BCF1-7EA36F588BA3'>
+							<File Id='Plus' Name='plus.png' DiskId='1' Source='./../../../bin/app/data/gui/window/plus.png' KeyPath='yes' />
+						</Component>
+						<Component Id='PlusHoverPng' Guid='BF773D9C-1C21-4949-8D9C-0A35F7ADBAC3'>
+							<File Id='PlusHover' Name='plus_hover.png' DiskId='1' Source='./../../../bin/app/data/gui/window/plus_hover.png' KeyPath='yes' />
+						</Component>
+						<Component Id='WindowRefreshPng' Guid='B562009C-EDFA-4CD9-AD70-906A3CE60FC0'>
+							<File Id='WindowRefresh' Name='refresh.png' DiskId='1' Source='./../../../bin/app/data/gui/window/refresh.png' KeyPath='yes' />
+						</Component>
+						<Component Id='RefreshHoverPng' Guid='5F2FFEC8-149F-4AA4-8935-6EED3093DE23'>
+							<File Id='RefreshHover' Name='refresh_hover.png' DiskId='1' Source='./../../../bin/app/data/gui/window/refresh_hover.png' KeyPath='yes' />
+						</Component>
+						<Component Id='SizeGripPng' Guid='0AD61462-31E3-40EE-B6BB-7509C48C6816'>
+							<File Id='SizeGrip' Name='size_grip.png' DiskId='1' Source='./../../../bin/app/data/gui/window/size_grip.png' KeyPath='yes' />
+						</Component>
+						<Component Id='WindowCss' Guid='C9BDB09F-7278-41BA-BF3B-AD335B7FB129'>
+							<File Id='Window' Name='window.css' DiskId='1' Source='./../../../bin/app/data/gui/window/window.css' KeyPath='yes' />
+						</Component>
+					
+					</Directory>
+					
+				</Directory>
+				
+			</Directory>
+			
+			<Component Id='UninstallBat' Guid='75D67FBD-06C8-4D3C-AE1D-4802456F4466'>
+				<File Id='Uninstall' Name='uninstall.bat' DiskId='1' Source='./../../../bin/app/data/install/uninstall_wix.bat' KeyPath='yes' />
+			</Component>
+			
+		</DirectoryRef>
+	</Fragment>
+</Wix>

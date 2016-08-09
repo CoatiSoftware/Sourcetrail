@@ -1,0 +1,40 @@
+<?xml version='1.0'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+	<Fragment>
+		<UI>
+			<!-- <Property Id="DefaultUIFont">DlgFont8</Property> -->
+		
+			<Dialog Id="ShortcutDlg" Width="370" Height="270" Title="[ProductName] Setup" NoMinimize="yes">
+				
+				<!-- <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="[BannerBitmap]" /> -->
+				<Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
+					<Text>{\DlgTitleFont}Create shortcuts</Text>
+				</Control>
+				<Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes">
+					<Text>Do you want to create shortcuts for Coati?</Text>
+				</Control>
+				
+				<Control Id="DesktopShortcutCheckBox" Type="CheckBox" X="25" Y="50" Width="290" Height="17"
+					Property="INSTALLDESKTOPSHORTCUT" CheckBoxValue="1" Text="Create a shortcut for this program on the desktop." />
+					
+				<Control Id="StartMenuShortcutCheckBox" Type="CheckBox" X="25" Y="73" Width="290" Height="17"
+					Property="INSTALLSTARTMENUSHORTCUT" CheckBoxValue="1" Text="Create a shortcut for this program in the Start Menu." />
+				
+				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+				
+				<Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="&amp;Back">
+					<Publish Event="NewDialog" Value="InstallDirDlg">1</Publish>
+				</Control>
+				<Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="&amp;Next">
+					<Publish Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+				</Control>
+				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Cancel">
+					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+				</Control>
+			</Dialog>
+			
+			<TextStyle Id="DlgFont8" FaceName="Tahoma" Size="8" />
+			<TextStyle Id="DlgTitleFont" FaceName="Tahoma" Size="8" Bold="yes" />
+		</UI>
+	</Fragment>
+</Wix>
