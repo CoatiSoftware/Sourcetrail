@@ -2,22 +2,27 @@
 
 void StorageCache::clear()
 {
-	m_queryToTokenIds.clear();
+	m_graphForAll.reset();
+
+	m_storageStats = StorageStats();
 }
 
-std::vector<Id> StorageCache::getTokenIdsForMatches(const std::vector<SearchMatch>& matches) const
+std::shared_ptr<Graph> StorageCache::getGraphForAll() const
 {
-	std::string query = SearchMatch::searchMatchesToString(matches);
-	std::map<std::string, std::vector<Id>>::const_iterator it = m_queryToTokenIds.find(query);
-
-	if (it != m_queryToTokenIds.end())
+	if (!m_graphForAll)
 	{
-		return it->second;
+		m_graphForAll = StorageAccessProxy::getGraphForAll();
 	}
 
-	std::vector<Id> ids = StorageAccessProxy::getTokenIdsForMatches(matches);
+	return m_graphForAll;
+}
 
-	m_queryToTokenIds.emplace(query, ids);
+StorageStats StorageCache::getStorageStats() const
+{
+	if (!m_storageStats.nodeCount)
+	{
+		m_storageStats = StorageAccessProxy::getStorageStats();
+	}
 
-	return ids;
+	return m_storageStats;
 }

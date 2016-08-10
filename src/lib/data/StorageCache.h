@@ -11,10 +11,13 @@ class StorageCache
 public:
 	void clear();
 
-	virtual std::vector<Id> getTokenIdsForMatches(const std::vector<SearchMatch>& matches) const;
+	virtual std::shared_ptr<Graph> getGraphForAll() const;
+
+	virtual StorageStats getStorageStats() const;
 
 private:
-	mutable std::map<std::string, std::vector<Id>> m_queryToTokenIds;
+	mutable std::shared_ptr<Graph> m_graphForAll;
+	mutable StorageStats m_storageStats;
 };
 
 #endif // STORAGE_CACHE_H

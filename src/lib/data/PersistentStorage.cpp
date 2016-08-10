@@ -359,9 +359,12 @@ void PersistentStorage::logStats() const
 	ss << "\t" << stats.fileCount << " Files\n";
 	ss << "\t" << stats.fileLOCCount << " Lines of Code\n";
 
+
+	ErrorCountInfo errorCount = getErrorCount();
+
 	ss << "\nErrors:\n";
-	ss << "\t" << stats.errorCount.total << " Errors\n";
-	ss << "\t" << stats.errorCount.fatal << " Fatal Errors\n";
+	ss << "\t" << errorCount.total << " Errors\n";
+	ss << "\t" << errorCount.fatal << " Fatal Errors\n";
 
 	LOG_INFO(ss.str());
 }
@@ -1107,8 +1110,6 @@ StorageStats PersistentStorage::getStorageStats() const
 
 	stats.fileCount = m_sqliteStorage.getFileCount();
 	stats.fileLOCCount = m_sqliteStorage.getFileLOCCount();
-
-	stats.errorCount = getErrorCount();
 
 	return stats;
 }

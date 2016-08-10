@@ -1,11 +1,11 @@
-#include <src/lib/utility/file/FileSystem.h>
-#include <src/lib/settings/ApplicationSettings.h>
 #include "IDECommunicationController.h"
 
 #include "data/access/StorageAccess.h"
 #include "data/location/TokenLocationFile.h"
 #include "data/location/TokenLocation.h"
+#include "settings/ApplicationSettings.h"
 
+#include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageActivateTokenLocations.h"
 #include "utility/messaging/type/MessageActivateWindow.h"
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"

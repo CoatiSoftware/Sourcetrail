@@ -37,6 +37,7 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	std::vector<CodeSnippetParams> snippets = getSnippetsForCollection(m_collection);
 
 	StorageStats stats = m_storageAccess->getStorageStats();
+	ErrorCountInfo errorCount = m_storageAccess->getErrorCount();
 	CodeSnippetParams statsSnippet;
 
 	statsSnippet.startLineNumber = 1;
@@ -69,10 +70,10 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	ss << "\t" + std::to_string(stats.nodeCount) + " symbols\n";
 	ss << "\t" + std::to_string(stats.edgeCount) + " relations\n";
 	ss << "\n";
-	ss << "\t" + std::to_string(stats.errorCount.total) + " errors (" + std::to_string(stats.errorCount.fatal) + " fatal)\n";
+	ss << "\t" + std::to_string(errorCount.total) + " errors (" + std::to_string(errorCount.fatal) + " fatal)\n";
 	ss << "\n";
 
-	if (stats.errorCount.total > 0)
+	if (errorCount.total > 0)
 	{
 		ss << "\tWarning: Indexing may be incomplete as long as it yields fatal errors.\n";
 		ss << "\tTry resolving them and refresh the project.\n";
