@@ -34,7 +34,6 @@ public:
 
 	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds) = 0;
 	virtual void addCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert) = 0;
-	virtual void showCodeFile(const CodeSnippetParams& params) = 0;
 
 	virtual void setFileState(const FilePath filePath, FileState state) = 0;
 
@@ -49,7 +48,7 @@ public:
 	virtual void showContents() = 0;
 
 	virtual void scrollToValue(int value) = 0;
-	virtual void scrollToLine(std::string filename, unsigned int line) = 0;
+	virtual void scrollToLine(const FilePath filePath, unsigned int line) = 0;
 
 private:
 	CodeController* getController();

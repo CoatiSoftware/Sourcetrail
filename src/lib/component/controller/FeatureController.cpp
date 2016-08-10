@@ -77,9 +77,10 @@ void FeatureController::handleMessage(MessageActivateFile* message)
 		msg.setKeepContent(message->keepContent());
 		msg.dispatchImmediately();
 	}
-	if( message->line > 0 )
+
+	if (message->line > 0)
 	{
-		MessageScrollToLine(message->filePath.str(), message->line, true).dispatch();
+		MessageScrollToLine(message->filePath, message->line, true).dispatch();
 	}
 }
 

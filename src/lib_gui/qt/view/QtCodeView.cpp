@@ -16,7 +16,6 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	, m_clearFunctor(std::bind(&QtCodeView::doClear, this))
 	, m_showCodeSnippetsFunctor(std::bind(&QtCodeView::doShowCodeSnippets, this, std::placeholders::_1, std::placeholders::_2))
 	, m_addCodeSnippetsFunctor(std::bind(&QtCodeView::doAddCodeSnippets, this, std::placeholders::_1, std::placeholders::_2))
-	, m_showCodeFileFunctor(std::bind(&QtCodeView::doShowCodeFile, this, std::placeholders::_1))
 	, m_setFileStateFunctor(std::bind(&QtCodeView::doSetFileState, this, std::placeholders::_1, std::placeholders::_2))
 	, m_doShowActiveSnippetFunctor(
 		std::bind(&QtCodeView::doShowActiveSnippet, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
@@ -72,11 +71,6 @@ void QtCodeView::addCodeSnippets(const std::vector<CodeSnippetParams>& snippets,
 	m_addCodeSnippetsFunctor(snippets, insert);
 }
 
-void QtCodeView::showCodeFile(const CodeSnippetParams& params)
-{
-	m_showCodeFileFunctor(params);
-}
-
 void QtCodeView::setFileState(const FilePath filePath, FileState state)
 {
 	m_setFileStateFunctor(filePath, state);
@@ -118,9 +112,9 @@ void QtCodeView::scrollToValue(int value)
 	m_scrollToValueFunctor(value);
 }
 
-void QtCodeView::scrollToLine(std::string filename, unsigned int line)
+void QtCodeView::scrollToLine(const FilePath filePath, unsigned int line)
 {
-	m_scrollToLineFunctor(filename, line);
+	m_scrollToLineFunctor(filePath, line);
 }
 
 void QtCodeView::doRefreshView()
@@ -173,11 +167,6 @@ void QtCodeView::doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippet
 	m_widget->scrollToSnippetIfRequested();
 }
 
-void QtCodeView::doShowCodeFile(const CodeSnippetParams& params)
-{
-	m_widget->addCodeSnippet(params);
-}
-
 void QtCodeView::doSetFileState(const FilePath filePath, FileState state)
 {
 	switch (state)
@@ -192,6 +181,8 @@ void QtCodeView::doSetFileState(const FilePath filePath, FileState state)
 		m_widget->setFileMaximized(filePath);
 		break;
 	}
+
+	m_widget->scrollToSnippetIfRequested();
 }
 
 void QtCodeView::doShowActiveSnippet(
@@ -232,9 +223,9 @@ void QtCodeView::doScrollToValue(int value)
 	m_widget->scrollToValue(value);
 }
 
-void QtCodeView::doScrollToLine(std::string filename, unsigned int line)
+void QtCodeView::doScrollToLine(const FilePath filePath, unsigned int line)
 {
-	m_widget->scrollToLine(filename, line);
+	m_widget->scrollToLine(filePath, line);
 }
 
 void QtCodeView::setStyleSheet() const

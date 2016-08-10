@@ -64,9 +64,17 @@ public:
 	void updateFiles();
 	void showContents();
 
+	void showLocation(const FilePath& filePath, Id locationId, bool scrollTo);
+
 	void scrollToValue(int value);
-	void scrollToLine(std::string filename, unsigned int line);
+	void scrollToLine(const FilePath& filePath, unsigned int line);
+	void scrollToLocation(QtCodeFile* file, Id locationId, bool scrollTo);
+
 	void scrollToSnippetIfRequested();
+	void requestScrollToLine(QtCodeFile* file, unsigned int line);
+
+signals:
+	void shouldScrollToSnippet(QtCodeSnippet* widget, uint lineNumber);
 
 private slots:
 	void scrolled(int value);
@@ -113,6 +121,10 @@ private:
 
 	std::vector<Reference> m_references;
 	size_t m_refIndex;
+
+	QtCodeFile* m_scrollToFile;
+	uint m_scrollToLine;
+	Id m_scrollToLocationId;
 };
 
 #endif // QT_CODE_NAVIGATOR_H

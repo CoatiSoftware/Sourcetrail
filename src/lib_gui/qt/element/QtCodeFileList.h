@@ -23,9 +23,6 @@ class QtCodeFileList
 {
 	Q_OBJECT
 
-signals:
-	void shouldScrollToSnippet(QtCodeSnippet* widget, uint lineNumber);
-
 public:
 	QtCodeFileList(QtCodeNavigator* navigator);
 	virtual ~QtCodeFileList();
@@ -34,8 +31,6 @@ public:
 	void addFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount, TimePoint modificationTime);
 
 	void clearCodeSnippets();
-
-	void showLocation(const FilePath& filePath, Id locationId, bool scrollTo);
 
 	void requestFileContent(const FilePath& filePath);
 
@@ -46,12 +41,9 @@ public:
 	void updateFiles();
 	void showContents();
 
-	void scrollToLocation(QtCodeFile* file, Id locationId, bool scrollTo);
-	void scrollToLine(std::string filename, unsigned int line);
-	void scrollToSnippetIfRequested();
+	QtCodeFile* getFile(const FilePath filePath);
 
 private:
-	QtCodeFile* getFile(const FilePath filePath);
 	QtCodeSnippet* getFirstActiveSnippet() const;
 
 	void expandActiveSnippetFile(bool scrollTo);
@@ -59,9 +51,6 @@ private:
 	QtCodeNavigator* m_navigator;
 
 	std::vector<std::shared_ptr<QtCodeFile>> m_files;
-
-	QtCodeFile* m_scrollToFile;
-	Id m_scrollToLocationId;
 };
 
 #endif // QT_CODE_FILE_LIST

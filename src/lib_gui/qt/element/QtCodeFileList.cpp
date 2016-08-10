@@ -12,8 +12,6 @@
 QtCodeFileList::QtCodeFileList(QtCodeNavigator* navigator)
 	: QFrame()
 	, m_navigator(navigator)
-	, m_scrollToFile(nullptr)
-	, m_scrollToLocationId(0)
 {
 	setObjectName("code_file_list");
 
@@ -44,12 +42,6 @@ void QtCodeFileList::addCodeSnippet(
 		snippet = file->addCodeSnippet(params);
 	}
 
-	if (snippet && file->getScrollToLine())
-	{
-		emit shouldScrollToSnippet(snippet, file->getScrollToLine());
-		file->setScrollToLine(0);
-	}
-
 	file->setModificationTime(params.modificationTime);
 }
 
@@ -63,28 +55,6 @@ void QtCodeFileList::addFile(std::shared_ptr<TokenLocationFile> locationFile, in
 void QtCodeFileList::clearCodeSnippets()
 {
 	m_files.clear();
-}
-
-void QtCodeFileList::showLocation(const FilePath& filePath, Id locationId, bool scrollTo)
-{
-	updateFiles();
-
-	QtCodeFile* file = getFile(filePath);
-
-	if (file->isCollapsed())
-	{
-		file->requestContent();
-
-		if (scrollTo)
-		{
-			m_scrollToFile = file;
-			m_scrollToLocationId = locationId;
-		}
-	}
-	else
-	{
-		scrollToLocation(file, locationId, scrollTo);
-	}
 }
 
 void QtCodeFileList::requestFileContent(const FilePath& filePath)
@@ -120,65 +90,6 @@ void QtCodeFileList::showContents()
 	for (std::shared_ptr<QtCodeFile> filePtr : m_files)
 	{
 		filePtr->show();
-	}
-}
-
-void QtCodeFileList::scrollToLocation(QtCodeFile* file, Id locationId, bool scrollTo)
-{
-	QtCodeSnippet* snippet = nullptr;
-
-	if (locationId)
-	{
-		snippet = file->getSnippetForLocationId(locationId);
-	}
-	else
-	{
-		snippet = file->getFileSnippet();
-	}
-
-	if (!snippet)
-	{
-		return;
-	}
-
-	if (!snippet->isVisible())
-	{
-		file->setSnippets();
-	}
-
-	if (scrollTo)
-	{
-		if (locationId)
-		{
-			emit shouldScrollToSnippet(snippet, snippet->getLineNumberForLocationId(locationId));
-		}
-		else
-		{
-			emit shouldScrollToSnippet(snippet, 1);
-		}
-	}
-}
-
-void QtCodeFileList::scrollToLine(std::string filename, unsigned int line)
-{
-	for (std::shared_ptr<QtCodeFile> file: m_files)
-	{
-		if (filename == file->getFilePath().str())
-		{
-			emit shouldScrollToSnippet(file->getFileSnippet(), line);
-			return;
-		}
-	}
-}
-
-void QtCodeFileList::scrollToSnippetIfRequested()
-{
-	if (m_scrollToFile && m_scrollToFile->hasSnippets())
-	{
-		scrollToLocation(m_scrollToFile, m_scrollToLocationId, true);
-
-		m_scrollToFile = nullptr;
-		m_scrollToLocationId = 0;
 	}
 }
 

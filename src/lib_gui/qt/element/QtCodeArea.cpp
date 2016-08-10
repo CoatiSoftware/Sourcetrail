@@ -264,6 +264,15 @@ uint QtCodeArea::getLineNumberForLocationId(Id locationId) const
 
 QRectF QtCodeArea::getLineRectForLineNumber(uint lineNumber) const
 {
+	if (lineNumber < getStartLineNumber())
+	{
+		lineNumber = getStartLineNumber();
+	}
+	else if (lineNumber > getEndLineNumber())
+	{
+		lineNumber = getEndLineNumber();
+	}
+
 	QTextBlock block = document()->findBlockByLineNumber(lineNumber - m_startLineNumber);
 	return blockBoundingGeometry(block);
 }

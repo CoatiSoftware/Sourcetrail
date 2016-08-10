@@ -2,17 +2,17 @@
 #define MESSAGE_SCROLL_TO_LINE_h
 
 #include "utility/messaging/Message.h"
+#include "utility/file/FilePath.h"
 
 class MessageScrollToLine
 	: public Message<MessageScrollToLine>
 {
 public:
-	MessageScrollToLine(std::string filename, unsigned int line, bool isModified = false)
-		: filename(filename)
+	MessageScrollToLine(const FilePath& filePath, unsigned int line, bool isModified = false)
+		: filePath(filePath)
 		, line(line)
 		, isModified(isModified)
 	{
-		setIsLogged(false);
 	}
 
 	static const std::string getStaticType()
@@ -20,7 +20,7 @@ public:
 		return "MessageScrollToLine";
 	}
 
-	std::string filename;
+	const FilePath filePath;
 	unsigned int line;
 	bool isModified;
 };

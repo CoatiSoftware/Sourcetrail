@@ -43,6 +43,7 @@ public:
 	QtCodeSnippet* insertCodeSnippet(const CodeSnippetParams& params);
 
 	QtCodeSnippet* getSnippetForLocationId(Id locationId) const;
+	QtCodeSnippet* getSnippetForLine(unsigned int line) const;
 	QtCodeSnippet* getFileSnippet() const;
 
 	bool isCollapsed() const;
@@ -58,9 +59,6 @@ public:
 
 	bool hasSnippets() const;
 	void updateSnippets();
-
-	uint getScrollToLine() const;
-	void setScrollToLine(uint line);
 
 public slots:
 	void clickedMinimizeButton() const;
@@ -100,8 +98,6 @@ private:
 
 	std::shared_ptr<TokenLocationFile> m_locationFile;
 	mutable bool m_contentRequested;
-
-	uint m_scrollToLine;
 };
 
 #endif // QT_CODE_FILE_H

@@ -32,7 +32,6 @@ public:
 
 	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds);
 	virtual void addCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert);
-	virtual void showCodeFile(const CodeSnippetParams& params);
 
 	virtual void setFileState(const FilePath filePath, FileState state);
 
@@ -47,7 +46,7 @@ public:
 	virtual void showContents();
 
 	virtual void scrollToValue(int value);
-	virtual void scrollToLine(std::string filename, unsigned int line);
+	virtual void scrollToLine(const FilePath filePath, unsigned int line);
 
 private:
 	void doRefreshView();
@@ -55,7 +54,6 @@ private:
 
 	void doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds);
 	void doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert);
-	void doShowCodeFile(const CodeSnippetParams& params);
 
 	void doSetFileState(const FilePath filePath, FileState state);
 
@@ -70,7 +68,7 @@ private:
 	void doShowContents();
 
 	void doScrollToValue(int value);
-	void doScrollToLine(std::string filename, unsigned int line);
+	void doScrollToLine(const FilePath filePath, unsigned int line);
 
 	void setStyleSheet() const;
 
@@ -78,7 +76,6 @@ private:
 	QtThreadedFunctor<> m_clearFunctor;
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&, const std::vector<Id>&> m_showCodeSnippetsFunctor;
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&, bool> m_addCodeSnippetsFunctor;
-	QtThreadedFunctor<const CodeSnippetParams&> m_showCodeFileFunctor;
 	QtThreadedFunctor<const FilePath, FileState> m_setFileStateFunctor;
 	QtThreadedFunctor<const std::vector<Id>&, std::shared_ptr<TokenLocationCollection>, bool> m_doShowActiveSnippetFunctor;
 	QtThreadedFunctor<const std::vector<Id>&> m_doShowActiveTokenIdsFunctor;
@@ -87,7 +84,7 @@ private:
 	QtThreadedFunctor<> m_defocusTokenIdsFunctor;
 	QtThreadedFunctor<> m_showContentsFunctor;
 	QtThreadedFunctor<int> m_scrollToValueFunctor;
-	QtThreadedFunctor<std::string, unsigned int> m_scrollToLineFunctor;
+	QtThreadedFunctor<const FilePath, unsigned int> m_scrollToLineFunctor;
 
 	QtCodeNavigator* m_widget;
 

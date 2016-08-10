@@ -12,8 +12,6 @@
 #include "utility/messaging/type/MessageProjectNew.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/messaging/type/MessageActivateFile.h"
-#include "utility/messaging/type/MessageScrollCode.h"
-#include "utility/messaging/type/MessageScrollToLine.h"
 
 IDECommunicationController::IDECommunicationController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -70,32 +68,32 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 	{
 		const unsigned int cursorColumn = message.column;
 
-		if(FileSystem::getFileInfoForPath(message.fileLocation).lastWriteTime
-				== m_storageAccess->getFileInfoForFilePath(message.fileLocation).lastWriteTime)
+		if (FileSystem::getFileInfoForPath(message.fileLocation).lastWriteTime
+			== m_storageAccess->getFileInfoForFilePath(message.fileLocation).lastWriteTime)
 		{
 			// file was not modified
 			std::shared_ptr<TokenLocationFile> tokenLocationFile = m_storageAccess->getTokenLocationsForLinesInFile(
-					message.fileLocation, message.row, message.row
+				message.fileLocation, message.row, message.row
 			);
 
 			std::vector<Id> selectedLocationIds;
 			tokenLocationFile->forEachStartTokenLocation(
-					[&](TokenLocation* startLocation)
-					{
-						TokenLocation* endLocation = startLocation->getEndTokenLocation();
+				[&](TokenLocation* startLocation)
+				{
+					TokenLocation* endLocation = startLocation->getEndTokenLocation();
 
-						if (!startLocation->isScopeTokenLocation()
-								&& startLocation->getColumnNumber() <= cursorColumn
-								&& endLocation->getColumnNumber() + 1 >= cursorColumn)
-						{
-							selectedLocationIds.push_back(startLocation->getId());
-						}
+					if (!startLocation->isScopeTokenLocation()
+						&& startLocation->getColumnNumber() <= cursorColumn
+						&& endLocation->getColumnNumber() + 1 >= cursorColumn)
+					{
+						selectedLocationIds.push_back(startLocation->getId());
 					}
+				}
 			);
 
 			if (selectedLocationIds.size() > 0)
 			{
-				MessageStatus("Activating a source location from external succeeded.").dispatch();
+				MessageStatus("Activating a source location from plug-in succeeded.").dispatch();
 				MessageDispatchWhenLicenseValid(
 					std::make_shared<MessageActivateTokenLocations>(selectedLocationIds)
 				).dispatch();
@@ -105,7 +103,7 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 		}
 
 		Id fileId = m_storageAccess->getTokenIdForFileNode(message.fileLocation);
-		if( fileId > 0)
+		if (fileId > 0)
 		{
 			MessageDispatchWhenLicenseValid(
 				std::make_shared<MessageActivateFile>(message.fileLocation, message.row)
@@ -115,8 +113,9 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 		else
 		{
 			MessageStatus(
-					"Activating a source location from external failed. No file " + message.fileLocation
-					+ " have been found at in indexed source."
+				"Activating source location from plug-in failed. File " + message.fileLocation
+				+ " was not found in the project.",
+				true
 			).dispatch();
 		}
 	}

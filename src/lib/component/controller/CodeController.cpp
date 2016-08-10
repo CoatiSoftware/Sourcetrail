@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "utility/messaging/type/MessageStatus.h"
-#include "utility/messaging/type/MessageScrollToLine.h"
 #include "utility/text/TextAccess.h"
 #include "utility/tracing.h"
 #include "utility/utility.h"
@@ -213,7 +212,7 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 				params.locationFile = file;
 			}
 
-			getView()->showCodeFile(params);
+			getView()->addCodeSnippets(std::vector<CodeSnippetParams>(1, params), false);
 		}
 		view->setFileState(message->filePath, CodeView::FILE_MAXIMIZED);
 		break;
@@ -239,20 +238,20 @@ void CodeController::handleMessage(MessageFocusOut* message)
 
 void CodeController::handleMessage(MessageScrollToLine* message)
 {
-	getView()->scrollToLine(message->filename, message->line);
+	getView()->scrollToLine(message->filePath, message->line);
 
-	if ( message->isModified )
+	if (message->isModified)
 	{
 		MessageStatus(
-				"File was modified. Showing the File: " + message->filename
-				+ " at line " + std::to_string(message->line) + " now. Please refresh."
+			"The file was modified, please refresh. Showing source location: " + message->filePath.str()
+			+ " : " + std::to_string(message->line),
+			true
 		).dispatch();
 	}
 	else
 	{
 		MessageStatus(
-				"Showing the File: " + message->filename
-				+ " at line " + std::to_string(message->line) + "."
+			"Showing source location: " + message->filePath.str() + " : " + std::to_string(message->line)
 		).dispatch();
 	}
 }

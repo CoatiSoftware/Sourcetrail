@@ -25,7 +25,6 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 	, m_navigator(navigator)
 	, m_filePath(filePath)
 	, m_contentRequested(false)
-	, m_scrollToLine(0)
 {
 	setObjectName("code_file");
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
@@ -252,6 +251,24 @@ QtCodeSnippet* QtCodeFile::getSnippetForLocationId(Id locationId) const
 	return nullptr;
 }
 
+QtCodeSnippet* QtCodeFile::getSnippetForLine(unsigned int line) const
+{
+	if (m_fileSnippet && m_fileSnippet->isVisible())
+	{
+		return m_fileSnippet.get();
+	}
+
+	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	{
+		if (snippet->getStartLineNumber() <= line && line <= snippet->getEndLineNumber())
+		{
+			return snippet.get();
+		}
+	}
+
+	return nullptr;
+}
+
 QtCodeSnippet* QtCodeFile::getFileSnippet() const
 {
 	return m_fileSnippet.get();
@@ -386,16 +403,6 @@ void QtCodeFile::updateSnippets()
 	m_snippets.back()->setProperty("isLast", true);
 }
 
-uint QtCodeFile::getScrollToLine() const
-{
-	return m_scrollToLine;
-}
-
-void QtCodeFile::setScrollToLine(uint line)
-{
-	m_scrollToLine = line;
-}
-
 void QtCodeFile::clickedMinimizeButton() const
 {
 	MessageChangeFileView(
@@ -421,7 +428,7 @@ void QtCodeFile::clickedMaximizeButton() const
 	MessageChangeFileView(
 		m_filePath,
 		MessageChangeFileView::FILE_MAXIMIZED,
-		!isCollapsed(),
+		!getFileSnippet(),
 		m_navigator->hasErrors()
 	).dispatch();
 }

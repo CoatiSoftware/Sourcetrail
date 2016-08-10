@@ -15,6 +15,7 @@
 #include "utility/messaging/type/MessageScrollCode.h"
 #include "utility/messaging/type/MessageShowReference.h"
 
+#include "qt/element/QtCodeFile.h"
 #include "qt/element/QtCodeSnippet.h"
 
 QtCodeNavigator::QtCodeNavigator(QWidget* parent)
@@ -22,6 +23,9 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 	, m_switchReferenceFunctor(std::bind(&QtCodeNavigator::doSwitchReference, this, std::placeholders::_1))
 	, m_value(0)
 	, m_refIndex(0)
+	, m_scrollToFile(nullptr)
+	, m_scrollToLine(0)
+	, m_scrollToLocationId(0)
 {
 	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setSpacing(0);
@@ -77,7 +81,7 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 	m_scrollArea->setWidget(m_list);
 
 	connect(m_scrollArea->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrolled(int)));
-	connect(m_list, SIGNAL(shouldScrollToSnippet(QtCodeSnippet*, uint)),
+	connect(this, SIGNAL(shouldScrollToSnippet(QtCodeSnippet*, uint)),
 		this, SLOT(scrollToSnippet(QtCodeSnippet*, uint)), Qt::QueuedConnection);
 }
 
@@ -293,7 +297,7 @@ void QtCodeNavigator::showActiveSnippet(
 
 	if (firstLocationId)
 	{
-		m_list->showLocation(firstFilePath, firstLocationId, scrollTo);
+		showLocation(firstFilePath, firstLocationId, scrollTo);
 
 		m_refIndex = 0;
 		updateRefLabel();
@@ -358,20 +362,112 @@ void QtCodeNavigator::showContents()
 	m_list->showContents();
 }
 
+void QtCodeNavigator::showLocation(const FilePath& filePath, Id locationId, bool scrollTo)
+{
+	updateFiles();
+
+	QtCodeFile* file = m_list->getFile(filePath);
+
+	if (file->isCollapsed())
+	{
+		file->requestContent();
+
+		if (scrollTo)
+		{
+			m_scrollToFile = file;
+			m_scrollToLocationId = locationId;
+		}
+	}
+	else
+	{
+		scrollToLocation(file, locationId, scrollTo);
+	}
+}
+
 void QtCodeNavigator::scrollToValue(int value)
 {
 	m_value = value;
 	QTimer::singleShot(100, this, SLOT(setValue()));
 }
 
-void QtCodeNavigator::scrollToLine(std::string filename, unsigned int line)
+void QtCodeNavigator::scrollToLine(const FilePath& filePath, unsigned int line)
 {
-	m_list->scrollToLine(filename, line);
+	QtCodeFile* file = m_list->getFile(filePath);
+
+	if (!file)
+	{
+		return;
+	}
+
+	if (file->isCollapsed())
+	{
+		file->requestContent();
+
+		m_scrollToFile = file;
+		m_scrollToLine = line;
+	}
+	else if (file->getFileSnippet())
+	{
+		emit shouldScrollToSnippet(file->getFileSnippet(), line);
+	}
+}
+
+void QtCodeNavigator::scrollToLocation(QtCodeFile* file, Id locationId, bool scrollTo)
+{
+	QtCodeSnippet* snippet = nullptr;
+
+	if (locationId)
+	{
+		snippet = file->getSnippetForLocationId(locationId);
+	}
+	else
+	{
+		snippet = file->getFileSnippet();
+	}
+
+	if (!snippet)
+	{
+		return;
+	}
+
+	if (!snippet->isVisible())
+	{
+		file->setSnippets();
+	}
+
+	if (scrollTo)
+	{
+		if (locationId)
+		{
+			emit shouldScrollToSnippet(snippet, snippet->getLineNumberForLocationId(locationId));
+		}
+		else
+		{
+			emit shouldScrollToSnippet(snippet, 1);
+		}
+	}
 }
 
 void QtCodeNavigator::scrollToSnippetIfRequested()
 {
-	m_list->scrollToSnippetIfRequested();
+	if (m_scrollToFile && m_scrollToLine)
+	{
+		emit shouldScrollToSnippet(m_scrollToFile->getSnippetForLine(m_scrollToLine), m_scrollToLine);
+	}
+	else if (m_scrollToFile && m_scrollToFile->hasSnippets())
+	{
+		scrollToLocation(m_scrollToFile, m_scrollToLocationId, true);
+	}
+
+	m_scrollToFile = nullptr;
+	m_scrollToLocationId = 0;
+	m_scrollToLine = 0;
+}
+
+void QtCodeNavigator::requestScrollToLine(QtCodeFile* file, unsigned int line)
+{
+	m_scrollToFile = file;
+	m_scrollToLine = line;
 }
 
 void QtCodeNavigator::scrolled(int value)
@@ -433,7 +529,7 @@ void QtCodeNavigator::showCurrentReference()
 	const Reference& ref = m_references[m_refIndex - 1];
 
 	setCurrentActiveLocationIds(std::vector<Id>(1, ref.locationId));
-	m_list->showLocation(ref.filePath, ref.locationId, true);
+	showLocation(ref.filePath, ref.locationId, true);
 
 	updateRefLabel();
 

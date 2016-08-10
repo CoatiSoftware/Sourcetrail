@@ -172,8 +172,6 @@ std::string QtCodeSnippet::getCode() const
 
 void QtCodeSnippet::clickedTitle()
 {
-	getFile()->setScrollToLine(getStartLineNumber());
-
 	if (m_titleId > 0)
 	{
 		MessageShowScope(m_titleId, m_navigator->hasErrors()).dispatch();
@@ -182,14 +180,17 @@ void QtCodeSnippet::clickedTitle()
 	{
 		getFile()->clickedMaximizeButton();
 	}
+
+	m_navigator->requestScrollToLine(getFile(), getStartLineNumber());
 }
 
 void QtCodeSnippet::clickedFooter()
 {
 	if (m_footerId > 0)
 	{
-		getFile()->setScrollToLine(getEndLineNumber());
 		MessageShowScope(m_footerId, m_navigator->hasErrors()).dispatch();
+
+		m_navigator->requestScrollToLine(getFile(), getEndLineNumber());
 	}
 }
 
