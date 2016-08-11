@@ -4,7 +4,7 @@
     <Product Name='Coati' Manufacturer='Coati Software OG'
         Id='596E7336-D5B9-449A-95E9-6040F354E283' 
         UpgradeCode='6DAB9E05-6E5B-4D26-A2A0-8F1757F2A4EF'
-        Language='1033' Codepage='1252' Version='0.7.0'>
+        Language='1033' Codepage='1252' Version='$(var.projectVersion)'>
 		
 		<Package Id='*' Keywords='Installer' Description="Coati Installer"
 			Comments='Coati is a registered trademark of Coati Software OG' Manufacturer='Coati Software OG'
@@ -19,10 +19,10 @@
 		<!-- Shortcuts -->
 		<Upgrade Id='A4C8F644-9A8C-4825-8C48-F6A98F111722'>
 			<UpgradeVersion OnlyDetect='yes' Property='SELFFOUND'
-				Minimum='0.7.0' IncludeMinimum='yes'
-				Maximum='0.7.0' IncludeMaximum='yes' />
+				Minimum='$(var.projectVersion)' IncludeMinimum='yes'
+				Maximum='$(var.projectVersion)' IncludeMaximum='yes' />
 			<UpgradeVersion OnlyDetect='yes' Property='NEWERFOUND'
-				Minimum='0.7.0' IncludeMinimum='no' />
+				Minimum='$(var.projectVersion)' IncludeMinimum='no' />
 		</Upgrade>
 
 		<Directory Id='TARGETDIR' Name='SourceDir'>
@@ -278,5 +278,7 @@
 		
 		<WixVariable Id="WixUIBannerBmp" Value="Images/banner.bmp" />
 		<WixVariable Id="WixUIDialogBmp" Value="Images/w_installer.bmp" />
+		
+		<!-- <WixVariable Id="var.Coati.projectVersion" Value="0.7.0" /> -->
 	</Product>
 </Wix>

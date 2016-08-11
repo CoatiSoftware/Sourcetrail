@@ -3,6 +3,8 @@ Build the installer
 -------------------
 
 -Prerequisites
+	-configure for build
+		-make sure the Visual Studio IDE directory is in you OS path variable ('../Microsoft Visual Studio14/Common7/IDE/')
 	-Install the WiX toolset...
 		- http://wixtoolset.org/releases/
 		-I used stable version 3.10.3 for development
@@ -19,7 +21,7 @@ Build the installer
 ---------------------
 Update Version Number
 ---------------------
--See below (Create new Version)
+-See below ('chapter' Create new Version)
 		
 		
 ---------------------------------------------------
@@ -46,7 +48,7 @@ Generel
 			-Id: guess what...
 			-Name: the name that the file will have on the user machine, may be different from the file name on the source machine
 			-Source: the path and name to the file on the source machine, relative to the current .wxs file
-			-KeyPath: depends on where you want to install the file, see below
+			-KeyPath: depends on where you want to install the file, see below in 'Add new file to...'
 		-usually there is one component for each single file. Multiple files can be added to a component, this might make sense if the files are considered 100% unseperable. The recommended way however is one file per component
 			
 			
@@ -74,6 +76,12 @@ Not quite done yet! (coati.wxs)
 ------------------
 Create new version
 ------------------
+
+Version Number
+	-is now a preprocessor variable
+	-is defined in build.bat
+		-candle.exe -dprojectVersion="0.7.0" ...
+		-replace 0.7.0 with the desired version number
 
 Minor upgrage (coati.wxs)
 	-for when only a few files are to be updated
