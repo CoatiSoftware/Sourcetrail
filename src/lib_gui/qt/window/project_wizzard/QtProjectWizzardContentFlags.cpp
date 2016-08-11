@@ -3,8 +3,9 @@
 #include <QFormLayout>
 
 #include "qt/element/QtDirectoryListBox.h"
+#include "settings/CxxProjectSettings.h"
 
-QtProjectWizzardContentFlags::QtProjectWizzardContentFlags(ProjectSettings* settings, QtProjectWizzardWindow* window)
+QtProjectWizzardContentFlags::QtProjectWizzardContentFlags(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(settings, window)
 {
 }
@@ -24,10 +25,18 @@ void QtProjectWizzardContentFlags::populateForm(QGridLayout* layout, int& row)
 
 void QtProjectWizzardContentFlags::load()
 {
-	m_list->setStringList(m_settings->getCompilerFlags());
+	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	if (cxxSettings)
+	{
+		m_list->setStringList(cxxSettings->getCompilerFlags());
+	}
 }
 
 void QtProjectWizzardContentFlags::save()
 {
-	m_settings->setCompilerFlags(m_list->getStringList());
+	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	if (cxxSettings)
+	{
+		cxxSettings->setCompilerFlags(m_list->getStringList());
+	}
 }

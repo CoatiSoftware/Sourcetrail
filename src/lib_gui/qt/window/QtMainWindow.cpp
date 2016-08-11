@@ -21,7 +21,7 @@
 #include "qt/window/QtAbout.h"
 #include "qt/window/QtLicense.h"
 #include "settings/ApplicationSettings.h"
-#include "settings/ProjectSettings.h"
+#include "Application.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageCodeReference.h"
@@ -420,7 +420,7 @@ void QtMainWindow::openProject(const QString &path)
 void QtMainWindow::editProject()
 {
 	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
-	wizzard->editProject(*ProjectSettings::getInstance().get());
+	wizzard->editProject(Application::getInstance()->getCurrentProject()->getProjectSettingsFilePath());
 }
 
 void QtMainWindow::find()

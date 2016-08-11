@@ -4,6 +4,7 @@
 #include "utility/logging/FileLogger.h"
 #include "utility/logging/LogManager.h"
 #include "utility/ResourcePaths.h"
+#include "utility/ScopedFunctor.h"
 #include "utility/UserPaths.h"
 #include "utility/Version.h"
 
@@ -58,7 +59,10 @@ int main(int argc, char *argv[])
 		setupApp(argc, argv);
 		init();
 
-		std::shared_ptr<Application> app = Application::create(version);
+		Application::createInstance(version, nullptr, nullptr);
+		ScopedFunctor f([](){
+			Application::destroyInstance();
+		});
 
 		std::shared_ptr<LicenseChecker> checker = LicenseChecker::getInstance();
 
@@ -92,7 +96,10 @@ int main(int argc, char *argv[])
 		QtNetworkFactory networkFactory;
 
 		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
-		std::shared_ptr<Application> app = Application::create(version, &viewFactory, &networkFactory);
+		Application::createInstance(version, &viewFactory, &networkFactory);
+		ScopedFunctor f([](){
+			Application::destroyInstance();
+		});
 
 		commandLineParser.projectLoad();
 

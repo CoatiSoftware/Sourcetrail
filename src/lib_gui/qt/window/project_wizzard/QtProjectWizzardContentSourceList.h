@@ -10,7 +10,7 @@ class QtProjectWizzardContentSourceList
 	: public QtProjectWizzardContent
 {
 public:
-	QtProjectWizzardContentSourceList(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentSourceList(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtSettingsWindow implementation
 	virtual void populateWindow(QWidget* widget) override;

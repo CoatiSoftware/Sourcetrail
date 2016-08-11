@@ -10,7 +10,7 @@
 
 #include "utility/solution/SolutionParserManager.h"
 
-QtProjectWizzardContentSelect::QtProjectWizzardContentSelect(ProjectSettings* settings, QtProjectWizzardWindow* window, std::weak_ptr<SolutionParserManager> solutionParserManager)
+QtProjectWizzardContentSelect::QtProjectWizzardContentSelect(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, std::weak_ptr<SolutionParserManager> solutionParserManager)
 	: QtProjectWizzardContent(settings, window)
 	, m_solutionParserManager(solutionParserManager)
 {
@@ -145,8 +145,6 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 
 void QtProjectWizzardContentSelect::save()
 {
-	m_settings->setLanguage(m_languages->checkedButton()->text().toStdString());
-
 	ProjectType type;
 
 	switch (m_buttons->checkedId())
@@ -157,7 +155,7 @@ void QtProjectWizzardContentSelect::save()
 	default: type = PROJECT_MANAGED; break;
 	}
 
-	emit selected(type);
+	emit selected(stringToLanguageType(m_languages->checkedButton()->text().toStdString()), type);
 }
 
 bool QtProjectWizzardContentSelect::check()

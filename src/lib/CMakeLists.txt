@@ -195,6 +195,12 @@ add_files(
 	settings/ApplicationSettings.h
 	settings/ColorScheme.cpp
 	settings/ColorScheme.h
+	settings/CxxProjectSettings.cpp
+	settings/CxxProjectSettings.h
+	settings/JavaProjectSettings.cpp
+	settings/JavaProjectSettings.h
+	settings/LanguageType.cpp
+	settings/LanguageType.h
 	settings/ProjectSettings.cpp
 	settings/ProjectSettings.h
 	settings/Settings.cpp
@@ -329,6 +335,8 @@ add_files(
 	utility/Property.h
 	utility/ResourcePaths.cpp
 	utility/ResourcePaths.h
+	utility/ScopedFunctor.cpp
+	utility/ScopedFunctor.h
 	utility/ScopedSwitcher.h
 	utility/TimePoint.cpp
 	utility/TimePoint.h
@@ -346,7 +354,11 @@ add_files(
 
 	Application.cpp
 	Application.h
+	CxxProject.cpp
+	CxxProject.h
 	isTrial.h
+	JavaProject.cpp
+	JavaProject.h
 	LicenseChecker.cpp
 	LicenseChecker.h
 	Project.cpp

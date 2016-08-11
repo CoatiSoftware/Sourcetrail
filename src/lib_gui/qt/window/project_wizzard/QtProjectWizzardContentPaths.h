@@ -17,7 +17,7 @@ signals:
 	void showSourceFiles();
 
 public:
-	QtProjectWizzardContentPaths(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentPaths(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtSettingsWindow implementation
 	virtual void populateWindow(QGridLayout* layout) override;
@@ -57,7 +57,7 @@ class QtProjectWizzardContentPathsSource
 	: public QtProjectWizzardContentPaths
 {
 public:
-	QtProjectWizzardContentPathsSource(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentPathsSource(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
 	virtual QSize preferredWindowSize() const override;
@@ -74,7 +74,7 @@ class QtProjectWizzardContentPathsCDBHeader
 	: public QtProjectWizzardContentPathsSource
 {
 public:
-	QtProjectWizzardContentPathsCDBHeader(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentPathsCDBHeader(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 };
 
 
@@ -82,7 +82,7 @@ class QtProjectWizzardContentPathsExclude
 	: public QtProjectWizzardContentPaths
 {
 public:
-	QtProjectWizzardContentPathsExclude(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentPathsExclude(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	virtual void load() override;
 	virtual void save() override;
@@ -93,7 +93,7 @@ class QtProjectWizzardContentPathsHeaderSearch
 	: public QtProjectWizzardContentPaths
 {
 public:
-	QtProjectWizzardContentPathsHeaderSearch(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentPathsHeaderSearch(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
 	virtual void load() override;
@@ -106,7 +106,7 @@ class QtProjectWizzardContentPathsHeaderSearchGlobal
 	: public QtProjectWizzardContentPaths
 {
 public:
-	QtProjectWizzardContentPathsHeaderSearchGlobal(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentPathsHeaderSearchGlobal(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
 	virtual void load() override;
@@ -118,7 +118,7 @@ class QtProjectWizzardContentPathsFrameworkSearch
 	: public QtProjectWizzardContentPaths
 {
 public:
-	QtProjectWizzardContentPathsFrameworkSearch(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentPathsFrameworkSearch(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
 	virtual void load() override;
@@ -131,7 +131,7 @@ class QtProjectWizzardContentPathsFrameworkSearchGlobal
 	: public QtProjectWizzardContentPaths
 {
 public:
-	QtProjectWizzardContentPathsFrameworkSearchGlobal(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentPathsFrameworkSearchGlobal(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
 	virtual void load() override;

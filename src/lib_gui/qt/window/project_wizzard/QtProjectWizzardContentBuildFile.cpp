@@ -4,20 +4,25 @@
 #include <QPushButton>
 
 #include "qt/element/QtLocationPicker.h"
+#include "settings/CxxProjectSettings.h"
 
 QtProjectWizzardContentBuildFile::QtProjectWizzardContentBuildFile(
-	ProjectSettings* settings, QtProjectWizzardWindow* window
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContent(settings, window)
 	, m_type(QtProjectWizzardContentSelect::PROJECT_EMPTY)
 {
-	if (!m_settings->getVisualStudioSolutionPath().empty())
+	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	if (cxxSettings)
 	{
-		m_type = QtProjectWizzardContentSelect::PROJECT_MANAGED;
-	}
-	else if (!m_settings->getCompilationDatabasePath().empty())
-	{
-		m_type = QtProjectWizzardContentSelect::PROJECT_CDB;
+		if (!cxxSettings->getVisualStudioSolutionPath().empty())
+		{
+			m_type = QtProjectWizzardContentSelect::PROJECT_MANAGED;
+		}
+		else if (!cxxSettings->getCompilationDatabasePath().empty())
+		{
+			m_type = QtProjectWizzardContentSelect::PROJECT_CDB;
+		}
 	}
 }
 
@@ -73,35 +78,43 @@ void QtProjectWizzardContentBuildFile::populateForm(QGridLayout* layout, int& ro
 
 void QtProjectWizzardContentBuildFile::load()
 {
-	switch (m_type)
+	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	if (cxxSettings)
 	{
-		case QtProjectWizzardContentSelect::PROJECT_EMPTY:
-			return;
-		case QtProjectWizzardContentSelect::PROJECT_MANAGED:
-			m_picker->setText(QString::fromStdString(m_settings->getVisualStudioSolutionPath().str()));
-			break;
-		case QtProjectWizzardContentSelect::PROJECT_CDB:
-			m_picker->setText(QString::fromStdString(m_settings->getCompilationDatabasePath().str()));
-			break;
+		switch (m_type)
+		{
+			case QtProjectWizzardContentSelect::PROJECT_EMPTY:
+				return;
+			case QtProjectWizzardContentSelect::PROJECT_MANAGED:
+				m_picker->setText(QString::fromStdString(cxxSettings->getVisualStudioSolutionPath().str()));
+				break;
+			case QtProjectWizzardContentSelect::PROJECT_CDB:
+				m_picker->setText(QString::fromStdString(cxxSettings->getCompilationDatabasePath().str()));
+				break;
+		}
 	}
 }
 
 void QtProjectWizzardContentBuildFile::save()
 {
-	switch (m_type)
+	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	if (cxxSettings)
 	{
-		case QtProjectWizzardContentSelect::PROJECT_EMPTY:
-		case QtProjectWizzardContentSelect::PROJECT_MANAGED:
-			break;
-		case QtProjectWizzardContentSelect::PROJECT_CDB:
+		switch (m_type)
 		{
-			FilePath path = m_picker->getText().toStdString();
-			if (!path.exists() || path.extension() != ".json")
+			case QtProjectWizzardContentSelect::PROJECT_EMPTY:
+			case QtProjectWizzardContentSelect::PROJECT_MANAGED:
+				break;
+			case QtProjectWizzardContentSelect::PROJECT_CDB:
 			{
-				return;
+				FilePath path = m_picker->getText().toStdString();
+				if (!path.exists() || path.extension() != ".json")
+				{
+					return;
+				}
+				cxxSettings->setCompilationDatabasePath(m_picker->getText().toStdString());
+				break;
 			}
-			m_settings->setCompilationDatabasePath(m_picker->getText().toStdString());
-			break;
 		}
 	}
 }

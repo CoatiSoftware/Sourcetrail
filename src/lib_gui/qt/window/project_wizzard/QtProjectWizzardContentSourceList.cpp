@@ -4,7 +4,7 @@
 #include <QStringListModel>
 
 QtProjectWizzardContentSourceList::QtProjectWizzardContentSourceList(
-	ProjectSettings* settings, QtProjectWizzardWindow* window
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContent(settings, window)
 {

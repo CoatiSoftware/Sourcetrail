@@ -19,7 +19,7 @@ private:
 	};
 
 public:
-	QtProjectWizzardContentSummary(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentSummary(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	void addContent(QtProjectWizzardContent* content, bool advanced, bool gapBefore);
 	void setIsForm(bool isForm);

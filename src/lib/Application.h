@@ -27,19 +27,30 @@ class Application
 	, public MessageListener<MessageSwitchColorScheme>
 {
 public:
-	static std::shared_ptr<Application> create(const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory);
-	static std::shared_ptr<Application> create(const Version& version);
+	static void createInstance(const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory);
+	static std::shared_ptr<Application> getInstance();
+	static void destroyInstance();
+
 	static void loadSettings();
 	static void loadStyle(const FilePath& colorSchemePath);
 
 	~Application();
 
+	const std::shared_ptr<Project> getCurrentProject();
+
 	void createAndLoadProject(const FilePath& projectSettingsFilePath);
 	void loadProject(const FilePath& projectSettingsFilePath);
-	void refreshProject();
+	void refreshProject(bool force);
 	bool hasGUI();
 
+	int handleDialog(const std::string& message);
+	int handleDialog(const std::string& message, const std::vector<std::string>& options);
+
+	void setTitle(const std::string& title);
+
 private:
+	static std::shared_ptr<Application> s_instance;
+
 	Application(bool withGUI=true);
 
 	virtual void handleMessage(MessageActivateWindow* message);
@@ -52,7 +63,7 @@ private:
 
 	void updateRecentProjects(const FilePath& projectSettingsFilePath);
 
-	bool m_hasGUI;
+	const bool m_hasGUI;
 	std::shared_ptr<Project> m_project;
 	std::shared_ptr<StorageCache> m_storageCache;
 

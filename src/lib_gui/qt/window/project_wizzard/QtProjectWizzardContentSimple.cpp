@@ -3,7 +3,9 @@
 #include <QCheckBox>
 #include <QLabel>
 
-QtProjectWizzardContentSimple::QtProjectWizzardContentSimple(ProjectSettings* settings, QtProjectWizzardWindow* window)
+#include "settings/CxxProjectSettings.h"
+
+QtProjectWizzardContentSimple::QtProjectWizzardContentSimple(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(settings, window)
 	, m_checkBox(nullptr)
 {
@@ -52,10 +54,18 @@ void QtProjectWizzardContentSimple::populateForm(QGridLayout* layout, int& row)
 
 void QtProjectWizzardContentSimple::load()
 {
-	m_checkBox->setChecked(m_settings->getUseSourcePathsForHeaderSearch());
+	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	if (cxxSettings)
+	{
+		m_checkBox->setChecked(cxxSettings->getUseSourcePathsForHeaderSearch());
+	}
 }
 
 void QtProjectWizzardContentSimple::save()
 {
-	m_settings->setUseSourcePathsForHeaderSearch(m_checkBox->isChecked());
+	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	if (cxxSettings)
+	{
+		cxxSettings->setUseSourcePathsForHeaderSearch(m_checkBox->isChecked());
+	}
 }

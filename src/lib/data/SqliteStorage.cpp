@@ -11,7 +11,7 @@
 #include "utility/utilityString.h"
 #include "utility/Version.h"
 
-const size_t SqliteStorage::STORAGE_VERSION = 2;
+const size_t SqliteStorage::STORAGE_VERSION = 3;
 
 SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 	: m_dbFilePath(dbFilePath)
@@ -88,6 +88,16 @@ bool SqliteStorage::isIncompatible() const
 	}
 
 	return false;
+}
+
+std::string SqliteStorage::getProjectSettingsText() const
+{
+	return getMetaValue("project_settings");
+}
+
+void SqliteStorage::setProjectSettingsText(std::string text)
+{
+	insertOrUpdateMetaValue("project_settings", text);
 }
 
 void SqliteStorage::setVersion()

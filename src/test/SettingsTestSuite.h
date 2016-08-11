@@ -1,6 +1,7 @@
 #include <cxxtest/TestSuite.h>
 
 #include "settings/ProjectSettings.h"
+#include "settings/CxxProjectSettings.h"
 #include "settings/Settings.h"
 
 class SettingsTestSuite : public CxxTest::TestSuite
@@ -108,13 +109,15 @@ public:
 
 	void test_load_project_settings_from_file()
 	{
-		TS_ASSERT(ProjectSettings::getInstance()->load("data/SettingsTestSuite/settings.xml"));
+		ProjectSettings settings(FilePath("data/SettingsTestSuite/settings.xml"));
+		TS_ASSERT(settings.load());
 	}
 
 	void test_load_source_path_from_file()
 	{
-		ProjectSettings::getInstance()->load("data/SettingsTestSuite/settings.xml");
-		std::vector<FilePath> paths = ProjectSettings::getInstance()->getSourcePaths();
+		ProjectSettings settings(FilePath("data/SettingsTestSuite/settings.xml"));
+		settings.load();
+		std::vector<FilePath> paths = settings.getSourcePaths();
 
 		TS_ASSERT_EQUALS(paths.size(), 1);
 		TS_ASSERT_EQUALS(paths[0].str(), "data");
@@ -122,8 +125,9 @@ public:
 
 	void test_load_header_search_paths_from_file()
 	{
-		ProjectSettings::getInstance()->load("data/SettingsTestSuite/settings.xml");
-		std::vector<FilePath> paths = ProjectSettings::getInstance()->getHeaderSearchPaths();
+		CxxProjectSettings settings(FilePath("data/SettingsTestSuite/settings.xml"));
+		settings.load();
+		std::vector<FilePath> paths = settings.getHeaderSearchPaths();
 
 		TS_ASSERT_EQUALS(paths.size(), 2);
 		TS_ASSERT_EQUALS(paths[0].str(), "data/");

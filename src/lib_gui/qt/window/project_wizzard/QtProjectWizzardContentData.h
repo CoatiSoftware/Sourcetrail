@@ -13,7 +13,7 @@ class QtProjectWizzardContentData
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentData(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentData(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
 	virtual void populateWindow(QGridLayout* layout) override;
@@ -50,7 +50,7 @@ class QtProjectWizzardContentDataCDB
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentDataCDB(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentDataCDB(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	virtual void populateForm(QGridLayout* layout, int& row) override;
 

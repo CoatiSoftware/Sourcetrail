@@ -11,7 +11,7 @@ class QtProjectWizzardContentFlags
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentFlags(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentFlags(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
 	virtual void populateForm(QGridLayout* layout, int& row) override;

@@ -6,7 +6,7 @@
 #include "utility/ResourcePaths.h"
 
 QtProjectWizzardContentPreferences::QtProjectWizzardContentPreferences(
-	ProjectSettings* settings, QtProjectWizzardWindow* window
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContent(settings, window)
 	, m_oldColorSchemeIndex(-1)

@@ -9,6 +9,7 @@
 
 #include "SolutionParserUtility.h"
 
+#include "settings/CxxProjectSettings.h"
 #include "utility/logging/logging.h"
 
 SolutionParserVisualStudio::SolutionParserVisualStudio()
@@ -202,7 +203,7 @@ std::vector<std::string> SolutionParserVisualStudio::getCompileFlags()
 	return compilerFlags;
 }
 
-ProjectSettings SolutionParserVisualStudio::getProjectSettings(const std::string& solutionFilePath)
+std::shared_ptr<ProjectSettings> SolutionParserVisualStudio::getProjectSettings(const std::string& solutionFilePath)
 {
 	LOG_INFO_STREAM(<< "Starting to parse VS solution");
 
@@ -218,10 +219,8 @@ ProjectSettings SolutionParserVisualStudio::getProjectSettings(const std::string
 
 	LOG_INFO_STREAM(<< "Setting meta information");
 
-	ProjectSettings settings;
-	settings.setProjectName(getSolutionName());
-	settings.setProjectFileLocation(getSolutionPath());
-	settings.setVisualStudioSolutionPath(solutionFilePath);
+	std::shared_ptr<CxxProjectSettings> settings = std::make_shared<CxxProjectSettings>(getSolutionName(), getSolutionPath());
+	settings->setVisualStudioSolutionPath(solutionFilePath);
 
 	LOG_INFO_STREAM(<< "Parsing project files");
 
@@ -247,10 +246,10 @@ ProjectSettings SolutionParserVisualStudio::getProjectSettings(const std::string
 	LOG_INFO_STREAM(<< "Setting compile flags");
 
 	std::vector<std::string> compilerFlags = getCompileFlags();
-	settings.setCompilerFlags(compilerFlags);
+	settings->setCompilerFlags(compilerFlags);
 
-	settings.setSourcePaths(sourcePaths);
-	settings.setHeaderSearchPaths(headerPaths);
+	settings->setSourcePaths(sourcePaths);
+	settings->setHeaderSearchPaths(headerPaths);
 
 	LOG_INFO_STREAM(<< "Done parsing VS solution");
 

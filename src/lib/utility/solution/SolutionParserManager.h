@@ -15,7 +15,7 @@ public:
 
 	bool canParseSolution(const std::string& ideId) const;
 
-	ProjectSettings getProjectSettings(const std::string& ideId, const std::string& solutionFilePath) const;
+	std::shared_ptr<ProjectSettings> getProjectSettings(const std::string& ideId, const std::string& solutionFilePath) const;
 
 	unsigned int getParserCount() const;
 

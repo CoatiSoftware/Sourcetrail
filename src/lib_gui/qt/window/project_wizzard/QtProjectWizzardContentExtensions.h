@@ -11,7 +11,7 @@ class QtProjectWizzardContentExtensions
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentExtensions(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentExtensions(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
 	virtual void populateWindow(QGridLayout* layout, int& row) override;

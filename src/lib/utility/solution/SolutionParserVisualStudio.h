@@ -21,7 +21,7 @@ public:
 	virtual std::vector<std::string> getIncludePaths();
 	virtual std::vector<std::string> getCompileFlags();
 
-	virtual ProjectSettings getProjectSettings(const std::string& solutionFilePath);
+	virtual std::shared_ptr<ProjectSettings> getProjectSettings(const std::string& solutionFilePath);
 
 	virtual std::string getIdeName() const;
 	virtual std::string getButtonText() const;

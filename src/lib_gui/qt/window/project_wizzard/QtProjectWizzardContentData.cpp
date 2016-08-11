@@ -3,7 +3,9 @@
 #include <QFormLayout>
 #include <QMessageBox>
 
-QtProjectWizzardContentData::QtProjectWizzardContentData(ProjectSettings* settings, QtProjectWizzardWindow* window)
+#include "settings/CxxProjectSettings.h"
+
+QtProjectWizzardContentData::QtProjectWizzardContentData(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(settings, window)
 	, m_projectName(nullptr)
 	, m_projectFileLocation(nullptr)
@@ -45,9 +47,9 @@ void QtProjectWizzardContentData::load()
 
 	if (m_language)
 	{
-		if (m_settings->getLanguage().length() > 0)
+		if (m_settings->getLanguage() != LANGUAGE_UNKNOWN)
 		{
-			m_language->setCurrentText(QString::fromStdString(m_settings->getLanguage()));
+			m_language->setCurrentText(QString::fromStdString(languageTypeToString(m_settings->getLanguage())));
 		}
 
 		if (m_settings->getStandard().length() > 0)
@@ -76,7 +78,7 @@ void QtProjectWizzardContentData::save()
 
 	if (m_language)
 	{
-		m_settings->setLanguage(m_language->currentText().toStdString());
+		m_settings->setLanguage(stringToLanguageType(m_language->currentText().toStdString()));
 
 		if (m_cppStandard->isVisible())
 		{
@@ -239,7 +241,7 @@ void QtProjectWizzardContentData::handleSelectionChanged(int index)
 
 
 QtProjectWizzardContentDataCDB::QtProjectWizzardContentDataCDB(
-	ProjectSettings* settings, QtProjectWizzardWindow* window)
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
 	: QtProjectWizzardContentData(settings, window)
 {
 }
@@ -259,8 +261,11 @@ void QtProjectWizzardContentDataCDB::populateForm(QGridLayout* layout, int& row)
 void QtProjectWizzardContentDataCDB::load()
 {
 	QtProjectWizzardContentData::load();
-
-	m_buildFilePicker->setText(QString::fromStdString(m_settings->getCompilationDatabasePath().str()));
+	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	if (cxxSettings)
+	{
+		m_buildFilePicker->setText(QString::fromStdString(cxxSettings->getCompilationDatabasePath().str()));
+	}
 }
 
 void QtProjectWizzardContentDataCDB::save()
@@ -272,7 +277,12 @@ void QtProjectWizzardContentDataCDB::save()
 	{
 		return;
 	}
-	m_settings->setCompilationDatabasePath(path);
+
+	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	if (cxxSettings)
+	{
+		cxxSettings->setCompilationDatabasePath(path);
+	}
 }
 
 bool QtProjectWizzardContentDataCDB::check()

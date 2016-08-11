@@ -1,9 +1,10 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentCDBSource.h"
 
 #include "data/parser/cxx/TaskParseCxx.h"
+#include "settings/CxxProjectSettings.h"
 
 QtProjectWizzardContentCDBSource::QtProjectWizzardContentCDBSource(
-	ProjectSettings* settings, QtProjectWizzardWindow* window
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContent(settings, window)
 	, m_text(nullptr)
@@ -38,32 +39,35 @@ void QtProjectWizzardContentCDBSource::load()
 	FilePath projectPath = m_settings->getProjectFileLocation();
 	std::vector<FilePath> excludePaths = m_settings->getAbsoluteExcludePaths();
 
-	std::vector<FilePath> filePaths = TaskParseCxx::getSourceFilesFromCDB(m_settings->getCompilationDatabasePath());
-	for (FilePath path : filePaths)
+	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	if (cxxSettings)
 	{
-		bool excluded = false;
-		for (FilePath p : excludePaths)
+		std::vector<FilePath> filePaths = TaskParseCxx::getSourceFilesFromCDB(cxxSettings->getCompilationDatabasePath());
+		for (FilePath path : filePaths)
 		{
-			if (p == path || p.contains(path))
+			bool excluded = false;
+			for (FilePath p : excludePaths)
 			{
-				excluded = true;
-				break;
+				if (p == path || p.contains(path))
+				{
+					excluded = true;
+					break;
+				}
 			}
-		}
 
-		if (excluded)
-		{
-			continue;
-		}
+			if (excluded)
+			{
+				continue;
+			}
 
-		if (projectPath.exists())
-		{
-			path = path.relativeTo(projectPath);
-		}
+			if (projectPath.exists())
+			{
+				path = path.relativeTo(projectPath);
+			}
 
-		m_fileNames << QString::fromStdString(path.str());
+			m_fileNames << QString::fromStdString(path.str());
+		}
 	}
-
 	if (m_text)
 	{
 		m_text->setText(QString::number(m_fileNames.size()) + " source files were found in the compilation database.");

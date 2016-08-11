@@ -13,7 +13,7 @@ class QtProjectWizzardContentPreferences
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentPreferences(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentPreferences(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 	~QtProjectWizzardContentPreferences();
 
 	// QtProjectWizzardContent implementation

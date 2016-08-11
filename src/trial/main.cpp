@@ -3,6 +3,7 @@
 #include "utility/logging/FileLogger.h"
 #include "utility/logging/LogManager.h"
 #include "utility/ResourcePaths.h"
+#include "utility/ScopedFunctor.h"
 #include "utility/UserPaths.h"
 #include "utility/Version.h"
 
@@ -53,7 +54,10 @@ int main(int argc, char *argv[])
 
 	utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
 
-	std::shared_ptr<Application> app = Application::create(version, &viewFactory, &networkFactory);
+	Application::createInstance(version, &viewFactory, &networkFactory);
+	ScopedFunctor f([](){
+		Application::destroyInstance();
+	});
 
 	return qtApp.exec();
 }

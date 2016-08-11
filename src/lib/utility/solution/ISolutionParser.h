@@ -28,7 +28,7 @@ public:
 	virtual std::vector<std::string> getProjectItems() = 0;
 	virtual std::vector<std::string> getCompileFlags() = 0;
 
-	virtual ProjectSettings getProjectSettings(const std::string& solutionFilePath) = 0;
+	virtual std::shared_ptr<ProjectSettings> getProjectSettings(const std::string& solutionFilePath) = 0;
 
 	virtual std::string getIdeName() const = 0;
 	virtual std::string getButtonText() const = 0;

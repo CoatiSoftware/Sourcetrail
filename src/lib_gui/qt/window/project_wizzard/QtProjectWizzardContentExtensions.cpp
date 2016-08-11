@@ -5,7 +5,7 @@
 #include "qt/element/QtDirectoryListBox.h"
 
 QtProjectWizzardContentExtensions::QtProjectWizzardContentExtensions(
-	ProjectSettings* settings, QtProjectWizzardWindow* window
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContent(settings, window)
 {

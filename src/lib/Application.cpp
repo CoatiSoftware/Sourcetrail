@@ -23,55 +23,56 @@
 #include "settings/ColorScheme.h"
 #include "settings/ProjectSettings.h"
 
-std::shared_ptr<Application> Application::create(
+void Application::createInstance(
 	const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory
 ){
 	Version::setApplicationVersion(version);
 	loadSettings();
 
-	std::shared_ptr<Application> ptr(new Application());
+	TaskScheduler::getInstance();
+	MessageQueue::getInstance();
 
-	ptr->m_storageCache = std::make_shared<StorageCache>();
+	bool hasGui = (viewFactory != nullptr);
+	s_instance = std::shared_ptr<Application>(new Application(hasGui));
 
-	ptr->m_componentManager = ComponentManager::create(viewFactory, ptr->m_storageCache.get());
+	s_instance->m_storageCache = std::make_shared<StorageCache>();
 
-	ptr->m_mainView = viewFactory->createMainView();
-	ptr->m_mainView->setTitle("Coati");
+	if (viewFactory != nullptr)
+	{
+		s_instance->m_componentManager = ComponentManager::create(viewFactory, s_instance->m_storageCache.get());
 
-	MessageDispatchWhenLicenseValid(std::make_shared<MessageShowStartScreen>()).dispatch();
+		s_instance->m_mainView = viewFactory->createMainView();
+		s_instance->m_mainView->setTitle("Coati");
 
-	ptr->m_componentManager->setup(ptr->m_mainView.get());
-	ptr->m_mainView->loadLayout();
+		MessageDispatchWhenLicenseValid(std::make_shared<MessageShowStartScreen>()).dispatch();
 
-	ptr->m_project = Project::create(ptr->m_storageCache.get());
+		s_instance->m_componentManager->setup(s_instance->m_mainView.get());
+		s_instance->m_mainView->loadLayout();
+	}
 
-	ptr->m_ideCommunicationController = networkFactory->createIDECommunicationController(ptr->m_storageCache.get());
+	if (networkFactory != nullptr)
+	{
+		s_instance->m_ideCommunicationController = networkFactory->createIDECommunicationController(s_instance->m_storageCache.get());
+	}
 
-	ptr->startMessagingAndScheduling();
-
-	return ptr;
+	s_instance->startMessagingAndScheduling();
 }
 
-std::shared_ptr<Application> Application::create(const Version& version)
+std::shared_ptr<Application> Application::getInstance()
 {
-	Version::setApplicationVersion(version);
-	loadSettings();
+	return s_instance;
+}
 
-	std::shared_ptr<Application> ptr(new Application(false));
-
-	ptr->m_storageCache = std::make_shared<StorageCache>();
-	ptr->m_project = Project::create(ptr->m_storageCache.get());
-
-	ptr->startMessagingAndScheduling();
-
-	return ptr;
+void Application::destroyInstance()
+{
+	s_instance.reset();
 }
 
 void Application::loadSettings()
 {
-	ApplicationSettings::getInstance()->load(FilePath(UserPaths::getAppSettingsPath()));
-
-	loadStyle(ApplicationSettings::getInstance()->getColorSchemePath());
+	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
+	settings->load(FilePath(UserPaths::getAppSettingsPath()));
+	loadStyle(settings->getColorSchemePath());
 }
 
 void Application::loadStyle(const FilePath& colorSchemePath)
@@ -79,6 +80,8 @@ void Application::loadStyle(const FilePath& colorSchemePath)
 	ColorScheme::getInstance()->load(colorSchemePath);
 	GraphViewStyle::loadStyleSettings();
 }
+
+std::shared_ptr<Application> Application::s_instance;
 
 Application::Application(bool withGUI)
 	: m_hasGUI(withGUI)
@@ -96,29 +99,55 @@ Application::~Application()
 	}
 }
 
+const std::shared_ptr<Project> Application::getCurrentProject()
+{
+	return m_project;
+}
+
 bool Application::hasGUI()
 {
 	return m_hasGUI;
 }
 
+int Application::handleDialog(const std::string& message)
+{
+	return m_mainView->confirm(message);
+}
+
+int Application::handleDialog(const std::string& message, const std::vector<std::string>& options)
+{
+	return m_mainView->confirm(message, options);
+}
+
+void Application::setTitle(const std::string& title)
+{
+	m_mainView->setTitle(title);
+}
+
 void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 {
 	MessageStatus("Loading Project: " + projectSettingsFilePath.str(), false, true).dispatch();
-
-	loadSettings();
-	updateRecentProjects(projectSettingsFilePath);
-
-	m_storageCache->clear();
-
-	m_project = Project::create(m_storageCache.get());
-	loadProject(projectSettingsFilePath);
-
-	if (m_hasGUI)
+	try
 	{
-		m_mainView->setTitle("Coati - " + projectSettingsFilePath.fileName());
-		m_mainView->hideStartScreen();
+		updateRecentProjects(projectSettingsFilePath);
 
-		m_componentManager->refreshViews();
+		m_storageCache->clear();
+
+		m_project = Project::create(projectSettingsFilePath, m_storageCache.get());
+		loadProject(projectSettingsFilePath);
+
+		if (m_hasGUI)
+		{
+			setTitle("Coati - " + projectSettingsFilePath.fileName());
+			m_mainView->hideStartScreen();
+
+			m_componentManager->refreshViews();
+		}
+	}
+	catch (...)
+	{
+		LOG_ERROR_STREAM(<< "Failed to load project.");
+		MessageStatus("Failed to load project.", true).dispatch();
 	}
 }
 
@@ -128,70 +157,11 @@ void Application::loadProject(const FilePath& projectSettingsFilePath)
 	{
 		m_componentManager->clearComponents();
 	}
-
-	bool reparse = false;
-
-	Project::ProjectState state = m_project->load(projectSettingsFilePath);
-	if (state == Project::PROJECT_OUTDATED)
-	{
-		if (m_hasGUI && !isTrial())
-		{
-			std::vector<std::string> options;
-			options.push_back("Yes");
-			options.push_back("No");
-			int result = m_mainView->confirm(
-				"The project file was changed after the last indexing. The project needs to get fully reindexed to "
-				"reflect the current project state. Do you want to reindex the project?", options);
-
-			reparse = (result == 0);
-		}
-	}
-	else if (state == Project::PROJECT_OUTVERSIONED)
-	{
-		MessageStatus("Can't load project").dispatch();
-
-		reparse = true;
-
-		if (m_hasGUI)
-		{
-			std::vector<std::string> options;
-			options.push_back("Yes");
-			options.push_back("No");
-			int result = m_mainView->confirm(
-				"This project was indexed with a different version of Coati. It needs to be fully reindexed to be used "
-				"with this version of Coati. Do you want to reindex the project?", options);
-
-			reparse = (result == 0);
-		}
-	}
-
-	if (reparse)
-	{
-		m_project->clearStorage();
-		m_project->load(projectSettingsFilePath);
-	}
 }
 
-void Application::refreshProject()
+void Application::refreshProject(bool force)
 {
 	MessageStatus("Refreshing Project").dispatch();
-
-	FilePath cdbPath = ProjectSettings::getInstance()->getCompilationDatabasePath();
-	if (!cdbPath.empty() && !cdbPath.exists())
-	{
-		MessageStatus("Can't refresh project").dispatch();
-
-		if (m_hasGUI)
-		{
-			std::vector<std::string> options;
-			options.push_back("Ok");
-			m_mainView->confirm(
-				"Can't refresh. The compilation database of the project does not exist anymore: " + cdbPath.str(),
-				options);
-		}
-
-		return;
-	}
 
 	m_storageCache->clear();
 	if (m_hasGUI)
@@ -199,11 +169,13 @@ void Application::refreshProject()
 		m_componentManager->refreshViews();
 	}
 
-	Project::ProjectState state = m_project->reload();
-	if (state != Project::PROJECT_LOADED)
+	if (force)
 	{
-		MessageStatus("Can't refresh project").dispatch();
-		loadProject(m_project->getProjectSettingsFilePath());
+		m_project->forceRefresh();
+	}
+	else
+	{
+		m_project->refresh();
 	}
 }
 
@@ -228,82 +200,40 @@ void Application::handleMessage(MessageLoadProject* message)
 {
 	TRACE("app load project");
 
+	loadSettings();
+
 	FilePath projectSettingsFilePath(message->projectSettingsFilePath);
 	if (projectSettingsFilePath.empty())
 	{
-		projectSettingsFilePath = m_project->getProjectSettingsFilePath();
-		if (projectSettingsFilePath.empty())
-		{
-			return;
-		}
+		return;
 	}
 
 	if (message->forceRefresh && !isTrial())
 	{
 		if (m_hasGUI)
 		{
-			FilePath path = projectSettingsFilePath;
-			FilePath oldPath = m_project->getProjectSettingsFilePath();
+			std::vector<std::string> options;
+			options.push_back("Yes");
+			options.push_back("No");
+			int result = m_mainView->confirm(
+				"Some settings were changed, the project needs to be fully reindexed. "
+				"Do you want to reindex the project?", options);
 
-			if (oldPath.exists() && oldPath != path)
+			if (result == 1)
 			{
-				std::vector<std::string> options;
-				options.push_back("Yes");
-				options.push_back("No");
-				int result = m_mainView->confirm(
-					"You changed the project location. The project file (.coatiproject) and the database file (.coatidb) will "
-					"be moved to the new location. Do you want to keep a copy of the files in the previous location?"
-					, options);
-
-				FilePath dbPath = FilePath(path).replaceExtension("coatidb");
-				FilePath olddbPath = FilePath(oldPath).replaceExtension("coatidb");
-
-				m_project = Project::create(m_storageCache.get());
-
-				if (result == 0)
+				if (!m_project || projectSettingsFilePath != m_project->getProjectSettingsFilePath())
 				{
-					FileSystem::copyFile(olddbPath, dbPath);
-				}
-				else
-				{
-					FileSystem::remove(oldPath);
-					FileSystem::rename(olddbPath, dbPath);
-				}
-			}
-			else
-			{
-				std::vector<std::string> options;
-				options.push_back("Yes");
-				options.push_back("No");
-				int result = m_mainView->confirm(
-					"Some settings were changed, the project needs to be fully reindexed. "
-					"Do you want to reindex the project?", options);
-
-				if (result == 1)
-				{
-					m_project->load(projectSettingsFilePath);
-					updateRecentProjects(projectSettingsFilePath);
-					m_mainView->setTitle("Coati - " + projectSettingsFilePath.fileName());
+					createAndLoadProject(projectSettingsFilePath);
 					return;
 				}
 			}
 		}
 
-		m_project->clearStorage();
+		refreshProject(true);
 	}
-	else if (projectSettingsFilePath == m_project->getProjectSettingsFilePath())
-	{
-		return;
-	}
-
-	try
+	else if (!m_project || projectSettingsFilePath != m_project->getProjectSettingsFilePath())
 	{
 		createAndLoadProject(projectSettingsFilePath);
-	}
-	catch (...)
-	{
-		LOG_ERROR_STREAM(<< "Failed to load project.");
-		MessageStatus("Failed to load project.", true).dispatch();
 	}
 }
 
@@ -318,16 +248,14 @@ void Application::handleMessage(MessageRefresh* message)
 
 	if (message->uiOnly)
 	{
-		m_componentManager->refreshViews();
-	}
-	else if (message->all)
-	{
-		m_project->clearStorage();
-		refreshProject();
+		if (m_hasGUI)
+		{
+			m_componentManager->refreshViews();
+		}
 	}
 	else
 	{
-		refreshProject();
+		refreshProject(message->all);
 	}
 }
 

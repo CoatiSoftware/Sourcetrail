@@ -12,7 +12,7 @@ class QtProjectWizzardContentSimple
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContentSimple(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentSimple(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
 	virtual void populateWindow(QGridLayout* layout) override;

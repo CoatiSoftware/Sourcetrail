@@ -248,6 +248,16 @@ bool PersistentStorage::isIncompatible() const
 	return m_sqliteStorage.isIncompatible();
 }
 
+std::string PersistentStorage::getProjectSettingsText() const
+{
+	return m_sqliteStorage.getProjectSettingsText();
+}
+
+void PersistentStorage::setProjectSettingsText(std::string text)
+{
+	m_sqliteStorage.setProjectSettingsText(text);
+}
+
 void PersistentStorage::setup()
 {
 	m_sqliteStorage.setup();

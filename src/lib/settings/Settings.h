@@ -15,12 +15,13 @@ public:
 	Settings& operator=(const Settings& other);
 	virtual ~Settings();
 
-	bool load(const FilePath& filePath);
-	void save();
+	virtual bool load(const FilePath& filePath);
+	virtual void save();
 	virtual void save(const FilePath& filePath);
+
 	void clear();
 
-	const FilePath& getFilePath() const;
+	virtual const FilePath& getFilePath() const;
 
 protected:
 	Settings();

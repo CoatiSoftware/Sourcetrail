@@ -14,7 +14,7 @@
 #include "data/location/TokenLocationFile.h"
 #include "data/location/TokenLocationLine.h"
 #include "settings/ApplicationSettings.h"
-#include "settings/ProjectSettings.h"
+#include "Application.h"
 
 CodeController::CodeController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -47,7 +47,7 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	statsSnippet.locationFile = std::make_shared<TokenLocationFile>(FilePath());
 	statsSnippet.locationFile->isWholeCopy = true;
 
-	statsSnippet.title = ProjectSettings::getInstance()->getFilePath().withoutExtension().fileName();
+	statsSnippet.title = Application::getInstance()->getCurrentProject()->getProjectSettingsFilePath().withoutExtension().fileName();
 
 	std::vector<std::string> description = getProjectDescription(statsSnippet.locationFile.get());
 
@@ -662,7 +662,7 @@ std::shared_ptr<TokenLocationFile> CodeController::getTokenLocationOfParentScope
 
 std::vector<std::string> CodeController::getProjectDescription(TokenLocationFile* locationFile) const
 {
-	std::string description = ProjectSettings::getInstance()->getDescription();
+	std::string description = Application::getInstance()->getCurrentProject()->getDescription();
 
 	if (!description.size())
 	{

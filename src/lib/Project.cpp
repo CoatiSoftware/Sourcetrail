@@ -2,12 +2,11 @@
 
 #include "data/access/StorageAccessProxy.h"
 #include "data/graph/Token.h"
-#include "data/parser/cxx/TaskParseCxx.h"
 #include "data/parser/cxx/TaskParseWrapper.h"
-#include "data/parser/java/JavaEnvironmentFactory.h"
 #include "data/parser/java/TaskParseJava.h"
 #include "data/PersistentStorage.h"
 #include "data/TaskCleanStorage.h"
+
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
 
@@ -17,103 +16,201 @@
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/scheduling/TaskGroupSequential.h"
 #include "utility/scheduling/TaskGroupParallel.h"
+#include "utility/text/TextAccess.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 #include "utility/Version.h"
 
-std::shared_ptr<Project> Project::create(StorageAccessProxy* storageAccessProxy)
+#include "Application.h"
+#include "CxxProject.h"
+#include "JavaProject.h"
+#include "isTrial.h"
+
+std::shared_ptr<Project> Project::create(const FilePath& projectSettingsFile, StorageAccessProxy* storageAccessProxy)
 {
-	std::shared_ptr<Project> ptr(new Project(storageAccessProxy));
-	return ptr;
+	std::shared_ptr<Project> project;
+
+	switch (ProjectSettings::getLanguageOfProject(projectSettingsFile))
+	{
+	case LANGUAGE_C:
+	case LANGUAGE_CPP:
+		{
+			project = std::shared_ptr<CxxProject>(new CxxProject(
+				std::make_shared<CxxProjectSettings>(projectSettingsFile), storageAccessProxy
+			));
+		}
+		break;
+	case LANGUAGE_JAVA:
+		{
+			project = std::shared_ptr<JavaProject>(new JavaProject(
+				std::make_shared<JavaProjectSettings>(projectSettingsFile), storageAccessProxy
+			));
+		}
+		break;
+	}
+
+	if (project)
+	{
+		project->load();
+	}
+	return project;
 }
 
 Project::~Project()
 {
 }
 
-const FilePath& Project::getProjectSettingsFilePath() const
+void Project::refresh()
 {
-	return m_projectSettingsFilepath;
+	if (allowsRefresh())
+	{
+		bool loadedSettings = getProjectSettings()->load();
+
+		updateFileManager(m_fileManager);
+
+		buildIndex();
+
+		m_state = PROJECT_STATE_LOADED;
+	}
 }
 
-Project::ProjectState Project::load(const FilePath& projectSettingsFile)
+void Project::forceRefresh()
 {
-	m_state = PROJECT_NONE;
-
-	bool success = true;
-	if (!projectSettingsFile.empty())
+	if (allowsRefresh())
 	{
-		success = ProjectSettings::getInstance()->load(projectSettingsFile);
+		clearStorage();
 	}
+	refresh();
+}
 
-	if (success)
+FilePath Project::getProjectSettingsFilePath() const
+{
+	return getProjectSettings()->getFilePath();
+}
+
+std::string Project::getDescription() const
+{
+	return getProjectSettings()->getDescription();
+}
+
+bool Project::settingsEqualExceptNameAndLocation(const ProjectSettings& otherSettings) const
+{
+	return getProjectSettings()->equalsExceptNameAndLocation(otherSettings);
+}
+
+void Project::logStats() const
+{
+	m_storage->logStats();
+}
+
+Project::Project(StorageAccessProxy* storageAccessProxy)
+	: m_storageAccessProxy(storageAccessProxy)
+	, m_state(PROJECT_STATE_NOT_LOADED)
+{
+}
+
+void Project::load()
+{
+	const std::shared_ptr<ProjectSettings> projectSettings = getProjectSettings();
+	bool loadedSettings = projectSettings->load();
+	if (loadedSettings)
 	{
-		setProjectSettingsFilePath(projectSettingsFile);
-		updateFileManager();
+		const FilePath projectSettingsPath = projectSettings->getFilePath();
+		const FilePath dbPath = FilePath(projectSettingsPath).replaceExtension("coatidb");
+		m_storage = std::make_shared<PersistentStorage>(dbPath);
+		m_storageAccessProxy->setSubject(m_storage.get());
+
+		if (m_storage->isEmpty())
+		{
+			m_state = PROJECT_STATE_EMPTY;
+			m_storage->setup();
+		}
+		else if (m_storage->isIncompatible())
+		{
+			m_state = PROJECT_STATE_OUTVERSIONED;
+		}
+		else if (TextAccess::createFromFile(projectSettingsPath.str())->getText() != m_storage->getProjectSettingsText())
+		{
+			m_state = PROJECT_STATE_OUTDATED;
+		}
+		else
+		{
+			m_state = PROJECT_STATE_LOADED;
+		}
+
+		updateFileManager(m_fileManager);
+
+		bool reparse = false;
 
 		switch (m_state)
 		{
-			case PROJECT_NONE:
-				break;
+		case PROJECT_STATE_EMPTY:
+			buildIndex();
+			m_state = PROJECT_STATE_LOADED;
+			break;
+		case PROJECT_STATE_OUTDATED:
+			if (Application::getInstance()->hasGUI() && !isTrial())
+			{
+				std::vector<std::string> options;
+				options.push_back("Yes");
+				options.push_back("No");
+				int result = Application::getInstance()->handleDialog(
+					"The project file was changed after the last indexing. The project needs to get fully reindexed to "
+					"reflect the current project state. Do you want to reindex the project?", options);
 
-			case PROJECT_EMPTY:
-				parseCode();
-				break;
+				reparse = (result == 0);
+			}
+			// dont break here.
+		case PROJECT_STATE_LOADED:
+			m_storage->finishParsing();
+			MessageFinishedParsing(0, 0, 0, true).dispatch();
+			break;
+		case PROJECT_STATE_OUTVERSIONED:
+			MessageStatus("Can't load project").dispatch();
 
-			case PROJECT_LOADED:
-			case PROJECT_OUTDATED:
-				m_storage->finishParsing();
-				MessageFinishedParsing(0, 0, 0, true).dispatch();
-				break;
+			reparse = true;
 
-			case PROJECT_OUTVERSIONED:
-				m_storage.reset();
-				break;
+			if (Application::getInstance()->hasGUI() && !isTrial())
+			{
+				std::vector<std::string> options;
+				options.push_back("Yes");
+				options.push_back("No");
+				int result = Application::getInstance()->handleDialog(
+					"This project was indexed with a different version of Coati. It needs to be fully reindexed to be used "
+					"with this version of Coati. Do you want to reindex the project?", options);
+
+				reparse = (result == 0);
+			}
+			m_storage.reset();
+			break;
+		}
+
+		if (reparse)
+		{
+			forceRefresh();
 		}
 	}
-
-	return m_state;
-}
-
-Project::ProjectState Project::reload()
-{
-	if (m_state == PROJECT_LOADED &&
-		FileSystem::getFileInfoForPath(m_projectSettingsFilepath).lastWriteTime >
-		FileSystem::getFileInfoForPath(m_storage->getDbFilePath()).lastWriteTime)
-	{
-		m_state = PROJECT_OUTDATED;
-	}
-	else if (!m_projectSettingsFilepath.empty() && (m_state == PROJECT_EMPTY || m_state == PROJECT_LOADED))
-	{
-		ProjectSettings::getInstance()->load(m_projectSettingsFilepath);
-		updateFileManager();
-
-		parseCode();
-	}
-
-	return m_state;
 }
 
 void Project::clearStorage()
 {
-	if (m_state == PROJECT_OUTVERSIONED)
+	if (!m_storage)
 	{
-		loadStorage(m_projectSettingsFilepath);
+		const FilePath projectSettingsPath = getProjectSettings()->getFilePath();
+		const FilePath dbPath = FilePath(projectSettingsPath).replaceExtension("coatidb");
+		m_storage = std::make_shared<PersistentStorage>(dbPath);
 	}
 
 	if (m_storage)
 	{
 		m_storage->clear();
-		m_state = PROJECT_EMPTY;
+		m_state = PROJECT_STATE_EMPTY;
 	}
 }
 
-void Project::parseCode()
+void Project::buildIndex()
 {
-	if (m_projectSettingsFilepath.empty())
-	{
-		return;
-	}
+	m_storage->setProjectSettingsText(TextAccess::createFromFile(getProjectSettingsFilePath().str())->getText());
 
 	m_fileManager.fetchFilePaths(m_storage->getInfoOnAllFiles());
 	std::set<FilePath> addedFilePaths = m_fileManager.getAddedFilePaths();
@@ -131,7 +228,6 @@ void Project::parseCode()
 	filesToParse.insert(filesToParse.end(), addedFilePaths.begin(), addedFilePaths.end());
 	filesToParse.insert(filesToParse.end(), updatedFilePaths.begin(), updatedFilePaths.end());
 
-	m_state = PROJECT_LOADED;
 
 	if (!filesToClean.size() && !filesToParse.size())
 	{
@@ -147,28 +243,6 @@ void Project::parseCode()
 	std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(&m_fileManager, indexerThreadCount > 1);
 	fileRegister->setFilePaths(filesToParse);
 
-	if (ProjectSettings::getInstance()->getLanguage() == "Java")
-	{
-		if (!JavaEnvironmentFactory::getInstance())
-		{
-			JavaEnvironmentFactory::createInstance(
-				"data/java/asm-5.0.3.jar;"
-				"data/java/cglib-3.1.jar;"
-				"data/java/easymock-3.3.1.jar;"
-				"data/java/guava-18.0.jar;"
-				"data/java/hamcrest-core-1.3.jar;"
-				"data/java/java-indexer.jar;"
-				"data/java/javaparser-core-2.4.1-SNAPSHOT.jar;"
-				"data/java/javaslang-2.0.0-beta.jar;"
-				"data/java/javassist-3.19.0-GA.jar;"
-				"data/java/java-symbol-solver-core-0.2.0-SNAPSHOT.jar;"
-				"data/java/java-symbol-solver-logic-0.2.0-SNAPSHOT.jar;"
-				"data/java/java-symbol-solver-model-0.2.0-SNAPSHOT.jar;"
-				"data/java/objenesis-2.1.jar;"
-			);
-		}
-	}
-
 	std::shared_ptr<TaskParseWrapper> taskParserWrapper = std::make_shared<TaskParseWrapper>(
 		m_storage.get(),
 		fileRegister
@@ -182,160 +256,15 @@ void Project::parseCode()
 
 	for (int i = 0; i < indexerThreadCount; i++)
 	{
-		if (ProjectSettings::getInstance()->getLanguage() == "Java")
-		{
-			std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
-
-			Parser::Arguments arguments;
-
-			for (FilePath classpath: projSettings->getAbsoluteJavaClasspaths())
-			{
-				arguments.javaClassPaths.push_back(classpath.str());
-			}
-
-			for (FilePath sourcePath: projSettings->getAbsoluteSourcePaths())
-			{
-				if (sourcePath.extension().empty())
-				{
-					arguments.javaClassPaths.push_back(sourcePath.str());
-				}
-			}
-
-			taskParallelIndexing->addTask(
-				std::make_shared<TaskParseJava>(
-					m_storage.get(),
-					storageMutex,
-					fileRegister,
-					arguments
-				)
-			);
-		}
-		else // c or cxx
-		{
-			taskParallelIndexing->addTask(std::make_shared<TaskParseCxx>(
-				m_storage.get(),
-				storageMutex,
-				fileRegister,
-				getParserArguments()
-			));
-		}
+		taskParallelIndexing->addTask(createIndexerTask(m_storage.get(), storageMutex, fileRegister));
 	}
 
 	Task::dispatch(taskSequential);
 }
 
-void Project::logStats() const
+bool Project::allowsRefresh()
 {
-	m_storage->logStats();
+	return true;
 }
 
-void Project::setProjectSettingsFilePath(const FilePath& path)
-{
-	if (path.empty())
-	{
-		m_storage.reset();
-		m_state = PROJECT_NONE;
-	}
-	else
-	{
-		loadStorage(path);
 
-		if (m_storage->isEmpty())
-		{
-			m_state = PROJECT_EMPTY;
-			m_storage->setup();
-		}
-		else if (m_storage->isIncompatible())
-		{
-			m_state = PROJECT_OUTVERSIONED;
-			m_storage.reset();
-		}
-		else if (FileSystem::getFileInfoForPath(path).lastWriteTime > FileSystem::getFileInfoForPath(m_storage->getDbFilePath()).lastWriteTime)
-		{
-			m_state = PROJECT_OUTDATED;
-		}
-		else
-		{
-			m_state = PROJECT_LOADED;
-		}
-	}
-
-	m_storageAccessProxy->setSubject(m_storage.get());
-	m_projectSettingsFilepath = path;
-}
-
-void Project::loadStorage(const FilePath& path)
-{
-	FilePath dbPath = FilePath(path).replaceExtension("coatidb");
-	if (!m_storage || path != m_projectSettingsFilepath || !dbPath.exists())
-	{
-		m_storage = std::make_shared<PersistentStorage>(dbPath);
-	}
-}
-
-void Project::updateFileManager()
-{
-	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
-
-	std::vector<FilePath> sourcePaths = projSettings->getAbsoluteSourcePaths();
-	std::vector<FilePath> headerPaths = sourcePaths;
-
-	std::vector<std::string> sourceExtensions;
-
-	if (projSettings->getCompilationDatabasePath().exists())
-	{
-		sourcePaths = TaskParseCxx::getSourceFilesFromCDB(projSettings->getCompilationDatabasePath());
-	}
-	else
-	{
-		sourceExtensions = projSettings->getSourceExtensions();
-	}
-
-	std::vector<FilePath> excludePaths = projSettings->getAbsoluteExcludePaths();
-
-	m_fileManager.setPaths(sourcePaths, headerPaths, excludePaths, sourceExtensions);
-}
-
-Parser::Arguments Project::getParserArguments() const
-{
-	std::shared_ptr<ProjectSettings> projSettings = ProjectSettings::getInstance();
-	std::shared_ptr<ApplicationSettings> appSettings = ApplicationSettings::getInstance();
-
-	Parser::Arguments args;
-
-	utility::append(args.compilerFlags, projSettings->getCompilerFlags());
-
-	// Add the source paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
-	utility::append(args.systemHeaderSearchPaths, m_fileManager.getSourcePaths());
-
-	utility::append(args.systemHeaderSearchPaths, projSettings->getAbsoluteHeaderSearchPaths());
-
-	utility::append(args.systemHeaderSearchPaths, appSettings->getHeaderSearchPathsExpanded());
-
-	// Add all subdirectories of the header search paths
-	if (projSettings->getUseSourcePathsForHeaderSearch())
-	{
-		std::vector<FilePath> headerSearchSubPaths;
-		for (FilePath p : projSettings->getSourcePaths())
-		{
-			utility::append(headerSearchSubPaths, FileSystem::getSubDirectories(p));
-		}
-
-		utility::append(args.systemHeaderSearchPaths, utility::unique(headerSearchSubPaths));
-	}
-
-	utility::append(args.frameworkSearchPaths, projSettings->getAbsoluteFrameworkSearchPaths());
-	utility::append(args.frameworkSearchPaths, appSettings->getFrameworkSearchPathsExpanded());
-
-	args.language = projSettings->getLanguage();
-	args.languageStandard = projSettings->getStandard();
-	args.compilationDatabasePath = projSettings->getCompilationDatabasePath();
-
-	return args;
-}
-
-Project::Project(StorageAccessProxy* storageAccessProxy)
-	: m_storageAccessProxy(storageAccessProxy)
-	, m_state(PROJECT_NONE)
-{
-}

@@ -5,13 +5,14 @@
 #include <QVBoxLayout>
 
 #include "qt/element/QtDirectoryListBox.h"
+#include "settings/CxxProjectSettings.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileManager.h"
 #include "utility/file/FileSystem.h"
 #include "utility/headerSearch/StandardHeaderDetection.h"
 #include "utility/utility.h"
 
-QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(ProjectSettings* settings, QtProjectWizzardWindow* window)
+QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(settings, window)
 {
 }
@@ -197,7 +198,7 @@ void QtProjectWizzardContentPaths::detectionClicked()
 
 
 QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
-	ProjectSettings* settings, QtProjectWizzardWindow* window
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
@@ -278,7 +279,7 @@ QString QtProjectWizzardContentPathsSource::getFileNamesDescription() const
 }
 
 QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
-	ProjectSettings* settings, QtProjectWizzardWindow* window
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPathsSource(settings, window)
 {
@@ -297,7 +298,7 @@ QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 
 
 QtProjectWizzardContentPathsExclude::QtProjectWizzardContentPathsExclude(
-	ProjectSettings* settings, QtProjectWizzardWindow* window
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
@@ -320,7 +321,7 @@ void QtProjectWizzardContentPathsExclude::save()
 
 
 QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSearch(
-	ProjectSettings* settings, QtProjectWizzardWindow* window
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
@@ -335,12 +336,20 @@ QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSear
 
 void QtProjectWizzardContentPathsHeaderSearch::load()
 {
-	m_list->setList(m_settings->getHeaderSearchPaths());
+	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	if (cxxSettings)
+	{
+		m_list->setList(cxxSettings->getHeaderSearchPaths());
+	}
 }
 
 void QtProjectWizzardContentPathsHeaderSearch::save()
 {
-	m_settings->setHeaderSearchPaths(m_list->getList());
+	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	if (cxxSettings)
+	{
+		cxxSettings->setHeaderSearchPaths(m_list->getList());
+	}
 }
 
 bool QtProjectWizzardContentPathsHeaderSearch::isScrollAble() const
@@ -349,7 +358,7 @@ bool QtProjectWizzardContentPathsHeaderSearch::isScrollAble() const
 }
 
 QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHeaderSearchGlobal(
-	ProjectSettings* settings, QtProjectWizzardWindow* window
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
@@ -380,7 +389,7 @@ void QtProjectWizzardContentPathsHeaderSearchGlobal::save()
 
 
 QtProjectWizzardContentPathsFrameworkSearch::QtProjectWizzardContentPathsFrameworkSearch(
-	ProjectSettings* settings, QtProjectWizzardWindow* window
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
@@ -394,12 +403,20 @@ QtProjectWizzardContentPathsFrameworkSearch::QtProjectWizzardContentPathsFramewo
 
 void QtProjectWizzardContentPathsFrameworkSearch::load()
 {
-	m_list->setList(m_settings->getFrameworkSearchPaths());
+	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	if (cxxSettings)
+	{
+		m_list->setList(cxxSettings->getFrameworkSearchPaths());
+	}
 }
 
 void QtProjectWizzardContentPathsFrameworkSearch::save()
 {
-	m_settings->setFrameworkSearchPaths(m_list->getList());
+	std::shared_ptr<CxxProjectSettings> cxxSettings = std::dynamic_pointer_cast<CxxProjectSettings>(m_settings);
+	if (cxxSettings)
+	{
+		cxxSettings->setFrameworkSearchPaths(m_list->getList());
+	}
 }
 
 bool QtProjectWizzardContentPathsFrameworkSearch::isScrollAble() const
@@ -408,7 +425,7 @@ bool QtProjectWizzardContentPathsFrameworkSearch::isScrollAble() const
 }
 
 QtProjectWizzardContentPathsFrameworkSearchGlobal::QtProjectWizzardContentPathsFrameworkSearchGlobal(
-	ProjectSettings* settings, QtProjectWizzardWindow* window
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {

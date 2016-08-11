@@ -4,6 +4,7 @@
 
 #include "SolutionParserUtility.h"
 
+#include "settings/CxxProjectSettings.h"
 #include "utility/logging/logging.h"
 
 SolutionParserCodeBlocks::SolutionParserCodeBlocks()
@@ -174,14 +175,12 @@ std::vector<std::string> SolutionParserCodeBlocks::getCompileFlags()
 	return compilerFlags;
 }
 
-ProjectSettings SolutionParserCodeBlocks::getProjectSettings(const std::string& solutionFilePath)
+std::shared_ptr<ProjectSettings> SolutionParserCodeBlocks::getProjectSettings(const std::string& solutionFilePath)
 {
 	openSolutionFile(solutionFilePath);
 
-	ProjectSettings settings;
-	settings.setProjectName(getSolutionName());
-	settings.setProjectFileLocation(getSolutionPath());
-	settings.setVisualStudioSolutionPath(solutionFilePath);
+	std::shared_ptr<CxxProjectSettings> settings = std::make_shared<CxxProjectSettings>(getSolutionName(), getSolutionPath());
+	settings->setVisualStudioSolutionPath(solutionFilePath);  // why is it called vs solution if it is used for codeblocks as well?
 
 	std::vector<std::string> sourceFiles = getProjectItems();
 	std::vector<FilePath> sourcePaths;
@@ -197,8 +196,8 @@ ProjectSettings SolutionParserCodeBlocks::getProjectSettings(const std::string& 
 		headerPaths.push_back(FilePath(p));
 	}
 
-	settings.setSourcePaths(sourcePaths);
-	settings.setHeaderSearchPaths(headerPaths);
+	settings->setSourcePaths(sourcePaths);
+	settings->setHeaderSearchPaths(headerPaths);
 
 	return settings;
 }

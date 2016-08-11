@@ -24,7 +24,7 @@ void QtHelpButton::handleHelpPress()
 }
 
 
-QtProjectWizzardContent::QtProjectWizzardContent(ProjectSettings* settings, QtProjectWizzardWindow* window)
+QtProjectWizzardContent::QtProjectWizzardContent(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
 	: QWidget(window)
 	, m_settings(settings)
 	, m_window(window)

@@ -39,7 +39,7 @@ bool SolutionParserManager::canParseSolution(const std::string& ideId) const
 	return false;
 }
 
-ProjectSettings SolutionParserManager::getProjectSettings(const std::string& ideId, const std::string& solutionFilePath) const
+std::shared_ptr<ProjectSettings> SolutionParserManager::getProjectSettings(const std::string& ideId, const std::string& solutionFilePath) const
 {
 	std::string lIdeId = ideId;
 	boost::algorithm::to_lower(lIdeId);
@@ -57,7 +57,7 @@ ProjectSettings SolutionParserManager::getProjectSettings(const std::string& ide
 
 	LOG_ERROR_STREAM(<< "Solution type is unknown");
 
-	return ProjectSettings();
+	return std::shared_ptr<ProjectSettings>();
 }
 
 unsigned int SolutionParserManager::getParserCount() const

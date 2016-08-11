@@ -52,6 +52,8 @@ public:
 
 	bool isEmpty() const;
 	bool isIncompatible() const;
+	std::string getProjectSettingsText() const;
+	void setProjectSettingsText(std::string text);
 
 	void setup();
 	void clear();

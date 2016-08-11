@@ -33,7 +33,7 @@ class QtProjectWizzardContent
 	Q_OBJECT
 
 public:
-	QtProjectWizzardContent(ProjectSettings* settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContent(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	virtual void populateWindow(QWidget* widget);
 	virtual void populateWindow(QGridLayout* layout);
@@ -64,7 +64,7 @@ protected:
 	QtHelpButton* addHelpButton(QString helpString, QGridLayout* layout, int row) const;
 	QPushButton* addFilesButton(QString name, QGridLayout* layout, int row) const;
 
-	ProjectSettings* m_settings;
+	std::shared_ptr<ProjectSettings> m_settings;
 	QtProjectWizzardWindow* m_window;
 
 private slots:

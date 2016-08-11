@@ -5,82 +5,53 @@
 #include <vector>
 
 #include "settings/Settings.h"
+#include "settings/LanguageType.h"
 
 class ProjectSettings
 	: public Settings
 {
 public:
-	static std::vector<std::string> getDefaultSourceExtensions();
+	static LanguageType getLanguageOfProject(FilePath projectFilePath);
 
-	static std::shared_ptr<ProjectSettings> getInstance();
 	ProjectSettings();
-	~ProjectSettings();
+	ProjectSettings(const FilePath& projectFilePath);
+	ProjectSettings(std::string projectName, const FilePath& projectFileLocation);
+	virtual ~ProjectSettings();
 
-	bool operator==(const ProjectSettings& other) const;
-	bool operator!=(const ProjectSettings& other) const;
+	virtual bool equalsExceptNameAndLocation(const ProjectSettings& other) const;
 
-	virtual void save(const FilePath& filePath);
+	virtual bool load();
 
-	// language settings
-	std::string getLanguage() const;
-	bool setLanguage(const std::string& language);
-
-	std::string getStandard() const;
-	bool setStandard(const std::string& standard);
-
-	// java... todo: move this
-	std::vector<FilePath> getJavaClasspaths() const;
-	std::vector<FilePath> getAbsoluteJavaClasspaths() const;
-
-	// source
-	std::vector<FilePath> getSourcePaths() const;
-	std::vector<FilePath> getAbsoluteSourcePaths() const;
-	bool setSourcePaths(const std::vector<FilePath>& sourcePaths);
-
-	std::vector<FilePath> getHeaderSearchPaths() const;
-	std::vector<FilePath> getAbsoluteHeaderSearchPaths() const;
-	bool setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths);
-
-	std::vector<FilePath> getFrameworkSearchPaths() const;
-	std::vector<FilePath> getAbsoluteFrameworkSearchPaths() const;
-	bool setFrameworkSearchPaths(const std::vector<FilePath>& frameworkSearchPaths);
-
-	std::vector<std::string> getCompilerFlags() const;
-	bool setCompilerFlags(const std::vector<std::string>& compilerFlags);
-
-	std::vector<std::string> getSourceExtensions() const;
-	bool setSourceExtensions(const std::vector<std::string>& sourceExtensions);
-
-	bool getUseSourcePathsForHeaderSearch() const;
-	bool setUseSourcePathsForHeaderSearch(bool useSourcePathsForHeaderSearch);
-
-	std::vector<FilePath> getExcludePaths() const;
-	std::vector<FilePath> getAbsoluteExcludePaths() const;
-	bool setExcludePaths(const std::vector<FilePath>& excludePaths);
-
-	FilePath getVisualStudioSolutionPath() const;
-	bool setVisualStudioSolutionPath(const FilePath& visualStudioSolutionPath);
-
-	FilePath getCompilationDatabasePath() const;
-	bool setCompilationDatabasePath(const FilePath& compilationDatabasePath);
-
-	// info
-	std::string getDescription() const;
-
-	// used in project wizzard
 	std::string getProjectName() const;
 	void setProjectName(const std::string& name);
 
 	FilePath getProjectFileLocation() const;
 	void setProjectFileLocation(const FilePath& location);
 
-private:
+	std::string getDescription() const;
+
+	LanguageType getLanguage() const;
+	bool setLanguage(LanguageType language);
+
+	std::string getStandard() const;
+	bool setStandard(const std::string& standard);
+
+	std::vector<FilePath> getSourcePaths() const;
+	std::vector<FilePath> getAbsoluteSourcePaths() const;
+	bool setSourcePaths(const std::vector<FilePath>& sourcePaths);
+
+	std::vector<FilePath> getExcludePaths() const;
+	std::vector<FilePath> getAbsoluteExcludePaths() const;
+	bool setExcludePaths(const std::vector<FilePath>& excludePaths);
+
+	std::vector<std::string> getSourceExtensions() const;
+	bool setSourceExtensions(const std::vector<std::string>& sourceExtensions);
+
+protected:
 	void makePathsAbsolute(std::vector<FilePath>& paths) const;
 
-	std::string m_projectName;
-	FilePath m_projectFileLocation;
-
-	static std::shared_ptr<ProjectSettings> s_instance;
+private:
+	virtual std::vector<std::string> getDefaultSourceExtensions() const;
 };
 
 #endif // PROJECT_SETTINGS_H

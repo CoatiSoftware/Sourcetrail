@@ -36,7 +36,8 @@ public slots:
 	void newProjectFromSolution(const std::string& ideId, const std::string& visualStudioSolutionPath);
 	void refreshProjectFromSolution(const std::string& ideId, const std::string& visualStudioSolutionPath);
 
-	void editProject(const ProjectSettings& settings);
+	void editProject(const FilePath& settingsPath);
+	void editProject(std::shared_ptr<ProjectSettings> settings);
 	void showPreferences();
 
 private:
@@ -48,14 +49,12 @@ private:
 	template<typename T>
 		QtProjectWizzardWindow* createPopupWithContent();
 
-	ProjectSettings getSettingsForCompilationDatabase(const std::string& compilationDatabasePath) const;
-
 	void connectShowFiles(QtProjectWizzardContent* content);
 
 	QtWindowStack m_windowStack;
 	std::shared_ptr<QtProjectWizzardWindow> m_popup;
 
-	ProjectSettings m_settings;
+	std::shared_ptr<ProjectSettings> m_settings;
 	ApplicationSettings m_appSettings;
 
 	bool m_editing;
@@ -69,7 +68,7 @@ private slots:
 	void windowStackChanged();
 	void popupClosed();
 
-	void selectedProjectType(QtProjectWizzardContentSelect::ProjectType type);
+	void selectedProjectType(LanguageType languageType, QtProjectWizzardContentSelect::ProjectType type);
 
 	void emptyProject();
 
