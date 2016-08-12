@@ -123,7 +123,7 @@ public class JavaTypeNameResolver extends JavaNameResolver
 		}
 		
 		System.out.println("Unable to resolve qualified name of " + type.getClass().toString() + ": " + fallbackTypeName);
-		return new JavaTypeName("error-type", null);
+		return new JavaTypeName("unresolved-type", null);
 	}
 	
 	
