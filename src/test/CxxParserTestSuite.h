@@ -860,7 +860,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->localSymbols.size(), 1);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc::a<1:11>");
+		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<1:11>");
 	}
 
 	void test_cxx_parser_finds_definition_of_local_symbol_in_function_scope()
@@ -873,7 +873,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->localSymbols.size(), 1);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc::a<3:2>");
+		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<3:2>");
 	}
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -1161,8 +1161,7 @@ void ASTVisitor::RecordDeclRef(
 			{
 				ParseLocation declLocation = getParseLocation(varDecl->getSourceRange());
 				std::string name =
-					declLocation.filePath.fileName() + "::" +
-					varDecl->getNameAsString() + "<" +
+					declLocation.filePath.fileName() + "<" +
 					std::to_string(declLocation.startLineNumber) + ":" +
 					std::to_string(declLocation.startColumnNumber) + ">";
 				m_client->onLocalSymbolParsed(
