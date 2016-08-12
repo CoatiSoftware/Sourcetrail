@@ -440,7 +440,7 @@ void Node::addComponentAccess(std::shared_ptr<TokenComponentAccess> component)
 {
 	if (getComponent<TokenComponentAccess>())
 	{
-		LOG_ERROR("TokenComponentAccess has been set before!");
+		LOG_WARNING("TokenComponentAccess has been set before!");
 		return;
 	}
 	else

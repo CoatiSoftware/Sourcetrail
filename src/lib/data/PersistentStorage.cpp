@@ -121,7 +121,10 @@ void PersistentStorage::addSourceLocation(
 
 void PersistentStorage::addComponentAccess(Id nodeId , int type)
 {
-	m_sqliteStorage.addComponentAccess(nodeId, type);
+	if (m_sqliteStorage.getComponentAccessByNodeId(nodeId).nodeId == 0)
+	{
+		m_sqliteStorage.addComponentAccess(nodeId, type);
+	}
 }
 
 void PersistentStorage::addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol)
