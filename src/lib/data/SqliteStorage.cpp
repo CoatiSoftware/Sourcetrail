@@ -11,7 +11,7 @@
 #include "utility/utilityString.h"
 #include "utility/Version.h"
 
-const size_t SqliteStorage::STORAGE_VERSION = 3;
+const size_t SqliteStorage::STORAGE_VERSION = 4;
 
 SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 	: m_dbFilePath(dbFilePath)
@@ -146,9 +146,14 @@ Id SqliteStorage::addFile(const std::string& serializedName, const std::string& 
 	std::shared_ptr<TextAccess> content = TextAccess::createFromFile(filePath);
 	unsigned int loc = content->getLineCount();
 
+	m_database.execDML((
+		"INSERT INTO file(id, path, modification_time, loc) VALUES("
+		+ std::to_string(id) + ", '" + filePath + "', '" + modificationTime + "', " + std::to_string(loc) + ");"
+	).c_str());
+
 	CppSQLite3Statement stmt = m_database.compileStatement((
-		"INSERT INTO file(id, path, modification_time, content, loc) VALUES("
-		+ std::to_string(id) + ", '" + filePath + "', '" + modificationTime + "', ?, " + std::to_string(loc) + ");"
+		"INSERT INTO filecontent(id, content) VALUES("
+		+ std::to_string(id) + ", ?);"
 	).c_str());
 
 	stmt.bind(1, content->getText().c_str());
@@ -446,27 +451,44 @@ std::vector<StorageFile> SqliteStorage::getFilesByPaths(const std::vector<FilePa
 
 std::shared_ptr<TextAccess> SqliteStorage::getFileContentById(Id fileId) const
 {
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT content FROM file WHERE id = '" + std::to_string(fileId) + "';"
-	).c_str());
-
-	if (!q.eof())
+	try
 	{
-		return TextAccess::createFromString(q.getStringField(0, ""));
+		CppSQLite3Query q = m_database.execQuery((
+			"SELECT content FROM filecontent WHERE id = '" + std::to_string(fileId) + "';"
+		).c_str());
+		if (!q.eof())
+		{
+			return TextAccess::createFromString(q.getStringField(0, ""));
+		}
 	}
+	catch (CppSQLite3Exception& e)
+	{
+		LOG_ERROR(std::to_string(e.errorCode()) + ": " + e.errorMessage());
+	}
+
 
 	return TextAccess::createFromString("");
 }
 
 std::shared_ptr<TextAccess> SqliteStorage::getFileContentByPath(const std::string& filePath) const
 {
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT content FROM file WHERE path = '" + filePath + "';"
-	).c_str());
-
-	if (!q.eof())
+	try
 	{
-		return TextAccess::createFromString(q.getStringField(0, ""));
+		CppSQLite3Query q = m_database.execQuery((
+			"SELECT filecontent.content "
+				"FROM filecontent "
+				"INNER JOIN file ON filecontent.id = file.id "
+				"WHERE file.path = '" + filePath + "';"
+		).c_str());
+
+		if (!q.eof())
+		{
+			return TextAccess::createFromString(q.getStringField(0, ""));
+		}
+	}
+	catch (CppSQLite3Exception& e)
+	{
+		LOG_ERROR(std::to_string(e.errorCode()) + ": " + e.errorMessage());
 	}
 
 	return TextAccess::createFromFile(filePath);
@@ -632,6 +654,7 @@ void SqliteStorage::clearTables()
 	m_database.execDML("DROP TABLE IF EXISTS main.component_access;");
 	m_database.execDML("DROP TABLE IF EXISTS main.source_location;");
 	m_database.execDML("DROP TABLE IF EXISTS main.local_symbol;");
+	m_database.execDML("DROP TABLE IF EXISTS main.filecontent;");
 	m_database.execDML("DROP TABLE IF EXISTS main.file;");
 	m_database.execDML("DROP TABLE IF EXISTS main.node;");
 	m_database.execDML("DROP TABLE IF EXISTS main.edge;");
@@ -693,10 +716,19 @@ void SqliteStorage::setupTables()
 				"id INTEGER NOT NULL, "
 				"path TEXT, "
 				"modification_time TEXT, "
-				"content TEXT, "
 				"loc INTEGER, "
 				"PRIMARY KEY(id), "
 				"FOREIGN KEY(id) REFERENCES node(id) ON DELETE CASCADE);"
+		);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS filecontent("
+				"id INTERGER, "
+				"content TEXT, "
+				"FOREIGN KEY(id)"
+					"REFERENCES file(id)"
+					"ON DELETE CASCADE "
+					"ON UPDATE CASCADE);"
 		);
 
 		m_database.execDML(
