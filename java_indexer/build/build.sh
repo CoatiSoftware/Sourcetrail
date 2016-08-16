@@ -30,14 +30,23 @@ cd $ROOT_DIR
 
 mkdir -p classes
 
-LIB_DIR="./lib/"
 CLASSPATH=""
-CLASSPATH+=$LIB_DIR"java-symbol-solver-core-0.2.0-SNAPSHOT.jar;"
-CLASSPATH+=$LIB_DIR"java-symbol-solver-logic-0.2.0-SNAPSHOT.jar;"
-CLASSPATH+=$LIB_DIR"java-symbol-solver-model-0.2.0-SNAPSHOT.jar;"
-CLASSPATH+=$LIB_DIR"javaparser-core-2.4.1-SNAPSHOT.jar;"
+if [ $PLATFORM == "Windows" ]; then
+	LIB_DIR="./lib/"
+	CLASSPATH+=$LIB_DIR"java-symbol-solver-core.jar;"
+	CLASSPATH+=$LIB_DIR"java-symbol-solver-logic.jar;"
+	CLASSPATH+=$LIB_DIR"java-symbol-solver-model.jar;"
+	CLASSPATH+=$LIB_DIR"javaparser-core.jar"
+else
+	CLASSPATH+=$ROOT_DIR"/lib/java-symbol-solver-core.jar:"
+	CLASSPATH+=$ROOT_DIR"/lib/java-symbol-solver-logic.jar:"
+	CLASSPATH+=$ROOT_DIR"/lib/java-symbol-solver-model.jar:"
+	CLASSPATH+=$ROOT_DIR"/lib/javaparser-core.jar"
+fi
 
-javac.exe -d ./classes -classpath $CLASSPATH src/io/coati/*.java
+javac -d ./classes -classpath $CLASSPATH src/io/coati/*.java
+
+echo $CLASSPATH
 
 mkdir -p bin
 

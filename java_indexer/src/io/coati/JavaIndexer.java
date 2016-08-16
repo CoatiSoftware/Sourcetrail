@@ -73,7 +73,7 @@ public class JavaIndexer
 			}
 		}
 		
-		JavaParserFacade.clearCaches();
+		JavaParserFacade.clearInstances();
 		
 	//	String fileName = filePath.substring(filePath.lastIndexOf("/"), filePath.lastIndexOf(".java"));
 		

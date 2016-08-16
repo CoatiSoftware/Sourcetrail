@@ -1043,12 +1043,12 @@ private:
 				"../app/data/java/guava-18.0.jar;"
 				"../app/data/java/hamcrest-core-1.3.jar;"
 				"../app/data/java/java-indexer.jar;"
-				"../app/data/java/javaparser-core-2.4.1-SNAPSHOT.jar;"
+				"../app/data/java/javaparser-core.jar;"
 				"../app/data/java/javaslang-2.0.0-beta.jar;"
 				"../app/data/java/javassist-3.19.0-GA.jar;"
-				"../app/data/java/java-symbol-solver-core-0.2.0-SNAPSHOT.jar;"
-				"../app/data/java/java-symbol-solver-logic-0.2.0-SNAPSHOT.jar;"
-				"../app/data/java/java-symbol-solver-model-0.2.0-SNAPSHOT.jar;"
+				"../app/data/java/java-symbol-solver-core.jar;"
+				"../app/data/java/java-symbol-solver-logic.jar;"
+				"../app/data/java/java-symbol-solver-model.jar;"
 				"../app/data/java/objenesis-2.1.jar;");
 		}
 
