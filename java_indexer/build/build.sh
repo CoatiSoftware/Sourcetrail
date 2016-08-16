@@ -46,8 +46,6 @@ fi
 
 javac -d ./classes -classpath $CLASSPATH src/io/coati/*.java
 
-echo $CLASSPATH
-
 mkdir -p bin
 
 cd classes

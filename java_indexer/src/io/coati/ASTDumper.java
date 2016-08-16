@@ -11,8 +11,8 @@ import me.tomassetti.symbolsolver.model.resolution.TypeSolver;
 
 public class ASTDumper extends JavaAstVisitor{
 	
-	public ASTDumper(int callbackId, String filePath, TypeSolver typeSolver) {
-		super(callbackId, filePath, typeSolver);
+	public ASTDumper(int callbackId, String filePath, FileContent fileContent, TypeSolver typeSolver) {
+		super(callbackId, filePath, fileContent, typeSolver);
 	}
 
 	int indent = 0;

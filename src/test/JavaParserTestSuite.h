@@ -207,8 +207,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 1);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<4:15> <4:15 4:15>");
+		TS_ASSERT_EQUALS(client->localSymbols.size(), 5);
+		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<3:1> <3:1 3:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<3:1> <7:1 7:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<4:15> <4:15 4:15>");
+		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<5:2> <5:2 5:2>");
+		TS_ASSERT_EQUALS(client->localSymbols[4], "input.cc<5:2> <6:2 6:2>");
 	}
 
 	void test_java_parser_finds_definition_of_local_variable()
@@ -224,8 +228,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 1);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<6:7> <6:7 6:7>");
+		TS_ASSERT_EQUALS(client->localSymbols.size(), 5);
+		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<3:1> <3:1 3:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<3:1> <8:1 8:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<5:2> <5:2 5:2>");
+		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<5:2> <7:2 7:2>");
+		TS_ASSERT_EQUALS(client->localSymbols[4], "input.cc<6:7> <6:7 6:7>");
 	}
 
 	void test_java_parser_finds_type_argument_name_in_signature_of_method()
@@ -549,9 +557,13 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 2);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<4:15> <4:15 4:15>");
-		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<4:15> <6:3 6:3>");
+		TS_ASSERT_EQUALS(client->localSymbols.size(), 6);
+		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<3:1> <3:1 3:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<3:1> <8:1 8:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<4:15> <4:15 4:15>");
+		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<5:2> <5:2 5:2>");
+		TS_ASSERT_EQUALS(client->localSymbols[4], "input.cc<5:2> <7:2 7:2>");
+		TS_ASSERT_EQUALS(client->localSymbols[5], "input.cc<4:15> <6:3 6:3>");
 	}
 
 	void test_java_parser_finds_assignment_of_local_variable()
@@ -568,9 +580,138 @@ public:
 			"}\n"
 		);
 
+		TS_ASSERT_EQUALS(client->localSymbols.size(), 6);
+		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<3:1> <3:1 3:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<3:1> <9:1 9:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<5:2> <5:2 5:2>");
+		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<5:2> <8:2 8:2>");
+		TS_ASSERT_EQUALS(client->localSymbols[4], "input.cc<6:7> <6:7 6:7>");
+		TS_ASSERT_EQUALS(client->localSymbols[5], "input.cc<6:7> <7:3 7:3>");
+	}
+
+	void test_java_parser_finds_scope_of_class_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A\n"
+			"{\n"
+			"}\n"
+		);
+
 		TS_ASSERT_EQUALS(client->localSymbols.size(), 2);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<6:7> <6:7 6:7>");
-		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<6:7> <7:3 7:3>");
+		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<2:1> <2:1 2:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<2:1> <3:1 3:1>");
+	}
+
+	void test_java_parser_finds_scope_of_enum_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public enum A\n"
+			"{\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->localSymbols.size(), 2);
+		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<2:1> <2:1 2:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<2:1> <3:1 3:1>");
+	}
+
+	void test_java_parser_finds_scope_of_constructor_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A\n"
+			"{\n"
+			"	public A()\n"
+			"	{\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->localSymbols.size(), 4);
+		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<2:1> <2:1 2:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<2:1> <6:1 6:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<4:2> <4:2 4:2>");
+		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<4:2> <5:2 5:2>");
+	}
+
+	void test_java_parser_finds_scope_of_method_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A\n"
+			"{\n"
+			"	public void a()\n"
+			"	{\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->localSymbols.size(), 4);
+		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<2:1> <2:1 2:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<2:1> <6:1 6:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<4:2> <4:2 4:2>");
+		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<4:2> <5:2 5:2>");
+	}
+
+	void test_java_parser_finds_scope_of_switch_statement()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A\n"
+			"{\n"
+			"	public void a()\n"
+			"	{\n"
+			"		switch(2)\n"
+			"		{\n"
+			"		case 1:\n"
+			"			break;\n"
+			"		}\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->localSymbols.size(), 6);
+		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<2:1> <2:1 2:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<2:1> <11:1 11:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<4:2> <4:2 4:2>");
+		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<4:2> <10:2 10:2>");
+		TS_ASSERT_EQUALS(client->localSymbols[4], "input.cc<6:3> <6:3 6:3>");
+		TS_ASSERT_EQUALS(client->localSymbols[5], "input.cc<6:3> <9:3 9:3>");
+	}
+
+	void test_java_parser_finds_scope_of_block_statement()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A\n"
+			"{\n"
+			"	public void a()\n"
+			"	{\n"
+			"		{\n"
+			"		}\n"
+			"	}\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->localSymbols.size(), 6);
+		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<2:1> <2:1 2:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<2:1> <8:1 8:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<4:2> <4:2 4:2>");
+		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<4:2> <7:2 7:2>");
+		TS_ASSERT_EQUALS(client->localSymbols[4], "input.cc<5:3> <5:3 5:3>");
+		TS_ASSERT_EQUALS(client->localSymbols[5], "input.cc<5:3> <6:3 6:3>");
+	}
+
+	void test_java_parser_finds_scope_of_array_initialization_list()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A\n"
+			"{\n"
+			"	private int[] array = {1, 2};\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->localSymbols.size(), 4);
+		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<2:1> <2:1 2:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<2:1> <4:1 4:1>");
+		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<3:24> <3:24 3:24>");
+		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<3:24> <3:29 3:29>");
 	}
 
 	void test_java_parser_finds_usage_of_type_parameter_of_class()
