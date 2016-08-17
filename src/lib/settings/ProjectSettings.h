@@ -20,7 +20,9 @@ public:
 
 	virtual bool equalsExceptNameAndLocation(const ProjectSettings& other) const;
 
-	virtual bool load();
+	virtual std::vector<std::string> getLanguageStandards() const;
+
+	bool reload();
 
 	std::string getProjectName() const;
 	void setProjectName(const std::string& name);
@@ -52,6 +54,7 @@ protected:
 
 private:
 	virtual std::vector<std::string> getDefaultSourceExtensions() const;
+	virtual std::string getDefaultStandard() const;
 };
 
 #endif // PROJECT_SETTINGS_H

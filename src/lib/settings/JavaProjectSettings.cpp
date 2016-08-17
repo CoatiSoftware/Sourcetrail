@@ -36,6 +36,11 @@ bool JavaProjectSettings::equalsExceptNameAndLocation(const ProjectSettings& oth
 	return false;
 }
 
+std::vector<std::string> JavaProjectSettings::getLanguageStandards() const
+{
+	return std::vector<std::string>(1, "8");
+}
+
 std::vector<FilePath> JavaProjectSettings::getClasspaths() const
 {
 	return getPathValues("source/class_paths/class_path");
@@ -59,4 +64,9 @@ std::vector<std::string> JavaProjectSettings::getDefaultSourceExtensions() const
 	std::vector<std::string> defaultValues;
 	defaultValues.push_back(".java");
 	return defaultValues;
+}
+
+std::string JavaProjectSettings::getDefaultStandard() const
+{
+	return "8";
 }

@@ -40,7 +40,8 @@ void QtProjectWizzardWindow::populateWindow(QWidget* widget)
 	QGridLayout* layout = new QGridLayout();
 	layout->setContentsMargins(0, 0, 0, 0);
 
-	m_content->populateWindow(layout);
+	int row = 0;
+	m_content->populateWindow(layout, row);
 
 	if (layout->columnCount() < 2)
 	{

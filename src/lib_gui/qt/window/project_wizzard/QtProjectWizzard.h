@@ -82,9 +82,12 @@ private slots:
 	void headerPathsCDB();
 	void headerPathsCDBDone();
 
+	void sourcePathsJava();
+
 	void showFiles(QtProjectWizzardContent* content);
 
 	void showSummary();
+	void showSummaryJava();
 
 	void createProject();
 	void savePreferences();

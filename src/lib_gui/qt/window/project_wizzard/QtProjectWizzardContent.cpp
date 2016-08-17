@@ -35,10 +35,6 @@ void QtProjectWizzardContent::populateWindow(QWidget* widget)
 {
 }
 
-void QtProjectWizzardContent::populateWindow(QGridLayout* layout)
-{
-}
-
 void QtProjectWizzardContent::populateWindow(QGridLayout* layout, int& row)
 {
 }

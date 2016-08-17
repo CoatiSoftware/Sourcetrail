@@ -19,10 +19,11 @@ public:
 		PROJECT_MANAGED = 2 // use this type for all standard parser (parsers that are handled by the parser manager)
 	};
 
-	QtProjectWizzardContentSelect(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, std::weak_ptr<SolutionParserManager> solutionParserManager);
+	QtProjectWizzardContentSelect(
+		std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, std::weak_ptr<SolutionParserManager> solutionParserManager);
 
 	// QtProjectWizzardContent implementation
-	virtual void populateWindow(QGridLayout* layout) override;
+	virtual void populateWindow(QGridLayout* layout, int& row) override;
 
 	virtual void save() override;
 	virtual bool check() override;
@@ -31,8 +32,6 @@ public:
 
 signals:
 	void selected(LanguageType, QtProjectWizzardContentSelect::ProjectType);
-
-	// void selected(unsigned int type);
 
 private:
 	QButtonGroup* m_languages;

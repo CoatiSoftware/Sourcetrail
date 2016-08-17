@@ -36,7 +36,6 @@ public:
 	QtProjectWizzardContent(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	virtual void populateWindow(QWidget* widget);
-	virtual void populateWindow(QGridLayout* layout);
 	virtual void populateWindow(QGridLayout* layout, int& row);
 	virtual void populateForm(QGridLayout* layout, int& row);
 	virtual void windowReady();

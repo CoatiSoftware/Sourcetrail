@@ -419,8 +419,13 @@ void QtMainWindow::openProject(const QString &path)
 
 void QtMainWindow::editProject()
 {
-	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
-	wizzard->editProject(Application::getInstance()->getCurrentProject()->getProjectSettingsFilePath());
+	Project* currentProject = Application::getInstance()->getCurrentProject().get();
+	if (currentProject)
+	{
+		QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
+
+		wizzard->editProject(currentProject->getProjectSettingsFilePath());
+	}
 }
 
 void QtMainWindow::find()

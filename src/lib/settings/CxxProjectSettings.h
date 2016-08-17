@@ -13,6 +13,8 @@ public:
 
 	virtual bool equalsExceptNameAndLocation(const ProjectSettings& other) const;
 
+	virtual std::vector<std::string> getLanguageStandards() const;
+
 	std::vector<FilePath> getHeaderSearchPaths() const;
 	std::vector<FilePath> getAbsoluteHeaderSearchPaths() const;
 	bool setHeaderSearchPaths(const std::vector<FilePath>& headerSearchPaths);
@@ -35,6 +37,7 @@ public:
 
 private:
 	virtual std::vector<std::string> getDefaultSourceExtensions() const;
+	virtual std::string getDefaultStandard() const;
 };
 
 #endif // CXX_PROJECT_SETTINGS_H

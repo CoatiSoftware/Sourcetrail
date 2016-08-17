@@ -1,7 +1,5 @@
 #include "qt/window/project_wizzard/QtProjectWizzard.h"
 
-#include <boost/algorithm/string.hpp>
-
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QSysInfo>
@@ -21,16 +19,13 @@
 #include "settings/CxxProjectSettings.h"
 #include "settings/JavaProjectSettings.h"
 #include "utility/file/FileSystem.h"
+#include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageRefresh.h"
-
-#include "utility/solution/SolutionParserVisualStudio.h"
-// #include "utility/solution/SolutionParserCodeBlocks.h"
-
 #include "utility/messaging/type/MessageStatus.h"
-
-#include "utility/logging/logging.h"
+#include "utility/solution/SolutionParserVisualStudio.h"
+#include "utility/utilityString.h"
 
 #include "Application.h"
 
@@ -101,10 +96,8 @@ void QtProjectWizzard::newProjectFromSolution(const std::string& ideId, const st
 			QtProjectWizzardWindow* window = dynamic_cast<QtProjectWizzardWindow*>(widget);
 
 			std::string title = "NEW PROJECT FROM ";
-			title += ideId;
+			title += utility::toUpperCase(ideId);
 			title += " SOLUTION";
-
-			boost::algorithm::to_upper(title);
 
 			window->updateTitle(QString(title.c_str()));
 			window->updateNextButton("Create");
@@ -162,11 +155,13 @@ void QtProjectWizzard::editProject(const FilePath& settingsPath)
 	case LANGUAGE_JAVA:
 		settings = std::make_shared<JavaProjectSettings>(settingsPath);
 		break;
+	default:
+		return;
 	}
 
 	if (settings)
 	{
-		settings->load();
+		settings->reload();
 		editProject(settings);
 	}
 }
@@ -176,7 +171,20 @@ void QtProjectWizzard::editProject(std::shared_ptr<ProjectSettings> settings)
 	m_settings = settings;
 	m_editing = true;
 
-	showSummary();
+	switch (m_settings->getLanguage())
+	{
+		case LANGUAGE_JAVA:
+			showSummaryJava();
+			break;
+
+		case LANGUAGE_C:
+		case LANGUAGE_CPP:
+			showSummary();
+			break;
+
+		default:
+			break;
+	}
 
 	QtProjectWizzardWindow* window = dynamic_cast<QtProjectWizzardWindow*>(m_windowStack.getTopWindow());
 	if (!window)
@@ -334,7 +342,14 @@ void QtProjectWizzard::selectedProjectType(LanguageType languageType, QtProjectW
 	switch (type)
 	{
 	case QtProjectWizzardContentSelect::PROJECT_EMPTY:
-		m_settings = std::make_shared<CxxProjectSettings>();
+		if (languageType == LANGUAGE_JAVA)
+		{
+			m_settings = std::make_shared<JavaProjectSettings>();
+		}
+		else
+		{
+			m_settings = std::make_shared<CxxProjectSettings>();
+		}
 		m_settings->setLanguage(languageType);
 		emptyProject();
 		break;
@@ -376,7 +391,15 @@ void QtProjectWizzard::selectedProjectType(LanguageType languageType, QtProjectW
 void QtProjectWizzard::emptyProject()
 {
 	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentData>();
-	connect(window, SIGNAL(next()), this, SLOT(sourcePaths()));
+
+	if (m_settings->getLanguage() == LANGUAGE_JAVA)
+	{
+		connect(window, SIGNAL(next()), this, SLOT(sourcePathsJava()));
+	}
+	else
+	{
+		connect(window, SIGNAL(next()), this, SLOT(sourcePaths()));
+	}
 }
 
 void QtProjectWizzard::sourcePaths()
@@ -487,6 +510,25 @@ void QtProjectWizzard::headerPathsCDBDone()
 	}
 }
 
+void QtProjectWizzard::sourcePathsJava()
+{
+	QtProjectWizzardWindow* window = createWindowWithSummary(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+		{
+
+			QtProjectWizzardContent* source = new QtProjectWizzardContentPathsSourceJava(m_settings, window);
+			summary->addContent(source, false, false);
+			connectShowFiles(source);
+
+			summary->addContent(new QtProjectWizzardContentPathsClassJava(m_settings, window), false, false);
+
+			window->setup();
+		}
+	);
+
+	connect(window, SIGNAL(next()), this, SLOT(showSummaryJava()));
+}
+
 void QtProjectWizzard::showFiles(QtProjectWizzardContent* content)
 {
 	QWidget* widget = m_windowStack.getTopWindow();
@@ -566,17 +608,51 @@ void QtProjectWizzard::showSummary()
 	connect(window, SIGNAL(next()), this, SLOT(createProject()));
 }
 
+void QtProjectWizzard::showSummaryJava()
+{
+	QtProjectWizzardWindow* window = createWindowWithSummary(
+		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
+		{
+			summary->setIsForm(true);
+
+			summary->addContent(new QtProjectWizzardContentData(m_settings, window), false, false);
+
+			QtProjectWizzardContentPathsSourceJava* source = new QtProjectWizzardContentPathsSourceJava(m_settings, window);
+			summary->addContent(source, false, true);
+			connectShowFiles(source);
+
+			summary->addContent(new QtProjectWizzardContentPathsClassJava(m_settings, window), false, true);
+
+			summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window), true, false);
+			summary->addContent(new QtProjectWizzardContentPathsExclude(m_settings, window), true, true);
+
+			window->setup();
+
+			window->updateTitle("NEW PROJECT - SUMMARY");
+			window->updateNextButton("Create");
+		}
+	);
+
+	connect(window, SIGNAL(next()), this, SLOT(createProject()));
+}
+
 void QtProjectWizzard::createProject()
 {
 	FilePath path = m_settings->getFilePath();
 
 	m_settings->save(path);
 
-	bool foreceRefreshProject = false;
+	bool forceRefreshProject = false;
 	if (m_editing)
 	{
 		std::shared_ptr<Application> application = Application::getInstance();
-		FilePath oldPath = application->getCurrentProject()->getProjectSettingsFilePath();
+		FilePath oldPath;
+
+		Project* currentProject = application->getCurrentProject().get();
+		if (currentProject)
+		{
+			oldPath = currentProject->getProjectSettingsFilePath();
+		}
 
 		if (oldPath.exists() && oldPath != path)
 		{
@@ -608,12 +684,12 @@ void QtProjectWizzard::createProject()
 
 		if (settingsChanged || appSettingsChanged)
 		{
-			foreceRefreshProject = true;
+			forceRefreshProject = true;
 		}
 	}
 
 	MessageDispatchWhenLicenseValid(
-		std::make_shared<MessageLoadProject>(path, foreceRefreshProject)
+		std::make_shared<MessageLoadProject>(path, forceRefreshProject)
 	).dispatch();
 
 	finishWizzard();
@@ -625,11 +701,15 @@ void QtProjectWizzard::savePreferences()
 
 	if (appSettingsChanged)
 	{
-		MessageDispatchWhenLicenseValid(
-			std::make_shared<MessageLoadProject>(
-				Application::getInstance()->getCurrentProject()->getProjectSettingsFilePath(), true
-			)
-		).dispatch();
+		Project* currentProject = Application::getInstance()->getCurrentProject().get();
+		if (currentProject)
+		{
+			MessageDispatchWhenLicenseValid(
+				std::make_shared<MessageLoadProject>(
+					currentProject->getProjectSettingsFilePath(), true
+				)
+			).dispatch();
+		}
 	}
 	else
 	{

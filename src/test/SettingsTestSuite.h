@@ -109,14 +109,14 @@ public:
 
 	void test_load_project_settings_from_file()
 	{
-		ProjectSettings settings(FilePath("data/SettingsTestSuite/settings.xml"));
-		TS_ASSERT(settings.load());
+		ProjectSettings settings;
+		TS_ASSERT(settings.load(FilePath("data/SettingsTestSuite/settings.xml")));
 	}
 
 	void test_load_source_path_from_file()
 	{
-		ProjectSettings settings(FilePath("data/SettingsTestSuite/settings.xml"));
-		settings.load();
+		ProjectSettings settings;
+		settings.load(FilePath("data/SettingsTestSuite/settings.xml"));
 		std::vector<FilePath> paths = settings.getSourcePaths();
 
 		TS_ASSERT_EQUALS(paths.size(), 1);
@@ -125,8 +125,8 @@ public:
 
 	void test_load_header_search_paths_from_file()
 	{
-		CxxProjectSettings settings(FilePath("data/SettingsTestSuite/settings.xml"));
-		settings.load();
+		CxxProjectSettings settings;
+		settings.load(FilePath("data/SettingsTestSuite/settings.xml"));
 		std::vector<FilePath> paths = settings.getHeaderSearchPaths();
 
 		TS_ASSERT_EQUALS(paths.size(), 2);

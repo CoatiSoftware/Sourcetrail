@@ -27,9 +27,8 @@ QtProjectWizzardContentPreferences::~QtProjectWizzardContentPreferences()
 	}
 }
 
-void QtProjectWizzardContentPreferences::populateWindow(QGridLayout* layout)
+void QtProjectWizzardContentPreferences::populateWindow(QGridLayout* layout, int& row)
 {
-	int row = 0;
 	populateForm(layout, row);
 }
 

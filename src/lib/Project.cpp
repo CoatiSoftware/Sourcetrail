@@ -64,7 +64,7 @@ void Project::refresh()
 {
 	if (allowsRefresh())
 	{
-		bool loadedSettings = getProjectSettings()->load();
+		bool loadedSettings = getProjectSettings()->reload();
 
 		updateFileManager(m_fileManager);
 
@@ -112,7 +112,7 @@ Project::Project(StorageAccessProxy* storageAccessProxy)
 void Project::load()
 {
 	const std::shared_ptr<ProjectSettings> projectSettings = getProjectSettings();
-	bool loadedSettings = projectSettings->load();
+	bool loadedSettings = projectSettings->reload();
 	if (loadedSettings)
 	{
 		const FilePath projectSettingsPath = projectSettings->getFilePath();

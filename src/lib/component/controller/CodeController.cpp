@@ -47,7 +47,11 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	statsSnippet.locationFile = std::make_shared<TokenLocationFile>(FilePath());
 	statsSnippet.locationFile->isWholeCopy = true;
 
-	statsSnippet.title = Application::getInstance()->getCurrentProject()->getProjectSettingsFilePath().withoutExtension().fileName();
+	Project* currentProject = Application::getInstance()->getCurrentProject().get();
+	if (currentProject)
+	{
+		statsSnippet.title = currentProject->getProjectSettingsFilePath().withoutExtension().fileName();
+	}
 
 	std::vector<std::string> description = getProjectDescription(statsSnippet.locationFile.get());
 
@@ -662,8 +666,13 @@ std::shared_ptr<TokenLocationFile> CodeController::getTokenLocationOfParentScope
 
 std::vector<std::string> CodeController::getProjectDescription(TokenLocationFile* locationFile) const
 {
-	std::string description = Application::getInstance()->getCurrentProject()->getDescription();
+	Project* currentProject = Application::getInstance()->getCurrentProject().get();
+	if (!currentProject)
+	{
+		return std::vector<std::string>();
+	}
 
+	std::string description = currentProject->getDescription();
 	if (!description.size())
 	{
 		return std::vector<std::string>();

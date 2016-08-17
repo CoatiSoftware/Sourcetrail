@@ -20,7 +20,6 @@ public:
 	QtProjectWizzardContentPaths(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtSettingsWindow implementation
-	virtual void populateWindow(QGridLayout* layout) override;
 	virtual void populateWindow(QGridLayout* layout, int& row) override;
 	virtual void populateForm(QGridLayout* layout, int& row) override;
 
@@ -68,6 +67,13 @@ public:
 	virtual QStringList getFileNames() const override;
 	virtual QString getFileNamesTitle() const override;
 	virtual QString getFileNamesDescription() const override;
+};
+
+class QtProjectWizzardContentPathsSourceJava
+	: public QtProjectWizzardContentPathsSource
+{
+public:
+	QtProjectWizzardContentPathsSourceJava(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 };
 
 class QtProjectWizzardContentPathsCDBHeader
@@ -132,6 +138,18 @@ class QtProjectWizzardContentPathsFrameworkSearchGlobal
 {
 public:
 	QtProjectWizzardContentPathsFrameworkSearchGlobal(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
+
+	// QtProjectWizzardContent implementation
+	virtual void load() override;
+	virtual void save() override;
+};
+
+
+class QtProjectWizzardContentPathsClassJava
+	: public QtProjectWizzardContentPaths
+{
+public:
+	QtProjectWizzardContentPathsClassJava(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
 	virtual void load() override;

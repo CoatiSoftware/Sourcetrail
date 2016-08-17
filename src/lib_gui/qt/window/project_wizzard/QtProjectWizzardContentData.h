@@ -16,7 +16,7 @@ public:
 	QtProjectWizzardContentData(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
-	virtual void populateWindow(QGridLayout* layout) override;
+	virtual void populateWindow(QGridLayout* layout, int& row) override;
 	virtual void populateForm(QGridLayout* layout, int& row) override;
 
 	virtual void load() override;
@@ -33,14 +33,10 @@ protected:
 	QLineEdit* m_projectName;
 	QtLocationPicker* m_projectFileLocation;
 
-	QComboBox* m_language;
-	QComboBox* m_cppStandard;
-	QComboBox* m_cStandard;
+	QLabel* m_language;
+	QComboBox* m_standard;
 
 	QtLocationPicker* m_buildFilePicker;
-
-private slots:
-	void handleSelectionChanged(int index);
 };
 
 

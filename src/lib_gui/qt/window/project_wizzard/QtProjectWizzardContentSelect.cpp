@@ -10,39 +10,55 @@
 
 #include "utility/solution/SolutionParserManager.h"
 
-QtProjectWizzardContentSelect::QtProjectWizzardContentSelect(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, std::weak_ptr<SolutionParserManager> solutionParserManager)
+QtProjectWizzardContentSelect::QtProjectWizzardContentSelect(
+	std::shared_ptr<ProjectSettings> settings,
+	QtProjectWizzardWindow* window,
+	std::weak_ptr<SolutionParserManager> solutionParserManager
+)
 	: QtProjectWizzardContent(settings, window)
 	, m_solutionParserManager(solutionParserManager)
 {
 }
 
-void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
+void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout, int& row)
 {
-	QPushButton* d = new QPushButton("C++");
-	QPushButton* e = new QPushButton("C");
+	QPushButton* d = new QPushButton(languageTypeToString(LANGUAGE_CPP).c_str(), this);
+	QPushButton* e = new QPushButton(languageTypeToString(LANGUAGE_C).c_str(), this);
+	QPushButton* f = new QPushButton(languageTypeToString(LANGUAGE_JAVA).c_str(), this);
 
 	d->setObjectName("menuButton");
 	e->setObjectName("menuButton");
+	f->setObjectName("menuButton");
 
 	d->setCheckable(true);
 	e->setCheckable(true);
+	f->setCheckable(true);
 
 	d->setChecked(true);
 
 	m_languages = new QButtonGroup();
 	m_languages->addButton(d);
 	m_languages->addButton(e);
+	m_languages->addButton(f);
 
 	m_languages->setId(d, 0);
 	m_languages->setId(e, 1);
+	m_languages->setId(f, 2);
 
 	connect(m_languages, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
 		[this](int id)
 		{
+			bool isJava = stringToLanguageType(m_languages->checkedButton()->text().toStdString()) == LANGUAGE_JAVA;
+
 			m_buttons->setExclusive(false);
 			for (int i = 0; i < m_buttons->buttons().size(); i++)
 			{
 				m_buttons->button(i)->setChecked(false);
+
+				if (i != 0)
+				{
+					m_buttons->button(i)->setVisible(!isJava);
+				}
 			}
 			m_buttons->setExclusive(true);
 
@@ -57,6 +73,7 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout)
 
 	vlayout->addWidget(d);
 	vlayout->addWidget(e);
+	vlayout->addWidget(f);
 
 	vlayout->addStretch();
 

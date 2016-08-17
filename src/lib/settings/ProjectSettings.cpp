@@ -6,8 +6,8 @@
 
 LanguageType ProjectSettings::getLanguageOfProject(FilePath projectFilePath)
 {
-	ProjectSettings tempSettings(projectFilePath);
-	tempSettings.load();
+	ProjectSettings tempSettings;
+	tempSettings.load(projectFilePath);
 	return tempSettings.getLanguage();
 }
 
@@ -40,7 +40,12 @@ bool ProjectSettings::equalsExceptNameAndLocation(const ProjectSettings& other) 
 	);
 }
 
-bool ProjectSettings::load()
+std::vector<std::string> ProjectSettings::getLanguageStandards() const
+{
+	return std::vector<std::string>();
+}
+
+bool ProjectSettings::reload()
 {
 	return Settings::load(getFilePath());
 }
@@ -82,7 +87,7 @@ bool ProjectSettings::setLanguage(LanguageType language)
 
 std::string ProjectSettings::getStandard() const
 {
-	return getValue<std::string>("language_settings/standard", "1z");
+	return getValue<std::string>("language_settings/standard", getDefaultStandard());
 }
 
 bool ProjectSettings::setStandard(const std::string& standard)
@@ -152,3 +157,9 @@ std::vector<std::string> ProjectSettings::getDefaultSourceExtensions() const
 {
 	return std::vector<std::string>();
 }
+
+std::string ProjectSettings::getDefaultStandard() const
+{
+	return "";
+}
+

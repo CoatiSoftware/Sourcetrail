@@ -5,8 +5,9 @@
 #include <QVBoxLayout>
 
 #include "qt/element/QtDirectoryListBox.h"
-#include "settings/CxxProjectSettings.h"
 #include "settings/ApplicationSettings.h"
+#include "settings/CxxProjectSettings.h"
+#include "settings/JavaProjectSettings.h"
 #include "utility/file/FileManager.h"
 #include "utility/file/FileSystem.h"
 #include "utility/headerSearch/StandardHeaderDetection.h"
@@ -15,12 +16,6 @@
 QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(settings, window)
 {
-}
-
-void QtProjectWizzardContentPaths::populateWindow(QGridLayout* layout)
-{
-	int row = 0;
-	populateWindow(layout, row);
 }
 
 void QtProjectWizzardContentPaths::populateWindow(QGridLayout* layout, int& row)
@@ -278,6 +273,20 @@ QString QtProjectWizzardContentPathsSource::getFileNamesDescription() const
 	return "files will be indexed.";
 }
 
+QtProjectWizzardContentPathsSourceJava::QtProjectWizzardContentPathsSourceJava(
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
+)
+	: QtProjectWizzardContentPathsSource(settings, window)
+{
+	setInfo(
+		"Source Paths",
+		"Add all directories or files you want to index. Usually these are all source files of "
+		"your project or a subset of them.",
+		"Source Paths define the files and directories that will be indexed by Coati. Usually these are the "
+		"source files of your project or a subset of them."
+	);
+}
+
 QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
 )
@@ -451,4 +460,35 @@ void QtProjectWizzardContentPathsFrameworkSearchGlobal::save()
 {
 	ApplicationSettings::getInstance()->setFrameworkSearchPaths(m_list->getList());
 	ApplicationSettings::getInstance()->save();
+}
+
+
+QtProjectWizzardContentPathsClassJava::QtProjectWizzardContentPathsClassJava(
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
+)
+	: QtProjectWizzardContentPaths(settings, window)
+{
+	setInfo(
+		"Class Path",
+		"Paths to .jar files and root directories of .class files your project depends on.",
+		"Enter the paths to .jar files and root directories of .class files your project depends on."
+	);
+}
+
+void QtProjectWizzardContentPathsClassJava::load()
+{
+	std::shared_ptr<JavaProjectSettings> javaSettings = std::dynamic_pointer_cast<JavaProjectSettings>(m_settings);
+	if (javaSettings)
+	{
+		m_list->setList(javaSettings->getClasspaths());
+	}
+}
+
+void QtProjectWizzardContentPathsClassJava::save()
+{
+	std::shared_ptr<JavaProjectSettings> javaSettings = std::dynamic_pointer_cast<JavaProjectSettings>(m_settings);
+	if (javaSettings)
+	{
+		javaSettings->setClasspaths(m_list->getList());
+	}
 }

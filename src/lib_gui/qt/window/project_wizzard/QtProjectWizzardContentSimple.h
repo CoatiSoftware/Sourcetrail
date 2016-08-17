@@ -15,7 +15,6 @@ public:
 	QtProjectWizzardContentSimple(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
-	virtual void populateWindow(QGridLayout* layout) override;
 	virtual void populateWindow(QGridLayout* layout, int& row) override;
 	virtual void populateForm(QGridLayout* layout, int& row) override;
 

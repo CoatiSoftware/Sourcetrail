@@ -11,12 +11,6 @@ QtProjectWizzardContentSimple::QtProjectWizzardContentSimple(std::shared_ptr<Pro
 {
 }
 
-void QtProjectWizzardContentSimple::populateWindow(QGridLayout* layout)
-{
-	int row = 0;
-	populateWindow(layout, row);
-}
-
 void QtProjectWizzardContentSimple::populateWindow(QGridLayout* layout, int& row)
 {
 	QLabel* title = new QLabel("Lazy Include Search");

@@ -36,6 +36,38 @@ bool CxxProjectSettings::equalsExceptNameAndLocation(const ProjectSettings& othe
 	return false;
 }
 
+std::vector<std::string> CxxProjectSettings::getLanguageStandards() const
+{
+	std::vector<std::string> standards;
+
+	switch (getLanguage())
+	{
+		case LANGUAGE_CPP:
+			standards.push_back("1z");
+			standards.push_back("14");
+			standards.push_back("1y");
+			standards.push_back("11");
+			standards.push_back("0x");
+			standards.push_back("03");
+			standards.push_back("98");
+			break;
+
+		case LANGUAGE_C:
+			standards.push_back("1x");
+			standards.push_back("11");
+			standards.push_back("9x");
+			standards.push_back("99");
+			standards.push_back("90");
+			standards.push_back("89");
+			break;
+
+		default:
+			break;
+	}
+
+	return standards;
+}
+
 std::vector<FilePath> CxxProjectSettings::getHeaderSearchPaths() const
 {
 	return getPathValues("source/header_search_paths/header_search_path");
@@ -121,4 +153,9 @@ std::vector<std::string> CxxProjectSettings::getDefaultSourceExtensions() const
 	defaultValues.push_back(".cxx");
 	defaultValues.push_back(".cc");
 	return defaultValues;
+}
+
+std::string CxxProjectSettings::getDefaultStandard() const
+{
+	return "1z";
 }

@@ -27,10 +27,8 @@ void QtProjectWizzardContentSummary::setIsForm(bool isForm)
 	m_isForm = isForm;
 }
 
-void QtProjectWizzardContentSummary::populateWindow(QGridLayout* layout)
+void QtProjectWizzardContentSummary::populateWindow(QGridLayout* layout, int& row)
 {
-	int row = 0;
-
 	if (m_isForm)
 	{
 		populateForm(layout, row);

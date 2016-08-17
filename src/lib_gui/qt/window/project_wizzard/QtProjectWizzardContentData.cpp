@@ -5,20 +5,20 @@
 
 #include "settings/CxxProjectSettings.h"
 
+#include "utility/logging/logging.h"
+
 QtProjectWizzardContentData::QtProjectWizzardContentData(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(settings, window)
 	, m_projectName(nullptr)
 	, m_projectFileLocation(nullptr)
 	, m_language(nullptr)
-	, m_cppStandard(nullptr)
-	, m_cStandard(nullptr)
+	, m_standard(nullptr)
 	, m_buildFilePicker(nullptr)
 {
 }
 
-void QtProjectWizzardContentData::populateWindow(QGridLayout* layout)
+void QtProjectWizzardContentData::populateWindow(QGridLayout* layout, int& row)
 {
-	int row = 0;
 	layout->setRowMinimumHeight(0, 15);
 	row++;
 
@@ -47,24 +47,24 @@ void QtProjectWizzardContentData::load()
 
 	if (m_language)
 	{
-		if (m_settings->getLanguage() != LANGUAGE_UNKNOWN)
+		LanguageType type = m_settings->getLanguage();
+
+		if (type == LANGUAGE_UNKNOWN)
 		{
-			m_language->setCurrentText(QString::fromStdString(languageTypeToString(m_settings->getLanguage())));
+			LOG_ERROR("No language type defined");
+			return;
 		}
 
-		if (m_settings->getStandard().length() > 0)
-		{
-			if (m_language->currentIndex() == 0) // c++
-			{
-				m_cppStandard->setCurrentText(QString::fromStdString(m_settings->getStandard()));
-			}
-			else if (m_language->currentIndex() == 1) // c
-			{
-				m_cStandard->setCurrentText(QString::fromStdString(m_settings->getStandard()));
-			}
+		m_language->setText(languageTypeToString(type).c_str());
 
-			handleSelectionChanged(m_language->currentIndex());
+		m_standard->clear();
+		std::vector<std::string> standards = m_settings->getLanguageStandards();
+		for (size_t i = 0; i < standards.size(); i++)
+		{
+			m_standard->insertItem(i, standards[i].c_str());
 		}
+
+		m_standard->setCurrentText(QString::fromStdString(m_settings->getStandard()));
 	}
 }
 
@@ -76,18 +76,9 @@ void QtProjectWizzardContentData::save()
 		m_settings->setProjectFileLocation(m_projectFileLocation->getText().toStdString());
 	}
 
-	if (m_language)
+	if (m_standard)
 	{
-		m_settings->setLanguage(stringToLanguageType(m_language->currentText().toStdString()));
-
-		if (m_cppStandard->isVisible())
-		{
-			m_settings->setStandard(m_cppStandard->currentText().toStdString());
-		}
-		else if (m_cStandard->isVisible())
-		{
-			m_settings->setStandard(m_cStandard->currentText().toStdString());
-		}
+		m_settings->setStandard(m_standard->currentText().toStdString());
 	}
 }
 
@@ -155,10 +146,7 @@ void QtProjectWizzardContentData::addLanguageAndStandard(QGridLayout* layout, in
 {
 	QLabel* languageLabel = new QLabel("Language");
 	languageLabel->setObjectName("label");
-	m_language = new QComboBox();
-	m_language->insertItem(0, "C++");
-	m_language->insertItem(1, "C");
-	connect(m_language, SIGNAL(currentIndexChanged(int)), this, SLOT(handleSelectionChanged(int)));
+	m_language = new QLabel();
 
 	layout->addWidget(languageLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_language, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
@@ -166,27 +154,11 @@ void QtProjectWizzardContentData::addLanguageAndStandard(QGridLayout* layout, in
 
 
 	QLabel* standardLabel = createFormLabel("Standard");
-
-	m_cppStandard = new QComboBox();
-	m_cppStandard->insertItem(0, "1z");
-	m_cppStandard->insertItem(1, "14");
-	m_cppStandard->insertItem(2, "1y");
-	m_cppStandard->insertItem(3, "11");
-	m_cppStandard->insertItem(4, "0x");
-	m_cppStandard->insertItem(5, "03");
-	m_cppStandard->insertItem(6, "98");
-
-	m_cStandard = new QComboBox();
-	m_cStandard->insertItem(0, "1x");
-	m_cStandard->insertItem(1, "11");
-	m_cStandard->insertItem(2, "9x");
-	m_cStandard->insertItem(3, "99");
-	m_cStandard->insertItem(4, "90");
-	m_cStandard->insertItem(5, "89");
+	m_standard = new QComboBox();
 
 	layout->addWidget(standardLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_cppStandard, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
-	layout->addWidget(m_cStandard, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
+	layout->addWidget(m_standard, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
+
 	row++;
 }
 
@@ -199,14 +171,6 @@ void QtProjectWizzardContentData::addBuildFilePicker(
 	m_buildFilePicker = new QtLocationPicker(this);
 	m_buildFilePicker->setFileFilter(filter);
 
-	// QPushButton* button = new QPushButton("", this);
-	// button->setObjectName("refreshButton");
-	// button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	// button->setToolTip("refresh paths");
-	// connect(button, SIGNAL(clicked()), this, SLOT(refreshClicked()));
-
-	// m_buildFilePicker->layout()->addWidget(button);
-
 	layout->addWidget(m_buildFilePicker, row, QtProjectWizzardWindow::BACK_COL);
 
 	row++;
@@ -218,25 +182,6 @@ void QtProjectWizzardContentData::addBuildFilePicker(
 	layout->addWidget(description, row, QtProjectWizzardWindow::BACK_COL);
 
 	row++;
-}
-
-void QtProjectWizzardContentData::handleSelectionChanged(int index)
-{
-	if (!m_language)
-	{
-		return;
-	}
-
-	if (index != 0)
-	{
-		m_cStandard->show();
-		m_cppStandard->hide();
-	}
-	else
-	{
-		m_cppStandard->show();
-		m_cStandard->hide();
-	}
 }
 
 

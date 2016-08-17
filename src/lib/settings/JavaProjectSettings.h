@@ -3,7 +3,8 @@
 
 #include "settings/ProjectSettings.h"
 
-class JavaProjectSettings: public ProjectSettings
+class JavaProjectSettings
+	: public ProjectSettings
 {
 public:
 	JavaProjectSettings();
@@ -13,12 +14,15 @@ public:
 
 	virtual bool equalsExceptNameAndLocation(const ProjectSettings& other) const;
 
+	virtual std::vector<std::string> getLanguageStandards() const;
+
 	std::vector<FilePath> getClasspaths() const;
 	std::vector<FilePath> getAbsoluteClasspaths() const;
 	bool setClasspaths(const std::vector<FilePath>& headerSearchPaths);
 
 private:
 	virtual std::vector<std::string> getDefaultSourceExtensions() const;
+	virtual std::string getDefaultStandard() const;
 };
 
 #endif // JAVA_PROJECT_SETTINGS_H
