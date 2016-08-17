@@ -401,6 +401,13 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 						);
 					}
 				}
+				else
+				{
+					JavaIndexer.recordError(
+						m_callbackId, "Import not found.", true, true, 
+						nameExpr.getBeginLine(), nameExpr.getBeginColumn(), nameExpr.getEndLine(), nameExpr.getEndColumn()
+					);
+				}
 			}
 			catch (Exception e)
 			{

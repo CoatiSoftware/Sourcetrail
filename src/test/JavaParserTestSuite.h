@@ -314,6 +314,16 @@ public:
 		TS_ASSERT_EQUALS(client->errors[0], "Encountered unexpected token. <1:1 1:7>");
 	}
 
+	void test_java_parser_finds_missing_import_as_error()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"import foo;\n"
+		);
+
+		TS_ASSERT_EQUALS(client->errors.size(), 1);
+		TS_ASSERT_EQUALS(client->errors[0], "Import not found. <1:8 1:10>");
+	}
+
 
 
 
