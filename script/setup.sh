@@ -49,7 +49,7 @@ elif [ $PLATFORM == "Linux" ]; then
 	cp -u -r setup/jars/linux/*.jar java_indexer/lib
 	# what about 32/64 bit?
 elif [ $PLATFORM == "MacOS" ]; then
-	cp -u -r setup/jars/macos/*.jar java_indexer/lib
+	cp -r setup/jars/MacOSX/*.jar java_indexer/lib
 fi
 
 

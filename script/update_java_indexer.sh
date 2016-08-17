@@ -34,5 +34,6 @@ java_indexer/build/build.sh
 
 echo -e $INFO "copy jars"
 mkdir -p bin/app/data/java
-cp -u -r java_indexer/lib/*.jar bin/app/data/java
-cp -u -r java_indexer/bin/*.jar bin/app/data/java
+rm -rf bin/app/data/java/*
+cp -r java_indexer/lib/*.jar bin/app/data/java
+cp -r java_indexer/bin/*.jar bin/app/data/java
