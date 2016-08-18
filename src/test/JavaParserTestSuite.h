@@ -14,7 +14,7 @@
 
 
 
-class JavaParserTestSuite//: public CxxTest::TestSuite
+class JavaParserTestSuite: public CxxTest::TestSuite
 {
 public:
 ///////////////////////////////////////////////////////////////////////////////
@@ -854,7 +854,7 @@ private:
 			std::vector<std::string>* bin = getBinForSymbolKind(symbolKind);
 			if (bin != nullptr)
 			{
-				bin->push_back(addAccessPrefix(symbolName.getQualifiedNameWithSignature("."), access));
+				bin->push_back(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access));
 			}
 			return 0;
 		}
@@ -867,7 +867,7 @@ private:
 			std::vector<std::string>* bin = getBinForSymbolKind(symbolKind);
 			if (bin != nullptr)
 			{
-				bin->push_back(addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature("."), access), location));
+				bin->push_back(addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access), location));
 			}
 			return 0;
 		}
@@ -880,7 +880,7 @@ private:
 			std::vector<std::string>* bin = getBinForSymbolKind(symbolKind);
 			if (bin != nullptr)
 			{
-				bin->push_back(addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature("."), access), location, scopeLocation));
+				bin->push_back(addLocationSuffix(addAccessPrefix(symbolName.getQualifiedNameWithSignature(), access), location, scopeLocation));
 			}
 			return 0;
 		}
@@ -935,7 +935,7 @@ private:
 			if (referenceContainer != nullptr)
 			{
 				referenceContainer->push_back(addLocationSuffix(
-					contextName.getQualifiedNameWithSignature(".") + " -> " + referencedName.getQualifiedNameWithSignature("."), location)
+					contextName.getQualifiedNameWithSignature() + " -> " + referencedName.getQualifiedNameWithSignature(), location)
 				);
 			}
 		}
@@ -966,7 +966,7 @@ private:
 			const ParseLocation& location, const NameHierarchy& typedefName, AccessKind access, bool isImplicit
 		)
 		{
-			std::string str = addAccessPrefix(typedefName.getQualifiedName("."), access);
+			std::string str = addAccessPrefix(typedefName.getQualifiedName(), access);
 			typedefs.push_back(addLocationSuffix(str, location));
 		}
 
@@ -974,37 +974,37 @@ private:
 			const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessKind access,
 			const ParseLocation& scopeLocation, bool isImplicit)
 		{
-			classes.push_back(addLocationSuffix(addAccessPrefix(nameHierarchy.getQualifiedName("."), access), location, scopeLocation));
+			classes.push_back(addLocationSuffix(addAccessPrefix(nameHierarchy.getQualifiedName(), access), location, scopeLocation));
 		}
 
 		virtual void onStructParsed(
 			const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessKind access,
 			const ParseLocation& scopeLocation, bool isImplicit)
 		{
-			structs.push_back(addLocationSuffix(addAccessPrefix(nameHierarchy.getQualifiedName("."), access), location, scopeLocation));
+			structs.push_back(addLocationSuffix(addAccessPrefix(nameHierarchy.getQualifiedName(), access), location, scopeLocation));
 		}
 
 		virtual void onGlobalVariableParsed(const ParseLocation& location, const NameHierarchy& variable, bool isImplicit)
 		{
-			globalVariables.push_back(addLocationSuffix(variable.getQualifiedName("."), location));
+			globalVariables.push_back(addLocationSuffix(variable.getQualifiedName(), location));
 		}
 
 		virtual void onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessKind access, bool isImplicit)
 		{
-			fields.push_back(addLocationSuffix(addAccessPrefix(field.getQualifiedName("."), access), location));
+			fields.push_back(addLocationSuffix(addAccessPrefix(field.getQualifiedName(), access), location));
 		}
 
 		virtual void onFunctionParsed(
 			const ParseLocation& location, const NameHierarchy& function, const ParseLocation& scopeLocation, bool isImplicit)
 		{
-			functions.push_back(addLocationSuffix(function.getQualifiedNameWithSignature("."), location, scopeLocation));
+			functions.push_back(addLocationSuffix(function.getQualifiedNameWithSignature(), location, scopeLocation));
 		}
 
 		virtual void onMethodParsed(
 			const ParseLocation& location, const NameHierarchy& method, AccessKind access, AbstractionType abstraction,
 			const ParseLocation& scopeLocation, bool isImplicit)
 		{
-			std::string str = method.getQualifiedNameWithSignature(".");
+			std::string str = method.getQualifiedNameWithSignature();
 			str = addAbstractionPrefix(str, abstraction);
 			str = addAccessPrefix(str, access);
 			str = addLocationSuffix(str, location, scopeLocation);
@@ -1014,26 +1014,26 @@ private:
 		virtual void onNamespaceParsed(
 			const ParseLocation& location, const NameHierarchy& nameHierarchy, const ParseLocation& scopeLocation, bool isImplicit)
 		{
-			namespaces.push_back(addLocationSuffix(nameHierarchy.getQualifiedName("."), location, scopeLocation));
+			namespaces.push_back(addLocationSuffix(nameHierarchy.getQualifiedName(), location, scopeLocation));
 		}
 
 		virtual void onEnumParsed(
 			const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessKind access,
 			const ParseLocation& scopeLocation, bool isImplicit)
 		{
-			enums.push_back(addLocationSuffix(addAccessPrefix(nameHierarchy.getQualifiedName("."), access), location, scopeLocation));
+			enums.push_back(addLocationSuffix(addAccessPrefix(nameHierarchy.getQualifiedName(), access), location, scopeLocation));
 		}
 
 		virtual void onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy, bool isImplicit)
 		{
-			enumConstants.push_back(addLocationSuffix(nameHierarchy.getQualifiedName("."), location));
+			enumConstants.push_back(addLocationSuffix(nameHierarchy.getQualifiedName(), location));
 		}
 
 		virtual void onTemplateParameterTypeParsed(
 			const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy, bool isImplicit)
 		{
 			templateParameterTypes.push_back(
-				addLocationSuffix(templateParameterTypeNameHierarchy.getQualifiedName("."), location)
+				addLocationSuffix(templateParameterTypeNameHierarchy.getQualifiedName(), location)
 			);
 		}
 
@@ -1049,7 +1049,7 @@ private:
 
 		virtual void onMacroExpandParsed(const ParseLocation& location, const NameHierarchy& macroNameHierarchy)
 		{
-			macroUses.push_back(addLocationSuffix(macroNameHierarchy.getQualifiedName(".") ,location));
+			macroUses.push_back(addLocationSuffix(macroNameHierarchy.getQualifiedName() ,location));
 		}
 
 		virtual void onCommentParsed(const ParseLocation& location)
@@ -1062,31 +1062,31 @@ private:
 			const ParseLocation& location, const NameHierarchy& childNameHierarchy,
 			const NameHierarchy& parentNameHierarchy)
 		{
-			std::string str = childNameHierarchy.getQualifiedName(".") + " : " + parentNameHierarchy.getQualifiedName(".");
+			std::string str = childNameHierarchy.getQualifiedName() + " : " + parentNameHierarchy.getQualifiedName();
 			inheritances.push_back(addLocationSuffix(str, location));
 		}
 
 		virtual void onMethodOverrideParsed(
 			const ParseLocation& location, const NameHierarchy& overridden, const NameHierarchy& overrider)
 		{
-			overrides.push_back(addLocationSuffix(overridden.getQualifiedNameWithSignature(".") + " -> " + overrider.getQualifiedNameWithSignature("."), location));
+			overrides.push_back(addLocationSuffix(overridden.getQualifiedNameWithSignature() + " -> " + overrider.getQualifiedNameWithSignature(), location));
 		}
 
 		virtual void onCallParsed(
 			const ParseLocation& location, const NameHierarchy& caller, const NameHierarchy& callee)
 		{
-			calls.push_back(addLocationSuffix(caller.getQualifiedNameWithSignature(".") + " -> " + callee.getQualifiedNameWithSignature("."), location));
+			calls.push_back(addLocationSuffix(caller.getQualifiedNameWithSignature() + " -> " + callee.getQualifiedNameWithSignature(), location));
 		}
 
 		virtual void onUsageParsed(
 			const ParseLocation& location, const NameHierarchy& userName, SymbolKind usedType, const NameHierarchy& usedName)
 		{
-			usages.push_back(addLocationSuffix(userName.getQualifiedNameWithSignature(".") + " -> " + usedName.getQualifiedName("."), location));
+			usages.push_back(addLocationSuffix(userName.getQualifiedNameWithSignature() + " -> " + usedName.getQualifiedName(), location));
 		}
 
 		virtual void onTypeUsageParsed(const ParseLocation& location, const NameHierarchy& user, const NameHierarchy& used)
 		{
-			typeUses.push_back(addLocationSuffix(user.getQualifiedNameWithSignature(".") + " -> " + used.getQualifiedNameWithSignature("."), location));
+			typeUses.push_back(addLocationSuffix(user.getQualifiedNameWithSignature() + " -> " + used.getQualifiedNameWithSignature(), location));
 		}
 
 		virtual void onTemplateArgumentTypeParsed(
@@ -1094,7 +1094,7 @@ private:
 			const NameHierarchy& templateNameHierarchy)
 		{
 			templateArgumentTypes.push_back(
-				addLocationSuffix(templateNameHierarchy.getQualifiedNameWithSignature(".") + "->" + argumentTypeNameHierarchy.getQualifiedName("."), location)
+				addLocationSuffix(templateNameHierarchy.getQualifiedNameWithSignature() + "->" + argumentTypeNameHierarchy.getQualifiedName(), location)
 			);
 		}
 
@@ -1103,7 +1103,7 @@ private:
 			const NameHierarchy& templateParameterNameHierarchy)
 		{
 			templateDefaultArgumentTypes.push_back(
-				addLocationSuffix(defaultArgumentTypeNameHierarchy.getQualifiedNameWithSignature(".") + " -> " + templateParameterNameHierarchy.getQualifiedName("."), location)
+				addLocationSuffix(defaultArgumentTypeNameHierarchy.getQualifiedNameWithSignature() + " -> " + templateParameterNameHierarchy.getQualifiedName(), location)
 			);
 		}
 
@@ -1112,7 +1112,7 @@ private:
 			const NameHierarchy& specializedFromNameHierarchy)
 		{
 			templateSpecializations.push_back(addLocationSuffix(
-				specializedNameHierarchy.getQualifiedNameWithSignature(".") + " -> " + specializedFromNameHierarchy.getQualifiedNameWithSignature("."), location
+				specializedNameHierarchy.getQualifiedNameWithSignature() + " -> " + specializedFromNameHierarchy.getQualifiedNameWithSignature(), location
 			));
 		}
 
@@ -1120,7 +1120,7 @@ private:
 			const ParseLocation& location, const NameHierarchy& instantiatedFunction, const NameHierarchy& specializedFunction)
 		{
 			templateMemberSpecializations.push_back(addLocationSuffix(
-				instantiatedFunction.getQualifiedNameWithSignature(".") + " -> " + specializedFunction.getQualifiedNameWithSignature("."), location
+				instantiatedFunction.getQualifiedNameWithSignature() + " -> " + specializedFunction.getQualifiedNameWithSignature(), location
 			));
 		}
 
@@ -1133,7 +1133,7 @@ private:
 		virtual void onMacroDefineParsed(
 			const ParseLocation& location, const NameHierarchy& macroNameHierarchy, const ParseLocation& scopeLocation)
 		{
-			macros.push_back(addLocationSuffix(macroNameHierarchy.getQualifiedName("."), location, scopeLocation));
+			macros.push_back(addLocationSuffix(macroNameHierarchy.getQualifiedName(), location, scopeLocation));
 		}
 
 		std::vector<std::string> errors;
@@ -1175,6 +1175,8 @@ private:
 
 	std::shared_ptr<TestParserClient> parseCode(std::string code, bool logErrors = true)
 	{
+		NameHierarchy::setDelimiter(".");
+
 		m_args.logErrors = logErrors;
 		m_args.language = "Java";
 		m_args.languageStandard = "1.8";

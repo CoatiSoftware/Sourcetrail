@@ -14,4 +14,6 @@ enum LanguageType
 std::string languageTypeToString(LanguageType t);
 LanguageType stringToLanguageType(std::string s);
 
+std::string getSymbolNameDelimiterForLanguage(LanguageType t);
+
 #endif // LANGUAGE_TYPE_H

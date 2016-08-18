@@ -37,6 +37,11 @@ NameHierarchy NameHierarchy::deserialize(const std::string& serializedName)
 	return nameHierarchy;
 }
 
+void NameHierarchy::setDelimiter(const std::string& delimiter)
+{
+	s_delimiter = delimiter;
+}
+
 NameHierarchy::NameHierarchy()
 {
 }
@@ -87,23 +92,23 @@ size_t NameHierarchy::size() const
 	return m_elements.size();
 }
 
-std::string NameHierarchy::getQualifiedName(const std::string& delimiter) const
+std::string NameHierarchy::getQualifiedName() const
 {
 	std::string name;
 	for (size_t i = 0; i < m_elements.size(); i++)
 	{
 		if (i > 0)
 		{
-			name += delimiter;
+			name += s_delimiter;
 		}
 		name += m_elements[i]->getName();
 	}
 	return name;
 }
 
-std::string NameHierarchy::getQualifiedNameWithSignature(const std::string& delimiter) const
+std::string NameHierarchy::getQualifiedNameWithSignature() const
 {
-	std::string name = getQualifiedName(delimiter);
+	std::string name = getQualifiedName();
 	if (m_elements.size())
 	{
 		name = m_elements.back()->getSignature().qualifyName(name); // todo: use separator for signature!
@@ -128,3 +133,5 @@ std::string NameHierarchy::getRawNameWithSignature() const
 	}
 	return "";
 }
+
+std::string NameHierarchy::s_delimiter = "@";

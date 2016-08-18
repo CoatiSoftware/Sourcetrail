@@ -3218,6 +3218,8 @@ private:
 
 	std::shared_ptr<TestParserClient> parseCode(std::string code, bool logErrors = true)
 	{
+		NameHierarchy::setDelimiter("::");
+
 		m_args.logErrors = logErrors;
 		m_args.language = "c++";
 		m_args.languageStandard = "1z";

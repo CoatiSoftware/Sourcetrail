@@ -115,6 +115,7 @@ void Project::load()
 	bool loadedSettings = projectSettings->reload();
 	if (loadedSettings)
 	{
+		NameHierarchy::setDelimiter(getSymbolNameDelimiterForLanguage(projectSettings->getLanguage()));
 		const FilePath projectSettingsPath = projectSettings->getFilePath();
 		const FilePath dbPath = FilePath(projectSettingsPath).replaceExtension("coatidb");
 		m_storage = std::make_shared<PersistentStorage>(dbPath);

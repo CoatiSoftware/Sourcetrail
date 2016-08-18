@@ -136,28 +136,28 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 		m_storageCache->clear();
 
 		m_project = Project::create(projectSettingsFilePath, m_storageCache.get());
-		loadProject(projectSettingsFilePath);
 
-		if (m_hasGUI)
+		if (m_project)
 		{
-			setTitle("Coati - " + projectSettingsFilePath.fileName());
-			m_mainView->hideStartScreen();
+			if (m_hasGUI)
+			{
+				setTitle("Coati - " + projectSettingsFilePath.fileName());
+				m_mainView->hideStartScreen();
 
-			m_componentManager->refreshViews();
+				m_componentManager->clearComponents();
+				m_componentManager->refreshViews();
+			}
+		}
+		else
+		{
+			LOG_ERROR_STREAM(<< "Failed to load project.");
+			MessageStatus("Failed to load project.", true).dispatch();
 		}
 	}
 	catch (...)
 	{
 		LOG_ERROR_STREAM(<< "Failed to load project.");
 		MessageStatus("Failed to load project.", true).dispatch();
-	}
-}
-
-void Application::loadProject(const FilePath& projectSettingsFilePath)
-{
-	if (m_hasGUI)
-	{
-		m_componentManager->clearComponents();
 	}
 }
 

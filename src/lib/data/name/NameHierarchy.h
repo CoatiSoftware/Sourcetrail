@@ -12,6 +12,7 @@ class NameHierarchy
 public:
 	static std::string serialize(NameHierarchy nameHierarchy);
 	static NameHierarchy deserialize(const std::string& serializedName);
+	static void setDelimiter(const std::string& delimiter);
 
 	NameHierarchy();
 	NameHierarchy(const std::string& name);
@@ -24,12 +25,14 @@ public:
 	std::shared_ptr<NameElement> operator[](size_t pos) const;
 	size_t size() const;
 
-	std::string getQualifiedName(const std::string& delimiter = "::") const;
-	std::string getQualifiedNameWithSignature(const std::string& delimiter = "::") const;
+	std::string getQualifiedName() const;
+	std::string getQualifiedNameWithSignature() const;
 	std::string getRawName() const;
 	std::string getRawNameWithSignature() const;
 
 private:
+	static std::string s_delimiter;
+
 	std::vector<std::shared_ptr<NameElement>> m_elements;
 };
 
