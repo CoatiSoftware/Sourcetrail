@@ -1,13 +1,13 @@
 #include "qt/element/QtCodeArea.h"
 
-#include <qapplication.h>
+#include <QApplication>
 #include <QFont>
 #include <QHBoxLayout>
-#include <qmenu.h>
+#include <QMenu>
 #include <QPainter>
 #include <QPushButton>
+#include <QScrollBar>
 #include <QToolTip>
-#include <qscrollbar.h>
 
 #include "utility/messaging/type/MessageActivateLocalSymbols.h"
 #include "utility/messaging/type/MessageActivateTokenLocations.h"
@@ -130,6 +130,7 @@ QtCodeArea::QtCodeArea(
 
 	// MouseWheelOverScrollbarFilter is deleted by parent.
 	horizontalScrollBar()->installEventFilter(new MouseWheelOverScrollbarFilter(this));
+	m_scrollSpeedChangeListener.setScrollBar(horizontalScrollBar());
 
 	createActions();
 

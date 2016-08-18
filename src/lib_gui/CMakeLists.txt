@@ -60,6 +60,8 @@ add_files(
 	qt/utility/QtDeviceScaledPixmap.h
 	qt/utility/QtHighlighter.cpp
 	qt/utility/QtHighlighter.h
+	qt/utility/QtScrollSpeedChangeListener.cpp
+	qt/utility/QtScrollSpeedChangeListener.h
 	qt/utility/QtThreadedFunctor.h
 	qt/utility/utilityQt.cpp
 	qt/utility/utilityQt.h

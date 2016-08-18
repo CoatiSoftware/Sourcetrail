@@ -5,6 +5,7 @@
 #include <QScrollArea>
 
 #include "qt/element/QtCodeFileList.h"
+#include "qt/utility/QtScrollSpeedChangeListener.h"
 #include "qt/utility/QtThreadedFunctor.h"
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageCodeReference.h"
@@ -125,6 +126,8 @@ private:
 	QtCodeFile* m_scrollToFile;
 	uint m_scrollToLine;
 	Id m_scrollToLocationId;
+
+	QtScrollSpeedChangeListener m_scrollSpeedChangeListener;
 };
 
 #endif // QT_CODE_NAVIGATOR_H

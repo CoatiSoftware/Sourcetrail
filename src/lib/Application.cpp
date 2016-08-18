@@ -5,6 +5,7 @@
 #include "utility/messaging/MessageQueue.h"
 #include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
+#include "utility/messaging/type/MessageScrollSpeedChange.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/messaging/type/MessageShowStartScreen.h"
 #include "utility/scheduling/TaskScheduler.h"
@@ -72,6 +73,7 @@ void Application::loadSettings()
 {
 	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
 	settings->load(FilePath(UserPaths::getAppSettingsPath()));
+
 	loadStyle(settings->getColorSchemePath());
 }
 

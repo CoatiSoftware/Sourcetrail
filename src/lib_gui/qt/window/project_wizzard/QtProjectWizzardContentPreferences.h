@@ -32,6 +32,7 @@ private:
 	QComboBox* m_fontSize;
 	QComboBox* m_tabWidth;
 	QComboBox* m_colorSchemes;
+	QLineEdit* m_scrollSpeed;
 
 	QComboBox* m_threads;
 	QCheckBox* m_fatalErrors;

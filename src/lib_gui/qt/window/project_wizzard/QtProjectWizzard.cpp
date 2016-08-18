@@ -23,6 +23,7 @@
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageRefresh.h"
+#include "utility/messaging/type/MessageScrollSpeedChange.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/solution/SolutionParserVisualStudio.h"
 #include "utility/utilityString.h"
@@ -37,9 +38,11 @@ QtProjectWizzard::QtProjectWizzard(QWidget* parent)
 	connect(&m_windowStack, SIGNAL(push()), this, SLOT(windowStackChanged()));
 	connect(&m_windowStack, SIGNAL(pop()), this, SLOT(windowStackChanged()));
 
+	// save old application settings so they can be compared later
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 	m_appSettings.setHeaderSearchPaths(appSettings->getHeaderSearchPaths());
 	m_appSettings.setFrameworkSearchPaths(appSettings->getFrameworkSearchPaths());
+	m_appSettings.setScrollSpeed(appSettings->getScrollSpeed());
 
 	m_parserManager = std::make_shared<SolutionParserManager>();
 
@@ -698,6 +701,11 @@ void QtProjectWizzard::createProject()
 void QtProjectWizzard::savePreferences()
 {
 	bool appSettingsChanged = !(m_appSettings == *ApplicationSettings::getInstance().get());
+
+	if (m_appSettings.getScrollSpeed() != ApplicationSettings::getInstance()->getScrollSpeed())
+	{
+		MessageScrollSpeedChange(ApplicationSettings::getInstance()->getScrollSpeed()).dispatch();
+	}
 
 	if (appSettingsChanged)
 	{

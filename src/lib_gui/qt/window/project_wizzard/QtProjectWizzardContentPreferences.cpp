@@ -84,8 +84,21 @@ void QtProjectWizzardContentPreferences::populateForm(QGridLayout* layout, int& 
 	layout->addWidget(m_colorSchemes, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
 	row++;
 
-	layout->setRowMinimumHeight(row++, 20);
+	// scroll speed
+	m_scrollSpeed = new QLineEdit();
+	m_scrollSpeed->setObjectName("name");
+	m_scrollSpeed->setAttribute(Qt::WA_MacShowFocusRect, 0);
 
+	layout->addWidget(createFormLabel("Scroll Speed"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(m_scrollSpeed, row, QtProjectWizzardWindow::BACK_COL);
+
+	addHelpButton(
+		"Multiplier for scroll speed. Set to a value between 0 and 1 to scroll slower, or set to larger than 1 to scroll faster."
+		, layout, row
+	);
+	row++;
+
+	layout->setRowMinimumHeight(row++, 20);
 
 	// indexing
 	layout->addWidget(createFormTitle("INDEXING"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
@@ -142,6 +155,8 @@ void QtProjectWizzardContentPreferences::load()
 		}
 	}
 
+	m_scrollSpeed->setText(QString::number(appSettings->getScrollSpeed(), 'f', 1));
+
 	m_threads->setCurrentIndex(appSettings->getIndexerThreadCount() - 1);
 	m_fatalErrors->setChecked(appSettings->getShowExternalNonFatalErrors());
 }
@@ -157,6 +172,12 @@ void QtProjectWizzardContentPreferences::save()
 
 	appSettings->setColorSchemePath(m_colorSchemePaths[m_colorSchemes->currentIndex()]);
 	m_oldColorSchemeIndex = -1;
+
+	float scrollSpeed = m_scrollSpeed->text().toFloat();
+	if (scrollSpeed)
+	{
+		appSettings->setScrollSpeed(scrollSpeed);
+	}
 
 	appSettings->setIndexerThreadCount(m_threads->currentIndex() + 1);
 	appSettings->setShowExternalNonFatalErrors(m_fatalErrors->isChecked());

@@ -8,6 +8,7 @@
 #include <QPlainTextEdit>
 
 #include "data/location/LocationType.h"
+#include "qt/utility/QtScrollSpeedChangeListener.h"
 #include "utility/types.h"
 
 class QDragMoveEvent;
@@ -190,6 +191,8 @@ private:
 
 	std::vector<int> m_lineLengths;
 	int m_endTextEditPosition;
+
+	QtScrollSpeedChangeListener m_scrollSpeedChangeListener;
 };
 
 #endif // QT_CODE_AREA_H

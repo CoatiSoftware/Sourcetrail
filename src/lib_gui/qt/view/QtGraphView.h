@@ -5,6 +5,7 @@
 #include <QPointF>
 
 #include "component/view/GraphView.h"
+#include "qt/utility/QtScrollSpeedChangeListener.h"
 #include "qt/utility/QtThreadedFunctor.h"
 #include "utility/types.h"
 
@@ -110,6 +111,9 @@ private:
 
 	std::shared_ptr<QSequentialAnimationGroup> m_transition;
 	QPointF m_sceneRectOffset;
+
+	QtScrollSpeedChangeListener m_scrollSpeedChangeListenerHorizontal;
+	QtScrollSpeedChangeListener m_scrollSpeedChangeListenerVertical;
 };
 
 #endif // QT_GRAPH_VIEW_H

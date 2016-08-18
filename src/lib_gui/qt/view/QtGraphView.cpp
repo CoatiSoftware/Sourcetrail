@@ -13,12 +13,12 @@
 #include "component/controller/helper/DummyNode.h"
 #include "component/controller/helper/GraphPostprocessor.h"
 #include "component/view/GraphViewStyle.h"
+#include "settings/ColorScheme.h"
 #include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/ResourcePaths.h"
 
-#include "qt/utility/utilityQt.h"
-
 #include "qt/graphics/QtGraphicsView.h"
+#include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentClickable.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponentMoveable.h"
@@ -27,7 +27,6 @@
 #include "qt/view/graphElements/QtGraphNodeBundle.h"
 #include "qt/view/graphElements/QtGraphNodeData.h"
 #include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
-#include "settings/ColorScheme.h"
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)
@@ -71,6 +70,9 @@ void QtGraphView::initView()
 	widget->layout()->addWidget(view);
 
 	connect(view, SIGNAL(emptySpaceClicked()), this, SLOT(clickedInEmptySpace()));
+
+	m_scrollSpeedChangeListenerHorizontal.setScrollBar(view->horizontalScrollBar());
+	m_scrollSpeedChangeListenerVertical.setScrollBar(view->verticalScrollBar());
 
 	doRefreshView();
 }
@@ -305,10 +307,12 @@ void QtGraphView::doRefreshView()
 	doClear();
 	doResize();
 
-	std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath() + "graph_view/graph_view.css");
-	getView()->setStyleSheet(css.c_str());
+	QtGraphicsView* view = getView();
 
-	getView()->setAppZoomFactor(GraphViewStyle::getZoomFactor());
+	std::string css = utility::getStyleSheet(ResourcePaths::getGuiPath() + "graph_view/graph_view.css");
+	view->setStyleSheet(css.c_str());
+
+	view->setAppZoomFactor(GraphViewStyle::getZoomFactor());
 }
 
 std::shared_ptr<QtGraphNode> QtGraphView::findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId)

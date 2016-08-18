@@ -204,6 +204,9 @@ QtAutocompletionList::QtAutocompletionList(QWidget* parent)
 	setModelSorting(QCompleter::UnsortedModel);
 	setCompletionPrefix("");
 	setMaxVisibleItems(20);
+
+	m_scrollSpeedChangeListenerHorizontal.setScrollBar(list->horizontalScrollBar());
+	m_scrollSpeedChangeListenerVertical.setScrollBar(list->verticalScrollBar());
 }
 
 QtAutocompletionList::~QtAutocompletionList()

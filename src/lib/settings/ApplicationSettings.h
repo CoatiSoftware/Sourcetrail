@@ -39,6 +39,10 @@ public:
 	int getWindowBaseWidth() const;
 	int getWindowBaseHeight() const;
 
+	float getScrollSpeed() const;
+	void setScrollSpeed(float scrollSpeed);
+
+	// indexing
 	int getIndexerThreadCount() const;
 	void setIndexerThreadCount(const int count);
 

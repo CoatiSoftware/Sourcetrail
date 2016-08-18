@@ -10,6 +10,7 @@
 #include <QListView>
 
 #include "data/search/SearchMatch.h"
+#include "qt/utility/QtScrollSpeedChangeListener.h"
 
 class QtAutocompletionModel
 	: public QAbstractTableModel
@@ -70,6 +71,9 @@ private slots:
 private:
 	std::shared_ptr<QtAutocompletionModel> m_model;
 	std::shared_ptr<QtAutocompletionDelegate> m_delegate;
+
+	QtScrollSpeedChangeListener m_scrollSpeedChangeListenerHorizontal;
+	QtScrollSpeedChangeListener m_scrollSpeedChangeListenerVertical;
 };
 
 #endif // QT_AUTOCOMPLETION_LIST

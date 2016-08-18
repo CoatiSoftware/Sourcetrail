@@ -113,6 +113,16 @@ int ApplicationSettings::getWindowBaseHeight() const
 	return getValue<int>("application/window_base_height", 500);
 }
 
+float ApplicationSettings::getScrollSpeed() const
+{
+	return getValue<float>("application/scroll_speed", 1.0f);
+}
+
+void ApplicationSettings::setScrollSpeed(float scrollSpeed)
+{
+	setValue<float>("application/scroll_speed", scrollSpeed);
+}
+
 int ApplicationSettings::getIndexerThreadCount() const
 {
 	return getValue<int>("indexing/indexer_thread_count", 4);

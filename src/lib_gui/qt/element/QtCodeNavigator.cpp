@@ -80,6 +80,8 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 	m_scrollArea->setWidgetResizable(true);
 	m_scrollArea->setWidget(m_list);
 
+	m_scrollSpeedChangeListener.setScrollBar(m_scrollArea->verticalScrollBar());
+
 	connect(m_scrollArea->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrolled(int)));
 	connect(this, SIGNAL(shouldScrollToSnippet(QtCodeSnippet*, uint)),
 		this, SLOT(scrollToSnippet(QtCodeSnippet*, uint)), Qt::QueuedConnection);
