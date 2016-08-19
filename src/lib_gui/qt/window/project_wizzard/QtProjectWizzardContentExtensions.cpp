@@ -27,7 +27,7 @@ void QtProjectWizzardContentExtensions::populateWindow(QGridLayout* layout, int&
 	layout->addWidget(text, row + 1, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
 	layout->setRowStretch(row + 1, 1);
 
-	m_sourceList = new QtDirectoryListBox(this);
+	m_sourceList = new QtDirectoryListBox(this, title->text());
 	layout->addWidget(m_sourceList, row, QtProjectWizzardWindow::BACK_COL, 2, 1, Qt::AlignTop);
 	row += 2;
 }
@@ -40,7 +40,7 @@ void QtProjectWizzardContentExtensions::populateForm(QGridLayout* layout, int& r
 
 	addHelpButton("Define extensions for source files including the dot e.g. .cpp", layout, row);
 
-	m_sourceList = new QtDirectoryListBox(this, true);
+	m_sourceList = new QtDirectoryListBox(this, sourceLabel->text(), true);
 	layout->addWidget(m_sourceList, row, QtProjectWizzardWindow::BACK_COL);
 	row++;
 }

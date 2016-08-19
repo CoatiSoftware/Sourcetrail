@@ -131,8 +131,6 @@ add_files(
 	qt/window/project_wizzard/QtProjectWizzardContentSelect.h
 	qt/window/project_wizzard/QtProjectWizzardContentSimple.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentSimple.h
-	qt/window/project_wizzard/QtProjectWizzardContentSourceList.cpp
-	qt/window/project_wizzard/QtProjectWizzardContentSourceList.h
 	qt/window/project_wizzard/QtProjectWizzardContentSummary.cpp
 	qt/window/project_wizzard/QtProjectWizzardContentSummary.h
 	qt/window/project_wizzard/QtProjectWizzardWindow.cpp
@@ -150,6 +148,8 @@ add_files(
 	qt/window/QtSplashScreen.h
 	qt/window/QtStartScreen.cpp
 	qt/window/QtStartScreen.h
+	qt/window/QtTextEditDialog.cpp
+	qt/window/QtTextEditDialog.h
 	qt/window/QtWindow.cpp
 	qt/window/QtWindow.h
 	qt/window/QtWindowStack.cpp

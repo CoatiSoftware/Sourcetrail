@@ -362,10 +362,13 @@ void QtWindow::setupDone()
 	QSize size(qMax(actualSize.width(), preferredSize.width()), qMax(actualSize.height(), preferredSize.height()));
 	resize(size);
 
-	move(
-		parentWidget()->pos().x() + parentWidget()->width() / 2 - size.width() / 2,
-		parentWidget()->pos().y() + parentWidget()->height() / 2 - size.height() / 2
-	);
+	if (parentWidget())
+	{
+		move(
+			parentWidget()->pos().x() + parentWidget()->width() / 2 - size.width() / 2,
+			parentWidget()->pos().y() + parentWidget()->height() / 2 - size.height() / 2
+		);
+	}
 }
 
 void QtWindow::addLogo()

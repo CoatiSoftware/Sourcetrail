@@ -12,6 +12,7 @@
 #include "qt/element/QtLineEdit.h"
 
 class QtDirectoryListBox;
+class QtTextEditDialog;
 
 class QtListItemWidget
 	: public QWidget
@@ -46,7 +47,7 @@ class QtDirectoryListBox
 	Q_OBJECT
 
 public:
-	QtDirectoryListBox(QWidget *parent, bool forStrings = false);
+	QtDirectoryListBox(QWidget *parent, const QString& listName, bool forStrings = false);
 
 	virtual QSize sizeHint() const override;
 
@@ -74,12 +75,19 @@ private slots:
 	QtListItemWidget* addListBoxItem();
 	void removeListBoxItem();
 
+	void showEditDialog();
+	void canceledEditDialog();
+	void savedEditDialog();
+
 private:
 	QPushButton* m_addButton;
 	QPushButton* m_removeButton;
 	QListWidget* m_list;
 
+	QString m_listName;
 	bool m_forStrings;
+
+	std::shared_ptr<QtTextEditDialog> m_editDialog;
 };
 
 #endif // QT_DIRECTORY_LIST_BOX_H

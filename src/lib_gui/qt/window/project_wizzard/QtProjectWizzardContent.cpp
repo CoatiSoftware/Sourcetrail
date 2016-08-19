@@ -2,6 +2,9 @@
 
 #include <QMessageBox>
 
+#include "qt/window/QtTextEditDialog.h"
+#include "utility/utilityString.h"
+
 QtHelpButton::QtHelpButton(const QString& helpText, QWidget* parent)
 	: QPushButton("", parent)
 	, m_helpText(helpText)
@@ -28,10 +31,6 @@ QtProjectWizzardContent::QtProjectWizzardContent(std::shared_ptr<ProjectSettings
 	: QWidget(window)
 	, m_settings(settings)
 	, m_window(window)
-{
-}
-
-void QtProjectWizzardContent::populateWindow(QWidget* widget)
 {
 }
 
@@ -70,9 +69,9 @@ QSize QtProjectWizzardContent::preferredWindowSize() const
 	return QSize(750, 620);
 }
 
-QStringList QtProjectWizzardContent::getFileNames() const
+std::vector<std::string> QtProjectWizzardContent::getFileNames() const
 {
-	return QStringList();
+	return std::vector<std::string>();
 }
 
 QString QtProjectWizzardContent::getFileNamesTitle() const
@@ -126,12 +125,37 @@ QPushButton* QtProjectWizzardContent::addFilesButton(QString name, QGridLayout* 
 	QPushButton* button = new QPushButton(name);
 	button->setObjectName("windowButton");
 	layout->addWidget(button, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
-	connect(button, SIGNAL(clicked()), this, SLOT(buttonClicked()));
+	connect(button, SIGNAL(clicked()), this, SLOT(filesButtonClicked()));
 
 	return button;
 }
 
-void QtProjectWizzardContent::buttonClicked()
+void QtProjectWizzardContent::filesButtonClicked()
 {
-	emit filesButtonClicked(this);
+	if (!m_filesDialog)
+	{
+		std::vector<std::string> fileNames = getFileNames();
+
+		m_filesDialog = std::make_shared<QtTextEditDialog>(
+			getFileNamesTitle(), QString::number(fileNames.size()) + " " + getFileNamesDescription());
+		m_filesDialog->setup();
+
+		m_filesDialog->setText(utility::join(fileNames, "\n"));
+		m_filesDialog->setCloseVisible(false);
+		m_filesDialog->setReadOnly(true);
+
+		connect(m_filesDialog.get(), SIGNAL(finished()), this, SLOT(closedFilesDialog()));
+		connect(m_filesDialog.get(), SIGNAL(canceled()), this, SLOT(closedFilesDialog()));
+	}
+
+	m_filesDialog->showWindow();
+	m_filesDialog->raise();
+}
+
+void QtProjectWizzardContent::closedFilesDialog()
+{
+	m_filesDialog->hide();
+	m_filesDialog.reset();
+
+	window()->raise();
 }

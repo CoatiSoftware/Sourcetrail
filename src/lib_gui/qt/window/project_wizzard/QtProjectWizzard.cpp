@@ -13,7 +13,6 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentPaths.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentPreferences.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSimple.h"
-#include "qt/window/project_wizzard/QtProjectWizzardContentSourceList.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContentSummary.h"
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
 #include "settings/CxxProjectSettings.h"
@@ -278,36 +277,6 @@ QtProjectWizzardWindow* QtProjectWizzard::createWindowWithSummary(
 	return window;
 }
 
-template<typename T>
-QtProjectWizzardWindow* QtProjectWizzard::createPopupWithContent()
-{
-	QtProjectWizzardWindow* window = new QtProjectWizzardWindow(parentWidget());
-
-	window->setShowAsPopup(true);
-	window->setContent(new T(m_settings, window));
-	window->setup();
-
-	window->move(window->pos() + QPoint(50, 50));
-	window->show();
-
-	connect(window, SIGNAL(next()), this, SLOT(popupClosed()));
-
-	if (m_popup)
-	{
-		m_popup->hide();
-	}
-
-	m_popup = std::shared_ptr<QtProjectWizzardWindow>(window);
-
-	return window;
-}
-
-void QtProjectWizzard::connectShowFiles(QtProjectWizzardContent* content)
-{
-	connect(content, SIGNAL(filesButtonClicked(QtProjectWizzardContent*)),
-		this, SLOT(showFiles(QtProjectWizzardContent*)));
-}
-
 void QtProjectWizzard::cancelWizzard()
 {
 	m_windowStack.clearWindows();
@@ -327,16 +296,6 @@ void QtProjectWizzard::windowStackChanged()
 	if (window)
 	{
 		dynamic_cast<QtProjectWizzardWindow*>(window)->content()->load();
-	}
-}
-
-void QtProjectWizzard::popupClosed()
-{
-	QWidget* window = m_windowStack.getTopWindow();
-
-	if (window)
-	{
-		window->raise();
 	}
 }
 
@@ -410,11 +369,7 @@ void QtProjectWizzard::sourcePaths()
 	QtProjectWizzardWindow* window = createWindowWithSummary(
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
-
-			QtProjectWizzardContent* source = new QtProjectWizzardContentPathsSource(m_settings, window);
-			summary->addContent(source, false, false);
-			connectShowFiles(source);
-
+			summary->addContent(new QtProjectWizzardContentPathsSource(m_settings, window), false, false);
 			summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window), false, false);
 
 			window->setup();
@@ -481,12 +436,8 @@ void QtProjectWizzard::headerPathsCDB()
 	QtProjectWizzardWindow* window = createWindowWithSummary(
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
-			QtProjectWizzardContent* source = new QtProjectWizzardContentCDBSource(m_settings, window);
-			summary->addContent(source, false, false);
-			connectShowFiles(source);
-
-			QtProjectWizzardContent* header = new QtProjectWizzardContentPathsCDBHeader(m_settings, window);
-			summary->addContent(header, false, false);
+			summary->addContent(new QtProjectWizzardContentCDBSource(m_settings, window), false, false);
+			summary->addContent(new QtProjectWizzardContentPathsCDBHeader(m_settings, window), false, false);
 
 			window->setup();
 
@@ -518,11 +469,7 @@ void QtProjectWizzard::sourcePathsJava()
 	QtProjectWizzardWindow* window = createWindowWithSummary(
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
-
-			QtProjectWizzardContent* source = new QtProjectWizzardContentPathsSourceJava(m_settings, window);
-			summary->addContent(source, false, false);
-			connectShowFiles(source);
-
+			summary->addContent(new QtProjectWizzardContentPathsSourceJava(m_settings, window), false, false);
 			summary->addContent(new QtProjectWizzardContentPathsClassJava(m_settings, window), false, false);
 
 			window->setup();
@@ -530,19 +477,6 @@ void QtProjectWizzard::sourcePathsJava()
 	);
 
 	connect(window, SIGNAL(next()), this, SLOT(showSummaryJava()));
-}
-
-void QtProjectWizzard::showFiles(QtProjectWizzardContent* content)
-{
-	QWidget* widget = m_windowStack.getTopWindow();
-	if (widget)
-	{
-		QtProjectWizzardWindow* win = dynamic_cast<QtProjectWizzardWindow*>(widget);
-		win->content()->save();
-	}
-
-	QtProjectWizzardWindow* window = createPopupWithContent<QtProjectWizzardContentSourceList>();
-	dynamic_cast<QtProjectWizzardContentSourceList*>(window->content())->showFilesFromContent(content);
 }
 
 void QtProjectWizzard::showSummary()
@@ -567,10 +501,7 @@ void QtProjectWizzard::showSummary()
 						this, SLOT(refreshProjectFromSolution(const std::string&, const std::string&)));
 				}
 
-				QtProjectWizzardContentPathsSource* source = new QtProjectWizzardContentPathsSource(m_settings, window);
-				summary->addContent(source, false, true);
-				connectShowFiles(source);
-
+				summary->addContent(new QtProjectWizzardContentPathsSource(m_settings, window), false, true);
 				summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(m_settings, window), false, true);
 				summary->addContent(new QtProjectWizzardContentSimple(m_settings, window), false, false);
 				summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(m_settings, window), false, false);
@@ -620,10 +551,7 @@ void QtProjectWizzard::showSummaryJava()
 
 			summary->addContent(new QtProjectWizzardContentData(m_settings, window), false, false);
 
-			QtProjectWizzardContentPathsSourceJava* source = new QtProjectWizzardContentPathsSourceJava(m_settings, window);
-			summary->addContent(source, false, true);
-			connectShowFiles(source);
-
+			summary->addContent(new QtProjectWizzardContentPathsSourceJava(m_settings, window), false, true);
 			summary->addContent(new QtProjectWizzardContentPathsClassJava(m_settings, window), false, true);
 
 			summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window), true, false);

@@ -65,7 +65,7 @@ void QtProjectWizzardContentCDBSource::load()
 				path = path.relativeTo(projectPath);
 			}
 
-			m_fileNames << QString::fromStdString(path.str());
+			m_fileNames.push_back(path.str());
 		}
 	}
 	if (m_text)
@@ -74,7 +74,7 @@ void QtProjectWizzardContentCDBSource::load()
 	}
 }
 
-QStringList QtProjectWizzardContentCDBSource::getFileNames() const
+std::vector<std::string> QtProjectWizzardContentCDBSource::getFileNames() const
 {
 	return m_fileNames;
 }
@@ -86,5 +86,5 @@ QString QtProjectWizzardContentCDBSource::getFileNamesTitle() const
 
 QString QtProjectWizzardContentCDBSource::getFileNamesDescription() const
 {
-	return "source files will be indexed.";
+	return " source files will be indexed.";
 }

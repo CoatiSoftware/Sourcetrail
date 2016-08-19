@@ -46,13 +46,10 @@ private:
 
 	QtProjectWizzardWindow* createWindowWithSummary(
 		std::function<void(QtProjectWizzardWindow*, QtProjectWizzardContentSummary*)> func);
-	template<typename T>
-		QtProjectWizzardWindow* createPopupWithContent();
 
 	void connectShowFiles(QtProjectWizzardContent* content);
 
 	QtWindowStack m_windowStack;
-	std::shared_ptr<QtProjectWizzardWindow> m_popup;
 
 	std::shared_ptr<ProjectSettings> m_settings;
 	ApplicationSettings m_appSettings;
@@ -66,7 +63,6 @@ private slots:
 	void finishWizzard();
 
 	void windowStackChanged();
-	void popupClosed();
 
 	void selectedProjectType(LanguageType languageType, QtProjectWizzardContentSelect::ProjectType type);
 
@@ -83,8 +79,6 @@ private slots:
 	void headerPathsCDBDone();
 
 	void sourcePathsJava();
-
-	void showFiles(QtProjectWizzardContent* content);
 
 	void showSummary();
 	void showSummaryJava();

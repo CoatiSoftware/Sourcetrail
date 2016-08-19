@@ -9,8 +9,10 @@
 #include <QTreeView>
 
 #include "utility/ResourcePaths.h"
+#include "utility/utilityString.h"
 
 #include "qt/utility/utilityQt.h"
+#include "qt/window/QtTextEditDialog.h"
 
 QtListItemWidget::QtListItemWidget(QtDirectoryListBox* list, QListWidgetItem* item, QWidget *parent)
 	: QWidget(parent)
@@ -102,8 +104,9 @@ void QtListItemWidget::handleFocus()
 }
 
 
-QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, bool forStrings)
+QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName, bool forStrings)
 	: QFrame(parent)
+	, m_listName(listName)
 	, m_forStrings(forStrings)
 {
 	QBoxLayout* layout = new QVBoxLayout();
@@ -147,6 +150,12 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, bool forStrings)
 	dropInfoText->setAlignment(Qt::AlignRight);
 	innerLayout->addWidget(dropInfoText);
 
+	QPushButton* editButton = new QPushButton("", this);
+	editButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	editButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+	editButton->setObjectName("editButton");
+	innerLayout->addWidget(editButton);
+
 	if (isForStrings())
 	{
 		dropInfoText->hide();
@@ -160,6 +169,7 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, bool forStrings)
 
 	connect(m_addButton, SIGNAL(clicked()), this, SLOT(addListBoxItem()));
 	connect(m_removeButton, SIGNAL(clicked()), this, SLOT(removeListBoxItem()));
+	connect(editButton, SIGNAL(clicked()), this, SLOT(showEditDialog()));
 
 	setAcceptDrops(true);
 	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Minimum);
@@ -329,4 +339,47 @@ void QtDirectoryListBox::removeListBoxItem()
 void QtDirectoryListBox::dragEnterEvent(QDragEnterEvent *event)
 {
 	event->accept();
+}
+
+void QtDirectoryListBox::showEditDialog()
+{
+	if (!m_editDialog)
+	{
+		m_editDialog = std::make_shared<QtTextEditDialog>(m_listName, "Edit the list in plain text. Each line is one item.");
+		m_editDialog->setup();
+
+		m_editDialog->setText(utility::join(getStringList(), "\n"));
+
+		connect(m_editDialog.get(), SIGNAL(canceled()), this, SLOT(canceledEditDialog()));
+		connect(m_editDialog.get(), SIGNAL(finished()), this, SLOT(savedEditDialog()));
+	}
+
+	m_editDialog->showWindow();
+	m_editDialog->raise();
+}
+
+void QtDirectoryListBox::canceledEditDialog()
+{
+	m_editDialog->hide();
+	m_editDialog.reset();
+
+	window()->raise();
+}
+
+void QtDirectoryListBox::savedEditDialog()
+{
+	std::vector<std::string> lines = utility::splitToVector(m_editDialog->getText(), "\n");
+	for (size_t i = 0; i < lines.size(); i++)
+	{
+		lines[i] = utility::trim(lines[i]);
+
+		if (!lines[i].size())
+		{
+			lines.erase(lines.begin() + i);
+			i--;
+		}
+	}
+	setStringList(lines);
+
+	canceledEditDialog();
 }

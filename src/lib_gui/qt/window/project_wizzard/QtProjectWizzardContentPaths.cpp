@@ -34,7 +34,7 @@ void QtProjectWizzardContentPaths::populateWindow(QGridLayout* layout, int& row)
 	layout->addWidget(text, row + 1, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
 	layout->setRowStretch(row + 1, 1);
 
-	m_list = new QtDirectoryListBox(this);
+	m_list = new QtDirectoryListBox(this, m_titleString);
 	layout->addWidget(m_list, row, QtProjectWizzardWindow::BACK_COL, 2, 1, Qt::AlignTop);
 
 	row += 2;
@@ -66,7 +66,7 @@ void QtProjectWizzardContentPaths::populateForm(QGridLayout* layout, int& row)
 		addHelpButton(m_helpString, layout, row);
 	}
 
-	m_list = new QtDirectoryListBox(this);
+	m_list = new QtDirectoryListBox(this, m_titleString);
 	layout->addWidget(m_list, row, QtProjectWizzardWindow::BACK_COL);
 	row++;
 
@@ -223,7 +223,7 @@ void QtProjectWizzardContentPathsSource::save()
 	m_settings->setSourcePaths(m_list->getList());
 }
 
-QStringList QtProjectWizzardContentPathsSource::getFileNames() const
+std::vector<std::string> QtProjectWizzardContentPathsSource::getFileNames() const
 {
 	std::vector<FilePath> sourcePaths = m_settings->getAbsoluteSourcePaths();
 	std::vector<FilePath> excludePaths = m_settings->getAbsoluteExcludePaths();
@@ -232,7 +232,7 @@ QStringList QtProjectWizzardContentPathsSource::getFileNames() const
 	std::vector<FileInfo> fileInfos = FileSystem::getFileInfosFromPaths(sourcePaths, extensions);
 	FilePath projectPath = m_settings->getProjectFileLocation();
 
-	QStringList list;
+	std::vector<std::string> list;
 	for (const FileInfo& info : fileInfos)
 	{
 		FilePath path = info.path;
@@ -257,7 +257,7 @@ QStringList QtProjectWizzardContentPathsSource::getFileNames() const
 			path = path.relativeTo(projectPath);
 		}
 
-		list << QString::fromStdString(path.str());
+		list.push_back(path.str());
 	}
 
 	return list;
@@ -270,7 +270,7 @@ QString QtProjectWizzardContentPathsSource::getFileNamesTitle() const
 
 QString QtProjectWizzardContentPathsSource::getFileNamesDescription() const
 {
-	return "files will be indexed.";
+	return " files will be indexed.";
 }
 
 QtProjectWizzardContentPathsSourceJava::QtProjectWizzardContentPathsSourceJava(

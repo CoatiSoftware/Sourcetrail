@@ -43,31 +43,24 @@ void QtProjectWizzardWindow::populateWindow(QWidget* widget)
 	int row = 0;
 	m_content->populateWindow(layout, row);
 
-	if (layout->columnCount() < 2)
+	QFrame* separator = new QFrame();
+	separator->setFrameShape(QFrame::VLine);
+
+	QPalette palette = separator->palette();
+	palette.setColor(QPalette::WindowText, Qt::lightGray);
+	separator->setPalette(palette);
+
+	layout->addWidget(separator, 0, LINE_COL, -1, 1);
+
+	layout->setColumnStretch(HELP_COL, 0);
+	layout->setColumnStretch(LINE_COL, 0);
+
+	if (isScrollAble())
 	{
-		m_content->populateWindow(widget);
+		layout->setColumnMinimumWidth(BACK_COL + 1, 10);
 	}
-	else
-	{
-		QFrame* separator = new QFrame();
-		separator->setFrameShape(QFrame::VLine);
 
-		QPalette palette = separator->palette();
-		palette.setColor(QPalette::WindowText, Qt::lightGray);
-		separator->setPalette(palette);
-
-		layout->addWidget(separator, 0, LINE_COL, -1, 1);
-
-		layout->setColumnStretch(HELP_COL, 0);
-		layout->setColumnStretch(LINE_COL, 0);
-
-		if (isScrollAble())
-		{
-			layout->setColumnMinimumWidth(BACK_COL + 1, 10);
-		}
-
-		widget->setLayout(layout);
-	}
+	widget->setLayout(layout);
 }
 
 void QtProjectWizzardWindow::windowReady()

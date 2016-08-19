@@ -10,6 +10,7 @@
 #include "qt/window/project_wizzard/QtProjectWizzardWindow.h"
 #include "settings/ProjectSettings.h"
 
+class QtTextEditDialog;
 
 class QtHelpButton
 	: public QPushButton
@@ -35,7 +36,6 @@ class QtProjectWizzardContent
 public:
 	QtProjectWizzardContent(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
-	virtual void populateWindow(QWidget* widget);
 	virtual void populateWindow(QGridLayout* layout, int& row);
 	virtual void populateForm(QGridLayout* layout, int& row);
 	virtual void windowReady();
@@ -48,12 +48,9 @@ public:
 
 	virtual QSize preferredWindowSize() const;
 
-	virtual QStringList getFileNames() const;
+	virtual std::vector<std::string> getFileNames() const;
 	virtual QString getFileNamesTitle() const;
 	virtual QString getFileNamesDescription() const;
-
-signals:
-	void filesButtonClicked(QtProjectWizzardContent* content);
 
 protected:
 	QLabel* createFormLabel(QString name) const;
@@ -67,7 +64,11 @@ protected:
 	QtProjectWizzardWindow* m_window;
 
 private slots:
-	void buttonClicked();
+	void filesButtonClicked();
+	void closedFilesDialog();
+
+private:
+	std::shared_ptr<QtTextEditDialog> m_filesDialog;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_H

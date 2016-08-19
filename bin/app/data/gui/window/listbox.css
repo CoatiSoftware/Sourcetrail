@@ -34,7 +34,7 @@ QtListItemWidget #field {
 	border-top: 1px solid lightgray;
 }
 
-#plusButton, #minusButton, #dotsButton {
+#plusButton, #minusButton, #dotsButton, #editButton {
 	color: white;
 	height: 1em;
 	margin-right: 3px;
@@ -68,6 +68,15 @@ QtListItemWidget #field {
 
 #dotsButton:hover {
 	border-image: url(<setting:gui_path>window/dots_hover.png);
+}
+
+#editButton {
+	border-image: url(<setting:gui_path>code_view/images/edit.png);
+	margin-left: 6px;
+}
+
+#editButton:hover {
+	background-color: #EEE;
 }
 
 #dropInfo {
