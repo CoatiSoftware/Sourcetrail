@@ -285,31 +285,13 @@ void PersistentStorage::clearCaches()
 std::set<FilePath> PersistentStorage::getDependingFilePaths(const std::set<FilePath>& filePaths)
 {
 	TRACE();
-
-	std::set<FilePath> dependingFilePaths;
-	for (const FilePath& filePath: filePaths)
-	{
-		std::set<FilePath> dependingFilePathsSubset = getDependingFilePaths(filePath);
-		dependingFilePaths.insert(dependingFilePathsSubset.begin(), dependingFilePathsSubset.end());
-	}
-	return dependingFilePaths;
-}
-
-std::set<FilePath> PersistentStorage::getDependingFilePaths(const FilePath& filePath)
-{
 	std::set<FilePath> dependingFilePaths;
 
-	std::vector<StorageEdge> incomingEdges = m_sqliteStorage.getEdgesByTargetType(
-		getFileNodeId(filePath), Edge::typeToInt(Edge::EDGE_INCLUDE)
-	);
-	for (const StorageEdge& incomingEdge: incomingEdges)
-	{
-		FilePath dependingFilePath = getFileNodePath(incomingEdge.sourceNodeId);
-		dependingFilePaths.insert(dependingFilePath);
+	std::set<FilePath> dependingFilePathsForIncludes = getDependingFilePathsForIncludes(filePaths);
+	dependingFilePaths.insert(dependingFilePathsForIncludes.begin(), dependingFilePathsForIncludes.end());
 
-		std::set<FilePath> dependingFilePathsSubset = getDependingFilePaths(dependingFilePath);
-		dependingFilePaths.insert(dependingFilePathsSubset.begin(), dependingFilePathsSubset.end());
-	}
+	std::set<FilePath> dependingFilePathsForImports = getDependingFilePathsForImports(filePaths);
+	dependingFilePaths.insert(dependingFilePathsForImports.begin(), dependingFilePathsForImports.end());
 
 	return dependingFilePaths;
 }
@@ -1161,6 +1143,90 @@ FilePath PersistentStorage::getFileNodePath(Id fileId) const
 	}
 
 	return FilePath();
+}
+
+std::set<FilePath> PersistentStorage::getDependingFilePathsForIncludes(const std::set<FilePath>& filePaths)
+{
+	std::set<FilePath> dependingFilePaths;
+	for (const FilePath& filePath: filePaths)
+	{
+		std::set<FilePath> dependingFilePathsSubset = getDependingFilePathsForIncludes(filePath);
+		dependingFilePaths.insert(dependingFilePathsSubset.begin(), dependingFilePathsSubset.end());
+	}
+	return dependingFilePaths;
+}
+
+std::set<FilePath> PersistentStorage::getDependingFilePathsForIncludes(const FilePath& filePath)
+{
+	std::set<FilePath> dependingFilePaths;
+
+	std::vector<StorageEdge> incomingEdges = m_sqliteStorage.getEdgesByTargetType(
+		getFileNodeId(filePath), Edge::typeToInt(Edge::EDGE_INCLUDE)
+	);
+	for (const StorageEdge& incomingEdge: incomingEdges)
+	{
+		FilePath dependingFilePath = getFileNodePath(incomingEdge.sourceNodeId);
+		dependingFilePaths.insert(dependingFilePath);
+
+		std::set<FilePath> dependingFilePathsSubset = getDependingFilePathsForIncludes(dependingFilePath);
+		dependingFilePaths.insert(dependingFilePathsSubset.begin(), dependingFilePathsSubset.end());
+	}
+
+	return dependingFilePaths;
+}
+
+std::set<FilePath> PersistentStorage::getDependingFilePathsForImports(const std::set<FilePath>& filePaths)
+{
+	std::map<Id, std::set<Id>> fileIdToDependingFileIds;
+
+	for (const StorageEdge& importEdge: m_sqliteStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_IMPORT)))
+	{
+		for (const StorageSourceLocation& importedElementLoc: m_sqliteStorage.getTokenLocationsForElementId(importEdge.targetNodeId))
+		{
+			fileIdToDependingFileIds[importedElementLoc.fileNodeId].insert(importEdge.sourceNodeId);
+		}
+	}
+
+	std::set<Id> dependingFileNodeIds;
+
+	std::set<Id> working;
+	for (const FilePath& filePath: filePaths)
+	{
+		working.insert(getFileNodeId(filePath));
+	}
+
+	std::set<Id> tempWorking;
+	while (working.size() > 0)
+	{
+		for (Id id: working)
+		{
+			std::map<Id, std::set<Id>>::const_iterator it = fileIdToDependingFileIds.find(id);
+			if (it != fileIdToDependingFileIds.end())
+			{
+				for (Id dependingFileNodeId: it->second)
+				{
+					const size_t countBeforeInsert = dependingFileNodeIds.size();
+					dependingFileNodeIds.insert(dependingFileNodeId);
+					const size_t countAfterInsert = dependingFileNodeIds.size();
+					if (countBeforeInsert != countAfterInsert)
+					{
+						tempWorking.insert(dependingFileNodeId);
+					}
+				}
+			}
+		}
+		working = tempWorking;
+		tempWorking.clear();
+	}
+
+	std::set<FilePath> dependingFilePaths;
+
+	for (Id id: dependingFileNodeIds)
+	{
+		dependingFilePaths.insert(getFileNodePath(id));
+	}
+
+	return dependingFilePaths;
 }
 
 Id PersistentStorage::getLastVisibleParentNodeId(const Id nodeId) const

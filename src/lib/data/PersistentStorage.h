@@ -60,7 +60,6 @@ public:
 	void clearCaches();
 
 	std::set<FilePath> getDependingFilePaths(const std::set<FilePath>& filePaths);
-	std::set<FilePath> getDependingFilePaths(const FilePath& filePath);
 
 	void clearFileElements(const std::vector<FilePath>& filePaths);
 
@@ -122,6 +121,10 @@ public:
 private:
 	Id getFileNodeId(const FilePath& filePath) const;
 	FilePath getFileNodePath(Id fileId) const;
+
+	std::set<FilePath> getDependingFilePathsForIncludes(const std::set<FilePath>& filePaths);
+	std::set<FilePath> getDependingFilePathsForIncludes(const FilePath& filePath);
+	std::set<FilePath> getDependingFilePathsForImports(const std::set<FilePath>& filePaths);
 
 	Id getLastVisibleParentNodeId(const Id nodeId) const;
 	std::vector<Id> getAllChildNodeIds(const Id nodeId) const;

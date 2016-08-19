@@ -49,8 +49,8 @@ public class JavaIndexer
 			}
 			CompilationUnit cu = JavaParser.parse(new StringReader(fileContent), true);
 
-		//	JavaAstVisitor astVisitor = new JavaAstVisitor(address, filePath, new FileContent(fileContent), typeSolver);
-			JavaAstVisitor astVisitor = new ASTDumper(address, filePath, new FileContent(fileContent), typeSolver);
+			JavaAstVisitor astVisitor = new JavaAstVisitor(address, filePath, new FileContent(fileContent), typeSolver);
+		//	JavaAstVisitor astVisitor = new ASTDumper(address, filePath, new FileContent(fileContent), typeSolver);
 			cu.accept(astVisitor, null);
 		} 
 		catch (ParseException e) 
