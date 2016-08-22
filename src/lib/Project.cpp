@@ -88,6 +88,11 @@ FilePath Project::getProjectSettingsFilePath() const
 	return getProjectSettings()->getFilePath();
 }
 
+LanguageType Project::getLanguage() const
+{
+	return getProjectSettings()->getLanguage();
+}
+
 std::string Project::getDescription() const
 {
 	return getProjectSettings()->getDescription();

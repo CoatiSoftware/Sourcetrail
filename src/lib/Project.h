@@ -25,6 +25,7 @@ public:
 	void forceRefresh();
 
 	FilePath getProjectSettingsFilePath() const;
+	LanguageType getLanguage() const;
 	std::string getDescription() const;
 	bool settingsEqualExceptNameAndLocation(const ProjectSettings& otherSettings) const;
 	void logStats() const;

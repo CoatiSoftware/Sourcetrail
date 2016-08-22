@@ -13,6 +13,7 @@
 #include "data/access/StorageAccess.h"
 #include "data/parser/AccessKind.h"
 #include "data/graph/Graph.h"
+#include "Application.h"
 
 GraphController::GraphController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -260,7 +261,17 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	for (std::shared_ptr<DummyNode> node : dummyNodes)
 	{
 		node->hasParent = false;
-		node->name = node->data->getFullName();
+
+		// we remove the name qualifier for java projects.
+		// TODO: get rid of this distinction once we implemented better namespace/package display in graph.
+		if (Application::getInstance()->getCurrentProject()->getLanguage() == LANGUAGE_JAVA && !node->data->isType(Node::NODE_PACKAGE))
+		{
+			node->name = node->data->getName();
+		}
+		else
+		{
+			node->name = node->data->getFullName();
+		}
 	}
 
 	m_dummyNodes = dummyNodes;
