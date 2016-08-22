@@ -55,12 +55,15 @@ std::shared_ptr<Task> JavaProject::createIndexerTask(
 
 	for (FilePath classpath: m_projectSettings->getAbsoluteClasspaths())
 	{
-		arguments.javaClassPaths.push_back(classpath.str());
+		if (classpath.exists())
+		{
+			arguments.javaClassPaths.push_back(classpath.str());
+		}
 	}
 
 	for (FilePath sourcePath: m_projectSettings->getAbsoluteSourcePaths())
 	{
-		if (sourcePath.extension().empty())
+		if (sourcePath.extension().empty() && sourcePath.exists())
 		{
 			arguments.javaClassPaths.push_back(sourcePath.str());
 		}
