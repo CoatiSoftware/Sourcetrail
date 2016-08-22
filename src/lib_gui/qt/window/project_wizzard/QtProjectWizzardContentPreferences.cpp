@@ -133,6 +133,32 @@ void QtProjectWizzardContentPreferences::populateForm(QGridLayout* layout, int& 
 	);
 
 	row++;
+
+	layout->setRowMinimumHeight(row++, 20);
+
+	// Java
+	layout->addWidget(createFormTitle("JAVA"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
+	row++;
+
+	// java path
+	m_javaPath = new QtLocationPicker(this);
+	m_javaPath->setPickDirectory(true);
+	m_javaPath->setPlaceholderText("<jdk_root>");
+
+	layout->addWidget(createFormLabel("Java Path"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(m_javaPath, row, QtProjectWizzardWindow::BACK_COL);
+
+	addHelpButton(
+		"Location of your java installation so that dynamic libraries of JVM can be found."
+		, layout, row
+	);
+	row++;
+
+	layout->setRowMinimumHeight(row++, 20);
+
+	// C/C++
+	layout->addWidget(createFormTitle("C/C++"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
+	row++;
 }
 
 void QtProjectWizzardContentPreferences::load()
@@ -159,6 +185,11 @@ void QtProjectWizzardContentPreferences::load()
 
 	m_threads->setCurrentIndex(appSettings->getIndexerThreadCount() - 1);
 	m_fatalErrors->setChecked(appSettings->getShowExternalNonFatalErrors());
+
+	if (m_javaPath)
+	{
+		m_javaPath->setText(QString::fromStdString(appSettings->getJavaPath()));
+	}
 }
 
 void QtProjectWizzardContentPreferences::save()
@@ -181,6 +212,11 @@ void QtProjectWizzardContentPreferences::save()
 
 	appSettings->setIndexerThreadCount(m_threads->currentIndex() + 1);
 	appSettings->setShowExternalNonFatalErrors(m_fatalErrors->isChecked());
+
+	if (m_javaPath)
+	{
+		appSettings->setJavaPath(m_javaPath->getText().toStdString());
+	}
 }
 
 bool QtProjectWizzardContentPreferences::check()

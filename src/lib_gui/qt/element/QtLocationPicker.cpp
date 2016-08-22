@@ -41,6 +41,11 @@ void QtLocationPicker::paintEvent(QPaintEvent*)
 	style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
+void QtLocationPicker::setPlaceholderText(QString text)
+{
+	m_data->setPlaceholderText(text);
+}
+
 QString QtLocationPicker::getText()
 {
 	return m_data->text();

@@ -212,7 +212,11 @@ target_include_directories(${LIB_PROJECT_NAME} SYSTEM
 	"${CMAKE_SOURCE_DIR}/src/external"
 )
 
-target_link_libraries(${LIB_PROJECT_NAME} ${Boost_LIBRARIES} ${LIB_LICENSE_PROJECT_NAME} ${JNI_LIBRARIES})
+if (WIN32)
+	target_link_libraries(${LIB_PROJECT_NAME} ${Boost_LIBRARIES} ${LIB_LICENSE_PROJECT_NAME} ${JNI_LIBRARIES})
+else()
+	target_link_libraries(${LIB_PROJECT_NAME} ${Boost_LIBRARIES} ${LIB_LICENSE_PROJECT_NAME})
+endif()
 
 # Lib Parser -------------------------------------------------------------------
 
@@ -394,10 +398,23 @@ create_source_groups(${APP_FILES})
 target_link_libraries(${APP_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME})
 
 if (WIN32)
-SET_TARGET_PROPERTIES(
-	${APP_PROJECT_NAME} PROPERTIES 
-	LINK_FLAGS "/DELAYLOAD:jvm.dll")
+	SET_TARGET_PROPERTIES(
+		${APP_PROJECT_NAME} PROPERTIES
+		LINK_FLAGS "/DELAYLOAD:jvm.dll"
+	)
+elseif (APPLE)
+	set(LAZY_LIB_FLAGS "")
+
+	foreach (_lib ${JNI_LIBRARIES})
+		set (LAZY_LIB_FLAGS "${LAZY_LIB_FLAGS} -lazy_library ${_lib}")
+	endforeach()
+
+	SET_TARGET_PROPERTIES(
+		${APP_PROJECT_NAME} PROPERTIES
+		LINK_FLAGS ${LAZY_LIB_FLAGS}
+	)
 endif()
+
 
 set_property(
 	TARGET ${APP_PROJECT_NAME}
@@ -601,7 +618,7 @@ target_link_libraries(${TEST_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJ
 
 if (WIN32)
 SET_TARGET_PROPERTIES(
-	${TEST_PROJECT_NAME} PROPERTIES 
+	${TEST_PROJECT_NAME} PROPERTIES
 	LINK_FLAGS "/DELAYLOAD:jvm.dll")
 endif()
 

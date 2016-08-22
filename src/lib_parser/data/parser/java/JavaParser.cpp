@@ -59,18 +59,22 @@ void JavaParser::parseFiles(const std::vector<FilePath>& filePaths, const Argume
 
 void JavaParser::parseFile(const FilePath& filePath, std::shared_ptr<TextAccess> textAccess, const Arguments& arguments)
 {
-	m_currentFilePath = filePath.str();
-	m_client->onFileParsed(FileSystem::getFileInfoForPath(filePath));
-	std::string classPath = "";
-	for (const FilePath& path: arguments.javaClassPaths)
+	if (m_javaEnvironment)
 	{
-		classPath += path.str() + ";";
+		m_currentFilePath = filePath.str();
+		m_client->onFileParsed(FileSystem::getFileInfoForPath(filePath));
+		std::string classPath = "";
+		for (const FilePath& path: arguments.javaClassPaths)
+		{
+			// the separator used here should be the same as the one used in JavaIndexer.java
+			classPath += path.str() + ";";
+		}
+
+		// remove tabs because they screw with javaparser's location resolver
+		std::string fileContent = utility::replace(textAccess->getText(), "\t", " ");
+
+		m_javaEnvironment->callStaticVoidMethod("io/coati/JavaIndexer", "processFile", m_id, filePath.str(), fileContent, classPath);
 	}
-
-	// remove tabs because they screw with javaparser's location resolver
-	std::string fileContent = utility::replace(textAccess->getText(), "\t", " ");
-
-	m_javaEnvironment->callStaticVoidMethod("io/coati/JavaIndexer", "processFile", m_id, filePath.str(), fileContent, classPath);
 }
 
 

@@ -2,6 +2,7 @@
 
 #include "data/parser/java/JavaEnvironmentFactory.h"
 #include "data/parser/java/TaskParseJava.h"
+#include "isTrial.h"
 
 JavaProject::~JavaProject()
 {
@@ -26,7 +27,7 @@ JavaProject::JavaProject(std::shared_ptr<JavaProjectSettings> projectSettings, S
 #else
 	const std::string separator = ":";
 #endif
-	if (!JavaEnvironmentFactory::getInstance())
+	if (!JavaEnvironmentFactory::getInstance() && !isTrial())
 	{
 		JavaEnvironmentFactory::createInstance(
 			"data/java/asm-5.0.3.jar" + separator +

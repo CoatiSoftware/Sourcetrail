@@ -15,6 +15,7 @@ public:
 
 	virtual void paintEvent(QPaintEvent*) override;
 
+	void setPlaceholderText(QString text);
 	QString getText();
 	void setText(QString text);
 	void clearText();

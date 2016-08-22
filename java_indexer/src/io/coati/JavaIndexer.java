@@ -20,7 +20,7 @@ public class JavaIndexer
 {
 	public static void processFile(int address, String filePath, String fileContent, String classPath)
 	{
-		System.out.println("indexing file: " + filePath);
+//		System.out.println("indexing file: " + filePath);
 		
 		try 
 		{
@@ -33,8 +33,8 @@ public class JavaIndexer
 				{
 					try
 					{
-						JarTypeSolver jarTypeSolver = new JarTypeSolver(path);
-						typeSolver.add(jarTypeSolver);
+						JarTypeSolver solver = new JarTypeSolver(path);
+						typeSolver.add(solver);
 					}
 					catch (IOException e)
 					{
