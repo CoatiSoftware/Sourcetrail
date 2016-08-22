@@ -36,6 +36,7 @@ void QtAboutLicense::populateWindow(QWidget* widget)
 			licenseName->setText( QString::fromLatin1(license.name));
 			QFont _font = licenseName->font();
 			_font.setPixelSize(36);
+			_font.setBold(true);
 			licenseName->setFont(_font);
 			layout->addWidget(licenseName);
 
@@ -50,6 +51,8 @@ void QtAboutLicense::populateWindow(QWidget* widget)
 			licenseText->setWordWrap(true);
 			licenseText->setText(QString::fromLatin1(license.license));
 			layout->addWidget(licenseText);
+
+			layout->addSpacing(50);
 		}
 	}
 

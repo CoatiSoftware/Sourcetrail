@@ -22,27 +22,22 @@ JavaProject::JavaProject(std::shared_ptr<JavaProjectSettings> projectSettings, S
 	: Project(storageAccessProxy)
 	, m_projectSettings(projectSettings)
 {
-#ifdef _WIN32
-	const std::string separator = ";";
-#else
-	const std::string separator = ":";
-#endif
 	if (!JavaEnvironmentFactory::getInstance() && !isTrial())
 	{
+#ifdef _WIN32
+		const std::string separator = ";";
+#else
+		const std::string separator = ":";
+#endif
 		JavaEnvironmentFactory::createInstance(
-			"data/java/asm-5.0.3.jar" + separator +
-			"data/java/cglib-3.1.jar" + separator +
-			"data/java/easymock-3.3.1.jar" + separator +
 			"data/java/guava-18.0.jar" + separator +
-			"data/java/hamcrest-core-1.3.jar" + separator +
 			"data/java/java-indexer.jar" + separator +
 			"data/java/javaparser-core.jar" + separator +
 			"data/java/javaslang-2.0.0-beta.jar" + separator +
 			"data/java/javassist-3.19.0-GA.jar" + separator +
 			"data/java/java-symbol-solver-core.jar" + separator +
 			"data/java/java-symbol-solver-logic.jar" + separator +
-			"data/java/java-symbol-solver-model.jar" + separator +
-			"data/java/objenesis-2.1.jar" + separator
+			"data/java/java-symbol-solver-model.jar" + separator
 		);
 	}
 }

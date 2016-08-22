@@ -1189,20 +1189,22 @@ private:
 
 		if (!JavaEnvironmentFactory::getInstance())
 		{
+
+#ifdef _WIN32
+			const std::string separator = ";";
+#else
+			const std::string separator = ":";
+#endif
 			JavaEnvironmentFactory::createInstance(
-				"../app/data/java/asm-5.0.3.jar;"
-				"../app/data/java/cglib-3.1.jar;"
-				"../app/data/java/easymock-3.3.1.jar;"
-				"../app/data/java/guava-18.0.jar;"
-				"../app/data/java/hamcrest-core-1.3.jar;"
-				"../app/data/java/java-indexer.jar;"
-				"../app/data/java/javaparser-core.jar;"
-				"../app/data/java/javaslang-2.0.0-beta.jar;"
-				"../app/data/java/javassist-3.19.0-GA.jar;"
-				"../app/data/java/java-symbol-solver-core.jar;"
-				"../app/data/java/java-symbol-solver-logic.jar;"
-				"../app/data/java/java-symbol-solver-model.jar;"
-				"../app/data/java/objenesis-2.1.jar;");
+				"../app/data/java/guava-18.0.jar" + separator +
+				"../app/data/java/java-indexer.jar" + separator +
+				"../app/data/java/javaparser-core.jar" + separator +
+				"../app/data/java/javaslang-2.0.0-beta.jar" + separator +
+				"../app/data/java/javassist-3.19.0-GA.jar" + separator +
+				"../app/data/java/java-symbol-solver-core.jar" + separator +
+				"../app/data/java/java-symbol-solver-logic.jar" + separator +
+				"../app/data/java/java-symbol-solver-model.jar" + separator
+			);
 		}
 
 		JavaParser parser(client.get());

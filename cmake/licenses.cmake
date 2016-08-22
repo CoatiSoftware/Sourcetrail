@@ -27,6 +27,11 @@ AddLicense("TinyXMl" "http://www.grinninglizard.com/tinyxml2/" "${LICENSEFOLDER}
 AddLicense("CppSQLite" "http://www.codeproject.com/Articles/6343/CppSQLite-C-Wrapper-for-SQLite" "${LICENSEFOLDER}/CppSQLite_LICENSE.TXT" false)
 AddLicense("Eigen" "http://eigen.tuxfamily.org" "${LICENSEFOLDER}/eigen_LICENSE.TXT" false)
 AddLicense("Botan" "http://botan.randombit.net/" "${LICENSEFOLDER}/botan_LICENSE.TXT" true)
+AddLicense("Guava" "https://github.com/google/guava" "${LICENSEFOLDER}/guava_LICENSE.TXT" true)
+AddLicense("Javaparser" "http://javaparser.org/" "${LICENSEFOLDER}/javaparser_LICENSE.TXT" true)
+AddLicense("Javaslang" "http://www.javaslang.io/" "${LICENSEFOLDER}/javaslang_LICENSE.TXT" true)
+AddLicense("Javassist" "http://www.javassist.org/" "${LICENSEFOLDER}/javassist_LICENSE.TXT" true)
+AddLicense("JavaSymbolSolver" "https://github.com/ftomassetti/java-symbol-solver" "${LICENSEFOLDER}/JavaSymbolSolver_LICENSE.TXT" true)
 
 set(LICENSE_ARRAY "${LICENSE_ARRAY}\n")
 
