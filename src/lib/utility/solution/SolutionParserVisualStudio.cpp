@@ -251,6 +251,8 @@ std::shared_ptr<ProjectSettings> SolutionParserVisualStudio::getProjectSettings(
 	settings->setSourcePaths(sourcePaths);
 	settings->setHeaderSearchPaths(headerPaths);
 
+	settings->setLanguage(LanguageType::LANGUAGE_CPP);
+
 	LOG_INFO_STREAM(<< "Done parsing VS solution");
 
 	return settings;
