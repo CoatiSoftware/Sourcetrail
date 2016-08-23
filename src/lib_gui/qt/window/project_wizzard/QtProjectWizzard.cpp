@@ -610,7 +610,13 @@ void QtProjectWizzard::createProject()
 			}
 		}
 
-		bool settingsChanged = !(application->getCurrentProject()->settingsEqualExceptNameAndLocation(*(m_settings.get())));
+		bool settingsChanged = false;
+
+		if (application->getCurrentProject() != NULL)
+		{
+			settingsChanged = !(application->getCurrentProject()->settingsEqualExceptNameAndLocation(*(m_settings.get())));
+		}
+		
 		bool appSettingsChanged = !(m_appSettings == *ApplicationSettings::getInstance().get());
 
 		if (settingsChanged || appSettingsChanged)
