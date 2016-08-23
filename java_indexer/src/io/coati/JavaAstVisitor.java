@@ -19,6 +19,7 @@ import com.github.javaparser.ast.comments.LineComment;
 import com.github.javaparser.ast.expr.ArrayInitializerExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.NameExpr;
+import com.github.javaparser.ast.expr.QualifiedNameExpr;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.SwitchStmt;
@@ -32,6 +33,7 @@ import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.TypeParameter;
 
 import me.tomassetti.symbolsolver.javaparsermodel.JavaParserFacade;
+import me.tomassetti.symbolsolver.javaparsermodel.JavaParserFactory;
 import me.tomassetti.symbolsolver.javaparsermodel.UnsolvedSymbolException;
 import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration;
 import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration;
@@ -388,6 +390,45 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 				{
 					importedDeclName = JavaDeclNameResolver.getQualifiedDeclName(symbolReference.getCorrespondingDeclaration(), m_typeSolver);
 				}
+
+				/*
+				else
+				{
+					// TODO: handle import of static field or method
+					
+					if (nameExpr instanceof QualifiedNameExpr) 
+					{
+						String qName = nameExpr.toString();
+						int typeNameEndIndex = qName.lastIndexOf('.');
+						if (typeNameEndIndex != -1)
+						{
+							String typeName = qName.substring(0, typeNameEndIndex);
+							String memberName = qName.substring(typeNameEndIndex + 1);
+							
+							me.tomassetti.symbolsolver.model.declarations.TypeDeclaration ref = m_typeSolver.solveType(typeName);
+							for (me.tomassetti.symbolsolver.model.declarations.MethodDeclaration methodDecl: ref.getDeclaredMethods()) // look for method
+							{
+								if (methodDecl.getName().equals(memberName))
+								{
+									System.out.println("methodDeclNamasdasdasdasd: " + methodDecl.getName());
+									importedDeclName = JavaDeclNameResolver.getQualifiedDeclName(methodDecl, m_typeSolver);
+									break;
+								}
+							}
+							if (importedDeclName == null && ref.hasField(memberName)) // look for field
+							{
+								JavaDeclName importedTypeDeclName = JavaDeclNameResolver.getQualifiedDeclName(ref, m_typeSolver);
+								if (importedTypeDeclName != null)
+								{
+									importedDeclName = new JavaDeclName(memberName);
+									importedDeclName.setParent(importedTypeDeclName);
+								}
+							}
+						}
+					}
+				}
+				
+				*/
 	
 				if (importedDeclName != null)
 				{
@@ -403,10 +444,13 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 				}
 				else
 				{
+					// uncomment this when there are no errors where there shouldn't be
+					/*
 					JavaIndexer.recordError(
 						m_callbackId, "Import not found.", true, true, 
 						nameExpr.getBeginLine(), nameExpr.getBeginColumn(), nameExpr.getEndLine(), nameExpr.getEndColumn()
 					);
+					*/
 				}
 			}
 			catch (Exception e)

@@ -24,6 +24,7 @@ import com.github.javaparser.ast.expr.QualifiedNameExpr;
 
 import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration;
 import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserInterfaceDeclaration;
+import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration;
 import me.tomassetti.symbolsolver.model.resolution.TypeSolver;
 
 public class JavaDeclNameResolver extends JavaNameResolver
@@ -166,6 +167,72 @@ public class JavaDeclNameResolver extends JavaNameResolver
 		}
 		return declName;
 	}
+	
+	// TODO: move this to JavaSymbolSolverDeclNameResolver
+	/*
+	public static JavaDeclName getQualifiedDeclName(me.tomassetti.symbolsolver.model.declarations.MethodDeclaration methodDecl, TypeSolver typeSolver)
+	{
+		return getQualifiedDeclName(methodDecl, typeSolver, null);
+	}
+	
+	public static JavaDeclName getQualifiedDeclName(me.tomassetti.symbolsolver.model.declarations.MethodDeclaration methodDecl, TypeSolver typeSolver, ArrayList<BodyDeclaration> ignoredContexts)
+	{
+		JavaDeclNameResolver resolver = new JavaDeclNameResolver(typeSolver, ignoredContexts);
+		return resolver.getQualifiedDeclName(methodDecl);
+	}
+	
+	public JavaDeclName getQualifiedDeclName(me.tomassetti.symbolsolver.model.declarations.MethodDeclaration methodDecl)
+	{
+		JavaDeclName declName = null;
+		if (methodDecl != null)
+		{
+			MethodDeclaration decl = null;
+			if (methodDecl instanceof JavaParserMethodDeclaration)
+			{
+				decl = ((JavaParserMethodDeclaration)methodDecl).getWrappedNode();
+			}
+			else
+			{
+				methodDecl.declaringType();
+				
+				
+				String name = methodDecl.getName();
+				
+				List<me.tomassetti.symbolsolver.model.resolution.TypeParameter> typeParameters = methodDecl.getTypeParameters();
+				List<String> typeParameterNames = new ArrayList<>();
+				if (typeParameters != null && typeParameters.size() > 0)
+				{
+					for (int i = 0; i < typeParameters.size(); i++)
+					{
+						typeParameterNames.add(typeParameters.get(i).getName());
+					}
+				}
+				
+				JavaTypeName returnTypeName = methodDecl.getReturnType().;
+				
+				List<JavaTypeName> parameterNames = new ArrayList<>();
+				for (Parameter parameter: decl.getParameters())
+				{
+					parameterNames.add(JavaTypeNameResolver.getQualifiedTypeName(parameter.getType(), m_typeSolver, m_ignoredContexts));
+				}
+				
+				return new JavaDeclName(name, typeParameterNames, returnTypeName, parameterNames);
+				
+				
+				
+				
+			}
+			// todo: implement for JavaParserEnumDeclaration.ValuesMethod
+			
+			if (decl != null)
+			{
+				declName = JavaDeclNameResolver.getQualifiedDeclName(decl, m_typeSolver, m_ignoredContexts);
+			}
+		}
+		return declName;
+	}
+	
+	*/
 	
 	public JavaDeclName getDeclName(VariableDeclarator decl)
 	{
