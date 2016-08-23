@@ -32,15 +32,6 @@ void StatusBarController::handleMessage(MessageFinishedParsing* message)
 {
 	ErrorCountInfo errorCount = m_storageAccess->getErrorCount();
 	getView()->setErrorCount(errorCount);
-
-	std::string status = message->getStatusStr();
-	status += "; " + std::to_string(errorCount.total) + " error" + (errorCount.total != 1 ? "s" : "");
-	if (errorCount.fatal > 0)
-	{
-		status += " (" + std::to_string(errorCount.fatal) + " fatal)";
-	}
-
-	MessageStatus(status, false).dispatch();
 }
 
 void StatusBarController::handleMessage(MessageRefresh* message)

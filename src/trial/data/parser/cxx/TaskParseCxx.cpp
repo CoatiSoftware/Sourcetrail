@@ -4,7 +4,8 @@ TaskParseCxx::TaskParseCxx(
 	PersistentStorage* storage,
 	std::shared_ptr<std::mutex> storageMutex,
 	std::shared_ptr<FileRegister> fileRegister,
-	const Parser::Arguments& arguments
+	const Parser::Arguments& arguments,
+	DialogView* dialogView
 )
 {
 }
@@ -32,5 +33,9 @@ void TaskParseCxx::interrupt()
 }
 
 void TaskParseCxx::revert()
+{
+}
+
+void TaskParseCxx::abort()
 {
 }

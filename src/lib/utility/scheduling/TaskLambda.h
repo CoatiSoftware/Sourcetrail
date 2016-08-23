@@ -18,6 +18,7 @@ public:
 
 	virtual void interrupt();
 	virtual void revert();
+	virtual void abort();
 
 private:
 	std::function<void()> m_func;

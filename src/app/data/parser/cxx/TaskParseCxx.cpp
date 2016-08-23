@@ -4,11 +4,10 @@
 
 #include "clang/Tooling/JSONCompilationDatabase.h"
 
+#include "component/view/DialogView.h"
 #include "data/parser/cxx/CxxParser.h"
 #include "data/PersistentStorage.h"
 #include "utility/file/FileRegister.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
-#include "utility/messaging/type/MessageStatus.h"
 #include "utility/utility.h"
 
 std::vector<FilePath> TaskParseCxx::getSourceFilesFromCDB(const FilePath& compilationDatabasePath)
@@ -30,11 +29,13 @@ TaskParseCxx::TaskParseCxx(
 	PersistentStorage* storage,
 	std::shared_ptr<std::mutex> storageMutex,
 	std::shared_ptr<FileRegister> fileRegister,
-	const Parser::Arguments& arguments
+	const Parser::Arguments& arguments,
+	DialogView* dialogView
 )
 	: m_storage(storage)
 	, m_storageMutex(storageMutex)
 	, m_arguments(arguments)
+	, m_dialogView(dialogView)
 	, m_isCDB(false)
 {
 	if (arguments.compilationDatabasePath.exists())
@@ -72,12 +73,8 @@ Task::TaskState TaskParseCxx::update()
 		return Task::STATE_FINISHED;
 	}
 
-	std::stringstream ss;
-	ss << "indexing files (ESC to quit): [";
-	ss << fileRegister->getParsedSourceFilesCount() << "/";
-	ss << fileRegister->getSourceFilesCount() << "] ";
-	ss << sourcePath.str();
-	MessageStatus(ss.str(), false, true).dispatch();
+	m_dialogView->updateIndexingDialog(
+		fileRegister->getParsedSourceFilesCount(), fileRegister->getSourceFilesCount(), sourcePath.str());
 
 	std::shared_ptr<IntermediateStorage> intermediateStorage = std::make_shared<IntermediateStorage>();
 
@@ -119,5 +116,9 @@ void TaskParseCxx::interrupt()
 }
 
 void TaskParseCxx::revert()
+{
+}
+
+void TaskParseCxx::abort()
 {
 }

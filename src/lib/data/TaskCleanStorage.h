@@ -5,8 +5,8 @@
 
 #include "utility/file/FilePath.h"
 #include "utility/scheduling/Task.h"
-#include "utility/TimePoint.h"
 
+class DialogView;
 class PersistentStorage;
 
 class TaskCleanStorage
@@ -15,7 +15,8 @@ class TaskCleanStorage
 public:
 	TaskCleanStorage(
 		PersistentStorage* storage,
-		const std::vector<FilePath>& filePaths
+		const std::vector<FilePath>& filePaths,
+		DialogView* dialogView
 	);
 
 	virtual void enter();
@@ -24,13 +25,12 @@ public:
 
 	virtual void interrupt();
 	virtual void revert();
+	virtual void abort();
 
 private:
 	PersistentStorage* m_storage;
 	std::vector<FilePath> m_filePaths;
-	const size_t m_fileCount;
-
-	TimePoint m_start;
+	DialogView* m_dialogView;
 };
 
 #endif // TASK_PARSE_CXX_H

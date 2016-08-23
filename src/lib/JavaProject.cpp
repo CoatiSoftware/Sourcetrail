@@ -18,8 +18,10 @@ const std::shared_ptr<ProjectSettings> JavaProject::getProjectSettings() const
 	return m_projectSettings;
 }
 
-JavaProject::JavaProject(std::shared_ptr<JavaProjectSettings> projectSettings, StorageAccessProxy* storageAccessProxy)
-	: Project(storageAccessProxy)
+JavaProject::JavaProject(
+	std::shared_ptr<JavaProjectSettings> projectSettings, StorageAccessProxy* storageAccessProxy, DialogView* dialogView
+)
+	: Project(storageAccessProxy, dialogView)
 	, m_projectSettings(projectSettings)
 {
 	if (!JavaEnvironmentFactory::getInstance() && !isTrial())
@@ -69,7 +71,8 @@ std::shared_ptr<Task> JavaProject::createIndexerTask(
 		storage,
 		storageMutex,
 		fileRegister,
-		arguments
+		arguments,
+		getDialogView()
 	);
 }
 

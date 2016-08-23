@@ -12,12 +12,13 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageSwitchColorScheme.h"
 
+class DialogView;
 class IDECommunicationController;
-class NetworkFactory;
-class ViewFactory;
 class MainView;
+class NetworkFactory;
 class StorageCache;
 class Version;
+class ViewFactory;
 
 class Application
 	: public MessageListener<MessageActivateWindow>
@@ -62,6 +63,8 @@ private:
 	void startMessagingAndScheduling();
 
 	void updateRecentProjects(const FilePath& projectSettingsFilePath);
+
+	DialogView* getDialogView() const;
 
 	const bool m_hasGUI;
 	std::shared_ptr<Project> m_project;

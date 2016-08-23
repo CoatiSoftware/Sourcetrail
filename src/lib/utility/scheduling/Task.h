@@ -33,6 +33,7 @@ public:
 
 	virtual void interrupt() = 0;
 	virtual void revert() = 0;
+	virtual void abort() = 0;
 
 protected:
 	void setState(TaskState state);

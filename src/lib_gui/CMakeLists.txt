@@ -24,13 +24,14 @@ add_files(
 	qt/element/QtLineEdit.h
 	qt/element/QtLocationPicker.cpp
 	qt/element/QtLocationPicker.h
+	qt/element/QtProgressBar.cpp
+	qt/element/QtProgressBar.h
 	qt/element/QtRefreshBar.cpp
 	qt/element/QtRefreshBar.h
 	qt/element/QtSearchBar.cpp
 	qt/element/QtSearchBar.h
 	qt/element/QtSmartSearchBox.cpp
 	qt/element/QtSmartSearchBox.h
-
 	qt/element/QtStatusBar.cpp
 	qt/element/QtStatusBar.h
 	qt/element/QtUndoRedo.cpp
@@ -90,6 +91,8 @@ add_files(
 	qt/view/QtCodeView.h
 	qt/view/QtCompositeView.cpp
 	qt/view/QtCompositeView.h
+	qt/view/QtDialogView.cpp
+	qt/view/QtDialogView.h
 	qt/view/QtGraphView.cpp
 	qt/view/QtGraphView.h
 	qt/view/QtGraphViewStyleImpl.cpp
@@ -140,6 +143,8 @@ add_files(
 	qt/window/QtAbout.h
 	qt/window/QtAboutLicense.cpp
 	qt/window/QtAboutLicense.h
+	qt/window/QtIndexingDialog.cpp
+	qt/window/QtIndexingDialog.h
     qt/window/QtLicense.cpp
     qt/window/QtLicense.h
 	qt/window/QtMainWindow.cpp

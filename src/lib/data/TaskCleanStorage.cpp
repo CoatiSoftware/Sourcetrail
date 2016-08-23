@@ -1,58 +1,44 @@
 #include "data/TaskCleanStorage.h"
 
+#include "component/view/DialogView.h"
 #include "data/PersistentStorage.h"
-#include "utility/messaging/type/MessageStatus.h"
-#include "utility/utility.h"
 
-TaskCleanStorage::TaskCleanStorage(PersistentStorage* storage, const std::vector<FilePath>& filePaths)
+TaskCleanStorage::TaskCleanStorage(
+	PersistentStorage* storage, const std::vector<FilePath>& filePaths, DialogView* dialogView
+)
 	: m_storage(storage)
 	, m_filePaths(filePaths)
-	, m_fileCount(filePaths.size())
+	, m_dialogView(dialogView)
 {
 }
 
 void TaskCleanStorage::enter()
 {
-	m_start = utility::durationStart();
+	m_dialogView->showProgressDialog("Clearing Files", std::to_string(m_filePaths.size()) + " Files");
 }
 
 Task::TaskState TaskCleanStorage::update()
 {
-	if (m_filePaths.size())
-	{
-		std::stringstream ss;
-		ss << "clearing " << m_filePaths.size() << " files (ESC to quit)";
-		MessageStatus(ss.str(), false, true).dispatch();
+	m_storage->clearFileElements(m_filePaths);
 
-		m_storage->clearFileElements(m_filePaths);
-
-		m_filePaths.clear();
-
-		return Task::STATE_RUNNING;
-	}
-
-	if (m_fileCount)
-	{
-		MessageStatus("Clearing caches (ESC to quit)", false, true).dispatch();
-		m_storage->clearCaches();
-	}
+	m_filePaths.clear();
 
 	return Task::STATE_FINISHED;
 }
 
 void TaskCleanStorage::exit()
 {
-	std::stringstream ss;
-	ss << "clearing files done, ";
-	ss << std::setprecision(2) << std::fixed << utility::duration(m_start) << " seconds";
-	MessageStatus(ss.str()).dispatch();
+	m_dialogView->hideProgressDialog();
 }
 
 void TaskCleanStorage::interrupt()
 {
-	MessageStatus("clearing files interrupted", false, true).dispatch();
 }
 
 void TaskCleanStorage::revert()
+{
+}
+
+void TaskCleanStorage::abort()
 {
 }

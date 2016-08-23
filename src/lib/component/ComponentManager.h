@@ -8,6 +8,7 @@
 #include "component/ComponentFactory.h"
 
 class CompositeView;
+class DialogView;
 class NetworkFactory;
 class StorageAccess;
 class View;
@@ -26,6 +27,8 @@ public:
 	void clearComponents();
 	void refreshViews();
 
+	DialogView* getDialogView() const;
+
 private:
 	ComponentManager();
 	ComponentManager(const ComponentManager&);
@@ -34,6 +37,8 @@ private:
 
 	std::vector<std::shared_ptr<CompositeView>> m_compositeViews;
 	std::vector<std::shared_ptr<Component>> m_components;
+
+	std::shared_ptr<DialogView> m_dialogView;
 };
 
 #endif // COMPONENT_MANAGER_H

@@ -16,6 +16,7 @@ public:
 
 	virtual void interrupt();
 	virtual void revert();
+	virtual void abort();
 
 private:
 	int m_taskIndex;

@@ -20,7 +20,6 @@ QtWindow::QtWindow(QWidget* parent)
 	, m_closeButton(nullptr)
 	, m_cancelAble(true)
 	, m_scrollAble(false)
-	, m_showAsPopup(false)
 	, m_hasLogo(false)
 	, m_mousePressedInWindow(false)
 {
@@ -84,6 +83,7 @@ QSize QtWindow::sizeHint() const
 void QtWindow::setup()
 {
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "window/window.css").c_str());
+
 	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setContentsMargins(25, 30, 25, 0);
 
@@ -140,13 +140,6 @@ void QtWindow::setup()
 
 	m_content->setLayout(layout);
 
-	if (m_showAsPopup)
-	{
-		updateNextButton("Ok");
-		setCloseVisible(false);
-		setPreviousVisible(false);
-	}
-
 	setupDone();
 }
 
@@ -162,19 +155,9 @@ void QtWindow::setScrollAble(bool scrollAble)
 	m_scrollAble = scrollAble;
 }
 
-void QtWindow::setShowAsPopup(bool showAsPopup)
-{
-	m_showAsPopup = showAsPopup;
-}
-
 bool QtWindow::isScrollAble() const
 {
 	return m_scrollAble;
-}
-
-bool QtWindow::isPopup() const
-{
-	return m_showAsPopup;
 }
 
 void QtWindow::updateTitle(QString title)
@@ -249,6 +232,30 @@ void QtWindow::setCloseVisible(bool visible)
 	}
 }
 
+void QtWindow::setNextDefault(bool isDefault)
+{
+	if (m_nextButton)
+	{
+		m_nextButton->setDefault(isDefault);
+	}
+}
+
+void QtWindow::setPreviousDefault(bool isDefault)
+{
+	if (m_previousButton)
+	{
+		m_previousButton->setDefault(isDefault);
+	}
+}
+
+void QtWindow::setCloseDefault(bool isDefault)
+{
+	if (m_closeButton)
+	{
+		m_closeButton->setDefault(isDefault);
+	}
+}
+
 void QtWindow::showWindow()
 {
 	show();
@@ -289,12 +296,48 @@ void QtWindow::resizeEvent(QResizeEvent *event)
 	m_window->move(5, displacement + 10);
 }
 
-void QtWindow::keyPressEvent(QKeyEvent *event)
+void QtWindow::keyPressEvent(QKeyEvent* event)
 {
 	if (m_cancelAble && event->key() == Qt::Key_Escape)
 	{
-		emit canceled();
+		handleClose();
 		return;
+	}
+
+	std::vector<QPushButton*> buttons;
+	if (m_nextButton && m_nextButton->isVisible()) buttons.push_back(m_nextButton);
+	if (m_closeButton && m_closeButton->isVisible()) buttons.push_back(m_closeButton);
+	if (m_previousButton && m_previousButton->isVisible()) buttons.push_back(m_previousButton);
+
+	if (event->key() == Qt::Key_Return)
+	{
+		for (QPushButton* button : buttons)
+		{
+			if (button->isDefault())
+			{
+				button->animateClick();
+				return;
+			}
+		}
+	}
+
+	if (event->key() == Qt::Key_Tab)
+	{
+		for (size_t i = 0; i < buttons.size(); i++)
+		{
+			if (buttons[i]->isDefault())
+			{
+				buttons[i]->setDefault(false);
+				buttons[(i + 1) % buttons.size()]->setDefault(true);
+				return;
+			}
+		}
+
+		if (buttons.size())
+		{
+			buttons[0]->setDefault(true);
+			return;
+		}
 	}
 
 	QWidget::keyPressEvent(event);

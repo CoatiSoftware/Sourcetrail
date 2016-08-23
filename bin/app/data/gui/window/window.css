@@ -1,5 +1,6 @@
 * {
 	font-size: 12pt;
+	font-family: "Roboto";
 }
 
 #title {
@@ -40,19 +41,19 @@
 }
 
 #formArea {
-	background: white;
+	background: transparent;
 	border: none;
 }
 
 #scrollArea {
-	background: white;
+	background: transparent;
 	border: none;
 	border-top: 1px solid lightgrey;
 	border-bottom: 1px solid lightgrey;
 }
 
 #form {
-	background: white;
+	background: transparent;
 }
 
 #helpButton, #dotsButton, #refreshButton {
@@ -128,7 +129,11 @@
 
 #windowButton:hover {
 	color: white;
-	background: #2D3F85;
+	background: #2D3C86;
+}
+
+#windowButton:default {
+	border: 2px solid lightgray;
 }
 
 #menuButton:hover, #menuButton:checked {

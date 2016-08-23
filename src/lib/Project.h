@@ -10,6 +10,7 @@
 #include "settings/ProjectSettings.h" // todo: use forward declaration here
 #include "utility/scheduling/Task.h"
 
+class DialogView;
 class PersistentStorage;
 class StorageAccessProxy;
 class FileRegister;
@@ -17,12 +18,12 @@ class FileRegister;
 class Project
 {
 public:
-	static std::shared_ptr<Project> create(const FilePath& projectSettingsFile, StorageAccessProxy* storageAccessProxy);
+	static std::shared_ptr<Project> create(
+		const FilePath& projectSettingsFile, StorageAccessProxy* storageAccessProxy, DialogView* dialogView);
 
 	virtual ~Project();
 
-	void refresh();
-	void forceRefresh();
+	bool refresh(bool forceRefresh);
 
 	FilePath getProjectSettingsFilePath() const;
 	LanguageType getLanguage() const;
@@ -31,7 +32,8 @@ public:
 	void logStats() const;
 
 protected:
-	Project(StorageAccessProxy* storageAccessProxy);
+	Project(StorageAccessProxy* storageAccessProxy, DialogView* dialogView);
+	DialogView* getDialogView() const;
 
 	virtual std::shared_ptr<ProjectSettings> getProjectSettings() = 0;
 	virtual const std::shared_ptr<ProjectSettings> getProjectSettings() const = 0;
@@ -50,7 +52,7 @@ private:
 
 	void load();
 	void clearStorage();
-	void buildIndex();
+	bool buildIndex(bool forceRefresh);
 
 	virtual bool allowsRefresh();
 	virtual std::shared_ptr<Task> createIndexerTask(
@@ -60,6 +62,7 @@ private:
 	virtual void updateFileManager(FileManager& fileManager) = 0;
 
 	StorageAccessProxy* const m_storageAccessProxy;
+	DialogView* m_dialogView;
 
 	ProjectStateType m_state;
 	FileManager m_fileManager;

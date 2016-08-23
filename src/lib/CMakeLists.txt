@@ -43,6 +43,8 @@ add_files(
 	component/view/CodeView.h
 	component/view/CompositeView.cpp
 	component/view/CompositeView.h
+	component/view/DialogView.cpp
+	component/view/DialogView.h
 	component/view/GraphView.cpp
 	component/view/GraphView.h
 	component/view/GraphViewStyle.cpp

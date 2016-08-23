@@ -30,3 +30,7 @@ void TaskLambda::interrupt()
 void TaskLambda::revert()
 {
 }
+
+void TaskLambda::abort()
+{
+}

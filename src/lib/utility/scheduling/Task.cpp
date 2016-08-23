@@ -62,6 +62,8 @@ Task::TaskState Task::interruptTask()
 	switch (m_state)
 	{
 	case STATE_NEW:
+		abort();
+		break;
 	case STATE_CANCELED:
 		break;
 	case STATE_RUNNING:

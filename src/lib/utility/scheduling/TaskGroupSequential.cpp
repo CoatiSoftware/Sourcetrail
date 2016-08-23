@@ -43,12 +43,9 @@ void TaskGroupSequential::exit()
 
 void TaskGroupSequential::interrupt()
 {
-	if (m_taskIndex >= 0 && size_t(m_taskIndex) < m_tasks.size())
+	for (size_t i = 0; i < m_tasks.size(); i++)
 	{
-		for (int i = m_taskIndex; i >= 0; i--)
-		{
-			m_tasks[i]->interruptTask();
-		}
+		m_tasks[i]->interruptTask();
 	}
 }
 
@@ -58,4 +55,9 @@ void TaskGroupSequential::revert()
 	{
 		m_tasks[i]->interruptTask();
 	}
+}
+
+void TaskGroupSequential::abort()
+{
+	interrupt();
 }

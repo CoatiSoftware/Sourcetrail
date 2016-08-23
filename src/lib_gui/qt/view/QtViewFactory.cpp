@@ -3,6 +3,7 @@
 #include "component/view/GraphViewStyle.h"
 #include "qt/view/QtCodeView.h"
 #include "qt/view/QtCompositeView.h"
+#include "qt/view/QtDialogView.h"
 #include "qt/view/QtGraphView.h"
 #include "qt/view/QtGraphViewStyleImpl.h"
 #include "qt/view/QtMainView.h"
@@ -62,4 +63,9 @@ std::shared_ptr<StatusBarView> QtViewFactory::createStatusBarView(ViewLayout* vi
 std::shared_ptr<UndoRedoView> QtViewFactory::createUndoRedoView(ViewLayout* viewLayout) const
 {
 	return View::createInitAndAddToLayout<QtUndoRedoView>(viewLayout);
+}
+
+std::shared_ptr<DialogView> QtViewFactory::createDialogView(ViewLayout* viewLayout) const
+{
+	return std::make_shared<QtDialogView>(dynamic_cast<QtMainView*>(viewLayout)->getMainWindow());
 }

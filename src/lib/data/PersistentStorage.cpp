@@ -366,6 +366,8 @@ void PersistentStorage::logStats() const
 
 void PersistentStorage::startParsing()
 {
+	clearCaches();
+
 	MessageClearErrorCount().dispatch();
 
 	m_sqliteStorage.setVersion();

@@ -21,6 +21,7 @@ namespace utility
 
 	std::string timeToString(const time_t time);
 	std::string timeToString(const boost::posix_time::ptime time);
+	std::string timeToString(float seconds);
 
 	template<typename T>
 	std::vector<T> concat(const std::vector<T>& a, const std::vector<T>& b);

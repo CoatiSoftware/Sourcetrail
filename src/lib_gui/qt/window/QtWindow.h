@@ -26,10 +26,8 @@ public:
 
 	void setCancelAble(bool cancelAble);
 	void setScrollAble(bool scrollAble);
-	void setShowAsPopup(bool showAsPopup);
 
 	bool isScrollAble() const;
-	bool isPopup() const;
 
 	void updateTitle(QString title);
 	void updateNextButton(QString text);
@@ -43,9 +41,14 @@ public:
 	void setPreviousVisible(bool visible);
 	void setCloseVisible(bool visible);
 
+	void setNextDefault(bool isDefault);
+	void setPreviousDefault(bool isDefault);
+	void setCloseDefault(bool isDefault);
+
 	// QtWindowStackElement implementation
 	virtual void showWindow() override;
 	virtual void hideWindow() override;
+
 
 signals:
 	void finished();
@@ -88,7 +91,6 @@ private slots:
 private:
 	bool m_cancelAble;
 	bool m_scrollAble;
-	bool m_showAsPopup;
 
 	bool m_hasLogo;
 

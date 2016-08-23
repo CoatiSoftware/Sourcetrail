@@ -1,12 +1,12 @@
 #include "Project.h"
 
+#include "component/view/DialogView.h"
 #include "data/access/StorageAccessProxy.h"
 #include "data/graph/Token.h"
 #include "data/parser/cxx/TaskParseWrapper.h"
 #include "data/parser/java/TaskParseJava.h"
 #include "data/PersistentStorage.h"
 #include "data/TaskCleanStorage.h"
-
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
 
@@ -14,6 +14,7 @@
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/TaskGroupSequential.h"
 #include "utility/scheduling/TaskGroupParallel.h"
 #include "utility/text/TextAccess.h"
@@ -26,7 +27,8 @@
 #include "JavaProject.h"
 #include "isTrial.h"
 
-std::shared_ptr<Project> Project::create(const FilePath& projectSettingsFile, StorageAccessProxy* storageAccessProxy)
+std::shared_ptr<Project> Project::create(
+	const FilePath& projectSettingsFile, StorageAccessProxy* storageAccessProxy, DialogView* dialogView)
 {
 	std::shared_ptr<Project> project;
 
@@ -36,14 +38,14 @@ std::shared_ptr<Project> Project::create(const FilePath& projectSettingsFile, St
 	case LANGUAGE_CPP:
 		{
 			project = std::shared_ptr<CxxProject>(new CxxProject(
-				std::make_shared<CxxProjectSettings>(projectSettingsFile), storageAccessProxy
+				std::make_shared<CxxProjectSettings>(projectSettingsFile), storageAccessProxy, dialogView
 			));
 		}
 		break;
 	case LANGUAGE_JAVA:
 		{
 			project = std::shared_ptr<JavaProject>(new JavaProject(
-				std::make_shared<JavaProjectSettings>(projectSettingsFile), storageAccessProxy
+				std::make_shared<JavaProjectSettings>(projectSettingsFile), storageAccessProxy, dialogView
 			));
 		}
 		break;
@@ -60,7 +62,7 @@ Project::~Project()
 {
 }
 
-void Project::refresh()
+bool Project::refresh(bool forceRefresh)
 {
 	if (allowsRefresh())
 	{
@@ -68,19 +70,14 @@ void Project::refresh()
 
 		updateFileManager(m_fileManager);
 
-		buildIndex();
-
-		m_state = PROJECT_STATE_LOADED;
+		if (buildIndex(forceRefresh))
+		{
+			m_state = PROJECT_STATE_LOADED;
+			return true;
+		}
 	}
-}
 
-void Project::forceRefresh()
-{
-	if (allowsRefresh())
-	{
-		clearStorage();
-	}
-	refresh();
+	return false;
 }
 
 FilePath Project::getProjectSettingsFilePath() const
@@ -108,10 +105,16 @@ void Project::logStats() const
 	m_storage->logStats();
 }
 
-Project::Project(StorageAccessProxy* storageAccessProxy)
+Project::Project(StorageAccessProxy* storageAccessProxy, DialogView* dialogView)
 	: m_storageAccessProxy(storageAccessProxy)
+	, m_dialogView(dialogView)
 	, m_state(PROJECT_STATE_NOT_LOADED)
 {
+}
+
+DialogView* Project::getDialogView() const
+{
+	return m_dialogView;
 }
 
 void Project::load()
@@ -151,7 +154,7 @@ void Project::load()
 		switch (m_state)
 		{
 		case PROJECT_STATE_EMPTY:
-			buildIndex();
+			buildIndex(false);
 			m_state = PROJECT_STATE_LOADED;
 			break;
 		case PROJECT_STATE_OUTDATED:
@@ -169,7 +172,8 @@ void Project::load()
 			// dont break here.
 		case PROJECT_STATE_LOADED:
 			m_storage->finishParsing();
-			MessageFinishedParsing(0, 0, 0, true).dispatch();
+			MessageFinishedParsing().dispatch();
+			MessageStatus("Finished Loading", false, false).dispatch();
 			break;
 		case PROJECT_STATE_OUTVERSIONED:
 			MessageStatus("Can't load project").dispatch();
@@ -193,7 +197,7 @@ void Project::load()
 
 		if (reparse)
 		{
-			forceRefresh();
+			refresh(true);
 		}
 	}
 }
@@ -214,17 +218,21 @@ void Project::clearStorage()
 	}
 }
 
-void Project::buildIndex()
+bool Project::buildIndex(bool forceRefresh)
 {
-	m_storage->setProjectSettingsText(TextAccess::createFromFile(getProjectSettingsFilePath().str())->getText());
+	m_fileManager.fetchFilePaths(
+		forceRefresh ? std::vector<FileInfo>() : m_storage->getInfoOnAllFiles()
+	);
 
-	m_fileManager.fetchFilePaths(m_storage->getInfoOnAllFiles());
 	std::set<FilePath> addedFilePaths = m_fileManager.getAddedFilePaths();
 	std::set<FilePath> updatedFilePaths = m_fileManager.getUpdatedFilePaths();
 	std::set<FilePath> removedFilePaths = m_fileManager.getRemovedFilePaths();
 
-	utility::append(updatedFilePaths, m_storage->getDependingFilePaths(updatedFilePaths));
-	utility::append(updatedFilePaths, m_storage->getDependingFilePaths(removedFilePaths));
+	if (!forceRefresh)
+	{
+		utility::append(updatedFilePaths, m_storage->getDependingFilePaths(updatedFilePaths));
+		utility::append(updatedFilePaths, m_storage->getDependingFilePaths(removedFilePaths));
+	}
 
 	std::vector<FilePath> filesToClean;
 	filesToClean.insert(filesToClean.end(), removedFilePaths.begin(), removedFilePaths.end());
@@ -237,12 +245,33 @@ void Project::buildIndex()
 
 	if (!filesToClean.size() && !filesToParse.size())
 	{
-		MessageFinishedParsing(0, 0, 0, true).dispatch();
-		return;
+		MessageStatus("Nothing to refresh, all files are up-to-date.").dispatch();
+		return false;
 	}
 
+	if (Application::getInstance()->hasGUI())
+	{
+		bool doIndex = m_dialogView->startIndexingDialog(filesToClean.size(), filesToParse.size());
+
+		if (!doIndex)
+		{
+			return false;
+		}
+	}
+
+	if (forceRefresh)
+	{
+		clearStorage();
+	}
+
+	m_storage->setProjectSettingsText(TextAccess::createFromFile(getProjectSettingsFilePath().str())->getText());
+
 	std::shared_ptr<TaskGroupSequential> taskSequential = std::make_shared<TaskGroupSequential>();
-	taskSequential->addTask(std::make_shared<TaskCleanStorage>(m_storage.get(), filesToClean));
+
+	if (filesToClean.size())
+	{
+		taskSequential->addTask(std::make_shared<TaskCleanStorage>(m_storage.get(), filesToClean, m_dialogView));
+	}
 
 	int indexerThreadCount = ApplicationSettings::getInstance()->getIndexerThreadCount();
 
@@ -251,7 +280,8 @@ void Project::buildIndex()
 
 	std::shared_ptr<TaskParseWrapper> taskParserWrapper = std::make_shared<TaskParseWrapper>(
 		m_storage.get(),
-		fileRegister
+		fileRegister,
+		m_dialogView
 	);
 	taskSequential->addTask(taskParserWrapper);
 
@@ -266,6 +296,8 @@ void Project::buildIndex()
 	}
 
 	Task::dispatch(taskSequential);
+
+	return true;
 }
 
 bool Project::allowsRefresh()

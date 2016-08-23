@@ -1,5 +1,10 @@
 #include "TimePoint.h"
 
+TimePoint TimePoint::now()
+{
+	return TimePoint(boost::posix_time::microsec_clock::local_time());
+}
+
 TimePoint::TimePoint()
 	: m_time(boost::posix_time::not_a_date_time)
 {
@@ -37,4 +42,9 @@ std::string TimePoint::toString() const
 	stream.imbue(std::locale(std::locale::classic(), facet));
 	stream << m_time;
 	return stream.str();
+}
+
+size_t TimePoint::deltaMS(const TimePoint& other) const
+{
+	return (m_time - other.m_time).total_milliseconds();
 }

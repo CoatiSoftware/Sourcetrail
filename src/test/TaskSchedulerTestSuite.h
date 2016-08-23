@@ -41,6 +41,7 @@ public:
 		TS_ASSERT_EQUALS(3, task.exitCallOrder);
 		TS_ASSERT_EQUALS(0, task.interruptCallOrder);
 		TS_ASSERT_EQUALS(0, task.revertCallOrder);
+		TS_ASSERT_EQUALS(0, task.abortCallOrder);
 	}
 
 	void test_scheduled_tasks_get_processed_with_callbacks_in_correct_order(void)
@@ -63,6 +64,7 @@ public:
 		TS_ASSERT_EQUALS(3, task->exitCallOrder);
 		TS_ASSERT_EQUALS(0, task->interruptCallOrder);
 		TS_ASSERT_EQUALS(0, task->revertCallOrder);
+		TS_ASSERT_EQUALS(0, task->abortCallOrder);
 	}
 
 	void test_scheduled_tasks_get_interrupted_with_callbacks_in_correct_order(void)
@@ -87,6 +89,7 @@ public:
 		TS_ASSERT_EQUALS(order - 1, task->interruptCallOrder);
 		TS_ASSERT_EQUALS(order, task->exitCallOrder);
 		TS_ASSERT_EQUALS(0, task->revertCallOrder);
+		TS_ASSERT_EQUALS(0, task->abortCallOrder);
 	}
 
 	void test_sequential_task_group_to_process_tasks_in_correct_order(void)
@@ -114,12 +117,14 @@ public:
 		TS_ASSERT_EQUALS(3, task1->exitCallOrder);
 		TS_ASSERT_EQUALS(0, task1->interruptCallOrder);
 		TS_ASSERT_EQUALS(0, task1->revertCallOrder);
+		TS_ASSERT_EQUALS(0, task1->abortCallOrder);
 
 		TS_ASSERT_EQUALS(4, task2->enterCallOrder);
 		TS_ASSERT_EQUALS(5, task2->updateCallOrder);
 		TS_ASSERT_EQUALS(6, task2->exitCallOrder);
 		TS_ASSERT_EQUALS(0, task2->interruptCallOrder);
 		TS_ASSERT_EQUALS(0, task2->revertCallOrder);
+		TS_ASSERT_EQUALS(0, task2->abortCallOrder);
 	}
 
 	void test_sequential_task_group_to_interrupt_and_revert_tasks_in_correct_order(void)
@@ -148,13 +153,15 @@ public:
 		TS_ASSERT_EQUALS(2, task1->updateCallOrder);
 		TS_ASSERT_EQUALS(3, task1->exitCallOrder);
 		TS_ASSERT_EQUALS(0, task1->interruptCallOrder);
-		TS_ASSERT_EQUALS(order, task1->revertCallOrder);
+		TS_ASSERT_EQUALS(order - 2, task1->revertCallOrder);
+		TS_ASSERT_EQUALS(0, task1->abortCallOrder);
 
 		TS_ASSERT_EQUALS(4, task2->enterCallOrder);
 		TS_ASSERT_EQUALS(order - 3, task2->updateCallOrder);
-		TS_ASSERT_EQUALS(order - 2, task2->interruptCallOrder);
-		TS_ASSERT_EQUALS(order - 1, task2->exitCallOrder);
+		TS_ASSERT_EQUALS(order - 1, task2->interruptCallOrder);
+		TS_ASSERT_EQUALS(order, task2->exitCallOrder);
 		TS_ASSERT_EQUALS(0, task2->revertCallOrder);
+		TS_ASSERT_EQUALS(0, task2->abortCallOrder);
 	}
 
 	void test_sequential_task_group_to_interrupt_and_revert_nested_task_groups_in_correct_order(void)
@@ -193,25 +200,29 @@ public:
 		TS_ASSERT_EQUALS(2, task1->updateCallOrder);
 		TS_ASSERT_EQUALS(3, task1->exitCallOrder);
 		TS_ASSERT_EQUALS(0, task1->interruptCallOrder);
-		TS_ASSERT_EQUALS(order, task1->revertCallOrder);
+		TS_ASSERT_EQUALS(order - 3, task1->revertCallOrder);
+		TS_ASSERT_EQUALS(0, task1->abortCallOrder);
 
 		TS_ASSERT_EQUALS(4, task2->enterCallOrder);
 		TS_ASSERT_EQUALS(5, task2->updateCallOrder);
 		TS_ASSERT_EQUALS(6, task2->exitCallOrder);
 		TS_ASSERT_EQUALS(0, task2->interruptCallOrder);
-		TS_ASSERT_EQUALS(order - 1, task2->revertCallOrder);
+		TS_ASSERT_EQUALS(order - 4, task2->revertCallOrder);
+		TS_ASSERT_EQUALS(0, task2->abortCallOrder);
 
 		TS_ASSERT_EQUALS(7, task3->enterCallOrder);
-		TS_ASSERT_EQUALS(order - 4, task3->updateCallOrder);
-		TS_ASSERT_EQUALS(order - 3, task3->interruptCallOrder);
-		TS_ASSERT_EQUALS(order - 2, task3->exitCallOrder);
+		TS_ASSERT_EQUALS(order - 5, task3->updateCallOrder);
+		TS_ASSERT_EQUALS(order - 2, task3->interruptCallOrder);
+		TS_ASSERT_EQUALS(order - 1, task3->exitCallOrder);
 		TS_ASSERT_EQUALS(0, task3->revertCallOrder);
+		TS_ASSERT_EQUALS(0, task3->abortCallOrder);
 
 		TS_ASSERT_EQUALS(0, task4->enterCallOrder);
 		TS_ASSERT_EQUALS(0, task4->updateCallOrder);
 		TS_ASSERT_EQUALS(0, task4->exitCallOrder);
 		TS_ASSERT_EQUALS(0, task4->interruptCallOrder);
 		TS_ASSERT_EQUALS(0, task4->revertCallOrder);
+		TS_ASSERT_EQUALS(order, task4->abortCallOrder);
 	}
 
 	void test_task_scheduling_within_task_processing()
@@ -255,6 +266,7 @@ private:
 			, exitCallOrder(0)
 			, interruptCallOrder(0)
 			, revertCallOrder(0)
+			, abortCallOrder(0)
 		{
 		}
 
@@ -297,6 +309,11 @@ private:
 			revertCallOrder = ++orderCount;
 		}
 
+		virtual void abort()
+		{
+			abortCallOrder = ++orderCount;
+		}
+
 		int& orderCount;
 		int updateCount;
 
@@ -305,6 +322,7 @@ private:
 		int exitCallOrder;
 		int interruptCallOrder;
 		int revertCallOrder;
+		int abortCallOrder;
 	};
 
 	class TestTaskDispatch: public TestTask

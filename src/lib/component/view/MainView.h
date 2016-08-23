@@ -17,9 +17,6 @@ public:
 	virtual void setTitle(const std::string& title) = 0;
 	virtual void activateWindow() = 0;
 	virtual void updateRecentProjectMenu() = 0;
-
-	virtual int confirm(const std::string& message);
-	virtual int confirm(const std::string& message, const std::vector<std::string>& options) = 0;
 };
 
 #endif // MAIN_VIEW_H

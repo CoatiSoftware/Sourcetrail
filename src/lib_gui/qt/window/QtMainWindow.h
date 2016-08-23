@@ -47,6 +47,7 @@ private:
 	size_t m_forwardButton;
 };
 
+
 class MouseWheelFilter
 	: public QObject
 {
@@ -111,7 +112,6 @@ public slots:
 	void newProjectFromSolution(const std::string& ideId, const std::string& solutionPath);
 	void openProject(const QString &path = QString());
 	void editProject();
-	void openRecentProject();
 
 	void find();
 	void findFulltext();
@@ -129,9 +129,10 @@ public slots:
 	void zoomOut();
 	void resetZoom();
 
-	void toggleView(View* view, bool fromMenu);
-
+	void openRecentProject();
 	void updateRecentProjectMenu();
+
+	void toggleView(View* view, bool fromMenu);
 
 private slots:
 	void toggleShowDockWidgetTitleBars();

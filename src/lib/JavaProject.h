@@ -16,7 +16,11 @@ protected:
 	virtual const std::shared_ptr<ProjectSettings> getProjectSettings() const;
 
 private:
-	JavaProject(std::shared_ptr<JavaProjectSettings> projectSettings, StorageAccessProxy* storageAccessProxy);
+	JavaProject(
+		std::shared_ptr<JavaProjectSettings> projectSettings,
+		StorageAccessProxy* storageAccessProxy,
+		DialogView* dialogView
+	);
 	JavaProject(const JavaProject&);
 
 	virtual std::shared_ptr<Task> createIndexerTask(

@@ -8,8 +8,9 @@
 #include "utility/scheduling/TaskDecorator.h"
 #include "utility/TimePoint.h"
 
-class PersistentStorage;
+class DialogView;
 class FileRegister;
+class PersistentStorage;
 
 class TaskParseWrapper
 	: public TaskDecorator
@@ -17,7 +18,8 @@ class TaskParseWrapper
 public:
 	TaskParseWrapper(
 		PersistentStorage* storage,
-		std::shared_ptr<FileRegister> fileRegister
+		std::shared_ptr<FileRegister> fileRegister,
+		DialogView* dialogView
 	);
 	virtual ~TaskParseWrapper();
 
@@ -27,10 +29,13 @@ public:
 
 	virtual void interrupt();
 	virtual void revert();
+	virtual void abort();
 
 private:
 	PersistentStorage* m_storage;
 	std::shared_ptr<FileRegister> m_fileRegister;
+	DialogView* m_dialogView;
+
 	TimePoint m_start;
 };
 

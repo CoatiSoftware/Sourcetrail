@@ -47,8 +47,6 @@ private:
 	QtProjectWizzardWindow* createWindowWithSummary(
 		std::function<void(QtProjectWizzardWindow*, QtProjectWizzardContentSummary*)> func);
 
-	void connectShowFiles(QtProjectWizzardContent* content);
-
 	QtWindowStack m_windowStack;
 
 	std::shared_ptr<ProjectSettings> m_settings;

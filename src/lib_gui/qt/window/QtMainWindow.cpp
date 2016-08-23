@@ -287,7 +287,7 @@ void QtMainWindow::forceEnterLicense(bool expired)
 
 bool QtMainWindow::event(QEvent* event)
 {
-	if (event->type() == QEvent::WindowActivate)
+	if (isEnabled() && event->type() == QEvent::WindowActivate)
 	{
 		MessageWindowFocus().dispatch();
 	}
@@ -499,6 +499,34 @@ void QtMainWindow::resetZoom()
 	MessageResetZoom().dispatch();
 }
 
+void QtMainWindow::openRecentProject()
+{
+	QAction *action = qobject_cast<QAction *>(sender());
+	if (action)
+	{
+		openProject(action->data().toString());
+	}
+}
+
+void QtMainWindow::updateRecentProjectMenu()
+{
+	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
+	for (int i = 0; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount(); i++)
+	{
+		if ((size_t)i < recentProjects.size() && recentProjects[i].exists())
+		{
+			FilePath project = recentProjects[i];
+			m_recentProjectAction[i]->setVisible(true);
+			m_recentProjectAction[i]->setText(FileSystem::fileName(project.str()).c_str());
+			m_recentProjectAction[i]->setData(project.str().c_str());
+		}
+		else
+		{
+			m_recentProjectAction[i]->setVisible(false);
+		}
+	}
+}
+
 void QtMainWindow::toggleView(View* view, bool fromMenu)
 {
 	DockWidget* dock = getDockWidgetForView(view);
@@ -511,6 +539,11 @@ void QtMainWindow::toggleView(View* view, bool fromMenu)
 	{
 		dock->action->setChecked(dock->widget->isVisible());
 	}
+}
+
+void QtMainWindow::toggleShowDockWidgetTitleBars()
+{
+	setShowDockWidgetTitleBars(!m_showDockWidgetTitleBars);
 }
 
 void QtMainWindow::setupProjectMenu()
@@ -549,39 +582,6 @@ void QtMainWindow::setupProjectMenu()
 	}
 
 	menu->addAction(tr("E&xit"), QCoreApplication::instance(), SLOT(quit()), QKeySequence::Quit);
-}
-
-void QtMainWindow::openRecentProject()
-{
-	QAction *action = qobject_cast<QAction *>(sender());
-	if (action)
-	{
-		openProject(action->data().toString());
-	}
-}
-
-void QtMainWindow::updateRecentProjectMenu()
-{
-	std::vector<FilePath> recentProjects = ApplicationSettings::getInstance()->getRecentProjects();
-	for (int i = 0; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount(); i++)
-	{
-		if ((size_t)i < recentProjects.size() && recentProjects[i].exists())
-		{
-			FilePath project = recentProjects[i];
-			m_recentProjectAction[i]->setVisible(true);
-			m_recentProjectAction[i]->setText(FileSystem::fileName(project.str()).c_str());
-			m_recentProjectAction[i]->setData(project.str().c_str());
-		}
-		else
-		{
-			m_recentProjectAction[i]->setVisible(false);
-		}
-	}
-}
-
-void QtMainWindow::toggleShowDockWidgetTitleBars()
-{
-	setShowDockWidgetTitleBars(!m_showDockWidgetTitleBars);
 }
 
 void QtMainWindow::setupEditMenu()

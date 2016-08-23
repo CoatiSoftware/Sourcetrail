@@ -1,12 +1,5 @@
 #include "qt/view/QtMainView.h"
 
-#include <chrono>
-#include <thread>
-
-#include <QMessageBox>
-
-#include "utility/logging/logging.h"
-
 #include "qt/window/QtMainWindow.h"
 
 QtMainView::QtMainView()
@@ -18,7 +11,6 @@ QtMainView::QtMainView()
 	, m_activateWindowFunctor(std::bind(&QtMainView::doActivateWindow, this))
 	, m_updateRecentProjectMenuFunctor(std::bind(&QtMainView::doUpdateRecentProjectMenu, this))
 	, m_forceLicenseScreenFunctor(std::bind(&QtMainView::doForceLicenseScreen, this, std::placeholders::_1))
-	, m_confirmFunctor(std::bind(&QtMainView::doConfirm, this, std::placeholders::_1, std::placeholders::_2))
 {
 	m_window = std::make_shared<QtMainWindow>();
 	m_window->show();
@@ -26,6 +18,11 @@ QtMainView::QtMainView()
 
 QtMainView::~QtMainView()
 {
+}
+
+QtMainWindow* QtMainView::getMainWindow() const
+{
+	return m_window.get();
 }
 
 void QtMainView::addView(View* view)
@@ -96,30 +93,6 @@ void QtMainView::updateRecentProjectMenu()
 	m_updateRecentProjectMenuFunctor();
 }
 
-int QtMainView::confirm(const std::string& message, const std::vector<std::string>& options)
-{
-	m_confirmDone = false;
-
-	m_confirmFunctor(message, options);
-
-	while (true)
-	{
-		{
-			std::lock_guard<std::mutex> lock(m_confirmMutex);
-
-			if (m_confirmDone)
-			{
-				break;
-			}
-		}
-
-		const int SLEEP_TIME_MS = 25;
-		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
-	}
-
-	return m_confirmResult;
-}
-
 void QtMainView::handleMessage(MessageForceEnterLicense* message)
 {
 	m_forceLicenseScreenFunctor(message->licenseExpired);
@@ -184,31 +157,4 @@ void QtMainView::doUpdateRecentProjectMenu()
 void QtMainView::doForceLicenseScreen(bool expired)
 {
 	m_window->forceEnterLicense(expired);
-}
-
-void QtMainView::doConfirm(const std::string& message, const std::vector<std::string>& options)
-{
-	QMessageBox msgBox;
-	msgBox.setText(message.c_str());
-
-	for (const std::string& option : options)
-	{
-		msgBox.addButton(option.c_str(), QMessageBox::AcceptRole);
-	}
-
-	msgBox.exec();
-
-	m_confirmResult = -1;
-
-	for (int i = 0; i < msgBox.buttons().size(); i++)
-	{
-		if (msgBox.clickedButton() == msgBox.buttons().at(i))
-		{
-			m_confirmResult = i;
-			break;
-		}
-	}
-
-	std::lock_guard<std::mutex> lock(m_confirmMutex);
-	m_confirmDone = true;
 }

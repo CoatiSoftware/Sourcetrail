@@ -96,6 +96,7 @@ int main(int argc, char *argv[])
 		QtNetworkFactory networkFactory;
 
 		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
+		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".ttf");
 		Application::createInstance(version, &viewFactory, &networkFactory);
 		ScopedFunctor f([](){
 			Application::destroyInstance();

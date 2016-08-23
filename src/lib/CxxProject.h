@@ -16,7 +16,11 @@ protected:
 	virtual const std::shared_ptr<ProjectSettings> getProjectSettings() const;
 
 private:
-	CxxProject(std::shared_ptr<CxxProjectSettings> projectSettings, StorageAccessProxy* storageAccessProxy);
+	CxxProject(
+		std::shared_ptr<CxxProjectSettings> projectSettings,
+		StorageAccessProxy* storageAccessProxy,
+		DialogView* dialogView
+	);
 	CxxProject(const CxxProject&);
 
 	virtual bool allowsRefresh();

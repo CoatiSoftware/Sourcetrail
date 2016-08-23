@@ -5,6 +5,7 @@
 #include "component/controller/Controller.h"
 #include "component/view/CodeView.h"
 #include "component/view/CompositeView.h"
+#include "component/view/DialogView.h"
 #include "component/view/GraphView.h"
 #include "component/view/RefreshView.h"
 #include "component/view/SearchView.h"
@@ -50,6 +51,8 @@ void ComponentManager::setup(ViewLayout* viewLayout)
 
 	std::shared_ptr<Component> featureComponent = m_componentFactory->createFeatureComponent();
 	m_components.push_back(featureComponent);
+
+	m_dialogView = m_componentFactory->getViewFactory()->createDialogView(viewLayout);
 }
 
 void ComponentManager::clearComponents()
@@ -81,6 +84,11 @@ void ComponentManager::refreshViews()
 	{
 		view->refreshView();
 	}
+}
+
+DialogView* ComponentManager::getDialogView() const
+{
+	return m_dialogView.get();
 }
 
 ComponentManager::ComponentManager()

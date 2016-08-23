@@ -481,6 +481,24 @@ create_source_groups(${TRIAL_FILES})
 
 target_link_libraries(${TRIAL_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} )
 
+if (WIN32)
+	SET_TARGET_PROPERTIES(
+		${TRIAL_PROJECT_NAME} PROPERTIES
+		LINK_FLAGS "/DELAYLOAD:jvm.dll"
+	)
+elseif (APPLE)
+	set(LAZY_LIB_FLAGS2 "")
+
+	foreach (_lib ${JNI_LIBRARIES})
+		set (LAZY_LIB_FLAGS2 "${LAZY_LIB_FLAGS2} -lazy_library ${_lib}")
+	endforeach()
+
+	SET_TARGET_PROPERTIES(
+		${TRIAL_PROJECT_NAME} PROPERTIES
+		LINK_FLAGS ${LAZY_LIB_FLAGS2}
+	)
+endif()
+
 if(UNIX AND NOT APPLE)
 	target_link_libraries(${TRIAL_PROJECT_NAME} pthread dl rt)
 endif()
@@ -614,7 +632,11 @@ add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE} ${TEST_FILES} )
 
 create_source_groups(${TEST_FILES})
 
-target_link_libraries(${TEST_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME})
+if (WIN32)
+	target_link_libraries(${TEST_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME})
+else()
+	target_link_libraries(${TEST_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} ${JNI_LIBRARIES})
+endif()
 
 if (WIN32)
 SET_TARGET_PROPERTIES(

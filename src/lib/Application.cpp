@@ -13,6 +13,7 @@
 #include "utility/UserPaths.h"
 #include "utility/Version.h"
 
+#include "component/view/DialogView.h"
 #include "component/view/GraphViewStyle.h"
 #include "component/controller/NetworkFactory.h"
 #include "component/view/MainView.h"
@@ -113,12 +114,12 @@ bool Application::hasGUI()
 
 int Application::handleDialog(const std::string& message)
 {
-	return m_mainView->confirm(message);
+	return getDialogView()->confirm(message);
 }
 
 int Application::handleDialog(const std::string& message, const std::vector<std::string>& options)
 {
-	return m_mainView->confirm(message, options);
+	return getDialogView()->confirm(message, options);
 }
 
 void Application::setTitle(const std::string& title)
@@ -135,7 +136,7 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 
 		m_storageCache->clear();
 
-		m_project = Project::create(projectSettingsFilePath, m_storageCache.get());
+		m_project = Project::create(projectSettingsFilePath, m_storageCache.get(), getDialogView());
 
 		if (m_project)
 		{
@@ -163,21 +164,14 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 
 void Application::refreshProject(bool force)
 {
-	MessageStatus("Refreshing Project").dispatch();
-
-	m_storageCache->clear();
-	if (m_hasGUI)
+	bool indexing = m_project->refresh(force);
+	if (indexing)
 	{
-		m_componentManager->refreshViews();
-	}
-
-	if (force)
-	{
-		m_project->forceRefresh();
-	}
-	else
-	{
-		m_project->refresh();
+		m_storageCache->clear();
+		if (m_hasGUI)
+		{
+			m_componentManager->refreshViews();
+		}
 	}
 }
 
@@ -217,7 +211,7 @@ void Application::handleMessage(MessageLoadProject* message)
 			std::vector<std::string> options;
 			options.push_back("Yes");
 			options.push_back("No");
-			int result = m_mainView->confirm(
+			int result = handleDialog(
 				"Some settings were changed, the project needs to be fully reindexed. "
 				"Do you want to reindex the project?", options);
 
@@ -300,4 +294,15 @@ void Application::updateRecentProjects(const FilePath& projectSettingsFilePath)
 
 		m_mainView->updateRecentProjectMenu();
 	}
+}
+
+DialogView* Application::getDialogView() const
+{
+	if (m_componentManager)
+	{
+		return m_componentManager->getDialogView();
+	}
+
+	static DialogView dialogView;
+	return &dialogView;
 }

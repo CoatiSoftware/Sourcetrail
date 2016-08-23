@@ -1,0 +1,56 @@
+* {
+	color: white;
+}
+
+#topHalf {
+	background: #007AC2;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+
+#title {
+	color: white;
+	font-size: 24pt;
+	font-weight: bold;
+}
+
+#percent {
+	font-size: 24pt;
+	font-weight: bold;
+}
+
+#message {
+	font-size: 16pt;
+	font-weight: bold;
+}
+
+#filePath {
+	font-size: 12pt;
+}
+
+#errorCount {
+	font-size: 14pt;
+	border: none;
+	background: transparent;
+}
+
+#windowButton {
+	background: transparent;
+	border: 1px solid white;
+	color: white;
+}
+
+#windowButton:hover {
+	background: transparent;
+	border: 1px solid white;
+	color: white;
+}
+
+#windowButton:hover {
+	color: #2E3C86;
+	background: white;
+}
+
+#windowButton:default {
+	border: 2px solid white;
+}

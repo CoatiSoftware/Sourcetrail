@@ -19,6 +19,7 @@ public:
 
 	virtual void interrupt();
 	virtual void revert();
+	virtual void abort();
 
 private:
 	void processTaskThreaded(std::shared_ptr<Task> task);

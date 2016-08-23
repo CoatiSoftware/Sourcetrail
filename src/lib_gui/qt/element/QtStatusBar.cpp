@@ -9,6 +9,8 @@
 QtStatusBar::QtStatusBar()
     : m_text(this)
 {
+	addWidget(new QWidget()); // add some space
+
 	QMovie* movie = new QMovie((ResourcePaths::getGuiPath() + "statusbar_view/loader.gif").c_str());
 	// if movie doesn't loop forever, force it to.
 	if (movie->loopCount() != -1)

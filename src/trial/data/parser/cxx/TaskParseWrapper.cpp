@@ -5,7 +5,8 @@
 
 TaskParseWrapper::TaskParseWrapper(
 	PersistentStorage* storage,
-	std::shared_ptr<FileRegister> fileRegister
+	std::shared_ptr<FileRegister> fileRegister,
+	DialogView* dialogView
 )
 	: m_storage(storage)
 {
@@ -33,7 +34,7 @@ void TaskParseWrapper::exit()
 
 	m_storage->finishParsing();
 
-	MessageFinishedParsing(0, 0, 0).dispatch();
+	MessageFinishedParsing().dispatch();
 }
 
 void TaskParseWrapper::interrupt()
@@ -44,4 +45,11 @@ void TaskParseWrapper::interrupt()
 void TaskParseWrapper::revert()
 {
 	m_task->revert();
+}
+
+void TaskParseWrapper::abort()
+{
+	m_task->abort();
+
+	MessageFinishedParsing().dispatch();
 }

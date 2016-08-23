@@ -72,12 +72,6 @@ void QtProjectWizzardWindow::windowReady()
 
 void QtProjectWizzardWindow::handleNext()
 {
-	if (isPopup())
-	{
-		hide();
-		emit next();
-	}
-
 	m_content->save();
 
 	if (m_content->check())

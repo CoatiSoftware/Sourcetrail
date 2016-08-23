@@ -29,6 +29,8 @@ public:
 	QtMainView();
 	virtual ~QtMainView();
 
+	QtMainWindow* getMainWindow() const;
+
 	// ViewLayout implementation
 	virtual void addView(View* view);
 	virtual void removeView(View* view);
@@ -48,8 +50,6 @@ public:
 	virtual void activateWindow();
 	virtual void updateRecentProjectMenu();
 
-	virtual int confirm(const std::string& message, const std::vector<std::string>& options);
-
 private:
 	void handleMessage(MessageForceEnterLicense* message);
 	void handleMessage(MessageProjectEdit* message);
@@ -65,8 +65,6 @@ private:
 	void doUpdateRecentProjectMenu();
 	void doForceLicenseScreen(bool expired);
 
-	void doConfirm(const std::string& message, const std::vector<std::string>& options);
-
 	std::shared_ptr<QtMainWindow> m_window;
 	std::vector<View*> m_views;
 
@@ -78,11 +76,6 @@ private:
 	QtThreadedFunctor<> m_activateWindowFunctor;
 	QtThreadedFunctor<> m_updateRecentProjectMenuFunctor;
 	QtThreadedFunctor<bool> m_forceLicenseScreenFunctor;
-
-	QtThreadedFunctor<const std::string&, const std::vector<std::string>&> m_confirmFunctor;
-	std::mutex m_confirmMutex;
-	bool m_confirmDone;
-	int m_confirmResult;
 };
 
 #endif // QT_MAIN_VIEW_H

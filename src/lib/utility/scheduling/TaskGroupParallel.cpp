@@ -62,6 +62,11 @@ void TaskGroupParallel::revert()
 	m_interrupt = true;
 }
 
+void TaskGroupParallel::abort()
+{
+	m_interrupt = true;
+}
+
 
 void TaskGroupParallel::processTaskThreaded(std::shared_ptr<Task> task)
 {

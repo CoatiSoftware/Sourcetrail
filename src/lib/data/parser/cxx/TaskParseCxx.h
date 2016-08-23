@@ -10,9 +10,10 @@
 #include "utility/scheduling/Task.h"
 #include "utility/TimePoint.h"
 
-class PersistentStorage;
-class FileRegister;
 class CxxParser;
+class DialogView;
+class FileRegister;
+class PersistentStorage;
 
 namespace clang
 {
@@ -32,7 +33,8 @@ public:
 		PersistentStorage* storage,
 		std::shared_ptr<std::mutex> storageMutex,
 		std::shared_ptr<FileRegister> fileRegister,
-		const Parser::Arguments& arguments
+		const Parser::Arguments& arguments,
+		DialogView* dialogView
 	);
 
 	virtual void enter();
@@ -41,13 +43,17 @@ public:
 
 	virtual void interrupt();
 	virtual void revert();
+	virtual void abort();
 
 private:
 	PersistentStorage* m_storage;
 	std::shared_ptr<std::mutex> m_storageMutex;
+
+	const Parser::Arguments m_arguments;
+	DialogView* m_dialogView;
+
 	std::shared_ptr<CxxParser> m_parser;
 	std::shared_ptr<ParserClientImpl> m_parserClient;
-	const Parser::Arguments m_arguments;
 
 	bool m_isCDB;
 	std::shared_ptr<clang::tooling::JSONCompilationDatabase> m_cdb;

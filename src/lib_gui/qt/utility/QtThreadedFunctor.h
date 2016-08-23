@@ -1,7 +1,9 @@
 #ifndef QT_THREADED_FUCTOR_H
 #define QT_THREADED_FUCTOR_H
 
+#include <chrono>
 #include <functional>
+#include <thread>
 
 #include <QObject>
 #include <QSemaphore>
@@ -117,6 +119,19 @@ public:
 private:
 	QtThreadedFunctorHelper m_helper;
 	std::function<void(void)> m_callback;
+};
+
+
+class QtThreadedLambdaFunctor
+{
+public:
+	void operator()(std::function<void(void)> callback)
+	{
+		m_helper(callback);
+	}
+
+private:
+	QtThreadedFunctorHelper m_helper;
 };
 
 #endif // QT_THREADED_FUCTOR_H

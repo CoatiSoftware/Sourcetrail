@@ -1,11 +1,11 @@
 #include "data/parser/java/TaskParseJava.h"
 
+#include "component/view/DialogView.h"
 #include "data/parser/java/JavaParser.h"
 #include "data/parser/ParserClientImpl.h"
 #include "data/PersistentStorage.h"
 #include "utility/file/FileRegister.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
-#include "utility/messaging/type/MessageStatus.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
 
@@ -13,12 +13,14 @@ TaskParseJava::TaskParseJava(
 	PersistentStorage* storage,
 	std::shared_ptr<std::mutex> storageMutex,
 	std::shared_ptr<FileRegister> fileRegister,
-	const Parser::Arguments& arguments
+	const Parser::Arguments& arguments,
+	DialogView* dialogView
 )
 	: m_storage(storage)
 	, m_storageMutex(storageMutex)
 	, m_fileRegister(fileRegister)
 	, m_arguments(arguments)
+	, m_dialogView(dialogView)
 {
 }
 
@@ -38,12 +40,8 @@ Task::TaskState TaskParseJava::update()
 		return Task::STATE_FINISHED;
 	}
 
-	std::stringstream ss;
-	ss << "indexing files (ESC to quit): [";
-	ss << m_fileRegister->getParsedSourceFilesCount() << "/";
-	ss << m_fileRegister->getSourceFilesCount() << "] ";
-	ss << sourcePath.str();
-	MessageStatus(ss.str(), false, true).dispatch();
+	m_dialogView->updateIndexingDialog(
+		m_fileRegister->getParsedSourceFilesCount(), m_fileRegister->getSourceFilesCount(), sourcePath.str());
 
 	std::shared_ptr<IntermediateStorage> intermediateStorage = std::make_shared<IntermediateStorage>();
 
@@ -74,5 +72,9 @@ void TaskParseJava::interrupt()
 }
 
 void TaskParseJava::revert()
+{
+}
+
+void TaskParseJava::abort()
 {
 }

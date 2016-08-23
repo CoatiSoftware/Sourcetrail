@@ -1,9 +1,13 @@
 #include "utility/utility.h"
+
+#include <iomanip>
+#include <sstream>
+
 #include "boost/date_time/time_clock.hpp"
 
 TimePoint utility::durationStart()
 {
-	return TimePoint(boost::posix_time::microsec_clock::local_time());
+	return TimePoint::now();
 }
 
 float utility::duration(const TimePoint& start)
@@ -31,6 +35,37 @@ std::string utility::timeToString(const time_t time)
 std::string utility::timeToString(const boost::posix_time::ptime time)
 {
 	return TimePoint(time).toString();
+}
+
+std::string utility::timeToString(float secondsTotal)
+{
+	std::stringstream ss;
+
+	int hours = int(secondsTotal / 3600);
+	secondsTotal -= hours * 3600;
+	int minutes = int(secondsTotal / 60);
+	secondsTotal -= minutes * 60;
+	int seconds = int(secondsTotal);
+	secondsTotal -= seconds;
+	int milliSeconds = secondsTotal * 1000;
+
+	if (hours > 9)
+	{
+		ss << hours;
+	}
+	else
+	{
+		ss << std::setw(2) << std::setfill('0') << hours;
+	}
+	ss << ":" << std::setw(2) << std::setfill('0') << minutes;
+	ss << ":" << std::setw(2) << std::setfill('0') << seconds;
+
+	if (!hours && !minutes)
+	{
+		ss << ":" << std::setw(3) << std::setfill('0') << milliSeconds;
+	}
+
+	return ss.str();
 }
 
 bool utility::intersectionPoint(Vec2f a1, Vec2f b1, Vec2f a2, Vec2f b2, Vec2f* i)

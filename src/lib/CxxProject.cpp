@@ -1,20 +1,14 @@
 #include "CxxProject.h"
 
-
+#include "data/parser/cxx/TaskParseCxx.h"
 #include "settings/ApplicationSettings.h"
 
+#include "utility/file/FileRegister.h"
+#include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/utility.h"
 
 #include "Application.h"
-
-#include "utility/file/FileRegister.h"
-#include "utility/file/FileSystem.h"
-
-
-#include "data/parser/cxx/TaskParseCxx.h"
-
-
 
 CxxProject::~CxxProject()
 {
@@ -30,8 +24,10 @@ const std::shared_ptr<ProjectSettings> CxxProject::getProjectSettings() const
 	return m_projectSettings;
 }
 
-CxxProject::CxxProject(std::shared_ptr<CxxProjectSettings> projectSettings, StorageAccessProxy* storageAccessProxy)
-	: Project(storageAccessProxy)
+CxxProject::CxxProject(
+	std::shared_ptr<CxxProjectSettings> projectSettings, StorageAccessProxy* storageAccessProxy, DialogView* dialogView
+)
+	: Project(storageAccessProxy, dialogView)
 	, m_projectSettings(projectSettings)
 {
 }
@@ -66,7 +62,8 @@ std::shared_ptr<Task> CxxProject::createIndexerTask(
 		storage,
 		storageMutex,
 		fileRegister,
-		getParserArguments()
+		getParserArguments(),
+		getDialogView()
 	);
 }
 
@@ -128,5 +125,3 @@ Parser::Arguments CxxProject::getParserArguments() const
 
 	return args;
 }
-
-
