@@ -198,19 +198,26 @@ void QtCodeNavigator::setFocusedTokenIds(const std::vector<Id>& focusedTokenIds)
 	m_focusedTokenIds = focusedTokenIds;
 }
 
-std::vector<std::string> QtCodeNavigator::getErrorMessages() const
+std::string QtCodeNavigator::getErrorMessageForId(Id errorId) const
 {
-	std::vector<std::string> errorMessages;
-	for (const ErrorInfo& error : m_errorInfos)
+	std::map<Id, ErrorInfo>::const_iterator it = m_errorInfos.find(errorId);
+
+	if (it != m_errorInfos.end())
 	{
-		errorMessages.push_back(error.message);
+		return it->second.message;
 	}
-	return errorMessages;
+
+	return "";
 }
 
 void QtCodeNavigator::setErrorInfos(const std::vector<ErrorInfo>& errorInfos)
 {
-	m_errorInfos = errorInfos;
+	m_errorInfos.clear();
+
+	for (const ErrorInfo& info : errorInfos)
+	{
+		m_errorInfos.emplace(info.id, info);
+	}
 }
 
 bool QtCodeNavigator::hasErrors() const
@@ -221,8 +228,9 @@ bool QtCodeNavigator::hasErrors() const
 size_t QtCodeNavigator::getFatalErrorCountForFile(const FilePath& filePath) const
 {
 	size_t fatalErrorCount = 0;
-	for (const ErrorInfo& error : m_errorInfos)
+	for (const std::pair<Id, ErrorInfo>& p : m_errorInfos)
 	{
+		const ErrorInfo& error = p.second;
 		if (error.filePath == filePath && error.isFatal)
 		{
 			fatalErrorCount++;

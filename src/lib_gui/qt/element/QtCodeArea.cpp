@@ -477,10 +477,10 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 
 		setHoveredAnnotations(annotations);
 
-		std::vector<std::string> errorMessages = m_navigator->getErrorMessages();
-		if (annotations.size() == 1 && errorMessages.size() > annotations[0]->tokenId)
+		if (annotations.size() == 1)
 		{
-			QToolTip::showText(event->globalPos(), QString::fromStdString(errorMessages[annotations[0]->tokenId]));
+			std::string errorMessage = m_navigator->getErrorMessageForId(annotations[0]->tokenId);
+			QToolTip::showText(event->globalPos(), QString::fromStdString(errorMessage));
 		}
 	}
 }

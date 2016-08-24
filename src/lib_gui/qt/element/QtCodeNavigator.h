@@ -45,7 +45,7 @@ public:
 	const std::vector<Id>& getFocusedTokenIds() const;
 	void setFocusedTokenIds(const std::vector<Id>& focusedTokenIds);
 
-	std::vector<std::string> getErrorMessages() const;
+	std::string getErrorMessageForId(Id errorId) const;
 	void setErrorInfos(const std::vector<ErrorInfo>& errorInfos);
 
 	bool hasErrors() const;
@@ -112,7 +112,7 @@ private:
 	std::vector<Id> m_activeTokenIds;
 	std::vector<Id> m_activeLocalSymbolIds;
 	std::vector<Id> m_focusedTokenIds;
-	std::vector<ErrorInfo> m_errorInfos;
+	std::map<Id, ErrorInfo> m_errorInfos;
 
 	int m_value;
 
