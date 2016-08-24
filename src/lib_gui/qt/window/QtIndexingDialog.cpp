@@ -303,6 +303,7 @@ void QtIndexingDialog::addMessageLabel(QBoxLayout* layout)
 	m_messageLabel = new QLabel();
 	m_messageLabel->setObjectName("message");
 	m_messageLabel->setAlignment(Qt::AlignRight);
+	m_messageLabel->setWordWrap(true);
 	layout->addWidget(m_messageLabel, 0, Qt::AlignRight);
 }
 

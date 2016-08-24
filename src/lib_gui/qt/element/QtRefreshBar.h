@@ -18,11 +18,9 @@ public:
 
 private slots:
 	void refreshClicked();
-	void autoRefreshClicked();
 
 private:
 	QPushButton* m_refreshButton;
-	QPushButton* m_autoRefreshButton;
 };
 
 #endif // QT_REFRESH_BAR_H

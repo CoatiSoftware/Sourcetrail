@@ -250,7 +250,6 @@ add_files(
 	utility/messaging/type/MessageActivateTokenIds.h
 	utility/messaging/type/MessageActivateTokens.h
 	utility/messaging/type/MessageActivateWindow.h
-	utility/messaging/type/MessageAutoRefreshChanged.h
 	utility/messaging/type/MessageChangeFileView.h
 	utility/messaging/type/MessageClearErrorCount.h
 	utility/messaging/type/MessageCodeReference.h

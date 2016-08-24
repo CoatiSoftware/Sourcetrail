@@ -22,12 +22,7 @@ QPushButton:pressed {
 }
 
 #refresh_button {
-	border-bottom-left-radius: 12px;
-	border-top-left-radius: 12px;
-	margin-right: 2px;
-}
-
-#auto_refresh_button {
-	border-bottom-right-radius: 12px;
-	border-top-right-radius: 12px;
+	/*border-bottom-left-radius: 12px;*/
+	/*border-top-left-radius: 12px;*/
+	border-radius: 12px;
 }
