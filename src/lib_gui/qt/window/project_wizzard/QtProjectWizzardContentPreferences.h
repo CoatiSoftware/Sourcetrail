@@ -7,6 +7,7 @@
 
 #include "qt/element/QtLocationPicker.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
+#include "utility/path_detector/CombinedPathDetector.h"
 
 class QtProjectWizzardContentPreferences
 	: public QtProjectWizzardContent
@@ -27,8 +28,11 @@ public:
 
 private slots:
 	void colorSchemeChanged(int index);
+	void javaPathDetectionClicked();
 
 private:
+	void addJavaPathDetection(QGridLayout* layout, int row);
+
 	QLineEdit* m_fontFace;
 	QComboBox* m_fontSize;
 	QComboBox* m_tabWidth;
@@ -41,6 +45,8 @@ private:
 	QComboBox* m_threads;
 	QCheckBox* m_fatalErrors;
 
+	std::shared_ptr<CombinedPathDetector> m_javaPathDetector;
+	QComboBox* m_javaPathDetectorBox;
 	QtLocationPicker* m_javaPath;
 };
 

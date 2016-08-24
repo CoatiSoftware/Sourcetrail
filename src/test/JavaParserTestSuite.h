@@ -20,6 +20,14 @@ public:
 ///////////////////////////////////////////////////////////////////////////////
 // test finding symbol definitions and declarations
 
+	void test_java_parser_can_setup_environment_factory()
+	{
+		setupJavaEnvironmentFactory();
+
+		// if this one fails, maybe your java_path in the test settings is wrong.
+		TS_ASSERT_LESS_THAN_EQUALS(1, JavaEnvironmentFactory::getInstance().use_count());
+	}
+
 	void test_java_parser_finds_package_declaration()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -314,15 +322,15 @@ public:
 		TS_ASSERT_EQUALS(client->errors[0], "Encountered unexpected token. <1:1 1:7>");
 	}
 
-	void test_java_parser_finds_missing_import_as_error()
-	{
-		std::shared_ptr<TestParserClient> client = parseCode(
-			"import foo;\n"
-		);
+	//void _test_java_parser_finds_missing_import_as_error()
+	//{
+	//	std::shared_ptr<TestParserClient> client = parseCode(
+	//		"import foo;\n"
+	//	);
 
-		TS_ASSERT_EQUALS(client->errors.size(), 1);
-		TS_ASSERT_EQUALS(client->errors[0], "Import not found. <1:8 1:10>");
-	}
+	//	TS_ASSERT_EQUALS(client->errors.size(), 1);
+	//	TS_ASSERT_EQUALS(client->errors[0], "Import not found. <1:8 1:10>");
+	//}
 
 
 
@@ -1173,23 +1181,10 @@ private:
 
 	};
 
-	std::shared_ptr<TestParserClient> parseCode(std::string code, bool logErrors = true)
+	void setupJavaEnvironmentFactory()
 	{
-		NameHierarchy::setDelimiter(".");
-
-		m_args.logErrors = logErrors;
-		m_args.language = "Java";
-		m_args.languageStandard = "1.8";
-
-		TestFileManager fm;
-		std::shared_ptr<FileRegister> fr = std::make_shared<FileRegister>(&fm, false);
-		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
-
-		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromString(code);
-
 		if (!JavaEnvironmentFactory::getInstance())
 		{
-
 #ifdef _WIN32
 			const std::string separator = ";";
 #else
@@ -1206,6 +1201,23 @@ private:
 				"../app/data/java/java-symbol-solver-model.jar" + separator
 			);
 		}
+	}
+
+	std::shared_ptr<TestParserClient> parseCode(std::string code, bool logErrors = true)
+	{
+		NameHierarchy::setDelimiter(".");
+
+		m_args.logErrors = logErrors;
+		m_args.language = "Java";
+		m_args.languageStandard = "1.8";
+
+		TestFileManager fm;
+		std::shared_ptr<FileRegister> fr = std::make_shared<FileRegister>(&fm, false);
+		std::shared_ptr<TestParserClient> client = std::make_shared<TestParserClient>();
+
+		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromString(code);
+
+		setupJavaEnvironmentFactory();
 
 		JavaParser parser(client.get());
 		parser.parseFile("input.cc", textAccess, m_args);

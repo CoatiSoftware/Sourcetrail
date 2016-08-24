@@ -10,7 +10,9 @@
 #include "settings/JavaProjectSettings.h"
 #include "utility/file/FileManager.h"
 #include "utility/file/FileSystem.h"
-#include "utility/headerSearch/StandardHeaderDetection.h"
+#include "utility/path_detector/cxx_header/CxxFrameworkPathDetector.h"
+#include "utility/path_detector/cxx_header/CxxHeaderPathDetector.h"
+#include "utility/path_detector/cxx_header/CxxVsHeaderPathDetector.h"
 #include "utility/utility.h"
 
 QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
@@ -45,9 +47,9 @@ void QtProjectWizzardContentPaths::populateWindow(QGridLayout* layout, int& row)
 		addFilesButton(m_showFilesString, layout, row);
 	}
 
-	if (m_detectionString.size() > 0)
+	if (m_pathDetector)
 	{
-		addDetection(m_detectionString, layout, row);
+		addDetection(layout, row);
 	}
 
 	row++;
@@ -76,9 +78,9 @@ void QtProjectWizzardContentPaths::populateForm(QGridLayout* layout, int& row)
 		row++;
 	}
 
-	if (m_detectionString.size() > 0)
+	if (m_pathDetector)
 	{
-		addDetection(m_detectionString, layout, row);
+		addDetection(layout, row);
 		row++;
 	}
 }
@@ -140,10 +142,9 @@ void QtProjectWizzardContentPaths::setHelpString(const QString& help)
 	m_helpString = help;
 }
 
-void QtProjectWizzardContentPaths::addDetection(QString name, QGridLayout* layout, int row)
+void QtProjectWizzardContentPaths::addDetection(QGridLayout* layout, int row)
 {
-	StandardHeaderDetection detection;
-	std::vector<std::string> detectorNames = detection.getWorkingDetectorNames();
+	std::vector<std::string> detectorNames = m_pathDetector->getWorkingDetectorNames();
 	if (!detectorNames.size())
 	{
 		return;
@@ -175,18 +176,7 @@ void QtProjectWizzardContentPaths::addDetection(QString name, QGridLayout* layou
 
 void QtProjectWizzardContentPaths::detectionClicked()
 {
-	StandardHeaderDetection detection;
-
-	std::vector<FilePath> paths;
-	if (m_detectionString == "headers")
-	{
-		paths = detection.getStandardHeaderPaths(m_detectorBox->currentText().toStdString());
-	}
-	else if (m_detectionString == "frameworks")
-	{
-		paths = detection.getStandardFrameworkPaths(m_detectorBox->currentText().toStdString());
-	}
-
+	std::vector<FilePath> paths = m_pathDetector->getPaths(m_detectorBox->currentText().toStdString());
 	std::vector<FilePath> oldPaths = m_list->getList();
 	m_list->setList(utility::unique(utility::concat(oldPaths, paths)));
 }
@@ -382,7 +372,17 @@ QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHead
 		"Include Paths defined here will be used for all projects."
 	);
 
-	m_detectionString = "headers";
+	m_pathDetector = std::make_shared<CombinedPathDetector>();
+	m_pathDetector->addDetector(std::make_shared<CxxHeaderPathDetector>("gcc"));
+	m_pathDetector->addDetector(std::make_shared<CxxHeaderPathDetector>("clang"));
+	m_pathDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(9, false));
+	m_pathDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(9, true));
+	m_pathDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(11, false));
+	m_pathDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(11, true));
+	m_pathDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(12, false));
+	m_pathDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(12, true));
+	m_pathDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(14, false));
+	m_pathDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(14, true));
 }
 
 void QtProjectWizzardContentPathsHeaderSearchGlobal::load()
@@ -448,7 +448,9 @@ QtProjectWizzardContentPathsFrameworkSearchGlobal::QtProjectWizzardContentPathsF
 		"Framework Search Paths defined here will be used for all projects."
 	);
 
-	m_detectionString = "frameworks";
+	m_pathDetector = std::make_shared<CombinedPathDetector>();
+	m_pathDetector->addDetector(std::make_shared<CxxFrameworkPathDetector>("gcc"));
+	m_pathDetector->addDetector(std::make_shared<CxxFrameworkPathDetector>("clang"));
 }
 
 void QtProjectWizzardContentPathsFrameworkSearchGlobal::load()

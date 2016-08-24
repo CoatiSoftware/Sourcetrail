@@ -1,8 +1,9 @@
 #include "qt/window/project_wizzard/QtProjectWizzardContentPreferences.h"
 
 #include "settings/ApplicationSettings.h"
-#include "utility/messaging/type/MessageSwitchColorScheme.h"
 #include "utility/file/FileSystem.h"
+#include "utility/messaging/type/MessageSwitchColorScheme.h"
+#include "utility/path_detector/java_runtime/JavaPathDetectorWindows.h"
 #include "utility/ResourcePaths.h"
 
 QtProjectWizzardContentPreferences::QtProjectWizzardContentPreferences(
@@ -143,16 +144,24 @@ void QtProjectWizzardContentPreferences::populateForm(QGridLayout* layout, int& 
 	// java path
 	m_javaPath = new QtLocationPicker(this);
 	m_javaPath->setPickDirectory(true);
-	m_javaPath->setPlaceholderText("<jdk_root>");
+	m_javaPath->setPlaceholderText("<jre_8_root>/bin/client");
 
 	layout->addWidget(createFormLabel("Java Path"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_javaPath, row, QtProjectWizzardWindow::BACK_COL);
 
 	addHelpButton(
-		"Location of your java installation so that dynamic libraries of JVM can be found."
+		"Location of the folder that contains the dynamic library for your jre virtual machine."
 		, layout, row
 	);
 	row++;
+
+	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
+	{
+		m_javaPathDetector = std::make_shared<CombinedPathDetector>();
+		m_javaPathDetector->addDetector(std::make_shared<JavaPathDetectorWindows>("1.8"));
+		addJavaPathDetection(layout, row);
+		row++;
+	}
 
 	layout->setRowMinimumHeight(row++, 20);
 
@@ -227,4 +236,46 @@ bool QtProjectWizzardContentPreferences::check()
 void QtProjectWizzardContentPreferences::colorSchemeChanged(int index)
 {
 	MessageSwitchColorScheme(m_colorSchemePaths[index]).dispatch();
+}
+
+
+void QtProjectWizzardContentPreferences::javaPathDetectionClicked()
+{
+	std::vector<FilePath> paths = m_javaPathDetector->getPaths(m_javaPathDetectorBox->currentText().toStdString());
+	if (!paths.empty())
+	{
+		m_javaPath->setText(paths.front().str().c_str());
+	}
+}
+
+void QtProjectWizzardContentPreferences::addJavaPathDetection(QGridLayout* layout, int row)
+{
+	std::vector<std::string> detectorNames = m_javaPathDetector->getWorkingDetectorNames();
+	if (!detectorNames.size())
+	{
+		return;
+	}
+
+	QLabel* label = new QLabel("Auto detection from:");
+
+	m_javaPathDetectorBox = new QComboBox();
+
+	for (const std::string& detectorName: detectorNames)
+	{
+		m_javaPathDetectorBox->addItem(detectorName.c_str());
+	}
+
+	QPushButton* button = new QPushButton("detect");
+	button->setObjectName("windowButton");
+	connect(button, SIGNAL(clicked()), this, SLOT(javaPathDetectionClicked()));
+
+	QHBoxLayout* hlayout = new QHBoxLayout();
+	hlayout->addWidget(label);
+	hlayout->addWidget(m_javaPathDetectorBox);
+	hlayout->addWidget(button);
+
+	QWidget* detectionWidget = new QWidget();
+	detectionWidget->setLayout(hlayout);
+
+	layout->addWidget(detectionWidget, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
 }

@@ -37,7 +37,7 @@ void JavaEnvironmentFactory::createInstance(std::string classPath)
 	{
 		std::string oldPathContent = getenv("path");
 
-		std::string javapath = ApplicationSettings::getInstance()->getJavaPath() + "/client/";
+		std::string javapath = ApplicationSettings::getInstance()->getJavaPath() + "/";
 		putenv(("path=" + oldPathContent + ";" + javapath).c_str()); // path env is only modified in the scope of this process.
 
 		javaFound = FileSystem::exists(javapath + "jvm.dll");
@@ -88,7 +88,7 @@ void JavaEnvironmentFactory::createInstance(std::string classPath)
 	JavaVMOption* options = new JavaVMOption[3];   // JVM invocation options
 	std::string classPathOption = "-Djava.class.path=" + classPath;
 	options[0].optionString = const_cast<char*>(classPathOption.c_str());
-	options[1].optionString = const_cast<char*>("-Xms1m");
+	options[1].optionString = const_cast<char*>("-Xms64m");
 	std::string maximumMemoryOprionString = "-Xmx" + std::to_string(ApplicationSettings::getInstance()->getJavaMaximumMemory()) + "m";
 	options[2].optionString =  const_cast<char*>(maximumMemoryOprionString.c_str());
 	vm_args.version = JNI_VERSION_1_6;

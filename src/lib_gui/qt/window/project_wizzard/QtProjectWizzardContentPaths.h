@@ -5,6 +5,7 @@
 #include <QPushButton>
 
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
+#include "utility/path_detector/CombinedPathDetector.h"
 
 class QtDirectoryListBox;
 
@@ -33,12 +34,12 @@ protected:
 	void setDescriptionString(const QString& description);
 	void setHelpString(const QString& help);
 
-	void addDetection(QString name, QGridLayout* layout, int row);
+	void addDetection(QGridLayout* layout, int row);
 
 	QtDirectoryListBox* m_list;
 
 	QString m_showFilesString;
-	QString m_detectionString;
+	std::shared_ptr<CombinedPathDetector> m_pathDetector;
 
 private slots:
 	void detectionClicked();

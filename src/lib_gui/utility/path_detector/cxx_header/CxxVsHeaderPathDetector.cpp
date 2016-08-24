@@ -1,4 +1,4 @@
-#include "utility/headerSearch/VisualStudioDetector.h"
+#include "utility/path_detector/cxx_header/CxxVsHeaderPathDetector.h"
 
 #include <string>
 
@@ -8,18 +8,18 @@
 #include "utility/file/FilePath.h"
 #include "utility/logging/logging.h"
 
-VisualStudioDetector::VisualStudioDetector(const std::string name, int version, bool isExpress)
-	: DetectorBase(name)
+CxxVsHeaderPathDetector::CxxVsHeaderPathDetector(int version, bool isExpress)
+	: PathDetector("Visual Studio " + std::to_string(version) + (isExpress ? " Express" : ""))
 	, m_version(version)
 	, m_isExpress(isExpress)
 {
 }
 
-VisualStudioDetector::~VisualStudioDetector()
+CxxVsHeaderPathDetector::~CxxVsHeaderPathDetector()
 {
 }
 
-std::vector<FilePath> VisualStudioDetector::getStandardHeaderPaths()
+std::vector<FilePath> CxxVsHeaderPathDetector::getPaths() const
 {
 	FilePath vsInstallPath = getVsInstallPathUsingRegistry();
 
@@ -86,12 +86,7 @@ std::vector<FilePath> VisualStudioDetector::getStandardHeaderPaths()
 	return headerPaths;
 }
 
-std::vector<FilePath> VisualStudioDetector::getStandardFrameworkPaths()
-{
-	return std::vector<FilePath>();
-}
-
-FilePath VisualStudioDetector::getVsInstallPathUsingRegistry()
+FilePath CxxVsHeaderPathDetector::getVsInstallPathUsingRegistry() const
 {
 	QString key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\";
 	if (QSysInfo::currentCpuArchitecture() == "x86_64")
@@ -114,7 +109,7 @@ FilePath VisualStudioDetector::getVsInstallPathUsingRegistry()
 	return FilePath();
 }
 
-FilePath VisualStudioDetector::getWindowsSdkPathUsingRegistry(const std::string& version)
+FilePath CxxVsHeaderPathDetector::getWindowsSdkPathUsingRegistry(const std::string& version) const
 {
 	QString key(("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Microsoft SDKs\\Windows\\" + version).c_str());
 

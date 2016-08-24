@@ -164,15 +164,25 @@ add_files(
 	qt/QtApplication.h
 	qt/QtCoreApplication.cpp
 	qt/QtCoreApplication.h
-
-	utility/headerSearch/CompilerDetector.cpp
-	utility/headerSearch/CompilerDetector.h
-	utility/headerSearch/DetectorBase.cpp
-	utility/headerSearch/DetectorBase.h
-	utility/headerSearch/StandardHeaderDetection.cpp
-	utility/headerSearch/StandardHeaderDetection.h
-	utility/headerSearch/VisualStudioDetector.cpp
-	utility/headerSearch/VisualStudioDetector.h
+	
+	utility/path_detector/cxx_header/CxxFrameworkPathDetector.cpp
+	utility/path_detector/cxx_header/CxxFrameworkPathDetector.h
+	utility/path_detector/cxx_header/CxxHeaderPathDetector.cpp
+	utility/path_detector/cxx_header/CxxHeaderPathDetector.h
+	utility/path_detector/cxx_header/CxxVsHeaderPathDetector.cpp
+	utility/path_detector/cxx_header/CxxVsHeaderPathDetector.h
+	utility/path_detector/cxx_header/utilityCxxHeaderDetection.cpp
+	utility/path_detector/cxx_header/utilityCxxHeaderDetection.h
+	
+	utility/path_detector/java_runtime/JavaPathDetector.cpp
+	utility/path_detector/java_runtime/JavaPathDetector.h
+	utility/path_detector/java_runtime/JavaPathDetectorWindows.cpp
+	utility/path_detector/java_runtime/JavaPathDetectorWindows.h
+	
+	utility/path_detector/CombinedPathDetector.cpp
+	utility/path_detector/CombinedPathDetector.h
+	utility/path_detector/PathDetector.cpp
+	utility/path_detector/PathDetector.h
 
 	utility/utilityApp.cpp
 	utility/utilityApp.h
