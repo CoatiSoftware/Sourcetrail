@@ -1,6 +1,8 @@
 #ifndef QT_INDEXING_WIZARD_WINDOW_H
 #define QT_INDEXING_WIZARD_WINDOW_H
 
+#include <functional>
+
 #include "qt/window/QtWindow.h"
 
 class QLabel;
