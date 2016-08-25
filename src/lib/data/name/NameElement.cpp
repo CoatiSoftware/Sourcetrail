@@ -5,12 +5,12 @@
 
 std::string NameElement::Signature::serialize(Signature signature)
 {
-	return signature.m_prefix + "\r" + signature.m_postfix;
+	return signature.m_prefix + "\tp" + signature.m_postfix;
 }
 
 NameElement::Signature NameElement::Signature::deserialize(const std::string& serialized)
 {
-	std::vector<std::string> serializedElements = utility::splitToVector(serialized, "\r");
+	std::vector<std::string> serializedElements = utility::splitToVector(serialized, "\tp");
 	if (serializedElements.size() != 2)
 	{
 		LOG_ERROR("unable to deserialize name signature: " + serialized); // todo: obfuscate serialized!

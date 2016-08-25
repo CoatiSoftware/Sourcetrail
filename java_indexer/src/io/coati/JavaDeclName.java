@@ -75,19 +75,19 @@ public class JavaDeclName
 		if (m_parent != null)
 		{
 			nameHierarchy = m_parent.toNameHierarchy();
-			nameHierarchy += "\n";
+			nameHierarchy += "\tn";
 		}
 		
 		nameHierarchy += m_name;
 		nameHierarchy += getTypeParameterString();
 
-		nameHierarchy += "\t";
+		nameHierarchy += "\ts";
 		if (m_returnTypeName != null)
 		{
 			nameHierarchy += m_returnTypeName.toString();
 		}
 		
-		nameHierarchy += "\r";
+		nameHierarchy += "\tp";
 		nameHierarchy += getParameterString();
 		return nameHierarchy;
 	}

@@ -24,7 +24,6 @@ import com.github.javaparser.ast.expr.QualifiedNameExpr;
 
 import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration;
 import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserInterfaceDeclaration;
-import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration;
 import me.tomassetti.symbolsolver.model.resolution.TypeSolver;
 
 public class JavaDeclNameResolver extends JavaNameResolver

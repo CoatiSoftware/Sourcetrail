@@ -9,6 +9,7 @@ public:
 	static std::string getColorSchemesPath();
 	static std::string getFontsPath();
 	static std::string getGuiPath();
+	static std::string getJavaPath();
 };
 
 #endif // RESOURCE_PATHS_H

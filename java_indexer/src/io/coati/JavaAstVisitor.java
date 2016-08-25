@@ -19,7 +19,6 @@ import com.github.javaparser.ast.comments.LineComment;
 import com.github.javaparser.ast.expr.ArrayInitializerExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.expr.QualifiedNameExpr;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.SwitchStmt;
@@ -33,7 +32,6 @@ import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.TypeParameter;
 
 import me.tomassetti.symbolsolver.javaparsermodel.JavaParserFacade;
-import me.tomassetti.symbolsolver.javaparsermodel.JavaParserFactory;
 import me.tomassetti.symbolsolver.javaparsermodel.UnsolvedSymbolException;
 import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration;
 import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration;
@@ -63,7 +61,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		
 		String[] filePathParts = filePath.split("/");
 		String fileName = filePathParts[filePathParts.length - 1];
-		m_context.add(new DeclContext(fileName + "\t\r"));
+		m_context.add(new DeclContext(fileName + "\ts\tp"));
 	}
 	
 	
@@ -120,8 +118,8 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		}
 		
 		String qualifiedName = m_context.get(0).getName();
-		qualifiedName += "\n";
-		qualifiedName += n.getName() + "\t\r";
+		qualifiedName += "\tn";
+		qualifiedName += n.getName() + "\ts\tp";
 		
 		JavaIndexer.recordSymbol(
 			m_callbackId, qualifiedName, SymbolType.TYPE_PARAMETER, 
@@ -792,15 +790,15 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		else // todo: move this implementation somewhere else
 		{
 			qualifiedName = solvedMethod.declaringType().getQualifiedName();
-			qualifiedName = qualifiedName.replace(".", "\t\r\n");
+			qualifiedName = qualifiedName.replace(".", "\ts\tp\tn");
 			
-			qualifiedName += "\t\r\n" + solvedMethod.getName() + "\t";
+			qualifiedName += "\ts\tp\tn" + solvedMethod.getName() + "\ts";
 			
 			String returnType = solvedMethod.returnType().describe();
 			qualifiedName += returnType;
 		//	qualifiedName += returnType.substring(returnType.lastIndexOf(".") + 1);
 			
-			qualifiedName += "\r(";
+			qualifiedName += "\tp(";
 			for (int i = 0; i < solvedMethod.getParamTypes().size(); i++)
 			{
 				if(i != 0)

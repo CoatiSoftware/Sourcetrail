@@ -54,12 +54,12 @@ public class JavaTypeName
 		if (m_parent != null)
 		{
 			nameHierarchy = m_parent.toNameHierarchy();
-			nameHierarchy += "\n";
+			nameHierarchy += "\tn";
 		}
 		
 		nameHierarchy += m_name;
 		nameHierarchy += getTypeArgumentString();
-		nameHierarchy += "\t\r";
+		nameHierarchy += "\ts\tp";
 		
 		return nameHierarchy;
 	}

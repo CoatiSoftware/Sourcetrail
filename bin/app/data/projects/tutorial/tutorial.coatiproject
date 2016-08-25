@@ -14,9 +14,13 @@
 			LET'S GET STARTED!\n
 			\tTo keep things simple just click the "main" symbol below to start the tour.\n
 			\n
-			[main\tint\r()](); // &lt;- start here\n\n
+			[main\tsint\tp()](); // &lt;- start here\n\n
 		</description>
 	</info>
+	<language_settings>
+		<language>C++</language>
+		<standard>1z</standard>
+	</language_settings>
 	<source>
 		<extensions>
 			<header_extensions>.h</header_extensions>

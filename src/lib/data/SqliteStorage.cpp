@@ -11,7 +11,7 @@
 #include "utility/utilityString.h"
 #include "utility/Version.h"
 
-const size_t SqliteStorage::STORAGE_VERSION = 4;
+const size_t SqliteStorage::STORAGE_VERSION = 5;
 
 SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 	: m_dbFilePath(dbFilePath)
@@ -833,10 +833,16 @@ std::string SqliteStorage::getMetaValue(const std::string& key) const
 
 void SqliteStorage::insertOrUpdateMetaValue(const std::string& key, const std::string& value)
 {
-	m_database.execDML((
-		"INSERT OR REPLACE INTO meta(id, key, value) "
-			"VALUES( (SELECT id FROM meta WHERE key = '" + key + "'), '" + key + "', '" + value + "');"
+	CppSQLite3Statement stmt = m_database.compileStatement(std::string(
+		"INSERT OR REPLACE INTO meta(id, key, value) VALUES("
+			"(SELECT id FROM meta WHERE key = ?), ?, ?"
+		");"
 	).c_str());
+
+	stmt.bind(1, key.c_str());
+	stmt.bind(2, key.c_str());
+	stmt.bind(3, value.c_str());
+	stmt.execDML();
 }
 
 size_t SqliteStorage::getStorageVersion() const

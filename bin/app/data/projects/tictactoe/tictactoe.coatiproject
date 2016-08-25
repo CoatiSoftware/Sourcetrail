@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <config>
-    <language_settings>
-        <language>C++</language>
-        <standard>11</standard>
-    </language_settings>
+	<language_settings>
+		<language>C++</language>
+		<standard>1z</standard>
+	</language_settings>
     <source>
         <extensions>
             <header_extensions>.h</header_extensions>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+	<info>
+		<description>
+			WHAT IS THIS?\n
+			\tJavaParser is an open-source Java project for parsing Java code and\n 
+			\tgenerating an Abstract Syntax Tree (AST). Additionally it supports a\n
+			\tvisitor pattern to traverse the generated AST. For more information on\n
+			\tthis project please visit javaparser.org\n
+			\n
+			LET'S GET STARTED!\n
+			\tHave you ever wondered what a parser for a real programming language\n
+			\tmay look like? Go ahead and find out!\n
+			\n
+			\tIf you ask yourself where to start, click the symbol linked below.\n
+			\n
+			[com\ts\tp\tngithub\ts\tp\tnjavaparser\ts\tp\tnast\ts\tp\tnbody\ts\tp\tnClassOrInterfaceDeclaration\ts\tp] // &lt;- start here!\n\n
+		</description>
+	</info>
+	<language_settings>
+		<language>Java</language>
+		<standard>8</standard>
+	</language_settings>
+	<source>
+		<extensions>
+			<source_extensions>.java</source_extensions>
+		</extensions>
+		<source_paths>
+			<source_path>./src/main/java</source_path>
+			<source_path>./target/generated-sources/javacc</source_path>
+		</source_paths>
+	</source>
+</config>

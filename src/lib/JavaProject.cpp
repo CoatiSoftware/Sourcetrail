@@ -3,6 +3,7 @@
 #include "data/parser/java/JavaEnvironmentFactory.h"
 #include "data/parser/java/TaskParseJava.h"
 #include "isTrial.h"
+#include "utility/ResourcePaths.h"
 
 JavaProject::~JavaProject()
 {
@@ -32,14 +33,14 @@ JavaProject::JavaProject(
 		const std::string separator = ":";
 #endif
 		JavaEnvironmentFactory::createInstance(
-			"data/java/guava-18.0.jar" + separator +
-			"data/java/java-indexer.jar" + separator +
-			"data/java/javaparser-core.jar" + separator +
-			"data/java/javaslang-2.0.0-beta.jar" + separator +
-			"data/java/javassist-3.19.0-GA.jar" + separator +
-			"data/java/java-symbol-solver-core.jar" + separator +
-			"data/java/java-symbol-solver-logic.jar" + separator +
-			"data/java/java-symbol-solver-model.jar" + separator
+			ResourcePaths::getJavaPath() + "guava-18.0.jar" + separator +
+			ResourcePaths::getJavaPath() + "java-indexer.jar" + separator +
+			ResourcePaths::getJavaPath() + "javaparser-core.jar" + separator +
+			ResourcePaths::getJavaPath() + "javaslang-2.0.0-beta.jar" + separator +
+			ResourcePaths::getJavaPath() + "javassist-3.19.0-GA.jar" + separator +
+			ResourcePaths::getJavaPath() + "java-symbol-solver-core.jar" + separator +
+			ResourcePaths::getJavaPath() + "java-symbol-solver-logic.jar" + separator +
+			ResourcePaths::getJavaPath() + "java-symbol-solver-model.jar"
 		);
 	}
 }

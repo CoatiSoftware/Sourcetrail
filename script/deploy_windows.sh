@@ -82,6 +82,9 @@ echo -e "$INFO creating database for tictactie"
 echo -e "$INFO creating database for tutorial"
 ../bin/app/Release/Coati.exe -p ../bin/app/data/projects/tutorial/tutorial.coatiproject -d
 
+echo -e "$INFO creating database for javaparser"
+../bin/app/Release/Coati.exe -p ../bin/app/data/projects/javaparser/javaparser.coatiproject -d
+
 cd ..
 rm -rf temp
 
@@ -108,7 +111,7 @@ echo -e "$INFO building the installer (trail)"
 
 
 # BUILDING WIX INSTALLERS
-call deployment/windows/wixSetup/build.bat
+# call deployment/windows/wixSetup/build.bat
 
 
 # EDIT THE INSTALLERS
@@ -167,6 +170,8 @@ cp -u -r deployment/windows/CoatiTrialSetup/CoatiSetup/Release/setup.exe $TRIAL_
 
 mkdir -p $TRIAL_PACKAGE_DIR/plugins/visual_studio/
 cp -u -r ide_plugins/vs/coati_plugin_vs.vsix $TRIAL_PACKAGE_DIR/plugins/visual_studio/
+mkdir -p $TRIAL_PACKAGE_DIR/plugins/vim/
+cp -u -r ide_plugins/vim/* $TRIAL_PACKAGE_DIR/plugins/vim/
 mkdir -p $TRIAL_PACKAGE_DIR/plugins/sublime_text/
 cp -u -r ide_plugins/sublime_text/* $TRIAL_PACKAGE_DIR/plugins/sublime_text/
 

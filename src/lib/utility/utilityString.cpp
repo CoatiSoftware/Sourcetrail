@@ -122,10 +122,14 @@ namespace utility
 
 	bool isPrefix(const std::string& prefix, const std::string& text)
 	{
-		std::pair<std::string::const_iterator, std::string::const_iterator> res =
-			std::mismatch(prefix.begin(), prefix.end(), text.begin());
+		if (prefix.size() <= text.size())
+		{
+			std::pair<std::string::const_iterator, std::string::const_iterator> res =
+				std::mismatch(prefix.begin(), prefix.end(), text.begin());
 
-		return res.first == prefix.end();
+			return res.first == prefix.end();
+		}
+		return false;
 	}
 
 	bool isPostfix(const std::string& postfix, const std::string& text)

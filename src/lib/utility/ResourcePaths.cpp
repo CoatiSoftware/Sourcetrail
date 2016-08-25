@@ -16,3 +16,8 @@ std::string ResourcePaths::getGuiPath()
 {
 	return AppPath::getAppPath() + "data/gui/";
 }
+
+std::string ResourcePaths::getJavaPath()
+{
+	return AppPath::getAppPath() + "data/java/";
+}

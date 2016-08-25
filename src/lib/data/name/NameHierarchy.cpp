@@ -10,9 +10,9 @@ std::string NameHierarchy::serialize(NameHierarchy nameHierarchy)
 	{
 		if (i > 0)
 		{
-			serializedName += "\n";
+			serializedName += "\tn";
 		}
-		serializedName += nameHierarchy[i]->getName() + "\t";
+		serializedName += nameHierarchy[i]->getName() + "\ts";
 		serializedName += NameElement::Signature::serialize(nameHierarchy[i]->getSignature());
 	}
 	return serializedName;
@@ -22,10 +22,10 @@ NameHierarchy NameHierarchy::deserialize(const std::string& serializedName)
 {
 	NameHierarchy nameHierarchy;
 
-	std::vector<std::string> serializedNameElements = utility::splitToVector(serializedName, "\n");
+	std::vector<std::string> serializedNameElements = utility::splitToVector(serializedName, "\tn");
 	for (size_t i = 0; i < serializedNameElements.size(); i++)
 	{
-		std::vector<std::string> nameParts = utility::splitToVector(serializedNameElements[i], "\t");
+		std::vector<std::string> nameParts = utility::splitToVector(serializedNameElements[i], "\ts");
 		if (nameParts.size() != 2)
 		{
 			LOG_ERROR("unable to deserialize name hierarchy: " + serializedName); // todo: obfuscate serializedName!
