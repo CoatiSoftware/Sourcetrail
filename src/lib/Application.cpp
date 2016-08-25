@@ -79,20 +79,20 @@ void Application::loadSettings()
 	settings->load(FilePath(UserPaths::getAppSettingsPath()));
 
 	LogManager* logManager = LogManager::getInstance().get();
-	if (settings->getLoggingEnabled() && !logManager->getLoggerCount())
+	if (!settings->getLoggingEnabled())
+	{
+		logManager->clearLoggers();
+	}
+	else if (!logManager->getLoggerCount())
 	{
 		std::shared_ptr<ConsoleLogger> consoleLogger = std::make_shared<ConsoleLogger>();
-		// consoleLogger->setLogLevel(Logger::LOG_WARNINGS | Logger::LOG_ERRORS);
+		consoleLogger->setLogLevel(Logger::LOG_WARNINGS | Logger::LOG_ERRORS);
 		logManager->addLogger(consoleLogger);
 
 		FileLogger::setFilePath(UserPaths::getLogPath());
 		std::shared_ptr<FileLogger> fileLogger = std::make_shared<FileLogger>();
 		fileLogger->setLogLevel(Logger::LOG_ALL);
 		logManager->addLogger(fileLogger);
-	}
-	else
-	{
-		logManager->clearLoggers();
 	}
 
 	loadStyle(settings->getColorSchemePath());
