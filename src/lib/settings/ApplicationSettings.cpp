@@ -157,7 +157,7 @@ void ApplicationSettings::setScrollSpeed(float scrollSpeed)
 
 bool ApplicationSettings::getLoggingEnabled() const
 {
-	return getValue<float>("application/logging_enabled", false);
+	return getValue<bool>("application/logging_enabled", false);
 }
 
 void ApplicationSettings::setLoggingEnabled(bool loggingEnabled)

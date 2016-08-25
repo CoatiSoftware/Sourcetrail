@@ -49,6 +49,8 @@ std::shared_ptr<Project> Project::create(
 			));
 		}
 		break;
+	default:
+		break;
 	}
 
 	if (project)
@@ -66,7 +68,7 @@ bool Project::refresh(bool forceRefresh)
 {
 	if (allowsRefresh())
 	{
-		bool loadedSettings = getProjectSettings()->reload();
+		getProjectSettings()->reload();
 
 		updateFileManager(m_fileManager);
 
@@ -153,6 +155,9 @@ void Project::load()
 
 		switch (m_state)
 		{
+		case PROJECT_STATE_NOT_LOADED:
+			break;
+
 		case PROJECT_STATE_EMPTY:
 			buildIndex(false);
 			m_state = PROJECT_STATE_LOADED;

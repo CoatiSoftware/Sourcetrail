@@ -27,7 +27,7 @@ bool CxxProjectSettings::equalsExceptNameAndLocation(const ProjectSettings& othe
 {
 	if (other.getLanguage() == getLanguage())
 	{
-		const CxxProjectSettings* typedOther = dynamic_cast<const CxxProjectSettings*>(&other);
+		// const CxxProjectSettings* typedOther = dynamic_cast<const CxxProjectSettings*>(&other);
 		return(
 			ProjectSettings::equalsExceptNameAndLocation(other)// &&
 		//	utility::isPermutation<FilePath>(getClasspaths(), typedOther->getClasspaths())

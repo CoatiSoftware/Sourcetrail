@@ -10,6 +10,8 @@ std::string languageTypeToString(LanguageType t)
 		return "C++";
 	case LANGUAGE_JAVA:
 		return "Java";
+	case LANGUAGE_UNKNOWN:
+		break;
 	}
 	return "unknown";
 }
@@ -40,6 +42,8 @@ std::string getSymbolNameDelimiterForLanguage(LanguageType t)
 		return "::";
 	case LANGUAGE_JAVA:
 		return ".";
+	case LANGUAGE_UNKNOWN:
+		break;
 	}
 	return "@";
 }
