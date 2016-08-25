@@ -37,6 +37,7 @@ bool Settings::load(const FilePath& filePath)
 	else
 	{
 		clear();
+		m_filePath = filePath;
 		LOG_WARNING("File for Settings not found: " + filePath.str());
 		return false;
 	}
@@ -44,7 +45,7 @@ bool Settings::load(const FilePath& filePath)
 
 void Settings::save()
 {
-	if (m_config.get() && m_filePath.exists())
+	if (m_config.get() && !m_filePath.empty())
 	{
 		m_config->save(m_filePath.str());
 	}
@@ -58,14 +59,7 @@ void Settings::save(const FilePath& filePath)
 {
 	setFilePath(filePath);
 
-	if (m_config)
-	{
-		m_config->save(filePath.str());
-	}
-	else
-	{
-		LOG_WARNING("Settings were not saved: " + filePath.str());
-	}
+	save();
 }
 
 void Settings::clear()
@@ -77,6 +71,33 @@ void Settings::clear()
 const FilePath& Settings::getFilePath() const
 {
 	return m_filePath;
+}
+
+size_t Settings::getVersion() const
+{
+	return getValue<int>("version", 0);
+}
+
+void Settings::setVersion(size_t version)
+{
+	setValue<int>("version", version);
+}
+
+Settings Settings::createFromText(const std::shared_ptr<TextAccess> textAccess)
+{
+	Settings settings;
+	settings.m_config = ConfigManager::createAndLoad(textAccess);
+	return settings;
+}
+
+std::string Settings::getAsText() const
+{
+	if (m_config)
+	{
+		return m_config->toString();
+	}
+
+	return "";
 }
 
 Settings::Settings()
@@ -124,6 +145,11 @@ bool Settings::setPathValues(const std::string& key, const std::vector<FilePath>
 bool Settings::isValueDefined(const std::string& key) const
 {
 	return m_config->isValueDefined(key);
+}
+
+void Settings::removeValues(const std::string& key)
+{
+	m_config->removeValues(key);
 }
 
 void Settings::enableWarnings() const

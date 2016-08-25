@@ -207,6 +207,8 @@ add_files(
 	settings/ProjectSettings.h
 	settings/Settings.cpp
 	settings/Settings.h
+	settings/SettingsMigrator.cpp
+	settings/SettingsMigrator.h
 
 	utility/file/FileInfo.cpp
 	utility/file/FileInfo.h

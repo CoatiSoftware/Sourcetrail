@@ -21,6 +21,7 @@ add_files(
 	MessageQueueTestSuite.h
 	NetworkProtocolHelperTestSuite.h
 	SettingsTestSuite.h
+	SettingsMigratorTestSuite.h
 	SearchIndexTestSuite.h
 	SqliteStorageTestSuite.h
 	StorageTestSuite.h

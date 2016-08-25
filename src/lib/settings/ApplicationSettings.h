@@ -10,8 +10,13 @@ class ApplicationSettings
 {
 public:
 	static std::shared_ptr<ApplicationSettings> getInstance();
+
+	static const size_t VERSION;
+
 	ApplicationSettings();
 	~ApplicationSettings();
+
+	bool load(const FilePath& filePath);
 
 	bool operator==(const ApplicationSettings& other) const;
 

@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <config>
-	<application>
-		<indexer_thread_count>4</indexer_thread_count>
-		<window_base_width>500</window_base_width>
-		<window_base_height>500</window_base_height>
-	</application>
-	<user>
-		<recent_projects>
-			<recent_project>./data/projects/tutorial/tutorial.coatiproject</recent_project>
-			<recent_project>./data/projects/tictactoe/tictactoe.coatiproject</recent_project>
-		</recent_projects>
-	</user>
+    <application>
+        <window_base_height>500</window_base_height>
+        <window_base_width>500</window_base_width>
+    </application>
+    <indexing>
+        <indexer_thread_count>4</indexer_thread_count>
+    </indexing>
+    <user>
+        <recent_projects>
+            <recent_project>./data/projects/tutorial/tutorial.coatiproject</recent_project>
+            <recent_project>./data/projects/tictactoe/tictactoe.coatiproject</recent_project>
+        </recent_projects>
+    </user>
+    <version>1</version>
 </config>

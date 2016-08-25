@@ -3,6 +3,8 @@
 #include "utility/ResourcePaths.h"
 #include "utility/utility.h"
 
+const size_t ApplicationSettings::VERSION = 1;
+
 std::shared_ptr<ApplicationSettings> ApplicationSettings::s_instance;
 
 std::shared_ptr<ApplicationSettings> ApplicationSettings::getInstance()
@@ -21,6 +23,36 @@ ApplicationSettings::ApplicationSettings()
 
 ApplicationSettings::~ApplicationSettings()
 {
+}
+
+bool ApplicationSettings::load(const FilePath& filePath)
+{
+	bool loaded = Settings::load(filePath);
+	if (!loaded)
+	{
+		return false;
+	}
+
+	SettingsMigrator migrator;
+
+	migrator.addMigration(1,
+		"source/header_search_paths/header_search_path",
+		"indexing/cxx/header_search_paths/header_search_path");
+	migrator.addMigration(1,
+		"source/framework_search_paths/framework_search_path",
+		"indexing/cxx/framework_search_paths/framework_search_path");
+	migrator.addMigration(1,
+		"application/indexer_thread_count",
+		"indexing/indexer_thread_count");
+
+	bool migrated = migrator.migrate(this, ApplicationSettings::VERSION);
+
+	if (migrated)
+	{
+		save();
+	}
+
+	return true;
 }
 
 bool ApplicationSettings::operator==(const ApplicationSettings& other) const

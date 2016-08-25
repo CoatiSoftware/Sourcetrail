@@ -8,6 +8,8 @@
 #include "utility/ConfigManager.h"
 #include "utility/file/FilePath.h"
 
+#include "settings/SettingsMigrator.h"
+
 class Settings
 {
 public:
@@ -15,13 +17,19 @@ public:
 	Settings& operator=(const Settings& other);
 	virtual ~Settings();
 
-	virtual bool load(const FilePath& filePath);
-	virtual void save();
-	virtual void save(const FilePath& filePath);
+	bool load(const FilePath& filePath);
+	void save();
+	void save(const FilePath& filePath);
 
 	void clear();
 
 	virtual const FilePath& getFilePath() const;
+
+	size_t getVersion() const;
+	void setVersion(size_t version);
+
+	static Settings createFromText(const std::shared_ptr<TextAccess> textAccess);
+	std::string getAsText() const;
 
 protected:
 	Settings();
@@ -47,8 +55,12 @@ protected:
 
 	bool isValueDefined(const std::string& key) const;
 
+	void removeValues(const std::string& key);
+
 	void enableWarnings() const;
 	void disableWarnings() const;
+
+	friend bool SettingsMigrator::migrate(Settings* settings, size_t targetVersion) const;
 
 private:
 	FilePath m_filePath;

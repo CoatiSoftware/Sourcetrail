@@ -220,6 +220,11 @@ void ConfigManager::setValues(const std::string& key, const std::vector<bool>& v
 	setValues(key, stringValues);
 }
 
+void ConfigManager::removeValues(const std::string& key)
+{
+	m_values.erase(key);
+}
+
 bool ConfigManager::isValueDefined(const std::string& key) const
 {
 	std::multimap<std::string, std::string>::const_iterator it = m_values.find(key);
