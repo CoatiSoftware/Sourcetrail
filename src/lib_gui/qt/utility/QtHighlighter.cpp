@@ -32,7 +32,7 @@ void QtHighlighter::createHighlightingRules()
 	QRegExp numberRegExp = QRegExp("\\b[0-9]+\\b");
 	QRegExp functionRegExp = QRegExp("\\b[A-Za-z0-9_]+(?=\\()");
 	QRegExp quotationRegExp = QRegExp("\"([^\"]|\\\\.)*\"");
-	QRegExp quotation2RegExp = QRegExp(" <.*>");
+	QRegExp quotation2RegExp = QRegExp(" <[^<>\\s]*>");
 	QRegExp commentRegExp = QRegExp("//[^\n]*");
 
 	ColorScheme* scheme = ColorScheme::getInstance().get();
