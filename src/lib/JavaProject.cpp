@@ -2,8 +2,9 @@
 
 #include "data/parser/java/JavaEnvironmentFactory.h"
 #include "data/parser/java/TaskParseJava.h"
-#include "isTrial.h"
 #include "utility/ResourcePaths.h"
+#include "Application.h"
+#include "isTrial.h"
 
 JavaProject::~JavaProject()
 {
@@ -42,6 +43,10 @@ JavaProject::JavaProject(
 			ResourcePaths::getJavaPath() + "java-symbol-solver-logic.jar" + separator +
 			ResourcePaths::getJavaPath() + "java-symbol-solver-model.jar"
 		);
+	}
+	if (!JavaEnvironmentFactory::getInstance() && !isTrial())
+	{
+		Application::getInstance()->handleDialog("Coati was unable to locate Java on this machine.\nPlease make sure to provide the correct path in your preferences.");
 	}
 }
 
