@@ -49,6 +49,11 @@ void LogManagerImplementation::removeLoggersByType(const std::string& type)
 	}
 }
 
+void LogManagerImplementation::clearLoggers()
+{
+	m_loggers.clear();
+}
+
 int LogManagerImplementation::getLoggerCount() const
 {
 	std::lock_guard<std::mutex> lockGuard(m_loggerMutex);

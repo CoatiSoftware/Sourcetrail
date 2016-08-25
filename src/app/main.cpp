@@ -1,8 +1,5 @@
 #include "utility/AppPath.h"
 #include "utility/commandline/CommandLineParser.h"
-#include "utility/logging/ConsoleLogger.h"
-#include "utility/logging/FileLogger.h"
-#include "utility/logging/LogManager.h"
 #include "utility/ResourcePaths.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/UserPaths.h"
@@ -18,18 +15,6 @@
 #include "qt/view/QtViewFactory.h"
 #include "qt/window/QtMainWindow.h"
 #include "version.h"
-
-void init()
-{
-	std::shared_ptr<ConsoleLogger> consoleLogger = std::make_shared<ConsoleLogger>();
-	consoleLogger->setLogLevel(Logger::LOG_WARNINGS | Logger::LOG_ERRORS);
-	LogManager::getInstance()->addLogger(consoleLogger);
-
-	std::shared_ptr<FileLogger> fileLogger = std::make_shared<FileLogger>();
-	fileLogger->setLogLevel(Logger::LOG_ALL);
-	FileLogger::setFilePath(UserPaths::getLogPath());
-	LogManager::getInstance()->addLogger(fileLogger);
-}
 
 int main(int argc, char *argv[])
 {
@@ -57,7 +42,6 @@ int main(int argc, char *argv[])
 		QtCoreApplication qtApp(argc, argv);
 
 		setupApp(argc, argv);
-		init();
 
 		Application::createInstance(version, nullptr, nullptr);
 		ScopedFunctor f([](){
@@ -88,21 +72,21 @@ int main(int argc, char *argv[])
 		QtApplication qtApp(argc, argv);
 
 		setupApp(argc, argv);
-		init();
 
 		qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
 
 		QtViewFactory viewFactory;
 		QtNetworkFactory networkFactory;
 
-		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
-		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".ttf");
 		Application::createInstance(version, &viewFactory, &networkFactory);
 		ScopedFunctor f([](){
 			Application::destroyInstance();
 		});
 
 		commandLineParser.projectLoad();
+
+		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
+		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".ttf");
 
 		return qtApp.exec();
 	}

@@ -38,9 +38,11 @@ private:
 	QComboBox* m_tabWidth;
 
 	QComboBox* m_colorSchemes;
-	QLineEdit* m_scrollSpeed;
 	std::vector<FilePath> m_colorSchemePaths;
 	int m_oldColorSchemeIndex;
+
+	QLineEdit* m_scrollSpeed;
+	QCheckBox* m_loggingEnabled;
 
 	QComboBox* m_threads;
 	QCheckBox* m_fatalErrors;

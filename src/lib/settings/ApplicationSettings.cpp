@@ -155,6 +155,16 @@ void ApplicationSettings::setScrollSpeed(float scrollSpeed)
 	setValue<float>("application/scroll_speed", scrollSpeed);
 }
 
+bool ApplicationSettings::getLoggingEnabled() const
+{
+	return getValue<float>("application/logging_enabled", false);
+}
+
+void ApplicationSettings::setLoggingEnabled(bool loggingEnabled)
+{
+	setValue<bool>("application/logging_enabled", loggingEnabled);
+}
+
 int ApplicationSettings::getIndexerThreadCount() const
 {
 	return getValue<int>("indexing/indexer_thread_count", 4);
@@ -167,12 +177,12 @@ void ApplicationSettings::setIndexerThreadCount(const int count)
 
 bool ApplicationSettings::getShowExternalNonFatalErrors() const
 {
-	return getValue<bool>("application/show_external_non_fatal_errors", false);
+	return getValue<bool>("indexing/show_external_non_fatal_errors", false);
 }
 
 void ApplicationSettings::setShowExternalNonFatalErrors(const bool show)
 {
-	setValue<bool>("application/show_external_non_fatal_errors", show);
+	setValue<bool>("indexing/show_external_non_fatal_errors", show);
 }
 
 std::string ApplicationSettings::getJavaPath() const

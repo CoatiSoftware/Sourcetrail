@@ -18,16 +18,18 @@
 		<font_size_min><!-- INTEGER: minimum font size in pt --></font_size_min>
 		<font_size_std><!-- INTEGER: standard font size in pt --></font_size_std>
 
-		<show_external_non_fatal_errors><!-- BOOL: show non-fatal errors in unindexed files --></show_external_non_fatal_errors>
-
 		<window_base_width><!-- INTEGER: initial width of an overlay window --></window_base_width>
 		<window_base_height><!-- INTEGER: initial height of an overlay window --></window_base_height>
 
 		<scroll_speed><!-- DECIMAL: multiplier for default scroll speed in views --></scroll_speed>
+
+		<logging_enabled><!-- BOOL: define if console and file logging is enabled --></logging_enabled>
 	</application>
 
 	<indexing>
 		<indexer_thread_count><!-- INTEGER: number of threads indexing the source code --></indexer_thread_count>
+
+		<show_external_non_fatal_errors><!-- BOOL: show non-fatal errors in unindexed files --></show_external_non_fatal_errors>
 
 		<cxx>
 			<compiler_flags>

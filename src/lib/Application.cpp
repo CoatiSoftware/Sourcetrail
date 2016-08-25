@@ -1,7 +1,10 @@
 #include "Application.h"
 
 #include "utility/file/FileSystem.h"
+#include "utility/logging/ConsoleLogger.h"
+#include "utility/logging/FileLogger.h"
 #include "utility/logging/logging.h"
+#include "utility/logging/LogManager.h"
 #include "utility/messaging/MessageQueue.h"
 #include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
@@ -74,6 +77,23 @@ void Application::loadSettings()
 {
 	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
 	settings->load(FilePath(UserPaths::getAppSettingsPath()));
+
+	LogManager* logManager = LogManager::getInstance().get();
+	if (settings->getLoggingEnabled() && !logManager->getLoggerCount())
+	{
+		std::shared_ptr<ConsoleLogger> consoleLogger = std::make_shared<ConsoleLogger>();
+		// consoleLogger->setLogLevel(Logger::LOG_WARNINGS | Logger::LOG_ERRORS);
+		logManager->addLogger(consoleLogger);
+
+		FileLogger::setFilePath(UserPaths::getLogPath());
+		std::shared_ptr<FileLogger> fileLogger = std::make_shared<FileLogger>();
+		fileLogger->setLogLevel(Logger::LOG_ALL);
+		logManager->addLogger(fileLogger);
+	}
+	else
+	{
+		logManager->clearLoggers();
+	}
 
 	loadStyle(settings->getColorSchemePath());
 }

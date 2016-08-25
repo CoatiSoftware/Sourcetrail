@@ -99,6 +99,19 @@ void QtProjectWizzardContentPreferences::populateForm(QGridLayout* layout, int& 
 	);
 	row++;
 
+	// logging
+	m_loggingEnabled = new QCheckBox("Enable console and file logging", this);
+
+	layout->addWidget(createFormLabel("Logging"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(m_loggingEnabled, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
+
+	addHelpButton(
+		"Save log files and show log information in the console."
+		, layout, row
+	);
+
+	row++;
+
 	layout->setRowMinimumHeight(row++, 20);
 
 	// indexing
@@ -191,6 +204,7 @@ void QtProjectWizzardContentPreferences::load()
 	}
 
 	m_scrollSpeed->setText(QString::number(appSettings->getScrollSpeed(), 'f', 1));
+	m_loggingEnabled->setChecked(appSettings->getLoggingEnabled());
 
 	m_threads->setCurrentIndex(appSettings->getIndexerThreadCount() - 1);
 	m_fatalErrors->setChecked(appSettings->getShowExternalNonFatalErrors());
@@ -218,6 +232,8 @@ void QtProjectWizzardContentPreferences::save()
 	{
 		appSettings->setScrollSpeed(scrollSpeed);
 	}
+
+	appSettings->setLoggingEnabled(m_loggingEnabled->isChecked());
 
 	appSettings->setIndexerThreadCount(m_threads->currentIndex() + 1);
 	appSettings->setShowExternalNonFatalErrors(m_fatalErrors->isChecked());

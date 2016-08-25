@@ -47,6 +47,9 @@ public:
 	float getScrollSpeed() const;
 	void setScrollSpeed(float scrollSpeed);
 
+	bool getLoggingEnabled() const;
+	void setLoggingEnabled(bool loggingEnabled);
+
 	// indexing
 	int getIndexerThreadCount() const;
 	void setIndexerThreadCount(const int count);

@@ -39,6 +39,11 @@ void LogManager::removeLoggersByType(const std::string& type)
 	m_logManagerImplementation.removeLoggersByType(type);
 }
 
+void LogManager::clearLoggers()
+{
+	m_logManagerImplementation.clearLoggers();
+}
+
 int LogManager::getLoggerCount() const
 {
 	return m_logManagerImplementation.getLoggerCount();
