@@ -15,8 +15,8 @@ QListWidget {
 }
 
 QListWidget::item {
-	height: 20px;
 	border-bottom: 1px solid lightgray;
+	height: 20px;
 }
 
 QListWidget::item:selected {
@@ -26,6 +26,7 @@ QListWidget::item:selected {
 QtListItemWidget #field {
 	background-color: transparent;
 	border: none;
+	color: black;
 	margin-top: 2px;
 	margin-left: 5px;
 }

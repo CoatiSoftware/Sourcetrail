@@ -2,14 +2,16 @@
 	font-size: 12pt;
 }
 
-#title {
+QLabel, QCheckBox {
 	color: black;
+}
+
+#title {
 	font-size: 16pt;
 	font-weight: bold;
 }
 
 #section, #projectTitle {
-	color: black;
 	font-size: 14pt;
 	font-weight: bold;
 }
@@ -87,8 +89,10 @@
 }
 
 #name, #picker {
+	background: white;
 	border-radius: 10px;
 	border: 1px solid lightgrey;
+	color: black;
 	padding: 2px 5px 0px;
 }
 
@@ -96,6 +100,7 @@
 	background: white;
 	border: none;
 	border-radius: 5px;
+	color: black;
 	margin-left: 5px;
 	margin-top: 2px;
 }
@@ -120,6 +125,7 @@
 	border-radius: 8px;
 	border-bottom-right-radius: 0px;
 	border-top-right-radius: 0px;
+	color: black;
 	font-size: 15pt;
 	margin-right: 0px;
 	height: 25px;
@@ -154,6 +160,7 @@
 #projectButton {
 	background: white;
 	border-radius: 8px;
+	color: black;
 	font-size: 12pt;
 	width: 7em;
 	height: 7em;
@@ -165,7 +172,9 @@
 }
 
 #textField {
+	background: white;
 	border: 1px solid lightgray;
 	border-radius: 12px;
+	color: black;
 	padding: 6px;
 }
