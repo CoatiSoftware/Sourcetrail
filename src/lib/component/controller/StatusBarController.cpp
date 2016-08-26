@@ -3,6 +3,7 @@
 #include "component/view/StatusBarView.h"
 #include "data/access/StorageAccess.h"
 #include "utility/logging/logging.h"
+#include "utility/utilityString.h"
 
 StatusBarController::StatusBarController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -51,10 +52,12 @@ void StatusBarController::handleMessage(MessageStatus* message)
 
 void StatusBarController::setStatus(const std::string& status, bool isError, bool showLoader)
 {
-	if (!status.empty())
-	{
-		LOG_INFO_STREAM(<< "STATUS " << status);
+	std::string str = utility::replace(status, "\n", " ");
 
-		getView()->showMessage(status, isError, showLoader);
+	if (!str.empty())
+	{
+		LOG_INFO_STREAM(<< "STATUS " << str);
+
+		getView()->showMessage(str, isError, showLoader);
 	}
 }

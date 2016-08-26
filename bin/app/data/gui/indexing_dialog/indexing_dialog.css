@@ -1,4 +1,4 @@
-* {
+QLabel {
 	color: white;
 }
 
@@ -29,9 +29,10 @@
 }
 
 #errorCount {
-	font-size: 12pt;
 	border: none;
 	background: transparent;
+	color: white;
+	font-size: 14pt;
 }
 
 #windowButton {
