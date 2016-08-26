@@ -17,6 +17,7 @@ public:
 	~QtTcpWrapper();
 
 	void startListening();
+	void stopListening();
 
 	void sendMessage(const std::string& message) const;
 

@@ -16,6 +16,7 @@
 #include "component/view/DialogView.h"
 #include "component/view/GraphViewStyle.h"
 #include "component/controller/NetworkFactory.h"
+#include "component/controller/IDECommunicationController.h"
 #include "component/view/MainView.h"
 #include "component/view/ViewFactory.h"
 #include "data/StorageCache.h"
@@ -55,6 +56,7 @@ void Application::createInstance(
 	{
 		s_instance->m_ideCommunicationController =
 			networkFactory->createIDECommunicationController(s_instance->m_storageCache.get());
+		s_instance->m_ideCommunicationController->startListening();
 	}
 
 	s_instance->startMessagingAndScheduling();

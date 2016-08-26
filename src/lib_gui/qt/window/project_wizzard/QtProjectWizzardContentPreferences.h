@@ -44,6 +44,9 @@ private:
 	QLineEdit* m_scrollSpeed;
 	QCheckBox* m_loggingEnabled;
 
+	QLineEdit* m_coatiPort;
+	QLineEdit* m_pluginPort;
+
 	QComboBox* m_threads;
 	QCheckBox* m_fatalErrors;
 

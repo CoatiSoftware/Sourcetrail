@@ -152,3 +152,9 @@ void IDECommunicationController::handleMessage(MessageMoveIDECursor* message)
 
 	sendMessage(networkMessage);
 }
+
+void IDECommunicationController::handleMessage(MessagePluginPortChange* message)
+{
+	stopListening();
+	startListening();
+}

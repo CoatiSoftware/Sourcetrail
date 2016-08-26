@@ -21,6 +21,7 @@
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageLoadProject.h"
+#include "utility/messaging/type/MessagePluginPortChange.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageScrollSpeedChange.h"
 #include "utility/messaging/type/MessageStatus.h"
@@ -42,6 +43,8 @@ QtProjectWizzard::QtProjectWizzard(QWidget* parent)
 	m_appSettings.setHeaderSearchPaths(appSettings->getHeaderSearchPaths());
 	m_appSettings.setFrameworkSearchPaths(appSettings->getFrameworkSearchPaths());
 	m_appSettings.setScrollSpeed(appSettings->getScrollSpeed());
+	m_appSettings.setCoatiPort(appSettings->getCoatiPort());
+	m_appSettings.setPluginPort(appSettings->getPluginPort());
 
 	m_parserManager = std::make_shared<SolutionParserManager>();
 
@@ -616,7 +619,7 @@ void QtProjectWizzard::createProject()
 		{
 			settingsChanged = !(application->getCurrentProject()->settingsEqualExceptNameAndLocation(*(m_settings.get())));
 		}
-		
+
 		bool appSettingsChanged = !(m_appSettings == *ApplicationSettings::getInstance().get());
 
 		if (settingsChanged || appSettingsChanged)
@@ -639,6 +642,12 @@ void QtProjectWizzard::savePreferences()
 	if (m_appSettings.getScrollSpeed() != ApplicationSettings::getInstance()->getScrollSpeed())
 	{
 		MessageScrollSpeedChange(ApplicationSettings::getInstance()->getScrollSpeed()).dispatch();
+	}
+
+	if (m_appSettings.getCoatiPort() != ApplicationSettings::getInstance()->getCoatiPort() ||
+		m_appSettings.getPluginPort() != ApplicationSettings::getInstance()->getPluginPort())
+	{
+		MessagePluginPortChange().dispatch();
 	}
 
 	if (appSettingsChanged)

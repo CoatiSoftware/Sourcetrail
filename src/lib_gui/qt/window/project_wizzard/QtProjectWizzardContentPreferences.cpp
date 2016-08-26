@@ -115,6 +115,7 @@ void QtProjectWizzardContentPreferences::populateForm(QGridLayout* layout, int& 
 
 	layout->setRowMinimumHeight(row++, 20);
 
+
 	// indexing
 	layout->addWidget(createFormTitle("INDEXING"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
 	row++;
@@ -150,6 +151,36 @@ void QtProjectWizzardContentPreferences::populateForm(QGridLayout* layout, int& 
 	row++;
 
 	layout->setRowMinimumHeight(row++, 20);
+
+
+	// Plugins
+	layout->addWidget(createFormTitle("PLUGIN"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
+	row++;
+
+	// Coati port
+	m_coatiPort = new QLineEdit();
+	m_coatiPort->setObjectName("name");
+	m_coatiPort->setAttribute(Qt::WA_MacShowFocusRect, 0);
+
+	layout->addWidget(createFormLabel("Coati Port"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(m_coatiPort, row, QtProjectWizzardWindow::BACK_COL);
+
+	addHelpButton("Port number that Coati uses to listen for incoming messages from plugins.", layout, row);
+	row++;
+
+	// Coati port
+	m_pluginPort = new QLineEdit();
+	m_pluginPort->setObjectName("name");
+	m_pluginPort->setAttribute(Qt::WA_MacShowFocusRect, 0);
+
+	layout->addWidget(createFormLabel("Plugin Port"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(m_pluginPort, row, QtProjectWizzardWindow::BACK_COL);
+
+	addHelpButton("Port number that Coati sends outgoing messages to.", layout, row);
+	row++;
+
+	layout->setRowMinimumHeight(row++, 20);
+
 
 	// Java
 	layout->addWidget(createFormTitle("JAVA"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
@@ -192,6 +223,7 @@ void QtProjectWizzardContentPreferences::populateForm(QGridLayout* layout, int& 
 
 	layout->setRowMinimumHeight(row++, 20);
 
+
 	// C/C++
 	layout->addWidget(createFormTitle("C/C++"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
 	row++;
@@ -220,6 +252,9 @@ void QtProjectWizzardContentPreferences::load()
 	m_scrollSpeed->setText(QString::number(appSettings->getScrollSpeed(), 'f', 1));
 	m_loggingEnabled->setChecked(appSettings->getLoggingEnabled());
 
+	m_coatiPort->setText(QString::number(appSettings->getCoatiPort()));
+	m_pluginPort->setText(QString::number(appSettings->getPluginPort()));
+
 	m_threads->setCurrentIndex(appSettings->getIndexerThreadCount() - 1);
 	m_fatalErrors->setChecked(appSettings->getShowExternalNonFatalErrors());
 
@@ -242,12 +277,15 @@ void QtProjectWizzardContentPreferences::save()
 	m_oldColorSchemeIndex = -1;
 
 	float scrollSpeed = m_scrollSpeed->text().toFloat();
-	if (scrollSpeed)
-	{
-		appSettings->setScrollSpeed(scrollSpeed);
-	}
+	if (scrollSpeed) appSettings->setScrollSpeed(scrollSpeed);
 
 	appSettings->setLoggingEnabled(m_loggingEnabled->isChecked());
+
+	int coatiPort = m_coatiPort->text().toInt();
+	if (coatiPort) appSettings->setCoatiPort(coatiPort);
+
+	int pluginPort = m_pluginPort->text().toInt();
+	if (pluginPort) appSettings->setPluginPort(pluginPort);
 
 	appSettings->setIndexerThreadCount(m_threads->currentIndex() + 1);
 	appSettings->setShowExternalNonFatalErrors(m_fatalErrors->isChecked());
