@@ -532,6 +532,7 @@ void QtProjectWizzard::showSummary()
 				}
 			}
 
+			summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window), true, true);
 			summary->addContent(new QtProjectWizzardContentFlags(m_settings, window), true, true);
 			summary->addContent(new QtProjectWizzardContentPathsExclude(m_settings, window), true, true);
 
