@@ -10,26 +10,26 @@
 
 #title {
 	color: white;
-	font-size: 24pt;
+	font-size: 22pt;
 	font-weight: bold;
 }
 
 #percent {
-	font-size: 24pt;
+	font-size: 22pt;
 	font-weight: bold;
 }
 
 #message {
-	font-size: 16pt;
+	font-size: 14pt;
 	font-weight: bold;
 }
 
 #filePath {
-	font-size: 12pt;
+	font-size: 11pt;
 }
 
 #errorCount {
-	font-size: 14pt;
+	font-size: 12pt;
 	border: none;
 	background: transparent;
 }

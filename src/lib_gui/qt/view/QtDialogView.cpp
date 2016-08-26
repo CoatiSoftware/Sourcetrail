@@ -200,7 +200,7 @@ void QtDialogView::handleMessage(MessageInterruptTasks* message)
 			QtIndexingDialog* window = dynamic_cast<QtIndexingDialog*>(m_windowStack.getTopWindow());
 			if (window && window->getType() == QtIndexingDialog::DIALOG_INDEXING)
 			{
-				showProgressDialog("Interrupting Indexing", "Waiting for indexer threads to finish");
+				showProgressDialog("Interrupting Indexing", "Waiting for indexer\nthreads to finish");
 			}
 		}
 	);
