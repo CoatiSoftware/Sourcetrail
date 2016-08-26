@@ -2,7 +2,6 @@
 
 #include "component/view/DialogView.h"
 #include "data/access/StorageAccessProxy.h"
-#include "data/graph/Token.h"
 #include "data/parser/cxx/TaskParseWrapper.h"
 #include "data/parser/java/TaskParseJava.h"
 #include "data/PersistentStorage.h"
@@ -11,9 +10,8 @@
 #include "settings/ProjectSettings.h"
 
 #include "utility/file/FileRegister.h"
-#include "utility/file/FileSystem.h"
-#include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/TaskGroupSequential.h"
 #include "utility/scheduling/TaskGroupParallel.h"
@@ -66,17 +64,79 @@ Project::~Project()
 
 bool Project::refresh(bool forceRefresh)
 {
-	if (allowsRefresh())
+	if (m_state == PROJECT_STATE_NOT_LOADED)
 	{
-		getProjectSettings()->reload();
+		return false;
+	}
 
-		updateFileManager(m_fileManager);
+	std::string question;
 
-		if (buildIndex(forceRefresh))
+	if (!forceRefresh)
+	{
+		switch (m_state)
 		{
-			m_state = PROJECT_STATE_LOADED;
-			return true;
+			case PROJECT_STATE_EMPTY:
+				forceRefresh = true;
+				break;
+
+			case PROJECT_STATE_LOADED:
+				break;
+
+			case PROJECT_STATE_OUTDATED:
+				question =
+					"The project file was changed after the last indexing. The project needs to get fully reindexed to "
+					"reflect the current project state. Do you want to reindex the project?";
+				forceRefresh = true;
+				break;
+
+			case PROJECT_STATE_OUTVERSIONED:
+				question =
+					"This project was indexed with a different version of Coati. It needs to be fully reindexed to be used "
+					"with this version of Coati. Do you want to reindex the project?";
+				forceRefresh = true;
+				break;
+
+			case PROJECT_STATE_SETTINGS_UPDATED:
+				question =
+					"Some settings were changed, the project needs to be fully reindexed. "
+					"Do you want to reindex the project?";
+				forceRefresh = true;
+				break;
+
+			default:
+				break;
 		}
+	}
+
+	if (forceRefresh && question.size() && Application::getInstance()->hasGUI() && !isTrial())
+	{
+		std::vector<std::string> options;
+		options.push_back("Yes");
+		options.push_back("No");
+		int result = m_dialogView->confirm(question, options);
+
+		if (result == 1)
+		{
+			return false;
+		}
+	}
+
+	if (!allowsRefresh())
+	{
+		return false;
+	}
+
+	getProjectSettings()->reload();
+
+	updateFileManager(m_fileManager);
+
+	if (buildIndex(forceRefresh))
+	{
+		m_storageAccessProxy->setSubject(m_storage.get());
+
+		m_state = PROJECT_STATE_LOADED;
+
+		return true;
 	}
 
 	return false;
@@ -102,6 +162,14 @@ bool Project::settingsEqualExceptNameAndLocation(const ProjectSettings& otherSet
 	return getProjectSettings()->equalsExceptNameAndLocation(otherSettings);
 }
 
+void Project::setStateSettingsUpdated()
+{
+	if (m_state != PROJECT_STATE_NOT_LOADED && m_state != PROJECT_STATE_EMPTY)
+	{
+		m_state = PROJECT_STATE_SETTINGS_UPDATED;
+	}
+}
+
 void Project::logStats() const
 {
 	m_storage->logStats();
@@ -121,105 +189,57 @@ DialogView* Project::getDialogView() const
 
 void Project::load()
 {
+	m_storageAccessProxy->setSubject(nullptr);
+
 	const std::shared_ptr<ProjectSettings> projectSettings = getProjectSettings();
 	bool loadedSettings = projectSettings->reload();
-	if (loadedSettings)
+
+	if (!loadedSettings)
 	{
-		NameHierarchy::setDelimiter(getSymbolNameDelimiterForLanguage(projectSettings->getLanguage()));
-		const FilePath projectSettingsPath = projectSettings->getFilePath();
-		const FilePath dbPath = FilePath(projectSettingsPath).replaceExtension("coatidb");
-		m_storage = std::make_shared<PersistentStorage>(dbPath);
+		return;
+	}
+
+	NameHierarchy::setDelimiter(getSymbolNameDelimiterForLanguage(projectSettings->getLanguage()));
+
+	const FilePath projectSettingsPath = projectSettings->getFilePath();
+	const FilePath dbPath = FilePath(projectSettingsPath).replaceExtension("coatidb");
+
+	m_storage = std::make_shared<PersistentStorage>(dbPath);
+
+	if (m_storage->isEmpty())
+	{
+		m_state = PROJECT_STATE_EMPTY;
+		m_storage->setup();
+	}
+	else if (m_storage->isIncompatible())
+	{
+		m_state = PROJECT_STATE_OUTVERSIONED;
+	}
+	else if (TextAccess::createFromFile(projectSettingsPath.str())->getText() != m_storage->getProjectSettingsText())
+	{
+		m_state = PROJECT_STATE_OUTDATED;
+	}
+	else
+	{
+		m_state = PROJECT_STATE_LOADED;
+	}
+
+	if (m_state == PROJECT_STATE_LOADED || m_state == PROJECT_STATE_OUTDATED)
+	{
+		m_storage->finishParsing();
 		m_storageAccessProxy->setSubject(m_storage.get());
 
-		if (m_storage->isEmpty())
-		{
-			m_state = PROJECT_STATE_EMPTY;
-			m_storage->setup();
-		}
-		else if (m_storage->isIncompatible())
-		{
-			m_state = PROJECT_STATE_OUTVERSIONED;
-		}
-		else if (TextAccess::createFromFile(projectSettingsPath.str())->getText() != m_storage->getProjectSettingsText())
-		{
-			m_state = PROJECT_STATE_OUTDATED;
-		}
-		else
-		{
-			m_state = PROJECT_STATE_LOADED;
-		}
-
-		updateFileManager(m_fileManager);
-
-		bool reparse = false;
-
-		switch (m_state)
-		{
-		case PROJECT_STATE_NOT_LOADED:
-			break;
-
-		case PROJECT_STATE_EMPTY:
-			buildIndex(false);
-			m_state = PROJECT_STATE_LOADED;
-			break;
-		case PROJECT_STATE_OUTDATED:
-			if (Application::getInstance()->hasGUI() && !isTrial())
-			{
-				std::vector<std::string> options;
-				options.push_back("Yes");
-				options.push_back("No");
-				int result = Application::getInstance()->handleDialog(
-					"The project file was changed after the last indexing. The project needs to get fully reindexed to "
-					"reflect the current project state. Do you want to reindex the project?", options);
-
-				reparse = (result == 0);
-			}
-			// dont break here.
-		case PROJECT_STATE_LOADED:
-			m_storage->finishParsing();
-			MessageFinishedParsing().dispatch();
-			MessageStatus("Finished Loading", false, false).dispatch();
-			break;
-		case PROJECT_STATE_OUTVERSIONED:
-			MessageStatus("Can't load project").dispatch();
-
-			reparse = true;
-
-			if (Application::getInstance()->hasGUI() && !isTrial())
-			{
-				std::vector<std::string> options;
-				options.push_back("Yes");
-				options.push_back("No");
-				int result = Application::getInstance()->handleDialog(
-					"This project was indexed with a different version of Coati. It needs to be fully reindexed to be used "
-					"with this version of Coati. Do you want to reindex the project?", options);
-
-				reparse = (result == 0);
-			}
-			m_storage.reset();
-			break;
-		}
-
-		if (reparse)
-		{
-			refresh(true);
-		}
+		MessageFinishedParsing().dispatch();
+		MessageStatus("Finished Loading", false, false).dispatch();
 	}
-}
-
-void Project::clearStorage()
-{
-	if (!m_storage)
+	else
 	{
-		const FilePath projectSettingsPath = getProjectSettings()->getFilePath();
-		const FilePath dbPath = FilePath(projectSettingsPath).replaceExtension("coatidb");
-		m_storage = std::make_shared<PersistentStorage>(dbPath);
+		MessageStatus("Project not loaded", false, false).dispatch();
 	}
 
-	if (m_storage)
+	if (m_state != PROJECT_STATE_LOADED)
 	{
-		m_storage->clear();
-		m_state = PROJECT_STATE_EMPTY;
+		MessageRefresh().dispatch();
 	}
 }
 
@@ -266,7 +286,7 @@ bool Project::buildIndex(bool forceRefresh)
 
 	if (forceRefresh)
 	{
-		clearStorage();
+		m_storage->clear();
 	}
 
 	m_storage->setProjectSettingsText(TextAccess::createFromFile(getProjectSettingsFilePath().str())->getText());
@@ -309,5 +329,3 @@ bool Project::allowsRefresh()
 {
 	return true;
 }
-
-

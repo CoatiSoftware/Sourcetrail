@@ -41,6 +41,8 @@ public:
 	void updateFiles();
 	void showContents();
 
+	void onWindowFocus();
+
 	QtCodeFile* getFile(const FilePath filePath);
 
 private:

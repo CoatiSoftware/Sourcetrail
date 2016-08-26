@@ -7,13 +7,14 @@
 #include "utility/file/FileManager.h"
 
 #include "data/parser/Parser.h"
-#include "settings/ProjectSettings.h" // todo: use forward declaration here
-#include "utility/scheduling/Task.h"
+#include "settings/LanguageType.h"
 
 class DialogView;
-class PersistentStorage;
-class StorageAccessProxy;
 class FileRegister;
+class PersistentStorage;
+class ProjectSettings;
+class StorageAccessProxy;
+class Task;
 
 class Project
 {
@@ -28,7 +29,10 @@ public:
 	FilePath getProjectSettingsFilePath() const;
 	LanguageType getLanguage() const;
 	std::string getDescription() const;
+
 	bool settingsEqualExceptNameAndLocation(const ProjectSettings& otherSettings) const;
+	void setStateSettingsUpdated();
+
 	void logStats() const;
 
 protected:
@@ -45,13 +49,13 @@ private:
 		PROJECT_STATE_EMPTY,
 		PROJECT_STATE_LOADED,
 		PROJECT_STATE_OUTDATED,
-		PROJECT_STATE_OUTVERSIONED
+		PROJECT_STATE_OUTVERSIONED,
+		PROJECT_STATE_SETTINGS_UPDATED
 	};
 
 	Project(const Project&);
 
 	void load();
-	void clearStorage();
 	bool buildIndex(bool forceRefresh);
 
 	virtual bool allowsRefresh();

@@ -21,7 +21,6 @@
 
 QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 	: QFrame()
-	, m_updateTitleBarFunctor(std::bind(&QtCodeFile::doUpdateTitleBar, this))
 	, m_navigator(navigator)
 	, m_filePath(filePath)
 	, m_contentRequested(false)
@@ -403,6 +402,27 @@ void QtCodeFile::updateSnippets()
 	m_snippets.back()->setProperty("isLast", true);
 }
 
+void QtCodeFile::updateTitleBar()
+{
+	if (isTrial())
+	{
+		return;
+	}
+
+	// cannot use m_filePath.exists() here since it is only checked when FilePath is constructed.
+	if ((!FileSystem::exists(m_filePath.str())) ||
+		(FileSystem::getLastWriteTime(m_filePath) > m_modificationTime))
+	{
+		m_title->setText(QString(m_filePath.fileName().c_str()) + "*");
+		m_title->setToolTip(QString::fromStdString("out of date: " + m_filePath.str()));
+	}
+	else
+	{
+		m_title->setText(m_filePath.fileName().c_str());
+		m_title->setToolTip(QString::fromStdString(m_filePath.str()));
+	}
+}
+
 void QtCodeFile::clickedMinimizeButton() const
 {
 	MessageChangeFileView(
@@ -459,11 +479,6 @@ void QtCodeFile::editProject()
 	MessageProjectEdit().dispatch();
 }
 
-void QtCodeFile::handleMessage(MessageWindowFocus* message)
-{
-	updateTitleBar();
-}
-
 void QtCodeFile::updateRefCount(int refCount)
 {
 	if (refCount > 0)
@@ -486,31 +501,5 @@ void QtCodeFile::updateRefCount(int refCount)
 	else
 	{
 		m_referenceCount->hide();
-	}
-}
-
-void QtCodeFile::updateTitleBar()
-{
-	m_updateTitleBarFunctor();
-}
-
-void QtCodeFile::doUpdateTitleBar()
-{
-	if (isTrial())
-	{
-		return;
-	}
-
-	// cannot use m_filePath.exists() here since it is only checked when FilePath is constructed.
-	if ((!FileSystem::exists(m_filePath.str())) ||
-		(FileSystem::getLastWriteTime(m_filePath) > m_modificationTime))
-	{
-		m_title->setText(QString(m_filePath.fileName().c_str()) + "*");
-		m_title->setToolTip(QString::fromStdString("out of date: " + m_filePath.str()));
-	}
-	else
-	{
-		m_title->setText(m_filePath.fileName().c_str());
-		m_title->setToolTip(QString::fromStdString(m_filePath.str()));
 	}
 }

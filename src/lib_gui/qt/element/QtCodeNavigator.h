@@ -9,6 +9,7 @@
 #include "qt/utility/QtThreadedFunctor.h"
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageCodeReference.h"
+#include "utility/messaging/type/MessageWindowFocus.h"
 
 class QLabel;
 class QPushButton;
@@ -18,6 +19,7 @@ class TokenLocationFile;
 class QtCodeNavigator
 	: public QWidget
 	, public MessageListener<MessageCodeReference>
+	, public MessageListener<MessageWindowFocus>
 {
 	Q_OBJECT
 
@@ -99,9 +101,9 @@ private:
 	void ensureWidgetVisibleAnimated(QWidget *childWidget, QRectF rect);
 
 	void handleMessage(MessageCodeReference* message);
-	void doSwitchReference(MessageCodeReference::ReferenceType type);
+	void handleMessage(MessageWindowFocus* message);
 
-	QtThreadedFunctor<MessageCodeReference::ReferenceType> m_switchReferenceFunctor;
+	QtThreadedLambdaFunctor m_onQtThread;
 
 	QScrollArea* m_scrollArea;
 	QtCodeFileList* m_list;

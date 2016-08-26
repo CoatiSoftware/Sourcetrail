@@ -15,7 +15,7 @@ add_files(
 	FileSystemTestSuite.h
 	GeneratorTestSuite.h
 	GraphTestSuite.h
-	JavaParserTestSuite.h
+#	JavaParserTestSuite.h
 	LogManagerTestSuite.h
 	MatrixBaseTestSuite.h
 	MessageQueueTestSuite.h

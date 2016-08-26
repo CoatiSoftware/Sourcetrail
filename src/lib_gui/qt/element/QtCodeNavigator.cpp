@@ -20,7 +20,6 @@
 
 QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 	: QWidget(parent)
-	, m_switchReferenceFunctor(std::bind(&QtCodeNavigator::doSwitchReference, this, std::placeholders::_1))
 	, m_value(0)
 	, m_refIndex(0)
 	, m_scrollToFile(nullptr)
@@ -602,17 +601,29 @@ void QtCodeNavigator::ensureWidgetVisibleAnimated(QWidget *childWidget, QRectF r
 
 void QtCodeNavigator::handleMessage(MessageCodeReference* message)
 {
-	m_switchReferenceFunctor(message->type);
+	MessageCodeReference::ReferenceType type = message->type;
+
+	m_onQtThread(
+		[=]()
+		{
+			if (type == MessageCodeReference::REFERENCE_PREVIOUS)
+			{
+				previousReference();
+			}
+			else if (type == MessageCodeReference::REFERENCE_NEXT)
+			{
+				nextReference();
+			}
+		}
+	);
 }
 
-void QtCodeNavigator::doSwitchReference(MessageCodeReference::ReferenceType type)
+void QtCodeNavigator::handleMessage(MessageWindowFocus* message)
 {
-	if (type == MessageCodeReference::REFERENCE_PREVIOUS)
-	{
-		previousReference();
-	}
-	else if (type == MessageCodeReference::REFERENCE_NEXT)
-	{
-		nextReference();
-	}
+	m_onQtThread(
+		[=]()
+		{
+			m_list->onWindowFocus();
+		}
+	);
 }

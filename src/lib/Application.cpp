@@ -1,14 +1,11 @@
 #include "Application.h"
 
-#include "utility/file/FileSystem.h"
 #include "utility/logging/ConsoleLogger.h"
 #include "utility/logging/FileLogger.h"
 #include "utility/logging/logging.h"
 #include "utility/logging/LogManager.h"
 #include "utility/messaging/MessageQueue.h"
-#include "utility/messaging/type/MessageActivateNodes.h"
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
-#include "utility/messaging/type/MessageScrollSpeedChange.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/messaging/type/MessageShowStartScreen.h"
 #include "utility/scheduling/TaskScheduler.h"
@@ -26,7 +23,6 @@
 #include "LicenseChecker.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
-#include "settings/ProjectSettings.h"
 
 void Application::createInstance(
 	const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory
@@ -57,7 +53,8 @@ void Application::createInstance(
 
 	if (networkFactory != nullptr)
 	{
-		s_instance->m_ideCommunicationController = networkFactory->createIDECommunicationController(s_instance->m_storageCache.get());
+		s_instance->m_ideCommunicationController =
+			networkFactory->createIDECommunicationController(s_instance->m_storageCache.get());
 	}
 
 	s_instance->startMessagingAndScheduling();
@@ -224,33 +221,18 @@ void Application::handleMessage(MessageLoadProject* message)
 		return;
 	}
 
-	if (message->forceRefresh && !isTrial())
+	if (m_project && projectSettingsFilePath == m_project->getProjectSettingsFilePath())
 	{
-		if (m_hasGUI)
+		if (message->forceRefresh)
 		{
-			std::vector<std::string> options;
-			options.push_back("Yes");
-			options.push_back("No");
-			int result = handleDialog(
-				"Some settings were changed, the project needs to be fully reindexed. "
-				"Do you want to reindex the project?", options);
-
-			if (result == 1)
-			{
-				if (!m_project || projectSettingsFilePath != m_project->getProjectSettingsFilePath())
-				{
-					createAndLoadProject(projectSettingsFilePath);
-					return;
-				}
-			}
+			m_project->setStateSettingsUpdated();
+			m_project->refresh(false);
 		}
 
-		refreshProject(true);
+		return;
 	}
-	else if (!m_project || projectSettingsFilePath != m_project->getProjectSettingsFilePath())
-	{
-		createAndLoadProject(projectSettingsFilePath);
-	}
+
+	createAndLoadProject(projectSettingsFilePath);
 }
 
 void Application::handleMessage(MessageRefresh* message)

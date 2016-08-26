@@ -10,9 +10,6 @@
 #include "utility/file/FilePath.h"
 #include "utility/TimePoint.h"
 #include "utility/types.h"
-#include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageWindowFocus.h"
-#include "qt/utility/QtThreadedFunctor.h"
 
 #include "data/ErrorInfo.h"
 #include "component/view/helper/CodeSnippetParams.h"
@@ -26,7 +23,6 @@ class TokenLocationFile;
 
 class QtCodeFile
 	: public QFrame
-	, MessageListener<MessageWindowFocus>
 {
 	Q_OBJECT
 
@@ -59,6 +55,7 @@ public:
 
 	bool hasSnippets() const;
 	void updateSnippets();
+	void updateTitleBar();
 
 public slots:
 	void clickedMinimizeButton() const;
@@ -71,13 +68,7 @@ private slots:
 	void editProject();
 
 private:
-	virtual void handleMessage(MessageWindowFocus* message);
-
 	void updateRefCount(int refCount);
-	void updateTitleBar();
-	void doUpdateTitleBar();
-
-	QtThreadedFunctor<> m_updateTitleBarFunctor;
 
 	QtCodeNavigator* m_navigator;
 

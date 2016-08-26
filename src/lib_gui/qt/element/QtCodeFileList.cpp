@@ -93,6 +93,14 @@ void QtCodeFileList::showContents()
 	}
 }
 
+void QtCodeFileList::onWindowFocus()
+{
+	for (std::shared_ptr<QtCodeFile> filePtr : m_files)
+	{
+		filePtr->updateTitleBar();
+	}
+}
+
 QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
 {
 	QtCodeFile* file = nullptr;
