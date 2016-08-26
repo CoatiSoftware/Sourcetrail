@@ -164,6 +164,7 @@ void QtProjectWizzardContentPaths::addDetection(QGridLayout* layout, int row)
 	connect(button, SIGNAL(clicked()), this, SLOT(detectionClicked()));
 
 	QHBoxLayout* hlayout = new QHBoxLayout();
+	hlayout->setContentsMargins(0, 0, 0, 0);
 	hlayout->addWidget(label);
 	hlayout->addWidget(m_detectorBox);
 	hlayout->addWidget(button);

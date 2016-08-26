@@ -164,7 +164,7 @@ add_files(
 	qt/QtApplication.h
 	qt/QtCoreApplication.cpp
 	qt/QtCoreApplication.h
-	
+
 	utility/path_detector/cxx_header/CxxFrameworkPathDetector.cpp
 	utility/path_detector/cxx_header/CxxFrameworkPathDetector.h
 	utility/path_detector/cxx_header/CxxHeaderPathDetector.cpp
@@ -173,12 +173,14 @@ add_files(
 	utility/path_detector/cxx_header/CxxVsHeaderPathDetector.h
 	utility/path_detector/cxx_header/utilityCxxHeaderDetection.cpp
 	utility/path_detector/cxx_header/utilityCxxHeaderDetection.h
-	
+
 	utility/path_detector/java_runtime/JavaPathDetector.cpp
 	utility/path_detector/java_runtime/JavaPathDetector.h
+	utility/path_detector/java_runtime/JavaPathDetectorMac.cpp
+	utility/path_detector/java_runtime/JavaPathDetectorMac.h
 	utility/path_detector/java_runtime/JavaPathDetectorWindows.cpp
 	utility/path_detector/java_runtime/JavaPathDetectorWindows.h
-	
+
 	utility/path_detector/CombinedPathDetector.cpp
 	utility/path_detector/CombinedPathDetector.h
 	utility/path_detector/PathDetector.cpp

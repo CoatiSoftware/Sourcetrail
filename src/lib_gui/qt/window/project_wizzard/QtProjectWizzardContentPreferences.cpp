@@ -3,6 +3,7 @@
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageSwitchColorScheme.h"
+#include "utility/path_detector/java_runtime/JavaPathDetectorMac.h"
 #include "utility/path_detector/java_runtime/JavaPathDetectorWindows.h"
 #include "utility/ResourcePaths.h"
 
@@ -157,7 +158,15 @@ void QtProjectWizzardContentPreferences::populateForm(QGridLayout* layout, int& 
 	// java path
 	m_javaPath = new QtLocationPicker(this);
 	m_javaPath->setPickDirectory(true);
-	m_javaPath->setPlaceholderText("<jre_8_root>/bin/client");
+
+	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
+	{
+		m_javaPath->setPlaceholderText("<jre_8_root>/bin/client");
+	}
+	else if (QSysInfo::macVersion() != QSysInfo::MV_None)
+	{
+		m_javaPath->setPlaceholderText("<jre_8_root>/Contents/Home");
+	}
 
 	layout->addWidget(createFormLabel("Java Path"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_javaPath, row, QtProjectWizzardWindow::BACK_COL);
@@ -173,7 +182,12 @@ void QtProjectWizzardContentPreferences::populateForm(QGridLayout* layout, int& 
 		m_javaPathDetector = std::make_shared<CombinedPathDetector>();
 		m_javaPathDetector->addDetector(std::make_shared<JavaPathDetectorWindows>("1.8"));
 		addJavaPathDetection(layout, row);
-		row++;
+	}
+	else if (QSysInfo::macVersion() != QSysInfo::MV_None)
+	{
+		m_javaPathDetector = std::make_shared<CombinedPathDetector>();
+		m_javaPathDetector->addDetector(std::make_shared<JavaPathDetectorMac>("1.8"));
+		addJavaPathDetection(layout, row);
 	}
 
 	layout->setRowMinimumHeight(row++, 20);
@@ -264,7 +278,7 @@ void QtProjectWizzardContentPreferences::javaPathDetectionClicked()
 	}
 }
 
-void QtProjectWizzardContentPreferences::addJavaPathDetection(QGridLayout* layout, int row)
+void QtProjectWizzardContentPreferences::addJavaPathDetection(QGridLayout* layout, int& row)
 {
 	std::vector<std::string> detectorNames = m_javaPathDetector->getWorkingDetectorNames();
 	if (!detectorNames.size())
@@ -286,6 +300,7 @@ void QtProjectWizzardContentPreferences::addJavaPathDetection(QGridLayout* layou
 	connect(button, SIGNAL(clicked()), this, SLOT(javaPathDetectionClicked()));
 
 	QHBoxLayout* hlayout = new QHBoxLayout();
+	hlayout->setContentsMargins(0, 0, 0, 0);
 	hlayout->addWidget(label);
 	hlayout->addWidget(m_javaPathDetectorBox);
 	hlayout->addWidget(button);
@@ -294,4 +309,5 @@ void QtProjectWizzardContentPreferences::addJavaPathDetection(QGridLayout* layou
 	detectionWidget->setLayout(hlayout);
 
 	layout->addWidget(detectionWidget, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
+	row++;
 }

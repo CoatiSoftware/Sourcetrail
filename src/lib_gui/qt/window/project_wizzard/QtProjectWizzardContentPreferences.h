@@ -31,7 +31,7 @@ private slots:
 	void javaPathDetectionClicked();
 
 private:
-	void addJavaPathDetection(QGridLayout* layout, int row);
+	void addJavaPathDetection(QGridLayout* layout, int& row);
 
 	QLineEdit* m_fontFace;
 	QComboBox* m_fontSize;
