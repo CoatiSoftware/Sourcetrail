@@ -187,6 +187,11 @@ DialogView* Project::getDialogView() const
 	return m_dialogView;
 }
 
+const std::vector<FilePath>& Project::getSourcePaths() const
+{
+	return m_fileManager.getSourcePaths();
+}
+
 void Project::load()
 {
 	m_storageAccessProxy->setSubject(nullptr);

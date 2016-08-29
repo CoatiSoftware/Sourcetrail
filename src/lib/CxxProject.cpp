@@ -96,9 +96,14 @@ Parser::Arguments CxxProject::getParserArguments() const
 
 	utility::append(args.compilerFlags, m_projectSettings->getCompilerFlags());
 
-	// MAYBE DO THIS IN PARSER! AND ONLY ADD THE PATH OF THE CURRENT FILE!!
 	// Add the source paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
-	//utility::append(args.systemHeaderSearchPaths, m_fileManager.getSourcePaths());
+	for (const FilePath& sourcePath: getSourcePaths())
+	{
+		if (sourcePath.isDirectory())
+		{
+			args.systemHeaderSearchPaths.push_back(sourcePath);
+		}
+	}
 
 	utility::append(args.systemHeaderSearchPaths, m_projectSettings->getAbsoluteHeaderSearchPaths());
 
