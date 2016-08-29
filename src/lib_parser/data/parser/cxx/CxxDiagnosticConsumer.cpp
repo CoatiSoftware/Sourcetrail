@@ -1,6 +1,7 @@
 #include "data/parser/cxx/CxxDiagnosticConsumer.h"
 
 #include "clang/Basic/SourceManager.h"
+#include "clang/Tooling/Tooling.h"
 
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ParserClient.h"
@@ -73,7 +74,7 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 			const clang::SourceManager& sourceManager = info.getSourceManager();
 			clang::PresumedLoc presumedLocation = sourceManager.getPresumedLoc(info.getLocation());
 
-			filePath = presumedLocation.getFilename();
+			filePath = clang::tooling::getAbsolutePath(presumedLocation.getFilename());
 			line = presumedLocation.getLine();
 			column = presumedLocation.getColumn();
 		}
