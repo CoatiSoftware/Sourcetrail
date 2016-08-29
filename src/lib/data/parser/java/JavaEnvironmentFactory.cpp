@@ -38,7 +38,7 @@ void JavaEnvironmentFactory::createInstance(std::string classPath)
 		std::string oldPathContent = getenv("path");
 
 		std::string javapath = ApplicationSettings::getInstance()->getJavaPath() + "/";
-		putenv(("path=" + oldPathContent + ";" + javapath).c_str()); // path env is only modified in the scope of this process.
+		putenv(("path=" + javapath + ";" + oldPathContent).c_str()); // path env is only modified in the scope of this process.
 
 		javaFound = FileSystem::exists(javapath + "jvm.dll");
 	}
