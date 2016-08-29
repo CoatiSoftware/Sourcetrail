@@ -26,6 +26,10 @@ JavaProject::JavaProject(
 	: Project(storageAccessProxy, dialogView)
 	, m_projectSettings(projectSettings)
 {
+}
+
+bool JavaProject::prepareIndexing()
+{
 	if (!JavaEnvironmentFactory::getInstance() && !isTrial())
 	{
 #ifdef _WIN32
@@ -47,7 +51,10 @@ JavaProject::JavaProject(
 	if (!JavaEnvironmentFactory::getInstance() && !isTrial())
 	{
 		Application::getInstance()->handleDialog("Coati was unable to locate Java on this machine.\nPlease make sure to provide the correct path in your preferences.");
+		return false;
 	}
+
+	return true;
 }
 
 std::shared_ptr<Task> JavaProject::createIndexerTask(

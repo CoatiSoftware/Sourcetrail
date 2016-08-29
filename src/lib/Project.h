@@ -58,7 +58,8 @@ private:
 	void load();
 	bool buildIndex(bool forceRefresh);
 
-	virtual bool allowsRefresh();
+	virtual bool prepareIndexing();
+	virtual bool prepareRefresh();
 	virtual std::shared_ptr<Task> createIndexerTask(
 		PersistentStorage* storage,
 		std::shared_ptr<std::mutex> storageMutex,

@@ -32,7 +32,7 @@ CxxProject::CxxProject(
 {
 }
 
-bool CxxProject::allowsRefresh()
+bool CxxProject::prepareRefresh()
 {
 	FilePath cdbPath = m_projectSettings->getCompilationDatabasePath();
 	if (!cdbPath.empty() && !cdbPath.exists())

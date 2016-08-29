@@ -23,6 +23,8 @@ private:
 	);
 	JavaProject(const JavaProject&);
 
+	virtual bool prepareIndexing();
+
 	virtual std::shared_ptr<Task> createIndexerTask(
 		PersistentStorage* storage,
 		std::shared_ptr<std::mutex> storageMutex,

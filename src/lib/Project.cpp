@@ -121,7 +121,7 @@ bool Project::refresh(bool forceRefresh)
 		}
 	}
 
-	if (!allowsRefresh())
+	if (!prepareRefresh())
 	{
 		return false;
 	}
@@ -245,6 +245,11 @@ void Project::load()
 
 bool Project::buildIndex(bool forceRefresh)
 {
+	if (!prepareIndexing())
+	{
+		return false;
+	}
+
 	m_fileManager.fetchFilePaths(
 		forceRefresh ? std::vector<FileInfo>() : m_storage->getInfoOnAllFiles()
 	);
@@ -325,7 +330,12 @@ bool Project::buildIndex(bool forceRefresh)
 	return true;
 }
 
-bool Project::allowsRefresh()
+bool Project::prepareIndexing()
+{
+	return true;
+}
+
+bool Project::prepareRefresh()
 {
 	return true;
 }

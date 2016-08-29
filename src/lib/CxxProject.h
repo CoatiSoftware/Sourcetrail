@@ -23,7 +23,7 @@ private:
 	);
 	CxxProject(const CxxProject&);
 
-	virtual bool allowsRefresh();
+	virtual bool prepareRefresh();
 
 	virtual std::shared_ptr<Task> createIndexerTask(
 		PersistentStorage* storage,
