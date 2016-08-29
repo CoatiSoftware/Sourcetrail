@@ -851,6 +851,8 @@ private:
 				return &fields;
 			case SYMBOL_TYPE_PARAMETER:
 				return &typeParameters;
+			default:
+				break;
 			}
 			return nullptr;
 		}
@@ -938,6 +940,8 @@ private:
 				break;
 			case REFERENCE_MACRO_USAGE:
 				referenceContainer = &macroUses;
+				break;
+			default:
 				break;
 			}
 			if (referenceContainer != nullptr)
