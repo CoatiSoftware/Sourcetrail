@@ -30,10 +30,10 @@ QtWindow::QtWindow(QWidget* parent)
 
 	std::string frameStyle =
 		"#window {"
-			"font-size: 17pt; "
-			"border: 1px solid lightgray;"
-			"border-radius: 15px; "
-			"background: white; "
+		"	font-size: 17pt;"
+		"	border: 1px solid lightgray;"
+		"	border-radius: 15px;"
+		"	background: white;"
 		"}";
 	m_window->setStyleSheet(frameStyle.c_str());
 	m_window->setObjectName("window");
@@ -57,12 +57,13 @@ QtWindow::QtWindow(QWidget* parent)
 
 	QHBoxLayout* gripLayout = new QHBoxLayout();
 	QSizeGrip* sizeGrip = new QSizeGrip(m_window);
-	sizeGrip->setStyleSheet(
-		QString::fromStdString("QSizeGrip {"
-			"max-height: 12px; max-width: 12px;"
-			"border-image: url(" + ResourcePaths::getGuiPath() + "window/size_grip.png);"
-		"}")
-	);
+	sizeGrip->setStyleSheet(QString::fromStdString(
+		"QSizeGrip {"
+		"	max-height: 12px;"
+		"	max-width: 12px;"
+		"	border-image: url(" + ResourcePaths::getGuiPath() + "window/size_grip.png);"
+		"}"
+	));
 	gripLayout->addWidget(new QWidget());
 	gripLayout->addWidget(sizeGrip);
 	layout->addLayout(gripLayout);
@@ -82,7 +83,7 @@ QSize QtWindow::sizeHint() const
 
 void QtWindow::setup()
 {
-	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "window/window.css").c_str());
+	m_content->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "window/window.css").c_str());
 
 	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setContentsMargins(25, 30, 25, 0);

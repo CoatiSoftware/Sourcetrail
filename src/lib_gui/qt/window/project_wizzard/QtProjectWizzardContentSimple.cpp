@@ -20,9 +20,11 @@ void QtProjectWizzardContentSimple::populate(QGridLayout* layout, int& row)
 	layout->addWidget(m_checkBox, row, QtProjectWizzardWindow::BACK_COL);
 
 	addHelpButton(
-		"If enabled Coati also uses the project paths and their subdirectories when resolving #include directives.\n\n"
+		"If enabled Coati also uses the project paths and their subdirectories when resolving #include directives.<br />"
+		"<br />"
 		"Use this option when you know that the project is self contained but don't know which paths to "
-		"specify as include paths.\n\n"
+		"specify as include paths.<br />"
+		"<br />"
 		"<b>Warning</b>: This slows down indexing speed.", layout, row);
 
 	row++;

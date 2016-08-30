@@ -138,7 +138,7 @@ QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 	setTitleString("Project Paths");
 	setHelpString(
 		"Project Paths define the files and directories that will be indexed by Coati. Provide a directory to recursively "
-		"add all contained files.\n\nProject Paths are usually the source and header files of your project or a subset of them."
+		"add all contained source and header files."
 	);
 }
 
@@ -209,7 +209,9 @@ QtProjectWizzardContentPathsSourceJava::QtProjectWizzardContentPathsSourceJava(
 {
 	setHelpString(
 		"Project Paths define the files and directories that will be indexed by Coati. Provide a directory to recursively "
-		"add all contained files. Adding the root source directory of your project is usually sufficient.\n\n"
+		"add all contained files. To make sure that type names are resolved correctly, <b>please add the root source directory "
+		"of your project</b> (the one where all your package names are relative to).<br />"
+		"<br />"
 		"If your project's source code resides in one location, but generated source files are kept at a different location, "
 		"you will also need to add that directory."
 	);
@@ -225,9 +227,11 @@ QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 	setTitleString("Indexed Header Paths");
 	setHelpString(
 		"Define which header files should be indexed by Coati. Provide a directory to recursively add all contained files. "
-		"Every time an included header is encountered, Coati will check if the file is located in one of these paths to "
-		"decide whether or not to index it.\n\n"
-		"This is necessary since the Compilation Database only specifies the source files of your project."
+		"Every time an included header is encountered, Coati will check if the file is part of the indexed headers to "
+		"decide whether or not to index it.<br />"
+		"<br />"
+		"So just enter the root path of your project if you want Coati to index all contained headers it encounters. "
+		"This way you prevent Coati from indexing files you may not be interested in."
 	);
 }
 
@@ -259,12 +263,15 @@ QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSear
 {
 	setTitleString(isCDB ? "Additional Include Paths" : "Include Paths");
 	setHelpString(
+		((isCDB ? "<b>Note</b>: Use the Additional Include Paths to add paths that are missin in the CDB.<br /><br />" : "") + std::string(
 		"Include Paths are used for resolving #include directives in the indexed source and header files. These paths are "
-		"usually passed to the compiler with the '-I' or '-iquote' flags.\n\n"
-		"Add all the paths the #include directives throughout your project are relative to. If all #include directives are "
-		"specified relative to the project's root directory, please add that.\n\n"
+		"usually passed to the compiler with the '-I' or '-iquote' flags.<br />"
+		"<br />"
+		"Add all the paths the #include directives throughout your project are relative to. So if all #include directives are "
+		"specified relative to the project's root directory, please add that one.<br />"
+		"<br />"
 		"If your project also includes files from external libraries (e.g. boost), please add these directories as well "
-		"(e.g. add '<boost_home>/include')."
+		"(e.g. add '&lt;boost_home&gt;/include').")).c_str()
 	);
 }
 
@@ -299,7 +306,8 @@ QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHead
 	setTitleString("Global Include Paths");
 	setHelpString(
 		"The Global Include Paths will be used in all your projects - in addition to the project specific Include Paths. "
-		"These paths are usually passed to the compiler with the '-isystem' flag.\n\n"
+		"These paths are usually passed to the compiler with the '-isystem' flag.<br />"
+		"<br />"
 		"Use them to add system header paths (See <a href=\"https://coati.io/documentation/#FindingSystemHeaderLocations\">"
 		"Finding System Header Locations</a> or use the auto detection below)."
 	);
@@ -372,7 +380,9 @@ QtProjectWizzardContentPathsFrameworkSearchGlobal::QtProjectWizzardContentPathsF
 	setTitleString("Global Framework Search Paths");
 	setHelpString(
 		"The Global Framework Search Paths will be used in all your projects - in addition to the project specific "
-		"Framework Search Paths.\n\nThey define where MacOS framework containers (.framework) are found "
+		"Framework Search Paths.<br />"
+		"<br />"
+		"They define where MacOS framework containers (.framework) are found "
 		"(See <a href=\"https://coati.io/documentation/#FindingSystemHeaderLocations\">"
 		"Finding System Header Locations</a> or use the auto detection below)."
 	);
@@ -401,7 +411,8 @@ QtProjectWizzardContentPathsClassJava::QtProjectWizzardContentPathsClassJava(
 {
 	setTitleString("Class Path");
 	setHelpString(
-		"Enter the paths to .jar files and root directories of .class files your project depends on."
+		"Enter all the .jar files your project depends on. If your project depends on uncompiled java code that should "
+		"not be indexed, please add the root directory of those .java files here."
 	);
 }
 

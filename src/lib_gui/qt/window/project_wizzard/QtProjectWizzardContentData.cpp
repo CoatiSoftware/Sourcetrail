@@ -21,7 +21,7 @@ void QtProjectWizzardContentData::populate(QGridLayout* layout, int& row)
 {
 	if (!isInForm())
 	{
-		layout->setRowMinimumHeight(0, 15);
+		layout->setRowMinimumHeight(row, 15);
 		row++;
 	}
 
@@ -138,6 +138,7 @@ void QtProjectWizzardContentData::addNameAndLocation(QGridLayout* layout, int& r
 
 	layout->addWidget(locationLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_projectFileLocation, row, QtProjectWizzardWindow::BACK_COL);
+	layout->setRowMinimumHeight(row, 50);
 	row++;
 }
 
@@ -188,7 +189,7 @@ void QtProjectWizzardContentDataCDB::populate(QGridLayout* layout, int& row)
 {
 	if (!isInForm())
 	{
-		layout->setRowMinimumHeight(0, 15);
+		layout->setRowMinimumHeight(row, 15);
 		row++;
 	}
 

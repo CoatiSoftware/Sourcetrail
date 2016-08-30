@@ -16,11 +16,14 @@ std::vector<FilePath> TaskParseCxx::getSourceFilesFromCDB(const FilePath& compil
 	std::shared_ptr<clang::tooling::JSONCompilationDatabase> cdb = std::shared_ptr<clang::tooling::JSONCompilationDatabase>
 		(clang::tooling::JSONCompilationDatabase::loadFromFile(compilationDatabasePath.str(), error));
 
-	std::vector<std::string> files = cdb->getAllFiles();
 	std::vector<FilePath> filePaths;
-	for (const std::string& file : files)
+	if (cdb)
 	{
-		filePaths.push_back(FilePath(file));
+		std::vector<std::string> files = cdb->getAllFiles();
+		for (const std::string& file : files)
+		{
+			filePaths.push_back(FilePath(file));
+		}
 	}
 	return filePaths;
 }

@@ -63,13 +63,17 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 			m_buttons->setExclusive(true);
 
 			m_window->setNextEnabled(false);
-			m_title->setText("Project Types - " + m_languages->checkedButton()->text());
+			m_title->setText(
+				"Project Types - " + m_languages->checkedButton()->text()
+				+ (m_languages->checkedButton()->text() == "Java" ? " (beta)" : "")
+			);
 			m_description->setText("");
 		}
 	);
 
 	QVBoxLayout* vlayout = new QVBoxLayout();
 	vlayout->setContentsMargins(0, 30, 0, 0);
+	vlayout->setSpacing(10);
 
 	vlayout->addWidget(d);
 	vlayout->addWidget(e);

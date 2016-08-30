@@ -16,7 +16,7 @@ void QtProjectWizzardContentFlags::populate(QGridLayout* layout, int& row)
 	label->setObjectName("label");
 	layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 
-	addHelpButton("Define compiler flags used during indexing including the dash e.g. -v", layout, row);
+	addHelpButton("Define compiler flags used during indexing including the dash (e.g. use \"-D RELEASE\" to add a #define for \"RELEASE\").", layout, row);
 
 	m_list = new QtDirectoryListBox(this, label->text(), true);
 	layout->addWidget(m_list, row, QtProjectWizzardWindow::BACK_COL);
