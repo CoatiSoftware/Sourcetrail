@@ -11,7 +11,7 @@ QLabel, QCheckBox {
 	font-weight: bold;
 }
 
-#section, #projectTitle {
+#projectTitle {
 	font-size: 14pt;
 	font-weight: bold;
 }

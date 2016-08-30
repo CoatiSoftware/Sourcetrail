@@ -12,7 +12,7 @@ public:
 	QtProjectWizzardContentCDBSource(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
-	virtual void populateWindow(QGridLayout* layout, int& row) override;
+	virtual void populate(QGridLayout* layout, int& row) override;
 
 	virtual void load() override;
 

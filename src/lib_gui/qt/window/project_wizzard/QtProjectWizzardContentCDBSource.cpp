@@ -11,13 +11,9 @@ QtProjectWizzardContentCDBSource::QtProjectWizzardContentCDBSource(
 {
 }
 
-void QtProjectWizzardContentCDBSource::populateWindow(QGridLayout* layout, int& row)
+void QtProjectWizzardContentCDBSource::populate(QGridLayout* layout, int& row)
 {
-	layout->setRowMinimumHeight(row++, 10);
-
-	QLabel* title = new QLabel("Source Files");
-	title->setWordWrap(true);
-	title->setObjectName("section");
+	QLabel* title = createFormLabel("Source Files");
 	layout->addWidget(title, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
 	layout->setRowStretch(row, 0);
 
@@ -27,9 +23,6 @@ void QtProjectWizzardContentCDBSource::populateWindow(QGridLayout* layout, int& 
 	addFilesButton("show source files", layout, row + 1);
 
 	row += 2;
-
-	layout->setColumnStretch(QtProjectWizzardWindow::FRONT_COL, 1);
-	layout->setColumnStretch(QtProjectWizzardWindow::BACK_COL, 2);
 }
 
 void QtProjectWizzardContentCDBSource::load()

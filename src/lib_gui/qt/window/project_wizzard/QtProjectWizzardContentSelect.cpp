@@ -20,7 +20,7 @@ QtProjectWizzardContentSelect::QtProjectWizzardContentSelect(
 {
 }
 
-void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout, int& row)
+void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 {
 	QPushButton* d = new QPushButton(languageTypeToString(LANGUAGE_CPP).c_str(), this);
 	QPushButton* e = new QPushButton(languageTypeToString(LANGUAGE_C).c_str(), this);
@@ -81,15 +81,15 @@ void QtProjectWizzardContentSelect::populateWindow(QGridLayout* layout, int& row
 
 
 	QToolButton* a = createProjectButton(
-		"empty project", (ResourcePaths::getGuiPath() + "icon/project_256_256.png").c_str());
+		"Empty Project", (ResourcePaths::getGuiPath() + "icon/project_256_256.png").c_str());
 	QToolButton* c = createProjectButton(
 		"from Compilation\nDatabase", (ResourcePaths::getGuiPath() + "icon/project_cdb_256_256.png").c_str());
 
 	m_solutionDescription.push_back("Create a new Coati project by defining what files will be indexed.");
-	m_solutionDescription.push_back("Create a project from an existing Compilation Database. Compilation Databases can be created from "
-					"Make and CMake projects. Have a look at the "
-					"<a href=\"https://coati.io/documentation/#CreateAProjectFromCompilationDatabase\">"
-					"documentation</a> to find out more.");
+	m_solutionDescription.push_back(
+		"Create a project from an existing Compilation Database (compile_commands.json). They can be created from Make and "
+		"CMake projects. Have a look at the <a href=\"https://coati.io/documentation/#CreateAProjectFromCompilationDatabase\">"
+		"documentation</a> to find out more.");
 
 	m_buttons = new QButtonGroup(this);
 	m_buttons->addButton(a);
@@ -186,9 +186,4 @@ bool QtProjectWizzardContentSelect::check()
 	}
 
 	return true;
-}
-
-QSize QtProjectWizzardContentSelect::preferredWindowSize() const
-{
-	return QSize(570, 380);
 }

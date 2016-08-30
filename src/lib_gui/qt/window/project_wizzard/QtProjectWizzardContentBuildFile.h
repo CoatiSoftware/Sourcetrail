@@ -21,7 +21,7 @@ public:
 	QtProjectWizzardContentSelect::ProjectType getType() const;
 
 	// QtProjectWizzardContent implementation
-	virtual void populateForm(QGridLayout* layout, int& row) override;
+	virtual void populate(QGridLayout* layout, int& row) override;
 
 	virtual void load() override;
 	virtual void save() override;

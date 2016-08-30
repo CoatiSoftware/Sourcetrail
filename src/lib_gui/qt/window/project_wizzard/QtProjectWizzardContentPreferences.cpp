@@ -29,12 +29,7 @@ QtProjectWizzardContentPreferences::~QtProjectWizzardContentPreferences()
 	}
 }
 
-void QtProjectWizzardContentPreferences::populateWindow(QGridLayout* layout, int& row)
-{
-	populateForm(layout, row);
-}
-
-void QtProjectWizzardContentPreferences::populateForm(QGridLayout* layout, int& row)
+void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 {
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 

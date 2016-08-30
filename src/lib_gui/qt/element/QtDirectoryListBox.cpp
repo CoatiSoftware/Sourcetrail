@@ -134,12 +134,14 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 	m_addButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	m_addButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_addButton->setObjectName("plusButton");
+	m_addButton->setToolTip("add line");
 	innerLayout->addWidget(m_addButton);
 
 	m_removeButton = new QPushButton("", this);
 	m_removeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	m_removeButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	m_removeButton->setObjectName("minusButton");
+	m_removeButton->setToolTip("remove line");
 	innerLayout->addWidget(m_removeButton);
 
 	innerLayout->addStretch();
@@ -154,6 +156,7 @@ QtDirectoryListBox::QtDirectoryListBox(QWidget *parent, const QString& listName,
 	editButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	editButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	editButton->setObjectName("editButton");
+	editButton->setToolTip("edit plain text");
 	innerLayout->addWidget(editButton);
 
 	if (isForStrings())

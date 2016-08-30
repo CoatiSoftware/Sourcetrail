@@ -15,14 +15,14 @@ public:
 	QtProjectWizzardContentSimple(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
-	virtual void populateWindow(QGridLayout* layout, int& row) override;
-	virtual void populateForm(QGridLayout* layout, int& row) override;
+	virtual void populate(QGridLayout* layout, int& row) override;
 
 	virtual void load() override;
 	virtual void save() override;
 
 private:
 	QCheckBox* m_checkBox;
+	QLabel* m_title;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_SIMPLE_H

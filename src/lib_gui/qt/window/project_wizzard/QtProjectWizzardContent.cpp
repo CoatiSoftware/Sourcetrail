@@ -12,6 +12,7 @@ QtHelpButton::QtHelpButton(const QString& helpText, QWidget* parent)
 	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	setObjectName("helpButton");
+	setToolTip("help");
 
 	connect(this, SIGNAL(clicked()), this, SLOT(handleHelpPress()));
 }
@@ -31,14 +32,11 @@ QtProjectWizzardContent::QtProjectWizzardContent(std::shared_ptr<ProjectSettings
 	: QWidget(window)
 	, m_settings(settings)
 	, m_window(window)
+	, m_isInForm(false)
 {
 }
 
-void QtProjectWizzardContent::populateWindow(QGridLayout* layout, int& row)
-{
-}
-
-void QtProjectWizzardContent::populateForm(QGridLayout* layout, int& row)
+void QtProjectWizzardContent::populate(QGridLayout* layout, int& row)
 {
 }
 
@@ -64,11 +62,6 @@ bool QtProjectWizzardContent::isScrollAble() const
 	return false;
 }
 
-QSize QtProjectWizzardContent::preferredWindowSize() const
-{
-	return QSize(750, 620);
-}
-
 std::vector<std::string> QtProjectWizzardContent::getFileNames() const
 {
 	return std::vector<std::string>();
@@ -82,6 +75,16 @@ QString QtProjectWizzardContent::getFileNamesTitle() const
 QString QtProjectWizzardContent::getFileNamesDescription() const
 {
 	return "files";
+}
+
+bool QtProjectWizzardContent::isInForm() const
+{
+	return m_isInForm;
+}
+
+void QtProjectWizzardContent::setIsInForm(bool isInForm)
+{
+	m_isInForm = isInForm;
 }
 
 QLabel* QtProjectWizzardContent::createFormLabel(QString name) const
@@ -132,6 +135,8 @@ QPushButton* QtProjectWizzardContent::addFilesButton(QString name, QGridLayout* 
 
 void QtProjectWizzardContent::filesButtonClicked()
 {
+	save();
+
 	if (!m_filesDialog)
 	{
 		std::vector<std::string> fileNames = getFileNames();

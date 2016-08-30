@@ -36,8 +36,7 @@ class QtProjectWizzardContent
 public:
 	QtProjectWizzardContent(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
-	virtual void populateWindow(QGridLayout* layout, int& row);
-	virtual void populateForm(QGridLayout* layout, int& row);
+	virtual void populate(QGridLayout* layout, int& row);
 	virtual void windowReady();
 
 	virtual void load();
@@ -46,11 +45,12 @@ public:
 
 	virtual bool isScrollAble() const;
 
-	virtual QSize preferredWindowSize() const;
-
 	virtual std::vector<std::string> getFileNames() const;
 	virtual QString getFileNamesTitle() const;
 	virtual QString getFileNamesDescription() const;
+
+	bool isInForm() const;
+	void setIsInForm(bool isInForm);
 
 protected:
 	QLabel* createFormLabel(QString name) const;
@@ -69,6 +69,8 @@ private slots:
 
 private:
 	std::shared_ptr<QtTextEditDialog> m_filesDialog;
+
+	bool m_isInForm;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_H

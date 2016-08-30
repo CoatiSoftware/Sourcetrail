@@ -21,17 +21,12 @@ public:
 	QtProjectWizzardContentPaths(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtSettingsWindow implementation
-	virtual void populateWindow(QGridLayout* layout, int& row) override;
-	virtual void populateForm(QGridLayout* layout, int& row) override;
-
-	virtual QSize preferredWindowSize() const override;
+	virtual void populate(QGridLayout* layout, int& row) override;
 
 	virtual bool check() override;
 
 protected:
-	void setInfo(const QString& title, const QString& description, const QString& help);
 	void setTitleString(const QString& title);
-	void setDescriptionString(const QString& description);
 	void setHelpString(const QString& help);
 
 	void addDetection(QGridLayout* layout, int row);
@@ -46,7 +41,6 @@ private slots:
 
 private:
 	QString m_titleString;
-	QString m_descriptionString;
 	QString m_helpString;
 
 	QComboBox* m_detectorBox;
@@ -60,8 +54,6 @@ public:
 	QtProjectWizzardContentPathsSource(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
-	virtual QSize preferredWindowSize() const override;
-
 	virtual void load() override;
 	virtual void save() override;
 
@@ -100,7 +92,8 @@ class QtProjectWizzardContentPathsHeaderSearch
 	: public QtProjectWizzardContentPaths
 {
 public:
-	QtProjectWizzardContentPathsHeaderSearch(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentPathsHeaderSearch(
+		std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, bool isCDB = false);
 
 	// QtProjectWizzardContent implementation
 	virtual void load() override;
@@ -125,7 +118,8 @@ class QtProjectWizzardContentPathsFrameworkSearch
 	: public QtProjectWizzardContentPaths
 {
 public:
-	QtProjectWizzardContentPathsFrameworkSearch(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
+	QtProjectWizzardContentPathsFrameworkSearch(
+		std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, bool isCDB = false);
 
 	// QtProjectWizzardContent implementation
 	virtual void load() override;

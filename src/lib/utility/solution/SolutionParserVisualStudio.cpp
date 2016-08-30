@@ -270,7 +270,7 @@ std::string SolutionParserVisualStudio::getButtonText() const
 
 std::string SolutionParserVisualStudio::getDescription() const
 {
-	return "Create a new project from an existing Visual Studio Solution file.";
+	return "Create a new project from an existing Visual Studio Solution file. <b>Unstable!</b>";
 }
 
 std::string SolutionParserVisualStudio::getIconPath() const

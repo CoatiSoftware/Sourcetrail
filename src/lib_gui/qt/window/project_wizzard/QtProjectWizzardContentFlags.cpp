@@ -10,7 +10,7 @@ QtProjectWizzardContentFlags::QtProjectWizzardContentFlags(std::shared_ptr<Proje
 {
 }
 
-void QtProjectWizzardContentFlags::populateForm(QGridLayout* layout, int& row)
+void QtProjectWizzardContentFlags::populate(QGridLayout* layout, int& row)
 {
 	QLabel* label = createFormLabel("Compiler Flags");
 	label->setObjectName("label");

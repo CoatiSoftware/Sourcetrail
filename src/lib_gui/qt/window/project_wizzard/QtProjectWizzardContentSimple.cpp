@@ -11,37 +11,19 @@ QtProjectWizzardContentSimple::QtProjectWizzardContentSimple(std::shared_ptr<Pro
 {
 }
 
-void QtProjectWizzardContentSimple::populateWindow(QGridLayout* layout, int& row)
+void QtProjectWizzardContentSimple::populate(QGridLayout* layout, int& row)
 {
-	QLabel* title = new QLabel("Lazy Include Search");
-	title->setWordWrap(true);
-	title->setObjectName("section");
-	layout->addWidget(title, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
-	layout->setRowStretch(row, 0);
-
-	QLabel* text = new QLabel("Search for included files in all subdirectories of the project paths. "
-		"Warning: This slows down indexing speed.");
-	text->setWordWrap(true);
-	layout->addWidget(text, row + 1, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
-	layout->setRowStretch(row + 1, 1);
+	m_title = createFormLabel("Lazy Include Search");
+	layout->addWidget(m_title, row, QtProjectWizzardWindow::FRONT_COL);
 
 	m_checkBox = new QCheckBox("Search included files within the project paths");
 	layout->addWidget(m_checkBox, row, QtProjectWizzardWindow::BACK_COL);
 
-	row += 2;
-}
-
-void QtProjectWizzardContentSimple::populateForm(QGridLayout* layout, int& row)
-{
-	QLabel* label = createFormLabel("Lazy Include Search");
-	layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL);
-
-	m_checkBox = new QCheckBox("Search included files within the project paths");
-	layout->addWidget(m_checkBox, row, QtProjectWizzardWindow::BACK_COL);
-
-	addHelpButton("Check this box to search for included files in all subdirectories of the project paths. "
-		"This avoids setting them manually if you are not familiar with the project you want to index.\n"
-		"Warning: This option slows down indexing speed.", layout, row);
+	addHelpButton(
+		"If enabled Coati also uses the project paths and their subdirectories when resolving #include directives.\n\n"
+		"Use this option when you know that the project is self contained but don't know which paths to "
+		"specify as include paths.\n\n"
+		"<b>Warning</b>: This slows down indexing speed.", layout, row);
 
 	row++;
 }

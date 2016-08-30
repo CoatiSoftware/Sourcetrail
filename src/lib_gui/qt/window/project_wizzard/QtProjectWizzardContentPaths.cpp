@@ -20,45 +20,7 @@ QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(std::shared_ptr<Proje
 {
 }
 
-void QtProjectWizzardContentPaths::populateWindow(QGridLayout* layout, int& row)
-{
-	layout->setRowMinimumHeight(row++, 10);
-
-	QLabel* title = new QLabel(m_titleString);
-	title->setWordWrap(true);
-	title->setObjectName("section");
-	layout->addWidget(title, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
-	layout->setRowStretch(row, 0);
-
-	QLabel* text = new QLabel(m_descriptionString);
-	text->setWordWrap(true);
-	text->setOpenExternalLinks(true);
-	layout->addWidget(text, row + 1, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
-	layout->setRowStretch(row + 1, 1);
-
-	m_list = new QtDirectoryListBox(this, m_titleString);
-	layout->addWidget(m_list, row, QtProjectWizzardWindow::BACK_COL, 2, 1, Qt::AlignTop);
-
-	row += 2;
-
-	if (m_showFilesString.size() > 0)
-	{
-		layout->setRowStretch(row, 0);
-		addFilesButton(m_showFilesString, layout, row);
-	}
-
-	if (m_pathDetector)
-	{
-		addDetection(layout, row);
-	}
-
-	row++;
-
-	layout->setColumnStretch(QtProjectWizzardWindow::FRONT_COL, 1);
-	layout->setColumnStretch(QtProjectWizzardWindow::BACK_COL, 2);
-}
-
-void QtProjectWizzardContentPaths::populateForm(QGridLayout* layout, int& row)
+void QtProjectWizzardContentPaths::populate(QGridLayout* layout, int& row)
 {
 	QLabel* label = createFormLabel(m_titleString);
 	layout->addWidget(label, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignTop);
@@ -83,11 +45,6 @@ void QtProjectWizzardContentPaths::populateForm(QGridLayout* layout, int& row)
 		addDetection(layout, row);
 		row++;
 	}
-}
-
-QSize QtProjectWizzardContentPaths::preferredWindowSize() const
-{
-	return QSize(750, 500);
 }
 
 bool QtProjectWizzardContentPaths::check()
@@ -120,21 +77,9 @@ bool QtProjectWizzardContentPaths::check()
 	return true;
 }
 
-void QtProjectWizzardContentPaths::setInfo(const QString& title, const QString& description, const QString& help)
-{
-	m_titleString = title;
-	m_descriptionString = description;
-	m_helpString = help;
-}
-
 void QtProjectWizzardContentPaths::setTitleString(const QString& title)
 {
 	m_titleString = title;
-}
-
-void QtProjectWizzardContentPaths::setDescriptionString(const QString& description)
-{
-	m_descriptionString = description;
 }
 
 void QtProjectWizzardContentPaths::setHelpString(const QString& help)
@@ -190,18 +135,11 @@ QtProjectWizzardContentPathsSource::QtProjectWizzardContentPathsSource(
 {
 	m_showFilesString = "show files";
 
-	setInfo(
-		"Project Paths",
-		"Add all directories or files you want to index. Usually these are all source and header files of "
-		"your project or a subset of them.",
-		"Project Paths define the files and directories that will be indexed by Coati. Usually these are the "
-		"source and header files of your project or a subset of them."
+	setTitleString("Project Paths");
+	setHelpString(
+		"Project Paths define the files and directories that will be indexed by Coati. Provide a directory to recursively "
+		"add all contained files.\n\nProject Paths are usually the source and header files of your project or a subset of them."
 	);
-}
-
-QSize QtProjectWizzardContentPathsSource::preferredWindowSize() const
-{
-	return QSize(750, 400);
 }
 
 void QtProjectWizzardContentPathsSource::load()
@@ -269,12 +207,11 @@ QtProjectWizzardContentPathsSourceJava::QtProjectWizzardContentPathsSourceJava(
 )
 	: QtProjectWizzardContentPathsSource(settings, window)
 {
-	setInfo(
-		"Source Paths",
-		"Add all directories or files you want to index. Usually these are all source files of "
-		"your project or a subset of them.",
-		"Source Paths define the files and directories that will be indexed by Coati. Usually these are the "
-		"source files of your project or a subset of them."
+	setHelpString(
+		"Project Paths define the files and directories that will be indexed by Coati. Provide a directory to recursively "
+		"add all contained files. Adding the root source directory of your project is usually sufficient.\n\n"
+		"If your project's source code resides in one location, but generated source files are kept at a different location, "
+		"you will also need to add that directory."
 	);
 }
 
@@ -285,14 +222,12 @@ QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 {
 	m_showFilesString = "";
 
-	setTitleString("Header Paths");
-	setDescriptionString(
-		"Where are the header files of the source files? Add the directories or files that should be "
-		"indexed if included by one of the source files."
-	);
+	setTitleString("Indexed Header Paths");
 	setHelpString(
-		"The compilation database only contains source files. Add the header files or directories containing the header "
-		"files here. Header files will be indexed if included."
+		"Define which header files should be indexed by Coati. Provide a directory to recursively add all contained files. "
+		"Every time an included header is encountered, Coati will check if the file is located in one of these paths to "
+		"decide whether or not to index it.\n\n"
+		"This is necessary since the Compilation Database only specifies the source files of your project."
 	);
 }
 
@@ -302,11 +237,8 @@ QtProjectWizzardContentPathsExclude::QtProjectWizzardContentPathsExclude(
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
-	setInfo(
-		"Exclude Paths",
-		"Add all directories or files you want to exclude from indexing.",
-		"Exclude Paths define the files and directories that will be left out from indexing."
-	);
+	setTitleString("Exclude Paths");
+	setHelpString("Exclude Paths define the files and directories that will be left out from indexing.");
 }
 
 void QtProjectWizzardContentPathsExclude::load()
@@ -321,16 +253,18 @@ void QtProjectWizzardContentPathsExclude::save()
 
 
 QtProjectWizzardContentPathsHeaderSearch::QtProjectWizzardContentPathsHeaderSearch(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, bool isCDB
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
-	setInfo(
-		"Include Paths",
-		"Add the paths for resolving #include directives in the indexed source and header files.",
-		"Include Paths define where additional files, that your project depends on, are found. Usually they are "
-		"header files of frameworks or libraries that your project uses. These files won't be indexed, but Coati needs "
-		"them for correct indexing."
+	setTitleString(isCDB ? "Additional Include Paths" : "Include Paths");
+	setHelpString(
+		"Include Paths are used for resolving #include directives in the indexed source and header files. These paths are "
+		"usually passed to the compiler with the '-I' or '-iquote' flags.\n\n"
+		"Add all the paths the #include directives throughout your project are relative to. If all #include directives are "
+		"specified relative to the project's root directory, please add that.\n\n"
+		"If your project also includes files from external libraries (e.g. boost), please add these directories as well "
+		"(e.g. add '<boost_home>/include')."
 	);
 }
 
@@ -362,15 +296,12 @@ QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHead
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
-	setInfo(
-		"Global Include Paths",
-		"These include paths will be used in all your projects. Use it to add system header paths "
-		"(See <a href=\"https://coati.io/documentation/#FindingSystemHeaderLocations\">Finding System Header Locations</a> "
-		"or use the auto detection below).",
-		"Include Paths define where additional files, that your project depends on, are found. Usually they are "
-		"header files of frameworks or libraries that your project uses. These files won't be indexed, but Coati needs "
-		"them for correct indexing.\n\n"
-		"Include Paths defined here will be used for all projects."
+	setTitleString("Global Include Paths");
+	setHelpString(
+		"The Global Include Paths will be used in all your projects - in addition to the project specific Include Paths. "
+		"These paths are usually passed to the compiler with the '-isystem' flag.\n\n"
+		"Use them to add system header paths (See <a href=\"https://coati.io/documentation/#FindingSystemHeaderLocations\">"
+		"Finding System Header Locations</a> or use the auto detection below)."
 	);
 
 	m_pathDetector = std::make_shared<CombinedPathDetector>();
@@ -399,15 +330,14 @@ void QtProjectWizzardContentPathsHeaderSearchGlobal::save()
 
 
 QtProjectWizzardContentPathsFrameworkSearch::QtProjectWizzardContentPathsFrameworkSearch(
-	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
+	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, bool isCDB
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
-	setInfo(
-		"Framework Search Paths",
-		"Add search paths to Mac OS framework containers (.framework) that the project depends on.",
+	setTitleString(isCDB ? "Additional Framework Search Paths" : "Framework Search Paths");
+	setHelpString(
 		"Framework Search Paths define where MacOS framework containers (.framework), that your project depends on, are "
-		"found."
+		"found. These paths are usually passed to the compiler with the '-iframework' flag."
 	);
 }
 
@@ -439,14 +369,12 @@ QtProjectWizzardContentPathsFrameworkSearchGlobal::QtProjectWizzardContentPathsF
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
-	setInfo(
-		"Global Framework Search Paths",
-		"These framework search paths will be used in all your projects. Use it to add system frameworks "
+	setTitleString("Global Framework Search Paths");
+	setHelpString(
+		"The Global Framework Search Paths will be used in all your projects - in addition to the project specific "
+		"Framework Search Paths.\n\nThey define where MacOS framework containers (.framework) are found "
 		"(See <a href=\"https://coati.io/documentation/#FindingSystemHeaderLocations\">"
-		"Finding System Header Locations</a> or use the auto detection below).",
-		"Framework Search Paths define where MacOS framework containers (.framework), that your project depends on, are "
-		"found.\n\n"
-		"Framework Search Paths defined here will be used for all projects."
+		"Finding System Header Locations</a> or use the auto detection below)."
 	);
 
 	m_pathDetector = std::make_shared<CombinedPathDetector>();
@@ -471,9 +399,8 @@ QtProjectWizzardContentPathsClassJava::QtProjectWizzardContentPathsClassJava(
 )
 	: QtProjectWizzardContentPaths(settings, window)
 {
-	setInfo(
-		"Class Path",
-		"Paths to .jar files and root directories of .class files your project depends on.",
+	setTitleString("Class Path");
+	setHelpString(
 		"Enter the paths to .jar files and root directories of .class files your project depends on."
 	);
 }

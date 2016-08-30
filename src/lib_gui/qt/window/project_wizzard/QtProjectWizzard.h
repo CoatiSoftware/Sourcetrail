@@ -74,7 +74,6 @@ private slots:
 
 	void emptyProjectCDB();
 	void headerPathsCDB();
-	void headerPathsCDBDone();
 
 	void sourcePathsJava();
 

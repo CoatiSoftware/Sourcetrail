@@ -20,6 +20,8 @@ void QtProjectWizzardContentSummary::addContent(QtProjectWizzardContent* content
 	element.advanced = advanced;
 	element.gapBefore = gapBefore;
 	m_elements.push_back(element);
+
+	content->setIsInForm(m_isForm);
 }
 
 void QtProjectWizzardContentSummary::setIsForm(bool isForm)
@@ -27,7 +29,7 @@ void QtProjectWizzardContentSummary::setIsForm(bool isForm)
 	m_isForm = isForm;
 }
 
-void QtProjectWizzardContentSummary::populateWindow(QGridLayout* layout, int& row)
+void QtProjectWizzardContentSummary::populate(QGridLayout* layout, int& row)
 {
 	if (m_isForm)
 	{
@@ -35,7 +37,7 @@ void QtProjectWizzardContentSummary::populateWindow(QGridLayout* layout, int& ro
 		return;
 	}
 
-	layout->setRowMinimumHeight(row++, 10);
+	layout->setRowMinimumHeight(row++, 20);
 
 	for (const Element& element : m_elements)
 	{
@@ -49,10 +51,10 @@ void QtProjectWizzardContentSummary::populateWindow(QGridLayout* layout, int& ro
 			layout->setRowMinimumHeight(row++, 20);
 		}
 
-		element.content->populateWindow(layout, row);
+		element.content->populate(layout, row);
 	}
 
-	layout->setRowMinimumHeight(row, 10);
+	layout->setRowMinimumHeight(row, 20);
 	layout->setRowStretch(row, 1);
 }
 
@@ -78,7 +80,7 @@ void QtProjectWizzardContentSummary::populateForm(QGridLayout* layout, int& row)
 				layout->setRowMinimumHeight(row++, 15);
 			}
 
-			element.content->populateForm(layout, row);
+			element.content->populate(layout, row);
 		}
 
 		if (i > 0 || !hasAdvanced)

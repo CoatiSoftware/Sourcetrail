@@ -20,15 +20,15 @@ public:
 	};
 
 	QtProjectWizzardContentSelect(
-		std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window, std::weak_ptr<SolutionParserManager> solutionParserManager);
+		std::shared_ptr<ProjectSettings> settings,
+		QtProjectWizzardWindow* window,
+		std::weak_ptr<SolutionParserManager> solutionParserManager);
 
 	// QtProjectWizzardContent implementation
-	virtual void populateWindow(QGridLayout* layout, int& row) override;
+	virtual void populate(QGridLayout* layout, int& row) override;
 
 	virtual void save() override;
 	virtual bool check() override;
-
-	virtual QSize preferredWindowSize() const override;
 
 signals:
 	void selected(LanguageType, QtProjectWizzardContentSelect::ProjectType);

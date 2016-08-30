@@ -24,6 +24,7 @@ QtLocationPicker::QtLocationPicker(QWidget *parent)
 
 	m_button = new QPushButton("");
 	m_button->setObjectName("dotsButton");
+	m_button->setToolTip("pick file");
 	m_button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	connect(m_button, SIGNAL(clicked()), this, SLOT(handleButtonPress()));
 	layout->addWidget(m_button);

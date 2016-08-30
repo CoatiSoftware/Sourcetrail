@@ -17,24 +17,28 @@ QtProjectWizzardContentData::QtProjectWizzardContentData(std::shared_ptr<Project
 {
 }
 
-void QtProjectWizzardContentData::populateWindow(QGridLayout* layout, int& row)
+void QtProjectWizzardContentData::populate(QGridLayout* layout, int& row)
 {
-	layout->setRowMinimumHeight(0, 15);
-	row++;
+	if (!isInForm())
+	{
+		layout->setRowMinimumHeight(0, 15);
+		row++;
+	}
 
-	populateForm(layout, row);
-
-	layout->setRowMinimumHeight(row, 15);
-	layout->setRowStretch(row, 1);
-
-	layout->setColumnStretch(QtProjectWizzardWindow::FRONT_COL, 1);
-	layout->setColumnStretch(QtProjectWizzardWindow::BACK_COL, 3);
-}
-
-void QtProjectWizzardContentData::populateForm(QGridLayout* layout, int& row)
-{
 	addNameAndLocation(layout, row);
+
+	if (!isInForm())
+	{
+		layout->setRowMinimumHeight(row++, 20);
+	}
+
 	addLanguageAndStandard(layout, row);
+
+	if (!isInForm())
+	{
+		layout->setRowMinimumHeight(row, 15);
+		layout->setRowStretch(row, 1);
+	}
 }
 
 void QtProjectWizzardContentData::load()
@@ -116,14 +120,9 @@ bool QtProjectWizzardContentData::check()
 	return true;
 }
 
-QSize QtProjectWizzardContentData::preferredWindowSize() const
-{
-	return QSize(580, 340);
-}
-
 void QtProjectWizzardContentData::addNameAndLocation(QGridLayout* layout, int& row)
 {
-	QLabel* nameLabel = createFormLabel("Name");
+	QLabel* nameLabel = createFormLabel("Project Name");
 	m_projectName = new QLineEdit();
 	m_projectName->setObjectName("name");
 	m_projectName->setAttribute(Qt::WA_MacShowFocusRect, 0);
@@ -133,7 +132,7 @@ void QtProjectWizzardContentData::addNameAndLocation(QGridLayout* layout, int& r
 	row++;
 
 
-	QLabel* locationLabel = createFormLabel("Location");
+	QLabel* locationLabel = createFormLabel("Project File Location");
 	m_projectFileLocation = new QtLocationPicker(this);
 	m_projectFileLocation->setPickDirectory(true);
 
@@ -144,21 +143,14 @@ void QtProjectWizzardContentData::addNameAndLocation(QGridLayout* layout, int& r
 
 void QtProjectWizzardContentData::addLanguageAndStandard(QGridLayout* layout, int& row)
 {
-	QLabel* languageLabel = new QLabel("Language");
-	languageLabel->setObjectName("label");
 	m_language = new QLabel();
-
-	layout->addWidget(languageLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(createFormLabel("Language"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_language, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
 	row++;
 
-
-	QLabel* standardLabel = createFormLabel("Standard");
 	m_standard = new QComboBox();
-
-	layout->addWidget(standardLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(createFormLabel("Standard"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_standard, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
-
 	row++;
 }
 
@@ -176,7 +168,8 @@ void QtProjectWizzardContentData::addBuildFilePicker(
 	row++;
 
 	QLabel* description = new QLabel(
-		"The project will stay up-to-date with changes in the compilation database on refresh.", this);
+		"Coati will use all include paths and compiler flags from the compilation database and stay up-to-date "
+		"with changes on refresh.", this);
 	description->setObjectName("description");
 	description->setWordWrap(true);
 	layout->addWidget(description, row, QtProjectWizzardWindow::BACK_COL);
@@ -191,16 +184,27 @@ QtProjectWizzardContentDataCDB::QtProjectWizzardContentDataCDB(
 {
 }
 
-void QtProjectWizzardContentDataCDB::populateForm(QGridLayout* layout, int& row)
+void QtProjectWizzardContentDataCDB::populate(QGridLayout* layout, int& row)
 {
-	QString name = "Compilation Database";
-	QString filter = "JSON Compilation Database (*.json)";
+	if (!isInForm())
+	{
+		layout->setRowMinimumHeight(0, 15);
+		row++;
+	}
 
 	addNameAndLocation(layout, row);
 
 	layout->setRowMinimumHeight(row++, 20);
 
+	QString name = "Compilation Database (compile_commands.json)";
+	QString filter = "JSON Compilation Database (*.json)";
 	addBuildFilePicker(layout, row, name, filter);
+
+	if (!isInForm())
+	{
+		layout->setRowMinimumHeight(row, 15);
+		layout->setRowStretch(row, 1);
+	}
 }
 
 void QtProjectWizzardContentDataCDB::load()

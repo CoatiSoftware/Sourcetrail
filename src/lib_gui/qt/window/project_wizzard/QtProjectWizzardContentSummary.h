@@ -26,8 +26,8 @@ public:
 
 protected:
 	// QtProjectWizzardContent implementation
-	virtual void populateWindow(QGridLayout* layout, int& row) override;
-	virtual void populateForm(QGridLayout* layout, int& row) override;
+	virtual void populate(QGridLayout* layout, int& row) override;
+	void populateForm(QGridLayout* layout, int& row);
 
 	virtual void load() override;
 	virtual void save() override;

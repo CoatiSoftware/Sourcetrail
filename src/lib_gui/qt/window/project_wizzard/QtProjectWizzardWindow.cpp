@@ -17,11 +17,11 @@ QtProjectWizzardWindow::QtProjectWizzardWindow(QWidget *parent)
 
 QSize QtProjectWizzardWindow::sizeHint() const
 {
-	if (content())
+	if (m_preferredSize.width())
 	{
-		return content()->preferredWindowSize();
+		return m_preferredSize;
 	}
-	return QSize();
+	return QSize(750, 620);
 }
 
 QtProjectWizzardContent* QtProjectWizzardWindow::content() const
@@ -35,13 +35,24 @@ void QtProjectWizzardWindow::setContent(QtProjectWizzardContent* content)
 	setScrollAble(content->isScrollAble());
 }
 
+void QtProjectWizzardWindow::setPreferredSize(QSize size)
+{
+	m_preferredSize = size;
+}
+
 void QtProjectWizzardWindow::populateWindow(QWidget* widget)
 {
 	QGridLayout* layout = new QGridLayout();
 	layout->setContentsMargins(0, 0, 0, 0);
 
+	layout->setColumnStretch(QtProjectWizzardWindow::FRONT_COL, 1);
+	layout->setColumnStretch(QtProjectWizzardWindow::BACK_COL, 3);
+
+	layout->setColumnStretch(HELP_COL, 0);
+	layout->setColumnStretch(LINE_COL, 0);
+
 	int row = 0;
-	m_content->populateWindow(layout, row);
+	m_content->populate(layout, row);
 
 	QFrame* separator = new QFrame();
 	separator->setFrameShape(QFrame::VLine);
@@ -51,9 +62,6 @@ void QtProjectWizzardWindow::populateWindow(QWidget* widget)
 	separator->setPalette(palette);
 
 	layout->addWidget(separator, 0, LINE_COL, -1, 1);
-
-	layout->setColumnStretch(HELP_COL, 0);
-	layout->setColumnStretch(LINE_COL, 0);
 
 	if (isScrollAble())
 	{

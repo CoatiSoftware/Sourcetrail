@@ -237,6 +237,7 @@ QtProjectWizzardWindow* QtProjectWizzard::createWindowWithContent()
 	connect(window, SIGNAL(canceled()), this, SLOT(cancelWizzard()));
 
 	window->setContent(new T(m_settings, window));
+	window->setPreferredSize(QSize(580, 340));
 	window->setup();
 
 	m_windowStack.pushWindow(window);
@@ -255,6 +256,7 @@ QtProjectWizzardWindow* QtProjectWizzard::createWindowWithContent<QtProjectWizza
 	QtProjectWizzardContentSelect* content = new QtProjectWizzardContentSelect(m_settings, window, m_parserManager);
 
 	window->setContent(content);
+	window->setPreferredSize(QSize(570, 380));
 	window->setup();
 
 	m_windowStack.pushWindow(window);
@@ -273,6 +275,7 @@ QtProjectWizzardWindow* QtProjectWizzard::createWindowWithSummary(
 	QtProjectWizzardContentSummary* summary = new QtProjectWizzardContentSummary(m_settings, window);
 
 	window->setContent(summary);
+	window->setPreferredSize(QSize(750, 500));
 	func(window, summary);
 
 	m_windowStack.pushWindow(window);
@@ -373,7 +376,7 @@ void QtProjectWizzard::sourcePaths()
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
 			summary->addContent(new QtProjectWizzardContentPathsSource(m_settings, window), false, false);
-			summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window), false, false);
+			summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window), false, true);
 
 			window->setup();
 		}
@@ -388,7 +391,7 @@ void QtProjectWizzard::headerSearchPaths()
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
 			summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(m_settings, window), false, false);
-			summary->addContent(new QtProjectWizzardContentSimple(m_settings, window), false, false);
+			summary->addContent(new QtProjectWizzardContentSimple(m_settings, window), false, true);
 			summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(m_settings, window), false, true);
 
 			window->setup();
@@ -416,7 +419,7 @@ void QtProjectWizzard::frameworkSearchPaths()
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
 			summary->addContent(new QtProjectWizzardContentPathsFrameworkSearch(m_settings, window), false, false);
-			summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(m_settings, window), false, false);
+			summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(m_settings, window), false, true);
 
 			window->setup();
 		}
@@ -429,8 +432,6 @@ void QtProjectWizzard::emptyProjectCDB()
 {
 	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentDataCDB>();
 
-	window->updateTitle("NEW PROJECT FROM COMPILATION DATABASE");
-
 	connect(window, SIGNAL(next()), this, SLOT(headerPathsCDB()));
 }
 
@@ -440,31 +441,13 @@ void QtProjectWizzard::headerPathsCDB()
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
 			summary->addContent(new QtProjectWizzardContentCDBSource(m_settings, window), false, false);
-			summary->addContent(new QtProjectWizzardContentPathsCDBHeader(m_settings, window), false, false);
+			summary->addContent(new QtProjectWizzardContentPathsCDBHeader(m_settings, window), false, true);
 
 			window->setup();
-
-			window->updateTitle("NEW PROJECT FROM COMPILATION DATABASE");
 		}
 	);
 
-	connect(window, SIGNAL(next()), this, SLOT(headerPathsCDBDone()));
-}
-
-void QtProjectWizzard::headerPathsCDBDone()
-{
-	showSummary();
-
-	QWidget* widget = m_windowStack.getTopWindow();
-
-	if (widget)
-	{
-		QtProjectWizzardWindow* window = dynamic_cast<QtProjectWizzardWindow*>(widget);
-
-		window->updateTitle("NEW PROJECT FROM COMPILATION DATABASE - SUMMARY");
-		window->updateNextButton("Create");
-		window->setPreviousVisible(m_windowStack.getWindowCount() > 0);
-	}
+	connect(window, SIGNAL(next()), this, SLOT(showSummary()));
 }
 
 void QtProjectWizzard::sourcePathsJava()
@@ -473,7 +456,7 @@ void QtProjectWizzard::sourcePathsJava()
 		[this](QtProjectWizzardWindow* window, QtProjectWizzardContentSummary* summary)
 		{
 			summary->addContent(new QtProjectWizzardContentPathsSourceJava(m_settings, window), false, false);
-			summary->addContent(new QtProjectWizzardContentPathsClassJava(m_settings, window), false, false);
+			summary->addContent(new QtProjectWizzardContentPathsClassJava(m_settings, window), false, true);
 
 			window->setup();
 		}
@@ -514,6 +497,10 @@ void QtProjectWizzard::showSummary()
 					summary->addContent(new QtProjectWizzardContentPathsFrameworkSearch(m_settings, window), false, true);
 					summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(m_settings, window), false, false);
 				}
+
+				summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window), true, false);
+				summary->addContent(new QtProjectWizzardContentFlags(m_settings, window), true, true);
+				summary->addContent(new QtProjectWizzardContentPathsExclude(m_settings, window), true, true);
 			}
 			else
 			{
@@ -522,19 +509,18 @@ void QtProjectWizzard::showSummary()
 				QtProjectWizzardContent* headers = new QtProjectWizzardContentPathsCDBHeader(m_settings, window);
 				summary->addContent(headers, false, true);
 
-				summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(m_settings, window), true, false);
-				summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(m_settings, window), false, true);
+				summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(m_settings, window, true), false, true);
+				summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(m_settings, window), false, false);
 
 				if (QSysInfo::macVersion() != QSysInfo::MV_None)
 				{
-					summary->addContent(new QtProjectWizzardContentPathsFrameworkSearch(m_settings, window), true, false);
+					summary->addContent(new QtProjectWizzardContentPathsFrameworkSearch(m_settings, window, true), false, true);
 					summary->addContent(new QtProjectWizzardContentPathsFrameworkSearchGlobal(m_settings, window), false, false);
 				}
-			}
 
-			summary->addContent(new QtProjectWizzardContentExtensions(m_settings, window), true, true);
-			summary->addContent(new QtProjectWizzardContentFlags(m_settings, window), true, true);
-			summary->addContent(new QtProjectWizzardContentPathsExclude(m_settings, window), true, true);
+				summary->addContent(new QtProjectWizzardContentFlags(m_settings, window), true, false);
+				summary->addContent(new QtProjectWizzardContentPathsExclude(m_settings, window), true, true);
+			}
 
 			window->setup();
 

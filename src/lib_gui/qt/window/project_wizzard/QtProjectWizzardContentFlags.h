@@ -14,7 +14,7 @@ public:
 	QtProjectWizzardContentFlags(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
 
 	// QtProjectWizzardContent implementation
-	virtual void populateForm(QGridLayout* layout, int& row) override;
+	virtual void populate(QGridLayout* layout, int& row) override;
 
 	virtual void load() override;
 	virtual void save() override;

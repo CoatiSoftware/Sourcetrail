@@ -18,6 +18,8 @@ public:
 	QtProjectWizzardContent* content() const;
 	void setContent(QtProjectWizzardContent* content);
 
+	void setPreferredSize(QSize size);
+
 	static const int FRONT_COL = 0;
 	static const int HELP_COL = 1;
 	static const int LINE_COL = 2;
@@ -33,6 +35,7 @@ protected:
 
 private:
 	QtProjectWizzardContent* m_content;
+	QSize m_preferredSize;
 };
 
 #endif // QT_PROJECT_WIZZARD_WINDOW_H

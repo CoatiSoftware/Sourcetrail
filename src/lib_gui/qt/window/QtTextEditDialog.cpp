@@ -30,6 +30,15 @@ std::string QtTextEditDialog::getText()
 void QtTextEditDialog::setReadOnly(bool readOnly)
 {
 	m_text->setReadOnly(readOnly);
+
+	if (readOnly)
+	{
+		updateNextButton("OK");
+	}
+	else
+	{
+		updateNextButton("Save");
+	}
 }
 
 void QtTextEditDialog::populateWindow(QWidget* widget)
@@ -51,7 +60,7 @@ void QtTextEditDialog::populateWindow(QWidget* widget)
 
 void QtTextEditDialog::windowReady()
 {
-	updateNextButton("Ok");
+	updateNextButton("Save");
 	updateCloseButton("Cancel");
 
 	setPreviousVisible(false);

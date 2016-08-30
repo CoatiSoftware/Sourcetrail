@@ -31,7 +31,7 @@ QtProjectWizzardContentSelect::ProjectType QtProjectWizzardContentBuildFile::get
 	return m_type;
 }
 
-void QtProjectWizzardContentBuildFile::populateForm(QGridLayout* layout, int& row)
+void QtProjectWizzardContentBuildFile::populate(QGridLayout* layout, int& row)
 {
 	QString name;
 	QString filter;
