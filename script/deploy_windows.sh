@@ -1,6 +1,6 @@
 # FLAGS
-REBUILD=true
-OBFUSCATE=true
+REBUILD=false
+OBFUSCATE=false
 
 
 # USEFUL VARIABLES
@@ -69,7 +69,9 @@ echo -e "$INFO creating databases for trail"
 
 rm bin/app/data/projects/tictactoe/tictactoe.coatidb
 rm bin/app/data/projects/tutorial/tutorial.coatidb
+rm bin/app/data/projects/javaparser/javaparser.coatidb
 rm -rf temp
+
 mkdir -p temp
 cd temp
 
@@ -136,6 +138,14 @@ mkdir -p $APP_PACKAGE_DIR
 cp -u -r deployment/windows/CoatiAppSetup/CoatiSetup/Release/Coati.msi $APP_PACKAGE_DIR/
 cp -u -r deployment/windows/CoatiAppSetup/CoatiSetup/Release/setup.exe $APP_PACKAGE_DIR/
 
+mkdir -p $APP_PACKAGE_DIR/plugins/atom/
+cp -u -r ide_plugins/atom/* $APP_PACKAGE_DIR/plugins/atom/
+mkdir -p $APP_PACKAGE_DIR/plugins/eclipse/
+cp -u -r ide_plugins/eclipse/* $APP_PACKAGE_DIR/plugins/eclipse/
+mkdir -p $APP_PACKAGE_DIR/plugins/emacs/
+cp -u -r ide_plugins/emacs/* $APP_PACKAGE_DIR/plugins/emacs/
+mkdir -p $APP_PACKAGE_DIR/plugins/idea/
+cp -u -r ide_plugins/idea/* $APP_PACKAGE_DIR/plugins/idea/
 mkdir -p $APP_PACKAGE_DIR/plugins/sublime_text/
 cp -u -r ide_plugins/sublime_text/* $APP_PACKAGE_DIR/plugins/sublime_text/
 mkdir -p $APP_PACKAGE_DIR/plugins/vim/
@@ -168,12 +178,20 @@ mkdir -p $TRIAL_PACKAGE_DIR
 cp -u -r deployment/windows/CoatiTrialSetup/CoatiSetup/Release/CoatiTrial.msi $TRIAL_PACKAGE_DIR/
 cp -u -r deployment/windows/CoatiTrialSetup/CoatiSetup/Release/setup.exe $TRIAL_PACKAGE_DIR/
 
-mkdir -p $TRIAL_PACKAGE_DIR/plugins/visual_studio/
-cp -u -r ide_plugins/vs/coati_plugin_vs.vsix $TRIAL_PACKAGE_DIR/plugins/visual_studio/
-mkdir -p $TRIAL_PACKAGE_DIR/plugins/vim/
-cp -u -r ide_plugins/vim/* $TRIAL_PACKAGE_DIR/plugins/vim/
+mkdir -p $TRIAL_PACKAGE_DIR/plugins/atom/
+cp -u -r ide_plugins/atom/* $TRIAL_PACKAGE_DIR/plugins/atom/
+mkdir -p $TRIAL_PACKAGE_DIR/plugins/eclipse/
+cp -u -r ide_plugins/eclipse/* $TRIAL_PACKAGE_DIR/plugins/eclipse/
+mkdir -p $TRIAL_PACKAGE_DIR/plugins/emacs/
+cp -u -r ide_plugins/emacs/* $TRIAL_PACKAGE_DIR/plugins/emacs/
+mkdir -p $TRIAL_PACKAGE_DIR/plugins/idea/
+cp -u -r ide_plugins/idea/* $TRIAL_PACKAGE_DIR/plugins/idea/
 mkdir -p $TRIAL_PACKAGE_DIR/plugins/sublime_text/
 cp -u -r ide_plugins/sublime_text/* $TRIAL_PACKAGE_DIR/plugins/sublime_text/
+mkdir -p $TRIAL_PACKAGE_DIR/plugins/vim/
+cp -u -r ide_plugins/vim/* $TRIAL_PACKAGE_DIR/plugins/vim/
+mkdir -p $TRIAL_PACKAGE_DIR/plugins/visual_studio/
+cp -u -r ide_plugins/vs/coati_plugin_vs.vsix $TRIAL_PACKAGE_DIR/plugins/visual_studio/
 
 
 # PACKAGING COATI (TRIAL)
