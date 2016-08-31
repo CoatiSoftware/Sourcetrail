@@ -1189,6 +1189,7 @@ private:
 	{
 		if (!JavaEnvironmentFactory::getInstance())
 		{
+			std::string errorString;
 #ifdef _WIN32
 			const std::string separator = ";";
 #else
@@ -1202,7 +1203,8 @@ private:
 				"../app/data/java/javassist-3.19.0-GA.jar" + separator +
 				"../app/data/java/java-symbol-solver-core.jar" + separator +
 				"../app/data/java/java-symbol-solver-logic.jar" + separator +
-				"../app/data/java/java-symbol-solver-model.jar" + separator
+				"../app/data/java/java-symbol-solver-model.jar" + separator,
+				errorString
 			);
 		}
 	}

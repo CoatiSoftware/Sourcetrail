@@ -28,7 +28,7 @@ std::vector<FilePath> JavaPathDetectorWindows::getPaths() const
 	std::vector<FilePath> paths;
 	if (path.exists())
 	{
-		paths.push_back(path.parentDirectory());
+		paths.push_back(path);
 	}
 	return paths;
 }

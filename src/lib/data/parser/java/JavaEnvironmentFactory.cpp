@@ -2,19 +2,15 @@
 
 #include <cstdlib>
 
-#ifdef __APPLE__
-#include <dlfcn.h>
-#endif
-
 #include <jni.h>
 
 #include "data/parser/java/JavaEnvironment.h"
 #include "settings/ApplicationSettings.h"
-#include "utility/logging/logging.h"
-#include "utility/messaging/type/MessageStatus.h"
 #include "utility/file/FileSystem.h"
+#include "utility/logging/logging.h"
+#include "utility/utilityLibrary.h"
 
-void JavaEnvironmentFactory::createInstance(std::string classPath)
+void JavaEnvironmentFactory::createInstance(std::string classPath, std::string& errorString)
 {
 	if (s_instance)
 	{
@@ -31,51 +27,16 @@ void JavaEnvironmentFactory::createInstance(std::string classPath)
 		}
 	}
 
-	bool javaFound = false;
+	std::function<jint (JavaVM**, void**, void*)> createInstanceFunction;
 
-#ifdef _WIN32
+	createInstanceFunction = utility::loadFunctionFromLibrary<jint, JavaVM**, void**, void*>(
+		FilePath(ApplicationSettings::getInstance()->getJavaPath()),
+		"JNI_CreateJavaVM",
+		errorString
+	);
+
+	if (!createInstanceFunction && errorString.size() > 0)
 	{
-		std::string oldPathContent = getenv("path");
-
-		std::string javapath = ApplicationSettings::getInstance()->getJavaPath() + "/";
-		putenv(("path=" + javapath + ";" + oldPathContent).c_str()); // path env is only modified in the scope of this process.
-
-		javaFound = FileSystem::exists(javapath + "jvm.dll");
-	}
-#endif
-
-#ifdef __APPLE__
-	{
-		std::string javapath = ApplicationSettings::getInstance()->getJavaPath();
-		void* handle = nullptr;
-
-		if (javapath.size())
-		{
-			handle = dlopen((javapath + "/jre/lib/server/libjvm.dylib").c_str(), RTLD_NOW);
-		}
-
-		if (!handle && javapath.size())
-		{
-			handle = dlopen((javapath + "/libjvm.dylib").c_str(), RTLD_NOW);
-		}
-
-		if (!handle)
-		{
-			handle = dlopen("libjvm.dylib", RTLD_NOW);
-		}
-
-		if (handle)
-		{
-			javaFound = true;
-		}
-	}
-#endif
-
-	if (!javaFound)
-	{
-		std::string errorMessage = "Unable to locate Java on this machine.";
-		LOG_ERROR(errorMessage);
-		MessageStatus(errorMessage, true, false).dispatch();
 		return;
 	}
 
@@ -96,36 +57,32 @@ void JavaEnvironmentFactory::createInstance(std::string classPath)
 	vm_args.options = options;
 	vm_args.ignoreUnrecognized = false;     // invalid options make the JVM init fail
 
-	jint rc = JNI_CreateJavaVM(&jvm, (void**)&env, &vm_args);
+	jint rc = createInstanceFunction(&jvm, (void**)&env, &vm_args);
 
 	delete [] options;
 
-	if(rc != JNI_OK)
+	if (rc != JNI_OK)
 	{
-		std::string errorMessage;
 		if(rc == JNI_EVERSION)
 		{
-			errorMessage = "JVM is oudated and doesn't meet requirements";
+			errorString = "JVM is oudated and doesn't meet requirements";
 		}
 		else if(rc == JNI_ENOMEM)
 		{
-			errorMessage = "not enough memory for JVM";
+			errorString = "not enough memory for JVM";
 		}
 		else if(rc == JNI_EINVAL)
 		{
-			errorMessage = "invalid argument for launching JVM";
+			errorString = "invalid argument for launching JVM";
 		}
 		else if(rc == JNI_EEXIST)
 		{
-			errorMessage = "the process can only launch one JVM an not more";
+			errorString = "the process can only launch one JVM an not more";
 		}
 		else
 		{
-			errorMessage = "could not create the JVM instance (error code " + std::to_string(rc) + ")";
+			errorString = "could not create the JVM instance (error code " + std::to_string(rc) + ")";
 		}
-
-		LOG_ERROR(errorMessage);
-		MessageStatus("Error while creating Java environment: " + errorMessage, true, false).dispatch();
 	}
 	else
 	{

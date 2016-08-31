@@ -3,6 +3,7 @@
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageSwitchColorScheme.h"
+#include "utility/path_detector/java_runtime/JavaPathDetectorLinux.h"
 #include "utility/path_detector/java_runtime/JavaPathDetectorMac.h"
 #include "utility/path_detector/java_runtime/JavaPathDetectorWindows.h"
 #include "utility/ResourcePaths.h"
@@ -176,45 +177,57 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 
 	layout->setRowMinimumHeight(row++, 20);
 
-
 	// Java
 	layout->addWidget(createFormTitle("JAVA"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
 	row++;
 
-	// java path
+	// jvm library path
 	m_javaPath = new QtLocationPicker(this);
-	m_javaPath->setPickDirectory(true);
+#ifdef _WIN32
+	QString filter = "JVM Library (jvm.dll)";
+#elif __APPLE__
+	QString filter = "JVM Library (libjvm.dylib)";
+#else
+	QString filter = "JVM Library (libjvm.so)";
+#endif
+	m_javaPath->setFileFilter(filter);
 
 	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
 	{
-		m_javaPath->setPlaceholderText("<jre_8_root>/bin/client");
+		m_javaPath->setPlaceholderText("<jre_path>/bin/client/jvm.dll");
 	}
 	else if (QSysInfo::macVersion() != QSysInfo::MV_None)
 	{
-		m_javaPath->setPlaceholderText("<jre_8_root>/Contents/Home");
+		m_javaPath->setPlaceholderText("<jre_path>Contents/Home/jre/lib/server/libjvm.dylib");
+	}
+	else
+	{
+		m_javaPath->setPlaceholderText("<jre_path>/bin/<arch>/server/libjvm.so");
 	}
 
 	layout->addWidget(createFormLabel("Java Path"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
 	layout->addWidget(m_javaPath, row, QtProjectWizzardWindow::BACK_COL);
 
 	addHelpButton(
-		"Location of the folder that contains the dynamic library for your jre virtual machine."
+		"Location of the dynamic library for your jre virtual machine."
 		, layout, row
 	);
 	row++;
 
+	m_javaPathDetector = std::make_shared<CombinedPathDetector>();
 	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
 	{
-		m_javaPathDetector = std::make_shared<CombinedPathDetector>();
 		m_javaPathDetector->addDetector(std::make_shared<JavaPathDetectorWindows>("1.8"));
-		addJavaPathDetection(layout, row);
 	}
 	else if (QSysInfo::macVersion() != QSysInfo::MV_None)
 	{
-		m_javaPathDetector = std::make_shared<CombinedPathDetector>();
 		m_javaPathDetector->addDetector(std::make_shared<JavaPathDetectorMac>("1.8"));
-		addJavaPathDetection(layout, row);
 	}
+	else
+	{
+		m_javaPathDetector->addDetector(std::make_shared<JavaPathDetectorLinux>("1.8"));
+	}
+	addJavaPathDetection(layout, row);
 
 	layout->setRowMinimumHeight(row++, 20);
 

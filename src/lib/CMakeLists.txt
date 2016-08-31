@@ -349,6 +349,7 @@ add_files(
 	utility/UserPaths.h
 	utility/utility.cpp
 	utility/utility.h
+	utility/utilityLibrary.h
 	utility/utilityString.cpp
 	utility/utilityString.h
 	utility/Version.cpp

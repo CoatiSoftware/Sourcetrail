@@ -18,7 +18,7 @@ class JavaEnvironment;
 class JavaEnvironmentFactory
 {
 public:
-	static void createInstance(std::string classPath);
+	static void createInstance(std::string classPath, std::string& errorString);
 	static std::shared_ptr<JavaEnvironmentFactory> getInstance();
 
 	~JavaEnvironmentFactory();

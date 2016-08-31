@@ -1,6 +1,7 @@
 #include "utility/utilityApp.h"
 
 #include <QProcess>
+#include "utility/utilityString.h"
 
 std::string utility::executeProcess(const char *cmd)
 {
@@ -10,6 +11,7 @@ std::string utility::executeProcess(const char *cmd)
 	process.waitForFinished();
 	std::string processoutput = process.readAll().toStdString();
 	process.close();
+	processoutput = utility::trim(processoutput);
 
 	return processoutput;
 }

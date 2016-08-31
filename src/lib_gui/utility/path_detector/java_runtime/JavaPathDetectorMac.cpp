@@ -15,19 +15,24 @@ JavaPathDetectorMac::~JavaPathDetectorMac()
 std::vector<FilePath> JavaPathDetectorMac::getPaths() const
 {
 	std::vector<FilePath> paths;
+	FilePath javaPath;
 
 	std::string command = "/usr/libexec/java_home";
 	std::string output = utility::executeProcess(command.c_str());
 
 	if (output.size())
 	{
-		output = utility::trim(output);
+		javaPath = FilePath(utility::trim(output) + "/jre/lib/server/libjvm.dylib");
+	}
 
-		FilePath javaPath(output);
-		if (!javaPath.empty() && javaPath.exists())
-		{
-			paths.push_back(javaPath);
-		}
+	if (!javaPath.exists())
+	{
+		javaPath = FilePath("/usr/lib/libjvm.dylib");
+	}
+
+	if (javaPath.exists())
+	{
+		paths.push_back(javaPath);
 	}
 
 	return paths;

@@ -2,6 +2,7 @@
 
 #include "data/parser/java/JavaEnvironmentFactory.h"
 #include "data/parser/java/TaskParseJava.h"
+#include "utility/messaging/type/MessageStatus.h"
 #include "utility/ResourcePaths.h"
 #include "Application.h"
 #include "isTrial.h"
@@ -30,6 +31,7 @@ JavaProject::JavaProject(
 
 bool JavaProject::prepareIndexing()
 {
+	std::string errorString;
 	if (!JavaEnvironmentFactory::getInstance() && !isTrial())
 	{
 #ifdef _WIN32
@@ -45,12 +47,28 @@ bool JavaProject::prepareIndexing()
 			ResourcePaths::getJavaPath() + "javassist-3.19.0-GA.jar" + separator +
 			ResourcePaths::getJavaPath() + "java-symbol-solver-core.jar" + separator +
 			ResourcePaths::getJavaPath() + "java-symbol-solver-logic.jar" + separator +
-			ResourcePaths::getJavaPath() + "java-symbol-solver-model.jar"
+			ResourcePaths::getJavaPath() + "java-symbol-solver-model.jar",
+			errorString
 		);
 	}
+
+	if (errorString.size() > 0)
+	{
+		LOG_ERROR(errorString);
+		MessageStatus(errorString, true, false).dispatch();
+	}
+
 	if (!JavaEnvironmentFactory::getInstance() && !isTrial())
 	{
-		Application::getInstance()->handleDialog("Coati was unable to locate Java on this machine.\nPlease make sure to provide the correct path in your preferences.");
+		std::string dialogMessage =
+			"Coati was unable to locate Java on this machine.\nPlease make sure to provide the correct Java Path in the preferences.";
+
+		if (errorString.size() > 0)
+		{
+			dialogMessage += "\n\nError: " + errorString;
+		}
+
+		Application::getInstance()->handleDialog(dialogMessage);
 		return false;
 	}
 

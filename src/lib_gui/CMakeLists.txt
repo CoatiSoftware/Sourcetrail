@@ -176,6 +176,8 @@ add_files(
 
 	utility/path_detector/java_runtime/JavaPathDetector.cpp
 	utility/path_detector/java_runtime/JavaPathDetector.h
+	utility/path_detector/java_runtime/JavaPathDetectorLinux.cpp
+	utility/path_detector/java_runtime/JavaPathDetectorLinux.h
 	utility/path_detector/java_runtime/JavaPathDetectorMac.cpp
 	utility/path_detector/java_runtime/JavaPathDetectorMac.h
 	utility/path_detector/java_runtime/JavaPathDetectorWindows.cpp

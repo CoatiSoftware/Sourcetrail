@@ -3,6 +3,7 @@
 #include <regex>
 
 #include "utility/logging/logging.h"
+#include "utility/utilityString.h"
 
 FilePath::FilePath()
 	: m_exists(false)
@@ -214,6 +215,11 @@ bool FilePath::contains(const FilePath& other) const
 std::string FilePath::str() const
 {
 	return m_path.generic_string();
+}
+
+std::string FilePath::getBackslashedString() const
+{
+	return utility::replace(str(), "/", "\\");
 }
 
 std::string FilePath::fileName() const

@@ -31,6 +31,7 @@ public:
 	bool contains(const FilePath& other) const;
 
 	std::string str() const;
+	std::string getBackslashedString() const;
 	std::string fileName() const;
 
 	std::string extension() const;
