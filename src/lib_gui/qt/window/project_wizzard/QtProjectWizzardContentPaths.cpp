@@ -3,11 +3,14 @@
 #include <QLabel>
 #include <QMessageBox>
 #include <QVBoxLayout>
+#include <QComboBox>
 
 #include "qt/element/QtDirectoryListBox.h"
+#include "qt/window/QtSelectPathsDialog.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/CxxProjectSettings.h"
 #include "settings/JavaProjectSettings.h"
+#include "utility/CompilationDatabase.h"
 #include "utility/file/FileManager.h"
 #include "utility/file/FileSystem.h"
 #include "utility/path_detector/cxx_header/CxxFrameworkPathDetector.h"
@@ -235,6 +238,56 @@ QtProjectWizzardContentPathsCDBHeader::QtProjectWizzardContentPathsCDBHeader(
 	);
 }
 
+void QtProjectWizzardContentPathsCDBHeader::populate( QGridLayout* layout, int& row)
+{
+	QtProjectWizzardContentPaths::populate(layout, row);
+
+	QPushButton* button = new QPushButton("Select from Include Paths");
+	button->setObjectName("windowButton");
+	connect(button, SIGNAL(clicked()), this, SLOT(buttonClicked()));
+
+	layout->addWidget(button, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignRight | Qt::AlignTop);
+	row++;
+}
+
+void QtProjectWizzardContentPathsCDBHeader::buttonClicked()
+{
+	save();
+
+	if (!m_filesDialog)
+	{
+		std::vector<std::string> fileNames = getFileNames();
+
+		m_filesDialog = std::make_shared<QtSelectPathsDialog>(
+			"Select from Include Paths",
+			"The list contains all Include Paths found in the Compilation Database. Red paths do not exist. Select the "
+			"paths containing the header files you want to index with Coati.");
+		m_filesDialog->setup();
+
+
+		utility::CompilationDatabase cdb(dynamic_cast<CxxProjectSettings*>(m_settings.get())->getCompilationDatabasePath().str());
+		std::vector<FilePath> cdbHeaderPaths = cdb.getAllHeaderPaths();
+		std::vector<FilePath> sourcePaths = m_settings->getSourcePaths();
+
+		cdbHeaderPaths = utility::unique(utility::concat(sourcePaths, cdbHeaderPaths));
+
+		dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->setPathsList(cdbHeaderPaths, sourcePaths);
+
+		connect(m_filesDialog.get(), SIGNAL(finished()), this, SLOT(savedFilesDialog()));
+		connect(m_filesDialog.get(), SIGNAL(canceled()), this, SLOT(closedFilesDialog()));
+	}
+
+	m_filesDialog->showWindow();
+	m_filesDialog->raise();
+}
+
+void QtProjectWizzardContentPathsCDBHeader::savedFilesDialog()
+{
+	// TODO: extend instead of replace
+	m_list->setList(dynamic_cast<QtSelectPathsDialog*>(m_filesDialog.get())->getPathsList());
+
+	closedFilesDialog();
+}
 
 QtProjectWizzardContentPathsExclude::QtProjectWizzardContentPathsExclude(
 	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window

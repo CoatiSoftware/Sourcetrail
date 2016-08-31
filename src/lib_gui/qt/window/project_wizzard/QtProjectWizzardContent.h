@@ -63,13 +63,13 @@ protected:
 	std::shared_ptr<ProjectSettings> m_settings;
 	QtProjectWizzardWindow* m_window;
 
-private slots:
+	std::shared_ptr<QtTextEditDialog> m_filesDialog;
+
+protected slots:
 	void filesButtonClicked();
 	void closedFilesDialog();
 
 private:
-	std::shared_ptr<QtTextEditDialog> m_filesDialog;
-
 	bool m_isInForm;
 };
 

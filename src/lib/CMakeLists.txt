@@ -332,6 +332,7 @@ add_files(
 	utility/AppPath.cpp
 	utility/AppPath.h
 	utility/Cache.h
+	utility/CompilationDatabase.h
 	utility/ConfigManager.cpp
 	utility/ConfigManager.h
 	utility/Property.h

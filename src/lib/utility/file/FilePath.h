@@ -12,6 +12,7 @@ public:
 	FilePath(const char* filePath);
 	FilePath(const std::string& filePath);
 	FilePath(const boost::filesystem::path& filePath);
+	FilePath(const std::string& filePath, const std::string& base);
 
 	boost::filesystem::path path() const;
 

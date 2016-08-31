@@ -24,9 +24,10 @@ protected:
 	void populateWindow(QWidget* widget) override;
 	void windowReady() override;
 
-private:
 	QString m_title;
 	QString m_description;
+
+private:
 
 	QPlainTextEdit* m_text;
 };

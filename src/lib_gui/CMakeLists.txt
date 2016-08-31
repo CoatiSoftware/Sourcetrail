@@ -149,6 +149,8 @@ add_files(
     qt/window/QtLicense.h
 	qt/window/QtMainWindow.cpp
 	qt/window/QtMainWindow.h
+	qt/window/QtSelectPathsDialog.cpp
+	qt/window/QtSelectPathsDialog.h
 	qt/window/QtSplashScreen.cpp
 	qt/window/QtSplashScreen.h
 	qt/window/QtStartScreen.cpp

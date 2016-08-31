@@ -171,7 +171,7 @@ QLabel, QCheckBox {
 	background: #CFD2E0;
 }
 
-#textField {
+#textField, #pathList {
 	background: white;
 	border: 1px solid lightgray;
 	border-radius: 12px;

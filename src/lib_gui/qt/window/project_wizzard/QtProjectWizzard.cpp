@@ -505,9 +505,7 @@ void QtProjectWizzard::showSummary()
 			else
 			{
 				summary->addContent(new QtProjectWizzardContentDataCDB(m_settings, window), false, false);
-
-				QtProjectWizzardContent* headers = new QtProjectWizzardContentPathsCDBHeader(m_settings, window);
-				summary->addContent(headers, false, true);
+				summary->addContent(new QtProjectWizzardContentPathsCDBHeader(m_settings, window), false, true);
 
 				summary->addContent(new QtProjectWizzardContentPathsHeaderSearch(m_settings, window, true), false, true);
 				summary->addContent(new QtProjectWizzardContentPathsHeaderSearchGlobal(m_settings, window), false, false);

@@ -32,6 +32,13 @@ FilePath::FilePath(const boost::filesystem::path& filePath)
 {
 }
 
+FilePath::FilePath(const std::string& filePath, const std::string& base)
+	: m_path(boost::filesystem::absolute(filePath, base))
+	, m_exists(false)
+	, m_checkedExists(false)
+{
+}
+
 boost::filesystem::path FilePath::path() const
 {
 	return m_path;

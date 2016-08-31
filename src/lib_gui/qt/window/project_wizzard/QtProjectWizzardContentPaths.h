@@ -1,13 +1,12 @@
 #ifndef QT_PROJECT_WIZZARD_CONTENT_PATHS_H
 #define QT_PROJECT_WIZZARD_CONTENT_PATHS_H
 
-#include <QComboBox>
-#include <QPushButton>
-
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 #include "utility/path_detector/CombinedPathDetector.h"
 
 class QtDirectoryListBox;
+class QPushButton;
+class QComboBox;
 
 class QtProjectWizzardContentPaths
 	: public QtProjectWizzardContent
@@ -72,8 +71,16 @@ public:
 class QtProjectWizzardContentPathsCDBHeader
 	: public QtProjectWizzardContentPathsSource
 {
+	Q_OBJECT
+
 public:
 	QtProjectWizzardContentPathsCDBHeader(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
+
+	virtual void populate(QGridLayout* layout, int& row) override;
+
+private slots:
+	void buttonClicked();
+	void savedFilesDialog();
 };
 
 
