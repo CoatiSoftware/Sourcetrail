@@ -37,6 +37,11 @@ NameHierarchy NameHierarchy::deserialize(const std::string& serializedName)
 	return nameHierarchy;
 }
 
+const std::string& NameHierarchy::getDelimiter()
+{
+	return s_delimiter;
+}
+
 void NameHierarchy::setDelimiter(const std::string& delimiter)
 {
 	s_delimiter = delimiter;

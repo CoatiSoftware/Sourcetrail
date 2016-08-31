@@ -66,8 +66,6 @@ private slots:
 	void onElementSelected(QtSearchElement* element);
 
 private:
-	static std::string s_delimiter;
-
 	void moveCursor(int offset);
 	void moveCursorTo(int goal);
 

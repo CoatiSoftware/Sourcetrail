@@ -12,6 +12,8 @@ class NameHierarchy
 public:
 	static std::string serialize(NameHierarchy nameHierarchy);
 	static NameHierarchy deserialize(const std::string& serializedName);
+
+	static const std::string& getDelimiter();
 	static void setDelimiter(const std::string& delimiter);
 
 	NameHierarchy();
