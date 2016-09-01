@@ -92,9 +92,11 @@ mkdir -p $RES_DIR/data/projects
 cp -R ../data/color_schemes $RES_DIR/data/color_schemes
 cp -R ../data/fonts $RES_DIR/data/fonts
 cp -R ../data/gui $RES_DIR/data/gui
+cp -R ../data/java $RES_DIR/data/java
 
 cp -R ../data/projects/tictactoe $RES_DIR/data/projects/tictactoe
 cp -R ../data/projects/tutorial $RES_DIR/data/projects/tutorial
+cp -R ../data/projects/javaparser $RES_DIR/data/projects/javaparser
 
 if [ ! "$1" = "trial" ]
 then
