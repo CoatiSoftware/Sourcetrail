@@ -90,7 +90,7 @@
 						</div>
 					</div>
 					<div class="row" style="text-align:center;">
-						<p>Documentation for version 0.7</p>
+						<p>Documentation for version 0.8</p>
 					</div>
 
 					<div class="row" style="height:40px;"></div>
@@ -176,9 +176,8 @@
 
 					<h2>Creating a Project</h2>
 					<p>When creating a new Coati project you will use the <a href="#ProjectSetupWizard">project setup wizard</a>. This wizard splits the setup process into several subsequent steps.</p>
-					<p>The simplest way to set up a Coati project is:</p>
 
-
+					<!-- TODO: replace image to include Java -->
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/project_setup_guide_select.png" style="width:100%;">
@@ -188,10 +187,11 @@
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
-							<li>Pick your project's programming language, select the empty project option and click <var>Next</var>.</li>
+							<li>Pick your project's programming language, select the Empty Project option and click <var>Next</var>.</li>
 						</ul>
 					</div>
 
+					<!-- TODO: replace image with removed language setting -->
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/project_setup_guide_data.png" style="width:100%;">
@@ -241,22 +241,23 @@
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
-							<li>As last step a summary of all settings is shown. Click <var>Create</var> to close the dialog. Coati will start indexing your files now.</li>
+							<li>As last step a summary of all settings is shown. Click <var>Create</var> to close the dialog and save the project file.</li>
 						</ul>
 					</div>
 
 					<h2>Source Indexing</h2>
-					<p>Coati will now start indexing your source files, which might take a little while. The <a href="#Statusbar">status bar</a> will give you information about the progress. Otherwise the UI will be empty. Coati indexes all named symbols and their relationships throughout the provided source files.</p>
+					<p>Coati will now ask you whether you want to start indexing. Click <var>Start</var> and wait for the indexing to finish, which might take a little while. The <a href="#IndexingDialogs">Indexing Dialog</a> and the <a href="#Statusbar">status bar</a> will give you information about the progress. Otherwise the UI will be empty. Coati indexes all named symbols and their relationships throughout the provided source files.</p>
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
-							<img src="img/analyse.png" style="width:100%;">
+							<img src="img/indexing.png" style="width:100%;">
 						</div>
 					</div>
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
+							<li>Click <var>Start</var> when asked whether to start indexing.</li>
 							<li>Wait until the indexing of your source files has finished.</li>
-							<li>or Press ESC to stop indexing (Coati will provide all information gathered so far and the indexing can be continued later by <a href="#Refresh">refreshing</a>).</li>
+							<li>or Click <var>Stop</var> or press ESC to stop indexing (Coati will provide all information gathered so far and the indexing can be continued later by <a href="#Refresh">refreshing</a>).</li>
 						</ul>
 					</div>
 					<p>After indexing has finished, Coati will show an overview of all indexed symbols in the <a href="#GraphView">graph view</a> and some statistics in the <a href="#CodeView">code view</a>. If the indexing yielded errors, the code view will display them. You can see the error message by hovering an error's location.</p>
@@ -268,7 +269,7 @@
 					<div class="callout callout-info">
 						<strong>Tasks:</strong>
 						<ul>
-							<li>Fix your errors and <a href="#Refresh">refresh</a> to reindex the files with errors (Open Issue: As long as there was no change in the specific file, Coati won't reindex it, do a <a href="#ForceRefresh">force refresh</a> until fixed).</li>
+							<li>Fix your errors and <a href="#Refresh">refresh</a> to reindex the files with errors (Open Issue: As long as there was no change in the specific file, Coati won't reindex it, use the <strong>Force Refresh</strong> option from the <a href="#Edit">Edit Menu</a> until fixed).</li>
 							<li>or ignore them and continue with an incomplete index.</li>
 						</ul>
 					</div>
@@ -397,6 +398,9 @@
 					<h3>C++</h3>
 					<p>C++ support is powered by <a href="http://clang.llvm.org/" target="_blank">Clang 3.8</a>. For more Information please visit <a href="http://clang.llvm.org/cxx_status.html" target="_blank">Clang C++ Status</a>. If you have a problem loading C++ code, please have a look at <a href="http://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug at our <a href="https://github.com/CoatiSoftware/CoatiBugTracker">bug tracker</a>.</p>
 
+					<h3>Java</h3>
+					<p>Coati 0.8 includes an early version of Java support which is powered by <a href="http://javaparser.org/" target="_blank">JavaParser</a> and <a href="https://github.com/ftomassetti/java-symbol-solver" target="_blank">JavaSymbolSolver</a>. In this version Java support still has some minor issues when matching a method's call to a proper definition. If you encounter any of these issues, please let us know by providing a minimal example at our <a href="https://github.com/CoatiSoftware/CoatiBugTracker">bug tracker</a>.</p>
+
 					<h2>FAQ</h2>
 
 					<div class="panel panel-default">
@@ -459,7 +463,7 @@
 
 					<h3>On Windows</h3>
 					<p>These files usually ship with your compiler. For the Visual Studio IDE the system headers can be found at:</p>
-					<pre>path_to_visual_studio/VC/include/</pre>
+					<pre>&lt;path_to_visual_studio&gt;/VC/include/</pre>
 					<p>If you don't use the Visual Studio IDE you can also try to find your system headers in a subdirectory of:</p>
 					<pre>C:/Program Files (x86)/Windows Kits/</pre>
 
@@ -476,6 +480,28 @@
 					<p>You will find the header search paths your compiler uses in the output between these two lines:</p>
 					<pre>#include <...> search starts here:<br />.<br />.<br />.<br />End of search list.</pre>
 
+					<h2>Finding Java Runtime Library Location</h2>
+
+					<h3>On Windows</h3>
+					<p>The Java Runtime Library (called "jvm.dll") can be found inside of your JRE install folder and looks like this:</p>
+					<pre>&lt;path_to_jre&gt;/bin/client/jvm.dll</pre>
+
+
+					<h3>On Mac</h3>
+					<p>The Java Runtime Library (called <code>libjvm.dylib</code>) can be found inside of your JRE install folder. Run the following command in your terminal to find the location of your default Java installation:</p>
+					<pre>/usr/libexec/java_home</pre>
+
+					<p>This should give you a path looking like this:</p>
+					<pre>/Library/Java/JavaVirtualMachines/&lt;jdk_version&gt;/Contents/Home</pre>
+
+					The <code>"libjvm.dylib"</code> should be available at:
+					<pre>/Library/Java/JavaVirtualMachines/&lt;jdk_version&gt;/Contents/Home/jre/lib/server/libjvm.dylib</pre>
+
+					<p>Insert the full path to <code>libjvm.dylib</code> into the <strong>Java Path</strong> setting in the <a href="#PreferencesWindow">Preferences Window</a>.</p>
+
+					<h3>On Linux</h3>
+					<p>The Java Runtime Library (called "libjvm.so") can be found inside of your JRE install folder and looks like this:</p>
+					<pre>&lt;path_to_jre&gt;/bin/&lt;arch&gt;/server/libjvm.so</pre>
 
 					<div class="row" style="height:80px;"></div>
 
@@ -543,11 +569,30 @@
 						<li>Enter the path by typing on your keyboard</li>
 						<li>Click "..." within the path line to open a file dialog for choosing a file or directory path.</li>
 						<li>Directly add multiple paths into the box by dropping elements from your filesystem.</li>
+						<li>Click the pen icon in the bottom right corner to edit the list as plain text.</li>
+					</ul>
+
+					<div class="row" style="height:20px;"></div>
+
+					<h4>Plain Text Editing</h4>
+					<p>By pressing the pen icon in the bottom right corner you can open the plain text edition dialog. It allows you to edit the whole list within a text field. Each line will be one list item.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/path_list_box_edit.png" style="width:100%;">
+						</div>
+					</div>
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Add and remove list items through keyboard interaction.</li>
+						<li>Click <var>Cancel</var> to cancel plain text editing.</li>
+						<li>Click <var>Save</var> to save your changes to the list.</li>
 					</ul>
 
 
+
+					<!-- TODO: replace image to include Java -->
 					<h3>Preferences Window</h3>
-					<p>The Preferences window lets you define settings for all projects. You can open the Preferences from the menu via <a href="#Help">Help/Preferences</a>.</p>
+					<p>The Preferences window lets you define settings for all projects. You can open the Preferences from the menu via <a href="#Edit">Edit/Preferences</a>.</p>
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/preferences_screen.png" style="width:100%;">
@@ -571,16 +616,44 @@
 								<td>Define the space width of tabs in the code view.</td>
 							</tr>
 							<tr>
+								<th scope="row">Color scheme</th>
+								<td>Choose which color scheme Coati should display. The color schemes are located in <a href="#Datafolder">data</a>/color_schemes/</td>
+							</tr>
+							<tr>
+								<th scope="row">Scroll Speed</th>
+								<td>Define a multiplyer for the default scroll speed. Values smaller than 1 slow down scrolling while values greater than 1 increase the scroll speed.</td>
+							</tr>
+							<tr>
+								<th scope="row">Logging</th>
+								<td>Ticking this box enables logging to console and to a log file. This option is disabled by default to speed up Coati. If you encounter problems while running Coati, we recommend to enable this option so you have somewhere to start looking for a cause.</td>
+							</tr>
+							<tr>
 								<th scope="row">Indexer threads</th>
 								<td>Define how many parallel threads are used during indexing.</td>
 							</tr>
 							<tr>
-								<th scope="row">Header Search Paths</th>
-								<td>Set header search paths that are used for <strong>all</strong> of your projects (e.g. std headers). An option for automatic detection of these paths is available for Clang, GCC and the Visual Studio compiler. (For instructions on how to add paths manually see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>.)</td>
+								<th scope="row">Non-Fatal Errors</th>
+								<td>Enable this option if you want Coati to display non-fatal errors in files that do not get indexed by Coati. Fatal errors will be displayed regardless of their location within the project because they tend to affect the indexers coverage.</td>
 							</tr>
 							<tr>
-								<th scope="row">Framework Search Paths</th>
-								<td>Mac only. Define the search paths for <code>.framework</code> files for all of your projects. An option for automatic detection of these paths is available for Clang and GCC. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td>
+								<th scope="row">Coati Port</th>
+								<td>Port number that Coati uses to listen for incoming messages from plugins.</td>
+							</tr>
+							<tr>
+								<th scope="row">Plugin Port</th>
+								<td>Port number that Coati sends outgoing messages to.</td>
+							</tr>
+							<tr>
+								<th scope="row">Java Path</th>
+								<td>If you want to use Coati on Java source code, please specify a path to your Java 8 runtime library. Please keep in mind that a 32 bit Coati requires a 32 bit version of Java while a 64 bit Coati requires a 64 bit Java to be working correctly. You can either use the button below for automatic detection or add the path manually. For instructions on how to find your Java runtime path see <a href="#FindingJavaRuntimeLibraryLocation">Finding Java Runtime Library Location</a>.</td>
+							</tr>
+							<tr>
+								<th scope="row">Global Include Paths</th>
+								<td>Set header search paths that are used for <strong>all</strong> of your projects (e.g. std headers). An option for automatic detection of these paths is available for Clang, GCC and the Visual Studio compiler. For instructions on how to add paths manually see <a href="#PathListBox">Path List Box</a>. For instructions on how to find the system header paths see <a href="#FindingSystemHeaderLocations">Finding System Header Locations</a>.</td>
+							</tr>
+							<tr>
+								<th scope="row">Global Framework Search Paths</th>
+								<td>Mac only. Define the search paths for <code>.framework</code> files for all of your projects. An option for automatic detection of these paths is available for Clang and GCC. For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.</td>
 							</tr>
 						</tbody>
 					</table>
@@ -588,6 +661,7 @@
 
 					<h3>Project Setup Wizard</h3>
 					<p>The Project Setup Wizard consists of a sequence of windows that let you create a new Coati project. After selecting the programming language for your project Coati offers several ways for you to provide all the required information.</p>
+					<!-- TODO: replace image to include Java -->
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/project_setup_wizard_start.png" style="width:100%;">
@@ -603,11 +677,12 @@
 
 					<div class="row" style="height:20px;"></div>
 
-					<h4>Create an Empty Project</h4>
+					<h4>Create an Empty C/C++ Project</h4>
 					<p>This is the way to go if you just have some source files you want to index. In case you have a build instructions file, you might want to check out one of the other options for project setup described below.</p>
 
-					<strong>Project Meta Data</strong>
+					<strong id="CxxProjectMetaData">Project Meta Data</strong>
 					<p>In the first step you need to enter meta information about the project.</p>
+					<!-- TODO: remove "language" from this image -->
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2">
 							<img src="img/project_setup_wizard_empty_meta.png" style="width:100%;">
@@ -620,7 +695,6 @@
 						<tbody>
 							<tr> <th scope="row">Name</th> <td>The name of the project. This will also be the name of the <code>.coatiproject</code> file generated by Coati.</td> </tr>
 							<tr> <th scope="row">Location</th> <td>Choose the location of the project file from the dialog.</td> </tr>
-							<tr> <th scope="row">Language</th> <td>Select the language of your project. This setting is preselected according to your choice in the previous screen. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
 							<tr> <th scope="row">Standard</th> <td>Select the language standard that should be used for indexing your project. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
 						</tbody>
 					</table>
@@ -716,12 +790,12 @@
 
 					<div class="row" style="height:20px;"></div>
 
-					<h4 id="CreateAProjectFromVisualStudioSolution">Create a Project from Visual Studio Solution</h4>
+					<h4 id="CreateAProjectFromVisualStudioSolution">Create a C/C++ Project from Visual Studio Solution</h4>
 					<p>If you already have a Visual Studio solution file, this is the way to go. Just select the solution file in the file picker and Coati will automatically analyze it to prepopulate the <a href="#NewProjectSummary">New Project Summary Window</a> (this may take a second or two).</p>
 
 					<div class="row" style="height:20px;"></div>
 
-					<h4 id="CreateAProjectFromCompilationDatabase">Create a Project from Compilation Database</h4>
+					<h4 id="CreateAProjectFromCompilationDatabase">Create a C/C++ Project from Compilation Database</h4>
 					<p>If you are using <a href="https://cmake.org/">CMake</a> you can export compile commands by defining the <code>CMAKE_EXPORT_COMPILE_COMMANDS</code> flag and then use the exportet <code>.json</code> file for Coati project setup.</p>
 					<p>For non-CMake projects you can use <a href="https://github.com/rizsotto/Bear">Bear</a>. Bear generates a <code>.json</code> file during the simulated build process. Bear has been tested on FreeBSD, GNU/Linux and OS X.</p>
 
@@ -767,7 +841,7 @@
 						</thead>
 						<tbody>
 							<tr> <th scope="row">Source Files</th> <td>Clicking <var>show source files</var> will show you a list of all source files in the compilation database</td> </tr>
-							<tr> <th scope="row">Header Paths</th> <td>Specify one or multiple locations that contain the header files to the source files defined in the compilation database. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
+							<tr> <th scope="row">Indexed Header Paths</th> <td>Specify one or multiple locations that contain the header files to the source files defined in the compilation database. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
 						</tbody>
 					</table>
 					<strong>Interactions:</strong>
@@ -779,6 +853,34 @@
 
 					<div class="row" style="height:20px;"></div>
 
+					<h4>Create an Empty Java Project</h4>
+					<p>Choose this option if you want to use Coati on a Java code base.</p>
+
+					<strong>Project Meta Data</strong>
+					<p>This is the same window as described <a href="#CxxProjectMetaData">above</a>.</p>
+
+					<div class="row" style="height:20px;"></div>
+
+					<strong>Project Paths</strong>
+					<p>In this step you provide all the information Coati needs to know about your code base.</p>
+
+					<div class="row">
+						<div class="col-sm-10 col-sm-offset-1">
+							<img src="img/project_setup_guide_paths_java.png" style="width:100%;">
+						</div>
+					</div>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Setting</th> <th>Description</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">Project Paths</th> <td>Provide the root path of your Java project. This is the path where all your package names are relative to. You may provide multiple paths here. For an example this may be required it your project's source code resides in one location but generated source files are kept at a different location.</td> </tr>
+							<tr> <th scope="row">Class Path</th> <td>Add one entry per jar file that is required for the project to compile. You can also add the root path of the class files your project depends on, or add a mixture if you have class files for some of the dependencies and jar files for the rest of them.</td> </tr>
+						</tbody>
+					</table>
+
+					<div class="row" style="height:20px;"></div>
+
 					<h3>New Project Summary</h3>
 					<p>This window appears at the end of the <a href = "ProjectSetupWizard">Project Setup Wizard</a> to summarize all the information entered before. It is the same as the <a href="#EditProjectWindow">Edit Project Window</a>.</p>
 
@@ -786,6 +888,7 @@
 
 					<h3>Edit Project Window</h3>
 					<p>This window displays all the information relevant for your Coati project.</p>
+					<!-- TODO: remove "language" dropdown from image -->
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-1">
 							<img src="img/new_project_summary.png" style="width:100%;">
@@ -798,20 +901,35 @@
 						<tbody>
 							<tr> <td scope="row">Name</td> <td>The name of the project. This will also be the name of the <code>.coatiproject</code> file generated by Coati.</td> </tr>
 							<tr> <td scope="row">Location</td> <td>Choose the location of the project file from the dialog.</td> </tr>
-							<tr> <td scope="row">Language</td> <td>Select the language of your project. This setting is preselected according to your choice in the previous screen. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
+							<tr> <td scope="row">Language</td> <td>This field displays the language you chose for the project. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
 							<tr> <td scope="row">Standard</td> <td>Select the language standard that should be used for indexing your project. Usually the most recent language standard is preselected here. (See <a href="#SupportedLanguages">Language Support</a>)</td> </tr>
 
-							<tr> <td scope="row">Project Paths</td> <td>Provide the paths that contain your project's files. Coati will index all the source and header files in the specified paths, including subdirectories.</td> </tr>
-
+							<tr> <td scope="row">Project Paths</td> <td>Add all directories or files you want Coati to index. Providing a directory here will recursively add all the contained files. Usually these are all source and header files of your project or a subset of them.</td> </tr>
+						<tbody>
+					</table>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Setting</th> <th>Description for C/C++</th> </tr>
+						</thead>
+						<tbody>
 							<tr> <td scope="row">Visual Studio Solution</td> <td>Only when using Setup from Visual Studio Solution. Provide the path to your Visual Studio Solution. Clicking the refresh arrow inside the text box will refresh the Project Paths and the Header Search Paths below.</td> </tr>
 							<tr> <td scope="row">Compilation Database</td> <td>Only when using Setup from Compilation Database. Provide the path to your Compilation Database.</td> </tr>
-							<tr> <td scope="row">Header Paths</td> <td>Only when using Setup from Compilation Database. Provide the paths to the corresponding header paths of your Compilation Database.</td> </tr>
+							<tr> <td scope="row">Indexed Header Paths</td> <td>Only when using Setup from Compilation Database. Even though the compilation database specifies all the include paths required to compile the project, you may not want to spend a lot of time indexing all of these. Every time Coati encounters a header it will check if the file is located in one of these paths to decide whether or not to index it.</td> </tr>
 
 							<tr> <td scope="row">Include Paths</td> <td>Specify where Coati should be looking for included headers.</td> </tr>
-							<tr> <td scope="row">Lazy Include Search</td> <td>If this checkbox is checked Coati also looks into the project paths (including subdirectories) when resolving <code>#include</code> directives.</td> </tr>
-							<tr> <td scope="row">Global Include Paths</td> <td>Same as Header Search Paths but these are used application wide for all of your Coati projects.</td> </tr>
+							<tr> <td scope="row">Lazy Include Search</td> <td>If this checkbox is checked Coati also looks into the project paths (including subdirectories) when resolving <code>#include</code> directives. Use this option when you know that the project is self contained but don't know which paths you should specify as include paths.</td> </tr>
+							<tr> <td scope="row">Global Include Paths</td> <td>Same as Include Paths but these are used application wide for all of your Coati projects.</td> </tr>
 							<tr> <td scope="row">Framework Search Paths</td> <td>Mac only. Define the search paths for <code>.framework</code> files for your project. (For instructions on how to add paths see <a href="#PathListBox">Path List Box</a>.)</td> </tr>
 							<tr> <td scope="row">Global Framework Search Paths</td> <td>Mac only. Same as Framework Search Paths but these are used application wide for all of your Coati projects.</td> </tr>
+						<tbody>
+					</table>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Setting</th> <th>Description for Java</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">Project Paths</th> <td>Provide the root path of your Java project. This is the path where all your package names are relative to. You may provide multiple paths here. For an example this may be required it your project's source code resides in one location but generated source files are kept at a different location.</td> </tr>
+							<tr> <th scope="row">Class Path</th> <td>Add one entry per jar file that is required for the project to compile. You can also add the root path of the class files your project depends on, or add a mixture if you have class files for some of the dependencies and jar files for the rest of them.</td> </tr>
 						<tbody>
 					</table>
 
@@ -820,11 +938,19 @@
 							<tr> <th>Advanced Setting</th> <th>Description</th> </tr>
 						</thead>
 						<tbody>
-							<tr> <td scope="row">Compiler Flags</td> <td>Define compiler flags used during indexing e.g. <code>-v</code></td> </tr>
-							<tr> <td scope="row">Source File Extensions</td> <td>Define extensions for source files including the dot e.g. <code>.cpp</code></td> </tr>
+							<tr> <td scope="row">Source File Extensions</td> <td>Define extensions for source files including the dot e.g. <code>.cpp</code> or <code>.java</code></td> </tr>
 							<tr> <td scope="row">Exclude Paths</td> <td>Define files and directories that should not be indexed by Coati, although they appear in the Project Paths.</td> </tr>
 						</tbody>
 					</table>
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Advanced Setting</th> <th>Description for C/C++</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <td scope="row">Compiler Flags</td> <td>Define compiler flags used during indexing e.g. <code>-v</code></td> </tr>
+						</tbody>
+					</table>
+
 					<strong>Interactions:</strong>
 					<ul>
 						<li>Clicking <var>Cancel</var> or pressing <var>ESC</var> will close the window and abort the setup process.</li>
@@ -847,12 +973,75 @@
 						<li>Clicking <var>Activate</var> will check if your license key is valid and close the window. Otherwise an error message will be displayed.</li>
 					</ul>
 
+					<div class="row" style="height:20px;"></div>
+
+					<h3>Indexing Dialogs</h3>
+					<p>These dialogs will be used while Coati indexes your project. The whole user interface will be frozen as long as these dialogs are visible.</p>
+
+					<div class="row" style="height:20px;"></div>
+
+					<h4>Start Indexing Dialog</h4>
+					<p>This dialog displays the number of files for indexing and clearing before indexing starts.</p>
+
+					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3">
+							<img src="img/start_indexing_dialog.png" style="width:100%;">
+						</div>
+					</div>
+
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Clicking <var>Cancel</var> will abort indexing.</li>
+						<li>Clicking <var>Start</var> will start the file clearing and indexing.</li>
+					</ul>
+
+					<div class="row" style="height:20px;"></div>
+
+					<h4>Progress Dialog</h4>
+					<p>This dialog shows that Coati is currently doing processing that can't be interrupted.</p>
+
+					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3">
+							<img src="img/progress_dialog.png" style="width:100%;">
+						</div>
+					</div>
+
+					<div class="row" style="height:20px;"></div>
+
+					<h4>Indexing Dialog</h4>
+					<p>This dialog shows the indexing progress of your project, by displaying the number of already indexed files, the last file that was started indexing, the number of errors and a progress estimate in percent.</p>
+
+					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3">
+							<img src="img/indexing_dialog.png" style="width:100%;">
+						</div>
+					</div>
+
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Clicking <var>Stop</var> or pressing ESC will interrupt indexing. Coati will still wait for the already running indexer threads to finish. You can continue indexing later by <a href="#Refresh">refreshing</a>.</li>
+					</ul>
+
+					<div class="row" style="height:20px;"></div>
+
+					<h4>Finished Indexing Dialog</h4>
+					<p>This dialog is shown after indexing finished, giving you information about indexed files, duration and errors.</p>
+
+					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3">
+							<img src="img/finished_indexing_dialog.png" style="width:100%;">
+						</div>
+					</div>
+
+					<strong>Interactions:</strong>
+					<ul>
+						<li>Clicking <var>OK</var> will close the dialog and allow you to interact with the main window again.</li>
+					</ul>
+
 
 					<h2>Menu</h2>
 
-					<h3>Structure</h3>
-
-					<h4>Project</h4>
+					<h3>Project</h3>
 					<ul>
 						<li>
 							<strong>New Project</strong>
@@ -888,7 +1077,7 @@
 						</li>
 					</ul>
 
-					<h4>Edit</h4>
+					<h3>Edit</h3>
 					<ul>
 						<li>
 							<strong>Back</strong>
@@ -933,15 +1122,36 @@
 							</ul>
 						</li>
 						<li>
+							<strong>Code Reference Next</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">Code Reference Next</a></li>
+								<li>Use this option to iterate to the next source location of the active symbol in the code view.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Code Reference Previous</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">Code Reference Previous</a></li>
+								<li>Use this option to iterate to the previous source location of the active symbol in the code view.</li>
+							</ul>
+						</li>
+						<li>
 							<strong>To overview</strong>
 							<ul>
 								<li>Shortcut: <a href="#Shortcuts">To overview</a></li>
 								<li>This option will display the overview of the project.</li>
 							</ul>
 						</li>
+						<li>
+							<strong>Preferences</strong>
+							<ul>
+								<li>Shortcut: <a href="#Shortcuts">Preferences</a></li>
+								<li>Opens the <a href="#PreferencesWindow">Preferences Window</a>.</li>
+							</ul>
+						</li>
 					</ul>
 
-					<h4>View</h4>
+					<h3>View</h3>
 					<ul>
 						<li>
 							<strong>Show Title Bars</strong>
@@ -988,15 +1198,9 @@
 								<li>Decrease the font size to the original size.</li>
 							</ul>
 						</li>
-						<li>
-							<strong>Switch Color Scheme</strong>
-							<ul>
-								<li>Opens a file dialog to choose another color scheme XML file. The color schemes are located in <a href="#Datafolder">data</a>/color_schemes/.</li>
-							</ul>
-						</li>
 					</ul>
 
-					<h4>Help</h4>
+					<h3>Help</h3>
 					<ul>
 						<li>
 							<strong>About</strong>
@@ -1029,10 +1233,15 @@
 							</ul>
 						</li>
 						<li>
-							<strong>Preferences</strong>
+							<strong>Show Data Folder</strong>
 							<ul>
-								<li>Shortcut: <a href="#Shortcuts">Preferences</a></li>
-								<li>Opens the <a href="#PreferencesWindow">Preferences Window</a>.</li>
+								<li>Opens the file explorer showing the <a href="#Datafolder">data folder</a>.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Show Log Folder</strong>
+							<ul>
+								<li>Opens the file explorer in the directory <a href="#Datafolder">data</a>/logs where all log files are saved to. You can enable file logging in the <a href="#PreferencesWindow">Preferences Window</a>.</li>
 							</ul>
 						</li>
 					</ul>
@@ -1109,6 +1318,18 @@
 								<td><kbd>Ctrl + Shift + F</kbd></td>
 								<td><kbd>Cmd + Shift + F</kbd></td>
 								<td><kbd>Ctrl + Shift + F</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Code Reference Next</th>
+								<td><kbd>Ctrl + G</kbd></td>
+								<td><kbd>Cmd + G</kbd></td>
+								<td><kbd>Ctrl + G</kbd></td>
+							</tr>
+							<tr>
+								<th scope="row">Code Reference Previous</th>
+								<td><kbd>Ctrl + Shift + G</kbd></td>
+								<td><kbd>Cmd + Shift + G</kbd></td>
+								<td><kbd>Ctrl + Shift + G</kbd></td>
 							</tr>
 							<tr>
 								<th scope="row">To overview</th>
@@ -1293,17 +1514,16 @@
 					</ul>
 
 					<h3>Refresh</h3>
-					<p>The left refresh button allows you to refresh the current project and reindex all updated files (see <a href="#Refresh">Refresh</a>). With the right auto refresh toggle button you can activate automatic refresh, which will reindex all updated files whenever you put window focus on Coati's <a href="#MainWindow">Main Window</a>.</p>
+					<p>The refresh button allows you to refresh the current project and reindex all updated, added and removed files. To reindex the whole project choose the <strong>Force Refresh</strong> option from the <a href="#Edit">Edit Menu</a>.</p>
 					<div class="row">
 						<div class="col-xs-2 col-xs-offset-5">
-							<img src="img/refresh_buttons.png" style="width:100%;">
+							<img src="img/refresh_button.png" style="width:100%;">
 						</div>
 					</div>
 					<strong>Interactions:</strong>
 					<ul>
 						<li>Hover the buttons to see a tooltip.</li>
-						<li>Press the left refresh button to refresh the project.</li>
-						<li>Press the right auto refresh button to toggle automatic refreshing.</li>
+						<li>Press the refresh button to refresh the project.</li>
 					</ul>
 
 					<h3>Overview Button</h3>
@@ -1391,7 +1611,7 @@
 						<li>Visual Studio 2013</li>
 						<li>Visual Studio 2015</li>
 					</ul>
-					<p>The communication between Coati and the code editor is achieved using a local TCP connection. Coati uses the port 6667 to listen for incoming messages. Outgoing messages will be sent to the port 6666.</p>
+					<p>The communication between Coati and the code editor is achieved using a local TCP connection. Coati uses the port 6667 to listen for incoming messages. Outgoing messages will be sent to the port 6666. The port numbers can be edited in the <a href="#PreferencesWindow">Preferences Window</a>.</p>
 					<p>Outgoing messages are in the form:</p>
 					<pre>moveCursor&gt;&gt;absolute/file_path&gt;&gt;line_number&gt;&gt;column_number&lt;EOM&gt;</pre>
 					<p>Incoming messages are in the form:</p>

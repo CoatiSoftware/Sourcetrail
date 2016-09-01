@@ -1,4 +1,4 @@
-## Masterproject
+## Coati
 
 ### Setup
 
