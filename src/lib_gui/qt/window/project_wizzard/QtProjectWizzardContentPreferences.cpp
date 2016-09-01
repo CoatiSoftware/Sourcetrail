@@ -209,7 +209,9 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	layout->addWidget(m_javaPath, row, QtProjectWizzardWindow::BACK_COL);
 
 	addHelpButton(
-		"Location of the dynamic library for your jre virtual machine."
+		"Location of your Java 8 runtime dynamic library (for information on how to set these take a look at "
+		"<a href=\"https://coati.io/documentation/#FindingJavaRuntimeLibraryLocation\">"
+		"Finding Java Runtime Library Location</a> or use the auto detection below)"
 		, layout, row
 	);
 	row++;

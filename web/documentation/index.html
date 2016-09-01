@@ -131,7 +131,7 @@
 						<li><strong>Graph:</strong> The graph displays the structure of your source code. It focuses on the currently selected symbol and directly shows all incoming and outgoing dependencies to other symbols.</li>
 						<li><strong>Code:</strong> The Code view displays all source locations of the currently selected symbol in a list of code snippets. Clicking on a different source location allows you to change the selection and dig deeper.</li>
 					</ul>
-					<p>Coati currently only supports the language C and C++. Much of the UI design is therefore based on these languages and might change as soon as other languages are supported. For more information have a look at <a href="#SupportedLanguages">supported languages</a>.</p>
+					<p>Coati currently only supports the languages C/C++ and Java. Much of the UI design is therefore based on these languages and might change as soon as other languages are supported. For more information have a look at <a href="#SupportedLanguages">supported languages</a>.</p>
 
 
 					<h2>Starting up Coati</h2>
@@ -399,7 +399,7 @@
 					<p>C++ support is powered by <a href="http://clang.llvm.org/" target="_blank">Clang 3.8</a>. For more Information please visit <a href="http://clang.llvm.org/cxx_status.html" target="_blank">Clang C++ Status</a>. If you have a problem loading C++ code, please have a look at <a href="http://clang.llvm.org/compatibility.html" target="_blank">Clang language compatibility</a> or report a bug at our <a href="https://github.com/CoatiSoftware/CoatiBugTracker">bug tracker</a>.</p>
 
 					<h3>Java</h3>
-					<p>Coati 0.8 includes an early version of Java support which is powered by <a href="http://javaparser.org/" target="_blank">JavaParser</a> and <a href="https://github.com/ftomassetti/java-symbol-solver" target="_blank">JavaSymbolSolver</a>. In this version Java support still has some minor issues when matching a method's call to a proper definition. If you encounter any of these issues, please let us know by providing a minimal example at our <a href="https://github.com/CoatiSoftware/CoatiBugTracker">bug tracker</a>.</p>
+					<p>Coati 0.8 includes an early version of Java 8 support which is powered by <a href="http://javaparser.org/" target="_blank">JavaParser</a> and <a href="https://github.com/ftomassetti/java-symbol-solver" target="_blank">JavaSymbolSolver</a>. In this version Java support still has some minor issues when matching a method's call to a proper definition. If you encounter any of these issues, please let us know by providing a minimal example at our <a href="https://github.com/CoatiSoftware/CoatiBugTracker">bug tracker</a>.</p>
 
 					<h2>FAQ</h2>
 
@@ -480,12 +480,14 @@
 					<p>You will find the header search paths your compiler uses in the output between these two lines:</p>
 					<pre>#include <...> search starts here:<br />.<br />.<br />.<br />End of search list.</pre>
 
+					
 					<h2>Finding Java Runtime Library Location</h2>
-
+					
+					<p>The current version of Coati requires Java 8 to index any Java project. To locate the required library file, please refer to the applicable description below.</p>
+					
 					<h3>On Windows</h3>
-					<p>The Java Runtime Library (called "jvm.dll") can be found inside of your JRE install folder and looks like this:</p>
+					<p>The Java Runtime Library (called <code>jvm.dll</code>) can be found inside of your JRE install folder and looks like this:</p>
 					<pre>&lt;path_to_jre&gt;/bin/client/jvm.dll</pre>
-
 
 					<h3>On Mac</h3>
 					<p>The Java Runtime Library (called <code>libjvm.dylib</code>) can be found inside of your JRE install folder. Run the following command in your terminal to find the location of your default Java installation:</p>
@@ -500,7 +502,7 @@
 					<p>Insert the full path to <code>libjvm.dylib</code> into the <strong>Java Path</strong> setting in the <a href="#PreferencesWindow">Preferences Window</a>.</p>
 
 					<h3>On Linux</h3>
-					<p>The Java Runtime Library (called "libjvm.so") can be found inside of your JRE install folder and looks like this:</p>
+					<p>The Java Runtime Library (called <code>libjvm.so</code>) can be found inside of your JRE install folder and looks like this:</p>
 					<pre>&lt;path_to_jre&gt;/bin/&lt;arch&gt;/server/libjvm.so</pre>
 
 					<div class="row" style="height:80px;"></div>
