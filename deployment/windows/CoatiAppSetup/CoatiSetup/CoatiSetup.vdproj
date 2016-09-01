@@ -1786,7 +1786,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
+        "OwnerKey" = "8:_FB29EAD658C3497D9AC46ADE92D33C83"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1798,7 +1798,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FB29EAD658C3497D9AC46ADE92D33C83"
+        "OwnerKey" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -8563,15 +8563,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Coati"
-        "ProductCode" = "8:{E6E16577-C547-4A66-8202-AB30A02DDBC2}"
-        "PackageCode" = "8:{55D5307B-C6AB-4E1D-A512-239F7E164FCD}"
+        "ProductCode" = "8:{560C569F-03CF-424D-9B63-92B86779ECB6}"
+        "PackageCode" = "8:{8EA2101D-97F9-4398-A931-5750645F176F}"
         "UpgradeCode" = "8:{CFF09D53-87AF-4241-960D-98C21ED9D358}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.7.0022"
+        "ProductVersion" = "8:0.8.0"
         "Manufacturer" = "8:Coati Software"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:www.coati.io/support"

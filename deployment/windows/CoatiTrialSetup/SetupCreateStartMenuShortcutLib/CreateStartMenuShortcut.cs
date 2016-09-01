@@ -13,8 +13,8 @@ namespace SetupCreateStartMenuShortcutLib
     [RunInstaller(true)]
     public partial class CreateStartMenuShortcut : System.Configuration.Install.Installer
     {
-        private static string _appShortcutName = "Coati Trail.lnk";
-        private static string _uninstallShortcutName = "Uninstall Coati Trail.lnk";
+        private static string _appShortcutName = "Coati Trial.lnk";
+        private static string _uninstallShortcutName = "Uninstall Coati Trial.lnk";
 
         public CreateStartMenuShortcut()
         {

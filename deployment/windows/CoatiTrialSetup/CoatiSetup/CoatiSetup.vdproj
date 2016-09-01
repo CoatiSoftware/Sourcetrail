@@ -1798,7 +1798,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FB29EAD658C3497D9AC46ADE92D33C83"
+        "OwnerKey" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1810,7 +1810,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
+        "OwnerKey" = "8:_FB29EAD658C3497D9AC46ADE92D33C83"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -8592,19 +8592,19 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Coati Trial"
-        "ProductCode" = "8:{225E11DF-20A0-4AE0-AD5C-00944A9E3D71}"
-        "PackageCode" = "8:{AFEFFBA8-DE40-4FD1-84A9-ACE53FE97555}"
+        "ProductCode" = "8:{A977609C-DEE3-48BF-8597-302959F82D1A}"
+        "PackageCode" = "8:{810758A1-81AC-400F-B272-7134B1A5B133}"
         "UpgradeCode" = "8:{00D35BB8-F11C-4179-9962-47B3D55E412C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.7.0022"
+        "ProductVersion" = "8:0.8.0"
         "Manufacturer" = "8:Coati Software"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:www.coati.io/support"
-        "Title" = "8:Coati Trail"
+        "Title" = "8:Coati Trial"
         "Subject" = "8:Visualize Source Code to read and navigate it efficiently."
         "ARPCONTACT" = "8:Coati Software"
         "Keywords" = "8:Coati; Code Visualization; Software Development"
