@@ -73,7 +73,7 @@ void QtIndexingDialog::setupProgress()
 
 	QBoxLayout* layout = createLayout();
 
-	addTopAndProgressBar(0.5);
+	addTopAndProgressBar(0.62);
 	addTitle("Clearing", layout);
 	addMessageLabel(layout);
 
