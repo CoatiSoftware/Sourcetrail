@@ -1,11 +1,14 @@
 #include "qt/graphics/QtGraphicsView.h"
 
+#include <QFileDialog>
 #include <QMouseEvent>
 #include <QScrollBar>
 #include <QTimer>
 
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
+
+#include "qt/utility/QtContextMenu.h"
 
 QtGraphicsView::QtGraphicsView(QWidget* parent)
 	: QGraphicsView(parent)
@@ -25,6 +28,11 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_timerStopper = std::make_shared<QTimer>(this);
 	m_timerStopper->setSingleShot(true);
 	connect(m_timerStopper.get(), SIGNAL(timeout()), this, SLOT(stopTimer()));
+
+	m_exportGraphAction = new QAction(tr("Save as Image"), this);
+	m_exportGraphAction->setStatusTip(tr("Save this graph as image file"));
+	m_exportGraphAction->setToolTip(tr("Save this graph as image file"));
+	connect(m_exportGraphAction, SIGNAL(triggered()), this, SLOT(exportGraph()));
 }
 
 float QtGraphicsView::getZoomFactor() const
@@ -169,6 +177,11 @@ void QtGraphicsView::wheelEvent(QWheelEvent* event)
 	QGraphicsView::wheelEvent(event);
 }
 
+void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
+{
+	QtContextMenu::getInstance()->showExtended(event, this, std::vector<QAction*>(1, m_exportGraphAction));
+}
+
 void QtGraphicsView::updateTimer()
 {
 	float ds = 30.0f;
@@ -229,6 +242,27 @@ void QtGraphicsView::updateTimer()
 void QtGraphicsView::stopTimer()
 {
 	m_timer->stop();
+}
+
+void QtGraphicsView::exportGraph()
+{
+	QString fileName = QFileDialog::getSaveFileName(
+		this, "Save image", QDir::homePath(), "PNG (*.png);;JPEG (*.JPEG);;BMP Files (*.bmp)");
+
+	if (!fileName.isNull())
+	{
+		QImage image(scene()->sceneRect().size().toSize(), QImage::Format_ARGB32);
+		image.fill(Qt::transparent);
+
+		QPainter painter(&image);
+		painter.setRenderHint(QPainter::Antialiasing);
+		scene()->render(&painter);
+		image.save(fileName);
+
+		// different approach
+		// QPixmap pixMap = grab();
+		// pixMap.save(fileName);
+	}
 }
 
 bool QtGraphicsView::moves() const

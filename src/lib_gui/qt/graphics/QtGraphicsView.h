@@ -31,12 +31,16 @@ protected:
 
 	void wheelEvent(QWheelEvent* event);
 
+	void contextMenuEvent(QContextMenuEvent* event);
+
 signals:
 	void emptySpaceClicked();
 
 private slots:
 	void updateTimer();
 	void stopTimer();
+
+	void exportGraph();
 
 private:
 	bool moves() const;
@@ -57,6 +61,8 @@ private:
 
 	std::shared_ptr<QTimer> m_timer;
 	std::shared_ptr<QTimer> m_timerStopper;
+
+	QAction* m_exportGraphAction;
 };
 
 #endif // QT_GRAPHICS_VIEW_H
