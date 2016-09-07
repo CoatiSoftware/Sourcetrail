@@ -1,7 +1,7 @@
 #include "utility/scheduling/TaskGroupSequential.h"
+#include <iostream>
 
 TaskGroupSequential::TaskGroupSequential()
-	: m_taskIndex(-1)
 {
 }
 
@@ -9,55 +9,49 @@ TaskGroupSequential::~TaskGroupSequential()
 {
 }
 
-void TaskGroupSequential::enter()
+void TaskGroupSequential::addTask(std::shared_ptr<Task> task)
 {
+	m_taskRunners.push_back(std::make_shared<TaskRunner>(task));
 }
 
-Task::TaskState TaskGroupSequential::update()
+void TaskGroupSequential::doEnter()
 {
-	if (!m_tasks.size())
+	m_taskIndex = 0;
+}
+
+Task::TaskState TaskGroupSequential::doUpdate()
+{
+	if (m_taskIndex >= int(m_taskRunners.size()))
 	{
-		return Task::STATE_FINISHED;
+		return STATE_SUCCESS;
+	}
+	else if (m_taskIndex < 0)
+	{
+		return STATE_FAILURE;
 	}
 
-	if (m_taskIndex < 0 || m_tasks[m_taskIndex]->getState() != Task::STATE_RUNNING)
+	TaskState state = m_taskRunners[m_taskIndex]->update();
+
+	if (state == STATE_SUCCESS)
 	{
 		m_taskIndex++;
 	}
-
-	std::shared_ptr<Task> task = m_tasks[m_taskIndex];
-
-	TaskState state = task->processTask();
-
-	if (state == Task::STATE_FINISHED && size_t(m_taskIndex + 1) == m_tasks.size())
+	else if (state == STATE_FAILURE)
 	{
-		return Task::STATE_FINISHED;
+		m_taskIndex = -1;
 	}
 
-	return Task::STATE_RUNNING;
+	return STATE_RUNNING;
 }
 
-void TaskGroupSequential::exit()
+void TaskGroupSequential::doExit()
 {
 }
 
-void TaskGroupSequential::interrupt()
+void TaskGroupSequential::doReset()
 {
-	for (size_t i = 0; i < m_tasks.size(); i++)
+	for (size_t i = 0; i < m_taskRunners.size(); i++)
 	{
-		m_tasks[i]->interruptTask();
+		m_taskRunners[i]->reset();
 	}
-}
-
-void TaskGroupSequential::revert()
-{
-	for (int i = m_tasks.size() - 1; i >= 0; i--)
-	{
-		m_tasks[i]->interruptTask();
-	}
-}
-
-void TaskGroupSequential::abort()
-{
-	interrupt();
 }

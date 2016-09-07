@@ -54,13 +54,11 @@ bool CxxProject::prepareRefresh()
 }
 
 std::shared_ptr<Task> CxxProject::createIndexerTask(
-	PersistentStorage* storage,
-	std::shared_ptr<std::mutex> storageMutex,
+	std::shared_ptr<IntermediateStorage> storage,
 	std::shared_ptr<FileRegister> fileRegister)
 {
 	return std::make_shared<TaskParseCxx>(
 		storage,
-		storageMutex,
 		fileRegister,
 		getParserArguments(),
 		getDialogView()

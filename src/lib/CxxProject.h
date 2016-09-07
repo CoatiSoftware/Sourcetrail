@@ -26,8 +26,7 @@ private:
 	virtual bool prepareRefresh();
 
 	virtual std::shared_ptr<Task> createIndexerTask(
-		PersistentStorage* storage,
-		std::shared_ptr<std::mutex> storageMutex,
+		std::shared_ptr<IntermediateStorage> storage,
 		std::shared_ptr<FileRegister> fileRegister);
 
 	virtual void updateFileManager(FileManager& fileManager);

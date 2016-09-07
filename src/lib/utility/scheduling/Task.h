@@ -8,10 +8,9 @@ class Task
 public:
 	enum TaskState
 	{
-		STATE_NEW,
 		STATE_RUNNING,
-		STATE_FINISHED,
-		STATE_CANCELED
+		STATE_SUCCESS,
+		STATE_FAILURE
 	};
 
 	static void dispatch(std::shared_ptr<Task> task);
@@ -20,26 +19,19 @@ public:
 	Task();
 	virtual ~Task();
 
-	TaskState getState() const;
+//	virtual TaskState getState() const = 0;
 
-	TaskState processTask();
-	TaskState interruptTask();
-
-	void executeTask();
-
-	virtual void enter() = 0;
-	virtual TaskState update() = 0;
-	virtual void exit() = 0;
-
-	virtual void interrupt() = 0;
-	virtual void revert() = 0;
-	virtual void abort() = 0;
-
-protected:
-	void setState(TaskState state);
+	TaskState update();
+	void reset();
 
 private:
-	TaskState m_state;
+	virtual void doEnter() = 0;
+	virtual Task::TaskState doUpdate() = 0;
+	virtual void doExit() = 0;
+	virtual void doReset() = 0;
+
+	bool m_enterCalled;
+	bool m_exitCalled;
 };
 
 #endif // TASK_H

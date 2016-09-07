@@ -76,8 +76,7 @@ bool JavaProject::prepareIndexing()
 }
 
 std::shared_ptr<Task> JavaProject::createIndexerTask(
-	PersistentStorage* storage,
-	std::shared_ptr<std::mutex> storageMutex,
+	std::shared_ptr<IntermediateStorage> storage,
 	std::shared_ptr<FileRegister> fileRegister)
 {
 	Parser::Arguments arguments;
@@ -100,7 +99,6 @@ std::shared_ptr<Task> JavaProject::createIndexerTask(
 
 	return std::make_shared<TaskParseJava>(
 		storage,
-		storageMutex,
 		fileRegister,
 		arguments,
 		getDialogView()

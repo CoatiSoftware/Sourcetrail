@@ -12,33 +12,25 @@ TaskCleanStorage::TaskCleanStorage(
 {
 }
 
-void TaskCleanStorage::enter()
+void TaskCleanStorage::doEnter()
 {
 	m_dialogView->showProgressDialog("Clearing Files", std::to_string(m_filePaths.size()) + " Files");
 }
 
-Task::TaskState TaskCleanStorage::update()
+Task::TaskState TaskCleanStorage::doUpdate()
 {
 	m_storage->clearFileElements(m_filePaths);
 
 	m_filePaths.clear();
 
-	return Task::STATE_FINISHED;
+	return STATE_SUCCESS;
 }
 
-void TaskCleanStorage::exit()
+void TaskCleanStorage::doExit()
 {
 	m_dialogView->hideProgressDialog();
 }
 
-void TaskCleanStorage::interrupt()
-{
-}
-
-void TaskCleanStorage::revert()
-{
-}
-
-void TaskCleanStorage::abort()
+void TaskCleanStorage::doReset()
 {
 }

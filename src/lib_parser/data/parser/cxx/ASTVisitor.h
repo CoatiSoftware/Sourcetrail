@@ -12,8 +12,12 @@
 #include "data/parser/SymbolKind.h"
 #include "utility/file/FileRegister.h"
 #include "utility/Cache.h"
+#include "utility/messaging/type/MessageInterruptTasks.h"
+#include "utility/messaging/MessageListener.h"
 
-class ASTVisitor: clang::RecursiveASTVisitor<ASTVisitor>
+class ASTVisitor
+	: clang::RecursiveASTVisitor<ASTVisitor>
+	, MessageListener<MessageInterruptTasks>
 {
 public:
 	typedef Cache<const clang::NamedDecl*, NameHierarchy> DeclNameCache;
@@ -224,6 +228,8 @@ private:
 
 	NameHierarchy getContextName() const;
 
+	virtual void handleMessage(MessageInterruptTasks* message);
+
 	struct FileIdHash {
 		size_t operator()(clang::FileID fileID) const {
 			return fileID.getHashValue();
@@ -240,6 +246,7 @@ private:
 	std::shared_ptr<TypeNameCache> m_typeNameCache;
 
 	AccessKind m_contextAccess;
+	bool m_continue;
 };
 
 #endif // AST_VISITOR_H

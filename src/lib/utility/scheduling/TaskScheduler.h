@@ -8,16 +8,15 @@
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
 #include "utility/scheduling/Task.h"
+#include "utility/scheduling/TaskRunner.h"
 
 class TaskScheduler
-	: public MessageListener<MessageInterruptTasks>
 {
 public:
 	static std::shared_ptr<TaskScheduler> getInstance();
 
 	void pushTask(std::shared_ptr<Task> task);
 	void pushNextTask(std::shared_ptr<Task> task);
-	void interruptCurrentTask();
 
 	void startSchedulerLoopThreaded();
 	void startSchedulerLoop();
@@ -35,13 +34,11 @@ private:
 
 	void processTasks();
 
-	virtual void handleMessage(MessageInterruptTasks* message);
 
 	bool m_loopIsRunning;
 	bool m_threadIsRunning;
 
-	std::deque<std::shared_ptr<Task>> m_tasks;
-	bool m_interruptTask;
+	std::deque<std::shared_ptr<TaskRunner>> m_taskRunners;
 
 	mutable std::mutex m_tasksMutex;
 	mutable std::mutex m_loopMutex;

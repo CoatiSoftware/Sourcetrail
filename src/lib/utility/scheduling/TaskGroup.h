@@ -13,10 +13,7 @@ public:
 	TaskGroup();
 	virtual ~TaskGroup();
 
-	void addTask(std::shared_ptr<Task> task);
-
-protected:
-	std::vector<std::shared_ptr<Task>> m_tasks;
+	virtual void addTask(std::shared_ptr<Task> task) = 0;
 };
 
 #endif // TASK_GROUP_H

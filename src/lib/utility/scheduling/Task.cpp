@@ -14,7 +14,8 @@ void Task::dispatchNext(std::shared_ptr<Task> task)
 }
 
 Task::Task()
-	: m_state(STATE_NEW)
+	: m_enterCalled(false)
+	, m_exitCalled(false)
 {
 }
 
@@ -22,74 +23,28 @@ Task::~Task()
 {
 }
 
-Task::TaskState Task::getState() const
+Task::TaskState Task::update()
 {
-	return m_state;
-}
-
-Task::TaskState Task::processTask()
-{
-	switch (m_state)
+	if (!m_enterCalled)
 	{
-	case STATE_NEW:
-	case STATE_CANCELED:
-		enter();
-	case STATE_RUNNING:
-		{
-			TaskState newState = update();
-			if (newState == STATE_NEW || newState == STATE_CANCELED)
-			{
-				LOG_ERROR("Task can't change to state NEW or CANCELLED");
-				return m_state;
-			}
-
-			setState(newState);
-			if (m_state == STATE_FINISHED)
-			{
-				exit();
-			}
-		}
-		break;
-	case STATE_FINISHED:
-		break;
+		doEnter();
+		m_enterCalled = true;
 	}
 
-	return m_state;
-}
+	TaskState state = doUpdate();
 
-Task::TaskState Task::interruptTask()
-{
-	switch (m_state)
+	if (state != STATE_RUNNING && !m_exitCalled)
 	{
-	case STATE_NEW:
-		abort();
-		break;
-	case STATE_CANCELED:
-		break;
-	case STATE_RUNNING:
-		interrupt();
-		exit();
-		break;
-	case STATE_FINISHED:
-		revert();
-		break;
+		doExit();
+		m_exitCalled = true;
 	}
 
-	setState(STATE_CANCELED);
-	return m_state;
+	return state;
 }
 
-void Task::executeTask()
+void Task::reset()
 {
-	TaskState state;
-	do
-	{
-		state = processTask();
-	}
-	while (state != STATE_FINISHED);
-}
-
-void Task::setState(TaskState state)
-{
-	m_state = state;
+	doReset();
+	m_enterCalled = false;
+	m_exitCalled = false;
 }

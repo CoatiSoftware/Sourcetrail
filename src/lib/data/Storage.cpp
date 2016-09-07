@@ -15,20 +15,11 @@ Storage::~Storage()
 {
 }
 
-void Storage::startInjection()
-{
-	// may be implemented in derived
-}
-
-void Storage::finishInjection()
-{
-	// may be implemented in derived
-}
-
 void Storage::inject(Storage* injected)
 {
-	TRACE();
+	std::lock_guard<std::mutex> lock(m_dataMutex);
 
+	TRACE();
 	startInjection();
 
 	std::unordered_map<Id, Id> injectedIdToOwnId;
@@ -179,4 +170,14 @@ void Storage::inject(Storage* injected)
 	);
 
 	finishInjection();
+}
+
+void Storage::startInjection()
+{
+	// may be implemented in derived
+}
+
+void Storage::finishInjection()
+{
+	// may be implemented in derived
 }

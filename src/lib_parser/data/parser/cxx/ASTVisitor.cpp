@@ -37,6 +37,7 @@ ASTVisitor::ASTVisitor(clang::ASTContext* context, clang::Preprocessor* preproce
     , m_childContext(0)
     , m_typeContext(RT_Reference)
 	, m_contextAccess(ACCESS_NONE)
+	, m_continue(true)
 {
 	m_declNameCache = std::make_shared<DeclNameCache>([](const clang::NamedDecl* decl) -> NameHierarchy
 	{
@@ -911,7 +912,7 @@ bool ASTVisitor::VisitDecl(clang::Decl *d)
         }
     }
 
-    return true;
+    return m_continue;
 }
 
 //#include "data/parser/ParseFunction.h"
@@ -1685,4 +1686,9 @@ NameHierarchy ASTVisitor::getContextName() const
 		return m_contextNameGenerator->getName();
 	}
 	return NameHierarchy("global");
+}
+
+void ASTVisitor::handleMessage(MessageInterruptTasks* message)
+{
+	m_continue = false;
 }

@@ -6,7 +6,7 @@
 
 #include "component/view/DialogView.h"
 #include "data/parser/cxx/CxxParser.h"
-#include "data/PersistentStorage.h"
+#include "data/IntermediateStorage.h"
 #include "utility/file/FileRegister.h"
 #include "utility/utility.h"
 
@@ -29,17 +29,16 @@ std::vector<FilePath> TaskParseCxx::getSourceFilesFromCDB(const FilePath& compil
 }
 
 TaskParseCxx::TaskParseCxx(
-	PersistentStorage* storage,
-	std::shared_ptr<std::mutex> storageMutex,
+	std::shared_ptr<IntermediateStorage> storage,
 	std::shared_ptr<FileRegister> fileRegister,
 	const Parser::Arguments& arguments,
 	DialogView* dialogView
 )
 	: m_storage(storage)
-	, m_storageMutex(storageMutex)
 	, m_arguments(arguments)
 	, m_dialogView(dialogView)
 	, m_isCDB(false)
+	, m_interrupted(false)
 {
 	if (arguments.compilationDatabasePath.exists())
 	{
@@ -49,7 +48,7 @@ TaskParseCxx::TaskParseCxx(
 	m_parser = std::make_shared<CxxParser>(m_parserClient.get(), fileRegister);
 }
 
-void TaskParseCxx::enter()
+void TaskParseCxx::doEnter()
 {
 	if (m_isCDB)
 	{
@@ -65,63 +64,56 @@ void TaskParseCxx::enter()
 	}
 }
 
-Task::TaskState TaskParseCxx::update()
+Task::TaskState TaskParseCxx::doUpdate()
 {
 	FileRegister* fileRegister = m_parser->getFileRegister();
 
 	FilePath sourcePath = fileRegister->consumeSourceFile();
 
-	if (sourcePath.empty())
+	if (!sourcePath.empty())
 	{
-		return Task::STATE_FINISHED;
-	}
+		m_dialogView->updateIndexingDialog(
+			fileRegister->getParsedSourceFilesCount(), fileRegister->getSourceFilesCount(), sourcePath.str()
+		);
 
-	m_dialogView->updateIndexingDialog(
-		fileRegister->getParsedSourceFilesCount(), fileRegister->getSourceFilesCount(), sourcePath.str());
+		m_storage->clear();
+		m_parserClient->setStorage(m_storage);
+		m_parserClient->startParsingFile();
 
-	std::shared_ptr<IntermediateStorage> intermediateStorage = std::make_shared<IntermediateStorage>();
-
-	m_parserClient->setStorage(intermediateStorage);
-	m_parserClient->startParsingFile();
-
-	if (m_isCDB)
-	{
-		std::vector<clang::tooling::CompileCommand> commands = m_cdb->getCompileCommands(sourcePath.str());
-		if (commands.size() > 0)
+		if (m_isCDB)
 		{
-			m_parser->runTool(commands[0], m_arguments);
+			std::vector<clang::tooling::CompileCommand> commands = m_cdb->getCompileCommands(sourcePath.str());
+			if (commands.size() > 0)
+			{
+				m_parser->runTool(commands[0], m_arguments);
+			}
+		}
+		else
+		{
+			m_parser->runTool(std::vector<std::string>(1, sourcePath.str()));
+		}
+
+		m_parserClient->finishParsingFile();
+		m_parserClient->resetStorage();
+
+		if (!m_interrupted)
+		{
+			fileRegister->markThreadFilesParsed();
 		}
 	}
-	else
-	{
-		m_parser->runTool(std::vector<std::string>(1, sourcePath.str()));
-	}
 
-	m_parserClient->finishParsingFile();
-	m_parserClient->resetStorage();
-
-	{
-		std::lock_guard<std::mutex> lock(*(m_storageMutex.get()));
-		m_storage->inject(intermediateStorage.get());
-	}
-
-	fileRegister->markThreadFilesParsed();
-
-	return Task::STATE_RUNNING;
+	return (m_interrupted ? STATE_FAILURE : STATE_SUCCESS);
 }
 
-void TaskParseCxx::exit()
+void TaskParseCxx::doExit()
 {
 }
 
-void TaskParseCxx::interrupt()
+void TaskParseCxx::doReset()
 {
 }
 
-void TaskParseCxx::revert()
+void TaskParseCxx::handleMessage(MessageInterruptTasks* message)
 {
-}
-
-void TaskParseCxx::abort()
-{
+	m_interrupted = true;
 }

@@ -12,15 +12,12 @@ public:
 	TaskLambda(std::function<void()> func);
 	virtual ~TaskLambda();
 
-	virtual void enter();
-	virtual TaskState update();
-	virtual void exit();
-
-	virtual void interrupt();
-	virtual void revert();
-	virtual void abort();
-
 private:
+	virtual void doEnter();
+	virtual TaskState doUpdate();
+	virtual void doExit();
+	virtual void doReset();
+
 	std::function<void()> m_func;
 };
 

@@ -260,24 +260,26 @@ void MessageQueue::sendMessageAsTask(std::shared_ptr<MessageBase> message, bool 
 {
 	std::shared_ptr<TaskGroupSequential> taskGroup = std::make_shared<TaskGroupSequential>();
 
-	std::lock_guard<std::mutex> lock(m_listenersMutex);
-	for (size_t i = 0; i < m_listeners.size(); i++)
 	{
-		MessageListenerBase* listener = m_listeners[i];
-
-		if (listener->getType() == message->getType())
+		std::lock_guard<std::mutex> lock(m_listenersMutex);
+		for (size_t i = 0; i < m_listeners.size(); i++)
 		{
-			uint listenerId = listener->getId();
-			taskGroup->addTask(std::make_shared<TaskLambda>(
-				[listenerId, message]()
-				{
-					MessageListenerBase* listener = MessageQueue::getInstance()->getListenerById(listenerId);
-					if (listener)
+			MessageListenerBase* listener = m_listeners[i];
+
+			if (listener->getType() == message->getType())
+			{
+				uint listenerId = listener->getId();
+				taskGroup->addTask(std::make_shared<TaskLambda>(
+					[listenerId, message]()
 					{
-						listener->handleMessageBase(message.get());
+						MessageListenerBase* listener = MessageQueue::getInstance()->getListenerById(listenerId);
+						if (listener)
+						{
+							listener->handleMessageBase(message.get());
+						}
 					}
-				}
-			));
+				));
+			}
 		}
 	}
 

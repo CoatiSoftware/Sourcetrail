@@ -230,5 +230,17 @@ size_t FileRegister::getSourceFilesCount() const
 
 size_t FileRegister::getParsedSourceFilesCount() const
 {
-	return getSourceFilesCount() - getUnparsedSourceFilePaths().size();
+	std::lock_guard<std::mutex> lock(m_sourceFileMutex);
+
+	size_t count = 0;
+
+	for (std::pair<FilePath, ParseState>&& p : m_sourceFilePaths)
+	{
+		if (p.second == STATE_PARSED)
+		{
+			count++;
+		}
+	}
+
+	return count;
 }

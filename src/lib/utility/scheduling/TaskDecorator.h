@@ -12,10 +12,7 @@ public:
 	TaskDecorator();
 	virtual ~TaskDecorator();
 
-	void setTask(std::shared_ptr<Task> task);
-
-protected:
-	std::shared_ptr<Task> m_task;
+	virtual void setTask(std::shared_ptr<Task> task) = 0;
 };
 
 #endif // TASK_DECORATOR_H

@@ -5,37 +5,39 @@
 
 #include "data/parser/Parser.h"
 #include "utility/scheduling/Task.h"
+#include "utility/messaging/type/MessageInterruptTasks.h"
+#include "utility/messaging/MessageListener.h"
 
 class DialogView;
 class FileRegister;
-class PersistentStorage;
+class IntermediateStorage;
 
 class TaskParseJava
 	: public Task
+	, public MessageListener<MessageInterruptTasks>
 {
 public:
 	TaskParseJava(
-		PersistentStorage* storage,
-		std::shared_ptr<std::mutex> storageMutex,
+		std::shared_ptr<IntermediateStorage> storage,
 		std::shared_ptr<FileRegister> fileRegister,
 		const Parser::Arguments& arguments,
 		DialogView* dialogView
 	);
 
-	virtual void enter();
-	virtual TaskState update();
-	virtual void exit();
-
-	virtual void interrupt();
-	virtual void revert();
-	virtual void abort();
-
 private:
-	PersistentStorage* m_storage;
-	std::shared_ptr<std::mutex> m_storageMutex;
+	virtual void doEnter();
+	virtual TaskState doUpdate();
+	virtual void doExit();
+	virtual void doReset();
+
+	virtual void handleMessage(MessageInterruptTasks* message);
+
+	std::shared_ptr<IntermediateStorage> m_storage;
 	std::shared_ptr<FileRegister> m_fileRegister;
 	Parser::Arguments m_arguments;
 	DialogView* m_dialogView;
+
+	bool m_interrupted;
 };
 
 #endif // TASK_PARSE_JAVA_H

@@ -19,18 +19,15 @@ public:
 		DialogView* dialogView
 	);
 
-	virtual void enter();
-	virtual TaskState update();
-	virtual void exit();
-
-	virtual void interrupt();
-	virtual void revert();
-	virtual void abort();
-
 private:
+	virtual void doEnter();
+	virtual TaskState doUpdate();
+	virtual void doExit();
+	virtual void doReset();
+
 	PersistentStorage* m_storage;
 	std::vector<FilePath> m_filePaths;
 	DialogView* m_dialogView;
 };
 
-#endif // TASK_PARSE_CXX_H
+#endif // TASK_CLEAN_STORAGE_H

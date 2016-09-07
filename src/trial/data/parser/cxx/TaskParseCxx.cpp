@@ -1,8 +1,7 @@
 #include "data/parser/cxx/TaskParseCxx.h"
 
 TaskParseCxx::TaskParseCxx(
-	PersistentStorage* storage,
-	std::shared_ptr<std::mutex> storageMutex,
+	std::shared_ptr<IntermediateStorage> storage,
 	std::shared_ptr<FileRegister> fileRegister,
 	const Parser::Arguments& arguments,
 	DialogView* dialogView
@@ -15,27 +14,23 @@ std::vector<FilePath> TaskParseCxx::getSourceFilesFromCDB(const FilePath& compil
 	return std::vector<FilePath>();
 }
 
-void TaskParseCxx::enter()
+void TaskParseCxx::doEnter()
 {
 }
 
-Task::TaskState TaskParseCxx::update()
+Task::TaskState TaskParseCxx::doUpdate()
 {
-	return Task::STATE_FINISHED;
+	return STATE_SUCCESS;
 }
 
-void TaskParseCxx::exit()
-{
-}
-
-void TaskParseCxx::interrupt()
+void TaskParseCxx::doExit()
 {
 }
 
-void TaskParseCxx::revert()
+void TaskParseCxx::doReset()
 {
 }
 
-void TaskParseCxx::abort()
+void TaskParseCxx::handleMessage(MessageInterruptTasks* message)
 {
 }

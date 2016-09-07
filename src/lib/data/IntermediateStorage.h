@@ -14,6 +14,8 @@ public:
 	IntermediateStorage();
 	virtual ~IntermediateStorage();
 
+	void clear();
+
 	virtual Id addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime);
 	virtual Id addNode(int type, const std::string& serializedName, int definitionType);
 	virtual Id addEdge(int type, Id sourceId, Id targetId);
@@ -55,8 +57,6 @@ private:
 	std::vector<StorageComponentAccess> m_componentAccesses;
 	std::vector<StorageCommentLocation> m_commentLocations;
 	std::vector<StorageError> m_errors;
-
-	std::unordered_map<Id, Id> m_nodeIdsToMemberEdgeIds;
 
 	Id m_nextId;
 };

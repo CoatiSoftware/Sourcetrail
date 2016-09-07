@@ -12,6 +12,23 @@ IntermediateStorage::~IntermediateStorage()
 {
 }
 
+void IntermediateStorage::clear()
+{
+	m_fileNamesToIds.clear();
+	m_fileIdsToData.clear();
+	m_nodeNamesToIds.clear();
+	m_nodeIdsToData.clear();
+	m_edgeNamesToIds.clear();
+	m_edgeIdsToData.clear();
+	m_localSymbolNamesToIds.clear();
+	m_localSymbolIdsToData.clear();
+	m_sourceLocations.clear();
+	m_componentAccesses.clear();
+	m_commentLocations.clear();
+	m_errors.clear();
+	m_nextId = 1;
+}
+
 Id IntermediateStorage::addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime)
 {
 	std::shared_ptr<StorageFile> file = std::make_shared<StorageFile>(0, name, filePath, modificationTime);

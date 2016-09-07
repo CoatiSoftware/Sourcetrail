@@ -21,25 +21,29 @@ TaskParseWrapper::~TaskParseWrapper()
 {
 }
 
-void TaskParseWrapper::enter()
+void TaskParseWrapper::setTask(std::shared_ptr<Task> task)
+{
+	if (task)
+	{
+		m_taskRunner = std::make_shared<TaskRunner>(task);
+	}
+}
+
+void TaskParseWrapper::doEnter()
 {
 	m_dialogView->updateIndexingDialog(0, m_fileRegister->getSourceFilesCount(), "");
 
 	m_start = utility::durationStart();
 	m_storage->startParsing();
-
-	m_task->enter();
 }
 
-Task::TaskState TaskParseWrapper::update()
+Task::TaskState TaskParseWrapper::doUpdate()
 {
-	return m_task->update();
+	return m_taskRunner->update();
 }
 
-void TaskParseWrapper::exit()
+void TaskParseWrapper::doExit()
 {
-	m_task->exit();
-
 	m_dialogView->showProgressDialog("Finish Indexing", "Optimizing database");
 
 	m_storage->optimizeMemory();
@@ -60,26 +64,7 @@ void TaskParseWrapper::exit()
 	);
 }
 
-void TaskParseWrapper::interrupt()
+void TaskParseWrapper::doReset()
 {
-	m_task->interrupt();
-}
-
-void TaskParseWrapper::revert()
-{
-	m_task->revert();
-}
-
-void TaskParseWrapper::abort()
-{
-	m_task->abort();
-
-	MessageFinishedParsing().dispatch();
-
-	m_dialogView->finishedIndexingDialog(
-		m_fileRegister->getParsedSourceFilesCount(),
-		m_fileRegister->getSourceFilesCount(),
-		0,
-		m_storage->getErrorCount()
-	);
+	m_taskRunner->reset();
 }

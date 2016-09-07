@@ -16,40 +16,23 @@ TaskParseWrapper::~TaskParseWrapper()
 {
 }
 
-void TaskParseWrapper::enter()
+void TaskParseWrapper::setTask(std::shared_ptr<Task> task)
 {
-	m_storage->startParsing();
-
-	m_task->enter();
 }
 
-Task::TaskState TaskParseWrapper::update()
+void TaskParseWrapper::doEnter()
 {
-	return m_task->update();
 }
 
-void TaskParseWrapper::exit()
+Task::TaskState TaskParseWrapper::doUpdate()
 {
-	m_task->exit();
-
-	m_storage->finishParsing();
-
-	MessageFinishedParsing().dispatch();
+	return STATE_SUCCESS;
 }
 
-void TaskParseWrapper::interrupt()
+void TaskParseWrapper::doExit()
 {
-	m_task->interrupt();
 }
 
-void TaskParseWrapper::revert()
+void TaskParseWrapper::doReset()
 {
-	m_task->revert();
-}
-
-void TaskParseWrapper::abort()
-{
-	m_task->abort();
-
-	MessageFinishedParsing().dispatch();
 }

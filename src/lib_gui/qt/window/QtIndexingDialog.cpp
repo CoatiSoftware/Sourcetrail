@@ -167,11 +167,6 @@ void QtIndexingDialog::updateIndexingProgress(size_t fileCount, size_t totalFile
 {
 	updateMessage(QString::number(fileCount) + "/" + QString::number(totalFileCount) + " File" + (totalFileCount > 1 ? "s" : ""));
 
-	if (fileCount > 0)
-	{
-		fileCount--;
-	}
-
 	size_t percent = fileCount * 100 / totalFileCount;
 	m_progressBar->showProgress(percent);
 	m_percentLabel->setText(QString::number(percent) + "% Progress");

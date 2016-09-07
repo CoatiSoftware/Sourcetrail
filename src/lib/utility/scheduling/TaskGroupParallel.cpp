@@ -1,6 +1,9 @@
 #include "utility/scheduling/TaskGroupParallel.h"
 
+#include "utility/ScopedFunctor.h"
+
 TaskGroupParallel::TaskGroupParallel()
+	: m_needsToStartThreads(true)
 {
 }
 
@@ -8,83 +11,88 @@ TaskGroupParallel::~TaskGroupParallel()
 {
 }
 
-void TaskGroupParallel::enter()
+void TaskGroupParallel::addTask(std::shared_ptr<Task> task)
 {
-	m_interrupt = false;
-	m_running = false;
-	m_activeTaskCount = 0;
+	m_tasks.push_back(std::make_shared<TaskInfo>(std::make_shared<TaskRunner>(task)));
 }
 
-Task::TaskState TaskGroupParallel::update()
+void TaskGroupParallel::doEnter()
 {
-	if (!m_running)
+	m_taskFailed = false;
+
+	if (m_needsToStartThreads)
 	{
+		m_needsToStartThreads = false;
+		m_activeTaskCount = 0;
 		for (size_t i = 0; i < m_tasks.size(); i++)
 		{
-			m_threads.push_back(std::thread(&TaskGroupParallel::processTaskThreaded, this, m_tasks[i]));
-
-			std::lock_guard<std::mutex> lock(m_activeTaskCountMutex);
+			m_tasks[i]->thread = std::make_shared<std::thread>(&TaskGroupParallel::processTaskThreaded, this, m_tasks[i]);
+			m_tasks[i]->active = true;
 			m_activeTaskCount++;
 		}
-		m_running = true;
+	}
+}
+
+Task::TaskState TaskGroupParallel::doUpdate()
+{
+	if (m_tasks.size() != 0 && getActveTaskCount() > 0)
+	{
+		return STATE_RUNNING;
 	}
 
-	int activeTaskCount = 0;
+	return (m_taskFailed ? STATE_FAILURE : STATE_SUCCESS);
+}
+
+void TaskGroupParallel::doExit()
+{
+	for (size_t i = 0; i < m_tasks.size(); i++)
 	{
-		std::lock_guard<std::mutex> lock(m_activeTaskCountMutex);
-		activeTaskCount = m_activeTaskCount;
+		m_tasks[i]->thread->join();
+		m_tasks[i]->thread.reset();
 	}
+}
 
-	if (activeTaskCount == 0)
+void TaskGroupParallel::doReset()
+{
+	for (size_t i = 0; i < m_tasks.size(); i++)
 	{
-		return (m_interrupt ? STATE_CANCELED : STATE_FINISHED);
-	}
-
-	return Task::STATE_RUNNING;
-}
-
-void TaskGroupParallel::exit()
-{
-	for (size_t i = 0; i < m_threads.size(); i++)
-	{
-		m_threads[i].join();
-	}
-	m_threads.clear();
-}
-
-void TaskGroupParallel::interrupt()
-{
-	m_interrupt = true;
-}
-
-void TaskGroupParallel::revert()
-{
-	m_interrupt = true;
-}
-
-void TaskGroupParallel::abort()
-{
-	m_interrupt = true;
-}
-
-
-void TaskGroupParallel::processTaskThreaded(std::shared_ptr<Task> task)
-{
-	Task::TaskState state = Task::STATE_NEW;
-	while (state != Task::STATE_FINISHED && state != Task::STATE_CANCELED)
-	{
-		if (m_interrupt)
+		m_tasks[i]->taskRunner->reset();
+		if (!m_tasks[i]->active)
 		{
-			state = task->interruptTask();
-		}
-		else
-		{
-			state = task->processTask();
+			m_tasks[i]->thread->join();
+			m_tasks[i]->thread = std::make_shared<std::thread>(&TaskGroupParallel::processTaskThreaded, this, m_tasks[i]);
+			m_tasks[i]->active = true;
+			m_activeTaskCount++;
 		}
 	}
+}
 
-	{
+void TaskGroupParallel::processTaskThreaded(std::shared_ptr<TaskInfo> taskInfo)
+{
+	ScopedFunctor functor([&](){
 		std::lock_guard<std::mutex> lock(m_activeTaskCountMutex);
-		m_activeTaskCount--; // not safe! if exception hits this thread before this point the count is not decremented.
+		m_activeTaskCount--;
+	});
+
+
+	while (true)
+	{
+		TaskState state = taskInfo->taskRunner->update();
+
+		if (state != STATE_RUNNING)
+		{
+			if (state == STATE_FAILURE)
+			{
+				m_taskFailed = true;
+			}
+			taskInfo->active = false;
+			break;
+		}
 	}
+}
+
+int TaskGroupParallel::getActveTaskCount() const
+{
+	std::lock_guard<std::mutex> lock(m_activeTaskCountMutex);
+	return m_activeTaskCount;
 }

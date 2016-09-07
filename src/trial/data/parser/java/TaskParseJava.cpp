@@ -1,8 +1,7 @@
 #include "data/parser/java/TaskParseJava.h"
 
 TaskParseJava::TaskParseJava(
-	PersistentStorage* storage,
-	std::shared_ptr<std::mutex> storageMutex,
+	std::shared_ptr<IntermediateStorage> storage,
 	std::shared_ptr<FileRegister> fileRegister,
 	const Parser::Arguments& arguments,
 	DialogView* dialogView
@@ -10,27 +9,23 @@ TaskParseJava::TaskParseJava(
 {
 }
 
-void TaskParseJava::enter()
+void TaskParseJava::doEnter()
 {
 }
 
-Task::TaskState TaskParseJava::update()
+Task::TaskState TaskParseJava::doUpdate()
 {
-	return Task::STATE_FINISHED;
+	return STATE_SUCCESS;
 }
 
-void TaskParseJava::exit()
-{
-}
-
-void TaskParseJava::interrupt()
+void TaskParseJava::doExit()
 {
 }
 
-void TaskParseJava::revert()
+void TaskParseJava::doReset()
 {
 }
 
-void TaskParseJava::abort()
+void TaskParseJava::handleMessage(MessageInterruptTasks* message)
 {
 }

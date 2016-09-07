@@ -6,6 +6,8 @@
 #include "data/parser/java/TaskParseJava.h"
 #include "data/PersistentStorage.h"
 #include "data/TaskCleanStorage.h"
+#include "data/TaskInjectStorage.h"
+#include "data/TaskRepeatWhileUnparsedSourceFilesAvailable.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
 
@@ -327,7 +329,16 @@ bool Project::buildIndex(bool forceRefresh)
 
 	for (int i = 0; i < indexerThreadCount; i++)
 	{
-		taskParallelIndexing->addTask(createIndexerTask(m_storage.get(), storageMutex, fileRegister));
+		std::shared_ptr<TaskRepeatWhileUnparsedSourceFilesAvailable> taskRepeat = std::make_shared<TaskRepeatWhileUnparsedSourceFilesAvailable>(fileRegister);
+		taskParallelIndexing->addTask(taskRepeat);
+
+		std::shared_ptr<TaskGroupSequential> taskRepeatSequential = std::make_shared<TaskGroupSequential>();
+		taskRepeat->setTask(taskRepeatSequential);
+
+		std::shared_ptr<IntermediateStorage> intermediateStorage = std::make_shared<IntermediateStorage>();
+
+		taskRepeatSequential->addTask(createIndexerTask(intermediateStorage, fileRegister));
+		taskRepeatSequential->addTask(std::make_shared<TaskInjectStorage>(intermediateStorage, m_storage));
 	}
 
 	Task::dispatch(taskSequential);

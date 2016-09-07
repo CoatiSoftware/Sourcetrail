@@ -5,6 +5,8 @@
 
 #include "data/parser/Parser.h"
 #include "data/parser/ParserClientImpl.h"
+#include "utility/scheduling/Task.h"
+#include "utility/scheduling/TaskRunner.h"
 #include "utility/scheduling/TaskDecorator.h"
 #include "utility/TimePoint.h"
 
@@ -23,20 +25,20 @@ public:
 	);
 	virtual ~TaskParseWrapper();
 
-	virtual void enter();
-	virtual TaskState update();
-	virtual void exit();
-
-	virtual void interrupt();
-	virtual void revert();
-	virtual void abort();
+	virtual void setTask(std::shared_ptr<Task> task);
 
 private:
+	virtual void doEnter();
+	virtual TaskState doUpdate();
+	virtual void doExit();
+	virtual void doReset();
+
 	PersistentStorage* m_storage;
 	std::shared_ptr<FileRegister> m_fileRegister;
 	DialogView* m_dialogView;
 
 	TimePoint m_start;
+	std::shared_ptr<TaskRunner> m_taskRunner;
 };
 
 #endif // TASK_PARSE_WRAPPER_H

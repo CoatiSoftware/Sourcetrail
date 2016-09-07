@@ -9,28 +9,20 @@ TaskLambda::~TaskLambda()
 {
 }
 
-void TaskLambda::enter()
+void TaskLambda::doEnter()
 {
 }
 
-Task::TaskState TaskLambda::update()
+Task::TaskState TaskLambda::doUpdate()
 {
 	m_func();
-	return Task::STATE_FINISHED;
+	return STATE_SUCCESS;
 }
 
-void TaskLambda::exit()
+void TaskLambda::doExit()
 {
 }
 
-void TaskLambda::interrupt()
-{
-}
-
-void TaskLambda::revert()
-{
-}
-
-void TaskLambda::abort()
+void TaskLambda::doReset()
 {
 }

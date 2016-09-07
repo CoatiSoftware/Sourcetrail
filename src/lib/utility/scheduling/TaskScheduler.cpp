@@ -19,27 +19,21 @@ std::shared_ptr<TaskScheduler> TaskScheduler::getInstance()
 void TaskScheduler::pushTask(std::shared_ptr<Task> task)
 {
 	std::lock_guard<std::mutex> lock(m_tasksMutex);
-	m_tasks.push_back(task);
+	m_taskRunners.push_back(std::make_shared<TaskRunner>(task));
 }
 
 void TaskScheduler::pushNextTask(std::shared_ptr<Task> task)
 {
 	std::lock_guard<std::mutex> lock(m_tasksMutex);
 
-	if (m_tasks.size() == 0)
+	if (m_taskRunners.size() == 0)
 	{
-		m_tasks.push_front(task);
+		m_taskRunners.push_front(std::make_shared<TaskRunner>(task));
 	}
 	else
 	{
-		m_tasks.insert(m_tasks.begin() + 1, task);
+		m_taskRunners.insert(m_taskRunners.begin() + 1, std::make_shared<TaskRunner>(task));
 	}
-}
-
-void TaskScheduler::interruptCurrentTask()
-{
-	std::lock_guard<std::mutex> lock(m_tasksMutex);
-	m_interruptTask = true;
 }
 
 void TaskScheduler::startSchedulerLoopThreaded()
@@ -57,7 +51,7 @@ void TaskScheduler::startSchedulerLoop()
 
 		if (m_loopIsRunning)
 		{
-			LOG_ERROR("Loop is already running");
+			LOG_ERROR("Unable to start task scheduler. Loop is already running.");
 			return;
 		}
 
@@ -97,13 +91,11 @@ void TaskScheduler::stopSchedulerLoop()
 
 		if (!m_loopIsRunning)
 		{
-			LOG_WARNING("Loop is not running");
+			LOG_WARNING("Unable to stop task scheduler. Loop is not running.");
 		}
 
 		m_loopIsRunning = false;
 	}
-
-	interruptCurrentTask();
 
 	while (true)
 	{
@@ -129,7 +121,7 @@ bool TaskScheduler::loopIsRunning() const
 bool TaskScheduler::hasTasksQueued() const
 {
 	std::lock_guard<std::mutex> lock(m_tasksMutex);
-	return m_tasks.size();
+	return m_taskRunners.size();
 }
 
 std::shared_ptr<TaskScheduler> TaskScheduler::s_instance;
@@ -137,7 +129,6 @@ std::shared_ptr<TaskScheduler> TaskScheduler::s_instance;
 TaskScheduler::TaskScheduler()
 	: m_loopIsRunning(false)
 	, m_threadIsRunning(false)
-	, m_interruptTask(false)
 {
 }
 
@@ -145,41 +136,19 @@ void TaskScheduler::processTasks()
 {
 	std::lock_guard<std::mutex> lock(m_tasksMutex);
 
-	while (m_tasks.size())
+	while (m_taskRunners.size())
 	{
-		bool interrupt = m_interruptTask;
-		m_interruptTask = false;
-
-		std::shared_ptr<Task> task = m_tasks.front();
-		Task::TaskState state;
+		std::shared_ptr<TaskRunner> runner = m_taskRunners.front();
 
 		m_tasksMutex.unlock();
-		if (interrupt)
-		{
-			state = task->interruptTask();
-		}
-		else
-		{
-			state = task->processTask();
-		}
+
+		Task::TaskState state = runner->update();
+
 		m_tasksMutex.lock();
 
-		if (state == Task::STATE_FINISHED || state == Task::STATE_CANCELED)
+		if (state != Task::STATE_RUNNING)
 		{
-			m_tasks.pop_front();
+			m_taskRunners.pop_front();
 		}
-	}
-
-	m_interruptTask = false;
-}
-
-void TaskScheduler::handleMessage(MessageInterruptTasks* message)
-{
-	interruptCurrentTask();
-
-	std::lock_guard<std::mutex> lock(m_tasksMutex);
-	if (m_tasks.size())
-	{
-		MessageStatus("Stop running tasks...", false, true).dispatch();
 	}
 }

@@ -2,6 +2,7 @@
 #define STORAGE_H
 
 #include <functional>
+#include <mutex>
 #include <string>
 
 #include "data/name/NameHierarchy.h"
@@ -32,9 +33,13 @@ public:
 	virtual void forEachCommentLocation(std::function<void(const StorageCommentLocation& /*data*/)> callback) const = 0;
 	virtual void forEachError(std::function<void(const StorageError& /*data*/)> callback) const = 0;
 
+	void inject(Storage* injected);
+
+private:
 	virtual void startInjection();
 	virtual void finishInjection();
-	void inject(Storage* injected);
+
+	std::mutex m_dataMutex;
 };
 
 #endif // STORAGE_H

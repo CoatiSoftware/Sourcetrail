@@ -1,10 +1,12 @@
 #ifndef TASK_GROUP_PARALLEL_H
 #define TASK_GROUP_PARALLEL_H
 
+#include <map>
 #include <mutex>
 #include <thread>
 
 #include "utility/scheduling/TaskGroup.h"
+#include "utility/scheduling/TaskRunner.h"
 
 class TaskGroupParallel
 	: public TaskGroup
@@ -13,24 +15,34 @@ public:
 	TaskGroupParallel();
 	virtual ~TaskGroupParallel();
 
-	virtual void enter();
-	virtual TaskState update();
-	virtual void exit();
-
-	virtual void interrupt();
-	virtual void revert();
-	virtual void abort();
+	virtual void addTask(std::shared_ptr<Task> task);
 
 private:
-	void processTaskThreaded(std::shared_ptr<Task> task);
+	struct TaskInfo
+	{
+		TaskInfo(std::shared_ptr<TaskRunner> taskRunner)
+			: taskRunner(taskRunner)
+			, active(false)
+		{}
+		std::shared_ptr<TaskRunner> taskRunner;
+		std::shared_ptr<std::thread> thread;
+		volatile bool active;
+	};
 
-	volatile bool m_interrupt;
-	bool m_running;
+	virtual void doEnter();
+	virtual TaskState doUpdate();
+	virtual void doExit();
+	virtual void doReset();
 
-	std::vector<std::thread> m_threads;
+	void processTaskThreaded(std::shared_ptr<TaskInfo> taskInfo);
+	int getActveTaskCount() const;
 
+	std::vector<std::shared_ptr<TaskInfo>> m_tasks;
+	bool m_needsToStartThreads;
+
+	volatile bool m_taskFailed;
 	volatile int m_activeTaskCount;
-	std::mutex m_activeTaskCountMutex;
+	mutable std::mutex m_activeTaskCountMutex;
 };
 
 #endif // TASK_GROUP_PARALLEL_H
