@@ -3,10 +3,7 @@
 
 #include <QWidget>
 
-class QPushButton;
-class QtLineEdit;
-class QComboBox;
-class QLabel;
+class QFontComboBox;
 
 class QtFontPicker
 	: public QWidget
@@ -22,8 +19,7 @@ public:
 	void setText(QString text);
 
 private:
-	QLabel* m_sampleLabel;
-	QComboBox* m_box;
+	QFontComboBox* m_box;
 };
 
 #endif // QT_FONT_PICKER_H
