@@ -298,6 +298,8 @@ add_files(
 
 	utility/messaging/Message.h
 	utility/messaging/MessageBase.h
+	utility/messaging/MessageInterruptTasksCounter.cpp
+	utility/messaging/MessageInterruptTasksCounter.h
 	utility/messaging/MessageListener.h
 	utility/messaging/MessageListenerBase.cpp
 	utility/messaging/MessageListenerBase.h
