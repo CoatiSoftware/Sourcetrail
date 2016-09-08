@@ -5,6 +5,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 
+#include "qt/element/QtFontPicker.h"
 #include "qt/element/QtLocationPicker.h"
 #include "qt/window/project_wizzard/QtProjectWizzardContent.h"
 #include "utility/path_detector/CombinedPathDetector.h"
@@ -32,7 +33,7 @@ private slots:
 private:
 	void addJavaPathDetection(QGridLayout* layout, int& row);
 
-	QLineEdit* m_fontFace;
+	QtFontPicker* m_fontFace;
 	QComboBox* m_fontSize;
 	QComboBox* m_tabWidth;
 

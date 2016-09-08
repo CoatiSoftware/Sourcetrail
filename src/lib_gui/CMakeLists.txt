@@ -20,6 +20,8 @@ add_files(
 	qt/element/QtCodeSnippet.h
 	qt/element/QtDirectoryListBox.cpp
 	qt/element/QtDirectoryListBox.h
+	qt/element/QtFontPicker.cpp
+	qt/element/QtFontPicker.h
 	qt/element/QtLineEdit.cpp
 	qt/element/QtLineEdit.h
 	qt/element/QtLocationPicker.cpp

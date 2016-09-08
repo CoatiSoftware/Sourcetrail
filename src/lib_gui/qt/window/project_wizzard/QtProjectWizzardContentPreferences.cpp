@@ -39,7 +39,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	row++;
 
 	// font face
-	m_fontFace = new QLineEdit();
+	m_fontFace = new QtFontPicker(this);
 	m_fontFace->setObjectName("name");
 	m_fontFace->setAttribute(Qt::WA_MacShowFocusRect, 0);
 
@@ -278,7 +278,7 @@ void QtProjectWizzardContentPreferences::save()
 {
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 
-	appSettings->setFontName(m_fontFace->text().toStdString());
+	appSettings->setFontName(m_fontFace->getText().toStdString());
 
 	appSettings->setFontSize(m_fontSize->currentIndex() + appSettings->getFontSizeMin());
 	appSettings->setCodeTabWidth(m_tabWidth->currentIndex() + 1);
