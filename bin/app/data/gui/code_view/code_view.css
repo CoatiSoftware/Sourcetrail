@@ -8,7 +8,7 @@
 	border-radius: 12px;
 	border-top-left-radius: 14px;
 	border-top-right-radius: 14px;
-	font-size: <setting:font_size>pt;
+	font-size: <setting:font_size>px;
 	padding-bottom: 7px;
 }
 
@@ -16,7 +16,7 @@
 	background-color: <color:code/file/background>;
 	border-top-left-radius: 7px;
 	border-top-right-radius: 7px;
-	font-size: <setting:font_size>pt;
+	font-size: <setting:font_size>px;
 	padding-right: 5px;
 }
 
@@ -25,7 +25,7 @@
 	border: none;
 	border-radius: 3px;
 	color: <color:code/file/title/text>;
-	font-size: <setting:font_size>pt;
+	font-size: <setting:font_size>px;
 	padding: 2px 4px;
 	margin: 1px 8px 3px;
 }
@@ -43,7 +43,7 @@
 	border: none;
 	border-radius: 10px;
 	color: <color:code/file/ref_count/text>;
-	font-size: <setting:font_size-2>pt;
+	font-size: <setting:font_size-2>px;
 	padding: 0px 3px;
 	margin: 4px 0px 4px;
 }
@@ -51,7 +51,7 @@
 #code_file #code_snippet {
 	background-color: <color:code/snippet/background>;
 	border-top: 2px solid <color:code/file/background>;
-	font-size: <setting:font_size>pt;
+	font-size: <setting:font_size>px;
 }
 
 #code_file #code_snippet[isFirst=true] {
@@ -64,7 +64,7 @@
 	border: none;
 	color: <color:code/snippet/title/text>;
 	font-family: "<setting:font_name>";
-	font-size: <setting:font_size>pt;
+	font-size: <setting:font_size>px;
 }
 
 #code_file #code_snippet #scope_name:hover {
@@ -87,14 +87,14 @@
 	border: none;
 	color: <color:code/snippet/line_number/text>;
 	font-family: "<setting:font_name>";
-	font-size: <setting:font_size>pt;
+	font-size: <setting:font_size>px;
 }
 
 #code_area {
 	background-color: transparent;
 	color: <color:code/snippet/syntax/normal>;
 	font-family: "<setting:font_name>";
-	font-size: <setting:font_size>pt;
+	font-size: <setting:font_size>px;
 }
 
 #code_file #maximize_button, #code_file #snippet_button, #code_file #minimize_button {

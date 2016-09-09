@@ -4,7 +4,7 @@
 	border-radius: 8px;
 	color: black;
 	padding: 3px 5px 2px;
-	font-size: 14pt;
+	font-size: 14px;
 	min-width: 6em;
 }
 
@@ -17,14 +17,14 @@
 	background: none;
 	border: none;
 	color: black;
-	font-size: 12pt;
+	font-size: 12px;
 }
 
 #recentButtonMissing {
 	background: none;
 	border: none;
 	color: grey;
-	font-size: 12pt;
+	font-size: 12px;
 }
 
 #recentButton:hover, #recentButtonMissing:hover {
@@ -34,23 +34,23 @@
 
 #recentLabel {
 	color: black;
-	font-size: 16pt;
+	font-size: 16px;
 	font-weight: bold;
 	margin-left: 6px;
 }
 
 #versionLabel {
 	color: black;
-	font-size: 12pt;
+	font-size: 12px;
 	font-weight: bold;
 }
 
 #updateLabel {
 	color: black;
-	font-size: 12pt;
+	font-size: 12px;
 }
 
 #welcomeLabel {
 	color: black;
-	font-size: 12pt;
+	font-size: 12px;
 }

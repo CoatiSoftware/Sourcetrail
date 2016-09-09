@@ -125,7 +125,7 @@ void QtLicense::populateWindow(QWidget* widget)
 
 void QtLicense::windowReady()
 {
-	setStyleSheet(styleSheet() + utility::getStyleSheet(ResourcePaths::getGuiPath() + "license/license.css").c_str());
+	m_content->setStyleSheet(m_content->styleSheet() + utility::getStyleSheet(ResourcePaths::getGuiPath() + "license/license.css").c_str());
 
 	addLogo();
 

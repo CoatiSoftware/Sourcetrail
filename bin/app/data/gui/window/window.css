@@ -1,5 +1,5 @@
 * {
-	font-size: 12pt;
+	font-size: 12px;
 }
 
 QLabel, QCheckBox {
@@ -7,12 +7,12 @@ QLabel, QCheckBox {
 }
 
 #title {
-	font-size: 16pt;
+	font-size: 16px;
 	font-weight: bold;
 }
 
 #projectTitle {
-	font-size: 14pt;
+	font-size: 14px;
 	font-weight: bold;
 }
 
@@ -23,21 +23,21 @@ QLabel, QCheckBox {
 }
 
 #projectDescription {
-	font-size: 12pt;
+	font-size: 12px;
 	margin-left: 20px;
 }
 
 #description {
-	font-size: 12pt;
+	font-size: 12px;
 }
 
 #label {
-	font-size: 12pt;
+	font-size: 12px;
 	font-weight: bold;
 }
 
 #titleLabel {
-	font-size: 14pt;
+	font-size: 14px;
 	font-weight: bold;
 }
 
@@ -115,7 +115,7 @@ QLabel, QCheckBox {
 	border-radius: 8px;
 	color: black;
 	padding: 3px 5px 2px;
-	font-size: 14pt;
+	font-size: 14px;
 	min-width: 5em;
 }
 
@@ -126,7 +126,7 @@ QLabel, QCheckBox {
 	border-bottom-right-radius: 0px;
 	border-top-right-radius: 0px;
 	color: black;
-	font-size: 15pt;
+	font-size: 15px;
 	margin-right: 0px;
 	height: 25px;
 	width: 90px;
@@ -161,7 +161,7 @@ QLabel, QCheckBox {
 	background: white;
 	border-radius: 8px;
 	color: black;
-	font-size: 12pt;
+	font-size: 12px;
 	width: 7em;
 	height: 7em;
 	margin-top: 10px;

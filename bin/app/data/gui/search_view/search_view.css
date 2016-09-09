@@ -1,10 +1,10 @@
 * {
-	font-size: <setting:font_size>pt;
+	font-size: <setting:font_size>px;
 }
 
 #search_box, #search_box * {
 	font-family: "<setting:font_name>";
-	font-size: <setting:font_size+2>pt;
+	font-size: <setting:font_size+2>px;
 }
 
 #search_bar {

@@ -10,29 +10,29 @@ QLabel {
 
 #title {
 	color: white;
-	font-size: 22pt;
+	font-size: 22px;
 	font-weight: bold;
 }
 
 #percent {
-	font-size: 22pt;
+	font-size: 22px;
 	font-weight: bold;
 }
 
 #message {
-	font-size: 14pt;
+	font-size: 14px;
 	font-weight: bold;
 }
 
 #filePath {
-	font-size: 11pt;
+	font-size: 11px;
 }
 
 #errorCount {
 	border: none;
 	background: transparent;
 	color: white;
-	font-size: 14pt;
+	font-size: 14px;
 }
 
 #windowButton {

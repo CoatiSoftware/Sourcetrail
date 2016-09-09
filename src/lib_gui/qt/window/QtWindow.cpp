@@ -30,7 +30,6 @@ QtWindow::QtWindow(QWidget* parent)
 
 	std::string frameStyle =
 		"#window {"
-		"	font-size: 17pt;"
 		"	border: 1px solid lightgray;"
 		"	border-radius: 15px;"
 		"	background: white;"
