@@ -5,7 +5,6 @@
 #include <memory>
 #include <string>
 
-#include "Utility/UtilityString.h"
 #include "utility/logging/logging.h"
 
 struct BlackboardItemBase
