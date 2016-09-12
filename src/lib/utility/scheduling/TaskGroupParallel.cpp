@@ -16,7 +16,7 @@ void TaskGroupParallel::addTask(std::shared_ptr<Task> task)
 	m_tasks.push_back(std::make_shared<TaskInfo>(std::make_shared<TaskRunner>(task)));
 }
 
-void TaskGroupParallel::doEnter()
+void TaskGroupParallel::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
 	m_taskFailed = false;
 
@@ -26,14 +26,14 @@ void TaskGroupParallel::doEnter()
 		m_activeTaskCount = 0;
 		for (size_t i = 0; i < m_tasks.size(); i++)
 		{
-			m_tasks[i]->thread = std::make_shared<std::thread>(&TaskGroupParallel::processTaskThreaded, this, m_tasks[i]);
+			m_tasks[i]->thread = std::make_shared<std::thread>(&TaskGroupParallel::processTaskThreaded, this, m_tasks[i], blackboard);
 			m_tasks[i]->active = true;
 			m_activeTaskCount++;
 		}
 	}
 }
 
-Task::TaskState TaskGroupParallel::doUpdate()
+Task::TaskState TaskGroupParallel::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
 	if (m_tasks.size() != 0 && getActveTaskCount() > 0)
 	{
@@ -43,7 +43,7 @@ Task::TaskState TaskGroupParallel::doUpdate()
 	return (m_taskFailed ? STATE_FAILURE : STATE_SUCCESS);
 }
 
-void TaskGroupParallel::doExit()
+void TaskGroupParallel::doExit(std::shared_ptr<Blackboard> blackboard)
 {
 	for (size_t i = 0; i < m_tasks.size(); i++)
 	{
@@ -52,7 +52,7 @@ void TaskGroupParallel::doExit()
 	}
 }
 
-void TaskGroupParallel::doReset()
+void TaskGroupParallel::doReset(std::shared_ptr<Blackboard> blackboard)
 {
 	for (size_t i = 0; i < m_tasks.size(); i++)
 	{
@@ -60,14 +60,14 @@ void TaskGroupParallel::doReset()
 		if (!m_tasks[i]->active)
 		{
 			m_tasks[i]->thread->join();
-			m_tasks[i]->thread = std::make_shared<std::thread>(&TaskGroupParallel::processTaskThreaded, this, m_tasks[i]);
+			m_tasks[i]->thread = std::make_shared<std::thread>(&TaskGroupParallel::processTaskThreaded, this, m_tasks[i], blackboard);
 			m_tasks[i]->active = true;
 			m_activeTaskCount++;
 		}
 	}
 }
 
-void TaskGroupParallel::processTaskThreaded(std::shared_ptr<TaskInfo> taskInfo)
+void TaskGroupParallel::processTaskThreaded(std::shared_ptr<TaskInfo> taskInfo, std::shared_ptr<Blackboard> blackboard)
 {
 	ScopedFunctor functor([&](){
 		std::lock_guard<std::mutex> lock(m_activeTaskCountMutex);
@@ -77,7 +77,7 @@ void TaskGroupParallel::processTaskThreaded(std::shared_ptr<TaskInfo> taskInfo)
 
 	while (true)
 	{
-		TaskState state = taskInfo->taskRunner->update();
+		TaskState state = taskInfo->taskRunner->update(blackboard);
 
 		if (state != STATE_RUNNING)
 		{

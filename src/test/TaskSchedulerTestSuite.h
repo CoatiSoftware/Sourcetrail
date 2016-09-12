@@ -3,6 +3,7 @@
 #include <chrono>
 #include <thread>
 
+#include "utility/scheduling/Blackboard.h"
 #include "utility/scheduling/Task.h"
 #include "utility/scheduling/TaskGroupSequential.h"
 #include "utility/scheduling/TaskScheduler.h"
@@ -144,9 +145,10 @@ public:
 private:
 	void executeTask(Task& task)
 	{
+		std::shared_ptr<Blackboard> blakboard = std::make_shared<Blackboard>();
 		while (true)
 		{
-			if (task.update() != Task::STATE_RUNNING)
+			if (task.update(blakboard) != Task::STATE_RUNNING)
 			{
 				return;
 			}
@@ -167,12 +169,12 @@ private:
 		{
 		}
 
-		virtual void doEnter()
+		virtual void doEnter(std::shared_ptr<Blackboard> blakboard)
 		{
 			enterCallOrder = ++orderCount;
 		}
 
-		virtual TaskState doUpdate()
+		virtual TaskState doUpdate(std::shared_ptr<Blackboard> blakboard)
 		{
 			updateCallOrder = ++orderCount;
 
@@ -191,12 +193,12 @@ private:
 			return returnState;
 		}
 
-		virtual void doExit()
+		virtual void doExit(std::shared_ptr<Blackboard> blakboard)
 		{
 			exitCallOrder = ++orderCount;
 		}
 
-		virtual void doReset()
+		virtual void doReset(std::shared_ptr<Blackboard> blakboard)
 		{
 			resetCallOrder = ++orderCount;
 		}
@@ -219,12 +221,12 @@ private:
 		{
 		}
 
-		virtual TaskState doUpdate()
+		virtual TaskState doUpdate(std::shared_ptr<Blackboard> blakboard)
 		{
 			subTask = std::make_shared<TestTask>(&orderCount, 1);
 			Task::dispatch(subTask);
 
-			return TestTask::doUpdate();
+			return TestTask::doUpdate(blakboard);
 		}
 
 		std::shared_ptr<TestTask> subTask;

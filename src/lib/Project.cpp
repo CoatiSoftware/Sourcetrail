@@ -4,10 +4,10 @@
 #include "data/access/StorageAccessProxy.h"
 #include "data/parser/cxx/TaskParseWrapper.h"
 #include "data/parser/java/TaskParseJava.h"
+#include "data/StorageProvider.h"
 #include "data/PersistentStorage.h"
 #include "data/TaskCleanStorage.h"
 #include "data/TaskInjectStorage.h"
-#include "data/TaskRepeatWhileUnparsedSourceFilesAvailable.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
 
@@ -17,6 +17,7 @@
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/scheduling/TaskGroupSequential.h"
 #include "utility/scheduling/TaskGroupParallel.h"
+#include "utility/scheduling/TaskRepeatWhileSuccess.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
@@ -310,7 +311,7 @@ bool Project::buildIndex(bool forceRefresh)
 		taskSequential->addTask(std::make_shared<TaskCleanStorage>(m_storage.get(), filesToClean, m_dialogView));
 	}
 
-	int indexerThreadCount = ApplicationSettings::getInstance()->getIndexerThreadCount();
+	const int indexerThreadCount = ApplicationSettings::getInstance()->getIndexerThreadCount();
 
 	std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(&m_fileManager, indexerThreadCount > 1);
 	fileRegister->setFilePaths(filesToParse);
@@ -325,21 +326,19 @@ bool Project::buildIndex(bool forceRefresh)
 	std::shared_ptr<TaskGroupParallel> taskParallelIndexing = std::make_shared<TaskGroupParallel>();
 	taskParserWrapper->setTask(taskParallelIndexing);
 
-	std::shared_ptr<std::mutex> storageMutex = std::make_shared<std::mutex>();
+	std::shared_ptr<StorageProvider> storageProvider = std::make_shared<StorageProvider>();
 
 	for (int i = 0; i < indexerThreadCount; i++)
 	{
-		std::shared_ptr<TaskRepeatWhileUnparsedSourceFilesAvailable> taskRepeat = std::make_shared<TaskRepeatWhileUnparsedSourceFilesAvailable>(fileRegister);
+		std::shared_ptr<TaskRepeatWhileSuccess> taskRepeat = std::make_shared<TaskRepeatWhileSuccess>();
 		taskParallelIndexing->addTask(taskRepeat);
-
-		std::shared_ptr<TaskGroupSequential> taskRepeatSequential = std::make_shared<TaskGroupSequential>();
-		taskRepeat->setTask(taskRepeatSequential);
-
-		std::shared_ptr<IntermediateStorage> intermediateStorage = std::make_shared<IntermediateStorage>();
-
-		taskRepeatSequential->addTask(createIndexerTask(intermediateStorage, fileRegister));
-		taskRepeatSequential->addTask(std::make_shared<TaskInjectStorage>(intermediateStorage, m_storage));
+		taskRepeat->setTask(createIndexerTask(storageProvider, fileRegister));
 	}
+
+	std::shared_ptr<TaskRepeatWhileSuccess> taskRepeat = std::make_shared<TaskRepeatWhileSuccess>();
+	taskParallelIndexing->addTask(taskRepeat);
+	taskRepeat->setTask(std::make_shared<TaskInjectStorage>(storageProvider, m_storage));
+
 
 	Task::dispatch(taskSequential);
 

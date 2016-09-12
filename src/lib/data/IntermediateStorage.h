@@ -15,6 +15,7 @@ public:
 	virtual ~IntermediateStorage();
 
 	void clear();
+	size_t getSourceLocationCount() const;
 
 	virtual Id addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime);
 	virtual Id addNode(int type, const std::string& serializedName, int definitionType);

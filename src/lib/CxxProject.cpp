@@ -54,11 +54,11 @@ bool CxxProject::prepareRefresh()
 }
 
 std::shared_ptr<Task> CxxProject::createIndexerTask(
-	std::shared_ptr<IntermediateStorage> storage,
+	std::shared_ptr<StorageProvider> storageProvider,
 	std::shared_ptr<FileRegister> fileRegister)
 {
 	return std::make_shared<TaskParseCxx>(
-		storage,
+		storageProvider,
 		fileRegister,
 		getParserArguments(),
 		getDialogView()

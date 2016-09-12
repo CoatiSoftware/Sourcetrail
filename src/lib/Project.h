@@ -12,7 +12,7 @@
 class DialogView;
 class FileRegister;
 class PersistentStorage;
-class IntermediateStorage;
+class StorageProvider;
 class ProjectSettings;
 class StorageAccessProxy;
 class Task;
@@ -63,7 +63,7 @@ private:
 	virtual bool prepareIndexing();
 	virtual bool prepareRefresh();
 	virtual std::shared_ptr<Task> createIndexerTask(
-		std::shared_ptr<IntermediateStorage> storage,
+		std::shared_ptr<StorageProvider> storageProvider,
 		std::shared_ptr<FileRegister> fileRegister) = 0;
 	virtual void updateFileManager(FileManager& fileManager) = 0;
 

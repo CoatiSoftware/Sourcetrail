@@ -188,14 +188,14 @@ add_files(
 	data/Storage.h
 	data/StorageCache.cpp
 	data/StorageCache.h
+	data/StorageProvider.cpp
+	data/StorageProvider.h
 	data/StorageTypes.h
 	data/StorageStats.h
 	data/TaskCleanStorage.cpp
 	data/TaskCleanStorage.h
 	data/TaskInjectStorage.cpp
 	data/TaskInjectStorage.h
-	data/TaskRepeatWhileUnparsedSourceFilesAvailable.cpp
-	data/TaskRepeatWhileUnparsedSourceFilesAvailable.h
 
 	settings/ApplicationSettings.cpp
 	settings/ApplicationSettings.h
@@ -306,6 +306,8 @@ add_files(
 	utility/messaging/MessageQueue.cpp
 	utility/messaging/MessageQueue.h
 
+	utility/scheduling/Blackboard.cpp
+	utility/scheduling/Blackboard.h
 	utility/scheduling/Task.cpp
 	utility/scheduling/Task.h
 	utility/scheduling/TaskDecorator.cpp
@@ -318,6 +320,8 @@ add_files(
 	utility/scheduling/TaskGroupSequential.h
 	utility/scheduling/TaskLambda.cpp
 	utility/scheduling/TaskLambda.h
+	utility/scheduling/TaskRepeatWhileSuccess.cpp
+	utility/scheduling/TaskRepeatWhileSuccess.h
 	utility/scheduling/TaskRunner.cpp
 	utility/scheduling/TaskRunner.h
 	utility/scheduling/TaskScheduler.cpp

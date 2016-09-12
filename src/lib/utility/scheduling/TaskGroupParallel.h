@@ -29,12 +29,12 @@ private:
 		volatile bool active;
 	};
 
-	virtual void doEnter();
-	virtual TaskState doUpdate();
-	virtual void doExit();
-	virtual void doReset();
+	virtual void doEnter(std::shared_ptr<Blackboard> blackboard);
+	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard);
+	virtual void doExit(std::shared_ptr<Blackboard> blackboard);
+	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
 
-	void processTaskThreaded(std::shared_ptr<TaskInfo> taskInfo);
+	void processTaskThreaded(std::shared_ptr<TaskInfo> taskInfo, std::shared_ptr<Blackboard> blackboard);
 	int getActveTaskCount() const;
 
 	std::vector<std::shared_ptr<TaskInfo>> m_tasks;

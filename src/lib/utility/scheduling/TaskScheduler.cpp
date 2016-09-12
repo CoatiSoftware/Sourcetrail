@@ -5,6 +5,8 @@
 
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageStatus.h"
+#include "utility/scheduling/Blackboard.h"
+#include "utility/ScopedFunctor.h"
 
 std::shared_ptr<TaskScheduler> TaskScheduler::getInstance()
 {
@@ -140,15 +142,22 @@ void TaskScheduler::processTasks()
 	{
 		std::shared_ptr<TaskRunner> runner = m_taskRunners.front();
 
-		m_tasksMutex.unlock();
-
-		Task::TaskState state = runner->update();
-
-		m_tasksMutex.lock();
-
-		if (state != Task::STATE_RUNNING)
 		{
-			m_taskRunners.pop_front();
+			m_tasksMutex.unlock();
+			ScopedFunctor functor([this](){
+				m_tasksMutex.lock();
+			});
+
+			std::shared_ptr<Blackboard> blackboard = std::make_shared<Blackboard>();
+			while (true)
+			{
+				if (runner->update(blackboard) != Task::STATE_RUNNING)
+				{
+					break;
+				}
+			}
 		}
+
+		m_taskRunners.pop_front();
 	}
 }

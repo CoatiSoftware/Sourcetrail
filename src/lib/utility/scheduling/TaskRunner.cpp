@@ -10,20 +10,15 @@ TaskRunner::~TaskRunner()
 {
 }
 
-//Task::TaskState TaskRunner::getState() const
-//{
-//	return m_task->getState();
-//}
-
-Task::TaskState TaskRunner::update()
+Task::TaskState TaskRunner::update(std::shared_ptr<Blackboard> blackboard)
 {
 	if (m_reset)
 	{
-		m_task->reset();
+		m_task->reset(blackboard);
 		m_reset = false;
 	}
 
-	return m_task->update();
+	return m_task->update(blackboard);
 }
 
 void TaskRunner::reset()

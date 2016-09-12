@@ -9,20 +9,20 @@ TaskLambda::~TaskLambda()
 {
 }
 
-void TaskLambda::doEnter()
+void TaskLambda::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
 }
 
-Task::TaskState TaskLambda::doUpdate()
+Task::TaskState TaskLambda::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
 	m_func();
 	return STATE_SUCCESS;
 }
 
-void TaskLambda::doExit()
+void TaskLambda::doExit(std::shared_ptr<Blackboard> blackboard)
 {
 }
 
-void TaskLambda::doReset()
+void TaskLambda::doReset(std::shared_ptr<Blackboard> blackboard)
 {
 }

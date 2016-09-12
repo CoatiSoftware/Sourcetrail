@@ -6,8 +6,9 @@
 
 #include "component/view/DialogView.h"
 #include "data/parser/cxx/CxxParser.h"
-#include "data/IntermediateStorage.h"
+#include "data/StorageProvider.h"
 #include "utility/file/FileRegister.h"
+#include "utility/scheduling/Blackboard.h"
 #include "utility/utility.h"
 
 std::vector<FilePath> TaskParseCxx::getSourceFilesFromCDB(const FilePath& compilationDatabasePath)
@@ -29,12 +30,12 @@ std::vector<FilePath> TaskParseCxx::getSourceFilesFromCDB(const FilePath& compil
 }
 
 TaskParseCxx::TaskParseCxx(
-	std::shared_ptr<IntermediateStorage> storage,
+	std::shared_ptr<StorageProvider> storageProvider,
 	std::shared_ptr<FileRegister> fileRegister,
 	const Parser::Arguments& arguments,
 	DialogView* dialogView
 )
-	: m_storage(storage)
+	: m_storageProvider(storageProvider)
 	, m_arguments(arguments)
 	, m_dialogView(dialogView)
 	, m_isCDB(false)
@@ -48,8 +49,15 @@ TaskParseCxx::TaskParseCxx(
 	m_parser = std::make_shared<CxxParser>(m_parserClient.get(), fileRegister);
 }
 
-void TaskParseCxx::doEnter()
+void TaskParseCxx::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
+	int indexerCount = 0;
+	if (blackboard->get("indexer_count", indexerCount))
+	{
+		indexerCount++;
+		blackboard->set("indexer_count", indexerCount);
+	}
+
 	if (m_isCDB)
 	{
 		std::string error;
@@ -64,20 +72,24 @@ void TaskParseCxx::doEnter()
 	}
 }
 
-Task::TaskState TaskParseCxx::doUpdate()
+Task::TaskState TaskParseCxx::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
 	FileRegister* fileRegister = m_parser->getFileRegister();
 
 	FilePath sourcePath = fileRegister->consumeSourceFile();
 
-	if (!sourcePath.empty())
+	if (sourcePath.empty())
+	{
+		return STATE_FAILURE;
+	}
+	else
 	{
 		m_dialogView->updateIndexingDialog(
 			fileRegister->getParsedSourceFilesCount(), fileRegister->getSourceFilesCount(), sourcePath.str()
 		);
 
-		m_storage->clear();
-		m_parserClient->setStorage(m_storage);
+		std::shared_ptr<IntermediateStorage> storage = m_storageProvider->popIndexerTarget();
+		m_parserClient->setStorage(storage);
 		m_parserClient->startParsingFile();
 
 		if (m_isCDB)
@@ -99,17 +111,24 @@ Task::TaskState TaskParseCxx::doUpdate()
 		if (!m_interrupted)
 		{
 			fileRegister->markThreadFilesParsed();
+			m_storageProvider->pushIndexerTarget(storage);
 		}
 	}
 
 	return (m_interrupted ? STATE_FAILURE : STATE_SUCCESS);
 }
 
-void TaskParseCxx::doExit()
+void TaskParseCxx::doExit(std::shared_ptr<Blackboard> blackboard)
 {
+	int indexerCount = 0;
+	if (blackboard->get("indexer_count", indexerCount))
+	{
+		indexerCount--;
+		blackboard->set("indexer_count", indexerCount);
+	}
 }
 
-void TaskParseCxx::doReset()
+void TaskParseCxx::doReset(std::shared_ptr<Blackboard> blackboard)
 {
 }
 

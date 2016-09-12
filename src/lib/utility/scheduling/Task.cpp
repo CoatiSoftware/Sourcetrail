@@ -23,28 +23,28 @@ Task::~Task()
 {
 }
 
-Task::TaskState Task::update()
+Task::TaskState Task::update(std::shared_ptr<Blackboard> blackboard)
 {
 	if (!m_enterCalled)
 	{
-		doEnter();
+		doEnter(blackboard);
 		m_enterCalled = true;
 	}
 
-	TaskState state = doUpdate();
+	TaskState state = doUpdate(blackboard);
 
 	if (state != STATE_RUNNING && !m_exitCalled)
 	{
-		doExit();
+		doExit(blackboard);
 		m_exitCalled = true;
 	}
 
 	return state;
 }
 
-void Task::reset()
+void Task::reset(std::shared_ptr<Blackboard> blackboard)
 {
-	doReset();
+	doReset(blackboard);
 	m_enterCalled = false;
 	m_exitCalled = false;
 }

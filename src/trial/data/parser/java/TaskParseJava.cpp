@@ -1,7 +1,7 @@
 #include "data/parser/java/TaskParseJava.h"
 
 TaskParseJava::TaskParseJava(
-	std::shared_ptr<IntermediateStorage> storage,
+	std::shared_ptr<StorageProvider> storageProvider,
 	std::shared_ptr<FileRegister> fileRegister,
 	const Parser::Arguments& arguments,
 	DialogView* dialogView
@@ -9,20 +9,20 @@ TaskParseJava::TaskParseJava(
 {
 }
 
-void TaskParseJava::doEnter()
+void TaskParseJava::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
 }
 
-Task::TaskState TaskParseJava::doUpdate()
+Task::TaskState TaskParseJava::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
 	return STATE_SUCCESS;
 }
 
-void TaskParseJava::doExit()
+void TaskParseJava::doExit(std::shared_ptr<Blackboard> blackboard)
 {
 }
 
-void TaskParseJava::doReset()
+void TaskParseJava::doReset(std::shared_ptr<Blackboard> blackboard)
 {
 }
 

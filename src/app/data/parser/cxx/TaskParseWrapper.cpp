@@ -4,6 +4,7 @@
 #include "data/PersistentStorage.h"
 #include "utility/file/FileRegister.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/scheduling/Blackboard.h"
 #include "utility/utility.h"
 
 TaskParseWrapper::TaskParseWrapper(
@@ -29,21 +30,24 @@ void TaskParseWrapper::setTask(std::shared_ptr<Task> task)
 	}
 }
 
-void TaskParseWrapper::doEnter()
+void TaskParseWrapper::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
+	blackboard->set("indexer_count", 0);
 	m_dialogView->updateIndexingDialog(0, m_fileRegister->getSourceFilesCount(), "");
 
 	m_start = utility::durationStart();
 	m_storage->startParsing();
 }
 
-Task::TaskState TaskParseWrapper::doUpdate()
+Task::TaskState TaskParseWrapper::doUpdate(std::shared_ptr<Blackboard> blackboard)
 {
-	return m_taskRunner->update();
+	return m_taskRunner->update(blackboard);
 }
 
-void TaskParseWrapper::doExit()
+void TaskParseWrapper::doExit(std::shared_ptr<Blackboard> blackboard)
 {
+	blackboard->clear("indexer_count");
+
 	m_dialogView->showProgressDialog("Finish Indexing", "Optimizing database");
 
 	m_storage->optimizeMemory();
@@ -64,7 +68,7 @@ void TaskParseWrapper::doExit()
 	);
 }
 
-void TaskParseWrapper::doReset()
+void TaskParseWrapper::doReset(std::shared_ptr<Blackboard> blackboard)
 {
 	m_taskRunner->reset();
 }

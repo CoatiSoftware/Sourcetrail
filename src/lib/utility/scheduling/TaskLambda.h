@@ -13,10 +13,10 @@ public:
 	virtual ~TaskLambda();
 
 private:
-	virtual void doEnter();
-	virtual TaskState doUpdate();
-	virtual void doExit();
-	virtual void doReset();
+	virtual void doEnter(std::shared_ptr<Blackboard> blackboard);
+	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard);
+	virtual void doExit(std::shared_ptr<Blackboard> blackboard);
+	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
 
 	std::function<void()> m_func;
 };

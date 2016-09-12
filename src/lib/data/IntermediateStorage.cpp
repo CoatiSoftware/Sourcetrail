@@ -29,6 +29,11 @@ void IntermediateStorage::clear()
 	m_nextId = 1;
 }
 
+size_t IntermediateStorage::getSourceLocationCount() const
+{
+	return m_sourceLocations.size();
+}
+
 Id IntermediateStorage::addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime)
 {
 	std::shared_ptr<StorageFile> file = std::make_shared<StorageFile>(0, name, filePath, modificationTime);

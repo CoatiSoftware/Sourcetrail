@@ -3,6 +3,8 @@
 
 #include <memory>
 
+class Blackboard;
+
 class Task
 {
 public:
@@ -19,16 +21,14 @@ public:
 	Task();
 	virtual ~Task();
 
-//	virtual TaskState getState() const = 0;
-
-	TaskState update();
-	void reset();
+	TaskState update(std::shared_ptr<Blackboard> blackboard);
+	void reset(std::shared_ptr<Blackboard> blackboard);
 
 private:
-	virtual void doEnter() = 0;
-	virtual Task::TaskState doUpdate() = 0;
-	virtual void doExit() = 0;
-	virtual void doReset() = 0;
+	virtual void doEnter(std::shared_ptr<Blackboard> blackboard) = 0;
+	virtual Task::TaskState doUpdate(std::shared_ptr<Blackboard> blackboard) = 0;
+	virtual void doExit(std::shared_ptr<Blackboard> blackboard) = 0;
+	virtual void doReset(std::shared_ptr<Blackboard> blackboard) = 0;
 
 	bool m_enterCalled;
 	bool m_exitCalled;

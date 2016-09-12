@@ -11,9 +11,7 @@ public:
 	TaskRunner(std::shared_ptr<Task> task);
 	~TaskRunner();
 
-	//Task::TaskState getState() const;
-
-	Task::TaskState update();
+	Task::TaskState update(std::shared_ptr<Blackboard> blackboard);
 	void reset();
 
 private:
