@@ -165,12 +165,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_143C95DF32BD49EEA018815EA03A3873"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_145FB67AF1774D029CD2047D9D3B3F26"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -184,12 +178,6 @@
         "Entry"
         {
         "MsmKey" = "8:_15FFB5487E5E4852A1FF247065EC2B2E"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_16C255612A654B4095F334E715362471"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -645,12 +633,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_5C992F2867924C859E6A48C6A045EDDC"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_5CDD52376309409D91451A3F5AAEBD9C"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -670,12 +652,6 @@
         "Entry"
         {
         "MsmKey" = "8:_61CB09C14E0D4473B8A0EA969EAB1E64"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_63ABF7A72DDD41EC9A21417B8EFBA7BE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -718,6 +694,12 @@
         "Entry"
         {
         "MsmKey" = "8:_69F00FB0D11E4A69A4698EB3DA735759"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6A7EF29A3ECE4E2A960D254D501712E4"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -825,12 +807,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_75E23B93C9ED4597A4D632CF3B6FA202"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_763A8819E84543E6BB4A90AC640E8018"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -856,12 +832,6 @@
         "Entry"
         {
         "MsmKey" = "8:_78E480DA746A4F1AAA980CF751EA54AF"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_78F6D899E8F943AA92FF4C357F87E959"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1455,12 +1425,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_D145DD353C3D4E6BA07B53A40F755BFA"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_D19CCB29EEA94EC1BB76987658607E57"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1629,12 +1593,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_E71650D2383C4304AAA86553DA35E71D"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_E76E3EC211634CD78F19B2893147D3F5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1798,7 +1756,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
+        "OwnerKey" = "8:_FB29EAD658C3497D9AC46ADE92D33C83"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1810,7 +1768,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FB29EAD658C3497D9AC46ADE92D33C83"
+        "OwnerKey" = "8:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -2632,26 +2590,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_143C95DF32BD49EEA018815EA03A3873"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\java\\java-indexer.jar"
-            "TargetName" = "8:java-indexer.jar"
-            "Tag" = "8:"
-            "Folder" = "8:_80B0DB7A3F874876B1C3DCB69F7620A1"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_145FB67AF1774D029CD2047D9D3B3F26"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\installer\\EULA.rtf"
@@ -2698,26 +2636,6 @@
             "TargetName" = "8:InstanceOfExpr.java"
             "Tag" = "8:"
             "Folder" = "8:_6E7CC93D072E4BC08B93D555B1BA256B"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_16C255612A654B4095F334E715362471"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\java\\javaparser-core.jar"
-            "TargetName" = "8:javaparser-core.jar"
-            "Tag" = "8:"
-            "Folder" = "8:_80B0DB7A3F874876B1C3DCB69F7620A1"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -4212,26 +4130,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5C992F2867924C859E6A48C6A045EDDC"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\java\\java-symbol-solver-model.jar"
-            "TargetName" = "8:java-symbol-solver-model.jar"
-            "Tag" = "8:"
-            "Folder" = "8:_80B0DB7A3F874876B1C3DCB69F7620A1"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5CDD52376309409D91451A3F5AAEBD9C"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\projects\\javaparser\\src\\main\\java\\com\\github\\javaparser\\ast\\TypeArguments.java"
@@ -4298,26 +4196,6 @@
             "TargetName" = "8:player.h"
             "Tag" = "8:"
             "Folder" = "8:_CE5AAF4EE3764AACA06B8963D3F99884"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_63ABF7A72DDD41EC9A21417B8EFBA7BE"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\java\\java-symbol-solver-logic.jar"
-            "TargetName" = "8:java-symbol-solver-logic.jar"
-            "Tag" = "8:"
-            "Folder" = "8:_80B0DB7A3F874876B1C3DCB69F7620A1"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -4458,6 +4336,26 @@
             "TargetName" = "8:AssignExpr.java"
             "Tag" = "8:"
             "Folder" = "8:_6E7CC93D072E4BC08B93D555B1BA256B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6A7EF29A3ECE4E2A960D254D501712E4"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\Release\\qt.conf"
+            "TargetName" = "8:qt.conf"
+            "Tag" = "8:"
+            "Folder" = "8:_972788CBF3404779967EA0B73B72BF18"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -4812,26 +4710,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_75E23B93C9ED4597A4D632CF3B6FA202"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\java\\javassist-3.19.0-GA.jar"
-            "TargetName" = "8:javassist-3.19.0-GA.jar"
-            "Tag" = "8:"
-            "Folder" = "8:_80B0DB7A3F874876B1C3DCB69F7620A1"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_763A8819E84543E6BB4A90AC640E8018"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\Release\\api-ms-win-crt-locale-l1-1-0.dll"
@@ -4918,26 +4796,6 @@
             "TargetName" = "8:refresh_view.css"
             "Tag" = "8:"
             "Folder" = "8:_E007ADDCA0E04EE4BED2606D4D221F69"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_78F6D899E8F943AA92FF4C357F87E959"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\java\\guava-18.0.jar"
-            "TargetName" = "8:guava-18.0.jar"
-            "Tag" = "8:"
-            "Folder" = "8:_80B0DB7A3F874876B1C3DCB69F7620A1"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -6872,26 +6730,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D145DD353C3D4E6BA07B53A40F755BFA"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\java\\javaslang-2.0.0-beta.jar"
-            "TargetName" = "8:javaslang-2.0.0-beta.jar"
-            "Tag" = "8:"
-            "Folder" = "8:_80B0DB7A3F874876B1C3DCB69F7620A1"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D19CCB29EEA94EC1BB76987658607E57"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\projects\\javaparser\\src\\main\\java\\com\\github\\javaparser\\ast\\stmt\\ExpressionStmt.java"
@@ -7452,26 +7290,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E71650D2383C4304AAA86553DA35E71D"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\java\\java-symbol-solver-core.jar"
-            "TargetName" = "8:java-symbol-solver-core.jar"
-            "Tag" = "8:"
-            "Folder" = "8:_80B0DB7A3F874876B1C3DCB69F7620A1"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E76E3EC211634CD78F19B2893147D3F5"
             {
             "SourcePath" = "8:..\\..\\..\\..\\bin\\app\\data\\gui\\icon\\project.ico"
@@ -8006,17 +7824,6 @@
                             "Condition" = "8:"
                             "Transitive" = "11:FALSE"
                             "Property" = "8:_5A4D81EFC0ED4265B68D1328DE9D06D8"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_80B0DB7A3F874876B1C3DCB69F7620A1"
-                            {
-                            "Name" = "8:java"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_1CACF6F25E68447B82C8B1ECEFA7F173"
                                 "Folders"
                                 {
                                 }
@@ -9561,7 +9368,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3460FAB707F8431E87168499A7F51556"
             {
-            "SourcePath" = "8:..\\SetupApplicationSettingsLib\\obj\\Debug\\SetupApplicationSettingsLib.dll"
+            "SourcePath" = "8:..\\SetupApplicationSettingsLib\\obj\\Release\\SetupApplicationSettingsLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
@@ -9589,7 +9396,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C84BE68F0D9E42D3B9BD9C8A53DF049A"
             {
-            "SourcePath" = "8:..\\SetupCreateStartMenuShortcutLib\\obj\\Debug\\SetupCreateStartMenuShortcutLib.dll"
+            "SourcePath" = "8:..\\SetupCreateStartMenuShortcutLib\\obj\\Release\\SetupCreateStartMenuShortcutLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
@@ -9617,7 +9424,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F81B906E39E44A5DAC37B3D70BC8A8CE"
             {
-            "SourcePath" = "8:..\\SetupCreateDesktopShortcutLib\\obj\\Debug\\SetupCreateDesktopShortcutLib.dll"
+            "SourcePath" = "8:..\\SetupCreateDesktopShortcutLib\\obj\\Release\\SetupCreateDesktopShortcutLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
@@ -9645,7 +9452,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_FB29EAD658C3497D9AC46ADE92D33C83"
             {
-            "SourcePath" = "8:..\\SetupRemoveCacheFiles\\obj\\Debug\\SetupRemoveCacheFiles.dll"
+            "SourcePath" = "8:..\\SetupRemoveCacheFiles\\obj\\Release\\SetupRemoveCacheFiles.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A96454F2CE0E4C55B59EDE1094D40E56"
