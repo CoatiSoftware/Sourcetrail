@@ -3,6 +3,7 @@
 
 #include <map>
 #include <memory>
+#include <mutex>
 #include <string>
 
 #include "utility/logging/logging.h"
@@ -47,6 +48,7 @@ public:
 
 private:
 	typedef std::map<std::string, std::shared_ptr<BlackboardItemBase>> ItemMap;
+	std::mutex m_mutex;
 
 	std::shared_ptr<Blackboard> m_parent;
 	ItemMap m_values;
@@ -56,12 +58,16 @@ private:
 template <typename T>
 void Blackboard::set(const std::string& key, const T& value)
 {
+	std::lock_guard<std::mutex> lock(m_mutex);
+
 	m_values[key] = std::make_shared<BlackboardItem<T>>(value);
 }
 
 template <typename T>
 bool Blackboard::get(const std::string& key, T& value)
 {
+	std::lock_guard<std::mutex> lock(m_mutex);
+
 	ItemMap::const_iterator it = m_values.find(key);
 	if (it != m_values.end())
 	{
