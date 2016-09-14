@@ -122,7 +122,7 @@ Parser::Arguments CxxProject::getParserArguments() const
 	utility::append(args.frameworkSearchPaths, m_projectSettings->getAbsoluteFrameworkSearchPaths());
 	utility::append(args.frameworkSearchPaths, appSettings->getFrameworkSearchPathsExpanded());
 
-	args.language = m_projectSettings->getLanguage();
+	args.language = languageTypeToString(m_projectSettings->getLanguage());
 	args.languageStandard = m_projectSettings->getStandard();
 	args.compilationDatabasePath = m_projectSettings->getCompilationDatabasePath();
 

@@ -2885,7 +2885,7 @@ public:
 
 		Parser::Arguments args;
 		args.language = "c++";
-		args.languageStandard = "1z";
+		args.languageStandard = "c++1z";
 
 		parser.parseFiles(filePaths, args);
 
@@ -3222,7 +3222,7 @@ private:
 
 		m_args.logErrors = logErrors;
 		m_args.language = "c++";
-		m_args.languageStandard = "1z";
+		m_args.languageStandard = "c++1z";
 
 		TestFileManager fm;
 		std::shared_ptr<FileRegister> fr = std::make_shared<FileRegister>(&fm, false);

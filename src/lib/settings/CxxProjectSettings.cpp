@@ -43,22 +43,52 @@ std::vector<std::string> CxxProjectSettings::getLanguageStandards() const
 	switch (getLanguage())
 	{
 		case LANGUAGE_CPP:
-			standards.push_back("1z");
-			standards.push_back("14");
-			standards.push_back("1y");
-			standards.push_back("11");
-			standards.push_back("0x");
-			standards.push_back("03");
-			standards.push_back("98");
+			standards.push_back("c++1z");
+			standards.push_back("gnu++1z");
+
+			standards.push_back("c++14");
+			standards.push_back("gnu++14");
+
+			standards.push_back("c++1y");
+			standards.push_back("gnu++1y");
+
+			standards.push_back("c++11");
+			standards.push_back("gnu++11");
+
+			standards.push_back("c++0x");
+			standards.push_back("gnu++0x");
+
+			standards.push_back("c++03");
+
+			standards.push_back("c++98");
+			standards.push_back("gnu++98");
 			break;
 
 		case LANGUAGE_C:
-			standards.push_back("1x");
-			standards.push_back("11");
-			standards.push_back("9x");
-			standards.push_back("99");
-			standards.push_back("90");
-			standards.push_back("89");
+			standards.push_back("c1x");
+			standards.push_back("gnu1x");
+			standards.push_back("iso9899:201x");
+
+			standards.push_back("c11");
+			standards.push_back("gnu11");
+			standards.push_back("iso9899:2011");
+
+			standards.push_back("c9x");
+			standards.push_back("gnu9x");
+			standards.push_back("iso9899:199x");
+
+			standards.push_back("c99");
+			standards.push_back("gnu99");
+			standards.push_back("iso9899:1999");
+
+			standards.push_back("iso9899:199409");
+
+			standards.push_back("c90");
+			standards.push_back("gnu90");
+			standards.push_back("iso9899:1990");
+
+			standards.push_back("c89");
+			standards.push_back("gnu89");
 			break;
 
 		default:
