@@ -27,15 +27,6 @@ QtFontPicker::QtFontPicker(QWidget *parent)
 	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 }
 
-void QtFontPicker::paintEvent(QPaintEvent*)
-{
-	QStyleOption opt;
-	opt.init(this);
-
-	QPainter p(this);
-	style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
-}
-
 QString QtFontPicker::getText()
 {
 	return m_box->currentText();

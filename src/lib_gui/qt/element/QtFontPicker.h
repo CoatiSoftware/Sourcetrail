@@ -13,8 +13,6 @@ class QtFontPicker
 public:
 	QtFontPicker(QWidget *parent);
 
-	virtual void paintEvent(QPaintEvent*) override;
-
 	QString getText();
 	void setText(QString text);
 
