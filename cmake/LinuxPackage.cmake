@@ -80,7 +80,7 @@ function(AddSharedToComponent componentName)
 endfunction(AddSharedToComponent)
 
 execute_process(
-	COMMAND clang -print-file-name=libstdc++.so
+	COMMAND clang -print-file-name=libstdc++.so.6
 	OUTPUT_VARIABLE LIBSTDCPP
 	OUTPUT_STRIP_TRAILING_WHITESPACE
 )

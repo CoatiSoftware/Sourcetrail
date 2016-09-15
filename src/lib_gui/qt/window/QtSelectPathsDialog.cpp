@@ -2,6 +2,7 @@
 
 #include <QLabel>
 #include <QListWidget>
+#include <QPushButton>
 
 QtSelectPathsDialog::QtSelectPathsDialog(const QString& title, const QString& description, QWidget* parent)
 	: QtTextEditDialog(title, description, parent)
@@ -52,6 +53,14 @@ void QtSelectPathsDialog::setPathsList(const std::vector<FilePath>& paths, const
 	}
 }
 
+void QtSelectPathsDialog::checkSelected(bool checked)
+{
+	for(QListWidgetItem* item : m_list->selectedItems())
+	{
+		item->setCheckState( (checked ? Qt::Checked : Qt::Unchecked) );
+	}
+}
+
 void QtSelectPathsDialog::populateWindow(QWidget* widget)
 {
 	QVBoxLayout* layout = new QVBoxLayout();
@@ -65,9 +74,54 @@ void QtSelectPathsDialog::populateWindow(QWidget* widget)
 	m_list = new QListWidget();
 	m_list->setObjectName("pathList");
 	m_list->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	m_list->setSelectionMode(QAbstractItemView::NoSelection);
+	m_list->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	m_list->setAttribute(Qt::WA_MacShowFocusRect, 0);
 	layout->addWidget(m_list);
+
+	QHBoxLayout* buttonLayout = new QHBoxLayout();
+	buttonLayout->setContentsMargins(0, 0, 0, 0);
+
+	QPushButton* checkAllButton = new QPushButton("check all");
+	checkAllButton->setObjectName("windowButton");
+	connect(checkAllButton, &QPushButton::clicked,
+		[=]()
+		{
+			m_list->selectAll();
+			checkSelected(true);
+			m_list->clearSelection();
+		});
+	buttonLayout->addWidget(checkAllButton);
+
+	QPushButton* unCheckAllButton = new QPushButton("uncheck all");
+	unCheckAllButton->setObjectName("windowButton");
+	connect(unCheckAllButton, &QPushButton::clicked,
+		[=]()
+		{
+			m_list->selectAll();
+			checkSelected(false);
+			m_list->clearSelection();
+		});
+	buttonLayout->addWidget(unCheckAllButton);
+
+	QPushButton* checkSelectedButton = new QPushButton("check selected");
+	checkSelectedButton->setObjectName("windowButton");
+	connect(checkSelectedButton, &QPushButton::clicked,
+		[=]()
+		{
+			checkSelected(true);
+		});
+	buttonLayout->addWidget(checkSelectedButton);
+
+	QPushButton* unCheckSelectedButton = new QPushButton("uncheck selected");
+	unCheckSelectedButton->setObjectName("windowButton");
+	connect(unCheckSelectedButton, &QPushButton::clicked,
+		[=]()
+		{
+			checkSelected(false);
+		});
+	buttonLayout->addWidget(unCheckSelectedButton);
+
+	layout->addLayout(buttonLayout);
 
 	widget->setLayout(layout);
 }

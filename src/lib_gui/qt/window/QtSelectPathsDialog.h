@@ -20,6 +20,8 @@ public:
 
 private:
 	QListWidget* m_list;
+
+	void checkSelected(bool checked);
 };
 
 #endif // QT_SELECT_PATHS_DIALOG_H
