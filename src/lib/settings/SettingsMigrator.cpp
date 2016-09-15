@@ -20,6 +20,36 @@ void SettingsMigrator::addMigration(size_t targetVersion, std::string oldKey, st
 	m_migrations.emplace(targetVersion, migration);
 }
 
+void SettingsMigrator::addLambdaMigration(size_t targetVersion, std::function<void(Settings*)> lambda)
+{
+	Migration migration;
+	migration.targetVersion = targetVersion;
+	migration.lambda = lambda;
+
+	m_migrations.emplace(targetVersion, migration);
+}
+
+bool SettingsMigrator::willMigrate(const Settings* settings, size_t targetVersion) const
+{
+	size_t originVersion = settings->getVersion();
+
+	if (originVersion < targetVersion)
+	{
+		for (; originVersion <= targetVersion; originVersion++)
+		{
+			std::pair<std::multimap<size_t, Migration>::const_iterator, std::multimap<size_t, Migration>::const_iterator> ret;
+			ret = m_migrations.equal_range(originVersion);
+
+			for (std::multimap<size_t, Migration>::const_iterator it = ret.first; it != ret.second; it++)
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 bool SettingsMigrator::migrate(Settings* settings, size_t targetVersion) const
 {
 	size_t originVersion = settings->getVersion();
@@ -35,7 +65,11 @@ bool SettingsMigrator::migrate(Settings* settings, size_t targetVersion) const
 			{
 				const Migration& migration = it->second;
 
-				if (!settings->isValueDefined(migration.newKey))
+				if (!migration.oldKey.size())
+				{
+					migration.lambda(settings);
+				}
+				else if (!settings->isValueDefined(migration.newKey))
 				{
 					settings->setValues<std::string>(
 						migration.newKey,

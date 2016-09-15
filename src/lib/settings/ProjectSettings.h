@@ -13,6 +13,8 @@ class ProjectSettings
 public:
 	static LanguageType getLanguageOfProject(FilePath projectFilePath);
 
+	static const size_t VERSION;
+
 	ProjectSettings();
 	ProjectSettings(const FilePath& projectFilePath);
 	ProjectSettings(std::string projectName, const FilePath& projectFileLocation);
@@ -21,6 +23,9 @@ public:
 	virtual bool equalsExceptNameAndLocation(const ProjectSettings& other) const;
 
 	virtual std::vector<std::string> getLanguageStandards() const;
+
+	bool needMigration() const;
+	void migrate();
 
 	bool reload();
 
@@ -55,6 +60,8 @@ protected:
 private:
 	virtual std::vector<std::string> getDefaultSourceExtensions() const;
 	virtual std::string getDefaultStandard() const;
+
+	SettingsMigrator getMigrations() const;
 };
 
 #endif // PROJECT_SETTINGS_H

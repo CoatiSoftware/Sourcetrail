@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <config>
-	<language_settings>
-		<language>C++</language>
-		<standard>1z</standard>
-	</language_settings>
+    <language_settings>
+        <language>C++</language>
+        <standard>c++1z</standard>
+    </language_settings>
     <source>
         <extensions>
             <header_extensions>.h</header_extensions>
@@ -18,4 +18,5 @@
         </source_paths>
         <use_source_paths_for_header_search>0</use_source_paths_for_header_search>
     </source>
+    <version>1</version>
 </config>

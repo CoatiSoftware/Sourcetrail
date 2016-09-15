@@ -3,6 +3,9 @@
 #include "settings/CxxProjectSettings.h"
 #include "settings/JavaProjectSettings.h"
 #include "utility/utility.h"
+#include "utility/utilityString.h"
+
+const size_t ProjectSettings::VERSION = 1;
 
 LanguageType ProjectSettings::getLanguageOfProject(FilePath projectFilePath)
 {
@@ -43,6 +46,22 @@ bool ProjectSettings::equalsExceptNameAndLocation(const ProjectSettings& other) 
 std::vector<std::string> ProjectSettings::getLanguageStandards() const
 {
 	return std::vector<std::string>();
+}
+
+bool ProjectSettings::needMigration() const
+{
+	return getMigrations().willMigrate(this, ProjectSettings::VERSION);
+}
+
+void ProjectSettings::migrate()
+{
+	SettingsMigrator migrator = getMigrations();
+	bool migrated = migrator.migrate(this, ProjectSettings::VERSION);
+
+	if (migrated)
+	{
+		save();
+	}
 }
 
 bool ProjectSettings::reload()
@@ -162,4 +181,32 @@ std::string ProjectSettings::getDefaultStandard() const
 {
 	return "";
 }
+
+SettingsMigrator ProjectSettings::getMigrations() const
+{
+	SettingsMigrator migrator;
+
+	if (getLanguage() == LANGUAGE_C || getLanguage() == LANGUAGE_CPP)
+	{
+		migrator.addLambdaMigration(1,
+			[](Settings* settings)
+			{
+				ProjectSettings* s = dynamic_cast<ProjectSettings*>(settings);
+
+				if (s->getLanguage() == LANGUAGE_C && !utility::isPrefix("c", s->getStandard()))
+				{
+					s->setStandard("c" + s->getStandard());
+				}
+
+				if (s->getLanguage() == LANGUAGE_CPP && !utility::isPrefix("c++", s->getStandard()))
+				{
+					s->setStandard("c++" + s->getStandard());
+				}
+			}
+		);
+	}
+
+	return migrator;
+}
+
 

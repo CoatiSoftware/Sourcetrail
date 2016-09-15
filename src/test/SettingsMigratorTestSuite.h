@@ -8,14 +8,14 @@ class SettingsMigratorTestSuite : public CxxTest::TestSuite
 public:
 	void test_migrator_changes_nothing_without_migrations_except_version()
 	{
-		Settings settingsBefore = createSettings(
+		TestSettings settingsBefore = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <value>2</value>\n"
 			"</config>\n"
 		);
 
-		Settings settingsAfter = createSettings(
+		TestSettings settingsAfter = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <value>2</value>\n"
@@ -31,14 +31,14 @@ public:
 
 	void test_migrator_changes_name()
 	{
-		Settings settingsBefore = createSettings(
+		TestSettings settingsBefore = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <value>2</value>\n"
 			"</config>\n"
 		);
 
-		Settings settingsAfter = createSettings(
+		TestSettings settingsAfter = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <int>2</int>\n"
@@ -55,14 +55,14 @@ public:
 
 	void test_migrator_changes_path()
 	{
-		Settings settingsBefore = createSettings(
+		TestSettings settingsBefore = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <value>2</value>\n"
 			"</config>\n"
 		);
 
-		Settings settingsAfter = createSettings(
+		TestSettings settingsAfter = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <sub>\n"
@@ -81,7 +81,7 @@ public:
 
 	void test_migrator_changes_group_name()
 	{
-		Settings settingsBefore = createSettings(
+		TestSettings settingsBefore = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <values>\n"
@@ -92,7 +92,7 @@ public:
 			"</config>\n"
 		);
 
-		Settings settingsAfter = createSettings(
+		TestSettings settingsAfter = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <vals>\n"
@@ -113,7 +113,7 @@ public:
 
 	void test_migrator_changes_group_element_name()
 	{
-		Settings settingsBefore = createSettings(
+		TestSettings settingsBefore = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <values>\n"
@@ -124,7 +124,7 @@ public:
 			"</config>\n"
 		);
 
-		Settings settingsAfter = createSettings(
+		TestSettings settingsAfter = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <values>\n"
@@ -145,14 +145,14 @@ public:
 
 	void test_migrator_changes_only_up_specified_version()
 	{
-		Settings settingsBefore = createSettings(
+		TestSettings settingsBefore = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <value>2</value>\n"
 			"</config>\n"
 		);
 
-		Settings settingsAfter = createSettings(
+		TestSettings settingsAfter = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <int>2</int>\n"
@@ -170,7 +170,7 @@ public:
 
 	void test_migrator_changes_only_from_specified_version()
 	{
-		Settings settingsBefore = createSettings(
+		TestSettings settingsBefore = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <int>2</int>\n"
@@ -178,7 +178,7 @@ public:
 			"</config>\n"
 		);
 
-		Settings settingsAfter = createSettings(
+		TestSettings settingsAfter = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <val>2</val>\n"
@@ -196,14 +196,14 @@ public:
 
 	void test_migrator_changes_for_multiple_versions()
 	{
-		Settings settingsBefore = createSettings(
+		TestSettings settingsBefore = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <value>2</value>\n"
 			"</config>\n"
 		);
 
-		Settings settingsAfter = createSettings(
+		TestSettings settingsAfter = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <val>2</val>\n"
@@ -221,7 +221,7 @@ public:
 
 	void test_migrator_changes_for_multiple_migrations()
 	{
-		Settings settingsBefore = createSettings(
+		TestSettings settingsBefore = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <value>2</value>\n"
@@ -229,7 +229,7 @@ public:
 			"</config>\n"
 		);
 
-		Settings settingsAfter = createSettings(
+		TestSettings settingsAfter = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <val>2</val>\n"
@@ -248,7 +248,7 @@ public:
 
 	void test_migrator_changes_for_multiple_versions_and_migrations()
 	{
-		Settings settingsBefore = createSettings(
+		TestSettings settingsBefore = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <value>2</value>\n"
@@ -258,7 +258,7 @@ public:
 			"</config>\n"
 		);
 
-		Settings settingsAfter = createSettings(
+		TestSettings settingsAfter = createSettings(
 			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 			"<config>\n"
 			"    <int>2</int>\n"
@@ -281,9 +281,111 @@ public:
 		TS_ASSERT_EQUALS(settingsBefore.getAsText(), settingsAfter.getAsText());
 	}
 
-private:
-	Settings createSettings(const std::string& text)
+	void test_migrator_with_lambda()
 	{
-		return Settings::createFromText(TextAccess::createFromString(text));
+		TestSettings settingsBefore = createSettings(
+			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
+			"<config>\n"
+			"    <value>2</value>\n"
+			"</config>\n"
+		);
+
+		TestSettings settingsAfter = createSettings(
+			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
+			"<config>\n"
+			"    <value>4</value>\n"
+			"    <version>1</version>\n"
+			"</config>\n"
+		);
+
+		SettingsMigrator migrator;
+		migrator.addLambdaMigration(
+			1,
+			[](Settings* settings)
+			{
+				TestSettings* test = dynamic_cast<TestSettings*>(settings);
+				test->set("value", test->get("value") * 2);
+			}
+		);
+		migrator.migrate(&settingsBefore, 1);
+
+		TS_ASSERT_EQUALS(settingsBefore.getAsText(), settingsAfter.getAsText());
+	}
+
+	void test_migrator_with_multiple_lambdas()
+	{
+		TestSettings settingsBefore = createSettings(
+			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
+			"<config>\n"
+			"    <value>2</value>\n"
+			"</config>\n"
+		);
+
+		TestSettings settingsAfter = createSettings(
+			"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
+			"<config>\n"
+			"    <value>3</value>\n"
+			"    <version>2</version>\n"
+			"</config>\n"
+		);
+
+		SettingsMigrator migrator;
+		migrator.addLambdaMigration(
+			1,
+			[](Settings* settings)
+			{
+				TestSettings* test = dynamic_cast<TestSettings*>(settings);
+				test->set("value", test->get("value") * 2);
+			}
+		);
+		migrator.addLambdaMigration(
+			2,
+			[](Settings* settings)
+			{
+				TestSettings* test = dynamic_cast<TestSettings*>(settings);
+				test->set("value", test->get("value") - 1);
+			}
+		);
+		migrator.migrate(&settingsBefore, 2);
+
+		TS_ASSERT_EQUALS(settingsBefore.getAsText(), settingsAfter.getAsText());
+	}
+
+private:
+	class TestSettings
+		: public Settings
+	{
+	public:
+		static TestSettings createFromText(const std::shared_ptr<TextAccess> textAccess)
+		{
+			TestSettings settings;
+			settings.m_config = ConfigManager::createAndLoad(textAccess);
+			return settings;
+		}
+
+		std::string getAsText() const
+		{
+			if (m_config)
+			{
+				return m_config->toString();
+			}
+
+			return "";
+		}
+
+		int get(const std::string& key)
+		{
+			return getValue<int>(key, 0);
+		}
+
+		void set(const std::string& key, int value)
+		{
+			setValue<int>(key, value);
+		}
+	};
+
+	TestSettings createSettings(const std::string& text)
+	{
+		return TestSettings::createFromText(TextAccess::createFromString(text));
 	}
 };

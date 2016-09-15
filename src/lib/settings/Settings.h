@@ -28,9 +28,6 @@ public:
 	size_t getVersion() const;
 	void setVersion(size_t version);
 
-	static Settings createFromText(const std::shared_ptr<TextAccess> textAccess);
-	std::string getAsText() const;
-
 protected:
 	Settings();
 
@@ -62,9 +59,10 @@ protected:
 
 	friend bool SettingsMigrator::migrate(Settings* settings, size_t targetVersion) const;
 
+	std::shared_ptr<ConfigManager> m_config;
+
 private:
 	FilePath m_filePath;
-	std::shared_ptr<ConfigManager> m_config;
 };
 
 template<typename T>

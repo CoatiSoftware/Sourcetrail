@@ -6,8 +6,8 @@
 #include "utility/utilityString.h"
 
 Settings::Settings(const Settings& other)
-	: m_filePath(other.m_filePath)
-	, m_config(other.m_config->createCopy())
+	: m_config(other.m_config->createCopy())
+	, m_filePath(other.m_filePath)
 {
 }
 
@@ -81,23 +81,6 @@ size_t Settings::getVersion() const
 void Settings::setVersion(size_t version)
 {
 	setValue<int>("version", version);
-}
-
-Settings Settings::createFromText(const std::shared_ptr<TextAccess> textAccess)
-{
-	Settings settings;
-	settings.m_config = ConfigManager::createAndLoad(textAccess);
-	return settings;
-}
-
-std::string Settings::getAsText() const
-{
-	if (m_config)
-	{
-		return m_config->toString();
-	}
-
-	return "";
 }
 
 Settings::Settings()

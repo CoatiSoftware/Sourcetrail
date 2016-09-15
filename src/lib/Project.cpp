@@ -106,6 +106,12 @@ bool Project::refresh(bool forceRefresh)
 				forceRefresh = true;
 				break;
 
+			case PROJECT_STATE_NEEDS_MIGRATION:
+				question =
+					"This project was created with a different version of Coati. The project file needs to get updated and "
+					"the project fully reindexed. Do you want to update the project file and reindex the project?";
+				forceRefresh = true;
+
 			default:
 				break;
 		}
@@ -127,6 +133,11 @@ bool Project::refresh(bool forceRefresh)
 	if (!prepareRefresh())
 	{
 		return false;
+	}
+
+	if (m_state == PROJECT_STATE_NEEDS_MIGRATION)
+	{
+		getProjectSettings()->migrate();
 	}
 
 	getProjectSettings()->reload();
@@ -199,7 +210,7 @@ void Project::load()
 {
 	m_storageAccessProxy->setSubject(nullptr);
 
-	const std::shared_ptr<ProjectSettings> projectSettings = getProjectSettings();
+	std::shared_ptr<ProjectSettings> projectSettings = getProjectSettings();
 	bool loadedSettings = projectSettings->reload();
 
 	if (!loadedSettings)
@@ -214,7 +225,18 @@ void Project::load()
 
 	m_storage = std::make_shared<PersistentStorage>(dbPath);
 
-	if (m_storage->isEmpty())
+	bool canLoad = false;
+
+	if (projectSettings->needMigration())
+	{
+		m_state = PROJECT_STATE_NEEDS_MIGRATION;
+
+		if (!m_storage->isEmpty() && !m_storage->isIncompatible())
+		{
+			canLoad = true;
+		}
+	}
+	else if (m_storage->isEmpty())
 	{
 		m_state = PROJECT_STATE_EMPTY;
 		m_storage->setup();
@@ -226,13 +248,15 @@ void Project::load()
 	else if (TextAccess::createFromFile(projectSettingsPath.str())->getText() != m_storage->getProjectSettingsText())
 	{
 		m_state = PROJECT_STATE_OUTDATED;
+		canLoad = true;
 	}
 	else
 	{
 		m_state = PROJECT_STATE_LOADED;
+		canLoad = true;
 	}
 
-	if (m_state == PROJECT_STATE_LOADED || m_state == PROJECT_STATE_OUTDATED)
+	if (canLoad)
 	{
 		m_storage->finishParsing();
 		m_storageAccessProxy->setSubject(m_storage.get());
