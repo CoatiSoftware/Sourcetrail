@@ -1,5 +1,8 @@
 #include "utility/scheduling/TaskGroupParallel.h"
 
+#include <chrono>
+#include <thread>
+
 #include "utility/ScopedFunctor.h"
 
 TaskGroupParallel::TaskGroupParallel()
@@ -69,6 +72,8 @@ void TaskGroupParallel::doReset(std::shared_ptr<Blackboard> blackboard)
 
 void TaskGroupParallel::processTaskThreaded(std::shared_ptr<TaskInfo> taskInfo, std::shared_ptr<Blackboard> blackboard)
 {
+	const int SLEEP_TIME_MS = 25;
+
 	ScopedFunctor functor([&](){
 		std::lock_guard<std::mutex> lock(m_activeTaskCountMutex);
 		m_activeTaskCount--;
@@ -88,6 +93,8 @@ void TaskGroupParallel::processTaskThreaded(std::shared_ptr<TaskInfo> taskInfo, 
 			taskInfo->active = false;
 			break;
 		}
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
 	}
 }
 

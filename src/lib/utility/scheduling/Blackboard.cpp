@@ -15,20 +15,20 @@ Blackboard::~Blackboard()
 
 bool Blackboard::exists(const std::string& key)
 {
-	std::lock_guard<std::mutex> lock(m_mutex);
+	std::lock_guard<std::mutex> lock(m_itemMutex);
 
-	ItemMap::const_iterator it = m_values.find(key);
-	return (it != m_values.end());
+	ItemMap::const_iterator it = m_items.find(key);
+	return (it != m_items.end());
 }
 
 bool Blackboard::clear(const std::string& key)
 {
-	std::lock_guard<std::mutex> lock(m_mutex);
+	std::lock_guard<std::mutex> lock(m_itemMutex);
 
-	ItemMap::const_iterator it = m_values.find(key);
-	if (it != m_values.end())
+	ItemMap::const_iterator it = m_items.find(key);
+	if (it != m_items.end())
 	{
-		m_values.erase(it);
+		m_items.erase(it);
 		return true;
 	}
 	return false;

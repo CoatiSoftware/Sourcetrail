@@ -48,28 +48,29 @@ public:
 
 private:
 	typedef std::map<std::string, std::shared_ptr<BlackboardItemBase>> ItemMap;
-	std::mutex m_mutex;
 
 	std::shared_ptr<Blackboard> m_parent;
-	ItemMap m_values;
+
+	ItemMap m_items;
+	std::mutex m_itemMutex;
 };
 
 
 template <typename T>
 void Blackboard::set(const std::string& key, const T& value)
 {
-	std::lock_guard<std::mutex> lock(m_mutex);
+	std::lock_guard<std::mutex> lock(m_itemMutex);
 
-	m_values[key] = std::make_shared<BlackboardItem<T>>(value);
+	m_items[key] = std::make_shared<BlackboardItem<T>>(value);
 }
 
 template <typename T>
 bool Blackboard::get(const std::string& key, T& value)
 {
-	std::lock_guard<std::mutex> lock(m_mutex);
+	std::lock_guard<std::mutex> lock(m_itemMutex);
 
-	ItemMap::const_iterator it = m_values.find(key);
-	if (it != m_values.end())
+	ItemMap::const_iterator it = m_items.find(key);
+	if (it != m_items.end())
 	{
 		std::shared_ptr<BlackboardItem<T>> item = std::dynamic_pointer_cast<BlackboardItem<T>>(it->second);
 		if (item)
