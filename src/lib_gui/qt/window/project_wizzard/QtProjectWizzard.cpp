@@ -559,6 +559,7 @@ void QtProjectWizzard::createProject()
 {
 	FilePath path = m_settings->getFilePath();
 
+	m_settings->setVersion(ProjectSettings::VERSION);
 	m_settings->save(path);
 
 	bool forceRefreshProject = false;
