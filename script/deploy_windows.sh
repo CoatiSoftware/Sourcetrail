@@ -96,8 +96,8 @@ if [ $OBFUSCATE = true ]; then
 	echo -e "$INFO obfuscating the executables"
 	rm bin/app/Release/Coati_obfuscated.exe
 	rm bin/app/Release/Coati_trial_obfuscated.exe
-	upx --best -o bin/app/Release/Coati_obfuscated.exe bin/app/Release/Coati.exe
-	upx --best -o bin/app/Release/Coati_trial_obfuscated.exe bin/app/Release/Coati_trial.exe
+	upx --brute -o bin/app/Release/Coati_obfuscated.exe bin/app/Release/Coati.exe
+	upx --brute -o bin/app/Release/Coati_trial_obfuscated.exe bin/app/Release/Coati_trial.exe
 else
 	cp bin/app/Release/Coati.exe bin/app/Release/Coati_obfuscated.exe
 	cp bin/app/Release/Coati_trial.exe bin/app/Release/Coati_trial_obfuscated.exe
