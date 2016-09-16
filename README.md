@@ -109,6 +109,21 @@ gifsicle --resize-height 18 trans.gif > loader.gif
 
 ### Changelog
 
+#### 0.8.21
+released 2016-09-16
+
+* Added options for checking multiple paths in Indexed Header Paths dialog during project setup from Compilation Database #190
+* Added all C/C++ standards supported by clang
+* Fixed C language setting in empty project setup not propagated to indexer #177
+* Added Sublime plugin to Sublime Text Package Control
+* Improved indexer parallelization for faster indexing
+* Changed all font-sizes to px for similar look on all platforms
+* Added font face dropdown to Preferences showing all available monospace fonts #172
+* Smoother font rendering on Windows by setting font engine to FreeType via qt.conf file #137
+* Interrupt indexing while AST visiting for C/C++ for shorter waiting time
+* Save graph as PNG image via context menu in graph view #180
+* Added base folder to Linux package #181
+* Use inverted golden ratio in indexing progress dialog
 
 #### 0.8.0
 released 2016-09-01
