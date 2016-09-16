@@ -85,15 +85,14 @@ Version Number
 
 Minor upgrage (coati.wxs)
 	-for when only a few files are to be updated
-	-update the Version attribute of the <Product> tag (root element of the installation)
-	-update the Minimum and Maximum attributes under the <Upgrade> tag to the current version number
+	-update the version number in build.bat script
 	-do NOT change the product GUID
 	-the package GUID has to change, that happens automatically though so don't worry 'bout it
 	
 
 Major upgrade (coati.wxs)
 	-for big changes, like a new major version
-	-update the Version attribute of the <Product> tag (root element of the installation)
-	-update the Minimum and Maximum attributes under the <Upgrade> tag to the current version number
+	-update the version number in build.bat script
 	-DO change the product GUID
+	-insert the same GUID into the uninstall_wix.bat script
 	-package GUID changes too, but thats again done automatically

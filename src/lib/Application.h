@@ -4,13 +4,14 @@
 #include <memory>
 
 #include "component/ComponentManager.h"
-#include "Project.h"
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateWindow.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageSwitchColorScheme.h"
+#include "Project.h"
+#include "ProjectFactory.h"
 
 class DialogView;
 class IDECommunicationController;
@@ -19,6 +20,7 @@ class NetworkFactory;
 class StorageCache;
 class Version;
 class ViewFactory;
+class ProjectFactoryModule;
 
 class Application
 	: public MessageListener<MessageActivateWindow>
@@ -35,12 +37,13 @@ public:
 	static void loadSettings();
 	static void loadStyle(const FilePath& colorSchemePath);
 
+	void addProjectFactoryModule(std::shared_ptr<ProjectFactoryModule> module);
+
 	~Application();
 
 	const std::shared_ptr<Project> getCurrentProject();
 
 	void createAndLoadProject(const FilePath& projectSettingsFilePath);
-	void loadProject(const FilePath& projectSettingsFilePath);
 	void refreshProject(bool force);
 	bool hasGUI();
 
@@ -67,6 +70,7 @@ private:
 	DialogView* getDialogView() const;
 
 	const bool m_hasGUI;
+	ProjectFactory m_projectFactory;
 	std::shared_ptr<Project> m_project;
 	std::shared_ptr<StorageCache> m_storageCache;
 

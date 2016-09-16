@@ -25,7 +25,6 @@ AddLicense("Clang" "http://clang.llvm.org/" "${LICENSEFOLDER}/clang_LICENSE.TXT"
 AddLicense("Boost" "http://www.boost.org" "${LICENSEFOLDER}/boost_LICENSE.TXT" false)
 AddLicense("TinyXMl" "http://www.grinninglizard.com/tinyxml2/" "${LICENSEFOLDER}/tinyxml_LICENSE.TXT" false)
 AddLicense("CppSQLite" "http://www.codeproject.com/Articles/6343/CppSQLite-C-Wrapper-for-SQLite" "${LICENSEFOLDER}/CppSQLite_LICENSE.TXT" false)
-AddLicense("Eigen" "http://eigen.tuxfamily.org" "${LICENSEFOLDER}/eigen_LICENSE.TXT" false)
 AddLicense("Botan" "http://botan.randombit.net/" "${LICENSEFOLDER}/botan_LICENSE.TXT" true)
 AddLicense("Guava" "https://github.com/google/guava" "${LICENSEFOLDER}/guava_LICENSE.TXT" true)
 AddLicense("Javaparser" "http://javaparser.org/" "${LICENSEFOLDER}/javaparser_LICENSE.TXT" true)

@@ -4,7 +4,7 @@
 		<DirectoryRef Id='INSTALLDIR'>
 			
 			<Component Id='MainExecutable' Guid='A6136907-B3C5-4393-88D7-2ACF63E138A8'>
-				<File Id='CoatiEXE' Name='Coati.exe' DiskId='1' Source='./../../../bin/app/Release/Coati.exe' KeyPath='yes' />
+				<File Id='CoatiEXE' Name='Coati.exe' DiskId='1' Source='./../../../bin/app/Release/Coati_obfuscated.exe' KeyPath='yes' />
 				
 				<!-- File association -->
 				<RegistryValue Root="HKLM" Key="SOFTWARE\Classes\[ProductName].Document" Name="projectfile" Value="Coati project file" Type="string" />
@@ -75,6 +75,10 @@
 			
 			<Component Id='apiMsWinCrtUtility_l1_1_0Dll' Guid='40F5F1AA-1849-45F2-A15F-816CE20AFECB'>
 				<File Id='apiMsWinCrtUtility_l1_1_0' Name='api-ms-win-crt-utility-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-utility-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='qtConf' Guid='58C34A47-0F21-4C41-9CCC-08141D84FF2A'>
+				<File Id='qt' Name='qt.conf' DiskId='1' Source='./../../../bin/app/Release/qt.conf' KeyPath='yes' />
 			</Component>
 			
 			<Directory Id='Platforms' Name='platforms'>
@@ -257,6 +261,22 @@
 						
 					</Directory>
 					
+					<Directory Id='DataIndexingDialog' Name='indexing_dialog'>
+						<Component Id='ErrorPng' Guid='90C8F0E3-C532-4088-A3CB-66CB1DEE0CCD'>
+							<File Id='Error' Name='error.png' DiskId='1' Source='./../../../bin/app/data/gui/indexing_dialog/error.png' KeyPath='yes' />
+						</Component>
+						<Component Id='FlagPng' Guid='35ED2A65-FC94-444B-83E3-57E202226F96'>
+							<File Id='Flag' Name='flag.png' DiskId='1' Source='./../../../bin/app/data/gui/indexing_dialog/flag.png' KeyPath='yes' />
+						</Component>
+						<Component Id='IndexingDialogCss' Guid='97CA1B7B-8825-4E2D-BFD1-A9467239D1C1'>
+							<File Id='IndexingDialog' Name='indexing_dialog.css' DiskId='1' Source='./../../../bin/app/data/gui/indexing_dialog/indexing_dialog.css' KeyPath='yes' />
+						</Component>
+						<Component Id='ProgressBarElementPng' Guid='85B80506-6F42-457F-8B6D-148F20340545'>
+							<File Id='ProgressBarElement' Name='progress_bar_element.png' DiskId='1' Source='./../../../bin/app/data/gui/indexing_dialog/progress_bar_element.png' KeyPath='yes' />
+						</Component>
+						
+					</Directory>
+					
 					<Directory Id='DataLicense' Name='license'>
 						<Component Id='LicenseCss' Guid='3A9B9310-10B0-477E-A1D8-027666F22476'>
 							<File Id='License' Name='license.css' DiskId='1' Source='./../../../bin/app/data/gui/license/license.css' KeyPath='yes' />
@@ -269,9 +289,6 @@
 						</Component>
 						
 						<Directory Id='DataRefreshViewImages' Name='images'>
-							<Component Id='AutoRefreshPng' Guid='BA036858-6511-4260-9F58-E2BF30DACF25'>
-								<File Id='AutoRefresh' Name='auto_refresh.png' DiskId='1' Source='./../../../bin/app/data/gui/refresh_view/images/auto_refresh.png' KeyPath='yes' />
-							</Component>
 							<Component Id='RefreshPng' Guid='AD5F7B6B-0373-4207-B053-16293FC4C631'>
 								<File Id='Refresh' Name='refresh.png' DiskId='1' Source='./../../../bin/app/data/gui/refresh_view/images/refresh.png' KeyPath='yes' />
 							</Component>
@@ -380,6 +397,36 @@
 					
 					</Directory>
 					
+				</Directory>
+				
+				<Directory Id='DataJava' Name='java'>
+					
+					<Component Id='JavaGuavaJar' Guid='BAA854D3-5669-4E1E-94DF-33B3C84DDD23'>
+						<File Id='JavaGuava' Name='guava-18.0.jar' DiskId='1' Source='./../../../bin/app/data/java/guava-18.0.jar' KeyPath='yes' />
+					</Component>
+					<Component Id='JavaJavaIndexerJar' Guid='C1195927-A4ED-4296-936D-3BC059FCF8D2'>
+						<File Id='JavaJavaIndexer' Name='java-indexer.jar' DiskId='1' Source='./../../../bin/app/data/java/java-indexer.jar' KeyPath='yes' />
+					</Component>
+					<Component Id='JavaJavaparserJar' Guid='25232CF0-2629-4988-AF7C-B142D5B0753E'>
+						<File Id='JavaJavaparser' Name='javaparser-core.jar' DiskId='1' Source='./../../../bin/app/data/java/javaparser-core.jar' KeyPath='yes' />
+					</Component>
+					<Component Id='JavaJavaslangJar' Guid='2F43B4B1-DE99-40BC-9908-5C179CF7F734'>
+						<File Id='JavaJavaslang' Name='javaslang-2.0.0-beta.jar' DiskId='1' Source='./../../../bin/app/data/java/javaslang-2.0.0-beta.jar' KeyPath='yes' />
+					</Component>
+					<Component Id='JavaJavassistJar' Guid='D4F80CFF-5DCD-4AEF-A334-001774CAE605'>
+						<File Id='JavaJavassist' Name='javassist-3.19.0-GA.jar' DiskId='1' Source='./../../../bin/app/data/java/javassist-3.19.0-GA.jar' KeyPath='yes' />
+					</Component>
+					<Component Id='JavaJavaSymbolSolverCoreJar' Guid='54EE8AA0-3C50-4189-9159-ED6132127EDC'>
+						<File Id='JavaJavaSymbolSolverCore' Name='java-symbol-solver-core.jar' DiskId='1' Source='./../../../bin/app/data/java/java-symbol-solver-core.jar' KeyPath='yes' />
+					</Component>
+					<Component Id='JavaJavaSymbolSolverLogicJar' Guid='EA03C7C3-31A9-47EF-A565-70E0D4F1A4F9'>
+						<File Id='JavaJavaSymbolSolverLogic' Name='java-symbol-solver-logic.jar' DiskId='1' Source='./../../../bin/app/data/java/java-symbol-solver-logic.jar' KeyPath='yes' />
+					</Component>
+					<Component Id='JavaJavaSymbolSolverModelJar' Guid='1BE000DF-98A9-44FA-8EE6-DC25C239B051'>
+						<File Id='JavaJavaSymbolSolverModel' Name='java-symbol-solver-model.jar' DiskId='1' Source='./../../../bin/app/data/java/java-symbol-solver-model.jar' KeyPath='yes' />
+					</Component>
+					
+				
 				</Directory>
 				
 			</Directory>

@@ -20,9 +20,6 @@ class Task;
 class Project
 {
 public:
-	static std::shared_ptr<Project> create(
-		const FilePath& projectSettingsFile, StorageAccessProxy* storageAccessProxy, DialogView* dialogView);
-
 	virtual ~Project();
 
 	bool refresh(bool forceRefresh);
@@ -58,7 +55,10 @@ private:
 
 	Project(const Project&);
 
+public: // todo: make private again
 	void load();
+
+private:
 	bool buildIndex(bool forceRefresh);
 
 	virtual bool prepareIndexing();

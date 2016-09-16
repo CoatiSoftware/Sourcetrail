@@ -6,6 +6,9 @@
 #include "utility/Version.h"
 
 #include "Application.h"
+#include "ProjectFactoryModuleC.h"
+#include "ProjectFactoryModuleCpp.h"
+#include "ProjectFactoryModuleJava.h"
 #include "includes.h" // defines 'void setup(int argc, char *argv[])'
 #include "LicenseChecker.h"
 #include "qt/network/QtNetworkFactory.h"
@@ -48,6 +51,10 @@ int main(int argc, char *argv[])
 			Application::destroyInstance();
 		});
 
+		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleC>());
+		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleCpp>());
+		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleJava>());
+
 		std::shared_ptr<LicenseChecker> checker = LicenseChecker::getInstance();
 
 		if (commandLineParser.startedWithLicense())
@@ -82,6 +89,10 @@ int main(int argc, char *argv[])
 		ScopedFunctor f([](){
 			Application::destroyInstance();
 		});
+
+		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleC>());
+		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleCpp>());
+		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleJava>());
 
 		commandLineParser.projectLoad();
 

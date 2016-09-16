@@ -2,7 +2,7 @@
 
 #include "component/view/DialogView.h"
 #include "data/access/StorageAccessProxy.h"
-#include "data/parser/cxx/TaskParseWrapper.h"
+#include "data/parser/TaskParseWrapper.h"
 #include "data/parser/java/TaskParseJava.h"
 #include "data/StorageProvider.h"
 #include "data/PersistentStorage.h"
@@ -27,39 +27,6 @@
 #include "CxxProject.h"
 #include "JavaProject.h"
 #include "isTrial.h"
-
-std::shared_ptr<Project> Project::create(
-	const FilePath& projectSettingsFile, StorageAccessProxy* storageAccessProxy, DialogView* dialogView)
-{
-	std::shared_ptr<Project> project;
-
-	switch (ProjectSettings::getLanguageOfProject(projectSettingsFile))
-	{
-	case LANGUAGE_C:
-	case LANGUAGE_CPP:
-		{
-			project = std::shared_ptr<CxxProject>(new CxxProject(
-				std::make_shared<CxxProjectSettings>(projectSettingsFile), storageAccessProxy, dialogView
-			));
-		}
-		break;
-	case LANGUAGE_JAVA:
-		{
-			project = std::shared_ptr<JavaProject>(new JavaProject(
-				std::make_shared<JavaProjectSettings>(projectSettingsFile), storageAccessProxy, dialogView
-			));
-		}
-		break;
-	default:
-		break;
-	}
-
-	if (project)
-	{
-		project->load();
-	}
-	return project;
-}
 
 Project::~Project()
 {

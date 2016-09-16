@@ -12,10 +12,10 @@ include(cmake/licenses.cmake)
 set(PROJECT_NAME Coati)
 
 set(APP_PROJECT_NAME "${PROJECT_NAME}")
-set(TRIAL_PROJECT_NAME "${PROJECT_NAME}_trial")
 set(LIB_LICENSE_PROJECT_NAME "${PROJECT_NAME}_lib_license")
 set(LIB_GUI_PROJECT_NAME "${PROJECT_NAME}_lib_gui")
-set(LIB_PARSER_PROJECT_NAME "${PROJECT_NAME}_lib_parser")
+set(LIB_CXX_PROJECT_NAME "${PROJECT_NAME}_lib_cxx")
+set(LIB_JAVA_PROJECT_NAME "${PROJECT_NAME}_lib_java")
 set(LIB_PROJECT_NAME "${PROJECT_NAME}_lib")
 set(LICENSE_GENERATOR_PROJECT_NAME "${PROJECT_NAME}_license_generator")
 set(TEST_PROJECT_NAME "${PROJECT_NAME}_test")
@@ -54,9 +54,8 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option -fcolor-diagnostics")
 endif()
 
-if (UNIX)
-	#add_definitions(-std=c++11 -Wno-unknown-warning-option -fcolor-diagnostics -DQT_COMPILING_QSTRING_COMPAT_CPP )
-	add_definitions(-fno-omit-frame-pointer  -DQT_COMPILING_QSTRING_COMPAT_CPP )
+if (UNIX AND "${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+	add_definitions(-fno-omit-frame-pointer -DQT_COMPILING_QSTRING_COMPAT_CPP )
 endif ()
 
 # Clang ------------------------------------------------------------------------
@@ -87,25 +86,16 @@ endif()
 set(Boost_USE_MULTITHREAD ON)
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
-Set(Boost_NO_SYSTEM_PATHS ON)
+set(Boost_NO_SYSTEM_PATHS ON)
 set(BOOST_LIBRARYDIR $ENV{BOOST_159_DIR})
 
 find_package(Boost 1.59 COMPONENTS system program_options filesystem date_time REQUIRED)
-
-# Eigen ------------------------------------------------------------------------
-
-add_definitions(-DEIGEN_MPL2_ONLY)
-if(UNIX AND NOT APPLE)
-	set(EIGEN_ROOT ${EXTERNAL_SRC}/eigen)
-else()
-	set(EIGEN_ROOT $ENV{EIGEN_DIR})
-endif()
 
 # Botan -------------------------------------------------------------------------
 
 set(BOTAN_VERSION "botan-1.11")
 
-if(UNIX AND APPLE)
+if(APPLE)
 	find_library(BOTAN ${BOTAN_VERSION} $ENV{BOTAN_DIR}/release NO_DEFAULT_PATH)
 	find_library(BOTAN_D ${BOTAN_VERSION} $ENV{BOTAN_DIR}/debug NO_DEFAULT_PATH)
 elseif(UNIX)
@@ -114,21 +104,21 @@ else()
 	find_library(BOTAN botan "$ENV{BOTAN_DIR}/release")
 	find_library(BOTAN_D botan "$ENV{BOTAN_DIR}/debug")
 endif()
+
 if(${BOTAN} STREQUAL "BOTAN-NOTFOUND")
 	message(FATAL_ERROR "Botan not found")
 else()
 	message(STATUS "Botan found")
 endif()
+
 if(UNIX AND NOT APPLE)
 	set(BOTAN_INCLUDE_DIR "${EXTERNAL_BUILD}/botan")
 else()
 	set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}")
 endif()
 
-# Lib License -------------------------------------------------------------------
 
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_license)
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_license)
+# Lib License -------------------------------------------------------------------
 
 add_subdirectory(src/lib_license)
 
@@ -142,22 +132,11 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
 )
 
-set_target_properties(
-	${LIB_LICENSE_PROJECT_NAME}
-	PROPERTIES
-		DEBUG_OUTPUT_NAME ${LIB_LICENSE_PROJECT_NAME}_d
-		RELEASE_OUTPUT_NAME ${LIB_LICENSE_PROJECT_NAME}
-)
-
 target_include_directories(${LIB_LICENSE_PROJECT_NAME} SYSTEM
 	PUBLIC
 	${Boost_INCLUDE_DIRS}
-	${LIB_LICENSE_PROJECT_NAME}
 	${BOTAN_INCLUDE_DIR}
 )
-
-# target_include_directories(${LIB_LICENSE_PROJECT_NAME} optimized "$ENV{BOTAN_DIR}/release")
-# target_include_directories(${LIB_LICENSE_PROJECT_NAME} debug "$ENV{BOTAN_DIR}/debug")
 
 if(UNIX)
 	target_link_libraries(${LIB_LICENSE_PROJECT_NAME} ${BOTAN})
@@ -169,12 +148,8 @@ else()
 	target_link_libraries(${LIB_LICENSE_PROJECT_NAME} optimized ${BOTAN})
 endif()
 
+
 # Lib --------------------------------------------------------------------------
-
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
-
-find_package(JNI)
 
 add_subdirectory(src/lib)
 add_subdirectory(src/external)
@@ -188,76 +163,81 @@ create_source_groups(${LIB_FILES})
 create_source_groups(${EXTERNAL_FILES})
 create_source_groups(${EXTERNAL_C_FILES})
 
-set_target_properties(
-	${LIB_PROJECT_NAME}
-	PROPERTIES
-		DEBUG_OUTPUT_NAME ${PROJECT_NAME}_d
-		RELEASE_OUTPUT_NAME ${PROJECT_NAME}
-)
-
 set_property(
 	TARGET ${LIB_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
 		"${CMAKE_SOURCE_DIR}/src/lib"
+		"${CMAKE_SOURCE_DIR}/src/external"
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
+		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
+		"${CMAKE_SOURCE_DIR}/src/lib_java"
 		"${CMAKE_SOURCE_DIR}/build/src/lib_license"
 )
 
 target_include_directories(${LIB_PROJECT_NAME} SYSTEM
-	PUBLIC ${LLVM_INCLUDE_DIRS}
-	${CLANG_INCLUDE_DIRS}
-	${Boost_INCLUDE_DIRS}
-	${EIGEN_ROOT}
-	${JNI_INCLUDE_DIRS}
+	PUBLIC ${Boost_INCLUDE_DIRS}
 	"${CMAKE_SOURCE_DIR}/src/external"
 )
 
 target_link_libraries(${LIB_PROJECT_NAME} ${Boost_LIBRARIES} ${LIB_LICENSE_PROJECT_NAME})
 
 
-# Lib Parser -------------------------------------------------------------------
+# Lib Cxx -------------------------------------------------------------------
 
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_parser)
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_parser)
-
-add_subdirectory(src/lib_parser)
+add_subdirectory(src/lib_cxx)
 
 set_source_files_properties(${CLANG_FILES} PROPERTIES COMPILE_FLAGS "-fno-rtti")
 
-add_library(${LIB_PARSER_PROJECT_NAME} ${CLANG_FILES})
+add_library(${LIB_CXX_PROJECT_NAME} ${CLANG_FILES} ${LIB_CXX_FILES})
 
 create_source_groups(${CLANG_FILES})
+create_source_groups(${LIB_CXX_FILES})
 
 set_property(
-	TARGET ${LIB_PARSER_PROJECT_NAME}
+	TARGET ${LIB_CXX_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
-		"${CMAKE_SOURCE_DIR}/src/lib_parser"
+		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
 		"${CMAKE_SOURCE_DIR}/src/lib"
 )
 
-set_target_properties(
-	${LIB_PARSER_PROJECT_NAME}
-	PROPERTIES
-		DEBUG_OUTPUT_NAME ${LIB_PARSER_PROJECT_NAME}_d
-		RELEASE_OUTPUT_NAME ${LIB_PARSER_PROJECT_NAME}
-)
-
-target_include_directories(${LIB_PARSER_PROJECT_NAME} SYSTEM
+target_include_directories(${LIB_CXX_PROJECT_NAME} SYSTEM
 	PUBLIC ${LLVM_INCLUDE_DIRS}
 	${CLANG_INCLUDE_DIRS}
 	${Boost_INCLUDE_DIRS}
-	${JNI_INCLUDE_DIRS}
 )
 
 link_directories(${LLVM_LIBRARY_DIRS} ${CLANG_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS})
 llvm_map_components_to_libnames(REQ_LLVM_LIBS support core libdriver)
 
-target_link_libraries(${LIB_PARSER_PROJECT_NAME} ${CLANG_LIBRARIES} ${REQ_LLVM_LIBS})
+target_link_libraries(${LIB_CXX_PROJECT_NAME} ${CLANG_LIBRARIES} ${REQ_LLVM_LIBS})
+
+
+# Lib Java -------------------------------------------------------------------
+
+find_package(JNI)
+
+add_subdirectory(src/lib_java)
+
+add_library(${LIB_JAVA_PROJECT_NAME} ${LIB_JAVA_FILES})
+
+create_source_groups(${LIB_JAVA_FILES})
+
+set_property(
+	TARGET ${LIB_JAVA_PROJECT_NAME}
+	PROPERTY INCLUDE_DIRECTORIES
+		"${CMAKE_SOURCE_DIR}/src/lib_java"
+		"${CMAKE_SOURCE_DIR}/src/lib"
+)
+
+target_include_directories(${LIB_JAVA_PROJECT_NAME} SYSTEM
+	PUBLIC ${JNI_INCLUDE_DIRS}
+	${Boost_INCLUDE_DIRS}
+)
+
+link_directories(${Boost_LIBRARY_DIRS})
+
 
 # Lib Gui ----------------------------------------------------------------------
-
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_gui)
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib_gui)
 
 add_subdirectory(src/lib_gui)
 
@@ -315,24 +295,17 @@ create_source_groups(${LIB_GUI_FILES})
 set_property(
 	TARGET ${LIB_GUI_PROJECT_NAME}
 	PROPERTY INCLUDE_DIRECTORIES
+		"${CMAKE_SOURCE_DIR}/src/lib_gui"
 		"${CMAKE_SOURCE_DIR}/build/src/lib_gui"
 		"${CMAKE_SOURCE_DIR}/src/lib"
-		"${CMAKE_SOURCE_DIR}/src/lib_gui"
+		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
 		"${CMAKE_SOURCE_DIR}/build/src/lib_license"
-)
-
-set_target_properties(
-	${LIB_GUI_PROJECT_NAME}
-	PROPERTIES
-		DEBUG_OUTPUT_NAME ${LIB_GUI_PROJECT_NAME}_d
-		RELEASE_OUTPUT_NAME ${LIB_GUI_PROJECT_NAME}
 )
 
 # include external header without warnings
 target_include_directories(${LIB_GUI_PROJECT_NAME} SYSTEM
 		PUBLIC "${CMAKE_SOURCE_DIR}/src/external"
-		PUBLIC ${BOTAN_INCLUDE_DIR}
 		PUBLIC ${Boost_INCLUDE_DIRS}
 )
 
@@ -377,7 +350,7 @@ if (WIN32)
 		"IDI_ICON1               ICON                    \"${CMAKE_SOURCE_DIR}/build/coati.ico\"\n"
 	)
 
-	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CLANG_FILES} ${GEN_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc)
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc)
 
 	# hide the console when running a release build.
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE")
@@ -387,12 +360,12 @@ if (WIN32)
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "/ENTRY:\"mainCRTStartup\" /SUBSYSTEM:WINDOWS")
 	set_target_properties(${APP_PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
 else ()
-	add_executable(${APP_PROJECT_NAME} ${APP_FILES} ${GEN_FILES})
+	add_executable(${APP_PROJECT_NAME} ${APP_FILES})
 endif ()
 
 create_source_groups(${APP_FILES})
 
-target_link_libraries(${APP_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME})
+target_link_libraries(${APP_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_CXX_PROJECT_NAME} ${LIB_JAVA_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME})
 
 
 set_property(
@@ -402,10 +375,11 @@ set_property(
 		"${CMAKE_SOURCE_DIR}/src/lib"
 		"${CMAKE_SOURCE_DIR}/src/lib_gui"
 		"${CMAKE_SOURCE_DIR}/src/lib_license"
-		"${CMAKE_SOURCE_DIR}/src/lib_parser"
+		"${CMAKE_SOURCE_DIR}/src/lib_cxx"
+		"${CMAKE_SOURCE_DIR}/src/lib_java"
 		"${CMAKE_SOURCE_DIR}/build/src/lib_gui"
 		"${CMAKE_SOURCE_DIR}/build/src/lib_license"
-		"${CMAKE_SOURCE_DIR}/build/src/app"
+		#"${CMAKE_SOURCE_DIR}/build/src/app"
 )
 
 target_include_directories(${APP_PROJECT_NAME} SYSTEM
@@ -423,72 +397,6 @@ if (APPLE)
 	target_link_libraries(${APP_PROJECT_NAME} ${CORE_FOUNDATION})
 endif ()
 
-# Trial ---------------------------------------------------------------------
-
-if (UNIX)
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/${CMAKE_BUILD_TYPE})
-else ()
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/)
-endif ()
-
-add_subdirectory(src/trial)
-
-# Find includes in corresponding build directories
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-if (WIN32)
-	file(WRITE ${CMAKE_SOURCE_DIR}/build/Coati.rc
-		"// Icon with lowest ID value placed first to ensure application icon\n"
-		"// remains consistent on all systems.\n"
-		"IDI_ICON1               ICON                    \"${CMAKE_SOURCE_DIR}/build/coati.ico\"\n"
-	)
-	add_executable(${TRIAL_PROJECT_NAME} ${TRIAL_FILES} ${CMAKE_SOURCE_DIR}/build/Coati.rc)
-
-	# hide the console when running a release build.
-	set_target_properties(${TRIAL_PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE")
-	set_target_properties(${TRIAL_PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS_DEBUG "_CONSOLE")
-	set_target_properties(${TRIAL_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:CONSOLE")
-	set_target_properties(${TRIAL_PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS_RELWITHDEBINFO "_CONSOLE")
-	set_target_properties(${TRIAL_PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "/ENTRY:\"mainCRTStartup\" /SUBSYSTEM:WINDOWS")
-	set_target_properties(${TRIAL_PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS")
-
-else ()
-	add_executable(${TRIAL_PROJECT_NAME} ${TRIAL_FILES} ${GEN_FILES})
-endif ()
-
-create_source_groups(${TRIAL_FILES})
-
-target_link_libraries(${TRIAL_PROJECT_NAME} ${LIB_GUI_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME} )
-
-
-if(UNIX AND NOT APPLE)
-	target_link_libraries(${TRIAL_PROJECT_NAME} pthread dl rt)
-endif()
-
-set_property(
-	TARGET ${TRIAL_PROJECT_NAME}
-	PROPERTY INCLUDE_DIRECTORIES
-		"${CMAKE_SOURCE_DIR}/src/trial"
-		"${CMAKE_SOURCE_DIR}/src/lib"
-		"${CMAKE_SOURCE_DIR}/src/lib_gui"
-		"${CMAKE_SOURCE_DIR}/build/src/lib_gui"
-		"${CMAKE_SOURCE_DIR}/build/src/lib_license"
-)
-
-target_include_directories(${TRIAL_PROJECT_NAME} SYSTEM
-		PUBLIC "${CMAKE_SOURCE_DIR}/src/external"
-		PUBLIC ${Boost_INCLUDE_DIRS}
-)
-
-# Use the Widgets module from Qt 5.
-qt5_use_modules(${TRIAL_PROJECT_NAME} Widgets)
-qt5_use_modules(${TRIAL_PROJECT_NAME} Network)
-
-# add platform specific libraries
-if (APPLE)
-	find_library(CORE_FOUNDATION CoreFoundation)
-	target_link_libraries(${TRIAL_PROJECT_NAME} ${CORE_FOUNDATION})
-endif ()
 
 # MacOSX Bundle ----------------------------------------------------------------
 
@@ -529,12 +437,6 @@ if (APPLE)
 	configure_file(
 		${PROJECT_SOURCE_DIR}/setup/MacOSX/Info.plist.in
 		${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/bundle_info.plist
-		@ONLY
-	)
-
-	configure_file(
-		${PROJECT_SOURCE_DIR}/setup/MacOSX/Info_trial.plist.in
-		${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/bundle_info_trial.plist
 		@ONLY
 	)
 
@@ -594,7 +496,7 @@ add_executable (${TEST_PROJECT_NAME} ${TESTGEN_FILE} ${TEST_FILES} )
 
 create_source_groups(${TEST_FILES})
 
-target_link_libraries(${TEST_PROJECT_NAME} ${LIB_PARSER_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME})
+target_link_libraries(${TEST_PROJECT_NAME} ${LIB_CXX_PROJECT_NAME} ${LIB_JAVA_PROJECT_NAME} ${LIB_PROJECT_NAME} ${LIB_LICENSE_PROJECT_NAME})
 
 find_package(CxxTest)
 if (CXXTEST_FOUND)
@@ -603,10 +505,11 @@ if (CXXTEST_FOUND)
 		PROPERTY INCLUDE_DIRECTORIES
 			"${CXXTEST_INCLUDE_DIR}"
 			"${CMAKE_SOURCE_DIR}/src/lib"
-			"${CMAKE_SOURCE_DIR}/src/lib_parser"
+			"${CMAKE_SOURCE_DIR}/src/lib_cxx"
+			"${CMAKE_SOURCE_DIR}/src/lib_java"
 			"${CMAKE_SOURCE_DIR}/src/external"
 			"${CMAKE_SOURCE_DIR}/src/lib_license"
-			${Boost_INCLUDE_DIRS}
+			"${Boost_INCLUDE_DIRS}"
 	)
 endif (CXXTEST_FOUND)
 

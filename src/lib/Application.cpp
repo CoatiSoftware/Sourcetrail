@@ -121,6 +121,11 @@ Application::~Application()
 	}
 }
 
+void Application::addProjectFactoryModule(std::shared_ptr<ProjectFactoryModule> module)
+{
+	m_projectFactory.addModule(module);
+}
+
 const std::shared_ptr<Project> Application::getCurrentProject()
 {
 	return m_project;
@@ -155,7 +160,7 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 
 		m_storageCache->clear();
 
-		m_project = Project::create(projectSettingsFilePath, m_storageCache.get(), getDialogView());
+		m_project = m_projectFactory.createProject(projectSettingsFilePath, m_storageCache.get(), getDialogView());
 
 		if (m_project)
 		{

@@ -7,15 +7,12 @@ cd $MY_PATH/..
 
 # Build target
 
-if [ "$1" = "release" ] || [ "$1" = "r" ]
+if [ "$1" = "release" ] || [ "$1" = "r" ] || [ "$1" = "" ]
 then
 	if [ "$2" = "test" ]
 	then
 		#echo "release test"
 		cmake --build build/Release --target Coati_test
-	elif [ "$2" = "trial" ]
-	then
-		cmake --build build/Release --target Coati_trial
 	elif [ "$2" = "keygen" ]
 	then
 		#echo "release keygen"
@@ -30,9 +27,6 @@ then
 	then
 		#echo "debug test"
 		cmake --build build/Debug --target Coati_test
-	elif [ "$2" = "trial" ]
-	then
-		cmake --build build/Debug --target Coati_trial
 	elif [ "$2" = "keygen" ]
 	then
 		#echo "debug keygen"

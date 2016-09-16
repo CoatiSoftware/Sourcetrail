@@ -39,7 +39,7 @@ function build_type {
 	if [ "$PLATFORM" == "Windows" ]
 	then
 		echo -e $INFO Builing the Coati VS Solution
-		cmake --build build --config $1 > /dev/null
+		cmake --build build --config $1
 		if [ $? -ne 0 ]
 		then
 			echo -e $FAIL At least one build or test failed, no push to $branch
@@ -47,7 +47,6 @@ function build_type {
 		fi
 	else
 		build Coati $1
-		build Coati_trial $1
 		build Coati_test $1
 		build Coati_license_generator $1
 		run_tests $1

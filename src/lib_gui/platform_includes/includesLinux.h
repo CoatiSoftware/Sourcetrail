@@ -30,7 +30,8 @@ void setupApp(int argc, char *argv[])
 	{
 		userdir.append("/.config/coati/");
 	}
-    UserPaths::setUserDataPath(userdir);
+
+	UserPaths::setUserDataPath(userdir);
 
 	QString userDataPath(userdir.c_str());
 	QDir dataDir(userdir.c_str());
@@ -39,7 +40,9 @@ void setupApp(int argc, char *argv[])
 		dataDir.mkpath(userDataPath);
 	}
 
-	utility::copyNewFilesFromDirectory(QString::fromStdString(UserPaths::getUserDataPath()), userDataPath);
+	std::cout << "apppath: " << AppPath::getAppPath() << std::endl;
+
+	utility::copyNewFilesFromDirectory(QString::fromStdString(AppPath::getAppPath() + "/usr/" ), userDataPath);
 }
 
 #endif // INCLUDES_DEFAULT_H

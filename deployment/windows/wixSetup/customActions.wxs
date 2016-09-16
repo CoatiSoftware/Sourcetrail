@@ -2,10 +2,10 @@
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
 	<Fragment>
 		<CustomAction Id='SetupAppSettings' BinaryKey='SetupAppSettingsBinary' DllEntry='Main' Execute='commit' Return='check'/>
-		<Binary Id='SetupAppSettingsBinary' SourceFile='SetupAppSettings.CA.dll'/>
+		<Binary Id='SetupAppSettingsBinary' SourceFile='build/SetupAppSettings.CA.dll'/>
 	
 	
 		<CustomAction Id='UninstallRemoveLogFolder' BinaryKey='UninstallRemoveLogFolderBinary' DllEntry='Main' Execute='commit' Return='check'/>
-		<Binary Id='UninstallRemoveLogFolderBinary' SourceFile='UninstallRemoveLogFolder.CA.dll'/>
+		<Binary Id='UninstallRemoveLogFolderBinary' SourceFile='build/UninstallRemoveLogFolder.CA.dll'/>
 	</Fragment>
 </Wix>

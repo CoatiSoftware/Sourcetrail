@@ -1,1 +1,0 @@
-%windir%\system32\msiexec.exe /I{560C569F-03CF-424D-9B63-92B86779ECB6}

@@ -1,11 +1,14 @@
-devenv.exe /build "Release|x86" Setup/build/Setup.sln
-devenv.exe /build "Release|x86" CustomActions/CustomActions.sln
+rm -rf build
+mkdir build
+
+"devenv.com" Setup/build/Setup.sln //build "Release|x86"
+"devenv.com" CustomActions/CustomActions.sln //build "Release|x86"
 
 rm -rf bin
 mkdir bin
 
-candle.exe -dprojectVersion="0.7.0" coati.wxs customActions.wxs dialogShortcuts.wxs installDir.wxs appDataDir.wxs > compileLog.txt
-light.exe -ext WixUIExtension coati.wixobj customActions.wixobj dialogShortcuts.wixobj installDir.wixobj appDataDir.wixobj -out coati.msi > linkLog.txt
+candle.exe -dprojectVersion="0.9.0" coati.wxs customActions.wxs dialogShortcuts.wxs installDir.wxs appDataDir.wxs -out build/ > build/compileLog.txt
+light.exe -ext WixUIExtension build/coati.wixobj build/customActions.wixobj build/dialogShortcuts.wixobj build/installDir.wixobj build/appDataDir.wixobj -out build/coati.msi > build/linkLog.txt
 
-cp -u -r coati.msi bin
-cp -u -r Setup.exe bin
+cp -u -r build/coati.msi bin
+cp -u -r build/Setup.exe bin

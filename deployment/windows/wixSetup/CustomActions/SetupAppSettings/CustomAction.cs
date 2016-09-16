@@ -49,6 +49,10 @@ namespace SetupAppSettings
             tictactoe.InnerText = projectsPath + "tictactoe\\tictactoe.coatiproject";
             recentProjects.AppendChild(tictactoe);
 
+            XmlNode javaparser = appSettings.CreateElement("recent_project");
+            javaparser.InnerText = projectsPath + "javaparser\\javaparser.coatiproject";
+            recentProjects.AppendChild(javaparser);
+
             appSettings.Save(appSettingsPath);
         }
     }

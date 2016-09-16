@@ -14,7 +14,7 @@
 		
 		<Property Id='DiskPrompt' Value="Coati Installation [1]" />
 		<Property Id="INSTALLDESKTOPSHORTCUT" />
-		<Property Id="INSTALLSTARTMENUSHORTCUT" />
+		<Property Id="INSTALLSTARTMENUSHORTCUT" Value="true" />
 		
 		<!-- Shortcuts -->
 		<Upgrade Id='A4C8F644-9A8C-4825-8C48-F6A98F111722'>
@@ -140,6 +140,7 @@
 				<ComponentRef Id='apiMsWinCrtString_l1_1_0Dll'/>
 				<ComponentRef Id='apiMsWinCrtTime_l1_1_0Dll'/>
 				<ComponentRef Id='apiMsWinCrtUtility_l1_1_0Dll'/>
+				<ComponentRef Id='qtConf'/>
 				
 				<ComponentRef Id='QWindowsDll'/>
 				
@@ -188,10 +189,14 @@
 				<ComponentRef Id='Project_cdb_256_256_Png'/>
 				<ComponentRef Id='Project_vs_256_256_Png'/>
 				
+				<ComponentRef Id='ErrorPng'/>
+				<ComponentRef Id='FlagPng'/>
+				<ComponentRef Id='IndexingDialogCss'/>
+				<ComponentRef Id='ProgressBarElementPng'/>
+				
 				<ComponentRef Id='LicenseCss'/>
 				
 				<ComponentRef Id='RefreshViewCss'/>
-				<ComponentRef Id='AutoRefreshPng'/>
 				<ComponentRef Id='RefreshPng'/>
 				
 				<ComponentRef Id='SearchViewCss'/>
@@ -225,6 +230,15 @@
 				<ComponentRef Id='ColorSchemes'/>
 				<ComponentRef Id='FontSet'/>
 				
+				<ComponentRef Id='JavaGuavaJar'/>
+				<ComponentRef Id='JavaJavaIndexerJar'/>
+				<ComponentRef Id='JavaJavaparserJar'/>
+				<ComponentRef Id='JavaJavaslangJar'/>
+				<ComponentRef Id='JavaJavassistJar'/>
+				<ComponentRef Id='JavaJavaSymbolSolverCoreJar'/>
+				<ComponentRef Id='JavaJavaSymbolSolverLogicJar'/>
+				<ComponentRef Id='JavaJavaSymbolSolverModelJar'/>
+				
 				<ComponentRef Id='UninstallBat'/>
 				
 				<!-- AppData Folder Stuff -->
@@ -243,6 +257,30 @@
 				
 				<ComponentRef Id='TutorialCoatiproject'/>
 				<ComponentRef Id='TutorialCode'/>
+				
+				<ComponentRef Id='JavaparserCoatiproject'/>
+				<ComponentRef Id='SampleProjectJavaparserSrcFolder'/>
+				<ComponentRef Id='SampleProjectJavaparserSrcMainFolder'/>
+				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaFolder'/>
+				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComFolder'/>
+				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubFolder'/>
+				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserCode'/>
+				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCode'/>
+				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstBodyCode'/>
+				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstCommentsCode'/>
+				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstExprCode'/>
+				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstNodeTypesCode'/>
+				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstStmtCode'/>
+				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstTypeCode'/>
+				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserAstVisitorCode'/>
+				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaComGithubJavaparserUtilsCode'/>
+				<ComponentRef Id='SampleProjectJavaparserSrcMainJavaccCode'/>
+				<ComponentRef Id='SampleProjectJavaparserTargetFolder'/>
+				<ComponentRef Id='SampleProjectJavaparserTargetGeneratedSourcesFolder'/>
+				<ComponentRef Id='SampleProjectJavaparserTargetGeneratedSourcesJavaccFolder'/>
+				<ComponentRef Id='SampleProjectJavaparserTargetGeneratedSourcesJavaccComFolder'/>
+				<ComponentRef Id='SampleProjectJavaparserTargetGeneratedSourcesJavaccComGithubFolder'/>
+				<ComponentRef Id='SampleProjectJavaparserTargetGeneratedSourcesCode'/>
 			</Feature>
 		</Feature>
 		

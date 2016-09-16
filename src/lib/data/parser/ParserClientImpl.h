@@ -9,7 +9,6 @@
 #include "data/graph/token_component/TokenComponentAccess.h"
 
 #include "data/DefinitionType.h"
-#include "data/SqliteStorage.h"
 
 class ParserClientImpl: public ParserClient
 {

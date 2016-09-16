@@ -20,9 +20,6 @@ then
 	then
 		#echo "release test"
 		cd bin/test && Release/Coati_test
-	elif [ "$2" = "trial" ]
-	then
-		cd bin/app && Release/Coati_trial
 	elif [ "$2" = "keygen" ]
 	then
 		#echo "release keygen"
@@ -37,9 +34,6 @@ then
 	then
 		#echo "debug test"
 		cd bin/test && Debug/Coati_test
-	elif [ "$2" = "trial" ]
-	then
-		cd bin/app && Debug/Coati_trial
 	elif [ "$2" = "keygen" ]
 	then
 		#echo "debug keygen"

@@ -6,8 +6,6 @@ add_files(
 	component/controller/helper/BucketGrid.h
 	component/controller/helper/DummyEdge.h
 	component/controller/helper/DummyNode.h
-	component/controller/helper/GraphLayouter.cpp
-	component/controller/helper/GraphLayouter.h
 	component/controller/helper/GraphPostprocessor.cpp
 	component/controller/helper/GraphPostprocessor.h
 	component/controller/helper/NetworkProtocolHelper.cpp
@@ -128,14 +126,8 @@ add_files(
 	data/name/NameHierarchy.cpp
 	data/name/NameHierarchy.h
 
-	data/parser/cxx/TaskParseCxx.h
-	data/parser/cxx/TaskParseWrapper.h
-
-	data/parser/java/JavaEnvironment.cpp
-	data/parser/java/JavaEnvironment.h
-	data/parser/java/JavaEnvironmentFactory.cpp
-	data/parser/java/JavaEnvironmentFactory.h
-	data/parser/java/TaskParseJava.h
+	data/parser/TaskParseWrapper.cpp
+	data/parser/TaskParseWrapper.h
 
 	data/parser/AccessKind.cpp
 	data/parser/AccessKind.h
@@ -213,7 +205,10 @@ add_files(
 	settings/Settings.h
 	settings/SettingsMigrator.cpp
 	settings/SettingsMigrator.h
-
+	
+	utility/commandline/CommandLineParser.cpp
+	utility/commandline/CommandLineParser.h
+	
 	utility/file/FileInfo.cpp
 	utility/file/FileInfo.h
 	utility/file/FileManager.cpp
@@ -344,7 +339,6 @@ add_files(
 	utility/AppPath.cpp
 	utility/AppPath.h
 	utility/Cache.h
-	utility/CompilationDatabase.h
 	utility/ConfigManager.cpp
 	utility/ConfigManager.h
 	utility/Property.h
@@ -370,13 +364,13 @@ add_files(
 
 	Application.cpp
 	Application.h
-	CxxProject.cpp
-	CxxProject.h
 	isTrial.h
-	JavaProject.cpp
-	JavaProject.h
 	LicenseChecker.cpp
 	LicenseChecker.h
 	Project.cpp
 	Project.h
+	ProjectFactory.cpp
+	ProjectFactory.h
+	ProjectFactoryModule.cpp
+	ProjectFactoryModule.h
 )
