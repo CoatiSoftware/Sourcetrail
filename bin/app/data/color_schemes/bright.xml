@@ -100,7 +100,9 @@
 
 			<line_number>
 				<text>black</text>
+				<inactive_text>#A0A0A0</inactive_text>
 				<background>white</background>
+				<marker>#A0A0A0</marker>
 			</line_number>
 
 			<syntax>

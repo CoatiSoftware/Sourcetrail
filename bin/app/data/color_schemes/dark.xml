@@ -119,7 +119,9 @@
 
 			<line_number>
 				<text>#F7F7F7</text>
+				<inactive_text>#A0A0A0</inactive_text>
 				<background>#272728</background>
+				<marker>#969696</marker>
 			</line_number>
 
 			<syntax>

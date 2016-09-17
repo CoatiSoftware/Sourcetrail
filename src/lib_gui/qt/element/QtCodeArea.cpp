@@ -195,20 +195,32 @@ void QtCodeArea::lineNumberAreaPaintEvent(QPaintEvent *event)
 	std::set<int> activeLineNumbers = getActiveLineNumbers();
 
 	ColorScheme* scheme = ColorScheme::getInstance().get();
-	QColor backgroundColor(scheme->getColor("code/snippet/line_number/background").c_str());
-	backgroundColor.setAlpha(150);
+
+	QColor textColor(scheme->getColor("code/snippet/line_number/text").c_str());
+	QColor inactiveTextColor(scheme->getColor("code/snippet/line_number/inactive_text").c_str());
+	QColor markerColor(scheme->getColor("code/snippet/line_number/marker").c_str());
+
+	QPen p = painter.pen();
 
 	while (block.isValid() && top <= event->rect().bottom())
 	{
 		if (block.isVisible() && bottom >= event->rect().top())
 		{
 			int number = blockNumber + m_startLineNumber;
-			painter.drawText(0, top, m_lineNumberArea->width() - 13, fontMetrics().height(), Qt::AlignRight, QString::number(number));
 
-			if (!m_isActiveFile && activeLineNumbers.find(number) == activeLineNumbers.end())
+			p.setColor(textColor);
+
+			if (activeLineNumbers.find(number) != activeLineNumbers.end())
 			{
-				painter.fillRect(0, top, m_lineNumberArea->width(), fontMetrics().height(), backgroundColor);
+				painter.fillRect(m_lineNumberArea->width() - 8, top, 3, fontMetrics().height() + 1, markerColor);
 			}
+			else if (!m_isActiveFile)
+			{
+				p.setColor(inactiveTextColor);
+			}
+
+			painter.setPen(p);
+			painter.drawText(0, top, m_lineNumberArea->width() - 16, fontMetrics().height(), Qt::AlignRight, QString::number(number));
 		}
 
 		block = block.next();
@@ -373,23 +385,6 @@ void QtCodeArea::paintEvent(QPaintEvent* event)
 	}
 
 	QPlainTextEdit::paintEvent(event);
-
-	QPainter painter2(viewport());
-	std::set<int> activeLineNumbers = getActiveLineNumbers();
-
-	ColorScheme* scheme = ColorScheme::getInstance().get();
-	QColor backgroundColor(scheme->getColor("code/snippet/background").c_str());
-	backgroundColor.setAlpha(75);
-
-	for (int i = 0; i < document()->blockCount(); i++)
-	{
-		int lineNumber = i + m_startLineNumber;
-		if (!m_isActiveFile && activeLineNumbers.find(lineNumber) == activeLineNumbers.end() &&
-			lineNumber >= firstVisibleLine && lineNumber <= lastVisibleLine)
-		{
-			painter.fillRect(0, top + i * blockHeight, width(), blockHeight, backgroundColor);
-		}
-	}
 }
 
 void QtCodeArea::enterEvent(QEvent* event)
@@ -811,32 +806,13 @@ std::set<int> QtCodeArea::getActiveLineNumbers() const
 {
 	std::set<int> activeLineNumbers;
 
-	if (m_isActiveFile)
-	{
-		return activeLineNumbers;
-	}
-
 	for (const Annotation& annotation : m_annotations)
 	{
-		if (annotation.isActive)
+		if (annotation.isActive || annotation.isFocused)
 		{
 			for (int i = annotation.startLine; i <= annotation.endLine; i++)
 			{
 				activeLineNumbers.insert(i);
-			}
-		}
-	}
-
-	if (activeLineNumbers.size())
-	{
-		for (const Annotation& annotation : m_annotations)
-		{
-			if (annotation.isFocused)
-			{
-				for (int i = annotation.startLine; i <= annotation.endLine; i++)
-				{
-					activeLineNumbers.insert(i);
-				}
 			}
 		}
 	}
