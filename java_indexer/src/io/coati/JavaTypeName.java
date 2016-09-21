@@ -48,12 +48,12 @@ public class JavaTypeName
 		return m_name;
 	}
 	
-	public String toNameHierarchy()
+	public String toSerializedNameHierarchy()
 	{
 		String nameHierarchy = "";
 		if (m_parent != null)
 		{
-			nameHierarchy = m_parent.toNameHierarchy();
+			nameHierarchy = m_parent.toSerializedNameHierarchy();
 			nameHierarchy += "\tn";
 		}
 		

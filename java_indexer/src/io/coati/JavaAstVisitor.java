@@ -19,6 +19,7 @@ import com.github.javaparser.ast.comments.LineComment;
 import com.github.javaparser.ast.expr.ArrayInitializerExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.NameExpr;
+import com.github.javaparser.ast.expr.QualifiedNameExpr;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.SwitchStmt;
@@ -71,7 +72,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	{
 		NameExpr nameExpr = n.getName();
 			
-		String packageName = JavaDeclNameResolver.getQualifiedName(nameExpr).toNameHierarchy();
+		String packageName = JavaparserDeclNameResolver.getQualifiedName(nameExpr).toSerializedNameHierarchy();
 		
 		JavaIndexer.recordSymbolWithScope(
 			m_callbackId, packageName, SymbolType.PACKAGE,
@@ -87,7 +88,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	{
 		NameExpr nameExpr = n.getNameExpr();
 		
-		String qualifiedName = JavaDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toNameHierarchy();
+		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
 		JavaIndexer.recordSymbolWithScope(
 			m_callbackId, qualifiedName, (n.isInterface() ? SymbolType.INTERFACE : SymbolType.CLASS),
@@ -138,7 +139,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	{
 		NameExpr nameExpr = n.getNameExpr();
 		
-		String qualifiedName = JavaDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toNameHierarchy();
+		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
 		JavaIndexer.recordSymbolWithScope(
 			m_callbackId, qualifiedName, SymbolType.ENUM, 
@@ -159,7 +160,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	
 	@Override public void visit(final EnumConstantDeclaration n, final Void v)
 	{
-		String qualifiedName = JavaDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toNameHierarchy();
+		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
 		JavaIndexer.recordSymbol(
 			m_callbackId, qualifiedName, SymbolType.ENUM_CONSTANT,
@@ -178,7 +179,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	{
 		NameExpr nameExpr = n.getNameExpr();
 		
-		String qualifiedName = JavaDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toNameHierarchy();
+		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
 		JavaIndexer.recordSymbolWithScope(
 			m_callbackId, qualifiedName, SymbolType.METHOD,
@@ -198,7 +199,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	{
 		NameExpr nameExpr = n.getNameExpr();
 		
-		String qualifiedName = JavaDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toNameHierarchy();
+		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
 		JavaIndexer.recordSymbolWithScope(
 			m_callbackId, qualifiedName, SymbolType.METHOD, 
@@ -214,7 +215,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		me.tomassetti.symbolsolver.model.declarations.MethodDeclaration overridden = getOverridden(n, parent);
 		if (overridden != null && (overridden instanceof JavaParserMethodDeclaration))
 		{
-			String overriddenName = JavaDeclNameResolver.getQualifiedDeclName(((JavaParserMethodDeclaration)overridden).getWrappedNode(), m_typeSolver).toNameHierarchy();
+			String overriddenName = JavaparserDeclNameResolver.getQualifiedDeclName(((JavaParserMethodDeclaration)overridden).getWrappedNode(), m_typeSolver).toSerializedNameHierarchy();
 			
 			JavaIndexer.recordReference(
 				m_callbackId, ReferenceKind.OVERRIDE, overriddenName, qualifiedName, 
@@ -306,7 +307,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		for (int i = 0; i < variableDeclarators.size(); i++)
 		{
 			VariableDeclarator varDecl = variableDeclarators.get(i);
-			String qualifiedName = JavaDeclNameResolver.getQualifiedDeclName(varDecl, m_typeSolver).toNameHierarchy();		
+			String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(varDecl, m_typeSolver).toSerializedNameHierarchy();		
 			VariableDeclaratorId varDeclId = varDecl.getId();
 			
 			JavaIndexer.recordSymbol(
@@ -363,7 +364,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		if (n.isAsterisk())
 		{
 			NameExpr nameExpr = n.getName();
-			String importedName = JavaDeclNameResolver.getQualifiedName(nameExpr).toNameHierarchy();
+			String importedName = JavaparserDeclNameResolver.getQualifiedName(nameExpr).toSerializedNameHierarchy();
 			for (DeclContext context: m_context)
 			{
 				JavaIndexer.recordReference(
@@ -378,77 +379,69 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			try
 			{
 				NameExpr nameExpr = n.getName();
-				
-				JavaDeclName importedDeclName = null;
-				
+				List<JavaDeclName> importedDeclNames = new ArrayList<>();
+
 				SymbolReference<TypeDeclaration> symbolReference = m_typeSolver.tryToSolveType(
-					JavaDeclNameResolver.getQualifiedName(nameExpr).toString()
+					JavaparserDeclNameResolver.getQualifiedName(nameExpr).toString()
 				);
 				if (symbolReference.isSolved())
 				{
-					importedDeclName = JavaDeclNameResolver.getQualifiedDeclName(symbolReference.getCorrespondingDeclaration(), m_typeSolver);
+					importedDeclNames.add(JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(
+						symbolReference.getCorrespondingDeclaration(), m_typeSolver
+					));
 				}
-
-				/*
 				else
 				{
-					// TODO: handle import of static field or method
-					
 					if (nameExpr instanceof QualifiedNameExpr) 
 					{
-						String qName = nameExpr.toString();
-						int typeNameEndIndex = qName.lastIndexOf('.');
-						if (typeNameEndIndex != -1)
+						String typeName = ((QualifiedNameExpr)nameExpr).getQualifier().toString();
+						String memberName = nameExpr.getName();
+						
+						me.tomassetti.symbolsolver.model.declarations.TypeDeclaration ref = m_typeSolver.solveType(typeName);
+						
+						for (me.tomassetti.symbolsolver.model.declarations.MethodDeclaration methodDecl: ref.getDeclaredMethods()) // look for method
 						{
-							String typeName = qName.substring(0, typeNameEndIndex);
-							String memberName = qName.substring(typeNameEndIndex + 1);
-							
-							me.tomassetti.symbolsolver.model.declarations.TypeDeclaration ref = m_typeSolver.solveType(typeName);
-							for (me.tomassetti.symbolsolver.model.declarations.MethodDeclaration methodDecl: ref.getDeclaredMethods()) // look for method
+							if (methodDecl.getName().equals(memberName))
 							{
-								if (methodDecl.getName().equals(memberName))
-								{
-									System.out.println("methodDeclNamasdasdasdasd: " + methodDecl.getName());
-									importedDeclName = JavaDeclNameResolver.getQualifiedDeclName(methodDecl, m_typeSolver);
-									break;
-								}
+								importedDeclNames.add(
+									JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(methodDecl, m_typeSolver
+								));
 							}
-							if (importedDeclName == null && ref.hasField(memberName)) // look for field
+						}
+						if (importedDeclNames.isEmpty() && ref.hasField(memberName)) // look for field
+						{
+							JavaDeclName importedTypeDeclName = JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(ref, m_typeSolver);
+							if (importedTypeDeclName != null)
 							{
-								JavaDeclName importedTypeDeclName = JavaDeclNameResolver.getQualifiedDeclName(ref, m_typeSolver);
-								if (importedTypeDeclName != null)
-								{
-									importedDeclName = new JavaDeclName(memberName);
-									importedDeclName.setParent(importedTypeDeclName);
-								}
+								JavaDeclName importedDeclName = new JavaDeclName(memberName);
+								importedDeclName.setParent(importedTypeDeclName);
+								importedDeclNames.add(importedDeclName);
 							}
 						}
 					}
 				}
-				
-				*/
 	
-				if (importedDeclName != null)
+				if (!importedDeclNames.isEmpty())
 				{
-					String importedName = importedDeclName.toNameHierarchy();
-					for (DeclContext context: m_context)
+					for (JavaDeclName importedDeclName: importedDeclNames)
 					{
-						JavaIndexer.recordReference(
-							m_callbackId, ReferenceKind.IMPORT, 
-							importedName, context.getName(), 
-							nameExpr.getBeginLine(), nameExpr.getBeginColumn(), nameExpr.getEndLine(), nameExpr.getEndColumn()
-						);
+						String nameHierarchy = importedDeclName.toSerializedNameHierarchy();
+						for (DeclContext context: m_context)
+						{
+							JavaIndexer.recordReference(
+								m_callbackId, ReferenceKind.IMPORT, 
+								nameHierarchy, context.getName(), 
+								nameExpr.getBeginLine(), nameExpr.getBeginColumn(), nameExpr.getEndLine(), nameExpr.getEndColumn()
+							);
+						}
 					}
 				}
 				else
 				{
-					// uncomment this when there are no errors where there shouldn't be
-					/*
 					JavaIndexer.recordError(
 						m_callbackId, "Import not found.", true, true, 
 						nameExpr.getBeginLine(), nameExpr.getBeginColumn(), nameExpr.getEndLine(), nameExpr.getEndColumn()
 					);
-					*/
 				}
 			}
 			catch (Exception e)
@@ -468,7 +461,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		{
 			for (DeclContext context: m_context)
 			{
-				String referencedName = JavaTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toNameHierarchy();
+				String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toSerializedNameHierarchy();
 
 				int beginLine = n.getBeginLine();
 				int beginColumn = n.getBeginColumn();
@@ -501,7 +494,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	{
 		try
 		{
-			String referencedName = JavaTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toNameHierarchy();
+			String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toSerializedNameHierarchy();
 			
 			JavaIndexer.recordSymbolWithoutLocation(
 				m_callbackId, referencedName, SymbolType.BUILTIN_TYPE,
@@ -531,7 +524,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	{
 		try
 		{
-			String referencedName = JavaTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toNameHierarchy();
+			String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toSerializedNameHierarchy();
 			
 			JavaIndexer.recordSymbolWithoutLocation(
 				m_callbackId, referencedName, SymbolType.BUILTIN_TYPE,
@@ -603,7 +596,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 					{
 						if (getFieldDeclarationInParentHierarchy(wrappedNode) != null)
 						{
-							String qualifiedName = JavaDeclNameResolver.getQualifiedDeclName((VariableDeclarator)wrappedNode, m_typeSolver).toNameHierarchy();
+							String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName((VariableDeclarator)wrappedNode, m_typeSolver).toSerializedNameHierarchy();
 							
 							for (DeclContext context: m_context)
 							{
@@ -785,7 +778,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		if (methodDecl instanceof JavaParserMethodDeclaration)
 		{
 			MethodDeclaration wrappedNode = ((JavaParserMethodDeclaration)methodDecl).getWrappedNode();
-			qualifiedName = JavaDeclNameResolver.getQualifiedDeclName(wrappedNode, m_typeSolver).toNameHierarchy();
+			qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(wrappedNode, m_typeSolver).toSerializedNameHierarchy();
 		}
 		else // todo: move this implementation somewhere else
 		{

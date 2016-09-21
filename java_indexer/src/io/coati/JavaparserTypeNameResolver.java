@@ -14,9 +14,9 @@ import me.tomassetti.symbolsolver.model.resolution.TypeSolver;
 import me.tomassetti.symbolsolver.model.typesystem.TypeParameterUsage;
 import me.tomassetti.symbolsolver.model.typesystem.TypeUsage;
 
-public class JavaTypeNameResolver extends JavaNameResolver
+public class JavaparserTypeNameResolver extends JavaNameResolver
 {
-	public JavaTypeNameResolver(TypeSolver typeSolver, ArrayList<BodyDeclaration> ignoredContexts)
+	public JavaparserTypeNameResolver(TypeSolver typeSolver, ArrayList<BodyDeclaration> ignoredContexts)
 	{
 		super(typeSolver, ignoredContexts);
 	}
@@ -28,7 +28,7 @@ public class JavaTypeNameResolver extends JavaNameResolver
 	
 	public static JavaTypeName getQualifiedTypeName(Type type, TypeSolver typeSolver, ArrayList<BodyDeclaration> ignoredContexts)
 	{
-		JavaTypeNameResolver resolver = new JavaTypeNameResolver(typeSolver, ignoredContexts);
+		JavaparserTypeNameResolver resolver = new JavaparserTypeNameResolver(typeSolver, ignoredContexts);
 		return resolver.getQualifiedTypeName(type);
 	}
 	
@@ -40,45 +40,9 @@ public class JavaTypeNameResolver extends JavaNameResolver
 		{
 			try
 			{
-				TypeUsage typeUsage = JavaParserFacade.get(m_typeSolver).convert(type, type);
-				if (typeUsage.isReferenceType())
-				{
-					JavaDeclName declName = JavaDeclNameResolver.getQualifiedDeclName(typeUsage.asReferenceTypeUsage().getTypeDeclaration(), m_typeSolver, m_ignoredContexts);
-					
-					if (declName != null)
-					{
-						List<JavaTypeName> typeArgumentNames = new ArrayList<>();
-						for (Type typeArgument: ((ClassOrInterfaceType)type).getTypeArgs())
-						{
-							typeArgumentNames.add(getQualifiedTypeName(typeArgument, m_typeSolver, m_ignoredContexts));
-						}
-						JavaTypeName ret = new JavaTypeName(declName.getName(), typeArgumentNames, declName.getParent());
-						
-						return ret;
-					}
-				}
-				else if (typeUsage instanceof TypeParameterUsage)
-				{
-					TypeParameter typeParam = typeUsage.asTypeParameter();
-					if (typeParam instanceof JavaParserTypeParameter)
-					{
-						com.github.javaparser.ast.TypeParameter jpTypeParameter = ((JavaParserTypeParameter)typeParam).getWrappedNode();
-						Node genericDecl = jpTypeParameter.getParentNode();
-						if (genericDecl instanceof BodyDeclaration)
-						{ 
-							JavaDeclName genericName = null;
-							if (!ignoresContext((BodyDeclaration)genericDecl))
-							{
-								genericName = JavaDeclNameResolver.getQualifiedDeclName((BodyDeclaration)genericDecl, m_typeSolver, m_ignoredContexts);
-							}
-							return new JavaTypeName(jpTypeParameter.getName(), genericName);
-						}
-					}
-					else
-					{
-						// do we need to handle using type parameters of external code?
-					}
-				}
+				TypeUsage typeUsage = JavaParserFacade.get(m_typeSolver).convert(type, type); 
+				
+				return JavaSymbolSolverTypeNameResolver.getQualifiedTypeName(typeUsage, m_typeSolver, m_ignoredContexts);
 			}
 			catch (Exception e)
 			{
