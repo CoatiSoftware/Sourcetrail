@@ -136,6 +136,11 @@
 			</syntax>
 
 			<selection>
+				<text>white</text>
+				<background>#777777</background>
+			</selection>
+
+			<annotation>
 				<token>
 					<normal>
 						<border>transparent</border>
@@ -193,7 +198,7 @@
 						<fill>#134B63</fill>
 					</focus>
 				</fulltext>
-			</selection>
+			</annotation>
 		</snippet>
 	</code>
 

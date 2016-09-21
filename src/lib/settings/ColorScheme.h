@@ -31,7 +31,7 @@ public:
 	std::string getSearchTypeColor(const std::string& searchTypeName, const std::string& key, const std::string& state = "normal") const;
 	std::string getSyntaxColor(const std::string& key) const;
 
-	std::string getCodeSelectionTypeColor(const std::string& typeStr, const std::string& key, ColorState state) const;
+	std::string getCodeAnnotationTypeColor(const std::string& typeStr, const std::string& key, ColorState state) const;
 
 protected:
 	ColorScheme();

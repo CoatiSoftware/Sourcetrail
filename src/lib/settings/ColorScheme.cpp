@@ -102,19 +102,19 @@ std::string ColorScheme::getSyntaxColor(const std::string& key) const
 	return getValue<std::string>("code/snippet/syntax/" + key, "#FFFFFF");
 }
 
-std::string ColorScheme::getCodeSelectionTypeColor(const std::string& typeStr, const std::string& key, ColorState state) const
+std::string ColorScheme::getCodeAnnotationTypeColor(const std::string& typeStr, const std::string& key, ColorState state) const
 {
 	disableWarnings();
-	std::string color = getValue<std::string>("code/snippet/selection/" + typeStr + "/" + stateToString(state) + "/" + key, "");
+	std::string color = getValue<std::string>("code/snippet/annotation/" + typeStr + "/" + stateToString(state) + "/" + key, "");
 
 	if (!color.size() && state == ACTIVE)
 	{
-		color = getValue<std::string>("code/snippet/selection/" + typeStr + "/" + stateToString(FOCUS) + "/" + key, "");
+		color = getValue<std::string>("code/snippet/annotation/" + typeStr + "/" + stateToString(FOCUS) + "/" + key, "");
 	}
 
 	if (!color.size() && state != NORMAL)
 	{
-		color = getValue<std::string>("code/snippet/selection/" + typeStr + "/" + stateToString(NORMAL) + "/" + key, "");
+		color = getValue<std::string>("code/snippet/annotation/" + typeStr + "/" + stateToString(NORMAL) + "/" + key, "");
 	}
 
 	if (!color.size())

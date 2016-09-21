@@ -177,6 +177,8 @@ private:
 	std::vector<const Annotation*> m_hoveredAnnotations;
 
 	int m_digits;
+
+	bool m_isSelecting;
 	bool m_isPanning;
 	QPoint m_oldMousePosition;
 	int m_panningDistance;

@@ -117,6 +117,11 @@
 			</syntax>
 
 			<selection>
+				<text>black</text>
+				<background>#E0E0E0</background>
+			</selection>
+
+			<annotation>
 				<token>
 					<normal>
 						<border>transparent</border>
@@ -171,7 +176,7 @@
 						<fill>#ABABDD</fill>
 					</focus>
 				</fulltext>
-			</selection>
+			</annotation>
 		</snippet>
 	</code>
 

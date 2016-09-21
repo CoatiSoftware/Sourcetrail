@@ -91,6 +91,7 @@ QtCodeArea::QtCodeArea(
 	, m_code(code)
 	, m_locationFile(locationFile)
 	, m_digits(0)
+	, m_isSelecting(false)
 	, m_isPanning(false)
 	, m_setIDECursorPositionAction(nullptr)
 	, m_eventPosition(0, 0)
@@ -124,7 +125,6 @@ QtCodeArea::QtCodeArea(
 
 	connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
 	connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
-	connect(this, SIGNAL(selectionChanged()), this, SLOT(clearSelection()));
 
 	this->setMouseTracking(true);
 
@@ -398,11 +398,22 @@ void QtCodeArea::leaveEvent(QEvent* event)
 
 void QtCodeArea::mousePressEvent(QMouseEvent* event)
 {
+	clearSelection();
+
 	if (event->button() == Qt::LeftButton)
 	{
-		m_isPanning = true;
-		m_oldMousePosition = event->pos();
-		m_panningDistance = 0;
+		if (Qt::KeyboardModifier::ShiftModifier & QApplication::keyboardModifiers())
+		{
+			m_isSelecting = true;
+			QTextCursor cursor = this->cursorForPosition(event->pos());
+			setTextCursor(cursor);
+		}
+		else
+		{
+			m_isPanning = true;
+			m_oldMousePosition = event->pos();
+			m_panningDistance = 0;
+		}
 	}
 }
 
@@ -411,11 +422,17 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 	const int panningThreshold = 5;
 	if (event->button() == Qt::LeftButton)
 	{
+		if (m_isSelecting)
+		{
+			m_isSelecting = false;
+			return;
+		}
+
 		m_isPanning = false;
 
 		if (m_panningDistance < panningThreshold) // dont do anything if mouse is release to end some real panning action.
 		{
-			if (Qt::KeyboardModifier::ControlModifier && QApplication::keyboardModifiers())
+			if (Qt::KeyboardModifier::ControlModifier & QApplication::keyboardModifiers())
 			{
 				m_eventPosition = event->pos();
 				setIDECursorPosition();
@@ -434,7 +451,13 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 
 void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 {
-	if (m_isPanning)
+	if (m_isSelecting)
+	{
+		QTextCursor cursor = textCursor();
+		cursor.setPosition(this->cursorForPosition(event->pos()).position(), QTextCursor::KeepAnchor);
+		setTextCursor(cursor);
+	}
+	else if (m_isPanning)
 	{
 		const QPoint currentMousePosition = event->pos();
 		const int deltaX = currentMousePosition.x() - m_oldMousePosition.x();
@@ -448,7 +471,6 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 
 		m_panningDistance += abs(deltaX + deltaY);
 	}
-
 
 	QTextCursor cursor = this->cursorForPosition(event->pos());
 	std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(cursor.position());
@@ -824,8 +846,7 @@ std::vector<QRect> QtCodeArea::getCursorRectsForAnnotation(const Annotation& ann
 {
 	std::vector<QRect> rects;
 
-	QTextCursor cursor = textCursor();
-	cursor.clearSelection();
+	QTextCursor cursor = QTextCursor(document());
 	cursor.setPosition(annotation.start);
 	QRect rectStart = cursorRect(cursor);
 	QRect rectEnd;
@@ -880,9 +901,9 @@ const QtCodeArea::AnnotationColor& QtCodeArea::getAnnotationColorForAnnotation(c
 			for (const ColorScheme::ColorState& state : states)
 			{
 				AnnotationColor color;
-				color.border = scheme->getCodeSelectionTypeColor(type, "border", state);
-				color.fill = scheme->getCodeSelectionTypeColor(type, "fill", state);
-				color.text = scheme->getCodeSelectionTypeColor(type, "text", state);
+				color.border = scheme->getCodeAnnotationTypeColor(type, "border", state);
+				color.fill = scheme->getCodeAnnotationTypeColor(type, "fill", state);
+				color.text = scheme->getCodeAnnotationTypeColor(type, "text", state);
 				s_annotationColors.push_back(color);
 			}
 		}
