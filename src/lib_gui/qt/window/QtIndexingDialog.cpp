@@ -25,6 +25,7 @@ QtIndexingDialog::QtIndexingDialog(QWidget* parent)
 	, m_callback([](bool){})
 {
 	// setWindowFlags(Qt::WindowStaysOnTopHint);
+	setSizeGripStyle(false);
 }
 
 QSize QtIndexingDialog::sizeHint() const

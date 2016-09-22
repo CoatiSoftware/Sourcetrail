@@ -24,6 +24,8 @@ public:
 
 	void setup();
 
+	void setSizeGripStyle(bool isBlack);
+
 	void setCancelAble(bool cancelAble);
 	void setScrollAble(bool scrollAble);
 

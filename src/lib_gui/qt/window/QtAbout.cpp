@@ -13,6 +13,7 @@
 QtAbout::QtAbout(QWidget *parent)
 	: QtWindow(parent)
 {
+	setSizeGripStyle(false);
 }
 
 QSize QtAbout::sizeHint() const

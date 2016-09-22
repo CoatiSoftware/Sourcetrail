@@ -55,16 +55,10 @@ QtWindow::QtWindow(QWidget* parent)
 	layout->addWidget(m_content);
 
 	QHBoxLayout* gripLayout = new QHBoxLayout();
-	QSizeGrip* sizeGrip = new QSizeGrip(m_window);
-	sizeGrip->setStyleSheet(QString::fromStdString(
-		"QSizeGrip {"
-		"	max-height: 12px;"
-		"	max-width: 12px;"
-		"	border-image: url(" + ResourcePaths::getGuiPath() + "window/size_grip.png);"
-		"}"
-	));
+	m_sizeGrip = new QSizeGrip(m_window);
+	setSizeGripStyle(true);
 	gripLayout->addWidget(new QWidget());
-	gripLayout->addWidget(sizeGrip);
+	gripLayout->addWidget(m_sizeGrip);
 	layout->addLayout(gripLayout);
 
 	resize(sizeHint());
@@ -141,6 +135,19 @@ void QtWindow::setup()
 	m_content->setLayout(layout);
 
 	setupDone();
+}
+
+void QtWindow::setSizeGripStyle(bool isBlack)
+{
+	std::string path = isBlack ? "size_grip_black.png" : "size_grip_white.png";
+
+	m_sizeGrip->setStyleSheet(QString::fromStdString(
+		"QSizeGrip {"
+		"	max-height: 16px;"
+		"	max-width: 16px;"
+		"	border-image: url(" + ResourcePaths::getGuiPath() + "window/" + path + ");"
+		"}"
+	));
 }
 
 void QtWindow::setCancelAble(bool cancelable)

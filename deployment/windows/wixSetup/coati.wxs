@@ -2,20 +2,20 @@
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
 
     <Product Name='Coati' Manufacturer='Coati Software OG'
-        Id='596E7336-D5B9-449A-95E9-6040F354E283' 
+        Id='596E7336-D5B9-449A-95E9-6040F354E283'
         UpgradeCode='6DAB9E05-6E5B-4D26-A2A0-8F1757F2A4EF'
         Language='1033' Codepage='1252' Version='$(var.projectVersion)'>
-		
+
 		<Package Id='*' Keywords='Installer' Description="Coati Installer"
 			Comments='Coati is a registered trademark of Coati Software OG' Manufacturer='Coati Software OG'
 			InstallerVersion='100' Languages='1033' Compressed='yes' SummaryCodepage='1252' />
-			
+
 		<Media Id='1' Cabinet='Sample.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1' />
-		
+
 		<Property Id='DiskPrompt' Value="Coati Installation [1]" />
 		<Property Id="INSTALLDESKTOPSHORTCUT" />
 		<Property Id="INSTALLSTARTMENUSHORTCUT" Value="true" />
-		
+
 		<!-- Shortcuts -->
 		<Upgrade Id='A4C8F644-9A8C-4825-8C48-F6A98F111722'>
 			<UpgradeVersion OnlyDetect='yes' Property='SELFFOUND'
@@ -26,33 +26,33 @@
 		</Upgrade>
 
 		<Directory Id='TARGETDIR' Name='SourceDir'>
-			
+
 			<!-- This would be an alternative to include C++ runtime stuff, currently the required DLLs are included directly instead -->
 			<!-- <Merge Id="VCRedist" SourceFile="C:\Program Files (x86)\Common Files\Merge Modules\Microsoft_VC140_CRT_x86.msm" DiskId="1" Language="0"/> -->
-			
+
 			<Directory Id="ProgramMenuFolder" Name="Programs">
 				<Directory Id="ProgramMenuDir" Name="Coati">
 					<Component Id="UninstallShortcut" Guid="028B666E-FAE8-4F53-A0E6-C2E0396CB6F2">
 						<Condition>INSTALLSTARTMENUSHORTCUT</Condition>
-						<!-- <Shortcut Id="UninstallProduct"     
+						<!-- <Shortcut Id="UninstallProduct"
 									Name="Coati Uninstall"
 									Description="Uninstall Coati"
 									Target="[System64Folder]msiexec.exe"
 									Arguments="/x [ProductCode]"/> -->
-						
+
 						<Shortcut Id="UninstallProduct"
 								Name="Uninstall Coati"
 								Description="Remove Coati from your computer"
 								Target="[INSTALLDIR]uninstall.bat" />
-						
+
 						<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\CoatiUninstall" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
 						<RemoveFolder Id='ProgramMenuDir' On='uninstall' />
 					</Component>
-					
+
 					<Component Id="ApplicationShortcut" Guid="5AD30B21-61BA-4002-AF2F-E9E69989E446">
 						<Condition>INSTALLSTARTMENUSHORTCUT</Condition>
 						<Shortcut Id="ApplicationStartMenuShortcut"
-									
+
 									Name="Coati"
 									Description="The Sauce Explorer"
 									Target="[INSTALLDIR]Coati.exe"
@@ -62,7 +62,7 @@
 				</Directory>
 			</Directory>
 
-			
+
 			<Directory Id="DesktopFolder" Name="Desktop">
 				<Component Id='DesktopShortcut' Guid='285FA7FC-F355-4892-AFA7-DD49B8D81563'>
 					<Condition>INSTALLDESKTOPSHORTCUT</Condition>
@@ -75,19 +75,19 @@
 					<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\CoatiDesktop" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
 				</Component>
 			</Directory>
-			
+
 			<!-- Application Folder -->
 			<Directory Id='ProgramFilesFolder' Name='PFiles'>
 				<Directory Id='COMPANYDIR' Name='Coati Software'>
 					<Directory Id='INSTALLDIR' Name='Coati' />
 				</Directory>
 			</Directory>
-			
-			
+
+
 			<!-- AppData Folder -->
 			<Directory Id="LocalAppDataFolder">
 				<Directory Id="CoatiSoftwareAppData" Name="Coati Software">
-				
+
 					<Component Id="CoatiSoftwareAppDataDummy" Guid="E57CFAEC-B3E7-45EB-8B94-F50EBDA1355C">
 						<CreateFolder />
 						<RemoveFolder Id='CoatiSoftwareAppData' On='uninstall' />
@@ -95,7 +95,7 @@
 							<RegistryValue Type="integer" Value="1" KeyPath="yes" />
 						</RegistryKey>
 					</Component>
-				
+
 					<Directory Id="CoatiAppData" Name="Coati">
 						<Component Id="WindowSettingsIni" Guid="F6E9CCD3-C2BE-4309-8E0F-B1FC7ABB189E">
 							<CreateFolder />
@@ -109,26 +109,26 @@
 				</Directory>
 			</Directory>
 		</Directory>
-		
-		
-		
+
+
+
 		<Feature Id='Complete' Title='Coati' Description='Source Explorer' Display='expand' Level='1' ConfigurableDirectory='INSTALLDIR'>
 			<Feature Id='Program' Title='Program' Description='The main installation' Level='1'>
 				<!-- Prerequisites -->
 				<!-- <MergeRef Id='VCRedist'/> --> <!-- see comment at declaration -->
-			
+
 				<!-- Application Folder Stuff -->
 				<ComponentRef Id='MainExecutable'/>
-			
+
 				<ComponentRef Id='ApplicationShortcut'/>
-				<ComponentRef Id='DesktopShortcut'/>				
+				<ComponentRef Id='DesktopShortcut'/>
 				<ComponentRef Id='UninstallShortcut'/>
-				
+
 				<ComponentRef Id='Qt5CoreDll'/>
 				<ComponentRef Id='Qt5GuiDll'/>
 				<ComponentRef Id='Qt5NetworkDll'/>
 				<ComponentRef Id='Qt5WidgetsDll'/>
-				
+
 				<ComponentRef Id='apiMsWinCrtConvert_l1_1_0Dll'/>
 				<ComponentRef Id='apiMsWinCrtEnvironment_l1_1_0Dll'/>
 				<ComponentRef Id='apiMsWinCrtFilesystem_l1_1_0Dll'/>
@@ -141,19 +141,19 @@
 				<ComponentRef Id='apiMsWinCrtTime_l1_1_0Dll'/>
 				<ComponentRef Id='apiMsWinCrtUtility_l1_1_0Dll'/>
 				<ComponentRef Id='qtConf'/>
-				
+
 				<ComponentRef Id='QWindowsDll'/>
-				
+
 				<ComponentRef Id='MainCss'/>
 				<ComponentRef Id='SplashBluePng'/>
 				<ComponentRef Id='SplashWhitePng'/>
-				
+
 				<ComponentRef Id='AboutCss'/>
 				<ComponentRef Id='IconClosePng'/>
 				<ComponentRef Id='LogoAwsPng'/>
 				<ComponentRef Id='LogoCoatiPng'/>
 				<ComponentRef Id='LogoFhsPng'/>
-				
+
 				<ComponentRef Id='CodeViewCss'/>
 				<ComponentRef Id='EditPng'/>
 				<ComponentRef Id='MaximizeActivePng'/>
@@ -163,7 +163,7 @@
 				<ComponentRef Id='PatternPng'/>
 				<ComponentRef Id='SnippetActivePng'/>
 				<ComponentRef Id='SnippetInactivePng'/>
-				
+
 				<ComponentRef Id='GraphViewCss'/>
 				<ComponentRef Id='ArrowPng'/>
 				<ComponentRef Id='BundlePng'/>
@@ -181,37 +181,37 @@
 				<ComponentRef Id='Typedef_1Png'/>
 				<ComponentRef Id='Typedef_2Png'/>
 				<ComponentRef Id='Typedef_3Png'/>
-				
+
 				<ComponentRef Id='CoatiIco'/>
 				<ComponentRef Id='Logo_1024_1024_Png'/>
 				<ComponentRef Id='ProjectIco'/>
 				<ComponentRef Id='Project_256_256_Png'/>
 				<ComponentRef Id='Project_cdb_256_256_Png'/>
 				<ComponentRef Id='Project_vs_256_256_Png'/>
-				
+
 				<ComponentRef Id='ErrorPng'/>
 				<ComponentRef Id='FlagPng'/>
 				<ComponentRef Id='IndexingDialogCss'/>
 				<ComponentRef Id='ProgressBarElementPng'/>
-				
+
 				<ComponentRef Id='LicenseCss'/>
-				
+
 				<ComponentRef Id='RefreshViewCss'/>
 				<ComponentRef Id='RefreshPng'/>
-				
+
 				<ComponentRef Id='SearchViewCss'/>
 				<ComponentRef Id='HomePng'/>
 				<ComponentRef Id='SearchPng'/>
-				
+
 				<ComponentRef Id='StartscreenCss'/>
-				
+
 				<ComponentRef Id='DotPng'/>
 				<ComponentRef Id='LoaderGif'/>
-				
+
 				<ComponentRef Id='UndoRedoViewCss'/>
 				<ComponentRef Id='ArrowLeftPng'/>
 				<ComponentRef Id='ArrowRightPng'/>
-				
+
 				<ComponentRef Id='WindowDotsPng'/>
 				<ComponentRef Id='WindowDotsHoverPng'/>
 				<ComponentRef Id='HelpPng'/>
@@ -224,12 +224,13 @@
 				<ComponentRef Id='PlusHoverPng'/>
 				<ComponentRef Id='WindowRefreshPng'/>
 				<ComponentRef Id='RefreshHoverPng'/>
-				<ComponentRef Id='SizeGripPng'/>
+				<ComponentRef Id='SizeGripBlackPng'/>
+				<ComponentRef Id='SizeGripWhitePng'/>
 				<ComponentRef Id='WindowCss'/>
-				
+
 				<ComponentRef Id='ColorSchemes'/>
 				<ComponentRef Id='FontSet'/>
-				
+
 				<ComponentRef Id='JavaGuavaJar'/>
 				<ComponentRef Id='JavaJavaIndexerJar'/>
 				<ComponentRef Id='JavaJavaparserJar'/>
@@ -238,26 +239,26 @@
 				<ComponentRef Id='JavaJavaSymbolSolverCoreJar'/>
 				<ComponentRef Id='JavaJavaSymbolSolverLogicJar'/>
 				<ComponentRef Id='JavaJavaSymbolSolverModelJar'/>
-				
+
 				<ComponentRef Id='UninstallBat'/>
-				
+
 				<!-- AppData Folder Stuff -->
 				<ComponentRef Id='CoatiSoftwareAppDataDummy'/>
-				
+
 				<ComponentRef Id='WindowSettingsIni'/>
 				<ComponentRef Id='ApplicationSettingsXml'/>
 			<!-- </Feature> -->
-			
+
 			<!-- Sample Projects for AddData Folder -->
 			<!-- <Feature Id='SampleCode' Title='Samples' Description='Tutorial and Sample Project' Level='1000'> -->
 				<ComponentRef Id='SampleProjects'/>
-				
+
 				<ComponentRef Id='TictactoeCoatiproject'/>
 				<ComponentRef Id='TictactoeCode'/>
-				
+
 				<ComponentRef Id='TutorialCoatiproject'/>
 				<ComponentRef Id='TutorialCode'/>
-				
+
 				<ComponentRef Id='JavaparserCoatiproject'/>
 				<ComponentRef Id='SampleProjectJavaparserSrcFolder'/>
 				<ComponentRef Id='SampleProjectJavaparserSrcMainFolder'/>
@@ -283,40 +284,40 @@
 				<ComponentRef Id='SampleProjectJavaparserTargetGeneratedSourcesCode'/>
 			</Feature>
 		</Feature>
-		
+
 		<CustomAction Id='AlreadyUpdated' Error='[ProductName] is already up to date.' />
 		<CustomAction Id='NoDowngrade' Error='A later version of [ProductName] is already installed' />
-		
+
 		<InstallExecuteSequence>
 			<Custom Action='AlreadyUpdated' After='FindRelatedProducts'>SELFFOUND</Custom>
 			<Custom Action='NoDowngrade' After='FindRelatedProducts'>NEWERFOUND</Custom>
 			<Custom Action='SetupAppSettings' After='InstallFiles'>NOT Installed AND NOT PATCH</Custom>
 			<Custom Action='UninstallRemoveLogFolder' After='UnpublishComponents'>(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
 		</InstallExecuteSequence>
-		
+
 		<!-- <UIRef Id="WixUI_InstallDir" /> -->
-		
+
 		<UI Id="MyWixUI_InstallDir">
 			<UIRef Id="WixUI_InstallDir" />
-		
+
 			<DialogRef Id="ShortcutDlg" />
 
 			<Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="ShortcutDlg" Order="4">WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"</Publish>
 			<Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="ShortcutDlg">1</Publish>
 		</UI>
-		
+
 		<Property Id="WIXUI_INSTALLDIR" Value="COMPANYDIR" />
-		
+
 		<UIRef Id="WixUI_ErrorProgressText" />
-		
+
 		<Icon Id="Coati.ico" SourceFile="./../../../bin/app/data/gui/icon/coati.ico" />
 		<Icon Id="Project.ico" SourceFile="./../../../bin/app/data/gui/icon/project.ico" />
-		
+
 		<WixVariable Id="WixUILicenseRtf" Value="./../../../bin/app/data/gui/installer/EULA.rtf" />
-		
+
 		<WixVariable Id="WixUIBannerBmp" Value="Images/banner.bmp" />
 		<WixVariable Id="WixUIDialogBmp" Value="Images/w_installer.bmp" />
-		
+
 		<!-- <WixVariable Id="var.Coati.projectVersion" Value="0.7.0" /> -->
 	</Product>
 </Wix>
