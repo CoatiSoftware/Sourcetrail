@@ -308,8 +308,6 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
 	switch (type)
 	{
 	case Node::NODE_UNDEFINED:
-		style.borderDashed = true;
-
 	case Node::NODE_NAMESPACE:
 	case Node::NODE_PACKAGE:
 	case Node::NODE_TYPE:

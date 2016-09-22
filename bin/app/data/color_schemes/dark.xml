@@ -287,6 +287,9 @@
 			</enum_constant>
 
 			<undefined>
+				<like>type</like>
+			</undefined>
+			<namespace>
 				<fill>
 					<normal>#78282D</normal>
 				</fill>
@@ -294,12 +297,9 @@
 					<normal>#80C3C3C3</normal>
 					<focus>#C3C3C3</focus>
 				</border>
-			</undefined>
-			<namespace>
-				<like>undefined</like>
 			</namespace>
 			<package>
-				<like>undefined</like>
+				<like>namespace</like>
 			</package>
 
 			<file>
