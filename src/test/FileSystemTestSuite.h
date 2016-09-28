@@ -18,9 +18,11 @@ public:
 		std::vector<std::string> cppFiles =
 			FileSystem::getFileNamesFromDirectory("data/FileSystemTestSuite", extensions);
 
-		TS_ASSERT_EQUALS(cppFiles.size(), 2);
+		TS_ASSERT_EQUALS(cppFiles.size(), 4);
 		TS_ASSERT(isInVector(cppFiles, "data/FileSystemTestSuite/main.cpp"));
 		TS_ASSERT(isInVector(cppFiles, "data/FileSystemTestSuite/Settings/sample.cpp"));
+		TS_ASSERT(isInVector(cppFiles, "data/FileSystemTestSuite/src/main.cpp"));
+		TS_ASSERT(isInVector(cppFiles, "data/FileSystemTestSuite/src/test.cpp"));
 	}
 
 	void test_find_h_files()
@@ -31,9 +33,10 @@ public:
 		std::vector<std::string> headerFiles =
 			FileSystem::getFileNamesFromDirectory("data/FileSystemTestSuite", extensions);
 
-		TS_ASSERT_EQUALS(headerFiles.size(), 2);
+		TS_ASSERT_EQUALS(headerFiles.size(), 3);
 		TS_ASSERT(isInVector(headerFiles, "data/FileSystemTestSuite/tictactoe.h"));
 		TS_ASSERT(isInVector(headerFiles, "data/FileSystemTestSuite/Settings/player.h"));
+		TS_ASSERT(isInVector(headerFiles, "data/FileSystemTestSuite/src/test.h"));
 	}
 
 	void test_find_all_source_files()
@@ -46,29 +49,7 @@ public:
 		std::vector<std::string> sourceFiles =
 			FileSystem::getFileNamesFromDirectory("data/FileSystemTestSuite", extensions);
 
-		TS_ASSERT_EQUALS(sourceFiles.size(), 5);
-	}
-
-	void test_find_updated_source_files()
-	{
-		std::string timeString = FileSystem::getTimeStringNow();
-
-		std::fstream fileStream;
-		fileStream.open("./data/FileSystemTestSuite/update.c");
-		fileStream << "update";
-		fileStream.close();
-
-		std::vector<std::string> extensions;
-		extensions.push_back(".h");
-		extensions.push_back(".c");
-		extensions.push_back(".hpp");
-		extensions.push_back(".cpp");
-
-		std::vector<std::string> sourceFiles =
-			FileSystem::getFileNamesFromDirectoryUpdatedAfter("data/FileSystemTestSuite", extensions, timeString);
-
-		TS_ASSERT_EQUALS(sourceFiles.size(), 1);
-		TS_ASSERT_EQUALS(sourceFiles[0], "data/FileSystemTestSuite/update.c");
+		TS_ASSERT_EQUALS(sourceFiles.size(), 8);
 	}
 
 	void test_find_file_infos()
@@ -79,11 +60,33 @@ public:
 		extensions.push_back(".cpp");
 
 		std::vector<FilePath> directoryPaths;
-		directoryPaths.push_back("./data/FileSystemTestSuite");
+		directoryPaths.push_back("./data/FileSystemTestSuite/src");
 
-		std::vector<FileInfo> files = FileSystem::getFileInfosFromPaths(directoryPaths, extensions);
+		std::vector<FileInfo> files = FileSystem::getFileInfosFromPaths(directoryPaths, extensions, false);
+
+		TS_ASSERT_EQUALS(files.size(), 2);
+		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/test.cpp"));
+		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/test.h"));
+	}
+
+	void test_find_file_infos_with_symlinks()
+	{
+		std::vector<std::string> extensions;
+		extensions.push_back(".h");
+		extensions.push_back(".hpp");
+		extensions.push_back(".cpp");
+
+		std::vector<FilePath> directoryPaths;
+		directoryPaths.push_back("./data/FileSystemTestSuite/src");
+
+		std::vector<FileInfo> files = FileSystem::getFileInfosFromPaths(directoryPaths, extensions, true);
 
 		TS_ASSERT_EQUALS(files.size(), 5);
+		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/Settings/player.h"));
+		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/Settings/sample.cpp"));
+		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/main.cpp"));
+		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/Settings/src/test.cpp"));
+		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/Settings/src/test.h"));
 	}
 
 	void test_filesystem_finds_existing_files()
@@ -120,5 +123,18 @@ private:
 	bool isInVector(const std::vector<std::string>& files, const std::string filename)
 	{
 		return std::end(files) != std::find(std::begin(files), std::end(files), filename);
+	}
+
+	bool isInFileInfos(const std::vector<FileInfo>& infos, const std::string filename)
+	{
+		for (const FileInfo& info : infos)
+		{
+			if (info.path.str() == filename)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 };

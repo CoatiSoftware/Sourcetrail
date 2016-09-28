@@ -12,13 +12,11 @@ class FileSystem
 public:
 	static std::vector<std::string> getFileNamesFromDirectory(
 		const std::string& path, const std::vector<std::string>& extensions);
-	static std::vector<std::string> getFileNamesFromDirectoryUpdatedAfter(
-		const std::string& path, const std::vector<std::string>& extensions, const std::string& timeString);
 
 	static FileInfo getFileInfoForPath(FilePath filePath);
 
 	static std::vector<FileInfo> getFileInfosFromPaths(
-		const std::vector<FilePath>& paths, const std::vector<std::string>& fileExtensions);
+		const std::vector<FilePath>& paths, const std::vector<std::string>& fileExtensions, bool followSymLinks = true);
 
 	static TimePoint getLastWriteTime(const FilePath& filePath);
 	static std::string getTimeStringNow();
@@ -38,7 +36,6 @@ public:
 
 	static std::string extension(const std::string& path);
 	static std::string filePathWithoutExtension(const std::string& path);
-	static bool hasExtension(const std::string& filepath, const std::vector<std::string>& extensions);
 
 	static bool equivalent(const std::string& pathA, const std::string& pathB);
 };

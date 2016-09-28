@@ -1,11 +1,14 @@
 #include "utility/file/FileSystem.h"
 
+#include <set>
+
 #include "boost/date_time.hpp"
 #include "boost/filesystem.hpp"
 
 std::vector<std::string> FileSystem::getFileNamesFromDirectory(
 	const std::string& path, const std::vector<std::string>& extensions
 ){
+	std::set<std::string> ext(extensions.begin(), extensions.end());
 	std::vector<std::string> files;
 
 	if (boost::filesystem::is_directory(path))
@@ -14,37 +17,20 @@ std::vector<std::string> FileSystem::getFileNamesFromDirectory(
 		boost::filesystem::recursive_directory_iterator endit;
 		while (it != endit)
 		{
-			if (boost::filesystem::is_regular_file(*it) && hasExtension(it->path().string(), extensions))
+			if (boost::filesystem::is_symlink(*it))
+			{
+				// check for self-referencing symlinks
+				boost::filesystem::path p = boost::filesystem::read_symlink(*it);
+				if (p.filename() == p.string() && p.filename() == it->path().filename())
+				{
+					++it;
+					continue;
+				}
+			}
+
+			if (boost::filesystem::is_regular_file(*it) && ext.find(it->path().extension().string()) != ext.end())
 			{
 				files.push_back(it->path().generic_string());
-			}
-			++it;
-		}
-	}
-	return files;
-}
-
-std::vector<std::string> FileSystem::getFileNamesFromDirectoryUpdatedAfter(
-	const std::string& path, const std::vector<std::string>& extensions, const std::string& timeString
-){
-	std::vector<std::string> files;
-
-	const boost::posix_time::ptime time = boost::posix_time::from_iso_string(timeString);
-
-	if (boost::filesystem::is_directory(path))
-	{
-		boost::filesystem::recursive_directory_iterator it(path);
-		boost::filesystem::recursive_directory_iterator endit;
-		while (it != endit)
-		{
-			if (boost::filesystem::is_regular_file(*it) && hasExtension(it->path().string(), extensions))
-			{
-				std::time_t t = boost::filesystem::last_write_time(*it);
-				boost::posix_time::ptime lastWriteTime = boost::posix_time::from_time_t(t);
-				if (lastWriteTime >= time)
-				{
-					files.push_back(it->path().generic_string());
-				}
 			}
 			++it;
 		}
@@ -64,39 +50,85 @@ FileInfo FileSystem::getFileInfoForPath(FilePath filePath)
 }
 
 std::vector<FileInfo> FileSystem::getFileInfosFromPaths(
-	const std::vector<FilePath>& paths, const std::vector<std::string>& fileExtensions
+	const std::vector<FilePath>& paths, const std::vector<std::string>& fileExtensions, bool followSymLinks
 ){
+	std::set<std::string> ext(fileExtensions.begin(), fileExtensions.end());
+
+	std::set<boost::filesystem::path> symlinkDirs;
+	std::set<boost::filesystem::path> filePaths;
+
 	std::vector<FileInfo> files;
+
 	for (const FilePath& path: paths)
 	{
 		if (path.isDirectory())
 		{
-			boost::filesystem::recursive_directory_iterator it(path.path());
+			boost::filesystem::recursive_directory_iterator it(path.path(), boost::filesystem::symlink_option::recurse);
 			boost::filesystem::recursive_directory_iterator endit;
 			boost::system::error_code ec;
 			for ( ; it != endit ; it.increment(ec) )
 			{
-				if (ec)
+				if (boost::filesystem::is_symlink(*it))
 				{
-					it.pop();
-					continue;
+					if (!followSymLinks)
+					{
+						it.no_push();
+						continue;
+					}
+
+					// check for self-referencing symlinks
+					boost::filesystem::path p = boost::filesystem::read_symlink(*it);
+					if (p.filename() == p.string() && p.filename() == it->path().filename())
+					{
+						continue;
+					}
+
+					// check for duplicates when following directory symlinks
+					if (boost::filesystem::is_directory(*it))
+					{
+						boost::filesystem::path absDir = boost::filesystem::canonical(p, it->path().parent_path());
+
+						if (symlinkDirs.find(absDir) != symlinkDirs.end())
+						{
+							it.no_push();
+							continue;
+						}
+
+						symlinkDirs.insert(absDir);
+					}
 				}
+
 				if (boost::filesystem::is_regular_file(*it) &&
-					(!fileExtensions.size() || hasExtension(it->path().string(), fileExtensions)))
+					(!ext.size() || ext.find(it->path().extension().string()) != ext.end()))
 				{
+					boost::filesystem::path p = boost::filesystem::canonical(it->path());
+					if (filePaths.find(p) != filePaths.end())
+					{
+						continue;
+					}
+					filePaths.insert(p);
+
 					std::time_t t = boost::filesystem::last_write_time(*it);
 					boost::posix_time::ptime lastWriteTime = boost::posix_time::from_time_t(t);
 					files.push_back(FileInfo(it->path(), lastWriteTime));
 				}
 			}
 		}
-		else if (path.exists() && (!fileExtensions.size() || path.hasExtension(fileExtensions)))
+		else if (path.exists() && (!ext.size() || ext.find(path.extension()) != ext.end()))
 		{
+			boost::filesystem::path p = boost::filesystem::canonical(path.path());
+			if (filePaths.find(p) != filePaths.end())
+			{
+				continue;
+			}
+			filePaths.insert(p);
+
 			std::time_t t = boost::filesystem::last_write_time(path.path());
 			boost::posix_time::ptime lastWriteTime = boost::posix_time::from_time_t(t);
 			files.push_back(FileInfo(path, lastWriteTime));
 		}
 	}
+
 	return files;
 }
 
@@ -202,20 +234,6 @@ std::string FileSystem::extension(const std::string& path)
 std::string FileSystem::filePathWithoutExtension(const std::string& path)
 {
 	return boost::filesystem::path(path).replace_extension().generic_string();
-}
-
-bool FileSystem::hasExtension(const std::string& filepath, const std::vector<std::string>& extensions)
-{
-	boost::filesystem::path path(filepath);
-
-	for (std::string extension : extensions)
-	{
-		if (path.extension() == extension)
-		{
-			return true;
-		}
-	}
-	return false;
 }
 
 bool FileSystem::equivalent(const std::string& pathA, const std::string& pathB)
