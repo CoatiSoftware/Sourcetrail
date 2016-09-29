@@ -144,6 +144,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 		, layout, row
 	);
 
+	layout->setRowMinimumHeight(row, 30);
 	row++;
 
 	layout->setRowMinimumHeight(row++, 20);
@@ -231,8 +232,23 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	}
 	addJavaPathDetection(layout, row);
 
-	layout->setRowMinimumHeight(row++, 20);
+	layout->setRowMinimumHeight(row, 20);
+	row++;
 
+	// jvm max memory
+	m_jvmMaximumMemory = new QLineEdit();
+	m_jvmMaximumMemory->setObjectName("name");
+	m_jvmMaximumMemory->setAttribute(Qt::WA_MacShowFocusRect, 0);
+
+	layout->addWidget(createFormLabel("JVM Maximum Memory"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(m_jvmMaximumMemory, row, QtProjectWizzardWindow::BACK_COL);
+
+	addHelpButton(
+		"Specify the maximum amount of memory that should be allocated by the indexer's JVM. A value of -1 ignores this setting."
+		, layout, row
+	);
+	layout->setRowMinimumHeight(row, 30);
+	row++;
 
 	// C/C++
 	layout->addWidget(createFormTitle("C/C++"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
@@ -272,6 +288,8 @@ void QtProjectWizzardContentPreferences::load()
 	{
 		m_javaPath->setText(QString::fromStdString(appSettings->getJavaPath()));
 	}
+
+	m_jvmMaximumMemory->setText(QString::number(appSettings->getJavaMaximumMemory()));
 }
 
 void QtProjectWizzardContentPreferences::save()
@@ -304,6 +322,9 @@ void QtProjectWizzardContentPreferences::save()
 	{
 		appSettings->setJavaPath(m_javaPath->getText().toStdString());
 	}
+
+	int jvmMaximumMemory = m_jvmMaximumMemory->text().toInt();
+	if (jvmMaximumMemory) appSettings->setJavaMaximumMemory(jvmMaximumMemory);
 }
 
 bool QtProjectWizzardContentPreferences::check()

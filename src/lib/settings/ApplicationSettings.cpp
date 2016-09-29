@@ -197,7 +197,7 @@ void ApplicationSettings::setJavaPath(const std::string path)
 
 int ApplicationSettings::getJavaMaximumMemory() const
 {
-	return getValue<int>("indexing/java/java_maximum_memory", 512);
+	return getValue<int>("indexing/java/java_maximum_memory", -1);
 }
 
 void ApplicationSettings::setJavaMaximumMemory(int size)

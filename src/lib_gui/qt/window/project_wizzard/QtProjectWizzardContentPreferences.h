@@ -53,6 +53,7 @@ private:
 	std::shared_ptr<CombinedPathDetector> m_javaPathDetector;
 	QComboBox* m_javaPathDetectorBox;
 	QtLocationPicker* m_javaPath;
+	QLineEdit* m_jvmMaximumMemory;
 };
 
 #endif // QT_PROJECT_WIZZARD_CONTENT_PREFERENCES_H

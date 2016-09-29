@@ -54,6 +54,7 @@ public:
 
 	void test_find_file_infos()
 	{
+#ifndef _WIN32
 		std::vector<std::string> extensions;
 		extensions.push_back(".h");
 		extensions.push_back(".hpp");
@@ -67,10 +68,12 @@ public:
 		TS_ASSERT_EQUALS(files.size(), 2);
 		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/test.cpp"));
 		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/test.h"));
+#endif
 	}
 
 	void test_find_file_infos_with_symlinks()
 	{
+#ifndef _WIN32
 		std::vector<std::string> extensions;
 		extensions.push_back(".h");
 		extensions.push_back(".hpp");
@@ -87,6 +90,7 @@ public:
 		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/main.cpp"));
 		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/Settings/src/test.cpp"));
 		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/Settings/src/test.h"));
+#endif
 	}
 
 	void test_filesystem_finds_existing_files()
