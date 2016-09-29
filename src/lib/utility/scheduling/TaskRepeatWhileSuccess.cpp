@@ -1,6 +1,7 @@
 #include "utility/scheduling/TaskRepeatWhileSuccess.h"
 
-TaskRepeatWhileSuccess::TaskRepeatWhileSuccess()
+TaskRepeatWhileSuccess::TaskRepeatWhileSuccess(TaskState exitState)
+	: m_exitState(exitState)
 {
 }
 
@@ -22,8 +23,12 @@ Task::TaskState TaskRepeatWhileSuccess::doUpdate(std::shared_ptr<Blackboard> bla
 
 	if (state == Task::STATE_SUCCESS)
 	{
-		state = Task::STATE_RUNNING;
 		m_taskRunner->reset();
+		state = Task::STATE_RUNNING;
+	}
+	else if (state == Task::STATE_FAILURE)
+	{
+		state = m_exitState;
 	}
 
 	return state;

@@ -67,8 +67,7 @@ public:
 
 	void logStats() const;
 
-	void startParsing();
-	void finishParsing();
+	void buildCaches();
 
 	void optimizeMemory();
 

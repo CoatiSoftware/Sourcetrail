@@ -186,6 +186,8 @@ add_files(
 	data/StorageStats.h
 	data/TaskCleanStorage.cpp
 	data/TaskCleanStorage.h
+	data/TaskFinishParsing.cpp
+	data/TaskFinishParsing.h
 	data/TaskInjectStorage.cpp
 	data/TaskInjectStorage.h
 
@@ -205,10 +207,10 @@ add_files(
 	settings/Settings.h
 	settings/SettingsMigrator.cpp
 	settings/SettingsMigrator.h
-	
+
 	utility/commandline/CommandLineParser.cpp
 	utility/commandline/CommandLineParser.h
-	
+
 	utility/file/FileInfo.cpp
 	utility/file/FileInfo.h
 	utility/file/FileManager.cpp

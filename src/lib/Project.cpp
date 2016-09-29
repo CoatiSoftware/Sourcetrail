@@ -7,11 +7,13 @@
 #include "data/StorageProvider.h"
 #include "data/PersistentStorage.h"
 #include "data/TaskCleanStorage.h"
+#include "data/TaskFinishParsing.h"
 #include "data/TaskInjectStorage.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ProjectSettings.h"
 
 #include "utility/file/FileRegister.h"
+#include "utility/messaging/type/MessageClearErrorCount.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageStatus.h"
@@ -225,7 +227,7 @@ void Project::load()
 
 	if (canLoad)
 	{
-		m_storage->finishParsing();
+		m_storage->buildCaches();
 		m_storageAccessProxy->setSubject(m_storage.get());
 
 		MessageFinishedParsing().dispatch();
@@ -257,25 +259,40 @@ bool Project::buildIndex(bool forceRefresh)
 	std::set<FilePath> updatedFilePaths = m_fileManager.getUpdatedFilePaths();
 	std::set<FilePath> removedFilePaths = m_fileManager.getRemovedFilePaths();
 
+	std::set<FilePath> filesToClean;
+	std::set<FilePath> filesToParse;
+
 	if (!forceRefresh)
 	{
-		utility::append(updatedFilePaths, m_storage->getDependingFilePaths(updatedFilePaths));
-		utility::append(updatedFilePaths, m_storage->getDependingFilePaths(removedFilePaths));
+		std::set<FilePath> dependingFilePaths;
+		utility::append(dependingFilePaths, m_storage->getDependingFilePaths(updatedFilePaths));
+		utility::append(dependingFilePaths, m_storage->getDependingFilePaths(removedFilePaths));
+
+		for (const FilePath& path : dependingFilePaths)
+		{
+			if (removedFilePaths.find(path) == removedFilePaths.end())
+			{
+				updatedFilePaths.insert(path);
+			}
+		}
+
+		utility::append(filesToClean, dependingFilePaths);
 	}
 
-	std::vector<FilePath> filesToClean;
-	filesToClean.insert(filesToClean.end(), removedFilePaths.begin(), removedFilePaths.end());
-	filesToClean.insert(filesToClean.end(), updatedFilePaths.begin(), updatedFilePaths.end());
+	utility::append(filesToClean, removedFilePaths);
+	utility::append(filesToClean, updatedFilePaths);
 
-	std::vector<FilePath> filesToParse;
-	filesToParse.insert(filesToParse.end(), addedFilePaths.begin(), addedFilePaths.end());
-	filesToParse.insert(filesToParse.end(), updatedFilePaths.begin(), updatedFilePaths.end());
-
+	utility::append(filesToParse, addedFilePaths);
+	utility::append(filesToParse, updatedFilePaths);
 
 	if (!filesToClean.size() && !filesToParse.size())
 	{
 		MessageStatus("Nothing to refresh, all files are up-to-date.").dispatch();
 		return false;
+	}
+	else
+	{
+		MessageClearErrorCount().dispatch();
 	}
 
 	if (Application::getInstance()->hasGUI())
@@ -299,37 +316,45 @@ bool Project::buildIndex(bool forceRefresh)
 
 	if (filesToClean.size())
 	{
-		taskSequential->addTask(std::make_shared<TaskCleanStorage>(m_storage.get(), filesToClean, m_dialogView));
+		taskSequential->addTask(std::make_shared<TaskCleanStorage>(
+			m_storage.get(),
+			utility::toVector(filesToClean),
+			m_dialogView)
+		);
 	}
 
 	const int indexerThreadCount = ApplicationSettings::getInstance()->getIndexerThreadCount();
 
 	std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(&m_fileManager, indexerThreadCount > 1);
-	fileRegister->setFilePaths(filesToParse);
 
-	std::shared_ptr<TaskParseWrapper> taskParserWrapper = std::make_shared<TaskParseWrapper>(
-		m_storage.get(),
-		fileRegister,
-		m_dialogView
-	);
-	taskSequential->addTask(taskParserWrapper);
-
-	std::shared_ptr<TaskGroupParallel> taskParallelIndexing = std::make_shared<TaskGroupParallel>();
-	taskParserWrapper->setTask(taskParallelIndexing);
-
-	std::shared_ptr<StorageProvider> storageProvider = std::make_shared<StorageProvider>();
-
-	for (int i = 0; i < indexerThreadCount; i++)
+	if (filesToParse.size())
 	{
-		std::shared_ptr<TaskRepeatWhileSuccess> taskRepeat = std::make_shared<TaskRepeatWhileSuccess>();
+		fileRegister->setFilePaths(utility::toVector(filesToParse));
+
+		std::shared_ptr<TaskParseWrapper> taskParserWrapper = std::make_shared<TaskParseWrapper>(
+			fileRegister,
+			m_dialogView
+		);
+		taskSequential->addTask(taskParserWrapper);
+
+		std::shared_ptr<TaskGroupParallel> taskParallelIndexing = std::make_shared<TaskGroupParallel>();
+		taskParserWrapper->setTask(taskParallelIndexing);
+
+		std::shared_ptr<StorageProvider> storageProvider = std::make_shared<StorageProvider>();
+
+		for (int i = 0; i < indexerThreadCount; i++)
+		{
+			std::shared_ptr<TaskRepeatWhileSuccess> taskRepeat = std::make_shared<TaskRepeatWhileSuccess>(Task::STATE_SUCCESS);
+			taskParallelIndexing->addTask(taskRepeat);
+			taskRepeat->setTask(createIndexerTask(storageProvider, fileRegister));
+		}
+
+		std::shared_ptr<TaskRepeatWhileSuccess> taskRepeat = std::make_shared<TaskRepeatWhileSuccess>(Task::STATE_SUCCESS);
 		taskParallelIndexing->addTask(taskRepeat);
-		taskRepeat->setTask(createIndexerTask(storageProvider, fileRegister));
+		taskRepeat->setTask(std::make_shared<TaskInjectStorage>(storageProvider, m_storage));
 	}
 
-	std::shared_ptr<TaskRepeatWhileSuccess> taskRepeat = std::make_shared<TaskRepeatWhileSuccess>();
-	taskParallelIndexing->addTask(taskRepeat);
-	taskRepeat->setTask(std::make_shared<TaskInjectStorage>(storageProvider, m_storage));
-
+	taskSequential->addTask(std::make_shared<TaskFinishParsing>(m_storage.get(), fileRegister, m_dialogView));
 
 	Task::dispatch(taskSequential);
 

@@ -6,7 +6,6 @@
 #include "utility/Cache.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
-#include "utility/messaging/type/MessageClearErrorCount.h"
 #include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/text/TextAccess.h"
@@ -364,18 +363,11 @@ void PersistentStorage::logStats() const
 	LOG_INFO(ss.str());
 }
 
-void PersistentStorage::startParsing()
-{
-	clearCaches();
-
-	MessageClearErrorCount().dispatch();
-
-	m_sqliteStorage.setVersion();
-}
-
-void PersistentStorage::finishParsing()
+void PersistentStorage::buildCaches()
 {
 	TRACE();
+
+	clearCaches();
 
 	buildSearchIndex();
 	buildFilePathMaps();
@@ -387,6 +379,7 @@ void PersistentStorage::optimizeMemory()
 	TRACE();
 
 	m_sqliteStorage.optimizeMemory();
+	m_sqliteStorage.setVersion();
 }
 
 Id PersistentStorage::getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const

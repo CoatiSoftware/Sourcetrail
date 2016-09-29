@@ -233,7 +233,7 @@ void Application::handleMessage(MessageLoadProject* message)
 		if (message->forceRefresh)
 		{
 			m_project->setStateSettingsUpdated();
-			m_project->refresh(false);
+			refreshProject(false);
 		}
 
 		return;

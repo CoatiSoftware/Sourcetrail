@@ -1,24 +1,26 @@
-#ifndef TASK_CLEAN_STORAGE_H
-#define TASK_CLEAN_STORAGE_H
+#ifndef TASK_FINISH_PARSING_H
+#define TASK_FINISH_PARSING_H
 
 #include <vector>
 
 #include "utility/file/FilePath.h"
 #include "utility/scheduling/Task.h"
-#include "utility/TimePoint.h"
 
 class DialogView;
+class FileRegister;
 class PersistentStorage;
 
-class TaskCleanStorage
+class TaskFinishParsing
 	: public Task
 {
 public:
-	TaskCleanStorage(
+	TaskFinishParsing(
 		PersistentStorage* storage,
-		const std::vector<FilePath>& filePaths,
+		std::shared_ptr<FileRegister> fileRegister,
 		DialogView* dialogView
 	);
+
+	virtual ~TaskFinishParsing();
 
 private:
 	virtual void doEnter(std::shared_ptr<Blackboard> blackboard);
@@ -27,10 +29,8 @@ private:
 	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
 
 	PersistentStorage* m_storage;
-	std::vector<FilePath> m_filePaths;
+	std::shared_ptr<FileRegister> m_fileRegister;
 	DialogView* m_dialogView;
-
-	TimePoint m_start;
 };
 
-#endif // TASK_CLEAN_STORAGE_H
+#endif // TASK_FINISH_PARSING_H

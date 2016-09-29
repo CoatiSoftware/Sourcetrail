@@ -10,7 +10,7 @@ class TaskRepeatWhileSuccess
 	: public TaskDecorator
 {
 public:
-	TaskRepeatWhileSuccess();
+	TaskRepeatWhileSuccess(TaskState exitState);
 
 	virtual void setTask(std::shared_ptr<Task> task);
 
@@ -21,6 +21,7 @@ private:
 	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
 
 	std::shared_ptr<TaskRunner> m_taskRunner;
+	const TaskState m_exitState;
 };
 
 #endif // TASK_REPEAT_WHILE_SUCCESS_H

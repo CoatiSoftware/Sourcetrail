@@ -79,7 +79,6 @@ void TaskGroupParallel::processTaskThreaded(std::shared_ptr<TaskInfo> taskInfo, 
 		m_activeTaskCount--;
 	});
 
-
 	while (true)
 	{
 		TaskState state = taskInfo->taskRunner->update(blackboard);
