@@ -37,6 +37,7 @@ public class ASTDumper extends JavaAstVisitor{
 			line += " [" + ((ClassOrInterfaceType)n).getName() + "]";
 		}
 		
+		
 		System.out.println(line);
 	}
 	

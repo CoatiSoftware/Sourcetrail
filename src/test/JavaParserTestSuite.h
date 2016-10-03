@@ -769,7 +769,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
-		TS_ASSERT_EQUALS(client->typeUses[0], "A<T>.t -> A<java.lang.Void> <3:2 3:2>");
+		TS_ASSERT_EQUALS(client->typeUses[0], "A<T>.t -> A<T> <3:2 3:2>");
 	}
 
 	void test_java_parser_finds_bound_type_of_type_parameter()

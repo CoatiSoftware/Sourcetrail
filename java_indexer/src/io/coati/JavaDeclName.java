@@ -126,7 +126,7 @@ public class JavaDeclName
 		return string;
 	}
 	
-	private String getTypeParameterString()
+	public String getTypeParameterString()
 	{
 		String string = "";
 		if (m_typeParameterNames != null && !m_typeParameterNames.isEmpty())

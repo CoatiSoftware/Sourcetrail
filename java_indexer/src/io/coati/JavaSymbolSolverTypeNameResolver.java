@@ -82,6 +82,8 @@ public class JavaSymbolSolverTypeNameResolver extends JavaNameResolver
 				m_ignoredContexts
 			);
 			
+			return new JavaTypeName(declName.getName() + declName.getTypeParameterString(), new ArrayList<JavaTypeName>(), declName.getParent());
+			/*
 			if (declName != null)
 			{
 				List<JavaTypeName> typeArgumentNames = new ArrayList<>();
@@ -92,6 +94,7 @@ public class JavaSymbolSolverTypeNameResolver extends JavaNameResolver
 				}
 				return new JavaTypeName(declName.getName(), typeArgumentNames, declName.getParent());
 			}
+			*/
 		}
 		else if (typeUsage instanceof TypeParameterUsage)
 		{
