@@ -414,7 +414,7 @@
 						<File Id='JavaJavaparser' Name='javaparser-core.jar' DiskId='1' Source='./../../../bin/app/data/java/javaparser-core.jar' KeyPath='yes' />
 					</Component>
 					<Component Id='JavaJavaslangJar' Guid='2F43B4B1-DE99-40BC-9908-5C179CF7F734'>
-						<File Id='JavaJavaslang' Name='javaslang-2.0.0-beta.jar' DiskId='1' Source='./../../../bin/app/data/java/javaslang-2.0.0-beta.jar' KeyPath='yes' />
+						<File Id='JavaJavaslang' Name='javaslang-2.0.3.jar' DiskId='1' Source='./../../../bin/app/data/java/javaslang-2.0.3.jar' KeyPath='yes' />
 					</Component>
 					<Component Id='JavaJavassistJar' Guid='D4F80CFF-5DCD-4AEF-A334-001774CAE605'>
 						<File Id='JavaJavassist' Name='javassist-3.19.0-GA.jar' DiskId='1' Source='./../../../bin/app/data/java/javassist-3.19.0-GA.jar' KeyPath='yes' />
