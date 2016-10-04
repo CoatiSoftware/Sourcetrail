@@ -319,7 +319,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->errors.size(), 1);
-		TS_ASSERT_EQUALS(client->errors[0], "Encountered unexpected token. <1:1 1:7>");
+		TS_ASSERT_EQUALS(client->errors[0], "Encountered unexpected token. <1:1 1:1>");
 	}
 
 	//void _test_java_parser_finds_missing_import_as_error()
@@ -1199,7 +1199,7 @@ private:
 				"../app/data/java/guava-18.0.jar" + separator +
 				"../app/data/java/java-indexer.jar" + separator +
 				"../app/data/java/javaparser-core.jar" + separator +
-				"../app/data/java/javaslang-2.0.0-beta.jar" + separator +
+				"../app/data/java/javaslang-2.0.3.jar" + separator +
 				"../app/data/java/javassist-3.19.0-GA.jar" + separator +
 				"../app/data/java/java-symbol-solver-core.jar" + separator +
 				"../app/data/java/java-symbol-solver-logic.jar" + separator +

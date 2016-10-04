@@ -8,6 +8,8 @@ import java.lang.String;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseException;
+import com.github.javaparser.ParseProblemException;
+import com.github.javaparser.Problem;
 import com.github.javaparser.Token;
 
 import me.tomassetti.symbolsolver.javaparsermodel.JavaParserFacade;
@@ -53,23 +55,38 @@ public class JavaIndexer
 		//	JavaAstVisitor astVisitor = new ASTDumper(address, filePath, new FileContent(fileContent), typeSolver);
 			cu.accept(astVisitor, null);
 		} 
-		catch (ParseException e) 
+		catch (ParseProblemException e) 
 		{
-			if (e.expectedTokenSequences == null || e.expectedTokenSequences.length == 0)
+			for (Problem problem: e.problems)
 			{
-				Token token = e.currentToken;
-				recordError(
-					address, e.getMessage(), true, true, 
-					token.beginLine, token.beginColumn, token.endLine, token.endColumn
-				);
-			}
-			else
-			{
-				Token token = e.currentToken.next;
-				recordError(
-					address, "Encountered unexpected token.", true, true, 
-					token.beginLine, token.beginColumn, token.endLine, token.endColumn
-				);
+				if (problem.message.startsWith("Encountered unexpected token"))
+				{
+					
+					
+					int startLine = Integer.parseInt(problem.message.substring(
+						problem.message.indexOf("line ") + ("line ").length(), 
+						problem.message.indexOf(",")
+					));
+					
+					int startColumn = Integer.parseInt(problem.message.substring(
+						problem.message.indexOf("column ") + ("column ").length(), 
+						problem.message.indexOf(".")
+					));
+					
+					recordError(
+						address, "Encountered unexpected token.", true, true, 
+						startLine, startColumn, 
+						startLine, startColumn
+					);
+				}
+				else
+				{			
+					recordError(
+						address, problem.toString(), true, true, 
+						problem.range.begin.line, problem.range.begin.column, 
+						problem.range.end.line, problem.range.end.column
+					);
+				}
 			}
 		}
 		

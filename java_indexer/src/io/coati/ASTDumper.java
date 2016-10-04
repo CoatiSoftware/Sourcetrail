@@ -36,7 +36,11 @@ public class ASTDumper extends JavaAstVisitor{
 		{
 			line += " [" + ((ClassOrInterfaceType)n).getName() + "]";
 		}
-		
+		else if (n instanceof MethodCallExpr)
+		{
+			line += " [" + ((MethodCallExpr)n).getName() + "]";
+		}
+		line += " line: " + n.getBegin().line;
 		
 		System.out.println(line);
 	}
@@ -80,8 +84,6 @@ public class ASTDumper extends JavaAstVisitor{
 	public void visit(MethodDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
 	public void visit(Parameter n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
-	
-	public void visit(MultiTypeParameter n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
 	public void visit(EmptyMemberDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 

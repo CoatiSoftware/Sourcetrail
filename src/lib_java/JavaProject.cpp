@@ -43,7 +43,7 @@ bool JavaProject::prepareIndexing()
 			ResourcePaths::getJavaPath() + "guava-18.0.jar" + separator +
 			ResourcePaths::getJavaPath() + "java-indexer.jar" + separator +
 			ResourcePaths::getJavaPath() + "javaparser-core.jar" + separator +
-			ResourcePaths::getJavaPath() + "javaslang-2.0.0-beta.jar" + separator +
+			ResourcePaths::getJavaPath() + "javaslang-2.0.3.jar" + separator +
 			ResourcePaths::getJavaPath() + "javassist-3.19.0-GA.jar" + separator +
 			ResourcePaths::getJavaPath() + "java-symbol-solver-core.jar" + separator +
 			ResourcePaths::getJavaPath() + "java-symbol-solver-logic.jar" + separator +

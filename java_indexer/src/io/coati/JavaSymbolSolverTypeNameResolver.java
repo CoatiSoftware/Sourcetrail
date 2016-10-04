@@ -124,7 +124,7 @@ public class JavaSymbolSolverTypeNameResolver extends JavaNameResolver
 		}
 		else if (typeUsage instanceof WildcardUsage)
 		{
-			// TODO: implement this one
+			return new JavaTypeName("?", null);
 		}
 		
 		System.out.println("Unable to resolve qualified name of " + typeUsage.getClass().toString() + ": " + typeUsage.toString());

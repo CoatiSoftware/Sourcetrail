@@ -10,7 +10,6 @@ import com.github.javaparser.ast.body.EnumConstantDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.ModifierSet;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.body.VariableDeclaratorId;
@@ -28,6 +27,7 @@ import com.github.javaparser.ast.type.PrimitiveType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.VoidType;
 import com.github.javaparser.ast.ImportDeclaration;
+import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.TypeParameter;
@@ -51,10 +51,16 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	private FileContent m_fileContent;
 	private TypeSolver m_typeSolver;
 	private List<DeclContext> m_context = new ArrayList<DeclContext>();
-	private boolean m_verbose = false;
+	private boolean m_verbose = true;
+	static int errorCount = 0;
 	
 	public JavaAstVisitor(int callbackId, String filePath, FileContent fileContent, TypeSolver typeSolver)
 	{
+		if (m_verbose)
+		{
+			System.out.println("indexing file: " + filePath);
+		}
+		
 		m_callbackId = callbackId;
 		m_filePath = filePath;
 		m_fileContent = fileContent;
@@ -76,8 +82,8 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		
 		JavaIndexer.recordSymbolWithScope(
 			m_callbackId, packageName, SymbolType.PACKAGE,
-			nameExpr.getBeginLine(), nameExpr.getBeginColumn(), nameExpr.getEndLine(), nameExpr.getEndColumn(), 
-			n.getBeginLine(), n.getBeginColumn(), n.getEndLine(), n.getEndColumn(),
+			nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column, 
+			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column,
 			AccessKind.NONE, false
 		);
 		
@@ -92,13 +98,13 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		
 		JavaIndexer.recordSymbolWithScope(
 			m_callbackId, qualifiedName, (n.isInterface() ? SymbolType.INTERFACE : SymbolType.CLASS),
-			nameExpr.getBeginLine(), nameExpr.getBeginColumn(), nameExpr.getEndLine(), nameExpr.getEndColumn(), 
-			n.getBeginLine(), n.getBeginColumn(), n.getEndLine(), n.getEndColumn(),
-			AccessKind.fromAccessSpecifier(ModifierSet.getAccessSpecifier(n.getModifiers())), false
+			nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column, 
+			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column,
+			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), false
 		);
 
-		FileContent.Location scopeStartLocation = m_fileContent.find("{", n.getBeginLine(), n.getBeginColumn());
-		recordScope(scopeStartLocation.line, scopeStartLocation.column, n.getEndLine(), n.getEndColumn());
+		FileContent.Location scopeStartLocation = m_fileContent.find("{", n.getBegin().line, n.getBegin().column);
+		recordScope(scopeStartLocation.line, scopeStartLocation.column, n.getEnd().line, n.getEnd().column);
 		
 		List<DeclContext> parentContext = m_context;
 		m_context = new ArrayList<DeclContext>();
@@ -124,7 +130,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		
 		JavaIndexer.recordSymbol(
 			m_callbackId, qualifiedName, SymbolType.TYPE_PARAMETER, 
-			n.getBeginLine(), n.getBeginColumn(), n.getBeginLine(), n.getBeginColumn() + n.getName().length() - 1,
+			n.getBegin().line, n.getBegin().column, n.getBegin().line, n.getBegin().column + n.getName().length() - 1,
 			AccessKind.TYPE_PARAMETER, false
 		);
 
@@ -143,13 +149,13 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		
 		JavaIndexer.recordSymbolWithScope(
 			m_callbackId, qualifiedName, SymbolType.ENUM, 
-			nameExpr.getBeginLine(), nameExpr.getBeginColumn(), nameExpr.getEndLine(), nameExpr.getEndColumn(), 
-			n.getBeginLine(), n.getBeginColumn(), n.getEndLine(), n.getEndColumn(),
-			AccessKind.fromAccessSpecifier(ModifierSet.getAccessSpecifier(n.getModifiers())), false
+			nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column, 
+			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column,
+			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), false
 		);
 		
-		FileContent.Location scopeStartLocation = m_fileContent.find("{", n.getBeginLine(), n.getBeginColumn());
-		recordScope(scopeStartLocation.line, scopeStartLocation.column, n.getEndLine(), n.getEndColumn());
+		FileContent.Location scopeStartLocation = m_fileContent.find("{", n.getBegin().line, n.getBegin().column);
+		recordScope(scopeStartLocation.line, scopeStartLocation.column, n.getEnd().line, n.getEnd().column);
 		
 		List<DeclContext> parentContext = m_context;
 		m_context = new ArrayList<DeclContext>();
@@ -164,7 +170,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		
 		JavaIndexer.recordSymbol(
 			m_callbackId, qualifiedName, SymbolType.ENUM_CONSTANT,
-			n.getBeginLine(), n.getBeginColumn(), n.getEndLine(), n.getEndColumn(), 
+			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column, 
 			AccessKind.NONE, false
 		);
 		
@@ -183,9 +189,9 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		
 		JavaIndexer.recordSymbolWithScope(
 			m_callbackId, qualifiedName, SymbolType.METHOD,
-			nameExpr.getBeginLine(), nameExpr.getBeginColumn(), nameExpr.getEndLine(), nameExpr.getEndColumn(), 
-			n.getBeginLine(), n.getBeginColumn(), n.getEndLine(), n.getEndColumn(), 
-			AccessKind.fromAccessSpecifier(ModifierSet.getAccessSpecifier(n.getModifiers())), false
+			nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column, 
+			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column, 
+			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), false
 		);
 		
 		List<DeclContext> parentContext = m_context;
@@ -203,9 +209,9 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		
 		JavaIndexer.recordSymbolWithScope(
 			m_callbackId, qualifiedName, SymbolType.METHOD, 
-			nameExpr.getBeginLine(), nameExpr.getBeginColumn(), nameExpr.getEndLine(), nameExpr.getEndColumn(), 
-			n.getBeginLine(), n.getBeginColumn(), n.getEndLine(), n.getEndColumn(), 
-			AccessKind.fromAccessSpecifier(ModifierSet.getAccessSpecifier(n.getModifiers())), false
+			nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column, 
+			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column, 
+			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), false
 		);
 		
 		
@@ -219,7 +225,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			
 			JavaIndexer.recordReference(
 				m_callbackId, ReferenceKind.OVERRIDE, overriddenName, qualifiedName, 
-				nameExpr.getBeginLine(), nameExpr.getBeginColumn(), nameExpr.getEndLine(), nameExpr.getEndColumn()
+				nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column
 			);
 		}
 		
@@ -312,8 +318,8 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			
 			JavaIndexer.recordSymbol(
 				m_callbackId, qualifiedName, SymbolType.FIELD, 
-				varDeclId.getBeginLine(), varDeclId.getBeginColumn(), varDeclId.getEndLine(), varDeclId.getEndColumn(),
-				AccessKind.fromAccessSpecifier(ModifierSet.getAccessSpecifier(n.getModifiers())), false
+				varDeclId.getBegin().line, varDeclId.getBegin().column, varDeclId.getEnd().line, varDeclId.getEnd().column,
+				AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), false
 			);
 
 			m_context.add(new DeclContext(qualifiedName));
@@ -328,11 +334,11 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		for (VariableDeclarator declarator: n.getVars())
 		{
 			VariableDeclaratorId identifier = declarator.getId();
-			String qualifiedName = m_filePath + "<" + identifier.getBeginLine() + ":" + identifier.getBeginColumn() + ">";
+			String qualifiedName = m_filePath + "<" + identifier.getBegin().line + ":" + identifier.getBegin().column + ">";
 			
 			JavaIndexer.recordLocalSymbol(
 				m_callbackId, qualifiedName, 
-				identifier.getBeginLine(), identifier.getBeginColumn(), identifier.getEndLine(), identifier.getEndColumn()
+				identifier.getBegin().line, identifier.getBegin().column, identifier.getEnd().line, identifier.getEnd().column
 			);
 			
 		}
@@ -344,11 +350,11 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	@Override public void visit(final Parameter n, final Void v)
 	{
 		VariableDeclaratorId identifier = n.getId();
-		String qualifiedName = m_filePath + "<" + identifier.getBeginLine() + ":" + identifier.getBeginColumn() + ">";
+		String qualifiedName = m_filePath + "<" + identifier.getBegin().line + ":" + identifier.getBegin().column + ">";
 		
 		JavaIndexer.recordLocalSymbol(
 			m_callbackId, qualifiedName, 
-			identifier.getBeginLine(), identifier.getBeginColumn(), identifier.getEndLine(), identifier.getEndColumn()
+			identifier.getBegin().line, identifier.getBegin().column, identifier.getEnd().line, identifier.getEnd().column
 		);
 		
 		// don't change the context here.
@@ -370,7 +376,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 				JavaIndexer.recordReference(
 					m_callbackId, ReferenceKind.IMPORT, 
 					importedName, context.getName(), 
-					nameExpr.getBeginLine(), nameExpr.getBeginColumn(), nameExpr.getEndLine(), nameExpr.getEndColumn()
+					nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column
 				);
 			}
 		}
@@ -431,7 +437,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 							JavaIndexer.recordReference(
 								m_callbackId, ReferenceKind.IMPORT, 
 								nameHierarchy, context.getName(), 
-								nameExpr.getBeginLine(), nameExpr.getBeginColumn(), nameExpr.getEndLine(), nameExpr.getEndColumn()
+								nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column
 							);
 						}
 					}
@@ -440,16 +446,13 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 				{
 					JavaIndexer.recordError(
 						m_callbackId, "Import not found.", true, true, 
-						nameExpr.getBeginLine(), nameExpr.getBeginColumn(), nameExpr.getEndLine(), nameExpr.getEndColumn()
+						nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column
 					);
 				}
 			}
 			catch (Exception e)
 			{
-				if (m_verbose)
-				{
-					System.out.println(e + " at location " + n.getBeginLine() + ", " + n.getBeginColumn());
-				}
+				recordException(e, n);
 			}
 		}
 		super.visit(n, v);
@@ -463,15 +466,15 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			{
 				String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toSerializedNameHierarchy();
 
-				int beginLine = n.getBeginLine();
-				int beginColumn = n.getBeginColumn();
-				int endLine = n.getBeginLine();
-				int endColumn = n.getBeginColumn() + n.getName().length() - 1;
+				int beginLine = n.getBegin().line;
+				int beginColumn = n.getBegin().column;
+				int endLine = n.getBegin().line;
+				int endColumn = n.getBegin().column + n.getName().length() - 1;
 				
 				if (n.getScope() != null)
 				{
-					endLine = n.getScope().getEndLine();
-					endColumn = n.getScope().getEndColumn() + n.getName().length() + 1; // +1 for separator
+					endLine = n.getScope().getEnd().line;
+					endColumn = n.getScope().getEnd().column + n.getName().length() + 1; // +1 for separator
 				}
 				
 				JavaIndexer.recordReference(
@@ -482,10 +485,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		}
 		catch (Exception e)
 		{
-			if (m_verbose)
-			{
-				System.out.println(e + " at location " + n.getBeginLine() + ", " + n.getBeginColumn());
-			}
+			recordException(e, n);
 		}
 		super.visit(n, v);
 	}
@@ -505,16 +505,13 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			{		
 				JavaIndexer.recordReference(
 					m_callbackId, getTypeReferenceKind(), referencedName, context.getName(), 
-					n.getBeginLine(), n.getBeginColumn(), n.getEndLine(), n.getEndColumn()
+					n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column
 				);
 			}
 		}
 		catch (Exception e)
 		{
-			if (m_verbose)
-			{
-				System.out.println(e + " at location " + n.getBeginLine() + ", " + n.getBeginColumn());
-			}
+			recordException(e, n);
 		}
 		
 		super.visit(n, v);
@@ -535,16 +532,13 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			{
 				JavaIndexer.recordReference(
 					m_callbackId, getTypeReferenceKind(), referencedName, context.getName(), 
-					n.getBeginLine(), n.getBeginColumn(), n.getEndLine(), n.getEndColumn()
+					n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column
 				);
 			}
 		}
 		catch (Exception e)
 		{
-			if (m_verbose)
-			{
-				System.out.println(e + " at location " + n.getBeginLine() + ", " + n.getBeginColumn());
-			}
+			recordException(e, n);
 		}
 		
 		super.visit(n, v);
@@ -558,10 +552,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		}
 		catch (Exception e)
 		{
-			if (m_verbose)
-			{
-				System.out.println(e + " at location " + n.getBeginLine() + ", " + n.getBeginColumn());
-			}
+			recordException(e, n);
 		}
 		
 		super.visit(n, v);
@@ -585,11 +576,11 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 					if (wrappedNode instanceof Parameter)
 					{
 						VariableDeclaratorId identifier = ((Parameter)wrappedNode).getId();
-						String qualifiedName = m_filePath + "<" + identifier.getBeginLine() + ":" + identifier.getBeginColumn() + ">";
+						String qualifiedName = m_filePath + "<" + identifier.getBegin().line + ":" + identifier.getBegin().column + ">";
 						
 						JavaIndexer.recordLocalSymbol(
 							m_callbackId, qualifiedName,
-							e.getBeginLine(), e.getBeginColumn(), e.getEndLine(), e.getEndColumn()
+							e.getBegin().line, e.getBegin().column, e.getEnd().line, e.getEnd().column
 						);
 					}
 					else if (wrappedNode instanceof VariableDeclarator)
@@ -602,18 +593,18 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 							{
 								JavaIndexer.recordReference(
 									m_callbackId, ReferenceKind.USAGE, qualifiedName, context.getName(),
-									e.getBeginLine(), e.getBeginColumn(), e.getEndLine(), e.getEndColumn()
+									e.getBegin().line, e.getBegin().column, e.getEnd().line, e.getEnd().column
 								);
 							}
 						}
 						else
 						{
 							VariableDeclaratorId identifier = ((VariableDeclarator)wrappedNode).getId();
-							String qualifiedName = m_filePath + "<" + identifier.getBeginLine() + ":" + identifier.getBeginColumn() + ">";
+							String qualifiedName = m_filePath + "<" + identifier.getBegin().line + ":" + identifier.getBegin().column + ">";
 							
 							JavaIndexer.recordLocalSymbol(
 								m_callbackId, qualifiedName,
-								e.getBeginLine(), e.getBeginColumn(), e.getEndLine(), e.getEndColumn()
+								e.getBegin().line, e.getBegin().column, e.getEnd().line, e.getEnd().column
 							);
 						}
 					}
@@ -650,34 +641,24 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 				MethodUsage solvedMethod = JavaParserFacade.get(m_typeSolver).solveMethodAsUsage(n);
 				qualifiedName = getQualifiedName(solvedMethod);
 			}
+			
 			catch (UnsupportedOperationException e)
 			{
-				if (m_verbose)
-				{
-					System.out.println(e + " at location " + n.getBeginLine() + ", " + n.getBeginColumn());
-				}
+				recordException(e, n);
 			}
 			catch (MethodAmbiguityException e)
 			{
-				if (m_verbose)
-				{
-					System.out.println(e + " at location " + n.getBeginLine() + ", " + n.getBeginColumn());
-				}
+				recordException(e, n);
 			}
 			catch(StackOverflowError e)
 			{
-				if (m_verbose)
-				{
-					System.out.println(e + " at location " + n.getBeginLine() + ", " + n.getBeginColumn());
-				}
+				recordError(e, n);
 	        }
 			catch (Exception e)
 			{
-				if (m_verbose)
-				{
-					System.out.println(e + " at location " + n.getBeginLine() + ", " + n.getBeginColumn());
-				}
+				recordException(e, n);
 			}
+			
 		}
 		
 		if (!qualifiedName.isEmpty())
@@ -687,13 +668,45 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			{
 				JavaIndexer.recordReference(
 					m_callbackId, ReferenceKind.CALL, qualifiedName, context.getName(),
-					nameExpr.getBeginLine(), nameExpr.getBeginColumn(), nameExpr.getEndLine(), nameExpr.getEndColumn()
+					nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column
 				);
 			}
 		}
 		
 		super.visit(n, v);
 	}
+	
+	
+	private void recordException(Exception e, Node n)
+	{
+		JavaIndexer.recordSymbol(
+			m_callbackId, "unsolved-symbol\ts\tp", SymbolType.TYPE_MAX, 
+			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column, 
+			AccessKind.DEFAULT, false
+		);
+		errorCount++;
+		if (m_verbose)
+		{
+			System.out.println(e + " at location " + n.getBegin().line + ", " + n.getBegin().column + " [errors: " + errorCount + "]");
+		}
+		
+	}
+	
+	private void recordError(Error e, Node n)
+	{
+		JavaIndexer.recordSymbol(
+			m_callbackId, "unsolved-symbol\ts\tp", SymbolType.TYPE_MAX, 
+			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column, 
+			AccessKind.DEFAULT, false
+		);
+		errorCount++;
+		if (m_verbose)
+		{
+			System.out.println(e + " at location " + n.getBegin().line + ", " + n.getBegin().column + " [errors: " + errorCount + "]");
+		}
+	}
+
+
 	/*
 	@Override public void visit(final ObjectCreationExpr n, final Void v)
 	{
@@ -730,28 +743,28 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			{
 				if (m_verbose)
 				{
-					System.out.println(e + " at location " + n.getBeginLine() + ", " + n.getBeginColumn());
+					System.out.println(e + " at location " + n.getBegin().line + ", " + n.getBegin().column);
 				}
 			}
 			catch (MethodAmbiguityException e)
 			{
 				if (m_verbose)
 				{
-					System.out.println(e + " at location " + n.getBeginLine() + ", " + n.getBeginColumn());
+					System.out.println(e + " at location " + n.getBegin().line + ", " + n.getBegin().column);
 				}
 			}
 			catch(StackOverflowError e)
 			{
 				if (m_verbose)
 				{
-					System.out.println(e + " at location " + n.getBeginLine() + ", " + n.getBeginColumn());
+					System.out.println(e + " at location " + n.getBegin().line + ", " + n.getBegin().column);
 				}
 	        }
 			catch (Exception e)
 			{
 				if (m_verbose)
 				{
-					System.out.println(e + " at location " + n.getBeginLine() + ", " + n.getBeginColumn());
+					System.out.println(e + " at location " + n.getBegin().line + ", " + n.getBegin().column);
 				}
 			}
 		}
@@ -763,7 +776,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			{
 				JavaIndexer.recordRef(
 					m_callbackId, ReferenceType.CALL.getValue(), qualifiedName, context.getName(),
-					type.getBeginLine(), type.getBeginColumn(), type.getEndLine(), type.getEndColumn()
+					type.getBegin().line, type.getBegin().column, type.getEnd().line, type.getEnd().column
 				);
 			}
 		}
@@ -809,20 +822,20 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	
 	@Override public void visit(final BlockStmt n, final Void v)
 	{
-		recordScope(n.getBeginLine(), n.getBeginColumn(), n.getEndLine(), n.getEndColumn());
+		recordScope(n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column);
 		super.visit(n, v);
 	}
 	
 	@Override public void visit(final ArrayInitializerExpr n, final Void v)
 	{
-		recordScope(n.getBeginLine(), n.getBeginColumn(), n.getEndLine(), n.getEndColumn());
+		recordScope(n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column);
 		super.visit(n, v);
 	}
 	
 	@Override public void visit(final SwitchStmt n, final Void v)
 	{
-		FileContent.Location scopeStartLocation = m_fileContent.find("{", n.getBeginLine(), n.getBeginColumn());
-		recordScope(scopeStartLocation.line, scopeStartLocation.column, n.getEndLine(), n.getEndColumn());
+		FileContent.Location scopeStartLocation = m_fileContent.find("{", n.getBegin().line, n.getBegin().column);
+		recordScope(scopeStartLocation.line, scopeStartLocation.column, n.getEnd().line, n.getEnd().column);
 		super.visit(n, v);
 	}
 	
@@ -837,7 +850,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	{
 		JavaIndexer.recordComment(
 			m_callbackId,
-			n.getBeginLine(), n.getBeginColumn(), n.getEndLine(), n.getEndColumn()
+			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column
 		);
 		super.visit(n, v);
 	}
@@ -846,7 +859,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	{
 		JavaIndexer.recordComment(
 			m_callbackId,
-			n.getBeginLine(), n.getBeginColumn(), n.getEndLine(), n.getEndColumn()
+			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column
 		);
 		super.visit(n, v);
 	}
