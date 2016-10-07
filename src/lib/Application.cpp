@@ -188,13 +188,16 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 
 void Application::refreshProject(bool force)
 {
-	bool indexing = m_project->refresh(force);
-	if (indexing)
+	if (m_project)
 	{
-		m_storageCache->clear();
-		if (m_hasGUI)
+		bool indexing = m_project->refresh(force);
+		if (indexing)
 		{
-			m_componentManager->refreshViews();
+			m_storageCache->clear();
+			if (m_hasGUI)
+			{
+				m_componentManager->refreshViews();
+			}
 		}
 	}
 }
