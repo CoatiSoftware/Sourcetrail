@@ -1,9 +1,14 @@
 #include "JavaProject.h"
 
+#include "component/view/DialogView.h"
 #include "data/parser/java/JavaEnvironmentFactory.h"
+#include "data/parser/java/JavaEnvironment.h"
 #include "data/parser/java/TaskParseJava.h"
+#include "utility/file/FileRegister.h"
+#include "utility/text/TextAccess.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/ResourcePaths.h"
+#include "utility/utilityString.h"
 #include "Application.h"
 #include "isTrial.h"
 
@@ -31,6 +36,8 @@ const std::shared_ptr<ProjectSettings> JavaProject::getProjectSettings() const
 
 bool JavaProject::prepareIndexing()
 {
+	m_rootDirectories.reset();
+
 	std::string errorString;
 	if (!JavaEnvironmentFactory::getInstance() && !isTrial())
 	{
@@ -89,11 +96,18 @@ std::shared_ptr<Task> JavaProject::createIndexerTask(
 		}
 	}
 
-	for (FilePath sourcePath: m_projectSettings->getAbsoluteSourcePaths())
+	if (!m_rootDirectories)
 	{
-		if (sourcePath.extension().empty() && sourcePath.exists())
+		getDialogView()->showProgressDialog("Preparing Project", "Gathering Root\nDirectories");
+		fetchRootDirectories();
+		getDialogView()->hideProgressDialog();
+	}
+
+	for (FilePath rootDirectory: *(m_rootDirectories.get()))
+	{
+		if (rootDirectory.exists())
 		{
-			arguments.javaClassPaths.push_back(sourcePath.str());
+			arguments.javaClassPaths.push_back(rootDirectory.str());
 		}
 	}
 
@@ -113,4 +127,50 @@ void JavaProject::updateFileManager(FileManager& fileManager)
 	std::vector<FilePath> excludePaths = m_projectSettings->getAbsoluteExcludePaths();
 
 	fileManager.setPaths(sourcePaths, headerPaths, excludePaths, sourceExtensions);
+}
+
+void JavaProject::fetchRootDirectories()
+{
+	m_rootDirectories = std::make_shared<std::set<FilePath>>();
+
+	FileManager fileManager;
+	fileManager.setPaths(
+		m_projectSettings->getAbsoluteSourcePaths(),
+		std::vector<FilePath>(),
+		m_projectSettings->getAbsoluteExcludePaths(),
+		m_projectSettings->getSourceExtensions()
+	);
+	fileManager.fetchFilePaths(std::vector<FileInfo>());
+	std::shared_ptr<JavaEnvironment> javaEnvironment = JavaEnvironmentFactory::getInstance()->createEnvironment();
+	for (FilePath filePath: fileManager.getAddedFilePaths())
+	{
+		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath.str());
+
+		std::string packageName = "";
+		javaEnvironment->callStaticMethod("io/coati/JavaIndexer", "getPackageName", packageName, textAccess->getText());
+
+		if (packageName.empty())
+		{
+			continue;
+		}
+
+		FilePath rootPath = filePath.parentDirectory();
+		bool success = true;
+
+		const std::vector<std::string> packageNameParts = utility::splitToVector(packageName, ".");
+		for (std::vector<std::string>::const_reverse_iterator it = packageNameParts.rbegin(); it != packageNameParts.rend(); it++)
+		{
+			if (rootPath.fileName() != (*it))
+			{
+				success = false;
+				break;
+			}
+			rootPath = rootPath.parentDirectory();
+		}
+
+		if (success)
+		{
+			m_rootDirectories->insert(rootPath);
+		}
+	}
 }

@@ -30,8 +30,11 @@ private:
 		std::shared_ptr<FileRegister> fileRegister);
 
 	virtual void updateFileManager(FileManager& fileManager);
+	
+	void fetchRootDirectories();
 
 	std::shared_ptr<JavaProjectSettings> m_projectSettings;
+	std::shared_ptr<std::set<FilePath>> m_rootDirectories;
 
 	friend Project;
 };

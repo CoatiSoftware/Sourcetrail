@@ -212,8 +212,7 @@ QtProjectWizzardContentPathsSourceJava::QtProjectWizzardContentPathsSourceJava(
 {
 	setHelpString(
 		"Project Paths define the files and directories that will be indexed by Coati. Provide a directory to recursively "
-		"add all contained files. To make sure that type names are resolved correctly, <b>please add the root source directory "
-		"of your project</b> (the one where all your package names are relative to).<br />"
+		"add all contained files.<br />"
 		"<br />"
 		"If your project's source code resides in one location, but generated source files are kept at a different location, "
 		"you will also need to add that directory."
@@ -465,7 +464,7 @@ QtProjectWizzardContentPathsClassJava::QtProjectWizzardContentPathsClassJava(
 	setTitleString("Class Path");
 	setHelpString(
 		"Enter all the .jar files your project depends on. If your project depends on uncompiled java code that should "
-		"not be indexed, please add the root directory of those .java files here."
+		"not be indexed, please add the root directory of those .java files here (the one where all the package names are relative to)."
 	);
 }
 

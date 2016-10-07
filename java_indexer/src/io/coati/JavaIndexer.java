@@ -6,12 +6,12 @@ import java.io.StringReader;
 import java.lang.String;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.JavaParser;
-import com.github.javaparser.ParseException;
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.Problem;
-import com.github.javaparser.Token;
 
+import me.tomassetti.symbolsolver.javaparser.Navigator;
 import me.tomassetti.symbolsolver.javaparsermodel.JavaParserFacade;
 import me.tomassetti.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 import me.tomassetti.symbolsolver.resolution.typesolvers.JarTypeSolver;
@@ -91,17 +91,31 @@ public class JavaIndexer
 		}
 		
 		JavaParserFacade.clearInstances();
-		
-	//	String fileName = filePath.substring(filePath.lastIndexOf("/"), filePath.lastIndexOf(".java"));
-		
-	//	System.gc();
-	//	HeapDumper.dumpHeap("D:/dump/" + fileName, false);
 	}
 	
-	
-	
-	
-	
+	public static String getPackageName(String fileContent)
+	{
+		String packageName = "";
+		try 
+		{
+			CompilationUnit cu = JavaParser.parse(new StringReader(fileContent), true);
+			PackageDeclaration pd = Navigator.findNodeOfGivenClass(cu, PackageDeclaration.class);
+			if (pd != null)
+			{
+				packageName = JavaparserDeclNameResolver.getQualifiedName(pd.getName()).toString();
+			}
+		} 
+		catch (ParseProblemException e) 
+		{
+			// do nothing
+		}
+		catch (IllegalArgumentException e) 
+		{
+			// do nothing
+		}
+		
+		return packageName;
+	}
 	
 	static public void recordSymbol(
 		int address, String symbolName, SymbolType symbolType, 
