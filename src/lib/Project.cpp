@@ -28,7 +28,6 @@
 #include "Application.h"
 #include "CxxProject.h"
 #include "JavaProject.h"
-#include "isTrial.h"
 
 Project::~Project()
 {
@@ -86,7 +85,7 @@ bool Project::refresh(bool forceRefresh)
 		}
 	}
 
-	if (forceRefresh && question.size() && Application::getInstance()->hasGUI() && !isTrial())
+	if (forceRefresh && question.size() && Application::getInstance()->hasGUI())
 	{
 		std::vector<std::string> options;
 		options.push_back("Yes");

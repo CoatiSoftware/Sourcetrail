@@ -10,7 +10,6 @@
 #include "utility/ResourcePaths.h"
 #include "utility/utilityString.h"
 #include "Application.h"
-#include "isTrial.h"
 
 JavaProject::JavaProject(
 	std::shared_ptr<JavaProjectSettings> projectSettings, StorageAccessProxy* storageAccessProxy, DialogView* dialogView
@@ -39,7 +38,7 @@ bool JavaProject::prepareIndexing()
 	m_rootDirectories.reset();
 
 	std::string errorString;
-	if (!JavaEnvironmentFactory::getInstance() && !isTrial())
+	if (!JavaEnvironmentFactory::getInstance())
 	{
 #ifdef _WIN32
 		const std::string separator = ";";
@@ -65,7 +64,7 @@ bool JavaProject::prepareIndexing()
 		MessageStatus(errorString, true, false).dispatch();
 	}
 
-	if (!JavaEnvironmentFactory::getInstance() && !isTrial())
+	if (!JavaEnvironmentFactory::getInstance())
 	{
 		std::string dialogMessage =
 			"Coati was unable to locate Java on this machine.\nPlease make sure to provide the correct Java Path in the preferences.";

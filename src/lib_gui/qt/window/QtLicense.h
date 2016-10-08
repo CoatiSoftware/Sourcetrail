@@ -18,7 +18,6 @@ public:
 
 	void clear();
 	void load();
-	void loadForced();
 
 	void setErrorMessage(const QString& errorMessage);
 
@@ -28,13 +27,10 @@ protected:
 	virtual void windowReady() override;
 
 	virtual void handleNext() override;
-	virtual void handleClose() override;
 
 private:
 	QTextEdit* m_licenseText;
 	QLabel* m_errorLabel;
-
-	bool m_forced;
 };
 
 #endif // QT_LICENSE_H

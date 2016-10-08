@@ -13,6 +13,7 @@
 #include "Application.h"
 #include "component/view/View.h"
 #include "component/view/CompositeView.h"
+#include "LicenseChecker.h"
 #include "qt/utility/QtContextMenu.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewWidgetWrapper.h"
@@ -26,6 +27,7 @@
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageCodeReference.h"
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
+#include "utility/messaging/type/MessageEnteredLicense.h"
 #include "utility/messaging/type/MessageFind.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
 #include "utility/messaging/type/MessageLoadProject.h"
@@ -40,7 +42,6 @@
 #include "utility/tracing.h"
 #include "utility/UserPaths.h"
 #include "version.h"
-#include "isTrial.h"
 
 QtViewToggle::QtViewToggle(View* view, QWidget *parent)
 	: QWidget(parent)
@@ -278,16 +279,11 @@ void QtMainWindow::forceEnterLicense(bool expired)
 	{
 		enterLicenseWindow->clear();
 	}
-
-	enterLicenseWindow->loadForced();
-
-	this->setEnabled(false);
-	enterLicenseWindow->setEnabled(true);
 }
 
 bool QtMainWindow::event(QEvent* event)
 {
-	if (isEnabled() && event->type() == QEvent::WindowActivate)
+	if (event->type() == QEvent::WindowActivate)
 	{
 		MessageWindowFocus().dispatch();
 	}
@@ -316,12 +312,6 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 void QtMainWindow::contextMenuEvent(QContextMenuEvent* event)
 {
 	QtContextMenu::getInstance()->showDefault(event, this);
-}
-
-void QtMainWindow::activateWindow()
-{
-	this->setEnabled(true);
-	m_windowStack.popWindow();
 }
 
 void QtMainWindow::about()
@@ -358,9 +348,28 @@ void QtMainWindow::enterLicense()
 	enterLicenseWindow->setup();
 
 	disconnect(enterLicenseWindow, SIGNAL(finished()), &m_windowStack, SLOT(clearWindows()));
-	connect(enterLicenseWindow, SIGNAL(finished()), this, SLOT(activateWindow()));
+	connect(enterLicenseWindow, SIGNAL(finished()), this, SLOT(enteredLicense()));
 
 	enterLicenseWindow->load();
+}
+
+void QtMainWindow::enteredLicense()
+{
+	bool showStartWindow = false;
+	if (m_windowStack.getWindowCount() > 0 && dynamic_cast<QtStartScreen*>(m_windowStack.getBottomWindow()))
+	{
+		showStartWindow = true;
+	}
+
+	m_windowStack.clearWindows();
+
+	setTrialActionsEnabled(true);
+	MessageEnteredLicense().dispatch();
+
+	if (showStartWindow)
+	{
+		showStartScreen();
+	}
 }
 
 void QtMainWindow::showDataFolder()
@@ -376,10 +385,31 @@ void QtMainWindow::showLogFolder()
 void QtMainWindow::showStartScreen()
 {
 	QtStartScreen* startScreen = createWindow<QtStartScreen>();
-	startScreen->setupStartScreen();
+
+	LicenseChecker::LicenseState state = LicenseChecker::getInstance()->checkCurrentLicense();
+	bool licenseValid = (state == LicenseChecker::LICENSE_VALID);
+
+	startScreen->setupStartScreen(licenseValid);
+	setTrialActionsEnabled(licenseValid);
+
+	if (licenseValid)
+	{
+		MessageEnteredLicense().dispatch();
+	}
 
 	connect(startScreen, SIGNAL(openOpenProjectDialog()), this, SLOT(openProject()));
 	connect(startScreen, SIGNAL(openNewProjectDialog()), this, SLOT(newProject()));
+	connect(startScreen, SIGNAL(openEnterLicenseDialog()), this, SLOT(enterLicense()));
+
+	if (state == LicenseChecker::LICENSE_MOVED)
+	{
+		ApplicationSettings::getInstance()->setLicenseString("");
+	}
+
+	if (state != LicenseChecker::LICENSE_VALID && state != LicenseChecker::LICENSE_EMPTY)
+	{
+		forceEnterLicense(state == LicenseChecker::LICENSE_EXPIRED);
+	}
 }
 
 void QtMainWindow::hideStartScreen()
@@ -411,7 +441,8 @@ void QtMainWindow::openProject(const QString &path)
 	if (!fileName.isEmpty())
 	{
 		MessageDispatchWhenLicenseValid(
-			std::make_shared<MessageLoadProject>(fileName.toStdString(), false)
+			std::make_shared<MessageLoadProject>(fileName.toStdString(), false),
+			true
 		).dispatch();
 		m_windowStack.clearWindows();
 	}
@@ -551,11 +582,8 @@ void QtMainWindow::setupProjectMenu()
 	QMenu *menu = new QMenu(tr("&Project"), this);
 	menuBar()->addMenu(menu);
 
-	if(!isTrial())
-	{
-		menu->addAction(tr("&New Project..."), this, SLOT(newProject()), QKeySequence::New);
-		menu->addAction(tr("&Open Project..."), this, SLOT(openProject()), QKeySequence::Open);
-	}
+	m_trialDisabledActions.push_back(menu->addAction(tr("&New Project..."), this, SLOT(newProject()), QKeySequence::New));
+	m_trialDisabledActions.push_back(menu->addAction(tr("&Open Project..."), this, SLOT(openProject()), QKeySequence::Open));
 
 	QMenu *recentProjectMenu = new QMenu(tr("Recent Projects"));
 	menu->addMenu(recentProjectMenu);
@@ -574,12 +602,8 @@ void QtMainWindow::setupProjectMenu()
 
 	menu->addSeparator();
 
-	if(!isTrial())
-	{
-		menu->addAction(tr("&Edit Project..."), this, SLOT(editProject()));
-
-		menu->addSeparator();
-	}
+	m_trialDisabledActions.push_back(menu->addAction(tr("&Edit Project..."), this, SLOT(editProject())));
+	m_trialDisabledActions.push_back(menu->addSeparator());
 
 	menu->addAction(tr("E&xit"), QCoreApplication::instance(), SLOT(quit()), QKeySequence::Quit);
 }
@@ -593,22 +617,21 @@ void QtMainWindow::setupEditMenu()
 	menu->addAction(tr("Forward"), this, SLOT(redo()), QKeySequence::Redo);
 
 	menu->addSeparator();
-	if(!isTrial())
+	m_trialDisabledActions.push_back(menu->addAction(tr("&Refresh"), this, SLOT(refresh()), QKeySequence::Refresh));
+	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
 	{
-		menu->addAction(tr("&Refresh"), this, SLOT(refresh()), QKeySequence::Refresh);
-		if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
-		{
-			menu->addAction(tr("&Force Refresh"), this, SLOT(forceRefresh()), QKeySequence(Qt::SHIFT + Qt::Key_F5));
-		}
-		else
-		{
-			menu->addAction(
-				tr("&Force Refresh"),
-				this,
-				SLOT(forceRefresh()),
-				QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_R)
-			);
-		}
+		m_trialDisabledActions.push_back(
+			menu->addAction(tr("&Force Refresh"), this, SLOT(forceRefresh()), QKeySequence(Qt::SHIFT + Qt::Key_F5))
+		);
+	}
+	else
+	{
+		m_trialDisabledActions.push_back(menu->addAction(
+			tr("&Force Refresh"),
+			this,
+			SLOT(forceRefresh()),
+			QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_R)
+		));
 	}
 
 	menu->addSeparator();
@@ -661,16 +684,20 @@ void QtMainWindow::setupHelpMenu()
 	menu->addAction(tr("Documentation"), this, SLOT(showDocumentation()));
 	menu->addAction(tr("Bug Tracker"), this, SLOT(showBugtracker()));
 	menu->addAction(tr("Licences"), this, SLOT(showLicenses()));
-
-	if(!isTrial())
-	{
-		menu->addAction(tr("Enter License..."), this, SLOT(enterLicense()));
-	}
+	menu->addAction(tr("Enter License..."), this, SLOT(enterLicense()));
 
 	menu->addSeparator();
 
 	menu->addAction(tr("Show Data Folder"), this, SLOT(showDataFolder()));
 	menu->addAction(tr("Show Log Folder"), this, SLOT(showLogFolder()));
+}
+
+void QtMainWindow::setTrialActionsEnabled(bool enabled)
+{
+	for (QAction* action : m_trialDisabledActions)
+	{
+		action->setEnabled(enabled);
+	}
 }
 
 QtMainWindow::DockWidget* QtMainWindow::getDockWidgetForView(View* view)

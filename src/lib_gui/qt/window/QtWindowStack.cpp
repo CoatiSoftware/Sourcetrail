@@ -21,6 +21,16 @@ QtWindowStackElement* QtWindowStack::getTopWindow()
 	return nullptr;
 }
 
+QtWindowStackElement* QtWindowStack::getBottomWindow()
+{
+	if (m_stack.size())
+	{
+		return m_stack.front();
+	}
+
+	return nullptr;
+}
+
 size_t QtWindowStack::getWindowCount()
 {
 	return m_stack.size();

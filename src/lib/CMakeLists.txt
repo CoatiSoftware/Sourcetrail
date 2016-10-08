@@ -366,7 +366,6 @@ add_files(
 
 	Application.cpp
 	Application.h
-	isTrial.h
 	LicenseChecker.cpp
 	LicenseChecker.h
 	Project.cpp

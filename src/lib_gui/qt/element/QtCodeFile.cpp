@@ -11,9 +11,9 @@
 #include "utility/messaging/type/MessageChangeFileView.h"
 #include "utility/messaging/type/MessageProjectEdit.h"
 
+#include "Application.h"
 #include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
-#include "isTrial.h"
 #include "qt/element/QtCodeNavigator.h"
 #include "qt/element/QtCodeSnippet.h"
 #include "qt/utility/utilityQt.h"
@@ -144,7 +144,7 @@ QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 		title->setFixedHeight(std::max(title->fontMetrics().height() * 1.2, 28.0));
 		title->setSizePolicy(title->sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 
-		if (isTrial())
+		if (Application::getInstance()->isInTrial())
 		{
 			title->setEnabled(false);
 		}
@@ -404,7 +404,7 @@ void QtCodeFile::updateSnippets()
 
 void QtCodeFile::updateTitleBar()
 {
-	if (isTrial())
+	if (Application::getInstance()->isInTrial())
 	{
 		return;
 	}

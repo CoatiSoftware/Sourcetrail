@@ -16,7 +16,6 @@
 #include "qt/utility/utilityQt.h"
 #include "utility/logging/logging.h"
 #include "utility/Version.h"
-#include "isTrial.h"
 
 QtRecentProjectButton::QtRecentProjectButton(QWidget* parent)
 	: QPushButton(parent)
@@ -49,7 +48,8 @@ void QtRecentProjectButton::handleButtonClick()
 	if (m_projectExists)
 	{
 		MessageDispatchWhenLicenseValid(
-			std::make_shared<MessageLoadProject>(m_projectFilePath.str(), false)
+			std::make_shared<MessageLoadProject>(m_projectFilePath.str(), false),
+			true
 		).dispatch();
 	}
 	else
@@ -121,7 +121,7 @@ void QtStartScreen::updateButtons()
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "startscreen/startscreen.css").c_str());
 }
 
-void QtStartScreen::setupStartScreen()
+void QtStartScreen::setupStartScreen(bool unlocked)
 {
 	setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "startscreen/startscreen.css").c_str());
 	addLogo();
@@ -135,7 +135,7 @@ void QtStartScreen::setupStartScreen()
 		QVBoxLayout* col = new QVBoxLayout();
 		layout->addLayout(col, 2);
 
-		if (isTrial())
+		if (!unlocked)
 		{
 			col->addSpacing(50);
 
@@ -152,6 +152,18 @@ void QtStartScreen::setupStartScreen()
 
 			col->addWidget(welcomeLabel, 0, Qt::AlignHCenter | Qt::AlignTop);
 			col->addStretch();
+
+			QPushButton* unlockButton = new QPushButton("Unlock", this);
+			unlockButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
+			unlockButton->setObjectName("projectButton");
+			unlockButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+			connect(unlockButton, SIGNAL(clicked()), this, SLOT(handleUnlockButton()));
+			col->addWidget(unlockButton);
+
+			QHBoxLayout* row = new QHBoxLayout();
+			row->addWidget(unlockButton);
+			row->addStretch();
+			col->addLayout(row);
 
 			layout->addStretch(1);
 		}
@@ -194,7 +206,7 @@ void QtStartScreen::setupStartScreen()
 		layout->addLayout(col, 1);
 
 		QLabel* recentProjectsLabel = new QLabel("Recent Projects: ", this);
-		if (isTrial())
+		if (!unlocked)
 		{
 			recentProjectsLabel->setText("Projects:");
 		}
@@ -241,6 +253,11 @@ void QtStartScreen::handleNewProjectButton()
 void QtStartScreen::handleOpenProjectButton()
 {
 	emit openOpenProjectDialog();
+}
+
+void QtStartScreen::handleUnlockButton()
+{
+	emit openEnterLicenseDialog();
 }
 
 void QtStartScreen::handleRecentButton()

@@ -8,12 +8,10 @@
 #include "LicenseChecker.h"
 #include "qt/utility/utilityQt.h"
 #include "utility/file/FilePath.h"
-#include "utility/messaging/type/MessageEnteredLicense.h"
 #include "utility/ResourcePaths.h"
 
 QtLicense::QtLicense(QWidget *parent)
 	: QtWindow(parent)
-	, m_forced(false)
 {
 	raise();
 }
@@ -47,14 +45,7 @@ void QtLicense::load()
 		m_licenseText->setText(licenseString.c_str());
 	}
 
-	m_forced = false;
 	updateCloseButton("Cancel");
-}
-
-void QtLicense::loadForced()
-{
-	m_forced = true;
-	updateCloseButton("Quit Coati");
 }
 
 void QtLicense::setErrorMessage(const QString& errorMessage)
@@ -135,18 +126,6 @@ void QtLicense::windowReady()
 	m_title->hide();
 }
 
-void QtLicense::handleClose()
-{
-	if (m_forced)
-	{
-		QApplication::quit();
-	}
-	else
-	{
-		emit canceled();
-	}
-}
-
 void QtLicense::handleNext()
 {
 	std::string licenseString = m_licenseText->toPlainText().toStdString();
@@ -174,9 +153,6 @@ void QtLicense::handleNext()
 		case LicenseChecker::LICENSE_VALID:
 		{
 			checker->saveCurrentLicenseString(licenseString);
-			MessageEnteredLicense().dispatch();
-
-			setCancelAble(true);
 			m_errorLabel->setText(" ");
 
 			emit finished();

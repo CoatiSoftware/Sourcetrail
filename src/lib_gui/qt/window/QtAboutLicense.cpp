@@ -9,7 +9,6 @@
 #include <QTextEdit>
 
 #include "licenses.h"
-#include "isTrial.h"
 
 QtAboutLicense::QtAboutLicense(QWidget *parent)
 	: QtWindow(parent)
@@ -30,30 +29,27 @@ void QtAboutLicense::populateWindow(QWidget* widget)
 
 	for (ThirdPartyLicense license : licenses3rdParties)
 	{
-		if( !(isTrial() && license.isNotInTrial) )
-		{
-			QLabel* licenseName = new QLabel();
-			licenseName->setText( QString::fromLatin1(license.name));
-			QFont _font = licenseName->font();
-			_font.setPixelSize(36);
-			_font.setBold(true);
-			licenseName->setFont(_font);
-			layout->addWidget(licenseName);
+		QLabel* licenseName = new QLabel();
+		licenseName->setText( QString::fromLatin1(license.name));
+		QFont _font = licenseName->font();
+		_font.setPixelSize(36);
+		_font.setBold(true);
+		licenseName->setFont(_font);
+		layout->addWidget(licenseName);
 
-			QLabel* licenseURL = new QLabel();
-			licenseURL->setText(QString::fromLatin1("(<a href=\"%1\">Website</a>)")
-										.arg(QString::fromLatin1(license.url)));
-			licenseURL->setOpenExternalLinks(true);
-			layout->addWidget(licenseURL);
+		QLabel* licenseURL = new QLabel();
+		licenseURL->setText(QString::fromLatin1("(<a href=\"%1\">Website</a>)")
+									.arg(QString::fromLatin1(license.url)));
+		licenseURL->setOpenExternalLinks(true);
+		layout->addWidget(licenseURL);
 
-			QLabel* licenseText = new QLabel();
-			licenseText->setFixedWidth(450);
-			licenseText->setWordWrap(true);
-			licenseText->setText(QString::fromLatin1(license.license));
-			layout->addWidget(licenseText);
+		QLabel* licenseText = new QLabel();
+		licenseText->setFixedWidth(450);
+		licenseText->setWordWrap(true);
+		licenseText->setText(QString::fromLatin1(license.license));
+		layout->addWidget(licenseText);
 
-			layout->addSpacing(50);
-		}
+		layout->addSpacing(50);
 	}
 
 	widget->setLayout(layout);

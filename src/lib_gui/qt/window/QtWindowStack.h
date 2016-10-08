@@ -30,6 +30,7 @@ public:
 	QtWindowStack(QObject* parent = nullptr);
 
 	QtWindowStackElement* getTopWindow();
+	QtWindowStackElement* getBottomWindow();
 	size_t getWindowCount();
 
 public slots:

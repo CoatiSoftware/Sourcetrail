@@ -10,7 +10,6 @@
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
-#include "isTrial.h"
 
 QtRefreshBar::QtRefreshBar()
 {
@@ -28,10 +27,7 @@ QtRefreshBar::QtRefreshBar()
 	m_refreshButton->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	layout->addWidget(m_refreshButton);
 
-	if (isTrial())
-	{
-		m_refreshButton->setEnabled(false);
-	}
+	m_refreshButton->setEnabled(false);
 
 	connect(m_refreshButton, SIGNAL(clicked()), this, SLOT(refreshClicked()));
 
@@ -58,4 +54,14 @@ void QtRefreshBar::refreshStyle()
 		QPixmap(map.c_str()),
 		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
 	));
+}
+
+void QtRefreshBar::handleMessage(MessageEnteredLicense* message)
+{
+	m_onQtThread(
+		[=]()
+		{
+			m_refreshButton->setEnabled(true);
+		}
+	);
 }

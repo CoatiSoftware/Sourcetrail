@@ -2,8 +2,8 @@
 #define LICENSE_CHECKER_H
 
 #include "utility/messaging/MessageListener.h"
-#include "utility/messaging/type/MessageEnteredLicense.h"
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
+#include "utility/messaging/type/MessageEnteredLicense.h"
 
 class License;
 

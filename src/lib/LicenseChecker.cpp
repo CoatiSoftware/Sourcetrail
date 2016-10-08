@@ -4,7 +4,6 @@
 #include "utility/messaging/type/MessageForceEnterLicense.h"
 #include "utility/messaging/type/MessageStatus.h"
 
-#include "isTrial.h"
 #include "License.h"
 #include "PublicKey.h"
 #include "settings/ApplicationSettings.h"
@@ -118,29 +117,26 @@ LicenseChecker::LicenseChecker()
 
 void LicenseChecker::handleMessage(MessageDispatchWhenLicenseValid* message)
 {
-	if (!isTrial())
+	MessageStatus("preparing...", false, true).dispatch();
+
+	LicenseState state = checkCurrentLicense();
+
+	MessageStatus("ready").dispatch();
+
+	if (state == LICENSE_VALID || message->allowTrial)
 	{
-		MessageStatus("preparing...", false, true).dispatch();
+		message->content->dispatch();
+	}
+	else
+	{
+		m_pendingMessage = message->content;
 
-		LicenseState state = checkCurrentLicense();
-
-		MessageStatus("ready").dispatch();
-
-		if (state != LICENSE_VALID)
+		if (!m_forcedLicenseEntering)
 		{
-			m_pendingMessage = message->content;
-
-			if (!m_forcedLicenseEntering)
-			{
-				m_forcedLicenseEntering = true;
-				MessageForceEnterLicense(state == LICENSE_EXPIRED).dispatch();
-			}
-
-			return;
+			m_forcedLicenseEntering = true;
+			MessageForceEnterLicense(state == LICENSE_EXPIRED).dispatch();
 		}
 	}
-
-	message->content->dispatch();
 }
 
 void LicenseChecker::handleMessage(MessageEnteredLicense* message)

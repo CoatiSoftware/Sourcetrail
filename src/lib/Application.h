@@ -6,6 +6,7 @@
 #include "component/ComponentManager.h"
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageActivateWindow.h"
+#include "utility/messaging/type/MessageEnteredLicense.h"
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/messaging/type/MessageRefresh.h"
@@ -24,6 +25,7 @@ class ProjectFactoryModule;
 
 class Application
 	: public MessageListener<MessageActivateWindow>
+	, public MessageListener<MessageEnteredLicense>
 	, public MessageListener<MessageFinishedParsing>
 	, public MessageListener<MessageLoadProject>
 	, public MessageListener<MessageRefresh>
@@ -52,12 +54,15 @@ public:
 
 	void setTitle(const std::string& title);
 
+	bool isInTrial() const;
+
 private:
 	static std::shared_ptr<Application> s_instance;
 
 	Application(bool withGUI=true);
 
 	virtual void handleMessage(MessageActivateWindow* message);
+	virtual void handleMessage(MessageEnteredLicense* message);
 	virtual void handleMessage(MessageFinishedParsing* message);
 	virtual void handleMessage(MessageLoadProject* message);
 	virtual void handleMessage(MessageRefresh* message);
@@ -78,6 +83,8 @@ private:
 	std::shared_ptr<ComponentManager> m_componentManager;
 
 	std::shared_ptr<IDECommunicationController> m_ideCommunicationController;
+
+	bool m_isInTrial;
 };
 
 #endif // APPLICATION_H

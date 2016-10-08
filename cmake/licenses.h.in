@@ -7,12 +7,23 @@ struct ThirdPartyLicense {
 	const char* name;
 	const char* url;
 	const char* license;
-	const bool isNotInTrial;
 
-	ThirdPartyLicense() : name(0), url(0), license(0), isNotInTrial(false) {}
-	ThirdPartyLicense(const char* name, const char* url, const char* license, const bool isNotInTrial)
-	    : name(name), url(url), license(license), isNotInTrial(isNotInTrial) {}
-	bool isEmpty() const { return (name == 0 && url == 0 && license == 0); }
+	ThirdPartyLicense()
+		: name(0)
+		, url(0)
+		, license(0)
+	{}
+
+	ThirdPartyLicense(const char* name, const char* url, const char* license)
+	    : name(name)
+	    , url(url)
+	    , license(license)
+	{}
+
+	bool isEmpty() const
+	{
+		return (name == 0 && url == 0 && license == 0);
+	}
 };
 
 // License Textfiles

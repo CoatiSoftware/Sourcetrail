@@ -34,15 +34,17 @@ public:
 	QtStartScreen(QWidget* parent = 0);
 	QSize sizeHint() const override;
 
-	void setupStartScreen();
+	void setupStartScreen(bool unlocked);
 
 signals:
 	void openOpenProjectDialog();
 	void openNewProjectDialog();
+	void openEnterLicenseDialog();
 
 private slots:
 	void handleNewProjectButton();
 	void handleOpenProjectButton();
+	void handleUnlockButton();
 	void handleRecentButton();
 	void updateButtons();
 

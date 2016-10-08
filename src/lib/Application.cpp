@@ -5,7 +5,6 @@
 #include "utility/logging/logging.h"
 #include "utility/logging/LogManager.h"
 #include "utility/messaging/MessageQueue.h"
-#include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/messaging/type/MessageShowStartScreen.h"
 #include "utility/scheduling/TaskScheduler.h"
@@ -20,7 +19,6 @@
 #include "component/view/MainView.h"
 #include "component/view/ViewFactory.h"
 #include "data/StorageCache.h"
-#include "isTrial.h"
 #include "LicenseChecker.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
@@ -46,10 +44,10 @@ void Application::createInstance(
 		s_instance->m_mainView = viewFactory->createMainView();
 		s_instance->m_mainView->setTitle("Coati");
 
-		MessageDispatchWhenLicenseValid(std::make_shared<MessageShowStartScreen>()).dispatch();
-
 		s_instance->m_componentManager->setup(s_instance->m_mainView.get());
 		s_instance->m_mainView->loadLayout();
+
+		MessageShowStartScreen().dispatch();
 	}
 
 	if (networkFactory != nullptr)
@@ -107,6 +105,7 @@ std::shared_ptr<Application> Application::s_instance;
 
 Application::Application(bool withGUI)
 	: m_hasGUI(withGUI)
+	, m_isInTrial(false)
 {
 	LicenseChecker::createInstance();
 }
@@ -149,6 +148,11 @@ int Application::handleDialog(const std::string& message, const std::vector<std:
 void Application::setTitle(const std::string& title)
 {
 	m_mainView->setTitle(title);
+}
+
+bool Application::isInTrial() const
+{
+	return m_isInTrial;
 }
 
 void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
@@ -208,6 +212,11 @@ void Application::handleMessage(MessageActivateWindow* message)
 	{
 		m_mainView->activateWindow();
 	}
+}
+
+void Application::handleMessage(MessageEnteredLicense* message)
+{
+	m_isInTrial = false;
 }
 
 void Application::handleMessage(MessageFinishedParsing* message)
