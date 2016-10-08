@@ -123,7 +123,7 @@ void LicenseChecker::handleMessage(MessageDispatchWhenLicenseValid* message)
 
 	MessageStatus("ready").dispatch();
 
-	if (state == LICENSE_VALID || message->allowTrial)
+	if (state == LICENSE_VALID)
 	{
 		message->content->dispatch();
 	}

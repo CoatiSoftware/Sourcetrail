@@ -8,7 +8,6 @@
 
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileSystem.h"
-#include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/ResourcePaths.h"
 
@@ -47,10 +46,7 @@ void QtRecentProjectButton::handleButtonClick()
 {
 	if (m_projectExists)
 	{
-		MessageDispatchWhenLicenseValid(
-			std::make_shared<MessageLoadProject>(m_projectFilePath.str(), false),
-			true
-		).dispatch();
+		MessageLoadProject(m_projectFilePath.str(), false).dispatch();
 	}
 	else
 	{

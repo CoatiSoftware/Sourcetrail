@@ -7,9 +7,8 @@ class MessageDispatchWhenLicenseValid
 	: public Message<MessageDispatchWhenLicenseValid>
 {
 public:
-	MessageDispatchWhenLicenseValid(std::shared_ptr<MessageBase> content, bool allowTrial = false)
+	MessageDispatchWhenLicenseValid(std::shared_ptr<MessageBase> content)
 		: content(content)
-		, allowTrial(allowTrial)
 	{
 	}
 
@@ -19,7 +18,6 @@ public:
 	}
 
 	std::shared_ptr<MessageBase> content;
-	const bool allowTrial;
 };
 
 #endif // MESSAGE_DISPATCH_WHEN_LICENSE_VALID_H

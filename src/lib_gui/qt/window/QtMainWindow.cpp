@@ -429,20 +429,14 @@ void QtMainWindow::newProjectFromSolution(const std::string& ideId, const std::s
 	wizzard->newProjectFromSolution(ideId, solutionPath);
 }
 
-void QtMainWindow::openProject(const QString &path)
+void QtMainWindow::openProject()
 {
-	QString fileName = path;
-
-	if (fileName.isNull())
-	{
-		fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", "Coati Project Files (*.coatiproject)");
-	}
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", "Coati Project Files (*.coatiproject)");
 
 	if (!fileName.isEmpty())
 	{
 		MessageDispatchWhenLicenseValid(
-			std::make_shared<MessageLoadProject>(fileName.toStdString(), false),
-			true
+			std::make_shared<MessageLoadProject>(fileName.toStdString(), false)
 		).dispatch();
 		m_windowStack.clearWindows();
 	}
@@ -535,7 +529,8 @@ void QtMainWindow::openRecentProject()
 	QAction *action = qobject_cast<QAction *>(sender());
 	if (action)
 	{
-		openProject(action->data().toString());
+		MessageLoadProject(action->data().toString().toStdString(), false).dispatch();
+		m_windowStack.clearWindows();
 	}
 }
 

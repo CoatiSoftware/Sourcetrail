@@ -109,7 +109,7 @@ public slots:
 
 	void newProject();
 	void newProjectFromSolution(const std::string& ideId, const std::string& solutionPath);
-	void openProject(const QString &path = QString());
+	void openProject();
 	void editProject();
 
 	void find();
