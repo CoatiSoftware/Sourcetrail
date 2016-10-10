@@ -17,6 +17,11 @@ struct SearchResult
 	std::set<Id> elementIds;
 	std::vector<size_t> indices;
 	int score;
+
+	bool operator<(const SearchResult& other) const
+	{
+		return score > other.score;
+	}
 };
 
 class SearchIndex
@@ -57,7 +62,14 @@ private:
 	};
 
 	void populateEdgeGate(Edge* e);
-	void search(const Path& path, const std::string& remainingQuery, std::vector<SearchIndex::Path>* results) const;
+	void searchRecursive(const Path& path, const std::string& remainingQuery, std::vector<SearchIndex::Path>* results) const;
+
+	std::multiset<SearchResult> createScoredResults(const std::vector<Path>& paths, size_t maxResultCount) const;
+	SearchResult bestScoredResult(SearchResult result, std::map<std::string, SearchResult>* scoresCache) const;
+	void bestScoredResultRecursive(
+		const std::string& lowerText, const std::vector<size_t>& indices, size_t indicesPos,
+		std::map<std::string, SearchResult>* scoresCache, SearchResult* result) const;
+	int score(const std::string& text, const std::vector<size_t>& indices) const;
 
 	std::vector<std::shared_ptr<Node>> m_nodes;
 	std::vector<std::shared_ptr<Edge>> m_edges;
