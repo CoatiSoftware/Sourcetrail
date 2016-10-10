@@ -13,7 +13,6 @@
 #include <Windows.h>
 #endif // WINDOWS
 
-
 class AppPath
 {
 public:

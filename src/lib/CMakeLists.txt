@@ -334,6 +334,15 @@ add_files(
 	utility/solution/SolutionParserUtility.h
 	utility/solution/SolutionParserVisualStudio.cpp
 	utility/solution/SolutionParserVisualStudio.h
+	
+	utility/synchronization/ReaderWriterLock.cpp
+	utility/synchronization/ReaderWriterLock.h
+	utility/synchronization/ScopedReaderLock.cpp
+	utility/synchronization/ScopedReaderLock.h
+	utility/synchronization/ScopedWriterLock.cpp
+	utility/synchronization/ScopedWriterLock.h
+	utility/synchronization/Semaphore.cpp
+	utility/synchronization/Semaphore.h
 
 	utility/text/TextAccess.cpp
 	utility/text/TextAccess.h
