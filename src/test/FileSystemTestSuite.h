@@ -85,11 +85,21 @@ public:
 		std::vector<FileInfo> files = FileSystem::getFileInfosFromPaths(directoryPaths, extensions, true);
 
 		TS_ASSERT_EQUALS(files.size(), 5);
-		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/Settings/player.h"));
-		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/Settings/sample.cpp"));
-		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/main.cpp"));
-		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/Settings/src/test.cpp"));
-		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/Settings/src/test.h"));
+		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/Settings/player.h",
+			"./data/FileSystemTestSuite/player.h"
+		));
+		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/Settings/sample.cpp",
+			"./data/FileSystemTestSuite/sample.cpp"
+		));
+		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/main.cpp",
+			"./data/FileSystemTestSuite/src/Settings/src/main.cpp"
+		));
+		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/test.cpp",
+			"./data/FileSystemTestSuite/src/Settings/src/test.cpp"
+		));
+		TS_ASSERT(isInFileInfos(files, "./data/FileSystemTestSuite/src/test.h",
+			"./data/FileSystemTestSuite/src/Settings/src/test.h"
+		));
 #endif
 	}
 
@@ -134,6 +144,19 @@ private:
 		for (const FileInfo& info : infos)
 		{
 			if (info.path.str() == filename)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	bool isInFileInfos(const std::vector<FileInfo>& infos, const std::string filename, const std::string filename2)
+	{
+		for (const FileInfo& info : infos)
+		{
+			if (info.path.str() == filename || info.path.str() == filename2)
 			{
 				return true;
 			}

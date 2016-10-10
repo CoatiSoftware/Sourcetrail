@@ -8,7 +8,6 @@
 #include "utility/file/FilePath.h"
 #include "utility/file/FileSystem.h"
 #include "qt/utility/utilityQt.h"
-#include "isTrial.h"
 
 void setupPlatform(int argc, char *argv[])
 {
@@ -22,14 +21,7 @@ void setupApp(int argc, char *argv[])
 	}
 
 	std::string userdir(std::getenv("HOME"));
-	if(isTrial())
-	{
-		userdir.append("/.config/coatitrial/");
-	}
-	else
-	{
-		userdir.append("/.config/coati/");
-	}
+	userdir.append("/.config/coati/");
 
 	UserPaths::setUserDataPath(userdir);
 
