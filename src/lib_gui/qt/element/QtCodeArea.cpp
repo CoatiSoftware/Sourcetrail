@@ -537,7 +537,13 @@ void QtCodeArea::clearSelection()
 {
 	QTextCursor cursor = textCursor();
 	cursor.clearSelection();
+
+	QScrollBar* scrollbar = horizontalScrollBar();
+	int scrollValue = horizontalScrollBar()->value();
+
 	setTextCursor(cursor);
+
+	scrollbar->setValue(scrollValue);
 }
 
 void QtCodeArea::setIDECursorPosition()
