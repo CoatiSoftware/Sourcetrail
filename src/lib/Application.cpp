@@ -86,8 +86,8 @@ void Application::loadSettings()
 		consoleLogger->setLogLevel(Logger::LOG_WARNINGS | Logger::LOG_ERRORS);
 		logManager->addLogger(consoleLogger);
 
-		FileLogger::setFilePath(UserPaths::getLogPath());
 		std::shared_ptr<FileLogger> fileLogger = std::make_shared<FileLogger>();
+		fileLogger->setLogDirectory(UserPaths::getLogPath());
 		fileLogger->setLogLevel(Logger::LOG_ALL);
 		logManager->addLogger(fileLogger);
 	}

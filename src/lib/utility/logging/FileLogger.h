@@ -12,29 +12,29 @@ public:
 	FileLogger();
 	virtual ~FileLogger();
 
-	static void setFilePath(const std::string& filePath);
-	static void setMaxLogCount(unsigned int logCount);
-	static void setNumberOfLogFiles(unsigned int amount);
+	void setLogDirectory(const std::string& filePath);
+	void setMaxLogLineCount(unsigned int logCount);
+
+	// setting the max log file count to 0 will disable ringlogging
+	void setMaxLogFileCount(unsigned int amount);
 
 private:
 	virtual void logInfo(const LogMessage& message);
 	virtual void logWarning(const LogMessage& message);
 	virtual void logError(const LogMessage& message);
 
-	static void createDirectory();
-	static std::string s_filePath;
-	static unsigned int s_maxLogCount;
-	static unsigned int s_amountOfLogFiles;
-
-	void setupFileName();
+	static std::string getFileName();
 	void logMessage(const std::string& type, const LogMessage& message);
-	void changeLogFile();
+	void updateLogFileName();
 
-	unsigned int m_logCount;
-	unsigned int m_suffix;
+	const std::string m_logFileName;
+	std::string m_logDirectory;
+	unsigned int m_maxLogLineCount;
+	unsigned int m_maxLogFileCount;
+	unsigned int m_currentLogLineCount;
+	unsigned int m_currentLogFileCount;
 
-	std::string m_currentLogFile;
-	std::string m_fileName;
+	std::string m_currentLogFileName;
 };
 
 #endif // FILE_LOGGER_H

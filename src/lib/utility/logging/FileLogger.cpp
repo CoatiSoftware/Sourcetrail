@@ -6,28 +6,26 @@
 
 #include "utility/file/FileSystem.h"
 
-std::string FileLogger::s_filePath = "user/log/";
-unsigned int FileLogger::s_maxLogCount = 1000;
-unsigned int FileLogger::s_amountOfLogFiles = 2;
-
 FileLogger::FileLogger()
 	: Logger("FileLogger")
-	, m_logCount(0)
-	, m_suffix(1)
+	, m_logFileName(getFileName())
+	, m_logDirectory("user/log/")
+	, m_maxLogLineCount(0)
+	, m_maxLogFileCount(0)
+	, m_currentLogLineCount(0)
+	, m_currentLogFileCount(0)
 {
-	setupFileName();
-	changeLogFile();
+	updateLogFileName();
 }
 
 FileLogger::~FileLogger()
 {
 }
 
-void FileLogger::setFilePath(const std::string& filePath)
+void FileLogger::setLogDirectory(const std::string& filePath)
 {
-	s_filePath = filePath;
-
-	createDirectory();
+	m_logDirectory = filePath;
+	FileSystem::createDirectory(m_logDirectory);
 }
 
 void FileLogger::logInfo(const LogMessage& message)
@@ -45,7 +43,7 @@ void FileLogger::logError(const LogMessage& message)
 	logMessage("ERROR", message);
 }
 
-void FileLogger::setupFileName()
+std::string FileLogger::getFileName()
 {
 	time_t time;
 	std::time(&time);
@@ -58,37 +56,55 @@ void FileLogger::setupFileName()
 	filename << (t.tm_mday < 10 ? "0" : "") << t.tm_mday << "_";
 	filename << (t.tm_hour < 10 ? "0" : "") << t.tm_hour << "-";
 	filename << (t.tm_min < 10 ? "0" : "") << t.tm_min << "-";
-	filename << (t.tm_sec < 10 ? "0" : "") << t.tm_sec << "_";
+	filename << (t.tm_sec < 10 ? "0" : "") << t.tm_sec;
 
-	m_fileName = filename.str();
-
+	return filename.str();
 }
 
-void FileLogger::createDirectory()
+void FileLogger::setMaxLogLineCount(unsigned int lineCount)
 {
-	if (s_filePath.length() > 0)
+	m_maxLogLineCount = lineCount;
+}
+
+void FileLogger::setMaxLogFileCount(unsigned int fileCount)
+{
+	m_maxLogFileCount = fileCount;
+}
+
+void FileLogger::updateLogFileName()
+{
+	bool fileChanged = false;
+
+	m_currentLogFileName = m_logFileName;
+	if (m_maxLogFileCount > 0)
 	{
-		FileSystem::createDirectory(s_filePath);
+		m_currentLogFileName += "_";
+		if (m_currentLogLineCount >= m_maxLogLineCount)
+		{
+			m_currentLogLineCount = 0;
+
+			m_currentLogFileCount++;
+			if (m_currentLogFileCount >= m_maxLogFileCount)
+			{
+				m_currentLogFileCount = 0;
+			}
+			fileChanged = true;
+		}
+		m_currentLogFileName += std::to_string(m_currentLogFileCount);
+
 	}
-}
+	m_currentLogFileName += ".txt";
 
-void FileLogger::setMaxLogCount(unsigned int logCount)
-{
-	s_maxLogCount = logCount;
-}
-
-void FileLogger::changeLogFile()
-{
-	m_suffix = ++m_suffix % s_amountOfLogFiles;
-	m_currentLogFile = m_fileName + (m_suffix ? "1" : "0") + ".txt";
-
-	FileSystem::remove(s_filePath + m_currentLogFile);
+	if (fileChanged)
+	{
+		FileSystem::remove(m_logDirectory + m_currentLogFileName);
+	}
 }
 
 void FileLogger::logMessage(const std::string& type, const LogMessage& message)
 {
 	std::ofstream fileStream;
-	fileStream.open(s_filePath + m_currentLogFile, std::ios::app);
+	fileStream.open(m_logDirectory + m_currentLogFileName, std::ios::app);
 	fileStream << message.getTimeString("%H:%M:%S") << " | ";
 
 	if (message.filePath.size())
@@ -99,9 +115,9 @@ void FileLogger::logMessage(const std::string& type, const LogMessage& message)
 	fileStream << type << ": " << message.message << std::endl;
 	fileStream.close();
 
-	if (++m_logCount >= s_maxLogCount)
+	m_currentLogLineCount++;
+	if (m_maxLogFileCount > 0)
 	{
-		changeLogFile();
-		m_logCount = 0;
+		updateLogFileName();
 	}
 }
