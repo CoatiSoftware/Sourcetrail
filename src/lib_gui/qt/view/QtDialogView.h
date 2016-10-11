@@ -9,6 +9,7 @@
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
 #include "utility/messaging/type/MessageShowErrors.h"
+#include "utility/messaging/type/MessageWindowClosed.h"
 
 class QtMainWindow;
 
@@ -17,6 +18,7 @@ class QtDialogView
 	, public DialogView
 	, public MessageListener<MessageInterruptTasks>
 	, public MessageListener<MessageShowErrors>
+	, public MessageListener<MessageWindowClosed>
 {
 	Q_OBJECT
 
@@ -36,6 +38,7 @@ public:
 private:
 	void handleMessage(MessageInterruptTasks* message) override;
 	void handleMessage(MessageShowErrors* message) override;
+	void handleMessage(MessageWindowClosed* message) override;
 
 	void updateErrorCount(size_t errorCount, size_t fatalCount);
 
@@ -50,6 +53,8 @@ private:
 
 	QtThreadedLambdaFunctor m_onQtThread;
 	QtThreadedLambdaFunctor m_onQtThread2;
+
+	bool m_resultReady;
 };
 
 #endif // QT_DIALOG_VIEW_H

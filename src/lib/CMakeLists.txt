@@ -290,6 +290,7 @@ add_files(
 	utility/messaging/type/MessageStatus.h
 	utility/messaging/type/MessageSwitchColorScheme.h
 	utility/messaging/type/MessageUndo.h
+	utility/messaging/type/MessageWindowClosed.h
 	utility/messaging/type/MessageWindowFocus.h
 	utility/messaging/type/MessageZoom.h
 
@@ -334,7 +335,7 @@ add_files(
 	utility/solution/SolutionParserUtility.h
 	utility/solution/SolutionParserVisualStudio.cpp
 	utility/solution/SolutionParserVisualStudio.h
-	
+
 	utility/synchronization/ReaderWriterLock.cpp
 	utility/synchronization/ReaderWriterLock.h
 	utility/synchronization/ScopedReaderLock.cpp

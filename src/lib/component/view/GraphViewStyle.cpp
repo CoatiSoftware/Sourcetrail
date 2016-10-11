@@ -455,7 +455,7 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 		style.originOffset.y = 0;
 		style.targetOffset.y = 0;
 		style.verticalOffset = 0;
-		style.zValue = isActive ? -2 : -5;
+		style.zValue = isActive ? 1 : -5;
 		break;
 	case Edge::EDGE_CALL:
 		style.originOffset.y = 1;
@@ -472,7 +472,7 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 		style.arrowWidth = 14;
 		style.arrowClosed = true;
 		style.targetOffset.x = 34;
-		style.zValue = isActive ? -1 : -3;
+		style.zValue = isActive ? 2 : -3;
 		break;
 	default:
 		break;

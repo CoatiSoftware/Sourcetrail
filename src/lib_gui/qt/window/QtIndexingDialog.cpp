@@ -74,13 +74,13 @@ void QtIndexingDialog::setupProgress()
 
 	QBoxLayout* layout = createLayout();
 
-	addTopAndProgressBar(0.62);
+	addTopAndProgressBar(0.5);
 	addTitle("Clearing", layout);
 	addMessageLabel(layout);
 
 	layout->addStretch();
 
-	m_sizeHint = QSize(350, 350);
+	m_sizeHint = QSize(350, 280);
 
 	m_progressBar->showUnknownProgressAnimated();
 
@@ -268,12 +268,12 @@ void QtIndexingDialog::addTopAndProgressBar(float topRatio)
 
 	m_top = new QWidget(m_window);
 	m_top->setObjectName("topHalf");
-	m_top->setGeometry(0, 0, m_window->size().width(), m_window->size().height() * topRatio);
+	m_top->setGeometry(0, 0, 0, 0);
 	m_top->show();
 	m_top->lower();
 
 	m_progressBar = new QtProgressBar(m_window);
-	m_progressBar->setGeometry(0, m_window->size().height() * topRatio - 5, m_window->size().width(), 10);
+	m_progressBar->setGeometry(0, 0, 0, 0);
 }
 
 void QtIndexingDialog::addTitle(QString title, QBoxLayout* layout)
@@ -393,7 +393,7 @@ void QtIndexingDialog::setGeometries()
 
 void QtIndexingDialog::finishSetup()
 {
-	setGeometries();
-
 	setupDone();
+
+	setGeometries();
 }

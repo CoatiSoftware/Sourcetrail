@@ -36,6 +36,7 @@
 #include "utility/messaging/type/MessageResetZoom.h"
 #include "utility/messaging/type/MessageSearch.h"
 #include "utility/messaging/type/MessageUndo.h"
+#include "utility/messaging/type/MessageWindowClosed.h"
 #include "utility/messaging/type/MessageWindowFocus.h"
 #include "utility/messaging/type/MessageZoom.h"
 #include "utility/ResourcePaths.h"
@@ -312,6 +313,11 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 void QtMainWindow::contextMenuEvent(QContextMenuEvent* event)
 {
 	QtContextMenu::getInstance()->showDefault(event, this);
+}
+
+void QtMainWindow::closeEvent(QCloseEvent* event)
+{
+	MessageWindowClosed().dispatch();
 }
 
 void QtMainWindow::about()

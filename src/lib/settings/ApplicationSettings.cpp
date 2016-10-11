@@ -261,7 +261,7 @@ void ApplicationSettings::setCodeSnippetSnapRange(int range)
 
 int ApplicationSettings::getCodeSnippetExpandRange() const
 {
-	return getValue<int>("code/snippet/expand_range", 2);
+	return getValue<int>("code/snippet/expand_range", 3);
 }
 
 void ApplicationSettings::setCodeSnippetExpandRange(int range)

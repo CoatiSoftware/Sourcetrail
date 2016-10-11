@@ -140,23 +140,6 @@ public:
 		return false;
 	}
 
-	size_t getConnectedSubNodeCount() const
-	{
-		size_t count = 0;
-
-		if (connected)
-		{
-			count += 1;
-		}
-
-		for (std::shared_ptr<DummyNode> node : subNodes)
-		{
-			count += node->getConnectedSubNodeCount();
-		}
-
-		return count;
-	}
-
 	std::vector<const DummyNode*> getConnectedSubNodes() const
 	{
 		std::vector<const DummyNode*> nodes;

@@ -48,8 +48,6 @@ void TaskScheduler::startSchedulerLoopThreaded()
 
 void TaskScheduler::startSchedulerLoop()
 {
-	const int SLEEP_TIME_MS = 25;
-
 	{
 		std::lock_guard<std::mutex> lock(m_loopMutex);
 
@@ -75,6 +73,7 @@ void TaskScheduler::startSchedulerLoop()
 			}
 		}
 
+		const int SLEEP_TIME_MS = 25;
 		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
 	}
 
@@ -155,6 +154,15 @@ void TaskScheduler::processTasks()
 				if (runner->update(blackboard) != Task::STATE_RUNNING)
 				{
 					break;
+				}
+
+				{
+					std::lock_guard<std::mutex> lock(m_loopMutex);
+
+					if (!m_loopIsRunning)
+					{
+						break;
+					}
 				}
 			}
 		}

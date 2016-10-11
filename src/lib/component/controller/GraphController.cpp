@@ -742,7 +742,7 @@ void GraphController::bundleNodesAndEdgesMatching(
 		node->visible = false;
 
 		bundleNode->bundledNodes.push_back(node);
-		bundleNode->bundledNodeCount += node->getConnectedSubNodeCount();
+		bundleNode->bundledNodeCount += node->getBundledNodeCount();
 
 		m_dummyNodes.erase(m_dummyNodes.begin() + matchedNodeIndices[i]);
 	}

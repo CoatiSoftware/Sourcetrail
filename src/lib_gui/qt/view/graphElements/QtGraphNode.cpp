@@ -258,6 +258,25 @@ Id QtGraphNode::getTokenId() const
 void QtGraphNode::addSubNode(const std::shared_ptr<QtGraphNode>& node)
 {
 	m_subNodes.push_back(node);
+
+	// push parent nodes to back so all edges going to the active subnode are visible
+	if (node->getIsActive())
+	{
+		QtGraphNode* parent = this;
+		while (parent)
+		{
+			parent->setZValue(-10.0f);
+			parent->m_rect->setZValue(-10.0f);
+			parent->m_text->setZValue(-9.0f);
+
+			if (parent->m_undefinedRect)
+			{
+				parent->m_undefinedRect->setZValue(-10.0f);
+			}
+
+			parent = parent->getParent();
+		}
+	}
 }
 
 void QtGraphNode::moved(const Vec2i& oldPosition)

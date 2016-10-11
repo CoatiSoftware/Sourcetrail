@@ -402,7 +402,7 @@ int SearchIndex::score(const std::string& text, const std::vector<size_t>& indic
 		}
 
 		// after no letter
-		bool prevIsNoLetter = (index > 0 && noLetters.find(text[index - 1]) != noLetters.end());
+		bool prevIsNoLetter = (index == 0 || noLetters.find(text[index - 1]) != noLetters.end());
 		if (prevIsNoLetter)
 		{
 			noLetterScore += noLetterBonus;

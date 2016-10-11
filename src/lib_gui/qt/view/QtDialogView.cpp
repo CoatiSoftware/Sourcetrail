@@ -14,11 +14,13 @@
 QtDialogView::QtDialogView(QtMainWindow* mainWindow)
 	: m_mainWindow(mainWindow)
 	, m_windowStack(this)
+	, m_resultReady(false)
 {
 }
 
 QtDialogView::~QtDialogView()
 {
+	m_resultReady = true;
 }
 
 void QtDialogView::showProgressDialog(const std::string& title, const std::string& message)
@@ -66,17 +68,17 @@ void QtDialogView::hideProgressDialog()
 bool QtDialogView::startIndexingDialog(size_t cleanFileCount, size_t indexFileCount)
 {
 	bool result = false;
-	bool done = false;
+	m_resultReady = false;
 
 	m_onQtThread(
-		[=, &result, &done]()
+		[=, &result]()
 		{
 			QtIndexingDialog* window = createWindow<QtIndexingDialog>();
 			window->setupStart(cleanFileCount, indexFileCount,
 				[&](bool start)
 				{
 					result = start;
-					done = true;
+					m_resultReady = true;
 
 					setUIBlocked(false);
 				}
@@ -86,7 +88,7 @@ bool QtDialogView::startIndexingDialog(size_t cleanFileCount, size_t indexFileCo
 		}
 	);
 
-	while (!done)
+	while (!m_resultReady)
 	{
 		const int SLEEP_TIME_MS = 25;
 		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
@@ -155,10 +157,10 @@ void QtDialogView::finishedIndexingDialog(size_t fileCount, size_t totalFileCoun
 int QtDialogView::confirm(const std::string& message, const std::vector<std::string>& options)
 {
 	int result = -1;
-	bool done = false;
+	m_resultReady = false;
 
 	m_onQtThread(
-		[=, &result, &done]()
+		[=, &result]()
 		{
 			QMessageBox msgBox;
 			msgBox.setText(message.c_str());
@@ -179,11 +181,11 @@ int QtDialogView::confirm(const std::string& message, const std::vector<std::str
 				}
 			}
 
-			done = true;
+			m_resultReady = true;
 		}
 	);
 
-	while (!done)
+	while (!m_resultReady)
 	{
 		const int SLEEP_TIME_MS = 25;
 		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
@@ -216,6 +218,11 @@ void QtDialogView::handleMessage(MessageShowErrors* message)
 			updateErrorCount(errorInfo.total, errorInfo.fatal);
 		}
 	);
+}
+
+void QtDialogView::handleMessage(MessageWindowClosed* message)
+{
+	m_resultReady = true;
 }
 
 void QtDialogView::updateErrorCount(size_t errorCount, size_t fatalCount)
