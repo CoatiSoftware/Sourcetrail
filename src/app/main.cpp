@@ -1,10 +1,3 @@
-#include "utility/AppPath.h"
-#include "utility/commandline/CommandLineParser.h"
-#include "utility/ResourcePaths.h"
-#include "utility/ScopedFunctor.h"
-#include "utility/UserPaths.h"
-#include "utility/Version.h"
-
 #include "Application.h"
 #include "ProjectFactoryModuleC.h"
 #include "ProjectFactoryModuleCpp.h"
@@ -17,7 +10,60 @@
 #include "qt/utility/utilityQt.h"
 #include "qt/view/QtViewFactory.h"
 #include "qt/window/QtMainWindow.h"
+#include "settings/ApplicationSettings.h"
+#include "utility/AppPath.h"
+#include "utility/commandline/CommandLineParser.h"
+#include "utility/ResourcePaths.h"
+#include "utility/ScopedFunctor.h"
+#include "utility/UserPaths.h"
+#include "utility/utilityPathDetection.h"
+#include "utility/Version.h"
 #include "version.h"
+
+void prefillJavaRuntimePath()
+{
+	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
+	if (settings->getJavaPath().empty())
+	{
+		std::shared_ptr<CombinedPathDetector> javaPathDetector = utility::getJavaRuntimePathDetector();
+		std::vector<FilePath> paths = javaPathDetector->getPaths();
+		if (!paths.empty())
+		{
+			settings->setJavaPath(paths.front().str());
+			settings->save();
+		}
+	}
+}
+
+void prefillCxxHeaderPaths()
+{
+	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
+	if (settings->getHeaderSearchPaths().empty())
+	{
+		std::shared_ptr<CombinedPathDetector> cxxHeaderDetector = utility::getCxxHeaderPathDetector();
+		std::vector<FilePath> paths = cxxHeaderDetector->getPaths();
+		if (!paths.empty())
+		{
+			settings->setHeaderSearchPaths(paths);
+			settings->save();
+		}
+	}
+}
+
+void prefillCxxFrameworkPaths()
+{
+	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
+	if (settings->getFrameworkSearchPaths().empty())
+	{
+		std::shared_ptr<CombinedPathDetector> cxxFrameworkDetector = utility::getCxxFrameworkPathDetector();
+		std::vector<FilePath> paths = cxxFrameworkDetector->getPaths();
+		if (!paths.empty())
+		{
+			settings->setFrameworkSearchPaths(paths);
+			settings->save();
+		}
+	}
+}
 
 int main(int argc, char *argv[])
 {
@@ -50,6 +96,10 @@ int main(int argc, char *argv[])
 		ScopedFunctor f([](){
 			Application::destroyInstance();
 		});
+
+		prefillJavaRuntimePath();
+		prefillCxxHeaderPaths();
+		prefillCxxFrameworkPaths();
 
 		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleC>());
 		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleCpp>());
@@ -90,6 +140,10 @@ int main(int argc, char *argv[])
 			Application::destroyInstance();
 		});
 
+		prefillJavaRuntimePath();
+		prefillCxxHeaderPaths();
+		prefillCxxFrameworkPaths();
+
 		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleC>());
 		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleCpp>());
 		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleJava>());
@@ -102,4 +156,3 @@ int main(int argc, char *argv[])
 		return qtApp.exec();
 	}
 }
-

@@ -194,4 +194,6 @@ add_files(
 
 	utility/utilityApp.cpp
 	utility/utilityApp.h
+	utility/utilityPathDetection.cpp
+	utility/utilityPathDetection.h
 )

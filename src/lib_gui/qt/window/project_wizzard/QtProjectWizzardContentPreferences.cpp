@@ -3,10 +3,8 @@
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageSwitchColorScheme.h"
-#include "utility/path_detector/java_runtime/JavaPathDetectorLinux.h"
-#include "utility/path_detector/java_runtime/JavaPathDetectorMac.h"
-#include "utility/path_detector/java_runtime/JavaPathDetectorWindows.h"
 #include "utility/ResourcePaths.h"
+#include "utility/utilityPathDetection.h"
 
 QtProjectWizzardContentPreferences::QtProjectWizzardContentPreferences(
 	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
@@ -217,19 +215,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	);
 	row++;
 
-	m_javaPathDetector = std::make_shared<CombinedPathDetector>();
-	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
-	{
-		m_javaPathDetector->addDetector(std::make_shared<JavaPathDetectorWindows>("1.8"));
-	}
-	else if (QSysInfo::macVersion() != QSysInfo::MV_None)
-	{
-		m_javaPathDetector->addDetector(std::make_shared<JavaPathDetectorMac>("1.8"));
-	}
-	else
-	{
-		m_javaPathDetector->addDetector(std::make_shared<JavaPathDetectorLinux>("1.8"));
-	}
+	m_javaPathDetector = utility::getJavaRuntimePathDetector();
 	addJavaPathDetection(layout, row);
 
 	layout->setRowMinimumHeight(row, 20);
@@ -350,7 +336,7 @@ void QtProjectWizzardContentPreferences::javaPathDetectionClicked()
 void QtProjectWizzardContentPreferences::addJavaPathDetection(QGridLayout* layout, int& row)
 {
 	std::vector<std::string> detectorNames = m_javaPathDetector->getWorkingDetectorNames();
-	if (!detectorNames.size())
+	if (detectorNames.empty())
 	{
 		return;
 	}

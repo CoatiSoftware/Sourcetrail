@@ -13,10 +13,8 @@
 #include "utility/CompilationDatabase.h"
 #include "utility/file/FileManager.h"
 #include "utility/file/FileSystem.h"
-#include "utility/path_detector/cxx_header/CxxFrameworkPathDetector.h"
-#include "utility/path_detector/cxx_header/CxxHeaderPathDetector.h"
-#include "utility/path_detector/cxx_header/CxxVsHeaderPathDetector.h"
 #include "utility/utility.h"
+#include "utility/utilityPathDetection.h"
 
 QtProjectWizzardContentPaths::QtProjectWizzardContentPaths(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window)
 	: QtProjectWizzardContent(settings, window)
@@ -364,17 +362,7 @@ QtProjectWizzardContentPathsHeaderSearchGlobal::QtProjectWizzardContentPathsHead
 		"Finding System Header Locations</a> or use the auto detection below)."
 	);
 
-	m_pathDetector = std::make_shared<CombinedPathDetector>();
-	m_pathDetector->addDetector(std::make_shared<CxxHeaderPathDetector>("gcc"));
-	m_pathDetector->addDetector(std::make_shared<CxxHeaderPathDetector>("clang"));
-	m_pathDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(9, false));
-	m_pathDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(9, true));
-	m_pathDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(11, false));
-	m_pathDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(11, true));
-	m_pathDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(12, false));
-	m_pathDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(12, true));
-	m_pathDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(14, false));
-	m_pathDetector->addDetector(std::make_shared<CxxVsHeaderPathDetector>(14, true));
+	m_pathDetector = utility::getCxxHeaderPathDetector();
 }
 
 void QtProjectWizzardContentPathsHeaderSearchGlobal::load()
@@ -439,9 +427,7 @@ QtProjectWizzardContentPathsFrameworkSearchGlobal::QtProjectWizzardContentPathsF
 		"Finding System Header Locations</a> or use the auto detection below)."
 	);
 
-	m_pathDetector = std::make_shared<CombinedPathDetector>();
-	m_pathDetector->addDetector(std::make_shared<CxxFrameworkPathDetector>("gcc"));
-	m_pathDetector->addDetector(std::make_shared<CxxFrameworkPathDetector>("clang"));
+	m_pathDetector = utility::getCxxFrameworkPathDetector();
 }
 
 void QtProjectWizzardContentPathsFrameworkSearchGlobal::load()

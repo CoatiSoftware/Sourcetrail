@@ -22,10 +22,7 @@ public:
 	std::vector<FilePath> getPaths(std::string detectorName) const;
 
 private:
-	typedef std::map<std::string, std::shared_ptr<PathDetector>> DetectorMap;
-	typedef std::pair<std::string, std::shared_ptr<PathDetector>> DetectorPair;
-
-	DetectorMap m_detectors;
+	std::vector<std::shared_ptr<PathDetector>> m_detectors;
 };
 
 #endif // COMBINED_PATH_DETECTOR_H
