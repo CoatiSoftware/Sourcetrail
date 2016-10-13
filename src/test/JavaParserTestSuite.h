@@ -423,42 +423,6 @@ public:
 		TS_ASSERT_EQUALS(client->inheritances[0], "foo.B -> foo.A <6:27 6:27>");
 	}
 
-	void test_java_parser_finds_method_override()
-	{
-		std::shared_ptr<TestParserClient> client = parseCode(
-			"package foo;\n"
-			"public class A\n"
-			"{\n"
-			"	void bar()\n"
-			"	{}\n"
-			"}\n"
-			"public class B extends A\n"
-			"{\n"
-			"	void bar()\n"
-			"	{}\n"
-			"}\n"
-		);
-
-		TS_ASSERT_EQUALS(client->overrides.size(), 1);
-		TS_ASSERT_EQUALS(client->overrides[0], "void foo.B.bar() -> void foo.A.bar() <9:7 9:9>");
-	}
-
-	void test_java_parser_finds_method_call()
-	{
-		std::shared_ptr<TestParserClient> client = parseCode(
-			"package foo;\n"
-			"public class A\n"
-			"{\n"
-			"	void bar()\n"
-			"	{\n"
-			"		bar();\n"
-			"	}\n"
-			"}\n"
-		);
-
-		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "void foo.A.bar() -> void foo.A.bar() <6:3 6:5>");
-	}
 
 	void _SYMBOLSOLVERISSUE_test_java_parser_finds_correct_location_of_qualified_type_usage()
 	{

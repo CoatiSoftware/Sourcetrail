@@ -215,10 +215,8 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		);
 		
 		
-/// test this!
-		Node parent = n.getParentNode();
-		
-		me.tomassetti.symbolsolver.model.declarations.MethodDeclaration overridden = getOverridden(n, parent);
+// test this!
+		me.tomassetti.symbolsolver.model.declarations.MethodDeclaration overridden = getOverridden(n);
 		if (overridden != null && (overridden instanceof JavaParserMethodDeclaration))
 		{
 			String overriddenName = JavaparserDeclNameResolver.getQualifiedDeclName(((JavaParserMethodDeclaration)overridden).getWrappedNode(), m_typeSolver).toSerializedNameHierarchy();
@@ -229,11 +227,6 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			);
 		}
 		
-		
-		
-		
-		
-		
 		List<DeclContext> parentContext = m_context;
 		m_context = new ArrayList<DeclContext>();
 		m_context.add(new DeclContext(qualifiedName));
@@ -241,23 +234,11 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		m_context = parentContext;
 	}
 	
-	private me.tomassetti.symbolsolver.model.declarations.MethodDeclaration getOverridden(MethodDeclaration overrider, Node searchScope)
+	private me.tomassetti.symbolsolver.model.declarations.MethodDeclaration getOverridden(MethodDeclaration overrider)
 	{
-		List<ClassOrInterfaceType> ancestors = new ArrayList<>();
-
-		if (searchScope instanceof ClassOrInterfaceDeclaration)
+		com.github.javaparser.ast.body.TypeDeclaration<?> scopeNode = overrider.getParentNodeOfType(com.github.javaparser.ast.body.TypeDeclaration.class);
+		if (scopeNode instanceof ClassOrInterfaceDeclaration)
 		{
-			ancestors.addAll(((ClassOrInterfaceDeclaration)searchScope).getImplements());
-			ancestors.addAll(((ClassOrInterfaceDeclaration)searchScope).getExtends());
-		}
-		if (searchScope instanceof EnumDeclaration)
-		{
-			ancestors.addAll(((EnumDeclaration)searchScope).getImplements());
-		}
-		
-		if (!ancestors.isEmpty())
-		{
-			boolean parametersResolved = true;
 			List<TypeUsage> parameterTypes = new ArrayList<>();
 			try
 			{
@@ -266,26 +247,16 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 					Type parameterType = parameter.getType();
 					parameterTypes.add(JavaParserFacade.get(m_typeSolver).convert(parameterType, parameterType));
 				}
-			}
-			catch (UnsolvedSymbolException e)
-			{
-				parametersResolved = false;
-			}
-			
-			if (parametersResolved)
-			{
-				for (ClassOrInterfaceType ancestor: ancestors)
+				
+				TypeDeclaration scopeDecl = JavaParserFacade.get(m_typeSolver).getTypeDeclaration((ClassOrInterfaceDeclaration)scopeNode);
+				for (ReferenceTypeUsage ancestor: scopeDecl.getAllAncestors())
 				{
 					try
 					{
-						TypeUsage ancestorTypeUsage = JavaParserFacade.get(m_typeSolver).convert(ancestor, ancestor);
-						if (ancestorTypeUsage.isReferenceType())
+						SymbolReference<me.tomassetti.symbolsolver.model.declarations.MethodDeclaration> solvedMethod = ancestor.solveMethod(overrider.getName(), parameterTypes);
+						if (solvedMethod.isSolved())
 						{
-							SymbolReference<me.tomassetti.symbolsolver.model.declarations.MethodDeclaration> solvedMethod = ancestorTypeUsage.asReferenceTypeUsage().solveMethod(overrider.getName(), parameterTypes);
-							if (solvedMethod.isSolved())
-							{
-								return solvedMethod.getCorrespondingDeclaration();
-							}
+							return solvedMethod.getCorrespondingDeclaration();
 						}
 					}
 					catch (UnsolvedSymbolException e)
@@ -299,10 +270,13 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 					}
 				}
 			}
+			catch (UnsolvedSymbolException e)
+			{
+				return null;
+			}
 		}
 		return null;
 	}
-	
 
 	@Override public void visit(final FieldDeclaration n, final Void v)
 	{
