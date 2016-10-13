@@ -389,8 +389,14 @@ int SearchIndex::score(const std::string& text, const std::vector<size_t>& indic
 
 		size_t index = indices[i];
 
+		// after no letter
+		bool prevIsNoLetter = (index == 0 || noLetters.find(text[index - 1]) != noLetters.end());
+		if (prevIsNoLetter)
+		{
+			noLetterScore += noLetterBonus;
+		}
 		// camel case
-		if (isupper(text[index]))
+		else if (isupper(text[index]))
 		{
 			bool prevIsLower = (index > 0 && islower(text[index - 1]));
 			bool nextIsLower = (index + 1 == text.size() || islower(text[index + 1]));
@@ -399,13 +405,6 @@ int SearchIndex::score(const std::string& text, const std::vector<size_t>& indic
 			{
 				camelCaseScore += camelCaseBonus;
 			}
-		}
-
-		// after no letter
-		bool prevIsNoLetter = (index == 0 || noLetters.find(text[index - 1]) != noLetters.end());
-		if (prevIsNoLetter)
-		{
-			noLetterScore += noLetterBonus;
 		}
 	}
 

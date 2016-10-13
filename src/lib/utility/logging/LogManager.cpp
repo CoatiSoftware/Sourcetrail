@@ -4,9 +4,8 @@
 
 #include "utility/logging/LogMessage.h"
 
-std::shared_ptr<LogManager> LogManager::getInstance()
+std::shared_ptr<LogManager> LogManager::createInstance()
 {
-	std::lock_guard<std::mutex> lockGuard(s_instanceMutex);
 	if (s_instance.use_count() == 0)
 	{
 		s_instance = std::shared_ptr<LogManager>(new LogManager());
@@ -14,14 +13,23 @@ std::shared_ptr<LogManager> LogManager::getInstance()
 	return s_instance;
 }
 
+std::shared_ptr<LogManager> LogManager::getInstance()
+{
+	return s_instance;
+}
+
 void LogManager::destroyInstance()
 {
-	std::lock_guard<std::mutex> lockGuard(s_instanceMutex);
 	s_instance.reset();
 }
 
 LogManager::~LogManager()
 {
+}
+
+void LogManager::setLoggingEnabled(bool enabled)
+{
+	m_loggingEnabled = enabled;
 }
 
 void LogManager::addLogger(std::shared_ptr<Logger> logger)
@@ -56,7 +64,10 @@ void LogManager::logInfo(
 	const unsigned int line
 )
 {
-	m_logManagerImplementation.logInfo(message, file, function, line);
+	if (m_loggingEnabled)
+	{
+		m_logManagerImplementation.logInfo(message, file, function, line);
+	}
 }
 
 void LogManager::logWarning(
@@ -66,7 +77,10 @@ void LogManager::logWarning(
 	const unsigned int line
 )
 {
-	m_logManagerImplementation.logWarning(message, file, function, line);
+	if (m_loggingEnabled)
+	{
+		m_logManagerImplementation.logWarning(message, file, function, line);
+	}
 }
 
 void LogManager::logError(
@@ -76,12 +90,15 @@ void LogManager::logError(
 	const unsigned int line
 )
 {
-	m_logManagerImplementation.logError(message, file, function, line);
+	if (m_loggingEnabled)
+	{
+		m_logManagerImplementation.logError(message, file, function, line);
+	}
 }
 
 std::shared_ptr<LogManager> LogManager::s_instance;
-std::mutex LogManager::s_instanceMutex;
 
 LogManager::LogManager()
+	: m_loggingEnabled(false)
 {
 }

@@ -24,6 +24,8 @@ QtErrorView::QtErrorView(ViewLayout* viewLayout)
 	, m_clearFunctor(std::bind(&QtErrorView::doClear, this))
 	, m_refreshFunctor(std::bind(&QtErrorView::doRefreshView, this))
 	, m_addErrorFunctor(std::bind(&QtErrorView::doAddError, this, std::placeholders::_1))
+	, m_setErrorIdFunctor(std::bind(&QtErrorView::doSetErrorId, this, std::placeholders::_1))
+	, m_ignoreNextSelection(false)
 {
 }
 
@@ -76,7 +78,7 @@ void QtErrorView::initView()
 	connect(m_table->selectionModel(), &QItemSelectionModel::currentRowChanged,
 		[=](const QModelIndex& index, const QModelIndex& previousIndex)
 	{
-		if (index.isValid())
+		if (index.isValid() && !m_ignoreNextSelection)
 		{
 			if (m_model->item(index.row(), COLUMN::FILE) == nullptr)
 			{
@@ -85,6 +87,8 @@ void QtErrorView::initView()
 
 			MessageShowErrors(m_model->item(index.row(), COLUMN::ID)->text().toUInt()).dispatch();
 		}
+
+		m_ignoreNextSelection = false;
 	});
 
 	layout->addWidget(m_table);
@@ -120,8 +124,9 @@ void QtErrorView::addError(const StorageError& error)
 	m_addErrorFunctor(error);
 }
 
-void QtErrorView::clickedInEmptySpace()
+void QtErrorView::setErrorId(Id errorId)
 {
+	m_setErrorIdFunctor(errorId);
 }
 
 void QtErrorView::doRefreshView()
@@ -149,6 +154,17 @@ void QtErrorView::doAddError(const StorageError& error)
 	m_errors.push_back(error);
 
 	addErrorToTable(error);
+}
+
+void QtErrorView::doSetErrorId(Id errorId)
+{
+	QList<QStandardItem*> items = m_model->findItems(QString::number(errorId), Qt::MatchExactly, COLUMN::ID);
+
+	if (items.size() == 1)
+	{
+		m_ignoreNextSelection = true;
+		m_table->selectRow(items.at(0)->row());
+	}
 }
 
 void QtErrorView::setStyleSheet() const

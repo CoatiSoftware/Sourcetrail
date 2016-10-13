@@ -18,6 +18,7 @@ public:
 	virtual void clear() = 0;
 
 	virtual void addError(const StorageError& error) = 0;
+	virtual void setErrorId(Id errorId) = 0;
 };
 
 #endif // ERROR_VIEW_H

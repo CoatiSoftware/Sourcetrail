@@ -17,7 +17,10 @@ public:
 		, fromNameHierarchy(fromName)
 		, toNameHierarchy(toName)
 	{
-		setKeepContent(true);
+		if (!isAggregation())
+		{
+			setKeepContent(true);
+		}
 	}
 
 	static const std::string getStaticType()

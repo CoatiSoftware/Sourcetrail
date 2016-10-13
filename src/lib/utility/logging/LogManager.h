@@ -2,7 +2,6 @@
 #define LOG_MANAGER_H
 
 #include <memory>
-#include <mutex>
 
 #include "utility/logging/Logger.h"
 #include "utility/logging/LogManagerImplementation.h"
@@ -10,10 +9,13 @@
 class LogManager
 {
 public:
+	static std::shared_ptr<LogManager> createInstance();
 	static std::shared_ptr<LogManager> getInstance();
 	static void destroyInstance();
 
 	~LogManager();
+
+	void setLoggingEnabled(bool enabled);
 
 	void addLogger(std::shared_ptr<Logger> logger);
 	void removeLogger(std::shared_ptr<Logger> logger);
@@ -42,13 +44,13 @@ public:
 
 private:
 	static std::shared_ptr<LogManager> s_instance;
-	static std::mutex s_instanceMutex;
 
 	LogManager();
 	LogManager(const LogManager&);
 	void operator=(const LogManager&);
 
 	LogManagerImplementation m_logManagerImplementation;
+	bool m_loggingEnabled;
 };
 
 #endif // LOG_MANAGER_H

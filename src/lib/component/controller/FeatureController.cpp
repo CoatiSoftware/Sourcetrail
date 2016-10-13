@@ -7,6 +7,7 @@
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
 #include "utility/messaging/type/MessageColorSchemeTest.h"
+#include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/messaging/type/MessageStatus.h"
@@ -138,8 +139,9 @@ void FeatureController::handleMessage(MessageSearch* message)
 				case SearchMatch::COMMAND_ERROR:
 				{
 					MessageShowErrors msg(m_storageAccess->getErrorCount());
-					msg.setIsReplayed(message->isReplayed());
-					msg.dispatchImmediately();
+					msg.setIsReplayed(true);
+					msg.dispatch();
+					MessageFlushUpdates().dispatch();
 					return;
 				}
 

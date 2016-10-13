@@ -125,7 +125,6 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 		"----------------------------------------------------------------------------------------------------"
 		"----------------------------------------------------------------------------------------------------"
 	) / 500.0f;
-	painter->drawText(option.rect.adjusted(charWidth + 2, -1, 0, 0), Qt::AlignLeft, name);
 
 	QString highlightName(name.size(), ' ');
 
@@ -136,11 +135,12 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 		{
 			int idx = indices[i].toInt();
 
-			QRect rect = option.rect.adjusted(charWidth * (idx + 1) + 1, 2, 0, -1);
-			rect.setWidth(charWidth + 2);
+			QRect rect = option.rect.adjusted(charWidth * (idx + 1) + 2, 2, 0, -1);
+			rect.setWidth(charWidth + 1);
 			painter->fillRect(rect, color);
 
 			highlightName[idx] = name.at(idx);
+			name[idx] = ' ';
 		}
 	}
 	else
@@ -149,6 +149,8 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 		rect.setWidth(charWidth - 1);
 		painter->fillRect(rect, color);
 	}
+
+	painter->drawText(option.rect.adjusted(charWidth + 2, -1, 0, 0), Qt::AlignLeft, name);
 
 	painter->save();
 	QPen highlightPen = painter->pen();
@@ -160,12 +162,8 @@ void QtAutocompletionDelegate::paint(QPainter* painter, const QStyleOptionViewIt
 	if (type.size())
 	{
 		QFont font = painter->font();
-		if (font.pointSize() > 0)
-		{
-			QFont typeFont = font;
-			typeFont.setPointSize(ApplicationSettings::getInstance()->getFontSize() - 4);
-			painter->setFont(typeFont);
-		}
+		font.setPixelSize(ApplicationSettings::getInstance()->getFontSize() - 4);
+		painter->setFont(font);
 
 		QPen typePen = painter->pen();
 		typePen.setColor(scheme->getColor("search/popup/by_text").c_str());

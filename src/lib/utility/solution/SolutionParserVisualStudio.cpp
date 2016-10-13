@@ -270,7 +270,10 @@ std::string SolutionParserVisualStudio::getButtonText() const
 
 std::string SolutionParserVisualStudio::getDescription() const
 {
-	return "Create a new project from an existing Visual Studio Solution file. <b>Unstable!</b>";
+	return "Create a new project from an existing Visual Studio Solution file. "
+		"<b>Unstable: Please install our new <a href=\"https://coati.io/documentation/index.html#VisualStudio\">Visual "
+		"Studio plugin</a> and use the \"Create CDB\" menu option, then continue with project setup from "
+		"Compilation Database.</b>";
 }
 
 std::string SolutionParserVisualStudio::getIconPath() const

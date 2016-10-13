@@ -18,8 +18,12 @@ TestSuiteFixture::~TestSuiteFixture()
 
 bool TestSuiteFixture::setUpWorld()
 {
-	LogManager::getInstance()->addLogger(std::make_shared<PlainFileLogger>("data/log/test_log.txt"));
-	LogManager::getInstance()->addLogger(std::make_shared<FileLogger>());
+	LogManager* logManager = LogManager::createInstance().get();
+
+	logManager->setLoggingEnabled(true);
+	logManager->addLogger(std::make_shared<PlainFileLogger>("data/log/test_log.txt"));
+	logManager->addLogger(std::make_shared<FileLogger>());
+
 	ApplicationSettings::getInstance()->load(FilePath("data/TestSettings.xml"));
 
 	return true;

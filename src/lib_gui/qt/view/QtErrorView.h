@@ -30,9 +30,7 @@ public:
 	// ErrorView implementation
 	virtual void clear();
 	virtual void addError(const StorageError& error);
-
-private slots:
-	void clickedInEmptySpace();
+	virtual void setErrorId(Id errorId);
 
 private:
 	enum COLUMN {
@@ -47,6 +45,7 @@ private:
 	void doRefreshView();
 	void doClear();
 	void doAddError(const StorageError& error);
+	void doSetErrorId(Id errorId);
 
 	void setStyleSheet() const;
 
@@ -58,6 +57,7 @@ private:
 	QtThreadedFunctor<void> m_clearFunctor;
 	QtThreadedFunctor<void> m_refreshFunctor;
 	QtThreadedFunctor<const StorageError&> m_addErrorFunctor;
+	QtThreadedFunctor<Id> m_setErrorIdFunctor;
 
 	QCheckBox* m_showErrors;
 	QCheckBox* m_showFatals;
@@ -69,6 +69,8 @@ private:
 
 	std::vector<StorageError> m_errors;
 	QPalette* m_palette;
+
+	bool m_ignoreNextSelection;
 };
 
 #endif // QT_ERROR_VIEW_H

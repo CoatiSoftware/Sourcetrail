@@ -137,7 +137,8 @@ void QtProjectWizzardContentData::addNameAndLocation(QGridLayout* layout, int& r
 	m_projectFileLocation->setPickDirectory(true);
 
 	layout->addWidget(locationLabel, row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_projectFileLocation, row, QtProjectWizzardWindow::BACK_COL);
+	layout->addWidget(m_projectFileLocation, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignTop);
+	layout->setRowMinimumHeight(row, 30);
 	row++;
 }
 

@@ -13,12 +13,31 @@
 #include "settings/ApplicationSettings.h"
 #include "utility/AppPath.h"
 #include "utility/commandline/CommandLineParser.h"
+#include "utility/logging/ConsoleLogger.h"
+#include "utility/logging/FileLogger.h"
+#include "utility/logging/logging.h"
+#include "utility/logging/LogManager.h"
 #include "utility/ResourcePaths.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/UserPaths.h"
 #include "utility/utilityPathDetection.h"
 #include "utility/Version.h"
 #include "version.h"
+
+void setupLogging()
+{
+	LogManager::createInstance();
+	LogManager* logManager = LogManager::getInstance().get();
+
+	std::shared_ptr<ConsoleLogger> consoleLogger = std::make_shared<ConsoleLogger>();
+	consoleLogger->setLogLevel(Logger::LOG_WARNINGS | Logger::LOG_ERRORS);
+	logManager->addLogger(consoleLogger);
+
+	std::shared_ptr<FileLogger> fileLogger = std::make_shared<FileLogger>();
+	fileLogger->setLogDirectory(UserPaths::getLogPath());
+	fileLogger->setLogLevel(Logger::LOG_ALL);
+	logManager->addLogger(fileLogger);
+}
 
 void prefillJavaRuntimePath()
 {
@@ -92,6 +111,8 @@ int main(int argc, char *argv[])
 
 		setupApp(argc, argv);
 
+		setupLogging();
+
 		Application::createInstance(version, nullptr, nullptr);
 		ScopedFunctor f([](){
 			Application::destroyInstance();
@@ -129,6 +150,8 @@ int main(int argc, char *argv[])
 		QtApplication qtApp(argc, argv);
 
 		setupApp(argc, argv);
+
+		setupLogging();
 
 		qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
 

@@ -235,6 +235,18 @@ void UndoRedoController::handleMessage(MessageSearchFullText* message)
 	processCommand(command);
 }
 
+void UndoRedoController::handleMessage(MessageShowErrors* message)
+{
+	if (sameMessageTypeAsLast(message) &&
+		static_cast<MessageShowErrors*>(lastMessage())->errorId == message->errorId)
+	{
+		return;
+	}
+
+	Command command(std::make_shared<MessageShowErrors>(*message), Command::ORDER_ACTIVATE);
+	processCommand(command);
+}
+
 void UndoRedoController::handleMessage(MessageShowScope* message)
 {
 	Command command(std::make_shared<MessageShowScope>(*message), Command::ORDER_VIEW);
@@ -347,6 +359,11 @@ void UndoRedoController::replayCommands(std::list<Command>::iterator it)
 
 void UndoRedoController::processCommand(Command command)
 {
+	if (command.message->isReplayed())
+	{
+		return;
+	}
+
 	if (command.order != Command::ORDER_ACTIVATE && m_iterator == m_list.begin())
 	{
 		return;
@@ -357,40 +374,37 @@ void UndoRedoController::processCommand(Command command)
 		command.order = Command::ORDER_ADAPT;
 	}
 
-	if (!command.message->isReplayed())
+	if (command.order == Command::ORDER_ACTIVATE)
 	{
-		if (command.order == Command::ORDER_ACTIVATE)
+		m_iterator = m_list.erase(m_iterator, m_list.end());
+	}
+	else if (command.order == Command::ORDER_ADAPT)
+	{
+		std::list<Command>::iterator end = m_iterator;
+		while (end != m_list.end())
 		{
-			m_iterator = m_list.erase(m_iterator, m_list.end());
-		}
-		else if (command.order == Command::ORDER_ADAPT)
-		{
-			std::list<Command>::iterator end = m_iterator;
-			while (end != m_list.end())
+			if (end->order == Command::ORDER_ACTIVATE)
 			{
-				if (end->order == Command::ORDER_ACTIVATE)
-				{
-					break;
-				}
-				std::advance(end, 1);
+				break;
 			}
-
-			m_iterator = m_list.erase(m_iterator, end);
+			std::advance(end, 1);
 		}
 
-		m_list.insert(m_iterator, command);
+		m_iterator = m_list.erase(m_iterator, end);
+	}
 
-		if (command.order != Command::ORDER_VIEW)
+	m_list.insert(m_iterator, command);
+
+	if (command.order != Command::ORDER_VIEW)
+	{
+		if (m_list.begin() != std::prev(m_iterator))
 		{
-			if (m_list.begin() != std::prev(m_iterator))
-			{
-				getView()->setUndoButtonEnabled(true);
-			}
+			getView()->setUndoButtonEnabled(true);
+		}
 
-			if (m_list.end() == m_iterator)
-			{
-				getView()->setRedoButtonEnabled(false);
-			}
+		if (m_list.end() == m_iterator)
+		{
+			getView()->setRedoButtonEnabled(false);
 		}
 	}
 }
