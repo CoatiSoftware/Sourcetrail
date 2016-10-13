@@ -24,7 +24,6 @@ fi
 
 ROOT_DIR=$ROOT_DIR/..
 
-
 # Enter masterproject directory
 cd $ROOT_DIR
 
@@ -52,7 +51,6 @@ elif [ $PLATFORM == "MacOS" ]; then
 	cp -r setup/jars/MacOSX/*.jar java_indexer/lib
 fi
 
-
 # Create Debug and Release folders
 echo -e $INFO "create build folders"
 
@@ -63,7 +61,6 @@ mkdir -p bin/lib/Debug
 mkdir -p bin/lib/Release
 mkdir -p bin/test/Debug
 mkdir -p bin/test/Release
-
 
 # Copy necessary dynamic libraries to bin folder
 if [ $PLATFORM == "Windows" ]; then
