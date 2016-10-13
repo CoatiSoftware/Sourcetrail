@@ -1719,7 +1719,7 @@
 								<li>Eclipse needs to restart and can now communicate with Eclipse.</li>
 							</ol>
 						</li>
-						<li>Manuelly:
+						<li>Manually:
 							<ol>
 								<li>Download this <a
 										href="https://github.com/CoatiSoftware/eCoati/archive/gh-pages.zip">eCoati-gh-pages.zip</a>
@@ -1772,7 +1772,7 @@
 
 					<strong>Installation</strong>
 					<p><ul>
-						<li>Manuelly</li>
+						<li>Manually</li>
 						<ol>
 							<li>To install the Coati plugin for Sublime Text copy the CoatiPlugin folder located in your
 								<code>ide_plugins/sublime_text</code> to your <code>SublimeText/Packages</code> folder
@@ -1819,7 +1819,44 @@
 							<img src="img/plugin_use_in_visual_studio.png" style="width:100%;">
 						</div>
 					</div>
+					
+					<strong>Create Compilation Database (Beta)</strong>
+					<p>You can create a compilation database (CDB) from your VS solution. Coati projects can be created from CDBs. This feature will replace solution parsing as implemented in current Coati versions. The workflow from VS to Coati will be automated in the future. As of now CDBs have to be <a href="#CreateAProjectFromCompilationDatabase">loaded manually</a> in Coati.</p>
+					<p>The CDB wizard is located in the Coati section in the VS menu bar. Note that the option is only useable if a solution containing at least one C/C++ project is loaded.</p>
+					
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/vs_plugin_menu.png" style="width:100%;">
+						</div>
+					</div>
+					
+					<p>In the CDB wizard you can select projects you want to include in the CDB as well as the desired build target platform and configuration and a number of other options.</p>
+					
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/vs_plugin_cdb.png" >
+						</div>
+					</div>
+					
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Option</th> <th>Description</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">Select Projects</th> <td>The list of C/C++ projects in your solution. Check all projects you want to be included in the CDB.</td> </tr>
+							<tr> <th scope="row">De/Select All</th> <td>Will select all projects if at least one project is not selected. If all projects are selected they will all be unselected.</td> </tr>
+							<tr> <th scope="row">Configuration</th> <td>A dropdown list of the available build configurations. The selected configuration determines include paths and compile flags for the CDB.</td> </tr>
+							<tr> <th scope="row">Platform</th> <td>A dropdown list of the available target platforms. The selected platform determines include paths and compile flags for the CDB.</td> </tr>
+							<tr> <th scope="row">Browse</th> <td>Opens a folder browser to select the directory where the CDB will be created in. By default it is the directory of your solution. Instead of using the folder browser you can also paste a path into the adjacent text field.</td> </tr>
+							<tr> <th scope="row">CDB Name</th> <td>This is the name for the CDB file. By default it is the same name as your solution.</td> </tr>
+							<tr> <th scope="row">C Standard</th> <td>A dropdown list of all C standards supported by Coati. If your projects contain C files select the appropriate standard. Note that we aim to automate this selection in the future.</td> </tr>
+							<tr> <th scope="row">Cancel</th> <td>Aborts the process and closes the wizard.</td> </tr>
+							<tr> <th scope="row">Create</th> <td>Creates the CDB using the specified options. Note that at least one project has to be selected to start creating.</td> </tr>
+						</tbody>
+					</table>
 
+					<p>Once the CDB was successfully created it can be found in the specified target directory. From this CDB you can create a Coati project as <a href="#CreateAProjectFromCompilationDatabase">described above</a>.</p>
+					
 				</div> <!-- .span9 !-->
 			</div> <!-- .row !-->
 		</div> <!-- .container-fluid !-->

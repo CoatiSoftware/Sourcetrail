@@ -74,6 +74,14 @@
         </Strings>
       </Button>
       
+      <Button guid="guidCoatiPluginCmdSet" id="cmdidCoatiCreateCDB" priority="0x0100" type="Button">
+        <Parent guid="guidCoatiPluginCmdSet" id="SubMenu" />
+        <Icon guid="icon" id="icon0" />
+        <Strings>
+          <ButtonText>Create CDB (Beta)</ButtonText>
+        </Strings>
+      </Button>
+      
     </Buttons>
 
     <Menus>
@@ -107,6 +115,7 @@
       <IDSymbol name="cmdidCoatiGetActiveLineNumber" value="0x0103"/>
       <IDSymbol name="cmdidCoatiSetActiveToken" value="0x0104"/>
       <IDSymbol name="cmdidCoatiCreateProject" value="0x0105"/>
+      <IDSymbol name="cmdidCoatiCreateCDB" value="0x0106"/>
       <IDSymbol name="TopLevelMenu" value="0x1021"/>
       <IDSymbol name="SubMenu" value="0x1022"/>
     </GuidSymbol>

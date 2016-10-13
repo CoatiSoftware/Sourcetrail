@@ -1,0 +1,59 @@
+-Check latest plugin version is installed
+-Start VS and load a C/C++ solution (best mixed with multiple projects)
+	-Check all projects are loaded in Solution Explorer
+-Create CDB from solution
+	-Check all C/C++ projects listed in CDB dialogue
+	-Check eventual non-C/C++ projects are not listed
+	-Check all projects unselected
+		-Check 'Create' Button is disabled
+	-Select one project
+		-Check 'Create' Button is enabled
+	-Click 'De/Select All'
+		-Check all projects selected
+	-Click 'De/Select All'
+		-Check no project selected
+	-Click 'De/Select All'
+		-Check all projects selected
+	-Check all Solution Configurations are listed in the Configuration dropdown
+	-Check all Solution Platforms are listed in the Platform dropdown
+	-Copy target location to clip board
+	-Click 'Browse'
+		-Check Folder Browser opens
+		-Select a different folder
+			-Check target folder field changed to selected folder
+		-Paste old target location
+			-Reopen Folder Browser and check it's set to old target location
+	-Click Create
+	-Wait for CDB to be finished
+		-check progress bar shows progress
+	-Check finished CDB
+		-check at correct location with correct name
+		-check CDB file is non-empty (at least estimate whether number of lines in CDB coincides with VS solution)
+-Create CDB from solution again
+	-Check location and name is the same as last time
+	-Check dialogue asking whether to overwrite old file or not
+	-Click no
+	-Check number appended to file name
+	-Create CDB with the new name
+	-Check finished CDB
+		-check at correct location with correct name
+		-check CDB file is non-empty (at least estimate whether number of lines in CDB coincides with VS solution)
+-Unload a project in the Solution Explorer
+-Create CDB from solution again
+	-Check unloaded project is not in the listed projects in the dialogue
+	-Check location and name is the same as first time
+	-Check dialogue asking whether to overwrite old file or not
+	-Click yes
+	-Click Create
+	-Check finished CDB
+		-check at correct location with correct name
+		-check CDB file is smaller now (reduced size has to make sense considering the missing project)
+-Create CDB from solution again
+	-Check location and name is the same as first time
+	-Check dialogue asking whether to overwrite old file or not
+	-Click no
+	-Check number appended to file name
+		-Check number is one higher than number from 2nd CDB
+	-Click Create
+	-Close Progress Bar before CDB is finished
+		-Check no new CDB was created

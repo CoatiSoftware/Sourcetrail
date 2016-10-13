@@ -53,10 +53,16 @@
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.11.0">
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.TemplateWizardInterface, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.TextManager.Interop" />
     <Reference Include="Microsoft.VisualStudio.Shell.11.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.11.0" />
+    <Reference Include="Microsoft.VisualStudio.VCProjectEngine, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -64,6 +70,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="EnvDTE">
@@ -122,10 +129,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileUtility.cs" />
+    <Compile Include="Utility\FileUtility.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="NetworkProtocolUtility.cs" />
-    <Compile Include="NetworkUtility.cs" />
+    <Compile Include="Utility\NetworkUtility.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -137,8 +144,31 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PkgCmdID.cs" />
-    <Compile Include="SolutionUtility.cs" />
-    <Compile Include="SystemUtility.cs" />
+    <Compile Include="SolutionParser\CommandObject.cs" />
+    <Compile Include="SolutionParser\CompilationDatabase.cs" />
+    <Compile Include="SolutionParser\SolutionParser.cs" />
+    <Compile Include="Utility\ProjectUtility.cs" />
+    <Compile Include="Utility\SolutionUtility.cs" />
+    <Compile Include="Utility\SystemUtility.cs" />
+    <Compile Include="Utility\StringUtility.cs" />
+    <Compile Include="Wizard\WindowCreateCDB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Wizard\WindowCreateCDB.Designer.cs">
+      <DependentUpon>WindowCreateCDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\ProjectSetupWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Wizard\ProjectSetupWindow.Designer.cs">
+      <DependentUpon>ProjectSetupWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\WindowMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Wizard\WindowMessage.Designer.cs">
+      <DependentUpon>WindowMessage.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
@@ -151,8 +181,20 @@
       <ManifestResourceName>VSPackage</ManifestResourceName>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\WindowCreateCDB.resx">
+      <DependentUpon>WindowCreateCDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\ProjectSetupWindow.resx">
+      <DependentUpon>ProjectSetupWindow.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProjectSetupWindow1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\WindowMessage.resx">
+      <DependentUpon>WindowMessage.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>

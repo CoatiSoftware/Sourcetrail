@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using EnvDTE;
 
-namespace CoatiSoftware.CoatiPlugin
+namespace CoatiSoftware.CoatiPlugin.Utility
 {
     class FileUtility
     {

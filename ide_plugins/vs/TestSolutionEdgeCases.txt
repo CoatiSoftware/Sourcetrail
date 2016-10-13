@@ -1,0 +1,14 @@
+These Edge Cases should be considered in a dedicated Test Solution for the Plugin
+
+-Non C/C++ Projects
+	-include projects that are not C/C++ based
+	-those should be ignored by the plugin
+		-not show up in the project list when creating a CDB
+		-not show up in the resulting CDB
+
+-Solution Folders
+	-the solution should include Solution Folders with Projects inside
+	-at least two levels deep
+	
+-Include Paths
+	-add at least one include path to Project->Properties->Configuration Properties->VC++ Directories->Include Directories
