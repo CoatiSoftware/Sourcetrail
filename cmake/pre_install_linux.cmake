@@ -45,14 +45,5 @@ else()
 	Run(rm ${upxPath}/Coati_upx)
 	Print("upx Coati")
 	Run(upx --brute ${upxPath}/Coati -o ${upxPath}/Coati_upx)
-	Print("Remove old Coati_trial_upx")
-	Run(rm ${upxPath}/Coati_trial_upx)
-	Print("upx Coati_trial")
-	Run(upx --brute ${upxPath}/Coati_trial -o ${upxPath}/Coati_trial_upx)
 endif()
-#add_custom_command(
-	#OUTPUT Coati_upx
-	#COMMAND upx --brute ${CMAKE_CURRENT_LIST_DIR}/../bin/app/Release/Coati -o ${CMAKE_CURRENT_LIST_DIR}/../bin/app/Release/Coati_upx
-
-	#)
 
