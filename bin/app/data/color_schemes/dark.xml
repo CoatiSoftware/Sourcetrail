@@ -397,11 +397,11 @@
 		</text>
 		<table_line_1>
 			<normal>darkgrey</normal>
-			<active>white</active>
+			<active>#969696</active>
 		</table_line_1>
 		<table_line_2>
 			<normal>#343434</normal>
-			<active>white</active>
+			<active>#969696</active>
 		</table_line_2>
 	</error>
 	<tab>

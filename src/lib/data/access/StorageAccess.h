@@ -70,10 +70,8 @@ public:
 	virtual StorageStats getStorageStats() const = 0;
 
 	virtual ErrorCountInfo getErrorCount() const = 0;
-	virtual ErrorCountInfo getFilteredErrorCount() const = 0;
-
+	virtual std::vector<StorageError> getErrors() const = 0;
 	virtual std::vector<StorageError> getAllErrors() const = 0;
-	virtual std::vector<StorageError> getFilteredErrors() const = 0;
 
 	virtual std::shared_ptr<TokenLocationCollection> getErrorTokenLocations(std::vector<ErrorInfo>* errors) const = 0;
 };

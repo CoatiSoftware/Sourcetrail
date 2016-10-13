@@ -152,11 +152,6 @@ void Project::setStateSettingsUpdated()
 	}
 }
 
-void Project::logStats() const
-{
-	m_storage->logStats();
-}
-
 Project::Project(StorageAccessProxy* storageAccessProxy, DialogView* dialogView)
 	: m_storageAccessProxy(storageAccessProxy)
 	, m_dialogView(dialogView)

@@ -8,6 +8,7 @@
 
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageInterruptTasks.h"
+#include "utility/messaging/type/MessageNewErrors.h"
 #include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/messaging/type/MessageWindowClosed.h"
 
@@ -17,13 +18,14 @@ class QtDialogView
 	: public QObject
 	, public DialogView
 	, public MessageListener<MessageInterruptTasks>
+	, public MessageListener<MessageNewErrors>
 	, public MessageListener<MessageShowErrors>
 	, public MessageListener<MessageWindowClosed>
 {
 	Q_OBJECT
 
 public:
-	QtDialogView(QtMainWindow* mainWindow);
+	QtDialogView(QtMainWindow* mainWindow, StorageAccess* storageAccess);
 	virtual ~QtDialogView();
 
 	void showProgressDialog(const std::string& title, const std::string& message) override;
@@ -37,6 +39,7 @@ public:
 
 private:
 	void handleMessage(MessageInterruptTasks* message) override;
+	void handleMessage(MessageNewErrors* message) override;
 	void handleMessage(MessageShowErrors* message) override;
 	void handleMessage(MessageWindowClosed* message) override;
 

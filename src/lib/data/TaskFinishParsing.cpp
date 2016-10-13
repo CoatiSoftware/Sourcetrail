@@ -61,7 +61,7 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 		m_fileRegister->getParsedSourceFilesCount(),
 		m_fileRegister->getSourceFilesCount(),
 		time,
-		m_storageAccess->getFilteredErrorCount()
+		m_storageAccess->getErrorCount()
 	);
 
 	return STATE_SUCCESS;

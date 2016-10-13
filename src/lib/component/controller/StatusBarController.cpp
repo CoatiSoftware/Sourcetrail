@@ -31,13 +31,13 @@ void StatusBarController::handleMessage(MessageClearErrorCount* message)
 
 void StatusBarController::handleMessage(MessageFinishedParsing* message)
 {
-	ErrorCountInfo errorCount = m_storageAccess->getFilteredErrorCount();
+	ErrorCountInfo errorCount = m_storageAccess->getErrorCount();
 	getView()->setErrorCount(errorCount);
 }
 
 void StatusBarController::handleMessage(MessageRefresh* message)
 {
-	getView()->setErrorCount(m_storageAccess->getFilteredErrorCount());
+	getView()->setErrorCount(m_storageAccess->getErrorCount());
 }
 
 void StatusBarController::handleMessage(MessageShowErrors* message)

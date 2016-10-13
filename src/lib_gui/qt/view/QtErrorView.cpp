@@ -61,7 +61,7 @@ void QtErrorView::initView()
 	m_table->setModel(m_model);
 
 	// Setup Table Headers
-	m_model->setColumnCount(5);
+	m_model->setColumnCount(6);
 	m_table->setColumnWidth(COLUMN::TYPE, 70);
 	m_table->setColumnWidth(COLUMN::MESSAGE, 450);
 	m_table->setColumnWidth(COLUMN::FILE, 300);

@@ -1,6 +1,7 @@
 #include "component/view/DialogView.h"
 
-DialogView::DialogView()
+DialogView::DialogView(StorageAccess* storageAccess)
+	: m_storageAccess(storageAccess)
 {
 }
 

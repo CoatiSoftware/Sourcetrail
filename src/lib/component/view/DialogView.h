@@ -6,10 +6,12 @@
 
 #include "data/ErrorCountInfo.h"
 
+class StorageAccess;
+
 class DialogView
 {
 public:
-	DialogView();
+	DialogView(StorageAccess* storageAccess);
 	virtual ~DialogView();
 
 	virtual void showProgressDialog(const std::string& title, const std::string& message);
@@ -21,6 +23,9 @@ public:
 
 	int confirm(const std::string& message);
 	virtual int confirm(const std::string& message, const std::vector<std::string>& options);
+
+protected:
+	StorageAccess* m_storageAccess;
 };
 
 #endif // DIALOG_VIEW_H

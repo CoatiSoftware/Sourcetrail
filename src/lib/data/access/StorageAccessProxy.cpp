@@ -274,7 +274,7 @@ ErrorCountInfo StorageAccessProxy::getErrorCount() const
 {
 	ErrorCountInfo info;
 
-	std::vector<StorageError> storageErrors = getAllErrors();
+	std::vector<StorageError> storageErrors = getErrors();
 	for (const StorageError& error : storageErrors)
 	{
 		info.total++;
@@ -288,27 +288,25 @@ ErrorCountInfo StorageAccessProxy::getErrorCount() const
 	return info;
 }
 
-ErrorCountInfo StorageAccessProxy::getFilteredErrorCount() const
+std::vector<StorageError> StorageAccessProxy::getErrors() const
 {
-	ErrorCountInfo info;
-
-	std::vector<StorageError> storageErrors = getAllErrors();
-	for (const StorageError& error : storageErrors)
+	if (hasSubject())
 	{
-		if (!m_errorFilter.filter(error))
+		std::vector<StorageError> errors = m_subject->getAllErrors();;
+		std::vector<StorageError> filteredErrors;
+
+		for (const StorageError& error : errors)
 		{
-			continue;
+			if (m_errorFilter.filter(error))
+			{
+				filteredErrors.push_back(error);
+			}
 		}
 
-		info.total++;
-
-		if (error.fatal)
-		{
-			info.fatal++;
-		}
+		return filteredErrors;
 	}
 
-	return info;
+	return std::vector<StorageError>();
 }
 
 std::vector<StorageError> StorageAccessProxy::getAllErrors() const
@@ -319,22 +317,6 @@ std::vector<StorageError> StorageAccessProxy::getAllErrors() const
 	}
 
 	return std::vector<StorageError>();
-}
-
-std::vector<StorageError> StorageAccessProxy::getFilteredErrors() const
-{
-	std::vector<StorageError> errors = getAllErrors();
-	std::vector<StorageError> filteredErrors;
-
-	for (const StorageError& error : errors)
-	{
-		if (m_errorFilter.filter(error))
-		{
-			filteredErrors.push_back(error);
-		}
-	}
-
-	return filteredErrors;
 }
 
 std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const
@@ -368,5 +350,5 @@ std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getErrorTokenLocati
 void StorageAccessProxy::handleMessage(MessageErrorFilterChanged* message)
 {
 	m_errorFilter = message->errorFilter;
-	MessageShowErrors(getFilteredErrorCount()).dispatch();
+	MessageShowErrors(getErrorCount()).dispatch();
 }

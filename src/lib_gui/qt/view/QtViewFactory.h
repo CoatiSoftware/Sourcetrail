@@ -23,7 +23,7 @@ public:
 	virtual std::shared_ptr<StatusBarView> createStatusBarView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<UndoRedoView> createUndoRedoView(ViewLayout* viewLayout) const;
 
-	virtual std::shared_ptr<DialogView> createDialogView(ViewLayout* viewLayout) const;
+	virtual std::shared_ptr<DialogView> createDialogView(ViewLayout* viewLayout, StorageAccess* storageAccess) const;
 };
 
 #endif // QT_VIEW_FACTORY_H

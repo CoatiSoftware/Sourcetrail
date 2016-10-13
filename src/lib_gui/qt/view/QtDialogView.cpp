@@ -6,13 +6,15 @@
 
 #include <QMessageBox>
 
+#include "data/access/StorageAccess.h"
 #include "qt/window/QtIndexingDialog.h"
 #include "qt/window/QtMainWindow.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/utility.h"
 
-QtDialogView::QtDialogView(QtMainWindow* mainWindow)
-	: m_mainWindow(mainWindow)
+QtDialogView::QtDialogView(QtMainWindow* mainWindow, StorageAccess* storageAccess)
+	: DialogView(storageAccess)
+	, m_mainWindow(mainWindow)
 	, m_windowStack(this)
 	, m_resultReady(false)
 {
@@ -204,6 +206,18 @@ void QtDialogView::handleMessage(MessageInterruptTasks* message)
 			{
 				showProgressDialog("Interrupting Indexing", "Waiting for indexer\nthreads to finish");
 			}
+		}
+	);
+}
+
+void QtDialogView::handleMessage(MessageNewErrors* message)
+{
+	ErrorCountInfo errorInfo = m_storageAccess->getErrorCount();
+
+	m_onQtThread2(
+		[=]()
+		{
+			updateErrorCount(errorInfo.total, errorInfo.fatal);
 		}
 	);
 }

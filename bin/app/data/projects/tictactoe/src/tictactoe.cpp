@@ -1,6 +1,6 @@
 #include "tictactoe.h"
 
-#include "artificia_player.h"
+#include "artificial_player.h"
 #include "human_player.h"
 #include "io.h"
 

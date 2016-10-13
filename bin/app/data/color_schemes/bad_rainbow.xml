@@ -394,24 +394,24 @@
 		</edge>
 	</graph>
 	<error>
-		<background>#272728</background>
-		<table>white</table>
+		<background>#494949</background>
+		<table>#C4C4C4</table>
 		<text>
-			<normal>white</normal>
+			<normal>#C4C4C4</normal>
 			<active>black</active>
 		</text>
 		<table_line_1>
-			<normal>darkgrey</normal>
-			<active>white</active>
+			<normal>#494949</normal>
+			<active>#7B7B7B</active>
 		</table_line_1>
 		<table_line_2>
-			<normal>#343434</normal>
-			<active>white</active>
+			<normal>#383838</normal>
+			<active>#7B7B7B</active>
 		</table_line_2>
 	</error>
 	<tab>
-		<background>#272728</background>
-		<active>white</active>
+		<background>#494949</background>
+		<active>#C4C4C4</active>
 		<hover>#878787</hover>
 		<text>#878787</text>
 	</tab>

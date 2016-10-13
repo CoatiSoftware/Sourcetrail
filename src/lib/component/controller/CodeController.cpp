@@ -90,7 +90,7 @@ void CodeController::handleMessage(MessageActivateAll* message)
 	CodeView* view = getView();
 	view->clear();
 	view->setErrorInfos(errors);
-	view->showCodeSnippets(snippets, std::vector<Id>());
+	view->showCodeSnippets(snippets, std::vector<Id>(), true);
 
 	showContents(message);
 }
@@ -136,7 +136,7 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	else
 	{
 		m_collection = m_storageAccess->getTokenLocationsForTokenIds(activeTokenIds);
-		view->showCodeSnippets(getSnippetsForActiveTokenLocations(m_collection.get(), declarationId), activeTokenIds);
+		view->showCodeSnippets(getSnippetsForActiveTokenLocations(m_collection.get(), declarationId), activeTokenIds, true);
 
 		size_t fileCount = m_collection->getTokenLocationFileCount();
 		size_t referenceCount = m_collection->getTokenLocationCount();
@@ -281,7 +281,7 @@ void CodeController::handleMessage(MessageShowErrors* message)
 
 		view->clear();
 		view->setErrorInfos(errors);
-		view->showCodeSnippets(snippets, std::vector<Id>());
+		view->showCodeSnippets(snippets, std::vector<Id>(), !message->errorId);
 
 		showContents(message);
 	}
@@ -300,7 +300,7 @@ void CodeController::handleMessage(MessageSearchFullText* message)
 	view->clear();
 
 	m_collection = m_storageAccess->getFullTextSearchLocations(message->searchTerm, message->caseSensitive);
-	view->showCodeSnippets(getSnippetsForCollection(m_collection, true), std::vector<Id>());
+	view->showCodeSnippets(getSnippetsForCollection(m_collection, true), std::vector<Id>(), true);
 
 	showContents(message);
 }

@@ -31,7 +31,8 @@ public:
 	virtual void setErrorInfos(const std::vector<ErrorInfo>& errorInfos);
 	virtual bool showsErrors() const;
 
-	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds);
+	virtual void showCodeSnippets(
+		const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds, bool setupFiles);
 	virtual void addCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert);
 
 	virtual void setFileState(const FilePath filePath, FileState state);
@@ -53,7 +54,8 @@ private:
 	void doRefreshView();
 	void doClear();
 
-	void doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds);
+	void doShowCodeSnippets(
+		const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds, bool setupFiles);
 	void doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert);
 
 	void doSetFileState(const FilePath filePath, FileState state);
@@ -75,7 +77,7 @@ private:
 
 	QtThreadedFunctor<> m_refreshViewFunctor;
 	QtThreadedFunctor<> m_clearFunctor;
-	QtThreadedFunctor<const std::vector<CodeSnippetParams>&, const std::vector<Id>&> m_showCodeSnippetsFunctor;
+	QtThreadedFunctor<const std::vector<CodeSnippetParams>&, const std::vector<Id>&, bool> m_showCodeSnippetsFunctor;
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&, bool> m_addCodeSnippetsFunctor;
 	QtThreadedFunctor<const FilePath, FileState> m_setFileStateFunctor;
 	QtThreadedFunctor<const std::vector<Id>&, std::shared_ptr<TokenLocationCollection>, bool> m_doShowActiveSnippetFunctor;

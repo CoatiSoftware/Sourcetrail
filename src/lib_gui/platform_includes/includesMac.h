@@ -7,6 +7,7 @@
 #include <QStandardPaths>
 
 #include "qt/utility/utilityQt.h"
+#include "utility/AppPath.h"
 #include "utility/UserPaths.h"
 
 bool appIsMacBundle = false;

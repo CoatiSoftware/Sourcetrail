@@ -221,7 +221,8 @@ void Application::handleMessage(MessageEnteredLicense* message)
 
 void Application::handleMessage(MessageFinishedParsing* message)
 {
-	m_project->logStats();
+	logStorageStats();
+
 	if (m_hasGUI)
 	{
 		MessageRefresh().refreshUiOnly().dispatch();
@@ -324,6 +325,34 @@ DialogView* Application::getDialogView() const
 		return m_componentManager->getDialogView();
 	}
 
-	static DialogView dialogView;
+	static DialogView dialogView(nullptr);
 	return &dialogView;
+}
+
+void Application::logStorageStats() const
+{
+	if (!ApplicationSettings::getInstance()->getLoggingEnabled())
+	{
+		return;
+	}
+
+	std::stringstream ss;
+	StorageStats stats = m_storageCache->getStorageStats();
+
+	ss << "\nGraph:\n";
+	ss << "\t" << stats.nodeCount << " Nodes\n";
+	ss << "\t" << stats.edgeCount << " Edges\n";
+
+	ss << "\nCode:\n";
+	ss << "\t" << stats.fileCount << " Files\n";
+	ss << "\t" << stats.fileLOCCount << " Lines of Code\n";
+
+
+	ErrorCountInfo errorCount = m_storageCache->getErrorCount();
+
+	ss << "\nErrors:\n";
+	ss << "\t" << errorCount.total << " Errors\n";
+	ss << "\t" << errorCount.fatal << " Fatal Errors\n";
+
+	LOG_INFO(ss.str());
 }

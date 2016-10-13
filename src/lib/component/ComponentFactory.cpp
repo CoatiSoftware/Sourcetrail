@@ -39,6 +39,11 @@ ViewFactory* ComponentFactory::getViewFactory() const
 	return m_viewFactory;
 }
 
+StorageAccess* ComponentFactory::getStorageAccess() const
+{
+	return m_storageAccess;
+}
+
 std::shared_ptr<Component> ComponentFactory::createCodeComponent(ViewLayout* viewLayout)
 {
 	std::shared_ptr<CodeView> view = m_viewFactory->createCodeView(viewLayout);

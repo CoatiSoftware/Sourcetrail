@@ -73,6 +73,7 @@ private:
 	void updateRecentProjects(const FilePath& projectSettingsFilePath);
 
 	DialogView* getDialogView() const;
+	void logStorageStats() const;
 
 	const bool m_hasGUI;
 	ProjectFactory m_projectFactory;

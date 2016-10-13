@@ -8,7 +8,7 @@ Field::Token Field::Opponent( Token token ) {
 	} else if (token == PlayerB){
 		return PlayerA;
 	} else {
-		return Non;
+		return None;
 	}
 }
 
@@ -100,7 +100,7 @@ bool Field::InRange( const Move& move ) const {
 }
 
 bool Field::IsEmpty( const Move& move ) const {
-	return grid[move.row][move.col] == None;
+	return grid_[move.row][move.col] == None;
 }
 
 bool Field::IsFull() const {

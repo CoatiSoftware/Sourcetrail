@@ -79,11 +79,13 @@ void CxxDiagnosticConsumer::HandleDiagnostic(clang::DiagnosticsEngine::Level lev
 			column = presumedLocation.getColumn();
 		}
 
+		ParseLocation location(filePath, line, column);
+
 		m_client->onError(
-			ParseLocation(filePath, line, column),
+			location,
 			message,
 			level == clang::DiagnosticsEngine::Fatal,
-			m_register->hasFilePath(filePath)
+			m_register->hasFilePath(location.filePath)
 		);
 	}
 }

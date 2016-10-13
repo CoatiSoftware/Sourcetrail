@@ -14,7 +14,8 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
 	, m_refreshViewFunctor(std::bind(&QtCodeView::doRefreshView, this))
 	, m_clearFunctor(std::bind(&QtCodeView::doClear, this))
-	, m_showCodeSnippetsFunctor(std::bind(&QtCodeView::doShowCodeSnippets, this, std::placeholders::_1, std::placeholders::_2))
+	, m_showCodeSnippetsFunctor(
+		std::bind(&QtCodeView::doShowCodeSnippets, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
 	, m_addCodeSnippetsFunctor(std::bind(&QtCodeView::doAddCodeSnippets, this, std::placeholders::_1, std::placeholders::_2))
 	, m_setFileStateFunctor(std::bind(&QtCodeView::doSetFileState, this, std::placeholders::_1, std::placeholders::_2))
 	, m_doShowActiveSnippetFunctor(
@@ -66,9 +67,10 @@ bool QtCodeView::showsErrors() const
 	return m_errorInfos.size() > 0;
 }
 
-void QtCodeView::showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds)
+void QtCodeView::showCodeSnippets(
+	const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds, bool setupFiles)
 {
-	m_showCodeSnippetsFunctor(snippets, activeTokenIds);
+	m_showCodeSnippetsFunctor(snippets, activeTokenIds, setupFiles);
 }
 
 void QtCodeView::addCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert)
@@ -136,7 +138,8 @@ void QtCodeView::doClear()
 	m_widget->clearCodeSnippets();
 }
 
-void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds)
+void QtCodeView::doShowCodeSnippets(
+	const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds, bool setupFiles)
 {
 	m_widget->setActiveTokenIds(activeTokenIds);
 	m_widget->setErrorInfos(m_errorInfos);
@@ -153,7 +156,10 @@ void QtCodeView::doShowCodeSnippets(const std::vector<CodeSnippetParams>& snippe
 		}
 	}
 
-	m_widget->setupFiles();
+	if (setupFiles)
+	{
+		m_widget->setupFiles();
+	}
 
 	setStyleSheet(); // so property "isLast" of QtCodeSnippet is computed correctly
 }

@@ -338,31 +338,6 @@ std::vector<FileInfo> PersistentStorage::getInfoOnAllFiles() const
 	return fileInfos;
 }
 
-void PersistentStorage::logStats() const
-{
-	TRACE();
-
-	std::stringstream ss;
-	StorageStats stats = getStorageStats();
-
-	ss << "\nGraph:\n";
-	ss << "\t" << stats.nodeCount << " Nodes\n";
-	ss << "\t" << stats.edgeCount << " Edges\n";
-
-	ss << "\nCode:\n";
-	ss << "\t" << stats.fileCount << " Files\n";
-	ss << "\t" << stats.fileLOCCount << " Lines of Code\n";
-
-
-	ErrorCountInfo errorCount = getErrorCount();
-
-	ss << "\nErrors:\n";
-	ss << "\t" << errorCount.total << " Errors\n";
-	ss << "\t" << errorCount.fatal << " Fatal Errors\n";
-
-	LOG_INFO(ss.str());
-}
-
 void PersistentStorage::buildCaches()
 {
 	TRACE();
@@ -1060,21 +1035,15 @@ ErrorCountInfo PersistentStorage::getErrorCount() const
 	return ErrorCountInfo();
 }
 
-ErrorCountInfo PersistentStorage::getFilteredErrorCount() const
+std::vector<StorageError> PersistentStorage::getErrors() const
 {
 	LOG_ERROR("This should never be called.");
-	return ErrorCountInfo();
+	return std::vector<StorageError>();
 }
 
 std::vector<StorageError> PersistentStorage::getAllErrors() const
 {
 	return m_sqliteStorage.getAllErrors();
-}
-
-std::vector<StorageError> PersistentStorage::getFilteredErrors() const
-{
-	LOG_ERROR("This should never be called.");
-	return std::vector<StorageError>();
 }
 
 std::shared_ptr<TokenLocationCollection> PersistentStorage::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const

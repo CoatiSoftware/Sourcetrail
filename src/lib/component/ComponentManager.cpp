@@ -54,7 +54,7 @@ void ComponentManager::setup(ViewLayout* viewLayout)
 	std::shared_ptr<Component> featureComponent = m_componentFactory->createFeatureComponent();
 	m_components.push_back(featureComponent);
 
-	m_dialogView = m_componentFactory->getViewFactory()->createDialogView(viewLayout);
+	m_dialogView = m_componentFactory->getViewFactory()->createDialogView(viewLayout, m_componentFactory->getStorageAccess());
 
 	std::shared_ptr<TabbedView> tabbedView =
 		m_componentFactory->getViewFactory()->createTabbedView(viewLayout, "Log");

@@ -17,6 +17,7 @@ public:
 	~ComponentFactory();
 
 	ViewFactory* getViewFactory() const;
+	StorageAccess* getStorageAccess() const;
 
 	std::shared_ptr<Component> createCodeComponent(ViewLayout* viewLayout);
 	std::shared_ptr<Component> createErrorComponent(ViewLayout* viewLayout);

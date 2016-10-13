@@ -86,7 +86,7 @@ std::shared_ptr<UndoRedoView> QtViewFactory::createUndoRedoView(ViewLayout* view
 	return View::createInitAndAddToLayout<QtUndoRedoView>(viewLayout);
 }
 
-std::shared_ptr<DialogView> QtViewFactory::createDialogView(ViewLayout* viewLayout) const
+std::shared_ptr<DialogView> QtViewFactory::createDialogView(ViewLayout* viewLayout, StorageAccess* storageAccess) const
 {
-	return std::make_shared<QtDialogView>(dynamic_cast<QtMainView*>(viewLayout)->getMainWindow());
+	return std::make_shared<QtDialogView>(dynamic_cast<QtMainView*>(viewLayout)->getMainWindow(), storageAccess);
 }

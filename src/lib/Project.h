@@ -31,8 +31,6 @@ public:
 	bool settingsEqualExceptNameAndLocation(const ProjectSettings& otherSettings) const;
 	void setStateSettingsUpdated();
 
-	void logStats() const;
-
 protected:
 	Project(StorageAccessProxy* storageAccessProxy, DialogView* dialogView);
 	DialogView* getDialogView() const;
