@@ -36,6 +36,8 @@ add_files(
 	qt/element/QtSmartSearchBox.h
 	qt/element/QtStatusBar.cpp
 	qt/element/QtStatusBar.h
+	qt/element/QtTable.cpp
+	qt/element/QtTable.h
 	qt/element/QtUndoRedo.cpp
 	qt/element/QtUndoRedo.h
 
@@ -95,10 +97,14 @@ add_files(
 	qt/view/QtCompositeView.h
 	qt/view/QtDialogView.cpp
 	qt/view/QtDialogView.h
+	qt/view/QtErrorView.cpp
+	qt/view/QtErrorView.h
 	qt/view/QtGraphView.cpp
 	qt/view/QtGraphView.h
 	qt/view/QtGraphViewStyleImpl.cpp
 	qt/view/QtGraphViewStyleImpl.h
+	qt/view/QtLogView.cpp
+	qt/view/QtLogView.h
 	qt/view/QtMainView.cpp
 	qt/view/QtMainView.h
 	qt/view/QtRefreshView.cpp
@@ -107,6 +113,8 @@ add_files(
 	qt/view/QtSearchView.h
 	qt/view/QtStatusBarView.cpp
 	qt/view/QtStatusBarView.h
+	qt/view/QtTabbedView.cpp
+	qt/view/QtTabbedView.h
 	qt/view/QtUndoRedoView.cpp
 	qt/view/QtUndoRedoView.h
 	qt/view/QtViewFactory.cpp

@@ -272,16 +272,24 @@ void CodeController::handleMessage(MessageShowErrors* message)
 {
 	TRACE("code errors");
 
-	std::vector<ErrorInfo> errors;
-	m_collection = m_storageAccess->getErrorTokenLocations(&errors);
-	std::vector<CodeSnippetParams> snippets = getSnippetsForCollection(m_collection);
-
 	CodeView* view = getView();
-	view->clear();
-	view->setErrorInfos(errors);
-	view->showCodeSnippets(snippets, std::vector<Id>());
+	if (!view->showsErrors() || !message->errorId)
+	{
+		std::vector<ErrorInfo> errors;
+		m_collection = m_storageAccess->getErrorTokenLocations(&errors);
+		std::vector<CodeSnippetParams> snippets = getSnippetsForCollection(m_collection);
 
-	showContents(message);
+		view->clear();
+		view->setErrorInfos(errors);
+		view->showCodeSnippets(snippets, std::vector<Id>());
+
+		showContents(message);
+	}
+
+	if (message->errorId)
+	{
+		view->showActiveSnippet(std::vector<Id>(1, message->errorId), m_collection, true);
+	}
 }
 
 void CodeController::handleMessage(MessageSearchFullText* message)

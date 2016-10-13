@@ -2,14 +2,18 @@
 
 #include "component/Component.h"
 #include "component/controller/CodeController.h"
+#include "component/controller/ErrorController.h"
 #include "component/controller/FeatureController.h"
 #include "component/controller/GraphController.h"
+#include "component/controller/LogController.h"
 #include "component/controller/RefreshController.h"
 #include "component/controller/SearchController.h"
 #include "component/controller/StatusBarController.h"
 #include "component/controller/UndoRedoController.h"
 #include "component/view/CodeView.h"
+#include "component/view/ErrorView.h"
 #include "component/view/GraphView.h"
+#include "component/view/LogView.h"
 #include "component/view/RefreshView.h"
 #include "component/view/SearchView.h"
 #include "component/view/StatusBarView.h"
@@ -39,6 +43,22 @@ std::shared_ptr<Component> ComponentFactory::createCodeComponent(ViewLayout* vie
 {
 	std::shared_ptr<CodeView> view = m_viewFactory->createCodeView(viewLayout);
 	std::shared_ptr<CodeController> controller = std::make_shared<CodeController>(m_storageAccess);
+
+	return std::make_shared<Component>(view, controller);
+}
+
+std::shared_ptr<Component> ComponentFactory::createErrorComponent(ViewLayout* viewLayout)
+{
+	std::shared_ptr<ErrorView> view = m_viewFactory->createErrorView(viewLayout);
+	std::shared_ptr<ErrorController> controller = std::make_shared<ErrorController>(m_storageAccess);
+
+	return std::make_shared<Component>(view, controller);
+}
+
+std::shared_ptr<Component> ComponentFactory::createLogComponent(ViewLayout* viewLayout)
+{
+	std::shared_ptr<LogView> view = m_viewFactory->createLogView(viewLayout);
+	std::shared_ptr<LogController> controller = std::make_shared<LogController>(m_storageAccess);
 
 	return std::make_shared<Component>(view, controller);
 }

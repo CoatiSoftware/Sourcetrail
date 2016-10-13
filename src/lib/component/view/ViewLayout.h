@@ -14,9 +14,6 @@ public:
 
 	virtual void showView(View* view) = 0;
 	virtual void hideView(View* view) = 0;
-
-	virtual void loadLayout() = 0;
-	virtual void saveLayout() = 0;
 };
 
 #endif // VIEW_LAYOUT_H

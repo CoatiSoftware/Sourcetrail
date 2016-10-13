@@ -11,6 +11,7 @@ class CompositeView;
 class DialogView;
 class NetworkFactory;
 class StorageAccess;
+class TabbedView;
 class View;
 class ViewFactory;
 class ViewLayout;
@@ -36,6 +37,7 @@ private:
 	std::shared_ptr<ComponentFactory> m_componentFactory;
 
 	std::vector<std::shared_ptr<CompositeView>> m_compositeViews;
+	std::vector<std::shared_ptr<TabbedView>> m_tabbedViews;
 	std::vector<std::shared_ptr<Component>> m_components;
 
 	std::shared_ptr<DialogView> m_dialogView;

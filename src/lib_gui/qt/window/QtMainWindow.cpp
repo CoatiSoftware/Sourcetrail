@@ -13,6 +13,7 @@
 #include "Application.h"
 #include "component/view/View.h"
 #include "component/view/CompositeView.h"
+#include "component/view/TabbedView.h"
 #include "LicenseChecker.h"
 #include "qt/utility/QtContextMenu.h"
 #include "qt/utility/utilityQt.h"
@@ -714,6 +715,18 @@ QtMainWindow::DockWidget* QtMainWindow::getDockWidgetForView(View* view)
 		if (compositeView)
 		{
 			for (const View* v : compositeView->getViews())
+			{
+				if (v == view)
+				{
+					return &dock;
+				}
+			}
+		}
+
+		const TabbedView* tabbedView = dynamic_cast<const TabbedView*>(dock.view);
+		if (tabbedView)
+		{
+			for (const View* v : tabbedView->getViews())
 			{
 				if (v == view)
 				{

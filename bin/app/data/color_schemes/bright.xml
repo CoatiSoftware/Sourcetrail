@@ -359,4 +359,26 @@
 			</aggregation>
 		</edge>
 	</graph>
+	<error>
+		<background>white</background>
+		<table>#aaa</table>
+		<text>
+			<normal>black</normal>
+			<active>white</active>
+		</text>
+		<table_line_1>
+			<normal>white</normal>
+			<active>grey</active>
+		</table_line_1>
+		<table_line_2>
+			<normal>#F1F1F1</normal>
+			<active>grey</active>
+		</table_line_2>
+	</error>
+	<tab>
+		<background>white</background>
+		<active>black</active>
+		<hover>#878787</hover>
+		<text>#878787</text>
+	</tab>
 </config>

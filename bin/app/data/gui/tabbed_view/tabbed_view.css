@@ -1,0 +1,31 @@
+QTabWidget::tab-bar {
+	alignment: left;
+}
+
+QTabBar::tab {
+	background-color: <color:tab/background>;
+	color: <color:tab/text>;
+	padding: 12px 75px 5px 12px;
+	border: 0px;
+	border-bottom: 4px solid <color:tab/background>;
+	/*font-size: <setting:font_size>px;*/
+	/*font-weight: bold;*/
+}
+
+QTabBar::tab:hover {
+	border-bottom: 4px solid <color:tab/hover>;
+}
+
+QTabBar::tab:selected {
+	border-bottom: 4px solid <color:tab/active>;
+	color: <color:tab/active>;
+}
+
+QTabWidget::pane {
+	top: 0px;
+	background: <color:tab/background>;
+	color: <color:tab/text>;
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+}

@@ -57,7 +57,7 @@ Id ParserClientImpl::recordSymbol(
 
 Id ParserClientImpl::recordSymbol(
 	const NameHierarchy& symbolName, SymbolKind symbolType,
-	 const ParseLocation& location, const ParseLocation& scopeLocation,
+	const ParseLocation& location, const ParseLocation& scopeLocation,
 	AccessKind access, bool isImplicit
 )
 {

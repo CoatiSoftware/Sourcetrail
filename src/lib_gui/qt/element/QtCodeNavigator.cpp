@@ -419,6 +419,12 @@ void QtCodeNavigator::scrollToLine(const FilePath& filePath, unsigned int line)
 	{
 		emit shouldScrollToSnippet(file->getFileSnippet(), line);
 	}
+	else
+	{
+		m_scrollToFile = file;
+		m_scrollToLine = line;
+		scrollToSnippetIfRequested();
+	}
 }
 
 void QtCodeNavigator::scrollToLocation(QtCodeFile* file, Id locationId, bool scrollTo)

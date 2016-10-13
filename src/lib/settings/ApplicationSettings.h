@@ -54,9 +54,6 @@ public:
 	int getIndexerThreadCount() const;
 	void setIndexerThreadCount(const int count);
 
-	bool getShowExternalNonFatalErrors() const;
-	void setShowExternalNonFatalErrors(const bool show);
-
 	std::string getJavaPath() const;
 	void setJavaPath(const std::string path);
 

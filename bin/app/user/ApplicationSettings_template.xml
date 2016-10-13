@@ -29,8 +29,6 @@
 	<indexing>
 		<indexer_thread_count><!-- INTEGER: number of threads indexing the source code --></indexer_thread_count>
 
-		<show_external_non_fatal_errors><!-- BOOL: show non-fatal errors in unindexed files --></show_external_non_fatal_errors>
-
 		<cxx>
 			<compiler_flags>
 				<compiler_flag><!-- STRING: compiler flag, including the dash e.g. -v --></compiler_flag>

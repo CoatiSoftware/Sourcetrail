@@ -289,10 +289,6 @@ bool Project::buildIndex(bool forceRefresh)
 		MessageStatus("Nothing to refresh, all files are up-to-date.").dispatch();
 		return false;
 	}
-	else
-	{
-		MessageClearErrorCount().dispatch();
-	}
 
 	if (Application::getInstance()->hasGUI())
 	{
@@ -303,6 +299,8 @@ bool Project::buildIndex(bool forceRefresh)
 			return false;
 		}
 	}
+
+	MessageClearErrorCount().dispatch();
 
 	if (forceRefresh)
 	{
@@ -353,7 +351,7 @@ bool Project::buildIndex(bool forceRefresh)
 		taskRepeat->setTask(std::make_shared<TaskInjectStorage>(storageProvider, m_storage));
 	}
 
-	taskSequential->addTask(std::make_shared<TaskFinishParsing>(m_storage.get(), fileRegister, m_dialogView));
+	taskSequential->addTask(std::make_shared<TaskFinishParsing>(m_storage.get(), m_storageAccessProxy, fileRegister, m_dialogView));
 
 	Task::dispatch(taskSequential);
 

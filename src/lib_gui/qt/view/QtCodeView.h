@@ -29,6 +29,7 @@ public:
 	virtual void clear();
 
 	virtual void setErrorInfos(const std::vector<ErrorInfo>& errorInfos);
+	virtual bool showsErrors() const;
 
 	virtual void showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds);
 	virtual void addCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert);

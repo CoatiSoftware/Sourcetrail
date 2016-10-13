@@ -48,7 +48,6 @@ private:
 	QLineEdit* m_pluginPort;
 
 	QComboBox* m_threads;
-	QCheckBox* m_fatalErrors;
 
 	std::shared_ptr<CombinedPathDetector> m_javaPathDetector;
 	QComboBox* m_javaPathDetectorBox;

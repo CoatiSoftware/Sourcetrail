@@ -89,7 +89,7 @@ TokenLocation* TokenLocationCollection::addTokenLocation(
 
 void TokenLocationCollection::removeTokenLocation(TokenLocation* location)
 {
-	if (!findTokenLocationById(location->getId()))
+	if (!location || !findTokenLocationById(location->getId()))
 	{
 		LOG_ERROR("TokenLocation is not part of this TokenLocationCollection.");
 		return;

@@ -38,13 +38,13 @@ public:
 	virtual void showView(View* view);
 	virtual void hideView(View* view);
 
-	virtual void loadLayout();
-	virtual void saveLayout();
-
 	virtual QStatusBar* getStatusBar();
 	virtual void setStatusBar(QStatusBar* statusBar);
 
 	// MainView implementation
+	virtual void loadLayout();
+	virtual void saveLayout();
+
 	virtual void hideStartScreen();
 	virtual void setTitle(const std::string& title);
 	virtual void activateWindow();
@@ -76,6 +76,8 @@ private:
 	QtThreadedFunctor<> m_activateWindowFunctor;
 	QtThreadedFunctor<> m_updateRecentProjectMenuFunctor;
 	QtThreadedFunctor<bool> m_forceLicenseScreenFunctor;
+
+	QtThreadedLambdaFunctor m_onQtThread;
 };
 
 #endif // QT_MAIN_VIEW_H

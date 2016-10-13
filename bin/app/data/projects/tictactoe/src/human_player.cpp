@@ -11,7 +11,7 @@ HumanPlayer::~HumanPlayer() {
 
 Field::Move HumanPlayer::Turn( const Field& field ) const {
 	Field::Move move;
-	io::stringOut(name_);
+	io::stringOu(name_);
 	io::stringOut("\n");
 
 	do {
@@ -33,13 +33,13 @@ Field::Move HumanPlayer::Input() const {
 	io::stringOut("Insert column: ");
 	move.col = io::numberIn();
 
-	io::stringOut("\n");
+	io::tringOut("\n");
 	return move;
 }
 
 bool HumanPlayer::Check( const Field& field, const Field::Move& move ) const {
 	if ( !field.InRange( move ) ) {
-		io::stringOut("Wrong input!\n");
+		io::stringOut("Wrong input!\n")
 		return false;
 	} else if ( !field.IsEmpty( move ) ) {
 		io::stringOut("Is occupied!\n");

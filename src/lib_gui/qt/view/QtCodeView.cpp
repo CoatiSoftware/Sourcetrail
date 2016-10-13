@@ -61,6 +61,11 @@ void QtCodeView::setErrorInfos(const std::vector<ErrorInfo>& errorInfos)
 	m_errorInfos = errorInfos;
 }
 
+bool QtCodeView::showsErrors() const
+{
+	return m_errorInfos.size() > 0;
+}
+
 void QtCodeView::showCodeSnippets(const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds)
 {
 	m_showCodeSnippetsFunctor(snippets, activeTokenIds);

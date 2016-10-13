@@ -1,5 +1,7 @@
 #include "component/view/CompositeView.h"
 
+#include <algorithm>
+
 CompositeView::CompositeView(ViewLayout* viewLayout, CompositeDirection direction, const std::string& name)
 	: View(viewLayout)
 	, m_direction(direction)
@@ -46,20 +48,8 @@ void CompositeView::removeView(View* view)
 
 void CompositeView::showView(View* view)
 {
-	getViewLayout()->showView(view);
 }
 
 void CompositeView::hideView(View* view)
 {
-	getViewLayout()->hideView(view);
-}
-
-void CompositeView::loadLayout()
-{
-	getViewLayout()->loadLayout();
-}
-
-void CompositeView::saveLayout()
-{
-	getViewLayout()->saveLayout();
 }

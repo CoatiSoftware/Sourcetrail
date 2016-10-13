@@ -3,7 +3,15 @@
 
 #include "data/access/StorageAccess.h"
 
-class StorageAccessProxy: public StorageAccess
+#include "data/ErrorFilter.h"
+#include "data/StorageTypes.h"
+
+#include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/MessageErrorFilterChanged.h"
+
+class StorageAccessProxy
+	: public StorageAccess
+	, public MessageListener<MessageErrorFilterChanged>
 {
 public:
 	StorageAccessProxy();
@@ -47,7 +55,6 @@ public:
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
 	) const;
 
-	virtual std::shared_ptr<TokenLocationCollection> getErrorTokenLocations(std::vector<ErrorInfo>* errors) const;
 	virtual std::shared_ptr<TokenLocationFile> getCommentLocationsInFile(const FilePath& filePath) const;
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const;
@@ -55,11 +62,22 @@ public:
 	virtual FileInfo getFileInfoForFilePath(const FilePath& filePath) const;
 	virtual std::vector<FileInfo> getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const;
 
-	virtual ErrorCountInfo getErrorCount() const;
 	virtual StorageStats getStorageStats() const;
 
+	virtual ErrorCountInfo getErrorCount() const;
+	virtual ErrorCountInfo getFilteredErrorCount() const;
+
+	virtual std::vector<StorageError> getAllErrors() const;
+	virtual std::vector<StorageError> getFilteredErrors() const;
+
+	virtual std::shared_ptr<TokenLocationCollection> getErrorTokenLocations(std::vector<ErrorInfo>* errors) const;
+
 private:
+	void handleMessage(MessageErrorFilterChanged* message);
+
 	StorageAccess* m_subject;
+
+	ErrorFilter m_errorFilter;
 };
 
 #endif // STORAGE_ACCESS_PROXY_H

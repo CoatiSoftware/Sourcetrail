@@ -192,10 +192,10 @@ bool FilePath::contains(const FilePath& other) const
 	boost::filesystem::path dir = m_path;
 	const boost::filesystem::path& dir2 = other.m_path;
 
-  	if (dir.filename() == ".")
-  	{
-  		dir.remove_filename();
-  	}
+	if (dir.filename() == ".")
+	{
+		dir.remove_filename();
+	}
 
 	auto it = dir.begin();
 	auto it2 = dir2.begin();

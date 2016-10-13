@@ -6,6 +6,7 @@
 
 #include "utility/logging/logging.h"
 #include "utility/file/FileInfo.h"
+#include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/TimePoint.h"
 
 StorageAccessProxy::StorageAccessProxy()
@@ -218,16 +219,6 @@ std::shared_ptr<TokenLocationFile> StorageAccessProxy::getTokenLocationsForLines
 	return std::make_shared<TokenLocationFile>("");
 }
 
-std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const
-{
-	if (hasSubject())
-	{
-		return m_subject->getErrorTokenLocations(errors);
-	}
-
-	return std::make_shared<TokenLocationCollection>();
-}
-
 std::shared_ptr<TokenLocationFile> StorageAccessProxy::getCommentLocationsInFile(const FilePath& filePath) const
 {
 	if (hasSubject())
@@ -268,16 +259,6 @@ std::vector<FileInfo> StorageAccessProxy::getFileInfosForFilePaths(const std::ve
 	return std::vector<FileInfo>();
 }
 
-ErrorCountInfo StorageAccessProxy::getErrorCount() const
-{
-	if (hasSubject())
-	{
-		return m_subject->getErrorCount();
-	}
-
-	return ErrorCountInfo();
-}
-
 StorageStats StorageAccessProxy::getStorageStats() const
 {
 	if (hasSubject())
@@ -286,4 +267,106 @@ StorageStats StorageAccessProxy::getStorageStats() const
 	}
 
 	return StorageStats();
+}
+
+
+ErrorCountInfo StorageAccessProxy::getErrorCount() const
+{
+	ErrorCountInfo info;
+
+	std::vector<StorageError> storageErrors = getAllErrors();
+	for (const StorageError& error : storageErrors)
+	{
+		info.total++;
+
+		if (error.fatal)
+		{
+			info.fatal++;
+		}
+	}
+
+	return info;
+}
+
+ErrorCountInfo StorageAccessProxy::getFilteredErrorCount() const
+{
+	ErrorCountInfo info;
+
+	std::vector<StorageError> storageErrors = getAllErrors();
+	for (const StorageError& error : storageErrors)
+	{
+		if (!m_errorFilter.filter(error))
+		{
+			continue;
+		}
+
+		info.total++;
+
+		if (error.fatal)
+		{
+			info.fatal++;
+		}
+	}
+
+	return info;
+}
+
+std::vector<StorageError> StorageAccessProxy::getAllErrors() const
+{
+	if (hasSubject())
+	{
+		return m_subject->getAllErrors();
+	}
+
+	return std::vector<StorageError>();
+}
+
+std::vector<StorageError> StorageAccessProxy::getFilteredErrors() const
+{
+	std::vector<StorageError> errors = getAllErrors();
+	std::vector<StorageError> filteredErrors;
+
+	for (const StorageError& error : errors)
+	{
+		if (m_errorFilter.filter(error))
+		{
+			filteredErrors.push_back(error);
+		}
+	}
+
+	return filteredErrors;
+}
+
+std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const
+{
+	if (hasSubject())
+	{
+		std::shared_ptr<TokenLocationCollection> collection = m_subject->getErrorTokenLocations(errors);
+		std::vector<ErrorInfo> unfilteredErrors = *errors;
+		errors->clear();
+
+		for (const ErrorInfo& error : unfilteredErrors)
+		{
+			if (m_errorFilter.filter(error))
+			{
+				errors->push_back(error);
+			}
+			else
+			{
+				// Set first bit to 1 to avoid collisions
+				Id locationId = ~(~size_t(0) >> 1) + error.id;
+				collection->removeTokenLocation(collection->findTokenLocationById(locationId));
+			}
+		}
+
+		return collection;
+	}
+
+	return std::make_shared<TokenLocationCollection>();
+}
+
+void StorageAccessProxy::handleMessage(MessageErrorFilterChanged* message)
+{
+	m_errorFilter = message->errorFilter;
+	MessageShowErrors(getFilteredErrorCount()).dispatch();
 }

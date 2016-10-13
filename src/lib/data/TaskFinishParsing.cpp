@@ -9,10 +9,12 @@
 
 TaskFinishParsing::TaskFinishParsing(
 	PersistentStorage* storage,
+	StorageAccess* storageAccess,
 	std::shared_ptr<FileRegister> fileRegister,
 	DialogView* dialogView
 )
 	: m_storage(storage)
+	, m_storageAccess(storageAccess)
 	, m_fileRegister(fileRegister)
 	, m_dialogView(dialogView)
 {
@@ -59,7 +61,7 @@ Task::TaskState TaskFinishParsing::doUpdate(std::shared_ptr<Blackboard> blackboa
 		m_fileRegister->getParsedSourceFilesCount(),
 		m_fileRegister->getSourceFilesCount(),
 		time,
-		m_storage->getErrorCount()
+		m_storageAccess->getFilteredErrorCount()
 	);
 
 	return STATE_SUCCESS;

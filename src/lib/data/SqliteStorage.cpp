@@ -217,7 +217,7 @@ Id SqliteStorage::addCommentLocation(Id fileNodeId, uint startLine, uint startCo
 
 Id SqliteStorage::addError(const std::string& message, bool fatal, bool indexed, const std::string& filePath, uint lineNumber, uint columnNumber)
 {
-	std::string sanitizedMessage = utility::replace((fatal ? "Fatal: " : "Error: ") + message, "'", "''");
+	std::string sanitizedMessage = utility::replace(message, "'", "''");
 
 	// check for duplicate
 	CppSQLite3Statement stmt = m_database.compileStatement((
@@ -1072,6 +1072,7 @@ std::vector<StorageError> SqliteStorage::getAll<StorageError>(const std::string&
 	).c_str());
 
 	std::vector<StorageError> errors;
+	Id id = 1;
 	while (!q.eof())
 	{
 		const std::string message = q.getStringField(0, "");
@@ -1083,7 +1084,8 @@ std::vector<StorageError> SqliteStorage::getAll<StorageError>(const std::string&
 
 		if (lineNumber != -1 && columnNumber != -1)
 		{
-			errors.push_back(StorageError(message, fatal, indexed, filePath, lineNumber, columnNumber));
+			errors.push_back(StorageError(id, message, fatal, indexed, filePath, lineNumber, columnNumber));
+			id++;
 		}
 
 		q.nextRow();

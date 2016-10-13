@@ -175,16 +175,6 @@ void ApplicationSettings::setIndexerThreadCount(const int count)
 	setValue<int>("indexing/indexer_thread_count", count);
 }
 
-bool ApplicationSettings::getShowExternalNonFatalErrors() const
-{
-	return getValue<bool>("indexing/show_external_non_fatal_errors", false);
-}
-
-void ApplicationSettings::setShowExternalNonFatalErrors(const bool show)
-{
-	setValue<bool>("indexing/show_external_non_fatal_errors", show);
-}
-
 std::string ApplicationSettings::getJavaPath() const
 {
 	return getValue<std::string>("indexing/java/java_path", "");

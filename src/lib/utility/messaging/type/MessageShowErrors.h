@@ -10,6 +10,12 @@ class MessageShowErrors
 public:
 	MessageShowErrors(ErrorCountInfo errorCount)
 		: errorCount(errorCount)
+		, errorId(0)
+	{
+	}
+
+	MessageShowErrors(Id errorId)
+		: errorId(errorId)
 	{
 	}
 
@@ -19,6 +25,7 @@ public:
 	}
 
 	ErrorCountInfo errorCount;
+	Id errorId;
 };
 
 #endif // MESSAGE_SHOW_ERRORS_H

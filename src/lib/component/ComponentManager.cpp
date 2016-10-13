@@ -7,8 +7,10 @@
 #include "component/view/CompositeView.h"
 #include "component/view/DialogView.h"
 #include "component/view/GraphView.h"
+#include "component/view/LogView.h"
 #include "component/view/RefreshView.h"
 #include "component/view/SearchView.h"
+#include "component/view/TabbedView.h"
 #include "component/view/UndoRedoView.h"
 #include "component/view/ViewFactory.h"
 
@@ -53,6 +55,16 @@ void ComponentManager::setup(ViewLayout* viewLayout)
 	m_components.push_back(featureComponent);
 
 	m_dialogView = m_componentFactory->getViewFactory()->createDialogView(viewLayout);
+
+	std::shared_ptr<TabbedView> tabbedView =
+		m_componentFactory->getViewFactory()->createTabbedView(viewLayout, "Log");
+	m_tabbedViews.push_back(tabbedView);
+
+	std::shared_ptr<Component> errorComponent = m_componentFactory->createErrorComponent(tabbedView.get());
+	m_components.push_back(errorComponent);
+
+	//std::shared_ptr<Component> logComponent = m_componentFactory->createLogComponent(tabbedView.get());
+	//m_components.push_back(logComponent);
 }
 
 void ComponentManager::clearComponents()
@@ -81,6 +93,11 @@ void ComponentManager::refreshViews()
 	}
 
 	for (std::shared_ptr<CompositeView> view : m_compositeViews)
+	{
+		view->refreshView();
+	}
+
+	for (std::shared_ptr<TabbedView> view : m_tabbedViews)
 	{
 		view->refreshView();
 	}

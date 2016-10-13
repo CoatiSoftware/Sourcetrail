@@ -6,6 +6,8 @@
 #include "utility/Cache.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageClearErrorCount.h"
+#include "utility/messaging/type/MessageNewErrors.h"
 #include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/text/TextAccess.h"
@@ -24,7 +26,6 @@
 #include "data/location/TokenLocationLine.h"
 #include "data/parser/ParseLocation.h"
 #include "data/type/DataType.h"
-#include "settings/ApplicationSettings.h"
 
 PersistentStorage::PersistentStorage(const FilePath& dbPath)
 	: m_sqliteStorage(dbPath)
@@ -217,7 +218,7 @@ void PersistentStorage::forEachError(std::function<void(const StorageError& /*da
 
 void PersistentStorage::startInjection()
 {
-	m_preInjectionErrorCount = getErrorCount().total;
+	m_preInjectionErrorCount = m_sqliteStorage.getAllErrors().size();
 
 	m_sqliteStorage.beginTransaction();
 }
@@ -226,12 +227,11 @@ void PersistentStorage::finishInjection()
 {
 	m_sqliteStorage.commitTransaction();
 
-	ErrorCountInfo errorCount = getErrorCount();
-	if (m_preInjectionErrorCount != errorCount.total)
+	auto errors = m_sqliteStorage.getAllErrors();
+
+	if (m_preInjectionErrorCount != errors.size())
 	{
-		MessageShowErrors msg(errorCount);
-		msg.setSendAsTask(false);
-		msg.dispatchImmediately();
+		MessageNewErrors(std::vector<StorageError>(errors.begin() + m_preInjectionErrorCount, errors.end())).dispatchImmediately();
 	}
 }
 
@@ -994,33 +994,6 @@ std::shared_ptr<TokenLocationFile> PersistentStorage::getTokenLocationsForLinesI
 	return getTokenLocationsForFile(filePath)->getFilteredByLines(firstLineNumber, lastLineNumber);
 }
 
-std::shared_ptr<TokenLocationCollection> PersistentStorage::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const
-{
-	TRACE();
-
-	std::shared_ptr<TokenLocationCollection> errorCollection = std::make_shared<TokenLocationCollection>();
-
-	bool showExternalNonFatalErrors = ApplicationSettings::getInstance()->getShowExternalNonFatalErrors();
-
-	std::vector<StorageError> storageErrors = m_sqliteStorage.getAllErrors();
-	for (size_t i = 0; i < storageErrors.size(); i++)
-	{
-		const StorageError& error = storageErrors[i];
-		if (error.fatal || error.indexed || showExternalNonFatalErrors)
-		{
-			// Set first bit to 1 to avoid collisions
-			Id locationId = ~(~size_t(0) >> 1) + i;
-
-			errorCollection->addTokenLocation(
-				locationId, i, error.filePath, error.lineNumber, error.columnNumber, error.lineNumber, error.columnNumber
-			)->setType(LOCATION_ERROR);
-			errors->push_back(ErrorInfo(error.message, error.filePath, i, error.fatal));
-		}
-	}
-
-	return errorCollection;
-}
-
 std::shared_ptr<TokenLocationFile> PersistentStorage::getCommentLocationsInFile(const FilePath& filePath) const
 {
 	TRACE();
@@ -1066,29 +1039,6 @@ std::vector<FileInfo> PersistentStorage::getFileInfosForFilePaths(const std::vec
 	return fileInfos;
 }
 
-ErrorCountInfo PersistentStorage::getErrorCount() const
-{
-	bool showExternalNonFatalErrors = ApplicationSettings::getInstance()->getShowExternalNonFatalErrors();
-
-	ErrorCountInfo info;
-
-	std::vector<StorageError> storageErrors = m_sqliteStorage.getAllErrors();
-	for (const StorageError& error : storageErrors)
-	{
-		if (error.fatal || error.indexed || showExternalNonFatalErrors)
-		{
-			info.total++;
-		}
-
-		if (error.fatal)
-		{
-			info.fatal++;
-		}
-	}
-
-	return info;
-}
-
 StorageStats PersistentStorage::getStorageStats() const
 {
 	TRACE();
@@ -1102,6 +1052,50 @@ StorageStats PersistentStorage::getStorageStats() const
 	stats.fileLOCCount = m_sqliteStorage.getFileLOCCount();
 
 	return stats;
+}
+
+ErrorCountInfo PersistentStorage::getErrorCount() const
+{
+	LOG_ERROR("This should never be called.");
+	return ErrorCountInfo();
+}
+
+ErrorCountInfo PersistentStorage::getFilteredErrorCount() const
+{
+	LOG_ERROR("This should never be called.");
+	return ErrorCountInfo();
+}
+
+std::vector<StorageError> PersistentStorage::getAllErrors() const
+{
+	return m_sqliteStorage.getAllErrors();
+}
+
+std::vector<StorageError> PersistentStorage::getFilteredErrors() const
+{
+	LOG_ERROR("This should never be called.");
+	return std::vector<StorageError>();
+}
+
+std::shared_ptr<TokenLocationCollection> PersistentStorage::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const
+{
+	TRACE();
+
+	std::shared_ptr<TokenLocationCollection> errorCollection = std::make_shared<TokenLocationCollection>();
+
+	std::vector<StorageError> storageErrors = m_sqliteStorage.getAllErrors();
+	for (const StorageError& error : storageErrors)
+	{
+		// Set first bit to 1 to avoid collisions
+		Id locationId = ~(~size_t(0) >> 1) + error.id;
+
+		errorCollection->addTokenLocation(
+			locationId, error.id, error.filePath, error.lineNumber, error.columnNumber, error.lineNumber, error.columnNumber
+		)->setType(LOCATION_ERROR);
+		errors->push_back(ErrorInfo(error.message, error.filePath, error.id, error.fatal, error.indexed));
+	}
+
+	return errorCollection;
 }
 
 Id PersistentStorage::getFileNodeId(const FilePath& filePath) const

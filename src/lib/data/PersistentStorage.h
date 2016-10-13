@@ -106,7 +106,6 @@ public:
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber
 	) const;
 
-	virtual std::shared_ptr<TokenLocationCollection> getErrorTokenLocations(std::vector<ErrorInfo>* errors) const;
 	virtual std::shared_ptr<TokenLocationFile> getCommentLocationsInFile(const FilePath& filePath) const;
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const;
@@ -114,8 +113,15 @@ public:
 	virtual FileInfo getFileInfoForFilePath(const FilePath& filePath) const;
 	virtual std::vector<FileInfo> getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const;
 
-	virtual ErrorCountInfo getErrorCount() const;
 	virtual StorageStats getStorageStats() const;
+
+	virtual ErrorCountInfo getErrorCount() const;
+	virtual ErrorCountInfo getFilteredErrorCount() const;
+
+	virtual std::vector<StorageError> getAllErrors() const;
+	virtual std::vector<StorageError> getFilteredErrors() const;
+
+	virtual std::shared_ptr<TokenLocationCollection> getErrorTokenLocations(std::vector<ErrorInfo>* errors) const;
 
 private:
 	Id getFileNodeId(const FilePath& filePath) const;

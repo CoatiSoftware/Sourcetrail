@@ -17,13 +17,16 @@ add_files(
 	component/controller/CodeController.h
 	component/controller/Controller.cpp
 	component/controller/Controller.h
+	component/controller/ErrorController.cpp
+	component/controller/ErrorController.h
 	component/controller/FeatureController.cpp
 	component/controller/FeatureController.h
 	component/controller/GraphController.cpp
 	component/controller/GraphController.h
-
 	component/controller/IDECommunicationController.cpp
 	component/controller/IDECommunicationController.h
+	component/controller/LogController.cpp
+	component/controller/LogController.h
 	component/controller/NetworkFactory.cpp
 	component/controller/NetworkFactory.h
 	component/controller/RefreshController.cpp
@@ -43,11 +46,15 @@ add_files(
 	component/view/CompositeView.h
 	component/view/DialogView.cpp
 	component/view/DialogView.h
+	component/view/ErrorView.cpp
+	component/view/ErrorView.h
 	component/view/GraphView.cpp
 	component/view/GraphView.h
 	component/view/GraphViewStyle.cpp
 	component/view/GraphViewStyle.h
 	component/view/GraphViewStyleImpl.h
+	component/view/LogView.cpp
+	component/view/LogView.h
 	component/view/MainView.cpp
 	component/view/MainView.h
 	component/view/RefreshView.cpp
@@ -56,6 +63,8 @@ add_files(
 	component/view/SearchView.h
 	component/view/StatusBarView.cpp
 	component/view/StatusBarView.h
+	component/view/TabbedView.cpp
+	component/view/TabbedView.h
 	component/view/UndoRedoView.cpp
 	component/view/UndoRedoView.h
 	component/view/View.cpp
@@ -165,6 +174,7 @@ add_files(
 	data/DefinitionType.cpp
 	data/DefinitionType.h
 	data/ErrorCountInfo.h
+	data/ErrorFilter.h
 	data/ErrorInfo.h
 	data/HierarchyCache.cpp
 	data/HierarchyCache.h
@@ -260,6 +270,7 @@ add_files(
 	utility/messaging/type/MessageDeactivateEdge.h
 	utility/messaging/type/MessageDispatchWhenLicenseValid.h
 	utility/messaging/type/MessageEnteredLicense.h
+	utility/messaging/type/MessageErrorFilterChanged.h
 	utility/messaging/type/MessageFind.h
 	utility/messaging/type/MessageFinishedParsing.h
 	utility/messaging/type/MessageFlushUpdates.h
@@ -272,6 +283,7 @@ add_files(
 	utility/messaging/type/MessageInterruptTasks.h
 	utility/messaging/type/MessageLoadProject.h
 	utility/messaging/type/MessageMoveIDECursor.h
+	utility/messaging/type/MessageNewErrors.h
 	utility/messaging/type/MessagePluginPortChange.h
 	utility/messaging/type/MessageProjectEdit.h
 	utility/messaging/type/MessageProjectNew.h

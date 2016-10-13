@@ -45,12 +45,22 @@ void QtMainView::removeView(View* view)
 
 void QtMainView::showView(View* view)
 {
-	m_window->showView(view);
+	m_onQtThread(
+		[=]()
+		{
+			m_window->showView(view);
+		}
+	);
 }
 
 void QtMainView::hideView(View* view)
 {
-	m_window->hideView(view);
+	m_onQtThread(
+		[=]()
+		{
+			m_window->hideView(view);
+		}
+	);
 }
 
 void QtMainView::loadLayout()

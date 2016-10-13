@@ -32,8 +32,6 @@ void setupApp(int argc, char *argv[])
 		dataDir.mkpath(userDataPath);
 	}
 
-	std::cout << "apppath: " << AppPath::getAppPath() << std::endl;
-
 	utility::copyNewFilesFromDirectory(QString::fromStdString(AppPath::getAppPath() + "/usr/" ), userDataPath);
 }
 

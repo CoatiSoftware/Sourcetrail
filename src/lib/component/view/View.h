@@ -6,7 +6,6 @@
 
 #include "component/Component.h"
 #include "component/view/ViewLayout.h"
-#include "utility/math/Vector2.h"
 
 class ViewWidgetWrapper;
 

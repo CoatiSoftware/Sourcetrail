@@ -169,7 +169,8 @@ struct StorageCommentLocation
 struct StorageError
 {
 	StorageError()
-		: message("")
+		: id(0)
+		, message("")
 		, fatal(0)
 		, indexed(0)
 		, filePath("")
@@ -177,8 +178,9 @@ struct StorageError
 		, columnNumber(-1)
 	{}
 
-	StorageError(const std::string& message, bool fatal, bool indexed, const std::string& filePath, uint lineNumber, uint columnNumber)
-		: message(message)
+	StorageError(Id id, const std::string& message, bool fatal, bool indexed, const std::string& filePath, uint lineNumber, uint columnNumber)
+		: id(id)
+		, message(message)
 		, fatal(fatal)
 		, indexed(indexed)
 		, filePath(filePath)
@@ -186,6 +188,7 @@ struct StorageError
 		, columnNumber(columnNumber)
 	{}
 
+	Id id;
 	std::string message;
 	bool fatal;
 	bool indexed;

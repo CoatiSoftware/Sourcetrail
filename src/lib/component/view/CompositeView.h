@@ -35,9 +35,6 @@ public:
 	virtual void showView(View* view);
 	virtual void hideView(View* view);
 
-	virtual void loadLayout();
-	virtual void saveLayout();
-
 private:
 	std::vector<View*> m_views;
 	CompositeDirection m_direction;

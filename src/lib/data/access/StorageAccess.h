@@ -15,6 +15,7 @@
 #include "data/ErrorCountInfo.h"
 #include "data/ErrorInfo.h"
 #include "data/StorageStats.h"
+#include "data/StorageTypes.h"
 
 class Graph;
 class TextAccess;
@@ -59,7 +60,6 @@ public:
 	virtual std::shared_ptr<TokenLocationFile> getTokenLocationsForLinesInFile(
 		const std::string& filePath, uint firstLineNumber, uint lastLineNumber) const = 0;
 
-	virtual std::shared_ptr<TokenLocationCollection> getErrorTokenLocations(std::vector<ErrorInfo>* errors) const = 0;
 	virtual std::shared_ptr<TokenLocationFile> getCommentLocationsInFile(const FilePath& filePath) const = 0;
 
 	virtual std::shared_ptr<TextAccess> getFileContent(const FilePath& filePath) const = 0;
@@ -67,8 +67,15 @@ public:
 	virtual FileInfo getFileInfoForFilePath(const FilePath& filePath) const = 0;
 	virtual std::vector<FileInfo> getFileInfosForFilePaths(const std::vector<FilePath>& filePaths) const = 0;
 
-	virtual ErrorCountInfo getErrorCount() const = 0;
 	virtual StorageStats getStorageStats() const = 0;
+
+	virtual ErrorCountInfo getErrorCount() const = 0;
+	virtual ErrorCountInfo getFilteredErrorCount() const = 0;
+
+	virtual std::vector<StorageError> getAllErrors() const = 0;
+	virtual std::vector<StorageError> getFilteredErrors() const = 0;
+
+	virtual std::shared_ptr<TokenLocationCollection> getErrorTokenLocations(std::vector<ErrorInfo>* errors) const = 0;
 };
 
 #endif // STORAGE_ACCESS_H
