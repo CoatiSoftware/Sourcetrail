@@ -109,6 +109,39 @@ gifsicle --resize-height 18 trans.gif > loader.gif
 
 ### Changelog
 
+#### 0.9.0
+released 2016-10-14
+
+* Extended Visual Studio Plugin to export clang Compilation Databases
+* Implemented new installer for Windows
+* Run System Header Include Paths and Java Path detection when starting application
+* Added Log Window with Errors tab showing a table of all errors
+* Added filters to bottom of error table to define which errors are displayed
+* Removed ring logging and use one log file again instead
+* Smaller indexing progress dialog with bar in the middle instead of golden ratio
+* Code: Set default code snippet expand range to 3 lines for more context
+* Graph: Fixed undoing of aggregation edge activation caused crash
+* Graph: Move aggregation and inheritance edges to front when hovered or active
+* Graph: Push parent nodes of active nodes to back to make all incoming and outgoing edges visible
+* Properly quit application when window is closed while confirm box is open
+* Properly quit application when window is closed while indexing (issue #121)
+* Graph: Count only top level nodes in bundle nodes of graph
+* Search: Improved scoring of autocompletion matches to use best score for match
+* App will go into trial mode without valid license
+* Java: Auto detect java root source directories
+* Fixed refresh crash (issue #220)
+* Java: improved indexer reliability a lot
+* Java: Changed name of generic type to use name of declaration
+* Fixed project refresh does not recognize removed source paths
+* Java: Define maximum allocated jvm memory in preferences
+* Follow symbolic directory links within source paths (issue #205)
+* Use white size grip in blue dialogs
+* Graph: Use type node colors for undefined nodes
+* Java: Show import not found as error
+* Code: Select and copy source code in code view with SHIFT + mouse drag (issue #7)
+* Code: Added markers next to line numbers in code view showing active locations and scopes
+* Merged app and trial to one build
+
 #### 0.8.21
 released 2016-09-16
 
