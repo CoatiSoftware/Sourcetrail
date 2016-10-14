@@ -163,6 +163,8 @@
 				<ComponentRef Id='PatternPng'/>
 				<ComponentRef Id='SnippetActivePng'/>
 				<ComponentRef Id='SnippetInactivePng'/>
+				
+				<ComponentRef Id='ErrorViewCss'/>
 
 				<ComponentRef Id='GraphViewCss'/>
 				<ComponentRef Id='ArrowPng'/>
@@ -207,6 +209,8 @@
 
 				<ComponentRef Id='DotPng'/>
 				<ComponentRef Id='LoaderGif'/>
+				
+				<ComponentRef Id='TabbedViewCss'/>
 
 				<ComponentRef Id='UndoRedoViewCss'/>
 				<ComponentRef Id='ArrowLeftPng'/>

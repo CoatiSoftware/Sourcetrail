@@ -131,7 +131,7 @@
 
 					<Directory Id='DataAbout' Name='about'>
 						<Component Id='AboutCss' Guid='137816FE-E17E-47FF-8826-FBD74E4E5BB7'>
-							<File Id='About' Name='splash_white.png' DiskId='1' Source='./../../../bin/app/data/gui/about/about.css' KeyPath='yes' />
+							<File Id='About' Name='about.css' DiskId='1' Source='./../../../bin/app/data/gui/about/about.css' KeyPath='yes' />
 						</Component>
 						<Component Id='IconClosePng' Guid='42FE1C4F-B78E-49C5-91F2-FBCA584B802E'>
 							<File Id='IconClose' Name='icon_close.png' DiskId='1' Source='./../../../bin/app/data/gui/about/icon_close.png' KeyPath='yes' />
@@ -179,6 +179,12 @@
 							</Component>
 
 						</Directory>
+					</Directory>
+					
+					<Directory Id='DataErrorView' Name='error_view'>
+						<Component Id='ErrorViewCss' Guid='9B8639F7-1123-49A2-9A15-E3372AE6ECFD'>
+							<File Id='ErrorView' Name='error_view.css' DiskId='1' Source='./../../../bin/app/data/gui/error_view/error_view.css' KeyPath='yes' />
+						</Component>
 					</Directory>
 
 					<Directory Id='DataGraphView' Name='graph_view'>
@@ -322,14 +328,18 @@
 					</Directory>
 
 					<Directory Id='DataStatusbarView' Name='statusbar_view'>
-
 						<Component Id='DotPng' Guid='7F7173DC-E888-4F03-82CC-3DD86BF402C4'>
 							<File Id='Dot' Name='dot.png' DiskId='1' Source='./../../../bin/app/data/gui/statusbar_view/dot.png' KeyPath='yes' />
 						</Component>
 						<Component Id='LoaderGif' Guid='E0F92524-DDE8-442E-9AD6-A1B2123A979F'>
 							<File Id='Loader' Name='loader.gif' DiskId='1' Source='./../../../bin/app/data/gui/statusbar_view/loader.gif' KeyPath='yes' />
 						</Component>
-
+					</Directory>
+					
+					<Directory Id='DataTabbedView' Name='tabbed_view'>
+						<Component Id='TabbedViewCss' Guid='190A03B1-405B-433A-A7CC-3DB9CB389B8B'>
+							<File Id='TabbedView' Name='tabbed_view.css' DiskId='1' Source='./../../../bin/app/data/gui/tabbed_view/tabbed_view.css' KeyPath='yes' />
+						</Component>
 					</Directory>
 
 					<Directory Id='DataUndoRedoView' Name='undoredo_view'>

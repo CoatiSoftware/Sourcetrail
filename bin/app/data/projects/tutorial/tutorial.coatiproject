@@ -19,7 +19,7 @@
 	</info>
 	<language_settings>
 		<language>C++</language>
-		<standard>1z</standard>
+		<standard>c++1z</standard>
 	</language_settings>
 	<source>
 		<extensions>
@@ -30,4 +30,5 @@
 			<source_path>./src</source_path>
 		</source_paths>
 	</source>
+    <version>1</version>
 </config>
