@@ -54,7 +54,7 @@
 						<Shortcut Id="ApplicationStartMenuShortcut"
 
 									Name="Coati"
-									Description="The Sauce Explorer"
+									Description="The Source Explorer"
 									Target="[INSTALLDIR]Coati.exe"
 									WorkingDirectory="INSTALLDIR"/>
 						<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\CoatiShortcut" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
@@ -68,7 +68,7 @@
 					<Condition>INSTALLDESKTOPSHORTCUT</Condition>
 					<Shortcut Id="ApplicationDesktopShortcut"
 								Name="Coati"
-								Description="Sauce Explorer"
+								Description="Source Explorer"
 								Target="[INSTALLDIR]Coati.exe"
 								WorkingDirectory="INSTALLDIR"/>
 					<RemoveFolder Id="DesktopFolder" On="uninstall"/>
