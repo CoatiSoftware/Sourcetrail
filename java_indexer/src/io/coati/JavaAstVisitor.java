@@ -51,7 +51,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	private FileContent m_fileContent;
 	private TypeSolver m_typeSolver;
 	private List<DeclContext> m_context = new ArrayList<DeclContext>();
-	private boolean m_verbose = true;
+	private boolean m_verbose = false;
 	static int errorCount = 0;
 	
 	public JavaAstVisitor(int callbackId, String filePath, FileContent fileContent, TypeSolver typeSolver)
