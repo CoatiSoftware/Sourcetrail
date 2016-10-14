@@ -62,6 +62,10 @@ mkdir -p $PACKAGE_DIR/plugins/visual_studio/
 cp -r ../../../ide_plugins/vs/coati_plugin_vs.vsix $PACKAGE_DIR/plugins/visual_studio/
 cp -R ../../../ide_plugins/sublime_text $PACKAGE_DIR/plugins/sublime_text/
 cp -R ../../../ide_plugins/vim $PACKAGE_DIR/plugins/vim/
+cp -R ../../../ide_plugins/atom $PACKAGE_DIR/plugins/atom/
+cp -R ../../../ide_plugins/emacs $PACKAGE_DIR/plugins/emacs/
+cp -R ../../../ide_plugins/vim $PACKAGE_DIR/plugins/eclipse/
+cp -R ../../../ide_plugins/vim $PACKAGE_DIR/plugins/idea/
 
 cp ../data/gui/installer/EULA.rtf $PACKAGE_DIR/EULA.rtf
 
