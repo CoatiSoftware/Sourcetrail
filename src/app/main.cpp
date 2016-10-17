@@ -51,6 +51,10 @@ void prefillJavaRuntimePath()
 			settings->setJavaPath(paths.front().str());
 			settings->save();
 		}
+		else
+		{
+			std::cout << "no javapath" << std::endl;
+		}
 	}
 }
 
@@ -136,6 +140,7 @@ int main(int argc, char *argv[])
 
 		if (!checker->isCurrentLicenseValid()) // this works because the user cannot enter a license string while running the app in headless more.
 		{
+			std::cout << "No or invalide License" << std::endl;
 			LOG_WARNING("Your current Coati license seems to be invalid. Please update your license info.");
 			return 0;
 		}

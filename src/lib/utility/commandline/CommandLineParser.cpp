@@ -166,7 +166,7 @@ void CommandLineParser::processProjectfile(const std::string& file)
 
 	if (isValidProjectfile)
 	{
-		m_projectFile = projectfile.absolute().str();
+		m_projectFile = projectfile;
 	}
 	else
 	{
@@ -176,11 +176,10 @@ void CommandLineParser::processProjectfile(const std::string& file)
 
 void CommandLineParser::projectLoad()
 {
-	FilePath path(m_projectFile); // todo: use filepath as datatype for m_projectFile
-	if (path.exists() && path.extension() == ".coatiproject")
+	if (m_projectFile.exists() && m_projectFile.extension() == ".coatiproject")
 	{
 		MessageDispatchWhenLicenseValid(
-			std::make_shared<MessageLoadProject>(path.str(), m_force)
+			std::make_shared<MessageLoadProject>(m_projectFile.str(), m_force)
 		).dispatch();
 	}
 }

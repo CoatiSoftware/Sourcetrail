@@ -4,6 +4,7 @@
 #include <string>
 #include "Application.h"
 #include "License.h"
+#include "utility/file/FilePath.h"
 
 class CommandLineParser
 {
@@ -19,7 +20,7 @@ public:
 private:
 	void processProjectfile(const std::string& file);
 	void processLicense(const bool isLoaded);
-	std::string m_projectFile;
+	FilePath m_projectFile;
 
 	bool m_force;
 	bool m_quit;

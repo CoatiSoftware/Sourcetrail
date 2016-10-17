@@ -252,7 +252,7 @@ bool QtErrorView::isShownError(const StorageError& error)
 	{
 		return true;
 	}
-	if (error.fatal && !error.indexed && m_showNonIndexedErrors->checkState() == Qt::Checked)
+	if (!error.fatal && !error.indexed && m_showNonIndexedErrors->checkState() == Qt::Checked)
 	{
 		return true;
 	}
