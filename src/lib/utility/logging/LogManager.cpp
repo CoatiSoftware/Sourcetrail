@@ -3,6 +3,8 @@
 #include <algorithm>
 
 #include "utility/logging/LogMessage.h"
+#include "utility/logging/logging.h"
+#include "utility/Version.h"
 
 std::shared_ptr<LogManager> LogManager::createInstance()
 {
@@ -30,6 +32,10 @@ LogManager::~LogManager()
 void LogManager::setLoggingEnabled(bool enabled)
 {
 	m_loggingEnabled = enabled;
+	if (m_loggingEnabled)
+	{
+		LOG_INFO("Enabled logging for Coati " + Version::getApplicationVersion().toDisplayString());
+	}
 }
 
 void LogManager::addLogger(std::shared_ptr<Logger> logger)
