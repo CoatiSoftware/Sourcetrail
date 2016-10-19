@@ -120,6 +120,16 @@ void CommandLineParser::processLicense(const bool isLoaded)
 	m_withoutGUI = true;
 }
 
+bool CommandLineParser::hasError()
+{
+	return !m_errorString.empty();
+}
+
+std::string CommandLineParser::getError()
+{
+	return m_errorString;
+}
+
 CommandLineParser::~CommandLineParser()
 {
 }
@@ -142,36 +152,28 @@ bool CommandLineParser::startedWithLicense()
 void CommandLineParser::processProjectfile(const std::string& file)
 {
 	FilePath projectfile(file);
-	bool isValidProjectfile = true;
-	std::string errorstring = "Provided Projectfile is not valid:\n";
-	std::string errorProjectfile = "\tProvided Projectfile('" + projectfile.fileName() + ") ";
+	const std::string errorstring =
+		"Provided Projectfile is not valid:\n* Provided Projectfile('" + projectfile.fileName() + "') ";
 	if (!projectfile.exists())
 	{
-		errorstring += errorProjectfile + " does not exist\n";
-		isValidProjectfile = false;
+		m_errorString = errorstring + " does not exist";
+		return;
 	}
 
 	if (projectfile.extension() != ".coatiproject")
 	{
-		errorstring += errorProjectfile + " has a wrong fileending\n";
-		isValidProjectfile = false;
+		m_errorString = errorstring + " has a wrong fileending";
+		return;
 	}
 
 	std::shared_ptr<ConfigManager> configManager = ConfigManager::createEmpty();
 	if (!configManager->load(TextAccess::createFromFile(projectfile.str())))
 	{
-		errorstring += errorProjectfile + " could not be loaded\n";
-		isValidProjectfile = false;
+		m_errorString = errorstring + " could not be loaded(invalid)";
+		return;
 	}
 
-	if (isValidProjectfile)
-	{
-		m_projectFile = projectfile;
-	}
-	else
-	{
-		std::cout << errorstring << std::endl;
-	}
+	m_projectFile = projectfile;
 }
 
 void CommandLineParser::projectLoad()

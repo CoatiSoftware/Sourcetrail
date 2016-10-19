@@ -16,6 +16,8 @@ public:
 	bool exitApplication();
 	void projectLoad();
 	bool startedWithLicense();
+	bool hasError();
+	std::string getError();
 	License getLicense();
 private:
 	void processProjectfile(const std::string& file);
@@ -27,6 +29,7 @@ private:
 	bool m_withLicense;
 	bool m_withoutGUI;
 
+	std::string m_errorString;
 	License m_license;
 };
 

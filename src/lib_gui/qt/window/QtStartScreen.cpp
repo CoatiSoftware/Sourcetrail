@@ -78,7 +78,6 @@ QtStartScreen::QtStartScreen(QWidget *parent)
 	: QtWindow(parent)
 {
 	this->raise();
-	setWindowModality(Qt::ApplicationModal);
 }
 
 QSize QtStartScreen::sizeHint() const

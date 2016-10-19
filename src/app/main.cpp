@@ -145,7 +145,14 @@ int main(int argc, char *argv[])
 			return 0;
 		}
 
-		commandLineParser.projectLoad();
+		if (commandLineParser.hasError() )
+		{
+			std::cout << commandLineParser.getError() << std::endl;
+		}
+		else
+		{
+			commandLineParser.projectLoad();
+		}
 		return qtApp.exec();
 	}
 	else
@@ -176,7 +183,14 @@ int main(int argc, char *argv[])
 		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleCpp>());
 		Application::getInstance()->addProjectFactoryModule(std::make_shared<ProjectFactoryModuleJava>());
 
-		commandLineParser.projectLoad();
+		if (commandLineParser.hasError())
+		{
+			Application::getInstance()->handleDialog(commandLineParser.getError());
+		}
+		else
+		{
+			commandLineParser.projectLoad();
+		}
 
 		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
 		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".ttf");
