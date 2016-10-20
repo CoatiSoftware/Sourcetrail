@@ -135,9 +135,6 @@ add_files(
 	data/name/NameHierarchy.cpp
 	data/name/NameHierarchy.h
 
-	data/parser/TaskParseWrapper.cpp
-	data/parser/TaskParseWrapper.h
-
 	data/parser/AccessKind.cpp
 	data/parser/AccessKind.h
 	data/parser/ParseLocation.cpp
@@ -152,6 +149,10 @@ add_files(
 	data/parser/ReferenceKind.h
 	data/parser/SymbolKind.cpp
 	data/parser/SymbolKind.h
+	data/parser/TaskParse.cpp
+	data/parser/TaskParse.h
+	data/parser/TaskParseWrapper.cpp
+	data/parser/TaskParseWrapper.h
 
 	data/search/SearchIndex.cpp
 	data/search/SearchIndex.h

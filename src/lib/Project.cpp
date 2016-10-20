@@ -245,9 +245,9 @@ bool Project::buildIndex(bool forceRefresh)
 		return false;
 	}
 
-	m_fileManager.fetchFilePaths(
-		forceRefresh ? std::vector<FileInfo>() : m_storage->getInfoOnAllFiles()
-	);
+	std::vector<FileInfo> fileInfos = m_storage->getInfoOnAllFiles();
+
+	m_fileManager.fetchFilePaths(forceRefresh ? std::vector<FileInfo>() : fileInfos);
 
 	std::set<FilePath> addedFilePaths = m_fileManager.getAddedFilePaths();
 	std::set<FilePath> updatedFilePaths = m_fileManager.getUpdatedFilePaths();
@@ -279,7 +279,7 @@ bool Project::buildIndex(bool forceRefresh)
 	utility::append(filesToParse, addedFilePaths);
 	utility::append(filesToParse, updatedFilePaths);
 
-	if (!filesToClean.size() && !filesToParse.size())
+	if (!filesToClean.size() && !filesToParse.size() && (!forceRefresh || !fileInfos.size()))
 	{
 		MessageStatus("Nothing to refresh, all files are up-to-date.").dispatch();
 		return false;
@@ -315,7 +315,7 @@ bool Project::buildIndex(bool forceRefresh)
 		);
 	}
 
-	const int indexerThreadCount = ApplicationSettings::getInstance()->getIndexerThreadCount();
+	const size_t indexerThreadCount = ApplicationSettings::getInstance()->getIndexerThreadCount();
 
 	std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(&m_fileManager, indexerThreadCount > 1);
 
@@ -334,7 +334,7 @@ bool Project::buildIndex(bool forceRefresh)
 
 		std::shared_ptr<StorageProvider> storageProvider = std::make_shared<StorageProvider>();
 
-		for (int i = 0; i < indexerThreadCount; i++)
+		for (size_t i = 0; i < indexerThreadCount && i < filesToParse.size(); i++)
 		{
 			std::shared_ptr<TaskRepeatWhileSuccess> taskRepeat = std::make_shared<TaskRepeatWhileSuccess>(Task::STATE_SUCCESS);
 			taskParallelIndexing->addTask(taskRepeat);

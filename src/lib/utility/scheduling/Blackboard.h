@@ -37,6 +37,8 @@ public:
 	Blackboard(std::shared_ptr<Blackboard> parent);
 	~Blackboard();
 
+	std::mutex& getMutex();
+
 	template <typename T>
 	void set(const std::string& key, const T& value);
 
@@ -50,6 +52,8 @@ private:
 	typedef std::map<std::string, std::shared_ptr<BlackboardItemBase>> ItemMap;
 
 	std::shared_ptr<Blackboard> m_parent;
+
+	std::mutex m_mutex;
 
 	ItemMap m_items;
 	std::mutex m_itemMutex;

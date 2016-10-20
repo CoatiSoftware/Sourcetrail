@@ -5,10 +5,7 @@
 #include "data/parser/ParserClientImpl.h"
 #include "data/StorageProvider.h"
 #include "utility/file/FileRegister.h"
-#include "utility/messaging/type/MessageFinishedParsing.h"
-#include "utility/scheduling/Blackboard.h"
 #include "utility/text/TextAccess.h"
-#include "utility/utility.h"
 
 TaskParseJava::TaskParseJava(
 	std::shared_ptr<StorageProvider> storageProvider,
@@ -16,22 +13,8 @@ TaskParseJava::TaskParseJava(
 	const Parser::Arguments& arguments,
 	DialogView* dialogView
 )
-	: m_storageProvider(storageProvider)
-	, m_fileRegister(fileRegister)
-	, m_arguments(arguments)
-	, m_dialogView(dialogView)
-	, m_interrupted(false)
+	: TaskParse(storageProvider, fileRegister, arguments, dialogView)
 {
-}
-
-void TaskParseJava::doEnter(std::shared_ptr<Blackboard> blackboard)
-{
-	int indexerCount = 0;
-	if (blackboard->get("indexer_count", indexerCount))
-	{
-		indexerCount++;
-		blackboard->set("indexer_count", indexerCount);
-	}
 }
 
 Task::TaskState TaskParseJava::doUpdate(std::shared_ptr<Blackboard> blackboard)
@@ -68,23 +51,4 @@ Task::TaskState TaskParseJava::doUpdate(std::shared_ptr<Blackboard> blackboard)
 	}
 
 	return (m_interrupted ? STATE_FAILURE : STATE_SUCCESS);
-}
-
-void TaskParseJava::doExit(std::shared_ptr<Blackboard> blackboard)
-{
-	int indexerCount = 0;
-	if (blackboard->get("indexer_count", indexerCount))
-	{
-		indexerCount--;
-		blackboard->set("indexer_count", indexerCount);
-	}
-}
-
-void TaskParseJava::doReset(std::shared_ptr<Blackboard> blackboard)
-{
-}
-
-void TaskParseJava::handleMessage(MessageInterruptTasks* message)
-{
-	m_interrupted = true;
 }

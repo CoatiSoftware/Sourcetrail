@@ -1,15 +1,13 @@
 #include "data/parser/cxx/TaskParseCxx.h"
 
-#include <sstream>
-
 #include "clang/Tooling/JSONCompilationDatabase.h"
 
 #include "component/view/DialogView.h"
 #include "data/parser/cxx/CxxParser.h"
+#include "data/parser/ParserClientImpl.h"
 #include "data/StorageProvider.h"
 #include "utility/file/FileRegister.h"
 #include "utility/scheduling/Blackboard.h"
-#include "utility/utility.h"
 
 std::vector<FilePath> TaskParseCxx::getSourceFilesFromCDB(const FilePath& compilationDatabasePath)
 {
@@ -35,11 +33,8 @@ TaskParseCxx::TaskParseCxx(
 	const Parser::Arguments& arguments,
 	DialogView* dialogView
 )
-	: m_storageProvider(storageProvider)
-	, m_arguments(arguments)
-	, m_dialogView(dialogView)
+	: TaskParse(storageProvider, fileRegister, arguments, dialogView)
 	, m_isCDB(false)
-	, m_interrupted(false)
 {
 	if (arguments.compilationDatabasePath.exists())
 	{
@@ -51,12 +46,7 @@ TaskParseCxx::TaskParseCxx(
 
 void TaskParseCxx::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
-	int indexerCount = 0;
-	if (blackboard->get("indexer_count", indexerCount))
-	{
-		indexerCount++;
-		blackboard->set("indexer_count", indexerCount);
-	}
+	TaskParse::doEnter(blackboard);
 
 	if (m_isCDB)
 	{
@@ -116,23 +106,4 @@ Task::TaskState TaskParseCxx::doUpdate(std::shared_ptr<Blackboard> blackboard)
 	}
 
 	return (m_interrupted ? STATE_FAILURE : STATE_SUCCESS);
-}
-
-void TaskParseCxx::doExit(std::shared_ptr<Blackboard> blackboard)
-{
-	int indexerCount = 0;
-	if (blackboard->get("indexer_count", indexerCount))
-	{
-		indexerCount--;
-		blackboard->set("indexer_count", indexerCount);
-	}
-}
-
-void TaskParseCxx::doReset(std::shared_ptr<Blackboard> blackboard)
-{
-}
-
-void TaskParseCxx::handleMessage(MessageInterruptTasks* message)
-{
-	m_interrupted = true;
 }
