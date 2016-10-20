@@ -7,6 +7,7 @@
 #include <QMessageBox>
 
 #include "settings/ApplicationSettings.h"
+#include "settings/ProjectSettings.h"
 #include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/ResourcePaths.h"
@@ -95,6 +96,22 @@ void QtStartScreen::updateButtons()
 		if (i < recentProjects.size())
 		{
 			button->setProjectPath(recentProjects[i]);
+			LanguageType lang = ProjectSettings::getLanguageOfProject(recentProjects[i]);
+			switch (lang)
+			{
+				case LanguageType::LANGUAGE_C:
+					button->setIcon(*m_cIcon);
+					break;
+				case LANGUAGE_CPP:
+					button->setIcon(*m_cppIcon);
+					break;
+				case LANGUAGE_JAVA:
+					button->setIcon(*m_javaIcon);
+					break;
+				default:
+					button->setIcon(*m_projectIcon);
+					break;
+			}
 			button->setFixedWidth(button->fontMetrics().width(button->text()) + 45);
 			connect(button, SIGNAL(clicked()), button, SLOT(handleButtonClick()));
 			if (button->projectExists())
@@ -211,14 +228,17 @@ void QtStartScreen::setupStartScreen(bool unlocked)
 
 		col->addSpacing(20);
 
-		QIcon cpp_icon((ResourcePaths::getGuiPath() + "icon/project_256_256.png").c_str());
+		m_cppIcon = new QIcon((ResourcePaths::getGuiPath() + "icon/cpp_icon.png").c_str());
+		m_cIcon = new QIcon((ResourcePaths::getGuiPath() + "icon/c_icon.png").c_str());
+		m_javaIcon = new QIcon((ResourcePaths::getGuiPath() + "icon/java_icon.png").c_str());
+		m_projectIcon = new QIcon((ResourcePaths::getGuiPath() + "icon/project_256_256.png").c_str());
 		for (int i = 0
 			; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount()
 			; i++)
 		{
 			QtRecentProjectButton* button = new QtRecentProjectButton(this);
 			button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-			button->setIcon(cpp_icon);
+			button->setIcon(*m_projectIcon);
 			button->setIconSize(QSize(25, 25));
 			button->setMinimumSize(button->fontMetrics().width(button->text()) + 45, 40);
 			button->setObjectName("recentButtonMissing");
