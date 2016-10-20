@@ -200,7 +200,7 @@ std::vector<FilePath> FileSystem::getSubDirectories(const FilePath &path)
 {
 	std::vector<FilePath> v;
 
-	if (!path.exists())
+	if (!path.exists() || !path.isDirectory())
 	{
 		return v;
 	}

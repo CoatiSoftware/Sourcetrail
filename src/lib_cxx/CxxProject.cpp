@@ -95,7 +95,7 @@ Parser::Arguments CxxProject::getParserArguments() const
 	utility::append(args.compilerFlags, m_projectSettings->getCompilerFlags());
 
 	// Add the source paths as HeaderSearchPaths as well, so clang will also look here when searching include files.
-	for (const FilePath& sourcePath: getSourcePaths())
+	for (const FilePath& sourcePath : getSourcePaths())
 	{
 		if (sourcePath.isDirectory())
 		{
@@ -111,9 +111,9 @@ Parser::Arguments CxxProject::getParserArguments() const
 	if (m_projectSettings->getUseSourcePathsForHeaderSearch())
 	{
 		std::vector<FilePath> headerSearchSubPaths;
-		for (FilePath p : m_projectSettings->getSourcePaths())
+		for (const FilePath& sourcePath : getSourcePaths())
 		{
-			utility::append(headerSearchSubPaths, FileSystem::getSubDirectories(p));
+			utility::append(headerSearchSubPaths, FileSystem::getSubDirectories(sourcePath));
 		}
 
 		utility::append(args.systemHeaderSearchPaths, utility::unique(headerSearchSubPaths));
