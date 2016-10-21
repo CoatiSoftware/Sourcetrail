@@ -31,9 +31,7 @@ void CodeController::handleMessage(MessageActivateAll* message)
 {
 	TRACE("code all");
 
-	std::vector<ErrorInfo> errors;
-	m_collection = m_storageAccess->getErrorTokenLocations(&errors);
-	std::vector<CodeSnippetParams> snippets = getSnippetsForCollection(m_collection);
+	clear();
 
 	StorageStats stats = m_storageAccess->getStorageStats();
 	ErrorCountInfo errorCount = m_storageAccess->getErrorCount();
@@ -85,12 +83,8 @@ void CodeController::handleMessage(MessageActivateAll* message)
 
 	statsSnippet.code = ss.str();
 
-	snippets.insert(snippets.begin(), statsSnippet);
-
 	CodeView* view = getView();
-	view->clear();
-	view->setErrorInfos(errors);
-	view->showCodeSnippets(snippets, std::vector<Id>(), true);
+	view->showCodeSnippets(std::vector<CodeSnippetParams>(1, statsSnippet), std::vector<Id>(), true);
 
 	showContents(message);
 }
