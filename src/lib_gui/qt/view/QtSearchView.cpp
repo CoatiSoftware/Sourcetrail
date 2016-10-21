@@ -61,7 +61,6 @@ void QtSearchView::doRefreshView()
 {
 	setStyleSheet();
 	m_widget->refreshStyle();
-	m_widget->setMatches(std::vector<SearchMatch>());
 }
 
 void QtSearchView::doSetMatches(const std::vector<SearchMatch>& matches)

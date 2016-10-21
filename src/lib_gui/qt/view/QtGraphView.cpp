@@ -304,7 +304,6 @@ void QtGraphView::doResize()
 
 void QtGraphView::doRefreshView()
 {
-	doClear();
 	doResize();
 
 	QtGraphicsView* view = getView();

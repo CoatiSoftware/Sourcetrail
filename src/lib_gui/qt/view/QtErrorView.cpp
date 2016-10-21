@@ -131,15 +131,6 @@ void QtErrorView::setErrorId(Id errorId)
 
 void QtErrorView::doRefreshView()
 {
-	m_model->removeRows(0, m_model->rowCount());
-
-	for (ErrorInfo error : m_errors)
-	{
-		addErrorToTable(error);
-	}
-
-	m_table->updateRows();
-
 	setStyleSheet();
 }
 

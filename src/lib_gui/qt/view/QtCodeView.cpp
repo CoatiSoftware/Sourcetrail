@@ -127,7 +127,6 @@ void QtCodeView::scrollToLine(const FilePath filePath, unsigned int line)
 void QtCodeView::doRefreshView()
 {
 	setStyleSheet();
-	m_widget->clearCodeSnippets();
 
 	QtCodeArea::clearAnnotationColors();
 	QtHighlighter::clearHighlightingRules();

@@ -158,7 +158,6 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 				m_mainView->hideStartScreen();
 
 				m_componentManager->clearComponents();
-				m_componentManager->refreshViews();
 			}
 		}
 		else
@@ -248,14 +247,12 @@ void Application::handleMessage(MessageRefresh* message)
 		loadSettings();
 	}
 
-	if (message->uiOnly)
+	if (m_hasGUI)
 	{
-		if (m_hasGUI)
-		{
-			m_componentManager->refreshViews();
-		}
+		m_componentManager->refreshViews();
 	}
-	else
+
+	if (!message->uiOnly)
 	{
 		refreshProject(message->all);
 	}
