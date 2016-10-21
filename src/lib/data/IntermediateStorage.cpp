@@ -160,16 +160,16 @@ void IntermediateStorage::addCommentLocation(Id fileNodeId, uint startLine, uint
 	));
 }
 
-void IntermediateStorage::addError(const std::string& message, bool fatal, bool indexed, const std::string& filePath, uint startLine, uint startCol)
+void IntermediateStorage::addError(const std::string& message, const FilePath& filePath, uint startLine, uint startCol, bool fatal, bool indexed)
 {
 	m_errors.push_back(StorageError(
 		0,
 		message,
-		fatal,
-		indexed,
 		filePath,
 		startLine,
-		startCol
+		startCol,
+		fatal,
+		indexed
 	));
 }
 

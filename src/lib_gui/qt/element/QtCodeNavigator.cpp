@@ -230,7 +230,7 @@ size_t QtCodeNavigator::getFatalErrorCountForFile(const FilePath& filePath) cons
 	for (const std::pair<Id, ErrorInfo>& p : m_errorInfos)
 	{
 		const ErrorInfo& error = p.second;
-		if (error.filePath == filePath && error.isFatal)
+		if (error.filePath == filePath && error.fatal)
 		{
 			fatalErrorCount++;
 		}

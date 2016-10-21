@@ -139,15 +139,15 @@ void PersistentStorage::addCommentLocation(Id fileNodeId, uint startLine, uint s
 }
 
 void PersistentStorage::addError(
-	const std::string& message, bool fatal, bool indexed, const std::string& filePath, uint startLine, uint startCol)
+	const std::string& message, const FilePath& filePath, uint startLine, uint startCol, bool fatal, bool indexed)
 {
 	m_sqliteStorage.addError(
 		message,
-		fatal,
-		indexed,
 		filePath,
 		startLine,
-		startCol
+		startCol,
+		fatal,
+		indexed
 	);
 }
 
@@ -231,7 +231,7 @@ void PersistentStorage::finishInjection()
 
 	if (m_preInjectionErrorCount != errors.size())
 	{
-		MessageNewErrors(std::vector<StorageError>(errors.begin() + m_preInjectionErrorCount, errors.end())).dispatchImmediately();
+		MessageNewErrors(std::vector<ErrorInfo>(errors.begin() + m_preInjectionErrorCount, errors.end())).dispatchImmediately();
 	}
 }
 
@@ -1035,13 +1035,13 @@ ErrorCountInfo PersistentStorage::getErrorCount() const
 	return ErrorCountInfo();
 }
 
-std::vector<StorageError> PersistentStorage::getErrors() const
+std::vector<ErrorInfo> PersistentStorage::getErrors() const
 {
 	LOG_ERROR("This should never be called.");
-	return std::vector<StorageError>();
+	return std::vector<ErrorInfo>();
 }
 
-std::vector<StorageError> PersistentStorage::getAllErrors() const
+std::vector<ErrorInfo> PersistentStorage::getAllErrors() const
 {
 	return m_sqliteStorage.getAllErrors();
 }
@@ -1052,8 +1052,8 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getErrorTokenLocatio
 
 	std::shared_ptr<TokenLocationCollection> errorCollection = std::make_shared<TokenLocationCollection>();
 
-	std::vector<StorageError> storageErrors = m_sqliteStorage.getAllErrors();
-	for (const StorageError& error : storageErrors)
+	*errors = m_sqliteStorage.getAllErrors();
+	for (const ErrorInfo& error : *errors)
 	{
 		// Set first bit to 1 to avoid collisions
 		Id locationId = ~(~size_t(0) >> 1) + error.id;
@@ -1061,7 +1061,6 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getErrorTokenLocatio
 		errorCollection->addTokenLocation(
 			locationId, error.id, error.filePath, error.lineNumber, error.columnNumber, error.lineNumber, error.columnNumber
 		)->setType(LOCATION_ERROR);
-		errors->push_back(ErrorInfo(error.message, error.filePath, error.id, error.fatal, error.indexed));
 	}
 
 	return errorCollection;

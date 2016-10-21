@@ -22,7 +22,7 @@ void ErrorController::handleMessage(MessageFinishedParsing* message)
 
 	auto errors = m_storageAccess->getAllErrors();
 
-	for (const StorageError& error : errors)
+	for (const ErrorInfo& error : errors)
 	{
 		getView()->addError(error);
 	}
@@ -30,7 +30,7 @@ void ErrorController::handleMessage(MessageFinishedParsing* message)
 
 void ErrorController::handleMessage(MessageNewErrors* message)
 {
-	for (const StorageError& error : message->errors)
+	for (const ErrorInfo& error : message->errors)
 	{
 		getView()->addError(error);
 	}
@@ -53,7 +53,7 @@ void ErrorController::handleMessage(MessageShowErrors* message)
 
 	auto errors = m_storageAccess->getAllErrors();
 
-	for (const StorageError& error : errors)
+	for (const ErrorInfo& error : errors)
 	{
 		getView()->addError(error);
 	}

@@ -215,7 +215,7 @@ Id SqliteStorage::addCommentLocation(Id fileNodeId, uint startLine, uint startCo
 	return m_database.lastRowId();
 }
 
-Id SqliteStorage::addError(const std::string& message, bool fatal, bool indexed, const std::string& filePath, uint lineNumber, uint columnNumber)
+Id SqliteStorage::addError(const std::string& message, const FilePath& filePath, uint lineNumber, uint columnNumber, bool fatal, bool indexed)
 {
 	std::string sanitizedMessage = utility::replace(message, "'", "''");
 
@@ -225,7 +225,7 @@ Id SqliteStorage::addError(const std::string& message, bool fatal, bool indexed,
 		"SELECT * FROM error WHERE "
 			"message == ? AND "
 			"fatal == " + std::to_string(fatal) + " AND "
-			"file_path == '" + filePath + "' AND "
+			"file_path == '" + filePath.str() + "' AND "
 			"line_number == " + std::to_string(lineNumber) + " AND "
 			"column_number == " + std::to_string(columnNumber) + ";"
 	).c_str());
@@ -242,7 +242,7 @@ Id SqliteStorage::addError(const std::string& message, bool fatal, bool indexed,
 
 	stmt = m_database.compileStatement((
 		"INSERT INTO error(message, fatal, indexed, file_path, line_number, column_number) "
-		"VALUES (?, " + std::to_string(fatal) + ", " + std::to_string(indexed) + ", '" + filePath +
+		"VALUES (?, " + std::to_string(fatal) + ", " + std::to_string(indexed) + ", '" + filePath.str() +
 		"', " + std::to_string(lineNumber) + ", " + std::to_string(columnNumber) + ");"
 	).c_str());
 
@@ -1084,7 +1084,7 @@ std::vector<StorageError> SqliteStorage::getAll<StorageError>(const std::string&
 
 		if (lineNumber != -1 && columnNumber != -1)
 		{
-			errors.push_back(StorageError(id, message, fatal, indexed, filePath, lineNumber, columnNumber));
+			errors.push_back(StorageError(id, message, filePath, lineNumber, columnNumber, fatal, indexed));
 			id++;
 		}
 

@@ -634,7 +634,7 @@ void ParserClientImpl::addError(const std::string& message, bool fatal, bool ind
 		return;
 	}
 
-	m_storage->addError(message, fatal, indexed, location.filePath.str(), location.startLineNumber, location.startColumnNumber);
+	m_storage->addError(message, location.filePath, location.startLineNumber, location.startColumnNumber, fatal, indexed);
 }
 
 void ParserClientImpl::log(std::string type, std::string str, const ParseLocation& location) const

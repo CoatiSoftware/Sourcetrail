@@ -2,7 +2,7 @@
 #define ERROR_VIEW_H
 
 #include "component/view/View.h"
-#include "data/StorageTypes.h"
+#include "data/ErrorInfo.h"
 
 class ErrorView
 	: public View
@@ -17,7 +17,7 @@ public:
 
 	virtual void clear() = 0;
 
-	virtual void addError(const StorageError& error) = 0;
+	virtual void addError(const ErrorInfo& error) = 0;
 	virtual void setErrorId(Id errorId) = 0;
 };
 

@@ -160,11 +160,11 @@ void Storage::inject(Storage* injected)
 		{
 			addError(
 				injectedData.message,
-				injectedData.fatal,
-				injectedData.indexed,
 				injectedData.filePath,
 				injectedData.lineNumber,
-				injectedData.columnNumber
+				injectedData.columnNumber,
+				injectedData.fatal,
+				injectedData.indexed
 			);
 		}
 	);

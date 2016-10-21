@@ -4,7 +4,6 @@
 #include "data/access/StorageAccess.h"
 
 #include "data/ErrorFilter.h"
-#include "data/StorageTypes.h"
 
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageErrorFilterChanged.h"
@@ -65,8 +64,8 @@ public:
 	virtual StorageStats getStorageStats() const;
 
 	virtual ErrorCountInfo getErrorCount() const;
-	virtual std::vector<StorageError> getErrors() const;
-	virtual std::vector<StorageError> getAllErrors() const;
+	virtual std::vector<ErrorInfo> getErrors() const;
+	virtual std::vector<ErrorInfo> getAllErrors() const;
 
 	virtual std::shared_ptr<TokenLocationCollection> getErrorTokenLocations(std::vector<ErrorInfo>* errors) const;
 

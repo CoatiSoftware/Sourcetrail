@@ -29,7 +29,7 @@ public:
 
 	// ErrorView implementation
 	virtual void clear();
-	virtual void addError(const StorageError& error);
+	virtual void addError(const ErrorInfo& error);
 	virtual void setErrorId(Id errorId);
 
 private:
@@ -44,19 +44,19 @@ private:
 
 	void doRefreshView();
 	void doClear();
-	void doAddError(const StorageError& error);
+	void doAddError(const ErrorInfo& error);
 	void doSetErrorId(Id errorId);
 
 	void setStyleSheet() const;
 
-	void addErrorToTable(const StorageError& error);
+	void addErrorToTable(const ErrorInfo& error);
 
 	QCheckBox* createFilterCheckbox(const QString& name, bool checked, QBoxLayout* layout);
-	bool isShownError(const StorageError& error);
+	bool isShownError(const ErrorInfo& error);
 
 	QtThreadedFunctor<void> m_clearFunctor;
 	QtThreadedFunctor<void> m_refreshFunctor;
-	QtThreadedFunctor<const StorageError&> m_addErrorFunctor;
+	QtThreadedFunctor<const ErrorInfo&> m_addErrorFunctor;
 	QtThreadedFunctor<Id> m_setErrorIdFunctor;
 
 	QCheckBox* m_showErrors;
@@ -67,7 +67,7 @@ private:
 	QStandardItemModel* m_model;
 	QtTable* m_table;
 
-	std::vector<StorageError> m_errors;
+	std::vector<ErrorInfo> m_errors;
 	QPalette* m_palette;
 
 	bool m_ignoreNextSelection;

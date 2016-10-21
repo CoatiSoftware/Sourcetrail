@@ -15,7 +15,6 @@
 #include "data/ErrorCountInfo.h"
 #include "data/ErrorInfo.h"
 #include "data/StorageStats.h"
-#include "data/StorageTypes.h"
 
 class Graph;
 class TextAccess;
@@ -70,8 +69,8 @@ public:
 	virtual StorageStats getStorageStats() const = 0;
 
 	virtual ErrorCountInfo getErrorCount() const = 0;
-	virtual std::vector<StorageError> getErrors() const = 0;
-	virtual std::vector<StorageError> getAllErrors() const = 0;
+	virtual std::vector<ErrorInfo> getErrors() const = 0;
+	virtual std::vector<ErrorInfo> getAllErrors() const = 0;
 
 	virtual std::shared_ptr<TokenLocationCollection> getErrorTokenLocations(std::vector<ErrorInfo>* errors) const = 0;
 };

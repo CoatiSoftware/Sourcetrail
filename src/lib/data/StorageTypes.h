@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "utility/file/FilePath.h"
 #include "utility/types.h"
 
 #include "data/DefinitionType.h"
@@ -171,30 +172,39 @@ struct StorageError
 	StorageError()
 		: id(0)
 		, message("")
-		, fatal(0)
-		, indexed(0)
-		, filePath("")
 		, lineNumber(-1)
 		, columnNumber(-1)
+		, fatal(0)
+		, indexed(0)
 	{}
 
-	StorageError(Id id, const std::string& message, bool fatal, bool indexed, const std::string& filePath, uint lineNumber, uint columnNumber)
+	StorageError(
+		Id id,
+		const std::string& message,
+		const FilePath& filePath,
+		uint lineNumber,
+		uint columnNumber,
+		bool fatal,
+		bool indexed
+	)
 		: id(id)
 		, message(message)
-		, fatal(fatal)
-		, indexed(indexed)
 		, filePath(filePath)
 		, lineNumber(lineNumber)
 		, columnNumber(columnNumber)
+		, fatal(fatal)
+		, indexed(indexed)
 	{}
 
 	Id id;
 	std::string message;
-	bool fatal;
-	bool indexed;
-	std::string filePath;
+
+	FilePath filePath;
 	uint lineNumber;
 	uint columnNumber;
+
+	bool fatal;
+	bool indexed;
 };
 
 #endif // STORAGE_TYPES_H

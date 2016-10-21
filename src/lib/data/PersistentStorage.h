@@ -34,7 +34,7 @@ public:
 	virtual void addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
 	virtual void addComponentAccess(Id nodeId , int type);
 	virtual void addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
-	virtual void addError(const std::string& message, bool fatal, bool indexed, const std::string& filePath, uint startLine, uint startCol);
+	virtual void addError(const std::string& message, const FilePath& filePath, uint startLine, uint startCol, bool fatal, bool indexed);
 
 	virtual void forEachFile(std::function<void(const Id /*id*/, const StorageFile& /*data*/)> callback) const;
 	virtual void forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const;
@@ -114,8 +114,8 @@ public:
 	virtual StorageStats getStorageStats() const;
 
 	virtual ErrorCountInfo getErrorCount() const;
-	virtual std::vector<StorageError> getErrors() const;
-	virtual std::vector<StorageError> getAllErrors() const;
+	virtual std::vector<ErrorInfo> getErrors() const;
+	virtual std::vector<ErrorInfo> getAllErrors() const;
 
 	virtual std::shared_ptr<TokenLocationCollection> getErrorTokenLocations(std::vector<ErrorInfo>* errors) const;
 

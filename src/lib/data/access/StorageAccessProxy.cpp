@@ -274,8 +274,8 @@ ErrorCountInfo StorageAccessProxy::getErrorCount() const
 {
 	ErrorCountInfo info;
 
-	std::vector<StorageError> storageErrors = getErrors();
-	for (const StorageError& error : storageErrors)
+	std::vector<ErrorInfo> errors = getErrors();
+	for (const ErrorInfo& error : errors)
 	{
 		info.total++;
 
@@ -288,14 +288,14 @@ ErrorCountInfo StorageAccessProxy::getErrorCount() const
 	return info;
 }
 
-std::vector<StorageError> StorageAccessProxy::getErrors() const
+std::vector<ErrorInfo> StorageAccessProxy::getErrors() const
 {
 	if (hasSubject())
 	{
-		std::vector<StorageError> errors = m_subject->getAllErrors();;
-		std::vector<StorageError> filteredErrors;
+		std::vector<ErrorInfo> errors = m_subject->getAllErrors();;
+		std::vector<ErrorInfo> filteredErrors;
 
-		for (const StorageError& error : errors)
+		for (const ErrorInfo& error : errors)
 		{
 			if (m_errorFilter.filter(error))
 			{
@@ -306,17 +306,17 @@ std::vector<StorageError> StorageAccessProxy::getErrors() const
 		return filteredErrors;
 	}
 
-	return std::vector<StorageError>();
+	return std::vector<ErrorInfo>();
 }
 
-std::vector<StorageError> StorageAccessProxy::getAllErrors() const
+std::vector<ErrorInfo> StorageAccessProxy::getAllErrors() const
 {
 	if (hasSubject())
 	{
 		return m_subject->getAllErrors();
 	}
 
-	return std::vector<StorageError>();
+	return std::vector<ErrorInfo>();
 }
 
 std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const

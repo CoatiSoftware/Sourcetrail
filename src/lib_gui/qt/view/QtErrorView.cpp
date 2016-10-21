@@ -119,7 +119,7 @@ void QtErrorView::clear()
 	m_clearFunctor();
 }
 
-void QtErrorView::addError(const StorageError& error)
+void QtErrorView::addError(const ErrorInfo& error)
 {
 	m_addErrorFunctor(error);
 }
@@ -133,7 +133,7 @@ void QtErrorView::doRefreshView()
 {
 	m_model->removeRows(0, m_model->rowCount());
 
-	for (StorageError error : m_errors)
+	for (ErrorInfo error : m_errors)
 	{
 		addErrorToTable(error);
 	}
@@ -149,7 +149,7 @@ void QtErrorView::doClear()
 	m_errors.clear();
 }
 
-void QtErrorView::doAddError(const StorageError& error)
+void QtErrorView::doAddError(const ErrorInfo& error)
 {
 	m_errors.push_back(error);
 
@@ -189,7 +189,7 @@ void QtErrorView::setStyleSheet() const
 	);
 }
 
-void QtErrorView::addErrorToTable(const StorageError& error)
+void QtErrorView::addErrorToTable(const ErrorInfo& error)
 {
 	if (!isShownError(error))
 	{
@@ -208,8 +208,8 @@ void QtErrorView::addErrorToTable(const StorageError& error)
 	m_model->setItem(rowNumber, COLUMN::MESSAGE, new QStandardItem(error.message.c_str()));
 	std::string errorPngPath = ResourcePaths::getGuiPath() + "/indexing_dialog/error.png";
 	m_model->item(rowNumber, COLUMN::MESSAGE)->setIcon(QIcon(QString(errorPngPath.c_str())));
-	m_model->setItem(rowNumber, COLUMN::FILE, new QStandardItem(error.filePath.c_str()));
-	m_model->item(rowNumber, COLUMN::FILE)->setToolTip(error.filePath.c_str());
+	m_model->setItem(rowNumber, COLUMN::FILE, new QStandardItem(error.filePath.str().c_str()));
+	m_model->item(rowNumber, COLUMN::FILE)->setToolTip(error.filePath.str().c_str());
 	m_model->setItem(rowNumber, COLUMN::LINE, new QStandardItem(QString::number(error.lineNumber)));
 	m_model->setItem(rowNumber, COLUMN::INDEXED, new QStandardItem(error.indexed ? "yes" : "no"));
 	m_model->setItem(rowNumber, COLUMN::ID, new QStandardItem(QString::number(error.id)));
@@ -242,7 +242,7 @@ QCheckBox* QtErrorView::createFilterCheckbox(const QString& name, bool checked, 
 	return checkbox;
 }
 
-bool QtErrorView::isShownError(const StorageError& error)
+bool QtErrorView::isShownError(const ErrorInfo& error)
 {
 	if (!error.fatal && error.indexed && m_showErrors->checkState() == Qt::Checked)
 	{
