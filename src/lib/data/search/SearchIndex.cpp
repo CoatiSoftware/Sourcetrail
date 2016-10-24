@@ -267,15 +267,7 @@ SearchResult SearchIndex::bestScoredResult(SearchResult result, std::map<std::st
 		return result;
 	}
 
-	const std::vector<size_t>& indices = result.indices;
-
-	std::map<std::string, SearchResult>::const_iterator it = scoresCache->find(result.text.substr(0, indices.back() + 1));
-	if (it != scoresCache->end())
-	{
-		result.score = it->second.score;
-		result.indices = it->second.indices;
-	}
-
+	const std::vector<size_t> indices = result.indices;
 	int oldScore = result.score;
 
 	bool consecutive = (indices.size() == 1);
@@ -293,20 +285,40 @@ SearchResult SearchIndex::bestScoredResult(SearchResult result, std::map<std::st
 		bestScoredResultRecursive(utility::toLowerCase(result.text), indices, indices.size() - 1, scoresCache, &result);
 	}
 
-	if (result.score != oldScore || it == scoresCache->end())
+	std::string subtext = result.text.substr(0, result.indices.back() + 1);
+	if (result.score != oldScore || scoresCache->find(subtext) == scoresCache->end())
 	{
-		scoresCache->emplace(result.text.substr(0, result.indices.back() + 1), result);
+		scoresCache->emplace(subtext, result);
 	}
 
 	return result;
 }
 
 void SearchIndex::bestScoredResultRecursive(
-	const std::string& lowerText, const std::vector<size_t>& indices, size_t indicesPos,
+	const std::string& lowerText, const std::vector<size_t>& indices, const size_t indicesPos,
 	std::map<std::string, SearchResult>* scoresCache, SearchResult* result) const
 {
+	// left for debugging
+	// std::cout << lowerText << std::endl;
+	// size_t idx = 0;
+	// for (size_t i = 0; i < lowerText.size() && idx < indices.size(); i++)
+	// {
+	// 	if (i == indices[idx])
+	// 	{
+	// 		if (idx == indicesPos)
+	// 			std::cout << "I";
+	// 		else
+	// 			std::cout << "^";
+	// 		idx++;
+	// 	}
+	// 	else
+	// 		std::cout << " ";
+	// }
+	// std::cout << "\n" << std::endl;
+
+
 	size_t oldTextPos = indices[indicesPos];
-	size_t nextTextPos = (indicesPos + 1 == indices.size() ? result->text.size() : indices[indicesPos + 1]);
+	size_t nextTextPos = (indicesPos + 1 == indices.size() ? lowerText.size() : indices[indicesPos + 1]);
 	for (size_t i = oldTextPos + 1; i < nextTextPos; i++)
 	{
 		if (lowerText[i] == lowerText[oldTextPos])
@@ -337,17 +349,15 @@ void SearchIndex::bestScoredResultRecursive(
 		}
 	}
 
-	if (indicesPos > 0)
+	size_t newIndicesPos = indicesPos;
+	while (newIndicesPos > 0)
 	{
-		size_t newIndicesPos = indicesPos - 1;
-		while (newIndicesPos > 0 && indices[newIndicesPos + 1] - indices[newIndicesPos] == 1)
-		{
-			newIndicesPos--;
-		}
+		newIndicesPos--;
 
 		if (indices[newIndicesPos + 1] - indices[newIndicesPos] > 1)
 		{
 			bestScoredResultRecursive(lowerText, indices, newIndicesPos, scoresCache, result);
+			break;
 		}
 	}
 }

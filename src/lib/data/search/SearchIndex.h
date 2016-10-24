@@ -67,7 +67,7 @@ private:
 	std::multiset<SearchResult> createScoredResults(const std::vector<Path>& paths, size_t maxResultCount) const;
 	SearchResult bestScoredResult(SearchResult result, std::map<std::string, SearchResult>* scoresCache) const;
 	void bestScoredResultRecursive(
-		const std::string& lowerText, const std::vector<size_t>& indices, size_t indicesPos,
+		const std::string& lowerText, const std::vector<size_t>& indices, const size_t indicesPos,
 		std::map<std::string, SearchResult>* scoresCache, SearchResult* result) const;
 	int score(const std::string& text, const std::vector<size_t>& indices) const;
 
