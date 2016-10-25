@@ -9,6 +9,7 @@
 #include <QParallelAnimationGroup>
 
 #include "qt/utility/QtContextMenu.h"
+#include "settings/ApplicationSettings.h"
 
 QtGraphicsView::QtGraphicsView(QWidget* parent)
 	: QGraphicsView(parent)
@@ -168,13 +169,20 @@ void QtGraphicsView::keyReleaseEvent(QKeyEvent* event)
 
 void QtGraphicsView::wheelEvent(QWheelEvent* event)
 {
-	if (event->modifiers() == Qt::ShiftModifier && event->delta() != 0.0f)
-	{
-		updateZoom(event->delta());
-		return;
-	}
+	bool zoomDefault = ApplicationSettings::getInstance()->getControlsGraphZoomOnMouseWheel();
+	bool shiftPressed = event->modifiers() == Qt::ShiftModifier;
 
-	QGraphicsView::wheelEvent(event);
+	if (zoomDefault != shiftPressed)
+	{
+		if (event->delta() != 0.0f)
+		{
+			updateZoom(event->delta());
+		}
+	}
+	else
+	{
+		QGraphicsView::wheelEvent(event);
+	}
 }
 
 void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
@@ -247,34 +255,47 @@ void QtGraphicsView::stopTimer()
 QString ShowSaveFileDialog(QWidget *parent,
 		const QString &title,
 		const QString &directory,
-		const QString &filter) {
+		const QString &filter)
+{
 #if defined(Q_WS_WIN) || defined(Q_WS_MAC)
-	return QFileDialog::getSaveFileName(parent,
-			title,
-			directory,
-			filter);
+
+	return QFileDialog::getSaveFileName(parent, title, directory, filter);
+
 #else
 	QFileDialog dialog(parent, title, directory, filter);
-	if (parent) {
+
+	if (parent)
+	{
 		dialog.setWindowModality(Qt::WindowModal);
 	}
+
 	QRegExp filter_regex(QLatin1String("(?:^\\*\\.(?!.*\\()|\\(\\*\\.)(\\w+)"));
 	QStringList filters = filter.split(QLatin1String(";;"));
-	if (!filters.isEmpty()) {
+
+	if (!filters.isEmpty())
+	{
 		dialog.setNameFilters(filters);
 	}
+
 	dialog.setAcceptMode(QFileDialog::AcceptSave);
-	if (dialog.exec() == QDialog::Accepted) {
+
+	if (dialog.exec() == QDialog::Accepted)
+	{
 		QString file_name = dialog.selectedFiles().first();
 		QFileInfo info(file_name);
-		if (info.suffix().isEmpty() && !dialog.selectedNameFilter().isEmpty()) {
-			if (filter_regex.indexIn(dialog.selectedNameFilter()) != -1) {
+
+		if (info.suffix().isEmpty() && !dialog.selectedNameFilter().isEmpty())
+		{
+			if (filter_regex.indexIn(dialog.selectedNameFilter()) != -1)
+			{
 				QString extension = filter_regex.cap(1);
 				file_name += QLatin1String(".") + extension;
 			}
 		}
 		return file_name;
-	} else {
+	}
+	else
+	{
 		return QString();
 	}
 #endif  // Q_WS_MAC || Q_WS_WIN

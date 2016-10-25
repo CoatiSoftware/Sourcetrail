@@ -306,6 +306,16 @@ int ApplicationSettings::getControlsMouseForwardButton() const
 	return getValue<int>("controls/mouse_forward_button", 0x10);
 }
 
+bool ApplicationSettings::getControlsGraphZoomOnMouseWheel() const
+{
+	return getValue<bool>("controls/graph_zoom_on_mouse_wheel", false);
+}
+
+void ApplicationSettings::setControlsGraphZoomOnMouseWheel(bool zoomingDefault)
+{
+	setValue<bool>("controls/graph_zoom_on_mouse_wheel", zoomingDefault);
+}
+
 std::string ApplicationSettings::getLicenseString() const
 {
 	return getValue<std::string>("user/license/license", "");

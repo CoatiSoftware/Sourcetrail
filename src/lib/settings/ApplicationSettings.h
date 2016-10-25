@@ -93,6 +93,9 @@ public:
 	int getControlsMouseBackButton() const;
 	int getControlsMouseForwardButton() const;
 
+	bool getControlsGraphZoomOnMouseWheel() const;
+	void setControlsGraphZoomOnMouseWheel(bool zoomingDefault);
+
 	// license
 	std::string getLicenseString() const;
 	void setLicenseString(const std::string& licenseString);

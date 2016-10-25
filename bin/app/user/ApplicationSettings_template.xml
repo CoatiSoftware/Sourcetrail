@@ -78,5 +78,6 @@
 	<controls>
 		<mouse_back_button><!-- INTEGER: mouse button code of back button, default is 8 --></mouse_back_button>
 		<mouse_forward_button><!-- INTEGER: mouse button code of forward button, default is 16 --></mouse_forward_button>
+		<graph_zoom_on_mouse_wheel><!-- BOOL: set mouse wheel to zooming by default --></graph_zoom_on_mouse_wheel>
 	</controls>
 </config>

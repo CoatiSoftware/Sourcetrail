@@ -80,6 +80,26 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	layout->addWidget(m_colorSchemes, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
 	row++;
 
+	// logging
+	m_loggingEnabled = new QCheckBox("Enable console and file logging", this);
+
+	layout->addWidget(createFormLabel("Logging"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(m_loggingEnabled, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
+
+	addHelpButton(
+		"Save log files and show log information in the console."
+		, layout, row
+	);
+
+	row++;
+
+	layout->setRowMinimumHeight(row++, 20);
+
+
+	// Controls
+	layout->addWidget(createFormTitle("CONTROLS"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
+	row++;
+
 	// scroll speed
 	m_scrollSpeed = new QLineEdit();
 	m_scrollSpeed->setObjectName("name");
@@ -94,17 +114,16 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	);
 	row++;
 
-	// logging
-	m_loggingEnabled = new QCheckBox("Enable console and file logging", this);
+	// graph zooming
+	m_graphZooming = new QCheckBox("Zoom on mouse wheel by default", this);
 
-	layout->addWidget(createFormLabel("Logging"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_loggingEnabled, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
+	layout->addWidget(createFormLabel("Graph Zoom"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(m_graphZooming, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
 
 	addHelpButton(
-		"Save log files and show log information in the console."
+		"Switch graph zooming to mouse wheel by default, instead of SHIFT + mouse wheel."
 		, layout, row
 	);
-
 	row++;
 
 	layout->setRowMinimumHeight(row++, 20);
@@ -222,6 +241,8 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	layout->setRowMinimumHeight(row, 30);
 	row++;
 
+	layout->setRowMinimumHeight(row++, 20);
+
 	// C/C++
 	layout->addWidget(createFormTitle("C/C++"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
 	row++;
@@ -247,8 +268,10 @@ void QtProjectWizzardContentPreferences::load()
 		}
 	}
 
-	m_scrollSpeed->setText(QString::number(appSettings->getScrollSpeed(), 'f', 1));
 	m_loggingEnabled->setChecked(appSettings->getLoggingEnabled());
+
+	m_scrollSpeed->setText(QString::number(appSettings->getScrollSpeed(), 'f', 1));
+	m_graphZooming->setChecked(appSettings->getControlsGraphZoomOnMouseWheel());
 
 	m_coatiPort->setText(QString::number(appSettings->getCoatiPort()));
 	m_pluginPort->setText(QString::number(appSettings->getPluginPort()));
@@ -275,10 +298,12 @@ void QtProjectWizzardContentPreferences::save()
 	appSettings->setColorSchemePath(m_colorSchemePaths[m_colorSchemes->currentIndex()]);
 	m_oldColorSchemeIndex = -1;
 
+	appSettings->setLoggingEnabled(m_loggingEnabled->isChecked());
+
 	float scrollSpeed = m_scrollSpeed->text().toFloat();
 	if (scrollSpeed) appSettings->setScrollSpeed(scrollSpeed);
 
-	appSettings->setLoggingEnabled(m_loggingEnabled->isChecked());
+	appSettings->setControlsGraphZoomOnMouseWheel(m_graphZooming->isChecked());
 
 	int coatiPort = m_coatiPort->text().toInt();
 	if (coatiPort) appSettings->setCoatiPort(coatiPort);

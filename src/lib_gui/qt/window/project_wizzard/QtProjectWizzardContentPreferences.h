@@ -40,9 +40,10 @@ private:
 	QComboBox* m_colorSchemes;
 	std::vector<FilePath> m_colorSchemePaths;
 	int m_oldColorSchemeIndex;
+	QCheckBox* m_loggingEnabled;
 
 	QLineEdit* m_scrollSpeed;
-	QCheckBox* m_loggingEnabled;
+	QCheckBox* m_graphZooming;
 
 	QLineEdit* m_coatiPort;
 	QLineEdit* m_pluginPort;
