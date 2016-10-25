@@ -33,6 +33,15 @@ private slots:
 private:
 	void addJavaPathDetection(QGridLayout* layout, int& row);
 
+	void addTitle(QString title, QGridLayout* layout, int& row);
+	void addLabelAndWidget(
+		QString label, QWidget* widget, QGridLayout* layout, int& row, Qt::Alignment widgetAlignment = Qt::Alignment());
+	void addGap(QGridLayout* layout, int& row);
+
+	QCheckBox* addCheckBox(QString label, QString text, QString help, QGridLayout* layout, int& row);
+	QComboBox* addComboBox(QString label, int min, int max, QString help, QGridLayout* layout, int& row);
+	QLineEdit* addLineEdit(QString label, QString help, QGridLayout* layout, int& row);
+
 	QtFontPicker* m_fontFace;
 	QComboBox* m_fontSize;
 	QComboBox* m_tabWidth;

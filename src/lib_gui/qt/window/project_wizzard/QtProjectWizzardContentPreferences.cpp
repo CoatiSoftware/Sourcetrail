@@ -33,157 +33,74 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
 
 	// ui
-	layout->addWidget(createFormTitle("USER INTERFACE"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
-	row++;
+	addTitle("USER INTERFACE", layout, row);
 
 	// font face
 	m_fontFace = new QtFontPicker(this);
 	m_fontFace->setObjectName("name");
 	m_fontFace->setAttribute(Qt::WA_MacShowFocusRect, 0);
 
-	layout->addWidget(createFormLabel("Font face"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_fontFace, row, QtProjectWizzardWindow::BACK_COL);
+	addLabelAndWidget("Font face", m_fontFace, layout, row);
 	row++;
 
 	// font size
-	m_fontSize = new QComboBox();
-	for (int i = appSettings->getFontSizeMin(); i <= appSettings->getFontSizeMax(); i++)
-	{
-		m_fontSize->insertItem(i, QString::number(i));
-	}
-
-	layout->addWidget(createFormLabel("Font size"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_fontSize, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
-	row++;
+	m_fontSize = addComboBox("Font size", appSettings->getFontSizeMin(), appSettings->getFontSizeMax(), "", layout, row);
 
 	// tab width
-	m_tabWidth = new QComboBox();
-	for (int i = 1; i < 17; i++)
-	{
-		m_tabWidth->insertItem(i, QString::number(i));
-	}
-
-	layout->addWidget(createFormLabel("Tab width"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_tabWidth, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
-	row++;
+	m_tabWidth = addComboBox("Tab width", 1, 16, "", layout, row);
 
 	// color scheme
-	m_colorSchemes = new QComboBox();
+	m_colorSchemes = addComboBox("Color scheme", 0, 0, "", layout, row);
 	for (size_t i = 0; i < m_colorSchemePaths.size(); i++)
 	{
 		m_colorSchemes->insertItem(i, m_colorSchemePaths[i].withoutExtension().fileName().c_str());
 	}
-
 	connect(m_colorSchemes, SIGNAL(activated(int)), this, SLOT(colorSchemeChanged(int)));
 
-	layout->addWidget(createFormLabel("Color scheme"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_colorSchemes, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
-	row++;
-
 	// logging
-	m_loggingEnabled = new QCheckBox("Enable console and file logging", this);
+	m_loggingEnabled = addCheckBox("Logging", "Enable console and file logging",
+		"Save log files and show log information in the console.", layout, row);
 
-	layout->addWidget(createFormLabel("Logging"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_loggingEnabled, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
-
-	addHelpButton(
-		"Save log files and show log information in the console."
-		, layout, row
-	);
-
-	row++;
-
-	layout->setRowMinimumHeight(row++, 20);
+	addGap(layout, row);
 
 
 	// Controls
-	layout->addWidget(createFormTitle("CONTROLS"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
-	row++;
+	addTitle("CONTROLS", layout, row);
 
 	// scroll speed
-	m_scrollSpeed = new QLineEdit();
-	m_scrollSpeed->setObjectName("name");
-	m_scrollSpeed->setAttribute(Qt::WA_MacShowFocusRect, 0);
-
-	layout->addWidget(createFormLabel("Scroll Speed"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_scrollSpeed, row, QtProjectWizzardWindow::BACK_COL);
-
-	addHelpButton(
-		"Multiplier for scroll speed. Set to a value between 0 and 1 to scroll slower, or set to larger than 1 to scroll faster."
-		, layout, row
-	);
-	row++;
+	m_scrollSpeed = addLineEdit("Scroll Speed", "Multiplier for scroll speed. Set to a value between 0 and 1 to scroll "
+		"slower, or set to larger than 1 to scroll faster.", layout, row);
 
 	// graph zooming
-	m_graphZooming = new QCheckBox("Zoom on mouse wheel by default", this);
+	m_graphZooming = addCheckBox("Graph Zoom", "Zoom on mouse wheel",
+		"Switch graph zooming to mouse wheel only, instead of SHIFT + mouse wheel.", layout, row);
 
-	layout->addWidget(createFormLabel("Graph Zoom"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_graphZooming, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
-
-	addHelpButton(
-		"Switch graph zooming to mouse wheel by default, instead of SHIFT + mouse wheel."
-		, layout, row
-	);
-	row++;
-
-	layout->setRowMinimumHeight(row++, 20);
+	addGap(layout, row);
 
 
 	// indexing
-	layout->addWidget(createFormTitle("INDEXING"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
-	row++;
+	addTitle("INDEXING", layout, row);
 
 	// indexer threads
-	m_threads = new QComboBox();
-	for (int i = 1; i <= 24; i++)
-	{
-		m_threads->insertItem(i, QString::number(i));
-	}
+	m_threads = addComboBox("Indexer threads", 1, 24, "Number of parallel threads used to index your projects.", layout, row);
 
-	layout->addWidget(createFormLabel("Indexer threads"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_threads, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft);
-
-	addHelpButton(
-		"Number of parallel threads used to index your projects."
-		, layout, row
-	);
-
-	row++;
-
-	layout->setRowMinimumHeight(row++, 20);
+	addGap(layout, row);
 
 
 	// Plugins
-	layout->addWidget(createFormTitle("PLUGIN"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
-	row++;
+	addTitle("PLUGIN", layout, row);
 
 	// Coati port
-	m_coatiPort = new QLineEdit();
-	m_coatiPort->setObjectName("name");
-	m_coatiPort->setAttribute(Qt::WA_MacShowFocusRect, 0);
-
-	layout->addWidget(createFormLabel("Coati Port"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_coatiPort, row, QtProjectWizzardWindow::BACK_COL);
-
-	addHelpButton("Port number that Coati uses to listen for incoming messages from plugins.", layout, row);
-	row++;
+	m_coatiPort = addLineEdit("Coati Port",
+		"Port number that Coati uses to listen for incoming messages from plugins.", layout, row);
 
 	// Coati port
-	m_pluginPort = new QLineEdit();
-	m_pluginPort->setObjectName("name");
-	m_pluginPort->setAttribute(Qt::WA_MacShowFocusRect, 0);
+	m_pluginPort = addLineEdit("Plugin Port", "Port number that Coati sends outgoing messages to.", layout, row);
 
-	layout->addWidget(createFormLabel("Plugin Port"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_pluginPort, row, QtProjectWizzardWindow::BACK_COL);
-
-	addHelpButton("Port number that Coati sends outgoing messages to.", layout, row);
-	row++;
-
-	layout->setRowMinimumHeight(row++, 20);
+	addGap(layout, row);
 
 	// Java
-	layout->addWidget(createFormTitle("JAVA"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
-	row++;
+	addTitle("JAVA", layout, row);
 
 	// jvm library path
 	m_javaPath = new QtLocationPicker(this);
@@ -209,9 +126,7 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 		m_javaPath->setPlaceholderText("<jre_path>/bin/<arch>/server/libjvm.so");
 	}
 
-	layout->addWidget(createFormLabel("Java Path"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_javaPath, row, QtProjectWizzardWindow::BACK_COL);
-
+	addLabelAndWidget("Java Path", m_javaPath, layout, row);
 	addHelpButton(
 		"Location of your Java 8 runtime dynamic library (for information on how to set these take a look at "
 		"<a href=\"https://coati.io/documentation/#FindingJavaRuntimeLibraryLocation\">"
@@ -223,29 +138,15 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	m_javaPathDetector = utility::getJavaRuntimePathDetector();
 	addJavaPathDetection(layout, row);
 
-	layout->setRowMinimumHeight(row, 20);
-	row++;
-
 	// jvm max memory
-	m_jvmMaximumMemory = new QLineEdit();
-	m_jvmMaximumMemory->setObjectName("name");
-	m_jvmMaximumMemory->setAttribute(Qt::WA_MacShowFocusRect, 0);
+	m_jvmMaximumMemory = addLineEdit("JVM Maximum Memory", "Specify the maximum amount of memory that should be "
+		"allocated by the indexer's JVM. A value of -1 ignores this setting.", layout, row);
+	layout->setRowMinimumHeight(row - 1, 30);
 
-	layout->addWidget(createFormLabel("JVM Maximum Memory"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
-	layout->addWidget(m_jvmMaximumMemory, row, QtProjectWizzardWindow::BACK_COL);
-
-	addHelpButton(
-		"Specify the maximum amount of memory that should be allocated by the indexer's JVM. A value of -1 ignores this setting."
-		, layout, row
-	);
-	layout->setRowMinimumHeight(row, 30);
-	row++;
-
-	layout->setRowMinimumHeight(row++, 20);
+	addGap(layout, row);
 
 	// C/C++
-	layout->addWidget(createFormTitle("C/C++"), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
-	row++;
+	addTitle("C/C++", layout, row);
 }
 
 void QtProjectWizzardContentPreferences::load()
@@ -374,4 +275,79 @@ void QtProjectWizzardContentPreferences::addJavaPathDetection(QGridLayout* layou
 
 	layout->addWidget(detectionWidget, row, QtProjectWizzardWindow::BACK_COL, Qt::AlignLeft | Qt::AlignTop);
 	row++;
+}
+
+void QtProjectWizzardContentPreferences::addTitle(QString title, QGridLayout* layout, int& row)
+{
+	layout->addWidget(createFormTitle(title), row++, QtProjectWizzardWindow::FRONT_COL, Qt::AlignLeft);
+}
+
+void QtProjectWizzardContentPreferences::addLabelAndWidget(
+	QString label, QWidget* widget, QGridLayout* layout, int& row, Qt::Alignment widgetAlignment)
+{
+	layout->addWidget(createFormLabel(label), row, QtProjectWizzardWindow::FRONT_COL, Qt::AlignRight);
+	layout->addWidget(widget, row, QtProjectWizzardWindow::BACK_COL, widgetAlignment);
+}
+
+void QtProjectWizzardContentPreferences::addGap(QGridLayout* layout, int& row)
+{
+	layout->setRowMinimumHeight(row++, 20);
+}
+
+QCheckBox* QtProjectWizzardContentPreferences::addCheckBox(
+	QString label, QString text, QString help, QGridLayout* layout, int& row)
+{
+	QCheckBox* checkBox = new QCheckBox(text, this);
+	addLabelAndWidget(label, checkBox, layout, row, Qt::AlignLeft);
+
+	if (help.size())
+	{
+		addHelpButton(help, layout, row);
+	}
+
+	row++;
+
+	return checkBox;
+}
+
+QComboBox* QtProjectWizzardContentPreferences::addComboBox(
+	QString label, int min, int max, QString help, QGridLayout* layout, int& row)
+{
+	QComboBox* comboBox = new QComboBox(this);
+	addLabelAndWidget(label, comboBox, layout, row, Qt::AlignLeft);
+
+	if (min != max)
+	{
+		for (int i = min; i <= max; i++)
+		{
+			comboBox->insertItem(i, QString::number(i));
+		}
+	}
+
+	if (help.size())
+	{
+		addHelpButton(help, layout, row);
+	}
+
+	row++;
+
+	return comboBox;
+}
+
+QLineEdit* QtProjectWizzardContentPreferences::addLineEdit(QString label, QString help, QGridLayout* layout, int& row)
+{
+	QLineEdit* lineEdit = new QLineEdit(this);
+	lineEdit->setObjectName("name");
+	lineEdit->setAttribute(Qt::WA_MacShowFocusRect, 0);
+
+	addLabelAndWidget(label, lineEdit, layout, row);
+
+	if (help.size())
+	{
+		addHelpButton(help, layout, row);
+	}
+
+	row++;
+
+	return lineEdit;
 }
