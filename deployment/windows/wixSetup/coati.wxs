@@ -141,6 +141,8 @@
 				<ComponentRef Id='apiMsWinCrtTime_l1_1_0Dll'/>
 				<ComponentRef Id='apiMsWinCrtUtility_l1_1_0Dll'/>
 				<ComponentRef Id='qtConf'/>
+				<ComponentRef Id='msvcp140_dll'/>
+				<ComponentRef Id='vcruntime140_dll'/>
 
 				<ComponentRef Id='QWindowsDll'/>
 

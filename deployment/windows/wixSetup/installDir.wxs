@@ -80,7 +80,15 @@
 			<Component Id='qtConf' Guid='58C34A47-0F21-4C41-9CCC-08141D84FF2A'>
 				<File Id='qt' Name='qt.conf' DiskId='1' Source='./../../../bin/app/Release/qt.conf' KeyPath='yes' />
 			</Component>
+			
+			<Component Id='msvcp140_dll' Guid='C15EC0AA-0BD3-4AF2-83D2-890815B6D473'>
+				<File Id='msvcp140' Name='msvcp140.dll' DiskId='1' Source='./../../../bin/app/Release/msvcp140.dll' KeyPath='yes' />
+			</Component>
 
+			<Component Id='vcruntime140_dll' Guid='6487E9EE-A0D5-4BDC-89B5-767EAACDD10E'>
+				<File Id='vcruntime140' Name='vcruntime140.dll' DiskId='1' Source='./../../../bin/app/Release/vcruntime140.dll' KeyPath='yes' />
+			</Component>
+			
 			<Directory Id='Platforms' Name='platforms'>
 
 				<Component Id='QWindowsDll' Guid='0B57B111-1068-42D1-891B-A21C6C0CC63E'>
