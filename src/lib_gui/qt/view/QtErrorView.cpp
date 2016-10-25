@@ -23,7 +23,7 @@ QtErrorView::QtErrorView(ViewLayout* viewLayout)
 	: ErrorView(viewLayout)
 	, m_clearFunctor(std::bind(&QtErrorView::doClear, this))
 	, m_refreshFunctor(std::bind(&QtErrorView::doRefreshView, this))
-	, m_addErrorFunctor(std::bind(&QtErrorView::doAddError, this, std::placeholders::_1))
+	, m_addErrorsFunctor(std::bind(&QtErrorView::doAddErrors, this, std::placeholders::_1, std::placeholders::_2))
 	, m_setErrorIdFunctor(std::bind(&QtErrorView::doSetErrorId, this, std::placeholders::_1))
 	, m_ignoreNextSelection(false)
 {
@@ -48,17 +48,6 @@ void QtErrorView::initView()
 	widget->setLayout(layout);
 
 	m_table = new QtTable(this);
-	m_table->setAlternatingRowColors(true);
-
-	m_table->setShowGrid(false);
-	m_table->verticalHeader()->setAlternatingRowColors(true);
-	m_table->verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
-	m_table->verticalHeader()->setDefaultSectionSize(ApplicationSettings::getInstance()->getFontSize() + 6);
-	m_table->horizontalHeader()->setStretchLastSection(true);
-
-	m_table->setSelectionBehavior(QAbstractItemView::SelectRows);
-	m_table->setSelectionMode(QAbstractItemView::SingleSelection);
-
 	m_model = new QStandardItemModel(this);
 	m_table->setModel(m_model);
 
@@ -73,7 +62,6 @@ void QtErrorView::initView()
 	QStringList headers;
 	headers << "Type" << "Message" << "File" << "Line" << "Indexed";
 	m_model->setHorizontalHeaderLabels(headers);
-	m_table->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
 
 	connect(m_table->selectionModel(), &QItemSelectionModel::currentRowChanged,
 		[=](const QModelIndex& index, const QModelIndex& previousIndex)
@@ -119,9 +107,9 @@ void QtErrorView::clear()
 	m_clearFunctor();
 }
 
-void QtErrorView::addError(const ErrorInfo& error)
+void QtErrorView::addErrors(const std::vector<ErrorInfo>& errors, bool scrollTo)
 {
-	m_addErrorFunctor(error);
+	m_addErrorsFunctor(errors, scrollTo);
 }
 
 void QtErrorView::setErrorId(Id errorId)
@@ -144,11 +132,18 @@ void QtErrorView::doClear()
 	m_errors.clear();
 }
 
-void QtErrorView::doAddError(const ErrorInfo& error)
+void QtErrorView::doAddErrors(const std::vector<ErrorInfo>& errors, bool scrollTo)
 {
-	m_errors.push_back(error);
+	for (const ErrorInfo& error : errors)
+	{
+		m_errors.push_back(error);
+		addErrorToTable(error);
+	}
 
-	addErrorToTable(error);
+	if (scrollTo)
+	{
+		m_table->showLastRow();
+	}
 }
 
 void QtErrorView::doSetErrorId(Id errorId)
@@ -168,7 +163,7 @@ void QtErrorView::setStyleSheet() const
 	utility::setWidgetBackgroundColor(widget, ColorScheme::getInstance()->getColor("error/background"));
 
 
-	QPalette palette( m_showErrors->palette() );
+	QPalette palette(m_showErrors->palette());
 	palette.setColor(QPalette::WindowText, QColor(ColorScheme::getInstance()->getColor("error/text/normal").c_str()));
 	//palette.setColor(QPalette::Text, QColor(ColorScheme::getInstance()->getColor("error/text/normal").c_str()));
 	//palette.setColor(QPalette::ButtonText, QColor(ColorScheme::getInstance()->getColor("error/text/normal").c_str()));
@@ -182,6 +177,8 @@ void QtErrorView::setStyleSheet() const
 	widget->setStyleSheet(
 		utility::getStyleSheet(ResourcePaths::getGuiPath() + "error_view/error_view.css").c_str()
 	);
+
+	m_table->updateRows();
 }
 
 void QtErrorView::addErrorToTable(const ErrorInfo& error)

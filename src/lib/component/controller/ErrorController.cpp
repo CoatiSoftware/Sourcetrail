@@ -20,21 +20,12 @@ void ErrorController::handleMessage(MessageFinishedParsing* message)
 {
 	clear();
 
-	auto errors = m_storageAccess->getAllErrors();
-
-	for (const ErrorInfo& error : errors)
-	{
-		getView()->addError(error);
-	}
+	getView()->addErrors(m_storageAccess->getAllErrors(), false);
 }
 
 void ErrorController::handleMessage(MessageNewErrors* message)
 {
-	for (const ErrorInfo& error : message->errors)
-	{
-		getView()->addError(error);
-	}
-
+	getView()->addErrors(message->errors, true);
 	getView()->showDockWidget();
 }
 
@@ -51,13 +42,7 @@ void ErrorController::handleMessage(MessageShowErrors* message)
 
 	clear();
 
-	auto errors = m_storageAccess->getAllErrors();
-
-	for (const ErrorInfo& error : errors)
-	{
-		getView()->addError(error);
-	}
-
+	getView()->addErrors(m_storageAccess->getAllErrors(), false);
 	getView()->showDockWidget();
 }
 

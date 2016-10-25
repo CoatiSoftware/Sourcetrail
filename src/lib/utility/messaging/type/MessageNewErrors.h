@@ -3,13 +3,13 @@
 
 #include "utility/messaging/Message.h"
 
-#include "data/StorageTypes.h"
+#include "data/ErrorInfo.h"
 
 class MessageNewErrors
 	: public Message<MessageNewErrors>
 {
 public:
-	MessageNewErrors(const std::vector<StorageError>& errors)
+	MessageNewErrors(const std::vector<ErrorInfo>& errors)
 		: errors(errors)
 	{
 		setSendAsTask(false);
@@ -25,7 +25,7 @@ public:
 		os << errors.size() << " errors";
 	}
 
-	const std::vector<StorageError> errors;
+	const std::vector<ErrorInfo> errors;
 };
 
 #endif // MESSAGE_NEW_ERRORS_H

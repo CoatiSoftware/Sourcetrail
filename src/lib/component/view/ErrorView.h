@@ -17,7 +17,7 @@ public:
 
 	virtual void clear() = 0;
 
-	virtual void addError(const ErrorInfo& error) = 0;
+	virtual void addErrors(const std::vector<ErrorInfo>& errors, bool scrollTo) = 0;
 	virtual void setErrorId(Id errorId) = 0;
 };
 

@@ -1,30 +1,32 @@
 #include "qt/element/QtTable.h"
 
+#include <cmath>
+
+#include <QHeaderView>
 #include <QResizeEvent>
+#include <QScrollBar>
+
+#include "settings/ApplicationSettings.h"
 
 QtTable::QtTable(QWidget* parent)
 	: QTableView(parent)
 	, m_rowsToFill(0)
 {
+	setAlternatingRowColors(true);
+	setShowGrid(false);
+
+	verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
+	verticalHeader()->setDefaultAlignment(Qt::AlignRight);
+
+	horizontalHeader()->setStretchLastSection(true);
+	horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
+
+	setSelectionBehavior(QAbstractItemView::SelectRows);
+	setSelectionMode(QAbstractItemView::SingleSelection);
 }
 
 QtTable::~QtTable()
 {
-}
-
-void QtTable::resizeEvent(QResizeEvent* event)
-{
-	QTableView::resizeEvent(event);
-	int tableHeight = event->size().height();
-
-	if (this->model()->rowCount() == 0)
-	{
-		this->model()->insertRow(0);
-	}
-
-	m_rowsToFill = (float)tableHeight / this->rowHeight(0);
-
-	updateRows();
 }
 
 void QtTable::updateRows()
@@ -46,6 +48,12 @@ void QtTable::updateRows()
 			break;
 		}
 	}
+
+	int rowCount = model()->rowCount() > m_rowsToFill ? model()->rowCount() : m_rowsToFill;
+	int width = ApplicationSettings::getInstance()->getFontSize() * 0.7 * int(1 + std::log10(rowCount));
+
+	verticalHeader()->setStyleSheet("::section { width: " + QString::number(width) + "px; }");
+	verticalHeader()->setDefaultSectionSize(ApplicationSettings::getInstance()->getFontSize() + 6);
 }
 
 int QtTable::getFilledRowCount()
@@ -59,4 +67,27 @@ int QtTable::getFilledRowCount()
 	}
 
 	return model()->rowCount();
+}
+
+void QtTable::showLastRow()
+{
+	if (m_rowsToFill <= getFilledRowCount())
+	{
+		verticalScrollBar()->setValue(verticalScrollBar()->maximum());
+	}
+}
+
+void QtTable::resizeEvent(QResizeEvent* event)
+{
+	QTableView::resizeEvent(event);
+	int tableHeight = event->size().height();
+
+	if (this->model()->rowCount() == 0)
+	{
+		this->model()->insertRow(0);
+	}
+
+	m_rowsToFill = (float)tableHeight / this->rowHeight(0);
+
+	updateRows();
 }

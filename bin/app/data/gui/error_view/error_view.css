@@ -36,14 +36,7 @@ QHeaderView::section:horizontal {
 	font-size: <setting:font_size>px;
 	font-weight: bold;
 	padding: 1px 6px;
-	height: <setting:font_size+5>px;;
-}
-
-
-QCheckBox {
-	color: <color:error/text/normal>;
-	border-color: <color:error/table>;
-	/*background-color: <color:error/table>;*/
+	height: <setting:font_size+5>px;
 }
 
 QHeaderView::section:vertical {
@@ -54,6 +47,15 @@ QHeaderView::section:vertical {
 	padding-right: 5px;
 	padding-left: 5px;
 }
+
+
+QCheckBox {
+	color: <color:error/text/normal>;
+	border-color: <color:error/table>;
+	/*background-color: <color:error/table>;*/
+}
+
+
 
 QScrollBar:vertical {
 }

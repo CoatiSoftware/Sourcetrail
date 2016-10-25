@@ -29,7 +29,7 @@ public:
 
 	// ErrorView implementation
 	virtual void clear();
-	virtual void addError(const ErrorInfo& error);
+	virtual void addErrors(const std::vector<ErrorInfo>& errors, bool scrollTo);
 	virtual void setErrorId(Id errorId);
 
 private:
@@ -44,7 +44,7 @@ private:
 
 	void doRefreshView();
 	void doClear();
-	void doAddError(const ErrorInfo& error);
+	void doAddErrors(const std::vector<ErrorInfo>& errors, bool scrollTo);
 	void doSetErrorId(Id errorId);
 
 	void setStyleSheet() const;
@@ -56,7 +56,7 @@ private:
 
 	QtThreadedFunctor<void> m_clearFunctor;
 	QtThreadedFunctor<void> m_refreshFunctor;
-	QtThreadedFunctor<const ErrorInfo&> m_addErrorFunctor;
+	QtThreadedFunctor<const std::vector<ErrorInfo>&, bool> m_addErrorsFunctor;
 	QtThreadedFunctor<Id> m_setErrorIdFunctor;
 
 	QCheckBox* m_showErrors;

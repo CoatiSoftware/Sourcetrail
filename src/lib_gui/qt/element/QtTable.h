@@ -7,6 +7,7 @@ class QtTable
 	: public QTableView
 {
 	Q_OBJECT
+
 public:
 	QtTable(QWidget* parent = nullptr);
 	virtual ~QtTable();
@@ -14,8 +15,11 @@ public:
 	void updateRows();
 	int getFilledRowCount();
 
+	void showLastRow();
+
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
+
 
 private:
 	float m_rowsToFill;
