@@ -11,13 +11,20 @@ namespace CoatiSoftware.CoatiPlugin.Utility
 
         public static void GetWindowFocus()
         {
-            System.Diagnostics.Process process = System.Diagnostics.Process.GetCurrentProcess();
-            IntPtr windowHandle = process.MainWindowHandle;
-
-            if (windowHandle != null)
+            try
             {
-                SetForegroundWindow(windowHandle);
-                SetActiveWindow(windowHandle);
+                System.Diagnostics.Process process = System.Diagnostics.Process.GetCurrentProcess();
+                IntPtr windowHandle = process.MainWindowHandle;
+
+                if (windowHandle != null)
+                {
+                    SetForegroundWindow(windowHandle);
+                    SetActiveWindow(windowHandle);
+                }
+            }
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Exception: " + e.Message);
             }
         }
     }

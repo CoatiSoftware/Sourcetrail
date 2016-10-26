@@ -14,6 +14,7 @@ namespace CoatiSoftware.CoatiPlugin
         private static string s_endOfMessageToken = "<EOM>";
 
         private static string s_createProjectPrefix = "createProject";
+        private static string s_createCDBProjectPrefix = "createCDBProject";
         private static string s_ideId = "vs";
 
         public class CursorPosition
@@ -80,6 +81,28 @@ namespace CoatiSoftware.CoatiPlugin
             message += s_divider;
 
             message += s_ideId;
+
+            message += s_endOfMessageToken;
+
+            return message;
+        }
+
+        public static string createCreateProjectMessage(string cdbPath, List<string> headerPaths)
+        {
+            string message = s_createCDBProjectPrefix;
+
+            message += s_divider;
+
+            message += cdbPath;
+
+            message += s_divider;
+
+            foreach(string path in headerPaths)
+            {
+                message += path;
+
+                message += s_divider;
+            }
 
             message += s_endOfMessageToken;
 

@@ -56,6 +56,8 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
         public void UpdateGUI()
         {
+            Logging.Logging.LogInfo("Populating GUI");
+
             InitProjectCheckList();
             InitComboBoxConfigurations();
             InitComboBoxPlatforms();
@@ -66,6 +68,8 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
         private void InitComboBoxConfigurations()
         {
+            Logging.Logging.LogInfo("Adding " + m_configurations.Count.ToString() + " build configurations.");
+
             foreach(string configuration in m_configurations)
             {
                 comboBoxConfiguration.Items.Add(configuration);
@@ -79,7 +83,9 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
         private void InitComboBoxPlatforms()
         {
-            foreach(string platform in m_platforms)
+            Logging.Logging.LogInfo("Adding " + m_platforms.Count.ToString() + " target platforms.");
+
+            foreach (string platform in m_platforms)
             {
                 comboBoxPlatform.Items.Add(platform);
             }
@@ -141,6 +147,8 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
         private void InitTextBoxTargetDirectory()
         {
+            Logging.Logging.LogInfo("Setting default target directory: \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(m_solutionDirectory) + "\"");
+
             folderBrowserTargetDirectory.SelectedPath = m_solutionDirectory;
             string rootDirectory = folderBrowserTargetDirectory.SelectedPath.ToString();
             textBoxTargetDirectory.Text = rootDirectory;
@@ -148,20 +156,24 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
         private void InitTextBoxFileName()
         {
-            textBoxFileName.Text = m_solutionFileName;
+            Logging.Logging.LogInfo("Setting default file name: '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(m_solutionFileName) + "'");
 
-            // MakeFileNameUnique();
+            textBoxFileName.Text = m_solutionFileName;
         }
 
         private void InitComboBoxCStandard()
         {
             if(m_containsCFiles == false)
             {
+                Logging.Logging.LogInfo("Hiding C Standard selection");
+
                 comboBoxCStandard.Hide();
                 labelCStandard.Hide();
             }
             else
             {
+                Logging.Logging.LogInfo("Showing C Standard selection");
+
                 comboBoxCStandard.Show();
                 labelCStandard.Show();
 
@@ -176,6 +188,8 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
+            Logging.Logging.LogInfo("Close button pressed. Aborting.");
+
             Close();
         }
 
@@ -186,6 +200,8 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
         private void OnCreate()
         {
+            Logging.Logging.LogInfo("Create button pressed");
+
             if (m_onCreateProject != null)
             {
                 string configurationName = "";
@@ -194,16 +210,21 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
                 configurationName = comboBoxConfiguration.SelectedItem as string;
                 platformName = comboBoxPlatform.SelectedItem as string;
 
+                Logging.Logging.LogInfo("Configuration " + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(configurationName) + "|" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(platformName) + " was selected.");
+
                 string targetDir = textBoxTargetDirectory.Text;
                 
                 if(Directory.Exists(targetDir) && CheckFileNameIsValid(textBoxFileName.Text))
                 {
                     if (CheckFileExists())
                     {
+                        Logging.Logging.LogWarning("A file \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(targetDir + "\\" + textBoxFileName.Text) + "\" already exists.");
+
                         DialogResult result = MessageBox.Show("A file of the chosen name already exists. Do you want to replace it?", "Coati Plugin", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                         if(result == DialogResult.No)
                         {
+                            Logging.Logging.LogInfo("Aborting CDB creation and attempting to make file name unique.");
                             MakeFileNameUnique();
                             return;
                         }
@@ -215,6 +236,8 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
                         cStandard = comboBoxCStandard.SelectedItem as string;
                     }
 
+                    Logging.Logging.LogInfo("Setting C standard flag to " + cStandard);
+
                     m_onCreateProject(GetTreeViewProjectItems(), configurationName, platformName, targetDir, textBoxFileName.Text, cStandard);
                     Close();
                 }
@@ -222,14 +245,20 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
                 {
                     if(Directory.Exists(targetDir) == false)
                     {
+                        Logging.Logging.LogError("The target directory \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(targetDir) + "\" does not exist.");
                         MessageBox.Show("The target directory does not exist.", "Coati Plugin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
 
                     if (CheckFileNameIsValid(textBoxFileName.Text) == false)
                     {
+                        Logging.Logging.LogError("The chosen file name \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(textBoxFileName.Text) + "\" is not valid. I'd almost dare to say it's invalid!");
                         MessageBox.Show("The chosen file name is not valid.", "Coati Plugin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
+            }
+            else
+            {
+                Logging.Logging.LogError("CDB create callback is not set. Cannot start creating CDB.");
             }
         }
 

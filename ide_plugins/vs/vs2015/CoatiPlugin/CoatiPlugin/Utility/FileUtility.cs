@@ -21,10 +21,16 @@ namespace CoatiSoftware.CoatiPlugin.Utility
             }
             catch (Exception e)
             {
+                Logging.Logging.LogError("Exception: " + e.Message);
+
                 if (_errorCallback != null)
                 {
                     _errorCallback("Failed to open file at " + fileName);
                 }
+
+                string message = "Failed to open file at " + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(fileName);
+                Logging.Logging.LogError(message);
+
                 return false;
             }
         }
@@ -37,9 +43,14 @@ namespace CoatiSoftware.CoatiPlugin.Utility
             }
             catch (Exception e)
             {
+                Logging.Logging.LogError("Exception: " + e.Message);
+
                 if (_errorCallback != null)
                 {
                     _errorCallback("Failed to set cursor to position [" + lineNumber.ToString() + "," + columnNumber.ToString() + "]");
+
+                    string message = "Failed to set cursor to position [" + lineNumber.ToString() + "," + columnNumber.ToString() + "]";
+                    Logging.Logging.LogError(message);
                 }
             }
         }

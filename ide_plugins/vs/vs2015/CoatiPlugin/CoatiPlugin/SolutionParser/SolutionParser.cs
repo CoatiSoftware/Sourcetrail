@@ -19,51 +19,22 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
 
         static public List<string> _additionalCompileFlags = new List<string>();
 
-        // Creates a cdb from all projects in the solution
-        // For a more selective approach use 'CreateCommandObjects(...)' for per-project compile commands and assamble the cdb yourself
-        static public CompilationDatabase CreateCompilationDatabase(DTE dte, string configurationName, string platformName)
-        {
-            if(dte == null)
-            {
-                return null;
-            }
-
-            ReloadAll(dte);
-
-            CompilationDatabase compilationDatabase = new CompilationDatabase();
-
-            EnvDTE.Solution solution = dte.Solution;
-
-            EnvDTE.Projects projects = solution.Projects;
-
-            foreach (EnvDTE.Project project in projects)
-            {
-                List<CommandObject> cmdObjts = CreateCommandObjects(project, configurationName, platformName, "c11"); // TODO: retrieve real config/platform
-
-                foreach(CommandObject cmdObj in cmdObjts)
-                {
-                    compilationDatabase.AddCommandObject(cmdObj);
-                }
-            }
-
-            UnloadReloadedProjects(dte);
-
-            return compilationDatabase;
-        }
+        static public List<string> _headerDirectories = new List<string>();
 
         public static List<CommandObject> CreateCommandObjects(Project project, string configurationName, string platformName, string cStandard)
         {
+            Logging.Logging.LogInfo("Creating command objects from project " + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(project.Name));
+
             List<CommandObject> result = new List<CommandObject>();
 
             DTE dte = project.DTE;
-            Guid projectGuid = Utility.SolutionUtility.ReloadProject(project);
-
-            string version = dte.Version;
+            Guid projectGuid = Utility.ProjectUtility.ReloadProject(project);
 
             VCProject vcProject = project.Object as VCProject;
 
             if (vcProject == null)
             {
+                Logging.Logging.LogWarning("Project '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(project.Name) + "' could not be converted to VCProject, skipping.");
                 return result;
             }
 
@@ -84,9 +55,11 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
             VCConfiguration vcProjectConfig = GetProjectConfiguration(vcProject, configurationName, platformName);
             string cppStandard = GetCppStandardString(vcProjectConfig);
 
+            Logging.Logging.LogInfo("Found C++ standard " + cppStandard + ".");
+
             foreach (EnvDTE.ProjectItem item in projectItems)
             {
-                CommandObject cmdObj = CreateCommandObject(item, includeDirectories, preprocessorDefinitions, cppStandard, cStandard);
+                CommandObject cmdObj = CreateCommandObject(item, includeDirectories, preprocessorDefinitions, cppStandard, cStandard, configurationName, platformName);
                 if (cmdObj != null)
                 {
                     result.Add(cmdObj);
@@ -95,15 +68,19 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
 
             if(projectGuid != Guid.Empty)
             {
-                Utility.SolutionUtility.UnloadProject(projectGuid, dte);
+                Utility.ProjectUtility.UnloadProject(projectGuid, dte);
             }
+
+            _headerDirectories = _headerDirectories.Distinct().ToList();
 
             return result;
         }
 
         static private Tuple<List<string>, List<string>> GetProjectIncludeDirectoriesAndPreprocessorDefs(VCProject project, string configurationName, string platformName)
         {
-            List<string> includeDirectories = new List<string>();
+            Logging.Logging.LogInfo("Attempting to retreive Include Directories and Preprocessor Definitions for project '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(project.Name) + "'");
+
+            List <string> includeDirectories = new List<string>();
             List<string> preprocessorDefinitions = new List<string>();
 
             IEnumerable configurations = project.Configurations as IEnumerable;
@@ -148,25 +125,41 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                     }
                 }
 
-                VCPlatform platform = vcProjectConfig.Platform as VCPlatform;
-                string platformIncludeDirectories = platform.IncludeDirectories;
-                string[] seperatedDirectories = platformIncludeDirectories.Split(';');
-
-                foreach (string directory in seperatedDirectories)
+                try
                 {
-                    string resolvedDirectory = ResolveVSMacro(vcProjectConfig, directory);
-                    string[] splitResolvedDirectory = resolvedDirectory.Split(';'); // resolved macros might result in concatenated paths
+                    VCPlatform platform = vcProjectConfig.Platform as VCPlatform;
+                    string platformIncludeDirectories = platform.IncludeDirectories;
+                    string[] seperatedDirectories = platformIncludeDirectories.Split(';');
 
-                    foreach (string p in splitResolvedDirectory)
+                    foreach (string directory in seperatedDirectories)
                     {
-                        includeDirectories.Add(p);
+                        string resolvedDirectory = ResolveVSMacro(vcProjectConfig, directory);
+                        string[] splitResolvedDirectory = resolvedDirectory.Split(';'); // resolved macros might result in concatenated paths
+
+                        foreach (string p in splitResolvedDirectory)
+                        {
+                            includeDirectories.Add(p);
+                        }
                     }
                 }
+                catch(Exception e)
+                {
+                    Logging.Logging.LogError("Exception: " + e.Message);
+                    return new Tuple<List<string>, List<string>>(new List<string>(), new List<string>());
+                }
+            }
+            else
+            {
+                Logging.Logging.LogWarning("Could not retreive Project Configuration. No include directories or preprocessor definitions could be retreived.");
+                return new Tuple<List<string>, List<string>>(new List<string>(), new List<string>());
             }
 
             includeDirectories = includeDirectories.Distinct().ToList();
 
             preprocessorDefinitions = preprocessorDefinitions.Distinct().ToList();
+
+            Logging.Logging.LogInfo("Found " + includeDirectories.Count.ToString() + " distinct include directories and " + preprocessorDefinitions.Count.ToString() + " distinct preprocessor definitions.");
+            Logging.Logging.LogInfo("Attempting to resolve and clean up.");
 
             for (int i = 0; i < includeDirectories.Count; i++)
             {
@@ -204,6 +197,8 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                 }
             }
 
+            Logging.Logging.LogInfo("Found " + includeDirectories.Count.ToString() + " include directories and " + preprocessorDefinitions.Count.ToString() + " preprocessor definitions");
+
             return new Tuple<List<string>, List<string>>(includeDirectories, preprocessorDefinitions);
         }
 
@@ -227,101 +222,146 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                 }
             }
 
+            Logging.Logging.LogError("Failed to find project config matching with \"" + configurationName + "\"");
+
             return null;
         }
 
-        static private CommandObject CreateCommandObject(EnvDTE.ProjectItem item, List<string> includeDirectories, List<string> preprocessorDefinitions, string vcStandard, string cStandard)
+        static private CommandObject CreateCommandObject(EnvDTE.ProjectItem item, List<string> includeDirectories, List<string> preprocessorDefinitions, string vcStandard, string cStandard, string configurationName, string platformName)
         {
-            DTE dte = item.DTE;
+            Logging.Logging.LogInfo("Starting to create Command Object from item '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(item.Name) + "'");
 
-            if (item.FileCodeModel != null && item.FileCodeModel.Language == CodeModelLanguageConstants.vsCMLanguageVC)
+            try
             {
-                CommandObject commandObject = new CommandObject();
-                commandObject.File = item.Name;
+                DTE dte = item.DTE;
 
-                // only write source files to cdb, headers are implicit
-                if (CheckIsHeader(item))
+                if (dte == null)
                 {
-                    return null;
+                    Logging.Logging.LogError("Failed to retreive DTE object. Abort creating command object.");
                 }
 
-                VCFile vcFile = item.Object as VCFile;
-                string subType = vcFile.SubType;
-
-                VCProject project = vcFile.project;
-                VCConfiguration vcConfig = GetProjectConfiguration(project, "Release", "Win32");
-
-                VCFileConfiguration fc = vcFile.GetFileConfigurationForProjectConfiguration(vcConfig);
-                VCCLCompilerTool t = fc.Tool as VCCLCompilerTool;
-
-                string additionalOptions = t.AdditionalOptions;
-                CompileAsOptions compileAs = t.CompileAs; // VCCLCompilerToolShim
-
-                if(additionalOptions == "$(NOINHERIT)")
+                if (item.FileCodeModel != null && item.FileCodeModel.Language == CodeModelLanguageConstants.vsCMLanguageVC)
                 {
-                    additionalOptions = "";
-                }
+                    CommandObject commandObject = new CommandObject();
+                    commandObject.File = item.Name;
 
-                // check wheter it's a .c file, we don't want that...
-                // TODO: there is a property for comilation as .c or .cpp file (/TC and /TP), try to retrieve it
-                string extension = item.Properties.Item("Extension").Value.ToString();
-                if (compileAs == CompileAsOptions.compileAsC)
+                    // only write source files to cdb, headers are implicit
+                    if (CheckIsHeader(item))
+                    {
+                        Properties props = item.Properties;
+                        foreach (Property prop in props)
+                        {
+                            string propName = prop.Name;
+                            string propValue = prop.Value as String;
+
+                            if (propName == "FullPath")
+                            {
+                                int i = propValue.LastIndexOf('\\');
+
+                                propValue = propValue.Substring(0, i);
+
+                                _headerDirectories.Add(propValue);
+                            }
+                        }
+
+                        return null;
+                    }
+
+                    VCFile vcFile = item.Object as VCFile;
+                    string subType = vcFile.SubType;
+
+                    VCProject project = vcFile.project;
+                    VCConfiguration vcConfig = GetProjectConfiguration(project, configurationName, platformName);
+
+                    if(vcConfig == null)
+                    {
+                        Logging.Logging.LogError("Project Configuration is null.");
+
+                        return null;
+                    }
+
+                    VCFileConfiguration fc = vcFile.GetFileConfigurationForProjectConfiguration(vcConfig);
+                    VCCLCompilerTool t = fc.Tool as VCCLCompilerTool;
+
+                    string additionalOptions = t.AdditionalOptions;
+                    CompileAsOptions compileAs = t.CompileAs; // VCCLCompilerToolShim
+
+                    if (additionalOptions == "$(NOINHERIT)")
+                    {
+                        additionalOptions = "";
+                    }
+
+                    // check wheter it's a .c file, we don't want that...
+                    // TODO: there is a property for comilation as .c or .cpp file (/TC and /TP), try to retrieve it
+                    string extension = item.Properties.Item("Extension").Value.ToString();
+                    if (compileAs == CompileAsOptions.compileAsC)
+                    {
+                        vcStandard = "-std=" + cStandard;
+                    }
+
+                    // if a language standard was defined in the additional options the 'vcStandard' string is not used
+                    if (additionalOptions.Contains("-std="))
+                    {
+                        vcStandard = "";
+                    }
+
+                    string directory = item.Properties.Item("FullPath").Value.ToString();
+
+                    int idx = directory.LastIndexOf('\\');
+                    if (idx != -1)
+                    {
+                        directory = directory.Substring(0, idx + 1);
+                    }
+
+                    directory = directory.Replace('\\', '/');
+                    commandObject.File = directory + item.Name;
+
+                    commandObject.Directory = System.IO.Path.GetDirectoryName(dte.Solution.FullName); // TODO: replace with actual cdb location
+                    commandObject.Directory = commandObject.Directory.Replace('\\', '/');
+
+                    commandObject.Command = "clang-tool ";
+
+                    foreach (string flag in _compatibilityFlags)
+                    {
+                        commandObject.Command += flag + " ";
+                    }
+
+                    commandObject.Command += _compatibilityVersionFlag + " ";
+
+                    foreach (string dir in includeDirectories)
+                    {
+                        commandObject.Command += " -isystem '" + dir + "' "; // using '-isystem' because it allows for use of quotes and pointy brackets in source files. In other words it's more robust. It's slower than '-I' though
+                    }
+
+                    foreach (string prepDef in preprocessorDefinitions)
+                    {
+                        commandObject.Command += " -D " + prepDef + " ";
+                    }
+
+                    foreach (string flag in _additionalCompileFlags)
+                    {
+                        commandObject.Command += " -D " + flag + " ";
+                    }
+
+                    commandObject.Command += vcStandard + " ";
+
+                    commandObject.Command += additionalOptions + " ";
+
+                    commandObject.Command += "'" + commandObject.File + "'";
+
+                    return commandObject;
+                }
+                else
                 {
-                    vcStandard = "-std=" + cStandard;
+                    Logging.Logging.LogInfo("Item discarded, wrong code model");
                 }
-
-                // if a language standard was defined in the additional options the 'vcStandard' string is not used
-                if(additionalOptions.Contains("-std="))
-                {
-                    vcStandard = "";
-                }
-
-                string directory = item.Properties.Item("FullPath").Value.ToString();
-
-                int idx = directory.LastIndexOf('\\');
-                if (idx != -1)
-                {
-                    directory = directory.Substring(0, idx + 1);
-                }
-
-                directory = directory.Replace('\\', '/');
-                commandObject.File = directory + item.Name;
-
-                commandObject.Directory = System.IO.Path.GetDirectoryName(dte.Solution.FullName); // TODO: replace with actual cdb location
-                commandObject.Directory = commandObject.Directory.Replace('\\', '/');
-
-                commandObject.Command = "clang-tool ";
-
-                foreach (string flag in _compatibilityFlags)
-                {
-                    commandObject.Command += flag + " ";
-                }
-
-                commandObject.Command += _compatibilityVersionFlag + " ";
-
-                foreach (string dir in includeDirectories)
-                {
-                    commandObject.Command += " -isystem '" + dir + "' "; // using '-isystem' because it allows for use of quotes and pointy brackets in source files. In other words it's more robust. It's slower than '-I' though
-                }
-
-                foreach (string prepDef in preprocessorDefinitions)
-                {
-                    commandObject.Command += " -D " + prepDef + " ";
-                }
-
-                foreach(string flag in _additionalCompileFlags)
-                {
-                    commandObject.Command += " -D " + flag + " ";
-                }
-
-                commandObject.Command += vcStandard + " ";
-
-                commandObject.Command += additionalOptions + " ";
-
-                commandObject.Command += "'" + commandObject.File + "'";
-
-                return commandObject;
             }
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Exception: " + e.Message);
+            }
+
+            Logging.Logging.LogError("Failed to create command object.");
 
             return null;
         }
@@ -332,20 +372,27 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
 
             string propString = "";
 
-            foreach (Property prop in props)
+            try
             {
-                string propName = prop.Name;
-                string propValue = prop.Value as String;
-
-                propString += propName + " - " + propValue + "; ";
-
-                if (propName == "ItemType")
+                foreach (Property prop in props)
                 {
-                    if (propValue as String == "ClInclude")
+                    string propName = prop.Name;
+                    string propValue = prop.Value as String;
+
+                    propString += propName + " - " + propValue + "; ";
+
+                    if (propName == "ItemType")
                     {
-                        return true;
+                        if (propValue as String == "ClInclude")
+                        {
+                            return true;
+                        }
                     }
                 }
+            }
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Exception: " + e.Message);
             }
 
             return false;
@@ -355,15 +402,22 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
         {
             string result = path;
 
-            Tuple<int, int> potentialMacroPosition = Utility.StringUtility.FindFirstRange(path, "$(", ")");
-
-            if (potentialMacroPosition != null)
+            try
             {
-                string potentialMacro = path.Substring(potentialMacroPosition.Item1, potentialMacroPosition.Item2 - potentialMacroPosition.Item1 + 1);
+                Tuple<int, int> potentialMacroPosition = Utility.StringUtility.FindFirstRange(path, "$(", ")");
 
-                string resolvedMacro = vcProjectConfig.Evaluate(potentialMacro);
+                if (potentialMacroPosition != null)
+                {
+                    string potentialMacro = path.Substring(potentialMacroPosition.Item1, potentialMacroPosition.Item2 - potentialMacroPosition.Item1 + 1);
 
-                result = path.Substring(0, potentialMacroPosition.Item1) + resolvedMacro + path.Substring(potentialMacroPosition.Item2 + 1);
+                    string resolvedMacro = vcProjectConfig.Evaluate(potentialMacro);
+
+                    result = path.Substring(0, potentialMacroPosition.Item1) + resolvedMacro + path.Substring(potentialMacroPosition.Item2 + 1);
+                }
+            }
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Exception: " + e.Message);
             }
 
             return result;
@@ -378,11 +432,11 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
 
             EnvDTE.Solution solution = dte.Solution;
 
-            EnvDTE.Projects projects = solution.Projects;
+            List<EnvDTE.Project> projects = Utility.SolutionUtility.GetSolutionProjectList(dte);
 
             foreach (EnvDTE.Project project in projects)
             {
-                _reloadedProjectGuids.Add(Utility.SolutionUtility.ReloadProject(project));
+                _reloadedProjectGuids.Add(Utility.ProjectUtility.ReloadProject(project));
             }
         }
 
@@ -390,12 +444,14 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
         {
             foreach(Guid guid in _reloadedProjectGuids)
             {
-                Utility.SolutionUtility.UnloadProject(guid, dte);
+                Utility.ProjectUtility.UnloadProject(guid, dte);
             }
         }
 
         static private void SetCompatibilityVersionFlag(VCProject project, string configurationName, string platformName)
         {
+            Logging.Logging.LogInfo("Determining CL.exe (C++ compiler) version");
+
             VCConfiguration vcProjectConfig = GetProjectConfiguration(project, configurationName, platformName);
 
             if (vcProjectConfig != null)
@@ -403,59 +459,87 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                 IEnumerable projectTools = vcProjectConfig.Tools as IEnumerable;
                 foreach (Object tool in projectTools)
                 {
-                    VCCLCompilerTool compilerTool = tool as VCCLCompilerTool;
-
-                    if (compilerTool != null)
+                    try
                     {
-                        int majorCompilerVersion = GetCLMajorVersion(compilerTool, vcProjectConfig);
+                        VCCLCompilerTool compilerTool = tool as VCCLCompilerTool;
 
-                        if (majorCompilerVersion > -1)
+                        if (compilerTool != null)
                         {
-                            _compatibilityVersionFlag = _compatibilityVersionFlagBase + majorCompilerVersion.ToString();
-                            return;
+                            int majorCompilerVersion = GetCLMajorVersion(compilerTool, vcProjectConfig);
+
+                            if (majorCompilerVersion > -1)
+                            {
+                                Logging.Logging.LogInfo("Found compiler version " + majorCompilerVersion.ToString());
+
+                                _compatibilityVersionFlag = _compatibilityVersionFlagBase + majorCompilerVersion.ToString();
+                                return;
+                            }
                         }
                     }
+                    catch(Exception e)
+                    {
+                        Logging.Logging.LogError("Exception: " + e.Message);
+                    }
                 }
+            }
+            else
+            {
+                Logging.Logging.LogWarning("Failed to retreive VC Project Configuration. Using default compiler version");
             }
         }
 
         static private int GetCLMajorVersion(VCCLCompilerTool compilerTool, VCConfiguration vcProjectConfig)
         {
-            if(compilerTool == null || vcProjectConfig == null)
+            Logging.Logging.LogInfo("Looking up CL.exe (C++ compiler)");
+
+            if (compilerTool == null || vcProjectConfig == null)
             {
                 return -1;
             }
 
-            VCPlatform platform = vcProjectConfig.Platform as VCPlatform;
-            string executableDirectories = platform.ExecutableDirectories;
-            string[] seperatedDirectories = executableDirectories.Split(';');
-
-            List<string> finalDirectories = new List<string>();
-            foreach (string directory in seperatedDirectories)
+            try
             {
-                string resolvedDirectory = ResolveVSMacro(vcProjectConfig, directory);
-                string[] splitResolvedDirectory = resolvedDirectory.Split(';'); // resolved macros might result in concatenated paths
+                VCPlatform platform = vcProjectConfig.Platform as VCPlatform;
+                string executableDirectories = platform.ExecutableDirectories;
+                string[] seperatedDirectories = executableDirectories.Split(';');
 
-                foreach(string d in splitResolvedDirectory)
+                List<string> finalDirectories = new List<string>();
+                foreach (string directory in seperatedDirectories)
                 {
-                    finalDirectories.Add(d);
+                    string resolvedDirectory = ResolveVSMacro(vcProjectConfig, directory);
+                    string[] splitResolvedDirectory = resolvedDirectory.Split(';'); // resolved macros might result in concatenated paths
+
+                    foreach (string d in splitResolvedDirectory)
+                    {
+                        finalDirectories.Add(d);
+                    }
+                }
+
+                string toolPath = compilerTool.ToolPath;
+
+                Logging.Logging.LogInfo("Found " + finalDirectories.Count.ToString() + " possible compiler directories.");
+
+                foreach (string fd in finalDirectories)
+                {
+                    string path = fd + "\\" + toolPath;
+
+                    if (File.Exists(path))
+                    {
+                        FileVersionInfo info = FileVersionInfo.GetVersionInfo(path);
+                        int version = info.FileMajorPart;
+
+                        Logging.Logging.LogInfo("Found compiler location. Compiler tool version is " + version.ToString());
+
+                        return version;
+                    }
                 }
             }
-
-            string toolPath = compilerTool.ToolPath;
-
-            foreach(string fd in finalDirectories)
+            catch(Exception e)
             {
-                string path = fd + "\\" + toolPath;
-
-                if(File.Exists(path))
-                {
-                    FileVersionInfo info = FileVersionInfo.GetVersionInfo(path);
-                    int version = info.FileMajorPart;
-
-                    return version;
-                }
+                Logging.Logging.LogError("Exception: " + e.Message);
             }
+
+            Logging.Logging.LogWarning("Failed to find C++ compiler tool.");
 
             return -1;
         }
@@ -472,27 +556,44 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
 
             string result = "";
 
-            IVCRulePropertyStorage rules = vcProjectConfig.Rules.Item("ConfigurationGeneral");
+            IVCRulePropertyStorage rules = null;
+
+            try
+            {
+                rules = vcProjectConfig.Rules.Item("ConfigurationGeneral");
+            }
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Exception: " + e.Message);
+                return "";
+            }
 
             if (rules != null)
             {
-                string toolset = rules.GetUnevaluatedPropertyValue("PlatformToolset");
-
-                string justNumbers = new String(toolset.Where(Char.IsDigit).ToArray());
-
-                int versionNumber = int.Parse(justNumbers);
-
-                if (versionNumber < 120) // version 11 (2012)
+                try
                 {
-                    result = "-std=c++11";
+                    string toolset = rules.GetUnevaluatedPropertyValue("PlatformToolset");
+
+                    string justNumbers = new String(toolset.Where(Char.IsDigit).ToArray());
+
+                    int versionNumber = int.Parse(justNumbers);
+
+                    if (versionNumber < 120) // version 11 (2012)
+                    {
+                        result = "-std=c++11";
+                    }
+                    else if (versionNumber < 130) // version 12 (2013)
+                    {
+                        result = "-std=c++14";
+                    }
+                    else if (versionNumber < 150) // version 14 (2015) 
+                    {
+                        result = "-std=c++14";
+                    }
                 }
-                else if (versionNumber < 130) // version 12 (2013)
+                catch(Exception e)
                 {
-                    result = "-std=c++14";
-                }
-                else if (versionNumber < 150) // version 14 (2015) 
-                {
-                    result = "-std=c++14";
+                    Logging.Logging.LogError("Exception: " + e.Message);
                 }
             }
             

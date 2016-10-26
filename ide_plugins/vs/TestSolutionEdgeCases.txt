@@ -12,3 +12,8 @@ These Edge Cases should be considered in a dedicated Test Solution for the Plugi
 	
 -Include Paths
 	-add at least one include path to Project->Properties->Configuration Properties->VC++ Directories->Include Directories
+	
+-Solution Structure
+	-have a solution with no projects directly under the solution
+		-so: Solution/Folder/Project
+		-no: Solution/Project

@@ -55,9 +55,18 @@ namespace CoatiSoftware.CoatiPlugin.Utility
 
         public static String GetSolutionPath(DTE dte)
         {
-            EnvDTE.Solution solution = dte.Solution;
+            try
+            {
+                EnvDTE.Solution solution = dte.Solution;
 
-            return solution.FullName;
+                return solution.FullName;
+            }
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Exception: " + e.Message);
+
+                return "N/A";
+            }
         }
 
         public static SolutionStructure GetSolutionVCProjects(DTE dte)
@@ -76,34 +85,48 @@ namespace CoatiSoftware.CoatiPlugin.Utility
 
             foreach(Project project in solutionProjects)
             {
-                if(project.Kind == EnvDTE.Constants.vsProjectKindUnmodeled) // not loaded
+                try
                 {
-                    continue;
-                }
-
-                // check it's a c/c++ project
-                if(project.CodeModel != null)
-                {
-                    if(project.CodeModel.Language != CodeModelLanguageConstants.vsCMLanguageVC)
+                    if (project.Kind == EnvDTE.Constants.vsProjectKindUnmodeled) // not loaded
                     {
                         continue;
                     }
+
+                    // check it's a c/c++ project
+                    if (project.CodeModel != null)
+                    {
+                        if (project.CodeModel.Language != CodeModelLanguageConstants.vsCMLanguageVC)
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (project.Kind == "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}")
+                    {
+                        SolutionStructure.ProjectNode projectNode = new SolutionStructure.ProjectNode();
+                        projectNode.Name = project.Name;
+                        projectNode.Project = project;
+                        projectNode.Include = false;
+
+                        projectStructure.Nodes.Add(projectNode);
+                    }
+                    else
+                    {
+                        SolutionStructure.Node folderNode = GetSubProjects(project);
+
+                        if (folderNode != null)
+                        {
+                            projectStructure.Nodes.Add(folderNode);
+                        }
+                        else
+                        {
+                            Logging.Logging.LogWarning("Subnode was NULL");
+                        }
+                    }
                 }
-
-                if(project.Kind == "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}")
+                catch(Exception e)
                 {
-                    SolutionStructure.ProjectNode projectNode = new SolutionStructure.ProjectNode();
-                    projectNode.Name = project.Name;
-                    projectNode.Project = project;
-                    projectNode.Include = false;
-
-                    projectStructure.Nodes.Add(projectNode);
-                }
-                else
-                {
-                    SolutionStructure.Node folderNode = GetSubProjects(project);
-
-                    projectStructure.Nodes.Add(folderNode);
+                    Logging.Logging.LogError("Exception: " + e.Message);
                 }
             }
 
@@ -115,41 +138,58 @@ namespace CoatiSoftware.CoatiPlugin.Utility
             ProjectItems projectItems = project.ProjectItems;
             List<Project> items = new List<Project>();
 
-            foreach (ProjectItem item in projectItems)
+            try
             {
-                Project p = item.Object as Project;
-                if(p != null)
+                foreach (ProjectItem item in projectItems)
                 {
-                    items.Add(p);
-                }
-            }
-
-            if(items.Count > 0)
-            {
-                SolutionStructure.FolderNode folderNode = new SolutionStructure.FolderNode();
-                folderNode.Name = project.Name;
-
-                for (int i = 0; i < items.Count; i++)
-                {
-                    Project item = items[i];
-
-                    SolutionStructure.Node subFolderNode = GetSubProjects(item);
-                    folderNode.SubNodes.Add(subFolderNode);
+                    Project p = item.Object as Project;
+                    if (p != null)
+                    {
+                        items.Add(p);
+                    }
                 }
 
-                return folderNode;
-            }
-            else
-            {
-                SolutionStructure.ProjectNode projectNode = new SolutionStructure.ProjectNode();
-                projectNode.Name = project.Name;
-                projectNode.Project = project;
-                projectNode.Include = false;
+                if (items.Count > 0)
+                {
+                    SolutionStructure.FolderNode folderNode = new SolutionStructure.FolderNode();
+                    folderNode.Name = project.Name;
 
-                return projectNode;
+                    for (int i = 0; i < items.Count; i++)
+                    {
+                        Project item = items[i];
+
+                        SolutionStructure.Node subFolderNode = GetSubProjects(item);
+
+                        if(subFolderNode != null)
+                        {
+                            folderNode.SubNodes.Add(subFolderNode);
+                        }
+                        else
+                        {
+                            Logging.Logging.LogWarning("SubNode was NULL");
+                        }
+                    }
+
+                    return folderNode;
+                }
+                else
+                {
+                    SolutionStructure.ProjectNode projectNode = new SolutionStructure.ProjectNode();
+                    projectNode.Name = project.Name;
+                    projectNode.Project = project;
+                    projectNode.Include = false;
+
+                    return projectNode;
+                }
+            }
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Exception: " + e.Message);
+                return null;
             }
         }
 
+        // Deprecated: remove when old project parsing is retired
         public static List<String> GetSolutionProjectsFullNames(DTE dte)
         {
             List<String> projectNames = new List<String>();
@@ -161,7 +201,7 @@ namespace CoatiSoftware.CoatiPlugin.Utility
 
             foreach (EnvDTE.Project project in projects)
             {
-                guids.Add(ReloadProject(project));
+                guids.Add(ProjectUtility.ReloadProject(project));
             }
 
             projects = solution.Projects;
@@ -173,45 +213,17 @@ namespace CoatiSoftware.CoatiPlugin.Utility
 
             foreach (Guid guid in guids)
             {
-                UnloadProject(guid, dte);
+                ProjectUtility.UnloadProject(guid, dte);
             }
 
             return projectNames;
-        }
-
-        public static List<List<String>> GetSolutionProjectItems(DTE dte)
-        {
-            List<List<String>> projectItems = new List<List<String>>();
-
-            EnvDTE.Solution solution = dte.Solution;
-            EnvDTE.Projects projects = solution.Projects;
-
-            foreach (EnvDTE.Project project in projects)
-            {
-                EnvDTE.ProjectItems items = project.ProjectItems;                
-
-                List<String> pItems = new List<String>();
-
-                foreach(EnvDTE.ProjectItem item in items)
-                {
-                    for (short i = 0; i < item.FileCount; i++)
-                    {
-                        pItems.Add(item.get_FileNames(i));
-                    }
-                }
-
-                projectItems.Add(pItems);
-            }
-
-            return projectItems;
         }
 
         public static List<String> GetSolutionLanguages(DTE dte)
         {
             List<String> languages = new List<String>();
 
-            EnvDTE.Solution solution = dte.Solution;
-            EnvDTE.Projects projects = solution.Projects;
+            List<Project> projects = GetSolutionProjectList(dte);
 
             foreach (EnvDTE.Project project in projects)
             {
@@ -229,9 +241,18 @@ namespace CoatiSoftware.CoatiPlugin.Utility
 
         public static bool GetSolutionIsSaved(DTE dte)
         {
-            EnvDTE.Solution solution = dte.Solution;
+            try
+            {
+                EnvDTE.Solution solution = dte.Solution;
 
-            return solution.Saved;
+                return solution.Saved;
+            }
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Exception: " + e.Message);
+
+                throw e;
+            }
         }
 
         public static List<List<string>> GetConfigurationAndPlatformNames(DTE dte)
@@ -259,125 +280,84 @@ namespace CoatiSoftware.CoatiPlugin.Utility
                 return result;
             }
 
-            foreach (SolutionConfiguration2 solutionConfiguration in solutionBuild.SolutionConfigurations)
+            try
             {
-                foreach (SolutionContext context in solutionConfiguration.SolutionContexts)
+                foreach (SolutionConfiguration2 solutionConfiguration in solutionBuild.SolutionConfigurations)
                 {
-                    string configurationName = context.ConfigurationName;
-                    configNames.Add(configurationName);
+                    foreach (SolutionContext context in solutionConfiguration.SolutionContexts)
+                    {
+                        string configurationName = context.ConfigurationName;
+                        configNames.Add(configurationName);
 
-                    string platformName = context.PlatformName;
-                    platformNames.Add(platformName);
+                        string platformName = context.PlatformName;
+                        platformNames.Add(platformName);
+                    }
                 }
+
+                configNames = configNames.Distinct().ToList();
+                platformNames = platformNames.Distinct().ToList();
+
+                result.Add(configNames);
+                result.Add(platformNames);
             }
-
-            configNames = configNames.Distinct().ToList();
-            platformNames = platformNames.Distinct().ToList();
-
-            result.Add(configNames);
-            result.Add(platformNames);
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Exception: " + e.Message);
+            }
 
             return result;
         }
 
         public static DTE2 GetDTE2(DTE dte)
         {
-            List<DTE2> dte2List = new List<DTE2>();
-
-            IRunningObjectTable runningObjectTable = null;
-            GetRunningObjectTable(0, out runningObjectTable);
-
-            IEnumMoniker enumMoniker = null;
-            runningObjectTable.EnumRunning(out enumMoniker);
-
-            enumMoniker.Reset();
-            IntPtr fetched = IntPtr.Zero;
-            IMoniker[] moniker = new IMoniker[1];
-
-            while (enumMoniker.Next(1, moniker, fetched) == 0)
+            try
             {
-                IBindCtx bindCtx = null;
-                CreateBindCtx(0, out bindCtx);
+                List<DTE2> dte2List = new List<DTE2>();
 
-                string displayName = "";
-                moniker[0].GetDisplayName(bindCtx, null, out displayName);
-                // add all VisualStudio ROT entries to list
-                if (displayName.StartsWith("!VisualStudio"))
+                IRunningObjectTable runningObjectTable = null;
+                GetRunningObjectTable(0, out runningObjectTable);
+
+                IEnumMoniker enumMoniker = null;
+                runningObjectTable.EnumRunning(out enumMoniker);
+
+                enumMoniker.Reset();
+                IntPtr fetched = IntPtr.Zero;
+                IMoniker[] moniker = new IMoniker[1];
+
+                while (enumMoniker.Next(1, moniker, fetched) == 0)
                 {
-                    object comObject;
-                    runningObjectTable.GetObject(moniker[0], out comObject);
-                    dte2List.Add((DTE2)comObject);
-                }
-            }
+                    IBindCtx bindCtx = null;
+                    CreateBindCtx(0, out bindCtx);
 
-            // find the correct dte2 instance (each running VS instance has one...)
-            KeyValuePair<DTE2, int> maxMatch = new KeyValuePair<DTE2, int>(null, 0);
-            foreach(DTE2 dte2 in dte2List)
-            {
-                int m = StringUtility.GetMatchingCharsFromStart(dte.Solution.FullName, dte2.Solution.FullName);
-                if(m > maxMatch.Value)
-                {
-                    maxMatch = new KeyValuePair<DTE2, int>(dte2, m);
-                }
-            }
-
-            return maxMatch.Key;
-        }
-
-        // returns true if the project was reloaded, false if the project did not need to be reloaded
-        static public Guid ReloadProject(Project project)
-        {
-            if (project != null && project.Kind == EnvDTE.Constants.vsProjectKindUnmodeled)
-            {
-                DTE dte = project.DTE;
-
-                ServiceProvider sp = new ServiceProvider(dte as Microsoft.VisualStudio.OLE.Interop.IServiceProvider);
-                IVsSolution vsSolution = sp.GetService(typeof(SVsSolution)) as IVsSolution;
-
-                IVsHierarchy hierarchy;
-
-                string solutionDirectory = "";
-                string solutionFile = "";
-                string userOptions = "";
-                vsSolution.GetSolutionInfo(out solutionDirectory, out solutionFile, out userOptions);
-
-                vsSolution.GetProjectOfUniqueName(solutionDirectory + project.UniqueName, out hierarchy);
-
-                if (hierarchy != null)
-                {
-                    Guid projectGuid;
-
-                    hierarchy.GetGuidProperty(
-                                VSConstants.VSITEMID_ROOT,
-                                (int)__VSHPROPID.VSHPROPID_ProjectIDGuid,
-                                out projectGuid);
-
-                    if (projectGuid != null)
+                    string displayName = "";
+                    moniker[0].GetDisplayName(bindCtx, null, out displayName);
+                    // add all VisualStudio ROT entries to list
+                    if (displayName.StartsWith("!VisualStudio"))
                     {
-                        (vsSolution as IVsSolution4).ReloadProject(projectGuid);
-                        return projectGuid;
+                        object comObject;
+                        runningObjectTable.GetObject(moniker[0], out comObject);
+                        dte2List.Add((DTE2)comObject);
                     }
                 }
+
+                // find the correct dte2 instance (each running VS instance has one...)
+                KeyValuePair<DTE2, int> maxMatch = new KeyValuePair<DTE2, int>(null, 0);
+                foreach (DTE2 dte2 in dte2List)
+                {
+                    int m = StringUtility.GetMatchingCharsFromStart(dte.Solution.FullName, dte2.Solution.FullName);
+                    if (m > maxMatch.Value)
+                    {
+                        maxMatch = new KeyValuePair<DTE2, int>(dte2, m);
+                    }
+                }
+
+                return maxMatch.Key;
             }
-
-            return Guid.Empty;
-        }
-
-        static public void UnloadProject(Guid guid, DTE dte)
-        {
-            if (dte == null)
+            catch(Exception e)
             {
-                return;
+                Logging.Logging.LogError("Exception: " + e.Message);
+                return null;
             }
-
-            EnvDTE.Solution solution = dte.Solution;
-
-            EnvDTE.Projects projects = solution.Projects;
-
-            ServiceProvider sp = new ServiceProvider(dte as Microsoft.VisualStudio.OLE.Interop.IServiceProvider);
-            IVsSolution vsSolution = sp.GetService(typeof(SVsSolution)) as IVsSolution;
-
-            (vsSolution as IVsSolution4).UnloadProject(guid, (uint)_VSProjectUnloadStatus.UNLOADSTATUS_UnloadedByUser);
         }
 
         static public bool ContainsCFiles(DTE dte)
@@ -399,35 +379,44 @@ namespace CoatiSoftware.CoatiPlugin.Utility
         {
             List<EnvDTE.Project> solutionProjects = new List<EnvDTE.Project>();
 
-            SolutionStructure solutionStructure = GetProjectStructureRecursive(dte);
-
-            Stack<SolutionStructure.Node> nodeStack = new Stack<Utility.SolutionUtility.SolutionStructure.Node>();
-            foreach (SolutionStructure.Node node in solutionStructure.Nodes)
+            try
             {
-                nodeStack.Push(node);
-            }
+                SolutionStructure solutionStructure = GetProjectStructureRecursive(dte);
 
-            while (nodeStack.Count > 0)
-            {
-                Utility.SolutionUtility.SolutionStructure.Node node = nodeStack.Pop();
-
-                string name = node.Name;
-
-                if (node.GetNodeType() == Utility.SolutionUtility.SolutionStructure.Node.NodeType.PROJECT)
+                Stack<SolutionStructure.Node> nodeStack = new Stack<Utility.SolutionUtility.SolutionStructure.Node>();
+                foreach (SolutionStructure.Node node in solutionStructure.Nodes)
                 {
-                    solutionProjects.Add(node.Project);
+                    nodeStack.Push(node);
                 }
-                else if (node.GetNodeType() == Utility.SolutionUtility.SolutionStructure.Node.NodeType.FOLDER)
+
+                while (nodeStack.Count > 0)
                 {
-                    Utility.SolutionUtility.SolutionStructure.FolderNode folderNode = node as Utility.SolutionUtility.SolutionStructure.FolderNode;
-                    foreach (Utility.SolutionUtility.SolutionStructure.Node subNode in folderNode.SubNodes)
+                    Utility.SolutionUtility.SolutionStructure.Node node = nodeStack.Pop();
+
+                    string name = node.Name;
+
+                    if (node.GetNodeType() == Utility.SolutionUtility.SolutionStructure.Node.NodeType.PROJECT)
                     {
-                        nodeStack.Push(subNode);
+                        solutionProjects.Add(node.Project);
+                    }
+                    else if (node.GetNodeType() == Utility.SolutionUtility.SolutionStructure.Node.NodeType.FOLDER)
+                    {
+                        Utility.SolutionUtility.SolutionStructure.FolderNode folderNode = node as Utility.SolutionUtility.SolutionStructure.FolderNode;
+                        foreach (Utility.SolutionUtility.SolutionStructure.Node subNode in folderNode.SubNodes)
+                        {
+                            nodeStack.Push(subNode);
+                        }
                     }
                 }
-            }
 
-            return solutionProjects;
+                return solutionProjects;
+            }
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Exception: " + e.Message);
+
+                return new List<EnvDTE.Project>();
+            }
         }
     }
 }

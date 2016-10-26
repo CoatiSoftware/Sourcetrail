@@ -1,6 +1,11 @@
 -Check latest plugin version is installed
 -Start VS and load a C/C++ solution (best mixed with multiple projects)
 	-Check all projects are loaded in Solution Explorer
+-Check Plugin Logging and Obfuscation is off
+	-VS Menu Bar -> Tools -> Options -> Coati -> Logging & Obfuscation is off
+-Delete log file and dictionary for current VS session if present
+	-delete log file for current session at ..AppData/Local/Coati Software/Plugin/VS if present
+	-delete dictionary file for current session at ..AppData/Local/Coati Software/Plugin/VS if present
 -Create CDB from solution
 	-Check all C/C++ projects listed in CDB dialogue
 	-Check eventual non-C/C++ projects are not listed
@@ -29,25 +34,47 @@
 	-Check finished CDB
 		-check at correct location with correct name
 		-check CDB file is non-empty (at least estimate whether number of lines in CDB coincides with VS solution)
+-Check no new Log file or Dictionary file was created
+	-Check ..AppData/Local/Coati Software/Plugin/VS for no new log created
+	-Check ..AppData/Local/Coati Software/Plugin/VS for no new dictionary created
+-Turn on Logging
+	-VS Menu Bar -> Tools -> Options -> Coati -> Logging ON & Obfuscation OFF
+-Enable VS Output Window
+	-VS Menu Bar -> View -> Output
+	-In Output Window, show Coati log (Show Output from: Coati Log)
 -Create CDB from solution again
 	-Check location and name is the same as last time
 	-Check dialogue asking whether to overwrite old file or not
 	-Click no
 	-Check number appended to file name
 	-Create CDB with the new name
+		-Check VS Output Window displays messages during creation
+		-Check project- and file names and directories are in clear text
 	-Check finished CDB
 		-check at correct location with correct name
 		-check CDB file is non-empty (at least estimate whether number of lines in CDB coincides with VS solution)
 -Unload a project in the Solution Explorer
+-Check new Log file but no Dictionary file was created
+	-Check ..AppData/Local/Coati Software/Plugin/VS for new log created
+	-Check ..AppData/Local/Coati Software/Plugin/VS for no new dictionary created
+-Turn on Obfuscation
+	-VS Menu Bar -> Tools -> Options -> Coati -> Logging ON & Obfuscation ON
 -Create CDB from solution again
 	-Check unloaded project is not in the listed projects in the dialogue
 	-Check location and name is the same as first time
 	-Check dialogue asking whether to overwrite old file or not
 	-Click yes
 	-Click Create
+		-Check VS Output Window displays messages during creation
+		-Check project- and file names and directories are obfuscated (a0, b0, c0,...)
 	-Check finished CDB
 		-check at correct location with correct name
 		-check CDB file is smaller now (reduced size has to make sense considering the missing project)
+-Check new Log entries and Dictionary file was created
+	-Check ..AppData/Local/Coati Software/Plugin/VS for no new log file
+	-Check the log file created in this session at ..AppData/Local/Coati Software/Plugin/VS for new entries
+	-Check new entries are using obfuscated names
+	-Check ..AppData/Local/Coati Software/Plugin/VS for new dictionary created
 -Create CDB from solution again
 	-Check location and name is the same as first time
 	-Check dialogue asking whether to overwrite old file or not

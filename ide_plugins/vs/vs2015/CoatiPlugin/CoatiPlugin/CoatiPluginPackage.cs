@@ -16,10 +16,14 @@ namespace CoatiSoftware.CoatiPlugin
     {
         private uint _serverPort = 6666;
         private uint _clientPort = 6667;
+        private bool _logging = false;
+        private bool _obfuscateLogging = false;
 
         public delegate void Callback();
         public static Callback _serverPortChangeCallback = null;
         public static Callback _clientPortChangeCallback = null;
+        public static Callback _loggingToggled = null;
+        public static Callback _obfuscationToggled = null;
 
         [Category("Coati")]
         [DisplayName("VS Port")]
@@ -49,6 +53,38 @@ namespace CoatiSoftware.CoatiPlugin
                 if (_clientPortChangeCallback != null)
                 {
                     _clientPortChangeCallback();
+                }
+            }
+        }
+
+        [Category("Coati")]
+        [DisplayName("File Logging")]
+        [Description("Enables or disables file logging for the plugin")]
+        public bool LoggingEnabled
+        {
+            get { return _logging; }
+            set
+            {
+                _logging = value;
+                if(_loggingToggled != null)
+                {
+                    _loggingToggled();
+                }
+            }
+        }
+
+        [Category("Coati")]
+        [DisplayName("Log Obfuscation")]
+        [Description("Names will be obfuscated in log files. Note that already logged data will not be obfuscated retroactively. A dictionary file will be created that you can use to make sense of obfuscated logs. Keep this dictionary to yourself!")]
+        public bool ObfuscateLogging
+        {
+            get { return _obfuscateLogging; }
+            set
+            {
+                _obfuscateLogging = value;
+                if (_obfuscationToggled != null)
+                {
+                    _obfuscationToggled();
                 }
             }
         }
@@ -91,6 +127,24 @@ namespace CoatiSoftware.CoatiPlugin
             }
         }
 
+        public bool LoggingEnabled
+        {
+            get
+            {
+                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+                return page.LoggingEnabled;
+            }
+        }
+
+        public bool LogObfuscationEnabled
+        {
+            get
+            {
+                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+                return page.ObfuscateLogging;
+            }
+        }
+
         System.Threading.Thread _serverThread = null;
 
         public CoatiPluginPackage()
@@ -100,12 +154,15 @@ namespace CoatiSoftware.CoatiPlugin
         {
             base.Initialize();
 
+            InitLogging();
             InitNetwork();
 
             Utility.FileUtility._errorCallback = new Utility.FileUtility.ErrorCallback(OnFileUtilityError);
 
             OptionPageGrid._serverPortChangeCallback = new OptionPageGrid.Callback(OnServerPortChanged);
             OptionPageGrid._clientPortChangeCallback = new OptionPageGrid.Callback(OnClientPortChanged);
+            OptionPageGrid._loggingToggled = new OptionPageGrid.Callback(OnLoggingToggled);
+            OptionPageGrid._obfuscationToggled = new OptionPageGrid.Callback(OnObfuscationToggled);
 
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if ( null != mcs )
@@ -133,10 +190,14 @@ namespace CoatiSoftware.CoatiPlugin
 
             _solutionEvents.Opened += OnSolutionOpened;
             _solutionEvents.AfterClosing += OnSolutionClosed;
+
+            Logging.Logging.LogInfo("Initialization done");
         }
 
         void OnSolutionOpened()
         {
+            Logging.Logging.LogInfo("A solution was loaded, checking languages");
+
             try
             {
                 DTE dte = (DTE)GetService(typeof(DTE));
@@ -148,25 +209,34 @@ namespace CoatiSoftware.CoatiPlugin
                     if (language == CodeModelLanguageConstants.vsCMLanguageVC
                         || language == CodeModelLanguageConstants.vsCMLanguageMC)
                     {
+                        Logging.Logging.LogInfo("C/C++ project was detected");
                         enable = true;
                     }
                 }
 
                 if (enable)
                 {
+                    Logging.Logging.LogInfo("Enabling plugin UI");
                     _menuItemSetActiveToken.Enabled = true;
                     _menuItemCreateProject.Enabled = true;
                     _menuItemCreateCDB.Enabled = true;
+                }
+                else
+                {
+                    Logging.Logging.LogInfo("No C/C++ project was detected");
                 }
             }
             catch(Exception e)
             {
                 DisplayMessage("Error", e.Message);
+                Logging.Logging.LogError(e.Message);
             }
         }
 
         void OnSolutionClosed()
         {
+            Logging.Logging.LogInfo("Solution closed, disabling plugin UI");
+
             _menuItemSetActiveToken.Enabled = false;
             _menuItemCreateProject.Enabled = false;
             _menuItemCreateCDB.Enabled = false;
@@ -174,6 +244,8 @@ namespace CoatiSoftware.CoatiPlugin
 
         private void InitNetwork()
         {
+            Logging.Logging.LogInfo("Initializing Network with Server Port " + ServerPort.ToString() + " and Client Port " + ClientPort.ToString());
+
             Utility.AsynchronousSocketListener._port = ServerPort;
             Utility.AsynchronousSocketListener server = new Utility.AsynchronousSocketListener();
             Utility.AsynchronousSocketListener._onReadCallback = new Utility.AsynchronousSocketListener.OnReadCallback(OnNetworkReadCallback);
@@ -183,6 +255,22 @@ namespace CoatiSoftware.CoatiPlugin
 
             Utility.AsynchronousClient._port = ClientPort;
             Utility.AsynchronousClient._onErrorCallback = new Utility.AsynchronousSocketListener.OnReadCallback(OnNetworkErrorCallback);
+        }
+
+        private void InitLogging()
+        {
+            DTE dte = (DTE)GetService(typeof(DTE));
+
+            Logging.FileLogger fileLogger = new Logging.FileLogger();
+            Logging.VSOutputLogger vsLogger = new Logging.VSOutputLogger(dte);
+
+            Logging.LogManager.GetInstance().Loggers.Add(fileLogger);
+            Logging.LogManager.GetInstance().Loggers.Add(vsLogger);
+            Logging.LogManager.GetInstance().LoggingEnabled = LoggingEnabled;
+
+            Logging.Obfuscation.NameObfuscator.Enabled(LogObfuscationEnabled);
+
+            Logging.Logging.LogInfo("Logging initialized");
         }
 
         private void OnCreateProject(List<EnvDTE.Project> projects, string configurationName, string platformName, string targetDir, string fileName, string cStandard)
@@ -195,19 +283,56 @@ namespace CoatiSoftware.CoatiPlugin
             createCDB.FileName = fileName;
             createCDB.CStandard = cStandard;
 
-            createCDB.CallbackOnFinishedCreatingCDB = WriteCDBToFile;
+            createCDB.CallbackOnFinishedCreatingCDB = HandleFinishedCDB;
 
             createCDB.StartWorking();
             createCDB.ShowDialog();
         }
 
+        private void HandleFinishedCDB(Wizard.WindowCreateCDB.CreationResult creationResult)
+        {
+            if(creationResult._cdb != null && creationResult._cdbDirectory.Length > 0 && creationResult._cdbName.Length > 0)
+            {
+                WriteCDBToFile(creationResult._cdb, creationResult._cdbDirectory, creationResult._cdbName);
+
+                //string message = NetworkProtocolUtility.createCreateProjectMessage(creationResult._cdbDirectory + "\\" + creationResult._cdbName, creationResult._headerDirectories);
+
+                //Utility.AsynchronousClient.Send(message);
+            }
+            else
+            {
+                Logging.Logging.LogError("Invalid data received");
+            }
+        }
+
         private void WriteCDBToFile(SolutionParser.CompilationDatabase cdb, string directory, string fileName)
         {
-            string content = cdb.SerializeJSON();
-            File.WriteAllText(directory + "\\" + fileName + ".json", content);
+            try
+            {
+                string content = cdb.SerializeJSON();
+                File.WriteAllText(directory + "\\" + fileName + ".json", content);
+            }
+            catch(Exception e)
+            {
+                string foo = "Error";
+                string bar = "Failed to write CDB '" + fileName + "' to directory \"" + directory + "\"\n";
+                bar += "See log for details.";
+
+                Wizard.WindowMessage wm = new Wizard.WindowMessage();
+                wm.Title = foo;
+                wm.Message = bar;
+                wm.RefreshWindow();
+                wm.ShowDialog();
+
+                bar = "Failed to write CDB '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(fileName) + "' to directory \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(directory) + "\"\n";
+                Logging.Logging.LogError(bar);
+                Logging.Logging.LogError("Exception: " + e.Message);
+
+                return;
+            }
 
             string title = "CDB finished";
-            string message = "The CDB " + fileName + " was created at directory \"" + directory + "\"\n";
+            string message = "The CDB '" + fileName + "' was created at directory \"" + directory + "\"\n";
             message += "You can now use it in Coati.";
 
             Wizard.WindowMessage windowMessage = new Wizard.WindowMessage();
@@ -215,6 +340,9 @@ namespace CoatiSoftware.CoatiPlugin
             windowMessage.Message = message;
             windowMessage.RefreshWindow();
             windowMessage.ShowDialog();
+
+            message = "The CDB '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(fileName) + "' was created at directory \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(directory) + "\"\n";
+            Logging.Logging.LogInfo(message);
         }
 
         private void MenuItemCallback(object sender, EventArgs e)
@@ -301,16 +429,20 @@ namespace CoatiSoftware.CoatiPlugin
 
         private void OnNetworkErrorCallback(string message)
         {
+            Logging.Logging.LogError("Network Error: " + message.ToString());
             DisplayMessage("Coati Network Error", message);
         }
 
         private void OnFileUtilityError(string message)
         {
+            Logging.Logging.LogError("File Error: " + message.ToString());
             DisplayMessage("Coati File Error", message);
         }
 
         private void OnServerPortChanged()
         {
+            Logging.Logging.LogInfo("Changing Server Port to " + ServerPort.ToString());
+
             Utility.AsynchronousSocketListener._port = ServerPort;
 
             _serverThread.Abort();
@@ -321,7 +453,33 @@ namespace CoatiSoftware.CoatiPlugin
 
         private void OnClientPortChanged()
         {
+            Logging.Logging.LogInfo("Changing Client Port to " + ClientPort.ToString());
+
             Utility.AsynchronousClient._port = ClientPort;
+        }
+
+        private void OnLoggingToggled()
+        {
+            Logging.LogManager.GetInstance().LoggingEnabled = LoggingEnabled;
+
+            if(LoggingEnabled)
+            {
+                Logging.Logging.LogInfo("Logging enabled");
+            }
+        }
+
+        private void OnObfuscationToggled()
+        {
+            Logging.Obfuscation.NameObfuscator.Enabled(LogObfuscationEnabled);
+
+            if(LogObfuscationEnabled)
+            {
+                Logging.Logging.LogInfo("Log Obfuscation enabled");
+            }
+            else
+            {
+                Logging.Logging.LogInfo("Log Obfuscation disabled");
+            }
         }
 
         private void DisplayMessage(string title, string message)
@@ -345,6 +503,8 @@ namespace CoatiSoftware.CoatiPlugin
 
         private void CreateCompilationDatabase(DTE dte)
         {
+            Logging.Logging.LogInfo("Preparing CDB dialog");
+
             Wizard.ProjectSetupWindow window = new Wizard.ProjectSetupWindow();
 
             Utility.SolutionUtility.SolutionStructure projectStructure = Utility.SolutionUtility.GetSolutionVCProjects(dte);

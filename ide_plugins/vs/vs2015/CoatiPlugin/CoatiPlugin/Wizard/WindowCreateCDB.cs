@@ -12,7 +12,15 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 {
     public partial class WindowCreateCDB : Form
     {
-        public delegate void OnFinishedCreatingCDB(SolutionParser.CompilationDatabase cdb, string directory, string fileName);
+        public struct CreationResult
+        {
+            public SolutionParser.CompilationDatabase _cdb;
+            public string _cdbDirectory;
+            public string _cdbName;
+            public List<string> _headerDirectories;
+        }
+
+        public delegate void OnFinishedCreatingCDB(CreationResult result);
 
         private OnFinishedCreatingCDB m_onFinishedCreateCDB = null;
 
@@ -24,7 +32,7 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
         string m_fileName = "";
         string m_cStandard = "";
 
-        SolutionParser.CompilationDatabase m_cdb = null;
+        CreationResult m_result = new CreationResult();
 
         public OnFinishedCreatingCDB CallbackOnFinishedCreatingCDB
         {
@@ -86,11 +94,22 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
             backgroundWorker1.RunWorkerAsync();
         }
 
-        private SolutionParser.CompilationDatabase CreateCDB()
+        private CreationResult CreateCDB()
         {
+            CreationResult result = new CreationResult();
+            result._cdb = null;
+            result._cdbDirectory = "";
+            result._cdbName = "";
+            result._headerDirectories = new List<string>();
+
+            Logging.Logging.LogInfo("Starting to create CDB");
+
             SolutionParser.CompilationDatabase cdb = new SolutionParser.CompilationDatabase();
 
             int projectsProcessed = 0;
+
+            List<string> headerDirectories = new List<string>();
+            SolutionParser.SolutionParser._headerDirectories.Clear();
 
             foreach (EnvDTE.Project project in m_projects)
             {
@@ -98,6 +117,7 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
                 projectsProcessed++;
                 float relativProgress = (float)projectsProcessed/(float)m_projects.Count;
+                Logging.Logging.LogInfo("Processing project \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(project.Name) + "\"");
                 backgroundWorker1.ReportProgress((int)(relativProgress * 100), "Processing project \"" + project.Name + "\"");
 
                 foreach (SolutionParser.CommandObject obj in commandObjects)
@@ -106,29 +126,51 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
                 }
             }
 
-            return cdb;
+            headerDirectories = SolutionParser.SolutionParser._headerDirectories;
+
+            result._cdb = cdb;
+            result._cdbDirectory = m_targetDir;
+            result._cdbName = m_fileName;
+            result._headerDirectories = headerDirectories;
+
+            Logging.Logging.LogInfo("Done creating CDB");
+
+            return result;
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            m_cdb = CreateCDB();
+            m_result = CreateCDB();
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            progressBar.Value = e.ProgressPercentage;
-            
-            labelStatus.Text = e.UserState as string;
+            if(backgroundWorker1.CancellationPending == false)
+            {
+                progressBar.Value = e.ProgressPercentage;
+
+                labelStatus.Text = e.UserState as string;
+            }
+            else
+            {
+                progressBar.Value = 0;
+
+                labelStatus.Text = "Cancelling...";
+            }
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if(e.Cancelled == false && e.Error == null)
+            if(e.Cancelled == false && e.Error == null && progressBar.Value >= 100)
             {
                 if (m_onFinishedCreateCDB != null)
                 {
-                    m_onFinishedCreateCDB(m_cdb, m_targetDir, m_fileName);
+                    m_onFinishedCreateCDB(m_result);
                 }
+            }
+            else
+            {
+                Logging.Logging.LogWarning("CDB creation was aborted by user");
             }
 
             Close();

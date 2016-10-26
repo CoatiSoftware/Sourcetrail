@@ -63,57 +63,75 @@ namespace CoatiSoftware.CoatiPlugin.Utility
             }
             catch (Exception e)
             {
-                //if(_onErrorCallback != null)
-                //{
-                //    _onErrorCallback(e.ToString());
-                //}
+                Logging.Logging.LogError("Exception: " + e.Message);
             }
         }
 
         public static void AcceptCallback(IAsyncResult ar)
         {
-            _allDone.Set();
+            try
+            {
+                _allDone.Set();
 
-            Socket listener = (Socket)ar.AsyncState;
-            Socket handler = listener.EndAccept(ar);
+                Socket listener = (Socket)ar.AsyncState;
+                Socket handler = listener.EndAccept(ar);
 
-            StateObject state = new StateObject();
-            state._workSocket = handler;
-            handler.BeginReceive(state._buffer, 0, StateObject._bufferSize, 0, new AsyncCallback(ReadCallback), state);
+                StateObject state = new StateObject();
+                state._workSocket = handler;
+                handler.BeginReceive(state._buffer, 0, StateObject._bufferSize, 0, new AsyncCallback(ReadCallback), state);
+            }
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Exception: " + e.Message);
+            }
         }
 
         public static void ReadCallback(IAsyncResult ar)
         {
-            String content = String.Empty;
-
-            StateObject state = (StateObject)ar.AsyncState;
-            Socket handler = state._workSocket;
-
-            int bytesRead = handler.EndReceive(ar);
-
-            if (bytesRead > 0)
+            try
             {
-                state._stringBuilder.Append(Encoding.ASCII.GetString(state._buffer, 0, bytesRead));
+                string content = String.Empty;
 
-                content = state._stringBuilder.ToString();
-                if (content.IndexOf(_endOfMessageToken) > -1)
+                StateObject state = (StateObject)ar.AsyncState;
+                Socket handler = state._workSocket;
+
+                int bytesRead = handler.EndReceive(ar);
+
+                if (bytesRead > 0)
                 {
-                    if (_onReadCallback != null)
+                    state._stringBuilder.Append(Encoding.ASCII.GetString(state._buffer, 0, bytesRead));
+
+                    content = state._stringBuilder.ToString();
+                    if (content.IndexOf(_endOfMessageToken) > -1)
                     {
-                        _onReadCallback(content);
+                        if (_onReadCallback != null)
+                        {
+                            _onReadCallback(content);
+                        }
+                    }
+                    else
+                    {
+                        handler.BeginReceive(state._buffer, 0, StateObject._bufferSize, 0, new AsyncCallback(ReadCallback), state);
                     }
                 }
-                else
-                {
-                    handler.BeginReceive(state._buffer, 0, StateObject._bufferSize, 0, new AsyncCallback(ReadCallback), state);
-                }
+            }
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Excpetion: " + e.Message);
             }
         }
 
         private static void Send(Socket handler, String data)
         {
-            byte[] byteData = Encoding.ASCII.GetBytes(data);
-            handler.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), handler);
+            try
+            {
+                byte[] byteData = Encoding.ASCII.GetBytes(data);
+                handler.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), handler);
+            }
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Excpetion: " + e.Message);
+            }
         }
 
         private static void SendCallback(IAsyncResult ar)
@@ -123,10 +141,12 @@ namespace CoatiSoftware.CoatiPlugin.Utility
                 Socket handler = (Socket)ar.AsyncState;
 
                 int bytesSent = handler.EndSend(ar);
-                Console.WriteLine("Sent {0} bytes to client.", bytesSent);
+                Logging.Logging.LogInfo("Sent " + bytesSent.ToString() + " bytes to client.");
             }
             catch (Exception e)
             {
+                Logging.Logging.LogError("Excpetion: " + e.Message);
+
                 if (_onErrorCallback != null)
                 {
                     _onErrorCallback(e.ToString());
@@ -159,6 +179,9 @@ namespace CoatiSoftware.CoatiPlugin.Utility
                 client.EndConnect(ar);
                 client.Shutdown(SocketShutdown.Both);
                 client.Close();
+
+                Logging.Logging.LogWarning("Connection timed out, message was not sent");
+
                 return;
             }
 
@@ -186,6 +209,8 @@ namespace CoatiSoftware.CoatiPlugin.Utility
             }
             catch (Exception e)
             {
+                Logging.Logging.LogError("Excpetion: " + e.Message);
+
                 if (_onErrorCallback != null)
                 {
                     _onErrorCallback(e.ToString());
@@ -195,9 +220,16 @@ namespace CoatiSoftware.CoatiPlugin.Utility
 
         private static void Send(Socket client, String data)
         {
-            byte[] byteData = Encoding.ASCII.GetBytes(data);
+            try
+            {
+                byte[] byteData = Encoding.ASCII.GetBytes(data);
 
-            client.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), client);
+                client.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), client);
+            }
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Exception: " + e.Message);
+            }
         }
 
         private static void SendCallback(IAsyncResult ar)
@@ -212,6 +244,8 @@ namespace CoatiSoftware.CoatiPlugin.Utility
             }
             catch (Exception e)
             {
+                Logging.Logging.LogError("Excpetion: " + e.Message);
+
                 if (_onErrorCallback != null)
                 {
                     if (e is ObjectDisposedException)
@@ -221,6 +255,7 @@ namespace CoatiSoftware.CoatiPlugin.Utility
                     }
                     else
                     {
+
                         _onErrorCallback(e.ToString());
                     }
                 }

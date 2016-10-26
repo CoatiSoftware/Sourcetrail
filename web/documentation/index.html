@@ -1856,7 +1856,61 @@
 					</table>
 
 					<p>Once the CDB was successfully created it can be found in the specified target directory. From this CDB you can create a Coati project as <a href="#CreateAProjectFromCompilationDatabase">described above</a>.</p>
+					
+					<strong>Settings</strong>
+					<p>Network settings and logging options can be changed in the plugin's Tools/Options entry.</p>
 
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/vs_plugin_ports_0.png" >
+						</div>
+					</div>
+					
+					<p></p>
+					
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/vs_plugin_options.png" >
+						</div>
+					</div>
+					
+					<p></p>
+					
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Option</th> <th>Description</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">Coati Port</th> <td>The port on which Coati will receive messages. Note that this must match the port setting in Coati itself.</td> </tr>
+							<tr> <th scope="row">VS Port</th> <td>The port on which Visual Studio will receive messages. Note that this must match the port setting in Coati itself.</td> </tr>
+							<tr> <th scope="row">File Logging</th> <td>Enable log output for the plugin. Additionaly to the output file, log messages will also be displayed in VS' </td> </tr>
+							<tr> <th Id="vsPluginOptionObfuscation" scope="row">Log Obfuscation</th> <td>Obfuscate project- and file names as well as directories in the log output. Note that already logged data <b>will not be obfuscated retroactively</b>. A dictionary, mapping obfuscated names to original names, will be created in a seperate file.</td> </tr>
+						</tbody>
+					</table>
+					<strong>Logging</strong>
+					<!-- File logging -->
+					<p>The plugin offers optional file logging. Should you ever have problems with the plugin we recommend to turn logging on. This will help to pinpoint and resolve the issue faster.</p>
+					<p>Logs will be created in <code>..\AppData\Local\Coati Software\Plugins\VS</code> folder. A new log file will be created every time you restart VS and logging is enabled.</p>
+					
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/vs_log_folder.png" >
+						</div>
+					</div>
+					
+					<!-- Obfuscation -->
+					<p>Note that the logs will include project- and file names as well as directories specific to your project. If you wish to keep this informatin secret you can use <a href="#vsPluginOptionObfuscation">log obfuscation</a>.</p>
+					<p>Project- and file names as well as directories will be replaced by an alphanumeric sequence. The sequence has the form <code>a0, b0, c0,..., a1, b1, c1,...</code>. Note that after switching on obfuscation, already logged data <b>will not be obfuscated retroactively</b>. No log files will be send to Coati Software automatically. You can check any file you may want to send us for sensible information before sending it.</p>
+					<p>A dictionary, mapping obfuscated names to original names, will be created in your log folder if log obfuscation is switched on. When during the support process we refer to project items by their obfuscated name you can still make sense of it. <b>Do not send the dictionary to anybody else</b>.</p>
+					
+					<!-- Console logging -->
+					<p>Lastly, log messages are also displayed in the VS output window. This is tied to file logging and is not en- or disabled separately.</p>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<img src="img/vs_output_window.png" >
+						</div>
+					</div>
+					
 				</div> <!-- .span9 !-->
 			</div> <!-- .row !-->
 		</div> <!-- .container-fluid !-->
