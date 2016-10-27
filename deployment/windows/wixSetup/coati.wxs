@@ -186,7 +186,10 @@
 				<ComponentRef Id='Typedef_2Png'/>
 				<ComponentRef Id='Typedef_3Png'/>
 
+				<ComponentRef Id='C_icon_Png'/>
 				<ComponentRef Id='CoatiIco'/>
+				<ComponentRef Id='Cpp_icon_Png'/>
+				<ComponentRef Id='Java_icon_Png'/>
 				<ComponentRef Id='Logo_1024_1024_Png'/>
 				<ComponentRef Id='ProjectIco'/>
 				<ComponentRef Id='Project_256_256_Png'/>

@@ -32,9 +32,6 @@ if [ $UPDATE_DATABASES = false ]; then
 	read -p "Press [Enter] key to continue"
 fi
 
-echo -e "$INFO Did you set the correct version number for the installers?"
-read -p "Press [Enter] key to continue"
-
 echo -e "$INFO Did you set the correct version number for the Visual Studio plugin?"
 read -p "Press [Enter] key to continue"
 
