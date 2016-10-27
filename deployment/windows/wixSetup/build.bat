@@ -12,3 +12,10 @@ light.exe -ext WixUIExtension build/coati.wixobj build/customActions.wixobj buil
 
 cp -u -r build/coati.msi bin
 cp -u -r build/Setup.exe bin
+cp -u -r lib/api-ms-win-crt-heap-l1-1-0.dll bin
+cp -u -r lib/api-ms-win-crt-locale-l1-1-0.dll bin
+cp -u -r lib/api-ms-win-crt-math-l1-1-0.dll bin
+cp -u -r lib/api-ms-win-crt-runtime-l1-1-0.dll bin
+cp -u -r lib/api-ms-win-crt-stdio-l1-1-0.dll bin
+cp -u -r lib/msvcp140.dll bin
+cp -u -r lib/vcruntime140.dll bin

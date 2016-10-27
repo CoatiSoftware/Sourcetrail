@@ -1,6 +1,7 @@
 # FLAGS
 REBUILD=true
 OBFUSCATE=true
+UPDATE_DATABASES=true
 
 
 # USEFUL VARIABLES
@@ -23,6 +24,11 @@ fi
 
 if [ $OBFUSCATE = false ]; then
 	echo -e "$INFO OBFUSCATE flag is set to false. Do you want to proceed?"
+	read -p "Press [Enter] key to continue"
+fi
+
+if [ $UPDATE_DATABASES = false ]; then
+	echo -e "$INFO UPDATE_DATABASES flag is set to false. Do you want to proceed?"
 	read -p "Press [Enter] key to continue"
 fi
 
@@ -49,40 +55,42 @@ echo "#define DEPLOY" >src/lib_gui/platform_includes/deploy.h
 # CLEANING THE PROJECT
 if [ $REBUILD = true ]; then
 	echo -e "$INFO cleaning the project"
-	"D:/programme/Microsoft Visual Studio14/Common7/IDE/devenv.com" build/Coati.sln //clean Release
+	"devenv.com" build/Coati.sln //clean Release
 fi
 
 
 # BUILDING THE EXECUTABLE
 echo -e "$INFO building the executable (app)"
-"D:/programme/Microsoft Visual Studio14/Common7/IDE/devenv.com" build/Coati.sln //build Release //project build/Coati.vcxproj
+"devenv.com" build/Coati.sln //build Release //project build/Coati.vcxproj
 
 
-# CREATING TRAIL DATABASES´
-echo -e "$INFO creating databases"
+# CREATING DATABASES
+if [ $UPDATE_DATABASES = true ]; then
+	echo -e "$INFO creating databases"
 
-rm bin/app/data/projects/tictactoe/tictactoe.coatidb
-rm bin/app/data/projects/tutorial/tutorial.coatidb
-rm bin/app/data/projects/javaparser/javaparser.coatidb
-rm -rf temp
+	rm bin/app/data/projects/tictactoe/tictactoe.coatidb
+	rm bin/app/data/projects/tutorial/tutorial.coatidb
+	rm bin/app/data/projects/javaparser/javaparser.coatidb
+	rm -rf temp
 
-mkdir -p temp
-cd temp
+	mkdir -p temp
+	cd temp
 
-echo -e "$INFO saving license key"
-../bin/app/Release/Coati.exe -z ../script/license.txt
+	echo -e "$INFO saving license key"
+	../bin/app/Release/Coati.exe -z ../script/license.txt
 
-echo -e "$INFO creating database for tictactie"
-../bin/app/Release/Coati.exe -p ../bin/app/data/projects/tictactoe/tictactoe.coatiproject -d
+	echo -e "$INFO creating database for tictactie"
+	../bin/app/Release/Coati.exe -p ../bin/app/data/projects/tictactoe/tictactoe.coatiproject -d
 
-echo -e "$INFO creating database for tutorial"
-../bin/app/Release/Coati.exe -p ../bin/app/data/projects/tutorial/tutorial.coatiproject -d
+	echo -e "$INFO creating database for tutorial"
+	../bin/app/Release/Coati.exe -p ../bin/app/data/projects/tutorial/tutorial.coatiproject -d
 
-echo -e "$INFO creating database for javaparser"
-../bin/app/Release/Coati.exe -p ../bin/app/data/projects/javaparser/javaparser.coatiproject -d
+	echo -e "$INFO creating database for javaparser"
+	../bin/app/Release/Coati.exe -p ../bin/app/data/projects/javaparser/javaparser.coatiproject -d
 
-cd ..
-rm -rf temp
+	cd ..
+	rm -rf temp
+fi
 
 
 # OBFUSCATING THE EXECUTABLE
@@ -117,6 +125,13 @@ mkdir -p $APP_PACKAGE_DIR
 
 cp -u -r deployment/windows/wixSetup/bin/Coati.msi $APP_PACKAGE_DIR/
 cp -u -r deployment/windows/wixSetup/bin/setup.exe $APP_PACKAGE_DIR/
+cp -u -r deployment/windows/wixSetup/bin/api-ms-win-crt-heap-l1-1-0.dll $APP_PACKAGE_DIR/
+cp -u -r deployment/windows/wixSetup/bin/api-ms-win-crt-locale-l1-1-0.dll $APP_PACKAGE_DIR/
+cp -u -r deployment/windows/wixSetup/bin/api-ms-win-crt-math-l1-1-0.dll $APP_PACKAGE_DIR/
+cp -u -r deployment/windows/wixSetup/bin/api-ms-win-crt-runtime-l1-1-0.dll $APP_PACKAGE_DIR/
+cp -u -r deployment/windows/wixSetup/bin/api-ms-win-crt-stdio-l1-1-0.dll $APP_PACKAGE_DIR/
+cp -u -r deployment/windows/wixSetup/bin/msvcp140.dll $APP_PACKAGE_DIR/
+cp -u -r deployment/windows/wixSetup/bin/vcruntime140.dll $APP_PACKAGE_DIR/
 
 mkdir -p $APP_PACKAGE_DIR/plugins/atom/
 cp -u -r ide_plugins/atom/* $APP_PACKAGE_DIR/plugins/atom/
@@ -148,7 +163,7 @@ rm -rf $APP_PACKAGE_DIR
 
 # UNSETTING THE DEPLOY FLAG
 rm -rf src/lib_gui/platform_includes/deploy.h
-echo "// #define DEPLOY" >src/lib_gui/platform_includes/deploy.h
+echo $'// #define DEPLOY' >src/lib_gui/platform_includes/deploy.h
 
 
 echo -e "$SUCCESS packaging complete!"

@@ -19,6 +19,12 @@ Build the installer
 
 
 ---------------------
+Clean the project
+---------------------
+-Just delete the "bin" and "build" folders
+
+
+---------------------
 Update Version Number
 ---------------------
 -See below ('chapter' Create new Version)
