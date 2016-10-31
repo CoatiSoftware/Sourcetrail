@@ -5,9 +5,11 @@
 #include <QFrame>
 #include <QHeaderView>
 #include <QItemSelectionModel>
+#include <QLineEdit>
 #include <QPalette>
 #include <QStandardItemModel>
 #include <QStandardItem>
+#include <QStyledItemDelegate>
 
 #include "qt/utility/utilityQt.h"
 #include "qt/element/QtTable.h"
@@ -18,6 +20,25 @@
 #include "utility/ResourcePaths.h"
 
 #include "qt/view/QtViewWidgetWrapper.h"
+
+class SelectableDelegate : public QStyledItemDelegate
+{
+	QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+};
+
+QWidget* SelectableDelegate::createEditor(
+	QWidget* parent,
+	const QStyleOptionViewItem &option,
+	const QModelIndex &index) const
+{
+	QWidget* editor = QStyledItemDelegate::createEditor(parent, option, index);
+	QLineEdit* lineEdit = dynamic_cast<QLineEdit*>(editor);
+	if (lineEdit != nullptr)
+	{
+		lineEdit->setReadOnly(true);
+	}
+	return editor;
+}
 
 QtErrorView::QtErrorView(ViewLayout* viewLayout)
 	: ErrorView(viewLayout)
@@ -50,6 +71,7 @@ void QtErrorView::initView()
 	m_table = new QtTable(this);
 	m_model = new QStandardItemModel(this);
 	m_table->setModel(m_model);
+	m_table->setItemDelegate(new SelectableDelegate());
 
 	// Setup Table Headers
 	m_model->setColumnCount(6);
