@@ -92,6 +92,18 @@ std::shared_ptr<NameElement> NameHierarchy::operator[](size_t pos) const
 	return m_elements[pos];
 }
 
+NameHierarchy NameHierarchy::getRange(size_t first, size_t last) const
+{
+	NameHierarchy hierarchy;
+
+	for (size_t i = first; i < last; i++)
+	{
+		hierarchy.push(m_elements[i]);
+	}
+
+	return hierarchy;
+}
+
 size_t NameHierarchy::size() const
 {
 	return m_elements.size();

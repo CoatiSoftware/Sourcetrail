@@ -121,6 +121,32 @@ Id HierarchyCache::getLastVisibleParentNodeId(Id nodeId) const
 	return nodeId;
 }
 
+size_t HierarchyCache::getIndexOfLastVisibleParentNode(Id nodeId) const
+{
+	HierarchyNode* node = nullptr;
+	HierarchyNode* parent = getNode(nodeId);
+
+	size_t idx = 0;
+	bool visible = false;
+
+	while (parent)
+	{
+		node = parent;
+		parent = node->getParent();
+
+		if (node->isVisible())
+		{
+			visible = true;
+		}
+		else if (visible)
+		{
+			idx++;
+		}
+	}
+
+	return idx;
+}
+
 void HierarchyCache::addAllChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds, std::vector<Id>* edgeIds) const
 {
 	HierarchyNode* node = getNode(nodeId);

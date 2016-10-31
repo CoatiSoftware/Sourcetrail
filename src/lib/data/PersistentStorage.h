@@ -151,6 +151,7 @@ private:
 
 	SearchIndex m_commandIndex;
 	SearchIndex m_elementIndex;
+	SearchIndex m_fileIndex;
 
 	mutable FullTextSearchIndex m_fullTextSearchIndex;
 

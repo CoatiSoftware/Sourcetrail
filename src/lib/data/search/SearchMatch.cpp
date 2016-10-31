@@ -49,7 +49,8 @@ std::string SearchMatch::searchMatchesToString(const std::vector<SearchMatch>& m
 SearchMatch SearchMatch::createCommand(CommandType type)
 {
 	SearchMatch match;
-	match.text = getCommandName(type);
+	match.name = getCommandName(type);
+	match.text = match.name;
 	match.typeName = "command";
 	match.searchType = SEARCH_COMMAND;
 	return match;
@@ -96,11 +97,58 @@ SearchMatch::SearchMatch()
 }
 
 SearchMatch::SearchMatch(const std::string& query)
-	: text(query)
+	: name(query)
 	, typeName("")
 	, searchType(SEARCH_NONE)
 	, hasChildren(false)
 {
+}
+
+
+bool SearchMatch::operator<(const SearchMatch& other) const
+{
+	// score
+	if (score > other.score)
+	{
+		return true;
+	}
+	else if (score < other.score)
+	{
+		return false;
+	}
+
+	// text size
+	if (text.size() < other.text.size())
+	{
+		return true;
+	}
+	else if (text.size() > other.text.size())
+	{
+		return false;
+	}
+
+	// lower case
+	for (size_t i = 0; i < text.size(); i++)
+	{
+		if (tolower(text[i]) != tolower(other.text[i]))
+		{
+			return tolower(text[i]) < tolower(other.text[i]);
+		}
+		else
+		{
+			// alphabetical
+			if (text[i] < other.text[i])
+			{
+				return true;
+			}
+			else if (text[i] > other.text[i])
+			{
+				return false;
+			}
+		}
+	}
+
+	return false;
 }
 
 bool SearchMatch::isValid() const
@@ -110,7 +158,7 @@ bool SearchMatch::isValid() const
 
 void SearchMatch::print(std::ostream& ostream) const
 {
-	ostream << text << std::endl << '\t';
+	ostream << name << std::endl << '\t';
 	size_t i = 0;
 	for (size_t index : indices)
 	{
@@ -127,7 +175,12 @@ void SearchMatch::print(std::ostream& ostream) const
 
 std::string SearchMatch::getFullName() const
 {
-	return text;
+	if (searchType == SEARCH_TOKEN && nodeType == Node::NODE_FILE)
+	{
+		return text;
+	}
+
+	return name;
 }
 
 std::string SearchMatch::getNodeTypeAsString() const

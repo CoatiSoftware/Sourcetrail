@@ -22,7 +22,8 @@
 			<text>#F7F7F7</text>
 			<by_text>#A0A0A0</by_text>
 			<background>#272728</background>
-			<highlight>#555555</highlight>
+			<highlight>#333333</highlight>
+			<line>#444444</line>
 		</popup>
 
 		<query>

@@ -8,7 +8,8 @@ class QtDeviceScaledPixmap
 public:
 	static qreal devicePixelRatio();
 
-	explicit QtDeviceScaledPixmap(QString filePath);
+	QtDeviceScaledPixmap();
+	QtDeviceScaledPixmap(QString filePath);
 	virtual ~QtDeviceScaledPixmap();
 
 	const QPixmap& pixmap() const;
@@ -20,6 +21,7 @@ public:
 	void scaleToHeight(int height);
 
 	void mirror(bool horizontal = false, bool vertical = true);
+	void colorize(QColor color);
 
 private:
 	QPixmap m_pixmap;

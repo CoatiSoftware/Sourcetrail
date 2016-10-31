@@ -20,9 +20,10 @@
 
 		<popup>
 			<text>#3D3D3D</text>
-			<by_text>#A0A0A0</by_text>
+			<by_text>#808080</by_text>
 			<background>#CCCCCC</background>
 			<highlight>#FFFFFF</highlight>
+			<line>#B1B1B1</line>
 		</popup>
 
 		<query>

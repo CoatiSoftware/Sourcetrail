@@ -15,6 +15,7 @@ public:
 	void createConnection(Id edgeId, Id fromId, Id toId, bool fromVisible);
 
 	Id getLastVisibleParentNodeId(Id nodeId) const;
+	size_t getIndexOfLastVisibleParentNode(Id nodeId) const;
 
 	void addAllChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds, std::vector<Id>* edgeIds) const;
 	void addFirstChildIdsForNodeId(Id nodeId, std::vector<Id>* nodeIds) const;

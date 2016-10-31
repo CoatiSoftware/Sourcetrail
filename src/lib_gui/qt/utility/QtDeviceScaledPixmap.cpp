@@ -2,10 +2,16 @@
 
 #include <QApplication>
 
+#include "qt/utility/utilityQt.h"
+
 qreal QtDeviceScaledPixmap::devicePixelRatio()
 {
 	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
 	return app->devicePixelRatio();
+}
+
+QtDeviceScaledPixmap::QtDeviceScaledPixmap()
+{
 }
 
 QtDeviceScaledPixmap::QtDeviceScaledPixmap(QString filePath)
@@ -47,4 +53,9 @@ void QtDeviceScaledPixmap::mirror(bool horizontal, bool vertical)
 {
 	m_pixmap = QPixmap::fromImage(m_pixmap.toImage().mirrored(horizontal, vertical));
 	m_pixmap.setDevicePixelRatio(devicePixelRatio());
+}
+
+void QtDeviceScaledPixmap::colorize(QColor color)
+{
+	m_pixmap = utility::colorizePixmap(m_pixmap, color);
 }

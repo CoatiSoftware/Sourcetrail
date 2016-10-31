@@ -30,9 +30,9 @@
 PersistentStorage::PersistentStorage(const FilePath& dbPath)
 	: m_sqliteStorage(dbPath)
 {
-	m_commandIndex.addNode(0, NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_ALL)));
-	m_commandIndex.addNode(0, NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR)));
-	// m_commandIndex.addNode(0, NameHierarchy(SearchMatch::getCommandName(SearchMatch::COMMAND_COLOR_SCHEME_TEST)));
+	m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_ALL));
+	m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_ERROR));
+	// m_commandIndex.addNode(0, SearchMatch::getCommandName(SearchMatch::COMMAND_COLOR_SCHEME_TEST));
 	m_commandIndex.finishSetup();
 }
 
@@ -275,6 +275,7 @@ void PersistentStorage::clear()
 void PersistentStorage::clearCaches()
 {
 	m_elementIndex.clear();
+	m_fileIndex.clear();
 	m_fileNodeIds.clear();
 	m_fileNodePaths.clear();
 	m_hierarchyCache.clear();
@@ -344,8 +345,8 @@ void PersistentStorage::buildCaches()
 
 	clearCaches();
 
-	buildSearchIndex();
 	buildFilePathMaps();
+	buildSearchIndex();
 	buildHierarchyCache();
 }
 
@@ -478,55 +479,14 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 {
 	TRACE();
 
-	std::vector<SearchResult> commandResults = m_commandIndex.search(query, 0);
-
-	const size_t maxResultCount = 100;
-	std::vector<SearchResult> elementResults = m_elementIndex.search(query, maxResultCount);
-
+	// search in indices
+	size_t maxResultsCount = 100;
 	std::vector<SearchResult> results;
-	utility::append(results, commandResults);
-	utility::append(results, elementResults);
+	utility::append(results, m_commandIndex.search(query, 0));
+	utility::append(results, m_elementIndex.search(query, maxResultsCount, 100));
+	utility::append(results, m_fileIndex.search(query, 20));
 
-	std::sort(results.begin(), results.end(),
-		[](const SearchResult& a, const SearchResult& b)
-		{
-			// should a be ranked higher than b?
-			if (a.score > b.score)
-			{
-				return true;
-			}
-			else if (a.score == b.score)
-			{
-				if (a.text.size() < b.text.size())
-				{
-					return true;
-				}
-				else if (a.text.size() == b.text.size())
-				{
-					for (size_t i = 0; i < a.text.size(); i++)
-					{
-						if (tolower(a.text[i]) != tolower(b.text[i]))
-						{
-							return tolower(a.text[i]) < tolower(b.text[i]);
-						}
-						else
-						{
-							if (a.text[i] < b.text[i])
-							{
-								return true;
-							}
-							else if (a.text[i] > b.text[i])
-							{
-								return false;
-							}
-						}
-					}
-				}
-			}
-			return false;
-		}
-	);
-
+	// fetch StorageNodes for node ids
 	std::map<Id, StorageNode> storageNodesMap;
 	{
 		std::vector<Id> elementIds;
@@ -547,7 +507,8 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 		}
 	}
 
-	std::vector<SearchMatch> matches;
+	// create SearchMatches
+	std::set<SearchMatch> matches;
 	for (const SearchResult& result : results)
 	{
 		SearchMatch match;
@@ -572,13 +533,40 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 			}
 		}
 
-		match.text = result.text;
+		match.name = result.text;
 		match.indices = result.indices;
+		match.score = result.score;
 
 		if (firstNode)
 		{
 			match.nodeType = Node::intToType(firstNode->type);
 			match.typeName = Node::getTypeString(match.nodeType);
+
+			size_t idx = 0;
+			if (match.nodeType == Node::NODE_FILE)
+			{
+				idx = 1;
+
+				FilePath path(match.name);
+				match.text = path.fileName();
+				match.subtext = path.str();
+			}
+			else
+			{
+				idx = m_hierarchyCache.getIndexOfLastVisibleParentNode(firstNode->id);
+				const NameHierarchy& name = match.nameHierarchies[0];
+
+				match.text = name.getRange(idx, name.size()).getQualifiedName();
+				match.subtext = name.getRange(0, idx).getQualifiedName();
+			}
+
+			// rescore match
+			if (idx && match.indices.size())
+			{
+				SearchResult newResult = SearchIndex::rescoreText(match.name, match.text, match.indices, match.score);
+				match.score = newResult.score;
+				match.indices = newResult.indices;
+			}
 
 			if (intToDefinitionType(firstNode->definitionType) == DEFINITION_NONE
 					&& match.nodeType != Node::NODE_UNDEFINED)
@@ -593,10 +581,16 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 			match.typeName = "command";
 		}
 
-		matches.push_back(match);
+		matches.insert(match);
 	}
 
-	return matches;
+	std::vector<SearchMatch> matchesVector = utility::toVector(matches);
+	if (matchesVector.size() > maxResultsCount)
+	{
+		matchesVector.resize(maxResultsCount);
+	}
+
+	return matchesVector;
 }
 
 std::vector<SearchMatch> PersistentStorage::getSearchMatchesForTokenIds(const std::vector<Id>& elementIds) const
@@ -624,7 +618,7 @@ std::vector<SearchMatch> PersistentStorage::getSearchMatchesForTokenIds(const st
 		}
 
 		NameHierarchy nameHierarchy = NameHierarchy::deserialize(m_sqliteStorage.getNodeById(elementId).serializedName);
-		match.text = nameHierarchy.getQualifiedName();
+		match.name = nameHierarchy.getQualifiedName();
 		match.nameHierarchies.push_back(nameHierarchy.getQualifiedName());
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 
@@ -1430,14 +1424,33 @@ void PersistentStorage::buildSearchIndex()
 {
 	TRACE();
 
+	FilePath dbPath = getDbFilePath();
+
 	for (StorageNode node : m_sqliteStorage.getAllNodes())
 	{
 		if (intToDefinitionType(node.definitionType) != DEFINITION_IMPLICIT)
 		{
-			m_elementIndex.addNode(node.id, NameHierarchy::deserialize(node.serializedName));
+			if (Node::intToType(node.type) == Node::NODE_FILE)
+			{
+				FilePath filePath = m_fileNodePaths[node.id];
+
+				if (filePath.exists())
+				{
+					filePath = filePath.relativeTo(dbPath);
+				}
+
+				m_fileIndex.addNode(node.id, filePath.str());
+			}
+			else
+			{
+				// we don't use the signature here, so elements with the same signature share the same node.
+				m_elementIndex.addNode(node.id, NameHierarchy::deserialize(node.serializedName).getQualifiedName());
+			}
 		}
 	}
+
 	m_elementIndex.finishSetup();
+	m_fileIndex.finishSetup();
 }
 
 void PersistentStorage::buildFilePathMaps()

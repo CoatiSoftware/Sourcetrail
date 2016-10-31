@@ -41,6 +41,8 @@ struct SearchMatch
 	SearchMatch();
 	SearchMatch(const std::string& query);
 
+	bool operator<(const SearchMatch& other) const;
+
 	bool isValid() const;
 
 	void print(std::ostream& ostream) const;
@@ -49,11 +51,18 @@ struct SearchMatch
 	std::string getNodeTypeAsString() const;
 	std::string getSearchTypeName() const;
 
+	std::string name;
+
 	std::string text;
+	std::string subtext;
+
 	std::string typeName;
+
 	Node::NodeType nodeType;
 	SearchType searchType;
 	std::vector<size_t> indices;
+
+	int score;
 
 	std::vector<NameHierarchy> nameHierarchies;
 

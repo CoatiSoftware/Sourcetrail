@@ -10,6 +10,7 @@
 #include <QListView>
 
 #include "data/search/SearchMatch.h"
+#include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/utility/QtScrollSpeedChangeListener.h"
 
 class QtAutocompletionModel
@@ -30,6 +31,10 @@ public:
 
 	const SearchMatch* getSearchMatchAt(int idx) const;
 
+	QString longestText() const;
+	QString longestSubText() const;
+	QString longestType() const;
+
 private:
 	std::vector<SearchMatch> m_matchList;
 };
@@ -39,11 +44,27 @@ class QtAutocompletionDelegate
 	: public QStyledItemDelegate
 {
 public:
-	explicit QtAutocompletionDelegate(QObject* parent = 0);
+	explicit QtAutocompletionDelegate(QtAutocompletionModel* model, QObject* parent = 0);
 	virtual ~QtAutocompletionDelegate();
 
 	virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 	virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
+
+	void calculateCharSizes(QFont font);
+	void resetCharSizes();
+
+private:
+	QtAutocompletionModel* m_model;
+
+	QFont m_font1;
+	QFont m_font2;
+
+	float m_charWidth1;
+	float m_charHeight1;
+	float m_charWidth2;
+	float m_charHeight2;
+
+	QtDeviceScaledPixmap m_arrow;
 };
 
 

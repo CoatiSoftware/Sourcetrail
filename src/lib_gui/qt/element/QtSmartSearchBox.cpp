@@ -146,11 +146,11 @@ bool QtSmartSearchBox::event(QEvent *event)
 			{
 				if (m_highlightedMatch.hasChildren)
 				{
-					setEditText((m_highlightedMatch.text + NameHierarchy::getDelimiter()).c_str());
+					setEditText((m_highlightedMatch.getFullName() + NameHierarchy::getDelimiter()).c_str());
 				}
 				else
 				{
-					setEditText(m_highlightedMatch.text.c_str());
+					setEditText(m_highlightedMatch.getFullName().c_str());
 				}
 
 				requestAutoCompletions();
@@ -456,7 +456,7 @@ void QtSmartSearchBox::onTextEdited(const QString& text)
 		}
 	}
 
-	if (match.text.size() && !m_allowMultipleElements)
+	if (match.name.size() && !m_allowMultipleElements)
 	{
 		if (m_matches.size())
 		{
@@ -475,7 +475,7 @@ void QtSmartSearchBox::onTextEdited(const QString& text)
 		layoutElements();
 	}
 
-	if (match.text.size() || m_elements.size())
+	if (match.name.size() || m_elements.size())
 	{
 		requestAutoCompletions();
 	}
@@ -510,7 +510,7 @@ void QtSmartSearchBox::onAutocompletionActivated(const SearchMatch& match)
 {
 	addMatchAndUpdate(match);
 
-	if (match.text.size())
+	if (match.name.size())
 	{
 		search();
 	}
@@ -580,7 +580,7 @@ void QtSmartSearchBox::moveCursorTo(int target)
 
 void QtSmartSearchBox::addMatch(const SearchMatch& match)
 {
-	if (!match.text.size())
+	if (!match.name.size())
 	{
 		return;
 	}
@@ -607,7 +607,7 @@ void QtSmartSearchBox::addMatch(const SearchMatch& match)
 
 void QtSmartSearchBox::addMatchAndUpdate(const SearchMatch& match)
 {
-	if (match.text.size())
+	if (match.name.size())
 	{
 		m_oldText.clear();
 		clearLineEdit();

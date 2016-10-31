@@ -159,7 +159,7 @@ void FeatureController::handleMessage(MessageSearch* message)
 	MessageActivateTokens m(message, tokenIds);
 	for (const SearchMatch& match : matches)
 	{
-		m.unknownNames.push_back(match.text);
+		m.unknownNames.push_back(match.name);
 	}
 	if (!message->isReplayed())
 	{
