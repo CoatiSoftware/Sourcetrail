@@ -46,21 +46,14 @@ import me.tomassetti.symbolsolver.model.typesystem.*;
 
 public class JavaAstVisitor extends JavaAstVisitorAdapter
 {
-	private int m_callbackId = -1;
+	protected int m_callbackId = -1;
 	private String m_filePath;
 	private FileContent m_fileContent;
 	private TypeSolver m_typeSolver;
 	private List<DeclContext> m_context = new ArrayList<DeclContext>();
-	private boolean m_verbose = false;
-	static int errorCount = 0;
 	
 	public JavaAstVisitor(int callbackId, String filePath, FileContent fileContent, TypeSolver typeSolver)
-	{
-		if (m_verbose)
-		{
-			System.out.println("indexing file: " + filePath);
-		}
-		
+	{		
 		m_callbackId = callbackId;
 		m_filePath = filePath;
 		m_fileContent = fileContent;
@@ -80,7 +73,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			
 		String packageName = JavaparserDeclNameResolver.getQualifiedName(nameExpr).toSerializedNameHierarchy();
 		
-		JavaIndexer.recordSymbolWithScope(
+		JavaIndexer.recordSymbolWithLocationAndScope(
 			m_callbackId, packageName, SymbolType.PACKAGE,
 			nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column, 
 			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column,
@@ -96,7 +89,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		
 		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
-		JavaIndexer.recordSymbolWithScope(
+		JavaIndexer.recordSymbolWithLocationAndScope(
 			m_callbackId, qualifiedName, (n.isInterface() ? SymbolType.INTERFACE : SymbolType.CLASS),
 			nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column, 
 			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column,
@@ -128,7 +121,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		qualifiedName += "\tn";
 		qualifiedName += n.getName() + "\ts\tp";
 		
-		JavaIndexer.recordSymbol(
+		JavaIndexer.recordSymbolWithLocation(
 			m_callbackId, qualifiedName, SymbolType.TYPE_PARAMETER, 
 			n.getBegin().line, n.getBegin().column, n.getBegin().line, n.getBegin().column + n.getName().length() - 1,
 			AccessKind.TYPE_PARAMETER, false
@@ -147,7 +140,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		
 		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
-		JavaIndexer.recordSymbolWithScope(
+		JavaIndexer.recordSymbolWithLocationAndScope(
 			m_callbackId, qualifiedName, SymbolType.ENUM, 
 			nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column, 
 			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column,
@@ -168,7 +161,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	{
 		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
-		JavaIndexer.recordSymbol(
+		JavaIndexer.recordSymbolWithLocation(
 			m_callbackId, qualifiedName, SymbolType.ENUM_CONSTANT,
 			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column, 
 			AccessKind.NONE, false
@@ -187,7 +180,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		
 		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
-		JavaIndexer.recordSymbolWithScope(
+		JavaIndexer.recordSymbolWithLocationAndScope(
 			m_callbackId, qualifiedName, SymbolType.METHOD,
 			nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column, 
 			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column, 
@@ -207,7 +200,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		
 		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
-		JavaIndexer.recordSymbolWithScope(
+		JavaIndexer.recordSymbolWithLocationAndScope(
 			m_callbackId, qualifiedName, SymbolType.METHOD, 
 			nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column, 
 			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column, 
@@ -290,7 +283,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(varDecl, m_typeSolver).toSerializedNameHierarchy();		
 			VariableDeclaratorId varDeclId = varDecl.getId();
 			
-			JavaIndexer.recordSymbol(
+			JavaIndexer.recordSymbolWithLocation(
 				m_callbackId, qualifiedName, SymbolType.FIELD, 
 				varDeclId.getBegin().line, varDeclId.getBegin().column, varDeclId.getEnd().line, varDeclId.getEnd().column,
 				AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), false
@@ -470,7 +463,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		{
 			String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toSerializedNameHierarchy();
 			
-			JavaIndexer.recordSymbolWithoutLocation(
+			JavaIndexer.recordSymbol(
 				m_callbackId, referencedName, SymbolType.BUILTIN_TYPE,
 				AccessKind.NONE, true
 			);
@@ -497,7 +490,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		{
 			String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toSerializedNameHierarchy();
 			
-			JavaIndexer.recordSymbolWithoutLocation(
+			JavaIndexer.recordSymbol(
 				m_callbackId, referencedName, SymbolType.BUILTIN_TYPE,
 				AccessKind.NONE, true
 			);
@@ -615,7 +608,6 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 				MethodUsage solvedMethod = JavaParserFacade.get(m_typeSolver).solveMethodAsUsage(n);
 				qualifiedName = getQualifiedName(solvedMethod);
 			}
-			
 			catch (UnsupportedOperationException e)
 			{
 				recordException(e, n);
@@ -632,7 +624,6 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			{
 				recordException(e, n);
 			}
-			
 		}
 		
 		if (!qualifiedName.isEmpty())
@@ -653,31 +644,22 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	
 	private void recordException(Exception e, Node n)
 	{
-		JavaIndexer.recordSymbol(
+		JavaIndexer.logError(m_callbackId, e.getClass() + " at " + m_filePath + "<"+ n.getBegin().line + ", " + n.getBegin().column + ">");
+		JavaIndexer.recordSymbolWithLocation(
 			m_callbackId, "unsolved-symbol\ts\tp", SymbolType.TYPE_MAX, 
 			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column, 
 			AccessKind.DEFAULT, false
 		);
-		errorCount++;
-		if (m_verbose)
-		{
-			System.out.println(e + " at location " + n.getBegin().line + ", " + n.getBegin().column + " [errors: " + errorCount + "]");
-		}
-		
 	}
 	
 	private void recordError(Error e, Node n)
 	{
-		JavaIndexer.recordSymbol(
+		JavaIndexer.logError(m_callbackId, e.getClass() + " at " + m_filePath + "<"+ n.getBegin().line + ", " + n.getBegin().column + ">");
+		JavaIndexer.recordSymbolWithLocation(
 			m_callbackId, "unsolved-symbol\ts\tp", SymbolType.TYPE_MAX, 
 			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column, 
 			AccessKind.DEFAULT, false
 		);
-		errorCount++;
-		if (m_verbose)
-		{
-			System.out.println(e + " at location " + n.getBegin().line + ", " + n.getBegin().column + " [errors: " + errorCount + "]");
-		}
 	}
 
 

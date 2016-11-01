@@ -24,19 +24,6 @@ std::string ParserClient::addAccessPrefix(const std::string& str, AccessKind acc
 	return str;
 }
 
-std::string ParserClient::addAbstractionPrefix(const std::string& str, AbstractionType abstraction)
-{
-	switch (abstraction)
-	{
-	case ABSTRACTION_VIRTUAL:
-		return "virtual " + str;
-	case ABSTRACTION_PURE_VIRTUAL:
-		return "pure virtual " + str;
-	case ABSTRACTION_NONE:
-		return str;
-	}
-}
-
 std::string ParserClient::addStaticPrefix(const std::string& str, bool isStatic)
 {
 	if (isStatic)

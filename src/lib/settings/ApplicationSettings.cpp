@@ -160,9 +160,19 @@ bool ApplicationSettings::getLoggingEnabled() const
 	return getValue<bool>("application/logging_enabled", false);
 }
 
-void ApplicationSettings::setLoggingEnabled(bool loggingEnabled)
+void ApplicationSettings::setLoggingEnabled(bool value)
 {
-	setValue<bool>("application/logging_enabled", loggingEnabled);
+	setValue<bool>("application/logging_enabled", value);
+}
+
+bool ApplicationSettings::getVerboseInderxerLoggingEnabled() const
+{
+	return getValue<bool>("application/verbose_indexer_logging_enabled", false);
+}
+
+void ApplicationSettings::setVerboseInderxerLoggingEnabled(bool value)
+{
+	setValue<bool>("application/verbose_indexer_logging_enabled", value);
 }
 
 int ApplicationSettings::getIndexerThreadCount() const

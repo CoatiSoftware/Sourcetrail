@@ -70,6 +70,14 @@ private:
 //.. add as many MAKE_ARGS_* as there are MAKE_PARAMS_*
 
 
+#define DEF_RELAYING_METHOD_1(NAME, t1)										\
+	DEF_RELAYING_METHOD(NAME, MAKE_PARAMS_1(t1), MAKE_ARGS_1(t1))
+
+#define DEF_RELAYING_METHOD_2(NAME, t1, t2)										\
+	DEF_RELAYING_METHOD(NAME, MAKE_PARAMS_2(t1, t2), MAKE_ARGS_2(t1, t2))
+
+#define DEF_RELAYING_METHOD_3(NAME, t1, t2, t3)										\
+	DEF_RELAYING_METHOD(NAME, MAKE_PARAMS_3(t1, t2, t3), MAKE_ARGS_3(t1, t2, t3))
 
 #define DEF_RELAYING_METHOD_4(NAME, t1, t2, t3, t4)										\
 	DEF_RELAYING_METHOD(NAME, MAKE_PARAMS_4(t1, t2, t3, t4), MAKE_ARGS_4(t1, t2, t3, t4))
@@ -112,9 +120,12 @@ private:
 		}																				\
 	}
 
-	DEF_RELAYING_METHOD_8(RecordSymbol, jstring, jint, jint, jint, jint, jint, jint, jint)
-	DEF_RELAYING_METHOD_4(RecordSymbolWithoutLocation, jstring, jint, jint, jint)
-	DEF_RELAYING_METHOD_12(RecordSymbolWithScope, jstring, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint)
+	DEF_RELAYING_METHOD_1(LogInfo, jstring)
+	DEF_RELAYING_METHOD_1(LogWarning, jstring)
+	DEF_RELAYING_METHOD_1(LogError, jstring)
+	DEF_RELAYING_METHOD_4(RecordSymbol, jstring, jint, jint, jint)
+	DEF_RELAYING_METHOD_8(RecordSymbolWithLocation, jstring, jint, jint, jint, jint, jint, jint, jint)
+	DEF_RELAYING_METHOD_12(RecordSymbolWithLocationAndScope, jstring, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint)
 	DEF_RELAYING_METHOD_7(RecordReference, jint, jstring, jstring, jint, jint, jint, jint)
 	DEF_RELAYING_METHOD_5(RecordLocalSymbol, jstring, jint, jint, jint, jint)
 	DEF_RELAYING_METHOD_4(RecordComment, jint, jint, jint, jint)
@@ -128,19 +139,24 @@ private:
 
 
 
+	void doLogInfo(jstring jInfo);
+
+	void doLogWarning(jstring jWarning);
+
+	void doLogError(jstring jError);
 
 	void doRecordSymbol(
+		jstring jSymbolName, jint jSymbolType,
+		jint jAccess, jint jIsImplicit
+	);
+
+	void doRecordSymbolWithLocation(
 		jstring jSymbolName, jint jSymbolType,
 		jint beginLine, jint beginColumn, jint endLine, jint endColumn,
 		jint jAccess, jint jIsImplicit
 	);
 
-	void doRecordSymbolWithoutLocation(
-		jstring jSymbolName, jint jSymbolType,
-		jint jAccess, jint jIsImplicit
-	);
-
-	void doRecordSymbolWithScope(
+	void doRecordSymbolWithLocationAndScope(
 		jstring jSymbolName, jint jSymbolType,
 		jint beginLine, jint beginColumn, jint endLine, jint endColumn,
 		jint scopeBeginLine, jint scopeBeginColumn, jint scopeEndLine, jint scopeEndColumn,

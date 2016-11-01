@@ -10,17 +10,18 @@ JavaEnvironment::~JavaEnvironment()
 	JavaEnvironmentFactory::getInstance()->unregisterEnvironment();
 }
 
-bool JavaEnvironment::callStaticVoidMethod(std::string className, std::string methodName, int arg1, std::string arg2, std::string arg3, std::string arg4)
+bool JavaEnvironment::callStaticVoidMethod(std::string className, std::string methodName, int arg1, std::string arg2, std::string arg3, std::string arg4, int arg5)
 {
 	jclass javaClass = getJavaClass(className);
-	jmethodID javaMethodId = getJavaStaticMethod(javaClass, methodName, "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+	jmethodID javaMethodId = getJavaStaticMethod(javaClass, methodName, "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V");
 	if(javaMethodId != nullptr)
 	{
 		jint jarg1 = arg1;
 		jstring jarg2 = m_env->NewStringUTF(arg2.c_str());
 		jstring jarg3 = m_env->NewStringUTF(arg3.c_str());
 		jstring jarg4 = m_env->NewStringUTF(arg4.c_str());
-		m_env->CallStaticVoidMethod(javaClass, javaMethodId, jarg1, jarg2, jarg3, jarg4);
+		jint jarg5 = arg5;
+		m_env->CallStaticVoidMethod(javaClass, javaMethodId, jarg1, jarg2, jarg3, jarg4, jarg5);
 		return true;
 	}
 	return false;

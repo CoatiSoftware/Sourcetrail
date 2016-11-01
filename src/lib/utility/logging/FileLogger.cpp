@@ -106,6 +106,7 @@ void FileLogger::logMessage(const std::string& type, const LogMessage& message)
 	std::ofstream fileStream;
 	fileStream.open(m_logDirectory + m_currentLogFileName, std::ios::app);
 	fileStream << message.getTimeString("%H:%M:%S") << " | ";
+	fileStream << message.threadId << " | ";
 
 	if (message.filePath.size())
 	{

@@ -1,6 +1,46 @@
 Token.cpp ERROR: Location Id was not referenced by this Token.
 Node.cpp WARNING: Cannot change NodeType after it was already set from namespace to class
 Edge.cpp ERROR: Nodes are not plain copies.
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
  INFO: send TestMessage 
  INFO: handle TestMessage 
  INFO: send TestMessage 

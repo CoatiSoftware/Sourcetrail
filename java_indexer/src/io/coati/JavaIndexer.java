@@ -20,9 +20,9 @@ import me.tomassetti.symbolsolver.resolution.typesolvers.JreTypeSolver;
 
 public class JavaIndexer 
 {
-	public static void processFile(int address, String filePath, String fileContent, String classPath)
+	public static void processFile(int address, String filePath, String fileContent, String classPath, int verbose)
 	{
-//		System.out.println("indexing file: " + filePath);
+		logInfo(address, "indexing source file: " + filePath);
 		
 		try 
 		{
@@ -51,8 +51,12 @@ public class JavaIndexer
 			}
 			CompilationUnit cu = JavaParser.parse(new StringReader(fileContent), true);
 
-			JavaAstVisitor astVisitor = new JavaAstVisitor(address, filePath, new FileContent(fileContent), typeSolver);
-		//	JavaAstVisitor astVisitor = new ASTDumper(address, filePath, new FileContent(fileContent), typeSolver);
+			JavaAstVisitor astVisitor = (
+				verbose == 1 ? 
+				new JavaVerboseAstVisitor(address, filePath, new FileContent(fileContent), typeSolver) : 
+				new JavaAstVisitor(address, filePath, new FileContent(fileContent), typeSolver)
+			);
+			
 			cu.accept(astVisitor, null);
 		} 
 		catch (ParseProblemException e) 
@@ -61,8 +65,6 @@ public class JavaIndexer
 			{
 				if (problem.message.startsWith("Encountered unexpected token"))
 				{
-					
-					
 					int startLine = Integer.parseInt(problem.message.substring(
 						problem.message.indexOf("line ") + ("line ").length(), 
 						problem.message.indexOf(",")
@@ -117,38 +119,40 @@ public class JavaIndexer
 		return packageName;
 	}
 	
+	// helpers
+	
 	static public void recordSymbol(
+		int address, String symbolName, SymbolType symbolType, 
+		AccessKind access, boolean isImplicit
+	)
+	{
+		recordSymbol(
+			address, symbolName, symbolType.getValue(),  
+			access.getValue(), (isImplicit ? 1 : 0)
+		);
+	}
+	
+	static public void recordSymbolWithLocation(
 		int address, String symbolName, SymbolType symbolType, 
 		int beginLine, int beginColumn, int endLine, int endColumn,
 		AccessKind access, boolean isImplicit
 	)
 	{
-		recordSymbol(
+		recordSymbolWithLocation(
 			address, symbolName, symbolType.getValue(), 
 			beginLine, beginColumn, endLine, endColumn, 
 			access.getValue(), (isImplicit ? 1 : 0)
 		);
 	}
 	
-	static public void recordSymbolWithoutLocation(
-			int address, String symbolName, SymbolType symbolType, 
-			AccessKind access, boolean isImplicit
-		)
-		{
-			recordSymbolWithoutLocation(
-				address, symbolName, symbolType.getValue(),  
-				access.getValue(), (isImplicit ? 1 : 0)
-			);
-		}
-	
-	static public void recordSymbolWithScope(
+	static public void recordSymbolWithLocationAndScope(
 		int address, String symbolName, SymbolType symbolType, 
 		int beginLine, int beginColumn, int endLine, int endColumn,
 		int scopeBeginLine, int scopeBeginColumn, int scopeEndLine, int scopeEndColumn,
 		AccessKind access, boolean isImplicit
 	)
 	{
-		recordSymbolWithScope(
+		recordSymbolWithLocationAndScope(
 			address, symbolName, symbolType.getValue(), 
 			beginLine, beginColumn, endLine, endColumn, 
 			scopeBeginLine, scopeBeginColumn, scopeEndLine, scopeEndColumn,  
@@ -176,19 +180,27 @@ public class JavaIndexer
 			beginLine, beginColumn, endLine, endColumn
 		);
 	}
+	
+	// the following methods are defines in the native c++ code
 
+	static public native void logInfo(int address, String info);
+	
+	static public native void logWarning(int address, String warning);
+	
+	static public native void logError(int address, String error);
+	
 	static private native void recordSymbol(
+		int address, String symbolName, int symbolType, 
+		int access, int isImplicit
+	);
+
+	static private native void recordSymbolWithLocation(
 		int address, String symbolName, int symbolType, 
 		int beginLine, int beginColumn, int endLine, int endColumn,
 		int access, int isImplicit
 	);
 	
-	static private native void recordSymbolWithoutLocation(
-		int address, String symbolName, int symbolType, 
-		int access, int isImplicit
-	);
-	
-	static private native void recordSymbolWithScope(
+	static private native void recordSymbolWithLocationAndScope(
 		int address, String symbolName, int symbolType, 
 		int beginLine, int beginColumn, int endLine, int endColumn,
 		int scopeBeginLine, int scopeBeginColumn, int scopeEndLine, int scopeEndColumn,
@@ -199,11 +211,11 @@ public class JavaIndexer
 		int address, int referenceKind, String referencedName, String contextName, int beginLine, int beginColumn, int endLine, int endColumn
 	);
 	
-	static native void recordLocalSymbol(
+	static public native void recordLocalSymbol(
 		int address, String symbolName, int beginLine, int beginColumn, int endLine, int endColumn
 	);
 	
-	static native void recordComment(
+	static public native void recordComment(
 		int address, int beginLine, int beginColumn, int endLine, int endColumn
 	);
 	

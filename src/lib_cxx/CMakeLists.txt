@@ -17,16 +17,20 @@ add_files(
 	data/parser/cxx/ASTActionFactory.h
 	data/parser/cxx/ASTConsumer.cpp
 	data/parser/cxx/ASTConsumer.h
-	data/parser/cxx/ASTVisitor.cpp
-	data/parser/cxx/ASTVisitor.h
 	data/parser/cxx/CommentHandler.cpp
 	data/parser/cxx/CommentHandler.h
+	data/parser/cxx/CxxASTVisitor.cpp
+	data/parser/cxx/CxxASTVisitor.h
 	data/parser/cxx/CxxCompilationDatabaseSingle.cpp
 	data/parser/cxx/CxxCompilationDatabaseSingle.h
+	data/parser/cxx/CxxContext.cpp
+	data/parser/cxx/CxxContext.h
 	data/parser/cxx/CxxDiagnosticConsumer.cpp
 	data/parser/cxx/CxxDiagnosticConsumer.h
 	data/parser/cxx/CxxParser.cpp
 	data/parser/cxx/CxxParser.h
+	data/parser/cxx/CxxVerboseAstVisitor.cpp
+	data/parser/cxx/CxxVerboseAstVisitor.h
 	data/parser/cxx/PreprocessorCallbacks.cpp
 	data/parser/cxx/PreprocessorCallbacks.h
 	data/parser/cxx/utilityCxx.cpp

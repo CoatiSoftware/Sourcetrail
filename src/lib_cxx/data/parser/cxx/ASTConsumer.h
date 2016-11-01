@@ -4,9 +4,10 @@
 #include "clang/AST/ASTConsumer.h"
 #include "clang/AST/ASTContext.h"
 
-#include "utility/file/FileRegister.h"
 
-#include "data/parser/cxx/ASTVisitor.h"
+class CxxAstVisitor;
+class FileRegister;
+class ParserClient;
 
 class ASTConsumer
 	: public clang::ASTConsumer
@@ -18,7 +19,7 @@ public:
 	virtual void HandleTranslationUnit(clang::ASTContext& context);
 
 private:
-	ASTVisitor m_visitor;
+	std::shared_ptr<CxxAstVisitor> m_visitor;
 };
 
 #endif // AST_CONSUMER_H

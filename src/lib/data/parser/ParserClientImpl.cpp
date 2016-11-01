@@ -76,326 +76,29 @@ void ParserClientImpl::recordReference(
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
 }
 
-
-
 void ParserClientImpl::onError(const ParseLocation& location, const std::string& message, bool fatal, bool indexed)
 {
-	log(std::string(fatal ? "FATAL: " : "ERROR: "), message, location);
-
-	if (!location.isValid())
+	if (location.isValid())
 	{
-		return;
+		addError(message, fatal, indexed, location);
 	}
-
-	addError(message, fatal, indexed, location);
-}
-
-void ParserClientImpl::onTypedefParsed(
-	const ParseLocation& location, const NameHierarchy& typedefName, AccessKind access, bool isImplicit)
-{
-	log("typedef", typedefName.getQualifiedName(), location);
-
-	Id nodeId = addNodeHierarchy(Node::NODE_TYPEDEF, typedefName, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
-	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
-	addAccess(nodeId, access);
-}
-
-void ParserClientImpl::onClassParsed(
-	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessKind access,
-	const ParseLocation& scopeLocation, bool isImplicit)
-{
-	log("class", nameHierarchy.getQualifiedName(), location);
-
-	Id nodeId = addNodeHierarchy(
-		Node::NODE_CLASS,
-		nameHierarchy,
-		(isImplicit ? DEFINITION_IMPLICIT : (scopeLocation.isValid() ? DEFINITION_EXPLICIT : DEFINITION_NONE))
-	);
-	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
-	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
-	addAccess(nodeId, access);
-}
-
-void ParserClientImpl::onStructParsed(
-	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessKind access,
-	const ParseLocation& scopeLocation, bool isImplicit)
-{
-	log("struct", nameHierarchy.getQualifiedName(), location);
-
-	Id nodeId = addNodeHierarchy(
-		Node::NODE_STRUCT,
-		nameHierarchy,
-		(isImplicit ? DEFINITION_IMPLICIT : (scopeLocation.isValid() ? DEFINITION_EXPLICIT : DEFINITION_NONE))
-	);
-	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
-	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
-	addAccess(nodeId, access);
-}
-
-void ParserClientImpl::onGlobalVariableParsed(const ParseLocation& location, const NameHierarchy& variable, bool isImplicit)
-{
-	log("global", variable.getQualifiedName(), location);
-
-	Id nodeId = addNodeHierarchy(Node::NODE_GLOBAL_VARIABLE, variable, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
-	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
-}
-
-void ParserClientImpl::onFieldParsed(const ParseLocation& location, const NameHierarchy& field, AccessKind access, bool isImplicit)
-{
-	log("field", field.getQualifiedName(), location);
-
-	Id nodeId = addNodeHierarchy(Node::NODE_FIELD, field, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
-	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
-	addAccess(nodeId, access);
-}
-
-void ParserClientImpl::onFunctionParsed(
-	const ParseLocation& location, const NameHierarchy& function, const ParseLocation& scopeLocation, bool isImplicit)
-{
-	log("function", function.getQualifiedNameWithSignature(), location);
-
-	Id nodeId = addNodeHierarchy(Node::NODE_FUNCTION, function, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
-	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
-	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
-}
-
-void ParserClientImpl::onMethodParsed(
-	const ParseLocation& location, const NameHierarchy& method, AccessKind access, AbstractionType abstraction, // todo: remove abstractio... better: remove this method!
-	const ParseLocation& scopeLocation, bool isImplicit)
-{
-	log("method", method.getQualifiedNameWithSignature(), location);
-
-	Id nodeId = addNodeHierarchy(
-		Node::NODE_METHOD,
-		method,
-		(isImplicit ? DEFINITION_IMPLICIT : ((location.isValid() && scopeLocation.isValid()) ? (DEFINITION_EXPLICIT) : DEFINITION_NONE))
-	);
-	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
-	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
-	addAccess(nodeId, access);
-}
-
-void ParserClientImpl::onNamespaceParsed(
-	const ParseLocation& location, const NameHierarchy& nameHierarchy, const ParseLocation& scopeLocation, bool isImplicit)
-{
-	log("namespace", nameHierarchy.getQualifiedName(), location);
-
-	Id nodeId = addNodeHierarchy(Node::NODE_NAMESPACE, nameHierarchy, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
-	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
-	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
-}
-
-void ParserClientImpl::onEnumParsed(
-	const ParseLocation& location, const NameHierarchy& nameHierarchy, AccessKind access,
-	const ParseLocation& scopeLocation, bool isImplicit)
-{
-	log("enum", nameHierarchy.getQualifiedName(), location);
-
-	Id nodeId = addNodeHierarchy(Node::NODE_ENUM, nameHierarchy, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
-	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
-	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
-	addAccess(nodeId, access);
-}
-
-void ParserClientImpl::onEnumConstantParsed(const ParseLocation& location, const NameHierarchy& nameHierarchy, bool isImplicit)
-{
-	log("enum constant", nameHierarchy.getQualifiedName(), location);
-
-	Id nodeId = addNodeHierarchy(Node::NODE_ENUM_CONSTANT, nameHierarchy, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
-	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
-}
-
-void ParserClientImpl::onTemplateParameterTypeParsed(
-	const ParseLocation& location, const NameHierarchy& templateParameterTypeNameHierarchy, bool isImplicit)
-{
-	log("template parameter type", templateParameterTypeNameHierarchy.getQualifiedName(), location);
-
-	Id nodeId = addNodeHierarchy(Node::NODE_TEMPLATE_PARAMETER_TYPE, templateParameterTypeNameHierarchy, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
-	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
-	addAccess(nodeId, ACCESS_TEMPLATE_PARAMETER);
 }
 
 void ParserClientImpl::onLocalSymbolParsed(const std::string& name, const ParseLocation& location)
 {
-	log(
-		"local symbol",
-		name,
-		location
-		);
-
 	Id localSymbolId = addLocalSymbol(name);
 	addSourceLocation(localSymbolId, location, locationTypeToInt(LOCATION_LOCAL_SYMBOL));
 }
 
 void ParserClientImpl::onFileParsed(const FileInfo& fileInfo)
 {
-	log("file", fileInfo.path.str(), ParseLocation());
-
 	addFile(fileInfo.path.fileName(), fileInfo.path.str(), fileInfo.lastWriteTime.toString());
-}
-
-void ParserClientImpl::onMacroDefineParsed(
-	const ParseLocation& location, const NameHierarchy& macroNameHierarchy, const ParseLocation& scopeLocation)
-{
-	log("macro", macroNameHierarchy.getQualifiedName(), location);
-
-	Id macroId = addNodeHierarchy(Node::NODE_MACRO, macroNameHierarchy, DEFINITION_EXPLICIT);
-	addSourceLocation(macroId, location, locationTypeToInt(LOCATION_TOKEN));
-	addSourceLocation(macroId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
-
-	Id fileNodeId = addFile(location.filePath.str());
-	Id edgeId = addEdge(Edge::EDGE_MACRO_USAGE, fileNodeId, macroId);
-	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
 }
 
 void ParserClientImpl::onCommentParsed(const ParseLocation& location)
 {
-	log("comment", "no name", location);
-
 	addFile(location.filePath.str());
 	addCommentLocation(location);
-}
-
-void ParserClientImpl::onInheritanceParsed(
-	const ParseLocation& location, const NameHierarchy& childNameHierarchy,
-	const NameHierarchy& parentNameHierarchy)
-{
-	log("inheritance", childNameHierarchy.getQualifiedName() + " : " + parentNameHierarchy.getQualifiedName(), location);
-
-	Id childNodeId = addNodeHierarchy(Node::NODE_TYPE, childNameHierarchy, DEFINITION_NONE);
-	Id parentNodeId = addNodeHierarchy(Node::NODE_TYPE, parentNameHierarchy, DEFINITION_NONE);
-	Id edgeId = addEdge(Edge::EDGE_INHERITANCE, childNodeId, parentNodeId);
-	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-}
-
-void ParserClientImpl::onMethodOverrideParsed(
-	const ParseLocation& location, const NameHierarchy& overridden, const NameHierarchy& overrider)
-{
-	log("override", overridden.getQualifiedNameWithSignature() + " -> " + overrider.getQualifiedNameWithSignature(), location);
-
-	Id overriddenNodeId = addNodeHierarchy(Node::NODE_FUNCTION, overridden, DEFINITION_NONE);
-	Id overriderNodeId = addNodeHierarchy(Node::NODE_FUNCTION, overrider, DEFINITION_NONE);
-	Id edgeId = addEdge(Edge::EDGE_OVERRIDE, overriderNodeId, overriddenNodeId);
-	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-}
-
-void ParserClientImpl::onCallParsed(const ParseLocation& location, const NameHierarchy& caller, const NameHierarchy& callee)
-{
-	log("call", caller.getQualifiedNameWithSignature() + " -> " + callee.getQualifiedNameWithSignature(), location);
-
-	Id callerNodeId = addNodeHierarchy(Node::NODE_FUNCTION, caller, DEFINITION_NONE);
-	Id calleeNodeId = addNodeHierarchy(Node::NODE_FUNCTION, callee, DEFINITION_NONE);
-	Id edgeId = addEdge(Edge::EDGE_CALL, callerNodeId, calleeNodeId);
-	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-}
-
-void ParserClientImpl::onUsageParsed(
-	const ParseLocation& location, const NameHierarchy& userName, SymbolKind usedType, const NameHierarchy& usedName)
-{
-	log("usage", userName.getQualifiedNameWithSignature() + " -> " + usedName.getQualifiedName(), location);
-
-	Id userNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, userName, DEFINITION_NONE);
-	Id usedNodeId = addNodeHierarchy(symbolKindToNodeType(usedType), usedName, DEFINITION_NONE);
-	Id edgeId = addEdge(Edge::EDGE_USAGE, userNodeId, usedNodeId);
-	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-}
-
-void ParserClientImpl::onTypeUsageParsed(const ParseLocation& location, const NameHierarchy& user, const NameHierarchy& used)
-{
-	log("type usage", user.getQualifiedNameWithSignature() + " -> " + used.getQualifiedName(), location);
-
-	if (!location.isValid())
-	{
-		return;
-	}
-
-	Id functionNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, user, DEFINITION_NONE);
-	Id typeNodeId = addNodeHierarchy(Node::NODE_TYPE, used, DEFINITION_NONE);
-	Id edgeId = addEdge(Edge::EDGE_TYPE_USAGE, functionNodeId, typeNodeId);
-	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-}
-
-void ParserClientImpl::onTemplateArgumentTypeParsed(
-	const ParseLocation& location, const NameHierarchy& argumentTypeNameHierarchy,
-	const NameHierarchy& templateNameHierarchy)
-{
-	log(
-		"template argument type",
-		argumentTypeNameHierarchy.getQualifiedName() + " -> " + templateNameHierarchy.getQualifiedName(),
-		location
-	);
-
-	Id argumentNodeId = addNodeHierarchy(Node::NODE_TYPE, argumentTypeNameHierarchy, DEFINITION_NONE);
-	Id templateNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, templateNameHierarchy, DEFINITION_NONE);
-	Id edgeId = addEdge(Edge::EDGE_TEMPLATE_ARGUMENT, templateNodeId, argumentNodeId);
-	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-}
-
-void ParserClientImpl::onTemplateDefaultArgumentTypeParsed(
-	const ParseLocation& location, const NameHierarchy& defaultArgumentTypeNameHierarchy,
-	const NameHierarchy& templateParameterNameHierarchy)
-{
-	log(
-		"template default argument",
-		defaultArgumentTypeNameHierarchy.getQualifiedNameWithSignature() + " -> " + templateParameterNameHierarchy.getQualifiedName(),
-		location
-	);
-
-	Id defaultArgumentNodeId = addNodeHierarchy(Node::NODE_TYPE, defaultArgumentTypeNameHierarchy, DEFINITION_NONE);
-	Id parameterNodeId = addNodeHierarchy(Node::NODE_TYPE, templateParameterNameHierarchy, DEFINITION_NONE);
-	Id edgeId = addEdge(Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT, parameterNodeId, defaultArgumentNodeId);
-	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-}
-
-void ParserClientImpl::onTemplateSpecializationParsed(
-	const ParseLocation& location, const NameHierarchy& specializedNameHierarchy,
-	const NameHierarchy& specializedFromNameHierarchy)
-{
-	log(
-		"template record specialization",
-		specializedNameHierarchy.getQualifiedName() + " -> " + specializedFromNameHierarchy.getQualifiedName(),
-		location
-	);
-
-	Id specializedId = addNodeHierarchy(Node::NODE_TYPE, specializedNameHierarchy, DEFINITION_NONE);
-	Id recordNodeId = addNodeHierarchy(Node::NODE_TYPE, specializedFromNameHierarchy, DEFINITION_NONE);
-	Id edgeId = addEdge(Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, specializedId, recordNodeId);
-	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-}
-
-void ParserClientImpl::onTemplateMemberFunctionSpecializationParsed(
-	const ParseLocation& location, const NameHierarchy& instantiatedFunction, const NameHierarchy& specializedFunction)
-{
-	log(
-		"template member function specialization",
-		instantiatedFunction.getQualifiedNameWithSignature() + " -> " + specializedFunction.getQualifiedNameWithSignature(),
-		location
-	);
-
-	Id instantiatedFunctionNodeId = addNodeHierarchy(Node::NODE_FUNCTION, instantiatedFunction, DEFINITION_NONE);
-	Id specializedFunctionNodeId = addNodeHierarchy(Node::NODE_FUNCTION, specializedFunction, DEFINITION_NONE);
-	Id edgeId = addEdge(Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION_OF, instantiatedFunctionNodeId, specializedFunctionNodeId);
-	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-}
-
-void ParserClientImpl::onFileIncludeParsed(const ParseLocation& location, const FileInfo& fileInfo, const FileInfo& includedFileInfo)
-{
-	log("include", includedFileInfo.path.str(), location);
-
-	Id fileNodeId = addFile(fileInfo.path.fileName(), fileInfo.path.str(), fileInfo.lastWriteTime.toString());
-	Id includedFileNodeId = addFile(includedFileInfo.path.fileName(), includedFileInfo.path.str(), includedFileInfo.lastWriteTime.toString());
-	Id edgeId = addEdge(Edge::EDGE_INCLUDE, fileNodeId, includedFileNodeId);
-	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
-}
-
-void ParserClientImpl::onMacroExpandParsed(const ParseLocation &location, const NameHierarchy& macroNameHierarchy)
-{
-	log("macro use", macroNameHierarchy.getQualifiedName(), location);
-
-	Id macroExpandId = addNodeHierarchy(Node::NODE_MACRO, macroNameHierarchy, DEFINITION_NONE);
-	Id fileNodeId = addFile(location.filePath.str());
-	Id edgeId = addEdge(Edge::EDGE_MACRO_USAGE, fileNodeId, macroExpandId);
-	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
 }
 
 Node::NodeType ParserClientImpl::symbolKindToNodeType(SymbolKind symbolType) const
@@ -635,13 +338,4 @@ void ParserClientImpl::addError(const std::string& message, bool fatal, bool ind
 	}
 
 	m_storage->addError(message, location.filePath, location.startLineNumber, location.startColumnNumber, fatal, indexed);
-}
-
-void ParserClientImpl::log(std::string type, std::string str, const ParseLocation& location) const
-{
-	LOG_INFO_STREAM_BARE(
-		<< type << ": " << str << " <" << location.filePath.str() << " "
-		<< location.startLineNumber << ":" << location.startColumnNumber << " "
-		<< location.endLineNumber << ":" << location.endColumnNumber << ">"
-	);
 }

@@ -55,10 +55,18 @@ void PreprocessorCallbacks::InclusionDirective(
 		FilePath includedFilePath = FilePath(fileEntry->getName()).canonical();
 		if (m_fileRegister->hasFilePath(includedFilePath))
 		{
-			m_client->onFileIncludeParsed(
-				getParseLocation(fileNameRange.getAsRange()),
-				m_fileRegister->getFileInfo(m_currentPath),
-				m_fileRegister->getFileInfo(includedFilePath)
+
+			NameHierarchy referencedNameHierarchy;
+			referencedNameHierarchy.push(std::make_shared<NameElement>(includedFilePath.fileName()));
+
+			NameHierarchy contextNameHierarchy;
+			contextNameHierarchy.push(std::make_shared<NameElement>(m_currentPath.fileName()));
+
+			m_client->recordReference(
+				REFERENCE_INCLUDE,
+				referencedNameHierarchy,
+				contextNameHierarchy,
+				getParseLocation(fileNameRange.getAsRange())
 			);
 		}
 	}
@@ -77,8 +85,12 @@ void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, con
 		NameHierarchy nameHierarchy;
 		nameHierarchy.push(std::make_shared<NameElement>(macroNameToken.getIdentifierInfo()->getName().str()));
 
-		m_client->onMacroDefineParsed(
-			getParseLocation(macroNameToken), nameHierarchy, getParseLocation(macroDirective->getMacroInfo()));
+		m_client->recordSymbol(
+			nameHierarchy,
+			SYMBOL_MACRO,
+			getParseLocation(macroNameToken),
+			getParseLocation(macroDirective->getMacroInfo())
+		);
 	}
 }
 
@@ -116,10 +128,20 @@ void PreprocessorCallbacks::onMacroUsage(const clang::Token& macroNameToken)
 {
 	if (!m_currentPath.empty())
 	{
-		NameHierarchy nameHierarchy;
-		nameHierarchy.push(std::make_shared<NameElement>(macroNameToken.getIdentifierInfo()->getName().str()));
+		const ParseLocation loc = getParseLocation(macroNameToken);
 
-		m_client->onMacroExpandParsed(getParseLocation(macroNameToken), nameHierarchy);
+		NameHierarchy referencedNameHierarchy;
+		referencedNameHierarchy.push(std::make_shared<NameElement>(macroNameToken.getIdentifierInfo()->getName().str()));
+
+		NameHierarchy contextNameHierarchy;
+		contextNameHierarchy.push(std::make_shared<NameElement>(loc.filePath.fileName()));
+
+		m_client->recordReference(
+			REFERENCE_MACRO_USAGE,
+			referencedNameHierarchy,
+			contextNameHierarchy,
+			loc
+		);
 	}
 }
 

@@ -70,7 +70,7 @@ void LogManagerImplementation::logInfo(
 	std::lock_guard<std::mutex> lockGuardLogger(m_loggerMutex);
 	for (unsigned int i = 0; i < m_loggers.size(); i++)
 	{
-		m_loggers[i]->onInfo(LogMessage(message, file, function, line, getTime()));
+		m_loggers[i]->onInfo(LogMessage(message, file, function, line, getTime(), std::this_thread::get_id()));
 	}
 }
 
@@ -84,7 +84,7 @@ void LogManagerImplementation::logWarning(
 	std::lock_guard<std::mutex> lockGuardLogger(m_loggerMutex);
 	for (unsigned int i = 0; i < m_loggers.size(); i++)
 	{
-		m_loggers[i]->onWarning(LogMessage(message, file, function, line, getTime()));
+		m_loggers[i]->onWarning(LogMessage(message, file, function, line, getTime(), std::this_thread::get_id()));
 	}
 }
 
@@ -98,7 +98,7 @@ void LogManagerImplementation::logError(
 	std::lock_guard<std::mutex> lockGuardLogger(m_loggerMutex);
 	for (unsigned int i = 0; i < m_loggers.size(); i++)
 	{
-		m_loggers[i]->onError(LogMessage(message, file, function, line, getTime()));
+		m_loggers[i]->onError(LogMessage(message, file, function, line, getTime(), std::this_thread::get_id()));
 	}
 }
 

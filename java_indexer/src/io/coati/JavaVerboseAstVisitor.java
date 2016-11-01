@@ -4,19 +4,33 @@ import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.*;
 import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.*;
 
 import me.tomassetti.symbolsolver.model.resolution.TypeSolver;
 
-public class ASTDumper extends JavaAstVisitor{
+public class JavaVerboseAstVisitor extends JavaAstVisitor{
 	
-	public ASTDumper(int callbackId, String filePath, FileContent fileContent, TypeSolver typeSolver) {
+	public JavaVerboseAstVisitor(int callbackId, String filePath, FileContent fileContent, TypeSolver typeSolver) {
 		super(callbackId, filePath, fileContent, typeSolver);
 	}
 
 	int indent = 0;
 	String indentSymbol = "| ";
+	
+	private String obfuscate(final String s) 
+	{
+		if (s.isEmpty())
+		{
+			return "";
+		}
+		else if (s.length() <= 2)
+		{
+			return s;
+		}
+		return s.substring(0, 1) + ".." + s.substring(s.length() - 1, s.length());
+	}
 	
 	private void dump(Node n)
 	{
@@ -28,21 +42,13 @@ public class ASTDumper extends JavaAstVisitor{
 		}
 		
 		line += n.getClass().getName();
-		if (n instanceof NameExpr)
+		if (n instanceof NodeWithName<?>)
 		{
-			line += " [" + ((NameExpr)n).getName() + "]";
-		}
-		else if (n instanceof ClassOrInterfaceType)
-		{
-			line += " [" + ((ClassOrInterfaceType)n).getName() + "]";
-		}
-		else if (n instanceof MethodCallExpr)
-		{
-			line += " [" + ((MethodCallExpr)n).getName() + "]";
+			line += " [" + obfuscate(((NodeWithName<?>)n).getName()) + "]";
 		}
 		line += " line: " + n.getBegin().line;
 		
-		System.out.println(line);
+		JavaIndexer.logInfo(m_callbackId, line);
 	}
 	
 	 //- Compilation Unit ----------------------------------

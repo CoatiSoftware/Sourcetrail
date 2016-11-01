@@ -3,6 +3,7 @@ add_files(
 
 	helper/TestFileManager.cpp
 	helper/TestFileManager.h
+	helper/TestParserClient.h
 
 	TestSuiteFixture.cpp
 	TestSuiteFixture.h

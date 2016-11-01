@@ -6,6 +6,7 @@
 #include "data/parser/ParseLocation.h"
 #include "data/parser/ReferenceKind.h"
 #include "data/parser/ParserClient.h"
+#include "settings/ApplicationSettings.h"
 #include "utility/file/FileSystem.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utilityString.h"
@@ -22,9 +23,12 @@ JavaParser::JavaParser(ParserClient* client)
 
 		std::vector<JavaEnvironment::NativeMethod> methods;
 
-		methods.push_back({"recordSymbol", "(ILjava/lang/String;IIIIIII)V", (void*)&JavaParser::RecordSymbol});
-		methods.push_back({"recordSymbolWithoutLocation", "(ILjava/lang/String;III)V", (void*)&JavaParser::RecordSymbolWithoutLocation});
-		methods.push_back({"recordSymbolWithScope", "(ILjava/lang/String;IIIIIIIIIII)V", (void*)&JavaParser::RecordSymbolWithScope});
+		methods.push_back({"logInfo", "(ILjava/lang/String;)V", (void*)&JavaParser::LogInfo});
+		methods.push_back({"logWarning", "(ILjava/lang/String;)V", (void*)&JavaParser::LogWarning});
+		methods.push_back({"logError", "(ILjava/lang/String;)V", (void*)&JavaParser::LogError});
+		methods.push_back({"recordSymbol", "(ILjava/lang/String;III)V", (void*)&JavaParser::RecordSymbol});
+		methods.push_back({"recordSymbolWithLocation", "(ILjava/lang/String;IIIIIII)V", (void*)&JavaParser::RecordSymbolWithLocation});
+		methods.push_back({"recordSymbolWithLocationAndScope", "(ILjava/lang/String;IIIIIIIIIII)V", (void*)&JavaParser::RecordSymbolWithLocationAndScope});
 		methods.push_back({"recordReference", "(IILjava/lang/String;Ljava/lang/String;IIII)V", (void*)&JavaParser::RecordReference});
 		methods.push_back({"recordLocalSymbol", "(ILjava/lang/String;IIII)V", (void*)&JavaParser::RecordLocalSymbol});
 		methods.push_back({"recordComment", "(IIIII)V", (void*)&JavaParser::RecordComment});
@@ -73,7 +77,15 @@ void JavaParser::parseFile(const FilePath& filePath, std::shared_ptr<TextAccess>
 		// remove tabs because they screw with javaparser's location resolver
 		std::string fileContent = utility::replace(textAccess->getText(), "\t", " ");
 
-		m_javaEnvironment->callStaticVoidMethod("io/coati/JavaIndexer", "processFile", m_id, filePath.str(), fileContent, classPath);
+		m_javaEnvironment->callStaticVoidMethod(
+			"io/coati/JavaIndexer",
+			"processFile",
+			m_id,
+			filePath.str(),
+			fileContent,
+			classPath,
+			ApplicationSettings::getInstance()->getVerboseInderxerLoggingEnabled() ? 1 : 0
+		);
 	}
 }
 
@@ -99,13 +111,40 @@ std::mutex JavaParser::s_parsersMutex;
 
 
 
+// definition of native methods
 
+void JavaParser::doLogInfo(jstring jInfo)
+{
+	LOG_INFO_STREAM_BARE(<< "Indexer - " << m_javaEnvironment->toStdString(jInfo));
+}
 
+void JavaParser::doLogWarning(jstring jWarning)
+{
+	LOG_WARNING_STREAM_BARE(<< "Indexer - " << m_javaEnvironment->toStdString(jWarning));
+}
 
-
-
+void JavaParser::doLogError(jstring jError)
+{
+	LOG_ERROR_STREAM_BARE(<< "Indexer - " << m_javaEnvironment->toStdString(jError));
+}
 
 void JavaParser::doRecordSymbol(
+	jstring jSymbolName, jint jSymbolType,
+	jint jAccess, jint jIsImplicit
+)
+{
+	AccessKind access = intToAccessKind(jAccess);
+	bool isImplicit = jIsImplicit;
+
+	m_client->recordSymbol(
+		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jSymbolName)),
+		intToSymbolKind(jSymbolType),
+		access,
+		isImplicit
+	);
+}
+
+void JavaParser::doRecordSymbolWithLocation(
 	jstring jSymbolName, jint jSymbolType,
 	jint beginLine, jint beginColumn, jint endLine, jint endColumn,
 	jint jAccess, jint jIsImplicit
@@ -123,23 +162,7 @@ void JavaParser::doRecordSymbol(
 	);
 }
 
-void JavaParser::doRecordSymbolWithoutLocation(
-	jstring jSymbolName, jint jSymbolType,
-	jint jAccess, jint jIsImplicit
-)
-{
-	AccessKind access = intToAccessKind(jAccess);
-	bool isImplicit = jIsImplicit;
-
-	m_client->recordSymbol(
-		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jSymbolName)),
-		intToSymbolKind(jSymbolType),
-		access,
-		isImplicit
-	);
-}
-
-void JavaParser::doRecordSymbolWithScope(
+void JavaParser::doRecordSymbolWithLocationAndScope(
 	jstring jSymbolName, jint jSymbolType,
 	jint beginLine, jint beginColumn, jint endLine, jint endColumn,
 	jint scopeBeginLine, jint scopeBeginColumn, jint scopeEndLine, jint scopeEndColumn,
