@@ -1,6 +1,6 @@
 #include "utility/UserPaths.h"
 
-std::string UserPaths::s_userDataPath = "user/";
+std::string UserPaths::s_userDataPath = "";
 
 std::string UserPaths::getUserDataPath()
 {

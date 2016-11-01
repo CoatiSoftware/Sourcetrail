@@ -19,7 +19,6 @@ private:
 
 	virtual bool TraverseDecl(clang::Decl *d);
 	virtual bool TraverseStmt(clang::Stmt *stmt);
-	virtual bool TraverseType(clang::QualType t);
 	virtual bool TraverseTypeLoc(clang::TypeLoc tl);
 
 	std::string getIndentString() const;

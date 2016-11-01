@@ -288,8 +288,10 @@ bool CxxAstVisitor::TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc
 		removeContextFunctor = std::make_shared<ScopedFunctor>([this](){ m_contextStack.pop_back(); });
 	}
 
-	if (loc.getArgument().getKind() == clang::TemplateArgument::Template)
-	{
+	if (
+		(loc.getArgument().getKind() == clang::TemplateArgument::Template) &&
+		(isLocatedInUnparsedProjectFile(loc.getLocation())) // TODO: rather test if the context is implicit
+	){
 		// TODO: maybe move this to VisitTemplateName
 		m_client->recordReference(
 			m_typeRefContext,
@@ -717,7 +719,7 @@ bool CxxAstVisitor::VisitNamedDecl(clang::NamedDecl* d)
 
 bool CxxAstVisitor::VisitTypeLoc(clang::TypeLoc tl)
 {
-	if ((isLocatedInUnparsedProjectFile(tl.getBeginLoc())) &&
+	if ((isLocatedInUnparsedProjectFile(tl.getBeginLoc())) && // TODO: rather test if the context is implicit
 		(!checkIgnoresTypeLoc(tl)))
 	{
 		clang::SourceLocation loc;
@@ -744,25 +746,27 @@ bool CxxAstVisitor::VisitTypeLoc(clang::TypeLoc tl)
 bool CxxAstVisitor::VisitDeclRefExpr(clang::DeclRefExpr* s)
 {
 	clang::ValueDecl* decl = s->getDecl();
-
-	if ((clang::isa<clang::ParmVarDecl>(decl)) ||
-		(clang::isa<clang::VarDecl>(decl) && decl->getParentFunctionOrMethod() != NULL)
-	) {
-		ParseLocation declLocation = getParseLocation(decl->getLocation());
-		std::string name = declLocation.filePath.fileName() + "<" +
-			std::to_string(declLocation.startLineNumber) + ":" +
-			std::to_string(declLocation.startColumnNumber) + ">";
-
-		m_client->onLocalSymbolParsed(name, getParseLocation(s->getLocation()));
-	}
-	else
+	if (isLocatedInUnparsedProjectFile(s->getLocation())) // TODO: rather test if the context is implicit
 	{
-		m_client->recordReference(
-			m_typeRefContext == REFERENCE_TYPE_USAGE ? m_declRefContext : m_typeRefContext,
-			m_declNameCache->getValue(s->getDecl()),
-			getContextName(),
-			getParseLocation(s->getLocation())
-		);
+		if ((clang::isa<clang::ParmVarDecl>(decl)) ||
+			(clang::isa<clang::VarDecl>(decl) && decl->getParentFunctionOrMethod() != NULL)
+		) {
+			ParseLocation declLocation = getParseLocation(decl->getLocation());
+			std::string name = declLocation.filePath.fileName() + "<" +
+				std::to_string(declLocation.startLineNumber) + ":" +
+				std::to_string(declLocation.startColumnNumber) + ">";
+
+			m_client->onLocalSymbolParsed(name, getParseLocation(s->getLocation()));
+		}
+		else
+		{
+			m_client->recordReference(
+				m_typeRefContext == REFERENCE_TYPE_USAGE ? m_declRefContext : m_typeRefContext,
+				m_declNameCache->getValue(s->getDecl()),
+				getContextName(),
+				getParseLocation(s->getLocation())
+			);
+		}
 	}
 
 	return true;
@@ -770,94 +774,106 @@ bool CxxAstVisitor::VisitDeclRefExpr(clang::DeclRefExpr* s)
 
 bool CxxAstVisitor::VisitMemberExpr(clang::MemberExpr* s)
 {
-	m_client->recordReference(
-		m_typeRefContext == REFERENCE_TYPE_USAGE ? m_declRefContext : m_typeRefContext,
-		m_declNameCache->getValue(s->getMemberDecl()),
-		getContextName(),
-		getParseLocation(s->getMemberLoc())
-	);
+	if (isLocatedInUnparsedProjectFile(s->getMemberLoc())) // TODO: rather test if the context is implicit
+	{
+		m_client->recordReference(
+			m_typeRefContext == REFERENCE_TYPE_USAGE ? m_declRefContext : m_typeRefContext,
+			m_declNameCache->getValue(s->getMemberDecl()),
+			getContextName(),
+			getParseLocation(s->getMemberLoc())
+		);
+	}
 	return true;
 }
 
 bool CxxAstVisitor::VisitCXXConstructExpr(clang::CXXConstructExpr* s)
 {
-	//if (e->getParenOrBraceRange().isValid()) {
-	//    // XXX: This code is a kludge.  Recording calls to constructors is
-	//    // troublesome because there isn't an obvious location to associate the
-	//    // call with.  Consider:
-	//    //     A::A() : field(1, 2, 3) {}
-	//    //     new A<B>(1, 2, 3)
-	//    //     struct A { A(B); }; A f() { B b; return b; }
-	//    // Implicit calls to conversion operator methods pose a similar
-	//    // problem.
-	//    //
-	//    // Recording constructor calls is very useful, though, so, as a
-	//    // temporary measure, when there are constructor arguments surrounded
-	//    // by parentheses, associate the call with the right parenthesis.
-	//    //
-	//    // Perhaps the right fix is to associate the call with the line itself
-	//    // or with a larger span which may have other references nested within
-	//    // it.  The fix may have implications for the navigator GUI.
-	//    RecordDeclRefExpr(
-	//                e->getConstructor(),
-	//                e->getParenOrBraceRange().getEnd(),
-	//                e,
-	//                CF_Called);
-	//}
-	clang::SourceLocation loc;
-	clang::SourceLocation braceBeginLoc = s->getParenOrBraceRange().getBegin();
-	clang::SourceLocation nameBeginLoc = s->getSourceRange().getBegin();
-	if (braceBeginLoc.isValid())
+	if (isLocatedInUnparsedProjectFile(s->getLocation())) // TODO: rather test if the context is implicit
 	{
-		if (braceBeginLoc == nameBeginLoc)
+		//if (e->getParenOrBraceRange().isValid()) {
+		//    // XXX: This code is a kludge.  Recording calls to constructors is
+		//    // troublesome because there isn't an obvious location to associate the
+		//    // call with.  Consider:
+		//    //     A::A() : field(1, 2, 3) {}
+		//    //     new A<B>(1, 2, 3)
+		//    //     struct A { A(B); }; A f() { B b; return b; }
+		//    // Implicit calls to conversion operator methods pose a similar
+		//    // problem.
+		//    //
+		//    // Recording constructor calls is very useful, though, so, as a
+		//    // temporary measure, when there are constructor arguments surrounded
+		//    // by parentheses, associate the call with the right parenthesis.
+		//    //
+		//    // Perhaps the right fix is to associate the call with the line itself
+		//    // or with a larger span which may have other references nested within
+		//    // it.  The fix may have implications for the navigator GUI.
+		//    RecordDeclRefExpr(
+		//                e->getConstructor(),
+		//                e->getParenOrBraceRange().getEnd(),
+		//                e,
+		//                CF_Called);
+		//}
+		clang::SourceLocation loc;
+		clang::SourceLocation braceBeginLoc = s->getParenOrBraceRange().getBegin();
+		clang::SourceLocation nameBeginLoc = s->getSourceRange().getBegin();
+		if (braceBeginLoc.isValid())
 		{
-			loc = nameBeginLoc;
+			if (braceBeginLoc == nameBeginLoc)
+			{
+				loc = nameBeginLoc;
+			}
+			else
+			{
+				loc = braceBeginLoc.getLocWithOffset(-1);
+			}
 		}
 		else
 		{
-			loc = braceBeginLoc.getLocWithOffset(-1);
+			loc = s->getSourceRange().getEnd();
 		}
-	}
-	else
-	{
-		loc = s->getSourceRange().getEnd();
-	}
-	loc = clang::Lexer::GetBeginningOfToken(loc, m_astContext->getSourceManager(), m_astContext->getLangOpts());
+		loc = clang::Lexer::GetBeginningOfToken(loc, m_astContext->getSourceManager(), m_astContext->getLangOpts());
 
-	m_client->recordReference(
-		m_typeRefContext == REFERENCE_TYPE_USAGE ? m_declRefContext : m_typeRefContext,
-		m_declNameCache->getValue(s->getConstructor()),
-		getContextName(),
-		getParseLocation(loc)
-	);
+		m_client->recordReference(
+			m_typeRefContext == REFERENCE_TYPE_USAGE ? m_declRefContext : m_typeRefContext,
+			m_declNameCache->getValue(s->getConstructor()),
+			getContextName(),
+			getParseLocation(loc)
+		);
+	}
 	return true;
 }
 
 bool CxxAstVisitor::VisitLambdaExpr(clang::LambdaExpr* s)
 {
 	clang::CXXMethodDecl* methodDecl = s->getCallOperator();
-	m_client->recordSymbol(
-		m_declNameCache->getValue(methodDecl),
-		SYMBOL_FUNCTION,
-		getParseLocation(s->getLocStart()),
-		getParseLocationOfFunctionBody(methodDecl),
-		ACCESS_NONE,  // TODO: introduce AccessLambda
-		isImplicit(methodDecl)
-	);
+	if (shouldVisitDecl(methodDecl))
+	{
+		m_client->recordSymbol(
+			m_declNameCache->getValue(methodDecl),
+			SYMBOL_FUNCTION,
+			getParseLocation(s->getLocStart()),
+			getParseLocationOfFunctionBody(methodDecl),
+			ACCESS_NONE,  // TODO: introduce AccessLambda
+			isImplicit(methodDecl)
+		);
+	}
 	return true;
 }
 
 bool CxxAstVisitor::VisitConstructorInitializer(clang::CXXCtorInitializer* init)
 {
-	// record the field usage here because it is not a DeclRefExpr
-	if (clang::FieldDecl* memberDecl = init->getMember())
+	if (isLocatedInUnparsedProjectFile(init->getMemberLocation())) // TODO: rather test if the context is implicit
 	{
-		m_client->recordReference(
-			REFERENCE_USAGE,
-			m_declNameCache->getValue(memberDecl),
-			getContextName(),
-			getParseLocation(init->getMemberLocation())
-		);
+		// record the field usage here because it is not a DeclRefExpr
+		if (clang::FieldDecl* memberDecl = init->getMember())
+		{
+			m_client->recordReference(
+				REFERENCE_USAGE,
+				m_declNameCache->getValue(memberDecl),
+				getContextName(),
+				getParseLocation(init->getMemberLocation())
+			);
+		}
 	}
 	return true;
 }

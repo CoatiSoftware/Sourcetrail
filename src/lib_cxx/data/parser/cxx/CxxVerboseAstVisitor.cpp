@@ -66,28 +66,23 @@ bool CxxVerboseAstVisitor::TraverseStmt(clang::Stmt *stmt)
 	return true;
 }
 
-bool CxxVerboseAstVisitor::TraverseType(clang::QualType t)
-{
-	LOG_INFO_STREAM_BARE(<< "Indexer - " << getIndentString() << t->getTypeClassName() << "Type");
-	{
-		ScopedSwitcher<unsigned int> switcher(m_indentation, m_indentation + 1);
-		return base::TraverseType(t);
-	}
-}
-
 bool CxxVerboseAstVisitor::TraverseTypeLoc(clang::TypeLoc tl)
 {
-	ParseLocation loc = getParseLocation(tl.getSourceRange());
-	LOG_INFO_STREAM_BARE(
-		<< "Indexer - "
-		<< getIndentString() << typeLocClassToString(tl)
-		<< "TypeLoc <" << loc.startLineNumber << ":" << loc.startColumnNumber
-		<< ", " << loc.endLineNumber << ":" << loc.endColumnNumber << ">"
-	);
+	if (!tl.isNull())
 	{
-		ScopedSwitcher<unsigned int> switcher(m_indentation, m_indentation + 1);
-		return base::TraverseTypeLoc(tl);
+		ParseLocation loc = getParseLocation(tl.getSourceRange());
+		LOG_WARNING_STREAM_BARE(
+			<< "Indexer - "
+			<< getIndentString() << typeLocClassToString(tl)
+			<< "TypeLoc <" << loc.startLineNumber << ":" << loc.startColumnNumber
+			<< ", " << loc.endLineNumber << ":" << loc.endColumnNumber << ">"
+		);
+		{
+			ScopedSwitcher<unsigned int> switcher(m_indentation, m_indentation + 1);
+			return base::TraverseTypeLoc(tl);
+		}
 	}
+	return true;
 }
 
 std::string CxxVerboseAstVisitor::getIndentString() const
