@@ -172,7 +172,7 @@ void QtProjectWizzardContentPreferences::load()
 	}
 
 	m_loggingEnabled->setChecked(appSettings->getLoggingEnabled());
-	m_verboseIndexerLoggingEnabled->setChecked(appSettings->getVerboseInderxerLoggingEnabled());
+	m_verboseIndexerLoggingEnabled->setChecked(appSettings->getVerboseIndexerLoggingEnabled());
 	m_verboseIndexerLoggingEnabled->setEnabled(m_loggingEnabled->isChecked());
 
 	m_scrollSpeed->setText(QString::number(appSettings->getScrollSpeed(), 'f', 1));
@@ -204,7 +204,7 @@ void QtProjectWizzardContentPreferences::save()
 	m_oldColorSchemeIndex = -1;
 
 	appSettings->setLoggingEnabled(m_loggingEnabled->isChecked());
-	appSettings->setVerboseInderxerLoggingEnabled(m_verboseIndexerLoggingEnabled->isChecked());
+	appSettings->setVerboseIndexerLoggingEnabled(m_verboseIndexerLoggingEnabled->isChecked());
 
 	float scrollSpeed = m_scrollSpeed->text().toFloat();
 	if (scrollSpeed) appSettings->setScrollSpeed(scrollSpeed);

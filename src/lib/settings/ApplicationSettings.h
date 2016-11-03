@@ -50,8 +50,8 @@ public:
 	bool getLoggingEnabled() const;
 	void setLoggingEnabled(bool loggingEnabled);
 
-	bool getVerboseInderxerLoggingEnabled() const;
-	void setVerboseInderxerLoggingEnabled(bool loggingEnabled);
+	bool getVerboseIndexerLoggingEnabled() const;
+	void setVerboseIndexerLoggingEnabled(bool loggingEnabled);
 
 	// indexing
 	int getIndexerThreadCount() const;

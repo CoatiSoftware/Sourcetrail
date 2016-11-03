@@ -5,7 +5,7 @@
 
 ASTConsumer::ASTConsumer(clang::ASTContext* context, clang::Preprocessor* preprocessor, ParserClient* client, FileRegister* fileRegister)
 {
-	if (ApplicationSettings::getInstance()->getVerboseInderxerLoggingEnabled())
+	if (ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled())
 	{
 		m_visitor = std::make_shared<CxxVerboseAstVisitor>(context, preprocessor, client, fileRegister);
 	}

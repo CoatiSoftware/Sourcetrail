@@ -1119,8 +1119,9 @@ AccessKind CxxAstVisitor::convertAccessSpecifier(clang::AccessSpecifier access) 
 		return ACCESS_PROTECTED;
 	case clang::AS_private:
 		return ACCESS_PRIVATE;
+	case clang::AS_none:
+		return ACCESS_NONE;
 	}
-	return ACCESS_NONE;
 }
 
 SymbolKind CxxAstVisitor::convertTagKind(clang::TagTypeKind tagKind)
@@ -1135,11 +1136,12 @@ SymbolKind CxxAstVisitor::convertTagKind(clang::TagTypeKind tagKind)
 		return SYMBOL_CLASS;
 	case clang::TTK_Enum:
 		return SYMBOL_ENUM;
+	case clang::TTK_Interface:
+		return SYMBOL_KIND_MAX;
 	}
-	return SYMBOL_KIND_MAX;
 }
 
-NameHierarchy CxxAstVisitor::getContextName(const int skip) const
+NameHierarchy CxxAstVisitor::getContextName(const size_t skip) const
 {
 	if (m_contextStack.size() <= skip)
 	{

@@ -165,12 +165,12 @@ void ApplicationSettings::setLoggingEnabled(bool value)
 	setValue<bool>("application/logging_enabled", value);
 }
 
-bool ApplicationSettings::getVerboseInderxerLoggingEnabled() const
+bool ApplicationSettings::getVerboseIndexerLoggingEnabled() const
 {
 	return getValue<bool>("application/verbose_indexer_logging_enabled", false);
 }
 
-void ApplicationSettings::setVerboseInderxerLoggingEnabled(bool value)
+void ApplicationSettings::setVerboseIndexerLoggingEnabled(bool value)
 {
 	setValue<bool>("application/verbose_indexer_logging_enabled", value);
 }

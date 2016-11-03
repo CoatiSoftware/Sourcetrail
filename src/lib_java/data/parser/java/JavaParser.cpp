@@ -84,7 +84,7 @@ void JavaParser::parseFile(const FilePath& filePath, std::shared_ptr<TextAccess>
 			filePath.str(),
 			fileContent,
 			classPath,
-			ApplicationSettings::getInstance()->getVerboseInderxerLoggingEnabled() ? 1 : 0
+			ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled() ? 1 : 0
 		);
 	}
 }

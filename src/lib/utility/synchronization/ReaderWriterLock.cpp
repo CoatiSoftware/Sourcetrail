@@ -2,15 +2,15 @@
 
 ReaderWriterLock::ReaderWriterLock()
 	: m_readerCount(0)
-	, m_allowedWriters(1)
 	, m_allowedReaders(1)
+	, m_allowedWriters(1)
 {
 }
 
 ReaderWriterLock::ReaderWriterLock(const ReaderWriterLock &lock)
 	: m_readerCount(0)
-	, m_allowedWriters(1)
 	, m_allowedReaders(1)
+	, m_allowedWriters(1)
 {
 }
 

@@ -82,7 +82,7 @@ public:
 	virtual bool TraverseDeclRefExpr(clang::DeclRefExpr* s);
 	virtual bool TraverseTemplateSpecializationTypeLoc(clang::TemplateSpecializationTypeLoc loc);
 	virtual bool TraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* s);
-	virtual bool TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc);;
+	virtual bool TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc);
 	void traverseDeclContextHelper(clang::DeclContext *d);
 	bool TraverseCallCommon(clang::CallExpr* s);
 
@@ -129,7 +129,7 @@ protected:
 private:
 	typedef clang::RecursiveASTVisitor<CxxAstVisitor> base;
 
-	NameHierarchy getContextName(const int skip = 0) const;
+	NameHierarchy getContextName(const size_t skip = 0) const;
 	bool checkIgnoresTypeLoc(const clang::TypeLoc& tl);
 
 	struct FileIdHash
