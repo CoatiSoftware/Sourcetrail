@@ -221,7 +221,38 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->namespaces.size(), 1);
-		TS_ASSERT_EQUALS(client->namespaces[0], "anonymous namespace (input.cc) <1:1 3:1>");
+		TS_ASSERT_EQUALS(client->namespaces[0], "anonymous namespace (input.cc<1:1>) <1:1 3:1>");
+	}
+
+	void test_cxx_parser_finds_anonymous_struct_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"typedef struct\n"
+			"{\n"
+			"	int x;\n"
+			"} Foo;\n"
+		);
+
+		TS_ASSERT_EQUALS(client->structs.size(), 1);
+		TS_ASSERT_EQUALS(client->structs[0], "anonymous struct (input.cc<1:9>) <1:9 <1:9 1:14> 4:1>");
+	}
+
+	void test_cxx_parser_finds_multiple_anonymous_struct_declarations_as_distinct_elements()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"typedef struct\n"
+			"{\n"
+			"	int x;\n"
+			"} Foo;\n"
+			"typedef struct\n"
+			"{\n"
+			"	float x;\n"
+			"} Bar;\n"
+		);
+
+		TS_ASSERT_EQUALS(client->structs.size(), 2);
+		TS_ASSERT_EQUALS(client->fields.size(), 2);
+		TS_ASSERT_DIFFERS(utility::substrBeforeLast(client->fields[0], '<'), utility::substrBeforeLast(client->fields[1], '<'));
 	}
 
 	void test_cxx_parser_finds_enum_defined_in_global_namespace()
@@ -282,7 +313,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
-		TS_ASSERT_EQUALS(client->typedefs[0], "anonymous namespace (input.cc)::uint <3:23 3:26>");
+		TS_ASSERT_EQUALS(client->typedefs[0], "anonymous namespace (input.cc<1:1>)::uint <3:23 3:26>");
 	}
 
 	void test_cxx_parser_finds_type_alias_in_class()
@@ -1019,7 +1050,7 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->functions.size(), 1);
-		TS_ASSERT_EQUALS(client->functions[0], "int anonymous namespace (input.cc)::sum(int, int) <3:6 3:8>");
+		TS_ASSERT_EQUALS(client->functions[0], "int anonymous namespace (input.cc<1:1>)::sum(int, int) <3:6 3:8>");
 	}
 
 	void test_cxx_parser_finds_method_declared_in_nested_class()

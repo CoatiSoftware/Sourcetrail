@@ -156,29 +156,54 @@ public:
 		TS_ASSERT_EQUALS(result.at(6), "D");
 	}
 
-	void test_substr_before_with_single_delimiter_occurence()
+	void test_substr_before_first_with_single_delimiter_occurence()
 	{
-		TS_ASSERT_EQUALS(utility::substrBefore("foo bar", ' '), "foo");
+		TS_ASSERT_EQUALS(utility::substrBeforeFirst("foo bar", ' '), "foo");
 	}
 
-	void test_substr_before_with_multiple_delimiter_occurences()
+	void test_substr_before_first_with_multiple_delimiter_occurences()
 	{
-		TS_ASSERT_EQUALS(utility::substrBefore("foo bar foo", ' '), "foo");
+		TS_ASSERT_EQUALS(utility::substrBeforeFirst("foo bar foo", ' '), "foo");
 	}
 
-	void test_substr_before_with_no_delimiter_occurence()
+	void test_substr_before_first_with_no_delimiter_occurence()
 	{
-		TS_ASSERT_EQUALS(utility::substrBefore("foobar", ' '), "foobar");
+		TS_ASSERT_EQUALS(utility::substrBeforeFirst("foobar", ' '), "foobar");
 	}
 
-	void test_substr_before_with_delimiter_at_start()
+	void test_substr_before_first_with_delimiter_at_start()
 	{
-		TS_ASSERT_EQUALS(utility::substrBefore(" foobar", ' '), "");
+		TS_ASSERT_EQUALS(utility::substrBeforeFirst(" foobar", ' '), "");
 	}
 
-	void test_substr_before_with_delimiter_at_end()
+	void test_substr_before_first_with_delimiter_at_end()
 	{
-		TS_ASSERT_EQUALS(utility::substrBefore("foobar ", ' '), "foobar");
+		TS_ASSERT_EQUALS(utility::substrBeforeFirst("foobar ", ' '), "foobar");
+	}
+
+	void test_substr_before_last_with_single_delimiter_occurence()
+	{
+		TS_ASSERT_EQUALS(utility::substrBeforeLast("foo bar", ' '), "foo");
+	}
+
+	void test_substr_before_last_with_multiple_delimiter_occurences()
+	{
+		TS_ASSERT_EQUALS(utility::substrBeforeLast("foo bar foo", ' '), "foo bar");
+	}
+
+	void test_substr_before_last_with_no_delimiter_occurence()
+	{
+		TS_ASSERT_EQUALS(utility::substrBeforeLast("foobar", ' '), "foobar");
+	}
+
+	void test_substr_before_last_with_delimiter_at_start()
+	{
+		TS_ASSERT_EQUALS(utility::substrBeforeLast(" foobar", ' '), "");
+	}
+
+	void test_substr_before_last_with_delimiter_at_end()
+	{
+		TS_ASSERT_EQUALS(utility::substrBeforeLast("foobar ", ' '), "foobar");
 	}
 
 	void test_substr_after_with_single_delimiter_occurence()

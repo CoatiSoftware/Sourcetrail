@@ -163,8 +163,8 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 		{
 			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-			const std::string recordType = (recordDecl->isStruct() ? "struct" : "class");
-			return std::make_shared<NameElement>("anonymous " + recordType + " (" + FilePath(presumedBegin.getFilename()).fileName() + ")");
+			const std::string symbolKindName = (recordDecl->isStruct() ? "struct" : "class");
+			return getNameForAnonymousSymbol(symbolKindName, presumedBegin);
 		}
 	}
 	else if (clang::isa<clang::FunctionDecl>(declaration))
@@ -252,13 +252,13 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 	{
 		const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-		return std::make_shared<NameElement>("anonymous namespace (" + FilePath(presumedBegin.getFilename()).fileName() + ")");
+		return getNameForAnonymousSymbol("namespace", presumedBegin);
 	}
 	else if (clang::isa<clang::EnumDecl>(declaration) && declNameString.size() == 0)
 	{
 		const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-		return std::make_shared<NameElement>("anonymous enum (" + FilePath(presumedBegin.getFilename()).fileName() + ")");
+		return getNameForAnonymousSymbol("enum", presumedBegin);
 	}
 	else if (
 		(
@@ -269,13 +269,13 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 	{
 		const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-		return std::make_shared<NameElement>("anonymous template parameter (" + FilePath(presumedBegin.getFilename()).fileName() + ")");
+		return getNameForAnonymousSymbol("template parameter", presumedBegin);
 	}
 	else if (clang::isa<clang::ParmVarDecl>(declaration) && declNameString.size() == 0)
 	{
 		const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-		return std::make_shared<NameElement>("anonymous parameter (" + FilePath(presumedBegin.getFilename()).fileName() + ")");
+		return getNameForAnonymousSymbol("parameter", presumedBegin);
 	}
 
 	if (declNameString.size() > 0)
@@ -286,13 +286,20 @@ std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName()
 	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
 	const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
 	// LOG_ERROR("could not resolve name of decl at: " + declaration->getLocation().printToString(sourceManager));
-	return std::make_shared<NameElement>("anonymous symbol (" + FilePath(presumedBegin.getFilename()).fileName() + ")");
+	return getNameForAnonymousSymbol("symbol", presumedBegin);
 }
 
 std::shared_ptr<NameElement> CxxDeclNameResolver::getDeclName(const clang::NamedDecl* declaration)
 {
 	CxxDeclNameResolver resolver(declaration);
 	return resolver.getDeclName();
+}
+
+std::shared_ptr<NameElement> CxxDeclNameResolver::getNameForAnonymousSymbol(const std::string& symbolKindName, const clang::PresumedLoc& presumedBegin)
+{
+	return std::make_shared<NameElement>("anonymous " + symbolKindName +
+		" (" + FilePath(presumedBegin.getFilename()).fileName() + "<" + std::to_string(presumedBegin.getLine()) + ":" + std::to_string(presumedBegin.getColumn()) + ">)"
+		);
 }
 
 std::string CxxDeclNameResolver::getTemplateParameterString(const clang::NamedDecl* parameter)

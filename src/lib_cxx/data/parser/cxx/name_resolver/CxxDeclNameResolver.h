@@ -17,6 +17,7 @@ public:
 private:
 	NameHierarchy getContextNameHierarchy(const clang::DeclContext* declaration);
 	std::shared_ptr<NameElement> getDeclName(const clang::NamedDecl* declaration);
+	std::shared_ptr<NameElement> getNameForAnonymousSymbol(const std::string& symbolKindName, const clang::PresumedLoc& presumedBegin);
 	std::string getTemplateParameterString(const clang::NamedDecl* parameter);
 	std::string getTemplateParameterTypeString(const clang::NonTypeTemplateParmDecl* parameter);
 	std::string getTemplateParameterTypeString(const clang::TemplateTypeParmDecl* parameter);
