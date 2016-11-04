@@ -31,7 +31,8 @@ public:
 	virtual Id addNode(int type, const std::string& serializedName, int definitionType);
 	virtual Id addEdge(int type, Id sourceId, Id targetId);
 	virtual Id addLocalSymbol(const std::string& name);
-	virtual void addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
+	virtual Id addSourceLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
+	virtual void addOccurrence(Id elementId, Id sourceLocationId);
 	virtual void addComponentAccess(Id nodeId , int type);
 	virtual void addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
 	virtual void addError(const std::string& message, const FilePath& filePath, uint startLine, uint startCol, bool fatal, bool indexed);
@@ -40,7 +41,8 @@ public:
 	virtual void forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const;
 	virtual void forEachEdge(std::function<void(const Id /*id*/, const StorageEdge& /*data*/)> callback) const;
 	virtual void forEachLocalSymbol(std::function<void(const Id /*id*/, const StorageLocalSymbol& /*data*/)> callback) const;
-	virtual void forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const;
+	virtual void forEachSourceLocation(std::function<void(const Id /*id*/, const StorageSourceLocation& /*data*/)> callback) const;
+	virtual void forEachOccurrence(std::function<void(const StorageOccurrence& /*data*/)> callback) const;
 	virtual void forEachComponentAccess(std::function<void(const StorageComponentAccess& /*data*/)> callback) const;
 	virtual void forEachCommentLocation(std::function<void(const StorageCommentLocation& /*data*/)> callback) const;
 	virtual void forEachError(std::function<void(const StorageError& /*data*/)> callback) const;

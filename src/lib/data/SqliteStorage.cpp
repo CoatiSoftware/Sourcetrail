@@ -11,7 +11,7 @@
 #include "utility/utilityString.h"
 #include "utility/Version.h"
 
-const size_t SqliteStorage::STORAGE_VERSION = 5;
+const size_t SqliteStorage::STORAGE_VERSION = 6;
 
 SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 	: m_dbFilePath(dbFilePath)
@@ -60,6 +60,18 @@ void SqliteStorage::commitTransaction()
 void SqliteStorage::rollbackTransaction()
 {
 	m_database.execDML("ROLLBACK TRANSACTION;");
+}
+
+void SqliteStorage::optimizeMemory() const
+{
+	try
+	{
+		m_database.execDML("VACUUM;");
+	}
+	catch(CppSQLite3Exception e)
+	{
+		LOG_ERROR(e.errorMessage());
+	}
 }
 
 FilePath SqliteStorage::getDbFilePath() const
@@ -181,16 +193,33 @@ Id SqliteStorage::addLocalSymbol(const std::string& name)
 }
 
 Id SqliteStorage::addSourceLocation(
-	Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
+	Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
 {
 	m_database.execDML((
-		"INSERT INTO source_location(id, element_id, file_node_id, start_line, start_column, end_line, end_column, type) "
-		"VALUES(NULL, " + std::to_string(elementId) + ", " + std::to_string(fileNodeId) + ", "
+		"INSERT INTO source_location(id, file_node_id, start_line, start_column, end_line, end_column, type) "
+		"VALUES(NULL, " + std::to_string(fileNodeId) + ", "
 		+ std::to_string(startLine) + ", " + std::to_string(startCol) + ", "
 		+ std::to_string(endLine) + ", " + std::to_string(endCol) + ", " + std::to_string(type) + ");"
 	).c_str());
 
 	return m_database.lastRowId();
+}
+
+bool SqliteStorage::addOccurrence(Id elementId, Id sourceLocationId)
+{
+	try
+	{
+		m_database.execDML((
+			"INSERT INTO occurrence(element_id, source_location_id) "
+			"VALUES(" + std::to_string(elementId) + ", "
+			+ std::to_string(sourceLocationId) + ");"
+		).c_str());
+	}
+	catch (CppSQLite3Exception& e)
+	{
+		return false;
+	}
+	return true;
 }
 
 Id SqliteStorage::addComponentAccess(Id nodeId, int type)
@@ -266,32 +295,18 @@ void SqliteStorage::removeElements(const std::vector<Id>& ids)
 	).c_str());
 }
 
-void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fileIds)
+void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fileIds) // TODO: make one single clearFiles method
 {
-	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, element_id FROM source_location WHERE file_node_id IN (" + utility::join(utility::toStrings(fileIds), ',') + ");"
+	m_database.execDML((
+		"DELETE FROM source_location WHERE file_node_id IN (" + utility::join(utility::toStrings(fileIds), ',') + ");"
 	).c_str());
 
-	std::vector<Id> sourceLocationIds;
-	std::vector<Id> elementIds;
-	while (!q.eof())
-	{
-		sourceLocationIds.push_back(q.getIntField(0, 0));
-		elementIds.push_back(q.getIntField(1, 0));
-		q.nextRow();
-	}
-
-	m_database.execDML((
-		"DELETE FROM source_location WHERE id IN (" + utility::join(utility::toStrings(sourceLocationIds), ',') + ");"
-	).c_str());
-
-	m_database.execDML((
+	m_database.execDML(
 		"DELETE FROM element WHERE "
-			"element.id IN (" + utility::join(utility::toStrings(elementIds), ',') + ") " // skip all elements that dont have a matching id.
-			"AND element.id NOT IN ("
-				"SELECT source_location.element_id FROM source_location WHERE source_location.element_id == element.id LIMIT 1"
+			"element.id NOT IN ("
+				"SELECT occurrence.element_id FROM occurrence WHERE occurrence.element_id == element.id LIMIT 1"
 			");" // delete all elements that dont have a source location. This query is executed for each element that passed the first test.
-	).c_str());
+	);
 }
 
 void SqliteStorage::removeErrorsInFiles(const std::vector<FilePath>& filePaths)
@@ -378,18 +393,6 @@ std::vector<StorageEdge> SqliteStorage::getEdgesByTargetType(Id targetId, int ty
 	return getAll<StorageEdge>("WHERE target_node_id == " + std::to_string(targetId) + " AND type == " + std::to_string(type));
 }
 
-void SqliteStorage::optimizeMemory() const
-{
-	try
-	{
-		m_database.execDML("VACUUM;");
-	}
-	catch(CppSQLite3Exception e)
-	{
-		LOG_ERROR(e.errorMessage());
-	}
-}
-
 StorageNode SqliteStorage::getNodeById(Id id) const
 {
 	if (id != 0)
@@ -466,7 +469,6 @@ std::shared_ptr<TextAccess> SqliteStorage::getFileContentById(Id fileId) const
 		LOG_ERROR(std::to_string(e.errorCode()) + ": " + e.errorMessage());
 	}
 
-
 	return TextAccess::createFromString("");
 }
 
@@ -515,6 +517,18 @@ StorageSourceLocation SqliteStorage::getSourceLocationById(const Id id) const
 	);
 }
 
+StorageSourceLocation SqliteStorage::getSourceLocationByAll(const Id fileNodeId, const uint startLine, const uint startCol, const uint endLine, const uint endCol, const int type) const
+{
+	return getFirst<StorageSourceLocation>(
+		"WHERE file_node_id == " + std::to_string(fileNodeId) +
+		" AND start_line == " + std::to_string(startLine) +
+		" AND start_column == " + std::to_string(startCol) +
+		" AND end_line == " + std::to_string(endLine) +
+		" AND end_column == " + std::to_string(endCol) +
+		" AND type == " + std::to_string(type) + ";"
+	);
+}
+
 std::shared_ptr<TokenLocationFile> SqliteStorage::getTokenLocationsForFile(const FilePath& filePath) const
 {
 	std::shared_ptr<TokenLocationFile> ret = std::make_shared<TokenLocationFile>(filePath);
@@ -525,17 +539,17 @@ std::shared_ptr<TokenLocationFile> SqliteStorage::getTokenLocationsForFile(const
 		return ret;
 	}
 
-	for (StorageSourceLocation& location: getAll<StorageSourceLocation>("WHERE file_node_id == " + std::to_string(fileNodeId)))
+	for (std::pair<StorageSourceLocation, Id> e: getAllSourceLocationsAndElementIds("WHERE source_location.file_node_id == " + std::to_string(fileNodeId)))
 	{
 		TokenLocation* loc = ret->addTokenLocation(
-			location.id,
-			location.elementId,
-			location.startLine,
-			location.startCol,
-			location.endLine,
-			location.endCol
+			e.first.id,
+			e.second,
+			e.first.startLine,
+			e.first.startCol,
+			e.first.endLine,
+			e.first.endCol
 		);
-		loc->setType(intToLocationType(location.type));
+		loc->setType(intToLocationType(e.first.type));
 	}
 
 	ret->isWholeCopy = true;
@@ -543,27 +557,78 @@ std::shared_ptr<TokenLocationFile> SqliteStorage::getTokenLocationsForFile(const
 	return ret;
 }
 
-std::vector<StorageSourceLocation> SqliteStorage::getTokenLocationsForElementId(const Id elementId) const
+std::vector<StorageSourceLocation> SqliteStorage::getSourceLocationsForElementId(const Id elementId) const
 {
 	std::vector<Id> elementIds {elementId};
-	return getTokenLocationsForElementIds(elementIds);
+	std::vector<StorageSourceLocation> ret;
+	for (std::pair<StorageSourceLocation, Id> e: getSourceLocationsAndElementIdsForElementIds(elementIds))
+	{
+		ret.push_back(e.first);
+	}
+	return ret;
 }
 
-std::vector<StorageSourceLocation> SqliteStorage::getTokenLocationsForElementIds(const std::vector<Id> elementIds) const
+std::vector<std::pair<StorageSourceLocation, Id>> SqliteStorage::getSourceLocationsAndElementIdsForElementIds(const std::vector<Id> elementIds) const
 {
-	return getAll<StorageSourceLocation>("WHERE element_id IN (" + utility::join(utility::toStrings(elementIds), ',') + ")");
+	return getAllSourceLocationsAndElementIds("WHERE occurrence.element_id IN (" + utility::join(utility::toStrings(elementIds), ',') + ")");
 }
 
-Id SqliteStorage::getElementIdByLocationId(Id locationId) const
+std::vector<std::pair<StorageSourceLocation, Id>> SqliteStorage::getAllSourceLocationsAndElementIds(const std::string& query) const
 {
 	CppSQLite3Query q = m_database.execQuery((
-		"SELECT element_id FROM source_location WHERE id == " + std::to_string(locationId) + " LIMIT 1;"
+		"SELECT "
+			"source_location.id, "
+			"source_location.file_node_id, "
+			"source_location.start_line, "
+			"source_location.start_column, "
+			"source_location.end_line, "
+			"source_location.end_column, "
+			"source_location.type, "
+			"occurrence.element_id "
+		"FROM source_location "
+		"INNER JOIN occurrence ON occurrence.source_location_id = source_location.id " + query + ";"
 	).c_str());
-	if (!q.eof())
+
+	std::vector<std::pair<StorageSourceLocation, Id>> ret;
+	while (!q.eof())
 	{
-		return q.getIntField(0, 0);
+		const Id id				= q.getIntField(0, 0);
+		const Id  fileNodeId	= q.getIntField(1, 0);
+		const int startLine		= q.getIntField(2, -1);
+		const int startColumn	= q.getIntField(3, -1);
+		const int endLine		= q.getIntField(4, -1);
+		const int endColumn		= q.getIntField(5, -1);
+		const int type			= q.getIntField(6, -1);
+		const Id elementId		= q.getIntField(7, 0);
+
+		if (id != 0 && fileNodeId != 0 && startLine != -1 && startColumn != -1 && endLine != -1 && endColumn != -1 && type != -1 && elementId != 0)
+		{
+			ret.push_back(std::make_pair(
+				StorageSourceLocation(
+					id,
+					fileNodeId,
+					startLine,
+					startColumn,
+					endLine,
+					endColumn,
+					type),
+				elementId
+			));
+		}
+		q.nextRow();
 	}
-	return 0;
+	return ret;
+}
+
+std::vector<StorageOccurrence> SqliteStorage::getOccurrencesForLocationId(Id locationId) const
+{
+	std::vector<Id> locationIds {locationId};
+	return getOccurrencesForLocationIds(locationIds);
+}
+
+std::vector<StorageOccurrence> SqliteStorage::getOccurrencesForLocationIds(const std::vector<Id>& locationIds) const
+{
+	return getAll<StorageOccurrence>("WHERE source_location_id IN (" + utility::join(utility::toStrings(locationIds), ',') + ")");
 }
 
 StorageComponentAccess SqliteStorage::getComponentAccessByNodeId(Id nodeId) const
@@ -605,6 +670,11 @@ std::vector<StorageLocalSymbol> SqliteStorage::getAllLocalSymbols() const
 std::vector<StorageSourceLocation> SqliteStorage::getAllSourceLocations() const
 {
 	return getAll<StorageSourceLocation>("");
+}
+
+std::vector<StorageOccurrence> SqliteStorage::getAllOccurrences() const
+{
+	return getAll<StorageOccurrence>("");
 }
 
 std::vector<StorageComponentAccess> SqliteStorage::getAllComponentAccesses() const
@@ -652,6 +722,7 @@ void SqliteStorage::clearTables()
 	m_database.execDML("DROP TABLE IF EXISTS main.error;");
 	m_database.execDML("DROP TABLE IF EXISTS main.comment_location;");
 	m_database.execDML("DROP TABLE IF EXISTS main.component_access;");
+	m_database.execDML("DROP TABLE IF EXISTS main.occurrence;");
 	m_database.execDML("DROP TABLE IF EXISTS main.source_location;");
 	m_database.execDML("DROP TABLE IF EXISTS main.local_symbol;");
 	m_database.execDML("DROP TABLE IF EXISTS main.filecontent;");
@@ -746,7 +817,6 @@ void SqliteStorage::setupTables()
 		m_database.execDML(
 			"CREATE TABLE IF NOT EXISTS source_location("
 				"id INTEGER NOT NULL, "
-				"element_id INTEGER, "
 				"file_node_id INTEGER, "
 				"start_line INTEGER, "
 				"start_column INTEGER, "
@@ -754,12 +824,20 @@ void SqliteStorage::setupTables()
 				"end_column INTEGER, "
 				"type INTEGER, "
 				"PRIMARY KEY(id), "
-				"FOREIGN KEY(element_id) REFERENCES element(id) ON DELETE CASCADE, "
 				"FOREIGN KEY(file_node_id) REFERENCES node(id) ON DELETE CASCADE);"
 		);
 
-		SqliteIndex("source_location_element_id_index", "source_location(element_id)").createOnDatabase(m_database);
 		SqliteIndex("source_location_file_node_id_index", "source_location(file_node_id)").createOnDatabase(m_database);
+		SqliteIndex("source_location_all_data_index", "source_location(file_node_id, start_line, start_column, end_line, end_column, type)").createOnDatabase(m_database);
+
+		m_database.execDML(
+			"CREATE TABLE IF NOT EXISTS occurrence(" // TODO: properly delete this on refresh
+				"element_id INTEGER NOT NULL, "
+				"source_location_id INTEGER NOT NULL, "
+				"PRIMARY KEY(element_id, source_location_id), "
+				"FOREIGN KEY(element_id) REFERENCES element(id) ON DELETE CASCADE, "
+				"FOREIGN KEY(source_location_id) REFERENCES source_location(id) ON DELETE CASCADE);"
+		);
 
 		m_database.execDML(
 			"CREATE TABLE IF NOT EXISTS component_access("
@@ -983,30 +1061,53 @@ template <>
 std::vector<StorageSourceLocation> SqliteStorage::getAll<StorageSourceLocation>(const std::string& query) const
 {
 	CppSQLite3Query q = m_database.execQuery((
-		"SELECT id, element_id, file_node_id, start_line, start_column, end_line, end_column, type FROM source_location " + query + ";"
-	).c_str());
+		"SELECT id, file_node_id, start_line, start_column, end_line, end_column, type FROM source_location " + query + ";"
+		).c_str());
 
 	std::vector<StorageSourceLocation> sourceLocations;
 
 	while (!q.eof())
 	{
 		const Id id					= q.getIntField(0, 0);
-		const Id elementId			= q.getIntField(1, 0);
-		const Id fileNodeId			= q.getIntField(2, 0);
-		const int startLineNumber	= q.getIntField(3, -1);
-		const int startColNumber	= q.getIntField(4, -1);
-		const int endLineNumber		= q.getIntField(5, -1);
-		const int endColNumber		= q.getIntField(6, -1);
-		const int type				= q.getIntField(7, -1);
+		const Id fileNodeId			= q.getIntField(1, 0);
+		const int startLineNumber	= q.getIntField(2, -1);
+		const int startColNumber	= q.getIntField(3, -1);
+		const int endLineNumber		= q.getIntField(4, -1);
+		const int endColNumber		= q.getIntField(5, -1);
+		const int type				= q.getIntField(6, -1);
 
-		if (id != 0 && elementId != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1 && type != -1)
+		if (id != 0 && fileNodeId != 0 && startLineNumber != -1 && startColNumber != -1 && endLineNumber != -1 && endColNumber != -1 && type != -1)
 		{
-			sourceLocations.push_back(StorageSourceLocation(id, elementId, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber, type));
+			sourceLocations.push_back(StorageSourceLocation(id, fileNodeId, startLineNumber, startColNumber, endLineNumber, endColNumber, type));
 		}
 
 		q.nextRow();
 	}
 	return sourceLocations;
+}
+
+template <>
+std::vector<StorageOccurrence> SqliteStorage::getAll<StorageOccurrence>(const std::string& query) const
+{
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT element_id, source_location_id FROM occurrence " + query + ";"
+		).c_str());
+
+	std::vector<StorageOccurrence> occurrences;
+
+	while (!q.eof())
+	{
+		const Id elementId			= q.getIntField(0, 0);
+		const Id sourceLocationId	= q.getIntField(1, 0);
+
+		if (elementId != 0 && sourceLocationId != 0)
+		{
+			occurrences.push_back(StorageOccurrence(elementId, sourceLocationId));
+		}
+
+		q.nextRow();
+	}
+	return occurrences;
 }
 
 template <>

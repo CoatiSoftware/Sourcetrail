@@ -293,14 +293,18 @@ void ParserClientImpl::addSourceLocation(Id elementId, const ParseLocation& loca
 		return;
 	}
 
-	m_storage->addSourceLocation(
-		elementId,
+	Id sourceLocationId = m_storage->addSourceLocation(
 		addFile(location.filePath.str()),
 		location.startLineNumber,
 		location.startColumnNumber,
 		location.endLineNumber,
 		location.endColumnNumber,
 		type
+	);
+
+	m_storage->addOccurrence(
+		elementId,
+		sourceLocationId
 	);
 }
 

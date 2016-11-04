@@ -21,7 +21,8 @@ public:
 	virtual Id addNode(int type, const std::string& serializedName, int definitionType);
 	virtual Id addEdge(int type, Id sourceId, Id targetId);
 	virtual Id addLocalSymbol(const std::string& name);
-	virtual void addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
+	virtual Id addSourceLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
+	virtual void addOccurrence(Id elementId, Id sourceLocationId);
 	virtual void addComponentAccess(Id nodeId , int type);
 	virtual void addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
 	virtual void addError(const std::string& message, const FilePath& filePath, uint startLine, uint startCol, bool fatal, bool indexed);
@@ -30,16 +31,18 @@ public:
 	virtual void forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const;
 	virtual void forEachEdge(std::function<void(const Id /*id*/, const StorageEdge& /*data*/)> callback) const;
 	virtual void forEachLocalSymbol(std::function<void(const Id /*id*/, const StorageLocalSymbol& /*data*/)> callback) const;
-	virtual void forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const;
+	virtual void forEachSourceLocation(std::function<void(const Id /*id*/, const StorageSourceLocation& /*data*/)> callback) const;
+	virtual void forEachOccurrence(std::function<void(const StorageOccurrence& /*data*/)> callback) const;
 	virtual void forEachComponentAccess(std::function<void(const StorageComponentAccess& /*data*/)> callback) const;
 	virtual void forEachCommentLocation(std::function<void(const StorageCommentLocation& /*data*/)> callback) const;
 	virtual void forEachError(std::function<void(const StorageError& /*data*/)> callback) const;
 
 private:
-	std::string serialize(const StorageEdge& edge);
-	std::string serialize(const StorageNode& node);
-	std::string serialize(const StorageFile& file);
-	std::string serialize(const StorageLocalSymbol& localSymbol);
+	std::string serialize(const StorageEdge& edge) const;
+	std::string serialize(const StorageNode& node) const;
+	std::string serialize(const StorageFile& file) const;
+	std::string serialize(const StorageLocalSymbol& localSymbol) const;
+	std::string serialize(const StorageSourceLocation& sourceLocation) const;
 
 	std::unordered_map<std::string, Id> m_fileNamesToIds; // this is used to prevent duplicates (unique)
 	std::unordered_map<Id, std::shared_ptr<StorageFile>> m_fileIdsToData;
@@ -54,7 +57,10 @@ private:
 	std::unordered_map<std::string, Id> m_localSymbolNamesToIds; // this is used to prevent duplicates (unique)
 	std::map<Id, std::shared_ptr<StorageLocalSymbol>> m_localSymbolIdsToData;
 
-	std::vector<StorageSourceLocation> m_sourceLocations;
+	std::unordered_map<std::string, Id> m_sourceLocationNamesToIds; // this is used to prevent duplicates (unique)
+	std::map<Id, std::shared_ptr<StorageSourceLocation>> m_sourceLocationIdsToData;
+
+	std::vector<StorageOccurrence> m_occurrences;
 	std::vector<StorageComponentAccess> m_componentAccesses;
 	std::vector<StorageCommentLocation> m_commentLocations;
 	std::vector<StorageError> m_errors;

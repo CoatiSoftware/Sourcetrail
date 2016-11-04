@@ -90,7 +90,33 @@ void Storage::inject(Storage* injected)
 	);
 
 	injected->forEachSourceLocation(
-		[&](const StorageSourceLocation& injectedData)
+		[&](const Id injectedId, const StorageSourceLocation& injectedData)
+		{
+			std::unordered_map<Id, Id>::const_iterator it;
+			it = injectedIdToOwnId.find(injectedData.fileNodeId);
+			if (it == injectedIdToOwnId.end())
+			{
+				return;
+			}
+			Id ownFileNodeId = it->second;
+
+			Id ownId = addSourceLocation(
+				ownFileNodeId,
+				injectedData.startLine,
+				injectedData.startCol,
+				injectedData.endLine,
+				injectedData.endCol,
+				injectedData.type
+			);
+			if (ownId != 0)
+			{
+				injectedIdToOwnId[injectedId] = ownId;
+			}
+		}
+	);
+
+	injected->forEachOccurrence(
+		[&](const StorageOccurrence& injectedData)
 		{
 			std::unordered_map<Id, Id>::const_iterator it;
 			it = injectedIdToOwnId.find(injectedData.elementId);
@@ -100,22 +126,14 @@ void Storage::inject(Storage* injected)
 			}
 			Id ownElementId = it->second;
 
-			it = injectedIdToOwnId.find(injectedData.fileNodeId);
+			it = injectedIdToOwnId.find(injectedData.sourceLocationId);
 			if (it == injectedIdToOwnId.end())
 			{
 				return;
 			}
-			Id ownFileNodeId = it->second;
+			Id ownSourceLocationId = it->second;
 
-			addSourceLocation(
-				ownElementId,
-				ownFileNodeId,
-				injectedData.startLine,
-				injectedData.startCol,
-				injectedData.endLine,
-				injectedData.endCol,
-				injectedData.type
-			);
+			addOccurrence(ownElementId, ownSourceLocationId);
 		}
 	);
 

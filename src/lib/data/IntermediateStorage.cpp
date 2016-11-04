@@ -22,7 +22,9 @@ void IntermediateStorage::clear()
 	m_edgeIdsToData.clear();
 	m_localSymbolNamesToIds.clear();
 	m_localSymbolIdsToData.clear();
-	m_sourceLocations.clear();
+	m_sourceLocationNamesToIds.clear();
+	m_sourceLocationIdsToData.clear();
+	m_occurrences.clear();
 	m_componentAccesses.clear();
 	m_commentLocations.clear();
 	m_errors.clear();
@@ -31,7 +33,7 @@ void IntermediateStorage::clear()
 
 size_t IntermediateStorage::getSourceLocationCount() const
 {
-	return m_sourceLocations.size();
+	return m_sourceLocationNamesToIds.size();
 }
 
 Id IntermediateStorage::addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime)
@@ -129,18 +131,35 @@ Id IntermediateStorage::addLocalSymbol(const std::string& name)
 	return id;
 }
 
-void IntermediateStorage::addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
+Id IntermediateStorage::addSourceLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
 {
-	m_sourceLocations.push_back(StorageSourceLocation(
+	std::shared_ptr<StorageSourceLocation> sourceLocation = std::make_shared<StorageSourceLocation>(
 		0,
-		elementId,
 		fileNodeId,
 		startLine,
 		startCol,
 		endLine,
 		endCol,
 		type
-	));
+	);
+
+	std::string serialized = serialize(*(sourceLocation.get()));
+	std::unordered_map<std::string, Id>::const_iterator it = m_sourceLocationNamesToIds.find(serialized);
+	if (it != m_sourceLocationNamesToIds.end())
+	{
+		return it->second;
+	}
+
+	Id id = m_nextId++;
+	m_sourceLocationNamesToIds[serialized] = id;
+	m_sourceLocationIdsToData[id] = sourceLocation;
+
+	return id;
+}
+
+void IntermediateStorage::addOccurrence(Id elementId, Id sourceLocationId)
+{
+	m_occurrences.push_back(StorageOccurrence(elementId, sourceLocationId));
 }
 
 void IntermediateStorage::addComponentAccess(Id nodeId, int type)
@@ -205,9 +224,17 @@ void IntermediateStorage::forEachLocalSymbol(std::function<void(const Id /*id*/,
 	}
 }
 
-void IntermediateStorage::forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const
+void IntermediateStorage::forEachSourceLocation(std::function<void(const Id /*id*/, const StorageSourceLocation& /*data*/)> callback) const
 {
-	for (std::vector<StorageSourceLocation>::const_iterator it = m_sourceLocations.begin(); it != m_sourceLocations.end(); it++)
+	for (std::map<Id, std::shared_ptr<StorageSourceLocation>>::const_iterator it = m_sourceLocationIdsToData.begin(); it != m_sourceLocationIdsToData.end(); it++)
+	{
+		callback(it->first, *(it->second.get()));
+	}
+}
+
+void IntermediateStorage::forEachOccurrence(std::function<void(const StorageOccurrence& /*data*/)> callback) const
+{
+	for (std::vector<StorageOccurrence>::const_iterator it = m_occurrences.begin(); it != m_occurrences.end(); it++)
 	{
 		callback(*it);
 	}
@@ -237,7 +264,7 @@ void IntermediateStorage::forEachError(std::function<void(const StorageError& /*
 	}
 }
 
-std::string IntermediateStorage::serialize(const StorageEdge& edge)
+std::string IntermediateStorage::serialize(const StorageEdge& edge) const
 {
 	return (
 		std::to_string(edge.type) +
@@ -246,17 +273,29 @@ std::string IntermediateStorage::serialize(const StorageEdge& edge)
 	);
 }
 
-std::string IntermediateStorage::serialize(const StorageNode& node)
+std::string IntermediateStorage::serialize(const StorageNode& node) const
 {
 	return node.serializedName;
 }
 
-std::string IntermediateStorage::serialize(const StorageFile& file)
+std::string IntermediateStorage::serialize(const StorageFile& file) const
 {
 	return file.filePath;
 }
 
-std::string IntermediateStorage::serialize(const StorageLocalSymbol& localSymbol)
+std::string IntermediateStorage::serialize(const StorageLocalSymbol& localSymbol) const
 {
 	return localSymbol.name;
+}
+
+std::string IntermediateStorage::serialize(const StorageSourceLocation& sourceLocation) const
+{
+	return (
+		std::to_string(sourceLocation.fileNodeId) +
+		std::to_string(sourceLocation.startLine) +
+		std::to_string(sourceLocation.startCol) +
+		std::to_string(sourceLocation.endLine) +
+		std::to_string(sourceLocation.endCol) +
+		std::to_string(sourceLocation.type)
+	);
 }

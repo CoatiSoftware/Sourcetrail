@@ -93,7 +93,6 @@ struct StorageSourceLocation
 {
 	StorageSourceLocation()
 		: id(0)
-		, elementId(0)
 		, fileNodeId(0)
 		, startLine(-1)
 		, startCol(-1)
@@ -102,9 +101,8 @@ struct StorageSourceLocation
 		, type(0)
 	{}
 
-	StorageSourceLocation(Id id, Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
+	StorageSourceLocation(Id id, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
 		: id(id)
-		, elementId(elementId)
 		, fileNodeId(fileNodeId)
 		, startLine(startLine)
 		, startCol(startCol)
@@ -114,13 +112,28 @@ struct StorageSourceLocation
 	{}
 
 	Id id;
-	Id elementId;
 	Id fileNodeId;
 	uint startLine;
 	uint startCol;
 	uint endLine;
 	uint endCol;
 	int type;
+};
+
+struct StorageOccurrence
+{
+	StorageOccurrence()
+		: elementId(0)
+		, sourceLocationId(0)
+	{}
+
+	StorageOccurrence(Id elementId, Id sourceLocationId)
+		: elementId(elementId)
+		, sourceLocationId(sourceLocationId)
+	{}
+
+	Id elementId;
+	Id sourceLocationId;
 };
 
 struct StorageComponentAccess

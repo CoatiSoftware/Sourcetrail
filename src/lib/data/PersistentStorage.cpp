@@ -105,18 +105,27 @@ Id PersistentStorage::addLocalSymbol(const std::string& name)
 	return localSymbolId;
 }
 
-void PersistentStorage::addSourceLocation(
-	Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
+Id PersistentStorage::addSourceLocation(
+	Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type)
 {
-	m_sqliteStorage.addSourceLocation(
-		elementId,
-		fileNodeId,
-		startLine,
-		startCol,
-		endLine,
-		endCol,
-		type
-	);
+	Id sourceLocationId = m_sqliteStorage.getSourceLocationByAll(fileNodeId, startLine, startCol, endLine, endCol, type).id;
+	if (sourceLocationId == 0)
+	{
+		sourceLocationId = m_sqliteStorage.addSourceLocation(
+			fileNodeId,
+			startLine,
+			startCol,
+			endLine,
+			endCol,
+			type
+		);
+	}
+	return sourceLocationId;
+}
+
+void PersistentStorage::addOccurrence(Id elementId, Id sourceLocationId)
+{
+	m_sqliteStorage.addOccurrence(elementId, sourceLocationId);
 }
 
 void PersistentStorage::addComponentAccess(Id nodeId , int type)
@@ -184,11 +193,19 @@ void PersistentStorage::forEachLocalSymbol(std::function<void(
 	}
 }
 
-void PersistentStorage::forEachSourceLocation(std::function<void(const StorageSourceLocation& /*data*/)> callback) const
+void PersistentStorage::forEachSourceLocation(std::function<void(const Id /*id*/, const StorageSourceLocation& /*data*/)> callback) const
 {
 	for (StorageSourceLocation& sourceLocation: m_sqliteStorage.getAllSourceLocations())
 	{
-		callback(sourceLocation);
+		callback(sourceLocation.id, sourceLocation);
+	}
+}
+
+void PersistentStorage::forEachOccurrence(std::function<void(const StorageOccurrence& /*data*/)> callback) const
+{
+	for (StorageOccurrence& occurrence: m_sqliteStorage.getAllOccurrences())
+	{
+		callback(occurrence);
 	}
 }
 
@@ -784,9 +801,9 @@ std::vector<Id> PersistentStorage::getNodeIdsForLocationIds(const std::vector<Id
 	std::set<Id> nodeIds;
 	std::set<Id> implicitNodeIds;
 
-	for (Id locationId : locationIds)
+	for (const StorageOccurrence& occurrence: m_sqliteStorage.getOccurrencesForLocationIds(locationIds))
 	{
-		Id elementId = m_sqliteStorage.getElementIdByLocationId(locationId);
+		const Id elementId = occurrence.elementId;
 
 		StorageEdge edge = m_sqliteStorage.getEdgeById(elementId);
 		if (edge.id != 0) // here we test if location is an edge.
@@ -827,9 +844,9 @@ std::vector<Id> PersistentStorage::getLocalSymbolIdsForLocationIds(const std::ve
 {
 	std::set<Id> localSymbolIds;
 
-	for (Id locationId : locationIds)
+	for (const StorageOccurrence& occurrence: m_sqliteStorage.getOccurrencesForLocationIds(locationIds))
 	{
-		Id elementId = m_sqliteStorage.getElementIdByLocationId(locationId);
+		Id elementId = occurrence.elementId;
 
 		if (m_sqliteStorage.getNodeById(elementId).id == 0 && m_sqliteStorage.getEdgeById(elementId).id == 0)
 		{
@@ -898,24 +915,21 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsFor
 		collection->addTokenLocationFile(m_sqliteStorage.getTokenLocationsForFile(storageFile.filePath));
 	}
 
-	std::vector<StorageSourceLocation> locations = m_sqliteStorage.getTokenLocationsForElementIds(nonFileIds);
-	for (size_t i = 0; i < locations.size(); i++)
+	for (const std::pair<StorageSourceLocation, Id>& e: m_sqliteStorage.getSourceLocationsAndElementIdsForElementIds(nonFileIds))
 	{
-		const StorageSourceLocation& location = locations[i];
-
 		TokenLocation* loc = collection->addTokenLocation(
-			location.id,
-			location.elementId,
-			getFileNodePath(location.fileNodeId),
-			location.startLine,
-			location.startCol,
-			location.endLine,
-			location.endCol
+			e.first.id,
+			e.second,
+			getFileNodePath(e.first.fileNodeId),
+			e.first.startLine,
+			e.first.startCol,
+			e.first.endLine,
+			e.first.endCol
 		);
 
 		if (loc)
 		{
-			loc->setType(intToLocationType(location.type));
+			loc->setType(intToLocationType(e.first.type));
 		}
 	}
 
@@ -933,15 +947,18 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsFor
 	for (size_t i = 0; i < locationIds.size(); i++)
 	{
 		StorageSourceLocation location = m_sqliteStorage.getSourceLocationById(locationIds[i]);
-		collection->addTokenLocation(
-			location.id,
-			location.elementId,
-			m_sqliteStorage.getFileById(location.fileNodeId).filePath, // TODO: optimize: only once per file!
-			location.startLine,
-			location.startCol,
-			location.endLine,
-			location.endCol
-		)->setType(intToLocationType(location.type));
+		for (const StorageOccurrence& occurrences: m_sqliteStorage.getOccurrencesForLocationId(locationIds[i]))
+		{
+			collection->addTokenLocation(
+				location.id,
+				occurrences.elementId,
+				m_sqliteStorage.getFileById(location.fileNodeId).filePath, // TODO: optimize: only once per file!
+				location.startLine,
+				location.startCol,
+				location.endLine,
+				location.endCol
+			)->setType(intToLocationType(location.type));
+		}
 	}
 
 	return collection;
@@ -1132,7 +1149,7 @@ std::set<FilePath> PersistentStorage::getDependingFilePathsForImports(const std:
 
 	for (const StorageEdge& importEdge: m_sqliteStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_IMPORT)))
 	{
-		for (const StorageSourceLocation& importedElementLoc: m_sqliteStorage.getTokenLocationsForElementId(importEdge.targetNodeId))
+		for (const StorageSourceLocation& importedElementLoc: m_sqliteStorage.getSourceLocationsForElementId(importEdge.targetNodeId))
 		{
 			fileIdToDependingFileIds[importedElementLoc.fileNodeId].insert(importEdge.sourceNodeId);
 		}

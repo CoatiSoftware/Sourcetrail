@@ -31,6 +31,8 @@ public:
 	void commitTransaction();
 	void rollbackTransaction();
 
+	void optimizeMemory() const;
+
 	FilePath getDbFilePath() const;
 
 	bool isEmpty() const;
@@ -44,7 +46,8 @@ public:
 	Id addNode(int type, const std::string& serializedName, int definitionType);
 	Id addFile(const std::string& serializedName, const std::string& filePath, const std::string& modificationTime);
 	Id addLocalSymbol(const std::string& name);
-	Id addSourceLocation(Id elementId, Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
+	Id addSourceLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
+	bool addOccurrence(Id elementId, Id sourceLocationId);
 	Id addComponentAccess(Id nodeId, int type);
 	Id addCommentLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol);
 	Id addError(const std::string& message, const FilePath& filePath, uint lineNumber, uint columnNumber, bool fatal, bool indexed);
@@ -90,16 +93,17 @@ public:
 	void setNodeDefinitionType(int definitionType, Id nodeId);
 
 	StorageSourceLocation getSourceLocationById(const Id id) const;
+	StorageSourceLocation getSourceLocationByAll(const Id fileNodeId, const uint startLine, const uint startCol, const uint endLine, const uint endCol, const int type) const;
 	std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const FilePath& filePath) const;
-	std::vector<StorageSourceLocation> getTokenLocationsForElementId(const Id elementId) const;
-	std::vector<StorageSourceLocation> getTokenLocationsForElementIds(const std::vector<Id> elementIds) const;
+	std::vector<StorageSourceLocation> getSourceLocationsForElementId(const Id elementId) const;
+	std::vector<std::pair<StorageSourceLocation, Id>> getSourceLocationsAndElementIdsForElementIds(const std::vector<Id> elementIds) const;
+	std::vector<std::pair<StorageSourceLocation, Id>> getAllSourceLocationsAndElementIds(const std::string& query) const;
 
-	Id getElementIdByLocationId(Id locationId) const;
+	std::vector<StorageOccurrence> getOccurrencesForLocationId(Id locationId) const;
+	std::vector<StorageOccurrence> getOccurrencesForLocationIds(const std::vector<Id>& locationIds) const;
 
 	StorageComponentAccess getComponentAccessByNodeId(Id memberEdgeId) const;
 	std::vector<StorageComponentAccess> getComponentAccessesByNodeIds(const std::vector<Id>& memberEdgeIds) const;
-
-	void optimizeMemory() const;
 
 	std::vector<ParseLocation> getFullTextSearch(const std::string& searchTerm) const;
 
@@ -110,6 +114,7 @@ public:
 	std::vector<StorageEdge> getAllEdges() const;
 	std::vector<StorageLocalSymbol> getAllLocalSymbols() const;
 	std::vector<StorageSourceLocation> getAllSourceLocations() const;
+	std::vector<StorageOccurrence> getAllOccurrences() const;
 	std::vector<StorageComponentAccess> getAllComponentAccesses() const;
 	std::vector<StorageCommentLocation> getAllCommentLocations() const;
 	std::vector<StorageError> getAllErrors() const;
@@ -165,6 +170,8 @@ template <>
 std::vector<StorageLocalSymbol> SqliteStorage::getAll<StorageLocalSymbol>(const std::string& query) const;
 template <>
 std::vector<StorageSourceLocation> SqliteStorage::getAll<StorageSourceLocation>(const std::string& query) const;
+template <>
+std::vector<StorageOccurrence> SqliteStorage::getAll<StorageOccurrence>(const std::string& query) const;
 template <>
 std::vector<StorageComponentAccess> SqliteStorage::getAll<StorageComponentAccess>(const std::string& query) const;
 template <>
