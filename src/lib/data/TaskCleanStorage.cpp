@@ -19,6 +19,11 @@ void TaskCleanStorage::doEnter(std::shared_ptr<Blackboard> blackboard)
 	m_dialogView->showProgressDialog("Clearing Files", std::to_string(m_filePaths.size()) + " Files");
 
 	m_start = utility::durationStart();
+
+	if (!m_filePaths.empty())
+	{
+		m_storage->setMode(SqliteStorage::STORAGE_MODE_CLEAR);
+	}
 }
 
 Task::TaskState TaskCleanStorage::doUpdate(std::shared_ptr<Blackboard> blackboard)

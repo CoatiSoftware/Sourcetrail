@@ -13,6 +13,7 @@
 #include "data/location/TokenLocationCollection.h"
 #include "data/name/NameHierarchy.h"
 #include "data/StorageTypes.h"
+#include "data/SqliteIndex.h"
 
 class TextAccess;
 class Version;
@@ -21,11 +22,21 @@ struct ParseLocation;
 class SqliteStorage
 {
 public:
+	enum StorageModeType
+	{
+		STORAGE_MODE_UNKNOWN = 0,
+		STORAGE_MODE_READ = 1,
+		STORAGE_MODE_WRITE = 2,
+		STORAGE_MODE_CLEAR = 4,
+	};
+
 	SqliteStorage(const FilePath& dbFilePath);
 	~SqliteStorage();
 
 	void setup();
 	void clear();
+
+	void setMode(const StorageModeType mode);
 
 	void beginTransaction();
 	void commitTransaction();
@@ -105,8 +116,6 @@ public:
 	StorageComponentAccess getComponentAccessByNodeId(Id memberEdgeId) const;
 	std::vector<StorageComponentAccess> getComponentAccessesByNodeIds(const std::vector<Id>& memberEdgeIds) const;
 
-	std::vector<ParseLocation> getFullTextSearch(const std::string& searchTerm) const;
-
 	std::vector<StorageCommentLocation> getCommentLocationsInFile(const FilePath& filePath) const;
 
 	std::vector<StorageFile> getAllFiles() const;
@@ -158,6 +167,9 @@ private:
 
 	mutable CppSQLite3DB m_database;
 	FilePath m_dbFilePath;
+
+	StorageModeType m_mode;
+	std::vector<std::pair<int, SqliteIndex>> m_indices;
 };
 
 template <>

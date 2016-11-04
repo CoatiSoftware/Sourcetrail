@@ -12,12 +12,14 @@
 
 class DialogView;
 class FileRegister;
+class PersistentStorage;
 
 class TaskParseWrapper
 	: public TaskDecorator
 {
 public:
 	TaskParseWrapper(
+		PersistentStorage* storage,
 		std::shared_ptr<FileRegister> fileRegister,
 		DialogView* dialogView
 	);
@@ -31,6 +33,7 @@ private:
 	virtual void doExit(std::shared_ptr<Blackboard> blackboard);
 	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
 
+	PersistentStorage* m_storage;
 	std::shared_ptr<FileRegister> m_fileRegister;
 	DialogView* m_dialogView;
 

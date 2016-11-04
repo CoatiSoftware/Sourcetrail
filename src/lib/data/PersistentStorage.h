@@ -50,6 +50,8 @@ public:
 	virtual void startInjection();
 	virtual void finishInjection();
 
+	void setMode(const SqliteStorage::StorageModeType mode);
+
 	FilePath getDbFilePath() const;
 
 	bool isEmpty() const;

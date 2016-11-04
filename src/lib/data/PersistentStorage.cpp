@@ -252,6 +252,11 @@ void PersistentStorage::finishInjection()
 	}
 }
 
+void PersistentStorage::setMode(const SqliteStorage::StorageModeType mode)
+{
+	m_sqliteStorage.setMode(mode);
+}
+
 FilePath PersistentStorage::getDbFilePath() const
 {
 	return m_sqliteStorage.getDbFilePath();

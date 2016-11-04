@@ -221,6 +221,7 @@ void Project::load()
 
 	if (canLoad)
 	{
+		m_storage->setMode(SqliteStorage::STORAGE_MODE_READ);
 		m_storage->buildCaches();
 		m_storageAccessProxy->setSubject(m_storage.get());
 
@@ -324,6 +325,7 @@ bool Project::buildIndex(bool forceRefresh)
 		fileRegister->setFilePaths(utility::toVector(filesToParse));
 
 		std::shared_ptr<TaskParseWrapper> taskParserWrapper = std::make_shared<TaskParseWrapper>(
+			m_storage.get(),
 			fileRegister,
 			m_dialogView
 		);

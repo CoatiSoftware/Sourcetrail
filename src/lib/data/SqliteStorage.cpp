@@ -4,7 +4,6 @@
 #include "data/location/TokenLocation.h"
 #include "data/DefinitionType.h"
 #include "data/parser/ParseLocation.h"
-#include "data/SqliteIndex.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
@@ -19,6 +18,15 @@ SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 	m_database.open(m_dbFilePath.str().c_str());
 
 	m_database.execDML("PRAGMA foreign_keys=ON;");
+
+	m_mode = STORAGE_MODE_UNKNOWN;
+
+	m_indices.push_back(std::make_pair(STORAGE_MODE_WRITE, SqliteIndex("edge_multipart_index", "edge(type, source_node_id, target_node_id)")));
+	m_indices.push_back(std::make_pair(STORAGE_MODE_WRITE | STORAGE_MODE_READ | STORAGE_MODE_CLEAR, SqliteIndex("node_serialized_name_index", "node(serialized_name)")));
+	m_indices.push_back(std::make_pair(STORAGE_MODE_WRITE, SqliteIndex("local_symbol_name_index", "local_symbol(name)")));
+	m_indices.push_back(std::make_pair(STORAGE_MODE_READ | STORAGE_MODE_CLEAR, SqliteIndex("source_location_file_node_id_index", "source_location(file_node_id)")));
+	m_indices.push_back(std::make_pair(STORAGE_MODE_WRITE, SqliteIndex("source_location_all_data_index", "source_location(file_node_id, start_line, start_column, end_line, end_column, type)")));
+	m_indices.push_back(std::make_pair(STORAGE_MODE_WRITE | STORAGE_MODE_READ | STORAGE_MODE_CLEAR, SqliteIndex("component_access_node_id_index", "component_access(node_id)")));
 }
 
 SqliteStorage::~SqliteStorage()
@@ -37,6 +45,7 @@ void SqliteStorage::setup()
 {
 	m_database.execDML("PRAGMA foreign_keys=ON;");
 	setupTables();
+	m_mode = STORAGE_MODE_UNKNOWN;
 }
 
 void SqliteStorage::clear()
@@ -45,6 +54,28 @@ void SqliteStorage::clear()
 	clearTables();
 
 	setup();
+}
+
+void SqliteStorage::setMode(const StorageModeType mode)
+{
+	if (mode == m_mode)
+	{
+		return;
+	}
+
+	for (size_t i = 0; i < m_indices.size(); i++)
+	{
+		if (m_indices[i].first & mode)
+		{
+			m_indices[i].second.createOnDatabase(m_database);
+		}
+		else
+		{
+			m_indices[i].second.removeFromDatabase(m_database);
+		}
+	}
+
+	m_mode = mode;
 }
 
 void SqliteStorage::beginTransaction()
@@ -295,7 +326,7 @@ void SqliteStorage::removeElements(const std::vector<Id>& ids)
 	).c_str());
 }
 
-void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fileIds) // TODO: make one single clearFiles method
+void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fileIds)
 {
 	m_database.execDML((
 		"DELETE FROM source_location WHERE file_node_id IN (" + utility::join(utility::toStrings(fileIds), ',') + ");"
@@ -763,11 +794,6 @@ void SqliteStorage::setupTables()
 				"FOREIGN KEY(target_node_id) REFERENCES node(id) ON DELETE CASCADE);"
 		);
 
-		// TODO: move to createIndexesForAnalysis() or prepareForAnalysis
-		m_database.execDML( // used for checking for duplicates during code analysis
-			"CREATE INDEX IF NOT EXISTS edge_multipart_index ON edge(type, source_node_id, target_node_id);"
-		);
-
 		m_database.execDML(
 			"CREATE TABLE IF NOT EXISTS node("
 				"id INTEGER NOT NULL, "
@@ -776,10 +802,6 @@ void SqliteStorage::setupTables()
 				"definition_type INTEGER NOT NULL, "
 				"PRIMARY KEY(id), "
 				"FOREIGN KEY(id) REFERENCES element(id) ON DELETE CASCADE);"
-		);
-
-		m_database.execDML(
-			"CREATE INDEX IF NOT EXISTS node_serialized_name_index ON node(serialized_name);"
 		);
 
 		m_database.execDML(
@@ -811,10 +833,6 @@ void SqliteStorage::setupTables()
 		);
 
 		m_database.execDML(
-			"CREATE INDEX IF NOT EXISTS local_symbol_name_index ON local_symbol(name);"
-		);
-
-		m_database.execDML(
 			"CREATE TABLE IF NOT EXISTS source_location("
 				"id INTEGER NOT NULL, "
 				"file_node_id INTEGER, "
@@ -826,9 +844,6 @@ void SqliteStorage::setupTables()
 				"PRIMARY KEY(id), "
 				"FOREIGN KEY(file_node_id) REFERENCES node(id) ON DELETE CASCADE);"
 		);
-
-		SqliteIndex("source_location_file_node_id_index", "source_location(file_node_id)").createOnDatabase(m_database);
-		SqliteIndex("source_location_all_data_index", "source_location(file_node_id, start_line, start_column, end_line, end_column, type)").createOnDatabase(m_database);
 
 		m_database.execDML(
 			"CREATE TABLE IF NOT EXISTS occurrence(" // TODO: properly delete this on refresh
@@ -847,8 +862,6 @@ void SqliteStorage::setupTables()
 				"PRIMARY KEY(id), "
 				"FOREIGN KEY(node_id) REFERENCES node(id) ON DELETE CASCADE);"
 		);
-
-		SqliteIndex("component_access_node_id_index", "component_access(node_id)").createOnDatabase(m_database);
 
 		m_database.execDML(
 			"CREATE TABLE IF NOT EXISTS comment_location("
