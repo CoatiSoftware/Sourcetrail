@@ -71,7 +71,7 @@ bool CxxVerboseAstVisitor::TraverseTypeLoc(clang::TypeLoc tl)
 	if (!tl.isNull())
 	{
 		ParseLocation loc = getParseLocation(tl.getSourceRange());
-		LOG_WARNING_STREAM_BARE(
+		LOG_INFO_STREAM_BARE(
 			<< "Indexer - "
 			<< getIndentString() << typeLocClassToString(tl)
 			<< "TypeLoc <" << loc.startLineNumber << ":" << loc.startColumnNumber

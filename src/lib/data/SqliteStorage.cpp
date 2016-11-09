@@ -21,12 +21,34 @@ SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 
 	m_mode = STORAGE_MODE_UNKNOWN;
 
-	m_indices.push_back(std::make_pair(STORAGE_MODE_WRITE, SqliteIndex("edge_multipart_index", "edge(type, source_node_id, target_node_id)")));
-	m_indices.push_back(std::make_pair(STORAGE_MODE_WRITE | STORAGE_MODE_READ | STORAGE_MODE_CLEAR, SqliteIndex("node_serialized_name_index", "node(serialized_name)")));
-	m_indices.push_back(std::make_pair(STORAGE_MODE_WRITE, SqliteIndex("local_symbol_name_index", "local_symbol(name)")));
-	m_indices.push_back(std::make_pair(STORAGE_MODE_READ | STORAGE_MODE_CLEAR, SqliteIndex("source_location_file_node_id_index", "source_location(file_node_id)")));
-	m_indices.push_back(std::make_pair(STORAGE_MODE_WRITE, SqliteIndex("source_location_all_data_index", "source_location(file_node_id, start_line, start_column, end_line, end_column, type)")));
-	m_indices.push_back(std::make_pair(STORAGE_MODE_WRITE | STORAGE_MODE_READ | STORAGE_MODE_CLEAR, SqliteIndex("component_access_node_id_index", "component_access(node_id)")));
+	m_indices.push_back(std::make_pair(
+		STORAGE_MODE_WRITE,
+		SqliteIndex("edge_multipart_index", "edge(type, source_node_id, target_node_id)")
+	));
+	m_indices.push_back(std::make_pair(
+		STORAGE_MODE_WRITE | STORAGE_MODE_READ | STORAGE_MODE_CLEAR,
+		SqliteIndex("node_serialized_name_index", "node(serialized_name)")
+	));
+	m_indices.push_back(std::make_pair(
+		STORAGE_MODE_WRITE,
+		SqliteIndex("local_symbol_name_index", "local_symbol(name)")
+	));
+	m_indices.push_back(std::make_pair(
+		STORAGE_MODE_READ | STORAGE_MODE_CLEAR,
+		SqliteIndex("source_location_file_node_id_index", "source_location(file_node_id)")
+	));
+	m_indices.push_back(std::make_pair(
+		STORAGE_MODE_WRITE,
+		SqliteIndex("source_location_all_data_index", "source_location(file_node_id, start_line, start_column, end_line, end_column, type)")
+	));
+	m_indices.push_back(std::make_pair(
+		STORAGE_MODE_READ | STORAGE_MODE_CLEAR,
+		SqliteIndex("occurrence_element_id_index", "occurrence(element_id)")
+	));
+	m_indices.push_back(std::make_pair(
+		STORAGE_MODE_WRITE | STORAGE_MODE_READ | STORAGE_MODE_CLEAR,
+		SqliteIndex("component_access_node_id_index", "component_access(node_id)")
+	));
 }
 
 SqliteStorage::~SqliteStorage()
