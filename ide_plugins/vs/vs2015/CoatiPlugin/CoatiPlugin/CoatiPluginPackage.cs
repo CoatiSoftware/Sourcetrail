@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 
 using EnvDTE;
+using System.Windows.Forms;
 
 namespace CoatiSoftware.CoatiPlugin
 {
@@ -109,6 +110,8 @@ namespace CoatiSoftware.CoatiPlugin
 
         private SolutionEvents _solutionEvents = null;
 
+        private bool _validSolutionLoaded = false;
+
         public uint ServerPort
         {
             get
@@ -147,6 +150,8 @@ namespace CoatiSoftware.CoatiPlugin
 
         System.Threading.Thread _serverThread = null;
 
+
+
         public CoatiPluginPackage()
         {}
 
@@ -159,16 +164,18 @@ namespace CoatiSoftware.CoatiPlugin
 
             Utility.FileUtility._errorCallback = new Utility.FileUtility.ErrorCallback(OnFileUtilityError);
 
+            // register callbacks for changes of plugin settings
             OptionPageGrid._serverPortChangeCallback = new OptionPageGrid.Callback(OnServerPortChanged);
             OptionPageGrid._clientPortChangeCallback = new OptionPageGrid.Callback(OnClientPortChanged);
             OptionPageGrid._loggingToggled = new OptionPageGrid.Callback(OnLoggingToggled);
             OptionPageGrid._obfuscationToggled = new OptionPageGrid.Callback(OnObfuscationToggled);
 
+            // register the plugin UI elements
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if ( null != mcs )
             {
                 CommandID setActiveTokenCommandID = new CommandID(GuidList.guidCoatiPluginCmdSet, (int)PkgCmdIDList.cmdidCoatiSetActiveToken);
-                CommandID createProjectID = new CommandID(GuidList.guidCoatiPluginCmdSet, (int)PkgCmdIDList.cmdidCoatiCreateProject); // cmdidCoatiCreateProject
+                CommandID createProjectID = new CommandID(GuidList.guidCoatiPluginCmdSet, (int)PkgCmdIDList.cmdidCoatiCreateProject);
                 CommandID createCDBID = new CommandID(GuidList.guidCoatiPluginCmdSet, (int)PkgCmdIDList.cmdidCoatiCreateCDB);
 
                 _menuItemSetActiveToken = new MenuCommand(MenuItemCallback, setActiveTokenCommandID);
@@ -184,8 +191,8 @@ namespace CoatiSoftware.CoatiPlugin
                 mcs.AddCommand(_menuItemCreateCDB);
             }
 
+            // register callbacks to enable/disable interaction for eligible solutions
             DTE dte = (DTE)GetService(typeof(DTE));
-
             _solutionEvents = dte.Events.SolutionEvents;
 
             _solutionEvents.Opened += OnSolutionOpened;
@@ -200,6 +207,7 @@ namespace CoatiSoftware.CoatiPlugin
 
             try
             {
+                // the coati ui should only be enabled when the solution contains C/C++ projects
                 DTE dte = (DTE)GetService(typeof(DTE));
                 List<String> languages = Utility.SolutionUtility.GetSolutionLanguages(dte);
 
@@ -220,9 +228,13 @@ namespace CoatiSoftware.CoatiPlugin
                     _menuItemSetActiveToken.Enabled = true;
                     _menuItemCreateProject.Enabled = true;
                     _menuItemCreateCDB.Enabled = true;
+
+                    _validSolutionLoaded = true;
                 }
                 else
                 {
+                    _validSolutionLoaded = false;
+
                     Logging.Logging.LogInfo("No C/C++ project was detected");
                 }
             }
@@ -240,6 +252,8 @@ namespace CoatiSoftware.CoatiPlugin
             _menuItemSetActiveToken.Enabled = false;
             _menuItemCreateProject.Enabled = false;
             _menuItemCreateCDB.Enabled = false;
+
+            _validSolutionLoaded = false;
         }
 
         private void InitNetwork()
@@ -293,11 +307,37 @@ namespace CoatiSoftware.CoatiPlugin
         {
             if(creationResult._cdb != null && creationResult._cdbDirectory.Length > 0 && creationResult._cdbName.Length > 0)
             {
-                WriteCDBToFile(creationResult._cdb, creationResult._cdbDirectory, creationResult._cdbName);
+                if(WriteCDBToFile(creationResult._cdb, creationResult._cdbDirectory, creationResult._cdbName))
+                {
+                    string title = "CDB finished";
+                    string text = "The CDB '" + creationResult._cdbName + "' was created at directory \"" + creationResult._cdbDirectory + "\"\n";
+                    text += "Do you want to auto-import it in Coati now?";
 
-                //string message = NetworkProtocolUtility.createCreateProjectMessage(creationResult._cdbDirectory + "\\" + creationResult._cdbName, creationResult._headerDirectories);
+                    DialogResult result = MessageBox.Show(text, title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-                //Utility.AsynchronousClient.Send(message);
+                    if (result == DialogResult.Yes)
+                    {
+                        string message = Utility.NetworkProtocolUtility.CreateCreateProjectMessage(creationResult._cdbDirectory + "\\" + creationResult._cdbName + ".json", creationResult._headerDirectories);
+
+                        Utility.AsynchronousClient.Send(message);
+                    }
+                }
+                else
+                {
+                    string title = "Error";
+                    string text = "Failed to write CDB '" + creationResult._cdbName + "' to directory \"" + creationResult._cdbDirectory + "\"\n";
+
+                    if (LoggingEnabled)
+                    {
+                        text += "See log for details.";
+                    }
+                    else
+                    {
+                        text += "Consider enabling logging to provide additional information (Tools->Options->Coati).";
+                    }
+
+                    DialogResult result = MessageBox.Show(text, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             else
             {
@@ -305,7 +345,7 @@ namespace CoatiSoftware.CoatiPlugin
             }
         }
 
-        private void WriteCDBToFile(SolutionParser.CompilationDatabase cdb, string directory, string fileName)
+        private bool WriteCDBToFile(SolutionParser.CompilationDatabase cdb, string directory, string fileName)
         {
             try
             {
@@ -314,35 +354,17 @@ namespace CoatiSoftware.CoatiPlugin
             }
             catch(Exception e)
             {
-                string foo = "Error";
-                string bar = "Failed to write CDB '" + fileName + "' to directory \"" + directory + "\"\n";
-                bar += "See log for details.";
-
-                Wizard.WindowMessage wm = new Wizard.WindowMessage();
-                wm.Title = foo;
-                wm.Message = bar;
-                wm.RefreshWindow();
-                wm.ShowDialog();
-
-                bar = "Failed to write CDB '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(fileName) + "' to directory \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(directory) + "\"\n";
-                Logging.Logging.LogError(bar);
+                string text = "Failed to write CDB '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(fileName) + "' to directory \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(directory) + "\"\n";
+                Logging.Logging.LogError(text);
                 Logging.Logging.LogError("Exception: " + e.Message);
 
-                return;
+                return false;
             }
 
-            string title = "CDB finished";
-            string message = "The CDB '" + fileName + "' was created at directory \"" + directory + "\"\n";
-            message += "You can now use it in Coati.";
-
-            Wizard.WindowMessage windowMessage = new Wizard.WindowMessage();
-            windowMessage.Title = title;
-            windowMessage.Message = message;
-            windowMessage.RefreshWindow();
-            windowMessage.ShowDialog();
-
-            message = "The CDB '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(fileName) + "' was created at directory \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(directory) + "\"\n";
+            string message = "The CDB '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(fileName) + "' was created at directory \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(directory) + "\"\n";
             Logging.Logging.LogInfo(message);
+
+            return true;
         }
 
         private void MenuItemCallback(object sender, EventArgs e)
@@ -361,7 +383,7 @@ namespace CoatiSoftware.CoatiPlugin
                     int lineNumber = Utility.FileUtility.GetActiveLineNumber(dte);
                     int columnNumber = Utility.FileUtility.GetActiveColumnNumber(dte);
 
-                    string message = NetworkProtocolUtility.createActivateTokenMessage(filePath + fileName, lineNumber, columnNumber);
+                    string message = Utility.NetworkProtocolUtility.CreateActivateTokenMessage(filePath + fileName, lineNumber, columnNumber);
 
                     Utility.AsynchronousClient.Send(message);
                 }
@@ -371,8 +393,7 @@ namespace CoatiSoftware.CoatiPlugin
                 }
                 else if(menuCommand.CommandID.ID == (int)PkgCmdIDList.cmdidCoatiCreateProject)
                 {
-                    // CreateCoatiProjectOld();
-
+                    // show hint to use CDB methad (only for CDB beta) and create project on ok
                     Wizard.WindowMessage windowMessage = new Wizard.WindowMessage();
                     windowMessage.Title = "Hint";
                     windowMessage.Message = "Consider using 'Create CDB' if errors arise during Coati's indexing. This will become standard in the future.";
@@ -383,6 +404,7 @@ namespace CoatiSoftware.CoatiPlugin
             }
         }
 
+        // will be removed once the CDB project creation is fully integrated
         private void CreateCoatiProjectOld()
         {
             DTE dte = (DTE)GetService(typeof(DTE));
@@ -401,7 +423,7 @@ namespace CoatiSoftware.CoatiPlugin
 
             if (solutionName.Length > 0)
             {
-                string message = NetworkProtocolUtility.createCreateProjectMessage(solutionName);
+                string message = Utility.NetworkProtocolUtility.CreateCreateProjectMessage(solutionName);
 
                 Utility.AsynchronousClient.Send(message);
             }
@@ -413,16 +435,30 @@ namespace CoatiSoftware.CoatiPlugin
 
         private void OnNetworkReadCallback(string message)
         {
-            NetworkProtocolUtility.CursorPosition cursorPosition = NetworkProtocolUtility.parseSetCursorMessage(message);
-            if (cursorPosition.Valid)
-            {
-                cursorPosition.ColumnNumber += 1; // VS counts columns starting at 1, coati starts at 0
-                DTE dte = (DTE)GetService(typeof(DTE));
-                if (Utility.FileUtility.OpenSourceFile(dte, cursorPosition.FilePath))
-                {
-                    Utility.FileUtility.GoToLine(dte, cursorPosition.LineNumber, cursorPosition.ColumnNumber);
+            Utility.NetworkProtocolUtility.MESSAGE_TYPE messageType = Utility.NetworkProtocolUtility.GetMessageType(message);
 
-                    Utility.SystemUtility.GetWindowFocus();
+            if(messageType == Utility.NetworkProtocolUtility.MESSAGE_TYPE.MOVE_CURSOR)
+            {
+                Utility.NetworkProtocolUtility.CursorPosition cursorPosition = Utility.NetworkProtocolUtility.ParseSetCursorMessage(message);
+                if (cursorPosition.Valid)
+                {
+                    cursorPosition.ColumnNumber += 1; // VS counts columns starting at 1, coati starts at 0
+                    DTE dte = (DTE)GetService(typeof(DTE));
+                    if (Utility.FileUtility.OpenSourceFile(dte, cursorPosition.FilePath))
+                    {
+                        Utility.FileUtility.GoToLine(dte, cursorPosition.LineNumber, cursorPosition.ColumnNumber);
+
+                        Utility.SystemUtility.GetWindowFocus();
+                    }
+                }
+            }
+            else if(messageType == Utility.NetworkProtocolUtility.MESSAGE_TYPE.CREATE_CDB)
+            {
+                if(_validSolutionLoaded)
+                {
+                    DTE dte = (DTE)GetService(typeof(DTE));
+
+                    CreateCompilationDatabase(dte);
                 }
             }
         }
@@ -521,7 +557,7 @@ namespace CoatiSoftware.CoatiPlugin
             string solutionName = System.IO.Path.GetFileNameWithoutExtension(dte.Solution.FullName);
             window.m_solutionFileName = solutionName;
 
-            bool containsCFiles = true; // Utility.SolutionUtility.ContainsCFiles(dte); // takes ridiculously long
+            bool containsCFiles = true; // Utility.SolutionUtility.ContainsCFiles(dte); // takes ridiculously long, I'd rather just display the option by default
             window.m_containsCFiles = containsCFiles;
 
             window.UpdateGUI();

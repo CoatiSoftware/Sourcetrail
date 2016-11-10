@@ -1,4 +1,5 @@
 #include "QtTcpWrapper.h"
+#include "qdatastream.h"
 
 #include "utility/logging/logging.h"
 
@@ -100,12 +101,32 @@ void QtTcpWrapper::acceptConnection()
 
 void QtTcpWrapper::startRead()
 {
-	char buffer[1024] = { 0 };
+	QByteArray byteArray;
+	while (m_tcpClient->atEnd() == false)
+	{
+		QByteArray data = m_tcpClient->read(128);
+		byteArray += data;
+	}
+
+	/*QDataStream stream(&byteArray, QIODevice::ReadOnly);
+	QString string;
+	stream >> string;*/
+
+	QString string = QString::fromUtf8(byteArray);
+
+	if (m_readCallback != NULL)
+	{
+		std::string message = string.toStdString();
+		m_readCallback(message);
+	}
+
+	/*char buffer[1024] = { 0 };
 	m_tcpClient->read(buffer, m_tcpClient->bytesAvailable());
+	
 	m_tcpClient->close();
 
 	if (m_readCallback != NULL)
 	{
 		m_readCallback(buffer);
-	}
+	}*/
 }

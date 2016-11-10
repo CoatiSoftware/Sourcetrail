@@ -108,14 +108,14 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
                 if(node.GetNodeType() == Utility.SolutionUtility.SolutionStructure.Node.NodeType.PROJECT)
                 {
                     TreeNode treeNode = new TreeNode(node.Name);
-                    node.Foo = treeNode;
+                    node.UserData = treeNode;
                     treeViewProjects.Nodes.Add(treeNode);
                 }
                 else if(node.GetNodeType() == Utility.SolutionUtility.SolutionStructure.Node.NodeType.FOLDER)
                 {
                     TreeNode[] subNodes = GetSubNodes(node as Utility.SolutionUtility.SolutionStructure.FolderNode);
                     TreeNode treeNode = new TreeNode(node.Name, subNodes);
-                    node.Foo = treeNode;
+                    node.UserData = treeNode;
                     treeViewProjects.Nodes.Add(treeNode);
                 }
             }
@@ -130,14 +130,14 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
                 if(node.GetNodeType() == Utility.SolutionUtility.SolutionStructure.Node.NodeType.PROJECT)
                 {
                     TreeNode treeNode = new TreeNode(node.Name);
-                    node.Foo = treeNode;
+                    node.UserData = treeNode;
                     result.Add(treeNode);
                 }
                 else if(node.GetNodeType() == Utility.SolutionUtility.SolutionStructure.Node.NodeType.FOLDER)
                 {
                     TreeNode[] subNodes = GetSubNodes(node as Utility.SolutionUtility.SolutionStructure.FolderNode);
                     TreeNode treeNode = new TreeNode(node.Name, subNodes);
-                    node.Foo = treeNode;
+                    node.UserData = treeNode;
                     result.Add(treeNode);
                 }
             }
@@ -297,12 +297,12 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
             {
                 Utility.SolutionUtility.SolutionStructure.Node node = nodeStack.Pop();
 
-                bool include = (node.Foo as TreeNode).Checked;
+                bool include = (node.UserData as TreeNode).Checked;
 
                 string name = node.Name;
 
                 if(node.GetNodeType() == Utility.SolutionUtility.SolutionStructure.Node.NodeType.PROJECT
-                    && (node.Foo as TreeNode).Checked == true)
+                    && (node.UserData as TreeNode).Checked == true)
                 {
                     solutionProjects.Add(node.Project);
                 }

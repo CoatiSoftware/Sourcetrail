@@ -32,8 +32,8 @@
 .DS_Store
 .idea
 
-/ide_plugins/vs/vs2012/CoatiPlugin/CoatiPlugin/bin
-/ide_plugins/vs/vs2012/CoatiPlugin/CoatiPlugin/obj
+/ide_plugins/vs/vs2015/CoatiPlugin/CoatiPlugin/bin
+/ide_plugins/vs/vs2015/CoatiPlugin/CoatiPlugin/obj
 
 *.coatidb
 *.suo

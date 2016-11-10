@@ -281,6 +281,7 @@ add_files(
 	utility/messaging/type/MessageGraphNodeBundleSplit.h
 	utility/messaging/type/MessageGraphNodeExpand.h
 	utility/messaging/type/MessageGraphNodeMove.h
+	utility/messaging/type/MessageIDECreateCDB.h
 	utility/messaging/type/MessageInterruptTasks.h
 	utility/messaging/type/MessageLoadProject.h
 	utility/messaging/type/MessageMoveIDECursor.h
@@ -307,7 +308,7 @@ add_files(
 	utility/messaging/type/MessageWindowClosed.h
 	utility/messaging/type/MessageWindowFocus.h
 	utility/messaging/type/MessageZoom.h
-
+	
 	utility/messaging/Message.h
 	utility/messaging/MessageBase.h
 	utility/messaging/MessageInterruptTasksCounter.cpp

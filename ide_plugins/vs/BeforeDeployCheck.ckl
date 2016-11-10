@@ -84,3 +84,13 @@
 	-Click Create
 	-Close Progress Bar before CDB is finished
 		-Check no new CDB was created
+-Switch to Coati
+	-Keep Visual Studio running
+	-Open the 'New Project From Visual Studio Solution'
+	-Click 'Create CDB' button
+	-Check 'Create Compilation Database' dialog opens
+	-Create a new CDB with Settings of your choice
+	-Wait for CDB to be finished
+		-Click 'Yes' in the 'CDB finished' dialog
+	-Switch back to Coati
+	-Check prefilled data is correct

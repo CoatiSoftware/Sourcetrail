@@ -37,19 +37,38 @@ public:
 		bool valid;
 	};
 
+	struct CreateCDBProjectMessage
+	{
+	public:
+		CreateCDBProjectMessage()
+			: cdbFileLocation("")
+			, headerPaths()
+			, ideId("")
+			, valid(false)
+		{}
+
+		std::string cdbFileLocation;
+		std::vector<std::string> headerPaths;
+		std::string ideId;
+		bool valid;
+	};
+
 	enum MESSAGE_TYPE
 	{
 		UNKNOWN = 0,
 		SET_ACTIVE_TOKEN,
-		CREATE_PROJECT
+		CREATE_PROJECT,
+		CREATE_CDB_MESSAGE
 	};
 
 	static MESSAGE_TYPE getMessageType(const std::string& message);
 
 	static SetActiveTokenMessage parseSetActiveTokenMessage(const std::string& message);
 	static CreateProjectMessage parseCreateProjectMessage(const std::string& message);
+	static CreateCDBProjectMessage parseCreateCDBProjectMessage(const std::string& message);
 
-	static std::string buildMessage(const std::string& fileLocation, const unsigned int row, const unsigned int column);
+	static std::string buildSetIDECursorMessage(const std::string& fileLocation, const unsigned int row, const unsigned int column);
+	static std::string buildCreateCDBMessage();
 
 private:
 	static std::vector<std::string> divideMessage(const std::string& message);
@@ -64,6 +83,8 @@ private:
 	static std::string m_moveCursorPrefix;
 	static std::string m_endOfMessageToken;
 	static std::string m_createProjectPrefix;
+	static std::string m_createCDBProjectPrefix;
+	static std::string m_createCDBPrefix;
 };
 
 #endif // NETWORK_PROTOCOL_HELPER_H

@@ -31,7 +31,7 @@ namespace CoatiSoftware.CoatiPlugin.Utility
 
                 public string Name = "";
                 public Project Project = null;
-                public Object Foo = null;
+                public Object UserData = null;
                 
                 public virtual NodeType GetNodeType() { throw (new NotImplementedException()); }
             }

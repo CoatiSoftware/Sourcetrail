@@ -44,7 +44,7 @@ void QtProjectWizzardWindow::populateWindow(QWidget* widget)
 {
 	QGridLayout* layout = new QGridLayout();
 	layout->setContentsMargins(0, 0, 0, 0);
-
+	
 	layout->setColumnStretch(QtProjectWizzardWindow::FRONT_COL, 1);
 	layout->setColumnStretch(QtProjectWizzardWindow::BACK_COL, 3);
 

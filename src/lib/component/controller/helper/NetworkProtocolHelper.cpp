@@ -14,6 +14,8 @@ std::string NetworkProtocolHelper::m_setActiveTokenPrefix = "setActiveToken";
 std::string NetworkProtocolHelper::m_moveCursorPrefix = "moveCursor";
 std::string NetworkProtocolHelper::m_endOfMessageToken = "<EOM>";
 std::string NetworkProtocolHelper::m_createProjectPrefix = "createProject";
+std::string NetworkProtocolHelper::m_createCDBProjectPrefix = "createCDBProject";
+std::string NetworkProtocolHelper::m_createCDBPrefix = "createCDB";
 
 NetworkProtocolHelper::MESSAGE_TYPE NetworkProtocolHelper::getMessageType(const std::string& message)
 {
@@ -28,6 +30,10 @@ NetworkProtocolHelper::MESSAGE_TYPE NetworkProtocolHelper::getMessageType(const 
 		else if (subMessages[0] == m_createProjectPrefix)
 		{
 			return MESSAGE_TYPE::CREATE_PROJECT;
+		}
+		else if (subMessages[0] == m_createCDBProjectPrefix)
+		{
+			return MESSAGE_TYPE::CREATE_CDB_MESSAGE;
 		}
 		else
 		{
@@ -74,7 +80,7 @@ NetworkProtocolHelper::SetActiveTokenMessage NetworkProtocolHelper::parseSetActi
 		}
 		else
 		{
-			LOG_ERROR_STREAM(<< "Failed to parse message, invalid type token");
+			LOG_ERROR_STREAM(<< "Failed to parse message, invalid type token: " << subMessages[0] << ". Expected " << m_setActiveTokenPrefix);
 		}
 	}
 
@@ -111,18 +117,88 @@ NetworkProtocolHelper::CreateProjectMessage NetworkProtocolHelper::parseCreatePr
 
 					networkMessage.valid = true;
 				}
+				else
+				{
+					LOG_WARNING_STREAM(<< "Failed to parse ide ID string. Is " << ideId);
+				}
 			}
 		}
 		else
 		{
-			LOG_ERROR_STREAM(<< "Failed to parse message, invalid type token");
+			LOG_ERROR_STREAM(<< "Failed to parse message, invalid type token: " << subMessages[0] << ". Expected " << m_createProjectPrefix);
 		}
 	}
 
 	return networkMessage;
 }
 
-std::string NetworkProtocolHelper::buildMessage(const std::string& fileLocation, const unsigned int row, const unsigned int column)
+NetworkProtocolHelper::CreateCDBProjectMessage NetworkProtocolHelper::parseCreateCDBProjectMessage(const std::string& message)
+{
+	std::vector<std::string> subMessages = divideMessage(message);
+
+	NetworkProtocolHelper::CreateCDBProjectMessage networkMessage;
+
+	if (subMessages.size() > 0)
+	{
+		if (subMessages[0] == m_createCDBProjectPrefix)
+		{
+			if (subMessages.size() < 4)
+			{
+				LOG_ERROR_STREAM(<< "Failed to parse createCDBProject message, too few tokens");
+			}
+			else
+			{
+				int subMessageCount = subMessages.size();
+
+				std::string cdbPath = subMessages[1];
+				if (cdbPath.length() > 0)
+				{
+					networkMessage.cdbFileLocation = cdbPath;
+				}
+				else
+				{
+					LOG_WARNING_STREAM(<< "CDB file path is not set.");
+				}
+
+				std::vector<std::string> headerPaths;
+				for (int i = 2; i < subMessageCount - 2; i++)
+				{
+					if (subMessages[i].length() > 0)
+					{
+						headerPaths.push_back(subMessages[i]);
+					}
+				}
+				networkMessage.headerPaths = headerPaths;
+
+				std::string ideId = subMessages[subMessageCount - 2];
+				if (ideId.length() > 0)
+				{
+					std::string nonConstId = ideId;
+					boost::algorithm::to_lower(nonConstId);
+
+					networkMessage.ideId = nonConstId;
+				}
+				else
+				{
+					LOG_WARNING_STREAM(<< "Failed to parse ide ID string. Is " << ideId);
+				}
+
+				if (networkMessage.cdbFileLocation.length() > 0 && networkMessage.ideId.length() > 0)
+				{
+					networkMessage.valid = true;
+				}
+			}
+		}
+		else
+		{
+			LOG_ERROR_STREAM(<< "Failed to parse message, invalid type token: " << subMessages[0] << ". Expected " << m_createCDBProjectPrefix);
+		}
+	}
+
+	return networkMessage;
+}
+
+std::string NetworkProtocolHelper::buildSetIDECursorMessage(const std::string& fileLocation, const unsigned int row, const unsigned int column)
 {
 	std::stringstream messageStream;
 
@@ -133,6 +209,16 @@ std::string NetworkProtocolHelper::buildMessage(const std::string& fileLocation,
 	messageStream << row;
 	messageStream << m_divider;
 	messageStream << column;
+	messageStream << m_endOfMessageToken;
+
+	return messageStream.str();
+}
+
+std::string NetworkProtocolHelper::buildCreateCDBMessage()
+{
+	std::stringstream messageStream;
+
+	messageStream << m_createCDBPrefix;
 	messageStream << m_endOfMessageToken;
 
 	return messageStream.str();

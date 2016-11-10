@@ -116,6 +116,26 @@ void QtProjectWizzard::newProjectFromSolution(const std::string& ideId, const st
 	}
 }
 
+void QtProjectWizzard::newProjectFromCDB(const std::string& filePath, const std::vector<std::string>& headerPaths)
+{
+	FilePath fp(filePath);
+	
+	std::vector<FilePath> hp;
+	for (int i = 0; i < headerPaths.size(); i++)
+	{
+		hp.push_back(FilePath(headerPaths[i]));
+	}
+
+	std::shared_ptr<CxxProjectSettings> settings = std::make_shared<CxxProjectSettings>();
+	settings->setLanguage(LanguageType::LANGUAGE_CPP);
+	settings->setProjectName(fp.withoutExtension().fileName());
+	settings->setProjectFileLocation(fp.parentDirectory());
+	settings->setCompilationDatabasePath(fp);
+	settings->setSourcePaths(hp);
+	m_settings = settings;
+	emptyProjectCDBVS();
+}
+
 void QtProjectWizzard::refreshProjectFromSolution(const std::string& ideId, const std::string& visualStudioSolutionPath)
 {
 	if (m_parserManager->canParseSolution(ideId))
@@ -323,7 +343,7 @@ void QtProjectWizzard::selectedProjectType(LanguageType languageType, QtProjectW
 		break;
 
 	case QtProjectWizzardContentSelect::PROJECT_MANAGED:
-		{
+		/*{
 			std::string fileEndings = "(";
 			for (unsigned int i = 0; i < m_parserManager->getParserCount(); i++)
 			{
@@ -346,7 +366,12 @@ void QtProjectWizzard::selectedProjectType(LanguageType languageType, QtProjectW
 				}
 			}
 			break;
-		}
+		}*/
+
+		m_settings = std::make_shared<CxxProjectSettings>();
+		m_settings->setLanguage(languageType);
+		emptyProjectCDBVS();
+		break;
 
 	case QtProjectWizzardContentSelect::PROJECT_CDB:
 		m_settings = std::make_shared<CxxProjectSettings>();
@@ -426,6 +451,13 @@ void QtProjectWizzard::frameworkSearchPaths()
 	);
 
 	connect(window, SIGNAL(next()), this, SLOT(showSummary()));
+}
+
+void QtProjectWizzard::emptyProjectCDBVS()
+{
+	QtProjectWizzardWindow* window = createWindowWithContent<QtProjectWizzardContentDataCDBVS>();
+
+	connect(window, SIGNAL(next()), this, SLOT(headerPathsCDB()));
 }
 
 void QtProjectWizzard::emptyProjectCDB()

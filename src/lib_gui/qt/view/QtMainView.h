@@ -58,6 +58,7 @@ private:
 
 	void doEditProject();
 	void doCreateNewProjectFromSolution(const std::string& ideId, const std::string& solutionPath);
+	void doCreateNewProjectFromCDB(const std::string& filePath, const std::vector<std::string>& headerPaths);
 	void doShowStartScreen();
 	void doHideStartScreen();
 	void doSetTitle(const std::string& title);
@@ -70,6 +71,7 @@ private:
 
 	QtThreadedFunctor<> m_editProjectFunctor;
 	QtThreadedFunctor<const std::string&, const std::string&> m_createNewProjectFromSolutionFunctor;
+	QtThreadedFunctor<const std::string&, const std::vector<std::string>&> m_createNewProjectFromCDBFunctor;
 	QtThreadedFunctor<> m_showStartScreenFunctor;
 	QtThreadedFunctor<> m_hideStartScreenFunctor;
 	QtThreadedFunctor<const std::string&> m_setTitleFunctor;

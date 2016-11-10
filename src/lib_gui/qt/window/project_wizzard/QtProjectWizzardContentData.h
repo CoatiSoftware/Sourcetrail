@@ -55,4 +55,19 @@ private slots:
 	void refreshClicked();
 };
 
+class QtProjectWizzardContentDataCDBVS
+	: public QtProjectWizzardContentDataCDB
+{
+	Q_OBJECT
+
+public:
+	QtProjectWizzardContentDataCDBVS(std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window);
+
+	virtual void populate(QGridLayout* layout, int& row) override;
+
+private slots:
+	void refreshClicked();
+	void handleVSCDBClicked();
+};
+
 #endif // QT_PROJECT_WIZZARD_CONTENT_DATA_H

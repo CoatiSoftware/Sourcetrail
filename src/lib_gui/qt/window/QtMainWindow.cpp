@@ -436,6 +436,12 @@ void QtMainWindow::newProjectFromSolution(const std::string& ideId, const std::s
 	wizzard->newProjectFromSolution(ideId, solutionPath);
 }
 
+void QtMainWindow::newProjectFromCDB(const std::string& filePath, const std::vector<std::string>& headerPaths)
+{
+	QtProjectWizzard* wizzard = createWindow<QtProjectWizzard>();
+	wizzard->newProjectFromCDB(filePath, headerPaths);
+}
+
 void QtMainWindow::openProject()
 {
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", "Coati Project Files (*.coatiproject)");

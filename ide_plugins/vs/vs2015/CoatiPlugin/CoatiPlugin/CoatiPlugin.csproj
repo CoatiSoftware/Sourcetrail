@@ -138,7 +138,7 @@
     <Compile Include="Logging\VSOutputLogger.cs" />
     <Compile Include="Utility\FileUtility.cs" />
     <Compile Include="Guids.cs" />
-    <Compile Include="NetworkProtocolUtility.cs" />
+    <Compile Include="Utility\NetworkProtocolUtility.cs" />
     <Compile Include="Utility\NetworkUtility.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>

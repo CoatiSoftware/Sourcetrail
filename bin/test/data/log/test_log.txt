@@ -83,7 +83,7 @@ Edge.cpp ERROR: Nodes are not plain copies.
  INFO: handle TestMessage 
  INFO: handle TestMessage 
  INFO: handle TestMessage 
-NetworkProtocolHelper.cpp ERROR: Failed to parse message, invalid type token
+NetworkProtocolHelper.cpp ERROR: Failed to parse message, invalid type token: foo. Expected setActiveToken
 NetworkProtocolHelper.cpp ERROR: Failed to parse setActiveToken message, invalid token count
 Settings.cpp WARNING: File for Settings not found: data/SettingsTestSuite/wrong_settings.xml
 Settings.cpp WARNING: File for Settings not found: data/SettingsTestSuite/wrong_settings.xml

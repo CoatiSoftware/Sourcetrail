@@ -44,6 +44,10 @@ void IDECommunicationController::handleIncomingMessage(const std::string& messag
 	{
 		handleSetActiveTokenMessage(NetworkProtocolHelper::parseSetActiveTokenMessage(message));
 	}
+	else if (type == NetworkProtocolHelper::MESSAGE_TYPE::CREATE_CDB_MESSAGE)
+	{
+		handleCreateCDBProjectMessage(NetworkProtocolHelper::parseCreateCDBProjectMessage(message));
+	}
 	else
 	{
 		handleCreateProjectMessage(NetworkProtocolHelper::parseCreateProjectMessage(message));
@@ -139,9 +143,37 @@ void IDECommunicationController::handleCreateProjectMessage(const NetworkProtoco
 	}
 }
 
+void IDECommunicationController::handleCreateCDBProjectMessage(const NetworkProtocolHelper::CreateCDBProjectMessage& message)
+{
+	if (message.valid)
+	{
+		std::shared_ptr<MessageProjectNew> msg = std::make_shared<MessageProjectNew>();
+		msg->setSolutionPath(message.cdbFileLocation);
+		msg->setHeaderPaths(message.headerPaths);
+		msg->ideId = message.ideId;
+
+		bool foo = msg->fromCDB();
+
+		MessageDispatchWhenLicenseValid(msg).dispatch();
+	}
+	else
+	{
+		LOG_ERROR_STREAM(<< "Unable to parse provided CDB, invalid data received");
+	}
+}
+
+void IDECommunicationController::handleMessage(MessageIDECreateCDB* message)
+{
+	std::string networkMessage = NetworkProtocolHelper::buildCreateCDBMessage();
+
+	MessageStatus("Requesting IDE to create CDB.").dispatch();
+
+	sendMessage(networkMessage);
+}
+
 void IDECommunicationController::handleMessage(MessageMoveIDECursor* message)
 {
-	std::string networkMessage = NetworkProtocolHelper::buildMessage(
+	std::string networkMessage = NetworkProtocolHelper::buildSetIDECursorMessage(
 		message->FilePosition, message->Row, message->Column
 		);
 

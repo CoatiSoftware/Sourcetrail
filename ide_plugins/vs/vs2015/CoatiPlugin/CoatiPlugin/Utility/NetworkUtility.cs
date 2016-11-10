@@ -173,23 +173,35 @@ namespace CoatiSoftware.CoatiPlugin.Utility
 
             Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-            IAsyncResult ar = client.BeginConnect(remoteEP, new AsyncCallback(ConnectCallback), client);
-            if (!connectDone.WaitOne(2000))
+            try
             {
-                client.EndConnect(ar);
-                client.Shutdown(SocketShutdown.Both);
-                client.Close();
+                IAsyncResult ar = client.BeginConnect(remoteEP, new AsyncCallback(ConnectCallback), client);
+                if (!connectDone.WaitOne(2000))
+                {
+                    client.EndConnect(ar);
+                    client.Shutdown(SocketShutdown.Both);
+                    client.Close();
 
-                Logging.Logging.LogWarning("Connection timed out, message was not sent");
+                    Logging.Logging.LogWarning("Connection timed out, message was not sent");
 
-                return;
+                    return;
+                }
+
+                Send(client, message);
+                sendDone.WaitOne();
             }
-
-            Send(client, message);
-            sendDone.WaitOne();
-
-            client.Shutdown(SocketShutdown.Both);
-            client.Close();
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Exception: " + e.Message);
+            }
+            finally
+            {
+                if(client.Connected)
+                {
+                    client.Shutdown(SocketShutdown.Both);
+                    client.Close();
+                }
+            }
         }
 
         private static void ConnectCallback(IAsyncResult ar)

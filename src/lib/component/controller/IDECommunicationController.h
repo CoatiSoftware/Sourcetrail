@@ -7,6 +7,7 @@
 #include "component/controller/helper/NetworkProtocolHelper.h"
 
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/MessageIDECreateCDB.h"
 #include "utility/messaging/type/MessageMoveIDECursor.h"
 #include "utility/messaging/type/MessagePluginPortChange.h"
 
@@ -14,6 +15,7 @@ class StorageAccess;
 
 class IDECommunicationController
 	: public Controller
+	, public MessageListener<MessageIDECreateCDB>
 	, public MessageListener<MessageMoveIDECursor>
 	, public MessageListener<MessagePluginPortChange>
 {
@@ -35,7 +37,9 @@ public:
 private:
 	void handleSetActiveTokenMessage(const NetworkProtocolHelper::SetActiveTokenMessage& message);
 	void handleCreateProjectMessage(const NetworkProtocolHelper::CreateProjectMessage& message);
+	void handleCreateCDBProjectMessage(const NetworkProtocolHelper::CreateCDBProjectMessage& message);
 
+	virtual void handleMessage(MessageIDECreateCDB* message);
 	virtual void handleMessage(MessageMoveIDECursor* message);
 	virtual void handleMessage(MessagePluginPortChange* message);
 	virtual void sendMessage(const std::string& message) const = 0;

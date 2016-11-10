@@ -5,6 +5,7 @@
 QtMainView::QtMainView()
 	: m_editProjectFunctor(std::bind(&QtMainView::doEditProject, this))
 	, m_createNewProjectFromSolutionFunctor(std::bind(&QtMainView::doCreateNewProjectFromSolution, this, std::placeholders::_1, std::placeholders::_2))
+	, m_createNewProjectFromCDBFunctor(std::bind(&QtMainView::doCreateNewProjectFromCDB, this, std::placeholders::_1, std::placeholders::_2))
 	, m_showStartScreenFunctor(std::bind(&QtMainView::doShowStartScreen, this))
 	, m_hideStartScreenFunctor(std::bind(&QtMainView::doHideStartScreen, this))
 	, m_setTitleFunctor(std::bind(&QtMainView::doSetTitle, this, std::placeholders::_1))
@@ -117,7 +118,14 @@ void QtMainView::handleMessage(MessageProjectNew* message)
 {
 	if (message->ideId.size() != 0 && message->solutionPath.size() != 0)
 	{
-		m_createNewProjectFromSolutionFunctor(message->ideId, message->solutionPath);
+		if (message->fromCDB() == false)
+		{
+			m_createNewProjectFromSolutionFunctor(message->ideId, message->solutionPath);
+		}
+		else
+		{
+			m_createNewProjectFromCDBFunctor(message->solutionPath, message->headerPaths);
+		}
 	}
 }
 
@@ -134,6 +142,11 @@ void QtMainView::doEditProject()
 void QtMainView::doCreateNewProjectFromSolution(const std::string& ideId, const std::string& solutionPath)
 {
 	m_window->newProjectFromSolution(ideId, solutionPath);
+}
+
+void QtMainView::doCreateNewProjectFromCDB(const std::string& filePath, const std::vector<std::string>& headerPaths)
+{
+	m_window->newProjectFromCDB(filePath, headerPaths);
 }
 
 void QtMainView::doShowStartScreen()
