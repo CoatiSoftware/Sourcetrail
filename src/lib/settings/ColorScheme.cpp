@@ -18,7 +18,7 @@ ColorScheme::~ColorScheme()
 
 std::string ColorScheme::getColor(const std::string& key) const
 {
-	return getValue<std::string>(key, "");
+	return getValue<std::string>(key, "#FF1493");
 }
 
 std::string ColorScheme::getColor(const std::string& key, const std::string& defaultColor) const

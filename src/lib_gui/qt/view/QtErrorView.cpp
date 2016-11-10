@@ -184,9 +184,8 @@ void QtErrorView::setStyleSheet() const
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 	utility::setWidgetBackgroundColor(widget, ColorScheme::getInstance()->getColor("error/background"));
 
-
 	QPalette palette(m_showErrors->palette());
-	palette.setColor(QPalette::WindowText, QColor(ColorScheme::getInstance()->getColor("error/text/normal").c_str()));
+	palette.setColor(QPalette::WindowText, QColor(ColorScheme::getInstance()->getColor("table/text/normal").c_str()));
 	//palette.setColor(QPalette::Text, QColor(ColorScheme::getInstance()->getColor("error/text/normal").c_str()));
 	//palette.setColor(QPalette::ButtonText, QColor(ColorScheme::getInstance()->getColor("error/text/normal").c_str()));
 
@@ -196,9 +195,9 @@ void QtErrorView::setStyleSheet() const
 	m_showNonIndexedErrors->setPalette(palette);
 	m_showNonIndexedFatals->setPalette(palette);
 
-	widget->setStyleSheet(
-		utility::getStyleSheet(ResourcePaths::getGuiPath() + "error_view/error_view.css").c_str()
-	);
+	//widget->setStyleSheet(
+		//utility::getStyleSheet(ResourcePaths::getGuiPath() + "error_view/error_view.css").c_str()
+	//);
 
 	m_table->updateRows();
 }
@@ -241,10 +240,10 @@ QCheckBox* QtErrorView::createFilterCheckbox(const QString& name, bool checked, 
 			m_table->selectionModel()->clearSelection();
 
 			ErrorFilter filter;
-			filter.error = m_showErrors->checkState() == Qt::Checked;
-			filter.fatal = m_showFatals->checkState() == Qt::Checked;
-			filter.unindexedError = m_showNonIndexedErrors->checkState() == Qt::Checked;
-			filter.unindexedFatal = m_showNonIndexedFatals->checkState() == Qt::Checked;
+			filter.error = m_showErrors->isChecked();
+			filter.fatal = m_showFatals->isChecked();
+			filter.unindexedError = m_showNonIndexedErrors->isChecked();
+			filter.unindexedFatal = m_showNonIndexedFatals->isChecked();
 
 			MessageErrorFilterChanged(filter).dispatch();
 		}
@@ -258,19 +257,19 @@ QCheckBox* QtErrorView::createFilterCheckbox(const QString& name, bool checked, 
 
 bool QtErrorView::isShownError(const ErrorInfo& error)
 {
-	if (!error.fatal && error.indexed && m_showErrors->checkState() == Qt::Checked)
+	if (!error.fatal && error.indexed && m_showErrors->isChecked())
 	{
 		return true;
 	}
-	if (error.fatal && error.indexed && m_showFatals->checkState() == Qt::Checked)
+	if (error.fatal && error.indexed && m_showFatals->isChecked())
 	{
 		return true;
 	}
-	if (!error.fatal && !error.indexed && m_showNonIndexedErrors->checkState() == Qt::Checked)
+	if (!error.fatal && !error.indexed && m_showNonIndexedErrors->isChecked())
 	{
 		return true;
 	}
-	if (error.fatal && !error.indexed && m_showNonIndexedFatals->checkState() == Qt::Checked)
+	if (error.fatal && !error.indexed && m_showNonIndexedFatals->isChecked())
 	{
 		return true;
 	}

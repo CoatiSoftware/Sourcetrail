@@ -12,13 +12,13 @@ COATI_PATH="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 #setup data folder
 if [ ! -d "${HOME}/.config/coati" ]; then
 	# Control will enter here if $DIRECTORY doesn't exist.
-	mkdir -p ${HOME}/.config/coati
+	mkdir -p "${HOME}/.config/coati"
 	echo "First start of Coati from this user, copy default configfiles to ~/.config/coati"
 fi
 
-cp -rn $COATI_PATH/user/* ${HOME}/.config/coati/
+cp -rn "$COATI_PATH/user/*" "${HOME}/.config/coati/"
 
 export LD_LIBRARY_PATH="$COATI_PATH/lib:LD_LIBRARY_PATH"
 export QT_XKB_CONFIG_ROOT="/usr/share/X11/xkb:$QT_XKB_CONFIG_ROOT"
 export QT_QPA_FONTDIR="$COATI_PATH/data/fonts:$QT_QPA_FONTDIR"
-exec $COATI_PATH/Coati $@
+exec "$COATI_PATH/Coati" $@

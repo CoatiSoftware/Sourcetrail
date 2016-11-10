@@ -1,9 +1,10 @@
 #include "component/controller/LogController.h"
 
 #include "data/access/StorageAccess.h"
+#include "utility/logging/LogManager.h"
 
-LogController::LogController(StorageAccess* storageAccess)
-	: m_storageAccess(storageAccess)
+LogController::LogController()
+	: Logger("WindowLogger")
 {
 }
 
@@ -20,3 +21,29 @@ void LogController::clear()
 {
 	getView()->clear();
 }
+
+void LogController::logInfo(const LogMessage& message )
+{
+	addLog(LOG_INFOS, message);
+}
+
+void LogController::logError(const LogMessage& message )
+{
+	addLog(LOG_ERRORS, message);
+}
+
+void LogController::logWarning(const LogMessage& message )
+{
+	addLog(LOG_WARNINGS, message);
+}
+
+void LogController::addLog(Logger::LogLevel type, const LogMessage& message)
+{
+	MessageNewLog(type,message).dispatch();
+}
+
+void LogController::handleMessage(MessageNewLog* message)
+{
+	getView()->addLog(message->type, message->message);
+}
+

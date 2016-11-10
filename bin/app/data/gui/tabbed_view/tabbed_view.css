@@ -29,3 +29,95 @@ QTabWidget::pane {
 	margin: 0px;
 	padding: 0px;
 }
+
+QTableView {
+	color: <color:table/text/normal>;
+	background-color: <color:table/table_line_1/normal>;
+	alternate-background-color: <color:table/table_line_2/normal>;
+	border-radius: 10px;
+	border: 1px solid <color:table/table>;
+	margin: 10px;
+	padding-right: 10px;
+	font-size: <setting:font_size>px;
+}
+
+QFrame {
+	background-color: <color:tab/background>;
+}
+
+QTableView::item {
+	border-left: 1px solid <color:table/table>;
+}
+
+QTableView::item:selected {
+	color: <color:table/text/active>;
+	background-color: <color:table/table_line_1/active>;
+	alternate-background-color: <color:table/table_line_2/active>;
+}
+
+QHeaderView {
+	background-color: transparent;
+}
+
+QHeaderView::section:horizontal {
+	background-color: transparent;
+	border: none;
+	border-bottom: 1px solid <color:table/table>;
+	border-left: 1px solid <color:table/table>;
+	color: <color:table/text/normal>;
+	font-size: <setting:font_size>px;
+	font-weight: bold;
+	padding: 1px 6px;
+	height: <setting:font_size+5>px;
+}
+
+QHeaderView::section:vertical {
+	background-color: transparent;
+	border: none;
+	color: <color:table/text/normal>;
+	font-size: <setting:font_size>px;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+
+QCheckBox {
+	color: <color:table/text/normal>;
+	border-color: <color:table/table>;
+	/*background-color: <color:table/table>;*/
+}
+
+QScrollBar:vertical {
+}
+
+QScrollBar::handle:vertical {
+	min-height: 20px;
+}
+
+QScrollBar::add-line:vertical {
+	height: 20px;
+	subcontrol-position: bottom;
+	subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical {
+	height: 20px;
+	subcontrol-position: top;
+	subcontrol-origin: margin;
+}
+QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+	width: 3px;
+	height: 3px;
+	background: white;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+	background: none;
+}
+
+QTableView QTableCornerButton::section {
+	background-color: <color:table/background>;
+	border-bottom: 1px solid <color:table/table>;
+	border-top-left-radius: 10px;
+}
+

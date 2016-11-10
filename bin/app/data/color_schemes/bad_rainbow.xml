@@ -394,7 +394,7 @@
 			</aggregation>
 		</edge>
 	</graph>
-	<error>
+	<table>
 		<background>#494949</background>
 		<table>#C4C4C4</table>
 		<text>
@@ -409,7 +409,7 @@
 			<normal>#383838</normal>
 			<active>#7B7B7B</active>
 		</table_line_2>
-	</error>
+	</table>
 	<tab>
 		<background>#494949</background>
 		<active>#C4C4C4</active>

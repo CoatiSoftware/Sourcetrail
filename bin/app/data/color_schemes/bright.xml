@@ -362,6 +362,15 @@
 	</graph>
 	<error>
 		<background>white</background>
+	</error>
+	<tab>
+		<background>white</background>
+		<active>black</active>
+		<hover>#878787</hover>
+		<text>#878787</text>
+	</tab>
+	<table>
+		<background>white</background>
 		<table>#aaa</table>
 		<text>
 			<normal>black</normal>
@@ -375,11 +384,5 @@
 			<normal>#F1F1F1</normal>
 			<active>grey</active>
 		</table_line_2>
-	</error>
-	<tab>
-		<background>white</background>
-		<active>black</active>
-		<hover>#878787</hover>
-		<text>#878787</text>
-	</tab>
+	</table>
 </config>

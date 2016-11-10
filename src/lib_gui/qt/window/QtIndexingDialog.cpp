@@ -226,7 +226,7 @@ void QtIndexingDialog::handleClose()
 
 	if (m_type == DIALOG_INDEXING)
 	{
-		MessageInterruptTasks().dispatch();
+		MessageInterruptTasks().dispatchImmediately();
 		return;
 	}
 

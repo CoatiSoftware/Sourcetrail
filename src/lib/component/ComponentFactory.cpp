@@ -20,6 +20,8 @@
 #include "component/view/UndoRedoView.h"
 #include "component/view/ViewFactory.h"
 
+#include "utility/logging/LogManager.h"
+
 std::shared_ptr<ComponentFactory> ComponentFactory::create(ViewFactory* viewFactory, StorageAccess* storageAccess)
 {
 	std::shared_ptr<ComponentFactory> ptr(new ComponentFactory());
@@ -63,7 +65,9 @@ std::shared_ptr<Component> ComponentFactory::createErrorComponent(ViewLayout* vi
 std::shared_ptr<Component> ComponentFactory::createLogComponent(ViewLayout* viewLayout)
 {
 	std::shared_ptr<LogView> view = m_viewFactory->createLogView(viewLayout);
-	std::shared_ptr<LogController> controller = std::make_shared<LogController>(m_storageAccess);
+	std::shared_ptr<LogController> controller = std::make_shared<LogController>();
+
+	LogManager::getInstance()->addLogger(controller);
 
 	return std::make_shared<Component>(view, controller);
 }

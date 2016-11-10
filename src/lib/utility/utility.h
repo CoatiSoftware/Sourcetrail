@@ -46,6 +46,8 @@ namespace utility
 
 	template<typename T>
 	std::vector<std::string> toStrings(const std::vector<T>& d);
+	template<>
+	std::vector<std::string> toStrings(const std::vector<FilePath>& d);
 
 	template<typename T>
 	bool isPermutation(const std::vector<T>& a, const std::vector<T>& b)

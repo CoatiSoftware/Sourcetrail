@@ -5,8 +5,30 @@
 #include <QHeaderView>
 #include <QResizeEvent>
 #include <QScrollBar>
+#include <QStyledItemDelegate>
+#include <QLineEdit>
 
 #include "settings/ApplicationSettings.h"
+
+class SelectableCellDelegate : public QStyledItemDelegate
+{
+	QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+};
+
+
+QWidget* SelectableCellDelegate::createEditor(
+	QWidget* parent,
+	const QStyleOptionViewItem &option,
+	const QModelIndex &index) const
+{
+	QWidget* editor = QStyledItemDelegate::createEditor(parent, option, index);
+	QLineEdit* lineEdit = dynamic_cast<QLineEdit*>(editor);
+	if (lineEdit != nullptr)
+	{
+		lineEdit->setReadOnly(true);
+	}
+	return editor;
+}
 
 QtTable::QtTable(QWidget* parent)
 	: QTableView(parent)
@@ -14,6 +36,8 @@ QtTable::QtTable(QWidget* parent)
 {
 	setAlternatingRowColors(true);
 	setShowGrid(false);
+
+	this->setItemDelegate(new SelectableCellDelegate());
 
 	verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
 	verticalHeader()->setDefaultAlignment(Qt::AlignRight);

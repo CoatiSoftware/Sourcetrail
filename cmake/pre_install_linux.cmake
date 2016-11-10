@@ -15,7 +15,7 @@ endfunction()
 	set(upxPath ${CMAKE_CURRENT_LIST_DIR}/../bin/app/Release)
 
 	execute_process(
-		COMMAND ${upxPath}/Coati -z /home/vagrant/dev/license.txt
+		COMMAND ${upxPath}/Coati -z $ENV{HOME}/dev/license.txt
 	)
 
 	execute_process(
@@ -29,7 +29,7 @@ endfunction()
 #execute_process(
 		#COMMAND ${upxPath}/Coati -f -d ${upxPath}/../data/projects/javaparser/javaparser.coatiproject
 #)
-#SET (NO_UPX 1)
+SET (NO_UPX 1)
 
 if (NO_UPX)
 	execute_process(
