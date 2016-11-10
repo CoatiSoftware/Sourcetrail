@@ -122,7 +122,7 @@ public:
 
 	virtual void onFileParsed(const FileInfo& fileInfo)
 	{
-		files.push_back(fileInfo.path.str());
+		files.insert(fileInfo.path.str());
 	}
 
 	virtual void onCommentParsed(const ParseLocation& location)
@@ -148,7 +148,7 @@ public:
 	std::vector<std::string> templateParameterTypes;
 	std::vector<std::string> typeParameters;
 	std::vector<std::string> localSymbols;
-	std::vector<std::string> files;
+	std::set<std::string> files;
 	std::vector<std::string> comments;
 
 	std::vector<std::string> inheritances;

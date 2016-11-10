@@ -114,8 +114,9 @@ public:
 
 protected:
 	// General helpers
-	bool isImplicit(clang::Decl* d) const;
-	bool shouldVisitDecl(clang::Decl* d);
+	bool isImplicit(const clang::Decl* d) const;
+	bool shouldVisitDecl(const clang::Decl* decl);
+	bool shouldVisitReference(const clang::SourceLocation& referenceLocation, const clang::Decl* contextDecl);
 	bool isLocatedInUnparsedProjectFile(clang::SourceLocation loc);
 	bool isLocatedInProjectFile(clang::SourceLocation loc);
 
@@ -127,8 +128,11 @@ protected:
 	SymbolKind convertTagKind(clang::TagTypeKind tagKind);
 
 private:
+	ReferenceKind consumeDeclRefContextKind();
+
 	typedef clang::RecursiveASTVisitor<CxxAstVisitor> base;
 
+	const clang::NamedDecl* getTopmostContextDecl() const;
 	NameHierarchy getContextName(const size_t skip = 0) const;
 	bool checkIgnoresTypeLoc(const clang::TypeLoc& tl);
 

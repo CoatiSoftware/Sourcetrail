@@ -290,7 +290,7 @@ bool CxxAstVisitor::TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc
 
 	if (
 		(loc.getArgument().getKind() == clang::TemplateArgument::Template) &&
-		(isLocatedInUnparsedProjectFile(loc.getLocation())) // TODO: rather test if the context is implicit
+		(shouldVisitReference(loc.getLocation(), getTopmostContextDecl()))
 	){
 		// TODO: maybe move this to VisitTemplateName
 		m_client->recordReference(
@@ -719,7 +719,7 @@ bool CxxAstVisitor::VisitNamedDecl(clang::NamedDecl* d)
 
 bool CxxAstVisitor::VisitTypeLoc(clang::TypeLoc tl)
 {
-	if ((isLocatedInUnparsedProjectFile(tl.getBeginLoc())) && // TODO: rather test if the context is implicit
+	if ((shouldVisitReference(tl.getBeginLoc(), getTopmostContextDecl())) &&
 		(!checkIgnoresTypeLoc(tl)))
 	{
 		clang::SourceLocation loc;
@@ -746,7 +746,7 @@ bool CxxAstVisitor::VisitTypeLoc(clang::TypeLoc tl)
 bool CxxAstVisitor::VisitDeclRefExpr(clang::DeclRefExpr* s)
 {
 	clang::ValueDecl* decl = s->getDecl();
-	if (isLocatedInUnparsedProjectFile(s->getLocation())) // TODO: rather test if the context is implicit
+	if (shouldVisitReference(s->getLocation(), getTopmostContextDecl()))
 	{
 		if ((clang::isa<clang::ParmVarDecl>(decl)) ||
 			(clang::isa<clang::VarDecl>(decl) && decl->getParentFunctionOrMethod() != NULL)
@@ -761,7 +761,7 @@ bool CxxAstVisitor::VisitDeclRefExpr(clang::DeclRefExpr* s)
 		else
 		{
 			m_client->recordReference(
-				m_typeRefContext == REFERENCE_TYPE_USAGE ? m_declRefContext : m_typeRefContext,
+				consumeDeclRefContextKind(),
 				m_declNameCache->getValue(s->getDecl()),
 				getContextName(),
 				getParseLocation(s->getLocation())
@@ -774,10 +774,10 @@ bool CxxAstVisitor::VisitDeclRefExpr(clang::DeclRefExpr* s)
 
 bool CxxAstVisitor::VisitMemberExpr(clang::MemberExpr* s)
 {
-	if (isLocatedInUnparsedProjectFile(s->getMemberLoc())) // TODO: rather test if the context is implicit
+	if (shouldVisitReference(s->getMemberLoc(), getTopmostContextDecl()))
 	{
 		m_client->recordReference(
-			m_typeRefContext == REFERENCE_TYPE_USAGE ? m_declRefContext : m_typeRefContext,
+			consumeDeclRefContextKind(),
 			m_declNameCache->getValue(s->getMemberDecl()),
 			getContextName(),
 			getParseLocation(s->getMemberLoc())
@@ -788,7 +788,7 @@ bool CxxAstVisitor::VisitMemberExpr(clang::MemberExpr* s)
 
 bool CxxAstVisitor::VisitCXXConstructExpr(clang::CXXConstructExpr* s)
 {
-	if (isLocatedInUnparsedProjectFile(s->getLocation())) // TODO: rather test if the context is implicit
+	if (shouldVisitReference(s->getLocation(), getTopmostContextDecl()))
 	{
 		//if (e->getParenOrBraceRange().isValid()) {
 		//    // XXX: This code is a kludge.  Recording calls to constructors is
@@ -834,7 +834,7 @@ bool CxxAstVisitor::VisitCXXConstructExpr(clang::CXXConstructExpr* s)
 		loc = clang::Lexer::GetBeginningOfToken(loc, m_astContext->getSourceManager(), m_astContext->getLangOpts());
 
 		m_client->recordReference(
-			m_typeRefContext == REFERENCE_TYPE_USAGE ? m_declRefContext : m_typeRefContext,
+			consumeDeclRefContextKind(),
 			m_declNameCache->getValue(s->getConstructor()),
 			getContextName(),
 			getParseLocation(loc)
@@ -862,7 +862,7 @@ bool CxxAstVisitor::VisitLambdaExpr(clang::LambdaExpr* s)
 
 bool CxxAstVisitor::VisitConstructorInitializer(clang::CXXCtorInitializer* init)
 {
-	if (isLocatedInUnparsedProjectFile(init->getMemberLocation())) // TODO: rather test if the context is implicit
+	if (shouldVisitReference(init->getMemberLocation(), getTopmostContextDecl()))
 	{
 		// record the field usage here because it is not a DeclRefExpr
 		if (clang::FieldDecl* memberDecl = init->getMember())
@@ -878,7 +878,7 @@ bool CxxAstVisitor::VisitConstructorInitializer(clang::CXXCtorInitializer* init)
 	return true;
 }
 
-bool CxxAstVisitor::isImplicit(clang::Decl* d) const
+bool CxxAstVisitor::isImplicit(const clang::Decl* d) const
 {
 	if (!d)
 	{
@@ -887,7 +887,7 @@ bool CxxAstVisitor::isImplicit(clang::Decl* d) const
 
 	if (d->isImplicit())
 	{
-		if (clang::RecordDecl* rd = clang::dyn_cast_or_null<clang::RecordDecl>(d))
+		if (const clang::RecordDecl* rd = clang::dyn_cast_or_null<clang::RecordDecl>(d))
 		{
 			if (rd->isLambda())
 			{
@@ -896,14 +896,14 @@ bool CxxAstVisitor::isImplicit(clang::Decl* d) const
 		}
 		return true;
 	}
-	else if (clang::ClassTemplateSpecializationDecl* ctsd = clang::dyn_cast_or_null<clang::ClassTemplateSpecializationDecl>(d))
+	else if (const clang::ClassTemplateSpecializationDecl* ctsd = clang::dyn_cast_or_null<clang::ClassTemplateSpecializationDecl>(d))
 	{
 		if (!ctsd->isExplicitSpecialization())
 		{
 			return true;
 		}
 	}
-	else if (clang::FunctionDecl* fd = clang::dyn_cast_or_null<clang::FunctionDecl>(d))
+	else if (const clang::FunctionDecl* fd = clang::dyn_cast_or_null<clang::FunctionDecl>(d))
 	{
 		if (fd->isTemplateInstantiation() && fd->getTemplateSpecializationKind() != clang::TSK_ExplicitSpecialization) // or undefined??
 		{
@@ -914,20 +914,35 @@ bool CxxAstVisitor::isImplicit(clang::Decl* d) const
 	return isImplicit(clang::dyn_cast_or_null<clang::Decl>(d->getDeclContext()));
 }
 
-bool CxxAstVisitor::shouldVisitDecl(clang::Decl* d)
+bool CxxAstVisitor::shouldVisitDecl(const clang::Decl* decl)
 {
-	clang::SourceLocation loc = d->getLocation();
-
-	bool declIsImplicit = isImplicit(d);
-
-	if (!d ||
-		(declIsImplicit && !isLocatedInProjectFile(loc)) ||
-		(!declIsImplicit && !isLocatedInUnparsedProjectFile(loc)))
+	if (decl)
 	{
-		return false;
+		clang::SourceLocation loc = decl->getLocation();
+		bool declIsImplicit = isImplicit(decl);
+		if ((declIsImplicit && isLocatedInProjectFile(loc)) ||
+			(!declIsImplicit && isLocatedInUnparsedProjectFile(loc)))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool CxxAstVisitor::shouldVisitReference(const clang::SourceLocation& referenceLocation, const clang::Decl* contextDecl)
+{
+	bool declIsImplicit = true; // default value is "true" to make sure that everything that should be visited gets visited.
+	if (contextDecl)
+	{
+		declIsImplicit = isImplicit(contextDecl);
 	}
 
-	return true;
+	if ((declIsImplicit && isLocatedInProjectFile(referenceLocation)) ||
+		(!declIsImplicit && isLocatedInUnparsedProjectFile(referenceLocation)))
+	{
+		return true;
+	}
+	return false;
 }
 
 bool CxxAstVisitor::isLocatedInUnparsedProjectFile(clang::SourceLocation loc)
@@ -941,7 +956,7 @@ bool CxxAstVisitor::isLocatedInUnparsedProjectFile(clang::SourceLocation loc)
 	{
 		fileId = sourceManager.getFileID(spellingLoc);
 	}
-	if (!fileId.isInvalid())
+	if (fileId.isValid())
 	{
 		auto it = m_inUnparsedProjectFileMap.find(fileId);
 		if (it != m_inUnparsedProjectFileMap.end())
@@ -1141,6 +1156,18 @@ SymbolKind CxxAstVisitor::convertTagKind(clang::TagTypeKind tagKind)
 	}
 }
 
+const clang::NamedDecl* CxxAstVisitor::getTopmostContextDecl() const
+{
+	for (std::vector<std::shared_ptr<CxxContext>>::const_reverse_iterator it = m_contextStack.rbegin(); it != m_contextStack.rend(); it ++)
+	{
+		if (std::shared_ptr<CxxContextDecl> context = std::dynamic_pointer_cast<CxxContextDecl>(*it))
+		{
+			return context->getDecl();
+		}
+	}
+	return nullptr;
+}
+
 NameHierarchy CxxAstVisitor::getContextName(const size_t skip) const
 {
 	if (m_contextStack.size() <= skip)
@@ -1163,4 +1190,20 @@ bool CxxAstVisitor::checkIgnoresTypeLoc(const clang::TypeLoc& tl)
 		return false;
 	}
 	return true;
+}
+
+ReferenceKind CxxAstVisitor::consumeDeclRefContextKind()
+{
+	ReferenceKind refKind = REFERENCE_UNDEFINED;
+	if (m_typeRefContext == REFERENCE_TYPE_USAGE)
+	{
+		refKind = m_declRefContext;
+		m_declRefContext = REFERENCE_USAGE;
+	}
+	else
+	{
+		refKind = m_typeRefContext;
+		m_typeRefContext = REFERENCE_TYPE_USAGE;
+	}
+	return refKind;
 }

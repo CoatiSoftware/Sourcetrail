@@ -29,15 +29,19 @@ void PreprocessorCallbacks::FileChanged(
 		filePath = FilePath(fileEntry->getName()).canonical();
 	}
 
-	if (!filePath.empty() && m_fileRegister->hasFilePath(filePath) && !m_fileRegister->fileIsParsed(filePath))
+	const bool fileIsInProject = m_fileRegister->hasFilePath(filePath);
+	if (!filePath.empty() && fileIsInProject)
 	{
-		m_currentPath = filePath;
-
+		m_client->onFileParsed(m_fileRegister->getFileInfo(filePath));
 		if (reason == EnterFile && !m_fileRegister->includeFileIsParsed(filePath))
 		{
-			m_client->onFileParsed(m_fileRegister->getFileInfo(filePath));
 			m_fileRegister->markIncludeFileParsing(filePath);
 		}
+	}
+
+	if (!filePath.empty() && fileIsInProject && !m_fileRegister->fileIsParsed(filePath))
+	{
+		m_currentPath = filePath;
 	}
 	else
 	{

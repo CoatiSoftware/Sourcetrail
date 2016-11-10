@@ -14,7 +14,7 @@
 class CxxParserTestSuite: public CxxTest::TestSuite
 {
 public:
-	void test_cxx_parser_usage_of_field_in_function_call_arguments()
+	void test_cxx_parser_finds_usage_of_field_in_function_call_arguments()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"class A\n"
@@ -30,6 +30,24 @@ public:
 
 		TS_ASSERT_EQUALS(client->usages.size(), 1);
 		TS_ASSERT_EQUALS(client->usages[0], "void A::foo(int) -> A::bar <6:7 6:9>");
+	}
+
+	void test_cxx_parser_usage_of_field_in_function_call_context()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"class A\n"
+			"{\n"
+			"public:\n"
+			"	void foo(int i)\n"
+			"	{\n"
+			"		a->foo(6);\n"
+			"	}\n"
+			"	A* a;\n"
+			"};\n"
+		);
+
+		TS_ASSERT_EQUALS(client->usages.size(), 1);
+		TS_ASSERT_EQUALS(client->usages[0], "void A::foo(int) -> A::a <6:3 6:3>");
 	}
 
 ///////////////////////////////////////////////////////////////////////////////

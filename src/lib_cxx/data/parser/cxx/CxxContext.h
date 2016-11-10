@@ -22,6 +22,7 @@ public:
 	CxxContextDecl(const clang::NamedDecl* decl, std::shared_ptr<DeclNameCache> nameCache);
 	virtual ~CxxContextDecl();
 	virtual NameHierarchy getName();
+	const clang::NamedDecl* getDecl();
 
 private:
 	const clang::NamedDecl* m_decl;

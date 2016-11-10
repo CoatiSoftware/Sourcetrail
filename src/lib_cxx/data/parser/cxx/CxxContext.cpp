@@ -19,6 +19,11 @@ NameHierarchy CxxContextDecl::getName()
 	return m_nameCache->getValue(m_decl);
 }
 
+const clang::NamedDecl* CxxContextDecl::getDecl()
+{
+	return m_decl;
+}
+
 CxxContextType::CxxContextType(const clang::Type* type, std::shared_ptr<TypeNameCache> nameCache)
 	: m_type(type)
 	, m_nameCache(nameCache)
