@@ -77,7 +77,7 @@ void setupApp(int argc, char *argv[])
 
 	if (!appIsMacBundle)
 	{
-		UserPaths::setUserDataPath(path.absolute().str() + "/" + UserPaths::getUserDataPath());
+		UserPaths::setUserDataPath(path.absolute().str() + "/user/");
 	}
 }
 

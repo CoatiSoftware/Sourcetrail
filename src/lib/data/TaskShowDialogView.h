@@ -1,7 +1,7 @@
 #ifndef TASK_SHOW_DIALOG_VIEW_H
 #define TASK_SHOW_DIALOG_VIEW_H
 
-#include <vector>
+#include <string>
 
 #include "utility/scheduling/Task.h"
 
