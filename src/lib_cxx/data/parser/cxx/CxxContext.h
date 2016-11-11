@@ -14,6 +14,7 @@ class CxxContext
 public:
 	virtual ~CxxContext();
 	virtual NameHierarchy getName() = 0;
+	virtual const clang::NamedDecl* getDecl() = 0;
 };
 
 class CxxContextDecl: public CxxContext
@@ -22,7 +23,7 @@ public:
 	CxxContextDecl(const clang::NamedDecl* decl, std::shared_ptr<DeclNameCache> nameCache);
 	virtual ~CxxContextDecl();
 	virtual NameHierarchy getName();
-	const clang::NamedDecl* getDecl();
+	virtual const clang::NamedDecl* getDecl();
 
 private:
 	const clang::NamedDecl* m_decl;
@@ -35,6 +36,7 @@ public:
 	CxxContextType(const clang::Type* type, std::shared_ptr<TypeNameCache> nameCache);
 	virtual ~CxxContextType();
 	virtual NameHierarchy getName();
+	virtual const clang::NamedDecl* getDecl();
 
 private:
 	const clang::Type* m_type;

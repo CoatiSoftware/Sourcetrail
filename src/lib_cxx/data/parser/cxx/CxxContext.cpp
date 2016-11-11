@@ -38,3 +38,8 @@ NameHierarchy CxxContextType::getName()
 {
 	return m_nameCache->getValue(m_type);
 }
+
+const clang::NamedDecl* CxxContextType::getDecl()
+{
+	return nullptr;
+}

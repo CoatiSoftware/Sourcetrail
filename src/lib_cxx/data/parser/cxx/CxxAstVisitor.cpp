@@ -1160,9 +1160,10 @@ const clang::NamedDecl* CxxAstVisitor::getTopmostContextDecl() const
 {
 	for (std::vector<std::shared_ptr<CxxContext>>::const_reverse_iterator it = m_contextStack.rbegin(); it != m_contextStack.rend(); it ++)
 	{
-		if (std::shared_ptr<CxxContextDecl> context = std::dynamic_pointer_cast<CxxContextDecl>(*it))
+		const clang::NamedDecl* decl = (*it)->getDecl();
+		if (decl)
 		{
-			return context->getDecl();
+			return decl;
 		}
 	}
 	return nullptr;
@@ -1179,7 +1180,6 @@ NameHierarchy CxxAstVisitor::getContextName(const size_t skip) const
 
 bool CxxAstVisitor::checkIgnoresTypeLoc(const clang::TypeLoc& tl)
 {
-
 	if ((!tl.getAs<clang::TagTypeLoc>().isNull()) ||
 		(!tl.getAs<clang::TypedefTypeLoc>().isNull()) ||
 		(!tl.getAs<clang::TemplateTypeParmTypeLoc>().isNull()) ||
