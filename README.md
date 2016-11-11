@@ -4,6 +4,7 @@
 
 #### External Software
 
+* JDK 1.8
 * QT 5.6
 * CxxTest 4.3
 * Valgrind 3.9.0 (linux)
@@ -21,7 +22,9 @@
 
 For Win32:
 * VLD_DIR - .../Visual Leak Detector
-* path - apped path to git.exe
+* path 
+	- apped path to git.exe
+	- apped path to jdk/bin
 
 ##### Botan setup
 
