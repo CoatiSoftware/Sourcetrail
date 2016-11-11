@@ -19,20 +19,6 @@ TaskInjectStorage::TaskInjectStorage(
 
 void TaskInjectStorage::doEnter(std::shared_ptr<Blackboard> blackboard)
 {
-	while (!m_hasInjected)
-	{
-		int indexerCount = 0;
-		if (blackboard->get("indexer_count", indexerCount))
-		{
-			if (indexerCount > 0 || m_storageProvider->getStorageCount() > 0)
-			{
-				break;
-			}
-		}
-
-		const int SLEEP_TIME_MS = 25;
-		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
-	}
 }
 
 Task::TaskState TaskInjectStorage::doUpdate(std::shared_ptr<Blackboard> blackboard)
@@ -43,7 +29,6 @@ Task::TaskState TaskInjectStorage::doUpdate(std::shared_ptr<Blackboard> blackboa
 		if (source)
 		{
 			m_target->inject(source.get());
-			m_hasInjected = true;
 			return STATE_SUCCESS;
 		}
 	}
@@ -51,15 +36,6 @@ Task::TaskState TaskInjectStorage::doUpdate(std::shared_ptr<Blackboard> blackboa
 	{
 		const int SLEEP_TIME_MS = 25;
 		std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));
-	}
-
-	int indexerCount = 0;
-	if (blackboard->get("indexer_count", indexerCount))
-	{
-		if (indexerCount > 0 || m_storageProvider->getStorageCount() > 0)
-		{
-			return STATE_SUCCESS;
-		}
 	}
 
 	return STATE_FAILURE;

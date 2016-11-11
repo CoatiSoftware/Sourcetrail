@@ -5,7 +5,8 @@
 
 #include "utility/scheduling/Blackboard.h"
 #include "utility/scheduling/Task.h"
-#include "utility/scheduling/TaskGroupSequential.h"
+#include "utility/scheduling/TaskGroupSelector.h"
+#include "utility/scheduling/TaskGroupSequence.h"
 #include "utility/scheduling/TaskScheduler.h"
 
 class TaskSchedulerTestSuite: public CxxTest::TestSuite
@@ -70,7 +71,7 @@ public:
 		std::shared_ptr<TestTask> task1 = std::make_shared<TestTask>(&order, 1);
 		std::shared_ptr<TestTask> task2 = std::make_shared<TestTask>(&order, 1);
 
-		std::shared_ptr<TaskGroupSequential> taskGroup = std::make_shared<TaskGroupSequential>();
+		std::shared_ptr<TaskGroupSequence> taskGroup = std::make_shared<TaskGroupSequence>();
 		taskGroup->addTask(task1);
 		taskGroup->addTask(task2);
 
@@ -99,7 +100,7 @@ public:
 		std::shared_ptr<TestTask> task1 = std::make_shared<TestTask>(&order, 1, Task::STATE_FAILURE);
 		std::shared_ptr<TestTask> task2 = std::make_shared<TestTask>(&order, -1);
 
-		std::shared_ptr<TaskGroupSequential> taskGroup = std::make_shared<TaskGroupSequential>();
+		std::shared_ptr<TaskGroupSequence> taskGroup = std::make_shared<TaskGroupSequence>();
 		taskGroup->addTask(task1);
 		taskGroup->addTask(task2);
 
@@ -116,6 +117,39 @@ public:
 		TS_ASSERT_EQUALS(0, task2->enterCallOrder);
 		TS_ASSERT_EQUALS(0, task2->updateCallOrder);
 		TS_ASSERT_EQUALS(0, task2->exitCallOrder);
+	}
+
+	void test_sequential_task_group_does_not_evaluate_tasks_after_success(void)
+	{
+		TaskScheduler::getInstance()->startSchedulerLoopThreaded();
+
+		int order = 0;
+		std::shared_ptr<TestTask> task1 = std::make_shared<TestTask>(&order, 1, Task::STATE_FAILURE);
+		std::shared_ptr<TestTask> task2 = std::make_shared<TestTask>(&order, 1, Task::STATE_SUCCESS);
+		std::shared_ptr<TestTask> task3 = std::make_shared<TestTask>(&order, -1);
+
+		std::shared_ptr<TaskGroupSelector> taskGroup = std::make_shared<TaskGroupSelector>();
+		taskGroup->addTask(task1);
+		taskGroup->addTask(task2);
+		taskGroup->addTask(task3);
+
+		Task::dispatch(taskGroup);
+
+		waitForThread();
+
+		TaskScheduler::getInstance()->stopSchedulerLoop();
+
+		TS_ASSERT_EQUALS(1, task1->enterCallOrder);
+		TS_ASSERT_EQUALS(2, task1->updateCallOrder);
+		TS_ASSERT_EQUALS(3, task1->exitCallOrder);
+
+		TS_ASSERT_EQUALS(4, task2->enterCallOrder);
+		TS_ASSERT_EQUALS(5, task2->updateCallOrder);
+		TS_ASSERT_EQUALS(6, task2->exitCallOrder);
+
+		TS_ASSERT_EQUALS(0, task3->enterCallOrder);
+		TS_ASSERT_EQUALS(0, task3->updateCallOrder);
+		TS_ASSERT_EQUALS(0, task3->exitCallOrder);
 	}
 
 	void test_task_scheduling_within_task_processing()

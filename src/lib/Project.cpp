@@ -7,6 +7,7 @@
 #include "data/StorageProvider.h"
 #include "data/PersistentStorage.h"
 #include "data/TaskCleanStorage.h"
+#include "data/TaskShowDialogView.h"
 #include "data/TaskFinishParsing.h"
 #include "data/TaskInjectStorage.h"
 #include "settings/ApplicationSettings.h"
@@ -17,9 +18,11 @@
 #include "utility/messaging/type/MessageFinishedParsing.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageStatus.h"
-#include "utility/scheduling/TaskGroupSequential.h"
+#include "utility/scheduling/TaskDecoratorRepeat.h"
+#include "utility/scheduling/TaskGroupSelector.h"
+#include "utility/scheduling/TaskGroupSequence.h"
 #include "utility/scheduling/TaskGroupParallel.h"
-#include "utility/scheduling/TaskRepeatWhileSuccess.h"
+#include "utility/scheduling/TaskReturnSuccessWhile.h"
 #include "utility/text/TextAccess.h"
 #include "utility/utility.h"
 #include "utility/utilityString.h"
@@ -305,9 +308,9 @@ bool Project::buildIndex(bool forceRefresh)
 
 	m_storage->setProjectSettingsText(TextAccess::createFromFile(getProjectSettingsFilePath().str())->getText());
 
-	std::shared_ptr<TaskGroupSequential> taskSequential = std::make_shared<TaskGroupSequential>();
+	std::shared_ptr<TaskGroupSequence> taskSequential = std::make_shared<TaskGroupSequence>();
 
-	if (filesToClean.size())
+	if (!filesToClean.empty())
 	{
 		taskSequential->addTask(std::make_shared<TaskCleanStorage>(
 			m_storage.get(),
@@ -320,7 +323,7 @@ bool Project::buildIndex(bool forceRefresh)
 
 	std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(&m_fileManager, indexerThreadCount > 1);
 
-	if (filesToParse.size())
+	if (!filesToParse.empty())
 	{
 		fileRegister->setFilePaths(utility::toVector(filesToParse));
 
@@ -338,15 +341,44 @@ bool Project::buildIndex(bool forceRefresh)
 
 		for (size_t i = 0; i < indexerThreadCount && i < filesToParse.size(); i++)
 		{
-			std::shared_ptr<TaskRepeatWhileSuccess> taskRepeat = std::make_shared<TaskRepeatWhileSuccess>(Task::STATE_SUCCESS);
-			taskParallelIndexing->addTask(taskRepeat);
-			taskRepeat->setTask(createIndexerTask(storageProvider, fileRegister));
+			taskParallelIndexing->addChildTasks(
+				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
+					createIndexerTask(storageProvider, fileRegister)
+				)
+			);
 		}
 
-		std::shared_ptr<TaskRepeatWhileSuccess> taskRepeat = std::make_shared<TaskRepeatWhileSuccess>(Task::STATE_SUCCESS);
-		taskParallelIndexing->addTask(taskRepeat);
-		taskRepeat->setTask(std::make_shared<TaskInjectStorage>(storageProvider, m_storage));
+		taskParallelIndexing->addTask(
+			std::make_shared<TaskGroupSequence>()->addChildTasks(
+				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
+					std::make_shared<TaskReturnSuccessWhile<int>>("indexer_count", TaskReturnSuccessWhile<int>::CONDITION_EQUALS, 0)
+				),
+				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
+					std::make_shared<TaskGroupSequence>()->addChildTasks(
+						// stopping when indexer count is zero, regardless wether there are still storages left to insert.
+						std::make_shared<TaskReturnSuccessWhile<int>>("indexer_count", TaskReturnSuccessWhile<int>::CONDITION_GREATER_THAN, 0),
+						std::make_shared<TaskGroupSelector>()->addChildTasks(
+							std::make_shared<TaskInjectStorage>(storageProvider, m_storage),
+							// continuing when indexer count is greater than zero, even if there are no storages right now.
+							std::make_shared<TaskReturnSuccessWhile<int>>("indexer_count", TaskReturnSuccessWhile<int>::CONDITION_GREATER_THAN, 0)
+						)
+					)
+				)
+			)
+		);
+
+		taskSequential->addTask( // we don't need to hide this dialog again, because it's overridden by other dialogs later on.
+			std::make_shared<TaskShowDialogView>("Finish Indexing", "Saving\nRemaining Data", m_dialogView)
+		);
+
+		taskSequential->addTask(
+			std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
+				std::make_shared<TaskInjectStorage>(storageProvider, m_storage)
+			)
+		);
 	}
+
+
 
 	taskSequential->addTask(std::make_shared<TaskFinishParsing>(m_storage.get(), m_storageAccessProxy, fileRegister, m_dialogView));
 

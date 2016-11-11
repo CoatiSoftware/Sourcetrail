@@ -201,6 +201,8 @@ add_files(
 	data/TaskFinishParsing.h
 	data/TaskInjectStorage.cpp
 	data/TaskInjectStorage.h
+	data/TaskShowDialogView.cpp
+	data/TaskShowDialogView.h
 
 	settings/ApplicationSettings.cpp
 	settings/ApplicationSettings.h
@@ -325,16 +327,20 @@ add_files(
 	utility/scheduling/Task.h
 	utility/scheduling/TaskDecorator.cpp
 	utility/scheduling/TaskDecorator.h
+	utility/scheduling/TaskDecoratorRepeat.cpp
+	utility/scheduling/TaskDecoratorRepeat.h
 	utility/scheduling/TaskGroup.cpp
 	utility/scheduling/TaskGroup.h
 	utility/scheduling/TaskGroupParallel.cpp
 	utility/scheduling/TaskGroupParallel.h
-	utility/scheduling/TaskGroupSequential.cpp
-	utility/scheduling/TaskGroupSequential.h
+	utility/scheduling/TaskGroupSelector.cpp
+	utility/scheduling/TaskGroupSelector.h
+	utility/scheduling/TaskGroupSequence.cpp
+	utility/scheduling/TaskGroupSequence.h
 	utility/scheduling/TaskLambda.cpp
 	utility/scheduling/TaskLambda.h
-	utility/scheduling/TaskRepeatWhileSuccess.cpp
-	utility/scheduling/TaskRepeatWhileSuccess.h
+	utility/scheduling/TaskReturnSuccessWhile.cpp
+	utility/scheduling/TaskReturnSuccessWhile.h
 	utility/scheduling/TaskRunner.cpp
 	utility/scheduling/TaskRunner.h
 	utility/scheduling/TaskScheduler.cpp

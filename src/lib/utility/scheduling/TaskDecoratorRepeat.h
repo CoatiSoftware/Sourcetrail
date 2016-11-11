@@ -1,16 +1,21 @@
-#ifndef TASK_REPEAT_WHILE_SUCCESS_H
-#define TASK_REPEAT_WHILE_SUCCESS_H
+#ifndef TASK_DECORATOR_REPEAT_H
+#define TASK_DECORATOR_REPEAT_H
 
 #include <vector>
 
 #include "utility/scheduling/TaskDecorator.h"
 #include "utility/scheduling/TaskRunner.h"
 
-class TaskRepeatWhileSuccess
+class TaskDecoratorRepeat
 	: public TaskDecorator
 {
 public:
-	TaskRepeatWhileSuccess(TaskState exitState);
+	enum ConditionType
+	{
+		CONDITION_WHILE_SUCCESS
+	};
+
+	TaskDecoratorRepeat(ConditionType condition, TaskState exitState);
 
 	virtual void setTask(std::shared_ptr<Task> task);
 
@@ -21,7 +26,8 @@ private:
 	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
 
 	std::shared_ptr<TaskRunner> m_taskRunner;
+	const ConditionType m_condition;
 	const TaskState m_exitState;
 };
 
-#endif // TASK_REPEAT_WHILE_SUCCESS_H
+#endif // TASK_DECORATOR_REPEAT_H

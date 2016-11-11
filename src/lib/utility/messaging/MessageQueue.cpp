@@ -6,7 +6,7 @@
 #include "utility/logging/logging.h"
 #include "utility/messaging/MessageBase.h"
 #include "utility/messaging/MessageListenerBase.h"
-#include "utility/scheduling/TaskGroupSequential.h"
+#include "utility/scheduling/TaskGroupSequence.h"
 #include "utility/scheduling/TaskLambda.h"
 
 std::shared_ptr<MessageQueue> MessageQueue::getInstance()
@@ -258,7 +258,7 @@ void MessageQueue::sendMessage(std::shared_ptr<MessageBase> message)
 
 void MessageQueue::sendMessageAsTask(std::shared_ptr<MessageBase> message, bool asNextTask) const
 {
-	std::shared_ptr<TaskGroupSequential> taskGroup = std::make_shared<TaskGroupSequential>();
+	std::shared_ptr<TaskGroupSequence> taskGroup = std::make_shared<TaskGroupSequence>();
 
 	{
 		std::lock_guard<std::mutex> lock(m_listenersMutex);

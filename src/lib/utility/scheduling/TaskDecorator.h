@@ -7,10 +7,12 @@
 
 class TaskDecorator
 	: public Task
+	, public std::enable_shared_from_this<TaskDecorator>
 {
 public:
 	TaskDecorator();
 	virtual ~TaskDecorator();
+	std::shared_ptr<TaskDecorator> addChildTask(std::shared_ptr<Task> child);
 
 	virtual void setTask(std::shared_ptr<Task> task) = 0;
 };

@@ -1,15 +1,15 @@
-#ifndef TASK_GROUP_SEQUENTIAL_H
-#define TASK_GROUP_SEQUENTIAL_H
+#ifndef TASK_GROUP_SEQUENCE_H
+#define TASK_GROUP_SEQUENCE_H
 
 #include "utility/scheduling/TaskGroup.h"
 #include "utility/scheduling/TaskRunner.h"
 
-class TaskGroupSequential
+class TaskGroupSequence
 	: public TaskGroup
 {
 public:
-	TaskGroupSequential();
-	virtual ~TaskGroupSequential();
+	TaskGroupSequence();
+	virtual ~TaskGroupSequence();
 
 	virtual void addTask(std::shared_ptr<Task> task);
 
@@ -23,4 +23,4 @@ private:
 	int m_taskIndex;
 };
 
-#endif // TASK_GROUP_SEQUENTIAL_H
+#endif // TASK_GROUP_SEQUENCE_H
