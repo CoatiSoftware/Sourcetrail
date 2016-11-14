@@ -134,6 +134,7 @@ private:
 
 	const clang::NamedDecl* getTopmostContextDecl() const;
 	NameHierarchy getContextName(const size_t skip = 0) const;
+	NameHierarchy getContextName(const NameHierarchy& fallback, const size_t skip = 0) const;
 	bool checkIgnoresTypeLoc(const clang::TypeLoc& tl);
 
 	struct FileIdHash

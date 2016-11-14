@@ -5,6 +5,7 @@
 #include <clang/AST/ASTContext.h>
 
 #include "data/parser/cxx/name_resolver/CxxDeclNameResolver.h"
+#include "data/parser/cxx/name_resolver/CxxSpecifierNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h"
 #include "data/type/DataType.h"
 #include "data/type/NamedDataType.h"
@@ -163,7 +164,8 @@ std::shared_ptr<DataType> CxxTypeNameResolver::typeToDataType(const clang::Type*
 		{
 			const clang::DependentNameType* dependentNameType = clang::dyn_cast<clang::DependentNameType>(type);
 
-			NameHierarchy typeNameHerarchy = getNameHierarchy(dependentNameType->getQualifier());
+			CxxSpecifierNameResolver specifierNameResolver(getIgnoredContextDecls());
+			NameHierarchy typeNameHerarchy = specifierNameResolver.getNameHierarchy(dependentNameType->getQualifier());
 			typeNameHerarchy.push(std::make_shared<NameElement>(dependentNameType->getIdentifier()->getName().str()));
 
 			dataType = std::make_shared<NamedDataType>(typeNameHerarchy);
@@ -222,49 +224,4 @@ std::shared_ptr<DataType> CxxTypeNameResolver::typeToDataType(const clang::Type*
 NameHierarchy CxxTypeNameResolver::getTypeNameHierarchy(const clang::Type* type)
 {
 	return typeToDataType(type)->getTypeNameHierarchy();
-}
-
-NameHierarchy CxxTypeNameResolver::getNameHierarchy(const clang::NestedNameSpecifier* nestedNameSpecifier)
-{
-	clang::NestedNameSpecifier::SpecifierKind nnsKind = nestedNameSpecifier->getKind();
-	NameHierarchy typeNameHerarchy;
-	switch (nnsKind)
-	{
-	case clang::NestedNameSpecifier::Identifier:
-		{
-			const clang::NestedNameSpecifier* prefix = nestedNameSpecifier->getPrefix();
-			if (prefix)
-			{
-				typeNameHerarchy = getNameHierarchy(prefix);
-			}
-			typeNameHerarchy.push(std::make_shared<NameElement>(nestedNameSpecifier->getAsIdentifier()->getName()));
-		}
-		break;
-	case clang::NestedNameSpecifier::Namespace:
-		{
-			CxxDeclNameResolver declNameResolver(nestedNameSpecifier->getAsNamespace(), getIgnoredContextDecls());
-			typeNameHerarchy = declNameResolver.getDeclNameHierarchy();
-		}
-		break;
-	case clang::NestedNameSpecifier::NamespaceAlias:
-		{
-			CxxDeclNameResolver declNameResolver(nestedNameSpecifier->getAsNamespaceAlias(), getIgnoredContextDecls());
-			typeNameHerarchy = declNameResolver.getDeclNameHierarchy();
-		}
-		break;
-	case clang::NestedNameSpecifier::TypeSpec:
-	case clang::NestedNameSpecifier::TypeSpecWithTemplate:
-		typeNameHerarchy = typeToDataType(nestedNameSpecifier->getAsType())->getTypeNameHierarchy();
-		break;
-	case clang::NestedNameSpecifier::Global:
-		// no context name hierarchy needed.
-		break;
-	case clang::NestedNameSpecifier::Super:
-		{
-			CxxDeclNameResolver declNameResolver(nestedNameSpecifier->getAsRecordDecl(), getIgnoredContextDecls());
-			typeNameHerarchy = declNameResolver.getDeclNameHierarchy();
-		}
-		break;
-	}
-	return typeNameHerarchy;
 }

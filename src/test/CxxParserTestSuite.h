@@ -1457,6 +1457,66 @@ public:
 		TS_ASSERT_EQUALS(client->overrides.size(), 0);
 	}
 
+	void test_cxx_parser_finds_using_directive_decl_in_function_context()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"void foo()\n"
+			"{\n"
+			"	using namespace std;\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->usages.size(), 1);
+		TS_ASSERT_EQUALS(client->usages[0], "void foo() -> std <3:18 3:20>");
+	}
+
+	void test_cxx_parser_finds_using_directive_decl_in_file_context()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"using namespace std;\n"
+			"void foo()\n"
+			"{\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->usages.size(), 1);
+		TS_ASSERT_EQUALS(client->usages[0], "input.cc -> std <1:17 1:19>");
+	}
+
+	void test_cxx_parser_finds_using_decl_in_function_context()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"namespace foo\n"
+			"{\n"
+			"	int a;\n"
+			"}\n"
+			"void bar()\n"
+			"{\n"
+			"	using foo::a;\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->usages.size(), 1);
+		TS_ASSERT_EQUALS(client->usages[0], "void bar() -> foo::a <7:13 7:13>");
+	}
+
+	void test_cxx_parser_finds_using_decl_in_file_context()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"namespace foo\n"
+			"{\n"
+			"	int a;\n"
+			"}\n"
+			"using foo::a;\n"
+			"void bar()\n"
+			"{\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->usages.size(), 1);
+		TS_ASSERT_EQUALS(client->usages[0], "input.cc -> foo::a <5:12 5:12>");
+	}
+
 	void test_cxx_parser_finds_call_in_function()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(

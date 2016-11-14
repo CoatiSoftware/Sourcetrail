@@ -3,6 +3,7 @@
 #include <clang/AST/DeclTemplate.h>
 #include <clang/AST/ASTContext.h>
 
+#include "data/parser/cxx/name_resolver/CxxSpecifierNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
 #include "utility/file/FilePath.h"
@@ -50,7 +51,15 @@ NameHierarchy CxxDeclNameResolver::getDeclNameHierarchy()
 			// LOG_ERROR("unhandled declaration type: " + std::string(m_declaration->getDeclKindName()));
 		}
 
-		contextNameHierarchy = getContextNameHierarchy(m_declaration->getDeclContext());
+		if (const clang::UsingDecl* usingDecl = clang::dyn_cast_or_null<clang::UsingDecl>(m_declaration))
+		{
+			CxxSpecifierNameResolver specifierNameResolver(getIgnoredContextDecls());
+			contextNameHierarchy = specifierNameResolver.getNameHierarchy(usingDecl->getQualifier());
+		}
+		else
+		{
+			contextNameHierarchy = getContextNameHierarchy(m_declaration->getDeclContext());
+		}
 
 		if (declName)
 		{

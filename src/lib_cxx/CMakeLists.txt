@@ -6,6 +6,8 @@ add_files(
 	data/parser/cxx/name_resolver/CxxDeclNameResolver.h
 	data/parser/cxx/name_resolver/CxxNameResolver.cpp
 	data/parser/cxx/name_resolver/CxxNameResolver.h
+	data/parser/cxx/name_resolver/CxxSpecifierNameResolver.cpp
+	data/parser/cxx/name_resolver/CxxSpecifierNameResolver.h
 	data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.cpp
 	data/parser/cxx/name_resolver/CxxTemplateArgumentNameResolver.h
 	data/parser/cxx/name_resolver/CxxTypeNameResolver.cpp

@@ -19,6 +19,8 @@ NameElement::Signature NameElement::Signature::deserialize(const std::string& se
 }
 
 NameElement::Signature::Signature()
+	: m_prefix("")
+	, m_postfix("")
 {
 }
 

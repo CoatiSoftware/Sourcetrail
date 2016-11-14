@@ -68,7 +68,7 @@ bool CxxAstVisitor::TraverseDecl(clang::Decl* d)
 		!clang::isa<clang::ParmVarDecl>(d) &&											// no parameter
 		!(clang::isa<clang::VarDecl>(d) && d->getParentFunctionOrMethod() != NULL) &&	// no local variable
 		!clang::isa<clang::UsingDirectiveDecl>(d) &&									// no using directive decl
-		//!clang::isa<clang::UsingDecl>(d) &&												// no using decl
+		!clang::isa<clang::UsingDecl>(d) &&												// no using decl
 		!clang::isa<clang::NamespaceDecl>(d)											// no namespace
 	){
 		clang::NamedDecl* nd = clang::dyn_cast<clang::NamedDecl>(d);
@@ -588,11 +588,12 @@ bool CxxAstVisitor::VisitUsingDirectiveDecl(clang::UsingDirectiveDecl* d)
 {
 	if (shouldVisitDecl(d))
 	{
+		ParseLocation loc = getParseLocation(d->getLocation());
 		m_client->recordReference(
 			REFERENCE_USAGE,
 			m_declNameCache->getValue(d->getNominatedNamespaceAsWritten()),
-			getContextName(),			// TODO: use file here, if no context available
-			getParseLocation(d->getLocation())
+			getContextName(NameHierarchy(loc.filePath.fileName())),
+			loc
 		);
 	}
 	return true;
@@ -600,15 +601,16 @@ bool CxxAstVisitor::VisitUsingDirectiveDecl(clang::UsingDirectiveDecl* d)
 
 bool CxxAstVisitor::VisitUsingDecl(clang::UsingDecl* d)
 {
-	//if (shouldVisitDecl(d))
-	//{
-	//m_client->recordReference(
-	//	REFERENCE_USAGE,
-	//	m_declNameCache->getValue(d),
-	//	getContextName(),			// TODO: use file here, if no context available
-	//	getParseLocation(d->getLocation())
-	//);
-	//}
+	if (shouldVisitDecl(d))
+	{
+		ParseLocation loc = getParseLocation(d->getLocation());
+		m_client->recordReference(
+			REFERENCE_USAGE,
+			m_declNameCache->getValue(d),
+			getContextName(NameHierarchy(loc.filePath.fileName())),
+			loc
+		);
+	}
 	return true;
 }
 
@@ -1178,6 +1180,15 @@ NameHierarchy CxxAstVisitor::getContextName(const size_t skip) const
 	return m_contextStack[m_contextStack.size() - 1 - skip]->getName(); // todo: performance optimize this
 }
 
+NameHierarchy CxxAstVisitor::getContextName(const NameHierarchy& fallback, const size_t skip) const
+{
+	if (m_contextStack.size() <= skip)
+	{
+		return fallback;
+	}
+	return m_contextStack[m_contextStack.size() - 1 - skip]->getName(); // todo: performance optimize this
+}
+
 bool CxxAstVisitor::checkIgnoresTypeLoc(const clang::TypeLoc& tl)
 {
 	if ((!tl.getAs<clang::TagTypeLoc>().isNull()) ||
@@ -1185,7 +1196,8 @@ bool CxxAstVisitor::checkIgnoresTypeLoc(const clang::TypeLoc& tl)
 		(!tl.getAs<clang::TemplateTypeParmTypeLoc>().isNull()) ||
 		(!tl.getAs<clang::TemplateSpecializationTypeLoc>().isNull()) ||
 		(!tl.getAs<clang::DependentNameTypeLoc>().isNull()) ||
-		(!tl.getAs<clang::BuiltinTypeLoc>().isNull())
+		(!tl.getAs<clang::BuiltinTypeLoc>().isNull()) ||
+		(!tl.getAs<clang::AutoTypeLoc>().isNull())
 	){
 		return false;
 	}
