@@ -79,6 +79,19 @@ void QtTable::updateRows()
 
 	verticalHeader()->setStyleSheet("::section { width: " + QString::number(width) + "px; }");
 	verticalHeader()->setDefaultSectionSize(ApplicationSettings::getInstance()->getFontSize() + 6);
+
+	if (this->selectionModel()->hasSelection())
+	{
+		if (selectionModel()->selection().indexes()[0].row() >= model()->rowCount() - 2)
+		{
+			clearSelection();
+			showLastRow();
+		}
+	}
+	else
+	{
+		showLastRow();
+	}
 }
 
 int QtTable::getFilledRowCount()

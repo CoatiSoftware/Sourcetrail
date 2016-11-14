@@ -59,7 +59,6 @@ void QtErrorView::createWidgetWrapper()
 	setWidgetWrapper(std::make_shared<QtViewWidgetWrapper>(new QFrame()));
 }
 
-#include <QSortFilterProxyModel>
 void QtErrorView::initView()
 {
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);

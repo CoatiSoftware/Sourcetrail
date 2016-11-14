@@ -4,6 +4,7 @@
 #include <QFrame>
 #include <QLabel>
 #include <QCheckBox>
+#include <QPushButton>
 #include <QStandardItemModel>
 
 #include "settings/ApplicationSettings.h"
@@ -65,7 +66,6 @@ void QtLogView::initView()
 	);
 	headerLayout->addWidget(m_showAstLogging);
 	headerLayout->addStretch();
-
 	layout->addLayout(headerLayout);
 
 	m_table = new QtTable(this);
@@ -91,6 +91,16 @@ void QtLogView::initView()
 	m_showInfo = createFilterCheckbox("info", filters);
 
 	filters->addStretch();
+
+	QPushButton* clearButton = new QPushButton("clear log");
+	connect(clearButton, &QPushButton::clicked,
+			[=]()
+			{
+				doClear();
+			});
+	filters->addWidget(clearButton);
+	filters->addSpacing(30);
+
 	updateMask();
 
 	layout->addLayout(filters);
@@ -158,6 +168,12 @@ void QtLogView::addLog(Logger::LogLevel type, const LogMessage& message)
 
 void QtLogView::doClear()
 {
+	if (!m_model->index(0, 0).data(Qt::DisplayRole).toString().isEmpty())
+	{
+		m_model->removeRows(0, m_model->rowCount());
+	}
+
+	m_logs.clear();
 }
 
 void QtLogView::doRefreshView()
