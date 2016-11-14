@@ -10,6 +10,7 @@ public:
 	QtApplication(int& argc, char** argv);
 
 	bool event(QEvent *event);
+	int exec();
 };
 
 #endif // QT_APPLICATION_H

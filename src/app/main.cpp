@@ -175,6 +175,7 @@ int main(int argc, char *argv[])
 			Application::destroyInstance();
 		});
 
+
 		prefillJavaRuntimePath();
 		prefillCxxHeaderPaths();
 		prefillCxxFrameworkPaths();

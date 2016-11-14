@@ -73,9 +73,6 @@ void Application::loadSettings()
 	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
 	settings->load(FilePath(UserPaths::getAppSettingsPath()));
 
-	LogManager* logManager = LogManager::getInstance().get();
-	logManager->setLoggingEnabled(settings->getLoggingEnabled());
-
 	loadStyle(settings->getColorSchemePath());
 }
 

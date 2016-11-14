@@ -119,9 +119,9 @@ void QtProjectWizzard::newProjectFromSolution(const std::string& ideId, const st
 void QtProjectWizzard::newProjectFromCDB(const std::string& filePath, const std::vector<std::string>& headerPaths)
 {
 	FilePath fp(filePath);
-	
+
 	std::vector<FilePath> hp;
-	for (int i = 0; i < headerPaths.size(); i++)
+	for (size_t i = 0; i < headerPaths.size(); i++)
 	{
 		hp.push_back(FilePath(headerPaths[i]));
 	}

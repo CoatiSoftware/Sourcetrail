@@ -57,13 +57,6 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	}
 	connect(m_colorSchemes, SIGNAL(activated(int)), this, SLOT(colorSchemeChanged(int)));
 
-	// logging
-	m_loggingEnabled = addCheckBox("Logging", "Enable console and file logging",
-		"Save log files and show log information in the console.", layout, row);
-	connect(m_loggingEnabled, SIGNAL(clicked()), this, SLOT(loggingEnabledChanged()));
-
-	m_verboseIndexerLoggingEnabled = addCheckBox("Indexer Logging", "Enable verbose indexer logging", "", layout, row);
-
 	addGap(layout, row);
 
 	// Controls
@@ -171,10 +164,6 @@ void QtProjectWizzardContentPreferences::load()
 		}
 	}
 
-	m_loggingEnabled->setChecked(appSettings->getLoggingEnabled());
-	m_verboseIndexerLoggingEnabled->setChecked(appSettings->getVerboseIndexerLoggingEnabled());
-	m_verboseIndexerLoggingEnabled->setEnabled(m_loggingEnabled->isChecked());
-
 	m_scrollSpeed->setText(QString::number(appSettings->getScrollSpeed(), 'f', 1));
 	m_graphZooming->setChecked(appSettings->getControlsGraphZoomOnMouseWheel());
 
@@ -202,9 +191,6 @@ void QtProjectWizzardContentPreferences::save()
 
 	appSettings->setColorSchemePath(m_colorSchemePaths[m_colorSchemes->currentIndex()]);
 	m_oldColorSchemeIndex = -1;
-
-	appSettings->setLoggingEnabled(m_loggingEnabled->isChecked());
-	appSettings->setVerboseIndexerLoggingEnabled(m_verboseIndexerLoggingEnabled->isChecked());
 
 	float scrollSpeed = m_scrollSpeed->text().toFloat();
 	if (scrollSpeed) appSettings->setScrollSpeed(scrollSpeed);
@@ -246,11 +232,6 @@ void QtProjectWizzardContentPreferences::javaPathDetectionClicked()
 	{
 		m_javaPath->setText(paths.front().str().c_str());
 	}
-}
-
-void QtProjectWizzardContentPreferences::loggingEnabledChanged()
-{
-	m_verboseIndexerLoggingEnabled->setEnabled(m_loggingEnabled->isChecked());
 }
 
 void QtProjectWizzardContentPreferences::addJavaPathDetection(QGridLayout* layout, int& row)

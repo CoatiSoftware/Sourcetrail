@@ -39,11 +39,6 @@ void LogController::logWarning(const LogMessage& message )
 
 void LogController::addLog(Logger::LogLevel type, const LogMessage& message)
 {
-	MessageNewLog(type,message).dispatch();
-}
-
-void LogController::handleMessage(MessageNewLog* message)
-{
-	getView()->addLog(message->type, message->message);
+	getView()->addLog(type, message);
 }
 

@@ -12,6 +12,7 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/ResourcePaths.h"
 #include "qt/utility/utilityQt.h"
+#include "utility/logging/LogManager.h"
 #include "qt/element/QtTable.h"
 
 
@@ -44,8 +45,9 @@ void QtLogView::initView()
 	QHBoxLayout* headerLayout = new QHBoxLayout();
 	headerLayout->addSpacing(10);
 
-	m_viewEnabled = new QCheckBox("Enable");
+	m_viewEnabled = new QCheckBox("Logging enabled (file, console logging)");
 	m_viewEnabled->setChecked(ApplicationSettings::getInstance()->getLoggingEnabled());
+
 	connect(m_viewEnabled, &QCheckBox::stateChanged,
 		[=](int){
 			setLoggingEnabled(m_viewEnabled->isChecked());
@@ -53,7 +55,7 @@ void QtLogView::initView()
 	);
 	headerLayout->addWidget(m_viewEnabled);
 	headerLayout->addSpacing(25);
-	m_showAstLogging = new QCheckBox("Ast");
+	m_showAstLogging = new QCheckBox("AST Logging");
 	m_showAstLogging->setEnabled(m_viewEnabled->isChecked());
 	m_showAstLogging->setChecked(ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled());
 	connect(m_showAstLogging, &QCheckBox::stateChanged,
@@ -119,6 +121,7 @@ QCheckBox* QtLogView::createFilterCheckbox(const QString& name, QBoxLayout* layo
 void QtLogView::setLoggingEnabled(bool enabled)
 {
 	m_showAstLogging->setEnabled(enabled);
+	LogManager::getInstance()->setLoggingEnabled(true);
 
 	ApplicationSettings::getInstance()->setLoggingEnabled(enabled);
 	ApplicationSettings::getInstance()->save();
@@ -246,7 +249,7 @@ void QtLogView::addLogToTable(Log log)
 
 void QtLogView::doAddLog(Logger::LogLevel type, const LogMessage& message)
 {
-	if (m_viewEnabled->isChecked() && isCheckedType(type))
+	if (isCheckedType(type))
 	{
 		Log log(
 			type,

@@ -10,6 +10,7 @@
 
 #include "settings/ApplicationSettings.h"
 
+
 class SelectableCellDelegate : public QStyledItemDelegate
 {
 	QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;

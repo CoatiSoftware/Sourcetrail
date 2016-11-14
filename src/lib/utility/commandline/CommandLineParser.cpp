@@ -173,7 +173,7 @@ void CommandLineParser::processProjectfile(const std::string& file)
 		return;
 	}
 
-	m_projectFile = projectfile;
+	m_projectFile = projectfile.absolute();
 }
 
 void CommandLineParser::projectLoad()
