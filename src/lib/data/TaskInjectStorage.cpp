@@ -5,7 +5,6 @@
 
 #include "data/Storage.h"
 #include "data/StorageProvider.h"
-#include "utility/scheduling/Blackboard.h"
 
 TaskInjectStorage::TaskInjectStorage(
 	std::shared_ptr<StorageProvider> storageProvider,
@@ -13,7 +12,6 @@ TaskInjectStorage::TaskInjectStorage(
 )
 	: m_storageProvider(storageProvider)
 	, m_target(target)
-	, m_hasInjected(false)
 {
 }
 

@@ -25,8 +25,6 @@ private:
 
 	std::shared_ptr<StorageProvider> m_storageProvider;
 	std::shared_ptr<Storage> m_target;
-
-	bool m_hasInjected;
 };
 
 #endif // TASK_INJECT_STORAGE_H
