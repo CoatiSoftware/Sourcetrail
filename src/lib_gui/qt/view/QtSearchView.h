@@ -19,6 +19,7 @@ public:
 	virtual void refreshView();
 
 	// SearchView implementation
+	virtual std::string getQuery() const;
 	virtual void setMatches(const std::vector<SearchMatch>& matches);
 	virtual void setFocus();
 	virtual void findFulltext();

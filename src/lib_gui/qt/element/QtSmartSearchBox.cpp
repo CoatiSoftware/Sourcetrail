@@ -895,7 +895,7 @@ void QtSmartSearchBox::clearLineEdit()
 
 void QtSmartSearchBox::requestAutoCompletions()
 {
-	if (text().size())
+	if (text().size() && !text().startsWith(SearchMatch::FULLTEXT_SEARCH_CHARACTER))
 	{
 		MessageSearchAutocomplete(text().toStdString()).dispatch();
 	}

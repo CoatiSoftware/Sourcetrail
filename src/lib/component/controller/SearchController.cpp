@@ -71,8 +71,16 @@ void SearchController::handleMessage(MessageSearchAutocomplete* message)
 {
 	TRACE("search autocomplete");
 
+	SearchView* view = getView();
+
+	// Don't autocomplete if autocompletion request is not up-to-date anymore
+	if (message->query != view->getQuery())
+	{
+		return;
+	}
+
 	LOG_INFO("autocomplete string: \"" + message->query + "\"");
-	getView()->setAutocompletionList(m_storageAccess->getAutocompletionMatches(message->query));
+	view->setAutocompletionList(m_storageAccess->getAutocompletionMatches(message->query));
 }
 
 void SearchController::handleMessage(MessageSearchFullText* message)

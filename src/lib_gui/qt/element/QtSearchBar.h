@@ -22,6 +22,8 @@ public:
 
 	virtual QSize sizeHint() const;
 
+	QString query() const;
+
 	void setMatches(const std::vector<SearchMatch>& matches);
 	void setFocus();
 	void findFulltext();

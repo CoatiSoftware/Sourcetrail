@@ -78,7 +78,7 @@ public:
 		const std::string& text,
 		const std::vector<size_t>& indices,
 		int score,
-		size_t maxBestScoredLength = 0);
+		size_t maxBestScoredLength);
 
 private:
 	std::vector<std::shared_ptr<Node>> m_nodes;

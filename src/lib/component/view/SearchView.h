@@ -15,6 +15,8 @@ public:
 
 	virtual std::string getName() const;
 
+	virtual std::string getQuery() const = 0;
+
 	virtual void setMatches(const std::vector<SearchMatch>& matches) = 0;
 
 	virtual void setFocus() = 0;

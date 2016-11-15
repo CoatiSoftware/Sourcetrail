@@ -503,9 +503,11 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 
 	// search in indices
 	size_t maxResultsCount = 100;
+	size_t maxBestScoredResultsLength = 100;
+
 	std::vector<SearchResult> results;
 	utility::append(results, m_commandIndex.search(query, 0));
-	utility::append(results, m_elementIndex.search(query, maxResultsCount, 100));
+	utility::append(results, m_elementIndex.search(query, maxResultsCount, maxBestScoredResultsLength));
 	utility::append(results, m_fileIndex.search(query, 20));
 
 	// fetch StorageNodes for node ids
@@ -556,6 +558,7 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 		}
 
 		match.name = result.text;
+		match.text = result.text;
 		match.indices = result.indices;
 		match.score = result.score;
 
@@ -585,7 +588,9 @@ std::vector<SearchMatch> PersistentStorage::getAutocompletionMatches(const std::
 			// rescore match
 			if (idx && match.indices.size())
 			{
-				SearchResult newResult = SearchIndex::rescoreText(match.name, match.text, match.indices, match.score);
+				SearchResult newResult =
+					SearchIndex::rescoreText(match.name, match.text, match.indices, match.score, maxBestScoredResultsLength);
+
 				match.score = newResult.score;
 				match.indices = newResult.indices;
 			}

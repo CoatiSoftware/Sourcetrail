@@ -37,6 +37,11 @@ void QtSearchView::refreshView()
 	m_refreshViewFunctor();
 }
 
+std::string QtSearchView::getQuery() const
+{
+	return m_widget->query().toStdString();
+}
+
 void QtSearchView::setMatches(const std::vector<SearchMatch>& matches)
 {
 	m_setMatchesFunctor(matches);

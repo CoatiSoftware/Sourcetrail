@@ -464,6 +464,11 @@ SearchResult SearchIndex::rescoreText(
 			textIndices.push_back(idx - (fulltext.size() - text.size()));
 		}
 	}
+	// ignore rescoring if result is too long
+	else if (maxBestScoredLength > 0 && fulltext.size() > maxBestScoredLength * 2)
+	{
+		return result;
+	}
 	// try if match is within text
 	else
 	{
