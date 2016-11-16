@@ -46,12 +46,9 @@ add_files(
 	data/parser/cxx/CxxVerboseAstVisitor.h
 	data/parser/cxx/PreprocessorCallbacks.cpp
 	data/parser/cxx/PreprocessorCallbacks.h
-	data/parser/cxx/utilityCxx.cpp
-	data/parser/cxx/utilityCxx.h
 
 	utility/CompilationDatabase.cpp
 	utility/CompilationDatabase.h
-
 )
 
 add_files(

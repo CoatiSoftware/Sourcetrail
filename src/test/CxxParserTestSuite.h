@@ -914,9 +914,23 @@ public:
 
 		TS_ASSERT_EQUALS(client->functions.size(), 2);
 		TS_ASSERT_EQUALS(client->functions[0], "void lambdaCaller() <1:1 <1:6 1:17> 4:1>");
-		TS_ASSERT_EQUALS(client->functions[1], "void lambdaCaller::lambda at 3:2() <3:5 <3:2 3:2> 3:7>");
+		TS_ASSERT_EQUALS(client->functions[1], "void lambdaCaller::lambda at 3:2() const <3:5 <3:2 3:2> 3:7>");
 		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "void lambdaCaller() -> void lambdaCaller::lambda at 3:2() <3:8 3:8>");
+		TS_ASSERT_EQUALS(client->calls[0], "void lambdaCaller() -> void lambdaCaller::lambda at 3:2() const <3:8 3:8>");
+	}
+
+	void test_cxx_parser_finds_mutable_lambda_definition()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"void lambdaWrapper()\n"
+			"{\n"
+			"	[](int foo) mutable { return foo; };\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->functions.size(), 2);
+		TS_ASSERT_EQUALS(client->functions[0], "void lambdaWrapper() <1:1 <1:6 1:18> 4:1>");
+		TS_ASSERT_EQUALS(client->functions[1], "int lambdaWrapper::lambda at 3:2(int) <3:14 <3:2 3:2> 3:36>");
 	}
 
 	void test_cxx_parser_finds_definition_of_local_symbol_in_function_parameter_list()
@@ -2922,8 +2936,8 @@ public:
 		);
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
-		TS_ASSERT_EQUALS(client->calls[0], "void lambdaCaller() -> void lambdaCaller::lambda at 4:2() <7:3 7:3>");
-		TS_ASSERT_EQUALS(client->calls[1], "void lambdaCaller::lambda at 4:2() -> void func() <6:3 6:6>");
+		TS_ASSERT_EQUALS(client->calls[0], "void lambdaCaller() -> void lambdaCaller::lambda at 4:2() const <7:3 7:3>");
+		TS_ASSERT_EQUALS(client->calls[1], "void lambdaCaller::lambda at 4:2() const -> void func() <6:3 6:6>");
 	}
 
 	void test_cxx_parser_finds_template_argument_of_unresolved_lookup_expression_as_type_use()

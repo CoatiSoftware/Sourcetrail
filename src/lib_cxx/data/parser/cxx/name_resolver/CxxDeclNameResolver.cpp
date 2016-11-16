@@ -158,35 +158,24 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
 			const std::string symbolKindName = (recordDecl->isStruct() ? "struct" : "class");
 			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(symbolKindName, presumedBegin), std::vector<std::string>());
-			// TODO: TESt what if this one has template params??
 		}
 	}
 	else if (clang::isa<clang::FunctionDecl>(declaration))
 	{
-		if (const clang::CXXMethodDecl* methodDecl = clang::dyn_cast_or_null<clang::CXXMethodDecl>(declaration))
-		{
-			if (methodDecl->getParent()->isLambda())
-			{
-				const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-				const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(methodDecl->getParent()->getLocStart());
-				std::string lambdaName = "lambda at " + std::to_string(presumedBegin.getLine()) + ":" + std::to_string(presumedBegin.getColumn());
-
-				return std::make_shared<CxxFunctionDeclName>(
-					lambdaName,
-					std::vector<std::string>(),
-					std::make_shared<CxxTypeName>("void", std::vector<std::string>(), std::shared_ptr<CxxName>()), // TODO: check signature!
-					std::vector<std::shared_ptr<CxxTypeName>>(),
-					false,
-					false
-				);
-			}
-		}
+		const clang::FunctionDecl* functionDecl = clang::dyn_cast<clang::FunctionDecl>(declaration);
 
 		std::string functionName = declNameString;
 		std::vector<std::string> templateArguments;
 
-		const clang::FunctionDecl* functionDecl = clang::dyn_cast<clang::FunctionDecl>(declaration);
-		if (clang::FunctionTemplateDecl* templateFunctionDeclaration = functionDecl->getDescribedFunctionTemplate())
+
+		if ((clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)) &&
+			(clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)->getParent()->isLambda()))
+		{
+			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)->getParent()->getLocStart());
+			functionName = "lambda at " + std::to_string(presumedBegin.getLine()) + ":" + std::to_string(presumedBegin.getColumn());
+		}
+		else if (clang::FunctionTemplateDecl* templateFunctionDeclaration = functionDecl->getDescribedFunctionTemplate())
 		{
 			std::shared_ptr<CxxDeclName> templateDeclName = getDeclName(templateFunctionDeclaration);
 			functionName = templateDeclName->getName();
