@@ -185,7 +185,7 @@ public:
 
 		TS_ASSERT_EQUALS(client->methods.size(), 4);
 		TS_ASSERT_EQUALS(client->methods[0], "public void B::B() <4:2 4:2>");
-		TS_ASSERT_EQUALS(client->methods[1], "public void B::B(B const &) <1:7 1:7>");
+		TS_ASSERT_EQUALS(client->methods[1], "public void B::B(const B &) <1:7 1:7>");
 		TS_ASSERT_EQUALS(client->methods[2], "public void B::B(B &) <1:7 1:7>");
 		TS_ASSERT_EQUALS(client->methods[3], "public void B::B() <6:1 <6:4 6:4> 8:1>");
 	}
@@ -1708,7 +1708,7 @@ public:
 
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
 		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <9:6 9:8>");
-		TS_ASSERT_EQUALS(client->calls[1], "int main() -> void App::App(App const &) <10:6 10:9>");
+		TS_ASSERT_EQUALS(client->calls[1], "int main() -> void App::App(const App &) <10:6 10:9>");
 	}
 
 	void test_cxx_parser_finds_global_variable_constructor_call()

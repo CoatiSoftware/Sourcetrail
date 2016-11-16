@@ -25,8 +25,11 @@ CxxAstVisitor::CxxAstVisitor(clang::ASTContext* astContext, clang::Preprocessor*
 	{
 		if (decl)
 		{
-			CxxDeclNameResolver resolver(decl);
-			return resolver.getDeclNameHierarchy();
+			CxxDeclNameResolver resolver;
+			if (std::shared_ptr<CxxDeclName> declName = resolver.getName(decl))
+			{
+				return declName->toNameHierarchy();
+			}
 		}
 		return NameHierarchy("global");
 	});
@@ -35,7 +38,10 @@ CxxAstVisitor::CxxAstVisitor(clang::ASTContext* astContext, clang::Preprocessor*
 		if (type)
 		{
 			CxxTypeNameResolver resolver;
-			return resolver.getTypeNameHierarchy(type);
+			if (std::shared_ptr<CxxTypeName> typeName = resolver.getName(type))
+			{
+				return typeName->toNameHierarchy();
+			}
 		}
 		return NameHierarchy("global");
 	});

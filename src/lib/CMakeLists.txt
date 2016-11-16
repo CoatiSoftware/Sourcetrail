@@ -159,19 +159,6 @@ add_files(
 	data/search/SearchMatch.cpp
 	data/search/SearchMatch.h
 
-	data/type/ArrayModifiedDataType.cpp
-	data/type/ArrayModifiedDataType.h
-	data/type/DataType.cpp
-	data/type/DataType.h
-	data/type/ModifiedDataType.cpp
-	data/type/ModifiedDataType.h
-	data/type/NamedDataType.cpp
-	data/type/NamedDataType.h
-	data/type/PointerModifiedDataType.cpp
-	data/type/PointerModifiedDataType.h
-	data/type/ReferenceModifiedDataType.cpp
-	data/type/ReferenceModifiedDataType.h
-
 	data/DefinitionType.cpp
 	data/DefinitionType.h
 	data/ErrorCountInfo.h

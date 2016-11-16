@@ -8,8 +8,6 @@
 #include "data/location/TokenLocation.h"
 #include "data/parser/ParseLocation.h"
 #include "data/PersistentStorage.h"
-#include "data/type/DataType.h"
-#include "data/type/NamedDataType.h"
 
 class StorageTestSuite: public CxxTest::TestSuite
 {

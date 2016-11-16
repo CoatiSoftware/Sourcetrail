@@ -25,7 +25,6 @@
 #include "data/location/TokenLocationFile.h"
 #include "data/location/TokenLocationLine.h"
 #include "data/parser/ParseLocation.h"
-#include "data/type/DataType.h"
 
 PersistentStorage::PersistentStorage(const FilePath& dbPath)
 	: m_sqliteStorage(dbPath)

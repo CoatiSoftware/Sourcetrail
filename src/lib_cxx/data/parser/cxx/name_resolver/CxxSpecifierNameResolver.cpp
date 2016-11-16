@@ -21,39 +21,45 @@ CxxSpecifierNameResolver::~CxxSpecifierNameResolver()
 {
 }
 
-NameHierarchy CxxSpecifierNameResolver::getNameHierarchy(const clang::NestedNameSpecifier* nestedNameSpecifier)
+std::shared_ptr<CxxName> CxxSpecifierNameResolver::getName(const clang::NestedNameSpecifier* nestedNameSpecifier)
 {
 	clang::NestedNameSpecifier::SpecifierKind nnsKind = nestedNameSpecifier->getKind();
-	NameHierarchy typeNameHerarchy;
+	std::shared_ptr<CxxName> name;
 	switch (nnsKind)
 	{
 	case clang::NestedNameSpecifier::Identifier:
 		{
-			const clang::NestedNameSpecifier* prefix = nestedNameSpecifier->getPrefix();
-			if (prefix)
+			name = std::make_shared<CxxDeclName>(
+				nestedNameSpecifier->getAsIdentifier()->getName(), std::vector<std::string>()
+			);
+
+			if (const clang::NestedNameSpecifier* prefix = nestedNameSpecifier->getPrefix())
 			{
-				typeNameHerarchy = getNameHierarchy(prefix);
+				std::shared_ptr<CxxName> parentName = getName(prefix);
+				if (parentName)
+				{
+					name->setParent(parentName);
+				}
 			}
-			typeNameHerarchy.push(std::make_shared<NameElement>(nestedNameSpecifier->getAsIdentifier()->getName()));
 		}
 		break;
 	case clang::NestedNameSpecifier::Namespace:
 		{
-			CxxDeclNameResolver declNameResolver(nestedNameSpecifier->getAsNamespace(), getIgnoredContextDecls());
-			typeNameHerarchy = declNameResolver.getDeclNameHierarchy();
+			CxxDeclNameResolver declNameResolver(getIgnoredContextDecls());
+			name = declNameResolver.getName(nestedNameSpecifier->getAsNamespace());
 		}
 		break;
 	case clang::NestedNameSpecifier::NamespaceAlias:
 		{
-			CxxDeclNameResolver declNameResolver(nestedNameSpecifier->getAsNamespaceAlias(), getIgnoredContextDecls());
-			typeNameHerarchy = declNameResolver.getDeclNameHierarchy();
+			CxxDeclNameResolver declNameResolver(getIgnoredContextDecls());
+			name = declNameResolver.getName(nestedNameSpecifier->getAsNamespaceAlias());
 		}
 		break;
 	case clang::NestedNameSpecifier::TypeSpec:
 	case clang::NestedNameSpecifier::TypeSpecWithTemplate:
 		{
 			CxxTypeNameResolver typeNameResolver(getIgnoredContextDecls());
-			typeNameHerarchy = typeNameResolver.getTypeNameHierarchy(nestedNameSpecifier->getAsType());
+			name = typeNameResolver.getName(nestedNameSpecifier->getAsType());
 		}
 		break;
 	case clang::NestedNameSpecifier::Global:
@@ -61,10 +67,10 @@ NameHierarchy CxxSpecifierNameResolver::getNameHierarchy(const clang::NestedName
 		break;
 	case clang::NestedNameSpecifier::Super:
 		{
-			CxxDeclNameResolver declNameResolver(nestedNameSpecifier->getAsRecordDecl(), getIgnoredContextDecls());
-			typeNameHerarchy = declNameResolver.getDeclNameHierarchy();
+			CxxDeclNameResolver declNameResolver(getIgnoredContextDecls());
+			name = declNameResolver.getName(nestedNameSpecifier->getAsRecordDecl());
 		}
 		break;
 	}
-	return typeNameHerarchy;
+	return name;
 }

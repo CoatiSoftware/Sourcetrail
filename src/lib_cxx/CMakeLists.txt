@@ -2,6 +2,17 @@
 add_files(
 	CLANG_FILES
 
+	data/parser/cxx/name/CxxDeclName.cpp
+	data/parser/cxx/name/CxxDeclName.h
+	data/parser/cxx/name/CxxFunctionDeclName.cpp
+	data/parser/cxx/name/CxxFunctionDeclName.h
+	data/parser/cxx/name/CxxName.cpp
+	data/parser/cxx/name/CxxName.h
+	data/parser/cxx/name/CxxQualifierFlags.cpp
+	data/parser/cxx/name/CxxQualifierFlags.h
+	data/parser/cxx/name/CxxTypeName.cpp
+	data/parser/cxx/name/CxxTypeName.h
+	
 	data/parser/cxx/name_resolver/CxxDeclNameResolver.cpp
 	data/parser/cxx/name_resolver/CxxDeclNameResolver.h
 	data/parser/cxx/name_resolver/CxxNameResolver.cpp

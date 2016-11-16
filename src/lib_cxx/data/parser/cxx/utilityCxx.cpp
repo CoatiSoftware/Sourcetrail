@@ -2,11 +2,11 @@
 
 #include "data/parser/cxx/name_resolver/CxxDeclNameResolver.h"
 #include "data/parser/cxx/name_resolver/CxxTypeNameResolver.h"
-#include "data/type/NamedDataType.h"
 #include "utility/logging/logging.h"
 
 namespace utility
 {
+/*
 	std::shared_ptr<DataType> qualTypeToDataType(clang::QualType qualType)
 	{
 		CxxTypeNameResolver resolver;
@@ -94,4 +94,5 @@ namespace utility
 		}
 		return std::make_shared<NamedDataType>(NameHierarchy());
 	}
+	*/
 }

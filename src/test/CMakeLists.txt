@@ -10,7 +10,7 @@ add_files(
 
 	ConfigManagerTestSuite.h
 	CxxParserTestSuite.h
-	DataTypeTestSuite.h
+	CxxTypeNameTestSuite.h
 	FileManagerTestSuite.h
 	FilePathTestSuite.h
 	FileSystemTestSuite.h

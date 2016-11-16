@@ -3,7 +3,6 @@
 #include <sstream>
 
 #include "data/parser/ParseLocation.h"
-#include "data/type/DataType.h"
 #include "utility/utilityString.h"
 
 std::string ParserClient::addAccessPrefix(const std::string& str, AccessKind access)
