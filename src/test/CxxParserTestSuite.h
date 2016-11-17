@@ -933,6 +933,20 @@ public:
 		TS_ASSERT_EQUALS(client->functions[1], "int lambdaWrapper::lambda at 3:2(int) <3:14 <3:2 3:2> 3:36>");
 	}
 
+	void test_cxx_parser_finds_local_variable_declared_in_lambda_capture()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"void lambdaWrapper()\n"
+			"{\n"
+			"	[x(42)]() { return x; };\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->localSymbols.size(), 2);
+		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<3:3> <3:3 3:3>");
+		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<3:3> <3:21 3:21>");
+	}
+
 	void test_cxx_parser_finds_definition_of_local_symbol_in_function_parameter_list()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -2938,6 +2952,21 @@ public:
 		TS_ASSERT_EQUALS(client->calls.size(), 2);
 		TS_ASSERT_EQUALS(client->calls[0], "void lambdaCaller() -> void lambdaCaller::lambda at 4:2() const <7:3 7:3>");
 		TS_ASSERT_EQUALS(client->calls[1], "void lambdaCaller::lambda at 4:2() const -> void func() <6:3 6:6>");
+	}
+
+	void test_cxx_parser_finds_local_variable_in_lambda_capture()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"void lambdaWrapper()\n"
+			"{\n"
+			"	int x = 2;\n"
+			"	[x]() { return 1; }();\n"
+			"}\n"
+		);
+
+		TS_ASSERT_EQUALS(client->localSymbols.size(), 2);
+		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<3:6> <3:6 3:6>");
+		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<3:6> <4:3 4:3>");
 	}
 
 	void test_cxx_parser_finds_template_argument_of_unresolved_lookup_expression_as_type_use()

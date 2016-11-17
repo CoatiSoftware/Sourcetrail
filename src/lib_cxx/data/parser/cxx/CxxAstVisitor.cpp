@@ -310,7 +310,33 @@ bool CxxAstVisitor::TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc
 	return base::TraverseTemplateArgumentLoc(loc);
 }
 
-void CxxAstVisitor::traverseDeclContextHelper(clang::DeclContext *d)
+bool CxxAstVisitor::TraverseLambdaCapture(clang::LambdaExpr *lambdaExpr, const clang::LambdaCapture *capture)
+{
+	clang::VarDecl* d = capture->getCapturedVar();
+	if (lambdaExpr->isInitCapture(capture))
+	{
+		TraverseDecl(d);
+	}
+	else
+	{
+		SymbolKind symbolKind = getSymbolKind(d);
+		if (symbolKind == SYMBOL_LOCAL_VARIABLE || symbolKind == SYMBOL_PARAMETER)
+		{
+			if (!d->getNameAsString().empty()) // don't record anonymous parameters
+			{
+				ParseLocation declLocation = getParseLocation(d->getLocation());
+				std::string name =
+					declLocation.filePath.fileName() + "<" +
+					std::to_string(declLocation.startLineNumber) + ":" +
+					std::to_string(declLocation.startColumnNumber) + ">";
+				m_client->onLocalSymbolParsed(name, getParseLocation(capture->getLocation()));
+			}
+		}
+	}
+	return true;
+}
+
+void CxxAstVisitor::traverseDeclContextHelper(clang::DeclContext* d)
 {
 	if (!d)
 		return;
@@ -444,28 +470,7 @@ bool CxxAstVisitor::VisitVarDecl(clang::VarDecl* d)
 {
 	if (shouldVisitDecl(d))
 	{
-		SymbolKind symbolKind = SYMBOL_KIND_MAX;
-
-		if (llvm::isa<clang::ParmVarDecl>(d))
-		{
-			symbolKind = SYMBOL_PARAMETER;
-		}
-		else if (d->getParentFunctionOrMethod() == NULL)
-		{
-			if (d->getAccess() == clang::AS_none)
-			{
-				symbolKind = SYMBOL_GLOBAL_VARIABLE;
-			}
-			else
-			{
-				symbolKind = SYMBOL_FIELD;
-			}
-		}
-		else
-		{
-			symbolKind = SYMBOL_LOCAL_VARIABLE;
-		}
-
+		SymbolKind symbolKind = getSymbolKind(d);
 		if (symbolKind == SYMBOL_LOCAL_VARIABLE || symbolKind == SYMBOL_PARAMETER)
 		{
 			if (!d->getNameAsString().empty()) // don't record anonymous parameters
@@ -1224,4 +1229,31 @@ ReferenceKind CxxAstVisitor::consumeDeclRefContextKind()
 		m_typeRefContext = REFERENCE_TYPE_USAGE;
 	}
 	return refKind;
+}
+
+SymbolKind CxxAstVisitor::getSymbolKind(clang::VarDecl* d)
+{
+	SymbolKind symbolKind = SYMBOL_KIND_MAX;
+
+	if (llvm::isa<clang::ParmVarDecl>(d))
+	{
+		symbolKind = SYMBOL_PARAMETER;
+	}
+	else if (d->getParentFunctionOrMethod() == NULL)
+	{
+		if (d->getAccess() == clang::AS_none)
+		{
+			symbolKind = SYMBOL_GLOBAL_VARIABLE;
+		}
+		else
+		{
+			symbolKind = SYMBOL_FIELD;
+		}
+	}
+	else
+	{
+		symbolKind = SYMBOL_LOCAL_VARIABLE;
+	}
+
+	return symbolKind;
 }

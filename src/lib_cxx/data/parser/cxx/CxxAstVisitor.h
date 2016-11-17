@@ -83,7 +83,8 @@ public:
 	virtual bool TraverseTemplateSpecializationTypeLoc(clang::TemplateSpecializationTypeLoc loc);
 	virtual bool TraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* s);
 	virtual bool TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc);
-	void traverseDeclContextHelper(clang::DeclContext *d);
+	virtual bool TraverseLambdaCapture(clang::LambdaExpr* lambdaExpr, const clang::LambdaCapture* capture);
+	void traverseDeclContextHelper(clang::DeclContext* d);
 	bool TraverseCallCommon(clang::CallExpr* s);
 
 	// Visitor methods. These actually record stuff and store it in the database.
@@ -129,6 +130,7 @@ protected:
 
 private:
 	ReferenceKind consumeDeclRefContextKind();
+	SymbolKind getSymbolKind(clang::VarDecl* d);
 
 	typedef clang::RecursiveASTVisitor<CxxAstVisitor> base;
 
