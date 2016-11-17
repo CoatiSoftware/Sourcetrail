@@ -707,15 +707,19 @@ std::vector<std::string> CodeController::getProjectDescription(TokenLocationFile
 			NameHierarchy nameHierarchy = NameHierarchy::deserialize(serializedName);
 			Id tokenId = m_storageAccess->getIdForNodeWithNameHierarchy(nameHierarchy);
 
+			std::string nameString = nameHierarchy.getQualifiedName();
 			if (tokenId > 0)
 			{
-				std::string nameString = nameHierarchy.getQualifiedName();
 				line.replace(posA, posB - posA + 1, nameString);
 				locationFile->addTokenLocation(
 					0, tokenId,
 					startLineNumber + i, posA + 1,
 					startLineNumber + i, posA + nameString.size()
 				);
+			}
+			else
+			{
+				line.replace(posA, posB - posA + 1, "[symbol not found (" + nameString + ")]");
 			}
 
 			pos = posA + serializedName.size();
