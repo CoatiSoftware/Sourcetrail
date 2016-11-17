@@ -165,7 +165,7 @@ QSize QtCodeArea::sizeHint() const
 		height += horizontalScrollBar()->height();
 	}
 
-	return QSize(0, height + 1);
+	return QSize(0, height + 5);
 }
 
 uint QtCodeArea::getStartLineNumber() const
