@@ -25,10 +25,12 @@ public:
 
 protected:
 	virtual void doEnter(std::shared_ptr<Blackboard> blackboard);
+	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard);
 	virtual void doExit(std::shared_ptr<Blackboard> blackboard);
 	virtual void doReset(std::shared_ptr<Blackboard> blackboard);
 
 	virtual void handleMessage(MessageInterruptTasks* message);
+	virtual void indexFile(FilePath sourcePath) = 0;
 
 	std::shared_ptr<StorageProvider> m_storageProvider;
 	std::shared_ptr<FileRegister> m_fileRegister;

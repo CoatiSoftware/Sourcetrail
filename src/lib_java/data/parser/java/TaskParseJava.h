@@ -15,7 +15,7 @@ public:
 	);
 
 private:
-	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard);
+	void indexFile(FilePath sourcePath);
 };
 
 #endif // TASK_PARSE_JAVA_H

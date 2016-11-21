@@ -383,6 +383,8 @@ add_files(
 
 	Application.cpp
 	Application.h
+	ApplicationStateMonitor.cpp
+	ApplicationStateMonitor.h
 	LicenseChecker.cpp
 	LicenseChecker.h
 	Project.cpp

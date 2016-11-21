@@ -29,7 +29,8 @@ public:
 
 private:
 	virtual void doEnter(std::shared_ptr<Blackboard> blackboard);
-	virtual TaskState doUpdate(std::shared_ptr<Blackboard> blackboard);
+
+	virtual void indexFile(FilePath sourcePath);
 
 	std::shared_ptr<CxxParser> m_parser;
 	std::shared_ptr<ParserClientImpl> m_parserClient;

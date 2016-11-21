@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "ApplicationStateMonitor.h"
 #include "ProjectFactoryModuleC.h"
 #include "ProjectFactoryModuleCpp.h"
 #include "ProjectFactoryModuleJava.h"
@@ -175,7 +176,6 @@ int main(int argc, char *argv[])
 			Application::destroyInstance();
 		});
 
-
 		prefillJavaRuntimePath();
 		prefillCxxHeaderPaths();
 		prefillCxxFrameworkPaths();
@@ -195,6 +195,44 @@ int main(int argc, char *argv[])
 
 		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".otf");
 		utility::loadFontsFromDirectory(ResourcePaths::getFontsPath(), ".ttf");
+
+		const std::vector<FilePath> storedIndexingFiles = ApplicationStateMonitor::getStoredIndexingFiles();
+		if (storedIndexingFiles.size() > 0)
+		{
+			ApplicationStateMonitor::clearStoredIndexingFiles();
+			if (storedIndexingFiles.size() > 1)
+			{
+				std::string fileStrings = "";
+				for (const FilePath& filePath: storedIndexingFiles)
+				{
+					fileStrings += "<li>" + filePath.str() + "</li>";
+				}
+				Application::getInstance()->handleDialog(
+					"<p>It seems that Coati shut down unexpectedly while indexing your project. We are sorry about that. "
+					"But let's go on and find out what exactly went wrong. The crash occurred while indexing one of these files:</p>"
+					"<ul>" +
+					fileStrings +
+					"</ul>"
+					"<p>First of all we need to figure out which of these files caused the crash. Please go ahead and create copy of your project. "
+					"Remove everything except the files mentioned above from the Project Paths. "
+					"Set your indexer thread count to 1, force-refresh the project and wait for the crash to reoccur.</p>"
+				);
+			}
+			else
+			{
+				Application::getInstance()->handleDialog(
+					"<p>It seems that Coati shut down unexpectedly while indexing your project. We are really sorry about that. "
+					"At least we know which of your source files caused the crash:</p>"
+					"<ul>"
+					"<li>" + storedIndexingFiles.front().str() + "</li>" +
+					"</ul>"
+					"<p>To find out which part of the file caused the crash, please make sure to remove everything except this source file from your Project Paths. "
+					"Enable the option \"Enable Verbose Indexer Logging\" in your log window (this really slows down indexing performance) and force-refresh the project.</p>"
+					"<p>After the expected crash reoccurred please open the respective log file which now contains the portion of the abstract syntax tree that Coati managed to index, "
+					"including the node where the crash occurred. We hope that this information helps you figure out what caused the crash and tell us what we can do to reproduce it.</p>"
+				);
+			}
+		}
 
 		return qtApp.exec();
 	}

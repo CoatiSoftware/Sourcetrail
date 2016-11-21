@@ -175,6 +175,16 @@ void ApplicationSettings::setVerboseIndexerLoggingEnabled(bool value)
 	setValue<bool>("application/verbose_indexer_logging_enabled", value);
 }
 
+std::vector<FilePath> ApplicationSettings::getIndexingFilePaths() const
+{
+	return getPathValues("application/state/indexing_paths/indexing_path");
+}
+
+bool ApplicationSettings::setIndexingFilePaths(const std::vector<FilePath>& indexingFiles)
+{
+	return setPathValues("application/state/indexing_paths/indexing_path", indexingFiles);
+}
+
 int ApplicationSettings::getIndexerThreadCount() const
 {
 	return getValue<int>("indexing/indexer_thread_count", 4);

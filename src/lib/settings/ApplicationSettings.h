@@ -53,6 +53,9 @@ public:
 	bool getVerboseIndexerLoggingEnabled() const;
 	void setVerboseIndexerLoggingEnabled(bool loggingEnabled);
 
+	std::vector<FilePath> getIndexingFilePaths() const;
+	bool setIndexingFilePaths(const std::vector<FilePath>& indexingFiles);
+
 	// indexing
 	int getIndexerThreadCount() const;
 	void setIndexerThreadCount(const int count);

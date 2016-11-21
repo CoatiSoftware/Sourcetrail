@@ -17,38 +17,23 @@ TaskParseJava::TaskParseJava(
 {
 }
 
-Task::TaskState TaskParseJava::doUpdate(std::shared_ptr<Blackboard> blackboard)
+void TaskParseJava::indexFile(FilePath sourcePath)
 {
 	std::shared_ptr<ParserClientImpl> parserClient = std::make_shared<ParserClientImpl>();
 	std::shared_ptr<JavaParser> parser = std::make_shared<JavaParser>(parserClient.get());
 
-	FilePath sourcePath = m_fileRegister->consumeSourceFile();
+	std::shared_ptr<IntermediateStorage> storage = m_storageProvider->popIndexerTarget();
+	parserClient->setStorage(storage);
+	parserClient->startParsingFile();
 
-	if (sourcePath.empty())
+	parser->parseFile(sourcePath, TextAccess::createFromFile(sourcePath.str()), m_arguments);
+
+	parserClient->finishParsingFile();
+	parserClient->resetStorage();
+
+	if (!m_interrupted)
 	{
-		return STATE_FAILURE;
+		m_fileRegister->markThreadFilesParsed(); // todo: rename to markThreadFilesProcessed
+		m_storageProvider->pushIndexerTarget(storage);
 	}
-	else
-	{
-		m_dialogView->updateIndexingDialog(
-			m_fileRegister->getParsedSourceFilesCount(), m_fileRegister->getSourceFilesCount(), sourcePath.str()
-		);
-
-		std::shared_ptr<IntermediateStorage> storage = m_storageProvider->popIndexerTarget();
-		parserClient->setStorage(storage);
-		parserClient->startParsingFile();
-
-		parser->parseFile(sourcePath, TextAccess::createFromFile(sourcePath.str()), m_arguments);
-
-		parserClient->finishParsingFile();
-		parserClient->resetStorage();
-
-		if (!m_interrupted)
-		{
-			m_fileRegister->markThreadFilesParsed(); // todo: rename to markThreadFilesProcessed
-			m_storageProvider->pushIndexerTarget(storage);
-		}
-	}
-
-	return (m_interrupted ? STATE_FAILURE : STATE_SUCCESS);
 }

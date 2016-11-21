@@ -1,6 +1,9 @@
 #include "data/parser/TaskParse.h"
 
+#include "component/view/DialogView.h"
+#include "utility/file/FileRegister.h"
 #include "utility/scheduling/Blackboard.h"
+#include "ApplicationStateMonitor.h"
 
 TaskParse::TaskParse(
 	std::shared_ptr<StorageProvider> storageProvider,
@@ -26,6 +29,28 @@ void TaskParse::doEnter(std::shared_ptr<Blackboard> blackboard)
 		indexerCount++;
 		blackboard->set("indexer_count", indexerCount);
 	}
+}
+
+Task::TaskState TaskParse::doUpdate(std::shared_ptr<Blackboard> blackboard)
+{
+	FilePath sourcePath = m_fileRegister->consumeSourceFile();
+
+	if (sourcePath.empty())
+	{
+		return STATE_FAILURE;
+	}
+	else
+	{
+		ApplicationStateMonitor::getInstance()->addIndexingFile(sourcePath);
+		m_dialogView->updateIndexingDialog(
+			m_fileRegister->getParsedSourceFilesCount(), m_fileRegister->getSourceFilesCount(), sourcePath.str()
+		);
+
+		indexFile(sourcePath);
+		ApplicationStateMonitor::getInstance()->removeIndexingFile(sourcePath);
+	}
+
+	return (m_interrupted ? STATE_FAILURE : STATE_SUCCESS);
 }
 
 void TaskParse::doExit(std::shared_ptr<Blackboard> blackboard)

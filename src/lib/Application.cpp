@@ -35,7 +35,7 @@ void Application::createInstance(
 
 	s_instance->m_storageCache = std::make_shared<StorageCache>();
 
-	if (viewFactory != nullptr)
+	if (hasGui)
 	{
 		s_instance->m_componentManager = ComponentManager::create(viewFactory, s_instance->m_storageCache.get());
 

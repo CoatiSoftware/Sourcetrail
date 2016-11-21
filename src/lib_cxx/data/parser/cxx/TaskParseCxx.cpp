@@ -2,7 +2,6 @@
 
 #include "clang/Tooling/JSONCompilationDatabase.h"
 
-#include "component/view/DialogView.h"
 #include "data/parser/cxx/CxxParser.h"
 #include "data/parser/ParserClientImpl.h"
 #include "data/StorageProvider.h"
@@ -62,48 +61,33 @@ void TaskParseCxx::doEnter(std::shared_ptr<Blackboard> blackboard)
 	}
 }
 
-Task::TaskState TaskParseCxx::doUpdate(std::shared_ptr<Blackboard> blackboard)
+void TaskParseCxx::indexFile(FilePath sourcePath)
 {
 	FileRegister* fileRegister = m_parser->getFileRegister();
 
-	FilePath sourcePath = fileRegister->consumeSourceFile();
+	std::shared_ptr<IntermediateStorage> storage = m_storageProvider->popIndexerTarget();
+	m_parserClient->setStorage(storage);
+	m_parserClient->startParsingFile();
 
-	if (sourcePath.empty())
+	if (m_isCDB)
 	{
-		return STATE_FAILURE;
+		std::vector<clang::tooling::CompileCommand> commands = m_cdb->getCompileCommands(sourcePath.str());
+		if (commands.size() > 0)
+		{
+			m_parser->runTool(commands[0], m_arguments);
+		}
 	}
 	else
 	{
-		m_dialogView->updateIndexingDialog(
-			fileRegister->getParsedSourceFilesCount(), fileRegister->getSourceFilesCount(), sourcePath.str()
-		);
-
-		std::shared_ptr<IntermediateStorage> storage = m_storageProvider->popIndexerTarget();
-		m_parserClient->setStorage(storage);
-		m_parserClient->startParsingFile();
-
-		if (m_isCDB)
-		{
-			std::vector<clang::tooling::CompileCommand> commands = m_cdb->getCompileCommands(sourcePath.str());
-			if (commands.size() > 0)
-			{
-				m_parser->runTool(commands[0], m_arguments);
-			}
-		}
-		else
-		{
-			m_parser->runTool(std::vector<std::string>(1, sourcePath.str()));
-		}
-
-		m_parserClient->finishParsingFile();
-		m_parserClient->resetStorage();
-
-		if (!m_interrupted)
-		{
-			fileRegister->markThreadFilesParsed();
-			m_storageProvider->pushIndexerTarget(storage);
-		}
+		m_parser->runTool(std::vector<std::string>(1, sourcePath.str()));
 	}
 
-	return (m_interrupted ? STATE_FAILURE : STATE_SUCCESS);
+	m_parserClient->finishParsingFile();
+	m_parserClient->resetStorage();
+
+	if (!m_interrupted)
+	{
+		fileRegister->markThreadFilesParsed();
+		m_storageProvider->pushIndexerTarget(storage);
+	}
 }
