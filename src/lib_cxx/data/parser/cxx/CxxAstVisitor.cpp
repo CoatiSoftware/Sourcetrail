@@ -312,13 +312,13 @@ bool CxxAstVisitor::TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc
 
 bool CxxAstVisitor::TraverseLambdaCapture(clang::LambdaExpr *lambdaExpr, const clang::LambdaCapture *capture)
 {
-	clang::VarDecl* d = capture->getCapturedVar();
 	if (lambdaExpr->isInitCapture(capture))
 	{
-		TraverseDecl(d);
+		TraverseDecl(capture->getCapturedVar());
 	}
-	else
+	else if (capture->capturesVariable())
 	{
+		clang::VarDecl* d = capture->getCapturedVar();
 		SymbolKind symbolKind = getSymbolKind(d);
 		if (symbolKind == SYMBOL_LOCAL_VARIABLE || symbolKind == SYMBOL_PARAMETER)
 		{

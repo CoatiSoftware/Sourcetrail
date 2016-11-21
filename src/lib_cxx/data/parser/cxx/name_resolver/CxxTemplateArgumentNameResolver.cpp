@@ -30,7 +30,16 @@ std::string CxxTemplateArgumentNameResolver::getTemplateArgumentName(const clang
 	case clang::TemplateArgument::Type:
 		{
 			CxxTypeNameResolver typeNameResolver(getIgnoredContextDecls());
-			return typeNameResolver.getName(argument.getAsType())->toString();
+			std::shared_ptr<CxxTypeName> typeName = typeNameResolver.getName(argument.getAsType());
+			if (typeName)
+			{
+				return typeName->toString();
+			}
+			else
+			{
+				LOG_WARNING("Unable to solve name for template type argument");
+			}
+			break;
 		}
 	case clang::TemplateArgument::Integral:
 	case clang::TemplateArgument::Null:

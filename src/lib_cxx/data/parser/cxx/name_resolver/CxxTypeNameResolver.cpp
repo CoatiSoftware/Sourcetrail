@@ -26,7 +26,7 @@ CxxTypeNameResolver::~CxxTypeNameResolver()
 std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::QualType& qualType)
 {
 	std::shared_ptr<CxxTypeName> typeName = getName(qualType.getTypePtr());
-	if (qualType.isConstQualified())
+	if (typeName && qualType.isConstQualified())
 	{
 		typeName->addQualifier(CxxQualifierFlags::QUALIFIER_CONST);
 	}
@@ -48,12 +48,14 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 	{
 		CxxDeclNameResolver declNameResolver(getIgnoredContextDecls());
 		std::shared_ptr<CxxDeclName> declName = declNameResolver.getName(type->getAs<clang::TypedefType>()->getDecl());
-
-		typeName = std::make_shared<CxxTypeName>(
-			declName->getName(),
-			std::vector<std::string>(),
-			declName->getParent()
-		);
+		if (declName)
+		{
+			typeName = std::make_shared<CxxTypeName>(
+				declName->getName(),
+				std::vector<std::string>(),
+				declName->getParent()
+			);
+		}
 		break;
 	}
 	case clang::Type::MemberPointer:
@@ -92,12 +94,14 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 	{
 		CxxDeclNameResolver declNameResolver(getIgnoredContextDecls());
 		std::shared_ptr<CxxDeclName> declName = declNameResolver.getName(type->getAs<clang::TagType>()->getDecl());
-
-		typeName = std::make_shared<CxxTypeName>(
-			declName->getName(),
-			std::vector<std::string>(),
-			declName->getParent()
-		);
+		if (declName)
+		{
+			typeName = std::make_shared<CxxTypeName>(
+				declName->getName(),
+				std::vector<std::string>(),
+				declName->getParent()
+			);
+		}
 		break;
 	}
 	case clang::Type::Builtin:
@@ -118,12 +122,14 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 		{
 			CxxDeclNameResolver declNameResolver(getIgnoredContextDecls());
 			std::shared_ptr<CxxDeclName> declName = declNameResolver.getName(tagType->getDecl());
-
-			typeName = std::make_shared<CxxTypeName>(
-				declName->getName(),
-				declName->getTemplateParameterNames(),
-				declName->getParent()
-			);
+			if (declName)
+			{
+				typeName = std::make_shared<CxxTypeName>(
+					declName->getName(),
+					declName->getTemplateParameterNames(), 
+					declName->getParent()
+				);
+			}
 		}
 		else // specialization of a template template parameter (no concrete class) important, may help: has no underlying decl!
 		{
@@ -141,7 +147,9 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				}
 
 				typeName = std::make_shared<CxxTypeName>(
-					declName->getName(), templateArguments, declName->getParent()
+					declName->getName(), 
+					templateArguments, 
+					declName->getParent()
 				);
 			}
 			else
@@ -155,12 +163,14 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 	{
 		CxxDeclNameResolver declNameResolver(getIgnoredContextDecls());
 		std::shared_ptr<CxxDeclName> declName = declNameResolver.getName(clang::dyn_cast<clang::TemplateTypeParmType>(type)->getDecl());
-
-		typeName = std::make_shared<CxxTypeName>(
-			declName->getName(),
-			declName->getTemplateParameterNames(),
-			declName->getParent()
-		);
+		if (declName)
+		{
+			typeName = std::make_shared<CxxTypeName>(
+				declName->getName(), 
+				declName->getTemplateParameterNames(), 
+				declName->getParent()
+			);
+		}
 		break;
 	}
 	case clang::Type::SubstTemplateTypeParm:

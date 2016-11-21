@@ -38,6 +38,12 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl
 		}
 	}
 
+	if ((clang::isa<clang::CXXRecordDecl>(declaration)) &&
+		(clang::dyn_cast<clang::CXXRecordDecl>(declaration)->isLambda()))
+	{
+		declaration = clang::dyn_cast<clang::CXXRecordDecl>(declaration)->getLambdaCallOperator();
+	}
+
 	std::shared_ptr<CxxDeclName> declName;
 	if (declaration)
 	{
@@ -94,60 +100,9 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			return getDeclName(templatedDeclaration);
 		}
 	}
-	if (const clang::CXXRecordDecl* recordDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(declaration))
+	if (const clang::RecordDecl* recordDecl = clang::dyn_cast_or_null<clang::RecordDecl>(declaration))
 	{
-		clang::ClassTemplateDecl* templateClassDeclaration = recordDecl->getDescribedClassTemplate();
-		if (templateClassDeclaration)
-		{
-			return getDeclName(templateClassDeclaration);
-		}
-		else if (clang::isa<clang::ClassTemplatePartialSpecializationDecl>(declaration))
-		{
-			const clang::ClassTemplatePartialSpecializationDecl* partialSpecializationDecl =
-				clang::dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(declaration);
-
-			clang::TemplateParameterList* parameterList = partialSpecializationDecl->getTemplateParameters();
-			unsigned int currentParameterIndex = 0;
-
-			std::vector<std::string> templateParameters;
-			const clang::TemplateArgumentList& templateArgumentList = partialSpecializationDecl->getTemplateArgs();
-			const int templateArgumentCount = templateArgumentList.size();
-			for (int i = 0; i < templateArgumentCount; i++)
-			{
-				const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
-				if (templateArgument.isDependent()) //  IMPORTANT_TODO: fix case when arg depends on template parameter of outer template class, or depends on first template parameter.
-				{
-					if(currentParameterIndex < parameterList->size())
-					{
-						templateParameters.push_back(getTemplateParameterString(parameterList->getParam(currentParameterIndex)));
-					}
-					else
-					{
-						//this if fixes the crash, but not the problem TODO
-						// const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-						// LOG_ERROR("Template getParam out of Range " + declaration->getLocation().printToString(sourceManager));
-					}
-					currentParameterIndex++;
-				}
-				else
-				{
-					templateParameters.push_back(getTemplateArgumentName(templateArgument));
-				}
-			}
-
-			return std::make_shared<CxxDeclName>(declNameString, templateParameters);
-		}
-		else if (clang::isa<clang::ClassTemplateSpecializationDecl>(declaration))
-		{
-			std::vector<std::string> templateArguments;
-			const clang::TemplateArgumentList& templateArgumentList = clang::dyn_cast<clang::ClassTemplateSpecializationDecl>(declaration)->getTemplateArgs();
-			for (size_t i = 0; i < templateArgumentList.size(); i++)
-			{
-				templateArguments.push_back(getTemplateArgumentName(templateArgumentList.get(i)));
-			}
-			return std::make_shared<CxxDeclName>(declNameString, templateArguments);
-		}
-		else if (recordDecl->isLambda())
+		if (recordDecl->isLambda())
 		{
 			// we skip this node because its child (the lambda call operator) has already been recorded.
 			return std::shared_ptr<CxxDeclName>();
@@ -159,6 +114,60 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 			const std::string symbolKindName = (recordDecl->isStruct() ? "struct" : "class");
 			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(symbolKindName, presumedBegin), std::vector<std::string>());
 		}
+		else if (const clang::CXXRecordDecl* cxxRecordDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(declaration))
+		{
+			clang::ClassTemplateDecl* templateClassDeclaration = cxxRecordDecl->getDescribedClassTemplate();
+			if (templateClassDeclaration)
+			{
+				return getDeclName(templateClassDeclaration);
+			}
+			else if (clang::isa<clang::ClassTemplatePartialSpecializationDecl>(declaration))
+			{
+				const clang::ClassTemplatePartialSpecializationDecl* partialSpecializationDecl =
+					clang::dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(declaration);
+
+				clang::TemplateParameterList* parameterList = partialSpecializationDecl->getTemplateParameters();
+				unsigned int currentParameterIndex = 0;
+
+				std::vector<std::string> templateParameters;
+				const clang::TemplateArgumentList& templateArgumentList = partialSpecializationDecl->getTemplateArgs();
+				const int templateArgumentCount = templateArgumentList.size();
+				for (int i = 0; i < templateArgumentCount; i++)
+				{
+					const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
+					if (templateArgument.isDependent()) //  IMPORTANT_TODO: fix case when arg depends on template parameter of outer template class, or depends on first template parameter.
+					{
+						if(currentParameterIndex < parameterList->size())
+						{
+							templateParameters.push_back(getTemplateParameterString(parameterList->getParam(currentParameterIndex)));
+						}
+						else
+						{
+							//this if fixes the crash, but not the problem TODO
+							// const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+							// LOG_ERROR("Template getParam out of Range " + declaration->getLocation().printToString(sourceManager));
+						}
+						currentParameterIndex++;
+					}
+					else
+					{
+						templateParameters.push_back(getTemplateArgumentName(templateArgument));
+					}
+				}
+
+				return std::make_shared<CxxDeclName>(declNameString, templateParameters);
+			}
+			else if (clang::isa<clang::ClassTemplateSpecializationDecl>(declaration))
+			{
+				std::vector<std::string> templateArguments;
+				const clang::TemplateArgumentList& templateArgumentList = clang::dyn_cast<clang::ClassTemplateSpecializationDecl>(declaration)->getTemplateArgs();
+				for (size_t i = 0; i < templateArgumentList.size(); i++)
+				{
+					templateArguments.push_back(getTemplateArgumentName(templateArgumentList.get(i)));
+				}
+				return std::make_shared<CxxDeclName>(declNameString, templateArguments);
+			}
+		}
 	}
 	else if (clang::isa<clang::FunctionDecl>(declaration))
 	{
@@ -166,7 +175,6 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 
 		std::string functionName = declNameString;
 		std::vector<std::string> templateArguments;
-
 
 		if ((clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)) &&
 			(clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)->getParent()->isLambda()))
@@ -325,14 +333,23 @@ std::string CxxDeclNameResolver::getTemplateParameterTypeString(const clang::Non
 	{
 		typeNameResolver.ignoreContextDecl(m_currentDecl);
 	}
+	
+	std::string typeString = "";
 
-	std::string typeString = typeNameResolver.getName(parameter->getType())->toString();
+	std::shared_ptr<CxxTypeName> typeName = typeNameResolver.getName(parameter->getType());
+	if (typeName)
+	{
+		typeString = typeName->toString();
+	}
+	else
+	{
+		LOG_WARNING("unable to solve type of non-type template parameter declaration");
+	}
 
 	if (parameter->isTemplateParameterPack())
 	{
 		typeString += "...";
 	}
-
 	return typeString;
 }
 
