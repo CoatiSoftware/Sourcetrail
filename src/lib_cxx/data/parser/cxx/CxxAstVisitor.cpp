@@ -81,7 +81,10 @@ bool CxxAstVisitor::TraverseDecl(clang::Decl* d)
 		m_contextStack.push_back(std::make_shared<CxxContextDecl>(nd, m_declNameCache));
 		removeContextFunctor = std::make_shared<ScopedFunctor>([this](){ m_contextStack.pop_back(); });
 	}
-	return base::TraverseDecl(d);
+	return (
+		m_interruptCounter.getCount() == 0 &&
+		base::TraverseDecl(d)
+	);
 }
 
 bool CxxAstVisitor::TraverseStmt(clang::Stmt* stmt)
