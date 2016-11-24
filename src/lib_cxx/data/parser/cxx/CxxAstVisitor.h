@@ -61,6 +61,7 @@ public:
 
 	// Traversal methods. These specify how to traverse the AST and record context info.
 	virtual bool TraverseDecl(clang::Decl *d);
+	virtual bool TraverseQualifiedTypeLoc(clang::QualifiedTypeLoc tl);
 	virtual bool TraverseTypeLoc(clang::TypeLoc tl);
 	virtual bool TraverseType(clang::QualType t);
 	virtual bool TraverseStmt(clang::Stmt *stmt);

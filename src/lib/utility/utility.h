@@ -58,6 +58,19 @@ namespace utility
 		);
 	}
 
+	template<typename T>
+	bool containsElement(const std::vector<T>& v, const T& e)
+	{
+		for (const T& ve: v)
+		{
+			if (ve == e)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	bool intersectionPoint(Vec2f a1, Vec2f b1, Vec2f a2, Vec2f b2, Vec2f* i);
 
 	size_t digits(size_t n);

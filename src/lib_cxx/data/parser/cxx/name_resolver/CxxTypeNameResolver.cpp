@@ -59,9 +59,6 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 		break;
 	}
 	case clang::Type::MemberPointer:
-	{
-		// test this case!
-	}
 	case clang::Type::Pointer:
 	{
 		typeName = getName(type->getPointeeType());
@@ -126,7 +123,7 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 			{
 				typeName = std::make_shared<CxxTypeName>(
 					declName->getName(),
-					declName->getTemplateParameterNames(), 
+					declName->getTemplateParameterNames(),
 					declName->getParent()
 				);
 			}
@@ -147,8 +144,8 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 				}
 
 				typeName = std::make_shared<CxxTypeName>(
-					declName->getName(), 
-					templateArguments, 
+					declName->getName(),
+					templateArguments,
 					declName->getParent()
 				);
 			}
@@ -166,8 +163,8 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 		if (declName)
 		{
 			typeName = std::make_shared<CxxTypeName>(
-				declName->getName(), 
-				declName->getTemplateParameterNames(), 
+				declName->getName(),
+				declName->getTemplateParameterNames(),
 				declName->getParent()
 			);
 		}
@@ -180,14 +177,32 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 	}
 	case clang::Type::DependentName:
 	{
-		const clang::DependentNameType* dependentNameType = clang::dyn_cast<clang::DependentNameType>(type);
+		const clang::DependentNameType* dependentType = clang::dyn_cast<clang::DependentNameType>(type);
 
 		CxxSpecifierNameResolver specifierNameResolver(getIgnoredContextDecls());
-		std::shared_ptr<CxxName> specifierName = specifierNameResolver.getName(dependentNameType->getQualifier());
+		std::shared_ptr<CxxName> specifierName = specifierNameResolver.getName(dependentType->getQualifier());
 
-		// TODO: TEst what if this one has template args?
 		typeName = std::make_shared<CxxTypeName>(
-			dependentNameType->getIdentifier()->getName().str(), std::vector<std::string>(), specifierName
+			dependentType->getIdentifier()->getName().str(), std::vector<std::string>(), specifierName
+		);
+		break;
+	}
+	case clang::Type::DependentTemplateSpecialization:
+	{
+		const clang::DependentTemplateSpecializationType* dependentType = clang::dyn_cast<clang::DependentTemplateSpecializationType>(type);
+
+		CxxSpecifierNameResolver specifierNameResolver(getIgnoredContextDecls());
+		std::shared_ptr<CxxName> specifierName = specifierNameResolver.getName(dependentType->getQualifier());
+
+		std::vector<std::string> templateArguments;
+		CxxTemplateArgumentNameResolver resolver(getIgnoredContextDecls());
+		for (size_t i = 0; i < dependentType->getNumArgs(); i++)
+		{
+			templateArguments.push_back(resolver.getTemplateArgumentName(dependentType->getArg(i)));
+		}
+
+		typeName = std::make_shared<CxxTypeName>(
+			dependentType->getIdentifier()->getName().str(), templateArguments, specifierName
 		);
 		break;
 	}
@@ -214,6 +229,32 @@ std::shared_ptr<CxxTypeName> CxxTypeNameResolver::getName(const clang::Type* typ
 	case clang::Type::Decltype:
 	{
 		typeName = getName(clang::dyn_cast<clang::DecltypeType>(type)->getUnderlyingType());
+		break;
+	}
+	case clang::Type::FunctionProto:
+	{
+		const clang::FunctionProtoType* protoType = clang::dyn_cast<clang::FunctionProtoType>(type);
+		std::string nameString = getName(protoType->getReturnType())->toString();
+		nameString += "(";
+		for (size_t i = 0; i < protoType->getNumParams(); i++)
+		{
+			if (i != 0)
+			{
+				nameString += ", ";
+			}
+			nameString += getName(protoType->getParamType(i))->toString();
+		}
+		nameString += ")";
+
+		typeName = std::make_shared<CxxTypeName>(
+			nameString, std::vector<std::string>()
+		);
+		break;
+	}
+	case clang::Type::Adjusted:
+	case clang::Type::Decayed:
+	{
+		typeName = getName(type->getAs<clang::AdjustedType>()->getOriginalType());
 		break;
 	}
 	default:

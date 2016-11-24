@@ -33,7 +33,6 @@ void ParserClientImpl::finishParsingFile()
 {
 }
 
-
 Id ParserClientImpl::recordSymbol(
 	const NameHierarchy& symbolName, SymbolKind symbolType,
 	AccessKind access, bool isImplicit

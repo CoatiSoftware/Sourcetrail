@@ -2,6 +2,7 @@
 
 #include "utility/file/FileRegister.h"
 #include "utility/text/TextAccess.h"
+#include "utility/utility.h"
 #include "utility/utilityString.h"
 
 #include "data/parser/cxx/CxxParser.h"
@@ -28,8 +29,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->usages.size(), 1);
-		TS_ASSERT_EQUALS(client->usages[0], "void A::foo(int) -> A::bar <6:7 6:9>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "void A::foo(int) -> A::bar <6:7 6:9>"
+		));
 	}
 
 	void test_cxx_parser_usage_of_field_in_function_call_context()
@@ -46,8 +48,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->usages.size(), 1);
-		TS_ASSERT_EQUALS(client->usages[0], "void A::foo(int) -> A::a <6:3 6:3>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "void A::foo(int) -> A::a <6:3 6:3>"
+		));
 	}
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -61,8 +64,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->classes.size(), 1);
-		TS_ASSERT_EQUALS(client->classes[0], "A <1:1 <1:7 1:7> 3:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->classes, "A <1:1 <1:7 1:7> 3:1>"
+		));
 	}
 
 	void test_cxx_parser_finds_global_class_declaration()
@@ -71,8 +75,9 @@ public:
 			"class A;\n"
 		);
 
-		TS_ASSERT_EQUALS(client->classes.size(), 1);
-		TS_ASSERT_EQUALS(client->classes[0], "A <1:7 1:7>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->classes, "A <1:7 1:7>"
+		));
 	}
 
 	void test_cxx_parser_finds_global_struct_definition()
@@ -83,8 +88,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->structs.size(), 1);
-		TS_ASSERT_EQUALS(client->structs[0], "A <1:1 <1:8 1:8> 3:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->structs, "A <1:1 <1:8 1:8> 3:1>"
+		));
 	}
 
 	void test_cxx_parser_finds_global_struct_declaration()
@@ -93,8 +99,9 @@ public:
 			"struct A;\n"
 		);
 
-		TS_ASSERT_EQUALS(client->structs.size(), 1);
-		TS_ASSERT_EQUALS(client->structs[0], "A <1:8 1:8>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->structs, "A <1:8 1:8>"
+		));
 	}
 
 	void test_cxx_parser_finds_variable_definitions_in_global_scope()
@@ -103,8 +110,9 @@ public:
 			"int x;\n"
 		);
 
-		TS_ASSERT_EQUALS(client->globalVariables.size(), 1);
-		TS_ASSERT_EQUALS(client->globalVariables[0], "x <1:5 1:5>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->globalVariables, "x <1:5 1:5>"
+		));
 	}
 
 	void test_cxx_parser_finds_fields_in_class_with_access_type()
@@ -123,11 +131,18 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->fields.size(), 4);
-		TS_ASSERT_EQUALS(client->fields[0], "private A::a <3:6 3:6>");
-		TS_ASSERT_EQUALS(client->fields[1], "public A::b <6:6 6:6>");
-		TS_ASSERT_EQUALS(client->fields[2], "protected A::c <8:13 8:13>");
-		TS_ASSERT_EQUALS(client->fields[3], "private A::d <10:12 10:12>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->fields, "private A::a <3:6 3:6>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->fields, "public A::b <6:6 6:6>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->fields, "protected A::c <8:13 8:13>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->fields, "private A::d <10:12 10:12>"
+		));
 	}
 
 	void test_cxx_parser_finds_function_declaration()
@@ -139,8 +154,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->functions.size(), 1);
-		TS_ASSERT_EQUALS(client->functions[0], "int ceil(float) <1:1 <1:5 1:8> 4:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->functions, "int ceil(float) <1:1 <1:5 1:8> 4:1>"
+		));
 	}
 
 	void test_cxx_parser_finds_static_function_declaration()
@@ -152,8 +168,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->functions.size(), 1);
-		TS_ASSERT_EQUALS(client->functions[0], "static int ceil(float) <1:1 <1:12 1:15> 4:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->functions, "static int ceil(float) <1:1 <1:12 1:15> 4:1>"
+		));
 	}
 
 	void test_cxx_parser_finds_method_declaration()
@@ -166,8 +183,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->methods.size(), 1);
-		TS_ASSERT_EQUALS(client->methods[0], "public void B::B() <4:2 4:2>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->methods, "public void B::B() <4:2 4:2>"
+		));
 	}
 
 	void test_cxx_parser_finds_method_declaration_and_definition()
@@ -183,11 +201,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->methods.size(), 4);
-		TS_ASSERT_EQUALS(client->methods[0], "public void B::B() <4:2 4:2>");
-		TS_ASSERT_EQUALS(client->methods[1], "public void B::B(const B &) <1:7 1:7>");
-		TS_ASSERT_EQUALS(client->methods[2], "public void B::B(B &) <1:7 1:7>");
-		TS_ASSERT_EQUALS(client->methods[3], "public void B::B() <6:1 <6:4 6:4> 8:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->methods, "public void B::B() <6:1 <6:4 6:4> 8:1>"
+		));
 	}
 
 	void test_cxx_parser_finds_virtual_method_declaration()
@@ -200,8 +216,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->methods.size(), 4);
-		TS_ASSERT_EQUALS(client->methods[0], "public void B::process() <4:15 4:21>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->methods, "public void B::process() <4:15 4:21>"
+		));
 	}
 
 	void test_cxx_parser_finds_pure_virtual_method_declaration()
@@ -214,8 +231,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->methods.size(), 4);
-		TS_ASSERT_EQUALS(client->methods[0], "protected void B::process() <4:15 4:21>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->methods, "protected void B::process() <4:15 4:21>"
+		));
 	}
 
 	void test_cxx_parser_finds_named_namespace_declaration()
@@ -226,8 +244,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->namespaces.size(), 1);
-		TS_ASSERT_EQUALS(client->namespaces[0], "A <1:1 <1:11 1:11> 3:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->namespaces, "A <1:1 <1:11 1:11> 3:1>"
+		));
 	}
 
 	void test_cxx_parser_finds_anonymous_namespace_declaration()
@@ -238,8 +257,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->namespaces.size(), 1);
-		TS_ASSERT_EQUALS(client->namespaces[0], "anonymous namespace (input.cc<1:1>) <1:1 3:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->namespaces, "anonymous namespace (input.cc<1:1>) <1:1 3:1>"
+		));
 	}
 
 	void test_cxx_parser_finds_anonymous_struct_declaration()
@@ -251,8 +271,9 @@ public:
 			"} Foo;\n"
 		);
 
-		TS_ASSERT_EQUALS(client->structs.size(), 1);
-		TS_ASSERT_EQUALS(client->structs[0], "anonymous struct (input.cc<1:9>) <1:9 <1:9 1:14> 4:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->structs, "anonymous struct (input.cc<1:9>) <1:9 <1:9 1:14> 4:1>"
+		));
 	}
 
 	void test_cxx_parser_finds_multiple_anonymous_struct_declarations_as_distinct_elements()
@@ -281,8 +302,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->enums.size(), 1);
-		TS_ASSERT_EQUALS(client->enums[0], "E <1:1 <1:6 1:6> 3:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->enums, "E <1:1 <1:6 1:6> 3:1>"
+		));
 	}
 
 	void test_cxx_parser_finds_enum_constant_in_global_enum()
@@ -294,8 +316,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->enumConstants.size(), 1);
-		TS_ASSERT_EQUALS(client->enumConstants[0], "E::P <3:2 3:2>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->enumConstants, "E::P <3:2 3:2>"
+		));
 	}
 
 	void test_cxx_parser_finds_typedef_in_global_namespace()
@@ -304,8 +327,9 @@ public:
 			"typedef unsigned int uint;\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
-		TS_ASSERT_EQUALS(client->typedefs[0], "uint <1:22 1:25>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typedefs, "uint <1:22 1:25>"
+		));
 	}
 
 	void test_cxx_parser_finds_typedef_in_named_namespace()
@@ -317,8 +341,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
-		TS_ASSERT_EQUALS(client->typedefs[0], "test::uint <3:23 3:26>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typedefs, "test::uint <3:23 3:26>"
+		));
 	}
 
 	void test_cxx_parser_finds_typedef_in_anonymous_namespace()
@@ -330,8 +355,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
-		TS_ASSERT_EQUALS(client->typedefs[0], "anonymous namespace (input.cc<1:1>)::uint <3:23 3:26>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typedefs, "anonymous namespace (input.cc<1:1>)::uint <3:23 3:26>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_alias_in_class()
@@ -343,8 +369,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typedefs.size(), 1);
-		TS_ASSERT_EQUALS(client->typedefs[0], "private Foo::Bar <3:8 3:10>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typedefs, "private Foo::Bar <3:8 3:10>"
+		));
 	}
 
 	void test_cxx_parser_finds_macro_define()
@@ -356,8 +383,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->macros.size(), 1);
-		TS_ASSERT_EQUALS(client->macros[0], "PI <1:9 <1:9 1:10> 1:8>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->macros, "PI <1:9 <1:9 1:10> 1:8>"
+		));
 	}
 
 	void test_cxx_parser_finds_macro_undefine()
@@ -369,8 +397,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->macroUses.size(), 1);
-		TS_ASSERT_EQUALS(client->macroUses[0], "input.cc -> PI <1:8 1:9>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->macroUses, "input.cc -> PI <1:8 1:9>"
+		));
 	}
 
 	void test_cxx_parser_finds_macro_in_ifdef()
@@ -384,8 +413,9 @@ public:
 			"#endif\n"
 		);
 
-		TS_ASSERT_EQUALS(client->macroUses.size(), 1);
-		TS_ASSERT_EQUALS(client->macroUses[0], "input.cc -> PI <2:8 2:9>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->macroUses, "input.cc -> PI <2:8 2:9>"
+		));
 	}
 
 	void test_cxx_parser_finds_macro_in_ifndef()
@@ -399,8 +429,9 @@ public:
 			"#endif\n"
 		);
 
-		TS_ASSERT_EQUALS(client->macroUses.size(), 1);
-		TS_ASSERT_EQUALS(client->macroUses[0], "input.cc -> PI <2:9 2:10>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->macroUses, "input.cc -> PI <2:9 2:10>"
+		));
 	}
 
 	void test_cxx_parser_finds_macro_in_ifdefined()
@@ -414,8 +445,9 @@ public:
 			"#endif\n"
 		);
 
-		TS_ASSERT_EQUALS(client->macroUses.size(), 1);
-		TS_ASSERT_EQUALS(client->macroUses[0], "input.cc -> PI <2:13 2:14>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->macroUses, "input.cc -> PI <2:13 2:14>"
+		));
 	}
 
 	void test_cxx_parser_finds_macro_expand()
@@ -428,8 +460,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->macroUses.size(), 1);
-		TS_ASSERT_EQUALS(client->macroUses[0], "input.cc -> PI <4:12 4:13>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->macroUses, "input.cc -> PI <4:12 4:13>"
+		));
 	}
 
 	void test_cxx_parser_finds_macro_expand_within_macro()
@@ -443,9 +476,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->macroUses.size(), 2);
-		TS_ASSERT_EQUALS(client->macroUses[0], "input.cc -> TAU <5:12 5:14>");
-		TS_ASSERT_EQUALS(client->macroUses[1], "input.cc -> PI <2:18 2:19>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->macroUses, "input.cc -> PI <2:18 2:19>"
+		));
 	}
 
 	void test_cxx_parser_finds_macro_define_scope()
@@ -455,8 +488,9 @@ public:
 			"	((a)>(b)?(a):(b))"
 		);
 
-		TS_ASSERT_EQUALS(client->macros.size(), 1);
-		TS_ASSERT_EQUALS(client->macros[0], "MAX <1:9 <1:9 1:11> 2:17>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->macros, "MAX <1:9 <1:9 1:11> 2:17>"
+		));
 	}
 
 	//void __test_cxx_parser_finds_type_template_parameter_type_of_template_type_alias()
@@ -479,8 +513,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<typename T>::T <1:20 1:20>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "A<typename T>::T <1:20 1:20>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_template_parameter_defined_with_class_keyword()
@@ -492,8 +527,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<class T>::T <1:17 1:17>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "A<class T>::T <1:17 1:17>"
+		));
 	}
 
 	void test_cxx_parser_finds_non_type_int_template_parameter_of_template_class()
@@ -505,8 +541,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<int T>::T <1:15 1:15>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "A<int T>::T <1:15 1:15>"
+		));
 	}
 
 	void test_cxx_parser_finds_non_type_bool_template_parameter_of_template_class()
@@ -518,8 +555,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<bool T>::T <1:16 1:16>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "A<bool T>::T <1:16 1:16>"
+		));
 	}
 
 	void test_cxx_parser_finds_non_type_custom_pointer_template_parameter_of_template_class()
@@ -532,8 +570,9 @@ public:
 			"{};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<P * p>::p <3:14 3:14>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "A<P * p>::p <3:14 3:14>"
+		));
 	}
 
 	void test_cxx_parser_finds_non_type_custom_reference_template_parameter_of_template_class()
@@ -546,8 +585,9 @@ public:
 			"{};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<P & p>::p <3:14 3:14>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "A<P & p>::p <3:14 3:14>"
+		));
 	}
 
 	void test_cxx_parser_finds_non_type_template_parameter_that_depends_on_type_template_parameter_of_template_class()
@@ -558,9 +598,9 @@ public:
 			"{};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 2);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<typename T1, T1 & T2>::T1 <1:20 1:21>");
-		TS_ASSERT_EQUALS(client->templateParameterTypes[1], "A<typename T1, T1 & T2>::T2 <1:28 1:29>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "A<typename T1, T1 & T2>::T2 <1:28 1:29>"
+		));
 	}
 
 	void test_cxx_parser_finds_non_type_template_parameter_that_depends_on_template_template_parameter_of_template_class()
@@ -571,9 +611,9 @@ public:
 			"{};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 2);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<template<typename> typename T1, T1<int> & T2>::T1<typename> <1:36 1:37>");
-		TS_ASSERT_EQUALS(client->templateParameterTypes[1], "A<template<typename> typename T1, T1<int> & T2>::T2 <1:49 1:50>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "A<template<typename> typename T1, T1<int> & T2>::T2 <1:49 1:50>"
+		));
 	}
 
 	//void _test_cxx_parser_finds_template_argument_of_dependent_non_type_template_parameter()
@@ -600,9 +640,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 2);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<typename T>::T <1:20 1:20>");
-		TS_ASSERT_EQUALS(client->templateParameterTypes[1], "B<template<typename> typename T>::T<typename> <4:36 4:36>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "B<template<typename> typename T>::T<typename> <4:36 4:36>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_template_parameter_pack_type_of_template_class()
@@ -614,11 +654,10 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<typename... T>::T <1:23 1:23>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "A<typename... T>::T <1:23 1:23>"
+		));
 	}
-
-
 
 	void test_cxx_parser_finds_non_type_int_template_parameter_pack_type_of_template_class()
 	{
@@ -629,8 +668,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<int... T>::T <1:18 1:18>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "A<int... T>::T <1:18 1:18>"
+		));
 	}
 
 	void test_cxx_parser_finds_template_template_parameter_pack_type_of_template_class()
@@ -642,8 +682,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<template<typename> typename... T>::T<typename> <1:42 1:42>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "A<template<typename> typename... T>::T<typename> <1:42 1:42>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_template_parameters_of_template_class_with_multiple_parameters()
@@ -655,9 +696,12 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 2);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<typename T, typename U>::T <1:20 1:20>");
-		TS_ASSERT_EQUALS(client->templateParameterTypes[1], "A<typename T, typename U>::U <1:32 1:32>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "A<typename T, typename U>::T <1:20 1:20>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "A<typename T, typename U>::U <1:32 1:32>"
+		));
 	}
 
 	void test_cxx_parser_skips_creating_node_for_template_parameter_without_a_name()
@@ -669,8 +713,10 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->classes.size(), 1);
-		TS_ASSERT_EQUALS(client->classes[0], "A<typename> <1:1 <2:7 2:7> 4:1>");
+		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 0);
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->classes, "A<typename> <1:1 <2:7 2:7> 4:1>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_template_parameter_of_template_method_definition_outside_template_class()
@@ -688,10 +734,9 @@ public:
 			"{}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 3);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<typename T>::foo<typename U>::U <4:21 4:21>");
-		TS_ASSERT_EQUALS(client->templateParameterTypes[1], "A<typename T>::T <1:20 1:20>");
-		TS_ASSERT_EQUALS(client->templateParameterTypes[2], "A<typename T>::foo<typename U>::U <8:20 8:20>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "A<typename T>::foo<typename U>::U <8:20 8:20>"
+		));
 	}
 
 	void test_cxx_parser_finds_class_of_explicit_template_specialization()
@@ -707,9 +752,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->classes.size(), 2);
-		TS_ASSERT_EQUALS(client->classes[0], "A<typename T> <1:1 <2:7 2:7> 4:1>");
-		TS_ASSERT_EQUALS(client->classes[1], "A<int> <5:1 <6:7 6:7> 8:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->classes, "A<int> <5:1 <6:7 6:7> 8:1>"
+		));
 	}
 
 	void test_cxx_parser_finds_class_of_explicit_partial_template_specialization()
@@ -725,27 +770,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->classes.size(), 2);
-		TS_ASSERT_EQUALS(client->classes[0], "A<typename T, typename U> <1:1 <2:7 2:7> 4:1>");
-		TS_ASSERT_EQUALS(client->classes[1], "A<typename T, int> <5:1 <6:7 6:7> 8:1>");
-	}
-
-	void test_cxx_parser_finds_correct_name_of_explicit_template_specialization()
-	{
-		std::shared_ptr<TestParserClient> client = parseCode(
-			"template <typename T, typename U>\n"
-			"class A\n"
-			"{\n"
-			"};\n"
-			"template <typename T>\n"
-			"class A<T, int>\n"
-			"{\n"
-			"};\n"
-		);
-
-		TS_ASSERT_EQUALS(client->classes.size(), 2);
-		TS_ASSERT_EQUALS(client->classes[0], "A<typename T, typename U> <1:1 <2:7 2:7> 4:1>");
-		TS_ASSERT_EQUALS(client->classes[1], "A<typename T, int> <5:1 <6:7 6:7> 8:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->classes, "A<typename T, int> <5:1 <6:7 6:7> 8:1>"
+		));
 	}
 
 	void test_cxx_parser_finds_correct_field_member_name_of_template_class_in_declaration()
@@ -758,8 +785,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->fields.size(), 1);
-		TS_ASSERT_EQUALS(client->fields[0], "private A<typename T>::foo <4:6 4:8>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->fields, "private A<typename T>::foo <4:6 4:8>"
+		));
 	}
 
 	void test_cxx_parser_finds_correct_type_of_field_member_of_template_class_in_declaration()
@@ -772,8 +800,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->fields.size(), 1);
-		TS_ASSERT_EQUALS(client->fields[0], "private A<typename T>::foo <4:4 4:6>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "A<typename T>::foo -> A<typename T>::T <4:2 4:2>"
+		));
 	}
 
 	void test_cxx_parser_finds_correct_method_member_name_of_template_class_in_declaration()
@@ -786,8 +815,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->methods.size(), 1);
-		TS_ASSERT_EQUALS(client->methods[0], "private int A<typename T>::foo() <4:6 4:8>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->methods, "private int A<typename T>::foo() <4:6 4:8>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_template_parameter_of_template_function()
@@ -800,8 +830,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "test<typename T>::T <1:20 1:20>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "test<typename T>::T <1:20 1:20>"
+		));
 	}
 
 	void test_cxx_parser_finds_non_type_int_template_parameter_of_template_function()
@@ -814,8 +845,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "test<int T>::T <1:15 1:15>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "test<int T>::T <1:15 1:15>"
+		));
 	}
 
 	void test_cxx_parser_finds_non_type_bool_template_parameter_of_template_function()
@@ -828,8 +860,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "test<bool T>::T <1:16 1:16>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "test<bool T>::T <1:16 1:16>"
+		));
 	}
 
 	void test_cxx_parser_finds_non_type_custom_pointer_template_parameter_of_template_function()
@@ -844,8 +877,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "test<P * p>::p <3:14 3:14>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "test<P * p>::p <3:14 3:14>"
+		));
 	}
 
 	void test_cxx_parser_finds_non_type_custom_reference_template_parameter_of_template_function()
@@ -860,8 +894,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "test<P & p>::p <3:14 3:14>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "test<P & p>::p <3:14 3:14>"
+		));
 	}
 
 	void test_cxx_parser_finds_template_template_parameter_of_template_function()
@@ -877,9 +912,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateParameterTypes.size(), 2);
-		TS_ASSERT_EQUALS(client->templateParameterTypes[0], "A<typename T>::T <1:20 1:20>");
-		TS_ASSERT_EQUALS(client->templateParameterTypes[1], "test<template<typename> typename T>::T<typename> <4:36 4:36>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateParameterTypes, "test<template<typename> typename T>::T<typename> <4:36 4:36>"
+		));
 	}
 
 	void test_cxx_parser_finds_function_for_implicit_instantiation_of_template_function()
@@ -897,13 +932,12 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->functions.size(), 3);
-		TS_ASSERT_EQUALS(client->functions[0], "T test<typename T>(T) <1:1 <2:3 2:6> 5:1>");
-		TS_ASSERT_EQUALS(client->functions[1], "int test<int>(int) <2:1 <2:3 2:6> 5:1>");
-		TS_ASSERT_EQUALS(client->functions[2], "int main() <7:1 <7:5 7:8> 10:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->functions, "int test<int>(int) <2:1 <2:3 2:6> 5:1>"
+		));
 	}
 
-	void test_cxx_parser_finds_lambda_in_function()
+	void test_cxx_parser_finds_lambda_definition_and_call_in_function()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"void lambdaCaller()\n"
@@ -912,11 +946,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->functions.size(), 2);
-		TS_ASSERT_EQUALS(client->functions[0], "void lambdaCaller() <1:1 <1:6 1:17> 4:1>");
-		TS_ASSERT_EQUALS(client->functions[1], "void lambdaCaller::lambda at 3:2() const <3:5 <3:2 3:2> 3:7>");
-		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "void lambdaCaller() -> void lambdaCaller::lambda at 3:2() const <3:8 3:8>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->functions, "void lambdaCaller::lambda at 3:2() const <3:5 <3:2 3:2> 3:7>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "void lambdaCaller() -> void lambdaCaller::lambda at 3:2() const <3:8 3:8>"
+		));
 	}
 
 	void test_cxx_parser_finds_mutable_lambda_definition()
@@ -928,9 +963,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->functions.size(), 2);
-		TS_ASSERT_EQUALS(client->functions[0], "void lambdaWrapper() <1:1 <1:6 1:18> 4:1>");
-		TS_ASSERT_EQUALS(client->functions[1], "int lambdaWrapper::lambda at 3:2(int) <3:14 <3:2 3:2> 3:36>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->functions, "int lambdaWrapper::lambda at 3:2(int) <3:14 <3:2 3:2> 3:36>"
+		));
 	}
 
 	void test_cxx_parser_finds_local_variable_declared_in_lambda_capture()
@@ -942,9 +977,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 2);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<3:3> <3:3 3:3>");
-		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<3:3> <3:21 3:21>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<3:3> <3:3 3:3>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<3:3> <3:21 3:21>"
+		));
 	}
 
 	void test_cxx_parser_finds_definition_of_local_symbol_in_function_parameter_list()
@@ -955,8 +993,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 1);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<1:15> <1:15 1:15>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<1:15> <1:15 1:15>"
+		));
 	}
 
 	void test_cxx_parser_finds_definition_of_local_symbol_in_function_scope()
@@ -968,8 +1007,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 1);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<3:6> <3:6 3:6>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<3:6> <3:6 3:6>"
+		));
 	}
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -985,9 +1025,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->classes.size(), 2);
-		TS_ASSERT_EQUALS(client->classes[0], "A <1:1 <1:7 1:7> 5:1>");
-		TS_ASSERT_EQUALS(client->classes[1], "public A::B <4:8 4:8>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->classes, "public A::B <4:8 4:8>"
+		));
 	}
 
 	void test_cxx_parser_finds_class_definition_in_namespace()
@@ -999,8 +1039,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->classes.size(), 1);
-		TS_ASSERT_EQUALS(client->classes[0], "a::B <3:8 3:8>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->classes, "a::B <3:8 3:8>"
+		));
 	}
 
 	void test_cxx_parser_finds_struct_definition_in_class()
@@ -1014,8 +1055,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->structs.size(), 1);
-		TS_ASSERT_EQUALS(client->structs[0], "private A::B <3:2 <3:9 3:9> 5:2>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->structs, "private A::B <3:2 <3:9 3:9> 5:2>"
+		));
 	}
 
 	void test_cxx_parser_finds_struct_definition_in_namespace()
@@ -1027,10 +1069,11 @@ public:
 			"	{\n"
 			"	};\n"
 			"};\n"
-			);
+		);
 
-		TS_ASSERT_EQUALS(client->structs.size(), 1);
-		TS_ASSERT_EQUALS(client->structs[0], "A::B <3:2 <3:9 3:9> 5:2>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->structs, "A::B <3:2 <3:9 3:9> 5:2>"
+		));
 	}
 
 	void test_cxx_parser_finds_struct_definition_in_function()
@@ -1050,9 +1093,12 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->structs.size(), 2);
-		TS_ASSERT_EQUALS(client->structs[0], "foo::B <3:2 <3:9 3:9> 5:2>");
-		TS_ASSERT_EQUALS(client->structs[1], "foo::B <9:2 <9:9 9:9> 11:2>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->structs, "foo::B <3:2 <3:9 3:9> 5:2>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->structs, "foo::B <9:2 <9:9 9:9> 11:2>"
+		));
 	}
 
 	void test_cxx_parser_finds_variable_definitions_in_namespace_scope()
@@ -1064,8 +1110,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->globalVariables.size(), 1);
-		TS_ASSERT_EQUALS(client->globalVariables[0], "n::x <2:6 2:6>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->globalVariables, "n::x <2:6 2:6>"
+		));
 	}
 
 	void test_cxx_parser_finds_field_in_nested_class()
@@ -1082,8 +1129,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->fields.size(), 1);
-		TS_ASSERT_EQUALS(client->fields[0], "private B::C::amount <7:20 7:25>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->fields, "private B::C::amount <7:20 7:25>"
+		));
 	}
 
 	void test_cxx_parser_finds_function_in_anonymous_namespace()
@@ -1095,8 +1143,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->functions.size(), 1);
-		TS_ASSERT_EQUALS(client->functions[0], "int anonymous namespace (input.cc<1:1>)::sum(int, int) <3:6 3:8>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->functions, "int anonymous namespace (input.cc<1:1>)::sum(int, int) <3:6 3:8>"
+		));
 	}
 
 	void test_cxx_parser_finds_method_declared_in_nested_class()
@@ -1111,8 +1160,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->methods.size(), 1);
-		TS_ASSERT_EQUALS(client->methods[0], "private bool B::C::isGreat() const <5:8 5:14>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->methods, "private bool B::C::isGreat() const <5:8 5:14>"
+		));
 	}
 
 	void test_cxx_parser_finds_nested_named_namespace()
@@ -1126,9 +1176,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->namespaces.size(), 2);
-		TS_ASSERT_EQUALS(client->namespaces[0], "A <1:1 <1:11 1:11> 6:1>");
-		TS_ASSERT_EQUALS(client->namespaces[1], "A::B <3:2 <3:12 3:12> 5:2>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->namespaces, "A::B <3:2 <3:12 3:12> 5:2>"
+		));
 	}
 
 	void test_cxx_parser_finds_enum_defined_in_class()
@@ -1143,8 +1193,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->enums.size(), 1);
-		TS_ASSERT_EQUALS(client->enums[0], "public B::Z <4:2 <4:7 4:7> 6:2>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->enums, "public B::Z <4:2 <4:7 4:7> 6:2>"
+		));
 	}
 
 	void test_cxx_parser_finds_enum_defined_in_namespace()
@@ -1158,8 +1209,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->enums.size(), 1);
-		TS_ASSERT_EQUALS(client->enums[0], "n::Z <3:2 <3:7 3:7> 5:2>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->enums, "n::Z <3:2 <3:7 3:7> 5:2>"
+		));
 	}
 
 	void test_cxx_parser_finds_enum_definition_in_template_class()
@@ -1176,27 +1228,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->enums.size(), 1);
-		TS_ASSERT_EQUALS(client->enums[0], "private A<typename T>::TestType <4:2 <4:7 4:14> 8:2>");
-	}
-
-	void test_cxx_parser_finds_enum_usage_in_template_class()
-	{
-		std::shared_ptr<TestParserClient> client = parseCode(
-			"template <typename T>\n"
-			"class A\n"
-			"{\n"
-			"	enum TestType\n"
-			"	{\n"
-			"		TEST_ONE,\n"
-			"		TEST_TWO\n"
-			"	};\n"
-			"	TestType foo;\n"
-			"};\n"
-		);
-
-		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
-		TS_ASSERT_EQUALS(client->typeUses[0], "A<typename T>::foo -> A<typename T>::TestType <9:2 9:9>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->enums, "private A<typename T>::TestType <4:2 <4:7 4:14> 8:2>"
+		));
 	}
 
 	void test_cxx_parser_finds_enum_constants_in_template_class()
@@ -1213,9 +1247,35 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->enumConstants.size(), 2);
-		TS_ASSERT_EQUALS(client->enumConstants[0], "A<typename T>::TestType::TEST_ONE <6:3 6:10>");
-		TS_ASSERT_EQUALS(client->enumConstants[1], "A<typename T>::TestType::TEST_TWO <7:3 7:10>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->enumConstants, "A<typename T>::TestType::TEST_ONE <6:3 6:10>"
+		));
+	}
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// test finding usages of symbols
+
+
+	void test_cxx_parser_finds_enum_usage_in_template_class()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"	enum TestType\n"
+			"	{\n"
+			"		TEST_ONE,\n"
+			"		TEST_TWO\n"
+			"	};\n"
+			"	TestType foo;\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "A<typename T>::foo -> A<typename T>::TestType <9:2 9:9>"
+			));
 	}
 
 	void test_cxx_parser_finds_correct_field_member_type_of_nested_template_class_in_declaration()
@@ -1231,15 +1291,15 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
-		TS_ASSERT_EQUALS(client->typeUses[0], "A<typename T>::B::foo -> A<typename T>::T <6:3 6:3>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "A<typename T>::B::foo -> A<typename T>::T <6:3 6:3>"
+			));
 	}
 
 
 
 
-///////////////////////////////////////////////////////////////////////////////
-// test finding usages of symbols
+
 
 	void test_cxx_parser_finds_type_usage_of_global_variable()
 	{
@@ -1247,8 +1307,9 @@ public:
 			"int x;\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
-		TS_ASSERT_EQUALS(client->typeUses[0], "x -> int <1:1 1:3>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "x -> int <1:1 1:3>"
+		));
 	}
 
 	void test_cxx_parser_finds_typedefs_type_use()
@@ -1257,8 +1318,9 @@ public:
 			"typedef unsigned int uint;\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
-		TS_ASSERT_EQUALS(client->typeUses[0], "uint -> unsigned int <1:9 1:16>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "uint -> unsigned int <1:9 1:16>"
+		));
 	}
 
 	void test_cxx_parser_finds_typedef_that_uses_type_defined_in_named_namespace()
@@ -1271,8 +1333,9 @@ public:
 			"typedef test::TestStruct globalTestStruct;\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
-		TS_ASSERT_EQUALS(client->typeUses[0], "globalTestStruct -> test::TestStruct <5:15 5:24>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "globalTestStruct -> test::TestStruct <5:15 5:24>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_use_of_typedef()
@@ -1282,8 +1345,9 @@ public:
 			"uint number;\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
-		TS_ASSERT_EQUALS(client->typeUses[1], "number -> uint <2:1 2:4>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "number -> uint <2:1 2:4>"
+		));
 	}
 
 	void test_cxx_parser_finds_class_default_private_inheritance()
@@ -1293,8 +1357,9 @@ public:
 			"class B : A {};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B -> A <2:11 2:11>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->inheritances, "B -> A <2:11 2:11>"
+		));
 	}
 
 	void test_cxx_parser_finds_class_public_inheritance()
@@ -1304,8 +1369,9 @@ public:
 			"class B : public A {};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B -> A <2:18 2:18>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->inheritances, "B -> A <2:18 2:18>"
+		));
 	}
 
 	void test_cxx_parser_finds_class_protected_inheritance()
@@ -1315,8 +1381,9 @@ public:
 			"class B : protected A {};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B -> A <2:21 2:21>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->inheritances, "B -> A <2:21 2:21>"
+		));
 	}
 
 	void test_cxx_parser_finds_class_private_inheritance()
@@ -1326,8 +1393,9 @@ public:
 			"class B : private A {};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B -> A <2:19 2:19>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->inheritances, "B -> A <2:19 2:19>"
+		));
 	}
 
 	void test_cxx_parser_finds_class_multiple_inheritance()
@@ -1341,9 +1409,12 @@ public:
 			"{};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->inheritances.size(), 2);
-		TS_ASSERT_EQUALS(client->inheritances[0], "C -> A <4:11 4:11>");
-		TS_ASSERT_EQUALS(client->inheritances[1], "C -> B <5:12 5:12>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->inheritances, "C -> A <4:11 4:11>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->inheritances, "C -> B <5:12 5:12>"
+		));
 	}
 
 	void test_cxx_parser_finds_struct_default_public_inheritance()
@@ -1353,8 +1424,9 @@ public:
 			"struct B : A {};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B -> A <2:12 2:12>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->inheritances, "B -> A <2:12 2:12>"
+		));
 	}
 
 	void test_cxx_parser_finds_struct_public_inheritance()
@@ -1364,8 +1436,9 @@ public:
 			"struct B : public A {};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B -> A <2:19 2:19>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->inheritances, "B -> A <2:19 2:19>"
+		));
 	}
 
 	void test_cxx_parser_finds_struct_protected_inheritance()
@@ -1375,8 +1448,9 @@ public:
 			"struct B : protected A {};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B -> A <2:22 2:22>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->inheritances, "B -> A <2:22 2:22>"
+		));
 	}
 
 	void test_cxx_parser_finds_struct_private_inheritance()
@@ -1386,8 +1460,9 @@ public:
 			"struct B : private A {};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B -> A <2:20 2:20>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->inheritances, "B -> A <2:20 2:20>"
+		));
 	}
 
 	void test_cxx_parser_finds_struct_multiple_inheritance()
@@ -1401,9 +1476,12 @@ public:
 			"{};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->inheritances.size(), 2);
-		TS_ASSERT_EQUALS(client->inheritances[0], "C -> A <4:11 4:11>");
-		TS_ASSERT_EQUALS(client->inheritances[1], "C -> B <5:12 5:12>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->inheritances, "C -> A <4:11 4:11>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->inheritances, "C -> B <5:12 5:12>"
+		));
 	}
 
 	void test_cxx_parser_finds_method_override_when_virtual()
@@ -1417,8 +1495,9 @@ public:
 			"};"
 		);
 
-		TS_ASSERT_EQUALS(client->overrides.size(), 1);
-		TS_ASSERT_EQUALS(client->overrides[0], "void B::foo() -> void A::foo() <5:7 5:9>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->overrides, "void B::foo() -> void A::foo() <5:7 5:9>"
+		));
 	}
 
 	void test_cxx_parser_finds_multi_layer_method_overrides()
@@ -1435,9 +1514,12 @@ public:
 			"};"
 		);
 
-		TS_ASSERT_EQUALS(client->overrides.size(), 2);
-		TS_ASSERT_EQUALS(client->overrides[0], "void B::foo() -> void A::foo() <5:7 5:9>");
-		TS_ASSERT_EQUALS(client->overrides[1], "void C::foo() -> void B::foo() <8:7 8:9>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->overrides, "void B::foo() -> void A::foo() <5:7 5:9>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->overrides, "void C::foo() -> void B::foo() <8:7 8:9>"
+		));
 	}
 
 	void test_cxx_parser_finds_method_overrides_on_different_return_types()
@@ -1452,9 +1534,10 @@ public:
 			false
 		);
 
-		TS_ASSERT_EQUALS(client->overrides.size(), 1);
-		TS_ASSERT_EQUALS(client->overrides[0], "int B::foo() -> void A::foo() <5:6 5:8>");
 		TS_ASSERT_EQUALS(client->errors.size(), 1);
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->overrides, "int B::foo() -> void A::foo() <5:6 5:8>"
+		));
 	}
 
 	void test_cxx_parser_finds_no_method_override_when_not_virtual()
@@ -1494,8 +1577,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->usages.size(), 1);
-		TS_ASSERT_EQUALS(client->usages[0], "void foo() -> std <3:18 3:20>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "void foo() -> std <3:18 3:20>"
+		));
 	}
 
 	void test_cxx_parser_finds_using_directive_decl_in_file_context()
@@ -1507,8 +1591,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->usages.size(), 1);
-		TS_ASSERT_EQUALS(client->usages[0], "input.cc -> std <1:17 1:19>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "input.cc -> std <1:17 1:19>"
+		));
 	}
 
 	void test_cxx_parser_finds_using_decl_in_function_context()
@@ -1524,8 +1609,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->usages.size(), 1);
-		TS_ASSERT_EQUALS(client->usages[0], "void bar() -> foo::a <7:13 7:13>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "void bar() -> foo::a <7:13 7:13>"
+		));
 	}
 
 	void test_cxx_parser_finds_using_decl_in_file_context()
@@ -1536,13 +1622,11 @@ public:
 			"	int a;\n"
 			"}\n"
 			"using foo::a;\n"
-			"void bar()\n"
-			"{\n"
-			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->usages.size(), 1);
-		TS_ASSERT_EQUALS(client->usages[0], "input.cc -> foo::a <5:12 5:12>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "input.cc -> foo::a <5:12 5:12>"
+		));
 	}
 
 	void test_cxx_parser_finds_call_in_function()
@@ -1558,8 +1642,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "int main() -> int sum(int, int) <7:2 7:4>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "int main() -> int sum(int, int) <7:2 7:4>"
+		));
 	}
 
 	void test_cxx_parser_finds_call_in_function_with_correct_signature()
@@ -1578,8 +1663,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "void func(bool) -> int sum(int, int) <10:2 10:4>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "void func(bool) -> int sum(int, int) <10:2 10:4>"
+		));
 	}
 
 	void test_cxx_parser_finds_call_to_function_with_right_signature()
@@ -1600,9 +1686,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 2);
-		TS_ASSERT_EQUALS(client->calls[0], "int main() -> int sum(int, int) <11:2 11:4>");
-		TS_ASSERT_EQUALS(client->calls[1], "int main() -> float sum(float, float) <12:2 12:4>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "int main() -> int sum(int, int) <11:2 11:4>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "int main() -> float sum(float, float) <12:2 12:4>"
+		));
 	}
 
 	void test_cxx_parser_finds_function_call_in_function_parameter_list()
@@ -1618,9 +1707,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 2);
-		TS_ASSERT_EQUALS(client->calls[0], "int main() -> int sum(int, int) <7:9 7:11>");
-		TS_ASSERT_EQUALS(client->calls[1], "int main() -> int sum(int, int) <7:16 7:18>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "int main() -> int sum(int, int) <7:16 7:18>"
+		));
 	}
 
 	void test_cxx_parser_finds_function_call_in_method()
@@ -1639,8 +1728,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "int App::main() -> int sum(int, int) <9:10 9:12>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "int App::main() -> int sum(int, int) <9:10 9:12>"
+		));
 	}
 
 	void test_cxx_parser_finds_implicit_constructor_without_definition_call()
@@ -1655,8 +1745,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <6:6 6:8>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "int main() -> void App::App() <6:6 6:8>"
+		));
 	}
 
 	void test_cxx_parser_finds_explicit_constructor_call()
@@ -1673,8 +1764,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <8:2 8:4>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "int main() -> void App::App() <8:2 8:4>"
+		));
 	}
 
 	void test_cxx_parser_finds_explicit_constructor_call_of_field()
@@ -1691,8 +1783,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "void App::App() -> void Item::Item() <7:10 7:13>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "void App::App() -> void Item::Item() <7:10 7:13>"
+		));
 	}
 
 	void test_cxx_parser_finds_function_call_in_member_initialization()
@@ -1713,9 +1806,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 2);
-		TS_ASSERT_EQUALS(client->calls[0], "void App::App() -> void Item::Item(int) <10:5 10:8>");
-		TS_ASSERT_EQUALS(client->calls[1], "void App::App() -> int one() <10:10 10:12>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "void App::App() -> int one() <10:10 10:12>"
+		));
 	}
 
 	void test_cxx_parser_finds_copy_constructor_call()
@@ -1734,9 +1827,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 2);
-		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <9:6 9:8>");
-		TS_ASSERT_EQUALS(client->calls[1], "int main() -> void App::App(const App &) <10:6 10:9>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "int main() -> void App::App(const App &) <10:6 10:9>"
+		));
 	}
 
 	void test_cxx_parser_finds_global_variable_constructor_call()
@@ -1750,8 +1843,9 @@ public:
 			"App app;\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "app -> void App::App() <6:5 6:7>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "app -> void App::App() <6:5 6:7>"
+		));
 	}
 
 	void test_cxx_parser_finds_global_variable_function_call()
@@ -1761,8 +1855,9 @@ public:
 			"int a = one();\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "a -> int one() <2:9 2:11>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "a -> int one() <2:9 2:11>"
+		));
 	}
 
 	void test_cxx_parser_finds_operator_call()
@@ -1782,9 +1877,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 2);
-		TS_ASSERT_EQUALS(client->calls[0], "int main() -> void App::App() <10:6 10:8>");
-		TS_ASSERT_EQUALS(client->calls[1], "int main() -> void App::operator+(int) <11:6 11:6>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "int main() -> void App::operator+(int) <11:6 11:6>"
+		));
 	}
 
 	void test_cxx_parser_finds_usage_of_function_pointer()
@@ -1801,8 +1896,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->usages.size(), 1);
-		TS_ASSERT_EQUALS(client->usages[0], "void test() -> void my_int_func(int) <8:9 8:19>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "void test() -> void my_int_func(int) <8:9 8:19>"
+		));
 	}
 
 	void test_cxx_parser_finds_usage_of_global_variable_in_function()
@@ -1816,8 +1912,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->usages.size(), 1);
-		TS_ASSERT_EQUALS(client->usages[0], "int main() -> bar <5:2 5:4>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "int main() -> bar <5:2 5:4>"
+		));
 	}
 
 	void test_cxx_parser_finds_usage_of_global_variable_in_global_variable_initialization()
@@ -1827,8 +1924,9 @@ public:
 			"int b[] = {a};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->usages.size(), 2); // FIXME: this usage is recorded twice (by InitList and ImplicitCast)
-		TS_ASSERT_EQUALS(client->usages[0], "b -> a <2:12 2:12>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "b -> a <2:12 2:12>"
+		));
 	}
 
 	void test_cxx_parser_finds_usage_of_global_variable_in_method()
@@ -1845,8 +1943,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->usages.size(), 1);
-		TS_ASSERT_EQUALS(client->usages[0], "void App::foo() -> bar <7:3 7:5>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "void App::foo() -> bar <7:3 7:5>"
+		));
 	}
 
 	void test_cxx_parser_finds_usage_of_field_in_method()
@@ -1863,9 +1962,12 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->usages.size(), 2);
-		TS_ASSERT_EQUALS(client->usages[0], "void App::foo() -> App::bar <5:3 5:5>");
-		TS_ASSERT_EQUALS(client->usages[1], "void App::foo() -> App::bar <6:9 6:11>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "void App::foo() -> App::bar <5:3 5:5>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "void App::foo() -> App::bar <6:9 6:11>"
+		));
 	}
 
 	void test_cxx_parser_finds_usage_of_field_in_initialization_list()
@@ -1880,8 +1982,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->usages.size(), 1);
-		TS_ASSERT_EQUALS(client->usages[0], "void App::App() -> App::bar <4:5 4:7>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "void App::App() -> App::bar <4:5 4:7>"
+		));
 	}
 
 	void test_cxx_parser_finds_return_type_use_in_function()
@@ -1893,8 +1996,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
-		TS_ASSERT_EQUALS(client->typeUses[0], "double PI() -> double <1:1 1:6>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "double PI() -> double <1:1 1:6>"
+		));
 	}
 
 	void test_cxx_parser_finds_parameter_type_uses_in_function()
@@ -1905,9 +2009,38 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
-		TS_ASSERT_EQUALS(client->typeUses[0], "void ceil(float) -> void <1:1 1:4>");
-		TS_ASSERT_EQUALS(client->typeUses[1], "void ceil(float) -> float <1:11 1:15>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "void ceil(float) -> float <1:11 1:15>"
+		));
+	}
+
+	void test_cxx_parser_finds_use_of_decayed_parameter_type_in_function()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template<class T, unsigned int N>\n"
+			"class VectorBase\n"
+			"{\n"
+			"public:\n"
+			"	VectorBase(T values[N]);\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "void VectorBase<class T, unsigned int N>::VectorBase<T, N>(VectorBase<class T, unsigned int N>::T []) -> VectorBase<class T, unsigned int N>::T <5:13 5:13>"
+		));
+	}
+
+	void test_cxx_parser_finds_use_of_qualified_type_in_function()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"void test(const int t)\n"
+			"{\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "void test(const int) -> int <1:17 1:19>"
+		));
 	}
 
 	void test_cxx_parser_finds_parameter_type_uses_in_constructor()
@@ -1919,8 +2052,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
-		TS_ASSERT_EQUALS(client->typeUses[0], "void A::A(int) -> int <3:4 3:6>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "void A::A(int) -> int <3:4 3:6>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_uses_in_function_body()
@@ -1932,9 +2066,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
-		TS_ASSERT_EQUALS(client->typeUses[0], "int main() -> int <1:1 1:3>");
-		TS_ASSERT_EQUALS(client->typeUses[1], "int main() -> int <3:2 3:4>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "int main() -> int <3:2 3:4>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_uses_in_method_body()
@@ -1950,9 +2084,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
-		TS_ASSERT_EQUALS(client->typeUses[0], "int A::main() -> int <3:2 3:4>");
-		TS_ASSERT_EQUALS(client->typeUses[1], "int A::main() -> int <5:3 5:5>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "int A::main() -> int <5:3 5:5>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_uses_in_loops_and_conditions()
@@ -1971,11 +2105,15 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 4);
-		TS_ASSERT_EQUALS(client->typeUses[0], "int main() -> int <1:1 1:3>");
-		TS_ASSERT_EQUALS(client->typeUses[1], "int main() -> int <5:3 5:5>");
-		TS_ASSERT_EQUALS(client->typeUses[2], "int main() -> int <7:7 7:9>");
-		TS_ASSERT_EQUALS(client->typeUses[3], "int main() -> int <9:3 9:5>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "int main() -> int <5:3 5:5>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "int main() -> int <7:7 7:9>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "int main() -> int <9:3 9:5>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_uses_of_base_class_in_derived_constructor()
@@ -1984,7 +2122,7 @@ public:
 			"class A\n"
 			"{\n"
 			"public:\n"
-			"	A(int n) {}"
+			"	A(int n) {}\n"
 			"};\n"
 			"class B : public A\n"
 			"{\n"
@@ -1993,9 +2131,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
-		TS_ASSERT_EQUALS(client->typeUses[0], "void A::A(int) -> int <4:4 4:6>");
-		TS_ASSERT_EQUALS(client->typeUses[1], "void B::B() -> A <8:8 8:8>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "void B::B() -> A <9:8 9:8>"
+		));
 	}
 
 	void test_cxx_parser_finds_enum_uses_in_global_space()
@@ -2010,15 +2148,18 @@ public:
 			"A* aPtr = new A;\n"
 		);
 
-		TS_ASSERT_EQUALS(client->usages.size(), 1);
-		TS_ASSERT_EQUALS(client->usages[0], "a -> A::B <6:7 6:7>");
-		TS_ASSERT_EQUALS(client->typeUses.size(), 3);
-		TS_ASSERT_EQUALS(client->typeUses[0], "a -> A <6:1 6:1>");
-		TS_ASSERT_EQUALS(client->typeUses[1], "aPtr -> A <7:1 7:1>");
-		TS_ASSERT_EQUALS(client->typeUses[2], "aPtr -> A <7:15 7:15>");
-		TS_ASSERT_EQUALS(client->globalVariables.size(), 2);
-		TS_ASSERT_EQUALS(client->globalVariables[0], "a <6:3 6:3>");
-		TS_ASSERT_EQUALS(client->globalVariables[1], "aPtr <7:4 7:7>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "a -> A::B <6:7 6:7>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "a -> A <6:1 6:1>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "aPtr -> A <7:1 7:1>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "aPtr -> A <7:15 7:15>"
+		));
 	}
 
 	void test_cxx_parser_finds_enum_uses_in_function_body()
@@ -2036,13 +2177,18 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->usages.size(), 1);
-		TS_ASSERT_EQUALS(client->usages[0], "int main() -> A::B <8:8 8:8>");
-		TS_ASSERT_EQUALS(client->typeUses.size(), 4);
-		TS_ASSERT_EQUALS(client->typeUses[0], "int main() -> int <6:1 6:3>");
-		TS_ASSERT_EQUALS(client->typeUses[1], "int main() -> A <8:2 8:2>");
-		TS_ASSERT_EQUALS(client->typeUses[2], "int main() -> A <9:2 9:2>");
-		TS_ASSERT_EQUALS(client->typeUses[3], "int main() -> A <9:16 9:16>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "int main() -> A::B <8:8 8:8>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "int main() -> A <8:2 8:2>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "int main() -> A <9:2 9:2>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "int main() -> A <9:16 9:16>"
+		));
 	}
 
 	void test_cxx_parser_finds_usage_of_template_template_parameter_of_template_class_specialized_with_concrete_type()
@@ -2059,9 +2205,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
-		TS_ASSERT_EQUALS(client->typeUses[0], "void B<template<typename> typename T>::foo(B<template<typename> typename T>::T<int>) -> void <7:2 7:5>");
-		TS_ASSERT_EQUALS(client->typeUses[1], "void B<template<typename> typename T>::foo(B<template<typename> typename T>::T<int>) -> B<template<typename> typename T>::T<int> <7:11 7:11>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "void B<template<typename> typename T>::foo(B<template<typename> typename T>::T<int>) -> B<template<typename> typename T>::T<int> <7:11 7:11>"
+		));
 	}
 
 	void test_cxx_parser_finds_usage_of_template_template_parameter_of_template_class_specialized_with_template_type()
@@ -2079,9 +2225,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
-		TS_ASSERT_EQUALS(client->typeUses[0], "void B<template<typename> typename T>::foo<typename U>(B<template<typename> typename T>::T<U>) -> void <8:2 8:5>");
-		TS_ASSERT_EQUALS(client->typeUses[1], "void B<template<typename> typename T>::foo<typename U>(B<template<typename> typename T>::T<U>) -> B<template<typename> typename T>::T<B<template<typename> typename T>::foo<typename U>::U> <8:11 8:11>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "void B<template<typename> typename T>::foo<typename U>(B<template<typename> typename T>::T<U>) -> B<template<typename> typename T>::T<B<template<typename> typename T>::foo<typename U>::U> <8:11 8:11>"
+		));
 	}
 
 	void test_cxx_parser_finds_typedef_in_other_class_that_depends_on_own_template_parameter()
@@ -2102,18 +2248,37 @@ public:
 			"B<int>::type f = 0;\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typedefs.size(), 4);
-		TS_ASSERT_EQUALS(client->typedefs[0], "public A<typename T>::type <5:12 5:15>");
-		TS_ASSERT_EQUALS(client->typedefs[1], "public A<int>::type <5:12 5:15>");
-		TS_ASSERT_EQUALS(client->typedefs[2], "public B<typename U>::type <11:30 11:33>");
-		TS_ASSERT_EQUALS(client->typedefs[3], "public B<int>::type <11:30 11:33>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "B<typename U>::type -> A<B<typename U>::U>::type <11:25 11:28>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "B<int>::type -> A<int>::type <11:25 11:28>"
+		));
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 4);
-		TS_ASSERT_EQUALS(client->typeUses[0], "A<typename T>::type -> A<typename T>::T <5:10 5:10>");
-		TS_ASSERT_EQUALS(client->typeUses[1], "B<typename U>::type -> A<B<typename U>::U>::type <11:25 11:28>");
-		TS_ASSERT_EQUALS(client->typeUses[2], "B<int>::type -> A<int>::type <11:25 11:28>");
-		TS_ASSERT_EQUALS(client->typeUses[3], "f -> B<int>::type <13:9 13:12>");
 		//TS_ASSERT_EQUALS(client->typeUses[3], "A<int>::type -> int <13:9 13:12>"); TODO: make this work!
+	}
+
+	void test_cxx_parser_finds_use_of_dependent_template_specialization_type()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"public:\n"
+			"	template <typename X>\n"
+			"	using type = T;\n"
+			"};\n"
+			"template <typename U>\n"
+			"class B\n"
+			"{\n"
+			"public:\n"
+			"	typedef typename A<U>::type<float> type;\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "B<typename U>::type -> A<B<typename U>::U>::type<float> <12:10 12:17>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_template_argument_of_explicit_template_instantiation()
@@ -2130,9 +2295,29 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int> -> int <7:4 7:6>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<int> -> int <7:4 7:6>"
+		));
 	}
+
+	void test_cxx_parser_finds_type_template_argument_of_explicit_template_instantiated_with_function_prototype()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class A\n"
+			"{\n"
+			"};\n"
+			"void foo()\n"
+			"{\n"
+			"	A<int()> a;\n"
+			"}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<int()> -> int <7:4 7:6>"
+		));
+	}
+
 	void test_cxx_parser_finds_type_template_argument_for_parameter_pack_of_explicit_template_instantiation()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -2146,9 +2331,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<<int, float>> -> int <7:6 7:8>");
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<<int, float>> -> float <7:11 7:15>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<<int, float>> -> int <7:6 7:8>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<<int, float>> -> float <7:11 7:15>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_template_argument_in_non_default_constructor_of_explicit_template_instaitiation()
@@ -2166,8 +2354,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int> -> int <9:4 9:6>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<int> -> int <9:4 9:6>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_template_argument_in_default_constructor_of_explicit_template_instaitiation()
@@ -2185,8 +2374,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int> -> int <9:4 9:6>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<int> -> int <9:4 9:6>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_template_argument_in_new_expression_of_explicit_template_instaitiation()
@@ -2204,8 +2394,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int> -> int <9:8 9:10>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<int> -> int <9:8 9:10>"
+		));
 	}
 
 	void test_cxx_parser_finds_no_template_argument_for_builtin_non_type_int_template_parameter_of_explicit_template_instantiation()
@@ -2257,8 +2448,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&g_p> -> g_p <9:5 9:7>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<&g_p> -> g_p <9:5 9:7>"
+		));
 	}
 
 	void test_cxx_parser_finds_non_type_custom_reference_template_argument_of_implicit_template_instantiation()
@@ -2276,8 +2468,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&g_p> -> g_p <9:4 9:6>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<&g_p> -> g_p <9:4 9:6>"
+		));
 	}
 
 	void test_cxx_parser_finds_no_template_argument_for_builtin_non_type_int_template_parameter_pack_of_explicit_template_instantiation()
@@ -2311,8 +2504,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "B<A> -> A<typename T> <9:4 9:4>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "B<A> -> A<typename T> <9:4 9:4>"
+		));
 	}
 
 	void test_cxx_parser_finds_template_template_argument_for_parameter_pack_of_explicit_template_instantiation()
@@ -2332,9 +2526,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "B<<A, A>> -> A<typename T> <11:4 11:4>");
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "B<<A, A>> -> A<typename T> <11:7 11:7>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "B<<A, A>> -> A<typename T> <11:4 11:4>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "B<<A, A>> -> A<typename T> <11:7 11:7>"
+		));
 	}
 
 	void test_cxx_parser_finds_template_member_specialization_of_implicit_template_specialization()
@@ -2352,8 +2549,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateMemberSpecializations.size(), 1);
-		TS_ASSERT_EQUALS(client->templateMemberSpecializations[0], "int A<int>::foo() -> A<typename T>::T A<typename T>::foo() <5:4 5:6>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateMemberSpecializations, "int A<int>::foo() -> A<typename T>::T A<typename T>::foo() <5:4 5:6>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_template_argument_of_explicit_template_specialization()
@@ -2369,8 +2567,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<int> -> int <6:9 6:11>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<int> -> int <6:9 6:11>"
+		));
 	}
 
 	void test_cxx_parser_finds_no_template_argument_for_builtin_non_type_int_template_parameter_of_explicit_template_specialization()
@@ -2420,8 +2619,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&g_p> -> g_p <8:10 8:12>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<&g_p> -> g_p <8:10 8:12>"
+		));
 	}
 
 	void test_cxx_parser_finds_non_type_custom_reference_template_argument_of_explicit_template_specialization()
@@ -2439,8 +2639,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&g_p> -> g_p <8:9 8:11>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<&g_p> -> g_p <8:9 8:11>"
+		));
 	}
 
 	void test_cxx_parser_finds_template_template_argument_of_explicit_template_specialization()
@@ -2458,11 +2659,12 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "B<A> -> A<typename T> <8:9 8:9>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "B<A> -> A<typename T> <8:9 8:9>"
+		));
 	}
 
-	void test_cxx_parser_finds_type_template_argument_of_explicit_partial_template_specialization()
+	void test_cxx_parser_finds_type_template_arguments_of_explicit_partial_template_specialization()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T, typename U>\n"
@@ -2475,9 +2677,12 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<typename T, int> -> A<typename T, int>::T <6:9 6:9>");
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<typename T, int> -> int <6:12 6:14>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<typename T, int> -> A<typename T, int>::T <6:9 6:9>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<typename T, int> -> int <6:12 6:14>"
+		));
 	}
 
 	void test_cxx_parser_finds_no_template_argument_for_builtin_non_type_int_template_parameter_of_explicit_partial_template_specialization()
@@ -2493,8 +2698,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<3, int U> -> A<3, int U>::U <6:12 6:12>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<3, int U> -> A<3, int U>::U <6:12 6:12>"
+		));
 	}
 
 	void test_cxx_parser_finds_no_template_argument_for_builtin_non_type_bool_template_parameter_of_explicit_partial_template_specialization()
@@ -2510,8 +2716,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<true, bool U> -> A<true, bool U>::U <6:15 6:15>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<true, bool U> -> A<true, bool U>::U <6:15 6:15>"
+		));
 	}
 
 	void test_cxx_parser_finds_template_argument_for_non_type_custom_pointer_template_parameter_of_explicit_partial_template_specialization()
@@ -2529,9 +2736,12 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&g_p, P * q> -> g_p <8:10 8:12>");
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<&g_p, P * q> -> A<&g_p, P * q>::q <8:15 8:15>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<&g_p, P * q> -> g_p <8:10 8:12>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<&g_p, P * q> -> A<&g_p, P * q>::q <8:15 8:15>"
+		));
 	}
 
 	void test_cxx_parser_finds_template_argument_for_non_type_custom_reference_template_parameter_of_explicit_partial_template_specialization()
@@ -2549,9 +2759,12 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<&g_p, P & q> -> g_p <8:9 8:11>"); // why reference here?
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<&g_p, P & q> -> A<&g_p, P & q>::q <8:14 8:14>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<&g_p, P & q> -> g_p <8:9 8:11>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<&g_p, P & q> -> A<&g_p, P & q>::q <8:14 8:14>"
+		));
 	}
 
 	void test_cxx_parser_finds_template_argument_for_template_template_parameter_of_explicit_partial_template_specialization()
@@ -2569,9 +2782,12 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "B<A, template<typename> typename U> -> A<typename T> <8:9 8:9>");
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "B<A, template<typename> typename U> -> B<A, template<typename> typename U>::U<typename> <8:12 8:12>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "B<A, template<typename> typename U> -> A<typename T> <8:9 8:9>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "B<A, template<typename> typename U> -> B<A, template<typename> typename U>::U<typename> <8:12 8:12>"
+		));
 	}
 
 	void test_cxx_parser_finds_non_type_template_argument_that_depends_on_type_template_parameter_of_explicit_partial_template_specialization()
@@ -2587,9 +2803,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 2);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<3, typename T2, T2 T3> -> A<3, typename T2, T2 T3>::T2 <6:12 6:13>");
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[1], "A<3, typename T2, T2 T3> -> A<3, typename T2, T2 T3>::T3 <6:16 6:17>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<3, typename T2, T2 T3> -> A<3, typename T2, T2 T3>::T3 <6:16 6:17>"
+		));
 	}
 
 	//void _test_cxx_parser_finds_non_type_template_argument_that_depends_on_template_template_parameter_of_explicit_partial_template_specialization()
@@ -2622,8 +2838,9 @@ public:
 			"A<int> a;\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateSpecializations.size(), 1);
-		TS_ASSERT_EQUALS(client->templateSpecializations[0], "A<int> -> A<typename T> <2:7 2:7>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateSpecializations, "A<int> -> A<typename T> <2:7 2:7>"
+		));
 	}
 
 	void test_cxx_parser_finds_class_inheritance_from_implicit_template_class_specialization()
@@ -2640,8 +2857,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "B -> A<int> <7:17 7:17>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->inheritances, "B -> A<int> <7:17 7:17>"
+		));
 	}
 
 	void test_cxx_parser_finds_template_class_specialization_with_template_argument()
@@ -2659,8 +2877,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "A<B<typename U>::U> -> B<typename U>::U <8:19 8:19>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "A<B<typename U>::U> -> B<typename U>::U <8:19 8:19>"
+		));
 	}
 
 	void test_cxx_parser_finds_template_class_constructor_usage_of_field()
@@ -2674,8 +2893,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->usages.size(), 1);
-		TS_ASSERT_EQUALS(client->usages[0], "void A<typename T>::A<T>() -> A<typename T>::foo <4:7 4:9>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "void A<typename T>::A<T>() -> A<typename T>::foo <4:7 4:9>"
+		));
 	}
 
 	void test_cxx_parser_finds_correct_method_return_type_of_template_class_in_declaration()
@@ -2688,8 +2908,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
-		TS_ASSERT_EQUALS(client->typeUses[0], "A<typename T>::T A<typename T>::foo() -> A<typename T>::T <4:2 4:2>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "A<typename T>::T A<typename T>::foo() -> A<typename T>::T <4:2 4:2>"
+		));
 	}
 
 	void test_cxx_parser_finds_type_template_default_argument_type_of_template_class()
@@ -2701,8 +2922,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes[0], "A<typename T>::T -> int <1:24 1:26>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateDefaultArgumentTypes, "A<typename T>::T -> int <1:24 1:26>"
+		));
 	}
 
 	void test_cxx_parser_finds_no_default_argument_type_for_non_type_bool_template_parameter_of_template_class()
@@ -2728,8 +2950,9 @@ public:
 			"{};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes[0], "B<template<typename> typename T>::T<typename> -> A<typename T> <4:40 4:40>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateDefaultArgumentTypes, "B<template<typename> typename T>::T<typename> -> A<typename T> <4:40 4:40>"
+		));
 	}
 
 	void test_cxx_parser_finds_implicit_instantiation_of_template_function()
@@ -2747,8 +2970,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateSpecializations.size(), 1);
-		TS_ASSERT_EQUALS(client->templateSpecializations[0], "int test<int>(int) -> T test<typename T>(T) <2:3 2:6>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateSpecializations, "int test<int>(int) -> T test<typename T>(T) <2:3 2:6>"
+		));
 	}
 
 	void test_cxx_parser_finds_explicit_specialization_of_template_function()
@@ -2767,8 +2991,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateSpecializations.size(), 1);
-		TS_ASSERT_EQUALS(client->templateSpecializations[0], "int test<int>(int) -> T test<typename T>(T) <8:5 8:8>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateSpecializations, "int test<int>(int) -> T test<typename T>(T) <8:5 8:8>"
+		));
 	}
 
 	void test_cxx_parser_finds_explicit_type_template_argument_of_explicit_instantiation_of_template_function()
@@ -2785,8 +3010,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "void test<int>() -> int <7:11 7:13>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "void test<int>() -> int <7:11 7:13>"
+		));
 	}
 
 	void test_cxx_parser_finds_explicit_type_template_argument_of_function_call_in_function()
@@ -2802,8 +3028,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "void test<int>() -> int <6:7 6:9>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "void test<int>() -> int <6:7 6:9>"
+		));
 	}
 
 	void test_cxx_parser_finds_no_explicit_non_type_int_template_argument_of_function_call_in_function()
@@ -2836,8 +3063,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "void test<A>() -> A<typename T> <7:7 7:7>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "void test<A>() -> A<typename T> <7:7 7:7>"
+		));
 	}
 
 	void test_cxx_parser_finds_no_implicit_type_template_argument_of_function_call_in_function()
@@ -2868,8 +3096,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateArgumentTypes[0], "int test<int>() -> int <6:17 6:19>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateArgumentTypes, "int test<int>() -> int <6:17 6:19>"
+		));
 	}
 
 	void test_cxx_parser_finds_no_implicit_type_template_argument_of_function_call_in_var_decl()
@@ -2902,8 +3131,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes[0], "test<typename T>::T -> int <1:24 1:26>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateDefaultArgumentTypes, "test<typename T>::T -> int <1:24 1:26>"
+		));
 	}
 
 	void test_cxx_parser_does_not_find_default_argument_type_for_non_type_bool_template_parameter_of_template_function()
@@ -2930,10 +3160,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->templateDefaultArgumentTypes.size(), 1);
-		TS_ASSERT_EQUALS(
-			client->templateDefaultArgumentTypes[0],
-			"test<template<typename> typename T>::T<typename> -> A<typename T> <4:40 4:40>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->templateDefaultArgumentTypes, "test<template<typename> typename T>::T<typename> -> A<typename T> <4:40 4:40>"
+		));
 	}
 
 	void test_cxx_parser_finds_lambda_calling_a_function()
@@ -2949,9 +3178,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 2);
-		TS_ASSERT_EQUALS(client->calls[0], "void lambdaCaller() -> void lambdaCaller::lambda at 4:2() const <7:3 7:3>");
-		TS_ASSERT_EQUALS(client->calls[1], "void lambdaCaller::lambda at 4:2() const -> void func() <6:3 6:6>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "void lambdaCaller::lambda at 4:2() const -> void func() <6:3 6:6>"
+		));
 	}
 
 	void test_cxx_parser_finds_local_variable_in_lambda_capture()
@@ -2964,9 +3193,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 2);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<3:6> <3:6 3:6>");
-		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<3:6> <4:3 4:3>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<3:6> <4:3 4:3>"
+		));
 	}
 
 	void test_cxx_parser_finds_template_argument_of_unresolved_lookup_expression_as_type_use()
@@ -2984,10 +3213,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 3);
-		TS_ASSERT_EQUALS(client->typeUses[0], "void a<typename T>() -> void <2:1 2:4>");
-		TS_ASSERT_EQUALS(client->typeUses[1], "void dispatch<typename MessageType>() -> void <7:1 7:4>");
-		TS_ASSERT_EQUALS(client->typeUses[2], "void dispatch<typename MessageType>() -> dispatch<typename MessageType>::MessageType <9:4 9:14>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "void dispatch<typename MessageType>() -> dispatch<typename MessageType>::MessageType <9:4 9:14>"
+		));
 	}
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -3010,8 +3238,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 2);
-		TS_ASSERT_EQUALS(client->calls[1], "int main() -> void n::App::App(int) <11:16 11:18>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "int main() -> void n::App::App(int) <11:16 11:18>"
+		));
 	}
 
 	//void __test_cxx_parser_finds_type_template_argument_of_static_cast_expression()
@@ -3089,8 +3318,9 @@ public:
 			false
 		);
 
-		TS_ASSERT_EQUALS(client->errors.size(), 1);
-		TS_ASSERT_EQUALS(client->errors[0], "use of undeclared identifier \'b\' <1:9 1:9>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->errors, "use of undeclared identifier \'b\' <1:9 1:9>"
+		));
 	}
 
 	void test_cxx_parser_finds_location_of_line_comment()
@@ -3099,8 +3329,9 @@ public:
 			"// this is a line comment\n"
 		);
 
-		TS_ASSERT_EQUALS(client->comments.size(), 1);
-		TS_ASSERT_EQUALS(client->comments[0], "comment <1:1 1:26>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->comments, "comment <1:1 1:26>"
+		));
 	}
 
 	void test_cxx_parser_finds_location_of_block_comment()
@@ -3110,8 +3341,9 @@ public:
 			"block comment */\n"
 		);
 
-		TS_ASSERT_EQUALS(client->comments.size(), 1);
-		TS_ASSERT_EQUALS(client->comments[0], "comment <1:1 2:17>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->comments, "comment <1:1 2:17>"
+		));
 	}
 
 	// void _test_TEST()

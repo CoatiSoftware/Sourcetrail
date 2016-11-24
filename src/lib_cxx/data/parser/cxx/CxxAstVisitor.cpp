@@ -97,6 +97,12 @@ bool CxxAstVisitor::TraverseType(clang::QualType t)
 	return base::TraverseType(t);
 }
 
+// same as base::TraverseQualifiedTypeLoc(..) but we need to make sure to call this.TraverseTypeLoc(..)
+bool CxxAstVisitor::TraverseQualifiedTypeLoc(clang::QualifiedTypeLoc tl)
+{
+	return TraverseTypeLoc(tl.getUnqualifiedLoc());
+}
+
 bool CxxAstVisitor::TraverseTypeLoc(clang::TypeLoc tl)
 {
 	std::shared_ptr<ScopedFunctor> removeContextFunctor;
@@ -1210,6 +1216,7 @@ bool CxxAstVisitor::checkIgnoresTypeLoc(const clang::TypeLoc& tl)
 		(!tl.getAs<clang::TemplateTypeParmTypeLoc>().isNull()) ||
 		(!tl.getAs<clang::TemplateSpecializationTypeLoc>().isNull()) ||
 		(!tl.getAs<clang::DependentNameTypeLoc>().isNull()) ||
+		(!tl.getAs<clang::DependentTemplateSpecializationTypeLoc>().isNull()) ||
 		(!tl.getAs<clang::BuiltinTypeLoc>().isNull()) ||
 		(!tl.getAs<clang::AutoTypeLoc>().isNull())
 	){
