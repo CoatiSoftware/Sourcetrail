@@ -130,6 +130,26 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 		}
 	}
 
+	// Add vs solution button
+	{
+		std::string name = "Visual Studio";
+
+		QToolButton* button = createProjectButton(name.c_str(),
+			(ResourcePaths::getGuiPath() + "icon/project_vs_256_256.png").c_str());
+
+		m_buttons->addButton(button);
+
+		m_solutionDescription.push_back("Create a new project from an existing Visual Studio Solution file. "
+			"<b>Note: Requires a running Visual Studio instance with the "
+			"<a href=\"https://coati.io/documentation/index.html#VisualStudio\">Visual Studio plugin</a> installed.");
+
+		hlayout->addWidget(button);
+
+		m_buttons->setId(button, runningId);
+
+		runningId++;
+	}
+
 	connect(m_buttons, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
 		[this](int id)
 		{
