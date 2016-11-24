@@ -7,8 +7,6 @@
 
 #include "utility/logging/logging.h"
 
-#include "utility/solution/SolutionParserVisualStudio.h"
-
 std::string NetworkProtocolHelper::m_divider = ">>";
 std::string NetworkProtocolHelper::m_setActiveTokenPrefix = "setActiveToken";
 std::string NetworkProtocolHelper::m_moveCursorPrefix = "moveCursor";

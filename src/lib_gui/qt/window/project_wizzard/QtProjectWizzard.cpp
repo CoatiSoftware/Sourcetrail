@@ -25,7 +25,6 @@
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageScrollSpeedChange.h"
 #include "utility/messaging/type/MessageStatus.h"
-#include "utility/solution/SolutionParserVisualStudio.h"
 #include "utility/utilityString.h"
 
 #include "Application.h"
@@ -49,7 +48,6 @@ QtProjectWizzard::QtProjectWizzard(QWidget* parent)
 	m_parserManager = std::make_shared<SolutionParserManager>();
 
 	// wip
-	m_parserManager->pushSolutionParser(std::make_shared<SolutionParserVisualStudio>());
 	// m_parserManager->pushSolutionParser(std::make_shared<SolutionParserCodeBlocks>());
 }
 
