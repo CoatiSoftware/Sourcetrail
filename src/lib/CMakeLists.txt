@@ -340,8 +340,6 @@ add_files(
 	utility/solution/SolutionParserManager.h
 	utility/solution/SolutionParserUtility.cpp
 	utility/solution/SolutionParserUtility.h
-	utility/solution/SolutionParserVisualStudio.cpp
-	utility/solution/SolutionParserVisualStudio.h
 
 	utility/synchronization/ReaderWriterLock.cpp
 	utility/synchronization/ReaderWriterLock.h

@@ -254,7 +254,7 @@ set(CMAKE_AUTOMOC ON)
 
 # Find the QtWidgets library
 if(UNIX AND NOT APPLE)
-	set(CMAKE_PREFIX_PATH ${EXTERNAL_BUILD}/qt)
+	#set(CMAKE_PREFIX_PATH ${EXTERNAL_BUILD}/qt)
 else()
 	set(CMAKE_PREFIX_PATH "$ENV{QT_DIR}/")
 endif()

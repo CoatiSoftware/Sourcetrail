@@ -31,5 +31,4 @@ add_files(
 	TokenLocationCollectionTestSuite.h
 	UtilityStringTestSuite.h
 	Vector2TestSuite.h
-	VsSolutionParserTestSuite.h
 )
