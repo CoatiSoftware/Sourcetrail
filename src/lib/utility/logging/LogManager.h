@@ -22,6 +22,8 @@ public:
 	void removeLoggersByType(const std::string& type);
 	void clearLoggers();
 	int getLoggerCount() const;
+	Logger* getLoggerByType(const std::string& type);
+	Logger* getLogger(std::shared_ptr<Logger> logger);
 
 	void logInfo(
 		const std::string& message,

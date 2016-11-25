@@ -47,11 +47,15 @@ public:
 	float getScrollSpeed() const;
 	void setScrollSpeed(float scrollSpeed);
 
+	// logging
 	bool getLoggingEnabled() const;
 	void setLoggingEnabled(bool loggingEnabled);
 
 	bool getVerboseIndexerLoggingEnabled() const;
 	void setVerboseIndexerLoggingEnabled(bool loggingEnabled);
+
+	int getLogFilter() const;
+	void setLogFilter(int mask);
 
 	std::vector<FilePath> getIndexingFilePaths() const;
 	bool setIndexingFilePaths(const std::vector<FilePath>& indexingFiles);

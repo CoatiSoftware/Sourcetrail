@@ -6,24 +6,23 @@
 #include "utility/messaging/type/MessageDispatchWhenLicenseValid.h"
 #include "utility/messaging/type/MessageLoadProject.h"
 #include "utility/logging/LogManager.h"
+#include "component/controller/LogController.h"
 #include "settings/ApplicationSettings.h"
 
 QtApplication::QtApplication(int& argc, char** argv)
 	: QApplication(argc, argv)
 {
-	connect(this, &QCoreApplication::aboutToQuit,
-		[=]()
-		{
-			LogManager::getInstance()->setLoggingEnabled(false);
-		});
-
 }
 
 int QtApplication::exec()
 {
-	LogManager::getInstance()->setLoggingEnabled(ApplicationSettings::getInstance()->getLoggingEnabled());
+	LogController* log = dynamic_cast<LogController*>(LogManager::getInstance()->getLoggerByType("WindowLogger"));
+	if (log != nullptr)
+	{
+		log->setEnabled(true);
+	}
 
-	return QCoreApplication::exec();
+	return QApplication::exec();
 }
 
 // responds to FileOpenEvent specific for Mac

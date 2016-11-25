@@ -49,6 +49,31 @@ void LogManagerImplementation::removeLoggersByType(const std::string& type)
 	}
 }
 
+Logger* LogManagerImplementation::getLogger(std::shared_ptr<Logger> logger)
+{
+	std::lock_guard<std::mutex> lockGuard(m_loggerMutex);
+	std::vector<std::shared_ptr<Logger>>::iterator it = std::find(m_loggers.begin(), m_loggers.end(), logger);
+	if (it != m_loggers.end())
+	{
+		return (*it).get();
+	}
+	return nullptr;
+}
+
+Logger* LogManagerImplementation::getLoggerByType(const std::string& type)
+{
+	std::lock_guard<std::mutex> lockGuard(m_loggerMutex);
+	for (unsigned int i = 0; i < m_loggers.size(); i++)
+	{
+		if (m_loggers[i]->getType() == type)
+		{
+
+			return m_loggers[i].get();
+		}
+	}
+	return nullptr;
+}
+
 void LogManagerImplementation::clearLoggers()
 {
 	m_loggers.clear();

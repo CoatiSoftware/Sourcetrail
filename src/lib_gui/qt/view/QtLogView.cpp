@@ -11,6 +11,7 @@
 #include "settings/ColorScheme.h"
 #include "qt/view/QtViewWidgetWrapper.h"
 #include "utility/messaging/type/MessageRefresh.h"
+#include "utility/messaging/type/MessageLogFilterChanged.h"
 #include "utility/ResourcePaths.h"
 #include "qt/utility/utilityQt.h"
 #include "utility/logging/LogManager.h"
@@ -20,6 +21,7 @@
 QtLogView::QtLogView(ViewLayout* viewLayout)
 	: LogView(viewLayout)
 	, m_addLogFunctor(std::bind(&QtLogView::doAddLog, this, std::placeholders::_1, std::placeholders::_2))
+	, m_addLogsFunctor(std::bind(&QtLogView::doAddLogs, this, std::placeholders::_1 ))
 	, m_clearFunctor(std::bind(&QtLogView::doClear, this))
 	, m_refreshFunctor(std::bind(&QtLogView::doRefreshView, this))
 {
@@ -46,8 +48,10 @@ void QtLogView::initView()
 	QHBoxLayout* headerLayout = new QHBoxLayout();
 	headerLayout->addSpacing(10);
 
+	ApplicationSettings* settings = ApplicationSettings::getInstance().get();
+
 	m_viewEnabled = new QCheckBox("Logging enabled (file, console logging)");
-	m_viewEnabled->setChecked(ApplicationSettings::getInstance()->getLoggingEnabled());
+	m_viewEnabled->setChecked(settings->getLoggingEnabled());
 
 	connect(m_viewEnabled, &QCheckBox::stateChanged,
 		[=](int){
@@ -58,7 +62,7 @@ void QtLogView::initView()
 	headerLayout->addSpacing(25);
 	m_showAstLogging = new QCheckBox("AST Logging");
 	m_showAstLogging->setEnabled(m_viewEnabled->isChecked());
-	m_showAstLogging->setChecked(ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled());
+	m_showAstLogging->setChecked(settings->getVerboseIndexerLoggingEnabled());
 	connect(m_showAstLogging, &QCheckBox::stateChanged,
 		[=](int){
 			setAstLoggingEnabled(m_showAstLogging->isChecked());
@@ -86,9 +90,11 @@ void QtLogView::initView()
 	QHBoxLayout* filters = new QHBoxLayout();
 	filters->addSpacing(15);
 
-	m_showErrors = createFilterCheckbox("error", filters, true);
-	m_showWarnings = createFilterCheckbox("warnings", filters, true);
-	m_showInfo = createFilterCheckbox("info", filters);
+	m_logLevel = settings->getLogFilter();
+
+	m_showErrors = createFilterCheckbox("error", filters, m_logLevel & Logger::LOG_ERRORS);
+	m_showWarnings = createFilterCheckbox("warnings", filters, m_logLevel & Logger::LOG_WARNINGS);
+	m_showInfo = createFilterCheckbox("info", filters, m_logLevel & Logger::LOG_INFOS);
 
 	filters->addStretch();
 
@@ -98,7 +104,7 @@ void QtLogView::initView()
 			{
 				doClear();
 			});
-	filters->addWidget(clearButton);
+	//filters->addWidget(clearButton);
 	filters->addSpacing(30);
 
 	updateMask();
@@ -131,7 +137,7 @@ QCheckBox* QtLogView::createFilterCheckbox(const QString& name, QBoxLayout* layo
 void QtLogView::setLoggingEnabled(bool enabled)
 {
 	m_showAstLogging->setEnabled(enabled);
-	LogManager::getInstance()->setLoggingEnabled(true);
+	LogManager::getInstance()->setLoggingEnabled(enabled);
 
 	ApplicationSettings::getInstance()->setLoggingEnabled(enabled);
 	ApplicationSettings::getInstance()->save();
@@ -164,6 +170,11 @@ void QtLogView::clear()
 void QtLogView::addLog(Logger::LogLevel type, const LogMessage& message)
 {
 	m_addLogFunctor(type, message);
+}
+
+void QtLogView::addLogs(const std::vector<Log>& logs)
+{
+	m_addLogsFunctor(logs);
 }
 
 void QtLogView::doClear()
@@ -221,7 +232,7 @@ const char* QtLogView::getLogType(Logger::LogLevel type) const
 
 bool QtLogView::isCheckedType(const Logger::LogLevel type) const
 {
-	return m_mask & type;
+	return m_logLevel & type;
 }
 
 void QtLogView::updateTable()
@@ -233,20 +244,21 @@ void QtLogView::updateTable()
 
 	for ( Log log : m_logs )
 	{
-		if (log.type & m_mask)
+		if (log.type & m_logLevel)
 		{
 			addLogToTable(log);
 		}
 	}
 }
 
-
 void QtLogView::updateMask()
 {
-	m_mask =
+	m_logLevel =
 		(m_showInfo->isChecked() ? Logger::LOG_INFOS : 0) +
 		(m_showWarnings->isChecked() ? Logger::LOG_WARNINGS : 0) +
 		(m_showErrors->isChecked() ? Logger::LOG_ERRORS : 0);
+
+	MessageLogFilterChanged(m_logLevel).dispatch();
 }
 
 void QtLogView::addLogToTable(Log log)
@@ -265,7 +277,7 @@ void QtLogView::addLogToTable(Log log)
 
 void QtLogView::doAddLog(Logger::LogLevel type, const LogMessage& message)
 {
-	if (isCheckedType(type))
+	if (type & m_logLevel)
 	{
 		Log log(
 			type,
@@ -274,4 +286,17 @@ void QtLogView::doAddLog(Logger::LogLevel type, const LogMessage& message)
 		m_logs.push_back(log);
 		addLogToTable(log);
 	}
+}
+
+void QtLogView::doAddLogs(const std::vector<Log>& logs)
+{
+	doClear();
+	for(Log log : logs)
+	{
+		if( log.type & m_logLevel )
+		{
+			addLogToTable(log);
+		}
+	}
+
 }

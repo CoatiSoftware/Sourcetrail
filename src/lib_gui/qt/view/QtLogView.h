@@ -29,6 +29,7 @@ public:
 	// Log View Implementation
 	virtual void clear();
 	virtual void addLog(Logger::LogLevel type, const LogMessage& message);
+	virtual void addLogs(const std::vector<Log>& logs);
 
 private:
 	enum LOGVIEW_COLUMN
@@ -38,23 +39,15 @@ private:
 		MESSAGE = 2,
 	};
 
-	struct Log
-	{
-		Log(const Logger::LogLevel type, const std::string message, const std::string timestamp)
-			: type(type)
-			, message(message)
-			, timestamp(timestamp){}
-		const Logger::LogLevel type;
-		const std::string message;
-		const std::string timestamp;
-	};
 	void doClear();
 	void doRefreshView();
 	void doAddLog(Logger::LogLevel type, const LogMessage& message);
+	void doAddLogs(const std::vector<Log>& logs);
 
 	std::vector<Log> m_logs;
 	const char* getLogType(Logger::LogLevel type) const;
 	void addLogToTable(Log log);
+	void setLogFilter();
 
 	bool isCheckedType(const Logger::LogLevel type) const;
 	QCheckBox* createFilterCheckbox(const QString& name, QBoxLayout* layout, bool checked = false);
@@ -67,7 +60,7 @@ private:
 	void updateMask();
 	void updateTable();
 
-	int m_mask;
+	Logger::LogLevelMask m_logLevel;
 	QtTable* m_table;
 	QStandardItemModel* m_model;
 
@@ -79,6 +72,7 @@ private:
 	QCheckBox* m_showInfo;
 
 	QtThreadedFunctor<Logger::LogLevel, const LogMessage&> m_addLogFunctor;
+	QtThreadedFunctor<const std::vector<Log>&> m_addLogsFunctor;
 	QtThreadedFunctor<void> m_clearFunctor;
 	QtThreadedFunctor<void> m_refreshFunctor;
 };

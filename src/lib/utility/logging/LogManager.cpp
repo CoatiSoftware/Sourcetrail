@@ -53,6 +53,16 @@ void LogManager::removeLoggersByType(const std::string& type)
 	m_logManagerImplementation.removeLoggersByType(type);
 }
 
+Logger* LogManager::getLogger(std::shared_ptr<Logger> logger)
+{
+	return m_logManagerImplementation.getLogger(logger);
+}
+
+Logger* LogManager::getLoggerByType(const std::string& type)
+{
+	return m_logManagerImplementation.getLoggerByType(type);
+}
+
 void LogManager::clearLoggers()
 {
 	m_logManagerImplementation.clearLoggers();

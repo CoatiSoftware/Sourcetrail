@@ -175,6 +175,16 @@ void ApplicationSettings::setVerboseIndexerLoggingEnabled(bool value)
 	setValue<bool>("application/verbose_indexer_logging_enabled", value);
 }
 
+void ApplicationSettings::setLogFilter(int mask)
+{
+	setValue<int>("application/log_filter", mask);
+}
+
+int ApplicationSettings::getLogFilter() const
+{
+	return getValue<int>("application/log_filter", Logger::LOG_WARNINGS | Logger::LOG_ERRORS);
+}
+
 std::vector<FilePath> ApplicationSettings::getIndexingFilePaths() const
 {
 	return getPathValues("application/state/indexing_paths/indexing_path");
