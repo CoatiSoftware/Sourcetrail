@@ -8,6 +8,7 @@ LogController::LogController()
 	: Logger("WindowLogger")
 	, m_enabled(false)
 	, m_previousLogCount(0)
+	, m_waiting(false)
 {
 }
 
@@ -97,14 +98,16 @@ void LogController::addLog(Logger::LogLevel type, const LogMessage& message)
 		)
 	);
 
-	if (m_waiting.try_lock())
+	if (!m_waiting)
 	{
+		m_waiting = true;
 		std::thread([&]()
 			{
 				std::this_thread::sleep_for( std::chrono::seconds(1) );
 				syncLogs();
-				m_waiting.unlock();
-			}).detach();
+				m_waiting = false;
+			}
+		).detach();
 	}
 }
 

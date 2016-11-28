@@ -40,6 +40,7 @@ private:
 		return "";
 	}
 
+	std::string m_currentFilePath;
 	unsigned int m_indentation;
 };
 

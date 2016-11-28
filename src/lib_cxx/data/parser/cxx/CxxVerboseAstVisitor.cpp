@@ -14,6 +14,7 @@
 
 CxxVerboseAstVisitor::CxxVerboseAstVisitor(clang::ASTContext* context, clang::Preprocessor* preprocessor, ParserClient* client, FileRegister* fileRegister)
 	: base(context, preprocessor, client, fileRegister)
+	, m_currentFilePath("")
 	, m_indentation(0)
 {
 }
@@ -35,6 +36,12 @@ bool CxxVerboseAstVisitor::TraverseDecl(clang::Decl *d)
 
 		ParseLocation loc = getParseLocation(d->getSourceRange());
 		stream << " <" << loc.startLineNumber << ":" << loc.startColumnNumber << ", " << loc.endLineNumber << ":" << loc.endColumnNumber << ">";
+
+		if (m_currentFilePath != loc.filePath.str())
+		{
+			m_currentFilePath = loc.filePath.str();
+			LOG_INFO_STREAM_BARE(<< "Indexer - Traversing \"" + m_currentFilePath + "\"" );
+		}
 
 		LOG_INFO_STREAM_BARE(<< "Indexer - " << stream.str());
 

@@ -288,8 +288,12 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::Named
 
 std::string CxxDeclNameResolver::getNameForAnonymousSymbol(const std::string& symbolKindName, const clang::PresumedLoc& presumedBegin)
 {
-	return "anonymous " + symbolKindName +
-		" (" + FilePath(presumedBegin.getFilename()).fileName() + "<" + std::to_string(presumedBegin.getLine()) + ":" + std::to_string(presumedBegin.getColumn()) + ">)";
+	if (presumedBegin.isValid())
+	{
+		return "anonymous " + symbolKindName +
+			" (" + FilePath(presumedBegin.getFilename()).fileName() + "<" + std::to_string(presumedBegin.getLine()) + ":" + std::to_string(presumedBegin.getColumn()) + ">)";
+	}
+	return "anonymous " + symbolKindName;
 }
 
 std::string CxxDeclNameResolver::getTemplateParameterString(const clang::NamedDecl* parameter)
@@ -333,7 +337,7 @@ std::string CxxDeclNameResolver::getTemplateParameterTypeString(const clang::Non
 	{
 		typeNameResolver.ignoreContextDecl(m_currentDecl);
 	}
-	
+
 	std::string typeString = "";
 
 	std::shared_ptr<CxxTypeName> typeName = typeNameResolver.getName(parameter->getType());
