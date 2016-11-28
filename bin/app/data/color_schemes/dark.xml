@@ -28,25 +28,6 @@
 
 		<query>
 			<none>
-				<normal></normal>
-				<hover></hover>
-			</none>
-			<command>
-				<normal></normal>
-				<hover></hover>
-			</command>
-			<operator>
-				<normal></normal>
-				<hover></hover>
-			</operator>
-			<fulltext>
-				<normal></normal>
-				<hover></hover>
-			</fulltext>
-		</query>
-
-		<query>
-			<none>
 				<normal>
 					<fill>#2F2F2F</fill>
 					<text>#F7F7F7</text>
@@ -298,6 +279,9 @@
 					<normal>#80C3C3C3</normal>
 					<focus>#C3C3C3</focus>
 				</border>
+				<icon>
+					<normal>#C3C3C3</normal>
+				</icon>
 			</namespace>
 			<package>
 				<like>namespace</like>
@@ -342,6 +326,17 @@
 					<normal>#F7F7F7</normal>
 				</text>
 			</count_number>
+			<qualifier>
+				<fill>
+					<normal>#78282D</normal>
+				</fill>
+				<border>
+					<normal>#C3C3C3</normal>
+				</border>
+				<text>
+					<normal>#F7F7F7</normal>
+				</text>
+			</qualifier>
 		</node>
 		<edge>
 			<default>

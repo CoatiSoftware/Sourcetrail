@@ -284,13 +284,18 @@
 			</undefined>
 			<namespace>
 				<fill>
-					<normal>#EE7326</normal>
-					<focus>#EE8A4C</focus>
+					<normal>#873E3E</normal>
 				</fill>
 				<border>
 					<normal>#80FFFFFF</normal>
 					<focus>#FFFFFF</focus>
 				</border>
+				<text>
+					<normal>#FFFFFF</normal>
+				</text>
+				<icon>
+					<normal>#FFFFFF</normal>
+				</icon>
 			</namespace>
 			<package>
 				<like>namespace</like>
@@ -347,6 +352,17 @@
 					<normal>#CCCCCC</normal>
 				</text>
 			</count_number>
+			<qualifier>
+				<fill>
+					<normal>#873E3E</normal>
+				</fill>
+				<border>
+					<normal>#FFFFFF</normal>
+				</border>
+				<text>
+					<normal>#FFFFFF</normal>
+				</text>
+			</qualifier>
 		</node>
 		<edge>
 			<default>

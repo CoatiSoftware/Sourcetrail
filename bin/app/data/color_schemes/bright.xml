@@ -270,12 +270,15 @@
 			</undefined>
 			<namespace>
 				<fill>
-					<normal>#CC8D91</normal>
+					<normal>#EFC5C5</normal>
 				</fill>
 				<border>
-					<normal>#803C3C3C</normal>
-					<focus>#3C3C3C</focus>
+					<normal>#3D3D3D</normal>
+					<focus>black</focus>
 				</border>
+				<icon>
+					<normal>#3D3D3D</normal>
+				</icon>
 			</namespace>
 			<package>
 				<like>namespace</like>
@@ -320,6 +323,17 @@
 					<normal>#5C5C5C</normal>
 				</text>
 			</count_number>
+			<qualifier>
+				<fill>
+					<normal>#EFC5C5</normal>
+				</fill>
+				<border>
+					<normal>#3D3D3D</normal>
+				</border>
+				<text>
+					<normal>black</normal>
+				</text>
+			</qualifier>
 		</node>
 		<edge>
 			<default>

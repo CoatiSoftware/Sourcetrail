@@ -27,6 +27,7 @@
 #include "qt/view/graphElements/QtGraphNodeBundle.h"
 #include "qt/view/graphElements/QtGraphNodeData.h"
 #include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
+#include "qt/view/graphElements/QtGraphNodeQualifier.h"
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)
@@ -344,7 +345,7 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	std::shared_ptr<QtGraphNode> newNode;
 	if (node->isGraphNode())
 	{
-		newNode = std::make_shared<QtGraphNodeData>(node->data, node->name, node->hasParent, node->childVisible);
+		newNode = std::make_shared<QtGraphNodeData>(node->data, node->name, node->hasParent, node->childVisible, node->hasQualifier);
 	}
 	else if (node->isAccessNode())
 	{
@@ -357,6 +358,10 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	else if (node->isBundleNode())
 	{
 		newNode = std::make_shared<QtGraphNodeBundle>(node->tokenId, node->getBundledNodeCount(), node->name);
+	}
+	else if (node->isQualifierNode())
+	{
+		newNode = std::make_shared<QtGraphNodeQualifier>(node->qualifierName);
 	}
 
 	newNode->setPosition(node->position);

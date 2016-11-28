@@ -90,6 +90,8 @@ add_files(
 	qt/view/graphElements/QtGraphNodeData.h
 	qt/view/graphElements/QtGraphNodeExpandToggle.cpp
 	qt/view/graphElements/QtGraphNodeExpandToggle.h
+	qt/view/graphElements/QtGraphNodeQualifier.cpp
+	qt/view/graphElements/QtGraphNodeQualifier.h
 
 	qt/view/QtCodeView.cpp
 	qt/view/QtCodeView.h

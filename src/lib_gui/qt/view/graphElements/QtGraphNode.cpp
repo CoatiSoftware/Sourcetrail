@@ -183,8 +183,6 @@ bool QtGraphNode::getIsActive() const
 void QtGraphNode::setIsActive(bool isActive)
 {
 	m_isActive = isActive;
-
-	updateStyle();
 }
 
 void QtGraphNode::setMultipleActive(bool multipleActive)
@@ -246,6 +244,11 @@ bool QtGraphNode::isExpandToggleNode() const
 }
 
 bool QtGraphNode::isBundleNode() const
+{
+	return false;
+}
+
+bool QtGraphNode::isQualifierNode() const
 {
 	return false;
 }

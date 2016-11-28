@@ -41,7 +41,7 @@ public:
 	std::list<std::shared_ptr<QtGraphNode>> getSubNodes() const;
 
 	Vec2i getPosition() const;
-	bool setPosition(const Vec2i& position);
+	virtual bool setPosition(const Vec2i& position);
 
 	Vec2i getSize() const;
 	void setSize(const Vec2i& size);
@@ -76,6 +76,7 @@ public:
 	virtual bool isAccessNode() const;
 	virtual bool isExpandToggleNode() const;
 	virtual bool isBundleNode() const;
+	virtual bool isQualifierNode() const;
 
 	virtual Id getTokenId() const;
 

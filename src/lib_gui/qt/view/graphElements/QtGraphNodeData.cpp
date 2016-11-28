@@ -8,9 +8,10 @@
 
 #include "data/graph/token_component/TokenComponentSignature.h"
 
-QtGraphNodeData::QtGraphNodeData(const Node* data, const std::string& name, bool hasParent, bool childVisible)
+QtGraphNodeData::QtGraphNodeData(const Node* data, const std::string& name, bool hasParent, bool childVisible, bool hasQualifier)
 	: m_data(data)
 	, m_childVisible(childVisible)
+	, m_hasQualifier(hasQualifier)
 {
 	this->setAcceptHoverEvents(true);
 
@@ -80,7 +81,7 @@ void QtGraphNodeData::moved(const Vec2i& oldPosition)
 void QtGraphNodeData::updateStyle()
 {
 	GraphViewStyle::NodeStyle style = GraphViewStyle::getStyleForNodeType(
-		m_data->getType(), m_data->isExplicit(), m_isActive, m_isHovering, m_childVisible);
+		m_data->getType(), m_data->isExplicit(), m_isActive, m_isHovering, m_childVisible, m_hasQualifier);
 	setStyle(style);
 }
 

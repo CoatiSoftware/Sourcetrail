@@ -26,6 +26,7 @@ public:
 
 		int spacingX;
 		int spacingY;
+		int spacingA;
 
 		int minWidth;
 
@@ -102,6 +103,7 @@ public:
 	static size_t getFontSizeOfAccessNode();
 	static size_t getFontSizeOfExpandToggleNode();
 	static size_t getFontSizeOfCountCircle();
+	static size_t getFontSizeOfQualifier();
 
 	static std::string getFontNameForNodeType(Node::NodeType type);
 	static std::string getFontNameOfAccessNode();
@@ -112,11 +114,13 @@ public:
 	static NodeMargins getMarginsOfExpandToggleNode();
 	static NodeMargins getMarginsOfBundleNode();
 
-	static NodeStyle getStyleForNodeType(Node::NodeType type, bool defined, bool isActive, bool isFocused, bool hasChildren);
+	static NodeStyle getStyleForNodeType(
+		Node::NodeType type, bool defined, bool isActive, bool isFocused, bool hasChildren, bool hasQualifier);
 	static NodeStyle getStyleOfAccessNode();
 	static NodeStyle getStyleOfExpandToggleNode();
 	static NodeStyle getStyleOfCountCircle();
 	static NodeStyle getStyleOfBundleNode(bool isFocused);
+	static NodeStyle getStyleOfQualifier();
 
 	static EdgeStyle getStyleForEdgeType(Edge::EdgeType type, bool isActive, bool isFocused);
 

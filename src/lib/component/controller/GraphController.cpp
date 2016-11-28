@@ -262,15 +262,26 @@ void GraphController::createDummyGraphForTokenIds(const std::vector<Id>& tokenId
 	{
 		node->hasParent = false;
 
-		// we remove the name qualifier for java projects.
-		// TODO: get rid of this distinction once we implemented better namespace/package display in graph.
-		if (Application::getInstance()->getCurrentProject()->getLanguage() == LANGUAGE_JAVA && !node->data->isType(Node::NODE_PACKAGE))
+		if (node->data->isType(Node::NODE_UNDEFINED | Node::NODE_NAMESPACE | Node::NODE_PACKAGE))
 		{
-			node->name = node->data->getName();
+			node->name = node->data->getFullName();
 		}
 		else
 		{
-			node->name = node->data->getFullName();
+			node->name = node->data->getName();
+
+			NameHierarchy qualifier = node->data->getNameHierarchy();
+			qualifier.pop();
+
+			if (qualifier.size())
+			{
+				std::shared_ptr<DummyNode> qualifierNode = std::make_shared<DummyNode>();
+				qualifierNode->visible = true;
+				qualifierNode->qualifierName = qualifier;
+
+				node->subNodes.push_back(qualifierNode);
+				node->hasQualifier = true;
+			}
 		}
 	}
 
@@ -516,6 +527,11 @@ bool GraphController::setNodeVisibilityRecursiveBottomUp(DummyNode* node, bool n
 		node->visible = true;
 		return true;
 	}
+	else if (node->isQualifierNode())
+	{
+		node->visible = true;
+		return false;
+	}
 
 	for (std::shared_ptr<DummyNode> subNode : node->subNodes)
 	{
@@ -543,8 +559,11 @@ void GraphController::setNodeVisibilityRecursiveTopDown(DummyNode* node, bool pa
 	{
 		for (std::shared_ptr<DummyNode> subNode : node->subNodes)
 		{
-			node->childVisible = true;
-			setNodeVisibilityRecursiveTopDown(subNode.get(), node->isExpanded());
+			if (!subNode->isQualifierNode())
+			{
+				node->childVisible = true;
+				setNodeVisibilityRecursiveTopDown(subNode.get(), node->isExpanded());
+			}
 		}
 	}
 }
@@ -985,6 +1004,10 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 	{
 		margins = GraphViewStyle::getMarginsOfBundleNode();
 	}
+	else if (node->isQualifierNode())
+	{
+		return;
+	}
 
 	int y = 0;
 	int x = 0;
@@ -1038,9 +1061,15 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 		{
 			continue;
 		}
+		else if (subNode->isQualifierNode())
+		{
+			subNode->position.y = margins.top + margins.charHeight / 2;
+			width += 5;
+			continue;
+		}
 
 		subNode->position.x = margins.left + x;
-		subNode->position.y = margins.top + margins.charHeight + y;
+		subNode->position.y = margins.top + margins.charHeight + margins.spacingA + y;
 
 		if (layoutHorizontal)
 		{
@@ -1075,7 +1104,7 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 	}
 
 	node->size.x = margins.left + width + margins.right;
-	node->size.y = margins.top + margins.charHeight + y + height + margins.bottom;
+	node->size.y = margins.top + margins.charHeight + margins.spacingA + y + height + margins.bottom;
 
 	for (std::shared_ptr<DummyNode> subNode : node->subNodes)
 	{

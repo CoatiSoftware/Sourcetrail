@@ -7,6 +7,7 @@
 #include "utility/utilityString.h"
 
 #include "data/graph/token_component/TokenComponentAccess.h"
+#include "data/name/NameHierarchy.h"
 
 class Node;
 
@@ -42,6 +43,7 @@ public:
 		, expanded(false)
 		, autoExpanded(false)
 		, hasParent(true)
+		, hasQualifier(false)
 		, accessKind(ACCESS_NONE)
 		, invisibleSubNodeCount(0)
 		, layoutBucket(0, 0)
@@ -61,12 +63,17 @@ public:
 
 	bool isExpandToggleNode() const
 	{
-		return !isGraphNode() && !isAccessNode() && !isBundleNode();
+		return !isGraphNode() && !isAccessNode() && !isBundleNode() && !isQualifierNode();
 	}
 
 	bool isBundleNode() const
 	{
 		return bundledNodes.size() > 0;
+	}
+
+	bool isQualifierNode() const
+	{
+		return qualifierName.size();
 	}
 
 	bool isExpanded() const
@@ -222,6 +229,7 @@ public:
 	bool expanded;
 	bool autoExpanded;
 	bool hasParent;
+	bool hasQualifier;
 
 	// AccessNode
 	AccessKind accessKind;
@@ -238,6 +246,9 @@ public:
 	// BundleNode
 	std::vector<std::shared_ptr<DummyNode>> bundledNodes;
 	size_t bundledNodeCount;
+
+	// QualifierNode
+	NameHierarchy qualifierName;
 };
 
 #endif // DUMMY_NODE_H

@@ -88,16 +88,14 @@ void FeatureController::handleMessage(MessageActivateFile* message)
 void FeatureController::handleMessage(MessageActivateNodes* message)
 {
 	std::vector<Id> nodeIds;
-	if (!message->isReplayed())
+
+	for (const MessageActivateNodes::ActiveNode& node : message->nodes)
 	{
-		for (const MessageActivateNodes::ActiveNode& node : message->nodes)
+		if (!message->isReplayed() && node.nodeId)
 		{
 			nodeIds.push_back(node.nodeId);
 		}
-	}
-	else
-	{
-		for (const MessageActivateNodes::ActiveNode& node : message->nodes)
+		else
 		{
 			Id nodeId = m_storageAccess->getIdForNodeWithNameHierarchy(node.nameHierarchy);
 			if (nodeId > 0)
@@ -106,7 +104,6 @@ void FeatureController::handleMessage(MessageActivateNodes* message)
 			}
 		}
 	}
-
 
 	MessageActivateTokens m(message, nodeIds);
 	for (const MessageActivateNodes::ActiveNode& node : message->nodes)

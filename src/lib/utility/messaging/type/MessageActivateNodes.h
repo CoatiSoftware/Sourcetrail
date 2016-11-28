@@ -31,6 +31,16 @@ public:
 		nodes.push_back(node);
 	}
 
+	void addNode(const NameHierarchy& nameHierarchy)
+	{
+		ActiveNode node;
+		node.nodeId = 0;
+		node.type = Node::NODE_UNDEFINED;
+		node.nameHierarchy = nameHierarchy;
+
+		nodes.push_back(node);
+	}
+
 	static const std::string getStaticType()
 	{
 		return "MessageActivateNodes";
