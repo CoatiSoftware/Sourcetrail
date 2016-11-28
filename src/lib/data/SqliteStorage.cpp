@@ -46,6 +46,10 @@ SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 		SqliteIndex("occurrence_element_id_index", "occurrence(element_id)")
 	));
 	m_indices.push_back(std::make_pair(
+		STORAGE_MODE_CLEAR,
+		SqliteIndex("occurrence_source_location_id_index", "occurrence(source_location_id)")
+	));
+	m_indices.push_back(std::make_pair(
 		STORAGE_MODE_WRITE | STORAGE_MODE_READ | STORAGE_MODE_CLEAR,
 		SqliteIndex("component_access_node_id_index", "component_access(node_id)")
 	));
@@ -350,16 +354,80 @@ void SqliteStorage::removeElements(const std::vector<Id>& ids)
 
 void SqliteStorage::removeElementsWithLocationInFiles(const std::vector<Id>& fileIds)
 {
+	// preparing
+	m_database.execDML("DROP TABLE IF EXISTS main.element_id_to_clear;");
+
+	m_database.execDML(
+		"CREATE TABLE IF NOT EXISTS element_id_to_clear("
+		"id INTEGER NOT NULL, "
+		"PRIMARY KEY(id));"
+	);
+
+	// store ids of all elements located in fileIds into element_id_to_clear
+	m_database.execDML((
+		"INSERT INTO element_id_to_clear "
+		"	SELECT occurrence.element_id "
+		"	FROM occurrence "
+		"	INNER JOIN source_location ON ("
+		"		occurrence.source_location_id = source_location.id"
+		"	) "
+		"	WHERE source_location.file_node_id IN (" + utility::join(utility::toStrings(fileIds), ',') + ")"
+		"	GROUP BY (occurrence.element_id)"
+	).c_str());
+
+	// delete all edges in element_id_to_clear
+	m_database.execDML(
+		"DELETE FROM element WHERE element.id IN (SELECT element_id_to_clear.id FROM element_id_to_clear INNER JOIN edge ON (element_id_to_clear.id = edge.id))"
+	);
+
+	// delete all edges originating from element_id_to_clear
+	m_database.execDML(
+		"DELETE FROM element WHERE element.id IN (SELECT id FROM edge WHERE source_node_id IN (SELECT id FROM element_id_to_clear))"
+	);
+
+	// remove all edges from element_id_to_clear (they have been cleared by now and we can disregard them)
+	m_database.execDML(
+		"DELETE FROM element_id_to_clear WHERE id IN ("
+		"	SELECT id FROM edge"
+		")"
+	);
+
+	// remove all files from element_id_to_clear (they will be cleared later)
+	m_database.execDML(
+		"DELETE FROM element_id_to_clear WHERE id IN ("
+		"	SELECT id FROM file"
+		")"
+	);
+
+	// delete source locations from fileIds (this also deletes the respective occurrences)
 	m_database.execDML((
 		"DELETE FROM source_location WHERE file_node_id IN (" + utility::join(utility::toStrings(fileIds), ',') + ");"
 	).c_str());
 
+	// remove all ids from element_id_to_clear that still have occurrences
 	m_database.execDML(
-		"DELETE FROM element WHERE "
-			"element.id NOT IN ("
-				"SELECT occurrence.element_id FROM occurrence WHERE occurrence.element_id == element.id LIMIT 1"
-			");" // delete all elements that dont have a source location. This query is executed for each element that passed the first test.
+		"DELETE FROM element_id_to_clear WHERE id IN ("
+		"	SELECT element_id_to_clear.id FROM element_id_to_clear INNER JOIN occurrence ON element_id_to_clear.id = occurrence.element_id"
+		")"
 	);
+
+	// remove all ids from element_id_to_clear that still have an edge pointing to them
+	m_database.execDML(
+		"DELETE FROM element_id_to_clear WHERE id IN ("
+		"	SELECT target_node_id FROM edge"
+		")"
+	);
+
+	// delete all elements that are still listed in element_id_to_clear
+	m_database.execDML(
+		"DELETE FROM element WHERE id IN ("
+		"	SELECT id FROM element_id_to_clear"
+		")"
+	);
+
+	// cleaning up
+	m_database.execDML("DROP TABLE IF EXISTS main.element_id_to_clear;");
+
 }
 
 void SqliteStorage::removeErrorsInFiles(const std::vector<FilePath>& filePaths)
