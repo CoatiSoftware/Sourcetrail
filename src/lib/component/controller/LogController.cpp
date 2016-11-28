@@ -32,6 +32,7 @@ LogView* LogController::getView() const
 
 void LogController::clear()
 {
+	m_logs.clear();
 	getView()->clear();
 }
 
@@ -78,6 +79,11 @@ void LogController::handleMessage(MessageLogFilterChanged* message)
 	settings->setLogFilter(m_logLevel);
 	settings->save();
 	syncLogs();
+}
+
+void LogController::handleMessage(MessageClearLogView* message)
+{
+	clear();
 }
 
 void LogController::addLog(Logger::LogLevel type, const LogMessage& message)

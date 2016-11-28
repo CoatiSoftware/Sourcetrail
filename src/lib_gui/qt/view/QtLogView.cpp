@@ -10,6 +10,7 @@
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
 #include "qt/view/QtViewWidgetWrapper.h"
+#include "utility/messaging/type/MessageClearLogView.h"
 #include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageLogFilterChanged.h"
 #include "utility/ResourcePaths.h"
@@ -100,11 +101,12 @@ void QtLogView::initView()
 
 	QPushButton* clearButton = new QPushButton("clear log");
 	connect(clearButton, &QPushButton::clicked,
-			[=]()
-			{
-				doClear();
-			});
-	//filters->addWidget(clearButton);
+		[=]()
+		{
+			//doClear();
+			MessageClearLogView().dispatch();
+		});
+	filters->addWidget(clearButton);
 	filters->addSpacing(30);
 
 	updateMask();

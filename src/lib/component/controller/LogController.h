@@ -9,6 +9,7 @@
 #include "utility/logging/Logger.h"
 #include "utility/logging/LogMessage.h"
 #include "utility/messaging/MessageListener.h"
+#include "utility/messaging/type/MessageClearLogView.h"
 #include "utility/messaging/type/MessageLogFilterChanged.h"
 
 class StorageAccess;
@@ -16,6 +17,7 @@ class StorageAccess;
 class LogController
 	: public Controller
 	, public Logger
+	, public MessageListener<MessageClearLogView>
 	, public MessageListener<MessageLogFilterChanged>
 {
 public:
@@ -35,6 +37,7 @@ private:
 	virtual void logWarning(const LogMessage& message);
 	virtual void logError(const LogMessage& message);
 
+	virtual void handleMessage(MessageClearLogView* message);
 	virtual void handleMessage(MessageLogFilterChanged* message);
 
 	std::vector<Log> m_logs;

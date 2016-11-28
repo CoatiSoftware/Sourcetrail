@@ -255,6 +255,7 @@ add_files(
 	utility/messaging/type/MessageActivateWindow.h
 	utility/messaging/type/MessageChangeFileView.h
 	utility/messaging/type/MessageClearErrorCount.h
+	utility/messaging/type/MessageClearLogView.h
 	utility/messaging/type/MessageCodeReference.h
 	utility/messaging/type/MessageColorSchemeTest.h
 	utility/messaging/type/MessageDeactivateEdge.h
