@@ -98,11 +98,12 @@ if(APPLE)
 	find_library(BOTAN ${BOTAN_VERSION} $ENV{BOTAN_DIR}/release NO_DEFAULT_PATH)
 	find_library(BOTAN_D ${BOTAN_VERSION} $ENV{BOTAN_DIR}/debug NO_DEFAULT_PATH)
 elseif(UNIX)
-	find_library(BOTAN ${BOTAN_VERSION} "${EXTERNAL_BUILD}/botan" NO_DEFAULT_PATH)
+	find_library(BOTAN ${BOTAN_VERSION} "${BOTAN_DIR}")
 else()
 	find_library(BOTAN botan "$ENV{BOTAN_DIR}/release")
 	find_library(BOTAN_D botan "$ENV{BOTAN_DIR}/debug")
 endif()
+message(STATUS "botanversion: ${BOTAN}")
 
 if(${BOTAN} STREQUAL "BOTAN-NOTFOUND")
 	message(FATAL_ERROR "Botan not found")
@@ -111,9 +112,15 @@ else()
 endif()
 
 if(UNIX AND NOT APPLE)
-	set(BOTAN_INCLUDE_DIR "${EXTERNAL_BUILD}/botan")
+	find_path(BOTAN_INCLUDE_DIR NAMES botan/botan.h
+		PATH_SUFFIXES ${BOTAN_VERSION}
+		DOC "The Botan include directory")
 else()
-	set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}")
+	set(BOTAN_INCLUDE_DIR "$ENV{BOTAN_DIR}/build/include")
+endif()
+
+if(NOT BOTAN_INCLUDE_DIR)
+	message(FATAL_ERROR "Botan include dir not found")
 endif()
 
 

@@ -5,8 +5,6 @@
 #include "License.h"
 #include "Generator.h"
 
-#include "botan_all.h"
-
 class GeneratorTestSuite : public CxxTest::TestSuite
 {
 public:

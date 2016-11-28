@@ -4,9 +4,11 @@
 #include <fstream>
 #include <sstream>
 
-#include "botan_all.h"
 #include "boost/filesystem.hpp"
 #include "boost/date_time/gregorian/gregorian.hpp"
+#include "botan/pk_keys.h"
+#include "botan/pkcs8.h"
+#include "botan/rsa.h"
 
 #include "License.h"
 

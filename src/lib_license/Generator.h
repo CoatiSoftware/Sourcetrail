@@ -3,7 +3,13 @@
 
 #include <string>
 
-#include "botan_all.h"
+//#include "botan_all.h"
+#include "botan/auto_rng.h"
+
+namespace Botan
+{
+	class RSA_PrivateKey;
+}
 
 class Generator
 {

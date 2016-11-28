@@ -10,7 +10,7 @@
 * Valgrind 3.9.0 (linux)
 * Clang & LLVM 3.8 (doesnt quite work for windows, use unix setup below and skip all the ninja stuff)(installation guide http://clang.llvm.org/docs/LibASTMatchersTutorial.html)
 * Boost 1.59
-* Botan 1.11.24
+* Botan 1.11.34
 
 #### Environment Variables
 
@@ -18,7 +18,7 @@
 * CXX_TEST_DIR - .../cxxtest-4.3
 * CLANG_DIR - .../clang-llvm
 * BOOST_159_DIR - .../boost_1_59_0
-* BOTAN_DIR - .../Botan-1.11.24
+* BOTAN_DIR - .../Botan-1.11.34
 
 For Win32:
 * VLD_DIR - .../Visual Leak Detector
@@ -32,13 +32,13 @@ Build release lib in ${BOTAN_DIR}/release
 Build debug lib in ${BOTAN_DIR}/debug
 
 for Windows release build:
-$ python configure.py --cc=msvc --cpu=x86_32 --via-amalgamation --disable-shared
+$ python configure.py --cc=msvc --cpu=x86_32 --disable-shared
 
 for Windows debug build:
-python configure.py --cc=msvc --cpu=x86_32 --via-amalgamation --disable-shared --no-optimizations --with-debug-info
+python configure.py --cc=msvc --cpu=x86_32 --disable-shared --no-optimizations --with-debug-info
 
 for other:
-$ python configure.py --via-amalgamation --disable-shared
+$ python configure.py --disable-shared
 
 #### Settings
 
