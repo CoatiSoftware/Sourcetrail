@@ -43,7 +43,6 @@ private:
 	void addLog(Logger::LogLevel type, const LogMessage& message);
 	void syncLogs();
 	bool m_waiting;
-	int m_previousLogCount;
 	Logger::LogLevelMask m_logLevel;
 };
 

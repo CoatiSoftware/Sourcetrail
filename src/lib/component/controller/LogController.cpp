@@ -7,8 +7,6 @@
 LogController::LogController()
 	: Logger("WindowLogger")
 	, m_enabled(false)
-	, m_previousLogCount(0)
-	, m_waiting(false)
 {
 }
 
