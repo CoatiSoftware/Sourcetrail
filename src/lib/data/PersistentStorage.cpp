@@ -645,6 +645,7 @@ std::vector<SearchMatch> PersistentStorage::getSearchMatchesForTokenIds(const st
 
 		NameHierarchy nameHierarchy = NameHierarchy::deserialize(m_sqliteStorage.getNodeById(elementId).serializedName);
 		match.name = nameHierarchy.getQualifiedName();
+		match.text = nameHierarchy.getRawName();
 		match.nameHierarchies.push_back(nameHierarchy.getQualifiedName());
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 
