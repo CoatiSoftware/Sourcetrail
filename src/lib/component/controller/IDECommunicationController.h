@@ -38,6 +38,7 @@ private:
 	void handleSetActiveTokenMessage(const NetworkProtocolHelper::SetActiveTokenMessage& message);
 	void handleCreateProjectMessage(const NetworkProtocolHelper::CreateProjectMessage& message);
 	void handleCreateCDBProjectMessage(const NetworkProtocolHelper::CreateCDBProjectMessage& message);
+	void handlePing(const NetworkProtocolHelper::PingMessage& message);
 
 	virtual void handleMessage(MessageIDECreateCDB* message);
 	virtual void handleMessage(MessageMoveIDECursor* message);

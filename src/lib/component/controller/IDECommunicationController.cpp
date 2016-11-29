@@ -12,6 +12,7 @@
 #include "utility/messaging/type/MessageProjectNew.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/messaging/type/MessageActivateFile.h"
+#include "utility/messaging/type/MessagePingReceived.h"
 
 IDECommunicationController::IDECommunicationController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
@@ -47,6 +48,10 @@ void IDECommunicationController::handleIncomingMessage(const std::string& messag
 	else if (type == NetworkProtocolHelper::MESSAGE_TYPE::CREATE_CDB_MESSAGE)
 	{
 		handleCreateCDBProjectMessage(NetworkProtocolHelper::parseCreateCDBProjectMessage(message));
+	}
+	else if (type == NetworkProtocolHelper::MESSAGE_TYPE::PING)
+	{
+		handlePing(NetworkProtocolHelper::parsePingMessage(message));
 	}
 	else
 	{
@@ -152,13 +157,37 @@ void IDECommunicationController::handleCreateCDBProjectMessage(const NetworkProt
 		msg->setHeaderPaths(message.headerPaths);
 		msg->ideId = message.ideId;
 
-		bool foo = msg->fromCDB();
-
 		MessageDispatchWhenLicenseValid(msg).dispatch();
 	}
 	else
 	{
 		LOG_ERROR_STREAM(<< "Unable to parse provided CDB, invalid data received");
+	}
+}
+
+void IDECommunicationController::handlePing(const NetworkProtocolHelper::PingMessage& message)
+{
+	if (message.valid)
+	{
+		std::shared_ptr<MessagePingReceived> msg = std::make_shared<MessagePingReceived>();
+		msg->ideId = message.ideId;
+
+		std::string ideName = "unknown";
+
+		if (msg->ideId == "vs")
+		{
+			ideName = "Visual Studio";
+		}
+		// TODO: add the other ides
+
+		std::string message = ideName + " instance detected";
+
+		MessageStatus(message, false, false).dispatch();
+		MessageDispatchWhenLicenseValid(msg).dispatch();
+	}
+	else
+	{
+		LOG_ERROR_STREAM(<< "Can't handle ping, message is invalid");
 	}
 }
 

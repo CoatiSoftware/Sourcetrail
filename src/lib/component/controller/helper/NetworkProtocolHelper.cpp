@@ -14,6 +14,7 @@ std::string NetworkProtocolHelper::m_endOfMessageToken = "<EOM>";
 std::string NetworkProtocolHelper::m_createProjectPrefix = "createProject";
 std::string NetworkProtocolHelper::m_createCDBProjectPrefix = "createCDBProject";
 std::string NetworkProtocolHelper::m_createCDBPrefix = "createCDB";
+std::string NetworkProtocolHelper::m_pingPrefix = "ping";
 
 NetworkProtocolHelper::MESSAGE_TYPE NetworkProtocolHelper::getMessageType(const std::string& message)
 {
@@ -32,6 +33,10 @@ NetworkProtocolHelper::MESSAGE_TYPE NetworkProtocolHelper::getMessageType(const 
 		else if (subMessages[0] == m_createCDBProjectPrefix)
 		{
 			return MESSAGE_TYPE::CREATE_CDB_MESSAGE;
+		}
+		else if (subMessages[0] == m_pingPrefix)
+		{
+			return MESSAGE_TYPE::PING;
 		}
 		else
 		{
@@ -196,6 +201,48 @@ NetworkProtocolHelper::CreateCDBProjectMessage NetworkProtocolHelper::parseCreat
 	return networkMessage;
 }
 
+NetworkProtocolHelper::PingMessage NetworkProtocolHelper::parsePingMessage(const std::string& message)
+{
+	std::vector<std::string> subMessages = divideMessage(message);
+
+	NetworkProtocolHelper::PingMessage pingMessage;
+
+	if (subMessages.size() > 0)
+	{
+		if (subMessages[0] == m_pingPrefix)
+		{
+			if (subMessages.size() < 2)
+			{
+				LOG_ERROR_STREAM(<< "Failed to parse PingMessage message, too few tokens");
+			}
+			else
+			{
+				std::string ideId = subMessages[1];
+
+				if (ideId.length() > 0)
+				{
+					std::string nonConstId = ideId;
+					boost::algorithm::to_lower(nonConstId);
+
+					pingMessage.ideId = ideId;
+
+					pingMessage.valid = true;
+				}
+				else
+				{
+					LOG_WARNING_STREAM(<< "Failed to parse ide ID string. Is " << ideId);
+				}
+			}
+		}
+		else
+		{
+			LOG_ERROR_STREAM(<< "Failed to parse message, invalid type token: " << subMessages[0] << ". Expected " << m_pingPrefix);
+		}
+	}
+
+	return pingMessage;
+}
+
 std::string NetworkProtocolHelper::buildSetIDECursorMessage(const std::string& fileLocation, const unsigned int row, const unsigned int column)
 {
 	std::stringstream messageStream;
@@ -217,6 +264,18 @@ std::string NetworkProtocolHelper::buildCreateCDBMessage()
 	std::stringstream messageStream;
 
 	messageStream << m_createCDBPrefix;
+	messageStream << m_endOfMessageToken;
+
+	return messageStream.str();
+}
+
+std::string NetworkProtocolHelper::buildPingMessage()
+{
+	std::stringstream messageStream;
+
+	messageStream << m_pingPrefix;
+	messageStream << m_divider;
+	messageStream << "coati";
 	messageStream << m_endOfMessageToken;
 
 	return messageStream.str();

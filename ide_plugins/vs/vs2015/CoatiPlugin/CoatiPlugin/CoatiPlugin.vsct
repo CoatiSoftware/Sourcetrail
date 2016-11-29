@@ -66,6 +66,7 @@
       </Button>
       -->
 
+      <!--
       <Button guid="guidCoatiPluginCmdSet" id="cmdidCoatiCreateProject" priority="0x0100" type="Button">
         <Parent guid="guidCoatiPluginCmdSet" id="SubMenu" />
         <Icon guid="icon" id="icon0" />
@@ -73,12 +74,13 @@
           <ButtonText>Create Coati Project</ButtonText>
         </Strings>
       </Button>
-      
+      -->
+        
       <Button guid="guidCoatiPluginCmdSet" id="cmdidCoatiCreateCDB" priority="0x0100" type="Button">
         <Parent guid="guidCoatiPluginCmdSet" id="SubMenu" />
         <Icon guid="icon" id="icon0" />
         <Strings>
-          <ButtonText>Create CDB (Beta)</ButtonText>
+          <ButtonText>Create CDB</ButtonText>
         </Strings>
       </Button>
       

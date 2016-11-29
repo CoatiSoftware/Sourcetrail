@@ -12,6 +12,8 @@
 * Boost 1.59
 * Botan 1.11.34
 
+also something about java, but who knows...
+
 #### Environment Variables
 
 * QT_DIR - .../Qt/Qt5.6.0/5.6/<IDE>

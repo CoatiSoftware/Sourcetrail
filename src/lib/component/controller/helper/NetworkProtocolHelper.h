@@ -53,12 +53,25 @@ public:
 		bool valid;
 	};
 
+	struct PingMessage
+	{
+	public:
+		PingMessage()
+			: ideId("")
+			, valid(false)
+		{}
+
+		std::string ideId;
+		bool valid;
+	};
+
 	enum MESSAGE_TYPE
 	{
 		UNKNOWN = 0,
 		SET_ACTIVE_TOKEN,
 		CREATE_PROJECT,
-		CREATE_CDB_MESSAGE
+		CREATE_CDB_MESSAGE,
+		PING
 	};
 
 	static MESSAGE_TYPE getMessageType(const std::string& message);
@@ -66,9 +79,11 @@ public:
 	static SetActiveTokenMessage parseSetActiveTokenMessage(const std::string& message);
 	static CreateProjectMessage parseCreateProjectMessage(const std::string& message);
 	static CreateCDBProjectMessage parseCreateCDBProjectMessage(const std::string& message);
+	static PingMessage parsePingMessage(const std::string& message);
 
 	static std::string buildSetIDECursorMessage(const std::string& fileLocation, const unsigned int row, const unsigned int column);
 	static std::string buildCreateCDBMessage();
+	static std::string buildPingMessage();
 
 private:
 	static std::vector<std::string> divideMessage(const std::string& message);
@@ -85,6 +100,7 @@ private:
 	static std::string m_createProjectPrefix;
 	static std::string m_createCDBProjectPrefix;
 	static std::string m_createCDBPrefix;
+	static std::string m_pingPrefix;
 };
 
 #endif // NETWORK_PROTOCOL_HELPER_H

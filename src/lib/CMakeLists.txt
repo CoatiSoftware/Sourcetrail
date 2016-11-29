@@ -276,6 +276,7 @@ add_files(
 	utility/messaging/type/MessageLoadProject.h
 	utility/messaging/type/MessageMoveIDECursor.h
 	utility/messaging/type/MessageNewErrors.h
+	utility/messaging/type/MessagePingReceived.h
 	utility/messaging/type/MessagePluginPortChange.h
 	utility/messaging/type/MessageProjectEdit.h
 	utility/messaging/type/MessageProjectNew.h

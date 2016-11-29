@@ -1911,6 +1911,64 @@
 						</div>
 					</div>
 					
+					<h2>IDE Communication Protocol</h2>
+					<p>Coati's IDE plugins communicate with Coati via sockets, using TCP. Coati implements a number of messages to provide an interface for the plugins.</p>
+					<p>This chapter explains the general structure of those messages, followed by a list of possible message types.</p>
+					
+					<h3>Message Structure</h3>
+					
+					<p>The basic structure of the messages used by Coati plugins consists of a prefix to identify the message type, followed by no, one, or multiple parameters and ends with an 'end-of-message' token. Parameters and tokens are seperated by a 'divider' token.</p>
+					
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Name</th> <th>Token</th> <th>Description</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row">messageType</th> <th><a href="#MessageTypes">see below</a></th> <td>A string that determines how the message will be interpreted by Coati or the plugin</td> </tr>
+							<tr> <th scope="row">divider</th> <th><code>>></code></th> <td>Seperates the tokens of the message</td> </tr>
+							<tr> <th scope="row">parameter</th> <th><a href="#MessageTypes">see below</a></th> <td>Typically an integer or string</td> </tr>
+							<tr> <th scope="row">endOfMessage</th> <th><code>&lt;EOM&gt;</code></th> <td>Helps to determine the end of a message</td> </tr>
+						</tbody>
+					</table>
+					
+					<p>Messages have the following form:</p>
+					
+					<p><code>messageType&lt;&lt;parameter&lt;&lt;...&lt;&lt;parameter&lt;EOM&gt;</code></p>
+					
+					<h3>Message Types</h3>
+					
+					<p>Coati does implement a number of message types that can be used by Coati plugins. In the following is a list of the messages that Coati may send to plugins and messages that may be sent by a plugin to Coati.</p>
+					
+					<p>Note that you can chose which messages you want to implement. Coati will not make problems if you chose to ignore certain messages.</p>
+					
+					<strong>Incoming messages</strong>
+					<p>These messages may be received by a plugin.</p>
+					
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Message</th> <th>Parameters</th> <th>Description</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row"><code>moveCursor</code></th> <th>fileLocation: string<br>row: integer<br>column: integer</th> <td>Set the cursor of your editor or IDE to the given file location.<br>Note that fileLocation is the absolute path and name of the target file.</td> </tr>
+							<tr> <th scope="row"><code>createCDB</code></th> <th></th> <td>Coati may send this message to prompt your plugin to create a Compilation Database (CDB). Once the CDB is ready you may want to respond with a <code>createCDBProject</code> message.</td> </tr>
+							<tr> <th scope="row"><code>ping</code></th> <th></th> <td>Coati may send a ping to determine if anybody is listening. Respond with a ping message yourself. Coati will not respond to this message.</td> </tr>
+						</tbody>
+					</table>
+					
+					<strong>Outgoing messages</strong>
+					<p>Your plugin may send these messages to Coati.</p>
+					
+					<table class="table table-hover">
+						<thead>
+							<tr> <th>Message</th> <th>Parameters</th> <th>Description</th> </tr>
+						</thead>
+						<tbody>
+							<tr> <th scope="row"><code>setActiveToken</code></th> <th>fileLocation: string<br>row: integer<br>column: integer</th> <td>Tells Coati to shift focus to the token located at the given position. Note that fileLocation is the absolute path and name of the target file.</td> </tr>
+							<tr> <th scope="row"><code>createCDBProject</code></th> <th>cdbPath: string<br>headerPaths: string</th> <td>If your plugin can provide a Compilation Database this message can prompt Coati to import it and display an appropriate dialog for the user. headerPaths is a list of the base project's header include paths. Seperate the single paths using the divider token. You can add as many paths as you need.</td> </tr>
+							<tr> <th scope="row"><code>ping</code></th> <th></th> <td>Your plugin may send this message to Coati to tell it it's listening.</td> </tr>
+						</tbody>
+					</table>
+					
 				</div> <!-- .span9 !-->
 			</div> <!-- .row !-->
 		</div> <!-- .container-fluid !-->

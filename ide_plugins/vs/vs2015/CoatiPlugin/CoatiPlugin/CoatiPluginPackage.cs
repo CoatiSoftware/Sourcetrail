@@ -198,6 +198,8 @@ namespace CoatiSoftware.CoatiPlugin
             _solutionEvents.Opened += OnSolutionOpened;
             _solutionEvents.AfterClosing += OnSolutionClosed;
 
+            SendPing();
+
             Logging.Logging.LogInfo("Initialization done");
         }
 
@@ -285,6 +287,13 @@ namespace CoatiSoftware.CoatiPlugin
             Logging.Obfuscation.NameObfuscator.Enabled(LogObfuscationEnabled);
 
             Logging.Logging.LogInfo("Logging initialized");
+        }
+
+        private void SendPing()
+        {
+            string message = Utility.NetworkProtocolUtility.CreatePingMessage();
+
+            Utility.AsynchronousClient.Send(message);
         }
 
         private void OnCreateProject(List<EnvDTE.Project> projects, string configurationName, string platformName, string targetDir, string fileName, string cStandard)
@@ -460,6 +469,10 @@ namespace CoatiSoftware.CoatiPlugin
 
                     CreateCompilationDatabase(dte);
                 }
+            }
+            else if(messageType == Utility.NetworkProtocolUtility.MESSAGE_TYPE.PING)
+            {
+                SendPing();
             }
         }
 
