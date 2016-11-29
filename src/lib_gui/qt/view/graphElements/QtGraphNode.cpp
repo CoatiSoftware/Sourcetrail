@@ -419,7 +419,7 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 		m_undefinedRect->setRadius(radius);
 	}
 
-	if (style.iconPath.size())
+	if (!m_icon && style.iconPath.size())
 	{
 		QtDeviceScaledPixmap pixmap(QString::fromStdString(style.iconPath));
 		pixmap.scaleToHeight(style.iconSize);
