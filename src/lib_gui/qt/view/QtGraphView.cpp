@@ -271,6 +271,11 @@ void QtGraphView::doRebuildGraph(
 		m_graph = graph;
 	}
 
+	if (!params.centerActiveNode)
+	{
+		m_activeNode.reset();
+	}
+
 	if (params.animatedTransition)
 	{
 		createTransition();
@@ -278,11 +283,6 @@ void QtGraphView::doRebuildGraph(
 	else
 	{
 		switchToNewGraphData();
-	}
-
-	if (!params.centerActiveNode)
-	{
-		m_activeNode.reset();
 	}
 }
 
