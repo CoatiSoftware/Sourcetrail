@@ -91,47 +91,6 @@ bool MouseReleaseFilter::eventFilter(QObject* obj, QEvent* event)
 	return QObject::eventFilter(obj, event);
 }
 
-MouseWheelFilter::MouseWheelFilter(QObject* parent)
-	: QObject(parent)
-	, m_isWaiting(false)
-{
-}
-
-bool MouseWheelFilter::eventFilter(QObject* obj, QEvent* event)
-{
-	bool dispatched = false;
-
-	if (!m_isWaiting && event->type() == QEvent::Wheel && QApplication::keyboardModifiers() == Qt::ControlModifier)
-	{
-		QWheelEvent* wheelEvent = dynamic_cast<QWheelEvent*>(event);
-
-		if (wheelEvent->delta() > 0.0f)
-		{
-			MessageZoom(true).dispatch();
-			dispatched = true;
-		}
-		else if (wheelEvent->delta() < 0.0f)
-		{
-			MessageZoom(false).dispatch();
-			dispatched = true;
-		}
-	}
-
-	if (dispatched)
-	{
-		QTimer::singleShot(250, this, SLOT(stopWaiting()));
-		m_isWaiting = true;
-		return true;
-	}
-
-	return QObject::eventFilter(obj, event);
-}
-
-void MouseWheelFilter::stopWaiting()
-{
-	m_isWaiting = false;
-}
-
 
 QtMainWindow::QtMainWindow()
 	: m_showDockWidgetTitleBars(true)
@@ -146,7 +105,6 @@ QtMainWindow::QtMainWindow()
 
 	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
 	app->installEventFilter(new MouseReleaseFilter(this));
-	app->installEventFilter(new MouseWheelFilter(this));
 
 	app->setStyleSheet(utility::getStyleSheet(ResourcePaths::getGuiPath() + "main.css").c_str());
 
