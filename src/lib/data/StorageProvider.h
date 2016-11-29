@@ -18,6 +18,8 @@ public:
 	// returns empty shared_ptr if no storages available
 	std::shared_ptr<IntermediateStorage> popInjectionSource();
 
+	void logCurrentState() const;
+
 private:
 	std::list<std::shared_ptr<IntermediateStorage>> m_storages; // larger storages are in front
 	mutable std::mutex m_storagesMutex;

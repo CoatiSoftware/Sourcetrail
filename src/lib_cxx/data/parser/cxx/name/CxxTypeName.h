@@ -13,6 +13,8 @@
 class CxxTypeName: public CxxName
 {
 public:
+	static std::shared_ptr<CxxTypeName> makeUnsolvedIfNull(std::shared_ptr<CxxTypeName> name);
+
 	struct Modifier
 	{
 		Modifier(std::string symbol);

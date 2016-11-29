@@ -1,5 +1,16 @@
 #include "data/parser/cxx/name/CxxTypeName.h"
 
+std::shared_ptr<CxxTypeName> CxxTypeName::makeUnsolvedIfNull(std::shared_ptr<CxxTypeName> name)
+{
+	if (name)
+	{
+		return name;
+	}
+	return std::make_shared<CxxTypeName>(
+		"unsolved-type", std::vector<std::string>()
+	);
+}
+
 CxxTypeName::Modifier::Modifier(std::string symbol)
 	: symbol(symbol)
 {

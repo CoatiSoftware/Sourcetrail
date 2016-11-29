@@ -38,13 +38,15 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl
 		}
 	}
 
-	if ((clang::isa<clang::CXXRecordDecl>(declaration)) &&
+	std::shared_ptr<CxxDeclName> declName;
+
+	if ((declaration) &&
+		(clang::isa<clang::CXXRecordDecl>(declaration)) &&
 		(clang::dyn_cast<clang::CXXRecordDecl>(declaration)->isLambda()))
 	{
 		declaration = clang::dyn_cast<clang::CXXRecordDecl>(declaration)->getLambdaCallOperator();
 	}
 
-	std::shared_ptr<CxxDeclName> declName;
 	if (declaration)
 	{
 		declName = getDeclName(clang::dyn_cast<const clang::NamedDecl>(declaration));
@@ -89,195 +91,198 @@ std::shared_ptr<CxxName> CxxDeclNameResolver::getContextName(const clang::DeclCo
 
 std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getDeclName(const clang::NamedDecl* declaration)
 {
-	ScopedSwitcher<const clang::NamedDecl*> switcher(m_currentDecl, declaration);
+	if (declaration)
+	{
+		ScopedSwitcher<const clang::NamedDecl*> switcher(m_currentDecl, declaration);
 
-	std::string declNameString = declaration->getNameAsString();
-	if (const clang::TypeAliasDecl* typeAliasDecl = clang::dyn_cast_or_null<clang::TypeAliasDecl>(declaration))
-	{
-		clang::TypeAliasTemplateDecl* templatedDeclaration = typeAliasDecl->getDescribedAliasTemplate();
-		if (templatedDeclaration)
+		std::string declNameString = declaration->getNameAsString();
+		if (const clang::TypeAliasDecl* typeAliasDecl = clang::dyn_cast_or_null<clang::TypeAliasDecl>(declaration))
 		{
-			return getDeclName(templatedDeclaration);
-		}
-	}
-	if (const clang::RecordDecl* recordDecl = clang::dyn_cast_or_null<clang::RecordDecl>(declaration))
-	{
-		if (recordDecl->isLambda())
-		{
-			// we skip this node because its child (the lambda call operator) has already been recorded.
-			return std::shared_ptr<CxxDeclName>();
-		}
-		else if (declNameString.size() == 0)
-		{
-			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-			const std::string symbolKindName = (recordDecl->isStruct() ? "struct" : "class");
-			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(symbolKindName, presumedBegin), std::vector<std::string>());
-		}
-		else if (const clang::CXXRecordDecl* cxxRecordDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(declaration))
-		{
-			clang::ClassTemplateDecl* templateClassDeclaration = cxxRecordDecl->getDescribedClassTemplate();
-			if (templateClassDeclaration)
+			clang::TypeAliasTemplateDecl* templatedDeclaration = typeAliasDecl->getDescribedAliasTemplate();
+			if (templatedDeclaration)
 			{
-				return getDeclName(templateClassDeclaration);
+				return getDeclName(templatedDeclaration);
 			}
-			else if (clang::isa<clang::ClassTemplatePartialSpecializationDecl>(declaration))
+		}
+		if (const clang::RecordDecl* recordDecl = clang::dyn_cast_or_null<clang::RecordDecl>(declaration))
+		{
+			if (recordDecl->isLambda())
 			{
-				const clang::ClassTemplatePartialSpecializationDecl* partialSpecializationDecl =
-					clang::dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(declaration);
-
-				clang::TemplateParameterList* parameterList = partialSpecializationDecl->getTemplateParameters();
-				unsigned int currentParameterIndex = 0;
-
-				std::vector<std::string> templateParameters;
-				const clang::TemplateArgumentList& templateArgumentList = partialSpecializationDecl->getTemplateArgs();
-				const int templateArgumentCount = templateArgumentList.size();
-				for (int i = 0; i < templateArgumentCount; i++)
+				// we skip this node because its child (the lambda call operator) has already been recorded.
+				return std::shared_ptr<CxxDeclName>();
+			}
+			else if (declNameString.size() == 0)
+			{
+				const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+				const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
+				const std::string symbolKindName = (recordDecl->isStruct() ? "struct" : "class");
+				return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol(symbolKindName, presumedBegin), std::vector<std::string>());
+			}
+			else if (const clang::CXXRecordDecl* cxxRecordDecl = clang::dyn_cast_or_null<clang::CXXRecordDecl>(declaration))
+			{
+				clang::ClassTemplateDecl* templateClassDeclaration = cxxRecordDecl->getDescribedClassTemplate();
+				if (templateClassDeclaration)
 				{
-					const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
-					if (templateArgument.isDependent()) //  IMPORTANT_TODO: fix case when arg depends on template parameter of outer template class, or depends on first template parameter.
+					return getDeclName(templateClassDeclaration);
+				}
+				else if (clang::isa<clang::ClassTemplatePartialSpecializationDecl>(declaration))
+				{
+					const clang::ClassTemplatePartialSpecializationDecl* partialSpecializationDecl =
+						clang::dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(declaration);
+
+					clang::TemplateParameterList* parameterList = partialSpecializationDecl->getTemplateParameters();
+					unsigned int currentParameterIndex = 0;
+
+					std::vector<std::string> templateParameters;
+					const clang::TemplateArgumentList& templateArgumentList = partialSpecializationDecl->getTemplateArgs();
+					const int templateArgumentCount = templateArgumentList.size();
+					for (int i = 0; i < templateArgumentCount; i++)
 					{
-						if(currentParameterIndex < parameterList->size())
+						const clang::TemplateArgument& templateArgument = templateArgumentList.get(i);
+						if (templateArgument.isDependent()) //  IMPORTANT_TODO: fix case when arg depends on template parameter of outer template class, or depends on first template parameter.
 						{
-							templateParameters.push_back(getTemplateParameterString(parameterList->getParam(currentParameterIndex)));
+							if(currentParameterIndex < parameterList->size())
+							{
+								templateParameters.push_back(getTemplateParameterString(parameterList->getParam(currentParameterIndex)));
+							}
+							else
+							{
+								//this if fixes the crash, but not the problem TODO
+								// const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+								// LOG_ERROR("Template getParam out of Range " + declaration->getLocation().printToString(sourceManager));
+							}
+							currentParameterIndex++;
 						}
 						else
 						{
-							//this if fixes the crash, but not the problem TODO
-							// const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-							// LOG_ERROR("Template getParam out of Range " + declaration->getLocation().printToString(sourceManager));
+							templateParameters.push_back(getTemplateArgumentName(templateArgument));
 						}
-						currentParameterIndex++;
 					}
-					else
-					{
-						templateParameters.push_back(getTemplateArgumentName(templateArgument));
-					}
-				}
 
-				return std::make_shared<CxxDeclName>(declNameString, templateParameters);
-			}
-			else if (clang::isa<clang::ClassTemplateSpecializationDecl>(declaration))
-			{
-				std::vector<std::string> templateArguments;
-				const clang::TemplateArgumentList& templateArgumentList = clang::dyn_cast<clang::ClassTemplateSpecializationDecl>(declaration)->getTemplateArgs();
-				for (size_t i = 0; i < templateArgumentList.size(); i++)
-				{
-					templateArguments.push_back(getTemplateArgumentName(templateArgumentList.get(i)));
+					return std::make_shared<CxxDeclName>(declNameString, templateParameters);
 				}
-				return std::make_shared<CxxDeclName>(declNameString, templateArguments);
+				else if (clang::isa<clang::ClassTemplateSpecializationDecl>(declaration))
+				{
+					std::vector<std::string> templateArguments;
+					const clang::TemplateArgumentList& templateArgumentList = clang::dyn_cast<clang::ClassTemplateSpecializationDecl>(declaration)->getTemplateArgs();
+					for (size_t i = 0; i < templateArgumentList.size(); i++)
+					{
+						templateArguments.push_back(getTemplateArgumentName(templateArgumentList.get(i)));
+					}
+					return std::make_shared<CxxDeclName>(declNameString, templateArguments);
+				}
 			}
 		}
-	}
-	else if (clang::isa<clang::FunctionDecl>(declaration))
-	{
-		const clang::FunctionDecl* functionDecl = clang::dyn_cast<clang::FunctionDecl>(declaration);
+		else if (clang::isa<clang::FunctionDecl>(declaration))
+		{
+			const clang::FunctionDecl* functionDecl = clang::dyn_cast<clang::FunctionDecl>(declaration);
 
-		std::string functionName = declNameString;
-		std::vector<std::string> templateArguments;
+			std::string functionName = declNameString;
+			std::vector<std::string> templateArguments;
 
-		if ((clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)) &&
-			(clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)->getParent()->isLambda()))
+			if ((clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)) &&
+				(clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)->getParent()->isLambda()))
+			{
+				const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+				const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)->getParent()->getLocStart());
+				functionName = "lambda at " + std::to_string(presumedBegin.getLine()) + ":" + std::to_string(presumedBegin.getColumn());
+			}
+			else if (clang::FunctionTemplateDecl* templateFunctionDeclaration = functionDecl->getDescribedFunctionTemplate())
+			{
+				std::shared_ptr<CxxDeclName> templateDeclName = getDeclName(templateFunctionDeclaration);
+				functionName = templateDeclName->getName();
+				templateArguments = templateDeclName->getTemplateParameterNames();
+			}
+			else
+			{
+				if (functionDecl->isFunctionTemplateSpecialization())
+				{
+					const clang::TemplateArgumentList* templateArgumentList = functionDecl->getTemplateSpecializationArgs();
+					for (size_t i = 0; i < templateArgumentList->size(); i++)
+					{
+						const clang::TemplateArgument& templateArgument = templateArgumentList->get(i);
+						templateArguments.push_back(getTemplateArgumentName(templateArgument));
+					}
+				}
+			}
+
+			bool isStatic = false;
+			bool isConst = false;
+
+			if (clang::isa<clang::CXXMethodDecl>(declaration))
+			{
+				const clang::CXXMethodDecl* methodDecl = clang::dyn_cast<const clang::CXXMethodDecl>(declaration);
+				isStatic = methodDecl->isStatic();
+				isConst = methodDecl->isConst();
+			}
+			else
+			{
+				isStatic = functionDecl->getStorageClass() == clang::SC_Static;
+			}
+
+			CxxTypeNameResolver typenNameResolver(getIgnoredContextDecls());
+			typenNameResolver.ignoreContextDecl(functionDecl);
+			std::shared_ptr<CxxTypeName> returnTypeName = CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(functionDecl->getReturnType()));
+
+			std::vector<std::shared_ptr<CxxTypeName>> parameterTypeNames;
+			for (unsigned int i = 0; i < functionDecl->param_size(); i++)
+			{
+				parameterTypeNames.push_back(CxxTypeName::makeUnsolvedIfNull(typenNameResolver.getName(functionDecl->parameters()[i]->getType())));
+			}
+
+			return std::make_shared<CxxFunctionDeclName>(
+				functionName,
+				templateArguments,
+				returnTypeName,
+				parameterTypeNames,
+				isConst,
+				isStatic
+			);
+		}
+		else if (clang::isa<clang::TemplateDecl>(declaration)) // also triggers on TemplateTemplateParmDecl
+		{
+			std::vector<std::string> templateParameters;
+			clang::TemplateParameterList* parameterList = clang::dyn_cast<clang::TemplateDecl>(declaration)->getTemplateParameters();
+			for (size_t i = 0; i < parameterList->size(); i++)
+			{
+				templateParameters.push_back(getTemplateParameterString(parameterList->getParam(i)));
+			}
+			return std::make_shared<CxxDeclName>(declNameString, templateParameters);
+		}
+		else if (clang::isa<clang::NamespaceDecl>(declaration) && clang::dyn_cast<clang::NamespaceDecl>(declaration)->isAnonymousNamespace())
 		{
 			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(clang::dyn_cast_or_null<clang::CXXMethodDecl>(functionDecl)->getParent()->getLocStart());
-			functionName = "lambda at " + std::to_string(presumedBegin.getLine()) + ":" + std::to_string(presumedBegin.getColumn());
+			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
+			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("namespace", presumedBegin), std::vector<std::string>());
 		}
-		else if (clang::FunctionTemplateDecl* templateFunctionDeclaration = functionDecl->getDescribedFunctionTemplate())
+		else if (clang::isa<clang::EnumDecl>(declaration) && declNameString.size() == 0)
 		{
-			std::shared_ptr<CxxDeclName> templateDeclName = getDeclName(templateFunctionDeclaration);
-			functionName = templateDeclName->getName();
-			templateArguments = templateDeclName->getTemplateParameterNames();
+			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
+			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("enum", presumedBegin), std::vector<std::string>());
 		}
-		else
+		else if (
+			(
+				clang::isa<clang::TemplateTypeParmDecl>(declaration) ||
+				clang::isa<clang::NonTypeTemplateParmDecl>(declaration) ||
+				clang::isa<clang::TemplateTemplateParmDecl>(declaration)
+			) && declNameString.size() == 0)
 		{
-			if (functionDecl->isFunctionTemplateSpecialization())
-			{
-				const clang::TemplateArgumentList* templateArgumentList = functionDecl->getTemplateSpecializationArgs();
-				for (size_t i = 0; i < templateArgumentList->size(); i++)
-				{
-					const clang::TemplateArgument& templateArgument = templateArgumentList->get(i);
-					templateArguments.push_back(getTemplateArgumentName(templateArgument));
-				}
-			}
+			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
+			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("template parameter", presumedBegin), std::vector<std::string>());
+		}
+		else if (clang::isa<clang::ParmVarDecl>(declaration) && declNameString.size() == 0)
+		{
+			const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
+			const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
+			return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("parameter", presumedBegin), std::vector<std::string>());
 		}
 
-		bool isStatic = false;
-		bool isConst = false;
-
-		if (clang::isa<clang::CXXMethodDecl>(declaration))
+		if (declNameString.size() > 0)
 		{
-			const clang::CXXMethodDecl* methodDecl = clang::dyn_cast<const clang::CXXMethodDecl>(declaration);
-			isStatic = methodDecl->isStatic();
-			isConst = methodDecl->isConst();
+			return std::make_shared<CxxDeclName>(declNameString, std::vector<std::string>(), std::shared_ptr<CxxName>());
 		}
-		else
-		{
-			isStatic = functionDecl->getStorageClass() == clang::SC_Static;
-		}
-
-		CxxTypeNameResolver typenNameResolver(getIgnoredContextDecls());
-		typenNameResolver.ignoreContextDecl(functionDecl);
-		std::shared_ptr<CxxTypeName> returnTypeName = typenNameResolver.getName(functionDecl->getReturnType());
-
-		std::vector<std::shared_ptr<CxxTypeName>> parameterTypeNames;
-		for (unsigned int i = 0; i < functionDecl->param_size(); i++)
-		{
-			parameterTypeNames.push_back(typenNameResolver.getName(functionDecl->parameters()[i]->getType()));
-		}
-
-		return std::make_shared<CxxFunctionDeclName>(
-			functionName,
-			templateArguments,
-			returnTypeName,
-			parameterTypeNames,
-			isConst,
-			isStatic
-		);
-	}
-	else if (clang::isa<clang::TemplateDecl>(declaration)) // also triggers on TemplateTemplateParmDecl
-	{
-		std::vector<std::string> templateParameters;
-		clang::TemplateParameterList* parameterList = clang::dyn_cast<clang::TemplateDecl>(declaration)->getTemplateParameters();
-		for (size_t i = 0; i < parameterList->size(); i++)
-		{
-			templateParameters.push_back(getTemplateParameterString(parameterList->getParam(i)));
-		}
-		return std::make_shared<CxxDeclName>(declNameString, templateParameters);
-	}
-	else if (clang::isa<clang::NamespaceDecl>(declaration) && clang::dyn_cast<clang::NamespaceDecl>(declaration)->isAnonymousNamespace())
-	{
-		const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-		return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("namespace", presumedBegin), std::vector<std::string>());
-	}
-	else if (clang::isa<clang::EnumDecl>(declaration) && declNameString.size() == 0)
-	{
-		const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-		return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("enum", presumedBegin), std::vector<std::string>());
-	}
-	else if (
-		(
-			clang::isa<clang::TemplateTypeParmDecl>(declaration) ||
-			clang::isa<clang::NonTypeTemplateParmDecl>(declaration) ||
-			clang::isa<clang::TemplateTemplateParmDecl>(declaration)
-		) && declNameString.size() == 0)
-	{
-		const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-		return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("template parameter", presumedBegin), std::vector<std::string>());
-	}
-	else if (clang::isa<clang::ParmVarDecl>(declaration) && declNameString.size() == 0)
-	{
-		const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
-		const clang::PresumedLoc& presumedBegin = sourceManager.getPresumedLoc(declaration->getLocStart());
-		return std::make_shared<CxxDeclName>(getNameForAnonymousSymbol("parameter", presumedBegin), std::vector<std::string>());
-	}
-
-	if (declNameString.size() > 0)
-	{
-		return std::make_shared<CxxDeclName>(declNameString, std::vector<std::string>(), std::shared_ptr<CxxName>());
 	}
 
 	const clang::SourceManager& sourceManager = declaration->getASTContext().getSourceManager();
@@ -300,27 +305,30 @@ std::string CxxDeclNameResolver::getTemplateParameterString(const clang::NamedDe
 {
 	std::string templateParameterTypeString = "";
 
-	clang::Decl::Kind templateParameterKind = parameter->getKind();
-	switch (templateParameterKind)
+	if (parameter)
 	{
-	case clang::Decl::NonTypeTemplateParm:
-		templateParameterTypeString = getTemplateParameterTypeString(clang::dyn_cast<clang::NonTypeTemplateParmDecl>(parameter));
-		break;
-	case clang::Decl::TemplateTypeParm:
-		templateParameterTypeString = getTemplateParameterTypeString(clang::dyn_cast<clang::TemplateTypeParmDecl>(parameter));
-		break;
-	case clang::Decl::TemplateTemplateParm:
-		templateParameterTypeString = getTemplateParameterTypeString(clang::dyn_cast<clang::TemplateTemplateParmDecl>(parameter));
-		break;
-	default:
-		// LOG_ERROR("Unhandled kind of template parameter.");
-		break;
-	}
+		clang::Decl::Kind templateParameterKind = parameter->getKind();
+		switch (templateParameterKind)
+		{
+		case clang::Decl::NonTypeTemplateParm:
+			templateParameterTypeString = getTemplateParameterTypeString(clang::dyn_cast<clang::NonTypeTemplateParmDecl>(parameter));
+			break;
+		case clang::Decl::TemplateTypeParm:
+			templateParameterTypeString = getTemplateParameterTypeString(clang::dyn_cast<clang::TemplateTypeParmDecl>(parameter));
+			break;
+		case clang::Decl::TemplateTemplateParm:
+			templateParameterTypeString = getTemplateParameterTypeString(clang::dyn_cast<clang::TemplateTemplateParmDecl>(parameter));
+			break;
+		default:
+			// LOG_ERROR("Unhandled kind of template parameter.");
+			break;
+		}
 
-	std::string parameterName = parameter->getName();
-	if (!parameterName.empty())
-	{
-		templateParameterTypeString += " " + parameterName;
+		std::string parameterName = parameter->getName();
+		if (!parameterName.empty())
+		{
+			templateParameterTypeString += " " + parameterName;
+		}
 	}
 	return templateParameterTypeString;
 }
@@ -340,15 +348,8 @@ std::string CxxDeclNameResolver::getTemplateParameterTypeString(const clang::Non
 
 	std::string typeString = "";
 
-	std::shared_ptr<CxxTypeName> typeName = typeNameResolver.getName(parameter->getType());
-	if (typeName)
-	{
-		typeString = typeName->toString();
-	}
-	else
-	{
-		LOG_WARNING("unable to solve type of non-type template parameter declaration");
-	}
+	std::shared_ptr<CxxTypeName> typeName = CxxTypeName::makeUnsolvedIfNull(typeNameResolver.getName(parameter->getType()));
+	typeString = typeName->toString();
 
 	if (parameter->isTemplateParameterPack())
 	{

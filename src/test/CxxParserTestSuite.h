@@ -1296,11 +1296,6 @@ public:
 			));
 	}
 
-
-
-
-
-
 	void test_cxx_parser_finds_type_usage_of_global_variable()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
@@ -2027,6 +2022,24 @@ public:
 
 		TS_ASSERT(utility::containsElement<std::string>(
 			client->typeUses, "void VectorBase<class T, unsigned int N>::VectorBase<T, N>(VectorBase<class T, unsigned int N>::T []) -> VectorBase<class T, unsigned int N>::T <5:13 5:13>"
+		));
+	}
+
+	void test_cxx_parser_usage_of_injected_type_in_method_declaration()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"template <typename T>\n"
+			"class Foo\n"
+			"{\n"
+			"	Foo& operator=(const Foo&) = delete;\n"
+			"};\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "Foo<Foo<typename T>::T> & Foo<typename T>::operator=(const Foo<Foo<typename T>::T> &) -> Foo<Foo<typename T>::T> <4:2 4:4>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "Foo<Foo<typename T>::T> & Foo<typename T>::operator=(const Foo<Foo<typename T>::T> &) -> Foo<Foo<typename T>::T> <4:23 4:25>"
 		));
 	}
 

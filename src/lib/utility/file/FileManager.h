@@ -34,6 +34,7 @@ public:
 	virtual const FileInfo getFileInfo(const FilePath& filePath) const;
 
 private:
+	std::vector<FilePath> makeCanonical(const std::vector<FilePath>& filePaths);
 	bool isExcluded(const FilePath& filePath) const;
 
 	std::map<FilePath, FileInfo> m_files;

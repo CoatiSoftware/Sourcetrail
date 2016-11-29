@@ -44,7 +44,7 @@ NameHierarchy CxxFunctionDeclName::toNameHierarchy() const
 	{
 		signaturePrefix += "static ";
 	}
-	signaturePrefix += m_returnTypeName->toString();
+	signaturePrefix += CxxTypeName::makeUnsolvedIfNull(m_returnTypeName)->toString();
 
 	std::string signaturePostfix = "(";
 	for (size_t i = 0; i < m_parameterTypeNames.size(); i++)
@@ -53,7 +53,7 @@ NameHierarchy CxxFunctionDeclName::toNameHierarchy() const
 		{
 			signaturePostfix += ", ";
 		}
-		signaturePostfix += m_parameterTypeNames[i]->toString();
+		signaturePostfix += CxxTypeName::makeUnsolvedIfNull(m_parameterTypeNames[i])->toString();
 	}
 	signaturePostfix += ")";
 	if (m_isConst)

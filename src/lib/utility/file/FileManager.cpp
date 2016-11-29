@@ -27,8 +27,8 @@ void FileManager::setPaths(
 	std::vector<std::string> sourceExtensions
 ){
 	m_sourcePaths = sourcePaths;
-	m_headerPaths = headerPaths;
-	m_excludePaths = excludePaths;
+	m_headerPaths = makeCanonical(headerPaths);
+	m_excludePaths = makeCanonical(excludePaths);
 	m_sourceExtensions = sourceExtensions;
 }
 
@@ -157,6 +157,16 @@ const FileInfo FileManager::getFileInfo(const FilePath& filePath) const
 	}
 
 	return it->second;
+}
+
+std::vector<FilePath> FileManager::makeCanonical(const std::vector<FilePath>& filePaths)
+{
+	std::vector<FilePath> ret;
+	for (const FilePath filePath: filePaths)
+	{
+		ret.push_back(filePath.canonical());
+	}
+	return ret;
 }
 
 bool FileManager::isExcluded(const FilePath& filePath) const
