@@ -3,8 +3,6 @@
 
 #include "data/access/StorageAccess.h"
 
-#include "data/ErrorFilter.h"
-
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageErrorFilterChanged.h"
 
@@ -65,16 +63,16 @@ public:
 
 	virtual ErrorCountInfo getErrorCount() const;
 	virtual std::vector<ErrorInfo> getErrors() const;
-	virtual std::vector<ErrorInfo> getAllErrors() const;
 
 	virtual std::shared_ptr<TokenLocationCollection> getErrorTokenLocations(std::vector<ErrorInfo>* errors) const;
+
+protected:
+	virtual void setErrorFilter(const ErrorFilter& filter);
 
 private:
 	void handleMessage(MessageErrorFilterChanged* message);
 
 	StorageAccess* m_subject;
-
-	ErrorFilter m_errorFilter;
 };
 
 #endif // STORAGE_ACCESS_PROXY_H

@@ -56,6 +56,13 @@ void QtTabbedView::addViewWidget(View* view)
 	doRefreshView();
 }
 
+void QtTabbedView::showView(View* view)
+{
+	TabbedView::showView(view);
+
+	m_widget->setCurrentWidget(QtViewWidgetWrapper::getWidgetOfView(view));
+}
+
 void QtTabbedView::setStyleSheet()
 {
 	utility::setWidgetBackgroundColor(QtViewWidgetWrapper::getWidgetOfView(this), ColorScheme::getInstance()->getColor("tab/background"));

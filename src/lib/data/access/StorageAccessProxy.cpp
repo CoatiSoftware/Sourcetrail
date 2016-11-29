@@ -32,6 +32,8 @@ bool StorageAccessProxy::hasSubject() const
 void StorageAccessProxy::setSubject(StorageAccess* subject)
 {
 	m_subject = subject;
+
+	setErrorFilter(m_errorFilter);
 }
 
 Id StorageAccessProxy::getIdForNodeWithNameHierarchy(const NameHierarchy& nameHierarchy) const
@@ -272,48 +274,19 @@ StorageStats StorageAccessProxy::getStorageStats() const
 
 ErrorCountInfo StorageAccessProxy::getErrorCount() const
 {
-	ErrorCountInfo info;
-
-	std::vector<ErrorInfo> errors = getErrors();
-	for (const ErrorInfo& error : errors)
+	if (hasSubject())
 	{
-		info.total++;
-
-		if (error.fatal)
-		{
-			info.fatal++;
-		}
+		return m_subject->getErrorCount();
 	}
 
-	return info;
+	return ErrorCountInfo();
 }
 
 std::vector<ErrorInfo> StorageAccessProxy::getErrors() const
 {
 	if (hasSubject())
 	{
-		std::vector<ErrorInfo> errors = m_subject->getAllErrors();;
-		std::vector<ErrorInfo> filteredErrors;
-
-		for (const ErrorInfo& error : errors)
-		{
-			if (m_errorFilter.filter(error))
-			{
-				filteredErrors.push_back(error);
-			}
-		}
-
-		return filteredErrors;
-	}
-
-	return std::vector<ErrorInfo>();
-}
-
-std::vector<ErrorInfo> StorageAccessProxy::getAllErrors() const
-{
-	if (hasSubject())
-	{
-		return m_subject->getAllErrors();
+		return m_subject->getErrors();;
 	}
 
 	return std::vector<ErrorInfo>();
@@ -323,32 +296,25 @@ std::shared_ptr<TokenLocationCollection> StorageAccessProxy::getErrorTokenLocati
 {
 	if (hasSubject())
 	{
-		std::shared_ptr<TokenLocationCollection> collection = m_subject->getErrorTokenLocations(errors);
-		std::vector<ErrorInfo> unfilteredErrors = *errors;
-		errors->clear();
-
-		for (const ErrorInfo& error : unfilteredErrors)
-		{
-			if (m_errorFilter.filter(error))
-			{
-				errors->push_back(error);
-			}
-			else
-			{
-				// Set first bit to 1 to avoid collisions
-				Id locationId = ~(~size_t(0) >> 1) + error.id;
-				collection->removeTokenLocation(collection->findTokenLocationById(locationId));
-			}
-		}
-
-		return collection;
+		return m_subject->getErrorTokenLocations(errors);
 	}
 
 	return std::make_shared<TokenLocationCollection>();
 }
 
+void StorageAccessProxy::setErrorFilter(const ErrorFilter& filter)
+{
+	StorageAccess::setErrorFilter(filter);
+
+	if (hasSubject())
+	{
+		m_subject->setErrorFilter(filter);
+	}
+}
+
 void StorageAccessProxy::handleMessage(MessageErrorFilterChanged* message)
 {
-	m_errorFilter = message->errorFilter;
+	setErrorFilter(message->errorFilter);
+
 	MessageShowErrors(getErrorCount()).dispatch();
 }

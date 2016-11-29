@@ -119,7 +119,6 @@ public:
 
 	virtual ErrorCountInfo getErrorCount() const;
 	virtual std::vector<ErrorInfo> getErrors() const;
-	virtual std::vector<ErrorInfo> getAllErrors() const;
 
 	virtual std::shared_ptr<TokenLocationCollection> getErrorTokenLocations(std::vector<ErrorInfo>* errors) const;
 

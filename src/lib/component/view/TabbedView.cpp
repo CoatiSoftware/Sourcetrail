@@ -42,10 +42,10 @@ void TabbedView::removeView(View* view)
 
 void TabbedView::showView(View* view)
 {
-	getViewLayout()->showView(view);
+	getViewLayout()->showView(this);
 }
 
 void TabbedView::hideView(View* view)
 {
-	getViewLayout()->hideView(view);
+	getViewLayout()->hideView(this);
 }

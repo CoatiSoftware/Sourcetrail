@@ -224,6 +224,11 @@ void QtDialogView::handleMessage(MessageNewErrors* message)
 
 void QtDialogView::handleMessage(MessageShowErrors* message)
 {
+	if (message->isReplayed())
+	{
+		return;
+	}
+
 	ErrorCountInfo errorInfo = message->errorCount;
 
 	m_onQtThread2(

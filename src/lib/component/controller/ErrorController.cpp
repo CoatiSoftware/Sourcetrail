@@ -20,7 +20,7 @@ void ErrorController::handleMessage(MessageFinishedParsing* message)
 {
 	clear();
 
-	getView()->addErrors(m_storageAccess->getAllErrors(), false);
+	getView()->addErrors(m_storageAccess->getErrors(), false);
 }
 
 void ErrorController::handleMessage(MessageNewErrors* message)
@@ -42,8 +42,13 @@ void ErrorController::handleMessage(MessageShowErrors* message)
 
 	clear();
 
-	getView()->addErrors(m_storageAccess->getAllErrors(), false);
-	getView()->showDockWidget();
+	std::vector<ErrorInfo> errors = m_storageAccess->getErrors();
+	getView()->addErrors(errors, false);
+
+	if (errors.size())
+	{
+		getView()->showDockWidget();
+	}
 }
 
 ErrorView* ErrorController::getView() const

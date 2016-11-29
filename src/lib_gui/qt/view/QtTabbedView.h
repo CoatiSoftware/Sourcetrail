@@ -20,6 +20,7 @@ public:
 
 	// TabbedView implementation
 	virtual void addViewWidget(View* view);
+	virtual void showView(View* view);
 
 private:
 	void setStyleSheet();

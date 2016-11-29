@@ -13,6 +13,7 @@
 #include "data/graph/Node.h"
 #include "data/search/SearchMatch.h"
 #include "data/ErrorCountInfo.h"
+#include "data/ErrorFilter.h"
 #include "data/ErrorInfo.h"
 #include "data/StorageStats.h"
 
@@ -70,9 +71,13 @@ public:
 
 	virtual ErrorCountInfo getErrorCount() const = 0;
 	virtual std::vector<ErrorInfo> getErrors() const = 0;
-	virtual std::vector<ErrorInfo> getAllErrors() const = 0;
 
 	virtual std::shared_ptr<TokenLocationCollection> getErrorTokenLocations(std::vector<ErrorInfo>* errors) const = 0;
+
+	virtual void setErrorFilter(const ErrorFilter& filter);
+
+protected:
+	ErrorFilter m_errorFilter;
 };
 
 #endif // STORAGE_ACCESS_H

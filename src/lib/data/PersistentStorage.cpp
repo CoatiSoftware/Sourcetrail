@@ -6,9 +6,7 @@
 #include "utility/Cache.h"
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"
-#include "utility/messaging/type/MessageClearErrorCount.h"
 #include "utility/messaging/type/MessageNewErrors.h"
-#include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/text/TextAccess.h"
 #include "utility/TimePoint.h"
@@ -234,7 +232,7 @@ void PersistentStorage::forEachError(std::function<void(const StorageError& /*da
 
 void PersistentStorage::startInjection()
 {
-	m_preInjectionErrorCount = m_sqliteStorage.getAllErrors().size();
+	m_preInjectionErrorCount = getErrors().size();
 
 	m_sqliteStorage.beginTransaction();
 }
@@ -243,7 +241,7 @@ void PersistentStorage::finishInjection()
 {
 	m_sqliteStorage.commitTransaction();
 
-	auto errors = m_sqliteStorage.getAllErrors();
+	auto errors = getErrors();
 
 	if (m_preInjectionErrorCount != errors.size())
 	{
@@ -1052,19 +1050,36 @@ StorageStats PersistentStorage::getStorageStats() const
 
 ErrorCountInfo PersistentStorage::getErrorCount() const
 {
-	LOG_ERROR("This should never be called.");
-	return ErrorCountInfo();
+	ErrorCountInfo info;
+
+	std::vector<ErrorInfo> errors = getErrors();
+	for (const ErrorInfo& error : errors)
+	{
+		info.total++;
+
+		if (error.fatal)
+		{
+			info.fatal++;
+		}
+	}
+
+	return info;
 }
 
 std::vector<ErrorInfo> PersistentStorage::getErrors() const
 {
-	LOG_ERROR("This should never be called.");
-	return std::vector<ErrorInfo>();
-}
+	std::vector<ErrorInfo> errors = m_sqliteStorage.getAllErrors();
+	std::vector<ErrorInfo> filteredErrors;
 
-std::vector<ErrorInfo> PersistentStorage::getAllErrors() const
-{
-	return m_sqliteStorage.getAllErrors();
+	for (const ErrorInfo& error : errors)
+	{
+		if (m_errorFilter.filter(error))
+		{
+			filteredErrors.push_back(error);
+		}
+	}
+
+	return filteredErrors;
 }
 
 std::shared_ptr<TokenLocationCollection> PersistentStorage::getErrorTokenLocations(std::vector<ErrorInfo>* errors) const
@@ -1072,16 +1087,19 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getErrorTokenLocatio
 	TRACE();
 
 	std::shared_ptr<TokenLocationCollection> errorCollection = std::make_shared<TokenLocationCollection>();
-
-	*errors = m_sqliteStorage.getAllErrors();
-	for (const ErrorInfo& error : *errors)
+	for (const ErrorInfo& error : m_sqliteStorage.getAllErrors())
 	{
-		// Set first bit to 1 to avoid collisions
-		Id locationId = ~(~size_t(0) >> 1) + error.id;
+		if (m_errorFilter.filter(error))
+		{
+			errors->push_back(error);
 
-		errorCollection->addTokenLocation(
-			locationId, error.id, error.filePath, error.lineNumber, error.columnNumber, error.lineNumber, error.columnNumber
-		)->setType(LOCATION_ERROR);
+			// Set first bit to 1 to avoid collisions
+			Id locationId = ~(~size_t(0) >> 1) + error.id;
+
+			errorCollection->addTokenLocation(
+				locationId, error.id, error.filePath, error.lineNumber, error.columnNumber, error.lineNumber, error.columnNumber
+			)->setType(LOCATION_ERROR);
+		}
 	}
 
 	return errorCollection;
