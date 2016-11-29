@@ -13,7 +13,7 @@
 	background: #2D3F85;
 }
 
-#recentButton {
+#recentButton, #recentButtonMissing {
 	background: none;
 	border: none;
 	color: black;
@@ -21,10 +21,7 @@
 }
 
 #recentButtonMissing {
-	background: none;
-	border: none;
 	color: grey;
-	font-size: 12px;
 }
 
 #recentButton:hover, #recentButtonMissing:hover {

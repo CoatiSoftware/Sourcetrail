@@ -52,6 +52,7 @@ QtGraphNodeAccess::QtGraphNodeAccess(AccessKind accessKind)
 
 		m_accessIcon = new QGraphicsPixmapItem(pixmap.pixmap(), this);
 		m_accessIcon->setTransformationMode(Qt::SmoothTransformation);
+		m_accessIcon->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
 	}
 }
 

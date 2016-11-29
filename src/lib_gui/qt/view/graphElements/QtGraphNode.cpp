@@ -425,6 +425,8 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 		pixmap.scaleToHeight(style.iconSize);
 
 		m_icon = new QGraphicsPixmapItem(utility::colorizePixmap(pixmap.pixmap(), style.color.icon.c_str()), this);
+		m_icon->setTransformationMode(Qt::SmoothTransformation);
+		m_icon->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
 		m_icon->setPos(style.iconOffset.x, style.iconOffset.y);
 	}
 

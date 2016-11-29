@@ -231,7 +231,7 @@ void QtStartScreen::setupStartScreen(bool unlocked)
 		m_cppIcon = new QIcon((ResourcePaths::getGuiPath() + "icon/cpp_icon.png").c_str());
 		m_cIcon = new QIcon((ResourcePaths::getGuiPath() + "icon/c_icon.png").c_str());
 		m_javaIcon = new QIcon((ResourcePaths::getGuiPath() + "icon/java_icon.png").c_str());
-		m_projectIcon = new QIcon((ResourcePaths::getGuiPath() + "icon/project_256_256.png").c_str());
+		m_projectIcon = new QIcon((ResourcePaths::getGuiPath() + "icon/empty_icon.png").c_str());
 		for (int i = 0
 			; i < ApplicationSettings::getInstance()->getMaxRecentProjectsCount()
 			; i++)
@@ -239,7 +239,7 @@ void QtStartScreen::setupStartScreen(bool unlocked)
 			QtRecentProjectButton* button = new QtRecentProjectButton(this);
 			button->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 			button->setIcon(*m_projectIcon);
-			button->setIconSize(QSize(25, 25));
+			button->setIconSize(QSize(30, 30));
 			button->setMinimumSize(button->fontMetrics().width(button->text()) + 45, 40);
 			button->setObjectName("recentButtonMissing");
 			button->minimumSizeHint(); // force font loading

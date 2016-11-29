@@ -131,7 +131,7 @@ size_t GraphViewStyle::getFontSizeForNodeType(Node::NodeType type)
 	{
 	case Node::NODE_NAMESPACE:
 	case Node::NODE_PACKAGE:
-		return s_fontSize - 2;
+		return s_fontSize - 3;
 
 	case Node::NODE_UNDEFINED:
 	case Node::NODE_TYPE:
@@ -620,13 +620,13 @@ void GraphViewStyle::addIcon(Node::NodeType type, bool hasChildren, NodeStyle* s
 		return;
 
 	case Node::NODE_ENUM:
-		style->iconPath = ResourcePaths::getGuiPath() + "graph_view/images/enum_1.png";
+		style->iconPath = ResourcePaths::getGuiPath() + "graph_view/images/enum.png";
 		break;
 	case Node::NODE_TYPEDEF:
-		style->iconPath = ResourcePaths::getGuiPath() + "graph_view/images/typedef_2.png";
+		style->iconPath = ResourcePaths::getGuiPath() + "graph_view/images/typedef.png";
 		break;
 	case Node::NODE_MACRO:
-		style->iconPath = ResourcePaths::getGuiPath() + "graph_view/images/macro_3.png";
+		style->iconPath = ResourcePaths::getGuiPath() + "graph_view/images/macro.png";
 		break;
 	case Node::NODE_FILE:
 		style->iconPath = ResourcePaths::getGuiPath() + "graph_view/images/file.png";

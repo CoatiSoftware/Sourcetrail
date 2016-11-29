@@ -82,9 +82,9 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 
 
 	QToolButton* a = createProjectButton(
-		"Empty Project", (ResourcePaths::getGuiPath() + "icon/project_256_256.png").c_str());
+		"Empty Project", (ResourcePaths::getGuiPath() + "icon/empty_icon.png").c_str());
 	QToolButton* c = createProjectButton(
-		"from Compilation\nDatabase", (ResourcePaths::getGuiPath() + "icon/project_cdb_256_256.png").c_str());
+		"from Compilation\nDatabase", (ResourcePaths::getGuiPath() + "icon/cdb_icon.png").c_str());
 
 	m_solutionDescription.push_back("Create a new Coati project by defining what files will be indexed.");
 	m_solutionDescription.push_back(
@@ -132,7 +132,7 @@ void QtProjectWizzardContentSelect::populate(QGridLayout* layout, int& row)
 		std::string name = "Visual Studio";
 
 		QToolButton* button = createProjectButton(name.c_str(),
-			(ResourcePaths::getGuiPath() + "icon/project_vs_256_256.png").c_str());
+			(ResourcePaths::getGuiPath() + "icon/vs_icon.png").c_str());
 
 		m_buttons->addButton(button);
 
