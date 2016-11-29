@@ -215,7 +215,7 @@ int main(int argc, char *argv[])
 					"</ul>"
 					"<p>First of all we need to figure out which of these files caused the crash. Please go ahead and create copy of your project. "
 					"Remove everything except the files mentioned above from the Project Paths. "
-					"Set your indexer thread count to 1, force-refresh the project and wait for the crash to reoccur.</p>"
+					"Set the indexer thread count in the preferences to 1, force-refresh the project and wait for the crash to reoccur.</p>"
 				);
 			}
 			else
@@ -227,7 +227,7 @@ int main(int argc, char *argv[])
 					"<li>" + storedIndexingFiles.front().str() + "</li>" +
 					"</ul>"
 					"<p>To find out which part of the file caused the crash, please make sure to remove everything except this source file from your Project Paths. "
-					"Enable the option \"Enable Verbose Indexer Logging\" in your log window (this really slows down indexing performance) and force-refresh the project.</p>"
+					"Enable the option \"Indexer Logging\" in your preferences (this really slows down indexing performance) and force-refresh the project.</p>"
 					"<p>After the expected crash reoccurred please open the respective log file which now contains the portion of the abstract syntax tree that Coati managed to index, "
 					"including the node where the crash occurred. We hope that this information helps you figure out what caused the crash and tell us what we can do to reproduce it.</p>"
 				);

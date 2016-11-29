@@ -57,11 +57,11 @@ void ComponentManager::setup(ViewLayout* viewLayout)
 	m_dialogView = m_componentFactory->getViewFactory()->createDialogView(viewLayout, m_componentFactory->getStorageAccess());
 
 	std::shared_ptr<TabbedView> tabbedView =
-		m_componentFactory->getViewFactory()->createTabbedView(viewLayout, "Log/Error");
+		m_componentFactory->getViewFactory()->createTabbedView(viewLayout, "Log");
 	m_tabbedViews.push_back(tabbedView);
 
-	std::shared_ptr<Component> logComponent = m_componentFactory->createLogComponent(tabbedView.get());
-	m_components.push_back(logComponent);
+	// std::shared_ptr<Component> logComponent = m_componentFactory->createLogComponent(tabbedView.get());
+	// m_components.push_back(logComponent);
 
 	std::shared_ptr<Component> errorComponent = m_componentFactory->createErrorComponent(tabbedView.get());
 	m_components.push_back(errorComponent);

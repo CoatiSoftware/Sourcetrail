@@ -29,6 +29,7 @@ public:
 private slots:
 	void colorSchemeChanged(int index);
 	void javaPathDetectionClicked();
+	void loggingEnabledChanged();
 
 private:
 	void addJavaPathDetection(QGridLayout* layout, int& row);
@@ -49,6 +50,8 @@ private:
 	QComboBox* m_colorSchemes;
 	std::vector<FilePath> m_colorSchemePaths;
 	int m_oldColorSchemeIndex;
+	QCheckBox* m_loggingEnabled;
+	QCheckBox* m_verboseIndexerLoggingEnabled;
 
 	QLineEdit* m_scrollSpeed;
 	QCheckBox* m_graphZooming;
