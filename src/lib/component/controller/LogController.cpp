@@ -31,6 +31,7 @@ LogView* LogController::getView() const
 
 void LogController::clear()
 {
+	std::lock_guard<std::mutex> lock(m_logsMutex);
 	m_logs.clear();
 	getView()->clear();
 }
@@ -87,7 +88,7 @@ void LogController::handleMessage(MessageClearLogView* message)
 
 void LogController::addLog(Logger::LogLevel type, const LogMessage& message)
 {
-
+	std::lock_guard<std::mutex> lock(m_logsMutex);
 	m_logs.push_back(
 		Log(
 			type,
@@ -101,7 +102,7 @@ void LogController::addLog(Logger::LogLevel type, const LogMessage& message)
 		m_waiting = true;
 		std::thread([&]()
 			{
-				std::this_thread::sleep_for( std::chrono::seconds(1) );
+				std::this_thread::sleep_for(std::chrono::milliseconds(200));
 				syncLogs();
 				m_waiting = false;
 			}
@@ -111,13 +112,16 @@ void LogController::addLog(Logger::LogLevel type, const LogMessage& message)
 
 void LogController::syncLogs()
 {
+	std::lock_guard<std::mutex> lock(m_logsMutex);
+
 	int logCount = m_logs.size();
 	if (logCount > getView()->LogLimit)
 	{
-		m_logs.erase(m_logs.begin(),m_logs.begin() + logCount - LogView::LogLimit);
+		m_logs.erase(m_logs.begin(), m_logs.begin() + logCount - LogView::LogLimit);
 	}
+
 	std::vector<Log> logs;
-	for( Log log : m_logs )
+	for (Log log : m_logs)
 	{
 		if (log.type & m_logLevel)
 		{

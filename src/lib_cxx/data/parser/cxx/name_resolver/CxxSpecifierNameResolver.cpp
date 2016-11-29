@@ -23,8 +23,13 @@ CxxSpecifierNameResolver::~CxxSpecifierNameResolver()
 
 std::shared_ptr<CxxName> CxxSpecifierNameResolver::getName(const clang::NestedNameSpecifier* nestedNameSpecifier)
 {
-	clang::NestedNameSpecifier::SpecifierKind nnsKind = nestedNameSpecifier->getKind();
 	std::shared_ptr<CxxName> name;
+	if (!nestedNameSpecifier)
+	{
+		return name;
+	}
+
+	clang::NestedNameSpecifier::SpecifierKind nnsKind = nestedNameSpecifier->getKind();
 	switch (nnsKind)
 	{
 	case clang::NestedNameSpecifier::Identifier:

@@ -1,6 +1,8 @@
 #ifndef LOG_CONTROLLER_H
 #define LOG_CONTROLLER_H
 
+#include <mutex>
+
 #include "component/controller/Controller.h"
 #include "component/view/LogView.h"
 
@@ -38,12 +40,15 @@ private:
 	virtual void handleMessage(MessageClearLogView* message);
 	virtual void handleMessage(MessageLogFilterChanged* message);
 
-	std::vector<Log> m_logs;
 
 	void addLog(Logger::LogLevel type, const LogMessage& message);
 	void syncLogs();
-	bool m_waiting;
+
+	std::vector<Log> m_logs;
 	Logger::LogLevelMask m_logLevel;
+
+	std::mutex m_logsMutex;
+	bool m_waiting;
 };
 
 #endif // LOG_CONTROLLER_H
