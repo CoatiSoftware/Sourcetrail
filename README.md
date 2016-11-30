@@ -24,7 +24,7 @@ also something about java, but who knows...
 
 For Win32:
 * VLD_DIR - .../Visual Leak Detector
-* path 
+* path
 	- apped path to git.exe
 	- apped path to jdk/bin
 
@@ -39,7 +39,10 @@ $ python configure.py --cc=msvc --cpu=x86_32 --disable-shared
 for Windows debug build:
 python configure.py --cc=msvc --cpu=x86_32 --disable-shared --no-optimizations --with-debug-info
 
-for other:
+for Mac:
+$ python configure.py --disable-shared --disable-modules=darwin_secrandom
+
+for Linux:
 $ python configure.py --disable-shared
 
 #### Settings
