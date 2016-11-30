@@ -108,8 +108,11 @@ std::vector<std::string> CxxParser::getCommandlineArgumentsEssential(const Argum
 
 	// The option -w disables all warnings.
 	args.push_back("-w");
+	
+	// This option tells clang just to continue parsing no matter how manny errors have been thrown.
+	args.push_back("-ferror-limit=0");
 
-	args.insert(args.begin(), arguments.compilerFlags.begin(), arguments.compilerFlags.end());
+	args.insert(args.end(), arguments.compilerFlags.begin(), arguments.compilerFlags.end());
 
 	for (const FilePath& path : arguments.headerSearchPaths)
 	{
