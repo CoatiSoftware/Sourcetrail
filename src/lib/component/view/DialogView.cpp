@@ -17,9 +17,10 @@ void DialogView::hideProgressDialog()
 {
 }
 
-bool DialogView::startIndexingDialog(size_t cleanFileCount, size_t indexFileCount)
-{
-	return false;
+DialogView::IndexMode DialogView::startIndexingDialog(
+	size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount, bool forceRefresh, bool needsFullRefresh
+){
+	return INDEX_ABORT;
 }
 
 void DialogView::updateIndexingDialog(size_t fileCount, size_t totalFileCount, std::string sourcePath)

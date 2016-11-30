@@ -5,15 +5,6 @@
 class FileManagerTestSuite : public CxxTest::TestSuite
 {
 public:
-	void test_file_manager_is_created_empty()
-	{
-		FileManager fm = FileManager();
-
-		TS_ASSERT_EQUALS(fm.getAddedFilePaths().size(), 0);
-		TS_ASSERT_EQUALS(fm.getUpdatedFilePaths().size(), 0);
-		TS_ASSERT_EQUALS(fm.getRemovedFilePaths().size(), 0);
-	}
-
 	void test_file_manager_has_added_file_paths_after_first_fetch()
 	{
 		std::vector<FilePath> sourcePaths;
@@ -27,8 +18,8 @@ public:
 
 		FileManager fm;
 		fm.setPaths(sourcePaths, headerPaths, excludePaths, sourceExtensions);
-		fm.fetchFilePaths(std::vector<FileInfo>());
+		FileManager::FileSets fileSets = fm.fetchFilePaths(std::vector<FileInfo>());
 
-		TS_ASSERT_EQUALS(fm.getAddedFilePaths().size(), 2);
+		TS_ASSERT_EQUALS(fileSets.addedFiles.size(), 2);
 	}
 };

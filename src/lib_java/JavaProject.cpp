@@ -139,9 +139,9 @@ void JavaProject::fetchRootDirectories()
 		m_projectSettings->getAbsoluteExcludePaths(),
 		m_projectSettings->getSourceExtensions()
 	);
-	fileManager.fetchFilePaths(std::vector<FileInfo>());
+	FileManager::FileSets fileSets = fileManager.fetchFilePaths(std::vector<FileInfo>());
 	std::shared_ptr<JavaEnvironment> javaEnvironment = JavaEnvironmentFactory::getInstance()->createEnvironment();
-	for (FilePath filePath: fileManager.getAddedFilePaths())
+	for (FilePath filePath: fileSets.addedFiles)
 	{
 		std::shared_ptr<TextAccess> textAccess = TextAccess::createFromFile(filePath.str());
 

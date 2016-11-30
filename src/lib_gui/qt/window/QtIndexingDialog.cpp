@@ -1,5 +1,6 @@
 #include "qt/window/QtIndexingDialog.h"
 
+#include <QCheckBox>
 #include <QLabel>
 #include <QTimer>
 #include <QPainter>
@@ -21,8 +22,9 @@ QtIndexingDialog::QtIndexingDialog(QWidget* parent)
 	, m_messageLabel(nullptr)
 	, m_filePathLabel(nullptr)
 	, m_errorLabel(nullptr)
+	, m_checkBox(nullptr)
 	, m_sizeHint(QSize(450, 450))
-	, m_callback([](bool){})
+	, m_callback([](bool, bool){})
 {
 	// setWindowFlags(Qt::WindowStaysOnTopHint);
 	setSizeGripStyle(false);
@@ -38,25 +40,59 @@ QtIndexingDialog::DialogType QtIndexingDialog::getType() const
 	return m_type;
 }
 
-void QtIndexingDialog::setupStart(size_t cleanFileCount, size_t indexFileCount, std::function<void(bool)> callback)
+void QtIndexingDialog::setupStart(
+	size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount,
+	bool forceRefresh, bool needsFullRefresh, std::function<void(bool, bool)> callback)
 {
 	QBoxLayout* layout = createLayout();
 
 	addTitle("Start Indexing", layout);
 	layout->addSpacing(5);
 
-	if (cleanFileCount)
-	{
-		QLabel* cleanLabel = new QLabel("Clear: " + QString::number(cleanFileCount) + " File" + (cleanFileCount > 1 ? "s" : ""));
-		cleanLabel->setObjectName("message");
-		cleanLabel->setAlignment(Qt::AlignRight);
-		layout->addWidget(cleanLabel, 0, Qt::AlignRight);
-	}
+	QLabel* clearLabel = createMessageLabel(layout);
+	QLabel* indexLabel = createMessageLabel(layout);
+	QLabel* fullLabel = createMessageLabel(layout);
 
-	addMessageLabel(layout);
-	updateMessage("Index: " + QString::number(indexFileCount) + " File" + (indexFileCount > 1 ? "s" : ""));
+	clearLabel->setText("Clear: " + QString::number(cleanFileCount) + " File" + (cleanFileCount != 1 ? "s" : ""));
+	indexLabel->setText("Index: " + QString::number(indexFileCount) + " File" + (indexFileCount != 1 ? "s" : ""));
+	fullLabel->setText("Index: " + QString::number(totalFileCount) + " File" + (totalFileCount != 1 ? "s" : ""));
 
 	layout->addStretch();
+
+	if (needsFullRefresh)
+	{
+		clearLabel->hide();
+		indexLabel->hide();
+	}
+	else
+	{
+		m_checkBox = new QCheckBox("full refresh", this);
+		m_checkBox->setObjectName("message");
+
+		connect(m_checkBox, static_cast<void(QCheckBox::*)(bool)>(&QCheckBox::toggled),
+			[=](bool checked = false)
+			{
+				if (checked)
+				{
+					clearLabel->hide();
+					indexLabel->hide();
+					fullLabel->show();
+				}
+				else
+				{
+					clearLabel->show();
+					indexLabel->show();
+					fullLabel->hide();
+				}
+			}
+		);
+
+		m_checkBox->setChecked(!forceRefresh);
+		m_checkBox->setChecked(forceRefresh);
+
+		layout->addWidget(m_checkBox, 0, Qt::AlignRight);
+		layout->addSpacing(30);
+	}
 
 	addButtons(layout);
 	updateNextButton("Start");
@@ -211,7 +247,7 @@ void QtIndexingDialog::handleNext()
 {
 	if (m_type == DIALOG_MESSAGE)
 	{
-		m_callback(true);
+		m_callback(true, !m_checkBox || m_checkBox->isChecked());
 	}
 
 	QtWindow::handleNext();
@@ -221,7 +257,7 @@ void QtIndexingDialog::handleClose()
 {
 	if (m_type == DIALOG_MESSAGE)
 	{
-		m_callback(false);
+		m_callback(false, false);
 	}
 
 	if (m_type == DIALOG_INDEXING)
@@ -306,6 +342,16 @@ void QtIndexingDialog::addMessageLabel(QBoxLayout* layout)
 	m_messageLabel->setAlignment(Qt::AlignRight);
 	m_messageLabel->setWordWrap(true);
 	layout->addWidget(m_messageLabel, 0, Qt::AlignRight);
+}
+
+QLabel* QtIndexingDialog::createMessageLabel(QBoxLayout* layout)
+{
+	QLabel* label = new QLabel();
+	label->setObjectName("message");
+	label->setAlignment(Qt::AlignRight);
+	label->setWordWrap(true);
+	layout->addWidget(label, 0, Qt::AlignRight);
+	return label;
 }
 
 void QtIndexingDialog::addFilePathLabel(QBoxLayout* layout)

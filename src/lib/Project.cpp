@@ -43,52 +43,50 @@ bool Project::refresh(bool forceRefresh)
 		return false;
 	}
 
+	bool needsFullRefresh = false;
 	std::string question;
 
-	if (!forceRefresh)
+	switch (m_state)
 	{
-		switch (m_state)
-		{
-			case PROJECT_STATE_EMPTY:
-				forceRefresh = true;
-				break;
+		case PROJECT_STATE_EMPTY:
+			needsFullRefresh = true;
+			break;
 
-			case PROJECT_STATE_LOADED:
-				break;
+		case PROJECT_STATE_LOADED:
+			break;
 
-			case PROJECT_STATE_OUTDATED:
-				question =
-					"The project file was changed after the last indexing. The project needs to get fully reindexed to "
-					"reflect the current project state. Do you want to reindex the project?";
-				forceRefresh = true;
-				break;
+		case PROJECT_STATE_OUTDATED:
+			question =
+				"The project file was changed after the last indexing. The project needs to get fully reindexed to "
+				"reflect the current project state. Do you want to reindex the project?";
+			needsFullRefresh = true;
+			break;
 
-			case PROJECT_STATE_OUTVERSIONED:
-				question =
-					"This project was indexed with a different version of Coati. It needs to be fully reindexed to be used "
-					"with this version of Coati. Do you want to reindex the project?";
-				forceRefresh = true;
-				break;
+		case PROJECT_STATE_OUTVERSIONED:
+			question =
+				"This project was indexed with a different version of Coati. It needs to be fully reindexed to be used "
+				"with this version of Coati. Do you want to reindex the project?";
+			needsFullRefresh = true;
+			break;
 
-			case PROJECT_STATE_SETTINGS_UPDATED:
-				question =
-					"Some settings were changed, the project needs to be fully reindexed. "
-					"Do you want to reindex the project?";
-				forceRefresh = true;
-				break;
+		case PROJECT_STATE_SETTINGS_UPDATED:
+			question =
+				"Some settings were changed, the project needs to be fully reindexed. "
+				"Do you want to reindex the project?";
+			needsFullRefresh = true;
+			break;
 
-			case PROJECT_STATE_NEEDS_MIGRATION:
-				question =
-					"This project was created with a different version of Coati. The project file needs to get updated and "
-					"the project fully reindexed. Do you want to update the project file and reindex the project?";
-				forceRefresh = true;
+		case PROJECT_STATE_NEEDS_MIGRATION:
+			question =
+				"This project was created with a different version of Coati. The project file needs to get updated and "
+				"the project fully reindexed. Do you want to update the project file and reindex the project?";
+			needsFullRefresh = true;
 
-			default:
-				break;
-		}
+		default:
+			break;
 	}
 
-	if (forceRefresh && question.size() && Application::getInstance()->hasGUI())
+	if (!forceRefresh && needsFullRefresh && question.size() && Application::getInstance()->hasGUI())
 	{
 		std::vector<std::string> options;
 		options.push_back("Yes");
@@ -115,7 +113,7 @@ bool Project::refresh(bool forceRefresh)
 
 	updateFileManager(m_fileManager);
 
-	if (buildIndex(forceRefresh))
+	if (requestIndex(forceRefresh, needsFullRefresh))
 	{
 		m_storageAccessProxy->setSubject(m_storage.get());
 
@@ -242,66 +240,84 @@ void Project::load()
 	}
 }
 
-bool Project::buildIndex(bool forceRefresh)
+bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 {
 	if (!prepareIndexing())
 	{
 		return false;
 	}
 
-	std::vector<FileInfo> fileInfos = m_storage->getInfoOnAllFiles();
-
-	m_fileManager.fetchFilePaths(forceRefresh ? std::vector<FileInfo>() : fileInfos);
-
-	std::set<FilePath> addedFilePaths = m_fileManager.getAddedFilePaths();
-	std::set<FilePath> updatedFilePaths = m_fileManager.getUpdatedFilePaths();
-	std::set<FilePath> removedFilePaths = m_fileManager.getRemovedFilePaths();
+	FileManager::FileSets fileSets = m_fileManager.fetchFilePaths(m_storage->getInfoOnAllFiles());
 
 	std::set<FilePath> filesToClean;
-	std::set<FilePath> filesToParse;
+	std::set<FilePath> filesToIndex;
 
-	if (!forceRefresh)
+	if (!needsFullRefresh)
 	{
 		std::set<FilePath> dependingFilePaths;
-		utility::append(dependingFilePaths, m_storage->getDependingFilePaths(updatedFilePaths));
-		utility::append(dependingFilePaths, m_storage->getDependingFilePaths(removedFilePaths));
+		utility::append(dependingFilePaths, m_storage->getDependingFilePaths(fileSets.updatedFiles));
+		utility::append(dependingFilePaths, m_storage->getDependingFilePaths(fileSets.removedFiles));
 
 		for (const FilePath& path : dependingFilePaths)
 		{
-			if (removedFilePaths.find(path) == removedFilePaths.end())
+			if (fileSets.removedFiles.find(path) == fileSets.removedFiles.end())
 			{
-				updatedFilePaths.insert(path);
+				fileSets.updatedFiles.insert(path);
 			}
 		}
 
+		utility::append(filesToClean, fileSets.removedFiles);
+		utility::append(filesToClean, fileSets.updatedFiles);
 		utility::append(filesToClean, dependingFilePaths);
+
+		utility::append(filesToIndex, fileSets.addedFiles);
+		utility::append(filesToIndex, fileSets.updatedFiles);
 	}
 
-	utility::append(filesToClean, removedFilePaths);
-	utility::append(filesToClean, updatedFilePaths);
+	bool fullRefresh = forceRefresh | needsFullRefresh;
 
-	utility::append(filesToParse, addedFilePaths);
-	utility::append(filesToParse, updatedFilePaths);
+	if (Application::getInstance()->hasGUI())
+	{
+		DialogView::IndexMode mode = m_dialogView->startIndexingDialog(
+			filesToClean.size(), filesToIndex.size(), fileSets.allFiles.size(),
+			forceRefresh, needsFullRefresh
+		);
 
-	if (!filesToClean.size() && !filesToParse.size() && (!forceRefresh || !fileInfos.size()))
+		switch (mode)
+		{
+			case DialogView::INDEX_ABORT:
+				return false;
+			case DialogView::INDEX_REFRESH:
+				fullRefresh = false;
+				break;
+			case DialogView::INDEX_FULL:
+				fullRefresh = true;
+				break;
+		}
+	}
+
+	if (fullRefresh)
+	{
+		filesToClean.clear();
+		filesToIndex = fileSets.allFiles;
+	}
+
+	if (!filesToClean.size() && !filesToIndex.size())
 	{
 		MessageStatus("Nothing to refresh, all files are up-to-date.").dispatch();
 		return false;
 	}
 
-	if (Application::getInstance()->hasGUI())
-	{
-		bool doIndex = m_dialogView->startIndexingDialog(filesToClean.size(), filesToParse.size());
+	buildIndex(filesToClean, filesToIndex, fullRefresh);
 
-		if (!doIndex)
-		{
-			return false;
-		}
-	}
+	return true;
+}
 
+void Project::buildIndex(const std::set<FilePath>& filesToClean, const std::set<FilePath>& filesToIndex, bool fullRefresh)
+{
 	MessageClearErrorCount().dispatch();
 
-	if (forceRefresh)
+	if (fullRefresh)
 	{
 		m_storage->clear();
 	}
@@ -323,9 +339,9 @@ bool Project::buildIndex(bool forceRefresh)
 
 	std::shared_ptr<FileRegister> fileRegister = std::make_shared<FileRegister>(&m_fileManager, indexerThreadCount > 1);
 
-	if (!filesToParse.empty())
+	if (!filesToIndex.empty())
 	{
-		fileRegister->setFilePaths(utility::toVector(filesToParse));
+		fileRegister->setFilePaths(utility::toVector(filesToIndex));
 
 		std::shared_ptr<TaskParseWrapper> taskParserWrapper = std::make_shared<TaskParseWrapper>(
 			m_storage.get(),
@@ -339,7 +355,7 @@ bool Project::buildIndex(bool forceRefresh)
 
 		std::shared_ptr<StorageProvider> storageProvider = std::make_shared<StorageProvider>();
 
-		for (size_t i = 0; i < indexerThreadCount && i < filesToParse.size(); i++)
+		for (size_t i = 0; i < indexerThreadCount && i < filesToIndex.size(); i++)
 		{
 			taskParallelIndexing->addChildTasks(
 				std::make_shared<TaskDecoratorRepeat>(TaskDecoratorRepeat::CONDITION_WHILE_SUCCESS, Task::STATE_SUCCESS)->addChildTask(
@@ -378,13 +394,9 @@ bool Project::buildIndex(bool forceRefresh)
 		);
 	}
 
-
-
 	taskSequential->addTask(std::make_shared<TaskFinishParsing>(m_storage.get(), m_storageAccessProxy, fileRegister, m_dialogView));
 
 	Task::dispatch(taskSequential);
-
-	return true;
 }
 
 bool Project::prepareIndexing()

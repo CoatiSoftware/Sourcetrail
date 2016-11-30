@@ -10,6 +10,14 @@
 class FileManager
 {
 public:
+	struct FileSets
+	{
+		std::set<FilePath> allFiles;
+		std::set<FilePath> addedFiles;
+		std::set<FilePath> updatedFiles;
+		std::set<FilePath> removedFiles;
+	};
+
 	FileManager();
 	virtual ~FileManager();
 
@@ -22,11 +30,7 @@ public:
 		std::vector<std::string> sourceExtensions
 	);
 
-	void fetchFilePaths(const std::vector<FileInfo>& oldFileInfos);
-
-	std::set<FilePath> getAddedFilePaths() const;
-	std::set<FilePath> getUpdatedFilePaths() const;
-	std::set<FilePath> getRemovedFilePaths() const;
+	FileSets fetchFilePaths(const std::vector<FileInfo>& oldFileInfos);
 
 	virtual bool hasFilePath(const FilePath& filePath) const;
 	virtual bool hasSourceFilePath(const FilePath& filePath) const;
@@ -44,10 +48,6 @@ private:
 	std::vector<FilePath> m_excludePaths;
 
 	std::vector<std::string> m_sourceExtensions;
-
-	std::set<FilePath> m_addedFiles;
-	std::set<FilePath> m_updatedFiles;
-	std::set<FilePath> m_removedFiles;
 
 	std::set<FilePath> m_sourceFiles;
 };

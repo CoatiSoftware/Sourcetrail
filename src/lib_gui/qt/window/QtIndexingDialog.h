@@ -5,6 +5,7 @@
 
 #include "qt/window/QtWindow.h"
 
+class QCheckBox;
 class QLabel;
 class QtProgressBar;
 
@@ -26,7 +27,8 @@ public:
 
 	DialogType getType() const;
 
-	void setupStart(size_t cleanFileCount, size_t indexFileCount, std::function<void(bool)> callback);
+	void setupStart(size_t cleanFileCount, size_t indexFileCount, size_t totalFileCount,
+		bool forceRefresh, bool needsFullRefresh, std::function<void(bool, bool)> callback);
 	void setupProgress();
 	void setupIndexing();
 	void setupReport(size_t fileCount, size_t totalFileCount, float time);
@@ -50,6 +52,7 @@ private:
 
 	void addPercentLabel(QBoxLayout* layout);
 	void addMessageLabel(QBoxLayout* layout);
+	QLabel* createMessageLabel(QBoxLayout* layout);
 	void addFilePathLabel(QBoxLayout* layout);
 	void addErrorLabel(QBoxLayout* layout);
 
@@ -69,10 +72,11 @@ private:
 	QLabel* m_messageLabel;
 	QLabel* m_filePathLabel;
 	QPushButton* m_errorLabel;
+	QCheckBox* m_checkBox;
 
 	QSize m_sizeHint;
 
-	std::function<void(bool)> m_callback;
+	std::function<void(bool, bool)> m_callback;
 	QString m_sourcePath;
 };
 

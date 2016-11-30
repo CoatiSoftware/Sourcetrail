@@ -593,13 +593,13 @@ void QtMainWindow::setupEditMenu()
 	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
 	{
 		m_trialDisabledActions.push_back(
-			menu->addAction(tr("&Force Refresh"), this, SLOT(forceRefresh()), QKeySequence(Qt::SHIFT + Qt::Key_F5))
+			menu->addAction(tr("&Full Refresh"), this, SLOT(forceRefresh()), QKeySequence(Qt::SHIFT + Qt::Key_F5))
 		);
 	}
 	else
 	{
 		m_trialDisabledActions.push_back(menu->addAction(
-			tr("&Force Refresh"),
+			tr("&Full Refresh"),
 			this,
 			SLOT(forceRefresh()),
 			QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_R)

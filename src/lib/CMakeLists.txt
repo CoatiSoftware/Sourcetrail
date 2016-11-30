@@ -298,7 +298,7 @@ add_files(
 	utility/messaging/type/MessageWindowClosed.h
 	utility/messaging/type/MessageWindowFocus.h
 	utility/messaging/type/MessageZoom.h
-	
+
 	utility/messaging/Message.h
 	utility/messaging/MessageBase.h
 	utility/messaging/MessageInterruptTasksCounter.cpp
@@ -327,7 +327,6 @@ add_files(
 	utility/scheduling/TaskGroupSequence.h
 	utility/scheduling/TaskLambda.cpp
 	utility/scheduling/TaskLambda.h
-	utility/scheduling/TaskReturnSuccessWhile.cpp
 	utility/scheduling/TaskReturnSuccessWhile.h
 	utility/scheduling/TaskRunner.cpp
 	utility/scheduling/TaskRunner.h

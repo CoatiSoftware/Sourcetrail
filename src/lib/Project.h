@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <mutex>
+#include <set>
 
 #include "utility/file/FileManager.h"
 
@@ -57,7 +58,8 @@ public: // todo: make private again
 	void load();
 
 private:
-	bool buildIndex(bool forceRefresh);
+	bool requestIndex(bool forceRefresh, bool needsFullRefresh);
+	void buildIndex(const std::set<FilePath>& filesToClean, const std::set<FilePath>& filesToIndex, bool fullRefresh);
 
 	virtual bool prepareIndexing();
 	virtual bool prepareRefresh();
