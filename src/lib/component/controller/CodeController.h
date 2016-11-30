@@ -9,6 +9,7 @@
 #include "utility/messaging/type/MessageActivateLocalSymbols.h"
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
+#include "utility/messaging/type/MessageClearErrorCount.h"
 #include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
@@ -34,6 +35,7 @@ class CodeController
 	, public MessageListener<MessageActivateLocalSymbols>
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageChangeFileView>
+	, public MessageListener<MessageClearErrorCount>
 	, public MessageListener<MessageFlushUpdates>
 	, public MessageListener<MessageFocusIn>
 	, public MessageListener<MessageFocusOut>
@@ -54,6 +56,7 @@ private:
 	virtual void handleMessage(MessageActivateLocalSymbols* message);
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageChangeFileView* message);
+	virtual void handleMessage(MessageClearErrorCount* message);
 	virtual void handleMessage(MessageFlushUpdates* message);
 	virtual void handleMessage(MessageFocusIn* message);
 	virtual void handleMessage(MessageFocusOut* message);

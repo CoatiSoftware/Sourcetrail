@@ -219,6 +219,14 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 	showContents(message);
 }
 
+void CodeController::handleMessage(MessageClearErrorCount* message)
+{
+	if (getView()->showsErrors())
+	{
+		clear();
+	}
+}
+
 void CodeController::handleMessage(MessageFlushUpdates* message)
 {
 	showContents(message);
