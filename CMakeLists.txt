@@ -53,9 +53,10 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option -fcolor-diagnostics")
 endif()
 
-if (UNIX AND "${CMAKE_BUILD_TYPE}" STREQUAL "Release")
-	add_definitions(-fno-omit-frame-pointer -DQT_COMPILING_QSTRING_COMPAT_CPP )
-endif ()
+# For debugging the release build on linux
+#if (UNIX AND "${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+	#add_definitions(-fno-omit-frame-pointer)
+#endif ()
 
 # Clang ------------------------------------------------------------------------
 
@@ -66,7 +67,7 @@ if (UNIX AND APPLE)
 		find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build_debug/share/llvm/cmake" NO_DEFAULT_PATH)
 	endif()
 elseif(UNIX)
-	find_package(LLVM REQUIRED PATHS "${EXTERNAL_BUILD}/llvm/share/llvm/cmake" NO_DEFAULT_PATH)
+	find_package(LLVM REQUIRED PATHS "$ENV{LLVM_DIR}/lib/cmake" )
 else()
 	find_package(LLVM REQUIRED PATHS "$ENV{CLANG_DIR}/build/share/llvm/cmake")
 endif()
@@ -78,14 +79,14 @@ add_definitions(${CLANG_DEFINITIONS})
 # Boost ------------------------------------------------------------------------
 
 if(UNIX AND NOT APPLE)
-	set(BOOST_ROOT ${EXTERNAL_BUILD}/boost)
+	set(BOOST_ROOT $ENV{BOOST_DIR})
 else()
 	set(BOOST_ROOT $ENV{BOOST_159_DIR})
+	set(Boost_NO_SYSTEM_PATHS ON)
 endif()
 set(Boost_USE_MULTITHREAD ON)
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
-set(Boost_NO_SYSTEM_PATHS ON)
 set(BOOST_LIBRARYDIR $ENV{BOOST_159_DIR})
 
 find_package(Boost 1.59 COMPONENTS system program_options filesystem date_time REQUIRED)
@@ -181,7 +182,7 @@ set_property(
 )
 
 target_include_directories(${LIB_PROJECT_NAME} SYSTEM
-	PUBLIC ${Boost_INCLUDE_DIRS}
+	PUBLIC ${Boost_INCLUDE_DIR}
 	"${CMAKE_SOURCE_DIR}/src/external"
 )
 
@@ -260,11 +261,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
 # Find the QtWidgets library
-if(UNIX AND NOT APPLE)
-	#set(CMAKE_PREFIX_PATH ${EXTERNAL_BUILD}/qt)
-else()
-	set(CMAKE_PREFIX_PATH "$ENV{QT_DIR}/")
-endif()
+set(CMAKE_PREFIX_PATH "$ENV{QT_DIR}/")
 
 if(UNIX AND APPLE)
 	set(Qt5Widgets_DIR "$ENV{QT_DIR}/cmake/Qt5Widgets/")
@@ -494,11 +491,7 @@ endif ()
 
 add_subdirectory(src/test)
 
-if(UNIX AND NOT APPLE)
-	set(CXXTEST_INCLUDE_DIR ${EXTERNAL_SRC}/cxxtest)
-else()
-	set(CXXTEST_INCLUDE_DIR $ENV{CXX_TEST_DIR})
-endif()
+set(CXXTEST_INCLUDE_DIR $ENV{CXX_TEST_DIR})
 set(CXXTEST_PYTHON_TESTGEN_EXECUTABLE ${CXXTEST_INCLUDE_DIR}/bin/cxxtestgen)
 set(TESTGEN_FILE ${CMAKE_CURRENT_BINARY_DIR}/test_main.cpp)
 

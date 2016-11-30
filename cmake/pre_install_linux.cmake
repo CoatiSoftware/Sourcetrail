@@ -15,7 +15,7 @@ endfunction()
 	set(upxPath ${CMAKE_CURRENT_LIST_DIR}/../bin/app/Release)
 
 	execute_process(
-		COMMAND ${upxPath}/Coati -z $ENV{HOME}/dev/license.txt
+		COMMAND ${upxPath}/Coati -z ${CMAKE_CURRENT_LIST_DIR}/../setup/license.txt
 	)
 
 	execute_process(

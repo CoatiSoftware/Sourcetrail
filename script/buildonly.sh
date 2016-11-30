@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -e
 # Determine path to script
 MY_PATH=`dirname "$0"`
 

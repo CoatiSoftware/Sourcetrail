@@ -16,7 +16,7 @@ if [ ! -d "${HOME}/.config/coati" ]; then
 	echo "First start of Coati from this user, copy default configfiles to ~/.config/coati"
 fi
 
-cp -rn "$COATI_PATH/user/*" "${HOME}/.config/coati/"
+cp -rn "$COATI_PATH/user"/* "${HOME}/.config/coati/"
 
 export LD_LIBRARY_PATH="$COATI_PATH/lib:LD_LIBRARY_PATH"
 export QT_XKB_CONFIG_ROOT="/usr/share/X11/xkb:$QT_XKB_CONFIG_ROOT"

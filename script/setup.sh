@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 ABORT="\033[31mAbort:\033[00m"
 SUCCESS="\033[32mSuccess:\033[00m"
 INFO="\033[33mInfo:\033[00m"
@@ -27,15 +29,16 @@ ROOT_DIR=$ROOT_DIR/..
 # Enter masterproject directory
 cd $ROOT_DIR
 
-
 # git settings
 echo -e $INFO "install git settings"
 
 git config commit.template setup/git/git_commit_template.txt
 git config color.ui true
+if [ -d ".git/hooks" ]
+then
 cp setup/git/git_pre_commit_hook.sh .git/hooks/pre-commit
 cp setup/git/git_pre_push_hook.sh .git/hooks/pre-push
-
+fi
 
 # Copy necessary jars for java indexer
 echo -e $INFO "copy jars for java indexer"
@@ -84,9 +87,9 @@ if [ $PLATFORM == "Windows" ]; then
 elif [ $PLATFORM == "Linux" ]; then
 	echo -e $INFO "create symbolic links for data"
 	cd $ROOT_DIR/bin/app/Release
-	ln -s ../data
+	ln -s -f ../data
 	cd $ROOT_DIR/bin/app/Debug
-	ln -s ../data
+	ln -s -f ../data
 	cd $ROOT_DIR
 fi
 

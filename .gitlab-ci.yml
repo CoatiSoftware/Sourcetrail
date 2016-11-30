@@ -1,0 +1,13 @@
+image: st4ll1/coati_linux_64
+
+Linux64:
+  stage: deploy
+  only:
+    - master
+  script:
+    - ./script/setup.sh
+    - ./script/buildonly.sh package
+  artifacts:
+    paths:
+      - distr
+    expire_in: 3 days

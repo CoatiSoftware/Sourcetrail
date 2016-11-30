@@ -1,6 +1,6 @@
 
 function(InstallQtModule module qtversion componentName)
-	get_filename_component(realpath ${EXTERNAL_BUILD}/qt/lib/libQt5${module}.so.${qtversion} REALPATH)
+	get_filename_component(realpath $ENV{QT_DIR}/lib/libQt5${module}.so.${qtversion} REALPATH)
 	INSTALL(FILES
 		${realpath}
 		DESTINATION Coati/lib
@@ -8,6 +8,30 @@ function(InstallQtModule module qtversion componentName)
 		RENAME libQt5${module}.so.${qtversion}
 	)
 endfunction(InstallQtModule)
+
+function(GetAndInstallLibrary libraryName componentName)
+	execute_process(
+		COMMAND ${CMAKE_CXX_COMPILER} -print-file-name=${libraryName}
+		OUTPUT_VARIABLE LIB
+		OUTPUT_STRIP_TRAILING_WHITESPACE
+	)
+	message(STATUS "lib: ${LIB}")
+
+	get_filename_component(realPath ${LIB} REALPATH)
+	string(REGEX MATCH "([^\/]*)$" fileName ${realPath})
+
+	string(REGEX MATCH ".*\.so\.[^.]*" SHORTER ${fileName})
+	if (NOT EXISTS ${realPath})
+		message(WARNING "${libraryName} not found")
+	else()
+		INSTALL(FILES
+			${realPath}
+			DESTINATION Coati/lib
+			COMPONENT ${componentName}
+			RENAME ${SHORTER}
+		)
+	endif()
+endfunction(GetAndInstallLibrary)
 
 function(InstallQt qtversion componentName)
 	InstallQtModule(Gui ${qtversion} ${componentName})
@@ -48,16 +72,17 @@ function(AddSharedToComponent componentName)
 
 	InstallQt(5 ${componentName})
 
-	get_filename_component(realpath ${LIBSTDCPP} REALPATH)
-	INSTALL(FILES
-		#C++
-		${realpath}
-		DESTINATION Coati/lib
-		COMPONENT ${componentName}
-	)
+	GetAndInstallLibrary(libicui18n.so ${componentName})
+	GetAndInstallLibrary(libicudata.so ${componentName})
+	GetAndInstallLibrary(libicuuc.so ${componentName})
+	GetAndInstallLibrary(libudev.so ${componentName})
+	GetAndInstallLibrary(libpng.so ${componentName})
+	GetAndInstallLibrary(libEGL.so ${componentName})
+	GetAndInstallLibrary(libselinux.so ${componentName})
+	#GetAndInstallLibrary(libstdc++.so ${componentName})
 
 	INSTALL(FILES
-		${EXTERNAL_BUILD}/qt/plugins/platforms/libqxcb.so
+		$ENV{QT_DIR}/plugins/platforms/libqxcb.so
 		DESTINATION Coati/platforms
 		COMPONENT ${componentName}
 	)
@@ -79,11 +104,6 @@ function(AddSharedToComponent componentName)
 	)
 endfunction(AddSharedToComponent)
 
-execute_process(
-	COMMAND clang -print-file-name=libstdc++.so.6
-	OUTPUT_VARIABLE LIBSTDCPP
-	OUTPUT_STRIP_TRAILING_WHITESPACE
-)
 # Add shared files to full and trial version
 AddSharedToComponent(FULL)
 

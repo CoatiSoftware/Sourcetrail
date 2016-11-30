@@ -7,15 +7,28 @@ if (UNIX AND APPLE)
 		set(CLANG_BUILD_PATH "$ENV{CLANG_DIR}/build_debug")
 	endif()
 elseif(UNIX)
-	set(CLANG_BUILD_PATH "${EXTERNAL_BUILD}/llvm")
+	set(CLANG_BUILD_PATH "$ENV{LLVM_DIR}")
 else()
 	set(CLANG_BUILD_PATH "$ENV{CLANG_DIR}/build")
 endif()
 
+if (UNIX AND NOT APPLE)
+	find_program(
+		LLVMCONFIG
+		llvm-config
+		PATHS "${CLANG_BUILD_PATH}/bin"
+	)
+	execute_process(
+		COMMAND ${LLVMCONFIG} --cxxflags
+		OUTPUT_VARIABLE CLANG_DEFINITIONS
+		OUTPUT_STRIP_TRAILING_WHITESPACE
+	)
+else()
 execute_process(
 	COMMAND ${CLANG_BUILD_PATH}/bin/llvm-config --cxxflags
 	OUTPUT_VARIABLE CLANG_DEFINITIONS
 )
+endif()
 
 # Remove unwanted flags
 string(REPLACE "-fno-exceptions" "" CLANG_DEFINITIONS "${CLANG_DEFINITIONS}")
@@ -26,10 +39,15 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 if(UNIX AND NOT APPLE)
-	set(CLANG_INCLUDE_DIRS
-		"${EXTERNAL_SRC}/clang/include"
-		"${CLANG_BUILD_PATH}/tools/clang/include"
-		)
+	execute_process(
+		COMMAND ${LLVMCONFIG} --includedir
+		OUTPUT_VARIABLE CLANG_INCLUDE_DIRS
+		OUTPUT_STRIP_TRAILING_WHITESPACE
+	)
+	#set(CLANG_INCLUDE_DIRS
+		#"${EXTERNAL_SRC}/clang/include"
+		#"${CLANG_BUILD_PATH}/tools/clang/include"
+		#)
 else()
 	set(CLANG_INCLUDE_DIRS
 		"$ENV{CLANG_DIR}/llvm/tools/clang/include"
