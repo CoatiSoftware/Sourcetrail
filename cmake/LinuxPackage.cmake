@@ -79,11 +79,35 @@ function(AddSharedToComponent componentName)
 	GetAndInstallLibrary(libpng.so ${componentName})
 	GetAndInstallLibrary(libEGL.so ${componentName})
 	GetAndInstallLibrary(libselinux.so ${componentName})
+	GetAndInstallLibrary(libXrender.so ${componentName})
 	#GetAndInstallLibrary(libstdc++.so ${componentName})
 
-	INSTALL(FILES
-		$ENV{QT_DIR}/plugins/platforms/libqxcb.so
-		DESTINATION Coati/platforms
+	GetAndInstallLibrary(libX11-xcb.so ${componentName})
+	GetAndInstallLibrary(libXi.so ${componentName})
+	GetAndInstallLibrary(libxcb.so ${componentName})
+	GetAndInstallLibrary(libfontconfig.so ${componentName})
+	GetAndInstallLibrary(libfreetype.so ${componentName})
+	GetAndInstallLibrary(libXext.so ${componentName})
+	GetAndInstallLibrary(libX11.so ${componentName})
+	GetAndInstallLibrary(libudev.so ${componentName})
+	GetAndInstallLibrary(libGL.so ${componentName})
+	GetAndInstallLibrary(libxcb-dri2.so ${componentName})
+	GetAndInstallLibrary(libxcb-xfixes.so ${componentName})
+	GetAndInstallLibrary(libxcb-render.so ${componentName})
+	GetAndInstallLibrary(libxcb-shape.so ${componentName})
+	GetAndInstallLibrary(libgbm.so.1 ${componentName})
+	GetAndInstallLibrary(libdrm.so ${componentName})
+	GetAndInstallLibrary(libglapi.so ${componentName})
+	GetAndInstallLibrary(libXdamage.so ${componentName})
+	GetAndInstallLibrary(libXfixes.so ${componentName})
+	GetAndInstallLibrary(libxcb-glx.so ${componentName})
+	GetAndInstallLibrary(libXxf86vm.so ${componentName})
+	GetAndInstallLibrary(libdrm.so ${componentName})
+	GetAndInstallLibrary(libXau.so ${componentName})
+
+	INSTALL(DIRECTORY
+		$ENV{QT_DIR}/plugins/platforms
+		DESTINATION Coati/lib
 		COMPONENT ${componentName}
 	)
 
