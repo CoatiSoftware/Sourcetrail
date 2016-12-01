@@ -34,6 +34,27 @@ void QtSmartSearchBox::search()
 {
 	editTextToElement();
 
+	// Do a fulltext search if no autocompletion match was selected for this match
+	if (m_matches.size() == 1)
+	{
+		SearchMatch& match = m_matches.front();
+		if (match.searchType == SearchMatch::SEARCH_NONE && match.name.size())
+		{
+			QString text = QString::fromStdString(match.name);
+			if (!text.startsWith(SearchMatch::FULLTEXT_SEARCH_CHARACTER))
+			{
+				text = QChar(SearchMatch::FULLTEXT_SEARCH_CHARACTER) + text;
+			}
+
+			clearMatches();
+			updateElements();
+
+			setEditText(text);
+			fullTextSearch();
+			return;
+		}
+	}
+
 	std::vector<SearchMatch> matches = utility::toVector(m_matches);
 
 	MessageSearch(matches).dispatch();
@@ -42,11 +63,20 @@ void QtSmartSearchBox::search()
 void QtSmartSearchBox::fullTextSearch()
 {
 	std::string term = text().toStdString().substr(1);
-	bool caseSensitive = false;
+	if (!term.size())
+	{
+		return;
+	}
 
+	bool caseSensitive = false;
 	if (term.at(0) == SearchMatch::FULLTEXT_SEARCH_CHARACTER)
 	{
 		term = term.substr(1);
+		if (!term.size())
+		{
+			return;
+		}
+
 		caseSensitive = true;
 	}
 
@@ -122,8 +152,17 @@ void QtSmartSearchBox::setMatches(const std::vector<SearchMatch>& matches)
 void QtSmartSearchBox::setFocus()
 {
 	QLineEdit::setFocus(Qt::ShortcutFocusReason);
-	selectAllElementsWith(true);
-	layoutElements();
+
+	if (text().size() == 1 && text().startsWith(SearchMatch::FULLTEXT_SEARCH_CHARACTER))
+	{
+		setEditText("");
+	}
+	else
+	{
+		editTextToElement();
+		selectAllElementsWith(true);
+		layoutElements();
+	}
 }
 
 void QtSmartSearchBox::findFulltext()

@@ -407,6 +407,12 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getFullTextSearchLoc
 {
 	TRACE();
 
+	std::shared_ptr<TokenLocationCollection> collection = std::make_shared<TokenLocationCollection>();
+	if (!searchTerm.size())
+	{
+		return collection;
+	}
+
 	if (m_fullTextSearchIndex.fileCount() == 0)
 	{
 		MessageStatus("Building fulltext search index", false, true).dispatch();
@@ -417,8 +423,6 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getFullTextSearchLoc
 		std::string("Searching fulltext (case-") + (caseSensitive ? "sensitive" : "insensitive") + "): " + searchTerm,
 		false, true
 	).dispatch();
-
-	std::shared_ptr<TokenLocationCollection> collection = std::make_shared<TokenLocationCollection>();
 
 	std::vector<FullTextSearchResult> hits = m_fullTextSearchIndex.searchForTerm(searchTerm);
 
