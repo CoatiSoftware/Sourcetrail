@@ -77,6 +77,9 @@ void JavaParser::parseFile(const FilePath& filePath, std::shared_ptr<TextAccess>
 		// remove tabs because they screw with javaparser's location resolver
 		std::string fileContent = utility::replace(textAccess->getText(), "\t", " ");
 
+		int verbose = ApplicationSettings::getInstance()->getLoggingEnabled() &&
+			ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled() ? 1 : 0;
+
 		m_javaEnvironment->callStaticVoidMethod(
 			"io/coati/JavaIndexer",
 			"processFile",
@@ -84,7 +87,7 @@ void JavaParser::parseFile(const FilePath& filePath, std::shared_ptr<TextAccess>
 			filePath.str(),
 			fileContent,
 			classPath,
-			ApplicationSettings::getInstance()->getVerboseIndexerLoggingEnabled() ? 1 : 0
+			verbose
 		);
 	}
 }
