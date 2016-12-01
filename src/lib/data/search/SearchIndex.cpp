@@ -417,15 +417,13 @@ int SearchIndex::scoreText(const std::string& text, const std::vector<size_t>& i
 		else if (isupper(text[index]))
 		{
 			bool prevIsLower = (index > 0 && islower(text[index - 1]));
-			bool nextIsLower = (index + 1 == text.size() || islower(text[index + 1]));
+			bool nextIsLower = (index + 1 < text.size() && islower(text[index + 1]));
 
 			if (prevIsLower || nextIsLower)
 			{
 				camelCaseScore += camelCaseBonus;
 			}
 		}
-
-
 	}
 
 	int leadingStartScore = std::max(int(indices[0]) * delayedStartBonus, minDelayedStartBonus);
