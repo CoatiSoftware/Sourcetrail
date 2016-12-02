@@ -673,8 +673,30 @@ void GraphController::bundleNodes()
 	// }
 
 	// bundle
+	bool fileOrMacroActive = false;
+	for (std::shared_ptr<DummyNode> node : m_dummyNodes)
+	{
+		if (node->bundleInfo.isActive && node->data->isType(Node::NODE_FILE | Node::NODE_MACRO))
+		{
+			fileOrMacroActive = true;
+			break;
+		}
+	}
+
+	if (!fileOrMacroActive)
+	{
+		bundleNodesAndEdgesMatching(
+			[](const DummyNode::BundleInfo& info, const Node* data)
+			{
+				return data->isType(Node::NODE_FILE);
+			},
+			1,
+			"Importing Files"
+		);
+	}
+
 	bundleNodesAndEdgesMatching(
-		[](const DummyNode::BundleInfo& info)
+		[](const DummyNode::BundleInfo& info, const Node* data)
 		{
 			return !info.isDefined && info.isReferencing && !info.layoutVertical;
 		},
@@ -683,7 +705,7 @@ void GraphController::bundleNodes()
 	);
 
 	bundleNodesAndEdgesMatching(
-		[](const DummyNode::BundleInfo& info)
+		[](const DummyNode::BundleInfo& info, const Node* data)
 		{
 			return !info.isDefined && info.isReferenced && !info.layoutVertical;
 		},
@@ -691,26 +713,29 @@ void GraphController::bundleNodes()
 		"Undefined Symbols"
 	);
 
-	bundleNodesAndEdgesMatching(
-		[](const DummyNode::BundleInfo& info)
-		{
-			return info.isDefined && info.isReferencing && !info.layoutVertical;
-		},
-		10,
-		"Referencing Symbols"
-	);
+	if (!fileOrMacroActive)
+	{
+		bundleNodesAndEdgesMatching(
+			[](const DummyNode::BundleInfo& info, const Node* data)
+			{
+				return info.isDefined && info.isReferencing && !info.layoutVertical;
+			},
+			10,
+			"Referencing Symbols"
+		);
+
+		bundleNodesAndEdgesMatching(
+			[](const DummyNode::BundleInfo& info, const Node* data)
+			{
+				return info.isDefined && info.isReferenced && !info.layoutVertical;
+			},
+			10,
+			"Referenced Symbols"
+		);
+	}
 
 	bundleNodesAndEdgesMatching(
-		[](const DummyNode::BundleInfo& info)
-		{
-			return info.isDefined && info.isReferenced && !info.layoutVertical;
-		},
-		10,
-		"Referenced Symbols"
-	);
-
-	bundleNodesAndEdgesMatching(
-		[](const DummyNode::BundleInfo& info)
+		[](const DummyNode::BundleInfo& info, const Node* data)
 		{
 			return info.isReferencing && info.layoutVertical;
 		},
@@ -719,7 +744,7 @@ void GraphController::bundleNodes()
 	);
 
 	bundleNodesAndEdgesMatching(
-		[](const DummyNode::BundleInfo& info)
+		[](const DummyNode::BundleInfo& info, const Node* data)
 		{
 			return info.isReferenced && info.layoutVertical;
 		},
@@ -729,7 +754,7 @@ void GraphController::bundleNodes()
 }
 
 void GraphController::bundleNodesAndEdgesMatching(
-	std::function<bool(const DummyNode::BundleInfo&)> matcher, size_t count, const std::string& name
+	std::function<bool(const DummyNode::BundleInfo&, const Node* data)> matcher, size_t count, const std::string& name
 ){
 	std::vector<size_t> matchedNodeIndices;
 	for (size_t i = 0; i < m_dummyNodes.size(); i++)
@@ -740,7 +765,7 @@ void GraphController::bundleNodesAndEdgesMatching(
 			continue;
 		}
 
-		if (matcher(node->bundleInfo))
+		if (matcher(node->bundleInfo, node->data))
 		{
 			matchedNodeIndices.push_back(i);
 		}

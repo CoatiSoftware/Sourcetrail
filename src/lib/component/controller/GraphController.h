@@ -83,7 +83,7 @@ private:
 	void setNodeVisibilityRecursiveTopDown(DummyNode* node, bool parentExpanded) const;
 
 	void bundleNodes();
-	void bundleNodesAndEdgesMatching(std::function<bool(const DummyNode::BundleInfo&)> matcher, size_t count, const std::string& name);
+	void bundleNodesAndEdgesMatching(std::function<bool(const DummyNode::BundleInfo&, const Node*)> matcher, size_t count, const std::string& name);
 	std::shared_ptr<DummyNode> bundleNodesMatching(std::list<std::shared_ptr<DummyNode>>& nodes, std::function<bool(const DummyNode*)> matcher, const std::string& name);
 	void bundleByType(std::list<std::shared_ptr<DummyNode>>& nodes, Node::NodeType type, const std::string& name);
 	void bundleNodesByType();
