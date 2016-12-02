@@ -1148,28 +1148,31 @@ FilePath PersistentStorage::getFileNodePath(Id fileId) const
 std::set<FilePath> PersistentStorage::getDependingFilePathsForIncludes(const std::set<FilePath>& filePaths)
 {
 	std::set<FilePath> dependingFilePaths;
-	for (const FilePath& filePath: filePaths)
+	std::set<Id> processedFileNodeIds;
+
+	std::vector<Id> fileNodeIds;
+	for (const FilePath& filePath : filePaths)
 	{
-		std::set<FilePath> dependingFilePathsSubset = getDependingFilePathsForIncludes(filePath);
-		dependingFilePaths.insert(dependingFilePathsSubset.begin(), dependingFilePathsSubset.end());
+		fileNodeIds.push_back(getFileNodeId(filePath));
 	}
-	return dependingFilePaths;
-}
 
-std::set<FilePath> PersistentStorage::getDependingFilePathsForIncludes(const FilePath& filePath)
-{
-	std::set<FilePath> dependingFilePaths;
-
-	std::vector<StorageEdge> incomingEdges = m_sqliteStorage.getEdgesByTargetType(
-		getFileNodeId(filePath), Edge::typeToInt(Edge::EDGE_INCLUDE)
-	);
-	for (const StorageEdge& incomingEdge: incomingEdges)
+	while (fileNodeIds.size())
 	{
-		FilePath dependingFilePath = getFileNodePath(incomingEdge.sourceNodeId);
-		dependingFilePaths.insert(dependingFilePath);
+		std::vector<StorageEdge> incomingEdges =
+			m_sqliteStorage.getEdgesByTargetType(fileNodeIds, Edge::typeToInt(Edge::EDGE_INCLUDE));
 
-		std::set<FilePath> dependingFilePathsSubset = getDependingFilePathsForIncludes(dependingFilePath);
-		dependingFilePaths.insert(dependingFilePathsSubset.begin(), dependingFilePathsSubset.end());
+		processedFileNodeIds.insert(fileNodeIds.begin(), fileNodeIds.end());
+		fileNodeIds.clear();
+
+		for (const StorageEdge& incomingEdge: incomingEdges)
+		{
+			dependingFilePaths.insert(getFileNodePath(incomingEdge.sourceNodeId));
+
+			if (processedFileNodeIds.find(incomingEdge.sourceNodeId) == processedFileNodeIds.end())
+			{
+				fileNodeIds.push_back(incomingEdge.sourceNodeId);
+			}
+		}
 	}
 
 	return dependingFilePaths;
@@ -1179,11 +1182,29 @@ std::set<FilePath> PersistentStorage::getDependingFilePathsForImports(const std:
 {
 	std::map<Id, std::set<Id>> fileIdToDependingFileIds;
 
-	for (const StorageEdge& importEdge: m_sqliteStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_IMPORT)))
+	std::multimap<Id, Id> importEdgeTargetIdToSourceIds;
+	std::vector<Id> importedTargetIds;
+
+	for (const StorageEdge& importEdge : m_sqliteStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_IMPORT)))
 	{
-		for (const StorageSourceLocation& importedElementLoc: m_sqliteStorage.getSourceLocationsForElementId(importEdge.targetNodeId))
+		importedTargetIds.push_back(importEdge.targetNodeId);
+		importEdgeTargetIdToSourceIds.emplace(importEdge.targetNodeId, importEdge.sourceNodeId);
+	}
+
+	if (!importedTargetIds.size())
+	{
+		return std::set<FilePath>();
+	}
+
+	for (const std::pair<StorageSourceLocation, Id>& p :
+		m_sqliteStorage.getSourceLocationsAndElementIdsForElementIds(importedTargetIds))
+	{
+		std::pair <std::multimap<Id, Id>::const_iterator, std::multimap<Id, Id>::const_iterator> ret =
+			importEdgeTargetIdToSourceIds.equal_range(p.second);
+
+		for (std::multimap<Id, Id>::const_iterator it = ret.first; it != ret.second; it++)
 		{
-			fileIdToDependingFileIds[importedElementLoc.fileNodeId].insert(importEdge.sourceNodeId);
+			fileIdToDependingFileIds[p.first.fileNodeId].insert(it->second);
 		}
 	}
 
@@ -1205,10 +1226,8 @@ std::set<FilePath> PersistentStorage::getDependingFilePathsForImports(const std:
 			{
 				for (Id dependingFileNodeId: it->second)
 				{
-					const size_t countBeforeInsert = dependingFileNodeIds.size();
-					dependingFileNodeIds.insert(dependingFileNodeId);
-					const size_t countAfterInsert = dependingFileNodeIds.size();
-					if (countBeforeInsert != countAfterInsert)
+					bool inserted = dependingFileNodeIds.insert(dependingFileNodeId).second;
+					if (inserted)
 					{
 						tempWorking.insert(dependingFileNodeId);
 					}

@@ -514,6 +514,11 @@ std::vector<StorageEdge> SqliteStorage::getEdgesByTargetType(Id targetId, int ty
 	return getAll<StorageEdge>("WHERE target_node_id == " + std::to_string(targetId) + " AND type == " + std::to_string(type));
 }
 
+std::vector<StorageEdge> SqliteStorage::getEdgesByTargetType(const std::vector<Id>& targetIds, int type) const
+{
+	return getAll<StorageEdge>("WHERE target_node_id IN (" + utility::join(utility::toStrings(targetIds), ',') + ") AND type == " + std::to_string(type));
+}
+
 StorageNode SqliteStorage::getNodeById(Id id) const
 {
 	if (id != 0)

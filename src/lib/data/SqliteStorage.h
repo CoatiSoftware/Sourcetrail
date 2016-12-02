@@ -86,6 +86,7 @@ public:
 	std::vector<StorageEdge> getEdgesByType(int type) const;
 	std::vector<StorageEdge> getEdgesBySourceType(Id sourceId, int type) const;
 	std::vector<StorageEdge> getEdgesByTargetType(Id targetId, int type) const;
+	std::vector<StorageEdge> getEdgesByTargetType(const std::vector<Id>& targetIds, int type) const;
 
 	StorageNode getNodeById(Id id) const;
 	StorageNode getNodeBySerializedName(const std::string& serializedName) const;

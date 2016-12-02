@@ -127,7 +127,6 @@ private:
 	FilePath getFileNodePath(Id fileId) const;
 
 	std::set<FilePath> getDependingFilePathsForIncludes(const std::set<FilePath>& filePaths);
-	std::set<FilePath> getDependingFilePathsForIncludes(const FilePath& filePath);
 	std::set<FilePath> getDependingFilePathsForImports(const std::set<FilePath>& filePaths);
 
 	Id getLastVisibleParentNodeId(const Id nodeId) const;
