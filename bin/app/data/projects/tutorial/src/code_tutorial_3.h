@@ -8,15 +8,15 @@
 //------------------------------------------------------------------------------
 //
 // 6 - SNIPPETS AND FILES
-//  It looks like this function is called in two different places inside the 
-//  same file. When two different snippets are located in the same file they 
-//  share a single file box. The line numbers to the left indicate where each of 
+//  It looks like this function is called in two different places inside the
+//  same file. When two different snippets are located in the same file they
+//  share a single file box. The line numbers to the left indicate where each of
 //  these snippets is located inside the file.
 //
 // 7 - MERGING SNIPPETS
 //  The top line of each snippet shows the name of its own parent's scope.
-//  If you want to show the lines in between the two snippets below you can 
-//  either expand the upper snippet's scope to show the whole file or you can 
+//  If you want to show the lines in between the two snippets below you can
+//  either expand the upper snippet's scope to show the whole file or you can
 //  tell the lower snippet to reveal its scope.
 //  Try one of these approaches now.
 //
@@ -25,6 +25,7 @@
 void function_with_snippets()
 {
 	unrelated_but_very_important();
+
 
 
 //------------------------------------------------------------------------------
@@ -45,8 +46,8 @@ void function_with_snippets()
 //  to the central hub.
 //
 // P.S.
-//  You can also click the file name above (i guess you need to scroll up a 
-//  little bit) to activate the file's node in case you want to explore your 
+//  You can also click the file name above (i guess you need to scroll up a
+//  little bit) to activate the file's node in case you want to explore your
 //  include hierarchy.
 //
 //------------------------------------------------------------------------------

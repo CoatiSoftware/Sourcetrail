@@ -117,31 +117,39 @@ bool SearchMatch::operator<(const SearchMatch& other) const
 		return false;
 	}
 
+	const std::string* str = &text;
+	const std::string* otherStr = &other.text;
+	if (*str == *otherStr)
+	{
+		str = &name;
+		otherStr = &other.name;
+	}
+
 	// text size
-	if (text.size() < other.text.size())
+	if (str->size() < otherStr->size())
 	{
 		return true;
 	}
-	else if (text.size() > other.text.size())
+	else if (str->size() > otherStr->size())
 	{
 		return false;
 	}
 
 	// lower case
-	for (size_t i = 0; i < text.size(); i++)
+	for (size_t i = 0; i < str->size(); i++)
 	{
-		if (tolower(text[i]) != tolower(other.text[i]))
+		if (tolower(str->at(i)) != tolower(otherStr->at(i)))
 		{
-			return tolower(text[i]) < tolower(other.text[i]);
+			return tolower(str->at(i)) < tolower(otherStr->at(i));
 		}
 		else
 		{
 			// alphabetical
-			if (text[i] < other.text[i])
+			if (str->at(i) < otherStr->at(i))
 			{
 				return true;
 			}
-			else if (text[i] > other.text[i])
+			else if (str->at(i) > otherStr->at(i))
 			{
 				return false;
 			}
