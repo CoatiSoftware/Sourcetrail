@@ -18,6 +18,8 @@
 
 CodeController::CodeController(StorageAccess* storageAccess)
 	: m_storageAccess(storageAccess)
+	, m_scrollToDefinition(false)
+	, m_scrollToValue(-1)
 {
 }
 
@@ -131,6 +133,7 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 	{
 		m_collection = m_storageAccess->getTokenLocationsForTokenIds(activeTokenIds);
 		view->showCodeSnippets(getSnippetsForActiveTokenLocations(m_collection.get(), declarationId), activeTokenIds, true);
+		m_scrollToDefinition = !message->isReplayed() || message->isLast();
 
 		size_t fileCount = m_collection->getTokenLocationFileCount();
 		size_t referenceCount = m_collection->getTokenLocationCount();
@@ -229,6 +232,9 @@ void CodeController::handleMessage(MessageClearErrorCount* message)
 
 void CodeController::handleMessage(MessageFlushUpdates* message)
 {
+	MessageCodeViewExpandedInitialFiles* msgPtr = nullptr;
+	handleMessage(msgPtr);
+
 	showContents(message);
 }
 
@@ -240,6 +246,21 @@ void CodeController::handleMessage(MessageFocusIn* message)
 void CodeController::handleMessage(MessageFocusOut* message)
 {
 	getView()->defocusTokenIds();
+}
+
+void CodeController::handleMessage(MessageCodeViewExpandedInitialFiles* message)
+{
+	if (m_scrollToDefinition)
+	{
+		getView()->scrollToDefinition();
+		m_scrollToDefinition = false;
+	}
+
+	if (m_scrollToValue != -1)
+	{
+		getView()->scrollToValue(m_scrollToValue);
+		m_scrollToValue = -1;
+	}
 }
 
 void CodeController::handleMessage(MessageScrollToLine* message)
@@ -266,7 +287,7 @@ void CodeController::handleMessage(MessageScrollCode* message)
 {
 	if (message->isReplayed())
 	{
-		getView()->scrollToValue(message->value);
+		m_scrollToValue = message->value;
 	}
 }
 

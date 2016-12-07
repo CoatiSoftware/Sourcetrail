@@ -160,6 +160,11 @@ uint QtCodeSnippet::getLineNumberForLocationId(Id locationId) const
 	return m_codeArea->getLineNumberForLocationId(locationId);
 }
 
+int QtCodeSnippet::getStartLineNumberOfFirstActiveScope() const
+{
+	return m_codeArea->getStartLineNumberOfFirstActiveScope();
+}
+
 QRectF QtCodeSnippet::getLineRectForLineNumber(uint lineNumber) const
 {
 	return m_codeArea->getLineRectForLineNumber(lineNumber);

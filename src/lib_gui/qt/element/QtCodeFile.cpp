@@ -273,6 +273,24 @@ QtCodeSnippet* QtCodeFile::getFileSnippet() const
 	return m_fileSnippet.get();
 }
 
+std::pair<QtCodeSnippet*, int> QtCodeFile::getFirstSnippetWithActiveScope() const
+{
+	std::pair<QtCodeSnippet*, int> result(nullptr, 0);
+
+	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
+	{
+		int startLineNumber = snippet->getStartLineNumberOfFirstActiveScope();
+		if (startLineNumber != 0)
+		{
+			result.first = snippet.get();
+			result.second = startLineNumber;
+			break;
+		}
+	}
+
+	return result;
+}
+
 bool QtCodeFile::isCollapsed() const
 {
 	return m_locationFile != nullptr;

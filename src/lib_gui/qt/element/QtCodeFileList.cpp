@@ -127,3 +127,24 @@ QtCodeFile* QtCodeFileList::getFile(const FilePath filePath)
 
 	return file;
 }
+
+std::pair<QtCodeSnippet*, int> QtCodeFileList::getFirstSnippetWithActiveScope() const
+{
+	std::pair<QtCodeSnippet*, int> result(nullptr, 0);
+
+	for (std::shared_ptr<QtCodeFile> filePtr : m_files)
+	{
+		if (filePtr->isCollapsed())
+		{
+			continue;
+		}
+
+		result = filePtr->getFirstSnippetWithActiveScope();
+		if (result.first != nullptr)
+		{
+			break;
+		}
+	}
+
+	return result;
+}

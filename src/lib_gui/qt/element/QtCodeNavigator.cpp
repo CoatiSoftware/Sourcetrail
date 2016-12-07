@@ -12,6 +12,7 @@
 #include "data/location/TokenLocationCollection.h"
 #include "data/location/TokenLocationFile.h"
 #include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageCodeViewExpandedInitialFiles.h"
 #include "utility/messaging/type/MessageScrollCode.h"
 #include "utility/messaging/type/MessageShowReference.h"
 
@@ -82,8 +83,8 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 	m_scrollSpeedChangeListener.setScrollBar(m_scrollArea->verticalScrollBar());
 
 	connect(m_scrollArea->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrolled(int)));
-	connect(this, SIGNAL(shouldScrollToSnippet(QtCodeSnippet*, uint)),
-		this, SLOT(scrollToSnippet(QtCodeSnippet*, uint)), Qt::QueuedConnection);
+	connect(this, SIGNAL(shouldScrollToSnippet(QtCodeSnippet*, uint, bool)),
+		this, SLOT(scrollToSnippet(QtCodeSnippet*, uint, bool)), Qt::QueuedConnection);
 }
 
 QtCodeNavigator::~QtCodeNavigator()
@@ -357,6 +358,11 @@ void QtCodeNavigator::setupFiles()
 		}
 	}
 
+	if (filePathsToExpand.size())
+	{
+		MessageCodeViewExpandedInitialFiles().dispatch();
+	}
+
 	m_refIndex = 0;
 	updateRefLabel();
 }
@@ -396,7 +402,7 @@ void QtCodeNavigator::showLocation(const FilePath& filePath, Id locationId, bool
 void QtCodeNavigator::scrollToValue(int value)
 {
 	m_value = value;
-	QTimer::singleShot(100, this, SLOT(setValue()));
+	QTimer::singleShot(1000, this, SLOT(setValue()));
 }
 
 void QtCodeNavigator::scrollToLine(const FilePath& filePath, unsigned int line)
@@ -417,7 +423,7 @@ void QtCodeNavigator::scrollToLine(const FilePath& filePath, unsigned int line)
 	}
 	else if (file->getFileSnippet())
 	{
-		emit shouldScrollToSnippet(file->getFileSnippet(), line);
+		emit shouldScrollToSnippet(file->getFileSnippet(), line, false);
 	}
 	else
 	{
@@ -454,12 +460,22 @@ void QtCodeNavigator::scrollToLocation(QtCodeFile* file, Id locationId, bool scr
 	{
 		if (locationId)
 		{
-			emit shouldScrollToSnippet(snippet, snippet->getLineNumberForLocationId(locationId));
+			emit shouldScrollToSnippet(snippet, snippet->getLineNumberForLocationId(locationId), false);
 		}
 		else
 		{
-			emit shouldScrollToSnippet(snippet, 1);
+			emit shouldScrollToSnippet(snippet, 1, false);
 		}
+	}
+}
+
+void QtCodeNavigator::scrollToDefinition()
+{
+	std::pair<QtCodeSnippet*, int> result = m_list->getFirstSnippetWithActiveScope();
+
+	if (result.first != nullptr)
+	{
+		emit shouldScrollToSnippet(result.first, result.second, true);
 	}
 }
 
@@ -467,7 +483,7 @@ void QtCodeNavigator::scrollToSnippetIfRequested()
 {
 	if (m_scrollToFile && m_scrollToLine)
 	{
-		emit shouldScrollToSnippet(m_scrollToFile->getSnippetForLine(m_scrollToLine), m_scrollToLine);
+		emit shouldScrollToSnippet(m_scrollToFile->getSnippetForLine(m_scrollToLine), m_scrollToLine, false);
 	}
 	else if (m_scrollToFile && m_scrollToFile->hasSnippets())
 	{
@@ -490,11 +506,11 @@ void QtCodeNavigator::scrolled(int value)
 	MessageScrollCode(value).dispatch();
 }
 
-void QtCodeNavigator::scrollToSnippet(QtCodeSnippet* snippet, uint lineNumber)
+void QtCodeNavigator::scrollToSnippet(QtCodeSnippet* snippet, uint lineNumber, bool onTop)
 {
 	if (lineNumber)
 	{
-		this->ensureWidgetVisibleAnimated(snippet, snippet->getLineRectForLineNumber(lineNumber));
+		this->ensureWidgetVisibleAnimated(snippet, snippet->getLineRectForLineNumber(lineNumber), onTop);
 	}
 }
 
@@ -569,7 +585,7 @@ void QtCodeNavigator::updateRefLabel()
 	m_nextButton->setEnabled(n > 1);
 }
 
-void QtCodeNavigator::ensureWidgetVisibleAnimated(QWidget *childWidget, QRectF rect)
+void QtCodeNavigator::ensureWidgetVisibleAnimated(QWidget *childWidget, QRectF rect, bool onTop)
 {
 	QScrollArea* area = m_scrollArea;
 
@@ -593,6 +609,15 @@ void QtCodeNavigator::ensureWidgetVisibleAnimated(QWidget *childWidget, QRectF r
 
 	QScrollBar* scrollBar = area->verticalScrollBar();
 	int value = focusRect.center().y() - visibleRect.center().y();
+
+	if (onTop)
+	{
+		value = focusRect.top() - visibleRect.top();
+		if (value < 50)
+		{
+			value = 0;
+		}
+	}
 
 	if (scrollBar && value != 0)
 	{

@@ -49,6 +49,7 @@ public:
 
 	virtual void scrollToValue(int value);
 	virtual void scrollToLine(const FilePath filePath, unsigned int line);
+	virtual void scrollToDefinition();
 
 private:
 	void doRefreshView();
@@ -88,6 +89,8 @@ private:
 	QtThreadedFunctor<> m_showContentsFunctor;
 	QtThreadedFunctor<int> m_scrollToValueFunctor;
 	QtThreadedFunctor<const FilePath, unsigned int> m_scrollToLineFunctor;
+
+	QtThreadedLambdaFunctor m_onQtThread;
 
 	QtCodeNavigator* m_widget;
 

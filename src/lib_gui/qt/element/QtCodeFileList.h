@@ -44,6 +44,7 @@ public:
 	void onWindowFocus();
 
 	QtCodeFile* getFile(const FilePath filePath);
+	std::pair<QtCodeSnippet*, int> getFirstSnippetWithActiveScope() const;
 
 private:
 	QtCodeSnippet* getFirstActiveSnippet() const;

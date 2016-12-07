@@ -10,6 +10,7 @@
 #include "utility/messaging/type/MessageActivateTokens.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
 #include "utility/messaging/type/MessageClearErrorCount.h"
+#include "utility/messaging/type/MessageCodeViewExpandedInitialFiles.h"
 #include "utility/messaging/type/MessageFlushUpdates.h"
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
@@ -36,6 +37,7 @@ class CodeController
 	, public MessageListener<MessageActivateTokens>
 	, public MessageListener<MessageChangeFileView>
 	, public MessageListener<MessageClearErrorCount>
+	, public MessageListener<MessageCodeViewExpandedInitialFiles>
 	, public MessageListener<MessageFlushUpdates>
 	, public MessageListener<MessageFocusIn>
 	, public MessageListener<MessageFocusOut>
@@ -57,6 +59,7 @@ private:
 	virtual void handleMessage(MessageActivateTokens* message);
 	virtual void handleMessage(MessageChangeFileView* message);
 	virtual void handleMessage(MessageClearErrorCount* message);
+	virtual void handleMessage(MessageCodeViewExpandedInitialFiles* message);
 	virtual void handleMessage(MessageFlushUpdates* message);
 	virtual void handleMessage(MessageFocusIn* message);
 	virtual void handleMessage(MessageFocusOut* message);
@@ -91,6 +94,9 @@ private:
 
 	StorageAccess* m_storageAccess;
 	mutable std::shared_ptr<TokenLocationCollection> m_collection;
+
+	bool m_scrollToDefinition;
+	int m_scrollToValue;
 };
 
 #endif // CODE_CONTROLLER_H

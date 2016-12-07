@@ -275,6 +275,31 @@ uint QtCodeArea::getLineNumberForLocationId(Id locationId) const
 	return 0;
 }
 
+int QtCodeArea::getStartLineNumberOfFirstActiveScope() const
+{
+	int firstActiveLine = 0;
+	for (const Annotation& annotation : m_annotations)
+	{
+		if (annotation.locationType == LocationType::LOCATION_SCOPE && annotation.isActive)
+		{
+			if (firstActiveLine && firstActiveLine != annotation.startLine)
+			{
+				return annotation.startLine;
+			}
+			else
+			{
+				return getStartLineNumber();
+			}
+		}
+		else if (annotation.isActive)
+		{
+			firstActiveLine = annotation.startLine;
+		}
+	}
+
+	return 0;
+}
+
 QRectF QtCodeArea::getLineRectForLineNumber(uint lineNumber) const
 {
 	if (lineNumber < getStartLineNumber())

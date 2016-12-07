@@ -42,6 +42,8 @@ public:
 	QtCodeSnippet* getSnippetForLine(unsigned int line) const;
 	QtCodeSnippet* getFileSnippet() const;
 
+	std::pair<QtCodeSnippet*, int> getFirstSnippetWithActiveScope() const;
+
 	bool isCollapsed() const;
 
 	void requestContent() const;

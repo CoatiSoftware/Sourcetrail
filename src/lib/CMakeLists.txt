@@ -262,6 +262,7 @@ add_files(
 	utility/messaging/type/MessageClearLogView.h
 	utility/messaging/type/MessageClearStatusView.h
 	utility/messaging/type/MessageCodeReference.h
+	utility/messaging/type/MessageCodeViewExpandedInitialFiles.h
 	utility/messaging/type/MessageColorSchemeTest.h
 	utility/messaging/type/MessageDeactivateEdge.h
 	utility/messaging/type/MessageDispatchWhenLicenseValid.h

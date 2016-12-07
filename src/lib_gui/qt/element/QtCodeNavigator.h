@@ -72,16 +72,17 @@ public:
 	void scrollToValue(int value);
 	void scrollToLine(const FilePath& filePath, unsigned int line);
 	void scrollToLocation(QtCodeFile* file, Id locationId, bool scrollTo);
+	void scrollToDefinition();
 
 	void scrollToSnippetIfRequested();
 	void requestScrollToLine(QtCodeFile* file, unsigned int line);
 
 signals:
-	void shouldScrollToSnippet(QtCodeSnippet* widget, uint lineNumber);
+	void shouldScrollToSnippet(QtCodeSnippet* widget, uint lineNumber, bool onTop);
 
 private slots:
 	void scrolled(int value);
-	void scrollToSnippet(QtCodeSnippet* snippet, uint lineNumber);
+	void scrollToSnippet(QtCodeSnippet* snippet, uint lineNumber, bool onTop);
 	void setValue();
 
 	void previousReference();
@@ -98,7 +99,7 @@ private:
 	void showCurrentReference();
 	void updateRefLabel();
 
-	void ensureWidgetVisibleAnimated(QWidget *childWidget, QRectF rect);
+	void ensureWidgetVisibleAnimated(QWidget *childWidget, QRectF rect, bool onTop);
 
 	void handleMessage(MessageCodeReference* message);
 	void handleMessage(MessageWindowFocus* message);

@@ -124,6 +124,16 @@ void QtCodeView::scrollToLine(const FilePath filePath, unsigned int line)
 	m_scrollToLineFunctor(filePath, line);
 }
 
+void QtCodeView::scrollToDefinition()
+{
+	m_onQtThread(
+		[=]()
+		{
+			m_widget->scrollToDefinition();
+		}
+	);
+}
+
 void QtCodeView::doRefreshView()
 {
 	setStyleSheet();

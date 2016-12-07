@@ -51,6 +51,7 @@ public:
 
 	virtual void scrollToValue(int value) = 0;
 	virtual void scrollToLine(const FilePath filePath, unsigned int line) = 0;
+	virtual void scrollToDefinition() = 0;
 
 private:
 	CodeController* getController();
