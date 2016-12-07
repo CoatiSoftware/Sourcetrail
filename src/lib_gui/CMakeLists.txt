@@ -115,6 +115,8 @@ add_files(
 	qt/view/QtSearchView.h
 	qt/view/QtStatusBarView.cpp
 	qt/view/QtStatusBarView.h
+	qt/view/QtStatusView.cpp
+	qt/view/QtStatusView.h
 	qt/view/QtTabbedView.cpp
 	qt/view/QtTabbedView.h
 	qt/view/QtUndoRedoView.cpp

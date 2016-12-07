@@ -12,6 +12,7 @@
 #include "qt/view/QtRefreshView.h"
 #include "qt/view/QtSearchView.h"
 #include "qt/view/QtStatusBarView.h"
+#include "qt/view/QtStatusView.h"
 #include "qt/view/QtTabbedView.h"
 #include "qt/view/QtUndoRedoView.h"
 
@@ -58,6 +59,11 @@ std::shared_ptr<ErrorView> QtViewFactory::createErrorView(ViewLayout* viewLayout
 std::shared_ptr<LogView> QtViewFactory::createLogView(ViewLayout* viewLayout) const
 {
 	return View::createInitAndAddToLayout<QtLogView>(viewLayout);
+}
+
+std::shared_ptr<StatusView> QtViewFactory::createStatusView(ViewLayout* viewLayout) const
+{
+	return View::createInitAndAddToLayout<QtStatusView>(viewLayout);
 }
 
 std::shared_ptr<GraphView> QtViewFactory::createGraphView(ViewLayout* viewLayout) const

@@ -21,6 +21,7 @@ public:
 	virtual std::shared_ptr<RefreshView> createRefreshView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<SearchView> createSearchView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<StatusBarView> createStatusBarView(ViewLayout* viewLayout) const;
+	virtual std::shared_ptr<StatusView> createStatusView(ViewLayout* viewLayout) const;
 	virtual std::shared_ptr<UndoRedoView> createUndoRedoView(ViewLayout* viewLayout) const;
 
 	virtual std::shared_ptr<DialogView> createDialogView(ViewLayout* viewLayout, StorageAccess* storageAccess) const;

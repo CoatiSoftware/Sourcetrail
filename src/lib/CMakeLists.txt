@@ -35,6 +35,8 @@ add_files(
 	component/controller/SearchController.h
 	component/controller/StatusBarController.cpp
 	component/controller/StatusBarController.h
+	component/controller/StatusController.cpp
+	component/controller/StatusController.h
 	component/controller/UndoRedoController.cpp
 	component/controller/UndoRedoController.h
 
@@ -63,6 +65,8 @@ add_files(
 	component/view/SearchView.h
 	component/view/StatusBarView.cpp
 	component/view/StatusBarView.h
+	component/view/StatusView.cpp
+	component/view/StatusView.h
 	component/view/TabbedView.cpp
 	component/view/TabbedView.h
 	component/view/UndoRedoView.cpp
@@ -256,6 +260,7 @@ add_files(
 	utility/messaging/type/MessageChangeFileView.h
 	utility/messaging/type/MessageClearErrorCount.h
 	utility/messaging/type/MessageClearLogView.h
+	utility/messaging/type/MessageClearStatusView.h
 	utility/messaging/type/MessageCodeReference.h
 	utility/messaging/type/MessageColorSchemeTest.h
 	utility/messaging/type/MessageDeactivateEdge.h
@@ -274,6 +279,7 @@ add_files(
 	utility/messaging/type/MessageIDECreateCDB.h
 	utility/messaging/type/MessageInterruptTasks.h
 	utility/messaging/type/MessageLoadProject.h
+	utility/messaging/type/MessageLogFilterChanged.h
 	utility/messaging/type/MessageMoveIDECursor.h
 	utility/messaging/type/MessageNewErrors.h
 	utility/messaging/type/MessagePingReceived.h
@@ -293,6 +299,7 @@ add_files(
 	utility/messaging/type/MessageShowScope.h
 	utility/messaging/type/MessageShowStartScreen.h
 	utility/messaging/type/MessageStatus.h
+	utility/messaging/type/MessageStatusFilterChanged.h
 	utility/messaging/type/MessageSwitchColorScheme.h
 	utility/messaging/type/MessageUndo.h
 	utility/messaging/type/MessageWindowClosed.h

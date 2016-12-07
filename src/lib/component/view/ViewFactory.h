@@ -14,6 +14,7 @@ class LogView;
 class RefreshView;
 class SearchView;
 class StatusBarView;
+class StatusView;
 class StorageAccess;
 class TabbedView;
 class UndoRedoView;
@@ -37,6 +38,7 @@ public:
 	virtual std::shared_ptr<RefreshView> createRefreshView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<SearchView> createSearchView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<StatusBarView> createStatusBarView(ViewLayout* viewLayout) const = 0;
+	virtual std::shared_ptr<StatusView> createStatusView(ViewLayout* viewLayout) const = 0;
 	virtual std::shared_ptr<UndoRedoView> createUndoRedoView(ViewLayout* viewLayout) const = 0;
 
 	virtual std::shared_ptr<DialogView> createDialogView(ViewLayout* viewLayout, StorageAccess* storageAccess) const = 0;

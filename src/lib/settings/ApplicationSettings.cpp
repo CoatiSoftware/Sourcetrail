@@ -1,6 +1,7 @@
 #include "settings/ApplicationSettings.h"
 
 #include "utility/ResourcePaths.h"
+#include "utility/Status.h"
 #include "utility/utility.h"
 
 const size_t ApplicationSettings::VERSION = 1;
@@ -178,6 +179,16 @@ void ApplicationSettings::setVerboseIndexerLoggingEnabled(bool value)
 void ApplicationSettings::setLogFilter(int mask)
 {
 	setValue<int>("application/log_filter", mask);
+}
+
+void ApplicationSettings::setStatusFilter(int mask)
+{
+	setValue<int>("application/status_filter", mask);
+}
+
+int ApplicationSettings::getStatusFilter() const
+{
+	return getValue<int>("application/status_filter", STATUSTYPE::STATUS_INFO | STATUSTYPE::STATUS_ERROR);
 }
 
 int ApplicationSettings::getLogFilter() const

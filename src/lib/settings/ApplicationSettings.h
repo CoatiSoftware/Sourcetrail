@@ -57,6 +57,9 @@ public:
 	int getLogFilter() const;
 	void setLogFilter(int mask);
 
+	int getStatusFilter() const;
+	void setStatusFilter(int mask);
+
 	std::vector<FilePath> getIndexingFilePaths() const;
 	bool setIndexingFilePaths(const std::vector<FilePath>& indexingFiles);
 

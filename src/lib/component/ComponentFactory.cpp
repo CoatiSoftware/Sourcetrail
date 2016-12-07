@@ -9,6 +9,7 @@
 #include "component/controller/RefreshController.h"
 #include "component/controller/SearchController.h"
 #include "component/controller/StatusBarController.h"
+#include "component/controller/StatusController.h"
 #include "component/controller/UndoRedoController.h"
 #include "component/view/CodeView.h"
 #include "component/view/ErrorView.h"
@@ -17,6 +18,7 @@
 #include "component/view/RefreshView.h"
 #include "component/view/SearchView.h"
 #include "component/view/StatusBarView.h"
+#include "component/view/StatusView.h"
 #include "component/view/UndoRedoView.h"
 #include "component/view/ViewFactory.h"
 
@@ -115,6 +117,14 @@ std::shared_ptr<Component> ComponentFactory::createStatusBarComponent(ViewLayout
 {
 	std::shared_ptr<StatusBarView> view = m_viewFactory->createStatusBarView(viewLayout);
 	std::shared_ptr<StatusBarController> controller = std::make_shared<StatusBarController>(m_storageAccess);
+
+	return std::make_shared<Component>(view, controller);
+}
+
+std::shared_ptr<Component> ComponentFactory::createStatusComponent(ViewLayout* viewLayout)
+{
+	std::shared_ptr<StatusView> view = m_viewFactory->createStatusView(viewLayout);
+	std::shared_ptr<StatusController> controller = std::make_shared<StatusController>();
 
 	return std::make_shared<Component>(view, controller);
 }
