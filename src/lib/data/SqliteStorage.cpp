@@ -665,7 +665,7 @@ std::shared_ptr<TokenLocationFile> SqliteStorage::getTokenLocationsForFile(const
 		return ret;
 	}
 
-	for (std::pair<StorageSourceLocation, Id> e: getAllSourceLocationsAndElementIds("WHERE source_location.file_node_id == " + std::to_string(fileNodeId)))
+	for (std::pair<StorageSourceLocation, Id> e: getAllSourceLocationsAndElementIdsForFileId(fileNodeId))
 	{
 		TokenLocation* loc = ret->addTokenLocation(
 			e.first.id,
@@ -743,6 +743,77 @@ std::vector<std::pair<StorageSourceLocation, Id>> SqliteStorage::getAllSourceLoc
 		}
 		q.nextRow();
 	}
+	return ret;
+}
+
+std::vector<std::pair<StorageSourceLocation, Id>> SqliteStorage::getAllSourceLocationsAndElementIdsForFileId(Id fileNodeId) const
+{
+	CppSQLite3Query q = m_database.execQuery((
+		"SELECT "
+			"source_location.id, "
+			"source_location.file_node_id, "
+			"source_location.start_line, "
+			"source_location.start_column, "
+			"source_location.end_line, "
+			"source_location.end_column, "
+			"source_location.type "
+		"FROM source_location WHERE source_location.file_node_id == " + std::to_string(fileNodeId) + ";"
+	).c_str());
+
+	std::map<Id, StorageSourceLocation> locations;
+	std::vector<Id> locationIds;
+	while (!q.eof())
+	{
+		const Id  id			= q.getIntField(0, 0);
+		const Id  fileNodeId	= q.getIntField(1, 0);
+		const int startLine		= q.getIntField(2, -1);
+		const int startColumn	= q.getIntField(3, -1);
+		const int endLine		= q.getIntField(4, -1);
+		const int endColumn		= q.getIntField(5, -1);
+		const int type			= q.getIntField(6, -1);
+
+		if (id != 0 && fileNodeId != 0 && startLine != -1 && startColumn != -1 && endLine != -1 && endColumn != -1 && type != -1)
+		{
+			locationIds.push_back(id);
+			locations.emplace(
+				id,
+				StorageSourceLocation(
+					id,
+					fileNodeId,
+					startLine,
+					startColumn,
+					endLine,
+					endColumn,
+					type
+				)
+			);
+		}
+		q.nextRow();
+	}
+
+	CppSQLite3Query q2 = m_database.execQuery((
+		"SELECT "
+			"occurrence.element_id, "
+			"occurrence.source_location_id "
+		"FROM occurrence WHERE occurrence.source_location_id IN (" + utility::join(utility::toStrings(locationIds), ',') + ");"
+	).c_str());
+
+	std::vector<std::pair<StorageSourceLocation, Id>> ret;
+	while (!q2.eof())
+	{
+		const Id elementId			= q2.getIntField(0, 0);
+		const Id sourceLocationId	= q2.getIntField(1, 0);
+
+		if (elementId != 0 && sourceLocationId != 0)
+		{
+			ret.push_back(std::make_pair(
+				locations[sourceLocationId],
+				elementId
+			));
+		}
+		q2.nextRow();
+	}
+
 	return ret;
 }
 
