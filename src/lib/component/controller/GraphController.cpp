@@ -760,7 +760,7 @@ void GraphController::bundleNodesAndEdgesMatching(
 	for (size_t i = 0; i < m_dummyNodes.size(); i++)
 	{
 		const DummyNode* node = m_dummyNodes[i].get();
-		if (node->bundleInfo.isActive || !node->visible)
+		if (node->bundleInfo.isActive || !node->visible || !node->isGraphNode())
 		{
 			continue;
 		}
