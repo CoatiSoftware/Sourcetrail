@@ -528,11 +528,10 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 
 		ranges = fileScopedMerger.merge(atomicRanges);
 	}
+
 	const int snippetExpandRange = ApplicationSettings::getInstance()->getCodeSnippetExpandRange();
 	std::vector<CodeSnippetParams> snippets;
 
-	std::shared_ptr<TokenLocationFile> file =
-		m_storageAccess->getTokenLocationsForFile(activeTokenLocations->getFilePath().str());
 	for (const SnippetMerger::Range& range: ranges)
 	{
 		CodeSnippetParams params;
@@ -542,7 +541,8 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 		params.endLineNumber =
 			std::min<int>(textAccess->getLineCount(), range.end.row + (range.end.strong ? 0 : snippetExpandRange));
 
-		std::shared_ptr<TokenLocationFile> tempFile = file->getFilteredByLines(params.startLineNumber, params.endLineNumber);
+		std::shared_ptr<TokenLocationFile> tempFile =
+			fileLocations->getFilteredByLines(params.startLineNumber, params.endLineNumber);
 		TokenLocationLine* firstUsedLine = nullptr;
 		for (size_t i = params.startLineNumber; i <= params.endLineNumber && firstUsedLine == nullptr; i++)
 		{
@@ -563,6 +563,7 @@ std::vector<CodeSnippetParams> CodeController::getSnippetsForFile(
 				}
 			);
 		}
+
 		if (!activeTokenLocations->isWholeCopy && params.titleId == 0)
 		{
 			params.title = activeTokenLocations->getFilePath().str();

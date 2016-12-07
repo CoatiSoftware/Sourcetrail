@@ -393,6 +393,8 @@ Id PersistentStorage::getIdForEdge(
 
 NameHierarchy PersistentStorage::getNameHierarchyForNodeWithId(Id nodeId) const
 {
+	TRACE();
+
 	return NameHierarchy::deserialize(m_sqliteStorage.getNodeById(nodeId).serializedName);
 }
 
