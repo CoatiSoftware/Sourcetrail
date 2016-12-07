@@ -58,40 +58,14 @@ TokenLocation* TokenLocationFile::addTokenLocation(
 {
 	TokenLocationLine* line = createTokenLocationLine(startLineNumber);
 
-	// Check if a TokenLocation with the same start and end was already added.
-	TokenLocation* start = nullptr;
-	line->forEachStartTokenLocation(
-		[&](TokenLocation* startLocation)
-		{
-			if (start)
-			{
-				return;
-			}
+	TokenLocation* start = line->addStartTokenLocation(locationId, tokenId, startColumnNumber);
 
-			TokenLocation* endLocation = startLocation->getEndTokenLocation();
-
-			if (startLocation->getTokenId() == tokenId &&
-				startLocation->getColumnNumber() == startColumnNumber &&
-				endLocation &&
-				endLocation->getLineNumber() == endLineNumber &&
-				endLocation->getColumnNumber() == endColumnNumber)
-			{
-				start = startLocation;
-			}
-		}
-	);
-
-	if (!start)
+	if (startLineNumber != endLineNumber)
 	{
-		start = line->addStartTokenLocation(locationId, tokenId, startColumnNumber);
-
-		if (startLineNumber != endLineNumber)
-		{
-			line = createTokenLocationLine(endLineNumber);
-		}
-
-		line->addEndTokenLocation(start, endColumnNumber);
+		line = createTokenLocationLine(endLineNumber);
 	}
+
+	line->addEndTokenLocation(start, endColumnNumber);
 
 	return start;
 }

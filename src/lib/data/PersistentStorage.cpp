@@ -966,7 +966,7 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsFor
 			collection->addTokenLocation(
 				location.id,
 				occurrences.elementId,
-				m_sqliteStorage.getFileById(location.fileNodeId).filePath, // TODO: optimize: only once per file!
+				getFileNodePath(location.fileNodeId),
 				location.startLine,
 				location.startCol,
 				location.endLine,
