@@ -94,8 +94,8 @@ private:
 	virtual void handleMessage(MessageShowScope* message);
 	virtual void handleMessage(MessageUndo* message);
 
-	void replayCommands();
-	void replayCommands(std::list<Command>::iterator iterator);
+	bool replayCommands();
+	bool replayCommands(std::list<Command>::iterator iterator);
 
 	void processCommand(Command command);
 

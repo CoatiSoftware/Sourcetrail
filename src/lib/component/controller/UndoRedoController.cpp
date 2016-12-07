@@ -173,9 +173,9 @@ void UndoRedoController::handleMessage(MessageRedo* message)
 		getView()->setRedoButtonEnabled(false);
 	}
 
-	replayCommands(oldIterator);
+	bool keepsContent = replayCommands(oldIterator);
 
-	MessageFlushUpdates().dispatch();
+	MessageFlushUpdates(keepsContent).dispatch();
 }
 
 void UndoRedoController::handleMessage(MessageRefresh* message)
@@ -193,9 +193,9 @@ void UndoRedoController::handleMessage(MessageRefresh* message)
 	}
 	else
 	{
-		replayCommands();
+		bool keepsContent = replayCommands();
 
-		MessageFlushUpdates().dispatch();
+		MessageFlushUpdates(keepsContent).dispatch();
 	}
 }
 
@@ -289,12 +289,12 @@ void UndoRedoController::handleMessage(MessageUndo* message)
 
 	m_iterator = it;
 
-	replayCommands();
+	bool keepsContent = replayCommands();
 
-	MessageFlushUpdates().dispatch();
+	MessageFlushUpdates(keepsContent).dispatch();
 }
 
-void UndoRedoController::replayCommands()
+bool UndoRedoController::replayCommands()
 {
 	std::list<Command>::iterator startIterator = m_iterator;
 
@@ -304,12 +304,13 @@ void UndoRedoController::replayCommands()
 	}
 	while (startIterator != m_list.begin() && startIterator->order != Command::ORDER_ACTIVATE);
 
-	replayCommands(startIterator);
+	return replayCommands(startIterator);
 }
 
-void UndoRedoController::replayCommands(std::list<Command>::iterator it)
+bool UndoRedoController::replayCommands(std::list<Command>::iterator it)
 {
 	std::vector<std::list<Command>::iterator> viewCommands;
+	bool keepsContent = true;
 
 	std::shared_ptr<MessageBase> m;
 	while (it != m_iterator)
@@ -320,6 +321,11 @@ void UndoRedoController::replayCommands(std::list<Command>::iterator it)
 			m->setIsReplayed(true);
 			m->setIsLast(it == std::prev(m_iterator));
 			m->dispatch();
+
+			if (!m->keepContent())
+			{
+				keepsContent = false;
+			}
 
 			if (it->order != Command::ORDER_VIEW)
 			{
@@ -355,6 +361,8 @@ void UndoRedoController::replayCommands(std::list<Command>::iterator it)
 		m->setIsLast(it == std::prev(m_iterator));
 		m->dispatch();
 	}
+
+	return keepsContent;
 }
 
 void UndoRedoController::processCommand(Command command)

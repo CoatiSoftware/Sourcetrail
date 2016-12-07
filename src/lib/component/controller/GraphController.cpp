@@ -49,7 +49,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 	{
 		m_activeEdgeIds = message->tokenIds;
 		setActiveAndVisibility(utility::concat(m_activeNodeIds, m_activeEdgeIds));
-		buildGraph(message, false);
+		buildGraph(message, false, false);
 		return;
 	}
 	else if (message->isAggregation)
@@ -88,7 +88,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 
 void GraphController::handleMessage(MessageFlushUpdates* message)
 {
-	buildGraph(message, true);
+	buildGraph(message, true, !message->keepContent());
 }
 
 void GraphController::handleMessage(MessageSearchFullText* message)

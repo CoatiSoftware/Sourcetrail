@@ -7,8 +7,9 @@ class MessageFlushUpdates:
 	public Message<MessageFlushUpdates>
 {
 public:
-	MessageFlushUpdates()
+	MessageFlushUpdates(bool keepsContent = false)
 	{
+		setKeepContent(keepsContent);
 	}
 
 	static const std::string getStaticType()
