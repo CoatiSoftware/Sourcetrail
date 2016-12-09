@@ -1,22 +1,23 @@
 #ifndef CXX_AST_VISITOR_H
 #define CXX_AST_VISITOR_H
 
-#include <unordered_map>
-#include <vector>
+#include <memory>
 
-#include "clang/AST/ASTContext.h"
 #include <clang/AST/RecursiveASTVisitor.h>
 
 #include "data/parser/cxx/CxxContext.h"
-#include "data/parser/AccessKind.h"
-#include "data/parser/ReferenceKind.h"
-#include "data/parser/SymbolKind.h"
 #include "utility/messaging/MessageInterruptTasksCounter.h"
 #include "utility/Cache.h"
 
 class ParserClient;
 struct ParseLocation;
 class FileRegister;
+
+class CxxAstVisitorComponent;
+class CxxAstVisitorComponentContext;
+class CxxAstVisitorComponentDeclRefKind;
+class CxxAstVisitorComponentTypeRefKind;
+class CxxAstVisitorComponentIndexer;
 
 // methods are called in this order:
 //	TraverseDecl()
@@ -29,28 +30,17 @@ class FileRegister;
 // 		|	`-	VisitFunctionDecl()
 // 		`-	TraverseChildNodes()
 
-class ScopedContextKindSetter
-{
-public:
-	ScopedContextKindSetter(const ReferenceKind refKind, std::vector<ReferenceKind>* stack)
-		: m_stack(stack)
-	{
-		m_stack->push_back(refKind);
-	}
-
-	~ScopedContextKindSetter()
-	{
-		m_stack->pop_back();
-	}
-private:
-	std::vector<ReferenceKind>* m_stack;
-};
-
 class CxxAstVisitor: public clang::RecursiveASTVisitor<CxxAstVisitor>
 {
 public:
 	CxxAstVisitor(clang::ASTContext* astContext, clang::Preprocessor* preprocessor, ParserClient* client, FileRegister* fileRegister);
 	virtual ~CxxAstVisitor();
+
+	template <typename T>
+	std::shared_ptr<T> getComponent();
+
+	std::shared_ptr<DeclNameCache> getDeclNameCache();
+	std::shared_ptr<TypeNameCache> getTypeNameCache();
 
 	// Indexing entry point
     void indexDecl(clang::Decl *d);
@@ -59,6 +49,8 @@ public:
 	virtual bool shouldVisitTemplateInstantiations() const;
 	virtual bool shouldVisitImplicitCode() const;
 
+	bool checkIgnoresTypeLoc(const clang::TypeLoc& tl) const;
+
 	// Traversal methods. These specify how to traverse the AST and record context info.
 	virtual bool TraverseDecl(clang::Decl *d);
 	virtual bool TraverseQualifiedTypeLoc(clang::QualifiedTypeLoc tl);
@@ -66,7 +58,8 @@ public:
 	virtual bool TraverseType(clang::QualType t);
 	virtual bool TraverseStmt(clang::Stmt *stmt);
 
-	virtual bool TraverseCXXRecordDecl(clang::CXXRecordDecl *d);
+	virtual bool TraverseCXXRecordDecl(clang::CXXRecordDecl* d);
+	bool traverseCXXBaseSpecifier(const clang::CXXBaseSpecifier& d);
 	virtual bool TraverseTemplateTypeParmDecl(clang::TemplateTypeParmDecl* d);
 	virtual bool TraverseTemplateTemplateParmDecl(clang::TemplateTemplateParmDecl* d);
 	virtual bool TraverseNestedNameSpecifierLoc(clang::NestedNameSpecifierLoc loc);
@@ -85,10 +78,27 @@ public:
 	virtual bool TraverseUnresolvedLookupExpr(clang::UnresolvedLookupExpr* s);
 	virtual bool TraverseTemplateArgumentLoc(const clang::TemplateArgumentLoc& loc);
 	virtual bool TraverseLambdaCapture(clang::LambdaExpr* lambdaExpr, const clang::LambdaCapture* capture);
+	virtual bool TraverseBinComma(clang::BinaryOperator* s);
+
+#define OPERATOR(NAME) virtual bool TraverseBin##NAME##Assign(clang::CompoundAssignOperator *s) { return TraverseAssignCommon(s); }
+	OPERATOR(Mul) OPERATOR(Div) OPERATOR(Rem) OPERATOR(Add) OPERATOR(Sub)
+	OPERATOR(Shl) OPERATOR(Shr) OPERATOR(And) OPERATOR(Or)  OPERATOR(Xor)
+#undef OPERATOR
+
+
 	void traverseDeclContextHelper(clang::DeclContext* d);
 	bool TraverseCallCommon(clang::CallExpr* s);
+	bool TraverseAssignCommon(clang::BinaryOperator* s);
 
 	// Visitor methods. These actually record stuff and store it in the database.
+	virtual bool VisitCastExpr(clang::CastExpr* s);
+	virtual bool VisitUnaryAddrOf(clang::UnaryOperator* s);
+	virtual bool VisitUnaryDeref(clang::UnaryOperator* s);
+	virtual bool VisitDeclStmt(clang::DeclStmt* s);
+	virtual bool VisitReturnStmt(clang::ReturnStmt* s);
+	virtual bool VisitInitListExpr(clang::InitListExpr* s);
+
+
 	virtual bool VisitTagDecl(clang::TagDecl* d);
 	virtual bool VisitClassTemplateSpecializationDecl(clang::ClassTemplateSpecializationDecl* d);
 	virtual bool VisitFunctionDecl(clang::FunctionDecl* d);
@@ -114,39 +124,13 @@ public:
 	virtual bool VisitLambdaExpr(clang::LambdaExpr* s);
 	virtual bool VisitConstructorInitializer(clang::CXXCtorInitializer* init);
 
-protected:
-	// General helpers
-	bool isImplicit(const clang::Decl* d) const;
-	bool shouldVisitDecl(const clang::Decl* decl);
-	bool shouldVisitReference(const clang::SourceLocation& referenceLocation, const clang::Decl* contextDecl);
-	bool isLocatedInUnparsedProjectFile(clang::SourceLocation loc);
-	bool isLocatedInProjectFile(clang::SourceLocation loc);
-
 	ParseLocation getParseLocationOfTagDeclBody(clang::TagDecl* decl) const;
 	ParseLocation getParseLocationOfFunctionBody(const clang::FunctionDecl* decl) const;
 	ParseLocation getParseLocation(const clang::SourceLocation& loc) const;
 	ParseLocation getParseLocation(const clang::SourceRange& sourceRange) const;
-	AccessKind convertAccessSpecifier(clang::AccessSpecifier access) const;
-	SymbolKind convertTagKind(clang::TagTypeKind tagKind);
 
 private:
-	ReferenceKind consumeDeclRefContextKind();
-	SymbolKind getSymbolKind(clang::VarDecl* d);
-
-	typedef clang::RecursiveASTVisitor<CxxAstVisitor> base;
-
-	const clang::NamedDecl* getTopmostContextDecl() const;
-	NameHierarchy getContextName(const size_t skip = 0) const;
-	NameHierarchy getContextName(const NameHierarchy& fallback, const size_t skip = 0) const;
-	bool checkIgnoresTypeLoc(const clang::TypeLoc& tl);
-
-	struct FileIdHash
-	{
-		size_t operator()(clang::FileID fileID) const
-		{
-			return fileID.getHashValue();
-		}
-	};
+	typedef clang::RecursiveASTVisitor<CxxAstVisitor> Base;
 
 	clang::ASTContext* m_astContext;
 	clang::Preprocessor* m_preprocessor;
@@ -155,15 +139,26 @@ private:
 
 	MessageInterruptTasksCounter m_interruptCounter;
 
-	ReferenceKind m_typeRefContext;
-	ReferenceKind m_declRefContext;
-	std::vector<std::shared_ptr<CxxContext>> m_contextStack;
-	std::shared_ptr<CxxContext> m_templateArgumentContext;
+	std::vector<std::shared_ptr<CxxAstVisitorComponent>> m_components;
+	std::shared_ptr<CxxAstVisitorComponentContext> m_contextComponent;
+	std::shared_ptr<CxxAstVisitorComponentDeclRefKind> m_declRefKindComponent;
+	std::shared_ptr<CxxAstVisitorComponentTypeRefKind> m_typeRefKindComponent;
+	std::shared_ptr<CxxAstVisitorComponentIndexer> m_indexerComponent;
 
 	std::shared_ptr<DeclNameCache> m_declNameCache;
 	std::shared_ptr<TypeNameCache> m_typeNameCache;
-	std::unordered_map<const clang::FileID, bool, FileIdHash> m_inUnparsedProjectFileMap;
-	std::unordered_map<const clang::FileID, bool, FileIdHash> m_inProjectFileMap;
 };
+
+template <>
+std::shared_ptr<CxxAstVisitorComponentContext> CxxAstVisitor::getComponent();
+
+template <>
+std::shared_ptr<CxxAstVisitorComponentTypeRefKind> CxxAstVisitor::getComponent();
+
+template <>
+std::shared_ptr<CxxAstVisitorComponentDeclRefKind> CxxAstVisitor::getComponent();
+
+template <>
+std::shared_ptr<CxxAstVisitorComponentIndexer> CxxAstVisitor::getComponent();
 
 #endif // CXX_AST_VISITOR_H

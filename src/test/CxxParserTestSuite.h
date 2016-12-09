@@ -3211,7 +3211,7 @@ public:
 		));
 	}
 
-	void test_cxx_parser_finds_template_argument_of_unresolved_lookup_expression_as_type_use()
+	void test_cxx_parser_finds_template_argument_of_unresolved_lookup_expression()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"template <typename T>\n"
@@ -3227,7 +3227,7 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "void dispatch<typename MessageType>() -> dispatch<typename MessageType>::MessageType <9:4 9:14>"
+			client->templateArgumentTypes, "void dispatch<typename MessageType>() -> dispatch<typename MessageType>::MessageType <9:4 9:14>"
 		));
 	}
 

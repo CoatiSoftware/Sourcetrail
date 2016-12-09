@@ -142,6 +142,12 @@ private:
 	void clearTables();
 	void setupTables();
 
+	void executeStatement(const std::string& statement) const;
+	void executeStatement(CppSQLite3Statement& statement) const;
+	int executeScalar(const std::string& statement) const;
+	CppSQLite3Query executeQuery(const std::string& statement) const;
+	CppSQLite3Query executeQuery(CppSQLite3Statement& statement) const;
+
 	bool hasTable(const std::string& tableName) const;
 
 	std::string getMetaValue(const std::string& key) const;

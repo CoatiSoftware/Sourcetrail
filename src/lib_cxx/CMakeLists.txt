@@ -34,6 +34,16 @@ add_files(
 	data/parser/cxx/CommentHandler.h
 	data/parser/cxx/CxxAstVisitor.cpp
 	data/parser/cxx/CxxAstVisitor.h
+	data/parser/cxx/CxxAstVisitorComponent.cpp
+	data/parser/cxx/CxxAstVisitorComponent.h
+	data/parser/cxx/CxxAstVisitorComponentContext.cpp
+	data/parser/cxx/CxxAstVisitorComponentContext.h
+	data/parser/cxx/CxxAstVisitorComponentDeclRefKind.cpp
+	data/parser/cxx/CxxAstVisitorComponentDeclRefKind.h
+	data/parser/cxx/CxxAstVisitorComponentIndexer.cpp
+	data/parser/cxx/CxxAstVisitorComponentIndexer.h
+	data/parser/cxx/CxxAstVisitorComponentTypeRefKind.cpp
+	data/parser/cxx/CxxAstVisitorComponentTypeRefKind.h
 	data/parser/cxx/CxxCompilationDatabaseSingle.cpp
 	data/parser/cxx/CxxCompilationDatabaseSingle.h
 	data/parser/cxx/CxxContext.cpp
@@ -46,6 +56,8 @@ add_files(
 	data/parser/cxx/CxxVerboseAstVisitor.h
 	data/parser/cxx/PreprocessorCallbacks.cpp
 	data/parser/cxx/PreprocessorCallbacks.h
+	data/parser/cxx/utilityCxxAstVisitor.cpp
+	data/parser/cxx/utilityCxxAstVisitor.h
 
 	utility/CompilationDatabase.cpp
 	utility/CompilationDatabase.h
