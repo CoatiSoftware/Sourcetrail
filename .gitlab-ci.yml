@@ -15,7 +15,7 @@ Linux64:
 Linux32:
     image: st4ll1/coati_linux_32
     stage: deploy
-    only
+    only:
         - master
     script:
         - ./script/setup.sh
