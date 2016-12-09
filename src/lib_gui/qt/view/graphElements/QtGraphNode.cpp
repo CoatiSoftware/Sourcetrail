@@ -43,16 +43,17 @@ QFont QtGraphNode::getFontForNodeType(Node::NodeType type)
 }
 
 QtGraphNode::QtGraphNode()
-	: m_undefinedRect(nullptr)
-	, m_icon(nullptr)
+	: m_icon(nullptr)
 	, m_isActive(false)
 	, m_multipleActive(false)
 	, m_isHovering(false)
 {
 	this->setPen(QPen(Qt::transparent));
 
-	m_rect = new QtRoundedRectItem(this);
 	m_text = new QGraphicsSimpleTextItem(this);
+	m_rect = new QtRoundedRectItem(this);
+	m_undefinedRect = new QtRoundedRectItem(this);
+	m_undefinedRect->hide();
 }
 
 QtGraphNode::~QtGraphNode()
@@ -126,11 +127,7 @@ void QtGraphNode::setSize(const Vec2i& size)
 
 	this->setRect(0, 0, size.x, size.y);
 	m_rect->setRect(0, 0, size.x, size.y);
-
-	if (m_undefinedRect)
-	{
-		m_undefinedRect->setRect(1, 1, size.x - 2, size.y - 2);
-	}
+	m_undefinedRect->setRect(1, 1, size.x - 2, size.y - 2);
 }
 
 QSize QtGraphNode::size() const
@@ -269,13 +266,9 @@ void QtGraphNode::addSubNode(const std::shared_ptr<QtGraphNode>& node)
 		while (parent)
 		{
 			parent->setZValue(-10.0f);
-			parent->m_rect->setZValue(-10.0f);
 			parent->m_text->setZValue(-9.0f);
-
-			if (parent->m_undefinedRect)
-			{
-				parent->m_undefinedRect->setZValue(-10.0f);
-			}
+			parent->m_rect->setZValue(-10.0f);
+			parent->m_undefinedRect->setZValue(-10.0f);
 
 			parent = parent->getParent();
 		}
@@ -405,18 +398,13 @@ void QtGraphNode::setStyle(const GraphViewStyle::NodeStyle& style)
 		pattern.scaleToHeight(10);
 		QPixmap pixmap = utility::colorizePixmap(pattern.pixmap(), style.color.hatching.c_str());
 
-		if (!m_undefinedRect)
-		{
-			m_undefinedRect = new QtRoundedRectItem(this);
-			setSize(getSize());
-		}
-
 		pen.setWidth(0);
 		pen.setColor(Qt::transparent);
 
 		m_undefinedRect->setPen(pen);
 		m_undefinedRect->setBrush(pixmap);
 		m_undefinedRect->setRadius(radius);
+		m_undefinedRect->show();
 	}
 
 	if (!m_icon && style.iconPath.size())
