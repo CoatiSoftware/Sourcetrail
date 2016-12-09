@@ -699,7 +699,9 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(const std::v
 
 	std::vector<Id> nodeIds;
 	std::vector<Id> edgeIds;
+
 	bool addAggregations = false;
+	std::vector<StorageEdge> edgesToAggregate;
 
 	if (tokenIds.size() == 1)
 	{
@@ -708,8 +710,8 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(const std::v
 
 		if (node.id > 0)
 		{
-			if (Node::intToType(node.type) == Node::NODE_NAMESPACE || // TODO: use & here
-				Node::intToType(node.type) == Node::NODE_PACKAGE)
+			Node::NodeType nodeType = Node::intToType(node.type);
+			if (nodeType & (Node::NODE_NAMESPACE | Node::NODE_PACKAGE))
 			{
 				ids.clear();
 				m_hierarchyCache.addFirstChildIdsForNodeId(elementId, &ids);
@@ -723,7 +725,17 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(const std::v
 				std::vector<StorageEdge> edges = m_sqliteStorage.getEdgesBySourceOrTargetId(elementId);
 				for (const StorageEdge& edge : edges)
 				{
-					if (Edge::intToType(edge.type) != Edge::EDGE_MEMBER)
+					Edge::EdgeType edgeType = Edge::intToType(edge.type);
+					if (edgeType == Edge::EDGE_MEMBER)
+					{
+						continue;
+					}
+
+					if ((nodeType & Node::NODE_USEABLE_TYPE) && (edgeType & Edge::EDGE_TYPE_USAGE))
+					{
+						edgesToAggregate.push_back(edge);
+					}
+					else
 					{
 						edgeIds.push_back(edge.id);
 					}
@@ -773,7 +785,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(const std::v
 
 	if (addAggregations)
 	{
-		addAggregationEdgesToGraph(tokenIds[0], graph);
+		addAggregationEdgesToGraph(tokenIds[0], edgesToAggregate, graph);
 	}
 
 	addComponentAccessToGraph(graph);
@@ -1373,7 +1385,8 @@ void PersistentStorage::addNodesWithChildrenAndEdgesToGraph(
 	addEdgesToGraph(allEdgeIds, graph);
 }
 
-void PersistentStorage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const
+void PersistentStorage::addAggregationEdgesToGraph(
+	const Id nodeId, const std::vector<StorageEdge>& edgesToAggregate, Graph* graph) const
 {
 	TRACE();
 
@@ -1386,30 +1399,38 @@ void PersistentStorage::addAggregationEdgesToGraph(const Id nodeId, Graph* graph
 	// build aggregation edges:
 	// get all children of the active node
 	std::vector<Id> childNodeIds = getAllChildNodeIds(nodeId);
-	if (childNodeIds.size() == 0)
+	if (childNodeIds.size() == 0 && edgesToAggregate.size() == 0)
 	{
 		return;
 	}
 
 	// get all edges of the children
 	std::map<Id, std::vector<EdgeInfo>> connectedNodeIds;
+	for (const StorageEdge& edge : edgesToAggregate)
+	{
+		bool isSource = nodeId == edge.sourceNodeId;
+		EdgeInfo edgeInfo;
+		edgeInfo.edgeId = edge.id;
+		edgeInfo.forward = isSource;
+		connectedNodeIds[isSource ? edge.targetNodeId : edge.sourceNodeId].push_back(edgeInfo);
+	}
 
 	std::vector<StorageEdge> outgoingEdges = m_sqliteStorage.getEdgesBySourceIds(childNodeIds);
-	for (size_t j = 0; j < outgoingEdges.size(); j++)
+	for (const StorageEdge& outEdge : outgoingEdges)
 	{
 		EdgeInfo edgeInfo;
-		edgeInfo.edgeId = outgoingEdges[j].id;
+		edgeInfo.edgeId = outEdge.id;
 		edgeInfo.forward = true;
-		connectedNodeIds[outgoingEdges[j].targetNodeId].push_back(edgeInfo);
+		connectedNodeIds[outEdge.targetNodeId].push_back(edgeInfo);
 	}
 
 	std::vector<StorageEdge> incomingEdges = m_sqliteStorage.getEdgesByTargetIds(childNodeIds);
-	for (size_t j = 0; j < incomingEdges.size(); j++)
+	for (const StorageEdge& inEdge : incomingEdges)
 	{
 		EdgeInfo edgeInfo;
-		edgeInfo.edgeId = incomingEdges[j].id;
+		edgeInfo.edgeId = inEdge.id;
 		edgeInfo.forward = false;
-		connectedNodeIds[incomingEdges[j].sourceNodeId].push_back(edgeInfo);
+		connectedNodeIds[inEdge.sourceNodeId].push_back(edgeInfo);
 	}
 
 	// get all parent nodes of all connected nodes (up to last level except namespace/undefined)

@@ -12,6 +12,8 @@
 #include "data/graph/token_component/TokenComponentSignature.h"
 
 const Node::NodeTypeMask Node::NODE_NOT_VISIBLE = Node::NODE_UNDEFINED | Node::NODE_NAMESPACE | Node::NODE_PACKAGE;
+const Node::NodeTypeMask Node::NODE_USEABLE_TYPE = Node::NODE_UNDEFINED | Node::NODE_BUILTIN_TYPE |
+	Node::NODE_BUILTIN_TYPE | Node::NODE_STRUCT | Node::NODE_CLASS | Node::NODE_INTERFACE | Node::NODE_TYPEDEF;
 
 std::string Node::getTypeString(NodeType type)
 {

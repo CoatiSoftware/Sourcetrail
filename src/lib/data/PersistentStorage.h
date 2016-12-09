@@ -139,7 +139,7 @@ private:
 			const std::vector<Id>& edgeIds, Graph* graph
 	) const;
 
-	void addAggregationEdgesToGraph(const Id nodeId, Graph* graph) const;
+	void addAggregationEdgesToGraph(const Id nodeId, const std::vector<StorageEdge>& edgesToAggregate, Graph* graph) const;
 	void addComponentAccessToGraph(Graph* graph) const;
 
 	void buildSearchIndex();

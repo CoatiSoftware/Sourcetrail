@@ -53,6 +53,7 @@ public:
 	static NodeType intToType(int value);
 
 	static const NodeTypeMask NODE_NOT_VISIBLE;
+	static const NodeTypeMask NODE_USEABLE_TYPE;
 
 	Node(Id id, NodeType type, NameHierarchy nameHierarchy, bool defined);
 	virtual ~Node();
