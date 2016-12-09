@@ -104,7 +104,7 @@ void License::create(
 	createMessage(user, version, type);
 
 	//encode message
-	Botan::PK_Signer signer(*privateKey, "EMSA4(SHA-256)");
+	Botan::PK_Signer signer(*privateKey, *(m_rng.get()), "EMSA4(SHA-256)");
 	Botan::DataSource_Memory in(getMessage());
 	Botan::byte buf[4096] = {0};
 	while (size_t got = in.read(buf, sizeof(buf))) {

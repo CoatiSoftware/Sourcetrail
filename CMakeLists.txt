@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 
+#set (CMAKE_VERBOSE_MAKEFILE ON)
+
 include(cmake/add_files.cmake)
 include(cmake/create_source_groups.cmake)
 include(cmake/version.cmake)

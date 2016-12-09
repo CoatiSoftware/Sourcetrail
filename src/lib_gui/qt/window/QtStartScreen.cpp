@@ -72,7 +72,7 @@ void QtRecentProjectButton::handleButtonClick()
 			emit updateButtons();
 		}
 	}
-};
+}
 
 
 QtStartScreen::QtStartScreen(QWidget *parent)

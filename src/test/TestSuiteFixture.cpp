@@ -16,6 +16,8 @@ TestSuiteFixture::~TestSuiteFixture()
 {
 }
 
+#include <iostream>
+
 bool TestSuiteFixture::setUpWorld()
 {
 	LogManager* logManager = LogManager::createInstance().get();
@@ -24,7 +26,28 @@ bool TestSuiteFixture::setUpWorld()
 	logManager->addLogger(std::make_shared<PlainFileLogger>("data/log/test_log.txt"));
 	logManager->addLogger(std::make_shared<FileLogger>());
 
+#ifdef __linux__
+	const std::string homedir = getenv("HOME");
+
+	if (!homedir.empty())
+	{
+		if(!ApplicationSettings::getInstance()->load(
+			FilePath(homedir + "/.config/coati/ApplicationSettings.xml")
+		))
+		{
+			std::cout << "no settings" << std::endl;
+			return false;
+		}
+	}
+	else
+	{
+		std::cout << "no homedir" << std::endl;
+		return false;
+	}
+
+#else
 	ApplicationSettings::getInstance()->load(FilePath("data/TestSettings.xml"));
+#endif
 
 	return true;
 }

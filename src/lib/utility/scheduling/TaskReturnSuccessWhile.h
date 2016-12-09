@@ -60,8 +60,9 @@ Task::TaskState TaskReturnSuccessWhile<T>::doUpdate(std::shared_ptr<Blackboard> 
 			return STATE_SUCCESS;
 		}
 		break;
+	default:
+		return STATE_FAILURE;
 	}
-
 	return STATE_FAILURE;
 }
 

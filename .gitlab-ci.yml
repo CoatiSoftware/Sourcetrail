@@ -1,13 +1,31 @@
-image: st4ll1/coati_linux_64
-
 Linux64:
-  stage: deploy
-  only:
-    - master
-  script:
-    - ./script/setup.sh
-    - ./script/buildonly.sh package
-  artifacts:
-    paths:
-      - distr
-    expire_in: 3 days
+    image: st4ll1/coati_linux_64
+    stage: deploy
+    only:
+        - master
+    script:
+        - ./script/setup.sh
+        - ./script/buildonly.sh all
+        - ./script/buildonly.sh package
+    artifacts:
+        paths:
+            - distr
+        expire_in: 3 days
+
+Linux32:
+    image: st4ll1/coati_linux_32
+    stage: deploy
+    only
+        - master
+    script:
+        - ./script/setup.sh
+        - ./script/buildonly.sh all
+        - ./bin/app/Release/Coati --licenseFile ./setup/license.txt
+        - cd ./bin/test
+        - ./Release/Coati_test
+        - cd ../..
+        - ./script/buildonly.sh package
+    artifacts:
+        paths:
+            - distr/Coati*.tar.gz
+        expire_in: 3 days

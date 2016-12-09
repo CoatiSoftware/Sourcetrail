@@ -41,6 +41,9 @@ then
 		cmake --build build/Release --target package
 		mkdir -p distr && mv build/Release/Coati*.tar.gz distr #&& cp build/Release/Coati*.deb distr
 		echo "Packages copied into the distr folder"
+elif [ "$1" = "all" ] || [ "$1" = "a" ]
+then
+	cmake --build build/Release --target all
 else
 	echo "no arguments: first argument 'release' or 'debug', second argument 'test' for tests"
 fi

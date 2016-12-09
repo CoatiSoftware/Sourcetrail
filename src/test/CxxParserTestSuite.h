@@ -2285,7 +2285,7 @@ public:
 			"class B\n"
 			"{\n"
 			"public:\n"
-			"	typedef typename A<U>::type<float> type;\n"
+			"	typedef typename A<U>::template type<float> type;\n"
 			"};\n"
 		);
 

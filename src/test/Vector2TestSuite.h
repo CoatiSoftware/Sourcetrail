@@ -72,8 +72,8 @@ public:
 		float targetX = x / std::sqrt(x * x + y * y);
 		float targetY = y / std::sqrt(x * x + y * y);
 		vec0.normalize();
-		TS_ASSERT_EQUALS(targetX, vec0.x);
-		TS_ASSERT_EQUALS(targetY, vec0.y);
+		TS_ASSERT_DELTA(targetX, vec0.x, 1e-7);
+		TS_ASSERT_DELTA(targetY, vec0.y, 1e-7);
 	}
 
 	void test_vector2_comparison()
