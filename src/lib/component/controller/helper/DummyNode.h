@@ -15,6 +15,25 @@ class Node;
 struct DummyNode
 {
 public:
+	struct DummyNodeComp
+	{
+		bool operator()(const std::shared_ptr<DummyNode> a, const std::shared_ptr<DummyNode> b) const
+		{
+			if (a->bundleId != b->bundleId)
+			{
+				return a->bundleId > b->bundleId;
+			}
+			else if (a->isBundleNode() != b->isBundleNode())
+			{
+				return a->isBundleNode();
+			}
+
+			return utility::toLowerCase(a->name) < utility::toLowerCase(b->name);
+		}
+	};
+
+	typedef std::set<std::shared_ptr<DummyNode>, DummyNodeComp> BundledNodesSet;
+
 	struct BundleInfo
 	{
 		BundleInfo()
@@ -46,6 +65,7 @@ public:
 		, hasQualifier(false)
 		, accessKind(ACCESS_NONE)
 		, invisibleSubNodeCount(0)
+		, bundleId(0)
 		, layoutBucket(0, 0)
 		, bundledNodeCount(0)
 	{
@@ -184,21 +204,6 @@ public:
 		return bundledNodes.size();
 	}
 
-	void sortBundleNode()
-	{
-		sort(bundledNodes.begin(), bundledNodes.end(),
-			[](const std::shared_ptr<DummyNode> a, const std::shared_ptr<DummyNode> b) -> bool
-			{
-				if (a->isBundleNode() != b->isBundleNode())
-				{
-					return a->isBundleNode();
-				}
-
-				return utility::toLowerCase(a->name) < utility::toLowerCase(b->name);
-			}
-		);
-	}
-
 	void forEachDummyNodeRecursive(std::function<void(DummyNode*)> func)
 	{
 		func(this);
@@ -207,6 +212,23 @@ public:
 		{
 			node->forEachDummyNodeRecursive(func);
 		}
+	}
+
+	Id setBundleIdRecursive(Id bundleId)
+	{
+		if (isBundleNode())
+		{
+			bundleId++;
+		}
+
+		this->bundleId = bundleId;
+
+		for (std::shared_ptr<DummyNode> node : bundledNodes)
+		{
+			bundleId = node->setBundleIdRecursive(bundleId);
+		}
+
+		return bundleId;
 	}
 
 	Vec2i position;
@@ -239,12 +261,13 @@ public:
 
 	// Bundling
 	BundleInfo bundleInfo;
+	Id bundleId;
 
 	// Layout
 	Vec2i layoutBucket;
 
 	// BundleNode
-	std::vector<std::shared_ptr<DummyNode>> bundledNodes;
+	BundledNodesSet bundledNodes;
 	size_t bundledNodeCount;
 
 	// QualifierNode

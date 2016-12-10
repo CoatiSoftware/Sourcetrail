@@ -1,9 +1,6 @@
 #include "component/controller/helper/BucketGrid.h"
 
-#include "utility/utilityString.h"
-
 #include "component/controller/helper/DummyEdge.h"
-#include "component/controller/helper/DummyNode.h"
 #include "component/view/GraphViewStyle.h"
 
 Bucket::Bucket()
@@ -32,9 +29,9 @@ int Bucket::getHeight() const
 	return m_height;
 }
 
-bool Bucket::hasNode(DummyNode* node) const
+bool Bucket::hasNode(std::shared_ptr<DummyNode> node) const
 {
-	for (DummyNode* n : m_nodes)
+	for (std::shared_ptr<DummyNode> n : m_nodes)
 	{
 		if (node == n)
 		{
@@ -45,33 +42,17 @@ bool Bucket::hasNode(DummyNode* node) const
 	return false;
 }
 
-void Bucket::addNode(DummyNode* node)
+void Bucket::addNode(std::shared_ptr<DummyNode> node)
 {
-	m_nodes.push_back(node);
+	m_nodes.insert(node);
 
 	m_width = (node->size.x > m_width ? node->size.x : m_width);
 	m_height += node->size.y + GraphViewStyle::toGridGap(10);
 }
 
-void Bucket::sort()
+const DummyNode::BundledNodesSet& Bucket::getNodes() const
 {
-	std::sort(m_nodes.begin(), m_nodes.end(),
-		[](const DummyNode* a, const DummyNode* b) -> bool
-		{
-			if ((a->isGraphNode() && b->isGraphNode()) || (a->isBundleNode() && b->isBundleNode()))
-			{
-				return utility::toLowerCase(a->name) < utility::toLowerCase(b->name);
-			}
-			else if (a->isGraphNode())
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-	);
+	return m_nodes;
 }
 
 void Bucket::preLayout(Vec2i viewSize)
@@ -85,7 +66,7 @@ void Bucket::preLayout(Vec2i viewSize)
 
 	m_height = 0;
 
-	for (DummyNode* node : m_nodes)
+	for (std::shared_ptr<DummyNode> node : m_nodes)
 	{
 		node->position.x = x;
 		node->position.y = y;
@@ -112,7 +93,7 @@ void Bucket::layout(int x, int y, int width, int height)
 	int cx = GraphViewStyle::toGridOffset(x + (width - m_width) / 2);
 	int cy = GraphViewStyle::toGridOffset(y + (height - m_height) / 2);
 
-	for (DummyNode* node : m_nodes)
+	for (std::shared_ptr<DummyNode> node : m_nodes)
 	{
 		node->position.x = node->position.x + cx;
 		node->position.y = node->position.y + cy;
@@ -143,7 +124,7 @@ void BucketGrid::createBuckets(
 	{
 		if (node->hasActiveSubNode() || !edges.size())
 		{
-			addNode(node.get());
+			addNode(node);
 			activeNodeAdded = true;
 		}
 	}
@@ -155,7 +136,7 @@ void BucketGrid::createBuckets(
 
 	if (!activeNodeAdded)
 	{
-		addNode(nodes[0].get());
+		addNode(nodes[0]);
 	}
 
 	std::vector<const DummyEdge*> remainingEdges;
@@ -169,8 +150,8 @@ void BucketGrid::createBuckets(
 	{
 		const DummyEdge* edge = remainingEdges[i];
 
-		DummyNode* owner = findTopMostDummyNodeRecursive(nodes, edge->ownerId);
-		DummyNode* target = findTopMostDummyNodeRecursive(nodes, edge->targetId);
+		std::shared_ptr<DummyNode> owner = findTopMostDummyNodeRecursive(nodes, edge->ownerId, nullptr);
+		std::shared_ptr<DummyNode> target = findTopMostDummyNodeRecursive(nodes, edge->targetId, nullptr);
 
 		bool removeEdge = false;
 		if (!owner || !target)
@@ -209,17 +190,6 @@ void BucketGrid::createBuckets(
 		if (i == remainingEdges.size())
 		{
 			i = 0;
-		}
-	}
-}
-
-void BucketGrid::sortBuckets()
-{
-	for (int j = m_j1; j <= m_j2; j++)
-	{
-		for (int i = m_i1; i <= m_i2; i++)
-		{
-			m_buckets[j][i].sort();
 		}
 	}
 }
@@ -275,19 +245,35 @@ void BucketGrid::layoutBuckets()
 	}
 }
 
-DummyNode* BucketGrid::findTopMostDummyNodeRecursive(
-	std::vector<std::shared_ptr<DummyNode>>& nodes, Id tokenId, DummyNode* top
+std::vector<std::shared_ptr<DummyNode>> BucketGrid::getSortedNodes()
+{
+	std::vector<std::shared_ptr<DummyNode>> sortedNodes;
+
+	for (int j = m_j1; j <= m_j2; j++)
+	{
+		for (int i = m_i1; i <= m_i2; i++)
+		{
+			DummyNode::BundledNodesSet nodes = m_buckets[j][i].getNodes();
+			sortedNodes.insert(sortedNodes.end(), nodes.begin(), nodes.end());
+		}
+	}
+
+	return sortedNodes;
+}
+
+std::shared_ptr<DummyNode> BucketGrid::findTopMostDummyNodeRecursive(
+	std::vector<std::shared_ptr<DummyNode>>& nodes, Id tokenId, std::shared_ptr<DummyNode> top
 ){
 	for (std::shared_ptr<DummyNode> node : nodes)
 	{
-		DummyNode* t = (top ? top : node.get());
+		std::shared_ptr<DummyNode> t = (top ? top : node);
 
 		if (node->visible && node->tokenId == tokenId)
 		{
 			return t;
 		}
 
-		DummyNode* result = findTopMostDummyNodeRecursive(node->subNodes, tokenId, t);
+		std::shared_ptr<DummyNode> result = findTopMostDummyNodeRecursive(node->subNodes, tokenId, t);
 		if (result != nullptr)
 		{
 			return result;
@@ -297,13 +283,13 @@ DummyNode* BucketGrid::findTopMostDummyNodeRecursive(
 	return nullptr;
 }
 
-void BucketGrid::addNode(DummyNode* node)
+void BucketGrid::addNode(std::shared_ptr<DummyNode> node)
 {
 	Bucket* bucket = getBucket(node->layoutBucket.x, node->layoutBucket.y);
 	bucket->addNode(node);
 }
 
-bool BucketGrid::addNode(DummyNode* owner, DummyNode* target, bool horizontal)
+bool BucketGrid::addNode(std::shared_ptr<DummyNode> owner, std::shared_ptr<DummyNode> target, bool horizontal)
 {
 	Bucket* ownerBucket = getBucket(owner);
 	Bucket* targetBucket = getBucket(target);
@@ -389,7 +375,7 @@ Bucket* BucketGrid::getBucket(int i, int j)
 	return nullptr;
 }
 
-Bucket* BucketGrid::getBucket(DummyNode* node)
+Bucket* BucketGrid::getBucket(std::shared_ptr<DummyNode> node)
 {
 	for (int j = m_j1; j <= m_j2; j++)
 	{

@@ -93,7 +93,8 @@ private:
 	void addExpandToggleNode(DummyNode* node) const;
 	void layoutToGrid(DummyNode* node) const;
 
-	void layoutGraph(bool sort = false);
+	void layoutGraph(bool getSortedNodes = false);
+	void assignBundleIds();
 
 	DummyNode* getDummyGraphNodeById(Id tokenId) const;
 

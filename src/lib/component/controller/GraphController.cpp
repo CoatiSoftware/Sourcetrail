@@ -36,6 +36,7 @@ void GraphController::handleMessage(MessageActivateAll* message)
 	bundleNodesByType();
 
 	layoutNesting();
+	assignBundleIds();
 	layoutGraph();
 
 	buildGraph(message, false);
@@ -82,6 +83,7 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 
 	layoutNesting();
 	layoutGraph(true);
+	assignBundleIds();
 
 	buildGraph(message, true);
 }
@@ -133,7 +135,7 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 	setActiveAndVisibility(tokenIds);
 
 	layoutNesting();
-	layoutGraph(tokenIds.size() > 0);
+	layoutGraph();
 
 	buildGraph(message, false);
 }
@@ -785,13 +787,13 @@ void GraphController::bundleNodesAndEdgesMatching(
 		std::shared_ptr<DummyNode> node = m_dummyNodes[matchedNodeIndices[i]];
 		node->visible = false;
 
-		bundleNode->bundledNodes.push_back(node);
+		bundleNode->bundledNodes.insert(node);
 		bundleNode->bundledNodeCount += node->getBundledNodeCount();
 
 		m_dummyNodes.erase(m_dummyNodes.begin() + matchedNodeIndices[i]);
 	}
 
-	DummyNode* firstNode = bundleNode->bundledNodes[0].get();
+	DummyNode* firstNode = bundleNode->bundledNodes.begin()->get();
 
 	// Use token Id of first node and make first bit 1
 	bundleNode->tokenId = ~(~size_t(0) >> 1) + firstNode->data->getId();
@@ -875,12 +877,12 @@ std::shared_ptr<DummyNode> GraphController::bundleNodesMatching(
 		std::shared_ptr<DummyNode> node = *matchedNodes[i];
 		node->visible = false;
 
-		bundleNode->bundledNodes.push_back(node);
+		bundleNode->bundledNodes.insert(node);
 		nodes.erase(matchedNodes[i]);
 	}
 
 	// Use token Id of first node and make first bit 1
-	bundleNode->tokenId = ~(~size_t(0) >> 1) + bundleNode->bundledNodes[0]->data->getId();
+	bundleNode->tokenId = ~(~size_t(0) >> 1) + (*bundleNode->bundledNodes.begin())->data->getId();
 	return bundleNode;
 }
 
@@ -973,19 +975,15 @@ void GraphController::bundleNodesByType()
 
 			for (std::shared_ptr<DummyNode> node : nodes)
 			{
-				bundleNode->bundledNodes.push_back(node);
+				bundleNode->bundledNodes.insert(node);
 			}
 
 			if (anonymousBundle)
 			{
-				anonymousBundle->sortBundleNode();
-
 				bundleNode->bundledNodeCount = bundleNode->getBundledNodeCount() + anonymousBundle->getBundledNodeCount();
-				bundleNode->bundledNodes.push_back(anonymousBundle);
+				bundleNode->bundledNodes.insert(anonymousBundle);
 			}
 		}
-
-		bundleNode->sortBundleNode();
 	}
 }
 
@@ -1233,19 +1231,27 @@ void GraphController::layoutToGrid(DummyNode* node) const
 	}
 }
 
-void GraphController::layoutGraph(bool sort)
+void GraphController::layoutGraph(bool getSortedNodes)
 {
 	TRACE();
 
 	BucketGrid grid(getView()->getViewSize());
 	grid.createBuckets(m_dummyNodes, m_dummyEdges);
-
-	if (sort)
-	{
-		grid.sortBuckets();
-	}
-
 	grid.layoutBuckets();
+
+	if (getSortedNodes)
+	{
+		m_dummyNodes = grid.getSortedNodes();
+	}
+}
+
+void GraphController::assignBundleIds()
+{
+	Id bundleId = 0;
+	for (size_t i = m_dummyNodes.size(); i > 0; i--)
+	{
+		bundleId = m_dummyNodes[i - 1]->setBundleIdRecursive(bundleId);
+	}
 }
 
 DummyNode* GraphController::getDummyGraphNodeById(Id tokenId) const
@@ -1505,7 +1511,7 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 			focusedTokenIds.push_back(bundleNode->tokenId);
 		}
 
-		bundleNode->bundledNodes.push_back(std::make_shared<DummyNode>());
+		bundleNode->bundledNodes.insert(std::make_shared<DummyNode>());
 		bundleNode->bundledNodeCount = 123;
 		m_dummyNodes.push_back(bundleNode);
 	}
