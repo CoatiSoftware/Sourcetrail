@@ -32,51 +32,171 @@
 			<Component Id='Qt5WidgetsDll' Guid='462F10F3-6AC7-473C-95EA-C5616E2822A3'>
 				<File Id='qt5widgetsDLL' Name='Qt5Widgets.dll' DiskId='1' Source='./../../../bin/app/Release/Qt5Widgets.dll' KeyPath='yes' />
 			</Component>
-
-			<Component Id='apiMsWinCrtConvert_l1_1_0Dll' Guid='947B7587-3C4D-4706-BFE2-F3FAC60D7AC0'>
+			
+			<Component Id='apiMsWinCoreConsole_l1_1_0Dll' Guid='D35F6AA1-972E-4DFE-9899-F0202B193F15'>
+				<File Id='apiMsWinCoreConsole_l1_1_0' Name='api-ms-win-core-console-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-console-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreDatetime_l1_1_0Dll' Guid='2A3EE573-DD09-4A0A-B1F1-F0B0B97CF602'>
+				<File Id='apiMsWinCoreDatetime_l1_1_0' Name='api-ms-win-core-datetime-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-datetime-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreDebug_l1_1_0Dll' Guid='DCCF0C00-0FC0-4106-BCF8-58ED2853DA6A'>
+				<File Id='apiMsWinCoreDebug_l1_1_0' Name='api-ms-win-core-debug-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-debug-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreErrorhandling_l1_1_0Dll' Guid='0B7D5180-15DA-4183-B0CF-CFE150AC8DE7'>
+				<File Id='apiMsWinCoreErrorhandling_l1_1_0' Name='api-ms-win-core-errorhandling-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-errorhandling-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreFile_l1_1_0Dll' Guid='00BF3FDD-3407-4CEA-B0A9-930C44867156'>
+				<File Id='apiMsWinCoreFile_l1_1_0' Name='api-ms-win-core-file-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-file-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreFile_l1_2_0Dll' Guid='9BE43140-A1E2-433C-A996-8CDCE5AF796F'>
+				<File Id='apiMsWinCoreFile_l1_2_0' Name='api-ms-win-core-file-l1-2-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-file-l1-2-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreFile_l2_1_0Dll' Guid='8852AA5A-DB7B-424B-9664-D67E427954A7'>
+				<File Id='apiMsWinCoreFile_l2_1_0' Name='api-ms-win-core-file-l2-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-file-l2-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreHandle_l1_1_0Dll' Guid='F497FCD9-D69C-474D-B615-073843230620'>
+				<File Id='apiMsWinCoreHandle_l1_1_0' Name='api-ms-win-core-handle-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-handle-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreHeap_l1_1_0Dll' Guid='AF6A4D45-F28B-43B6-B679-860FA43D9062'>
+				<File Id='apiMsWinCoreHeap_l1_1_0' Name='api-ms-win-core-heap-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-heap-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreInterlocked_l1_1_0Dll' Guid='9C25B5AC-7010-47DA-A478-FDBC5806BB61'>
+				<File Id='apiMsWinCoreInterlocked_l1_1_0' Name='api-ms-win-core-interlocked-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-interlocked-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreLibraryloader_l1_1_0Dll' Guid='FBA31F5E-7376-4BA9-A4AB-BF6B3CE3F813'>
+				<File Id='apiMsWinCoreLibraryloader_l1_1_0' Name='api-ms-win-core-libraryloader-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-libraryloader-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreLocalization_l1_2_0Dll' Guid='C8B8637B-1740-472D-87C6-597200241142'>
+				<File Id='apiMsWinCoreLocalization_l1_2_0' Name='api-ms-win-core-localization-l1-2-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-localization-l1-2-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreMemory_l1_1_0Dll' Guid='6A18F471-DD94-41C7-912D-3BFDB73DC4CF'>
+				<File Id='apiMsWinCoreMemory_l1_1_0' Name='api-ms-win-core-memory-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-memory-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreNamedpipe_l1_1_0Dll' Guid='4BF8D691-7A6D-41BD-ACAA-04C4B991A54F'>
+				<File Id='apiMsWinCoreNamedpipe_l1_1_0' Name='api-ms-win-core-namedpipe-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-namedpipe-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreProcessEnvironment_l1_1_0Dll' Guid='B20746F9-0249-4A09-ACD1-BAE0B9B88B66'>
+				<File Id='apiMsWinCoreProcessEnvironment_l1_1_0' Name='api-ms-win-core-processenvironment-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-processenvironment-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreProcessThreads_l1_1_0Dll' Guid='E5AC282B-1450-4153-B87A-66D2D18AE559'>
+				<File Id='apiMsWinCoreProcessThreads_l1_1_0' Name='api-ms-win-core-processthreads-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-processthreads-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreProcessThreads_l1_1_1Dll' Guid='F52291C2-A879-48DA-8792-6412A40095C4'>
+				<File Id='apiMsWinCoreProcessThreads_l1_1_1' Name='api-ms-win-core-processthreads-l1-1-1.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-processthreads-l1-1-1.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreProfile_l1_1_0Dll' Guid='9B8ABBC6-AEC8-4BD9-96E9-F3E88EDF089E'>
+				<File Id='apiMsWinCoreProfile_l1_1_0' Name='api-ms-win-core-profile-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-profile-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreRtlSupport_l1_1_0Dll' Guid='81B8E33F-B8D4-4AFC-9171-1D16F3FA9855'>
+				<File Id='apiMsWinCoreRtlSupport_l1_1_0' Name='api-ms-win-core-rtlsupport-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-rtlsupport-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreString_l1_1_0Dll' Guid='773CA407-1BB6-49D2-8369-39A231A0D815'>
+				<File Id='apiMsWinCoreString_l1_1_0' Name='api-ms-win-core-string-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-string-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreSynch_l1_1_0Dll' Guid='1FACD574-AC3B-41FC-8689-536B6F96FDBE'>
+				<File Id='apiMsWinCoreSynch_l1_1_0' Name='api-ms-win-core-synch-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-synch-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreSynch_l1_2_0Dll' Guid='43160A12-6CF8-48F9-AB96-3BB305321BE9'>
+				<File Id='apiMsWinCoreSynch_l1_2_0' Name='api-ms-win-core-synch-l1-2-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-synch-l1-2-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreSysInfo_l1_1_0Dll' Guid='272EB183-CA7F-4BC0-BA86-1497AD55F085'>
+				<File Id='apiMsWinCoreSysInfo_l1_1_0' Name='api-ms-win-core-sysinfo-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-sysinfo-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreTimezone_l1_1_0Dll' Guid='E9DF7695-E203-4CD3-AB80-DD2264C66A9C'>
+				<File Id='apiMsWinCoreTimezone_l1_1_0' Name='api-ms-win-core-timezone-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-timezone-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCoreUtil_l1_1_0Dll' Guid='E9DF7695-E203-4CD3-AB80-DD2264C66A9C'>
+				<File Id='apiMsWinCoreUtil_l1_1_0' Name='api-ms-win-core-util-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-util-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCrtConio_l1_1_0Dll' Guid='3B293AB9-6832-4269-B3C9-3B9D1A0FDAEB'>
+				<File Id='apiMsWinCrtConio_l1_1_0' Name='api-ms-win-crt-conio-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-conio-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCrtConvert_l1_1_0Dll' Guid='312F3060-33EB-47C7-8BAD-ED9C25DCC522'>
 				<File Id='apiMsWinCrtConvert_l1_1_0' Name='api-ms-win-crt-convert-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-convert-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-
-			<Component Id='apiMsWinCrtEnvironment_l1_1_0Dll' Guid='105CDF55-7DC2-40D3-9F0D-9327EB5972DC'>
+			
+			<Component Id='apiMsWinCrtEnvironment_l1_1_0Dll' Guid='C495A75E-6273-4733-AB72-C8D1AE2FDBF6'>
 				<File Id='apiMsWinCrtEnvironment_l1_1_0' Name='api-ms-win-crt-environment-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-environment-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-
-			<Component Id='apiMsWinCrtFilesystem_l1_1_0Dll' Guid='C68E183F-6346-4B67-AE41-880A7CB696D5'>
+			
+			<Component Id='apiMsWinCrtFilesystem_l1_1_0Dll' Guid='29214B8C-B655-486E-804C-E8018C073B2A'>
 				<File Id='apiMsWinCrtFilesystem_l1_1_0' Name='api-ms-win-crt-filesystem-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-filesystem-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-
-			<Component Id='apiMsWinCrtHeap_l1_1_0Dll' Guid='0CC58622-7280-48E8-92B5-8E2329449215'>
+			
+			<Component Id='apiMsWinCrtHeap_l1_1_0Dll' Guid='EA2516C4-5E0B-41EA-A95E-14874166EE7E'>
 				<File Id='apiMsWinCrtHeap_l1_1_0' Name='api-ms-win-crt-heap-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-heap-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-
-			<Component Id='apiMsWinCrtLocale_l1_1_0Dll' Guid='50833B74-8A48-4994-A176-A28BFBBAEFC1'>
+			
+			<Component Id='apiMsWinCrtLocale_l1_1_0Dll' Guid='D3215D0B-B9DB-48A1-B93D-558ADBF9CEFD'>
 				<File Id='apiMsWinCrtLocale_l1_1_0' Name='api-ms-win-crt-locale-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-locale-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-
-			<Component Id='apiMsWinCrtMath_l1_1_0Dll' Guid='9A608BBB-3152-4B1D-BFD4-E5D6A10039BB'>
+			
+			<Component Id='apiMsWinCrtMath_l1_1_0Dll' Guid='115C6C2B-54DA-4F2A-986F-4E58043DE1F8'>
 				<File Id='apiMsWinCrtMath_l1_1_0' Name='api-ms-win-crt-math-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-math-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-
-			<Component Id='apiMsWinCrtRuntime_l1_1_0Dll' Guid='48419CF9-BFE3-4B48-BC44-B4A610E0DAA1'>
+			
+			<Component Id='apiMsWinCrtMultibyte_l1_1_0Dll' Guid='115C6C2B-54DA-4F2A-986F-4E58043DE1F8'>
+				<File Id='apiMsWinCrtMultibyte_l1_1_0' Name='api-ms-win-crt-multibyte-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-multibyte-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCrtPrivate_l1_1_0Dll' Guid='194FDBBA-C1CC-492B-88D6-D9B962FF9BB3'>
+				<File Id='apiMsWinCrtPrivate_l1_1_0' Name='api-ms-win-crt-private-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-private-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCrtProcess_l1_1_0Dll' Guid='C2E2912D-96FB-42B7-9156-685079F95A8E'>
+				<File Id='apiMsWinCrtProcess_l1_1_0' Name='api-ms-win-crt-process-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-process-l1-1-0.dll' KeyPath='yes' />
+			</Component>
+			
+			<Component Id='apiMsWinCrtRuntime_l1_1_0Dll' Guid='2298D4BF-C6E3-453B-A756-3056AE13DCE0'>
 				<File Id='apiMsWinCrtRuntime_l1_1_0' Name='api-ms-win-crt-runtime-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-runtime-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-
-			<Component Id='apiMsWinCrtStdio_l1_1_0Dll' Guid='DFD68FED-5E68-46DF-A015-999B0A0C1008'>
+			
+			<Component Id='apiMsWinCrtStdio_l1_1_0Dll' Guid='CD274BB1-ECC5-4AED-83C9-D9DA8F3FFCF4'>
 				<File Id='apiMsWinCrtStdio_l1_1_0' Name='api-ms-win-crt-stdio-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-stdio-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-
-			<Component Id='apiMsWinCrtString_l1_1_0Dll' Guid='6A3BF854-00C7-4813-BFE9-3BD4C2A3A0AB'>
+			
+			<Component Id='apiMsWinCrtString_l1_1_0Dll' Guid='C555A09F-DCBF-401E-8420-0AAE88C4C96F'>
 				<File Id='apiMsWinCrtString_l1_1_0' Name='api-ms-win-crt-string-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-string-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-
-			<Component Id='apiMsWinCrtTime_l1_1_0Dll' Guid='AB413622-275D-4D37-976D-4BD04DCCCE91'>
+			
+			<Component Id='apiMsWinCrtTime_l1_1_0Dll' Guid='8002F662-4214-453D-907F-113909019557'>
 				<File Id='apiMsWinCrtTime_l1_1_0' Name='api-ms-win-crt-time-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-time-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-
-			<Component Id='apiMsWinCrtUtility_l1_1_0Dll' Guid='40F5F1AA-1849-45F2-A15F-816CE20AFECB'>
+			
+			<Component Id='apiMsWinCrtUtility_l1_1_0Dll' Guid='56BCC0B1-2664-414A-AC29-DEE39CEAA845'>
 				<File Id='apiMsWinCrtUtility_l1_1_0' Name='api-ms-win-crt-utility-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-utility-l1-1-0.dll' KeyPath='yes' />
 			</Component>
-
+			
+			<Component Id='ucrtbaseDll' Guid='56BCC0B1-2664-414A-AC29-DEE39CEAA845'>
+				<File Id='ucrtbase' Name='ucrtbase.dll' DiskId='1' Source='./../../../bin/app/Release/ucrtbase.dll' KeyPath='yes' />
+			</Component>
+			
 			<Component Id='qtConf' Guid='58C34A47-0F21-4C41-9CCC-08141D84FF2A'>
 				<File Id='qt' Name='qt.conf' DiskId='1' Source='./../../../bin/app/Release/qt.conf' KeyPath='yes' />
 			</Component>
