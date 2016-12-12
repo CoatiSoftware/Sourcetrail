@@ -120,15 +120,7 @@ echo -e "$INFO creating package folder"
 rm -rf $APP_PACKAGE_DIR
 mkdir -p $APP_PACKAGE_DIR
 
-cp -u -r deployment/windows/wixSetup/bin/Coati.msi $APP_PACKAGE_DIR/
-cp -u -r deployment/windows/wixSetup/bin/setup.exe $APP_PACKAGE_DIR/
-cp -u -r deployment/windows/wixSetup/bin/api-ms-win-crt-heap-l1-1-0.dll $APP_PACKAGE_DIR/
-cp -u -r deployment/windows/wixSetup/bin/api-ms-win-crt-locale-l1-1-0.dll $APP_PACKAGE_DIR/
-cp -u -r deployment/windows/wixSetup/bin/api-ms-win-crt-math-l1-1-0.dll $APP_PACKAGE_DIR/
-cp -u -r deployment/windows/wixSetup/bin/api-ms-win-crt-runtime-l1-1-0.dll $APP_PACKAGE_DIR/
-cp -u -r deployment/windows/wixSetup/bin/api-ms-win-crt-stdio-l1-1-0.dll $APP_PACKAGE_DIR/
-cp -u -r deployment/windows/wixSetup/bin/msvcp140.dll $APP_PACKAGE_DIR/
-cp -u -r deployment/windows/wixSetup/bin/vcruntime140.dll $APP_PACKAGE_DIR/
+cp -u -r deployment/windows/wixSetup/bin/* $APP_PACKAGE_DIR/
 
 mkdir -p $APP_PACKAGE_DIR/plugins/atom/
 cp -u -r ide_plugins/atom/* $APP_PACKAGE_DIR/plugins/atom/

@@ -14,7 +14,7 @@ mkdir build
 
 rm -rf bin
 mkdir bin
-mkdir bin\bin
+mkdir bin/bin
 
 candle.exe -dprojectVersion="$VERSION_STRING" coati.wxs customActions.wxs dialogShortcuts.wxs installDir.wxs appDataDir.wxs -out build/ > build/compileLog.txt
 light.exe -ext WixUIExtension build/coati.wixobj build/customActions.wixobj build/dialogShortcuts.wixobj build/installDir.wixobj build/appDataDir.wixobj -out build/coati.msi > build/linkLog.txt

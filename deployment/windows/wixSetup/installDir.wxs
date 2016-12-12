@@ -201,29 +201,23 @@
 						</Component>
 
 						<Directory Id='DataGraphViewImages' Name='images'>
-							<Component Id='ArrowPng' Guid='EEC8C2CE-A647-4640-81DB-8297C46355E8'>
-								<File Id='Arrow' Name='arrow.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/arrow.png' KeyPath='yes' />
+							<Component Id='ArrowGraphPng' Guid='EEC8C2CE-A647-4640-81DB-8297C46355E8'>
+								<File Id='ArrowGraph' Name='arrow.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/arrow.png' KeyPath='yes' />
 							</Component>
 							<Component Id='BundlePng' Guid='67CA6A53-7DEA-48F1-9BD3-2CFA65AB554E'>
 								<File Id='Bundle' Name='bundle.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/bundle.png' KeyPath='yes' />
 							</Component>
-							<Component Id='Enum_1Png' Guid='E7F21BA5-8C3A-4373-B636-7BDA0475C96F'>
-								<File Id='Enum_1' Name='enum_1.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/enum_1.png' KeyPath='yes' />
-							</Component>
-							<Component Id='Enum_2Png' Guid='E9AC8702-7D24-4F8B-A3E3-03DF584017F6'>
-								<File Id='Enum_2' Name='enum_2.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/enum_2.png' KeyPath='yes' />
+							<Component Id='EnumPng' Guid='47724B89-D417-465C-B96E-1D60A6E7A99E'>
+								<File Id='Enum' Name='enum.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/enum.png' KeyPath='yes' />
 							</Component>
 							<Component Id='FilePng' Guid='72DA9267-AFB9-46B3-996E-67116FB6852E'>
 								<File Id='File' Name='file.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/file.png' KeyPath='yes' />
 							</Component>
-							<Component Id='Macro_1Png' Guid='FC845B09-C5E6-40D0-9F21-6C5F901B5A00'>
-								<File Id='Macro_1' Name='macro_1.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/macro_1.png' KeyPath='yes' />
+							<Component Id='MacroPng' Guid='7F9F1D3D-645A-4AEA-871A-4FA9229EA663'>
+								<File Id='Macro' Name='macro.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/macro.png' KeyPath='yes' />
 							</Component>
-							<Component Id='Macro_2Png' Guid='3E769590-29C4-4245-99EE-559C9AFD59AE'>
-								<File Id='Macro_2' Name='macro_2.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/macro_2.png' KeyPath='yes' />
-							</Component>
-							<Component Id='Macro_3Png' Guid='7164912E-53B8-472E-B756-1315A187CFE2'>
-								<File Id='Macro_3' Name='macro_3.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/macro_3.png' KeyPath='yes' />
+							<Component Id='NamespacePng' Guid='E3E7F161-3DD9-443B-A0AC-192C37DAE4CB'>
+								<File Id='Namespace' Name='namespace.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/namespace.png' KeyPath='yes' />
 							</Component>
 							<Component Id='GraphPatternPng' Guid='80B2562B-3DB0-42DA-B68A-B43120646EBA'>
 								<File Id='GraphPattern' Name='pattern.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/pattern.png' KeyPath='yes' />
@@ -240,14 +234,8 @@
 							<Component Id='TemplatePng' Guid='0CEF2BCE-C9C8-417A-89E9-8CB6478C4E89'>
 								<File Id='Template' Name='template.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/template.png' KeyPath='yes' />
 							</Component>
-							<Component Id='Typedef_1Png' Guid='47CC3CCE-9912-4039-B9DF-4BCC9F891700'>
-								<File Id='Typedef_1' Name='typedef_1.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/typedef_1.png' KeyPath='yes' />
-							</Component>
-							<Component Id='Typedef_2Png' Guid='6C65CE19-EBE1-4611-9E21-45A91B0C1B77'>
-								<File Id='Typedef_2' Name='typedef_2.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/typedef_2.png' KeyPath='yes' />
-							</Component>
-							<Component Id='Typedef_3Png' Guid='CDEF6B3F-AA7C-4BB0-B327-5448D84AF42C'>
-								<File Id='Typedef_3' Name='typedef_3.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/typedef_3.png' KeyPath='yes' />
+							<Component Id='TypedefPng' Guid='6B171ABD-0222-4477-A17E-C745C37D8B45'>
+								<File Id='Typedef' Name='typedef.png' DiskId='1' Source='./../../../bin/app/data/gui/graph_view/images/typedef.png' KeyPath='yes' />
 							</Component>
 
 						</Directory>
@@ -257,11 +245,17 @@
 						<Component Id='C_icon_Png' Guid='5455ADA0-2477-4F46-9BEE-62DCB71D639F'>
 							<File Id='C_icon' Name='c_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/c_icon.png' KeyPath='yes' />
 						</Component>
+						<Component Id='Cdb_icon_Png' Guid='BFEF4175-69DA-49E3-A650-9C5995A3E8E7'>
+							<File Id='Cdb_icon' Name='cdb_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/cdb_icon.png' KeyPath='yes' />
+						</Component>
 						<Component Id='CoatiIco' Guid='9D65B057-EA87-4251-8898-9FAD23AD3371'>
 							<File Id='Coati' Name='coati.ico' DiskId='1' Source='./../../../bin/app/data/gui/icon/coati.ico' KeyPath='yes' />
 						</Component>
 						<Component Id='Cpp_icon_Png' Guid='B9EB2C3F-6256-4F54-9F8C-7DC338424839'>
 							<File Id='Cpp_icon' Name='cpp_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/cpp_icon.png' KeyPath='yes' />
+						</Component>
+						<Component Id='Empty_icon_Png' Guid='47F0E4A4-F74A-4D43-AB9E-75D3B1AB46C7'>
+							<File Id='Empty_icon' Name='empty_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/empty_icon.png' KeyPath='yes' />
 						</Component>
 						<Component Id='Java_icon_Png' Guid='66920390-A101-45B7-8C61-EA9EDF0876D3'>
 							<File Id='Java_icon' Name='java_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/java_icon.png' KeyPath='yes' />
@@ -275,11 +269,8 @@
 						<Component Id='Project_256_256_Png' Guid='AD536928-0DE5-49BC-B33C-D1A9E9DDB74D'>
 							<File Id='Project_256_256' Name='project_256_256.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/project_256_256.png' KeyPath='yes' />
 						</Component>
-						<Component Id='Project_cdb_256_256_Png' Guid='72B4E345-88E0-4BE9-AC94-94947EE2E9B5'>
-							<File Id='Project_cdb_256_256' Name='project_cdb_256_256.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/project_cdb_256_256.png' KeyPath='yes' />
-						</Component>
-						<Component Id='Project_vs_256_256_Png' Guid='DA7698DC-8E10-4168-9E45-4B8ED48CC49F'>
-							<File Id='Project_vs_256_256' Name='project_vs_256_256.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/project_vs_256_256.png' KeyPath='yes' />
+						<Component Id='Vs_icon_Png' Guid='BBEDB96F-B0D5-4FA6-B808-E15A51921D69'>
+							<File Id='Vs_icon' Name='vs_icon.png' DiskId='1' Source='./../../../bin/app/data/gui/icon/vs_icon.png' KeyPath='yes' />
 						</Component>
 
 					</Directory>
@@ -326,6 +317,9 @@
 						</Component>
 
 						<Directory Id='DataSearchViewImages' Name='images'>
+							<Component Id='ArrowSearchPng' Guid='43858971-6577-49F8-8787-BEAC7B88CED1'>
+								<File Id='ArrowSearch' Name='arrow.png' DiskId='1' Source='./../../../bin/app/data/gui/search_view/images/arrow.png' KeyPath='yes' />
+							</Component>
 							<Component Id='HomePng' Guid='1D00476F-52C2-47F9-8A27-B583D9499311'>
 								<File Id='Home' Name='home.png' DiskId='1' Source='./../../../bin/app/data/gui/search_view/images/home.png' KeyPath='yes' />
 							</Component>

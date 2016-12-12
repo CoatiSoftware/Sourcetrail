@@ -169,32 +169,29 @@
 				<ComponentRef Id='ErrorViewCss'/>
 
 				<ComponentRef Id='GraphViewCss'/>
-				<ComponentRef Id='ArrowPng'/>
+				<ComponentRef Id='ArrowGraphPng'/>
 				<ComponentRef Id='BundlePng'/>
-				<ComponentRef Id='Enum_1Png'/>
-				<ComponentRef Id='Enum_2Png'/>
+				<ComponentRef Id='EnumPng'/>
 				<ComponentRef Id='FilePng'/>
-				<ComponentRef Id='Macro_1Png'/>
-				<ComponentRef Id='Macro_2Png'/>
-				<ComponentRef Id='Macro_3Png'/>
+				<ComponentRef Id='MacroPng'/>
+				<ComponentRef Id='NamespacePng'/>
 				<ComponentRef Id='GraphPatternPng'/>
 				<ComponentRef Id='PrivatePng'/>
 				<ComponentRef Id='ProtectedPng'/>
 				<ComponentRef Id='PublicPng'/>
 				<ComponentRef Id='TemplatePng'/>
-				<ComponentRef Id='Typedef_1Png'/>
-				<ComponentRef Id='Typedef_2Png'/>
-				<ComponentRef Id='Typedef_3Png'/>
+				<ComponentRef Id='TypedefPng'/>
 
 				<ComponentRef Id='C_icon_Png'/>
+				<ComponentRef Id='Cdb_icon_Png'/>
 				<ComponentRef Id='CoatiIco'/>
 				<ComponentRef Id='Cpp_icon_Png'/>
+				<ComponentRef Id='Empty_icon_Png'/>
 				<ComponentRef Id='Java_icon_Png'/>
 				<ComponentRef Id='Logo_1024_1024_Png'/>
 				<ComponentRef Id='ProjectIco'/>
 				<ComponentRef Id='Project_256_256_Png'/>
-				<ComponentRef Id='Project_cdb_256_256_Png'/>
-				<ComponentRef Id='Project_vs_256_256_Png'/>
+				<ComponentRef Id='Vs_icon_Png'/>
 
 				<ComponentRef Id='ErrorPng'/>
 				<ComponentRef Id='FlagPng'/>
@@ -207,6 +204,7 @@
 				<ComponentRef Id='RefreshPng'/>
 
 				<ComponentRef Id='SearchViewCss'/>
+				<ComponentRef Id='ArrowSearchPng'/>
 				<ComponentRef Id='HomePng'/>
 				<ComponentRef Id='SearchPng'/>
 

@@ -2,9 +2,9 @@
 ||Coati Setup||
 ===============
 
-To install Coati simply run 'setup.exe'
+To install Coati simply run 'Setup.exe'
 
-If you have a previous version installed, setup.exe will attempt to upgrade*.
+If you have a previous version installed, Setup.exe will attempt to upgrade*.
 Your previous application specific settings will be maintained.
 
 
