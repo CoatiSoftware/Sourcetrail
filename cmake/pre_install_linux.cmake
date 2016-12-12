@@ -33,7 +33,7 @@ SET (NO_UPX 1)
 
 if (NO_UPX)
 	execute_process(
-		COMMAND echo "fdsafsdf"
+		COMMAND echo "UPX"
 	)
 
 	execute_process(

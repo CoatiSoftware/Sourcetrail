@@ -65,7 +65,6 @@ void StatusController::handleMessage(MessageStatusFilterChanged* message)
 	settings->setStatusFilter(m_statusFilter);
 	settings->save();
 	clearTable();
-	std::cout << "handlefilterchange" << std::endl;
 	syncStatus();
 }
 
