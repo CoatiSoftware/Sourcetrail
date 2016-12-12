@@ -15,14 +15,10 @@ public:
 	StatusView(ViewLayout* viewLayout);
 	virtual ~StatusView();
 
-
 	virtual std::string getName() const;
+
 	virtual void addStatus(const std::vector<Status>& status) = 0;
 	virtual void clear() = 0;
-	//virtual bool hasLogLevel(const Logger::LogLevel type, const Logger::LogLevelMask mask) const;
-	//virtual void addLog(Logger::LogLevel type, const LogMessage& message) = 0;
-	//virtual void addLogs(const std::vector<Log>& logs) = 0;
-	//static const int LogLimit;
 };
 
 #endif // STATUS_VIEW_H

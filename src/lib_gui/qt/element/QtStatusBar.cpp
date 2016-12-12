@@ -4,6 +4,7 @@
 
 #include "qt/utility/utilityQt.h"
 #include "utility/messaging/type/MessageSearch.h"
+#include "utility/messaging/type/MessageShowStatus.h"
 #include "utility/ResourcePaths.h"
 
 QtStatusBar::QtStatusBar()
@@ -23,8 +24,12 @@ QtStatusBar::QtStatusBar()
 	m_loader.hide();
 	addWidget(&m_loader);
 
-	m_text.setText("");
+	m_text.setFlat(true);
+	m_text.setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
 	addWidget(&m_text);
+	setText("", false, false);
+
+	connect(&m_text, SIGNAL(clicked()), this, SLOT(showStatus()));
 
 	m_errorButton.hide();
 	m_errorButton.setFlat(true);
@@ -47,11 +52,11 @@ void QtStatusBar::setText(const std::string& text, bool isError, bool showLoader
 {
 	if (isError)
 	{
-		m_text.setStyleSheet("QLabel { color: #D00000 }");
+		m_text.setStyleSheet("QPushButton { color: #D00000; margin-right: 0; spacing: none; }");
 	}
 	else
 	{
-		m_text.setStyleSheet("");
+		m_text.setStyleSheet("QPushButton { color: #000000; margin-right: 0; spacing: none; }");
 	}
 
 	if (showLoader)
@@ -79,6 +84,11 @@ void QtStatusBar::setErrorCount(ErrorCountInfo errorCount)
 	{
 		m_errorButton.hide();
 	}
+}
+
+void QtStatusBar::showStatus()
+{
+	MessageShowStatus().dispatch();
 }
 
 void QtStatusBar::showErrors()

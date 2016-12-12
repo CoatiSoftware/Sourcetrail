@@ -299,6 +299,7 @@ add_files(
 	utility/messaging/type/MessageShowReference.h
 	utility/messaging/type/MessageShowScope.h
 	utility/messaging/type/MessageShowStartScreen.h
+	utility/messaging/type/MessageShowStatus.h
 	utility/messaging/type/MessageStatus.h
 	utility/messaging/type/MessageStatusFilterChanged.h
 	utility/messaging/type/MessageSwitchColorScheme.h

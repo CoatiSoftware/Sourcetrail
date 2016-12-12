@@ -16,6 +16,7 @@ public:
 	void setTableModel(QAbstractItemModel* model);
 	int getFilledRowCount();
 
+	void showFirstRow();
 	void showLastRow();
 
 protected:

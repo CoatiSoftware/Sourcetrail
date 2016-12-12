@@ -5,11 +5,9 @@
 
 #include "component/view/StatusView.h"
 #include "qt/utility/QtThreadedFunctor.h"
-#include "utility/logging/Logger.h"
 
 class QBoxLayout;
 class QCheckBox;
-class QPalette;
 class QStandardItemModel;
 class QtTable;
 
@@ -41,26 +39,21 @@ private:
 	void doRefreshView();
 	void doAddStatus(const std::vector<Status>& status);
 
-	std::vector<Status> m_status;
-	const char* getStatusTypeAsString(STATUSTYPE type) const;
-	void addStatusToTable(Status status);
-
 	QCheckBox* createFilterCheckbox(const QString& name, QBoxLayout* layout, bool checked = false);
 
 	void setStyleSheet() const;
 
-	void updateMask();
-	void updateTable();
+	QtThreadedFunctor<const std::vector<Status>&> m_addStatusFunctor;
+	QtThreadedFunctor<void> m_clearFunctor;
+	QtThreadedFunctor<void> m_refreshFunctor;
 
 	QtTable* m_table;
 	QStandardItemModel* m_model;
 
+	std::vector<Status> m_status;
+
 	QCheckBox* m_showErrors;
 	QCheckBox* m_showInfo;
-
-	QtThreadedFunctor<const std::vector<Status>&> m_addStatusFunctor;
-	QtThreadedFunctor<void> m_clearFunctor;
-	QtThreadedFunctor<void> m_refreshFunctor;
 };
 
 #endif // QT_STATUS_VIEW_H

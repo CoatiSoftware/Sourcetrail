@@ -3,17 +3,7 @@
 
 #include <string>
 
-struct Status
-{
-	Status(std::string message, bool isError = false)
-		: message(message)
-		, isError(isError){};
-
-	std::string message;
-	bool isError;
-};
-
-enum STATUSTYPE
+enum StatusType
 {
 	STATUS_INFO = 1,
 	STATUS_ERROR = 2,
@@ -21,4 +11,16 @@ enum STATUSTYPE
 
 typedef int StatusFilter;
 
-#endif //STATUS_H
+struct Status
+{
+	Status(std::string message, bool isError = false)
+		: message(message)
+		, type(isError ? StatusType::STATUS_ERROR : StatusType::STATUS_INFO)
+	{
+	}
+
+	std::string message;
+	StatusType type;
+};
+
+#endif // STATUS_H

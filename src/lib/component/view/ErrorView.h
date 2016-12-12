@@ -13,8 +13,6 @@ public:
 
 	virtual std::string getName() const;
 
-	virtual void showDockWidget();
-
 	virtual void clear() = 0;
 
 	virtual void addErrors(const std::vector<ErrorInfo>& errors, bool scrollTo) = 0;

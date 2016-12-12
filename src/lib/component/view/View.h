@@ -29,10 +29,12 @@ public:
 
 	void init();
 	void addToLayout();
+	void showDockWidget();
 
 	void setComponent(Component* component);
 
 	ViewWidgetWrapper* getWidgetWrapper() const;
+
 
 protected:
 	template <typename ControllerType>

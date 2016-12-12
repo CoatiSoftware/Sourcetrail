@@ -13,8 +13,3 @@ std::string ErrorView::getName() const
 {
 	return "Errors";
 }
-
-void ErrorView::showDockWidget()
-{
-	getViewLayout()->showView(this);
-}

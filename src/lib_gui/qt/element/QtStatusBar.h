@@ -22,10 +22,11 @@ public:
 	void setErrorCount(ErrorCountInfo errorCount);
 
 private slots:
+	void showStatus();
 	void showErrors();
 
 private:
-	QLabel m_text;
+	QPushButton m_text;
 	QLabel m_loader;
 	QPushButton m_errorButton;
 };

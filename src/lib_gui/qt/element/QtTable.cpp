@@ -107,6 +107,11 @@ int QtTable::getFilledRowCount()
 	return model()->rowCount();
 }
 
+void QtTable::showFirstRow()
+{
+	verticalScrollBar()->setValue(verticalScrollBar()->minimum());
+}
+
 void QtTable::showLastRow()
 {
 	if (m_rowsToFill <= getFilledRowCount())

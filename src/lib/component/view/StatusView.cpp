@@ -11,6 +11,6 @@ StatusView::~StatusView()
 
 std::string StatusView::getName() const
 {
-	return "Status";
+	return "Output";
 }
 

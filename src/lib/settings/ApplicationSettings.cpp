@@ -188,7 +188,7 @@ void ApplicationSettings::setStatusFilter(int mask)
 
 int ApplicationSettings::getStatusFilter() const
 {
-	return getValue<int>("application/status_filter", STATUSTYPE::STATUS_INFO | STATUSTYPE::STATUS_ERROR);
+	return getValue<int>("application/status_filter", StatusType::STATUS_INFO | StatusType::STATUS_ERROR);
 }
 
 int ApplicationSettings::getLogFilter() const

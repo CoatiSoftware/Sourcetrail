@@ -7,15 +7,14 @@
 #include <QPushButton>
 #include <QStandardItemModel>
 
+#include "qt/element/QtTable.h"
+#include "qt/utility/utilityQt.h"
+#include "qt/view/QtViewWidgetWrapper.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
-#include "qt/view/QtViewWidgetWrapper.h"
 #include "utility/messaging/type/MessageClearStatusView.h"
-#include "utility/messaging/type/MessageRefresh.h"
 #include "utility/messaging/type/MessageStatusFilterChanged.h"
 #include "utility/ResourcePaths.h"
-#include "qt/utility/utilityQt.h"
-#include "qt/element/QtTable.h"
 
 QtStatusView::QtStatusView(ViewLayout* viewLayout)
 	: StatusView(viewLayout)
@@ -46,8 +45,6 @@ void QtStatusView::initView()
 	QHBoxLayout* headerLayout = new QHBoxLayout();
 	headerLayout->addSpacing(10);
 
-	ApplicationSettings* settings = ApplicationSettings::getInstance().get();
-
 	m_table = new QtTable(this);
 	m_model = new QStandardItemModel(this);
 	m_table->setModel(m_model);
@@ -57,7 +54,7 @@ void QtStatusView::initView()
 	//m_table->setColumnWidth(STATUSVIEW_COLUMN::STATUS, 150);
 
 	QStringList headers;
-	headers << "Type" << "Status";
+	headers << "Type" << "Message";
 	m_model->setHorizontalHeaderLabels(headers);
 
 	layout->addWidget(m_table);
@@ -65,10 +62,10 @@ void QtStatusView::initView()
 	QHBoxLayout* filters = new QHBoxLayout();
 	filters->addSpacing(15);
 
-	const StatusFilter filter = settings->getStatusFilter();
+	const StatusFilter filter = ApplicationSettings::getInstance()->getStatusFilter();
 
-	m_showErrors = createFilterCheckbox("error", filters, filter & STATUSTYPE::STATUS_ERROR);
-	m_showInfo = createFilterCheckbox("info", filters, filter & STATUSTYPE::STATUS_ERROR);
+	m_showInfo = createFilterCheckbox("info", filters, filter & StatusType::STATUS_INFO);
+	m_showErrors = createFilterCheckbox("error", filters, filter & StatusType::STATUS_ERROR);
 
 	filters->addStretch();
 
@@ -76,13 +73,12 @@ void QtStatusView::initView()
 	connect(clearButton, &QPushButton::clicked,
 		[=]()
 		{
-			//doClear();
 			MessageClearStatusView().dispatch();
-		});
+		}
+	);
+
 	filters->addWidget(clearButton);
 	filters->addSpacing(30);
-
-	updateMask();
 
 	layout->addLayout(filters);
 
@@ -98,8 +94,12 @@ QCheckBox* QtStatusView::createFilterCheckbox(const QString& name, QBoxLayout* l
 		[=](int)
 		{
 			m_table->selectionModel()->clearSelection();
-			updateMask();
-			updateTable();
+
+			const StatusFilter statusMask =
+				(m_showInfo->isChecked() ? StatusType::STATUS_INFO : 0) +
+				(m_showErrors->isChecked() ? StatusType::STATUS_ERROR : 0);
+
+			MessageStatusFilterChanged(statusMask).dispatch();
 		}
 	);
 
@@ -131,12 +131,32 @@ void QtStatusView::doClear()
 		m_model->removeRows(0, m_model->rowCount());
 	}
 
+	m_table->showFirstRow();
+
 	m_status.clear();
 }
 
 void QtStatusView::doRefreshView()
 {
 	setStyleSheet();
+}
+
+void QtStatusView::doAddStatus(const std::vector<Status>& status)
+{
+	for (Status s : status)
+	{
+		const int rowNumber = m_table->getFilledRowCount();
+		if (rowNumber < m_model->rowCount())
+		{
+			m_model->insertRow(rowNumber);
+		}
+
+		QString statusType = (s.type == StatusType::STATUS_ERROR ? "ERROR" : "INFO");
+		m_model->setItem(rowNumber, STATUSVIEW_COLUMN::TYPE, new QStandardItem(statusType));
+		m_model->setItem(rowNumber, STATUSVIEW_COLUMN::STATUS, new QStandardItem(s.message.c_str()));
+	}
+
+	m_table->updateRows();
 }
 
 void QtStatusView::setStyleSheet() const
@@ -146,69 +166,10 @@ void QtStatusView::setStyleSheet() const
 
 	QPalette palette(m_showErrors->palette());
 	palette.setColor(QPalette::WindowText, QColor(ColorScheme::getInstance()->getColor("error/text/normal").c_str()));
-	//palette.setColor(QPalette::Text, QColor(ColorScheme::getInstance()->getColor("error/text/normal").c_str()));
-	//palette.setColor(QPalette::ButtonText, QColor(ColorScheme::getInstance()->getColor("error/text/normal").c_str()));
-
-	//m_showErrors->setAutoFillBackground(true);
-	//m_showErrors->setPalette(palette);
-	//m_showFatals->setPalette(palette);
-	//m_showNonIndexedErrors->setPalette(palette);
-	//m_showNonIndexedFatals->setPalette(palette);
 
 	widget->setStyleSheet(
 		utility::getStyleSheet(ResourcePaths::getGuiPath() + "error_view/error_view.css").c_str()
 	);
 
 	m_table->updateRows();
-}
-
-const char* QtStatusView::getStatusTypeAsString(STATUSTYPE type) const
-{
-	switch (type)
-	{
-		case STATUSTYPE::STATUS_INFO:
-			return "INFO";
-		case STATUSTYPE::STATUS_ERROR:
-			return "ERROR";
-	}
-}
-
-void QtStatusView::updateTable()
-{
-	if (!m_model->index(0, 0).data(Qt::DisplayRole).toString().isEmpty())
-	{
-		m_model->removeRows(0, m_model->rowCount());
-	}
-}
-
-void QtStatusView::updateMask()
-{
-	const StatusFilter statusMask =
-		(m_showInfo->isChecked() ? STATUSTYPE::STATUS_INFO : 0) +
-		(m_showErrors->isChecked() ? STATUSTYPE::STATUS_ERROR : 0);
-
-	MessageStatusFilterChanged(statusMask).dispatch();
-}
-
-void QtStatusView::addStatusToTable(Status status)
-{
-	const int rowNumber = m_table->getFilledRowCount();
-	if (rowNumber < m_model->rowCount())
-	{
-		m_model->insertRow(rowNumber);
-	}
-
-	m_model->setItem(rowNumber, STATUSVIEW_COLUMN::TYPE, new QStandardItem(status.isError ? "ERROR" : "INFO"));
-	m_model->setItem(rowNumber, STATUSVIEW_COLUMN::STATUS, new QStandardItem(status.message.c_str()));
-	m_table->updateRows();
-}
-
-void QtStatusView::doAddStatus(const std::vector<Status>& status)
-{
-	//doClear();
-	for(Status s : status)
-	{
-		addStatusToTable(s);
-	}
-
 }

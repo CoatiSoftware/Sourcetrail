@@ -25,6 +25,11 @@ void View::addToLayout()
 	m_viewLayout->addView(this);
 }
 
+void View::showDockWidget()
+{
+	m_viewLayout->showView(this);
+}
+
 ViewWidgetWrapper* View::getWidgetWrapper() const
 {
 	return m_widgetWrapper.get();
