@@ -90,7 +90,7 @@
 						</div>
 					</div>
 					<div class="row" style="text-align:center;">
-						<p>Documentation for version 0.9</p>
+						<p>Documentation for version 0.10</p>
 					</div>
 
 					<div class="row" style="height:40px;"></div>
@@ -1825,7 +1825,7 @@
 					<p>The CDB wizard is located in the Coati section in the VS menu bar. Note that the option is only useable if a solution containing at least one C/C++ project is loaded.</p>
 
 					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
+						<div class="col-sm-12">
 							<img src="img/vs_plugin_menu.png" style="width:100%;">
 						</div>
 					</div>
@@ -1856,26 +1856,26 @@
 					</table>
 
 					<p>Once the CDB was successfully created it can be found in the specified target directory. From this CDB you can create a Coati project as <a href="#CreateAProjectFromCompilationDatabase">described above</a>.</p>
-					
+
 					<strong>Settings</strong>
 					<p>Network settings and logging options can be changed in the plugin's Tools/Options entry.</p>
 
 					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/vs_plugin_ports_0.png" >
+						<div class="col-sm-12">
+							<img src="img/vs_plugin_ports_0.png" style="width:100%;">
 						</div>
 					</div>
-					
+
 					<p></p>
-					
+
 					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/vs_plugin_options.png" >
+						<div class="col-sm-12">
+							<img src="img/vs_plugin_options.png" style="width:100%;">
 						</div>
 					</div>
-					
+
 					<p></p>
-					
+
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>Option</th> <th>Description</th> </tr>
@@ -1891,34 +1891,34 @@
 					<!-- File logging -->
 					<p>The plugin offers optional file logging. Should you ever have problems with the plugin we recommend to turn logging on. This will help to pinpoint and resolve the issue faster.</p>
 					<p>Logs will be created in <code>..\AppData\Local\Coati Software\Plugins\VS</code> folder. A new log file will be created every time you restart VS and logging is enabled.</p>
-					
+
 					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/vs_log_folder.png" >
+						<div class="col-sm-12">
+							<img src="img/vs_log_folder.png" style="width:100%;">
 						</div>
 					</div>
-					
+
 					<!-- Obfuscation -->
 					<p>Note that the logs will include project- and file names as well as directories specific to your project. If you wish to keep this informatin secret you can use <a href="#vsPluginOptionObfuscation">log obfuscation</a>.</p>
 					<p>Project- and file names as well as directories will be replaced by an alphanumeric sequence. The sequence has the form <code>a0, b0, c0,..., a1, b1, c1,...</code>. Note that after switching on obfuscation, already logged data <b>will not be obfuscated retroactively</b>. No log files will be send to Coati Software automatically. You can check any file you may want to send us for sensible information before sending it.</p>
 					<p>A dictionary, mapping obfuscated names to original names, will be created in your log folder if log obfuscation is switched on. When during the support process we refer to project items by their obfuscated name you can still make sense of it. <b>Do not send the dictionary to anybody else</b>.</p>
-					
+
 					<!-- Console logging -->
 					<p>Lastly, log messages are also displayed in the VS output window. This is tied to file logging and is not en- or disabled separately.</p>
 					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
-							<img src="img/vs_output_window.png" >
+						<div class="col-sm-10 col-sm-offset-1">
+							<img src="img/vs_output_window.png" style="width:100%;">
 						</div>
 					</div>
-					
+
 					<h2>IDE Communication Protocol</h2>
 					<p>Coati's IDE plugins communicate with Coati via sockets, using TCP. Coati implements a number of messages to provide an interface for the plugins.</p>
 					<p>This chapter explains the general structure of those messages, followed by a list of possible message types.</p>
-					
+
 					<h3>Message Structure</h3>
-					
+
 					<p>The basic structure of the messages used by Coati plugins consists of a prefix to identify the message type, followed by no, one, or multiple parameters and ends with an 'end-of-message' token. Parameters and tokens are seperated by a 'divider' token.</p>
-					
+
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>Name</th> <th>Token</th> <th>Description</th> </tr>
@@ -1930,20 +1930,20 @@
 							<tr> <th scope="row">endOfMessage</th> <th><code>&lt;EOM&gt;</code></th> <td>Helps to determine the end of a message</td> </tr>
 						</tbody>
 					</table>
-					
+
 					<p>Messages have the following form:</p>
-					
+
 					<p><code>messageType&lt;&lt;parameter&lt;&lt;...&lt;&lt;parameter&lt;EOM&gt;</code></p>
-					
+
 					<h3>Message Types</h3>
-					
+
 					<p>Coati does implement a number of message types that can be used by Coati plugins. In the following is a list of the messages that Coati may send to plugins and messages that may be sent by a plugin to Coati.</p>
-					
+
 					<p>Note that you can chose which messages you want to implement. Coati will not make problems if you chose to ignore certain messages.</p>
-					
+
 					<strong>Incoming messages</strong>
 					<p>These messages may be received by a plugin.</p>
-					
+
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>Message</th> <th>Parameters</th> <th>Description</th> </tr>
@@ -1954,10 +1954,10 @@
 							<tr> <th scope="row"><code>ping</code></th> <th></th> <td>Coati may send a ping to determine if anybody is listening. Respond with a ping message yourself. Coati will not respond to this message.</td> </tr>
 						</tbody>
 					</table>
-					
+
 					<strong>Outgoing messages</strong>
 					<p>Your plugin may send these messages to Coati.</p>
-					
+
 					<table class="table table-hover">
 						<thead>
 							<tr> <th>Message</th> <th>Parameters</th> <th>Description</th> </tr>
@@ -1968,7 +1968,7 @@
 							<tr> <th scope="row"><code>ping</code></th> <th></th> <td>Your plugin may send this message to Coati to tell it it's listening.</td> </tr>
 						</tbody>
 					</table>
-					
+
 				</div> <!-- .span9 !-->
 			</div> <!-- .row !-->
 		</div> <!-- .container-fluid !-->
