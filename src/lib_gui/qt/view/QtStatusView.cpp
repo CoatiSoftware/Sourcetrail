@@ -37,13 +37,10 @@ void QtStatusView::initView()
 {
 	QWidget* widget = QtViewWidgetWrapper::getWidgetOfView(this);
 
-	QBoxLayout* layout = new QBoxLayout(QBoxLayout::TopToBottom);
-	layout->setContentsMargins(0, 10, 0, 5);
+	QBoxLayout* layout = new QVBoxLayout();
+	layout->setContentsMargins(0, 0, 0, 5);
 	layout->setSpacing(0);
 	widget->setLayout(layout);
-
-	QHBoxLayout* headerLayout = new QHBoxLayout();
-	headerLayout->addSpacing(10);
 
 	m_table = new QtTable(this);
 	m_model = new QStandardItemModel(this);
@@ -59,11 +56,11 @@ void QtStatusView::initView()
 
 	layout->addWidget(m_table);
 
+	// Setup filters
 	QHBoxLayout* filters = new QHBoxLayout();
 	filters->addSpacing(15);
 
 	const StatusFilter filter = ApplicationSettings::getInstance()->getStatusFilter();
-
 	m_showInfo = createFilterCheckbox("info", filters, filter & StatusType::STATUS_INFO);
 	m_showErrors = createFilterCheckbox("error", filters, filter & StatusType::STATUS_ERROR);
 
@@ -78,7 +75,7 @@ void QtStatusView::initView()
 	);
 
 	filters->addWidget(clearButton);
-	filters->addSpacing(30);
+	filters->addSpacing(15);
 
 	layout->addLayout(filters);
 
@@ -167,9 +164,9 @@ void QtStatusView::setStyleSheet() const
 	QPalette palette(m_showErrors->palette());
 	palette.setColor(QPalette::WindowText, QColor(ColorScheme::getInstance()->getColor("error/text/normal").c_str()));
 
-	widget->setStyleSheet(
-		utility::getStyleSheet(ResourcePaths::getGuiPath() + "error_view/error_view.css").c_str()
-	);
+	// widget->setStyleSheet(
+	// 	utility::getStyleSheet(ResourcePaths::getGuiPath() + "error_view/error_view.css").c_str()
+	// );
 
 	m_table->updateRows();
 }
