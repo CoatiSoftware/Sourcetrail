@@ -143,7 +143,7 @@ void JavaParser::doRecordSymbol(
 		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jSymbolName)),
 		intToSymbolKind(jSymbolType),
 		access,
-		isImplicit
+		isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
 	);
 }
 
@@ -161,7 +161,7 @@ void JavaParser::doRecordSymbolWithLocation(
 		intToSymbolKind(jSymbolType),
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
 		access,
-		isImplicit
+		isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
 	);
 }
 
@@ -181,7 +181,7 @@ void JavaParser::doRecordSymbolWithLocationAndScope(
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
 		ParseLocation(m_currentFilePath, scopeBeginLine, scopeBeginColumn, scopeEndLine, scopeEndColumn),
 		access,
-		isImplicit
+		isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
 	);
 }
 

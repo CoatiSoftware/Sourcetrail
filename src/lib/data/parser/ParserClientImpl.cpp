@@ -35,10 +35,10 @@ void ParserClientImpl::finishParsingFile()
 
 Id ParserClientImpl::recordSymbol(
 	const NameHierarchy& symbolName, SymbolKind symbolType,
-	AccessKind access, bool isImplicit
+	AccessKind access, DefinitionType definitionType
 )
 {
-	Id nodeId = addNodeHierarchy(symbolKindToNodeType(symbolType), symbolName, (isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT));
+	Id nodeId = addNodeHierarchy(symbolKindToNodeType(symbolType), symbolName, definitionType);
 	addAccess(nodeId, access);
 	return nodeId;
 }
@@ -46,10 +46,10 @@ Id ParserClientImpl::recordSymbol(
 Id ParserClientImpl::recordSymbol(
 	const NameHierarchy& symbolName, SymbolKind symbolType,
 	const ParseLocation& location,
-	AccessKind access, bool isImplicit
+	AccessKind access, DefinitionType definitionType
 )
 {
-	Id nodeId = recordSymbol(symbolName, symbolType, access, isImplicit);
+	Id nodeId = recordSymbol(symbolName, symbolType, access, definitionType);
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
 	return nodeId;
 }
@@ -57,10 +57,10 @@ Id ParserClientImpl::recordSymbol(
 Id ParserClientImpl::recordSymbol(
 	const NameHierarchy& symbolName, SymbolKind symbolType,
 	const ParseLocation& location, const ParseLocation& scopeLocation,
-	AccessKind access, bool isImplicit
+	AccessKind access, DefinitionType definitionType
 )
 {
-	Id nodeId = recordSymbol(symbolName, symbolType, location, access, isImplicit);
+	Id nodeId = recordSymbol(symbolName, symbolType, location, access, definitionType);
 	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
 	return nodeId;
 }

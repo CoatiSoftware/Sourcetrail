@@ -11,7 +11,10 @@ CxxNameResolver::~CxxNameResolver()
 
 void CxxNameResolver::ignoreContextDecl(const clang::Decl* decl)
 {
-	m_ignoredContextDecls.push_back(decl);
+	if (decl)
+	{
+		m_ignoredContextDecls.push_back(decl);
+	}
 }
 
 bool CxxNameResolver::ignoresContext(const clang::DeclContext* declContext)

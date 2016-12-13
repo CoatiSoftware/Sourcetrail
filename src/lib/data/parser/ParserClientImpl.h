@@ -24,17 +24,17 @@ public:
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolType,
-		AccessKind access = ACCESS_NONE, bool isImplicit = false);
+		AccessKind access, DefinitionType definitionType);
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolType,
 		const ParseLocation& location,
-		AccessKind access = ACCESS_NONE, bool isImplicit = false);
+		AccessKind access, DefinitionType definitionType);
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolType,
 		const ParseLocation& location, const ParseLocation& scopeLocation,
-		AccessKind access = ACCESS_NONE, bool isImplicit = false);
+		AccessKind access, DefinitionType definitionType);
 
 	virtual void recordReference(
 		ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,

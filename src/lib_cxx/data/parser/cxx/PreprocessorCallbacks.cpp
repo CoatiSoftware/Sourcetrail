@@ -93,7 +93,9 @@ void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, con
 			nameHierarchy,
 			SYMBOL_MACRO,
 			getParseLocation(macroNameToken),
-			getParseLocation(macroDirective->getMacroInfo())
+			getParseLocation(macroDirective->getMacroInfo()),
+			ACCESS_NONE,
+			DEFINITION_EXPLICIT
 		);
 	}
 }

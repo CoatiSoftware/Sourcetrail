@@ -17,7 +17,7 @@ public:
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
-		AccessKind access = ACCESS_NONE, bool isImplicit = false)
+		AccessKind access, DefinitionType definitionType)
 	{
 		std::vector<std::string>* bin = getBinForSymbolKind(symbolKind);
 		if (bin != nullptr)
@@ -30,7 +30,7 @@ public:
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location,
-		AccessKind access = ACCESS_NONE, bool isImplicit = false)
+		AccessKind access, DefinitionType definitionType)
 	{
 		std::vector<std::string>* bin = getBinForSymbolKind(symbolKind);
 		if (bin != nullptr)
@@ -43,7 +43,7 @@ public:
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location, const ParseLocation& scopeLocation,
-		AccessKind access = ACCESS_NONE, bool isImplicit = false)
+		AccessKind access, DefinitionType definitionType)
 	{
 		std::vector<std::string>* bin = getBinForSymbolKind(symbolKind);
 		if (bin != nullptr)

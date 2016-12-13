@@ -67,13 +67,19 @@ void CxxAstVisitorComponentIndexer::visitTagDecl(clang::TagDecl* d)
 {
 	if (shouldVisitDecl(d))
 	{
+		DefinitionType definitionType = DEFINITION_NONE;
+		if (d->isThisDeclarationADefinition())
+		{
+			definitionType = utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT;
+		}
+
 		m_client->recordSymbol(
 			getAstVisitor()->getDeclNameCache()->getValue(d),
 			utility::convertTagKind(d->getTagKind()),
 			getParseLocation(d->getLocation()),
 			getParseLocationOfTagDeclBody(d),
 			utility::convertAccessSpecifier(d->getAccess()),
-			utility::isImplicit(d)
+			definitionType
 		);
 	}
 }
@@ -128,7 +134,7 @@ void CxxAstVisitorComponentIndexer::visitVarDecl(clang::VarDecl* d)
 				symbolKind,
 				getParseLocation(d->getLocation()),
 				utility::convertAccessSpecifier(d->getAccess()),
-				utility::isImplicit(d)
+				utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
 			);
 		}
 	}
@@ -143,7 +149,7 @@ void CxxAstVisitorComponentIndexer::visitFieldDecl(clang::FieldDecl* d)
 			SYMBOL_FIELD,
 			getParseLocation(d->getLocation()),
 			utility::convertAccessSpecifier(d->getAccess()),
-			utility::isImplicit(d)
+			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
 		);
 	}
 }
@@ -158,7 +164,7 @@ void CxxAstVisitorComponentIndexer::visitFunctionDecl(clang::FunctionDecl* d)
 			getParseLocation(d->getLocation()),
 			getParseLocationOfFunctionBody(d),
 			utility::convertAccessSpecifier(d->getAccess()),
-			utility::isImplicit(d)
+			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
 		);
 
 		if (d->isFunctionTemplateSpecialization())
@@ -215,7 +221,7 @@ void CxxAstVisitorComponentIndexer::visitEnumConstantDecl(clang::EnumConstantDec
 			SYMBOL_ENUM_CONSTANT,
 			getParseLocation(d->getLocation()),
 			ACCESS_NONE,
-			utility::isImplicit(d)
+			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
 		);
 	}
 }
@@ -230,7 +236,7 @@ void CxxAstVisitorComponentIndexer::visitNamespaceDecl(clang::NamespaceDecl* d)
 			d->isAnonymousNamespace() ? ParseLocation() : getParseLocation(d->getLocation()),
 			getParseLocation(d->getSourceRange()),
 			utility::convertAccessSpecifier(d->getAccess()),
-			utility::isImplicit(d)
+			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
 		);
 	}
 }
@@ -244,7 +250,7 @@ void CxxAstVisitorComponentIndexer::visitNamespaceAliasDecl(clang::NamespaceAlia
 			SYMBOL_NAMESPACE,
 			getParseLocation(d->getLocation()),
 			utility::convertAccessSpecifier(d->getAccess()),
-			utility::isImplicit(d)
+			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
 		);
 
 		m_client->recordReference(
@@ -265,7 +271,7 @@ void CxxAstVisitorComponentIndexer::visitTypedefDecl(clang::TypedefDecl* d)
 			SYMBOL_TYPEDEF,
 			getParseLocation(d->getLocation()),
 			utility::convertAccessSpecifier(d->getAccess()),
-			utility::isImplicit(d)
+			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
 		);
 	}
 }
@@ -279,7 +285,7 @@ void CxxAstVisitorComponentIndexer::visitTypeAliasDecl(clang::TypeAliasDecl* d)
 			SYMBOL_TYPEDEF,
 			getParseLocation(d->getLocation()),
 			utility::convertAccessSpecifier(d->getAccess()),
-			utility::isImplicit(d)
+			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
 		);
 	}
 }
@@ -321,7 +327,7 @@ void CxxAstVisitorComponentIndexer::visitNonTypeTemplateParmDecl(clang::NonTypeT
 			SYMBOL_TEMPLATE_PARAMETER,
 			getParseLocation(d->getLocation()),
 			ACCESS_TEMPLATE_PARAMETER,
-			utility::isImplicit(d)
+			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
 		);
 	}
 }
@@ -335,7 +341,7 @@ void CxxAstVisitorComponentIndexer::visitTemplateTypeParmDecl(clang::TemplateTyp
 			SYMBOL_TEMPLATE_PARAMETER,
 			getParseLocation(d->getLocation()),
 			ACCESS_TEMPLATE_PARAMETER,
-			utility::isImplicit(d)
+			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
 		);
 	}
 }
@@ -349,7 +355,7 @@ void CxxAstVisitorComponentIndexer::visitTemplateTemplateParmDecl(clang::Templat
 			SYMBOL_TEMPLATE_PARAMETER,
 			getParseLocation(d->getLocation()),
 			ACCESS_TEMPLATE_PARAMETER,
-			utility::isImplicit(d)
+			utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
 		);
 	}
 }
@@ -486,7 +492,7 @@ void CxxAstVisitorComponentIndexer::visitLambdaExpr(clang::LambdaExpr* s)
 			getParseLocation(s->getLocStart()),
 			getParseLocationOfFunctionBody(methodDecl),
 			ACCESS_NONE,  // TODO: introduce AccessLambda
-			utility::isImplicit(methodDecl)
+			utility::isImplicit(methodDecl) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
 		);
 	}
 }

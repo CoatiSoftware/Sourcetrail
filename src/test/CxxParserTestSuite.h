@@ -2036,10 +2036,10 @@ public:
 		);
 
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "Foo<Foo<typename T>::T> & Foo<typename T>::operator=(const Foo<Foo<typename T>::T> &) -> Foo<Foo<typename T>::T> <4:2 4:4>"
+			client->typeUses, "Foo<T> & Foo<typename T>::operator=(const Foo<T> &) -> Foo<T> <4:2 4:4>"
 		));
 		TS_ASSERT(utility::containsElement<std::string>(
-			client->typeUses, "Foo<Foo<typename T>::T> & Foo<typename T>::operator=(const Foo<Foo<typename T>::T> &) -> Foo<Foo<typename T>::T> <4:23 4:25>"
+			client->typeUses, "Foo<T> & Foo<typename T>::operator=(const Foo<T> &) -> Foo<T> <4:23 4:25>"
 		));
 	}
 

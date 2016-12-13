@@ -8,6 +8,7 @@
 #include "data/parser/AccessKind.h"
 #include "data/parser/ReferenceKind.h"
 #include "data/parser/SymbolKind.h"
+#include "data/DefinitionType.h"
 #include "utility/file/FileInfo.h"
 #include "utility/types.h"
 
@@ -32,17 +33,17 @@ public:
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolType,
-		AccessKind access = ACCESS_NONE, bool isImplicit = false) = 0;
+		AccessKind access, DefinitionType definitionType) = 0;
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolType,
 		const ParseLocation& location,
-		AccessKind access = ACCESS_NONE, bool isImplicit = false) = 0;
+		AccessKind access, DefinitionType definitionType) = 0;
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolType,
 		const ParseLocation& location, const ParseLocation& scopeLocation,
-		AccessKind access = ACCESS_NONE, bool isImplicit = false) = 0;
+		AccessKind access, DefinitionType definitionType) = 0;
 
 	virtual void recordReference(
 		ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,
