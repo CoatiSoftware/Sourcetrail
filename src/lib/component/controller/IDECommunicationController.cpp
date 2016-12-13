@@ -102,7 +102,9 @@ void IDECommunicationController::handleSetActiveTokenMessage(
 
 			if (selectedLocationIds.size() > 0)
 			{
-				MessageStatus("Activating a source location from plug-in succeeded.").dispatch();
+				MessageStatus("Activating source location from plug-in succeeded: " + message.fileLocation + ", row: " +
+					std::to_string(message.row) + ", col: " + std::to_string(message.column)).dispatch();
+
 				MessageDispatchWhenLicenseValid(
 					std::make_shared<MessageActivateTokenLocations>(selectedLocationIds)
 				).dispatch();
@@ -180,7 +182,7 @@ void IDECommunicationController::handlePing(const NetworkProtocolHelper::PingMes
 		}
 		// TODO: add the other ides
 
-		std::string message = ideName + " instance detected";
+		std::string message = ideName + " instance detected via plugin port";
 
 		MessageStatus(message, false, false).dispatch();
 		MessageDispatchWhenLicenseValid(msg).dispatch();
@@ -195,7 +197,7 @@ void IDECommunicationController::handleMessage(MessageIDECreateCDB* message)
 {
 	std::string networkMessage = NetworkProtocolHelper::buildCreateCDBMessage();
 
-	MessageStatus("Requesting IDE to create CDB.").dispatch();
+	MessageStatus("Requesting IDE to create Compilation Database via plug-in.").dispatch();
 
 	sendMessage(networkMessage);
 }
@@ -204,10 +206,10 @@ void IDECommunicationController::handleMessage(MessageMoveIDECursor* message)
 {
 	std::string networkMessage = NetworkProtocolHelper::buildSetIDECursorMessage(
 		message->FilePosition, message->Row, message->Column
-		);
+	);
 
 	MessageStatus(
-		"Jumping the external tool to the following location: " + message->FilePosition + ", row: " +
+		"Jump to source location via plug-in: " + message->FilePosition + ", row: " +
 		std::to_string(message->Row) + ", col: " + std::to_string(message->Column)
 	).dispatch();
 

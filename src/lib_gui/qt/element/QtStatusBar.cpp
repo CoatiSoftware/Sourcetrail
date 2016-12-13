@@ -26,7 +26,7 @@ QtStatusBar::QtStatusBar()
 
 	m_text.setFlat(true);
 	m_text.setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	addWidget(&m_text);
+	addWidget(&m_text, 1);
 	setText("", false, false);
 
 	connect(&m_text, SIGNAL(clicked()), this, SLOT(showStatus()));
@@ -52,11 +52,11 @@ void QtStatusBar::setText(const std::string& text, bool isError, bool showLoader
 {
 	if (isError)
 	{
-		m_text.setStyleSheet("QPushButton { color: #D00000; margin-right: 0; spacing: none; }");
+		m_text.setStyleSheet("QPushButton { color: #D00000; margin-right: 0; spacing: none; text-align: left; }");
 	}
 	else
 	{
-		m_text.setStyleSheet("QPushButton { color: #000000; margin-right: 0; spacing: none; }");
+		m_text.setStyleSheet("QPushButton { color: #000000; margin-right: 0; spacing: none; text-align: left; }");
 	}
 
 	if (showLoader)
@@ -68,7 +68,7 @@ void QtStatusBar::setText(const std::string& text, bool isError, bool showLoader
 		m_loader.hide();
 	}
 
-	m_text.setText(text.c_str());
+	m_text.setText(m_text.fontMetrics().elidedText(QString::fromStdString(text), Qt::ElideRight, m_text.width()));
 }
 
 void QtStatusBar::setErrorCount(ErrorCountInfo errorCount)

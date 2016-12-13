@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QStandardItemModel>
 
+#include "Application.h"
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
 #include "qt/view/QtViewWidgetWrapper.h"
@@ -143,8 +144,10 @@ void QtLogView::setLoggingEnabled(bool enabled)
 
 	ApplicationSettings::getInstance()->setLoggingEnabled(enabled);
 	ApplicationSettings::getInstance()->save();
+
+	Application::getInstance()->loadSettings();
+
 	MessageRefresh msg;
-	msg.reloadSettings = true;
 	msg.uiOnly = true;
 	msg.dispatchImmediately();
 }
@@ -153,8 +156,10 @@ void QtLogView::setAstLoggingEnabled(bool enabled)
 {
 	ApplicationSettings::getInstance()->setVerboseIndexerLoggingEnabled(enabled);
 	ApplicationSettings::getInstance()->save();
+
+	Application::getInstance()->loadSettings();
+
 	MessageRefresh msg;
-	msg.reloadSettings = true;
 	msg.uiOnly = true;
 	msg.dispatchImmediately();
 }

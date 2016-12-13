@@ -2,13 +2,14 @@
 #define MESSAGE_STATUS_H
 
 #include "utility/messaging/Message.h"
+#include "utility/utilityString.h"
 
 class MessageStatus
 	: public Message<MessageStatus>
 {
 public:
 	MessageStatus(const std::string& status, bool isError = false, bool showLoader = false)
-		: status(status)
+		: status(utility::replace(status, "\n", " "))
 		, isError(isError)
 		, showLoader(showLoader)
 	{

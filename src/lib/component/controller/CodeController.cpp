@@ -139,6 +139,12 @@ void CodeController::handleMessage(MessageActivateTokens* message)
 		size_t referenceCount = m_collection->getTokenLocationCount();
 
 		std::stringstream ss;
+
+		if (message->unknownNames.size())
+		{
+			ss << "Activate \"" << message->unknownNames[0] << "\": ";
+		}
+
 		ss << message->tokenIds.size() << ' ';
 		ss << (message->tokenIds.size() == 1 ? "result" : "results");
 
@@ -270,8 +276,8 @@ void CodeController::handleMessage(MessageScrollToLine* message)
 	if (message->isModified)
 	{
 		MessageStatus(
-			"The file was modified, please refresh. Showing source location: " + message->filePath.str()
-			+ " : " + std::to_string(message->line),
+			"Showing source location: " + message->filePath.str()
+			+ " : " + std::to_string(message->line) + ". The file was modified, please refresh.",
 			true
 		).dispatch();
 	}

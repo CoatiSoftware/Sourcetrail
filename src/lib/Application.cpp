@@ -70,6 +70,8 @@ void Application::destroyInstance()
 
 void Application::loadSettings()
 {
+	MessageStatus("Load settings: " + UserPaths::getAppSettingsPath()).dispatch();
+
 	std::shared_ptr<ApplicationSettings> settings = ApplicationSettings::getInstance();
 	settings->load(FilePath(UserPaths::getAppSettingsPath()));
 
@@ -162,13 +164,13 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 		else
 		{
 			LOG_ERROR_STREAM(<< "Failed to load project.");
-			MessageStatus("Failed to load project.", true).dispatch();
+			MessageStatus("Failed to load project: " + projectSettingsFilePath.str(), true).dispatch();
 		}
 	}
 	catch (...)
 	{
 		LOG_ERROR_STREAM(<< "Failed to load project.");
-		MessageStatus("Failed to load project.", true).dispatch();
+		MessageStatus("Failed to load project: " + projectSettingsFilePath.str(), true).dispatch();
 	}
 }
 
@@ -198,6 +200,8 @@ void Application::handleMessage(MessageActivateWindow* message)
 
 void Application::handleMessage(MessageEnteredLicense* message)
 {
+	MessageStatus("Found valid license key, unlocked application.").dispatch();
+
 	m_isInTrial = false;
 }
 
@@ -214,8 +218,6 @@ void Application::handleMessage(MessageFinishedParsing* message)
 void Application::handleMessage(MessageLoadProject* message)
 {
 	TRACE("app load project");
-
-	loadSettings();
 
 	FilePath projectSettingsFilePath(message->projectSettingsFilePath);
 	if (projectSettingsFilePath.empty())
@@ -241,9 +243,9 @@ void Application::handleMessage(MessageRefresh* message)
 {
 	TRACE("app refresh");
 
-	if (message->reloadSettings)
+	if (message->loadStyle)
 	{
-		loadSettings();
+		loadStyle(ApplicationSettings::getInstance()->getColorSchemePath());
 	}
 
 	if (m_hasGUI)
@@ -259,8 +261,10 @@ void Application::handleMessage(MessageRefresh* message)
 
 void Application::handleMessage(MessageSwitchColorScheme* message)
 {
+	MessageStatus("Switch color scheme: " + message->colorSchemePath.str()).dispatch();
+
 	loadStyle(message->colorSchemePath);
-	MessageRefresh().refreshUiOnly().keepSettings().dispatch();
+	MessageRefresh().refreshUiOnly().noReloadStyle().dispatch();
 }
 
 void Application::startMessagingAndScheduling()

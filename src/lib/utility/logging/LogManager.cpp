@@ -4,6 +4,7 @@
 
 #include "utility/logging/LogMessage.h"
 #include "utility/logging/logging.h"
+#include "utility/messaging/type/MessageStatus.h"
 #include "utility/Version.h"
 
 std::shared_ptr<LogManager> LogManager::createInstance()
@@ -31,11 +32,21 @@ LogManager::~LogManager()
 
 void LogManager::setLoggingEnabled(bool enabled)
 {
-	m_loggingEnabled = enabled;
-	if (m_loggingEnabled)
+	if (m_loggingEnabled != enabled)
 	{
-		LOG_INFO("Enabled logging for Coati " + Version::getApplicationVersion().toDisplayString());
+		if (enabled)
+		{
+			LOG_INFO("Enabled logging for Coati " + Version::getApplicationVersion().toDisplayString());
+			MessageStatus("Enabled console and file logging.").dispatch();
+		}
+		else
+		{
+			LOG_INFO("Disabled logging");
+			MessageStatus("Disabled console and file logging.").dispatch();
+		}
 	}
+
+	m_loggingEnabled = enabled;
 }
 
 void LogManager::addLogger(std::shared_ptr<Logger> logger)

@@ -3,13 +3,14 @@
 
 #include "utility/messaging/Message.h"
 
-class MessageRefresh: public Message<MessageRefresh>
+class MessageRefresh
+	: public Message<MessageRefresh>
 {
 public:
 	MessageRefresh()
 		: uiOnly(false)
 		, all(false)
-		, reloadSettings(true)
+		, loadStyle(true)
 	{
 	}
 
@@ -30,9 +31,9 @@ public:
 		return *this;
 	}
 
-	MessageRefresh& keepSettings()
+	MessageRefresh& noReloadStyle()
 	{
-		reloadSettings = false;
+		loadStyle = false;
 		return *this;
 	}
 
@@ -50,7 +51,8 @@ public:
 
 	bool uiOnly;
 	bool all;
-	bool reloadSettings;
+
+	bool loadStyle;
 };
 
 #endif // MESSAGE_REFRESH_H

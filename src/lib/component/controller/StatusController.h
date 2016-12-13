@@ -25,7 +25,6 @@ public:
 	~StatusController();
 
 private:
-	bool m_enabled;
 	StatusView* getView() const;
 
 	virtual void clear();

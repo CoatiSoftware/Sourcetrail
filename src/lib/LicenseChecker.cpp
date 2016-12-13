@@ -117,11 +117,7 @@ LicenseChecker::LicenseChecker()
 
 void LicenseChecker::handleMessage(MessageDispatchWhenLicenseValid* message)
 {
-	MessageStatus("preparing...", false, true).dispatch();
-
 	LicenseState state = checkCurrentLicense();
-
-	MessageStatus("ready").dispatch();
 
 	if (state == LICENSE_VALID)
 	{

@@ -20,13 +20,12 @@ StatusView* StatusController::getView() const
 
 void StatusController::clear()
 {
-	m_status.clear();
-	getView()->clear();
 }
 
 void StatusController::handleMessage(MessageClearStatusView* message)
 {
-	clear();
+	m_status.clear();
+	getView()->clear();
 }
 
 void StatusController::handleMessage(MessageShowStatus* message)
@@ -36,6 +35,11 @@ void StatusController::handleMessage(MessageShowStatus* message)
 
 void StatusController::handleMessage(MessageStatus* message)
 {
+	if (!message->status.size())
+	{
+		return;
+	}
+
 	std::vector<Status> status;
 	status.push_back(Status(message->status, message->isError));
 

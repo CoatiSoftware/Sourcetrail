@@ -308,6 +308,8 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 		return false;
 	}
 
+	MessageStatus((fullRefresh ? "Reindexing Project" : "Refreshing Project"), false, true).dispatch();
+
 	buildIndex(filesToClean, filesToIndex, fullRefresh);
 
 	return true;

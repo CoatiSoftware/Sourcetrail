@@ -18,6 +18,7 @@
 #include "utility/logging/FileLogger.h"
 #include "utility/logging/logging.h"
 #include "utility/logging/LogManager.h"
+#include "utility/messaging/type/MessageStatus.h"
 #include "utility/ResourcePaths.h"
 #include "utility/ScopedFunctor.h"
 #include "utility/UserPaths.h"
@@ -49,11 +50,14 @@ void prefillJavaRuntimePath()
 		std::vector<FilePath> paths = javaPathDetector->getPaths();
 		if (!paths.empty())
 		{
+			MessageStatus("Run Java runtime path detection, found: " + paths.front().str());
+
 			settings->setJavaPath(paths.front().str());
 			settings->save();
 		}
 		else
 		{
+			MessageStatus("Run Java runtime path detection, no path found.");
 			std::cout << "no javapath" << std::endl;
 		}
 	}
@@ -68,6 +72,8 @@ void prefillCxxHeaderPaths()
 		std::vector<FilePath> paths = cxxHeaderDetector->getPaths();
 		if (!paths.empty())
 		{
+			MessageStatus("Run C/C++ header path detection, found " + std::to_string(paths.size()) + " paths");
+
 			settings->setHeaderSearchPaths(paths);
 			settings->save();
 		}
@@ -83,6 +89,8 @@ void prefillCxxFrameworkPaths()
 		std::vector<FilePath> paths = cxxFrameworkDetector->getPaths();
 		if (!paths.empty())
 		{
+			MessageStatus("Run C/C++ framework path detection, found " + std::to_string(paths.size()) + " paths");
+
 			settings->setFrameworkSearchPaths(paths);
 			settings->save();
 		}
@@ -100,6 +108,8 @@ int main(int argc, char *argv[])
 
 	Version version = Version::fromString(GIT_VERSION_NUMBER);
 	QApplication::setApplicationVersion(version.toDisplayString().c_str());
+
+	MessageStatus("Starting Coati " + version.toDisplayString()).dispatch();
 
 	CommandLineParser commandLineParser(argc, argv, version.toString());
 	if (commandLineParser.exitApplication())
@@ -199,6 +209,8 @@ int main(int argc, char *argv[])
 		const std::vector<FilePath> storedIndexingFiles = ApplicationStateMonitor::getStoredIndexingFiles();
 		if (storedIndexingFiles.size() > 0)
 		{
+			MessageStatus("The application crashed during last project indexing. Please follow the instructions to help us fix this problem.").dispatch();
+
 			ApplicationStateMonitor::clearStoredIndexingFiles();
 			if (storedIndexingFiles.size() > 1)
 			{

@@ -57,12 +57,10 @@ void StatusBarController::handleMessage(MessageStatus* message)
 
 void StatusBarController::setStatus(const std::string& status, bool isError, bool showLoader)
 {
-	std::string str = utility::replace(status, "\n", " ");
-
-	if (!str.empty())
+	if (!status.empty())
 	{
-		LOG_INFO_STREAM(<< "STATUS " << str);
+		LOG_INFO_STREAM(<< "STATUS " << status);
 
-		getView()->showMessage(str, isError, showLoader);
+		getView()->showMessage(status, isError, showLoader);
 	}
 }

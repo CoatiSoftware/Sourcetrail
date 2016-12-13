@@ -643,6 +643,10 @@ void QtProjectWizzard::createProject()
 			forceRefreshProject = true;
 		}
 	}
+	else
+	{
+		MessageStatus("Created project: " + path.str()).dispatch();
+	}
 
 	MessageDispatchWhenLicenseValid(
 		std::make_shared<MessageLoadProject>(path, forceRefreshProject)
@@ -665,6 +669,8 @@ void QtProjectWizzard::savePreferences()
 	{
 		MessagePluginPortChange().dispatch();
 	}
+
+	Application::getInstance()->loadSettings();
 
 	if (appSettingsChanged)
 	{
