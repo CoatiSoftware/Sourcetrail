@@ -129,7 +129,7 @@
 				<File Id='apiMsWinCoreTimezone_l1_1_0' Name='api-ms-win-core-timezone-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-timezone-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCoreUtil_l1_1_0Dll' Guid='E9DF7695-E203-4CD3-AB80-DD2264C66A9C'>
+			<Component Id='apiMsWinCoreUtil_l1_1_0Dll' Guid='B428A873-4334-4139-81F7-3F8EF93DC2EB'>
 				<File Id='apiMsWinCoreUtil_l1_1_0' Name='api-ms-win-core-util-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-core-util-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
@@ -161,7 +161,7 @@
 				<File Id='apiMsWinCrtMath_l1_1_0' Name='api-ms-win-crt-math-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-math-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='apiMsWinCrtMultibyte_l1_1_0Dll' Guid='115C6C2B-54DA-4F2A-986F-4E58043DE1F8'>
+			<Component Id='apiMsWinCrtMultibyte_l1_1_0Dll' Guid='95BD7652-C8C1-4C6F-8F58-AF4F16B8A7B9'>
 				<File Id='apiMsWinCrtMultibyte_l1_1_0' Name='api-ms-win-crt-multibyte-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-multibyte-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
@@ -193,7 +193,7 @@
 				<File Id='apiMsWinCrtUtility_l1_1_0' Name='api-ms-win-crt-utility-l1-1-0.dll' DiskId='1' Source='./../../../bin/app/Release/api-ms-win-crt-utility-l1-1-0.dll' KeyPath='yes' />
 			</Component>
 			
-			<Component Id='ucrtbaseDll' Guid='56BCC0B1-2664-414A-AC29-DEE39CEAA845'>
+			<Component Id='ucrtbaseDll' Guid='83DABDC8-59D6-4D59-9FC1-F0C093BF5908'>
 				<File Id='ucrtbase' Name='ucrtbase.dll' DiskId='1' Source='./../../../bin/app/Release/ucrtbase.dll' KeyPath='yes' />
 			</Component>
 			

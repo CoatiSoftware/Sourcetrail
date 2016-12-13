@@ -9,8 +9,8 @@ echo "installer version is $VERSION_STRING"
 rm -rf build
 mkdir build
 
-"devenv.com" Setup/build/Setup.sln /build "Release|x86"
-"devenv.com" CustomActions/CustomActions.sln /build "Release|x86"
+"devenv.com" Setup/build/Setup.sln //build "Release|x86"
+"devenv.com" CustomActions/CustomActions.sln //build "Release|x86"
 
 rm -rf bin
 mkdir bin
