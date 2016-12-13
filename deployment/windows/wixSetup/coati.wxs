@@ -283,7 +283,6 @@
 				<ComponentRef Id='CoatiSoftwareAppDataDummy'/>
 
 				<ComponentRef Id='WindowSettingsIni'/>
-				<ComponentRef Id='ApplicationSettingsXml'/>
 			<!-- </Feature> -->
 
 			<!-- Sample Projects for AddData Folder -->
@@ -328,7 +327,6 @@
 		<InstallExecuteSequence>
 			<Custom Action='AlreadyUpdated' After='FindRelatedProducts'>SELFFOUND</Custom>
 			<Custom Action='NoDowngrade' After='FindRelatedProducts'>NEWERFOUND</Custom>
-			<Custom Action='SetupAppSettings' After='InstallFiles'>NOT Installed AND NOT PATCH</Custom>
 			<Custom Action='UninstallRemoveLogFolder' After='UnpublishComponents'>(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
 		</InstallExecuteSequence>
 

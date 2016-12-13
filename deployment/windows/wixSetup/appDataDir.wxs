@@ -1,14 +1,7 @@
 <?xml version='1.0'?>
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
 	<Fragment>
-		<DirectoryRef Id='CoatiAppData'>
-			<Component Id="ApplicationSettingsXml" Guid="C8883C69-3123-4382-BDB1-771C206EE461">
-							<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\coatiApplicationSettings" Root="HKCU" >
-								<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-							</RegistryKey>
-							<File Id='ApplicationSettings' Name='ApplicationSettings.xml' DiskId='1' Source='./../../../bin/app/user/ApplicationSettings_for_package.xml' KeyPath='no' />
-						</Component>
-						
+		<DirectoryRef Id='CoatiAppData'>			
 						<Directory Id="SampleProjects" Name="projects">
 						
 							<Component Id="SampleProjects" Guid="12F6C3BE-CE83-441A-8A5D-E49EA1483F24">
