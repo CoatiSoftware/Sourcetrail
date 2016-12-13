@@ -2,6 +2,7 @@
 #define SEARCH_TUTORIAL_5_H
 
 
+
 #include "utility.h"
 
 //------------------------------------------------------------------------------
@@ -21,6 +22,7 @@ namespace b
 	{
 	};
 }
+
 
 
 #endif // SEARCH_TUTORIAL_5_H

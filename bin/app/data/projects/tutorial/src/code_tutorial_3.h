@@ -2,6 +2,7 @@
 #define CODE_TUTORIAL_3_H
 
 
+
 #include "the_central_hub.h"
 #include "code_tutorial_2.h"
 
@@ -59,6 +60,7 @@ void function_with_snippets()
 
 	unrelated_but_very_important();
 };
+
 
 
 #endif // CODE_TUTORIAL_3_H

@@ -2,6 +2,7 @@
 #define SEARCH_TUTORIAL_3_H
 
 
+
 #include "utility.h"
 
 //------------------------------------------------------------------------------
@@ -20,6 +21,7 @@
 void autocompletion_example()
 {
 }
+
 
 
 #endif // SEARCH_TUTORIAL_3_H

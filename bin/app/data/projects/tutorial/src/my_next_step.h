@@ -2,6 +2,7 @@
 #define MY_NEXT_STEP_H
 
 
+
 #include "the_central_hub.h"
 
 //------------------------------------------------------------------------------
@@ -33,6 +34,7 @@ int my_next_step(int foo)
 
 	return bar;
 }
+
 
 
 #endif // MY_NEXT_STEP_H

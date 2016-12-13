@@ -2,6 +2,7 @@
 #define GRAPH_TUTORIAL_1_H
 
 
+
 #include "utility.h"
 
 //------------------------------------------------------------------------------
@@ -31,6 +32,7 @@ public:
 	{
 	}
 };
+
 
 
 #endif // GRAPH_TUTORIAL_1_H

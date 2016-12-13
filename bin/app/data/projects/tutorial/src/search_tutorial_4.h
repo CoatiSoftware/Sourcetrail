@@ -2,6 +2,7 @@
 #define SEARCH_TUTORIAL_4_H
 
 
+
 #include "utility.h"
 
 //------------------------------------------------------------------------------
@@ -17,8 +18,7 @@
 //
 // 6 - REFRESH
 //  The next button allows you to refresh the project in case you changed some
-//  of your code. The second button toggels the auto-refresh option. When
-//  enabled Coati refreshes your project every time it's window gets focused.
+//  of your code.
 //
 // 7 - HOME
 //  This last button takes you back to the initial overview screen.
@@ -34,6 +34,7 @@ namespace a
 	{
 	};
 }
+
 
 
 #endif // SEARCH_TUTORIAL_4_H

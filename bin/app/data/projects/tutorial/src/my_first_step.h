@@ -2,6 +2,7 @@
 #define MY_FIRST_STEP_H
 
 
+
 #include "my_next_step.h"
 
 //------------------------------------------------------------------------------
@@ -28,6 +29,7 @@ void my_first_step()
 {
 	my_next_step(2);
 }
+
 
 
 #endif // MY_FIRST_STEP_H

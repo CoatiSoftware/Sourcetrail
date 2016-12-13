@@ -2,6 +2,7 @@
 #define GRAPH_TUTORIAL_3_H
 
 
+
 #include "graph_tutorial_2.h"
 
 class ProducerOfTheLastMember
@@ -33,6 +34,7 @@ public:
 		ClassWithHiddenMembers::this_last_member *= 2;
 	}
 };
+
 
 
 #endif // GRAPH_TUTORIAL_3_H

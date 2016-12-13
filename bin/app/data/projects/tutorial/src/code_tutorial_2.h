@@ -2,6 +2,7 @@
 #define CODE_TUTORIAL_2_H
 
 
+
 #include "code_tutorial_1.h"
 
 //------------------------------------------------------------------------------
@@ -57,6 +58,7 @@ void deep_thought()
 	int the_answer = calculate(the_question);
 	CodeTutorial::meaning_of_life_the_universe_and_everything = the_answer;
 }
+
 
 
 #endif // CODE_TUTORIAL_2_H

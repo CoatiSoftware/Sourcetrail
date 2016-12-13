@@ -2,6 +2,7 @@
 #define GRAPH_TUTORIAL_4_H
 
 
+
 #include "graph_tutorial_2.h"
 #include "the_central_hub.h"
 
@@ -43,6 +44,7 @@ private:
 		ClassWithHiddenMembers::this_last_member /= 2;
 	}
 };
+
 
 
 #endif // GRAPH_TUTORIAL_4_H

@@ -2,6 +2,7 @@
 #define SEARCH_TUTORIAL_1_H
 
 
+
 #include "utility.h"
 
 //------------------------------------------------------------------------------
@@ -24,6 +25,7 @@ public:
 	{
 	}
 };
+
 
 
 #endif // SEARCH_TUTORIAL_1_H

@@ -2,6 +2,7 @@
 #define START_EXPLORING_H
 
 
+
 #include "utility.h"
 
 //------------------------------------------------------------------------------
@@ -27,6 +28,7 @@ public:
 	{
 	}
 };
+
 
 
 #endif // START_EXPLORING_H
