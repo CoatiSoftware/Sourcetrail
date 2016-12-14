@@ -32,4 +32,17 @@ $(".content-toggle").each(function(index) {
 
 </script>
 
+<script>
+  window.cookieconsent.initialise({
+    layout: 'basic',
+    palette:{
+      popup: { background: "#ffffff", text: "#636363" },
+      button: { background: "#2e3c85" },
+    },
+    content: { href: "{{ site.url }}/privacy-policy" },
+    law: { regionalLaw: false },
+    location: true,
+  });
+</script>
+
 {% if page.comments != false %}{% include disqus_comments.html %}{% endif %}
