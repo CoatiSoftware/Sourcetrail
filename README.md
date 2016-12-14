@@ -27,6 +27,8 @@ For Win32:
 * path
 	- apped path to git.exe
 	- apped path to jdk/bin
+	- append path to VisualStudio/Common7/Tools
+	- append path to VisualStudio/Common7/IDE
 
 ##### Botan setup
 

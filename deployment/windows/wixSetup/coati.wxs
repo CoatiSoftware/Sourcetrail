@@ -3,10 +3,10 @@
 
     <Product Name='Coati' 
 			Manufacturer='Coati Software OG'
-			Id='F8BA9656-DE2E-4925-9CF4-C43285A2CA6E'
+			Id='$(var.projectGuid)'
 			UpgradeCode='6DAB9E05-6E5B-4D26-A2A0-8F1757F2A4EF'
 			Language='1033' 
-			Codepage='1252' 
+			Codepage='1252'
 			Version='$(var.projectVersion)'>
 
 		<Package Id='*' Keywords='Installer' Description="Coati Installer"

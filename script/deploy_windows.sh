@@ -1,7 +1,7 @@
 # FLAGS
-REBUILD=false
-OBFUSCATE=false
-UPDATE_DATABASES=false
+REBUILD=true
+OBFUSCATE=true
+UPDATE_DATABASES=true
 
 
 # USEFUL VARIABLES
@@ -65,9 +65,9 @@ echo -e "$INFO building the executable (app)"
 if [ $UPDATE_DATABASES = true ]; then
 	echo -e "$INFO creating databases"
 
-	rm bin/app/data/projects/tictactoe/tictactoe.coatidb
-	rm bin/app/data/projects/tutorial/tutorial.coatidb
-	rm bin/app/data/projects/javaparser/javaparser.coatidb
+	rm bin/app/user/projects/tictactoe/tictactoe.coatidb
+	rm bin/app/user/projects/tutorial/tutorial.coatidb
+	rm bin/app/user/projects/javaparser/javaparser.coatidb
 	rm -rf temp
 
 	mkdir -p temp
@@ -77,13 +77,13 @@ if [ $UPDATE_DATABASES = true ]; then
 	../bin/app/Release/Coati.exe -z ../script/license.txt
 
 	echo -e "$INFO creating database for tictactie"
-	../bin/app/Release/Coati.exe -p ../bin/app/data/projects/tictactoe/tictactoe.coatiproject -d
+	../bin/app/Release/Coati.exe -p ../bin/app/user/projects/tictactoe/tictactoe.coatiproject -d
 
 	echo -e "$INFO creating database for tutorial"
-	../bin/app/Release/Coati.exe -p ../bin/app/data/projects/tutorial/tutorial.coatiproject -d
+	../bin/app/Release/Coati.exe -p ../bin/app/user/projects/tutorial/tutorial.coatiproject -d
 
 	echo -e "$INFO creating database for javaparser"
-	../bin/app/Release/Coati.exe -p ../bin/app/data/projects/javaparser/javaparser.coatiproject -d
+	../bin/app/Release/Coati.exe -p ../bin/app/user/projects/javaparser/javaparser.coatiproject -d
 
 	cd ..
 	rm -rf temp

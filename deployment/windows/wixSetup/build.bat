@@ -3,11 +3,19 @@ VERSION_STRING="${VERSION_STRING//-/_}"
 VERSION_STRING="${VERSION_STRING//./_}"
 VERSION_STRING="${VERSION_STRING%_*}"
 VERSION_STRING="${VERSION_STRING//_/.}"
-
 echo "installer version is $VERSION_STRING"
+
+PRODUCT_GUID=$(cmd.exe /c "VsDevCmd.bat & uuidgen")
+echo "product guid is $PRODUCT_GUID"
 
 rm -rf build
 mkdir build
+
+
+
+rm -rf ../../../bin/app/data/install/uninstall_wix.bat
+echo $"%windir%\system32\msiexec.exe /x {$PRODUCT_GUID}" >../../../bin/app/data/install/uninstall_wix.bat
+
 
 "devenv.com" Setup/build/Setup.sln //build "Release|x86"
 "devenv.com" CustomActions/CustomActions.sln //build "Release|x86"
@@ -15,7 +23,7 @@ mkdir build
 rm -rf bin
 mkdir bin
 
-candle.exe -dprojectVersion="$VERSION_STRING" coati.wxs customActions.wxs dialogShortcuts.wxs installDir.wxs appDataDir.wxs -out build/ > build/compileLog.txt
+candle.exe -dprojectVersion="$VERSION_STRING" -dprojectGuid="$PRODUCT_GUID" coati.wxs customActions.wxs dialogShortcuts.wxs installDir.wxs appDataDir.wxs -out build/ > build/compileLog.txt
 light.exe -ext WixUIExtension build/coati.wixobj build/customActions.wixobj build/dialogShortcuts.wixobj build/installDir.wixobj build/appDataDir.wixobj -out build/coati.msi > build/linkLog.txt
 
 cp -u -r build/coati.msi bin
