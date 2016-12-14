@@ -3,6 +3,7 @@
 #include "utility/ResourcePaths.h"
 #include "utility/Status.h"
 #include "utility/utility.h"
+#include "utility/UserPaths.h"
 
 const size_t ApplicationSettings::VERSION = 1;
 
@@ -307,7 +308,14 @@ std::vector<FilePath> ApplicationSettings::getRecentProjects() const
 
 	for (FilePath project: loadedRecentProjects)
 	{
+		if (project.isAbsolute())
+		{
 			recentProjects.push_back(project);
+		}
+		else
+		{
+			recentProjects.push_back(UserPaths::getSampleProjectsPath() + project.str());
+		}
 	}
 	return recentProjects;
 }

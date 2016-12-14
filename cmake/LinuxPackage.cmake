@@ -48,20 +48,12 @@ function(AddSharedToComponent componentName)
 		DESTINATION Coati
 		COMPONENT ${componentName}
 		PATTERN "log/*" EXCLUDE
-		PATTERN "data/projects"
 		PATTERN "data/src" EXCLUDE
 		PATTERN "data/gui/installer" EXCLUDE
+		PATTERN "projects" EXCLUDE
 		PATTERN "data/install" EXCLUDE
-		PATTERN "ApplicationSettings.xml" EXCLUDE
-		PATTERN "ApplicationSettings_for_package.xml" EXCLUDE
 		PATTERN "ProjectSettings_template.xml" EXCLUDE
 		PATTERN "ApplicationSettings_template.xml" EXCLUDE
-	)
-
-	INSTALL(FILES ${CMAKE_SOURCE_DIR}/bin/app/user/ApplicationSettings_for_package.xml
-		DESTINATION Coati/user
-		COMPONENT ${componentName}
-		RENAME ApplicationSettings.xml
 	)
 
 	INSTALL(FILES
@@ -111,6 +103,18 @@ function(AddSharedToComponent componentName)
 		COMPONENT ${componentName}
 	)
 
+	INSTALL(FILES
+		${CMAKE_SOURCE_DIR}/bin/app/data/fallback/ApplicationSettings.xml
+		COMPONENT ${componentName}
+		DESTINATION Coati/user
+	)
+
+	INSTALL(FILES
+		${CMAKE_SOURCE_DIR}/bin/app/data/fallback/window_settings.ini
+		COMPONENT ${componentName}
+		DESTINATION Coati/user
+	)
+
 	INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/bin/app/user
 		DESTINATION Coati
 		COMPONENT ${componentName}
@@ -121,11 +125,6 @@ function(AddSharedToComponent componentName)
 		PATTERN "window_settings_for_package.ini" EXCLUDE
 	)
 
-	INSTALL(FILES ${CMAKE_SOURCE_DIR}/bin/app/user/window_settings_for_package.ini
-		DESTINATION Coati/user
-		COMPONENT ${componentName}
-		RENAME window_settings.ini
-	)
 endfunction(AddSharedToComponent)
 
 # Add shared files to full and trial version
@@ -136,12 +135,6 @@ INSTALL(DIRECTORY
 	DESTINATION Coati/plugin
 	COMPONENT FULL
 	PATTERN "vs" EXCLUDE
-)
-
-INSTALL(DIRECTORY
-		${CMAKE_SOURCE_DIR}/bin/app/data/projects
-		DESTINATION Coati/user
-		COMPONENT FULL
 )
 
 INSTALL(FILES

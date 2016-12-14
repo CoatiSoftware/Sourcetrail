@@ -1,10 +1,13 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
 
-    <Product Name='Coati' Manufacturer='Coati Software OG'
-        Id='596E7336-D5B9-449A-95E9-6040F354E283'
-        UpgradeCode='6DAB9E05-6E5B-4D26-A2A0-8F1757F2A4EF'
-        Language='1033' Codepage='1252' Version='$(var.projectVersion)'>
+    <Product Name='Coati' 
+			Manufacturer='Coati Software OG'
+			Id='F8BA9656-DE2E-4925-9CF4-C43285A2CA6E'
+			UpgradeCode='6DAB9E05-6E5B-4D26-A2A0-8F1757F2A4EF'
+			Language='1033' 
+			Codepage='1252' 
+			Version='$(var.projectVersion)'>
 
 		<Package Id='*' Keywords='Installer' Description="Coati Installer"
 			Comments='Coati is a registered trademark of Coati Software OG' Manufacturer='Coati Software OG'
@@ -17,7 +20,8 @@
 		<Property Id="INSTALLSTARTMENUSHORTCUT" Value="true" />
 
 		<!-- Shortcuts -->
-		<Upgrade Id='A4C8F644-9A8C-4825-8C48-F6A98F111722'>
+		<Upgrade Id='6DAB9E05-6E5B-4D26-A2A0-8F1757F2A4EF'>
+			<UpgradeVersion Property="REMOVINGTHEOLDVERSION" Minimum="0.0.0"    RemoveFeatures="ALL" />
 			<UpgradeVersion OnlyDetect='yes' Property='SELFFOUND'
 				Minimum='$(var.projectVersion)' IncludeMinimum='yes'
 				Maximum='$(var.projectVersion)' IncludeMaximum='yes' />
@@ -97,14 +101,13 @@
 					</Component>
 
 					<Directory Id="CoatiAppData" Name="Coati">
-						<Component Id="WindowSettingsIni" Guid="F6E9CCD3-C2BE-4309-8E0F-B1FC7ABB189E">
-							<CreateFolder />
-							<RemoveFolder Id='WindowSettingsIni' On='uninstall'/>
-							<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\coatiWindowSettings" Root="HKCU" >
-								<RegistryValue Type="integer" Value="1" KeyPath="yes" />
-							</RegistryKey>
-							<File Id='windowSettings' Name='window_settings.ini' DiskId='1' Source='./../../../bin/app/Release/user/window_settings_for_package.ini' KeyPath='no' />
-						</Component>
+						<Component Id="CoatiAppDataDummy" Guid="93024EB9-ED47-4D0D-B790-1028E10F8015">
+						<CreateFolder />
+						<RemoveFolder Id='CoatiAppData' On='uninstall' />
+						<RegistryKey Action="none" Key="Software\[Manufacturer]\[ProductName]\coatiAppData" Root="HKCU" >
+							<RegistryValue Type="integer" Value="1" KeyPath="yes" />
+						</RegistryKey>
+					</Component>
 					</Directory>
 				</Directory>
 			</Directory>
@@ -266,6 +269,7 @@
 				<ComponentRef Id='WindowCss'/>
 
 				<ComponentRef Id='ColorSchemes'/>
+				<ComponentRef Id='FallbackData'/>
 				<ComponentRef Id='FontSet'/>
 
 				<ComponentRef Id='JavaGuavaJar'/>
@@ -281,8 +285,8 @@
 
 				<!-- AppData Folder Stuff -->
 				<ComponentRef Id='CoatiSoftwareAppDataDummy'/>
+				<ComponentRef Id='CoatiAppDataDummy'/>
 
-				<ComponentRef Id='WindowSettingsIni'/>
 			<!-- </Feature> -->
 
 			<!-- Sample Projects for AddData Folder -->
@@ -325,6 +329,7 @@
 		<CustomAction Id='NoDowngrade' Error='A later version of [ProductName] is already installed' />
 
 		<InstallExecuteSequence>
+			<RemoveExistingProducts After="InstallInitialize" />
 			<Custom Action='AlreadyUpdated' After='FindRelatedProducts'>SELFFOUND</Custom>
 			<Custom Action='NoDowngrade' After='FindRelatedProducts'>NEWERFOUND</Custom>
 			<Custom Action='UninstallRemoveLogFolder' After='UnpublishComponents'>(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>

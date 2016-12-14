@@ -32,7 +32,7 @@ void setupApp(int argc, char *argv[])
 		dataDir.mkpath(userDataPath);
 	}
 
-	utility::copyNewFilesFromDirectory(QString::fromStdString(AppPath::getAppPath() + "/usr/" ), userDataPath);
+	utility::copyNewFilesFromDirectory(QString::fromStdString(AppPath::getAppPath() + "/user/" ), userDataPath);
 }
 
 #endif // INCLUDES_DEFAULT_H

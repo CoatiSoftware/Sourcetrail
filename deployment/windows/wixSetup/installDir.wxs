@@ -246,6 +246,13 @@
 					</Component>
 				</Directory>
 
+				<Directory Id='DataFallback' Name='fallback'>
+					<Component Id='FallbackData' Guid='C65B7880-BDD8-4A5F-98C4-9E53A3441BBC'>
+						<File Id='applicationSettingsXml' Name='ApplicationSettings.xml' DiskId='1' Source='./../../../bin/app/data/fallback/ApplicationSettings.xml' KeyPath='yes' />
+						<File Id='window_settingsIni' Name='window_settings.ini' DiskId='1' Source='./../../../bin/app/data/fallback/window_settings.ini' KeyPath='no' />
+					</Component>
+				</Directory>
+
 				<Directory Id='DataGui' Name='gui'>
 					<Component Id='MainCss' Guid='70C63F6F-C13B-4EDA-94D4-7884A8BEFA55'>
 						<File Id='Main' Name='main.css' DiskId='1' Source='./../../../bin/app/data/gui/main.css' KeyPath='yes' />

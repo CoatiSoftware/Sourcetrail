@@ -19,16 +19,16 @@ endfunction()
 	)
 
 	execute_process(
-		COMMAND ${upxPath}/Coati -f -d ${upxPath}/../data/projects/tictactoe/tictactoe.coatiproject
+		COMMAND ${upxPath}/Coati -f -d ${upxPath}/../user/projects/tictactoe/tictactoe.coatiproject
 	)
 
 	execute_process(
-		COMMAND ${upxPath}/Coati -f -d ${upxPath}/../data/projects/tutorial/tutorial.coatiproject
+		COMMAND ${upxPath}/Coati -f -d ${upxPath}/../user/projects/tutorial/tutorial.coatiproject
 	)
 
-#execute_process(
-		#COMMAND ${upxPath}/Coati -f -d ${upxPath}/../data/projects/javaparser/javaparser.coatiproject
-#)
+	execute_process(
+			COMMAND ${upxPath}/Coati -f -d ${upxPath}/../user/projects/javaparser/javaparser.coatiproject
+	)
 SET (NO_UPX 1)
 
 if (NO_UPX)

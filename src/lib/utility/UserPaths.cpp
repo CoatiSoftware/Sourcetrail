@@ -1,6 +1,7 @@
 #include "utility/UserPaths.h"
 
 std::string UserPaths::s_userDataPath = "";
+std::string UserPaths::s_sampleProjectsPath = "";
 
 std::string UserPaths::getUserDataPath()
 {
@@ -10,6 +11,21 @@ std::string UserPaths::getUserDataPath()
 void UserPaths::setUserDataPath(const std::string& path)
 {
 	s_userDataPath = path;
+}
+
+std::string UserPaths::getSampleProjectsPath()
+{
+	if (s_sampleProjectsPath.size())
+	{
+		return s_sampleProjectsPath;
+	}
+
+	return s_userDataPath;
+}
+
+void UserPaths::setSampleProjectsPath(const std::string& path)
+{
+	s_sampleProjectsPath = path;
 }
 
 std::string UserPaths::getAppSettingsPath()

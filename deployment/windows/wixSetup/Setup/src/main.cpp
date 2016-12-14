@@ -10,14 +10,14 @@ int main()
 	{
 		std::cout << "Coati found" << std::endl;
 		std::cout << "Performing upgrade" << std::endl;
-		system("msiexec /i coati.msi REINSTALL=ALL REINSTALLMODE=vomus");
 	}
 	else
 	{
 		std::cout << "Coati not found" << std::endl;
 		std::cout << "Performing initial installation" << std::endl;
-		system("msiexec /i coati.msi");
 	}
+
+	system("msiexec /i coati.msi");
 
 	return 0;
 }

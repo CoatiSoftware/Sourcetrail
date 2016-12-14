@@ -62,7 +62,7 @@ void setupPlatform(int argc, char *argv[])
 		dataDir.mkpath(dataPath);
 	}
 
-	utility::copyNewFilesFromDirectory(QString::fromStdString(UserPaths::getUserDataPath()), dataPath);
+	utility::copyNewFilesFromDirectory(QString::fromStdString(UserPaths::getUserDataPath() + "user/"), dataPath);
 
 	UserPaths::setUserDataPath(dataPath.toStdString() + "/");
 	// ----------------------------------------------------------------------------
@@ -78,6 +78,10 @@ void setupApp(int argc, char *argv[])
 	if (!appIsMacBundle)
 	{
 		UserPaths::setUserDataPath(path.absolute().str() + "/user/");
+	}
+	else
+	{
+		UserPaths::setSampleProjectsPath(path.absolute().str() + "/data/");
 	}
 }
 

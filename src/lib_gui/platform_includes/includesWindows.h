@@ -6,6 +6,7 @@
 
 #include "vld.h"
 
+#include "utility/file/FileSystem.h"
 #include "utility/UserPaths.h"
 
 #include "platform_includes/deploy.h"
@@ -25,6 +26,10 @@ void setupApp(int argc, char *argv[])
 	path += "/user/";
 	UserPaths::setUserDataPath(path);
 #endif
+
+	// These method does nothing if the copy destination already exist
+	FileSystem::copyFile("data/fallback/ApplicationSettings.xml", UserPaths::getAppSettingsPath());
+	FileSystem::copyFile("data/fallback/window_settings.ini", UserPaths::getWindowSettingsPath());
 }
 
 #endif // INCLUDES_WINDOWS_H

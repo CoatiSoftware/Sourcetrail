@@ -77,22 +77,18 @@ cp $APP_NAME $APP_PATH
 cp bundle_info.plist $BUNDLE_PATH/Contents/Info.plist
 
 mkdir -p $RES_DIR/data
-mkdir -p $RES_DIR/data/projects
 
 cp -R ../data/color_schemes $RES_DIR/data/color_schemes
 cp -R ../data/fonts $RES_DIR/data/fonts
 cp -R ../data/gui $RES_DIR/data/gui
 cp -R ../data/java $RES_DIR/data/java
-
-cp -R ../data/projects/tictactoe $RES_DIR/data/projects/tictactoe
-cp -R ../data/projects/tutorial $RES_DIR/data/projects/tutorial
-cp -R ../data/projects/javaparser $RES_DIR/data/projects/javaparser
+cp -R ../user/projects $RES_DIR/data/projects
 
 mkdir -p $RES_DIR/user
 mkdir -p $RES_DIR/user/log
 
 cp ../user/window_settings.ini $RES_DIR/user/window_settings.ini
-cp ../user/ApplicationSettings_for_package.xml $RES_DIR/user/ApplicationSettings.xml
+cp ../data/fallback/ApplicationSettings.xml $RES_DIR/user/ApplicationSettings.xml
 
 echo -e $INFO "Copying dynamic libraries."
 for LIB_PATH in ${DYNLIB_PATHS[@]}
@@ -209,9 +205,9 @@ convert $ICON -resize 1024x1024 $ICON_SET/icon_512x512@2x.png
 
 iconutil -c icns -o $RES_DIR/project.icns $ICON_SET
 
-echo -e $INFO "Obfuscate binary"
+# echo -e $INFO "Obfuscate binary"
 # upx -1 $APP_PATH
-upx --best $APP_PATH
+# upx --best $APP_PATH
 
 echo -e $INFO "create DMG"
 hdiutil create ${PACKAGE_DIR}.dmg -volname ${PACKAGE_DIR} -srcfolder ${PACKAGE_DIR}
