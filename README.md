@@ -119,7 +119,49 @@ gifsicle --resize-height 18 trans.gif > loader.gif
 
 ### Changelog
 
-#### 0.9.22
+#### 0.10.0
+released 2016-12-13
+
+* Windows: Added runtime DLLs that could be missing on some systems
+* Click message in status bar to open status window
+* Graph: Sort nodes alphabetically within each section
+* Graph: Aggregate type use edges to make referencing nodes appear collapsed
+* Code: Improved performance through faster source location retrieval for files
+* Code: Scroll active symbol definition to top of view if possible
+* Added status tab to Log View showing status bar information
+* Graph: Fixed graph animation used when clicking edges
+* Graph: Disable bundling when files or macros are active
+* Graph: Bundle importing files of active symbol in Java projects
+* Improved speed of depending file search on refresh
+* Search: Fixed crashes related to empty searches (issue #251)
+* Search: Do fulltext search when no autocompletion match is available
+* Added checkbox for full project refresh to start indexing dialog
+* Disabled clang error limit by default to make sure all errors are shown
+* Linux: Updated libs and added missing ones (issue #245)
+* Updated icons for some graph nodes and project types
+* Windows: Updated Visual Studio plugin UI
+* Graph: Fixed view to not recenter on active node when clicking edge
+* Fixed wrong errors displayed, wrong error counts and error view being wrongly shown
+* Removed font zoom on CTRL + MouseWheel
+* Graph: Display namespace information on left side of nodes, activate namespace by clicking label
+* Improved file clearing performance
+* Windows: Changed setup folder layout
+* Added info screen for indexer crash investigation
+* Code: Fixed display of links to missing symbols in project description
+* Code: Fixed snippet size calculation causing a slowdown in certain cases
+* Search: Skip intermediate autocompletions when typing fast
+* Show dialog for last files inserted into .coatidb at end of indexing
+* Integrated Visual Studio Plugin with Coati Project creation and removed previous Visual Studio Solution parser
+* Improved C++ indexer coverage: using decls, using directives, auto keyword, lambda signatures, symbol references inside lambda captures, template argument related elements
+* Reduced size of .coatidb file by up to 50% for large projects
+* Fixed anonymouse symbol name conflicts (issue #241)
+* Preferences: Added Indexer Logging option to print AST information during indexing
+* Search: Added second line to search autocompletion list showing namespace, package or filepath
+* Made cells readonly in errors table to prevent editing (issue #236)
+* Renamed Log Window to Status window
+
+
+#### 0.9.23
 released 2016-10-27
 
 * Windows: Added logging and exception handling to VS plugin
