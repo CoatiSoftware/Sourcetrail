@@ -169,9 +169,13 @@ void CxxAstVisitorComponentIndexer::visitFunctionDecl(clang::FunctionDecl* d)
 
 		if (d->isFunctionTemplateSpecialization())
 		{
+			const NameHierarchy referencedName = getAstVisitor()->getDeclNameCache()->getValue(d->getPrimaryTemplate()->getTemplatedDecl()); // todo: use context and childcontext!!
+
+			m_client->recordSymbol(referencedName, SYMBOL_FUNCTION, ACCESS_NONE, DEFINITION_NONE);
+
 			m_client->recordReference(
 				REFERENCE_TEMPLATE_SPECIALIZATION_OF, // TODO: call this REFERENCE_TEMPLATE_SPECIALIZATION and reverse the following arguments
-				getAstVisitor()->getDeclNameCache()->getValue(d->getPrimaryTemplate()->getTemplatedDecl()), // todo: use context and childcontext!!
+				referencedName,
 				getAstVisitor()->getDeclNameCache()->getValue(d),
 				getParseLocation(d->getLocation())
 			);
@@ -184,12 +188,16 @@ void CxxAstVisitorComponentIndexer::visitCXXMethodDecl(clang::CXXMethodDecl* d)
 	// Decl has been recorded in VisitFunctionDecl
 	if (shouldVisitDecl(d))
 	{
-		for (clang::CXXMethodDecl::method_iterator it = d->begin_overridden_methods(); // TODO: iterate in traversal and use RT_Overridden or so..
+		for (clang::CXXMethodDecl::method_iterator it = d->begin_overridden_methods(); // TODO: iterate in traversal and use REFERENCE_OVERRIDE or so..
 			it != d->end_overridden_methods(); it++)
 		{
+			const NameHierarchy referencedName = getAstVisitor()->getDeclNameCache()->getValue(*it);
+
+			m_client->recordSymbol(referencedName, SYMBOL_FUNCTION, ACCESS_NONE, DEFINITION_NONE);
+
 			m_client->recordReference(
 				REFERENCE_OVERRIDE,
-				getAstVisitor()->getDeclNameCache()->getValue(*it),
+				referencedName,
 				getAstVisitor()->getDeclNameCache()->getValue(d),
 				getParseLocation(d->getLocation())
 			);
@@ -201,9 +209,13 @@ void CxxAstVisitorComponentIndexer::visitCXXMethodDecl(clang::CXXMethodDecl* d)
 			clang::NamedDecl* specializedNamedDecl = memberSpecializationInfo->getInstantiatedFrom();
 			if (clang::isa<clang::FunctionDecl>(specializedNamedDecl))
 			{
+				const NameHierarchy referencedName = getAstVisitor()->getDeclNameCache()->getValue(specializedNamedDecl);
+
+				m_client->recordSymbol(referencedName, SYMBOL_FUNCTION, ACCESS_NONE, DEFINITION_NONE);
+
 				m_client->recordReference(
 					REFERENCE_TEMPLATE_MEMBER_SPECIALIZATION_OF,
-					getAstVisitor()->getDeclNameCache()->getValue(specializedNamedDecl),
+					referencedName,
 					getAstVisitor()->getDeclNameCache()->getValue(d),
 					getParseLocation(d->getLocation())
 				);
@@ -402,9 +414,17 @@ void CxxAstVisitorComponentIndexer::visitDeclRefExpr(clang::DeclRefExpr* s)
 		}
 		else
 		{
+			const ReferenceKind refKind = consumeDeclRefContextKind();
+			const NameHierarchy referencedName = getAstVisitor()->getDeclNameCache()->getValue(s->getDecl());
+
+			if (refKind == REFERENCE_CALL)
+			{
+				m_client->recordSymbol(referencedName, SYMBOL_FUNCTION, ACCESS_NONE, DEFINITION_NONE);
+			}
+
 			m_client->recordReference(
-				consumeDeclRefContextKind(),
-				getAstVisitor()->getDeclNameCache()->getValue(s->getDecl()),
+				refKind,
+				referencedName,
 				getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(),
 				getParseLocation(s->getLocation())
 			);
@@ -416,9 +436,17 @@ void CxxAstVisitorComponentIndexer::visitMemberExpr(clang::MemberExpr* s)
 {
 	if (shouldVisitReference(s->getMemberLoc(), getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl()))
 	{
+		const ReferenceKind refKind = consumeDeclRefContextKind();
+		const NameHierarchy referencedName = getAstVisitor()->getDeclNameCache()->getValue(s->getMemberDecl());
+
+		if (refKind == REFERENCE_CALL)
+		{
+			m_client->recordSymbol(referencedName, SYMBOL_FUNCTION, ACCESS_NONE, DEFINITION_NONE);
+		}
+
 		m_client->recordReference(
-			consumeDeclRefContextKind(),
-			getAstVisitor()->getDeclNameCache()->getValue(s->getMemberDecl()),
+			refKind,
+			referencedName,
 			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(),
 			getParseLocation(s->getMemberLoc())
 		);
@@ -472,9 +500,17 @@ void CxxAstVisitorComponentIndexer::visitCXXConstructExpr(clang::CXXConstructExp
 		}
 		loc = clang::Lexer::GetBeginningOfToken(loc, m_astContext->getSourceManager(), m_astContext->getLangOpts());
 
+		const ReferenceKind refKind = consumeDeclRefContextKind();
+		const NameHierarchy referencedName = getAstVisitor()->getDeclNameCache()->getValue(s->getConstructor());
+
+		if (refKind == REFERENCE_CALL)
+		{
+			m_client->recordSymbol(referencedName, SYMBOL_FUNCTION, ACCESS_NONE, DEFINITION_NONE);
+		}
+
 		m_client->recordReference(
-			consumeDeclRefContextKind(),
-			getAstVisitor()->getDeclNameCache()->getValue(s->getConstructor()),
+			refKind,
+			referencedName,
 			getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getContextName(),
 			getParseLocation(loc)
 		);

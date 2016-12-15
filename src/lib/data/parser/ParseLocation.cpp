@@ -10,7 +10,7 @@ ParseLocation::ParseLocation()
 }
 
 ParseLocation::ParseLocation(
-	const std::string& filePath,
+	const FilePath& filePath,
 	uint lineNumber,
 	uint columnNumber
 )
@@ -27,7 +27,7 @@ ParseLocation::ParseLocation(
 }
 
 ParseLocation::ParseLocation(
-	const std::string& filePath,
+	const FilePath& filePath,
 	uint startLineNumber, uint startColumnNumber,
 	uint endLineNumber, uint endColumnNumber
 )

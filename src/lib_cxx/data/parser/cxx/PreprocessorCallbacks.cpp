@@ -157,7 +157,7 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::Token& macroN
 	const clang::SourceLocation& endLocation = m_sourceManager.getSpellingLoc(macroNameTok.getEndLoc());
 
 	return ParseLocation(
-		m_sourceManager.getFilename(location),
+		m_sourceManager.getFilename(location).str(),
 		m_sourceManager.getSpellingLineNumber(location),
 		m_sourceManager.getSpellingColumnNumber(location),
 		m_sourceManager.getSpellingLineNumber(endLocation),
@@ -171,7 +171,7 @@ ParseLocation PreprocessorCallbacks::getParseLocation(const clang::MacroInfo* ma
 	clang::SourceLocation endLocation = macroInfo->getDefinitionEndLoc();
 
 	return ParseLocation(
-		m_sourceManager.getFilename(location),
+		m_sourceManager.getFilename(location).str(),
 		m_sourceManager.getSpellingLineNumber(location),
 		m_sourceManager.getSpellingColumnNumber(location),
 		m_sourceManager.getSpellingLineNumber(endLocation),
