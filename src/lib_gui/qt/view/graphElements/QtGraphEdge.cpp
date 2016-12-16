@@ -2,18 +2,18 @@
 
 #include <QGraphicsSceneEvent>
 
-#include "utility/messaging/type/MessageActivateEdge.h"
-#include "utility/messaging/type/MessageFocusIn.h"
-#include "utility/messaging/type/MessageFocusOut.h"
-#include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
-#include "utility/utility.h"
-
 #include "component/view/GraphViewStyle.h"
 #include "data/graph/Edge.h"
 #include "data/graph/token_component/TokenComponentAggregation.h"
 #include "qt/graphics/QtAngledLineItem.h"
 #include "qt/graphics/QtStraightLineItem.h"
 #include "qt/view/graphElements/QtGraphNode.h"
+#include "utility/messaging/type/MessageActivateEdge.h"
+#include "utility/messaging/type/MessageFocusIn.h"
+#include "utility/messaging/type/MessageFocusOut.h"
+#include "utility/messaging/type/MessageGraphNodeBundleSplit.h"
+#include "utility/utility.h"
+#include "utility/utilityString.h"
 
 QtGraphEdge::QtGraphEdge(
 	const std::weak_ptr<QtGraphNode>& owner,
@@ -145,7 +145,7 @@ void QtGraphEdge::updateLine()
 			style, m_weight, showArrow);
 	}
 
-	QString toolTip = Edge::getTypeString(type).c_str();
+	QString toolTip = utility::replace(Edge::getTypeString(type), "_", " ").c_str();
 	if (type == Edge::EDGE_AGGREGATION)
 	{
 		toolTip += ": " + QString::number(m_weight) + " edge";
