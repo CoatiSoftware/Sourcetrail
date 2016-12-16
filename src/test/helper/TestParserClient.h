@@ -84,10 +84,10 @@ public:
 		case REFERENCE_TEMPLATE_DEFAULT_ARGUMENT:
 			referenceContainer = &templateDefaultArgumentTypes;
 			break;
-		case REFERENCE_TEMPLATE_SPECIALIZATION_OF:
+		case REFERENCE_TEMPLATE_SPECIALIZATION:
 			referenceContainer = &templateSpecializations;
 			break;
-		case REFERENCE_TEMPLATE_MEMBER_SPECIALIZATION_OF:
+		case REFERENCE_TEMPLATE_MEMBER_SPECIALIZATION:
 			referenceContainer = &templateMemberSpecializations;
 			break;
 		case REFERENCE_INCLUDE:

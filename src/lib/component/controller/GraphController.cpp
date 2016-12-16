@@ -1456,8 +1456,8 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 
 	createEdges( 900000, Edge::EDGE_TEMPLATE_ARGUMENT, Node::NODE_TYPE, Node::NODE_TYPE);
 	createEdges(1000000, Edge::EDGE_TEMPLATE_DEFAULT_ARGUMENT, Node::NODE_TYPE, Node::NODE_TYPE);
-	createEdges(1100000, Edge::EDGE_TEMPLATE_SPECIALIZATION_OF, Node::NODE_TYPE, Node::NODE_TYPE);
-	createEdges(1200000, Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION_OF, Node::NODE_METHOD, Node::NODE_METHOD);
+	createEdges(1100000, Edge::EDGE_TEMPLATE_SPECIALIZATION, Node::NODE_TYPE, Node::NODE_TYPE);
+	createEdges(1200000, Edge::EDGE_TEMPLATE_MEMBER_SPECIALIZATION, Node::NODE_METHOD, Node::NODE_METHOD);
 
 	std::vector<Id> focusedTokenIds;
 	std::vector<Id> activeTokenIds;

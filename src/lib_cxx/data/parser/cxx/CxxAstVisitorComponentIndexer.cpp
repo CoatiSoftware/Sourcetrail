@@ -102,7 +102,7 @@ void CxxAstVisitorComponentIndexer::visitClassTemplateSpecializationDecl(clang::
 		}
 
 		m_client->recordReference(
-			REFERENCE_TEMPLATE_SPECIALIZATION_OF, // TODO: call this REFERENCE_TEMPLATE_SPECIALIZATION and reverse the following arguments
+			REFERENCE_TEMPLATE_SPECIALIZATION,
 			getAstVisitor()->getDeclNameCache()->getValue(specializedFromDecl),
 			getAstVisitor()->getDeclNameCache()->getValue(d),
 			getParseLocation(d->getLocation())
@@ -174,7 +174,7 @@ void CxxAstVisitorComponentIndexer::visitFunctionDecl(clang::FunctionDecl* d)
 			m_client->recordSymbol(referencedName, SYMBOL_FUNCTION, ACCESS_NONE, DEFINITION_NONE);
 
 			m_client->recordReference(
-				REFERENCE_TEMPLATE_SPECIALIZATION_OF, // TODO: call this REFERENCE_TEMPLATE_SPECIALIZATION and reverse the following arguments
+				REFERENCE_TEMPLATE_SPECIALIZATION,
 				referencedName,
 				getAstVisitor()->getDeclNameCache()->getValue(d),
 				getParseLocation(d->getLocation())
@@ -214,7 +214,7 @@ void CxxAstVisitorComponentIndexer::visitCXXMethodDecl(clang::CXXMethodDecl* d)
 				m_client->recordSymbol(referencedName, SYMBOL_FUNCTION, ACCESS_NONE, DEFINITION_NONE);
 
 				m_client->recordReference(
-					REFERENCE_TEMPLATE_MEMBER_SPECIALIZATION_OF,
+					REFERENCE_TEMPLATE_MEMBER_SPECIALIZATION,
 					referencedName,
 					getAstVisitor()->getDeclNameCache()->getValue(d),
 					getParseLocation(d->getLocation())
