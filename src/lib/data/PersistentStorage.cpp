@@ -941,24 +941,37 @@ std::shared_ptr<TokenLocationCollection> PersistentStorage::getTokenLocationsFor
 		collection->addTokenLocationFile(m_sqliteStorage.getTokenLocationsForFile(storageFile.filePath));
 	}
 
-	for (const std::pair<StorageSourceLocation, Id>& e: m_sqliteStorage.getSourceLocationsAndElementIdsForElementIds(nonFileIds))
 	{
-		TokenLocation* loc = collection->addTokenLocation(
-			e.first.id,
-			e.second,
-			getFileNodePath(e.first.fileNodeId),
-			e.first.startLine,
-			e.first.startCol,
-			e.first.endLine,
-			e.first.endCol
-		);
-
-		if (loc)
+		std::vector<Id> locationIds;
+		std::unordered_map<Id, Id> locationIdToElementIdMap;
+		for (const StorageOccurrence& occurrence: m_sqliteStorage.getOccurrencesForElementIds(nonFileIds))
 		{
-			loc->setType(intToLocationType(e.first.type));
+			locationIds.push_back(occurrence.sourceLocationId);
+			locationIdToElementIdMap[occurrence.sourceLocationId] = occurrence.elementId;
+		}
+
+		for (const StorageSourceLocation& sourceLocation: m_sqliteStorage.getSourceLocationsByIds(locationIds))
+		{
+			auto it = locationIdToElementIdMap.find(sourceLocation.id);
+			if (it != locationIdToElementIdMap.end())
+			{
+				TokenLocation* tokenLocation = collection->addTokenLocation(
+					sourceLocation.id,
+					it->second,
+					getFileNodePath(sourceLocation.fileNodeId),
+					sourceLocation.startLine,
+					sourceLocation.startCol,
+					sourceLocation.endLine,
+					sourceLocation.endCol
+				);
+
+				if (tokenLocation)
+				{
+					tokenLocation->setType(intToLocationType(sourceLocation.type));
+				}
+			}
 		}
 	}
-
 	return collection;
 }
 
@@ -1194,66 +1207,84 @@ std::set<FilePath> PersistentStorage::getDependingFilePathsForIncludes(const std
 
 std::set<FilePath> PersistentStorage::getDependingFilePathsForImports(const std::set<FilePath>& filePaths)
 {
-	std::map<Id, std::set<Id>> fileIdToDependingFileIds;
-
-	std::multimap<Id, Id> importEdgeTargetIdToSourceIds;
-	std::vector<Id> importedTargetIds;
-
-	for (const StorageEdge& importEdge : m_sqliteStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_IMPORT)))
+	std::unordered_map<Id, std::set<Id>> fileIdToDependingFileIds;
 	{
-		importedTargetIds.push_back(importEdge.targetNodeId);
-		importEdgeTargetIdToSourceIds.emplace(importEdge.targetNodeId, importEdge.sourceNodeId);
-	}
+		std::vector<Id> importedElementIds;
+		std::map<Id, std::set<Id>> elementIdToImportingFileIds;
 
-	if (!importedTargetIds.size())
-	{
-		return std::set<FilePath>();
-	}
-
-	for (const std::pair<StorageSourceLocation, Id>& p :
-		m_sqliteStorage.getSourceLocationsAndElementIdsForElementIds(importedTargetIds))
-	{
-		std::pair <std::multimap<Id, Id>::const_iterator, std::multimap<Id, Id>::const_iterator> ret =
-			importEdgeTargetIdToSourceIds.equal_range(p.second);
-
-		for (std::multimap<Id, Id>::const_iterator it = ret.first; it != ret.second; it++)
+		for (const StorageEdge& importEdge : m_sqliteStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_IMPORT)))
 		{
-			fileIdToDependingFileIds[p.first.fileNodeId].insert(it->second);
+			importedElementIds.push_back(importEdge.targetNodeId);
+			elementIdToImportingFileIds[importEdge.targetNodeId].insert(importEdge.sourceNodeId);
+		}
+
+		if (!importedElementIds.size())
+		{
+			return std::set<FilePath>();
+		}
+
+		std::unordered_map<Id, Id> importedElementIdToFileNodeId;
+		{
+			std::vector<Id> importedSourceLocationIds;
+			std::unordered_map<Id, Id> importedSourceLocationToElementIds;
+			for (const StorageOccurrence& occurrence: m_sqliteStorage.getOccurrencesForElementIds(importedElementIds))
+			{
+				importedSourceLocationIds.push_back(occurrence.sourceLocationId);
+				importedSourceLocationToElementIds[occurrence.sourceLocationId] = occurrence.elementId;
+			}
+
+			for (const StorageSourceLocation& sourceLocation: m_sqliteStorage.getSourceLocationsByIds(importedSourceLocationIds))
+			{
+				auto it = importedSourceLocationToElementIds.find(sourceLocation.id);
+				if (it != importedSourceLocationToElementIds.end())
+				{
+					importedElementIdToFileNodeId[it->second] = sourceLocation.fileNodeId;
+				}
+			}
+		}
+
+		for (const auto& it: elementIdToImportingFileIds)
+		{
+			auto importedFileIt = importedElementIdToFileNodeId.find(it.first);
+			if (importedFileIt != importedElementIdToFileNodeId.end())
+			{
+				fileIdToDependingFileIds[importedFileIt->second].insert(it.second.begin(), it.second.end());
+			}
 		}
 	}
 
 	std::set<Id> dependingFileNodeIds;
-
-	std::set<Id> working;
-	for (const FilePath& filePath: filePaths)
 	{
-		working.insert(getFileNodeId(filePath));
-	}
-
-	std::set<Id> tempWorking;
-	while (working.size() > 0)
-	{
-		for (Id id: working)
+		std::set<Id> working;
+		for (const FilePath& filePath: filePaths)
 		{
-			std::map<Id, std::set<Id>>::const_iterator it = fileIdToDependingFileIds.find(id);
-			if (it != fileIdToDependingFileIds.end())
+			working.insert(getFileNodeId(filePath));
+		}
+
+		std::set<Id> tempWorking;
+		while (working.size() > 0)
+		{
+			for (Id id: working)
 			{
-				for (Id dependingFileNodeId: it->second)
+				auto it = fileIdToDependingFileIds.find(id);
+				if (it != fileIdToDependingFileIds.end())
 				{
-					bool inserted = dependingFileNodeIds.insert(dependingFileNodeId).second;
-					if (inserted)
+					for (Id dependingFileNodeId: it->second)
 					{
-						tempWorking.insert(dependingFileNodeId);
+						bool inserted = dependingFileNodeIds.insert(dependingFileNodeId).second;
+						if (inserted)
+						{
+							tempWorking.insert(dependingFileNodeId);
+						}
 					}
 				}
 			}
+			working = tempWorking;
+			tempWorking.clear();
 		}
-		working = tempWorking;
-		tempWorking.clear();
 	}
 
 	std::set<FilePath> dependingFilePaths;
-
 	for (Id id: dependingFileNodeIds)
 	{
 		dependingFilePaths.insert(getFileNodePath(id));

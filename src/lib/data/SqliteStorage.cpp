@@ -1,5 +1,7 @@
 #include "data/SqliteStorage.h"
 
+#include <unordered_map>
+
 #include "data/graph/Node.h"
 #include "data/location/TokenLocation.h"
 #include "data/DefinitionType.h"
@@ -621,6 +623,13 @@ StorageSourceLocation SqliteStorage::getSourceLocationById(const Id id) const
 	);
 }
 
+std::vector<StorageSourceLocation> SqliteStorage::getSourceLocationsByIds(const std::vector<Id> ids) const
+{
+	return getAll<StorageSourceLocation>(
+		"WHERE id IN (" + utility::join(utility::toStrings(ids), ',') + ");"
+	);
+}
+
 StorageSourceLocation SqliteStorage::getSourceLocationByAll(const Id fileNodeId, const uint startLine, const uint startCol, const uint endLine, const uint endCol, const int type) const
 {
 	return getFirst<StorageSourceLocation>(
@@ -643,154 +652,32 @@ std::shared_ptr<TokenLocationFile> SqliteStorage::getTokenLocationsForFile(const
 		return ret;
 	}
 
-	for (std::pair<StorageSourceLocation, Id> e: getAllSourceLocationsAndElementIdsForFileId(fileNodeId))
+	std::vector<Id> sourceLocationIds;
+	std::unordered_map<Id, StorageSourceLocation> sourceLocationIdToData;
+	for (const StorageSourceLocation& storageLocation: getAll<StorageSourceLocation>("WHERE file_node_id == " + std::to_string(fileNodeId)))
 	{
-		TokenLocation* loc = ret->addTokenLocation(
-			e.first.id,
-			e.second,
-			e.first.startLine,
-			e.first.startCol,
-			e.first.endLine,
-			e.first.endCol
-		);
-		loc->setType(intToLocationType(e.first.type));
+		sourceLocationIds.push_back(storageLocation.id);
+		sourceLocationIdToData[storageLocation.id] = storageLocation;
+	}
+
+	for (const StorageOccurrence& occurrence: getOccurrencesForLocationIds(sourceLocationIds))
+	{
+		auto it = sourceLocationIdToData.find(occurrence.sourceLocationId);
+		if (it != sourceLocationIdToData.end())
+		{
+			TokenLocation* loc = ret->addTokenLocation(
+				it->second.id, //e.first.id,
+				occurrence.elementId,
+				it->second.startLine,
+				it->second.startCol,
+				it->second.endLine,
+				it->second.endCol
+			);
+			loc->setType(intToLocationType(it->second.type));
+		}
 	}
 
 	ret->isWholeCopy = true;
-
-	return ret;
-}
-
-std::vector<StorageSourceLocation> SqliteStorage::getSourceLocationsForElementId(const Id elementId) const
-{
-	std::vector<Id> elementIds {elementId};
-	std::vector<StorageSourceLocation> ret;
-	for (std::pair<StorageSourceLocation, Id> e: getSourceLocationsAndElementIdsForElementIds(elementIds))
-	{
-		ret.push_back(e.first);
-	}
-	return ret;
-}
-
-std::vector<std::pair<StorageSourceLocation, Id>> SqliteStorage::getSourceLocationsAndElementIdsForElementIds(const std::vector<Id> elementIds) const
-{
-	return getAllSourceLocationsAndElementIds("WHERE occurrence.element_id IN (" + utility::join(utility::toStrings(elementIds), ',') + ")");
-}
-
-std::vector<std::pair<StorageSourceLocation, Id>> SqliteStorage::getAllSourceLocationsAndElementIds(const std::string& query) const
-{
-	CppSQLite3Query q = executeQuery(
-		"SELECT "
-			"source_location.id, "
-			"source_location.file_node_id, "
-			"source_location.start_line, "
-			"source_location.start_column, "
-			"source_location.end_line, "
-			"source_location.end_column, "
-			"source_location.type, "
-			"occurrence.element_id "
-		"FROM source_location "
-		"INNER JOIN occurrence ON occurrence.source_location_id = source_location.id " + query + ";"
-	);
-
-	std::vector<std::pair<StorageSourceLocation, Id>> ret;
-	while (!q.eof())
-	{
-		const Id id				= q.getIntField(0, 0);
-		const Id  fileNodeId	= q.getIntField(1, 0);
-		const int startLine		= q.getIntField(2, -1);
-		const int startColumn	= q.getIntField(3, -1);
-		const int endLine		= q.getIntField(4, -1);
-		const int endColumn		= q.getIntField(5, -1);
-		const int type			= q.getIntField(6, -1);
-		const Id elementId		= q.getIntField(7, 0);
-
-		if (id != 0 && fileNodeId != 0 && startLine != -1 && startColumn != -1 && endLine != -1 && endColumn != -1 && type != -1 && elementId != 0)
-		{
-			ret.push_back(std::make_pair(
-				StorageSourceLocation(
-					id,
-					fileNodeId,
-					startLine,
-					startColumn,
-					endLine,
-					endColumn,
-					type),
-				elementId
-			));
-		}
-		q.nextRow();
-	}
-	return ret;
-}
-
-std::vector<std::pair<StorageSourceLocation, Id>> SqliteStorage::getAllSourceLocationsAndElementIdsForFileId(Id fileNodeId) const
-{
-	CppSQLite3Query q = executeQuery(
-		"SELECT "
-			"source_location.id, "
-			"source_location.file_node_id, "
-			"source_location.start_line, "
-			"source_location.start_column, "
-			"source_location.end_line, "
-			"source_location.end_column, "
-			"source_location.type "
-		"FROM source_location WHERE source_location.file_node_id == " + std::to_string(fileNodeId) + ";"
-	);
-
-	std::map<Id, StorageSourceLocation> locations;
-	std::vector<Id> locationIds;
-	while (!q.eof())
-	{
-		const Id  id			= q.getIntField(0, 0);
-		const Id  fileNodeId	= q.getIntField(1, 0);
-		const int startLine		= q.getIntField(2, -1);
-		const int startColumn	= q.getIntField(3, -1);
-		const int endLine		= q.getIntField(4, -1);
-		const int endColumn		= q.getIntField(5, -1);
-		const int type			= q.getIntField(6, -1);
-
-		if (id != 0 && fileNodeId != 0 && startLine != -1 && startColumn != -1 && endLine != -1 && endColumn != -1 && type != -1)
-		{
-			locationIds.push_back(id);
-			locations.emplace(
-				id,
-				StorageSourceLocation(
-					id,
-					fileNodeId,
-					startLine,
-					startColumn,
-					endLine,
-					endColumn,
-					type
-				)
-			);
-		}
-		q.nextRow();
-	}
-
-	CppSQLite3Query q2 = executeQuery(
-		"SELECT "
-			"occurrence.element_id, "
-			"occurrence.source_location_id "
-		"FROM occurrence WHERE occurrence.source_location_id IN (" + utility::join(utility::toStrings(locationIds), ',') + ");"
-	);
-
-	std::vector<std::pair<StorageSourceLocation, Id>> ret;
-	while (!q2.eof())
-	{
-		const Id elementId			= q2.getIntField(0, 0);
-		const Id sourceLocationId	= q2.getIntField(1, 0);
-
-		if (elementId != 0 && sourceLocationId != 0)
-		{
-			ret.push_back(std::make_pair(
-				locations[sourceLocationId],
-				elementId
-			));
-		}
-		q2.nextRow();
-	}
 
 	return ret;
 }
@@ -804,6 +691,11 @@ std::vector<StorageOccurrence> SqliteStorage::getOccurrencesForLocationId(Id loc
 std::vector<StorageOccurrence> SqliteStorage::getOccurrencesForLocationIds(const std::vector<Id>& locationIds) const
 {
 	return getAll<StorageOccurrence>("WHERE source_location_id IN (" + utility::join(utility::toStrings(locationIds), ',') + ")");
+}
+
+std::vector<StorageOccurrence> SqliteStorage::getOccurrencesForElementIds(const std::vector<Id>& elementIds) const
+{
+	return getAll<StorageOccurrence>("WHERE element_id IN (" + utility::join(utility::toStrings(elementIds), ',') + ")");
 }
 
 StorageComponentAccess SqliteStorage::getComponentAccessByNodeId(Id nodeId) const

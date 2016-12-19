@@ -105,15 +105,13 @@ public:
 	void setNodeDefinitionType(int definitionType, Id nodeId);
 
 	StorageSourceLocation getSourceLocationById(const Id id) const;
+	std::vector<StorageSourceLocation> getSourceLocationsByIds(const std::vector<Id> ids) const;
 	StorageSourceLocation getSourceLocationByAll(const Id fileNodeId, const uint startLine, const uint startCol, const uint endLine, const uint endCol, const int type) const;
 	std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const FilePath& filePath) const;
-	std::vector<StorageSourceLocation> getSourceLocationsForElementId(const Id elementId) const;
-	std::vector<std::pair<StorageSourceLocation, Id>> getSourceLocationsAndElementIdsForElementIds(const std::vector<Id> elementIds) const;
-	std::vector<std::pair<StorageSourceLocation, Id>> getAllSourceLocationsAndElementIds(const std::string& query) const;
-	std::vector<std::pair<StorageSourceLocation, Id>> getAllSourceLocationsAndElementIdsForFileId(Id fileNodeId) const;
 
 	std::vector<StorageOccurrence> getOccurrencesForLocationId(Id locationId) const;
 	std::vector<StorageOccurrence> getOccurrencesForLocationIds(const std::vector<Id>& locationIds) const;
+	std::vector<StorageOccurrence> getOccurrencesForElementIds(const std::vector<Id>& elementIds) const;
 
 	StorageComponentAccess getComponentAccessByNodeId(Id memberEdgeId) const;
 	std::vector<StorageComponentAccess> getComponentAccessesByNodeIds(const std::vector<Id>& memberEdgeIds) const;
