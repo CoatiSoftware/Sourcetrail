@@ -90,7 +90,7 @@ std::shared_ptr<Application> Application::s_instance;
 
 Application::Application(bool withGUI)
 	: m_hasGUI(withGUI)
-	, m_isInTrial(false)
+	, m_isInTrial(true)
 {
 	LicenseChecker::createInstance();
 }

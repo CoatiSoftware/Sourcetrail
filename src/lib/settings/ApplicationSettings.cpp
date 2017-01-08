@@ -301,6 +301,16 @@ void ApplicationSettings::setCodeSnippetExpandRange(int range)
 	setValue<int>("code/snippet/expand_range", range);
 }
 
+bool ApplicationSettings::getCodeViewModeSingle() const
+{
+	return getValue<bool>("code/view_mode_single", false);
+}
+
+void ApplicationSettings::setCodeViewModeSingle(bool enabled)
+{
+	setValue<bool>("code/view_mode_single", enabled);
+}
+
 std::vector<FilePath> ApplicationSettings::getRecentProjects() const
 {
 	std::vector<FilePath> recentProjects;

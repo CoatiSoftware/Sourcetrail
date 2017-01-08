@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QFontDatabase>
 #include <QPainter>
+#include <QWidget>
 
 #include "utility/file/FileSystem.h"
 #include "utility/logging/logging.h"

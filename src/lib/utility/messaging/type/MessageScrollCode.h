@@ -7,8 +7,9 @@ class MessageScrollCode
 	: public Message<MessageScrollCode>
 {
 public:
-	MessageScrollCode(int value)
+	MessageScrollCode(int value, bool inListMode)
 		: value(value)
+		, inListMode(inListMode)
 	{
 		setIsLogged(false);
 	}
@@ -19,6 +20,7 @@ public:
 	}
 
 	int value;
+	bool inListMode;
 };
 
 #endif // MESSAGE_SCROLL_CODE_H

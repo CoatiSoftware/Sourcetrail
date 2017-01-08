@@ -5,21 +5,19 @@
 #include <vector>
 
 #include <QFrame>
+#include <QScrollArea>
 
-#include "utility/file/FilePath.h"
-#include "utility/TimePoint.h"
-#include "utility/types.h"
-
-#include "data/ErrorInfo.h"
 #include "component/view/helper/CodeSnippetParams.h"
+#include "qt/element/QtCodeNavigateable.h"
+#include "qt/utility/QtScrollSpeedChangeListener.h"
 
 class QtCodeFile;
 class QtCodeNavigator;
 class QtCodeSnippet;
-class TokenLocationFile;
 
 class QtCodeFileList
-	: public QFrame
+	: public QScrollArea
+	, public QtCodeNavigateable
 {
 	Q_OBJECT
 
@@ -27,33 +25,37 @@ public:
 	QtCodeFileList(QtCodeNavigator* navigator);
 	virtual ~QtCodeFileList();
 
-	void addCodeSnippet(const CodeSnippetParams& params, bool insert = false);
-	void addFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount, TimePoint modificationTime);
+	void clear();
 
-	void clearCodeSnippets();
+	QtCodeFile* getFile(const FilePath filePath);
+	void addFile(const FilePath& filePath, bool isWholeFile, int refCount, TimePoint modificationTime);
 
-	void requestFileContent(const FilePath& filePath);
+	// QtCodeNaviatebale implementation
+	virtual QScrollArea* getScrollArea();
+
+	virtual void addCodeSnippet(const CodeSnippetParams& params, bool insert = false);
+
+	virtual void requestFileContent(const FilePath& filePath);
+	virtual bool requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, bool onTop);
+
+	virtual void updateFiles();
+	virtual void showContents();
+
+	virtual void onWindowFocus();
 
 	void setFileMinimized(const FilePath path);
 	void setFileSnippets(const FilePath path);
 	void setFileMaximized(const FilePath path);
 
-	void updateFiles();
-	void showContents();
-
-	void onWindowFocus();
-
-	QtCodeFile* getFile(const FilePath filePath);
-	std::pair<QtCodeSnippet*, int> getFirstSnippetWithActiveScope() const;
+	std::pair<QtCodeSnippet*, uint> getFirstSnippetWithActiveLocation(Id tokenId) const;
 
 private:
-	QtCodeSnippet* getFirstActiveSnippet() const;
-
-	void expandActiveSnippetFile(bool scrollTo);
-
 	QtCodeNavigator* m_navigator;
+	QFrame* m_filesArea;
 
 	std::vector<std::shared_ptr<QtCodeFile>> m_files;
+
+	QtScrollSpeedChangeListener m_scrollSpeedChangeListener;
 };
 
 #endif // QT_CODE_FILE_LIST

@@ -97,6 +97,7 @@ private:
 
 	bool m_scrollToDefinition;
 	int m_scrollToValue;
+	bool m_scrollInListMode;
 };
 
 #endif // CODE_CONTROLLER_H

@@ -2,13 +2,16 @@
 #define QT_CODE_NAVIGATOR_H
 
 #include <QWidget>
-#include <QScrollArea>
 
+#include "data/ErrorInfo.h"
+#include "data/location/LocationType.h"
 #include "qt/element/QtCodeFileList.h"
-#include "qt/utility/QtScrollSpeedChangeListener.h"
+#include "qt/element/QtCodeFileSingle.h"
 #include "qt/utility/QtThreadedFunctor.h"
 #include "utility/messaging/MessageListener.h"
 #include "utility/messaging/type/MessageCodeReference.h"
+#include "utility/messaging/type/MessageFinishedParsing.h"
+#include "utility/messaging/type/MessageSwitchColorScheme.h"
 #include "utility/messaging/type/MessageWindowFocus.h"
 
 class QLabel;
@@ -19,6 +22,8 @@ class TokenLocationFile;
 class QtCodeNavigator
 	: public QWidget
 	, public MessageListener<MessageCodeReference>
+	, public MessageListener<MessageFinishedParsing>
+	, public MessageListener<MessageSwitchColorScheme>
 	, public MessageListener<MessageWindowFocus>
 {
 	Q_OBJECT
@@ -30,7 +35,10 @@ public:
 	void addCodeSnippet(const CodeSnippetParams& params, bool insert = false);
 	void addFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount, TimePoint modificationTime);
 
+	void addedFiles();
+
 	void clearCodeSnippets();
+	void clearCaches();
 
 	const std::vector<Id>& getCurrentActiveTokenIds() const;
 	void setCurrentActiveTokenIds(const std::vector<Id>& currentActiveTokenIds);
@@ -67,47 +75,85 @@ public:
 	void updateFiles();
 	void showContents();
 
-	void showLocation(const FilePath& filePath, Id locationId, bool scrollTo);
-
-	void scrollToValue(int value);
+	void scrollToValue(int value, bool inListMode);
 	void scrollToLine(const FilePath& filePath, unsigned int line);
-	void scrollToLocation(QtCodeFile* file, Id locationId, bool scrollTo);
 	void scrollToDefinition();
 
 	void scrollToSnippetIfRequested();
-	void requestScrollToLine(QtCodeFile* file, unsigned int line);
+
+	void requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, bool onTop);
 
 signals:
-	void shouldScrollToSnippet(QtCodeSnippet* widget, uint lineNumber, bool onTop);
+	void scrollRequest();
 
 private slots:
+	void handleScrollRequest();
 	void scrolled(int value);
-	void scrollToSnippet(QtCodeSnippet* snippet, uint lineNumber, bool onTop);
 	void setValue();
 
-	void previousReference();
-	void nextReference();
+	void previousReference(bool fromUI = true);
+	void nextReference(bool fromUI = true);
+
+	void setModeList();
+	void setModeSingle();
 
 private:
+	enum Mode
+	{
+		MODE_NONE,
+		MODE_LIST,
+		MODE_SINGLE
+	};
+
+	void setMode(Mode mode);
+
 	struct Reference
 	{
+		Reference()
+			: tokenId(0)
+			, locationId(0)
+		{
+		}
+
 		FilePath filePath;
 		Id tokenId;
 		Id locationId;
+		LocationType locationType;
 	};
 
-	void showCurrentReference();
+	void showCurrentReference(bool fromUI);
 	void updateRefLabel();
 
-	void ensureWidgetVisibleAnimated(QWidget *childWidget, QRectF rect, bool onTop);
+	struct ScrollRequest
+	{
+		ScrollRequest()
+			: lineNumber(0)
+			, locationId(0)
+			, animated(false)
+			, onTop(false)
+		{
+		}
+
+		FilePath filePath;
+		uint lineNumber;
+		Id locationId;
+
+		bool animated;
+		bool onTop;
+	};
 
 	void handleMessage(MessageCodeReference* message);
+	void handleMessage(MessageFinishedParsing* message);
+	void handleMessage(MessageSwitchColorScheme* message);
 	void handleMessage(MessageWindowFocus* message);
 
 	QtThreadedLambdaFunctor m_onQtThread;
 
-	QScrollArea* m_scrollArea;
+	QtCodeNavigateable* m_current;
 	QtCodeFileList* m_list;
+	QtCodeFileSingle* m_single;
+
+	Mode m_mode;
 
 	std::vector<Id> m_currentActiveTokenIds;
 	std::vector<Id> m_currentActiveLocationIds;
@@ -119,6 +165,8 @@ private:
 
 	int m_value;
 
+	QPushButton* m_listButton;
+	QPushButton* m_fileButton;
 	QLabel* m_refLabel;
 	QPushButton* m_prevButton;
 	QPushButton* m_nextButton;
@@ -126,11 +174,8 @@ private:
 	std::vector<Reference> m_references;
 	size_t m_refIndex;
 
-	QtCodeFile* m_scrollToFile;
-	uint m_scrollToLine;
-	Id m_scrollToLocationId;
-
-	QtScrollSpeedChangeListener m_scrollSpeedChangeListener;
+	ScrollRequest m_scrollRequest;
+	bool m_singleHasNewFile;
 };
 
 #endif // QT_CODE_NAVIGATOR_H

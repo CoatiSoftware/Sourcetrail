@@ -2,7 +2,6 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QPropertyAnimation>
 #include <QPushButton>
 #include <QScrollBar>
 #include <QTimer>
@@ -16,16 +15,17 @@
 #include "utility/messaging/type/MessageScrollCode.h"
 #include "utility/messaging/type/MessageShowReference.h"
 
+#include "settings/ApplicationSettings.h"
 #include "qt/element/QtCodeFile.h"
 #include "qt/element/QtCodeSnippet.h"
+#include "qt/utility/utilityQt.h"
 
 QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 	: QWidget(parent)
+	, m_mode(MODE_NONE)
 	, m_value(0)
 	, m_refIndex(0)
-	, m_scrollToFile(nullptr)
-	, m_scrollToLine(0)
-	, m_scrollToLocationId(0)
+	, m_singleHasNewFile(false)
 {
 	QVBoxLayout* layout = new QVBoxLayout();
 	layout->setSpacing(0);
@@ -35,26 +35,18 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 
 	{
 		QWidget* navigation = new QWidget();
+		navigation->setObjectName("code_navigation");
+
 		QHBoxLayout* navLayout = new QHBoxLayout();
-		navLayout->setSpacing(3);
+		navLayout->setSpacing(2);
 		navLayout->setContentsMargins(7, 7, 7, 7);
 
-		QPushButton* listButton = new QPushButton("list");
-		navLayout->addWidget(listButton);
-
-		QPushButton* fileButton = new QPushButton("file");
-		fileButton->setEnabled(false);
-		navLayout->addWidget(fileButton);
-
-		navLayout->addStretch();
-
-		m_refLabel = new QLabel("0/0 references");
-		navLayout->addWidget(m_refLabel);
-
-		navLayout->addStretch();
 
 		m_prevButton = new QPushButton("<");
 		m_nextButton = new QPushButton(">");
+
+		m_prevButton->setObjectName("reference_button_previous");
+		m_nextButton->setObjectName("reference_button_next");
 
 		m_prevButton->setToolTip("previous reference");
 		m_nextButton->setToolTip("next reference");
@@ -65,26 +57,50 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 		connect(m_prevButton, SIGNAL(clicked()), this, SLOT(previousReference()));
 		connect(m_nextButton, SIGNAL(clicked()), this, SLOT(nextReference()));
 
+
+		m_refLabel = new QLabel("0/0 references");
+		m_refLabel->setObjectName("references_label");
+		navLayout->addWidget(m_refLabel);
+
+		navLayout->addStretch();
+
+
+		m_listButton = new QPushButton("list");
+		m_fileButton = new QPushButton("file");
+
+		m_listButton->setObjectName("mode_button_list");
+		m_fileButton->setObjectName("mode_button_single");
+
+		m_listButton->setCheckable(true);
+		m_fileButton->setCheckable(true);
+
+		navLayout->addWidget(m_listButton);
+		navLayout->addWidget(m_fileButton);
+
+		connect(m_listButton, SIGNAL(clicked()), this, SLOT(setModeList()));
+		connect(m_fileButton, SIGNAL(clicked()), this, SLOT(setModeSingle()));
+
+
 		navigation->setLayout(navLayout);
 		layout->addWidget(navigation);
-
-		navigation->hide();
 	}
 
-	m_scrollArea = new QScrollArea(this);
-	m_scrollArea->setObjectName("code_container");
-
 	m_list = new QtCodeFileList(this);
-	layout->addWidget(m_scrollArea);
+	layout->addWidget(m_list);
 
-	m_scrollArea->setWidgetResizable(true);
-	m_scrollArea->setWidget(m_list);
+	m_single = new QtCodeFileSingle(this);
+	layout->addWidget(m_single);
 
-	m_scrollSpeedChangeListener.setScrollBar(m_scrollArea->verticalScrollBar());
+	if (ApplicationSettings::getInstance()->getCodeViewModeSingle())
+	{
+		setModeSingle();
+	}
+	else
+	{
+		setModeList();
+	}
 
-	connect(m_scrollArea->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrolled(int)));
-	connect(this, SIGNAL(shouldScrollToSnippet(QtCodeSnippet*, uint, bool)),
-		this, SLOT(scrollToSnippet(QtCodeSnippet*, uint, bool)), Qt::QueuedConnection);
+	connect(this, SIGNAL(scrollRequest()), this, SLOT(handleScrollRequest()), Qt::QueuedConnection);
 }
 
 QtCodeNavigator::~QtCodeNavigator()
@@ -93,12 +109,20 @@ QtCodeNavigator::~QtCodeNavigator()
 
 void QtCodeNavigator::addCodeSnippet(const CodeSnippetParams& params, bool insert)
 {
-	m_list->addCodeSnippet(params, insert);
+	if (params.reduced)
+	{
+		m_list->addCodeSnippet(params, insert);
+		m_single->addCodeSnippet(params, insert);
+	}
+	else
+	{
+		m_current->addCodeSnippet(params, insert);
+	}
 }
 
 void QtCodeNavigator::addFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount, TimePoint modificationTime)
 {
-	m_list->addFile(locationFile, refCount, modificationTime);
+	m_list->addFile(locationFile->getFilePath(), locationFile->isWholeCopy, refCount, modificationTime);
 
 	if (locationFile->isWholeCopy)
 	{
@@ -106,6 +130,7 @@ void QtCodeNavigator::addFile(std::shared_ptr<TokenLocationFile> locationFile, i
 		ref.filePath = locationFile->getFilePath();
 		ref.tokenId = 0;
 		ref.locationId = 0;
+		ref.locationType = LOCATION_TOKEN;
 
 		m_references.push_back(ref);
 	}
@@ -120,6 +145,7 @@ void QtCodeNavigator::addFile(std::shared_ptr<TokenLocationFile> locationFile, i
 					ref.filePath = location->getFilePath();
 					ref.tokenId = location->getTokenId();
 					ref.locationId = location->getId();
+					ref.locationType = location->getType();
 
 					m_references.push_back(ref);
 				}
@@ -128,10 +154,17 @@ void QtCodeNavigator::addFile(std::shared_ptr<TokenLocationFile> locationFile, i
 	}
 }
 
+void QtCodeNavigator::addedFiles()
+{
+	if (m_references.size() && m_references[0].locationType != LOCATION_TOKEN)
+	{
+		clearCaches();
+	}
+}
+
 void QtCodeNavigator::clearCodeSnippets()
 {
-	m_list->clearCodeSnippets();
-	m_scrollArea->verticalScrollBar()->setValue(0);
+	m_list->clear();
 
 	m_currentActiveTokenIds.clear();
 	m_activeTokenIds.clear();
@@ -139,8 +172,20 @@ void QtCodeNavigator::clearCodeSnippets()
 	m_focusedTokenIds.clear();
 	m_errorInfos.clear();
 
+	if (m_references.size() && m_references[0].locationType != LOCATION_TOKEN)
+	{
+		clearCaches();
+	}
+
 	m_references.clear();
 	m_refIndex = 0;
+
+	m_singleHasNewFile = false;
+}
+
+void QtCodeNavigator::clearCaches()
+{
+	m_single->clearCache();
 }
 
 const std::vector<Id>& QtCodeNavigator::getCurrentActiveTokenIds() const
@@ -252,23 +297,20 @@ void QtCodeNavigator::showActiveSnippet(
 
 	std::vector<Id> locationIds;
 
-	Id firstLocationId = 0;
-	FilePath firstFilePath;
+	Reference firstReference;
 	std::set<FilePath> filePathsToExpand;
 
 	std::map<FilePath, size_t> filePathOrder;
 
-	for (size_t i = 0; i < m_references.size(); i++)
+	for (const Reference& ref : m_references)
 	{
-		const Reference& ref = m_references[i];
 		if (ref.tokenId == tokenId)
 		{
 			locationIds.push_back(ref.locationId);
 
-			if (!firstLocationId)
+			if (!firstReference.tokenId)
 			{
-				firstLocationId = ref.locationId;
-				firstFilePath = ref.filePath;
+				firstReference = ref;
 			}
 		}
 
@@ -288,10 +330,11 @@ void QtCodeNavigator::showActiveSnippet(
 				locationIds.push_back(location->getId());
 				filePathsToExpand.insert(location->getFilePath());
 
-				if (firstFilePath.empty() || filePathOrder[location->getFilePath()] < filePathOrder[firstFilePath])
+				if (!firstReference.tokenId || filePathOrder[location->getFilePath()] < filePathOrder[firstReference.filePath])
 				{
-					firstFilePath = location->getFilePath();
-					firstLocationId = location->getId();
+					firstReference.tokenId = location->getTokenId();
+					firstReference.locationId = location->getId();
+					firstReference.filePath = location->getFilePath();
 				}
 			}
 		);
@@ -300,14 +343,18 @@ void QtCodeNavigator::showActiveSnippet(
 	setCurrentActiveLocationIds(locationIds);
 	updateFiles();
 
-	for (const FilePath& filePath : filePathsToExpand)
+	if (m_mode == MODE_LIST)
 	{
-		m_list->requestFileContent(filePath);
+		for (const FilePath& filePath : filePathsToExpand)
+		{
+			m_list->requestFileContent(filePath);
+		}
 	}
 
-	if (firstLocationId)
+	if (firstReference.tokenId)
 	{
-		showLocation(firstFilePath, firstLocationId, scrollTo);
+		requestScroll(firstReference.filePath, 0, firstReference.locationId, true, false);
+		emit scrollRequest();
 
 		m_refIndex = 0;
 		updateRefLabel();
@@ -343,183 +390,177 @@ void QtCodeNavigator::setFileMaximized(const FilePath path)
 
 void QtCodeNavigator::setupFiles()
 {
-	std::set<FilePath> filePathsToExpand;
-	for (const Reference& ref : m_references)
+	if (m_mode == MODE_LIST)
 	{
-		if (filePathsToExpand.find(ref.filePath) == filePathsToExpand.end())
+		std::set<FilePath> filePathsToExpand;
+		for (const Reference& ref : m_references)
 		{
-			m_list->requestFileContent(ref.filePath);
-			filePathsToExpand.insert(ref.filePath);
-
-			if (filePathsToExpand.size() >= 3)
+			if (filePathsToExpand.find(ref.filePath) == filePathsToExpand.end())
 			{
-				break;
+				m_list->requestFileContent(ref.filePath);
+				filePathsToExpand.insert(ref.filePath);
+
+				if (filePathsToExpand.size() >= 3)
+				{
+					break;
+				}
 			}
 		}
-	}
 
-	if (filePathsToExpand.size())
+		if (filePathsToExpand.size())
+		{
+			MessageCodeViewExpandedInitialFiles(m_refIndex != 0).dispatch();
+		}
+	}
+	else if (m_references.size())
 	{
-		MessageCodeViewExpandedInitialFiles().dispatch();
+		m_singleHasNewFile = (m_single->getCurrentFilePath() != m_references.front().filePath);
+		m_single->requestFileContent(m_references.front().filePath);
+		MessageCodeViewExpandedInitialFiles(true).dispatch();
 	}
 
-	m_refIndex = 0;
-	updateRefLabel();
+	if (m_refIndex == 0)
+	{
+		updateRefLabel();
+	}
 }
 
 void QtCodeNavigator::updateFiles()
 {
-	m_list->updateFiles();
+	m_current->updateFiles();
 }
 
 void QtCodeNavigator::showContents()
 {
-	m_list->showContents();
+	m_current->showContents();
 }
 
-void QtCodeNavigator::showLocation(const FilePath& filePath, Id locationId, bool scrollTo)
+void QtCodeNavigator::scrollToValue(int value, bool inListMode)
 {
-	updateFiles();
-
-	QtCodeFile* file = m_list->getFile(filePath);
-
-	if (file->isCollapsed())
+	if ((m_mode == MODE_LIST) == inListMode)
 	{
-		file->requestContent();
-
-		if (scrollTo)
-		{
-			m_scrollToFile = file;
-			m_scrollToLocationId = locationId;
-		}
+		m_value = value;
+		QTimer::singleShot(1000, this, SLOT(setValue()));
 	}
-	else
-	{
-		scrollToLocation(file, locationId, scrollTo);
-	}
-}
-
-void QtCodeNavigator::scrollToValue(int value)
-{
-	m_value = value;
-	QTimer::singleShot(1000, this, SLOT(setValue()));
 }
 
 void QtCodeNavigator::scrollToLine(const FilePath& filePath, unsigned int line)
 {
-	QtCodeFile* file = m_list->getFile(filePath);
-
-	if (!file)
-	{
-		return;
-	}
-
-	if (file->isCollapsed())
-	{
-		file->requestContent();
-
-		m_scrollToFile = file;
-		m_scrollToLine = line;
-	}
-	else if (file->getFileSnippet())
-	{
-		emit shouldScrollToSnippet(file->getFileSnippet(), line, false);
-	}
-	else
-	{
-		m_scrollToFile = file;
-		m_scrollToLine = line;
-		scrollToSnippetIfRequested();
-	}
-}
-
-void QtCodeNavigator::scrollToLocation(QtCodeFile* file, Id locationId, bool scrollTo)
-{
-	QtCodeSnippet* snippet = nullptr;
-
-	if (locationId)
-	{
-		snippet = file->getSnippetForLocationId(locationId);
-	}
-	else
-	{
-		snippet = file->getFileSnippet();
-	}
-
-	if (!snippet)
-	{
-		return;
-	}
-
-	if (!snippet->isVisible())
-	{
-		file->setSnippets();
-	}
-
-	if (scrollTo)
-	{
-		if (locationId)
-		{
-			emit shouldScrollToSnippet(snippet, snippet->getLineNumberForLocationId(locationId), false);
-		}
-		else
-		{
-			emit shouldScrollToSnippet(snippet, 1, false);
-		}
-	}
+	requestScroll(filePath, line, 0, false, false);
 }
 
 void QtCodeNavigator::scrollToDefinition()
 {
-	std::pair<QtCodeSnippet*, int> result = m_list->getFirstSnippetWithActiveScope();
-
-	if (result.first != nullptr)
+	if (m_refIndex != 0)
 	{
-		emit shouldScrollToSnippet(result.first, result.second, true);
+		showCurrentReference(false);
+		return;
 	}
+
+	if (!m_activeTokenIds.size())
+	{
+		return;
+	}
+
+	Id tokenId = m_activeTokenIds[0]; // The first active tokenId is the one of the active symbol itself.
+
+	if (m_mode == MODE_LIST)
+	{
+		std::pair<QtCodeSnippet*, uint> result = m_list->getFirstSnippetWithActiveLocation(tokenId);
+		if (result.first != nullptr)
+		{
+			requestScroll(result.first->getFile()->getFilePath(), result.second, 0, false, true);
+			emit scrollRequest();
+		}
+	}
+	else
+	{
+		Id locationId = m_single->getLocationIdOfFirstActiveLocationOfTokenId(tokenId);
+		if (locationId)
+		{
+			for (size_t i = 0; i < m_references.size(); i++)
+			{
+				if (m_references[i].locationId == locationId)
+				{
+					m_refIndex = i + 1;
+					showCurrentReference(false);
+				}
+			}
+		}
+		else if (m_references.size())
+		{
+			nextReference(false);
+		}
+	}
+
+	m_singleHasNewFile = false;
 }
 
 void QtCodeNavigator::scrollToSnippetIfRequested()
 {
-	if (m_scrollToFile && m_scrollToLine)
-	{
-		emit shouldScrollToSnippet(m_scrollToFile->getSnippetForLine(m_scrollToLine), m_scrollToLine, false);
-	}
-	else if (m_scrollToFile && m_scrollToFile->hasSnippets())
-	{
-		scrollToLocation(m_scrollToFile, m_scrollToLocationId, true);
-	}
-
-	m_scrollToFile = nullptr;
-	m_scrollToLocationId = 0;
-	m_scrollToLine = 0;
+	emit scrollRequest();
 }
 
-void QtCodeNavigator::requestScrollToLine(QtCodeFile* file, unsigned int line)
+void QtCodeNavigator::requestScroll(const FilePath& filePath, uint lineNumber, Id locationId, bool animated, bool onTop)
 {
-	m_scrollToFile = file;
-	m_scrollToLine = line;
+	ScrollRequest req;
+	req.filePath = filePath;
+	req.lineNumber = lineNumber;
+	req.locationId = locationId;
+	req.animated = animated;
+	req.onTop = onTop;
+
+	if (m_mode == MODE_SINGLE)
+	{
+		if (req.lineNumber || m_singleHasNewFile)
+		{
+			req.animated = false;
+		}
+		else
+		{
+			req.animated = (m_single->getCurrentFilePath() == filePath);
+		}
+	}
+
+	if (m_scrollRequest.filePath.empty())
+	{
+		m_scrollRequest = req;
+	}
+
+	m_singleHasNewFile = false;
+}
+
+void QtCodeNavigator::handleScrollRequest()
+{
+	const ScrollRequest& req = m_scrollRequest;
+	if (req.filePath.empty())
+	{
+		return;
+	}
+
+	bool done = m_current->requestScroll(req.filePath, req.lineNumber, req.locationId, req.animated, req.onTop);
+	if (done)
+	{
+		m_scrollRequest = ScrollRequest();
+	}
 }
 
 void QtCodeNavigator::scrolled(int value)
 {
-	MessageScrollCode(value).dispatch();
-}
-
-void QtCodeNavigator::scrollToSnippet(QtCodeSnippet* snippet, uint lineNumber, bool onTop)
-{
-	if (lineNumber)
-	{
-		this->ensureWidgetVisibleAnimated(snippet, snippet->getLineRectForLineNumber(lineNumber), onTop);
-	}
+	MessageScrollCode(value, m_mode == MODE_LIST).dispatch();
 }
 
 void QtCodeNavigator::setValue()
 {
-	m_scrollArea->verticalScrollBar()->setValue(m_value);
+	QAbstractScrollArea* area = m_current->getScrollArea();
+
+	if (area)
+	{
+		area->verticalScrollBar()->setValue(m_value);
+	}
 }
 
-void QtCodeNavigator::previousReference()
+void QtCodeNavigator::previousReference(bool fromUI)
 {
 	if (!m_references.size())
 	{
@@ -535,10 +576,10 @@ void QtCodeNavigator::previousReference()
 		m_refIndex--;
 	}
 
-	showCurrentReference();
+	showCurrentReference(fromUI);
 }
 
-void QtCodeNavigator::nextReference()
+void QtCodeNavigator::nextReference(bool fromUI)
 {
 	if (!m_references.size())
 	{
@@ -552,19 +593,71 @@ void QtCodeNavigator::nextReference()
 		m_refIndex = 1;
 	}
 
-	showCurrentReference();
+	showCurrentReference(fromUI);
 }
 
-void QtCodeNavigator::showCurrentReference()
+void QtCodeNavigator::setModeList()
+{
+	setMode(MODE_LIST);
+}
+
+void QtCodeNavigator::setModeSingle()
+{
+	setMode(MODE_SINGLE);
+}
+
+void QtCodeNavigator::setMode(Mode mode)
+{
+	if (m_mode == mode)
+	{
+		return;
+	}
+
+	m_mode = mode;
+
+	m_listButton->setChecked(mode == MODE_LIST);
+	m_fileButton->setChecked(mode == MODE_SINGLE);
+
+	switch (mode)
+	{
+		case MODE_SINGLE:
+			m_list->hide();
+			m_single->show();
+			m_current = m_single;
+			break;
+		case MODE_LIST:
+			m_single->hide();
+			m_list->show();
+			m_current = m_list;
+			break;
+		default:
+			LOG_ERROR("Wrong mode set in code navigator");
+			return;
+	}
+
+	ApplicationSettings::getInstance()->setCodeViewModeSingle(m_mode == MODE_SINGLE);
+	ApplicationSettings::getInstance()->save();
+
+	setupFiles();
+	showContents();
+}
+
+void QtCodeNavigator::showCurrentReference(bool fromUI)
 {
 	const Reference& ref = m_references[m_refIndex - 1];
 
 	setCurrentActiveLocationIds(std::vector<Id>(1, ref.locationId));
-	showLocation(ref.filePath, ref.locationId, true);
+	updateFiles();
+
+	requestScroll(ref.filePath, 0, ref.locationId, fromUI, false);
+	emit scrollRequest();
 
 	updateRefLabel();
 
-	MessageShowReference(m_refIndex, ref.tokenId, ref.locationId).dispatch();
+	if (fromUI)
+	{
+		MessageShowReference(m_refIndex - 1, ref.tokenId, ref.locationId).dispatch();
+	}
 }
 
 void QtCodeNavigator::updateRefLabel()
@@ -583,51 +676,6 @@ void QtCodeNavigator::updateRefLabel()
 
 	m_prevButton->setEnabled(n > 1);
 	m_nextButton->setEnabled(n > 1);
-}
-
-void QtCodeNavigator::ensureWidgetVisibleAnimated(QWidget *childWidget, QRectF rect, bool onTop)
-{
-	QScrollArea* area = m_scrollArea;
-
-	if (!area->widget()->isAncestorOf(childWidget))
-	{
-		return;
-	}
-
-	const QRect microFocus = childWidget->inputMethodQuery(Qt::ImCursorRectangle).toRect();
-	const QRect defaultMicroFocus = childWidget->QWidget::inputMethodQuery(Qt::ImCursorRectangle).toRect();
-	QRect focusRect = (microFocus != defaultMicroFocus)
-		? QRect(childWidget->mapTo(area->widget(), microFocus.topLeft()), microFocus.size())
-		: QRect(childWidget->mapTo(area->widget(), QPoint(0, 0)), childWidget->size());
-	const QRect visibleRect(-area->widget()->pos(), area->viewport()->size());
-
-	if (rect.height() > 0)
-	{
-		focusRect = QRect(childWidget->mapTo(area->widget(), rect.topLeft().toPoint()), rect.size().toSize());
-		focusRect.adjust(0, 0, 0, 100);
-	}
-
-	QScrollBar* scrollBar = area->verticalScrollBar();
-	int value = focusRect.center().y() - visibleRect.center().y();
-
-	if (onTop)
-	{
-		value = focusRect.top() - visibleRect.top();
-		if (value < 50)
-		{
-			value = 0;
-		}
-	}
-
-	if (scrollBar && value != 0)
-	{
-		QPropertyAnimation* anim = new QPropertyAnimation(scrollBar, "value");
-		anim->setDuration(300);
-		anim->setStartValue(scrollBar->value());
-		anim->setEndValue(scrollBar->value() + value);
-		anim->setEasingCurve(QEasingCurve::InOutQuad);
-		anim->start();
-	}
 }
 
 void QtCodeNavigator::handleMessage(MessageCodeReference* message)
@@ -649,12 +697,32 @@ void QtCodeNavigator::handleMessage(MessageCodeReference* message)
 	);
 }
 
+void QtCodeNavigator::handleMessage(MessageFinishedParsing* message)
+{
+	m_onQtThread(
+		[=]()
+		{
+			clearCaches();
+		}
+	);
+}
+
+void QtCodeNavigator::handleMessage(MessageSwitchColorScheme* message)
+{
+	m_onQtThread(
+		[=]()
+		{
+			clearCaches();
+		}
+	);
+}
+
 void QtCodeNavigator::handleMessage(MessageWindowFocus* message)
 {
 	m_onQtThread(
 		[=]()
 		{
-			m_list->onWindowFocus();
+			m_current->onWindowFocus();
 		}
 	);
 }

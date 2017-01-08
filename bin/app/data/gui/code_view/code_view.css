@@ -1,5 +1,67 @@
-#code_container, #code_file_list {
+#code_navigation, #code_container, #code_container_single, #code_file_list, #code_file_single {
 	background-color: <color:code/background>;
+}
+
+#code_container, #code_file_list {
+	border: none;
+}
+
+#code_container {
+	border-top: 1px solid <color:code/line>;
+}
+
+#code_navigation * {
+	color: <color:code/file/title/text>;
+	font-size: <setting:font_size>px;
+}
+
+#code_navigation QPushButton {
+	background: <color:search/button/normal>;
+	border: none;
+	color: <color:search/button/icon>;
+	height: 24px;
+	width: 24px;
+}
+
+#code_navigation QPushButton:hover, #code_navigation QPushButton:checked {
+	background: <color:search/button/hover>;
+}
+
+#code_navigation QPushButton:disabled {
+	background: <color:search/button/disabled>;
+}
+
+#code_navigation QPushButton:pressed {
+	background: <color:search/button/press>;
+}
+
+#code_navigation #reference_button_previous, #code_navigation #reference_button_next {
+	border-radius: 12px;
+}
+
+#code_navigation #references_label {
+	background-color: <color:code/file/ref_count/background>;
+	border: none;
+	border-radius: 10px;
+	color: <color:code/file/ref_count/text>;
+	font-size: <setting:font_size>px;
+	padding: 0px 3px;
+	margin: 4px 6px 4px 6px;
+}
+
+#code_navigation #mode_button_list, #code_navigation #mode_button_single {
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+#code_navigation #mode_button_list {
+	border-bottom-left-radius: 12px;
+	border-top-left-radius: 12px;
+}
+
+#code_navigation #mode_button_single {
+	border-bottom-right-radius: 12px;
+	border-top-right-radius: 12px;
 }
 
 #code_file {
@@ -38,14 +100,14 @@
 	background-color: <color:code/file/title/press>;
 }
 
-#code_file #references_label {
+#code_file #references_label, #single_file_title_bar #references_label {
 	background-color: <color:code/file/ref_count/background>;
 	border: none;
 	border-radius: 10px;
 	color: <color:code/file/ref_count/text>;
 	font-size: <setting:font_size-2>px;
 	padding: 0px 3px;
-	margin: 4px 0px 4px;
+	margin: 4px 6px 4px 0px;
 }
 
 #code_file #code_snippet {
@@ -82,7 +144,7 @@
 	text-align: left;
 }
 
-#code_file #code_snippet #line_number_area {
+#line_number_area {
 	background-color: <color:code/snippet/line_number/background>;
 	border: none;
 	color: <color:code/snippet/line_number/text>;
@@ -127,4 +189,27 @@
 
 #code_file #minimize_button:enabled {
 	border-image: url(<setting:gui_path>code_view/images/minimize_active.png);
+}
+
+#single_file_title_bar {
+	background-color: <color:code/file/background>;
+	padding-right: 5px;
+}
+
+#single_file_title_bar #file_title {
+	background-color: <color:code/file/title/normal>;
+	border: none;
+	border-radius: 3px;
+	color: <color:code/file/title/text>;
+	font-size: <setting:font_size>px;
+	padding: 2px 4px;
+	margin: 3px 8px;
+}
+
+#single_file_title_bar #file_title:hover {
+	background-color: <color:code/file/title/hover>;
+}
+
+#single_file_title_bar #file_title:pressed {
+	background-color: <color:code/file/title/press>;
 }

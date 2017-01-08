@@ -7,7 +7,8 @@ class MessageCodeViewExpandedInitialFiles
 	: public Message<MessageCodeViewExpandedInitialFiles>
 {
 public:
-	MessageCodeViewExpandedInitialFiles()
+	MessageCodeViewExpandedInitialFiles(bool scrollToDefinition)
+		: scrollToDefinition(scrollToDefinition)
 	{
 	}
 
@@ -15,6 +16,8 @@ public:
 	{
 		return "MessageCodeViewExpandedInitialFiles";
 	}
+
+	bool scrollToDefinition;
 };
 
 #endif // MESSAGE_CODE_VIEW_EXPANDED_INITIAL_FILES_H

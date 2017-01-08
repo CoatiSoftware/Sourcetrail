@@ -91,6 +91,9 @@ public:
 	int getCodeSnippetExpandRange() const;
 	void setCodeSnippetExpandRange(int range);
 
+	bool getCodeViewModeSingle() const;
+	void setCodeViewModeSingle(bool enabled);
+
 	// user
 	std::vector<FilePath> getRecentProjects() const;
 	bool setRecentProjects(const std::vector<FilePath>& recentProjects);

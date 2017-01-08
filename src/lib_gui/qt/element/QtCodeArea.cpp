@@ -1,5 +1,7 @@
 #include "qt/element/QtCodeArea.h"
 
+#include <algorithm>
+
 #include <QApplication>
 #include <QFont>
 #include <QHBoxLayout>
@@ -151,21 +153,24 @@ QtCodeArea::~QtCodeArea()
 
 QSize QtCodeArea::sizeHint() const
 {
-	QTextBlock block = firstVisibleBlock();
-	float height = blockBoundingGeometry(block).translated(contentOffset()).top();
+	QTextBlock block = document()->firstBlock();
+
+	double height = 0;
+	double width = lineNumberAreaWidth() + blockBoundingGeometry(block).translated(contentOffset()).left();
 
 	while (block.isValid())
 	{
 		height += blockBoundingRect(block).height();
+		width = std::max(blockBoundingRect(block).width(), width);
 		block = block.next();
 	}
 
-	if (horizontalScrollBar()->isVisible())
+	if (horizontalScrollBar()->minimum() != horizontalScrollBar()->maximum())
 	{
 		height += horizontalScrollBar()->height();
 	}
 
-	return QSize(0, height + 5);
+	return QSize(width + 1, height + 5);
 }
 
 uint QtCodeArea::getStartLineNumber() const
@@ -275,29 +280,63 @@ uint QtCodeArea::getLineNumberForLocationId(Id locationId) const
 	return 0;
 }
 
-int QtCodeArea::getStartLineNumberOfFirstActiveScope() const
+uint QtCodeArea::getStartLineNumberOfFirstActiveLocationOfTokenId(Id tokenId) const
 {
 	int firstActiveLine = 0;
 	for (const Annotation& annotation : m_annotations)
 	{
-		if (annotation.locationType == LocationType::LOCATION_SCOPE && annotation.isActive)
+		if (annotation.locationType == LocationType::LOCATION_TOKEN && annotation.isActive)
 		{
-			if (firstActiveLine && firstActiveLine != annotation.startLine)
+			if (annotation.tokenId == tokenId)
 			{
-				return annotation.startLine;
+				if (!firstActiveLine || firstActiveLine == annotation.startLine)
+				{
+					return getStartLineNumber();
+				}
+				else
+				{
+					return annotation.startLine;
+				}
 			}
 			else
 			{
-				return getStartLineNumber();
+				firstActiveLine = annotation.startLine;
 			}
-		}
-		else if (annotation.isActive)
-		{
-			firstActiveLine = annotation.startLine;
 		}
 	}
 
 	return 0;
+}
+
+Id QtCodeArea::getLocationIdOfFirstActiveLocationOfTokenId(Id tokenId) const
+{
+	for (const Annotation& annotation : m_annotations)
+	{
+		if (annotation.locationType == LocationType::LOCATION_TOKEN && annotation.isActive)
+		{
+			if (annotation.tokenId == tokenId)
+			{
+				return annotation.locationId;
+			}
+		}
+	}
+
+	return 0;
+}
+
+uint QtCodeArea::getActiveLocationCount() const
+{
+	uint count = 0;
+
+	for (const Annotation& annotation : m_annotations)
+	{
+		if (annotation.locationType == LocationType::LOCATION_TOKEN && (annotation.isActive || annotation.isFocused))
+		{
+			count++;
+		}
+	}
+
+	return count;
 }
 
 QRectF QtCodeArea::getLineRectForLineNumber(uint lineNumber) const
@@ -338,8 +377,6 @@ void QtCodeArea::showEvent(QShowEvent* event)
 {
 	int tabWidth = ApplicationSettings::getInstance()->getCodeTabWidth();
 	setTabStopWidth(tabWidth * fontMetrics().width('9'));
-
-	setFixedHeight(sizeHint().height());
 }
 
 void QtCodeArea::paintEvent(QPaintEvent* event)
@@ -563,12 +600,13 @@ void QtCodeArea::clearSelection()
 	QTextCursor cursor = textCursor();
 	cursor.clearSelection();
 
-	QScrollBar* scrollbar = horizontalScrollBar();
-	int scrollValue = horizontalScrollBar()->value();
+	int horizontalValue = horizontalScrollBar()->value();
+	int verticalValue = verticalScrollBar()->value();
 
 	setTextCursor(cursor);
 
-	scrollbar->setValue(scrollValue);
+	horizontalScrollBar()->setValue(horizontalValue);
+	verticalScrollBar()->setValue(verticalValue);
 }
 
 void QtCodeArea::setIDECursorPosition()

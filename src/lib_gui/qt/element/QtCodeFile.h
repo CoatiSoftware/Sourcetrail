@@ -7,19 +7,16 @@
 
 #include <QFrame>
 
-#include "utility/file/FilePath.h"
-#include "utility/TimePoint.h"
-#include "utility/types.h"
-
-#include "data/ErrorInfo.h"
 #include "component/view/helper/CodeSnippetParams.h"
+#include "utility/file/FilePath.h"
 
 class QLabel;
 class QPushButton;
+class QtCodeFileTitleButton;
 class QtCodeNavigator;
 class QtCodeSnippet;
 class QVBoxLayout;
-class TokenLocationFile;
+class TimePoint;
 
 class QtCodeFile
 	: public QFrame
@@ -30,7 +27,7 @@ public:
 	QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator);
 	virtual ~QtCodeFile();
 
-	void setModificationTime(TimePoint modificationTime);
+	void setModificationTime(const TimePoint modificationTime);
 
 	const FilePath& getFilePath() const;
 	std::string getFileName() const;
@@ -42,14 +39,14 @@ public:
 	QtCodeSnippet* getSnippetForLine(unsigned int line) const;
 	QtCodeSnippet* getFileSnippet() const;
 
-	std::pair<QtCodeSnippet*, int> getFirstSnippetWithActiveScope() const;
+	std::pair<QtCodeSnippet*, uint> getFirstSnippetWithActiveLocation(Id tokenId) const;
 
 	bool isCollapsed() const;
 
 	void requestContent() const;
 	void updateContent();
 
-	void setLocationFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount);
+	void setWholeFile(bool isWholeFile, int refCount);
 
 	void setMinimized();
 	void setSnippets();
@@ -66,8 +63,6 @@ public slots:
 
 private slots:
 	void clickedTitleBar();
-	void clickedTitle();
-	void editProject();
 
 private:
 	void updateRefCount(int refCount);
@@ -75,7 +70,7 @@ private:
 	QtCodeNavigator* m_navigator;
 
 	QPushButton* m_titleBar;
-	QPushButton* m_title;
+	QtCodeFileTitleButton* m_title;
 	QLabel* m_referenceCount;
 
 	QPushButton* m_minimizeButton;
@@ -87,9 +82,10 @@ private:
 	std::shared_ptr<QtCodeSnippet> m_fileSnippet;
 
 	const FilePath m_filePath;
-	TimePoint m_modificationTime;
 
-	std::shared_ptr<TokenLocationFile> m_locationFile;
+	bool m_isWholeFile;
+	bool m_isCollapsed;
+
 	mutable bool m_contentRequested;
 };
 

@@ -1,8 +1,12 @@
 #ifndef UTILITY_QT_H
 #define UTILITY_QT_H
 
-#include <memory>
-#include <qwidget.h>
+#include <string>
+
+class QColor;
+class QPixmap;
+class QString;
+class QWidget;
 
 namespace utility
 {

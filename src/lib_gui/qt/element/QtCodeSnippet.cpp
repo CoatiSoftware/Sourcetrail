@@ -123,6 +123,11 @@ QtCodeFile* QtCodeSnippet::getFile() const
 	return m_file;
 }
 
+QtCodeArea* QtCodeSnippet::getArea() const
+{
+	return m_codeArea.get();
+}
+
 uint QtCodeSnippet::getStartLineNumber() const
 {
 	return m_codeArea->getStartLineNumber();
@@ -160,9 +165,9 @@ uint QtCodeSnippet::getLineNumberForLocationId(Id locationId) const
 	return m_codeArea->getLineNumberForLocationId(locationId);
 }
 
-int QtCodeSnippet::getStartLineNumberOfFirstActiveScope() const
+uint QtCodeSnippet::getStartLineNumberOfFirstActiveLocationOfTokenId(Id tokenId) const
 {
-	return m_codeArea->getStartLineNumberOfFirstActiveScope();
+	return m_codeArea->getStartLineNumberOfFirstActiveLocationOfTokenId(tokenId);
 }
 
 QRectF QtCodeSnippet::getLineRectForLineNumber(uint lineNumber) const
@@ -186,7 +191,7 @@ void QtCodeSnippet::clickedTitle()
 		getFile()->clickedMaximizeButton();
 	}
 
-	m_navigator->requestScrollToLine(getFile(), getStartLineNumber());
+	m_navigator->requestScroll(getFile()->getFilePath(), getStartLineNumber(), 0, true, false);
 }
 
 void QtCodeSnippet::clickedFooter()
@@ -195,7 +200,7 @@ void QtCodeSnippet::clickedFooter()
 	{
 		MessageShowScope(m_footerId, m_navigator->hasErrors()).dispatch();
 
-		m_navigator->requestScrollToLine(getFile(), getEndLineNumber());
+		m_navigator->requestScroll(getFile()->getFilePath(), getEndLineNumber(), 0, true, false);
 	}
 }
 

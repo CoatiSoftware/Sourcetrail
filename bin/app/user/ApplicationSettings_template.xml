@@ -57,6 +57,8 @@
 			<snap_range><!-- INTEGER: max amount of lines that the current snippet will be extended to snap to scope start/end --></snap_range>
 			<expand_range><!-- INTEGER: amount of lines that the snippet range (not snapped) will be extended --></expand_range>
 		</snippet>
+
+		<view_mode_single><!-- BOOL: whether code view is used in single or list mode --></view_mode_single>
 	</code>
 
 	<user>

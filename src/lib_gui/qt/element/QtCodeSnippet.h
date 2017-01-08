@@ -31,6 +31,7 @@ public:
 	virtual ~QtCodeSnippet();
 
 	QtCodeFile* getFile() const;
+	QtCodeArea* getArea() const;
 
 	uint getStartLineNumber() const;
 	uint getEndLineNumber() const;
@@ -43,7 +44,7 @@ public:
 	void setIsActiveFile(bool isActiveFile);
 
 	uint getLineNumberForLocationId(Id locationId) const;
-	int getStartLineNumberOfFirstActiveScope() const;
+	uint getStartLineNumberOfFirstActiveLocationOfTokenId(Id tokenId) const;
 	QRectF getLineRectForLineNumber(uint lineNumber) const;
 
 	std::string getCode() const;

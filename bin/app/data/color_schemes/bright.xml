@@ -72,6 +72,7 @@
 
 	<code>
 		<background>white</background>
+		<line>#B2B2B2</line>
 
 		<file>
 			<background>#E0E0E0</background>

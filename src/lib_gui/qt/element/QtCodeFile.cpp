@@ -4,25 +4,19 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include "utility/ResourcePaths.h"
-#include "utility/file/FileSystem.h"
-#include "utility/logging/logging.h"
-#include "utility/messaging/type/MessageActivateFile.h"
 #include "utility/messaging/type/MessageChangeFileView.h"
-#include "utility/messaging/type/MessageProjectEdit.h"
 
-#include "Application.h"
-#include "data/location/TokenLocation.h"
 #include "data/location/TokenLocationFile.h"
+#include "qt/element/QtCodeFileTitleButton.h"
 #include "qt/element/QtCodeNavigator.h"
 #include "qt/element/QtCodeSnippet.h"
-#include "qt/utility/utilityQt.h"
-#include "settings/ColorScheme.h"
 
 QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 	: QFrame()
 	, m_navigator(navigator)
 	, m_filePath(filePath)
+	, m_isWholeFile(false)
+	, m_isCollapsed(true)
 	, m_contentRequested(false)
 {
 	setObjectName("code_file");
@@ -44,20 +38,11 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 	titleLayout->setAlignment(Qt::AlignLeft);
 	m_titleBar->setLayout(titleLayout);
 
-	m_title = new QPushButton(filePath.fileName().c_str(), this);
-	m_title->setObjectName("title_label");
-	m_title->minimumSizeHint(); // force font loading
-	m_title->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-	m_title->setToolTip(QString::fromStdString(filePath.str()));
-	m_title->setFixedHeight(std::max(m_title->fontMetrics().height() * 1.2, 28.0));
-	m_title->setSizePolicy(m_title->sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
-
-	std::string text = ResourcePaths::getGuiPath() + "graph_view/images/file.png";
-
-	m_title->setIcon(utility::colorizePixmap(
-		QPixmap(text.c_str()),
-		ColorScheme::getInstance()->getColor("code/file/title/icon").c_str()
-	));
+	m_title = new QtCodeFileTitleButton(this);
+	if (!m_filePath.empty())
+	{
+		m_title->setFilePath(filePath);
+	}
 
 	titleLayout->addWidget(m_title);
 
@@ -93,7 +78,6 @@ QtCodeFile::QtCodeFile(const FilePath& filePath, QtCodeNavigator* navigator)
 	m_maximizeButton->setEnabled(false);
 
 	connect(m_titleBar, SIGNAL(clicked()), this, SLOT(clickedTitleBar()));
-	connect(m_title, SIGNAL(clicked()), this, SLOT(clickedTitle()));
 	connect(m_minimizeButton, SIGNAL(clicked()), this, SLOT(clickedMinimizeButton()));
 	connect(m_snippetButton, SIGNAL(clicked()), this, SLOT(clickedSnippetButton()));
 	connect(m_maximizeButton, SIGNAL(clicked()), this, SLOT(clickedMaximizeButton()));
@@ -108,13 +92,9 @@ QtCodeFile::~QtCodeFile()
 {
 }
 
-void QtCodeFile::setModificationTime(TimePoint modificationTime)
+void QtCodeFile::setModificationTime(const TimePoint modificationTime)
 {
-	if (modificationTime.isValid())
-	{
-		m_modificationTime = modificationTime;
-		updateTitleBar();
-	}
+	m_title->setModificationTime(modificationTime);
 }
 
 const FilePath& QtCodeFile::getFilePath() const
@@ -129,39 +109,13 @@ std::string QtCodeFile::getFileName() const
 
 QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 {
-	m_locationFile.reset();
+	m_isCollapsed = false;
 
 	std::shared_ptr<QtCodeSnippet> snippet(new QtCodeSnippet(params, m_navigator, this));
 
 	if (params.reduced)
 	{
-		m_title->hide();
-
-		QPushButton* title = new QPushButton(params.title.c_str(), this);
-		title->setObjectName("title_label");
-		title->minimumSizeHint(); // force font loading
-		title->setAttribute(Qt::WA_LayoutUsesWidgetRect); // fixes layouting on Mac
-		title->setFixedHeight(std::max(title->fontMetrics().height() * 1.2, 28.0));
-		title->setSizePolicy(title->sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
-
-		if (Application::getInstance()->isInTrial())
-		{
-			title->setEnabled(false);
-		}
-		else
-		{
-			std::string text = ResourcePaths::getGuiPath() + "code_view/images/edit.png";
-			title->setToolTip("edit project");
-
-			title->setIcon(utility::colorizePixmap(
-				QPixmap(text.c_str()),
-				ColorScheme::getInstance()->getColor("code/file/title/icon").c_str()
-			));
-
-			connect(title, SIGNAL(clicked()), this, SLOT(editProject()));
-		}
-
-		dynamic_cast<QHBoxLayout*>(m_titleBar->layout())->insertWidget(1, title);
+		m_title->setProject(params.title);
 	}
 
 	m_snippetLayout->addWidget(snippet.get());
@@ -196,7 +150,7 @@ QtCodeSnippet* QtCodeFile::addCodeSnippet(const CodeSnippetParams& params)
 
 QtCodeSnippet* QtCodeFile::insertCodeSnippet(const CodeSnippetParams& params)
 {
-	m_locationFile.reset();
+	m_isCollapsed = false;
 
 	std::shared_ptr<QtCodeSnippet> snippet(new QtCodeSnippet(params, m_navigator, this));
 
@@ -273,13 +227,13 @@ QtCodeSnippet* QtCodeFile::getFileSnippet() const
 	return m_fileSnippet.get();
 }
 
-std::pair<QtCodeSnippet*, int> QtCodeFile::getFirstSnippetWithActiveScope() const
+std::pair<QtCodeSnippet*, uint> QtCodeFile::getFirstSnippetWithActiveLocation(Id tokenId) const
 {
-	std::pair<QtCodeSnippet*, int> result(nullptr, 0);
+	std::pair<QtCodeSnippet*, uint> result(nullptr, 0);
 
 	for (std::shared_ptr<QtCodeSnippet> snippet : m_snippets)
 	{
-		int startLineNumber = snippet->getStartLineNumberOfFirstActiveScope();
+		uint startLineNumber = snippet->getStartLineNumberOfFirstActiveLocationOfTokenId(tokenId);
 		if (startLineNumber != 0)
 		{
 			result.first = snippet.get();
@@ -293,7 +247,7 @@ std::pair<QtCodeSnippet*, int> QtCodeFile::getFirstSnippetWithActiveScope() cons
 
 bool QtCodeFile::isCollapsed() const
 {
-	return m_locationFile != nullptr;
+	return m_isCollapsed;
 }
 
 void QtCodeFile::requestContent() const
@@ -307,7 +261,7 @@ void QtCodeFile::requestContent() const
 
 	MessageChangeFileView msg(
 		m_filePath,
-		m_locationFile->isWholeCopy ? MessageChangeFileView::FILE_MAXIMIZED : MessageChangeFileView::FILE_SNIPPETS,
+		m_isWholeFile ? MessageChangeFileView::FILE_MAXIMIZED : MessageChangeFileView::FILE_SNIPPETS,
 		isCollapsed(),
 		m_navigator->hasErrors()
 	);
@@ -331,12 +285,12 @@ void QtCodeFile::updateContent()
 	}
 }
 
-void QtCodeFile::setLocationFile(std::shared_ptr<TokenLocationFile> locationFile, int refCount)
+void QtCodeFile::setWholeFile(bool isWholeFile, int refCount)
 {
-	m_locationFile = locationFile;
+	m_isWholeFile = isWholeFile;
 	setMinimized();
 
-	updateRefCount(locationFile->isWholeCopy ? 0 : refCount);
+	updateRefCount(isWholeFile ? 0 : refCount);
 }
 
 void QtCodeFile::setMinimized()
@@ -352,7 +306,7 @@ void QtCodeFile::setMinimized()
 	}
 
 	m_minimizeButton->setEnabled(false);
-	m_snippetButton->setEnabled(m_snippets.size() || (isCollapsed() && !m_locationFile->isWholeCopy));
+	m_snippetButton->setEnabled(m_snippets.size() || (isCollapsed() && !m_isWholeFile));
 	m_maximizeButton->setEnabled(true);
 }
 
@@ -422,23 +376,7 @@ void QtCodeFile::updateSnippets()
 
 void QtCodeFile::updateTitleBar()
 {
-	if (Application::getInstance()->isInTrial())
-	{
-		return;
-	}
-
-	// cannot use m_filePath.exists() here since it is only checked when FilePath is constructed.
-	if ((!FileSystem::exists(m_filePath.str())) ||
-		(FileSystem::getLastWriteTime(m_filePath) > m_modificationTime))
-	{
-		m_title->setText(QString(m_filePath.fileName().c_str()) + "*");
-		m_title->setToolTip(QString::fromStdString("out of date: " + m_filePath.str()));
-	}
-	else
-	{
-		m_title->setText(m_filePath.fileName().c_str());
-		m_title->setToolTip(QString::fromStdString(m_filePath.str()));
-	}
+	m_title->checkModification();
 }
 
 void QtCodeFile::clickedMinimizeButton() const
@@ -485,16 +423,6 @@ void QtCodeFile::clickedTitleBar()
 	{
 		clickedMaximizeButton();
 	}
-}
-
-void QtCodeFile::clickedTitle()
-{
-	MessageActivateFile(m_filePath).dispatch();
-}
-
-void QtCodeFile::editProject()
-{
-	MessageProjectEdit().dispatch();
 }
 
 void QtCodeFile::updateRefCount(int refCount)

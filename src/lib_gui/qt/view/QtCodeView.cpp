@@ -12,8 +12,6 @@
 
 QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	: CodeView(viewLayout)
-	, m_refreshViewFunctor(std::bind(&QtCodeView::doRefreshView, this))
-	, m_clearFunctor(std::bind(&QtCodeView::doClear, this))
 	, m_showCodeSnippetsFunctor(
 		std::bind(&QtCodeView::doShowCodeSnippets, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))
 	, m_addCodeSnippetsFunctor(std::bind(&QtCodeView::doAddCodeSnippets, this, std::placeholders::_1, std::placeholders::_2))
@@ -23,10 +21,6 @@ QtCodeView::QtCodeView(ViewLayout* viewLayout)
 	, m_doShowActiveTokenIdsFunctor(std::bind(&QtCodeView::doShowActiveTokenIds, this, std::placeholders::_1))
 	, m_doShowActiveLocalSymbolIdsFunctor(std::bind(&QtCodeView::doShowActiveLocalSymbolIds, this, std::placeholders::_1))
 	, m_focusTokenIdsFunctor(std::bind(&QtCodeView::doFocusTokenIds, this, std::placeholders::_1))
-	, m_defocusTokenIdsFunctor(std::bind(&QtCodeView::doDefocusTokenIds, this))
-	, m_showContentsFunctor(std::bind(&QtCodeView::doShowContents, this))
-	, m_scrollToValueFunctor(std::bind(&QtCodeView::doScrollToValue, this, std::placeholders::_1))
-	, m_scrollToLineFunctor(std::bind(&QtCodeView::doScrollToLine, this, std::placeholders::_1, std::placeholders::_2))
 {
 	m_widget = new QtCodeNavigator();
 	setStyleSheet();
@@ -47,12 +41,25 @@ void QtCodeView::initView()
 
 void QtCodeView::refreshView()
 {
-	m_refreshViewFunctor();
+	m_onQtThread(
+		[=]()
+		{
+			setStyleSheet();
+
+			QtCodeArea::clearAnnotationColors();
+			QtHighlighter::clearHighlightingRules();
+		}
+	);
 }
 
 void QtCodeView::clear()
 {
-	m_clearFunctor();
+	m_onQtThread(
+		[=]()
+		{
+			m_widget->clearCodeSnippets();
+		}
+	);
 
 	m_errorInfos.clear();
 }
@@ -106,22 +113,42 @@ void QtCodeView::focusTokenIds(const std::vector<Id>& focusedTokenIds)
 
 void QtCodeView::defocusTokenIds()
 {
-	m_defocusTokenIdsFunctor();
+	m_onQtThread(
+		[=]()
+		{
+			m_widget->defocusTokenIds();
+		}
+	);
 }
 
 void QtCodeView::showContents()
 {
-	m_showContentsFunctor();
+	m_onQtThread(
+		[=]()
+		{
+			m_widget->showContents();
+		}
+	);
 }
 
-void QtCodeView::scrollToValue(int value)
+void QtCodeView::scrollToValue(int value, bool inListMode)
 {
-	m_scrollToValueFunctor(value);
+	m_onQtThread(
+		[=]()
+		{
+			m_widget->scrollToValue(value, inListMode);
+		}
+	);
 }
 
 void QtCodeView::scrollToLine(const FilePath filePath, unsigned int line)
 {
-	m_scrollToLineFunctor(filePath, line);
+	m_onQtThread(
+		[=]()
+		{
+			m_widget->scrollToLine(filePath, line);
+		}
+	);
 }
 
 void QtCodeView::scrollToDefinition()
@@ -132,19 +159,6 @@ void QtCodeView::scrollToDefinition()
 			m_widget->scrollToDefinition();
 		}
 	);
-}
-
-void QtCodeView::doRefreshView()
-{
-	setStyleSheet();
-
-	QtCodeArea::clearAnnotationColors();
-	QtHighlighter::clearHighlightingRules();
-}
-
-void QtCodeView::doClear()
-{
-	m_widget->clearCodeSnippets();
 }
 
 void QtCodeView::doShowCodeSnippets(
@@ -164,6 +178,8 @@ void QtCodeView::doShowCodeSnippets(
 			m_widget->addCodeSnippet(params);
 		}
 	}
+
+	m_widget->addedFiles();
 
 	if (setupFiles)
 	{
@@ -226,26 +242,6 @@ void QtCodeView::doShowActiveLocalSymbolIds(const std::vector<Id>& localSymbolId
 void QtCodeView::doFocusTokenIds(const std::vector<Id>& focusedTokenIds)
 {
 	m_widget->focusTokenIds(focusedTokenIds);
-}
-
-void QtCodeView::doDefocusTokenIds()
-{
-	m_widget->defocusTokenIds();
-}
-
-void QtCodeView::doShowContents()
-{
-	m_widget->showContents();
-}
-
-void QtCodeView::doScrollToValue(int value)
-{
-	m_widget->scrollToValue(value);
-}
-
-void QtCodeView::doScrollToLine(const FilePath filePath, unsigned int line)
-{
-	m_widget->scrollToLine(filePath, line);
 }
 
 void QtCodeView::setStyleSheet() const

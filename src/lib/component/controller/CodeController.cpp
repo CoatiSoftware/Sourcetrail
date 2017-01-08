@@ -166,6 +166,11 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 {
 	TRACE("code change file");
 
+	if (!m_collection)
+	{
+		return;
+	}
+
 	CodeView* view = getView();
 
 	switch (message->state)
@@ -177,8 +182,18 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 	case MessageChangeFileView::FILE_SNIPPETS:
 		if (message->needsData)
 		{
-			view->addCodeSnippets(getSnippetsForFile(
-				m_collection->getTokenLocationFileByPath(message->filePath), !message->showErrors), false);
+			std::shared_ptr<TokenLocationFile> file = m_collection->getTokenLocationFileByPath(message->filePath);
+			if (!file)
+			{
+				return;
+			}
+
+			if (message->showErrors)
+			{
+				file->isWholeCopy = false;
+			}
+
+			view->addCodeSnippets(getSnippetsForFile(file, !message->showErrors), false);
 		}
 		view->setFileState(message->filePath, CodeView::FILE_SNIPPETS);
 		break;
@@ -198,6 +213,10 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 			if (message->showErrors)
 			{
 				params.locationFile = m_collection->getTokenLocationFileByPath(message->filePath);
+				if (!params.locationFile)
+				{
+					return;
+				}
 				params.locationFile->isWholeCopy = true;
 			}
 			else
@@ -221,6 +240,7 @@ void CodeController::handleMessage(MessageChangeFileView* message)
 
 			getView()->addCodeSnippets(std::vector<CodeSnippetParams>(1, params), false);
 		}
+
 		view->setFileState(message->filePath, CodeView::FILE_MAXIMIZED);
 		break;
 	}
@@ -256,7 +276,7 @@ void CodeController::handleMessage(MessageFocusOut* message)
 
 void CodeController::handleMessage(MessageCodeViewExpandedInitialFiles* message)
 {
-	if (m_scrollToDefinition)
+	if (m_scrollToDefinition || (message && message->scrollToDefinition))
 	{
 		getView()->scrollToDefinition();
 		m_scrollToDefinition = false;
@@ -264,7 +284,7 @@ void CodeController::handleMessage(MessageCodeViewExpandedInitialFiles* message)
 
 	if (m_scrollToValue != -1)
 	{
-		getView()->scrollToValue(m_scrollToValue);
+		getView()->scrollToValue(m_scrollToValue, m_scrollInListMode);
 		m_scrollToValue = -1;
 	}
 }
@@ -294,6 +314,7 @@ void CodeController::handleMessage(MessageScrollCode* message)
 	if (message->isReplayed())
 	{
 		m_scrollToValue = message->value;
+		m_scrollInListMode = message->inListMode;
 	}
 }
 

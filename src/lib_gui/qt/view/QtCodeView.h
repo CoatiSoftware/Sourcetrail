@@ -47,14 +47,11 @@ public:
 
 	virtual void showContents();
 
-	virtual void scrollToValue(int value);
+	virtual void scrollToValue(int value, bool inListMode);
 	virtual void scrollToLine(const FilePath filePath, unsigned int line);
 	virtual void scrollToDefinition();
 
 private:
-	void doRefreshView();
-	void doClear();
-
 	void doShowCodeSnippets(
 		const std::vector<CodeSnippetParams>& snippets, const std::vector<Id>& activeTokenIds, bool setupFiles);
 	void doAddCodeSnippets(const std::vector<CodeSnippetParams>& snippets, bool insert);
@@ -67,17 +64,9 @@ private:
 	void doShowActiveLocalSymbolIds(const std::vector<Id>& localSymbolIds);
 
 	void doFocusTokenIds(const std::vector<Id>& focusedTokenIds);
-	void doDefocusTokenIds();
-
-	void doShowContents();
-
-	void doScrollToValue(int value);
-	void doScrollToLine(const FilePath filePath, unsigned int line);
 
 	void setStyleSheet() const;
 
-	QtThreadedFunctor<> m_refreshViewFunctor;
-	QtThreadedFunctor<> m_clearFunctor;
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&, const std::vector<Id>&, bool> m_showCodeSnippetsFunctor;
 	QtThreadedFunctor<const std::vector<CodeSnippetParams>&, bool> m_addCodeSnippetsFunctor;
 	QtThreadedFunctor<const FilePath, FileState> m_setFileStateFunctor;
@@ -85,10 +74,6 @@ private:
 	QtThreadedFunctor<const std::vector<Id>&> m_doShowActiveTokenIdsFunctor;
 	QtThreadedFunctor<const std::vector<Id>&> m_doShowActiveLocalSymbolIdsFunctor;
 	QtThreadedFunctor<const std::vector<Id>&> m_focusTokenIdsFunctor;
-	QtThreadedFunctor<> m_defocusTokenIdsFunctor;
-	QtThreadedFunctor<> m_showContentsFunctor;
-	QtThreadedFunctor<int> m_scrollToValueFunctor;
-	QtThreadedFunctor<const FilePath, unsigned int> m_scrollToLineFunctor;
 
 	QtThreadedLambdaFunctor m_onQtThread;
 
