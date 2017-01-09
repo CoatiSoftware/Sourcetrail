@@ -35,9 +35,14 @@ void CodeController::handleMessage(MessageActivateAll* message)
 
 	clear();
 
-	StorageStats stats = m_storageAccess->getStorageStats();
-	ErrorCountInfo errorCount = m_storageAccess->getErrorCount();
+	Project* currentProject = Application::getInstance()->getCurrentProject().get();
+	if (!currentProject)
+	{
+		return;
+	}
+
 	CodeSnippetParams statsSnippet;
+	statsSnippet.title = currentProject->getProjectSettingsFilePath().withoutExtension().fileName();
 
 	statsSnippet.startLineNumber = 1;
 	statsSnippet.endLineNumber = 1;
@@ -46,12 +51,6 @@ void CodeController::handleMessage(MessageActivateAll* message)
 
 	statsSnippet.locationFile = std::make_shared<TokenLocationFile>(FilePath());
 	statsSnippet.locationFile->isWholeCopy = true;
-
-	Project* currentProject = Application::getInstance()->getCurrentProject().get();
-	if (currentProject)
-	{
-		statsSnippet.title = currentProject->getProjectSettingsFilePath().withoutExtension().fileName();
-	}
 
 	std::vector<std::string> description = getProjectDescription(statsSnippet.locationFile.get());
 
@@ -65,6 +64,9 @@ void CodeController::handleMessage(MessageActivateAll* message)
 			ss << line + "\n";
 		}
 	}
+
+	StorageStats stats = m_storageAccess->getStorageStats();
+	ErrorCountInfo errorCount = m_storageAccess->getErrorCount();
 
 	ss << "\n";
 	ss << "\t" + std::to_string(stats.fileCount) + " files\n";
