@@ -126,7 +126,9 @@ void QtGraphEdge::updateLine()
 			}
 		}
 
-		if (type != Edge::EDGE_INHERITANCE && type != Edge::EDGE_AGGREGATION)
+		if (type != Edge::EDGE_INHERITANCE &&
+			(type != Edge::EDGE_AGGREGATION ||
+				owner.get() != owner->getLastParent() || target.get() != target->getLastParent()))
 		{
 			child->setRoute(QtAngledLineItem::ROUTE_HORIZONTAL);
 		}
