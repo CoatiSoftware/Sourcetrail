@@ -14,6 +14,7 @@
 #include "component/controller/helper/GraphPostprocessor.h"
 #include "component/view/GraphViewStyle.h"
 #include "settings/ColorScheme.h"
+#include "settings/ApplicationSettings.h"
 #include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/ResourcePaths.h"
 
@@ -276,7 +277,7 @@ void QtGraphView::doRebuildGraph(
 		m_activeNode.reset();
 	}
 
-	if (params.animatedTransition)
+	if (params.animatedTransition && ApplicationSettings::getInstance()->getUseAnimations())
 	{
 		createTransition();
 	}

@@ -89,6 +89,16 @@ void ApplicationSettings::setFontSize(int fontSize)
 	setValue<int>("application/font_size", fontSize);
 }
 
+bool ApplicationSettings::getUseAnimations() const
+{
+	return getValue<bool>("application/use_animations", true);
+}
+
+void ApplicationSettings::setUseAnimations(bool useAnimations)
+{
+	setValue<bool>("application/use_animations", useAnimations);
+}
+
 FilePath ApplicationSettings::getColorSchemePath() const
 {
 	FilePath defaultPath(ResourcePaths::getColorSchemesPath() + "bright.xml");

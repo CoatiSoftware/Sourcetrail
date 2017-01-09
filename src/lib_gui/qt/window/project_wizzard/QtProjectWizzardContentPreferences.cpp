@@ -57,6 +57,10 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	}
 	connect(m_colorSchemes, SIGNAL(activated(int)), this, SLOT(colorSchemeChanged(int)));
 
+	// animations
+	m_useAnimations = addCheckBox("Animations", "Enable animations",
+		"Enable/disable animations throughout the user interface.", layout, row);
+
 	// logging
 	m_loggingEnabled = addCheckBox("Logging", "Enable console and file logging",
 		"Save log files and show log information in the console.", layout, row);
@@ -173,6 +177,8 @@ void QtProjectWizzardContentPreferences::load()
 		}
 	}
 
+	m_useAnimations->setChecked(appSettings->getUseAnimations());
+
 	m_loggingEnabled->setChecked(appSettings->getLoggingEnabled());
 	m_verboseIndexerLoggingEnabled->setChecked(appSettings->getVerboseIndexerLoggingEnabled());
 	m_verboseIndexerLoggingEnabled->setEnabled(m_loggingEnabled->isChecked());
@@ -204,6 +210,8 @@ void QtProjectWizzardContentPreferences::save()
 
 	appSettings->setColorSchemePath(m_colorSchemePaths[m_colorSchemes->currentIndex()]);
 	m_oldColorSchemeIndex = -1;
+
+	appSettings->setUseAnimations(m_useAnimations->isChecked());
 
 	appSettings->setLoggingEnabled(m_loggingEnabled->isChecked());
 	appSettings->setVerboseIndexerLoggingEnabled(m_verboseIndexerLoggingEnabled->isChecked());

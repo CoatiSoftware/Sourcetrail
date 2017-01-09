@@ -4,6 +4,8 @@
 #include <QScrollArea>
 #include <QScrollBar>
 
+#include "settings/ApplicationSettings.h"
+
 QtCodeNavigateable::~QtCodeNavigateable()
 {
 }
@@ -40,7 +42,7 @@ void QtCodeNavigateable::ensureWidgetVisibleAnimated(
 
 	if (scrollBar && (value > 50 || value < -50))
 	{
-		if (animated)
+		if (animated && ApplicationSettings::getInstance()->getUseAnimations())
 		{
 			QPropertyAnimation* anim = new QPropertyAnimation(scrollBar, "value");
 			anim->setDuration(300);
@@ -87,7 +89,7 @@ void QtCodeNavigateable::ensurePercentVisibleAnimated(double percent, bool anima
 
 	int value = scrollHeight * scrollFactor;
 
-	if (animated)
+	if (animated && ApplicationSettings::getInstance()->getUseAnimations())
 	{
 		QPropertyAnimation* anim = new QPropertyAnimation(scrollBar, "value");
 		anim->setDuration(300);

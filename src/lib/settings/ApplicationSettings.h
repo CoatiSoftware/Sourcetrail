@@ -41,6 +41,9 @@ public:
 	int getFontSizeStd() const;
 	void setFontSizeStd(const int fontSizeStd);
 
+	bool getUseAnimations() const;
+	void setUseAnimations(bool useAnimations);
+
 	int getWindowBaseWidth() const;
 	int getWindowBaseHeight() const;
 

@@ -18,6 +18,8 @@
 		<font_size_min><!-- INTEGER: minimum font size in pt --></font_size_min>
 		<font_size_std><!-- INTEGER: standard font size in pt --></font_size_std>
 
+		<use_animations><!-- BOOL: define if animations are used --></use_animations>
+
 		<window_base_width><!-- INTEGER: initial width of an overlay window --></window_base_width>
 		<window_base_height><!-- INTEGER: initial height of an overlay window --></window_base_height>
 
