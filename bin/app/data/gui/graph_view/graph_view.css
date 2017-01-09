@@ -1,3 +1,4 @@
 QGraphicsView, QGraphicsScene {
 	background-color: <color:graph/background>;
+	border: none;
 }
