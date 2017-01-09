@@ -32,7 +32,7 @@ public:
 		}
 	};
 
-	typedef std::set<std::shared_ptr<DummyNode>, DummyNodeComp> BundledNodesSet;
+	typedef std::multiset<std::shared_ptr<DummyNode>, DummyNodeComp> BundledNodesSet;
 
 	struct BundleInfo
 	{
