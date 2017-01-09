@@ -2,6 +2,8 @@
 
 #include <QFont>
 #include <QFontMetrics>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QPen>
 
 #include "utility/messaging/type/MessageActivateNodes.h"
@@ -112,8 +114,9 @@ void QtGraphNodeQualifier::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 	int arrowWidth = height * 0.85;
 	float smallFactor = 0.5f;
 	int arrowOffset = arrowWidth * smallFactor;
+	int offset = width + arrowWidth - arrowOffset;
 
-	setRect(m_pos.x - width - arrowWidth + arrowOffset, m_pos.y - height / 2, width + arrowWidth, height);
+	setRect(m_pos.x - offset, m_pos.y - height / 2, width + arrowWidth, height);
 
 	m_background->show();
 	m_name->show();
@@ -122,6 +125,15 @@ void QtGraphNodeQualifier::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 	m_rightArrowSmall->hide();
 
 	QPointF p = mapToScene(pos());
+
+	// Make sure the qualifier is not cut off at the front edge of the screen
+	QGraphicsView* graphicsView = scene()->views().at(0);
+	QRectF sceneRect = graphicsView->mapToScene(graphicsView->rect()).boundingRect();
+	if (p.x() - offset < sceneRect.x())
+	{
+		p.setX(sceneRect.x() + offset);
+	}
+
 	this->setParentItem(nullptr);
 	this->setPos(p);
 	this->setZValue(100);
