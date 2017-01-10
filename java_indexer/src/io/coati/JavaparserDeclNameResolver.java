@@ -2,11 +2,12 @@ package io.coati;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.PackageDeclaration;
-import com.github.javaparser.ast.TypeParameter;
 import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
@@ -19,12 +20,9 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.expr.QualifiedNameExpr;
-
-import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration;
-import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserInterfaceDeclaration;
-import me.tomassetti.symbolsolver.model.resolution.TypeSolver;
+import com.github.javaparser.ast.expr.Name;
+import com.github.javaparser.ast.type.TypeParameter;
+import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 
 public class JavaparserDeclNameResolver extends JavaNameResolver
 {	
@@ -62,14 +60,14 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 			}
 			else
 			{
-				CompilationUnit compilationUnit = getCompilationUnitContext(decl);
+				CompilationUnit compilationUnit = decl.getAncestorOfType(CompilationUnit.class);
 			
 				if (compilationUnit != null)
 				{
-					PackageDeclaration packageDecl = compilationUnit.getPackage();
-					if (packageDecl != null)
+					Optional<PackageDeclaration> packageDecl = compilationUnit.getPackageDeclaration();
+					if (packageDecl.isPresent())
 					{
-						declName.setParent(getQualifiedName(packageDecl.getName()));
+						declName.setParent(getQualifiedName(packageDecl.get().getName()));
 					}
 				}
 				else
@@ -92,7 +90,7 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 		return resolver.getQualifiedDeclName(decl);
 	}
 	
-	public JavaDeclName getQualifiedDeclName(BodyDeclaration decl)
+	public JavaDeclName getQualifiedDeclName(BodyDeclaration<?> decl)
 	{
 		JavaDeclName declName = null;
 		
@@ -110,14 +108,14 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 			}
 			else
 			{
-				CompilationUnit compilationUnit = getCompilationUnitContext(decl);
+				CompilationUnit compilationUnit = decl.getAncestorOfType(CompilationUnit.class);
 			
 				if (compilationUnit != null)
 				{
-					PackageDeclaration packageDecl = compilationUnit.getPackage();
-					if (packageDecl != null)
+					Optional<PackageDeclaration> packageDecl = compilationUnit.getPackageDeclaration();
+					if (packageDecl.isPresent())
 					{
-						declName.setParent(getQualifiedName(packageDecl.getName()));
+						declName.setParent(getQualifiedName(packageDecl.get().getName()));
 					}
 				}
 				else
@@ -131,7 +129,7 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 	
 	public JavaDeclName getDeclName(VariableDeclarator decl)
 	{
-		return new JavaDeclName(decl.getId().getName());
+		return new JavaDeclName(decl.getNameAsString());
 	}
 	
 	public JavaDeclName getDeclName(BodyDeclaration decl)
@@ -155,7 +153,7 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 			}
 			else if (decl instanceof EnumConstantDeclaration)
 			{
-				declName = new JavaDeclName(((EnumConstantDeclaration)decl).getName());
+				declName = new JavaDeclName(((EnumConstantDeclaration)decl).getNameAsString());
 			}
 			else if (decl instanceof FieldDeclaration)
 			{
@@ -172,7 +170,7 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 			}
 			else if (decl instanceof TypeDeclaration)
 			{
-				declName = new JavaDeclName(((TypeDeclaration)decl).getName(), getTypeParameterNames((TypeDeclaration)decl));
+				declName = new JavaDeclName(((TypeDeclaration)decl).getNameAsString(), getTypeParameterNames((TypeDeclaration)decl));
 			}
 		}
 		
@@ -181,34 +179,34 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 	
 	private static List<String> getTypeParameterNames(TypeDeclaration decl)
 	{
-		List<TypeParameter> typeParameters = null;
+		NodeList<TypeParameter> typeParameters = null;
 		if (decl instanceof ClassOrInterfaceDeclaration)
 		{
-			typeParameters = ((ClassOrInterfaceDeclaration)decl).getTypeParameters();
+			typeParameters = (NodeList<TypeParameter>) ((ClassOrInterfaceDeclaration)decl).getTypeParameters();
 		}
 
 		return getTypeParameterNames(typeParameters);
 	}
 	
-	private static List<String> getTypeParameterNames(List<TypeParameter> typeParameters)
+	private static List<String> getTypeParameterNames(NodeList<TypeParameter> typeParameters)
 	{
 		List<String> typeParameterNames = new ArrayList<>();
 		if (typeParameters != null && typeParameters.size() > 0)
 		{
 			for (int i = 0; i < typeParameters.size(); i++)
 			{
-				typeParameterNames.add(typeParameters.get(i).getName());
+				typeParameterNames.add(typeParameters.get(i).getNameAsString());
 			}
 		}
 		return typeParameterNames;
 	}
 	
-	public static JavaDeclName getQualifiedName(NameExpr nameExpr)
+	public static JavaDeclName getQualifiedName(Name name)
 	{
-		JavaDeclName declName = new JavaDeclName(nameExpr.getName());
-		if (nameExpr instanceof QualifiedNameExpr)
+		JavaDeclName declName = new JavaDeclName(name.getId());
+		if (name.getQualifier().isPresent())
 		{
-			declName.setParent(getQualifiedName(((QualifiedNameExpr)nameExpr).getQualifier()));
+			declName.setParent(getQualifiedName(name.getQualifier().get()));
 		}
 		return declName;
 	}
@@ -234,41 +232,23 @@ public class JavaparserDeclNameResolver extends JavaNameResolver
 	{
 		BodyDeclaration context = null;
 	
-		Node parentNode = decl.getParentNode();
+		Optional<Node> parentNode = decl.getParentNode();
 		while (
-			parentNode != null && 
+			parentNode.isPresent() && 
 			!(
-				parentNode instanceof BodyDeclaration && 
-				(!(parentNode instanceof FieldDeclaration))
+				parentNode.get() instanceof BodyDeclaration && 
+				(!(parentNode.get() instanceof FieldDeclaration))
 			) 
 		)
 		{
-			parentNode = parentNode.getParentNode();
+			parentNode = parentNode.get().getParentNode();
 		}
 		
-		if (parentNode != null)
+		if (parentNode.isPresent())
 		{
-			context = (BodyDeclaration)parentNode;
+			context = (BodyDeclaration)parentNode.get();
 		}
 		
-		return context;
-	}
-	
-	private static CompilationUnit getCompilationUnitContext(Node decl)
-	{
-		CompilationUnit context = null;
-		{
-			Node parentNode = decl.getParentNode();
-			while (parentNode != null && !(parentNode instanceof CompilationUnit))
-			{
-				parentNode = parentNode.getParentNode();
-			}
-			
-			if (parentNode != null)
-			{
-				context = (CompilationUnit)parentNode;
-			}
-		}
 		return context;
 	}
 }

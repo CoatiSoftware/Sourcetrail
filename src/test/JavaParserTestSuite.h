@@ -3,6 +3,7 @@
 
 #include "utility/file/FileRegister.h"
 #include "utility/text/TextAccess.h"
+#include "utility/utility.h"
 #include "utility/utilityString.h"
 
 #include "data/parser/java/JavaEnvironmentFactory.h"
@@ -32,8 +33,9 @@ public:
 			"package foo;\n"
 		);
 
-		TS_ASSERT_EQUALS(client->packages.size(), 1);
-		TS_ASSERT_EQUALS(client->packages[0], "foo <1:1 <1:9 1:11> 1:12>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->packages, "foo <1:1 <1:9 1:11> 1:12>"
+		));
 	}
 
 	void test_java_parser_finds_class_declaration_in_defaut_package()
@@ -44,8 +46,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->classes.size(), 1);
-		TS_ASSERT_EQUALS(client->classes[0], "public A <1:1 <1:14 1:14> 3:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->classes, "public A <1:1 <1:14 1:14> 3:1>"
+		));
 	}
 
 	void test_java_parser_finds_interface_declaration_in_defaut_package()
@@ -56,8 +59,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->interfaces.size(), 1);
-		TS_ASSERT_EQUALS(client->interfaces[0], "public A <1:1 <1:18 1:18> 3:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->interfaces, "public A <1:1 <1:18 1:18> 3:1>"
+		));
 	}
 
 	void test_java_parser_finds_class_declaration_in_named_package()
@@ -69,8 +73,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->classes.size(), 1);
-		TS_ASSERT_EQUALS(client->classes[0], "public foo.A <2:1 <2:14 2:14> 4:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->classes, "public foo.A <2:1 <2:14 2:14> 4:1>"
+		));
 	}
 
 	void test_java_parser_finds_class_declaration_in_nested_named_package()
@@ -82,8 +87,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->classes.size(), 1);
-		TS_ASSERT_EQUALS(client->classes[0], "public foo.bar.A <2:1 <2:14 2:14> 4:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->classes, "public foo.bar.A <2:1 <2:14 2:14> 4:1>"
+		));
 	}
 
 	void test_java_parser_finds_enum_declaration_in_named_package()
@@ -95,8 +101,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->enums.size(), 1);
-		TS_ASSERT_EQUALS(client->enums[0], "public foo.A <2:1 <2:13 2:13> 4:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->enums, "public foo.A <2:1 <2:13 2:13> 4:1>"
+		));
 	}
 
 	void test_java_parser_finds_enum_constant_declaration()
@@ -109,8 +116,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->enumConstants.size(), 1);
-		TS_ASSERT_EQUALS(client->enumConstants[0], "foo.A.A_TEST <4:2 4:10>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->enumConstants, "foo.A.A_TEST <4:2 4:10>"
+		));
 	}
 
 	void test_java_parser_finds_constructor_declaration_without_parameters()
@@ -125,8 +133,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->methods.size(), 1);
-		TS_ASSERT_EQUALS(client->methods[0], "public foo.A.A() <4:2 <4:9 4:9> 6:2>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->methods, "public foo.A.A() <4:2 <4:9 4:9> 6:2>"
+		));
 	}
 
 	void test_java_parser_finds_method_declaration_with_custom_type_in_signature()
@@ -141,8 +150,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->methods.size(), 1);
-		TS_ASSERT_EQUALS(client->methods[0], "public void foo.A.bar(foo.A) <4:2 <4:14 4:16> 6:2>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->methods, "public void foo.A.bar(foo.A) <4:2 <4:14 4:16> 6:2>"
+		));
 	}
 
 	void test_java_parser_finds_field_declaration_with_initial_assignment()
@@ -155,8 +165,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->fields.size(), 1);
-		TS_ASSERT_EQUALS(client->fields[0], "default foo.A.bar <4:6 4:8>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->fields, "default foo.A.bar <4:6 4:8>"
+		));
 	}
 
 	void test_java_parser_finds_public_access_specifier_in_field_declaration()
@@ -169,8 +180,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->fields.size(), 1);
-		TS_ASSERT_EQUALS(client->fields[0], "public foo.A.bar <4:13 4:15>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->fields, "public foo.A.bar <4:13 4:15>"
+		));
 	}
 
 	void test_java_parser_finds_protected_access_specifier_in_field_declaration()
@@ -183,8 +195,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->fields.size(), 1);
-		TS_ASSERT_EQUALS(client->fields[0], "protected foo.A.bar <4:16 4:18>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->fields, "protected foo.A.bar <4:16 4:18>"
+		));
 	}
 
 	void test_java_parser_finds_private_access_specifier_in_field_declaration()
@@ -197,8 +210,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->fields.size(), 1);
-		TS_ASSERT_EQUALS(client->fields[0], "private foo.A.bar <4:14 4:16>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->fields, "private foo.A.bar <4:14 4:16>"
+		));
 	}
 
 	void test_java_parser_finds_definition_of_method_parameter()
@@ -213,12 +227,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 5);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<3:1> <3:1 3:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<3:1> <7:1 7:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<4:15> <4:15 4:15>");
-		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<5:2> <5:2 5:2>");
-		TS_ASSERT_EQUALS(client->localSymbols[4], "input.cc<5:2> <6:2 6:2>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<4:15> <4:15 4:15>"
+		));
 	}
 
 	void test_java_parser_finds_definition_of_local_variable()
@@ -234,27 +245,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 5);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<3:1> <3:1 3:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<3:1> <8:1 8:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<5:2> <5:2 5:2>");
-		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<5:2> <7:2 7:2>");
-		TS_ASSERT_EQUALS(client->localSymbols[4], "input.cc<6:7> <6:7 6:7>");
-	}
-
-	void test_java_parser_finds_type_argument_name_in_signature_of_method()
-	{
-		std::shared_ptr<TestParserClient> client = parseCode(
-			"public class A <T>\n"
-			"{\n"
-			"	public A<Void> foo(A<Void> a){\n"
-			"		return a;\n"
-			"	}\n"
-			"}\n"
-		);
-
-		TS_ASSERT_EQUALS(client->typeParameters.size(), 1);
-		TS_ASSERT_EQUALS(client->typeParameters[0], "A<T>.T <1:17 1:17>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<6:7> <6:7 6:7>"
+		));
 	}
 
 	void test_java_parser_finds_definition_of_type_parameter_of_class()
@@ -265,8 +258,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeParameters.size(), 1);
-		TS_ASSERT_EQUALS(client->typeParameters[0], "A<T>.T <1:17 1:17>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeParameters, "A<T>.T <1:17 1:17>"
+		));
 	}
 
 	void test_java_parser_finds_definition_of_type_parameter_of_method()
@@ -280,13 +274,10 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeParameters.size(), 1);
-		TS_ASSERT_EQUALS(client->typeParameters[0], "A.foo<T>.T <3:10 3:10>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeParameters, "A.foo<T>.T <3:10 3:10>"
+		));
 	}
-
-
-
-
 
 	void test_java_parser_finds_line_comment()
 	{
@@ -295,8 +286,9 @@ public:
 			"package foo;\n"
 		);
 
-		TS_ASSERT_EQUALS(client->comments.size(), 1);
-		TS_ASSERT_EQUALS(client->comments[0], "comment <1:1 1:26>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->comments, "comment <1:1 1:26>"
+		));
 	}
 
 	void test_java_parser_finds_block_comment()
@@ -306,8 +298,9 @@ public:
 			"package foo;\n"
 		);
 
-		TS_ASSERT_EQUALS(client->comments.size(), 1);
-		TS_ASSERT_EQUALS(client->comments[0], "comment <1:1 1:28>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->comments, "comment <1:1 1:27>"
+		));
 	}
 
 	void test_java_parser_finds_missing_semicolon_as_parse_error()
@@ -316,8 +309,9 @@ public:
 			"package foo\n"
 		);
 
-		TS_ASSERT_EQUALS(client->errors.size(), 1);
-		TS_ASSERT_EQUALS(client->errors[0], "Encountered unexpected token. <1:1 1:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->errors, "Encountered unexpected token. <1:1 1:1>"
+		));
 	}
 
 	//void _test_java_parser_finds_missing_import_as_error()
@@ -348,9 +342,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->classes.size(), 2);
-		TS_ASSERT_EQUALS(client->classes[0], "public foo.bar.A <2:1 <2:14 2:14> 7:1>");
-		TS_ASSERT_EQUALS(client->classes[1], "public foo.bar.A.B <4:2 <4:15 4:15> 6:2>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->classes, "public foo.bar.A.B <4:2 <4:15 4:15> 6:2>"
+		));
 	}
 
 	void test_java_parser_finds_class_declaration_nested_in_method()
@@ -368,9 +362,9 @@ public:
 			"};\n"
 		);
 
-		TS_ASSERT_EQUALS(client->classes.size(), 2);
-		TS_ASSERT_EQUALS(client->classes[0], "public foo.bar.A <2:1 <2:14 2:14> 10:1>");
-		TS_ASSERT_EQUALS(client->classes[1], "default foo.bar.A.bar.B <6:3 <6:9 6:9> 8:3>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->classes, "default foo.bar.A.bar.B <6:3 <6:9 6:9> 8:3>"
+		));
 	}
 
 
@@ -383,8 +377,9 @@ public:
 			"import foo.bar.*;\n"
 		);
 
-		TS_ASSERT_EQUALS(client->imports.size(), 1);
-		TS_ASSERT_EQUALS(client->imports[0], "input.cc -> foo.bar <1:8 1:14>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->imports, "input.cc -> foo.bar <1:8 1:14>"
+		));
 	}
 
 	void test_java_parser_finds_inheritance_using_extends_keyword()
@@ -400,8 +395,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "foo.B -> foo.A <6:24 6:24>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->inheritances, "foo.B -> foo.A <6:24 6:24>"
+		));
 	}
 
 	void test_java_parser_finds_inheritance_using_implements_keyword()
@@ -417,12 +413,31 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->inheritances.size(), 1);
-		TS_ASSERT_EQUALS(client->inheritances[0], "foo.B -> foo.A <6:27 6:27>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->inheritances, "foo.B -> foo.A <6:27 6:27>"
+		));
 	}
 
+	void test_java_parser_finds_type_parameter_in_signature_of_method()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"public class A <T>\n"
+			"{\n"
+			"	public A<Void> foo(A<Void> a){\n"
+			"		return a;\n"
+			"	}\n"
+			"}\n"
+		);
 
-	void _SYMBOLSOLVERISSUE_test_java_parser_finds_correct_location_of_qualified_type_usage()
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "A<T> A<T>.foo(A<T>) -> A<T> <3:9 3:9>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "A<T> A<T>.foo(A<T>) -> A<T> <3:21 3:21>"
+		));
+	}
+
+	void _JSS_ISSUE_test_javyxcyxca_parser_finds_correct_location_of_qualified_type_usage()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"public class Foo {\n"
@@ -455,13 +470,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 3);
-		TS_ASSERT_EQUALS(client->typeUses[0], "void A.bar() -> void <6:2 6:5>");
-		TS_ASSERT_EQUALS(client->typeUses[1], "void A.bar() -> A.B <8:3 8:3>");
-		TS_ASSERT_EQUALS(client->typeUses[2], "void A.bar() -> A.B <8:13 8:15>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "void A.bar() -> A.B <8:13 8:15>"
+		));
 	}
 
-	void ___test_java_parser_finds_method_call_to_super()
+	void test_java_parser_finds_method_call_to_super()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"package foo;\n"
@@ -484,11 +498,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 1);
-		TS_ASSERT_EQUALS(client->calls[0], "void foo.A.bar() -> void foo.A.bar() <6:3 6:5>");
-	}
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->calls, "void foo.X.B.bar() -> void foo.X.A.bar() <15:10 15:12>"
+		));
+	}										
 
-	void ___test_java_parser_finds_usage_of_field_with_same_name_as_method_parameter()
+	void test_java_parser_finds_usage_of_field_with_same_name_as_method_parameter()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"package foo;\n"
@@ -502,11 +517,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 1);
-//		TS_ASSERT_EQUALS(client->calls[0], "void foo.A.bar() -> void foo.A.bar() <6:3 6:5>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "foo.X.X(int) -> foo.X.t <7:8 7:8>"
+		));
 	}
 
-	void ___test_java_parser_does_not_confuse_method_name_with_field_name()
+	void test_java_parser_does_not_confuse_method_name_with_field_name()
 	{
 		std::shared_ptr<TestParserClient> client = parseCode(
 			"package foo;\n"
@@ -520,8 +536,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->calls.size(), 1);
-	//	TS_ASSERT_EQUALS(client->calls[0], "void foo.A.bar() -> void foo.A.bar() <6:3 6:5>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->usages, "foo.X.foo() -> foo.X.foo <7:8 7:10>"
+		));
 	}
 
 	void test_java_parser_finds_assignment_of_method_argument()
@@ -537,13 +554,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 6);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<3:1> <3:1 3:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<3:1> <8:1 8:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<4:15> <4:15 4:15>");
-		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<5:2> <5:2 5:2>");
-		TS_ASSERT_EQUALS(client->localSymbols[4], "input.cc<5:2> <7:2 7:2>");
-		TS_ASSERT_EQUALS(client->localSymbols[5], "input.cc<4:15> <6:3 6:3>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<4:15> <6:3 6:3>"
+		));
 	}
 
 	void test_java_parser_finds_assignment_of_local_variable()
@@ -560,13 +573,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 6);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<3:1> <3:1 3:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<3:1> <9:1 9:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<5:2> <5:2 5:2>");
-		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<5:2> <8:2 8:2>");
-		TS_ASSERT_EQUALS(client->localSymbols[4], "input.cc<6:7> <6:7 6:7>");
-		TS_ASSERT_EQUALS(client->localSymbols[5], "input.cc<6:7> <7:3 7:3>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<6:7> <7:3 7:3>"
+		));
 	}
 
 	void test_java_parser_finds_scope_of_class_declaration()
@@ -577,9 +586,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 2);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<2:1> <2:1 2:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<2:1> <3:1 3:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<2:1> <2:1 2:1>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<2:1> <3:1 3:1>"
+		));
 	}
 
 	void test_java_parser_finds_scope_of_enum_declaration()
@@ -590,9 +602,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 2);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<2:1> <2:1 2:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<2:1> <3:1 3:1>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<2:1> <2:1 2:1>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<2:1> <3:1 3:1>"
+		));
 	}
 
 	void test_java_parser_finds_scope_of_constructor_declaration()
@@ -606,11 +621,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 4);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<2:1> <2:1 2:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<2:1> <6:1 6:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<4:2> <4:2 4:2>");
-		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<4:2> <5:2 5:2>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<4:2> <4:2 4:2>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<4:2> <5:2 5:2>"
+		));
 	}
 
 	void test_java_parser_finds_scope_of_method_declaration()
@@ -624,11 +640,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 4);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<2:1> <2:1 2:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<2:1> <6:1 6:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<4:2> <4:2 4:2>");
-		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<4:2> <5:2 5:2>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<4:2> <4:2 4:2>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<4:2> <5:2 5:2>"
+		));
 	}
 
 	void test_java_parser_finds_scope_of_switch_statement()
@@ -647,13 +664,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 6);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<2:1> <2:1 2:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<2:1> <11:1 11:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<4:2> <4:2 4:2>");
-		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<4:2> <10:2 10:2>");
-		TS_ASSERT_EQUALS(client->localSymbols[4], "input.cc<6:3> <6:3 6:3>");
-		TS_ASSERT_EQUALS(client->localSymbols[5], "input.cc<6:3> <9:3 9:3>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<6:3> <6:3 6:3>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<6:3> <9:3 9:3>"
+		));
 	}
 
 	void test_java_parser_finds_scope_of_block_statement()
@@ -669,13 +685,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 6);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<2:1> <2:1 2:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<2:1> <8:1 8:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<4:2> <4:2 4:2>");
-		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<4:2> <7:2 7:2>");
-		TS_ASSERT_EQUALS(client->localSymbols[4], "input.cc<5:3> <5:3 5:3>");
-		TS_ASSERT_EQUALS(client->localSymbols[5], "input.cc<5:3> <6:3 6:3>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<5:3> <5:3 5:3>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<5:3> <6:3 6:3>"
+		));
 	}
 
 	void test_java_parser_finds_scope_of_array_initialization_list()
@@ -687,11 +702,12 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->localSymbols.size(), 4);
-		TS_ASSERT_EQUALS(client->localSymbols[0], "input.cc<2:1> <2:1 2:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[1], "input.cc<2:1> <4:1 4:1>");
-		TS_ASSERT_EQUALS(client->localSymbols[2], "input.cc<3:24> <3:24 3:24>");
-		TS_ASSERT_EQUALS(client->localSymbols[3], "input.cc<3:24> <3:29 3:29>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<3:24> <3:24 3:24>"
+		));
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->localSymbols, "input.cc<3:24> <3:29 3:29>"
+		));
 	}
 
 	void test_java_parser_finds_usage_of_type_parameter_of_class()
@@ -703,8 +719,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
-		TS_ASSERT_EQUALS(client->typeUses[0], "A<T>.t -> A<T>.T <3:2 3:2>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "A<T>.t -> A<T>.T <3:2 3:2>"
+		));
 	}
 
 	void test_java_parser_finds_usage_of_type_parameter_of_method()
@@ -716,9 +733,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 2);
-		TS_ASSERT_EQUALS(client->typeUses[0], "void A.foo<T>(T) -> void <3:13 3:16>");
-		TS_ASSERT_EQUALS(client->typeUses[1], "void A.foo<T>(T) -> A.foo<T>.T <3:22 3:22>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "void A.foo<T>(T) -> A.foo<T>.T <3:22 3:22>"
+		));
 	}
 
 	void test_java_parser_finds_correct_location_of_generic_type_usage()
@@ -730,8 +747,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
-		TS_ASSERT_EQUALS(client->typeUses[0], "A<T>.t -> A<T> <3:2 3:2>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "A<T>.t -> A<T> <3:2 3:2>"
+		));
 	}
 
 	void test_java_parser_finds_bound_type_of_type_parameter()
@@ -742,8 +760,9 @@ public:
 			"}\n"
 		);
 
-		TS_ASSERT_EQUALS(client->typeUses.size(), 1);
-		TS_ASSERT_EQUALS(client->typeUses[0], "A<T>.T -> java.lang.Void <1:27 1:30>");
+		TS_ASSERT(utility::containsElement<std::string>(
+			client->typeUses, "A<T>.T -> java.lang.Void <1:27 1:30>"
+		))
 	}
 
 

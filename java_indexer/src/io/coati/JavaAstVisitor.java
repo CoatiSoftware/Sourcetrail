@@ -2,6 +2,7 @@ package io.coati;
 
 import java.lang.String;
 import java.util.List;
+import java.util.Optional;
 import java.util.ArrayList;
 
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
@@ -12,37 +13,42 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.body.VariableDeclaratorId;
 import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.LineComment;
 import com.github.javaparser.ast.expr.ArrayInitializerExpr;
+import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.expr.QualifiedNameExpr;
+import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.SwitchStmt;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.PrimitiveType;
 import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.ast.type.VoidType;
-import com.github.javaparser.ast.ImportDeclaration;
+import com.github.javaparser.ast.imports.*;
+import com.github.javaparser.Position;
+import com.github.javaparser.Range;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.PackageDeclaration;
-import com.github.javaparser.ast.TypeParameter;
-
-import me.tomassetti.symbolsolver.javaparsermodel.JavaParserFacade;
-import me.tomassetti.symbolsolver.javaparsermodel.UnsolvedSymbolException;
-import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration;
-import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration;
-import me.tomassetti.symbolsolver.model.declarations.MethodAmbiguityException;
-import me.tomassetti.symbolsolver.model.declarations.TypeDeclaration;
-import me.tomassetti.symbolsolver.model.declarations.ValueDeclaration;
-import me.tomassetti.symbolsolver.model.invokations.MethodUsage;
-import me.tomassetti.symbolsolver.model.resolution.SymbolReference;
-import me.tomassetti.symbolsolver.model.resolution.TypeSolver;
-import me.tomassetti.symbolsolver.model.typesystem.*;
+import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
+import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserFieldDeclaration;
+import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration;
+import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserParameterDeclaration;
+import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserSymbolDeclaration;
+import com.github.javaparser.symbolsolver.model.declarations.MethodAmbiguityException;
+import com.github.javaparser.symbolsolver.model.declarations.ReferenceTypeDeclaration;
+import com.github.javaparser.symbolsolver.model.declarations.ValueDeclaration;
+import com.github.javaparser.symbolsolver.model.methods.MethodUsage;
+import com.github.javaparser.symbolsolver.model.resolution.SymbolReference;
+import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
+import com.github.javaparser.symbolsolver.model.resolution.UnsolvedSymbolException;
+import com.github.javaparser.symbolsolver.model.typesystem.*;
+import com.github.javaparser.symbolsolver.resolution.MethodResolutionLogic;
 
 public class JavaAstVisitor extends JavaAstVisitorAdapter
 {
@@ -64,19 +70,19 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		m_context.add(new DeclContext(fileName + "\ts\tp"));
 	}
 	
-	
 	// --- record declarations ---
 	
 	@Override public void visit(final PackageDeclaration n, final Void v)
 	{
-		NameExpr nameExpr = n.getName();
+		Name name = n.getName();
 			
-		String packageName = JavaparserDeclNameResolver.getQualifiedName(nameExpr).toSerializedNameHierarchy();
+		String packageName = JavaparserDeclNameResolver.getQualifiedName(name).toSerializedNameHierarchy();
+		Optional<Position> as = name.getBegin();
 		
 		JavaIndexer.recordSymbolWithLocationAndScope(
 			m_callbackId, packageName, SymbolType.PACKAGE,
-			nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column, 
-			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column,
+			name.getRange(), 
+			n.getRange(),
 			AccessKind.NONE, false
 		);
 		
@@ -85,19 +91,22 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	
 	@Override public void visit(final ClassOrInterfaceDeclaration n, final Void v)
 	{
-		NameExpr nameExpr = n.getNameExpr();
+		SimpleName name = n.getName();
 		
 		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
 		JavaIndexer.recordSymbolWithLocationAndScope(
 			m_callbackId, qualifiedName, (n.isInterface() ? SymbolType.INTERFACE : SymbolType.CLASS),
-			nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column, 
-			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column,
+			name.getRange(), 
+			n.getRange(),
 			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), false
 		);
 
-		FileContent.Location scopeStartLocation = m_fileContent.find("{", n.getBegin().line, n.getBegin().column);
-		recordScope(scopeStartLocation.line, scopeStartLocation.column, n.getEnd().line, n.getEnd().column);
+		if (n.getRange().isPresent())
+		{
+			FileContent.Location scopeStartLocation = m_fileContent.find("{", n.getBegin());
+			recordScope(Range.range(scopeStartLocation.line, scopeStartLocation.column, n.getRange().get().end.line, n.getRange().get().end.column));
+		}
 		
 		List<DeclContext> parentContext = m_context;
 		m_context = new ArrayList<DeclContext>();
@@ -121,9 +130,21 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		qualifiedName += "\tn";
 		qualifiedName += n.getName() + "\ts\tp";
 		
+		
+		Optional<Range> range = Optional.empty();
+		if (n.getBegin().isPresent())
+		{
+			range = Optional.of(Range.range(
+				n.getBegin().get().line, 
+				n.getBegin().get().column, 
+				n.getBegin().get().line, 
+				n.getBegin().get().column + n.getNameAsString().length() - 1
+			));
+		}
+		
 		JavaIndexer.recordSymbolWithLocation(
 			m_callbackId, qualifiedName, SymbolType.TYPE_PARAMETER, 
-			n.getBegin().line, n.getBegin().column, n.getBegin().line, n.getBegin().column + n.getName().length() - 1,
+			range,
 			AccessKind.TYPE_PARAMETER, false
 		);
 
@@ -136,19 +157,22 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	
 	@Override public void visit(final EnumDeclaration n, final Void v)
 	{
-		NameExpr nameExpr = n.getNameExpr();
+		SimpleName name = n.getName();
 		
 		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
 		JavaIndexer.recordSymbolWithLocationAndScope(
 			m_callbackId, qualifiedName, SymbolType.ENUM, 
-			nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column, 
-			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column,
+			name.getRange(), 
+			n.getRange(),
 			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), false
 		);
-		
-		FileContent.Location scopeStartLocation = m_fileContent.find("{", n.getBegin().line, n.getBegin().column);
-		recordScope(scopeStartLocation.line, scopeStartLocation.column, n.getEnd().line, n.getEnd().column);
+
+		if (n.getRange().isPresent())
+		{
+			FileContent.Location scopeStartLocation = m_fileContent.find("{", n.getBegin());
+			recordScope(Range.range(scopeStartLocation.line, scopeStartLocation.column, n.getRange().get().end.line, n.getRange().get().end.column));
+		}
 		
 		List<DeclContext> parentContext = m_context;
 		m_context = new ArrayList<DeclContext>();
@@ -163,7 +187,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		
 		JavaIndexer.recordSymbolWithLocation(
 			m_callbackId, qualifiedName, SymbolType.ENUM_CONSTANT,
-			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column, 
+			n.getRange(), 
 			AccessKind.NONE, false
 		);
 		
@@ -176,14 +200,14 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	
 	@Override public void visit(final ConstructorDeclaration n, final Void v)
 	{
-		NameExpr nameExpr = n.getNameExpr();
+		SimpleName name = n.getName();
 		
 		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
 		JavaIndexer.recordSymbolWithLocationAndScope(
 			m_callbackId, qualifiedName, SymbolType.METHOD,
-			nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column, 
-			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column, 
+			name.getRange(), 
+			n.getRange(), 
 			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), false
 		);
 		
@@ -196,27 +220,27 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	
 	@Override public void visit(final MethodDeclaration n, final Void v)
 	{
-		NameExpr nameExpr = n.getNameExpr();
+		SimpleName name = n.getName();
 		
 		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
 		JavaIndexer.recordSymbolWithLocationAndScope(
 			m_callbackId, qualifiedName, SymbolType.METHOD, 
-			nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column, 
-			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column, 
+			name.getRange(), 
+			n.getRange(), 
 			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), false
 		);
 		
 		
 // test this!
-		me.tomassetti.symbolsolver.model.declarations.MethodDeclaration overridden = getOverridden(n);
+		com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration overridden = getOverridden(n);
 		if (overridden != null && (overridden instanceof JavaParserMethodDeclaration))
 		{
 			String overriddenName = JavaparserDeclNameResolver.getQualifiedDeclName(((JavaParserMethodDeclaration)overridden).getWrappedNode(), m_typeSolver).toSerializedNameHierarchy();
 			
 			JavaIndexer.recordReference(
 				m_callbackId, ReferenceKind.OVERRIDE, overriddenName, qualifiedName, 
-				nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column
+				name.getRange()
 			);
 		}
 		
@@ -227,12 +251,12 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		m_context = parentContext;
 	}
 	
-	private me.tomassetti.symbolsolver.model.declarations.MethodDeclaration getOverridden(MethodDeclaration overrider)
+	private com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration getOverridden(MethodDeclaration overrider)
 	{
-		com.github.javaparser.ast.body.TypeDeclaration<?> scopeNode = overrider.getParentNodeOfType(com.github.javaparser.ast.body.TypeDeclaration.class);
+		com.github.javaparser.ast.body.TypeDeclaration<?> scopeNode = overrider.getAncestorOfType(com.github.javaparser.ast.body.TypeDeclaration.class);
 		if (scopeNode instanceof ClassOrInterfaceDeclaration)
 		{
-			List<TypeUsage> parameterTypes = new ArrayList<>();
+			List<com.github.javaparser.symbolsolver.model.typesystem.Type> parameterTypes = new ArrayList<>();
 			try
 			{
 				for (Parameter parameter: overrider.getParameters())
@@ -241,12 +265,18 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 					parameterTypes.add(JavaParserFacade.get(m_typeSolver).convert(parameterType, parameterType));
 				}
 				
-				TypeDeclaration scopeDecl = JavaParserFacade.get(m_typeSolver).getTypeDeclaration((ClassOrInterfaceDeclaration)scopeNode);
-				for (ReferenceTypeUsage ancestor: scopeDecl.getAllAncestors())
+				ReferenceTypeDeclaration scopeDecl = JavaParserFacade.get(m_typeSolver).getTypeDeclaration((ClassOrInterfaceDeclaration)scopeNode);
+				for (ReferenceType ancestor: scopeDecl.getAllAncestors())
 				{
 					try
 					{
-						SymbolReference<me.tomassetti.symbolsolver.model.declarations.MethodDeclaration> solvedMethod = ancestor.solveMethod(overrider.getName(), parameterTypes);
+						SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> solvedMethod = MethodResolutionLogic.solveMethodInType(
+							ancestor.getTypeDeclaration(), 
+							overrider.getNameAsString(), 
+							parameterTypes, 
+							m_typeSolver
+						);
+						
 						if (solvedMethod.isSolved())
 						{
 							return solvedMethod.getCorrespondingDeclaration();
@@ -267,6 +297,14 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			{
 				return null;
 			}
+			catch (ClassCastException e)
+			{
+				return null;
+			}
+			catch (Exception e)
+			{
+				return null;
+			}
 		}
 		return null;
 	}
@@ -276,16 +314,14 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		List<DeclContext> parentContext = m_context;
 		m_context = new ArrayList<DeclContext>();
 		
-		List<VariableDeclarator> variableDeclarators = n.getVariables();
-		for (int i = 0; i < variableDeclarators.size(); i++)
+		for (VariableDeclarator declarator: n.getVariables())
 		{
-			VariableDeclarator varDecl = variableDeclarators.get(i);
-			String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(varDecl, m_typeSolver).toSerializedNameHierarchy();		
-			VariableDeclaratorId varDeclId = varDecl.getId();
+			String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(declarator, m_typeSolver).toSerializedNameHierarchy();
+			SimpleName name = declarator.getName();
 			
 			JavaIndexer.recordSymbolWithLocation(
 				m_callbackId, qualifiedName, SymbolType.FIELD, 
-				varDeclId.getBegin().line, varDeclId.getBegin().column, varDeclId.getEnd().line, varDeclId.getEnd().column,
+				name.getRange(),
 				AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), false
 			);
 
@@ -298,16 +334,19 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	
 	@Override public void visit(final VariableDeclarationExpr n, final Void v)
 	{
-		for (VariableDeclarator declarator: n.getVars())
+		for (VariableDeclarator declarator: n.getVariables())
 		{
-			VariableDeclaratorId identifier = declarator.getId();
-			String qualifiedName = m_filePath + "<" + identifier.getBegin().line + ":" + identifier.getBegin().column + ">";
-			
-			JavaIndexer.recordLocalSymbol(
-				m_callbackId, qualifiedName, 
-				identifier.getBegin().line, identifier.getBegin().column, identifier.getEnd().line, identifier.getEnd().column
-			);
-			
+			SimpleName name = declarator.getName();
+
+			if (name.getBegin().isPresent())
+			{
+				String qualifiedName = m_filePath + "<" + name.getBegin().get().line + ":" + name.getBegin().get().column + ">";
+				
+				JavaIndexer.recordLocalSymbol(
+					m_callbackId, qualifiedName, 
+					name.getRange()
+				);
+			}
 		}
 		
 		// don't change the context here.
@@ -316,13 +355,17 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	
 	@Override public void visit(final Parameter n, final Void v)
 	{
-		VariableDeclaratorId identifier = n.getId();
-		String qualifiedName = m_filePath + "<" + identifier.getBegin().line + ":" + identifier.getBegin().column + ">";
+		SimpleName name = n.getName();
 		
-		JavaIndexer.recordLocalSymbol(
-			m_callbackId, qualifiedName, 
-			identifier.getBegin().line, identifier.getBegin().column, identifier.getEnd().line, identifier.getEnd().column
-		);
+		if (name.getBegin().isPresent())
+		{
+			String qualifiedName = m_filePath + "<" + name.getBegin().get().line + ":" + name.getBegin().get().column + ">";
+			
+			JavaIndexer.recordLocalSymbol(
+				m_callbackId, qualifiedName, 
+				name.getRange()
+			);
+		}
 		
 		// don't change the context here.
 		super.visit(n, v);
@@ -332,99 +375,135 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	// --- record references ---
 
 	
-	@Override public void visit(final ImportDeclaration n, final Void v)
+	@Override
+	public void visit(SingleStaticImportDeclaration n, Void arg) 
 	{
-		if (n.isAsterisk())
+		try
 		{
-			NameExpr nameExpr = n.getName();
-			String importedName = JavaparserDeclNameResolver.getQualifiedName(nameExpr).toSerializedNameHierarchy();
+			ClassOrInterfaceType type = n.getType();
+			List<JavaDeclName> importedDeclNames = new ArrayList<>();
+		
+			com.github.javaparser.symbolsolver.model.typesystem.Type solvedType = JavaParserFacade.get(m_typeSolver).convert(type, type);
+			
+			if (solvedType instanceof ReferenceType)
+			{
+				ReferenceTypeDeclaration solvedDecl = ((ReferenceType)solvedType).getTypeDeclaration();
+				for (com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration methodDecl: solvedDecl.getDeclaredMethods()) // look for method
+				{
+					if (methodDecl.getName().equals(n.getStaticMember()))
+					{
+						importedDeclNames.add(
+							JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(methodDecl, m_typeSolver
+						));
+					}
+				}
+				if (importedDeclNames.isEmpty() && solvedDecl.hasField(n.getStaticMember())) // look for field
+				{
+					JavaDeclName importedTypeDeclName = JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(solvedDecl, m_typeSolver);
+					if (importedTypeDeclName != null)
+					{
+						JavaDeclName importedDeclName = new JavaDeclName(n.getStaticMember());
+						importedDeclName.setParent(importedTypeDeclName);
+						importedDeclNames.add(importedDeclName);
+					}
+				}
+			}
+			
+			if (!importedDeclNames.isEmpty())
+			{
+				for (JavaDeclName importedDeclName: importedDeclNames)
+				{
+					String nameHierarchy = importedDeclName.toSerializedNameHierarchy();
+					for (DeclContext context: m_context)
+					{
+						JavaIndexer.recordReference(
+							m_callbackId, ReferenceKind.IMPORT, 
+							nameHierarchy, context.getName(), 
+							n.getRange()
+						);
+					}
+				}
+			}
+			else
+			{
+				JavaIndexer.recordError(
+					m_callbackId, "Import not found.", true, true, 
+					n.getRange()
+				);
+			}
+		}
+		catch (Exception e)
+		{
+			recordException(e, n);
+		}
+	}
+
+	@Override
+	public void visit(SingleTypeImportDeclaration n, Void arg) 
+	{
+		try
+		{
+			ClassOrInterfaceType type = n.getType();
+			String importedName = JavaparserTypeNameResolver.getQualifiedTypeName(type, m_typeSolver).toSerializedNameHierarchy();
 			for (DeclContext context: m_context)
 			{
 				JavaIndexer.recordReference(
 					m_callbackId, ReferenceKind.IMPORT, 
 					importedName, context.getName(), 
-					nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column
+					type.getRange()
 				);
 			}
 		}
-		else
+		catch (Exception e)
 		{
-			try
-			{
-				NameExpr nameExpr = n.getName();
-				List<JavaDeclName> importedDeclNames = new ArrayList<>();
+			recordException(e, n);
+		}
+	}
 
-				SymbolReference<TypeDeclaration> symbolReference = m_typeSolver.tryToSolveType(
-					JavaparserDeclNameResolver.getQualifiedName(nameExpr).toString()
-				);
-				if (symbolReference.isSolved())
-				{
-					importedDeclNames.add(JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(
-						symbolReference.getCorrespondingDeclaration(), m_typeSolver
-					));
-				}
-				else
-				{
-					if (nameExpr instanceof QualifiedNameExpr) 
-					{
-						String typeName = ((QualifiedNameExpr)nameExpr).getQualifier().toString();
-						String memberName = nameExpr.getName();
-						
-						me.tomassetti.symbolsolver.model.declarations.TypeDeclaration ref = m_typeSolver.solveType(typeName);
-						
-						for (me.tomassetti.symbolsolver.model.declarations.MethodDeclaration methodDecl: ref.getDeclaredMethods()) // look for method
-						{
-							if (methodDecl.getName().equals(memberName))
-							{
-								importedDeclNames.add(
-									JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(methodDecl, m_typeSolver
-								));
-							}
-						}
-						if (importedDeclNames.isEmpty() && ref.hasField(memberName)) // look for field
-						{
-							JavaDeclName importedTypeDeclName = JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(ref, m_typeSolver);
-							if (importedTypeDeclName != null)
-							{
-								JavaDeclName importedDeclName = new JavaDeclName(memberName);
-								importedDeclName.setParent(importedTypeDeclName);
-								importedDeclNames.add(importedDeclName);
-							}
-						}
-					}
-				}
-	
-				if (!importedDeclNames.isEmpty())
-				{
-					for (JavaDeclName importedDeclName: importedDeclNames)
-					{
-						String nameHierarchy = importedDeclName.toSerializedNameHierarchy();
-						for (DeclContext context: m_context)
-						{
-							JavaIndexer.recordReference(
-								m_callbackId, ReferenceKind.IMPORT, 
-								nameHierarchy, context.getName(), 
-								nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column
-							);
-						}
-					}
-				}
-				else
-				{
-					JavaIndexer.recordError(
-						m_callbackId, "Import not found.", true, true, 
-						nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column
-					);
-				}
-			}
-			catch (Exception e)
+	@Override
+	public void visit(StaticImportOnDemandDeclaration n, Void arg)
+	{
+		try
+		{
+			ClassOrInterfaceType type = n.getType();
+			String importedName = JavaparserTypeNameResolver.getQualifiedTypeName(type, m_typeSolver).toSerializedNameHierarchy();
+			for (DeclContext context: m_context)
 			{
-				recordException(e, n);
+				JavaIndexer.recordReference(
+					m_callbackId, ReferenceKind.IMPORT, 
+					importedName, context.getName(), 
+					type.getRange()
+				);
 			}
 		}
-		super.visit(n, v);
+		catch (Exception e)
+		{
+			recordException(e, n);
+		}
 	}
-	
+
+	@Override
+	public void visit(TypeImportOnDemandDeclaration n, Void arg) 
+	{
+		try
+		{
+			Name name = n.getName();
+			String importedName = JavaparserDeclNameResolver.getQualifiedName(name).toSerializedNameHierarchy();
+			for (DeclContext context: m_context)
+			{
+				JavaIndexer.recordReference(
+					m_callbackId, ReferenceKind.IMPORT, 
+					importedName, context.getName(), 
+					name.getRange()
+				);
+			}
+		}
+		catch (Exception e)
+		{
+			recordException(e, n);
+		}
+	}
+
 	@Override public void visit(final ClassOrInterfaceType n, final Void v)
 	{
 		try
@@ -433,20 +512,30 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			{
 				String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toSerializedNameHierarchy();
 
-				int beginLine = n.getBegin().line;
-				int beginColumn = n.getBegin().column;
-				int endLine = n.getBegin().line;
-				int endColumn = n.getBegin().column + n.getName().length() - 1;
+				Range range = Range.range(0, 0, 0, 0);
 				
-				if (n.getScope() != null)
+				if (n.getRange().isPresent())
 				{
-					endLine = n.getScope().getEnd().line;
-					endColumn = n.getScope().getEnd().column + n.getName().length() + 1; // +1 for separator
+					range = Range.range(
+						n.getRange().get().begin.line,
+						n.getRange().get().begin.column,
+						n.getRange().get().begin.line,
+						n.getRange().get().begin.column + n.getNameAsString().length() - 1
+					);
+				}
+				
+				Optional<ClassOrInterfaceType> scope = n.getScope();
+				if (scope.isPresent() && scope.get().getEnd().isPresent())
+				{
+					range = range.withEnd(
+						Position.pos(scope.get().getEnd().get().line, 
+						scope.get().getEnd().get().column + n.getNameAsString().length() + 1 // +1 for separator
+					));
 				}
 				
 				JavaIndexer.recordReference(
 					m_callbackId, getTypeReferenceKind(), referencedName, context.getName(), 
-					beginLine, beginColumn, endLine, endColumn
+					range
 				);
 			}
 		}
@@ -472,7 +561,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			{		
 				JavaIndexer.recordReference(
 					m_callbackId, getTypeReferenceKind(), referencedName, context.getName(), 
-					n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column
+					n.getRange()
 				);
 			}
 		}
@@ -499,7 +588,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			{
 				JavaIndexer.recordReference(
 					m_callbackId, getTypeReferenceKind(), referencedName, context.getName(), 
-					n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column
+					n.getRange()
 				);
 			}
 		}
@@ -511,6 +600,50 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		super.visit(n, v);
 	}
 
+	@Override public void visit(final FieldAccessExpr n, final Void v)
+	{
+		SimpleName fieldName = n.getField();
+		
+		try
+		{
+			SymbolReference<? extends ValueDeclaration> ref = JavaParserFacade.get(m_typeSolver).solve(fieldName);
+			if (ref.isSolved())
+			{
+				ValueDeclaration valueDecl = ref.getCorrespondingDeclaration();
+				
+				Node wrappedNode = null;
+				if (valueDecl instanceof JavaParserFieldDeclaration)
+				{
+					wrappedNode = ((JavaParserFieldDeclaration)valueDecl).getWrappedNode();
+				}
+				if (wrappedNode != null && wrappedNode instanceof FieldDeclaration)
+				{
+					
+					for (VariableDeclarator var: ((FieldDeclaration)wrappedNode).getVariables())
+					{
+						if (var.getName().getIdentifier().equals(fieldName.getIdentifier()))
+						{
+							String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(var, m_typeSolver).toSerializedNameHierarchy();
+							for (DeclContext context: m_context)
+							{
+								JavaIndexer.recordReference(
+									m_callbackId, ReferenceKind.USAGE, qualifiedName, context.getName(),
+									fieldName.getRange()
+								);
+							}
+						}
+					}
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			recordException(e, n);
+		}
+		
+		super.visit(n, v);
+	}
+	
 	@Override public void visit(final NameExpr n, final Void v)
 	{
 		try
@@ -531,71 +664,62 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		if (ref.isSolved())
 		{
 			ValueDeclaration valueDecl = ref.getCorrespondingDeclaration();
+			
+			Node wrappedNode = null;
 			if (valueDecl instanceof JavaParserSymbolDeclaration)
 			{
-				Node wrappedNode = null;
-				if (valueDecl instanceof JavaParserSymbolDeclaration)
+				wrappedNode = ((JavaParserSymbolDeclaration)valueDecl).getWrappedNode();
+			}
+			else if (valueDecl instanceof JavaParserParameterDeclaration)
+			{
+				wrappedNode = ((JavaParserParameterDeclaration)valueDecl).getWrappedNode();
+			}
+			
+			if (wrappedNode != null)
+			{
+				if (wrappedNode instanceof Parameter)
 				{
-					wrappedNode = ((JavaParserSymbolDeclaration)valueDecl).getWrappedNode();
-				}
-				if (wrappedNode != null)
-				{
-					if (wrappedNode instanceof Parameter)
+					SimpleName name = ((Parameter)wrappedNode).getName();
+					if (name.getBegin().isPresent())
 					{
-						VariableDeclaratorId identifier = ((Parameter)wrappedNode).getId();
-						String qualifiedName = m_filePath + "<" + identifier.getBegin().line + ":" + identifier.getBegin().column + ">";
+						String qualifiedName = m_filePath + "<" + name.getBegin().get().line + ":" + name.getBegin().get().column + ">";
 						
 						JavaIndexer.recordLocalSymbol(
 							m_callbackId, qualifiedName,
-							e.getBegin().line, e.getBegin().column, e.getEnd().line, e.getEnd().column
+							e.getRange()
 						);
 					}
-					else if (wrappedNode instanceof VariableDeclarator)
+				}
+				else if (wrappedNode instanceof VariableDeclarator)
+				{
+					if (wrappedNode.getAncestorOfType(FieldDeclaration.class) != null)
 					{
-						if (getFieldDeclarationInParentHierarchy(wrappedNode) != null)
+						String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName((VariableDeclarator)wrappedNode, m_typeSolver).toSerializedNameHierarchy();
+						
+						for (DeclContext context: m_context)
 						{
-							String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName((VariableDeclarator)wrappedNode, m_typeSolver).toSerializedNameHierarchy();
-							
-							for (DeclContext context: m_context)
-							{
-								JavaIndexer.recordReference(
-									m_callbackId, ReferenceKind.USAGE, qualifiedName, context.getName(),
-									e.getBegin().line, e.getBegin().column, e.getEnd().line, e.getEnd().column
-								);
-							}
+							JavaIndexer.recordReference(
+								m_callbackId, ReferenceKind.USAGE, qualifiedName, context.getName(),
+								e.getRange()
+							);
 						}
-						else
+					}
+					else
+					{
+						SimpleName name = ((VariableDeclarator)wrappedNode).getName();
+						if (name.getBegin().isPresent())
 						{
-							VariableDeclaratorId identifier = ((VariableDeclarator)wrappedNode).getId();
-							String qualifiedName = m_filePath + "<" + identifier.getBegin().line + ":" + identifier.getBegin().column + ">";
+							String qualifiedName = m_filePath + "<" + name.getBegin().get().line + ":" + name.getBegin().get().column + ">";
 							
 							JavaIndexer.recordLocalSymbol(
 								m_callbackId, qualifiedName,
-								e.getBegin().line, e.getBegin().column, e.getEnd().line, e.getEnd().column
+								e.getRange()
 							);
 						}
 					}
 				}
 			}
 		}
-	}
-	
-	private static FieldDeclaration getFieldDeclarationInParentHierarchy(Node decl)
-	{
-		FieldDeclaration context = null;
-		{
-			Node parentNode = decl.getParentNode();
-			while (parentNode != null && !(parentNode instanceof FieldDeclaration))
-			{
-				parentNode = parentNode.getParentNode();
-			}
-			
-			if (parentNode != null)
-			{
-				context = (FieldDeclaration)parentNode;
-			}
-		}
-		return context;
 	}
 
 	@Override public void visit(final MethodCallExpr n, final Void v)
@@ -605,8 +729,15 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		{
 			try
 			{
-				MethodUsage solvedMethod = JavaParserFacade.get(m_typeSolver).solveMethodAsUsage(n);
-				qualifiedName = getQualifiedName(solvedMethod);
+				SymbolReference<com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration> solvedMethod = JavaParserFacade.get(m_typeSolver).solve(n);
+				if (solvedMethod.isSolved())
+				{
+					qualifiedName = getQualifiedName(solvedMethod.getCorrespondingDeclaration());
+				}
+				else
+				{
+					throw new UnsolvedSymbolException(n.getNameAsString());
+				}
 			}
 			catch (UnsupportedOperationException e)
 			{
@@ -628,12 +759,12 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		
 		if (!qualifiedName.isEmpty())
 		{
-			NameExpr nameExpr = n.getNameExpr();
+			SimpleName name = n.getName();
 			for (DeclContext context: m_context)
 			{
 				JavaIndexer.recordReference(
 					m_callbackId, ReferenceKind.CALL, qualifiedName, context.getName(),
-					nameExpr.getBegin().line, nameExpr.getBegin().column, nameExpr.getEnd().line, nameExpr.getEnd().column
+					name.getRange()
 				);
 			}
 		}
@@ -644,20 +775,29 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	
 	private void recordException(Exception e, Node n)
 	{
-		JavaIndexer.logError(m_callbackId, e.getClass() + " at " + m_filePath + "<"+ n.getBegin().line + ", " + n.getBegin().column + ">");
-		JavaIndexer.recordSymbolWithLocation(
-			m_callbackId, "unsolved-symbol\ts\tp", SymbolType.TYPE_MAX, 
-			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column, 
-			AccessKind.DEFAULT, false
-		);
+		recordExceptionOrError(e.getClass().getSimpleName(), n);
 	}
 	
 	private void recordError(Error e, Node n)
 	{
-		JavaIndexer.logError(m_callbackId, e.getClass() + " at " + m_filePath + "<"+ n.getBegin().line + ", " + n.getBegin().column + ">");
+		recordExceptionOrError(e.getClass().getSimpleName(), n);
+	}
+	
+	private void recordExceptionOrError(String e, Node n)
+	{
+		String beginLine = "?";
+		String beginColumn = "?";
+		
+		if (n.getBegin().isPresent())
+		{
+			beginLine = n.getBegin().get().line + "";
+			beginColumn = n.getBegin().get().column + "";
+		}
+		
+		JavaIndexer.logError(m_callbackId, e + " at " + m_filePath + "<"+ beginLine + ", " + beginColumn + ">");
 		JavaIndexer.recordSymbolWithLocation(
 			m_callbackId, "unsolved-symbol\ts\tp", SymbolType.TYPE_MAX, 
-			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column, 
+			n.getRange(), 
 			AccessKind.DEFAULT, false
 		);
 	}
@@ -740,13 +880,12 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		super.visit(n, v);
 	}
 	*/
-	private String getQualifiedName(MethodUsage solvedMethod)
+	private String getQualifiedName(com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration solvedMethod)
 	{
-		me.tomassetti.symbolsolver.model.declarations.MethodDeclaration methodDecl = solvedMethod.getDeclaration();
 		String qualifiedName = "";
-		if (methodDecl instanceof JavaParserMethodDeclaration)
+		if (solvedMethod instanceof JavaParserMethodDeclaration)
 		{
-			MethodDeclaration wrappedNode = ((JavaParserMethodDeclaration)methodDecl).getWrappedNode();
+			MethodDeclaration wrappedNode = ((JavaParserMethodDeclaration)solvedMethod).getWrappedNode();
 			qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(wrappedNode, m_typeSolver).toSerializedNameHierarchy();
 		}
 		else // todo: move this implementation somewhere else
@@ -756,18 +895,18 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			
 			qualifiedName += "\ts\tp\tn" + solvedMethod.getName() + "\ts";
 			
-			String returnType = solvedMethod.returnType().describe();
+			String returnType = solvedMethod.getReturnType().describe();
 			qualifiedName += returnType;
 		//	qualifiedName += returnType.substring(returnType.lastIndexOf(".") + 1);
 			
 			qualifiedName += "\tp(";
-			for (int i = 0; i < solvedMethod.getParamTypes().size(); i++)
+			for (int i = 0; i < solvedMethod.getNumberOfParams(); i++)
 			{
 				if(i != 0)
 				{
 					qualifiedName += (", ");
 				}
-				String paramType = solvedMethod.getParamTypes().get(i).describe();
+				String paramType = solvedMethod.getParam(i).describeType();
 				qualifiedName += paramType;
 			//	qualifiedName += paramType.substring(paramType.lastIndexOf(".") + 1);
 			}
@@ -778,35 +917,46 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	
 	@Override public void visit(final BlockStmt n, final Void v)
 	{
-		recordScope(n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column);
+		recordScope(n.getRange());
 		super.visit(n, v);
 	}
 	
 	@Override public void visit(final ArrayInitializerExpr n, final Void v)
 	{
-		recordScope(n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column);
+		recordScope(n.getRange());
 		super.visit(n, v);
 	}
 	
 	@Override public void visit(final SwitchStmt n, final Void v)
 	{
-		FileContent.Location scopeStartLocation = m_fileContent.find("{", n.getBegin().line, n.getBegin().column);
-		recordScope(scopeStartLocation.line, scopeStartLocation.column, n.getEnd().line, n.getEnd().column);
+		if (n.getRange().isPresent())
+		{
+			FileContent.Location scopeStartLocation = m_fileContent.find("{", n.getBegin());
+			recordScope(Range.range(scopeStartLocation.line, scopeStartLocation.column, n.getRange().get().end.line, n.getRange().get().end.column));
+		}
 		super.visit(n, v);
 	}
 	
-	private void recordScope(int beginLine, int beginColumn, int endLine, int endColumn)
+	private void recordScope(Optional<Range> range)
 	{
-		String qualifiedName = m_filePath + "<" + beginLine + ":" + beginColumn + ">";
-		JavaIndexer.recordLocalSymbol(m_callbackId, qualifiedName, beginLine, beginColumn, beginLine, beginColumn);
-		JavaIndexer.recordLocalSymbol(m_callbackId, qualifiedName, endLine, endColumn, endLine, endColumn);
+		if (range.isPresent())
+		{
+			recordScope(range.get());
+		}
+	}
+	
+	private void recordScope(Range range)
+	{
+		String qualifiedName = m_filePath + "<" + range.begin.line + ":" + range.begin.column + ">";
+		JavaIndexer.recordLocalSymbol(m_callbackId, qualifiedName, range.begin.line, range.begin.column, range.begin.line, range.begin.column);
+		JavaIndexer.recordLocalSymbol(m_callbackId, qualifiedName, range.end.line, range.end.column, range.end.line, range.end.column);
 	}
 	
 	@Override public void visit(final LineComment n, final Void v)
 	{
 		JavaIndexer.recordComment(
 			m_callbackId,
-			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column
+			n.getRange()
 		);
 		super.visit(n, v);
 	}
@@ -815,7 +965,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	{
 		JavaIndexer.recordComment(
 			m_callbackId,
-			n.getBegin().line, n.getBegin().column, n.getEnd().line, n.getEnd().column
+			n.getRange()
 		);
 		super.visit(n, v);
 	}

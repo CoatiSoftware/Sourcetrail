@@ -2,6 +2,9 @@ package io.coati;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
+import com.github.javaparser.Position;
 
 public class FileContent 
 {
@@ -26,13 +29,18 @@ public class FileContent
 	
 	public Location find(String s)
 	{
-		return find(s, 1, 1);
+		return find(s, Position.pos(1, 1));
 	}
 	
-	public Location find(String s, int fromLine, int fromColumn)
+	public Location find(String s, Optional<Position> from)
 	{
-		int lineIndex = fromLine - 1;
-		int startColumn = fromColumn - 1;
+		return find(s, from.orElse(Position.pos(1, 1)));
+	}
+	
+	public Location find(String s, Position from)
+	{
+		int lineIndex = from.line - 1;
+		int startColumn = from.column - 1;
 		int column = -1;
 		while (lineIndex < m_lines.size())
 		{

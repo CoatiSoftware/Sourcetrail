@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.github.javaparser.ast.body.BodyDeclaration;
 
-import me.tomassetti.symbolsolver.model.resolution.TypeSolver;
+import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 
 public abstract class JavaNameResolver 
 {

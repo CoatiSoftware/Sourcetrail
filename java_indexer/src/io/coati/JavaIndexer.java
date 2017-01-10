@@ -4,19 +4,20 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.String;
+import java.util.Optional;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.Problem;
-
-import me.tomassetti.symbolsolver.javaparser.Navigator;
-import me.tomassetti.symbolsolver.javaparsermodel.JavaParserFacade;
-import me.tomassetti.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
-import me.tomassetti.symbolsolver.resolution.typesolvers.JarTypeSolver;
-import me.tomassetti.symbolsolver.resolution.typesolvers.JavaParserTypeSolver;
-import me.tomassetti.symbolsolver.resolution.typesolvers.JreTypeSolver;
+import com.github.javaparser.Range;
+import com.github.javaparser.symbolsolver.javaparser.Navigator;
+import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
+import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
+import com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver;
+import com.github.javaparser.symbolsolver.resolution.typesolvers.JavaParserTypeSolver;
+import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
 
 public class JavaIndexer 
 {
@@ -28,7 +29,7 @@ public class JavaIndexer
 		{
 			CombinedTypeSolver typeSolver = new CombinedTypeSolver();
 
-			typeSolver.add(new JreTypeSolver());
+			typeSolver.add(new ReflectionTypeSolver());
 			for (String path: classPath.split("\\;"))
 			{
 				if (path.endsWith(".jar"))
@@ -49,7 +50,7 @@ public class JavaIndexer
 					typeSolver.add(solver);
 				}
 			}
-			CompilationUnit cu = JavaParser.parse(new StringReader(fileContent), true);
+			CompilationUnit cu = JavaParser.parse(new StringReader(fileContent));
 
 			JavaAstVisitor astVisitor = (
 				verbose == 1 ? 
@@ -61,33 +62,36 @@ public class JavaIndexer
 		} 
 		catch (ParseProblemException e) 
 		{
-			for (Problem problem: e.problems)
+			for (Problem problem: e.getProblems())
 			{
-				if (problem.message.startsWith("Encountered unexpected token"))
+				String message = problem.getMessage();
+				if (message.startsWith("Encountered unexpected token"))
 				{
-					int startLine = Integer.parseInt(problem.message.substring(
-						problem.message.indexOf("line ") + ("line ").length(), 
-						problem.message.indexOf(",")
+					int startLine = Integer.parseInt(message.substring(
+						message.indexOf("line ") + ("line ").length(), 
+						message.indexOf(",")
 					));
 					
-					int startColumn = Integer.parseInt(problem.message.substring(
-						problem.message.indexOf("column ") + ("column ").length(), 
-						problem.message.indexOf(".")
+					int startColumn = Integer.parseInt(message.substring(
+						message.indexOf("column ") + ("column ").length(), 
+						message.indexOf(".")
 					));
 					
 					recordError(
 						address, "Encountered unexpected token.", true, true, 
-						startLine, startColumn, 
-						startLine, startColumn
+						Range.range(startLine, startColumn, startLine, startColumn)
 					);
 				}
 				else
-				{			
-					recordError(
-						address, problem.toString(), true, true, 
-						problem.range.begin.line, problem.range.begin.column, 
-						problem.range.end.line, problem.range.end.column
-					);
+				{		
+					Optional<Range> range = problem.getRange();
+					if (range.isPresent())
+					{
+						recordError(
+							address, problem.toString(), true, true, 
+							range.get()
+						);
+					}
 				}
 			}
 		}
@@ -100,7 +104,7 @@ public class JavaIndexer
 		String packageName = "";
 		try 
 		{
-			CompilationUnit cu = JavaParser.parse(new StringReader(fileContent), true);
+			CompilationUnit cu = JavaParser.parse(new StringReader(fileContent));
 			PackageDeclaration pd = Navigator.findNodeOfGivenClass(cu, PackageDeclaration.class);
 			if (pd != null)
 			{
@@ -134,50 +138,139 @@ public class JavaIndexer
 	
 	static public void recordSymbolWithLocation(
 		int address, String symbolName, SymbolType symbolType, 
-		int beginLine, int beginColumn, int endLine, int endColumn,
+		Optional<Range> range,
+		AccessKind access, boolean isImplicit
+	)
+	{
+		recordSymbolWithLocation(
+			address, symbolName, symbolType, 
+			range.orElse(Range.range(0, 0, 0, 0)),
+			access, isImplicit
+		);
+	}
+	
+	static public void recordSymbolWithLocation(
+		int address, String symbolName, SymbolType symbolType, 
+		Range range,
 		AccessKind access, boolean isImplicit
 	)
 	{
 		recordSymbolWithLocation(
 			address, symbolName, symbolType.getValue(), 
-			beginLine, beginColumn, endLine, endColumn, 
+			range.begin.line, range.begin.column, range.end.line, range.end.column, 
 			access.getValue(), (isImplicit ? 1 : 0)
 		);
 	}
 	
 	static public void recordSymbolWithLocationAndScope(
 		int address, String symbolName, SymbolType symbolType, 
-		int beginLine, int beginColumn, int endLine, int endColumn,
-		int scopeBeginLine, int scopeBeginColumn, int scopeEndLine, int scopeEndColumn,
+		Optional<Range> range,
+		Optional<Range> scopeRange,
+		AccessKind access, boolean isImplicit
+	)
+	{
+		recordSymbolWithLocationAndScope(
+			address, symbolName, symbolType, 
+			range.orElse(Range.range(0, 0, 0, 0)),
+			scopeRange.orElse(Range.range(0, 0, 0, 0)),
+			access, isImplicit
+		);
+	}
+	
+	static public void recordSymbolWithLocationAndScope(
+		int address, String symbolName, SymbolType symbolType, 
+		Range range,
+		Range scopeRange,
 		AccessKind access, boolean isImplicit
 	)
 	{
 		recordSymbolWithLocationAndScope(
 			address, symbolName, symbolType.getValue(), 
-			beginLine, beginColumn, endLine, endColumn, 
-			scopeBeginLine, scopeBeginColumn, scopeEndLine, scopeEndColumn,  
+			range.begin.line, range.begin.column, range.end.line, range.end.column, 
+			scopeRange.begin.line, scopeRange.begin.column, scopeRange.end.line, scopeRange.end.column, 
 			access.getValue(), (isImplicit ? 1 : 0)
 		);
 	}
 	
 	static public void recordReference(
 		int address, ReferenceKind referenceKind, String referencedName, String contextName, 
-		int beginLine, int beginColumn, int endLine, int endColumn
+		Optional<Range> range
+	)
+	{
+		recordReference(
+			address, referenceKind, referencedName, contextName, 
+			range.orElse(Range.range(0, 0, 0, 0))
+		);
+	}
+	
+	static public void recordReference(
+		int address, ReferenceKind referenceKind, String referencedName, String contextName, 
+		Range range
 	)
 	{
 		recordReference(
 			address, referenceKind.getValue(), referencedName, contextName, 
-			beginLine, beginColumn, endLine, endColumn
+			range.begin.line, range.begin.column, range.end.line, range.end.column
+		);
+	}
+	
+	static public void recordLocalSymbol(
+		int address, String symbolName,
+		Optional<Range> range
+	)
+	{
+		recordLocalSymbol(address, symbolName, range.orElse(Range.range(0, 0, 0, 0)));
+	}
+		
+	static public void recordLocalSymbol(
+		int address, String symbolName,
+		Range range
+	)
+	{
+		recordLocalSymbol(
+			address, symbolName,
+			range.begin.line, range.begin.column, range.end.line, range.end.column
+		);
+	}
+	
+	static public void recordComment(
+		int address,
+		Optional<Range> range
+	)
+	{
+		recordComment(address, range.orElse(Range.range(0, 0, 0, 0)));
+	}
+	
+	static public void recordComment(
+		int address,
+		Range range
+	)
+	{
+		recordComment(
+			address,
+			range.begin.line, range.begin.column, range.end.line, range.end.column
 		);
 	}
 	
 	static public void recordError(
-		int address, String message, boolean fatal, boolean indexed, int beginLine, int beginColumn, int endLine, int endColumn
+		int address, String message, boolean fatal, boolean indexed, 
+		Optional<Range> range
+	)
+	{
+		recordError(
+			address, message, fatal, indexed, 
+			range.orElse(Range.range(0, 0, 0, 0))
+		);
+	}
+	
+	static public void recordError(
+		int address, String message, boolean fatal, boolean indexed, 
+		Range range
 	)
 	{
 		recordError(
 			address, message, (fatal ? 1 : 0), (indexed ? 1 : 0), 
-			beginLine, beginColumn, endLine, endColumn
+			range.begin.line, range.begin.column, range.end.line, range.end.column
 		);
 	}
 	

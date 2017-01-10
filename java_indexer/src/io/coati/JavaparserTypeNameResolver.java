@@ -1,18 +1,12 @@
 package io.coati;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.type.*;
 
-import me.tomassetti.symbolsolver.javaparsermodel.JavaParserFacade;
-import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserTypeParameter;
-import me.tomassetti.symbolsolver.model.resolution.TypeParameter;
-import me.tomassetti.symbolsolver.model.resolution.TypeSolver;
-import me.tomassetti.symbolsolver.model.typesystem.TypeParameterUsage;
-import me.tomassetti.symbolsolver.model.typesystem.TypeUsage;
+import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
+import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 
 public class JavaparserTypeNameResolver extends JavaNameResolver
 {
@@ -35,19 +29,36 @@ public class JavaparserTypeNameResolver extends JavaNameResolver
 	public JavaTypeName getQualifiedTypeName(Type type)
 	{
 		String fallbackTypeName = type.toString();
-		
+
 		if (type instanceof ClassOrInterfaceType)
 		{
 			try
 			{
-				TypeUsage typeUsage = JavaParserFacade.get(m_typeSolver).convert(type, type); 
-				
-				return JavaSymbolSolverTypeNameResolver.getQualifiedTypeName(typeUsage, m_typeSolver, m_ignoredContexts);
+				return JavaSymbolSolverTypeNameResolver.getQualifiedTypeName(
+					JavaParserFacade.get(m_typeSolver).convert(type, type), 
+					m_typeSolver, 
+					m_ignoredContexts
+				);
 			}
 			catch (Exception e)
 			{
 				// log...
 			}
+		}
+		else if (type instanceof ArrayType)
+		{
+			ArrayType arrayType = (ArrayType)type;
+			
+			// TODO: regard array info!
+			return getQualifiedTypeName(arrayType.getComponentType());
+		}
+		else if (type instanceof TypeParameter)
+		{
+			return JavaSymbolSolverTypeNameResolver.getQualifiedTypeName(
+				JavaParserFacade.get(m_typeSolver).convert(type, type), 
+				m_typeSolver, 
+				m_ignoredContexts
+			);
 		}
 		else if (type instanceof IntersectionType)
 		{
@@ -58,13 +69,6 @@ public class JavaparserTypeNameResolver extends JavaNameResolver
 		else if (type instanceof PrimitiveType)
 		{
 			return JavaTypeName.fromDotSeparatedString(type.toString());
-		}
-		else if (type instanceof ReferenceType)
-		{
-			ReferenceType referenceType = (ReferenceType)type;
-			
-			boolean isArray = (referenceType.getArrayCount() == 0); // TODO: regard array info!
-			return getQualifiedTypeName(referenceType.getType());
 		}
 		else if (type instanceof UnionType)
 		{

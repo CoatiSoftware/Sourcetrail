@@ -5,17 +5,15 @@ import java.util.List;
 
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.Parameter;
 
-import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration;
-import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserInterfaceDeclaration;
-import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration;
-import me.tomassetti.symbolsolver.model.declarations.Declaration;
-import me.tomassetti.symbolsolver.model.declarations.MethodDeclaration;
-import me.tomassetti.symbolsolver.model.declarations.ParameterDeclaration;
-import me.tomassetti.symbolsolver.model.declarations.TypeDeclaration;
-import me.tomassetti.symbolsolver.model.resolution.TypeParameter;
-import me.tomassetti.symbolsolver.model.resolution.TypeSolver;
+import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration;
+import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserInterfaceDeclaration;
+import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration;
+import com.github.javaparser.symbolsolver.model.declarations.Declaration;
+import com.github.javaparser.symbolsolver.model.declarations.MethodDeclaration;
+import com.github.javaparser.symbolsolver.model.declarations.TypeDeclaration;
+import com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration;
+import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 
 public class JavaSymbolSolverDeclNameResolver extends JavaNameResolver
 {
@@ -81,7 +79,7 @@ public class JavaSymbolSolverDeclNameResolver extends JavaNameResolver
 					// TODO: what about endless recursion regarding type parameters and return type??
 					
 					List<JavaTypeName> parameterNames = new ArrayList<>();
-					for (int i = 0; i < methodDecl.getNoParams(); i++)
+					for (int i = 0; i < methodDecl.getNumberOfParams(); i++)
 					{
 						parameterNames.add(JavaSymbolSolverTypeNameResolver.getQualifiedTypeName(
 							methodDecl.getParam(i).getType(), m_typeSolver, m_ignoredContexts
@@ -105,7 +103,7 @@ public class JavaSymbolSolverDeclNameResolver extends JavaNameResolver
 		return declName;
 	}
 	
-	private static List<String> getTypeParameterNames(List<TypeParameter> typeParameters)
+	private static List<String> getTypeParameterNames(List<TypeParameterDeclaration> typeParameters)
 	{
 		List<String> typeParameterNames = new ArrayList<>();
 		if (typeParameters != null && typeParameters.size() > 0)

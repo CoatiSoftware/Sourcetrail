@@ -2,7 +2,8 @@ package io.coati;
 
 import java.util.List;
 
-import com.github.javaparser.ast.TypeParameter;
+import com.github.javaparser.ast.type.TypeParameter;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
@@ -24,15 +25,15 @@ public class CallableMethodDecl implements CallableDecl
 	
 	public String getName()
 	{
-		return m_decl.getName();
+		return m_decl.getNameAsString();
 	}
 
-	public List<TypeParameter> getTypeParameters()
+	public NodeList<TypeParameter> getTypeParameters()
 	{
 		return m_decl.getTypeParameters();
 	}
 	
-	public List<Parameter> getParameters()
+	public NodeList<Parameter> getParameters()
 	{
 		return m_decl.getParameters();
 	}

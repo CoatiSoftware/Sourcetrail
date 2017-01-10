@@ -30,4 +30,5 @@
 			<source_path>./target/generated-sources/javacc</source_path>
 		</source_paths>
 	</source>
+    <version>1</version>
 </config>

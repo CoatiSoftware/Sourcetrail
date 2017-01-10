@@ -4,11 +4,11 @@ import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.*;
 import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.imports.*;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.*;
-
-import me.tomassetti.symbolsolver.model.resolution.TypeSolver;
+import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
 
 public class JavaVerboseAstVisitor extends JavaAstVisitor{
 	
@@ -44,9 +44,13 @@ public class JavaVerboseAstVisitor extends JavaAstVisitor{
 		line += n.getClass().getName();
 		if (n instanceof NodeWithName<?>)
 		{
-			line += " [" + obfuscate(((NodeWithName<?>)n).getName()) + "]";
+			line += " [" + obfuscate(((NodeWithName<?>)n).getNameAsString()) + "]";
 		}
-		line += " line: " + n.getBegin().line;
+		
+		if (n.getBegin().isPresent())
+		{
+			line += " line: " + n.getBegin().get().line;
+		}
 		
 		JavaIndexer.logInfo(m_callbackId, line);
 	}
@@ -57,8 +61,16 @@ public class JavaVerboseAstVisitor extends JavaAstVisitor{
 
 	public void visit(PackageDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
-	public void visit(ImportDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public void visit(BadImportDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	
+	public void visit(SingleStaticImportDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
+	public void visit(SingleTypeImportDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+
+	public void visit(StaticImportOnDemandDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+
+	public void visit(TypeImportOnDemandDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	
 	public void visit(TypeParameter n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
 	public void visit(LineComment n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
@@ -71,8 +83,6 @@ public class JavaVerboseAstVisitor extends JavaAstVisitor{
 
 	public void visit(EnumDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
-	public void visit(EmptyTypeDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
-
 	public void visit(EnumConstantDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
 	public void visit(AnnotationDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
@@ -82,8 +92,6 @@ public class JavaVerboseAstVisitor extends JavaAstVisitor{
 	public void visit(FieldDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
 	public void visit(VariableDeclarator n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
-
-	public void visit(VariableDeclaratorId n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
 	public void visit(ConstructorDeclaration n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
@@ -103,7 +111,9 @@ public class JavaVerboseAstVisitor extends JavaAstVisitor{
 
 	public void visit(PrimitiveType n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
-	public void visit(ReferenceType n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+	public void visit(ArrayType n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
+
+	public void visit(ArrayCreationLevel n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
     public void visit(IntersectionType n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
@@ -145,10 +155,6 @@ public class JavaVerboseAstVisitor extends JavaAstVisitor{
 
 	public void visit(LongLiteralExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
-	public void visit(IntegerLiteralMinValueExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
-
-	public void visit(LongLiteralMinValueExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
-
 	public void visit(CharLiteralExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
 	public void visit(DoubleLiteralExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
@@ -162,8 +168,6 @@ public class JavaVerboseAstVisitor extends JavaAstVisitor{
 	public void visit(NameExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
 	public void visit(ObjectCreationExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
-
-	public void visit(QualifiedNameExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 
 	public void visit(ThisExpr n, Void v) { dump(n); indent++; super.visit(n, v); indent--; }
 

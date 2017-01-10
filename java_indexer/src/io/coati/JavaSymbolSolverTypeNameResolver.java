@@ -1,40 +1,23 @@
 package io.coati;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.BodyDeclaration;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.ast.type.IntersectionType;
-import com.github.javaparser.ast.type.PrimitiveType;
-import com.github.javaparser.ast.type.ReferenceType;
-import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.ast.type.UnionType;
-import com.github.javaparser.ast.type.UnknownType;
-import com.github.javaparser.ast.type.VoidType;
-import com.github.javaparser.ast.type.WildcardType;
 
-import me.tomassetti.symbolsolver.javaparsermodel.JavaParserFacade;
-import me.tomassetti.symbolsolver.javaparsermodel.LambdaArgumentTypeUsagePlaceholder;
-import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclaration;
-import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserInterfaceDeclaration;
-import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration;
-import me.tomassetti.symbolsolver.javaparsermodel.declarations.JavaParserTypeParameter;
-import me.tomassetti.symbolsolver.model.declarations.Declaration;
-import me.tomassetti.symbolsolver.model.declarations.MethodDeclaration;
-import me.tomassetti.symbolsolver.model.declarations.TypeDeclaration;
-import me.tomassetti.symbolsolver.model.resolution.TypeParameter;
-import me.tomassetti.symbolsolver.model.resolution.TypeSolver;
-import me.tomassetti.symbolsolver.model.typesystem.ArrayTypeUsage;
-import me.tomassetti.symbolsolver.model.typesystem.NullTypeUsage;
-import me.tomassetti.symbolsolver.model.typesystem.PrimitiveTypeUsage;
-import me.tomassetti.symbolsolver.model.typesystem.ReferenceTypeUsage;
-import me.tomassetti.symbolsolver.model.typesystem.TypeParameterUsage;
-import me.tomassetti.symbolsolver.model.typesystem.TypeUsage;
-import me.tomassetti.symbolsolver.model.typesystem.VoidTypeUsage;
-import me.tomassetti.symbolsolver.model.typesystem.WildcardUsage;
+import com.github.javaparser.symbolsolver.javaparsermodel.LambdaArgumentTypePlaceholder;
+import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserTypeParameter;
+import com.github.javaparser.symbolsolver.logic.InferenceVariableType;
+import com.github.javaparser.symbolsolver.model.declarations.TypeParameterDeclaration;
+import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
+import com.github.javaparser.symbolsolver.model.typesystem.ArrayType;
+import com.github.javaparser.symbolsolver.model.typesystem.NullType;
+import com.github.javaparser.symbolsolver.model.typesystem.PrimitiveType;
+import com.github.javaparser.symbolsolver.model.typesystem.ReferenceType;
+import com.github.javaparser.symbolsolver.model.typesystem.Type;
+import com.github.javaparser.symbolsolver.model.typesystem.TypeVariable;
+import com.github.javaparser.symbolsolver.model.typesystem.VoidType;
+import com.github.javaparser.symbolsolver.model.typesystem.Wildcard;
 
 public class JavaSymbolSolverTypeNameResolver extends JavaNameResolver
 {
@@ -43,38 +26,42 @@ public class JavaSymbolSolverTypeNameResolver extends JavaNameResolver
 		super(typeSolver, ignoredContexts);
 	}
 
-	public static JavaTypeName getQualifiedTypeName(TypeUsage typeUsage, TypeSolver typeSolver)
+	public static JavaTypeName getQualifiedTypeName(Type type, TypeSolver typeSolver)
 	{
-		return getQualifiedTypeName(typeUsage, typeSolver, null);
+		return getQualifiedTypeName(type, typeSolver, null);
 	}
 	
-	public static JavaTypeName getQualifiedTypeName(TypeUsage typeUsage, TypeSolver typeSolver, ArrayList<BodyDeclaration> ignoredContexts)
+	public static JavaTypeName getQualifiedTypeName(Type type, TypeSolver typeSolver, ArrayList<BodyDeclaration> ignoredContexts)
 	{
 		JavaSymbolSolverTypeNameResolver resolver = new JavaSymbolSolverTypeNameResolver(typeSolver, ignoredContexts);
-		return resolver.getQualifiedTypeName(typeUsage);
+		return resolver.getQualifiedTypeName(type);
 	}
 	
-	public JavaTypeName getQualifiedTypeName(TypeUsage typeUsage)
-	{
-		if (typeUsage instanceof ArrayTypeUsage)
+	public JavaTypeName getQualifiedTypeName(Type type)
+	{ // , inferencevariabletype, , , , , typevar,
+		if (type instanceof ArrayType)
 		{
-			return getQualifiedTypeName(((ArrayTypeUsage)typeUsage).getComponentType());
+			return getQualifiedTypeName(((ArrayType)type).getComponentType());
 		}
-		else if (typeUsage instanceof LambdaArgumentTypeUsagePlaceholder)
+		else if (type instanceof LambdaArgumentTypePlaceholder)
 		{
 			
 		}
-		else if (typeUsage instanceof NullTypeUsage)
+		else if (type instanceof InferenceVariableType)
 		{
-			return JavaTypeName.fromDotSeparatedString(typeUsage.describe());
+			
 		}
-		else if (typeUsage instanceof PrimitiveTypeUsage)
+		else if (type instanceof NullType)
 		{
-			return JavaTypeName.fromDotSeparatedString(typeUsage.describe());
+			return JavaTypeName.fromDotSeparatedString(type.describe());
 		}
-		else if (typeUsage instanceof ReferenceTypeUsage)
+		else if (type instanceof PrimitiveType)
 		{
-			ReferenceTypeUsage refTypeUsage = (ReferenceTypeUsage)typeUsage;
+			return JavaTypeName.fromDotSeparatedString(type.describe());
+		}
+		else if (type instanceof ReferenceType)
+		{
+			ReferenceType refTypeUsage = (ReferenceType)type;
 			
 			JavaDeclName declName = JavaSymbolSolverDeclNameResolver.getQualifiedDeclName(
 				refTypeUsage.getTypeDeclaration(), 
@@ -96,13 +83,13 @@ public class JavaSymbolSolverTypeNameResolver extends JavaNameResolver
 			}
 			*/
 		}
-		else if (typeUsage instanceof TypeParameterUsage)
+		else if (type instanceof TypeVariable)
 		{
-			TypeParameter typeParam = ((TypeParameterUsage)typeUsage).asTypeParameter();
+			TypeParameterDeclaration typeParam = ((TypeVariable)type).asTypeParameter();
 			if (typeParam instanceof JavaParserTypeParameter)
 			{
-				com.github.javaparser.ast.TypeParameter jpTypeParameter = ((JavaParserTypeParameter)typeParam).getWrappedNode();
-				Node genericDecl = jpTypeParameter.getParentNode();
+				com.github.javaparser.ast.type.TypeParameter jpTypeParameter = ((JavaParserTypeParameter)typeParam).getWrappedNode();
+				BodyDeclaration<?> genericDecl = jpTypeParameter.getAncestorOfType(BodyDeclaration.class);
 				if (genericDecl instanceof BodyDeclaration)
 				{ 
 					JavaDeclName genericName = null;
@@ -110,7 +97,7 @@ public class JavaSymbolSolverTypeNameResolver extends JavaNameResolver
 					{
 						genericName = JavaparserDeclNameResolver.getQualifiedDeclName((BodyDeclaration)genericDecl, m_typeSolver, m_ignoredContexts);
 					}
-					return new JavaTypeName(jpTypeParameter.getName(), genericName);
+					return new JavaTypeName(jpTypeParameter.getName().getId(), genericName);
 				}
 			}
 			else
@@ -118,16 +105,16 @@ public class JavaSymbolSolverTypeNameResolver extends JavaNameResolver
 				// do we need to handle using type parameters of external code? YES! so: TODO: do this!
 			}	
 		}
-		else if (typeUsage instanceof VoidTypeUsage)
+		else if (type instanceof VoidType)
 		{
-			return JavaTypeName.fromDotSeparatedString(typeUsage.describe());
+			return JavaTypeName.fromDotSeparatedString(type.describe());
 		}
-		else if (typeUsage instanceof WildcardUsage)
+		else if (type instanceof Wildcard)
 		{
 			return new JavaTypeName("?", null);
 		}
 		
-		System.out.println("Unable to resolve qualified name of " + typeUsage.getClass().toString() + ": " + typeUsage.toString());
+		System.out.println("Unable to resolve qualified name of " + type.getClass().toString() + ": " + type.toString());
 		return new JavaTypeName("unresolved-type", null);
 	}
 }

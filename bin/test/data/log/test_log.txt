@@ -41,6 +41,9 @@ Edge.cpp ERROR: Nodes are not plain copies.
  INFO: Indexer - indexing source file: input.cc
  INFO: Indexer - indexing source file: input.cc
  INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
+ INFO: Indexer - indexing source file: input.cc
  INFO: send MessageStatus Enabled console and file logging.
  INFO: send TestMessage 
  INFO: send TestMessage 
