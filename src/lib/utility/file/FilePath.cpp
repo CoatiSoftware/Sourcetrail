@@ -121,11 +121,11 @@ FilePath FilePath::expandEnvironmentVariables() const
 {
 	std::string text = str();
 
-	static std::regex env("\\$\\{([^}]+)\\}|%([0-9A-Za-z\\/]*)%");
+	static std::regex env("\\$\\{([^}]+)\\}|%([^%]+)%"); // ${VARIABLE_NAME} or %VARIABLE_NAME%
 	std::smatch match;
 	while (std::regex_search(text, match, env))
 	{
-		const char * s = getenv(match[1].str().c_str());
+		const char * s = match[1].matched ? getenv(match[1].str().c_str()) : getenv(match[2].str().c_str());
 		if (s == nullptr)
 		{
 			LOG_ERROR(match[1].str() + " is no a environment variable");
