@@ -3,9 +3,13 @@
 
 #include <QProcess>
 
+#include "utility/ApplicationArchitectureType.h"
+
 namespace utility
 {
 	std::string executeProcess(const char* cmd);
+
+	ApplicationArchitectureType getApplicationArchitectureType();
 }
 
 

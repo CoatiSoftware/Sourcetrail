@@ -5,6 +5,7 @@
 #include "utility/messaging/type/MessageSwitchColorScheme.h"
 #include "utility/ResourcePaths.h"
 #include "utility/utilityPathDetection.h"
+#include "utility/utilityApp.h"
 
 QtProjectWizzardContentPreferences::QtProjectWizzardContentPreferences(
 	std::shared_ptr<ProjectSettings> settings, QtProjectWizzardWindow* window
@@ -135,10 +136,26 @@ void QtProjectWizzardContentPreferences::populate(QGridLayout* layout, int& row)
 	}
 
 	addLabelAndWidget("Java Path", m_javaPath, layout, row);
-	addHelpButton(
-		"Location of your Java 8 runtime dynamic library (for information on how to set these take a look at "
+
+	std::string javaVersionString = "";
+	switch (utility::getApplicationArchitectureType())
+	{
+	case APPLICATION_ARCHITECTURE_X86_32:
+		javaVersionString = "32 Bit ";
+		break;
+	case APPLICATION_ARCHITECTURE_X86_64:
+		javaVersionString = "64 Bit ";
+		break;
+	default:
+		break;
+	}
+	javaVersionString += "Java 8";
+
+	addHelpButton((
+		"Provide the location of the jvm library inside the installation of your " + javaVersionString +
+		" runtime environment (for information on how to set these take a look at "
 		"<a href=\"https://coati.io/documentation/#FindingJavaRuntimeLibraryLocation\">"
-		"Finding Java Runtime Library Location</a> or use the auto detection below)"
+		"Finding Java Runtime Library Location</a> or use the auto detection below)").c_str()
 		, layout, row
 	);
 	row++;

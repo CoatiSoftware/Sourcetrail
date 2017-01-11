@@ -362,7 +362,8 @@ add_files(
 
 	utility/text/TextAccess.cpp
 	utility/text/TextAccess.h
-
+	
+	utility/ApplicationArchitectureType.h
 	utility/AppPath.cpp
 	utility/AppPath.h
 	utility/Cache.h
