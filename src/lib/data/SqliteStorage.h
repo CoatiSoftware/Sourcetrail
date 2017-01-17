@@ -7,13 +7,15 @@
 
 #include "sqlite/CppSQLite3.h"
 
-#include "utility/file/FilePath.h"
-#include "utility/types.h"
 #include "data/location/TokenLocationFile.h"
 #include "data/location/TokenLocationCollection.h"
 #include "data/name/NameHierarchy.h"
 #include "data/StorageTypes.h"
 #include "data/SqliteIndex.h"
+#include "utility/file/FilePath.h"
+#include "utility/types.h"
+#include "utility/utility.h"
+#include "utility/utilityString.h"
 
 class TextAccess;
 class Version;

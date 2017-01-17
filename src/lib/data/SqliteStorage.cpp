@@ -8,8 +8,6 @@
 #include "data/parser/ParseLocation.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
-#include "utility/utility.h"
-#include "utility/utilityString.h"
 #include "utility/Version.h"
 
 const size_t SqliteStorage::STORAGE_VERSION = 7;

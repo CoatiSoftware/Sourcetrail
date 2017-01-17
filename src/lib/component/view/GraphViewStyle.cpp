@@ -467,7 +467,7 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 {
 	EdgeStyle style;
 
-	style.width = isActive ? 3 : 1;
+	style.width = isActive ? 4 : 2;
 	style.zValue = isActive ? 5 : 2;
 
 	style.arrowLength = 5;
@@ -487,7 +487,7 @@ GraphViewStyle::EdgeStyle GraphViewStyle::getStyleForEdgeType(Edge::EdgeType typ
 	switch (type)
 	{
 	case Edge::EDGE_AGGREGATION:
-		style.width = 2;
+		style.width = 3;
 		style.arrowLength = 7;
 		style.arrowWidth = 10;
 		style.originOffset.x = 24;

@@ -19,8 +19,8 @@
 
 QtCodeFileSingle::QtCodeFileSingle(QtCodeNavigator* navigator, QWidget* parent)
 	: m_navigator(navigator)
-	, m_contentRequested(false)
 	, m_area(nullptr)
+	, m_contentRequested(false)
 {
 	setObjectName("code_container_single");
 
