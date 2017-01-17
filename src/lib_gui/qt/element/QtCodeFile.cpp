@@ -250,10 +250,11 @@ bool QtCodeFile::isCollapsed() const
 	return m_isCollapsed;
 }
 
-void QtCodeFile::requestContent() const
+void QtCodeFile::requestContent()
 {
 	if (!isCollapsed() || m_contentRequested)
 	{
+		updateContent();
 		return;
 	}
 

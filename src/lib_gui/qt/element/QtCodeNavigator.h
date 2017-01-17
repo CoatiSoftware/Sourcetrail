@@ -175,6 +175,7 @@ private:
 	QFrame* m_separatorLine;
 
 	std::vector<Reference> m_references;
+	Reference m_activeReference;
 	size_t m_refIndex;
 
 	ScrollRequest m_scrollRequest;

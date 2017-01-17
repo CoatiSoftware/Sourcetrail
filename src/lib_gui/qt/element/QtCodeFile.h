@@ -43,7 +43,7 @@ public:
 
 	bool isCollapsed() const;
 
-	void requestContent() const;
+	void requestContent();
 	void updateContent();
 
 	void setWholeFile(bool isWholeFile, int refCount);

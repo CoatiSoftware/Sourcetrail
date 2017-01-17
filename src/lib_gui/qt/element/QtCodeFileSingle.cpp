@@ -237,6 +237,7 @@ void QtCodeFileSingle::setFileData(const FileData& file)
 		if (m_area)
 		{
 			updateRefCount(m_area->getActiveLocationCount());
+			m_area->updateContent();
 		}
 		return;
 	}
