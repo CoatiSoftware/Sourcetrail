@@ -54,7 +54,11 @@ public:
 	void setVersion();
 
 	Id addEdge(int type, Id sourceNodeId, Id targetNodeId);
-	Id addNode(int type, const std::string& serializedName, int definitionType);
+
+private:
+	Id addNode(int type, const std::string& serializedName);
+public:
+	Id addSymbol(int type, const std::string& serializedName, int definitionType);
 	Id addFile(const std::string& serializedName, const std::string& filePath, const std::string& modificationTime);
 	Id addLocalSymbol(const std::string& name);
 	Id addSourceLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
@@ -73,9 +77,7 @@ public:
 	bool isNode(Id elementId) const;
 	bool isFile(Id elementId) const;
 
-	StorageEdge getEdgeById(Id edgeId) const;
 	StorageEdge getEdgeBySourceTargetType(Id sourceId, Id targetId, int type) const;
-	std::vector<StorageEdge> getEdgesByIds(const std::vector<Id>& edgeIds) const;
 
 	std::vector<StorageEdge> getEdgesBySourceId(Id sourceId) const;
 	std::vector<StorageEdge> getEdgesBySourceIds(const std::vector<Id>& sourceIds) const;
@@ -88,24 +90,20 @@ public:
 	std::vector<StorageEdge> getEdgesByTargetType(Id targetId, int type) const;
 	std::vector<StorageEdge> getEdgesByTargetType(const std::vector<Id>& targetIds, int type) const;
 
-	StorageNode getNodeById(Id id) const;
 	StorageNode getNodeBySerializedName(const std::string& serializedName) const;
-	std::vector<StorageNode> getNodesByIds(const std::vector<Id>& nodeIds) const;
+	StorageSymbol getSymbolBySerializedName(const std::string& serializedName) const;
 
 	StorageLocalSymbol getLocalSymbolByName(const std::string& name) const;
 
-	StorageFile getFileById(const Id id) const;
-	StorageFile getFileByPath(const FilePath& filePath) const;
+	StorageFile getFileByPath(const std::string& filePath) const;
 
 	std::vector<StorageFile> getFilesByPaths(const std::vector<FilePath>& filePaths) const;
 	std::shared_ptr<TextAccess> getFileContentByPath(const std::string& filePath) const;
 	std::shared_ptr<TextAccess> getFileContentById(Id fileId) const;
 
 	void setNodeType(int type, Id nodeId);
-	void setNodeDefinitionType(int definitionType, Id nodeId);
+	void setSymbolDefinitionType(int definitionType, Id symbolId);
 
-	StorageSourceLocation getSourceLocationById(const Id id) const;
-	std::vector<StorageSourceLocation> getSourceLocationsByIds(const std::vector<Id> ids) const;
 	StorageSourceLocation getSourceLocationByAll(const Id fileNodeId, const uint startLine, const uint startCol, const uint endLine, const uint endCol, const int type) const;
 	std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const FilePath& filePath) const;
 
@@ -118,20 +116,32 @@ public:
 
 	std::vector<StorageCommentLocation> getCommentLocationsInFile(const FilePath& filePath) const;
 
-	std::vector<StorageFile> getAllFiles() const;
-	std::vector<StorageNode> getAllNodes() const;
-	std::vector<StorageEdge> getAllEdges() const;
-	std::vector<StorageLocalSymbol> getAllLocalSymbols() const;
-	std::vector<StorageSourceLocation> getAllSourceLocations() const;
-	std::vector<StorageOccurrence> getAllOccurrences() const;
-	std::vector<StorageComponentAccess> getAllComponentAccesses() const;
-	std::vector<StorageCommentLocation> getAllCommentLocations() const;
-	std::vector<StorageError> getAllErrors() const;
+	template <typename ResultType>
+	std::vector<ResultType> getAll() const
+	{
+		return doGetAll<ResultType>("");
+	}
+
+	template <typename ResultType>
+	ResultType getFirstById(const Id id) const
+	{
+		if (id != 0)
+		{
+			return doGetFirst<ResultType>("WHERE id == " + std::to_string(id));
+		}
+		return ResultType();
+	}
+
+	template <typename ResultType>
+	std::vector<ResultType> getAllByIds(const std::vector<Id>& ids) const
+	{
+		return doGetAll<ResultType>("WHERE id IN (" + utility::join(utility::toStrings(ids), ',') + ")");
+	}
 
 	int getNodeCount() const;
 	int getEdgeCount() const;
 	int getFileCount() const;
-	int getFileLOCCount() const;
+	int getFileLineSum() const;
 	int getSourceLocationCount() const;
 
 private:
@@ -158,12 +168,12 @@ private:
 	void setApplicationVersion();
 
 	template <typename ResultType>
-	std::vector<ResultType> getAll(const std::string& query) const;
+	std::vector<ResultType> doGetAll(const std::string& query) const;
 
 	template <typename ResultType>
-	ResultType getFirst(const std::string& query) const
+	ResultType doGetFirst(const std::string& query) const
 	{
-		std::vector<ResultType> results = getAll<ResultType>(query + " LIMIT 1");
+		std::vector<ResultType> results = doGetAll<ResultType>(query + " LIMIT 1");
 		if (results.size() > 0)
 		{
 			return results[0];
@@ -179,23 +189,35 @@ private:
 };
 
 template <>
-std::vector<StorageFile> SqliteStorage::getAll<StorageFile>(const std::string& query) const;
+StorageSymbol SqliteStorage::getFirstById<StorageSymbol>(const Id id) const;
 template <>
-std::vector<StorageEdge> SqliteStorage::getAll<StorageEdge>(const std::string& query) const;
+StorageFile SqliteStorage::getFirstById<StorageFile>(const Id id) const;
+
 template <>
-std::vector<StorageNode> SqliteStorage::getAll<StorageNode>(const std::string& query) const;
+std::vector<StorageSymbol> SqliteStorage::getAllByIds<StorageSymbol>(const std::vector<Id>& ids) const;
 template <>
-std::vector<StorageLocalSymbol> SqliteStorage::getAll<StorageLocalSymbol>(const std::string& query) const;
+std::vector<StorageFile> SqliteStorage::getAllByIds<StorageFile>(const std::vector<Id>& ids) const;
+
 template <>
-std::vector<StorageSourceLocation> SqliteStorage::getAll<StorageSourceLocation>(const std::string& query) const;
+std::vector<StorageEdge> SqliteStorage::doGetAll<StorageEdge>(const std::string& query) const;
 template <>
-std::vector<StorageOccurrence> SqliteStorage::getAll<StorageOccurrence>(const std::string& query) const;
+std::vector<StorageNode> SqliteStorage::doGetAll<StorageNode>(const std::string& query) const;
 template <>
-std::vector<StorageComponentAccess> SqliteStorage::getAll<StorageComponentAccess>(const std::string& query) const;
+std::vector<StorageSymbol> SqliteStorage::doGetAll<StorageSymbol>(const std::string& query) const;
 template <>
-std::vector<StorageCommentLocation> SqliteStorage::getAll<StorageCommentLocation>(const std::string& query) const;
+std::vector<StorageFile> SqliteStorage::doGetAll<StorageFile>(const std::string& query) const;
 template <>
-std::vector<StorageError> SqliteStorage::getAll<StorageError>(const std::string& query) const;
+std::vector<StorageLocalSymbol> SqliteStorage::doGetAll<StorageLocalSymbol>(const std::string& query) const;
+template <>
+std::vector<StorageSourceLocation> SqliteStorage::doGetAll<StorageSourceLocation>(const std::string& query) const;
+template <>
+std::vector<StorageOccurrence> SqliteStorage::doGetAll<StorageOccurrence>(const std::string& query) const;
+template <>
+std::vector<StorageComponentAccess> SqliteStorage::doGetAll<StorageComponentAccess>(const std::string& query) const;
+template <>
+std::vector<StorageCommentLocation> SqliteStorage::doGetAll<StorageCommentLocation>(const std::string& query) const;
+template <>
+std::vector<StorageError> SqliteStorage::doGetAll<StorageError>(const std::string& query) const;
 
 
 #endif // SQLITE_STORAGE_H

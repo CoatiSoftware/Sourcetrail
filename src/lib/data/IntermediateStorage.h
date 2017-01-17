@@ -17,8 +17,8 @@ public:
 	void clear();
 	size_t getSourceLocationCount() const;
 
-	virtual Id addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime);
-	virtual Id addNode(int type, const std::string& serializedName, int definitionType);
+	virtual Id addFile(const std::string& serializedName, const std::string& filePath, const std::string& modificationTime);
+	virtual Id addSymbol(int type, const std::string& serializedName, int definitionType);
 	virtual Id addEdge(int type, Id sourceId, Id targetId);
 	virtual Id addLocalSymbol(const std::string& name);
 	virtual Id addSourceLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
@@ -28,7 +28,7 @@ public:
 	virtual void addError(const std::string& message, const FilePath& filePath, uint startLine, uint startCol, bool fatal, bool indexed);
 
 	virtual void forEachFile(std::function<void(const Id /*id*/, const StorageFile& /*data*/)> callback) const;
-	virtual void forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const;
+	virtual void forEachSymbol(std::function<void(const Id /*id*/, const StorageSymbol& /*data*/)> callback) const;
 	virtual void forEachEdge(std::function<void(const Id /*id*/, const StorageEdge& /*data*/)> callback) const;
 	virtual void forEachLocalSymbol(std::function<void(const Id /*id*/, const StorageLocalSymbol& /*data*/)> callback) const;
 	virtual void forEachSourceLocation(std::function<void(const Id /*id*/, const StorageSourceLocation& /*data*/)> callback) const;
@@ -39,7 +39,7 @@ public:
 
 private:
 	std::string serialize(const StorageEdge& edge) const;
-	std::string serialize(const StorageNode& node) const;
+	std::string serialize(const StorageSymbol& symbol) const;
 	std::string serialize(const StorageFile& file) const;
 	std::string serialize(const StorageLocalSymbol& localSymbol) const;
 	std::string serialize(const StorageSourceLocation& sourceLocation) const;
@@ -47,8 +47,8 @@ private:
 	std::unordered_map<std::string, Id> m_fileNamesToIds; // this is used to prevent duplicates (unique)
 	std::unordered_map<Id, std::shared_ptr<StorageFile>> m_fileIdsToData;
 
-	std::unordered_map<std::string, Id> m_nodeNamesToIds; // this is used to prevent duplicates (unique)
-	std::map<Id, std::shared_ptr<StorageNode>> m_nodeIdsToData;
+	std::unordered_map<std::string, Id> m_symbolNamesToIds; // this is used to prevent duplicates (unique)
+	std::map<Id, std::shared_ptr<StorageSymbol>> m_symbolIdsToData;
 
 	std::unordered_map<std::string, Id> m_edgeNamesToIds; // this is used to prevent duplicates (unique)
 	std::map<Id, std::shared_ptr<StorageEdge>> m_edgeIdsToData;

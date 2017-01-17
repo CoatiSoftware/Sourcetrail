@@ -22,7 +22,7 @@ public:
 		TestStorage storage;
 
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
-		Id id = intermetiateStorage->addFile("test.h", "path/to/test.h", "someTime");
+		Id id = intermetiateStorage->addFile(NameHierarchy::serialize(NameHierarchy("test.h")), "path/to/test.h", "someTime");
 
 		storage.inject(intermetiateStorage.get());
 
@@ -37,7 +37,7 @@ public:
 		TestStorage storage;
 
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
-		intermetiateStorage->addNode(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(a), true);
+		intermetiateStorage->addSymbol(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(a), true);
 
 		storage.inject(intermetiateStorage.get());
 
@@ -56,8 +56,8 @@ public:
 		TestStorage storage;
 
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
-		Id aId = intermetiateStorage->addNode(Node::typeToInt(Node::NODE_STRUCT), NameHierarchy::serialize(a), true);
-		Id bId = intermetiateStorage->addNode(Node::typeToInt(Node::NODE_FIELD), NameHierarchy::serialize(b), true);
+		Id aId = intermetiateStorage->addSymbol(Node::typeToInt(Node::NODE_STRUCT), NameHierarchy::serialize(a), true);
+		Id bId = intermetiateStorage->addSymbol(Node::typeToInt(Node::NODE_FIELD), NameHierarchy::serialize(b), true);
 		intermetiateStorage->addEdge(Edge::typeToInt(Edge::EDGE_MEMBER), aId, bId);
 
 		storage.inject(intermetiateStorage.get());

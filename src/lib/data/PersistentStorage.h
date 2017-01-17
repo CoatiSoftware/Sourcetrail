@@ -27,8 +27,8 @@ public:
 	PersistentStorage(const FilePath& dbPath);
 	virtual ~PersistentStorage();
 
-	virtual Id addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime);
-	virtual Id addNode(int type, const std::string& serializedName, int definitionType);
+	virtual Id addFile(const std::string& serializedName, const std::string& filePath, const std::string& modificationTime);
+	virtual Id addSymbol(int type, const std::string& serializedName, int definitionType);
 	virtual Id addEdge(int type, Id sourceId, Id targetId);
 	virtual Id addLocalSymbol(const std::string& name);
 	virtual Id addSourceLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
@@ -38,7 +38,7 @@ public:
 	virtual void addError(const std::string& message, const FilePath& filePath, uint startLine, uint startCol, bool fatal, bool indexed);
 
 	virtual void forEachFile(std::function<void(const Id /*id*/, const StorageFile& /*data*/)> callback) const;
-	virtual void forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const;
+	virtual void forEachSymbol(std::function<void(const Id /*id*/, const StorageSymbol& /*data*/)> callback) const;
 	virtual void forEachEdge(std::function<void(const Id /*id*/, const StorageEdge& /*data*/)> callback) const;
 	virtual void forEachLocalSymbol(std::function<void(const Id /*id*/, const StorageLocalSymbol& /*data*/)> callback) const;
 	virtual void forEachSourceLocation(std::function<void(const Id /*id*/, const StorageSourceLocation& /*data*/)> callback) const;
@@ -84,6 +84,9 @@ public:
 	virtual std::shared_ptr<TokenLocationCollection> getFullTextSearchLocations(
 			const std::string& searchTerm, bool caseSensitive) const;
 	virtual std::vector<SearchMatch> getAutocompletionMatches(const std::string& query) const;
+	std::set<SearchMatch> getAutocompletionSymbolMatches(const std::string& query, size_t maxResultsCount) const;
+	std::set<SearchMatch> getAutocompletionFileMatches(const std::string& query, size_t maxResultsCount) const;
+	std::set<SearchMatch> getAutocompletionCommandMatches(const std::string& query) const;
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& elementIds) const;
 
 	virtual std::shared_ptr<Graph> getGraphForAll() const;
@@ -147,12 +150,10 @@ private:
 	void buildFullTextSearchIndex() const;
 	void buildHierarchyCache();
 
-	void log(std::string type, std::string str, const ParseLocation& location) const;
-
 	size_t m_preInjectionErrorCount;
 
 	SearchIndex m_commandIndex;
-	SearchIndex m_elementIndex;
+	SearchIndex m_symbolIndex;
 	SearchIndex m_fileIndex;
 
 	mutable FullTextSearchIndex m_fullTextSearchIndex;

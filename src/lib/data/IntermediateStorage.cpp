@@ -16,8 +16,8 @@ void IntermediateStorage::clear()
 {
 	m_fileNamesToIds.clear();
 	m_fileIdsToData.clear();
-	m_nodeNamesToIds.clear();
-	m_nodeIdsToData.clear();
+	m_symbolNamesToIds.clear();
+	m_symbolIdsToData.clear();
 	m_edgeNamesToIds.clear();
 	m_edgeIdsToData.clear();
 	m_localSymbolNamesToIds.clear();
@@ -36,9 +36,9 @@ size_t IntermediateStorage::getSourceLocationCount() const
 	return m_sourceLocationNamesToIds.size();
 }
 
-Id IntermediateStorage::addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime)
+Id IntermediateStorage::addFile(const std::string& serializedName, const std::string& filePath, const std::string& modificationTime)
 {
-	std::shared_ptr<StorageFile> file = std::make_shared<StorageFile>(0, name, filePath, modificationTime);
+	std::shared_ptr<StorageFile> file = std::make_shared<StorageFile>(0, serializedName, filePath, modificationTime);
 
 	std::string serialized = serialize(*(file.get()));
 	std::unordered_map<std::string, Id>::const_iterator it = m_fileNamesToIds.find(serialized);
@@ -63,34 +63,34 @@ Id IntermediateStorage::addFile(const std::string& name, const std::string& file
 	return id;
 }
 
-Id IntermediateStorage::addNode(int type, const std::string& serializedName, int definitionType)
+Id IntermediateStorage::addSymbol(int type, const std::string& serializedName, int definitionType)
 {
-	std::shared_ptr<StorageNode> node = std::make_shared<StorageNode>(0, type, serializedName, definitionType);
+	std::shared_ptr<StorageSymbol> symbol = std::make_shared<StorageSymbol>(0, type, serializedName, definitionType);
 
-	std::string serialized = serialize(*(node.get()));
-	std::unordered_map<std::string, Id>::const_iterator it = m_nodeNamesToIds.find(serialized);
-	if (it != m_nodeNamesToIds.end())
+	std::string serialized = serialize(*(symbol.get()));
+	std::unordered_map<std::string, Id>::const_iterator it = m_symbolNamesToIds.find(serialized);
+	if (it != m_symbolNamesToIds.end())
 	{
-		std::map<Id, std::shared_ptr<StorageNode>>::const_iterator it2 = m_nodeIdsToData.find(it->second);
-		std::shared_ptr<StorageNode> storageNode = it2->second;
-		if (storageNode->definitionType == 0)
+		std::map<Id, std::shared_ptr<StorageSymbol>>::const_iterator it2 = m_symbolIdsToData.find(it->second);
+		std::shared_ptr<StorageSymbol> storedSymbol = it2->second;
+		if (storedSymbol->definitionType == 0)
 		{
 			if (definitionType > 0)
 			{
-				storageNode->definitionType = definitionType;
+				storedSymbol->definitionType = definitionType;
 			}
 
-			if (storageNode->type < type)
+			if (storedSymbol->type < type)
 			{
-				storageNode->type = type;
+				storedSymbol->type = type;
 			}
 		}
 		return it->second;
 	}
 
 	Id id = m_nextId++;
-	m_nodeNamesToIds[serialized] = id;
-	m_nodeIdsToData[id] = node;
+	m_symbolNamesToIds[serialized] = id;
+	m_symbolIdsToData[id] = symbol;
 
 	return id;
 }
@@ -200,9 +200,9 @@ void IntermediateStorage::forEachFile(std::function<void(const Id /*id*/, const 
 	}
 }
 
-void IntermediateStorage::forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const
+void IntermediateStorage::forEachSymbol(std::function<void(const Id /*id*/, const StorageSymbol& /*data*/)> callback) const
 {
-	for (std::map<Id, std::shared_ptr<StorageNode>>::const_iterator it = m_nodeIdsToData.begin(); it != m_nodeIdsToData.end(); it++)
+	for (std::map<Id, std::shared_ptr<StorageSymbol>>::const_iterator it = m_symbolIdsToData.begin(); it != m_symbolIdsToData.end(); it++)
 	{
 		callback(it->first, *(it->second.get()));
 	}
@@ -273,9 +273,9 @@ std::string IntermediateStorage::serialize(const StorageEdge& edge) const
 	);
 }
 
-std::string IntermediateStorage::serialize(const StorageNode& node) const
+std::string IntermediateStorage::serialize(const StorageSymbol& symbol) const
 {
-	return node.serializedName;
+	return symbol.serializedName;
 }
 
 std::string IntermediateStorage::serialize(const StorageFile& file) const

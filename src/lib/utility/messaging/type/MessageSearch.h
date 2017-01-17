@@ -22,7 +22,26 @@ public:
 
 	std::string getMatchesAsString() const
 	{
-		return SearchMatch::searchMatchesToString(m_matches);
+		std::stringstream ss;
+
+		for (size_t i = 0; i < m_matches.size(); i++)
+		{
+			ss << '@';
+			if (m_matches[i].nodeType == Node::NODE_FILE)
+			{
+				ss << m_matches[i].subtext;
+			}
+			else
+			{
+				if (!m_matches[i].subtext.empty())
+				{
+					ss << m_matches[i].subtext << NameHierarchy::getDelimiter();
+				}
+				ss << m_matches[i].name;
+			}
+		}
+
+		return ss.str();
 	}
 
 	const std::vector<SearchMatch>& getMatches() const

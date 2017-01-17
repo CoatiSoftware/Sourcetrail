@@ -27,12 +27,12 @@ void Storage::inject(Storage* injected)
 	injected->forEachFile(
 		[&](Id injectedId, const StorageFile& injectedData)
 		{
-			if (injectedData.name.size() == 0)
+			if (injectedData.serializedName.size() == 0)
 			{
 				return;
 			}
 
-			Id ownId = addFile(injectedData.name, injectedData.filePath, injectedData.modificationTime);
+			Id ownId = addFile(injectedData.serializedName, injectedData.filePath, injectedData.modificationTime);
 			if (ownId != 0)
 			{
 				injectedIdToOwnId[injectedId] = ownId;
@@ -40,10 +40,10 @@ void Storage::inject(Storage* injected)
 		}
 	);
 
-	injected->forEachNode(
-		[&](Id injectedId, const StorageNode& injectedData)
+	injected->forEachSymbol(
+		[&](Id injectedId, const StorageSymbol& injectedData)
 		{
-			Id ownId = addNode(injectedData.type, injectedData.serializedName, injectedData.definitionType);
+			Id ownId = addSymbol(injectedData.type, injectedData.serializedName, injectedData.definitionType);
 			if (ownId != 0)
 			{
 				injectedIdToOwnId[injectedId] = ownId;

@@ -51,9 +51,9 @@ private:
 	void addAccess(Id nodeId, AccessKind access);
 	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, DefinitionType definitionType);
 
-	Id addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime);
-	Id addFile(const std::string& filePath);
-	Id addNode(Node::NodeType nodeType, NameHierarchy nameHierarchy, DefinitionType definitionType);
+	Id addFile(const FilePath& filePath, const std::string& modificationTime);
+	Id addFile(const FilePath& filePath);
+	Id addSymbol(Node::NodeType nodeType, NameHierarchy nameHierarchy, DefinitionType definitionType);
 	Id addEdge(int type, Id sourceId, Id targetId);
 	Id addLocalSymbol(const std::string& name);
 	void addSourceLocation(Id elementId, const ParseLocation& location, int type);

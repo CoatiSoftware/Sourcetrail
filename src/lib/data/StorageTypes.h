@@ -35,10 +35,30 @@ struct StorageNode
 	StorageNode()
 		: id(0)
 		, type(0)
+		, serializedName("")
+	{}
+
+	StorageNode(Id id, int type, const std::string& serializedName)
+		: id(id)
+		, type(type)
+		, serializedName(serializedName)
+	{}
+
+	Id id;
+	int type;
+	std::string serializedName;
+};
+
+struct StorageSymbol
+{
+	StorageSymbol()
+		: id(0)
+		, type(0)
+		, serializedName("")
 		, definitionType(definitionTypeToInt(DEFINITION_NONE))
 	{}
 
-	StorageNode(Id id, int type, const std::string& serializedName, int definitionType)
+	StorageSymbol(Id id, int type, const std::string& serializedName, int definitionType)
 		: id(id)
 		, type(type)
 		, serializedName(serializedName)
@@ -55,20 +75,20 @@ struct StorageFile
 {
 	StorageFile()
 		: id(0)
-		, name("")
+		, serializedName("")
 		, filePath("")
 		, modificationTime("")
 	{}
 
-	StorageFile(Id id, const std::string& name, const std::string& filePath, const std::string& modificationTime)
+	StorageFile(Id id, const std::string& serializedName, const std::string& filePath, const std::string& modificationTime)
 		: id(id)
-		, name(name)
+		, serializedName(serializedName)
 		, filePath(filePath)
 		, modificationTime(modificationTime)
 	{}
 
 	Id id;
-	std::string name;
+	std::string serializedName;
 	std::string filePath;
 	std::string modificationTime;
 };

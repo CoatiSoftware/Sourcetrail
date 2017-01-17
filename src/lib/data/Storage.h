@@ -15,8 +15,8 @@ public:
 	Storage();
 	virtual ~Storage();
 
-	virtual Id addFile(const std::string& name, const std::string& filePath, const std::string& modificationTime) = 0;
-	virtual Id addNode(int type, const std::string& serializedName, int definitionType) = 0;
+	virtual Id addFile(const std::string& serializedName, const std::string& filePath, const std::string& modificationTime) = 0;
+	virtual Id addSymbol(int type, const std::string& serializedName, int definitionType) = 0;
 	virtual Id addEdge(int type, Id sourceId, Id targetId) = 0;
 	virtual Id addLocalSymbol(const std::string& name) = 0;
 	virtual Id addSourceLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type) = 0;
@@ -26,7 +26,7 @@ public:
 	virtual void addError(const std::string& message, const FilePath& filePath, uint startLine, uint startCol, bool fatal, bool indexed) = 0;
 
 	virtual void forEachFile(std::function<void(const Id /*id*/, const StorageFile& /*data*/)> callback) const = 0;
-	virtual void forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const = 0;
+	virtual void forEachSymbol(std::function<void(const Id /*id*/, const StorageSymbol& /*data*/)> callback) const = 0;
 	virtual void forEachEdge(std::function<void(const Id /*id*/, const StorageEdge& /*data*/)> callback) const = 0;
 	virtual void forEachLocalSymbol(std::function<void(const Id /*id*/, const StorageLocalSymbol& /*data*/)> callback) const = 0;
 	virtual void forEachSourceLocation(std::function<void(const Id /*id*/, const StorageSourceLocation& /*data*/)> callback) const = 0;
