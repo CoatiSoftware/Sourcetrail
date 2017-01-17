@@ -1,4 +1,4 @@
-#code_navigation, #code_container, #code_container_single, #code_file_list, #code_file_single {
+#code_navigation, #code_container, #code_file_list, #code_file_single {
 	background-color: <color:code/background>;
 }
 
@@ -6,8 +6,14 @@
 	border: none;
 }
 
-#code_container {
-	border-top: 1px solid <color:code/line>;
+#separator_gap {
+	background-color: <color:code/background>;
+	border: none;
+}
+
+#separator_line {
+	background-color: <color:code/navigation/line>;
+	border: none;
 }
 
 #code_navigation * {
@@ -16,52 +22,60 @@
 }
 
 #code_navigation QPushButton {
-	background: <color:search/button/normal>;
+	background: <color:code/navigation/button/normal>;
 	border: none;
-	color: <color:search/button/icon>;
+	color: <color:code/navigation/button/icon>;
 	height: 24px;
 	width: 24px;
 }
 
 #code_navigation QPushButton:hover, #code_navigation QPushButton:checked {
-	background: <color:search/button/hover>;
+	background: <color:code/navigation/button/hover>;
 }
 
 #code_navigation QPushButton:disabled {
-	background: <color:search/button/disabled>;
+	background: <color:code/navigation/button/disabled>;
 }
 
 #code_navigation QPushButton:pressed {
-	background: <color:search/button/press>;
+	background: <color:code/navigation/button/press>;
 }
 
-#code_navigation #reference_button_previous, #code_navigation #reference_button_next {
-	border-radius: 12px;
+#code_navigation #reference_button_previous {
+	border-bottom-left-radius: 11px;
+	border-top-left-radius: 11px;
+}
+
+#code_navigation #reference_button_next {
+	border-bottom-right-radius: 11px;
+	border-top-right-radius: 11px;
 }
 
 #code_navigation #references_label {
-	background-color: <color:code/file/ref_count/background>;
 	border: none;
 	border-radius: 10px;
-	color: <color:code/file/ref_count/text>;
+	color: <color:code/navigation/text>;
 	font-size: <setting:font_size>px;
 	padding: 0px 3px;
 	margin: 4px 6px 4px 6px;
 }
 
-#code_navigation #mode_button_list, #code_navigation #mode_button_single {
-	padding-left: 3px;
-	padding-right: 3px;
-}
-
 #code_navigation #mode_button_list {
-	border-bottom-left-radius: 12px;
-	border-top-left-radius: 12px;
+	padding-left: 2px;
 }
 
 #code_navigation #mode_button_single {
-	border-bottom-right-radius: 12px;
-	border-top-right-radius: 12px;
+	padding-right: 2px;
+}
+
+#code_navigation #mode_button_list {
+	border-bottom-left-radius: 11px;
+	border-top-left-radius: 11px;
+}
+
+#code_navigation #mode_button_single {
+	border-bottom-right-radius: 11px;
+	border-top-right-radius: 11px;
 }
 
 #code_file {

@@ -5,6 +5,7 @@
 #include <QDir>
 #include <QFile>
 #include <QFontDatabase>
+#include <QIcon>
 #include <QPainter>
 #include <QWidget>
 
@@ -155,6 +156,19 @@ namespace utility
 		painter.setCompositionMode(QPainter::CompositionMode_SourceAtop);
 		painter.drawImage(0, 0, colorImage);
 		return QPixmap::fromImage(image);
+	}
+
+	QIcon createButtonIcon(const std::string& iconPath, const std::string& colorId)
+	{
+		QPixmap pixmap(iconPath.c_str());
+
+		QIcon icon(utility::colorizePixmap(pixmap, ColorScheme::getInstance()->getColor(colorId + "/icon").c_str()));
+		icon.addPixmap(
+			utility::colorizePixmap(pixmap, ColorScheme::getInstance()->getColor(colorId + "/icon_disabled").c_str()),
+			QIcon::Disabled
+		);
+
+		return icon;
 	}
 
 	void copyNewFilesFromDirectory(QString src, QString dst)

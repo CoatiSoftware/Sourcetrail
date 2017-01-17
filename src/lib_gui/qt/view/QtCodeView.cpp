@@ -46,6 +46,8 @@ void QtCodeView::refreshView()
 		{
 			setStyleSheet();
 
+			m_widget->refreshStyle();
+
 			QtCodeArea::clearAnnotationColors();
 			QtHighlighter::clearHighlightingRules();
 		}

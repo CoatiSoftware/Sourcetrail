@@ -7,18 +7,21 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-#include "data/location/TokenLocation.h"
-#include "data/location/TokenLocationCollection.h"
-#include "data/location/TokenLocationFile.h"
 #include "utility/logging/logging.h"
 #include "utility/messaging/type/MessageCodeViewExpandedInitialFiles.h"
 #include "utility/messaging/type/MessageScrollCode.h"
 #include "utility/messaging/type/MessageShowReference.h"
+#include "utility/ResourcePaths.h"
 
-#include "settings/ApplicationSettings.h"
+#include "data/location/TokenLocation.h"
+#include "data/location/TokenLocationCollection.h"
+#include "data/location/TokenLocationFile.h"
 #include "qt/element/QtCodeFile.h"
 #include "qt/element/QtCodeSnippet.h"
+#include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/utility/utilityQt.h"
+#include "settings/ApplicationSettings.h"
+
 
 QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 	: QWidget(parent)
@@ -39,11 +42,11 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 
 		QHBoxLayout* navLayout = new QHBoxLayout();
 		navLayout->setSpacing(2);
-		navLayout->setContentsMargins(7, 7, 7, 7);
+		navLayout->setContentsMargins(7, 7, 7, 6);
 
 
-		m_prevButton = new QPushButton("<");
-		m_nextButton = new QPushButton(">");
+		m_prevButton = new QPushButton();
+		m_nextButton = new QPushButton();
 
 		m_prevButton->setObjectName("reference_button_previous");
 		m_nextButton->setObjectName("reference_button_next");
@@ -65,11 +68,14 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 		navLayout->addStretch();
 
 
-		m_listButton = new QPushButton("list");
-		m_fileButton = new QPushButton("file");
+		m_listButton = new QPushButton();
+		m_fileButton = new QPushButton();
 
 		m_listButton->setObjectName("mode_button_list");
 		m_fileButton->setObjectName("mode_button_single");
+
+		m_listButton->setToolTip("snippet list mode");
+		m_fileButton->setToolTip("single file mode");
 
 		m_listButton->setCheckable(true);
 		m_fileButton->setCheckable(true);
@@ -83,6 +89,30 @@ QtCodeNavigator::QtCodeNavigator(QWidget* parent)
 
 		navigation->setLayout(navLayout);
 		layout->addWidget(navigation);
+
+		refreshStyle();
+
+		QHBoxLayout* separatorLayout = new QHBoxLayout();
+
+		QWidget* widget = new QWidget();
+		widget->setObjectName("separator_gap");
+		widget->setFixedWidth(7);
+		separatorLayout->addWidget(widget);
+
+		m_separatorLine = new QFrame();
+		m_separatorLine->setFrameShape(QFrame::HLine);
+		m_separatorLine->setFrameShadow(QFrame::Plain);
+		m_separatorLine->setObjectName("separator_line");
+		m_separatorLine->setFixedHeight(1);
+		m_separatorLine->hide();
+		separatorLayout->addWidget(m_separatorLine);
+
+		QWidget* widget2 = new QWidget();
+		widget2->setObjectName("separator_gap");
+		widget2->setFixedWidth(7);
+		separatorLayout->addWidget(widget2);
+
+		layout->addLayout(separatorLayout);
 	}
 
 	m_list = new QtCodeFileList(this);
@@ -435,6 +465,41 @@ void QtCodeNavigator::showContents()
 	m_current->showContents();
 }
 
+void QtCodeNavigator::refreshStyle()
+{
+	float height = std::max(ApplicationSettings::getInstance()->getFontSize() + 10, 24);
+
+	m_prevButton->setFixedHeight(height);
+	m_nextButton->setFixedHeight(height);
+	m_listButton->setFixedHeight(height);
+	m_fileButton->setFixedHeight(height);
+
+	m_prevButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "code_view/images/arrow_left.png",
+		"code/navigation/button"
+	));
+
+	m_nextButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "code_view/images/arrow_right.png",
+		"code/navigation/button"
+	));
+
+	m_listButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "code_view/images/list.png",
+		"code/navigation/button"
+	));
+
+	m_fileButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "code_view/images/file.png",
+		"code/navigation/button"
+	));
+
+	m_prevButton->setIconSize(QSize(12, 12));
+	m_nextButton->setIconSize(QSize(12, 12));
+	m_listButton->setIconSize(QSize(14, 14));
+	m_fileButton->setIconSize(QSize(14, 14));
+}
+
 void QtCodeNavigator::scrollToValue(int value, bool inListMode)
 {
 	if ((m_mode == MODE_LIST) == inListMode)
@@ -623,11 +688,13 @@ void QtCodeNavigator::setMode(Mode mode)
 		case MODE_SINGLE:
 			m_list->hide();
 			m_single->show();
+			m_separatorLine->hide();
 			m_current = m_single;
 			break;
 		case MODE_LIST:
 			m_single->hide();
 			m_list->show();
+			m_separatorLine->show();
 			m_current = m_list;
 			break;
 		default:

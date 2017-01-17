@@ -9,7 +9,6 @@
 #include "qt/element/QtSmartSearchBox.h"
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
-#include "settings/ColorScheme.h"
 
 QtSearchBar::QtSearchBar()
 {
@@ -102,16 +101,14 @@ void QtSearchBar::refreshStyle()
 	m_searchButton->setFixedHeight(m_searchBox->height() + 5);
 	m_homeButton->setFixedHeight(m_searchBox->height() + 5);
 
-	std::string map = ResourcePaths::getGuiPath() + "search_view/images/search.png";
-	m_searchButton->setIcon(utility::colorizePixmap(
-		QPixmap(map.c_str()),
-		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
+	m_searchButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "search_view/images/search.png",
+		"search/button"
 	));
 
-	map = ResourcePaths::getGuiPath() + "search_view/images/home.png";
-	m_homeButton->setIcon(utility::colorizePixmap(
-		QPixmap(map.c_str()),
-		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
+	m_homeButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "search_view/images/home.png",
+		"search/button"
 	));
 }
 

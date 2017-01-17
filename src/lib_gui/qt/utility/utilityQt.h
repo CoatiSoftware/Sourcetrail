@@ -4,6 +4,7 @@
 #include <string>
 
 class QColor;
+class QIcon;
 class QPixmap;
 class QString;
 class QWidget;
@@ -16,6 +17,7 @@ namespace utility
 	std::string getStyleSheet(const std::string& path);
 
 	QPixmap colorizePixmap(const QPixmap& pixmap, QColor color);
+	QIcon createButtonIcon(const std::string& iconPath, const std::string& colorId);
 
 	void copyNewFilesFromDirectory(QString src, QString dst);
 }

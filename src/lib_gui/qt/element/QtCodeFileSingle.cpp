@@ -22,7 +22,7 @@ QtCodeFileSingle::QtCodeFileSingle(QtCodeNavigator* navigator, QWidget* parent)
 	, m_area(nullptr)
 	, m_contentRequested(false)
 {
-	setObjectName("code_container_single");
+	setObjectName("code_container");
 
 	setLayout(new QVBoxLayout(this));
 	layout()->setContentsMargins(0, 0, 0, 0);

@@ -8,8 +8,9 @@
 			<normal>#E0E0E0</normal>
 			<hover>#B2B2B2</hover>
 			<press>#626262</press>
-			<disabled>#F4F4F4</disabled>
+			<disabled>#F2F2F2</disabled>
 			<icon>white</icon>
+			<icon_disabled>#FDFDFD</icon_disabled>
 		</button>
 
 		<field>
@@ -72,7 +73,20 @@
 
 	<code>
 		<background>white</background>
-		<line>#B2B2B2</line>
+
+		<navigation>
+			<text>#BCBCBC</text>
+			<line>#B2B2B2</line>
+
+			<button>
+				<normal>#E0E0E0</normal>
+				<hover>#B2B2B2</hover>
+				<press>#626262</press>
+				<disabled>#F2F2F2</disabled>
+				<icon>white</icon>
+				<icon_disabled>#FDFDFD</icon_disabled>
+			</button>
+		</navigation>
 
 		<file>
 			<background>#E0E0E0</background>

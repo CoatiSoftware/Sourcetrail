@@ -75,6 +75,8 @@ public:
 	void updateFiles();
 	void showContents();
 
+	void refreshStyle();
+
 	void scrollToValue(int value, bool inListMode);
 	void scrollToLine(const FilePath& filePath, unsigned int line);
 	void scrollToDefinition();
@@ -170,6 +172,7 @@ private:
 	QLabel* m_refLabel;
 	QPushButton* m_prevButton;
 	QPushButton* m_nextButton;
+	QFrame* m_separatorLine;
 
 	std::vector<Reference> m_references;
 	size_t m_refIndex;

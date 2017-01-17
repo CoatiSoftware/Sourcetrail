@@ -10,6 +10,7 @@
 			<press>#444444</press>
 			<disabled>#333333</disabled>
 			<icon>white</icon>
+			<icon_disabled>#777777</icon_disabled>
 		</button>
 
 		<field>
@@ -72,7 +73,20 @@
 
 	<code>
 		<background>#272728</background>
-		<line>#CCC</line>
+
+		<navigation>
+			<text>#A0A0A0</text>
+			<line>#CCC</line>
+
+			<button>
+				<normal>#777777</normal>
+				<hover>#555555</hover>
+				<press>#444444</press>
+				<disabled>#333333</disabled>
+				<icon>white</icon>
+				<icon_disabled>#777777</icon_disabled>
+			</button>
+		</navigation>
 
 		<file>
 			<background>#777777</background>

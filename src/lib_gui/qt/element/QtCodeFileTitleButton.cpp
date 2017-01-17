@@ -33,7 +33,7 @@ void QtCodeFileTitleButton::setFilePath(const FilePath& filePath)
 	setText(filePath.fileName().c_str());
 	setToolTip(filePath.str().c_str());
 
-	std::string text = ResourcePaths::getGuiPath() + "graph_view/images/file.png";
+	std::string text = ResourcePaths::getGuiPath() + "code_view/images/file.png";
 
 	setIcon(utility::colorizePixmap(
 		QPixmap(text.c_str()),

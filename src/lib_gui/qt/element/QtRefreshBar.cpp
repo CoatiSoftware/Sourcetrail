@@ -9,7 +9,6 @@
 
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
-#include "settings/ColorScheme.h"
 
 QtRefreshBar::QtRefreshBar()
 {
@@ -49,10 +48,9 @@ void QtRefreshBar::refreshStyle()
 
 	m_refreshButton->setFixedHeight(height);
 
-	std::string map = ResourcePaths::getGuiPath() + "refresh_view/images/refresh.png";
-	m_refreshButton->setIcon(utility::colorizePixmap(
-		QPixmap(map.c_str()),
-		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
+	m_refreshButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "refresh_view/images/refresh.png",
+		"search/button"
 	));
 }
 

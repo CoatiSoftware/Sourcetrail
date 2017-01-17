@@ -9,7 +9,6 @@
 
 #include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
-#include "settings/ColorScheme.h"
 
 QtUndoRedo::QtUndoRedo()
 {
@@ -72,13 +71,13 @@ void QtUndoRedo::refreshStyle()
 	m_undoButton->setFixedHeight(height);
 	m_redoButton->setFixedHeight(height);
 
-	m_undoButton->setIcon(utility::colorizePixmap(
-		QPixmap((ResourcePaths::getGuiPath() + "undoredo_view/images/arrow_left.png").c_str()),
-		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
+	m_undoButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "undoredo_view/images/arrow_left.png",
+		"search/button"
 	));
 
-	m_redoButton->setIcon(utility::colorizePixmap(
-		QPixmap((ResourcePaths::getGuiPath() + "undoredo_view/images/arrow_right.png").c_str()),
-		ColorScheme::getInstance()->getColor("search/button/icon").c_str()
+	m_redoButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "undoredo_view/images/arrow_right.png",
+		"search/button"
 	));
 }
