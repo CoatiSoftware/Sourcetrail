@@ -31,7 +31,7 @@ public:
     bool loadPrivateKeyFromFile();
     bool loadPrivateKeyFromString(const std::string& key);
 
-    void PrintLicense();
+    // void PrintLicense(); // not implemented, is this deprecated or something?
 
     Botan::RSA_PrivateKey* getPrivateKey() const;
 

@@ -67,8 +67,8 @@ private:
 	std::string m_version;
 	std::string m_publicKeyFilename;
 	std::shared_ptr<Botan::RSA_PublicKey> m_publicKey;
-	std::vector<std::string> lines;
-	std::shared_ptr<Botan::AutoSeeded_RNG> m_rng;
+	std::vector<std::string> m_lines;
+	std::shared_ptr<Botan::AutoSeeded_RNG> m_rng; // range?
 
     const std::string KEY_FILEENDING = ".pem";
     const std::string BEGIN_LICENSE = "-----BEGIN LICENSE-----";

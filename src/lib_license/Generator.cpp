@@ -64,14 +64,30 @@ std::string Generator::encodeLicense(const std::string& user, const int days)
 
 std::string Generator::encodeLicense(const std::string& user, const std::string& licenseType)
 {
+	if (user.size() <= 0)
+	{
+		std::cout << "No user given" << std::endl;
+		return "";
+	}
+
+	if (licenseType.size() <= 0)
+	{
+		std::cout << "No licence type given" << std::endl;
+		return "";
+	}
+
     License license;
 
     //load private key
     std::string filename = getPrivateKeyFilename();
+
     std::shared_ptr<Botan::Private_Key> privateKey(
             Botan::PKCS8::load_key(filename, m_rng, PRIVATE_KEY_PASSWORD));
+
     Botan::RSA_PrivateKey *rsaKey = dynamic_cast<Botan::RSA_PrivateKey *>(privateKey.get());
-    if (!rsaKey) {
+    
+	if (!rsaKey)
+	{
         std::cout << "The key is not a RSA key" << std::endl;
     }
 
@@ -114,51 +130,85 @@ std::string Generator::getPublicKeyPEMFileAsString()
 
 std::string Generator::getPrivateKeyPEMFileAsString()
 {
+	if (m_privateKey == NULL)
+	{
+		std::cout << "m_privateKey is NULL" << std::endl;
+		return "";
+	}
+
     return Botan::PKCS8::PEM_encode(*m_privateKey, m_rng, PRIVATE_KEY_PASSWORD);
 }
 
 void Generator::writeKeysToFiles()
 {
-    //public key
-    std::string filename = getPublicKeyFilename();
-    std::cout << "publickey filename: " << filename << std::endl;
-    std::ofstream pub(filename);
+    std::string publicKeyFilename = getPublicKeyFilename();
+	if (publicKeyFilename.size() <= 0)
+	{
+		std::cout << "Failed to retrieve file name for public key" << std::endl;
+		return;
+	}
+
+	std::string privateKeyFilename = getPrivateKeyFilename();
+	if (privateKeyFilename.size() <= 0)
+	{
+		std::cout << "Failed to retrieve file name for private key" << std::endl;
+		return;
+	}
+
+
+    std::cout << "public key filename: " << publicKeyFilename << std::endl;
+    std::ofstream pub(publicKeyFilename);
     pub << getPublicKeyPEMFileAsString();
     std::cout << "public key created" << std::endl;
-    // private key
-    filename = getPrivateKeyFilename();
-    std::cout << "publickey filename: " << filename << std::endl;
-    std::ofstream priv(filename);
+
+    std::cout << "private key filename: " << privateKeyFilename << std::endl;
+    std::ofstream priv(privateKeyFilename);
     priv << getPrivateKeyPEMFileAsString();
     std::cout << "private key created" << std::endl;
 }
 
 bool Generator::loadPrivateKeyFromFile()
 {
-    boost::filesystem::exists(getPrivateKeyFilename());
+	if (boost::filesystem::exists(getPrivateKeyFilename()) == false)
+	{
+		return false;
+	}
+
     Botan::Private_Key* privateKey = Botan::PKCS8::load_key(getPrivateKeyFilename(), m_rng, PRIVATE_KEY_PASSWORD);
     Botan::RSA_PrivateKey *rsaKey = dynamic_cast<Botan::RSA_PrivateKey *>(privateKey);
-    if (!rsaKey) {
+    
+	if (!rsaKey)
+	{
         std::cout << "The key is not a RSA key" << std::endl;
         return false;
     }
+
     m_privateKey = std::shared_ptr<Botan::RSA_PrivateKey>(rsaKey);
 
-    return true;
+	return (m_privateKey != NULL);
 }
 
 bool Generator::loadPrivateKeyFromString(const std::string& key)
 {
+	if (key.size() <= 0)
+	{
+		std::cout << "No key string given" << std::endl;
+		return false;
+	}
+
     Botan::DataSource_Memory in(key);
     Botan::Private_Key* privateKey= Botan::PKCS8::load_key(in, m_rng, PRIVATE_KEY_PASSWORD);
     Botan::RSA_PrivateKey *rsaKey = dynamic_cast<Botan::RSA_PrivateKey *>(privateKey);
-    if (!rsaKey) {
+    
+	if (!rsaKey)
+	{
         std::cout << "The key is not a RSA key" << std::endl;
         return false;
     }
+
     m_privateKey = std::shared_ptr<Botan::RSA_PrivateKey>(rsaKey);
 
-    return true;
+    return (m_privateKey != NULL);
 }
 
 Botan::RSA_PrivateKey *Generator::getPrivateKey() const

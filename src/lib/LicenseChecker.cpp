@@ -51,6 +51,13 @@ void LicenseChecker::saveCurrentLicenseString(const std::string& licenseString) 
 	}
 
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+
+	if (appSettings == NULL)
+	{
+		LOG_ERROR_STREAM(<< "Unable to retrieve app settings");
+		return;
+	}
+
 	std::string appPath(AppPath::getAppPath());
 
 	appSettings->setLicenseString(license.getLicenseEncodedString(appPath));
@@ -66,9 +73,20 @@ bool LicenseChecker::isCurrentLicenseValid()
 LicenseChecker::LicenseState LicenseChecker::checkCurrentLicense() const
 {
 	ApplicationSettings* appSettings = ApplicationSettings::getInstance().get();
+	if (appSettings == NULL)
+	{
+		LOG_ERROR_STREAM(<< "Unable to retrieve app settings");
+		return LICENSE_EMPTY;
+	}
 
 	std::string licenseCheck = appSettings->getLicenseCheck();
 	std::string appPath(AppPath::getAppPath());
+
+	if (appPath.size() <= 0)
+	{
+		LOG_ERROR_STREAM(<< "Failed to retrieve app path");
+		return LICENSE_EMPTY;
+	}
 
 	std::string licenseString = appSettings->getLicenseString();
 	if (licenseString.size() == 0)
