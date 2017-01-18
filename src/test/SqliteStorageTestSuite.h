@@ -16,7 +16,7 @@ public:
 			SqliteStorage storage(databasePath);
 			storage.setup();
 			storage.beginTransaction();
-			storage.addSymbol(0, "a", false);
+			storage.addNode(0, "a");
 			storage.commitTransaction();
 			nodeCount = storage.getNodeCount();
 		}
@@ -33,7 +33,7 @@ public:
 			SqliteStorage storage(databasePath);
 			storage.setup();
 			storage.beginTransaction();
-			int nodeId = storage.addSymbol(0, "a", false);
+			int nodeId = storage.addNode(0, "a");
 			storage.removeElement(nodeId);
 			storage.commitTransaction();
 			nodeCount = storage.getNodeCount();
@@ -51,8 +51,8 @@ public:
 			SqliteStorage storage(databasePath);
 			storage.setup();
 			storage.beginTransaction();
-			int sourceNodeId = storage.addSymbol(0, "a", false);
-			int targetNodeId = storage.addSymbol(0, "b", false);
+			int sourceNodeId = storage.addNode(0, "a");
+			int targetNodeId = storage.addNode(0, "b");
 			storage.addEdge(0, sourceNodeId, targetNodeId);
 			storage.commitTransaction();
 			edgeCount = storage.getEdgeCount();
@@ -70,8 +70,8 @@ public:
 			SqliteStorage storage(databasePath);
 			storage.setup();
 			storage.beginTransaction();
-			int sourceNodeId = storage.addSymbol(0, "a", false);
-			int targetNodeId = storage.addSymbol(0, "b", false);
+			int sourceNodeId = storage.addNode(0, "a");
+			int targetNodeId = storage.addNode(0, "b");
 			int edgeId = storage.addEdge(0, sourceNodeId, targetNodeId);
 			storage.removeElement(edgeId);
 			storage.commitTransaction();

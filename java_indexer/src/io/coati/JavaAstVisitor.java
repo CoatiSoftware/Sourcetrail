@@ -65,9 +65,7 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		m_fileContent = fileContent;
 		m_typeSolver = typeSolver;
 		
-		String[] filePathParts = filePath.split("/");
-		String fileName = filePathParts[filePathParts.length - 1];
-		m_context.add(new DeclContext(fileName + "\ts\tp"));
+		m_context.add(new DeclContext(filePath + "\ts\tp"));
 	}
 	
 	// --- record declarations ---

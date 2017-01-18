@@ -182,7 +182,7 @@ Id SqliteStorage::addEdge(int type, Id sourceNodeId, Id targetNodeId)
 	return id;
 }
 
-Id SqliteStorage::addNode(int type, const std::string& serializedName)
+Id SqliteStorage::addNode(const int type, const std::string& serializedName)
 {
 	executeStatement("INSERT INTO element(id) VALUES(NULL);");
 	Id id = m_database.lastRowId();
@@ -198,21 +198,16 @@ Id SqliteStorage::addNode(int type, const std::string& serializedName)
 	return id;
 }
 
-Id SqliteStorage::addSymbol(int type, const std::string& serializedName, int definitionType)
+void SqliteStorage::addSymbol(const int id, const int definitionType)
 {
-	Id id = addNode(type, serializedName);
-
 	executeStatement(
 		"INSERT INTO symbol(id, definition_type) VALUES("
 		+ std::to_string(id) + ", " + std::to_string(definitionType) + ");"
 	);
-
-	return id;
 }
 
-Id SqliteStorage::addFile(const std::string& serializedName, const std::string& filePath, const std::string& modificationTime)
+void SqliteStorage::addFile(const int id, const std::string& filePath, const std::string& modificationTime)
 {
-	Id id = addNode(Node::NODE_FILE, serializedName);
 	std::shared_ptr<TextAccess> content = TextAccess::createFromFile(filePath);
 	unsigned int lineCount = content->getLineCount();
 
@@ -228,8 +223,6 @@ Id SqliteStorage::addFile(const std::string& serializedName, const std::string& 
 
 	stmt.bind(1, content->getText().c_str());
 	executeStatement(stmt);
-
-	return id;
 }
 
 Id SqliteStorage::addLocalSymbol(const std::string& name)
@@ -528,31 +521,6 @@ StorageNode SqliteStorage::getNodeBySerializedName(const std::string& serialized
 	}
 
 	return StorageNode();
-}
-
-StorageSymbol SqliteStorage::getSymbolBySerializedName(const std::string& serializedName) const
-{
-	CppSQLite3Statement stmt = m_database.compileStatement(
-		"SELECT node.id, node.type, node.serialized_name, symbol.definition_type FROM node INNER JOIN symbol ON node.id = symbol.id WHERE node.serialized_name == ? LIMIT 1;"
-	);
-
-	stmt.bind(1, serializedName.c_str());
-	CppSQLite3Query q = executeQuery(stmt);
-
-	if (!q.eof())
-	{
-		const Id id = q.getIntField(0, 0);
-		const int type = q.getIntField(1, -1);
-		const std::string serializedName = q.getStringField(2, "");
-		const int definitionType = q.getIntField(3, 0);
-
-		if (id != 0 && type != -1)
-		{
-			return StorageSymbol(id, type, serializedName, definitionType);
-		}
-	}
-
-	return StorageSymbol();
 }
 
 StorageLocalSymbol SqliteStorage::getLocalSymbolByName(const std::string& name) const
@@ -1032,38 +1000,6 @@ void SqliteStorage::setApplicationVersion()
 }
 
 template <>
-StorageSymbol SqliteStorage::getFirstById<StorageSymbol>(const Id id) const
-{
-	if (id != 0)
-	{
-		return doGetFirst<StorageSymbol>("WHERE node.id == " + std::to_string(id));
-	}
-	return StorageSymbol();
-}
-
-template <>
-StorageFile SqliteStorage::getFirstById<StorageFile>(const Id id) const
-{
-	if (id != 0)
-	{
-		return doGetFirst<StorageFile>("WHERE node.id == " + std::to_string(id));
-	}
-	return StorageFile();
-}
-
-template <>
-std::vector<StorageSymbol> SqliteStorage::getAllByIds<StorageSymbol>(const std::vector<Id>& ids) const
-{
-	return doGetAll<StorageSymbol>("WHERE node.id IN (" + utility::join(utility::toStrings(ids), ',') + ")");
-}
-
-template <>
-std::vector<StorageFile> SqliteStorage::getAllByIds<StorageFile>(const std::vector<Id>& ids) const
-{
-	return doGetAll<StorageFile>("WHERE node.id IN (" + utility::join(utility::toStrings(ids), ',') + ")");
-}
-
-template <>
 std::vector<StorageEdge> SqliteStorage::doGetAll<StorageEdge>(const std::string& query) const
 {
 	CppSQLite3Query q = executeQuery(
@@ -1116,20 +1052,18 @@ template <>
 std::vector<StorageSymbol> SqliteStorage::doGetAll<StorageSymbol>(const std::string& query) const
 {
 	CppSQLite3Query q = executeQuery(
-		"SELECT node.id, node.type, node.serialized_name, symbol.definition_type FROM node INNER JOIN symbol ON node.id == symbol.id " + query + ";"
+		"SELECT id, definition_type FROM symbol " + query + ";"
 	);
 
 	std::vector<StorageSymbol> symbols;
 	while (!q.eof())
 	{
 		const Id id = q.getIntField(0, 0);
-		const int type = q.getIntField(1, -1);
-		const std::string serializedName = q.getStringField(2, "");
-		const int definitionType = q.getIntField(3, 0);
+		const int definitionType = q.getIntField(1, 0);
 
-		if (id != 0 && type != -1)
+		if (id != 0)
 		{
-			symbols.push_back(StorageSymbol(id, type, serializedName, definitionType));
+			symbols.push_back(StorageSymbol(id, definitionType));
 		}
 
 		q.nextRow();
@@ -1141,21 +1075,19 @@ template <>
 std::vector<StorageFile> SqliteStorage::doGetAll<StorageFile>(const std::string& query) const
 {
 	CppSQLite3Query q = executeQuery(
-		"SELECT file.id, node.serialized_name, file.path, file.modification_time FROM file "
-		"INNER JOIN node ON file.id = node.id " + query + ";"
+		"SELECT id, path, modification_time FROM file " + query + ";"
 	);
 
 	std::vector<StorageFile> files;
 	while (!q.eof())
 	{
 		const Id id							= q.getIntField(0, 0);
-		const std::string serializedName	= q.getStringField(1, "");
-		const std::string filePath			= q.getStringField(2, "");
-		const std::string modificationTime	= q.getStringField(3, "");
+		const std::string filePath			= q.getStringField(1, "");
+		const std::string modificationTime	= q.getStringField(2, "");
 
 		if (id != 0)
 		{
-			files.push_back(StorageFile(id, serializedName, filePath, modificationTime));
+			files.push_back(StorageFile(id, filePath, modificationTime));
 		}
 		q.nextRow();
 	}

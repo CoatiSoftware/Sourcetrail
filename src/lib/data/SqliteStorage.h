@@ -57,11 +57,9 @@ public:
 
 	Id addEdge(int type, Id sourceNodeId, Id targetNodeId);
 
-private:
-	Id addNode(int type, const std::string& serializedName);
-public:
-	Id addSymbol(int type, const std::string& serializedName, int definitionType);
-	Id addFile(const std::string& serializedName, const std::string& filePath, const std::string& modificationTime);
+	Id addNode(const int type, const std::string& serializedName);
+	void addSymbol(const int id, int definitionType);
+	void addFile(const int id, const std::string& filePath, const std::string& modificationTime);
 	Id addLocalSymbol(const std::string& name);
 	Id addSourceLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
 	bool addOccurrence(Id elementId, Id sourceLocationId);
@@ -93,7 +91,6 @@ public:
 	std::vector<StorageEdge> getEdgesByTargetType(const std::vector<Id>& targetIds, int type) const;
 
 	StorageNode getNodeBySerializedName(const std::string& serializedName) const;
-	StorageSymbol getSymbolBySerializedName(const std::string& serializedName) const;
 
 	StorageLocalSymbol getLocalSymbolByName(const std::string& name) const;
 
@@ -189,16 +186,6 @@ private:
 	StorageModeType m_mode;
 	std::vector<std::pair<int, SqliteIndex>> m_indices;
 };
-
-template <>
-StorageSymbol SqliteStorage::getFirstById<StorageSymbol>(const Id id) const;
-template <>
-StorageFile SqliteStorage::getFirstById<StorageFile>(const Id id) const;
-
-template <>
-std::vector<StorageSymbol> SqliteStorage::getAllByIds<StorageSymbol>(const std::vector<Id>& ids) const;
-template <>
-std::vector<StorageFile> SqliteStorage::getAllByIds<StorageFile>(const std::vector<Id>& ids) const;
 
 template <>
 std::vector<StorageEdge> SqliteStorage::doGetAll<StorageEdge>(const std::string& query) const;

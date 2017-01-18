@@ -53,21 +53,15 @@ struct StorageSymbol
 {
 	StorageSymbol()
 		: id(0)
-		, type(0)
-		, serializedName("")
 		, definitionType(definitionTypeToInt(DEFINITION_NONE))
 	{}
 
-	StorageSymbol(Id id, int type, const std::string& serializedName, int definitionType)
+	StorageSymbol(Id id, int definitionType)
 		: id(id)
-		, type(type)
-		, serializedName(serializedName)
 		, definitionType(definitionType)
 	{}
 
 	Id id;
-	int type;
-	std::string serializedName;
 	int definitionType;
 };
 
@@ -75,20 +69,17 @@ struct StorageFile
 {
 	StorageFile()
 		: id(0)
-		, serializedName("")
 		, filePath("")
 		, modificationTime("")
 	{}
 
-	StorageFile(Id id, const std::string& serializedName, const std::string& filePath, const std::string& modificationTime)
+	StorageFile(Id id, const std::string& filePath, const std::string& modificationTime)
 		: id(id)
-		, serializedName(serializedName)
 		, filePath(filePath)
 		, modificationTime(modificationTime)
 	{}
 
 	Id id;
-	std::string serializedName;
 	std::string filePath;
 	std::string modificationTime;
 };

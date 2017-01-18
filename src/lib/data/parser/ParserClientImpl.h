@@ -49,11 +49,11 @@ private:
 	Node::NodeType symbolKindToNodeType(SymbolKind symbolType) const;
 	Edge::EdgeType referenceKindToEdgeType(ReferenceKind referenceKind) const;
 	void addAccess(Id nodeId, AccessKind access);
-	Id addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, DefinitionType definitionType);
+	Id addNodeHierarchy(NameHierarchy nameHierarchy, Node::NodeType nodeType = Node::NODE_UNDEFINED);
 
-	Id addFile(const FilePath& filePath, const std::string& modificationTime);
-	Id addFile(const FilePath& filePath);
-	Id addSymbol(Node::NodeType nodeType, NameHierarchy nameHierarchy, DefinitionType definitionType);
+	Id addNode(Node::NodeType nodeType, NameHierarchy nameHierarchy);
+	void addFile(Id id, const FilePath& filePath, const std::string& modificationTime);
+	void addSymbol(Id id, DefinitionType definitionType);
 	Id addEdge(int type, Id sourceId, Id targetId);
 	Id addLocalSymbol(const std::string& name);
 	void addSourceLocation(Id elementId, const ParseLocation& location, int type);

@@ -14,10 +14,10 @@ IntermediateStorage::~IntermediateStorage()
 
 void IntermediateStorage::clear()
 {
-	m_fileNamesToIds.clear();
-	m_fileIdsToData.clear();
-	m_symbolNamesToIds.clear();
-	m_symbolIdsToData.clear();
+	m_nodeNamesToIds.clear();
+	m_nodeIdsToData.clear();
+	m_files.clear();
+	m_symbols.clear();
 	m_edgeNamesToIds.clear();
 	m_edgeIdsToData.clear();
 	m_localSymbolNamesToIds.clear();
@@ -36,63 +36,38 @@ size_t IntermediateStorage::getSourceLocationCount() const
 	return m_sourceLocationNamesToIds.size();
 }
 
-Id IntermediateStorage::addFile(const std::string& serializedName, const std::string& filePath, const std::string& modificationTime)
+Id IntermediateStorage::addNode(int type, const std::string& serializedName)
 {
-	std::shared_ptr<StorageFile> file = std::make_shared<StorageFile>(0, serializedName, filePath, modificationTime);
+	std::shared_ptr<StorageNode> node = std::make_shared<StorageNode>(0, type, serializedName);
 
-	std::string serialized = serialize(*(file.get()));
-	std::unordered_map<std::string, Id>::const_iterator it = m_fileNamesToIds.find(serialized);
-	if (it != m_fileNamesToIds.end())
+	std::string serialized = serialize(*(node.get()));
+	std::unordered_map<std::string, Id>::const_iterator it = m_nodeNamesToIds.find(serialized);
+	if (it != m_nodeNamesToIds.end())
 	{
-		Id id = it->second;
-		if (m_fileIdsToData[id]->filePath.size() == 0) // stored information is incomplete.
+		std::map<Id, std::shared_ptr<StorageNode>>::const_iterator it2 = m_nodeIdsToData.find(it->second);
+		std::shared_ptr<StorageNode> storedNode = it2->second;
+		if (storedNode->type < type)
 		{
-			m_fileIdsToData[id]->filePath = filePath; // so we replace it.
-		}
-		if (m_fileIdsToData[id]->modificationTime.size() == 0) // stored information is incomplete.
-		{
-			m_fileIdsToData[id]->modificationTime = modificationTime; // so we replace it.
-		}
-		return id;
-	}
-
-	Id id = m_nextId++;
-	m_fileNamesToIds[serialized] = id;
-	m_fileIdsToData[id] = file;
-
-	return id;
-}
-
-Id IntermediateStorage::addSymbol(int type, const std::string& serializedName, int definitionType)
-{
-	std::shared_ptr<StorageSymbol> symbol = std::make_shared<StorageSymbol>(0, type, serializedName, definitionType);
-
-	std::string serialized = serialize(*(symbol.get()));
-	std::unordered_map<std::string, Id>::const_iterator it = m_symbolNamesToIds.find(serialized);
-	if (it != m_symbolNamesToIds.end())
-	{
-		std::map<Id, std::shared_ptr<StorageSymbol>>::const_iterator it2 = m_symbolIdsToData.find(it->second);
-		std::shared_ptr<StorageSymbol> storedSymbol = it2->second;
-		if (storedSymbol->definitionType == 0)
-		{
-			if (definitionType > 0)
-			{
-				storedSymbol->definitionType = definitionType;
-			}
-
-			if (storedSymbol->type < type)
-			{
-				storedSymbol->type = type;
-			}
+			storedNode->type = type;
 		}
 		return it->second;
 	}
 
-	Id id = m_nextId++;
-	m_symbolNamesToIds[serialized] = id;
-	m_symbolIdsToData[id] = symbol;
+	const Id id = m_nextId++;
+	m_nodeNamesToIds[serialized] = id;
+	m_nodeIdsToData[id] = node;
 
 	return id;
+}
+
+void IntermediateStorage::addFile(const Id id, const std::string& filePath, const std::string& modificationTime)
+{
+	m_files.push_back(StorageFile(id, filePath, modificationTime));
+}
+
+void IntermediateStorage::addSymbol(const Id id, int definitionType)
+{
+	m_symbols.push_back(StorageSymbol(id, definitionType));
 }
 
 Id IntermediateStorage::addEdge(int type, Id sourceId, Id targetId)
@@ -106,7 +81,7 @@ Id IntermediateStorage::addEdge(int type, Id sourceId, Id targetId)
 		return it->second;
 	}
 
-	Id id = m_nextId++;
+	const Id id = m_nextId++;
 	m_edgeNamesToIds[serialized] = id;
 	m_edgeIdsToData[id] = edge;
 
@@ -124,7 +99,7 @@ Id IntermediateStorage::addLocalSymbol(const std::string& name)
 		return it->second;
 	}
 
-	Id id = m_nextId++;
+	const Id id = m_nextId++;
 	m_localSymbolNamesToIds[serialized] = id;
 	m_localSymbolIdsToData[id] = localSymbol;
 
@@ -150,7 +125,7 @@ Id IntermediateStorage::addSourceLocation(Id fileNodeId, uint startLine, uint st
 		return it->second;
 	}
 
-	Id id = m_nextId++;
+	const Id id = m_nextId++;
 	m_sourceLocationNamesToIds[serialized] = id;
 	m_sourceLocationIdsToData[id] = sourceLocation;
 
@@ -192,19 +167,27 @@ void IntermediateStorage::addError(const std::string& message, const FilePath& f
 	));
 }
 
-void IntermediateStorage::forEachFile(std::function<void(const Id /*id*/, const StorageFile& /*data*/)> callback) const
+void IntermediateStorage::forEachNode(std::function<void(const Id /*id*/, const StorageNode& /*data*/)> callback) const
 {
-	for (std::unordered_map<Id, std::shared_ptr<StorageFile>>::const_iterator it = m_fileIdsToData.begin(); it != m_fileIdsToData.end(); it++)
+	for (std::map<Id, std::shared_ptr<StorageNode>>::const_iterator it = m_nodeIdsToData.begin(); it != m_nodeIdsToData.end(); it++)
 	{
 		callback(it->first, *(it->second.get()));
 	}
 }
 
-void IntermediateStorage::forEachSymbol(std::function<void(const Id /*id*/, const StorageSymbol& /*data*/)> callback) const
+void IntermediateStorage::forEachFile(std::function<void(const StorageFile& /*data*/)> callback) const
 {
-	for (std::map<Id, std::shared_ptr<StorageSymbol>>::const_iterator it = m_symbolIdsToData.begin(); it != m_symbolIdsToData.end(); it++)
+	for (std::vector<StorageFile>::const_iterator it = m_files.begin(); it != m_files.end(); it++)
 	{
-		callback(it->first, *(it->second.get()));
+		callback(*it);
+	}
+}
+
+void IntermediateStorage::forEachSymbol(std::function<void(const StorageSymbol& /*data*/)> callback) const
+{
+	for (std::vector<StorageSymbol>::const_iterator it = m_symbols.begin(); it != m_symbols.end(); it++)
+	{
+		callback(*it);
 	}
 }
 
@@ -273,14 +256,9 @@ std::string IntermediateStorage::serialize(const StorageEdge& edge) const
 	);
 }
 
-std::string IntermediateStorage::serialize(const StorageSymbol& symbol) const
+std::string IntermediateStorage::serialize(const StorageNode& node) const
 {
-	return symbol.serializedName;
-}
-
-std::string IntermediateStorage::serialize(const StorageFile& file) const
-{
-	return file.filePath;
+	return node.serializedName;
 }
 
 std::string IntermediateStorage::serialize(const StorageLocalSymbol& localSymbol) const

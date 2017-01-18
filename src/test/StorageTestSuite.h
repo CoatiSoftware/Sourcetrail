@@ -21,12 +21,15 @@ public:
 	{
 		TestStorage storage;
 
+		std::string filePath = "path/to/test.h";
+
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
-		Id id = intermetiateStorage->addFile(NameHierarchy::serialize(NameHierarchy("test.h")), "path/to/test.h", "someTime");
+		Id id = intermetiateStorage->addNode(Node::typeToInt(Node::NODE_FILE), NameHierarchy::serialize(NameHierarchy(filePath)));
+		intermetiateStorage->addFile(id, filePath, "someTime");
 
 		storage.inject(intermetiateStorage.get());
 
-		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getQualifiedNameWithSignature(), "test.h");
+		TS_ASSERT_EQUALS(storage.getNameHierarchyForNodeWithId(id).getQualifiedName(), filePath);
 		TS_ASSERT_EQUALS(storage.getNodeTypeForNodeWithId(id), Node::NODE_FILE);
 
 	}
@@ -37,7 +40,7 @@ public:
 		TestStorage storage;
 
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
-		intermetiateStorage->addSymbol(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(a), true);
+		intermetiateStorage->addNode(Node::typeToInt(Node::NODE_TYPEDEF), NameHierarchy::serialize(a));
 
 		storage.inject(intermetiateStorage.get());
 
@@ -56,8 +59,12 @@ public:
 		TestStorage storage;
 
 		std::shared_ptr<IntermediateStorage> intermetiateStorage = std::make_shared<IntermediateStorage>();
-		Id aId = intermetiateStorage->addSymbol(Node::typeToInt(Node::NODE_STRUCT), NameHierarchy::serialize(a), true);
-		Id bId = intermetiateStorage->addSymbol(Node::typeToInt(Node::NODE_FIELD), NameHierarchy::serialize(b), true);
+
+		Id aId = intermetiateStorage->addNode(Node::typeToInt(Node::NODE_STRUCT), NameHierarchy::serialize(a));
+		intermetiateStorage->addSymbol(aId, DEFINITION_EXPLICIT);
+
+		Id bId = intermetiateStorage->addNode(Node::typeToInt(Node::NODE_FIELD), NameHierarchy::serialize(b));
+		intermetiateStorage->addSymbol(bId, DEFINITION_EXPLICIT);
 		intermetiateStorage->addEdge(Edge::typeToInt(Edge::EDGE_MEMBER), aId, bId);
 
 		storage.inject(intermetiateStorage.get());

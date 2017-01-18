@@ -38,7 +38,8 @@ Id ParserClientImpl::recordSymbol(
 	AccessKind access, DefinitionType definitionType
 )
 {
-	Id nodeId = addNodeHierarchy(symbolKindToNodeType(symbolType), symbolName, definitionType);
+	Id nodeId = addNodeHierarchy(symbolName, symbolKindToNodeType(symbolType));
+	addSymbol(nodeId, definitionType);
 	addAccess(nodeId, access);
 	return nodeId;
 }
@@ -69,8 +70,8 @@ void ParserClientImpl::recordReference(
 	ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,
 	const ParseLocation& location)
 {
-	Id contextNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, contextName, DEFINITION_NONE);
-	Id referencedNodeId = addNodeHierarchy(Node::NODE_UNDEFINED, referencedName, DEFINITION_NONE);
+	Id contextNodeId = addNodeHierarchy(contextName);
+	Id referencedNodeId = addNodeHierarchy(referencedName);
 	Id edgeId = addEdge(referenceKindToEdgeType(referenceKind), contextNodeId, referencedNodeId);
 	addSourceLocation(edgeId, location, locationTypeToInt(LOCATION_TOKEN));
 }
@@ -85,18 +86,19 @@ void ParserClientImpl::onError(const ParseLocation& location, const std::string&
 
 void ParserClientImpl::onLocalSymbolParsed(const std::string& name, const ParseLocation& location)
 {
-	Id localSymbolId = addLocalSymbol(name);
+	const Id localSymbolId = addLocalSymbol(name);
 	addSourceLocation(localSymbolId, location, locationTypeToInt(LOCATION_LOCAL_SYMBOL));
 }
 
 void ParserClientImpl::onFileParsed(const FileInfo& fileInfo)
 {
-	addFile(fileInfo.path, fileInfo.lastWriteTime.toString());
+	const Id nodeId = addNodeHierarchy(NameHierarchy(fileInfo.path.str()), Node::NODE_FILE);
+	addFile(nodeId, fileInfo.path, fileInfo.lastWriteTime.toString());
 }
 
 void ParserClientImpl::onCommentParsed(const ParseLocation& location)
 {
-	addFile(location.filePath);
+	addNodeHierarchy(NameHierarchy(location.filePath.str()), Node::NODE_FILE);
 	addCommentLocation(location);
 }
 
@@ -188,7 +190,7 @@ void ParserClientImpl::addAccess(Id nodeId, AccessKind access)
 	}
 }
 
-Id ParserClientImpl::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nameHierarchy, DefinitionType definitionType)
+Id ParserClientImpl::addNodeHierarchy(NameHierarchy nameHierarchy, Node::NodeType nodeType)
 {
 	if (nameHierarchy.size() == 0)
 	{
@@ -202,10 +204,9 @@ Id ParserClientImpl::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nam
 	{
 		currentNameHierarchy.push(nameHierarchy[i]);
 		const bool currentIsLastElement = (i == nameHierarchy.size() - 1);
-		Node::NodeType currentType = (currentIsLastElement ? nodeType : Node::NODE_UNDEFINED); // TODO: rename to unknown!
-		DefinitionType currentDefinitionType = (currentIsLastElement ? definitionType : DEFINITION_NONE);
+		const Node::NodeType currentType = (currentIsLastElement ? nodeType : Node::NODE_UNDEFINED); // TODO: rename to unknown!
 
-		Id nodeId = addSymbol(currentType, currentNameHierarchy, currentDefinitionType);
+		Id nodeId = addNode(currentType, currentNameHierarchy);
 
 		// Todo: performance optimization: check if node exists. dont add edge if it existed before...
 		if (parentNodeId != 0)
@@ -218,34 +219,34 @@ Id ParserClientImpl::addNodeHierarchy(Node::NodeType nodeType, NameHierarchy nam
 	return parentNodeId;
 }
 
-Id ParserClientImpl::addFile(const FilePath& filePath, const std::string& modificationTime)
+Id ParserClientImpl::addNode(Node::NodeType nodeType, NameHierarchy nameHierarchy)
 {
 	if (!m_storage)
 	{
 		return 0;
 	}
 
-	return m_storage->addFile(NameHierarchy::serialize(NameHierarchy(filePath.fileName())), filePath.str(), modificationTime);
+	return m_storage->addNode(Node::typeToInt(nodeType), NameHierarchy::serialize(nameHierarchy));
 }
 
-Id ParserClientImpl::addFile(const FilePath& filePath)
+void ParserClientImpl::addFile(Id id, const FilePath& filePath, const std::string& modificationTime)
 {
 	if (!m_storage)
 	{
-		return 0;
+		return;
 	}
 
-	return m_storage->addFile("", filePath.str(), "");
+	return m_storage->addFile(id, filePath.str(), modificationTime);
 }
 
-Id ParserClientImpl::addSymbol(Node::NodeType nodeType, NameHierarchy nameHierarchy, DefinitionType definitionType)
+void ParserClientImpl::addSymbol(Id id, DefinitionType definitionType)
 {
 	if (!m_storage)
 	{
-		return 0;
+		return;
 	}
 
-	return m_storage->addSymbol(Node::typeToInt(nodeType), NameHierarchy::serialize(nameHierarchy), definitionTypeToInt(definitionType));
+	return m_storage->addSymbol(id, definitionTypeToInt(definitionType));
 }
 
 Id ParserClientImpl::addEdge(int type, Id sourceId, Id targetId)
@@ -292,7 +293,7 @@ void ParserClientImpl::addSourceLocation(Id elementId, const ParseLocation& loca
 	}
 
 	Id sourceLocationId = m_storage->addSourceLocation(
-		addFile(location.filePath),
+		addNodeHierarchy(NameHierarchy(location.filePath.str()), Node::NODE_FILE),
 		location.startLineNumber,
 		location.startColumnNumber,
 		location.endLineNumber,
@@ -324,7 +325,7 @@ void ParserClientImpl::addCommentLocation(const ParseLocation& location)
 	}
 
 	m_storage->addCommentLocation(
-		addFile(location.filePath),
+		addNodeHierarchy(NameHierarchy(location.filePath.str()), Node::NODE_FILE),
 		location.startLineNumber,
 		location.startColumnNumber,
 		location.endLineNumber,
