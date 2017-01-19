@@ -5,9 +5,14 @@
 #include <QScrollBar>
 #include <QTimer>
 
+#include <QApplication>
+#include <QClipboard>
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
 
+#include "qt/view/graphElements/QtGraphNode.h"
+#include "qt/view/graphElements/QtGraphNodeData.h"
+#include "qt/view/graphElements/QtGraphNodeBundle.h"
 #include "qt/utility/QtContextMenu.h"
 #include "settings/ApplicationSettings.h"
 
@@ -34,6 +39,11 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_exportGraphAction->setStatusTip(tr("Save this graph as image file"));
 	m_exportGraphAction->setToolTip(tr("Save this graph as image file"));
 	connect(m_exportGraphAction, SIGNAL(triggered()), this, SLOT(exportGraph()));
+
+	m_copyNodeNameAction = new QAction(tr("Copy Name"), this);
+	m_copyNodeNameAction->setStatusTip(tr("Copies the name of this node to the clipboard"));
+	m_copyNodeNameAction->setToolTip(tr("Copies the name of this node to the clipboard"));
+	connect(m_copyNodeNameAction, SIGNAL(triggered()), this, SLOT(copyNodeName()));
 }
 
 float QtGraphicsView::getZoomFactor() const
@@ -45,6 +55,20 @@ void QtGraphicsView::setAppZoomFactor(float appZoomFactor)
 {
 	m_appZoomFactor = appZoomFactor;
 	updateTransform();
+}
+
+QtGraphNode* QtGraphicsView::getNodeAtCursorPosition() const
+{
+	QtGraphNode* node = nullptr;
+
+	QPointF point = mapToScene(mapFromGlobal(QCursor::pos()));
+	QGraphicsItem* item = scene()->itemAt(point, QTransform());
+	if (item)
+	{
+		node = dynamic_cast<QtGraphNode*>(item->parentItem());
+	}
+
+	return node;
 }
 
 void QtGraphicsView::ensureVisibleAnimated(const QRectF& rect, int xmargin, int ymargin)
@@ -187,7 +211,27 @@ void QtGraphicsView::wheelEvent(QWheelEvent* event)
 
 void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 {
-	QtContextMenu::getInstance()->showExtended(event, this, std::vector<QAction*>(1, m_exportGraphAction));
+	m_clipboardNodeName = "";
+
+	QtGraphNode* node = getNodeAtCursorPosition();
+	while (node)
+	{
+		if (dynamic_cast<QtGraphNodeData*>(node) || dynamic_cast<QtGraphNodeBundle*>(node))
+		{
+			m_clipboardNodeName = node->getName();
+			break;
+		}
+		node = node->getParent();
+	}
+
+	std::vector<QAction*> actions;
+	actions.push_back(m_exportGraphAction);
+	if (!m_clipboardNodeName.empty())
+	{
+		actions.push_back(m_copyNodeNameAction);
+	}
+
+	QtContextMenu::getInstance()->showExtended(event, this, actions);
 }
 
 void QtGraphicsView::updateTimer()
@@ -320,6 +364,11 @@ void QtGraphicsView::exportGraph()
 		// QPixmap pixMap = grab();
 		// pixMap.save(fileName);
 	}
+}
+
+void QtGraphicsView::copyNodeName()
+{
+	QApplication::clipboard()->setText(m_clipboardNodeName.c_str());
 }
 
 bool QtGraphicsView::moves() const

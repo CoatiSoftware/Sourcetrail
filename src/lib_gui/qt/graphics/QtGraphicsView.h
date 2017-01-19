@@ -8,6 +8,7 @@
 #include <memory>
 
 class QTimer;
+class QtGraphNode;
 
 class QtGraphicsView
 	: public QGraphicsView
@@ -19,6 +20,8 @@ public:
 
 	float getZoomFactor() const;
 	void setAppZoomFactor(float appZoomFactor);
+
+	QtGraphNode* getNodeAtCursorPosition() const;
 
 	void ensureVisibleAnimated(const QRectF& rect, int xmargin = 50, int ymargin = 50);
 
@@ -41,6 +44,7 @@ private slots:
 	void stopTimer();
 
 	void exportGraph();
+	void copyNodeName();
 
 private:
 	bool moves() const;
@@ -59,10 +63,13 @@ private:
 	bool m_right;
 	bool m_shift;
 
+	std::string m_clipboardNodeName;
+
 	std::shared_ptr<QTimer> m_timer;
 	std::shared_ptr<QTimer> m_timerStopper;
 
 	QAction* m_exportGraphAction;
+	QAction* m_copyNodeNameAction;
 };
 
 #endif // QT_GRAPHICS_VIEW_H

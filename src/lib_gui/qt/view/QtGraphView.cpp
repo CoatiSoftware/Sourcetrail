@@ -171,15 +171,10 @@ void QtGraphView::switchToNewGraphData()
 
 	// Manually hover the item below the mouse cursor.
 	QtGraphicsView* view = getView();
-	QPointF point = view->mapToScene(view->mapFromGlobal(QCursor::pos()));
-	QGraphicsItem* item = view->scene()->itemAt(point, QTransform());
-	if (item)
+	QtGraphNode* node = view->getNodeAtCursorPosition();
+	if (node)
 	{
-		QtGraphNode* node = dynamic_cast<QtGraphNode*>(item->parentItem());
-		if (node)
-		{
-			node->hoverEnter();
-		}
+		node->hoverEnter();
 	}
 
 	if (m_activeNode)
