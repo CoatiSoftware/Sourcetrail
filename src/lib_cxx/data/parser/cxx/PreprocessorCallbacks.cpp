@@ -61,10 +61,10 @@ void PreprocessorCallbacks::InclusionDirective(
 		{
 
 			NameHierarchy referencedNameHierarchy;
-			referencedNameHierarchy.push(std::make_shared<NameElement>(includedFilePath.fileName()));
+			referencedNameHierarchy.push(std::make_shared<NameElement>(includedFilePath.str()));
 
 			NameHierarchy contextNameHierarchy;
-			contextNameHierarchy.push(std::make_shared<NameElement>(m_currentPath.fileName()));
+			contextNameHierarchy.push(std::make_shared<NameElement>(m_currentPath.str()));
 
 			m_client->recordReference(
 				REFERENCE_INCLUDE,

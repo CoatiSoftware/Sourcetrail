@@ -60,6 +60,12 @@ Task::TaskState TaskReturnSuccessWhile<T>::doUpdate(std::shared_ptr<Blackboard> 
 			return STATE_SUCCESS;
 		}
 		break;
+	case CONDITION_EQUALS:
+		if (lhsValue == m_rhsValue)
+		{
+			return STATE_SUCCESS;
+		}
+		break;
 	default:
 		return STATE_FAILURE;
 	}
