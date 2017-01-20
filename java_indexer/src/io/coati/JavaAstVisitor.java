@@ -73,16 +73,27 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 	@Override public void visit(final PackageDeclaration n, final Void v)
 	{
 		Name name = n.getName();
-			
-		String packageName = JavaparserDeclNameResolver.getQualifiedName(name).toSerializedNameHierarchy();
-		Optional<Position> as = name.getBegin();
+		
 		
 		JavaIndexer.recordSymbolWithLocationAndScope(
-			m_callbackId, packageName, SymbolType.PACKAGE,
+			m_callbackId, 
+			JavaparserDeclNameResolver.getQualifiedName(name).toSerializedNameHierarchy(), 
+			SymbolType.PACKAGE,
 			name.getRange(), 
 			n.getRange(),
 			AccessKind.NONE, false
 		);
+		
+		while (name.getQualifier().isPresent())
+		{
+			name = name.getQualifier().get();
+			JavaIndexer.recordSymbol(
+				m_callbackId, 
+				JavaparserDeclNameResolver.getQualifiedName(name).toSerializedNameHierarchy(), 
+				SymbolType.PACKAGE, AccessKind.NONE, 
+				false
+			);
+		}
 		
 		super.visit(n, v);
 	}
