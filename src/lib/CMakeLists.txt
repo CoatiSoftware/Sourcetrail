@@ -163,8 +163,8 @@ add_files(
 	data/search/SearchMatch.cpp
 	data/search/SearchMatch.h
 
-	data/DefinitionType.cpp
-	data/DefinitionType.h
+	data/DefinitionKind.cpp
+	data/DefinitionKind.h
 	data/ErrorCountInfo.h
 	data/ErrorFilter.h
 	data/ErrorInfo.h
