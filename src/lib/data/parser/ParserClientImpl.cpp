@@ -35,11 +35,11 @@ void ParserClientImpl::finishParsingFile()
 
 Id ParserClientImpl::recordSymbol(
 	const NameHierarchy& symbolName, SymbolKind symbolType,
-	AccessKind access, DefinitionType definitionType
+	AccessKind access, DefinitionKind definitionKind
 )
 {
 	Id nodeId = addNodeHierarchy(symbolName, symbolKindToNodeType(symbolType));
-	addSymbol(nodeId, definitionType);
+	addSymbol(nodeId, definitionKind);
 	addAccess(nodeId, access);
 	return nodeId;
 }
@@ -47,10 +47,10 @@ Id ParserClientImpl::recordSymbol(
 Id ParserClientImpl::recordSymbol(
 	const NameHierarchy& symbolName, SymbolKind symbolType,
 	const ParseLocation& location,
-	AccessKind access, DefinitionType definitionType
+	AccessKind access, DefinitionKind definitionKind
 )
 {
-	Id nodeId = recordSymbol(symbolName, symbolType, access, definitionType);
+	Id nodeId = recordSymbol(symbolName, symbolType, access, definitionKind);
 	addSourceLocation(nodeId, location, locationTypeToInt(LOCATION_TOKEN));
 	return nodeId;
 }
@@ -58,10 +58,10 @@ Id ParserClientImpl::recordSymbol(
 Id ParserClientImpl::recordSymbol(
 	const NameHierarchy& symbolName, SymbolKind symbolType,
 	const ParseLocation& location, const ParseLocation& scopeLocation,
-	AccessKind access, DefinitionType definitionType
+	AccessKind access, DefinitionKind definitionKind
 )
 {
-	Id nodeId = recordSymbol(symbolName, symbolType, location, access, definitionType);
+	Id nodeId = recordSymbol(symbolName, symbolType, location, access, definitionKind);
 	addSourceLocation(nodeId, scopeLocation, locationTypeToInt(LOCATION_SCOPE));
 	return nodeId;
 }
@@ -236,17 +236,20 @@ void ParserClientImpl::addFile(Id id, const FilePath& filePath, const std::strin
 		return;
 	}
 
-	return m_storage->addFile(id, filePath.str(), modificationTime);
+	m_storage->addFile(id, filePath.str(), modificationTime);
 }
 
-void ParserClientImpl::addSymbol(Id id, DefinitionType definitionType)
+void ParserClientImpl::addSymbol(Id id, DefinitionKind definitionKind)
 {
 	if (!m_storage)
 	{
 		return;
 	}
 
-	return m_storage->addSymbol(id, definitionTypeToInt(definitionType));
+	if (definitionKind != DEFINITION_NONE)
+	{
+		m_storage->addSymbol(id, definitionKindToInt(definitionKind));
+	}
 }
 
 Id ParserClientImpl::addEdge(int type, Id sourceId, Id targetId)

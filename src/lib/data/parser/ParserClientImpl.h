@@ -8,7 +8,7 @@
 #include "data/IntermediateStorage.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
 
-#include "data/DefinitionType.h"
+#include "data/DefinitionKind.h"
 
 class ParserClientImpl: public ParserClient
 {
@@ -24,17 +24,17 @@ public:
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolType,
-		AccessKind access, DefinitionType definitionType);
+		AccessKind access, DefinitionKind definitionKind);
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolType,
 		const ParseLocation& location,
-		AccessKind access, DefinitionType definitionType);
+		AccessKind access, DefinitionKind definitionKind);
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolType,
 		const ParseLocation& location, const ParseLocation& scopeLocation,
-		AccessKind access, DefinitionType definitionType);
+		AccessKind access, DefinitionKind definitionKind);
 
 	virtual void recordReference(
 		ReferenceKind referenceKind, const NameHierarchy& referencedName, const NameHierarchy& contextName,
@@ -53,7 +53,7 @@ private:
 
 	Id addNode(Node::NodeType nodeType, NameHierarchy nameHierarchy);
 	void addFile(Id id, const FilePath& filePath, const std::string& modificationTime);
-	void addSymbol(Id id, DefinitionType definitionType);
+	void addSymbol(Id id, DefinitionKind definitionKind);
 	Id addEdge(int type, Id sourceId, Id targetId);
 	Id addLocalSymbol(const std::string& name);
 	void addSourceLocation(Id elementId, const ParseLocation& location, int type);

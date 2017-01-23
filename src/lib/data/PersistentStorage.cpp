@@ -65,11 +65,11 @@ void PersistentStorage::addFile(const Id id, const std::string& filePath, const 
 	}
 }
 
-void PersistentStorage::addSymbol(const Id id, int definitionType)
+void PersistentStorage::addSymbol(const Id id, int definitionKind)
 {
 	if (m_sqliteStorage.getFirstById<StorageSymbol>(id).id == 0)
 	{
-		m_sqliteStorage.addSymbol(id, definitionType);
+		m_sqliteStorage.addSymbol(id, definitionKind);
 	}
 }
 
@@ -607,8 +607,8 @@ std::set<SearchMatch> PersistentStorage::getAutocompletionSymbolMatches(const st
 		match.typeName = Node::getTypeString(match.nodeType);
 		match.searchType = SearchMatch::SEARCH_TOKEN;
 
-		if (storageSymbolMap.find(firstNode->id) == storageSymbolMap.end()
-			&& match.nodeType != Node::NODE_UNDEFINED)
+		if (storageSymbolMap.find(firstNode->id) == storageSymbolMap.end() &&
+			match.nodeType != Node::NODE_UNDEFINED)
 		{
 			match.typeName = "undefined " + match.typeName;
 		}
@@ -722,7 +722,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 	std::unordered_set<Id> explicitlyDefinedSymbolIds;
 	for (StorageSymbol symbol: m_sqliteStorage.getAll<StorageSymbol>())
 	{
-		if (intToDefinitionType(symbol.definitionType) == DEFINITION_EXPLICIT)
+		if (intToDefinitionKind(symbol.definitionKind) == DEFINITION_EXPLICIT)
 		{
 			explicitlyDefinedSymbolIds.insert(symbol.id);
 		}
@@ -822,7 +822,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(const std::v
 	{
 		for (const StorageSymbol& symbol : m_sqliteStorage.getAllByIds<StorageSymbol>(ids))
 		{
-			if (symbol.id > 0 && (!isNamespace || intToDefinitionType(symbol.definitionType) != DEFINITION_IMPLICIT))
+			if (symbol.id > 0 && (!isNamespace || intToDefinitionKind(symbol.definitionKind) != DEFINITION_IMPLICIT))
 			{
 				nodeIds.push_back(symbol.id);
 			}
@@ -912,7 +912,7 @@ std::vector<Id> PersistentStorage::getNodeIdsForLocationIds(const std::vector<Id
 			StorageSymbol symbol = m_sqliteStorage.getFirstById<StorageSymbol>(elementId);
 			if (symbol.id != 0) // here we test if location is a symbol
 			{
-				if (intToDefinitionType(symbol.definitionType) == DEFINITION_IMPLICIT)
+				if (intToDefinitionKind(symbol.definitionKind) == DEFINITION_IMPLICIT)
 				{
 					implicitNodeIds.insert(elementId);
 				}
@@ -1472,25 +1472,25 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& nodeIds, Graph* g
 		{
 			const NameHierarchy nameHierarchy = NameHierarchy::deserialize(storageNode.serializedName);
 
-			DefinitionType defType = DEFINITION_NONE;
+			DefinitionKind defKind = DEFINITION_NONE;
 			auto it = symbolMap.find(storageNode.id);
 			if (it != symbolMap.end())
 			{
-				defType = intToDefinitionType(it->second.definitionType);
+				defKind = intToDefinitionKind(it->second.definitionKind);
 			}
 
 			Node* node = graph->createNode(
 				storageNode.id,
 				type,
 				nameHierarchy,
-				defType != DEFINITION_NONE
+				defKind != DEFINITION_NONE
 			);
 
-			if (defType == DEFINITION_IMPLICIT)
+			if (defKind == DEFINITION_IMPLICIT)
 			{
 				node->setImplicit(true);
 			}
-			else if (defType == DEFINITION_EXPLICIT)
+			else if (defKind == DEFINITION_EXPLICIT)
 			{
 				node->setExplicit(true);
 			}
@@ -1733,7 +1733,7 @@ void PersistentStorage::buildSearchIndex()
 		else
 		{
 			auto it = symbolMap.find(node.id);
-			if (it == symbolMap.end() || intToDefinitionType(it->second.definitionType) != DEFINITION_IMPLICIT)
+			if (it == symbolMap.end() || intToDefinitionKind(it->second.definitionKind) != DEFINITION_IMPLICIT)
 			{
 				// we don't use the signature here, so elements with the same signature share the same node.
 				m_symbolIndex.addNode(node.id, NameHierarchy::deserialize(node.serializedName).getQualifiedName());

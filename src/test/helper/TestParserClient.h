@@ -17,7 +17,7 @@ public:
 
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
-		AccessKind access, DefinitionType definitionType)
+		AccessKind access, DefinitionKind definitionKind)
 	{
 		std::vector<std::string>* bin = getBinForSymbolKind(symbolKind);
 		if (bin != nullptr)
@@ -30,7 +30,7 @@ public:
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location,
-		AccessKind access, DefinitionType definitionType)
+		AccessKind access, DefinitionKind definitionKind)
 	{
 		std::vector<std::string>* bin = getBinForSymbolKind(symbolKind);
 		if (bin != nullptr)
@@ -43,7 +43,7 @@ public:
 	virtual Id recordSymbol(
 		const NameHierarchy& symbolName, SymbolKind symbolKind,
 		const ParseLocation& location, const ParseLocation& scopeLocation,
-		AccessKind access, DefinitionType definitionType)
+		AccessKind access, DefinitionKind definitionKind)
 	{
 		std::vector<std::string>* bin = getBinForSymbolKind(symbolKind);
 		if (bin != nullptr)
@@ -134,6 +134,7 @@ public:
 
 	std::vector<std::string> packages;
 	std::vector<std::string> typedefs;
+	std::vector<std::string> builtinTypes;
 	std::vector<std::string> classes;
 	std::vector<std::string> interfaces;
 	std::vector<std::string> enums;
@@ -174,6 +175,8 @@ private:
 			return &packages;
 		case SYMBOL_TYPEDEF:
 			return &typedefs;
+		case SYMBOL_BUILTIN_TYPE:
+			return &builtinTypes;
 		case SYMBOL_CLASS:
 			return &classes;
 		case SYMBOL_INTERFACE:

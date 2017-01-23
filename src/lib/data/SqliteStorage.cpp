@@ -4,13 +4,12 @@
 
 #include "data/graph/Node.h"
 #include "data/location/TokenLocation.h"
-#include "data/DefinitionType.h"
 #include "data/parser/ParseLocation.h"
 #include "utility/logging/logging.h"
 #include "utility/text/TextAccess.h"
 #include "utility/Version.h"
 
-const size_t SqliteStorage::STORAGE_VERSION = 7;
+const size_t SqliteStorage::STORAGE_VERSION = 8;
 
 SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
 	: m_dbFilePath(dbFilePath)
@@ -198,11 +197,11 @@ Id SqliteStorage::addNode(const int type, const std::string& serializedName)
 	return id;
 }
 
-void SqliteStorage::addSymbol(const int id, const int definitionType)
+void SqliteStorage::addSymbol(const int id, const int definitionKind)
 {
 	executeStatement(
-		"INSERT INTO symbol(id, definition_type) VALUES("
-		+ std::to_string(id) + ", " + std::to_string(definitionType) + ");"
+		"INSERT INTO symbol(id, definition_kind) VALUES("
+		+ std::to_string(id) + ", " + std::to_string(definitionKind) + ");"
 	);
 }
 
@@ -587,13 +586,6 @@ void SqliteStorage::setNodeType(int type, Id nodeId)
 	);
 }
 
-void SqliteStorage::setSymbolDefinitionType(int definitionType, Id symbolId)
-{
-	executeStatement(
-		"UPDATE symbol SET definition_type = " + std::to_string(definitionType) + " WHERE id == " + std::to_string(symbolId) + ";"
-	);
-}
-
 StorageSourceLocation SqliteStorage::getSourceLocationByAll(const Id fileNodeId, const uint startLine, const uint startCol, const uint endLine, const uint endCol, const int type) const
 {
 	return doGetFirst<StorageSourceLocation>(
@@ -769,7 +761,7 @@ void SqliteStorage::setupTables()
 		m_database.execDML(
 			"CREATE TABLE IF NOT EXISTS symbol("
 				"id INTEGER NOT NULL, "
-				"definition_type INTEGER NOT NULL, "
+				"definition_kind INTEGER NOT NULL, "
 				"PRIMARY KEY(id), "
 				"FOREIGN KEY(id) REFERENCES node(id) ON DELETE CASCADE);"
 		);
@@ -1057,18 +1049,18 @@ template <>
 std::vector<StorageSymbol> SqliteStorage::doGetAll<StorageSymbol>(const std::string& query) const
 {
 	CppSQLite3Query q = executeQuery(
-		"SELECT id, definition_type FROM symbol " + query + ";"
+		"SELECT id, definition_kind FROM symbol " + query + ";"
 	);
 
 	std::vector<StorageSymbol> symbols;
 	while (!q.eof())
 	{
 		const Id id = q.getIntField(0, 0);
-		const int definitionType = q.getIntField(1, 0);
+		const int definitionKind = q.getIntField(1, 0);
 
 		if (id != 0)
 		{
-			symbols.push_back(StorageSymbol(id, definitionType));
+			symbols.push_back(StorageSymbol(id, definitionKind));
 		}
 
 		q.nextRow();

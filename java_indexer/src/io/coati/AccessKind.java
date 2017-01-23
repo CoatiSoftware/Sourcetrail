@@ -3,7 +3,7 @@ package io.coati;
 import com.github.javaparser.ast.AccessSpecifier;
 
 public enum AccessKind 
-{ // these values need to be the same as AccesType in C++ code
+{ // these values need to be the same as AccesKind in C++ code
 	NONE(0),
 	PUBLIC(1),
 	PROTECTED(2),

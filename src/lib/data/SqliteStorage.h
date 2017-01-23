@@ -58,7 +58,7 @@ public:
 	Id addEdge(int type, Id sourceNodeId, Id targetNodeId);
 
 	Id addNode(const int type, const std::string& serializedName);
-	void addSymbol(const int id, int definitionType);
+	void addSymbol(const int id, int definitionKind);
 	void addFile(const int id, const std::string& filePath, const std::string& modificationTime);
 	Id addLocalSymbol(const std::string& name);
 	Id addSourceLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type);
@@ -102,7 +102,6 @@ public:
 	std::shared_ptr<TextAccess> getFileContentById(Id fileId) const;
 
 	void setNodeType(int type, Id nodeId);
-	void setSymbolDefinitionType(int definitionType, Id symbolId);
 
 	StorageSourceLocation getSourceLocationByAll(const Id fileNodeId, const uint startLine, const uint startCol, const uint endLine, const uint endCol, const int type) const;
 	std::shared_ptr<TokenLocationFile> getTokenLocationsForFile(const FilePath& filePath) const;

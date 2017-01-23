@@ -61,7 +61,7 @@ void Storage::inject(Storage* injected)
 			}
 			const Id ownId = it->second;
 
-			addSymbol(ownId, injectedData.definitionType);
+			addSymbol(ownId, injectedData.definitionKind);
 		}
 	);
 

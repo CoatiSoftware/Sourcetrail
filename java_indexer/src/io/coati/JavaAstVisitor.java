@@ -78,10 +78,11 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		JavaIndexer.recordSymbolWithLocationAndScope(
 			m_callbackId, 
 			JavaparserDeclNameResolver.getQualifiedName(name).toSerializedNameHierarchy(), 
-			SymbolType.PACKAGE,
+			SymbolKind.PACKAGE,
 			name.getRange(), 
 			n.getRange(),
-			AccessKind.NONE, false
+			AccessKind.NONE, 
+			DefinitionKind.EXPLICIT
 		);
 		
 		while (name.getQualifier().isPresent())
@@ -90,8 +91,9 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			JavaIndexer.recordSymbol(
 				m_callbackId, 
 				JavaparserDeclNameResolver.getQualifiedName(name).toSerializedNameHierarchy(), 
-				SymbolType.PACKAGE, AccessKind.NONE, 
-				false
+				SymbolKind.PACKAGE, 
+				AccessKind.NONE, 
+				DefinitionKind.EXPLICIT
 			);
 		}
 		
@@ -105,10 +107,11 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
 		JavaIndexer.recordSymbolWithLocationAndScope(
-			m_callbackId, qualifiedName, (n.isInterface() ? SymbolType.INTERFACE : SymbolType.CLASS),
+			m_callbackId, qualifiedName, (n.isInterface() ? SymbolKind.INTERFACE : SymbolKind.CLASS),
 			name.getRange(), 
 			n.getRange(),
-			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), false
+			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), 
+			DefinitionKind.EXPLICIT
 		);
 
 		if (n.getRange().isPresent())
@@ -152,9 +155,10 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		}
 		
 		JavaIndexer.recordSymbolWithLocation(
-			m_callbackId, qualifiedName, SymbolType.TYPE_PARAMETER, 
+			m_callbackId, qualifiedName, SymbolKind.TYPE_PARAMETER, 
 			range,
-			AccessKind.TYPE_PARAMETER, false
+			AccessKind.TYPE_PARAMETER, 
+			DefinitionKind.EXPLICIT
 		);
 
 		List<DeclContext> parentContext = m_context;
@@ -171,10 +175,11 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
 		JavaIndexer.recordSymbolWithLocationAndScope(
-			m_callbackId, qualifiedName, SymbolType.ENUM, 
+			m_callbackId, qualifiedName, SymbolKind.ENUM, 
 			name.getRange(), 
 			n.getRange(),
-			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), false
+			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), 
+			DefinitionKind.EXPLICIT
 		);
 
 		if (n.getRange().isPresent())
@@ -195,9 +200,10 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
 		JavaIndexer.recordSymbolWithLocation(
-			m_callbackId, qualifiedName, SymbolType.ENUM_CONSTANT,
+			m_callbackId, qualifiedName, SymbolKind.ENUM_CONSTANT,
 			n.getRange(), 
-			AccessKind.NONE, false
+			AccessKind.NONE, 
+			DefinitionKind.EXPLICIT
 		);
 		
 		List<DeclContext> parentContext = m_context;
@@ -214,10 +220,11 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
 		JavaIndexer.recordSymbolWithLocationAndScope(
-			m_callbackId, qualifiedName, SymbolType.METHOD,
+			m_callbackId, qualifiedName, SymbolKind.METHOD,
 			name.getRange(), 
 			n.getRange(), 
-			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), false
+			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), 
+			DefinitionKind.EXPLICIT
 		);
 		
 		List<DeclContext> parentContext = m_context;
@@ -234,10 +241,11 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		String qualifiedName = JavaparserDeclNameResolver.getQualifiedDeclName(n, m_typeSolver).toSerializedNameHierarchy();
 		
 		JavaIndexer.recordSymbolWithLocationAndScope(
-			m_callbackId, qualifiedName, SymbolType.METHOD, 
+			m_callbackId, qualifiedName, SymbolKind.METHOD, 
 			name.getRange(), 
 			n.getRange(), 
-			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), false
+			AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), 
+			DefinitionKind.EXPLICIT
 		);
 		
 		
@@ -329,9 +337,10 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			SimpleName name = declarator.getName();
 			
 			JavaIndexer.recordSymbolWithLocation(
-				m_callbackId, qualifiedName, SymbolType.FIELD, 
+				m_callbackId, qualifiedName, SymbolKind.FIELD, 
 				name.getRange(),
-				AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), false
+				AccessKind.fromAccessSpecifier(Modifier.getAccessSpecifier(n.getModifiers())), 
+				DefinitionKind.EXPLICIT
 			);
 
 			m_context.add(new DeclContext(qualifiedName));
@@ -562,8 +571,9 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toSerializedNameHierarchy();
 			
 			JavaIndexer.recordSymbol(
-				m_callbackId, referencedName, SymbolType.BUILTIN_TYPE,
-				AccessKind.NONE, true
+				m_callbackId, referencedName, SymbolKind.BUILTIN_TYPE,
+				AccessKind.NONE, 
+				DefinitionKind.EXPLICIT
 			);
 			
 			for (DeclContext context: m_context)
@@ -589,8 +599,9 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 			String referencedName = JavaparserTypeNameResolver.getQualifiedTypeName(n, m_typeSolver).toSerializedNameHierarchy();
 			
 			JavaIndexer.recordSymbol(
-				m_callbackId, referencedName, SymbolType.BUILTIN_TYPE,
-				AccessKind.NONE, true
+				m_callbackId, referencedName, SymbolKind.BUILTIN_TYPE,
+				AccessKind.NONE, 
+				DefinitionKind.EXPLICIT
 			);
 			
 			for (DeclContext context: m_context)
@@ -805,9 +816,10 @@ public class JavaAstVisitor extends JavaAstVisitorAdapter
 		
 		JavaIndexer.logError(m_callbackId, e + " at " + m_filePath + "<"+ beginLine + ", " + beginColumn + ">");
 		JavaIndexer.recordSymbolWithLocation(
-			m_callbackId, "unsolved-symbol\ts\tp", SymbolType.TYPE_MAX, 
+			m_callbackId, "unsolved-symbol\ts\tp", SymbolKind.TYPE_MAX, 
 			n.getRange(), 
-			AccessKind.DEFAULT, false
+			AccessKind.DEFAULT, 
+			DefinitionKind.EXPLICIT
 		);
 	}
 

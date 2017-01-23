@@ -147,20 +147,20 @@ private:
 
 	void doRecordSymbol(
 		jstring jSymbolName, jint jSymbolType,
-		jint jAccess, jint jIsImplicit
+		jint jAccess, jint jDefinitionKind
 	);
 
 	void doRecordSymbolWithLocation(
 		jstring jSymbolName, jint jSymbolType,
 		jint beginLine, jint beginColumn, jint endLine, jint endColumn,
-		jint jAccess, jint jIsImplicit
+		jint jAccess, jint jDefinitionKind
 	);
 
 	void doRecordSymbolWithLocationAndScope(
 		jstring jSymbolName, jint jSymbolType,
 		jint beginLine, jint beginColumn, jint endLine, jint endColumn,
 		jint scopeBeginLine, jint scopeBeginColumn, jint scopeEndLine, jint scopeEndColumn,
-		jint jAccess, jint jIsImplicit
+		jint jAccess, jint jDefinitionKind
 	);
 
 	void doRecordReference(jint jRefType, jstring jReferencedName, jstring jContextName, jint beginLine, jint beginColumn, jint endLine, jint endColumn);

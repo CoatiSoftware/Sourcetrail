@@ -6,7 +6,7 @@
 #include "utility/file/FilePath.h"
 #include "utility/types.h"
 
-#include "data/DefinitionType.h"
+#include "data/DefinitionKind.h"
 
 struct StorageEdge
 {
@@ -53,16 +53,16 @@ struct StorageSymbol
 {
 	StorageSymbol()
 		: id(0)
-		, definitionType(definitionTypeToInt(DEFINITION_NONE))
+		, definitionKind(definitionKindToInt(DEFINITION_NONE))
 	{}
 
-	StorageSymbol(Id id, int definitionType)
+	StorageSymbol(Id id, int definitionKind)
 		: id(id)
-		, definitionType(definitionType)
+		, definitionKind(definitionKind)
 	{}
 
 	Id id;
-	int definitionType;
+	int definitionKind;
 };
 
 struct StorageFile

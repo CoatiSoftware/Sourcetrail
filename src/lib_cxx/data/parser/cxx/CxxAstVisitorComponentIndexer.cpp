@@ -67,10 +67,10 @@ void CxxAstVisitorComponentIndexer::visitTagDecl(clang::TagDecl* d)
 {
 	if (shouldVisitDecl(d))
 	{
-		DefinitionType definitionType = DEFINITION_NONE;
+		DefinitionKind definitionKind = DEFINITION_NONE;
 		if (d->isThisDeclarationADefinition())
 		{
-			definitionType = utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT;
+			definitionKind = utility::isImplicit(d) ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT;
 		}
 
 		m_client->recordSymbol(
@@ -79,7 +79,7 @@ void CxxAstVisitorComponentIndexer::visitTagDecl(clang::TagDecl* d)
 			getParseLocation(d->getLocation()),
 			getParseLocationOfTagDeclBody(d),
 			utility::convertAccessSpecifier(d->getAccess()),
-			definitionType
+			definitionKind
 		);
 	}
 }
@@ -377,6 +377,11 @@ void CxxAstVisitorComponentIndexer::visitTypeLoc(clang::TypeLoc tl)
 	if ((shouldVisitReference(tl.getBeginLoc(), getAstVisitor()->getComponent<CxxAstVisitorComponentContext>()->getTopmostContextDecl())) &&
 		(!getAstVisitor()->checkIgnoresTypeLoc(tl)))
 	{
+		if (const clang::BuiltinType* builtinType = clang::dyn_cast_or_null<clang::BuiltinType>(tl.getTypePtr()))
+		{
+			m_client->recordSymbol(getAstVisitor()->getTypeNameCache()->getValue(tl.getTypePtr()), SYMBOL_BUILTIN_TYPE, ACCESS_NONE, DEFINITION_EXPLICIT);
+		}
+
 		clang::SourceLocation loc;
 		if (!tl.getAs<clang::DependentNameTypeLoc>().isNull())
 		{

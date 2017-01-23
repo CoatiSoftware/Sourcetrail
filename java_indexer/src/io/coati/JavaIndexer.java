@@ -126,69 +126,69 @@ public class JavaIndexer
 	// helpers
 	
 	static public void recordSymbol(
-		int address, String symbolName, SymbolType symbolType, 
-		AccessKind access, boolean isImplicit
+		int address, String symbolName, SymbolKind symbolType, 
+		AccessKind access, DefinitionKind definitionKind
 	)
 	{
 		recordSymbol(
 			address, symbolName, symbolType.getValue(),  
-			access.getValue(), (isImplicit ? 1 : 0)
+			access.getValue(), definitionKind.getValue()
 		);
 	}
 	
 	static public void recordSymbolWithLocation(
-		int address, String symbolName, SymbolType symbolType, 
+		int address, String symbolName, SymbolKind symbolType, 
 		Optional<Range> range,
-		AccessKind access, boolean isImplicit
+		AccessKind access, DefinitionKind definitionKind
 	)
 	{
 		recordSymbolWithLocation(
 			address, symbolName, symbolType, 
 			range.orElse(Range.range(0, 0, 0, 0)),
-			access, isImplicit
+			access, definitionKind
 		);
 	}
 	
 	static public void recordSymbolWithLocation(
-		int address, String symbolName, SymbolType symbolType, 
+		int address, String symbolName, SymbolKind symbolType, 
 		Range range,
-		AccessKind access, boolean isImplicit
+		AccessKind access, DefinitionKind definitionKind
 	)
 	{
 		recordSymbolWithLocation(
 			address, symbolName, symbolType.getValue(), 
 			range.begin.line, range.begin.column, range.end.line, range.end.column, 
-			access.getValue(), (isImplicit ? 1 : 0)
+			access.getValue(), definitionKind.getValue()
 		);
 	}
 	
 	static public void recordSymbolWithLocationAndScope(
-		int address, String symbolName, SymbolType symbolType, 
+		int address, String symbolName, SymbolKind symbolType, 
 		Optional<Range> range,
 		Optional<Range> scopeRange,
-		AccessKind access, boolean isImplicit
+		AccessKind access, DefinitionKind definitionKind
 	)
 	{
 		recordSymbolWithLocationAndScope(
 			address, symbolName, symbolType, 
 			range.orElse(Range.range(0, 0, 0, 0)),
 			scopeRange.orElse(Range.range(0, 0, 0, 0)),
-			access, isImplicit
+			access, definitionKind
 		);
 	}
 	
 	static public void recordSymbolWithLocationAndScope(
-		int address, String symbolName, SymbolType symbolType, 
+		int address, String symbolName, SymbolKind symbolType, 
 		Range range,
 		Range scopeRange,
-		AccessKind access, boolean isImplicit
+		AccessKind access, DefinitionKind definitionKind
 	)
 	{
 		recordSymbolWithLocationAndScope(
 			address, symbolName, symbolType.getValue(), 
 			range.begin.line, range.begin.column, range.end.line, range.end.column, 
 			scopeRange.begin.line, scopeRange.begin.column, scopeRange.end.line, scopeRange.end.column, 
-			access.getValue(), (isImplicit ? 1 : 0)
+			access.getValue(), definitionKind.getValue()
 		);
 	}
 	
@@ -284,20 +284,20 @@ public class JavaIndexer
 	
 	static private native void recordSymbol(
 		int address, String symbolName, int symbolType, 
-		int access, int isImplicit
+		int access, int definitionKind
 	);
 
 	static private native void recordSymbolWithLocation(
 		int address, String symbolName, int symbolType, 
 		int beginLine, int beginColumn, int endLine, int endColumn,
-		int access, int isImplicit
+		int access, int definitionKind
 	);
 	
 	static private native void recordSymbolWithLocationAndScope(
 		int address, String symbolName, int symbolType, 
 		int beginLine, int beginColumn, int endLine, int endColumn,
 		int scopeBeginLine, int scopeBeginColumn, int scopeEndLine, int scopeEndColumn,
-		int access, int isImplicit
+		int access, int definitionKind
 	);
 	
 	static private native void recordReference(

@@ -1,7 +1,7 @@
 package io.coati;
 
 public enum ReferenceKind
-{
+{ // these values need to be the same as ReferenceKind in C++ code
 	UNDEFINED(0),
 	TYPE_USAGE(1),
 	USAGE(2),

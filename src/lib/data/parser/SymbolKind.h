@@ -2,7 +2,7 @@
 #define SYMBOL_KIND_H
 
 enum SymbolKind
-{ // these values need to be the same as SymbolType in Java code
+{ // these values need to be the same as SymbolKind in Java code
 	SYMBOL_BUILTIN_TYPE = 1,
 	SYMBOL_CLASS = 2,
 	SYMBOL_ENUM = 3,

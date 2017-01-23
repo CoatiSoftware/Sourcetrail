@@ -17,7 +17,7 @@ public:
 
 	virtual Id addNode(int type, const std::string& serializedName) = 0;
 	virtual void addFile(const Id id, const std::string& filePath, const std::string& modificationTime) = 0;
-	virtual void addSymbol(const Id id, int definitionType) = 0;
+	virtual void addSymbol(const Id id, int definitionKind) = 0;
 	virtual Id addEdge(int type, Id sourceId, Id targetId) = 0;
 	virtual Id addLocalSymbol(const std::string& name) = 0;
 	virtual Id addSourceLocation(Id fileNodeId, uint startLine, uint startCol, uint endLine, uint endCol, int type) = 0;

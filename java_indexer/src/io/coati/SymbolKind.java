@@ -1,7 +1,7 @@
 package io.coati;
 
-public enum SymbolType
-{ // these values need to be the same as SymbolType in C++ code
+public enum SymbolKind
+{ // these values need to be the same as SymbolKind in C++ code
 	BUILTIN_TYPE(1),
 	CLASS(2),
 	ENUM(3),
@@ -25,7 +25,7 @@ public enum SymbolType
 	
 	private final int m_value;
 	
-    private SymbolType(int value) 
+    private SymbolKind(int value) 
     {
         this.m_value = value;
     }

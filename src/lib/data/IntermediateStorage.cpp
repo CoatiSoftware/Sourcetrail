@@ -65,9 +65,9 @@ void IntermediateStorage::addFile(const Id id, const std::string& filePath, cons
 	m_files.push_back(StorageFile(id, filePath, modificationTime));
 }
 
-void IntermediateStorage::addSymbol(const Id id, int definitionType)
+void IntermediateStorage::addSymbol(const Id id, int definitionKind)
 {
-	m_symbols.push_back(StorageSymbol(id, definitionType));
+	m_symbols.push_back(StorageSymbol(id, definitionKind));
 }
 
 Id IntermediateStorage::addEdge(int type, Id sourceId, Id targetId)

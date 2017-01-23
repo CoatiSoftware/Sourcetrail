@@ -1252,7 +1252,24 @@ public:
 		));
 	}
 
+///////////////////////////////////////////////////////////////////////////////
+// test implicit symbols
 
+	void test_cxx_parser_finds_builtin_types()
+	{
+		std::shared_ptr<TestParserClient> client = parseCode(
+			"void t1(int v) {}\n"
+			"void t2(float v) {}\n"
+			"void t3(double v) {}\n"
+			"void t4(bool v) {}\n"
+		);
+
+		TS_ASSERT(utility::containsElement<std::string>(client->builtinTypes, "void"));
+		TS_ASSERT(utility::containsElement<std::string>(client->builtinTypes, "int"));
+		TS_ASSERT(utility::containsElement<std::string>(client->builtinTypes, "float"));
+		TS_ASSERT(utility::containsElement<std::string>(client->builtinTypes, "double"));
+		TS_ASSERT(utility::containsElement<std::string>(client->builtinTypes, "bool"));
+	}
 
 ///////////////////////////////////////////////////////////////////////////////
 // test finding usages of symbols

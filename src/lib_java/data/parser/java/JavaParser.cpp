@@ -133,35 +133,35 @@ void JavaParser::doLogError(jstring jError)
 
 void JavaParser::doRecordSymbol(
 	jstring jSymbolName, jint jSymbolType,
-	jint jAccess, jint jIsImplicit
+	jint jAccess, jint jDefinitionKind
 )
 {
 	AccessKind access = intToAccessKind(jAccess);
-	bool isImplicit = jIsImplicit;
+	DefinitionKind definitionKind = intToDefinitionKind(jDefinitionKind);
 
 	m_client->recordSymbol(
 		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jSymbolName)),
 		intToSymbolKind(jSymbolType),
 		access,
-		isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
+		definitionKind
 	);
 }
 
 void JavaParser::doRecordSymbolWithLocation(
 	jstring jSymbolName, jint jSymbolType,
 	jint beginLine, jint beginColumn, jint endLine, jint endColumn,
-	jint jAccess, jint jIsImplicit
+	jint jAccess, jint jDefinitionKind
 )
 {
 	AccessKind access = intToAccessKind(jAccess);
-	bool isImplicit = jIsImplicit;
+	DefinitionKind definitionKind = intToDefinitionKind(jDefinitionKind);
 
 	m_client->recordSymbol(
 		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jSymbolName)),
 		intToSymbolKind(jSymbolType),
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
 		access,
-		isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
+		definitionKind
 	);
 }
 
@@ -169,11 +169,11 @@ void JavaParser::doRecordSymbolWithLocationAndScope(
 	jstring jSymbolName, jint jSymbolType,
 	jint beginLine, jint beginColumn, jint endLine, jint endColumn,
 	jint scopeBeginLine, jint scopeBeginColumn, jint scopeEndLine, jint scopeEndColumn,
-	jint jAccess, jint jIsImplicit
+	jint jAccess, jint jDefinitionKind
 )
 {
 	AccessKind access = intToAccessKind(jAccess);
-	bool isImplicit = jIsImplicit;
+	DefinitionKind definitionKind = intToDefinitionKind(jDefinitionKind);
 
 	m_client->recordSymbol(
 		NameHierarchy::deserialize(m_javaEnvironment->toStdString(jSymbolName)),
@@ -181,7 +181,7 @@ void JavaParser::doRecordSymbolWithLocationAndScope(
 		ParseLocation(m_currentFilePath, beginLine, beginColumn, endLine, endColumn),
 		ParseLocation(m_currentFilePath, scopeBeginLine, scopeBeginColumn, scopeEndLine, scopeEndColumn),
 		access,
-		isImplicit ? DEFINITION_IMPLICIT : DEFINITION_EXPLICIT
+		definitionKind
 	);
 }
 
