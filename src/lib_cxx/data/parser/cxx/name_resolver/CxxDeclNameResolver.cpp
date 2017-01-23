@@ -44,7 +44,19 @@ std::shared_ptr<CxxDeclName> CxxDeclNameResolver::getName(const clang::NamedDecl
 		(clang::isa<clang::CXXRecordDecl>(declaration)) &&
 		(clang::dyn_cast<clang::CXXRecordDecl>(declaration)->isLambda()))
 	{
-		declaration = clang::dyn_cast<clang::CXXRecordDecl>(declaration)->getLambdaCallOperator();
+		// avoid triggering assert
+		clang::DeclarationName Name =
+			clang::dyn_cast<clang::CXXRecordDecl>(declaration)->getASTContext().DeclarationNames.getCXXOperatorName(clang::OO_Call);
+		clang::DeclContext::lookup_result Calls = clang::dyn_cast<clang::CXXRecordDecl>(declaration)->lookup(Name);
+		if (Calls.empty())
+		{
+			declaration = nullptr;
+			declName = std::make_shared<CxxDeclName>("unsolved-lambda", std::vector<std::string>());
+		}
+		else
+		{
+			declaration = clang::dyn_cast<clang::CXXRecordDecl>(declaration)->getLambdaCallOperator();
+		}
 	}
 
 	if (declaration)
