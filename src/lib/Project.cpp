@@ -247,31 +247,52 @@ bool Project::requestIndex(bool forceRefresh, bool needsFullRefresh)
 		return false;
 	}
 
-	FileManager::FileSets fileSets = m_fileManager.fetchFilePaths(m_storage->getInfoOnAllFiles());
+	const FileManager::FileSets fileSets = m_fileManager.fetchFilePaths(m_storage->getInfoOnAllFiles());
 
 	std::set<FilePath> filesToClean;
 	std::set<FilePath> filesToIndex;
 
 	if (!needsFullRefresh)
 	{
-		std::set<FilePath> dependingFilePaths;
-		utility::append(dependingFilePaths, m_storage->getDependingFilePaths(fileSets.updatedFiles));
-		utility::append(dependingFilePaths, m_storage->getDependingFilePaths(fileSets.removedFiles));
+		utility::append(filesToClean, fileSets.removedFiles);
+		utility::append(filesToClean, fileSets.updatedFiles);
+		utility::append(filesToIndex, fileSets.addedFiles);
+		utility::append(filesToIndex, fileSets.updatedFiles);
 
-		for (const FilePath& path : dependingFilePaths)
+		// handle referencing paths
+		const std::set<FilePath> referencingFilePaths = m_storage->getReferencing(utility::concat(
+			fileSets.updatedFiles, fileSets.removedFiles
+		));
+
+		for (const FilePath& path : referencingFilePaths)
 		{
 			if (fileSets.removedFiles.find(path) == fileSets.removedFiles.end())
 			{
-				fileSets.updatedFiles.insert(path);
+				filesToClean.insert(path);
+				filesToIndex.insert(path);
 			}
 		}
 
-		utility::append(filesToClean, fileSets.removedFiles);
-		utility::append(filesToClean, fileSets.updatedFiles);
-		utility::append(filesToClean, dependingFilePaths);
+		// handle referenced paths
+		std::set<FilePath> staticSourceFiles = fileSets.allFiles;
+		for (const FilePath& path : fileSets.updatedFiles)
+		{
+			staticSourceFiles.erase(path);
+		}
+		const std::set<FilePath> staticReferencedFilePaths = m_storage->getReferenced(staticSourceFiles);
+		const std::set<FilePath> dynamicReferencedFilePaths = m_storage->getReferenced(utility::concat(
+			fileSets.updatedFiles, fileSets.removedFiles
+		));
 
-		utility::append(filesToIndex, fileSets.addedFiles);
-		utility::append(filesToIndex, fileSets.updatedFiles);
+		for (const FilePath& path : dynamicReferencedFilePaths)
+		{
+			if (staticReferencedFilePaths.find(path) == staticReferencedFilePaths.end() &&
+				staticSourceFiles.find(path) == staticSourceFiles.end())
+			{
+				// file may not be referenced anymore and will be reindexed if still needed
+				filesToClean.insert(path);
+			}
+		}
 	}
 
 	bool fullRefresh = forceRefresh | needsFullRefresh;

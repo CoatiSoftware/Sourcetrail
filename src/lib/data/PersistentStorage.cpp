@@ -300,32 +300,35 @@ void PersistentStorage::clearCaches()
 	m_fullTextSearchIndex.clear();
 }
 
-std::set<FilePath> PersistentStorage::getDependingFilePaths(const std::set<FilePath>& filePaths)
+std::set<FilePath> PersistentStorage::getReferenced(const std::set<FilePath>& filePaths)
 {
 	TRACE();
-	std::set<FilePath> dependingFilePaths;
+	std::set<FilePath> referenced;
 
-	std::set<FilePath> dependingFilePathsForIncludes = getDependingFilePathsForIncludes(filePaths);
-	dependingFilePaths.insert(dependingFilePathsForIncludes.begin(), dependingFilePathsForIncludes.end());
+	utility::append(referenced, getReferencedByIncludes(filePaths));
+	utility::append(referenced, getReferencedByImports(filePaths));
 
-	std::set<FilePath> dependingFilePathsForImports = getDependingFilePathsForImports(filePaths);
-	dependingFilePaths.insert(dependingFilePathsForImports.begin(), dependingFilePathsForImports.end());
+	return referenced;
+}
 
-	return dependingFilePaths;
+std::set<FilePath> PersistentStorage::getReferencing(const std::set<FilePath>& filePaths)
+{
+	TRACE();
+	std::set<FilePath> referencing;
+
+	utility::append(referencing, getReferencingByIncludes(filePaths));
+	utility::append(referencing, getReferencingByImports(filePaths));
+
+	return referencing;
 }
 
 void PersistentStorage::clearFileElements(const std::vector<FilePath>& filePaths)
 {
 	TRACE();
 
-	std::vector<Id> fileNodeIds;
+	const std::vector<Id> fileNodeIds = getFileNodeIds(filePaths);
 
-	for (const FilePath& path : filePaths)
-	{
-		fileNodeIds.push_back(getFileNodeId(path));
-	}
-
-	if (fileNodeIds.size())
+	if (!fileNodeIds.empty())
 	{
 		m_sqliteStorage.removeElementsWithLocationInFiles(fileNodeIds);
 		m_sqliteStorage.removeElements(fileNodeIds);
@@ -1232,6 +1235,26 @@ Id PersistentStorage::getFileNodeId(const FilePath& filePath) const
 	return 0;
 }
 
+std::vector<Id> PersistentStorage::getFileNodeIds(const std::vector<FilePath>& filePaths) const
+{
+	std::vector<Id> ids;
+	for (const FilePath& path : filePaths)
+	{
+		ids.push_back(getFileNodeId(path));
+	}
+	return ids;
+}
+
+std::set<Id> PersistentStorage::getFileNodeIds(const std::set<FilePath>& filePaths) const
+{
+	std::set<Id> ids;
+	for (const FilePath& path : filePaths)
+	{
+		ids.insert(getFileNodeId(path));
+	}
+	return ids;
+}
+
 FilePath PersistentStorage::getFileNodePath(Id fileId) const
 {
 	if (fileId == 0)
@@ -1250,42 +1273,19 @@ FilePath PersistentStorage::getFileNodePath(Id fileId) const
 	return FilePath();
 }
 
-std::set<FilePath> PersistentStorage::getDependingFilePathsForIncludes(const std::set<FilePath>& filePaths)
+std::unordered_map<Id, std::set<Id>> PersistentStorage::getFileIdToIncludingFileIdMap() const
 {
-	std::set<FilePath> dependingFilePaths;
-	std::set<Id> processedFileNodeIds;
-
-	std::vector<Id> fileNodeIds;
-	for (const FilePath& filePath : filePaths)
+	std::unordered_map<Id, std::set<Id>> fileIdToIncludingFileIdMap;
+	for (const StorageEdge& includeEdge : m_sqliteStorage.getEdgesByType(Edge::typeToInt(Edge::EDGE_INCLUDE)))
 	{
-		fileNodeIds.push_back(getFileNodeId(filePath));
+		fileIdToIncludingFileIdMap[includeEdge.targetNodeId].insert(includeEdge.sourceNodeId);
 	}
-
-	while (fileNodeIds.size())
-	{
-		std::vector<StorageEdge> incomingEdges =
-			m_sqliteStorage.getEdgesByTargetType(fileNodeIds, Edge::typeToInt(Edge::EDGE_INCLUDE));
-
-		processedFileNodeIds.insert(fileNodeIds.begin(), fileNodeIds.end());
-		fileNodeIds.clear();
-
-		for (const StorageEdge& incomingEdge: incomingEdges)
-		{
-			dependingFilePaths.insert(getFileNodePath(incomingEdge.sourceNodeId));
-
-			if (processedFileNodeIds.find(incomingEdge.sourceNodeId) == processedFileNodeIds.end())
-			{
-				fileNodeIds.push_back(incomingEdge.sourceNodeId);
-			}
-		}
-	}
-
-	return dependingFilePaths;
+	return fileIdToIncludingFileIdMap;
 }
 
-std::set<FilePath> PersistentStorage::getDependingFilePathsForImports(const std::set<FilePath>& filePaths)
+std::unordered_map<Id, std::set<Id>> PersistentStorage::getFileIdToImportingFileIdMap() const
 {
-	std::unordered_map<Id, std::set<Id>> fileIdToDependingFileIds;
+	std::unordered_map<Id, std::set<Id>> fileIdToImportingFileIdMap;
 	{
 		std::vector<Id> importedElementIds;
 		std::map<Id, std::set<Id>> elementIdToImportingFileIds;
@@ -1294,11 +1294,6 @@ std::set<FilePath> PersistentStorage::getDependingFilePathsForImports(const std:
 		{
 			importedElementIds.push_back(importEdge.targetNodeId);
 			elementIdToImportingFileIds[importEdge.targetNodeId].insert(importEdge.sourceNodeId);
-		}
-
-		if (!importedElementIds.size())
-		{
-			return std::set<FilePath>();
 		}
 
 		std::unordered_map<Id, Id> importedElementIdToFileNodeId;
@@ -1326,49 +1321,107 @@ std::set<FilePath> PersistentStorage::getDependingFilePathsForImports(const std:
 			auto importedFileIt = importedElementIdToFileNodeId.find(it.first);
 			if (importedFileIt != importedElementIdToFileNodeId.end())
 			{
-				fileIdToDependingFileIds[importedFileIt->second].insert(it.second.begin(), it.second.end());
+				fileIdToImportingFileIdMap[importedFileIt->second].insert(it.second.begin(), it.second.end());
 			}
 		}
 	}
+	return fileIdToImportingFileIdMap;
+}
 
-	std::set<Id> dependingFileNodeIds;
+std::set<Id> PersistentStorage::getReferenced(const std::set<Id>& ids, std::unordered_map<Id, std::set<Id>> idToReferencingIdMap) const
+{
+	std::unordered_map<Id, std::set<Id>> idToReferencedIdMap;
+	for (auto it: idToReferencingIdMap)
 	{
-		std::set<Id> working;
-		for (const FilePath& filePath: filePaths)
+		for (Id referencingId: it.second)
 		{
-			working.insert(getFileNodeId(filePath));
+			idToReferencedIdMap[referencingId].insert(it.first);
 		}
+	}
 
-		std::set<Id> tempWorking;
-		while (working.size() > 0)
+	return getReferencing(ids, idToReferencedIdMap);
+}
+
+std::set<Id> PersistentStorage::getReferencing(const std::set<Id>& ids, std::unordered_map<Id, std::set<Id>> idToReferencingIdMap) const
+{
+	std::set<Id> referencingIds;
+
+	std::set<Id> processingIds = ids;
+	std::set<Id> processedIds;
+
+	while (!processingIds.empty())
+	{
+		std::set<Id> tempIds = processingIds;
+		utility::append(processedIds, processingIds);
+		processingIds.clear();
+
+		for (Id id: tempIds)
 		{
-			for (Id id: working)
+			utility::append(referencingIds, idToReferencingIdMap[id]);
+			for (Id referencingId: idToReferencingIdMap[id])
 			{
-				auto it = fileIdToDependingFileIds.find(id);
-				if (it != fileIdToDependingFileIds.end())
+				if (processedIds.find(referencingId) == processedIds.end())
 				{
-					for (Id dependingFileNodeId: it->second)
-					{
-						bool inserted = dependingFileNodeIds.insert(dependingFileNodeId).second;
-						if (inserted)
-						{
-							tempWorking.insert(dependingFileNodeId);
-						}
-					}
+					processingIds.insert(referencingId);
 				}
 			}
-			working = tempWorking;
-			tempWorking.clear();
 		}
 	}
 
-	std::set<FilePath> dependingFilePaths;
-	for (Id id: dependingFileNodeIds)
+	return referencingIds;
+
+}
+
+std::set<FilePath> PersistentStorage::getReferencedByIncludes(const std::set<FilePath>& filePaths)
+{
+	std::set<Id> ids = getReferenced(getFileNodeIds(filePaths), getFileIdToIncludingFileIdMap());
+
+	std::set<FilePath> paths;
+	for (Id id: ids)
 	{
-		dependingFilePaths.insert(getFileNodePath(id));
+		paths.insert(getFileNodePath(id));
 	}
 
-	return dependingFilePaths;
+	return paths;
+}
+
+std::set<FilePath> PersistentStorage::getReferencedByImports(const std::set<FilePath>& filePaths)
+{
+	std::set<Id> ids = getReferenced(getFileNodeIds(filePaths), getFileIdToImportingFileIdMap());
+
+	std::set<FilePath> paths;
+	for (Id id: ids)
+	{
+		paths.insert(getFileNodePath(id));
+	}
+
+	return paths;
+}
+
+std::set<FilePath> PersistentStorage::getReferencingByIncludes(const std::set<FilePath>& filePaths)
+{
+	std::set<Id> ids = getReferencing(getFileNodeIds(filePaths), getFileIdToIncludingFileIdMap());
+
+	std::set<FilePath> paths;
+	for (Id id: ids)
+	{
+		paths.insert(getFileNodePath(id));
+	}
+
+	return paths;
+}
+
+std::set<FilePath> PersistentStorage::getReferencingByImports(const std::set<FilePath>& filePaths)
+{
+	std::set<Id> ids = getReferencing(getFileNodeIds(filePaths), getFileIdToImportingFileIdMap());
+
+	std::set<FilePath> paths;
+	for (Id id: ids)
+	{
+		paths.insert(getFileNodePath(id));
+	}
+
+	return paths;
 }
 
 Id PersistentStorage::getLastVisibleParentNodeId(const Id nodeId) const

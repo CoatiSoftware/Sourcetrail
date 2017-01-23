@@ -489,12 +489,17 @@ std::vector<StorageEdge> SqliteStorage::getEdgesBySourceType(Id sourceId, int ty
 	return doGetAll<StorageEdge>("WHERE source_node_id == " + std::to_string(sourceId) + " AND type == " + std::to_string(type));
 }
 
+std::vector<StorageEdge> SqliteStorage::getEdgesBySourcesType(const std::vector<Id>& sourceIds, int type) const
+{
+	return doGetAll<StorageEdge>("WHERE source_node_id IN (" + utility::join(utility::toStrings(sourceIds), ',') + ") AND type == " + std::to_string(type));
+}
+
 std::vector<StorageEdge> SqliteStorage::getEdgesByTargetType(Id targetId, int type) const
 {
 	return doGetAll<StorageEdge>("WHERE target_node_id == " + std::to_string(targetId) + " AND type == " + std::to_string(type));
 }
 
-std::vector<StorageEdge> SqliteStorage::getEdgesByTargetType(const std::vector<Id>& targetIds, int type) const
+std::vector<StorageEdge> SqliteStorage::getEdgesByTargetsType(const std::vector<Id>& targetIds, int type) const
 {
 	return doGetAll<StorageEdge>("WHERE target_node_id IN (" + utility::join(utility::toStrings(targetIds), ',') + ") AND type == " + std::to_string(type));
 }

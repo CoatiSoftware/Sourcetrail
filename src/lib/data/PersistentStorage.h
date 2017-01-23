@@ -65,7 +65,8 @@ public:
 	void clear();
 	void clearCaches();
 
-	std::set<FilePath> getDependingFilePaths(const std::set<FilePath>& filePaths);
+	std::set<FilePath> getReferenced(const std::set<FilePath>& filePaths);
+	std::set<FilePath> getReferencing(const std::set<FilePath>& filePaths);
 
 	void clearFileElements(const std::vector<FilePath>& filePaths);
 
@@ -129,10 +130,20 @@ public:
 
 private:
 	Id getFileNodeId(const FilePath& filePath) const;
+	std::vector<Id> getFileNodeIds(const std::vector<FilePath>& filePaths) const;
+	std::set<Id> getFileNodeIds(const std::set<FilePath>& filePaths) const;
 	FilePath getFileNodePath(Id fileId) const;
 
-	std::set<FilePath> getDependingFilePathsForIncludes(const std::set<FilePath>& filePaths);
-	std::set<FilePath> getDependingFilePathsForImports(const std::set<FilePath>& filePaths);
+	std::unordered_map<Id, std::set<Id>> getFileIdToIncludingFileIdMap() const;
+	std::unordered_map<Id, std::set<Id>> getFileIdToImportingFileIdMap() const;
+	std::set<Id> getReferenced(const std::set<Id>& filePaths, std::unordered_map<Id, std::set<Id>> idToReferencingIdMap) const;
+	std::set<Id> getReferencing(const std::set<Id>& filePaths, std::unordered_map<Id, std::set<Id>> idToReferencingIdMap) const;
+
+	std::set<FilePath> getReferencedByIncludes(const std::set<FilePath>& filePaths);
+	std::set<FilePath> getReferencedByImports(const std::set<FilePath>& filePaths);
+
+	std::set<FilePath> getReferencingByIncludes(const std::set<FilePath>& filePaths);
+	std::set<FilePath> getReferencingByImports(const std::set<FilePath>& filePaths);
 
 	Id getLastVisibleParentNodeId(const Id nodeId) const;
 	std::vector<Id> getAllChildNodeIds(const Id nodeId) const;
