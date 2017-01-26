@@ -7,6 +7,8 @@
 
 #include <memory>
 
+#include <functional>
+
 class QTimer;
 class QtGraphNode;
 
@@ -24,6 +26,9 @@ public:
 	QtGraphNode* getNodeAtCursorPosition() const;
 
 	void ensureVisibleAnimated(const QRectF& rect, int xmargin = 50, int ymargin = 50);
+
+	void setMouseWheelCallback(const std::function<void(QWheelEvent*)>& callback);
+	void updateZoom(float delta);
 
 protected:
 	void mousePressEvent(QMouseEvent *event);
@@ -50,7 +55,6 @@ private:
 	bool moves() const;
 
 	void updateTransform();
-	void updateZoom(float delta);
 
 	QPoint m_last;
 
@@ -70,6 +74,8 @@ private:
 
 	QAction* m_exportGraphAction;
 	QAction* m_copyNodeNameAction;
+
+	std::function<void(QWheelEvent*)> m_mouseWheelCallback;
 };
 
 #endif // QT_GRAPHICS_VIEW_H

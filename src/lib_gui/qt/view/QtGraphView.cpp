@@ -40,6 +40,10 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	, m_refreshFunctor(std::bind(&QtGraphView::doRefreshView, this))
 	, m_focusInFunctor(std::bind(&QtGraphView::doFocusIn, this, std::placeholders::_1))
 	, m_focusOutFunctor(std::bind(&QtGraphView::doFocusOut, this, std::placeholders::_1))
+	, m_zoomInButton()
+	, m_zoomOutButton()
+	, m_zoomInButtonSpeed(20.0f)
+	, m_zoomOutButtonSpeed(-20.0f)
 {
 }
 
@@ -68,8 +72,25 @@ void QtGraphView::initView()
 	view->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 	view->viewport()->setCursor(Qt::ArrowCursor);
 
+	getView()->setMouseWheelCallback(std::bind(&QtGraphView::onMouseWheelEvent, this, std::placeholders::_1));
 
 	widget->layout()->addWidget(view);
+
+	m_zoomInButton = new QPushButton(widget);
+	m_zoomInButton->setObjectName("zoom_in_button");
+	m_zoomInButton->setText("+");
+	m_zoomInButton->setGeometry(QRect(5, 5, 25, 25));
+	m_zoomInButton->setAutoRepeat(true);
+	m_zoomInButton->setToolTip("Zoom in (Shift + Mousewheel forward)");
+	connect(m_zoomInButton, SIGNAL(pressed()), this, SLOT(zoomInPressed()));
+
+	m_zoomOutButton = new QPushButton(widget);
+	m_zoomOutButton->setObjectName("zoom_out_button");
+	m_zoomOutButton->setText("-");
+	m_zoomOutButton->setGeometry(QRect(5, 34, 25, 25));
+	m_zoomOutButton->setAutoRepeat(true);
+	m_zoomOutButton->setToolTip("Zoom out (Shift + Mousewheel back)");
+	connect(m_zoomOutButton, SIGNAL(pressed()), this, SLOT(zoomOutPressed()));
 
 	connect(view, SIGNAL(emptySpaceClicked()), this, SLOT(clickedInEmptySpace()));
 
@@ -144,6 +165,34 @@ void QtGraphView::clickedInEmptySpace()
 	if (activeEdgeCount == 1)
 	{
 		MessageDeactivateEdge().dispatch();
+	}
+}
+
+void QtGraphView::zoomInPressed()
+{
+	zoom(m_zoomInButtonSpeed);
+}
+
+void QtGraphView::zoomOutPressed()
+{
+	zoom(m_zoomOutButtonSpeed);
+}
+
+void QtGraphView::onMouseWheelEvent(QWheelEvent* event)
+{
+	bool zoomDefault = ApplicationSettings::getInstance()->getControlsGraphZoomOnMouseWheel();
+	bool shiftPressed = event->modifiers() == Qt::ShiftModifier;
+
+	if (zoomDefault != shiftPressed)
+	{
+		if (event->delta() != 0.0f)
+		{
+			zoom(event->delta());
+		}
+	}
+	else
+	{
+		// QGraphicsView::wheelEvent(event);
 	}
 }
 
@@ -721,5 +770,14 @@ void QtGraphView::doFocusOut(const std::vector<Id>& tokenIds)
 				break;
 			}
 		}
+	}
+}
+
+void QtGraphView::zoom(const float delta)
+{
+	QtGraphicsView* view = getView();
+	if (view != NULL)
+	{
+		view->updateZoom(delta);
 	}
 }

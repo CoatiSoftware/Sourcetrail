@@ -103,6 +103,26 @@ void QtGraphicsView::ensureVisibleAnimated(const QRectF& rect, int xmargin, int 
 	move->start();
 }
 
+void QtGraphicsView::setMouseWheelCallback(const std::function<void(QWheelEvent*)>& callback)
+{
+	m_mouseWheelCallback = callback;
+}
+
+void QtGraphicsView::updateZoom(float delta)
+{
+	float factor = 1.0f + 0.001f * delta;
+
+	if (factor <= 0.0f)
+	{
+		factor = 0.000001;
+	}
+
+	double newZoom = m_zoomFactor * factor;
+	m_zoomFactor = qBound(0.1, newZoom, 100.0);
+
+	updateTransform();
+}
+
 void QtGraphicsView::mousePressEvent(QMouseEvent *event)
 {
 	if (event->button() == Qt::LeftButton && !itemAt(event->pos()))
@@ -193,20 +213,7 @@ void QtGraphicsView::keyReleaseEvent(QKeyEvent* event)
 
 void QtGraphicsView::wheelEvent(QWheelEvent* event)
 {
-	bool zoomDefault = ApplicationSettings::getInstance()->getControlsGraphZoomOnMouseWheel();
-	bool shiftPressed = event->modifiers() == Qt::ShiftModifier;
-
-	if (zoomDefault != shiftPressed)
-	{
-		if (event->delta() != 0.0f)
-		{
-			updateZoom(event->delta());
-		}
-	}
-	else
-	{
-		QGraphicsView::wheelEvent(event);
-	}
+	m_mouseWheelCallback(event);
 }
 
 void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
@@ -380,19 +387,4 @@ void QtGraphicsView::updateTransform()
 {
 	float zoomFactor = m_appZoomFactor * m_zoomFactor;
 	setTransform(QTransform(zoomFactor, 0, 0, zoomFactor, 0, 0));
-}
-
-void QtGraphicsView::updateZoom(float delta)
-{
-	float factor = 1.0f + 0.001 * delta;
-
-	if (factor <= 0.0f)
-	{
-		factor = 0.000001;
-	}
-
-	double newZoom = m_zoomFactor * factor;
-	m_zoomFactor = qBound(0.1, newZoom, 100.0);
-
-	updateTransform();
 }
