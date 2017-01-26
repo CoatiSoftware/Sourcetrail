@@ -799,7 +799,8 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(const std::v
 						continue;
 					}
 
-					if ((nodeType & Node::NODE_USEABLE_TYPE) && (edgeType & Edge::EDGE_TYPE_USAGE))
+					if ((nodeType & Node::NODE_USEABLE_TYPE) && (edgeType & Edge::EDGE_TYPE_USAGE) &&
+						m_hierarchyCache.isChildOfVisibleNodeOrInvisible(edge.sourceNodeId))
 					{
 						edgesToAggregate.push_back(edge);
 					}
@@ -1661,13 +1662,10 @@ void PersistentStorage::addAggregationEdgesToGraph(
 			componentAggregation->addAggregationId(edgeInfo.edgeId, edgeInfo.forward);
 		}
 
-		Edge* edge = graph->createEdge(
-			*componentAggregation->getAggregationIds().begin(),
-			Edge::EDGE_AGGREGATION,
-			sourceNode,
-			targetNode
-		);
+		// Set first bit to 1 to avoid collisions
+		Id aggregationId = ~(~size_t(0) >> 1) + *componentAggregation->getAggregationIds().begin();
 
+		Edge* edge = graph->createEdge(aggregationId, Edge::EDGE_AGGREGATION, sourceNode, targetNode);
 		edge->addComponentAggregation(componentAggregation);
 	}
 }

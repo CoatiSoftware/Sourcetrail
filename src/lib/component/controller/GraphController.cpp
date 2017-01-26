@@ -150,6 +150,39 @@ void GraphController::handleMessage(MessageGraphNodeExpand* message)
 	DummyNode* node = getDummyGraphNodeById(message->tokenId);
 	if (node)
 	{
+		if (!node->active && message->expand)
+		{
+			for (size_t i = 0, l = m_dummyEdges.size(); i < l; i++)
+			{
+				std::shared_ptr<DummyEdge> edge = m_dummyEdges[i];
+
+				if (edge && edge->data && edge->data->isType(Edge::EDGE_AGGREGATION) &&
+					(edge->targetId == node->tokenId || edge->ownerId == node->tokenId))
+				{
+					std::vector<Id> aggregationIds =
+						utility::toVector<Id>(edge->data->getComponent<TokenComponentAggregation>()->getAggregationIds());
+
+					if (m_graph->getEdgeById(aggregationIds[0]) != nullptr)
+					{
+						break;
+					}
+
+					std::shared_ptr<Graph> graph = m_storageAccess->getGraphForActiveTokenIds(aggregationIds);
+
+					graph->forEachEdge(
+						[this](Edge* e)
+						{
+							if (!e->isType(Edge::EDGE_MEMBER))
+							{
+								m_dummyEdges.push_back(std::make_shared<DummyEdge>(
+									e->getFrom()->getId(), e->getTo()->getId(), m_graph->addEdgeAsPlainCopy(e)));
+							}
+						}
+					);
+				}
+			}
+		}
+
 		node->expanded = message->expand;
 
 		setActiveAndVisibility(utility::concat(m_activeNodeIds, m_activeEdgeIds));

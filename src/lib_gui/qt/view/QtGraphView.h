@@ -1,6 +1,8 @@
 #ifndef QT_GRAPH_VIEW_H
 #define QT_GRAPH_VIEW_H
 
+#include <set>
+
 #include <QGraphicsView>
 #include <QPointF>
 
@@ -72,7 +74,9 @@ private:
 
 	std::shared_ptr<QtGraphNode> createNodeRecursive(
 		QGraphicsView* view, std::shared_ptr<QtGraphNode> parentNode, const DummyNode* node, bool multipleActive);
-	std::shared_ptr<QtGraphEdge> createEdge(QGraphicsView* view, const DummyEdge* edge);
+	std::shared_ptr<QtGraphEdge> createEdge(QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds);
+	std::shared_ptr<QtGraphEdge> createAggregationEdge(
+		QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds);
 
 	QRectF itemsBoundingRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const;
 	QRectF getSceneRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const;

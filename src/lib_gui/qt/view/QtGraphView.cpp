@@ -253,14 +253,23 @@ void QtGraphView::doRebuildGraph(
 	}
 
 	m_edges.clear();
-	for (unsigned int i = 0; i < edges.size(); i++)
+
+	std::set<Id> visibleEdgeIds;
+	for (std::shared_ptr<DummyEdge> edge : edges)
 	{
-		std::shared_ptr<QtGraphEdge> edge = createEdge(view, edges[i].get());
-		if (edge)
+		if (!edge->data || !edge->data->isType(Edge::EDGE_AGGREGATION))
 		{
-			m_edges.push_back(edge);
+			createEdge(view, edge.get(), &visibleEdgeIds);
 		}
 	}
+	for (std::shared_ptr<DummyEdge> edge : edges)
+	{
+		if (edge->data && edge->data->isType(Edge::EDGE_AGGREGATION))
+		{
+			createAggregationEdge(view, edge.get(), &visibleEdgeIds);
+		}
+	}
+
 
 	if (graph)
 	{
@@ -341,7 +350,8 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	std::shared_ptr<QtGraphNode> newNode;
 	if (node->isGraphNode())
 	{
-		newNode = std::make_shared<QtGraphNodeData>(node->data, node->name, node->hasParent, node->childVisible, node->hasQualifier);
+		newNode = std::make_shared<QtGraphNodeData>(
+			node->data, node->name, node->hasParent, node->childVisible, node->hasQualifier);
 	}
 	else if (node->isAccessNode())
 	{
@@ -397,7 +407,8 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	return newNode;
 }
 
-std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const DummyEdge* edge)
+std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(
+	QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds)
 {
 	if (!edge->visible)
 	{
@@ -417,10 +428,44 @@ std::shared_ptr<QtGraphEdge> QtGraphView::createEdge(QGraphicsView* view, const 
 
 		view->scene()->addItem(qtEdge.get());
 
+		if (edge->data)
+		{
+			visibleEdgeIds->insert(edge->data->getId());
+		}
+
+		m_edges.push_back(qtEdge);
+
 		return qtEdge;
 	}
 
 	return NULL;
+}
+
+std::shared_ptr<QtGraphEdge> QtGraphView::createAggregationEdge(
+	QGraphicsView* view, const DummyEdge* edge, std::set<Id>* visibleEdgeIds)
+{
+	if (!edge->visible)
+	{
+		return NULL;
+	}
+
+	bool allVisible = true;
+	std::set<Id> aggregationIds = edge->data->getComponent<TokenComponentAggregation>()->getAggregationIds();
+	for (Id edgeId : aggregationIds)
+	{
+		if (visibleEdgeIds->find(edgeId) == visibleEdgeIds->end())
+		{
+			allVisible = false;
+			break;
+		}
+	}
+
+	if (allVisible)
+	{
+		return NULL;
+	}
+
+	return createEdge(view, edge, visibleEdgeIds);
 }
 
 QRectF QtGraphView::itemsBoundingRect(const std::list<std::shared_ptr<QtGraphNode>>& items) const
@@ -459,7 +504,8 @@ void QtGraphView::compareNodesRecursive(
 				((*it)->isBundleNode() && (*it2)->isBundleNode() && (*it)->getTokenId() == (*it2)->getTokenId()))
 			{
 				remainingNodes->push_back(std::pair<QtGraphNode*, QtGraphNode*>((*it).get(), (*it2).get()));
-				compareNodesRecursive((*it)->getSubNodes(), (*it2)->getSubNodes(), appearingNodes, vanishingNodes, remainingNodes);
+				compareNodesRecursive(
+					(*it)->getSubNodes(), (*it2)->getSubNodes(), appearingNodes, vanishingNodes, remainingNodes);
 
 				oldSubNodes.erase(it2);
 				remains = true;
