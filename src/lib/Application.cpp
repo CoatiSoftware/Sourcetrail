@@ -176,7 +176,7 @@ void Application::createAndLoadProject(const FilePath& projectSettingsFilePath)
 
 void Application::refreshProject(bool force)
 {
-	if (m_project)
+	if (m_project && !m_isInTrial)
 	{
 		bool indexing = m_project->refresh(force);
 		if (indexing)
