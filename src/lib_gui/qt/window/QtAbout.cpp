@@ -114,8 +114,8 @@ void QtAbout::setupAbout()
 
 		QLabel* companyLabel = new QLabel(
 			"<b>Coati Software OG</b><br />"
-			"Schlossallee 7/1<br />"
-			"5412 Puch bei Hallein<br />"
+			"Jakob-Haringer-Straße 1/127<br />"
+			"5020 Salzburg<br />"
 			"Austria<br />"
 			"<b>support@coati.io</b><br />"
 			"<b><a href=\"https://coati.io\" style=\"color: white;\">coati.io</a></b>",
