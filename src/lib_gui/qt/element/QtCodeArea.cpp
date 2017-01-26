@@ -569,7 +569,16 @@ void QtCodeArea::contextMenuEvent(QContextMenuEvent* event)
 	if (m_setIDECursorPositionAction != nullptr)
 	{
 		m_eventPosition = event->pos();
-		QtContextMenu::getInstance()->showExtended(event, this, std::vector<QAction*>(1, m_setIDECursorPositionAction));
+
+		QtContextMenu menu(event, this);
+		if (!m_locationFile->getFilePath().empty())
+		{
+			menu.addSeparator();
+			menu.addFileActions(m_locationFile->getFilePath());
+			menu.addSeparator();
+			menu.addAction(m_setIDECursorPositionAction);
+		}
+		menu.show();
 	}
 }
 

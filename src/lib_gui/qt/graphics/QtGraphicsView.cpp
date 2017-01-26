@@ -219,11 +219,18 @@ void QtGraphicsView::wheelEvent(QWheelEvent* event)
 void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 {
 	m_clipboardNodeName = "";
+	FilePath clipboardFilePath;
 
 	QtGraphNode* node = getNodeAtCursorPosition();
 	while (node)
 	{
-		if (dynamic_cast<QtGraphNodeData*>(node) || dynamic_cast<QtGraphNodeBundle*>(node))
+		QtGraphNodeData* dataNode = dynamic_cast<QtGraphNodeData*>(node);
+		if (dataNode)
+		{
+			m_clipboardNodeName = dataNode->getName();
+			clipboardFilePath = dataNode->getFilePath();
+		}
+		else if (dynamic_cast<QtGraphNodeBundle*>(node))
 		{
 			m_clipboardNodeName = node->getName();
 			break;
@@ -231,14 +238,26 @@ void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 		node = node->getParent();
 	}
 
-	std::vector<QAction*> actions;
-	actions.push_back(m_exportGraphAction);
-	if (!m_clipboardNodeName.empty())
+	QtContextMenu menu(event, this);
+	menu.addSeparator();
+	menu.addAction(m_exportGraphAction);
+
+	if (!m_clipboardNodeName.empty() || !clipboardFilePath.empty())
 	{
-		actions.push_back(m_copyNodeNameAction);
+		menu.addSeparator();
 	}
 
-	QtContextMenu::getInstance()->showExtended(event, this, actions);
+	if (!m_clipboardNodeName.empty())
+	{
+		menu.addAction(m_copyNodeNameAction);
+	}
+
+	if (!clipboardFilePath.empty())
+	{
+		menu.addFileActions(clipboardFilePath);
+	}
+
+	menu.show();
 }
 
 void QtGraphicsView::updateTimer()

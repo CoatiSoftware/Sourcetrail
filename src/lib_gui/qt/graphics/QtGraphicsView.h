@@ -1,13 +1,12 @@
 #ifndef QT_GRAPHICS_VIEW_H
 #define QT_GRAPHICS_VIEW_H
 
+#include <functional>
 #include <memory>
 
 #include <QGraphicsView>
 
-#include <memory>
-
-#include <functional>
+#include "utility/file/FilePath.h"
 
 class QTimer;
 class QtGraphNode;

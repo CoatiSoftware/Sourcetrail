@@ -272,7 +272,8 @@ void QtMainWindow::keyPressEvent(QKeyEvent* event)
 
 void QtMainWindow::contextMenuEvent(QContextMenuEvent* event)
 {
-	QtContextMenu::getInstance()->showDefault(event, this);
+	QtContextMenu menu(event, this);
+	menu.show();
 }
 
 void QtMainWindow::closeEvent(QCloseEvent* event)

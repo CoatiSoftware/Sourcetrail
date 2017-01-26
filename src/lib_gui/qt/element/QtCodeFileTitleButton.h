@@ -26,14 +26,10 @@ protected:
 
 private slots:
 	void clickedTitle();
-	void copyFullPath();
-	void openContainingFolder();
 
 private:
 	FilePath m_filePath;
 	TimePoint m_modificationTime;
-	QAction* m_copyFullPathAction;
-	QAction* m_openContainingFolderAction;
 };
 
 #endif // QT_CODE_FILE_TITLE_BUTTON_H

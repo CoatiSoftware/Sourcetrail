@@ -17,6 +17,7 @@
 #include "utility/utilityString.h"
 
 #include "data/graph/token_component/TokenComponentAggregation.h"
+#include "data/graph/token_component/TokenComponentFilePath.h"
 #include "data/graph/token_component/TokenComponentSignature.h"
 #include "data/graph/Graph.h"
 #include "data/location/TokenLocation.h"
@@ -1467,6 +1468,7 @@ void PersistentStorage::addNodesToGraph(const std::vector<Id>& nodeIds, Graph* g
 				NameHierarchy(filePath.fileName()),
 				true
 			);
+			node->addComponentFilePath(std::make_shared<TokenComponentFilePath>(filePath));
 			node->setExplicit(true);
 		}
 		else

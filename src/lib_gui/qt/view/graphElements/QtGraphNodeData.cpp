@@ -6,6 +6,7 @@
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageGraphNodeMove.h"
 
+#include "data/graph/token_component/TokenComponentFilePath.h"
 #include "data/graph/token_component/TokenComponentSignature.h"
 
 QtGraphNodeData::QtGraphNodeData(const Node* data, const std::string& name, bool hasParent, bool childVisible, bool hasQualifier)
@@ -35,6 +36,14 @@ QtGraphNodeData::QtGraphNodeData(const Node* data, const std::string& name, bool
 			toolTip += ": " + sig->getSignature();
 		}
 	}
+	else
+	{
+		FilePath path = getFilePath();
+		if (!path.empty())
+		{
+			toolTip += ": " + path.str();
+		}
+	}
 
 	this->setToolTip(QString::fromStdString(toolTip));
 }
@@ -46,6 +55,16 @@ QtGraphNodeData::~QtGraphNodeData()
 const Node* QtGraphNodeData::getData() const
 {
 	return m_data;
+}
+
+FilePath QtGraphNodeData::getFilePath() const
+{
+	if (m_data->isType(Node::NODE_FILE))
+	{
+		return m_data->getComponent<TokenComponentFilePath>()->getFilePath();
+	}
+
+	return FilePath();
 }
 
 bool QtGraphNodeData::isDataNode() const

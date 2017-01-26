@@ -1,15 +1,11 @@
 #include "qt/element/QtCodeFileTitleButton.h"
 
-#include <QApplication>
-#include <QClipboard>
-#include <QDesktopServices>
-#include <QUrl>
-
 #include "utility/file/FileSystem.h"
 #include "utility/messaging/type/MessageActivateFile.h"
 #include "utility/messaging/type/MessageProjectEdit.h"
 
 #include "Application.h"
+#include "Project.h"
 #include "qt/utility/QtContextMenu.h"
 #include "qt/utility/utilityQt.h"
 #include "settings/ColorScheme.h"
@@ -26,16 +22,6 @@ QtCodeFileTitleButton::QtCodeFileTitleButton(QWidget* parent)
 	setSizePolicy(sizePolicy().horizontalPolicy(), QSizePolicy::Fixed);
 
 	connect(this, SIGNAL(clicked()), this, SLOT(clickedTitle()));
-
-	m_copyFullPathAction = new QAction(tr("Copy Full Path"), this);
-	m_copyFullPathAction->setStatusTip(tr("Copies the path of this file to the clipboard"));
-	m_copyFullPathAction->setToolTip(tr("Copies the path of this file to the clipboard"));
-	connect(m_copyFullPathAction, SIGNAL(triggered()), this, SLOT(copyFullPath()));
-
-	m_openContainingFolderAction = new QAction(tr("Open Containing Folder"), this);
-	m_openContainingFolderAction->setStatusTip(tr("Opens the folder that contains this file"));
-	m_openContainingFolderAction->setToolTip(tr("Opens the folder that contains this file"));
-	connect(m_openContainingFolderAction, SIGNAL(triggered()), this, SLOT(openContainingFolder()));
 }
 
 QtCodeFileTitleButton::~QtCodeFileTitleButton()
@@ -45,6 +31,7 @@ QtCodeFileTitleButton::~QtCodeFileTitleButton()
 void QtCodeFileTitleButton::setFilePath(const FilePath& filePath)
 {
 	m_filePath = filePath;
+	setText("");
 
 	setText(filePath.fileName().c_str());
 	setToolTip(filePath.str().c_str());
@@ -69,6 +56,7 @@ void QtCodeFileTitleButton::setModificationTime(const TimePoint modificationTime
 void QtCodeFileTitleButton::setProject(const std::string& name)
 {
 	setText(name.c_str());
+	m_filePath = FilePath();
 
 	if (Application::getInstance()->isInTrial())
 	{
@@ -109,17 +97,25 @@ void QtCodeFileTitleButton::checkModification()
 
 void QtCodeFileTitleButton::contextMenuEvent(QContextMenuEvent* event)
 {
+	QtContextMenu menu(event, this);
+	menu.addSeparator();
+
 	if (!m_filePath.empty())
 	{
-		std::vector<QAction*> actions;
-		actions.push_back(m_copyFullPathAction);
-		actions.push_back(m_openContainingFolderAction);
-		QtContextMenu::getInstance()->showExtended(event, this, actions);
+		menu.addFileActions(m_filePath);
 	}
 	else if (text().size())
 	{
-		QPushButton::contextMenuEvent(event);
+		Project* currentProject = Application::getInstance()->getCurrentProject().get();
+		if (!currentProject)
+		{
+			return;
+		}
+
+		menu.addFileActions(currentProject->getProjectSettingsFilePath());
 	}
+
+	menu.show();
 }
 
 void QtCodeFileTitleButton::clickedTitle()
@@ -133,23 +129,3 @@ void QtCodeFileTitleButton::clickedTitle()
 		MessageProjectEdit().dispatch();
 	}
 }
-
-void QtCodeFileTitleButton::copyFullPath()
-{
-	const std::string pathString = (QSysInfo::windowsVersion() != QSysInfo::WV_None) ? m_filePath.getBackslashedString() : m_filePath.str();
-	QApplication::clipboard()->setText(pathString.c_str());
-}
-
-void QtCodeFileTitleButton::openContainingFolder()
-{
-	FilePath dir = m_filePath.parentDirectory();
-	if (dir.exists())
-	{
-		QDesktopServices::openUrl(QUrl(("file:///" + dir.str()).c_str(), QUrl::TolerantMode));
-	}
-	else
-	{
-		LOG_ERROR("Unable to open directory: " + dir.str());
-	}
-}
-

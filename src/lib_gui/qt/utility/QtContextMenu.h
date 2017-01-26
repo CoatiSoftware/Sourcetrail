@@ -3,7 +3,11 @@
 
 #include <memory>
 #include <QAction>
+#include <QMenu>
 #include <QObject>
+
+#include "utility/file/FilePath.h"
+#include "utility/logging/logging.h"
 
 class QtContextMenu
 	: public QObject
@@ -11,22 +15,38 @@ class QtContextMenu
 	Q_OBJECT
 
 public:
-	static QtContextMenu* getInstance();
+	QtContextMenu(QContextMenuEvent* event, QWidget* origin);
 
-	QtContextMenu();
+	void addAction(QAction* action);
+	void addUndoActions();
+	void addFileActions(FilePath filePath);
 
-	void showDefault(QContextMenuEvent* event, QWidget* origin);
-	void showExtended(QContextMenuEvent* event, QWidget* origin, const std::vector<QAction*>& actions);
+	void addSeparator();
+
+	void show();
 
 private slots:
 	void undoActionTriggered();
 	void redoActionTriggered();
 
-private:
-	static std::shared_ptr<QtContextMenu> s_instance;
+	void copyFullPathActionTriggered();
+	void openContainingFolderActionTriggered();
 
-	QAction* m_undoAction;
-	QAction* m_redoAction;
+private:
+	QtContextMenu();
+
+	static QtContextMenu* s_instance;
+
+	static QAction* s_undoAction;
+	static QAction* s_redoAction;
+
+	static QAction* s_copyFullPathAction;
+	static QAction* s_openContainingFolderAction;
+
+	static FilePath s_filePath;
+
+	QMenu m_menu;
+	QPoint m_point;
 };
 
 #endif // QT_CONTEXT_MENU_H

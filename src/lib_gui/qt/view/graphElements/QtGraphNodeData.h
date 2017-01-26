@@ -1,6 +1,8 @@
 #ifndef QT_GRAPH_NODE_DATA_H
 #define QT_GRAPH_NODE_DATA_H
 
+#include "utility/file/FilePath.h"
+
 #include "qt/view/graphElements/QtGraphNode.h"
 
 class QtGraphNodeData
@@ -11,6 +13,7 @@ public:
 	virtual ~QtGraphNodeData();
 
 	const Node* getData() const;
+	FilePath getFilePath() const;
 
 	// QtGraphNode implementation
 	virtual bool isDataNode() const;
