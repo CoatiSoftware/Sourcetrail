@@ -145,6 +145,7 @@ private:
 	std::vector<const Annotation*> getInteractiveAnnotationsForPosition(int pos) const;
 	void activateTokenLocations(const std::vector<const Annotation*>& annotations);
 	void activateLocalSymbols(const std::vector<const Annotation*>& annotations);
+	void activateErrors(const std::vector<const Annotation*>& annotations);
 
 	void createAnnotations(std::shared_ptr<TokenLocationFile> locationFile);
 	void annotateText();

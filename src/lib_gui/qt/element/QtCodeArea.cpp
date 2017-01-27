@@ -17,6 +17,7 @@
 #include "utility/messaging/type/MessageFocusIn.h"
 #include "utility/messaging/type/MessageFocusOut.h"
 #include "utility/messaging/type/MessageMoveIDECursor.h"
+#include "utility/messaging/type/MessageShowErrors.h"
 #include "utility/utility.h"
 
 #include "data/location/TokenLocation.h"
@@ -500,8 +501,15 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 				QTextCursor cursor = this->cursorForPosition(event->pos());
 				std::vector<const Annotation*> annotations = getInteractiveAnnotationsForPosition(cursor.position());
 
-				activateTokenLocations(annotations);
-				activateLocalSymbols(annotations);
+				if (m_navigator->hasErrors())
+				{
+					activateErrors(annotations);
+				}
+				else
+				{
+					activateTokenLocations(annotations);
+					activateLocalSymbols(annotations);
+				}
 			}
 		}
 	}
@@ -551,7 +559,7 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 
 		setHoveredAnnotations(annotations);
 
-		if (annotations.size() == 1)
+		if (m_navigator->hasErrors() && annotations.size() == 1)
 		{
 			std::string errorMessage = m_navigator->getErrorMessageForId(annotations[0]->tokenId);
 			QToolTip::showText(event->globalPos(), QString::fromStdString(errorMessage));
@@ -702,9 +710,26 @@ void QtCodeArea::activateLocalSymbols(const std::vector<const Annotation*>& anno
 		}
 	}
 
-	if (!allActive || !localSymbolIds.size())
+	if (!allActive || localSymbolIds.size())
 	{
 		MessageActivateLocalSymbols(localSymbolIds).dispatch();
+	}
+}
+
+void QtCodeArea::activateErrors(const std::vector<const Annotation*>& annotations)
+{
+	std::vector<Id> errorIds;
+	for (const Annotation* annotation : annotations)
+	{
+		if (annotation->locationType == LOCATION_ERROR && annotation->tokenId > 0)
+		{
+			errorIds.push_back(annotation->tokenId);
+		}
+	}
+
+	if (errorIds.size() == 1)
+	{
+		MessageShowErrors(errorIds[0]).dispatch();
 	}
 }
 

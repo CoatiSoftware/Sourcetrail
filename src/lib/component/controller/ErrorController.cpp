@@ -33,10 +33,7 @@ void ErrorController::handleMessage(MessageShowErrors* message)
 {
 	if (message->errorId)
 	{
-		if (message->isReplayed())
-		{
-			getView()->setErrorId(message->errorId);
-		}
+		getView()->setErrorId(message->errorId);
 		return;
 	}
 
