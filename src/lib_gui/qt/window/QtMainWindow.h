@@ -79,6 +79,7 @@ public slots:
 	void openSettings();
 	void showBugtracker();
 	void showDocumentation();
+	void showKeyboardShortcuts();
 	void showLicenses();
 	void enterLicense();
 	void enteredLicense();

@@ -23,6 +23,7 @@
 #include "qt/window/QtStartScreen.h"
 #include "qt/window/QtAboutLicense.h"
 #include "qt/window/QtAbout.h"
+#include "qt/window/QtKeyboardShortcuts.h"
 #include "qt/window/QtLicense.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/file/FileSystem.h"
@@ -301,6 +302,12 @@ void QtMainWindow::openSettings()
 void QtMainWindow::showDocumentation()
 {
 	QDesktopServices::openUrl(QUrl("https://coati.io/documentation/"));
+}
+
+void QtMainWindow::showKeyboardShortcuts()
+{
+	QtKeyboardShortcuts* keyboardShortcutWindow = createWindow<QtKeyboardShortcuts>();
+	keyboardShortcutWindow->setupKeyboardShortcuts();
 }
 
 void QtMainWindow::showBugtracker()
@@ -653,11 +660,12 @@ void QtMainWindow::setupHelpMenu()
 	QMenu *menu = new QMenu(tr("&Help"), this);
 	menuBar()->addMenu(menu);
 
-	menu->addAction(tr("&About"), this, SLOT(about()));
+	menu->addAction(tr("Keyboard Shortcuts"), this, SLOT(showKeyboardShortcuts()));
 	menu->addAction(tr("Documentation"), this, SLOT(showDocumentation()));
 	menu->addAction(tr("Bug Tracker"), this, SLOT(showBugtracker()));
-	menu->addAction(tr("Licences"), this, SLOT(showLicenses()));
 	menu->addAction(tr("Enter License..."), this, SLOT(enterLicense()));
+	menu->addAction(tr("Licences"), this, SLOT(showLicenses()));
+	menu->addAction(tr("&About Coati"), this, SLOT(about()));
 
 	menu->addSeparator();
 

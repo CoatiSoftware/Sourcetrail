@@ -165,6 +165,8 @@ add_files(
 	qt/window/QtAboutLicense.h
 	qt/window/QtIndexingDialog.cpp
 	qt/window/QtIndexingDialog.h
+	qt/window/QtKeyboardShortcuts.cpp
+	qt/window/QtKeyboardShortcuts.h
     qt/window/QtLicense.cpp
     qt/window/QtLicense.h
 	qt/window/QtMainWindow.cpp
