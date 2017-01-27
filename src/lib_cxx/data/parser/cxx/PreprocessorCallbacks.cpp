@@ -59,12 +59,8 @@ void PreprocessorCallbacks::InclusionDirective(
 		FilePath includedFilePath = FilePath(fileEntry->getName()).canonical();
 		if (m_fileRegister->hasFilePath(includedFilePath))
 		{
-
-			NameHierarchy referencedNameHierarchy;
-			referencedNameHierarchy.push(std::make_shared<NameElement>(includedFilePath.str()));
-
-			NameHierarchy contextNameHierarchy;
-			contextNameHierarchy.push(std::make_shared<NameElement>(m_currentPath.str()));
+			const NameHierarchy referencedNameHierarchy(includedFilePath.str());
+			const NameHierarchy contextNameHierarchy(m_currentPath.str());
 
 			m_client->recordReference(
 				REFERENCE_INCLUDE,
@@ -86,8 +82,7 @@ void PreprocessorCallbacks::MacroDefined(const clang::Token& macroNameToken, con
 			return;
 		}
 
-		NameHierarchy nameHierarchy;
-		nameHierarchy.push(std::make_shared<NameElement>(macroNameToken.getIdentifierInfo()->getName().str()));
+		const NameHierarchy nameHierarchy(macroNameToken.getIdentifierInfo()->getName().str());
 
 		m_client->recordSymbol(
 			nameHierarchy,
@@ -136,11 +131,8 @@ void PreprocessorCallbacks::onMacroUsage(const clang::Token& macroNameToken)
 	{
 		const ParseLocation loc = getParseLocation(macroNameToken);
 
-		NameHierarchy referencedNameHierarchy;
-		referencedNameHierarchy.push(std::make_shared<NameElement>(macroNameToken.getIdentifierInfo()->getName().str()));
-
-		NameHierarchy contextNameHierarchy;
-		contextNameHierarchy.push(std::make_shared<NameElement>(loc.filePath.fileName()));
+		const NameHierarchy referencedNameHierarchy(macroNameToken.getIdentifierInfo()->getName().str());
+		const NameHierarchy contextNameHierarchy(loc.filePath.str());
 
 		m_client->recordReference(
 			REFERENCE_MACRO_USAGE,

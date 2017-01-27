@@ -12,7 +12,7 @@
 const size_t SqliteStorage::STORAGE_VERSION = 8;
 
 SqliteStorage::SqliteStorage(const FilePath& dbFilePath)
-	: m_dbFilePath(dbFilePath)
+	: m_dbFilePath(dbFilePath.canonical())
 {
 	m_database.open(m_dbFilePath.str().c_str());
 
