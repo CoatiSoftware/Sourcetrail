@@ -962,13 +962,12 @@ std::vector<Id> PersistentStorage::getLocalSymbolIdsForLocationIds(const std::ve
 
 std::vector<Id> PersistentStorage::getTokenIdsForMatches(const std::vector<SearchMatch>& matches) const
 {
-	FilePath rootPath = getDbFilePath().parentDirectory();
 	std::set<Id> idSet;
 	for (const SearchMatch& match : matches)
 	{
 		if (match.nodeType == Node::NODE_FILE)
 		{
-			idSet.insert(m_sqliteStorage.getFileByPath(rootPath.concat(match.subtext).str()).id);
+			idSet.insert(m_sqliteStorage.getFileByPath(match.name).id);
 		}
 		else
 		{
