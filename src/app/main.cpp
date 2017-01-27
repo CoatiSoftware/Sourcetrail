@@ -18,6 +18,7 @@
 #include "utility/logging/FileLogger.h"
 #include "utility/logging/logging.h"
 #include "utility/logging/LogManager.h"
+#include "utility/messaging/type/MessageEnteredLicense.h"
 #include "utility/messaging/type/MessageStatus.h"
 #include "utility/ResourcePaths.h"
 #include "utility/ScopedFunctor.h"
@@ -154,6 +155,10 @@ int main(int argc, char *argv[])
 			std::cout << "No or invalide License" << std::endl;
 			LOG_WARNING("Your current Coati license seems to be invalid. Please update your license info.");
 			return 0;
+		}
+		else
+		{
+			MessageEnteredLicense().dispatch();
 		}
 
 		if (commandLineParser.hasError() )
