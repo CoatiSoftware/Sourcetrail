@@ -748,6 +748,15 @@ void GraphController::bundleNodes()
 		"Undefined Symbols"
 	);
 
+	bundleNodesAndEdgesMatching(
+		[](const DummyNode::BundleInfo& info, const Node* data)
+		{
+			return info.isDefined && info.isReferenced && data->isType(Node::NODE_BUILTIN_TYPE);
+		},
+		3,
+		"Built-in Types"
+	);
+
 	if (!fileOrMacroActive)
 	{
 		bundleNodesAndEdgesMatching(
@@ -952,7 +961,7 @@ void GraphController::bundleNodesByType()
 
 	bundleByType(nodes, Node::NODE_NAMESPACE, "Namespaces");
 	bundleByType(nodes, Node::NODE_PACKAGE, "Packages");
-	bundleByType(nodes, Node::NODE_BUILTIN_TYPE, "Builtin Types");
+	bundleByType(nodes, Node::NODE_BUILTIN_TYPE, "Built-in Types");
 	bundleByType(nodes, Node::NODE_CLASS, "Classes");
 	bundleByType(nodes, Node::NODE_INTERFACE, "Interfaces");
 	bundleByType(nodes, Node::NODE_STRUCT, "Structs");
