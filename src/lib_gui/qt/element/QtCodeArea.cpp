@@ -464,17 +464,18 @@ void QtCodeArea::mousePressEvent(QMouseEvent* event)
 
 	if (event->button() == Qt::LeftButton)
 	{
+		m_oldMousePosition = event->pos();
+		m_panningDistance = 0;
+
 		if (Qt::KeyboardModifier::ShiftModifier & QApplication::keyboardModifiers())
 		{
-			m_isSelecting = true;
-			QTextCursor cursor = this->cursorForPosition(event->pos());
-			setTextCursor(cursor);
+			m_isPanning = true;
 		}
 		else
 		{
-			m_isPanning = true;
-			m_oldMousePosition = event->pos();
-			m_panningDistance = 0;
+			m_isSelecting = true;
+			QTextCursor cursor = this->cursorForPosition(event->pos());
+			setCursor(cursor);
 		}
 	}
 }
@@ -484,12 +485,7 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 	const int panningThreshold = 5;
 	if (event->button() == Qt::LeftButton)
 	{
-		if (m_isSelecting)
-		{
-			m_isSelecting = false;
-			return;
-		}
-
+		m_isSelecting = false;
 		m_isPanning = false;
 
 		if (m_panningDistance < panningThreshold) // dont do anything if mouse is release to end some real panning action.
@@ -513,25 +509,24 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 
 void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 {
+	const QPoint currentMousePosition = event->pos();
+	const int deltaX = currentMousePosition.x() - m_oldMousePosition.x();
+	const int deltaY = currentMousePosition.y() - m_oldMousePosition.y();
+	m_oldMousePosition = currentMousePosition;
+	m_panningDistance += abs(deltaX + deltaY);
+
 	if (m_isSelecting)
 	{
 		QTextCursor cursor = textCursor();
 		cursor.setPosition(this->cursorForPosition(event->pos()).position(), QTextCursor::KeepAnchor);
-		setTextCursor(cursor);
+		setCursor(cursor);
 	}
 	else if (m_isPanning)
 	{
-		const QPoint currentMousePosition = event->pos();
-		const int deltaX = currentMousePosition.x() - m_oldMousePosition.x();
-		const int deltaY = currentMousePosition.y() - m_oldMousePosition.y();
-		m_oldMousePosition = currentMousePosition;
-
 		QScrollBar* scrollbar = horizontalScrollBar();
 		int visibleContentWidth = width() - lineNumberAreaWidth();
 		float deltaPosRatio = float(deltaX) / (visibleContentWidth);
 		scrollbar->setValue(scrollbar->value() - utility::roundToInt(deltaPosRatio * scrollbar->pageStep()));
-
-		m_panningDistance += abs(deltaX + deltaY);
 	}
 
 	QTextCursor cursor = this->cursorForPosition(event->pos());
@@ -609,6 +604,11 @@ void QtCodeArea::clearSelection()
 	QTextCursor cursor = textCursor();
 	cursor.clearSelection();
 
+	setCursor(cursor);
+}
+
+void QtCodeArea::setCursor(const QTextCursor& cursor)
+{
 	int horizontalValue = horizontalScrollBar()->value();
 	int verticalValue = verticalScrollBar()->value();
 
