@@ -1,7 +1,6 @@
 #ifndef QT_GRAPHICS_VIEW_H
 #define QT_GRAPHICS_VIEW_H
 
-#include <functional>
 #include <memory>
 
 #include <QGraphicsView>
@@ -26,7 +25,6 @@ public:
 
 	void ensureVisibleAnimated(const QRectF& rect, int xmargin = 50, int ymargin = 50);
 
-	void setMouseWheelCallback(const std::function<void(QWheelEvent*)>& callback);
 	void updateZoom(float delta);
 
 protected:
@@ -73,8 +71,6 @@ private:
 
 	QAction* m_exportGraphAction;
 	QAction* m_copyNodeNameAction;
-
-	std::function<void(QWheelEvent*)> m_mouseWheelCallback;
 };
 
 #endif // QT_GRAPHICS_VIEW_H

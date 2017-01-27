@@ -58,8 +58,6 @@ private slots:
 	void zoomInPressed();
 	void zoomOutPressed();
 
-	void onMouseWheelEvent(QWheelEvent* event);
-
 private:
 	void switchToNewGraphData();
 

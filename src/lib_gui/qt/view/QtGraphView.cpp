@@ -72,8 +72,6 @@ void QtGraphView::initView()
 	view->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 	view->viewport()->setCursor(Qt::ArrowCursor);
 
-	getView()->setMouseWheelCallback(std::bind(&QtGraphView::onMouseWheelEvent, this, std::placeholders::_1));
-
 	widget->layout()->addWidget(view);
 
 	m_zoomInButton = new QPushButton(widget);
@@ -176,24 +174,6 @@ void QtGraphView::zoomInPressed()
 void QtGraphView::zoomOutPressed()
 {
 	zoom(m_zoomOutButtonSpeed);
-}
-
-void QtGraphView::onMouseWheelEvent(QWheelEvent* event)
-{
-	bool zoomDefault = ApplicationSettings::getInstance()->getControlsGraphZoomOnMouseWheel();
-	bool shiftPressed = event->modifiers() == Qt::ShiftModifier;
-
-	if (zoomDefault != shiftPressed)
-	{
-		if (event->delta() != 0.0f)
-		{
-			zoom(event->delta());
-		}
-	}
-	else
-	{
-		// QGraphicsView::wheelEvent(event);
-	}
 }
 
 void QtGraphView::switchToNewGraphData()

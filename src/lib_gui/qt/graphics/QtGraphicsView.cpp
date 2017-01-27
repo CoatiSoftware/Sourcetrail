@@ -103,11 +103,6 @@ void QtGraphicsView::ensureVisibleAnimated(const QRectF& rect, int xmargin, int 
 	move->start();
 }
 
-void QtGraphicsView::setMouseWheelCallback(const std::function<void(QWheelEvent*)>& callback)
-{
-	m_mouseWheelCallback = callback;
-}
-
 void QtGraphicsView::updateZoom(float delta)
 {
 	float factor = 1.0f + 0.001f * delta;
@@ -213,7 +208,20 @@ void QtGraphicsView::keyReleaseEvent(QKeyEvent* event)
 
 void QtGraphicsView::wheelEvent(QWheelEvent* event)
 {
-	m_mouseWheelCallback(event);
+	bool zoomDefault = ApplicationSettings::getInstance()->getControlsGraphZoomOnMouseWheel();
+	bool shiftPressed = event->modifiers() == Qt::ShiftModifier;
+
+	if (zoomDefault != shiftPressed)
+	{
+		if (event->delta() != 0.0f)
+		{
+			updateZoom(event->delta());
+		}
+	}
+	else
+	{
+		QGraphicsView::wheelEvent(event);
+	}
 }
 
 void QtGraphicsView::contextMenuEvent(QContextMenuEvent* event)
