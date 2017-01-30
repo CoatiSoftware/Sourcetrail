@@ -6,8 +6,6 @@
 #include <QGraphicsView>
 #include <QPointF>
 
-#include <QPushButton>
-
 #include "component/view/GraphView.h"
 #include "qt/utility/QtScrollSpeedChangeListener.h"
 #include "qt/utility/QtThreadedFunctor.h"
@@ -55,9 +53,6 @@ private slots:
 	void finishedTransition();
 	void clickedInEmptySpace();
 
-	void zoomInPressed();
-	void zoomOutPressed();
-
 private:
 	void switchToNewGraphData();
 
@@ -74,8 +69,6 @@ private:
 
 	void doFocusIn(const std::vector<Id>& tokenIds);
 	void doFocusOut(const std::vector<Id>& tokenIds);
-
-	void zoom(const float delta);
 
 	std::shared_ptr<QtGraphNode> findNodeRecursive(const std::list<std::shared_ptr<QtGraphNode>>& nodes, Id tokenId);
 
@@ -125,12 +118,6 @@ private:
 
 	QtScrollSpeedChangeListener m_scrollSpeedChangeListenerHorizontal;
 	QtScrollSpeedChangeListener m_scrollSpeedChangeListenerVertical;
-
-	QPushButton* m_zoomInButton;
-	QPushButton* m_zoomOutButton;
-
-	float m_zoomInButtonSpeed;
-	float m_zoomOutButtonSpeed;
 };
 
 #endif // QT_GRAPH_VIEW_H

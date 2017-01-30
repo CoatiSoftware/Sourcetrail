@@ -2,3 +2,22 @@ QGraphicsView, QGraphicsScene {
 	background-color: <color:graph/background>;
 	border: none;
 }
+
+QPushButton {
+	background: <color:search/button/normal>;
+	border: none;
+	color: white;
+	border-radius: 5px;
+}
+
+QPushButton:disabled {
+	background: <color:search/button/disabled>;
+}
+
+QPushButton:hover {
+	background: <color:search/button/hover>;
+}
+
+QPushButton:pressed {
+	background: <color:search/button/press>;
+}

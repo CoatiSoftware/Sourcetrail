@@ -4,6 +4,7 @@
 #include <memory>
 
 #include <QGraphicsView>
+#include <QPushButton>
 
 #include "utility/file/FilePath.h"
 
@@ -27,9 +28,13 @@ public:
 
 	void updateZoom(float delta);
 
+	void refreshStyle();
+
 protected:
-	void mousePressEvent(QMouseEvent *event);
-	void mouseReleaseEvent(QMouseEvent *event);
+	void resizeEvent(QResizeEvent* event);
+
+	void mousePressEvent(QMouseEvent* event);
+	void mouseReleaseEvent(QMouseEvent* event);
 
 	void keyPressEvent(QKeyEvent* event);
 	void keyReleaseEvent(QKeyEvent* event);
@@ -47,6 +52,9 @@ private slots:
 
 	void exportGraph();
 	void copyNodeName();
+
+	void zoomInPressed();
+	void zoomOutPressed();
 
 private:
 	bool moves() const;
@@ -71,6 +79,12 @@ private:
 
 	QAction* m_exportGraphAction;
 	QAction* m_copyNodeNameAction;
+
+	QPushButton* m_zoomInButton;
+	QPushButton* m_zoomOutButton;
+
+	float m_zoomInButtonSpeed;
+	float m_zoomOutButtonSpeed;
 };
 
 #endif // QT_GRAPHICS_VIEW_H

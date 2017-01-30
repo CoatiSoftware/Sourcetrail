@@ -40,10 +40,6 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	, m_refreshFunctor(std::bind(&QtGraphView::doRefreshView, this))
 	, m_focusInFunctor(std::bind(&QtGraphView::doFocusIn, this, std::placeholders::_1))
 	, m_focusOutFunctor(std::bind(&QtGraphView::doFocusOut, this, std::placeholders::_1))
-	, m_zoomInButton()
-	, m_zoomOutButton()
-	, m_zoomInButtonSpeed(20.0f)
-	, m_zoomOutButtonSpeed(-20.0f)
 {
 }
 
@@ -74,22 +70,6 @@ void QtGraphView::initView()
 
 	widget->layout()->addWidget(view);
 
-	m_zoomInButton = new QPushButton(widget);
-	m_zoomInButton->setObjectName("zoom_in_button");
-	m_zoomInButton->setText("+");
-	m_zoomInButton->setGeometry(QRect(5, 5, 25, 25));
-	m_zoomInButton->setAutoRepeat(true);
-	m_zoomInButton->setToolTip("Zoom in (Shift + Mousewheel forward)");
-	connect(m_zoomInButton, SIGNAL(pressed()), this, SLOT(zoomInPressed()));
-
-	m_zoomOutButton = new QPushButton(widget);
-	m_zoomOutButton->setObjectName("zoom_out_button");
-	m_zoomOutButton->setText("-");
-	m_zoomOutButton->setGeometry(QRect(5, 34, 25, 25));
-	m_zoomOutButton->setAutoRepeat(true);
-	m_zoomOutButton->setToolTip("Zoom out (Shift + Mousewheel back)");
-	connect(m_zoomOutButton, SIGNAL(pressed()), this, SLOT(zoomOutPressed()));
-
 	connect(view, SIGNAL(emptySpaceClicked()), this, SLOT(clickedInEmptySpace()));
 
 	m_scrollSpeedChangeListenerHorizontal.setScrollBar(view->horizontalScrollBar());
@@ -101,6 +81,8 @@ void QtGraphView::initView()
 void QtGraphView::refreshView()
 {
 	m_refreshFunctor();
+
+	getView()->refreshStyle();
 }
 
 void QtGraphView::rebuildGraph(
@@ -164,16 +146,6 @@ void QtGraphView::clickedInEmptySpace()
 	{
 		MessageDeactivateEdge().dispatch();
 	}
-}
-
-void QtGraphView::zoomInPressed()
-{
-	zoom(m_zoomInButtonSpeed);
-}
-
-void QtGraphView::zoomOutPressed()
-{
-	zoom(m_zoomOutButtonSpeed);
 }
 
 void QtGraphView::switchToNewGraphData()
@@ -750,14 +722,5 @@ void QtGraphView::doFocusOut(const std::vector<Id>& tokenIds)
 				break;
 			}
 		}
-	}
-}
-
-void QtGraphView::zoom(const float delta)
-{
-	QtGraphicsView* view = getView();
-	if (view != NULL)
-	{
-		view->updateZoom(delta);
 	}
 }

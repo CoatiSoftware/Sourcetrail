@@ -14,7 +14,9 @@
 #include "qt/view/graphElements/QtGraphNodeData.h"
 #include "qt/view/graphElements/QtGraphNodeBundle.h"
 #include "qt/utility/QtContextMenu.h"
+#include "qt/utility/utilityQt.h"
 #include "settings/ApplicationSettings.h"
+#include "utility/ResourcePaths.h"
 
 QtGraphicsView::QtGraphicsView(QWidget* parent)
 	: QGraphicsView(parent)
@@ -25,6 +27,8 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	, m_left(false)
 	, m_right(false)
 	, m_shift(false)
+	, m_zoomInButtonSpeed(20.0f)
+	, m_zoomOutButtonSpeed(-20.0f)
 {
 	setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 
@@ -44,6 +48,20 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 	m_copyNodeNameAction->setStatusTip(tr("Copies the name of this node to the clipboard"));
 	m_copyNodeNameAction->setToolTip(tr("Copies the name of this node to the clipboard"));
 	connect(m_copyNodeNameAction, SIGNAL(triggered()), this, SLOT(copyNodeName()));
+
+	m_zoomInButton = new QPushButton(this);
+	m_zoomInButton->setObjectName("zoom_in_button");
+	m_zoomInButton->setAutoRepeat(true);
+	m_zoomInButton->setToolTip("Zoom in (Shift + Mousewheel forward)");
+	connect(m_zoomInButton, SIGNAL(pressed()), this, SLOT(zoomInPressed()));
+
+	m_zoomOutButton = new QPushButton(this);
+	m_zoomOutButton->setObjectName("zoom_out_button");
+	m_zoomOutButton->setAutoRepeat(true);
+	m_zoomOutButton->setToolTip("Zoom out (Shift + Mousewheel back)");
+	connect(m_zoomOutButton, SIGNAL(pressed()), this, SLOT(zoomOutPressed()));
+
+	refreshStyle();
 }
 
 float QtGraphicsView::getZoomFactor() const
@@ -116,6 +134,28 @@ void QtGraphicsView::updateZoom(float delta)
 	m_zoomFactor = qBound(0.1, newZoom, 100.0);
 
 	updateTransform();
+}
+
+void QtGraphicsView::refreshStyle()
+{
+	m_zoomInButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "graph_view/images/zoomin.png",
+		"search/button"
+	));
+
+	m_zoomOutButton->setIcon(utility::createButtonIcon(
+		ResourcePaths::getGuiPath() + "graph_view/images/zoomout.png",
+		"search/button"
+	));
+}
+
+void QtGraphicsView::resizeEvent(QResizeEvent* event)
+{
+	m_zoomInButton->setGeometry(QRect(8, event->size().height() - 50, 19, 19));
+	m_zoomOutButton->setGeometry(QRect(8, event->size().height() - 27, 19, 19));
+
+	m_zoomInButton->setIconSize(QSize(15, 15));
+	m_zoomOutButton->setIconSize(QSize(15, 15));
 }
 
 void QtGraphicsView::mousePressEvent(QMouseEvent *event)
@@ -403,6 +443,16 @@ void QtGraphicsView::exportGraph()
 void QtGraphicsView::copyNodeName()
 {
 	QApplication::clipboard()->setText(m_clipboardNodeName.c_str());
+}
+
+void QtGraphicsView::zoomInPressed()
+{
+	updateZoom(m_zoomInButtonSpeed);
+}
+
+void QtGraphicsView::zoomOutPressed()
+{
+	updateZoom(m_zoomOutButtonSpeed);
 }
 
 bool QtGraphicsView::moves() const
