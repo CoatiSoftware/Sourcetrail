@@ -21,6 +21,8 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
 
         static public List<string> _headerDirectories = new List<string>();
 
+        static private List<string> _extensionWhiteList = new List<string>() { "c", "cc", "cpp", "cxx", "C" };
+
         public static List<CommandObject> CreateCommandObjects(Project project, string configurationName, string platformName, string cStandard)
         {
             Logging.Logging.LogInfo("Creating command objects from project " + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(project.Name));
@@ -66,7 +68,7 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                 }
             }
 
-            if(projectGuid != Guid.Empty)
+            if (projectGuid != Guid.Empty)
             {
                 Utility.ProjectUtility.UnloadProject(projectGuid, dte);
             }
@@ -80,7 +82,7 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
         {
             Logging.Logging.LogInfo("Attempting to retreive Include Directories and Preprocessor Definitions for project '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(project.Name) + "'");
 
-            List <string> includeDirectories = new List<string>();
+            List<string> includeDirectories = new List<string>();
             List<string> preprocessorDefinitions = new List<string>();
 
             IEnumerable configurations = project.Configurations as IEnumerable;
@@ -117,6 +119,17 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                                 continue;
                             }
 
+                            string dir = directory;
+
+                            // In case of a project-relative path
+                            if(directory.Length > 0 && directory.Substring(0, 1) == ".")
+                            {
+                                dir = project.ProjectDirectory + directory;
+                            }
+
+                            // make it canonical
+                            dir = new Uri(dir).LocalPath;
+
                             includeDirectories.Add(directory);
                         }
 
@@ -142,7 +155,7 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                         }
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Logging.Logging.LogError("Exception: " + e.Message);
                     return new Tuple<List<string>, List<string>>(new List<string>(), new List<string>());
@@ -172,7 +185,7 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                 }
 
                 // could be a relative path...
-                if(exists == false)
+                if (exists == false)
                 {
                     if (System.IO.Directory.Exists(project.ProjectDirectory + path) == false)
                     {
@@ -186,7 +199,7 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                     }
                 }
 
-                if(exists == false)
+                if (exists == false)
                 {
                     includeDirectories.RemoveAt(i);
                     i--;
@@ -204,7 +217,7 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
 
         static private VCConfiguration GetProjectConfiguration(VCProject project, string configurationName, string platformName)
         {
-            if(project == null)
+            if (project == null)
             {
                 return null;
             }
@@ -229,6 +242,8 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
 
         static private CommandObject CreateCommandObject(EnvDTE.ProjectItem item, List<string> includeDirectories, List<string> preprocessorDefinitions, string vcStandard, string cStandard, string configurationName, string platformName)
         {
+            string objectName = item.Name;
+
             Logging.Logging.LogInfo("Starting to create Command Object from item '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(item.Name) + "'");
 
             try
@@ -240,7 +255,30 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                     Logging.Logging.LogError("Failed to retreive DTE object. Abort creating command object.");
                 }
 
-                if (item.FileCodeModel != null && item.FileCodeModel.Language == CodeModelLanguageConstants.vsCMLanguageVC)
+
+
+                VCFile vcFile = item.Object as VCFile;
+                string subType = vcFile.SubType;
+
+                VCProject project = vcFile.project;
+                VCConfiguration vcConfig = GetProjectConfiguration(project, configurationName, platformName);
+
+                if (vcConfig == null)
+                {
+                    Logging.Logging.LogError("Project Configuration is null.");
+
+                    return null;
+                }
+
+                VCFileConfiguration fc = vcFile.GetFileConfigurationForProjectConfiguration(vcConfig);
+                VCCLCompilerTool t = fc.Tool as VCCLCompilerTool;
+
+                if (t == null)
+                {
+                    Logging.Logging.LogInfo("Unable to retrieve build tool. Using extension white list to determine file type.");
+                }
+
+                if (IsSourceFile(item, t))
                 {
                     CommandObject commandObject = new CommandObject();
                     commandObject.File = item.Name;
@@ -267,36 +305,25 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                         return null;
                     }
 
-                    VCFile vcFile = item.Object as VCFile;
-                    string subType = vcFile.SubType;
+                    string additionalOptions = "";
 
-                    VCProject project = vcFile.project;
-                    VCConfiguration vcConfig = GetProjectConfiguration(project, configurationName, platformName);
-
-                    if(vcConfig == null)
+                    if (t != null)
                     {
-                        Logging.Logging.LogError("Project Configuration is null.");
+                        additionalOptions = t.AdditionalOptions;
+                        CompileAsOptions compileAs = t.CompileAs; // VCCLCompilerToolShim
 
-                        return null;
-                    }
+                        if (additionalOptions == "$(NOINHERIT)")
+                        {
+                            additionalOptions = "";
+                        }
 
-                    VCFileConfiguration fc = vcFile.GetFileConfigurationForProjectConfiguration(vcConfig);
-                    VCCLCompilerTool t = fc.Tool as VCCLCompilerTool;
-
-                    string additionalOptions = t.AdditionalOptions;
-                    CompileAsOptions compileAs = t.CompileAs; // VCCLCompilerToolShim
-
-                    if (additionalOptions == "$(NOINHERIT)")
-                    {
-                        additionalOptions = "";
-                    }
-
-                    // check wheter it's a .c file, we don't want that...
-                    // TODO: there is a property for comilation as .c or .cpp file (/TC and /TP), try to retrieve it
-                    string extension = item.Properties.Item("Extension").Value.ToString();
-                    if (compileAs == CompileAsOptions.compileAsC)
-                    {
-                        vcStandard = "-std=" + cStandard;
+                        // check wheter it's a .c file, we don't want that...
+                        // TODO: there is a property for comilation as .c or .cpp file (/TC and /TP), try to retrieve it
+                        string extension = item.Properties.Item("Extension").Value.ToString();
+                        if (compileAs == CompileAsOptions.compileAsC)
+                        {
+                            vcStandard = "-std=" + cStandard;
+                        }
                     }
 
                     // if a language standard was defined in the additional options the 'vcStandard' string is not used
@@ -356,7 +383,7 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                     Logging.Logging.LogInfo("Item discarded, wrong code model");
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logging.Logging.LogError("Exception: " + e.Message);
             }
@@ -364,6 +391,23 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
             Logging.Logging.LogError("Failed to create command object.");
 
             return null;
+        }
+
+        static private bool IsSourceFile(ProjectItem item, VCCLCompilerTool tool)
+        {
+            if (tool != null) // if the tool is null it's probably not a normal VC project, indicating that the file code model is unavailable
+            {
+                if (item.FileCodeModel != null && item.FileCodeModel.Language == CodeModelLanguageConstants.vsCMLanguageVC)
+                {
+                    return true;
+                }
+            }
+            else if (_extensionWhiteList.Contains(GetFileExtension(item)))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         static private bool CheckIsHeader(EnvDTE.ProjectItem item)
@@ -390,7 +434,7 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logging.Logging.LogError("Exception: " + e.Message);
             }
@@ -415,7 +459,7 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                     result = path.Substring(0, potentialMacroPosition.Item1) + resolvedMacro + path.Substring(potentialMacroPosition.Item2 + 1);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logging.Logging.LogError("Exception: " + e.Message);
             }
@@ -442,7 +486,7 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
 
         static private void UnloadReloadedProjects(DTE dte)
         {
-            foreach(Guid guid in _reloadedProjectGuids)
+            foreach (Guid guid in _reloadedProjectGuids)
             {
                 Utility.ProjectUtility.UnloadProject(guid, dte);
             }
@@ -476,7 +520,7 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                             }
                         }
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         Logging.Logging.LogError("Exception: " + e.Message);
                     }
@@ -534,7 +578,7 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logging.Logging.LogError("Exception: " + e.Message);
             }
@@ -549,7 +593,7 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
         // https://msdn.microsoft.com/en-us/library/hh567368.aspx
         static private string GetCppStandardString(VCConfiguration vcProjectConfig)
         {
-            if(vcProjectConfig == null)
+            if (vcProjectConfig == null)
             {
                 return "";
             }
@@ -562,7 +606,7 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
             {
                 rules = vcProjectConfig.Rules.Item("ConfigurationGeneral");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logging.Logging.LogError("Exception: " + e.Message);
                 return "";
@@ -591,13 +635,34 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
                         result = "-std=c++14";
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Logging.Logging.LogError("Exception: " + e.Message);
                 }
             }
-            
+
             return result;
+        }
+
+        static private string GetFileExtension(ProjectItem item)
+        {
+            if (item == null)
+            {
+                return "";
+            }
+
+            string name = item.Name;
+
+            int idx = name.LastIndexOf(".");
+
+            if (idx > -1 && idx < name.Length - 1)
+            {
+                return name.Substring(idx + 1);
+            }
+            else
+            {
+                return "";
+            }
         }
     }
 }
