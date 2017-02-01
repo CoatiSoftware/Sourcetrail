@@ -32,7 +32,7 @@ void QtKeyboardShortcuts::setupKeyboardShortcuts()
 	title->setObjectName("title");
 	title->setText("Keyboard Shortcuts");
 	layout->addWidget(title);
-	
+
 	QWidget* container = new QWidget();
 	container->setObjectName("container");
 	QVBoxLayout* scrollLayout = new QVBoxLayout(container);
@@ -132,7 +132,7 @@ QTableWidget* QtKeyboardShortcuts::createGenerelShortcutsTable()
 	table->setItem(13, 0, new QTableWidgetItem("To Overview"));
 	table->setItem(14, 0, new QTableWidgetItem("Preferences"));
 
-#ifdef Q_OS_WIN32
+#if defined(Q_OS_WIN32)
 	table->setItem(0, 1, new QTableWidgetItem("Ctrl + +"));
 	table->setItem(1, 1, new QTableWidgetItem("Ctrl + -"));
 	table->setItem(2, 1, new QTableWidgetItem("Ctrl + 0"));
@@ -148,7 +148,7 @@ QTableWidget* QtKeyboardShortcuts::createGenerelShortcutsTable()
 	table->setItem(12, 1, new QTableWidgetItem(""));
 	table->setItem(13, 1, new QTableWidgetItem("Ctrl + Home"));
 	table->setItem(14, 1, new QTableWidgetItem("Ctrl + ,"));
-#elif Q_OS_LINUX
+#elif defined(Q_OS_LINUX)
 	table->setItem(0, 1, new QTableWidgetItem("Ctrl + +"));
 	table->setItem(1, 1, new QTableWidgetItem("Ctrl + -"));
 	table->setItem(2, 1, new QTableWidgetItem("Ctrl + 0"));
@@ -164,7 +164,7 @@ QTableWidget* QtKeyboardShortcuts::createGenerelShortcutsTable()
 	table->setItem(12, 1, new QTableWidgetItem(""));
 	table->setItem(13, 1, new QTableWidgetItem("Ctrl + Home"));
 	table->setItem(14, 1, new QTableWidgetItem("Ctrl + ,"));
-#elif Q_OS_MAC
+#elif defined(Q_OS_MAC)
 	table->setItem(0, 1, new QTableWidgetItem("Cmd + +"));
 	table->setItem(1, 1, new QTableWidgetItem("Cmd + -"));
 	table->setItem(2, 1, new QTableWidgetItem("Cmd + 0"));
@@ -211,13 +211,13 @@ QTableWidget* QtKeyboardShortcuts::createCodeViewShortcutsTable()
 	table->setItem(0, 0, new QTableWidgetItem("Code Reference Next"));
 	table->setItem(1, 0, new QTableWidgetItem("Code Reference Previous"));
 
-#ifdef Q_OS_WIN32
+#if defined(Q_OS_WIN32)
 	table->setItem(0, 1, new QTableWidgetItem("Ctrl + G"));
 	table->setItem(1, 1, new QTableWidgetItem("Ctrl + Shift + G"));
-#elif Q_OS_LINUX
+#elif defined(Q_OS_LINUX)
 	table->setItem(0, 1, new QTableWidgetItem("Ctrl + G"));
 	table->setItem(1, 1, new QTableWidgetItem("Ctrl + Shift + G"));
-#elif Q_OS_MAC
+#elif defined(Q_OS_MAC)
 	table->setItem(0, 1, new QTableWidgetItem("Cmd + G"));
 	table->setItem(1, 1, new QTableWidgetItem("Cmd + Shift + G"));
 #else
@@ -243,7 +243,7 @@ QTableWidget* QtKeyboardShortcuts::createGraphViewShortcutsTable()
 	table->setItem(5, 0, new QTableWidgetItem("Zoom out"));
 	table->setItem(6, 0, new QTableWidgetItem("Reset Zoom"));
 
-#ifdef Q_OS_WIN32
+#if defined(Q_OS_WIN32)
 	table->setItem(0, 1, new QTableWidgetItem("A"));
 	table->setItem(1, 1, new QTableWidgetItem("D"));
 	table->setItem(2, 1, new QTableWidgetItem("W"));
@@ -251,7 +251,7 @@ QTableWidget* QtKeyboardShortcuts::createGraphViewShortcutsTable()
 	table->setItem(4, 1, new QTableWidgetItem("Shift + W | Shift + Mousewheel up"));
 	table->setItem(5, 1, new QTableWidgetItem("Shift + S | Shift + Mousewheel down"));
 	table->setItem(6, 1, new QTableWidgetItem("0"));
-#elif Q_OS_LINUX
+#elif defined(Q_OS_LINUX)
 	table->setItem(0, 1, new QTableWidgetItem("A"));
 	table->setItem(1, 1, new QTableWidgetItem("D"));
 	table->setItem(2, 1, new QTableWidgetItem("W"));
@@ -259,7 +259,7 @@ QTableWidget* QtKeyboardShortcuts::createGraphViewShortcutsTable()
 	table->setItem(4, 1, new QTableWidgetItem("Shift + W | Shift + Mousewheel up"));
 	table->setItem(5, 1, new QTableWidgetItem("Shift + S | Shift + Mousewheel down"));
 	table->setItem(6, 1, new QTableWidgetItem("0"));
-#elif Q_OS_MAC
+#elif defined(Q_OS_MAC)
 	table->setItem(0, 1, new QTableWidgetItem("A"));
 	table->setItem(1, 1, new QTableWidgetItem("D"));
 	table->setItem(2, 1, new QTableWidgetItem("W"));
