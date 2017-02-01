@@ -4,6 +4,19 @@
 	font-family: "<setting:font_name>";
 }
 
+QScrollArea {
+	padding: 0px;
+	border: none;
+	background: transparent;
+	background-color: white;
+	margin: 12px;
+}
+
+#container {
+	background: transparent;
+	margin: 16px;
+}
+
 QPushButton {
 	border: 2px;
 	border-style: solid;
@@ -22,7 +35,6 @@ QPushButton:hover {
 }
 
 QTableWidget {
-	margin: 16px;
 	margin-top: 4px;
 	alternate-background-color: #dadada;
 	background-color: #f6f6f6;
@@ -44,7 +56,10 @@ QTableWidget {
 }
 
 #general_label, #code_label, #graph_label {
-	margin: 16px;
 	margin-top: 0px;
 	margin-bottom: 0px;
+}
+
+#code_label, #graph_label {
+	margin-top: 10px;
 }

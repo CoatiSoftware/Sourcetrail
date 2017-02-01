@@ -1,6 +1,7 @@
 #ifndef QT_KEYBOARD_SHORTCUTS_H
 #define QT_KEYBOARD_SHORTCUTS_H
 
+#include <QScrollArea>
 #include <QTableWidget>
 
 #include "qt/window/QtWindow.h"

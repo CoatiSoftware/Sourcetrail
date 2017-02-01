@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QScrollBar>
 #include <QTableView>
+#include <QtGlobal>
 
 #include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/utility/utilityQt.h"
@@ -32,26 +33,37 @@ void QtKeyboardShortcuts::setupKeyboardShortcuts()
 	title->setText("Keyboard Shortcuts");
 	layout->addWidget(title);
 	
+	QWidget* container = new QWidget();
+	container->setObjectName("container");
+	QVBoxLayout* scrollLayout = new QVBoxLayout(container);
+
+	QScrollArea* scrollArea = new QScrollArea(this);
+	scrollArea->setObjectName("scroll_area");
+	scrollArea->setWidgetResizable(true);
+	scrollArea->setWidget(container);
+	scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	layout->addWidget(scrollArea);
+
 	QLabel* generelLabel = new QLabel(this);
 	generelLabel->setObjectName("general_label");
 	generelLabel->setText("General Shortcuts");
-	layout->addWidget(generelLabel);
+	scrollLayout->addWidget(generelLabel);
 
-	layout->addWidget(createGenerelShortcutsTable());
+	scrollLayout->addWidget(createGenerelShortcutsTable());
 
 	QLabel* codeLabel = new QLabel(this);
 	codeLabel->setObjectName("code_label");
 	codeLabel->setText("Code View Shortcuts");
-	layout->addWidget(codeLabel);
+	scrollLayout->addWidget(codeLabel);
 
-	layout->addWidget(createCodeViewShortcutsTable());
+	scrollLayout->addWidget(createCodeViewShortcutsTable());
 
 	QLabel* graphLabel = new QLabel(this);
 	graphLabel->setObjectName("graph_label");
 	graphLabel->setText("Graph View Shortcuts");
-	layout->addWidget(graphLabel);
+	scrollLayout->addWidget(graphLabel);
 
-	layout->addWidget(createGraphViewShortcutsTable());
+	scrollLayout->addWidget(createGraphViewShortcutsTable());
 
 	QPushButton* closeButton = new QPushButton(this);
 	closeButton->setObjectName("close_button");
@@ -87,14 +99,13 @@ QTableWidget* QtKeyboardShortcuts::createTableWidget(const std::string& objectNa
 	table->setAlternatingRowColors(true);
 	table->horizontalScrollBar()->setDisabled(true);
 	table->horizontalScrollBar()->hide();
+	table->setAutoScroll(false);
 
-	table->setColumnCount(4);
+	table->setColumnCount(2);
 	table->setHorizontalHeaderItem(0, new QTableWidgetItem("Command"));
-	table->setHorizontalHeaderItem(1, new QTableWidgetItem("Windows"));
-	table->setHorizontalHeaderItem(2, new QTableWidgetItem("Mac OS X"));
-	table->setHorizontalHeaderItem(3, new QTableWidgetItem("Linux"));
+	table->setHorizontalHeaderItem(1, new QTableWidgetItem("Shortcut"));
 
-	table->setFixedWidth(650);
+	table->setFixedWidth(610);
 
 	return table;
 }
@@ -106,79 +117,88 @@ QTableWidget* QtKeyboardShortcuts::createGenerelShortcutsTable()
 	table->setRowCount(15);
 
 	table->setItem(0, 0, new QTableWidgetItem("Larger Font"));
-	table->setItem(0, 1, new QTableWidgetItem("Ctrl + +"));
-	table->setItem(0, 2, new QTableWidgetItem("Cmd + +"));
-	table->setItem(0, 3, new QTableWidgetItem("Ctrl + +"));
-
 	table->setItem(1, 0, new QTableWidgetItem("Smaller Font"));
-	table->setItem(1, 1, new QTableWidgetItem("Ctrl + -"));
-	table->setItem(1, 2, new QTableWidgetItem("Cmd + -"));
-	table->setItem(1, 3, new QTableWidgetItem("Ctrl + -"));
-
 	table->setItem(2, 0, new QTableWidgetItem("Reset Font Size"));
-	table->setItem(2, 1, new QTableWidgetItem("Ctrl + 0"));
-	table->setItem(2, 2, new QTableWidgetItem("Cmd + 0"));
-	table->setItem(2, 3, new QTableWidgetItem("Ctrl + 0"));
-
 	table->setItem(3, 0, new QTableWidgetItem("Back"));
-	table->setItem(3, 1, new QTableWidgetItem("Ctrl + Z | Backspace"));
-	table->setItem(3, 2, new QTableWidgetItem("Cmd + Z | Backspace"));
-	table->setItem(3, 3, new QTableWidgetItem("Ctrl + Z | Backspace"));
-
 	table->setItem(4, 0, new QTableWidgetItem("Forward"));
-	table->setItem(4, 1, new QTableWidgetItem("Ctrl + Shift + Z"));
-	table->setItem(4, 2, new QTableWidgetItem("Cmd + Shift + Z"));
-	table->setItem(4, 3, new QTableWidgetItem("Ctrl + Shift + Z"));
-
 	table->setItem(5, 0, new QTableWidgetItem("Refresh"));
-	table->setItem(5, 1, new QTableWidgetItem("F5"));
-	table->setItem(5, 2, new QTableWidgetItem("Cmd + R"));
-	table->setItem(5, 3, new QTableWidgetItem("F5"));
-
 	table->setItem(6, 0, new QTableWidgetItem("Force Refresh"));
-	table->setItem(6, 1, new QTableWidgetItem("Shift + F5"));
-	table->setItem(6, 2, new QTableWidgetItem("Cmd + Shift + R"));
-	table->setItem(6, 3, new QTableWidgetItem("Shift + F5"));
-
 	table->setItem(7, 0, new QTableWidgetItem("Find Symbol"));
-	table->setItem(7, 1, new QTableWidgetItem("Ctrl + F"));
-	table->setItem(7, 2, new QTableWidgetItem("Cmd + F"));
-	table->setItem(7, 3, new QTableWidgetItem("Ctrl + F"));
-
 	table->setItem(8, 0, new QTableWidgetItem("Find Text"));
-	table->setItem(8, 1, new QTableWidgetItem("Ctrl + Shift + F"));
-	table->setItem(8, 2, new QTableWidgetItem("Cmd + Shift + F"));
-	table->setItem(8, 3, new QTableWidgetItem("Ctrl + Shift + F"));
-
 	table->setItem(9, 0, new QTableWidgetItem("New Project"));
-	table->setItem(9, 1, new QTableWidgetItem("Ctrl + N"));
-	table->setItem(9, 2, new QTableWidgetItem("Cmd + N"));
-	table->setItem(9, 3, new QTableWidgetItem("Ctrl + N"));
-
 	table->setItem(10, 0, new QTableWidgetItem("Open Project"));
-	table->setItem(10, 1, new QTableWidgetItem("Ctrl + O"));
-	table->setItem(10, 2, new QTableWidgetItem("Cmd + O"));
-	table->setItem(10, 3, new QTableWidgetItem("Ctrl + O"));
-
 	table->setItem(11, 0, new QTableWidgetItem("Close Window"));
-	table->setItem(11, 1, new QTableWidgetItem("Alt + F4"));
-	table->setItem(11, 2, new QTableWidgetItem("Cmd + W"));
-	table->setItem(11, 3, new QTableWidgetItem("Ctrl + W"));
-
 	table->setItem(12, 0, new QTableWidgetItem("Hide Window"));
-	table->setItem(12, 1, new QTableWidgetItem(""));
-	table->setItem(12, 2, new QTableWidgetItem("Cmd + H"));
-	table->setItem(12, 3, new QTableWidgetItem(""));
-
 	table->setItem(13, 0, new QTableWidgetItem("To Overview"));
-	table->setItem(13, 1, new QTableWidgetItem("Ctrl + Home"));
-	table->setItem(13, 2, new QTableWidgetItem("Cmd + Home | Cmd + Up"));
-	table->setItem(13, 3, new QTableWidgetItem("Ctrl + Home"));
-
 	table->setItem(14, 0, new QTableWidgetItem("Preferences"));
+
+#ifdef Q_OS_WIN32
+	table->setItem(0, 1, new QTableWidgetItem("Ctrl + +"));
+	table->setItem(1, 1, new QTableWidgetItem("Ctrl + -"));
+	table->setItem(2, 1, new QTableWidgetItem("Ctrl + 0"));
+	table->setItem(3, 1, new QTableWidgetItem("Ctrl + Z | Backspace"));
+	table->setItem(4, 1, new QTableWidgetItem("Ctrl + Shift + Z"));
+	table->setItem(5, 1, new QTableWidgetItem("F5"));
+	table->setItem(6, 1, new QTableWidgetItem("Shift + F5"));
+	table->setItem(7, 1, new QTableWidgetItem("Ctrl + F"));
+	table->setItem(8, 1, new QTableWidgetItem("Ctrl + Shift + F"));
+	table->setItem(9, 1, new QTableWidgetItem("Ctrl + N"));
+	table->setItem(10, 1, new QTableWidgetItem("Ctrl + O"));
+	table->setItem(11, 1, new QTableWidgetItem("Alt + F4"));
+	table->setItem(12, 1, new QTableWidgetItem(""));
+	table->setItem(13, 1, new QTableWidgetItem("Ctrl + Home"));
 	table->setItem(14, 1, new QTableWidgetItem("Ctrl + ,"));
-	table->setItem(14, 2, new QTableWidgetItem("Cmd + ,"));
-	table->setItem(14, 3, new QTableWidgetItem("Ctrl + ,"));
+#elif Q_OS_LINUX
+	table->setItem(0, 1, new QTableWidgetItem("Ctrl + +"));
+	table->setItem(1, 1, new QTableWidgetItem("Ctrl + -"));
+	table->setItem(2, 1, new QTableWidgetItem("Ctrl + 0"));
+	table->setItem(3, 1, new QTableWidgetItem("Ctrl + Z | Backspace"));
+	table->setItem(4, 1, new QTableWidgetItem("Ctrl + Shift + Z"));
+	table->setItem(5, 1, new QTableWidgetItem("F5"));
+	table->setItem(6, 1, new QTableWidgetItem("Shift + F5"));
+	table->setItem(7, 1, new QTableWidgetItem("Ctrl + F"));
+	table->setItem(8, 1, new QTableWidgetItem("Ctrl + Shift + F"));
+	table->setItem(9, 1, new QTableWidgetItem("Ctrl + N"));
+	table->setItem(10, 1, new QTableWidgetItem("Ctrl + O"));
+	table->setItem(11, 1, new QTableWidgetItem("Ctrl + W"));
+	table->setItem(12, 1, new QTableWidgetItem(""));
+	table->setItem(13, 1, new QTableWidgetItem("Ctrl + Home"));
+	table->setItem(14, 1, new QTableWidgetItem("Ctrl + ,"));
+#elif Q_OS_MAC
+	table->setItem(0, 1, new QTableWidgetItem("Cmd + +"));
+	table->setItem(1, 1, new QTableWidgetItem("Cmd + -"));
+	table->setItem(2, 1, new QTableWidgetItem("Cmd + 0"));
+	table->setItem(3, 1, new QTableWidgetItem("Cmd + Z | Backspace"));
+	table->setItem(4, 1, new QTableWidgetItem("Cmd + Shift + Z"));
+	table->setItem(5, 1, new QTableWidgetItem("Cmd + R"));
+	table->setItem(6, 1, new QTableWidgetItem("Cmd + Shift + R"));
+	table->setItem(7, 1, new QTableWidgetItem("Cmd + F"));
+	table->setItem(8, 1, new QTableWidgetItem("Cmd + Shift + F"));
+	table->setItem(9, 1, new QTableWidgetItem("Cmd + N"));
+	table->setItem(10, 1, new QTableWidgetItem("Cmd + O"));
+	table->setItem(11, 1, new QTableWidgetItem("Cmd + W"));
+	table->setItem(12, 1, new QTableWidgetItem("Cmd + H"));
+	table->setItem(13, 1, new QTableWidgetItem("Cmd + Home | Cmd + Up"));
+	table->setItem(14, 1, new QTableWidgetItem("Cmd + ,"));
+#else
+	table->setItem(0, 1, new QTableWidgetItem("Ctrl + +"));
+	table->setItem(1, 1, new QTableWidgetItem("Ctrl + -"));
+	table->setItem(2, 1, new QTableWidgetItem("Ctrl + 0"));
+	table->setItem(3, 1, new QTableWidgetItem("Ctrl + Z | Backspace"));
+	table->setItem(4, 1, new QTableWidgetItem("Ctrl + Shift + Z"));
+	table->setItem(5, 1, new QTableWidgetItem("F5"));
+	table->setItem(6, 1, new QTableWidgetItem("Shift + F5"));
+	table->setItem(7, 1, new QTableWidgetItem("Ctrl + F"));
+	table->setItem(8, 1, new QTableWidgetItem("Ctrl + Shift + F"));
+	table->setItem(9, 1, new QTableWidgetItem("Ctrl + N"));
+	table->setItem(10, 1, new QTableWidgetItem("Ctrl + O"));
+	table->setItem(11, 1, new QTableWidgetItem("Alt + F4"));
+	table->setItem(12, 1, new QTableWidgetItem(""));
+	table->setItem(13, 1, new QTableWidgetItem("Ctrl + Home"));
+	table->setItem(14, 1, new QTableWidgetItem("Ctrl + ,"));
+#endif
+
+	table->setFixedHeight(480); // there doesn't seem to be an automatic method, so fuck you basically...
 
 	return table;
 }
@@ -189,14 +209,23 @@ QTableWidget* QtKeyboardShortcuts::createCodeViewShortcutsTable()
 
 	table->setRowCount(2);
 	table->setItem(0, 0, new QTableWidgetItem("Code Reference Next"));
-	table->setItem(0, 1, new QTableWidgetItem("Ctrl + G"));
-	table->setItem(0, 2, new QTableWidgetItem("Cmd + G"));
-	table->setItem(0, 3, new QTableWidgetItem("Ctrl + G"));
-
 	table->setItem(1, 0, new QTableWidgetItem("Code Reference Previous"));
+
+#ifdef Q_OS_WIN32
+	table->setItem(0, 1, new QTableWidgetItem("Ctrl + G"));
 	table->setItem(1, 1, new QTableWidgetItem("Ctrl + Shift + G"));
-	table->setItem(1, 2, new QTableWidgetItem("Cmd + Shift + G"));
-	table->setItem(1, 3, new QTableWidgetItem("Ctrl + Shift + G"));
+#elif Q_OS_LINUX
+	table->setItem(0, 1, new QTableWidgetItem("Ctrl + G"));
+	table->setItem(1, 1, new QTableWidgetItem("Ctrl + Shift + G"));
+#elif Q_OS_MAC
+	table->setItem(0, 1, new QTableWidgetItem("Cmd + G"));
+	table->setItem(1, 1, new QTableWidgetItem("Cmd + Shift + G"));
+#else
+	table->setItem(0, 1, new QTableWidgetItem("Ctrl + G"));
+	table->setItem(1, 1, new QTableWidgetItem("Ctrl + Shift + G"));
+#endif
+
+	table->setFixedHeight(90); // there doesn't seem to be an automatic method, so fuck you basically...
 
 	return table;
 }
@@ -207,39 +236,48 @@ QTableWidget* QtKeyboardShortcuts::createGraphViewShortcutsTable()
 
 	table->setRowCount(7);
 	table->setItem(0, 0, new QTableWidgetItem("Pan left"));
-	table->setItem(0, 1, new QTableWidgetItem("A"));
-	table->setItem(0, 2, new QTableWidgetItem("A"));
-	table->setItem(0, 3, new QTableWidgetItem("A"));
-
 	table->setItem(1, 0, new QTableWidgetItem("Pan right"));
-	table->setItem(1, 1, new QTableWidgetItem("D"));
-	table->setItem(1, 2, new QTableWidgetItem("D"));
-	table->setItem(1, 3, new QTableWidgetItem("D"));
-
 	table->setItem(2, 0, new QTableWidgetItem("Pan up"));
-	table->setItem(2, 1, new QTableWidgetItem("W"));
-	table->setItem(2, 2, new QTableWidgetItem("W"));
-	table->setItem(2, 3, new QTableWidgetItem("W"));
-
 	table->setItem(3, 0, new QTableWidgetItem("Pan down"));
-	table->setItem(3, 1, new QTableWidgetItem("S"));
-	table->setItem(3, 2, new QTableWidgetItem("S"));
-	table->setItem(3, 3, new QTableWidgetItem("S"));
-
 	table->setItem(4, 0, new QTableWidgetItem("Zoom in"));
-	table->setItem(4, 1, new QTableWidgetItem("Shift + W | Shift + Mousewheel up"));
-	table->setItem(4, 2, new QTableWidgetItem("Shift + W | Shift + Mousewheel up"));
-	table->setItem(4, 3, new QTableWidgetItem("Shift + W | Shift + Mousewheel up"));
-
 	table->setItem(5, 0, new QTableWidgetItem("Zoom out"));
-	table->setItem(5, 1, new QTableWidgetItem("Shift + S | Shift + Mousewheel down"));
-	table->setItem(5, 2, new QTableWidgetItem("Shift + S | Shift + Mousewheel down"));
-	table->setItem(5, 3, new QTableWidgetItem("Shift + S | Shift + Mousewheel down"));
-
 	table->setItem(6, 0, new QTableWidgetItem("Reset Zoom"));
+
+#ifdef Q_OS_WIN32
+	table->setItem(0, 1, new QTableWidgetItem("A"));
+	table->setItem(1, 1, new QTableWidgetItem("D"));
+	table->setItem(2, 1, new QTableWidgetItem("W"));
+	table->setItem(3, 1, new QTableWidgetItem("S"));
+	table->setItem(4, 1, new QTableWidgetItem("Shift + W | Shift + Mousewheel up"));
+	table->setItem(5, 1, new QTableWidgetItem("Shift + S | Shift + Mousewheel down"));
 	table->setItem(6, 1, new QTableWidgetItem("0"));
-	table->setItem(6, 2, new QTableWidgetItem("0"));
-	table->setItem(6, 3, new QTableWidgetItem("0"));
+#elif Q_OS_LINUX
+	table->setItem(0, 1, new QTableWidgetItem("A"));
+	table->setItem(1, 1, new QTableWidgetItem("D"));
+	table->setItem(2, 1, new QTableWidgetItem("W"));
+	table->setItem(3, 1, new QTableWidgetItem("S"));
+	table->setItem(4, 1, new QTableWidgetItem("Shift + W | Shift + Mousewheel up"));
+	table->setItem(5, 1, new QTableWidgetItem("Shift + S | Shift + Mousewheel down"));
+	table->setItem(6, 1, new QTableWidgetItem("0"));
+#elif Q_OS_MAC
+	table->setItem(0, 1, new QTableWidgetItem("A"));
+	table->setItem(1, 1, new QTableWidgetItem("D"));
+	table->setItem(2, 1, new QTableWidgetItem("W"));
+	table->setItem(3, 1, new QTableWidgetItem("S"));
+	table->setItem(4, 1, new QTableWidgetItem("Shift + W | Shift + Mousewheel up"));
+	table->setItem(5, 1, new QTableWidgetItem("Shift + S | Shift + Mousewheel down"));
+	table->setItem(6, 1, new QTableWidgetItem("0"));
+#else
+	table->setItem(0, 1, new QTableWidgetItem("A"));
+	table->setItem(1, 1, new QTableWidgetItem("D"));
+	table->setItem(2, 1, new QTableWidgetItem("W"));
+	table->setItem(3, 1, new QTableWidgetItem("S"));
+	table->setItem(4, 1, new QTableWidgetItem("Shift + W | Shift + Mousewheel up"));
+	table->setItem(5, 1, new QTableWidgetItem("Shift + S | Shift + Mousewheel down"));
+	table->setItem(6, 1, new QTableWidgetItem("0"));
+#endif
+
+	table->setFixedHeight(240); // there doesn't seem to be an automatic method, so fuck you basically...
 
 	return table;
 }
