@@ -109,7 +109,7 @@ private slots:
 	void updateLineNumberAreaWidth(int newBlockCount = 0);
 	void updateLineNumberArea(const QRect&, int);
 	void clearSelection();
-	void setCursor(const QTextCursor& cursor);
+	void setNewTextCursor(const QTextCursor& cursor);
 	void setIDECursorPosition();
 
 private:

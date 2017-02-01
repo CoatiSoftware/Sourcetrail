@@ -471,12 +471,15 @@ void QtCodeArea::mousePressEvent(QMouseEvent* event)
 		if (Qt::KeyboardModifier::ShiftModifier & QApplication::keyboardModifiers())
 		{
 			m_isPanning = true;
+			viewport()->setCursor(Qt::ClosedHandCursor);
 		}
 		else
 		{
 			m_isSelecting = true;
 			QTextCursor cursor = this->cursorForPosition(event->pos());
-			setCursor(cursor);
+			setNewTextCursor(cursor);
+
+			viewport()->setCursor(Qt::IBeamCursor);
 		}
 	}
 }
@@ -488,6 +491,8 @@ void QtCodeArea::mouseReleaseEvent(QMouseEvent* event)
 	{
 		m_isSelecting = false;
 		m_isPanning = false;
+
+		viewport()->setCursor(Qt::ArrowCursor);
 
 		if (m_panningDistance < panningThreshold) // dont do anything if mouse is release to end some real panning action.
 		{
@@ -527,7 +532,7 @@ void QtCodeArea::mouseMoveEvent(QMouseEvent* event)
 	{
 		QTextCursor cursor = textCursor();
 		cursor.setPosition(this->cursorForPosition(event->pos()).position(), QTextCursor::KeepAnchor);
-		setCursor(cursor);
+		setNewTextCursor(cursor);
 	}
 	else if (m_isPanning)
 	{
@@ -612,10 +617,10 @@ void QtCodeArea::clearSelection()
 	QTextCursor cursor = textCursor();
 	cursor.clearSelection();
 
-	setCursor(cursor);
+	setNewTextCursor(cursor);
 }
 
-void QtCodeArea::setCursor(const QTextCursor& cursor)
+void QtCodeArea::setNewTextCursor(const QTextCursor& cursor)
 {
 	int horizontalValue = horizontalScrollBar()->value();
 	int verticalValue = verticalScrollBar()->value();
