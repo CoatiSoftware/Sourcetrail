@@ -664,7 +664,10 @@ void QtMainWindow::setupHelpMenu()
 	menu->addAction(tr("Documentation"), this, SLOT(showDocumentation()));
 	menu->addAction(tr("Bug Tracker"), this, SLOT(showBugtracker()));
 	menu->addAction(tr("Enter License..."), this, SLOT(enterLicense()));
-	menu->addAction(tr("Licences"), this, SLOT(showLicenses()));
+
+	menu->addSeparator();
+
+	menu->addAction(tr("3rd Party Licences"), this, SLOT(showLicenses()));
 	menu->addAction(tr("&About Coati"), this, SLOT(about()));
 
 	menu->addSeparator();
