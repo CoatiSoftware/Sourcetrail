@@ -349,6 +349,14 @@
 					<normal>black</normal>
 				</text>
 			</qualifier>
+			<text>
+				<fill>
+					<normal>transparent</normal>
+				</fill>
+				<text>
+					<normal>black</normal>
+				</text>
+			</text>
 		</node>
 		<edge>
 			<default>

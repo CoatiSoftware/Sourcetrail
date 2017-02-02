@@ -14,6 +14,8 @@ class GraphViewStyleImpl;
 class GraphViewStyle
 {
 public:
+	static Vec2i alignOnRaster(Vec2i position);
+
 	struct NodeMargins
 	{
 		NodeMargins();
@@ -104,15 +106,18 @@ public:
 	static size_t getFontSizeOfExpandToggleNode();
 	static size_t getFontSizeOfCountCircle();
 	static size_t getFontSizeOfQualifier();
+	static size_t getFontSizeOfTextNode();
 
 	static std::string getFontNameForNodeType(Node::NodeType type);
 	static std::string getFontNameOfAccessNode();
 	static std::string getFontNameOfExpandToggleNode();
+	static std::string getFontNameOfTextNode();
 
 	static NodeMargins getMarginsForNodeType(Node::NodeType type, bool hasChildren);
 	static NodeMargins getMarginsOfAccessNode(AccessKind access);
 	static NodeMargins getMarginsOfExpandToggleNode();
 	static NodeMargins getMarginsOfBundleNode();
+	static NodeMargins getMarginsOfTextNode();
 
 	static NodeStyle getStyleForNodeType(
 		Node::NodeType type, bool defined, bool isActive, bool isFocused, bool hasChildren, bool hasQualifier);
@@ -121,6 +126,7 @@ public:
 	static NodeStyle getStyleOfCountCircle();
 	static NodeStyle getStyleOfBundleNode(bool isFocused);
 	static NodeStyle getStyleOfQualifier();
+	static NodeStyle getStyleOfTextNode();
 
 	static EdgeStyle getStyleForEdgeType(Edge::EdgeType type, bool isActive, bool isFocused);
 

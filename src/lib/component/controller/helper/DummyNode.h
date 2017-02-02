@@ -6,10 +6,9 @@
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 
+#include "data/graph/Node.h"
 #include "data/graph/token_component/TokenComponentAccess.h"
 #include "data/name/NameHierarchy.h"
-
-class Node;
 
 // temporary data structure for (visual) graph creation process
 struct DummyNode
@@ -68,6 +67,8 @@ public:
 		, bundleId(0)
 		, layoutBucket(0, 0)
 		, bundledNodeCount(0)
+		, bundledNodeType(Node::NODE_UNDEFINED)
+		, textNode(false)
 	{
 	}
 
@@ -83,7 +84,7 @@ public:
 
 	bool isExpandToggleNode() const
 	{
-		return !isGraphNode() && !isAccessNode() && !isBundleNode() && !isQualifierNode();
+		return !isGraphNode() && !isAccessNode() && !isBundleNode() && !isQualifierNode() && !isTextNode();
 	}
 
 	bool isBundleNode() const
@@ -94,6 +95,11 @@ public:
 	bool isQualifierNode() const
 	{
 		return qualifierName.size();
+	}
+
+	bool isTextNode() const
+	{
+		return textNode;
 	}
 
 	bool isExpanded() const
@@ -269,9 +275,13 @@ public:
 	// BundleNode
 	BundledNodesSet bundledNodes;
 	size_t bundledNodeCount;
+	Node::NodeType bundledNodeType;
 
 	// QualifierNode
 	NameHierarchy qualifierName;
+
+	// TextNode
+	bool textNode;
 };
 
 #endif // DUMMY_NODE_H

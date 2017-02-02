@@ -23,6 +23,53 @@ float GraphViewStyle::s_zoomFactor;
 std::map<std::string, GraphViewStyle::NodeColor> GraphViewStyle::s_nodeColors;
 std::map<std::string, std::string> GraphViewStyle::s_edgeColors;
 
+Vec2i GraphViewStyle::alignOnRaster(Vec2i position)
+{
+	int rasterPosDivisor = s_gridCellSize + s_gridCellPadding;
+
+	if (position.x % rasterPosDivisor != 0)
+	{
+		int t = position.x / rasterPosDivisor;
+		int r = position.x % rasterPosDivisor;
+
+		if (std::abs(r) > rasterPosDivisor/2)
+		{
+			if (t != 0)
+			{
+				t += (t / std::abs(t));
+			}
+			else if (r != 0)
+			{
+				t += (r / std::abs(r));
+			}
+		}
+
+		position.x = t * rasterPosDivisor;
+	}
+
+	if (position.y % rasterPosDivisor != 0)
+	{
+		int t = position.y / rasterPosDivisor;
+		int r = position.y % rasterPosDivisor;
+
+		if (std::abs(r) > rasterPosDivisor/2)
+		{
+			if(t != 0)
+			{
+				t += (t / std::abs(t));
+			}
+			else if(r != 0)
+			{
+				t += (r / std::abs(r));
+			}
+		}
+
+		position.y = t * rasterPosDivisor;
+	}
+
+	return position;
+}
+
 GraphViewStyle::NodeMargins::NodeMargins()
 	: left(0)
 	, right(0)
@@ -176,6 +223,11 @@ size_t GraphViewStyle::getFontSizeOfQualifier()
 	return s_fontSize - 3;
 }
 
+size_t GraphViewStyle::getFontSizeOfTextNode()
+{
+	return s_fontSize + 5;
+}
+
 std::string GraphViewStyle::getFontNameForNodeType(Node::NodeType type)
 {
 	return s_fontName;
@@ -187,6 +239,11 @@ std::string GraphViewStyle::getFontNameOfAccessNode()
 }
 
 std::string GraphViewStyle::getFontNameOfExpandToggleNode()
+{
+	return "Fira Sans";
+}
+
+std::string GraphViewStyle::getFontNameOfTextNode()
 {
 	return "Fira Sans";
 }
@@ -306,6 +363,17 @@ GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfExpandToggleNode()
 GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfBundleNode()
 {
 	return getMarginsForNodeType(Node::NODE_ENUM, false);
+}
+
+GraphViewStyle::NodeMargins GraphViewStyle::getMarginsOfTextNode()
+{
+	NodeMargins margins;
+
+	margins.left = margins.right = 0;
+	margins.top = margins.bottom = 6;
+	margins.minWidth = margins.charHeight = getFontSizeOfTextNode();
+
+	return margins;
 }
 
 GraphViewStyle::NodeStyle GraphViewStyle::getStyleForNodeType(
@@ -459,6 +527,21 @@ GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfQualifier()
 
 	style.color = getNodeColor("qualifier", false);
 	style.borderWidth = 2;
+
+	return style;
+}
+
+GraphViewStyle::NodeStyle GraphViewStyle::getStyleOfTextNode()
+{
+	NodeStyle style;
+
+	style.color = getNodeColor("text", false);
+
+	style.fontName = getFontNameOfTextNode();
+	style.fontSize = getFontSizeOfTextNode();
+	style.fontBold = true;
+
+	style.textOffset.y = 10;
 
 	return style;
 }

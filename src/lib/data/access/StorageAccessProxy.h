@@ -31,7 +31,7 @@ public:
 	virtual std::vector<SearchMatch> getSearchMatchesForTokenIds(const std::vector<Id>& tokenIds) const;
 
 	virtual std::shared_ptr<Graph> getGraphForAll() const;
-	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const;
+	virtual std::shared_ptr<Graph> getGraphForActiveTokenIds(const std::vector<Id>& tokenIds, bool* isActiveNamespace = nullptr) const;
 
 	virtual std::vector<Id> getActiveTokenIdsForId(Id tokenId, Id* declarationId) const;
 

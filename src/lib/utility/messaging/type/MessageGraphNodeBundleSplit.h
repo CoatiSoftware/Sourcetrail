@@ -8,8 +8,10 @@ class MessageGraphNodeBundleSplit
 	: public Message<MessageGraphNodeBundleSplit>
 {
 public:
-	MessageGraphNodeBundleSplit(Id bundleId)
+	MessageGraphNodeBundleSplit(Id bundleId, bool removeOtherNodes = false, bool layoutToList = false)
 		: bundleId(bundleId)
+		, removeOtherNodes(removeOtherNodes)
+		, layoutToList(layoutToList)
 	{
 	}
 
@@ -24,6 +26,8 @@ public:
 	}
 
 	Id bundleId;
+	bool removeOtherNodes;
+	bool layoutToList;
 };
 
 #endif // MESSAGE_GRAPH_NODE_BUNDLE_SPLIT_H

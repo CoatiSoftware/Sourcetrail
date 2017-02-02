@@ -5,15 +5,12 @@
 #include <QGraphicsSceneEvent>
 #include <QPen>
 
-#include "utility/ResourcePaths.h"
-
-#include "component/controller/helper/GraphPostprocessor.h"
-
 #include "qt/graphics/QtRoundedRectItem.h"
 #include "qt/utility/QtDeviceScaledPixmap.h"
 #include "qt/utility/utilityQt.h"
 #include "qt/view/graphElements/nodeComponents/QtGraphNodeComponent.h"
 #include "qt/view/graphElements/QtGraphEdge.h"
+#include "utility/ResourcePaths.h"
 
 void QtGraphNode::blendIn()
 {
@@ -250,6 +247,11 @@ bool QtGraphNode::isQualifierNode() const
 	return false;
 }
 
+bool QtGraphNode::isTextNode() const
+{
+	return false;
+}
+
 Id QtGraphNode::getTokenId() const
 {
 	return 0;
@@ -277,7 +279,7 @@ void QtGraphNode::addSubNode(const std::shared_ptr<QtGraphNode>& node)
 
 void QtGraphNode::moved(const Vec2i& oldPosition)
 {
-	setPosition(GraphPostprocessor::alignOnRaster(getPosition()));
+	setPosition(GraphViewStyle::alignOnRaster(getPosition()));
 }
 
 void QtGraphNode::onClick()

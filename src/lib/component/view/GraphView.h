@@ -20,6 +20,8 @@ public:
 	{
 		bool animatedTransition;
 		bool centerActiveNode;
+		bool scrollToTop;
+		bool isIndexedList;
 	};
 
 	GraphView(ViewLayout* viewLayout);

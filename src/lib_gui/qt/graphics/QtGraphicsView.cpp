@@ -66,7 +66,7 @@ QtGraphicsView::QtGraphicsView(QWidget* parent)
 
 float QtGraphicsView::getZoomFactor() const
 {
-	return m_appZoomFactor;
+	return m_appZoomFactor * m_zoomFactor;
 }
 
 void QtGraphicsView::setAppZoomFactor(float appZoomFactor)
@@ -181,6 +181,12 @@ void QtGraphicsView::mouseReleaseEvent(QMouseEvent *event)
 
 void QtGraphicsView::keyPressEvent(QKeyEvent* event)
 {
+	if (event->key() >= Qt::Key_A && event->key() <= Qt::Key_Z)
+	{
+		QChar c = event->text().at(0).toUpper();
+		emit characterKeyPressed(c);
+	}
+
 	bool moved = moves();
 
 	switch (event->key())

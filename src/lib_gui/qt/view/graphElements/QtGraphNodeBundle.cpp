@@ -8,9 +8,10 @@
 #include "component/view/GraphViewStyle.h"
 #include "qt/graphics/QtCountCircleItem.h"
 
-QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, std::string name)
+QtGraphNodeBundle::QtGraphNodeBundle(Id tokenId, size_t nodeCount, Node::NodeType type, std::string name)
 	: QtGraphNode()
 	, m_tokenId(tokenId)
+	, m_type(type)
 {
 	this->setName(name);
 
@@ -38,12 +39,24 @@ Id QtGraphNodeBundle::getTokenId() const
 
 void QtGraphNodeBundle::onClick()
 {
-	MessageGraphNodeBundleSplit(m_tokenId).dispatch();
+	MessageGraphNodeBundleSplit(
+		m_tokenId,
+		m_type != Node::NODE_UNDEFINED && getName() != "Anonymous Namespaces",
+		m_type != Node::NODE_UNDEFINED
+	).dispatch();
 }
 
 void QtGraphNodeBundle::updateStyle()
 {
-	GraphViewStyle::NodeStyle style = GraphViewStyle::getStyleOfBundleNode(m_isHovering);
+	GraphViewStyle::NodeStyle style;
+	if (m_type != Node::NODE_UNDEFINED)
+	{
+		style = GraphViewStyle::getStyleForNodeType(m_type, true, false, m_isHovering, false, false);
+	}
+	else
+	{
+		style = GraphViewStyle::getStyleOfBundleNode(m_isHovering);
+	}
 	setStyle(style);
 
 	m_circle->setPosition(Vec2f(m_rect->rect().right() - 3, m_rect->rect().top() + 3));

@@ -77,6 +77,7 @@ public:
 	virtual bool isExpandToggleNode() const;
 	virtual bool isBundleNode() const;
 	virtual bool isQualifierNode() const;
+	virtual bool isTextNode() const;
 
 	virtual Id getTokenId() const;
 

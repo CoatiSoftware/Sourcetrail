@@ -1,5 +1,5 @@
-#ifndef BUCKET_GRID_H
-#define BUCKET_GRID_H
+#ifndef BUCKET_LAYOUTER_H
+#define BUCKET_LAYOUTER_H
 
 #include <map>
 
@@ -38,10 +38,10 @@ private:
 };
 
 
-class BucketGrid
+class BucketLayouter
 {
 public:
-	BucketGrid(Vec2i viewSize);
+	BucketLayouter(Vec2i viewSize);
 	void createBuckets(
 		std::vector<std::shared_ptr<DummyNode>>& nodes,
 		const std::vector<std::shared_ptr<DummyEdge>>& edges);
@@ -68,4 +68,4 @@ private:
 	int m_j2;
 };
 
-#endif // BUCKET_GRID_H
+#endif // BUCKET_LAYOUTER_H

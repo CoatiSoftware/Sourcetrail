@@ -49,9 +49,10 @@ public:
 	virtual Vec2i getViewSize() const;
 
 private slots:
-	void centerScrollBars();
+	void updateScrollBars();
 	void finishedTransition();
 	void clickedInEmptySpace();
+	void pressedCharacterKey(QChar c);
 
 private:
 	void switchToNewGraphData();
@@ -112,6 +113,8 @@ private:
 	std::list<std::shared_ptr<QtGraphNode>> m_oldNodes;
 
 	std::shared_ptr<QtGraphNode> m_activeNode;
+	bool m_scrollToTop;
+	bool m_isIndexedList;
 
 	std::shared_ptr<QSequentialAnimationGroup> m_transition;
 	QPointF m_sceneRectOffset;

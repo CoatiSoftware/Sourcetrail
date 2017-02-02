@@ -756,7 +756,7 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForAll() const
 	return graph;
 }
 
-std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds) const
+std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(const std::vector<Id>& tokenIds, bool* isActiveNamespace) const
 {
 	TRACE();
 
@@ -862,6 +862,11 @@ std::shared_ptr<Graph> PersistentStorage::getGraphForActiveTokenIds(const std::v
 	}
 
 	addComponentAccessToGraph(graph);
+
+	if (isActiveNamespace)
+	{
+		*isActiveNamespace = isNamespace;
+	}
 
 	return g;
 }

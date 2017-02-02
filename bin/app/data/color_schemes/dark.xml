@@ -352,6 +352,14 @@
 					<normal>#F7F7F7</normal>
 				</text>
 			</qualifier>
+			<text>
+				<fill>
+					<normal>transparent</normal>
+				</fill>
+				<text>
+					<normal>white</normal>
+				</text>
+			</text>
 		</node>
 		<edge>
 			<default>

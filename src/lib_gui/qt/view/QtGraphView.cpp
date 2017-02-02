@@ -11,9 +11,7 @@
 
 #include "component/controller/helper/DummyEdge.h"
 #include "component/controller/helper/DummyNode.h"
-#include "component/controller/helper/GraphPostprocessor.h"
 #include "component/view/GraphViewStyle.h"
-#include "settings/ColorScheme.h"
 #include "settings/ApplicationSettings.h"
 #include "utility/messaging/type/MessageDeactivateEdge.h"
 #include "utility/ResourcePaths.h"
@@ -29,6 +27,7 @@
 #include "qt/view/graphElements/QtGraphNodeData.h"
 #include "qt/view/graphElements/QtGraphNodeExpandToggle.h"
 #include "qt/view/graphElements/QtGraphNodeQualifier.h"
+#include "qt/view/graphElements/QtGraphNodeText.h"
 
 QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	: GraphView(viewLayout)
@@ -40,6 +39,8 @@ QtGraphView::QtGraphView(ViewLayout* viewLayout)
 	, m_refreshFunctor(std::bind(&QtGraphView::doRefreshView, this))
 	, m_focusInFunctor(std::bind(&QtGraphView::doFocusIn, this, std::placeholders::_1))
 	, m_focusOutFunctor(std::bind(&QtGraphView::doFocusOut, this, std::placeholders::_1))
+	, m_scrollToTop(false)
+	, m_isIndexedList(false)
 {
 }
 
@@ -71,6 +72,7 @@ void QtGraphView::initView()
 	widget->layout()->addWidget(view);
 
 	connect(view, SIGNAL(emptySpaceClicked()), this, SLOT(clickedInEmptySpace()));
+	connect(view, SIGNAL(characterKeyPressed(QChar)), this, SLOT(pressedCharacterKey(QChar)));
 
 	m_scrollSpeedChangeListenerHorizontal.setScrollBar(view->horizontalScrollBar());
 	m_scrollSpeedChangeListenerVertical.setScrollBar(view->verticalScrollBar());
@@ -109,18 +111,25 @@ Vec2i QtGraphView::getViewSize() const
 	QtGraphicsView* view = getView();
 
 	float zoomFactor = view->getZoomFactor();
-	return Vec2i(view->width() / zoomFactor - 80, view->height() / zoomFactor - 80);
+	return Vec2i(view->width() / zoomFactor - 60, view->height() / zoomFactor - 60);
 }
 
-void QtGraphView::centerScrollBars()
+void QtGraphView::updateScrollBars()
 {
 	QGraphicsView* view = getView();
 
 	QScrollBar* hb = view->horizontalScrollBar();
 	QScrollBar* vb = view->verticalScrollBar();
 
-	hb->setValue((hb->minimum() + hb->maximum()) / 2);
-	vb->setValue((vb->minimum() + vb->maximum()) / 2);
+	if (m_scrollToTop)
+	{
+		vb->setValue(vb->minimum());
+	}
+	else
+	{
+		hb->setValue((hb->minimum() + hb->maximum()) / 2);
+		vb->setValue((vb->minimum() + vb->maximum()) / 2);
+	}
 }
 
 void QtGraphView::finishedTransition()
@@ -148,6 +157,50 @@ void QtGraphView::clickedInEmptySpace()
 	}
 }
 
+void QtGraphView::pressedCharacterKey(QChar c)
+{
+	if (!m_isIndexedList)
+	{
+		return;
+	}
+
+	QtGraphNode* node = nullptr;
+	bool hasTextNodes = false;
+
+	for (const std::shared_ptr<QtGraphNode>& n : m_oldNodes)
+	{
+		if (n->isTextNode() && n->getName().size())
+		{
+			hasTextNodes = true;
+			QChar start(n->getName()[0]);
+			if (start >= c)
+			{
+				node = n.get();
+				break;
+			}
+		}
+	}
+
+	if (!hasTextNodes)
+	{
+		return;
+	}
+
+	QtGraphicsView* view = getView();
+
+	if (!node)
+	{
+		view->ensureVisibleAnimated(QRectF(0, view->scene()->height() - 5, view->scene()->width(), 5), 100, 100);
+	}
+	else
+	{
+		Vec2i pos = node->getPosition();
+		Vec2i size = node->getSize();
+
+		view->ensureVisibleAnimated(QRectF(pos.x, pos.y, size.x, size.y + view->height() / 3 * 2), 100, 100);
+	}
+}
+
 void QtGraphView::switchToNewGraphData()
 {
 	m_oldGraph = m_graph;
@@ -169,6 +222,11 @@ void QtGraphView::switchToNewGraphData()
 	m_edges.clear();
 
 	doResize();
+
+	if (m_scrollToTop)
+	{
+		updateScrollBars();
+	}
 
 	// Manually hover the item below the mouse cursor.
 	QtGraphicsView* view = getView();
@@ -244,7 +302,7 @@ void QtGraphView::doRebuildGraph(
 	}
 
 	QPointF center = itemsBoundingRect(m_nodes).center();
-	Vec2i o = GraphPostprocessor::alignOnRaster(Vec2i(center.x(), center.y()));
+	Vec2i o = GraphViewStyle::alignOnRaster(Vec2i(center.x(), center.y()));
 	QPointF offset = QPointF(o.x, o.y);
 	m_sceneRectOffset = offset - center;
 
@@ -281,6 +339,9 @@ void QtGraphView::doRebuildGraph(
 	{
 		m_activeNode.reset();
 	}
+
+	m_scrollToTop = params.scrollToTop;
+	m_isIndexedList = params.isIndexedList;
 
 	if (params.animatedTransition && ApplicationSettings::getInstance()->getUseAnimations())
 	{
@@ -364,11 +425,16 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	}
 	else if (node->isBundleNode())
 	{
-		newNode = std::make_shared<QtGraphNodeBundle>(node->tokenId, node->getBundledNodeCount(), node->name);
+		newNode = std::make_shared<QtGraphNodeBundle>(
+			node->tokenId, node->getBundledNodeCount(), node->bundledNodeType, node->name);
 	}
 	else if (node->isQualifierNode())
 	{
 		newNode = std::make_shared<QtGraphNodeQualifier>(node->qualifierName);
+	}
+	else if (node->isTextNode())
+	{
+		newNode = std::make_shared<QtGraphNodeText>(node->name);
 	}
 
 	newNode->setPosition(node->position);
@@ -384,7 +450,7 @@ std::shared_ptr<QtGraphNode> QtGraphView::createNodeRecursive(
 	{
 		newNode->setParent(parentNode);
 	}
-	else
+	else if (!node->isTextNode())
 	{
 		newNode->addComponent(std::make_shared<QtGraphNodeComponentMoveable>(newNode));
 	}
@@ -624,9 +690,9 @@ void QtGraphView::createTransition()
 
 		anim->setDuration(300);
 
-		if (!remainingNodes.size())
+		if (!remainingNodes.size() || m_scrollToTop)
 		{
-			connect(anim, SIGNAL(finished()), this, SLOT(centerScrollBars()));
+			connect(anim, SIGNAL(finished()), this, SLOT(updateScrollBars()));
 		}
 
 		remain->addAnimation(anim);

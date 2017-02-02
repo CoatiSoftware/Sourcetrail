@@ -1,4 +1,4 @@
-#include "component/controller/helper/BucketGrid.h"
+#include "component/controller/helper/BucketLayouter.h"
 
 #include "component/controller/helper/DummyEdge.h"
 #include "component/view/GraphViewStyle.h"
@@ -101,7 +101,7 @@ void Bucket::layout(int x, int y, int width, int height)
 }
 
 
-BucketGrid::BucketGrid(Vec2i viewSize)
+BucketLayouter::BucketLayouter(Vec2i viewSize)
 	: m_viewSize(viewSize)
 	, m_i1(0)
 	, m_j1(0)
@@ -111,7 +111,7 @@ BucketGrid::BucketGrid(Vec2i viewSize)
 	m_buckets[0][0] = Bucket(0, 0);
 }
 
-void BucketGrid::createBuckets(
+void BucketLayouter::createBuckets(
 	std::vector<std::shared_ptr<DummyNode>>& nodes, const std::vector<std::shared_ptr<DummyEdge>>& edges
 ){
 	if (!nodes.size())
@@ -194,7 +194,7 @@ void BucketGrid::createBuckets(
 	}
 }
 
-void BucketGrid::layoutBuckets()
+void BucketLayouter::layoutBuckets()
 {
 	std::map<int, int> widths;
 	std::map<int, int> heights;
@@ -245,7 +245,7 @@ void BucketGrid::layoutBuckets()
 	}
 }
 
-std::vector<std::shared_ptr<DummyNode>> BucketGrid::getSortedNodes()
+std::vector<std::shared_ptr<DummyNode>> BucketLayouter::getSortedNodes()
 {
 	std::vector<std::shared_ptr<DummyNode>> sortedNodes;
 
@@ -261,7 +261,7 @@ std::vector<std::shared_ptr<DummyNode>> BucketGrid::getSortedNodes()
 	return sortedNodes;
 }
 
-std::shared_ptr<DummyNode> BucketGrid::findTopMostDummyNodeRecursive(
+std::shared_ptr<DummyNode> BucketLayouter::findTopMostDummyNodeRecursive(
 	std::vector<std::shared_ptr<DummyNode>>& nodes, Id tokenId, std::shared_ptr<DummyNode> top
 ){
 	for (std::shared_ptr<DummyNode> node : nodes)
@@ -283,13 +283,13 @@ std::shared_ptr<DummyNode> BucketGrid::findTopMostDummyNodeRecursive(
 	return nullptr;
 }
 
-void BucketGrid::addNode(std::shared_ptr<DummyNode> node)
+void BucketLayouter::addNode(std::shared_ptr<DummyNode> node)
 {
 	Bucket* bucket = getBucket(node->layoutBucket.x, node->layoutBucket.y);
 	bucket->addNode(node);
 }
 
-bool BucketGrid::addNode(std::shared_ptr<DummyNode> owner, std::shared_ptr<DummyNode> target, bool horizontal)
+bool BucketLayouter::addNode(std::shared_ptr<DummyNode> owner, std::shared_ptr<DummyNode> target, bool horizontal)
 {
 	Bucket* ownerBucket = getBucket(owner);
 	Bucket* targetBucket = getBucket(target);
@@ -324,7 +324,7 @@ bool BucketGrid::addNode(std::shared_ptr<DummyNode> owner, std::shared_ptr<Dummy
 	return true;
 }
 
-Bucket* BucketGrid::getBucket(int i, int j)
+Bucket* BucketLayouter::getBucket(int i, int j)
 {
 	bool newColumn = false;
 	bool newRow = false;
@@ -375,7 +375,7 @@ Bucket* BucketGrid::getBucket(int i, int j)
 	return nullptr;
 }
 
-Bucket* BucketGrid::getBucket(std::shared_ptr<DummyNode> node)
+Bucket* BucketLayouter::getBucket(std::shared_ptr<DummyNode> node)
 {
 	for (int j = m_j1; j <= m_j2; j++)
 	{

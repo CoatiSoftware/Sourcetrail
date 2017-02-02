@@ -2,12 +2,12 @@
 add_files(
 	LIB_FILES
 
-	component/controller/helper/BucketGrid.cpp
-	component/controller/helper/BucketGrid.h
+	component/controller/helper/BucketLayouter.cpp
+	component/controller/helper/BucketLayouter.h
 	component/controller/helper/DummyEdge.h
 	component/controller/helper/DummyNode.h
-	component/controller/helper/GraphPostprocessor.cpp
-	component/controller/helper/GraphPostprocessor.h
+	component/controller/helper/ListLayouter.cpp
+	component/controller/helper/ListLayouter.h
 	component/controller/helper/NetworkProtocolHelper.cpp
 	component/controller/helper/NetworkProtocolHelper.h
 	component/controller/helper/SnippetMerger.cpp
@@ -362,7 +362,7 @@ add_files(
 
 	utility/text/TextAccess.cpp
 	utility/text/TextAccess.h
-	
+
 	utility/ApplicationArchitectureType.h
 	utility/AppPath.cpp
 	utility/AppPath.h

@@ -7,7 +7,8 @@
 #include "utility/utility.h"
 #include "utility/utilityString.h"
 
-#include "component/controller/helper/BucketGrid.h"
+#include "component/controller/helper/BucketLayouter.h"
+#include "component/controller/helper/ListLayouter.h"
 #include "component/view/GraphView.h"
 #include "component/view/GraphViewStyle.h"
 #include "data/access/StorageAccess.h"
@@ -72,20 +73,30 @@ void GraphController::handleMessage(MessageActivateTokens* message)
 
 	std::vector<Id> tokenIds = utility::concat(m_activeNodeIds, m_activeEdgeIds);
 
-	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForActiveTokenIds(tokenIds);
+	bool isNamespace = false;
+	std::shared_ptr<Graph> graph = m_storageAccess->getGraphForActiveTokenIds(tokenIds, &isNamespace);
 
 	createDummyGraphForTokenIdsAndSetActiveAndVisibility(tokenIds, graph);
 
-	if (m_activeNodeIds.size() == 1)
+	if (isNamespace)
 	{
-		bundleNodes();
+		addCharacterIndex();
+		layoutNesting();
+		layoutList();
+	}
+	else
+	{
+		if (m_activeNodeIds.size() == 1)
+		{
+			bundleNodes();
+		}
+
+		layoutNesting();
+		layoutGraph(true);
+		assignBundleIds();
 	}
 
-	layoutNesting();
-	layoutGraph(true);
-	assignBundleIds();
-
-	buildGraph(message, true);
+	buildGraph(message, !isNamespace, true, isNamespace);
 }
 
 void GraphController::handleMessage(MessageFlushUpdates* message)
@@ -115,8 +126,16 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 		DummyNode* node = m_dummyNodes[i].get();
 		if (node->isBundleNode() && node->tokenId == message->bundleId)
 		{
-			m_dummyNodes.insert(m_dummyNodes.begin() + i + 1, node->bundledNodes.begin(), node->bundledNodes.end());
-			m_dummyNodes.erase(m_dummyNodes.begin() + i);
+			if (message->removeOtherNodes)
+			{
+				std::vector<std::shared_ptr<DummyNode>> nodes(node->bundledNodes.begin(), node->bundledNodes.end());
+				m_dummyNodes = nodes;
+			}
+			else
+			{
+				m_dummyNodes.insert(m_dummyNodes.begin() + i + 1, node->bundledNodes.begin(), node->bundledNodes.end());
+				m_dummyNodes.erase(m_dummyNodes.begin() + i);
+			}
 			break;
 		}
 	}
@@ -134,10 +153,19 @@ void GraphController::handleMessage(MessageGraphNodeBundleSplit* message)
 	std::vector<Id> tokenIds = utility::concat(m_activeNodeIds, m_activeEdgeIds);
 	setActiveAndVisibility(tokenIds);
 
-	layoutNesting();
-	layoutGraph();
+	if (message->layoutToList)
+	{
+		addCharacterIndex();
+		layoutNesting();
+		layoutList();
+	}
+	else
+	{
+		layoutNesting();
+		layoutGraph();
+	}
 
-	buildGraph(message, false);
+	buildGraph(message, false, true, message->layoutToList);
 }
 
 void GraphController::handleMessage(MessageGraphNodeExpand* message)
@@ -942,6 +970,7 @@ void GraphController::bundleByType(
 
 	if (bundleNode)
 	{
+		bundleNode->bundledNodeType = type;
 		m_dummyNodes.push_back(bundleNode);
 	}
 }
@@ -959,9 +988,13 @@ void GraphController::bundleNodesByType()
 		nodes.push_back(oldNodes[i]);
 	}
 
+	bundleByType(nodes, Node::NODE_FILE, "Files");
+	bundleByType(nodes, Node::NODE_MACRO, "Macros");
+
 	bundleByType(nodes, Node::NODE_NAMESPACE, "Namespaces");
 	bundleByType(nodes, Node::NODE_PACKAGE, "Packages");
-	bundleByType(nodes, Node::NODE_BUILTIN_TYPE, "Built-in Types");
+
+	// bundleByType(nodes, Node::NODE_BUILTIN_TYPE, "Built-in Types");
 	bundleByType(nodes, Node::NODE_CLASS, "Classes");
 	bundleByType(nodes, Node::NODE_INTERFACE, "Interfaces");
 	bundleByType(nodes, Node::NODE_STRUCT, "Structs");
@@ -972,9 +1005,6 @@ void GraphController::bundleNodesByType()
 	bundleByType(nodes, Node::NODE_TYPE, "Types");
 	bundleByType(nodes, Node::NODE_TYPEDEF, "Typedefs");
 	bundleByType(nodes, Node::NODE_ENUM, "Enums");
-
-	bundleByType(nodes, Node::NODE_FILE, "Files");
-	bundleByType(nodes, Node::NODE_MACRO, "Macros");
 
 	// // should never be visible
 
@@ -1022,9 +1052,47 @@ void GraphController::bundleNodesByType()
 
 			if (anonymousBundle)
 			{
+				anonymousBundle->bundledNodeType = Node::NODE_NAMESPACE;
 				bundleNode->bundledNodeCount = bundleNode->getBundledNodeCount() + anonymousBundle->getBundledNodeCount();
 				bundleNode->bundledNodes.insert(anonymousBundle);
 			}
+		}
+	}
+}
+
+void GraphController::addCharacterIndex()
+{
+	// Remove index characters from last time
+	DummyNode::BundledNodesSet newNodes;
+	for (const std::shared_ptr<DummyNode> node : m_dummyNodes)
+	{
+		if (!node->isTextNode())
+		{
+			newNodes.insert(node);
+		}
+	}
+	m_dummyNodes.clear();
+	m_dummyNodes.insert(m_dummyNodes.end(), newNodes.begin(), newNodes.end());
+
+	// Add index characters
+	char character = 0;
+	for (size_t i = 0; i < m_dummyNodes.size(); i++)
+	{
+		if (!m_dummyNodes[i]->name.size())
+		{
+			continue;
+		}
+
+		if (toupper(m_dummyNodes[i]->name[0]) != character)
+		{
+			character = toupper(m_dummyNodes[i]->name[0]);
+
+			std::shared_ptr<DummyNode> textNode = std::make_shared<DummyNode>();
+			textNode->textNode = true;
+			textNode->name = character;
+			textNode->visible = true;
+
+			m_dummyNodes.insert(m_dummyNodes.begin() + i, textNode);
 		}
 	}
 }
@@ -1067,11 +1135,22 @@ void GraphController::layoutNestingRecursive(DummyNode* node) const
 	}
 	else if (node->isBundleNode())
 	{
-		margins = GraphViewStyle::getMarginsOfBundleNode();
+		if (node->bundledNodeType != Node::NODE_UNDEFINED)
+		{
+			margins = GraphViewStyle::getMarginsForNodeType(node->bundledNodeType, false);
+		}
+		else
+		{
+			margins = GraphViewStyle::getMarginsOfBundleNode();
+		}
 	}
 	else if (node->isQualifierNode())
 	{
 		return;
+	}
+	else if (node->isTextNode())
+	{
+		margins = GraphViewStyle::getMarginsOfTextNode();
 	}
 
 	int y = 0;
@@ -1277,7 +1356,7 @@ void GraphController::layoutGraph(bool getSortedNodes)
 {
 	TRACE();
 
-	BucketGrid grid(getView()->getViewSize());
+	BucketLayouter grid(getView()->getViewSize());
 	grid.createBuckets(m_dummyNodes, m_dummyEdges);
 	grid.layoutBuckets();
 
@@ -1285,6 +1364,14 @@ void GraphController::layoutGraph(bool getSortedNodes)
 	{
 		m_dummyNodes = grid.getSortedNodes();
 	}
+}
+
+void GraphController::layoutList()
+{
+	TRACE();
+
+	ListLayouter layouter(getView()->getViewSize());
+	layouter.layoutList(m_dummyNodes);
 }
 
 void GraphController::assignBundleIds()
@@ -1307,13 +1394,15 @@ DummyNode* GraphController::getDummyGraphNodeById(Id tokenId) const
 	return nullptr;
 }
 
-void GraphController::buildGraph(MessageBase* message, bool centerActiveNode, bool animatedTransition)
+void GraphController::buildGraph(MessageBase* message, bool centerActiveNode, bool animatedTransition, bool scrollToTop)
 {
 	if (!message->isReplayed())
 	{
 		GraphView::GraphParams params;
 		params.centerActiveNode = centerActiveNode;
 		params.animatedTransition = animatedTransition;
+		params.scrollToTop = scrollToTop;
+		params.isIndexedList = scrollToTop;
 
 		getView()->rebuildGraph(m_graph, m_dummyNodes, m_dummyEdges, params);
 	}
@@ -1591,7 +1680,7 @@ void GraphController::handleMessage(MessageColorSchemeTest* message)
 		node->layoutBucket.y = (i / 6) + 1;
 	}
 
-	BucketGrid grid(Vec2i(0, 0));
+	BucketLayouter grid(Vec2i(0, 0));
 	grid.createBuckets(m_dummyNodes, std::vector<std::shared_ptr<DummyEdge>>());
 	grid.layoutBuckets();
 

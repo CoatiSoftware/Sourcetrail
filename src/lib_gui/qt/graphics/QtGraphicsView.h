@@ -45,6 +45,7 @@ protected:
 
 signals:
 	void emptySpaceClicked();
+	void characterKeyPressed(QChar c);
 
 private slots:
 	void updateTimer();
