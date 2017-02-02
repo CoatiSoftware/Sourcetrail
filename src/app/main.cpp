@@ -102,6 +102,8 @@ int main(int argc, char *argv[])
 {
 	QApplication::setApplicationName("Coati");
 
+	setupLogging();
+
 	if (QSysInfo::windowsVersion() != QSysInfo::WV_None)
 	{
 		QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
@@ -126,8 +128,6 @@ int main(int argc, char *argv[])
 		QtCoreApplication qtApp(argc, argv);
 
 		setupApp(argc, argv);
-
-		setupLogging();
 
 		Application::createInstance(version, nullptr, nullptr);
 		ScopedFunctor f([](){
@@ -178,8 +178,6 @@ int main(int argc, char *argv[])
 		QtApplication qtApp(argc, argv);
 
 		setupApp(argc, argv);
-
-		setupLogging();
 
 		qtApp.setAttribute(Qt::AA_UseHighDpiPixmaps);
 

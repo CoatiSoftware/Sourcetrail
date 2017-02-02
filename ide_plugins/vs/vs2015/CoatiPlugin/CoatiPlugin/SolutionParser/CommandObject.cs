@@ -10,7 +10,13 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
         public string File
         {
             get { return _file; }
-            set { _file = value; }
+            set
+            {
+                _file = value;
+                //_file = _file.Replace('"', '\'');
+                //_file = _file.Replace('\"', '\'');
+                //_file = _file.Replace("\\\"", "'");
+            }
         }
 
         public string Directory
@@ -22,16 +28,22 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
         public string Command
         {
             get { return _command; }
-            set { _command = value; }
+            set
+            {
+                _command = value;
+                //_command = _command.Replace('"', '\'');
+                //_command = _command.Replace("\"", "'");
+                //_command = _command.Replace("\\\"", "'");
+            }
         }
 
         public string SerializeJSON()
         {
             string result = "\t{\n";
 
-            result += "\t\t\"directory\": \"" + _directory + "\",\n";
-            result += "\t\t\"command\": \"" + _command + "\",\n";
-            result += "\t\t\"file\": \"" + _file + "\"\n";
+            result += "\t\t\"directory\": \"" + Directory + "\",\n";
+            result += "\t\t\"command\": \"" + Command + "\",\n";
+            result += "\t\t\"file\": \"" + File + "\"\n";
 
             result += "\t}";
 

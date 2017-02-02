@@ -61,6 +61,10 @@
     <Reference Include="Microsoft.VisualStudio.VCProjectEngine, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -136,6 +140,9 @@
     <Compile Include="Logging\LogMessage.cs" />
     <Compile Include="Logging\Obfuscation\NameObfuscator.cs" />
     <Compile Include="Logging\VSOutputLogger.cs" />
+    <Compile Include="Multitasking\LimitedThreadsTaskScheduler.cs" />
+    <Compile Include="Utility\CompilationDatabaseList.cs" />
+    <Compile Include="Utility\DataUtility.cs" />
     <Compile Include="Utility\FileUtility.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="Utility\NetworkProtocolUtility.cs" />
@@ -201,6 +208,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>

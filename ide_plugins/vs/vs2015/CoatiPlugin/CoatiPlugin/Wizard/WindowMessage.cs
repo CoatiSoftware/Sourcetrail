@@ -1,47 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CoatiSoftware.CoatiPlugin.Wizard
 {
     public partial class WindowMessage : Form
     {
-        private string m_title = "Title";
-        private string m_message = "Message";
+        private string _title = "Title";
+        private string _message = "Message";
 
         public delegate void Callback();
 
-        private Callback m_onOK = null;
-        private Callback m_onCancel = null;
+        private Callback _onOK = null;
+        private Callback _onCancel = null;
 
         public string Title
         {
-            get { return m_title; }
-            set { m_title = value; }
+            get { return _title; }
+            set { _title = value; }
         }
 
         public string Message
         {
-            get { return m_message; }
-            set { m_message = value; }
+            get { return _message; }
+            set { _message = value; }
         }
 
         public Callback OnOK
         {
-            get { return m_onOK; }
-            set { m_onOK = value; }
+            get { return _onOK; }
+            set { _onOK = value; }
         }
 
         public Callback OnCancel
         {
-            get { return m_onCancel; }
-            set { m_onCancel = value; }
+            get { return _onCancel; }
+            set { _onCancel = value; }
         }
 
         public WindowMessage()
@@ -51,19 +44,10 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
         public void RefreshWindow()
         {
-            Text = m_title;
-            labelContent.Text = m_message;
+            Text = _title;
+            labelContent.Text = _message;
 
-            //if(m_onOK != null)
-            //{
-            //    buttonOK.Show();
-            //}
-            //else
-            //{
-            //    buttonOK.Hide();
-            //}
-
-            if(m_onCancel != null)
+            if(_onCancel != null)
             {
                 buttonCancel.Show();
             }
@@ -75,9 +59,9 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            if(m_onCancel != null)
+            if(_onCancel != null)
             {
-                m_onCancel();
+                _onCancel();
             }
 
             Close();
@@ -85,9 +69,9 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            if(m_onOK != null)
+            if(_onOK != null)
             {
-                m_onOK();
+                _onOK();
             }
 
             Close();

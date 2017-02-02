@@ -9,5 +9,7 @@ namespace CoatiSoftware.CoatiPlugin
         public const uint cmdidCoatiSetActiveToken = 0x104;
         public const uint cmdidCoatiCreateProject = 0x105;
         public const uint cmdidCoatiCreateCDB = 0x106;
+        public const uint cmdidCoatiOpenLogFolder = 0x107;
+        
     };
 }

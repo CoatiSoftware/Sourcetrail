@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -16,34 +10,36 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
     {
         public class SolutionProject
         {
-            public string m_name = "";
-            public bool m_include = false;
+            public string _name = "";
+            public bool _include = false;
 
             public SolutionProject(string name, bool include)
             {
-                m_name = name;
-                m_include = include;
+                _name = name;
+                _include = include;
             }
         }
 
         public delegate void OnCreateProject(List<EnvDTE.Project> projects, string configurationName, string platformName, string targetDir, string fileName, string cStandard);
 
         // public List<SolutionProject> m_projects = new List<SolutionProject>();
-        public Utility.SolutionUtility.SolutionStructure m_projectStructure = new Utility.SolutionUtility.SolutionStructure();
+        public Utility.SolutionUtility.SolutionStructure _projectStructure = new Utility.SolutionUtility.SolutionStructure();
 
-        public List<string> m_configurations = new List<string>();
-        public List<string> m_platforms = new List<string>();
+        public List<string> _configurations = new List<string>();
+        public List<string> _platforms = new List<string>();
 
-        public OnCreateProject m_onCreateProject = null;
+        public OnCreateProject _onCreateProject = null;
 
-        public string m_solutionDirectory = "";
-        public string m_solutionFileName = "foo";
+        public string _solutionDirectory = "";
+        public string _solutionFileName = "foo";
 
-        public bool m_containsCFiles = false;
+        public bool _containsCFiles = false;
 
-        private List<string> m_cStandards = new List<string>() { "c1x", "gnu1x", "iso9899:201x", "c11", "gnu11", "iso9899:2011",
+        private List<string> _cStandards = new List<string>() { "c1x", "gnu1x", "iso9899:201x", "c11", "gnu11", "iso9899:2011",
             "c9x", "gnu9x", "iso9899:199x", "c99", "gnu99", "iso9899:1999", "iso9899:199409", "c90", "gnu90", "iso9899:1990",
             "c89", "gnu89" };
+
+        public SolutionParser.CompilationDatabase _cdb = new SolutionParser.CompilationDatabase();
         
         public ProjectSetupWindow()
         {
@@ -68,47 +64,69 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
         private void InitComboBoxConfigurations()
         {
-            Logging.Logging.LogInfo("Adding " + m_configurations.Count.ToString() + " build configurations.");
+            Logging.Logging.LogInfo("Adding " + _configurations.Count.ToString() + " build configurations.");
 
-            foreach(string configuration in m_configurations)
+            foreach(string configuration in _configurations)
             {
                 comboBoxConfiguration.Items.Add(configuration);
             }
 
             if(comboBoxConfiguration.Items.Count > 0)
             {
-                comboBoxConfiguration.SelectedIndex = 0;
+                if(_cdb != null)
+                {
+                    int index = comboBoxConfiguration.Items.IndexOf(_cdb.ConfigurationName);
+                    comboBoxConfiguration.SelectedIndex = index;
+                }
+                else
+                {
+                    comboBoxConfiguration.SelectedIndex = 0;
+                }
             }
         }
 
         private void InitComboBoxPlatforms()
         {
-            Logging.Logging.LogInfo("Adding " + m_platforms.Count.ToString() + " target platforms.");
+            Logging.Logging.LogInfo("Adding " + _platforms.Count.ToString() + " target platforms.");
 
-            foreach (string platform in m_platforms)
+            foreach (string platform in _platforms)
             {
                 comboBoxPlatform.Items.Add(platform);
             }
 
             if(comboBoxPlatform.Items.Count > 0)
             {
-                comboBoxPlatform.SelectedIndex = 0;
+                if(_cdb != null)
+                {
+                    int index = comboBoxPlatform.Items.IndexOf(_cdb.PlatformName);
+                    comboBoxPlatform.SelectedIndex = index;
+                }
+                else
+                {
+                    comboBoxPlatform.SelectedIndex = 0;
+                }
             }
         }
 
         private void InitProjectCheckList()
         {
-            //foreach (SolutionProject project in m_projects)
-            //{
-            //    treeViewProjects.Nodes.Add(new TreeNode(project.m_name));
-            //}
+            if(_cdb != null)
+            {
+                _cdb.TryLoadData();
+            }
 
-            foreach(Utility.SolutionUtility.SolutionStructure.Node node in m_projectStructure.Nodes)
+            foreach(Utility.SolutionUtility.SolutionStructure.Node node in _projectStructure.Nodes)
             {
                 if(node.GetNodeType() == Utility.SolutionUtility.SolutionStructure.Node.NodeType.PROJECT)
                 {
                     TreeNode treeNode = new TreeNode(node.Name);
                     node.UserData = treeNode;
+
+                    if (_cdb != null && _cdb.IncludedProjects.Exists(item => item == treeNode.Text))
+                    {
+                        treeNode.Checked = true;
+                    }
+
                     treeViewProjects.Nodes.Add(treeNode);
                 }
                 else if(node.GetNodeType() == Utility.SolutionUtility.SolutionStructure.Node.NodeType.FOLDER)
@@ -119,6 +137,8 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
                     treeViewProjects.Nodes.Add(treeNode);
                 }
             }
+
+            UpdateCreateButtonEnabled();
         }
 
         private TreeNode[] GetSubNodes(Utility.SolutionUtility.SolutionStructure.FolderNode folderNode)
@@ -147,23 +167,30 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
         private void InitTextBoxTargetDirectory()
         {
-            Logging.Logging.LogInfo("Setting default target directory: \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(m_solutionDirectory) + "\"");
+            Logging.Logging.LogInfo("Setting default target directory: \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(_solutionDirectory) + "\"");
 
-            folderBrowserTargetDirectory.SelectedPath = m_solutionDirectory;
+            folderBrowserTargetDirectory.SelectedPath = _solutionDirectory;
             string rootDirectory = folderBrowserTargetDirectory.SelectedPath.ToString();
             textBoxTargetDirectory.Text = rootDirectory;
         }
 
         private void InitTextBoxFileName()
         {
-            Logging.Logging.LogInfo("Setting default file name: '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(m_solutionFileName) + "'");
+            Logging.Logging.LogInfo("Setting default file name: '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(_solutionFileName) + "'");
 
-            textBoxFileName.Text = m_solutionFileName;
+            if(_cdb == null)
+            {
+                textBoxFileName.Text = _solutionFileName;
+            }
+            else
+            {
+                textBoxFileName.Text = _cdb.Name;
+            }
         }
 
         private void InitComboBoxCStandard()
         {
-            if(m_containsCFiles == false)
+            if(_containsCFiles == false)
             {
                 Logging.Logging.LogInfo("Hiding C Standard selection");
 
@@ -177,7 +204,7 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
                 comboBoxCStandard.Show();
                 labelCStandard.Show();
 
-                foreach(string standard in m_cStandards)
+                foreach(string standard in _cStandards)
                 {
                     comboBoxCStandard.Items.Add(standard);
                 }
@@ -202,7 +229,7 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
         {
             Logging.Logging.LogInfo("Create button pressed");
 
-            if (m_onCreateProject != null)
+            if (_onCreateProject != null)
             {
                 string configurationName = "";
                 string platformName = "";
@@ -231,14 +258,14 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
                     }
 
                     string cStandard = "c11";
-                    if(m_containsCFiles)
+                    if(_containsCFiles)
                     {
                         cStandard = comboBoxCStandard.SelectedItem as string;
                     }
 
                     Logging.Logging.LogInfo("Setting C standard flag to " + cStandard);
 
-                    m_onCreateProject(GetTreeViewProjectItems(), configurationName, platformName, targetDir, textBoxFileName.Text, cStandard);
+                    _onCreateProject(GetTreeViewProjectItems(), configurationName, platformName, targetDir, textBoxFileName.Text, cStandard);
                     Close();
                 }
                 else
@@ -288,7 +315,7 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
             // Stack<TreeNode> treeNodes = new Stack<TreeNode>();
             Stack<Utility.SolutionUtility.SolutionStructure.Node> nodeStack = new Stack<Utility.SolutionUtility.SolutionStructure.Node>();
-            foreach(Utility.SolutionUtility.SolutionStructure.Node node in m_projectStructure.Nodes)
+            foreach(Utility.SolutionUtility.SolutionStructure.Node node in _projectStructure.Nodes)
             {
                 nodeStack.Push(node);
             }

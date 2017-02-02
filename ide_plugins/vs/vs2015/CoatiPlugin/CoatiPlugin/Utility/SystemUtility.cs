@@ -22,10 +22,15 @@ namespace CoatiSoftware.CoatiPlugin.Utility
                     SetActiveWindow(windowHandle);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logging.Logging.LogError("Exception: " + e.Message);
             }
+        }
+
+        public static void OpenWindowsExplorerAtDirectory(string directory)
+        {
+            System.Diagnostics.Process.Start(directory);
         }
     }
 }

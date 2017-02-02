@@ -334,6 +334,12 @@ namespace CoatiSoftware.CoatiPlugin.SolutionParser
 
                     string directory = item.Properties.Item("FullPath").Value.ToString();
 
+                    List<string> names = new List<string>();
+                    foreach (Property p in item.Properties)
+                    {
+                        names.Add(p.Name);
+                    }
+
                     int idx = directory.LastIndexOf('\\');
                     if (idx != -1)
                     {

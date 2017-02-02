@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -22,59 +18,83 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
         public delegate void OnFinishedCreatingCDB(CreationResult result);
 
-        private OnFinishedCreatingCDB m_onFinishedCreateCDB = null;
+        private OnFinishedCreatingCDB _onFinishedCreateCDB = null;
 
-        private List<EnvDTE.Project> m_projects = new List<EnvDTE.Project>();
+        private List<EnvDTE.Project> _projects = new List<EnvDTE.Project>();
 
-        string m_configurationName = "";
-        string m_platformName = "";
-        string m_targetDir = "";
-        string m_fileName = "";
-        string m_cStandard = "";
+        private string _configurationName = "";
+        private string _platformName = "";
+        private string _targetDir = "";
+        private string _fileName = "";
+        private string _cStandard = "";
+        private string _solutionDir = "";
 
-        CreationResult m_result = new CreationResult();
+        private SolutionParser.CompilationDatabase _cdb = null;
+
+        CreationResult _result = new CreationResult();
+
+        private int _threadCount = 1;
 
         public OnFinishedCreatingCDB CallbackOnFinishedCreatingCDB
         {
-            get { return m_onFinishedCreateCDB; }
-            set { m_onFinishedCreateCDB = value; }
+            get { return _onFinishedCreateCDB; }
+            set { _onFinishedCreateCDB = value; }
         }
 
         public List<EnvDTE.Project> Projects
         {
-            get { return m_projects; }
-            set { m_projects = value; }
+            get { return _projects; }
+            set { _projects = value; }
         }
 
         public string ConfigurationName
         {
-            get { return m_configurationName; }
-            set { m_configurationName = value; }
+            get { return _configurationName; }
+            set { _configurationName = value; }
         }
 
         public string PlatformName
         {
-            get { return m_platformName; }
-            set { m_platformName = value; }
+            get { return _platformName; }
+            set { _platformName = value; }
         }
 
         public string TargetDir
         {
-            get { return m_targetDir; }
-            set { m_targetDir = value; }
+            get { return _targetDir; }
+            set { _targetDir = value; }
         }
 
         public string FileName
         {
-            get { return m_fileName; }
-            set { m_fileName = value; }
+            get { return _fileName; }
+            set { _fileName = value; }
         }
 
         public string CStandard
         {
-            get { return m_cStandard; }
-            set { m_cStandard = value; }
+            get { return _cStandard; }
+            set { _cStandard = value; }
         }
+
+        public int ThreadCount
+        {
+            get { return _threadCount; }
+            set { _threadCount = value; }
+        }
+
+        public string SolutionDir
+        {
+            get { return _solutionDir; }
+            set { _solutionDir = value; }
+        }
+
+        public SolutionParser.CompilationDatabase CDB
+        {
+            get { return _cdb; }
+            set { _cdb = value; }
+        }
+
 
         public WindowCreateCDB()
         {
@@ -102,35 +122,50 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
             result._cdbName = "";
             result._headerDirectories = new List<string>();
 
+            SolutionParser.CompilationDatabase cdb = null;
+            List<string> headerDirectories = new List<string>();
+
             Logging.Logging.LogInfo("Starting to create CDB");
 
-            SolutionParser.CompilationDatabase cdb = new SolutionParser.CompilationDatabase();
-
-            int projectsProcessed = 0;
-
-            List<string> headerDirectories = new List<string>();
-            SolutionParser.SolutionParser._headerDirectories.Clear();
-
-            foreach (EnvDTE.Project project in m_projects)
+            try
             {
-                List<SolutionParser.CommandObject> commandObjects = SolutionParser.SolutionParser.CreateCommandObjects(project, m_configurationName, m_platformName, m_cStandard);
+                SolutionParser.SolutionParser._headerDirectories.Clear();
 
-                projectsProcessed++;
-                float relativProgress = (float)projectsProcessed/(float)m_projects.Count;
-                Logging.Logging.LogInfo("Processing project \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(project.Name) + "\"");
-                backgroundWorker1.ReportProgress((int)(relativProgress * 100), "Processing project \"" + project.Name + "\"");
+                System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
 
-                foreach (SolutionParser.CommandObject obj in commandObjects)
+                watch.Start();
+
+                cdb = CreateCommandObjects();
+
+                watch.Stop();
+
+                Logging.Logging.LogInfo("Finished, elapsed time: " + watch.ElapsedMilliseconds.ToString() + " ms");
+
+                headerDirectories = SolutionParser.SolutionParser._headerDirectories;
+
+                cdb.Name = _fileName;
+                cdb.Directory = _targetDir;
+                cdb.SourceProject = _solutionDir;
+                cdb.LastUpdated = DateTime.Now;
+                cdb.ConfigurationName = _configurationName;
+                cdb.PlatformName = _platformName;
+
+                cdb.IncludedProjects = new List<string>();
+                foreach (EnvDTE.Project p in _projects)
                 {
-                    cdb.AddCommandObject(obj);
+                    cdb.IncludedProjects.Add(p.Name);
                 }
+
+                cdb.Clean();
+            }
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Failed to create CDB: " + e.Message);
             }
 
-            headerDirectories = SolutionParser.SolutionParser._headerDirectories;
-
             result._cdb = cdb;
-            result._cdbDirectory = m_targetDir;
-            result._cdbName = m_fileName;
+            result._cdbDirectory = _targetDir;
+            result._cdbName = _fileName;
             result._headerDirectories = headerDirectories;
 
             Logging.Logging.LogInfo("Done creating CDB");
@@ -138,9 +173,67 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
             return result;
         }
 
+        private SolutionParser.CompilationDatabase CreateCommandObjects()
+        {
+            SolutionParser.CompilationDatabase cdb = new SolutionParser.CompilationDatabase();
+
+            try
+            {
+                // parallel with tasks
+                Multitasking.LimitedThreadsTaskScheduler scheduler = new Multitasking.LimitedThreadsTaskScheduler(_threadCount);
+
+                TaskFactory factory = new TaskFactory(scheduler);
+
+                List<Task> tasks = new List<Task>();
+
+                Object lockObject = new Object();
+
+                int projectsProcessed = 0;
+                foreach (EnvDTE.Project project in _projects)
+                {
+                    string projectName = project.Name;
+
+                    Logging.Logging.LogInfo("Scheduling " + projectName + " for parsing.");
+
+                    Task t = factory.StartNew(() =>
+                    {
+                        List<SolutionParser.CommandObject> commandObjects = SolutionParser.SolutionParser.CreateCommandObjects(project, _configurationName, _platformName, _cStandard);
+
+                        lock(lockObject)
+                        {
+                            projectsProcessed++;
+                        }
+                        
+                        float relativProgress = (float)projectsProcessed / (float)_projects.Count;
+                        Logging.Logging.LogInfo("Processing project \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(project.Name) + "\"");
+                        backgroundWorker1.ReportProgress((int)(relativProgress * 100), "Processing project \"" + project.Name + "\"");
+
+                        foreach (SolutionParser.CommandObject obj in commandObjects)
+                        {
+                            cdb.AddOrUpdateCommandObject(obj);
+                        }
+                    });
+
+                    tasks.Add(t);
+                }
+
+                int threadCount = System.Diagnostics.Process.GetCurrentProcess().Threads.Count;
+
+                Logging.Logging.LogInfo("thread count: " + threadCount.ToString());
+
+                Task.WaitAll(tasks.ToArray());
+            }
+            catch(Exception e)
+            {
+                Logging.Logging.LogError("Failed to create CDB: " + e.Message);
+            }
+
+            return cdb;
+        }
+
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            m_result = CreateCDB();
+            _result = CreateCDB();
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -161,11 +254,11 @@ namespace CoatiSoftware.CoatiPlugin.Wizard
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if(e.Cancelled == false && e.Error == null && progressBar.Value >= 100)
+            if(e.Cancelled == false && e.Error == null /*&& progressBar.Value >= 100*/)
             {
-                if (m_onFinishedCreateCDB != null)
+                if (_onFinishedCreateCDB != null)
                 {
-                    m_onFinishedCreateCDB(m_result);
+                    _onFinishedCreateCDB(_result);
                 }
             }
             else

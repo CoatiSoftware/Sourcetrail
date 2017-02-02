@@ -32,7 +32,7 @@
     
     <Groups>
 
-      <Group guid="guidCoatiPluginCmdSet" id="MyMenuGroup" priority="0x0600">
+      <Group guid="guidCoatiPluginCmdSet" id="ContextMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
       </Group>
 
@@ -44,37 +44,23 @@
         <Parent guid="guidCoatiPluginCmdSet" id="TopLevelMenu"/>
       </Group>
 
+      <!--
+      <Group guid="guidCoatiPluginCmdSet" id="HelpMenu" priority="0x0600">
+        <Parent guid="guidCoatiPluginCmdSet" id="TopLevelMenu"/>
+      </Group>
+      -->
+
     </Groups>
     
     <Buttons>
       
       <Button guid="guidCoatiPluginCmdSet" id="cmdidCoatiSetActiveToken" priority="0x0100" type="Button">
-        <Parent guid="guidCoatiPluginCmdSet" id="MyMenuGroup" />
+        <Parent guid="guidCoatiPluginCmdSet" id="ContextMenuGroup" />
         <Icon guid="icon" id="icon0" />
         <Strings>
           <ButtonText>Set active Token</ButtonText>
         </Strings>
       </Button>
-
-      <!--
-      <Button guid="guidCoatiPluginCmdSet" id="cmdidCoatiCreateProject" priority="0x0100" type="Button">
-        <Parent guid="guidCoatiPluginCmdSet" id="MyMenuGroup" />
-        <Icon guid="icon" id="icon0" />
-        <Strings>
-          <ButtonText>Create Coati Project</ButtonText>
-        </Strings>
-      </Button>
-      -->
-
-      <!--
-      <Button guid="guidCoatiPluginCmdSet" id="cmdidCoatiCreateProject" priority="0x0100" type="Button">
-        <Parent guid="guidCoatiPluginCmdSet" id="SubMenu" />
-        <Icon guid="icon" id="icon0" />
-        <Strings>
-          <ButtonText>Create Coati Project</ButtonText>
-        </Strings>
-      </Button>
-      -->
         
       <Button guid="guidCoatiPluginCmdSet" id="cmdidCoatiCreateCDB" priority="0x0100" type="Button">
         <Parent guid="guidCoatiPluginCmdSet" id="SubMenu" />
@@ -83,18 +69,45 @@
           <ButtonText>Create CDB</ButtonText>
         </Strings>
       </Button>
-      
+
+      <Button guid="guidCoatiPluginCmdSet" id="cmdidCoatiOpenLogFolder" priority="0x0100" type="Button">
+        <Parent guid="guidCoatiPluginCmdSet" id="SubMenu" />
+        <Strings>
+          <ButtonText>Open Log Directory</ButtonText>
+        </Strings>
+      </Button>
+
+      <!--
+      <Button guid="guidCoatiPluginCmdSet" id="cmdidCoatiHelp" priority="0x0100" type="Button">
+        <Parent guid="guidCoatiPluginCmdSet" id="HelpMenu" />
+        <Strings>
+          <ButtonText>Online Help</ButtonText>
+        </Strings>
+      </Button>
+      -->
+
     </Buttons>
 
     <Menus>
+      
       <Menu guid="guidCoatiPluginCmdSet" id="TopLevelMenu" priority="0x700" type="Menu">
-        <Parent guid="guidSHLMainMenu"
-                id="IDG_VS_MM_TOOLSADDINS"/>
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_MM_TOOLSADDINS"/>
         <Strings>
           <ButtonText>Coati</ButtonText>
           <CommandName>Coati</CommandName>
         </Strings>
       </Menu>
+
+      <!--
+      <Menu guid="guidCoatiPluginCmdSet" id="HelpMenu" priority="0x700" type="Menu">
+        <Parent guid="guidCoatiPluginCmdSet" id="TopLevelMenu"/>
+        <Strings>
+          <ButtonText>Coati Help</ButtonText>
+          <CommandName>Coati Help</CommandName>
+        </Strings>
+      </Menu>
+      -->
+      
     </Menus>
  
   </Commands>
@@ -110,7 +123,7 @@
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidCoatiPluginCmdSet" value="{0efb005b-715c-4a62-8a9b-1e5a870e6c34}">
 
-      <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <IDSymbol name="ContextMenuGroup" value="0x1020" />
       <IDSymbol name="cmdidCoatiPing" value="0x0100" />
       <IDSymbol name="cmdidCoatiFile" value="0x0101"/>
       <IDSymbol name="cmdidCoatiGetActiveFileName" value="0x0102"/>
@@ -118,8 +131,11 @@
       <IDSymbol name="cmdidCoatiSetActiveToken" value="0x0104"/>
       <IDSymbol name="cmdidCoatiCreateProject" value="0x0105"/>
       <IDSymbol name="cmdidCoatiCreateCDB" value="0x0106"/>
+      <IDSymbol name="cmdidCoatiOpenLogFolder" value="0x0107"/>
       <IDSymbol name="TopLevelMenu" value="0x1021"/>
       <IDSymbol name="SubMenu" value="0x1022"/>
+      <IDSymbol name="HelpMenu" value="0x1023"/>
+      <IDSymbol name="cmdidCoatiHelp" value="0x1024"/>
     </GuidSymbol>
     
     

@@ -21,6 +21,7 @@
 #include "settings/ApplicationSettings.h"
 #include "settings/ColorScheme.h"
 
+// useless comment
 void Application::createInstance(
 	const Version& version, ViewFactory* viewFactory, NetworkFactory* networkFactory
 ){

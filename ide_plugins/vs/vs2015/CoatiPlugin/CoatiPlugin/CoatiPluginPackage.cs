@@ -19,12 +19,14 @@ namespace CoatiSoftware.CoatiPlugin
         private uint _clientPort = 6667;
         private bool _logging = false;
         private bool _obfuscateLogging = false;
+        private uint _threadCount = 1;
 
         public delegate void Callback();
         public static Callback _serverPortChangeCallback = null;
         public static Callback _clientPortChangeCallback = null;
         public static Callback _loggingToggled = null;
         public static Callback _obfuscationToggled = null;
+        public static Callback _threadCountChanged = null;
 
         [Category("Coati")]
         [DisplayName("VS Port")]
@@ -90,6 +92,22 @@ namespace CoatiSoftware.CoatiPlugin
             }
         }
 
+        [Category("Coati")]
+        [DisplayName("Thread Count")]
+        [Description("The maximum number of threads that will be used while building Compilation Databases")]
+        public uint ThreadCount
+        {
+            get { return _threadCount; }
+            set
+            {
+                _threadCount = value;
+                if(_threadCountChanged != null)
+                {
+                    _threadCountChanged();
+                }
+            }
+        }
+
         public OptionPageGrid()
         {
         }
@@ -107,10 +125,13 @@ namespace CoatiSoftware.CoatiPlugin
         private MenuCommand _menuItemSetActiveToken = null;
         private MenuCommand _menuItemCreateProject = null;
         private MenuCommand _menuItemCreateCDB = null;
+        private MenuCommand _menuItemOpenLogDir = null;
 
         private SolutionEvents _solutionEvents = null;
 
         private bool _validSolutionLoaded = false;
+
+        Utility.CompilationDatabaseList _cdbList = new Utility.CompilationDatabaseList();
 
         public uint ServerPort
         {
@@ -148,6 +169,15 @@ namespace CoatiSoftware.CoatiPlugin
             }
         }
 
+        public uint ThreadCount
+        {
+            get
+            {
+                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+                return page.ThreadCount;
+            }
+        }
+
         System.Threading.Thread _serverThread = null;
 
 
@@ -177,18 +207,22 @@ namespace CoatiSoftware.CoatiPlugin
                 CommandID setActiveTokenCommandID = new CommandID(GuidList.guidCoatiPluginCmdSet, (int)PkgCmdIDList.cmdidCoatiSetActiveToken);
                 CommandID createProjectID = new CommandID(GuidList.guidCoatiPluginCmdSet, (int)PkgCmdIDList.cmdidCoatiCreateProject);
                 CommandID createCDBID = new CommandID(GuidList.guidCoatiPluginCmdSet, (int)PkgCmdIDList.cmdidCoatiCreateCDB);
+                CommandID openLogDirID = new CommandID(GuidList.guidCoatiPluginCmdSet, (int)PkgCmdIDList.cmdidCoatiOpenLogFolder);
 
                 _menuItemSetActiveToken = new MenuCommand(MenuItemCallback, setActiveTokenCommandID);
                 _menuItemCreateProject = new MenuCommand(MenuItemCallback, createProjectID);
                 _menuItemCreateCDB = new MenuCommand(MenuItemCallback, createCDBID);
+                _menuItemOpenLogDir = new MenuCommand(MenuItemCallback, openLogDirID);
 
                 _menuItemCreateProject.Enabled = false;
                 _menuItemSetActiveToken.Enabled = false;
                 _menuItemCreateCDB.Enabled = false;
+                _menuItemOpenLogDir.Enabled = true;
 
                 mcs.AddCommand(_menuItemSetActiveToken);
                 mcs.AddCommand(_menuItemCreateProject);
                 mcs.AddCommand(_menuItemCreateCDB);
+                mcs.AddCommand(_menuItemOpenLogDir);
             }
 
             // register callbacks to enable/disable interaction for eligible solutions
@@ -212,6 +246,13 @@ namespace CoatiSoftware.CoatiPlugin
                 // the coati ui should only be enabled when the solution contains C/C++ projects
                 DTE dte = (DTE)GetService(typeof(DTE));
                 List<String> languages = Utility.SolutionUtility.GetSolutionLanguages(dte);
+
+                string solutionPath = Utility.SolutionUtility.GetSolutionPath(dte);
+
+                if(_cdbList.CheckCDBForSolutionExists(solutionPath))
+                {
+                    Logging.Logging.LogInfo("A CDB for the loaded solution already exists.");
+                }
 
                 bool enable = false;
                 foreach (String language in languages)
@@ -298,6 +339,8 @@ namespace CoatiSoftware.CoatiPlugin
 
         private void OnCreateProject(List<EnvDTE.Project> projects, string configurationName, string platformName, string targetDir, string fileName, string cStandard)
         {
+            DTE dte = (DTE)GetService(typeof(DTE));
+
             Wizard.WindowCreateCDB createCDB = new Wizard.WindowCreateCDB();
             createCDB.Projects = projects;
             createCDB.ConfigurationName = configurationName;
@@ -305,6 +348,10 @@ namespace CoatiSoftware.CoatiPlugin
             createCDB.TargetDir = targetDir;
             createCDB.FileName = fileName;
             createCDB.CStandard = cStandard;
+            createCDB.ThreadCount = (int)ThreadCount;
+            createCDB.SolutionDir = Utility.SolutionUtility.GetSolutionPath(dte);
+
+            createCDB.CDB = _cdbList.GetCDBForSolution(createCDB.SolutionDir, targetDir + "\\" + fileName + ".json");
 
             createCDB.CallbackOnFinishedCreatingCDB = HandleFinishedCDB;
 
@@ -316,7 +363,15 @@ namespace CoatiSoftware.CoatiPlugin
         {
             if(creationResult._cdb != null && creationResult._cdbDirectory.Length > 0 && creationResult._cdbName.Length > 0)
             {
-                if(WriteCDBToFile(creationResult._cdb, creationResult._cdbDirectory, creationResult._cdbName))
+                _cdbList.Append(creationResult._cdb);
+                _cdbList.SaveMetaData();
+
+                // string metaData = creationResult._cdb.SerializeMetaDataXML();
+
+
+                // Utility.DataUtility.GetInstance().AppendData(metaData);
+
+                if (WriteCDBToFile(creationResult._cdb, creationResult._cdbDirectory, creationResult._cdbName))
                 {
                     string title = "CDB finished";
                     string text = "The CDB '" + creationResult._cdbName + "' was created at directory \"" + creationResult._cdbDirectory + "\"\n";
@@ -330,6 +385,8 @@ namespace CoatiSoftware.CoatiPlugin
 
                         Utility.AsynchronousClient.Send(message);
                     }
+
+                    _cdbList.Refresh();
                 }
                 else
                 {
@@ -367,11 +424,15 @@ namespace CoatiSoftware.CoatiPlugin
                 Logging.Logging.LogError(text);
                 Logging.Logging.LogError("Exception: " + e.Message);
 
+                _cdbList.UnloadCDBs();
+
                 return false;
             }
 
             string message = "The CDB '" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(fileName) + "' was created at directory \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(directory) + "\"\n";
             Logging.Logging.LogInfo(message);
+
+            _cdbList.UnloadCDBs();
 
             return true;
         }
@@ -409,6 +470,10 @@ namespace CoatiSoftware.CoatiPlugin
                     windowMessage.OnOK = CreateCoatiProjectOld;
                     windowMessage.RefreshWindow();
                     windowMessage.ShowDialog();
+                }
+                else if(menuCommand.CommandID.ID == (int)PkgCmdIDList.cmdidCoatiOpenLogFolder)
+                {
+                    Utility.SystemUtility.OpenWindowsExplorerAtDirectory(Utility.DataUtility.GetStandardFolderDirectory());
                 }
             }
         }
@@ -559,22 +624,24 @@ namespace CoatiSoftware.CoatiPlugin
             Utility.SolutionUtility.SolutionStructure projectStructure = Utility.SolutionUtility.GetSolutionVCProjects(dte);
             List<List<string>> configsAndPlatforms = Utility.SolutionUtility.GetConfigurationAndPlatformNames(dte);
 
-            window.m_projectStructure = projectStructure;
+            window._projectStructure = projectStructure;
 
-            window.m_configurations = configsAndPlatforms[0];
-            window.m_platforms = configsAndPlatforms[1];
+            window._configurations = configsAndPlatforms[0];
+            window._platforms = configsAndPlatforms[1];
 
             string directory = System.IO.Path.GetDirectoryName(dte.Solution.FullName);
-            window.m_solutionDirectory = directory;
+            window._solutionDirectory = directory;
 
             string solutionName = System.IO.Path.GetFileNameWithoutExtension(dte.Solution.FullName);
-            window.m_solutionFileName = solutionName;
+            window._solutionFileName = solutionName;
 
             bool containsCFiles = true; // Utility.SolutionUtility.ContainsCFiles(dte); // takes ridiculously long, I'd rather just display the option by default
-            window.m_containsCFiles = containsCFiles;
+            window._containsCFiles = containsCFiles;
+
+            window._cdb = _cdbList.GetMostCurrentCDBForSolution(Utility.SolutionUtility.GetSolutionPath(dte));
 
             window.UpdateGUI();
-            window.m_onCreateProject = OnCreateProject;
+            window._onCreateProject = OnCreateProject;
             
             window.ShowDialog();
         }
